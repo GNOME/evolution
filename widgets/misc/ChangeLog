@@ -1,3 +1,10 @@
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* Makefile.am: Added e-messagebox to the build.
+
+	* e-messagebox.[c,h]: Added a new messagebox window that contains
+	a checkbox for "Don't show me this again."
+
 2001-01-16  Jason Leach  <jasonleach@usa.net>
 
 	* e-search-bar.[ch]: Moved here from $(toplevel)/filter.
