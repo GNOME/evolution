@@ -1,7 +1,7 @@
 /* addressbook:ldap-init primary */
 char *s = N_("This addressbook could not be opened.");
 /* addressbook:ldap-init secondary */
-char *s = N_("This addressbook server might unreachable or the server name may be misspelled or your network connection could be down.");
+char *s = N_("This addressbook server might be unreachable or the server name may be misspelled or your network connection could be down.");
 /* addressbook:ldap-auth primary */
 char *s = N_("Failed to authenticate with LDAP server.");
 /* addressbook:ldap-auth secondary */
