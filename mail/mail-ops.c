@@ -699,7 +699,10 @@ forward_msg (GtkWidget *button, gpointer user_data)
 			fwd_subj = g_strdup_printf ("[%s] (forwarded message)",
 						    from);
 		}
+	} else {
+		fwd_subj = NULL;
 	}
+
 	e_msg_composer_set_headers (composer, NULL, NULL, NULL, fwd_subj);
 	g_free (fwd_subj);
 

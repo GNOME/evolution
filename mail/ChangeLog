@@ -1,3 +1,8 @@
+2000-07-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-ops.c (forward_msg): Initialize `fwd_subj' to NULL if
+	`from' is NULL.
+
 2000-07-10  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-ops.c (real_fetch_mail): Fixed broken POP fetching
