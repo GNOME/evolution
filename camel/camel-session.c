@@ -33,13 +33,13 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
+
 #include "camel-session.h"
 #include "camel-store.h"
 #include "camel-transport.h"
 #include "camel-exception.h"
 #include "string-utils.h"
 #include "camel-url.h"
-#include "hash-table-utils.h"
 #include "camel-vee-store.h"
 
 #include "camel-private.h"

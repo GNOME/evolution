@@ -34,7 +34,6 @@
 
 #include <gal/util/e-iconv.h>
 
-#include "hash-table-utils.h"
 #include "camel-mime-parser.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-filter.h"

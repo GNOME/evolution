@@ -39,7 +39,6 @@
 #include "camel-multipart.h"
 #include "camel-stream-mem.h"
 #include "string-utils.h"
-#include "hash-table-utils.h"
 #include "camel-url.h"
 
 #include "camel-stream-filter.h"

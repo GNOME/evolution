@@ -26,8 +26,33 @@
 #endif
 
 #include <string.h>
+#include <ctype.h>
 
 #include "string-utils.h"
+
+
+int 
+g_strcase_equal (gconstpointer a, gconstpointer b)
+{
+	return (strcasecmp ((const char *) a, (const char *) b) == 0);
+}
+
+guint
+g_strcase_hash (gconstpointer v)
+{
+	const char *p = (char *) v;
+	guint h = 0, g;
+	
+	for ( ; *p != '\0'; p++) {
+		h = (h << 4) + toupper (*p);
+		if ((g = h & 0xf0000000)) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+	
+	return h;
+}
 
 
 static void

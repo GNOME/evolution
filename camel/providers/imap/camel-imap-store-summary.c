@@ -32,7 +32,7 @@
 
 #include "camel-file-utils.h"
 
-#include "hash-table-utils.h"
+#include "string-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 

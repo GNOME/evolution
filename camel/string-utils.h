@@ -31,6 +31,9 @@ extern "C" {
 
 #include <glib.h>
 
+int   g_strcase_equal (gconstpointer a, gconstpointer b);
+guint g_strcase_hash  (gconstpointer v);
+
 void string_list_free (GList *string_list);
 
 char *strstrcase (const char *haystack, const char *needle);

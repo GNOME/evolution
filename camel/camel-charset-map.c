@@ -199,7 +199,7 @@ int main (void)
 
 #include "camel-charset-map.h"
 #include "camel-charset-map-private.h"
-#include "hash-table-utils.h"
+#include "string-utils.h"
 #include <gal/unicode/gunicode.h>
 #include <locale.h>
 #include <string.h>

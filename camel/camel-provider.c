@@ -42,7 +42,7 @@
 
 #include "camel-provider.h"
 #include "camel-exception.h"
-#include "hash-table-utils.h"
+#include "string-utils.h"
 
 /**
  * camel_provider_init:

@@ -1,5 +1,33 @@
 2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Removed hash-table-utils.[c,h] from the build.
+
+	* hash-table-utils.[c,h]: Removed.
+
+	* string-util.c: Imported g_strcase[hash,equal] into here so we
+	can remove hash-table-utils.[c,h].
+
+	* camel-medium.c: Removed #include "hash-table-utils.h"
+
+	* camel-mime-message.c: Same here.
+
+	* camel-mime-part.c: And here.
+
+	* camel-session.c: Here too.
+
+	* providers/imap/camel-imap-store-summary.c: #include
+	string-utils.h instead of hash-table-utils.h
+
+	* camel-charset-map.c: Same.
+
+	* camel-folder-summary.c: Here too.
+
+	* camel-provider.c: Again here.
+
+	* camel-store-summary.c: And again...
+
+2002-10-31  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Remove a ton of useless snot.
 
 	* Makefile.am: Remove gstring-util.[c,h] from the build.

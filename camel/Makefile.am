@@ -114,7 +114,6 @@ libcamel_la_SOURCES = 				\
 	camel-vee-store.c			\
 	camel-vtrash-folder.c			\
 	camel.c					\
-	hash-table-utils.c			\
 	string-utils.c
 
 libcamelinclude_HEADERS =			\
@@ -213,7 +212,6 @@ libcamelinclude_HEADERS =			\
 	camel-vee-store.h			\
 	camel-vtrash-folder.h			\
 	camel.h					\
-	hash-table-utils.h			\
 	string-utils.h
 
 libcamel_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir)

@@ -50,7 +50,7 @@
 #include <camel/camel-stream-null.h>
 #include <camel/camel-stream-filter.h>
 
-#include "hash-table-utils.h"
+#include "string-utils.h"
 #include "e-util/md5-utils.h"
 #include "e-util/e-memory.h"
 

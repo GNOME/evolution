@@ -22,15 +22,16 @@
  * USA
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <stdio.h>
 #include <ctype.h>
+
 #include "camel-medium.h"
 #include "string-utils.h"
-#include "hash-table-utils.h"
 
 #define d(x)
 
