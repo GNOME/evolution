@@ -42,6 +42,8 @@ static int stream_close  (CamelStream *stream);
 
 static int stream_connect (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_disconnect (CamelTcpStream *stream);
+static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
+static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
 static void
 camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_class)
@@ -61,6 +63,8 @@ camel_tcp_stream_raw_class_init (CamelTcpStreamRawClass *camel_tcp_stream_raw_cl
 	
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->disconnect = stream_disconnect;
+	camel_tcp_stream_class->getsockopt = stream_getsockopt;
+	camel_tcp_stream_class->setsockopt = stream_setsockopt;
 }
 
 static void
@@ -193,4 +197,74 @@ static int
 stream_disconnect (CamelTcpStream *stream)
 {
 	return close (((CamelTcpStreamRaw *)stream)->sockfd);
+}
+
+
+static int
+get_sockopt_level (const CamelSockOptData *data)
+{
+	switch (data->option) {
+	case CAMEL_SOCKOPT_MAXSEGMENT:
+	case CAMEL_SOCKOPT_NODELAY:
+		return IPPROTO_TCP;
+	default:
+		return SOL_SOCKET;
+	}
+}
+
+static int
+get_sockopt_optname (const CamelSockOptData *data)
+{
+	switch (data->option) {
+	case CAMEL_SOCKOPT_MAXSEGMENT:
+		return TCP_MAXSEG;
+	case CAMEL_SOCKOPT_NODELAY:
+		return TCP_NODELAY;
+	case CAMEL_SOCKOPT_BROADCAST:
+		return SO_BROADCAST;
+	case CAMEL_SOCKOPT_KEEPALIVE:
+		return SO_KEEPALIVE;
+	case CAMEL_SOCKOPT_LINGER:
+		return SO_LINGER;
+	case CAMEL_SOCKOPT_RECVBUFFERSIZE:
+		return SO_RCVBUF;
+	case CAMEL_SOCKOPT_SENDBUFFERSIZE:
+		return SO_SNDBUF;
+	case CAMEL_SOCKOPT_REUSEADDR:
+		return SO_REUSEADDR;
+	case CAMEL_SOCKOPT_IPTYPEOFSERVICE:
+		return SO_TYPE;
+	default:
+		return -1;
+	}
+}
+
+static int
+stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
+{
+	int optname, optlen;
+	
+	if ((optname = get_sockopt_optname (data)) == -1)
+		return -1;
+	
+	return getsockopt (((CamelTcpStreamRaw *)stream)->sockfd,
+			   get_sockopt_level (data),
+			   optname,
+			   (void *) &data->value,
+			   &optlen);
+}
+
+static int
+stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
+{
+	int optname, optlen;
+	
+	if ((optname = get_sockopt_optname (data)) == -1)
+		return -1;
+	
+	return setsockopt (((CamelTcpStreamRaw *)stream)->sockfd,
+			   get_sockopt_level (data),
+			   optname,
+			   (void *) &data->value,
+			   sizeof (data->value));
 }

@@ -32,6 +32,8 @@ static CamelStreamClass *parent_class = NULL;
 
 static int tcp_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int tcp_disconnect (CamelTcpStream *stream);
+static int tcp_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
+static int tcp_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
 static void
 camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
@@ -44,6 +46,8 @@ camel_tcp_stream_class_init (CamelTcpStreamClass *camel_tcp_stream_class)
 	/* tcp stream methods */
 	camel_tcp_stream_class->connect    = tcp_connect;
 	camel_tcp_stream_class->disconnect = tcp_disconnect;
+	camel_tcp_stream_class->getsockopt = tcp_getsockopt;
+	camel_tcp_stream_class->setsockopt = tcp_setsockopt;
 }
 
 static void
@@ -94,7 +98,7 @@ camel_tcp_stream_connect (CamelTcpStream *stream, struct hostent *host, int port
 {
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
 	
-	return CTS_CLASS (stream)->connect (stream, offset, policy);
+	return CTS_CLASS (stream)->connect (stream, host, port);
 }
 
 
@@ -120,4 +124,56 @@ camel_tcp_stream_disconnect (CamelTcpStream *stream)
 	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
 	
 	return CTS_CLASS (stream)->disconnect (stream);
+}
+
+
+static int
+tcp_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
+{
+	g_warning ("CamelTcpStream::getsockopt called on default implementation\n");
+	return -1;
+}
+
+
+/**
+ * camel_tcp_stream_getsockopt:
+ * @stream: tcp stream object
+ * @data: socket option data
+ *
+ * Get the socket options set on the stream and populate #data.
+ *
+ * Return value: zero on success or -1 on fail.
+ **/
+int
+camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
+{
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
+	
+	return CTS_CLASS (stream)->getsockopt (stream, data);
+}
+
+
+static int
+tcp_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
+{
+	g_warning ("CamelTcpStream::setsockopt called on default implementation\n");
+	return -1;
+}
+
+
+/**
+ * camel_tcp_stream_setsockopt:
+ * @stream: tcp stream object
+ * @data: socket option data
+ *
+ * Set the socket options contained in #data on the stream.
+ *
+ * Return value: zero on success or -1 on fail.
+ **/
+int
+camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
+{
+	g_return_val_if_fail (CAMEL_IS_TCP_STREAM (stream), -1);
+	
+	return CTS_CLASS (stream)->setsockopt (stream, data);
 }

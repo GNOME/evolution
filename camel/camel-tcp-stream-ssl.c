@@ -40,8 +40,10 @@ static ssize_t stream_write (CamelStream *stream, const char *buffer, size_t n);
 static int stream_flush  (CamelStream *stream);
 static int stream_close  (CamelStream *stream);
 
-static int stream_connect (CamelTcpStream *stream, struct hostent *host, int port);
+static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
 static int stream_disconnect (CamelTcpStream *stream);
+static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
+static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
 static void
 camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_class)
@@ -61,6 +63,8 @@ camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_cl
 	
 	camel_tcp_stream_class->connect = stream_connect;
 	camel_tcp_stream_class->disconnect = stream_disconnect;
+	camel_tcp_stream_class->getsockopt = stream_getsockopt;
+	camel_tcp_stream_class->setsockopt = stream_setsockopt;
 }
 
 static void
@@ -202,4 +206,34 @@ stream_disconnect (CamelTcpStream *stream)
 		return -1;
 	
 	return PR_Close (((CamelTcpStreamSSL *)stream)->sockfd);
+}
+
+static int
+stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
+{
+	PRSocketOptionData sodata;
+	
+	memset ((void *) &sodata, 0, sizeof (sodata));
+	memcpy ((void *) &sodata, (void *) data, sizeof (CamelSockOptData));
+	
+	if (PR_GetSocketOption (((CamelTcpStreamSSL *)stream)->sockfd, &sodata) == PR_FAILURE)
+		return -1;
+	
+	memcpy ((void *) data, (void *) &sodata, sizeof (CamelSockOptData));
+	
+	return 0;
+}
+
+static int
+stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
+{
+	PRSocketOptionData sodata;
+	
+	memset ((void *) &sodata, 0, sizeof (sodata));
+	memcpy ((void *) &sodata, (void *) data, sizeof (CamelSockOptData));
+	
+	if (PR_SetSocketOption (((CamelTcpStreamRaw *)stream)->sockfd, &sodata) == PR_FAILURE)
+		return -1;
+	
+	return 0;
 }

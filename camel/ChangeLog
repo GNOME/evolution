@@ -1,3 +1,15 @@
+2001-01-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-ssl.c (stream_getsockopt): Implemented.
+	(stream_setsockopt): Implemented.
+
+	* camel-tcp-stream-raw.c (stream_getsockopt): Implemented.
+	(stream_setsockopt): Implemented.
+
+	* camel-tcp-stream.c (camel_tcp_stream_getsockopt): New method.
+	(camel_tcp_stream_setsockopt): Another new method. I think you get
+	the idea of what these are for so I won't explain them.
+
 2001-01-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-tcp-stream-ssl.[c,h]: New CamelTcpStream class that
