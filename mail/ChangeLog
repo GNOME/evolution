@@ -1,3 +1,9 @@
+2004-02-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_mail_next_flagged): Pass TRUE as
+	wraparound (to both be consistant with prev_flagged and to fix bug
+	#48681.
+
 2004-02-05  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-tree.c (emft_copy_folders__copy): sync the from folder

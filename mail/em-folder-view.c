@@ -931,8 +931,8 @@ static void
 emfv_mail_next_flagged(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-
-	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, FALSE);
+	
+	message_list_select(emfv->list, MESSAGE_LIST_SELECT_NEXT, CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED, TRUE);
 }
 
 static void
