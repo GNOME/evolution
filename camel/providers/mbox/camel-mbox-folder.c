@@ -1067,7 +1067,6 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 
 	
 	message = camel_mime_message_new_with_session (camel_service_get_session (CAMEL_SERVICE (parent_store)));
-	//camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	camel_data_wrapper_set_input_stream (CAMEL_DATA_WRAPPER (message), message_stream);
 	
 	

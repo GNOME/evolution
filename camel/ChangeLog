@@ -1,3 +1,13 @@
+2000-03-04  bertrand  <bertrand@helixcode.com>
+
+	* camel-formatter.c (get_bonobo_tag_for_object): 
+	bonobo-goad-id is the good key to look for. 
+	(get_bonobo_tag_for_object): close the <object> tag.
+	(get_bonobo_tag_for_object): the correct syntax for the
+	to set a parameter inside an <object> tag is :
+	<object classid="..."> <param name="uid" value="..."> <param ...>
+	</object>
+
 2000-03-03  bertrand  <bertrand@helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (_get_message_by_uid): 

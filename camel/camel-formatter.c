@@ -260,14 +260,17 @@ get_bonobo_tag_for_object (CamelFormatter* formatter,
 	CamelDataWrapper* root = formatter->priv->current_root;
 	char* uid = lookup_unique_id (root, wrapper);
 	const char* goad_id = gnome_mime_get_value (
-		mimetype, "bonobo-goad_id");
+		mimetype, "bonobo-goad-id");
 	
 	g_assert (root);
 	
 	if (goad_id) {
+		
 		char* tag = g_strdup_printf (
-			"<object classid=\"%s\" uid=\"camel://%s\">",
+			"<object classid=\"%s\"> <param name=\"uid\" value=\"camel://%s\"> </object>",
 			goad_id, uid);
+		
+		debug ("get_bonobo_tag_for_object: goad id %s found for mime type %s\n", goad_id, mimetype);
 		return tag;
 	}
 	else
