@@ -1,5 +1,9 @@
 2003-05-19  Anna Marie Dirks  <anna@ximian.com>
 
+	* e-summary-preferences.c: This patch HIG-ifies the "New News Feed" 
+	dialog, by using a table with appropriate spacing instead of hboxes. 
+	Also fixes an invalid cast of gtk_dialog->gnome_dialog.
+
 	* my-evolution.glade: 	* my-evolution.glade: HIG-ified this 
 	dialog by adding proper spacing/padding/stock buttons/etc. 
 	Fixes bugs #41131, #41133.

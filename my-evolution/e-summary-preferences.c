@@ -559,10 +559,10 @@ rdf_new_url_clicked_cb (GtkButton *button,
 			PropertyData *pd)
 {
 	GtkWidget *add_dialog;
-	GtkWidget *label, *hbox;
+	GtkWidget *name_label, *url_label, *table;
 	GtkWidget *new_name_entry, *new_url_entry;
 
-	add_dialog = gtk_dialog_new_with_buttons (_("Add a news feed"),
+	add_dialog = gtk_dialog_new_with_buttons (_("New News Feed"),
 						  GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
 						  GTK_DIALOG_DESTROY_WITH_PARENT,
 						  GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -570,22 +570,22 @@ rdf_new_url_clicked_cb (GtkButton *button,
 						  NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (add_dialog), GTK_RESPONSE_OK);
 
-	label = gtk_label_new (_("Enter the URL of the news feed you wish to add"));
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), label,
-			    TRUE, TRUE, 0);
-	hbox = gtk_hbox_new (FALSE, 2);
-	label = gtk_label_new (_("Name:"));
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	new_name_entry = gtk_entry_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), new_name_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox, TRUE, TRUE, 3);
+	table = gtk_table_new (2, 2, FALSE);
 
-	hbox = gtk_hbox_new (FALSE, 2);
-	label = gtk_label_new (_("URL:"));
+	name_label = gtk_label_new_with_mnemonic (_("_Name:"));
+       	gtk_table_attach (GTK_TABLE (table), name_label, 0, 1, 0, 1, GTK_FILL, 0, 6, 6);
+
+	new_name_entry = gtk_entry_new ();
+	gtk_table_attach (GTK_TABLE (table), new_name_entry, 1, 2, 0, 1, GTK_EXPAND | GTK_FILL, 0, 6, 6);
+
+	url_label = gtk_label_new_with_mnemonic (_("_URL:"));
+	gtk_table_attach (GTK_TABLE (table), url_label, 0, 1, 1, 2, GTK_FILL, 0, 6, 6);
+
 	new_url_entry = gtk_entry_new ();
-	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), new_url_entry, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (add_dialog)->vbox), hbox, TRUE, TRUE, 3);
+	gtk_table_attach (GTK_TABLE (table), new_url_entry, 1, 2, 1, 2, GTK_EXPAND | GTK_FILL, 0, 6, 6);
+
+
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (add_dialog)->vbox), table, FALSE, FALSE, 6);
 	gtk_widget_show_all (add_dialog);
 
 	if (gtk_dialog_run (GTK_DIALOG (add_dialog)) == GTK_RESPONSE_OK) {
