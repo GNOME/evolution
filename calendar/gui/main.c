@@ -12,12 +12,15 @@
 #include <pwd.h>
 #include <sys/types.h>
 #include <string.h>
+#include <ctype.h>
 #include "alarm.h"
 #include "calendar.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
 #include "timeutil.h"
+
+#define COOKIE_USER_HOME_DIR ((char *) -1)
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -40,7 +43,7 @@ int active_calendars = 0;
 /* A list of all of the calendars started */
 GList *all_calendars = NULL;
 
-static void new_calendar (char *full_name, char *calendar_file);
+static void new_calendar (char *full_name, char *calendar_file, char *geometry);
 
 /* For dumping part of a calendar */
 static time_t from_t, to_t;
@@ -50,9 +53,6 @@ static char *load_file;
 
 /* If set, show events for the specified date and quit */
 static int show_events;
-
-/* Session management */
-static GnomeClient *sm_client;
 
 static void
 init_username (void)
@@ -210,14 +210,14 @@ today_clicked (GtkWidget *widget, GnomeCalendar *gcal)
 static void
 new_calendar_cmd (GtkWidget *widget, void *data)
 {
-	new_calendar (full_name, NULL);
+	new_calendar (full_name, NULL, NULL);
 }
 
 static void
 open_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	/* FIXME: find out who owns this calendar and use that name */
-	new_calendar ("Somebody", gtk_file_selection_get_filename (fs));
+	new_calendar ("Somebody", gtk_file_selection_get_filename (fs), NULL);
 
 	gtk_widget_destroy (GTK_WIDGET (fs));
 }
@@ -376,14 +376,21 @@ calendar_close_event (GtkWidget *widget, GdkEvent *event, GnomeCalendar *gcal)
 }
 
 static void
-new_calendar (char *full_name, char *calendar_file)
+new_calendar (char *full_name, char *calendar_file, char *geometry)
 {
 	GtkWidget   *toplevel;
 	char        *title;
-
+	int         xpos, ypos, width, height;
+	
 	title = g_copy_strings (full_name, "'s calendar", NULL);
 
 	toplevel = gnome_calendar_new (title);
+	if (gnome_parse_geometry (geometry, &xpos, &ypos, &width, &height)){
+		if (xpos != -1)
+			gtk_widget_set_uposition (toplevel, xpos, ypos);
+		if (width != -1)
+			gtk_widget_set_usize (toplevel, width, height);
+	}
 	g_free (title);
 	setup_menu (toplevel);
 
@@ -410,13 +417,23 @@ process_dates (void)
 		to_t = time_add_day (from_t, 1);
 }
 
+enum {
+	GEOMETRY_KEY = -1,
+	USERFILE_KEY = -2
+};
+
 static struct argp_option argp_options [] = {
-	{ "events", 'e', NULL, 0, N_("Show events and quit"),                 0 },
-	{ "from",   'f', N_("DATE"), 0, N_("Specifies start date [for --events]"),  1 },
-	{ "file",   'F', N_("FILE"), 0, N_("File to load calendar from"),           1 },
-	{ "to",     't', N_("DATE"), 0, N_("Specifies ending date [for --events]"), 1 },
+	{ "events",     	'e', NULL,           0, N_("Show events and quit"),                 0 },
+	{ "from",       	'f', N_("DATE"),     0, N_("Specifies start date [for --events]"),  1 },
+	{ "file",         	'F', N_("FILE"),     0, N_("File to load calendar from"),           1 },
+	{ "userfile", USERFILE_KEY,  NULL,           0, N_("Load the user calendar"),               1 },
+	{ "geometry", GEOMETRY_KEY,  N_("GEOMETRY"), 0, N_("Geometry for starting up"),             1 },
+	{ "to",                 't', N_("DATE"),     0, N_("Specifies ending date [for --events]"), 1 },
 	{ NULL, 0, NULL, 0, NULL, 0 },
 };
+
+static GList *start_calendars;
+static GList *start_geometries;
 
 static int
 same_day (struct tm *a, struct tm *b)
@@ -486,8 +503,21 @@ parse_an_arg (int key, char *arg, struct argp_state *state)
 		to_t = get_date (arg, NULL);
 		break;
 
+	case GEOMETRY_KEY:
+		start_geometries = g_list_append (start_geometries, arg);
+		break;
+
+	case USERFILE_KEY:
+		/* This is a special key that tells the program to load
+		 * the user's calendar file.  This allows session management
+		 * to work even if the User's home directory changes location
+		 * (ie, on a networked setup).
+		 */
+		arg = COOKIE_USER_HOME_DIR;
+		/* fall trough */
+		
 	case 'F':
-		load_file = arg;
+		start_calendars = g_list_append (start_calendars, arg);
 		break;
 
 	case 'e':
@@ -515,53 +545,111 @@ session_die (void)
 	quit_cmd ();
 }
 
+/*
+ * Save the session callback
+ */
 static int
 session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_style, gint shutdown,
 		    GnomeInteractStyle  interact_style, gint fast, gpointer client_data)
 {
-	printf ("Got a message to save the state\n");
-}
-	    
-/* Setup the Session Manager shutdown routine */
-static GnomeClient *
-new_client (void)
-{
-	GnomeClient *client;
-	char buf [4096];
-	
-	client = gnome_client_new_default ();
-	if (client)
-		return NULL;
-	
-	getcwd ((void *)&buf, sizeof (buf));
-	
-	gtk_object_ref(GTK_OBJECT(client));
-	gtk_object_sink(GTK_OBJECT(client));
+	char *sess_id;
+	char **argv = (char **) g_malloc ((active_calendars * 4) + 2);
+	GList *l, *free_list = 0;
+	int   i;
 
-	gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
-			    GTK_SIGNAL_FUNC (session_save_state), NULL);
-	gtk_signal_connect (GTK_OBJECT (client), "die",
-			    GTK_SIGNAL_FUNC (session_die), NULL);
-	return client;	
+	sess_id = gnome_client_get_id (client);
+	
+	argv [0] = client_data;
+	for (i = 1, l = all_calendars; l; l = l->next){
+		GnomeCalendar *gcal = GNOME_CALENDAR (l->data);
+		int x, y, w, h;
+		char *buffer = g_malloc (32);
+
+		gdk_window_get_origin (GTK_WIDGET (gcal)->window, &x, &y);
+		gdk_window_get_size (GTK_WIDGET (gcal)->window, &w, &h);
+		printf ("X, Y = %d, %d\n", x, y);
+		printf ("w, h = %d, %d\n", w, h);
+		sprintf (buffer, "%dx%d+%d+%d", w, h, x, y);
+
+		if (strcmp (gcal->cal->filename, user_calendar_file) == 0)
+			argv [i++] = "--userfile";
+		else {
+			argv [i++] = "--file";
+			argv [i++] = gcal->cal->filename;
+		}
+		argv [i++] = "--geometry";
+		argv [i++] = buffer;
+		free_list = g_list_append (free_list, buffer);
+		calendar_save (gcal->cal, gcal->cal->filename);
+	}
+	argv [i] = NULL;
+	gnome_client_set_clone_command (client, i, argv);
+	gnome_client_set_restart_command (client, i, argv);
+
+	for (l = free_list; l; l = l->next)
+		g_free (l->data);
+	g_list_free (free_list);
+	
+	return 1;
 }
 
 int 
 main(int argc, char *argv[])
 {
+	GnomeClient *client;
+	
 	argp_program_version = VERSION;
 
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
+	client = gnome_client_new_default ();
+	if (client){
+		gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
+				    GTK_SIGNAL_FUNC (session_save_state), argv [0]);
+		gtk_signal_connect (GTK_OBJECT (client), "die",
+				    GTK_SIGNAL_FUNC (session_die), NULL);
+	}
 	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
 
-	sm_client = new_client ();
-	
 	process_dates ();
 	alarm_init ();
 	init_calendar ();
 
-	new_calendar (full_name, load_file ? load_file : user_calendar_file);
+	/*
+	 * Load all of the calendars specifies in the command line with
+	 * the geometry specificied -if any-
+	 */
+	if (start_calendars){
+		GList *p, *g;
+		char *title;
+
+		p = start_calendars;
+		g = start_geometries;
+		while (p){
+			char *file = p->data;
+			char *geometry = g ? g->data : NULL;
+
+			if (file == COOKIE_USER_HOME_DIR)
+				file = user_calendar_file;
+			
+			if (strcmp (file, user_calendar_file) == 0)
+				title = full_name;
+			else
+				title = file;
+			new_calendar (title, file, geometry);
+
+			p = p->next;
+			if (g)
+				g = g->next;
+		}
+		g_list_free (p);
+	} else {
+		char *geometry = start_geometries ? start_geometries->data : NULL;
+		
+		new_calendar (full_name, user_calendar_file, geometry);
+	}
 	gtk_main ();
 	return 0;
 }
+
