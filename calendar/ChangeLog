@@ -1,3 +1,15 @@
+2003-07-02  Dan Winship  <danw@ximian.com>
+
+	* cal-client/cal-client.c (real_open_calendar): Don't leak
+	exceptions
+	(load_static_capabilities): free the capability string
+
+	* gui/dialogs/task-page.c (task_page_fill_component): Free the
+	description text if it *was* set, rather than if it wasn't.
+
+	* gui/dialogs/task-editor.c (task_editor_finalize): Free the priv
+	struct.
+
 2003-07-02  Bolian Yin <bolian.yin@sun.com>
                                                                                 
         Fixes #45328, #45329
