@@ -1,3 +1,8 @@
+2003-05-11  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #42177 ]
+	* e-dateedit.c (e_date_edit_init): remove the CAN_FOCUS flag.
+
 2003-05-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-combo-button.c (menu_deactivate_callback): Set in_button to

@@ -262,8 +262,6 @@ e_date_edit_init		(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
 
-	GTK_WIDGET_SET_FLAGS (dedit, GTK_CAN_FOCUS);
-
 	dedit->priv = priv = g_new0 (EDateEditPrivate, 1);
 
 	priv->show_date = TRUE;
