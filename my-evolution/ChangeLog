@@ -1,5 +1,10 @@
 2001-09-04  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (add_dialog_clicked_cb): When the feed is 
+	added make the Apply button activate.
+
+2001-09-04  Iain Holmes  <iain@ximian.com>
+
 	* metar.c (weather_conditions_string): Don't return '-' if there is no
 	condition, as it makes the temperature look negative.
 

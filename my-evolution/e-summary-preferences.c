@@ -856,6 +856,7 @@ add_dialog_clicked_cb (GnomeDialog *dialog,
 				pd->summary->preferences->rdf_urls);
 
 
+	gnome_property_box_changed (pd->box);
 	gnome_dialog_close (dialog);
 }
 
