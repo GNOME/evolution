@@ -250,8 +250,7 @@ install-test-component: evolution-test-component
 
 server_in_files = GNOME_Evolution_Shell.server.in.in
 server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
-@EVO_SUBST_SERVER_RULE@
-@EVO_NAME_SERVER_RULE@
+@EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 etspec_DATA = e-storage-set-view.etspec

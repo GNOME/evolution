@@ -18,8 +18,7 @@ $(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
-@EVO_SUBST_SERVER_RULE@
-@EVO_NAME_SERVER_RULE@
+@EVO_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
 INCLUDES =						\
