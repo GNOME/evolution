@@ -1,3 +1,35 @@
+Version 0.12 "No code name yet", 2001-07-31
+---------------------------------------------
+
+Addressbook:
+
+  - Fixed some warnings. (Chris Lahey)
+
+  - I18n fixes. (Zbigniew Chyla)
+
+  - Address quoting in composer bug fixed. (Jon Trowbridge)
+
+  - Made it so that Other Contacts doesn't show up if you don't have
+    LDAP compiled in. (Jason Leach)
+
+  - Made it so that Other Contacts doesn't show up if you don't have
+    any LDAP servers configured. (Jos Dehaes)
+
+  - General bug fixes. (Chris Tohsok, Jon , Frederic Crozat, Jason Leach,
+    JP Rosevear, Ettore Perazzoli, Chris Lahey)
+
+  - Some LDAP cleanup. (Chris Toshok)
+
+  - Crash fixes.  (Jon Trowbridge, Dan Winship)
+
+  - Work on contact lists.  (Chris Toshok, Jon Trowbridge)
+
+  - Made Contact Editor Save & Close button not active if nothing is changed. (Chris Toshok)
+
+  - Added accelerators to a few dialogs. (Taylor Hayward)
+
+  - Made evolution-vcard-importer.c load the file into the correct directory. (Iain Holmes)
+
 Version 0.11 "No code name yet", 2001-07-12
 ---------------------------------------------
 
