@@ -1,3 +1,9 @@
+2003-01-13  Not Zed  <NotZed@Ximian.com>
+
+	* mail-mt.c (mail_msg_check_error): hook onto destroy to remove
+	dialogue from active table.
+	(error_response): Just destroy on any response, dont unref either.
+
 2003-01-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_format_data_wrapper_write_to_stream):

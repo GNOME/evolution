@@ -215,12 +215,14 @@ void mail_msg_free(void *msg)
 /* hash table of ops->dialogue of active errors */
 static GHashTable *active_errors = NULL;
 
-static void error_response(GtkObject *o, int button, void *data)
+static void error_destroy(GtkObject *o, void *data)
 {
 	g_hash_table_remove(active_errors, data);
+}
 
+static void error_response(GtkObject *o, int button, void *data)
+{
 	gtk_widget_destroy((GtkWidget *)o);
-	g_object_unref(o);
 }
 
 void mail_msg_check_error(void *msg)
@@ -268,6 +270,7 @@ void mail_msg_check_error(void *msg)
 	gd = (GtkDialog *)gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, "%s", text);
 	g_hash_table_insert(active_errors, m->ops, gd);
 	g_signal_connect(gd, "response", G_CALLBACK(error_response), m->ops);
+	g_signal_connect(gd, "destroy", G_CALLBACK(error_destroy), m->ops);
 	gtk_widget_show((GtkWidget *)gd);
 }
 
