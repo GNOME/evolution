@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5\n"
-"POT-Creation-Date: 2004-02-09 15:17-0500\n"
-"PO-Revision-Date: 2004-01-31 13:53+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2004-02-10 21:44+0100\n"
+"PO-Revision-Date: 2004-02-10 21:49+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <i18n-nb@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -2457,7 +2457,6 @@ msgid "Search for Contacts..."
 msgstr "Søk etter kontakter..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1050
-#, fuzzy
 msgid "Address Book Sources..."
 msgstr "Adressebok-kilder..."
 
@@ -2486,14 +2485,12 @@ msgid "Print Envelope"
 msgstr "Skriv ut konvolutt"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1064
-#, fuzzy
 msgid "Copy to Address Book..."
-msgstr "Adressebok..."
+msgstr "Kopier til adressebok..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1065
-#, fuzzy
 msgid "Move to Address Book..."
-msgstr "Adressebok..."
+msgstr "Flytt til adressebok..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1068
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
@@ -2772,11 +2769,11 @@ msgstr "Har markør"
 
 #: addressbook/gui/widgets/eab-contact-display.c:116
 msgid "(map)"
-msgstr ""
+msgstr "(kart)"
 
 #: addressbook/gui/widgets/eab-contact-display.c:126
 msgid "map"
-msgstr ""
+msgstr "kart"
 
 #: addressbook/gui/widgets/eab-contact-display.c:176
 #: addressbook/gui/widgets/eab-contact-display.c:414
@@ -2784,42 +2781,36 @@ msgid "List Members"
 msgstr "Listemedlemmer"
 
 #: addressbook/gui/widgets/eab-contact-display.c:232
-#, fuzzy
 msgid "E-mail"
 msgstr "E-post"
 
 #: addressbook/gui/widgets/eab-contact-display.c:237
-#, fuzzy
 msgid "work"
-msgstr "Arbeid"
+msgstr "arbeid"
 
 #: addressbook/gui/widgets/eab-contact-display.c:240
-#, fuzzy
 msgid "Position"
-msgstr "Beskrivelse"
+msgstr "Stilling"
 
 #: addressbook/gui/widgets/eab-contact-display.c:246
-#, fuzzy
 msgid "Video Conferencing"
-msgstr "_Videokonferanse-URL:"
+msgstr "Videokonferanse"
 
 #: addressbook/gui/widgets/eab-contact-display.c:247
-#, fuzzy
 msgid "Phone"
-msgstr "Biltelefon"
+msgstr "Telefon"
 
 #: addressbook/gui/widgets/eab-contact-display.c:248
 msgid "Fax"
-msgstr ""
+msgstr "Faks"
 
 #: addressbook/gui/widgets/eab-contact-display.c:253
-#, fuzzy
 msgid "personal"
-msgstr "Personlig"
+msgstr "personlig"
 
 #: addressbook/gui/widgets/eab-contact-display.c:261
 msgid "WWW"
-msgstr ""
+msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:262
 #: addressbook/gui/widgets/eab-contact-display.c:473
@@ -3436,8 +3427,8 @@ msgstr "Oppgavekomponent for Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1101 calendar/gui/print.c:1820
-#: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:80
-#: calendar/importers/icalendar-importer.c:710
+#: calendar/gui/tasks-control.c:516 calendar/importers/icalendar-importer.c:79
+#: calendar/importers/icalendar-importer.c:709
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
 msgstr "Oppgaver"
@@ -6523,9 +6514,8 @@ msgid "September"
 msgstr "September"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Go To Today"
-msgstr "Gå til i dag"
+msgstr "_Gå til i dag"
 
 #: calendar/gui/itip-utils.c:271 calendar/gui/itip-utils.c:319
 #: calendar/gui/itip-utils.c:351
@@ -6942,20 +6932,19 @@ msgstr "iCalendar-filer (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar-filer (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:79
-#, fuzzy
+#: calendar/importers/icalendar-importer.c:78
 msgid "Appointments and Meetings"
-msgstr "Fjern gamle avtaler og møter"
+msgstr "Avtaler og møter"
 
-#: calendar/importers/icalendar-importer.c:495
+#: calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
 msgstr "Påminnelse!!"
 
-#: calendar/importers/icalendar-importer.c:703
+#: calendar/importers/icalendar-importer.c:702
 msgid "Calendar Events"
 msgstr "Hendlelser i kalenderen"
 
-#: calendar/importers/icalendar-importer.c:728
+#: calendar/importers/icalendar-importer.c:727
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
@@ -6963,7 +6952,7 @@ msgstr ""
 "Evolution har funnet filer fra GNOME kalender.\n"
 "Vil du importere dem til Evolution?"
 
-#: calendar/importers/icalendar-importer.c:735
+#: calendar/importers/icalendar-importer.c:734
 msgid "Gnome Calendar"
 msgstr "GNOME kalender"
 
@@ -10291,9 +10280,9 @@ msgid "Could not rename `%s': `%s': %s"
 msgstr "Kunne ikke endre navn på «%s»: «%s»: %s"
 
 #: camel/providers/local/camel-mbox-store.c:540
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s' to %s: %s"
-msgstr "Kunne ikke endre navn på %s til %s: %s"
+msgstr "Kunne ikke endre navn på «%s» til %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:343
 #, c-format
@@ -10794,9 +10783,9 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Kunne ikke autentisere mot POP-tjener %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%sVennligst oppgi POP-passord for %s@%s"
+msgstr "%sVennligst oppgi POP-passord for %s på vert %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:535
 #: camel/providers/pop3/camel-pop3-store.c:542
@@ -11005,9 +10994,9 @@ msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP-tjener %s støtter ikke etterspurt autentiseringstype %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sVennligst skriv inn SMTP-passord for %s@%s"
+msgstr "%sVennligst skriv inn SMTP-passord for %s på vert %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -12519,9 +12508,8 @@ msgid "Loading..."
 msgstr "Laster..."
 
 #: mail/em-folder-tree.c:818
-#, fuzzy
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "Kan ikke kopiere eller flytte meldinger inn i en virtuell mappe"
+msgstr "Kan ikke slippe melding(er) toppnivå for lageret"
 
 #: mail/em-folder-tree.c:1721 mail/em-folder-tree.c:1808
 #, c-format
@@ -13210,18 +13198,16 @@ msgid "Default forward style"
 msgstr "Forvalgt videresendingsstil"
 
 #: mail/evolution-mail.schemas.in.in.h:12
-#, fuzzy
 msgid "Default height of the Message Window"
-msgstr "Forvalgt emne for meldingen."
+msgstr "Forvalgt høyde for meldingsvinduet"
 
 #: mail/evolution-mail.schemas.in.in.h:13
 msgid "Default reply style"
 msgstr "Forvalgt svarstil"
 
 #: mail/evolution-mail.schemas.in.in.h:14
-#, fuzzy
 msgid "Default width of the Message Window"
-msgstr "Forvalgt bredde for mappelinjen"
+msgstr "Forvalgt bredde for meldingsvinduet"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Draw spelling error indicators on words as you type."
@@ -13839,7 +13825,7 @@ msgstr ""
 
 #: mail/mail-component.c:463
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Du har usendte meldinger. Vil du avslutte likevel?"
 
 #: mail/mail-component.c:522
 msgid "New Mail Message"
@@ -14654,12 +14640,12 @@ msgstr "Lagrer mappe «%s»"
 #: mail/mail-ops.c:1592
 #, c-format
 msgid "Expunging and storing account '%s'"
-msgstr ""
+msgstr "Tømmer og lagrer konto «%s»"
 
 #: mail/mail-ops.c:1593
-#, fuzzy, c-format
+#, c-format
 msgid "Storing account '%s'"
-msgstr "Lagrer mappe «%s»"
+msgstr "Lagrer konto «%s»"
 
 #: mail/mail-ops.c:1648
 msgid "Refreshing folder"
@@ -15349,9 +15335,8 @@ msgstr ""
 "ut hvilken type det er for deg."
 
 #: shell/e-shell-importer.c:154
-#, fuzzy
 msgid "Choose the destination for this import"
-msgstr "Avlys møte for denne oppføringen"
+msgstr "Velg mål det skal importeres til"
 
 #: shell/e-shell-importer.c:157 shell/e-shell-startup-wizard.c:737
 msgid "Please select the information that you would like to import:"
@@ -15392,9 +15377,9 @@ msgid "Importing"
 msgstr "Importerer"
 
 #: shell/e-shell-importer.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %s.\n"
-msgstr "Importerer"
+msgstr "Importerer %s.\n"
 
 #: shell/e-shell-importer.c:473 shell/e-shell-importer.c:474
 #, c-format
@@ -15452,14 +15437,13 @@ msgid "From %s:"
 msgstr "Fra %s:"
 
 #: shell/e-shell-importer.c:1034
-#, fuzzy, c-format
+#, c-format
 msgid "No importer available for file %s"
-msgstr "Ingen tilbyder tilgjengelig for protokoll «%s»"
+msgstr "Ingen importfunksjon tilgjengelig for fil %s"
 
 #: shell/e-shell-importer.c:1046
-#, fuzzy
 msgid "Unable to execute importer"
-msgstr "Feil ved kjøring av gpg."
+msgstr "Kan ikke kjøre importprogram"
 
 #: shell/e-shell-importer.c:1156
 msgid "_Import"
@@ -15901,27 +15885,22 @@ msgid "Evolution Import Assistant"
 msgstr "Importeringsassistent for Evolution"
 
 #: shell/importer/import.glade.h:3
-#, fuzzy
 msgid "Import File"
-msgstr "Importerer filer"
+msgstr "Importer fil"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import Location"
-msgstr "Lokasjon"
+msgstr "Importer lokasjon"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type"
-msgstr "Importerere"
+msgstr "Type import"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers"
-msgstr "Velg importerer"
+msgstr "Velg importprogram"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File"
 msgstr "Velg en fil"
 
@@ -18190,9 +18169,8 @@ msgid "_Advanced..."
 msgstr "_Avansert..."
 
 #: widgets/misc/e-image-chooser.c:172
-#, fuzzy
 msgid "Choose Image"
-msgstr "Velg en fil"
+msgstr "Velg et bilde"
 
 #: widgets/misc/e-search-bar.c:531
 msgid "_Search"
@@ -18231,110 +18209,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% fullført)"
-
-#~ msgid "Copy to folder..."
-#~ msgstr "Kopier til mappe..."
-
-#~ msgid "Move to folder..."
-#~ msgstr "Flytt til mappe..."
-
-#~ msgid "Home Address"
-#~ msgstr "Hjemmeadresse"
-
-#~ msgid "Work Address"
-#~ msgstr "Adresse på arbeid"
-
-#~ msgid "Other Address"
-#~ msgstr "Annen adresse"
-
-#~ msgid "Could not open '%s': %s"
-#~ msgstr "Kunne ikke åpne «%s»: %s"
-
-#~ msgid "Could not create temporary mbox store: %s"
-#~ msgstr "Kunne ikke opprette midlertidig mbox-lager: %s"
-
-#~ msgid "Could not create temporary mbox folder: %s"
-#~ msgstr "Kunne ikke opprette midlertidig mbox-mappe: %s"
-
-#~ msgid "Could not copy messages to temporary mbox folder: %s"
-#~ msgstr "Kunne ikke kopiere meldinger til midlertidig mbox-mappe: %s"
-
-#~ msgid "Evolution Error"
-#~ msgstr "Evolution feil"
-
-#~ msgid ""
-#~ "There is no importer that is able to handle\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Ingen importerer som kan håndtere\n"
-#~ "%s"
-
-#~ msgid ""
-#~ "Importing %s.\n"
-#~ "Starting %s"
-#~ msgstr ""
-#~ "Importerer %s.\n"
-#~ "Starter %s"
-
-#~ msgid "Error starting %s"
-#~ msgstr "Feil under start av %s"
-
-#~ msgid "Select a destination folder for importing this data"
-#~ msgstr "Velg en målmappe for å importere data"
-
-#~ msgid "Go to folder..."
-#~ msgstr "Gå til mappe..."
-
-#~ msgid "Select the folder that you want to open"
-#~ msgstr "Velg mappen du ønsker å åpne"
-
-#~ msgid "Create New Shortcut"
-#~ msgstr "Opprett en ny snarvei"
-
-#~ msgid "Select the folder you want the shortcut to point to:"
-#~ msgstr "Velg mappen du ønsker snarveien skal peke til:"
-
-#~ msgid "Import File (step 3 of 3)"
-#~ msgstr "Importer fil (steg 3 av 3)"
-
-#~ msgid "Importer Type (step 1 of 3)"
-#~ msgstr "Importer type (steg 1 av 3)"
-
-#~ msgid "Select Importers (step 2 of 3)"
-#~ msgstr "Velg importerere (steg 2 av 3)"
-
-#~ msgid "Select a File (step 2 of 3)"
-#~ msgstr "Velg en fil (steg 2 av 3)"
-
-#~ msgid "Evolution is now exiting ..."
-#~ msgstr "Evolution avslutter nå..."
-
-#~ msgid "Session not initialised"
-#~ msgstr "Sesjonen er ikke initiert"
-
-#~ msgid "This message is digitally signed and has been found to be authentic."
-#~ msgstr "Denne meldingen er digitalt signert og er funnet autentisk."
-
-#~ msgid ""
-#~ "This message is digitally signed but can not be proven to be authentic."
-#~ msgstr "Denne meldingen er digitalt signert, men kan ikke finnes autentisk."
-
-#~ msgid ""
-#~ "The task backend for\n"
-#~ "%s\n"
-#~ " has crashed. You will have to restart Evolution in order to use it again"
-#~ msgstr ""
-#~ "Oppgavemotoren for\n"
-#~ "%s\n"
-#~ "har krasjet. Du vil måtte starte Evolution på nytt for å kunne bruke den "
-#~ "igjen"
-
-#~ msgid ""
-#~ "The calendar backend for\n"
-#~ "%s\n"
-#~ " has crashed. You will have to restart Evolution in order to use it again"
-#~ msgstr ""
-#~ "Kalendermotoren for\n"
-#~ "%s\n"
-#~ "har krasjet. Du vil måtte starte Evolution på nytt for å kunne bruke den "
-#~ "igjen"
