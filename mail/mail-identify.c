@@ -42,27 +42,15 @@
 char *
 mail_identify_mime_part (CamelMimePart *part)
 {
-	GMimeContentField *content_type;
 	const char *filename, *type;
 	GnomeVFSMimeSniffBuffer *sniffer;
 	CamelStream *memstream;
 	CamelDataWrapper *data;
 	GByteArray *ba;
 
-	content_type = camel_mime_part_get_content_type (part);
-
-
 	/* Try identifying based on name in Content-Type or
 	 * filename in Content-Disposition.
 	 */
-	filename = gmime_content_field_get_parameter (content_type, "name");
-	if (filename) {
-		type = gnome_vfs_mime_type_from_name_or_default (filename,
-								 NULL);
-		if (type)
-			return g_strdup (type);
-	}
-
 	filename = camel_mime_part_get_filename (part);
 	if (filename) {
 		type = gnome_vfs_mime_type_from_name_or_default (filename,

@@ -1243,7 +1243,6 @@ handle_mystery (CamelMimePart *part, MailDisplay *md,
 {
 	const char *info;
 	char *htmlinfo;
-	GMimeContentField *content_type;
 
 	mail_html_write (md->html, md->stream, "<table><tr><td>");
 
@@ -1276,10 +1275,7 @@ handle_mystery (CamelMimePart *part, MailDisplay *md,
 	}
 
 	/* Write the name, if we have it. */
-	content_type = camel_mime_part_get_content_type (part);
-	info = gmime_content_field_get_parameter (content_type, "name");
-	if (!info)
-		info = camel_mime_part_get_filename (part);
+	info = camel_mime_part_get_filename (part);
 	if (info) {
 		htmlinfo = e_text_to_html (info, 0);
 		mail_html_write (md->html, md->stream, "Name: %s<br>",

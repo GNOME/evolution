@@ -94,15 +94,10 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 static char *
 make_safe_filename (const char *prefix, CamelMimePart *part)
 {
-	GMimeContentField *type;
 	const char *name = NULL;
 	char *safe, *p;
 
-	type = camel_mime_part_get_content_type (part);
-	if (type)
-		name = gmime_content_field_get_parameter (type, "name");
-	if (!name)
-		name = camel_mime_part_get_filename (part);
+	name = camel_mime_part_get_filename (part);
 	if (!name)
 		name = "attachment";
 
