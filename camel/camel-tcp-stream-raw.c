@@ -127,9 +127,6 @@ tcp_write (int fd, const char *buffer, size_t buflen)
 		printf ("tcp_write (%d, ..., %d): (-1) EINTR\n", fd, buflen);
 		errno = EINTR;
 		return -1;
-#if 0
-		/* seems that if we set errno to either EAGAIN or
-                   EWOULDBLOCK, libc's pthread crashes...wacky */
 	case 2:
 		printf ("tcp_write (%d, ..., %d): (-1) EAGAIN\n", fd, buflen);
 		errno = EAGAIN;
@@ -138,7 +135,6 @@ tcp_write (int fd, const char *buffer, size_t buflen)
 		printf ("tcp_write (%d, ..., %d): (-1) EWOULDBLOCK\n", fd, buflen);
 		errno = EWOULDBLOCK;
 		return -1;
-#endif
 	case 4:
 	case 5:
 	case 6:
@@ -278,15 +274,19 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			} while (w == -1 && errno == EINTR);
 			
 			if (w == -1) {
-				if (errno == EAGAIN || errno == EWOULDBLOCK)
-					continue;
+				if (errno == EAGAIN || errno == EWOULDBLOCK) {
+					w = 0;
+				} else {
+					error = errno;
+					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+					errno = error;
+					return -1;
+				}
 			} else
 				written += w;
 		} while (w != -1 && written < n);
 		
-		error = errno;
 		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-		errno = error;
 	}
 	
 	return written;

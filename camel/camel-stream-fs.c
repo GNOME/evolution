@@ -319,15 +319,19 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			} while (w == -1 && errno == EINTR);
 			
 			if (w == -1) {
-				if (errno == EAGAIN)
-					continue;
+				if (errno == EAGAIN) {
+					w = 0;
+				} else {
+					error = errno;
+					fcntl (stream_fs->fd, F_SETFL, flags);
+					errno = error;
+					return -1;
+				}
 			} else
 				written += w;
 		} while (w != -1 && written < n);
 		
-		error = errno;
 		fcntl (stream_fs->fd, F_SETFL, flags);
-		errno = error;
 	}
 	
 	if (written > 0)
