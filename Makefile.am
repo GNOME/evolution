@@ -41,5 +41,5 @@ SUBDIRS =			\
 	ui			\
         default_user            \
         tools                   \
-        po          
-
+        po			\
+	doc

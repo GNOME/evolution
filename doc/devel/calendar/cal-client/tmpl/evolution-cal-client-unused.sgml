@@ -8,6 +8,28 @@
 @pilot_id: 
 @pilot_status: 
 
+<!-- ##### FUNCTION cal_client_load_calendar ##### -->
+<para>
+
+</para>
+
+@client: 
+@str_uri: 
+@Returns: 
+
+<!-- ##### ENUM CalClientLoadStatus ##### -->
+  <para>
+    These values describe the status of a calendar load or create
+    request.  After asking a calendar factory to load or create a
+    calendar, the provided listener will get notification about the
+    result in asynchronous fashion.  Such notification is represented
+    by one of these enumeration values.  For values other than
+    #CAL_CLIENT_LOAD_SUCCESS, the #CalClient object will not accept
+    any other operations on the calendar and it should just be
+    destroyed.
+  </para>
+
+
 <!-- ##### FUNCTION cal_client_get_events_in_range ##### -->
 <para>
 
@@ -16,15 +38,6 @@
 @client: 
 @start: 
 @end: 
-@Returns: 
-
-<!-- ##### FUNCTION cal_client_load_calendar ##### -->
-<para>
-
-</para>
-
-@client: 
-@str_uri: 
 @Returns: 
 
 <!-- ##### SIGNAL CalClient::cal-loaded ##### -->
@@ -49,19 +62,6 @@
 
 @client: 
 @Returns: 
-
-<!-- ##### ENUM CalClientLoadStatus ##### -->
-  <para>
-    These values describe the status of a calendar load or create
-    request.  After asking a calendar factory to load or create a
-    calendar, the provided listener will get notification about the
-    result in asynchronous fashion.  Such notification is represented
-    by one of these enumeration values.  For values other than
-    #CAL_CLIENT_LOAD_SUCCESS, the #CalClient object will not accept
-    any other operations on the calendar and it should just be
-    destroyed.
-  </para>
-
 
 <!-- ##### FUNCTION cal_client_create_calendar ##### -->
 <para>
