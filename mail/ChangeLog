@@ -1,6 +1,7 @@
 2001-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_inlined): Don't leak memory.
+	(forward_messages): change doinline to be a gboolean argument.
 
 2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
 
