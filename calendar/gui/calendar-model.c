@@ -239,6 +239,12 @@ calendar_model_init (CalendarModel *model)
 	priv->zone = NULL;
 
 	priv->activity = NULL;
+
+	/* Preload here, to avoid corba calls later */
+	/* Gross hack because gnome-canvas is not re-entrant */
+	calendar_config_get_tasks_due_today_color ();
+	calendar_config_get_tasks_overdue_color ();
+	g_free (calendar_config_get_hide_completed_tasks_sexp ());
 }
 
 static void
@@ -1732,7 +1738,7 @@ calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
 
 	case CAL_COMPONENT_FIELD_PERCENT:
 		if (GPOINTER_TO_INT (value) < 0)
-			return NULL;
+			return g_strdup ("N/A");
 		else
 			return g_strdup_printf ("%i%%", GPOINTER_TO_INT (value));
 

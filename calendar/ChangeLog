@@ -1,3 +1,14 @@
+2002-10-22  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (get_address): use e_config_listener_* to get values
+	(itip_addresses_get): ditto
+	(itip_addresses_get_default): ditto
+
+	* gui/calendar-model.c (calendar_model_value_to_string): don't
+	send back a null string (affects if it is the group header)
+	(calendar_model_init): pre load config database info so we don't
+	do corba calls during draws
+
 2002-10-17  JP Rosevear  <jpr@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_construct): fix c/p type

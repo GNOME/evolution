@@ -39,6 +39,7 @@
 #include <ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-time-utils.h>
+#include <e-util/e-config-listener.h>
 #include <cal-util/timeutil.h>
 #include <cal-util/cal-util.h>
 #include "calendar-config.h"
@@ -68,7 +69,7 @@ static icalproperty_method itip_methods_enum[] = {
     ICAL_METHOD_DECLINECOUNTER,
 };
 
-static Bonobo_ConfigDatabase db = NULL;
+static EConfigListener *config = NULL;
 
 static ItipAddress *
 get_address (long num) 
@@ -80,11 +81,11 @@ get_address (long num)
 
 	/* get the identity info */
 	path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", num);
-	a->name = bonobo_config_get_string (db, path, NULL);
+	a->name = e_config_listener_get_string_with_default (config, path, NULL, NULL);
 	g_free (path);
 
 	path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", num);
-	a->address = bonobo_config_get_string (db, path, NULL);
+	a->address = e_config_listener_get_string_with_default (config, path, NULL, NULL);
 	a->address = g_strstrip (a->address);
 	g_free (path);
 
@@ -96,28 +97,14 @@ get_address (long num)
 GList *
 itip_addresses_get (void)
 {
-
-	CORBA_Environment ev;
 	GList *addresses = NULL;
 	glong len, def, i;
 
-	if (db == NULL) {
-		CORBA_exception_init (&ev);
- 
-		db = bonobo_get_object ("wombat:", 
-					"Bonobo/ConfigDatabase", 
-					&ev);
+	if (config == NULL)
+		config = e_config_listener_new ();
 	
-		if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-			CORBA_exception_free (&ev);
-			return NULL;
-		}
-		
-		CORBA_exception_free (&ev);
-	}
-	
-	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
-	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
+	len = e_config_listener_get_long_with_default (config, "/Mail/Accounts/num", 0, NULL);
+	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
 
 	for (i = 0; i < len; i++) {
 		ItipAddress *a;
@@ -135,26 +122,14 @@ itip_addresses_get (void)
 ItipAddress *
 itip_addresses_get_default (void)
 {
-	CORBA_Environment ev;
 	ItipAddress *a;
 	glong def;
 
-	if (db == NULL) {
-		CORBA_exception_init (&ev);
- 
-		db = bonobo_get_object ("wombat:", 
-					"Bonobo/ConfigDatabase", 
-					&ev);
+	if (config == NULL)
+		config = e_config_listener_new ();
 	
-		if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
-			CORBA_exception_free (&ev);
-			return NULL;
-		}
-		
-		CORBA_exception_free (&ev);
-	}
+	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
 
-	def = bonobo_config_get_long_with_default (db, "/Mail/Accounts/default_account", 0, NULL);
 	a = get_address (def);
 	a->default_address = TRUE;
 
