@@ -1,0 +1,101 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * folder.idl
+ * Copyright (C) 2000  Helix Code, Inc.
+ * Author: Christopher James Lahey <clahey@helixcode.com>
+ *
+ * Based on original from Matt Loper.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this library; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+module Evolution {
+
+	interface FolderListener {
+
+		enum CallStatus {
+			Success,
+			RepositoryOffline,
+			PermissionDenied,
+			WrongFolderType,
+			WrongFolderDomain,
+			FolderNotFound
+		};
+
+		void folder_listener_ready (in CallStatus status,
+					    in Folder folder);
+
+		void respond_get_control (in CallStatus stutus,
+					  in Bonobo::Control control);
+		/*
+		 * You must know what interface to query_interface()
+		 * for once you get a data source! 
+		 */
+		void respond_get_data_source (in CallStatus status,
+					      in Bonobo::Unknown data_source);
+
+		void respond_get_name(in CallStatus status,
+				      in string viewable_name);
+		/*		void respond_get_icon(in CallStatus status,
+				in */
+
+		void respond_add_subfolder (in CallStatus status,
+					    in Folder folder);
+		void respond_move_subfolder (in CallStatus status);
+		void respond_delete_subfolder (in CallStatus status);
+
+		/* This signals that some piece of data has changed.
+                   The name, control or data source has changed. */
+		void signal_name_changed(in Folder folder);
+		void signal_icon_changed(in Folder folder);
+
+		/* This says a child/children has been added. */
+		void signal_subfolder_added(in FolderList folders);
+		/* This says a child has been removed. */
+		void signal_subfolder_removed(in Folder folder);
+	};
+	
+	interface Folder {
+		void set_listener (in FolderListener listener);
+
+		/* 
+		 * get a bonobo control for this view; a client won't
+		 * use the goad_id gathered in the above function, b/c
+		 * only the wombat knows how to do that, by surfing
+		 * the physical evolution directory structure 
+		 */
+		void get_control();
+		
+		/*
+		 * You must know what interface to query_interface()
+		 * for once you get a data source!
+		 */
+		void get_data_source();
+
+		void get_name();
+		void get_icon();
+		
+		void add_subfolder (in string data_source_id,
+				      in string control_id,
+				      in string viewable_name);
+		void move_subfolder (in Folder subfolder);
+		void delete_subfolder (in Folder subfolder);
+	};
+	
+	interface Wombat {
+		void get_root_folder(FolderListener listener);
+	};
+};
