@@ -54,13 +54,27 @@ struct _ECalendar
 
 	ECalendarItem *calitem;
 
-	GnomeCanvasItem *prev_item, *next_item;
+	GtkWidget *today_button;
+	GtkWidget *none_button;
+
+	GnomeCanvasItem *today_button_item;
+	GnomeCanvasItem *none_button_item;
+
+	GnomeCanvasItem *prev_item;
+	GnomeCanvasItem *next_item;
 
 	gint min_rows;
 	gint min_cols;
 
 	gint max_rows;
 	gint max_cols;
+
+	/* These are all used when the prev/next buttons are held down.
+	   moving_forward is TRUE if we are moving forward in time, i.e. the
+	   next button is pressed. */
+	gint timeout_id;
+	gint timeout_delay;
+	gboolean moving_forward;
 };
 
 struct _ECalendarClass
@@ -79,6 +93,19 @@ void	   e_calendar_set_maximum_size	(ECalendar	*cal,
 					 gint		 rows,
 					 gint		 cols);
 
+/* Returns the border size on each side of the month displays. */
+void	   e_calendar_get_border_size	(ECalendar	*cal,
+					 gint		*top,
+					 gint		*bottom,
+					 gint		*left,
+					 gint		*right);
+
+/* Set which, if any, of the buttons to show beneath the month displays.
+   You must connect to the button's clicked signal and perform the
+   required action yourself. */
+void	   e_calendar_set_buttons	(ECalendar	*cal,
+					 gboolean	 show_today_button,
+					 gboolean	 show_none_button);
 
 #ifdef __cplusplus
 }
