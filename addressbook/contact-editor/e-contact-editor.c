@@ -296,13 +296,16 @@ _popup_position(GtkMenu *menu,
 		gpointer data)
 {
 	GtkWidget *button = GTK_WIDGET(data);
+	GtkRequisition request;
 	int mh, mw;
 	gdk_window_get_origin (button->window, x, y);
 	*x += button->allocation.width;
 	*y += button->allocation.height;
 
-	mh = GTK_WIDGET(menu)->allocation.height;
-	mw = GTK_WIDGET(menu)->allocation.width;
+	gtk_widget_size_request(GTK_WIDGET(menu), &request);
+
+	mh = request.height;
+	mw = request.width;
 
 	*x -= mw;
 	if (*x < 0)
