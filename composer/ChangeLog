@@ -1,3 +1,10 @@
+2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c: Remove some unused ehaders and
+	ones that cause compilation failures (such as gnome-defs.h).
+
+	* e-icon-list.h: Same.
+
 2002-11-08  Not Zed  <NotZed@Ximian.com>
 
 	* listener.c: Fix bonobo object setup.

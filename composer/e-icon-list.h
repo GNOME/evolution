@@ -35,9 +35,7 @@
 #ifndef _E_ICON_LIST_H_
 #define _E_ICON_LIST_H_
 
-#include <libgnome/gnome-defs.h>
 #include <libgnomecanvas/gnome-canvas.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
 
 BEGIN_GNOME_DECLS
 

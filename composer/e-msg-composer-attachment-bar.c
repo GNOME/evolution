@@ -26,18 +26,13 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
+#include <gtk/gtk.h>
+#include <glade/glade.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <gdk-pixbuf/gdk-pixbuf.h>
-#include <gdk-pixbuf/gdk-pixbuf-loader.h>
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-select-file.h"
@@ -45,8 +40,6 @@
 #include "e-msg-composer-attachment-bar.h"
 
 #include "e-icon-list.h"
-
-#include <gal/widgets/e-unicode.h>
 
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
@@ -87,10 +80,10 @@ static guint signals[LAST_SIGNAL] = { 0 };
 static void update (EMsgComposerAttachmentBar *bar);
 
 
-static gchar *
+static char *
 size_to_string (gulong size)
 {
-	gchar *size_string;
+	char *size_string;
 	
 	/* FIXME: The following should probably go into a separate module, as
            we might have to do the same thing in other places as well.  Also,
@@ -127,7 +120,7 @@ free_attachment_list (EMsgComposerAttachmentBar *bar)
 	priv = bar->priv;
 	
 	for (p = priv->attachments; p != NULL; p = p->next)
-		g_object_unref(p->data);
+		g_object_unref (p->data);
 	
 	priv->attachments = NULL;
 }
@@ -145,9 +138,9 @@ add_common (EMsgComposerAttachmentBar *bar,
 {
 	g_return_if_fail (attachment != NULL);
 	
-	g_signal_connect(attachment, "changed",
-			 G_CALLBACK (attachment_changed_cb),
-			 bar);
+	g_signal_connect (attachment, "changed",
+			  G_CALLBACK (attachment_changed_cb),
+			  bar);
 	
 	bar->priv->attachments = g_list_append (bar->priv->attachments,
 						attachment);
@@ -222,16 +215,16 @@ pixbuf_for_mime_type (const char *mime_type)
 	    || strcmp (mime_type, "multipart/digest") == 0
 	    || strcmp (mime_type, "message/rfc822") == 0) {
 		char *name;
-
-		name = g_build_filename(EVOLUTION_ICONSDIR, "mail.png", NULL);
+		
+		name = g_build_filename (EVOLUTION_ICONSDIR, "mail.png", NULL);
 		pixbuf = gdk_pixbuf_new_from_file (name, NULL);
 		g_free (name);
-
+		
 		if (pixbuf != NULL)
 			return pixbuf;
 	}
-
-	icon_name = gnome_vfs_mime_get_icon(mime_type);
+	
+	icon_name = gnome_vfs_mime_get_icon (mime_type);
 	if (icon_name) {
 		if (*icon_name == '/') {
 			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
@@ -239,15 +232,15 @@ pixbuf_for_mime_type (const char *mime_type)
 				return pixbuf;
 		}
 		
-		filename = gnome_program_locate_file(NULL, GNOME_FILE_DOMAIN_PIXMAP,  icon_name, TRUE, NULL);
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, icon_name, TRUE, NULL);
 		if (!filename) {
 			char *fm_icon;
 			
 			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
-			filename = gnome_program_locate_file(NULL, GNOME_FILE_DOMAIN_PIXMAP,  fm_icon, TRUE, NULL);
+			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
 			if (!filename) {
 				fm_icon = g_strdup_printf ("mc/%s", icon_name);
-				filename = gnome_program_locate_file(NULL, GNOME_FILE_DOMAIN_PIXMAP,  fm_icon, TRUE, NULL);
+				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP, fm_icon, TRUE, NULL);
 			}
 			g_free (fm_icon);
 		}
@@ -520,8 +513,7 @@ get_icon_context_menu (EMsgComposerAttachmentBar *bar)
 	
 	priv = bar->priv;
 	if (priv->icon_context_menu == NULL)
-		priv->icon_context_menu = gnome_popup_menu_new
-			(icon_context_menu_info);
+		priv->icon_context_menu = gnome_popup_menu_new (icon_context_menu_info);
 	
 	return priv->icon_context_menu;
 }
@@ -575,13 +567,13 @@ destroy (GtkObject *object)
 	EMsgComposerAttachmentBar *bar;
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (object);
-
+	
 	if (bar->priv) {
 		free_attachment_list (bar);
 		g_free (bar->priv);
 		bar->priv = NULL;
 	}
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
@@ -595,14 +587,13 @@ button_press_event (GtkWidget *widget,
 {
 	EMsgComposerAttachmentBar *bar;
 	EIconList *icon_list;
-	gint icon_number;
+	int icon_number;
 	
 	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
 	icon_list = E_ICON_LIST (widget);
 	
 	if (event->button != 3)
-		return GTK_WIDGET_CLASS (parent_class)->button_press_event
-			(widget, event);
+		return GTK_WIDGET_CLASS (parent_class)->button_press_event (widget, event);
 	
 	icon_number = e_icon_list_get_icon_at (icon_list, event->x, event->y);
 	
@@ -630,7 +621,7 @@ class_init (EMsgComposerAttachmentBarClass *class)
 	widget_class = GTK_WIDGET_CLASS (class);
 	icon_list_class = E_ICON_LIST_CLASS (class);
 	
-	parent_class = g_type_class_ref(e_icon_list_get_type ());
+	parent_class = g_type_class_ref (e_icon_list_get_type ());
 	
 	object_class->destroy = destroy;
 	
@@ -695,7 +686,7 @@ e_msg_composer_attachment_bar_get_type (void)
 			(GInstanceInitFunc) init,
 		};
 		
-		type = g_type_register_static(e_icon_list_get_type(), "EMsgComposerAttachmentBar", &info, 0);
+		type = g_type_register_static (E_TYPE_ICON_LIST, "EMsgComposerAttachmentBar", &info, 0);
 	}
 	
 	return type;
