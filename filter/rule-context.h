@@ -30,7 +30,6 @@
 
 #include "filter-part.h"
 
-
 #define RULE_TYPE_CONTEXT            (rule_context_get_type ())
 #define RULE_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), RULE_TYPE_CONTEXT, RuleContext))
 #define RULE_CONTEXT_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), RULE_TYPE_CONTEXT, RuleContextClass))
@@ -59,7 +58,7 @@ struct _RuleContext {
 	GList *rule_set_list;
 };
 
-typedef void (*RCRegisterFunc) (RuleContext *rc, FilterRule *rule, gpointer user_data);
+typedef void (*RCRegisterFunc) (RuleContext *rc, struct _FilterRule *rule, gpointer user_data);
 
 struct _RuleContextClass {
 	GObjectClass parent_class;
@@ -73,15 +72,15 @@ struct _RuleContextClass {
 	GList *(*rename_uri) (RuleContext *rc, const char *olduri, const char *newuri, GCompareFunc cmp);
 	
 	/* signals */
-	void (*rule_added) (RuleContext *rc, FilterRule *rule);
-	void (*rule_removed) (RuleContext *rc, FilterRule *rule);
+	void (*rule_added) (RuleContext *rc, struct _FilterRule *rule);
+	void (*rule_removed) (RuleContext *rc, struct _FilterRule *rule);
 	void (*changed) (RuleContext *rc);
 };
 
 typedef void (*RCPartFunc) (RuleContext *rc, FilterPart *part);
-typedef void (*RCRuleFunc) (RuleContext *rc, FilterRule *part);
+typedef void (*RCRuleFunc) (RuleContext *rc, struct _FilterRule *part);
 typedef FilterPart * (*RCNextPartFunc) (RuleContext *rc, FilterPart *part);
-typedef FilterRule * (*RCNextRuleFunc) (RuleContext *rc, FilterRule *rule, const char *source);
+typedef struct _FilterRule * (*RCNextRuleFunc) (RuleContext *rc, struct _FilterRule *rule, const char *source);
 
 struct _part_set_map {
 	char *name;
@@ -110,16 +109,16 @@ FilterPart *rule_context_find_part (RuleContext *rc, const char *name);
 FilterPart *rule_context_create_part (RuleContext *rc, const char *name);
 FilterPart *rule_context_next_part (RuleContext *rc, FilterPart *last);
 
-FilterRule *rule_context_next_rule (RuleContext *rc, FilterRule *last, const char *source);
-FilterRule *rule_context_find_rule (RuleContext *rc, const char *name, const char *source);
-FilterRule *rule_context_find_rank_rule (RuleContext *rc, int rank, const char *source);
-void rule_context_add_rule (RuleContext *rc, FilterRule *new);
-void rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title, const char *path);
-void rule_context_remove_rule (RuleContext *rc, FilterRule *rule);
+struct _FilterRule *rule_context_next_rule (RuleContext *rc, struct _FilterRule *last, const char *source);
+struct _FilterRule *rule_context_find_rule (RuleContext *rc, const char *name, const char *source);
+struct _FilterRule *rule_context_find_rank_rule (RuleContext *rc, int rank, const char *source);
+void rule_context_add_rule (RuleContext *rc, struct _FilterRule *new);
+void rule_context_add_rule_gui (RuleContext *rc, struct _FilterRule *rule, const char *title, const char *path);
+void rule_context_remove_rule (RuleContext *rc, struct _FilterRule *rule);
 
 /* get/set the rank (position) of a rule */
-void rule_context_rank_rule (RuleContext *rc, FilterRule *rule, int rank);
-int rule_context_get_rank_rule (RuleContext *rc, FilterRule *rule, const char *source);
+void rule_context_rank_rule (RuleContext *rc, struct _FilterRule *rule, int rank);
+int rule_context_get_rank_rule (RuleContext *rc, struct _FilterRule *rule, const char *source);
 
 /* setup type for set parts */
 void rule_context_add_part_set (RuleContext *rc, const char *setname, int part_type,
