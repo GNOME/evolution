@@ -1203,9 +1203,9 @@ e_table_set_cursor_row (ETable *e_table, int row)
 	g_return_if_fail(E_IS_TABLE(e_table));
 	g_return_if_fail(row >= 0);
 
-	row = e_table_sorter_model_to_sorted(e_table->sorter, row);
-	if (row != -1)
-		e_table_group_set_cursor_row(e_table->group, row);
+	gtk_object_set(GTK_OBJECT(e_table->selection),
+		       "cursor_row", row,
+		       NULL);
 }
 
 int
@@ -1215,8 +1215,9 @@ e_table_get_cursor_row (ETable *e_table)
 	g_return_val_if_fail(e_table != NULL, -1);
 	g_return_val_if_fail(E_IS_TABLE(e_table), -1);
 
-	row = e_table_group_get_cursor_row(e_table->group);
-	row = e_table_sorter_sorted_to_model(e_table->sorter, row);
+	gtk_object_get(GTK_OBJECT(e_table->selection),
+		       "cursor_row", &row,
+		       NULL);
 	return row;
 }
 

@@ -180,29 +180,6 @@ e_table_group_set_focus (ETableGroup *etg,
 		ETG_CLASS (etg)->set_focus (etg, direction, row);
 }
 
-void
-e_table_group_set_cursor_row (ETableGroup *etg,
-			      gint row)
-{
-	g_return_if_fail (etg != NULL);
-	g_return_if_fail (E_IS_TABLE_GROUP (etg));
-
-	if (ETG_CLASS (etg)->set_cursor_row)
-		ETG_CLASS (etg)->set_cursor_row (etg, row);
-}
-
-int
-e_table_group_get_cursor_row (ETableGroup *etg)
-{
-	g_return_val_if_fail (etg != NULL, -1);
-	g_return_val_if_fail (E_IS_TABLE_GROUP (etg), -1);
-
-	if (ETG_CLASS (etg)->get_cursor_row)
-		return ETG_CLASS (etg)->get_cursor_row (etg);
-	else
-		return -1;
-}
-
 gboolean
 e_table_group_get_focus (ETableGroup *etg)
 {
@@ -390,8 +367,6 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->increment  = NULL;
 	klass->decrement  = NULL;
 	klass->set_focus  = NULL;
-	klass->set_cursor_row = NULL;
-	klass->get_cursor_row = NULL;
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 	klass->get_printable = NULL;

@@ -223,28 +223,6 @@ etgl_set_focus (ETableGroup *etg, EFocus direction, gint view_col)
 	}
 }
 
-static void
-etgl_set_cursor_row (ETableGroup *etg, gint row)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-
-	if (etgl->item != NULL)
-		gnome_canvas_item_set(GNOME_CANVAS_ITEM(etgl->item),
-				      "cursor_row", row,
-				      NULL);
-}
-
-static int
-etgl_get_cursor_row (ETableGroup *etg)
-{
-	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
-	int row;
-	gtk_object_get(GTK_OBJECT(etgl->item),
-		       "cursor_row", &row,
-		       NULL);
-	return row;
-}
-
 static gint
 etgl_get_focus_column (ETableGroup *etg)
 {
@@ -386,8 +364,6 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->decrement  = etgl_decrement;
 	e_group_class->row_count  = etgl_row_count;
 	e_group_class->set_focus  = etgl_set_focus;
-	e_group_class->set_cursor_row = etgl_set_cursor_row;
-	e_group_class->get_cursor_row = etgl_get_cursor_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
 	e_group_class->compute_location = etgl_compute_location;
