@@ -24,6 +24,7 @@
 #include <string.h>
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-moniker-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include "e-util/e-dbhash.h"
 #include "cal-util/cal-recur.h"
@@ -247,13 +248,13 @@ save (CalBackendFile *cbfile)
 
 	uri = gnome_vfs_uri_new (priv->uri);
 	if (!uri)
-		goto error;
+		goto error_malformed_uri;
 
 	/* save calendar to backup file */
 	tmp = gnome_vfs_uri_to_string (uri, GNOME_VFS_URI_HIDE_NONE);
 	if (!tmp) {
 		gnome_vfs_uri_unref (uri);
-		goto error;
+		goto error_malformed_uri;
 	}
 		
 	backup_uristr = g_strconcat (tmp, "~", NULL);
@@ -264,7 +265,7 @@ save (CalBackendFile *cbfile)
 
 	if (!backup_uri) {
 		gnome_vfs_uri_unref (uri);
-		goto error;
+		goto error_malformed_uri;
 	}
 	
 	result = gnome_vfs_create_uri (&handle, backup_uri,
@@ -294,7 +295,12 @@ save (CalBackendFile *cbfile)
 		goto error;
 
 	return;
-	
+
+ error_malformed_uri:
+	cal_backend_notify_error (CAL_BACKEND (cbfile),
+				  _("Can't save calendar data: Malformed URI."));
+	return;
+
  error:
 	cal_backend_notify_error (CAL_BACKEND (cbfile), gnome_vfs_result_to_string (result));
 	return;

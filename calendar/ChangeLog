@@ -1,3 +1,8 @@
+2003-02-10  Hans Petter Jansson  <hpj@ximian.com>
+
+	* pcs/cal-backend-file.c (save): Don't try to make an error string
+	from an uninitialized GnomeVFSResult.
+
 2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/Makefile.am: Make the CORBA IDL compilation work with
