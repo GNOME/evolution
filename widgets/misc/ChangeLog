@@ -1,3 +1,8 @@
+2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-search-bar.c (impl_destroy): Oops, we didn't need to unref all
+	of the widgets, just a few.
+
 2001-08-10  Jon Trowbridge  <trow@ximian.com>
 
 	* e-filter-bar.h: Set the subitems to NULL in the pre-defined
@@ -13,9 +18,6 @@
 	entry.
 
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-search-bar.c (impl_destroy): Don't forget to unref stuff here
-	too.
 
 	* e-filter-bar.c (destroy): Free all the goodies that we allocate
 	at construct time and unref the rule context.

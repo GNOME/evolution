@@ -514,11 +514,7 @@ impl_destroy (GtkObject *object)
 	
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (E_IS_SEARCH_BAR (object));
-
-	/* Should we really be unrefing all of these widgets? */
-	gtk_object_unref (GTK_OBJECT (esb->dropdown));
-	gtk_object_unref (GTK_OBJECT (esb->option));
-
+	
 	/* These two we do need to unref, because we explicitly hold
 	   references to them. */
 	if (esb->entry)
@@ -526,18 +522,14 @@ impl_destroy (GtkObject *object)
 	if (esb->suboption)
 		gtk_object_unref (GTK_OBJECT (esb->suboption));
 	
-	gtk_object_unref (GTK_OBJECT (esb->dropdown_holder));
-	gtk_object_unref (GTK_OBJECT (esb->option_menu));
-	gtk_object_unref (GTK_OBJECT (esb->dropdown_menu));
-
 	g_list_foreach (esb->subitem_garbage, (GFunc) free_subitems, NULL);
 	g_list_free (esb->subitem_garbage);
-
+	
 	if (esb->pending_change) {
 		gtk_idle_remove (esb->pending_change);
 		esb->pending_change = 0;
 	}
-
+	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
