@@ -1,5 +1,3 @@
-%pure_parser
-
 %{
 /* -*- Mode: C -*-
   ======================================================================
@@ -8,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalssyacc.y,v 1.2 2003/09/11 22:04:30 hansp Exp $
+  $Id: icalssyacc.y,v 1.3 2003/09/24 02:06:52 hansp Exp $
   $Locker:  $
 
 (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -36,12 +34,11 @@
 #include "icalgauge.h"
 #include "icalgaugeimpl.h"
 
+extern struct icalgauge_impl *icalss_yy_gauge;
 
 #define YYPARSE_PARAM yy_globals
 #define YYLEX_PARAM yy_globals
 #define YY_EXTRA_TYPE  icalgauge_impl*
-  /* ick...*/
-#define yyextra ((struct icalgauge_impl*)ssget_extra(yy_globals))
 
 
 static void ssyacc_add_where(struct icalgauge_impl* impl, char* prop, 
@@ -73,32 +70,32 @@ query_min: SELECT select_list FROM from_list WHERE where_list
 	   ;	
 
 select_list:
-	STRING {ssyacc_add_select(yyextra,$1);}
-	| select_list COMMA STRING {ssyacc_add_select(yyextra,$3);}
+	STRING {ssyacc_add_select(icalss_yy_gauge,$1);}
+	| select_list COMMA STRING {ssyacc_add_select(icalss_yy_gauge,$3);}
 	;
 
 
 from_list:
-	STRING {ssyacc_add_from(yyextra,$1);}
-	| from_list COMMA STRING {ssyacc_add_from(yyextra,$3);}
+	STRING {ssyacc_add_from(icalss_yy_gauge,$1);}
+	| from_list COMMA STRING {ssyacc_add_from(icalss_yy_gauge,$3);}
 	;
 
 where_clause:
 	/* Empty */
-	| STRING EQUALS STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_EQUAL,$3); }
-	| STRING IS SQLNULL {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_ISNULL,""); }
-	| STRING IS NOT SQLNULL {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_ISNOTNULL,""); }
-	| STRING NOTEQUALS STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_NOTEQUAL,$3); }
-	| STRING LESS STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_LESS,$3); }
-	| STRING GREATER STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_GREATER,$3); }
-	| STRING LESSEQUALS STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_LESSEQUAL,$3); }
-	| STRING GREATEREQUALS STRING {ssyacc_add_where(yyextra,$1,ICALGAUGECOMPARE_GREATEREQUAL,$3); }
+	| STRING EQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_EQUAL,$3); }
+	| STRING IS SQLNULL {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_ISNULL,""); }
+	| STRING IS NOT SQLNULL {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_ISNOTNULL,""); }
+	| STRING NOTEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_NOTEQUAL,$3); }
+	| STRING LESS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_LESS,$3); }
+	| STRING GREATER STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_GREATER,$3); }
+	| STRING LESSEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_LESSEQUAL,$3); }
+	| STRING GREATEREQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_GREATEREQUAL,$3); }
 	;
 
 where_list:
-	where_clause {set_logic(yyextra,ICALGAUGELOGIC_NONE);}
-	| where_list AND where_clause {set_logic(yyextra,ICALGAUGELOGIC_AND);} 
-	| where_list OR where_clause {set_logic(yyextra,ICALGAUGELOGIC_OR);}
+	where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_NONE);}
+	| where_list AND where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_AND);} 
+	| where_list OR where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_OR);}
 	;
 
 

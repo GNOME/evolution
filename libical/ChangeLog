@@ -1,3 +1,28 @@
+2003-09-23  Hans Petter Jansson  <hpj@ximian.com>
+
+	* configure.in: Remove flex check. Set ICAL_ERRORS_ARE_FATAL to 0.
+
+	* src/libicalss/icalgauge.c (icalgauge_new_from_sql): Don't use
+	globals struct. Remove calls to sslex_init(), _extra(),
+	ss_scan_string(). Use a global pointer icalss_yy_gauge to hold context.
+	Call ssparse() with no arguments.
+
+	* src/libicalss/icalsslexer.l: Remove options reentrant and
+	bison-bridge. Rename variables, change function invocations to comply
+	with flex 2.5.4.
+	(icalss_input): Add function to read input.
+
+	* src/libicalss/icalssyacc.y (yyextra): Remove.
+	(select_list)
+	(from_list)
+	(where_clause)
+	(where_list): yyextra -> icalss_yy_gauge
+
+	* src/libicalss/icalsslexer.c:
+	* src/libicalss/icalssyacc.c:
+	* src/libicalss/icalssyacc.h: Add generated files back to repository.
+	They don't belong there, but that's not my problem.
+
 2003-09-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* src/libicalcap/Makefile.am (LDADD): Remove $(cxx_libs), it's

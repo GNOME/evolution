@@ -98,20 +98,6 @@ dnl *** Yacc/Bison support
 if test "x$USE_MAINTAINER_MODE" == xyes; then
 	DEV="yes"
 	AC_MSG_RESULT([Setting up for development: -Wall, flex, bison])
-
-	AC_MSG_CHECKING(for flex >= 2.5.31)
-	flex_major=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 1    2>/dev/null)
-	flex_minor=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 2    2>/dev/null)
-	flex_revision=$(flex --version | sed 's/flex \(version\)\? \?'// | cut -d '.' -f 3 2>/dev/null)
-
-	if (( $flex_major < 2 || \
-	       ($flex_major == 2 && $flex_minor < 5) || \
-	       ($flex_major == 2 && $flex_minor == 5 && $flex_revision < 31) )); then
-		AC_MSG_RESULT($flex_major.$flex_minor.$flex_revision - no)
-		AC_MSG_ERROR([You need flex >= 2.5.31 to build libical for development - http://lex.sourceforge.net/])
-	else
-		AC_MSG_RESULT($flex_major.$flex_minor.$flex_revision - yes)
-	fi
 fi
 
 AM_CONDITIONAL(DEV, test x$DEV = xyes)
@@ -167,7 +153,7 @@ AM_CONDITIONAL(WITH_CAP, test x$WITH_CAP = xyes)
 dnl **************************************************
 dnl test/regression.c (and maybe others) needs this defined
 dnl **************************************************
-AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1,[Define to make icalerror_* calls abort instead of internally signalling an error])
+AC_DEFINE(ICAL_ERRORS_ARE_FATAL,0,[Define to make icalerror_* calls abort instead of internally signalling an error])
 AC_DEFINE(NO_WARN_DEPRECATED,1,[Define to 1 if you DO NOT WANT to see deprecated messages])
 AC_DEFINE(NO_WARN_ICAL_MALFORMEDDATA_ERROR_HACK,1,[Define to 1 if you DO NO WANT to see the warning messages related to ICAL_MALFORMEDDATA_ERROR and parsing .ics zoneinfo files])
 

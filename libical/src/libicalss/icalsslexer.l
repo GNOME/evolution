@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalsslexer.l,v 1.3 2003/09/22 07:32:31 hansp Exp $
+  $Id: icalsslexer.l,v 1.4 2003/09/24 02:06:52 hansp Exp $
   $Locker:  $
 
 (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -33,8 +33,26 @@
 
 #include <string.h> /* For strdup() */
 
-#undef YYPURE
-#define YYPURE
+const char* input_buffer;
+const char* input_buffer_p;
+
+#define min(a,b) ((a) < (b) ? (a) : (b))   
+
+int icalss_input(char* buf, int max_size)
+{
+    int n = min(max_size,strlen(input_buffer_p));
+
+    if (n > 0){
+	memcpy(buf, input_buffer_p, n);
+	input_buffer_p += n;
+	return n;
+    } else {
+	return 0;
+    }
+}
+
+#undef YY_INPUT
+#define YY_INPUT(b,r,ms) ( r= icalss_input(b,ms))
 
 #undef SS_FATAL_ERROR
 #define SS_FATAL_ERROR(msg) sserror(msg)
@@ -57,8 +75,6 @@ digit		[0-9]
 %array /* Make yytext an array. Slow, but handy. HACK */
 
 %option caseless
-%option reentrant bison-bridge
-%option yylineno
 
 %s sql string_value
 
@@ -91,10 +107,10 @@ NULL			{ return SQLNULL; }
 ;			{ return EOL; }
 
 \'[\@\*A-Za-z0-9\-\.\:\ ]+\' {
-	int c = input(yyscanner);
+	int c = input();
 	unput(c);
 	if(c!='\''){
-		yylval_param->v_string= icalmemory_tmp_copy(yytext);
+		sslval.v_string= icalmemory_tmp_copy(yytext);
 		return STRING;
 	} else {
 		/*ssmore();*/
@@ -102,7 +118,7 @@ NULL			{ return SQLNULL; }
 }
 
 [\@\*A-Za-z0-9\-\.]+ {
-        yylval->v_string= icalmemory_tmp_copy(yytext);
+        sslval.v_string= icalmemory_tmp_copy(yytext);
 	return STRING; 
 }
 
@@ -111,7 +127,7 @@ NULL			{ return SQLNULL; }
 
 %% 
 
-int yywrap(yyscan_t yyscanner)
+int yywrap()
 {
      return 1;
 }
