@@ -1,3 +1,11 @@
+2004-05-27  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_get_folder_info__got): Instead of
+	removing the "Loading..." row for toplevel folder nodes on failure
+	(which indicates a failure conenct to the server, most likely),
+	collapse the store node so that if the user expands the store
+	node, it will automagically try connecting again. Fixes bug #57493.
+
 2004-05-27  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am (EXTRA_DIST): Add $(error_i18n)

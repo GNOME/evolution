@@ -1583,6 +1583,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	CamelFolderInfo *fi;
 	GtkTreeStore *model;
 	GtkTreePath *path;
+	gboolean is_store;
 	gboolean load;
 	
 	/* check that we haven't been destroyed */
@@ -1607,6 +1608,7 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	/* make sure we still need to load the tree subfolders... */
 	gtk_tree_model_get ((GtkTreeModel *) model, &root,
 			    COL_BOOL_LOAD_SUBDIRS, &load,
+			    COL_BOOL_IS_STORE, &is_store,
 			    -1);
 	if (!load) {
 		if (priv->do_multiselect && m->select_uri)
@@ -1629,7 +1631,16 @@ emft_get_folder_info__got (struct _mail_msg *mm)
 	if (fi == NULL) {
 		/* no children afterall... remove the "Loading..." placeholder node */
 		emft_update_model_expanded_state (priv, &root, FALSE);
-		gtk_tree_store_remove (model, &iter);
+		
+		if (is_store) {
+			path = gtk_tree_model_get_path ((GtkTreeModel *) model, &root);
+			gtk_tree_view_collapse_row (priv->treeview, path);
+			emft_queue_save_state (m->emft);
+			gtk_tree_path_free (path);
+			return;
+		} else {
+			gtk_tree_store_remove (model, &iter);
+		}
 	} else {
 		int fully_loaded = (m->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? TRUE : FALSE;
 		
