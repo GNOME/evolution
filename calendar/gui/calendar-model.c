@@ -553,7 +553,9 @@ get_is_complete (CalComponent *comp)
 	cal_component_get_completed (comp, &t);
 	retval = (t != NULL);
 
-	cal_component_free_icaltimetype (t);
+	if (retval)
+		cal_component_free_icaltimetype (t);
+
 	return retval;
 }
 
@@ -1239,6 +1241,7 @@ calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_GEO:
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_SUMMARY:
 		return dup_string (value);
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
@@ -1331,10 +1334,8 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case CAL_COMPONENT_FIELD_GEO:
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
-		return init_string ();
-
 	case CAL_COMPONENT_FIELD_SUMMARY:
-		return g_strdup ("Hello");
+		return init_string ();
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 		return NULL;

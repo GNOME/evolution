@@ -1,3 +1,29 @@
+2000-08-25  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/calendar-model.c (get_is_complete): Don't attempt to
+	free this if its null
+	(calendar_model_duplicate_value): Implement for summary field
+	value
+	(calendar_model_initialize_value): Remove debug code
+
+	* gui/e-calendar-table.c: Correct etable init xml
+	(create_column): Pass the id to e_table_header_add_column 
+	rather than a hard coded one
+	(e_calendar_table_init): Make sure summary column isn't
+	added twice.  Add an alarms column, else etable won't
+	work with columns who have an ID higher than that
+
+2000-08-24  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/gncal-todo.c (ok_button): Properly append to list
+
+	* gui/event-editor.c (dialog_to_comp_object): ditto
+
+	* gui/e-day-view.c (e_day_view_on_new_appointment): The base
+	times are not UTC
+
+	* gui/e-week-view.c (e_week_view_on_new_appointment): ditto
+
 2000-08-24  JP Rosevear  <jpr@helixcode.com>
 
 	* Update for libical 0.19 

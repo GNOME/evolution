@@ -136,9 +136,9 @@ e_calendar_table_class_init (ECalendarTableClass *class)
 #define E_CALENDAR_TABLE_SPEC				\
 	"<ETableSpecification click-to-add=\"1\">"	\
 	"<columns-shown>"				\
-		"<column> 16 </column>"			\
-		"<column> 17 </column>"			\
 		"<column> 13 </column>"			\
+		"<column> 9 </column>"			\
+		"<column> 14 </column>"			\
 	"</columns-shown>"				\
 	"<grouping> </grouping>"			\
 	"</ETableSpecification>"
@@ -152,7 +152,7 @@ create_column (ETableHeader *header, ETableModel *model, int id, const char *tex
 
 	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
 	column = e_table_col_new (id, text, 1.0, 10, cell, g_str_compare, TRUE);
-	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_CATEGORIES);
+	e_table_header_add_column (header, column, id);
 }
 
 static void
@@ -193,7 +193,6 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_object_sink (GTK_OBJECT (header));
 
 	/* Create the header columns */
-
 	create_column (header, model, CAL_COMPONENT_FIELD_CATEGORIES, _("Categories"));
 	create_column (header, model, CAL_COMPONENT_FIELD_CLASSIFICATION, _("Classification"));
 	create_column (header, model, CAL_COMPONENT_FIELD_COMPLETED, _("Completion date"));
@@ -205,20 +204,19 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	create_column (header, model, CAL_COMPONENT_FIELD_PRIORITY, _("Priority"));
 
 	cell = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
-	gtk_object_set (GTK_OBJECT (cell),
-			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
-			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
-			"color_column", CAL_COMPONENT_FIELD_COLOR,
-			NULL);
+//	gtk_object_set (GTK_OBJECT (cell),
+//			"strikeout_column", CAL_COMPONENT_FIELD_COMPLETE,
+//			"bold_column", CAL_COMPONENT_FIELD_OVERDUE,
+//			"color_column", CAL_COMPONENT_FIELD_COLOR,
+//			NULL);
 	column = e_table_col_new (CAL_COMPONENT_FIELD_SUMMARY, _("Summary"),
 				  1.0, 10, cell, g_str_compare, TRUE);
 	e_table_header_add_column (header, column, CAL_COMPONENT_FIELD_SUMMARY);
 
-	create_column (header, model, CAL_COMPONENT_FIELD_SUMMARY, _("Summary"));
 	create_column (header, model, CAL_COMPONENT_FIELD_TRANSPARENCY, _("Transparency"));
 	create_column (header, model, CAL_COMPONENT_FIELD_URL, _("URL"));
 
-	/* FIXME: we don't have the HAS_ALARMS field */
+	create_column (header, model, CAL_COMPONENT_FIELD_HAS_ALARMS, _("Alarms"));
 
 	/* Create pixmaps */
 
@@ -228,7 +226,7 @@ e_calendar_table_init (ECalendarTable *cal_table)
 				(const char **) icon_xpm_data[i]);
 		}
 
-	cell = e_cell_toggle_new (0, 4, icon_pixbufs);
+	cell = e_cell_toggle_new (0, E_CALENDAR_MODEL_NUM_ICONS, icon_pixbufs);
 	column = e_table_col_new_with_pixbuf (CAL_COMPONENT_FIELD_ICON,
 					      icon_pixbufs[0], 0.0, 16, cell,
 					      g_int_compare, FALSE);

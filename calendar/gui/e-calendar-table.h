@@ -58,7 +58,8 @@ struct _ECalendarTable
 	GtkTable table;
 
 	CalendarModel *model;
-
+	
+	
 	/* Colors for drawing. */
 	GdkColor colors[E_CALENDAR_TABLE_COLOR_LAST];
 };
