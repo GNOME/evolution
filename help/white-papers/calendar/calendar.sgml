@@ -2,6 +2,9 @@
 <!entity Evolution "<application>Evolution</application>">
 <!entity CUA "<acronym>CUA</acronym>">
 <!entity PCS "<acronym>PCS</acronym>">
+<!entity Bonobo "<application>Bonobo</application>">
+<!entity CORBA "<acronym>CORBA</acronym>">
+<!entity GTK "<acronym>GTK+</acronym>">
 ]>
 
 <article class="whitepaper" id="calendar">
@@ -143,13 +146,64 @@
     </formalpara>
   </sect1>
 
-  <!-- Calenar User Agents -->
+  <!-- Calenar User Agent -->
 
   <sect1 id="cua">
-    <title>Calendar User Agents</title>
+    <title>Calendar User Agent</title>
 
     <para>
-      
+      A calendar user agent (&CUA;) is a program that lets a user
+      manipulate a calendar.  &Evolution; provides an attractive,
+      graphical calendar client that communicates with the &Evolution;
+      personal calendar server.
+    </para>
+
+    <para>
+      The &Evolution; calendar client just provides a view onto the
+      data that is stored and managed by the personal calendar server.
+      The calendar client does not perform direct manipulations on a
+      calendar's data; instead it offloads those requests to the
+      calendar server, which takes care of making the appropriate
+      modifications in the calendar and then notifies all the clients
+      about the changes.
+    </para>
+  </sect1>
+
+  <!-- Calendar Client Library -->
+
+  <sect1 id="client-lib">
+    <title>Calendar Client Library</title>
+
+    <para>
+      Communication between the personal calendar server and calendar
+      clients is defined by a set of &Bonobo; &CORBA; interfaces.
+      Clients can be written by implementing the client-side
+      <classname>Listener</classname> interface, which defines the
+      notification callbacks that the PCS uses to inform clients about
+      changes to the calendar.
+    </para>
+
+    <para>
+      As a convenience for &GTK; programmers, &Evolution; also
+      includes a library which provides a
+      <classname>CalClient</classname> class which can be used for
+      communication with the personal calendar server.  Objects of
+      this class automatically contact the PCS when they are created.
+      <classname>CalClient</classname> provides functions to request
+      changes in the calendar, and it also emits signals when it gets
+      notification about changes from the PCS.  This makes it easy and
+      convenient to write calendar clients for &Evolution; using
+      &GTK;.
+    </para>
+
+    <para>
+      The implementation of the <classname>CalClient</classname> class
+      simply wraps the &Evolution; &CORBA; interfaces for calendaring
+      with a familiar-looking &GTK; object.  Calls to the
+      <classname>Listener</classname> interface get translated to
+      signal emissions from the <classname>CalClient</classname>, thus
+      shielding programmers from the details of the &CORBA;
+      interfaces.
     </para>
   </sect1>
 </article>
