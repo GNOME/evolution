@@ -1,6 +1,7 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-gray-bar.c (impl_style_set): Chain to the parent class.
+	(endarken_style): Hardcode the colors here.
 
 2001-08-13  Anna Marie Dirks  <anna@ximian.com> 
 
