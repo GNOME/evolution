@@ -1,3 +1,23 @@
+2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Ugh, this design is ugly like my butt.
+
+	* camel-session.c (camel_session_query_cert_authenticator): New
+	function which will be useful when we integrate SSL.
+
+	* camel-tcp-stream-ssl.c (ssl_auth_cert): Callback to authenticate
+	a certificate.
+	(ssl_bad_cert): Callback that gets the reason the certificate is
+	bad and then calls camel's cert-authenticator callback to notify
+	the user and to allow the user to override the check.
+	(stream_connect): Set the URL we expect to connect with and setup
+	the auth_cert and bad_cert callbacks.
+	(camel_tcp_stream_ssl_new): Now takes a CamelSession and a
+	expected_host argument that it will use for certificate
+	authentication.
+	(camel_tcp_stream_ssl_finalize): Unref the session and free the
+	expected_host.
+
 2001-01-16  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_decode_string):

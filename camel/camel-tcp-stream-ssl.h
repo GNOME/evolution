@@ -31,8 +31,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <camel/camel-tcp-stream.h>
-#include <mozilla/nsprpub/prio.h>
-#include <mozilla/nsprpub/prnetdb.h>
+#include <camel/camel-session.h>
+#include <nspr.h>
 
 #define CAMEL_TCP_STREAM_SSL_TYPE     (camel_tcp_stream_ssl_get_type ())
 #define CAMEL_TCP_STREAM_SSL(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_TCP_STREAM_SSL_TYPE, CamelTcpStreamSSL))
@@ -44,6 +44,9 @@ struct _CamelTcpStreamSSL
 	CamelTcpStream parent_object;
 	
 	PRFileDesc *sockfd;
+	
+	CamelSession *session;
+	char *expected_host;
 };
 
 typedef struct {
@@ -57,7 +60,7 @@ typedef struct {
 CamelType camel_tcp_stream_ssl_get_type (void);
 
 /* public methods */
-CamelStream *camel_tcp_stream_ssl_new (void);
+CamelStream *camel_tcp_stream_ssl_new (CamelSession *session, const char *expected_host);
 
 #ifdef __cplusplus
 }

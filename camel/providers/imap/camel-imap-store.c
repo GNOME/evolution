@@ -313,7 +313,7 @@ static gboolean
 imap_connect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
-	CamelSession *session = camel_service_get_session (CAMEL_SERVICE (store));
+	CamelSession *session = camel_service_get_session (service);
 	char *result, *errbuf = NULL, *name;
 	CamelImapResponse *response;
 	gboolean authenticated = FALSE;

@@ -44,6 +44,12 @@ static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int 
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
+/* callbacks */
+
+static SECStatus ssl_bad_cert  (void *data, PRFileDesc *fd);
+static SECStatus ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server);
+
+
 static void
 camel_tcp_stream_ssl_class_init (CamelTcpStreamSSLClass *camel_tcp_stream_ssl_class)
 {
@@ -71,6 +77,8 @@ camel_tcp_stream_ssl_init (gpointer object, gpointer klass)
 	CamelTcpStreamSSL *stream = CAMEL_TCP_STREAM_SSL (object);
 	
 	stream->sockfd = NULL;
+	stream->session = NULL;
+	stream->expected_host = NULL;
 }
 
 static void
@@ -80,6 +88,9 @@ camel_tcp_stream_ssl_finalize (CamelObject *object)
 	
 	if (stream->sockfd != NULL)
 		PR_Close (stream->sockfd);
+	
+	camel_object_unref (CAMEL_OBJECT (stream->session));
+	g_free (stream->expected_host);
 }
 
 
@@ -105,15 +116,25 @@ camel_tcp_stream_ssl_get_type (void)
 
 /**
  * camel_tcp_stream_ssl_new:
+ * @session: camel session
+ * @expected_host: host that the stream is expected to connect with.
+ *
+ * Since the SSL certificate authenticator may need to prompt the
+ * user, a CamelSession is needed. #expected_host is needed as a
+ * protection against an MITM attack.
  *
  * Return value: a tcp stream
  **/
 CamelStream *
-camel_tcp_stream_ssl_new ()
+camel_tcp_stream_ssl_new (CamelSession *session, const char *expected_host)
 {
 	CamelTcpStreamSSL *stream;
 	
 	stream = CAMEL_TCP_STREAM_SSL (camel_object_new (camel_tcp_stream_ssl_get_type ()));
+	
+	camel_object_ref (CAMEL_OBJECT (session));
+	stream->session = session;
+	stream->expected_host = g_strdup (expected_host);
 	
 	return CAMEL_STREAM (stream);
 }
@@ -167,6 +188,34 @@ stream_close (CamelStream *stream)
 }
 
 
+static SECStatus
+ssl_auth_cert (void *data, PRFileDesc *fd, PRBool checksig, PRBool is_server)
+{
+	return SSL_AuthCertificate (NULL, fd, TRUE, FALSE);
+}
+
+static SECStatus
+ssl_bad_cert (void *data, PRFileDesc *fd)
+{
+	CamelSession *session;
+	char *string;
+	PRInt32 len;
+	
+	g_return_val_if_fail (data != NULL, SECFailure);
+	g_return_val_if_fail (CAMEL_IS_SESSION (data), SECFailure);
+	
+	/* FIXME: International issues here?? */
+	len = PR_GetErrorTextLen (PR_GetError ());
+	string = g_malloc0 (len);
+	PR_GetErrorText (string);
+	
+	session = CAMEL_SESSION (data);
+	if (camel_session_query_cert_authenticator (session, string))
+		return SECSuccess;
+	
+	return SECFailure;
+}
+
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
@@ -186,12 +235,17 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	fd = PR_OpenTCPSocket (host->h_addrtype);
 	ssl_fd = SSL_ImportFD (NULL, fd);
 	
+	SSL_SetUrl (ssl_fd, ssl->expected_host);
+	
 	if (ssl_fd == NULL || PR_Connect (ssl_fd, &netaddr, timeout) == PR_FAILURE) {
 		if (ssl_fd != NULL)
 			PR_Close (ssl_fd);
 		
 		return -1;
 	}
+	
+	SSL_AuthCertificateHook (ssl_fd, ssl_auth_cert, NULL);
+	SSL_BadCertHook (ssl_fd, ssl_bad_cert, ssl->session);
 	
 	ssl->sockfd = ssl_fd;
 	

@@ -436,6 +436,31 @@ camel_session_query_authenticator (CamelSession *session,
 				       service, item, ex);
 }
 
+#ifdef U_CANT_TOUCH_THIS
+/**
+ * camel_session_query_cert_authenticator:
+ * @session: session object
+ * @prompt: prompt to query user with
+ *
+ * This function is used by SSL to discuss certificate authentication
+ * information with the application and/or user. Allows the user to
+ * override the SSL certificate authenticator, which, at this point,
+ * must have failed to authenticate the server.
+ *
+ * UI should be a Yes/No prompt probably defaulting to No.
+ *
+ * Return value: TRUE if the user decides that the SSL connection
+ * should continue with the untrusted server or FALSE otherwise.
+ **/
+gboolean
+camel_session_query_cert_authenticator (CamelSession *session,
+					char *prompt)
+{
+	return session->cert_authenticator (prompt);
+}
+#endif /* U_CANT_TOUCH_THIS */
+
+
 /**
  * camel_session_register_timeout: Register a timeout to be called
  * periodically.
