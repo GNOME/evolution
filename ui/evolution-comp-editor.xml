@@ -24,8 +24,7 @@
         accel="*Control*Alt*s"/>
 
 	<cmd name="FileDelete" _label="Delete"
-	_tip="Delete this item"
-	pixtype="stock" pixname="Trash"/>
+	_tip="Delete this item"/>
 
         <cmd name="FileClose" _label="C_lose"
 	_tip="Close this item"
@@ -82,7 +81,7 @@
 
 	<separator/>
 
-        <toolitem name="FileDelete" verb="" _label="Delete" priority="1"/>
+        <toolitem name="FileDelete" verb="" _label="Delete" priority="1" pixtype="pixbuf"/>
 
         <toolitem name="FileClose" verb="" _label="Close" priority="1"/>
 

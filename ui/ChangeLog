@@ -1,3 +1,9 @@
+2001-08-20  Damon Chaplin  <damon@ximian.com>
+
+	* evolution-comp-editor.xml: don't use old stock icon for the menu,
+	to be consistent with other components. Use new delete icon for
+	toolbar.
+
 2001-08-19  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-addressbook.xml: use new Cut/Copy/Paste/Save/Search icons.
