@@ -19,7 +19,7 @@
 #include "e-addressbook-marshal.h"
 
 #define PARENT_TYPE G_TYPE_OBJECT
-GObjectClass *parent_class;
+static GObjectClass *parent_class;
 
 /*
  * EAddressbookModel callbacks

@@ -29,7 +29,7 @@ struct _EAddressbookReflowAdapterPrivate {
 };
 
 #define PARENT_TYPE e_reflow_model_get_type()
-EReflowModel *parent_class;
+static EReflowModel *parent_class;
 
 #define d(x)
 

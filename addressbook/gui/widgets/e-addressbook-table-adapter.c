@@ -21,7 +21,7 @@ struct _EAddressbookTableAdapterPrivate {
 };
 
 #define PARENT_TYPE e_table_model_get_type()
-ETableModelClass *parent_class;
+static ETableModelClass *parent_class;
 
 #define COLS (E_CARD_SIMPLE_FIELD_LAST)
 
