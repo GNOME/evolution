@@ -41,6 +41,9 @@ ibex *ibex_open (char *file, int flags, int mode);
 /* Write the ibex to disk. */
 int ibex_write (ibex *ib);
 
+/* only save if ibex has changed. */
+int ibex_save (ibex *ib);
+
 /* Write the ibex to disk if it has changed, and free all memory
  * associated with it.
  */

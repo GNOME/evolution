@@ -347,6 +347,22 @@ lose:
 }
 
 /**
+ * ibex_save:
+ * @ib: 
+ * 
+ * Only write out an ibex if it is dirty.
+ * 
+ * Return value: Same as ibex_write.
+ **/
+int
+ibex_save (ibex *ib)
+{
+	if (ib->dirty)
+		return ibex_write(ib);
+	return 0;
+}
+
+/**
  * ibex_close: Write out the ibex file (if it has changed) and free
  * the data associated with it.
  * @ib: the ibex

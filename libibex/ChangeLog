@@ -1,3 +1,8 @@
+2000-05-07  NotZed  <NotZed@HelixCode.com>
+
+	* file.c (ibex_save): New function, only write out the ibex if it
+	has changed.
+
 2000-05-07    <notzed@helixcode.com>
 
 	* file.c (ibex_open): Also close the fd after we're done.
