@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Evolution CVS HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2005-01-11 11:55+0300\n"
-"Last-Translator: Priit Laes <amd@tt.ee>\n"
+"PO-Revision-Date: 2005-01-14 16:23+0200\n"
+"Last-Translator: Ivar Smolin <okul@linux.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -282,14 +282,16 @@ msgstr ""
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
 msgid "Failed to authenticate with LDAP server."
-msgstr "Viga LDAP serverisse autentimisel"
+msgstr "Tõrge LDAP serverisse autentimisel."
 
 #  mail:camel-service-auth-failed secondary
 #. addressbook:ldap-auth secondary
 #: addressbook/addressbook-errors.xml.h:8
 #, fuzzy
 msgid "Check to make sure your password is spelled correctly and that you are using a supported login method. Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Kontrolli, kas parool on õigesti kirjutatud. Kuna paroolid on üldiselt tõstutundlikud, siis vaata, et caps lock ei oleks peal."
+msgstr ""
+"Kontrolli, kas parool on õigesti kirjutatud. Kuna paroolid on üldiselt "
+"tõstutundlikud, siis vaata, et caps lock ei oleks peal."
 
 #. addressbook:ldap-search-base primary
 #: addressbook/addressbook-errors.xml.h:10
@@ -376,7 +378,7 @@ msgstr "Ei saa otsingut läbi viia."
 #. addressbook:prompt-save primary
 #: addressbook/addressbook-errors.xml.h:42
 msgid "Would you like to save your changes?"
-msgstr "Kas soovid tehtud muudatused salvestada?"
+msgstr "Kas soovid tehtud muudatusi salvestada?"
 
 #. addressbook:prompt-save secondary
 #: addressbook/addressbook-errors.xml.h:44
@@ -458,7 +460,7 @@ msgstr "Ühendan uuesti LDAP serveriga anonüümselt"
 #: camel/providers/groupwise/camel-gw-listener.c:494
 #: plugins/groupwise-account-setup/camel-gw-listener.c:494
 msgid "Failed to authenticate.\n"
-msgstr "Autentimine nurjus.\n"
+msgstr "Tõrge autentimisel.\n"
 
 #: addressbook/gui/component/addressbook.c:192
 #: camel/providers/groupwise/camel-gw-listener.c:483
@@ -491,7 +493,7 @@ msgstr "Uus aadressiraamat"
 
 #: addressbook/gui/component/addressbook-component.c:114
 msgid "Address _Book"
-msgstr "_Aadressiraamat:"
+msgstr "_Aadressiraamat"
 
 #: addressbook/gui/component/addressbook-component.c:115
 msgid "Create a new address book"
@@ -499,7 +501,7 @@ msgstr "Lisab uue aadressiraamatu"
 
 #: addressbook/gui/component/addressbook-component.c:188
 msgid "Failed upgrading Addressbook settings or folders."
-msgstr "Tõrge aadressiraamatu kataloogide või sätete uuendamisel."
+msgstr "Tõrge aadressiraamatu kataloogide või seadistuste uuendamisel."
 
 #: addressbook/gui/component/addressbook-config.c:315
 msgid "Base"
@@ -625,7 +627,7 @@ msgstr "LDAP serverid"
 
 #: addressbook/gui/component/addressbook-migrate.c:752
 msgid "Autocompletion Settings"
-msgstr "Automaatlõpetamise sätted"
+msgstr "Automaatlõpetamise seaded"
 
 #: addressbook/gui/component/addressbook-migrate.c:1123
 msgid ""
@@ -633,7 +635,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -643,7 +646,7 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Postiloendi kontaktide salvestusformaat on muutunud.\n"
+"Postiloendi kontaktide salvestusvorming on muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -787,13 +790,12 @@ msgid "Evolution Addressbook component"
 msgstr "Evolutioni aadressiraamatu komponent"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:11
-#, fuzzy
 msgid "Evolution S/Mime Certificate Management Control"
-msgstr "Evolution'i sõnumikausta kuvamise komponent."
+msgstr "Evolution'i S/Mime sertifikaatide haldamise juhtimine"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:12
 msgid "Evolution folder settings configuration control"
-msgstr "Evolutioni kaustasätete konfiguratsiooni juhtimine"
+msgstr "Evolutioni kaustaseadistuste juhtimine"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:13
 msgid "Manage your S/MIME certificates here"
@@ -897,18 +899,17 @@ msgstr "E-posti aadress:"
 
 # !PARANDA! - sõnasus on kuidagi mäda
 #: addressbook/gui/component/ldap-config.glade.h:21
-#, fuzzy
 msgid "Evolution will use this email address to authenticate you with the server."
-msgstr "Evolution esitab selle e-posti aadressi serverile sinu identuse tõendamiseks"
+msgstr ""
+"Evolution kasutab seda e-posti aadressi serverile sinu identuse tõendamiseks."
 
 #: addressbook/gui/component/ldap-config.glade.h:22
 msgid "Find Possible Search Bases"
 msgstr "Leia võimalikud otsingubaasid"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
-#, fuzzy
 msgid "Lo_gin:"
-msgstr "Kasutajanimi"
+msgstr "_Kasutajanimi:"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 #: mail/em-account-editor.c:290
@@ -917,41 +918,35 @@ msgstr "Mitte kunagi"
 
 #: addressbook/gui/component/ldap-config.glade.h:26
 msgid "One"
-msgstr ""
+msgstr "Üks tase alla (One)"
 
 #: addressbook/gui/component/ldap-config.glade.h:27
-#, fuzzy
 msgid "Search _base:"
-msgstr "_Otsingu baas:"
+msgstr "_Otsingubaas:"
 
 #: addressbook/gui/component/ldap-config.glade.h:28
-#, fuzzy
 msgid "Selecting this option means that Evolution will only connect to your LDAP server if your LDAP server supports SSL or TLS."
 msgstr ""
-"See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult siis\n"
-"kui LDAP server toetab SSL või TLS protokolli."
+"See valik tähendab seda, et Evolution ühendub sinu LDAP serverisse ainult "
+"juhul, kui LDAP server toetab SSL või TLS protokolli."
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Selecting this option means that Evolution will only try to use SSL/TLS if you are in a insecure environment. For example, if you and your LDAP server are behind a firewall at work, then Evolution doesn't need to use SSL/TLS because your connection is already secure."
 msgstr ""
-"See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli ainult siis kui sa oled\n"
-"ebaturvalises keskkonnas. Näiteks kui sina ja sinu LDAP server asuvad mõlemad tulemüüri taga,\n"
-"siis Evolution ei pea kasutama SSL/TLS protokolli, kuna sinu ühendus\n"
-"on juba turvaline."
+"See valik tähendab seda, et Evolution üritab kasutada SSL/TLS protokolli "
+"ainult siis kui sa oled ebaturvalises keskkonnas. Näiteks kui sina ja sinu "
+"LDAP server asuvad mõlemad tulemüüriga kaitstud võrgus, siis Evolution ei "
+"pea kasutama SSL/TLS protokolli, kuna sinu ühendus on juba turvaline."
 
 #: addressbook/gui/component/ldap-config.glade.h:30
-#, fuzzy
 msgid "Selecting this option means that your server does not support either SSL or TLS.  This means that your connection will be insecure, and that you will be vulnerable to security exploits. "
 msgstr ""
-"See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolli. Seega\n"
-"on sinu ühendus ebaturvaline ja sa võid olla turvaaukude\n"
-"tõttu ohus."
+"See valik tähendab seda, et sinu server ei toeta SSL ega TLS protokolle. "
+"Seega ei ole sinu ühendus turvaline ja võib-olla ohustatud turvaaukudest."
 
 #: addressbook/gui/component/ldap-config.glade.h:31
-#, fuzzy
 msgid "Sub"
-msgstr "P"
+msgstr "Kogu alampuu (Sub)"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Supported Search Bases"
@@ -983,12 +978,11 @@ msgid "This is the name for this server that will appear in your Evolution folde
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:39
-#, fuzzy
 msgid "This is the port on the LDAP server that Evolution will try to connect to. A list of standard ports has been provided. Ask your system administrator what port you should specify."
 msgstr ""
-"See on LDAP serveri port, kuhu Evolution üritab ühendust luua. \n"
-"Nimekiri standardportidest on väljatoodud. Küsi oma süsteemiülemalt\n"
-"millise pordi sa peaksid määrama."
+"See on LDAP serveri port, kuhu Evolution üritab ühendust luua. Nimekiri "
+"standardportidest on välja toodud. Küsi oma süsteemiülemalt millise pordi sa "
+"peaksid määrama."
 
 #: addressbook/gui/component/ldap-config.glade.h:40
 msgid "Using distinguished name (DN)"
@@ -1004,18 +998,16 @@ msgid "Whenever Possible"
 msgstr "Kui võimalik"
 
 #: addressbook/gui/component/ldap-config.glade.h:43
-#, fuzzy
 msgid "_Add Address Book"
-msgstr "_Lisa aadressiraamatusse"
+msgstr "Lisa _aadressiraamat"
 
 #: addressbook/gui/component/ldap-config.glade.h:44
 msgid "_Download limit:"
 msgstr "_Allalaadimise piirang:"
 
 #: addressbook/gui/component/ldap-config.glade.h:45
-#, fuzzy
 msgid "_Find Possible Search Bases"
-msgstr "Leia võimalikud otsingubaasid"
+msgstr "_Leia võimalikud otsingubaasid"
 
 #: addressbook/gui/component/ldap-config.glade.h:46
 msgid "_Log in method:"
@@ -1033,18 +1025,16 @@ msgid "_Port:"
 msgstr "_Port:"
 
 #: addressbook/gui/component/ldap-config.glade.h:49
-#, fuzzy
 msgid "_Search scope:"
-msgstr "Otsingu ulatus"
+msgstr "_Otsingu ulatus"
 
 #: addressbook/gui/component/ldap-config.glade.h:50
 msgid "_Server:"
 msgstr "_Server:"
 
 #: addressbook/gui/component/ldap-config.glade.h:51
-#, fuzzy
 msgid "_Timeout:"
-msgstr "ajaületus"
+msgstr "_Ajapiirang:"
 
 #: addressbook/gui/component/ldap-config.glade.h:52
 msgid "_Use secure connection:"
@@ -1213,7 +1203,7 @@ msgstr "Isiklik info"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:36
 msgid "Profession:"
-msgstr "Amet:"
+msgstr "Eriala:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:37
 msgid "Spouse:"
@@ -1225,7 +1215,7 @@ msgstr "Maakond/Provints:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:39
 msgid "Title:"
-msgstr "Pealkiri:"
+msgstr "Tiitel:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:40
 msgid "Video Chat:"
@@ -2342,9 +2332,8 @@ msgstr "Antud kontakt kuulub järgnevatesse kategooriatesse:"
 #  Create the selector
 #  Create the selector
 #: addressbook/gui/contact-editor/e-contact-editor.c:2556
-#, fuzzy
 msgid "Please select an image for this contact"
-msgstr "Kustuta valitud kontaktid"
+msgstr "Palun vali selle kontaki jaoks pilt"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2557
 msgid "No image"
@@ -2401,7 +2390,7 @@ msgstr "Täisnime r_edigeerimine"
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:301
 #: mail/mail-config.glade.h:156
 msgid "_Full Name:"
-msgstr "_Täisnimi:"
+msgstr "Täis_nimi:"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:307
 msgid "E-_mail:"
@@ -2498,7 +2487,7 @@ msgstr "_Perekonnanimi:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:16
 msgid "_Middle:"
-msgstr "_Liignimi:"
+msgstr "L_iignimi:"
 
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Suffix:"
@@ -2529,9 +2518,8 @@ msgid "\n"
 msgstr "\n"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
-#, fuzzy
 msgid "Add an email to the List"
-msgstr "Lisa kataloog nimistusse"
+msgstr "Lisa sõnum loendisse"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:819
@@ -2539,9 +2527,8 @@ msgid "Contact List Editor"
 msgstr "Kontaktiloendi redaktor"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
-#, fuzzy
 msgid "Insert email adresses from Adress Book"
-msgstr "Kontaktide valimine aadressiraamatust"
+msgstr "Lisab aadressiraamatust e-posti aadressi"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
@@ -2605,7 +2592,7 @@ msgid ""
 "exists in this folder.  Would you like to add it anyway?"
 msgstr ""
 "Muudetud kontakti e-posti aadress või nimi juba\n"
-"eksisteerib antud kaustas. Kas sa soovid seda ikka lisada?"
+"on antud kaustas juba olemas. Kas sa soovid seda ikka lisada?"
 
 #: addressbook/gui/merging/eab-contact-duplicate-detected.glade.h:2
 msgid "New Contact:"
@@ -2785,15 +2772,14 @@ msgstr "Katkestatud"
 #  E_BOOK_ERROR_COULD_NOT_CANCEL
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:62
-#, fuzzy
 msgid "Could not cancel"
-msgstr "Kuulamist ei õnnestunud peatada"
+msgstr "Ei saa katkestada"
 
 #. E_BOOK_ERROR_AUTHENTICATION_FAILED
 #: addressbook/gui/widgets/eab-gui-util.c:63
 #: calendar/gui/comp-editor-factory.c:431
 msgid "Authentication Failed"
-msgstr "Autentimine nurjus."
+msgstr "Tõrge autentimisel"
 
 #. E_BOOK_ERROR_AUTHENTICATION_REQUIRED
 #: addressbook/gui/widgets/eab-gui-util.c:64
@@ -2823,20 +2809,28 @@ msgstr ""
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid "We were unable to open this addressbook.  Please check that the path exists and that you have permission to access it."
-msgstr "Aadressiraamatu avamine nurjus.  Palun kontrolli, kas otsingutee on õige ja kas sul on sellele vajalikud ligipääsuõigused."
+msgstr ""
+"Aadressiraamatu avamine nurjus.  Palun kontrolli, kas otsingutee on õige ja "
+"kas sul on sellele vajalikud ligipääsuõigused."
 
 #: addressbook/gui/widgets/eab-gui-util.c:105
 msgid "We were unable to open this addressbook.  This either means you have entered an incorrect URI, or the LDAP server is unreachable."
-msgstr "Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav LDAP server ei ole kättesaadav."
+msgstr ""
+"Aadressiraamatu avamine nurjus. Põhjuseks võib olla see, et sisestasid "
+"vigase URI või kasutatav LDAP server ei ole kättesaadav."
 
 #: addressbook/gui/widgets/eab-gui-util.c:110
-#, fuzzy
 msgid "This version of Evolution does not have LDAP support compiled in to it.  If you want to use LDAP in Evolution, you must install an LDAP-enabled Evolution package."
-msgstr "Käesolev Evolution'i versioon ei ole kompileeritud LDAPtoega. Kui sa soovid Evolution'i koos LDAP'i toega, peadise Evolution'i lähtetekstidest kokku kompileerima.Eelnevalt laadi OpenLDAP alljärgneva viida abil."
+msgstr ""
+"Käesolev Evolution'i versioon ei ole kompileeritud LDAP'i toega. Kui sa "
+"soovid kasutada Evolution'i koos LDAP'i toega, pead paigaldama omale vastava "
+"Evolution'i paki."
 
 #: addressbook/gui/widgets/eab-gui-util.c:117
 msgid "We were unable to open this addressbook.  This either means you have entered an incorrect URI, or the server is unreachable."
-msgstr "Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid vigase URI või kasutatav server ei ole kättesaadav."
+msgstr ""
+"Aadressiraamatu avamine nurjus.  Põhjuseks võib olla see, et sisestasid "
+"vigase URI või kasutatav server ei ole kättesaadav."
 
 #: addressbook/gui/widgets/eab-gui-util.c:137
 msgid ""
@@ -2893,7 +2887,7 @@ msgid "Error removing contact"
 msgstr "Viga kontakti eemaldamisel"
 
 #: addressbook/gui/widgets/eab-gui-util.c:282
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Opening %d contact will open %d new window as well.\n"
 "Do you really want to display this contact?"
@@ -2931,19 +2925,19 @@ msgstr "nimekiri"
 
 #: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Move contact to"
-msgstr "Liiguta kontaktid"
+msgstr "Kontakti ümbertõstmine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:706
 msgid "Copy contact to"
-msgstr "Kopeeri kontaktid"
+msgstr "Kontakti kopeerimine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:709
 msgid "Move contacts to"
-msgstr "Liiguta kontaktid"
+msgstr "Kontaktide ümbertõstmine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:711
 msgid "Copy contacts to"
-msgstr "Kopeeri kontaktid"
+msgstr "Kontaktide kopeerimine"
 
 #: addressbook/gui/widgets/eab-gui-util.c:714
 msgid "Select target addressbook."
@@ -3313,18 +3307,16 @@ msgstr "Kõrgus"
 
 #: addressbook/gui/widgets/e-minicard.c:152
 #: addressbook/gui/widgets/e-minicard-label.c:129
-#, fuzzy
 msgid "Has Focus"
-msgstr "Fookuse käitumine"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard.c:160
 msgid "Selected"
 msgstr "Valitud"
 
 #: addressbook/gui/widgets/e-minicard.c:167
-#, fuzzy
 msgid "Has Cursor"
-msgstr "Vilkuv kursor"
+msgstr ""
 
 #: addressbook/gui/widgets/e-minicard-label.c:136
 msgid "Field"
@@ -3335,14 +3327,12 @@ msgid "Field Name"
 msgstr "Välja nimi"
 
 #: addressbook/gui/widgets/e-minicard-label.c:150
-#, fuzzy
 msgid "Text Model"
-msgstr "CPU mudel"
+msgstr "Teksti mudel"
 
 #: addressbook/gui/widgets/e-minicard-label.c:157
-#, fuzzy
 msgid "Max field name length"
-msgstr "Maks. erinevus lausepikkustes:"
+msgstr "Suurim välja nime pikkus"
 
 #: addressbook/gui/widgets/e-minicard-view.c:171
 #, fuzzy
@@ -3415,7 +3405,7 @@ msgstr "Evolutioni LDIF importija"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr "LDAP andmevahetusformaat (.ldif)"
+msgstr "LDAP andmevahetusvorming (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
@@ -3427,12 +3417,12 @@ msgstr "VKaart (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print.c:1000
 msgid "Print contacts"
-msgstr "Prindi kontaktid"
+msgstr "Kontaktide trükkimine"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
 msgid "Print contact"
-msgstr "Prindi kontakt"
+msgstr "Kontakti trükkimine"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
@@ -3535,7 +3525,7 @@ msgstr "Tulpade arv:"
 #: camel/providers/local/camel-local-provider.c:79
 #: camel/providers/local/camel-local-provider.c:99
 msgid "Options"
-msgstr "Häälestus"
+msgstr "Valikud"
 
 #: addressbook/printing/e-contact-print.glade.h:24
 #: e-util/eggtrayicon.c:118
@@ -3548,7 +3538,7 @@ msgstr "Lehekülg"
 
 #: addressbook/printing/e-contact-print.glade.h:26
 msgid "Page Setup:"
-msgstr "Lehekülje sätted:"
+msgstr "Lehekülje seaded:"
 
 #: addressbook/printing/e-contact-print.glade.h:27
 msgid "Paper"
@@ -3637,9 +3627,8 @@ msgid "This should test the contact print code"
 msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:56
-#, fuzzy
 msgid "Specify the output file instead of standard output"
-msgstr "Väljund standardväljundi asemel faili"
+msgstr "Määra standardväljundi asemel väljundfail"
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
@@ -3720,7 +3709,7 @@ msgstr "Failinime ei esitatud."
 #: calendar/calendar-errors.xml.h:2
 #: calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Kas soovid teisi osalejaid katkestamisest teavitada?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3741,18 +3730,19 @@ msgstr "Ära saada"
 #: calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
 msgid "Send Notice"
-msgstr ""
+msgstr "Teavita"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada seda koosolekut?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"Kõik selle koosoleku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3762,11 +3752,8 @@ msgstr ""
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18
 #: calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada seda kontakti?"
+msgstr "Kas sa tõesti soovid kustutada seda ülesannet?"
 
 #. calendar:prompt-delete-task secondary
 #: calendar/calendar-errors.xml.h:20
@@ -3774,11 +3761,13 @@ msgstr ""
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
+"Kõik selle ülesande kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr ""
+msgstr "Kas soovid teisi osalejaid selle päevikukirje katkestamisest teavitada?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3788,91 +3777,87 @@ msgstr ""
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28
 #: calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada seda päevikukirjet?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
 msgid "All information on this journal entry will be deleted and can not be restored."
 msgstr ""
+"Kõik selle päevikukirje kohta käiv teave kustutatakse ja seda ei ole "
+"võimalik enam taastada."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada sündmust nimega '{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #: calendar/calendar-errors.xml.h:34
 #: calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"Kõik selle sündmuse kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada seda sündmust?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+msgstr "Kas sa tõesti soovid kustutada ülesannet '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Kas sa tõesti soovid kustutada seda kontot?"
+msgstr "Kas sa tõesti soovid kustutada päevikukirjet '{0}'?"
 
 #. calendar:prompt-delete-named-journal secondary
 #: calendar/calendar-errors.xml.h:50
 #: calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
+"Kõik selle päeviku kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+msgstr "Kas sa tõesti soovid kustutada neid {0} sündmusi?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
 msgid "All information on these appointments will be deleted and can not be restored."
 msgstr ""
+"Kõik nende sündmuste kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+msgstr "Kas sa tõesti soovid kustutada neid {0} ülesandeid?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"Kõik nende ülesannete kohta käiv teave kustutatakse ja seda ei ole võimalik "
+"enam taastada."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada need kontaktid?"
+msgstr "Kas sa tõesti soovid kustutada neid {0} päevikukirjeid?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
 msgid "All information in these journal entries will be deleted and can not be restored."
 msgstr ""
+"Kõik nende päevikukirjete kohta käiv teave kustutatakse ja seda ei ole "
+"võimalik enam taastada."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
@@ -3881,9 +3866,8 @@ msgstr "Salvesta sündmus"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Kas soovid tehtud muudatused salvestada?"
+msgstr "Kas soovid selle sündmuse muudatusi salvestada?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
@@ -3897,21 +3881,18 @@ msgstr "Loobu muudatustest"
 
 #: calendar/calendar-errors.xml.h:74
 #: calendar/calendar-errors.xml.h:82
-#, fuzzy
 msgid "Save Changes"
-msgstr "Salvesta sõnum"
+msgstr "Salvesta muudatused"
 
 #. calendar:prompt-save-task title
 #: calendar/calendar-errors.xml.h:76
-#, fuzzy
 msgid "Save Task"
-msgstr "Salvesta kui"
+msgstr "Salvesta ülesanne"
 
 #. calendar:prompt-save-task primary
 #: calendar/calendar-errors.xml.h:78
-#, fuzzy
 msgid "Would you like to save your changes to this task?"
-msgstr "Kas soovid tehtud muudatused salvestada?"
+msgstr "Kas soovid selle ülesande muudatusi salvestada?"
 
 #. calendar:prompt-save-task secondary
 #: calendar/calendar-errors.xml.h:80
@@ -3921,12 +3902,14 @@ msgstr "Sa oled seda ülesannet muutnud aga muudatused on salvestamata."
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:84
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Kas soovid saata osalejatele osalemiskutsed?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:86
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
 msgstr ""
+"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
+"neil oma osalemisest teada anda (RSVP)."
 
 #: calendar/calendar-errors.xml.h:88
 #: calendar/calendar-errors.xml.h:94
@@ -3939,32 +3922,38 @@ msgstr "Saada"
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:90
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Kas soovid osalejaid teavitada koosoleku muutusest?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:92
 msgid "Sending updated information allows other participants to keep their calendars up to date."
 msgstr ""
+"Värskendatud teave aitab teistel osalejatel nende kalendreid ajakohasena "
+"hoida"
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:96
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Kas soovid osalejaid teavitada sellest ülesandest?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:98
 msgid "Email invitations will be sent to all participants and allow them to accept this task."
 msgstr ""
+"E-posti teel edastatud kutsed saadetakse kõikidele osalejatele, see lubab "
+"neil ülesandele nõusolekut anda."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:102
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Kas soovid saata osalejatele värskemat teavet ülesande kohta?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:104
 msgid "Sending updated information allows other participants to keep their task lists up to date."
 msgstr ""
+"Värskendatud teave aitab teistel osalejatel nende ülesannete nimekirja "
+"ajakohasena hoida"
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:108
@@ -3979,9 +3968,8 @@ msgstr ""
 # !PARANDA!
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:112
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Evolution'i vKalendri importija"
+msgstr "Evolution'i kalender lõpetas ootamatult."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:114
@@ -4028,9 +4016,8 @@ msgstr ""
 #: mail/mail-errors.xml.h:20
 #: mail/mail-errors.xml.h:27
 #: mail/mail-errors.xml.h:32
-#, fuzzy
 msgid "_Send"
-msgstr "Saada"
+msgstr "_Saada"
 
 #  mail:ask-send-no-subject primary
 #. calendar:prompt-send-no-subject-task primary
@@ -4058,15 +4045,13 @@ msgstr "Mitmepäevaste sündmuste osadeks jagamine:"
 #: calendar/conduits/calendar/calendar-conduit.c:1360
 #: calendar/conduits/todo/todo-conduit.c:879
 #: calendar/conduits/todo/todo-conduit.c:880
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Ei saa käivitada wombat serverit"
+msgstr "Ei saa käivitada andmeserverit (evolution-data-server)"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1468
 #: calendar/conduits/calendar/calendar-conduit.c:1471
-#, fuzzy
 msgid "Could not read pilot's Calendar application block"
-msgstr "Pilot'i aadressirakenduse blokki ei suudetud lugeda"
+msgstr "Pilot'i kalendrirakenduse blokki ei suudetud lugeda"
 
 #: calendar/conduits/todo/todo-conduit.c:234
 msgid "Default Priority:"
@@ -4074,9 +4059,8 @@ msgstr "Vaikimisi tähtsus:"
 
 #: calendar/conduits/todo/todo-conduit.c:959
 #: calendar/conduits/todo/todo-conduit.c:962
-#, fuzzy
 msgid "Could not read pilot's ToDo application block"
-msgstr "Pilot'i aadressirakenduse blokki ei suudetud lugeda"
+msgstr "Pilot'i ülesanderakenduse blokki ei suudetud lugeda"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:79
 msgid "minute"
@@ -4158,7 +4142,7 @@ msgstr "algusaeg"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:864
 msgid "Dismiss"
-msgstr "Tühista"
+msgstr "Katkesta"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:865
 msgid "Dismiss All"
@@ -4214,8 +4198,7 @@ msgid ""
 "\n"
 "Are you sure you want to run this program?"
 msgstr ""
-"Evolution'i kalendri meeldetuletaja on olukorras,\n"
-"kus on määratud käivitada programm:\n"
+"Evolution'i kalendri meeldetuletaja peab käivitama järgneva programmi:\n"
 "\n"
 "        %s\n"
 "\n"
@@ -4223,16 +4206,15 @@ msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1128
 msgid "Do not ask me about this program again."
-msgstr "Ära selle programmi kohta enam küsi."
+msgstr "Selle programmi kohta enam mitte küsida."
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Calendar alarm notification service"
-msgstr "Alarmi teenus"
+msgstr "Evolution'i kalendri alarmteadete teenus"
 
 #: calendar/gui/alarm-notify/notify-main.c:139
 msgid "Could not initialize Bonobo"
-msgstr "Ei saa laadida Bonobot"
+msgstr "Ei saa lähtestada Bonobot"
 
 #: calendar/gui/alarm-notify/notify-main.c:150
 msgid "Could not create the alarm notify service factory"
@@ -4247,9 +4229,8 @@ msgid "Allocate less space to weekend appointments"
 msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
-#, fuzzy
 msgid "Calendars to run alarms for"
-msgstr "iKalendri viga"
+msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
 msgid "Color of tasks that are due today"
@@ -4369,7 +4350,8 @@ msgstr ""
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr "Kas näidata kellaaega 24 tunni formaadis või kasutada am/pm formaati."
+msgstr ""
+"Kas näidata kellaaega 24-tunnises vormingus või kasutada EL/PL vormingut"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:33
 msgid "Whether to show week numbers in date navigator"
@@ -4388,7 +4370,9 @@ msgstr "Kalender"
 
 #: calendar/gui/calendar-commands.c:355
 msgid "This operation will permanently erase all events older than the selected amount of time. If you continue, you will not be able to recover these events."
-msgstr "See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
+msgstr ""
+"See tegevus eemaldab lõplikult kõik sündmused, mis on vanemad kui valitud "
+"päevade arv. Eemaldatud sõnumeid ei ole hiljem enam võimalik taastada."
 
 #: calendar/gui/calendar-commands.c:361
 msgid "Purge events older than"
@@ -4409,7 +4393,7 @@ msgstr "Uus kalender"
 
 #: calendar/gui/calendar-component.c:638
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "Tõrge kalendrite uuendamisel."
 
 #: calendar/gui/calendar-component.c:934
 #, c-format
@@ -4513,21 +4497,19 @@ msgstr "Asukoht sisaldab"
 #: calendar/gui/cal-search-bar.c:350
 #: camel/camel-vee-store.c:343
 msgid "Unmatched"
-msgstr "Vastavuseta"
+msgstr "Puudub"
 
 #: calendar/gui/comp-editor-factory.c:413
-#, fuzzy
 msgid "Error while opening the calendar"
-msgstr "Viga xbase faili avamisel."
+msgstr "Viga kalendri avamisel"
 
 #: calendar/gui/comp-editor-factory.c:419
 msgid "Method not supported when opening the calendar"
 msgstr ""
 
 #: calendar/gui/comp-editor-factory.c:425
-#, fuzzy
 msgid "Permission denied to open the calendar"
-msgstr " Sul ei ole õigusi avada Piloti seadet."
+msgstr "Puuduvad õigused kalendri avamiseks"
 
 #: calendar/gui/comp-editor-factory.c:437
 #: camel/providers/imap4/camel-imap4-store.c:288
@@ -4548,41 +4530,36 @@ msgid "<b>Alarm</b>"
 msgstr "<b>Alarmid</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "<b>Ülesandeloetelu seaded</b>"
+msgstr "<b>Valikud</b>"
 
 #  and now for the action area
 #  and now for the action area
 #  and now for the action area
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "<b>Üldine</b>"
+msgstr "<b>Kordumine</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "Kalendri lisamine"
+msgstr "Alarmi lisamine"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "Sõnumi koostamine"
+msgstr "Kohandatud _sõnum"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Kohandatud alarmheli"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "_Sõnumid"
+msgstr "_Sõnum:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9
 #: calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
-msgstr "Mängi heli"
+msgstr "Heli mängimine"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
@@ -4592,7 +4569,7 @@ msgstr "Hoiatuse kuvamine"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
 msgid "Run a program"
-msgstr "Käivita programm"
+msgstr "Programmi käivitamine"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:12
 msgid "Send To:"
@@ -4601,7 +4578,7 @@ msgstr ""
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
-msgstr "Saada e-kiri"
+msgstr "E-kirja saatmine"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
 msgid "_Arguments:"
@@ -4613,7 +4590,7 @@ msgstr "_Programm:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
 msgid "_Repeat the alarm"
-msgstr "Korda alarmi täiendavalt"
+msgstr "_Alarmi täiendav kordamine"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
 msgid "_Sound:"
@@ -4683,7 +4660,7 @@ msgstr "Tegevus/Päästik"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr "_Lisa"
+msgstr "L_isa"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
 msgid "Alarms"
@@ -4696,7 +4673,7 @@ msgstr ""
 #: calendar/gui/dialogs/calendar-setup.c:336
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
-msgstr "_Värv:"
+msgstr "Vä_rvus:"
 
 #: calendar/gui/dialogs/calendar-setup.c:373
 msgid "Tasks List"
@@ -4716,7 +4693,7 @@ msgstr "Kalendri lisamine"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
 msgid "Add Task List"
-msgstr "Lisa uus ülesandeloetelu"
+msgstr "Lisa uus ülesandeloend"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:5
 #: mail/mail-config.glade.h:103
@@ -4729,12 +4706,12 @@ msgstr "_Kalendri lisamine"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
 msgid "_Add Task List"
-msgstr "_Lisa uus ülesandeloetelu"
+msgstr "Lisa uus _ülesandeloend"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 #: plugins/calendar-http/calendar-http.c:248
 msgid "_Refresh:"
-msgstr "_Värskenda:"
+msgstr "_Värskendamissagedus:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:11
 #: plugins/calendar-http/calendar-http.c:120
@@ -4858,7 +4835,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 msgid "Calendar and Tasks Settings"
-msgstr "Kalendri ja ülesannete sätted"
+msgstr "Kalendri ja ülesannete seaded"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Color for overdue tasks"
@@ -4953,7 +4930,7 @@ msgstr "Neljapäev"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 msgid "Time _zone:"
-msgstr "Ajav_öönd:"
+msgstr "Aja_vöönd:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Time format:"
@@ -4967,7 +4944,7 @@ msgstr "Teisipäev"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 msgid "W_eek starts:"
-msgstr "_Nädala algus:"
+msgstr "Nä_dala algus:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 #: calendar/gui/dialogs/recurrence-page.c:1029
@@ -4993,7 +4970,7 @@ msgstr "_URL'i lisamine"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Ask for confirmation when deleting items"
-msgstr "_Küsi nõusolekut kirjete kustutamisel"
+msgstr "Küs_i nõusolekut kirjete kustutamisel"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Compress weekends in month view"
@@ -5001,7 +4978,7 @@ msgstr "_Nädalalõpud kuvatakse kokkusurutud vormis"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Day begins:"
-msgstr "_Päev algab:"
+msgstr "Päev _algab:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 msgid "_Fri"
@@ -5066,7 +5043,8 @@ msgstr "Antud päeviku sissekanne on kustutatud."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr "%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
+msgstr ""
+"%s  Sa oled teinud muutusi. Kas unustada need muudatused ja sulgeda aken?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -5088,7 +5066,9 @@ msgstr "Antud päeviku sissekannet on muudetud."
 #: calendar/gui/dialogs/changed-comp.c:101
 #, c-format
 msgid "%s  You have made changes. Forget those changes and update the editor?"
-msgstr "%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada redaktorit?"
+msgstr ""
+"%s  On tehtud muudatusi.  Kas tühistada need muudatused ja uuendada "
+"redaktorit?"
 
 #: calendar/gui/dialogs/changed-comp.c:103
 #, c-format
@@ -5157,7 +5137,7 @@ msgstr "Valideerimisviga: %s"
 #: calendar/gui/dialogs/comp-editor-util.c:191
 #: calendar/gui/print.c:2265
 msgid " (Completed "
-msgstr " (Lõpetatud "
+msgstr " (Valmis "
 
 #: calendar/gui/dialogs/comp-editor-util.c:193
 #: calendar/gui/print.c:2267
@@ -5262,7 +5242,7 @@ msgstr "Kordumine"
 #: calendar/gui/dialogs/event-editor.c:228
 #: calendar/gui/dialogs/event-editor.c:372
 msgid "Scheduling"
-msgstr "Planeerimine"
+msgstr "Plaanimine"
 
 #: calendar/gui/dialogs/event-editor.c:166
 #: calendar/gui/dialogs/event-editor.c:231
@@ -5276,7 +5256,7 @@ msgstr "Sündmus ilma alguskuupäevata"
 
 #: calendar/gui/dialogs/event-page.c:721
 msgid "Event with no end date"
-msgstr "Sündmus ilma lõppkuupäevata"
+msgstr "Sündmis ilma lõppkuupäevata"
 
 #: calendar/gui/dialogs/event-page.c:887
 #: calendar/gui/dialogs/task-page.c:553
@@ -5335,7 +5315,7 @@ msgstr "15 minutit enne sündmust"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
 msgid "<b>Basics</b>"
-msgstr "<b>Peamine</b>"
+msgstr "<b>Sisu</b>"
 
 #  and now for the action area
 #: calendar/gui/dialogs/event-page.glade.h:6
@@ -5419,7 +5399,7 @@ msgstr "K_okkuvõte:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Sellel sündmusel on kohandatud alarmid"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
 msgid "_Alarm"
@@ -5485,7 +5465,7 @@ msgstr "_Eemalda"
 #: calendar/gui/e-meeting-list-view.c:235
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr "Osavõtja"
+msgstr "Osaleja"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
@@ -5536,13 +5516,12 @@ msgstr "Olek"
 #  and now for the action area
 #  and now for the action area
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Att_endees</b>"
-msgstr "<b>Alarmid</b>"
+msgstr "<b>_Osalejad</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "C_hange Organizer"
-msgstr "_Muuda korraldajat:"
+msgstr "_Muuda korraldajat"
 
 #  Fix me *
 #  can not get name, should be a bug of e-book.Anyway, should set a default name.
@@ -5559,7 +5538,7 @@ msgstr "_Kontaktid..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:6
 msgid "Or_ganizer:"
-msgstr "_Korraldaja:"
+msgstr "Ko_rraldaja:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
 msgid "Organizer"
@@ -5592,19 +5571,19 @@ msgstr "Kalendri nimi"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
-msgstr "<b>Ülesandeloetelu seaded</b>"
+msgstr "<b>Ülesandeloendi seaded</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
 msgid "Add New Task List"
-msgstr "Lisa uus ülesandeloetelu"
+msgstr "Lisa uus ülesandeloend"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
 msgid "Task List Group"
-msgstr "Ülesandeloetelu grupp"
+msgstr "Ülesandeloendi grupp"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
 msgid "Task List Name"
-msgstr "Ülesandeloetelu nimi"
+msgstr "Ülesandeloendi nimi"
 
 #: calendar/gui/dialogs/recur-comp.c:51
 msgid "You are modifying a recurring event, what would you like to modify?"
@@ -5741,9 +5720,8 @@ msgid "<span weight=\"bold\">Miscellaneous</span>"
 msgstr "<span weight=\"bold\">Muu</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "<span weight=\"bold\">Alarmid</span>"
+msgstr "<span weight=\"bold\">Olek</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #: calendar/gui/dialogs/task-details-page.glade.h:4
@@ -5833,7 +5811,7 @@ msgstr "Ülesanne"
 #: calendar/gui/dialogs/task-editor.c:218
 #: calendar/gui/dialogs/task-editor.c:356
 msgid "Assignment"
-msgstr "Kellele määratud"
+msgstr "Täitjad"
 
 #: calendar/gui/dialogs/task-page.c:526
 msgid "Due date is wrong"
@@ -5890,7 +5868,7 @@ msgstr "<b>Avalikustamise _asukoht</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
-msgstr "Vaba/Hõivatud teabe redigeerija"
+msgstr "Vaba/Hõivatud teabe redaktor"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
 msgid "_Daily"
@@ -5999,7 +5977,7 @@ msgstr "%s tundmatule trigeri tüübile"
 #: mail/em-folder-view.c:2467
 #, c-format
 msgid "Click to open %s"
-msgstr "Avamiseks kliki %s"
+msgstr "Kliki, et avada aadressi %s"
 
 #: calendar/gui/e-cal-component-preview.c:155
 #: filter/filter-rule.c:795
@@ -6249,7 +6227,7 @@ msgstr "Kokkuvõte"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Task sort"
-msgstr "Ülesannete sorteerimine"
+msgstr "Ülesannete sortimine"
 
 #: calendar/gui/e-calendar-view.c:1179
 msgid "Moving items"
@@ -6559,7 +6537,9 @@ msgstr "Tundmatu isik"
 #. Describe what the user can do
 #: calendar/gui/e-itip-control.c:1089
 msgid "<br> Please review the following information, and then select an action from the menu below."
-msgstr "<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik tegevus."
+msgstr ""
+"<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  sobilik "
+"tegevus."
 
 #: calendar/gui/e-itip-control.c:1137
 #: calendar/gui/e-meeting-list-view.c:175
@@ -6567,7 +6547,7 @@ msgstr "<br> Palun vaata järgnev info üle ja vali allpool olevast menüüst  s
 #: calendar/gui/e-meeting-store.c:211
 #: calendar/gui/itip-utils.c:421
 msgid "Accepted"
-msgstr "Vastu võetud"
+msgstr "Nõusolek antud"
 
 #: calendar/gui/e-itip-control.c:1141
 #: calendar/gui/itip-utils.c:424
@@ -6687,9 +6667,9 @@ msgstr "Ettepanek ülesandeks"
 
 #. FIXME Whats going on here?
 #: calendar/gui/e-itip-control.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
-msgstr "<b>%s</b> soovib lisada olemasolevale koosolekule."
+msgstr "<b>%s</b> soovib lisada olemasolevale ülesandele."
 
 #: calendar/gui/e-itip-control.c:1404
 msgid "Task Update"
@@ -6796,7 +6776,8 @@ msgstr "Osavõtja olek uuendatud\n"
 #: calendar/gui/e-itip-control.c:1979
 #: plugins/itip-formatter/itip-formatter.c:744
 msgid "Attendee status can not be updated because the item no longer exists"
-msgstr "Osavõtja olekut ei olnud võimailk uuendada, kuna objekti enam ei eksisteeri"
+msgstr ""
+"Osavõtja olekut ei olnud võimailk uuendada, kuna objekti pole enam olemas"
 
 #: calendar/gui/e-itip-control.c:2006
 msgid "Removal Complete"
@@ -6822,15 +6803,15 @@ msgstr "Uuenda"
 
 #: calendar/gui/e-itip-control.c:2260
 msgid "Accept"
-msgstr "Nõustu"
+msgstr "Nõustun"
 
 #: calendar/gui/e-itip-control.c:2261
 msgid "Tentatively accept"
-msgstr "Proovinõusolek"
+msgstr "Nõustun, kuid pole hetkel kindel"
 
 #: calendar/gui/e-itip-control.c:2262
 msgid "Decline"
-msgstr "Lükka tagasi"
+msgstr "Lükkan tagasi"
 
 #: calendar/gui/e-itip-control.c:2291
 msgid "Send Free/Busy Information"
@@ -6838,7 +6819,7 @@ msgstr "Vaba/hõivatud teabe saatmine"
 
 #: calendar/gui/e-itip-control.c:2319
 msgid "Update respondent status"
-msgstr ""
+msgstr "Värskenda vastaja olekut"
 
 #: calendar/gui/e-itip-control.c:2347
 msgid "Send Latest Information"
@@ -6911,7 +6892,7 @@ msgstr "Ressursid"
 #: calendar/gui/e-meeting-store.c:116
 #: calendar/gui/e-meeting-store.c:802
 msgid "Individual"
-msgstr "Individuaalne"
+msgstr "Isik"
 
 #: calendar/gui/e-meeting-list-view.c:136
 #: calendar/gui/e-meeting-store.c:101
@@ -6992,20 +6973,19 @@ msgstr "Info puudub"
 
 #: calendar/gui/e-meeting-time-sel.c:445
 msgid "O_ptions"
-msgstr ""
+msgstr "_Valikud"
 
 #: calendar/gui/e-meeting-time-sel.c:462
 msgid "Show _only working hours"
 msgstr "Näita tunde _tööaja piires"
 
 #: calendar/gui/e-meeting-time-sel.c:472
-#, fuzzy
 msgid "Show _zoomed out"
-msgstr "Näita _suures plaanis"
+msgstr "Näita _väikeses plaanis"
 
 #: calendar/gui/e-meeting-time-sel.c:487
 msgid "_Update free/busy"
-msgstr "_Uuenda vaba/hõivatud"
+msgstr "_Värskenda vaba/hõivatud"
 
 #: calendar/gui/e-meeting-time-sel.c:502
 msgid "_<<"
@@ -7032,7 +7012,6 @@ msgid "_Required people"
 msgstr "_Vajalikud inimesed"
 
 #: calendar/gui/e-meeting-time-sel.c:579
-#, fuzzy
 msgid "Required people and _one resource"
 msgstr "Vajalikud inimesed ja _üks ressurss"
 
@@ -7171,30 +7150,25 @@ msgid "Evolution Calendar and Tasks"
 msgstr "Evolutioni kalender ja ülesanded"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
-#, fuzzy
 msgid "Evolution Calendar configuration control"
-msgstr "Evolutioni kaustasätete konfiguratsiooni juhtimine"
+msgstr "Evolutioni kalendri seadistuste juhtimine"
 
 # !PARANDA!
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
-#, fuzzy
 msgid "Evolution Calendar scheduling message viewer"
-msgstr "Evolution'i kalendri iTip/iMip vaataja"
+msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:7
-#, fuzzy
 msgid "Evolution Calendar/Task editor"
-msgstr "Evolution'i intelligentne kalendriimportija"
+msgstr "Evolution'i kalendri/ülesande redaktor"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:8
-#, fuzzy
 msgid "Evolution's Calendar component"
-msgstr "Evolutioni aadressiraamatu komponent"
+msgstr "Evolutioni kalendrikomponent"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:9
-#, fuzzy
 msgid "Evolution's Tasks component"
-msgstr "Evolutioni aadressiraamatu komponent"
+msgstr "Evolutioni ülesannetekomponent"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
 msgid "_Calendars"
@@ -7293,7 +7267,7 @@ msgstr "Vaba/Hõivatud teave"
 
 #: calendar/gui/itip-utils.c:401
 msgid "Calendar information"
-msgstr "Kalendri info"
+msgstr "Kalendri teave"
 
 #: calendar/gui/itip-utils.c:437
 msgid "Updated"
@@ -7321,30 +7295,30 @@ msgid "You must be an attendee of the event."
 msgstr "Sa pead ise olema sündmusest osavõtja."
 
 #: calendar/gui/migration.c:150
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution task folders has changed since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolution'i kontaktikaustade asukoht ja hierarhia on peale Evolution 1.x. "
+"versiooni muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
 #: calendar/gui/migration.c:154
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution calendar folders has changed since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
 #: calendar/gui/migration.c:380
 msgid "Birthdays & Anniversaries"
-msgstr "Sünnipäevad ja tähtpäevad"
+msgstr "Sünnipäevad ja aastapäevad"
 
 #  Create the Webcal source group
 #. Create the Webcal source group
@@ -7361,15 +7335,15 @@ msgstr ""
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:764
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to migrate calendar `%s'"
-msgstr "Kalendrit '%s' ei saa avada."
+msgstr "Kalendrit `%s' ei saa siirdada"
 
 #. FIXME: domain/code
 #: calendar/gui/migration.c:916
 #, c-format
 msgid "Unable to migrate tasks `%s'"
-msgstr ""
+msgstr "Ülesandeid `%s' ei saa siirdada"
 
 #: calendar/gui/print.c:492
 msgid "1st"
@@ -7600,7 +7574,7 @@ msgstr "Trüki kirje"
 
 #: calendar/gui/print.c:2762
 msgid "Print Setup"
-msgstr "Trükkimise sätted"
+msgstr "Trükkimise seaded"
 
 #: calendar/gui/tasks-component.c:328
 msgid "New Task List"
@@ -7623,7 +7597,7 @@ msgstr[1] ", %d valitud"
 
 #: calendar/gui/tasks-component.c:453
 msgid "Failed upgrading tasks."
-msgstr ""
+msgstr "Tõrge ülesannete uuendamisel."
 
 #: calendar/gui/tasks-component.c:747
 #, c-format
@@ -7680,7 +7654,8 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
+"See operatsioon kustutab jäädavalt kõik ülesanded, mis on märgitud kui "
+"lõpetatud. Kui sa jätkad, siis neid ülesandeid ei ole võimalik taastada.\n"
 "Kas tõesti kustutada need ülesanded? "
 
 #: calendar/gui/tasks-control.c:375
@@ -9267,7 +9242,7 @@ msgstr "See šiffer ei toeta allkirjastamist"
 
 #: camel/camel-cipher-context.c:129
 msgid "Signing message"
-msgstr "Sõnumi allkirjastamine"
+msgstr "Sõnumi signeerimine"
 
 #: camel/camel-cipher-context.c:146
 msgid "Verifying is not supported by this cipher"
@@ -9279,19 +9254,19 @@ msgstr "Sõnumi verifitseerimine"
 
 #: camel/camel-cipher-context.c:190
 msgid "Encryption is not supported by this cipher"
-msgstr "See šiffer ei toeta krüpteerimist"
+msgstr "See šiffer ei toeta krüptimist"
 
 #: camel/camel-cipher-context.c:216
 msgid "Encrypting message"
-msgstr "Sõnumi krüpteerimine"
+msgstr "Sõnumi krüptimine"
 
 #: camel/camel-cipher-context.c:233
 msgid "Decryption is not supported by this cipher"
-msgstr "See šiffer ei toeta dekrüpteerimist"
+msgstr "See šiffer ei toeta dekrüptimist"
 
 #: camel/camel-cipher-context.c:255
 msgid "Decrypting message"
-msgstr "Sõnumi dekrüpteerimine"
+msgstr "Sõnumi dekrüptimine"
 
 #: camel/camel-cipher-context.c:272
 msgid "You may not import keys with this cipher"
@@ -9359,13 +9334,13 @@ msgstr "Selle operatsiooni täitmiseks pead olema onlainis"
 #: camel/camel-process.c:48
 #, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr ""
+msgstr "Tõrge toru loomisel -> '%s': %s"
 
 #: camel/camel-filter-driver.c:713
 #: camel/camel-process.c:90
 #, c-format
 msgid "Failed to create child process '%s': %s"
-msgstr "Alamprotsessi '%s' loomine nurjus: %s"
+msgstr "Tõrge alamprotsessi '%s' loomisel: %s"
 
 #: camel/camel-filter-driver.c:756
 #, c-format
@@ -9410,7 +9385,7 @@ msgstr "Sõnumit ei saa avada"
 #: camel/camel-filter-driver.c:1160
 #, c-format
 msgid "Failed on message %d"
-msgstr "Nurjumine teate %d juures"
+msgstr "Tõrge sõnumi %d juures"
 
 #: camel/camel-filter-driver.c:1174
 #: camel/camel-filter-driver.c:1265
@@ -9425,11 +9400,11 @@ msgstr "Tõmban %d. sõnumit %dst"
 #: camel/camel-filter-driver.c:1250
 #, c-format
 msgid "Failed at message %d of %d"
-msgstr "%d. teate juures %d'st tekkis viga"
+msgstr "Tõrge sõnumi %d juures (kokku sõnumeid: %d)"
 
 #: camel/camel-filter-search.c:135
 msgid "Failed to retrieve message"
-msgstr "Sõnumi vastuvõtmine nurjus"
+msgstr "Tõrge sõnumi vastuvõtmisel"
 
 #: camel/camel-filter-search.c:385
 msgid "Invalid arguments to (system-flag)"
@@ -9442,7 +9417,7 @@ msgstr ""
 #: camel/camel-filter-search.c:548
 #, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Alamprotsessi '%s' loomine nurjus: %s"
+msgstr "Tõrge alamprotsessi '%s' loomisel: %s"
 
 #. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
 #: camel/camel-filter-search.c:670
@@ -9475,14 +9450,12 @@ msgid "Copying messages"
 msgstr "Sõnumite kopeerimine"
 
 #: camel/camel-folder.c:1601
-#, fuzzy
 msgid "Learning junk"
-msgstr "Rämpsukontroll"
+msgstr "Rämpsposti tundmaõppimine"
 
 #: camel/camel-folder.c:1618
-#, fuzzy
 msgid "Learning non-junk"
-msgstr "Sõnum on rämps"
+msgstr "Mitte-rämpsposti tundmaõppimine"
 
 #: camel/camel-folder.c:1637
 msgid "Filtering new message(s)"
@@ -9505,6 +9478,8 @@ msgid ""
 "Error executing search expression: %s:\n"
 "%s"
 msgstr ""
+"Viga otsinguavaldise täitmisel: %s:\n"
+"%s"
 
 #: camel/camel-folder-search.c:674
 #: camel/camel-folder-search.c:707
@@ -9522,19 +9497,17 @@ msgid "(match-threads) requires a match type string"
 msgstr ""
 
 #: camel/camel-folder-search.c:786
-#, fuzzy
 msgid "(match-threads) expects an array result"
-msgstr "(match-all) nõuab ühtainust tõeväärtustüüpi tulemust"
+msgstr ""
 
 #: camel/camel-folder-search.c:792
-#, fuzzy
 msgid "(match-threads) requires the folder set"
-msgstr "(match-all) nõuab ühtainust tõeväärtustüüpi tulemust"
+msgstr ""
 
 #: camel/camel-folder-search.c:881
-#, fuzzy, c-format
+#, c-format
 msgid "Performing query on unknown header: %s"
-msgstr "Täidetakse päring tundmatul päisel: %s"
+msgstr "Täidetakse päringut tundmatul päisel: %s"
 
 #: camel/camel-gpg-context.c:735
 #, c-format
@@ -9549,18 +9522,18 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:749
 msgid "Failed to parse gpg userid hint."
-msgstr ""
+msgstr "Tõrge gpg kasutaja ID vihje analüüsimisel."
 
 #: camel/camel-gpg-context.c:773
 msgid "Failed to parse gpg passphrase request."
-msgstr ""
+msgstr "Tõrge gpg paroolipäringu analüüsimisel."
 
 #: camel/camel-gpg-context.c:787
 #, c-format
 msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
-msgstr ""
+msgstr "Sul on kasutaja \"%s\" võtme lahtilukustamiseks vaja parooli"
 
 #: camel/camel-gpg-context.c:804
 #: camel/camel-gpg-context.c:1314
@@ -9575,36 +9548,38 @@ msgstr "Loobutud."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "Salajase võtme avamine nurjus: sisestati 3 valet parooli."
+msgstr "Tõrge salajase võtme avamisel: sisestati 3 valet parooli."
 
 #: camel/camel-gpg-context.c:828
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from GnuPG: %s"
-msgstr "Ootamatu vastus IMAP serverilt: %s"
+msgstr "Ootamatu vastus GnuPG'lt: %s"
 
 #: camel/camel-gpg-context.c:880
-#, fuzzy
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "Ei saa krüptida sõnumit: saajate aadressid on määramata."
+msgstr "Tõrge sõnumi krüptimisel: Saajate aadressid on määramata."
 
 #: camel/camel-gpg-context.c:1157
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Failed to GPG %s: %s\n"
 "\n"
 "%s"
 msgstr ""
+"Tõrge GPG töötlemisel %s: %s\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:1162
-#, c-format
+#, fuzzy, c-format
 msgid "Failed to GPG %s: %s\n"
-msgstr ""
+msgstr "Tõrge GPG töötlemisel %s: %s\n"
 
 #: camel/camel-gpg-context.c:1275
 #: camel/camel-smime-context.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "Could not generate signing data: %s"
-msgstr "%s: Ei õnnestu lugeda autentimisandmeid"
+msgstr "Signeerimisandmete genereerimine ei õnnestunud: %s"
 
 #: camel/camel-gpg-context.c:1307
 #: camel/camel-gpg-context.c:1766
@@ -9622,7 +9597,7 @@ msgstr "gpg käivitamine nurjus: %s"
 #: camel/camel-gpg-context.c:1788
 #: camel/camel-gpg-context.c:1839
 msgid "Failed to execute gpg."
-msgstr "gpg käivitamine nurjus."
+msgstr "Tõrge gpg käivitamisel."
 
 #: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
@@ -9649,11 +9624,11 @@ msgstr ""
 
 #: camel/camel-gpg-context.c:1623
 msgid "This is a digitally encrypted message part"
-msgstr "See on digitaalselt krüpteeritud sõnumi osa"
+msgstr "See on sõnumi digitaalselt krüptitud osa"
 
 #: camel/camel-gpg-context.c:1674
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr "Tõrge MIME osa dekrüpteerimisel: protokolli viga"
+msgstr "Tõrge MIME osa dekrüptimisel: protokolli viga"
 
 #: camel/camel-gpg-context.c:1725
 #: camel/camel-smime-context.c:966
@@ -9678,15 +9653,15 @@ msgstr "%s - Lukufaili saamise päring ületas ajapiirangu. Ürita hiljem uuesti
 #: camel/camel-lock.c:209
 #, c-format
 msgid "Failed to get lock using fcntl(2): %s"
-msgstr "fcntl(2) abil lukustamine nurjus: %s"
+msgstr "Tõrge fcntl(2) abil lukustamisel: %s"
 
 #: camel/camel-lock.c:272
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr "flock(2) abil lukustamine nurjus: %s"
+msgstr "Tõrge flock(2) abil lukustamisel: %s"
 
 #: camel/camel-lock-client.c:100
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot build locking helper pipe: %s"
 msgstr "Ei suuda luua lukustamisabilise toru: %s"
 
@@ -9697,9 +9672,9 @@ msgstr ""
 
 #: camel/camel-lock-client.c:191
 #: camel/camel-lock-client.c:214
-#, fuzzy, c-format
+#, c-format
 msgid "Could not lock '%s': protocol error with lock-helper"
-msgstr "'%s' ei õnnestnud lukustada, protokolli viga lukustamisabilises"
+msgstr "'%s' ei lukustamine ei õnnestunud, protokolli viga lukustamisabilises"
 
 #: camel/camel-lock-client.c:204
 #, c-format
@@ -9821,9 +9796,9 @@ msgstr "Ei saa laadida %s: moodulis puudub initsialiseerimiskood."
 
 #: camel/camel-provider.c:374
 #: camel/camel-session.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "No provider available for protocol `%s'"
-msgstr "\"%s\" jaoks pole ühtegi vaaturit saadaval."
+msgstr ""
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "Anonymous"
@@ -9848,13 +9823,11 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-anonymous.c:133
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
-"Ebakorrektne e-posti aadressi jälitusinfo:\n"
-"%s"
 
 #: camel/camel-sasl-anonymous.c:145
 #, c-format
@@ -9871,7 +9844,9 @@ msgstr "CRAM-MD5"
 
 #: camel/camel-sasl-cram-md5.c:38
 msgid "This option will connect to the server using a secure CRAM-MD5 password, if the server supports it."
-msgstr "See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse kasutades turvalist CRAM-MD5 parooli."
+msgstr ""
+"See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse "
+"kasutades turvalist CRAM-MD5 parooli."
 
 #: camel/camel-sasl-digest-md5.c:49
 msgid "DIGEST-MD5"
@@ -9879,7 +9854,9 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:51
 msgid "This option will connect to the server using a secure DIGEST-MD5 password, if the server supports it."
-msgstr "See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse kasutades turvalist DIGEST-MD5 parooli."
+msgstr ""
+"See seadistus aitab juhul, kui server seda toetab, ühenduda serverisse "
+"kasutades turvalist DIGEST-MD5 parooli."
 
 #: camel/camel-sasl-digest-md5.c:814
 msgid "Server challenge too long (>2048 octets)\n"
@@ -9910,9 +9887,8 @@ msgid "GSSAPI"
 msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:55
-#, fuzzy
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr "See valik loob ühenduse serverisse kasutades Kerberos 4 autentimist."
+msgstr "See valik loob ühenduse serverisse kasutades Kerberos 5 autentimist."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The specified mechanism is not supported by the provided credential, or is unrecognized by the implementation."
@@ -9951,9 +9927,8 @@ msgid "The consistency checks performed on the credential failed."
 msgstr ""
 
 #: camel/camel-sasl-gssapi.c:188
-#, fuzzy
 msgid "The referenced credentials have expired."
-msgstr "Aegunud allkiri kasutajalt \""
+msgstr ""
 
 #: camel/camel-sasl-gssapi.c:194
 #: camel/camel-sasl-gssapi.c:242
@@ -10003,14 +9978,13 @@ msgid "NTLM / SPA"
 msgstr "NTLM / SPA"
 
 #: camel/camel-sasl-ntlm.c:34
-#, fuzzy
 msgid "This option will connect to a Windows-based server using NTLM / Secure Password Authentication."
-msgstr "See valik loob ühenduse serverisse kasutades Kerberos 4 autentimist."
+msgstr "See valik loob ühenduse Windowsil baseeruvasse serverisse kasutades "
+"NTLM / Secure Password Authentication autentimist."
 
 #: camel/camel-sasl-plain.c:33
-#, fuzzy
 msgid "PLAIN"
-msgstr "Lihtne"
+msgstr ""
 
 #: camel/camel-sasl-popb4smtp.c:37
 msgid "POP before SMTP"
@@ -10106,18 +10080,16 @@ msgid "Encryption certificate for '%s' does not exist"
 msgstr "Sertifikaati \"%s\" krüpteerimise jaoks ei ole olemas."
 
 #: camel/camel-smime-context.c:314
-#, fuzzy
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr "Sama gruppi pole võimalik kaks korda lisada."
+msgstr "Attribuuti SMIMEEncKeyPrefs ei saa lisada"
 
 #: camel/camel-smime-context.c:319
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "Attribuuti MS SMIMEEncKeyPrefs ei saa lisada"
 
 #: camel/camel-smime-context.c:324
-#, fuzzy
 msgid "Cannot add encryption certificate"
-msgstr "Vali sertifikaat [%1] krüptimise jaoks"
+msgstr "Krüptimissertifikaati ei saa lisada"
 
 #: camel/camel-smime-context.c:330
 #, fuzzy
@@ -10126,9 +10098,8 @@ msgstr "CMS RecipientInfo-t ei saa lisada"
 
 #: camel/camel-smime-context.c:400
 #: camel/camel-smime-context.c:848
-#, fuzzy
 msgid "Cannot create encoder context"
-msgstr "Ei saa luua andmebaasikataloogi!"
+msgstr ""
 
 #: camel/camel-smime-context.c:406
 msgid "Failed to add data to CMS encoder"
@@ -10137,7 +10108,7 @@ msgstr ""
 #: camel/camel-smime-context.c:411
 #: camel/camel-smime-context.c:865
 msgid "Failed to encode data"
-msgstr "Andmete kodeerimine nurjus."
+msgstr "Tõrge andmete kodeerimisel"
 
 #: camel/camel-smime-context.c:484
 msgid "Unverified"
@@ -10160,19 +10131,16 @@ msgid "Signing certificate not found"
 msgstr "Allkirjastamissertifikaati ei leitud"
 
 #: camel/camel-smime-context.c:494
-#, fuzzy
 msgid "Signing certificate not trusted"
-msgstr "Ära saada sertifikaati"
+msgstr "Signeerimissertifikaat ei ole usaldusväärne"
 
 #: camel/camel-smime-context.c:496
-#, fuzzy
 msgid "Signature algorithm unknown"
-msgstr "tundmatu šifri algoritm"
+msgstr "Tundmatu signeerimisalgoritm"
 
 #: camel/camel-smime-context.c:498
-#, fuzzy
 msgid "Signature algorithm unsupported"
-msgstr "Toetamata allkirjavorming"
+msgstr "Toetamata signeerimisalgoritm"
 
 #: camel/camel-smime-context.c:500
 msgid "Malformed signature"
@@ -10188,16 +10156,16 @@ msgstr ""
 
 #: camel/camel-smime-context.c:546
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Andmeümbrikus puudub sõnumilühend"
 
 #: camel/camel-smime-context.c:559
 #: camel/camel-smime-context.c:569
 msgid "Cannot calculate digests"
-msgstr ""
+msgstr "Sõnumilühendeid pole võimalik arvutada"
 
 #: camel/camel-smime-context.c:574
 msgid "Cannot set message digests"
-msgstr ""
+msgstr "Sõnumilühendit pole võimalik määrata"
 
 #: camel/camel-smime-context.c:584
 #: camel/camel-smime-context.c:589
@@ -10214,7 +10182,7 @@ msgstr ""
 
 #: camel/camel-smime-context.c:606
 msgid "Cannot find signature digests"
-msgstr ""
+msgstr "Ei leia signatuurilühendit"
 
 #: camel/camel-smime-context.c:622
 #, c-format
@@ -10242,7 +10210,6 @@ msgid "Cannot allocate slot for encryption bulk key"
 msgstr ""
 
 #: camel/camel-smime-context.c:802
-#, fuzzy
 msgid "Cannot create CMS Message"
 msgstr "CMS sõnumit ei saa luua"
 
@@ -10257,7 +10224,6 @@ msgid "Cannot attach CMS Enveloped data"
 msgstr "CMS EnvelopedData-t ei saa manustada"
 
 #: camel/camel-smime-context.c:820
-#, fuzzy
 msgid "Cannot attach CMS data object"
 msgstr "CMS andmeobjekti ei saa manustada"
 
@@ -10273,7 +10239,7 @@ msgstr "CMS RecipientInfo-t ei saa lisada"
 
 #: camel/camel-smime-context.c:859
 msgid "Failed to add data to encoder"
-msgstr ""
+msgstr "Tõrge andmete lisamisel enkooderile"
 
 #: camel/camel-smime-context.c:946
 #, c-format
@@ -10282,7 +10248,7 @@ msgstr "Tõrge dekodeerimisel, viga %d"
 
 #: camel/camel-smime-context.c:953
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr "S/MIME dekrüpteerimine: Krüpteeritud sisu ei leitud"
+msgstr "S/MIME dekrüptimine: Krüptitud sisu ei leitud"
 
 #: camel/camel-smime-context.c:980
 msgid "import keys: unimplemented"
@@ -10299,16 +10265,16 @@ msgstr ""
 #: camel/camel-store.c:244
 #, c-format
 msgid "Cannot create folder `%s': folder exists"
-msgstr "Kausta `%s' ei saa luua: kaust juba eksisteerib"
+msgstr "Kausta `%s' ei saa luua: kaust on juba olemas"
 
 #: camel/camel-store.c:298
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr ""
 
 #: camel/camel-store.c:326
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder: %s: folder exists"
-msgstr "Kausta `%s' ei saa luua: kaust juba eksisteerib"
+msgstr "Kausta `%s' ei saa luua: kaust on juba olemas"
 
 #: camel/camel-store.c:390
 #: camel/camel-vee-store.c:367
@@ -10332,7 +10298,7 @@ msgstr "Prügikast"
 #: mail/mail-config.glade.h:93
 #: ui/evolution-mail-message.xml.h:48
 msgid "Junk"
-msgstr "Rämps"
+msgstr "Rämpspost"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get issuer's certificate"
@@ -10344,7 +10310,7 @@ msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:572
 msgid "Unable to decrypt certificate signature"
-msgstr "Ei saa dekrüpteerida sertifikaadi signatuuri"
+msgstr "Ei saa dekrüptida sertifikaadi signatuuri"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
@@ -10403,24 +10369,20 @@ msgid "Unable to verify leaf signature"
 msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:605
-#, fuzzy
 msgid "Certificate chain too long"
-msgstr "argumendi rida on liiga pikk"
+msgstr "Sertifitseerimisahel on liiga pikk"
 
 #: camel/camel-tcp-stream-openssl.c:607
-#, fuzzy
 msgid "Certificate Revoked"
-msgstr "Sertifikaat on tühistatud."
+msgstr "Sertifikaat on tühistatud"
 
 #: camel/camel-tcp-stream-openssl.c:609
-#, fuzzy
 msgid "Invalid Certificate Authority (CA)"
-msgstr "Isiklik sertifitseerimiskeskus"
+msgstr "Vigane sertifitseerimiskeskus"
 
 #: camel/camel-tcp-stream-openssl.c:611
-#, fuzzy
 msgid "Path length exceeded"
-msgstr "Ketta piirang ületatud"
+msgstr "Otsingutee pikkus ületatud"
 
 #: camel/camel-tcp-stream-openssl.c:613
 msgid "Invalid purpose"
@@ -10428,7 +10390,7 @@ msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate untrusted"
-msgstr ""
+msgstr "Sertifikaat ei ole usaldatav"
 
 #: camel/camel-tcp-stream-openssl.c:617
 msgid "Certificate rejected"
@@ -10448,12 +10410,11 @@ msgstr ""
 
 #: camel/camel-tcp-stream-openssl.c:626
 msgid "Key usage does not support certificate signing"
-msgstr ""
+msgstr "Kasutusala ei sisalda sertifikaatide signeerimist"
 
 #: camel/camel-tcp-stream-openssl.c:629
-#, fuzzy
 msgid "Error in application verification"
-msgstr "&Funktsioon sooritatakse rakendusel:"
+msgstr "Viga rakenduse verifitseerimisel"
 
 #: camel/camel-tcp-stream-openssl.c:696
 #: camel/camel-tcp-stream-ssl.c:827
@@ -10467,7 +10428,7 @@ msgstr ""
 "Väljastaja:            %s\n"
 "Teema:           %s\n"
 "Sõrmejälg:       %s\n"
-"Allkiri:         %s"
+"Signatuur:       %s"
 
 #: camel/camel-tcp-stream-openssl.c:702
 #: camel/camel-tcp-stream-ssl.c:833
@@ -10600,13 +10561,14 @@ msgstr "Kontrolli uusi sõnumeid kõikides kaustades"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:61
 msgid "Apply filters to new messages in Inbox on this server"
-msgstr "Rakenda filtreid kõikidele selles serveris Sisendkastis asuvatele uutele sõnumitele "
+msgstr ""
+"Rakenda filtreid kõikidele selles serveris Sisendkastis asuvatele uutele "
+"sõnumitele "
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:63
 #: camel/providers/imap4/camel-imap4-provider.c:53
-#, fuzzy
 msgid "Check new messages for Junk contents"
-msgstr "Kontrolli uusi sõnumeid kõikides kaustades"
+msgstr "Kontrolli, kas uued sõnumid on rämpspost"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:65
 #: camel/providers/imap4/camel-imap4-provider.c:55
@@ -10631,9 +10593,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr ""
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:81
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "_Turvalise ühenduse kasutamine (SSL):"
+msgstr "Turvalise ühenduse (SSL) kasutamine"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:94
 msgid "Novell GroupWise"
@@ -10641,7 +10602,7 @@ msgstr "Novell Groupwise"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:96
 msgid "For accessing Novell Groupwise servers"
-msgstr ""
+msgstr "Novell Groupwise serveri kasutamiseks"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:111
 #: camel/providers/imap4/camel-imap4-provider.c:81
@@ -10675,9 +10636,9 @@ msgid "Unexpected response from IMAP4 server %s: %s"
 msgstr "Ootamatu vastus IMAP serverilt %s: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:216
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected greeting from IMAP server %s."
-msgstr "Ootamatu vastus IMAP serverilt: %s"
+msgstr "Ootamatu tervitus IMAP serverilt: %s"
 
 #: camel/providers/imap4/camel-imap4-engine.c:410
 #, c-format
@@ -10703,26 +10664,24 @@ msgid "Cannot access folder `%s': %s"
 msgstr "Kausta `%s' ei saadud: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
-msgstr "Sõnumeid ei saa lisada `%s' kausta: Tundmatu viga"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
-msgstr "Sõnumeid ei saa lisada `%s' kausta: Puudulik käsk"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-folder.c:565
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Unknown"
-msgstr ""
-"Kirjeldatud kausta loomine nurjus:\n"
-"%s"
+msgstr "Kausta `%s' ei saa tühjendada: Tundmatu"
 
 #: camel/providers/imap4/camel-imap4-folder.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot expunge folder `%s': Bad command"
-msgstr "Kausta `%s' ei saa valida: Puudulik käsk"
+msgstr "Kausta `%s' ei saa tühjendada: Puudulik käsk"
 
 #: camel/providers/imap4/camel-imap4-folder.c:749
 #: camel/providers/nntp/camel-nntp-folder.c:157
@@ -10744,11 +10703,9 @@ msgstr "Kasutaja tühistas"
 #: camel/providers/pop3/camel-pop3-folder.c:495
 #: camel/providers/pop3/camel-pop3-folder.c:502
 #: camel/providers/pop3/camel-pop3-folder.c:513
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get message %s: %s"
-msgstr ""
-"Sõnumit %s ei saadud: \n"
-"  %s"
+msgstr "Sõnumit %s ei saadud: %s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:772
 #, fuzzy
@@ -10831,7 +10788,7 @@ msgstr "Nimeruum"
 
 #: camel/providers/imap4/camel-imap4-provider.c:51
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr "Rakenda filtreid kõikidele Sisendkasti uutele sõnumitele"
+msgstr "Rakenda filtreid kõikidele sisendkausta uutele sõnumitele"
 
 #: camel/providers/imap4/camel-imap4-provider.c:57
 msgid "Automatically synchronize remote mail locally"
@@ -10842,14 +10799,13 @@ msgid "IMAPv4rev1"
 msgstr "IMAPv4rev1"
 
 #: camel/providers/imap4/camel-imap4-provider.c:66
-#, fuzzy
 msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
-msgstr "E-posti loetakse ja hoitakse IMAP serveris."
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-provider.c:83
-#, fuzzy
 msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
-msgstr "See valik loob ühenduse serveriga kasutades tavalist parooli."
+msgstr ""
+"See valik loob ühenduse IMAPv4rev1 serveriga kasutades tavalist parooli."
 
 #: camel/providers/imap4/camel-imap4-store.c:203
 #: camel/providers/imap/camel-imap-store.c:421
@@ -10902,7 +10858,7 @@ msgstr "Ühendus katkestatud"
 #: camel/providers/imap/camel-imap-store.c:674
 #, c-format
 msgid "Failed to connect to IMAP server %s in secure mode: %s"
-msgstr "Viga turvatud ühendumisel IMAP serveriga %s: %s"
+msgstr "Tõrge turvalisel ühendumisel IMAP serveriga %s: %s"
 
 #: camel/providers/imap4/camel-imap4-store.c:275
 #: camel/providers/imap/camel-imap-store.c:675
@@ -10911,9 +10867,10 @@ msgid "SSL negotiations failed"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:378
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
-msgstr "SMTP server %s ei toeta küsitud autentimistüüpi %s"
+msgstr ""
+"IMAP serverisse %s ei saa autentimistüüpi %s kasutades autentida"
 
 #: camel/providers/imap4/camel-imap4-store.c:423
 #, c-format
@@ -10939,9 +10896,9 @@ msgstr "Kausta `%s' ei saadud IMAP serverist %s: Tundmatu"
 #: camel/providers/imap4/camel-imap4-store.c:759
 #: camel/providers/imap/camel-imap-store.c:1861
 #: camel/providers/imap/camel-imap-store.c:2239
-#, fuzzy, c-format
+#, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "Kausta nimi \"%s\" on vigane kuna see sisaldab \"%c\" kirjamärki"
+msgstr "Kausta nimi \"%s\" on lubamatu kuna see sisaldab \"%c\" kirjamärki"
 
 #: camel/providers/imap4/camel-imap4-store.c:817
 #, c-format
@@ -11028,9 +10985,9 @@ msgid "Cannot unsubscribe from folder `%s': Invalid mailbox name"
 msgstr "Kausta `%s' tellimisest ei saa loobuda: Vigane kirjakasti nimi"
 
 #: camel/providers/imap4/camel-imap4-store.c:1403
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot unsubscribe from folder `%s': Bad command"
-msgstr "Ei saa loobuda kaustast `%s': Puudulik käsk"
+msgstr "Kaustast `%s' ei saa loobuda: Puudulik käsk"
 
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap4/camel-imap4-summary.c:1266
@@ -11044,9 +11001,9 @@ msgid "Fetching envelopes for new messages"
 msgstr "Uute sõnumite kontroll"
 
 #: camel/providers/imap4/camel-imap4-utils.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected token in response from IMAP server %s: "
-msgstr "Ootamatu vastus IMAP serverilt: %s"
+msgstr ""
 
 #: camel/providers/imap4/camel-imap4-utils.c:391
 msgid "No data"
@@ -11309,9 +11266,9 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:140
 #: camel/providers/local/camel-mbox-store.c:210
 #: camel/providers/local/camel-mh-store.c:237
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': folder exists."
-msgstr "Kausta `%s' ei saa luua: kaust juba eksisteerib"
+msgstr "Kausta `%s' ei saa luua: kaust on juba olemas."
 
 #: camel/providers/imap/camel-imap-store.c:2250
 #, c-format
@@ -11335,7 +11292,8 @@ msgid ""
 " !!! DO NOT USE THIS FOR PRODUCTION EMAIL  !!!\n"
 msgstr ""
 "Eksperimentaalne IMAP 4(.1) klient\n"
-"See on testimata ja mittetoetatud kood, parem kasuta selle asemel tavalist imap'i.\n"
+"See on testimata ja mittetoetatud kood, parem kasuta selle asemel tavalist "
+"imap'i.\n"
 "\n"
 " !!! ÄRA KASUTA SEDA OMA TAVAKIRJADE PUHUL !!!\n"
 
@@ -11351,7 +11309,7 @@ msgstr "Ei saa luua ühendust POP serveriga %s"
 
 #: camel/providers/local/camel-local-folder.c:179
 msgid "Index message body data"
-msgstr "Sõnumite kehatekstide indekseerimine"
+msgstr ""
 
 #  $HOME relative path + protocol string
 #. $HOME relative path + protocol string
@@ -11385,7 +11343,7 @@ msgstr "MH-vormingus postikataloogid"
 
 #: camel/providers/local/camel-local-provider.c:53
 msgid "For storing local mail in MH-like mail directories."
-msgstr ""
+msgstr "Kohalikku posti hoitakse MH vorminguga kataloogides."
 
 # !PARANDA! - no kuidas siis tõlkida?
 #: camel/providers/local/camel-local-provider.c:68
@@ -11393,9 +11351,10 @@ msgid "Local delivery"
 msgstr "Kohalik postijagaja"
 
 #: camel/providers/local/camel-local-provider.c:69
-#, fuzzy
 msgid "For retrieving (moving) local mail from standard mbox formated spools into folders managed by Evolution."
-msgstr "Kohalikku e-posti võetakse standardsest \"mbox\" vorminguga puhvrist"
+msgstr ""
+"Kohalikku e-posti võetakse standardsest \"mbox\" vorminguga puhvrist ja "
+"tõstetakse Evolution'i poolt hallatavatesse kaustadesse."
 
 #: camel/providers/local/camel-local-provider.c:81
 #: camel/providers/local/camel-local-provider.c:100
@@ -11415,16 +11374,17 @@ msgid "Store status headers in Elm/Pine/Mutt format"
 msgstr "Salvesta olekupäised Elm/Pine/Mutt vormingus"
 
 #: camel/providers/local/camel-local-provider.c:108
-#, fuzzy
 msgid "Standard Unix mbox spool or directory"
-msgstr "Standardne Unix'i \"mbox\" puhver"
+msgstr "Standardne Unix'i \"mbox\" puhverfail või -kataloog"
 
 #: camel/providers/local/camel-local-provider.c:109
-#, fuzzy
 msgid ""
 "For reading and storing local mail in external standard mbox spool files.\n"
 "May also be used to read a tree of Elm, Pine, or Mutt style folders."
-msgstr "Kohalikku e-posti loetakse ja hoitakse standardsetes \"mbox\" vorminguga puhverfailides"
+msgstr ""
+"Kohalikku e-posti loetakse ja salvestatakse standardsetes välistes \"mbox\" "
+"vorminguga puhverfailides. Võib kasutada ka juhul, kui soovitakse kasutada "
+"programmide Elm, Pine või Mutt postikaustu."
 
 #: camel/providers/local/camel-local-store.c:143
 #: camel/providers/local/camel-local-store.c:254
@@ -11435,9 +11395,9 @@ msgid "Store root %s is not an absolute path"
 msgstr "Hoidla juurikas %s ei ole absoluutne tee"
 
 #: camel/providers/local/camel-local-store.c:150
-#, fuzzy, c-format
+#, c-format
 msgid "Store root %s is not a regular directory"
-msgstr "Fail '%s' ei ole tavaline fail ega kataloog."
+msgstr ""
 
 #: camel/providers/local/camel-local-store.c:159
 #: camel/providers/local/camel-local-store.c:167
@@ -11505,9 +11465,8 @@ msgid "Inbox"
 msgstr "Sisendkast"
 
 #: camel/providers/local/camel-maildir-folder.c:215
-#, fuzzy
 msgid "Maildir append message cancelled"
-msgstr "Sõnumi lisamine maildir kausta nurjus: %s: %s"
+msgstr "Sõnumi lisamine maildir kausta katkestati"
 
 #: camel/providers/local/camel-maildir-folder.c:218
 #, c-format
@@ -11548,7 +11507,7 @@ msgstr "Kausta `%s' ei saadud: %s"
 #: camel/providers/local/camel-mh-store.c:212
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
-msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
+msgstr "Kausta `%s' ei saadud: seda ei ole olemas."
 
 #: camel/providers/local/camel-maildir-store.c:122
 #: camel/providers/local/camel-mbox-store.c:182
@@ -11558,9 +11517,9 @@ msgid "Cannot create folder `%s': %s"
 msgstr "Kausta `%s' ei saa luua: %s"
 
 #: camel/providers/local/camel-maildir-store.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a maildir directory."
-msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
+msgstr "Kausta `%s' ei saadud: see ei ole maildir kataloog."
 
 #: camel/providers/local/camel-maildir-store.c:176
 #: camel/providers/local/camel-maildir-store.c:214
@@ -11584,16 +11543,15 @@ msgstr "Kausta `%s' ei saa läbi vaadata: %s"
 #: camel/providers/local/camel-maildir-summary.c:556
 #, c-format
 msgid "Cannot open maildir directory path: %s: %s"
-msgstr "Ei saa avada Maildir kataloogi %s: %s"
+msgstr "Maildir kataloogi ei saa avada %s: %s"
 
 #: camel/providers/local/camel-maildir-summary.c:549
-#, fuzzy
 msgid "Checking folder consistency"
-msgstr "%1: kausta sobivuse kontroll"
+msgstr ""
 
 #: camel/providers/local/camel-maildir-summary.c:652
 msgid "Checking for new messages"
-msgstr "Uute sõnumite kontroll"
+msgstr "Uute sõnumite kontrollimine"
 
 #: camel/providers/local/camel-maildir-summary.c:741
 #: camel/providers/local/camel-mbox-summary.c:416
@@ -11615,19 +11573,17 @@ msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Ei saa avada kirjakasti: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:329
-#, fuzzy
 msgid "Mail append cancelled"
-msgstr "Postitamine katkestati!!!"
+msgstr "E-posti lisamine katkestati"
 
 #: camel/providers/local/camel-mbox-folder.c:332
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot append message to mbox file: %s: %s"
-msgstr "Sõnumi lisamine maildir kausta nurjus: %s: %s"
+msgstr "Sõnumit ei saa mbox faili lisada: %s: %s"
 
 #: camel/providers/local/camel-mbox-folder.c:453
-#, fuzzy
 msgid "The folder appears to be irrecoverably corrupted."
-msgstr "Sõnum ei tundu olevalt õigesti vormistatud"
+msgstr "Kaust tundub olevad parandamatult rikutud."
 
 #: camel/providers/local/camel-mbox-folder.c:461
 #: camel/providers/local/camel-mh-folder.c:223
@@ -11640,9 +11596,9 @@ msgid "Cannot create a folder by this name."
 msgstr "Sellise nimega kausta ei saa luua."
 
 #: camel/providers/local/camel-mbox-store.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a regular file."
-msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
+msgstr "Kausta `%s' ei saadud: see ei ole tavaline fail."
 
 #: camel/providers/local/camel-mbox-store.c:234
 #: camel/providers/local/camel-mbox-store.c:245
@@ -11651,7 +11607,8 @@ msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
 msgid ""
 "Could not delete folder `%s':\n"
 "%s"
-msgstr "Kataloogi %s ei saa kustutada: %s"
+msgstr "Kataloogi `%s' ei saa kustutada:\n"
+"%s"
 
 #: camel/providers/local/camel-mbox-store.c:253
 #, c-format
@@ -11675,12 +11632,11 @@ msgstr "Kausta %s ei saa luua: %s"
 
 #: camel/providers/local/camel-mbox-store.c:388
 msgid "Folder already exists"
-msgstr "Kaust juba eksisteerib"
+msgstr "Kaust on juba olemas"
 
 #: camel/providers/local/camel-mbox-store.c:470
-#, fuzzy
 msgid "The new folder name is illegal."
-msgstr "Uus failinimi on tühi!"
+msgstr "Uus kaustanimi on lubamatu!"
 
 #: camel/providers/local/camel-mbox-store.c:483
 #, c-format
@@ -11688,24 +11644,24 @@ msgid "Could not rename `%s': `%s': %s"
 msgstr "Ei saa ümber nimetada '%s': `%s': %s"
 
 #: camel/providers/local/camel-mbox-store.c:558
-#, fuzzy, c-format
+#, c-format
 msgid "Could not rename '%s' to %s: %s"
-msgstr "Kausta %s ei saa ümber nimetada %s-ks: %s"
+msgstr "Kausta '%s' ei saa ümber nimetada '%s'-ks: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:422
 #, c-format
 msgid "Could not open folder: %s: %s"
-msgstr "Kausta %s ei saa avada: %s"
+msgstr "Kausta ei saa avada: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:470
 #, c-format
 msgid "Fatal mail parser error near position %ld in folder %s"
-msgstr ""
+msgstr "Pöördumatu postianalüüsija viga positsioonil %ld kaustad %s"
 
 #: camel/providers/local/camel-mbox-summary.c:526
 #, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Ei saa kontrollida kausta: %s: %s"
+msgstr "Kausta ei saa kontrollida: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:594
 #: camel/providers/local/camel-mbox-summary.c:685
@@ -11718,13 +11674,13 @@ msgstr "Faili %s ei saa avada: %s"
 #: camel/providers/local/camel-spool-summary.c:165
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr "Ei saa avada ajutist kirjakasti: %s"
+msgstr "Ajutist kirjakasti ei saa avada: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:619
 #: camel/providers/local/camel-mbox-summary.c:783
 #, c-format
 msgid "Could not close source folder %s: %s"
-msgstr "Ei saa sulgeda ajutist kausta %s: %s"
+msgstr "Lähtekausta ei saa sulgeda %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:628
 #, c-format
@@ -11734,7 +11690,7 @@ msgstr "Ajutist kausta ei saa sulgeda: %s"
 #: camel/providers/local/camel-mbox-summary.c:639
 #, c-format
 msgid "Could not rename folder: %s"
-msgstr "Kataloogi ei saa ümber nimetada : %s"
+msgstr "Kataloogi ei saa ümber nimetada: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:723
 #: camel/providers/local/camel-mbox-summary.c:731
@@ -11766,9 +11722,8 @@ msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr "Tõrge ajutisse kirjakasti kirjutamisel: %s: %s"
 
 #: camel/providers/local/camel-mh-folder.c:175
-#, fuzzy
 msgid "MH append message cancelled"
-msgstr "Sõnumi lisamine mh vormingus kausta nurjus: %s: %s"
+msgstr "MH sõnumi lisamine katkestatud"
 
 #: camel/providers/local/camel-mh-folder.c:178
 #, c-format
@@ -11776,16 +11731,14 @@ msgid "Cannot append message to mh folder: %s: %s"
 msgstr "Sõnumi lisamine mh vormingus kausta nurjus: %s: %s"
 
 #: camel/providers/local/camel-mh-store.c:220
-#, fuzzy, c-format
+#, c-format
 msgid "Could not create folder `%s': %s"
-msgstr ""
-"Ei suuda luua kataloogi %s:\n"
-"%s"
+msgstr "Kataloogi `%s' ei saa luua: %s"
 
 #: camel/providers/local/camel-mh-store.c:232
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s': not a directory."
-msgstr "Kausta `%s' ei saadud: seda ei eksisteeri."
+msgstr "Kausta `%s' ei saa lugeda: see ei ole kataloog."
 
 #: camel/providers/local/camel-mh-summary.c:247
 #, c-format
@@ -11795,17 +11748,17 @@ msgstr "Ei saa avada MH kataloogi: %s: %s"
 #: camel/providers/local/camel-spool-store.c:123
 #, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr ""
+msgstr "Puhvrit `%s' ei saa avada: %s"
 
 #: camel/providers/local/camel-spool-store.c:135
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "Faili '%s' ei ole olemas või see pole tavaline fail."
+msgstr "Puhver '%s' pole tavaline fail ega kataloog"
 
 #: camel/providers/local/camel-spool-store.c:154
 #, c-format
 msgid "Folder `%s/%s' does not exist."
-msgstr "Kausta '%s/%s' ei eksisteeri."
+msgstr "Kausta `%s/%s' ei ole olemas."
 
 #: camel/providers/local/camel-spool-store.c:164
 #, c-format
@@ -11813,13 +11766,13 @@ msgid ""
 "Could not open folder `%s':\n"
 "%s"
 msgstr ""
-"Kausta %s ei saa avada:\n"
+"Kausta `%s' ei saa avada:\n"
 "%s"
 
 #: camel/providers/local/camel-spool-store.c:168
 #, c-format
 msgid "Folder `%s' does not exist."
-msgstr "Kataloogi '%s' ei eksisteeri."
+msgstr "Kataloogi '%s' pole olema."
 
 #: camel/providers/local/camel-spool-store.c:173
 #, c-format
@@ -11827,7 +11780,7 @@ msgid ""
 "Could not create folder `%s':\n"
 "%s"
 msgstr ""
-"Kausta %s ei saa luua:\n"
+"Kausta `%s' ei saa luua:\n"
 "%s"
 
 #: camel/providers/local/camel-spool-store.c:181
@@ -11836,14 +11789,13 @@ msgid "`%s' is not a mailbox file."
 msgstr "`%s' ei ole kirjakasti fail."
 
 #: camel/providers/local/camel-spool-store.c:198
-#, fuzzy
 msgid "Store does not support an INBOX"
-msgstr "Terminal ei toeta värve"
+msgstr ""
 
 #: camel/providers/local/camel-spool-store.c:210
-#, fuzzy, c-format
+#, c-format
 msgid "Spool mail file %s"
-msgstr "Kohaliku posti fail %s"
+msgstr "E-posti puhverfail %s"
 
 #: camel/providers/local/camel-spool-store.c:210
 #, c-format
@@ -11852,12 +11804,11 @@ msgstr ""
 
 #: camel/providers/local/camel-spool-store.c:218
 msgid "Spool folders cannot be renamed"
-msgstr ""
+msgstr "Puhverkaustu ei saa ümber nimetada"
 
 #: camel/providers/local/camel-spool-store.c:226
-#, fuzzy
 msgid "Spool folders cannot be deleted"
-msgstr "Soovisid kustutada faili '%1', aga seda ei leitud."
+msgstr "Puhverkaustu ei saa kustutada"
 
 #: camel/providers/local/camel-spool-summary.c:178
 #: camel/providers/local/camel-spool-summary.c:188
@@ -11892,7 +11843,7 @@ msgstr "Server keeldus kasutajanime vastu võtmast"
 
 #: camel/providers/nntp/camel-nntp-auth.c:70
 msgid "Failed to send username to server"
-msgstr "Tõrge kasutajanime serverile saatmisel"
+msgstr "Tõrge kasutajanime saatmisel serverile"
 
 #: camel/providers/nntp/camel-nntp-auth.c:79
 msgid "Server rejected username/password"
@@ -11941,7 +11892,7 @@ msgstr "Näita kaustasid lühendatult (comp.os.linux asemel c.o.linux)"
 
 #: camel/providers/nntp/camel-nntp-provider.c:46
 msgid "In the subscription dialog, show relative folder names"
-msgstr ""
+msgstr "Kaustade tellimisdialoogis näita kaustade suhtnimesid"
 
 #: camel/providers/nntp/camel-nntp-provider.c:53
 msgid "USENET news"
@@ -11950,6 +11901,7 @@ msgstr "USENETi uudised"
 #: camel/providers/nntp/camel-nntp-provider.c:55
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
 msgstr ""
+"Selle kaudu on võimalik lugeda ja kirjutada USENET'i uudistegruppidesse."
 
 #: camel/providers/nntp/camel-nntp-provider.c:74
 msgid "This option will authenticate with the NNTP server using a plaintext password."
@@ -12000,18 +11952,16 @@ msgid "You cannot create a folder in a News store: subscribe instead."
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:958
-#, fuzzy
 msgid "You cannot rename a folder in a News store."
-msgstr "Ei saa muuda kausta %s nime %s-ks: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:966
 msgid "You cannot remove a folder in a News store: unsubscribe instead."
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-store.c:1136
-#, fuzzy
 msgid "Authentication requested but no username provided"
-msgstr "Autentimine on vajalik"
+msgstr "Nõutakse autentimist kuid kasutajanime ei ole sisestatud"
 
 #: camel/providers/nntp/camel-nntp-store.c:1148
 #, c-format
@@ -12039,19 +11989,18 @@ msgid "%s: Scanning new messages"
 msgstr "%s: uute kirjade skannimine"
 
 #: camel/providers/nntp/camel-nntp-summary.c:228
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from xover: %s"
-msgstr "Ootamatu vastus IMAP serverilt: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:331
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected server response from head: %s"
-msgstr "Ootamatu vastus IMAP serverilt: %s"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:371
-#, fuzzy
 msgid "Use cancel"
-msgstr "Katkestada avamine?"
+msgstr ""
 
 #: camel/providers/nntp/camel-nntp-summary.c:373
 #, c-format
@@ -12074,7 +12023,7 @@ msgstr "Hävitan kustutatud sõnumid"
 #: camel/providers/pop3/camel-pop3-folder.c:405
 #, fuzzy, c-format
 msgid "No message with uid %s"
-msgstr "[Elemendid ]omaniku UID-ga \"%s\""
+msgstr "Sõnumit uid'iga %s ei ole"
 
 #  Sigh, most of the crap in this function is so that the cancel button
 #  returns the proper exception code.  Sigh.
@@ -12115,7 +12064,9 @@ msgstr "E-posti laetakse alla POP serverist"
 
 #: camel/providers/pop3/camel-pop3-provider.c:74
 msgid "This option will connect to the POP server using a plaintext password. This is the only option supported by many POP servers."
-msgstr "See valik ühendub POP serverisse kasutades lihttekstiparooli. See on ainus valik, mida toetavad paljud POP serverid."
+msgstr ""
+"See valik ühendub POP serverisse kasutades lihttekstiparooli. See on ainus "
+"valik, mida toetavad paljud POP serverid."
 
 #: camel/providers/pop3/camel-pop3-provider.c:84
 msgid "This option will connect to the POP server using an encrypted password via the APOP protocol. This may not work for all users even on servers that claim to support it."
@@ -12131,7 +12082,7 @@ msgstr "Ootamatu vastus IMAP serverilt: %s"
 #: camel/providers/pop3/camel-pop3-store.c:242
 #, c-format
 msgid "Failed to connect to POP server %s in secure mode: %s"
-msgstr ""
+msgstr "Tõrge turvalisel ühendumisel POP serverisse %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:216
 #, fuzzy
@@ -12165,9 +12116,9 @@ msgid "Failed to authenticate on POP server %s: %s"
 msgstr "Tõrge autentimisel POP serverisse %s: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:468
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the POP password for %s on host %s"
-msgstr "%sPalun sisesta %s parool (kasutaja %s)"
+msgstr "%sPalun sisesta kasutaja %s POP parool hostile %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:523
 #: camel/providers/pop3/camel-pop3-store.c:536
@@ -12202,9 +12153,8 @@ msgid "For delivering mail by passing it to the \"sendmail\" program on the loca
 msgstr "E-posti saatmiseks kohaliku süsteemi programmi \"sendmail\" abil."
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:114
-#, fuzzy
 msgid "Could not parse recipient list"
-msgstr "%s: Ei õnnestu lugeda autoriseerimisnimekirja"
+msgstr "Saajate nimekirja ei õnnestu analüüsida"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:145
 #, c-format
@@ -12214,7 +12164,8 @@ msgstr "Ei saa luua toru sendmailiga: %s: sõnumit ei saadetud"
 #: camel/providers/sendmail/camel-sendmail-transport.c:166
 #, c-format
 msgid "Could not fork sendmail: %s: mail not sent"
-msgstr "Sendmail'i haruprotsessi pole võimalik tekitada: %s: e-post jäi saatmata"
+msgstr ""
+"Sendmail'i haruprotsessi pole võimalik tekitada: %s: e-post jäi saatmata"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:206
 #, c-format
@@ -12250,7 +12201,7 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:40
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
+msgstr "E-posti saatmiseks SMTP protokolli kaudu välisele mailhub serverile."
 
 #: camel/providers/smtp/camel-smtp-transport.c:165
 msgid "Syntax error, command unrecognized"
@@ -12321,9 +12272,8 @@ msgid "Requested mail action aborted: exceeded storage allocation"
 msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:199
-#, fuzzy
 msgid "Requested action not taken: mailbox name not allowed"
-msgstr "Nõutud kirjategevust ei tehtud: kirjakast ei ole saadaval"
+msgstr "Nõutud toimingut ei teostatud: kirjakasti nimi ei ole lubatud"
 
 #: camel/providers/smtp/camel-smtp-transport.c:201
 msgid "Start mail input; end with <CRLF>.<CRLF>"
@@ -12361,7 +12311,7 @@ msgstr "Tervitusvastuse viga"
 #: camel/providers/smtp/camel-smtp-transport.c:355
 #, c-format
 msgid "Failed to connect to SMTP server %s in secure mode: %s"
-msgstr "Ei saa luua turvalist ühendust SMTP serveriga %s: %s"
+msgstr "Tõrge turvalisel ühendumisel SMTP serverisse %s: %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:331
 #, c-format
@@ -12378,9 +12328,9 @@ msgid "SMTP server %s does not support requested authentication type %s."
 msgstr "SMTP server %s ei toeta küsitud autentimistüüpi %s."
 
 #: camel/providers/smtp/camel-smtp-transport.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the SMTP password for %s on host %s"
-msgstr "%sPalun sisesta %s parool (kasutaja %s)"
+msgstr "%sPalun sisesta kasutaja %s SMTP parool hostile %s"
 
 #: camel/providers/smtp/camel-smtp-transport.c:536
 #, c-format
@@ -12404,9 +12354,8 @@ msgid "SMTP mail delivery via %s"
 msgstr "SMTP posti saatmine %s kaudu"
 
 #: camel/providers/smtp/camel-smtp-transport.c:680
-#, fuzzy
 msgid "Cannot send message: service not connected."
-msgstr "Ei saa saata sõnumit: saatja aadress on vigane"
+msgstr "Sõnumit ei saa saata: teenusega ei saa ühendust"
 
 #: camel/providers/smtp/camel-smtp-transport.c:686
 msgid "Cannot send message: sender address not valid."
@@ -12421,9 +12370,8 @@ msgid "Cannot send message: no recipients defined."
 msgstr "Ei saa saata sõnumit: saajate aadressid on määramata."
 
 #: camel/providers/smtp/camel-smtp-transport.c:716
-#, fuzzy
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "Sõnumit ei saa saata: saajate aadressid on määramata."
+msgstr "Sõnumit ei saa saata: saajate aadress või aadressid on vigased."
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
@@ -12574,23 +12522,24 @@ msgid "Suggest automatic display of attachment"
 msgstr "Soovita manuse automaatset kuvamist"
 
 #: composer/e-msg-composer.c:727
-#, fuzzy
 msgid "Cannot sign outgoing message: No signing certificate set for this account"
-msgstr "Väljuvad sõnumid _allkirjastatakse alati selle konto abil"
+msgstr ""
+"Väljuvat sõnumit pole võimalik signeerida: selle konto jaoks ei ole "
+"signeerimissertifikaati määratud."
 
 #: composer/e-msg-composer.c:734
-#, fuzzy
 msgid "Cannot encrypt outgoing message: No encryption certificate set for this account"
-msgstr "Seda teadet pole võimalik krüpteerida: puudub krüpteeritav algtekst"
+msgstr ""
+"Väljuvat sõnumit pole võimalik krüptida: selle konto jaoks ei ole "
+"krüptimissertifikaati määratud."
 
 #: composer/e-msg-composer.c:1291
 msgid "Could not open file"
 msgstr "Tõrge faili avamisel"
 
 #: composer/e-msg-composer.c:1299
-#, fuzzy
 msgid "Unable to retrieve message from editor"
-msgstr "Sõnumi vastuvõtmine nurjus"
+msgstr "Ei saa sõnumit redaktorist kätte"
 
 #: composer/e-msg-composer.c:1569
 msgid "Untitled Message"
@@ -12658,22 +12607,22 @@ msgstr "_Liiguta"
 #: composer/e-msg-composer.c:2906
 #: mail/em-folder-tree.c:1031
 #: mail/message-list.c:1715
-#, fuzzy
 msgid "Cancel _Drag"
-msgstr "Lohistamise pide"
+msgstr ""
 
 #: composer/e-msg-composer.c:4538
 msgid "<b>(The composer contains a non-text message body, which cannot be edited.)<b>"
 msgstr ""
+"<b>(Redaktor sisaldab mittetekstilist sõnumit ja seda ei ole võimalik "
+"redigeerida.)<b>"
 
 #: composer/e-msg-composer-hdrs.c:512
 msgid "Posting destination"
 msgstr "Postituse sihtkoht"
 
 #: composer/e-msg-composer-hdrs.c:513
-#, fuzzy
 msgid "Choose folders to post the message to."
-msgstr "Sõnumi postitamine avalikku kausta"
+msgstr "Vali kaust, kuhu sõnum postitada."
 
 #: composer/e-msg-composer-hdrs.c:547
 msgid "Click here for the address book"
@@ -12751,7 +12700,7 @@ msgstr "Klõpsa siia, et valida kaustad kuhu postitada"
 #: composer/e-msg-composer-hdrs.c:628
 #, fuzzy
 msgid "Post To:"
-msgstr "Postita gruppi "
+msgstr "Postita kellele:"
 
 #: composer/e-msg-composer-select-file.c:187
 msgid "Attach file(s)"
@@ -12760,15 +12709,13 @@ msgstr "Faili(de) manustamine"
 #  mail-composer:no-attach primary
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
-#, fuzzy
 msgid "You cannot attach the file `{0}' to this message."
-msgstr "Faili manustamine sõnumile"
+msgstr "Sa ei saa sellele sõnumile manustada faili `{0}'"
 
 #. mail-composer:attach-notfile primary
 #: composer/mail-composer-errors.xml.h:6
-#, fuzzy
 msgid "The file `{0}' is not a regular file and cannot be sent in a message."
-msgstr "Fail `${0}' ei ole tavafail ja seda ei saa sõnumis saata."
+msgstr "Fail `{0}' ei ole tavafail ja seda ei saa sõnumis saata."
 
 #. mail-composer:attach-directory primary
 #: composer/mail-composer-errors.xml.h:8
@@ -12783,9 +12730,8 @@ msgstr ""
 #  mail-composer:no-build-message primary
 #. mail-composer:attach-nomessages primary
 #: composer/mail-composer-errors.xml.h:12
-#, fuzzy
 msgid "Could not retrieve messages to attach from {0}."
-msgstr "Sõnumit ei saa luua."
+msgstr ""
 
 #. mail-composer:attach-nomessages secondary
 #: composer/mail-composer-errors.xml.h:14
@@ -12800,18 +12746,14 @@ msgstr "Kuna \"{1}\"."
 #  mail-composer:recover-autosave title
 #. mail-composer:recover-autosave title
 #: composer/mail-composer-errors.xml.h:16
-#, fuzzy
 msgid "Unfinished messages found"
-msgstr "Topeltkirju ei leitud."
+msgstr "Leidsin lõpetamata sõnumi"
 
 #  mail-composer:recover-autosave primary
 #. mail-composer:recover-autosave primary
 #: composer/mail-composer-errors.xml.h:18
-#, fuzzy
 msgid "Do you want to recover unfinished messages?"
-msgstr ""
-"Kas tõesti kustutada %n kiri?\n"
-"Kas tõesti kustutada %n kirja?"
+msgstr "Kas sa soovid lõpetamata sõnumid taastada?"
 
 #. mail-composer:recover-autosave secondary
 #: composer/mail-composer-errors.xml.h:20
@@ -12829,16 +12771,14 @@ msgstr "Taasta"
 #  mail-composer:no-autosave primary
 #. mail-composer:no-autosave primary
 #: composer/mail-composer-errors.xml.h:24
-#, fuzzy
 msgid "Could not save to autosave file \"{0}\"."
-msgstr "Ajutisse faili kirjutamine ei õnnestunud."
+msgstr "Faili \"{0}\" ei saa automaatselt salvestada."
 
 #  mail-composer:no-autosave secondary
 #. mail-composer:no-autosave secondary
 #: composer/mail-composer-errors.xml.h:26
-#, fuzzy
 msgid "Error saving to autosave because \"{1}\"."
-msgstr "Viga faili salvestamisel. Kontrolli, kas sul on õigus seda asukohas \"%1\" üldse teha."
+msgstr "Viga faili automaatsel salvestamisel, põhjus: \"{1}\"."
 
 #. mail-composer:exit-unsaved title
 #: composer/mail-composer-errors.xml.h:28
@@ -12851,17 +12791,19 @@ msgstr "Hoiatus: salvestamata sõnum"
 #: composer/mail-composer-errors.xml.h:30
 msgid "Are you sure you want to discard the message, titled '{0}', you are composing?"
 msgstr ""
+"Kas sa tõesti soovid tühistada sõnumit '{0}', mille koostamine on pooleli?"
 
 #  mail-composer:exit-unsaved secondary
 #. mail-composer:exit-unsaved secondary
 #: composer/mail-composer-errors.xml.h:32
 msgid "Closing this composer window will discard the message permanently, unless you choose to save the message in your Drafts folder. This will allow you to continue the message at a later date."
 msgstr ""
+"Selle redaktoriakna sulgemine tühistab sõnumi lõplikult. Kui sa tahad sõnumi "
+"koostamist hiljem jätkata, siis salvesta see sõnum Mustandite kausta."
 
 #: composer/mail-composer-errors.xml.h:33
-#, fuzzy
 msgid "_Discard Changes"
-msgstr "Loobu muudatustest"
+msgstr "_Loobu muudatustest"
 
 #: composer/mail-composer-errors.xml.h:34
 #, fuzzy
@@ -12876,9 +12818,8 @@ msgstr "Sõnumit ei saa luua."
 
 #. mail-composer:no-build-message secondary
 #: composer/mail-composer-errors.xml.h:38
-#, fuzzy
 msgid "Because \"{0}\", you may need to select different mail options."
-msgstr "Kuna \"${0}\", pead sa valima teised kirjade sätted."
+msgstr "Sa pead sõnumile valima teised seaded, põhjus: \"{0}\"."
 
 #  mail-composer:no-sig-file primary
 #. mail-composer:no-sig-file primary
@@ -13029,7 +12970,7 @@ msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
 msgstr ""
-"Antud nimega fail eksisteerib.\n"
+"Antud nimega fail on juba olemas.\n"
 "Kirjutada üle?"
 
 #. system:ask-save-file-exists-overwrite title
@@ -13247,7 +13188,7 @@ msgstr "%d-%b-%Y"
 
 #: filter/filter-datespec.c:406
 msgid "Select a time to compare against"
-msgstr "Vali aeg, millega võrrelda"
+msgstr "Võrdlusaja valimine"
 
 #. filter:no-date primary
 #: filter/filter-errors.xml.h:2
@@ -13273,7 +13214,7 @@ msgstr "Failinime andmine on kohustuslik"
 #. filter:bad-file primary
 #: filter/filter-errors.xml.h:10
 msgid "File \"{0}\" does not exist or is not a regular file."
-msgstr "Faili \"{0}\" ei eksisteeri või see pole tavaline fail."
+msgstr "Faili \"{0}\" ei ole olemas või pole see tavaline fail."
 
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
@@ -13329,32 +13270,28 @@ msgid "Show filters for mail:"
 msgstr ""
 
 #: filter/filter.glade.h:5
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
 "Sõnumi kuupäeva võrreldakse allpool\n"
-"määratud ajahetkega."
+"määratud kuupäeva kella 12:00'ga."
 
 #: filter/filter.glade.h:7
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
 "Sõnumi kuupäeva võrreldakse ajahetkega,\n"
-"mis on suhteline filtri käivitamise hetkega.\n"
-"Näiteks: 2 nädalat tagasi"
+"mis on suhteline filtri käivitamise hetkega."
 
 #: filter/filter.glade.h:9
-#, fuzzy
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
-"Sõnumi kuupäeva võrreldakse allpool\n"
-"määratud ajahetkega."
+"Sõnumi kuupäeva võrreldakse ajahetkega,\n"
+"mis on võrdne filtri käivitamise hetkega."
 
 #: filter/filter.glade.h:12
 msgid "a time relative to the current time"
@@ -13437,7 +13374,7 @@ msgstr "kui üks tingimustest on täidetud"
 
 #: filter/filter-rule.c:857
 msgid "Execute actions"
-msgstr "Tegevused viiakse täide"
+msgstr "Tegevused täidetakse"
 
 #: filter/filter-rule.c:878
 msgid "All related"
@@ -13448,14 +13385,12 @@ msgid "Replies"
 msgstr "Vastused"
 
 #: filter/filter-rule.c:878
-#, fuzzy
 msgid "Replies and parents"
-msgstr "_Tekst ja ikoon"
+msgstr "Vastused ja eelnenud"
 
 #: filter/filter-rule.c:880
-#, fuzzy
 msgid "Include threads"
-msgstr "_Loetud teemalõngad:"
+msgstr "Haara lõimedest kaasa"
 
 #: filter/filter-rule.c:975
 #, fuzzy
@@ -13495,15 +13430,14 @@ msgid "Select Folder"
 msgstr "Kausta valimine"
 
 #: mail/em-account-editor.c:1808
-#, fuzzy
 msgid "Automatically check for _new mail every"
-msgstr "_Kontrolli uusi sõnumeid automaatselt"
+msgstr "_Kontrolli uusi sõnumeid automaatselt vahemikuga"
 
 #. Most sections for this is auto-generated fromt the camel config
 #: mail/em-account-editor.c:2077
 #: mail/em-account-editor.c:2155
 msgid "Receiving Options"
-msgstr "Vastuvõtmise sätted"
+msgstr "Vastuvõtmise seaded"
 
 #: mail/em-account-editor.c:2500
 #: mail/mail-config.glade.h:34
@@ -13541,7 +13475,7 @@ msgstr "Keel(ed)"
 
 #: mail/em-composer-prefs.c:995
 msgid "Add signature script"
-msgstr "Lisa allkirjaskript"
+msgstr "Allkirjaskripti lisamine"
 
 #: mail/em-composer-prefs.c:1015
 msgid "Signature(s)"
@@ -13562,37 +13496,32 @@ msgstr ""
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
-msgstr "_Filtri reeglid"
+msgstr "_Filtreerimisreeglid"
 
 #. Automatically generated. Do not edit.
 #: mail/em-filter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "Muuda punkte"
 
 #: mail/em-filter-i18n.h:3
-#, fuzzy
 msgid "Assign Color"
-msgstr "Omista ülesanne"
+msgstr "Omista värvus"
 
 #: mail/em-filter-i18n.h:4
-#, fuzzy
 msgid "Assign Score"
-msgstr "Määratud"
+msgstr "Määra punktid"
 
 #: mail/em-filter-i18n.h:5
-#, fuzzy
 msgid "Attachments"
-msgstr "Manus"
+msgstr "Manused"
 
 #: mail/em-filter-i18n.h:6
-#, fuzzy
 msgid "Beep"
-msgstr "Belize"
+msgstr "Piiksu"
 
 #: mail/em-filter-i18n.h:7
-#, fuzzy
 msgid "contains"
-msgstr "Sisu sisaldab"
+msgstr "sisaldab"
 
 #: mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
@@ -13616,60 +13545,51 @@ msgstr "ei sisalda"
 
 #: mail/em-filter-i18n.h:14
 msgid "does not end with"
-msgstr "ei lõppe"
+msgstr "ei lõpe stringiga"
 
 #: mail/em-filter-i18n.h:15
 msgid "does not exist"
 msgstr "pole olemas"
 
 #: mail/em-filter-i18n.h:16
-#, fuzzy
 msgid "does not return"
-msgstr "Sisu ei sisalda"
+msgstr ""
 
 #: mail/em-filter-i18n.h:17
-#, fuzzy
 msgid "does not sound like"
-msgstr "Sisu ei sisalda"
+msgstr ""
 
 #: mail/em-filter-i18n.h:18
-#, fuzzy
 msgid "does not start with"
-msgstr "EI saa käivitada wombatit"
+msgstr "ei alga stringiga"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
-msgstr "Ei eksisteeri"
+msgstr "Ei ole olemas"
 
 #: mail/em-filter-i18n.h:20
-#, fuzzy
 msgid "Draft"
-msgstr "Kuupäev"
+msgstr "Mustand"
 
 #: mail/em-filter-i18n.h:21
-#, fuzzy
 msgid "ends with"
-msgstr "Nimi algab stringiga"
+msgstr "lõpeb stringiga"
 
 #: mail/em-filter-i18n.h:22
-#, fuzzy
 msgid "Exist"
-msgstr "_Välju"
+msgstr "On olemas"
 
 #: mail/em-filter-i18n.h:23
-#, fuzzy
 msgid "exists"
-msgstr "Tekst"
+msgstr "on olemas"
 
 #: mail/em-filter-i18n.h:24
-#, fuzzy
 msgid "Expression"
-msgstr "Lõpeb"
+msgstr "Avaldis"
 
 #: mail/em-filter-i18n.h:25
-#, fuzzy
 msgid "Follow Up"
-msgstr "Vastukaja"
+msgstr "Jälgimislipp"
 
 #: mail/em-filter-i18n.h:27
 msgid "is"
@@ -13704,9 +13624,8 @@ msgid "is not Flagged"
 msgstr "ei ole tähistatud"
 
 #: mail/em-filter-i18n.h:36
-#, fuzzy
 msgid "Junk Test"
-msgstr "Juuni"
+msgstr ""
 
 #: mail/em-filter-i18n.h:37
 #: mail/em-folder-view.c:960
@@ -13735,24 +13654,20 @@ msgid "Message is Junk"
 msgstr ""
 
 #: mail/em-filter-i18n.h:43
-#, fuzzy
 msgid "Message is not Junk"
-msgstr "Märgista kui _mitte rämps"
+msgstr "Sõnum ei ole rämpspost"
 
 #: mail/em-filter-i18n.h:44
-#, fuzzy
 msgid "Move to Folder"
-msgstr "_Tõsta kausta"
+msgstr "Tõsta kausta"
 
 #: mail/em-filter-i18n.h:45
-#, fuzzy
 msgid "Pipe to Program"
-msgstr "Välju programmist"
+msgstr "Suuna programmi"
 
 #: mail/em-filter-i18n.h:46
-#, fuzzy
 msgid "Play Sound"
-msgstr "Mängi heli:"
+msgstr "Mängi heli"
 
 #: mail/em-filter-i18n.h:47
 #: mail/message-tag-followup.c:80
@@ -13760,18 +13675,16 @@ msgid "Read"
 msgstr "Loetud"
 
 #: mail/em-filter-i18n.h:48
-#, fuzzy
 msgid "Recipients"
-msgstr "ei sisalda"
+msgstr "Saajad"
 
 #: mail/em-filter-i18n.h:49
 msgid "Regex Match"
 msgstr ""
 
 #: mail/em-filter-i18n.h:50
-#, fuzzy
 msgid "Replied to"
-msgstr "Vastused"
+msgstr "Vastatud"
 
 #: mail/em-filter-i18n.h:51
 msgid "returns"
@@ -13799,9 +13712,8 @@ msgid "Sender"
 msgstr "Saatja"
 
 #: mail/em-filter-i18n.h:57
-#, fuzzy
 msgid "Set Status"
-msgstr "Olek"
+msgstr "Määra olek"
 
 #: mail/em-filter-i18n.h:58
 msgid "Size (kB)"
@@ -13816,18 +13728,16 @@ msgid "Source Account"
 msgstr "Lähtekonto"
 
 #: mail/em-filter-i18n.h:61
-#, fuzzy
 msgid "Specific header"
-msgstr "ainult kirjeldatud kaustad"
+msgstr ""
 
 #: mail/em-filter-i18n.h:62
 msgid "starts with"
-msgstr "algab"
+msgstr "algab stringiga"
 
 #: mail/em-filter-i18n.h:64
-#, fuzzy
 msgid "Stop Processing"
-msgstr "Peata laadimine"
+msgstr "Seiska töötlus"
 
 #: mail/em-filter-i18n.h:65
 #: mail/em-format.c:853
@@ -13842,9 +13752,8 @@ msgid "Subject"
 msgstr "Teema"
 
 #: mail/em-filter-i18n.h:66
-#, fuzzy
 msgid "Unset Status"
-msgstr "Ühendriigid"
+msgstr "Määramata olek"
 
 #  and now for the action area
 #  and now for the action area
@@ -13882,7 +13791,7 @@ msgstr "<kausta valimiseks kliki siia>"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
-msgstr "Loo uus kaust"
+msgstr "Uue kausta loomine"
 
 #: mail/em-folder-selector.c:166
 #: mail/em-folder-tree.c:2463
@@ -13927,9 +13836,8 @@ msgid "Copying messages into folder %s"
 msgstr "Sõnumite kopeerimine %s kausta"
 
 #: mail/em-folder-tree.c:930
-#, fuzzy
 msgid "Cannot drop message(s) into toplevel store"
-msgstr "Kontrolli uusi sõnumeid kõikides kaustades"
+msgstr ""
 
 #: mail/em-folder-tree.c:1026
 #: ui/evolution-mail-message.xml.h:110
@@ -13954,7 +13862,7 @@ msgstr "\"%s\" kaustade läbivaatamine"
 #: mail/importers/evolution-mbox-importer.c:120
 #: mail/importers/evolution-outlook-importer.c:134
 msgid "Select folder"
-msgstr "Kataloogi valimine"
+msgstr "Kausta valimine"
 
 #: mail/em-folder-tree.c:2233
 #: mail/em-folder-view.c:838
@@ -14028,7 +13936,7 @@ msgstr "VKaustad"
 #: mail/em-folder-tree-model.c:206
 #: mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
-msgstr "VASTAVUSETA"
+msgstr ""
 
 #: mail/em-folder-tree-model.c:491
 #: mail/em-folder-tree-model.c:795
@@ -14066,7 +13974,7 @@ msgstr "_Vasta saatjale"
 #: mail/em-popup.c:502
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
-msgstr "Vasta postiloendisse"
+msgstr "Vasta _postiloendisse"
 
 #: mail/em-folder-view.c:935
 #: mail/em-popup.c:503
@@ -14082,7 +13990,7 @@ msgstr "_Edasta"
 
 #: mail/em-folder-view.c:939
 msgid "Follo_w Up..."
-msgstr "Vastu_kaja..."
+msgstr "Jälgi..."
 
 #: mail/em-folder-view.c:940
 msgid "Fla_g Completed"
@@ -14117,7 +14025,7 @@ msgstr "Märgi _rämpsuks"
 #: mail/em-folder-view.c:949
 #: ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr "Märgista kui _mitte rämps"
+msgstr "Märgista _mitterämpsuks"
 
 #: mail/em-folder-view.c:953
 msgid "U_ndelete"
@@ -14198,7 +14106,7 @@ msgstr "Kopeeri _lingi asukoht"
 #: mail/em-folder-view.c:2462
 #, c-format
 msgid "Click to mail %s"
-msgstr "Kirja saatmiseks kliki %s"
+msgstr "Kliki, et saata sõnumit aadressile %s"
 
 #: mail/em-format.c:848
 #: mail/em-format-html.c:1425
@@ -14304,14 +14212,13 @@ msgid "Invalid signature"
 msgstr "Vigane allkiri"
 
 #: mail/em-format-html.c:583
-#, fuzzy
 msgid "Valid signature but cannot verify sender"
-msgstr "Kehtiv allkiri, saatjat ei saa tuvastada"
+msgstr "Signatuur kehtib kuid saatjat ei saa tuvastada"
 
 #: mail/em-format-html.c:589
 #: mail/em-format-html-display.c:647
 msgid "Unencrypted"
-msgstr "Krüpteerimata"
+msgstr "Krüptimata"
 
 #: mail/em-format-html.c:590
 #: mail/em-format-html-display.c:648
@@ -14398,15 +14305,20 @@ msgstr "Sobivaid: %d"
 
 #: mail/em-format-html-display.c:638
 msgid "This message is not signed. There is no guarantee that this message is authentic."
-msgstr "See sõnum ei ole allkirjastatud. Selle sõnumi tõesust ei saa garanteerida."
+msgstr ""
+"See sõnum ei ole allkirjastatud. Selle sõnumi tõesust ei saa garanteerida."
 
 #: mail/em-format-html-display.c:639
 msgid "This message is signed and is valid meaning that it is very likely that this message is authentic."
-msgstr "See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist on tõese sõnumiga."
+msgstr ""
+"See sõnum on allkirjastatud ja kehtiv, seega on väga tõenäoline, et tegemist "
+"on tõese sõnumiga."
 
 #: mail/em-format-html-display.c:640
 msgid "The signature of this message cannot be verified, it may have been altered in transit."
 msgstr ""
+"Selle sõnumi signatuuri ei saa verifitseerida. See võib olla sõnumi "
+"kohaletoimetamise käigus asendatud."
 
 #: mail/em-format-html-display.c:641
 msgid "Valid signature, cannot verify sender"
@@ -14419,18 +14331,26 @@ msgstr ""
 #: mail/em-format-html-display.c:647
 msgid "This message is not encrypted.  Its content may be viewed in transit across the Internet."
 msgstr ""
+"See sõnum ei ole krüptitud. Sõnumi sisu edastati internetis kaudu lahtiselt "
+"ja see võis näha olla ka kolmandale osapoolele."
 
 #: mail/em-format-html-display.c:648
 msgid "This message is encrypted, but with a weak encryption algorithm.  It would be difficult, but not impossible for an outsider to view the content of this message in a practical amount of time."
 msgstr ""
+"See sõnum on krüptitud nõrga krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske aga sugugi mitte võimatu mõistliku aja jooksul sõnumi "
+"krüpteering lahti murda."
 
 #: mail/em-format-html-display.c:649
 msgid "This message is encrypted.  It would be difficult for an outsider to view the content of this message."
 msgstr ""
+"See sõnum on krüptitud.  Sõnumi sisu ei tohiks olla teistele iskutele loetav."
 
 #: mail/em-format-html-display.c:650
 msgid "This message is encrypted, with a strong encryption algorithm.  It would be very difficult for an outsider to view the content of this message in a practical amount of time."
 msgstr ""
+"See sõnum on krüptitud tugeva krüptoalgoritmiga.  Võimalikul ründajal peaks "
+"olema väga raske mõistliku aja jooksul sõnumi krüpteering lahti murda."
 
 #: mail/em-format-html-display.c:751
 #: smime/gui/smime-ui.glade.h:47
@@ -14492,13 +14412,13 @@ msgid "Once per month"
 msgstr "Kord kuus"
 
 #: mail/em-migrate.c:1168
-#, fuzzy
 msgid ""
 "The location and hierarchy of the Evolution mailbox folders has changed since Evolution 1.x.\n"
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. versioonist muutunud.\n"
+"Evolutioni kontaktikaustade asukoht ja hierarhia on alates Evolution 1.x. "
+"versioonist muutunud.\n"
 "\n"
 "Palun oota kuni Evolution siirdab sinu kaustasid..."
 
@@ -14582,9 +14502,8 @@ msgid "Open in %s..."
 msgstr "Ava programmiga %s..."
 
 #: mail/em-subscribe-editor.c:613
-#, fuzzy
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr "IMAP serveri vastus ei sisaldanud %s infot"
+msgstr ""
 
 #: mail/em-subscribe-editor.c:642
 msgid "Subscribed"
@@ -14630,9 +14549,9 @@ msgstr "Aadressi lisamine"
 #  Drop filename for messages from a mailbox
 #. Drop filename for messages from a mailbox
 #: mail/em-utils.c:1055
-#, fuzzy, c-format
+#, c-format
 msgid "Messages from %s"
-msgstr "Andmed (%s -st)"
+msgstr "Andmed %s-st"
 
 #: mail/em-vfolder-editor.c:104
 msgid "Virtual _Folders"
@@ -14671,24 +14590,20 @@ msgid "Composer Window default width"
 msgstr "Sõnumiredaktori vaikimisi akna laius"
 
 #: mail/evolution-mail.schemas.in.in.h:8
-#, fuzzy
 msgid "Default charset in which to compose messages"
-msgstr "Lõikab valitud sõnumid"
+msgstr "Vaikimisi kooditabel, milles sõnumeid koostada"
 
 #: mail/evolution-mail.schemas.in.in.h:9
-#, fuzzy
 msgid "Default charset in which to compose messages."
-msgstr "Lõikab valitud sõnumid"
+msgstr "Vaikimisi kooditabel, milles sõnumeid koostada."
 
 #: mail/evolution-mail.schemas.in.in.h:10
-#, fuzzy
 msgid "Default charset in which to display messages"
-msgstr "Otsib teksti kuvatud sõnumi sisust"
+msgstr "Vaikimisi kooditabel, millega sõnumeid kuvada"
 
 #: mail/evolution-mail.schemas.in.in.h:11
-#, fuzzy
 msgid "Default charset in which to display messages."
-msgstr "Otsib teksti kuvatud sõnumi sisust"
+msgstr "Vaikimisi kooditabel, millega sõnumeid kuvada."
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
@@ -14728,20 +14643,19 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
-msgstr "Väljumisel tühjendatakse prügikastid"
+msgstr "Programmi sulgemisel tühjendatakse prügikaustad"
 
 #: mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr "_Väljumisel tühjendatakse kõik prügikastid."
+msgstr "_Väljumisel tühjendatakse kõik prügikaustad."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
 msgstr "Luba kursorirežiim, seega sa näed kirja lugedes kursori asukohta."
 
 #: mail/evolution-mail.schemas.in.in.h:24
-#, fuzzy
 msgid "Enable/disable caret mode"
-msgstr "Passiivse režiimi (PASV) luba&mine"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
@@ -14760,9 +14674,8 @@ msgid "Last time empty trash was run"
 msgstr "Viimane kord kui prügikasti tühjendati"
 
 #: mail/evolution-mail.schemas.in.in.h:29
-#, fuzzy
 msgid "List of Labels and their associated colors"
-msgstr "Otsingumootorite ja neile vastavate veebikiirkorralduste nimekiri"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of accepted licenses"
@@ -14798,7 +14711,10 @@ msgstr "Laadi HTML sõnumite pildid üle http"
 
 #: mail/evolution-mail.schemas.in.in.h:38
 msgid "Load images for HTML messages over http(s). Possible values are: 0 - Never load images off the net 1 - Load images if sender is in the addressbook 2 - Always load images off the net"
-msgstr "Laadi HTML sõnumite pildid üle http(s). Võimalikud väärtused on: 0 - Kunagi ära laadi pilte võrgust maha 2 - Laadi pildid ainult siis kui saatja on aadressiraamatus 3 - Alati laadi pildid võrgust maha."
+msgstr ""
+"Laadi HTML sõnumite pildid üle http(s). Võimalikud väärtused on: 0 - Kunagi "
+"ära laadi pilte võrgust maha 2 - Laadi pildid ainult siis kui saatja on "
+"aadressiraamatus 3 - Alati laadi pildid võrgust maha."
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Log filter actions"
@@ -14853,19 +14769,16 @@ msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:52
-#, fuzzy
 msgid "New Mail Notify sound file"
-msgstr "E-posti seadistamine"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:53
-#, fuzzy
 msgid "New Mail Notify type"
-msgstr "Uus parool uuesti: "
+msgstr " "
 
 #: mail/evolution-mail.schemas.in.in.h:54
-#, fuzzy
 msgid "Prompt on empty subject"
-msgstr "tühi koht tableaul"
+msgstr "Tühja teema korral küsi kinnitust"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
@@ -14876,27 +14789,27 @@ msgid "Prompt the user when he or she tries to send a message without a Subject.
 msgstr "Viipa kasutajale, kui ta proovib saata sõnumit ilma Teemata."
 
 #: mail/evolution-mail.schemas.in.in.h:57
-#, fuzzy
 msgid "Prompt when user expunges"
-msgstr "Kasutajalt sobiva suuruse küsimine"
+msgstr "Kinnituse küsimine puhastamise korral"
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "Kinnituse küsimine, kui kasutaja määrab ainult pimekoopia"
 
 #: mail/evolution-mail.schemas.in.in.h:59
-#, fuzzy
 msgid "Prompt when user tries to send HTML mail to recipients that may not want to receive HTML mail."
-msgstr "Täpsustus, kui püütakse saata HTML sõnumit isikule, kes seda ei soovi"
+msgstr "Täpsustus, kui püütakse saata HTML sõnumit isikule, kes ei soovi HTML "
+"sisuga sõnumeid vastu võtta."
 
 #: mail/evolution-mail.schemas.in.in.h:60
-#, fuzzy
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult pimekoopia adressaadid"
+msgstr ""
+"Kinnituse küsimine, kui püütakse saata sõnumit, millel pole tavalist saajat "
+"ega pimekoopa saajat määratud."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
-msgstr ""
+msgstr "Kinnituse küsimine soovimatu HTML saatmise korral"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
@@ -14932,7 +14845,7 @@ msgstr "Kustutatud sõnumite kuvamine (läbikriipsutatult) sõnumiloendis."
 
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
-msgstr "Kustutatud sõnumite näitamine sõnumiteloetelus"
+msgstr "Kustutatud sõnumite näitamine sõnumiteloendis"
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Sound file to play when new mail arrives."
@@ -14943,19 +14856,16 @@ msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:75
-#, fuzzy
 msgid "Spell check inline"
-msgstr "Õigekirja kontrolli ettevalmistamine"
+msgstr "Õigekirjakontrolli teostatakse jooksvalt"
 
 #: mail/evolution-mail.schemas.in.in.h:76
-#, fuzzy
 msgid "Subscribe dialog default height"
-msgstr "Tellimisdialoogi kõrguse vaikeväärtus"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:77
-#, fuzzy
 msgid "Subscribe dialog default width"
-msgstr "Tellimisdialoogi laiuse vaikeväärtus"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:78
 msgid "Terminal font"
@@ -14978,14 +14888,12 @@ msgid "This key should contain a list of XML structures specifying custom header
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:83
-#, fuzzy
 msgid "Thread the message list."
-msgstr "&Kirjade päiste nimekiri lõimena"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:84
-#, fuzzy
 msgid "Thread the message-list"
-msgstr "&Kirjade päiste nimekiri lõimena"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
@@ -14993,16 +14901,16 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr ""
+msgstr "Aeg, mille jooksul sõnum nähtuks märgitakse"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr ""
+msgstr "Aeg, mille jooksul sõnum nähtuks märgitakse."
 
 #: mail/evolution-mail.schemas.in.in.h:88
 #, fuzzy
 msgid "UID string of the default account."
-msgstr "Määra see konto minu _vaikimisi kontoks"
+msgstr "Vaikimisi määratud konto UID string."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
@@ -15057,24 +14965,20 @@ msgid "View/From menu item is checked."
 msgstr "Vaade/Kellelt menüüelement on valitud."
 
 #: mail/evolution-mail.schemas.in.in.h:102
-#, fuzzy
 msgid "View/PostTo menu item is checked"
-msgstr "Vaade/Bcc menüüelement on valitud"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:103
-#, fuzzy
 msgid "View/PostTo menu item is checked."
-msgstr "Vaade/Bcc menüüelement on valitud"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:104
-#, fuzzy
 msgid "View/ReplyTo menu item is checked"
-msgstr "Vaade/Bcc menüüelement on valitud"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:105
-#, fuzzy
 msgid "View/ReplyTo menu item is checked."
-msgstr "Vaade/Bcc menüüelement on valitud"
+msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:106
 msgid "Whether or not to fall back on threading by subjects when the messages do not contain In-Reply-To or References headers."
@@ -15101,9 +15005,8 @@ msgid "Configure spell-checking, signatures, and the message composer here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
-#, fuzzy
 msgid "Configure your email accounts here"
-msgstr "Säti oma e-posti kontosid"
+msgstr "Säti oma e-posti kontosid siin"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Evolution Mail"
@@ -15111,7 +15014,7 @@ msgstr "Evolutioni e-posti klient"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail accounts configuration control"
-msgstr "Evolutioni e-posti kontode sätete juhtimine"
+msgstr "Evolutioni e-posti kontode seadistuste juhtimine"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail component"
@@ -15172,7 +15075,7 @@ msgid ""
 "Would you like to import them into Evolution?"
 msgstr ""
 "Evolution leidis Elm'i faile\n"
-"Kas sa soovid neid Evolutionisse importida?"
+"Kas sa soovid neid Evolution'isse importida?"
 
 #: mail/importers/elm-importer.c:444
 msgid "Elm"
@@ -15292,7 +15195,7 @@ msgid ""
 "Would you like them to be imported into Evolution?"
 msgstr ""
 "Evolution leidis Netscape mail'i faile.\n"
-"Kas sa soovid neid Evolutionisse importida?"
+"Kas sa soovid neid Evolution'isse importida?"
 
 #: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
@@ -15308,7 +15211,7 @@ msgid ""
 "Would you like to import them into Evolution?"
 msgstr ""
 "Evolution leidis Pine mail'i faile.\n"
-"Kas sa soovid neid Evolutionisse importida?"
+"Kas sa soovid neid Evolution'isse importida?"
 
 #: mail/importers/pine-importer.c:506
 msgid "Pine"
@@ -15327,7 +15230,7 @@ msgstr "Teema on %s"
 #: mail/mail-autofilter.c:254
 #, c-format
 msgid "Mail from %s"
-msgstr "Sõnumi saatja on %s"
+msgstr "Sõnumi saatja: %s"
 
 #: mail/mail-autofilter.c:271
 #, c-format
@@ -15425,7 +15328,7 @@ msgstr "Uue postikausta loomine"
 
 #: mail/mail-component.c:841
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "Tõrge e-posti seadistuste või kaustade uuendamisel"
 
 #: mail/mail-config.glade.h:1
 #: mail/mail-dialogs.glade.h:5
@@ -15474,7 +15377,7 @@ msgstr "<span weight=\"bold\">Sõnumite koostamine</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr "<span weight=\"bold\">Konfiguratsioon</span>"
+msgstr "<span weight=\"bold\">Seadistused</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Default Behavior</span>"
@@ -15523,7 +15426,7 @@ msgstr "<span weight=\"bold\">Mittekohustuslik teave</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Options</span>"
-msgstr "<span weight=\"bold\">Häälestus</span>"
+msgstr "<span weight=\"bold\">Valikud</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
@@ -15539,11 +15442,11 @@ msgstr "<span weight=\"bold\">Kohustuslik teave</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr "<span weight=\"bold\">Kaitstud MIME (S/MIME)</span>"
+msgstr "<span weight=\"bold\">Turvaline MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Security</span>"
-msgstr "<span weight=\"bold\">Kaitse</span>"
+msgstr "<span weight=\"bold\">Turvalisus</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
@@ -15551,7 +15454,7 @@ msgstr "<span weight=\"bold\">Saadetud sõnumid ja mustandid</span>"
 
 #: mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr "<span weight=\"bold\">Serveri konfiguratsioon</span>"
+msgstr "<span weight=\"bold\">Serveri seaded</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "Account Management"
@@ -15613,7 +15516,7 @@ msgstr "Balti (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:49
 msgid "Beep w_hen new mail arrives"
-msgstr ""
+msgstr "_Piiksu uue sõnumi saabumisel"
 
 #: mail/mail-config.glade.h:50
 msgid "C_haracter set:"
@@ -15664,7 +15567,7 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
-"Õnnitlen, sinu e-posti seadistamine on lõppenud.\n"
+"Õnnitlen, sinu e-posti seadistamine on valmis.\n"
 "\n"
 "Nüüd on Evolution valmis sinu e-posti saatma\n"
 "ja vastu võtma.\n"
@@ -15707,15 +15610,15 @@ msgstr "E-posti kontod"
 
 #: mail/mail-config.glade.h:76
 msgid "Email _Address:"
-msgstr "_E-posti aadress:"
+msgstr "E-posti _aadress:"
 
 #: mail/mail-config.glade.h:77
 msgid "Empty trash folders on e_xit"
-msgstr "Väljumisel tühjendatakse _prügikastid"
+msgstr "Väljumisel tühjendatakse _prügikaustad"
 
 #: mail/mail-config.glade.h:78
 msgid "Encry_ption certificate:"
-msgstr "_Krüpteerimissertifikaat:"
+msgstr "_Krüptimissertifikaat:"
 
 #: mail/mail-config.glade.h:79
 #, fuzzy
@@ -15748,11 +15651,11 @@ msgstr "Päised"
 
 #: mail/mail-config.glade.h:88
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "Rõhuta _tsiteeringuid"
 
 #: mail/mail-config.glade.h:89
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "Kaasa välised testid"
 
 #: mail/mail-config.glade.h:90
 msgid "Identity"
@@ -15764,7 +15667,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:95
 msgid "Mail Configuration"
-msgstr "E-posti konfiguratsioon"
+msgstr "E-posti seadistused"
 
 #: mail/mail-config.glade.h:97
 msgid "Mailbox location"
@@ -15787,32 +15690,32 @@ msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG _võtme ID:"
 
 #: mail/mail-config.glade.h:104
-#, fuzzy
 msgid "Play sound file when new mail arri_ves"
-msgstr "Helifail, mida mängitakse uute kirjade saabumisel."
+msgstr "Mängi uue sõnumi saabumisel heli"
 
 #: mail/mail-config.glade.h:105
-#, fuzzy
 msgid "Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
-"Palun sisesta info oma postiserveri kohta, mille kaudu soovid oma posti välja saata. Kui sa ei ole\n"
-"parameetrites kindel, küsi oma lisainfot oma süsteemiadministraatorilt või interneti teenusepakkujalt"
+"Palun sisesta teave oma e-posti väljasaatmise kohta. Kui sa ei tea, mida "
+"siia sisestada, küsi oma lisateavet oma süsteemiülemalt või interneti "
+"teenusepakkujalt."
 
 #: mail/mail-config.glade.h:106
-#, fuzzy
 msgid "Please enter your name and email address below. The \"optional\" fields below do not need to be filled in, unless you wish to include this information in email you send."
 msgstr ""
-"Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. \"Mittekohustuslikud\" väljad\n"
-"võib täita siis, kui sa soovid nendes väljades olevat infot kaasata oma sõnumitesse."
+"Palun sisesta allpool olevasse vormi oma nimi ja e-posti aadress. "
+"Mittekohustuslikud väljad võib täita siis, kui sa soovid nendes väljades "
+"olevat teavet lisada enda saadetud sõnumitesse."
 
 #: mail/mail-config.glade.h:107
 msgid "Please select among the following options"
 msgstr ""
 
 #: mail/mail-config.glade.h:108
-#, fuzzy
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr "Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult pimekoopia adressaadid"
+msgstr ""
+"Täpsustus, kui püütakse saata sõnumit, millel on kirjeldatud ainult "
+"pimekoopia adressaadid"
 
 #: mail/mail-config.glade.h:109
 msgid "Quote original message"
@@ -15828,7 +15731,7 @@ msgstr "_Parooli meeldejätmine"
 
 #: mail/mail-config.glade.h:112
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "_Vasta-kellele:"
 
 #: mail/mail-config.glade.h:113
 msgid "Receiving Email"
@@ -15862,7 +15765,7 @@ msgstr "Vali HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:120
 msgid "Select HTML fixed width font for printing"
-msgstr "Vali printimise jaoks HTML fikseeritud laiusega kirjatüüp"
+msgstr "Vali trükkimise jaoks HTML fikseeritud laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:121
 msgid "Select HTML variable width font"
@@ -15870,7 +15773,7 @@ msgstr "Vali HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:122
 msgid "Select HTML variable width font for printing"
-msgstr "Vali printimise jaoks HTML muutuva laiusega kirjatüüp"
+msgstr "Vali trükkimise jaoks HTML muutuva laiusega kirjatüüp"
 
 #: mail/mail-config.glade.h:123
 msgid "Sending Email"
@@ -15890,7 +15793,7 @@ msgstr "Server vajab _autentimist"
 
 #: mail/mail-config.glade.h:127
 msgid "Server _Type: "
-msgstr "Serveri _tüüp:"
+msgstr "_Serveri tüüp:"
 
 #: mail/mail-config.glade.h:128
 #, fuzzy
@@ -15927,6 +15830,8 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"Selle skripti väljundit kasutatakse sinu signatuurina.\n"
+"Nimevälja kasutatakse ainult kuvamiseks."
 
 #: mail/mail-config.glade.h:138
 msgid "This page allows you to configure spell checking behavior and language. The list of languages here reflects only the languages for which you have a dictionary installed."
@@ -15937,6 +15842,8 @@ msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"Sisesta nimi, millega sa soovid seda kontot kutsuda.\n"
+"Näiteks: \"Isiklik\" või \"Tööasjad\""
 
 #: mail/mail-config.glade.h:142
 msgid "User_name:"
@@ -15952,13 +15859,17 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
-"Tere tulemast kasutama Evolution'i kirjaseadistusassitenti.\n"
+"Tere tulemast kasutama Evolution'i e-posti seadistusabilist.\n"
 "\n"
 "Jätkamiseks vajuta \"Edasi\"."
 
 #: mail/mail-config.glade.h:148
 msgid "You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only."
 msgstr ""
+"E-posti konto seadistamine on peaaegu lõppenud. Sinu poolt määratud "
+"identiteet, siseneva ja väljuva posti serverid koondatakse ühe nime alla ja "
+"sellest saab Evolution'i postikonto. Palun anna sellele kontole nimi. Nime "
+"kasutatakse hiljem ainult kuvamise eesmärgil."
 
 #: mail/mail-config.glade.h:149
 msgid "_Add Signature"
@@ -15970,7 +15881,7 @@ msgstr "_Alati lae pildid Internetist"
 
 #: mail/mail-config.glade.h:151
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "Uutest sõnumitest ei teavitata"
 
 #: mail/mail-config.glade.h:152
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
@@ -15994,7 +15905,7 @@ msgstr "_Piltide laadimine, kui saatja on aadressiraamatus"
 
 #: mail/mail-config.glade.h:159
 msgid "_Make this my default account"
-msgstr "Määra see konto minu _vaikimisi kontoks"
+msgstr "_Määra see konto minu vaikimisi kontoks"
 
 #: mail/mail-config.glade.h:160
 msgid "_Mark messages as read after"
@@ -16010,7 +15921,8 @@ msgstr "_Otsingutee:"
 
 #: mail/mail-config.glade.h:164
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
-msgstr "Üleküsimine, kui _püütakse saata HTML sõnumit isikule, kes seda ei soovi"
+msgstr ""
+"Üleküsimine, kui _püütakse saata HTML sõnumit isikule, kes seda ei soovi"
 
 #: mail/mail-config.glade.h:165
 msgid "_Prompt when sending messages with an empty subject line"
@@ -16038,7 +15950,7 @@ msgstr "_Kasuta sama kirjatüüpi, mis teisedki rakendused"
 
 #: mail/mail-config.glade.h:171
 msgid "color"
-msgstr "värvus"
+msgstr "värvusega"
 
 #: mail/mail-config.glade.h:172
 msgid "description"
@@ -16057,11 +15969,11 @@ msgstr "<b>vKausta allikad</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr "<span weight=\"bold\">Digitaalne allkiri</span>"
+msgstr "<span weight=\"bold\">Digitaalallkiri</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr "<span weight=\"bold\">Krüpteerimine</span>"
+msgstr "<span weight=\"bold\">Krüptimine</span>"
 
 #: mail/mail-dialogs.glade.h:10
 msgid "Case _Sensitive"
@@ -16083,9 +15995,8 @@ msgstr "Otsing sõnumist"
 #: mail/mail-dialogs.glade.h:15
 #: mail/message-tag-followup.c:295
 #: mail/message-tags.glade.h:3
-#, fuzzy
 msgid "Flag to Follow Up"
-msgstr "_Vastukaja sildi järgi"
+msgstr "Märgi jälgimiseks"
 
 #: mail/mail-dialogs.glade.h:16
 msgid "Folder Subscriptions"
@@ -16105,7 +16016,7 @@ msgstr "_Server:"
 
 #: mail/mail-dialogs.glade.h:20
 msgid "Security Information"
-msgstr "Turvalisuse info"
+msgstr "Turvalisuse teave"
 
 #: mail/mail-dialogs.glade.h:22
 #: mail/message-tags.glade.h:4
@@ -16164,7 +16075,9 @@ msgstr "Vigane autentimine"
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
 msgid "This server does not support this type of authentication and may not support authentication at all."
-msgstr "See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see autentimist üleüldse."
+msgstr ""
+"See server ei toeta seda tüüpi autentimist ja arvatavasti ei toeta see "
+"autentimist üleüldse."
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
@@ -16174,9 +16087,11 @@ msgstr "Tõrge serverisse \"{0}\" sisselogimisel kasutajana \"{0}\"."
 #  mail:camel-service-auth-failed secondary
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
-#, fuzzy
 msgid "Check to make sure your password is spelled correctly.  Remember that many passwords are case sensitive; your caps lock might be on."
-msgstr "Kontrolli, kas parool on õigesti kirjutatud. Kuna paroolid on üldiselt tõstutundlikud, siis vaata, et caps lock ei oleks peal."
+msgstr ""
+"Kontrolli, kas parool on õigesti sisestatud.  Kuna paroolid on üldiselt "
+"tõstutundlikud, siis veendu, et klaviatuuri caps lock klahv ei oleks sisse "
+"lülitatud."
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -16208,7 +16123,8 @@ msgstr ""
 #: mail/mail-errors.xml.h:22
 #: mail/mail-errors.xml.h:29
 msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
+msgstr ""
+"Oled sa kindel, et soovid saata seda sõnumit pimekoopia adressaatidele?"
 
 #. mail:ask-send-only-bcc-contact secondary
 #: mail/mail-errors.xml.h:24
@@ -16232,6 +16148,8 @@ msgstr "Seda sõnumit ei saa saata kuna sa pole määranud ühtegi sõnumi saaja
 #: mail/mail-errors.xml.h:36
 msgid "Please enter a valid email address in the To: field. You can search for email addresses by clicking on the To: button next to the entry box."
 msgstr ""
+"Palun määra sõnumi saaja. Saajat saab kontaktide valida, kui sa vajutad "
+"nupule \"Kellele:\"."
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -16251,9 +16169,10 @@ msgstr "Kasuta _vaikekodeeringut"
 #  mail:ask-expunge primary
 #. mail:ask-expunge primary
 #: mail/mail-errors.xml.h:43
-#, fuzzy
 msgid "Are you sure you want to permanently remove all the deleted message in folder \"{0}\"?"
-msgstr "Eemaldab lõplikult sellest kaustadest kõik kustutatud sõnumid"
+msgstr ""
+"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kaustast "
+"\"{0}\"?"
 
 #. mail:ask-expunge secondary
 #: mail/mail-errors.xml.h:45
@@ -16268,9 +16187,10 @@ msgstr "_Puhasta"
 #  mail:ask-empty-trash primary
 #. mail:ask-empty-trash primary
 #: mail/mail-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to permanently remove all the deleted messages in all folders?"
-msgstr "Eemaldab lõplikult kõikidest kaustadest kõik kustutatud sõnumid"
+msgstr ""
+"Kas sa tõesti soovid jäädavalt eemaldada kõik kustutatud sõnumid kõikidest "
+"kaustadest?"
 
 #: mail/mail-errors.xml.h:51
 msgid "_Empty Trash"
@@ -16285,6 +16205,8 @@ msgstr "Sul on saatmata sõnumeid, kas tõesti soovid lõpetada?"
 #: mail/mail-errors.xml.h:55
 msgid "If you quit, these messages will not be sent until Evolution is started again."
 msgstr ""
+"Kui sa praegu lõpetad, siis ei saadeta saatmata sõnumeid enne, kui sa "
+"Evolution'i uuesti käivitad."
 
 #. mail:camel-exception primary
 #: mail/mail-errors.xml.h:57
@@ -16301,7 +16223,7 @@ msgstr ""
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:62
 msgid "Error while {0}."
-msgstr "Viga {0} käigus."
+msgstr "Viga toimingul: {0}."
 
 #. mail:async-error secondary
 #: mail/mail-errors.xml.h:64
@@ -16353,12 +16275,12 @@ msgstr "Ajutist salvestuskataloogi ei saa luua."
 #. mail:no-write-path-exists secondary
 #: mail/mail-errors.xml.h:104
 msgid "File exists but cannot overwrite it."
-msgstr "Fail juba eksisteerib, kuid seda ei saa üle kirjutada."
+msgstr "Fail on juba olemas, kuid seda ei saa üle kirjutada."
 
 #. mail:no-write-path-notfile secondary
 #: mail/mail-errors.xml.h:108
 msgid "File exists but is not a regular file."
-msgstr "Fail juba eksisteerib, aga see ei ole tavaline fail."
+msgstr "Fail on juba olemas, aga see ei ole tavaline fail."
 
 #. mail:no-delete-folder primary
 #: mail/mail-errors.xml.h:110
@@ -16395,6 +16317,8 @@ msgstr "Kas tõesti kustutada kaust \"{0}\" ja selle kõik alamkaustad?"
 #: mail/mail-errors.xml.h:126
 msgid "If you delete the folder, all of its contents and its subfolders contents will be deleted permanently."
 msgstr ""
+"Kui sa slle kausta kustutad, siis kustuvad jäädavalt ka kõik selles olevad "
+"sõnumid ja alamkaustad."
 
 #. mail:no-rename-folder-exists primary
 #: mail/mail-errors.xml.h:128
@@ -16406,7 +16330,7 @@ msgstr "\"{0}\"-a ei saa ümber nimetada \"{1}\"-ks."
 #: mail/mail-errors.xml.h:130
 #: mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "Kaust nimega \"{1}\" juba eksisteerib. Palun kasuta teistsugust nime."
+msgstr "Kaust nimega \"{1}\" on juba olemas. Palun kasuta teistsugust nime."
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
@@ -16450,7 +16374,6 @@ msgstr "Allikat \"{1}\" ei saa avada"
 #. mail:account-incomplete primary
 #: mail/mail-errors.xml.h:156
 #: mail/mail-errors.xml.h:160
-#, fuzzy
 msgid "Cannot save changes to account."
 msgstr "Konto muudatusi ei saa salvestada."
 
@@ -16471,21 +16394,17 @@ msgstr "Kustuta konto?"
 
 #. mail:ask-delete-account primary
 #: mail/mail-errors.xml.h:166
-#, fuzzy
 msgid "Are you sure you want to delete this account?"
-msgstr ""
-"Kas sa tõesti soovid\n"
-"kustutada seda kontakti?"
+msgstr "Kas sa tõesti soovid kustutada seda kontot?"
 
 #. mail:ask-delete-account secondary
 #: mail/mail-errors.xml.h:168
 msgid "If you proceed, the account information will be deleted permanently."
-msgstr ""
+msgstr "Kui sa seda teed, siis konto kohta käiv teave kustutatakse jäädavalt."
 
 #: mail/mail-errors.xml.h:169
-#, fuzzy
 msgid "Don't delete"
-msgstr "_Taasta"
+msgstr "Ära kustuta"
 
 #. mail:no-save-signature primary
 #: mail/mail-errors.xml.h:171
@@ -16500,9 +16419,8 @@ msgstr "Kuna \"{0}\"."
 #  mail:signature-notscript primary
 #. mail:signature-notscript primary
 #: mail/mail-errors.xml.h:175
-#, fuzzy
 msgid "Cannot set signature script \"{0}\"."
-msgstr "Signatuurifaili pole võimalik avada!"
+msgstr "Signatuuriskripti \"{0}\" pole võimalik määrata."
 
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
@@ -16516,7 +16434,6 @@ msgstr "Loobu muudatustest?"
 
 #. mail:ask-signature-changed primary
 #: mail/mail-errors.xml.h:181
-#, fuzzy
 msgid "Do you wish to save your changes?"
 msgstr "Kas soovid tehtud muudatused salvestada?"
 
@@ -16532,7 +16449,7 @@ msgstr "_Muudatustest loobumine"
 #. mail:vfolder-notexist primary
 #: mail/mail-errors.xml.h:186
 msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "vKausta \"{0}\" ei saa redigeerida, kuna seda ei eksisteeri."
+msgstr "vKausta \"{0}\" ei saa redigeerida, kuna seda ei ole olemas."
 
 #. mail:vfolder-notexist secondary
 #: mail/mail-errors.xml.h:188
@@ -16697,11 +16614,13 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
+"Tõrge lisamisel kasuta %s: %s\n"
+"Selle asemel lisan kausta `Saadetud'."
 
 #: mail/mail-ops.c:590
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr ""
+msgstr "Tõrge lisamisel kohalikku `Saadetud' kausta: %s"
 
 #: mail/mail-ops.c:687
 #, c-format
@@ -16711,7 +16630,7 @@ msgstr "Sõnumi %d/%d saatmine"
 #: mail/mail-ops.c:718
 #, c-format
 msgid "Failed to send %d of %d messages"
-msgstr ""
+msgstr "Tõrge sõnumi %d saatmisel (kokku %d)"
 
 #: mail/mail-ops.c:722
 msgid "Complete."
@@ -16895,11 +16814,11 @@ msgstr "Parooli sisestamine %s jaoks"
 
 #: mail/mail-session.c:210
 msgid "Enter Password"
-msgstr "Sisesta parool"
+msgstr "Parooli sisestamine"
 
 #: mail/mail-session.c:239
 msgid "User canceled operation."
-msgstr "Kasutaja katkestas töö."
+msgstr "Kasutaja katkestas toimingu."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -17033,7 +16952,7 @@ msgstr ""
 
 #: mail/message-list.c:3409
 msgid "Generating message list"
-msgstr "Sõnumiloetelu genereerimine"
+msgstr "Sõnumiloendi genereerimine"
 
 #: mail/message-list.etspec.h:3
 msgid "Due By"
@@ -17049,7 +16968,7 @@ msgstr "Tähistatud"
 
 #: mail/message-list.etspec.h:6
 msgid "Follow Up Flag"
-msgstr "Vastukaja silt"
+msgstr "Jälgimise silt"
 
 #: mail/message-list.etspec.h:8
 msgid "Original Location"
@@ -17073,7 +16992,7 @@ msgstr "Ära edasta"
 
 #: mail/message-tag-followup.c:76
 msgid "Follow-Up"
-msgstr "Vastukaja"
+msgstr "Jälgimine"
 
 #: mail/message-tag-followup.c:77
 msgid "For Your Information"
@@ -17120,7 +17039,7 @@ msgstr "Sõnum sisaldab"
 
 #: mail/searchtypes.xml.h:5
 msgid "Recipients contain"
-msgstr "Adressaat sisaldab"
+msgstr "Saaja sisaldab"
 
 #: mail/searchtypes.xml.h:6
 msgid "Sender contains"
@@ -17831,9 +17750,8 @@ msgid "Default window width"
 msgstr "Vaikimisi akna laius."
 
 #: shell/apps_evolution_shell.schemas.in.in.h:6
-#, fuzzy
 msgid "Evolution configuration version"
-msgstr "Evolutioni kaustasätete konfiguratsiooni juhtimine"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:7
 msgid "ID or alias of the component to be shown by default at start-up."
@@ -17848,9 +17766,8 @@ msgid "If set to true, the warning dialog in development versions of Evolution i
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
-#, fuzzy
 msgid "Last upgraded Evolution configuration version"
-msgstr "Evolutioni kaustasätete konfiguratsiooni juhtimine"
+msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:11
 msgid "List of paths for the folders to be synchronized to disk for offline usage"
@@ -17891,6 +17808,8 @@ msgstr "Aktiivsed ühendused"
 #: shell/e-active-connection-dialog.glade.h:3
 msgid "Click OK to close these connections and go offline"
 msgstr ""
+"Kui soovid neid ühendusi sulgeda ja autonoomsesse\n"
+"olekusse siirduda, vajuta \"Olgu\""
 
 #: shell/e-shell.c:590
 msgid "Uknown system error."
@@ -17917,7 +17836,7 @@ msgstr "OAF'i ei saa registreerida"
 
 #: shell/e-shell.c:1248
 msgid "Configuration Database not found"
-msgstr "Ei leia sätete andmebaasi"
+msgstr "Ei leia seadistuste andmebaasi"
 
 #: shell/e-shell.c:1250
 msgid "Generic error"
@@ -18005,9 +17924,8 @@ msgid "Automatic"
 msgstr "Automaatne"
 
 #: shell/e-shell-importer.c:638
-#, fuzzy
 msgid "F_ilename:"
-msgstr "Faili nimi:"
+msgstr "_Failinimi:"
 
 #: shell/e-shell-importer.c:643
 msgid "Select a file"
@@ -18019,7 +17937,7 @@ msgstr "Faili _tüüp:"
 
 #: shell/e-shell-importer.c:694
 msgid "Import data and settings from _older programs"
-msgstr "Andmete ja sätete importimine _vanematest programmidest"
+msgstr "Andmete ja seadistuste importimine _vanematest programmidest"
 
 #: shell/e-shell-importer.c:697
 msgid "Import a _single file"
@@ -18033,7 +17951,7 @@ msgid ""
 "Scanning for existing setups"
 msgstr ""
 "Palun oota...\n"
-"Üritan tuvastada olemasolevaid programme"
+"Üritan tuvastada olemasolevate programmide seadistusi"
 
 # !PARANDA!
 #: shell/e-shell-importer.c:772
@@ -18077,6 +17995,11 @@ msgid ""
 "\n"
 "Do you want to quit using the Assistant now?"
 msgstr ""
+"Kui sa praegu Evolution'i seadistusabilise sulged, lähevad kõik sisestatud "
+"andmed kaotsi. Sel juhul pead sa Evolution'i järgmisel käivitamisel uuesti "
+"ka seadistusabilise käivitama.\n"
+"\n"
+"Kas sa soovid seadistusabilist sulgeda?"
 
 #: shell/e-shell-utils.c:116
 msgid "No folder name specified."
@@ -18100,7 +18023,9 @@ msgstr "'.' ja '..' on reserveeritud kaustanimed."
 
 #: shell/e-shell-window.c:341
 msgid "Evolution is currently online.  Click on this button to work offline."
-msgstr "Ximian Evolution on võrku ühendatud.  Autonoomsesse olekusse siirdumiseks vajuta seda nuppu."
+msgstr ""
+"Ximian Evolution on võrku ühendatud.  Autonoomsesse olekusse siirdumiseks "
+"vajuta seda nuppu."
 
 #: shell/e-shell-window.c:349
 msgid "Evolution is in the process of going offline."
@@ -18108,12 +18033,14 @@ msgstr "Ximian Evolution siirdub autonoomsesse olekusse."
 
 #: shell/e-shell-window.c:356
 msgid "Evolution is currently offline.  Click on this button to work online."
-msgstr "Ximian Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta seda nuppu."
+msgstr ""
+"Ximian Evolution on hetkel autonoomses olekus.  Võrku ühendumiseks vajuta "
+"seda nuppu."
 
 #: shell/e-shell-window.c:708
 #, c-format
 msgid "Switch to %s"
-msgstr ""
+msgstr "Lülitub ümber: %s"
 
 #: shell/e-shell-window-commands.c:67
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -18137,17 +18064,16 @@ msgstr "Bug buddy (veateatamisprogramm) ei saa käivitada."
 msgid "translator-credits"
 msgstr ""
 "Tõlge eesti keelde:\n"
-"	Ilmar Kerm <ikerm@hot.ee>, 2001\n"
-"	Ivar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
-"	Kaarel Jõgi <kaarel@gg.ee>, 2002\n"
-"	Priit Laes <amd@tt.ee>, 2003, 2004, 2005\n"
+"\tIlmar Kerm <ikerm@hot.ee>, 2001\n"
+"\tIvar Smolin <okul@linux.ee>, 2002, 2003, 2005\n"
+"\tKaarel Jõgi <kaarel@gg.ee>, 2002\n"
+"\tPriit Laes <amd@tt.ee>, 2003, 2004, 2005\n"
 "\n"
 "GNOME Translation Project Eesti meeskond.\n"
 "http://et-gnome.sourceforge.net\n"
 "Veateated, parandused: <gnome-et@linux.ee>"
 
 #: shell/e-shell-window-commands.c:439
-#, fuzzy
 msgid "Groupware Suite"
 msgstr "Grupitöö vahend"
 
@@ -18171,12 +18097,11 @@ msgstr "Uus"
 
 #: shell/evolution-startup-wizard.glade.h:2
 msgid "Evolution Setup Assistant"
-msgstr "Evolution'i säteteabiline"
+msgstr "Evolution'i seadistusabiline"
 
 #: shell/evolution-startup-wizard.glade.h:3
-#, fuzzy
 msgid "Importing Files"
-msgstr "Impordi failist"
+msgstr "Impordi failid"
 
 #: shell/evolution-startup-wizard.glade.h:4
 msgid "Timezone "
@@ -18184,7 +18109,7 @@ msgstr "Ajavöönd"
 
 #: shell/evolution-startup-wizard.glade.h:5
 msgid "Welcome"
-msgstr ""
+msgstr "Tere tulemast"
 
 #: shell/evolution-startup-wizard.glade.h:6
 msgid ""
@@ -18221,9 +18146,8 @@ msgid "Evolution Test"
 msgstr "Evolutioni test"
 
 #: shell/GNOME_Evolution_Test.server.in.in.h:2
-#, fuzzy
 msgid "Evolution Test component"
-msgstr "Testi vaate komponent"
+msgstr "Evolution'i testkomponent"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
@@ -18301,36 +18225,18 @@ msgid ""
 "We hope that you enjoy the results of our hard work, and we\n"
 "eagerly await your contributions!\n"
 msgstr ""
-"Tere. Tänan, et leidsite aega Evolution'i grupitöötarkvara\n"
-"eelvaateversiooni allalaadimiseks.\n"
-"\n"
-"See Evolution'i versioon ei ole veel valmis. Kuigi ta on päris\n"
-"lähedal sellele, leidub siiski funktsioone, mis on kas lõpetamata\n"
-"või siis ei tööta korralikult.\n"
-"\n"
-"Kui sa soovid kasutada stabiilset Evolution'i versiooni, siis eemalda\n"
-"see versiooni ja paigalda selle asemel omale versioon %s.\n"
-"\n"
-"Kui sa leiad vigu, siis palun teata meile nendest aadressil\n"
-"bugzilla.ximian.com\n"
-"\n"
-"See toode tuleb ilma igasuguse garantiita ja ei ole soovitatud\n"
-"isikutele, kellel on probleeme oma vihahoogude taltsutamisega.\n"
-"\n"
-"Me loodame, et te naudite meie raske töö tulemusi ja meie\n"
-"omakorda ootame Teie kaastööd!\n"
 
 #: shell/main.c:261
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
 msgstr ""
-"Tänud\n"
+"Täname\n"
 "Evolution'i meeskond\n"
 
 #: shell/main.c:268
 msgid "Don't tell me again"
-msgstr "Ära enam uuesti näita"
+msgstr "Ära küsi enam uuesti"
 
 #: shell/main.c:473
 msgid "Start Evolution activating the specified component"
@@ -18338,11 +18244,11 @@ msgstr ""
 
 #: shell/main.c:475
 msgid "Start in offline mode"
-msgstr "Alusta offlainrežiimis"
+msgstr "Alusta autonoomses režiimis"
 
 #: shell/main.c:477
 msgid "Start in online mode"
-msgstr "Alusta onlainrežiimis"
+msgstr "Alusta võrgurežiimis"
 
 #: shell/main.c:480
 msgid "Forcibly shut down all Evolution components"
@@ -18354,7 +18260,7 @@ msgstr ""
 
 #: shell/main.c:487
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "Saada kõikide komponentide silumisinfo faili"
 
 #: shell/main.c:490
 msgid "Disable the mono plugin environment."
@@ -18370,11 +18276,13 @@ msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
+"%s: --online ja --offline võtmeid ei saa koos kasutada.\n"
+"  Täiendava teabe saamiseks käivita %s --help.\n"
 
 #. shell:upgrade-nospace primary
 #: shell/shell-errors.xml.h:2
 msgid "Insufficient disk space for upgrade."
-msgstr ""
+msgstr "Värskendamiseks napib kettaruumi."
 
 #. shell:upgrade-nospace secondary
 #: shell/shell-errors.xml.h:4
@@ -18390,6 +18298,8 @@ msgid ""
 "Upgrade from previous version failed:\n"
 "{0}"
 msgstr ""
+"Tõrge eelmise veriooni uuendamisel:\n"
+"{0}"
 
 #. shell:upgrade-failed secondary
 #: shell/shell-errors.xml.h:11
@@ -18400,9 +18310,8 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:15
-#, fuzzy
 msgid "Continue"
-msgstr "Sisu sisaldab"
+msgstr "Jätka"
 
 #. shell:upgrade-remove-1-4 title
 #: shell/shell-errors.xml.h:17
@@ -18419,9 +18328,8 @@ msgid ""
 msgstr ""
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Meeldetuletaja"
+msgstr "_Tuleta mulle hiljem meelde"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
@@ -18494,12 +18402,12 @@ msgstr "Imporditava sertifikaadi valimine..."
 #: smime/gui/certificate-manager.c:472
 #: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
-msgstr "Sertifikaati nimi"
+msgstr "Sertifikaadi nimi"
 
 #: smime/gui/certificate-manager.c:272
 #: smime/gui/certificate-manager.c:490
 msgid "Purposes"
-msgstr "Eesmärgid"
+msgstr "Kasutusalad"
 
 #: smime/gui/certificate-manager.c:281
 #: smime/gui/smime-ui.glade.h:36
@@ -18509,7 +18417,7 @@ msgstr "Seerianumber"
 
 #: smime/gui/certificate-manager.c:289
 msgid "Expires"
-msgstr "Lõpeb"
+msgstr "Aegub"
 
 #: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
@@ -18570,9 +18478,8 @@ msgid "<b>Certificate Fields</b>"
 msgstr "<v>Sertifikaadi väljad</b>"
 
 #: smime/gui/smime-ui.glade.h:3
-#, fuzzy
 msgid "<b>Certificate Hierarchy</b>"
-msgstr "I_mpordi sertifikaat"
+msgstr "<b>Sertifikaatide hierarhia</b>"
 
 #: smime/gui/smime-ui.glade.h:4
 msgid "<b>Field Value</b>"
@@ -18600,15 +18507,13 @@ msgstr "<b>Kehtivus</b>"
 
 #: smime/gui/smime-ui.glade.h:10
 msgid "Authorities"
-msgstr ""
+msgstr "Sertifitseerimiskeskused"
 
 #: smime/gui/smime-ui.glade.h:11
-#, fuzzy
 msgid "Backup"
-msgstr "Varundamine"
+msgstr "Varunda"
 
 #: smime/gui/smime-ui.glade.h:12
-#, fuzzy
 msgid "Backup All"
 msgstr "Varunda kõik"
 
@@ -18622,9 +18527,8 @@ msgid "Certificate"
 msgstr "Sertifikaat"
 
 #: smime/gui/smime-ui.glade.h:15
-#, fuzzy
 msgid "Certificate Authority Trust"
-msgstr "SSL sertifikaadi atesteerimisorgan"
+msgstr "Usaldatav sertifitseerimiskeskus"
 
 #: smime/gui/smime-ui.glade.h:16
 msgid "Certificate details"
@@ -18636,7 +18540,7 @@ msgstr ""
 
 #: smime/gui/smime-ui.glade.h:18
 msgid "Contact Certificates"
-msgstr "Kontakti sertifikaadid"
+msgstr "Kontaktide sertifikaadid"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
@@ -18718,15 +18622,15 @@ msgstr "Vaade"
 
 #: smime/gui/smime-ui.glade.h:42
 msgid "You have certificates from these organizations that identify you:"
-msgstr ""
+msgstr "Sinu sertifikaadid organisatsioonidelt, mis aitavad sind tuvastada:"
 
 #: smime/gui/smime-ui.glade.h:43
 msgid "You have certificates on file that identify these certificate authorities:"
-msgstr ""
+msgstr "Sinu sertifikaadid, mis aitavad sul tuvastada sertifitseerimiskeskusi:"
 
 #: smime/gui/smime-ui.glade.h:44
 msgid "You have certificates on file that identify these people:"
-msgstr ""
+msgstr "Sinu sertifikaadid, mis sul aitavad tuvastada teisi inimesi:"
 
 #: smime/gui/smime-ui.glade.h:45
 msgid "Your Certificates"
@@ -18753,7 +18657,7 @@ msgstr "Allkirjasta"
 
 #: smime/lib/e-cert.c:425
 msgid "Encrypt"
-msgstr "Krüpteeri"
+msgstr "Krüpti"
 
 #: smime/lib/e-cert.c:530
 msgid "Version"
@@ -18817,7 +18721,7 @@ msgstr "ST"
 
 #: smime/lib/e-cert.c:666
 msgid "PKCS #1 RSA Encryption"
-msgstr "PKCS #1 RSA krüpteerimine"
+msgstr "PKCS #1 RSA krüptimine"
 
 #: smime/lib/e-cert.c:669
 msgid "Certificate Key Usage"
@@ -18853,9 +18757,8 @@ msgid "Subject Public Key Info"
 msgstr "Teema avaliku võtme info"
 
 #: smime/lib/e-cert.c:773
-#, fuzzy
 msgid "Subject Public Key Algorithm"
-msgstr "Teema avaliku võtme algoritm"
+msgstr ""
 
 #: smime/lib/e-cert.c:788
 msgid "Subject's Public Key"
@@ -19024,7 +18927,7 @@ msgstr "Lõikab valiku"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr "Kustuta valitud kontaktid"
+msgstr "Kustutab valitud kontaktid"
 
 #: ui/evolution-addressbook.xml.h:11
 msgid "Move Contact(s) to Another Folder..."
@@ -19048,11 +18951,11 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 #: ui/evolution-mail-message.xml.h:81
 #: ui/evolution-tasks.xml.h:15
 msgid "Print Pre_view"
-msgstr "Printimise eel_vaade"
+msgstr "Trükkimise eel_vaade"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr "Prindi valitud kontaktid"
+msgstr "Trükib valitud kontaktid"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
@@ -19186,7 +19089,7 @@ msgstr "Eelmine"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "Print this calendar"
-msgstr "Kalendri trükkimine"
+msgstr "Trükib kalendri"
 
 #: ui/evolution-calendar.xml.h:22
 msgid "Publish Free/Busy information for this calendar"
@@ -19207,15 +19110,15 @@ msgstr "Vali _kuupäev"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Select a specific date"
-msgstr "Kindla kuupäeva valimine"
+msgstr "Valib kindla kuupäeva"
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Select today"
-msgstr "Tänase kuupäeva valimine"
+msgstr "Valib tänase kuupäeva"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show as list"
-msgstr "Vaata loeteluna"
+msgstr "Näitab loendit"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one day"
@@ -19343,12 +19246,12 @@ msgstr "Muuda kausta omadusi"
 #: ui/evolution-mail-list.xml.h:2
 #: ui/evolution-mail-message.xml.h:10
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Valitud sõnumi(te) kopeerimine lõikelauale"
+msgstr "Kopeerib valitud sõnumi(d) lõikelauale"
 
 #: ui/evolution-mail-list.xml.h:3
 #: ui/evolution-mail-message.xml.h:22
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Valitud sõnumi(te) lõikamine lõikelauale"
+msgstr "Tõstab valitud sõnumi(d) lõikelauale"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "E_xpunge"
@@ -19381,7 +19284,7 @@ msgstr "Märgib kõik peitmata sõnumid loetuks"
 #: ui/evolution-mail-list.xml.h:11
 #: ui/evolution-mail-message.xml.h:74
 msgid "Paste message(s) from the clipboard"
-msgstr "Sõnumi(te) asetamine lõikepuhvrist"
+msgstr "Asetab sõnumid lõikepuhvrist"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -19430,7 +19333,7 @@ msgstr "_Kaust"
 #: ui/evolution-mail-list.xml.h:26
 #: ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr "_Inverteeri valik"
+msgstr "_Inverdi valik"
 
 #: ui/evolution-mail-list.xml.h:28
 msgid "_Threaded Message List"
@@ -19470,7 +19373,7 @@ msgstr "_Fail"
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "A_dd Sender to Address Book"
-msgstr "Saatja lisamine _aadressiraamatusse"
+msgstr "Lisa saatja _aadressiraamatusse"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "A_pply Filters"
@@ -19478,7 +19381,7 @@ msgstr "_Rakenda filtreid"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Add Sender to Address Book"
-msgstr "Saatja lisamine _aadressiraamatusse"
+msgstr "Saatja lisamine aadressiraamatusse"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Apply filter rules to the selected messages"
@@ -19546,15 +19449,15 @@ msgstr "Vähendab teksti suurust"
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Display the next important message"
-msgstr "Järgmise tähtsa sõnumi kuvamine"
+msgstr "Kuvab järgmise tähtsa sõnumi"
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Display the next message"
-msgstr "Järgmise sõnumi kuvamine"
+msgstr "Kuvab järgmise sõnumi"
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Display the next unread message"
-msgstr "Järgmise lugemata sõnumi kuvamine"
+msgstr "Kuvab järgmise lugemata sõnumi"
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Display the next unread thread"
@@ -19562,19 +19465,19 @@ msgstr "Kuvab järgmise lugemata jutulõnga"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Display the previous important message"
-msgstr "Eelmise tähtsa sõnumi kuvamine"
+msgstr "Kuvab eelmise tähtsa sõnumi"
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Display the previous message"
-msgstr "Eelmise sõnumi kuvamine"
+msgstr "Kuvab eelmise sõnumi"
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Display the previous unread message"
-msgstr "Eelmise lugemata sõnumi kuvamine"
+msgstr "Kuvab eelmise lugemata sõnumi"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "F_orward As..."
-msgstr "E_dasta kui..."
+msgstr "E_dasta kohandatud vormingus..."
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Filter _Junk"
@@ -19602,15 +19505,15 @@ msgstr "Valitud sõnumitest rämpsu filtreerimine"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
-msgstr ""
+msgstr "Märgib valitud sõnumi(d) jälgimiseks"
 
 #: ui/evolution-mail-message.xml.h:40
 msgid "Follow _Up..."
-msgstr "_Vastukaja..."
+msgstr "_Jälgi..."
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "Laeb HTML-vormingus sõnumi pildid"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Forward the selected message in the body of a new message"
@@ -19650,31 +19553,31 @@ msgstr "Märgi vähetä_htsaks"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Mark the selected message(s) as having been read"
-msgstr "Märgi valitud sõnum(id) loetuks"
+msgstr "Märgib valitud sõnum(id) loetuks"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Mark the selected message(s) as important"
-msgstr "Märgi valitud sõnum(id) tähtsaks"
+msgstr "Märgib valitud sõnum(id) tähtsaks"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Mark the selected message(s) as junk"
-msgstr "Valitud sõnumi(te) märkimine rämpsuks"
+msgstr "Märgib valitud sõnumi(d) rämpsuks"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Valitud sõnumi(te) märkimine mitterämpsuks"
+msgstr "Märgib valitud sõnumi(d) mitterämpsuks"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
-msgstr "Valitud sõnumi(te) märkimine lugemata sõnumiteks"
+msgstr "Märgib valitud sõnumi(d) lugemata sõnumi(te)ks"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Mark the selected message(s) as unimportant"
-msgstr "Valitud sõnumi(te) märkimine vähemtähtsaks"
+msgstr "Märgib valitud sõnumi(d) vähetähtsaks"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Mark the selected messages for deletion"
-msgstr "Valitud sõnumite märkimine kustutamiseks"
+msgstr "Märgib valitud sõnumid kustutatuks"
 
 #: ui/evolution-mail-message.xml.h:63
 msgid "Move"
@@ -19682,7 +19585,7 @@ msgstr "Liiguta"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Move selected message(s) to another folder"
-msgstr "Valitud sõnumi(te) liigutamine teise kausta"
+msgstr "Tõstab valitud sõnumi(d) teise kausta"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Next _Important Message"
@@ -19718,7 +19621,7 @@ msgstr "_Eelmine lugemata kiri"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Post a Repl_y"
-msgstr "_Vastuse saatmine"
+msgstr "Postita _vastus"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Post a reply to a message in a Public folder"
@@ -19737,9 +19640,8 @@ msgid "Print this message"
 msgstr "Trükib valitud sõnumi"
 
 #: ui/evolution-mail-message.xml.h:83
-#, fuzzy
 msgid "Re_direct"
-msgstr "Otsene kasutamine"
+msgstr "Ümber_suunamine"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Redirect (bounce) the selected message to someone"
@@ -19751,7 +19653,7 @@ msgstr "Taastab teksti algse suuruse"
 
 #: ui/evolution-mail-message.xml.h:90
 msgid "S_earch in Message..."
-msgstr "_Otsing sõnumist..."
+msgstr "_Otsi sõnumist..."
 
 #: ui/evolution-mail-message.xml.h:91
 msgid "S_maller"
@@ -19767,7 +19669,7 @@ msgstr "Otsib teksti kuvatud sõnumi sisust"
 
 #: ui/evolution-mail-message.xml.h:94
 msgid "Set up the page settings for your current printer"
-msgstr "Lehekülje sätted aktiivse printeri jaoks"
+msgstr "Lehekülje seaded aktiivse printeri jaoks"
 
 #: ui/evolution-mail-message.xml.h:95
 msgid "Show Email _Source"
@@ -19778,21 +19680,20 @@ msgid "Show Full _Headers"
 msgstr "Näita kõiki _päiseid"
 
 #: ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Otsib teksti kuvatud sõnumi sisust"
+msgstr "Näitab kuvatava sõnumi sisus vilkuvat kursorit"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
-msgstr "Näita sõnumit normaalse stiiliga"
+msgstr "Näitab sõnumit tavalise stiiliga"
 
 #: ui/evolution-mail-message.xml.h:99
 msgid "Show message with all email headers"
-msgstr "Näita sõnumit koos kõigi päistega"
+msgstr "Näitab sõnumit koos kõigi päistega"
 
 #: ui/evolution-mail-message.xml.h:100
 msgid "Show the raw email source of the message"
-msgstr "Näita sõnumit töötlemata kujul"
+msgstr "Näitab sõnumit töötlemata kujul"
 
 #: ui/evolution-mail-message.xml.h:101
 msgid "Text Si_ze"
@@ -19800,7 +19701,7 @@ msgstr "Teksti _suurus"
 
 #: ui/evolution-mail-message.xml.h:102
 msgid "Un-delete the selected messages"
-msgstr "Valitud sõnumite taastamine"
+msgstr "Taastab valitud sõnumi"
 
 #: ui/evolution-mail-message.xml.h:103
 msgid "VFolder on Mailing _List..."
@@ -19832,7 +19733,7 @@ msgstr "_Liigu"
 
 #: ui/evolution-mail-message.xml.h:116
 msgid "_Inline"
-msgstr ""
+msgstr "Samal _joonel"
 
 #: ui/evolution-mail-message.xml.h:117
 msgid "_Larger"
@@ -19852,7 +19753,7 @@ msgstr "_Tavaline kuva"
 
 #: ui/evolution-mail-message.xml.h:122
 msgid "_Open Message"
-msgstr "Sõnumi _avamine"
+msgstr "_Ava sõnum"
 
 #: ui/evolution-mail-message.xml.h:124
 msgid "_Previous Message"
@@ -19890,7 +19791,7 @@ msgstr "Kustuta kõik peale allkirja"
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr "Krüpteeri sõnum PGPga"
+msgstr "Krüpti sõnum PGPga"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
@@ -19911,7 +19812,7 @@ msgstr "Ava fail"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
-msgstr "PGP krüpteerimine"
+msgstr "PGP krüptimine"
 
 #: ui/evolution-message-composer.xml.h:13
 msgid "PGP Sign"
@@ -19961,7 +19862,7 @@ msgstr "Saada sõnum HTML formaadis"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Send this message"
-msgstr "Saada see sõnum"
+msgstr "Saadab selle sõnumi"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
@@ -19992,23 +19893,20 @@ msgid "Toggles whether the CC field is displayed"
 msgstr "Lülitab koopiavälja näitamise sisse või välja"
 
 #: ui/evolution-message-composer.xml.h:34
-#, fuzzy
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Lülitab pimekoopia välja näitamise sisse või välja"
+msgstr ""
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Lülitab vasta-kellele välja näitamise sisse või välja"
+msgstr ""
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
 msgstr "Lülitab vasta-kellele välja näitamise sisse või välja"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Lülitab vasta-kellele välja näitamise sisse või välja"
+msgstr ""
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -20110,19 +20008,19 @@ msgstr "Lõpeta tellimus"
 
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy selected task"
-msgstr "Kopeeri valitud ülesanne"
+msgstr "Kopeerib valitud ülesande"
 
 #: ui/evolution-tasks.xml.h:5
 msgid "Cut selected task"
-msgstr "Lõika valitud ülesanne"
+msgstr "Lõikab valitud ülesande"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Delete completed tasks"
-msgstr "Lõpetatud ülesannete kustutamine"
+msgstr "Kustutab lõpetatud ülesanded"
 
 #: ui/evolution-tasks.xml.h:8
 msgid "Delete selected tasks"
-msgstr "Kustuta valitud ülesanded"
+msgstr "Kustutab valitud ülesanded"
 
 #: ui/evolution-tasks.xml.h:9
 msgid "Mar_k as Complete"
@@ -20130,7 +20028,7 @@ msgstr "_Märgi lõpetatuks"
 
 #: ui/evolution-tasks.xml.h:10
 msgid "Mark selected tasks as complete"
-msgstr "Märgi valitud ülesanded lõpetatuks"
+msgstr "Märgib valitud ülesanded lõpetatuks"
 
 #: ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
@@ -20142,7 +20040,7 @@ msgstr "Trükitavate kontaktide eelvaatlemine"
 
 #: ui/evolution-tasks.xml.h:16
 msgid "Print the list of tasks"
-msgstr "Kuva ülesannete nimekiri"
+msgstr "Trükib ülesannete nimekirja"
 
 #: ui/evolution-tasks.xml.h:18
 msgid "View the selected task"
@@ -20158,12 +20056,11 @@ msgstr "Evolutionist..."
 
 #: ui/evolution.xml.h:2
 msgid "Change Evolution's settings"
-msgstr "Muuda Evolutioni seadeid "
+msgstr "Muudab Evolutioni seadeid "
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change the visibility of the toolbar"
-msgstr "Muuda peatööriistariba nähtavust"
+msgstr "Muuda tööriistariba nähtavalolekut"
 
 #: ui/evolution.xml.h:6
 msgid "Create a new window displaying this folder"
@@ -20223,7 +20120,7 @@ msgstr "Uus _aken"
 
 #: ui/evolution.xml.h:21
 msgid "Pi_lot Settings..."
-msgstr "P_ilot'i sätted..."
+msgstr "P_ilot'i seaded..."
 
 #: ui/evolution.xml.h:22
 msgid "Prefere_nces"
@@ -20235,15 +20132,15 @@ msgstr "Saada / võta vastu"
 
 #: ui/evolution.xml.h:24
 msgid "Send queued items and retrieve new items"
-msgstr "Saadab ära järjekorras olevad teated ja tõmbab ära uued teated"
+msgstr "Saadab ära järjekorras olevad sõnumid ja tõmbab ära uued sõnumid"
 
 #: ui/evolution.xml.h:25
 msgid "Set up Pilot configuration"
-msgstr "Säti Pilot'i seadeid"
+msgstr "Seab Pilot'i seadeid"
 
 #: ui/evolution.xml.h:26
 msgid "Show information about Evolution"
-msgstr "Näita infot Ximian Evolution'i kohta"
+msgstr "Näitab teavet Ximian Evolution'i kohta"
 
 #: ui/evolution.xml.h:27
 msgid "Submit Bug Report"
@@ -20303,7 +20200,7 @@ msgstr "_Kiirviide"
 
 #: ui/evolution.xml.h:46
 msgid "_Send / Receive"
-msgstr "_Saada / Võta vastu"
+msgstr "_Saada / võta vastu"
 
 #: ui/evolution.xml.h:47
 msgid "_Text only"
@@ -20364,7 +20261,7 @@ msgstr "_Teema järgi"
 
 #: views/mail/galview.xml.h:5
 msgid "By _Follow Up Flag"
-msgstr "_Vastukaja sildi järgi"
+msgstr "_Jälgimise sildi järgi"
 
 #: views/mail/galview.xml.h:6
 msgid "_Messages"
@@ -20393,7 +20290,7 @@ msgstr "<b>_Valik</b>"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:5
 msgid "Select a Time Zone"
-msgstr "Vali ajavöönd"
+msgstr "Ajavööndi valimine"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
 #, fuzzy
@@ -20594,14 +20491,15 @@ msgstr "Evolutioni info"
 
 #: widgets/misc/e-error.c:126
 msgid "Evolution Query"
-msgstr "Evolutioni päring"
+msgstr "Evolutioni küsimus"
 
 #  setup a dummy error
 #. setup a dummy error
 #: widgets/misc/e-error.c:436
 #, c-format
 msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
-msgstr "<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
+msgstr ""
+"<span weight=\"bold\">Sisemine viga, tundmatu viga '%s'  küsitud</span>"
 
 #: widgets/misc/e-expander.c:181
 msgid "Expanded"
@@ -20766,4 +20664,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% valmis)"
-
