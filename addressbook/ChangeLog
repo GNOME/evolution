@@ -1,5 +1,10 @@
 2004-04-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-migrate.c (addressbook_migrate): bump
+	version required to 8 for the contact list migration foo.
+
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-component.c
 	(selector_tree_drag_motion): pass GDK_CURRENT_TIME instead of a
 	function pointer to "time" to gdk_drag_status.  not sure if this

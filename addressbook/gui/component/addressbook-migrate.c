@@ -864,7 +864,7 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 			dialog_close (context);
 		}
 
-		if (minor <= 5 || (minor == 5 && revision <= 6)) {
+		if (minor <= 5 || (minor == 5 && revision <= 7)) {
 			setup_progress_dialog (context,
 					       _("The format of mailing list contacts has changed.\n\n"
 						 "Please be patient while Evolution migrates your "
