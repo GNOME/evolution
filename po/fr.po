@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.16.100\n"
 "POT-Creation-Date: 2001-11-05 19:49-0500\n"
-"PO-Revision-Date: 2001-11-02 08:52+0100\n"
+"PO-Revision-Date: 2001-11-09 10:43+0100\n"
 "Last-Translator: Frederic Riss <frederic.riss@laposte.net>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
@@ -5607,7 +5607,7 @@ msgstr "Ne peut traiter le dossier de spool"
 #: camel/camel-filter-driver.c:688
 #, c-format
 msgid "Getting message %d (%d%%)"
-msgstr "Récupération du message %d parmis %d"
+msgstr "Récupération du message %d (%d%%)"
 
 #: camel/camel-filter-driver.c:692
 msgid "Cannot open message"
