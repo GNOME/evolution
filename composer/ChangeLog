@@ -1,3 +1,8 @@
+2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-hdrs.c (create_dropdown_entry): Updated to
+	reflect changes to the mail-config API.
+
 2001-01-05  Radek Doulik  <rodo@helixcode.com>
 
 	* listener.c (impl_event): disable indenting for now, it crashes
