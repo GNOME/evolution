@@ -1,3 +1,12 @@
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-filter-bar.c: Changed to use g_object_*() and g_signal_*()
+	functions instead of gtk_object_*() and gtk_signal_*().
+	(destroy): Removed.
+	(dispose): New.
+	(class_init): Install GObject::dispose handler instead of
+	GtkObject::destroy handler.
+
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
 	* e-dateedit.[ch]: port to GObject.

@@ -89,7 +89,7 @@ rule_editor_clicked (GtkWidget *dialog, int button, void *data)
 	
 	switch (button) {
 	case 0:
-		rule = gtk_object_get_data (GTK_OBJECT (dialog), "rule");
+		rule = g_object_get_data (G_OBJECT (dialog), "rule");
 		if (rule) {
 			if (!filter_rule_validate (rule))
 				return;
@@ -114,11 +114,11 @@ rule_advanced_clicked (GtkWidget *dialog, int button, void *data)
 	switch (button) {
 	case 0:			/* 'ok' */
 	case 1:
-		rule = gtk_object_get_data (GTK_OBJECT (dialog), "rule");
+		rule = g_object_get_data (G_OBJECT (dialog), "rule");
 		if (rule) {
 			efb->current_query = rule;
-			gtk_object_ref (GTK_OBJECT (rule));
-			gtk_signal_emit_by_name (GTK_OBJECT (efb), "query_changed");
+			g_object_ref (rule);
+			g_signal_emit_by_name (efb, "query_changed");
 		}
 		if (button == 1)
 			rule_editor_clicked (dialog, 0, data);
@@ -159,10 +159,11 @@ do_advanced (ESearchBar *esb)
 		gtk_window_set_default_size (GTK_WINDOW (gd), 600, 300);
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
 		gtk_widget_show (gd);
-		gtk_object_ref (GTK_OBJECT (rule));
-		gtk_object_set_data_full (GTK_OBJECT (gd), "rule", rule, (GtkDestroyNotify)gtk_object_unref);
-		gtk_signal_connect (GTK_OBJECT (gd), "clicked", GTK_SIGNAL_FUNC (rule_advanced_clicked), efb);
-		gtk_signal_connect (GTK_OBJECT (gd), "destroy", GTK_SIGNAL_FUNC (rule_editor_destroyed), efb);
+		g_object_ref (rule);
+		g_object_set_data_full (G_OBJECT (gd), "rule", rule, (GDestroyNotify) g_object_unref);
+
+		g_signal_connect (gd, "clicked", G_CALLBACK (rule_advanced_clicked), efb);
+		g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
 		
 		e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
 		gtk_widget_set_sensitive (esb->entry, FALSE);
@@ -184,10 +185,8 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			gd = (GnomeDialog *) rule_editor_new (efb->context, FILTER_SOURCE_INCOMING);
 			efb->save_dialogue = (GtkWidget *) gd;
 			gtk_window_set_title (GTK_WINDOW (gd), _("Search Editor"));
-			gtk_signal_connect (GTK_OBJECT (gd), "clicked",
-					    GTK_SIGNAL_FUNC (full_rule_editor_clicked), efb);
-			gtk_signal_connect (GTK_OBJECT (gd), "destroy",
-					    GTK_SIGNAL_FUNC (rule_editor_destroyed), efb);
+			g_signal_connect (gd, "clicked", G_CALLBACK (full_rule_editor_clicked), efb);
+			g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
 			gtk_widget_show (GTK_WIDGET (gd));
 		}
 		break;
@@ -216,10 +215,10 @@ menubar_activated (ESearchBar *esb, int id, void *data)
 			
 			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, TRUE, TRUE, 0);
 			gtk_widget_show (gd);
-			gtk_object_ref (GTK_OBJECT (rule));
-			gtk_object_set_data_full (GTK_OBJECT (gd), "rule", rule, (GtkDestroyNotify)gtk_object_unref);
-			gtk_signal_connect (GTK_OBJECT (gd), "clicked", GTK_SIGNAL_FUNC (rule_editor_clicked), efb);
-			gtk_signal_connect (GTK_OBJECT (gd), "destroy", GTK_SIGNAL_FUNC (rule_editor_destroyed), efb);
+			g_object_ref (rule);
+			g_object_set_data_full (G_OBJECT (gd), "rule", rule, (GDestroyNotify) g_object_unref);
+			g_signal_connect (gd, "clicked", G_CALLBACK (rule_editor_clicked), efb);
+			g_signal_connect (gd, "destroy", G_CALLBACK (rule_editor_destroyed), efb);
 			
 			e_search_bar_set_menu_sensitive (esb, E_FILTERBAR_SAVE_ID, FALSE);
 			gtk_widget_set_sensitive (esb->entry, FALSE);
@@ -272,7 +271,7 @@ option_changed (ESearchBar *esb, void *data)
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {
 			efb->current_query = (FilterRule *)efb->option_rules->pdata[id - efb->option_base];
 			if (efb->config) {
-				gtk_object_get (GTK_OBJECT (esb), "text", &query, NULL);
+				g_object_get (G_OBJECT (esb), "text", &query, NULL);
 				efb->config (efb, efb->current_query, id, query, efb->config_data);
 				g_free (query);
 			}
@@ -357,8 +356,8 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		g_array_append_vals (menu, &item, 1);
 
 		if (g_slist_find(gtksux, rule) == NULL) {
-			gtk_object_ref((GtkObject *)rule);
-			gtk_signal_connect((GtkObject *)rule, "changed", GTK_SIGNAL_FUNC (rule_changed), efb);
+			g_object_ref (rule);
+			g_signal_connect (rule, "changed", G_CALLBACK (rule_changed), efb);
 		} else {
 			gtksux = g_slist_remove(gtksux, rule);
 		}
@@ -372,8 +371,8 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 		next = gtksux->next;
 		rule = gtksux->data;
 
-		gtk_signal_disconnect_by_func((GtkObject *)rule, GTK_SIGNAL_FUNC (rule_changed), efb);
-		gtk_object_unref((GtkObject *)rule);
+		g_signal_handlers_disconnect_by_func (rule, G_CALLBACK (rule_changed), efb);
+		g_object_unref (rule);
 
 		g_slist_free_1(gtksux);
 		gtksux = next;
@@ -560,14 +559,14 @@ static void clear_rules(EFilterBar *efb, GPtrArray *rules)
 	/* clear out any data on old rules */
 	for (i=0;i<rules->len;i++) {
 		rule = rules->pdata[i];
-		gtk_signal_disconnect_by_func((GtkObject *)rule, GTK_SIGNAL_FUNC (rule_changed), efb);
-		gtk_object_unref((GtkObject *)rule);
+		g_signal_handlers_disconnect_by_func (rule, G_CALLBACK (rule_changed), efb);
+		g_object_unref(rule);
 	}
 	g_ptr_array_set_size (rules, 0);
 }
 
 static void
-destroy (GtkObject *object)
+dispose (GObject *object)
 {
 	EFilterBar *bar;
 	
@@ -576,39 +575,54 @@ destroy (GtkObject *object)
 	
 	bar = E_FILTER_BAR (object);
 
-	gtk_signal_disconnect_by_func(GTK_OBJECT (bar->context), GTK_SIGNAL_FUNC (context_changed), bar);
-	gtk_signal_disconnect_by_func(GTK_OBJECT (bar->context), GTK_SIGNAL_FUNC (context_rule_removed), bar);
+	if (bar->menu_rules != NULL) {
+		clear_rules(bar, bar->menu_rules);
+		clear_rules(bar, bar->option_rules);
 
-	clear_rules(bar, bar->menu_rules);
-	clear_rules(bar, bar->option_rules);
+		g_ptr_array_free (bar->menu_rules, TRUE);
+		g_ptr_array_free (bar->option_rules, TRUE);
 
-	gtk_object_unref (GTK_OBJECT (bar->context));
-	g_ptr_array_free (bar->menu_rules, TRUE);
-	g_ptr_array_free (bar->option_rules, TRUE);
-	g_free (bar->systemrules);
-	g_free (bar->userrules);
+		g_free (bar->systemrules);
+		g_free (bar->userrules);
 
-	if (bar->default_items)
+		bar->menu_rules = NULL;
+		bar->option_rules = NULL;
+		bar->systemrules = NULL;
+		bar->userrules = NULL;
+	}
+
+	if (bar->context != NULL) {
+		g_signal_handlers_disconnect_by_func (bar->context, G_CALLBACK (context_changed), bar);
+		g_signal_handlers_disconnect_by_func (bar->context, G_CALLBACK (context_rule_removed), bar);
+
+		g_object_unref (bar->context);
+		bar->context = NULL;
+	}
+
+	if (bar->default_items) {
 		free_items (bar->default_items);
-	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+		bar->default_items = NULL;
+	}
+
+	(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 
 static void
 class_init (EFilterBarClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class;
 	ESearchBarClass *esb_class = (ESearchBarClass *)klass;
 	
-	object_class = GTK_OBJECT_CLASS (klass);
+	object_class = G_OBJECT_CLASS (klass);
+	gtk_object_class = GTK_OBJECT_CLASS (klass);
 	
 	parent_class = gtk_type_class (e_search_bar_get_type ());
 	
-	object_class->destroy = destroy;
+	object_class->dispose = dispose;
 	
-	object_class->get_arg = impl_get_arg;
+	gtk_object_class->get_arg = impl_get_arg;
 	
 	esb_class->set_menu = set_menu;
 	esb_class->set_option = set_option;
@@ -639,9 +653,9 @@ class_init (EFilterBarClass *klass)
 static void
 init (EFilterBar *efb)
 {
-	gtk_signal_connect (GTK_OBJECT (efb), "menu_activated", GTK_SIGNAL_FUNC (menubar_activated), NULL);
-	gtk_signal_connect (GTK_OBJECT (efb), "query_changed", GTK_SIGNAL_FUNC (option_changed), NULL);
-	gtk_signal_connect (GTK_OBJECT (efb), "search_activated", GTK_SIGNAL_FUNC (option_changed), NULL);
+	g_signal_connect (efb, "menu_activated", G_CALLBACK (menubar_activated), NULL);
+	g_signal_connect (efb, "query_changed", G_CALLBACK (option_changed), NULL);
+	g_signal_connect (efb, "search_activated", G_CALLBACK (option_changed), NULL);
 	
 	efb->menu_rules = g_ptr_array_new ();
 	efb->option_rules = g_ptr_array_new ();
@@ -663,7 +677,7 @@ e_filter_bar_new (RuleContext *context,
 	bar = gtk_type_new (e_filter_bar_get_type ());
 
 	bar->context = context;
-	gtk_object_ref (GTK_OBJECT (context));
+	g_object_ref (context);
 	
 	bar->config = config;
 	bar->config_data = data;
@@ -673,8 +687,8 @@ e_filter_bar_new (RuleContext *context,
 	
 	e_search_bar_construct ((ESearchBar *)bar, &item, &item);
 	
-	gtk_signal_connect (GTK_OBJECT (context), "changed", GTK_SIGNAL_FUNC (context_changed), bar);
-	gtk_signal_connect (GTK_OBJECT (context), "rule_removed", GTK_SIGNAL_FUNC (context_rule_removed), bar);
+	g_signal_connect (context, "changed", G_CALLBACK (context_changed), bar);
+	g_signal_connect (context, "rule_removed", G_CALLBACK (context_rule_removed), bar);
 	
 	return bar;
 }
