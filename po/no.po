@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2002-12-05 17:57-0500\n"
-"PO-Revision-Date: 2002-10-26 12:31+0200\n"
+"PO-Revision-Date: 2002-12-06 00:59+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1396,9 +1396,8 @@ msgstr "Finn kontakt i"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
 #: ui/evolution-addressbook.h:16
-#, fuzzy
 msgid "Find"
-msgstr "Finn:"
+msgstr "Finn"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Select Names"
@@ -4408,9 +4407,9 @@ msgid "%s  You have made no changes, update the editor?"
 msgstr "%s  Du har ikke gjort endringer. Oppdater redigering?"
 
 #: calendar/gui/dialogs/comp-editor-page.c:414
-#, fuzzy, c-format
+#, c-format
 msgid "Validation error: %s"
-msgstr "Ukjent feil: %s"
+msgstr "Valideringsfeil: %s"
 
 #: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2208
 msgid " to "
@@ -4569,24 +4568,20 @@ msgid "Meeting"
 msgstr "Møte"
 
 #: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
-#, fuzzy
 msgid "Start date is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Startdato er feil"
 
 #: calendar/gui/dialogs/event-page.c:666
-#, fuzzy
 msgid "End date is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Sluttdato er feil"
 
 #: calendar/gui/dialogs/event-page.c:689
-#, fuzzy
 msgid "Start time is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Tid for start er feil"
 
 #: calendar/gui/dialogs/event-page.c:696
-#, fuzzy
 msgid "End time is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Tid for slutt er feil"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "A_ll day event"
@@ -4928,9 +4923,8 @@ msgid "The task information has changed. Send an updated version?"
 msgstr "Oppgaveinformasjonen er endret. Send en oppdatert versjon?"
 
 #: calendar/gui/dialogs/task-details-page.c:420
-#, fuzzy
 msgid "Completed date is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Ferdigdato er feil"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
@@ -4976,9 +4970,8 @@ msgid "Assignment"
 msgstr "Tildeling"
 
 #: calendar/gui/dialogs/task-page.c:540
-#, fuzzy
 msgid "Due date is wrong"
-msgstr "Gjenintreffende dato er feil"
+msgstr "Ferdigdato er feil"
 
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
@@ -5289,83 +5282,76 @@ msgid "Delete _All Occurrences"
 msgstr "Slett _alle hendelser"
 
 #: calendar/gui/e-itip-control.c:684
-#, fuzzy
 msgid "Yes. (Complex Recurrence)"
-msgstr "Enkel gjeninntreffel_se"
+msgstr "Ja. (Kompleks gjeninntreffelse)"
 
 #: calendar/gui/e-itip-control.c:696
-#, fuzzy
 msgid "Every day"
-msgstr "Hver"
+msgstr "Hver dag"
 
 #: calendar/gui/e-itip-control.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d days"
-msgstr "%d dager"
+msgstr "Hver %d dager"
 
 #: calendar/gui/e-itip-control.c:704
-#, fuzzy
 msgid "Every week"
-msgstr "Hver"
+msgstr "Hver uke"
 
 #: calendar/gui/e-itip-control.c:706
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks"
-msgstr "%d uker"
+msgstr "Hver %d uker"
 
 #: calendar/gui/e-itip-control.c:709
-#, fuzzy
 msgid "Every week on "
-msgstr "Evergreen"
+msgstr "Hver uke på "
 
 #: calendar/gui/e-itip-control.c:711
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d weeks on "
-msgstr "%d uker"
+msgstr "Hver %d uker på "
 
 #: calendar/gui/e-itip-control.c:719
-#, fuzzy
 msgid " and "
-msgstr "Sand"
+msgstr " og "
 
 #: calendar/gui/e-itip-control.c:726
 #, c-format
 msgid "The %s day of "
-msgstr ""
+msgstr "Den %s dagen i "
 
 #: calendar/gui/e-itip-control.c:739
 #, c-format
 msgid "The %s %s of "
-msgstr ""
+msgstr "Den %s %s i "
 
 #: calendar/gui/e-itip-control.c:744
-#, fuzzy
 msgid "every month"
-msgstr "E_n måned"
+msgstr "hver måned"
 
 #: calendar/gui/e-itip-control.c:749
-#, fuzzy, c-format
+#, c-format
 msgid "every %d months"
-msgstr "Tidsavbrudd for tjener"
+msgstr "hver %d måned"
 
 #: calendar/gui/e-itip-control.c:755
-#, fuzzy
 msgid "Every year"
-msgstr "Hver"
+msgstr "Hvert år"
 
 #: calendar/gui/e-itip-control.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "Every %d years"
-msgstr "Hver"
+msgstr "Hvert %d år"
 
 #: calendar/gui/e-itip-control.c:769
 #, c-format
 msgid " a total of %d times"
-msgstr ""
+msgstr " totalt %d ganger"
 
 #: calendar/gui/e-itip-control.c:777
 msgid ", ending on "
-msgstr ""
+msgstr ", med slutt "
 
 #: calendar/gui/e-itip-control.c:801
 msgid "<b>Starts:</b> "
@@ -11901,9 +11887,8 @@ msgid "Enable"
 msgstr "Aktiver"
 
 #: mail/mail-accounts.c:467
-#, fuzzy
 msgid "[Default]"
-msgstr "Forvalgt"
+msgstr "[Forvalg]"
 
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
 #: mail/mail-config.glade.h:53
@@ -12158,7 +12143,6 @@ msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Er du sikker på at du vil åpne alle %d meldingene i separate vinduer?"
 
 #: mail/mail-composer-prefs.c:223
-#, fuzzy
 msgid ""
 "Please specify signature filename\n"
 "in Advanced section of signature settings."
@@ -12875,12 +12859,12 @@ msgid "Could not create a S/MIME decode context."
 msgstr "Kunne ikke opprette S/MIME dekodingskontekst."
 
 #: mail/mail-display.c:194
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "File `%s' already exists.\n"
 "Overwrite it?"
 msgstr ""
-"En fil med samme navn eksisterer allerede.\n"
+"Filen «%s» eksisterer allerede.\n"
 "Overskriv den?"
 
 #: mail/mail-display.c:326
@@ -26065,9 +26049,8 @@ msgid "As _Table"
 msgstr "Som _tabell"
 
 #: ui/evolution-addressbook.h:11
-#, fuzzy
 msgid "_New Contact"
-msgstr "Ny kontakt"
+msgstr "_Ny kontakt"
 
 #: ui/evolution-addressbook.h:12 ui/evolution-mail-message.xml.h:113
 #: ui/evolution.xml.h:65
@@ -26075,24 +26058,20 @@ msgid "_Tools"
 msgstr "Ve_rktøy"
 
 #: ui/evolution-addressbook.h:13
-#, fuzzy
 msgid "_Search for contacts"
 msgstr "_Søk etter kontakter"
 
 #: ui/evolution-addressbook.h:17
-#, fuzzy
 msgid "Find a contact"
-msgstr "Finn kontakt i"
+msgstr "Finn en kontakt"
 
 #: ui/evolution-addressbook.h:19
-#, fuzzy
 msgid "Print contacts"
-msgstr "S_kriv ut kontakter..."
+msgstr "Skriv ut kontakter"
 
 #: ui/evolution-addressbook.h:21
-#, fuzzy
 msgid "Delete a contact"
-msgstr "Slett kontakt?"
+msgstr "Slett en kontakt?"
 
 #: ui/evolution-addressbook.h:22
 msgid "View All"
@@ -26831,9 +26810,8 @@ msgid "Post a Reply"
 msgstr "Post et svar"
 
 #: ui/evolution-mail-message.xml.h:63
-#, fuzzy
 msgid "Post a reply to a message in a Public folder"
-msgstr "Post et svar på en melding i en offentlig mappe"
+msgstr "Send et svar på en melding til en offentlig mappe"
 
 #: ui/evolution-mail-message.xml.h:64
 msgid "Pr_evious Important Message"
@@ -27078,9 +27056,8 @@ msgid "Attach"
 msgstr "Legg ved"
 
 #: ui/evolution-message-composer.h:27
-#, fuzzy
 msgid "HTML"
-msgstr "H_TML"
+msgstr "HTML"
 
 #: ui/evolution-message-composer.h:28 ui/evolution-message-composer.xml.h:25
 #: ui/evolution-signature-editor.xml.h:9
@@ -27129,14 +27106,12 @@ msgid "_About..."
 msgstr "_Om..."
 
 #: ui/evolution-message-composer.h:46
-#, fuzzy
 msgid "_Debug"
-msgstr "Dyersburg"
+msgstr "_Feilsøk"
 
 #: ui/evolution-message-composer.h:47
-#, fuzzy
 msgid "Send this message now"
-msgstr "Send meldingen nå"
+msgstr "Send denne meldingen nå"
 
 #: ui/evolution-message-composer.h:48
 msgid "Bold"
