@@ -62,6 +62,8 @@ static int blowup(int status)
  */
 static void (*gnome_segv_handler) (int);
 
+static GStaticMutex segv_mutex = G_STATIC_MUTEX_INIT;
+
 static void
 segv_redirect (int sig)
 {
@@ -69,7 +71,13 @@ segv_redirect (int sig)
 		gnome_segv_handler (sig);
 	else {
 		pthread_kill (mail_gui_thread, sig);
-		pthread_exit (NULL);
+		/* We can't return from the signal handler or the
+		 * thread may SEGV again. But we can't pthread_exit,
+		 * because then the thread may get cleaned up before
+		 * bug-buddy can get a stack trace. So we block by
+		 * trying to lock a mutex we know is already locked.
+		 */
+		g_static_mutex_lock (&segv_mutex);
 	}
 }
 
@@ -105,6 +113,7 @@ main (int argc, char *argv [])
 		sigaction (SIGBUS, &sa, NULL);
 		sigaction (SIGFPE, &sa, NULL);
 		gnome_segv_handler = osa.sa_handler;
+		g_static_mutex_lock (&segv_mutex);
 	}
 
 	orb = oaf_init (argc, argv);
