@@ -579,9 +579,6 @@ message_list_init (GtkObject *object)
 		       "drawfocus", FALSE,
 		       "drawgrid", FALSE,
 		       NULL);
-	gtk_object_set(GTK_OBJECT(E_TABLE(message_list->etable)->header_item),
-		       "dnd_code", "(unset)",
-		       NULL);
 
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "realize",
 			    GTK_SIGNAL_FUNC (select_row), message_list);

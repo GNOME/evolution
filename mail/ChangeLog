@@ -1,3 +1,8 @@
+2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c: Remove setting of dnd_code since that's handled
+	internally to ETable.
+
 2000-07-08  Dan Winship  <danw@helixcode.com>
 
 	* folder-browser.c (etable_key): Fix up the pageup/pagedown
