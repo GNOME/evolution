@@ -1,3 +1,10 @@
+2002-12-17  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #34897 ]
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_value_at): don't free the return of
+	e_card_simple_get_const, as this causes a double free later on.
+
 2002-12-18  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/e-address-popup.c: convert the clist in here to a

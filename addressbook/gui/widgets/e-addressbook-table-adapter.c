@@ -122,7 +122,7 @@ addressbook_value_at (ETableModel *etc, int col, int row)
 	if (value && !strncmp (value, "<?xml", 5)) {
 		EDestination *dest = e_destination_import (value);
 		if (dest) {
-			g_free ((gchar *) value);
+			/* XXX blech, we leak this */
 			value = g_strdup (e_destination_get_address (dest));
 			g_object_unref (dest);
 		}
