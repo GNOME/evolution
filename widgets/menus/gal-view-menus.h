@@ -3,7 +3,7 @@
 #define _GAL_VIEW_MENUS_H_
 
 #include <gtk/gtkobject.h>
-#include <gnome-xml/tree.h>
+#include <libxml/tree.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/menus/gal-view-instance.h>
 
