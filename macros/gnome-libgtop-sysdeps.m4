@@ -71,7 +71,7 @@ main (void)
 	    libgtop_use_machine_h=no
 	  else
 	    libgtop_sysdeps_dir=linux
-	    libgtop_use_machine_h=yes
+	    libgtop_use_machine_h=no
 	  fi
 	  libgtop_need_server=no
 	  ;;
