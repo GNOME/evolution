@@ -434,7 +434,9 @@ open_fn (gpointer data)
 
 	if (!backend)
 		backend = open_backend (factory, uri_string, only_if_exists, listener);
-
+	
+	g_free (uri_string);
+	
 	if (backend)
 		add_calendar_client (factory, backend, listener);
 
