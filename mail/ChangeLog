@@ -1,5 +1,12 @@
 2005-02-22  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #40515
+
+	* mail-config.c (mail_config_signature_run_script): run the script
+	using /bin/sh -c, so arguments may be passed to the script.
+
+2005-02-22  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #68866
 
 	* em-format-quote.c (emfq_format_headers): line-feed after all

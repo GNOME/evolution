@@ -978,7 +978,7 @@ mail_config_signature_run_script (const char *script)
 	int result, status;
 	int in_fds[2];
 	pid_t pid;
-	
+
 	if (pipe (in_fds) == -1) {
 		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
 		return NULL;
@@ -1001,7 +1001,7 @@ mail_config_signature_run_script (const char *script)
 				fcntl (i, F_SETFD, FD_CLOEXEC);
 		}
 		
-		execlp (script, script, NULL);
+		execlp("/bin/sh", "/bin/sh", "-c", script, NULL);
 		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
 		_exit (255);
 	} else if (pid < 0) {
