@@ -1,3 +1,7 @@
+2001-03-28  Jon Trowbridge  <trow@ximian.com>
+
+	* AUTHORS: In a burst of egomania, added myself.
+
 2001-03-26  Radek Doulik  <rodo@ximian.com>
 
 	* configure.in: create camel/misc/Makefile
