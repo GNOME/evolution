@@ -760,8 +760,8 @@ get_intelligent_importers (void)
 }
 
 static gboolean
-prepare_intelligent_page (GnomeDruid *druid,
-			  GnomeDruidPage *page,
+prepare_intelligent_page (GnomeDruidPage *page,
+			  GnomeDruid *druid,
 			  ImportData *data)
 {
 	GtkWidget *dialog;
@@ -776,7 +776,8 @@ prepare_intelligent_page (GnomeDruid *druid,
 
 	data->importerpage->prepared = TRUE;
 
-	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
+	dialog = gtk_message_dialog_new(NULL, 0, GTK_MESSAGE_INFO, GTK_BUTTONS_NONE, "%s",
+					_("Please wait...\nScanning for existing setups"));
 	e_make_widget_backing_stored (dialog);
 
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Starting Intelligent Importers"));
@@ -913,11 +914,11 @@ prepare_intelligent_page (GnomeDruid *druid,
 				  running, GTK_FILL, 0, 0, 0);
 		gtk_table_attach (GTK_TABLE (table), id->widget, 1, 2,
 				  running - 1, running, GTK_FILL, 0, 3, 0);
-		gtk_widget_show_all (table);
-
 		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), table,
 				    FALSE, FALSE, 0);
 	}
+
+	gtk_widget_show_all (table);
 
 	if (running == 0) {
 		gnome_druid_set_page (druid, GNOME_DRUID_PAGE (data->finish));

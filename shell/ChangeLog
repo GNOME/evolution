@@ -1,3 +1,10 @@
+2002-11-20  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-importer.c (prepare_intelligent_page): gnome message box
+	-> gtk message dialog.
+	(prepare_intelligent_page): Fix the signature on this.  This could
+	NEVER have worked.
+
 2002-11-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (upgrade_from_1_0_if_needed): Disabled for now.
