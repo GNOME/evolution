@@ -782,7 +782,9 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 	comp->priv->cancelled = FALSE;
 	
 	comp->priv->book_view_tag = 0;
-	
+
+	if (comp->priv->book_view)
+		gtk_object_unref (GTK_OBJECT (comp->priv->book_view));
 	comp->priv->book_view = view;
 	gtk_object_ref (GTK_OBJECT (view));
 
@@ -790,6 +792,7 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 			    "card_added",
 			    GTK_SIGNAL_FUNC (e_select_names_completion_card_added_cb),
 			    comp);
+
 	gtk_signal_connect (GTK_OBJECT (view),
 			    "sequence_complete",
 			    GTK_SIGNAL_FUNC (e_select_names_completion_seq_complete_cb),
@@ -801,14 +804,16 @@ e_select_names_completion_card_added_cb (EBookView *book_view, const GList *card
 {
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (user_data);
 
-	if (! comp->priv->cancelled)
+
+	if (! comp->priv->cancelled) {
 		book_query_process_card_list (comp, cards);
 
-	/* Save the list of matching cards. */
-	while (cards) {
-		comp->priv->cached_cards = g_list_prepend (comp->priv->cached_cards, cards->data);
-		gtk_object_ref (GTK_OBJECT (cards->data));
-		cards = g_list_next (cards);
+		/* Save the list of matching cards. */
+		while (cards) {
+			comp->priv->cached_cards = g_list_prepend (comp->priv->cached_cards, cards->data);
+			gtk_object_ref (GTK_OBJECT (cards->data));
+			cards = g_list_next (cards);
+		}
 	}
 }
 
@@ -817,19 +822,21 @@ e_select_names_completion_seq_complete_cb (EBookView *book_view, gpointer user_d
 {
 	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (user_data);
 
-	gtk_object_unref (GTK_OBJECT (comp->priv->book_view));
-
-	comp->priv->book_view = NULL;
+	/*
+	 * We aren't searching, but the addressbook has changed -- clear our card cache so that
+	 * future completion requests will take the changes into account.
+	 */
+	if (! e_completion_searching (E_COMPLETION (comp))) {
+		e_select_names_completion_clear_cache (comp);
+		return;
+	}
 
 	g_free (comp->priv->query_text);
 	comp->priv->query_text = NULL;
 
 	if (out)
-		fprintf (out, "ending search ");
-	if (out && !e_completion_searching (E_COMPLETION (comp)))
-		fprintf (out, "while not searching!");
-	if (out)
-		fprintf (out, "\n");
+		fprintf (out, "ending search\n");
+
 	e_completion_end_search (E_COMPLETION (comp)); /* That's all folks! */
 
 	/* Need to launch a new completion if another one is pending. */
@@ -936,7 +943,7 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		return;
 	}
 
-	query_is_still_running = comp->priv->book_view_tag || comp->priv->book_view;
+	query_is_still_running = comp->priv->book_view_tag;
 
 	if (out) {
 		fprintf (out, "do_query: %s => %s\n", query_text, clean);
@@ -1094,9 +1101,7 @@ e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNa
 {
 	comp->priv->book_ready = TRUE;
 
-	g_return_if_fail (book != NULL);
 	g_return_if_fail (E_IS_BOOK (book));
-	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
 
 	/* If waiting_query is non-NULL, someone tried to start a query before the book was ready.
@@ -1139,9 +1144,11 @@ e_select_names_completion_new (EBook *book, ESelectNamesModel *model)
 		e_book_load_local_address_book (comp->priv->book, (EBookCallback) e_select_names_completion_book_ready, comp);
 
 	} else {
+
 		comp->priv->book = book;
 		gtk_object_ref (GTK_OBJECT (comp->priv->book));
 		comp->priv->book_ready = TRUE;
+
 	}
 		
 	comp->priv->model = model;

@@ -1,3 +1,17 @@
+2001-08-17  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c
+	(e_select_names_completion_seq_complete_cb): If we get the
+	"sequence_complete" signal when we aren't searching, it means the
+	addressbook changed out from under us.  Clear the search cache, so
+	that future completion requests won't use the out-of-date cached
+	data.  Also, don't unref book_view... we leave the EBookView open
+	so that we can catch these addressbook changes.
+	(e_select_names_completion_do_query): Don't use the book_view
+	being non-NULL as a sign that another query is still running.
+	(e_select_names_completion_got_book_view_cb): Properly unref any
+	previous value in book_view.
+
 2001-08-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c
