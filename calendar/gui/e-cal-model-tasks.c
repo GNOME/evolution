@@ -195,7 +195,7 @@ ensure_task_not_complete (ECalModelComponent *comp_data)
 	}
 
 	/* Status. */
-	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
 	if (prop)
 		icalproperty_set_status (prop, ICAL_STATUS_NEEDSACTION);
 }

@@ -1,5 +1,12 @@
 2004-01-19  JP Rosevear <jpr@ximian.com>
 
+	* gui/e-cal-model-tasks.c (ensure_task_not_complete): correct
+	property name c/p error
+
+	Fixes # 52269
+	
+2004-01-19  JP Rosevear <jpr@ximian.com>
+
 	* gui/tasks-component.c (update_primary_selection): handle the
 	case where we have a bogus uid
 
