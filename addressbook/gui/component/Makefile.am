@@ -32,6 +32,7 @@ INCLUDES =									\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
+componentdir=$(COMPONENT_DIR)
 component_LTLIBRARIES = libevolution-addressbook.la
 
 libevolution_addressbook_la_SOURCES = 	\

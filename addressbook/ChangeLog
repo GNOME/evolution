@@ -1,5 +1,10 @@
 2003-01-26  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/Makefile.am (componentdir): need to assign this
+	here or else the lib doesn't get built.
+
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
 	* printing/e-contact-print.c (e_contact_start_new_page): begin the
 	new page after showing the last one.
 	(complete_sequence): beginpage before we start printing.
