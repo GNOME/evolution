@@ -104,23 +104,26 @@ defined, version-specific directory.  They should be installed in
 "${privdatadir}/errors".
 
 The following Makefile.am entries should be setup for each error
-template file.
+template file.  This is required to generate the i18n template files
+used for internationalisation.
 
 List the files, and build rules:
 
-error_in_files = error-file-name.xml.in
-error_DATA = $(error_in_files:.xml.in=.xml)
+error_DATA = error-file-name.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
-@INTLTOOL_XML_RULE@
+%.xml.h: %.xml
+	 $(top_builddir)/e-util/e-error-tool $^
 
 Add to EXTRA_DIST:
 
 EXTRA_DIST =			\
-	$(error_in_files)
+	$(error_DATA)		\
+	$(error_i18n)
 
 And add to BUILT_SOURCES:
 
-BUILT_SOURCES = $(error_DATA)
+BUILT_SOURCES = $(error_i18n)
 
 Error template format
 ---------------------
@@ -130,10 +133,10 @@ The XML file is in the following format.
 <?xml version="1.0"?>
 <error-list domain="ERRORDOMAIN">
  <error id="error-id" type="info|warning|question|error"? response="default_response"? modal="true"? >
-  <_title>Window Title</_title>?
-  <_primary>Primary error text.</_primary>?
-  <_secondary>Secondary error text.</_secondary>?
-  <button stock="stock-button-id"? _label="button label"? response="response_id"? /> *
+  <title>Window Title</title>?
+  <primary>Primary error text.</primary>?
+  <secondary>Secondary error text.</secondary>?
+  <button stock="stock-button-id"? label="button label"? response="response_id"? /> *
  </error>
 </error-list>
 
@@ -142,7 +145,7 @@ enumeration.
 
 stock-button-id is a standard GtkStock button name.
 
-_label is a translatable string for the button name otherwise,
+label is a translatable string for the button name otherwise,
 including an underlined mnemonic.
 
 One of stock and _label must be supplied for all buttons defined.
@@ -152,7 +155,7 @@ a different label text.
 <button /> is optional, if missing, a single stock Ok button will be
 used.
 
-_title, _primary, and _secondary are all optional, if missing,
+title, primary, and secondary are all optional, if missing,
 standard text (for title) or blank text will be used.
 
 For the title, primary and secondary texts, substitution of the passed
@@ -160,5 +163,3 @@ e_error parameters can be performed using "{n}" syntax, where n is a
 decimal index of the string parameter argument.  This allows the same
 arguments to be re-used in different locations within the same error
 box.
-
-
