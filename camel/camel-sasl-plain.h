@@ -50,6 +50,8 @@ typedef struct _CamelSaslPlainClass {
 /* Standard Camel function */
 CamelType camel_sasl_plain_get_type (void);
 
+extern CamelServiceAuthType camel_sasl_plain_authtype;
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

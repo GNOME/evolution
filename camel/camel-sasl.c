@@ -219,6 +219,7 @@ camel_sasl_authtype_list (void)
 #ifdef HAVE_KRB4
 	types = g_list_prepend (types, &camel_sasl_kerberos4_authtype);
 #endif
+	types = g_list_prepend (types, &camel_sasl_plain_authtype);
 
 	return types;
 }
@@ -241,6 +242,8 @@ camel_sasl_authtype (const char *mechanism)
 	else if (!strcmp (mechanism, "KERBEROS_V4"))
 		return &camel_sasl_kerberos4_authtype;
 #endif
+	else if (!strcmp (mechanism, "PLAIN"))
+		return &camel_sasl_plain_authtype;
 	else
 		return NULL;
 }

@@ -25,6 +25,16 @@
 #include "camel-service.h"
 #include <string.h>
 
+CamelServiceAuthType camel_sasl_plain_authtype = {
+	N_("PLAIN"),
+
+	N_("This option will connect to the server using a "
+	   "the PLAIN SASL mechanism if the server supports it."),
+
+	"PLAIN",
+	TRUE
+};
+
 static CamelSaslClass *parent_class = NULL;
 
 /* Returns the class for a CamelSaslPlain */
@@ -68,21 +78,23 @@ plain_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	GByteArray *buf = NULL;
 	CamelURL *url = sasl->service->url;
 
+#if 0
 	if (token) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
 				     _("Authentication failed."));
 		return NULL;
 	}
-
+#endif
+	
 	g_return_val_if_fail (url->passwd != NULL, NULL);
-
+	
 	/* FIXME: make sure these are "UTF8-SAFE" */
 	buf = g_byte_array_new ();
 	g_byte_array_append (buf, "", 1);
 	g_byte_array_append (buf, url->user, strlen (url->user));
 	g_byte_array_append (buf, "", 1);
 	g_byte_array_append (buf, url->passwd, strlen (url->passwd));
-
+	
 	sasl->authenticated = TRUE;
 	
 	return buf;

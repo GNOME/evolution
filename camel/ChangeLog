@@ -1,5 +1,22 @@
 2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-sasl-plain.c (plain_challenge): Don't return NULL if the
+	token is non-NULL. This is why:
+
+	sending : AUTH PLAIN
+        received: 334 ok. go on.                 <-- this is why
+        sending : ZGZPaQpAZ214Lm5ldBBnb29jYXI=
+        received: 235 {mp005-rz3} go ahead
+
+	* camel-sasl.c (camel_sasl_authtype): Add the PLAIN type here.
+	(camel_sasl_authtype_list): And here too.
+
+	* camel-sasl-plain.c: Initialize the camel_sasl_plain_authtype.
+
+	* camel-sasl-plain.h: extern the camel_sasl_plain_authtype.
+
+2001-03-05  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-store.c (imap_connect): i18n'd some
 	strings in here.
 
