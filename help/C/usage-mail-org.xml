@@ -784,12 +784,14 @@
            on your mail server, there's still hope, although it's not
            quite as simple. First, download
            and install SpamAssassin from <ulink
-           url="http://spamassassin.org">http://spamassassin.org</ulink>. Instructions
-         for installation are on the site; you'll need to download  the "spamassassin"
+           url="http://spamassassin.org">http://spamassassin.org</ulink>
+         You'll need to download the "spamassassin"
          and "perl-Mail-SpamAssassin"
-         packages. You can install them with Red Carpet by selecting
-         <guimenuitem>Install Local Packages</guimenuitem> from the
-         <guimenu>File</guimenu> menu.) Once you have the software
+         packages, and you can install them with Red Carpet by
+         selecting <guimenuitem>Install Local Packages</guimenuitem>
+         from the
+         <guimenu>File</guimenu> menu. Further instructions are at the
+         SpamAssassin web site. Once you have the software
          installed, do the following: 
 
          <orderedlist>
