@@ -351,7 +351,8 @@ store_get_pass(CamelIMAPPStore *store)
 					  ((CamelService *)store)->url->user,
 					  ((CamelService *)store)->url->host);
 		((CamelService *)store)->url->passwd = camel_session_get_password(camel_service_get_session((CamelService *)store),
-										  prompt, FALSE, TRUE, (CamelService*)store, "password", &ex);
+										  prompt, CAMEL_SESSION_PASSWORD_SECRET,
+										  (CamelService*)store, "password", &ex);
 		g_free (prompt);
 		if (camel_exception_is_set(&ex))
 			camel_exception_throw_ex(&ex);

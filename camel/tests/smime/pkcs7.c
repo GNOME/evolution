@@ -27,7 +27,7 @@ typedef struct _CamelTestSessionClass {
 
 
 static char *get_password (CamelSession *session, const char *prompt,
-			   gboolean secret, CamelService *service,
+			   guint32 flags, CamelService *service,
 			   const char *item, CamelException *ex);
 
 static void
@@ -67,7 +67,7 @@ camel_test_session_get_type (void)
 }
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean secret,
+get_password (CamelSession *session, const char *prompt, guint32 flags,
 	      CamelService *service, const char *item, CamelException *ex)
 {
 	return g_strdup ("S/MIME v3 is rfc263x, now go and read them.");

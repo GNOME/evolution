@@ -1,5 +1,11 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52817.
+
+	* camel-session.c (camel_session_get_password): merged reprompt
+	and secret into a flags field, and add more options.  Fixed all
+	callers.
+
 	** See bug #52899.
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): use need_id as the

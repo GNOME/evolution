@@ -1287,7 +1287,7 @@ imap_auth_loop (CamelService *service, CamelException *ex)
 						  service->url->user,
 						  service->url->host);
 			service->url->passwd =
-				camel_session_get_password (session, prompt, FALSE, TRUE,
+				camel_session_get_password (session, prompt, CAMEL_SESSION_PASSWORD_SECRET,
 							    service, "password", ex);
 			g_free (prompt);
 			g_free (errbuf);

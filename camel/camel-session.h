@@ -52,6 +52,12 @@ typedef enum {
 	CAMEL_SESSION_ALERT_ERROR
 } CamelSessionAlertType;
 
+enum {
+	CAMEL_SESSION_PASSWORD_REPROMPT = 1 << 0,
+	CAMEL_SESSION_PASSWORD_SECRET = 1 << 2,
+	CAMEL_SESSION_PASSWORD_STATIC = 1 << 3,
+};
+
 struct _CamelSession
 {
 	CamelObject parent_object;
@@ -91,8 +97,7 @@ typedef struct {
 
 	char *          (*get_password)      (CamelSession *session,
 					      const char *prompt,
-					      gboolean reprompt,
-					      gboolean secret,
+					      guint32 flags,
 					      CamelService *service,
 					      const char *item,
 					      CamelException *ex);
@@ -158,8 +163,7 @@ char *             camel_session_get_storage_path   (CamelSession *session,
 
 char *             camel_session_get_password       (CamelSession *session,
 						     const char *prompt,
-						     gboolean reprompt,
-						     gboolean secret,
+						     guint32 flags,
 						     CamelService *service,
 						     const char *item,
 						     CamelException *ex);

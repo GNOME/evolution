@@ -515,7 +515,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 							  errbuf ? errbuf : "", service->url->user,
 							  service->url->host);
 				
-				service->url->passwd = camel_session_get_password (session, prompt, FALSE, TRUE,
+				service->url->passwd = camel_session_get_password (session, prompt, CAMEL_SESSION_PASSWORD_SECRET,
 										   service, "password", ex);
 				
 				g_free (prompt);

@@ -259,6 +259,7 @@ camel_store_get_folder (CamelStore *store, const char *folder_name, guint32 flag
 	}
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
+
 	return folder;
 }
 
@@ -781,7 +782,7 @@ camel_store_get_folder_info (CamelStore *store, const char *top,
 	g_return_val_if_fail ((store->flags & CAMEL_STORE_SUBSCRIPTIONS) ||
 			      !(flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED),
 			      NULL);
-	
+
 	CAMEL_STORE_LOCK(store, folder_lock);
 	info = CS_CLASS (store)->get_folder_info (store, top, flags, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);

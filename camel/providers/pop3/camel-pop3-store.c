@@ -474,13 +474,17 @@ pop3_try_authenticate (CamelService *service, gboolean reprompt, const char *err
 	
 	if (!service->url->passwd) {
 		char *prompt;
-		
+		guint32 flags = CAMEL_SESSION_PASSWORD_SECRET;
+
+		if (reprompt)
+			flags |= CAMEL_SESSION_PASSWORD_REPROMPT;
+
 		prompt = g_strdup_printf (_("%sPlease enter the POP password for %s@%s"),
 					  errmsg ? errmsg : "",
 					  service->url->user,
 					  service->url->host);
 		service->url->passwd = camel_session_get_password (camel_service_get_session (service),
-								   prompt, reprompt, TRUE, service, "password", ex);
+								   prompt, flags, service, "password", ex);
 		g_free (prompt);
 		if (!service->url->passwd)
 			return FALSE;

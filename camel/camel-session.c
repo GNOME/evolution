@@ -560,9 +560,9 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  * camel_session_get_password:
  * @session: session object
  * @prompt: prompt to provide to user
- * @reprompt: TRUE if the prompt should force a reprompt
- * @secret: whether or not the data is secret (eg, a password, as opposed
- * to a smartcard response)
+ * @flags: CAMEL_SESSION_PASSWORD_REPROMPT, the prompt should force a reprompt
+ * CAMEL_SESSION_PASSWORD_SECRET, whether the password is secret
+ * CAMEL_SESSION_PASSWORD_STATIC, the password is remembered externally
  * @service: the service this query is being made by
  * @item: an identifier, unique within this service, for the information
  * @ex: a CamelException
@@ -574,17 +574,23 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
  * caller is concerned with.
  *
  * @prompt is a question to ask the user (if the application doesn't
- * already have the answer cached). If @secret is set, the user's
- * input will not be echoed back. The authenticator should set @ex
- * to %CAMEL_EXCEPTION_USER_CANCEL if the user did not provide the
- * information. The caller must g_free() the information returned when
- * it is done with it.
+ * already have the answer cached). If CAMEL_SESSION_PASSWORD_SECRET
+ * is set, the user's input will not be echoed back.
+ *
+ * If CAMEL_SESSION_PASSWORD_STATIC is set, it means the password returned
+ * will be stored statically by the caller automatically, for the current
+ * session.
+ * 
+ * The authenticator
+ * should set @ex to %CAMEL_EXCEPTION_USER_CANCEL if the user did not
+ * provide the information. The caller must g_free() the information
+ * returned when it is done with it.
  *
  * Return value: the authentication information or %NULL.
  **/
 char *
 camel_session_get_password (CamelSession *session, const char *prompt,
-			    gboolean reprompt, gboolean secret,
+			    guint32 flags,
 			    CamelService *service, const char *item,
 			    CamelException *ex)
 {
@@ -592,7 +598,7 @@ camel_session_get_password (CamelSession *session, const char *prompt,
 	g_return_val_if_fail (prompt != NULL, NULL);
 	g_return_val_if_fail (item != NULL, NULL);
 	
-	return CS_CLASS (session)->get_password (session, prompt, reprompt, secret, service, item, ex);
+	return CS_CLASS (session)->get_password (session, prompt, flags, service, item, ex);
 }
 
 

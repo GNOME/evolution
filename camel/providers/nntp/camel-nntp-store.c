@@ -1002,7 +1002,7 @@ camel_nntp_try_authenticate (CamelNNTPStore *store)
 		camel_exception_init (&ex);
 		
 		service->url->passwd =
-			camel_session_get_password (session, prompt, FALSE, TRUE,
+			camel_session_get_password (session, prompt, CAMEL_SESSION_PASSWORD_SECRET,
 						    service, "password", &ex);
 		camel_exception_clear (&ex);
 		g_free (prompt);

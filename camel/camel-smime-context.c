@@ -102,7 +102,8 @@ sm_get_passwd(PK11SlotInfo *info, PRBool retry, void *arg)
 	}
 
 	prompt = g_strdup_printf(_("Enter security pass-phrase for `%s'"), PK11_GetTokenName(info));
-	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt, FALSE, TRUE, NULL, PK11_GetTokenName(info), ex);
+	pass = camel_session_get_password(((CamelCipherContext *)context)->session, prompt,
+					  CAMEL_SESSION_PASSWORD_SECRET|CAMEL_SESSION_PASSWORD_STATIC, NULL, PK11_GetTokenName(info), ex);
 	camel_exception_free(ex);
 	g_free(prompt);
 	if (pass) {

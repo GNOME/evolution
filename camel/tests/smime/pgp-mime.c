@@ -61,7 +61,7 @@ typedef struct _CamelPgpSessionClass {
 
 
 static char *get_password (CamelSession *session, const char *prompt,
-			   gboolean reprompt, gboolean secret,
+			   guint32 flags,
 			   CamelService *service, const char *item,
 			   CamelException *ex);
 
@@ -102,7 +102,7 @@ camel_pgp_session_get_type (void)
 }
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret,
+get_password (CamelSession *session, const char *prompt, guint32 flags,
 	      CamelService *service, const char *item, CamelException *ex)
 {
 	return g_strdup ("no.secret");
