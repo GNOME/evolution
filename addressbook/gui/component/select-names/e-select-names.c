@@ -27,6 +27,7 @@
 
 #include <gal/e-table/e-table-simple.h>
 #include <gal/widgets/e-font.h>
+#include <gal/widgets/e-popup-menu.h>
 
 #include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/widgets/e-addressbook-table-adapter.h>
@@ -496,7 +497,6 @@ remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChi
 	e_select_names_model_delete (child->source, row);
 }
 
-#include <gal/widgets/e-popup-menu.h>
 struct _RightClickData {
 	int row;
 	ESelectNamesChild *child;
