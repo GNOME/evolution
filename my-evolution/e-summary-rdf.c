@@ -247,6 +247,7 @@ tree_walk (xmlNodePtr root,
 	g_string_append (html, "</b></dt>");
 
 	if (r->shown == FALSE) {
+		g_string_append (html, "</dl>");
 		return;
 	}
 
