@@ -131,7 +131,7 @@ struct _EWeekViewEventSpan {
 
 typedef struct _EWeekViewEvent EWeekViewEvent;
 struct _EWeekViewEvent {
-	iCalObject *ico;
+	CalComponent *comp;
 	time_t start;
 	time_t end;
 	guint16 start_minute;	/* Minutes from the start of the day. */

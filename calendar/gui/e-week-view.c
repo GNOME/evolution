@@ -101,10 +101,10 @@ static void e_week_view_update_selection (EWeekView *week_view,
 
 static void e_week_view_reload_events (EWeekView *week_view);
 static void e_week_view_free_events (EWeekView *week_view);
-static int e_week_view_add_event (iCalObject *ico,
-				  time_t	  start,
-				  time_t	  end,
-				  gpointer	  data);
+static gboolean e_week_view_add_event (CalComponent *comp,
+				       time_t	  start,
+				       time_t	  end,
+				       gpointer	  data);
 static void e_week_view_check_layout (EWeekView *week_view);
 static void e_week_view_layout_events (EWeekView *week_view);
 static void e_week_view_layout_event (EWeekView	   *week_view,
@@ -999,7 +999,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 {
 	EWeekViewEvent *event;
 	gint event_num, num_days;
-	iCalObject *ico;
+	CalComponent *comp;
 	CalClientGetStatus status;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
@@ -1014,7 +1014,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 		return;
 
 	/* Get the event from the server. */
-	status = cal_client_get_object (week_view->calendar->client, uid, &ico);
+	status = cal_client_get_object (week_view->calendar->client, uid, &comp);
 
 	switch (status) {
 	case CAL_CLIENT_GET_SUCCESS:
@@ -1029,8 +1029,8 @@ e_week_view_update_event		(EWeekView	*week_view,
 	}
 
 	/* We only care about events. */
-	if (ico && ico->type != ICAL_EVENT) {
-		ical_object_unref (ico);
+	if (comp && cal_component_get_vtype (comp) != CAL_COMPONENT_EVENT) {
+		gtk_object_unref (GTK_OBJECT (comp));
 		return;
 	}
 
@@ -1038,16 +1038,19 @@ e_week_view_update_event		(EWeekView	*week_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
+#warning "FIX ME"
+		/* Do this the long way every time for now */
+#if 0
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
-			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, ico);
-			ical_object_unref (ico);
+			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp);
+			gtk_object_unref (GTK_OBJECT (comp));
 			gtk_widget_queue_draw (week_view->main_canvas);
 			return;
 		}
-
+#endif
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
 		e_week_view_foreach_event_with_uid (week_view, uid,
@@ -1057,12 +1060,14 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 	/* Add the occurrences of the event. */
 	num_days = week_view->display_month ? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
-	ical_object_generate_events (ico,
-				     week_view->day_starts[0],
-				     week_view->day_starts[num_days],
-				     e_week_view_add_event,
-				     week_view);
-	ical_object_unref (ico);
+
+	cal_recur_generate_instances (comp, 
+				      week_view->day_starts[0],
+				      week_view->day_starts[num_days],
+				      e_week_view_add_event,
+				      week_view);
+
+	gtk_object_unref (GTK_OBJECT (comp));
 
 	e_week_view_check_layout (week_view);
 
@@ -1079,13 +1084,13 @@ e_week_view_update_event_cb (EWeekView *week_view,
 	EWeekViewEventSpan *span;
 	gint span_num;
 	gchar *text;
-	iCalObject *ico;
+	CalComponent *comp;
 
-	ico = data;
+	comp = data;
 
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
-	event->ico = ico;
-	ical_object_ref (ico);
+	event->comp = comp;
+	gtk_object_ref (GTK_OBJECT (comp));
 
 	/* If we are editing an event which we have just created, we will get
 	   an update_event callback from the server. But we need to ignore it
@@ -1100,11 +1105,15 @@ e_week_view_update_event_cb (EWeekView *week_view,
 				       event->spans_index + span_num);
 
 		if (span->text_item) {
-			text = event->ico->summary;
+			CalComponentText t;
+			
+			cal_component_get_summary (event->comp, &t);
+			text = g_strdup (t.value);
 			gnome_canvas_item_set (span->text_item,
 					       "text", text ? text : "",
 					       NULL);
-
+			g_free (text);
+			
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
 		}
@@ -1125,14 +1134,17 @@ e_week_view_foreach_event_with_uid (EWeekView *week_view,
 {
 	EWeekViewEvent *event;
 	gint event_num;
-
+	
 	for (event_num = week_view->events->len - 1;
 	     event_num >= 0;
 	     event_num--) {
+		const char *u;
+
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		if (event->ico->uid
-		    && !strcmp (uid, event->ico->uid)) {
+		
+		cal_component_get_uid (event->comp, &u);
+		if (u && !strcmp (uid, u)) {
 			if (!(*callback) (week_view, event_num, data))
 				return;
 		}
@@ -1189,7 +1201,7 @@ e_week_view_remove_event_cb (EWeekView *week_view,
 		}
 	}
 
-	ical_object_unref (event->ico);
+	gtk_object_unref (GTK_OBJECT (event->comp));
 
 	g_array_remove_index (week_view->events, event_num);
 	week_view->events_need_layout = TRUE;
@@ -1559,11 +1571,13 @@ e_week_view_reload_events (EWeekView *week_view)
 	    && g_date_valid (&week_view->first_day_shown)) {
 		num_days = week_view->display_month
 			? E_WEEK_VIEW_MAX_WEEKS * 7 : 7;
-		calendar_iterate (week_view->calendar,
-				  week_view->day_starts[0],
-				  week_view->day_starts[num_days],
-				  e_week_view_add_event,
-				  week_view);
+		
+		cal_client_generate_instances (week_view->calendar->client,
+					       CAL_COMPONENT_EVENT,
+					       week_view->day_starts[0],
+					       week_view->day_starts[num_days],
+					       e_week_view_add_event,
+					       week_view);
 	}
 
 	e_week_view_check_layout (week_view);
@@ -1582,7 +1596,7 @@ e_week_view_free_events (EWeekView *week_view)
 	for (event_num = 0; event_num < week_view->events->len; event_num++) {
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		ical_object_unref (event->ico);
+		gtk_object_unref (GTK_OBJECT (event->comp));
 	}
 
 	g_array_set_size (week_view->events, 0);
@@ -1605,8 +1619,8 @@ e_week_view_free_events (EWeekView *week_view)
 
 
 /* This adds one event to the view, adding it to the appropriate array. */
-static int
-e_week_view_add_event (iCalObject *ico,
+static gboolean
+e_week_view_add_event (CalComponent *comp,
 		       time_t	  start,
 		       time_t	  end,
 		       gpointer	  data)
@@ -1635,8 +1649,8 @@ e_week_view_add_event (iCalObject *ico,
 	start_tm = *(localtime (&start));
 	end_tm = *(localtime (&end));
 
-	event.ico = ico;
-	ical_object_ref (event.ico);
+	event.comp = comp;
+	gtk_object_ref (GTK_OBJECT (event.comp));
 	event.start = start;
 	event.end = end;
 	event.spans_index = 0;
@@ -1650,6 +1664,7 @@ e_week_view_add_event (iCalObject *ico,
 	g_array_append_val (week_view->events, event);
 	week_view->events_sorted = FALSE;
 	week_view->events_need_layout = TRUE;
+
 	return TRUE;
 }
 
@@ -1924,7 +1939,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	gint min_text_x, max_text_w, width;
 	gboolean show_icons = TRUE, use_max_width = FALSE;
 	gboolean one_day_event;
-	iCalObject *ico;
+	CalComponent *comp;
 	gdouble text_x, text_y, text_w, text_h;
 	gchar *text, *end_of_line;
 	gint line_len, text_width;
@@ -1932,7 +1947,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	event = &g_array_index (week_view->events, EWeekViewEvent, event_num);
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + span_num);
-	ico = event->ico;
+	comp = event->comp;
 	font = GTK_WIDGET (week_view)->style->font;
 
 	one_day_event = e_week_view_is_one_day_event (week_view, event_num);
@@ -1957,6 +1972,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	}
 
 	num_icons = 0;
+#if 0
 	if (show_icons) {
 		if (ico->dalarm.enabled || ico->malarm.enabled
 		    || ico->palarm.enabled || ico->aalarm.enabled)
@@ -1964,6 +1980,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 		if (ico->recur)
 			num_icons++;
 	}
+#endif
 
 	/* Create the background canvas item if necessary. */
 	if (!span->background_item) {
@@ -1980,6 +1997,9 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
+		CalComponentText text;
+		
+		cal_component_get_summary (comp, &text);
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
 					       e_text_get_type (),
@@ -1990,7 +2010,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "max_lines", 1,
 #endif
 					       "editable", TRUE,
-					       "text", ico->summary ? ico->summary : "",
+					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
 					       NULL);
 		gtk_signal_connect (GTK_OBJECT (span->text_item), "event",
@@ -2423,7 +2443,9 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	gchar *text = NULL;
-
+	CalComponentText summary;
+	const char *uid;
+	
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this
 	   event twice for some reason. */
@@ -2443,7 +2465,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	week_view->editing_new_event = FALSE;
 
 	/* Check that the event is still valid. */
-	if (!event->ico->uid)
+	cal_component_get_uid (event->comp, &uid);
+	if (!uid)
 		return;
 
 	gtk_object_get (GTK_OBJECT (span->text_item),
@@ -2451,8 +2474,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 			NULL);
 
 	/* Only update the summary if necessary. */
-	if (text && event->ico->summary
-	    && !strcmp (text, event->ico->summary)) {
+	cal_component_get_summary (event->comp, &summary);
+	if (text && summary.value && !strcmp (text, summary.value)) {
 		g_free (text);
 		if (!e_week_view_is_one_day_event (week_view, event_num))
 			e_week_view_reshape_event_span (week_view, event_num,
@@ -2460,12 +2483,11 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		return;
 	}
 
-	if (event->ico->summary)
-		g_free (event->ico->summary);
-
-	event->ico->summary = text;
-
-	if (!cal_client_update_object (week_view->calendar->client, event->ico))
+	summary.value = text;
+	cal_component_set_summary (event->comp, &summary);
+	g_free (text);
+	
+	if (!cal_client_update_object (week_view->calendar->client, event->comp))
 		g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 }
 
@@ -2516,9 +2538,13 @@ e_week_view_find_event_from_uid (EWeekView	  *week_view,
 
 	num_events = week_view->events->len;
 	for (event_num = 0; event_num < num_events; event_num++) {
+		const char *u;
+		
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
-		if (event->ico->uid && !strcmp (uid, event->ico->uid)) {
+
+		cal_component_get_uid (event->comp, &u);
+		if (u && !strcmp (uid, u)) {
 			*event_num_return = event_num;
 			return TRUE;
 		}
@@ -2559,10 +2585,13 @@ static gint
 e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	EWeekView *week_view;
-	iCalObject *ico;
+	CalComponent *comp;
 	gint event_num;
 	gchar *initial_text;
-
+	CalComponentDateTime date;
+	time_t dtstart, dtend;
+	const char *uid;
+	
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
@@ -2595,25 +2624,28 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		initial_text = event->string;
 	}
 
-	/* Add a new event covering the selected range.
-	   Note that user_name is a global variable. */
-	ico = ical_new ("", user_name, "");
-	ico->new = 1;
-	ico->created = time (NULL);
-	ico->last_mod = ico->created;
-	ico->dtstart = week_view->day_starts[week_view->selection_start_day];
-	ico->dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	/* Add a new event covering the selected range. */
+	comp = cal_component_new ();
+	dtstart = week_view->day_starts[week_view->selection_start_day];
+	dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	
+	date.value = g_new0 (struct icaltimetype, 1);
+	*date.value = icaltimetype_from_timet (dtstart, FALSE);
+	cal_component_set_dtstart (comp, &date);
+	*date.value = icaltimetype_from_timet (dtend, FALSE);
+	cal_component_set_dtend (comp, &date);
+	g_free (date.value);
 
 	/* We add the event locally and start editing it. When we get the
 	   "update_event" callback from the server, we basically ignore it.
 	   If we were to wait for the "update_event" callback it wouldn't be
 	   as responsive and we may lose a few keystrokes. */ 
-	e_week_view_add_event (ico, ico->dtstart, ico->dtend, week_view);
+	e_week_view_add_event (comp, dtstart, dtend, week_view);
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);
 
-	if (e_week_view_find_event_from_uid (week_view, ico->uid,
-					     &event_num)) {
+	cal_component_get_uid (comp, &uid);
+	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
 		e_week_view_start_editing_event (week_view, event_num, 0,
 						 initial_text);
 		week_view->editing_new_event = TRUE;
@@ -2621,10 +2653,10 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	if (!cal_client_update_object (week_view->calendar->client, ico))
+	if (!cal_client_update_object (week_view->calendar->client, comp))
 		g_message ("e_week_view_key_press(): Could not update the object!");
 
-	ical_object_unref (ico);
+	gtk_object_unref (GTK_OBJECT (comp));
 
 	return TRUE;
 }
@@ -2675,7 +2707,8 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 		   We could possibly set up another method of checking it. */
 		not_being_edited = TRUE;
 
-		if (event->ico->recur) {
+		if (cal_component_has_rrules (event->comp) 
+		    || cal_component_has_rdates (event->comp)) {
 			num_items = 6;
 			context_menu = &recur_child_items[0];
 			context_menu[0].sensitive = not_being_edited;
@@ -2704,17 +2737,29 @@ static void
 e_week_view_on_new_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
-	iCalObject *ico;
-	
+	CalComponent *comp;
+	CalComponentDateTime date;
 	week_view = E_WEEK_VIEW (data);
 
-	ico = ical_new ("", user_name, "");
-	ico->new = 1;
-	ico->dtstart = week_view->day_starts[week_view->selection_start_day];
-	ico->dtend = week_view->day_starts[week_view->selection_end_day + 1];
+	comp = cal_component_new ();
+	
+	date.value = g_new0 (struct icaltimetype, 1);
 
-	gnome_calendar_edit_object (week_view->calendar, ico);
-	ical_object_unref (ico);
+	*date.value = 
+		icaltimetype_from_timet (week_view->day_starts[week_view->selection_start_day], 
+					 FALSE);
+	cal_component_set_dtstart (comp, &date);
+
+	*date.value = 
+		icaltimetype_from_timet (week_view->day_starts[week_view->selection_end_day + 1], 
+					 FALSE);
+	cal_component_set_dtend (comp, &date);
+
+	g_free (date.value);
+
+	gnome_calendar_edit_object (week_view->calendar, comp);
+
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 
@@ -2732,7 +2777,7 @@ e_week_view_on_edit_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	gnome_calendar_edit_object (week_view->calendar, event->ico);
+	gnome_calendar_edit_object (week_view->calendar, event->comp);
 }
 
 
@@ -2741,8 +2786,10 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	iCalObject *ico;
-
+	CalComponent *comp;
+	CalComponentDateTime *date=NULL;
+	GSList *list;
+	
 	week_view = E_WEEK_VIEW (data);
 
 	if (week_view->popup_event_num == -1)
@@ -2751,15 +2798,22 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	/* We must duplicate the iCalObject, or we won't know it has changed
+	/* We must duplicate the CalComponent, or we won't know it has changed
 	   when we get the "update_event" callback. */
-	ico = ical_object_duplicate (event->ico);
+	
+	comp = cal_component_clone (event->comp);
+	cal_component_get_exdate_list (comp, &list);
+	list = g_slist_append (list, date);
+	date = g_new0 (CalComponentDateTime, 1);
+	date->value = g_new (struct icaltimetype, 1);
+	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	cal_component_set_exdate_list (comp, list);
+	cal_component_free_exdate_list (list);
 
-	ical_object_add_exdate (ico, event->start);
-	if (!cal_client_update_object (week_view->calendar->client, ico))
+	if (!cal_client_update_object (week_view->calendar->client, comp))
 		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
 
-	ical_object_unref (ico);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 
@@ -2768,7 +2822,8 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-
+	const char *uid;
+	
 	week_view = E_WEEK_VIEW (data);
 
 	if (week_view->popup_event_num == -1)
@@ -2776,8 +2831,9 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
-
-	if (!cal_client_remove_object (week_view->calendar->client, event->ico->uid))
+	
+	cal_component_get_uid (event->comp, &uid);
+	if (!cal_client_remove_object (week_view->calendar->client, uid))
 		g_message ("e_week_view_on_delete_appointment(): Could not remove the object!");
 }
 
@@ -2787,10 +2843,11 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 {
 	EWeekView *week_view;
 	EWeekViewEvent *event;
-	iCalObject *ico, *new_ico;
-
+	CalComponent *comp, *new_comp;
+	CalComponentDateTime *date;
+	GSList *list;
 	week_view = E_WEEK_VIEW (data);
-
+	
 	if (week_view->popup_event_num == -1)
 		return;
 
@@ -2799,31 +2856,46 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
-	ico = ical_object_duplicate (event->ico);
-	ical_object_add_exdate (ico, event->start);
+
+	comp = cal_component_clone (event->comp);
+	cal_component_get_exdate_list (comp, &list);
+	date = g_new0 (CalComponentDateTime, 1);
+	date->value = g_new (struct icaltimetype, 1);
+	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	list = g_slist_append (list, date);
+	cal_component_set_exdate_list (comp, list);
+	cal_component_free_exdate_list (list);
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
 	   the start & end times to the instances times. */
-	new_ico = ical_object_duplicate (event->ico);
-	g_free (new_ico->uid);
-	new_ico->uid = ical_gen_uid ();
-	ical_object_reset_recurrence (new_ico);
-	new_ico->dtstart = event->start;
-	new_ico->dtend   = event->end;
+	new_comp = cal_component_clone (event->comp);
+	cal_component_set_uid (new_comp, cal_component_gen_uid ());
+	cal_component_set_exdate_list (new_comp, NULL);
+	cal_component_set_exrule_list (new_comp, NULL);
+
+	date = g_new0 (CalComponentDateTime, 1);
+	date->value = g_new (struct icaltimetype, 1);
+
+	*date->value = icaltimetype_from_timet (event->start, TRUE);
+	cal_component_set_dtstart (new_comp, date);
+	*date->value = icaltimetype_from_timet (event->end, TRUE);
+	cal_component_set_dtend (new_comp, date);
+
+	cal_component_free_datetime (date);
 	
-	/* Now update both iCalObjects. Note that we do this last since at
+	/* Now update both CalComponents. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	if (!cal_client_update_object (week_view->calendar->client, ico))
+	if (!cal_client_update_object (week_view->calendar->client, comp))
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
-	ical_object_unref (ico);
+	gtk_object_unref (GTK_OBJECT (comp));
 
-	if (!cal_client_update_object (week_view->calendar->client, new_ico))
+	if (!cal_client_update_object (week_view->calendar->client, new_comp))
 		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
 
-	ical_object_unref (new_ico);
+	gtk_object_unref (GTK_OBJECT (new_comp));
 }
 
 

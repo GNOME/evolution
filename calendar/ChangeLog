@@ -1,3 +1,29 @@
+2000-08-20  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/e-week-view.c (e_week_view_update_event): Use CalComponent
+	instead of iCalObject.  Work around not having a compare
+	dates routine for two CalComponents.
+	(e_week_view_reload_events): Use revamped CalClient
+	(e_week_view_reshape_event_span): Use CalComponent instead
+	of iCalObject, #if some alarm stuff
+	(e_week_view_update_event_cb): Use CalComponent instead of
+	iCalObject
+	(e_week_view_foreach_event_with_uid): ditto
+	(e_week_view_remove_event_cb): ditto
+	(e_week_view_free_events): ditto
+	(e_week_view_add_event): ditto
+	(e_week_view_on_editing_stopped): ditto
+	(e_week_view_find_event_from_uid): ditto
+	(e_week_view_key_press): ditto
+	(e_week_view_show_popup_menu): ditto
+	(e_week_view_on_new_appointment): ditto
+	(e_week_view_on_edit_appointment): ditto
+	(e_week_view_on_delete_occurrence): ditto
+	(e_week_view_on_delete_appointment): ditto
+	(e_week_view_on_unrecur_appointment): ditto
+
+	* gui/e-week-view.h: Update prototypes. 
+
 2000-08-18  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor.h: Update prototypes.
