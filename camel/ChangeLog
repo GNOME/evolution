@@ -1,3 +1,43 @@
+2001-08-06  Peter Williams  <peterw@ximian.com>
+
+	Completely hide the namespace from everything external to the IMAP
+	code, which Dan W says is the way it should be.
+	
+	* providers/imap/camel-imap-command.c
+	(imap_command_strdup_vprintf): Add a new %F argument, which is like
+	%S but will add the namespace (for folder names).
+	(camel_imap_command): Use %F here.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_list_response):
+	Changed to strip out the namespec when returning *folder. In order
+	to do this we need to be passed the CamelImapStore.
+	(imap_concat): Move to here from camel-imap-store.c, un-static
+	(imap_namespace_concat): New function, adds the namespace to the 
+	folder name, unless it's INBOX.
+	
+	* providers/imap/camel-imap-utils.h: Prototypes.
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): Extra
+	arg to imap_parse_list_response.
+	(imap_connect_offline): Here too.
+	(get_folder_status): Use %F.
+	(get_folder_online): Here too.
+	(delete_folder): Here too.
+	(create_folder): Here too, and arg to imap_parse_list_response.
+	(parse_list_response_as_folder_info): Arg to i_p_l_r.
+	(get_subscribed_folders_by_hand): Use %F.
+	(get_folders_online): Here too.
+	(get_folder_info_online): Instead of checking for NULL @name, check
+	for name = NULL or "", and set to "" instead of namespace. Pass ""
+	instead of namespace to camel_folder_info_build.
+	(subscribe_folder): Use %F.
+	(unsubscribe_folder): Here too.
+
+	* providers/imap/camel-imap-folder.c (imap_get_full_name): This
+	now just returns folder->full_name.
+	(do_append): Use %F
+	(do_copy): Here too.
+
 2001-08-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pgp-context.c (pgp_verify): Always do --no-auto-key-retrieve.

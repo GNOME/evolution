@@ -27,6 +27,7 @@
 
 #include "camel-imap-utils.h"
 #include "camel-imap-summary.h"
+#include "camel-imap-store.h"
 #include "camel-folder.h"
 
 #define d(x) x
@@ -47,6 +48,7 @@ imap_next_word (const char *buf)
 
 /**
  * imap_parse_list_response:
+ * @store: the IMAP store whose list response we're parsing
  * @buf: the LIST or LSUB response
  * @flags: a pointer to a variable to store the flags in, or %NULL
  * @sep: a pointer to a variable to store the hierarchy separator in, or %NULL
@@ -58,7 +60,7 @@ imap_next_word (const char *buf)
  * Return value: whether or not the response was successfully parsed.
  **/
 gboolean
-imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder)
+imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder)
 {
 	char *word;
 	int len;
@@ -114,9 +116,22 @@ imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder)
 		return FALSE;
 
 	if (folder) {
+		char *real_name;
+		int n_len;
+
 		/* get the folder name */
 		word = imap_next_word (word);
-		*folder = imap_parse_astring (&word, &len);
+		real_name = imap_parse_astring (&word, &len);
+		n_len = strlen (store->namespace);
+		if (!strncmp (real_name, store->namespace, n_len))
+			*folder = g_strdup (real_name + n_len);
+		else if (!g_strcasecmp (real_name, "INBOX")) {
+			*folder = g_strdup (real_name);
+		} else {
+			g_warning ("IMAP folder name \"%s\" does not begin with \"%s\"", real_name, store->namespace);
+			*folder = g_strdup (real_name);
+		}
+		g_free (real_name);
 		return *folder != NULL;
 	}
 
@@ -730,3 +745,28 @@ imap_uid_array_free (GPtrArray *arr)
 		g_free (arr->pdata[i]);
 	g_ptr_array_free (arr, TRUE);
 }
+
+char *
+imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
+{
+	int len;
+	
+	len = strlen (prefix);
+	if (len == 0 || prefix[len - 1] == imap_store->dir_sep)
+		return g_strdup_printf ("%s%s", prefix, suffix);
+	else
+		return g_strdup_printf ("%s%c%s", prefix, imap_store->dir_sep, suffix);
+}
+
+char *
+imap_namespace_concat (CamelImapStore *store, const char *name)
+{
+	if (!name || *name == '\0')
+		return g_strdup (store->namespace);
+
+	if (!g_strcasecmp (name, "INBOX"))
+		return g_strdup ("INBOX");
+
+	return imap_concat (store, store->namespace, name);
+}
+

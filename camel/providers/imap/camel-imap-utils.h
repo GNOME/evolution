@@ -29,6 +29,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 #include "camel-folder-summary.h"
+#include "camel-imap-types.h"
 
 char *imap_next_word (const char *buf);
 
@@ -36,7 +37,7 @@ char *imap_next_word (const char *buf);
 #define IMAP_LIST_FLAG_NOSELECT		(1 << 1)
 #define IMAP_LIST_FLAG_MARKED		(1 << 2)
 #define IMAP_LIST_FLAG_UNMARKED		(1 << 3)
-gboolean imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder);
+gboolean imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, char *sep, char **folder);
 
 char *imap_create_flag_list (guint32 flags);
 guint32 imap_parse_flag_list (char **flag_list);
@@ -60,6 +61,9 @@ void imap_skip_list (char **str_p);
 char *     imap_uid_array_to_set (CamelFolderSummary *summary, GPtrArray *uids);
 GPtrArray *imap_uid_set_to_array (CamelFolderSummary *summary, const char *uids);
 void       imap_uid_array_free (GPtrArray *arr);
+
+char *imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix);
+char *imap_namespace_concat (CamelImapStore *store, const char *name);
 
 #ifdef __cplusplus
 }

@@ -98,7 +98,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 		}
 		store->current_folder = folder;
 		camel_object_ref (CAMEL_OBJECT (folder));
-		cmd = imap_command_strdup_printf (store, "SELECT %S",
+		cmd = imap_command_strdup_printf (store, "SELECT %F",
 						  folder->full_name);
 	}
 
@@ -127,10 +127,14 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
  * @fmt can include the following %-escapes ONLY:
  *	%s, %d, %%: as with printf
  *	%S: an IMAP "string" (quoted string or literal)
+ *	%F: an IMAP folder name
  *
  * %S strings will be passed as literals if the server supports LITERAL+
  * and quoted strings otherwise. (%S does not support strings that
  * contain newlines.)
+ *
+ * %F will have the imap store's namespace prepended and then be processed
+ * like %S.
  *
  * On success, the store's command_lock will be locked. It will be
  * freed when %CAMEL_IMAP_RESPONSE_TAGGED or %CAMEL_IMAP_RESPONSE_ERROR
@@ -621,7 +625,6 @@ camel_imap_response_extract_continuation (CamelImapStore *store,
 	return NULL;
 }
 
-
 static char *
 imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 			     va_list ap)
@@ -629,7 +632,7 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 	GPtrArray *args;
 	const char *p, *start;
 	char *out, *op, *string;
-	int num, len, i;
+	int num, len, i, arglen;
 
 	args = g_ptr_array_new ();
 
@@ -657,12 +660,16 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 			break;
 
 		case 'S':
+		case 'F':
 			string = va_arg (ap, char *);
+			arglen = strlen (string);
+			if (*p == 'F')
+				arglen += strlen (store->namespace) + 1;
 			g_ptr_array_add (args, string);
 			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
-				len += strlen (string) + 15;
+				len += arglen + 15;
 			else
-				len += strlen (string) * 2;
+				len += arglen * 2;
 			start = p + 1;
 			break;
 
@@ -704,7 +711,10 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 			break;
 
 		case 'S':
+		case 'F':
 			string = args->pdata[i++];
+			if (*p == 'F')
+				string = imap_namespace_concat (store, string);
 			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS) {
 				op += sprintf (op, "{%d+}\r\n%s",
 					       strlen (string), string);
@@ -713,6 +723,8 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 				op += sprintf (op, "%s", quoted);
 				g_free (quoted);
 			}
+			if (*p == 'F')
+				g_free (string);
 			break;
 
 		default:

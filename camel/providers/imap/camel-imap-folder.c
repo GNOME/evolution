@@ -72,7 +72,6 @@ static void imap_rescan (CamelFolder *folder, int exists, CamelException *ex);
 static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync_online (CamelFolder *folder, CamelException *ex);
 static void imap_sync_offline (CamelFolder *folder, CamelException *ex);
-static const char *imap_get_full_name (CamelFolder *folder);
 static void imap_expunge_uids_online (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
 static void imap_expunge_uids_offline (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
 static void imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelException *ex);
@@ -114,7 +113,6 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	disco_folder_class = CAMEL_DISCO_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_disco_folder_get_type ()));
 
 	/* virtual method overload */
-	camel_folder_class->get_full_name = imap_get_full_name;
 	camel_folder_class->get_message = imap_get_message;
 	camel_folder_class->move_messages_to = imap_move_messages_to;
 	camel_folder_class->search_by_expression = imap_search_by_expression;
@@ -859,25 +857,6 @@ imap_expunge_uids_resyncing (CamelFolder *folder, GPtrArray *uids, CamelExceptio
 	CAMEL_IMAP_STORE_UNLOCK (store, command_lock);
 }
 
-static const char *
-imap_get_full_name (CamelFolder *folder)
-{
-	CamelImapStore *store = CAMEL_IMAP_STORE (folder->parent_store);
-	char *name;
-	int len;
-
-	name = folder->full_name;
-	if (store->namespace && *store->namespace) {
-		len = strlen (store->namespace);
-		if (!strncmp (store->namespace, folder->full_name, len) &&
-		    strlen (folder->full_name) > len)
-			name += len;
-		if (*name == store->dir_sep)
-			name++;
-	}
-	return name;
-}	
-
 static void
 imap_append_offline (CamelFolder *folder, CamelMimeMessage *message,
 		     const CamelMessageInfo *info, CamelException *ex)
@@ -944,7 +923,7 @@ do_append (CamelFolder *folder, CamelMimeMessage *message,
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (memstream));
 
-	response = camel_imap_command (store, NULL, ex, "APPEND %S%s%s {%d}",
+	response = camel_imap_command (store, NULL, ex, "APPEND %F%s%s {%d}",
 				       folder->full_name, flagstr ? " " : "",
 				       flagstr ? flagstr : "", ba->len);
 	g_free (flagstr);
@@ -1166,7 +1145,7 @@ do_copy (CamelFolder *source, GPtrArray *uids,
 	char *set;
 
 	set = imap_uid_array_to_set (source->summary, uids);
-	response = camel_imap_command (store, source, ex, "UID COPY %s %S",
+	response = camel_imap_command (store, source, ex, "UID COPY %s %F",
 				       set, destination->full_name);
 	if (response && (store->capabilities & IMAP_CAPABILITY_UIDPLUS))
 		handle_copyuid (response, source, destination);
