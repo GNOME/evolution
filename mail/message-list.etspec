@@ -11,7 +11,7 @@
 
   <ETableColumn model_col= "5" _title="Subject" expansion="1.6" minimum_width="32" resizable="true" cell="render_tree" compare="subject_compare"/>
 
-  <ETableColumn model_col= "6" _title="Sent" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
+  <ETableColumn model_col= "6" _title="Date" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
 
   <ETableColumn model_col= "7" _title="Received" expansion="0.4" minimum_width="32" resizable="true" cell="render_date" compare="integer"/>
 

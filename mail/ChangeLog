@@ -1,3 +1,7 @@
+2002-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.etspec: s/Sent/Date. This fixes bug #11159.
+
 2002-04-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (confirm_expunge): Set the 'No' button as the
