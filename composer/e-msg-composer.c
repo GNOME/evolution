@@ -2125,6 +2125,8 @@ setup_signatures_menu (EMsgComposer *composer)
 	EIterator *it;
 	
 	menu = gtk_menu_new ();
+	gtk_widget_show (menu);
+	gtk_option_menu_set_menu (composer->sig_menu, menu);
 	
 	item = gtk_menu_item_new_with_label (_("None"));
 	gtk_widget_show (item);
@@ -2143,9 +2145,6 @@ setup_signatures_menu (EMsgComposer *composer)
 	}
 	
 	g_object_unref (it);
-	
-	gtk_widget_show (menu);
-	gtk_option_menu_set_menu (composer->sig_menu, menu);
 	
 	g_signal_connect (menu, "selection-done", G_CALLBACK (signature_activate_cb), composer);
 	
