@@ -598,19 +598,24 @@ e_destination_get_email (const EDestination *dest)
 
 		if (priv->card != NULL) { /* Pull the address out of the card. */
 
-			EIterator *iter = e_list_get_iterator (priv->card->email);
-			gint n = priv->card_email_num;
+			if (priv->card->email) {
+				EIterator *iter = e_list_get_iterator (priv->card->email);
+				gint n = priv->card_email_num;
 
-			if (n >= 0) {
-				while (n > 0) {
-					e_iterator_next (iter);
-					--n;
-				}
+				if (n >= 0) {
+					while (n > 0) {
+						e_iterator_next (iter);
+						--n;
+					}
 
-				if (e_iterator_is_valid (iter)) {
-					gconstpointer ptr = e_iterator_get (iter);
-					priv->email = g_strdup ((gchar *) ptr);
+					if (e_iterator_is_valid (iter)) {
+						gconstpointer ptr = e_iterator_get (iter);
+						priv->email = g_strdup ((gchar *) ptr);
+					}
 				}
+			}
+			else {
+				priv->email = g_strdup ("");
 			}
 
 		} else if (priv->raw != NULL) {
@@ -624,6 +629,9 @@ e_destination_get_email (const EDestination *dest)
 			}
 			
 			camel_object_unref (CAMEL_OBJECT (addr));
+		}
+		else {
+			priv->email = g_strdup ("");
 		}
 	}
 

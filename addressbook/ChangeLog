@@ -1,3 +1,8 @@
+2001-08-22  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_get_email): make
+	sure we don't get into a situation where priv->email == NULL.
+
 2001-08-21  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-minicard.c (e_minicard_event): if we're dragging,
