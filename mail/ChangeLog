@@ -1,3 +1,9 @@
+2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-tools.c (mail_tool_uri_to_folder): Apparently we do need it
+	to pass the CREATE flag sometimes. Fixing this the Right Way (tm)
+	on CVS HEAD, but for now just reverting my change.
+
 2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (mail_vfolder_remove_uri): replace my_list_find()
