@@ -103,7 +103,7 @@
   <!-- Configuration pages -->
 
   <!-- Account Editor -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_AccountPrefs_ConfigControl_2"
 	      type="factory"
 	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
@@ -131,8 +131,8 @@
 
   </oaf_server>
 
-  <!-- Mail Preferences -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
+  <!-- Mailer Preferences -->
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_MailerPrefs_ConfigControl_2"
 	      type="factory"
 	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 
@@ -157,7 +157,7 @@
   </oaf_server>
 
   <!-- Composer Preferences -->
-  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
+  <oaf_server iid="OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl_2"
 	      type="factory"
 	      location="OAFIID:GNOME_Evolution_Mail_Factory_2">
 

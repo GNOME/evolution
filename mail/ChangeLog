@@ -1,5 +1,16 @@
 2003-10-29  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-account-prefs.h: Changed the OAFIID.
+
+	* em-composer-prefs.h: Changed the OAFIID.
+
+	* em-mailer-prefs.h: Changed the OAFIID.
+
+	* GNOME_Evolution_Mail.server.in.in: Changed OAFIIDs for the prefs
+	controls.
+
+2003-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* GNOME_Evolution_Mail.server.in.in: Nuked the MailConfig
 	interface stuff.
 

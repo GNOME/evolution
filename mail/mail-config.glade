@@ -2927,10 +2927,10 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
       <child>
 	<widget class="Custom" id="etableMailAccounts">
 	  <property name="visible">True</property>
-	  <property name="creation_function">mail_accounts_treeview_new</property>
+	  <property name="creation_function">em_account_prefs_treeview_new</property>
 	  <property name="int1">0</property>
 	  <property name="int2">0</property>
-	  <property name="last_modification_time">Thu, 12 Dec 2002 23:20:52 GMT</property>
+	  <property name="last_modification_time">Wed, 29 Oct 2003 17:47:08 GMT</property>
 	</widget>
 	<packing>
 	  <property name="padding">0</property>
