@@ -196,7 +196,8 @@ query_auth_types (CamelService *service, CamelException *ex)
 	if (!ret) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not connect to IMAP server on "
-				      "%s.", service->url->host);
+				      "%s.", service->url->host ? service->url->host : 
+				      "(unknown host)");
 	}				      
 
 	return ret;
@@ -248,7 +249,8 @@ imap_connect (CamelService *service, CamelException *ex)
 	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof(sin)) == -1) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				      "Could not connect to %s (port %s): %s",
-				      service->url->host, service->url->port,
+				      service->url->host ? service->url->host : "(unknown host)", 
+				      service->url->port ? service->url->port : "(unknown port)",
 				      strerror(errno));
 		if (fd > -1)
 			close (fd);

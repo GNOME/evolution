@@ -1,3 +1,10 @@
+2000-07-12  Peter Williams  <peterw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (query_auth_types): Check for
+	NULL parameters when setting the exception so as to not crash on
+	Solaris (can't handle a %s passed NULL).
+	(imap_connect): Same.
+	
 2000-07-12  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/mbox/camel-mbox-folder.c (mbox_delete_message): Use
