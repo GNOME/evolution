@@ -1,25 +1,9 @@
-2005-02-09  Hans Petter Jansson  <hpj@novell.com>
-
-	* lib/Makefile.am:
-	* gui/Makefile.am: Install shared libraries to privlibdir.
-
-2005-02-04  Rodney Dawes  <dobey@novell.com>
-
-	* gui/ca-trust-dialog.c (ca_trust_dialog_new): Set the border widths
-	for the dialog internal container widgets to be HIG compliant
-
-	* gui/smime-ui.glade: Set the vbox spacing to 12 for HIG compliance
-
 2004-11-23  Not Zed  <NotZed@Ximian.com>
 
 	* gui/certificate-manager.c (delete_ca): don't remove the tree
 	node if deleting the cert failed.
 	(delete_your): same.
 	(delete_contact): same.  Hoorah for code-reuse.
-
-2004-10-13  JP Rosevear  <jpr@novell.com>
-
-	* gui/e-cert-selector.c: update to use G_DEFINE_TYPE
 
 2004-10-11  Not Zed  <NotZed@Ximian.com>
 

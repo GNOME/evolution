@@ -36,7 +36,6 @@
 
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-vee-folder.h>
 #include <camel/camel-file-utils.h>

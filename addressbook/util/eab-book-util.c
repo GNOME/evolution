@@ -180,7 +180,7 @@ eab_nickname_query (EBook                 *book,
 
 /* Copied from camel_strstrcase */
 static char *
-eab_strstrcase (const char *haystack, const char *needle)
+strstrcase (const char *haystack, const char *needle)
 {
 	/* find the needle in the haystack neglecting case */
 	const char *ptr;
@@ -197,7 +197,7 @@ eab_strstrcase (const char *haystack, const char *needle)
 		return (char *) haystack;
 	
 	for (ptr = haystack; *(ptr + len - 1) != '\0'; ptr++)
-		if (!g_ascii_strncasecmp (ptr, needle, len))
+		if (!strncasecmp (ptr, needle, len))
 			return (char *) ptr;
 	
 	return NULL;
@@ -244,20 +244,20 @@ eab_contact_list_from_string (const char *str)
 	 * parsed. Arguably, contact list parsing should all be in libebook's e-vcard.c,
 	 * where we can do proper parsing and validation without code duplication. */
 	
-	for (p = eab_strstrcase (p, "BEGIN:VCARD"); p; p = eab_strstrcase (q, "\nBEGIN:VCARD")) {
+	for (p = strstrcase (p, "BEGIN:VCARD"); p; p = strstrcase (q, "\nBEGIN:VCARD")) {
 		gchar *card_str;
 
 		if (*p == '\n')
 			p++;
 
-		for (q = eab_strstrcase (p, "END:VCARD"); q; q = eab_strstrcase (q, "END:VCARD")) {
+		for (q = strstrcase (p, "END:VCARD"); q; q = strstrcase (q, "END:VCARD")) {
 			gchar *temp;
 
 			q += 9;
 			temp = q;
 			temp += strspn (temp, "\r\n\t ");
 
-			if (*temp == '\0' || !g_ascii_strncasecmp (temp, "BEGIN:VCARD", 11))
+			if (*temp == '\0' || !strncasecmp (temp, "BEGIN:VCARD", 11))
 				break;  /* Found the outer END:VCARD */
 		}
 

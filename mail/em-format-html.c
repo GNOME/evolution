@@ -31,9 +31,9 @@
 #include <fcntl.h>
 #include <ctype.h>
 
-#include <libedataserver/e-iconv.h>
-#include <libedataserver/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
-#include <libedataserver/e-time-utils.h>
+#include <gal/util/e-iconv.h>
+#include <gal/util/e-util.h>	/* for e_utf8_strftime, what about e_time_format_time? */
+#include "e-util/e-time-utils.h"
 #include "e-util/e-icon-factory.h"
 
 #include <gtkhtml/gtkhtml.h>
@@ -41,7 +41,9 @@
 #include <gtkhtml/gtkhtml-stream.h>
 #include <gtkhtml/htmlengine.h>
 
-#include <libgnome/gnome-i18n.h>
+#include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-handlers.h>
 
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream.h>
@@ -59,7 +61,7 @@
 #include <camel/camel-data-cache.h>
 #include <camel/camel-file-utils.h>
 
-#include <libedataserver/e-msgport.h>
+#include <e-util/e-msgport.h>
 
 #include "mail-component.h"
 #include "mail-config.h"
@@ -658,7 +660,9 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	struct _EMFormatHTMLCache *efhc;
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	flags = efh->text_html_flags;
@@ -740,7 +744,10 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	}
 
 	camel_object_unref(filtered_stream);
-	camel_stream_write_string(stream, "</div>\n");
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
 }
 
 static void
@@ -766,13 +773,18 @@ efh_text_enriched(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, E
 	camel_object_unref(enriched);
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	em_format_format_text((EMFormat *)efh, (CamelStream *)filtered_stream, dw);
 	
 	camel_object_unref(filtered_stream);
-	camel_stream_write_string(stream, "</div>");
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
 }
 
 static void
@@ -789,7 +801,8 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	char *cid = NULL;
 
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x;\">\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
 			     "<!-- text/html -->\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
@@ -820,7 +833,8 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	d(printf("adding iframe, location %s\n", cid));
 	camel_stream_printf(stream,
 			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"
-			    "</div>\n",
+			    "</td></tr></table>\n"
+			    "</td></tr></table>\n",
 			    cid, cid);
 	g_free(cid);
 }
@@ -924,7 +938,9 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 
 	/* Yuck, this is copied from efh_text_plain */
 	camel_stream_printf (stream,
-			     "<div style=\"border: solid #%06x 1px; background-color: #%06x; padding: 10px;\">\n",
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=\"#%06x\" cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n",
 			     efh->frame_colour & 0xffffff, efh->content_colour & 0xffffff);
 
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
@@ -937,7 +953,10 @@ efh_message_deliverystatus(EMFormatHTML *efh, CamelStream *stream, CamelMimePart
 	camel_stream_flush((CamelStream *)filtered_stream);
 	camel_stream_write_string(stream, "</tt>\n");
 
-	camel_stream_write_string(stream, "</div>");
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
 }
 
 static void
@@ -1401,9 +1420,9 @@ efh_format_text_header (EMFormatHTML *emfh, CamelStream *stream, const char *lab
 				fmt = "<tr><td>%s: %s</td></tr>";
 		} else {
 			if (flags & EM_FORMAT_HEADER_BOLD)
-				fmt = "<tr><th align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></th><td>%s</td></tr>";
+				fmt = "<tr><th align=\"right\" valign=\"top\">%s:<b>&nbsp;</b></th><td>%s</td></tr>";
 			else
-				fmt = "<tr><td align=\"right\" valign=\"top\" nowrap>%s:<b>&nbsp;</b></td><td>%s</td></tr>";
+				fmt = "<tr><td align=\"right\" valign=\"top\">%s:<b>&nbsp;</b></td><td>%s</td></tr>";
 		}
 	}
 

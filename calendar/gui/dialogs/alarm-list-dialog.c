@@ -237,10 +237,6 @@ alarm_list_dialog_run (GtkWidget *parent, ECal *ecal, EAlarmList *list_store)
 
 	sensitize_buttons (&dialog);
 	
-	gtk_widget_ensure_style (dialog.toplevel);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog.toplevel)->action_area), 12);
-
 	icon_list = e_icon_factory_get_icon_list ("stock_calendar");
 	if (icon_list) {
 		gtk_window_set_icon_list (GTK_WINDOW (dialog.toplevel), icon_list);

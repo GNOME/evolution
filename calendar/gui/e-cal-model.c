@@ -1,6 +1,7 @@
 /* Evolution calendar - Data model for ETable
  *
- * Copyright (C) 2004 Novell, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *
@@ -25,6 +26,7 @@
 #include <string.h>
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"
@@ -74,6 +76,8 @@ struct _ECalModelPrivate {
         gboolean use_24_hour_format;
 };
 
+static void e_cal_model_class_init (ECalModelClass *klass);
+static void e_cal_model_init (ECalModel *model, ECalModelClass *klass);
 static void e_cal_model_dispose (GObject *object);
 static void e_cal_model_finalize (GObject *object);
 
@@ -105,13 +109,18 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE);
+static GObjectClass *parent_class = NULL;
+
+E_MAKE_TYPE (e_cal_model, "ECalModel", ECalModel, e_cal_model_class_init,
+	     e_cal_model_init, E_TABLE_MODEL_TYPE);
 
 static void
 e_cal_model_class_init (ECalModelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
+
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = e_cal_model_dispose;
 	object_class->finalize = e_cal_model_finalize;
@@ -151,7 +160,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 }
 
 static void
-e_cal_model_init (ECalModel *model)
+e_cal_model_init (ECalModel *model, ECalModelClass *klass)
 {
 	ECalModelPrivate *priv;
 
@@ -174,6 +183,46 @@ e_cal_model_init (ECalModel *model)
 }
 
 static void
+free_comp_data (ECalModelComponent *comp_data)
+{
+	g_return_if_fail (comp_data != NULL);
+
+	comp_data->client = NULL;
+
+	if (comp_data->icalcomp) {
+		icalcomponent_free (comp_data->icalcomp);
+		comp_data->icalcomp = NULL;
+	}
+
+	if (comp_data->dtstart) {
+		g_free (comp_data->dtstart);
+		comp_data->dtstart = NULL;
+	}
+
+	if (comp_data->dtend) {
+		g_free (comp_data->dtend);
+		comp_data->dtend = NULL;
+	}
+
+	if (comp_data->due) {
+		g_free (comp_data->due);
+		comp_data->due = NULL;
+	}
+
+	if (comp_data->completed) {
+		g_free (comp_data->completed);
+		comp_data->completed = NULL;
+	}
+
+	if (comp_data->color) {
+		g_free (comp_data->color);
+		comp_data->color = NULL;
+	}
+
+	g_free (comp_data);
+}
+
+static void
 clear_objects_array (ECalModelPrivate *priv)
 {
 	gint i;
@@ -183,9 +232,10 @@ clear_objects_array (ECalModelPrivate *priv)
 
 		comp_data = g_ptr_array_index (priv->objects, i);
 		g_assert (comp_data != NULL);
-		e_cal_model_free_component_data (comp_data);
+		free_comp_data (comp_data);
 	}
 
+	
 	g_ptr_array_set_size (priv->objects, 0);
 }
 
@@ -221,8 +271,8 @@ e_cal_model_dispose (GObject *object)
 		priv->clients = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->dispose)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->dispose (object);
+	if (parent_class->dispose)
+		parent_class->dispose (object);
 }
 
 static void
@@ -245,8 +295,8 @@ e_cal_model_finalize (GObject *object)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
+	if (parent_class->finalize)
+		parent_class->finalize (object);
 }
 
 /* ETableModel methods */
@@ -365,12 +415,11 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 		    && e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start), &zone, NULL))
 			got_zone = TRUE;
 
-		if (e_cal_model_get_flags (model) & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) {
-			if (got_zone) {
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    (e_cal_util_component_has_recurrences (comp_data->icalcomp))) {
+			if (got_zone)
 				tt_start = icaltime_from_timet_with_zone (comp_data->instance_start, tt_start.is_date, zone);
-				if (priv->zone)
-					icaltimezone_convert_time (&tt_start, zone, priv->zone);
-			} else
+			else
 				tt_start = icaltime_from_timet (comp_data->instance_start, tt_start.is_date);
 		}
 
@@ -718,7 +767,7 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_TABLE_MODEL (source));
 
-	memset (&comp_data, 0, sizeof (ECalModelComponent));
+	memset (&comp_data, 0, sizeof (comp_data));
 	comp_data.client = e_cal_model_get_default_client (model);
 
 	/* guard against saving before the calendar is open */
@@ -739,6 +788,7 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	if (model_class->fill_component_from_model != NULL) {
 		model_class->fill_component_from_model (model, &comp_data, source, row);
 	}
+
 
 	if (!e_cal_create_object (comp_data.client, comp_data.icalcomp, NULL, NULL)) {
 		g_warning (G_STRLOC ": Could not create the object!");
@@ -1238,7 +1288,7 @@ search_by_uid_and_client (ECalModelPrivate *priv, ECal *client, const char *uid)
 
 			tmp_uid = icalcomponent_get_uid (comp_data->icalcomp);
 			if (tmp_uid && *tmp_uid) {
-				if (comp_data->client == client && !strcmp (uid, tmp_uid))
+				if ((!client || comp_data->client == client) && !strcmp (uid, tmp_uid))
 					return comp_data;
 			}
 		}
@@ -1279,37 +1329,15 @@ add_instance_cb (ECalComponent *comp, time_t instance_start, time_t instance_end
 	e_table_model_pre_change (E_TABLE_MODEL (rdata->model));
 
 	comp_data = g_new0 (ECalModelComponent, 1);
-	comp_data->client = g_object_ref (rdata->client);
-	comp_data->icalcomp = icalcomponent_new_clone (e_cal_component_get_icalcomponent (comp));
+	comp_data->client = g_object_ref (e_cal_view_get_client (rdata->query));
+	comp_data->icalcomp = icalcomponent_new_clone (rdata->icalcomp);
 	comp_data->instance_start = instance_start;
 	comp_data->instance_end = instance_end;
-	comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
-	comp_data->color = NULL;
 
 	g_ptr_array_add (priv->objects, comp_data);
 	e_table_model_row_inserted (E_TABLE_MODEL (rdata->model), priv->objects->len - 1);
 
 	return TRUE;
-}
-
-static void
-set_instance_times (ECalModelComponent *comp_data, icaltimezone *zone)
-{
-	struct icaltimetype recur_time, start_time, end_time, itt;
-
-	recur_time = icalcomponent_get_recurrenceid (comp_data->icalcomp);
-	start_time = icalcomponent_get_dtstart (comp_data->icalcomp);
-	end_time = icalcomponent_get_dtend (comp_data->icalcomp);
-
-	if (e_cal_util_component_is_instance (comp_data->icalcomp)) {
-		itt = icaltime_convert_to_zone (recur_time, icaltimezone_get_utc_timezone ());
-		comp_data->instance_start = icaltime_as_timet (itt);
-	} else {
-		comp_data->instance_start = icaltime_as_timet (start_time);
-	}
-
-	comp_data->instance_end = comp_data->instance_start +
-		(icaltime_as_timet (end_time) - icaltime_as_timet (start_time));
 }
 
 static void
@@ -1322,21 +1350,8 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 	priv = model->priv;
 
 	for (l = objects; l; l = l->next) {
-		ECalModelComponent *comp_data;
-
-		/* remove the components if they are already present and re-add them */
-		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
-							      icalcomponent_get_uid (l->data)))) {
-			int pos;
-
-			pos = get_position_in_array (priv->objects, comp_data);
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
-
-			g_ptr_array_remove (priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
-		}
-
-		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES)) {
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    e_cal_util_component_has_recurrences (l->data)) {
 			RecurrenceExpansionData rdata;
 
 			rdata.client = e_cal_view_get_client (query);
@@ -1348,14 +1363,13 @@ e_cal_view_objects_added_cb (ECalView *query, GList *objects, gpointer user_data
 							     (ECalRecurInstanceFn) add_instance_cb,
 							     &rdata);
 		} else {
+			ECalModelComponent *comp_data;
+
 			e_table_model_pre_change (E_TABLE_MODEL (model));
 
 			comp_data = g_new0 (ECalModelComponent, 1);
 			comp_data->client = g_object_ref (e_cal_view_get_client (query));
 			comp_data->icalcomp = icalcomponent_new_clone (l->data);
-			set_instance_times (comp_data, priv->zone);
-			comp_data->dtstart = comp_data->dtend = comp_data->due = comp_data->completed = NULL;
-			comp_data->color = NULL;
 
 			g_ptr_array_add (priv->objects, comp_data);
 			e_table_model_row_inserted (E_TABLE_MODEL (model), priv->objects->len - 1);
@@ -1375,21 +1389,62 @@ e_cal_view_objects_modified_cb (ECalView *query, GList *objects, gpointer user_d
 	for (l = objects; l; l = l->next) {
 		ECalModelComponent *comp_data;
 
-		/* remove all recurrences and re-add them after generating them */
-		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
-							      icalcomponent_get_uid (l->data)))) {
-			int pos;
+		if ((priv->flags & E_CAL_MODEL_FLAGS_EXPAND_RECURRENCES) &&
+		    e_cal_util_component_has_recurrences (l->data)) {
+			GList node;
 
-			pos = get_position_in_array (priv->objects, comp_data);
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+			/* remove all recurrences and re-add them after generating them */
+			while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+								      icalcomponent_get_uid (l->data)))) {
+				int pos;
 
-			g_ptr_array_remove (priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
+				pos = get_position_in_array (priv->objects, comp_data);
+		
+				g_ptr_array_remove (priv->objects, comp_data);
+				free_comp_data (comp_data);
+		
+				e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
+			}
+
+			node.prev = node.next = NULL;
+			node.data = l->data;
+			e_cal_view_objects_added_cb (query, &node, model);
+		} else {
+			e_table_model_pre_change (E_TABLE_MODEL (model));
+
+			comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query),
+							      icalcomponent_get_uid (l->data));
+			if (!comp_data)
+				continue;
+	
+			if (comp_data->icalcomp)
+				icalcomponent_free (comp_data->icalcomp);
+			if (comp_data->dtstart) {
+				g_free (comp_data->dtstart);
+				comp_data->dtstart = NULL;
+			}
+			if (comp_data->dtend) {
+				g_free (comp_data->dtend);
+				comp_data->dtend = NULL;
+			}
+			if (comp_data->due) {
+				g_free (comp_data->due);
+				comp_data->due = NULL;
+			}
+			if (comp_data->completed) {
+				g_free (comp_data->completed);
+				comp_data->completed = NULL;
+			}
+			if (comp_data->color) {
+				g_free (comp_data->color);
+				comp_data->color = NULL;
+			}
+		     
+			comp_data->icalcomp = icalcomponent_new_clone (l->data);
+
+			e_table_model_row_changed (E_TABLE_MODEL (model), get_position_in_array (priv->objects, comp_data));
 		}
 	}
-
-	/* now re-add all objects */
-	e_cal_view_objects_added_cb (query, objects, model);
 }
 
 static void
@@ -1410,10 +1465,11 @@ e_cal_view_objects_removed_cb (ECalView *query, GList *uids, gpointer user_data)
 		/* make sure we remove all objects with this UID */
 		while ((comp_data = search_by_uid_and_client (priv, e_cal_view_get_client (query), l->data))) {
 			pos = get_position_in_array (priv->objects, comp_data);
-			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
-
+		
 			g_ptr_array_remove (priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
+			free_comp_data (comp_data);
+		
+			e_table_model_row_deleted (E_TABLE_MODEL (model), pos);
 		}
 	}
 }
@@ -1581,10 +1637,11 @@ remove_client_objects (ECalModel *model, ECalModelClient *client_data)
 
 		if (comp_data->client == client_data->client) {
 			e_table_model_pre_change (E_TABLE_MODEL (model));
-			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
-
+			
 			g_ptr_array_remove (model->priv->objects, comp_data);
-			e_cal_model_free_component_data (comp_data);
+			free_comp_data (comp_data);
+
+			e_table_model_row_deleted (E_TABLE_MODEL (model), i - 1);
 		}
 	}
 }
@@ -1684,8 +1741,8 @@ redo_queries (ECalModel *model)
 	/* clean up the current contents */
 	e_table_model_pre_change (E_TABLE_MODEL (model));
 	len = priv->objects->len;
-	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
 	clear_objects_array (priv);
+	e_table_model_rows_deleted (E_TABLE_MODEL (model), 0, len);
 	
 	/* update the query for all clients */
 	for (l = priv->clients; l != NULL; l = l->next) {
@@ -1943,9 +2000,10 @@ copy_ecdv (ECellDateEditValue *ecdv)
 {
 	ECellDateEditValue *new_ecdv;
 	
+	
 	new_ecdv = g_new0 (ECellDateEditValue, 1);
-	new_ecdv->tt = ecdv ? ecdv->tt : icaltime_null_time ();
-	new_ecdv->zone = ecdv ? ecdv->zone : NULL;
+	new_ecdv->tt = ecdv->tt;
+	new_ecdv->zone = ecdv->zone;
 
 	return new_ecdv;
 }
@@ -1962,8 +2020,6 @@ e_cal_model_copy_component_data (ECalModelComponent *comp_data)
 
 	new_data = g_new0 (ECalModelComponent, 1);
 
-	new_data->instance_start = comp_data->instance_start;
-	new_data->instance_end = comp_data->instance_end;
 	if (comp_data->icalcomp)
 		new_data->icalcomp = icalcomponent_new_clone (comp_data->icalcomp);
 	if (comp_data->client)
@@ -1976,8 +2032,6 @@ e_cal_model_copy_component_data (ECalModelComponent *comp_data)
 		new_data->due = copy_ecdv (comp_data->due);
 	if (comp_data->completed)
 		new_data->completed = copy_ecdv (comp_data->completed);
-	if (comp_data->color)
-		new_data->color = g_strdup (comp_data->color);
 
 	return new_data;
 }
@@ -1990,34 +2044,20 @@ e_cal_model_free_component_data (ECalModelComponent *comp_data)
 {
 	g_return_if_fail (comp_data != NULL);
 
-	if (comp_data->client) {
+	if (comp_data->client)
 		g_object_unref (comp_data->client);
-		comp_data->client = NULL;
-	}
-	if (comp_data->icalcomp) {
+	if (comp_data->icalcomp)
 		icalcomponent_free (comp_data->icalcomp);
-		comp_data->icalcomp = NULL;
-	}
-	if (comp_data->dtstart) {
+	if (comp_data->dtstart)
 		g_free (comp_data->dtstart);
-		comp_data->dtstart = NULL;
-	}
-	if (comp_data->dtend) {
+	if (comp_data->dtend)
 		g_free (comp_data->dtend);
-		comp_data->dtend = NULL;
-	}
-	if (comp_data->due) {
+	if (comp_data->due)
 		g_free (comp_data->due);
-		comp_data->due = NULL;
-	}
-	if (comp_data->completed) {
+	if (comp_data->completed)
 		g_free (comp_data->completed);
-		comp_data->completed = NULL;
-	}
-	if (comp_data->color) {
+	if (comp_data->color)
 		g_free (comp_data->color);
-		comp_data->color = NULL;
-	}
 
 	g_free (comp_data);
 }

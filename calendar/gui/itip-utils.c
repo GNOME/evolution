@@ -30,6 +30,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkwidget.h>
+#include <gal/util/e-util.h>
 #include <libical/ical.h>
 #include <Evolution-Composer.h>
 #include <e-util/e-dialog-utils.h>
@@ -42,7 +43,6 @@
 #include "e-util/e-passwords.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
-#include "dialogs/cal-attachment.h"
 
 #define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer:" BASE_VERSION
 
@@ -824,64 +824,9 @@ comp_compliant (ECalComponentItipMethod method, ECalComponent *comp, ECal *clien
 	return clone;
 }
 
-static gboolean
-append_cal_attachments (GNOME_Evolution_Composer composer_server, ECalComponent
-		*comp, GSList *attach_list)
-{
-	CORBA_char *content_type = NULL, *filename = NULL, *description = NULL;
-	CORBA_Environment ev;
-	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
-	struct CalMimeAttach *mime_attach;
-	GSList *l;
-	gboolean retval = TRUE;
-
-	CORBA_exception_init (&ev);
-
-	for (l = attach_list; l ; l = l->next) {
-		mime_attach = (struct CalMimeAttach *) l->data;
-		
-		filename = CORBA_string_dup (mime_attach->filename);
-		content_type = CORBA_string_dup	(mime_attach->content_type);
-		description = CORBA_string_dup (mime_attach->description);
-		
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-		attach_data->_length = mime_attach->length;
-		attach_data->_maximum = attach_data->_length;	
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);
-		memcpy (attach_data->_buffer, mime_attach->encoded_data, attach_data->_length);
-
-		GNOME_Evolution_Composer_attachData (composer_server,
-						     content_type, filename, description,
-						     TRUE, attach_data,
-						     &ev);
-		if (BONOBO_EX (&ev)) {
-			g_warning ("Unable to add attachments in composer");
-			retval = FALSE;
-		}
-
-		CORBA_exception_free (&ev);
-		if (content_type != NULL)
-			CORBA_free (content_type);
-		if (filename != NULL)
-			CORBA_free (filename);
-		if (description != NULL)
-			CORBA_free (description);
-		if (attach_data != NULL) {
-			CORBA_free (attach_data->_buffer);
-			CORBA_free (attach_data);
-		}
-		g_free (mime_attach->filename);
-		g_free (mime_attach->content_type);
-		g_free (mime_attach->description);
-		g_free (mime_attach->encoded_data);
-	}
-	
-	return retval;
-}
-
 gboolean
 itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
-		ECal *client, icalcomponent *zones, GSList *attachments_list)
+		ECal *client, icalcomponent *zones)
 {
 	GNOME_Evolution_Composer composer_server;
 	ECalComponent *comp = NULL;
@@ -918,10 +863,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 			retval = TRUE;
 			goto cleanup;
 		}
-	} else if (to_list == NULL || to_list->_length == 0) {
-		/* if we don't have recipients, return */
-		retval = FALSE;
-		goto cleanup;
 	}
 
 	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
@@ -992,12 +933,7 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 		g_warning ("Unable to place iTip message in composer");
 		goto cleanup;
 	}
-
-	if (attachments_list) {
-		if (append_cal_attachments (composer_server, comp, attachments_list))
-			retval = TRUE;
-	}
-
+	
 	if (method == E_CAL_COMPONENT_METHOD_PUBLISH) {
 		GNOME_Evolution_Composer_show (composer_server, &ev);
 		if (BONOBO_EX (&ev))
@@ -1020,11 +956,6 @@ itip_send_comp (ECalComponentItipMethod method, ECalComponent *send_comp,
 	if (top_level != NULL)
 		icalcomponent_free (top_level);
 
-	if (users) {
-		g_list_foreach (users, (GFunc) g_free, NULL);
-		g_list_free (users);
-	}
-	
 	if (to_list != NULL)
 		CORBA_free (to_list);
 	if (cc_list != NULL)
@@ -1207,6 +1138,8 @@ itip_publish_comp (ECal *client, gchar *uri, gchar *username,
 	SoupMessage *msg;
 	SoupUri *real_uri;
 	char *ical_string;
+	char *prompt;
+	gboolean remember = FALSE;
 	
 	toplevel = e_cal_util_new_top_level ();
 	icalcomponent_set_method (toplevel, ICAL_METHOD_PUBLISH);

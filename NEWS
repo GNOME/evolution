@@ -1,508 +1,181 @@
-Evolution 2.1.5, 2005-02-07
----------------------------
-
-Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
- * Addressbook
-   #36137 - Leading %s in addressbook message totally non-obvious (Siva)
-   #57819 - Evolution allows to create several contact lists with same name
-            (Partha)
-   #61060 - Don't split sentences in Evolution (Siva)
-   #61067 - Use translator comment for evolution addressbook message (Siva)
-   #67411 - Crash: create new address book (Hans Petter)
-   #68799 - Evolution doesn't store IM info on the LDAP server (Siva)
-   #70339 - vcard preview doesn't appear to work (Siva)
-
- * Calendar
-   #33078 - No category list for Category searches in Calendar & Tasks (Rodrigo)
-   #56901 - Only one line gets printed when printing Tasks and Appointments (Yong)
-   #61078 - Please avoid using different styles of markup in translateable
-            evolution messages (Priit)
-   #64682 - Moving a appts from one calendar to another sends update (Chenthill)
-   #71265 - Deletion Of Weather Calendar Crashes Evo (Rodrigo)
-   #71452 - Pressing 2 times escape - edited meeting window disappear (JP)
-   #71485 - String issues (JP)
-   #71729 - Gnopernicus should report the full name of week day (Li)
-   #71929 - Whitespace before colons in Evolution calendar a11y messages
-            (Rodrigo)
-   #71924, 71926, 71932 - Don't split sentences (Harry)
-   #71944 - Failed to compile (JP)
-   #72088 - Some calendar a11y functions don't work (Harry)
-   #72090 - Evolution crashed when clicking on 'open calender' in sent items (Rodrigo)
-
- * Mail
-   #65329 - Regression in default folder name localisation (Michael)
-   #67083 - CJK-translated mail header names are line-wrapped with long lined headers
-            (Michael)
-   #68137 - Inconsistent VFolder vs vFolder (Rodney)
-   #68696 - RFE: Simplifications to the "Account Management" page of the Account
-            setup druid (Rodney)
-   #68743 - Button jumps when you click it (Rodney)
-   #69815 - Cannot quit while updating vfolders (Michael)
-   #69850 - Crash: attempting to create a Vfolder based on a message without a Sender
-            (Michael)
-   #70454 - Folder shows unsubscribed, but is subscribed (Jeff)
-   #71310 - Always loses my signature script settings (Michael)
-   #71312 - Double-clicking vFolder of Draft folder doesn't allow editing (Michael)
-   #71520 - Changing server type not displayed immediately in 'Account settings'
-            (Michael)
-   #71521 - 'Account Editor' does not allow to change hostname (Michael)
-   #71774 - Evolution crashes when cancel 'Rename Folder' dialog (Mengjie)
-   #71937 - Spamasssassin typo in Evolution mail schemas (JP)
-
- * Plugins
-   #41235 - Spacing/padding of itip control (Rodney)
-   #71460 - Clicking accept button in appointment - Unable to send item to calender
-            'Calender'. Invalid object (Chenthill)
-   #71512 - Crash: AMD64 Unable to add or import contacts (Siva)
-   #71644 - Empty string marked for translation (Sushma)
-
-Other bugs
-
- * Addressbook
-   - Use new categories dialog in contact editor (Rodrigo)
-   - HIG spacing fixes (Rodney)
-   - Display warning dialog when GW server is old (Vivek)
-
- * Calendar
-   - Fixed sensitation of widgets in recurrence page (Rodrigo)
-   - Fixed IDL duplications (Hans Petter)
-   - Don't build private libraries as modules (Hans Petter)
-   - Fixed popup menu for detached recurrences (Rodrigo)
-   - HIG spacing/padding fixes (Rodney)
-   - Display warning dialog when GW server is old (Vivek)
-   - Clear component preview when updating (Rodrigo)
-   - Added help button to editors (Rodney)
-   - Fix DND issues with calendar attachments (Harish)
-
- * Mail
-   - HIG fixes (Rodney)
-
- * Plugins
-   - Use icon factory in audio-inline plugin (JP)
-   - Fix order of menus in calendar-http plugin (David)
-   - Added missing ID's (JP)
-   - Set weather categories as not searchable (Rodrigo)
-   - Added auth type section in exchange-account-setup plugin (Sushma)
-   - Fixed crash in groupwise-send-options dialog (Chenthill)
-
- * All
-   - Added 'pt' default setup to build (Rodney)
-   - Fixed druid lock on startup (Jeff)
-   - a11y improvements (Mengjie, Li, Harry)
-   - HIG fixes to e-passwords dialogs (Rodney)
-
-Updated translations:
-   - bg (Alexander Shopov)
-   - cs (Miloslav Trmac)
-   - de (Hendrik Richter, Frank Arnold)
-   - el (Kostas Papadimas)
-   - en_CA (Adam Weinberger)
-   - es (Francisco Javier F. Serrador)
-   - et (Priit Laes)
-   - it (Marco Ciampa)
-   - ja (Takeshi AIHANA)
-   - lt (Zygimantas Beruska)
-   - nb (Kjartan Maraas)
-   - no (Kjartan Maraas)
-   - ru (Leonid Kanter)
-   - sk (Marcel Telka)
-   - sv (Christian Rose)
-   - zh_CN (Funda Wang)
-
-Evolution 2.1.4, 2005-01-24
+Evolution 2.0.5, 2004-12-06
 ----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
- * Mail
-
-   #46287 - Space key should work for checkbox (JP)
-   #57090 - Junk Button Sensitivity needs changes (Radek)
-   #69122 - Make subject || sender contains the default search (Michael)
-   #60664 - message view does not follow theme change (Michael)
-   #55831 - missing warning dialog about opening a lot of selected mails (Michael)
-   #66943 - Crash when saving draft (Michael)
-   #70768 - 'Mark All as Read' marks all the mails which are not in current query as read (Michael)
-   #71105 - When trying to rename a folder containing a slash "/" and spaces, evil stuff happens (Michael)
-   #65178 - newly created folder on local maildir doesn't show until evolution restart (Michael) 
-   #71029 - receiving settings not stored (Michael)
-   #70990 - NNTP without username broken (Michael)
-   #70018 - Signatures don't work (Michael)
-   #68352 - Add post message keybinding (Rodney)
-
- * Calendar
-
-   #71407 - Input Protect Read-Only Calendars (Rodrigo)
-   #65820 - Evolution Calendar weekday names message needs translator comment (JP)
-
  * Addressbook
 
-   #70622 - crash (JP)
-   #71448 - Deleting many contacts is incredibly slow (Siva)
-   #41210 - spacing/padding of "Contact Quick Add" dialog (Rodney)
-   #60852 - "Add address" popup dialog UI is ugly/wrong size, and button is resizable (Rodney)
-   #41228 - spacing/padding of "duplicate contact detected" dialog (Rodney)
+   #36137 - Leading %s in addressbook message totally non-obvious (Siva)
+   #70339 - vcard preview doesn't appear to work (Siva)
+   #70622 - Crash changing gtkhtml settings (JP)
    #70922 - Email address types should show "Other" when importing vcards (Siva)
-   #61973 - add TTYTDD translator comment (JP)
+   #70540 - Adding contact from email doesn't let you change "file as" (Hans)
 
- * Plugins
+ * Calendar
+ 	
+   #41624 - only the last exception is deleted on palm device (JP)
+   #46901 - Only one line gets printed when printing Tasks and Appointments (Yong Sun)
 
-   #71384 - 'Forward' button is disabled while configuring mail id (Sushma)
-   #29985 - Accepted meetings should have a replied-to icon (JP)
+ * Mail
 
- * Miscellaneous
-
-   #46404 - not remembering printer definition (JP)
+   #33933 - Sorting by subject does not result in expected order (Jeff)
+   #70795 - Next/Previous Message Should Only Display Listed Emails (Michael)
+   #65329 - regression in default folder name localisation (Michael)
+   #71312 - Double-clicking vFolder of Draft folder doesn't allow editing (Michael)
+   #71310 - Always loses my signature script settings (Michael)
+   #71310 - Always loses my signature script settings (Michael)
+   #69850 - Crash: attempting to create a Vfolder based on a message without a Sender (Michael)
+   #65178 - newly created folder on local maildir doesn't show until evolution restart (Michael)
+   #70858 - selecting newly created folder flakey (Michael)
+   #60664 - message view does not follow theme change (Michael)
+   #70768 - 'Mark All as Read' marks all the mails which are not in current query as read (Michael)
+   #70563 - crash when 'load images' on MyEclipse newsletter email (Michael)
+   #66943 - Crash when saving draft (Michael)
+   #71105 - When trying to rename a folder containing a slash "/" and spaces, evil stuff happens (Michael)
+   #72020 - Error parsing filter: Unknown identifier: adjust-score (Michael)
+   #38791 - gpg can make evo hang if keyserver unreachable (Michael)
+   #36142 - Don't use acronyms as verbs in messages (Michael)
+   #70303 - pgp signature invalid with very short emails (Michael)
+   #69757 - Memory leak in imap_parse_list_response (Michael)
+   #22496 - Evolution does not appear to support ALERT messages (Michael)
+   #71427 - Evolution does not prompt for new password (Michael)
+   #71625 - Don't display content of e-mail when first selected (Michael)
+   #56110 - Messages in digest displayed as source (Michael)
+   #69024 - Doesn't update NNTP folder in a Virtual folder (Michael)
+   #47824 - nested, identical multipart boundaries dont parse properly (Michael)
+   #70919 - Crash during fetching mail (mail has gpg signature) (Michael)
+   #70556 - Unable load messages info from MS Exchange by IMAP (Michael)
 
 Other bugs
 
- * Address Book
-
-    - set full name appropriately when quick adding (Hans)
-    - fix creation of local addressbooks (Siva)
-    - a11y fixes (Hao Sheng)
-
  * Mail
 
-    - Add items to folder properties correctly (Jeff)
-    - Add async descriptions (Jeff)
-		
+    -64 bit fixes (Michael)
+
+ * Addressbook
+
+    - work around 67411 (Hans)
+    - 64 bit fixes (Michael)
+    - Turkish locale fixes (S.Çaglar Onur)
+
  * Calendar
 
-    - for detached instances, disable recurrence UI (Rodrigo)
-    - use receive_objects for importing (Rodrigo)
-    - change free/busy prefs title (Nat)
-    - handle attachment errors better (Harish)
-    - fix possible day view resize crash (Michael)
-	
- * Shell
-
-    - fix offline handler crash (JP)
-    - close import wizard on Esc (Mengjie Yu)
+    - fix potential resize crash (Michael)
 
  * S/MIME
 
-    - don't remove tree node if deleting cert failed (Michael)
-
-  * Plugins
-
-    - Add addressbook file config plugin so local calendar get set up right (Siva)
-    - In BBDB check the buddy account name not alias (Nat)
-    - In weather calendar fix units spelling (David Trowbridge)
-    - In weather calendar use single metric/imperial specification (David Trowbridge)
-    - Add default source plugin so its easy to set for the user (Siva)
-    - Make exchange account setup simpler (Sushma)
-    - In groupwise account setup simplify the settings for soap only (Siva)
-    - Add groupwise status tracking plugin so the user can see the information they requested (Chen)
-    - In itip-formatter extract the decoded text so non-ascii works (JP)
-    - In itip-formatter handle utc dtstart/dtend correctly (JP)
-    - In new-mail-notify fix DBUS event handling (Miguel Angel Lopez Hernandez)
-    - In groupwise sendoptions, make sure the global send options actually work (Chen)
-    - In groupwise shared folder, improve UI (Vivek)
-    - In groupwise shared folder, add a wizard for shared folder notifications (Vivek)
+    - don't remove the cert from the tree if it wasn't actually deleted (Michael)
 
 Updated translations:
-	- es (Francisco Javier F. Serrador)
-	- de (Hendrik Richter, Frank Arnold)
-	- it (Marco Ciampa)
-	- nl (Vincent van Adrighem)
-	- lt (Zygimantas Berucka)
-	- nb (Kjartan Maraas)
-	- no (Kjartan Maraas)
-	- et (Priit Laes)
-	- el (Nikos Charonitakis)
-	- ja (Takeshi AIHANA)
-	- en_CA (Adam Weinberger)
 
-Evolution 2.1.3, 2004-01-10
+  - nl (Vincent van Adrighem)
+  - pt (Duarte Loreto)
+  - hu (Laszlo Dvornik)
+  - ca (Jordi Mallach)
+  - fr (Jeremie Knuesel, Sebastien Bacher, Christophe Merlet)
+  - sv (Christian Rose)
+  - de (Hendrik Brandt)
+  - id (Mohammad DAMT)
+  - es (Francisco Javier F. Serrador)
+  - da (Martin Willemoes Hansen)
+  - ko (Changwoo Ryu)
+  - zh_CN (Funda Wang)
+  - ms (Hasbullah Bin Pit)
+  - hu (Laszlo Dvornik)
+  - cs (Miloslav Trmac)
+  - ru (Leonid Kanter)
+  - bg (Vladimir Petkov)
+  - sq (Laurent Dhima)
+  - en_GB (David Lodge)
+  - pl (Artur Flinta)
+  - sr (Danilo Segan)
+  - sr@Latn (Danilo Segan)
+  - en_CA (Adam Weinberger)
+  - pt_BR (Raphael Higino)
+  - nn (Åsmund Skjæveland)
+
+Evolution 2.0.3, 2004-12-06
 ----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
- * Calendar
-
-   #69663 - Task list on the web does not mark tasks as finished (JP)
-   #61076 - Evolution calendar messages unnecessarily marked for translation (JP)
-   #41624 - only the last exception is deleted on palm device (JP)
 
  * Addressbook
 
-   #61068 - Extraneous space in evolution message (Andre Klapper)
-   #61975 - Can't translate string "Reflow test" (JP)
+   #67656 - almost the same email address are considrered identical (Siva)
+   #69079 - Data repeated after save with bad date format (Siva)
+   #66854 - Some strings are missed to translation (Rodney)
 
- * Plugins
-
-   #30992 - Preferences dialog greys out OK button after Apply (JP)
-
-Other bugs
-
- * Address Book
-
-    - set read only state better for contact editor (Hans)
-    - add UI for marking calendars offline (Siva)
-    - use new name selector api (Hans)
-
- * Mail
-
-    - Display icon for shared folder (Vivek)
-    - New offline folder/store classes (Jeff)
-    - Handle reply in mailto: (Michael)
-    - a11y fixes (Mengjie Yu)
-    -  (Mengjie Yu)
-		
  * Calendar
-
-    - detached instance recurrence handling (Rodrigo)
-    - calendar attachments (Harish)
-    - send options for meeting (Chen)
-    - handle calendar:// uris (JP)
-    - handle different calendars having the same uid (Rodrigo)
-    - add UI for marking calendars offline (Chen)
-    - use new name selector API (Hans)
-    - prevent crash when searching for f/b info (JP)
-    - a11y fixes (Harry)
-    - calendar config cleanup (JP)
-	
- * Shell
-
-    - Make component buttons configurable (JP)
-    - Set offline with gconf key (Siva)
-
-  * Plugins
-
-    - add component.migration event for calendar (David Trowbridge)
-    - fix translations of popup menus (Michael)
-    - HIG config dialog fixes (Rodney)
-    - Add calendar file config plugin so local calendar get set up right (JP)
-    - Add calendar weather config plugin (David Trowbridge)
-    - Add exchange account config plugin (Sushma)
-    - Add groupwise send options plugin (Partha)
-    - Add itip formatter plugin (JP)
-    - Add new-mail-notify plugin that uses DBUS (Miguel Angel Lopez Hernandez)
-    - Use standard error messages in save-calendar plugin (Philip Van Hoof)
-    - Add send options plugin for account editor (Chen)
-    - Add shared folder notification plugin (vivek)
-
-Updated translations:
-  - lt (Zygimantas Berucka)
-  - ja (Takeshi AIHANA)
-  - bg (Vladimir Petkov, Alexander Shopov)
-  - et (Priit Laes, Ivar Smolin)
-
-Evolution 2.1.2, 2004-12-20
-----------------------------
-
-Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+ 	
+   #47529 - Date in reminder window appears in UTF-8 in non-UTF-8 locale (Rodney)
+   #68707 - Events ending at 12:00 AM show as ending at 12:00 pm (JP)
+   #67403 - wrong alarm time displayed (Rodrigo)
+   #68077 - appointment dialog re-size (Rodrigo)
 
  * Mail
 
-   #68759 - Evolution Shell can't load modules (JP)
-   #69579 - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Michael)
+   #69533 - Unable to subscribe to the alt hierarchy (Michael)
+   #69776 - Signed Mail with attachments displays everything with multipart/boundaries stuff (Michael)
+   #69615 - delete certificate after viewing smime message (Michael)
+   #69109 - EHLO or HELO with ip addresses does not conform rfc 821  (Michael)
+   #69982 - During Newsgroup list refresh, it crashes (Michael) 
+   #69446 - Mail shown as attachment if some headers are upper case (S. Caglar Onur) 
+   #68556 - NNTP with SSL won't work, even with stunnel (Michael) 
+   #69145 - toplevel message/rfc822 parts are broken for IMAP (Michael)
+   #69241 - base64 attachement holding PGP block (Jeff)
+   #67895 - nntp support not asking for password (Michael)
+   #67898 - Use of symbolic port-names is not guaranteed to work everywhere (Michael)
+   #69851 - remember password check doesn't stick (Michael)
+   #69623 - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Radek)
    #69339 - postscript and some other attachments not visable (Michael)
    #69579 - vFolders#UNMATCHED generates errors (Michael)
    #68958 - current message forgotten in vfolders (Michael)
-   #69446 - Mail shown as attachment if some headers are upper case (Michael)
-   #46229 - Filters dialog - label suggestions (Diego Sevilla Ruiz)
-
- * Calendar
-
-   #47535 - Snooze Time "minutes" string Improperly marked for translation
-    (Rodney)
-   #67403 - wrong alarm time displayed (Rodrigo)
-
- * Shell
-
-   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu) 
-
-Other bugs
-
- * Address Book
-
-    - Turkish locale fixes (S. Caglar Onur)
-    - Set proper window title for editing addressbook properties (Vivek)
-    - Prevent null UID from causing weird saving problems (Siva)
-    - a11y fixes (Harry Lu, Hao Sheng)
-
- * Mail
-
-    - Add mnemonics everywhere (Mengjie Yu)
-    - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Radek)
-		
- * Calendar
-
-    - let users set a template for fetching free/busy information (James
-      Bowes)
-    - Set proper window title for editing calendar/task properties (Vivek)
-    - Leak fixes (Harish)
-    - Fix 64 bit problem (David Mosberger)
-    - UI Fixes for meetings and assigned tasks (Chen)
-
- * Shell
-
-    - fix 64 bit problem (David Mosberger)
-    - use new window icon (Rodney)
-
-  * Plugins
-
-    - make plugin hooks available for mail even when the mailer is not
-    activated (Michael)
-    - move groupwise config code to a plugin (Siva)
-    - support csv and rdf calendar saving (Philip Van Hoof)   
-
-Updated translations:
-
-  - nl (Vincent van Adrighem)
-  - sv (Christian Rose)
-  - ca (Jordi Mallach)
-  - zh_CN (Funda Wang)
-  - bg (Alexander Shopov)
-  - fi (Ilkka Tuohela)
-  - da (Martin Willemoes Hansen)
-  - tr (Baris Cicek)
-  - lt (Zygimantas Berucka)
-  - cy (Dafydd Harries)
-
-Evolution 2.1.1, 2004-11-28
-----------------------------
-
-Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
- * Addressbook
-
-   #28725 - should not say "no items in this view" until the backend is done responding (Sushma)
-   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu)
-   #61976 - Near-identical strings, should be made identical (Rodney)
-   #67656 - almost the same email address are considrered identical (Siva)
-   #61966 - Typo in string: Word "be" missing (Andre Klapper)
-   #69079 - Data repeated after save with bad date format (Siva)
-   #66854 - Some strings are missed to translation (partial, Rodney)
-
- * Mail
-
-   #68787 - Crash when migrating 1.4 data to 2.0.2 (Michael)
-   #69109 - EHLO or HELO with ip addresses does not conform rfc 821 (Michael)
-   #69408 - Evolution hang in message fetching with ima4rev1 (Jeff)
-   #69145 - toplevel message/rfc822 parts are broken for IMAP (Michael)
-   #69241 - base64 attachement holding PGP block (Jeff)
-   #69160 - IMAP4 dont freez on scaning imap folders (Jeff)
+   #68974 - Wizard doesn't store smtp auth settings (Michael)
    #67496 - html email not rendered in preview pane (Michael)
-
- * Calendar
-
-   #68624 - Requires URL to have http:// or webcal:// at beginning (Diego Sevilla Ruiz)
-   #47529 - Date in reminder window appears in UTF-8 in non-UTF-8 locale (Rodney)
-   #6767  - Fix hardcode colors in day, week, month views (Li Yuan)
-   #68707 - Events ending at 12:00 AM show as ending at 12:00 pm (JP)
-
- * Shell
-
-   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu) 
+   #67014 - Checking supported auth types doesn't work with new SSL certificate (Michael)
+   #68006 - Evo crashed after viewing previously-sent email and copying URL from it (Michael)
+   #68787 - Crash when migrating 1.4 data to 2.0.2 (Michael)
+   #67622 - SMTP auth usernames containing % character fail (Jeff)
 
 Other bugs
 
- * Address Book
-
-    - Handle required fields (Siva)
-    - a11y fixes (Hao Sheng)
-    - make shift-F10 popup menu (Hao Sheng)
-    - don't show error dialog when cancelling operation (Siva)
-
  * Mail
 
-    - Reduce memory for vfolder operations (Michael)
-    - Use unix sockets for spam checking (Radek)
-		
+    - fix pthread_key_delete args (Julio M. Merino Vidal)
+
  * Calendar
 
-    - warn is summary is blank (Chen)
-    - allow creating new calendar with right click on a group (Harish)
-    - EConfigize new calendar and calendar properties (David Trowbridge)
-    - make sure switch between 12/24h time shows immediately (JP)
-
-  * Plugins
-
-    - set "base" plugin target (Michael)
-    - add webcal config plugin (David Trowbridge)
-    - mailing list actions plugin (Meilof Venningen)   
-    - plugin manager plugin (Michael)   
+    - leak fixes (Chen)
+    - sensitize menu items in list view properly (JP)
+    - redraw display when 24hr time setting changes (JP)	
 
 Updated translations:
 
-  - da (Martin Willemoes Hansen)
-  - lt (Žygimantas Beručka)
   - nl (Vincent van Adrighem)
-  - de (Hendrik Richter)
-  - it (Marco Ciampa)
+  - pt (Duarte Loreto)
+  - hu (Laszlo Dvornik)
   - ca (Jordi Mallach)
-  - fa (Meelad Zakaria)
-  - sq (Laurent Dhima)
-  - fr (Sebastien Bacher)
-  - cs (Juraj Kubelka)
-
-Evolution 2.1.0, 2004-11-01
-----------------------------
-
-Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
- * Addressbook
-
-   #61069 - Missing space in evolution addressbook message (Andre Klapper)
-   #61972 - Typo in country name: Is "Grena-dines", should be "Grenadines" (Andre Klapper)
-
- * Mail
-
-   #68894 - IMAP4 rev1, error on selecting INBOX (Jeff)
-   #68814 - evo crash while fetching mail using IMAP4 rev1 (Jeff)
-   #44876 - Missing keyboard navigation in the e-mail recipient section (Mengjie Yu)
-
-Other bugs
-
- * Address Book
-
-    - Display multi value attributes in the preview (Nat)
-
- * Mail
-
-    - Enable IMAP4 camel provider by default (Jeff)
-    - IMAP4 offline folder info caching (Jeff)
-		
- * Calendar
-
-    - a11y fixes (Li Yuan)
-    - make free/busy information gathering more efficient (Harish)
-
- * Shell
-
-    - remove deprecated calls (Kjartan Maraas)
-
-  * Plugins
-
-    - convert mail, address book to econfig (Zucchi)
-    - convert all components to e-menu (Zucchi)
-    - add new mail event (Zucchi)
-    - add message replied event (Nat/Zucchi)
-    - add online/offline event (Zucchi)
-    - inline audio via gstreamer (Radek)
-    - big brother database (Nat)
-    - copy address tool (Zucchi)
-    - folder unsubscribe (Jeff)
-    - mail to task (Rodrigo)
-    - mark calendar for offline (Harish)
-    - prefer plain text for messages (Zucchi)
-    - save attachments (Zucchi)
-    - save calendar (Rodrigo)
-    - select one calendar/task (JP)
-    - subject threading (JP/Zucchi)
-
-Updated translations:
-
+  - fr (Jeremie Knuesel, Sebastien Bacher, Christophe Merlet)
+  - sv (Christian Rose)
+  - de (Hendrik Brandt)
+  - id (Mohammad DAMT)
+  - es (Francisco Javier F. Serrador)
   - da (Martin Willemoes Hansen)
-  - it (Marco Ciampa)
-  - sq (Laurent Dhima)
-  - el (Nikos Charonitakis)
+  - ko (Changwoo Ryu)
+  - zh_CN (Funda Wang)
   - ms (Hasbullah Bin Pit)
+  - hu (Laszlo Dvornik)
+  - cs (Miloslav Trmac)
+  - ru (Leonid Kanter)
   - bg (Vladimir Petkov)
+  - sq (Laurent Dhima)
+  - en_GB (David Lodge)
+  - pl (Artur Flinta)
+  - sr (Danilo Segan)
+  - sr@Latn (Danilo Segan)
+  - en_CA (Adam Weinberger)
+  - pt_BR (Raphael Higino)
+  - nn (Åsmund Skjæveland)
 
 Evolution 2.0.2, 2004-10-11
 ----------------------------

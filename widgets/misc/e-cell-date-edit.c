@@ -40,6 +40,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
 
+#include <gal/util/e-util.h>
 #include <gal/e-table/e-table-item.h>
 #include <gal/e-table/e-cell-text.h>
 
@@ -50,6 +51,8 @@
 /* This depends on ECalendar which is why I didn't put it in gal. */
 #include "e-calendar.h"
 
+static void e_cell_date_edit_class_init		(GtkObjectClass	*object_class);
+static void e_cell_date_edit_init		(ECellDateEdit	*ecde);
 static void e_cell_date_edit_destroy		(GtkObject	*object);
 static void e_cell_date_edit_get_arg		(GtkObject	*o,
 						 GtkArg		*arg,
@@ -112,14 +115,18 @@ enum {
 	ARG_UPPER_HOUR
 };
 
-G_DEFINE_TYPE (ECellDateEdit, e_cell_date_edit, E_CELL_POPUP_TYPE);
+static ECellPopupClass *parent_class;
+
+
+E_MAKE_TYPE (e_cell_date_edit, "ECellDateEdit", ECellDateEdit,
+	     e_cell_date_edit_class_init, e_cell_date_edit_init,
+	     e_cell_popup_get_type());
 
 
 static void
-e_cell_date_edit_class_init (ECellDateEditClass *ecdec)
+e_cell_date_edit_class_init		(GtkObjectClass	*object_class)
 {
-	GtkObjectClass	*object_class = (GtkObjectClass *) ecdec;
-	ECellPopupClass	*ecpc = (ECellPopupClass *) ecdec;
+	ECellPopupClass *ecpc = (ECellPopupClass *) object_class;
 
 	gtk_object_add_arg_type ("ECellDateEdit::show_time",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE,
@@ -148,6 +155,8 @@ e_cell_date_edit_class_init (ECellDateEditClass *ecdec)
 	object_class->set_arg = e_cell_date_edit_set_arg;
 
 	ecpc->popup = e_cell_date_edit_do_popup;
+
+	parent_class = g_type_class_ref(e_cell_popup_get_type ());
 }
 
 
@@ -301,7 +310,7 @@ e_cell_date_edit_destroy		(GtkObject *object)
 	gtk_widget_destroy (ecde->popup_window);
 	ecde->popup_window = NULL;
 
-	GTK_OBJECT_CLASS (e_cell_date_edit_parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 

@@ -1,144 +1,7 @@
-2005-02-15  Jeffrey Stedfast  <fejj@novell.com>
+2005-01-08  Not Zed  <NotZed@Ximian.com>
 
-	* e-msg-composer-select-file.c (select_attach_response): Fix
-	previous patch for the !USE_GTKFILECHOOSER case.
-
-2005-02-16  Harry Lu  <harry.lu@sun.com>
-
-	Add a11y name for attachment button and bars
-
-	* e-msg-composer-attachment-bar.c:
-	(e_msg_composer_attachment_bar_new):
-	* e-msg-composer.c: (create_composer):
-
-2005-02-10  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #66126.
-
-	* e-msg-composer-attachment-bar.c (destroy): destroy async file
-	requesters.
-	(add_from_user_response, add_from_user): use async file
-	requesters.
-
-	* e-msg-composer.c (save): don't fallback to saveas if the
-	filename is null.
-	(saveas, saveas_response): new functions for async file
-	requesters.
-	(menu_file_save_cb): call saveas if we have no filename.
-	(menu_file_save_as_cb): call saveas.
-	(menu_file_open_cb, file_open_response): change for async file
-	loading (which doesn't appear to be used anymore).
-	(destroy): destroy async requesters.
-
-	* e-msg-composer-select-file.c (get_selector): make it no longer
-	modal, no longer show the window.
-	(select_file_response, e_msg_composer_select_file): make it async.
-	(select_attach_response, e_msg_composer_select_file_attachments):
-	same.
-
-2005-01-24  Hans Petter Jansson  <hpj@novell.com>
-
-	* e-msg-composer-hdrs.c (create_addressbook_entry): Set pointers to the
-	contact editor creation functions in the entries, so they can pop up
-	said editors.
-
-2005-01-12  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (destroy): initialise composer before using it.
-	sigh.
-
-2005-01-05  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (d): turn off debug, setup g private instance
-	data structure.
-	(setup_ui): activate the composer plugin menu.
-	(destroy): clean up the composer plugin menu.
-	(class_init, init): init private instance data & plugin menu.
-
-2004-12-24  JP Rosevear  <jpr@novell.com>
-
-	* e-msg-composer.c (setup_signatures_menu): kill warnings
-	(map_default_cb): the to entry widget is now just a gtk entry at
-	its core, so check for text that way
-
-2004-12-23  Hans Petter Jansson  <hpj@novell.com>
-
-	* Makefile.am (selectnamesdir)
-	(IDL_GENERATED)
-	(INCLUDES): Remove select-names from here.
-
-	* Composer.idl: Remove Evolution-Addressbook-SelectNames.idl include.
-
-2004-12-22  Hans Petter Jansson  <hpj@novell.com>
-
-	* e-msg-composer-hdrs.c (addressbook_dialog_response)
-	(setup_corba)
-	(setup_name_selector)
-	(address_button_clicked_cb)
-	(addressbook_entry_changed)
-	(create_addressbook_entry)
-	(destroy)
-	(e_msg_composer_hdrs_new)
-	(destinations_to_name_selector_entry)
-	(e_msg_composer_hdrs_set_to)
-	(e_msg_composer_hdrs_set_cc)
-	(e_msg_composer_hdrs_set_bcc)
-	(destination_list_to_destv)
-	(e_msg_composer_hdrs_get_to)
-	(e_msg_composer_hdrs_get_cc)
-	(e_msg_composer_hdrs_get_bcc): Adapt to new ENameSelector.
-
-2004-12-17  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-attachment-bar.c (emcab_popup): 
-
-	* e-msg-composer.c (drag_data_received): 
-
-2004-12-08  Hans Petter Jansson  <hpj@novell.com>
-
-	* e-msg-composer-hdrs.h: Include <libebook/e-destination.h> from
-	evolution-data-server.
-
-2004-12-07  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c: include camel-cipher-context.h so we build if
-	nss isn't available.
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-
-	* e-msg-composer.c (create_composer): get image from icon factory
-	directly
-
-2004-11-15  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (handle_multipart_encrypted): remove the old
-	camel_multipart_encrypted api.
-
-2004-10-28  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (drag_data_received): fix the popup id.
-
-	* e-msg-composer-attachment-bar.c (emcab_popup): added popup doco.
-
-2004-10-27  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* e-msg-composer.c (composer_key_pressed): Close on Esc.
-	(create_composer): Connect to the key-press-event signal.
-
-2004-10-26  mengjie yu  <meng-jie.yu@sun.com>
-	
-	fix for bugzilla #44876
-
-	* e-msg-composer-hdrs.c (header_new_recipient, create_headers):
-	add access key for Reply_to, From, Subject, To, Cc, Bcc, Post_to
-
-	* e-msg-composer.c (setup_signatures_menu): Add accesss key for
-	Signature.
-
-2004-10-19  JP Rosevear  <jpr@novell.com>
-
-	* e-msg-composer.c, e-msg-composer-attachment-bar.c: convert to
-	org.gnome hook names
+	* e-msg-composer-attachment-bar.c (popup_menu_placement_callback):
+	use cast macro to cast index.
 
 2004-10-08  Jeffrey Stedfast  <fejj@novell.com>
 
@@ -146,31 +9,10 @@
 	into the recipients list or else we end up free'ing them later
 	when we shouldn't. Fixes bug #66703
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-08  JP Rosevear  <jpr@novell.com>
 
-	* e-msg-composer.c (drag_data_received): 
-	* e-msg-composer-attachment-bar.c (emcab_popup): e-popup api changes.
-
-2004-10-01  JP Rosevear  <jpr@novell.com>
-
-	* e-msg-composer.c: uses GTKHTML_API_VERSION for the bonobo server
-	look up
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer.c (create_composer): enable ask drop action and
-	hook onto drag motion.
-	(drag_motion): implement.
-	(drop_action): do the work here now.
-	(drag_data_received): popup a menu if the action is ask.
-	(drop_popup_copy, drop_popup_move, drop_popup_cancel):
-	(drop_popup_free): Popup callbacks.
-
-2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-msg-composer.c: (autosave_manager_start),
-	(autosave_manager_stop), (create_composer): Use non-deprecated
-	functions.
+	* mail-composer-errors.xml: remove acceleratoer from _Save Message
+	to not break string freeze
 
 2004-08-17  Michael Meeks  <michael@ximian.com>
 
@@ -224,17 +66,6 @@
 2004-07-20  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer-attachment.c: include config.h.  See #61395.
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-*.c: include gnome-i18n.h if required.
-
-2004-08-30  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-attachment-bar.c (emcab_popup): em-popup based
-	popup menu to replace the gnome one.
-	(popup_menu_event): use new func above.
-	(button_press_event): ", some cleanup.
 
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 

@@ -43,7 +43,6 @@
 #include "mail-config.h"
 
 #include <glade/glade.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkscrolledwindow.h>
@@ -300,7 +299,9 @@ sub_fill_level(EMSubscribe *sub, CamelFolderInfo *info,  GtkTreeIter *parent, in
 			gtk_tree_store_append(treestore, &iter, parent);
 			node = g_malloc0(sizeof(*node));
 			node->info = fi;
-			state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0;
+			/* FIXME: CAMEL_FOLDER_SUBSCRIBED not implemented properly in imap */
+			state = camel_store_folder_subscribed(sub->store, fi->full_name);
+			/* state = (fi->flags & CAMEL_FOLDER_SUBSCRIBED) != 0; */
 			gtk_tree_store_set(treestore, &iter, 0, state, 1, fi->name, 2, node, -1);
 			if ((fi->flags & CAMEL_FOLDER_NOINFERIORS) == 0) {
 				node->path = gtk_tree_model_get_path((GtkTreeModel *)treestore, &iter);
@@ -844,7 +845,7 @@ GtkDialog *em_subscribe_editor_new(void)
 	se->dialog = (GtkDialog *)glade_xml_get_widget (xml, "subscribe_dialog");
 	g_signal_connect(se->dialog, "destroy", G_CALLBACK(sub_editor_destroy), se);
 	
-	gtk_widget_ensure_style ((GtkWidget *)se->dialog);
+	gtk_widget_realize ((GtkWidget *)se->dialog);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->action_area, 12);
 	gtk_container_set_border_width ((GtkContainer *) ((GtkDialog *)se->dialog)->vbox, 0);
 

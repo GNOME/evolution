@@ -1,35 +1,7 @@
-2005-02-17  Harry Lu  <harry.lu@sun.com>
+2005-01-21  Not Zed  <NotZed@Ximian.com>
 
-	Fix for 72676.
-
-	* rule-editor.c: (double_click): call gtk_tree_selection_get_selected
-	to see if there is a row selected.
-
-2005-02-09  Hans Petter Jansson  <hpj@novell.com>
-
-	* Makefile.am: Install shared libraries in privlibdir.
-
-2005-01-11  Not Zed  <NotZed@Ximian.com>
-
-	* filter-part.c (filter_part_expand_code): cast lenght specifiers
+	* filter-part.c (filter_part_expand_code): cast length specifiers
 	to int.
-
-2004-12-02  Diego Sevilla Ruiz  <dsevilla@dsevilla>
-
-	* filter.glade: Added label "Show filters for mail:".
-	
-	* filter-rule.c: Capitalize Ingoing and Outgoing labels.
-	Fixes #46229.
-	
-2004-11-29  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* filter-rule.c: (get_widget):add mnemonic widget in search box.
-
-2004-11-15  Not Zed  <NotZed@Ximian.com>
-
-	* *.c: Moved stuff from e-util to libedataserver.
-
-	* filter-system-flag.c: removed gal header.
 
 2004-07-29  Carlos Garnacho Parro  <carlosg@gnome.org>
 

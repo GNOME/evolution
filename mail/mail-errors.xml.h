@@ -49,11 +49,6 @@ char *s = N_("Are you sure you want to permanently remove all the deleted messag
 /* mail:ask-empty-trash secondary */
 char *s = N_("If you continue, you will not be able to recover these messages.");
 char *s = N_("_Empty Trash");
-/* mail:ask-open-many primary */
-char *s = N_("Are you sure you want to open {0} messages at once?");
-/* mail:ask-open-many secondary */
-char *s = N_("Opening too many messages at once may take a long time.");
-char *s = N_("_Open Messages");
 /* mail:exit-unsaved primary */
 char *s = N_("You have unsent messages, do you wish to quit anyway?");
 /* mail:exit-unsaved secondary */
@@ -190,7 +185,7 @@ char *s = N_("_Discard changes");
 /* mail:vfolder-notexist primary */
 char *s = N_("Cannot edit vFolder \"{0}\" as it does not exist.");
 /* mail:vfolder-notexist secondary */
-char *s = N_("This folder may have been added implicitly, go to the vFolder editor to add it explicitly, if required.");
+char *s = N_("This folder may have been added implictly, go to the virtual folder editor to add it explictly, if required.");
 /* mail:vfolder-notunique primary */
 char *s = N_("Cannot add vFolder \"{0}\".");
 /* mail:vfolder-notunique secondary */
@@ -235,18 +230,6 @@ char *s = N_("A non-empty folder at \"{1}\" already exists.\n"
 char *s = N_("Ignore");
 char *s = N_("_Overwrite");
 char *s = N_("_Append");
-/* mail:no-load-license primary */
-char *s = N_("Unable to read license file.");
-/* mail:no-load-license secondary */
-char *s = N_("Cannot read the license file \"{0}\", due to an\n"
-	"      installation problem.  You will not be able to use this provider until\n"
-	"      you can accept its license.");
-/* mail:checking-service title */
-char *s = N_("Querying server");
-/* mail:checking-service primary */
-char *s = N_("Please wait.");
-/* mail:checking-service secondary */
-char *s = N_("Querying server for a list of supported authentication mechanisms.");
 /* mail:gw-accountsetup-error primary */
 char *s = N_("Unable to connect to the GroupWise\n"
 	"server.");

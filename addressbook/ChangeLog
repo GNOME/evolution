@@ -1,50 +1,4 @@
-2005-02-09  Sivaiah Nallagatla <snallagatla@novell.com>
-                                                                                
-        * gui/component/addressbook-config.c
-        (eabc_details_limit) : connect to "value_changed"
-        signal of spin button instead of "changed"
-                                                                                
-        Fixes #72369
-
-2005-02-09  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/contact-editor/Makefile.am:
-	* gui/contact-list-editor/Makefile.am:
-	* util/Makefile.am: Install shared libraries to privlibdir.
-
-2005-02-08  Christophe Fergeau <teuf@users.sourceforge.net>
-
-	* importers/evolution-vcard-importer.c (has_bom)
-	(fix_utf16_endianness) (utf16_to_utf8) 
-	guess_vcard_encoding) : New functions which peeks at 
-	the conents of the file and guesses the encoding and 
-	to convert UTF-16 strings to UTF-8.
-	(load_file_fn) : check the encoding of the file
-	and convert UTF-16 and locale encoding to UTF-8
-
-	Fixes #54825 
-
-2005-02-07  JP Rosevear  <jpr@novell.com>
-
-	* gui/component/apps_evolution_addressbook.schemas.in.in: clean up
-	descriptions
-
-2005-01-06  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* e-minicard.c (remodel) : changed the loop
-	termination check to E_CONACT_LAST_SIMPLE_STRING -1
-	so that we will avoid displaying revision field
-	value in the minicard 
-
-2005-01-04 vivek jain <jvivek@novell.com>
-	
-	* gui/component/addressbook.c (load_source_auth_cb):
-	display a warning dialog if the server version is not proper
-
-	* addressbook-errors.xml: added warning message for
-	 invalid server version
-
-2004-02-02  Hans Petter Jansson  <hpj@ximian.com>
+2004-02-03  Hans Petter Jansson  <hpj@ximian.com>
 
        * gui/component/addressbook-component.c (ensure_sources): Implement
        based on the create_groups () function in addressbook-migrate.c.
@@ -52,56 +6,18 @@
        the necessary addressbook source groups if they somehow disappeared
        from GConf.
 
-       * gui/component/addressbook-config.c (addressbook_config_edit_source):
+       * gui/component/addressbook-config.c (addressbook_add_server_dialog):
        If we can't get any source groups, just issue a console warning and
        return NULL. Creating sources without groups is meaningless.
+       (addressbook_config_create_new_source): Return NULL if dialog
+       creation failed.
 	Work around for #67411
 
-2005-02-02  Rodney Dawes  <dobey@novell.com>
-
-	* gui/component/ldap-config.glade: Fix a small spacing issue in the
-	Display section's children, to be HIG compliant
-
-2005-01-31  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/widgets/eab-config.c (_EABConfigPrivate): Use guint instead of
-	ulong for signal ID.
-
-2004-01-29 Parthasarathi Susarla <sparthasarathi@novell.com>
-	
-	* addressbook/gui/contact-list-editor/e-contact-list-editor.c
-	 (save_contact) : call the eab_merging_* functions instead of
-	 e_book_sync* directly. The merging function check for duplication. 
-	 The following functions have been called:
-	 1. eab_merging_book_add_contact for adding a new entry
-	 2. eab_merging_book_commit_contact for commiting a modified entry
-	
-	 Fixes bug #57819
-
-2005-01-29  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c 
-	(sensitize_im_types) : new function to sensitize
-	im types based on supported fields
-	
-	(sensitize_im_record) : call sensitize_im_types
-	for each record 
-	(sensitize_im) : if none of the im types 
-	are supported disable the im entries 
-	Fixes #68799
-
-2005-01-28  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/eab-vcard-control.c (pstream_load) :
-	Changed a string to make it complete and clear
-	for transaltion 
-	Fixes #61067 
-
 2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
-                                                                                                                             
-        * gui/component/addressbook.c (addressbook_authenticate) :
-        Remove leading "%s" from the transalatable string
-        Fixes #36137
+
+	* gui/component/addressbook.c (addressbook_authenticate) :
+	Remove leading "%s" from the transalatable string 
+	Fixes #36137 
 
 2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
 
@@ -116,103 +32,12 @@
        Fixes #70339
 
 
-2005-01-26 Hao Sheng  <hao.sheng@sun.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c:
-	(setup_name_selector): add access key to 'Member' Button.
-
-2005-01-25  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c (categories_clicked): use the
-	new ECategoriesDialog widget.
-
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #70622
 	
 	* gui/widgets/eab-contact-display.c (eab_contact_display_init):
 	construct the html widget
-
-2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
-
-       * gui/widgets/e-addressbook-model.[ch]
-       (eab_model_class_init) : renamed the signal
-       CONTACT_REMOVED to CONTACTS_REMOVED and chaned
-       the param type POINTER from INT
-       (remove_contact) : delete all the contacts
-       from the model and emit CONATCTS_REMOVED
-       signal instead of emitting it many times
-
-       * gui/widgets/e-addressbook-reflow-adpater.c
-       (e_addressbook_reflow_adapter_construct)
-       (remove_contacts) : renamed remove_contact to remove_contacts
-       and when number of conacts is more than 1 use _model_changed
-       instead of _remove_item
-
-       * gui/widgets/e-addressbook-table-adapter.c
-       (eab_table_adapter_construct)
-       (remove_contacts) : ditto
-
-       * gui/widgets/e-addressbook-view.c
-       (eab_view_new) :
-       (contacts_removed) : renamed contact_removed
-       to contacts_removed and traverese over indices
-       to find displayed contact indiex
-
-       fixes #71448
-
-2005-01-21  Rodney Dawes  <dobey@novell.com>
-
-	* gui/contact-editor/e-contact-quick-add.c (build_quick_add_dialog):
-	Change the xpad and ypad to 0 here, we don't need the extra padding
-	Add the GTK_DIALOG_NO_SEPARATOR flag for creating the dialog
-	Set proper border widths on some dialog containers for the HIG
-	Set the row/column spacings for the table widget
-	Create the labels outside of the table packing calls and set the proper
-	alignment for them to be HIG compliant
-	Set the border width of the table widget to 12 for HIG compliance
-	
-	* gui/widgets/eab-popup-control.c (edit_contact_info_cb): Removed
-	(eab_popup_control_display_contact): Just go ahead and open the
-	editor, no need to have an intermittent window with a button for it
-	(add_contacts_cb): Remove this as we don't need it any more
-	(eab_popup_control_no_matches): Just go straight to the quick-add
-	dialog, and don't pop up an intermittent window with a button
-
-	Fixes #41210 #60852 
-
-2005-01-21  Rodney Dawes  <dobey@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
-	Call gtk_widget_ensure_style to ensure that we set the border widths
-	of some dialog containers properly for HIG compliance
-
-2005-01-21  Rodney Dawes  <dobey@novell.com>
-
-	* gui/merging/eab-contact-duplicate-detected.glade:
-	Fix some spacing and remove the separator for HIG compliance
-	* gui/merging/eab-contact-merging.c (match_query_callback): 
-	Set proper border widths on some dialog containers for the HIG
-
-	Fixes #41228
-
-2005-01-21  JP Rosevear  <jpr@novell.com>
-	
-	Fixes #46404	
-	
-	* gui/widgets/e-addressbook-view.c (eab_view_print): just show the
-	dialog, not show all (margin settings aren't supposed to be used);
-	use e_print to get the dialog
-	(eab_view_print_preview): use e_print config for previewing
-
-	* printing/e-contact-print.c (e_contact_print_preview): get the
-	e_print config for previewing
-	(e_contact_print_contact_dialog_new): use e_print to get the
-	print dialog
-
-	* printing/e-contact-print-envelope.c
-	(e_contact_print_envelope_dialog_new): use e_print to get the
-	print dialog
 
 2005-01-21  Hans Petter Jansson  <hpj@novell.com>
 
@@ -222,211 +47,22 @@
 	passing it on. This way, the FULL_NAME will only be set once, and so
 	the FILE_AS field will be updated here.
 
-2005-01-21 Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/component/addressbook-config.c 
-	(eabc_commit) : in case of new book
-	set the uid of the source as the relative 
-	uri. 
-
-2005-01-19  Hao Sheng <hao.sheng@sun.com>
-
-	* gui/contact-editor/contact-editor.glade:
-	add accessable key to the contact editor UI.
-	* gui/contact-list-editor/contact-list-editor.glade:
-	add accessable key to the contact list editor UI.
-
-2005-01-18  Hao Sheng <hao.sheng@sun.com>
-
-	* gui/component/addressbook-view.c:
-	(addressbook_view_init): add a11y name for the contact's
-	treeview.
-
-2005-01-18 Hao Sheng <hao.sheng@sun.com>
-
-	* gui/contact-editor/contact-editor.glade:
-	add a11y names for widgets named "Image","Anniversary" and "Birthday".
-	* gui/contact-editor/e-contact-editor.c:
-	(e_contact_editor_create_date): add string1 as entry's a11y name.
-
-2005-01-17 Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/contact-editor/e-contact-editor.c 
-	(fill_in_email_record) : show "other" when email 
-	does not carry "TYPE"
-	(fill_in_email) : pass deafult email 
-	types instead of -1 when clearing fields 
-	
-	Fixes #70922 
-	
-2005-01-17 Hao Sheng  <hao.sheng@sun.com>
-
-	* gui/contact-editor/contact-editor.glade:
-	add the a11y name for arrow-button named "Telephone".
-
-2005-01-12  JP Rosevear  <jpr@novell.com>
-
-	Fixes #61973
-	
-	* gui/widgets/e-addressbook-view.etspec: add translator comment for TTYTDD 
-
-2005-01-11  Not Zed  <NotZed@Ximian.com>
+2005-01-21  Not Zed  <NotZed@Ximian.com>
 
 	* util/eab-book-util.c (eab_name_and_email_query): cast length
-	specifier to int.
+	specifier.
 
-2005-01-10  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/widgets/e-minicard.c (e_minicard_activate_editor): When spawning
-	an editor, set the initial editability from the target book, not from
-	the minicard's own (usually stale, useless) editable state.
-
-2005-01-06  JP Rosevear  <jpr@novell.com>
-
-	* gui/component/Makefile.am: install schemas properly
-
-2004-12-21  Andre Klapper <a9016009@gmx.de>
-       
-       * tools/evolution-addressbook-export.c:
-       Fixing bug 61068 (removing a white space in a string).
-
-2004-12-23  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	Part of merge from offline branch 
-	
-	* gui/widgets/addresbook-config.c (eabc_general_offline) :
-	fix some compile warings
-	(offline_status_changed_cb) : set "0" instead of NULL
-	as e-source property when offline is not checked  
-		
-2004-11-23  Sivaiah Nallagatla <snallagatla@novell.com>
-                                          
-        Part of merge from offline brnach 
-                                                                        
-        * gui/widgets/eab-gui-util.c (eab_load_error_dialog) :
-        added message which gets prompted when user tries
-        to access a book which is not available in offline mode
+2005-01-17 Sivaiah Nallagatla <snallagatla@novell.com>
                                                                                                                              
-        * gui/component/addressbook-config.c (eabc_general_offline)
-        (offline_status_changed_cb) : added a new check box
-        to properties page to mark a book for offline usage
+        * gui/contact-editor/e-contact-editor.c
+        (fill_in_email_record) : show "other" when email
+        does not carry "TYPE"
+        (fill_in_email) : pass deafult email
+        types instead of -1 when clearing fields
                                                                                                                              
-        * gui/component/addressbook.c (load_source_cb) : do no try to
-        authenticate in case of offline mode.
-        (auth_required_cb) : new call back which gets called
-        when backend sends notification for  password to client
-	
-2004-12-23  Hans Petter Jansson  <hpj@novell.com>
+        Fixes #70922
 
-	This is the last we see of ESelectNames.
-
-	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-	* gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in
-	* gui/component/select-names/Makefile.am
-	* gui/component/select-names/e-select-names-bonobo.c
-	* gui/component/select-names/e-select-names-bonobo.h
-	* gui/component/select-names/e-select-names-completion.c
-	* gui/component/select-names/e-select-names-completion.h
-	* gui/component/select-names/e-select-names-config-keys.h
-	* gui/component/select-names/e-select-names-config.c
-	* gui/component/select-names/e-select-names-config.h
-	* gui/component/select-names/e-select-names-factory.c
-	* gui/component/select-names/e-select-names-factory.h
-	* gui/component/select-names/e-select-names-manager.c
-	* gui/component/select-names/e-select-names-manager.h
-	* gui/component/select-names/e-select-names-marshal.list
-	* gui/component/select-names/e-select-names-model.c
-	* gui/component/select-names/e-select-names-model.h
-	* gui/component/select-names/e-select-names-popup.c
-	* gui/component/select-names/e-select-names-popup.h
-	* gui/component/select-names/e-select-names-section.etspec
-	* gui/component/select-names/e-select-names-table-model.c
-	* gui/component/select-names/e-select-names-table-model.h
-	* gui/component/select-names/e-select-names-text-model.c
-	* gui/component/select-names/e-select-names-text-model.h
-	* gui/component/select-names/e-select-names.c
-	* gui/component/select-names/e-select-names.etspec
-	* gui/component/select-names/e-select-names.h
-	* gui/component/select-names/recipient.glade
-	* gui/component/select-names/select-names.glade: Begone.
-
-2004-12-23  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/component/Makefile.am (SUBDIRS): No more select-names.
-	(libevolution_addressbook_la_LIBADD): Remove libeselectnames.la.
-
-	* gui/component/component-factory.c (factory): Remove the select-names
-	component.
-
-	* gui/contact-list-editor/Makefile.am (IDL)
-	(IDL_GENERATED_H)
-	(selectnamesdir): No longer needed, so removed.
-
-2004-12-22  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/contact-list-editor/e-contact-list-editor.c
-	(e_contact_list_editor_dispose): Unref the name selector.
-	(e_contact_list_editor_save_contact): Fix a warning.
-	(add_to_model): Take a list instead of a vector of destinations.
-	(select_names_ok_cb): Adapt to new name selector.
-	(setup_corba): Renamed to setup_name_selector () and adapted.
-	(select_cb): Adapt to new name selector.
-
-	* gui/contact-list-editor/e-contact-list-editor.h: Adapt to new
-	name selector and remove CORBA/Bonobo.
-
-	* gui/widgets/eab-popup.c (eabp_target_free)
-	(eabp_popup_target_new_select_names): #ifdef out code that
-	depended on the old name selector.
-
-2004-12-17  Not Zed  <NotZed@Ximian.com>
-
-	* util/ea-popup.c (emp_standard_menu_factory): 
-
-	* gui/component/select-names/e-select-names.c (section_right_click_cb): 
-
-	* gui/component/addressbook-view.c (popup_event_callback): 
-
-	* gui/widgets/e-addressbook-view.c (do_popup_menu): api changes.
-
-2004-12-21  JP Rosevear  <jpr@novell.com>
-
-	Fixes #61975
-	
-	* gui/widgets/test-reflow.c: kill translated strings that were #if
-	0'd anyhow
-
-2004-12-21  JP Rosevear  <jpr@novell.com>
-	
-	* gui/search/e-addressbook-search-dialog.c: convert to
-	G_DEFINE_TYPE
-	
-	* gui/widgets/gal-view-factory-minicard.c: ditto
-
-	* gui/widgets/gal-view-factory-treeview.c: ditto
-
-2004-12-13  Vivek Jain <jvivek@novell.com>
-
-	* gui/component/addressbook-config.c (addressbook_config_edit_source): set the
-	window title based upon the source
-
-2004-12-08  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/component/addressbook-migrate.c
-	* gui/component/select-names/e-select-names-completion.c
-	* gui/component/select-names/e-select-names-manager.c
-	* gui/component/select-names/e-select-names-model.h
-	* gui/contact-list-editor/e-contact-list-editor.h
-	* gui/contact-list-editor/e-contact-list-model.h
-	* gui/widgets/e-minicard.c
-	* gui/widgets/eab-gui-util.c
-	* importers/evolution-ldif-importer.c
-	* importers/evolution-vcard-importer.c: Include
-	<libebook/e-destination.h> from evolution-data-server.
-	* util/Makefile.am: Remove e-destination.[ch] from here.
-	* util/e-destination.[ch]: Removed.
-
-2004-12-08  S. Caglar Onur  <caglar@uludag.org.tr>
+2004-11-28  S.Çaglar Onur  <caglar@uludag.org.tr>
 
 	* evolution-2.0.2/addressbook/gui/contact-editor/e-contact-editor.c
 	(get_ui_slot_param)
@@ -434,145 +70,21 @@
 	g_ascii_strcasecmp() for Turkish character conversiton problems
 	[ http://www.i18nguy.com/unicode/turkish-i18n.html ]
 
-2004-12-06  Not Zed  <NotZed@Ximian.com>
-
-	* gui/component/addressbook-config.c (eabc_general_type): set the
-	active item based on the current group.
-
-2004-12-01  Sivaiah Nallagatla <snallagatla@novell.com> 
-
-	* gui/contact-editor/e-contact-editor.c (save_contact) :
-	save the uid and set it again in the contact. Otherwise, there is
-	possibility we trying to save the contact wiht out UID, as we destory the 
-	contact and create new one when data is wrong  
-
-	 
-2004-11-28  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/contact-editor/e-contact-editor.h : Define
-	new list for storing required fields
-
-	* gui/contact-editor/e-contact-editor.c 
-	(e_contact_editor_class_init) : install new REQUIRED_FIELDS
-	property 
-	(e_contact_editor_set_property)
-	(e_contact_editor_get_property) : added handling 
-	for new RQUIRED_FIELDS_PROPERTY
-	(e_contact_editor_dispose) : unref the new 
-	required_fields member 
-	(required_fields_cb) : call back to set required fields into
-	contact editor
-	(is_non_string_field) : new method to detect
-	whether a particular field in contact is a string or not
-	(e_contact_editor_is_valid) : check for presence of 
-	all required fields
-	(save_contact) : extract all the data before 
-	calling e_contact_editor_is_valid so that
-	it can check for required fields. Clean up the contact
-	if there is an error
-	
-2004-11-27  Sushma Rai  <rsushma@novell.com>
-
-	* gui/widgets/e-minicard-view.c (set_empty_message):
-	Checking for the static capability "do-initial-query",
-	and setting the relevent empty addressbook message.
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-
-	* gui/component/select-names/e-select-names-popup.c
-	(populate_popup_contact): get image directly from icon factory
-
-	* gui/contact-editor/e-contact-editor-im.c
-	(setup_service_optmenu): ditto
-	
-2004-11-25  Hao Sheng  <hao.sheng@sun.com>
-
-	* gui/contact-editor/contact-editor.glade:
-	add "labelled by" between entry and label,
-	make accessbility work.
-	* gui/contact-editor/e-contact-editor.c:
-	(e_contact_editor_create_web): add accessible name to e_url_entry.
-
-2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
-
-	* gui/component/apps_evolution_addressbook.schemas.in.in:
-	* gui/component/ldap-config.glade : Evolution product name spelled
-	with an uppercase E
-
-	Fixes #61065
-
-2004-11-22  Rodney Dawes  <dobey@novell.com>
-
-	* importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in:
-	Fix name attribute values to be identical
-
-	Fixes #61976
-
-2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* rever last commit , it is supposed to for offline 
-	branch not to HEAD 
-
-2004-11-21  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/eab-gui-util.c (eab_load_error_dialog) : 
-	added message which gets prompted when user tries 
-	to access a book which is not available in offline mode
-
-	* gui/component/addressbook-config.c (eabc_general_offline) 
-	(offline_status_changed_cb) : added a new check box
-	to properties page to mark a book for offline usage 
-
-	* gui/component/addressbook.c (load_source_cb) : do no try to
-	authenticate in case of offline mode. 
-	(auth_required_cb) : new call back which gets called
-	when backend sends notification for  password to client
-	
 2004-11-07  Sivaiah Nallagatla <snallagatla@novell.com>
-
+                                                                                                                             
        * util/eab-book-util.c (eab_name_and_email_query) :
        When name is NULL query against complete email id instead of
        user name part to take care of users@foo.org not matching
        against users@bar.org . Also include query based on name always
-
+                                                                                                                             
        Fix for  #67656
 
-
-2004-11-16  Not Zed  <NotZed@Ximian.com>
-
-	* util/Makefile.am (libeabutil_la_LIBADD): remove camel, add
-	ADDRESSBOOK_LIBS.
-
-	* conduit/Makefile.am (libeaddress_conduit_la_LIBADD): remove
-	camel.
-
-	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
-	remove camel.
-
-2004-11-15  Not Zed  <NotZed@Ximian.com>
-
-	* *.c: Moved various things from e-util to libedataserver, where
-	appropriate.
-
-2004-11-08  Andre Klapper  <a901600@gmx.de>
-
-	Fixes bug #61966.
-
-	* addressbook-errors.xml: Add a missing word to a string.
-
-2004-11-08  Steven Zhang <steven.zhang@sun.com>
-
-	* gui/widgets/e-minicard.c: (e_minicard_activate_editor): 
-	rename and make it a public function.
-	(e_minicard_event): change accordingly.
-	* gui/widgets/e-minicard.h: ditto.
-
 2004-11-04  Sivaiah Nallagatla <snallagatla@novell.com>
-	
-	* gui/contact-editor/e-contact-editor.c (save_contact) :
-	populate contact only afte we are sure that data is valid 
-	and we can create that.
-	Fixes #69079
+
+       * gui/contact-editor/e-contact-editor.c (save_contact) :
+       populate contact only afte we are sure that data is valid
+       and we can create that.
+       Fixes #69079
 
 2004-11-07  Rodney Dawes  <dobey@novell.com>
 
@@ -583,131 +95,6 @@
 
 	Partially fixes bug #66854
 	
-2004-11-04  mengjie yu  <meng-jie.yu@sun.com>
-
-	fix for bugzilla #44876
-
-	* gui/component/select-names/e-select-names-manager.c:
-       (e_select_names_manager_entry_new):add a atk name for the entry.
-
-2004-11-2   Hao Sheng  <hao.sheng@sun.com>
-
-	* gui/widgets/e-minicard-view.c: popup right-click menu after
-	pressing Shift+F10.
-
-2004-11-01  Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/eab-gui-util.c 
-	(added_cb) (_modified_cb) : Don't show
-	error dialogs when status code is E_BOOK_ERROR_CANCELLED. We don't
-	wabt to show "Error adding contact,  Cancelled" dialogs when user 
-	cancels duplicated contact detected dialog.   	  
-	
-2004-10-27  Andre Klapper  <a9016009@gmx.de>
-
-       * tools/evolution-addressbook-export.c: 
-       Fixing a typo (bug 61069).
-
-2004-10-26  Andre Klapper <a9016009@gmx.de>
-
-	Fixes #61972.
-
-	* addressbook/gui/contact-editor/e-contact-editor-address.c:
-	Typo in country name: was "Grena-dines", now "Grenadines".
-
-2004-10-25  Nat Friedman  <nat@novell.com>
-
-	* gui/widgets/eab-contact-display.c (accum_multival_attribute):
-	Display mutlivalued contact attributes in the preview.
-	(render_contact): Render all IM fields using the new multival
-	function.
-
-2004-10-21  JP Rosevear  <jpr@novell.com>
-
-	* gui/widgets/eab-config.c (ecph_class_init): correct hook name
-	typo
-
-	* gui/component/addressbook-view.c: add appropriate popup icons
-
-2004-10-21  Not Zed  <NotZed@Ximian.com>
-
-	* gui/component/addressbook-config.c
-	(addressbook_config_edit_source): fix a past-o for no-ldap case.
-
-2004-10-20  Not Zed  <NotZed@Ximian.com>
-
-	* gui/component/addressbook-component.c
-	(addressbook_component_init): register config hook.
-
-	* gui/component/addressbook-config.c: mostly re-written to use econfig.
-	(query_for_supported_bases): convert to gtktreeview.
-
-	* gui/widgets/eab-config.c (ecp_set_target): hook onto source changed.
-	(ecp_source_changed): propagate changed state info.
-	(ecp_class_init): setup private data.
-
-2004-10-19  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/eab-menu.c (eabm_target_free): don't unref null
-	book.
-
-2004-10-19  JP Rosevear  <jpr@novell.com>
-
-	* gui/component/addressbook-view.c,
-	gui/component/select-names/e-select-names.c,
-	gui/widgets/e-addressbook-view.c, gui/widgets/eab-menu.c,
-	gui/widgets/eab-popup.c: convert to org.gnome hook names
-	
-2004-10-15 Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/e-addressbook-view.c : add EAB_POPUP_SELECT_ANY
-	mask instead of EAB_POPUP_SELECT_MANY, so that 
-	all the options like Save as, Forward etc are enabled even 
-	single contact is selected. 
-
-2004-10-15 Sivaiah Nallagatla <snallagatla@novell.com>
-
-	* gui/widgets/eab-contact-display.c : uncomment 
-	HANDLE_MAILTO_INTERNALLY define so that we will
-	launch composer through bonobo  instead of using 
-	gnome_url_show	
-	
-2004-10-15  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/eab-popup.c: added an any select mask and updated
-	the hook maps.
-
-	* gui/component/addressbook-component.c
-	(addressbook_component_init): register the addressbook hooks.
-
-	* gui/component/addressbook-view.c (addressbook_view_init): setup
-	the menu manager.
-	(control_activate_cb): activate the menu manager.
-	(update_command_state): and update the menu manager.
-
-	* gui/widgets/eab-menu.[ch]: Added menu manager class.
-
-2004-10-13  JP Rosevear  <jpr@novell.com>
-
-	* importers/evolution-vcard-importer.c: find source selector and
-	option menu in libedataserverui
-
-	* importers/evolution-ldif-importer.c: ditto
-
-	* gui/widgets/eab-popup.c: ditto
-
-	* gui/widgets/eab-gui-util.c: ditto
-
-	* gui/contact-list-editor/e-contact-list-editor.c: ditto
-
-	* gui/contact-editor/e-contact-editor.c: ditto
-
-	* gui/component/select-names/e-select-names.h: ditto
-
-	* gui/component/autocompletion-config.c: ditto
-
-	* gui/component/addressbook-view.c: ditto
-
 2004-10-11  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/component/addressbook-view.c (source_list_changed_cb): Don't
@@ -716,67 +103,12 @@
 	(addressbook_view_init): Unref views when removed from the hash
 	table.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-01  William Jon McCann  <mccann@jhu.edu>
 
-	* gui/component/addressbook-view.c (popup_event_callback): 
-	* gui/component/select-names/e-select-names.c (section_right_click_cb):
-	* gui/widgets/e-addressbook-view.c (do_popup_menu): fix for
-	e-popup api changes.  Moved all mask specifiers to visible rather
-	than enable in the menu table.
+	* gui/component/component-factory.c (factory): Quiet debug messages.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
-
-	* gui/contact-editor/e-contact-editor.c: removed
-	gnome-popup-menu.h (unused).
-
-	* gui/widgets/e-addressbook-reflow-adapter.c: 
-	* gui/widgets/eab-popup-control.c: remove e-popup-menu.h (unused).
-
-	* gui/component/select-names/e-select-names.c
-	(section_right_click_cb): use e-popup.  Somewhat overengineered
-	for this use ...
-	(remove_cb): api changes.
-
-	* gui/widgets/eab-popup.c (eab_popup_target_new_select_names):
-	added pretty useless wrapper for the select names popup.  Added to
-	hook maps.
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (do_popup_menu): convert to
-	using EABPopup.
-	(sources): remove dead code.
-	(has_email_address_1, get_has_email_address): removed now
-	redundant code.
-	(save_as, send_as, send_to, print, copy, paste, cut, delete) 
-	(copy_to_folder, move_to_folder, new_card, new_list): new api.
-	(free_popup_info): dead.
-	(print_envelope): not pining.
-	(get_contact_list): take a popup target instead, don't ref.
-	(get_contact_list_1): not required no more.
-	(contact_and_book_free): same.
-	(delete): call eab_view_delete_selection.
-	(eab_view_delete_selection): do the actual delete here.
-
-	* gui/widgets/eab-popup.c (eab_popup_target_new_select): implement.
-
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/widgets/eab-popup.[ch]: addressbook popup driver.
-
-	* gui/component/addressbook-view.c (delete_addressbook_cb): use
-	e-error for the message prompt.  don't bother keeping it around,
-	it can never be re-sensitised anyway.
-	(book_removed): no longer destroy the original dialogue.
-
-	* addressbook-errors.xml: add ask-delete for deleting
-	addressbooks.
-
-	* gui/component/addressbook-view.c (addressbook_view_init):
-	connect to popup_event rather than fill_popup_menu now.
-	(fill_popup_menu_callback): renamed to popup_event_callback,
-	changed to use epopup.
-	(add_popup_menu_item): remove, no longer needed.
+	* gui/component/apps_evolution_addressbook.schemas.in.in: Add
+	missing show_preview schema.  Add missing long descriptions.
 
 2004-09-29  Not Zed  <NotZed@Ximian.com>
 
@@ -800,52 +132,45 @@
 	* gui/merging/eab-contact-compare.c (query_cb): Protect against NULL
 	UIDs, and make fewer calls to e_contact_get_const () as a bonus.
 
-2004-09-24  Hao Sheng  <hao.sheng@sun.com>
-	
-	Fix for #66523
-
-	* gui/contact-list-editor/e-contact-list-model.c:
-	(e_contact_list_model_add_email): estimate the same mail address
-	and popup a warning dialog.
-	* addressbook-errors.xml: add the question message for the warning
-	dialog.
-
-2004-09-23  Pamplona Hackers <gnome-desarrollo@es.gnome.org>
-
-	Fixes #61978
-
-	* tools/evolution-addressbook-export.c (main): use more
-	meaningful error message.
-
 2004-09-23  Fazlu & Hannah <hannah_lins@yahoo.co.in>
 
-	* tools/evolution-addressbook-export.c (main):
-	Changed the string into proper grammar 'In normal mode, there
-	should not need size option.' to 'In normal mode, there is no need
-	for the size option.'
+	Fixes bug #61070
+
+	* addressbook/tools/evolution-addressbook-export.c (main):
+	Changed the string into proper grammar 'In normal mode,
+	there should not need size option.' to 'In normal mode, there
+	is no need for the size option.'
 
 2004-09-23  JP Rosevear  <jpr@novell.com>
- 
- 	* conduit/address-conduit.c (ecard_from_remote_record): only set
- 	the file as address to the company if no full name exists
- 	(delete_record): don't bail out if the record simply isn't found
- 
- 	Fixes #59725
- 	
- 	* conduit/address-conduit.c (local_record_from_uid): remove
- 	extraneous semicolon
- 
-2004-09-21  William Jon McCann  <mccann@jhu.edu>
 
-	* gui/component/component-factory.c (factory): Quiet debug messages.
+	* conduit/address-conduit.c (ecard_from_remote_record): only set
+	the file as address to the company if no full name exists
+	(delete_record): don't bail out if the record simply isn't found
 
-	* gui/widgets/e-addressbook-view.c (eab_view_new): Remove
-	unnecessary label widget placeholder.  Make vertical scrollbar
-	policy automatic.  Use gtk_paned_add2 instead of
-	gtk_container_add.
+	Fixes #59725
+	
+	* conduit/address-conduit.c (local_record_from_uid): remove
+	extraneous semicolon
 
-	* gui/component/apps_evolution_addressbook.schemas.in.in: Add
-	missing show_preview schema.  Add missing long descriptions.
+2004-09-13  Rodney Dawes  <dobey@novell.com>
+
+	* gui/contact-editor/e-contact-editor.c (show_help_cb):
+	Point at the correct XML file for documentation
+
+2004-09-09  Sivaiah Nallagatla  <snallagatla@novell.com>
+
+	Part of fix for #59582.
+
+	* gui/contact-editor/e-contact-editor.c 
+	(sensitize_address): check for _LABEL type address fields also in
+	supported fileds while sensitizing the address fields.
+
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64080.
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	link addressbook to camel.
 
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 
@@ -1262,11 +587,6 @@
 	* gui/component/apps_evolution_addressbook.schemas.in.in:
 	Don't set empty default value on an int, this causes gconf warning.
 	(bug #60859)
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* util/e-destination.c: include gnome-i18n.h since camel-object no
-	longer does(!).
 
 2004-07-02  Hans Petter Jansson  <hpj@ximian.com>
 
@@ -3320,7 +2640,7 @@
 	* gui/contact-editor/Makefile.am (libecontacteditor_la_SOURCES):
 	add eab-editor.[ch]
 
-2004-03-24  Danilo Segan  <dsegan@gmx.net>
+2004-03-24  Danilo Šegan  <dsegan@gmx.net>
 
 	* gui/widgets/e-addressbook-model.c (update_folder_bar_message):
 	Use ngettext for handling plural forms (fixes bug #53464).

@@ -40,6 +40,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkprogressbar.h>
+#include <gal/util/e-util.h>
 #include <libecal/e-cal.h>
 #include <e-util/e-bconf-map.h>
 #include <e-util/e-folder-map.h>
@@ -47,7 +48,6 @@
 #include <libedataserver/e-xml-hash-utils.h>
 #include "calendar-config.h"
 #include "calendar-config-keys.h"
-#include "e-cal-event.h"
 #include "migration.h"
 
 static e_gconf_map_t calendar_display_map[] = {
@@ -708,8 +708,6 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 {
 	ESourceGroup *on_this_computer = NULL, *on_the_web = NULL, *contacts = NULL;
 	ESource *personal_source = NULL;
-	ECalEvent *ece;
-	ECalEventTargetComponent *target;
 	gboolean retval = FALSE;
 
 	/* we call this unconditionally now - create_groups either
@@ -843,21 +841,6 @@ migrate_calendars (CalendarComponent *component, int major, int minor, int revis
 	}
 
 	e_source_list_sync (calendar_component_peek_source_list (component), NULL);
-
-	/** @Event: component.migration
-	 * @Title: Migration step in component initialization
-	 * @Target: ECalEventTargetComponent
-	 * 
-	 * component.migration is emitted during the calendar component
-	 * initialization process. This allows new calendar backend types
-	 * to be distributed as an e-d-s backend and a plugin without
-	 * reaching their grubby little fingers into migration.c
-	 */
-	/* Fire off migration event */
-	ece = e_cal_event_peek ();
-	target = e_cal_event_target_new_component (ece, calendar_component_peek (), 0);
-	e_event_emit ((EEvent *) ece, "component.migration", (EEventTarget *) target);
-
 	retval = TRUE;
 fail:
 	if (on_this_computer)

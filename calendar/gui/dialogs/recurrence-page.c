@@ -198,6 +198,8 @@ struct _RecurrencePagePrivate {
 
 
 
+static void recurrence_page_class_init (RecurrencePageClass *class);
+static void recurrence_page_init (RecurrencePage *rpage);
 static void recurrence_page_finalize (GObject *object);
 
 static GtkWidget *recurrence_page_get_widget (CompEditorPage *page);
@@ -208,7 +210,21 @@ static void recurrence_page_set_dates (CompEditorPage *page, CompEditorPageDates
 
 static void field_changed (RecurrencePage *apage);
 
-G_DEFINE_TYPE (RecurrencePage, recurrence_page, TYPE_COMP_EDITOR_PAGE);
+static CompEditorPageClass *parent_class = NULL;
+
+
+
+/**
+ * recurrence_page_get_type:
+ * 
+ * Registers the #RecurrencePage class if necessary, and returns the type ID
+ * associated to it.
+ * 
+ * Return value: The type ID of the #RecurrencePage class.
+ **/
+
+E_MAKE_TYPE (recurrence_page, "RecurrencePage", RecurrencePage, recurrence_page_class_init,
+	     recurrence_page_init, TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the recurrence page */
 static void
@@ -219,6 +235,8 @@ recurrence_page_class_init (RecurrencePageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
+
+	parent_class = g_type_class_ref(TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = recurrence_page_get_widget;
 	editor_page_class->focus_main_widget = recurrence_page_focus_main_widget;
@@ -304,8 +322,8 @@ recurrence_page_finalize (GObject *object)
 	g_free (priv);
 	rpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (recurrence_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (recurrence_page_parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -514,7 +532,7 @@ sensitize_buttons (RecurrencePage *rpage)
 	gint selected_rows;
 	RecurrencePagePrivate *priv;
 	icalcomponent *icalcomp;
-	const char *uid;
+	char *uid;
 
 	priv = rpage->priv;
 
@@ -530,19 +548,6 @@ sensitize_buttons (RecurrencePage *rpage)
 		if (e_cal_get_static_capability (COMP_EDITOR_PAGE (rpage)->client, CAL_STATIC_CAPABILITY_NO_CONV_TO_RECUR) && e_cal_get_object(COMP_EDITOR_PAGE (rpage)->client, uid, NULL, &icalcomp, NULL)) {
 			read_only = TRUE;
 			icalcomponent_free (icalcomp);
-		}
-
-		if (!read_only) {
-			GList *list;
-
-			/* see if we have detached instances */
-			if (e_cal_get_objects_for_uid (COMP_EDITOR_PAGE (rpage)->client, uid, &list, NULL)) {
-				if (list && g_list_length (list) > 1)
-					read_only = TRUE;
-
-				g_list_foreach (list, (GFunc) g_object_unref, NULL);
-				g_list_free (list);
-			}
 		}
 	}
 

@@ -35,6 +35,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
+#include <gal/util/e-util.h>
+#include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
@@ -48,7 +50,7 @@
 #include "comp-editor-util.h"
 #include "e-delegate-dialog.h"
 #include "meeting-page.h"
-#include "../e-cal-popup.h"
+
 
 /* Private part of the MeetingPage structure */
 struct _MeetingPagePrivate {
@@ -93,6 +95,8 @@ struct _MeetingPagePrivate {
 
 
 
+static void meeting_page_class_init (MeetingPageClass *class);
+static void meeting_page_init (MeetingPage *mpage);
 static void meeting_page_finalize (GObject *object);
 
 static GtkWidget *meeting_page_get_widget (CompEditorPage *page);
@@ -100,7 +104,21 @@ static void meeting_page_focus_main_widget (CompEditorPage *page);
 static gboolean meeting_page_fill_widgets (CompEditorPage *page, ECalComponent *comp);
 static gboolean meeting_page_fill_component (CompEditorPage *page, ECalComponent *comp);
 
-G_DEFINE_TYPE (MeetingPage, meeting_page, TYPE_COMP_EDITOR_PAGE);
+static CompEditorPageClass *parent_class = NULL;
+
+
+
+/**
+ * meeting_page_get_type:
+ * 
+ * Registers the #MeetingPage class if necessary, and returns the type ID
+ * associated to it.
+ * 
+ * Return value: The type ID of the #MeetingPage class.
+ **/
+
+E_MAKE_TYPE (meeting_page, "MeetingPage", MeetingPage, meeting_page_class_init, meeting_page_init,
+	     TYPE_COMP_EDITOR_PAGE);
 
 /* Class initialization function for the task page */
 static void
@@ -111,6 +129,8 @@ meeting_page_class_init (MeetingPageClass *class)
 
 	editor_page_class = (CompEditorPageClass *) class;
 	object_class = (GObjectClass *) class;
+
+	parent_class = g_type_class_ref (TYPE_COMP_EDITOR_PAGE);
 
 	editor_page_class->get_widget = meeting_page_get_widget;
 	editor_page_class->focus_main_widget = meeting_page_focus_main_widget;
@@ -252,8 +272,8 @@ meeting_page_finalize (GObject *object)
 	g_free (priv);
 	mpage->priv = NULL;
 
-	if (G_OBJECT_CLASS (meeting_page_parent_class)->finalize)
-		(* G_OBJECT_CLASS (meeting_page_parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -305,15 +325,12 @@ clear_widgets (MeetingPage *mpage)
 static void
 sensitize_widgets (MeetingPage *mpage)
 {
-	gboolean read_only = FALSE;
+	gboolean read_only, user_org;
 	MeetingPagePrivate *priv = mpage->priv;
-	GError *error = NULL;
-	
-	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, &error)) {
-		if (error->code != E_CALENDAR_STATUS_BUSY)
-			read_only = TRUE;
-		g_error_free (error);
-	}	
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (mpage)->client, &read_only, NULL))
+		read_only = TRUE;
+
 	gtk_widget_set_sensitive (priv->organizer, !read_only);
 	gtk_widget_set_sensitive (priv->existing_organizer_btn, !read_only);
 	gtk_widget_set_sensitive (priv->add, !read_only && priv->user_org);
@@ -758,9 +775,9 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 }
 
 static void
-popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
+popup_delete_cb (GtkWidget *widget, gpointer data) 
 {
-	MeetingPage *mpage = data;
+	MeetingPage *mpage = MEETING_PAGE (data);
 	MeetingPagePrivate *priv;
 	
 	priv = mpage->priv;
@@ -773,19 +790,16 @@ enum {
 	CAN_DELETE = 4
 };
 
-static EPopupItem context_menu_items[] = {
+static EPopupMenu context_menu[] = {
 #if 0
-	{ E_POPUP_ITEM, "00.delegate", N_("_Delegate To..."), popup_delegate_cb, NULL, NULL, CAN_DELEGATE },
-	{ E_POPUP_BAR, "05.bar" },
-#endif
-	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, CAN_DELETE },
-};
+	E_POPUP_ITEM (N_("_Delegate To..."), G_CALLBACK (popup_delegate_cb),  CAN_DELEGATE),
 
-static void
-context_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
+	E_POPUP_SEPARATOR,
+#endif
+	E_POPUP_ITEM (N_("_Remove"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
+	
+	E_POPUP_TERMINATOR
+};
 
 static gint
 button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage)
@@ -796,11 +810,8 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	char *address;
-	int disable_mask = 0;
-	GSList *menus = NULL;
-	ECalPopup *ep;
-	int i;
-
+	int disable_mask = 0, hide_mask = 0;
+	
 	priv = mpage->priv;
 
 	/* only process right-clicks */
@@ -821,13 +832,16 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	
  	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
  		disable_mask = CAN_DELETE;
+ 
+	/* FIXME: if you enable Delegate, then change index to '1'.
+	 * (This has now been enabled). */
+	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
+	context_menu[0].pixmap_widget =
+	  gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
 
-	ep = e_cal_popup_new("org.gnome.evolution.calendar.meeting.popup");
-	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
-		menus = g_slist_prepend(menus, &context_menu_items[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, NULL, context_popup_free, mpage);
-	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
+	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, mpage);
+	e_auto_kill_popup_menu_on_selection_done (menu);
+	
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
@@ -923,7 +937,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingStore *ems,
 	gtk_box_pack_start (GTK_BOX (priv->list_box), sw, TRUE, TRUE, 0);
 	
 	/* Set the mnemonic widget for the Attendees label */
-	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->att_label), GTK_WIDGET (priv->list_view));
+	gtk_label_set_mnemonic_widget (GTK_LABEL (priv->att_label),
+				       priv->list_view);
 
 	/* Init the widget signals */
 	init_widgets (mpage);

@@ -28,15 +28,16 @@
  * edit the text.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
 #include "e-util/e-categories-config.h"
 #include "e-week-view-event-item.h"
 
 #include <gtk/gtksignal.h>
 #include <gal/e-text/e-text.h>
+
+static void e_week_view_event_item_class_init	(EWeekViewEventItemClass *class);
+static void e_week_view_event_item_init		(EWeekViewEventItem *wveitem);
 
 static void e_week_view_event_item_set_arg	(GtkObject	 *o,
 						 GtkArg		 *arg,
@@ -88,6 +89,8 @@ static ECalendarViewPosition e_week_view_event_item_get_position (EWeekViewEvent
 							      gdouble y);
 
 
+static GnomeCanvasItemClass *parent_class;
+
 /* The arguments we take */
 enum {
 	ARG_0,
@@ -95,13 +98,17 @@ enum {
 	ARG_SPAN_NUM
 };
 
-G_DEFINE_TYPE (EWeekViewEventItem, e_week_view_event_item, GNOME_TYPE_CANVAS_ITEM);
+E_MAKE_TYPE (e_week_view_event_item, "EWeekViewEventItem", EWeekViewEventItem,
+	     e_week_view_event_item_class_init, e_week_view_event_item_init,
+	     GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_week_view_event_item_class_init (EWeekViewEventItemClass *class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
+
+	parent_class = g_type_class_peek_parent (class);
 
 	object_class = (GtkObjectClass *) class;
 	item_class = (GnomeCanvasItemClass *) class;
@@ -175,8 +182,8 @@ e_week_view_event_item_update (GnomeCanvasItem *item,
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-	if (GNOME_CANVAS_ITEM_CLASS (e_week_view_event_item_parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (e_week_view_event_item_parent_class)->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
 
 	item->x1 = 0;
 	item->y1 = 0;
@@ -596,7 +603,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 	GdkGC *gc;
 	gint num_icons = 0, icon_x_inc;
 	gboolean draw_reminder_icon = FALSE, draw_recurrence_icon = FALSE;
-	gboolean draw_timezone_icon = FALSE, draw_attach_icon = FALSE;
+	gboolean draw_timezone_icon = FALSE;
 	GSList *categories_list, *elem;
 
 	week_view = E_WEEK_VIEW (GTK_WIDGET (GNOME_CANVAS_ITEM (wveitem)->canvas)->parent);
@@ -619,12 +626,7 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		draw_recurrence_icon = TRUE;
 		num_icons++;
 	}
-	
-	if (e_cal_component_has_attachments (comp)) {
-		draw_attach_icon = TRUE;
-		num_icons++;
-	}
-	
+
 	if (event->different_timezone) {
 		draw_timezone_icon = TRUE;
 		num_icons++;
@@ -658,18 +660,6 @@ e_week_view_event_item_draw_icons (EWeekViewEventItem *wveitem,
 		icon_x += icon_x_inc;
 	}
 
-	if (draw_attach_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
-		gdk_gc_set_clip_mask (gc, NULL);
-		gdk_draw_pixbuf (drawable, gc,
-				 week_view->attach_icon,
-				 0, 0, icon_x, icon_y,
-				 E_WEEK_VIEW_ICON_WIDTH,
-				 E_WEEK_VIEW_ICON_HEIGHT,
-				 GDK_RGB_DITHER_NORMAL,
-				 0, 0);
-		icon_x += icon_x_inc;
-	}
-	
 	if (draw_recurrence_icon && icon_x + E_WEEK_VIEW_ICON_WIDTH <= x2) {
 		gdk_gc_set_clip_mask (gc, NULL);
 		gdk_draw_pixbuf (drawable, gc,

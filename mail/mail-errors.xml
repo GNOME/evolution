@@ -69,13 +69,6 @@ Many email systems add an Apparently-To header to messages that only have BCC re
   <button label="_Empty Trash" response="GTK_RESPONSE_YES"/>
  </error>
 
- <error id="ask-open-many" type="warning" default="GTK_RESPONSE_CANCEL">
-  <primary>Are you sure you want to open {0} messages at once?</primary>
-  <secondary>Opening too many messages at once may take a long time.</secondary>
-  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  <button label="_Open Messages" response="GTK_RESPONSE_YES"/>
- </error>
-
  <error id="exit-unsaved" type="warning" default="GTK_RESPONSE_NO">
   <primary>You have unsent messages, do you wish to quit anyway?</primary>
   <secondary>If you quit, these messages will not be sent until Evolution is started again.</secondary>
@@ -263,7 +256,7 @@ The message is stored in the Outbox folder.  Check the message for errors and re
 
  <error id="vfolder-notexist" type="error">
   <primary>Cannot edit vFolder &quot;{0}&quot; as it does not exist.</primary>
-  <secondary>This folder may have been added implicitly, go to the vFolder editor to add it explicitly, if required.</secondary>
+  <secondary>This folder may have been added implictly, go to the virtual folder editor to add it explictly, if required.</secondary>
  </error>
 
  <error id="vfolder-notunique" type="error">
@@ -318,23 +311,9 @@ You can choose to ignore this folder, overwrite or append its contents, or quit.
   <button label="_Append" response="GTK_RESPONSE_OK"/>
  </error>
 
- <error id="no-load-license" type="error">
-  <primary>Unable to read license file.</primary>
-  <secondary>Cannot read the license file &quot;{0}&quot;, due to an
-      installation problem.  You will not be able to use this provider until
-      you can accept its license.</secondary>
- </error>
-
-  <error id="checking-service" type="info">
-    <title>Querying server</title>
-    <primary>Please wait.</primary>
-    <secondary>Querying server for a list of supported authentication mechanisms.</secondary>
-    <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
-  </error>
-
  <error id="gw-accountsetup-error" type="error">
- <primary>Unable to connect to the GroupWise
-server.</primary>
+ <primary><span weight="bold" size="larger">Unable to connect to the GroupWise
+server.</span></primary>
 <secondary>
 Please check your account settings and try again.
 </secondary>

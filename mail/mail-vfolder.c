@@ -59,9 +59,6 @@ static pthread_mutex_t vfolder_lock = PTHREAD_MUTEX_INITIALIZER;
 static GList *source_folders_remote;	/* list of source folder uri's - remote ones */
 static GList *source_folders_local;	/* list of source folder uri's - local ones */
 static GHashTable *vfolder_hash;
-/* This is a slightly hacky solution to shutting down, we poll this variable in various
-   loops, and just quit processing if it is set. */
-static volatile int shutdown;		/* are we shutting down? */
 
 /* more globals ... */
 extern CamelSession *session;
@@ -87,7 +84,7 @@ vfolder_setup_desc(struct _mail_msg *mm, int done)
 {
 	struct _setup_msg *m = (struct _setup_msg *)mm;
 
-	return g_strdup_printf(_("Setting up vFolder: %s"), m->folder->full_name);
+	return g_strdup_printf(_("Setting up vfolder: %s"), m->folder->full_name);
 }
 
 static void
@@ -97,12 +94,12 @@ vfolder_setup_do(struct _mail_msg *mm)
 	GList *l, *list = NULL;
 	CamelFolder *folder;
 
-	d(printf("Setting up vFolder: %s\n", m->folder->full_name));
+	d(printf("Setting up vfolder: %s\n", m->folder->full_name));
 
 	camel_vee_folder_set_expression((CamelVeeFolder *)m->folder, m->query);
 
 	l = m->sources_uri;
-	while (l && !shutdown) {
+	while (l) {
 		d(printf(" Adding uri: %s\n", (char *)l->data));
 		folder = mail_tool_uri_to_folder (l->data, 0, &mm->ex);
 		if (folder) {
@@ -115,15 +112,14 @@ vfolder_setup_do(struct _mail_msg *mm)
 	}
 
 	l = m->sources_folder;
-	while (l && !shutdown) {
+	while (l) {
 		d(printf(" Adding folder: %s\n", ((CamelFolder *)l->data)->full_name));
 		camel_object_ref(l->data);
 		list = g_list_append(list, l->data);
 		l = l->next;
 	}
 
-	if (!shutdown)
-		camel_vee_folder_set_folders((CamelVeeFolder *)m->folder, list);
+	camel_vee_folder_set_folders((CamelVeeFolder *)m->folder, list);
 
 	l = list;
 	while (l) {
@@ -255,13 +251,9 @@ vfolder_adduri_do(struct _mail_msg *mm)
 	GList *l;
 	CamelFolder *folder = NULL;
 
-	if (shutdown)
-		return;
-
 	d(printf("%s uri to vfolder: %s\n", m->remove?"Removing":"Adding", m->uri));
 
 	/* we dont try lookup the cache if we are removing it, its no longer there */
-
 	if (!m->remove && !mail_note_get_folder_from_uri(m->uri, &folder)) {
 		g_warning("Folder '%s' disappeared while I was adding/remove it to/from my vfolder", m->uri);
 		return;
@@ -272,7 +264,7 @@ vfolder_adduri_do(struct _mail_msg *mm)
 
 	if (folder != NULL) {
 		l = m->folders;
-		while (l && !shutdown) {
+		while (l) {
 			if (m->remove)
 				camel_vee_folder_remove_folder((CamelVeeFolder *)l->data, folder);
 			else
@@ -410,19 +402,11 @@ uri_is_spethal(CamelStore *store, const char *uri)
 		return TRUE;
 
 	/* don't use strcasecmp here */
-	if (url->fragment) {
-		res = (((store->flags & CAMEL_STORE_VTRASH)
-			&& strcmp(url->fragment, CAMEL_VTRASH_NAME) == 0)
-		       || ((store->flags & CAMEL_STORE_VJUNK)
-			   && strcmp(url->fragment, CAMEL_VJUNK_NAME) == 0));
-	} else {
-		res = url->path
-			&& (((store->flags & CAMEL_STORE_VTRASH)
-			     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
-			    || ((store->flags & CAMEL_STORE_VJUNK)
-				&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
-	}
-
+	res = url->path
+		&& (((store->flags & CAMEL_STORE_VTRASH)
+		     && strcmp(url->path, "/" CAMEL_VTRASH_NAME) == 0)
+		    || ((store->flags & CAMEL_STORE_VJUNK)
+			&& strcmp(url->path, "/" CAMEL_VJUNK_NAME) == 0));
 	camel_url_free(url);
 
 	return res;
@@ -896,7 +880,7 @@ vfolder_load_storage(void)
 				(CamelObjectEventHookFunc)store_folder_renamed, NULL);
 	
 	d(printf("got store '%s' = %p\n", storeuri, vfolder_store));
-	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("vFolders"));
+	mail_component_load_store_by_uri (mail_component_peek (), storeuri, _("VFolders"));
 	
 	/* load our rules */
 	user = g_strdup_printf ("%s/mail/vfolders.xml", mail_component_peek_base_directory (mail_component_peek ()));
@@ -1005,7 +989,7 @@ vfolder_edit_rule(const char *uri)
 
 		w = filter_rule_get_widget((FilterRule *)newrule, (RuleContext *)context);
 
-		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit vFolder"), NULL,
+		gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("Edit VFolder"), NULL,
 							      GTK_DIALOG_DESTROY_WITH_PARENT,
 							      GTK_STOCK_CANCEL,
 							      GTK_RESPONSE_CANCEL,
@@ -1089,7 +1073,7 @@ vfolder_gui_add_rule(EMVFolderRule *rule)
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
 
-	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New vFolder"),
+	gd = (GtkDialog *)gtk_dialog_new_with_buttons(_("New VFolder"),
 						      NULL,
 						      GTK_DIALOG_DESTROY_WITH_PARENT,
 						      GTK_STOCK_CANCEL,
@@ -1134,8 +1118,6 @@ vfolder_foreach_cb (gpointer key, gpointer data, gpointer user_data)
 void
 mail_vfolder_shutdown (void)
 {
-	shutdown = 1;
-
 	g_hash_table_foreach (vfolder_hash, vfolder_foreach_cb, NULL);
 	g_hash_table_destroy (vfolder_hash);
 	vfolder_hash = NULL;

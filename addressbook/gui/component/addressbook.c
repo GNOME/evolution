@@ -29,7 +29,7 @@
 #include <libebook/e-book.h>
 
 #include "e-util/e-passwords.h"
-#include "widgets/misc/e-error.h"
+
 #include "addressbook.h"
 
 #define d(x)
@@ -82,53 +82,45 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 
 		/* the user clicked cancel in the password dialog */
 		if (status == E_BOOK_ERROR_CANCELLED) {
-
+				
 			if (e_book_check_static_capability (book, "anon-access")) {
+			
+			GtkWidget *dialog;
 
-				GtkWidget *dialog;
+			/* XXX "LDAP" has to be removed from the folowing message
+			   so that it wil valid for other servers which provide 
+			   anonymous access*/
 
-				/* XXX "LDAP" has to be removed from the folowing message
-				   so that it wil valid for other servers which provide 
-				   anonymous access*/
-
-				dialog = gtk_message_dialog_new (NULL,
-						0,
-						GTK_MESSAGE_WARNING,
-						GTK_BUTTONS_OK,
-						_("Accessing LDAP Server anonymously"));
-				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-				gtk_widget_show (dialog);
-				data->cb (book, E_BOOK_ERROR_OK, data->closure);
-				free_load_source_data (data);
-				return;
-			}
-		} else if (status == E_BOOK_ERROR_INVALID_SERVER_VERSION) {
-			e_error_run (NULL, "addressbook:server-version", NULL);
-			status = E_BOOK_ERROR_OK;
-			if (data->cb)
-				data->cb (book, status, data->closure);
+			dialog = gtk_message_dialog_new (NULL,
+							 0,
+							 GTK_MESSAGE_WARNING,
+							 GTK_BUTTONS_OK,
+							 _("Accessing LDAP Server anonymously"));
+			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+			gtk_widget_show (dialog);
+			data->cb (book, E_BOOK_ERROR_OK, data->closure);
 			free_load_source_data (data);
 			return;
-
-		} else {
+			}
+		}
+		else {
 			gchar *uri = e_source_get_uri (data->source);
 			gchar *stripped_uri = remove_parameters_from_uri (uri);
 			const gchar *auth_domain = e_source_get_property (data->source, "auth-domain");
-			const gchar *component_name;
-
+		        const gchar *component_name;
+			
 			component_name = auth_domain ? auth_domain : "Addressbook";
-
+			
 			e_passwords_forget_password (component_name, stripped_uri);
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
-
+			
 			g_free (stripped_uri);
 			g_free (uri);
 			return;
 		}
 	}
 
-	if (data->cb)
-		data->cb (book, status, data->closure);
+	data->cb (book, status, data->closure);
 
 	free_load_source_data (data);
 }
@@ -184,7 +176,6 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 
 	if (!password) {
 		char *prompt;
-		char *password_prompt;
 		gboolean remember;
 		char *failed_auth;
 		guint32 flags = E_PASSWORDS_REMEMBER_FOREVER|E_PASSWORDS_SECRET|E_PASSWORDS_ONLINE;
@@ -197,11 +188,8 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 			failed_auth = "";
 		}
 
-		password_prompt = g_strdup_printf (_("Enter password for %s (user %s)"),
-					   e_source_peek_name (source), user);
-
-		prompt = g_strconcat (failed_auth, password_prompt, NULL);
-		g_free (password_prompt);
+		prompt = g_strdup_printf (_("%sEnter password for %s (user %s)"),
+					  failed_auth, e_source_peek_name (source), user);
 
 		remember = get_remember_password (source);
 		pass_dup = e_passwords_ask_password (prompt, component_name, uri, prompt,
@@ -221,28 +209,12 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	}
 	else {
 		/* they hit cancel */
-	
-			cb (book, E_BOOK_ERROR_CANCELLED, closure);
+		cb (book, E_BOOK_ERROR_CANCELLED, closure);
 	}
 
 	g_free (uri);
 }
 
-
-
-static void
-auth_required_cb (EBook *book, gpointer data)
-{
-	LoadSourceData *load_source_data = g_new0(LoadSourceData, 1);
-	
-	load_source_data->source = g_object_ref (g_object_ref (e_book_get_source (book)));
-	load_source_data->cancelled = FALSE;
-	addressbook_authenticate (book, FALSE, load_source_data->source,
-				  load_source_auth_cb, load_source_data);
-	
-	
-	
-}
 static void
 load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 {
@@ -257,16 +229,17 @@ load_source_cb (EBook *book, EBookStatus status, gpointer closure)
 		const gchar *auth;
 
 		auth = e_source_get_property (load_source_data->source, "auth");
+
+		/* check if the addressbook needs authentication */
+
 		if (auth && strcmp (auth, "none")) {
-			g_signal_connect (book, "auth_required", auth_required_cb, NULL);
-			
-			if (e_book_is_online (book)) {
-				addressbook_authenticate (book, FALSE, load_source_data->source,
-							  load_source_auth_cb, closure);
-				return;
-		}
+			addressbook_authenticate (book, FALSE, load_source_data->source,
+						  load_source_auth_cb, closure);
+
+			return;
 		}
 	}
+	
 	load_source_data->cb (book, status, load_source_data->closure);
 	free_load_source_data (load_source_data);
 }

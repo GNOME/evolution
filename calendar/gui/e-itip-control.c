@@ -43,7 +43,6 @@
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/gtkhtml-stream.h>
 #include <libedataserver/e-source-list.h>
-#include <libedataserverui/e-source-option-menu.h>
 #include <libical/ical.h>
 #include <libecal/e-cal-component.h>
 #include <libecal/e-cal-time-util.h>
@@ -51,6 +50,7 @@
 #include <e-util/e-time-utils.h>
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-html-utils.h>
+#include <widgets/misc/e-source-option-menu.h>
 #include "dialogs/delete-error.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
@@ -104,17 +104,22 @@ struct _EItipControlPrivate {
 #define HTML_BODY_END   "</body>"
 #define HTML_FOOTER     "</html>"
 
-static void e_itip_control_destroy	(GtkObject               *obj);
+static void class_init	(EItipControlClass	 *klass);
+static void init	(EItipControl		 *itip);
+static void destroy	(GtkObject               *obj);
 
 static void find_my_address (EItipControl *itip, icalcomponent *ical_comp, icalparameter_partstat *status);
 static void url_requested_cb (GtkHTML *html, const gchar *url, GtkHTMLStream *handle, gpointer data);
 static gboolean object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data);
 static void ok_clicked_cb (GtkWidget *widget, gpointer data);
 
-G_DEFINE_TYPE (EItipControl, e_itip_control, GTK_TYPE_VBOX);
+static GtkVBoxClass *parent_class = NULL;
+
+E_MAKE_TYPE (e_itip_control, "EItipControl", EItipControl, class_init, init,
+	     GTK_TYPE_VBOX);
 
 static void
-e_itip_control_class_init (EItipControlClass *klass)
+class_init (EItipControlClass *klass)
 {
 	GObjectClass *object_class;
 	GtkObjectClass *gtkobject_class;
@@ -122,7 +127,9 @@ e_itip_control_class_init (EItipControlClass *klass)
 	object_class = G_OBJECT_CLASS (klass);
 	gtkobject_class = GTK_OBJECT_CLASS (klass);
 	
-	gtkobject_class->destroy = e_itip_control_destroy;
+	parent_class = g_type_class_peek_parent (klass);
+
+	gtkobject_class->destroy = destroy;
 }
 
 static void
@@ -382,7 +389,7 @@ html_destroyed (gpointer data)
 }
 
 static void
-e_itip_control_init (EItipControl *itip)
+init (EItipControl *itip)
 {
 	EItipControlPrivate *priv;
 	GtkWidget *scrolled_window;
@@ -482,7 +489,7 @@ clean_up (EItipControl *itip)
 }
 
 static void
-e_itip_control_destroy (GtkObject *obj)
+destroy (GtkObject *obj)
 {
 	EItipControl *itip = E_ITIP_CONTROL (obj);
 	EItipControlPrivate *priv;
@@ -512,7 +519,7 @@ e_itip_control_destroy (GtkObject *obj)
 		itip->priv = NULL;
 	}
 	
-	(* GTK_OBJECT_CLASS (e_itip_control_parent_class)->destroy) (obj);
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
 }
 
 GtkWidget *
@@ -2024,7 +2031,7 @@ send_item (EItipControl *itip)
 	comp = get_real_item (itip);
 	
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, priv->current_ecal, NULL);
 		g_object_unref (comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
@@ -2070,7 +2077,7 @@ send_freebusy (EItipControl *itip)
 
 		for (l = comp_list; l; l = l->next) {
 			ECalComponent *comp = E_CAL_COMPONENT (l->data);
-			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, NULL, NULL);
+			itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, NULL);
 
 			g_object_unref (comp);
 		}
@@ -2510,7 +2517,7 @@ ok_clicked_cb (GtkWidget *widget, gpointer data)
 		g_slist_free (list);
 		
 		e_cal_component_rescan (comp);
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, priv->current_ecal, priv->top_level);
 
 		g_object_unref (comp);
 	}

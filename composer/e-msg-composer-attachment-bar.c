@@ -31,15 +31,18 @@
 #include <gconf/gconf.h>
 #include <gconf/gconf-client.h>
 #include <gdk/gdkkeysyms.h>
+#include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-app-helper.h>
+#include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "e-msg-composer.h"
 #include "e-msg-composer-select-file.h"
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
 
-#include <libedataserver/e-iconv.h>
+#include <gal/util/e-iconv.h>
 
 #include <camel/camel-data-wrapper.h>
 #include <camel/camel-stream-fs.h>
@@ -52,7 +55,6 @@
 #include "e-util/e-gui-utils.h"
 #include "e-util/e-icon-factory.h"
 #include "widgets/misc/e-error.h"
-#include "mail/em-popup.h"
 
 #define ICON_WIDTH 64
 #define ICON_SEPARATORS " /-_"
@@ -66,10 +68,11 @@
 static GnomeIconListClass *parent_class = NULL;
 
 struct _EMsgComposerAttachmentBarPrivate {
-	GtkWidget *attach;	/* attachment file dialogue, if active */
-
 	GList *attachments;
 	guint num_attachments;
+
+	GtkWidget *context_menu;
+	GtkWidget *icon_context_menu;
 };
 
 
@@ -372,159 +375,151 @@ static void
 edit_selected (EMsgComposerAttachmentBar *bar)
 {
 	GnomeIconList *icon_list;
-	GList *selection, *attach;
+	EMsgComposerAttachment *attachment;
+	GList *selection;
 	int num;
 	
 	icon_list = GNOME_ICON_LIST (bar);
 	
 	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection) {
-		num = GPOINTER_TO_INT (selection->data);
-		attach = g_list_nth (bar->priv->attachments, num);
-		if (attach)
-			e_msg_composer_attachment_edit ((EMsgComposerAttachment *)attach->data, GTK_WIDGET (bar));
-	}
+	num = GPOINTER_TO_INT (selection->data);
+	attachment = g_list_nth (bar->priv->attachments, num)->data;
+	
+	e_msg_composer_attachment_edit (attachment, GTK_WIDGET (bar));
 }
 
+
 /* "Attach" dialog.  */
-static void
-add_from_user_response(EMsgComposer *composer, GSList *names, int is_inline)
-{
-	while (names) {
-		add_from_file((EMsgComposerAttachmentBar *)composer->attachment_bar, names->data, is_inline ? "inline" : "attachment");
-		names = g_slist_next(names);
-	}
-}
 
 static void
 add_from_user (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposer *composer;
+	GPtrArray *file_list;
+	gboolean is_inline = FALSE;
+	int i;
 	
 	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
-	e_msg_composer_select_file_attachments(composer, &bar->priv->attach, add_from_user_response);
+	
+	file_list = e_msg_composer_select_file_attachments (composer, &is_inline);
+	if (!file_list)
+		return;
+	
+	for (i = 0; i < file_list->len; i++) {
+		add_from_file (bar, file_list->pdata[i], is_inline ? "inline" : "attachment");
+		g_free (file_list->pdata[i]);
+	}
+	
+	g_ptr_array_free (file_list, TRUE);
 }
 
 
 /* Callbacks.  */
 
 static void
-emcab_add(EPopup *ep, EPopupItem *item, void *data)
+add_cb (GtkWidget *widget, gpointer data, GtkWidget *for_widget)
 {
-	EMsgComposerAttachmentBar *bar = data;
-
-	add_from_user(bar);
-}
-
-static void
-emcab_properties(EPopup *ep, EPopupItem *item, void *data)
-{
-	EMsgComposerAttachmentBar *bar = data;
+	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (data));
 	
-	edit_selected(bar);
+	add_from_user (E_MSG_COMPOSER_ATTACHMENT_BAR (data));
 }
 
 static void
-emcab_remove(EPopup *ep, EPopupItem *item, void *data)
+properties_cb (GtkWidget *widget, gpointer data, GtkWidget *for_widget)
 {
-	EMsgComposerAttachmentBar *bar = data;
-
-	remove_selected(bar);
+	EMsgComposerAttachmentBar *bar;
+	
+	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (data));
+	
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (data);
+	edit_selected (data);
 }
+
+static void
+remove_cb (GtkWidget *widget, gpointer data, GtkWidget *for_widget)
+{
+	EMsgComposerAttachmentBar *bar;
+	
+	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (data));
+	
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (data);
+	remove_selected (bar);
+}
+
 
 /* Popup menu handling.  */
-static EPopupItem emcab_popups[] = {
-	{ E_POPUP_ITEM, "10.attach", N_("_Remove"), emcab_remove, NULL, GTK_STOCK_REMOVE, EM_POPUP_ATTACHMENTS_MANY },
-	{ E_POPUP_ITEM, "20.attach", N_("_Properties"), emcab_properties, NULL, GTK_STOCK_PROPERTIES, EM_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_BAR, "30.attach.00", NULL, NULL, NULL, NULL, EM_POPUP_ATTACHMENTS_MANY|EM_POPUP_ATTACHMENTS_ONE },
-	{ E_POPUP_ITEM, "30.attach.01", N_("_Add attachment..."), emcab_add, NULL, GTK_STOCK_ADD, 0 },
+
+static GnomeUIInfo icon_context_menu_info[] = {
+	GNOMEUIINFO_ITEM_STOCK (N_("_Remove"),
+				N_("Remove selected items from the attachment list"),
+				remove_cb,
+				GTK_STOCK_REMOVE),
+	GNOMEUIINFO_MENU_PROPERTIES_ITEM (properties_cb, NULL),
+	GNOMEUIINFO_END
 };
 
-static void
-emcab_popup_position(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
+#define ICON_CONTEXT_MENU_PROPERTIES (1)
+
+static GtkWidget *
+get_icon_context_menu (EMsgComposerAttachmentBar *bar)
 {
-	EMsgComposerAttachmentBar *bar = user_data;
-	GnomeIconList *icon_list = user_data;
+	EMsgComposerAttachmentBarPrivate *priv;
+	
+	priv = bar->priv;
+	if (priv->icon_context_menu == NULL)
+		priv->icon_context_menu = gnome_popup_menu_new (icon_context_menu_info);
+	
+	return priv->icon_context_menu;
+}
+
+static void
+popup_icon_context_menu (EMsgComposerAttachmentBar *bar,
+			 gint num,
+			 GdkEventButton *event)
+{
+	GtkWidget *menu;
+	GnomeIconList *icon_list;
 	GList *selection;
-	GnomeCanvasPixbuf *image;
-	
-	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
-	
+
+	menu = get_icon_context_menu (bar);
+	icon_list = GNOME_ICON_LIST (bar);
 	selection = gnome_icon_list_get_selection (icon_list);
-	if (selection == NULL)
-		return;
+
+	gtk_widget_set_sensitive (icon_context_menu_info[ICON_CONTEXT_MENU_PROPERTIES].widget, g_list_length (selection) == 1);
+
+	gnome_popup_menu_do_popup (menu, NULL, NULL, event, bar, NULL);
+}
+
+static GnomeUIInfo context_menu_info[] = {
+	GNOMEUIINFO_ITEM (N_("Add attachment..."),
+			  N_("Attach a file to the message"),
+			  add_cb, NULL),
+	GNOMEUIINFO_END
+};
+
+static GtkWidget *
+get_context_menu (EMsgComposerAttachmentBar *bar)
+{
+	EMsgComposerAttachmentBarPrivate *priv;
 	
-	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, (gint)selection->data);
-	if (image == NULL)
-		return;
+	priv = bar->priv;
+	if (priv->context_menu == NULL)
+		priv->context_menu = gnome_popup_menu_new (context_menu_info);
 	
-	/* Put menu to the center of icon. */
-	*x += (int)(image->item.x1 + image->item.x2) / 2;
-	*y += (int)(image->item.y1 + image->item.y2) / 2;
+	return priv->context_menu;
 }
 
 static void
-emcab_popups_free(EPopup *ep, GSList *l, void *data)
+popup_context_menu (EMsgComposerAttachmentBar *bar,
+		    GdkEventButton *event)
 {
-	g_slist_free(l);
+	GtkWidget *menu;
+	
+	menu = get_context_menu (bar);
+	gnome_popup_menu_do_popup (menu, NULL, NULL, event, bar, NULL);
 }
 
-/* if id != -1, then use it as an index for target of the popup */
-static void
-emcab_popup(EMsgComposerAttachmentBar *bar, GdkEventButton *event, int id)
-{
-	GList *p;
-	GSList *attachments = NULL, *menus = NULL;
-	int i;
-	EMPopup *emp;
-	EMPopupTargetAttachments *t;
-	GtkMenu *menu;
-	EMsgComposerAttachment *attachment;
-
-	/* We need to check if there are duplicated index in the return list of 
-	   gnome_icon_list_get_selection() because of gnome bugzilla bug #122356.
-	   FIXME in the future. */
-
-	if (id == -1
-	    || (attachment = g_list_nth_data(bar->priv->attachments, id)) == NULL) {
-		p = gnome_icon_list_get_selection((GnomeIconList *)bar);
-		for ( ; p != NULL; p = p->next) {
-			int num = GPOINTER_TO_INT(p->data);
-			EMsgComposerAttachment *attachment = g_list_nth_data(bar->priv->attachments, num);
-			
-			if (attachment && g_slist_find(attachments, attachment) == NULL) {
-				g_object_ref(attachment);
-				attachments = g_slist_prepend(attachments, attachment);
-			}
-		}
-		attachments = g_slist_reverse(attachments);
-	} else {
-		g_object_ref(attachment);
-		attachments = g_slist_prepend(attachments, attachment);
-	}
-
-	for (i=0;i<sizeof(emcab_popups)/sizeof(emcab_popups[0]);i++)
-		menus = g_slist_prepend(menus, &emcab_popups[i]);
-
-	/** @HookPoint-EMPopup: Composer Attachment Bar Context Menu
-	 * @Id: org.gnome.evolution.mail.composer.attachmentbar.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetAttachments
-	 *
-	 * This is the context menu on the composer attachment bar.
-	 */
-	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentbar.popup");
-	e_popup_add_items((EPopup *)emp, menus, NULL,emcab_popups_free, bar);
-	t = em_popup_target_new_attachments(emp, attachments);
-	t->target.widget = (GtkWidget *)bar;
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, 0);
-
-	if (event == NULL)
-		gtk_menu_popup(menu, NULL, NULL, emcab_popup_position, bar, 0, gtk_get_current_event_time());
-	else
-		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
-}
-
+
 /* GtkObject methods.  */
 
 static void
@@ -536,10 +531,6 @@ destroy (GtkObject *object)
 	
 	if (bar->priv) {
 		free_attachment_list (bar);
-
-		if (bar->priv->attach)
-			gtk_widget_destroy(bar->priv->attach);
-
 		g_free (bar->priv);
 		bar->priv = NULL;
 	}
@@ -548,42 +539,91 @@ destroy (GtkObject *object)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
+
 /* GtkWidget methods.  */
+
+
+static void
+popup_menu_placement_callback (GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
+{
+	EMsgComposerAttachmentBar *bar;
+	GnomeIconList *icon_list;
+	GList *selection;
+	GnomeCanvasPixbuf *image;
+	
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (user_data);
+	icon_list = GNOME_ICON_LIST (user_data);
+	
+	gdk_window_get_origin (((GtkWidget*) bar)->window, x, y);
+	
+	selection = gnome_icon_list_get_selection (icon_list);
+	if (selection == NULL)
+		return;
+	
+	image = gnome_icon_list_get_icon_pixbuf_item (icon_list, GPOINTER_TO_INT(selection->data));
+	if (image == NULL)
+		return;
+	
+	/* Put menu to the center of icon. */
+	*x += (int)(image->item.x1 + image->item.x2) / 2;
+	*y += (int)(image->item.y1 + image->item.y2) / 2;
+}
 
 static gboolean 
 popup_menu_event (GtkWidget *widget)
 {
-	emcab_popup((EMsgComposerAttachmentBar *)widget, NULL, -1);
+	EMsgComposerAttachmentBar *bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
+	GnomeIconList *icon_list = GNOME_ICON_LIST (widget);
+	GList *selection = gnome_icon_list_get_selection (icon_list);
+	GtkWidget *menu;
+	
+	if (selection == NULL)
+		menu = get_context_menu (bar);
+	else
+		menu = get_icon_context_menu (bar);
+	
+	gnome_popup_menu_do_popup (menu, popup_menu_placement_callback, 
+				   widget, NULL, widget, NULL);
+	
 	return TRUE;
 }
 
 
 static int
-button_press_event (GtkWidget *widget, GdkEventButton *event)
+button_press_event (GtkWidget *widget,
+		    GdkEventButton *event)
 {
-	EMsgComposerAttachmentBar *bar = (EMsgComposerAttachmentBar *)widget;
-	GnomeIconList *icon_list = GNOME_ICON_LIST(widget);
+	EMsgComposerAttachmentBar *bar;
+	GnomeIconList *icon_list;
 	int icon_number;
+	
+	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
+	icon_list = GNOME_ICON_LIST (widget);
 	
 	if (event->button != 3)
 		return GTK_WIDGET_CLASS (parent_class)->button_press_event (widget, event);
 	
 	icon_number = gnome_icon_list_get_icon_at (icon_list, event->x, event->y);
+	
 	if (icon_number >= 0) {
-		gnome_icon_list_unselect_all(icon_list);
 		gnome_icon_list_select_icon (icon_list, icon_number);
+		popup_icon_context_menu (bar, icon_number, event);
+	} else {
+		popup_context_menu (bar, event);
 	}
-
-	emcab_popup(bar, event, icon_number);
 	
 	return TRUE;
 }
 
 static gint
-key_press_event(GtkWidget *widget, GdkEventKey *event)
+key_press_event (GtkWidget *widget, GdkEventKey *event)
 {
-        EMsgComposerAttachmentBar *bar = E_MSG_COMPOSER_ATTACHMENT_BAR(widget);
-
+        EMsgComposerAttachmentBar *bar;
+        GnomeIconList *icon_list;
+	
+        bar = E_MSG_COMPOSER_ATTACHMENT_BAR (widget);
+        icon_list = GNOME_ICON_LIST (bar);                                                                                 
+                                                                                
         if (event->keyval == GDK_Delete) {
                 remove_selected (bar);
                 return TRUE;
@@ -634,8 +674,10 @@ init (EMsgComposerAttachmentBar *bar)
 	
 	priv = g_new (EMsgComposerAttachmentBarPrivate, 1);
 	
-	priv->attach = NULL;
 	priv->attachments = NULL;
+	priv->context_menu = NULL;
+	priv->icon_context_menu = NULL;
+	
 	priv->num_attachments = 0;
 	
 	bar->priv = priv;
@@ -698,9 +740,6 @@ e_msg_composer_attachment_bar_new (GtkAdjustment *adj)
 	gnome_icon_list_set_icon_border (icon_list, ICON_BORDER);
 	gnome_icon_list_set_text_spacing (icon_list, ICON_TEXT_SPACING);
 	gnome_icon_list_set_selection_mode (icon_list, GTK_SELECTION_MULTIPLE);
-
-	atk_object_set_name (gtk_widget_get_accessible (GTK_WIDGET (new)), 
-			_("Attachment Bar"));
 	
 	return GTK_WIDGET (new);
 }

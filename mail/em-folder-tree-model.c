@@ -20,6 +20,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -37,7 +38,6 @@
 #include <e-util/e-mktemp.h>
 
 #include <gal/util/e-xml-utils.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>
 
@@ -184,23 +184,22 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 	char *aname, *bname;
 	CamelStore *store;
 	gboolean is_store;
-	guint32 aflags, bflags;
 	int rv = -2;
 	
 	gtk_tree_model_get (model, a, COL_BOOL_IS_STORE, &is_store,
 			    COL_POINTER_CAMEL_STORE, &store,
-			    COL_STRING_DISPLAY_NAME, &aname, COL_UINT_FLAGS, &aflags, -1);
-	gtk_tree_model_get (model, b, COL_STRING_DISPLAY_NAME, &bname, COL_UINT_FLAGS, &bflags, -1);
+			    COL_STRING_DISPLAY_NAME, &aname, -1);
+	gtk_tree_model_get (model, b, COL_STRING_DISPLAY_NAME, &bname, -1);
 	
 	if (is_store) {
-		/* On This Computer is always first and vFolders is always last */
+		/* On This Computer is always first and VFolders is always last */
 		if (!strcmp (aname, _("On This Computer")))
 			rv = -1;
 		else if (!strcmp (bname, _("On This Computer")))
 			rv = 1;
-		else if (!strcmp (aname, _("vFolders")))
+		else if (!strcmp (aname, _("VFolders")))
 			rv = 1;
-		else if (!strcmp (bname, _("vFolders")))
+		else if (!strcmp (bname, _("VFolders")))
 			rv = -1;
 	} else if (store == vfolder_store) {
 		/* UNMATCHED is always last */
@@ -210,9 +209,9 @@ sort_cb (GtkTreeModel *model, GtkTreeIter *a, GtkTreeIter *b, gpointer user_data
 			rv = -1;
 	} else {
 		/* Inbox is always first */
-		if ((aflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+		if (aname && (!strcmp (aname, "INBOX") || !strcmp (aname, _("Inbox"))))
 			rv = -1;
-		else if ((bflags & CAMEL_FOLDER_TYPE_MASK) == CAMEL_FOLDER_TYPE_INBOX)
+		else if (bname && (!strcmp (bname, "INBOX") || !strcmp (bname, _("Inbox"))))
 			rv = 1;
 	}
 	
@@ -331,7 +330,7 @@ em_folder_tree_model_load_state (EMFolderTreeModel *model, const char *filename)
 	if (stat (filename, &st) == 0 && (model->state = xmlParseFile (filename)))
 		return;
 	
-	/* setup some defaults - expand "Local Folders" and "vFolders" */
+	/* setup some defaults - expand "Local Folders" and "VFolders" */
 	model->state = xmlNewDoc ("1.0");
 	root = xmlNewDocNode (model->state, NULL, "tree-state", NULL);
 	xmlDocSetRootElement (model->state, root);
@@ -415,6 +414,16 @@ account_removed (EAccountList *accounts, EAccount *account, gpointer user_data)
 	em_folder_tree_model_remove_store (model, si->store);
 }
 
+/* NB: more-or-less copied from em-folder-tree.c */
+static gboolean
+emft_is_special_local_folder(CamelStore *store, const char *name)
+{
+	/* Bit of a hack to translate local mailbox names */
+	return store == mail_component_peek_local_store(NULL)
+		&& (!strcmp (name, "Drafts") || !strcmp (name, "Inbox")
+		    || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+}
+
 void
 em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
 				      struct _EMFolderTreeModelStoreInfo *si,
@@ -428,7 +437,6 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 	struct _CamelFolder *folder;
 	gboolean emitted = FALSE;
 	const char *name;
-	guint32 flags;
 
 	if (!fully_loaded)
 		load = fi->child == NULL && !(fi->flags & (CAMEL_FOLDER_NOCHILDREN | CAMEL_FOLDER_NOINFERIORS));
@@ -460,22 +468,10 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 		camel_object_unref(folder);
 	}
 
-	/* TODO: maybe this should be handled by mail_get_folderinfo (except em-folder-tree doesn't use it, duh) */
-	flags = fi->flags;
-	name = fi->name;
-	if (si->store == mail_component_peek_local_store(NULL)) {
-		if (!strcmp(fi->full_name, "Drafts")) {
-			name = _("Drafts");
-		} else if (!strcmp(fi->full_name, "Inbox")) {
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_INBOX;
-			name = _("Inbox");
-		} else if (!strcmp(fi->full_name, "Outbox")) {
-			flags = (flags & ~CAMEL_FOLDER_TYPE_MASK) | CAMEL_FOLDER_TYPE_OUTBOX;
-			name = _("Outbox");
-		} else if (!strcmp(fi->full_name, "Sent")) {
-			name = _("Sent");
-		}
-	}
+	if (emft_is_special_local_folder(si->store, fi->full_name))
+		name = _(fi->name);
+	else
+		name = fi->name;
 
 	gtk_tree_store_set ((GtkTreeStore *) model, iter,
 			    COL_STRING_DISPLAY_NAME, name,
@@ -483,7 +479,7 @@ em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *ite
 			    COL_STRING_FULL_NAME, fi->full_name,
 			    COL_STRING_URI, fi->uri,
 			    COL_UINT_UNREAD, unread,
-			    COL_UINT_FLAGS, flags,
+			    COL_UINT_FLAGS, fi->flags,
 			    COL_BOOL_IS_STORE, FALSE,
 			    COL_BOOL_LOAD_SUBDIRS, load,
 			    -1);

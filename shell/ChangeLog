@@ -1,166 +1,3 @@
-2005-02-10  JP Rosevear  <jpr@novell.com>
-
-	* e-component-registry.c (query_components): unref the menu icon
-	if it exists to fix a leak
-
-2005-02-07  JP Rosevear  <jpr@novell.com>
-
-	* apps_evolution_shell.schemas.in.in: clean up descriptions
-	
-2005-02-01  JP Rosevear  <jpr@novell.com>
-
-	* e-shell-window-commands.c: add to about box
-
-2005-01-28  JP Rosevear  <jpr@novell.com>
-
-	* e-component-registry.c: Remove e-shell-utils.c include
-
-2005-01-21  JP Rosevear  <jpr@novell.com>
-
-	* apps_evolution_shell.schemas.in.in: close long tag
-
-2005-01-21  JP Rosevear  <jpr@novell.com>
-
-	* apps_evolution_shell.schemas.in.in: add print_config schema item
-
-2005-01-21  JP Rosevear  <jpr@novell.com>
-	
-	* e-shell-offline-handler.c
-	(impl_OfflineProgressListener_updateProgress): mark priv->finished
-	as true first so we don't access freed memory if we get finalized
-	during the signal emmission
-	(cancel_offline): ditto
-	(finalize_offline): ditto
-	(e_shell_offline_handler_put_components_offline): ditto
-
-2005-01-20  Mengjie Yu  <meng-jie.yu@sun.com>
-
-	* e-shell-importer.c: (import_druid_esc),
-	(e_shell_importer_start_import):
-	Close import wizard on 'ESC'
-
-2005-01-09  JP Rosevear  <jpr@novell.com>
-
-	* e-shell.c (impl_Shell_handleURI): open a new window if we get a
-	component id type url
-
-	* Evolution-Shell.idl: add ComponentNotFound exception
-
-2005-01-06  JP Rosevear  <jpr@novell.com>
-
-	* Makefile.am: install schemas properly and add some uninstall
-	rules for local install rules
-
-2005-01-04  JP Rosevear  <jpr@novell.com>
-
-	* e-sidebar.h: new protos, modes
-
-	* e-sidebar.c: handle 2 more modes, text only and toolbar style;
-	allow visibility to be set for the buttons
-
-	* e-shell-window.h: new proto
-
-	* e-shell-window.c (setup_widgets): set the sidebar setting and
-	visibility based on stored gconf settings
-	(e_shell_window_save_defaults): save the current sidebar setting
-	visibility
-	(e_shell_window_peek_sidebar): return the sidebar
-
-	* e-shell-window-commands.c (e_shell_window_commands_setup): add
-	listeners for each of the component button radio items and for the
-	hide toggle
-	(view_buttons_icontext_item_toggled_handler): listener callback,
-	set mode
-	(view_buttons_icon_item_toggled_handler): ditto
-	(view_buttons_text_item_toggled_handler): ditto
-	(view_buttons_toolbar_item_toggled_handler): ditto
-	(view_buttons_hide_item_toggled_handler): listener callback, set
-	visibility
-
-	* apps_evolution_shell.schemas.in.in: add component button style
-	and visibility defaults
-
-2004-12-29  Rodrigo Moya <rodrigo@novell.com>
-
-	* main.c (show_development_warning): 2.0 is the current stable
-	version.
-
-2004-12-23  Sivaiah Nallaagatla <snallagatla@novell.com>
-                                                                                                                             
-        * e-shell.c (e_shell_go_offline)
-        (e_shell_go_online) : set start_offline gconf key
-        when ever offline state is changed. 
-
-2004-12-21  JP Rosevear  <jpr@novell.com>
-
-	* e-corba-config-page.c: Convert to G_DEFINE_TYPE
-
-	* e-history.c: ditto
-
-	* e-shell-folder-title-bar.c: ditto
-
-	* e-shell-offline-handler.c: ditto
-
-	* e-shell-settings-dialog.c: ditto
-
-	* e-shell-window.c: ditto
-
-	* e-sidebar.c: ditto
-
-	* e-user-creatable-items-handler.c: ditto
-	
-	* e-component-registry.c: ditto
-
-	* importer/evolution-importer-client.c: ditto
-
-2004-12-09  Rodney Dawes  <dobey@novell.com>
-
-	* e-shell-window-commands.c: Use stock_new-window for the New Window
-	menu item in the File menu
-
-2004-12-08  David Mosberger <davidm@napali.hpl.hp.com>
-
-	* main.c: include es-event.h to fix 64 bit platform problems.
-
-2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
-
-	* main.c: Evolution product name spelled with an uppercase E
-
-	Fixes #61605
-
-2004-11-02  mengjie yu  <meng-jie.yu@sun.com>
-
-	* evolution-startup-wizard.glade:remove the hard line breaks.
-
-2004-10-25  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): register event hook.
-
-	* e-shell.c (offline_procedure_finished_cb, e_shell_go_online):
-	emit new state changed event.
-
-	* main.c (main): register the menu hook.
-	(): only define DEVELOPMENT if not already.
-
-	* e-shell-window.c (init): setup menu manager.
-	(e_shell_window_new): activate menu manager.
-	(update_offline_toggle_status): update the menu manager when the
-	offline state changes (currently only state which requires it)
-
-	* es-menu.[ch]: Shell plugin menu manager.
-
-2004-10-07  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): initialise plugin system.
-	(main): add --disable-eplugin and --disable-mono arguments.
-
-2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-shell-importer.c: (import_cb): use g_timeout_add().
-	* importer/intelligent.c: (select_row_cb), (unselect_row_cb),
-	(create_gui): use gtk_notebook_set_current_page() instead of
-	deprecated gtk_notebook_set_page()
-
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: Added ed catmur to the credits.
@@ -177,6 +14,10 @@
 	* e-shell-window-commands.c (about_box_new): don't show
 	"translator-credits" if not translated
 
+2004-09-13  JP Rosevear  <jpr@novell.com>
+
+	* main.c: turn off development mode
+
 2004-09-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #17338
@@ -184,6 +25,14 @@
 	* e-shell-window-commands.c (about_box_new): use per language
 	translator credits, update authors lists (not strictly authors,
 	but we have a lot of helpful people)
+
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61285.
+
+	* e-shell-settings-dialog.c (load_pages): use a better query to
+	get the configuration pages, the old one didn't include version
+	information properly.
 
 2004-09-13  Sivaiah Nallagatla <snallagatla@novell.com>
 
@@ -280,10 +129,6 @@
 
 	* e-shell-errors.xml.h: Add this back to CVS for translators
 	* .cvsignore: Don't ignore e-shell-errors.xml.h
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* e-shell.c (e_shell_construct): disable the startup wizard.
 
 2004-06-24  Not Zed  <NotZed@Ximian.com>
 

@@ -33,8 +33,6 @@
 #include "e-shell-constants.h"
 
 #include "e-shell.h"
-#include "es-menu.h"
-#include "es-event.h"
 
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
@@ -83,14 +81,9 @@
 
 #include <pthread.h>
 
-#include "e-util/e-plugin.h"
-#ifdef ENABLE_MONO
-#include "e-util/e-plugin-mono.h"
-#endif
 
-#ifndef DEVELOPMENT
-#define DEVELOPMENT (1)
-#endif
+/* #define DEVELOPMENT */
+
 
 static EShell *shell = NULL;
 
@@ -102,10 +95,6 @@ static gboolean killev = FALSE;
 #ifdef DEVELOPMENT
 static gboolean force_migrate = FALSE;
 #endif
-#ifdef ENABLE_MONO
-static gboolean disable_mono = FALSE;
-#endif
-static gboolean disable_eplugin = FALSE;
 
 static gint idle_cb (void *data);
 
@@ -249,7 +238,7 @@ show_development_warning(void)
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
 		  "eagerly await your contributions!\n"),
-		"2.0");
+		"1.4");
 	label = gtk_label_new (text);
 	g_free(text);
 
@@ -477,7 +466,7 @@ main (int argc, char **argv)
 		  N_("Start in online mode"), NULL },
 #ifdef KILL_PROCESS_CMD
 		{ "force-shutdown", '\0', POPT_ARG_NONE, &killev, 0, 
-		  N_("Forcibly shut down all Evolution components"), NULL },
+		  N_("Forcibly shut down all evolution components"), NULL },
 #endif
 #ifdef DEVELOPMENT
 		{ "force-migrate", '\0', POPT_ARG_NONE, &force_migrate, 0, 
@@ -485,12 +474,6 @@ main (int argc, char **argv)
 #endif
 		{ "debug", '\0', POPT_ARG_STRING, &evolution_debug_log, 0, 
 		  N_("Send the debugging output of all components to a file."), NULL },
-#ifdef ENABLE_MONO
-		{ "disable-mono", '\0', POPT_ARG_NONE, &disable_mono, 0, 
-		  N_("Disable the mono plugin environment."), NULL },
-#endif
-		{ "disable-eplugin", '\0', POPT_ARG_NONE, &disable_eplugin, 0, 
-		  N_("Disable loading of any plugins."), NULL },
 		{ "setup-only", '\0', POPT_ARG_NONE | POPT_ARGFLAG_DOC_HIDDEN,
 		  &setup_only, 0, NULL, NULL },
 		{ NULL, '\0', 0, NULL, 0, NULL, NULL }
@@ -587,17 +570,6 @@ main (int argc, char **argv)
 	g_value_unset (&popt_context_value);
 
 	gnome_sound_init ("localhost");
-
-	if (!disable_eplugin) {
-#ifdef ENABLE_MONO
-		if (!disable_mono && getenv("EVOLUTION_DISABLE_MONO") == NULL)
-			e_plugin_register_type(e_plugin_mono_get_type());
-#endif
-		e_plugin_register_type(e_plugin_lib_get_type());
-		e_plugin_hook_register_type(es_menu_hook_get_type());
-		e_plugin_hook_register_type(es_event_hook_get_type());
-		e_plugin_load_plugins();
-	}
 
 #ifdef DEVELOPMENT
 	client = gconf_client_get_default ();

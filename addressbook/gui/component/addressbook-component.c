@@ -31,10 +31,6 @@
 #include "addressbook-view.h"
 #include "addressbook/gui/contact-editor/eab-editor.h"
 #include "addressbook/gui/widgets/eab-gui-util.h"
-#include "e-util/e-plugin.h"
-#include "addressbook/gui/widgets/eab-popup.h"
-#include "addressbook/gui/widgets/eab-menu.h"
-#include "addressbook/gui/widgets/eab-config.h"
 
 #include "widgets/misc/e-task-bar.h"
 #include "widgets/misc/e-info-label.h"
@@ -335,7 +331,6 @@ static void
 addressbook_component_init (AddressbookComponent *component)
 {
 	AddressbookComponentPrivate *priv;
-	static int first = TRUE;
 
 	priv = g_new0 (AddressbookComponentPrivate, 1);
 
@@ -351,13 +346,6 @@ addressbook_component_init (AddressbookComponent *component)
 #ifdef ENABLE_SMIME
 	smime_component_init ();
 #endif
-
-	if (first) {
-		first = FALSE;
-		e_plugin_hook_register_type(eab_popup_hook_get_type());
-		e_plugin_hook_register_type(eab_menu_hook_get_type());
-		e_plugin_hook_register_type(eab_config_hook_get_type());
-	}
 }
 
 

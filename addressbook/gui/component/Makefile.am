@@ -1,3 +1,5 @@
+SUBDIRS	= select-names
+
 INCLUDES =									\
 	-DG_LOG_DOMAIN=\"evolution-addressbook\"		\
 	-I$(top_srcdir)						\
@@ -46,6 +48,7 @@ endif
 libevolution_addressbook_la_LIBADD =							\
 	$(SMIME_LIB)									\
 	$(top_builddir)/addressbook/printing/libecontactprint.la			\
+	$(top_builddir)/addressbook/gui/component/select-names/libeselectnames.la	\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/merging/libeabbookmerging.la			\
 	$(top_builddir)/addressbook/gui/widgets/libeabwidgets.la			\
@@ -57,6 +60,7 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
+	$(top_builddir)/camel/libcamel.la						\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 
@@ -76,7 +80,7 @@ schema_DATA = $(schema_in_files:.schemas.in.in=-$(BASE_VERSION).schemas)
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
-			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $$p; \
+			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
 		done \
 	fi
 

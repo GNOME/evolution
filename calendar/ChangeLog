@@ -1,847 +1,41 @@
-2005-02-18  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/alarm-notify/alarm-notify.c (cal_opened_cb): if opening
-	the calendar failed, disconnect signals and unref it.
-
-2005-02-18  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* _EventPagePrivate: added a boolean variable is_meeting.
-	* _TaskPagePrivate: added a boolean variable is_assignment.
-	* gui/dialogs/task-page.h:
-	* gui/dialogs/event-page.h: Added a function to set
-	the is_meeting boolean variable.
-	* gui/dialogs/event-editor.c: (show_meeting):
-	* gui/dialogs/task-editor.c: (show_assignment): Called
-	the function to set the boolean variable.
-	* gui/dialogs/event-page.c: (event_page_init),
-	(event_page_set_meeting), (source_changed_cb):
-	* gui/dialogs/task-page.c: (task_page_init),
-	(task_page_set_assignment), (source_changed_cb):
-	If the source is changed and only if its a group
-	event show the send options frame.
-	* gui/gnome-cal.c: (client_cal_opened_cb): Do not
-	popup the offline error dialog for tasks.
-
 2005-02-15  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/migration.c (migrate_ical_folder_to_source): check return value
 	from e_cal_new, to display a better warning message.
 
-2005-02-11  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #72038
-
-	* gui/itip-utils.c (itip_send_comp): when we get no recipients, don't
-	send the message and return an error.
-
-2005-02-10  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/e-cal-model.c: (e_cal_view_objects_added_cb): Remove
-	the component from the view, if its already present before 
-	adding it.
-
-2005-02-09  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/event-editor.c: (event_editor_edit_comp):
-	Always remove the meeting and scheduling pages when there are no
-	attendees. This allows the sender to be added to the attendees list 
-	by default while creating new meetings.
-
-2005-02-08  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (set_instance_times): set instance times correctly.
-
-2005-02-07  JP Rosevear  <jpr@novell.com>
-
-	Fixes #61075
+2005-02-03  Yong Sun <yong.sun@sun.com>
+ 
+         Fix for #56901
+ 
+         * gui/print.c: (bound_text): When the width>maxwidth, the 
+ 	pointer 'p' should also be backwarded, same as 'o'.
 	
-	* gui/apps_evolution_calendar.schemas.in.in: add long descriptions
-	and clean up short items
-
-2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
-
-	* calendar-errors.xml:
-	* calendar-errors.xml.h:
-	* gui/e-tasks.c: (client_cal_opened_cb):
-	* gui/gnome-cal.c: (client_cal_opened_cb),
-	(default_client_cal_opened_cb): add messages for
-	calendar/tasks not marked for offline usage.
-	
-
-2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/comp-editor.c (attach_message), (drop_action),
-	(drop_popup_copy), (drop_popup_move), (drop_popup_cancel),
-	(drop_popup_free), (drag_data_received), (drag_motion),
-	(comp_editor_class_init), (comp_editor_init), (real_edit_comp):
-	fix the dnd woes on calendar attachments.
-	* gui/dialogs/cal-attachment-bar.c (add_from_file): reuse  
-	mail composer's error message.
-	
-2005-02-04  Harry Lu  <harry.lu@sun.com>
-
-	Add a11y name for attachment button and bars.
-
-	* gui/dialogs/cal-attachment-bar.c: (cal_attachment_bar_new):
-	* gui/dialogs/comp-editor.c: (setup_widgets):
-
-2005-02-04  Rodney Dawes  <dobey@novell.com>
-
-	* gui/dialogs/comp-editor.[ch]: Add a string to CompEditorPrivate to
-	store the name of the help section we need to refer for derived dialogs
-	(response_cb): Handle the GTK_RESPONSE_HELP response and show help
-	(setup_widgets): Add a button to the dialog for Help
-	(comp_editor_init): Default to the "usage-calendar" help section
-	(comp_editor_finalize): Free the help_section variable
-	(comp_editor_show_help): Add a new method to actually open the help
-	(comp_editor_set_help_section): Add a method for derivatives to set the
-	help section they want to open
-
-	* gui/dialogs/event-editor.c (event_editor_init): Set the help section
-	we want to open for the event editor to "usage-calendar-apts"
-
-	* gui/dialogs/task-editor.c (task_editor_init): Set the help section
-	we want to open for the event editor to "usage-calendar-todo"
-	
-2005-02-04  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-tasks.c (update_view): clear the component preview when we
-	update the view.
-
-	* gui/e-cal-model.c (set_instance_times): use the correct timezone.
-	Removed commented code.
-
-2005-02-04  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #71265
-
-	* gui/e-week-view.c (e_week_view_remove_event_cb):
-	* gui/e-day-view.c (e_day_view_remove_event_cb): if we remove the
-	event we were editing, update internal pointers.
-
-2005-02-04  Vivek Jain <jvivek@novell.com>
-	
-	* calendar-errors.xml.h
-	* calendar-errors.xml : changed the warning message string for
-	server-version
-
-2005-02-04  Yong Sun <yong.sun@sun.com>
-
-	Fix for #56901
-
-	* gui/print.c: (bound_text): When the width>maxwidth, the 
-	pointer 'p' should also be backwarded, same as 'o'.
-
-2005-02-03  Rodney Dawes  <dobey@novell.com>
-
-	* calendar-errors.xml.h: Update to include new strings from the
-	calendar-errors.xml file
-
-2005-02-03  Li Yuan  <li.yuan@sun.com>
-
-	* gui/dialogs/task-details-page.c: (get_widgets):
-	add a11y name to url.
-	* gui/dialogs/task-details-page.glade:
-	add a11y name to date completed.
-	* gui/dialogs/task-page.glade:
-	add a11y names to due date and start date.
-
-2005-02-03  Vivek Jain <jvivek@novell.com>
-	
-	* calendar-errors.xml : added a warning message for invalid server
-	version
-	* gui/gnome-cal.c (default_client_cal_opened_cb)
-	(client_cal_opened_cb): added a case to check the
-	call status and display warning	
-
-2005-02-02  Rodney Dawes  <dobey@novell.com>
-
-	* gui/dialogs/alarm-dialog.c (alarm_dialog_run): Set the border width
-	for the internal dialog containers to be HIG compliant
-
-	* gui/dialogs/alarm-dialog.glade: Remove the separator in the dialog
-	and fix some spacing/padding issues to be HIG compliant
-
-	* gui/dialogs/alarm-list-dialog.c (alarm_list_dialog_run): Set the
-	border width for the internal dialog containers to be HIG compliant
-	
-	* gui/dialogs/alarm-list-dialog.glade: Remove the separator in the
-	dialog and fix some spacing/padding issues to be HIG compliant
-
-2005-02-02  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #72090
-
-	* gui/calendar-component.c (impl_handleURI): don't assume the URI is
-	always correct.
-
-2005-02-01  Rodney Dawes  <dobey@novell.com>
-
-	* gui/dialogs/comp-editor.c (setup_widgets): Clean up the spacing
-	and padding, and shove the notebook and expander arrow into a vbox
-	so that we can be HIG compliant
-	(comp_editor_init): Remove the separator from the "dialog" and set
-	the border width for the internal dialog widgets appropriately to
-	be compliant with the HIG for dialog borders
-	
-2005-02-01  JP Rosevear  <jpr@novell.com>
-
-	* gui/e-tasks.c (e_tasks_destroy): fix typo
-
-	* gui/gnome-cal.c (gnome_calendar_destroy): ditto
-	
-2005-02-01  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-menu.c (e_cal_menu_target_new_select):
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): add correct mask
-	for detached recurrences.
-
-2005-02-01  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/calendar-commands.c
-	(calendar_control_sensitize_calendar_commands): only add real data
-	to the array.
-
-2005-02-01  JP Rosevear  <jpr@novell.com>
-
-	Fixes #71944
-	
-	* gui/e-tasks.c: declare config_categories_changed_cb before its
-	used
-
-2005-01-31  Hans Petter Jansson  <hpj@novell.com>
-
-	* common/Makefile.am (libevolution_calendarprivate_la_LDFLAGS):
-	Remove the -module flag, this isn't supposed to be a module.
-
-2005-01-31  Hans Petter Jansson  <hpj@novell.com>
-
-	* idl/evolution-calendar.idl: Remove definition of CalObjUID and
-	include that from Evolution-DataServer-Calendar.idl instead. This
-	prevents the typecode from being defined twice.
-
-2005-01-31  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/e-cal-config.c (_ECalConfigPrivate): Use guint instead of ulong
-	for signal ID.
-
-2005-01-31  Priit Laes <amd@tt.ee>
-
-	Fixes #61078
-
-	* gui/dialogs/task-page.glade: use consistent style for markup.
-
 2005-01-31  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #64682
-	* gui/e-calendar-view.c: (transfer_item_to): Added an 
-	X property to identify if the appointment is moved from 
+	* gui/e-calendar-view.c: (transfer_item_to): Added an X-property
+	so that the backend could identify if the appointment is moved from
 	another calendar.
 
-2005-01-28  JP Rosevear  <jpr@novell.com>
-
-	Fixes #71452
+2004-01-16  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #41624
+ 	
+ 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
+ 	append the exceptions, don't keep overwriting the first
 	
-	* gui/dialogs/comp-editor.c (setup_widgets): listen for
-	delete_event signal and handle it outside of the response signal
-	so that cancel works properly
-
-2005-01-28  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-tasks.c (setup_widgets):
-	* gui/gnome-cal.c (setup_widgets): use correct key name.
-
-2005-01-28  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #33078
-
-	* gui/gnome-cal.c: deal now with categories entirely here, no more
-	"categories_changed" signal from the backends.
-	(free_categories, add_categories, append_category_cb,
-	client_categories_changed_cb, copy_categories): removed.
-	(gnome_calendar_add_source): don't connect to removed signal.
-	(gnome_calendar_destroy): destroy the config listener.
-	(gnome_calendar_init): create a listener for the categories list
-	GConf key.
-	(config_categories_changed_cb): callback for configuration changes
-	in category list.
-	(setup_widgets): initialize the search bar with categories from
-	the configuration.
-
-	* gui/e-tasks.c (client_categories_changed_cb, e_tasks_add_todo_source,
-	e_tasks_init, config_categories_changed_cb, e_tasks_destroy,
-	setup_widgets): same as gnome-cal.c.
-
-2005-01-26  JP Rosevear  <jpr@novell.com>
-
-	Fixes #71485
-	
-	* calendar-errors.xml: fix paste-o
-
-2005-01-27  Harry Lu <harry.lu@sun.com>
-
-	Fix a runtime invalid cast warning.
-
-	* gui/e-calendar-table.c: (e_calendar_table_init): only set
-	a11y name if atk is enabled.
-
-2005-01-26  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/dialogs/recurrence-page.c (sensitize_buttons): objects returned
-	from e_cal_get_objects_for_uid are ECalComponent's, so use
-	g_object_unref to free them, not icalcomponent_free.
-
-2005-01-26  Li Yuan  <li.yuan@sun.com>
-
-	* gui/dialogs/cal-prefs-dialog.glade:
-	use full name for the weekday checkbox.
-
-	Fixes #71729.
-
-
-2005-01-26  JP Rosevear  <jpr@novell.com>
-
-	* gui/itip-utils.c (itip_send_comp): make sure we free the user
-	list
-
-2005-01-25  Li Yuan  <li.yuan@sun.com>
-
-	* gui/e-calendar-table.c: (e_calendar_table_init):
-	add a11y name to task table.
-
-2005-01-24  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/dialogs/recurrence-page.c (sensitize_buttons): if there are
-	detached instances, disable recurrence date widgets.
-
-2005-01-21  JP Rosevear  <jpr@novell.com>
-
-	Fixes #46404
-	
-	* gui/tasks-control.c (tasks_control_print_cmd): just call print
-	tasks, we don't do the dialog here
-
-	* gui/print.h: update protos
-
-	* gui/print.c (print_calendar): use e_print routines for config
-	and dialog and make copies and range settings properly available
-	(print_comp): ditto
-	(print_table): bring up dialog here so that printing for calendar
-	list view works correctly
-
-	* gui/calendar-commands.c (print): pass extra params to print
-	table
-
-2005-01-19  Rodrigo Moya <rodrigo@novell.com>
-
-	* importers/icalendar-importer.c (update_objects): use receive_objects
-	method instead of individually updating objects. Set the method on the
-	VCALENDAR object we create.
-
-2005-01-18  Rodrigo Moya <rodrigo@novell.com>
-
-	Fixes #71407
-
-	* gui/e-week-view.c (process_component): killed warnings.
-	(e_week_view_start_editing_event): do nothing if the calendar is
-	read only.
-
-	* gui/e-day-view.c (e_day_view_start_editing_event): ditto.
-
-2005-01-18  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/cal-attachment-bar.c 
-	(cal_attachment_bar_get_attachment_list): handle error conditions more
-	gracefully.
-
-2005-01-17  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/calendar-component.c:
-	* gui/calendar-offline-handler.c:
-	* gui/comp-editor-factory.c:
-	* gui/e-tasks.c:
-	* gui/gnome-cal.c:
-	* gui/misc.c:
-	* gui/alarm-notify/alarm-notify.c: use libedataserver's e-url.
-
-2005-01-17  Nat Friedman  <nat@novell.com>
-
-	* gui/dialogs/url-editor-dialog.glade: Changed the title for the
-	free/busy publishing settings dialog to "Free/Busy Publishing
-	Settings" (away from "Free/Busy Editor" which made no sense).
-
-2005-01-17  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-calendar-view.c (on_unrecur_appointment): removed the
-	e_day_view_... prefix in warning messages.
-
-2005-01-17  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/cal-attachment-bar.c (destroy):
-	fixed a kludge.
-
-2005-01-12  JP Rosevear  <jpr@novell.com>
-
-	Fixes #65820
-	
-	* gui/weekday-picker.c (get_day_text): add translator comment
-
 2005-01-08  Not Zed  <NotZed@Ximian.com>
 
 	* gui/e-day-view.c (e_day_view_finish_resize): set
 	last_Edited_comp_string to NULL, not test it for null.
 
-2005-01-12  Harish Krishnaswamy  <kharish@novell.com>
+2004-12-06  Rodrigo Moya <rodrigo@novell.com>
 
-	* gui/dialogs/cal-attachment-bar.c:
-	(cal_attachment_bar_set_attachment_list):
-	reverting the offset 'hyphen' fix - not required anymore.	
-
-2005-01-10  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-day-view.c (e_day_view_on_editing_stopped): remove the
-	temporary object from the view when stopping editing.
-
-	* gui/e-week-view.c (e_week_view_on_editing_stopped): ditto.
-	
-2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/cal-attachment-bar.c:
-	(cal_attachment_bar_set_attachment_list):
-	offset the file name to account for the 'hyphen'.
-
-2005-01-10  Chenthill Palanisamy <pchenthill@novell.com>
-
-	* gui/dialogs/event-page.glade
-	* gui/dialogs/task-page.glade: Showed the send options
-	button and label. Hided the Send options Frame.
-
-2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/dialogs/cal-attachment-bar.[ch]: (destroy), (init),
-	(cal_attachment_bar_set_local_attachment_store),
-	(cal_attachment_bar_get_attachment_list),
-	(cal_attachment_bar_get_nth_attachment_filename),
-	(cal_attachment_bar_set_attachment_list):
-	Modified cal-attachment-bar to allow the path to 
-	the local attachment store be set externally, thereby
-	hiding the storage policy of different backends from it.
-	* gui/dialogs/comp-editor.c: (real_edit_comp):
-	set the local attachment store after obtaining it from 
-	the calendar.
-
-2005-01-09  JP Rosevear  <jpr@novell.com>
-
-	* gui/calendar-component.c (impl_handleURI): handle calendar://
-	uris
-
-2005-01-07  JP Rosevear  <jpr@novell.com>
-
-	* gui/dialogs/event-editor.c (event_editor_edit_comp): clear the
-	attendees, somehow I remove this in an earlier commit
-
-2005-01-07  Rodrigo Moya <rodrigo@novell.com>
+	Fixes #68077
 
 	* gui/dialogs/event-page.glade:
-	* gui/dialogs/task-page.glade: put a name to the 'Send options' frame.
-
-	* gui/dialogs/event-page.c (event_page_init): initialize reference to
-	the 'Send options' frame.
-	(get_widgets): get the 'Send options' frame from the .glade file.
-	(event_page_hide_options): just hide the frame.
-	(event_page_show_options): just show the frame.
-
-	* gui/dialogs/task-page.c (task_page_init): initialize reference to the
-	'Send options' frame.
-	(get_widgets): get the 'Send options' frame from the .glade file.
-	(task_page_hide_options): just hide the frame.
-	(task_page_show_options): just show the frame.
-
-2005-01-06  David Trowbridge  <trowbrds@cs.colorado.edu>
-
-	* gui/e-cal-event[hc]: initial import of ECalEvent targets
-
-	* gui/migration.c (migrate_calendars): add component.migration event
-
-2005-01-06  JP Rosevear  <jpr@novell.com>
-
-	* gui/Makefile.am: install schemas properly
-
-2005-01-06  Chenthill Palanisamy <pchenthill@novell.com>
-	
-	merging send options
-	* gui/dialogs/Makefile.am: Added two new files for send options.
-	* gui/dialogs/e-send-options-utils.{ch}:
-	(e_sendoptions_utils_set_default_data),
-	(e_sendoptions_utils_fill_component): For setting and gettings the 
-	send options.
-	* gui/dialogs/event-editor.c (event_editor_construct): Check for the static
-	capabilities before showing send options.
-	* gui/dialogs/event-page.c: (event_page_show_options),
-	(event_page_fill_component), (e_sendoptions_clicked_cb):
-	* gui/dialogs/event-page.glade:
-	* gui/dialogs/event-page.h: Added function to show/hide the send options button
-	and label and run the send options dialog. 
-	* gui/dialogs/task-editor.c: (task_editor_construct),
-	(task_editor_edit_comp):
-	* gui/dialogs/task-page.c: (task_page_init), (task_page_finalize),
-	(sensitize_widgets), (task_page_hide_options),
-	(task_page_show_options), (task_page_fill_widgets),
-	(task_page_fill_component), (get_widgets), (source_changed_cb),
-	(e_sendoptions_clicked_cb), (init_widgets): Same as event-page.
-	* gui/dialogs/task-page.glade: Added the send options button
-	* gui/dialogs/task-page.h: Added functions hiding and showing send
-	options button
-
-2005-01-05  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-day-view.c (e_day_view_find_event_from_uid): added a new
-	argument to pass the calendar client, since it might happen to have
-	events with the same UID on different calendars.
-	(e_day_view_do_key_press, model_rows_deleted_cb): added new argument
-	to e_day_view_find_event_from_uid.
-
-	* gui/e-week-view.c (e_week_view_find_event_from_uid): same as
-	e-day-view.c.
-	(e_week_view_do_key_press, model_rows_deleted_cb): added new argument
-	to e_week_view_find_event_from_uid.
-
-2005-01-04  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-component-preview.c (write_html): use the new e-categories
-	API in e-d-s.
-
-2005-01-04  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-week-view.c (model_rows_deleted_cb): search our internal data
-	for the correct event.
-
-2005-01-04  Harry Lu  <harry.lu@sun.com>
-
-	* gui/calendar-component.c: (create_component_view): add a11y name 
-	to calendar sidebar selector.
-	* gui/tasks-component.c: (create_component_view): add a11y name 
-	to task sidebar selector.
-
-2005-01-03  JP Rosevear  <jpr@novell.com>
-
-	Fixes #69663
-	
-	* gui/e-cal-model-tasks.c (is_complete): look at the percent
-	complete and status properties as well for completeness clues
-
-2005-01-03  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (e_cal_model_set_time_range): redo the queries
-	after emitting the 'time_range_changed' signal, since now the
-	views will only update their internal data but not redraw the
-	events on that signal.
-
-	* gui/e-day-view.c (model_changed_cb): removed, no longer needed.
-	(e_day_view_recalc_day_starts): no need to call e_day_view_update_query.
-	(e_day_view_init): no need to connect to 'model_changed' signal
-	on the model, we already connect to the row/cell_changed ones.
-
-	* gui/e-week-view.c (time_range_changed_cb): no need to call
-	e_week_view_update_query.
-	(model_changed_cb): removed, no longer needed.
-	(e_week_view_init): no need to connect to 'model_changed' signal
-	on the model, we already connect to the row/cell_changed ones.
-
-2004-12-31  JP Rosevear  <jpr@novell.com>
-
-	* gui/dialogs/schedule-page.c: add necessary include
-
-	* gui/dialogs/meeting-page.c (sensitize_widgets): kill warning
-
-	* gui/dialogs/cal-prefs-dialog.c (template_url_changed): kill warning
-
-	* gui/dialogs/alarm-dialog.c (malarm_widgets_to_alarm): kill warnings
-	(init_widgets): ditto
-
-	* gui/main.c (initialize): no need to init the config system now
-
-	* gui/e-cell-date-edit-config.h: include date edit text header
-
-	* gui/e-cal-config.c (ecp_target_free): kill warning
-
-	* gui/calendar-config.c: clean up includes, internally initialize
-	the config setup to make it easier for others; kill dead functions
-
-2004-12-26  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (search_by_uid_and_client): removed superfluous if
-	check.
-	(e_cal_view_objects_modified_cb): add all objects at once.
-
-	* gui/e-day-view.c (e_day_view_remove_event_cb): set fields we
-	free to NULL.
-
-2004-12-24  Harish Krishnaswamy <kharish@novell.com>
-
-	* gui/dialogs/event-editor.c (event_editor_edit_comp):
-	Check for the existence of the meet/sched pages before
-	attempting to remove them.
-
-2004-12-23  Chenthill Palanisamy <pchenthill@novell.com>
-
-	Part of merge from offline branch 
-	
-	* gui/dialogs/calendar-setup.c
-	(eccp_general_offline): function to add the check box for
-	folder offline settings.
-	(offline_status_changed_cb): call back function for the same.
-	(ECalConfigItem eccp_items[]), (ECalConfigItem ectp_items[]):
-	 Added the check box function call in both the structures.
-	
-2004-12-23  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (set_instance_times): get instance times using
-	the correct timezone.
-	(redo_queries): emit signals before clearing the array.
-
-	* gui/e-day-view.c (process_component):
-	* gui/e-week-view.c (process_component): no need to try to update,
-	always add.
-
-2004-12-23  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/e-select-names-editable.c: Correct bad include.
-
-	* gui/dialogs/Makefile.am (IDL_GENERATED_H)
-	(IDL_GENERATED)
-	(BUILT_SOURCES): No longer needed, removed.
-
-2004-12-22  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/Makefile.am (IDLS)
-	(SELECT_NAMES_IDL_GENERATED_H)
-	(SELECT_NAMES_IDL_GENERATED_C)
-	(SELECT_NAMES_IDL_GENERATED)
-	(IDL_GENERATED): Remove the addressbook IDL.
-
-	* gui/e-meeting-list-view.c (e_meeting_list_finalize)
-	(add_section)
-	(e_meeting_list_view_init)
-	(process_section)
-	(name_selector_dialog_close_cb)
-	(get_select_name_dialog): Adapt to new ENameSelector.
-
-	* gui/e-select-names-editable.c (esne_start_editing)
-	(esne_finalize)
-	(esne_init)
-	(e_select_names_editable_get_type)
-	(entry_activate)
-	(e_select_names_editable_construct)
-	(e_select_names_editable_get_address)
-	(e_select_names_editable_get_name)
-	(e_select_names_editable_set_address): Adapt to new ENameSelector.
-
-	* gui/e-select-names-renderer.c (e_select_names_renderer_editing_done)
-	(e_select_names_renderer_activated)
-	(e_select_names_renderer_start_editing): Adapt to new ENameSelector.
-
-	* gui/dialogs/alarm-dialog.c (malarm_widgets_to_alarm)
-	(addressbook_clicked_cb)
-	(addressbook_response_cb)
-	(setup_select_names)
-	(check_custom_email)
-	(malarm_addresses_changed_cb): Adapt to new ENameSelector.
-
-	* gui/dialogs/e-delegate-dialog.c (e_delegate_dialog_finalize)
-	(e_delegate_dialog_construct)
-	(addressbook_clicked_cb)
-	(addressbook_response_cb)
-	(e_delegate_dialog_get_delegate)
-	(e_delegate_dialog_get_delegate_name): Adapt to new ENameSelector.
-	
-2004-12-22  JP Rosevear  <jpr@novell.com>
-
-	* gui/e-meeting-store.c (freebusy_async): prevent compare against
-	null default_fb_uri and fix thinko
-
-2004-12-22  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-cal-model.c: Change copyright from ximian to novell
-
-2004-12-17  Not Zed  <NotZed@Ximian.com>
-
-	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu): 
-
-	* gui/tasks-component.c (popup_event_cb): 
-
-	* gui/gnome-cal.c (gnome_calendar_view_popup_factory): 
-
-	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu): 
-
-	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): 
-
-	* gui/dialogs/meeting-page.c (button_press_event): 
-
-	* gui/calendar-component.c (popup_event_cb): 
-
-2004-12-22  JP Rosevear  <jpr@novell.com>
-
-	Fixes #61077
-	
-	* gui/dialogs/task-details-page.glade: remove extraneous tab
-
-	* gui/dialogs/alarm-dialog.c: ditto
-	
-2004-12-22  JP Rosevear  <jpr@novell.com>
-	
-	Fixes #61076
-	
-	* gui/comp-editor-factory.c (open_client): don't translate command
-	line warnings
-
-	* gui/calendar-offline-handler.c (backend_go_online): ditto
-	(backend_go_offline): ditto
-	
-2004-12-21  JP Rosevear  <jpr@novell.com>
-
-	Fixes #41624
-	
-	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
-	append the exceptions, don't keep overwriting the first
-
-2004-12-21  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-model.c (set_instance_times): no need to convert times now.
-	(add_instance_cb): no need to convert here.
-
-2004-12-21  Rodrigo Moya <rodrigo@novell.com>
-
-	Merge from recurrences-work-branch
-
-	* gui/e-cal-model.c (free_comp_data): renamed to
-	e_cal_model_free_component_data and made it public.
-	(clear_objects_array, e_cal_view_objects_removed_cb,
-	remove_client_objects): use e_cal_model_free_component_data.
-	(get_dtstart): get the DTSTART correctly for recurrences.
-	(add_instance_cb): initialize all members of ECalModelComponent, and
-	use the correct icalcomponent when setting the field.
-	(set_instance_times): new function to set the instance_* fields of
-	the ECalModelComponent when not expanding recurrences.
-	(e_cal_view_objects_added_cb): expand recurrences for all objects when
-	the model is set to expand. Call set_instance_times when not
-	expanding recurrences.
-	(e_cal_view_objects_modified_cb): made it remove objects and re-add
-	them.
-	(copy_ecdv): check values before using them.
-	(e_cal_model_copy_component_data): Added code to copy the instance_* and
-	color fields.
-
-	* gui/e-cal-model-calendar.c (get_dtend): get the DTEND correctly for
-	recurrences.
-	(ecmc_set_value_at): ask user which instances to modify.
-
-	* gui/e-day-view.c (e_day_view_find_event_from_uid): changed to search
-	by UID and RID if given.
-	(process_component): changed to not expand recurrences at all, this is
-	now done on the model.
-	(row_deleted_check_cb, remove_uid_cb): removed these functions.
-	(model_rows_deleted_cb): changed to just remove the rows signalled from
-	the model, which is the responsible for the recurrence expansion.
-	(e_day_view_new): set the model to expand recurrences.
-	(e_day_view_remove_event_cb): check the value searched in the array.
-	(e_day_view_do_key_press): use e_day_view_find_event_from_uid correctly.
-
-	* gui/e-week-view.c (e_week_view_find_event_from_uid): changed to search
-	by UID and RID if given.
-	(process_component_recur_cb): removed.
-	(process_component): changed to not expand recurrences at all, this is
-	now done on the model.
-	(row_deleted_check_cb, remove_uid_cb): removed these functions.
-	(model_rows_deleted_cb): changed to just remove the rows signalled from
-	the model, which is the responsible for the recurrence expansion.
-	(e_week_view_new): set the model to expand recurrences.
-	(e_week_view_remove_event_cb): check the value searched in the array.
-	Set the ECalModelComponent field to NULL after freeing it.
-	(e_week_view_do_key_press): use e_week_view_find_event_from_uid
-	correctly.
-
-	* gui/dialogs/recur-comp.c (recur_component_dialog): remove the
-	RECURRENCE-ID from the object when modifying all instances.
-
-2004-12-18  James Bowes  <bowes@cs.dal.ca>
-
-	* gui/apps_evolution_calendar.schemas.in.in: Add schema for Free/Busy
-	template uri.
-	* gui/calendar-config-keys.h:
-	* gui/calendar-config.c: (calendar_config_get_free_busy_template),
-	(calendar_config_set_free_busy_template),
-	(calendar_config_add_notification_free_busy_template):
-	* gui/calendar-config.h: Functions to get, set and monitor the 
-	Free/Busy template uri gconf setting.
-	* gui/dialogs/cal-prefs-dialog.c: (template_url_changed),
-	(setup_changes), (get_widgets), (show_fb_config):
-	* gui/dialogs/cal-prefs-dialog.glade:
-	* gui/dialogs/cal-prefs-dialog.h: Change 'Free/Busy Publish' tab to
-	'Free/Busy'. Add an entry for setting the default Free/Busy uri. 
-	Only change the gconf setting on 'focus out' event
-	* gui/e-meeting-store.c: (refresh_queue_remove): Check the hash using
-	the attendee's mailto: address, rather than the memory address of the 
-	attendee object as the key.
-	(e_meeting_store_get_fb_uri), (e_meeting_store_set_fb_uri): Get and set
-	the EMeetingStore's Free/Busy template string.
-	(process_callbacks_main_thread), (process_callbacks): Process callbacks
-	in the main thread, so that widgets can be redrawn properly.
-	(replace_string): Utility function for replacing wildcards in the
-	default Free/Busy uri.
-	(ems_finalize),	(ems_init), (freebusy_async), (refresh_busy_periods), 
-	(refresh_queue_add), (e_meeting_store_refresh_busy_periods): Add the 
-	ability to check for Free/Busy information from a default location, 
-	if all else fails.
-	(start_async_read): Use gnome-vfs to read the Free/Busy information.
-	* gui/e-meeting-store.h: Add function prototypes for get and set fb_uri
-	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_init),
-	(e_meeting_time_selector_destroy), (free_busy_timeout_refresh), 
-	(free_busy_template_changed_cb): Watch for a change in the Free/Busy 
-	template gconf setting, and check for new Free/Busy data if it occurs.
-	* gui/e-meeting-time-sel.h: Include variable for notification function
-	id on changes to the Free/Busy uri in the EMeetingTimeSelector .
- 
-2004-12-17  Rodney Dawes  <dobey@novell.com>
-
-	* gui/alarm-notify/alarm-notify-dialog.c (an_minutes_update_label):
-	Add callback function for doing ngettext on the "minutes" label
-	(alarm_notify_dialog): Get the "minutes" label from the glade file
-	and set the callback for its "value_changed" signal
-
-	Fixes #47535
-
-2004-12-13  Harish Krishnaswamy <kharish@novell.com>
-
-	* gui/dialogs/calendar-setup.c : Correct some white space 
-	ugliness in the previous commit.
-
-2004-12-13  Vivek Jain <jvivek@novell.com>
-
-	* gui/dialogs/calendar-setup.c : Changed the window title based upon
-	the source.
-
-2003-12-09  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-calendar-view.c (on_unrecur_appointment): keep a local copy
-	of the ECal.
-
-2004-12-08  Hans Petter Jansson  <hpj@novell.com>
-
-	* gui/e-meeting-list-view.c
-	* gui/e-select-names-editable.c
-	* gui/dialogs/alarm-dialog.c
-	* gui/dialogs/e-delegate-dialog.c: Include <libebook/e-destination.h>
-	from evolution-data-server.
-
-2004-12-08  Harish Krishnaswamy <kharish@novell.com>
-	
-	* gui/e-week.c (time_range_changed_cb, e_week_view_set_first_day_shown):
-	update the query so currently held events can be cleared off.
-
-2004-12-08  David Mosberger <davidm@napali.hpl.hp.com>
-
-	* gui/main.c: include plugin headers to fix 64 bit problems.
+	* gui/dialogs/task-page.glade: expand the horizontal box so that it
+	fills all available space.
 
 2004-12-06  Rodrigo Moya <rodrigo@novell.com>
 
@@ -856,130 +50,11 @@
 
 2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
 
-	* gui/dialogs/task-editor.[ch] (task_editor_new), (task_editor_construct),
-	(show_assignment):
-	Add a boolean variable to denote assigned task and construct the 
-	meeting page only for the assigned task. Set it as a group item
-	in component editor.
-	(_TaskEditorPrivate): added the boolean variable (is_assigned).
-	(task_editor_init): initialized the variable.
-	* gui/dialogs/comp-editor.[ch]: Added functions to set and get whether comp
-	 is a group item or individual item.
-	* gui/comp-editor.c (make_title_from_string), (make_title_from_comp):
-	Set the Title for the appointment editor window as "Meeting" or "Assigned
-	Task" if its a group calendar/task item.
-	(_CompEditorPrivate): added a boolean variable (is_group_item).
-	(comp_editor_init): initialized the same.
-	* gui/dialogs/event-editor.c (event_editor_construct), (show_meeting): Set whether
-	the component is a group item or not in comp editor.
-	* gui/e-calendar-table.c (e_calendar_table_open_task), (e_calendar_table_open_selected),
-	(open_task_by_row): Check whether the component being opened is an assigned task by
-	checking for attendees and call open_task with proper value for boolean variable assign.
-	* gui/comp-editor-factory.c (edit_existing):
-	* gui/e-calendar-table.c (open_task):
-	* gui/e-tasks.c (e_tasks_new_task):
-	* gui/gnome-cal.c (gnome_calendar_new_task):
-	* gui/tasks-component.c (create_new_todo):
-	Called the function task_editor_new with a added argument.
-
-2004-12-02  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* gui/e-day-view.c (e_day_view_finish_resize), (e_day_view_reshape_day_event)
-       	(e_day_view_change_event_time): Free the string day_view->last_edited_comp_string
+	* gui/e-day-view.c (e_day_view_finish_resize), (e_day_view_reshape_day_event),
+      	(e_day_view_change_event_time): Free the string day_view->last_edited_comp_string
 	before changing assigning it another value.
 	* gui/e-week-view.c (e_week_view_change_event_time): Free the string
 	week_view->last_edited_comp_string for the same reason above.
-	
-2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* calendar-errors.xml.h: committng this file. Missed to
-	commit this one.
-
-2004-11-29  Chenthill Palanisamy  <pchenthill@novell.com>
-	
-	* gui/dialogs/comp-editor.c (response_cb): Moved the call
-	for the warning dialog (send_component_prompt_subject) after 
-	the component is saved (save_comp_with_send). 
-	
-2004-11-26  JP Rosevear  <jpr@novell.com>
-
-	* gui/alarm-notify/alarm-queue.c (display_notification): ditto
-
-	* gui/e-timezone-entry.c (e_timezone_entry_init): get the image
-	directly from the icon factory
-
-2004-11-26  JP Rosevear  <jpr@novell.com>
-	
-	* gui/alarm-notify/alarm-queue.c (display_notification): prevent
-	crash if there is no description
-
-2004-11-25  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/calendar-component.c: 
-	(new_calendar_cb), (edit_calendar_cb): Use modified_setup_edit_calendar call.
-	(popup_event_cb): If source is null (Rt click on a source group), show the new 
-	calendar popup menu item. Else, do not show the new calendar option. 
-	* gui/dialogs/calendar-setup.[ch] (eccp_get_source_type): Compare the
-	source_groups by their uid and not the pointers, so that the correct option
-	is activated on the combo box.
-	(calendar_setup_edit_calendar) : add a source_group parameter to the function.
-	(calendar_setup_new_calendar): Use modified signature of the above function.
-	* gui/e-calendar-view.c (on_edit_appointment): check the icalcomponent
-	to see if it is a meeting and set the argument to e_calendar_view_edit_appointment
-	correctly.
-
-2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
-		
-	* gui/dialogs/event-deitor.c (show_meeting): removed the
-	call for comp_editor_show_page, so that the event page
-	shows up at first instead of meeting page when a meeting
-	is opened.
-
-2004-11-25  Chenthill Palanisamy  <pchenthill@novell.com>
-
-	* calendar-errors.xml: Added two error ids to display use
-	it when the meeting is created without a summary.
-	* gui/dialogs/send-comp.[ch] (send_component_prompt_subject): Added a 
-	function to prompt for a dialog when a meeting/assigned task is sent 
-	without a summary.
-	* gui/dialogs/comp-editor.c (response_cb): Called the above mentioned
-	function when the summary is not present.
-	
-2004-11-23  Rodney Dawes  <dobey@novell.com>
-
-	* gui/alarm-notify/alarm-notify-dialog.[ch]:
-	Add gtkimage.h to includes, and remove gtkhtml headers
-	Add and remove some widgets in the AlarmNotify struct
-	(dialog_destroy_cb, delete_event_cb, close_clicked_cb):
-	(snooze_clicked_cb, edit_clicked_cb, url_requested_cb):
-	(make_html_display, write_times, write_html_heading):
-	(alarm_notify_dialog_disable_buttons): 
-	Remove all these unneeded functions (no more GtkHTML in the dialog)
-	(alarm_notify_dialog): Add description and location arguments
-	Rename message argument to summary
-	Update gtk-doc comment block to reflect API changes
-	Clean up code to use gtk_dialog_run () and use a HIG compliant dialog
-
-	* gui/alarm-notify/alarm-notify.glade: Update the alarm notify
-	dialog to be HIG compliant and not use GtkHTML, and display more
-	information that is relevant to the appointment we are alerting of
-
-	* gui/alarm-notify/alarm-queue.c: Add new variables to the
-	TrayIconData structure so we can access the description and location
-	(on_dialog_objs_removed_cb): Remove alarm_dialog bits
-	(notify_dialog_cb): Remove alarm_dialog bits
-	(tray_icon_destroyed_cb): Free the description and location as well
-	(open_alarm_dialog): alarm_notify_dialog does all the work now, we
-	don't need to trap the dialog widget here
-	(display_notification): Add code to get the description and location
-	information from the cal component
-	Avoid using an alarm component which has less useful API
-	Fix a warning when creating the tray_icon widget
-	
-2004-11-15  Not Zed  <NotZed@Ximian.com>
-
-	* gui/dialogs/Makefile.am (libcal_dialogs_la_LIBADD): add
-	libeabutil, since we use e-destination.
 
 2004-11-08  Rodney Dawes  <dobey@novell.com>
 
@@ -989,386 +64,28 @@
 
 	Fixes #47529
 
-2004-11-04  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/dialogs/event-page.glade:
-	* gui/dialogs/task-page.glade: expand the horizontal box so that it
-	fills all available space.
-
-2004-11-03  David Trowbridge  <trowbrds@cs.colorado.edu>
-
-	* gui/e-cal-config.c: added EConfig subclass for calendars
-	* gui/calendar-component.c, gui/tasks-component.c: initialize
-	  plugin hooks on component startup.
-	* gui/dialogs/calendar-setup.c: Converted to use EConfig
-
-2004-11-04  Li Yuan  <li.yuan@sun.com>
-
-	Fixes #6767
-
-	* gui/e-day-view-main-item.c:
-	(e_day_view_main_item_draw_day_event):
-	use widget->style instead of hard code colors.
-	* gui/e-day-view.c: (e_day_view_realize), (e_day_view_set_colors),
-	(e_day_view_style_set), (e_day_view_reshape_long_event),
-	(e_day_view_reshape_day_event):
-	ditto.
-	* gui/e-week-view.c: (e_week_view_realize),
-	(e_week_view_set_colors), (e_week_view_style_set),
-	(e_week_view_reshape_event_span):
-	ditto.
-
 2004-11-02  JP Rosevear  <jpr@novell.com>
-
-	* gui/e-day-view-config.c (set_twentyfour_hour): make sure the day
-	view times redraw themselves if we switch 24/12 hour modes
-
+ 
+ 	Fixes #68707
+ 	
+ 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw):
+ 	restrict the range to 0-23 (midnight end times became '24')
+	
+2004-11-03  JP Rosevear  <jpr@novell.com>
+ 
+ 	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
+ 	for focus events
+ 	(setup_widgets): listen for listen view selection changes
+ 
+ 	* gui/e-cal-list-view.c (setup_e_table): listen for the cursor to
+ 	move
+ 	(e_cal_list_view_cursor_change_cb): indicate the selection changed
+	
 2004-11-02  JP Rosevear  <jpr@novell.com>
+  
+ 	* gui/e-day-view-config.c (set_twentyfour_hour): make sure the day
+ 	view times redraw themselves if we switch 24/12 hour modes
 	
-	Fixes #68707
-	
-	* gui/e-week-view-event-item.c (e_week_view_event_item_draw):
-	restrict the range to 0-23 (midnight end times became '24')
-
-2004-10-28  Not Zed  <NotZed@Ximian.com>
-
-	* gui/tasks-component.c (popup_event_cb): 
-	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu): 
-	* gui/e-calendar-table.c (e_calendar_table_show_popup_menu):
-	* gui/calendar-component.c (popup_event_cb): added hook doco.
-
-2004-10-27  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/e-cal-list-view.c (e_cal_list_view_new): don't expand recurrences
-	for the list view.
-
-2004-10-21  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/e-cal-popup.[ch]: (e_cal_popup_target_new_source):
-	Add status bits to denote if the calendar source is available offline
-	so that plugins to calendar popups can use the status qualifier to denote 
-	their visibility preferences.
-
-2004-10-21  Rodrigo Moya <rodrigo@novell.com>
-
-	* gui/dialogs/select-source-dialog.c: use the new source selector
-	dialog in libedataserverui.
-
-2004-10-20  JP Rosevear  <jpr@novell.com>
-
-	* gui/calendar-component.c: put an icon on the properties menu item
-
-	* gui/tasks-component.c: ditto
-	
-	* gui/main.c (initialize): register plugin hooks for tasks and
-	calendar
-
-2004-10-20  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-cal-popup.c (ecalph_class_init): correct classid
-
-2004-10-19  JP Rosevear  <jpr@novell.com>
-
-	* gui/calendar-component.c, gui/e-cal-menu.c, gui/e-cal-popup.c,
-	gui/e-calendar-table.c, gui/e-calendar-view.c, gui/gnome-cal.c,
-	gui/tasks-component.c, gui/alarm-notify/alarm-queue.c,
-	gui/dialogs/meeting-page.c: convert to org.gnome hook names
-
-2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/comp-editor-factory.c: (edit_existing):
-	Use e_cal_component_has_attendees to test if it is a meeting.
-	* gui/dialogs/event-editor.c: (event_editor_init):
-	By default, the event is not a meeting.
-	(event_editor_construct): Do not add the invitation, scheduling pages
-	to the editor if it is not a meeting. 
-	* gui/e-day-view.c: (e_day_view_on_event_double_click):
-	check the icalproperty to test if the event is a meeting.
-	
-2004-10-19  JP Rosevear  <jpr@novell.com>
-
-	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
-	for focus events
-	(setup_widgets): listen for listen view selection changes
-
-	* gui/e-cal-list-view.c (setup_e_table): listen for the cursor to
-	move
-	(e_cal_list_view_cursor_change_cb): indicate the selection changed
-
-2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
-
-	* gui/calendar-component.c (create_new_event):
-	* gui/e-calendar-view.c: (e_calendar_view_edit_appointment):
-	* gui/comp-editor-factory.c (edit_existing), (edit_new):
-	* gui/dialogs/event-editor.c (event_editor_edit_comp),
-	 (event_editor_new): updated the calls to event_editor_new 
-	with additional argument.
-	* gui/dialogs/event-editor.h: add parameter is_meeting to
-	distinguish between events and  meetings.
-	* gui/dialogs/meeting-page.c: (sensitize_widgets):
-	use explicit GError variable so that BUSY_ERROR
-	conditions do not lead us to think the calendar is readonly.
-	* gui/e-meeting-store.c: (refresh_queue_remove), (ems_init),
-	(e_meeting_store_remove_attendee), (freebusy_async),
-	(refresh_busy_periods), (refresh_queue_add): Make free-busy calls 
-	to backends async. Fixed the problem of spurious attendees getting 
-	added to the refresh_data.
-	
-2004-10-14  Not Zed  <NotZed@Ximian.com>
-
-	* gui/e-cal-menu.c (e_cal_menu_target_new_select): dont access a
-	NULL client.
-
-	* gui/gnome-cal.c (gnome_calendar_get_taskpad_menu)
-	(gnome_calendar_get_calendar_menu): accessors to get the menu
-	managers.
-	(gnome_calendar_init): setup menu managers.
-
-2004-10-13  Not Zed  <NotZed@Ximian.com>
-
-	* gui/calendar-commands.c (calendar_control_activate)
-	(calendar_control_deactivate): activate and deactivate the
-	calendar and taskpad menu handlers.
-	(sensitize_items): helper to sensitise items based on target
-	masks.
-	(calendar_control_sensitize_calendar_commands): update the
-	calendar menu manager target appropriately.
-	(sensitize_taskpad_commands): same for the taskpad.
-
-	* gui/e-cal-menu.[ch]: Targets for main menu management.
-
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): fix cast.
-	Also include the tasks stuff in the hook metadata.
-
-2004-10-15  JP Rosevear  <jpr@novell.com>
-
-	* gui/calendar-commands.c (calendar_control_activate): remove
-	useless ifdef'd out statement (its been unused for 3+ years)
-	
-2004-10-15  JP Rosevear  <jpr@novell.com>
-	
-	* gui/calendar-commands.h (calendar_goto_today): remove prototype
-
-	* gui/calendar-commands.c: remove dead function
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-
-	* gui/e-meeting-attendee.c: convert to G_DEFINE_TYPE
-
-	* gui/e-meeting-list-view.c: ditto
-
-	* gui/e-meeting-time-sel.c: ditto
-
-	* gui/e-meeting-time-sel-item.c: ditto
-
-	* gui/e-select-names-renderer.c: ditto
-
-	* gui/e-timezone-entry.c: ditto
-
-	* gui/e-tasks.c: ditto
-
-	* gui/gnome-cal.c: ditto
-
-	* gui/weekday-picker.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-cell-date-edit-config.c: convert to G_DEFINE_TYPE
-
-	* gui/e-cell-date-edit-text.c: ditto
-
-	* gui/e-comp-editor-registry.c: ditto
-
-	* gui/e-date-edit-config.c: ditto
-
-	* gui/e-mini-calendar-config.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-cal-list-view-config.c: convert to G_DEFINE_TYPE
-
-	* gui/e-cal-list-view.c: ditto
-
-	* gui/e-cal-model-calendar.c: ditto
-
-	* gui/e-cal-model-tasks.c: ditto
-
-	* gui/e-cal-model.c: ditto
-
-	* gui/e-calendar-table-config.c: ditto
-
-	* gui/e-calendar-table.c: ditto
-
-	* gui/e-calendar-view.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/calendar-view.c: convert to G_DEFINE_TYPE
-
-	* gui/calendar-view-factory.c: ditto
-
-	* gui/cal-search-bar.c: ditto
-
-	* gui/e-cal-component-preview.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-week-view-config.c: convert to G_DEFINE_TYPE
-
-	* gui/e-week-view-event-item.c: ditto
-
-	* gui/e-week-view-main-item.c: ditto
-
-	* gui/e-week-view-titles-item.c: ditto
-
-	* gui/e-week-view.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/e-day-view.c: convert to G_DEFINE_TYPE
-	
-	* gui/e-day-view-config.c: ditto
-
-	* gui/e-day-view-main-item.c: ditto
-
-	* gui/e-day-view-time-item.c: ditto
-
-	* gui/e-day-view-top-item.c: ditto
-
-2004-10-14  JP Rosevear  <jpr@novell.com>
-	
-	* gui/dialogs/comp-editor.c: convert to G_DEFINE_TYPE
-	
-	* gui/dialogs/meeting-page.c: ditto
-
-	* gui/dialogs/recurrence-page.c: ditto
-
-	* gui/dialogs/schedule-page.c: ditto
-
-	* gui/dialogs/e-delegate-dialog.c: ditto
-
-	* gui/dialogs/event-editor.c: ditto
-
-	* gui/dialogs/task-editor.c: ditto
-
-	* gui/dialogs/task-details-page.c: ditto
-
-	* gui/dialogs/select-source-dialog.c
-	(primary_selection_changed_cb): fix warning
-	
-2004-10-13  JP Rosevear  <jpr@novell.com>
-
-	* gui/dialogs/task-page.c: ditto
-
-	* gui/calendar-component.h: remove e-source-selector include
-
-	* gui/tasks-component.h: ditto
-	
-	* gui/calendar-component.c: update include to libedataserverui for
-	source selector and option menus
-	
-	* gui/e-cal-popup.c: ditto
-
-	* gui/dialogs/url-editor-dialog.h: ditto
-
-	* gui/dialogs/select-source-dialog.c: ditto
-
-	* gui/tasks-component.c: ditto
-
-	* importers/icalendar-importer.c: ditto
-	
-	* gui/e-itip-control.c: ditto; use G_DEFINE_TYPE instead of
-	E_MAKE_TYPE
-	
-	* gui/dialogs/event-page.c: ditto	
-
-	* gui/dialogs/task-page.c: ditto
-	
-2004-10-12  Li Yuan  <li.yuan@sun.com>
-
-	* gui/e-day-view.c: (e_day_view_on_main_canvas_button_press):
-	* gui/e-week-view.c: (e_week_view_on_button_press):
-	If main_canvas has focus, do not grub it. Emit the 
-	selected_time_changed signal after the selection day changed.
-
-2004-10-12  Not Zed  <NotZed@Ximian.com>
-
-	* gui/dialogs/meeting-page.c (button_press_event): convert menu to
-	epopup.
-
-2004-10-12  Not Zed  <NotZed@Ximian.com>
-
-	* gui/e-calendar-table.c (setup_popup_icons): removed.
-	(e_calendar_table_show_popup_menu): convert to use e-popup for
-	pluggable popup menu.
-	(e_calendar_table_on_open_task, e_calendar_table_on_save_as)
-	(e_calendar_table_on_print_task, e_calendar_table_on_cut)
-	(e_calendar_table_on_copy, e_calendar_table_on_paste)
-	(e_calendar_table_on_assign, e_calendar_table_on_forward)
-	(delete_cb):
-	(mark_as_complete_cb, open_url_cb): convert to epopup callbacks.
-	Moved all of the callbacks above the table rather than maintaining
-	forward declarations for some of them.
-
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): add the task
-	required masks, and make one vs many mutally exclusive.
-
-	* gui/e-calendar-view.c (e_calendar_view_create_popup_menu):
-	copy/setup the event list here.
-
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): take model +
-	events rather than the calendar view.
-
-2004-10-12  Li Yuan  <li.yuan@sun.com>
-
-	* gui/calendar-commands.c:
-	(calendar_get_text_for_folder_bar_label):
-	When the start year and the end year are the same, the num should
-	be displayed in start time.
-	* gui/dialogs/alarm-dialog.glade:
-	Add names to comboxes in alarm-dialog page.
-	* gui/dialogs/cal-prefs-dialog.glade:
-	Add labbled_by relation for e_date_edit.
-	Add names to comboxes in general tab and display tab.
-	Add shortcut keys to start_of_day_label and end_of_day_label.
-	* gui/dialogs/event-page.c: (init_widgets):
-	Use the default text_buffer of gtk_text_view instead of
-	creating one.
-	* gui/dialogs/event-page.glade:
-	Add labbled_by relation for e_date_edit.
-	* gui/dialogs/meeting-page.glade:
-	Set an atk name for organizer widget.
-	* gui/dialogs/task-page.c: (init_widgets):
-	Use the default text_buffer of gtk_text_view instead of
-	creating one.
-	* gui/dialogs/task-page.glade:
-	Add labbled_by relation for e_date_edit.
-	Add a11y names to task description and categories.
-	* gui/e-alarm-list.c: (e_alarm_list_iter_n_children):
-	Remove the iter checker. The iter can't have a valid value at this time.
-	* gui/e-date-time-list.c: (e_date_time_list_iter_n_children):
-	Remove the iter checker. The iter can't have a valid value at this time.
-	* gui/e-meeting-time-sel.c: (e_meeting_time_selector_construct):
-	Add labbled_by relation for e_date_edit.
-	* gui/e-timezone-entry.c: (e_timezone_entry_class_init),
-	(e_timezone_entry_init), (e_timezone_entry_mnemonic_activate),
-	(e_timezone_entry_focus):
-	Add a focus handler for e-timezone-entry. Set an atk name for the
-	button.
-	* gui/e-week-view.c: (e_week_view_do_cursor_key_up),
-	(e_week_view_do_cursor_key_down), (e_week_view_do_cursor_key_left),
-	(e_week_view_do_cursor_key_right), (e_month_view_do_cursor_key_up),
-	(e_month_view_do_cursor_key_down),
-	(e_month_view_do_cursor_key_left),
-	(e_month_view_do_cursor_key_right):
-	Emit the selected_time_changed signal after the selection day changed.
-
-2004-10-11  Not Zed  <NotZed@Ximian.com>
-
-	* gui/alarm-notify/alarm-queue.c (tray_icon_clicked_cb): convert
-	to epopup.
-	(add_popup_menu_item): removed, now redundant.
-
 2004-10-08  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #45951
@@ -1380,33 +97,6 @@
 
 	* gui/dialogs/comp-editor.c (setup_widgets): no need to create an extra
 	GtkVBox, just use the GtkDialog's one.
-
-2004-10-07  JP Rosevear  <jpr@novell.com>
-
-	* gui/dialogs/cal-prefs-dialog.c: remove useless include
-
-	* gui/dialogs/url-editor-dialog.c: ditto
-	
-2004-10-07  JP Rosevear  <jpr@novell.com>
-	
-	* gui/print.c: guard config.h
-
-	* gui/tasks-control.c: guard config.h, remove useless include
-
-	* gui/migration.c: remove useless include
-
-	* gui/main.c: remove useless include
-
-	* gui/e-calendar-view.h: #define the type
-
-	* gui/calendar-offline-handler.c: remove useless include
-
-	* gui/calendar-config.c: tidy header
-
-2004-10-07  JP Rosevear  <jpr@novell.com>
-	
-	* gui/calendar-commands.c: guard config.h include, kill warning
-	and remove useless include
 
 2004-10-06  Rodrigo Moya <rodrigo@novell.com>
 
@@ -1420,86 +110,10 @@
 	* gui/comp-editor-factory.c (cal_opened_cb): don't assert on error
 	cases, just display an error dialog.
 
-2004-10-06  Not Zed  <NotZed@Ximian.com>
+2004-10-06  JP Rosevear  <jpr@novell.com>
 
-	* gui/gnome-cal.c (gnome_calendar_setup_view_popup): rename to
-	view_popup_factory.  Make it build an epopup item list directly.
-	Can't re-use the galview cruft :-/
-	(gnome_calendar_discard_view_popup): no longer needed.
-	(gc_set_view, gc_save_custom_view, gc_define_views_response) 
-	(gc_define_views): implement the gal-view popup menu items.
-
-	* gui/gnome-cal.h:
-	* gui/e-week-view.h:
-	* gui/e-day-view.h:
-	* gui/e-cal-list-view.h: removed old e-popup-menu header.
-
-	* gui/e-calendar-view.c (setup_popup_icons): removed.
-	(e_calendar_view_create_popup_menu): converted to use e-popup.
-	(on_paste, on_copy, on_cut, on_delete_occurrence) 
-	(on_unrecur_appointment, on_delete_appointment, on_publish) 
-	(on_forward, on_meeting, on_move_to, on_copy_to, on_print_event) 
-	(on_save_as, on_print, on_edit_appointment, on_goto_today) 
-	(on_goto_date, on_new_task, on_new_meeting, on_new_event) 
-	(on_new_appointment): convert to use e-popup stuff.
-
-	* gui/tasks-component.c (popup_event_cb): e-popup api changes.
-
-	* gui/e-cal-popup.c (e_cal_popup_target_new_select): implement the
-	selection target.
-	(ecalp_target_free): and free it.
-
-	* gui/e-cal-model.h: Make the ECalModel struct non-anonymous so it
-	can be forward-declared.
-
-	* gui/calendar-component.c (popup_event_cb): e-popup api changes.
-
-2004-10-06  Rodrigo Moya <rodrigo@novell.com>
-
-	Revert fix for #60551
-
-	* gui/dialogs/task-page.c (task_page_fill_component): start date
-	can be after the due date, no need to compare.
-
-2004-10-02  Iván Frade <frade@asturlinux.org>
-
-	Fixes #48116
-
-	* gui/dialogs/task-details.page.c (task_details_page_fill_component):
-	Validation: completed date is not a future date.
-	
-2004-10-01  Not Zed  <NotZed@Ximian.com>
-
-	* gui/tasks-component.c (create_component_view): cast warning
-	away.
-	(create_component_view): connect to popup_event rather than
-	fill_popup_menu.
-
-	* gui/calendar-component.c (create_component_view): cast a warning
-	away.
-
-	* calendar-errors.xml: add prompt-delete-task-list.
-
-	* gui/tasks-component.c (fill_popup_menu_cb): renamed to
-	popup_event_cb, make use e-cal-popup.
-	(edit_task_list_cb, new_task_list_cb, delete_task_list_cb) 
-	(copy_task_list_cb): deja-vu.  update for api.
-	(add_popup_menu_item): killed. murdered. drawn and quatered.
-	(delete_task_list_cb): use e-error for the delete prompt.
-
-	* gui/calendar-component.c (create_component_view): hook onto
-	popup event instead of fill_popup_menu.
-
-	* calendar-errors.xml: added prompt-delete-calendar.
-
-	* gui/calendar-component.c (fill_popup_menu_cb): rename to
-	popup_event_cb, make use e-cal-popup.
-	(edit_calendar_cb, new_calendar_cb, delete_calendar_cb) 
-	(copy_calendar_cb): fix for api changes.
-	(add_popup_menu_item): removed.
-	(delete_calendar_cb): use e-error for the delete thing.
-
-	* gui/e-cal-popup.[ch]: calendar popup driver.
+	* gui/itip-utils.c (comp_server_send): pass the variable in
+	correctly
 
 2004-09-29  Rodrigo Moya <rodrigo@novell.com>
 
@@ -1517,15 +131,15 @@
 	destroyed (priv == null).
 
 2004-09-28  JP Rosevear  <jpr@novell.com>
- 
- 	Fixes #61766
- 	
- 	* gui/migration.c (create_calendar_contact_source): set a color
- 	for the contacts
- 	(create_calendar_sources): set a color for the personal source and
- 	make in primary and default if nothing else is either
- 	(create_task_sources): ditto for tasks personal source
+
+	Fixes #61766
 	
+	* gui/migration.c (create_calendar_contact_source): set a color
+	for the contacts
+	(create_calendar_sources): set a color for the personal source and
+	make in primary and default if nothing else is either
+	(create_task_sources): ditto for tasks personal source
+
 2004-09-24  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #65599
@@ -1534,12 +148,6 @@
 
 	* gui/e-pub-utils.c (e_pub_publish): use auth_new_cal_from_source()
 	instead of auth_new_cal_from_uri().
-
-2004-09-24  JP Rosevear  <jpr@novell.com>
-
-	Fixes #64955, Vincent Noel <vnoel@cox.net>
-	
-	* libecal/e-cal.c (e_cal_get_alarms_in_range): fix c99-ism
 
 2004-09-24  JP Rosevear  <jpr@novell.com>
  
@@ -1585,14 +193,14 @@
  	
  	* gui/e-cal-model-tasks.c (e_cal_model_tasks_mark_task_complete):
  	notify of change so completion status updates immediately
-	
-2004-09-21  JP Rosevear  <jpr@novell.com>
  
+2004-09-21  JP Rosevear  <jpr@novell.com>
+
 	Fixes #59194
- 	
- 	* gui/e-cal-model-calendar.c (get_location): return "" instead of
- 	NULL
 	
+	* gui/e-cal-model-calendar.c (get_location): return "" instead of
+	NULL
+
 2004-09-21  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #65682
@@ -1600,26 +208,19 @@
 	(itip_send_comp): check the static capability before
 	booking the deletion.
 
-2004-09-15  JP Rosevear  <jpr@novell.com>
- 
+2004-09-20  JP Rosevear  <jpr@novell.com>
+	
  	Fixes #55172
  	
  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
  	handle -1 (last) for monthly recurrences and check both by_set_pos
  	and by_day since either can indicate this type of recurrence
-	
+
 2004-09-20  Tony Tsui <ttsui9@gmail.com>
 
 	Fixes #66174
 
 	* gui/dialogs/meeting-page.c (existing_attendee): fixed memory leak.
-
-2004-09-10   Hannah & Fazlu <hannah_lins@yahoo.co.in>
-
-	Fixes bug #65051
-
-	* calendar/gui/dialogs/task-page.c (task_page_fill_component):
-	Compared the dates and time
 
 2004-09-10  Rodrigo Moya <rodrigo@novell.com>
 
@@ -1636,6 +237,31 @@
 	only be called once per time range.
 
 2004-09-09  JP Rosevear  <jpr@novell.com>
+
+	Fixes #65454
+	
+	* gui/e-itip-control.c (class_init): only use a destroy function,
+	no finalize
+	(cleanup_ecal): util function
+	(init): use above for hash table and killed destroyed flag
+	(weren't using it anywhere)
+	(destroy): collapse finalize work into here and guard against
+	multiple destroy calls
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #62392
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): ref the
+	client's query object so that it doesn't disappear on us.
+	(tray_icon_destroyed_cb): unref the query previously ref'ed.
+
+2004-08-31  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/e-cal-model-tasks.c: include missing string.h, to avoid
+	problems in 64 bit builds.
+
+2004-09-09  JP Rosevear  <jpr@novell.com>
  
  	Fixes #65454
  	
@@ -1646,7 +272,7 @@
  	(weren't using it anywhere)
  	(destroy): collapse finalize work into here and guard against
  	multiple destroy calls
-
+	
 2004-09-08  JP Rosevear  <jpr@novell.com>
 
 	Fixes #62728
@@ -2363,7 +989,7 @@
 
 	Partially fixes #56171
 
-2004-07-11  JÃƒ¼rg Billeter <j@bitron.ch>
+2004-07-11  JÃ¼rg Billeter <j@bitron.ch>
 
 	* gui/dialogs/event-page.c (event_page_fill_component):
 	busy should be opaque, not transparent

@@ -51,7 +51,7 @@
 #include <gtk/gtkmessagedialog.h>
 
 #include "e-passwords.h"
-#include "libedataserver/e-msgport.h"
+#include "e-msgport.h"
 #include "widgets/misc/e-error.h"
 
 #ifndef ENABLE_THREADS
@@ -420,7 +420,6 @@ ep_ask_password(EPassMsg *msg)
 	GtkWidget *vbox;
 	int type = msg->flags & E_PASSWORDS_REMEMBER_MASK;
 	int noreply = msg->noreply;
-	AtkObject *a11y;
 
 	msg->noreply = 1;
 
@@ -432,24 +431,17 @@ ep_ask_password(EPassMsg *msg)
 							       "%s", msg->prompt);
 	gtk_window_set_title(GTK_WINDOW(password_dialog), msg->title);
 
-	gtk_widget_ensure_style (GTK_WIDGET (password_dialog));
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (password_dialog)->vbox), 0);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (password_dialog)->action_area), 12);
-
 #if !GTK_CHECK_VERSION (2,4,0)
 	gtk_dialog_set_has_separator(password_dialog, FALSE);
 #endif
 	gtk_dialog_set_default_response(password_dialog, GTK_RESPONSE_OK);
 
-	vbox = gtk_vbox_new (FALSE, 12);
+	vbox = gtk_vbox_new (FALSE, 6);
 	gtk_widget_show (vbox);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), vbox, TRUE, FALSE, 0);
-	gtk_container_set_border_width((GtkContainer *)vbox, 12);
+	gtk_container_set_border_width((GtkContainer *)vbox, 6);
 	
 	msg->entry = gtk_entry_new ();
-
-	a11y = gtk_widget_get_accessible (msg->entry);
-	atk_object_set_description (a11y, msg->prompt);
 	gtk_entry_set_visibility ((GtkEntry *)msg->entry, !(msg->flags & E_PASSWORDS_SECRET));
 	gtk_entry_set_activates_default((GtkEntry *)msg->entry, TRUE);
 	gtk_box_pack_start (GTK_BOX (vbox), msg->entry, TRUE, FALSE, 3);
