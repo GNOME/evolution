@@ -105,7 +105,6 @@ camel_pop3_store_init (gpointer object, gpointer klass)
 
 	service->url_flags = ( CAMEL_SERVICE_URL_NEED_USER |
 			       CAMEL_SERVICE_URL_NEED_HOST );
-	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 

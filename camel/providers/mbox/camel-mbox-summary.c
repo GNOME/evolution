@@ -683,13 +683,13 @@ camel_mbox_summary_expunge(CamelMboxSummary *mbs)
 					goto error;
 				}
 				/* update from pos here? */
-				info->frompos += offset;
+				/*info->frompos += offset;*/
 			} else {
 				d(printf("Nothing to do for this message\n"));
 			}
 		}
 		if (!quick && info!=NULL && offset!=0) {
-			printf("offsetting content: %d\n", offset);
+			d(printf("offsetting content: %d\n", offset));
 			camel_folder_summary_offset_content(info->info.content, offset);
 			d(printf("pos = %d, endpos = %d, bodypos = %d\n",
 				 info->info.content->pos,
