@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "POT-Creation-Date: 2001-09-01 11:02+0200\n"
-"PO-Revision-Date: 2001-09-01 11:09+0200\n"
+"PO-Revision-Date: 2001-09-02 17:46+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -426,6 +426,8 @@ msgid ""
 "\n"
 "Delivery Label: "
 msgstr ""
+"\n"
+"Etykieta pocztowa: "
 
 #: addressbook/backend/ebook/e-card.c:1
 msgid ""
@@ -464,6 +466,8 @@ msgid ""
 "\n"
 "Mailer: "
 msgstr ""
+"\n"
+"Dostarczyciel poczty: "
 
 #: addressbook/backend/ebook/e-card.c:1
 msgid ""
@@ -1265,7 +1269,7 @@ msgstr "Antarktyka"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Antigua And Barbuda"
-msgstr ""
+msgstr "Antigua i Barbuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Argentina"
@@ -1277,7 +1281,7 @@ msgstr "Armenia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Aruba"
-msgstr ""
+msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Australia"
@@ -1341,7 +1345,7 @@ msgstr "Bo¶nia i Hercegowina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Botswana"
-msgstr ""
+msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Bouvet Island"
@@ -1545,11 +1549,11 @@ msgstr "Polinezja Francuska"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "French Southern Territories"
-msgstr ""
+msgstr "Francuskie terytoria po³udniowe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Gabon"
-msgstr ""
+msgstr "Gabon"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Gambia"
@@ -1789,7 +1793,7 @@ msgstr "Mongolia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Montserrat"
-msgstr ""
+msgstr "Montserrat"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Morocco"
@@ -1809,7 +1813,7 @@ msgstr "Namibia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Nauru"
-msgstr ""
+msgstr "Nauru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Nepal"
@@ -1845,7 +1849,7 @@ msgstr "Nigeria"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Niue"
-msgstr ""
+msgstr "Niue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Norfolk Island"
@@ -1941,7 +1945,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Saint Lucia"
-msgstr ""
+msgstr "Saint Lucia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Saint Vincent And The Grena-dines"
@@ -3254,7 +3258,7 @@ msgstr "Komentarz zawiera"
 
 #: calendar/gui/cal-search-bar.c:1
 msgid "Unmatched"
-msgstr "Bez dopasowania"
+msgstr "Niedopasowane"
 
 #: calendar/gui/component-factory.c:1 my-evolution/my-evolution.glade.h:1
 #: shell/e-local-storage.c:1 shell/e-shortcuts.c:1
@@ -4569,16 +4573,16 @@ msgstr "<b>%s</b> chce otrzymaæ naj¶wie¿sze informacje o spotkaniu."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Meeting Update Request"
-msgstr ""
+msgstr "Zwrócenie siê o aktualizacjê spotkania"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has replyed to a meeting request."
-msgstr ""
+msgstr "<b>%s</b> odpowiedzia³ na zwrócenie siê o spotkanie."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Meeting Reply"
-msgstr ""
+msgstr "Odpowied¼ na spotkanie"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -4593,11 +4597,11 @@ msgstr "Anulowanie spotkania"
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
-msgstr ""
+msgstr "<b>%s</b> wys³a³ niezrozumia³± wiadomo¶æ."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Bad Meeting Message"
-msgstr ""
+msgstr "Niepoprawna wiadomo¶æ o spotkaniu"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -4633,7 +4637,7 @@ msgstr "<b>%s</b> chce otrzymaæ  naj¶wie¿sze informacje o zadaniu."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Task Update Request"
-msgstr ""
+msgstr "Zwrócenie siê o aktualizacjê zadania"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -4655,7 +4659,7 @@ msgstr "Anulowanie zadania"
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Bad Task Message"
-msgstr ""
+msgstr "Niepoprawna wiadomo¶æ o zadaniu"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -4673,20 +4677,20 @@ msgstr "<b>%s</b> zwraca siê o informacjê o zajêto¶ci."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Free/Busy Request"
-msgstr ""
+msgstr "Zwrócenie siê o informacjê o zajêto¶ci"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
 msgid "<b>%s</b> has replyed to a free/busy request."
-msgstr ""
+msgstr "<b>%s</b> odpowiedzia³ na zwrócenie siê o informacjê o zajêto¶ci."
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Free/Busy Reply"
-msgstr ""
+msgstr "Odpowied¼ z informacj± o zajêto¶ci"
 
 #: calendar/gui/e-itip-control.c:1
 msgid "Bad Free/Busy Message"
-msgstr ""
+msgstr "Niepoprawna wiadomo¶æ o zajêto¶ci"
 
 #: calendar/gui/e-itip-control.c:1
 msgid "I couldn't update your calendar file!\n"
@@ -5544,6 +5548,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Niepoprawne informacje identyfikuj±ce poprzez adres e-mail:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:1
 #, c-format
@@ -5551,6 +5557,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Niepoprawne nieprzejrzyste informacje identyfikuj±ce:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:1
 #, c-format
@@ -5558,6 +5566,8 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Niepoprawne informacje identyfikuj±ce:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:1
 msgid "CRAM-MD5"
@@ -5585,15 +5595,17 @@ msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server challenge too long (>2048 octets)\n"
-msgstr ""
+msgstr "Zbyt d³ugie wezwanie serwera (>2048 oktetów)\n"
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "Niepoprawne wezwanie serwera\n"
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
 msgstr ""
+"Wezwanie serwera zawiera³o niepoprawny token \"Quality of Protection\" "
+"(jako¶æ ochrony)\n"
 
 #: camel/camel-sasl-digest-md5.c:1
 msgid "Server response did not contain authorization data\n"
@@ -5670,7 +5682,7 @@ msgstr "Uwierzytelnianie POP przed SMTP z u¿yciem nieznanego transportu"
 
 #: camel/camel-sasl-popb4smtp.c:1
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "POP przed SMTP przy u¿yciu ¼ród³a nie bêd±cego typu pop"
 
 #: camel/camel-search-private.c:1
 #, c-format
@@ -5744,6 +5756,7 @@ msgstr "Podaj swoje has³o dla %s"
 #: camel/camel-smime-context.c:1
 msgid "Please indicate the nickname of a certificate to sign with."
 msgstr ""
+"Wybierz przydomek zwi±zany z certyfikatem, którego chcesz u¿yæ do podpisu."
 
 #: camel/camel-smime-context.c:1
 #, c-format
@@ -5779,6 +5792,8 @@ msgid ""
 "Issuer: %s\n"
 "Subject: %s"
 msgstr ""
+"Wydawca: %s\n"
+"Temat: %s"
 
 #. construct our user prompt
 #: camel/camel-tcp-stream-openssl.c:1 camel/camel-tcp-stream-ssl.c:1
@@ -5807,6 +5822,13 @@ msgid ""
 "State: %s\n"
 "Country: %s"
 msgstr ""
+"E-mail: %s\n"
+"Wspólna nazwa: %s\n"
+"Jednostka organizacyjna: %s\n"
+"Organizacja: %s\n"
+"Narodowo¶æ: %s\n"
+"Stan: %s\n"
+"Kraj: %s"
 
 #: camel/camel-url.c:1
 #, c-format
@@ -6670,6 +6692,8 @@ msgstr "SMTP"
 #: camel/providers/smtp/camel-smtp-provider.c:1
 msgid "For delivering mail by connecting to a remote mailhub using SMTP.\n"
 msgstr ""
+"Do wysy³ania poczty poprzez ³±czenie siê ze zdalnym serwerem pocztowym przy "
+"u¿yciu SMTP.\n"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1
 msgid "Syntax error, command unrecognized"
@@ -6689,7 +6713,7 @@ msgstr "Niezaimplementowany parametr polecenia"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1
 msgid "System status, or system help reply"
-msgstr ""
+msgstr "Stan systemu lub odpowied¼ z pomoc± systemow±"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1
 msgid "Help message"
@@ -7612,7 +7636,7 @@ msgstr "Dopasowanie wg regexp"
 
 #: filter/libfilter-i18n.h:1
 msgid "Replied to"
-msgstr ""
+msgstr "Z odpowiedzi± do"
 
 #: filter/libfilter-i18n.h:1 filter/score-rule.c:1 filter/score-rule.c:1
 #: mail/message-list.etspec.h:1
@@ -7883,7 +7907,7 @@ msgstr "Folder zawieraj±cy pocztê"
 
 #: mail/component-factory.c:1
 msgid "Mail storage folder (internal)"
-msgstr ""
+msgstr "Folder przechowuj±cy pocztê (wewnêtrzny)"
 
 #: mail/component-factory.c:1
 msgid "Virtual Trash"
@@ -8190,7 +8214,7 @@ msgstr "Tematem jest %s"
 #: mail/mail-autofilter.c:1
 #, c-format
 msgid "Mail from %s"
-msgstr "List on %s"
+msgstr "List od %s"
 
 #: mail/mail-autofilter.c:1
 #, c-format
@@ -8616,11 +8640,11 @@ msgstr "Ustawienie jako konto _domy¶lne"
 
 #: mail/mail-config.glade.h:1
 msgid "Message _preview should be displayed by default"
-msgstr ""
+msgstr "Domy¶lne wy¶wietlanie po_dgl±du listu"
 
 #: mail/mail-config.glade.h:1
 msgid "Message list should display in a _threaded fashion by default"
-msgstr ""
+msgstr "Domy¶lne wy¶wietlanie listów pogrupowanych w _w±tki"
 
 #: mail/mail-config.glade.h:1
 msgid "NNTP Server:"
@@ -8680,7 +8704,7 @@ msgstr "Wymagane informacje"
 
 #: mail/mail-config.glade.h:1
 msgid "Secure MIME"
-msgstr ""
+msgstr "Bezpieczne MIME"
 
 #: mail/mail-config.glade.h:1
 msgid "Security"
@@ -9372,6 +9396,10 @@ msgid "Forwarded Message"
 msgstr "Przes³any list"
 
 #: mail/mail-vfolder.c:1
+msgid "UNMATCHED"
+msgstr "Bez dopasowania"
+
+#: mail/mail-vfolder.c:1
 msgid "VFolders"
 msgstr "VFoldery"
 
@@ -9398,11 +9426,11 @@ msgstr "Widziany"
 
 #: mail/message-list.c:1
 msgid "Answered"
-msgstr ""
+msgstr "Z odpowiedzi±"
 
 #: mail/message-list.c:1
 msgid "Multiple Unseen Messages"
-msgstr ""
+msgstr "Wiele niewidzianych listów"
 
 #: mail/message-list.c:1
 msgid "Multiple Messages"
@@ -9535,7 +9563,7 @@ msgstr "Generator komponentu zestawienia wykonawczego Evolution."
 
 #: my-evolution/component-factory.c:1
 msgid "Folder containing the Evolution Summary"
-msgstr ""
+msgstr "Folder zawieraj±cy Zestawienie Evolution"
 
 #: my-evolution/component-factory.c:1
 msgid "Cannot initialize Evolution's Executive Summary component."
@@ -9652,7 +9680,7 @@ msgstr "°C"
 
 #: my-evolution/metar.c:1
 msgid "knots"
-msgstr ""
+msgstr "wêz³y"
 
 #: my-evolution/metar.c:1
 msgid "kph"
@@ -9661,7 +9689,7 @@ msgstr "km/h"
 # [cyba] mo¿e raczej calHg??
 #: my-evolution/metar.c:1
 msgid "inHg"
-msgstr "inHG"
+msgstr "inHg"
 
 #: my-evolution/metar.c:1
 msgid "mmHg"
@@ -9813,7 +9841,7 @@ msgstr "Wietrzna m¿awka"
 
 #: my-evolution/metar.c:1
 msgid "Showers"
-msgstr ""
+msgstr "Krótkotrwa³a m¿awka"
 
 #: my-evolution/metar.c:1
 msgid "Drifting drizzle"
@@ -9821,7 +9849,7 @@ msgstr "Zbli¿aj±ca siê m¿awka"
 
 #: my-evolution/metar.c:1
 msgid "Freezing drizzle"
-msgstr ""
+msgstr "Utrzymuj±ca siê m¿awka"
 
 #. RAIN
 #: my-evolution/metar.c:1
@@ -9854,15 +9882,15 @@ msgstr "£agodny deszcz"
 
 #: my-evolution/metar.c:1
 msgid "Partial rainfall"
-msgstr "Czê¶ciowe opady"
+msgstr "Czê¶ciowe opady deszczu"
 
 #: my-evolution/metar.c:1
 msgid "Blowing rainfall"
-msgstr ""
+msgstr "Szalej±ce opady deszczu"
 
 #: my-evolution/metar.c:1
 msgid "Rain showers"
-msgstr "Przelotny deszcz"
+msgstr "Krótkotrwa³y deszcz"
 
 #: my-evolution/metar.c:1
 msgid "Drifting rain"
@@ -9870,7 +9898,7 @@ msgstr "Zbli¿aj±cy siê deszcz"
 
 #: my-evolution/metar.c:1
 msgid "Freezing rain"
-msgstr ""
+msgstr "Utrzymuj±cy siê deszcz"
 
 #. SNOW
 #: my-evolution/metar.c:1
@@ -9911,11 +9939,11 @@ msgstr "Burza ¶nie¿na"
 
 #: my-evolution/metar.c:1
 msgid "Blowing snowfall"
-msgstr ""
+msgstr "Szalej±ce opady ¶niegu"
 
 #: my-evolution/metar.c:1
 msgid "Snow showers"
-msgstr ""
+msgstr "Krótkotrwa³y ¶nieg"
 
 #: my-evolution/metar.c:1
 msgid "Drifting snow"
@@ -9923,7 +9951,7 @@ msgstr "Zbli¿aj±cy siê ¶nieg"
 
 #: my-evolution/metar.c:1
 msgid "Freezing snow"
-msgstr ""
+msgstr "Utrzymuj±cy siê ¶nieg"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:1
@@ -9960,11 +9988,11 @@ msgstr "Czê¶ciowe ziarna ¶niegu"
 
 #: my-evolution/metar.c:1
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "Szalej±ce ziarna ¶niegu"
 
 #: my-evolution/metar.c:1
 msgid "Snow grain showers"
-msgstr ""
+msgstr "Krótkotrwa³e ziarna ¶niegu"
 
 #: my-evolution/metar.c:1
 msgid "Drifting snow grains"
@@ -9972,7 +10000,7 @@ msgstr "Zbli¿aj±ce siê ziarna ¶niegu"
 
 #: my-evolution/metar.c:1
 msgid "Freezing snow grains"
-msgstr ""
+msgstr "Utrzymuj±ce siê ziarna ¶niegu"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:1
@@ -10009,11 +10037,11 @@ msgstr "Burza z kryszta³kami lodowymi"
 
 #: my-evolution/metar.c:1
 msgid "Blowing ice crystals"
-msgstr ""
+msgstr "Szalej±ce kryszta³ki lodowe"
 
 #: my-evolution/metar.c:1
 msgid "Showers of ice crystals"
-msgstr ""
+msgstr "Krótkotrwa³e kryszta³ki lodu"
 
 #: my-evolution/metar.c:1
 msgid "Drifting ice crystals"
@@ -10021,7 +10049,7 @@ msgstr "Zbli¿aj±ce siê kryszta³ki lodu"
 
 #: my-evolution/metar.c:1
 msgid "Freezing ice crystals"
-msgstr ""
+msgstr "Utrzymuj±ce siê krzyszta³ki lodu"
 
 #. ICE_PELLETS
 #: my-evolution/metar.c:1
@@ -10062,11 +10090,11 @@ msgstr "Burza z kulkami lodowymi"
 
 #: my-evolution/metar.c:1
 msgid "Blowing ice pellets"
-msgstr ""
+msgstr "Szalej±ce kulki lodowe"
 
 #: my-evolution/metar.c:1
 msgid "Showers of ice pellets"
-msgstr ""
+msgstr "Krótkotrwa³e kulki lodowe"
 
 #: my-evolution/metar.c:1
 msgid "Drifting ice pellets"
@@ -10074,7 +10102,7 @@ msgstr "Zbli¿aj±ce siê kulki lodowe"
 
 #: my-evolution/metar.c:1
 msgid "Freezing ice pellets"
-msgstr ""
+msgstr "Utrzymuj±ce siê kulki lodowe"
 
 #. HAIL
 #: my-evolution/metar.c:1
@@ -10111,15 +10139,15 @@ msgstr "Czê¶ciowy grad"
 
 #: my-evolution/metar.c:1
 msgid "Hailstorm"
-msgstr ""
+msgstr "Burza gradowa"
 
 #: my-evolution/metar.c:1
 msgid "Blowing hail"
-msgstr ""
+msgstr "Szalej±cy grad"
 
 #: my-evolution/metar.c:1
 msgid "Hail showers"
-msgstr ""
+msgstr "Krótkotrwa³y grad"
 
 #: my-evolution/metar.c:1
 msgid "Drifting hail"
@@ -10127,7 +10155,7 @@ msgstr "Zbli¿aj±cy siê grad"
 
 #: my-evolution/metar.c:1
 msgid "Freezing hail"
-msgstr ""
+msgstr "Utrzymuj±cy siê grad"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:1
@@ -10160,15 +10188,15 @@ msgstr "Czê¶ciowy gradzik"
 
 #: my-evolution/metar.c:1
 msgid "Small hailstorm"
-msgstr ""
+msgstr "Ma³a burza gradowa"
 
 #: my-evolution/metar.c:1
 msgid "Blowing small hail"
-msgstr ""
+msgstr "Szalej±cy gradzik"
 
 #: my-evolution/metar.c:1
 msgid "Showers of small hail"
-msgstr ""
+msgstr "Krótkotrwa³y gradzik"
 
 #: my-evolution/metar.c:1
 msgid "Drifting small hail"
@@ -10176,7 +10204,7 @@ msgstr "Zbli¿aj±cy siê gradzik"
 
 #: my-evolution/metar.c:1
 msgid "Freezing small hail"
-msgstr ""
+msgstr "Utrzymuj±cy siê gradzik"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:1
@@ -10217,11 +10245,11 @@ msgstr "Nieznana burza"
 
 #: my-evolution/metar.c:1
 msgid "Blowing precipitation"
-msgstr ""
+msgstr "Szalej±ce opady"
 
 #: my-evolution/metar.c:1
 msgid "Showers, type unknown"
-msgstr ""
+msgstr "Krótkotrwa³e opady"
 
 #: my-evolution/metar.c:1
 msgid "Drifting precipitation"
@@ -10229,7 +10257,7 @@ msgstr "Zbli¿aj±ce siê opady"
 
 #: my-evolution/metar.c:1
 msgid "Freezing precipitation"
-msgstr ""
+msgstr "Utrzymuj±ce siê opady"
 
 #. MIST
 #: my-evolution/metar.c:1
@@ -10250,7 +10278,7 @@ msgstr "Umiarkowana mgie³ka"
 
 #: my-evolution/metar.c:1
 msgid "Thick mist"
-msgstr ""
+msgstr "Gêsta mgie³ka"
 
 #: my-evolution/metar.c:1
 msgid "Shallow mist"
@@ -10274,7 +10302,7 @@ msgstr "Zbli¿aj±ca siê mgie³ka"
 
 #: my-evolution/metar.c:1
 msgid "Freezing mist"
-msgstr ""
+msgstr "Utrzymuj±ca siê mgie³ka"
 
 #. FOG
 #: my-evolution/metar.c:1
@@ -10295,7 +10323,7 @@ msgstr "Umiarkowana mg³a"
 
 #: my-evolution/metar.c:1
 msgid "Thick fog"
-msgstr ""
+msgstr "Gêsta mg³a"
 
 #: my-evolution/metar.c:1
 msgid "Shallow fog"
@@ -10319,7 +10347,7 @@ msgstr "Zbli¿aj±ca siê mg³a"
 
 #: my-evolution/metar.c:1
 msgid "Freezing fog"
-msgstr ""
+msgstr "Utrzymuj±ca siê mg³a"
 
 #. SMOKE
 #: my-evolution/metar.c:1
@@ -10332,7 +10360,7 @@ msgstr "Nadchodz±cy dym"
 
 #: my-evolution/metar.c:1
 msgid "Thin smoke"
-msgstr ""
+msgstr "Rzadki dym"
 
 #: my-evolution/metar.c:1
 msgid "Moderate smoke"
@@ -10340,7 +10368,7 @@ msgstr "Umiarkowany dym"
 
 #: my-evolution/metar.c:1
 msgid "Thick smoke"
-msgstr ""
+msgstr "Gêsty dym"
 
 #: my-evolution/metar.c:1
 msgid "Shallow smoke"
@@ -10381,7 +10409,7 @@ msgstr "Umiarkowany popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Gêsty popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Shallow volcanic ash"
@@ -10401,11 +10429,11 @@ msgstr "Popió³ wulkaniczny z grzmotami"
 
 #: my-evolution/metar.c:1
 msgid "Blowing volcanic ash"
-msgstr ""
+msgstr "Szalej±cy popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Showers of volcanic ash "
-msgstr ""
+msgstr "Krótkotrwa³y popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Drifting volcanic ash"
@@ -10413,44 +10441,44 @@ msgstr "Zbli¿aj±cy siê popió³ wulkaniczny"
 
 #: my-evolution/metar.c:1
 msgid "Freezing volcanic ash"
-msgstr ""
+msgstr "Utrzymuj±cy siê popió³ wulkaniczny"
 
 #. SAND
 #: my-evolution/metar.c:1
 msgid "Sand"
-msgstr ""
+msgstr "Piasek"
 
 #: my-evolution/metar.c:1
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "Nadchodz±cy piasek"
 
 #: my-evolution/metar.c:1
 msgid "Light sand"
-msgstr ""
+msgstr "Lekki piasek"
 
 #: my-evolution/metar.c:1
 msgid "Moderate sand"
-msgstr ""
+msgstr "Umiarkowany piasek"
 
 #: my-evolution/metar.c:1
 msgid "Heavy sand"
-msgstr ""
+msgstr "Obfity piasek"
 
 #: my-evolution/metar.c:1
 msgid "Patches of sand"
-msgstr ""
+msgstr "£agodny piasek"
 
 #: my-evolution/metar.c:1
 msgid "Partial sand"
-msgstr ""
+msgstr "Czê¶ciowy piasek"
 
 #: my-evolution/metar.c:1
 msgid "Blowing sand"
-msgstr ""
+msgstr "Szalej±cy piasek"
 
 #: my-evolution/metar.c:1
 msgid "Drifting sand"
-msgstr ""
+msgstr "Zbli¿aj±cy siê piasek"
 
 #. HAZE
 #: my-evolution/metar.c:1
@@ -10471,7 +10499,7 @@ msgstr "Umiarkowane zamglenie"
 
 #: my-evolution/metar.c:1
 msgid "Thick haze"
-msgstr ""
+msgstr "Gêste zamglenie"
 
 #: my-evolution/metar.c:1
 msgid "Shallow haze"
@@ -10495,7 +10523,7 @@ msgstr "Zbli¿aj±ce siê zamglenie"
 
 #: my-evolution/metar.c:1
 msgid "Freezing haze"
-msgstr ""
+msgstr "Utrzymuj±ce siê zamglenie"
 
 #. SPRAY
 #: my-evolution/metar.c:1
@@ -10532,7 +10560,7 @@ msgstr "Czê¶ciowy py³ wodny"
 
 #: my-evolution/metar.c:1
 msgid "Blowing sprays"
-msgstr ""
+msgstr "Szalej±cy py³ wodny"
 
 #: my-evolution/metar.c:1
 msgid "Drifting sprays"
@@ -10540,7 +10568,7 @@ msgstr "Zbli¿aj±cy siê py³ wodny"
 
 #: my-evolution/metar.c:1
 msgid "Freezing sprays"
-msgstr ""
+msgstr "Utrzymuj±cy siê py³ wodny"
 
 #. DUST
 #: my-evolution/metar.c:1
@@ -10573,7 +10601,7 @@ msgstr "Czê¶ciowe tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Blowing dust"
-msgstr ""
+msgstr "Szalej±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Drifting dust"
@@ -10610,7 +10638,7 @@ msgstr "Og³uszaj±ca nawa³nica"
 
 #: my-evolution/metar.c:1
 msgid "Blowing squall"
-msgstr ""
+msgstr "Szalej±ca nawa³nica"
 
 #: my-evolution/metar.c:1
 msgid "Drifting squall"
@@ -10618,7 +10646,7 @@ msgstr "Zbli¿aj±ca siê nawa³nica"
 
 #: my-evolution/metar.c:1
 msgid "Freezing squall"
-msgstr ""
+msgstr "Utrzymuj±ca siê nawa³nica"
 
 #. SANDSTORM
 #: my-evolution/metar.c:1
@@ -10655,7 +10683,7 @@ msgstr "Og³uszaj±ca burza piaskowa"
 
 #: my-evolution/metar.c:1
 msgid "Blowing sandstorm"
-msgstr ""
+msgstr "Szalej±ca burza piaskowa"
 
 #: my-evolution/metar.c:1
 msgid "Drifting sandstorm"
@@ -10663,7 +10691,7 @@ msgstr "Zbli¿aj±ca siê burza piaskowa"
 
 #: my-evolution/metar.c:1
 msgid "Freezing sandstorm"
-msgstr ""
+msgstr "Utrzymuj±ca siê burza piaskowa"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:1
@@ -10700,7 +10728,7 @@ msgstr "Og³uszaj±ca kurzawa"
 
 #: my-evolution/metar.c:1
 msgid "Blowing duststorm"
-msgstr ""
+msgstr "Szalej±ca kurzawa"
 
 #: my-evolution/metar.c:1
 msgid "Drifting duststorm"
@@ -10708,48 +10736,48 @@ msgstr "Zbli¿aj±ca siê kurzawa"
 
 #: my-evolution/metar.c:1
 msgid "Freezing duststorm"
-msgstr ""
+msgstr "Utrzymuj±ca siê kurzawa"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:1
 msgid "Funnel cloud"
-msgstr ""
+msgstr "Tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Funnel cloud in the vicinity"
-msgstr ""
+msgstr "Nadchodz±ca tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Light funnel cloud"
-msgstr ""
+msgstr "Lekka tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Moderate funnel cloud"
-msgstr ""
+msgstr "Umiarkowana tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Thick funnel cloud"
-msgstr ""
+msgstr "Gêsta tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Shallow funnel cloud"
-msgstr ""
+msgstr "S³aba tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Patches of funnel clouds"
-msgstr ""
+msgstr "£agodna tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Partial funnel clouds"
-msgstr ""
+msgstr "Czê¶ciowa tr±ba powietrzna"
 
 #: my-evolution/metar.c:1
 msgid "Funnel cloud w/ wind"
-msgstr ""
+msgstr "Tr±ba powietrzna z wiatrem"
 
 #: my-evolution/metar.c:1
 msgid "Drifting funnel cloud"
-msgstr ""
+msgstr "Zbli¿aj±ca siê tr±ba powietrzna"
 
 #. TORNADO
 #: my-evolution/metar.c:1
@@ -10766,7 +10794,7 @@ msgstr "Umiarkowane tornado"
 
 #: my-evolution/metar.c:1
 msgid "Raging tornado"
-msgstr "Szalej±ce tornado"
+msgstr "Rozszala³e tornado"
 
 #: my-evolution/metar.c:1
 msgid "Partial tornado"
@@ -10782,48 +10810,48 @@ msgstr "Zbli¿aj±ce siê tornado"
 
 #: my-evolution/metar.c:1
 msgid "Freezing tornado"
-msgstr ""
+msgstr "Utrzymuj±ce siê tornado"
 
 #. DUST_WHIRLS
 #: my-evolution/metar.c:1
 msgid "Dust whirls"
-msgstr ""
+msgstr "Wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Dust whirls in the vicinity"
-msgstr ""
+msgstr "Nadchodz±ce wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Light dust whirls"
-msgstr ""
+msgstr "Lekkie wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Moderate dust whirls"
-msgstr ""
+msgstr "Umiarkowane wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Heavy dust whirls"
-msgstr ""
+msgstr "Obfite wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Shallow dust whirls"
-msgstr ""
+msgstr "S³abe wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Patches of dust whirls"
-msgstr ""
+msgstr "£agodne wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Partial dust whirls"
-msgstr ""
+msgstr "Czê¶ciowe wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Blowing dust whirls"
-msgstr ""
+msgstr "Szalej±ce wiruj±ce tumany kurzu"
 
 #: my-evolution/metar.c:1
 msgid "Drifting dust whirls"
-msgstr ""
+msgstr "Zbli¿aj±ce siê wiruj±ce tumany kurzu"
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
@@ -13221,7 +13249,7 @@ msgstr "Wy¶wietlanie _tylko godzin roboczych"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "Show _Zoomed Out"
-msgstr ""
+msgstr "Wy¶wietlanie w p_owiêkszeniu"
 
 #: widgets/meeting-time-sel/e-meeting-time-sel.c:1
 msgid "_Update Free/Busy"
