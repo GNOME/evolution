@@ -1,5 +1,13 @@
 2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	Patch from Not Zed <NotZed@Ximian.com>:
+
+	* main.c (show_development_warning): Separated the current stable
+	version number from the warning prompt, and fixed a minor
+	grammatical error.  For bug #38775.
+
+2003-03-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-config-upgrade.c (import_bonobo_config): Protect from val
 	being NULL when printf()ing -- should fix #39096 (Solaris-specific
 	crash).
