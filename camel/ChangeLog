@@ -1,3 +1,8 @@
+2000-08-16  Peter Williams  <peterw@helixcode.com>
+
+	* camel-object.c (camel_type_lock_up): Don't leave the type
+	system locked when a bad unlock happens.
+
 2000-08-15  Peter Williams  <peterw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_copy_message_to): Typo fix.
