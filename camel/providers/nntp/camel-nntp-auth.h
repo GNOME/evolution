@@ -27,6 +27,7 @@
 #ifndef CAMEL_NNTP_AUTH_H
 #define CAMEL_NNTP_AUTH_H 1
 
+#include <camel-nntp-store.h>
 
 #ifdef __cplusplus
 extern "C" {

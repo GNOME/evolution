@@ -1,3 +1,8 @@
+2000-09-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* providers/nntp/camel-nntp-auth.c,
+	providers/nntp/camel-nntp-auth.h: Fixed a warning.
+
 2000-09-07  Dan Winship  <danw@helixcode.com>
 
 	* camel-session.c (camel_session_get_storage_path): Make this not

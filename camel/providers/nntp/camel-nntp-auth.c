@@ -22,6 +22,7 @@
  */
 
 
+#include <camel-nntp-auth.h>
 #include <camel-nntp-store.h>
 #include <camel-nntp-resp-codes.h>
 #include <camel-exception.h>
