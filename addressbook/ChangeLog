@@ -1,3 +1,10 @@
+2001-09-26  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/contact-editor/contact-editor.glade: Added help text (thanks 
+	to Aaron) and re-worded the labels, and fixed the shortcuts on the 
+	brand-spanking-new Collaboration tab.
+	
+
 2001-09-26  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.h: add

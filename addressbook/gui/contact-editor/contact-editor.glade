@@ -149,6 +149,7 @@
 	  <border_width>2</border_width>
 	  <can_focus>True</can_focus>
 	  <label>_Add</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -162,6 +163,7 @@
 	  <border_width>2</border_width>
 	  <can_focus>True</can_focus>
 	  <label>_Delete</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
@@ -492,6 +494,7 @@
 	  <name>button-fullname</name>
 	  <can_focus>True</can_focus>
 	  <label>_Full Name...</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>1</left_attach>
 	    <right_attach>3</right_attach>
@@ -533,6 +536,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-email1</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -565,6 +569,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-phone4</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -597,6 +602,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-phone2</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -629,6 +635,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-phone1</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -680,6 +687,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-phone3</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -940,6 +948,7 @@
 	  <widget>
 	    <class>GtkButton</class>
 	    <name>button-address</name>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 
 	    <widget>
 	      <class>Placeholder</class>
@@ -1236,6 +1245,7 @@
 	    <name>button-contacts</name>
 	    <can_focus>True</can_focus>
 	    <label>_Contacts...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
 
@@ -1299,6 +1309,7 @@
 	    <name>button-categories</name>
 	    <can_focus>True</can_focus>
 	    <label>Ca_tegories...</label>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	  </widget>
 	</widget>
 
@@ -1541,6 +1552,7 @@
 	  <name>button-fulladdr</name>
 	  <can_focus>True</can_focus>
 	  <label>_Address...</label>
+	  <relief>GTK_RELIEF_NORMAL</relief>
 	  <child>
 	    <left_attach>5</left_attach>
 	    <right_attach>7</right_attach>
@@ -2313,140 +2325,183 @@
       </widget>
 
       <widget>
-	<class>GtkTable</class>
-	<name>table-contact-editor-collaboration</name>
-	<border_width>7</border_width>
-	<rows>2</rows>
-	<columns>3</columns>
+	<class>GtkVBox</class>
+	<name>vbox3</name>
 	<homogeneous>False</homogeneous>
-	<row_spacing>4</row_spacing>
-	<column_spacing>4</column_spacing>
+	<spacing>0</spacing>
 
 	<widget>
-	  <class>GtkLabel</class>
-	  <name>label22</name>
-	  <label>_Calendar Information:</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0</xalign>
+	  <class>GtkHBox</class>
+	  <name>hbox1</name>
+	  <border_width>7</border_width>
+	  <homogeneous>False</homogeneous>
+	  <spacing>4</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>Custom</class>
+	    <name>custom12</name>
+	    <creation_function>e_create_image_widget</creation_function>
+	    <string1>globe.png</string1>
+	    <string2></string2>
+	    <int1>0</int1>
+	    <int2>0</int2>
+	    <last_modification_time>Thu, 18 May 2000 12:20:13 GMT</last_modification_time>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label24</name>
+	    <label>If this person publishes free/busy or other calendar information on the Internet, enter the address
+of that information here.</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>7.45058e-09</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkAlignment</class>
+	  <name>alignment18</name>
+	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <focus_target>entry-department</focus_target>
+	  <xscale>0.75</xscale>
+	  <yscale>1</yscale>
 	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
 	  </child>
-	</widget>
 
-	<widget>
-	  <class>GtkLabel</class>
-	  <name>label23</name>
-	  <label>_Free/Busy Information:</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <focus_target>entry-office</focus_target>
-	  <child>
-	    <left_attach>1</left_attach>
-	    <right_attach>2</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
-	  </child>
-	</widget>
+	  <widget>
+	    <class>GtkTable</class>
+	    <name>table-contact-editor-collaboration</name>
+	    <border_width>7</border_width>
+	    <rows>2</rows>
+	    <columns>2</columns>
+	    <homogeneous>False</homogeneous>
+	    <row_spacing>4</row_spacing>
+	    <column_spacing>4</column_spacing>
 
-	<widget>
-	  <class>GtkEntry</class>
-	  <name>entry-caluri</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
-	  <child>
-	    <left_attach>2</left_attach>
-	    <right_attach>3</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>1</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label22</name>
+	      <label>_Public Calendar URL:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <focus_target>entry-caluri</focus_target>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>False</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>True</yfill>
+	      </child>
+	    </widget>
 
-	<widget>
-	  <class>GtkEntry</class>
-	  <name>entry-fburl</name>
-	  <can_focus>True</can_focus>
-	  <editable>True</editable>
-	  <text_visible>True</text_visible>
-	  <text_max_length>0</text_max_length>
-	  <text></text>
-	  <child>
-	    <left_attach>2</left_attach>
-	    <right_attach>3</right_attach>
-	    <top_attach>1</top_attach>
-	    <bottom_attach>2</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>True</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>False</yfill>
-	  </child>
-	</widget>
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label23</name>
+	      <label>F_ree/Busy URL:</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <focus_target>entry-fburl</focus_target>
+	      <child>
+		<left_attach>0</left_attach>
+		<right_attach>1</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>False</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>True</yfill>
+	      </child>
+	    </widget>
 
-	<widget>
-	  <class>Custom</class>
-	  <name>custom11</name>
-	  <creation_function>e_create_image_widget</creation_function>
-	  <string1>globe.png</string1>
-	  <string2></string2>
-	  <int1>0</int1>
-	  <int2>0</int2>
-	  <last_modification_time>Thu, 18 May 2000 12:20:13 GMT</last_modification_time>
-	  <child>
-	    <left_attach>0</left_attach>
-	    <right_attach>1</right_attach>
-	    <top_attach>0</top_attach>
-	    <bottom_attach>2</bottom_attach>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
-	    <yexpand>False</yexpand>
-	    <xshrink>False</xshrink>
-	    <yshrink>False</yshrink>
-	    <xfill>True</xfill>
-	    <yfill>True</yfill>
-	  </child>
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>entry-caluri</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>0</top_attach>
+		<bottom_attach>1</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>entry-fburl</name>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
+	      <child>
+		<left_attach>1</left_attach>
+		<right_attach>2</right_attach>
+		<top_attach>1</top_attach>
+		<bottom_attach>2</bottom_attach>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<xexpand>True</xexpand>
+		<yexpand>False</yexpand>
+		<xshrink>False</xshrink>
+		<yshrink>False</yshrink>
+		<xfill>True</xfill>
+		<yfill>False</yfill>
+	      </child>
+	    </widget>
+	  </widget>
 	</widget>
       </widget>
 
