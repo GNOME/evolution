@@ -65,7 +65,7 @@ validate_exchange_user (EConfig *ec, const char *pageid, void *data)
 		return FALSE;	/* This should never happen */
 	}
 
-	valid = camel_provider_validate_user (owa_entry_text, provider, url, NULL);
+	valid = camel_provider_validate_user (provider, url, owa_entry_text, NULL);
 	if (valid) {
 		count ++;
 		url_string = camel_url_to_string (url, 0);

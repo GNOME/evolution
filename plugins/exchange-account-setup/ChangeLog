@@ -1,4 +1,9 @@
 2005-01-10  Sushma Rai <rsushma@novell.com>
+
+	* exchange-ask-password.c: (validate_exchange_user):
+	Corrected argument order.
+
+2005-01-10  Sushma Rai <rsushma@novell.com>
 	
 	* org-gnome-exchange-account-setup.eplug.in: Added plugin to read
 	OWA url entry to the account set up druid.
