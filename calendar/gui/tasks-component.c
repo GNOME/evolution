@@ -791,17 +791,6 @@ create_new_todo (TasksComponent *task_component, TasksComponentView *component_v
 	if (!ecal)
 		return FALSE;
 
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only) {
-		GtkWidget *dialog;
-			
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-						 _("Selected task list is read-only, events cannot be created. Please select a read-write calendar."));
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-		return TRUE;
-	}
-
 	editor = task_editor_new (ecal);
 	comp = cal_comp_task_new_with_defaults (ecal);
 

@@ -1,5 +1,15 @@
 2004-06-18  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #56323
+
+	* gui/calendar-component.c (create_new_event): removed read-only
+	check, just call the editor with the currently selected client and
+	let it do the job.
+
+	* gui/tasks-component.c (create_new_todo): ditto.
+
+2004-06-18  Rodrigo Moya <rodrigo@novell.com>
+
 	Fixes #60293
 
 	* gui/dialogs/recurrence-page.c (type_toggled_cb): make sure

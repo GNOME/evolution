@@ -955,17 +955,6 @@ create_new_event (CalendarComponent *calendar_component, CalendarComponentView *
 	if (!ecal)
 		return FALSE;
 
-	if (!e_cal_is_read_only (ecal, &read_only, NULL) || read_only) {
-		GtkWidget *dialog;
-			
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
-						 GTK_MESSAGE_INFO, GTK_BUTTONS_OK,
-						 _("Selected calendar is read-only, events cannot be created. Please select a read-write calendar."));
-		gtk_dialog_run (GTK_DIALOG (dialog));
-		gtk_widget_destroy (dialog);
-		return TRUE;
-	}
-
 	if (component_view && (view = E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (component_view->calendar)))) {
 		GnomeCalendarViewType view_type;
 
