@@ -2,6 +2,7 @@
 
 	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_new): push/pop
 	the color map
+	(e_shell_folder_title_bar_new): and the visual...
 
 2001-01-15  Iain Holmes  <iain@ximian.com>
 
