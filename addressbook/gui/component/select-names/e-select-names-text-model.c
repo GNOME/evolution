@@ -22,8 +22,6 @@
 
 static FILE *out = NULL; /* stream for debugging spew */
 
-#define SEPLEN 2
-
 /* Object argument IDs */
 enum {
 	ARG_0,
@@ -140,7 +138,16 @@ dump_model (ESelectNamesTextModel *text_model)
 static void
 e_select_names_text_model_init (ESelectNamesTextModel *model)
 {
+	const gchar *default_sep;
+
 	model->last_magic_comma_pos = -1;
+
+	if (getenv ("EVOLUTION_DISABLE_MAGIC_COMMA"))
+		default_sep = ",";
+	else
+		default_sep = ", ";
+
+	e_select_names_text_model_set_separator (model, default_sep);
 }
 
 static void
@@ -149,6 +156,9 @@ e_select_names_text_model_destroy (GtkObject *object)
 	ESelectNamesTextModel *model;
 	
 	model = E_SELECT_NAMES_TEXT_MODEL (object);
+
+	g_free (model->text);
+	g_free (model->sep);
 	
 	e_select_names_text_model_set_source (model, NULL);
 	
@@ -195,8 +205,9 @@ resize_cb (ESelectNamesModel *source, gint index, gint old_len, gint new_len, ET
 	EReposDeleteShift repos_del;
 	EReposInsertShift repos_ins;
 	gint pos;
+	gint seplen = E_SELECT_NAMES_TEXT_MODEL (model)->seplen;
 
-	e_select_names_model_name_pos (source, index, &pos, NULL);
+	e_select_names_model_name_pos (source, seplen, index, &pos, NULL);
 
 	if (new_len < old_len) {
 
@@ -213,6 +224,17 @@ resize_cb (ESelectNamesModel *source, gint index, gint old_len, gint new_len, ET
 		e_text_model_reposition (model, e_repos_insert_shift, &repos_ins);
 
 	}
+}
+
+static void
+changed_cb (ETextModel *model)
+{
+	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	
+	g_free (text_model->text);
+	text_model->text = NULL;
+
+	e_text_model_changed (model);
 }
 
 
@@ -235,7 +257,7 @@ e_select_names_text_model_set_source (ESelectNamesTextModel *model,
 		gtk_object_ref (GTK_OBJECT (model->source));
 		model->source_changed_id = gtk_signal_connect_object (GTK_OBJECT(model->source),
 								      "changed",
-								      GTK_SIGNAL_FUNC (e_text_model_changed),
+								      GTK_SIGNAL_FUNC (changed_cb),
 								      GTK_OBJECT (model));
 		model->source_resize_id = gtk_signal_connect (GTK_OBJECT(model->source),
 							      "resized",
@@ -252,12 +274,28 @@ e_select_names_text_model_new (ESelectNamesModel *source)
 	return model;
 }
 
+void
+e_select_names_text_model_set_separator (ESelectNamesTextModel *model, const char *sep)
+{
+	g_return_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (model));
+	g_return_if_fail (sep && *sep);
+
+	g_free (model->sep);
+	model->sep = g_strdup (sep);
+	model->seplen = strlen (sep);
+}
+
 static const gchar *
 e_select_names_text_model_get_text (ETextModel *model)
 {
 	ESelectNamesTextModel *snm = E_SELECT_NAMES_TEXT_MODEL(model);
 
-	return snm ? e_select_names_model_get_textification (snm->source) : "";
+	if (snm == NULL)
+		return "";
+	else if (snm->text == NULL)
+		snm->text = e_select_names_model_get_textification (snm->source, snm->sep);
+
+	return snm->text;
 }
 
 static void
@@ -278,11 +316,10 @@ e_select_names_text_model_insert (ETextModel *model, gint position, const gchar 
 static void
 e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gchar *text, gint length)
 {
-	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
-	gint i;
+	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	ESelectNamesModel *source = text_model->source;
 
-	g_return_if_fail (model != NULL);
-	g_return_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (model));
+	gint i;
 
 	if (out) {
 		gchar *tmp = g_strndup (text, length);
@@ -290,11 +327,11 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		g_free (tmp);
 	}
 
-	pos = CLAMP (pos, 0, strlen (e_select_names_model_get_textification (source)));
+	pos = CLAMP (pos, 0, strlen (e_select_names_model_get_textification (source, text_model->sep)));
 
 	/* We want to control all cursor motions ourselves, rather than taking hints
 	   from the ESelectNamesModel. */
-	gtk_signal_handler_block (GTK_OBJECT (source), E_SELECT_NAMES_TEXT_MODEL (model)->source_resize_id);
+	gtk_signal_handler_block (GTK_OBJECT (source), text_model->source_resize_id);
 
 	/* We handle this one character at a time. */
 
@@ -302,17 +339,17 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		gint index, start_pos, text_len;
 		gboolean inside_quote = FALSE;
 
-		E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = -1;
+		text_model->last_magic_comma_pos = -1;
 
 		if (out) 
 			fprintf (out, "processing [%c]\n", text[i]);
 
-		e_select_names_model_text_pos (source, pos, &index, &start_pos, &text_len);
+		e_select_names_model_text_pos (source, text_model->seplen, pos, &index, &start_pos, &text_len);
 
 		if (out) 
 			fprintf (out, "index=%d start_pos=%d text_len=%d\n", index, start_pos, text_len);
 
-		if (text[i] == ',' && index >= 0) { /* Is this a quoted or an unquoted comma we are dealing with? */
+		if (text[i] == *text_model->sep && index >= 0) { /* Is this a quoted or an unquoted separator we are dealing with? */
 			const EDestination *dest = e_select_names_model_get_destination (source, index);
 			if (dest) {
 				const gchar *str = e_destination_get_textrep (dest);
@@ -331,7 +368,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		}
 
 
-		if (text[i] == ',' && !inside_quote) {
+		if (text[i] == *text_model->sep && !inside_quote) {
 
 			/* This is the case of hitting , first thing in an empty entry */
 			if (index == -1) {
@@ -361,9 +398,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 					repos.model = model;
 					repos.pos = pos;
-					repos.len = SEPLEN;
+					repos.len = text_model->seplen;
 					e_text_model_reposition (model, e_repos_insert_shift, &repos);
-					pos += SEPLEN;
+					pos += text_model->seplen;
 				} 
 
 			} else {
@@ -385,12 +422,13 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 				repos.model = model;
 				repos.pos = pos;
-				repos.len = SEPLEN;
+				repos.len = text_model->seplen;
 				e_text_model_reposition (model, e_repos_insert_shift, &repos);
-				pos += SEPLEN;
+				pos += text_model->seplen;
 			}
 
-			E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = pos;
+			if (text_model->seplen > 1)
+				text_model->last_magic_comma_pos = pos;
 
 		} else {
 			EReposInsertShift repos;
@@ -408,6 +446,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 						this_length = 0;
 					} else {
 						/* Adjust for our "magic white space" */
+						/* FIXME: This code does the wrong thing if seplen > 2 */
 						new_str = g_strdup_printf("%c%s%s", text[i], pos < start_pos ? " " : "", str);
 						if (pos < start_pos)
 							++this_length;
@@ -447,20 +486,21 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 		}
 	}
 
-	dump_model (E_SELECT_NAMES_TEXT_MODEL (model));
+	dump_model (text_model);
 
-	gtk_signal_handler_unblock (GTK_OBJECT (source), E_SELECT_NAMES_TEXT_MODEL (model)->source_resize_id);
+	gtk_signal_handler_unblock (GTK_OBJECT (source), text_model->source_resize_id);
 }
 
 
 static void
 e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 {
-	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
+	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	ESelectNamesModel *source = text_model->source;
 	gint index, start_pos, text_len, offset;
 		
 	if (out) {
-		const gchar *str = e_select_names_model_get_textification (source);
+		const gchar *str = e_select_names_model_get_textification (source, text_model->sep);
 		gint i, len;
 
 		fprintf (out, ">> delete %d at pos %d\n", length, pos);
@@ -480,15 +520,14 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 	if (length < 0)
 		return;
 
-	if (E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos == pos+1
-	    && length == 1) {
-		--pos;
+	if (text_model->last_magic_comma_pos == pos+1 && length == 1) {
+		pos -= text_model->seplen-1;
 		if (pos >= 0)
-			++length;
-		E_SELECT_NAMES_TEXT_MODEL (model)->last_magic_comma_pos = -1;
+			length = text_model->seplen;
+		text_model->last_magic_comma_pos = -1;
 	}
 
-	e_select_names_model_text_pos (source, pos, &index, &start_pos, &text_len);
+	e_select_names_model_text_pos (source, text_model->seplen, pos, &index, &start_pos, &text_len);
 
 	if (out) 
 		fprintf (out, "index=%d, start_pos=%d, text_len=%d\n", index, start_pos, text_len);
@@ -529,7 +568,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 				++str2;
 			
 			if (str1 && str2)
-				new_str = g_strdup_printf ("%s %s", str1, str2);
+				new_str = g_strdup_printf ("%s%s%s", str1, text_model->sep+1, str2);
 			else if (str1)
 				new_str = g_strdup (str1);
 			else if (str2)
@@ -549,7 +588,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 			repos.model = model;
 			repos.pos = pos;
-			repos.len = SEPLEN - 1;
+			repos.len = text_model->seplen;
 
 			e_text_model_reposition (model, e_repos_delete_shift, &repos);
 
@@ -577,11 +616,11 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 			repos.model = model;
 			repos.pos = pos;
-			repos.len = text_len + SEPLEN;
+			repos.len = text_len + text_model->seplen;
 		
 			e_text_model_reposition (model, e_repos_delete_shift, &repos);
 
-			length -= text_len + SEPLEN;
+			length -= text_len + text_model->seplen;
 			if (length > 0)
 				e_select_names_text_model_delete (model, pos, length);
 
@@ -644,7 +683,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			
 			repos.model = model;
 			repos.pos = pos;
-			repos.len = SEPLEN;
+			repos.len = text_model->seplen;
 			
 			e_text_model_reposition (model, e_repos_delete_shift, &repos);
 		}
@@ -700,7 +739,8 @@ nth_obj_index (ESelectNamesModel *source, gint n)
 static const gchar *
 e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 {
-	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
+	ESelectNamesTextModel *text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	ESelectNamesModel *source = text_model->source;
 	const gchar *txt;
 	gint i, pos;
 
@@ -708,12 +748,13 @@ e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
 	if (i < 0)
 		return NULL;
 	
-	e_select_names_model_name_pos (source, i, &pos,  len);
+	e_select_names_model_name_pos (source, text_model->seplen, i, &pos,  len);
 	if (pos < 0)
 		return NULL;
 	
-	txt = e_select_names_model_get_textification (source);
-	return txt + pos;
+	if (text_model->text == NULL)
+		text_model->text = e_select_names_model_get_textification (source, text_model->sep);
+	return text_model->text + pos;
 }
 
 static void

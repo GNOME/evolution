@@ -32,6 +32,11 @@ struct _ESelectNamesTextModel {
 	gint source_changed_id;
 	gint source_resize_id;
 
+	gchar *text;
+
+	gchar *sep;
+	gint seplen;
+	
 	gint last_magic_comma_pos;
 };
 
@@ -39,7 +44,8 @@ struct _ESelectNamesTextModelClass {
 	ETextModelClass parent_class;
 };
 
-ETextModel *e_select_names_text_model_new  (ESelectNamesModel *source);
+ETextModel *e_select_names_text_model_new           (ESelectNamesModel *source);
+void        e_select_names_text_model_set_separator (ESelectNamesTextModel *model, const char *sep);
 
 /* Standard Gtk function */			      
 GtkType     e_select_names_text_model_get_type (void);

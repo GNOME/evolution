@@ -46,23 +46,23 @@
 
 typedef struct _PopupInfo PopupInfo;
 struct _PopupInfo {
-	ESelectNamesModel *model;
+	ESelectNamesTextModel *text_model;
 	const EDestination *dest;
 	gint pos;
 	gint index;
 };
 
 static PopupInfo *
-popup_info_new (ESelectNamesModel *model, const EDestination *dest, gint pos, gint index)
+popup_info_new (ESelectNamesTextModel *text_model, const EDestination *dest, gint pos, gint index)
 {
 	PopupInfo *info = g_new0 (PopupInfo, 1);
-	info->model = model;
+	info->text_model = text_model;
 	info->dest = dest;
 	info->pos = pos;
 	info->index = index;
 
-	if (model)
-		gtk_object_ref (GTK_OBJECT (model));
+	if (text_model)
+		gtk_object_ref (GTK_OBJECT (text_model));
 
 	if (dest)
 		gtk_object_ref (GTK_OBJECT (dest));
@@ -75,8 +75,8 @@ popup_info_free (PopupInfo *info)
 {
 	if (info) {
 		
-		if (info->model)
-			gtk_object_unref (GTK_OBJECT (info->model));
+		if (info->text_model)
+			gtk_object_unref (GTK_OBJECT (info->text_model));
 
 		if (info->dest)
 			gtk_object_unref (GTK_OBJECT (info->dest));
@@ -144,7 +144,7 @@ change_email_num_cb (GtkWidget *w, gpointer user_data)
 	if (n != e_destination_get_email_num (info->dest)) {
 		dest = e_destination_new ();
 		e_destination_set_card (dest, e_destination_get_card (info->dest), n);
-		e_select_names_model_replace (info->model, info->index, dest);
+		e_select_names_model_replace (info->text_model->source, info->index, dest);
 
 	}
 }
@@ -153,7 +153,7 @@ static void
 remove_recipient_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
-	e_select_names_model_delete (info->model, info->index);
+	e_select_names_model_delete (info->text_model->source, info->index);
 }
 
 static void
@@ -168,7 +168,7 @@ static void
 remove_all_recipients_cb (GtkWidget *w, gpointer user_data)
 {
 	PopupInfo *info = (PopupInfo *) user_data;
-	e_select_names_model_delete_all (info->model);
+	e_select_names_model_delete_all (info->text_model->source);
 }
 
 static void
@@ -511,19 +511,22 @@ popup_menu_nocard (PopupInfo *info)
 }
 
 void
-e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
+e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos)
 {
+	ESelectNamesModel *model;
 	GtkWidget *popup;
 	PopupInfo *info;
 	const EDestination *dest;
 	ECard *card;
 	gint index;
 
-	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
 	g_return_if_fail (ev);
 	g_return_if_fail (0 <= pos);
 
-	e_select_names_model_text_pos (model, pos, &index, NULL, NULL);
+	model = text_model->source;
+
+	e_select_names_model_text_pos (model, text_model->seplen, pos, &index, NULL, NULL);
 	if (index < 0 || index >= e_select_names_model_count (model))
 		return;
 
@@ -533,7 +536,7 @@ e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos)
 
 	card = e_destination_get_card (dest);
 
-	info = popup_info_new (model, dest, pos, index);
+	info = popup_info_new (text_model, dest, pos, index);
 	
 	if (e_destination_contains_card (dest)) {
 		if (e_destination_is_evolution_list (dest))

@@ -20,9 +20,6 @@
 #include "e-select-names-model.h"
 #include "addressbook/backend/ebook/e-card-simple.h"
 
-#define SEPARATOR ", "
-#define SEPLEN    (strlen(SEPARATOR))
-
 #define MAX_LENGTH 2047
 
 
@@ -56,8 +53,6 @@ struct _ESelectNamesModelPrivate {
 	gchar *title;
 
 	GList *data;  /* of EDestination */
-	gchar *text;
-	gchar *addr_text;
 
 	gint limit;
 
@@ -170,9 +165,6 @@ e_select_names_model_destroy (GtkObject *object)
 	g_list_foreach (model->priv->data, (GFunc) gtk_object_unref, NULL);
 	g_list_free (model->priv->data);
 
-	g_free (model->priv->text);
-	g_free (model->priv->addr_text);
-
 	g_free (model->priv);
 
 }
@@ -215,12 +207,6 @@ e_select_names_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 static void
 e_select_names_model_changed (ESelectNamesModel *model)
 {
-	g_free (model->priv->text);
-	model->priv->text = NULL;
-	
-	g_free (model->priv->addr_text);
-	model->priv->addr_text = NULL;
-
 	if (model->priv->freeze_count > 0) {
 		model->priv->pending_changed = TRUE;
 	} else {
@@ -264,76 +250,78 @@ e_select_names_model_duplicate (ESelectNamesModel *old)
 	return model;
 }
 
-const gchar *
-e_select_names_model_get_textification (ESelectNamesModel *model)
+gchar *
+e_select_names_model_get_textification (ESelectNamesModel *model, const char *separator)
 {
+	gchar *text;
+
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (separator && *separator, NULL);
 
-	if (model->priv->text == NULL) {
+	if (model->priv->data == NULL) {
+		
+		text = g_strdup ("");
 
-		if (model->priv->data == NULL) {
-			
-			model->priv->text = g_strdup ("");
-
-		} else {
-			gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
-			gint i = 0;
-			GList *iter = model->priv->data;
-			
-			while (iter) {
-				EDestination *dest = E_DESTINATION (iter->data);
-				strv[i] = (gchar *) e_destination_get_textrep (dest);
-				++i;
-				iter = g_list_next (iter);
-			}
-
-			model->priv->text = g_strjoinv (SEPARATOR, strv);
-
-			if (strlen(model->priv->text) > MAX_LENGTH) {
-				model->priv->text[MAX_LENGTH] = 0;
-				g_realloc (model->priv->text, MAX_LENGTH + 1);
-			}
-			
-			g_free (strv);
+	} else {
+		gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
+		gint i = 0;
+		GList *iter = model->priv->data;
+		
+		while (iter) {
+			EDestination *dest = E_DESTINATION (iter->data);
+			strv[i] = (gchar *) e_destination_get_textrep (dest);
+			++i;
+			iter = g_list_next (iter);
 		}
+		
+		text = g_strjoinv (separator, strv);
+		
+		if (strlen(text) > MAX_LENGTH) {
+			text[MAX_LENGTH] = '\0';
+			text = g_realloc (text, MAX_LENGTH + 1);
+		}
+		
+		g_free (strv);
+		
 	}
 
-	return model->priv->text;
+	return text;
 }
 
-const gchar *
-e_select_names_model_get_address_text (ESelectNamesModel *model)
+gchar *
+e_select_names_model_get_address_text (ESelectNamesModel *model, const char *separator)
 {
+	gchar *addr_text;
+
 	g_return_val_if_fail (model != NULL, NULL);
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
+	g_return_val_if_fail (separator && *separator, NULL);
 
-	if (model->priv->addr_text == NULL) {
+	if (model->priv->data == NULL) {
 
-		if (model->priv->data == NULL) {
+		addr_text = g_strdup ("");
+		
+	} else {
+		gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
+		gint i = 0;
+		GList *iter = model->priv->data;
 
-			model->priv->addr_text = g_strdup ("");
-
-		} else {
-			gchar **strv = g_new0 (gchar *, g_list_length (model->priv->data)+1);
-			gint i = 0;
-			GList *iter = model->priv->data;
-
-			while (iter) {
-				EDestination *dest = E_DESTINATION (iter->data);
-				strv[i] = (gchar *) e_destination_get_address (dest);
-				if (strv[i])
-					++i;
-				iter = g_list_next (iter);
-			}
-
-			model->priv->addr_text = g_strjoinv (SEPARATOR, strv);
-
-			g_free (strv);
+		while (iter) {
+			EDestination *dest = E_DESTINATION (iter->data);
+			strv[i] = (gchar *) e_destination_get_address (dest);
+			if (strv[i])
+				++i;
+			iter = g_list_next (iter);
 		}
+		
+		addr_text = g_strjoinv (separator, strv);
+		
+		g_free (strv);
+		
 	}
 
-	return model->priv->addr_text;
+	return addr_text;
 }
 
 gint
@@ -614,7 +602,7 @@ e_select_names_model_delete (ESelectNamesModel *model, gint index)
 }
 
 void
-e_select_names_model_clean (ESelectNamesModel *model)
+e_select_names_model_clean (ESelectNamesModel *model, gboolean clean_last_entry)
 {
 	GList *iter, *next;
 	gboolean changed = FALSE;
@@ -627,6 +615,10 @@ e_select_names_model_clean (ESelectNamesModel *model)
 		EDestination *dest;
 
 		next = g_list_next (iter);
+
+		if (next == NULL && !clean_last_entry)
+			break;
+		
 		dest = iter->data ? E_DESTINATION (iter->data) : NULL;
 
 		if (dest == NULL || e_destination_is_empty (dest)) {
@@ -705,19 +697,19 @@ e_select_names_model_merge (ESelectNamesModel *dest, ESelectNamesModel *src)
 }
 
 void
-e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, gint *length)
+e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index, gint *pos, gint *length)
 {
 	gint rp = 0, i, len = 0;
 	GList *iter;
 	const gchar *str;
 
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (seplen > 0);
 
 	i = 0;
 	iter = model->priv->data;
 	while (iter && i <= index) {
-		rp += len + (i > 0 ? SEPLEN : 0);
+		rp += len + (i > 0 ? seplen : 0);
 		str = e_destination_get_textrep (E_DESTINATION (iter->data));
 		len = str ? strlen (str) : 0;
 		++i;
@@ -736,14 +728,14 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, 
 }
 
 void
-e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length)
+e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, gint *index, gint *start_pos, gint *length)
 {
 	GList *iter;
 	const gchar *str;
 	gint len = 0, i = 0, sp = 0, adj = 0;
 
-	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+	g_return_if_fail (seplen > 0);
 
 	iter = model->priv->data;
 
@@ -756,14 +748,14 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, 
 		}
 
 		sp += len + adj + 1;
-		adj = 1;
+		adj = seplen-1;
 		++i;
 
 		iter = g_list_next (iter);
 	}
 
 	if (i != 0)
-		++sp; /* skip past "magic space" */
+		sp += seplen-1; /* skip past "magic space" */
 
 	if (iter == NULL) {
 #if 0

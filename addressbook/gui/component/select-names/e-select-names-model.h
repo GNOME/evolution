@@ -46,8 +46,8 @@ GtkType e_select_names_model_get_type  (void);
 ESelectNamesModel *e_select_names_model_new       (void);
 ESelectNamesModel *e_select_names_model_duplicate (ESelectNamesModel *old);
 
-const gchar  *e_select_names_model_get_textification (ESelectNamesModel *model);
-const gchar  *e_select_names_model_get_address_text  (ESelectNamesModel *model);
+gchar             *e_select_names_model_get_textification (ESelectNamesModel *model, const char *separator);
+gchar             *e_select_names_model_get_address_text  (ESelectNamesModel *model, const char *separator);
 
 gint                e_select_names_model_count               (ESelectNamesModel *model);
 gint                e_select_names_model_get_limit           (ESelectNamesModel *model);
@@ -71,10 +71,10 @@ void          e_select_names_model_delete_all     (ESelectNamesModel *model);
 void          e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel *src);
 void          e_select_names_model_merge          (ESelectNamesModel *dest, ESelectNamesModel *src);
 
-void          e_select_names_model_clean      (ESelectNamesModel *model);
+void          e_select_names_model_clean      (ESelectNamesModel *model, gboolean clean_last_entry);
 
-void          e_select_names_model_name_pos (ESelectNamesModel *model, gint index, gint *pos, gint *length);
-void          e_select_names_model_text_pos (ESelectNamesModel *model, gint pos, gint *index, gint *start_pos, gint *length);
+void          e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index, gint *pos, gint *length);
+void          e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, gint *index, gint *start_pos, gint *length);
 
 void          e_select_names_model_cardify            (ESelectNamesModel *model, EBook *book, gint index, gint delay);
 gboolean      e_select_names_model_uncardify          (ESelectNamesModel *model, gint index);

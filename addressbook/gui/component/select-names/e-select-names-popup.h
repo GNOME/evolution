@@ -27,9 +27,9 @@
 #ifndef __E_SELECT_NAMES_POPUP_H__
 #define __E_SELECT_NAMES_POPUP_H__
 
-#include "e-select-names-model.h"
+#include "e-select-names-text-model.h"
 
-void e_select_names_popup (ESelectNamesModel *model, GdkEventButton *ev, gint pos);
+void e_select_names_popup (ESelectNamesTextModel *text_model, GdkEventButton *ev, gint pos);
 
 #endif /* __E_SELECT_NAMES_POPUP_H__ */
 

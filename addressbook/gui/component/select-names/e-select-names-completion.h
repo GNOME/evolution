@@ -29,7 +29,7 @@
 
 #include <gal/e-text/e-completion.h>
 #include <addressbook/backend/ebook/e-book.h>
-#include "e-select-names-model.h"
+#include "e-select-names-text-model.h"
 
 BEGIN_GNOME_DECLS
 
@@ -54,12 +54,12 @@ struct _ESelectNamesCompletionClass {
 
 };
 
-GtkType e_select_names_completion_get_type (void);
+GtkType      e_select_names_completion_get_type (void);
 
-ECompletion *e_select_names_completion_new (EBook *, ESelectNamesModel *);
-void     e_select_names_completion_add_book (ESelectNamesCompletion *, EBook *);
-gboolean e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *);
-void     e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *, gboolean);
+ECompletion *e_select_names_completion_new                     (EBook *, ESelectNamesTextModel *);
+void         e_select_names_completion_add_book                (ESelectNamesCompletion *, EBook *);
+gboolean     e_select_names_completion_get_match_contact_lists (ESelectNamesCompletion *);
+void         e_select_names_completion_set_match_contact_lists (ESelectNamesCompletion *, gboolean);
 
 END_GNOME_DECLS
 

@@ -75,11 +75,11 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 	switch (arg_id) {
 	case ENTRY_PROPERTY_ID_TEXT:
 		{
-			ESelectNamesModel *model;
-			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
-			g_assert (model != NULL);
+			ETextModel *text_model;
+			text_model = E_TEXT_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_text_model"));
+			g_assert (text_model != NULL);
 			
-			BONOBO_ARG_SET_STRING (arg, e_select_names_model_get_textification (model));
+			BONOBO_ARG_SET_STRING (arg, e_text_model_get_text (text_model));
 		break;
 		}
 

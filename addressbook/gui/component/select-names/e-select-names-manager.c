@@ -51,6 +51,7 @@ typedef struct {
 	EEntry *entry;
 	ESelectNamesManager *manager;
 	ESelectNamesModel *model;
+	guint cleaning_tag;
 } ESelectNamesManagerEntry;
 
 static void e_select_names_manager_init (ESelectNamesManager *manager);
@@ -136,15 +137,35 @@ get_entry_info (EEntry *entry)
 static void
 popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, gpointer user_data)
 {
-	ESelectNamesManagerEntry *entry = user_data;
+	ESelectNamesTextModel *text_model;
 
-	e_select_names_popup (entry->model, ev, pos);
+	gtk_object_get (GTK_OBJECT (eentry),
+			"model", &text_model,
+			NULL);
+	g_assert (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
+
+	e_select_names_popup (text_model, ev, pos);
+}
+
+static gboolean
+clean_cb (gpointer ptr)
+{
+	ESelectNamesManagerEntry *entry = ptr;
+
+	e_select_names_model_clean (entry->model, TRUE);
+	entry->cleaning_tag = 0;
+	return FALSE;
 }
 
 static gint
 focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 {
 	ESelectNamesManagerEntry *entry = user_data;
+
+	if (entry->cleaning_tag) {
+		gtk_timeout_remove (entry->cleaning_tag);
+		entry->cleaning_tag = 0;
+	}
 
 	e_select_names_model_cancel_cardify_all (entry->model);
 
@@ -155,11 +176,13 @@ static gint
 focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 {
 	ESelectNamesManagerEntry *entry = user_data;
+	gboolean visible = e_entry_completion_popup_is_visible (entry->entry);
 
-	e_select_names_model_clean (entry->model);
-
-	if (!e_entry_completion_popup_is_visible (entry->entry))
+	if (! visible) {
 		e_select_names_model_cardify_all (entry->model, entry->manager->completion_book, 100);
+		if (entry->cleaning_tag == 0)
+			entry->cleaning_tag = gtk_timeout_add (100, clean_cb, entry);
+	}
 
 	return FALSE;
 }
@@ -177,6 +200,7 @@ static void
 completion_handler (EEntry *entry, ECompletionMatch *match)
 {
 	ESelectNamesManagerEntry *mgr_entry;
+	ESelectNamesTextModel *text_model;
 	EDestination *dest;
 	gint i, pos, start_pos, len;
 
@@ -191,10 +215,15 @@ completion_handler (EEntry *entry, ECompletionMatch *match)
            bitch. */
 	gtk_object_ref (GTK_OBJECT (dest));
 
+	gtk_object_get (GTK_OBJECT (entry),
+			"model", &text_model,
+			NULL);
+	g_assert (E_IS_SELECT_NAMES_TEXT_MODEL (text_model));
+
 	pos = e_entry_get_position (entry);
-	e_select_names_model_text_pos (mgr_entry->model, pos, &i, NULL, NULL);
+	e_select_names_model_text_pos (mgr_entry->model, text_model->seplen, pos, &i, NULL, NULL);
 	e_select_names_model_replace (mgr_entry->model, i, dest);
-	e_select_names_model_name_pos (mgr_entry->model, i, &start_pos, &len);
+	e_select_names_model_name_pos (mgr_entry->model, text_model->seplen, i, &start_pos, &len);
 	e_entry_set_position (entry, start_pos+len);
 }
 
@@ -223,7 +252,7 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 
 	gtk_object_ref (GTK_OBJECT (entry->entry));
 
-	comp = e_select_names_completion_new (NULL, model);
+	comp = e_select_names_completion_new (NULL, E_SELECT_NAMES_TEXT_MODEL (text_model));
 	if (manager->completion_book)
 		e_select_names_completion_add_book (E_SELECT_NAMES_COMPLETION (comp),
 						    manager->completion_book);
@@ -257,6 +286,7 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "entry_info", entry);
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_model", model);
+	gtk_object_set_data (GTK_OBJECT (entry->entry), "select_names_text_model", text_model);
 	gtk_object_set_data (GTK_OBJECT (entry->entry), "completion_handler", comp);
 
 	return entry;
@@ -271,6 +301,9 @@ e_select_names_manager_entry_free (ESelectNamesManagerEntry *entry)
 	g_free (entry->id);
 	gtk_object_unref (GTK_OBJECT (entry->model));
 	gtk_object_unref (GTK_OBJECT (entry->entry));
+
+	if (entry->cleaning_tag)
+		gtk_timeout_remove (entry->cleaning_tag);
 
 	g_free (entry);
 }
