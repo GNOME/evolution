@@ -337,20 +337,25 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 	}
 
  	rule = NULL;
-	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
+	while ((rule = rule_context_next_rule((RuleContext *)context, rule, NULL))) {
 		int found = FALSE;
-
+		
+		if (!rule->name) {
+			d(printf ("invalid rule (%p): rule->name is set to NULL\n"));
+			continue;
+		}
+		
 		if (rule->source
 		    && ((!strcmp(rule->source, "local") && !remote)
 			|| (!strcmp(rule->source, "remote_active") && remote)
 			|| (!strcmp(rule->source, "local_remote_active"))))
 			found = TRUE;
-
+		
 		/* we check using the store uri_cmp since its more accurate */
 		source = NULL;
-		while ( !found && (source = vfolder_rule_next_source((VfolderRule *)rule, source)) )
+		while (!found && (source = vfolder_rule_next_source((VfolderRule *)rule, source)))
 			found = uri_cmp(uri, source);
-
+		
 		if (found) {
 			vf = g_hash_table_lookup(vfolder_hash, rule->name);
 			g_assert(vf);
@@ -736,7 +741,10 @@ vfolder_load_storage(GNOME_Evolution_Shell shell)
 	/* and setup the rules we have */
 	rule = NULL;
 	while ( (rule = rule_context_next_rule((RuleContext *)context, rule, NULL)) ) {
-		context_rule_added((RuleContext *)context, rule);
+		if (rule->name)
+			context_rule_added((RuleContext *)context, rule);
+		else
+			d(printf ("invalid rule (%p) encountered: rule->name is NULL\n"));
 	}
 
 	g_free(storeuri);

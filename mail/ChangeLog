@@ -1,3 +1,9 @@
+2001-11-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_load_storage): Add a NULL check for
+	rule->name.
+	(mail_vfolder_add_uri): Same here.
+
 2001-11-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (forward_message): If we already have the
