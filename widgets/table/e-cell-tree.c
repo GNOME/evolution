@@ -212,7 +212,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
 
-			if (!e_tree_model_node_is_root (tree_model, node)
+			if (visible_depth_of_node (tree_model, node) > 0
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0)
 				gdk_draw_line (drawable, tree_view->gc,
 					       rect.x + offset - INDENT_AMOUNT / 2 + 1,

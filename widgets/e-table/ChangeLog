@@ -1,3 +1,8 @@
+2000-07-06  Chris Toshok  <toshok@helixcode.com>
+
+	* e-cell-tree.c (ect_draw): fix the conditions under which we draw
+	a horizontal line.
+
 2000-07-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c: Send GDK_BUTTON_RELEASE events to the ecell
