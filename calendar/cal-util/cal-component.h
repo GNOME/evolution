@@ -209,12 +209,14 @@ void cal_component_set_new_vtype (CalComponent *comp, CalComponentVType type);
 gboolean cal_component_set_icalcomponent (CalComponent *comp, icalcomponent *icalcomp);
 icalcomponent *cal_component_get_icalcomponent (CalComponent *comp);
 void cal_component_rescan (CalComponent *comp);
+void cal_component_strip_errors (CalComponent *comp);
 
 CalComponentVType cal_component_get_vtype (CalComponent *comp);
 
 char *cal_component_get_as_string (CalComponent *comp);
 
 void cal_component_commit_sequence (CalComponent *comp);
+void cal_component_abort_sequence (CalComponent *comp);
 
 void cal_component_get_uid (CalComponent *comp, const char **uid);
 void cal_component_set_uid (CalComponent *comp, const char *uid);

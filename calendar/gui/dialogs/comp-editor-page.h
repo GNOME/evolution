@@ -95,6 +95,7 @@ void       comp_editor_page_set_summary            (CompEditorPage      *page,
 void       comp_editor_page_set_dates              (CompEditorPage      *page,
 						    CompEditorPageDates *dates);
 void       comp_editor_page_notify_changed         (CompEditorPage      *page);
+void       comp_editor_page_notify_needs_send      (CompEditorPage      *page);
 void       comp_editor_page_notify_summary_changed (CompEditorPage      *page,
 						    const char          *summary);
 void       comp_editor_page_notify_dates_changed   (CompEditorPage      *page,

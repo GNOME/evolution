@@ -182,6 +182,66 @@ itip_addresses_free (GList *addresses)
 	g_list_free (addresses);
 }
 
+gboolean
+itip_organizer_is_user (CalComponent *comp)
+{
+	CalComponentOrganizer organizer;
+	GList *addresses, *l;
+	const char *strip;
+	gboolean user_org = FALSE;
+	
+	if (!cal_component_has_organizer (comp))
+		return FALSE;
+
+	cal_component_get_organizer (comp, &organizer);
+	if (organizer.value != NULL) {
+		strip = itip_strip_mailto (organizer.value);
+
+		addresses = itip_addresses_get ();
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+			
+			if (!g_strcasecmp (a->address, strip)) {
+				user_org = TRUE;
+				break;
+			}
+		}
+		itip_addresses_free (addresses);
+	}
+
+	return user_org;
+}
+
+gboolean
+itip_sentby_is_user (CalComponent *comp)
+{
+	CalComponentOrganizer organizer;
+	GList *addresses, *l;
+	const char *strip;
+	gboolean user_sentby = FALSE;
+	
+	if (!cal_component_has_organizer (comp))
+		return FALSE;
+
+	cal_component_get_organizer (comp, &organizer);
+	if (organizer.sentby != NULL) {
+		strip = itip_strip_mailto (organizer.sentby);
+
+		addresses = itip_addresses_get ();
+		for (l = addresses; l != NULL; l = l->next) {
+			ItipAddress *a = l->data;
+			
+			if (!g_strcasecmp (a->address, strip)) {
+				user_sentby = TRUE;
+				break;
+			}
+		}
+		itip_addresses_free (addresses);
+	}
+
+	return user_sentby;
+}
+				 
 const gchar *
 itip_strip_mailto (const gchar *address) 
 {
@@ -283,7 +343,6 @@ comp_subject (CalComponentItipMethod method, CalComponent *comp)
 	CalComponentText caltext;
 	const char *description, *prefix = NULL;
 	GSList *alist;
-	int *sequence;
 	CORBA_char *subject;
 
 	cal_component_get_summary (comp, &caltext);
@@ -541,9 +600,6 @@ static void
 comp_sentby (CalComponent *comp)
 {
 	CalComponentOrganizer organizer;
-	GList *addresses, *l;
-	const char *strip;
-	gboolean is_user = FALSE;
 	
 	cal_component_get_organizer (comp, &organizer);
 	if (!organizer.value) {
@@ -560,19 +616,8 @@ comp_sentby (CalComponent *comp)
 		
 		return;
 	}
-	
-	strip = itip_strip_mailto (organizer.value);
 
-	addresses = itip_addresses_get ();
-	for (l = addresses; l != NULL; l = l->next) {
-		ItipAddress *a = l->data;
-		
-		if (!strcmp (a->address, strip)) {
-			is_user = TRUE;
-			break;
-		}
-	}
-	if (!is_user) {
+	if (!itip_organizer_is_user (comp) && !itip_sentby_is_user (comp)) {
 		ItipAddress *a = itip_addresses_get_default ();
 		
 		organizer.value = g_strdup (organizer.value);
@@ -588,8 +633,6 @@ comp_sentby (CalComponent *comp)
 		g_free ((char *)organizer.language);
 		itip_address_free (a);
 	}
-	
-	itip_addresses_free (addresses);
 }
 static CalComponent *
 comp_minimal (CalComponent *comp, gboolean attendee)
@@ -682,6 +725,9 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 	/* We delete incoming alarms anyhow, and this helps with outlook */
 	cal_component_remove_all_alarms (clone);
 
+	/* Strip X-LIC-ERROR stuff */
+	cal_component_strip_errors (clone);
+	
 	/* Comply with itip spec */
 	switch (method) {
 	case CAL_COMPONENT_METHOD_PUBLISH:
@@ -695,6 +741,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 		comp_sentby (clone);
 		break;	
 	case CAL_COMPONENT_METHOD_REPLY:
+		comp_minimal (clone, TRUE);
 		break;
 	case CAL_COMPONENT_METHOD_ADD:
 		break;
