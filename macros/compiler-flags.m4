@@ -11,13 +11,13 @@ AC_DEFUN([GNOME_COMPILE_WARNINGS],[
     if test "x$GCC" = "xyes"; then
       case " $CFLAGS " in
       *[\ \	]-Wall[\ \	]*) ;;
-      *) warnCFLAGS="-Wall" ;;
+      *) warnCFLAGS="-Wall -Wno-unused" ;;
       esac
 
       ## -W is not all that useful.  And it cannot be controlled
       ## with individual -Wno-xxx flags, unlike -Wall
       if test "x$enable_compile_warnings" = "xyes"; then
-	warnCFLAGS="$warnCFLAGS -Wno-unused -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
+	warnCFLAGS="$warnCFLAGS -Wmissing-prototypes -Wmissing-declarations -Wpointer-arith"
       fi
     fi
   fi
