@@ -784,7 +784,7 @@ comp_editor_get_cal_client (CompEditor *editor)
 static char *
 make_title_from_comp (CalComponent *comp)
 {
-	char *title, *title_utf8;
+	char *title;
 	const char *type_string;
 	CalComponentVType type;
 	CalComponentText text;
