@@ -111,10 +111,14 @@ camel_imap_summary_new (const char *filename, guint32 validity)
 			imap_summary->validity = validity;
 			return summary;
 		} else {
-			camel_object_unref ((CamelObject *)summary);
-			return NULL;
+			/* FIXME: are there error conditions where this won't work? */
+			camel_folder_summary_clear (summary);
+			camel_folder_summary_touch (summary);
+			
+			return summary;
 		}
 	}
+	
 	if (imap_summary->validity != validity) {
 		camel_folder_summary_clear (summary);
 		imap_summary->validity = validity;
