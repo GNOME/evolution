@@ -30,6 +30,7 @@
 
 #include <gtk/gtk.h>
 #include <libgnome/gnome-defs.h>
+#include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <bonobo/bonobo-event-source.h>
 
@@ -61,6 +62,7 @@ struct _EAddressPopup {
 	gboolean transitory;
 
 	guint scheduled_refresh;
+	EBook *book;
 	guint query_tag;
 	gboolean multiple_matches;
 	ECard *card;
