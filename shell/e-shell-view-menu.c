@@ -47,7 +47,7 @@
 
 #include <gtk/gtksignal.h>
 #include <gtk/gtkmain.h>
-#include <gtk/gtkdialog.h>
+#include <gtk/gtkwindow.h>
 
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-help.h>
@@ -232,7 +232,9 @@ command_about_box (BonoboUIComponent *uih,
 	about_box = e_shell_about_box_new ();
 	gtk_widget_show (about_box);
 
-	about_box_window = gtk_dialog_new ();
+	about_box_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_type_hint (GTK_WINDOW (about_box_window), GDK_WINDOW_TYPE_HINT_DIALOG);
+	
 	gtk_window_set_policy (GTK_WINDOW (about_box_window), FALSE, FALSE, FALSE);
 	g_signal_connect (about_box_window, "key_press_event",
 			  G_CALLBACK (about_box_event_callback), &about_box_window);

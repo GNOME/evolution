@@ -206,10 +206,10 @@ timeout_callback (void *data)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
-impl_destroy (GtkObject *object)
+impl_finalize (GObject *object)
 {
 	EShellAboutBox *about_box;
 	EShellAboutBoxPrivate *priv;
@@ -217,31 +217,23 @@ impl_destroy (GtkObject *object)
 	about_box = E_SHELL_ABOUT_BOX (object);
 	priv = about_box->priv;
 
-	if (priv->pixmap != NULL) {
+	if (priv->pixmap != NULL)
 		gdk_pixmap_unref (priv->pixmap);
-		priv->pixmap = NULL;
-	}
 
-	if (priv->text_background_pixmap != NULL) {
+	if (priv->text_background_pixmap != NULL)
 		gdk_pixmap_unref (priv->text_background_pixmap);
-		priv->text_background_pixmap = NULL;
-	}
 
-	if (priv->clipped_gc != NULL) {
+	if (priv->clipped_gc != NULL)
 		gdk_gc_unref (priv->clipped_gc);
-		priv->clipped_gc = NULL;
-	}
 
-	if (priv->timeout_id != -1) {
+	if (priv->timeout_id != -1)
 		g_source_remove (priv->timeout_id);
-		priv->timeout_id = -1;
-	}
 
 	g_free (priv->permuted_text);
 
 	g_free (priv);
 
-	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -349,13 +341,13 @@ impl_expose_event (GtkWidget *widget,
 
 
 static void
-class_init (GtkObjectClass *object_class)
+class_init (GObjectClass *object_class)
 {
 	GtkWidgetClass *widget_class;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	object_class->destroy = impl_destroy;
+	object_class->finalize = impl_finalize;
 
 	widget_class = GTK_WIDGET_CLASS (object_class);
 	widget_class->size_request = impl_size_request;
@@ -388,22 +380,12 @@ init (EShellAboutBox *shell_about_box)
 }
 
 
-void
-e_shell_about_box_construct (EShellAboutBox *about_box)
-{
-	g_return_if_fail (about_box != NULL);
-	g_return_if_fail (E_IS_SHELL_ABOUT_BOX (about_box));
-
-	/* Nothing to do here.  */
-}
-
 GtkWidget *
 e_shell_about_box_new (void)
 {
 	EShellAboutBox *about_box;
 
 	about_box = gtk_type_new (e_shell_about_box_get_type ());
-	e_shell_about_box_construct (about_box);
 
 	return GTK_WIDGET (about_box);
 }

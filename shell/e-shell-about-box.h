@@ -53,7 +53,6 @@ struct _EShellAboutBoxClass {
 
 
 GtkType    e_shell_about_box_get_type   (void);
-void       e_shell_about_box_construct  (EShellAboutBox *about_box);
 GtkWidget *e_shell_about_box_new        (void);
 
 #ifdef __cplusplus

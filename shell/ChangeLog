@@ -1,5 +1,16 @@
 2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-about-box.c (impl_destroy): Removed.
+	(impl_finalize): New.
+	(class_init): Install finalize handler, not destroy.
+
+	* e-shell-view-menu.c (command_about_box): Use a GtkWindow again.
+	Set the GTK_WINDOW_TYPE_HINT_DIALOG hint.
+
+	* e-shell-about-box.c (e_shell_about_box_construct): Removed.
+
+2002-11-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c (e_shell_command_copy_folder): Pass
 	TRUE for arg allow_creation to
 	e_shell_folder_selection_dialog_new().
