@@ -1,9 +1,14 @@
-2001-08-13  Anna Marie Dirks  <anna@ximian.com>
-	* evolution-calendar.xml: Changed the tooltips for several
-	toolbar icons to make all tooltips consistent (in terms of
-	capitalization and language). Also changed "Go to the present time"
-	to "Go to today". 
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-calendar.xml: Add labels for the ShowDayView,
+	ShowWorkWeekView, ShowWeekView, ShowMonthView buttons.
+
+2001-08-13  Anna Marie Dirks  <anna@ximian.com>
+
+	* evolution-calendar.xml: Changed the tooltips for several toolbar
+	icons to make all tooltips consistent (in terms of capitalization
+	and language). Also changed "Go to the present time" to "Go to
+	today".
 
 2001-08-12  Kjartan Maraas  <kmaraas@gnome.org>
 
