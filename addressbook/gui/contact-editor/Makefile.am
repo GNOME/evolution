@@ -15,6 +15,8 @@ noinst_LIBRARIES =				\
 	libecontacteditor.a
 
 libecontacteditor_a_SOURCES = 			\
+	e-contact-editor-address.c		\
+	e-contact-editor-address.h		\
 	e-contact-editor-categories.c		\
 	e-contact-editor-categories.h		\
 	e-contact-editor-fullname.c		\
@@ -53,6 +55,7 @@ gladedir   = $(datadir)/evolution/glade
 
 glade_DATA = 				\
 	contact-editor.glade		\
+	fulladdr.glade			\
 	fullname.glade			\
 	categories.glade		\
 	e-contact-editor-confirm-delete.glade
@@ -60,6 +63,7 @@ glade_DATA = 				\
 EXTRA_DIST = $(evolution_DATA)		\
 	$(glade_DATA)			\
 	e-contact-editor-strings.h	\
+	fulladdr.glade.h		\
 	fullname-strings.h		\
 	categories-strings.h		\
 	e-contact-editor-confirm-delete.glade.h

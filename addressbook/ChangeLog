@@ -1,3 +1,45 @@
+2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-simple.c, backend/ebook/e-card-simple.h:
+	Removed a bunch of redundant code.  Made it so that when you set
+	an address label, it sets the delivery address as well.  Added
+	functions to set and get the delivery address.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added code to
+	convert and address label to a delivery address.
+
+	* contact-editor/Makefile.am: Added e-contact-editor-address.[ch],
+	fulladdr.glade, fulladdr.glade.h.
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Switched from a label
+	to a button to show the parsed address.
+
+	* contact-editor/e-contact-editor-address.c,
+	contact-editor/e-contact-editor-address.h: New class to implement
+	the parsed address dialog.
+
+	* contact-editor/e-contact-editor-fullname.c,
+	contact-editor/e-contact-editor-fullname.h: Added const to the
+	_new function.
+
+	* contact-editor/e-contact-editor.c: Implemented clicking on the
+	address button.
+
+	* contact-editor/fulladdr.glade, contact-editor/fulladdr.glade.h:
+	New glade files for the parsed address dialog.
+
+	* contact-editor/fullname-strings.h, fullname.glade: Changed these
+	accellabels to labels.
+
+	* ename/Makefile.am: Added e-address-western.c.
+
+	* ename/e-address-western.c: Fixed some warnings.
+
+2000-09-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* ename/e-address-western.c: Added by Jesse.
+
 2000-09-08  Lauris Kaplinski  <lauris@helixcode.com>
 
 	* gui/minicard/e-minicard-label.c (e_minicard_label_construct):

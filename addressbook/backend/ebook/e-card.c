@@ -18,6 +18,7 @@
 #include "e-card.h"
 #include "e-card-pairs.h"
 #include "e-name-western.h"
+#include "e-address-western.h"
 
 #include <e-util/e-util.h>
 
@@ -295,7 +296,9 @@ char
 				addPropValue(addressprop, VCPostalCodeProp, address->code);
 			if ( address->country )
 				addPropValue(addressprop, VCCountryNameProp, address->country);
+#if 0
 			addProp(addressprop, VCQuotedPrintableProp);
+#endif
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
 	}
@@ -1106,6 +1109,38 @@ e_card_delivery_address_copy (const ECardDeliveryAddress *addr)
 		return addr_copy;
 	} else
 		return NULL;
+}
+
+gboolean
+e_card_delivery_address_is_empty (const ECardDeliveryAddress *addr)
+{
+	return (((addr->po      == NULL) || (*addr->po      == 0)) &&
+		((addr->ext     == NULL) || (*addr->ext     == 0)) &&
+		((addr->street  == NULL) || (*addr->street  == 0)) &&
+		((addr->city    == NULL) || (*addr->city    == 0)) &&
+		((addr->region  == NULL) || (*addr->region  == 0)) &&
+		((addr->code    == NULL) || (*addr->code    == 0)) &&
+		((addr->country == NULL) || (*addr->country == 0)));
+}
+
+ECardDeliveryAddress *
+e_card_delivery_address_from_label(const ECardAddrLabel *label)
+{
+	ECardDeliveryAddress *addr = g_new(ECardDeliveryAddress, 1);
+	EAddressWestern *western = e_address_western_parse (label->data);
+	
+	addr->po      = g_strdup (western->po_box     );
+	addr->ext     = g_strdup (western->extended   );
+	addr->street  = g_strdup (western->street     );
+	addr->city    = g_strdup (western->locality   );
+	addr->region  = g_strdup (western->region     );
+	addr->code    = g_strdup (western->postal_code);
+	addr->country = g_strdup (western->country    );
+	addr->flags   = label->flags;
+	
+	e_address_western_free(western);
+	
+	return addr;
 }
 
 char *

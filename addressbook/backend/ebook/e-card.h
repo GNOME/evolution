@@ -118,8 +118,9 @@ void        e_card_phone_free (      ECardPhone *phone);
 ECardDeliveryAddress *e_card_delivery_address_new         (void);
 ECardDeliveryAddress *e_card_delivery_address_copy        (const ECardDeliveryAddress *addr);
 void                  e_card_delivery_address_free        (      ECardDeliveryAddress *addr);
+gboolean              e_card_delivery_address_is_empty    (const ECardDeliveryAddress *addr);
 char                 *e_card_delivery_address_to_string   (const ECardDeliveryAddress *addr);
-ECardDeliveryAddress *e_card_delivery_address_from_string (const char                 *full_addr);
+ECardDeliveryAddress *e_card_delivery_address_from_label  (const ECardAddrLabel *label);
 
 ECardAddrLabel *e_card_address_label_new  (void);
 ECardAddrLabel *e_card_address_label_copy (const ECardAddrLabel *addr);

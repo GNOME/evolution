@@ -45,7 +45,7 @@ e_address_western_is_line_blank (gchar *line)
 /* In the array of lines, `lines', we will erase the line at line_num, and
  shift the remaining lines, up to line number num_lines, up one position. */
 
-void
+static void
 e_address_western_shift_line (gchar *lines[], gint line_num, gint num_lines)
 {
 	gint cntr;
@@ -83,10 +83,10 @@ e_address_western_remove_blank_lines (gchar *lines[], gint *linecntr)
 }
  
 
-gboolean
+static gboolean
 e_address_western_is_po_box (gchar *line)
 {
-	gboolean retval;
+	gboolean retval = FALSE;
 
 	/* In which phase of processing are we? */
 	enum State { FIRSTCHAR, SECONDCHAR, WHITESPACE } state;
@@ -138,7 +138,7 @@ e_address_western_is_po_box (gchar *line)
 /* A line that contains a comma followed eventually by a number is
   deemed to be the line in the form of <town, region postal-code>. */
 
-gboolean
+static gboolean
 e_address_western_is_postal (gchar *line)
 {
 	gboolean retval;
@@ -182,13 +182,13 @@ e_address_western_is_postal (gchar *line)
 	return retval;
 }
 
-gchar *
+static gchar *
 e_address_western_extract_po_box (gchar *line)
 {
 	return g_strdup (line);
 }
 
-gchar *
+static gchar *
 e_address_western_extract_locality (gchar *line)
 {
 	gint index;
@@ -206,7 +206,7 @@ e_address_western_extract_locality (gchar *line)
 /* Whatever resides between the comma and the start of the
   postal code is deemed to be the region. */
 
-gchar *
+static gchar *
 e_address_western_extract_region (gchar *line)
 {
 	gint start, end;
@@ -231,7 +231,7 @@ e_address_western_extract_region (gchar *line)
 	return g_strndup ( (line+start), end-start);
 }
 
-gchar *
+static gchar *
 e_address_western_extract_postal_code (gchar *line)
 {
 	int start, end;
@@ -261,7 +261,9 @@ e_address_western_parse (const gchar *in_address)
 	gboolean found_po_box, found_postal;
 
 	EAddressWestern *eaw;
+#ifndef NO_WARNINGS
 	gint start, end;  /* To be used to classify address lines. */
+#endif
 
 	if (in_address == NULL)
 		return NULL;

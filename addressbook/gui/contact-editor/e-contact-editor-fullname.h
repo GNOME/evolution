@@ -64,7 +64,7 @@ struct _EContactEditorFullnameClass
 };
 
 
-GtkWidget *e_contact_editor_fullname_new(ECardName *name);
+GtkWidget *e_contact_editor_fullname_new(const ECardName *name);
 GtkType    e_contact_editor_fullname_get_type (void);
 
 #ifdef __cplusplus

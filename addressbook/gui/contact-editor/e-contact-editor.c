@@ -24,6 +24,7 @@
 #include <gnome.h>
 #include "e-contact-editor.h"
 #include <e-contact-editor-fullname.h>
+#include <e-contact-editor-address.h>
 #include <e-contact-editor-categories.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
@@ -496,6 +497,41 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
 			g_free(full_name);
 		}
+	}
+	gtk_object_unref(GTK_OBJECT(dialog));
+}
+
+static void
+full_addr_clicked(GtkWidget *button, EContactEditor *editor)
+{
+	GnomeDialog *dialog;
+	int result;
+	const ECardDeliveryAddress *address;
+
+	address = e_card_simple_get_delivery_address(editor->simple, editor->address_choice);
+
+	dialog = GNOME_DIALOG(e_contact_editor_address_new(address));
+	gtk_widget_show(GTK_WIDGET(dialog));
+
+	result = gnome_dialog_run (dialog);
+	if (result == 0) {
+		ECardDeliveryAddress *new_address;
+
+		gtk_object_get(GTK_OBJECT(dialog),
+			       "address", &new_address,
+			       NULL);
+		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
+		e_card_delivery_address_free(new_address);
+
+#if 0
+		GtkWidget *fname_widget;
+		fname_widget = glade_xml_get_widget(editor->gui, "text-address");
+		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
+			char *full_name = e_card_delivery_address_to_string(address);
+			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
+			g_free(full_name);
+		}
+#endif
 	}
 	gtk_object_unref(GTK_OBJECT(dialog));
 }
@@ -1013,6 +1049,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	if (widget && GTK_IS_BUTTON(widget))
 		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
 				   full_name_clicked, e_contact_editor);
+
+	widget = glade_xml_get_widget(e_contact_editor->gui, "button-fulladdr");
+	if (widget && GTK_IS_BUTTON(widget))
+		gtk_signal_connect(GTK_OBJECT(widget), "clicked",
+				   full_addr_clicked, e_contact_editor);
 
 	widget = glade_xml_get_widget(e_contact_editor->gui, "button-categories");
 	if (widget && GTK_IS_BUTTON(widget))

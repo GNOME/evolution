@@ -311,52 +311,6 @@ e_card_simple_class_init (ECardSimpleClass *klass)
 
 	gtk_object_add_arg_type ("ECardSimple::card",
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_CARD);
-#if 0
-	gtk_object_add_arg_type ("ECardSimple::file_as",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FILE_AS);
-	gtk_object_add_arg_type ("ECardSimple::full_name",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FULL_NAME);  
-	gtk_object_add_arg_type ("ECardSimple::name",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_NAME);
-	gtk_object_add_arg_type ("ECardSimple::address",
-				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS);
-	gtk_object_add_arg_type ("ECardSimple::address_label",
-				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_ADDRESS_LABEL);
-	gtk_object_add_arg_type ("ECardSimple::phone",
-				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_PHONE);
-	gtk_object_add_arg_type ("ECardSimple::email",
-				 GTK_TYPE_OBJECT, GTK_ARG_READABLE, ARG_EMAIL);
-	gtk_object_add_arg_type ("ECardSimple::birth_date",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
-	gtk_object_add_arg_type ("ECardSimple::url",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
-	gtk_object_add_arg_type ("ECardSimple::org",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG);
-	gtk_object_add_arg_type ("ECardSimple::org_unit",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ORG_UNIT);
-	gtk_object_add_arg_type ("ECardSimple::office",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_OFFICE);
-	gtk_object_add_arg_type ("ECardSimple::title",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
-	gtk_object_add_arg_type ("ECardSimple::role",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ROLE);
-	gtk_object_add_arg_type ("ECardSimple::manager",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_MANAGER);
-	gtk_object_add_arg_type ("ECardSimple::assistant",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ASSISTANT);
-	gtk_object_add_arg_type ("ECardSimple::nickname",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NICKNAME);
-	gtk_object_add_arg_type ("ECardSimple::spouse",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_SPOUSE);
-	gtk_object_add_arg_type ("ECardSimple::anniversary",
-				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_ANNIVERSARY);
-	gtk_object_add_arg_type ("ECardSimple::fburl",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_FBURL);
-	gtk_object_add_arg_type ("ECardSimple::note",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
-	gtk_object_add_arg_type ("ECardSimple::id",
-				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
-#endif
 
 	object_class->destroy = e_card_simple_destroy;
 	object_class->get_arg = e_card_simple_get_arg;
@@ -413,98 +367,6 @@ e_card_simple_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 			gtk_object_ref(GTK_OBJECT(simple->card));
 		fill_in_info(simple);
 		break;
-#if 0
-	case ARG_FILE_AS:
-		if (simple->file_as)
-			g_free(simple->file_as);
-		simple->file_as = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_FULL_NAME:
-		if ( simple->fname )
-			g_free(simple->fname);
-		simple->fname = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_NAME:
-		if ( simple->name )
-			e_card_simple_name_free(simple->name);
-		simple->name = GTK_VALUE_POINTER(*arg);
-		break;
-	case ARG_BIRTH_DATE:
-		if ( simple->bday )
-			g_free(simple->bday);
-		simple->bday = GTK_VALUE_POINTER(*arg);
-		break;
-	case ARG_URL:
-		if ( simple->url )
-			g_free(simple->url);
-		simple->url = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ORG:
-		if (simple->org)
-			g_free(simple->org);
-		simple->org = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ORG_UNIT:
-		if (simple->org_unit)
-			g_free(simple->org_unit);
-		simple->org_unit = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_OFFICE:
-		if (simple->office)
-			g_free(simple->office);
-		simple->office = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_TITLE:
-		if ( simple->title )
-			g_free(simple->title);
-		simple->title = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ROLE:
-		if (simple->role)
-			g_free(simple->role);
-		simple->role = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_MANAGER:
-		if (simple->manager)
-			g_free(simple->manager);
-		simple->manager = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ASSISTANT:
-		if (simple->assistant)
-			g_free(simple->assistant);
-		simple->assistant = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_NICKNAME:
-		if (simple->nickname)
-			g_free(simple->nickname);
-		simple->nickname = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_SPOUSE:
-		if (simple->spouse)
-			g_free(simple->spouse);
-		simple->spouse = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ANNIVERSARY:
-		if ( simple->anniversary )
-			g_free(simple->anniversary);
-		simple->anniversary = GTK_VALUE_POINTER(*arg);
-		break;
-	case ARG_FBURL:
-		if (simple->fburl)
-			g_free(simple->fburl);
-		simple->fburl = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_NOTE:
-		if (simple->note)
-			g_free (simple->note);
-		simple->note = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-	case ARG_ID:
-		if (simple->id)
-			g_free(simple->id);
-		simple->id = g_strdup(GTK_VALUE_STRING(*arg));
-		break;
-#endif
 	default:
 		return;
 	}
@@ -526,90 +388,6 @@ e_card_simple_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		else
 			GTK_VALUE_OBJECT (*arg) = NULL;
 		break;
-#if 0
-	case ARG_FILE_AS:
-		GTK_VALUE_STRING (*arg);
-		break;
-	case ARG_FULL_NAME:
-		GTK_VALUE_STRING (*arg) = simple->fname;
-		break;
-	case ARG_NAME:
-		GTK_VALUE_POINTER(*arg) = simple->name;
-		break;
-	case ARG_ADDRESS:
-		if (!simple->address)
-			simple->address = e_card_simple_list_new((ECardSimpleListCopyFunc) e_card_simple_delivery_address_copy, 
-							(ECardSimpleListFreeFunc) e_card_simple_delivery_address_free,
-							NULL);
-		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(simple->address);
-		break;
-	case ARG_ADDRESS_LABEL:
-		if (!simple->address_label)
-			simple->address_label = e_card_simple_list_new((ECardSimpleListCopyFunc) e_card_simple_address_label_copy, 
-							      (ECardSimpleListFreeFunc) e_card_simple_address_label_free,
-							      NULL);
-		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(simple->address_label);
-		break;
-	case ARG_PHONE:
-		if (!simple->phone)
-			simple->phone = e_card_simple_list_new((ECardSimpleListCopyFunc) e_card_simple_phone_copy, 
-						      (ECardSimpleListFreeFunc) e_card_simple_phone_free,
-						      NULL);
-		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(simple->phone);
-		break;
-	case ARG_EMAIL:
-		if (!simple->email)
-			simple->email = e_card_simple_list_new((ECardSimpleListCopyFunc) g_strdup, 
-						      (ECardSimpleListFreeFunc) g_free,
-						      NULL);
-		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(simple->email);
-		break;
-	case ARG_BIRTH_DATE:
-		GTK_VALUE_POINTER(*arg) = simple->bday;
-		break;
-	case ARG_URL:
-		GTK_VALUE_STRING(*arg) = simple->url;
-		break;
-	case ARG_ORG:
-		GTK_VALUE_STRING(*arg) = simple->org;
-		break;
-	case ARG_ORG_UNIT:
-		GTK_VALUE_STRING(*arg) = simple->org_unit;
-		break;
-	case ARG_OFFICE:
-		GTK_VALUE_STRING(*arg) = simple->office;
-		break;
-	case ARG_TITLE:
-		GTK_VALUE_STRING(*arg) = simple->title;
-		break;
-	case ARG_ROLE:
-		GTK_VALUE_STRING(*arg) = simple->role;
-		break;
-	case ARG_MANAGER:
-		GTK_VALUE_STRING(*arg) = simple->manager;
-		break;
-	case ARG_ASSISTANT:
-		GTK_VALUE_STRING(*arg) = simple->assistant;
-		break;
-	case ARG_NICKNAME:
-		GTK_VALUE_STRING(*arg) = simple->nickname;
-		break;
-	case ARG_SPOUSE:
-		GTK_VALUE_STRING(*arg) = simple->spouse;
-		break;
-	case ARG_ANNIVERSARY:
-		GTK_VALUE_POINTER(*arg) = simple->anniversary;
-		break;
-	case ARG_FBURL:
-		GTK_VALUE_STRING(*arg) = simple->fburl;
-		break;
-	case ARG_NOTE:
-		GTK_VALUE_STRING(*arg) = simple->note;
-		break;
-	case ARG_ID:
-		GTK_VALUE_STRING(*arg) = simple->id;
-		break;
-#endif
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -642,15 +420,18 @@ fill_in_info(ECardSimple *simple)
 		EList *address_list;
 		EList *phone_list;
 		EList *email_list;
+		EList *delivery_list;
 		const ECardPhone *phone;
 		const char *email;
 		const ECardAddrLabel *address;
+		const ECardDeliveryAddress *delivery;
 		int i;
 
 		EIterator *iterator;
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "address_label", &address_list,
+			       "address",       &delivery_list,
 			       "phone",         &phone_list,
 			       "email",         &email_list,
 			       NULL);
@@ -698,6 +479,21 @@ fill_in_info(ECardSimple *simple)
 			}
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
+
+		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
+			e_card_delivery_address_free(simple->delivery[i]);
+			simple->delivery[i] = NULL;
+		}
+		for (iterator = e_list_get_iterator(delivery_list); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			delivery = e_iterator_get(iterator);
+			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
+				if (((delivery->flags & addr_correspondences[i]) == addr_correspondences[i]) && (simple->delivery[i] == NULL)) {
+					simple->delivery[i] = e_card_delivery_address_copy(delivery);
+					break;
+				}
+			}
+		}
+		gtk_object_unref(GTK_OBJECT(iterator));
 	}
 }
 
@@ -709,8 +505,10 @@ e_card_simple_sync_card(ECardSimple *simple)
 		EList *address_list;
 		EList *phone_list;
 		EList *email_list;
+		EList *delivery_list;
 		const ECardPhone *phone;
 		const ECardAddrLabel *address;
+		const ECardDeliveryAddress *delivery;
 		const char *email;
 		int i;
 		int iterator_next = 1;
@@ -719,6 +517,7 @@ e_card_simple_sync_card(ECardSimple *simple)
 
 		gtk_object_get(GTK_OBJECT(card),
 			       "address_label", &address_list,
+			       "address",       &delivery_list,
 			       "phone",         &phone_list,
 			       "email",         &email_list,
 			       NULL);
@@ -811,6 +610,37 @@ e_card_simple_sync_card(ECardSimple *simple)
 				simple->address[i] = NULL;
 			}
 		}
+
+		for (iterator = e_list_get_iterator(delivery_list); e_iterator_is_valid(iterator); iterator_next ? e_iterator_next(iterator) : FALSE ) {
+			int i;
+			delivery = e_iterator_get(iterator);
+			iterator_next = 1;
+			for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
+				if ((delivery->flags & addr_correspondences[i]) == addr_correspondences[i]) {
+					if (simple->delivery[i]) {
+						simple->delivery[i]->flags = addr_correspondences[i];
+						if (!e_card_delivery_address_is_empty(simple->delivery[i])) {
+							e_iterator_set(iterator, simple->delivery[i]);
+						} else {
+							e_iterator_delete(iterator);
+							iterator_next = 0;
+						}
+						e_card_delivery_address_free(simple->delivery[i]);
+						simple->delivery[i] = NULL;
+						break;
+					}
+				}
+			}
+		}	
+		gtk_object_unref(GTK_OBJECT(iterator));
+		for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i ++) {
+			if (simple->delivery[i]) {
+				simple->delivery[i]->flags = addr_correspondences[i];
+				e_list_append(delivery_list, simple->delivery[i]);
+				e_card_delivery_address_free(simple->delivery[i]);
+				simple->delivery[i] = NULL;
+			}
+		}
 		fill_in_info(simple);
 	}
 }
@@ -831,6 +661,12 @@ const ECardAddrLabel *e_card_simple_get_address (ECardSimple          *simple,
 						 ECardSimpleAddressId  id)
 {
 	return simple->address[id];
+}
+
+const ECardDeliveryAddress *e_card_simple_get_delivery_address (ECardSimple          *simple,
+								ECardSimpleAddressId  id)
+{
+	return simple->delivery[id];
 }
 
 void            e_card_simple_set_phone   (ECardSimple          *simple,
@@ -858,6 +694,18 @@ void            e_card_simple_set_address (ECardSimple          *simple,
 	if (simple->address[id])
 		e_card_address_label_free(simple->address[id]);
 	simple->address[id] = e_card_address_label_copy(address);
+	if (simple->delivery[id])
+		e_card_delivery_address_free(simple->delivery[id]);
+	simple->delivery[id] = e_card_delivery_address_from_label(simple->address[id]);
+}
+
+void            e_card_simple_set_delivery_address (ECardSimple          *simple,
+						    ECardSimpleAddressId  id,
+						    const ECardDeliveryAddress *delivery)
+{
+	if (simple->delivery[id])
+		e_card_delivery_address_free(simple->delivery[id]);
+	simple->delivery[id] = e_card_delivery_address_copy(delivery);
 }
 
 const char *e_card_simple_get_const    (ECardSimple          *simple,

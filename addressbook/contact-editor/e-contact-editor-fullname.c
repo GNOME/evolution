@@ -122,7 +122,7 @@ e_contact_editor_fullname_destroy (GtkObject *object)
 }
 
 GtkWidget*
-e_contact_editor_fullname_new (ECardName *name)
+e_contact_editor_fullname_new (const ECardName *name)
 {
 	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_contact_editor_fullname_get_type ()));
 	gtk_object_set (GTK_OBJECT(widget),

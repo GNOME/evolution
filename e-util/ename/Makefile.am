@@ -21,11 +21,13 @@ ename_libs = 						\
 lib_LTLIBRARIES = libename.la
 
 libename_la_SOURCES =					\
+	e-address-western.c				\
 	e-name-western.c
 
 libenameincludedir = $(includedir)/ename
 
 libenameinclude_HEADERS =				\
+	e-address-western.h				\
 	e-name-western-tables.h				\
 	e-name-western.h
 

@@ -127,6 +127,7 @@ struct _ECardSimple {
 	ECardPhone *phone[E_CARD_SIMPLE_PHONE_ID_LAST];
 	char *email[E_CARD_SIMPLE_EMAIL_ID_LAST];
 	ECardAddrLabel *address[E_CARD_SIMPLE_ADDRESS_ID_LAST];
+	ECardDeliveryAddress *delivery[E_CARD_SIMPLE_ADDRESS_ID_LAST];
 };
 
 struct _ECardSimpleClass {
@@ -134,65 +135,66 @@ struct _ECardSimpleClass {
 };
 
 typedef void (*ECardSimpleArbitraryCallback) (const ECardArbitrary *arbitrary, gpointer closure);
-	       
-ECardSimple    	     *e_card_simple_new               (ECard *card);
-char           	     *e_card_simple_get_id            (ECardSimple *simple);
-void           	      e_card_simple_set_id            (ECardSimple *simple,
-						       const gchar *character);
-char           	     *e_card_simple_get_vcard         (ECardSimple *simple);
-	       	     				      
-ECardSimple    	     *e_card_simple_duplicate         (ECardSimple *simple);
-	       	     				      
-char     	     *e_card_simple_get               (ECardSimple          *simple,
-						       ECardSimpleField      field);
-const char     	     *e_card_simple_get_const         (ECardSimple          *simple,
-						       ECardSimpleField      field);
-void           	      e_card_simple_set               (ECardSimple          *simple,
-						       ECardSimpleField      field,
-						       const char           *data);
-	       					       
-ECardSimpleType	      e_card_simple_type              (ECardSimple          *simple,
-						       ECardSimpleField      field);
-const char     	     *e_card_simple_get_name          (ECardSimple          *simple,
-						       ECardSimpleField      field);
-const char     	     *e_card_simple_get_short_name    (ECardSimple          *simple,
-						       ECardSimpleField      field);
+ECardSimple                *e_card_simple_new                   (ECard                        *card);
+char                       *e_card_simple_get_id                (ECardSimple                  *simple);
+void                        e_card_simple_set_id                (ECardSimple                  *simple,
+								 const gchar                  *character);
+char                       *e_card_simple_get_vcard             (ECardSimple                  *simple);
+ECardSimple                *e_card_simple_duplicate             (ECardSimple                  *simple);
+char                       *e_card_simple_get                   (ECardSimple                  *simple,
+								 ECardSimpleField              field);
+const char                 *e_card_simple_get_const             (ECardSimple                  *simple,
+								 ECardSimpleField              field);
+void                        e_card_simple_set                   (ECardSimple                  *simple,
+								 ECardSimpleField              field,
+								 const char                   *data);
+ECardSimpleType             e_card_simple_type                  (ECardSimple                  *simple,
+								 ECardSimpleField              field);
+const char                 *e_card_simple_get_name              (ECardSimple                  *simple,
+								 ECardSimpleField              field);
+const char                 *e_card_simple_get_short_name        (ECardSimple                  *simple,
+								 ECardSimpleField              field);
 
 
 /* Use these only if building lists of specific types.  It should be
  * easier to use the above if you consider a phone field to be the
  * same as any other field.
  */
-const ECardPhone     *e_card_simple_get_phone         (ECardSimple          *simple,
-						       ECardSimplePhoneId    id);
-const char           *e_card_simple_get_email         (ECardSimple          *simple,
-						       ECardSimpleEmailId    id);
-const ECardAddrLabel *e_card_simple_get_address       (ECardSimple          *simple,
-						       ECardSimpleAddressId  id);
-void                  e_card_simple_set_phone         (ECardSimple          *simple,
-						       ECardSimplePhoneId    id,
-						       const ECardPhone     *phone);
-void                  e_card_simple_set_email         (ECardSimple          *simple,
-						       ECardSimpleEmailId    id,
-						       const char           *email);
-void                  e_card_simple_set_address       (ECardSimple          *simple,
-						       ECardSimpleAddressId  id,
-						       const ECardAddrLabel *address);
-
-void                  e_card_simple_arbitrary_foreach (ECardSimple                  *simple,
-						       ECardSimpleArbitraryCallback *callback,
-						       gpointer                      closure);
-const ECardArbitrary *e_card_simple_get_arbitrary     (ECardSimple          *simple,
-						       const char           *key);
+const ECardPhone           *e_card_simple_get_phone             (ECardSimple                  *simple,
+								 ECardSimplePhoneId            id);
+const char                 *e_card_simple_get_email             (ECardSimple                  *simple,
+								 ECardSimpleEmailId            id);
+const ECardAddrLabel       *e_card_simple_get_address           (ECardSimple                  *simple,
+								 ECardSimpleAddressId          id);
+const ECardDeliveryAddress *e_card_simple_get_delivery_address  (ECardSimple                  *simple,
+								 ECardSimpleAddressId          id);
+void                        e_card_simple_set_phone             (ECardSimple                  *simple,
+								 ECardSimplePhoneId            id,
+								 const ECardPhone             *phone);
+void                        e_card_simple_set_email             (ECardSimple                  *simple,
+								 ECardSimpleEmailId            id,
+								 const char                   *email);
+void                        e_card_simple_set_address           (ECardSimple                  *simple,
+								 ECardSimpleAddressId          id,
+								 const ECardAddrLabel         *address);
+void                        e_card_simple_set_delivery_address  (ECardSimple                  *simple,
+								 ECardSimpleAddressId          id,
+								 const ECardDeliveryAddress   *delivery);
+void                        e_card_simple_arbitrary_foreach     (ECardSimple                  *simple,
+								 ECardSimpleArbitraryCallback *callback,
+								 gpointer                      closure);
+const ECardArbitrary       *e_card_simple_get_arbitrary         (ECardSimple                  *simple,
+								 const char                   *key);
 /* Any of these except key can be NULL */	      
-void                  e_card_simple_set_arbitrary     (ECardSimple          *simple,
-						       const char           *key,
-						       const char           *type,
-						       const char           *value);
-						      
-void                  e_card_simple_sync_card         (ECardSimple *simple);
+void                        e_card_simple_set_arbitrary         (ECardSimple                  *simple,
+								 const char                   *key,
+								 const char                   *type,
+								 const char                   *value);
+void                        e_card_simple_sync_card             (ECardSimple                  *simple);
 
 /* Standard Gtk function */			      
-GtkType               e_card_simple_get_type          (void);
+GtkType                     e_card_simple_get_type              (void);
 
 #endif /* ! __E_CARD_SIMPLE_H__ */
+
+
