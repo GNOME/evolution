@@ -17,6 +17,7 @@
 
 #include <time.h>
 #include <sys/time.h>
+#include <gal/widgets/e-unicode.h>
 
 #ifdef __linux__
 #undef _GNU_SOURCE
@@ -58,6 +59,9 @@ static ETimeParseStatus
 parse_with_strptime (const char *value, struct tm *result, const char **formats, int n_formats)
 {
 	const char *parse_end = NULL, *pos;
+	gchar *locale_str;
+	gchar *format_str;
+	ETimeParseStatus parse_ret;
 	gboolean parsed = FALSE;
 	int i;
 
@@ -66,8 +70,10 @@ parse_with_strptime (const char *value, struct tm *result, const char **formats,
 		result->tm_isdst = -1;
 		return E_TIME_PARSE_NONE;
 	}
+	
+	locale_str = e_utf8_to_locale_string (value);
 
-	pos = value;
+	pos = (const char *) locale_str;
 
 	/* Skip whitespace */
 	while (isspace (*pos))
@@ -77,7 +83,9 @@ parse_with_strptime (const char *value, struct tm *result, const char **formats,
 
 	for (i = 0; i < n_formats; i++) {
 		memset (result, 0, sizeof (*result));
-		parse_end = strptime (pos, formats[i], result);
+		format_str = e_utf8_to_locale_string (formats[i]);
+		parse_end = strptime (pos, format_str, result);
+		g_free (format_str);
 		if (parse_end) {
 			parsed = TRUE;
 			break;
@@ -86,6 +94,8 @@ parse_with_strptime (const char *value, struct tm *result, const char **formats,
 
 	result->tm_isdst = -1;
 
+	parse_ret =  E_TIME_PARSE_INVALID;
+
 	/* If we parsed something, make sure we parsed the entire string. */
 	if (parsed) {
 		/* Skip whitespace */
@@ -93,10 +103,13 @@ parse_with_strptime (const char *value, struct tm *result, const char **formats,
 			parse_end++;
 
 		if (*parse_end == '\0')
-			return E_TIME_PARSE_OK;
+			parse_ret = E_TIME_PARSE_OK;
 	}
 
-	return E_TIME_PARSE_INVALID;
+	g_free (locale_str);
+
+	return (parse_ret);
+
 }
 
 

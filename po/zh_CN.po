@@ -5988,7 +5988,7 @@ msgstr "%Y年%-m月%-d日%A"
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:225
 #: e-util/e-time-utils.c:286 widgets/misc/e-dateedit.c:1582
 msgid "%m/%d/%Y"
-msgstr "%Y年%-m月%-d日"
+msgstr "%Y年%m月%d日"
 
 #: calendar/gui/e-meeting-time-sel.c:407 designs/OOA/ooa.glade.h:11
 msgid "Out of Office"
@@ -10794,30 +10794,30 @@ msgstr "同步类别："
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:172 e-util/e-time-utils.c:385
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%Y/%-m/%-d %A %p %-I:%M"
+msgstr "%Y/%m/%d %A %p %I:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
 #: e-util/e-time-utils.c:177 e-util/e-time-utils.c:376
 msgid "%a %m/%d/%Y %H:%M"
-msgstr "%Y/%-m/%-d %A %-H:%M"
+msgstr "%Y/%m/%d %A %H:%M"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:182
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%Y/%-m/%-d %A %p %I点"
+msgstr "%Y/%m/%d %A %p %I点"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:187
 msgid "%a %m/%d/%Y %H"
-msgstr "%Y/%-m/%-d %A %-H点"
+msgstr "%Y/%m/%d %A %H点"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:198
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%Y/%-m/%-d %p %-I:%M:%S"
+msgstr "%Y/%m/%d %p %I:%M:%S"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:202
@@ -10834,42 +10834,42 @@ msgstr "%Y/%m/%d %H:%M %p"
 #. without seconds.
 #: e-util/e-time-utils.c:212
 msgid "%m/%d/%Y %H:%M"
-msgstr "%Y/%-m/%-d %-H:%M"
+msgstr "%Y/%m/%d %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:217
 msgid "%m/%d/%Y %I %p"
-msgstr "%Y/%-m/%-d %p %-I点"
+msgstr "%Y/%m/%d %p %I点"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:222
 msgid "%m/%d/%Y %H"
-msgstr "%Y/%-m/%-d %-H点"
+msgstr "%Y/%m/%d %H点"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:326 e-util/e-time-utils.c:425
 msgid "%I:%M:%S %p"
-msgstr "%p %-I:%M:%S"
+msgstr "%p %I:%M:%S"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:330 e-util/e-time-utils.c:417
 msgid "%H:%M:%S"
-msgstr "%-H:%M:%S"
+msgstr "%H:%M:%S"
 
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:335 e-util/e-time-utils.c:422
 #: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
 msgid "%I:%M %p"
-msgstr "%p %-I:%M"
+msgstr "%p %I:%M"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:339 e-util/e-time-utils.c:414
 #: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
 msgid "%H:%M"
-msgstr "%-H:%M"
+msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:343
