@@ -533,6 +533,7 @@ is_cell_editable (ETableModel *etm, int col, int row)
 		return FALSE;
 
 	default:
+		break;
 	}
 
 	return TRUE;
@@ -594,6 +595,7 @@ value_is_empty (ETableModel *etm, int col, const void *val)
 		else
 			return FALSE;
 	default:
+		;
 	}
 	
 	return TRUE;
@@ -1303,6 +1305,7 @@ process_free_busy_comp (EMeetingAttendee *ia,
 			break;
 
 		default:
+			break;
 		}
 			
 		if (busy_type != E_MEETING_FREE_BUSY_LAST) {

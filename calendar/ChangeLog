@@ -1,3 +1,13 @@
+2002-09-23  Dan Winship  <danw@ximian.com>
+
+	* pcs/cal.c (imple_Cal_update_objects, impl_Cal_remove_object):
+	fix non-ANSI switch statements.
+
+	* gui/e-meeting-model.c (is_cell_editable, value_is_empty,
+	process_free_busy_comp): Likewise
+
+	* gui/itip-utils.c (comp_compliant): Likewise.
+
 2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/main.c (launch_alarm_daemon): install an idle callback that will

@@ -777,6 +777,7 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 		clone = temp_clone;
 		break;
 	default:
+		break;
 	}
 
 	return clone;

@@ -410,6 +410,7 @@ impl_Cal_update_objects (PortableServer_Servant servant,
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
 		break;
 	default :
+		break;
 	}
 }
 
@@ -438,6 +439,7 @@ impl_Cal_remove_object (PortableServer_Servant servant,
 		bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_Cal_PermissionDenied);
 		break;
 	default :
+		break;
 	}
 }
 
