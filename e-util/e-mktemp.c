@@ -127,15 +127,17 @@ e_mktemp_cleanup (void)
 			
 			/* first empty out this directory of it's files... */
 			dir = opendir (node->data);
-			while ((dent = readdir (dir)) != NULL) {
-				/* yea...so if we contain
-                                   subdirectories this won't work, but
-                                   it shouldn't so we won't
-                                   bother caring... */
-				if (strcmp (dent->d_name, ".") && strcmp (dent->d_name, ".."))
-					unlink (dent->d_name);
+			if (dir) {
+				while ((dent = readdir (dir)) != NULL) {
+					/* yea...so if we contain
+					   subdirectories this won't work, but
+					   it shouldn't so we won't
+					   bother caring... */
+					if (strcmp (dent->d_name, ".") && strcmp (dent->d_name, ".."))
+						unlink (dent->d_name);
+				}
+				closedir (dir);
 			}
-			closedir (dir);
 			
 			/* ...then rmdir the directory */
 			rmdir (node->data);

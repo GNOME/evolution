@@ -1,3 +1,8 @@
+2001-09-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-mktemp.c (e_mktemp_cleanup): Make sure the dir pointer is
+	non-NULL before using it.
+
 2001-09-08  Dan Winship  <danw@ximian.com>
 
 	* e-html-utils.c (e_text_to_html_full): Fix some broken calls to
