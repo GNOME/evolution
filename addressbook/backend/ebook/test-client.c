@@ -50,6 +50,9 @@ get_cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer cl
 		g_free(vcard);
 		g_object_unref(card);
 	}
+
+	g_object_unref (book);
+	exit(0);
 }
 
 static void
@@ -62,7 +65,7 @@ get_card_cb (EBook *book, EBookStatus status, ECard *card, gpointer closure)
 	g_free(vcard);
 
 	printf ("Getting cards..\n");
-	e_book_get_cursor(book, "", get_cursor_cb, NULL);
+	e_book_get_cursor(book, "(contains \"x-evolution-any-field\" \"\")", get_cursor_cb, NULL);
 	printf ("Done getting all cards.\n");	
 }
 

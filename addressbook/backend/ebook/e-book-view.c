@@ -286,9 +286,9 @@ e_book_view_class_init (EBookViewClass *klass)
 			      G_SIGNAL_RUN_LAST,
 			      G_STRUCT_OFFSET (EBookViewClass, card_added),
 			      NULL, NULL,
-			      e_book_marshal_NONE__STRING,
+			      e_book_marshal_NONE__POINTER,
 			      G_TYPE_NONE, 1,
-			      G_TYPE_STRING);
+			      G_TYPE_POINTER);
 
 	e_book_view_signals [CARD_REMOVED] =
 		g_signal_new ("card_removed",

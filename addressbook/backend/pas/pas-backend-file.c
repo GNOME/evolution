@@ -271,7 +271,7 @@ get_nth(PASCardCursor *cursor, long n, gpointer data)
 }
 
 static void
-cursor_destroy(GObject *object, gpointer data)
+cursor_destroy(gpointer data, GObject *where_object_was)
 {
 	CORBA_Environment ev;
 	GNOME_Evolution_Addressbook_Book corba_book;
@@ -297,7 +297,7 @@ cursor_destroy(GObject *object, gpointer data)
 }
 
 static void
-view_destroy(GObject *object, gpointer data)
+view_destroy(gpointer data, GObject *where_object_was)
 {
 	PASBook           *book = (PASBook *)data;
 	PASBackendFile    *bf;
@@ -307,7 +307,7 @@ view_destroy(GObject *object, gpointer data)
 	bf = PAS_BACKEND_FILE(pas_book_get_backend(book));
 	for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const PASBackendFileBookView *view = e_iterator_get(iterator);
-		if (view->book_view == PAS_BOOK_VIEW(object)) {
+		if (view->book_view == (PASBookView*)where_object_was) {
 			e_iterator_delete(iterator);
 			success = TRUE;
 			break;
@@ -970,8 +970,8 @@ pas_backend_file_process_get_cursor (PASBackend *backend,
 				     get_nth,
 				     cursor_data);
 
-	g_signal_connect(cursor, "destroy",
-			 G_CALLBACK(cursor_destroy), cursor_data);
+	g_object_weak_ref (G_OBJECT (cursor),
+			   cursor_destroy, cursor_data);
 	
 	pas_book_respond_get_cursor (
 		book,
@@ -997,8 +997,7 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	g_signal_connect(book_view, "destroy",
-			 G_CALLBACK(view_destroy), book);
+	g_object_weak_ref (G_OBJECT (book_view), view_destroy, book);
 
 	view.book_view = book_view;
 	view.search = g_strdup (req->search);
@@ -1036,8 +1035,7 @@ pas_backend_file_process_get_completion_view (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	g_signal_connect(book_view, "destroy",
-			 G_CALLBACK(view_destroy), book);
+	g_object_weak_ref (G_OBJECT (book_view), view_destroy, book);
 
 	view.book_view = book_view;
 	view.search = g_strdup (req->search);
@@ -1076,8 +1074,7 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 
 	book_view = pas_book_view_new (req->listener);
 
-	g_signal_connect(book_view, "destroy",
-			 G_CALLBACK(view_destroy), book);
+	g_object_weak_ref (G_OBJECT (book_view), view_destroy, book);
 
 	pas_book_respond_get_changes (book,
 		   (book_view != NULL
@@ -1221,13 +1218,11 @@ pas_backend_file_process_client_requests (PASBook *book)
 }
 
 static void
-pas_backend_file_book_destroy_cb (PASBook *book, gpointer data)
+pas_backend_file_book_destroy_cb (gpointer data, GObject *where_book_was)
 {
-	PASBackendFile *backend;
+	PASBackendFile *backend = PAS_BACKEND_FILE (data);
 
-	backend = PAS_BACKEND_FILE (data);
-
-	pas_backend_remove_client (PAS_BACKEND (backend), book);
+	pas_backend_remove_client (PAS_BACKEND (backend), (PASBook*)where_book_was);
 }
 
 /*
@@ -1522,8 +1517,7 @@ pas_backend_file_add_client (PASBackend             *backend,
 		return FALSE;
 	}
 
-	g_signal_connect (book, "destroy",
-			  G_CALLBACK (pas_backend_file_book_destroy_cb), backend);
+	g_object_weak_ref (G_OBJECT (book), pas_backend_file_book_destroy_cb, backend);
 
 	g_signal_connect (book, "requests_queued",
 			  G_CALLBACK (pas_backend_file_process_client_requests), NULL);

@@ -30,10 +30,13 @@ pas_card_cursor_dispose (GObject *object)
 {
 	PASCardCursor *cursor = PAS_CARD_CURSOR (object);
 
-	if ( cursor->priv )
+	if ( cursor->priv ) {
 		g_free ( cursor->priv );
+		cursor->priv = NULL;
+	}
 
-	G_OBJECT_CLASS (parent_class)->dispose (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		G_OBJECT_CLASS (parent_class)->dispose (object);
 }
 
 /*

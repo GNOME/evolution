@@ -1,5 +1,35 @@
 2002-11-11  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-card-cursor.c (pas_card_cursor_dispose): guard
+	against multiple invocations.
+
+	* backend/pas/pas-backend-ldap.c (view_destroy): change signature
+	to that of a weak ref notify function.
+	(cursor_destroy): same.
+	(pas_backend_ldap_book_destroy_cb): same.
+	(get_cursor_handler): ::destroy -> weak_ref.
+	(pas_backend_ldap_process_get_book_view): same.
+	(pas_backend_ldap_add_client): same.
+
+	* backend/pas/pas-backend-file.c (cursor_destroy): change
+	signature to that of a weak ref notify function.
+	(view_destroy): same.
+	(pas_backend_file_book_destroy_cb): same.
+	(pas_backend_file_process_get_cursor): ::destroy -> weak_ref.
+	(pas_backend_file_process_get_book_view): same.
+	(pas_backend_file_process_get_completion_view): same.
+	(pas_backend_file_process_get_changes): same.
+	(pas_backend_file_add_client): same.
+
+	* backend/ebook/test-client.c (get_cursor_cb): unref the book and
+	exit here.
+	(get_card_cb): pass a query string to get_cursor.
+
+	* backend/ebook/e-book-view.c (e_book_view_class_init): correct
+	marshaller for "card_added".
+
+2002-11-11  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/test-reflow.c (destroy_callback): change signature
 	to that of a weak ref notify function.
 	(main): ::destroy -> weak_ref.

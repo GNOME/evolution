@@ -291,7 +291,7 @@ remove_view (int msgid, LDAPOp *op, PASBookView *view)
 }
 
 static void
-view_destroy(GObject *object, gpointer data)
+view_destroy(gpointer data, GObject *where_object_was)
 {
 	PASBook           *book = (PASBook *)data;
 	PASBackendLDAP    *bl;
@@ -304,7 +304,7 @@ view_destroy(GObject *object, gpointer data)
 	while (e_iterator_is_valid (iter)) {
 		PASBackendLDAPBookView *view = (PASBackendLDAPBookView*)e_iterator_get (iter);
 
-		if (view->book_view == PAS_BOOK_VIEW(object)) {
+		if (view->book_view == (PASBookView*)where_object_was) {
 			GNOME_Evolution_Addressbook_Book    corba_book;
 			CORBA_Environment ev;
 
@@ -1718,7 +1718,7 @@ get_nth(PASCardCursor *cursor, long n, gpointer data)
 }
 
 static void
-cursor_destroy(GObject *object, gpointer data)
+cursor_destroy(gpointer data, GObject *where_object_was)
 {
 	PASBackendLDAPCursorPrivate *cursor_data = (PASBackendLDAPCursorPrivate *) data;
 
@@ -1784,8 +1784,7 @@ get_cursor_handler (LDAPOp *op, LDAPMessage *res)
 						     get_nth,
 						     cursor_op->cursor_data);
 
-			g_signal_connect(cursor, "destroy",
-					 G_CALLBACK(cursor_destroy), cursor_op->cursor_data);
+			g_object_weak_ref (G_OBJECT (cursor), cursor_destroy, cursor_op->cursor_data);
 
 			cursor_op->responded = TRUE;
 		}
@@ -1811,7 +1810,7 @@ get_cursor_dtor (LDAPOp *op)
 	LDAPGetCursorOp *cursor_op = (LDAPGetCursorOp*)op;
 
 	if (!cursor_op->responded) {
-		cursor_destroy (NULL, cursor_op->cursor_data);
+		cursor_destroy (cursor_op->cursor_data, NULL);
 	}
 
 	g_free (op);
@@ -3038,8 +3037,7 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 	book_view = pas_book_view_new (req->get_book_view.listener);
 
 	bonobo_object_ref(BONOBO_OBJECT(book));
-	g_signal_connect(book_view, "destroy",
-			 G_CALLBACK (view_destroy), book);
+	g_object_weak_ref (G_OBJECT (book_view), view_destroy, book);
 
 	view = g_new0(PASBackendLDAPBookView, 1);
 	view->book_view = book_view;
@@ -3214,13 +3212,11 @@ pas_backend_ldap_process_client_requests (PASBook *book)
 }
 
 static void
-pas_backend_ldap_book_destroy_cb (PASBook *book, gpointer data)
+pas_backend_ldap_book_destroy_cb (gpointer data, GObject *where_book_was)
 {
-	PASBackendLDAP *backend;
+	PASBackendLDAP *backend = PAS_BACKEND_LDAP (data);
 
-	backend = PAS_BACKEND_LDAP (data);
-
-	pas_backend_remove_client (PAS_BACKEND (backend), book);
+	pas_backend_remove_client (PAS_BACKEND (backend), (PASBook*)where_book_was);
 }
 
 static GNOME_Evolution_Addressbook_BookListener_CallStatus
@@ -3335,8 +3331,7 @@ pas_backend_ldap_add_client (PASBackend             *backend,
 		return FALSE;
 	}
 
-	g_signal_connect (book, "destroy",
-			  G_CALLBACK (pas_backend_ldap_book_destroy_cb), backend);
+	g_object_weak_ref (G_OBJECT (book), pas_backend_ldap_book_destroy_cb, backend);
 
 	g_signal_connect (book, "requests_queued",
 			  G_CALLBACK (pas_backend_ldap_process_client_requests), NULL);
