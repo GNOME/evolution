@@ -688,7 +688,9 @@ e_calendar_drag_motion (GtkWidget      *widget,
 
 	cal = E_CALENDAR (widget);
 
+#if 0
 	g_print ("In e_calendar_drag_motion\n");
+#endif
 
 	return FALSE;
 }
@@ -705,6 +707,8 @@ e_calendar_drag_leave (GtkWidget      *widget,
 
 	cal = E_CALENDAR (widget);
 
+#if 0
 	g_print ("In e_calendar_drag_leave\n");
+#endif
 }
 

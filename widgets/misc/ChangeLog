@@ -1,3 +1,15 @@
+2000-09-05  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar-item.c (e_calendar_item_draw_month): make sure we get
+	the start_weekday since we need it for draw_days(). Fixes a drawing
+	bug.
+
+2000-08-31  Damon Chaplin  <damon@helixcode.com>
+
+	* e-calendar-item.c (e_calendar_item_button_press): 
+	(e_calendar_item_button_release): grab/ungrab the pointer so we
+	always get the button_release event.
+
 2000-08-30  Damon Chaplin  <damon@helixcode.com>
 
 	* e-calendar-item.[hc]: 

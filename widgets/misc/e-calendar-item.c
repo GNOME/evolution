@@ -1018,19 +1018,20 @@ e_calendar_item_draw_month	(ECalendarItem   *calitem,
 	clip_rect.x = MAX (0, clip_rect.x);
 	clip_rect.y = MAX (0, text_y);
 
+	memset (&tmp_tm, 0, sizeof (tmp_tm));
+	tmp_tm.tm_year = year - 1900;
+	tmp_tm.tm_mon = month;
+	tmp_tm.tm_mday = 1;
+	tmp_tm.tm_isdst = -1;
+	mktime (&tmp_tm);
+	start_weekday = (tmp_tm.tm_wday + 6) % 7;
+
 	if (month_x + max_x - clip_rect.x > 0) {
 		clip_rect.width = month_x + max_x - clip_rect.x;
 		clip_rect.height = text_y + char_height - clip_rect.y;
 		gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
 
-		memset (&tmp_tm, 0, sizeof (tmp_tm));
-		tmp_tm.tm_year = year - 1900;
-		tmp_tm.tm_mon = month;
-		tmp_tm.tm_mday = 1;
-		tmp_tm.tm_isdst = -1;
-		mktime (&tmp_tm);
 		strftime (buffer, 64, "%B %Y", &tmp_tm);
-		start_weekday = (tmp_tm.tm_wday + 6) % 7;
 
 		/* Ideally we place the text centered in the month, but we
 		   won't go to the left of the minimum x position. */
@@ -1599,8 +1600,6 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 	gint month_offset, day;
 	gboolean all_week, round_up_end = FALSE, round_down_start = FALSE;
 
-	g_print ("In e_calendar_item_button_press\n");
-
 	if (event->button.button == 4)
 		e_calendar_item_set_first_month (calitem, calitem->year,
 						 calitem->month - 1);
@@ -1626,7 +1625,11 @@ e_calendar_item_button_press	(ECalendarItem	*calitem,
 	if (event->button.button != 1 || day == -1)
 		return FALSE;
 
-	g_print ("  month offset: %i day: %i\n", month_offset, day);
+	if (gnome_canvas_item_grab (GNOME_CANVAS_ITEM (calitem),
+				    GDK_POINTER_MOTION_MASK
+				    | GDK_BUTTON_RELEASE_MASK,
+				    NULL, event->button.time) != 0)
+		return FALSE;
 
 	calitem->selection_start_month_offset = month_offset;
 	calitem->selection_start_day = day;
@@ -1666,7 +1669,8 @@ static gboolean
 e_calendar_item_button_release	(ECalendarItem	*calitem,
 				 GdkEvent	*event)
 {
-	g_print ("In e_calendar_item_button_release\n");
+	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (calitem),
+				  event->button.time);
 
 	if (!calitem->selecting)
 		return FALSE;
@@ -2157,8 +2161,6 @@ e_calendar_item_add_days_to_selection	(ECalendarItem	*calitem,
 	month = calitem->month + calitem->selection_end_month_offset;
 	e_calendar_item_normalize_date (calitem, &year,	&month);
 
-	g_print ("In e_calendar_item_add_days_to_selection days: %i month:%i\n", days, month);
-
 	calitem->selection_end_day += days;
 	if (calitem->selection_end_day <= 0) {
 		month--;
@@ -2347,9 +2349,6 @@ e_calendar_item_round_down_selection	(ECalendarItem	*calitem,
 	gint year, month, weekday, days, days_in_month;
 	struct tm tmp_tm = { 0 };
 
-	g_print ("In e_calendar_item_round_down_selection month:%i day:%i\n",
-		 *month_offset, *day);
-
 	year = calitem->year;
 	month = calitem->month + *month_offset;
 	e_calendar_item_normalize_date (calitem, &year, &month);
@@ -2377,9 +2376,6 @@ e_calendar_item_round_down_selection	(ECalendarItem	*calitem,
 		(*month_offset)--;
 		*day += days_in_month;
 	}
-
-	g_print ("Out e_calendar_item_round_down_selection month:%i day:%i\n",
-		 *month_offset, *day);
 }
 
 
@@ -2485,8 +2481,6 @@ e_calendar_item_set_selection	(ECalendarItem	*calitem,
 	end_year = g_date_year (end_date);
 	end_month = g_date_month (end_date) - 1;
 	end_day = g_date_day (end_date);
-
-	g_print ("In e_calendar_item_set_selection start: %i/%i/%i end: %i/%i/%i\n", start_day, start_month, start_year, end_day, end_month, end_year);
 
 	need_update = e_calendar_item_ensure_days_visible (calitem,
 							   start_year,
