@@ -2,6 +2,8 @@
 
 	* em-junk-filter.c (pipe_to_sa_with_error): call
 	camel_stream_close and close the fds[1]
+	(pipe_to_sa_with_error): do not call close, camel_stream_close
+	should be enough to be sure the fd was closed
 
 2004-03-08  Jeffrey Stedfast  <fejj@ximian.com>
 
