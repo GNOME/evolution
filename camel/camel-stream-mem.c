@@ -108,23 +108,30 @@ camel_stream_mem_get_type (void)
 CamelStream *
 camel_stream_mem_new (CamelStreamMemMode mode)
 {
-	CamelStreamMem *stream_mem;
-	GByteArray *buffer;
-
-	buffer = g_byte_array_new ();	
-	stream_mem = (CamelStreamMem *)camel_stream_mem_new_with_buffer (buffer, mode);
-	return CAMEL_STREAM (stream_mem);
+	return camel_stream_mem_new_with_byte_array (g_byte_array_new (),
+						     mode);
 }
 
+CamelStream *
+camel_stream_mem_new_with_buffer (const char *buffer, unsigned int len,
+				  CamelStreamMemMode mode)
+{
+	GByteArray *ba;
+
+	ba = g_byte_array_new ();
+	g_byte_array_append (ba, (const guint8 *)buffer, len);
+	return camel_stream_mem_new_with_byte_array (ba, mode);
+}
 
 CamelStream *
-camel_stream_mem_new_with_buffer (GByteArray *buffer, CamelStreamMemMode mode)
+camel_stream_mem_new_with_byte_array (GByteArray *byte_array,
+				      CamelStreamMemMode mode)
 {
 	CamelStreamMem *stream_mem;
 	
 	stream_mem = gtk_type_new (camel_stream_mem_get_type ());
 	stream_mem->mode = mode;
-	stream_mem->buffer = buffer;
+	stream_mem->buffer = byte_array;
 	
 	return CAMEL_STREAM (stream_mem);
 }

@@ -1,5 +1,9 @@
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
+	* camel-stream-mem.c (camel_stream_mem_new_with_buffer): rename
+	camel_stream_mem_new_with_buffer to ..._with_byte_array and add a
+	new ..._with_buffer that takes a char * rather than a GByteArray.
+
 	* Remove CamelStreamBufferedFs, since CamelStreamBuffer makes it
 	redundant.
 
