@@ -1,3 +1,18 @@
+2001-10-19    <NotZed@Ximian.com>
+
+	* camel-vee-folder.c (camel_vee_folder_remove_folder): Lock the
+	right lock for unmatched subfolder list stuff.  If the sub folder
+	is deleted & part of unmatched, or the last ref to the sub folder
+	is gone from unmatched, blow it away completely from unmatched,
+	but only do it once.
+	(vee_folder_remove_folder): Added arg to kill unmatched
+	unconditionally.  Also handle deleted folders, always remove
+	stuff.
+	(folder_changed_change): Lock subfolder lock for entirety of
+	operation, and also check to see if the subfolder is still there
+	before doing any fancy work (incase it got removed while we were
+	waiting to execute).
+
 2001-10-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-part-utils.c
@@ -8,6 +23,10 @@
 	to TRUE.
 
 2001-10-18    <NotZed@Ximian.com>
+
+	* camel-store.c (camel_store_unsubscribe_folder): If we are
+	unsubscribing from a folder we have loaded, set the folder
+	deleted, as with the delete_folder case.
 
 	* providers/(imap|local|pop3|sendmail|smtp)/Makefile.am: Added
 	CAMEL_CFLAGS so we get the right iconv stuff, patch from Yanko

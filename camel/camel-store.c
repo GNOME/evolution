@@ -330,6 +330,8 @@ camel_store_delete_folder (CamelStore *store, const char *folder_name, CamelExce
 	char *key;
 	
 	CAMEL_STORE_LOCK(store, folder_lock);
+
+	/* NB: Note similarity of this code to unsubscribe_folder */
 	
 	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
 	if (store->folders) {
@@ -960,12 +962,44 @@ camel_store_unsubscribe_folder (CamelStore *store,
 				const char *folder_name,
 				CamelException *ex)
 {
+	CamelFolder *folder = NULL;
+	char *key;
+
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	g_return_if_fail (store->flags & CAMEL_STORE_SUBSCRIPTIONS);
 
 	CAMEL_STORE_LOCK(store, folder_lock);
 
+	/* NB: Note similarity of this code to delete_folder */
+
+	/* if we deleted a folder, force it out of the cache, and also out of the vtrash if setup */
+	if (store->folders) {
+		CAMEL_STORE_LOCK(store, cache_lock);
+		folder = g_hash_table_lookup(store->folders, folder_name);
+		if (folder)
+			camel_object_ref((CamelObject *)folder);
+		CAMEL_STORE_UNLOCK(store, cache_lock);
+
+		if (folder) {
+			if (store->vtrash)
+				camel_vee_folder_remove_folder((CamelVeeFolder *)store->vtrash, folder);
+			camel_folder_delete (folder);
+		}
+	}
+
 	CS_CLASS (store)->unsubscribe_folder (store, folder_name, ex);
+
+	if (folder)
+		camel_object_unref((CamelObject *)folder);
+
+	if (store->folders) {
+		CAMEL_STORE_LOCK(store, cache_lock);
+		if (g_hash_table_lookup_extended(store->folders, folder_name, (void **)&key, (void **)&folder)) {
+			g_hash_table_remove (store->folders, key);
+			g_free (key);
+		}
+		CAMEL_STORE_UNLOCK(store, cache_lock);
+	}
 
 	CAMEL_STORE_UNLOCK(store, folder_lock);
 }
