@@ -1,3 +1,13 @@
+2002-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_edit_messages): Pass the UID of the message
+	being edited to the save-draft signal handler.
+	(composer_save_draft_cb): Pass the old draft uid to our async
+	append_message function and let the append_message callback worry
+	about deleting the old draft message on success.
+	(save_draft_done): Delete the old draft message if we successfully
+	appended the new draft message.
+
 2002-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-ui.c: Removed an unused pixmap from

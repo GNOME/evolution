@@ -183,7 +183,7 @@ ask_confirm_for_unwanted_html_mail (EMsgComposer *composer, EDestination **recip
 	gboolean show_again = TRUE;
 	GString *str;
 	GtkWidget *mbox;
-	gint i, button;
+	int i, button;
 	
 	if (!mail_config_get_confirm_unwanted_html ()) {
 		g_message ("doesn't want to see confirm html messages!");
@@ -284,13 +284,13 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	
 	if (!mail_config_get_prompt_only_bcc ())
 		return TRUE;
-
+	
 	/* If the user is mailing a hidden contact list, it is possible for
 	   them to create a message with only Bcc recipients without really
 	   realizing it.  To try to avoid being totally confusing, I've changed
 	   this dialog to provide slightly different text in that case, to
 	   better explain what the hell is going on. */
-
+	
 	if (hidden_list_case) {
 		first_text =  _("Since the contact list you are sending to "
 				"is configured to hide the list's addresses, "
@@ -315,7 +315,7 @@ ask_confirm_for_only_bcc (EMsgComposer *composer, gboolean hidden_list_case)
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
 	
 	mail_config_set_prompt_only_bcc (show_again);
-
+	
 	g_free (message_text);
 	
 	if (button == 0)
@@ -422,7 +422,7 @@ composer_get_message (EMsgComposer *composer)
 		/* this means that the only recipients are Bcc's */
 		
 		/* OK, this is an abusive hack.  If someone sends a mail with a
-		   hidden contact list on to to: line and no other recipients,
+		   hidden contact list on the To: line and no other recipients,
 		   they will unknowingly create a message with only bcc: recipients.
 		   We try to detect this and pass a flag to ask_confirm_for_only_bcc,
 		   so that it can present the user with a dialog whose text has been
@@ -551,6 +551,7 @@ composer_postpone_cb (EMsgComposer *composer, gpointer data)
 
 struct _save_draft_info {
 	EMsgComposer *composer;
+	const char *old_uid;
 	int quit;
 };
 
@@ -558,6 +559,12 @@ static void
 save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
 {
 	struct _save_draft_info *sdi = data;
+	
+	/* delete the original draft message */
+	if (ok && sdi->old_uid)
+		camel_folder_set_message_flags (folder, sdi->old_uid,
+						CAMEL_MESSAGE_DELETED,
+						CAMEL_MESSAGE_DELETED);
 	
 	if (ok && sdi->quit)
 		gtk_widget_destroy (GTK_WIDGET (sdi->composer));
@@ -592,7 +599,7 @@ save_draft_folder (char *uri, CamelFolder *folder, gpointer data)
 }
 
 void
-composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
+composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 {
 	extern char *default_drafts_folder_uri;
 	extern CamelFolder *drafts_folder;
@@ -633,7 +640,15 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
 	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = composer;
 	gtk_object_ref (GTK_OBJECT (composer));
+	sdi->old_uid = (const char *) user_data;
 	sdi->quit = quit;
+	
+	/* FIXME: we need to have some way of getting the UID of the
+           newly appended message so that we can update the data that
+           this callback gets called with (user_data is the UID of the
+           message being edited) so that if the user saves a
+           second/third/fourth/etc time, we keep deleting the previous
+           copy of the draft */
 	
 	mail_append_mail (folder, msg, info, save_draft_done, sdi);
 	camel_object_unref (CAMEL_OBJECT (folder));
@@ -2016,6 +2031,7 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 	
 	for (i = 0; i < messages->len; i++) {
 		EMsgComposer *composer;
+		char *uid;
 		
 		camel_medium_remove_header (CAMEL_MEDIUM (messages->pdata[i]), "X-Mailer");
 		
@@ -2027,10 +2043,11 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 			gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 					    composer_postpone_cb, NULL);
 			
-			/* FIXME: we want to pass data to this callback so
-                           we can remove the old draft when they save again */
+			uid = g_strdup (uids->pdata[i]);
+			gtk_object_set_data_full (GTK_OBJECT (composer), "uid", uid, (GtkDestroyNotify) g_free);
+			
 			gtk_signal_connect (GTK_OBJECT (composer), "save-draft",
-					    composer_save_draft_cb, NULL);
+					    composer_save_draft_cb, uid);
 			
 			gtk_widget_show (GTK_WIDGET (composer));
 		}
