@@ -1,3 +1,9 @@
+2002-08-30  Mike Kestner  <mkestner@ximian.com>
+
+	* gui/dialogs/event-page.c:
+	* gui/dialogs/task-page.c: use bonobo_object_release_unref to release
+	the remote SelectNames component, not CORBA_Object_release.
+
 2002-08-29  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_top_canvas_button_press): select

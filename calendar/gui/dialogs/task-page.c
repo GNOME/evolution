@@ -206,7 +206,7 @@ task_page_destroy (GtkObject *object)
 		CORBA_Environment ev;
 
 		CORBA_exception_init (&ev);
-		CORBA_Object_release (priv->corba_select_names, &ev);
+		bonobo_object_release_unref (priv->corba_select_names, &ev);
 		CORBA_exception_free (&ev);
 	}
 
