@@ -159,7 +159,7 @@ camel_multipart_signed_get_type (void)
  * set the mime_type appropriately to match the data uses, so
  * that the multiple parts my be extracted.
  *
- * Use construct_from_parser.  The parser MUST be in the HSCAN_HEADER
+ * Use construct_from_parser.  The parser MUST be in the CAMEL_MIME_PARSER_STATE_HEADER
  * state, and the current content_type MUST be "multipart/signed" with
  * the appropriate boundary and it SHOULD include the appropriate protocol
  * and hash specifiers.
@@ -279,11 +279,11 @@ set_mime_type_field(CamelDataWrapper *data_wrapper, CamelContentType *mime_type)
 	if (mime_type) {
 		const char *micalg, *protocol;
 
-		protocol = header_content_type_param(mime_type, "protocol");
+		protocol = camel_content_type_param(mime_type, "protocol");
 		g_free(mps->protocol);
 		mps->protocol = g_strdup(protocol);
 
-		micalg = header_content_type_param(mime_type, "micalg");
+		micalg = camel_content_type_param(mime_type, "micalg");
 		g_free(mps->micalg);
 		mps->micalg = g_strdup(micalg);
 	}
@@ -432,7 +432,7 @@ static int
 signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser *mp)
 {
 	int err;
-	struct _header_content_type *content_type;
+	CamelContentType *content_type;
 	CamelMultipartSigned *mps = (CamelMultipartSigned *)multipart;
 	char *buf;
 	size_t len;
@@ -440,14 +440,14 @@ signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser 
 
 	/* we *must not* be in multipart state, otherwise the mime parser will
 	   parse the headers which is a no no @#$@# stupid multipart/signed spec */
-	g_assert(camel_mime_parser_state(mp) == HSCAN_HEADER);
+	g_assert(camel_mime_parser_state(mp) == CAMEL_MIME_PARSER_STATE_HEADER);
 
 	/* All we do is copy it to a memstream */
 	content_type = camel_mime_parser_content_type(mp);
-	camel_multipart_set_boundary(multipart, header_content_type_param(content_type, "boundary"));
+	camel_multipart_set_boundary(multipart, camel_content_type_param(content_type, "boundary"));
 
 	mem = camel_stream_mem_new();
-	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END)
+	while (camel_mime_parser_step(mp, &buf, &len) != CAMEL_MIME_PARSER_STATE_BODY_END)
 		camel_stream_write(mem, buf, len);
 
 	set_stream(mps, mem);
@@ -646,11 +646,11 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	camel_mime_part_set_description(signature, _("This is a digitally signed message part"));
 
 	/* setup our mime type and boundary */
-	mime_type = header_content_type_new("multipart", "signed");
-	header_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
-	header_content_type_set_param(mime_type, "protocol", context->sign_protocol);
+	mime_type = camel_content_type_new("multipart", "signed");
+	camel_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
+	camel_content_type_set_param(mime_type, "protocol", context->sign_protocol);
 	camel_data_wrapper_set_mime_type_field(CAMEL_DATA_WRAPPER (mps), mime_type);
-	header_content_type_unref(mime_type);
+	camel_content_type_unref(mime_type);
 	camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
 
 	/* just keep the whole raw content.  We dont *really* need to do this because

@@ -408,7 +408,7 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 	
 	switch(type) {
 	case CAMEL_SEARCH_TYPE_ENCODED:
-		v = header_decode_string(value, default_charset); /* FIXME: Find header charset */
+		v = camel_header_decode_string(value, default_charset); /* FIXME: Find header charset */
 		truth = header_match(v, match, how);
 		g_free(v);
 		break;
@@ -449,8 +449,8 @@ camel_search_header_match (const char *value, const char *match, camel_search_ma
 
 		for (i=0; !truth && camel_internet_address_get(cia, i, &name, &addr);i++)
 			truth = (name && header_match(name, match, how)) || (addr && header_match(addr, match, how));
-
-		camel_object_unref((CamelObject *)cia);
+		
+		camel_object_unref (cia);
 		break;
 	}
 
@@ -482,14 +482,14 @@ camel_search_message_body_contains (CamelDataWrapper *object, regex_t *pattern)
 	} else if (CAMEL_IS_MIME_MESSAGE (containee)) {
 		/* for messages we only look at its contents */
 		truth = camel_search_message_body_contains ((CamelDataWrapper *)containee, pattern);
-	} else if (header_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
+	} else if (camel_content_type_is(CAMEL_DATA_WRAPPER (containee)->mime_type, "text", "*")) {
 		/* for all other text parts, we look inside, otherwise we dont care */
 		CamelStreamMem *mem = (CamelStreamMem *)camel_stream_mem_new ();
 		
 		camel_data_wrapper_write_to_stream (containee, CAMEL_STREAM (mem));
 		camel_stream_write (CAMEL_STREAM (mem), "", 1);
 		truth = regexec (pattern, mem->buffer->data, 0, NULL, 0) == 0;
-		camel_object_unref (CAMEL_OBJECT (mem));
+		camel_object_unref (mem);
 	}
 	
 	return truth;

@@ -107,7 +107,7 @@ set_mime_type_field (CamelDataWrapper *data_wrapper, CamelContentType *mime_type
 	if (mime_type) {
 		const char *protocol;
 		
-		protocol = header_content_type_param (mime_type, "protocol");
+		protocol = camel_content_type_param (mime_type, "protocol");
 		g_free (mpe->protocol);
 		mpe->protocol = g_strdup (protocol);
 	}
@@ -215,10 +215,10 @@ camel_multipart_encrypted_encrypt (CamelMultipartEncrypted *mpe, CamelMimePart *
 	mpe->decrypted = content;
 	
 	/* set the content-type params for this multipart/encrypted part */
-	mime_type = header_content_type_new ("multipart", "encrypted");
-	header_content_type_set_param (mime_type, "protocol", cipher->encrypt_protocol);
+	mime_type = camel_content_type_new ("multipart", "encrypted");
+	camel_content_type_set_param (mime_type, "protocol", cipher->encrypt_protocol);
 	camel_data_wrapper_set_mime_type_field (CAMEL_DATA_WRAPPER (mpe), mime_type);
-	header_content_type_unref (mime_type);
+	camel_content_type_unref (mime_type);
 	camel_multipart_set_boundary ((CamelMultipart *) mpe, NULL);
 	
 	return 0;
@@ -282,7 +282,7 @@ camel_multipart_encrypted_decrypt (CamelMultipartEncrypted *mpe,
 	/* get the encrypted part (second part) */
 	encrypted_part = camel_multipart_get_part (CAMEL_MULTIPART (mpe), CAMEL_MULTIPART_ENCRYPTED_CONTENT);
 	mime_type = camel_mime_part_get_content_type (encrypted_part);
-	if (!header_content_type_is (mime_type, "application", "octet-stream")) {
+	if (!camel_content_type_is (mime_type, "application", "octet-stream")) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to decrypt MIME part: invalid structure"));
 		return NULL;

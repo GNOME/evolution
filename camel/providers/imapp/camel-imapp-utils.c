@@ -318,7 +318,7 @@ media_text      ::= <"> "TEXT" <"> SPACE media_subtype
 
 /*
 struct _body_fields {
-	struct _header_content_type *ct;
+	CamelContentType *ct;
 	char *msgid, *desc;
 	CamelMimePartEncodingType encoding;
 	guint32 size;
@@ -337,7 +337,7 @@ imap_free_body(struct _CamelMessageContentInfo *cinfo)
 	}
 	
 	if (cinfo->type)
-		header_content_type_unref(cinfo->type);
+		camel_content_type_unref(cinfo->type);
 	g_free(cinfo->id);
 	g_free(cinfo->description);
 	g_free(cinfo->encoding);
@@ -345,7 +345,7 @@ imap_free_body(struct _CamelMessageContentInfo *cinfo)
 }
 
 void
-imap_parse_param_list(CamelIMAPPStream *is, struct _header_param **plist)
+imap_parse_param_list(CamelIMAPPStream *is, struct _camel_header_param **plist)
 {
 	int tok, len;
 	unsigned char *token, *param;
@@ -365,17 +365,17 @@ imap_parse_param_list(CamelIMAPPStream *is, struct _header_param **plist)
 			param = alloca(strlen(token)+1);
 			strcpy(param, token);
 			camel_imapp_stream_astring(is, &token);
-			header_set_param(plist, param, token);
+			camel_header_set_param(plist, param, token);
 		}
 	} /* else check nil?  no need */
 }
 
-struct _CamelMimeDisposition *
+struct _CamelContentDisposition *
 imap_parse_ext_optional(CamelIMAPPStream *is)
 {
 	int tok, len;
 	unsigned char *token;
-	struct _CamelMimeDisposition * volatile dinfo = NULL;
+	struct _CamelContentDisposition * volatile dinfo = NULL;
 
 	/* this parses both extension types, from the body_fld_dsp onwards */
 	/* although the grammars are different, they can be parsed the same way */
@@ -448,7 +448,7 @@ imap_parse_ext_optional(CamelIMAPPStream *is)
 		}
 	} CAMEL_CATCH(ex) {
 		if (dinfo)
-			header_disposition_unref(dinfo);
+			camel_content_disposition_unref(dinfo);
 		camel_exception_throw_ex(ex);
 	} CAMEL_DONE;
 
@@ -475,7 +475,7 @@ imap_parse_body_fields(CamelIMAPPStream *is)
 		type = alloca(strlen(token)+1);
 		strcpy(type, token);
 		camel_imapp_stream_astring(is, &token);
-		cinfo->type = header_content_type_new(type, token);
+		cinfo->type = camel_content_type_new(type, token);
 		imap_parse_param_list(is, &cinfo->type->params);
 	
 		/* body_fld_id     ::= nstring */
@@ -501,13 +501,13 @@ imap_parse_body_fields(CamelIMAPPStream *is)
 	return cinfo;
 }
 
-struct _header_address *
+struct _camel_header_address *
 imap_parse_address_list(CamelIMAPPStream *is)
 /* throws PARSE,IO exception */
 {
 	int tok, len;
 	unsigned char *token, *host, *mbox;
-	struct _header_address *list = NULL;
+	struct _camel_header_address *list = NULL;
 
 	/* "(" 1*address ")" / nil */
 
@@ -515,7 +515,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 		tok = camel_imapp_stream_token(is, &token, &len);
 		if (tok == '(') {
 			while (1) {
-				struct _header_address *addr, *group = NULL;
+				struct _camel_header_address *addr, *group = NULL;
 
 				/* address         ::= "(" addr_name SPACE addr_adl SPACE addr_mailbox
 				   SPACE addr_host ")" */
@@ -525,7 +525,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 				if (tok != '(')
 					camel_exception_throw(1, "missing '(' for address");
 
-				addr = header_address_new();
+				addr = camel_header_address_new();
 				addr->type = HEADER_ADDRESS_NAME;
 				tok = camel_imapp_stream_nstring(is, &token);
 				addr->name = g_strdup(token);
@@ -551,7 +551,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 						g_free(addr->name);
 						addr->name = mbox;
 						addr->type = HEADER_ADDRESS_GROUP;
-						header_address_list_append(&list, addr);
+						camel_header_address_list_append(&list, addr);
 						group = addr;
 					}
 				} else {
@@ -559,9 +559,9 @@ imap_parse_address_list(CamelIMAPPStream *is)
 					g_free(mbox);
 					d(printf("adding address '%s'\n", addr->v.addr));
 					if (group != NULL)
-						header_address_add_member(group, addr);
+						camel_header_address_add_member(group, addr);
 					else
-						header_address_list_append(&list, addr);
+						camel_header_address_list_append(&list, addr);
 				}
 				do {
 					tok = camel_imapp_stream_token(is, &token, &len);
@@ -571,7 +571,7 @@ imap_parse_address_list(CamelIMAPPStream *is)
 			d(printf("empty, nil '%s'\n", token));
 		}
 	} CAMEL_CATCH(ex) {
-		header_address_list_clear(&list);
+		camel_header_address_list_clear(&list);
 		camel_exception_throw_ex(ex);
 	} CAMEL_DONE;
 
@@ -583,7 +583,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 {
 	int tok, len;
 	unsigned char *token;
-	struct _header_address *addr, *addr_from;
+	struct _camel_header_address *addr, *addr_from;
 	char *addrstr;
 	struct _CamelMessageInfo *minfo;
 
@@ -603,7 +603,7 @@ imap_parse_envelope(CamelIMAPPStream *is)
 
 		/* env_date        ::= nstring */
 		camel_imapp_stream_nstring(is, &token);
-		minfo->date_sent = header_decode_date(token, NULL);
+		minfo->date_sent = camel_header_decode_date(token, NULL);
 
 		/* env_subject     ::= nstring */
 		tok = camel_imapp_stream_nstring(is, &token);
@@ -618,10 +618,10 @@ imap_parse_envelope(CamelIMAPPStream *is)
 		/* env_sender      ::= "(" 1*address ")" / nil */
 		addr = imap_parse_address_list(is);
 		if (addr_from) {
-			header_address_list_clear(&addr);
+			camel_header_address_list_clear(&addr);
 #if 0
 			if (addr)
-				header_address_list_append_list(&addr_from, &addr);
+				camel_header_address_list_append_list(&addr_from, &addr);
 #endif
 		} else {
 			if (addr)
@@ -629,38 +629,38 @@ imap_parse_envelope(CamelIMAPPStream *is)
 		}
 
 		if (addr_from) {
-			addrstr = header_address_list_format(addr_from);
+			addrstr = camel_header_address_list_format(addr_from);
 			camel_message_info_set_from(minfo, addrstr);
-			header_address_list_clear(&addr_from);
+			camel_header_address_list_clear(&addr_from);
 		}
 
 		/* we dont keep reply_to */
 
 		/* env_reply_to    ::= "(" 1*address ")" / nil */
 		addr = imap_parse_address_list(is);
-		header_address_list_clear(&addr);
+		camel_header_address_list_clear(&addr);
 
 		/* env_to          ::= "(" 1*address ")" / nil */
 		addr = imap_parse_address_list(is);
 		if (addr) {
-			addrstr = header_address_list_format(addr);
+			addrstr = camel_header_address_list_format(addr);
 			camel_message_info_set_to(minfo, addrstr);
-			header_address_list_clear(&addr);
+			camel_header_address_list_clear(&addr);
 		}
 
 		/* env_cc          ::= "(" 1*address ")" / nil */
 		addr = imap_parse_address_list(is);
 		if (addr) {
-			addrstr = header_address_list_format(addr);
+			addrstr = camel_header_address_list_format(addr);
 			camel_message_info_set_cc(minfo, addrstr);
-			header_address_list_clear(&addr);
+			camel_header_address_list_clear(&addr);
 		}
 
 		/* we dont keep bcc either */
 
 		/* env_bcc         ::= "(" 1*address ")" / nil */
 		addr = imap_parse_address_list(is);
-		header_address_list_clear(&addr);
+		camel_header_address_list_clear(&addr);
 
 		/* FIXME: need to put in-reply-to into references hash list */
 
@@ -690,7 +690,7 @@ imap_parse_body(CamelIMAPPStream *is)
 	unsigned char *token;
 	struct _CamelMessageContentInfo * volatile cinfo = NULL;
 	struct _CamelMessageContentInfo *subinfo, *last;
-	struct _CamelMimeDisposition * volatile dinfo = NULL;
+	struct _CamelContentDisposition * volatile dinfo = NULL;
 	struct _CamelMessageInfo * volatile minfo = NULL;
 
 	/* body            ::= "(" body_type_1part / body_type_mpart ")" */
@@ -723,7 +723,7 @@ imap_parse_body(CamelIMAPPStream *is)
 			d(printf("media_subtype\n"));
 
 			camel_imapp_stream_astring(is, &token);
-			cinfo->type = header_content_type_new("multipart", token);
+			cinfo->type = camel_content_type_new("multipart", token);
 
 			/* body_ext_mpart  ::= body_fld_param
 			   [SPACE body_fld_dsp SPACE body_fld_lang
@@ -822,7 +822,7 @@ imap_parse_body(CamelIMAPPStream *is)
 		if (cinfo)
 			imap_free_body(cinfo);
 		if (dinfo)
-			header_disposition_unref(dinfo);
+			camel_content_disposition_unref(dinfo);
 		if (minfo)
 			camel_message_info_free(minfo);
 		camel_exception_throw_ex(ex);
@@ -830,7 +830,7 @@ imap_parse_body(CamelIMAPPStream *is)
 
 	/* FIXME: do something with the disposition, currently we have no way to pass it out? */
 	if (dinfo)
-		header_disposition_unref(dinfo);
+		camel_content_disposition_unref(dinfo);
 
 	return cinfo;
 }

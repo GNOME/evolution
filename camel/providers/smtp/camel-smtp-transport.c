@@ -1223,7 +1223,7 @@ static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelException *ex)
 {
 	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
-	struct _header_raw *header, *savedbcc, *n, *tail;
+	struct _camel_header_raw *header, *savedbcc, *n, *tail;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *crlffilter;
@@ -1282,9 +1282,9 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, CamelExcept
 	
 	/* unlink the bcc headers */
 	savedbcc = NULL;
-	tail = (struct _header_raw *) &savedbcc;
+	tail = (struct _camel_header_raw *) &savedbcc;
 	
-	header = (struct _header_raw *) &CAMEL_MIME_PART (message)->headers;
+	header = (struct _camel_header_raw *) &CAMEL_MIME_PART (message)->headers;
 	n = header->next;
 	while (n != NULL) {
 		if (!strcasecmp (n->name, "Bcc")) {

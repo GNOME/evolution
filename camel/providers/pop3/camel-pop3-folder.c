@@ -145,7 +145,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	CamelPOP3FolderInfo *fi = data;
 	MD5Context md5;
 	unsigned char digest[16];
-	struct _header_raw *h;
+	struct _camel_header_raw *h;
 	CamelMimeParser *mp;
 
 	/* TODO; somehow work out the limit and use that for proper progress reporting
@@ -156,9 +156,9 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	mp = camel_mime_parser_new();
 	camel_mime_parser_init_with_stream(mp, (CamelStream *)stream);
 	switch (camel_mime_parser_step(mp, NULL, NULL)) {
-	case HSCAN_HEADER:
-	case HSCAN_MESSAGE:
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		h = camel_mime_parser_headers_raw(mp);
 		while (h) {
 			if (strcasecmp(h->name, "status") != 0

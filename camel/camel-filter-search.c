@@ -163,7 +163,7 @@ check_header (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			else {
 				ct = camel_mime_part_get_content_type (CAMEL_MIME_PART (message));
 				if (ct) {
-					charset = header_content_type_param (ct, "charset");
+					charset = camel_content_type_param (ct, "charset");
 					charset = e_iconv_charset_name (charset);
 				}
 			}
@@ -262,7 +262,7 @@ get_full_header (CamelMimeMessage *message)
 	CamelMimePart *mp = CAMEL_MIME_PART (message);
 	GString *str = g_string_new ("");
 	char   *ret;
-	struct _header_raw *h;
+	struct _camel_header_raw *h;
 	
 	for (h = mp->headers; h; h = h->next) {
 		if (h->value != NULL) {

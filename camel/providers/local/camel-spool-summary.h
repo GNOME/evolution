@@ -63,7 +63,7 @@ char *camel_spool_summary_encode_x_evolution(CamelSpoolSummary *cls, const Camel
 int camel_spool_summary_decode_x_evolution(CamelSpoolSummary *cls, const char *xev, CamelMessageInfo *info);
 
 /* utility functions - write headers to a file with optional X-Evolution header */
-int camel_spool_summary_write_headers(int fd, struct _header_raw *header, char *xevline);
+int camel_spool_summary_write_headers(int fd, struct _camel_header_raw *header, char *xevline);
 
 #endif /* ! _CAMEL_SPOOL_SUMMARY_H */
 

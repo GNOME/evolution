@@ -77,7 +77,7 @@ struct _CamelNNTPSummaryPrivate {
 
 #define _PRIVATE(o) (((CamelNNTPSummary *)(o))->priv)
 
-static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _header_raw *);
+static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _camel_header_raw *);
 static int summary_header_load(CamelFolderSummary *, FILE *);
 static int summary_header_save(CamelFolderSummary *, FILE *);
 
@@ -165,7 +165,7 @@ camel_nntp_summary_new(CamelNNTPFolder *folder)
 }
 
 static CamelMessageInfo *
-message_info_new(CamelFolderSummary *s, struct _header_raw *h)
+message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 {
 	CamelMessageInfo *mi;
 	CamelNNTPSummary *cns = (CamelNNTPSummary *)s;
@@ -186,7 +186,8 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 	return mi;
 }
 
-static int summary_header_load(CamelFolderSummary *s, FILE *in)
+static int
+summary_header_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelNNTPSummary *cns = CAMEL_NNTP_SUMMARY(s);
 
@@ -198,7 +199,8 @@ static int summary_header_load(CamelFolderSummary *s, FILE *in)
 	return 0;
 }
 
-static int summary_header_save(CamelFolderSummary *s, FILE *out)
+static int
+summary_header_save(CamelFolderSummary *s, FILE *out)
 {
 	CamelNNTPSummary *cns = CAMEL_NNTP_SUMMARY(s);
 
@@ -211,7 +213,8 @@ static int summary_header_save(CamelFolderSummary *s, FILE *out)
 }
 
 /* Assumes we have the stream */
-int camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, CamelException *ex)
+int
+camel_nntp_summary_check(CamelNNTPSummary *cns, CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	CamelNNTPStore *store;
 	CamelFolder *folder;
@@ -390,7 +393,7 @@ add_range_xover(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Came
 	CamelFolder *folder;
 	CamelFolderSummary *s;
 	CamelMessageInfo *mi;
-	struct _header_raw *headers = NULL;
+	struct _camel_header_raw *headers = NULL;
 	char *line, *tab;
 	int len, ret;
 	unsigned int n, count, total, size;
@@ -433,7 +436,7 @@ add_range_xover(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Came
 			if (xover->name) {
 				line += xover->skip;
 				if (line < tab) {
-					header_raw_append(&headers, xover->name, line, -1);
+					camel_header_raw_append(&headers, xover->name, line, -1);
 					switch(xover->type) {
 					case XOVER_STRING:
 						break;
@@ -468,7 +471,7 @@ add_range_xover(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Came
 			cns->priv->uid = NULL;
 		}
 
-		header_raw_clear(&headers);
+		camel_header_raw_clear(&headers);
 
 		now = time(0);
 		if (last + 2 < now) {
@@ -533,7 +536,7 @@ add_range_head(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Camel
 				if (camel_mime_parser_init_with_stream(mp, (CamelStream *)store->stream) == -1)
 					goto error;
 				mi = camel_folder_summary_add_from_parser(s, mp);
-				while (camel_mime_parser_step(mp, NULL, NULL) != HSCAN_EOF)
+				while (camel_mime_parser_step(mp, NULL, NULL) != CAMEL_MIME_PARSER_STATE_EOF)
 					;
 				if (mi == NULL) {
 					goto error;
