@@ -5,6 +5,7 @@
 
 #include <gtk/gtkvbox.h>
 #include <gtkhtml/gtkhtml.h>
+#include <gtkhtml/gtkhtml-stream.h>
 
 #include <gal/widgets/e-scroll-frame.h>
 
@@ -74,15 +75,12 @@ void           mail_display_set_charset (MailDisplay *mail_display,
 void           mail_display_load_images (MailDisplay *mail_display);
 
 
-#define mail_html_write_string(html, stream, string) gtk_html_write (html, stream, string, strlen (string))
+#define mail_html_write(html, stream, string) gtk_html_write (html, stream, string, strlen (string))
 
-void           mail_html_write          (GtkHTML *html,
-					 GtkHTMLStream *stream,
-					 const char *format, ...);
 void           mail_text_write          (GtkHTML *html,
 					 GtkHTMLStream *stream,
-					 const char *format, ...);
-void           mail_error_write         (GtkHTML *html,
+					 const char *text);
+void           mail_error_printf        (GtkHTML *html,
 					 GtkHTMLStream *stream,
 					 const char *format, ...);
 

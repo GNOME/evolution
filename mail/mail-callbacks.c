@@ -945,13 +945,23 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		if (!g_strncasecmp (subject, "Re: ", 4))
 			subject = g_strndup (subject, max_subject_length);
 		else {
-			if (strlen (subject) < max_subject_length)
+			if (strlen (subject) < max_subject_length) {
 				subject = g_strdup_printf ("Re: %s", subject);
-			else
-				subject = g_strdup_printf ("Re: %.*s...", max_subject_length, subject);
+			} else {
+				/* We can't use %.*s because it depends on the locale being C/POSIX
+                                   or UTF-8 to work correctly in glibc */
+				char *sub;
+				
+				/*subject = g_strdup_printf ("Re: %.*s...", max_subject_length, subject);*/
+				sub = g_malloc (max_subject_length + 8);
+				memcpy (sub, "Re: ", 4);
+				memcpy (sub + 4, subject, max_subject_length);
+				memcpy (sub + 4 + max_subject_length, "...", 4);
+				subject = sub;
+			}
 		}
 	}
-
+	
 	tov = e_destination_list_to_vector (to);
 	ccv = e_destination_list_to_vector (cc);
 	

@@ -161,10 +161,17 @@ mail_tool_generate_forward_subject (CamelMimeMessage *msg)
 	
 	if (subject && *subject) {
 		/* Truncate insanely long subjects */
-		if (strlen (subject) < max_subject_length)
+		if (strlen (subject) < max_subject_length) {
 			fwd_subj = g_strdup_printf ("[Fwd: %s]", subject);
-		else
-			fwd_subj = g_strdup_printf ("[Fwd: %.*s...]", max_subject_length, subject);
+		} else {
+			/* We can't use %.*s because it depends on the locale being C/POSIX
+			   or UTF-8 to work correctly in glibc */
+			/*fwd_subj = g_strdup_printf ("[Fwd: %.*s...]", max_subject_length, subject);*/
+			fwd_subj = g_malloc (max_subject_length + 11);
+			memcpy (fwd_subj, "[Fwd: ", 6);
+			memcpy (fwd_subj + 6, subject, max_subject_length);
+			memcpy (fwd_subj + 6 + max_subject_length, "...]", 5);
+		}
 	} else {
 		const CamelInternetAddress *from;
 		char *fromstr;

@@ -1,3 +1,31 @@
+2001-11-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.h (mail_html_write): Renamed from
+	mail_html_write_string.
+
+	* mail-display.c (mail_text_write): Don't bother with varargs
+	since nothing used them, we were only passing strings anyway...
+	(mail_error_printf): Renamed from mail_error_write, this makes
+	more sense.
+	(mail_html_write): Removed.
+
+	* mail-format.c: Updated to use gtk_html_stream_printf directly
+	and s/mail_html_write_string/mail_html_write.
+	(mail_lookup_handler): Don't use %.*s here either...
+	(handle_text_enriched): Same.
+	(write_one_text_plain_chunk): And finally here (also update for
+	new mail_text_write api).
+	(handle_multipart_signed): Update for new mail_text_write api.
+	(format_mime_part): Update for new mail_error_text/printf name
+	change.
+	(handle_multipart_encrypted): Same.
+
+	* mail-tools.c (mail_tool_generate_forward_subject): Same as
+	mail_generate_reply.
+
+	* mail-callbacks.c (mail_generate_reply): Don't use %.*s in any
+	*printf* functions.
+
 2001-11-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* message-list.c (ml_tree_value_at): Use GINT_TO_POINTER here for

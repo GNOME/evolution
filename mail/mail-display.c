@@ -1291,39 +1291,16 @@ mail_display_redisplay_when_loaded (MailDisplay *md,
 }
 
 void
-mail_html_write (GtkHTML *html, GtkHTMLStream *stream,
-		 const char *format, ...)
+mail_text_write (GtkHTML *html, GtkHTMLStream *stream, const char *text)
 {
-	char *buf;
-	va_list ap;
+	char *htmltext;
 	
-	va_start (ap, format);
-	buf = g_strdup_vprintf (format, ap);
-	va_end (ap);
-	gtk_html_write (html, stream, buf, strlen (buf));
-	/* printf (buf); */
-	g_free (buf);
-}
-
-void
-mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
-		 const char *format, ...)
-{
-	char *buf, *htmltext;
-	va_list ap;
-	
-	va_start (ap, format);
-	buf = g_strdup_vprintf (format, ap);
-	va_end (ap);
-	
-	htmltext = e_text_to_html_full (buf, E_TEXT_TO_HTML_CONVERT_URLS |
+	htmltext = e_text_to_html_full (text, E_TEXT_TO_HTML_CONVERT_URLS |
 					E_TEXT_TO_HTML_CONVERT_ADDRESSES |
 					E_TEXT_TO_HTML_CONVERT_NL |
 					E_TEXT_TO_HTML_CONVERT_SPACES |
 					(mail_config_get_citation_highlight () ? E_TEXT_TO_HTML_MARK_CITATION : 0),
 					mail_config_get_citation_color ());
-	
-	g_free (buf);
 	
 	gtk_html_write (html, stream, "<tt>", 4);
 	gtk_html_write (html, stream, htmltext, strlen (htmltext));
@@ -1332,8 +1309,8 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream,
 }
 
 void
-mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
-		  const char *format, ...)
+mail_error_printf (GtkHTML *html, GtkHTMLStream *stream,
+		   const char *format, ...)
 {
 	char *buf, *htmltext;
 	va_list ap;
