@@ -79,8 +79,7 @@ module ShellComponentDnd {
 		   @default_action and @non_default_action we want to be
 		   performed when the drop happens.  */
 		boolean handleMotion (in Context destination_context,
-				      out Action default_action,
-				      out Action non_default_action);
+				      out Action suggested_action);
 
 		/* Data is dropped.  We are given the data for the dropped
 		   object, and we are supposed to perform the operation

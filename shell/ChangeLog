@@ -1,3 +1,25 @@
+2001-03-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (tree_drag_data_get): Get the target type
+	from the atom, and pass it through the `SourceFolder::getData'
+	invocation.  Also, signal an error by passing `-1' as the length
+	value to `gtk_selection_data_set()'.
+	(find_matching_target_for_drag_context): New helper function.
+	(tree_drag_motion): Use it to figure out a suitable type for the
+	drop action, and pass it to the `DestinationFolder::handleMotion'
+	method.
+
+	* e-storage-set-view.c (get_component_at_node): New helper
+	function.
+	(table_drag_begin): Use it.
+	(convert_corba_drag_action_to_gdk): New helper function.
+	(table_drag_motion): Use the `DestinationFolder::handleMotion'
+	method to handle the "drag_motion" signal.
+
+	* Evolution-ShellComponentDnd.idl: Change the signature for the
+	`handleMotion' method so that it only has @suggested_action
+	parameter.
+
 2001-03-20  JP Rosevear  <jpr@ximian.com>
 
 	* importer/Makefile.am: make sure intelligent.h gets disted
@@ -6,28 +28,26 @@
 
 	* Merged e-tree-rework-branch:
 
-2001-03-19  Christopher James Lahey  <clahey@ximian.com>
+	2001-03-19  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (etree_get_save_id): Made "root" detection
 	deal properly with removed nodes.
 
-2001-03-18  Christopher James Lahey  <clahey@ximian.com>
+	2001-03-18  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-shell-view.c (e_shell_view_save_settings): Added some unused
 	code to implement saving of the expanded state.
 
 	* e-storage-set-view.c: Added has_save_id and get_save_id methods.
 
-2001-03-13  Christopher James Lahey  <clahey@ximian.com>
+	2001-03-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (ETREE_SPEC): Set draw-grid here to false.
 
-2001-03-09  Christopher James Lahey  <clahey@ximian.com>
+	2001-03-09  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c, e-storage-set-view.h: Chaned this to use
 	ETree instead of ETable.
-
-End of branch
 
 2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
 
