@@ -86,6 +86,7 @@ enum {
 	ARG_HEIGHT,
 	ARG_DRAW_BORDERS,
 	ARG_ALLOW_NEWLINES,
+	ARG_DRAW_BACKGROUND
 };
 
 
@@ -283,6 +284,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 	gtk_object_add_arg_type ("EText::allow_newlines",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
+	gtk_object_add_arg_type ("EText::draw_background",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -375,6 +378,8 @@ e_text_init (EText *text)
 	text->dbl_timeout = 0;
 	text->tpl_timeout = 0;
 
+	text->draw_background = 1;
+	
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
 
@@ -1282,6 +1287,13 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		}
 		break;
 
+	case ARG_DRAW_BACKGROUND:
+		if (text->draw_borders != GTK_VALUE_BOOL (*arg)){
+			text->draw_background = GTK_VALUE_BOOL (*arg);
+			text->needs_redraw = 1;
+		}
+		break;
+		
 	case ARG_ALLOW_NEWLINES:
 		_get_tep(text);
 		gtk_object_set (GTK_OBJECT (text->tep),
@@ -1428,6 +1440,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = text->draw_borders;
 		break;
 
+	case ARG_DRAW_BACKGROUND:
+		GTK_VALUE_BOOL (*arg) = text->draw_background;
+		break;
+		
 	case ARG_ALLOW_NEWLINES:
 		{
 			gboolean allow_newlines;
@@ -1749,7 +1765,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 	fg_gc = GTK_WIDGET(canvas)->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	
-	if (text->draw_borders) {
+	if (text->draw_borders || text->draw_background) {
 		gdouble thisx = 0, thisy = 0;
 		gdouble thiswidth, thisheight;
 		GtkWidget *widget = GTK_WIDGET(item->canvas);
@@ -1758,25 +1774,30 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			       "width", &thiswidth,
 			       "height", &thisheight,
 			       NULL);
-		gtk_paint_flat_box (widget->style, drawable,
-				    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
-				    NULL, widget, "entry_bg", 
-				    0, 0, thiswidth, thisheight);
+
+		if (text->draw_background)
+			gtk_paint_flat_box (widget->style, drawable,
+					    GTK_WIDGET_STATE(widget), GTK_SHADOW_NONE,
+					    NULL, widget, "entry_bg", 
+					    0, 0, thiswidth, thisheight);
 		if (text->editing) {
 			thisx += 1;
 			thisy += 1;
 			thiswidth -= 2;
 			thisheight -= 2;
 		}
-		gtk_paint_shadow (widget->style, drawable,
-				  GTK_STATE_NORMAL, GTK_SHADOW_IN,
-				  NULL, widget, "entry",
-				  thisx - x, thisy - y, thiswidth, thisheight);
+
+		if (text->draw_borders){
+			gtk_paint_shadow (widget->style, drawable,
+					  GTK_STATE_NORMAL, GTK_SHADOW_IN,
+					  NULL, widget, "entry",
+					  thisx - x, thisy - y, thiswidth, thisheight);
 		
-		if (text->editing) {
-			gtk_paint_focus (widget->style, drawable, 
-					 NULL, widget, "entry",
-					 - x, - y, thiswidth + 1, thisheight + 1);
+			if (text->editing) {
+				gtk_paint_focus (widget->style, drawable, 
+						 NULL, widget, "entry",
+						 - x, - y, thiswidth + 1, thisheight + 1);
+			}
 		}
 	}
 

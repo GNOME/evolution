@@ -63,6 +63,7 @@ enum {
 	ARG_BREAK_CHARACTERS,
 	ARG_MAX_LINES,
 	ARG_ALLOW_NEWLINES,
+	ARG_DRAW_BORDERS
 };
 
 static void
@@ -80,16 +81,25 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 
 static void
 canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
-		     EEntry *e_entry)
+		     EEntry *ee)
 {
+	int border;
+	gboolean draw_borders = 0;
+	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
-	requisition->width = MIN_ENTRY_WIDTH + (widget->style->klass->xthickness + INNER_BORDER) * 2;
+	gtk_object_get (GTK_OBJECT (ee->item), "draw_borders", &draw_borders, NULL);
+	if (draw_borders)
+		border = INNER_BORDER;
+	else
+		border = 0;
+	
+	requisition->width = MIN_ENTRY_WIDTH + (widget->style->klass->xthickness + border) * 2;
 	requisition->height = (widget->style->font->ascent +
 			       widget->style->font->descent +
-			       (widget->style->klass->ythickness + INNER_BORDER) * 2);
+			       (widget->style->klass->ythickness + border) * 2);
 }
 
 static gint
@@ -147,96 +157,104 @@ static void
 et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	EEntry *ee = E_ENTRY (o);
-
+	GtkObject *item = GTK_OBJECT (ee->item);
+	
 	switch (arg_id){
 	case ARG_MODEL:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "model", &GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
 
 	case ARG_EVENT_PROCESSOR:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "event_processor", &GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
 
 	case ARG_TEXT:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "text", &GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_FONT_GDK:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "font_gdk", &GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_JUSTIFICATION:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "justification", &GTK_VALUE_ENUM (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_COLOR_GDK:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "fill_color_gdk", &GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_COLOR_RGBA:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "fill_color_rgba", &GTK_VALUE_UINT (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_STIPPLE:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "fill_stiple", &GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_EDITABLE:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "editable", &GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 
 	case ARG_USE_ELLIPSIS:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "use_ellipsis", &GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 
 	case ARG_ELLIPSIS:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "ellipsis", &GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_LINE_WRAP:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "line_wrap", &GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 		
 	case ARG_BREAK_CHARACTERS:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "break_characters", &GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_MAX_LINES:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "max_lines", &GTK_VALUE_INT (*arg),
 			       NULL);
 		break;
 	case ARG_ALLOW_NEWLINES:
-		gtk_object_get(GTK_OBJECT(ee->item),
+		gtk_object_get(item,
 			       "allow_newlines", &GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
+
+	case ARG_DRAW_BORDERS:
+		gtk_object_get (item,
+				"draw_borders", &GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
+				
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -247,115 +265,128 @@ static void
 et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	EEntry *ee = E_ENTRY (o);
+	GtkObject *item = GTK_OBJECT (ee->item);
 	
 	switch (arg_id){
 	case ARG_MODEL:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "model", GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
 
 	case ARG_EVENT_PROCESSOR:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "event_processor", GTK_VALUE_OBJECT (*arg),
 			       NULL);
 		break;
 
 	case ARG_TEXT:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "text", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_FONT:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "font", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_FONTSET:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "fontset", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_FONT_GDK:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "font_gdk", GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_JUSTIFICATION:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "justification", GTK_VALUE_ENUM (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_COLOR:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "fill_color", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_COLOR_GDK:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "fill_color_gdk", GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_COLOR_RGBA:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "fill_color_rgba", GTK_VALUE_UINT (*arg),
 			       NULL);
 		break;
 
 	case ARG_FILL_STIPPLE:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "fill_stiple", GTK_VALUE_BOXED (*arg),
 			       NULL);
 		break;
 
 	case ARG_EDITABLE:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "editable", GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 
 	case ARG_USE_ELLIPSIS:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "use_ellipsis", GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 
 	case ARG_ELLIPSIS:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "ellipsis", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_LINE_WRAP:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "line_wrap", GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
 		
 	case ARG_BREAK_CHARACTERS:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "break_characters", GTK_VALUE_STRING (*arg),
 			       NULL);
 		break;
 
 	case ARG_MAX_LINES:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "max_lines", GTK_VALUE_INT (*arg),
 			       NULL);
 		break;
 
 	case ARG_ALLOW_NEWLINES:
-		gtk_object_set(GTK_OBJECT(ee->item),
+		gtk_object_set(item,
 			       "allow_newlines", GTK_VALUE_BOOL (*arg),
 			       NULL);
 		break;
+
+	case ARG_DRAW_BORDERS: {
+		gboolean draw_border;
+		gboolean need_queue;
+		
+		gtk_object_get (item, "draw_borders", &draw_border, NULL);
+
+		need_queue = (draw_border ^ GTK_VALUE_BOOL (*arg));
+		gtk_object_set (item, "draw_borders", GTK_VALUE_BOOL (*arg), NULL);
+		if (need_queue)
+			gtk_widget_queue_resize (GTK_WIDGET (ee));
+	}
 	}
 }
 
@@ -426,6 +457,8 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_MAX_LINES);
 	gtk_object_add_arg_type ("EEntry::allow_newlines",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
+	gtk_object_add_arg_type ("EEntry::draw_borders",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
 }
 
 E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);

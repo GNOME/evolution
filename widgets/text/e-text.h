@@ -70,6 +70,7 @@ BEGIN_GNOME_DECLS
  * break_characters     string                  RW              List of characters to optionally break on.
  * max_lines            int                     RW              Number of lines possible when doing line wrap.
  * draw_borders         boolean                 RW              Whether to draw borders.
+ * draw_background      boolean                 RW              Whether to draw the background.
  */
 
 #define E_TYPE_TEXT            (e_text_get_type ())
@@ -187,6 +188,7 @@ struct _EText {
 	guint pointer_in : 1;           /* Is the pointer currently over us? */
 	guint default_cursor_shown : 1; /* Is the default cursor currently shown? */
 	guint draw_borders : 1;         /* Draw borders? */
+	guint draw_background : 1;      /* Draw background? */
 
 	guint line_wrap : 1;            /* Do line wrap */
 	gchar *break_characters;        /* Characters to optionally break after */
