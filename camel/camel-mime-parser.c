@@ -620,7 +620,7 @@ retry:
 				register int len = (s->outend - s->outbuf);
 				char *outnew;
 				
-				if (headerlen >= len) {
+				if (headerlen >= s->outend - s->outptr) {
 					len = (len+headerlen)*2+1;
 					outnew = g_realloc(s->outbuf, len);
 					s->outptr = s->outptr - s->outbuf + outnew;
