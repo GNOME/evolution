@@ -1,5 +1,8 @@
 2000-04-25  Seth Alves  <alves@hungry.com>
 
+	* gui/e-day-view.c (e_day_view_find_event_from_ico): compare
+	iCalObjects by their UIDs instead of by their pointers.
+
 	* pcs/cal-backend.c (cal_backend_destroy): don't save on destroy.
 
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>

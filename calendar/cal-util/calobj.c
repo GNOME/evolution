@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Calendar objects implementations.
  * Copyright (C) 1998 the Free Software Foundation
@@ -1011,7 +1012,7 @@ ical_object_to_vobject (iCalObject *ical)
 		if (strchr (ical->summary, '\n'))
 			addProp (s, VCQuotedPrintableProp);
 	} else {
-		addPropValue (o, VCSummaryProp, _("Appointment"));
+		//addPropValue (o, VCSummaryProp, _("Snark"));
 	}
 
 	/* status */

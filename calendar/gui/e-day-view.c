@@ -1234,7 +1234,10 @@ e_day_view_find_event_from_ico (EDayView *day_view,
 		     event_num++) {
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-			if (event->ico == ico) {
+			//if (event->ico == ico) {
+			if (ico && ico->uid &&
+			    event && event->ico && event->ico->uid &&
+			    (strcmp (ico->uid, event->ico->uid) == 0)) {
 				*day_return = day;
 				*event_num_return = event_num;
 				return TRUE;
