@@ -86,6 +86,107 @@ mail_account_editor_finalise (GtkObject *obj)
 }
 
 static void
+apply_clicked (GtkWidget *widget, gpointer data)
+{
+	MailAccountEditor *editor = data;
+	const MailConfigAccount *account;
+	char *host, *pport;
+	CamelURL *url;
+	int port;
+	
+	account = editor->account;
+	
+	/* account name */
+	g_free (account->name);
+	account->name = g_strdup (gtk_entry_get_text (editor->account_name));
+	
+	/* identity info */
+	g_free (account->id->name);
+	account->id->name = g_strdup (gtk_entry_get_text (editor->name));
+	
+	g_free (account->id->address);
+	account->id->address = g_strdup (gtk_entry_get_text (editor->email));
+	
+	g_free (account->id->reply_to);
+	account->id->reply_to = g_strdup (gtk_entry_get_text (editor->reply_to));
+	
+	g_free (account->id->organization);
+	account->id->organization = g_strdup (gtk_entry_get_text (editor->organization));
+	
+	g_free (account->id->signature);
+	account->id->signature = gnome_file_entry_get_full_path (editor->signature, TRUE);
+	
+	/* source */
+	url = camel_url_new (account->source->url, NULL);
+	
+	g_free (url->user);
+	url->user = g_strdup (gtk_entry_get_text (editor->source_user));
+	
+	g_free (url->passwd);
+	url->passwd = g_strdup (gtk_entry_get_text (editor->source_passwd));
+	
+	g_free (url->authmech);
+	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (editor), "source_authmech"));
+	
+	g_free (url->host);
+        host = g_strdup (gtk_entry_get_text (editor->source_host));
+	if (host && (pport = strchr (host, ':'))) {
+		*pport = '\0';
+		port = atoi (pport + 1);
+	} else {
+		port = 0;
+	}
+	url->host = host;
+	url->port = port;
+	
+	g_free (account->source->url);
+	account->source->url = camel_url_to_string (url);
+	camel_url_free (url);
+	
+	account->source->save_passwd = GTK_TOGGLE_BUTTON (editor->save_passwd)->active;
+	account->source->keep_on_server = GTK_TOGGLE_BUTTON (editor->keep_on_server)->active;
+	
+	/* transport */
+	url = camel_url_new (account->transport->url, NULL);
+	
+	g_free (url->authmech);
+	url->authmech = g_strdup (gtk_object_get_data (GTK_OBJECT (editor), "transport_authmech"));
+	
+	g_free (url->host);
+        host = g_strdup (gtk_entry_get_text (editor->transport_host));
+	if (host && (pport = strchr (host, ':'))) {
+		*pport = '\0';
+		port = atoi (pport + 1);
+	} else {
+		port = 0;
+	}
+	url->host = host;
+	url->port = port;
+	
+	g_free (account->transport->url);
+	account->transport->url = camel_url_to_string (url);
+	camel_url_free (url);
+}
+
+static void
+ok_clicked (GtkWidget *widget, gpointer data)
+{
+	MailAccountEditor *editor = data;
+	
+	apply_clicked (widget, data);
+	
+	gtk_widget_destroy (GTK_WIDGET (editor));
+}
+
+static void
+cancel_clicked (GtkWidget *widget, gpointer data)
+{
+	MailAccountEditor *editor = data;
+	
+	gtk_widget_destroy (GTK_WIDGET (editor));
+}
+
+static void
 source_auth_type_changed (GtkWidget *widget, gpointer user_data)
 {
 	MailAccountEditor *editor = user_data;
@@ -116,7 +217,7 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 	gtk_option_menu_set_menu (editor->source_auth, menu);
 	
 	/* If we can't connect, don't let them continue. */
-	if (!check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
 		return;
 	}
 	
@@ -136,13 +237,71 @@ source_auth_init (MailAccountEditor *editor, CamelURL *url)
 			
 			gtk_menu_append (GTK_MENU (menu), item);
 			
-			if (!g_strcasecmp (authtype->authproto, url->authmech))
+			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))
 				authmech = item;
 		}
 		
 		if (authmech)
 			gtk_signal_emit_by_name (GTK_OBJECT (authmech), "activate", editor);
 	}
+}
+
+static void
+transport_auth_type_changed (GtkWidget *widget, gpointer user_data)
+{
+	MailAccountEditor *editor = user_data;
+	CamelServiceAuthType *authtype;
+	gboolean sensitive;
+	
+	authtype = gtk_object_get_data (GTK_OBJECT (widget), "authtype");
+	
+	gtk_object_set_data (GTK_OBJECT (editor), "transport_authmech", authtype->authproto);
+}
+
+static void
+transport_construct_authmenu (MailAccountEditor *editor, CamelURL *url)
+{
+	GtkWidget *first = NULL, *preferred = NULL;
+	GtkWidget *menu, *item;
+	CamelServiceAuthType *authtype;
+	GList *authtypes = NULL;
+	
+	menu = gtk_menu_new ();
+	gtk_option_menu_set_menu (editor->transport_auth, menu);
+	
+	/* If we can't connect, don't let them continue. */
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, &authtypes)) {
+		return;
+	}
+	
+	if (authtypes) {
+		GList *l;
+		
+		menu = gtk_menu_new ();
+		l = authtypes;
+		while (l) {
+			authtype = l->data;
+			
+			item = gtk_menu_item_new_with_label (authtype->name);
+			gtk_object_set_data (GTK_OBJECT (item), "authtype", authtype);
+			gtk_signal_connect (GTK_OBJECT (item), "activate",
+					    GTK_SIGNAL_FUNC (transport_auth_type_changed),
+					    editor);
+			
+			gtk_menu_append (GTK_MENU (menu), item);
+			
+			if (!first)
+				first = item;
+			
+			if (url->authmech && !g_strcasecmp (authtype->authproto, url->authmech))
+				preferred = item;
+		}
+	}
+	
+	if (preferred)
+		gtk_signal_emit_by_name (GTK_OBJECT (preferred), "activate", editor);
+	else if (first)
+		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", editor);
 }
 
 static void
@@ -161,12 +320,20 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_host), FALSE);
 	
 	/* auth */
-	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH)
+	if (provider->url_flags & CAMEL_URL_ALLOW_AUTH) {
+		CamelURL *url;
+		
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth_type), TRUE);
-	else
+		
+		/* regen the auth list */
+		url = g_new0 (CamelURL, 1);
+		url->protocol = g_strdup (provider->protocol);
+		url->host = g_strdup (gtk_entry_get_text (editor->transport_host));
+		transport_contstruct_authmenu (editor, url);
+		camel_url_free (url);
+	} else {
 		gtk_widget_set_sensitive (GTK_WIDGET (editor->transport_auth_type), FALSE);
-	
-	/* FIXME: regen the auth list */
+	}
 }
 
 static void
@@ -211,13 +378,6 @@ transport_type_init (MailAccountEditor *editor, CamelURL *url)
 }
 
 static void
-transport_auth_init (MailAccountEditor *editor, CamelURL *url)
-{
-	/* FIXME: look through the options and select the prefered authmech */
-	;
-}
-
-static void
 construct (MailAccountEditor *editor, const MailConfigAccount *account)
 {
 	GladeXML *gui;
@@ -237,6 +397,16 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	gnome_dialog_construct (GNOME_DIALOG (editor), _("Evolution Account Editor"),
 				GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_APPLY,
 				GNOME_STOCK_BUTTON_CANCEL);
+	
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 0 /* OK */,
+				     GTK_SIGNAL_FUNC (ok_clicked),
+				     editor);
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 1 /* APPLY */,
+				     GTK_SIGNAL_FUNC (apply_clicked),
+				     editor);
+	gnome_dialog_button_connect (GNOME_DIALOG (editor), 2 /* CANCEL */,
+				     GTK_SIGNAL_FUNC (cancel_clicked),
+				     editor);
 	
 	/* General */
 	editor->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
@@ -296,7 +466,6 @@ construct (MailAccountEditor *editor, const MailConfigAccount *account)
 	editor->transport_ssl = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkTransportSSL"));
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (editor->transport_ssl), account->transport->use_ssl);
 	transport_type_init (editor, url);
-	transport_auth_init (editor, url);
 	camel_url_free (url);
 	
 	editor->account = account;

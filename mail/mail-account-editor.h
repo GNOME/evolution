@@ -66,7 +66,6 @@ struct _MailAccountEditor {
 	GtkOptionMenu *transport_auth;
 	GtkCheckButton *transport_ssl;
 	
-	GtkSpinButton *auto_mail_check;
 	GtkCheckButton *keep_on_server;
 	
 	const CamelProvider *transport;

@@ -36,8 +36,6 @@ static void mail_config_druid_finalise   (GtkObject *obj);
 
 static void construct_auth_menu (MailConfigDruid *druid, GList *authtypes);
 
-static gboolean check_service (CamelURL *url, CamelProviderType type, GList **authtypes);
-
 static GtkWindowClass *parent_class;
 
 GtkType
@@ -324,7 +322,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url->path = mail_config_druid_get_incoming_path (config);
 	
 	/* If we can't connect, don't let them continue. */
-	if (!check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
 		camel_url_free (url);
 		return TRUE;
 	}
@@ -509,7 +507,7 @@ transport_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	url->host = mail_config_druid_get_outgoing_hostname (config);
 	
 	/* If we can't connect, don't let them continue. */
-	if (!check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
+	if (!mail_config_check_service (url, CAMEL_PROVIDER_TRANSPORT, NULL)) {
 		camel_url_free (url);
 		return TRUE;
 	}
@@ -734,71 +732,6 @@ construct (MailConfigDruid *druid)
 	set_defaults (druid);
 	
 	gnome_druid_set_buttons_sensitive (druid->druid, FALSE, TRUE, TRUE);
-}
-
-/* Async service-checking/authtype-lookup code. */
-
-typedef struct {
-	char *url;
-	CamelProviderType type;
-	GList **authtypes;
-	gboolean success;
-} check_service_input_t;
-
-static char *
-describe_check_service (gpointer in_data, gboolean gerund)
-{
-	if (gerund)
-		return g_strdup (_("Connecting to server"));
-	else
-		return g_strdup (_("Connect to server"));
-}
-
-static void
-do_check_service (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	check_service_input_t *input = in_data;
-	CamelService *service;
-	
-	if (input->authtypes) {
-		service = camel_session_get_service (
-			session, input->url, input->type, ex);
-		if (!service)
-			return;
-		*input->authtypes = camel_service_query_auth_types (service, ex);
-	} else {
-		service = camel_session_get_service_connected (
-			session, input->url, input->type, ex);
-	}
-	if (service)
-		camel_object_unref (CAMEL_OBJECT (service));
-	if (!camel_exception_is_set (ex))
-		input->success = TRUE;
-}
-
-static const mail_operation_spec op_check_service = {
-	describe_check_service,
-	0,
-	NULL,
-	do_check_service,
-	NULL
-};
-
-static gboolean
-check_service (CamelURL *url, CamelProviderType type, GList **authtypes)
-{
-	check_service_input_t input;
-	
-	input.url = camel_url_to_string (url, TRUE);
-	input.type = type;
-	input.authtypes = authtypes;
-	input.success = FALSE;
-	
-	mail_operation_queue (&op_check_service, &input, FALSE);
-	mail_operation_wait_for_finish ();
-	g_free (input.url);
-	
-	return input.success;
 }
 
 MailConfigDruid *

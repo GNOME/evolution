@@ -1,3 +1,21 @@
+2001-01-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-account-editor.c (apply_clicked): Implemented.
+	(ok_clicked): Implemented.
+	(cancel_clicked): Implemented.
+	(source_auth_type_changed): Implemented.
+	(source_auth_init): Implemented.
+	(transport_construct_authmenu): Implemented.
+	(transport_type_changed): Updated to change regenerate the auth
+	option menu.
+	(construct): Attached callbacks to OK, Apply and Cancel buttons.
+
+	* mail-account-editor.c (source_auth_init): Use the new
+	mail_config_check_service().
+
+	* mail-config-druid.c: Remove check_service() as it will be moved
+	into mail-config.
+
 2001-01-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c (message_list_select): Made it so that going to
