@@ -5,7 +5,7 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/widgets/shortcut-bar	\
 	$(EXTRA_GNOME_CFLAGS)			\
-	-DG_LOG_DOMAIN=\"e-title-bar\"
+	-DG_LOG_DOMAIN=__FILE__
 
 noinst_LIBRARIES =	\
 	libemiscwidgets.a
