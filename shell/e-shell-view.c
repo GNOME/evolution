@@ -230,7 +230,7 @@ create_label_for_empty_page (void)
 {
 	GtkWidget *label;
 
-	label = e_clipped_label_new (_("(No folder displayed)"));
+	label = e_clipped_label_new (_("(No folder displayed)"), PANGO_WEIGHT_NORMAL, 1.0);
 	gtk_widget_show (label);
 
 	return label;

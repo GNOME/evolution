@@ -556,18 +556,18 @@ e_shell_folder_title_bar_construct (EShellFolderTitleBar *folder_title_bar)
 	gtk_misc_set_padding (GTK_MISC (priv->title_icon), 2, 0);
 	gtk_widget_show (priv->title_icon);
 
-	priv->title_label = e_clipped_label_new ("");
+	priv->title_label = e_clipped_label_new ("", PANGO_WEIGHT_BOLD, 1.2);
 	gtk_misc_set_padding (GTK_MISC (priv->title_label), 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->title_label), 0.0, 0.5);
 	set_title_bar_label_style (priv->title_label);
 
-	priv->title_button_label = e_clipped_label_new ("");
+	priv->title_button_label = e_clipped_label_new ("", PANGO_WEIGHT_BOLD, 1.2);
 	gtk_misc_set_padding (GTK_MISC (priv->title_button_label), 2, 0);
 	gtk_misc_set_alignment (GTK_MISC (priv->title_button_label), 0.0, 0.5);
 	gtk_widget_show (priv->title_button_label);
 	set_title_bar_label_style (priv->title_button_label);
 
-	priv->folder_bar_label = e_clipped_label_new ("");
+	priv->folder_bar_label = e_clipped_label_new ("", PANGO_WEIGHT_NORMAL, 1.0);
 	gtk_misc_set_alignment (GTK_MISC (priv->folder_bar_label), 1.0, 0.5);
 	gtk_widget_show (priv->folder_bar_label);
 	set_title_bar_label_style (priv->folder_bar_label);

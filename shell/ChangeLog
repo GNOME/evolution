@@ -1,3 +1,12 @@
+2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (create_label_for_empty_page): Update for new
+	args to e_clipped_label_new().
+
+	* e-shell-folder-title-bar.c (e_shell_folder_title_bar_construct):
+	Make the title label bold and larger using the new args to
+	e_clipped_label_new().
+
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Port fix for #34129 from evolution-1-2-branch, unread count in
