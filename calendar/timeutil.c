@@ -1,5 +1,13 @@
-#include <glib.h>
-#include <time.h>
+/* Miscellaneous time-related utilities
+ *
+ * Copyright (C) 1998 The Free Software Foundation
+ *
+ * Authors: Federico Mena <federico@nuclecu.unam.mx>
+ *          Miguel de Icaza <miguel@nuclecu.unam.mx>
+ */
+
+#include <libgnome/libgnome.h>
+#include "timeutil.h"
 
 #define digit_at(x,y) (x [y] - '0')
 	
@@ -26,4 +34,24 @@ time_from_start_duration (time_t start, char *duration)
 {
 	printf ("Not yet implemented\n");
 	return 0;
+}
+
+char *
+format_simple_hour (int hour, int use_am_pm)
+{
+	char buf[256];
+
+	/* I don't know whether this is the best way to internationalize it.
+	 * Does any language use different conventions? - Federico
+	 */
+
+	if (use_am_pm)
+		sprintf (buf, "%d%s",
+			 (hour == 0) ? 12 : (hour > 12) ? (hour - 12) : hour,
+			 (hour < 12) ? _("am") : _("pm"));
+	else
+		sprintf (buf, "%02d%s", hour, _("h"));
+
+	return buf;
+
 }
