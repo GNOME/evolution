@@ -44,6 +44,7 @@ typedef struct {
 
 	int              selection_change_id;
 	int              cursor_change_id;
+	int              cursor_activated_id;
 	
 	GdkGC           *fill_gc;
 	GdkGC           *grid_gc;
@@ -99,6 +100,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	void        (*cursor_change) (ETableItem *eti, int row);
+	void        (*cursor_activated) (ETableItem *eti, int row);
 	void        (*double_click)  (ETableItem *eti, int row);
 	gint        (*right_click)   (ETableItem *eti, int row, int col, GdkEvent *event);
 	gint        (*click)   (ETableItem *eti, int row, int col, GdkEvent *event);

@@ -31,6 +31,7 @@ static void etsm_select_single_row (ETableSelectionModel *selection, int row);
 
 enum {
 	CURSOR_CHANGED,
+	CURSOR_ACTIVATED,
 	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
@@ -290,6 +291,14 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
+	e_table_selection_model_signals [CURSOR_ACTIVATED] =
+		gtk_signal_new ("cursor_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableSelectionModelClass, cursor_activated),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
 	e_table_selection_model_signals [SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
 				GTK_RUN_LAST,
@@ -298,7 +307,8 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	klass->cursor_changed = NULL;
+	klass->cursor_changed    = NULL;
+	klass->cursor_activated  = NULL;
 	klass->selection_changed = NULL;
 
 	gtk_object_class_add_signals (object_class, e_table_selection_model_signals, LAST_SIGNAL);
@@ -545,6 +555,8 @@ e_table_selection_model_do_something (ETableSelectionModel *selection,
 			selection->cursor_col = col;
 			gtk_signal_emit(GTK_OBJECT(selection),
 					e_table_selection_model_signals[CURSOR_CHANGED], row, col);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], row, col);
 		}
 	}
 }
@@ -583,6 +595,7 @@ move_selection (ETableSelectionModel *selection,
 {
 	int row = selection->cursor_row;
 	int col = selection->cursor_col;
+	int cursor_activated = TRUE;
 
 	gint shift_p = state & GDK_SHIFT_MASK;
 	gint ctrl_p = state & GDK_CONTROL_MASK;
@@ -602,7 +615,8 @@ move_selection (ETableSelectionModel *selection,
 			etsm_set_selection_end (selection, row);
 		} else if (!ctrl_p) {
 			etsm_select_single_row (selection, row);
-		}
+		} else
+			cursor_activated = FALSE;
 		break;
 	case GTK_SELECTION_SINGLE:
 	case GTK_SELECTION_MULTIPLE:
@@ -614,6 +628,9 @@ move_selection (ETableSelectionModel *selection,
 		selection->cursor_row = row;
 		gtk_signal_emit(GTK_OBJECT(selection),
 				e_table_selection_model_signals[CURSOR_CHANGED], row, col);
+		if (cursor_activated)
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], row, col);
 	}
 	return TRUE;
 }
@@ -640,8 +657,20 @@ e_table_selection_model_key_press      (ETableSelectionModel *selection,
 		return move_selection(selection, FALSE, key->state);
 		break;
 	case GDK_space:
+	case GDK_KP_Space:
 		if (selection->mode != GTK_SELECTION_SINGLE) {
 			etsm_toggle_single_row (selection, selection->cursor_row);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], selection->cursor_row, selection->cursor_col);
+			return TRUE;
+		}
+		break;
+	case GDK_Return:
+	case GDK_KP_Enter:
+		if (selection->mode != GTK_SELECTION_SINGLE) {
+			etsm_select_single_row (selection, selection->cursor_row);
+			gtk_signal_emit(GTK_OBJECT(selection),
+					e_table_selection_model_signals[CURSOR_ACTIVATED], selection->cursor_row, selection->cursor_col);
 			return TRUE;
 		}
 		break;

@@ -65,6 +65,19 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
+/** 
+ * e_table_group_leaf_new
+ * @parent: The %GnomeCanvasGroup to create a child of.
+ * @full_header: The full header of the %ETable.
+ * @header: The current header of the %ETable.
+ * @model: The %ETableModel of the %ETable.
+ * @sort_info: The %ETableSortInfo of the %ETable.
+ *
+ * %ETableGroupLeaf is an %ETableGroup which simply contains an
+ * %ETableItem.
+ *
+ * Returns: The new %ETableGroupLeaf.
+ */
 ETableGroup *
 e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 			      ETableHeader     *full_header,
@@ -88,6 +101,13 @@ etgl_cursor_change (GtkObject *object, gint row, ETableGroupLeaf *etgl)
 {
 	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
 		e_table_group_cursor_change (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
+}
+
+static void
+etgl_cursor_activated (GtkObject *object, gint row, ETableGroupLeaf *etgl)
+{
+	if (row < E_TABLE_SUBSET(etgl->subset)->n_map)
+		e_table_group_cursor_activated (E_TABLE_GROUP(etgl), E_TABLE_SUBSET(etgl->subset)->map_table[row]);
 }
 
 static void
@@ -159,6 +179,8 @@ etgl_realize (GnomeCanvasItem *item)
 	
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_change",
 			    GTK_SIGNAL_FUNC(etgl_cursor_change), etgl);
+	gtk_signal_connect (GTK_OBJECT(etgl->item), "cursor_activated",
+			    GTK_SIGNAL_FUNC(etgl_cursor_activated), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "double_click",
 			    GTK_SIGNAL_FUNC(etgl_double_click), etgl);
 	gtk_signal_connect (GTK_OBJECT(etgl->item), "right_click",

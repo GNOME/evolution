@@ -109,6 +109,18 @@ etgc_destroy (GtkObject *object)
 	GTK_OBJECT_CLASS (etgc_parent_class)->destroy (object);
 }
 
+/** 
+ * e_table_group_container_construct
+ * @parent: The %GnomeCanvasGroup to create a child of.
+ * @etgc: The %ETableGroupContainer.
+ * @full_header: The full header of the %ETable.
+ * @header: The current header of the %ETable.
+ * @model: The %ETableModel of the %ETable.
+ * @sort_info: The %ETableSortInfo of the %ETable.
+ * @n: Which grouping level this is (Starts at 0 and sends n + 1 to any child %ETableGroups.
+ *
+ * This routine constructs the new %ETableGroupContainer.
+ */
 void
 e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContainer *etgc,
 				   ETableHeader *full_header,
@@ -140,6 +152,21 @@ e_table_group_container_construct (GnomeCanvasGroup *parent, ETableGroupContaine
 	etgc->open = TRUE;
 }
 
+/** 
+ * e_table_group_container_new
+ * @parent: The %GnomeCanvasGroup to create a child of.
+ * @full_header: The full header of the %ETable.
+ * @header: The current header of the %ETable.
+ * @model: The %ETableModel of the %ETable.
+ * @sort_info: The %ETableSortInfo of the %ETable.
+ * @n: Which grouping level this is (Starts at 0 and sends n + 1 to any child %ETableGroups.
+ *
+ * %ETableGroupContainer is an %ETableGroup which groups by the nth
+ * grouping of the %ETableSortInfo.  It creates %ETableGroups as
+ * children.
+ *
+ * Returns: The new %ETableGroupContainer.
+ */
 ETableGroup *
 e_table_group_container_new (GnomeCanvasGroup *parent, ETableHeader *full_header,
 			     ETableHeader     *header,
@@ -326,6 +353,13 @@ child_cursor_change (ETableGroup *etg, int row,
 }
 
 static void
+child_cursor_activated (ETableGroup *etg, int row,
+		    ETableGroupContainer *etgc)
+{
+	e_table_group_cursor_activated (E_TABLE_GROUP (etgc), row);
+}
+
+static void
 child_double_click (ETableGroup *etg, int row, int col, GdkEvent *event,
 		    ETableGroupContainer *etgc)
 {
@@ -406,6 +440,8 @@ etgc_add (ETableGroup *etg, gint row)
 
 	gtk_signal_connect (GTK_OBJECT (child), "cursor_change",
 			    GTK_SIGNAL_FUNC (child_cursor_change), etgc);
+	gtk_signal_connect (GTK_OBJECT (child), "cursor_activated",
+			    GTK_SIGNAL_FUNC (child_cursor_activated), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "double_click",
 			    GTK_SIGNAL_FUNC (child_double_click), etgc);
 	gtk_signal_connect (GTK_OBJECT (child), "right_click",

@@ -44,6 +44,7 @@ typedef struct {
 	 */
 
 	void         (*cursor_changed)    (ETableSelectionModel *selection, int row, int col);
+	void         (*cursor_activated)  (ETableSelectionModel *selection, int row, int col);
 	void         (*selection_changed) (ETableSelectionModel *selection);
 
 } ETableSelectionModelClass;

@@ -43,6 +43,7 @@ static GtkObjectClass *e_table_parent_class;
 
 enum {
 	CURSOR_CHANGE,
+	CURSOR_ACTIVATED,
 	SELECTION_CHANGE,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
@@ -338,6 +339,14 @@ group_cursor_change (ETableGroup *etg, int row, ETable *et)
 }
 
 static void
+group_cursor_activated (ETableGroup *etg, int row, ETable *et)
+{
+	gtk_signal_emit (GTK_OBJECT (et),
+			 et_signals [CURSOR_ACTIVATED],
+			 row);
+}
+
+static void
 group_double_click (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
@@ -441,6 +450,8 @@ changed_idle (gpointer data)
 				      NULL);
 		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_change",
 				    GTK_SIGNAL_FUNC (group_cursor_change), et);
+		gtk_signal_connect (GTK_OBJECT (et->group), "cursor_activated",
+				    GTK_SIGNAL_FUNC (group_cursor_activated), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "double_click",
 				    GTK_SIGNAL_FUNC (group_double_click), et);
 		gtk_signal_connect (GTK_OBJECT (et->group), "right_click",
@@ -618,6 +629,8 @@ e_table_setup_table (ETable *e_table, ETableHeader *full_header, ETableHeader *h
 	
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_change",
 			    GTK_SIGNAL_FUNC(group_cursor_change), e_table);
+	gtk_signal_connect (GTK_OBJECT (e_table->group), "cursor_activated",
+			    GTK_SIGNAL_FUNC(group_cursor_activated), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "double_click",
 			    GTK_SIGNAL_FUNC(group_double_click), e_table);
 	gtk_signal_connect (GTK_OBJECT (e_table->group), "right_click",
@@ -1722,6 +1735,8 @@ e_table_compute_location (ETable *table, GtkWidget *widget,
 {
 	if (!(row || col))
 		return;
+	x += GTK_LAYOUT(table->table_canvas)->hadjustment->value;
+	y += GTK_LAYOUT(table->table_canvas)->vadjustment->value;
 	e_table_group_compute_location(table->group, &x, &y, row, col);
 }
 
@@ -2005,6 +2020,7 @@ e_table_class_init (GtkObjectClass *object_class)
 	object_class->get_arg           = et_get_arg;
 
 	klass->cursor_change            = NULL;
+	klass->cursor_activated            = NULL;
 	klass->selection_change         = NULL;
 	klass->double_click             = NULL;
 	klass->right_click              = NULL;
@@ -2026,6 +2042,14 @@ e_table_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableClass, cursor_change),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	et_signals [CURSOR_ACTIVATED] =
+		gtk_signal_new ("cursor_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableClass, cursor_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 

@@ -101,6 +101,7 @@ typedef struct {
 	GtkTableClass parent_class;
 
 	void        (*cursor_change)      (ETable *et, int row);
+	void        (*cursor_activated)   (ETable *et, int row);
 	void        (*selection_change)   (ETable *et);
 	void        (*double_click)       (ETable *et, int row, int col, GdkEvent *event);
 	gint        (*right_click)        (ETable *et, int row, int col, GdkEvent *event);

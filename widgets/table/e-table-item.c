@@ -31,6 +31,7 @@ static GnomeCanvasItemClass *eti_parent_class;
 
 enum {
 	CURSOR_CHANGE,
+	CURSOR_ACTIVATED,
 	DOUBLE_CLICK,
 	RIGHT_CLICK,
 	CLICK,
@@ -61,6 +62,7 @@ static int eti_get_minimum_width (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
 static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state);
 static void eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti);
+static void eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_selection_change (ETableSelectionModel *selection, ETableItem *eti);
 #if 0
 static void eti_request_region_show (ETableItem *eti,
@@ -345,10 +347,12 @@ eti_remove_table_selection_model (ETableItem *eti)
 			       eti->selection_change_id);
 	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
 			       eti->cursor_change_id);
+	gtk_signal_disconnect (GTK_OBJECT (eti->selection),
+			       eti->cursor_activated_id);
 	gtk_object_unref (GTK_OBJECT (eti->selection));
 
 	eti->selection_change_id = 0;
-	eti->cursor_change_id = 0;
+	eti->cursor_activated_id = 0;
 	eti->selection = NULL;
 }
 
@@ -827,6 +831,10 @@ eti_add_table_selection_model (ETableItem *eti, ETableSelectionModel *selection)
 		GTK_OBJECT (selection), "cursor_changed",
 		GTK_SIGNAL_FUNC (eti_cursor_change), eti);
 
+	eti->cursor_activated_id = gtk_signal_connect (
+		GTK_OBJECT (selection), "cursor_activated",
+		GTK_SIGNAL_FUNC (eti_cursor_activated), eti);
+
 	eti_selection_change(selection, eti);
 }
 
@@ -1048,6 +1056,7 @@ eti_init (GnomeCanvasItem *item)
 
 	eti->selection_change_id       = 0;
 	eti->cursor_change_id          = 0;
+	eti->cursor_activated_id          = 0;
 	eti->selection                 = NULL;
 
 	eti->needs_redraw              = 0;
@@ -1966,32 +1975,33 @@ static void
 eti_class_init (GtkObjectClass *object_class)
 {
 	GnomeCanvasItemClass *item_class = (GnomeCanvasItemClass *) object_class;
-	ETableItemClass *eti_class = (ETableItemClass *) object_class;
+	ETableItemClass *eti_class  = (ETableItemClass *) object_class;
 	
-	eti_parent_class = gtk_type_class (PARENT_OBJECT_TYPE);
+	eti_parent_class            = gtk_type_class (PARENT_OBJECT_TYPE);
 	
-	object_class->destroy = eti_destroy;
-	object_class->set_arg = eti_set_arg;
-	object_class->get_arg = eti_get_arg;
+	object_class->destroy       = eti_destroy;
+	object_class->set_arg       = eti_set_arg;
+	object_class->get_arg       = eti_get_arg;
 
-	item_class->update      = eti_update;
-	item_class->realize     = eti_realize;
-	item_class->unrealize   = eti_unrealize;
-	item_class->draw        = eti_draw;
-	item_class->point       = eti_point;
-	item_class->event       = eti_event;
+	item_class->update          = eti_update;
+	item_class->realize         = eti_realize;
+	item_class->unrealize       = eti_unrealize;
+	item_class->draw            = eti_draw;
+	item_class->point           = eti_point;
+	item_class->event           = eti_event;
 	
-	eti_class->cursor_change = NULL;
-	eti_class->double_click  = NULL;
-	eti_class->right_click   = NULL;
-	eti_class->click         = NULL;
-	eti_class->key_press     = NULL;
+	eti_class->cursor_change    = NULL;
+	eti_class->cursor_activated = NULL;
+	eti_class->double_click     = NULL;
+	eti_class->right_click      = NULL;
+	eti_class->click            = NULL;
+	eti_class->key_press        = NULL;
 
-	gtk_object_add_arg_type ("ETableItem::ETableHeader", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableItem::ETableHeader", E_TABLE_HEADER_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_HEADER);
-	gtk_object_add_arg_type ("ETableItem::ETableModel", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableItem::ETableModel", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_MODEL);
-	gtk_object_add_arg_type ("ETableItem::table_selection_model", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableItem::table_selection_model", E_TABLE_SELECTION_MODEL_TYPE,
 				 GTK_ARG_WRITABLE, ARG_TABLE_SELECTION_MODEL);
 	gtk_object_add_arg_type ("ETableItem::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);
@@ -2016,6 +2026,14 @@ eti_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (ETableItemClass, cursor_change),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+
+	eti_signals [CURSOR_ACTIVATED] =
+		gtk_signal_new ("cursor_activated",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETableItemClass, cursor_activated),
 				gtk_marshal_NONE__INT,
 				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 
@@ -2158,6 +2176,23 @@ eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem
 }
 
 static void
+eti_cursor_activated (ETableSelectionModel *selection, int row, int col, ETableItem *eti)
+{
+	int view_row = model_to_view_row(eti, row);
+	int view_col = model_to_view_col(eti, col);
+
+	if (view_row == -1 || view_col == -1) {
+		e_table_item_leave_edit (eti);
+		return;
+	}
+
+	if (eti_editing(eti))
+		e_table_item_leave_edit (eti);
+	gtk_signal_emit (GTK_OBJECT (eti), eti_signals [CURSOR_ACTIVATED],
+			 view_row);
+}
+
+static void
 eti_selection_change (ETableSelectionModel *selection, ETableItem *eti)
 {
 	eti->needs_redraw = TRUE;
@@ -2221,7 +2256,7 @@ e_table_item_leave_edit (ETableItem *eti)
 }
 
 /** 
- * e_table_item_enter_edit
+ * e_table_item_compute_location
  * @eti: %ETableItem to look in.
  * @x: A pointer to the x location to find in the %ETableItem.
  * @y: A pointer to the y location to find in the %ETableItem.

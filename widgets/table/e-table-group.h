@@ -46,6 +46,7 @@ typedef struct {
 
 	/* Signals */
 	void        (*cursor_change)         (ETableGroup *etg, int row);
+	void        (*cursor_activated)      (ETableGroup *etg, int row);
 	void        (*double_click)          (ETableGroup *etg, int row, int col, GdkEvent *event);
 	gint        (*right_click)           (ETableGroup *etg, int row, int col, GdkEvent *event);
 	gint        (*click)                 (ETableGroup *etg, int row, int col, GdkEvent *event);
@@ -55,83 +56,81 @@ typedef struct {
 	void        (*add)                   (ETableGroup *etg, gint row);
 	void        (*add_all)               (ETableGroup *etg);
 	gboolean    (*remove)                (ETableGroup *etg, gint row);
-	gint        (*get_count)             (ETableGroup *etg);
 	gint        (*row_count)             (ETableGroup *etg);
 	void        (*increment)             (ETableGroup *etg, gint position, gint amount);
 	void        (*decrement)             (ETableGroup *etg, gint position, gint amount);
 	void        (*set_focus)             (ETableGroup *etg, EFocus direction, gint view_col);
 	gboolean    (*get_focus)             (ETableGroup *etg);
 	gint        (*get_focus_column)      (ETableGroup *etg);
-	ETableCol  *(*get_ecol)              (ETableGroup *etg);
 	EPrintable *(*get_printable)         (ETableGroup *etg);
 	void        (*compute_location)      (ETableGroup *etg, int *x, int *y, int *row, int *col);
 
 } ETableGroupClass;
 
 /* Virtual functions */
-void             e_table_group_add         	     (ETableGroup      *etg,
-					   	      gint              row);
-void             e_table_group_add_all     	     (ETableGroup      *etg);
-gboolean         e_table_group_remove      	     (ETableGroup      *etg,
-					   	      gint              row);
-gint             e_table_group_get_count   	     (ETableGroup      *etg);
-void             e_table_group_increment   	     (ETableGroup      *etg,
-					   	      gint              position,
-					   	      gint              amount);
-void             e_table_group_decrement   	     (ETableGroup      *etg,
-					   	      gint              position,
-					   	      gint              amount);
-gint             e_table_group_row_count   	     (ETableGroup      *etg);
-void             e_table_group_set_focus   	     (ETableGroup      *etg,
-					   	      EFocus            direction,
-					   	      gint              view_col);
-gboolean         e_table_group_get_focus   	     (ETableGroup      *etg);
-gint             e_table_group_get_focus_column      (ETableGroup      *etg);
-ETableHeader    *e_table_group_get_header            (ETableGroup     *etg);
-ETableCol       *e_table_group_get_ecol              (ETableGroup      *etg);
-EPrintable      *e_table_group_get_printable         (ETableGroup      *etg);
-void             e_table_group_compute_location      (ETableGroup      *etg,
-						      int *x,
-						      int *y,
-						      int *row,
-						      int *col);
+void          e_table_group_add               (ETableGroup       *etg,
+					       gint               row);
+void          e_table_group_add_all           (ETableGroup       *etg);
+gboolean      e_table_group_remove            (ETableGroup       *etg,
+					       gint               row);
+void          e_table_group_increment         (ETableGroup       *etg,
+					       gint               position,
+					       gint               amount);
+void          e_table_group_decrement         (ETableGroup       *etg,
+					       gint               position,
+					       gint               amount);
+gint          e_table_group_row_count         (ETableGroup       *etg);
+void          e_table_group_set_focus         (ETableGroup       *etg,
+					       EFocus             direction,
+					       gint               view_col);
+gboolean      e_table_group_get_focus         (ETableGroup       *etg);
+gint          e_table_group_get_focus_column  (ETableGroup       *etg);
+ETableHeader *e_table_group_get_header        (ETableGroup       *etg);
+EPrintable   *e_table_group_get_printable     (ETableGroup       *etg);
+void          e_table_group_compute_location  (ETableGroup       *etg,
+					       int               *x,
+					       int               *y,
+					       int               *row,
+					       int               *col);
 
-ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
-					  ETableHeader     *full_header,
-					  ETableHeader     *header,
-					  ETableModel      *model,
-					  ETableSortInfo   *sort_info,
-					  int               n);
-void             e_table_group_construct (GnomeCanvasGroup *parent,
-					  ETableGroup      *etg,
-					  ETableHeader     *full_header,
-					  ETableHeader     *header,
-					  ETableModel      *model);
+ETableGroup  *e_table_group_new               (GnomeCanvasGroup  *parent,
+					       ETableHeader      *full_header,
+					       ETableHeader      *header,
+					       ETableModel       *model,
+					       ETableSortInfo    *sort_info,
+					       int                n);
+void          e_table_group_construct         (GnomeCanvasGroup  *parent,
+					       ETableGroup       *etg,
+					       ETableHeader      *full_header,
+					       ETableHeader      *header,
+					       ETableModel       *model);
 
 /* For emitting the signals */
-void             e_table_group_cursor_change (ETableGroup      *etg,
-					      gint              row);
-void             e_table_group_double_click  (ETableGroup      *etg,
-					      gint              row,
-					      gint              col,
-					      GdkEvent         *event);
-gint             e_table_group_right_click   (ETableGroup      *etg,
-					      gint              row,
-					      gint              col,
-					      GdkEvent         *event);
-gint             e_table_group_click         (ETableGroup      *etg,
-					      gint              row,
-					      gint              col,
-					      GdkEvent         *event);
-gint             e_table_group_key_press     (ETableGroup      *etg,
-					      gint              row,
-					      gint              col,
-					      GdkEvent         *event);
-
-GtkType          e_table_group_get_type  (void);
+void          e_table_group_cursor_change     (ETableGroup       *etg,
+					       gint               row);
+void          e_table_group_cursor_activated  (ETableGroup       *etg,
+					       gint               row);
+void          e_table_group_double_click      (ETableGroup       *etg,
+					       gint               row,
+					       gint               col,
+					       GdkEvent          *event);
+gint          e_table_group_right_click       (ETableGroup       *etg,
+					       gint               row,
+					       gint               col,
+					       GdkEvent          *event);
+gint          e_table_group_click             (ETableGroup       *etg,
+					       gint               row,
+					       gint               col,
+					       GdkEvent          *event);
+gint          e_table_group_key_press         (ETableGroup       *etg,
+					       gint               row,
+					       gint               col,
+					       GdkEvent          *event);
+GtkType       e_table_group_get_type          (void);
 
 typedef void (*ETableGroupLeafFn) (void *e_table_item, void *closure);
-void         e_table_group_apply_to_leafs (ETableGroup *etg,
-					   ETableGroupLeafFn fn, void *closure);
+void          e_table_group_apply_to_leafs    (ETableGroup       *etg,
+					       ETableGroupLeafFn  fn,
+					       void              *closure);
 
 #endif /* _E_TABLE_GROUP_H_ */
