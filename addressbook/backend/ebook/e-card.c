@@ -477,6 +477,8 @@ e_card_get_vobject (const ECard *card, gboolean assumeUTF8)
 	
 	vobj = newVObject (VCCardProp);
 
+	ADD_PROP_VALUE(vobj, VCVersionProp, "2.1");
+
 	if (card->file_as && *card->file_as)
 		ADD_PROP_VALUE(vobj, "X-EVOLUTION-FILE-AS", card->file_as);
 	else if (card->file_as)

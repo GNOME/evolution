@@ -1,5 +1,11 @@
 2002-09-30  Chris Toshok  <toshok@ximian.com>
 
+	[ Fixes #31321 ]
+	* backend/ebook/e-card.c (e_card_get_vobject): add VERSION:2.1 to
+	exported vCards.
+
+2002-09-30  Chris Toshok  <toshok@ximian.com>
+
 	[ Fixes #31434 ]
 	* backend/pas/pas-backend-file.c (do_summary_query): always
 	retrieve the card from the db.  use the summary strictly for
