@@ -234,6 +234,7 @@ void     e_text_stop_editing    (EText *text);
 
 void     e_text_delete_selection (EText *text);
 void     e_text_cut_clipboard    (EText *text);
+void     e_text_copy_clipboard   (EText *text);
 void     e_text_paste_clipboard  (EText *text);
 void     e_text_select_all       (EText *text);
 
