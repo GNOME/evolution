@@ -1,5 +1,6 @@
 2001-10-07  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* C/usage-mail-org.sgml: Add a missing </orderedlist>
 	* C/apx-authors.sgml: Fix my name.
 	
 2001-10-05  Aaron Weber  <aaron@ximian.com>
