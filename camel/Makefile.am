@@ -53,6 +53,7 @@ libcamel_la_SOURCES = 				\
 	camel-sasl.c				\
 	camel-sasl-anonymous.c			\
 	camel-sasl-cram-md5.c			\
+	camel-sasl-digest-md5.c			\
 	camel-sasl-kerberos4.c			\
 	camel-sasl-plain.c			\
 	camel-search-private.c			\
@@ -117,6 +118,7 @@ libcamelinclude_HEADERS =			\
 	camel-sasl.h				\
 	camel-sasl-anonymous.h			\
 	camel-sasl-cram-md5.h			\
+	camel-sasl-digest-md5.h			\
 	camel-sasl-kerberos4.h			\
 	camel-sasl-plain.h			\
 	camel-seekable-stream.h			\
