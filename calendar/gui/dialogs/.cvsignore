@@ -1,4 +1,5 @@
 .deps
+.pure
 Makefile
 Makefile.in
 Evolution-Addressbook-SelectNames.h

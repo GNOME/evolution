@@ -1,7 +1,8 @@
 .deps
+.libs
+.pure
 Makefile
 Makefile.in
-.libs
 vcc.c
 vcc.lo
 vobject.lo
