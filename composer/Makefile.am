@@ -14,7 +14,7 @@ selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 
 $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		-I $(selectnamesdir) -I . Composer.idl
+		-I $(selectnamesdir) -I . $(srcdir)/Composer.idl
 
 ##
 

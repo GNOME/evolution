@@ -7,7 +7,9 @@ INCLUDES = \
 	-I$(top_builddir)/shell					\
 	-I$(top_srcdir)/shell					\
 	-I$(top_builddir)/executive-summary			\
-	-I$(top_srcdir)/executive-summary/			\
+	-I$(top_srcdir)/executive-summary			\
+	-I$(top_builddir)/executive-summary/evolution-services  \
+	-I$(top_srcdir)/executive-summary/evolution-services    \
 	$(EXTRA_GNOME_CFLAGS)					\
 	$(GNOME_VFS_CFLAGS)					\
 	$(UNICODE_CFLAGS)					\

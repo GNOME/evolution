@@ -1,3 +1,9 @@
+2000-10-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component/Makefile.am (INCLUDES): Add
+	`-I$(top_builddir)/executive-summary/evolution-services' and
+	`-I$(top_srcdir)/executive-summary/evolution-services'.
+
 2000-10-25  Iain Holmes  <iain@helixcode.com>
 
 	* component/e-summary-url.c (e_summary_url_exec): Execute a program

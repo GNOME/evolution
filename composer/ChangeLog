@@ -1,3 +1,8 @@
+2000-10-27  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am ($(IDL_GENERATED)): Get `Composer.idl' from
+	`$(srcdir)' so that it builds with builddir != srcdir.
+
 2000-10-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Fixed my
