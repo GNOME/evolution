@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-22 18:18+0200\n"
-"PO-Revision-Date: 2001-10-22 18:25+0200\n"
+"POT-Creation-Date: 2001-10-24 19:21+0200\n"
+"PO-Revision-Date: 2001-10-24 19:39+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3150,29 +3150,6 @@ msgstr "Trwaj±ce"
 msgid "Completed"
 msgstr "Zakoñczone"
 
-#. strftime format of a weekday, a date and a time, 24-hour.
-#: calendar/gui/calendar-model.c:1 e-util/e-time-utils.c:1
-#: e-util/e-time-utils.c:1
-msgid "%a %m/%d/%Y %H:%M:%S"
-msgstr "%a %d/%m/%Y %H:%M:%S"
-
-#. strftime format of a weekday, a date and a time, 12-hour.
-#: calendar/gui/calendar-model.c:1 e-util/e-time-utils.c:1
-#: e-util/e-time-utils.c:1
-msgid "%a %m/%d/%Y %I:%M:%S %p"
-msgstr "%a %d/%m/%Y %H:%M:%S"
-
-#: calendar/gui/calendar-model.c:1
-#, c-format
-msgid ""
-"The date must be entered in the format: \n"
-"\n"
-"%s"
-msgstr ""
-"Data musi byæ podana w formacie: \n"
-"\n"
-"%s"
-
 #: calendar/gui/calendar-model.c:1
 msgid ""
 "The geographical position must be entered in the format: \n"
@@ -3182,10 +3159,6 @@ msgstr ""
 "Po³o¿enie geograficzne musi byæ podane w formacie: \n"
 "\n"
 "45.436845,125.862501"
-
-#: calendar/gui/calendar-model.c:1
-msgid "The percent value must be between 0 and 100, inclusive"
-msgstr "Warto¶æ procentowa musi siê zawieraæ w przedziale od 0 do 100 w³±cznie"
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1 calendar/gui/dialogs/meeting-page.c:1
@@ -4330,6 +4303,29 @@ msgstr "_Usuñ zaznaczone zadania"
 #: calendar/gui/e-calendar-table.etspec.h:1
 msgid "Click to add a task"
 msgstr "Kliknij, aby dodaæ zadanie"
+
+#. strftime format of a weekday, a date and a time, 24-hour.
+#: calendar/gui/e-cell-date-edit-text.c:1 e-util/e-time-utils.c:1
+#: e-util/e-time-utils.c:1
+msgid "%a %m/%d/%Y %H:%M:%S"
+msgstr "%a %d/%m/%Y %H:%M:%S"
+
+#. strftime format of a weekday, a date and a time, 12-hour.
+#: calendar/gui/e-cell-date-edit-text.c:1 e-util/e-time-utils.c:1
+#: e-util/e-time-utils.c:1
+msgid "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%a %d/%m/%Y %H:%M:%S"
+
+#: calendar/gui/e-cell-date-edit-text.c:1
+#, c-format
+msgid ""
+"The date must be entered in the format: \n"
+"\n"
+"%s"
+msgstr ""
+"Data musi byæ podana w formacie: \n"
+"\n"
+"%s"
 
 #: calendar/gui/e-calendar-table.etspec.h:1
 msgid "Alarms"
@@ -6206,7 +6202,7 @@ msgstr "Nie mo¿na otworzyæ katalogu cache: %s"
 msgid "Failed to cache message %s: %s"
 msgstr "Nie mo¿na zapisaæ listu %s w cache: %s"
 
-#: camel/providers/imap/camel-imap-provider.c:1 mail/mail-config.glade.h:1
+#: camel/providers/imap/camel-imap-provider.c:1
 msgid "Checking for new mail"
 msgstr "Sprawdzanie nowej poczty"
 
@@ -6565,10 +6561,12 @@ msgstr "Folder \"%s\" nie jest pusty. Nie zosta³ usuniêty."
 #: camel/providers/local/camel-mbox-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
+#: camel/providers/local/camel-spool-summary.c:1
 msgid "Storing folder"
 msgstr "Zapisywanie folderu"
 
 #: camel/providers/local/camel-mbox-summary.c:1
+#: camel/providers/local/camel-spool-summary.c:1
 #, c-format
 msgid "Could not open folder: %s: %s"
 msgstr "Nie mo¿na otworzyæ folderu %s: %s"
@@ -6580,6 +6578,7 @@ msgid "Fatal mail parser error near position %ld in folder %s"
 msgstr "Powa¿ny b³±d sk³adniowy na pozycji %ld w folderze %s"
 
 #: camel/providers/local/camel-mbox-summary.c:1
+#: camel/providers/local/camel-spool-summary.c:1
 #, c-format
 msgid "Cannot check folder: %s: %s"
 msgstr "Nie mo¿na sprawdziæ folderu: %s: %s"
@@ -6690,23 +6689,6 @@ msgstr "Nie mo¿na zmieniaæ nazw folderów kolejek"
 #: camel/providers/local/camel-spool-store.c:1
 msgid "Spool folders cannot be deleted"
 msgstr "Nie mo¿na usuwaæ folderów kolejek"
-
-#. FIXME: If there is a failure, it shouldn't clear the summary and restart,
-#. it should try and merge the summary info's.  This is a bit tricky.
-#: camel/providers/local/camel-spool-summary.c:1
-msgid "Summarising folder"
-msgstr "Tworzenie zestawienia folderu"
-
-#: camel/providers/local/camel-spool-summary.c:1
-#, c-format
-msgid "Could not open folder: %s: summarising from position %ld: %s"
-msgstr ""
-"Nie mo¿na otworzyæ folderu: %s: tworzenie zestawienia od pozycji %ld: %s"
-
-#: camel/providers/local/camel-spool-summary.c:1
-#, c-format
-msgid "Cannot summarise folder: %s: %s"
-msgstr "Nie mo¿na stworzyæ zestawienia folderu: %s: %s"
 
 #: camel/providers/local/camel-spool-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
@@ -8939,6 +8921,10 @@ msgid "(SSL is not supported in this build of evolution)"
 msgstr "(Ta kopia Evolution nie obs³uguje SSL-a)"
 
 #: mail/mail-config.glade.h:1
+msgid "A_lways encrypt to myself when sending encrypted mail"
+msgstr "Przy wysy³aniu zaszyfrowanych listów _szyfrowanie zawsze do siebie"
+
+#: mail/mail-config.glade.h:1
 msgid "Account"
 msgstr "Konto"
 
@@ -8955,12 +8941,12 @@ msgid "Accounts"
 msgstr "Konta"
 
 #: mail/mail-config.glade.h:1
-msgid "Always encrypt to myself when sending encrypted mail"
-msgstr "Przy wysy³aniy zaszyfrowanych listów szyfrowanie zawsze do siebie"
+msgid "Always _encrypt to myself when sending encrypted mail"
+msgstr "Przy wysy³aniu zaszyfrowanych listów s_zyfrowanie zawsze do siebie"
 
 #: mail/mail-config.glade.h:1
-msgid "Always sign outgoing messages when using this account"
-msgstr "Podpisywanie wszystkich listów wychodz±cych przy u¿yciu tego konta"
+msgid "Always _sign outgoing messages when using this account"
+msgstr "_Podpisywanie wszystkich listów wychodz±cych przy u¿yciu tego konta"
 
 #: mail/mail-config.glade.h:1 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -8971,12 +8957,8 @@ msgid "Authentication"
 msgstr "Uwierzytelnianie"
 
 #: mail/mail-config.glade.h:1
-msgid "Authentication Type: "
-msgstr "Typ uwierzytelniania: "
-
-#: mail/mail-config.glade.h:1
-msgid "Certificate ID:"
-msgstr "ID certyfikatu:"
+msgid "Checking for New Mail"
+msgstr "Sprawdzanie nowej poczty"
 
 #: mail/mail-config.glade.h:1
 msgid "Composer"
@@ -9032,10 +9014,6 @@ msgstr "Gotowe"
 #: mail/mail-config.glade.h:1 shell/e-local-storage.c:1
 msgid "Drafts"
 msgstr "Szkice"
-
-#: mail/mail-config.glade.h:1
-msgid "Drafts folder:"
-msgstr "Folder ze szkicami:"
 
 #: mail/mail-config.glade.h:1
 msgid "E_nable"
@@ -9103,8 +9081,8 @@ msgid "Optional Information"
 msgstr "Informacje opcjonalne"
 
 #: mail/mail-config.glade.h:1
-msgid "PGP Key ID:"
-msgstr "ID klucza PGP:"
+msgid "PGP _Key ID:"
+msgstr "ID _klucza PGP:"
 
 #: mail/mail-config.glade.h:1
 msgid "Pick a color"
@@ -9135,6 +9113,10 @@ msgstr "Katalog maildir Qmaila"
 #: mail/mail-config.glade.h:1
 msgid "Quoted"
 msgstr "Jako cytat"
+
+#: mail/mail-config.glade.h:1
+msgid "Re_member this password"
+msgstr "_Zapamiêtanie has³a"
 
 #: mail/mail-config.glade.h:1 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Receiving Email"
@@ -9182,24 +9164,24 @@ msgid "Sent"
 msgstr "Wys³ane"
 
 #: mail/mail-config.glade.h:1
+msgid "Sent _messages folder:"
+msgstr "Folder z _wys³anymi listami:"
+
+#: mail/mail-config.glade.h:1
 msgid "Sent and Draft Messages"
 msgstr "Listy wys³ane i szkice"
 
 #: mail/mail-config.glade.h:1
-msgid "Sent messages folder:"
-msgstr "Folder z wys³anymi listami"
+msgid "Ser_ver requires authentication"
+msgstr "Serwer wymaga _uwierzytelnienia"
 
 #: mail/mail-config.glade.h:1
 msgid "Server Configuration"
 msgstr "Konfiguracja serwera"
 
 #: mail/mail-config.glade.h:1
-msgid "Server Type: "
-msgstr "Typ serwera:"
-
-#: mail/mail-config.glade.h:1
-msgid "Server requires _authentication"
-msgstr "Serwer wymaga _uwierzytelnienia"
+msgid "Server _Type: "
+msgstr "_Typ serwera:"
 
 #: mail/mail-config.glade.h:1
 msgid "Signature file:"
@@ -9226,7 +9208,7 @@ msgid "Standard Unix mbox"
 msgstr "Standardowy uniksowy plik mbox"
 
 #: mail/mail-config.glade.h:1
-msgid "Use secure connection (_SSL)"
+msgid "Use s_ecure connection (SSL)"
 msgstr "Wykorzystanie bezpiecznego po³±czenia (_SSL)"
 
 #: mail/mail-config.glade.h:1
@@ -9244,12 +9226,24 @@ msgid "_Always load images off the net"
 msgstr "Pobieranie obrazów z sieci w _ka¿dym przypadku"
 
 #: mail/mail-config.glade.h:1
-msgid "_Automatically check for new mail every"
-msgstr "_Automatyczne sprawdzanie nowych listów co"
+msgid "_Always sign outgoing messages when using this account"
+msgstr "P_odpisywanie wszystkich listów wychodz±cych przy u¿yciu tego konta"
 
 #: mail/mail-config.glade.h:1
-msgid "_Check for supported types"
-msgstr "_Sprawd¼ obs³ugiwane typy "
+msgid "_Authentication Type: "
+msgstr "Typ _uwierzytelniania: "
+
+#: mail/mail-config.glade.h:1
+msgid "_Automatically check for new mail"
+msgstr "_Automatyczne sprawdzanie nowych listów"
+
+#: mail/mail-config.glade.h:1
+msgid "_Certificate ID:"
+msgstr "ID _certyfikatu:"
+
+#: mail/mail-config.glade.h:1
+msgid "_Drafts folder:"
+msgstr "Folder ze _szkicami:"
 
 #: mail/mail-config.glade.h:1
 msgid "_Email Address:"
@@ -9316,12 +9310,20 @@ msgid "_Send mail in HTML format by default."
 msgstr "Domy¶lne _wysy³anie listów w formacie HTML."
 
 #: mail/mail-config.glade.h:1
+msgid "_Server Type: "
+msgstr "_Typ serwera:"
+
+#: mail/mail-config.glade.h:1
 msgid "_Signature file:"
 msgstr "Plik z p_odpisem:"
 
 #: mail/mail-config.glade.h:1
 msgid "_Username:"
 msgstr "Nazwa _u¿ytkownika:"
+
+#: mail/mail-config.glade.h:1
+msgid "_every"
+msgstr "_co"
 
 #: mail/mail-config.glade.h:1
 msgid "description"
@@ -9465,20 +9467,15 @@ msgid "Bcc"
 msgstr "Bcc"
 
 #: mail/mail-format.c:1
-msgid "No GPG/PGP program configured."
-msgstr "Nie skonfigurowano programu GPG/PGP."
+msgid ""
+"This message is digitally signed. Click the lock icon for more information."
+msgstr ""
+"List zosta³ podpisany cyfrowo. Kliknij ikonê zamka, aby uzyskaæ wiêcej "
+"informacji."
 
 #: mail/mail-format.c:1
-msgid "Encrypted message not displayed"
-msgstr "Nie wy¶wietlono zaszyfrowanego listu"
-
-#: mail/mail-format.c:1
-msgid "Encrypted message"
-msgstr "List zaszyfrowany"
-
-#: mail/mail-format.c:1
-msgid "Click icon to decrypt."
-msgstr "Kliknij ikonê aby rozszyfrowaæ."
+msgid "Evolution does not recognize this type of signed message."
+msgstr "Evolution nie rozpoznaje podpisanego listu tego typu."
 
 #: mail/mail-format.c:1
 msgid "This message is digitally signed and has been found to be authentic."
@@ -9585,24 +9582,6 @@ msgid ""
 msgstr ""
 "B³±d przy wykonywaniu operacji:\n"
 "%s"
-
-#. Remember the password?
-#: mail/mail-mt.c:1
-msgid "Remember this password"
-msgstr "Zapamiêtanie has³a"
-
-#: mail/mail-mt.c:1
-msgid "Remember this password for the remainder of this session"
-msgstr "Zapamiêtanie tego has³a na czas bie¿±cej sesji"
-
-#: mail/mail-mt.c:1
-#, c-format
-msgid "Enter Password for %s"
-msgstr "Wprowad¼ has³o dla %s"
-
-#: mail/mail-mt.c:1
-msgid "Enter Password"
-msgstr "Wprowad¼ has³o"
 
 #: mail/mail-mt.c:1
 msgid "Working"
@@ -9847,6 +9826,24 @@ msgstr "Anulowano."
 #: mail/mail-session.c:1
 msgid "User canceled operation."
 msgstr "Operacja anulowana przez u¿ytkownika."
+
+#. Remember the password?
+#: mail/mail-session.c:1
+msgid "Remember this password"
+msgstr "Zapamiêtanie has³a"
+
+#: mail/mail-session.c:1
+msgid "Remember this password for the remainder of this session"
+msgstr "Zapamiêtanie tego has³a na czas bie¿±cej sesji"
+
+#: mail/mail-session.c:1
+#, c-format
+msgid "Enter Password for %s"
+msgstr "Wprowad¼ has³o dla %s"
+
+#: mail/mail-session.c:1
+msgid "Enter Password"
+msgstr "Wprowad¼ has³o"
 
 #: mail/mail-tools.c:1
 #, c-format
@@ -11354,7 +11351,7 @@ msgid " _Remove"
 msgstr " _Usuñ"
 
 #: my-evolution/my-evolution.glade.h:1
-msgid "Add n_ew feed"
+msgid "Add n_ews feed"
 msgstr "Dodaj ¼_ród³o"
 
 #: my-evolution/my-evolution.glade.h:1
@@ -13434,8 +13431,8 @@ msgid "F_ormat"
 msgstr "_Format"
 
 #: ui/evolution-message-composer.xml.h:1
-msgid "HTML"
-msgstr "HTML"
+msgid "H_TML"
+msgstr "_HTML"
 
 #: ui/evolution-message-composer.xml.h:1
 msgid "Inline Text _File..."
@@ -13937,6 +13934,10 @@ msgstr "Dzi¶"
 #, c-format
 msgid "The time must be in the format: %s"
 msgstr "Czas musi byæ podany w formacie: %s"
+
+#: widgets/misc/e-cell-percent.c:1
+msgid "The percent value must be between 0 and 100, inclusive"
+msgstr "Warto¶æ procentowa musi siê zawieraæ w przedziale od 0 do 100 w³±cznie"
 
 #: widgets/misc/e-charset-picker.c:1
 msgid "Baltic"
