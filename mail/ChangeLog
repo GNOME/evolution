@@ -1,3 +1,15 @@
+2004-02-11  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): if spamc is not
+	available, try /usr/sbin/spamc
+
+2004-02-10  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): try to check if system
+	wide spamd has --local parameter set according to our setting
+	(em_junk_sa_test_spamd): in case we were unable to start our own
+	spamd, try to run it from /usr/sbin before giving up
+
 2004-02-11  Not Zed  <NotZed@Ximian.com>
 
 	* importers/mail-importer.c (mail_importer_import_folders_sync):

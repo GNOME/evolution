@@ -68,6 +68,7 @@ static gboolean em_junk_sa_spamd_tested = FALSE;
 static gboolean em_junk_sa_use_spamc = FALSE;
 static gboolean em_junk_sa_available = FALSE;
 static int em_junk_sa_spamd_port = -1;
+static char *em_junk_sa_spamc_binary = NULL;
 static GConfClient *em_junk_sa_gconf = NULL;
 
 static const char *
@@ -187,15 +188,15 @@ pipe_to_sa (CamelMimeMessage *msg, const char *in, char **argv)
 	return pipe_to_sa_with_error (msg, in, argv, -1);
 }
 
-static int
-em_junk_sa_test_spamd_running (int port)
+static gboolean
+em_junk_sa_test_spamd_running (char *binary, int port)
 {
 	char port_buf[12], *argv[5];
 	int i = 0;
 	
-	d(fprintf (stderr, "test if spamd is running (port %d)\n", port));
+	d(fprintf (stderr, "test if spamd is running (port %d) using %s\n", port, binary));
 	
-	argv[i++] = "spamc";
+	argv[i++] = binary;
 	argv[i++] = "-x";
 	
 	if (port > 0) {
@@ -228,58 +229,116 @@ em_junk_sa_test_spamassassin (void)
 
 #define MAX_SPAMD_PORTS 1
 
+static gboolean
+em_junk_sa_run_spamd (char *binary, int *port)
+{
+	char *argv[6];
+	char port_buf[12];
+	int i, p = em_junk_sa_get_daemon_port ();
+
+	d(fprintf (stderr, "looks like spamd is not running\n"));
+
+	i = 0;
+	argv[i++] = binary;
+	argv[i++] = "--port";
+	argv[i++] = port_buf;
+		
+	if (em_junk_sa_get_local_only ())
+		argv[i++] = "--local";
+		
+	argv[i++] = "--daemonize";
+	argv[i] = NULL;
+		
+	for (i = 0; i < MAX_SPAMD_PORTS; i++, p++) {
+		d(fprintf (stderr, "trying to run %s at port %d\n", binary, p));
+			
+		snprintf (port_buf, 11, "%d", p);
+		if (!pipe_to_sa (NULL, NULL, argv)) {
+			d(fprintf (stderr, "success at port %d\n", p));
+			*port = p;
+			return TRUE;
+		}
+	}
+
+	return FALSE;
+}
+
 static void
 em_junk_sa_test_spamd (void)
 {
-	int port = em_junk_sa_get_daemon_port ();
-	int i;
+	char *argv[4];
+	int i, b;
+	gboolean try_system_spamd = TRUE;
+	gboolean new_daemon_started = FALSE;
+	char *spamc_binaries [3] = {"spamc", "/usr/sbin/spamc", NULL};
+	char *spamd_binaries [3] = {"spamd", "/usr/sbin/spamd", NULL};
 
 	em_junk_sa_use_spamc = FALSE;
-	
-	if (em_junk_sa_test_spamd_running (-1)) {
-		em_junk_sa_use_spamc = TRUE;
-		em_junk_sa_spamd_port = -1;
-	} else {
-		for (i = 0; i < MAX_SPAMD_PORTS; i ++, port ++) {
-			if (em_junk_sa_test_spamd_running (port)) {
+
+	if (em_junk_sa_get_local_only ()) {
+		   i = 0;
+		   argv [i++] = "/bin/sh";
+		   argv [i++] = "-c";
+		   argv [i++] = "ps ax|grep -v grep|grep -E 'spamd.*(\\-L|\\-\\-local)'|grep -E -v '\\-p|\\-\\-port'";
+		   argv[i] = NULL;
+
+		   if (pipe_to_sa (NULL, NULL, argv) != 0) {
+			   try_system_spamd = FALSE;
+			   d(fprintf (stderr, "there's no system spamd with -L/--local parameter running\n"));
+		   }
+	}
+
+	/* try to use sytem spamd first */
+	if (try_system_spamd) {
+		for (b = 0; spamc_binaries [b]; b ++) {
+			em_junk_sa_spamc_binary = spamc_binaries [b];
+			if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, -1)) {
 				em_junk_sa_use_spamc = TRUE;
-				em_junk_sa_spamd_port = port;
+				em_junk_sa_spamd_port = -1;
 				break;
 			}
 		}
 	}
-	
+
+	/* if there's no system spamd running, try to use user one on evo spamd port */
 	if (!em_junk_sa_use_spamc) {
-		char *argv[6];
-		char port_buf[12];
-		int i = 0;
-		
-		d(fprintf (stderr, "looks like spamd is not running\n"));
-		
-		argv[i++] = "spamd";
-		argv[i++] = "--port";
-		argv[i++] = port_buf;
-		
-		if (em_junk_sa_get_local_only ())
-			argv[i++] = "--local";
-		
-		argv[i++] = "--daemonize";
-		argv[i] = NULL;
-		
-		for (i = 0; i < MAX_SPAMD_PORTS; i++, port++) {
-			d(fprintf (stderr, "trying to run spamd at port %d\n", port));
-			
-			sprintf (port_buf, "%d", port);
-			if (!pipe_to_sa (NULL, NULL, argv)) {
+		int port = em_junk_sa_get_daemon_port ();
+
+		for (i = 0; i < MAX_SPAMD_PORTS; i ++, port ++) {
+			for (b = 0; spamc_binaries [b]; b ++) {
+				em_junk_sa_spamc_binary = spamc_binaries [b];
+				if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, port)) {
+					em_junk_sa_use_spamc = TRUE;
+					em_junk_sa_spamd_port = port;
+					break;
+				}
+			}
+		}
+	}
+
+	/* unsuccessful? try to run one ourselfs */
+	if (!em_junk_sa_use_spamc)
+		for (b = 0; spamd_binaries [b]; b ++) {
+			em_junk_sa_use_spamc = em_junk_sa_run_spamd (spamd_binaries [b], &em_junk_sa_spamd_port);
+			if (em_junk_sa_use_spamc) {
+				new_daemon_started = TRUE;
+				break;
+			}
+		}
+	
+	/* new daemon started => let find spamc binary */
+	if (em_junk_sa_use_spamc && new_daemon_started) {
+		em_junk_sa_use_spamc = FALSE;
+		for (b = 0; spamc_binaries [b]; b ++) {
+			em_junk_sa_spamc_binary = spamc_binaries [b];
+			if (em_junk_sa_test_spamd_running (em_junk_sa_spamc_binary, em_junk_sa_spamd_port)) {
 				em_junk_sa_use_spamc = TRUE;
-				em_junk_sa_spamd_port = port;
-				d(fprintf (stderr, "success at port %d\n", port));
 				break;
 			}
 		}
 	}
-	
-	d(fprintf (stderr, "use spamd %d at port %d\n", em_junk_sa_use_spamc, em_junk_sa_spamd_port));
+
+	d(fprintf (stderr, "use spamd %d at port %d with %s\n", em_junk_sa_use_spamc, em_junk_sa_spamd_port, em_junk_sa_spamc_binary));
 	
 	em_junk_sa_spamd_tested = TRUE;
 }
@@ -309,7 +368,7 @@ static gboolean
 em_junk_sa_check_junk (CamelMimeMessage *msg)
 {
 	char *argv[5], buf[12];
-	int i = 0, rv;
+	int i = 0;
 	
 	d(fprintf (stderr, "em_junk_sa_check_junk\n"));
 	
@@ -317,7 +376,7 @@ em_junk_sa_check_junk (CamelMimeMessage *msg)
 		return FALSE;
 	
 	if (em_junk_sa_use_spamc && em_junk_sa_get_use_daemon ()) {
-		argv[i++] = "spamc";
+		argv[i++] = em_junk_sa_spamc_binary;
 		argv[i++] = "-c";
 		if (em_junk_sa_spamd_port != -1) {
 			sprintf (buf, "%d", em_junk_sa_spamd_port);
