@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_CURSORS_H
 #define GNUMERIC_CURSORS_H
 
+#include <gdk/gdk.h>
+
 typedef enum {
 	GNUMERIC_CURSOR_FAT_CROSS,
 	GNUMERIC_CURSOR_THIN_CROSS,
