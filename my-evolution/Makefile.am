@@ -121,7 +121,10 @@ EXTRA_DIST = 				\
 	$(Location_DATA)		\
 	$(glade_DATA)			\
 	Locations.h			\
-	Location-translation-script
+	Location-translation-script	\
+	check-empty.xpm			\
+	check-filled.xpm		\
+	check-none.xpm
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
