@@ -77,7 +77,7 @@ static BonoboObjectClass *parent_class = NULL;
 struct _MailComponentPrivate {
 	char *base_directory;
 	
-	EMFolderTree *emft;
+	EMFolderTreeModel *model;
 	
 	MailAsyncEvent *async_event;
 	GHashTable *store_hash; /* display_name by store */
@@ -96,7 +96,7 @@ add_store (MailComponent *component, const char *name, CamelStore *store, CamelE
 {
 	camel_object_ref (store);
 	g_hash_table_insert (component->priv->store_hash, store, g_strdup (name));
-	em_folder_tree_add_store (component->priv->emft, store, name);
+	em_folder_tree_model_add_store (component->priv->model, store, name);
 	mail_note_store (store, NULL, NULL, NULL);
 }
 
@@ -327,8 +327,8 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *tree_widget;
 	GtkWidget *view_widget;
 	
-	tree_widget = (GtkWidget *) priv->emft;
 	view_widget = em_folder_browser_new ();
+	tree_widget = (GtkWidget *) em_folder_tree_new_with_model (priv->model);
 	em_format_set_session ((EMFormat *) ((EMFolderView *) view_widget)->preview, session);
 	
 	gtk_widget_show (tree_widget);
@@ -431,7 +431,7 @@ mail_component_init (MailComponent *component)
 	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
 		abort ();
 	
-	priv->emft = (EMFolderTree *) em_folder_tree_new ();
+	priv->model = em_folder_tree_model_new ();
 	
 	/* EPFIXME: Turn into an object?  */
 	mail_session_init (priv->base_directory);
@@ -624,7 +624,7 @@ mail_component_remove_store (MailComponent *component, CamelStore *store)
 	   being removed.  ?? */
 	mail_note_store_remove (store);
 	
-	em_folder_tree_remove_store (priv->emft, store);
+	em_folder_tree_model_remove_store (priv->model, store);
 	
 	mail_async_event_emit (priv->async_event, MAIL_ASYNC_THREAD, (MailAsyncFunc) store_disconnect, store, NULL, NULL);
 }
@@ -675,12 +675,8 @@ mail_component_remove_folder (MailComponent *component, CamelStore *store, const
 EMFolderTreeModel *
 mail_component_get_tree_model (MailComponent *component)
 {
-	EMFolderTreeModel *model;
-	
-	model = em_folder_tree_get_model (component->priv->emft);
-	g_object_ref (model);
-	
-	return model;
+	g_object_ref (component->priv->model);
+	return component->priv->model;
 }
 
 struct _CamelFolder *

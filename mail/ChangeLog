@@ -16,6 +16,44 @@
 
 2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree.c (em_folder_tree_get_folder_info__got): Updated
+	to call em_folder_tree_model_set_folder_info().
+	(folder_subscribed_cb): Removed.
+	(folder_unsubscribed_cb): Removed.
+	(folder_created_cb): Removed.
+	(folder_deleted_cb): Removed.
+	(folder_renamed_cb): Removed.
+
+	* em-folder-tree-model.c (em_folder_tree_store_set_folder_info):
+	New function to replace tree_store_set_folder_info() which had
+	been in em-folder-tree.c
+	(em_folder_tree_model_remove_uri): Made private.
+	(em_folder_tree_model_remove_store_info): Made private.
+	(em_folder_tree_model_remove_folders): New function to replace
+	remove_folders() from em-folder-tree.c
+	(em_folder_tree_model_new): No longer takes any args.
+
+	* em-folder-tree.c (em_folder_tree_new): Updated.
+
+	* mail-component.c (add_store): Add the store to the model rather
+	than the treeview.
+	(impl_createControls): create a new treeview based on the
+	already-instantiated model.
+	(mail_component_init): Create a new tree model.
+	(mail_component_remove_store): Remove the store from the model
+	directly.
+	(mail_component_get_tree_model): Updated.
+
+	* em-folder-tree.c (folder_unsubscribed_cb): Call
+	em_folder_tree_model_remove_folders() rather than the deprecated
+	internal remove_folders() function.
+	(folder_renamed_cb): Same.
+	(em_folder_tree_remove_store): Removed.
+	(em_folder_tree_add_store): Removed.
+	(remove_folders): Removed.
+
+2003-12-01  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-composer-utils.c (composer_get_message): rfc2047 encode the
 	Organization header value.
 

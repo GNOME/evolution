@@ -45,6 +45,22 @@ typedef struct _EMFolderTreeModel EMFolderTreeModel;
 typedef struct _EMFolderTreeModelClass EMFolderTreeModelClass;
 typedef struct _EMFolderTreeModelStoreInfo EMFolderTreeModelStoreInfo;
 
+enum {
+	COL_STRING_DISPLAY_NAME,  /* string that appears in the tree */
+	COL_POINTER_CAMEL_STORE,  /* CamelStore object */
+	COL_STRING_FOLDER_PATH,   /* if node is a folder, the full path of the folder */
+	COL_STRING_URI,           /* the uri to get the store or
+				   * folder object */
+	COL_UINT_UNREAD,          /* unread count */
+	
+	COL_BOOL_IS_STORE,        /* toplevel store node? */
+	COL_BOOL_LOAD_SUBDIRS,    /* %TRUE only if the store/folder
+				   * has subfolders which have not yet
+				   * been added to the tree */
+	NUM_COLUMNS
+};
+
+
 struct _EMFolderTreeModelStoreInfo {
 	CamelStore *store;
 	GtkTreeRowReference *row;
@@ -91,11 +107,17 @@ struct _EMFolderTreeModelClass {
 GType em_folder_tree_model_get_type (void);
 
 
-EMFolderTreeModel *em_folder_tree_model_new (int n_columns, GType *types);
+EMFolderTreeModel *em_folder_tree_model_new (void);
 
 
-void em_folder_tree_model_remove_uri (EMFolderTreeModel *model, const char *uri);
-void em_folder_tree_model_remove_store_info (EMFolderTreeModel *model, CamelStore *store);
+void em_folder_tree_model_set_folder_info (EMFolderTreeModel *model, GtkTreeIter *iter,
+					   struct _EMFolderTreeModelStoreInfo *si,
+					   CamelFolderInfo *fi);
+
+void em_folder_tree_model_add_store (EMFolderTreeModel *model, CamelStore *store, const char *display_name);
+void em_folder_tree_model_remove_store (EMFolderTreeModel *model, CamelStore *store);
+void em_folder_tree_model_remove_folders (EMFolderTreeModel *model, struct _EMFolderTreeModelStoreInfo *si,
+					  GtkTreeIter *toplevel);
 
 #ifdef __cplusplus
 }
