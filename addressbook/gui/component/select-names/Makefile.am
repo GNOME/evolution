@@ -1,5 +1,7 @@
 # CORBA stuff
 
+componentdir = $(COMPONENT_DIR)
+
 idl_DATA = \
 	Evolution-Addressbook-SelectNames.idl
 
@@ -20,7 +22,7 @@ server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
 
 @INTLTOOL_SERVER_RULE@
 
@@ -56,8 +58,6 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names-bonobo.h			\
 	e-select-names-completion.c		\
 	e-select-names-completion.h		\
-	e-select-names-factory.c		\
-	e-select-names-factory.h		\
 	e-select-names-manager.c		\
 	e-select-names-manager.h		\
 	e-select-names-marshal.c		\
@@ -73,6 +73,12 @@ libeselectnames_la_SOURCES = 			\
 	e-select-names.h			\
 	e-simple-card-bonobo.c			\
 	e-simple-card-bonobo.h
+
+# We'll need these again when we split out the select names control
+# into its own shlib factory, but for now they're redundant.
+#
+#	e-select-names-factory.c
+#	e-select-names-factory.h
 
 # GLib marshalling cruft
 

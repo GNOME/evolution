@@ -28,6 +28,7 @@
 #include "e-address-popup.h"
 #include "e-address-widget.h"
 #include "e-minicard-control.h"
+#include "select-names/e-select-names-bonobo.h"
 
 #include <bonobo/bonobo-shlib-factory.h>
 
@@ -39,6 +40,7 @@
 #define SHELL_COMPONENT_ID             "OAFIID:GNOME_Evolution_Addressbook_ShellComponent"
 #define ADDRESS_WIDGET_ID              "OAFIID:GNOME_Evolution_Addressbook_AddressWidget"
 #define ADDRESS_POPUP_ID               "OAFIID:GNOME_Evolution_Addressbook_AddressPopup"
+#define SELECT_NAMES_ID                "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 #define LDAP_STORAGE_CONFIG_CONTROL_ID "OAFIID:GNOME_Evolution_LDAPStorage_ConfigControl"
 
 
@@ -59,6 +61,8 @@ factory (BonoboGenericFactory *factory,
 		return BONOBO_OBJECT (e_address_popup_new_control ());
 	if (strcmp (component_id, LDAP_STORAGE_CONFIG_CONTROL_ID) == 0)
 		return BONOBO_OBJECT (addressbook_config_control_new ());
+	if (strcmp (component_id, SELECT_NAMES_ID) == 0)
+		return BONOBO_OBJECT (e_select_names_bonobo_new ());
 
 	g_warning (FACTORY_ID ": Don't know what to do with %s", component_id);
 	return NULL;
