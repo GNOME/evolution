@@ -1,5 +1,19 @@
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
+	* providers/mbox/camel-mbox-folder.h (CamelMboxFolder): Removed
+	search_id.
+
+	* providers/mbox/camel-mbox-search.c
+	(camel_mbox_folder_search_cancel): Remove.d
+	(camel_mbox_folder_search_complete): Removed.
+	(camel_mbox_folder_search_by_expression): Changed back to sync
+	api.
+	(struct _searchcontext): Removed cancelled flag.
+	(find_context): Removed.
+
+	* providers/mbox/camel-mbox-search.h
+	(camel_mbox_folder_search_by_expression): Moved back to sync api.
+
 	* providers/mbox/camel-mbox-summary.c
 	(camel_mbox_summary_set_flags_by_uid): New function to update the
 	flags in the summary.
@@ -21,6 +35,8 @@
 
 	* camel-folder.c (_finalize): Uh, dont free permanent_flags
 	anymore (this wouldn't failed anyway, it was a GList !!!)
+	(camel_folder_search_complete): Removed.
+	(camel_folder_search_cancel): Removed.
 
 	* camel-folder.h (struct _CamelFolder): Change permanent_flags to
 	a bitfield.
@@ -29,6 +45,9 @@
 	(camel_folder_expunge): Changed expunge to a void type.  The
 	messages would no longer be useful after they have been removed
 	...
+	(CamelFolderClass): New function summary_get_by_uid() to get a single
+	summary.
+	(*search*): Moved back to synchronous search api ... *sigh*
 
 	* camel-mime-message.c (set_flag): Removed.
 	(camel_mime_message_set_flag): Removed.

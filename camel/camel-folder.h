@@ -240,15 +240,13 @@ typedef struct {
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
-	int (*search_by_expression) (CamelFolder *folder, const char *expression,
-				     CamelSearchFunc *func, void *data, CamelException *ex);
-	gboolean (*search_complete)(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
-	void (*search_cancel) (CamelFolder *folder, int searchid, CamelException *ex);
+	GList * (*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
 
 	/* moved the old summary stuff from camel-folder-summary.h here */
 	GPtrArray * (*get_subfolder_info) (CamelFolder *, int first, int count);
 	GPtrArray * (*get_message_info) (CamelFolder *, int first, int count);
 
+	const CamelMessageInfo * (*summary_get_by_uid) (CamelFolder *, const char *uid);
 } CamelFolderClass;
 
 
@@ -355,10 +353,7 @@ GList *            camel_folder_get_uid_list          (CamelFolder *folder,
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
-int 		   camel_folder_search_by_expression(CamelFolder *folder, const char *expression,
-						     CamelSearchFunc *func, void *data, CamelException *ex);
-gboolean	   camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex);
-void		   camel_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex);
+GList *		   camel_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
 
 /* summary info, from the old camel-folder-summary
    FIXME: rename these slightly? */
@@ -366,6 +361,8 @@ GPtrArray *camel_folder_summary_get_subfolder_info (CamelFolder *summary,
 						    int first, int count);
 GPtrArray *camel_folder_summary_get_message_info (CamelFolder *summary,
 						  int first, int count);
+const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *summary,
+							 const char *uid);
 
 #ifdef __cplusplus
 }

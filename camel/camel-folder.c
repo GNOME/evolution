@@ -133,6 +133,7 @@ static void _delete_message_by_uid (CamelFolder *folder,
 
 static GPtrArray *get_message_info (CamelFolder *folder, int first, int count);
 static GPtrArray *get_subfolder_info (CamelFolder *folder, int first, int count);
+static const CamelMessageInfo *summary_get_by_uid(CamelFolder *f, const char *uid);
 
 
 static void
@@ -181,6 +182,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 
 	camel_folder_class->get_subfolder_info = get_subfolder_info;
 	camel_folder_class->get_message_info = get_message_info;
+	camel_folder_class->summary_get_by_uid = summary_get_by_uid;
 
 	/* virtual method overload */
 	gtk_object_class->finalize = _finalize;
@@ -1246,6 +1248,29 @@ camel_folder_summary_get_message_info (CamelFolder *folder,
 	return CF_CLASS (folder)->get_message_info (folder, first, count);
 }
 
+static const CamelMessageInfo *
+summary_get_by_uid(CamelFolder *f, const char *uid)
+{
+	g_warning("folder::summary_get_by_uid() unimplemented");
+	return NULL;
+}
+
+/**
+ * camel_folder_summary_get_by_uid:
+ * @folder: 
+ * @uid: 
+ * 
+ * Get a single summary entry, by uid.
+ * 
+ * Return value: 
+ **/
+const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *folder, const char *uid)
+{
+	g_assert (folder != NULL);
+	g_assert(uid != NULL);
+	return CF_CLASS (folder)->summary_get_by_uid (folder, uid);
+}
+
 /* summary stuff */
 /* TODO: is this function required anyway? */
 gboolean
@@ -1412,32 +1437,14 @@ camel_folder_has_search_capability (CamelFolder *folder)
 	return folder->has_search_capability;
 }
 
-int camel_folder_search_by_expression  (CamelFolder *folder,
-					const char *expression,
-					CamelSearchFunc *func,
-					void *data,
-					CamelException *ex)
+GList *camel_folder_search_by_expression  (CamelFolder *folder,
+					   const char *expression,
+					   CamelException *ex)
 {
 	g_assert (folder != NULL);
-	g_return_val_if_fail (folder->has_search_capability, -1);
+	g_return_val_if_fail (folder->has_search_capability, NULL);
 
-	return CF_CLASS (folder)->search_by_expression (folder, expression, func, data, ex);
-}
-
-gboolean camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex)
-{
-	g_assert (folder != NULL);
-	g_return_val_if_fail (folder->has_search_capability, FALSE);
-
-	return CF_CLASS (folder)->search_complete (folder, searchid, wait, ex);
-}
-
-void camel_folder_search_cancel(CamelFolder *folder, int searchid, CamelException *ex)
-{
-	g_assert (folder != NULL);
-	g_return_if_fail (folder->has_search_capability);
-
-	return CF_CLASS (folder)->search_cancel (folder, searchid, ex);	
+	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
 }
 
 /* **** */

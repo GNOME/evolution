@@ -54,7 +54,6 @@ typedef struct {
 	gchar *index_file_path;	   /* index of body contents */
 
 	ibex *index;		/* index for this folder */
-	int search_id;		/* next search id */
 	GList *searches;	/* current searches */
 
 	CamelMboxSummary *summary;

@@ -81,6 +81,7 @@ static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *mes
 #endif
 
 GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count);
+static const CamelMessageInfo *mbox_summary_get_by_uid(CamelFolder *f, const char *uid);
 
 static void mbox_finalize (GtkObject *object);
 
@@ -115,10 +116,9 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	camel_folder_class->get_message_by_uid = mbox_get_message_by_uid;
 
 	camel_folder_class->search_by_expression = camel_mbox_folder_search_by_expression;
-	camel_folder_class->search_complete = camel_mbox_folder_search_complete;
-	camel_folder_class->search_cancel = camel_mbox_folder_search_cancel;
 
 	camel_folder_class->get_message_info = summary_get_message_info;
+	camel_folder_class->summary_get_by_uid = mbox_summary_get_by_uid;
 
 	gtk_object_class->finalize = mbox_finalize;
 	
@@ -933,3 +933,13 @@ GPtrArray *summary_get_message_info (CamelFolder *folder, int first, int count)
 
 	return array;
 }
+
+/* get a single message info, by uid */
+static const CamelMessageInfo *
+mbox_summary_get_by_uid(CamelFolder *f, const char *uid)
+{
+	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)f;
+
+	return (CamelMessageInfo *)camel_mbox_summary_uid(mbox_folder->summary, uid);
+}
+
