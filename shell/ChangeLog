@@ -1,3 +1,16 @@
+2004-05-10  JP Rosevear  <jpr@ximian.com>
+
+	* main.c (show_development_warning): set title to just Evolution
+	(show_development_warning): ditto for warning
+	(idle_cb): ditto for title
+
+	* e-shell-window.c (update_offline_toggle_status): set tooltip to
+	just Evolution
+	(e_shell_window_new): ditto for window title
+
+	* e-shell-window-commands.c (command_about_box): set title to
+	just Evolution
+
 2004-05-05  Dan Winship  <danw@ximian.com>
 
 	* e-sidebar.c (layout_buttons): Change the algorithm so that if

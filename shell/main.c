@@ -209,7 +209,7 @@ show_development_warning (GtkWindow *parent)
 	g_object_unref (client);
 
 	warning_dialog = gtk_dialog_new ();
-	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Ximian Evolution " VERSION);
+	gtk_window_set_title (GTK_WINDOW (warning_dialog), "Evolution " VERSION);
 	gtk_window_set_modal (GTK_WINDOW (warning_dialog), TRUE);
 	gtk_dialog_add_button (GTK_DIALOG (warning_dialog), GTK_STOCK_OK, GTK_RESPONSE_OK);
 	e_dialog_set_transient_for (GTK_WINDOW (warning_dialog), GTK_WIDGET (parent));
@@ -228,9 +228,9 @@ show_development_warning (GtkWindow *parent)
 		/* xgettext:no-c-format */
 		/* Preview/Alpha/Beta version warning message */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
-		  "of the Ximian Evolution groupware suite.\n"
+		  "of the Evolution groupware suite.\n"
 		  "\n"
-		  "This version of Ximian Evolution is not yet complete. It is getting close,\n"
+		  "This version of Evolution is not yet complete. It is getting close,\n"
 		  "but some features are either unfinished or do not work properly.\n"
 		  "\n"
 		  "If you want a stable version of Evolution, we urge you to uninstall\n"
@@ -252,7 +252,7 @@ show_development_warning (GtkWindow *parent)
 	gtk_box_pack_start (GTK_BOX (vbox), label, TRUE, TRUE, 0);
 
 	label = gtk_label_new (_("Thanks\n"
-				 "The Ximian Evolution Team\n"));
+				 "The Evolution Team\n"));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_RIGHT);
 	gtk_misc_set_alignment(GTK_MISC(label), 1, .5);
 
@@ -388,7 +388,7 @@ idle_cb (void *data)
 		corba_shell = bonobo_activation_activate_from_id (E_SHELL_OAFIID, 0, NULL, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION || corba_shell == CORBA_OBJECT_NIL) {
 			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("Cannot register the Ximian Evolution shell."));
+				  _("Cannot register the Evolution shell."));
 			CORBA_exception_free (&ev);
 			bonobo_main_quit ();
 			return FALSE;
@@ -397,7 +397,7 @@ idle_cb (void *data)
 
 	default:
 		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Cannot initialize the Ximian Evolution shell: %s"),
+			  _("Cannot initialize the Evolution shell: %s"),
 			  e_shell_construct_result_to_string (result));
 		CORBA_exception_free (&ev);
 		bonobo_main_quit ();

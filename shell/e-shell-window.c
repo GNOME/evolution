@@ -333,20 +333,20 @@ update_offline_toggle_status (EShellWindow *window)
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Ximian Evolution is currently online.  "
+		tooltip     = _("Evolution is currently online.  "
 				"Click on this button to work offline.");
 		break;
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
 		icon_pixmap = online_pixmap;
 		icon_mask   = online_mask;
 		sensitive   = FALSE;
-		tooltip     = _("Ximian Evolution is in the process of going offline.");
+		tooltip     = _("Evolution is in the process of going offline.");
 		break;
 	case E_SHELL_LINE_STATUS_OFFLINE:
 		icon_pixmap = offline_pixmap;
 		icon_mask   = offline_mask;
 		sensitive   = TRUE;
-		tooltip     = _("Ximian Evolution is currently offline.  "
+		tooltip     = _("Evolution is currently offline.  "
 				"Click on this button to work online.");
 		break;
 	default:
@@ -693,7 +693,7 @@ e_shell_window_new (EShell *shell,
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
-				     "evolution", "Ximian Evolution") == NULL) {
+				     "evolution", "Evolution") == NULL) {
 		g_object_unref (window);
 		g_object_unref (gconf_client);
 		return NULL;

@@ -167,7 +167,7 @@ command_about_box (BonoboUIComponent *uih,
 			  G_CALLBACK (about_box_event_callback), &about_box_window);
 
 	gtk_window_set_transient_for (GTK_WINDOW (about_box_window), GTK_WINDOW (window));
-	gtk_window_set_title (GTK_WINDOW (about_box_window), _("About Ximian Evolution"));
+	gtk_window_set_title (GTK_WINDOW (about_box_window), _("About Evolution"));
 	gtk_container_add (GTK_CONTAINER (about_box_window), about_box);
 	gtk_widget_show (about_box_window);
 }
