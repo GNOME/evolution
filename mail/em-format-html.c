@@ -1454,6 +1454,50 @@ static char *i18n_hdrs[] = {
 #endif
 
 static void
+efh_format_address (GString *out, struct _camel_header_address *a)
+{
+	guint32 flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES;
+	char *name, *mailto, *addr;
+	
+	while (a) {
+		if (a->name)
+			name = camel_text_to_html (a->name, flags, 0);
+		else
+			name = NULL;
+		
+		switch (a->type) {
+		case CAMEL_HEADER_ADDRESS_NAME:
+			if (name && *name)
+				g_string_append_printf (out, "%s &lt;", name);
+			
+			mailto = camel_url_encode (a->v.addr, "");
+			addr = camel_text_to_html (a->v.addr, flags, 0);
+			g_string_append_printf (out, "<a href=\"mailto:%s\">%s</a>", mailto, addr);
+			g_free (mailto);
+			g_free (addr);
+			
+			if (name && *name)
+				g_string_append (out, "&gt;");
+			break;
+		case CAMEL_HEADER_ADDRESS_GROUP:
+			g_string_append_printf (out, "%s: ", name);
+			efh_format_address (out, a->v.members);
+			g_string_append_printf (out, ";");
+			break;
+		default:
+			g_warning ("Invalid address type");
+			break;
+		}
+		
+		g_free (name);
+		
+		a = a->next;
+		if (a)
+			g_string_append (out, ", ");
+	}
+}
+
+static void
 efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const char *namein, guint32 flags, const char *charset)
 {
 	CamelMimeMessage *msg = (CamelMimeMessage *) part;
@@ -1475,6 +1519,7 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 	
 	if (addrspec) {
 		struct _camel_header_address *addrs;
+		GString *html;
 		
 		if (!(txt = camel_medium_get_header (part, name)))
 			return;
@@ -1495,11 +1540,13 @@ efh_format_header(EMFormat *emf, CamelStream *stream, CamelMedium *part, const c
 		
 		label = _(name);
 		
-		if ((value = camel_header_address_list_format (addrs)))
-			txt = value;
-		
-		flags |= EM_FORMAT_HEADER_BOLD;
+		html = g_string_new ("");
+		efh_format_address (html, addrs);
 		camel_header_address_unref (addrs);
+		txt = value = html->str;
+		g_string_free (html, FALSE);
+		
+		flags |= EM_FORMAT_HEADER_BOLD | EM_FORMAT_HTML_HEADER_HTML;
 	} else if (!strcmp (name, "subject")) {
 		txt = camel_mime_message_get_subject (msg);
 		label = _("Subject");

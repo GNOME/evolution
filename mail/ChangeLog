@@ -1,5 +1,11 @@
 2004-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-format-html.c (efh_format_address): Dump a struct
+	_camel_header_address to an html string.
+	(efh_format_header): Use efh_format_address() and set the
+	EM_FORMAT_HTML_HEADER_HTML bit on the flags so we don't re-convert
+	our html string into html.
+
 	* mail-vfolder.c (mail_vfolder_rename_uri): s/g_fre/g_free/
 
 	* em-utils.c (guess_account): Change 'tmp' to not be const - fixes
