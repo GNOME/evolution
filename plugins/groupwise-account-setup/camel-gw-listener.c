@@ -206,7 +206,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "username", url->user);
 	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
 	e_source_set_property (source, "auth-domain", "Groupwise");
-	e_source_set_property (source, "use_ssl", camel_url_get_param (url, "use_ssl"));
+	e_source_set_property (source, "use_ssl", camel_url_get_param (url, "soap_ssl"));
 	e_source_set_property (source, "offline_sync", offline_sync);
 		//	e_source_set_property (source, "offline_sync",  );
 	e_source_group_add_source (group, source, -1);
