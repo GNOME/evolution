@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-11 21:43+0900\n"
-"PO-Revision-Date: 2004-08-11 21:45+0900\n"
+"POT-Creation-Date: 2004-08-13 22:03+0900\n"
+"PO-Revision-Date: 2004-08-13 22:04+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -443,17 +443,17 @@ msgstr "지우기"
 msgid "Properties..."
 msgstr "등록 정보..."
 
-#: addressbook/gui/component/addressbook.c:89
+#: addressbook/gui/component/addressbook.c:98
 msgid "Accessing LDAP Server anonymously"
 msgstr "익명으로 LDAP 서버 사용"
 
-#: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:417
+#: addressbook/gui/component/addressbook.c:184
+#: camel/providers/groupwise/camel-gw-listener.c:418
 msgid "Failed to authenticate.\n"
 msgstr "인증하는 데 실패했습니다.\n"
 
-#: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:406
+#: addressbook/gui/component/addressbook.c:191
+#: camel/providers/groupwise/camel-gw-listener.c:407
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s%s(사용자 %s)의 열쇠글을 입력하십시오"
@@ -3030,7 +3030,7 @@ msgid "Error adding list"
 msgstr "목록을 더하는 중 오류가 발생했습니다"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:581
+#: addressbook/gui/widgets/eab-gui-util.c:640
 msgid "Error adding contact"
 msgstr "연락처를 더하는 중 오류가 발생했습니다"
 
@@ -3047,7 +3047,7 @@ msgid "Error removing list"
 msgstr "목록을 지우는 중 오류가 발생했습니다"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:539
+#: addressbook/gui/widgets/eab-gui-util.c:598
 msgid "Error removing contact"
 msgstr "연락처를 지우는 중 오류가 발생했습니다"
 
@@ -3075,40 +3075,40 @@ msgstr "덮어 쓰기"
 
 # 파일 이름
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:366
+#: addressbook/gui/widgets/eab-gui-util.c:383
 msgid "card.vcf"
 msgstr "카드.vcf"
 
 # 파일 이름
-#: addressbook/gui/widgets/eab-gui-util.c:500
+#: addressbook/gui/widgets/eab-gui-util.c:545
 msgid "list"
 msgstr "목록"
 
-#: addressbook/gui/widgets/eab-gui-util.c:635
+#: addressbook/gui/widgets/eab-gui-util.c:694
 msgid "Move contact to"
 msgstr "연락처 이동"
 
-#: addressbook/gui/widgets/eab-gui-util.c:637
+#: addressbook/gui/widgets/eab-gui-util.c:696
 msgid "Copy contact to"
 msgstr "연락처 복사"
 
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Move contacts to"
 msgstr "연락처 이동"
 
-#: addressbook/gui/widgets/eab-gui-util.c:642
+#: addressbook/gui/widgets/eab-gui-util.c:701
 msgid "Copy contacts to"
 msgstr "연락처 복사"
 
-#: addressbook/gui/widgets/eab-gui-util.c:645
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Select target addressbook."
 msgstr "어디로 갈지 주소록을 선택하십시오."
 
-#: addressbook/gui/widgets/eab-gui-util.c:868
+#: addressbook/gui/widgets/eab-gui-util.c:927
 msgid "Multiple VCards"
 msgstr "여러 개 VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:871
+#: addressbook/gui/widgets/eab-gui-util.c:930
 #, c-format
 msgid "VCard for %s"
 msgstr "%s에 대한 VCard"
@@ -5210,11 +5210,11 @@ msgstr "주최자가 필요합니다."
 msgid "At least one attendee is required."
 msgstr "최소한 참석자가 한 사람은 필요합니다."
 
-#: calendar/gui/dialogs/meeting-page.c:764
+#: calendar/gui/dialogs/meeting-page.c:793
 msgid "_Delegate To..."
 msgstr "대리인(_D)..."
 
-#: calendar/gui/dialogs/meeting-page.c:768
+#: calendar/gui/dialogs/meeting-page.c:797
 #: composer/e-msg-composer-attachment-bar.c:453
 msgid "_Remove"
 msgstr "지우기(_R)"
@@ -5829,7 +5829,7 @@ msgstr "아니오"
 #: camel/providers/imap4/camel-imap4-store.c:1223
 #: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1123
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1155
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
 #: widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -9043,7 +9043,8 @@ msgstr "(user-flag)에 잘못된 인자"
 msgid "Failed to create create child process '%s': %s"
 msgstr "하위 프로셋 '%s'을(를) 만드는 데 실패했습니다: %s"
 
-#: camel/camel-filter-search.c:670 camel/camel-filter-search.c:678
+#. A filter search is a search through your filters, ie. your filters is the corpus being searched thru.
+#: camel/camel-filter-search.c:671 camel/camel-filter-search.c:679
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "거르게 찾기 실행 중 오류: %s: %s"
@@ -9209,9 +9210,10 @@ msgstr "gpg 실행에 실패했습니다: %s"
 msgid "Failed to execute gpg."
 msgstr "gpg 실행에 실패했습니다."
 
+# Content-Description:에 들어간다.  번역은 적합하지 않다.
 #: camel/camel-gpg-context.c:1350
 msgid "This is a digitally signed message part"
-msgstr "디지탈 서명된 메세지 부분입니다"
+msgstr "This is a digitally signed message part"
 
 #: camel/camel-gpg-context.c:1431 camel/camel-gpg-context.c:1437
 #: camel/camel-gpg-context.c:1443 camel/camel-smime-context.c:721
@@ -12034,7 +12036,7 @@ msgstr "%.0fM"
 msgid "%.0fG"
 msgstr "%.0fG"
 
-#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:410
+#: composer/e-msg-composer-attachment-bar.c:298 mail/em-utils.c:436
 msgid "attachment"
 msgstr "첨부"
 
@@ -12074,7 +12076,8 @@ msgid "MIME type:"
 msgstr "MIME 형식:"
 
 #: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:74
+#: composer/e-msg-composer-select-file.c:92
+#: composer/e-msg-composer-select-file.c:111
 msgid "Suggest automatic display of attachment"
 msgstr "첨부 파일의 자동 표시를 권합니다"
 
@@ -12156,7 +12159,7 @@ msgstr "게시 위치:"
 msgid "Click here to select folders to post to"
 msgstr "게시할 폴더를 고를려면 여기를 누르십시오"
 
-#: composer/e-msg-composer-select-file.c:127
+#: composer/e-msg-composer-select-file.c:186
 msgid "Attach file(s)"
 msgstr "파일 첨부"
 
@@ -12393,13 +12396,13 @@ msgstr ""
 "\n"
 "올바른 버전의 gtkhtml과 libgtkhtml을 설치했는 지 확인하십시오."
 
-#: data/evolution.desktop.in.in.h:1
-msgid "The Ximian Evolution Groupware Suite"
-msgstr "Ximian Evolution 그룹웨어 모음"
+#: data/evolution.desktop.in.in.h:1 shell/main.c:503
+msgid "Evolution"
+msgstr "Evolution"
 
 #: data/evolution.desktop.in.in.h:2
-msgid "Ximian Evolution (Unstable)"
-msgstr "Ximian Evolution (불안정 버전)"
+msgid "The Evolution Groupware Suite"
+msgstr "Evolution 그룹웨어 모음"
 
 #: data/evolution.keys.in.in.h:1
 msgid "address card"
@@ -12518,7 +12521,7 @@ msgid ""
 msgstr ""
 "메일에서 내용 읽음 확인을 요청받았을 때, Evolution에서 어떻게 하시겠습니까?"
 
-#: e-util/e-dialog-utils.c:253
+#: e-util/e-dialog-utils.c:265
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -12527,17 +12530,17 @@ msgstr ""
 "파일을 덮어쓰시겠습니까?"
 
 #. system:ask-save-file-exists-overwrite title
-#: e-util/e-dialog-utils.c:255 widgets/misc/e-system-errors.xml.h:2
+#: e-util/e-dialog-utils.c:267 widgets/misc/e-system-errors.xml.h:2
 msgid "Overwrite file?"
 msgstr "파일을 덮어쓰시겠습니까?"
 
-#: e-util/e-passwords.c:358
-msgid "Remember this password"
-msgstr "이 열쇠글 기억"
+#: e-util/e-passwords.c:460
+msgid "_Remember this password"
+msgstr "이 열쇠글 기억(_R)"
 
-#: e-util/e-passwords.c:360
-msgid "Remember this password for the remainder of this session"
-msgstr "이 세션에서 이 열쇠글을 기억합니다"
+#: e-util/e-passwords.c:461
+msgid "_Remember this password for the remainder of this session"
+msgstr "이 세션에서 이 열쇠글을 기억합니다(_R)"
 
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
@@ -13655,7 +13658,9 @@ msgstr "암호화 안 됨"
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "the Internet."
-msgstr "이 메세지는 암호화하지 않았습니다.  인터넷을 통해 전달되는 동안, 다른 사람이 이 메세지를 봤을 수 있습니다."
+msgstr ""
+"이 메세지는 암호화하지 않았습니다.  인터넷을 통해 전달되는 동안, 다른 사람이 "
+"이 메세지를 봤을 수 있습니다."
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
@@ -13799,7 +13804,7 @@ msgid "Bcc"
 msgstr "숨은 참조"
 
 #. pseudo-header
-#: mail/em-format-html.c:1554 mail/em-format-quote.c:312
+#: mail/em-format-html.c:1554 mail/em-format-quote.c:314
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
 msgstr "메일 프로그램"
@@ -13814,7 +13819,7 @@ msgstr "<I> ((%a) %R %Z)</I>"
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
+#: mail/em-format-html.c:1594 mail/em-format-quote.c:321 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "날짜"
@@ -13996,20 +14001,20 @@ msgstr "이 메세지를 다시 보지 않습니다."
 msgid "Filters"
 msgstr "거르게"
 
-#: mail/em-utils.c:408
+#: mail/em-utils.c:434
 msgid "message"
 msgstr "메세지"
 
-#: mail/em-utils.c:511
+#: mail/em-utils.c:543
 msgid "Save Message..."
 msgstr "메세지 저장..."
 
-#: mail/em-utils.c:560
+#: mail/em-utils.c:592
 msgid "Add address"
 msgstr "주소 더하기"
 
 #. Drop filename for messages from a mailbox
-#: mail/em-utils.c:1021
+#: mail/em-utils.c:1053
 #, c-format
 msgid "Messages from %s"
 msgstr "%s에서 온 메일"
@@ -16356,26 +16361,18 @@ msgstr "업데이트 중..."
 msgid "Waiting..."
 msgstr "기다리는 중..."
 
-#: mail/mail-session.c:240
-msgid "User canceled operation."
-msgstr "사용자가 취소한 동작."
-
-#: mail/mail-session.c:274
+#: mail/mail-session.c:207
 #, c-format
 msgid "Enter Password for %s"
 msgstr "%s의 열쇠글을 입력하십시오"
 
-#: mail/mail-session.c:276
+#: mail/mail-session.c:209
 msgid "Enter Password"
 msgstr "열쇠글 입력"
 
-#: mail/mail-session.c:304
-msgid "_Remember this password"
-msgstr "이 열쇠글 기억(_R)"
-
-#: mail/mail-session.c:305
-msgid "_Remember this password for the remainder of this session"
-msgstr "이 세션에서 이 열쇠글을 기억합니다(_R)"
+#: mail/mail-session.c:238
+msgid "User canceled operation."
+msgstr "사용자가 취소한 동작."
 
 #: mail/mail-signature-editor.c:371
 msgid "Edit signature"
@@ -16744,7 +16741,7 @@ msgstr ""
 msgid "Select importer"
 msgstr "가져오기 선택"
 
-#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1055
+#: shell/e-shell-importer.c:451 shell/e-shell-importer.c:1056
 #, c-format
 msgid "File %s does not exist"
 msgstr "파일 %s은(는) 없습니다."
@@ -16784,19 +16781,19 @@ msgstr "파일이름(_I):"
 msgid "Select a file"
 msgstr "파일을 고르십시오"
 
-#: shell/e-shell-importer.c:642
+#: shell/e-shell-importer.c:643
 msgid "File _type:"
 msgstr "파일 종류(_T):"
 
-#: shell/e-shell-importer.c:681
+#: shell/e-shell-importer.c:682
 msgid "Import data and settings from _older programs"
 msgstr "과거에 쓰던 프로그램에서 데이터 및 설정 사항 가져오기(_O)"
 
-#: shell/e-shell-importer.c:684
+#: shell/e-shell-importer.c:685
 msgid "Import a _single file"
 msgstr "파일 한 개 가져오기(_S)"
 
-#: shell/e-shell-importer.c:752 shell/e-shell-startup-wizard.c:571
+#: shell/e-shell-importer.c:753 shell/e-shell-startup-wizard.c:571
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -16804,25 +16801,25 @@ msgstr ""
 "잠시 기다려 주십시오...\n"
 "현재 설정을 검사중입니다"
 
-#: shell/e-shell-importer.c:756
+#: shell/e-shell-importer.c:757
 msgid "Starting Intelligent Importers"
 msgstr "똑똑한 가져오기를 시작하는 중입니다"
 
-#: shell/e-shell-importer.c:882 shell/e-shell-startup-wizard.c:698
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:698
 #, c-format
 msgid "From %s:"
 msgstr "%s에서:"
 
-#: shell/e-shell-importer.c:1073
+#: shell/e-shell-importer.c:1074
 #, c-format
 msgid "No importer available for file %s"
 msgstr "%s 파일에 사용할 수 있는 가져오기 기능이 없습니다"
 
-#: shell/e-shell-importer.c:1085
+#: shell/e-shell-importer.c:1086
 msgid "Unable to execute importer"
 msgstr "가져오기 기능을 실행할 수 없습니다"
 
-#: shell/e-shell-importer.c:1199
+#: shell/e-shell-importer.c:1200
 msgid "_Import"
 msgstr "가져오기(_I)"
 
@@ -17067,7 +17064,7 @@ msgid "Evolution can import data from the following files:"
 msgstr "다음 파일들을 Evolution으로 가져올 수 있습니다:"
 
 #. Preview/Alpha/Beta version warning message
-#: shell/main.c:225
+#: shell/main.c:226
 #, no-c-format
 msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
@@ -17101,7 +17098,7 @@ msgstr ""
 "우리가 열심히 일한 결과물을 잘 써 주시길 바랍니다. 그리고 개발에\n"
 "기여해 주시기를 목이 빠지게 기다리겠습니다!\n"
 
-#: shell/main.c:249
+#: shell/main.c:250
 msgid ""
 "Thanks\n"
 "The Evolution Team\n"
@@ -17109,39 +17106,35 @@ msgstr ""
 "고맙습니다\n"
 "Evolution 팀\n"
 
-#: shell/main.c:256
+#: shell/main.c:257
 msgid "Don't tell me again"
 msgstr "다시 물어보지 않습니다"
 
-#: shell/main.c:461
+#: shell/main.c:462
 msgid "Start Evolution activating the specified component"
 msgstr "Evolution 시작할 때 특정 컴포넌트를 활성화합니다"
 
-#: shell/main.c:463
+#: shell/main.c:464
 msgid "Start in offline mode"
 msgstr "오프라인 모드에서 시작"
 
-#: shell/main.c:465
+#: shell/main.c:466
 msgid "Start in online mode"
 msgstr "온라인 모드에서 시작"
 
-#: shell/main.c:468
+#: shell/main.c:469
 msgid "Forcibly shut down all evolution components"
 msgstr "강제로 모든 Evolution 컴포넌트를 끝냅니다"
 
-#: shell/main.c:472
+#: shell/main.c:473
 msgid "Forcibly re-migrate from Evolution 1.4"
 msgstr "강제로 Evolution 1.4에서 다시 옮겨 옵니다"
 
-#: shell/main.c:475
+#: shell/main.c:476
 msgid "Send the debugging output of all components to a file."
 msgstr "모든 컴포넌트의 디버깅 출력을 파일로 보냅니다."
 
-#: shell/main.c:502
-msgid "Evolution"
-msgstr "Evolution"
-
-#: shell/main.c:506
+#: shell/main.c:507
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
@@ -17315,30 +17308,31 @@ msgstr ""
 "이 인증서를 발급한 인증 기관을 신뢰하지 않는다고 하셨으므로, 따로 지정하지 않"
 "는 한 이 인증서를 믿을만 하다고 신뢰하지 않습니다."
 
-#: smime/gui/certificate-manager.c:130 smime/gui/certificate-manager.c:353
-#: smime/gui/certificate-manager.c:556
+#: smime/gui/certificate-manager.c:134 smime/gui/certificate-manager.c:142
+#: smime/gui/certificate-manager.c:375 smime/gui/certificate-manager.c:383
+#: smime/gui/certificate-manager.c:595 smime/gui/certificate-manager.c:603
 msgid "Select a cert to import..."
 msgstr "가져올 인증서를 선택하십시오..."
 
-#: smime/gui/certificate-manager.c:245 smime/gui/certificate-manager.c:437
-#: smime/gui/certificate-manager.c:638
+#: smime/gui/certificate-manager.c:263 smime/gui/certificate-manager.c:472
+#: smime/gui/certificate-manager.c:690
 msgid "Certificate Name"
 msgstr "인증서 이름"
 
-#: smime/gui/certificate-manager.c:254 smime/gui/certificate-manager.c:455
+#: smime/gui/certificate-manager.c:272 smime/gui/certificate-manager.c:490
 msgid "Purposes"
 msgstr "목적"
 
-#: smime/gui/certificate-manager.c:263 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:281 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:569
 msgid "Serial Number"
 msgstr "일련 번호"
 
-#: smime/gui/certificate-manager.c:271
+#: smime/gui/certificate-manager.c:289
 msgid "Expires"
 msgstr "만료"
 
-#: smime/gui/certificate-manager.c:446
+#: smime/gui/certificate-manager.c:481
 msgid "E-Mail Address"
 msgstr "전자메일 주소"
 
