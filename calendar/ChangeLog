@@ -1,3 +1,12 @@
+2004-04-15 Gary Ekker <gekker@novell.com>
+
+	Fixes #52271
+
+	* gui/e-cal-model-tasks.c: (set_percent): shouldn't call 
+	ensure_task_not_complete here, it removes the percent property that 
+	we just set.
+	
+
 2004-04-15  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/task-page.c (task_page_fill_component): don't

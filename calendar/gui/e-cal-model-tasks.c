@@ -652,7 +652,12 @@ set_percent (ECalModelComponent *comp_data, const void *value)
 		if (percent == 100)
 			ensure_task_complete (comp_data, -1);
 		else {
-			ensure_task_not_complete (comp_data);
+			prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+			if (prop) {
+				icalcomponent_remove_property (comp_data->icalcomp, prop);
+				icalproperty_free (prop);
+			}
+			
 			if (percent > 0)
 				set_status (comp_data, _("In Progress"));
 		}
