@@ -62,6 +62,7 @@
 #include <glade/glade.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-scroll-frame.h>
+#include <gal/e-text/e-entry.h>
 #include <gtkhtml/gtkhtml.h>
 
 #include "widgets/misc/e-charset-picker.h"
@@ -237,24 +238,6 @@ void
 e_msg_composer_clear_inlined_table (EMsgComposer *composer)
 {
 	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
-}
-
-static guint
-set_focus_to_editor_idle (EMsgComposer *composer)
-{
-	CORBA_Environment ev;
-
-	CORBA_exception_init (&ev);
-	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "grab-focus", &ev);
-	CORBA_exception_free (&ev);
-
-	return FALSE;
-}
-
-static inline void
-set_focus_to_editor (EMsgComposer *composer)
-{
-	gtk_idle_add (set_focus_to_editor_idle, composer);
 }
 
 static void
@@ -2271,6 +2254,47 @@ e_msg_composer_get_visible_flags (EMsgComposer *composer)
 	return flags;
 }
 
+
+static void
+map_default_cb (EMsgComposer *composer, gpointer user_data)
+{
+	GtkWidget *to;
+        BonoboControlFrame *cf;
+        Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
+	char *text;
+	CORBA_Environment ev;
+
+	/* If the 'To:' field is empty, focus it (This is ridiculously complicated) */
+
+	to = e_msg_composer_hdrs_get_to_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
+        cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (to));
+        pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
+	text = bonobo_property_bag_client_get_value_string (pb, "text", NULL);
+
+	if (!text || text[0] == '\0') {
+		bonobo_control_frame_focus_child (cf, GTK_DIR_TAB_FORWARD);
+		return;
+	}
+
+	/* If not, check the subject field */
+
+	text = e_msg_composer_hdrs_get_subject (E_MSG_COMPOSER_HDRS (composer->hdrs));
+
+	if (!text || text[0] == '\0') {
+		GtkWidget *widget;
+		
+		widget = e_msg_composer_hdrs_get_subject_entry (E_MSG_COMPOSER_HDRS (composer->hdrs));
+		gtk_widget_grab_focus (GTK_WIDGET (E_ENTRY (widget)->canvas));
+		return;
+	}
+
+	/* Jump to the editor as a last resort. */
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "grab-focus", &ev);
+	CORBA_exception_free (&ev);
+}
+
 /**
  * e_msg_composer_construct:
  * @composer: A message composer widget
@@ -2369,7 +2393,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 	e_msg_composer_show_attachments (composer, FALSE);
 
 	prepare_engine (composer);
-	set_focus_to_editor (composer);
+	gtk_signal_connect (GTK_OBJECT (composer), "map", map_default_cb, NULL);
 }
 
 static EMsgComposer *

@@ -1,3 +1,13 @@
+2001-07-12  Peter Williams  <peterw@ximian.com>
+
+	* e-msg-composer.c (map_default_cb): New function. Figure out
+	which widget gets the default and assign it. Harder to do than
+	it sounds.
+	(e_msg_composer_construct): Hook map_default_cb up to the "map"
+	signal.
+	(set_focus_to_editor): Removed.
+	(set_focus_to_editor_idle): Removed.
+	
 2001-08-10  Jon Trowbridge  <trow@ximian.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Removed comment about
