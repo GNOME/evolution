@@ -1,3 +1,17 @@
+2001-10-10  Jon Trowbridge  <trow@ximian.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_from_account):
+	Check for either a matching account name, or for a matching e-mail
+	address embedded in the passed-in string. (Fixes half of bug
+	#3255)
+	(destroy): Call bonobo_object_release_unref on corba_select_names,
+	not CORBA_Object_release.  Otherwise we leak stuff all over the
+	place. (Bug #11878)
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): If our message
+	doesn't contain an X-Evolution-Account header, pass in the From
+	header as the account name.  (Fixes the other half of #3255)
+
 2001-10-10  Larry Ewing  <lewing@ximian.com>
 
 	* e-msg-composer.h: add prototype.

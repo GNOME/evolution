@@ -497,9 +497,8 @@ destroy (GtkObject *object)
 
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
-
 		CORBA_exception_init (&ev);
-		CORBA_Object_release (priv->corba_select_names, &ev);
+		bonobo_object_release_unref (priv->corba_select_names, &ev);
 		CORBA_exception_free (&ev);
 	}
 
@@ -770,7 +769,10 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 	
 	omenu = GTK_OPTION_MENU (hdrs->priv->from.entry);
 	
-	default_account = mail_config_get_default_account_num ();
+	if (account_name)
+		default_account = -1;
+	else
+		default_account = mail_config_get_default_account_num ();
 	
 	/* find the item that represents the account and activate it */
 	l = hdrs->priv->from_options;
@@ -779,8 +781,9 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		item = l->data;
 		
 		account = gtk_object_get_data (GTK_OBJECT (item), "account");
-		if ((account_name && !strcmp (account_name, account->name)) ||
-		    (!account_name && i == default_account)) {
+		if (i == default_account ||
+		    (account_name && ((account->name && !strcmp (account_name, account->name))
+				      || (account->id->address && strstr (account_name, account->id->address))))) {
 			/* set the correct optionlist item */
 			gtk_option_menu_set_history (omenu, i);
 			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);

@@ -2710,6 +2710,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 		while (*account_name && isspace ((unsigned) *account_name))
 			account_name++;
 	}
+	if (account_name == NULL) {
+		account_name = camel_medium_get_header (CAMEL_MEDIUM (msg), "From");
+	}
 	
 	e_msg_composer_set_headers (new, account_name, Tov, Ccv, Bccv, subject);
 	
