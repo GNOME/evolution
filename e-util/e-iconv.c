@@ -41,10 +41,8 @@
 #endif
 
 /* FIXME: Use feature test */
-#if 0
 #ifndef __sun__
 #define ICONV_ISO_NEEDS_DASH (1)
-#endif
 #endif
 
 #define cd(x)
