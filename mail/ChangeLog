@@ -1,3 +1,8 @@
+2001-10-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (destination_folder_handle_drop): Properly
+	handle local vTrash folders.
+
 2001-10-19    <NotZed@Ximian.com>
 
 	* mail-account-gui.c (build_auth_menu): Dont translate camel strings.

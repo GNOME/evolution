@@ -322,7 +322,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CamelException ex;
 	GPtrArray *uids;
 	CamelURL *url;
-
+	
 	url = camel_url_new (destination_physical_uri, NULL);
 	noselect = url ? camel_url_get_param (url, "noselect") : NULL;
 	
@@ -340,7 +340,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
 		return;
 	}
-
+	
 	camel_exception_init (&ex);
 	source = mail_tool_uri_to_folder (source_physical_uri, 0, &ex);
 	camel_exception_clear (&ex);
@@ -348,12 +348,12 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_init (&ev);
 	if (source) {
 		xfer_folder_data *xfd;
-
+		
 		xfd = g_new0 (xfer_folder_data, 1);
 		xfd->remove_source = remove_source;
 		xfd->source_uri = g_strdup (source_physical_uri);
 		xfd->listener = CORBA_Object_duplicate (listener, &ev);
-
+		
 		uids = camel_folder_get_uids (source);
 		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
 					CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
@@ -377,10 +377,10 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	static char popup_xml[] =
 		"<menuitem name=\"ChangeFolderProperties\" verb=\"ChangeFolderProperties\""
 		"          _label=\"Properties...\" _tip=\"Change this folder's properties\"/>";
-
+	
 	if (strcmp (type, "mail") != 0)
 		return;
-
+	
 	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
 					   popup_xml, NULL);
 }
@@ -470,6 +470,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 				gpointer user_data)
 {
 	char *tmp, *url, **urls, *in, *inptr, *inend;
+	char *vfolder_uri = NULL;
 	gboolean retval = FALSE;
 	const char *noselect;
 	CamelFolder *folder;
@@ -501,6 +502,10 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 			break;
 	
 	camel_exception_init (&ex);
+	
+	/* if this is a local vtrash folder, then it's uri is vtrash:file:/ */
+	if (!strcmp (folder_type, "vtrash") && !strncmp (physical_uri, "file:", 5))
+		physical_uri = "vtrash:file:/";
 	
 	switch (type) {
 	case ACCEPTED_DND_TYPE_TEXT_URI_LIST:
@@ -646,14 +651,14 @@ got_folder (char *uri, CamelFolder *folder, void *data)
 	
 	if (folder) {
 		*fp = folder;
-
-		camel_object_ref(CAMEL_OBJECT (folder));
-
+		
+		camel_object_ref (CAMEL_OBJECT (folder));
+		
 		/* emit a changed event, this is a little hack so that the folderinfo cache
 		   will update knowing whether this is the outbox_folder or not, etc */
 		if (folder == outbox_folder) {
 			CamelFolderChangeInfo *changes = camel_folder_change_info_new();
-
+			
 			camel_object_trigger_event((CamelObject *)folder, "folder_changed", changes);
 			camel_folder_change_info_free(changes);
 		}
@@ -845,7 +850,7 @@ create_component (void)
 	EvolutionShellComponentDndDestinationFolder *destination_interface;
 	MailOfflineHandler *offline_handler;
 	int i;
-
+	
 	shell_component = evolution_shell_component_new (folder_types,
 							 schema_types,
 							 create_view,
@@ -864,7 +869,7 @@ create_component (void)
 				     BONOBO_OBJECT (destination_interface));
 	
 	evolution_mail_config_wizard_init ();
-
+	
 	evolution_shell_component_add_user_creatable_item (shell_component, "message", _("New Mail Message"), _("New _Mail Message"), 'm');
 
 	for (i=0;i<sizeof(shell_component_handlers)/sizeof(shell_component_handlers[0]);i++) {
@@ -872,7 +877,7 @@ create_component (void)
 								      shell_component_handlers[i].sig,
 								      shell_component_handlers[i].func, NULL);
 	}
-
+	
 	offline_handler = mail_offline_handler_new ();
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component), BONOBO_OBJECT (offline_handler));
 	
