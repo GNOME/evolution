@@ -1,4 +1,9 @@
 2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
+	
+	* gui/component/addressbook.c (update_pixmaps): Consider the
+	placeholder in the path for the "Print" item.
+
+2001-01-25  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (update_pixmaps): Set the icon for
 	"/Toolbar/Find" to "24_find_contact.xpm".
