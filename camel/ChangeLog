@@ -1,5 +1,11 @@
 2004-06-23  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
+	First LIST/LSUB the toplevel folder, and then LIST/LSUB the
+	subfolders (it needs to be 2 commands to work properly).
+	(imap4_delete_folder): CLOSE the folder we are about to DELETE if
+	it is currently SELECTED.
+
 	* providers/imap/camel-imap-provider.c (imap_url_equal): Same.
 
 	* providers/imap4/camel-imap4-provider.c (imap4_url_equal): Check

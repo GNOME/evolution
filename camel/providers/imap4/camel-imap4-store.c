@@ -871,7 +871,8 @@ static void
 imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
-	CamelIMAP4Command *ic;
+	CamelFolder *selected = (CamelFolder *) engine->folder;
+	CamelIMAP4Command *ic, *ic0 = NULL;
 	CamelFolderInfo *fi;
 	char *utf7_name;
 	CamelURL *url;
@@ -888,6 +889,9 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
+	if (selected && !strcmp (folder_name, selected->full_name))
+		ic0 = camel_imap4_engine_queue (engine, NULL, "CLOSE\r\n");
+	
 	utf7_name = imap4_folder_utf7_name (store, folder_name, '\0');
 	ic = camel_imap4_engine_queue (engine, NULL, "DELETE %S\r\n", utf7_name);
 	g_free (utf7_name);
@@ -896,11 +900,21 @@ imap4_delete_folder (CamelStore *store, const char *folder_name, CamelException 
 		;
 	
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
-		camel_exception_xfer (ex, &ic->ex);
+		if (ic0 && ic0->status != CAMEL_IMAP4_COMMAND_COMPLETE)
+			camel_exception_xfer (ex, &ic0->ex);
+		else
+			camel_exception_xfer (ex, &ic->ex);
+		
+		if (ic0 != NULL)
+			camel_imap4_command_unref (ic0);
+		
 		camel_imap4_command_unref (ic);
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
 		return;
 	}
+	
+	if (ic0 != NULL)
+		camel_imap4_command_unref (ic0);
 	
 	switch (ic->result) {
 	case CAMEL_IMAP4_RESULT_OK:
@@ -1115,6 +1129,7 @@ imap4_build_folder_info (CamelStore *store, const char *top, guint32 flags, GPtr
 		
 		if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST)) {
 			if (folder && !strcmp (folder->full_name, fi->full_name)) {
+				/* can't STATUS this folder since it is SELECTED, besides - it would be wasteful */
 				CamelMessageInfo *info;
 				int index;
 				
@@ -1154,12 +1169,13 @@ static CamelFolderInfo *
 imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelIMAP4Command *ic, *ic0 = NULL;
 	CamelFolderInfo *fi = NULL;
 	camel_imap4_list_t *list;
-	CamelIMAP4Command *ic;
 	GPtrArray *array;
 	const char *cmd;
 	char *pattern;
+	char wildcard;
 	int id, i;
 	
 	CAMEL_SERVICE_LOCK (store, connect_lock);
@@ -1179,21 +1195,56 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	if (top == NULL)
 		top = "";
 	
-	pattern = imap4_folder_utf7_name (store, top, (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%');
+	wildcard = (flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) ? '*' : '%';
+	pattern = imap4_folder_utf7_name (store, top, wildcard);
+	array = g_ptr_array_new ();
+	
+	if (*top != '\0') {
+		size_t len;
+		char sep;
+		
+		len = strlen (pattern);
+		sep = pattern[len - 2];
+		pattern[len - 2] = '\0';
+		
+		ic0 = camel_imap4_engine_queue (engine, NULL, "%s \"\" %S\r\n", cmd, pattern);
+		camel_imap4_command_register_untagged (ic0, cmd, camel_imap4_untagged_list);
+		ic0->user_data = array;
+		
+		pattern[len - 2] = sep;
+	}
+	
 	ic = camel_imap4_engine_queue (engine, NULL, "%s \"\" %S\r\n", cmd, pattern);
 	camel_imap4_command_register_untagged (ic, cmd, camel_imap4_untagged_list);
-	ic->user_data = array = g_ptr_array_new ();
+	ic->user_data = array;
 	
 	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
 		;
 	
 	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
-		camel_exception_xfer (ex, &ic->ex);
+		if (ic0 && ic0->status != CAMEL_IMAP4_COMMAND_COMPLETE)
+			camel_exception_xfer (ex, &ic0->ex);
+		else
+			camel_exception_xfer (ex, &ic->ex);
+		
+		if (ic0 != NULL)
+			camel_imap4_command_unref (ic0);
 		camel_imap4_command_unref (ic);
+		
+		for (i = 0; i < array->len; i++) {
+			list = array->pdata[i];
+			g_free (list->name);
+			g_free (list);
+		}
+		
 		g_ptr_array_free (array, TRUE);
 		g_free (pattern);
+		
 		goto done;
 	}
+	
+	if (ic0 != NULL)
+		camel_imap4_command_unref (ic0);
 	
 	if (ic->result != CAMEL_IMAP4_RESULT_OK) {
 		camel_imap4_command_unref (ic);
