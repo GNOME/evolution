@@ -1500,7 +1500,7 @@ void icalcomponent_merge_component(icalcomponent* comp,
 
   /* Check that both components are VCALENDAR components. */
   assert (icalcomponent_isa(comp) == ICAL_VCALENDAR_COMPONENT);
-  assert (icalcomponent_isa(comp_to_merge) != ICAL_VCALENDAR_COMPONENT);
+  assert (icalcomponent_isa(comp_to_merge) == ICAL_VCALENDAR_COMPONENT);
 
   /* Step through each subcomponent of comp_to_merge, looking for VTIMEZONEs.
      For each VTIMEZONE found, check if we need to add it to comp and if we
@@ -1559,7 +1559,7 @@ static void icalcomponent_merge_vtimezone (icalcomponent *comp,
   icaltimezone *existing_vtimezone;
 
   /* Get the TZID of the VTIMEZONE. */
-  tzid_prop = icalcomponent_get_first_property (comp, ICAL_TZID_PROPERTY);
+  tzid_prop = icalcomponent_get_first_property (vtimezone, ICAL_TZID_PROPERTY);
   if (!tzid_prop)
     return;
 

@@ -1,6 +1,11 @@
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
-	* src/libical/icaltimezone.c (icaltimezone_get_builtin_timezone_from_tzid): 
+	* src/libical/icalcomponent.c (icalcomponent_merge_component): fixed
+	bad assertion, '!=' -> '=='.
+	(icalcomponent_merge_vtimezone): get the TZID from vtimezone, not comp.
+
+2001-07-03  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icaltime.c: 
 	* src/libical/icalcomponent.c: more timezone stuff.
 
