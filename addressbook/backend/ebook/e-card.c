@@ -31,7 +31,8 @@ enum {
 	ARG_PHONE,
 	ARG_EMAIL,
 	ARG_BIRTH_DATE,
-	ARG_URL
+	ARG_URL,
+	ARG_ID
 };
 
 #if 0
@@ -58,6 +59,7 @@ static void parse_email(ECard *card, VObject *object);
 static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
+static void parse_id(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
 static void set_phone_flags (VObject *vobj, ECardPhoneFlags flags);
@@ -77,7 +79,8 @@ struct {
 	{ VCEmailAddressProp, parse_email },
 	{ VCTelephoneProp,    parse_phone },
 	{ VCAdrProp,          parse_address },
-	{ VCURLProp,          parse_url }
+	{ VCURLProp,          parse_url },
+	{ VCUniqueStringProp, parse_id }
 };
 
 /**
@@ -131,6 +134,14 @@ e_card_new (char *vcard)
 		vobj = next;
 	}
 	return card;
+}
+
+ECard *e_card_duplicate(ECard *card)
+{
+	char *vcard = e_card_get_vcard(card);
+	ECard *new_card = e_card_new(vcard);
+	g_free (vcard);
+	return new_card;
 }
 
 /**
@@ -255,8 +266,11 @@ char
 		g_free(value);
 	}
 
-	if ( card->url )
+	if (card->url)
 		addPropValue(vobj, VCURLProp, card->url);
+	
+	if (card->id)
+		addPropValue (vobj, VCUniqueStringProp, card->id);
 	
 #if 0
 	
@@ -348,9 +362,6 @@ char
 		add_SoundType (vprop, crd->sound.type);
 		add_CardProperty (vprop, &crd->sound.prop);
 	}
-	
-        add_CardStrProperty (vobj, VCURLProp, &crd->url);
-        add_CardStrProperty (vobj, VCUniqueStringProp, &crd->uid);
 	
 	if (crd->key.prop.used) {
 		vprop = addPropValue (vobj, VCPublicKeyProp, crd->key.data);
@@ -455,9 +466,17 @@ parse_address(ECard *card, VObject *vobj)
 static void
 parse_url(ECard *card, VObject *vobj)
 {
-	if ( card->url )
+	if (card->url)
 		g_free(card->url);
 	assign_string(vobj, &(card->url));
+}
+
+static void
+parse_id(ECard *card, VObject *vobj)
+{
+	if ( card->id )
+		g_free(card->id);
+	assign_string(vobj, &(card->id));
 }
 
 static void
@@ -506,6 +525,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_BIRTH_DATE);
 	gtk_object_add_arg_type ("ECard::url",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
+	gtk_object_add_arg_type ("ECard::id",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
 
 
 	object_class->destroy = e_card_destroy;
@@ -592,6 +613,9 @@ e_card_destroy (GtkObject *object)
 	if ( card->bday )
 		g_free(card->bday);
 
+	if (card->url)
+		g_free(card->url);
+
 	if (card->email)
 		gtk_object_unref(GTK_OBJECT(card->email));
 	if (card->phone)
@@ -629,6 +653,12 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( card->url )
 			g_free(card->url);
 		card->url = GTK_VALUE_STRING(*arg);
+		break;
+	case ARG_ID:
+		if (card->id)
+			g_free(card->id);
+		card->id = GTK_VALUE_STRING(*arg);
+		break;
 	default:
 		return;
 	}
@@ -675,6 +705,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_URL:
 		GTK_VALUE_STRING(*arg) = card->url;
+		break;
+	case ARG_ID:
+		GTK_VALUE_STRING(*arg) = card->id;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

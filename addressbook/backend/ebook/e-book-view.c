@@ -51,9 +51,10 @@ e_book_view_do_modified_event (EBookView                 *book_view,
 			       EBookViewListenerResponse *resp)
 {
 	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_CHANGED],
-			 resp->id);
+			 resp->cards);
 
-	g_free (resp->id); 
+	g_list_foreach (resp->cards, (GFunc) gtk_object_unref, NULL);
+	g_list_free (resp->cards);
 }
 
 static void
@@ -61,10 +62,9 @@ e_book_view_do_removed_event (EBookView                 *book_view,
 			      EBookViewListenerResponse *resp)
 {
 	gtk_signal_emit (GTK_OBJECT (book_view), e_book_view_signals [CARD_REMOVED],
-			 resp->cards);
+			 resp->id);
 
-	g_list_foreach (resp->cards, (GFunc) gtk_object_unref, NULL);
-	g_list_free (resp->cards);
+	g_free(resp->id);
 }
 
 

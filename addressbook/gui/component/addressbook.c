@@ -76,7 +76,7 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	gint result;
 	GtkWidget* contact_editor =
-		e_contact_editor_new(e_card_new(BLANK_VCARD));
+		e_contact_editor_new(e_card_new(""));
 	EBook *book = E_BOOK (user_data);
 		
 	GtkWidget* dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
@@ -94,13 +94,17 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	
 	/* If the user clicks "okay"...*/
 	if (result == 0) {
+		ECard *card;
 		g_assert (contact_editor);
 		g_assert (GTK_IS_OBJECT (contact_editor));
+		gtk_object_get(GTK_OBJECT(contact_editor),
+			       "card", &card,
+			       NULL);
 		
 		/* Add the card in the contact editor to our ebook */
 		e_book_add_card (
 			book,
-			E_CONTACT_EDITOR(contact_editor)->card,
+			card,
 			card_added_cb,
 			NULL);
 	}

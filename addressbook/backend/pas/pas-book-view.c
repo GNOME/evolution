@@ -33,7 +33,7 @@ pas_book_view_notify_change (PASBookView                *book_view,
 	card_sequence._length = length;
 
 	for ( i = 0; cards; cards = g_list_next(cards), i++ ) {
-		card_sequence._buffer[i] = (char *) cards->data;
+		card_sequence._buffer[i] = CORBA_string_dup((char *) cards->data);
 	}
 
 	CORBA_exception_init (&ev);

@@ -1,5 +1,6 @@
 INCLUDES =					\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
 	$(GNOME_INCLUDEDIR)
@@ -47,6 +48,7 @@ minicard_test_LDADD =	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/libversit/libversit.la	\
+	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 reflow_test_SOURCES = 	\
@@ -60,6 +62,7 @@ reflow_test_LDADD =	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/libversit/libversit.la	\
+	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a
 
 minicard_view_test_SOURCES = 	\
@@ -73,4 +76,5 @@ minicard_view_test_LDADD =	\
 	$(top_builddir)/e-util/libeutil.la	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
 	$(top_builddir)/libversit/libversit.la	\
+	$(top_builddir)/addressbook/contact-editor/libecontacteditor.a	\
 	$(top_builddir)/widgets/e-text/libetext.a

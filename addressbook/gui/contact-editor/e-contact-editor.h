@@ -42,8 +42,8 @@ extern "C" {
 #define E_CONTACT_EDITOR_TYPE			(e_contact_editor_get_type ())
 #define E_CONTACT_EDITOR(obj)			(GTK_CHECK_CAST ((obj), E_CONTACT_EDITOR_TYPE, EContactEditor))
 #define E_CONTACT_EDITOR_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), E_CONTACT_EDITOR_TYPE, EContactEditorClass))
-#define E_IS_MINICARD(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
-#define E_IS_MINICARD_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
+#define E_IS_CONTACT_EDITOR(obj)		(GTK_CHECK_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
+#define E_IS_CONTACT_EDITOR_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_CONTACT_EDITOR_TYPE))
 
 
 typedef struct _EContactEditor       EContactEditor;

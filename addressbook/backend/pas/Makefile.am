@@ -24,6 +24,7 @@ INCLUDES =						\
 	-I.. 						\
 	-I$(top_builddir)				\
         -I$(includedir)                                 \
+	-I$(top_srcdir)/addressbook/backend/ebook	\
         $(GNOME_INCLUDEDIR)
 
 gnome_libs =						\

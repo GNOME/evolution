@@ -28,6 +28,8 @@
 #include "e-canvas.h"
 #include "e-util.h"
 #include "e-canvas-utils.h"
+#include "e-contact-editor.h"
+#include "e-minicard-view.h"
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
@@ -278,87 +280,130 @@ e_minicard_unrealize (GnomeCanvasItem *item)
     (* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
 }
 
+static void
+card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
+{
+	g_print ("%s: %s(): a card was changed\n", __FILE__, __FUNCTION__);
+}
+
 static gboolean
 e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-  EMinicard *e_minicard;
- 
-  e_minicard = E_MINICARD (item);
-
-  switch( event->type )
-    {
-    case GDK_FOCUS_CHANGE:
-      {
-	GdkEventFocus *focus_event = (GdkEventFocus *) event;
-	if ( focus_event->in )
-	  {
-	    gnome_canvas_item_set( e_minicard->rect, 
-				   "outline_color", "grey50", 
-				   NULL );
-	    gnome_canvas_item_set( e_minicard->header_rect, 
-				   "fill_color", "darkblue",
-				   NULL );
-	    gnome_canvas_item_set( e_minicard->header_text, 
-				   "fill_color", "white",
-				   NULL );
-	    e_minicard->has_focus = TRUE;
-	  }
+	EMinicard *e_minicard;
+	
+	e_minicard = E_MINICARD (item);
+	
+	switch( event->type ) {
+	case GDK_FOCUS_CHANGE:
+		{
+			GdkEventFocus *focus_event = (GdkEventFocus *) event;
+			if ( focus_event->in ) {
+				gnome_canvas_item_set( e_minicard->rect, 
+						       "outline_color", "grey50", 
+						       NULL );
+				gnome_canvas_item_set( e_minicard->header_rect, 
+						       "fill_color", "darkblue",
+						       NULL );
+				gnome_canvas_item_set( e_minicard->header_text, 
+						       "fill_color", "white",
+						       NULL );
+				e_minicard->has_focus = TRUE;
+			} else {
+				gnome_canvas_item_set( e_minicard->rect, 
+						       "outline_color", NULL, 
+						       NULL );
+				gnome_canvas_item_set( e_minicard->header_rect, 
+						       "fill_color", "grey70",
+						       NULL );
+				gnome_canvas_item_set( e_minicard->header_text, 
+						       "fill_color", "black",
+						       NULL );
+				e_minicard->has_focus = FALSE;
+			}
+		}
+		break;
+	case GDK_BUTTON_PRESS:
+		if (event->button.button == 1) {
+			e_canvas_item_grab_focus(item);
+		}
+		break;
+	case GDK_2BUTTON_PRESS:
+		if (E_IS_MINICARD_VIEW(item->parent)) {
+			gint result;
+			GtkWidget* contact_editor =
+				e_contact_editor_new(e_minicard->card);
+			EBook *book;
+			GtkWidget *dlg;
+			gtk_object_get(GTK_OBJECT(item->parent),
+				       "book", &book,
+				       NULL);
+			
+			dlg = gnome_dialog_new ("Contact Editor", "Save", "Cancel", NULL);
+			
+			g_assert (E_IS_BOOK (book));
+			
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dlg)->vbox),
+					    contact_editor, TRUE, TRUE, 0);
+			
+			gtk_widget_show_all (dlg);
+			
+			gnome_dialog_close_hides (GNOME_DIALOG (dlg), TRUE);
+			result = gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+			
+			
+			/* If the user clicks "okay"...*/
+			if (result == 0) {
+				ECard *card;
+				g_assert (contact_editor);
+				g_assert (GTK_IS_OBJECT (contact_editor));
+				gtk_object_get(GTK_OBJECT(contact_editor),
+					       "card", &card,
+					       NULL);
+				
+				/* Add the card in the contact editor to our ebook */
+				e_book_commit_card (book,
+						    card,
+						    card_changed_cb,
+						    NULL);
+			}
+		}
+		break;
+	case GDK_KEY_PRESS:
+		if (event->key.keyval == GDK_Tab || 
+		    event->key.keyval == GDK_KP_Tab || 
+		    event->key.keyval == GDK_ISO_Left_Tab) {
+			GList *list;
+			for (list = e_minicard->fields; list; list = list->next) {
+				GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
+				EFocus has_focus;
+				gtk_object_get(GTK_OBJECT(item),
+					       "has_focus", &has_focus,
+					       NULL);
+				if (has_focus != E_FOCUS_NONE) {
+					if (event->key.state & GDK_SHIFT_MASK)
+						list = list->prev;
+					else
+						list = list->next;
+					if (list) {
+						item = GNOME_CANVAS_ITEM (list->data);
+						gnome_canvas_item_set(item,
+								      "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
+								      NULL);
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+			}
+		}
+	default:
+		break;
+	}
+	
+	if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
+		return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
 	else
-	  {
-	    gnome_canvas_item_set( e_minicard->rect, 
-				   "outline_color", NULL, 
-				   NULL );
-	    gnome_canvas_item_set( e_minicard->header_rect, 
-				   "fill_color", "grey70",
-				   NULL );
-	    gnome_canvas_item_set( e_minicard->header_text, 
-				   "fill_color", "black",
-				   NULL );
-	    e_minicard->has_focus = FALSE;
-	  }
-      }
-      break;
-    case GDK_BUTTON_PRESS:
-	    if (event->button.button == 1) {
-		    e_canvas_item_grab_focus(item);
-	    }
-	    break;
-    case GDK_KEY_PRESS:
-	    if (event->key.keyval == GDK_Tab || 
-		event->key.keyval == GDK_KP_Tab || 
-		event->key.keyval == GDK_ISO_Left_Tab) {
-		    GList *list;
-		    for (list = e_minicard->fields; list; list = list->next) {
-			    GnomeCanvasItem *item = GNOME_CANVAS_ITEM (list->data);
-			    EFocus has_focus;
-			    gtk_object_get(GTK_OBJECT(item),
-					   "has_focus", &has_focus,
-					   NULL);
-			    if (has_focus != E_FOCUS_NONE) {
-				    if (event->key.state & GDK_SHIFT_MASK)
-					    list = list->prev;
-				    else
-					    list = list->next;
-				    if (list) {
-					    item = GNOME_CANVAS_ITEM (list->data);
-					    gnome_canvas_item_set(item,
-								  "has_focus", (event->key.state & GDK_SHIFT_MASK) ? E_FOCUS_END : E_FOCUS_START,
-								  NULL);
-					    return 1;
-				    } else {
-					    return 0;
-				    }
-			    }
-		    }
-	    }
-    default:
-      break;
-    }
-  
-  if (GNOME_CANVAS_ITEM_CLASS( parent_class )->event)
-	  return (* GNOME_CANVAS_ITEM_CLASS( parent_class )->event) (item, event);
-  else
-	  return 0;
+		return 0;
 }
 
 static void
@@ -548,7 +593,13 @@ e_minicard_compare (EMinicard *minicard1, EMinicard *minicard2)
 		gtk_object_get(GTK_OBJECT(minicard2->card),
 			       "full_name", &fname2,
 			       NULL);
-		return strcmp(fname1, fname2);
+		if (fname1 && fname2)
+			return strcmp(fname1, fname2);
+		if (fname1)
+			return -1;
+		if (fname2)
+			return 1;
+		return 0;
 	} else {
 		return 0;
 	}

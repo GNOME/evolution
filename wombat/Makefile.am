@@ -20,6 +20,7 @@ wombat_LDADD =				\
 	$(BONOBO_HTML_GNOME_LIBS)	\
 	$(top_builddir)/e-util/libeutil.la     			\
 	$(top_builddir)/addressbook/backend/pas/libpas.la     	\
+	$(top_builddir)/addressbook/backend/ebook/libebook.la  	\
 	$(top_builddir)/calendar/pcs/libpcs.la     		\
 	$(top_builddir)/libical/src/libical/libical.la     	\
 	$(top_builddir)/calendar/cal-util/libcalutil.la     	\

@@ -1,3 +1,45 @@
+2000-04-10  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-book-view.c: Fixed a bug where I was
+	sending the wrong information to some callbacks.
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h: Added an e_card_duplicate
+	function.  Made ids get stored in vcards.  Made sure to delete the
+	url if it exists.
+
+	* addressbook/backend/pas/Makefile.am: Made pas include
+	addressbook/backend/ebook/ in the search path.
+
+	* addressbook/backend/pas/pas-backend-file.c: Fixed some bugs and
+	made the create card function store the generated id in the card
+	being saved.
+
+	* addressbook/backend/pas/pas-book-view.c: Fixed a double free
+	bug.
+
+	* addressbook/contact-editor/e-contact-editor.c: Fixed some bugs.
+	Made the contact editor actually return a valid card when
+	gtk_object_get(editor, "card", ...) is called.
+
+	* addressbook/contact-editor/e-contact-editor.h: Fixed a copy and
+	paste error.
+
+	* addressbook/gui/component/addressbook.c: Made this get the card
+	properly.
+
+	* addressbook/gui/minicard/Makefile.am: Made this include
+	contact-editor directory in the search path and link against
+	libecontacteditor so that double clicking can open a dialog.
+
+	* addressbook/gui/minicard/e-minicard.c: Fixed some small bugs.
+	Made double clicking open a contact editor dialog if this minicard
+	is contained in a minicard view.  (It needs the minicard view to
+	get the EBook to save to.
+
+	* wombat/Makefile.am: Link wombat against libebook, since
+	pas-backend-file now uses ECard.
+
 2000-04-09  Matt Loper  <matt@helixcode.com>
 
 	* addressbook/gui/component/addressbook.c (control_activate): Make

@@ -19,6 +19,7 @@
 #include <pas-backend-file.h>
 #include <pas-book.h>
 #include <pas-card-cursor.h>
+#include <e-card.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
@@ -153,11 +154,20 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	int            db_error;
 	char           *id;
 	GList         *list;
+	ECard         *card;
+	char          *vcard;
 
 	id = pas_backend_file_create_unique_id (req->vcard);
 
 	string_to_dbt (id, &id_dbt);
-	string_to_dbt (req->vcard, &vcard_dbt);
+	
+	card = e_card_new(req->vcard);
+	e_card_set_id(card, id);
+	vcard = e_card_get_vcard(card);
+	gtk_object_unref(GTK_OBJECT(card));
+	card = NULL;
+
+	string_to_dbt (vcard, &vcard_dbt);
 
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
 
@@ -187,6 +197,7 @@ pas_backend_file_process_create_card (PASBackend *backend,
 	}
 
 	g_free (id);
+	g_free (vcard);
 	g_free (req->vcard);
 }
 
@@ -239,8 +250,13 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 	DBT            id_dbt, vcard_dbt;
 	int            db_error;
 	GList         *list;
+	ECard         *card;
+	char          *id;
 
-	string_to_dbt (req->id, &id_dbt);
+	card = e_card_new(req->vcard);
+	id = e_card_get_id(card);
+
+	string_to_dbt (id, &id_dbt);
 	string_to_dbt (req->vcard, &vcard_dbt);	
 
 	db_error = db->put (db, &id_dbt, &vcard_dbt, 0);
@@ -253,7 +269,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 			/* else if (card changes to match view->search )
 			   pas_book_view_notify_add_1 (view->book_view, req->vcard);
 			   else if (card changes to not match view->search )
-			   pas_book_view_notify_remove (view->book_view, req->id);
+			   pas_book_view_notify_remove (view->book_view, id);
 			*/
 		}
 
@@ -271,6 +287,7 @@ pas_backend_file_process_modify_card (PASBackend *backend,
 				 Evolution_BookListener_CardNotFound);
 	}
 
+	gtk_object_unref(GTK_OBJECT(card));
 	g_free (req->vcard);
 }
 
