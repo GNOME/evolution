@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-12-13 15:49+0300\n"
+"POT-Creation-Date: 2000-12-13 16:26-0600\n"
 "PO-Revision-Date: 2000-12-13 15:51+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -2744,7 +2744,7 @@ msgstr "Строка URL \"%s\" содержит недопустимый протокол"
 msgid "Port number in URL `%s' is non-numeric"
 msgstr "Номер порта в URL \"%s\" не является числом"
 
-#: camel/providers/imap/camel-imap-auth.c:126
+#: camel/providers/imap/camel-imap-auth.c:127
 #, c-format
 msgid ""
 "Could not get Kerberos ticket:\n"
@@ -2753,7 +2753,7 @@ msgstr ""
 "Не удалось получить билет Kerberos:\n"
 "%s"
 
-#: camel/providers/imap/camel-imap-auth.c:197
+#: camel/providers/imap/camel-imap-auth.c:198
 msgid "Bad authentication response from server."
 msgstr "Отрицательный ответ идентификации от сервера."
 
@@ -2803,6 +2803,7 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr "Для чтения и хранения почты на серверах IMAP."
 
 #: camel/providers/imap/camel-imap-store.c:234
+#: camel/providers/nntp/camel-nntp-store.c:293
 #: camel/providers/pop3/camel-pop3-store.c:148
 msgid "Password"
 msgstr "Пароль"
@@ -3138,6 +3139,77 @@ msgstr "Невозможно добавить сообщение к папке mh: %s: %s"
 #, c-format
 msgid "`%s' is not a directory."
 msgstr "\"%s\" не является каталогом."
+
+#: camel/providers/nntp/camel-nntp-auth.c:41
+#, fuzzy, c-format
+msgid "Please enter the NNTP password for %s@%s"
+msgstr "%sПожалуйста, введите пароль IMAP для %s@%s"
+
+#: camel/providers/nntp/camel-nntp-auth.c:62
+msgid "Server rejected username"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-auth.c:68
+msgid "Failed to send username to server"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-auth.c:77
+msgid "Server rejected username/password"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-folder.c:144
+#, fuzzy, c-format
+msgid "Message %s not found."
+msgstr "Сообщение было отправлено"
+
+#: camel/providers/nntp/camel-nntp-grouplist.c:45
+#, fuzzy
+msgid "Could not get group list from server."
+msgstr "Не удалось запустить сервер wombat"
+
+#: camel/providers/nntp/camel-nntp-grouplist.c:94
+#: camel/providers/nntp/camel-nntp-grouplist.c:103
+#, fuzzy, c-format
+msgid "Unable to load grouplist file for %s: %s"
+msgstr "Невозможно проверить файл блокировки для %s: %s"
+
+#: camel/providers/nntp/camel-nntp-grouplist.c:153
+#, fuzzy, c-format
+msgid "Unable to save grouplist file for %s: %s"
+msgstr "Сбой при сохранении почты во временном файле %s: %s"
+
+#: camel/providers/nntp/camel-nntp-provider.c:38
+msgid "USENET news"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-provider.c:40
+msgid "This is a provider for reading from and posting toUSENET newsgroups."
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-store.c:226
+#, fuzzy, c-format
+msgid "Could not open directory for news server: %s"
+msgstr "Невозможно создать каталог %s: %s"
+
+#: camel/providers/nntp/camel-nntp-store.c:288
+#, c-format
+msgid "USENET News via %s"
+msgstr ""
+
+#: camel/providers/nntp/camel-nntp-store.c:295
+#, fuzzy
+msgid ""
+"This option will authenticate with the NNTP server using a plaintext "
+"password."
+msgstr ""
+"Подключение к IMAP серверу будет производиться с использованием "
+"незашифрованного пароля."
+
+#: camel/providers/nntp/camel-nntp-store.c:334
+#: camel/providers/nntp/camel-nntp-store.c:500
+#, fuzzy, c-format
+msgid "Unable to open or create .newsrc file for %s: %s"
+msgstr "Не удалось создать файл блокировки для %s: %s"
 
 #: camel/providers/pop3/camel-pop3-folder.c:179
 msgid "Could not open folder: message listing was incomplete."
@@ -4201,18 +4273,6 @@ msgstr "Передача почты"
 #: po/tmp/mail-config-druid.glade.h:10
 msgid "Welcome to the Evolution Mail configuration wizard!\n"
 msgstr "Добро пожаловать к помощнику по настройке почты в Evolution!\n"
-
-#: po/tmp/mail-config-druid.glade.h:11
-msgid "By filling in some information about your email\n"
-msgstr "Введя некоторую информацию о параметрах вашей электронной\n"
-
-#: po/tmp/mail-config-druid.glade.h:12
-msgid "settings, you can start sending and receiving email\n"
-msgstr "почты, вы сможете начать ее отправку и приём\n"
-
-#: po/tmp/mail-config-druid.glade.h:13
-msgid "right away. Click Next to continue."
-msgstr "Нажмите \"Далее\" для продолжения."
 
 #: po/tmp/mail-config-druid.glade.h:14
 msgid ""
@@ -6620,3 +6680,12 @@ msgstr "%I:%M %p"
 #, c-format
 msgid "Group %i"
 msgstr "Группа %i"
+
+#~ msgid "By filling in some information about your email\n"
+#~ msgstr "Введя некоторую информацию о параметрах вашей электронной\n"
+
+#~ msgid "settings, you can start sending and receiving email\n"
+#~ msgstr "почты, вы сможете начать ее отправку и приём\n"
+
+#~ msgid "right away. Click Next to continue."
+#~ msgstr "Нажмите \"Далее\" для продолжения."
