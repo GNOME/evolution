@@ -542,7 +542,6 @@ init_widgets (MeetingPage *mpage)
 			    G_CALLBACK (invite_cb), mpage);
 }
 
-#if 0
 static void
 popup_delegate_cb (GtkWidget *widget, gpointer data) 
 {
@@ -561,7 +560,7 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	edd = e_delegate_dialog_new (NULL, itip_strip_mailto (e_meeting_attendee_get_delto (ia)));
 	dialog = e_delegate_dialog_get_toplevel (edd);
 
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0){
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_OK){
 		EMeetingAttendee *ic;
 		
 		name = e_delegate_dialog_get_delegate_name (edd);
@@ -601,7 +600,6 @@ popup_delegate_cb (GtkWidget *widget, gpointer data)
 	g_free (address);
 	g_object_unref((edd));
 }
-#endif
 
 static void
 popup_delete_cb (GtkWidget *widget, gpointer data) 
@@ -644,11 +642,9 @@ enum {
 };
 
 static EPopupMenu context_menu[] = {
-#if 0
 	E_POPUP_ITEM (N_("_Delegate To..."), G_CALLBACK (popup_delegate_cb),  CAN_DELEGATE),
 
 	E_POPUP_SEPARATOR,
-#endif
 
 	E_POPUP_ITEM (N_("_Delete"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
 	
@@ -669,10 +665,11 @@ right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer da
 	view_row = e_table_model_to_view_row (etable, row);
 	priv->row = e_meeting_model_etable_view_to_model_row (etable, priv->model, view_row);
 	
-	/* FIXME: if you enable Delegate, then change index to '1' */
-#if 0
-	context_menu[0].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH);
-#endif
+	/* FIXME: if you enable Delegate, then change index to '1'.
+	 * (This has now been enabled). */
+	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
+	context_menu[1].pixmap_widget =
+	  gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
 
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
 	e_auto_kill_popup_menu_on_hide (menu);

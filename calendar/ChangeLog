@@ -1,3 +1,32 @@
+2003-01-24  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/e-day-view.c (e_day_view_on_editing_stopped): Don't insist
+	appointment is updated if both old and new summary are blank.
+
+	* gui/e-week-view.c (e_week_view_on_editing_stopped): Ditto.
+
+	* gui/e-timezone-entry.c (on_button_clicked): Timezone dialog is now
+	a GtkDialog. Treat it as such.
+
+	* gui/goto.c (ecal_event): Goto dialog is now a GtkDialog. Treat it
+	as such.
+	(goto_dialog): Ditto.
+
+	* gui/goto-dialog.glade: Set the return IDs from the dialog buttons.
+
+	* gui/dialogs/meeting-page.c (popup_delegate_cb): Enable the delegate
+	dialog. It's now a GtkDialog, so treat it like one.
+	(right_click_cb): Use GTK stock item, not GNOME (that doesn't work
+	anymore).
+
+	* gui/e-delegate-dialog.glade: Set the return IDs from dialog buttons.
+
+	* gui/print.c (print_calendar): Correct the print dialog init. Code
+	is still not enabled, though.
+
+	* gui/tasks-control.c (print_tasks): Add a warning about printing
+	being disabled.
+
 2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/dialogs/Makefile.am (iconsdir): Remove, this is now defined

@@ -524,6 +524,7 @@ static void
 print_tasks (ETasks *tasks, gboolean preview, gboolean landscape,
 	     int copies, gboolean collate)
 {
+#warning "Re-implement printing."
 #if 0
 	ECalendarTable *cal_table;
 	EPrintable *printable;

@@ -15,6 +15,7 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkwindow.h>
+#include <gtk/gtkdialog.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include "calendar-commands.h"
@@ -97,7 +98,8 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 
 	gnome_calendar_goto (dlg->gcal, et);
 
-	gnome_dialog_close (GNOME_DIALOG (dlg->dialog));
+	gtk_dialog_response (GTK_DIALOG (dlg->dialog), GTK_RESPONSE_NONE);
+	/* gnome_dialog_close (GNOME_DIALOG (dlg->dialog)); */
 }
 
 /* Returns the current time, for the ECalendarItem. */
@@ -236,10 +238,12 @@ goto_dialog (GnomeCalendar *gcal)
 
 	goto_dialog_init_widgets (dlg);
 
-	gnome_dialog_set_parent (GNOME_DIALOG (dlg->dialog),
-				 GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
+	gtk_window_set_transient_for (GTK_WINDOW (dlg->dialog),
+				      GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 
-	b = gnome_dialog_run_and_close (GNOME_DIALOG (dlg->dialog));
+	b = gtk_dialog_run (GTK_DIALOG (dlg->dialog));
+	gtk_widget_destroy (dlg->dialog);
+
 	if (b == 0)
 		goto_today (dlg);
 

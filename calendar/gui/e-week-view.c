@@ -3212,7 +3212,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		if (!e_week_view_is_one_day_event (week_view, event_num))
 			e_week_view_reshape_event_span (week_view, event_num,
 							span_num);
-	} else {
+	} else if (summary.value || !string_is_empty (text)) {
 		summary.value = text;
 		summary.altrep = NULL;
 		cal_component_set_summary (event->comp, &summary);

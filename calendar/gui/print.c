@@ -2407,6 +2407,7 @@ void
 print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		PrintView default_view)
 {
+#warning "Re-implement printing."
 #if 0
 	GnomePrintConfig *config;
 	GnomePrintJob *gpm;
@@ -2426,7 +2427,9 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 		GtkWidget *range;
 		int view;
 
-		gpd = gnome_print_dialog_new_default ();
+		gpd = gnome_print_dialog_new (NULL, _("Print"), 0);
+
+		/* FIXME: THe rest of this func needs to be converted */
 
 		view = (int) default_view;
 		range = range_selector_new (gpd, date, &view);

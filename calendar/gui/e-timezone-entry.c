@@ -216,7 +216,7 @@ on_button_clicked		(GtkWidget	*widget,
 
 	dialog = e_timezone_dialog_get_toplevel (timezone_dialog);
 
-	if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0) {
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT) {
 		tzid = e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (timezone_dialog), &display_name);
 		old_display_name = gtk_entry_get_text (GTK_ENTRY (priv->entry));
 		/* See if the timezone has been changed. It can only have been
