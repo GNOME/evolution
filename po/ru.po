@@ -359,9 +359,8 @@ msgid "Loading..."
 msgstr "Загрузка..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:687
-#, fuzzy
 msgid "Reconnecting to LDAP server..."
-msgstr "Подключение к серверу LDAP..."
+msgstr "Переподключение к серверу LDAP..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:1230
 msgid "Adding card to LDAP server..."
@@ -629,7 +628,7 @@ msgstr ""
 #. the user clicked cancel in the password dialog
 #: addressbook/gui/component/addressbook.c:582
 msgid "Accessing LDAP Server anonymously"
-msgstr ""
+msgstr "Обращаться к серверу LDAP анонимно"
 
 #: addressbook/gui/component/addressbook.c:625
 msgid "Failed to authenticate.\n"
@@ -679,6 +678,10 @@ msgid ""
 "more specific or raise the time limit in the directory server\n"
 "preferences for this addressbook."
 msgstr ""
+"Время исполнения этого заппроса превышает предел сервера или предел,\n"
+"установленный вами для этой адресной книги.  Пожалуйста, сделайте поиск\n"
+"более избирательным или увеличьте предел времени в настройках сервера\n"
+"каталогов для этой адресной книги."
 
 #: addressbook/gui/component/addressbook.c:968
 msgid "The backend for this addressbook was unable to parse this query."
@@ -690,7 +693,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:975
 msgid "This query did not complete successfully."
-msgstr ""
+msgstr "Этот запрос завершился неудачно"
 
 #. All, unmatched, separator
 #: addressbook/gui/component/addressbook.c:1050
@@ -835,23 +838,25 @@ msgid "Attribute"
 msgstr "Атрибут"
 
 #: addressbook/gui/component/ldap-config.glade.h:19
-#, fuzzy
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
 "\n"
 "Please click the \"Finish\" button to save the settings you have entered "
 "here."
-msgstr "Поздравляем, вы закончили настройку этого сервера LDAP.\n"
+msgstr ""
+"Поздравляем, вы закончили настройку этого сервера LDAP.\n"
+"Теперь вы можете обращаться к этому каталогу.\n"
+"\n"
+"Пожалуйста, щелкните по кнопке \"Завершить\" для сохранения введенных настроек."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
-#, fuzzy
 msgid "Connecting"
-msgstr "Коннектикут"
+msgstr "Соединение"
 
 #: addressbook/gui/component/ldap-config.glade.h:24
 msgid "Corresponding Evolution Attribute"
-msgstr ""
+msgstr "Соответствующий атрибут Evolution"
 
 #: addressbook/gui/component/ldap-config.glade.h:25
 #, fuzzy
@@ -872,9 +877,8 @@ msgid "Email Address:"
 msgstr "Эл.адрес:"
 
 #: addressbook/gui/component/ldap-config.glade.h:29
-#, fuzzy
 msgid "Evolution Attribute"
-msgstr "Evolution "
+msgstr "Атрибут Evolution"
 
 #: addressbook/gui/component/ldap-config.glade.h:30
 #, fuzzy
@@ -886,9 +890,8 @@ msgid "Evolution will use this email address to authenticate you with the server
 msgstr "Будет использоваться этот эл.адрес для идентификации Вас на сервере"
 
 #: addressbook/gui/component/ldap-config.glade.h:32
-#, fuzzy
 msgid "Finished"
-msgstr "Найти"
+msgstr "Готово"
 
 #: addressbook/gui/component/ldap-config.glade.h:33
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
@@ -897,7 +900,7 @@ msgstr "Общие"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "LDAP Attribute"
-msgstr ""
+msgstr "Атрибут LDAP"
 
 #: addressbook/gui/component/ldap-config.glade.h:35
 msgid "LDAP Configuration Assistant"
@@ -922,6 +925,11 @@ msgid ""
 "your connection. Ask your system administrator if your LDAP server uses "
 "these protocols."
 msgstr ""
+"Теперь вы должны указать, как вы хотите соединяться с этим сервером LDAP.\n"
+"Некоторые сервера используют протоколы SSL (Secure Sockets Layer)\n"
+"и TLS  (Transport Layer Security) для криптографической защиты вашего соединения.\n"
+"Спросите своего системного администратора, использует ли ваш сервер LDAP\n"
+"эти протоколы."
 
 #: addressbook/gui/component/ldap-config.glade.h:41
 msgid "Objectclasses"
@@ -972,9 +980,8 @@ msgid "Searching"
 msgstr "Поиск"
 
 #: addressbook/gui/component/ldap-config.glade.h:53
-#, fuzzy
 msgid "Select"
-msgstr "Выбрать всё"
+msgstr "Выбрать"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
 #, fuzzy
@@ -987,6 +994,8 @@ msgid ""
 "server if\n"
 "your LDAP server supports SSL or TLS."
 msgstr ""
+"Выбор этого параметра значит, что Evolution будет соединяться с вашим\n"
+"сервером LDAP только если он поддерживает SSL или TLS."
 
 #: addressbook/gui/component/ldap-config.glade.h:57
 msgid ""
@@ -1060,6 +1069,8 @@ msgid ""
 "information. Please ask your system administrator if you are unsure of this "
 "information."
 msgstr ""
+"Первым шагом при настройке сервера LDAP является указание его имени и вашей\n"
+"учетной записи. Если вы не уверены, свяжитесь с вашим системным администратором."
 
 #: addressbook/gui/component/ldap-config.glade.h:77
 msgid ""
@@ -1233,9 +1244,8 @@ msgid "_Edit Mapping"
 msgstr "Правка встречи"
 
 #: addressbook/gui/component/ldap-config.glade.h:120
-#, fuzzy
 msgid "_Evolution attribute:"
-msgstr "Evolution "
+msgstr "Атрибут _Evolution:"
 
 #: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_If necessary "
@@ -1243,11 +1253,11 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attribute:"
-msgstr ""
+msgstr "Атрибут _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_LDAP attributes:"
-msgstr ""
+msgstr "Атрибуты _LDAP:"
 
 #: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_Log in method:"
@@ -2908,12 +2918,11 @@ msgstr "Требуется аутентификация"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:45
 msgid "TLS not Available"
-msgstr ""
+msgstr "TLS недоступен"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:46
-#, fuzzy
 msgid "Addressbook does not exist"
-msgstr "Файл \"%s\" не существует."
+msgstr "Адресная книга не существует"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:47
 msgid "Other error"
@@ -2961,6 +2970,8 @@ msgid ""
 "Opening %d cards will open %d new windows as well.\n"
 "Do you really want to display all of these cards?"
 msgstr ""
+"Открытие %d карточек приведет к открытию %d новых окон.\n"
+"Вы действительно хотите показать все эти карточки?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:348
 msgid "Move card to"
@@ -3438,9 +3449,8 @@ msgid "Could not read pilot's Calendar application block"
 msgstr "Не удалось прочитать блок приложения календарь Пилота"
 
 #: calendar/conduits/todo/todo-conduit.c:206
-#, fuzzy
 msgid "Default Priority:"
-msgstr "Приоритет:"
+msgstr "Приоритет по умолчанию:"
 
 #: calendar/conduits/todo/todo-conduit.c:951
 #: calendar/conduits/todo/todo-conduit.c:954
@@ -3900,13 +3910,12 @@ msgid "Alarm Repeat"
 msgstr "Повторение сигнала"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:2
-#, fuzzy
 msgid ""
 "Evolution does not yet support email notification for reminders.  You will "
 "not be able to edit the options for this reminder."
 msgstr ""
 "Это напоминание по эл.почте, но Evolution ещё не поддерживает такой тип "
-"напоминаний. Вы не сможете редактировать параметры."
+"напоминаний.  Вы не сможете редактировать параметры."
 
 #: calendar/gui/dialogs/alarm-options.glade.h:3
 msgid "Message to Display"
@@ -4181,7 +4190,7 @@ msgstr "Суббота"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Sh_ow a reminder"
-msgstr ""
+msgstr "Показать напоминание"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Show week _numbers in date navigator"
@@ -7832,7 +7841,7 @@ msgstr ""
 
 #: calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr "Европа/Коморо"
+msgstr ""
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
@@ -9120,9 +9129,9 @@ msgid "IMAP server %s"
 msgstr "IMAP сервер %s"
 
 #: camel/providers/imap/camel-imap-store.c:459
-#, fuzzy, c-format
+#, c-format
 msgid "IMAP service for %s on %s"
-msgstr "%s сервис для %s на %s"
+msgstr "IMAP сервис для %s на %s"
 
 #: camel/providers/imap/camel-imap-store.c:584
 #: camel/providers/nntp/camel-nntp-store.c:130
@@ -9194,9 +9203,9 @@ msgid "No such folder %s"
 msgstr "Нет такой папки %s"
 
 #: camel/providers/imap/camel-imap-store.c:1805
-#, fuzzy, c-format
+#, c-format
 msgid "The folder name \"%s\" is invalid because it containes the character \"%c\""
-msgstr "Название папки не может содержать символ возврата каретки."
+msgstr "Название папки \"%s\" неверно поскольку содержит символ \"%c\"."
 
 #: camel/providers/imap/camel-imap-store.c:1817
 #, fuzzy, c-format
@@ -9413,9 +9422,8 @@ msgid "Checking folder consistency"
 msgstr "Проверка целостности папки"
 
 #: camel/providers/local/camel-maildir-summary.c:640
-#, fuzzy
 msgid "Checking for new messages"
-msgstr "Поиск новых сообщений"
+msgstr "Проверка новых сообщений"
 
 #: camel/providers/local/camel-maildir-summary.c:729
 #: camel/providers/local/camel-mbox-summary.c:345
@@ -9596,14 +9604,14 @@ msgid "Cannot open MH directory path: %s: %s"
 msgstr "Невозможно открыть MH каталог: %s: %s"
 
 #: camel/providers/local/camel-spool-store.c:118
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' cannot be opened: %s"
-msgstr "Папки спула не могут быть переименованы"
+msgstr "Невозможно открыть хранилище '%s': %s"
 
 #: camel/providers/local/camel-spool-store.c:130
-#, fuzzy, c-format
+#, c-format
 msgid "Spool `%s' is not a regular file or directory"
-msgstr "Хранилище %s не является каталогом"
+msgstr "Хранилище '%s' не является обычным файлом или каталогом"
 
 #: camel/providers/local/camel-spool-store.c:150
 #, c-format
@@ -9845,7 +9853,7 @@ msgstr "Сбой команды IMAP: %s"
 #: camel/providers/pop3/camel-pop3-store.c:420
 #, c-format
 msgid "Cannot login to POP server %s: SASL Protocol error"
-msgstr ""
+msgstr "Невозможно зарегистрироваться на сервере POP %s: ошибка протокола SASL"
 
 #: camel/providers/pop3/camel-pop3-store.c:439
 #, c-format
@@ -11462,12 +11470,11 @@ msgstr "Вы не установили метод транспортировки почты"
 
 #: mail/component-factory.c:992
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "Есть неотправленные сообщения, всё равно выйти?"
 
 #: mail/component-factory.c:998
-#, fuzzy
 msgid "Warning: Unsent Messages"
-msgstr "Внимание: Изменённое сообщение"
+msgstr "Внимание: неотправленные сообщения"
 
 #: mail/component-factory.c:1040
 msgid "New Mail Message"
@@ -11827,14 +11834,14 @@ msgid "Mail to %s"
 msgstr "Фильтры почты"
 
 #: mail/mail-autofilter.c:242
-#, fuzzy, c-format
+#, c-format
 msgid "Subject is %s"
-msgstr "Тема"
+msgstr "Тема %s"
 
 #: mail/mail-autofilter.c:258
-#, fuzzy, c-format
+#, c-format
 msgid "Mail from %s"
-msgstr "Из %s:"
+msgstr "Сообщение от %s"
 
 #: mail/mail-autofilter.c:275
 #, fuzzy, c-format
@@ -12066,26 +12073,25 @@ msgid ""
 "Please specify signature filename\n"
 "in Andvanced section of signature settings."
 msgstr ""
+"Пожалуйста укажите файл подписи в секции\n"
+"Расширенные... настроек подписи."
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
 #: mail/mail-composer-prefs.c:416
-#, fuzzy
 msgid " [script]"
-msgstr "Нет описания"
+msgstr " [сценарий]"
 
 #: mail/mail-composer-prefs.c:309
 msgid "Please specify a valid script name"
-msgstr ""
+msgstr "Пожалуйста, укажите верное имя сценария"
 
 #: mail/mail-composer-prefs.c:325 mail/mail-config.c:2629
-#, fuzzy
 msgid "Unnamed"
-msgstr "Безымянный контакт"
+msgstr "Безымянный"
 
 #: mail/mail-composer-prefs.c:875
-#, fuzzy
 msgid "Add script signature"
-msgstr "Добавить критерий"
+msgstr "Добавить сценарий подписи"
 
 #: mail/mail-composer-prefs.c:876
 msgid "Add Signature"
@@ -12102,7 +12108,6 @@ msgstr ""
 "эту информацию в отправляемую вами почту."
 
 #: mail/mail-config-druid.c:148
-#, fuzzy
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
@@ -12125,7 +12130,6 @@ msgstr ""
 "свяжитесь с вашим системным администратором или провайдером услуг Интернет."
 
 #: mail/mail-config-druid.c:154
-#, fuzzy
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and outgoing mail transport method which you provided "
@@ -12198,7 +12202,6 @@ msgid "Add new signature..."
 msgstr "Добавить новую подпись..."
 
 #: mail/mail-config.glade.h:11
-#, fuzzy
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "Всегда шифровать моим ключом, когда посылается шифрованная почта"
 
@@ -12252,7 +12255,7 @@ msgstr "Цвета"
 
 #: mail/mail-config.glade.h:26
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "Проверка орфографии во время набора"
 
 #: mail/mail-config.glade.h:27
 msgid "Checking for New Mail"
@@ -12466,9 +12469,8 @@ msgid "Qmail maildir "
 msgstr "Почтовый каталог Qmail "
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "Quote original message"
-msgstr "Невозможно открыть сообщение"
+msgstr "Цитировать исходное сообщение"
 
 #: mail/mail-config.glade.h:93
 msgid "Quoted"
@@ -12659,9 +12661,8 @@ msgid "_Default signature:"
 msgstr "Файл подписи в текстовом формате "
 
 #: mail/mail-config.glade.h:147
-#, fuzzy
 msgid "_Defaults"
-msgstr "Сделать основной"
+msgstr "Умолчания"
 
 #: mail/mail-config.glade.h:149
 msgid "_Do not notify me when new mail arrives"
@@ -12739,9 +12740,8 @@ msgid "_Restore defaults"
 msgstr "Восстановить умолчания"
 
 #: mail/mail-config.glade.h:171
-#, fuzzy
 msgid "_Script:"
-msgstr "Безопасность"
+msgstr "Сценарий:"
 
 #: mail/mail-config.glade.h:172
 msgid "_Sending Mail"
@@ -12918,7 +12918,6 @@ msgid "This message is digitally signed. Click the lock icon for more informatio
 msgstr ""
 
 #: mail/mail-format.c:1875
-#, fuzzy
 msgid "Could not create a PGP verfication context"
 msgstr "Не удалось создать контекст проверки PGP"
 
@@ -13254,7 +13253,6 @@ msgid "_Remember this password"
 msgstr "Запомнить этот пароль"
 
 #: mail/mail-session.c:273
-#, fuzzy
 msgid "_Remember this password for the remainder of this session"
 msgstr "Запомнить этот пароль до окончания этой сессии"
 
@@ -13503,7 +13501,6 @@ msgid "Flag to Follow Up"
 msgstr ""
 
 #: mail/message-tags.glade.h:1
-#, fuzzy
 msgid "C_ompleted"
 msgstr "Выполнено"
 
@@ -14572,7 +14569,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:241
 msgid "Beverly"
-msgstr ""
+msgstr "Беверли"
 
 #: my-evolution/Locations.h:242
 msgid "Biarritz-Bayonne"
@@ -14800,7 +14797,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:300
 msgid "Brisbane"
-msgstr ""
+msgstr "Брисбейн"
 
 #: my-evolution/Locations.h:301
 msgid "Bristol"
@@ -15464,7 +15461,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:471
 msgid "Clinton"
-msgstr ""
+msgstr "Клинтон"
 
 #: my-evolution/Locations.h:472
 msgid "Clovis-Cannon AFB"
@@ -17545,7 +17542,7 @@ msgstr "Итака"
 
 #: my-evolution/Locations.h:1018
 msgid "Ivano-Frankivsk"
-msgstr ""
+msgstr "Ивано-Франковск"
 
 #: my-evolution/Locations.h:1019
 msgid "Iwakuni MCAS"
@@ -17905,7 +17902,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1111
 msgid "Kishineu"
-msgstr ""
+msgstr "Кишинев"
 
 #: my-evolution/Locations.h:1112
 msgid "Kitakyushu Airport"
@@ -17973,7 +17970,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1128
 msgid "Koln/Bonn"
-msgstr ""
+msgstr "Кёльн/Бонн"
 
 #: my-evolution/Locations.h:1129
 msgid "Komatsu Ab"
@@ -18029,7 +18026,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1142
 msgid "Kryviy Rig/Lozovatka"
-msgstr ""
+msgstr "Кривой Рог/Лозоватка"
 
 #: my-evolution/Locations.h:1143
 msgid "Kumamoto Airport"
@@ -18045,11 +18042,11 @@ msgstr ""
 
 #: my-evolution/Locations.h:1147
 msgid "Kyiv/Boryspil"
-msgstr ""
+msgstr "Киев/Борисполь"
 
 #: my-evolution/Locations.h:1148
 msgid "Kyiv/Zhulyany"
-msgstr ""
+msgstr "Киев/Жуляны"
 
 #: my-evolution/Locations.h:1149
 msgid "La Ceiba"
@@ -18777,7 +18774,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1335
 msgid "Maryland"
-msgstr ""
+msgstr "Мэриленд"
 
 #: my-evolution/Locations.h:1336
 msgid "Marysville"
@@ -18801,7 +18798,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1341
 msgid "Massachusetts"
-msgstr ""
+msgstr "Массачусетс"
 
 #: my-evolution/Locations.h:1342
 msgid "Massena"
@@ -19501,7 +19498,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1518
 msgid "Napoli"
-msgstr ""
+msgstr "Неаполь"
 
 #: my-evolution/Locations.h:1519
 msgid "Narvik"
@@ -19625,7 +19622,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1550
 msgid "Newport"
-msgstr ""
+msgstr "Ньюпорт"
 
 #: my-evolution/Locations.h:1551
 msgid "Newport News"
@@ -20261,7 +20258,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1718
 msgid "Perm"
-msgstr ""
+msgstr "Пермь"
 
 #: my-evolution/Locations.h:1719
 msgid "Perpignan-Rivesaltes"
@@ -20405,7 +20402,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1755
 msgid "Podgorica"
-msgstr ""
+msgstr "Подгорица"
 
 #: my-evolution/Locations.h:1756
 msgid "Podgorica Titograd"
@@ -21277,7 +21274,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1978
 msgid "San Diego"
-msgstr ""
+msgstr "Сан-Диего"
 
 #: my-evolution/Locations.h:1979
 msgid "San Diego-Brown"
@@ -21317,7 +21314,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:1988
 msgid "San Francisco"
-msgstr ""
+msgstr "Сан-Франциско"
 
 #: my-evolution/Locations.h:1989
 msgid "Sangju"
@@ -21721,7 +21718,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2091
 msgid "Sitka"
-msgstr ""
+msgstr "Ситка"
 
 #: my-evolution/Locations.h:2092
 msgid "Sivas"
@@ -21749,7 +21746,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2098
 msgid "Skopje"
-msgstr ""
+msgstr "Скопье"
 
 #: my-evolution/Locations.h:2099
 msgid "Skwentna"
@@ -21857,7 +21854,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2129
 msgid "Split"
-msgstr ""
+msgstr "Сплит"
 
 #: my-evolution/Locations.h:2130
 msgid "Spokane"
@@ -21873,7 +21870,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2133
 msgid "Springfield"
-msgstr ""
+msgstr "Спрингфилд"
 
 #: my-evolution/Locations.h:2134
 msgid "Stampede Pass"
@@ -22168,7 +22165,6 @@ msgid "Tallahassee"
 msgstr ""
 
 #: my-evolution/Locations.h:2211
-#, fuzzy
 msgid "Tallinn"
 msgstr "Таллин"
 
@@ -22458,7 +22454,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2283
 msgid "Toulouse"
-msgstr "Тулуз"
+msgstr "Тулуза"
 
 #: my-evolution/Locations.h:2284
 msgid "Toul-Rosieres"
@@ -22514,7 +22510,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2297
 msgid "Trieste"
-msgstr ""
+msgstr "Триест"
 
 #: my-evolution/Locations.h:2298
 msgid "Trinidad"
@@ -22522,7 +22518,7 @@ msgstr "Тринидад"
 
 #: my-evolution/Locations.h:2299
 msgid "Tripoli"
-msgstr ""
+msgstr "Триполи"
 
 #: my-evolution/Locations.h:2300
 msgid "Tromso/Langnes"
@@ -23202,7 +23198,7 @@ msgstr ""
 
 #: my-evolution/Locations.h:2476
 msgid "Winnipeg"
-msgstr ""
+msgstr "Виннипег"
 
 #: my-evolution/Locations.h:2477
 msgid "Winslow"
@@ -23509,7 +23505,6 @@ msgstr "Все"
 
 #. Fixme: nice GFX version
 #: my-evolution/e-summary-shown.c:531
-#, fuzzy
 msgid "Add"
 msgstr "Добавить"
 
@@ -24795,7 +24790,6 @@ msgid "Tasks "
 msgstr "Задачи "
 
 #: my-evolution/my-evolution.glade.h:17
-#, fuzzy
 msgid "Weather Settings"
 msgstr "Настройки погоды"
 
@@ -24837,9 +24831,8 @@ msgid "Configure special folders and offline folder behavior here"
 msgstr ""
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:3
-#, fuzzy
 msgid "Folder Settings"
-msgstr "Настройки почты"
+msgstr "Настройки папки"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:4
 msgid "The Evolution shell."
@@ -24868,9 +24861,8 @@ msgid "\"%s\" in \"%s\""
 msgstr "Открыть в %s..."
 
 #: shell/e-folder-list.c:312
-#, fuzzy
 msgid "Add a Folder"
-msgstr "Выбрать папку"
+msgstr "Добавить папку"
 
 #: shell/e-local-storage.c:178
 msgid "Drafts"
@@ -25077,11 +25069,9 @@ msgid "Delete \"%s\""
 msgstr "Удалить \"%s\""
 
 #: shell/e-shell-folder-commands.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "Really delete folder \"%s\"?"
-msgstr ""
-"Невозможно удалить папку:\n"
-"%s"
+msgstr "Действительно удалить папку \"%s\"?"
 
 #: shell/e-shell-folder-commands.c:488
 #, c-format
@@ -25112,7 +25102,7 @@ msgid "Selected folder does not belong to another user"
 msgstr ""
 
 #: shell/e-shell-folder-commands.c:589
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot remove folder:\n"
 "%s"
@@ -25130,9 +25120,8 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:288
-#, fuzzy
 msgid "Create New Folder"
-msgstr "Создать новую папку..."
+msgstr "Создать новую папку"
 
 #: shell/e-shell-folder-selection-dialog.c:393
 msgid "New..."
@@ -25287,16 +25276,15 @@ msgid "Closing connections..."
 msgstr "Закрытие соединений..."
 
 #: shell/e-shell-offline-sync.c:161
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error synchronizing \"%s\":\n"
 "%s"
 msgstr ""
-"Ошибка при \"%s\":\n"
+"Ошибка синхронизации  \"%s\":\n"
 "%s"
 
 #: shell/e-shell-offline-sync.c:239
-#, fuzzy
 msgid "Syncing Folder"
 msgstr "Синхронизация папки"
 
@@ -25304,20 +25292,18 @@ msgstr "Синхронизация папки"
 #: shell/e-shell-offline-sync.c:317
 #, c-format
 msgid "Synchronizing \"%s\" (%d of %d) ..."
-msgstr ""
+msgstr "Синхронизация \"%s\" (%d из %d) ..."
 
 #: shell/e-shell-settings-dialog.c:326
-#, fuzzy
 msgid "Evolution Settings"
-msgstr "Evolution "
+msgstr "Настройки Evolution"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:357
-#, fuzzy
 msgid "Opening Folder"
-msgstr "Открытие папки \"%s\""
+msgstr "Открытие папки"
 
 #: shell/e-shell-shared-folder-picker-dialog.c:364
-#, fuzzy, c-format
+#, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Открытие папки \"%s\""
 
@@ -25403,7 +25389,6 @@ msgid "Select the folder that you want to open"
 msgstr "Выберите папку, которую вы хотите открыть"
 
 #: shell/e-shell-view-menu.c:625
-#, fuzzy
 msgid "Create New Shortcut"
 msgstr "Создать новый ярлык"
 
@@ -25453,13 +25438,13 @@ msgstr ""
 "для перехода в режим работы в сети."
 
 #: shell/e-shell.c:175
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot activate component %s :\n"
 "The error from the activation system is:\n"
 "%s"
 msgstr ""
-"%s\n"
+"Сбой активации компонента %s.\n"
 "\n"
 "Ошибка системы активации:\n"
 "%s"
@@ -25819,14 +25804,12 @@ msgid "The following connections are currently active:"
 msgstr "В настоящий момент активны следующие соединения:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:1
-#, fuzzy
 msgid "C_alendar:"
-msgstr "Календарь"
+msgstr "Календарь:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:2
-#, fuzzy
 msgid "_Contacts:"
-msgstr "Контакты"
+msgstr "Контакты:"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:3
 #, fuzzy
@@ -25834,9 +25817,8 @@ msgid "_Mail:"
 msgstr "Почта"
 
 #: shell/glade/e-shell-config-default-folders.glade.h:4
-#, fuzzy
 msgid "_Tasks:"
-msgstr "Задачи"
+msgstr "Задачи:"
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
@@ -25856,17 +25838,14 @@ msgid "Open Other User's Folder"
 msgstr "Создать новую папку..."
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:2
-#, fuzzy
 msgid "_Account:"
-msgstr "Редактор учётных записей"
+msgstr "Учётная запись:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:3
-#, fuzzy
 msgid "_Folder Name:"
 msgstr "Название папки:"
 
 #: shell/glade/e-shell-shared-folder-picker-dialog.glade.h:4
-#, fuzzy
 msgid "_User:"
 msgstr "Имя пользователя:"
 
@@ -25902,7 +25881,6 @@ msgstr ""
 "Нажмите кнопку \"Далее\" для продолжения. "
 
 #: shell/glade/evolution-startup-wizard.glade.h:15
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information\n"
 "needed to set up Evolution. \n"
@@ -26066,9 +26044,8 @@ msgid "No filename provided."
 msgstr "Не указано имя файла."
 
 #: ui/evolution-addressbook.xml.h:3
-#, fuzzy
 msgid "Copy Contact(s) to Another Folder..."
-msgstr "Скопировать выбранные сообщения в другую папку"
+msgstr "Копировать контакт(ы) в другую папку..."
 
 #: ui/evolution-addressbook.xml.h:4 ui/evolution-calendar.xml.h:2
 msgid "Copy the selection"
@@ -26087,9 +26064,8 @@ msgid "Delete selected contacts"
 msgstr "Удалить выбранные контакты"
 
 #: ui/evolution-addressbook.xml.h:11
-#, fuzzy
 msgid "Move Contact(s) to Another Folder..."
-msgstr "Переместить выбранные сообщения в другую папку"
+msgstr "Переместить контакты в другую папку"
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "Move to Folder..."
@@ -26462,18 +26438,16 @@ msgid "Change the properties of this folder"
 msgstr "Изменить свойства этой папки"
 
 #: ui/evolution-mail-list.xml.h:2
-#, fuzzy
 msgid "Copy selected message(s) to the clipboard"
-msgstr "Скопировать выбранные сообщения в другую папку"
+msgstr "Скопировать выбранные сообщения в буфер обмена"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
 msgstr "Вырезать"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "Cut selected message(s) to the clipboard"
-msgstr "Вставить сообщение в буфер обмена"
+msgstr "Вырезать выбранное сообщение(я) в буфер обмена"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
@@ -26500,9 +26474,8 @@ msgid "Mark all visible messages as read"
 msgstr "Пометить все видимые сообщения как прочитанные"
 
 #: ui/evolution-mail-list.xml.h:11
-#, fuzzy
 msgid "Paste message(s) from the clipboard"
-msgstr "Вставить сообщение в буфер обмена"
+msgstr "Вставить сообщение(я) из буфера обмена"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
@@ -26853,7 +26826,6 @@ msgid "Search for text in the body of the displayed message"
 msgstr "Поиск в тексте отображаемого сообщения"
 
 #: ui/evolution-mail-message.xml.h:81
-#, fuzzy
 msgid "Set up the page settings for your current printer"
 msgstr "Настроить параметры страницы для вашего текущего принтера"
 
@@ -27013,9 +26985,8 @@ msgid "For_mat"
 msgstr "Формат"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "HT_ML"
-msgstr "HTML"
+msgstr "HT_ML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Open"
@@ -27076,9 +27047,8 @@ msgid "Send the mail in HTML format"
 msgstr "Отправить почту в формате HTML"
 
 #: ui/evolution-message-composer.xml.h:26
-#, fuzzy
 msgid "Send this message"
-msgstr "Отправить это сообщение сейчас"
+msgstr "Отправить это сообщение"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Show / hide attachments"
@@ -27158,18 +27128,16 @@ msgid "H_TML"
 msgstr "HTML"
 
 #: ui/evolution-signature-editor.xml.h:8
-#, fuzzy
 msgid "Save the current file and close the window"
-msgstr "Сохранить этот элемент и закрыть окно диалога"
+msgstr "Сохранить текущий файл и закрыть окно"
 
 #: ui/evolution-signature-editor.xml.h:13 ui/evolution.xml.h:54
 msgid "_Help"
 msgstr "Справка"
 
 #: ui/evolution-signature-editor.xml.h:16
-#, fuzzy
 msgid "_Signature editor"
-msgstr "Подпись"
+msgstr "Редактор подписи"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
@@ -27260,9 +27228,8 @@ msgid "Add to _Shortcut Bar"
 msgstr "Добавить к панели ярлыков"
 
 #: ui/evolution.xml.h:3
-#, fuzzy
 msgid "Change Evolution's settings"
-msgstr "Evolution "
+msgstr "Изменить настройки Evolution"
 
 #: ui/evolution.xml.h:4
 msgid "Change the name of this folder"
@@ -27424,9 +27391,8 @@ msgid "_Folder Bar"
 msgstr "Панель папок"
 
 #: ui/evolution.xml.h:52
-#, fuzzy
 msgid "_Folder..."
-msgstr "Папка"
+msgstr "Папка..."
 
 #: ui/evolution.xml.h:53
 msgid "_Go to Folder..."
@@ -27493,7 +27459,6 @@ msgid "_Address Cards"
 msgstr "Визитные карточки"
 
 #: views/addressbook/galview.xml.h:3
-#, fuzzy
 msgid "_Phone List"
 msgstr "Список телефонов"
 
@@ -27548,9 +27513,8 @@ msgid "With _Category"
 msgstr "C категорией:"
 
 #: views/tasks/galview.xml.h:2
-#, fuzzy
 msgid "_Tasks"
-msgstr "Задача"
+msgstr "Задачи"
 
 #. Check for UTC.
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:209
@@ -27726,7 +27690,6 @@ msgid "_Edit Saved Searches..."
 msgstr "Добавить к сохранённым результатам поиска"
 
 #: widgets/misc/e-filter-bar.h:93 widgets/misc/e-filter-bar.h:100
-#, fuzzy
 msgid "_Advanced..."
 msgstr "Расширенные..."
 
