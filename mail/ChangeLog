@@ -1,3 +1,17 @@
+2000-07-09  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c (get_message_info): Don't g_warn if the user
+	selects a fake tree parent.
+	(message_list_select_next): Ignore fake rows
+	(build_tree): Store the "root_subject" for fake rows
+	(ml_tree_value_at): Display the correct subject for fake rows.
+	(on_cursor_change_cmd): Update for the other changes and set
+	cursor_uid to NULL when the cursor is on a fake row.
+
+	* mail-ops.c (reply): Don't try to reply when no (real) message is
+	selected.
+	(forward_msg): Ditto.
+
 2000-07-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* message-list.c: Remove setting of dnd_code since that's handled

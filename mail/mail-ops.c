@@ -611,7 +611,7 @@ reply (FolderBrowser *fb, gboolean to_all)
 	EMsgComposer *composer;
 	struct post_send_data *psd;
 
-	if (!check_configured ())
+	if (!check_configured () || !fb->message_list->cursor_uid)
 		return;
 
 	psd = g_new (struct post_send_data, 1);
@@ -677,21 +677,18 @@ attach_msg (MessageList *ml, const char *uid, gpointer data)
 void
 forward_msg (GtkWidget *button, gpointer user_data)
 {
-	FolderBrowser *fb;
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	EMsgComposer *composer;
 	CamelMimeMessage *cursor_msg;
 	const char *from, *subject;
 	char *fwd_subj;
 	
-	if (!check_configured ())
+	cursor_msg = fb->mail_display->current_message;
+	if (!check_configured () || !cursor_msg)
 		return;
-	
-	fb = FOLDER_BROWSER (user_data);
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 	message_list_foreach (fb->message_list, attach_msg, composer);
-
-	cursor_msg = fb->mail_display->current_message;
 
 	from = camel_mime_message_get_from (cursor_msg);
 	subject = camel_mime_message_get_subject (cursor_msg);

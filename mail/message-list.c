@@ -93,7 +93,10 @@ get_message_info (MessageList *message_list, int row)
 	node = e_tree_model_node_at_row (model, row);
 	g_return_val_if_fail (node != NULL, NULL);
 	uid = e_tree_model_node_get_data (model, node);
-	g_return_val_if_fail (uid != NULL, NULL);
+
+	if (strncmp (uid, "uid:", 4) != 0)
+		return NULL;
+	uid += 4;
 
 	return camel_folder_get_message_info (message_list->folder, uid);
 }
@@ -114,7 +117,10 @@ message_list_select_next (MessageList *message_list, int row,
 {
 	const CamelMessageInfo *info;
 
-	while ((info = get_message_info (message_list, row))) {
+	while (row < e_table_model_row_count (message_list->table_model)) {
+		info = get_message_info (message_list, row);
+		if (!info)
+			continue;
 		if ((info->flags & mask) == flags) {
 			e_table_set_cursor_row (E_TABLE (message_list->etable),
 						row);
@@ -194,96 +200,73 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	const CamelMessageInfo *msg_info;
 	static char buffer [10];
 	char *uid;
-	void *retval;
 
-	if (!message_list->folder)
-		goto nothing_to_see;
-	
 	/* retrieve the message information array */
 	uid = e_tree_model_node_get_data (etm, path);
-	if (!uid)
-		goto nothing_to_see;
+	if (strncmp (uid, "uid:", 4) != 0)
+		goto fake;
+	uid += 4;
 
 	msg_info = camel_folder_get_message_info (message_list->folder, uid);
-	if (!msg_info)
-		goto nothing_to_see;
+	g_return_val_if_fail (msg_info != NULL, NULL);
 
 	switch (col){
 	case COL_ONLINE_STATUS:
-		retval = GINT_TO_POINTER (0);
-		break;
+		return GINT_TO_POINTER (0);
 		
 	case COL_MESSAGE_STATUS:
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
-			retval = GINT_TO_POINTER (2);
+			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
-			retval = GINT_TO_POINTER (1);
+			return GINT_TO_POINTER (1);
 		else
-			retval = GINT_TO_POINTER (0);
-		break;
+			return GINT_TO_POINTER (0);
 		
 	case COL_PRIORITY:
-		retval = GINT_TO_POINTER (1);
-		break;
+		return GINT_TO_POINTER (1);
 		
 	case COL_ATTACHMENT:
-		retval = GINT_TO_POINTER (0);
-		break;
+		return GINT_TO_POINTER (0);
 		
 	case COL_FROM:
 		if (msg_info->from)
-			retval = msg_info->from;
+			return msg_info->from;
 		else
-			retval = "";
-		break;
+			return "";
 		
 	case COL_SUBJECT:
 		if (msg_info->subject)
-			retval = msg_info->subject;
+			return msg_info->subject;
 		else
-			retval = "";
-		break;
+			return "";
 		
 	case COL_SENT:
-		retval = GINT_TO_POINTER (msg_info->date_sent);
-		break;
+		return GINT_TO_POINTER (msg_info->date_sent);
 		
 	case COL_RECEIVED:
-		retval = GINT_TO_POINTER (msg_info->date_received);
-		break;
+		return GINT_TO_POINTER (msg_info->date_received);
 		
 	case COL_TO:
 		if (msg_info->to)
-			retval = msg_info->to;
+			return msg_info->to;
 		else
-			retval = "";
-		break;
+			return "";
 		
 	case COL_SIZE:
 		sprintf (buffer, "%d", msg_info->size);
-		retval = buffer;
-		break;
+		return buffer;
 			
 	case COL_DELETED:
-		retval = GINT_TO_POINTER(!!(msg_info->flags & CAMEL_MESSAGE_DELETED));
-		break;
+		return GINT_TO_POINTER(!!(msg_info->flags & CAMEL_MESSAGE_DELETED));
 
 	case COL_UNREAD:
-		retval = GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
-		break;
-
-	default:
-		g_assert_not_reached ();
+		return GINT_TO_POINTER(!(msg_info->flags & CAMEL_MESSAGE_SEEN));
 	}
 
-	return retval;
-	
-	
- nothing_to_see:
-	/* 
-	 * in the case there is nothing to look at, 
-	 * notify the user.
-	 */
+	g_assert_not_reached ();
+
+ fake:
+	/* This is a fake tree parent */
 	switch (col){
 	case COL_ONLINE_STATUS:
 	case COL_MESSAGE_STATUS:
@@ -296,15 +279,16 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return (void *) 0;
 
 	case COL_SUBJECT:
-		return "No item in this view";
+		return strchr (uid, ':') + 1;
+
 	case COL_FROM:
 	case COL_TO:
 	case COL_SIZE:
-		return "";
-	default:
-		g_assert_not_reached ();
-		return NULL;
+		return "?";
 	}
+	g_assert_not_reached ();
+
+	return NULL;
 }
 
 static void
@@ -319,8 +303,9 @@ ml_tree_set_value_at (ETreeModel *etm, ETreePath *path, int col,
 		return;
 
 	uid = e_tree_model_node_get_data (etm, path);
-	if (!uid)
+	if (strncmp (uid, "uid:", 4) != 0)
 		return;
+	uid += 4;
 
 	msg_info = camel_folder_get_message_info (message_list->folder, uid);
 	if (!msg_info)
@@ -602,6 +587,12 @@ message_list_init (GtkObject *object)
 }
 
 static void
+free_key (gpointer key, gpointer value, gpointer data)
+{
+	g_free (key);
+}
+
+static void
 message_list_destroy (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
@@ -623,8 +614,11 @@ message_list_destroy (GtkObject *object)
 	
 	gtk_object_unref (GTK_OBJECT (message_list->etable));
 
-	if (message_list->uid_rowmap)
+	if (message_list->uid_rowmap) {
+		g_hash_table_foreach (message_list->uid_rowmap,
+				      free_key, NULL);
 		g_hash_table_destroy (message_list->uid_rowmap);
+	}
 
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
@@ -754,16 +748,17 @@ build_tree (MessageList *ml, ETreePath *parent, struct _container *c,
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
+	char *id;
 
 	while (c) {
-		node = e_tree_model_node_insert (tree, parent, 0, NULL);
 		if (c->message) {
-			char *uid = g_strdup (c->message->uid);
-
-			e_tree_model_node_set_data (tree, node, uid);
-			g_hash_table_insert (ml->uid_rowmap, uid,
+			id = g_strdup_printf ("uid:%s", c->message->uid);
+			g_hash_table_insert (ml->uid_rowmap,
+					     g_strdup (c->message->uid),
 					     GINT_TO_POINTER ((*row)++));
-		}
+		} else
+			id = g_strdup_printf ("subject:%s", c->root_subject);
+		node = e_tree_model_node_insert (tree, parent, 0, id);
 		if (c->child) {
 			/* by default, open all trees */
 			e_tree_model_node_set_expanded (tree, node, TRUE);
@@ -782,9 +777,10 @@ build_flat (MessageList *ml, ETreePath *parent, GPtrArray *uids)
 	int i;
 
 	for (i = 0; i < uids->len; i++) {
-		uid = g_strdup (uids->pdata[i]);
+		uid = g_strdup_printf ("uid:%s", (char *)uids->pdata[i]);
 		node = e_tree_model_node_insert (tree, ml->tree_root, i, uid);
-		g_hash_table_insert (ml->uid_rowmap, uid, GINT_TO_POINTER (i));
+		g_hash_table_insert (ml->uid_rowmap, g_strdup (uids->pdata[i]),
+				     GINT_TO_POINTER (i));
 	}
 }
 
@@ -800,8 +796,11 @@ message_list_regenerate (MessageList *message_list, const char *search)
 		message_list->search = NULL;
 	}
 
-	if (message_list->uid_rowmap)
+	if (message_list->uid_rowmap) {
+		g_hash_table_foreach (message_list->uid_rowmap,
+				      free_key, NULL);
 		g_hash_table_destroy (message_list->uid_rowmap);
+	}
 	message_list->uid_rowmap = g_hash_table_new (g_str_hash, g_str_equal);
 
 	if (search) {
@@ -921,12 +920,9 @@ on_cursor_change_cmd (ETable *table, int row, gpointer user_data)
 	
 	message_list = MESSAGE_LIST (user_data);
 	
-	info = get_message_info (message_list, row);
-	if (!info)
-		return;
-	
 	message_list->cursor_row = row;
-	message_list->cursor_uid = info->uid;
+	info = get_message_info (message_list, row);
+	message_list->cursor_uid = info ? info->uid : NULL;
 
 	if (!message_list->idle_id)
 		message_list->idle_id = g_idle_add_full (G_PRIORITY_LOW, on_cursor_change_idle, message_list, NULL);
