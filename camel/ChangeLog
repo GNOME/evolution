@@ -1,3 +1,9 @@
+2003-04-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): #if 0
+	out some code that parsed the namespaces since the results aren't
+	used and they generate debugging output.
+
 2003-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* camel-session.c (get_service): oops, the service owns the url
@@ -27,6 +33,7 @@
 	object bag instead of a hash table for the service 'cache'.
 	(service_cache_remove): Removed, no longer required.
 
+>>>>>>> 1.1801
 2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_parse_status): Don't set seen_eof1

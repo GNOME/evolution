@@ -1172,7 +1172,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelDiscoStore *disco_store = CAMEL_DISCO_STORE (service);
 	CamelImapResponse *response;
-	struct _namespaces *namespaces;
+	/*struct _namespaces *namespaces;*/
 	char *result, *name, *path;
 	int i;
 	size_t len;
@@ -1197,10 +1197,12 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		if (!result)
 			goto done;
 		
+#if 0
 		/* new code... */
 		namespaces = imap_parse_namespace_response (result);
 		imap_namespaces_destroy (namespaces);
 		/* end new code */
+#endif
 		
 		name = camel_strstrcase (result, "NAMESPACE ((");
 		if (name) {
