@@ -26,14 +26,9 @@
 
 #include <libgnome/gnome-defs.h>
 #include <glib.h>
-#include "calobj.h"
+#include <cal-util/cal-component.h>
 
 BEGIN_GNOME_DECLS
-
-
-/* FIXME: I've put modified versions of RecurType and Recurrence here, since
-   the ones in calobj.h don't support all of iCalendar. Hopefully Seth will
-   update those soon and these can be removed. */
 
 typedef enum {
 	CAL_RECUR_YEARLY,
@@ -43,10 +38,10 @@ typedef enum {
 	CAL_RECUR_HOURLY,
 	CAL_RECUR_MINUTELY,
 	CAL_RECUR_SECONDLY
-} CalObjRecurType;
+} CalRecurType;
 
 typedef struct {
-	CalObjRecurType	type;
+	CalRecurType   type;
 
 	int            interval;
 
@@ -90,10 +85,7 @@ typedef struct {
 
 	/* For BYSETPOS modifier. A list of GINT_TO_POINTERs, +ve or -ve. */
 	GList	      *bysetpos;
-} CalObjRecurrence;
-
-
-
+} CalRecurrence;
 
 /* This is what we use to represent a date & time. */
 typedef struct _CalObjTime CalObjTime;
@@ -106,21 +98,19 @@ struct _CalObjTime {
 	guint8 second;		/* 0 - 59 (maybe 60 for leap second) */
 };
 
+typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
+					 time_t        instance_start,
+					 time_t        instace_end,
+					 gpointer      data);
 
-/* This will eventually replace ical_object_generate_events(). */
-void	cal_object_generate_events	(iCalObject	*ico,
-					 time_t		 start,
-					 time_t		 end,
-					 calendarfn	 cb,
-					 void		*closure);
+void	cal_recur_generate_instances	(CalComponent		*comp,
+					 time_t			 start,
+					 time_t			 end,
+					 CalRecurInstanceFn	 cb,
+					 gpointer                cb_data);
 
-
-/* This is an internal function, only here for testing. */
-GArray* cal_obj_expand_recurrence	(CalObjTime	*event_start,
-					 CalObjRecurrence *recur,
-					 CalObjTime	*interval_start,
-					 CalObjTime	*interval_end);
-
+CalRecurrence *cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir);
+void cal_recur_free (CalRecurrence *r);
 
 END_GNOME_DECLS
 

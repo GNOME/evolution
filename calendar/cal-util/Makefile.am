@@ -1,4 +1,5 @@
-noinst_PROGRAMS = test-recur icalendar-test
+noinst_PROGRAMS = icalendar-test
+#noinst_PROGRAMS = test-recur icalendar-test
 
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
@@ -62,11 +63,11 @@ icalendar_test_LDADD =						\
 
 #	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 
-test_recur_SOURCES = 	\
-	test-recur.c
-
-test_recur_LDADD = 	\
-	libcal-util.la	\
-	$(top_builddir)/libversit/libversit.la		\
-	$(top_builddir)/libical/src/libical/libical.a	\
-	$(EXTRA_GNOME_LIBS)
+#test_recur_SOURCES = 	\
+#	 test-recur.c
+#
+#test_recur_LDADD = 	\
+#	 libcal-util.la	\
+#	 $(top_builddir)/libversit/libversit.la		\
+#	 $(top_builddir)/libical/src/libical/libical.a	\
+#	 $(EXTRA_GNOME_LIBS)

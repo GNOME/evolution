@@ -1,3 +1,25 @@
+2000-07-31  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/cal-recur.c (*): Use CalComponent and the new property
+	types instead of the old iCalObject stuff.
+	(cal_recur_generate_instances): Renamed from
+	cal_object_generate_events().  Ensure that the component has the
+	DTSTART property.
+	(generate_instances_for_year): Renamed from
+	cal_object_generate_events_for_year().
+	(cal_obj_expand_recurrence): Made static.
+	(cal_recur_from_icalrecurrencetype): New function.  We should
+	really convert this whole file to use struct icalrecurrencetype
+	instead.
+	(cal_recur_free): New function.
+
+	* cal-util/cal-recur.h (CalRecurType): Renamed from CalObjRecurType.
+	(CalRecurrence): Renamed from CalObjRecurrence.
+
+	* cal-util/timeutil.c (time_from_icaltimetype): New function.
+
+	* cal-util/Makefile.am: Commented out the test-recur program.
+
 2000-08-01  Damon Chaplin  <damon@helixcode.com>
 
 	* Removed doc directory, since it is the old gnome-pim docs which

@@ -11,8 +11,10 @@
 
 
 #include <time.h>
+#include <icaltypes.h>
 
 
+time_t time_from_icaltimetype   (struct icaltimetype itt);
 time_t time_from_isodate        (char *str);
 time_t time_from_start_duration (time_t start, char *duration);
 char   *isodate_from_time_t     (time_t t);
@@ -72,7 +74,6 @@ time_t time_week_end (time_t t);
  */
 time_t time_day_begin (time_t t);
 time_t time_day_end (time_t t);
-
 
 time_t parse_date (char *str);
 void print_time_t (time_t t);
