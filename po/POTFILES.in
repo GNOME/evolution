@@ -217,6 +217,7 @@ composer/evolution-composer.c
 data/evolution.desktop.in
 data/evolution.keys.in
 default_user/searches.xml
+default_user/vfolders.xml
 designs/OOA/ooa.glade
 designs/read_receipts/read.glade
 e-util/e-categories-config.c
@@ -362,6 +363,7 @@ tools/killev.c
 ui/evolution-addressbook.xml
 ui/evolution-calendar.xml
 ui/evolution-comp-editor.xml
+ui/evolution-composer-entries.xml
 ui/evolution-contact-editor.xml
 ui/evolution-contact-list-editor.xml
 ui/evolution-event-editor.xml
@@ -395,6 +397,7 @@ widgets/misc/e-filter-bar.c
 widgets/misc/e-filter-bar.h
 widgets/misc/e-messagebox.c
 widgets/misc/e-search-bar.c
+wombat/GNOME_Evolution_Wombat.server.in.in
 wombat/GNOME_Evolution_WombatLDAP.server.in.in
 wombat/GNOME_Evolution_WombatNOLDAP.server.in.in
 wombat/wombat.c

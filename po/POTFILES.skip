@@ -1,5 +1,8 @@
 addressbook/gui/component/select-names/recipient.glade
 addressbook/gui/widgets/test-minicard-view.c
+addressbook/tools/evolution-addressbook-export-list-cards.c
+addressbook/tools/evolution-addressbook-export-list-folders.c
+addressbook/tools/evolution-addressbook-export.c
 camel/camel-pkcs7-context.c
 camel/providers/nntp/camel-nntp-auth.c
 camel/providers/nntp/camel-nntp-folder.c

@@ -1,3 +1,9 @@
+2003-04-12  Christian Neumair  <chris@gnome-de.org>
+
+	* POTFILES.in: Added missing files.
+	* POTFILES.skip: Added tools/evolution-addressbook-export*.
+	* de.po: Updated German translation.
+
 2003-04-11  Miloslav Trmac  <mitr@volny.cz>
 
 	* cs.po: Updated Czech translation.
