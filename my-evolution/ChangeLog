@@ -1,5 +1,12 @@
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary-preferences.c (set_selected_folders): Actually pass
+	the evolution URI, not the path, in Folder.evolutionUri (since now
+	the shell StorageSetView implementation has been fixed to handle
+	this field properly).
+
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-preferences.c (set_selected_folders): Set the
 	customIconName part to the empty string.  [#27616]
 	Also, set_release on the sequence to TRUE.

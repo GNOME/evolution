@@ -314,16 +314,16 @@ impl_StorageSetView__set_checkedFolders (PortableServer_Servant servant,
 	priv = storage_set_view->priv;
 
 	for (i = 0; i < list->_length; i++) {
-		path_list = g_list_append (path_list, g_strdup (list->_buffer[i].evolutionUri));
+		if (strncmp (list->_buffer[i].evolutionUri, "evolution:", 10) != 0)
+			continue;
+
+		path_list = g_list_append (path_list, g_strdup (list->_buffer[i].evolutionUri + 10));
 	}
 
-	e_storage_set_view_set_checkboxes_list (E_STORAGE_SET_VIEW (priv->storage_set_view_widget), path_list);
+	e_storage_set_view_set_checkboxes_list (E_STORAGE_SET_VIEW (priv->storage_set_view_widget),
+						path_list);
 
-	for (p = path_list; p; p = p->next) {
-		g_free (p->data);
-	}
-
-	g_list_free (path_list);
+	e_free_string_list (path_list);
 }
 
 static GNOME_Evolution_FolderList *

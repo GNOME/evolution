@@ -1333,12 +1333,7 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 		list->_buffer[i].type = CORBA_string_dup ("");
 		list->_buffer[i].description = CORBA_string_dup ("");
 		list->_buffer[i].displayName = CORBA_string_dup ("");
-
-		if (strncmp (folder->evolution_uri, "evolution:", 10) == 0)
-			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri + 10);
-		else
-			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri);
-
+		list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri);
 		list->_buffer[i].physicalUri = CORBA_string_dup (folder->physical_uri);
 		list->_buffer[i].unreadCount = 0;
 		list->_buffer[i].canSyncOffline = TRUE;
