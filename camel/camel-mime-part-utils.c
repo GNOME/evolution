@@ -191,7 +191,8 @@ camel_mime_part_construct_content_from_parser(CamelMimePart *dw, CamelMimeParser
 		d(printf("Creating multi-part\n"));
 		content = (CamelDataWrapper *)camel_multipart_new();
 
-		/* get/set boundary? */
+		/* FIXME: use the real boundary? */
+		camel_multipart_set_boundary((CamelMultipart *)content, NULL);
 
 		while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_MULTIPART_END) {
 			camel_mime_parser_unstep(mp);

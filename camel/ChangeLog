@@ -1,3 +1,13 @@
+2000-05-26  Dan Winship  <danw@helixcode.com>
+
+	* camel-multipart.c (camel_multipart_init): Don't set a default
+	boundary. Require the caller to do that.
+	(set_boundary): if boundary is NULL, generate a "random" boundary.
+
+	* camel-mime-part-utils.c
+	(camel_mime_part_construct_content_from_parser): Add a call to
+	camel_multipart_set_boundary after creating a new multipart.
+
 2000-05-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (try_connect): Removed

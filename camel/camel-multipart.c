@@ -32,6 +32,10 @@
 #include "camel-multipart.h"
 #include "camel-mime-part.h"
 #include "camel-exception.h"
+#include "md5-utils.h"
+
+#include <unistd.h> /* for getpid */
+#include <time.h>   /* for time */
 
 #define d(x)
 
@@ -98,7 +102,6 @@ camel_multipart_init (gpointer object, gpointer klass)
 
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
 					  "multipart/mixed");
-	camel_multipart_set_boundary (multipart, "=-=-=-=");
 	multipart->preface = NULL;
 	multipart->postface = NULL;
 }
@@ -356,8 +359,26 @@ static void
 set_boundary (CamelMultipart *multipart, gchar *boundary)
 {
 	CamelDataWrapper *cdw = CAMEL_DATA_WRAPPER (multipart);
+	char *bgen, digest[16], bbuf[27], *p;
+	int state, save;
 
 	g_return_if_fail (cdw->mime_type != NULL);
+
+	if (!boundary) {
+		/* Generate a fairly random boundary string. */
+		bgen = g_strdup_printf ("%p:%lu:%lu", multipart,
+					(unsigned long) getpid(),
+					(unsigned long) time(0));
+		md5_get_digest (bgen, strlen (bgen), digest);
+		g_free (bgen);
+		strcpy (bbuf, "=-");
+		p = bbuf + 2;
+		state = save = 0;
+		p += base64_encode_step (digest, 16, p, &state, &save);
+		*p = '\0';
+
+		boundary = bbuf;
+	}
 
 	gmime_content_field_set_parameter (cdw->mime_type, "boundary",
 					   boundary);
@@ -366,17 +387,17 @@ set_boundary (CamelMultipart *multipart, gchar *boundary)
 /**
  * camel_multipart_set_boundary:
  * @multipart: a CamelMultipart
- * @boundary: the message boundary
+ * @boundary: the message boundary, or %NULL
  *
  * Sets the message boundary for @multipart to @boundary. This should
  * be a string which does not occur anywhere in any of @multipart's
- * subparts.
+ * subparts. If @boundary is %NULL, a randomly-generated boundary will
+ * be used.
  **/
 void
 camel_multipart_set_boundary (CamelMultipart *multipart, gchar *boundary)
 {
 	g_return_if_fail (CAMEL_IS_MULTIPART (multipart));
-	g_return_if_fail (boundary != NULL);
 
 	CMP_CLASS (multipart)->set_boundary (multipart, boundary);
 }
