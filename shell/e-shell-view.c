@@ -1122,6 +1122,7 @@ updated_folder_cb (EStorageSet *storage_set,
 {
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
+	const char *view_path;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
@@ -1133,6 +1134,10 @@ updated_folder_cb (EStorageSet *storage_set,
 	e_shortcuts_update_shortcut_by_uri (e_shell_get_shortcuts (priv->shell), uri);
 	g_free (uri);
 #endif
+
+	view_path = get_storage_set_path_from_uri (priv->uri);
+	if (strcmp (path, view_path) != 0)
+		return;
 
 	/* Update the folder title bar and the window title bar */
 	update_for_current_uri (shell_view);

@@ -1,3 +1,20 @@
+2001-07-06  Dan Winship  <danw@ximian.com>
+
+	* e-shortcuts.c (shortcut_item_update): Return a gboolean saying
+	whether or not the shortcut changed. Use strcmp rather than
+	pointer comparisons to determine this.
+	(update_shortcut_and_emit_signal): propagate the gboolean from
+	shortcut_item_update (and only emit the signal if it's TRUE).
+	(update_shortcuts_by_path): Only call make_dirty if something
+	changed.
+	(storage_set_new_folder_callback,
+	storage_set_updated_folder_callback): Don't call make_dirty:
+	update_shortcuts_by_path will have called it if necessary.
+
+	* e-shell-view.c (updated_folder_cb): Don't call
+	update_for_current_uri if the folder that was updated isn't the
+	one being displayed.
+
 2001-07-06  Jason Leach  <jleach@ximian.com>
 
 	* e-shortcuts-view.c: Little UI tweak for right click menu,

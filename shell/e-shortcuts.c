@@ -141,29 +141,39 @@ shortcut_item_new (const char *uri,
 	return new;
 }
 
-static void
+static gboolean
 shortcut_item_update (EShortcutItem *shortcut_item,
 		      const char *uri,
 		      const char *name,
 		      const char *type)
 {
+	gboolean changed = FALSE;
+
 	if (name == NULL)
 		name = g_basename (uri);
 
-	if (shortcut_item->uri != uri) {
+	if (shortcut_item->uri == NULL || uri == NULL ||
+	    strcmp (shortcut_item->uri, uri) != 0) {
 		g_free (shortcut_item->uri);
 		shortcut_item->uri  = g_strdup (uri);
+		changed = TRUE;
 	}
 
-	if (shortcut_item->name != name) {
+	if (shortcut_item->name == NULL || name == NULL ||
+	    strcmp (shortcut_item->name, name) != 0) {
 		g_free (shortcut_item->name);
 		shortcut_item->name  = g_strdup (name);
+		changed = TRUE;
 	}
 
-	if (shortcut_item->type != type) {
+	if (shortcut_item->type == NULL || type == NULL ||
+	    strcmp (shortcut_item->type, type) != 0) {
 		g_free (shortcut_item->type);
 		shortcut_item->type  = g_strdup (type);
+		changed = TRUE;
 	}
+
+	return changed;
 }
 
 static void
@@ -205,7 +215,7 @@ shortcut_group_free (ShortcutGroup *group)
 
 /* Utility functions.  */
 
-static void
+static gboolean
 update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 				 EShortcutItem *shortcut_item,
 				 int group_num,
@@ -214,8 +224,11 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 				 const char *name,
 				 const char *type)
 {
-	shortcut_item_update (shortcut_item, uri, name, type);
-	gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+	if (shortcut_item_update (shortcut_item, uri, name, type)) {
+		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 static void
@@ -464,6 +477,7 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 	const GSList *p, *q;
 	char *evolution_uri;
 	int group_num, num;
+	gboolean changed = FALSE;
 
 	priv = shortcuts->priv;
 	folder = e_storage_set_get_folder (priv->storage_set, path);
@@ -482,19 +496,20 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 			shortcut_item = (EShortcutItem *) q->data;
 
 			if (strcmp (shortcut_item->uri, evolution_uri) == 0)
-				update_shortcut_and_emit_signal (shortcuts,
-								 shortcut_item,
-								 group_num,
-								 num,
-								 evolution_uri,
-								 NULL,
-								 e_folder_get_type_string (folder));
+				changed = update_shortcut_and_emit_signal (shortcuts,
+									   shortcut_item,
+									   group_num,
+									   num,
+									   evolution_uri,
+									   NULL,
+									   e_folder_get_type_string (folder));
 		}
 	}
 
 	g_free (evolution_uri);
 
-	make_dirty (shortcuts);
+	if (changed)
+		make_dirty (shortcuts);
 }
 
 
@@ -555,7 +570,6 @@ storage_set_new_folder_callback (EStorageSet *storage_set,
 	shortcuts = E_SHORTCUTS (data);
 
 	update_shortcuts_by_path (shortcuts, path);
-	make_dirty (shortcuts);
 }
 
 static void
@@ -568,7 +582,6 @@ storage_set_updated_folder_callback (EStorageSet *storage_set,
 	shortcuts = E_SHORTCUTS (data);
 
 	update_shortcuts_by_path (shortcuts, path);
-	make_dirty (shortcuts);
 }
 
 
