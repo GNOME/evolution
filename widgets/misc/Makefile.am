@@ -43,8 +43,8 @@ libemiscwidgets_a_SOURCES = 	\
 	e-search-bar.h		\
 	e-title-bar.c		\
 	e-title-bar.h		\
-	e-url-button.c		\
-	e-url-button.h
+	e-url-entry.c		\
+	e-url-entry.h
 
 noinst_PROGRAMS = 		\
 	test-calendar		\
