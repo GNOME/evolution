@@ -170,6 +170,33 @@ ensure_task_complete (ECalModelComponent *comp_data, time_t completed_date)
 		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_COMPLETED));
 }
 
+static void
+ensure_task_partially_complete (ECalModelComponent *comp_data)
+{
+	icalproperty *prop;
+
+	/* Date Completed. */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+	if (prop) {
+		icalcomponent_remove_property (comp_data->icalcomp, prop);
+		icalproperty_free (prop);
+	}
+
+	/* Percent. */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_PERCENTCOMPLETE_PROPERTY);
+	if (!prop)
+		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_percentcomplete (50));
+	else if (icalproperty_get_percentcomplete (prop) == 0 || icalproperty_get_percentcomplete (prop) == 100)
+		icalproperty_set_percentcomplete (prop, 50);
+
+	/* Status. */
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_STATUS_PROPERTY);
+	if (prop)
+		icalproperty_set_status (prop, ICAL_STATUS_INPROCESS);
+	else
+		icalcomponent_add_property (comp_data->icalcomp, icalproperty_new_status (ICAL_STATUS_INPROCESS));
+}
+
 
 /* This makes sure a task is marked as incomplete. It clears the
    "Date Completed" property. If the percent is set to 100 it removes it,
@@ -479,6 +506,7 @@ set_completed (ECalModelTasks *model, ECalModelComponent *comp_data, const void 
 {
 	ECellDateEditValue *dv = (ECellDateEditValue *) value;
 
+	g_message ("Setting completed %p", dv);
 	if (!dv)
 		ensure_task_not_complete (comp_data);
 	else {
@@ -610,17 +638,25 @@ set_status (ECalModelComponent *comp_data, const char *value)
 		icalcomponent_add_property (comp_data->icalcomp, prop);
 	}
 
-/* 	if (status == ICAL_STATUS_NEEDSACTION) { */
-/* 		percent = 0; */
-/* 		e_cal_component_set_percent (comp, &percent); */
-/* 		e_cal_component_set_completed (comp, NULL); */
-/* 	} else if (status == ICAL_STATUS_INPROCESS) {	 */
-/* 		ensure_task_not_complete (comp);	 */
-/* 		percent = 50; */
-/* 		e_cal_component_set_percent (comp, &percent); */
-/* 	} else if (status == ICAL_STATUS_COMPLETED) { */
-/* 		ensure_task_complete (comp, -1); */
-/* 	} */
+	switch (status) {
+	case ICAL_STATUS_NEEDSACTION:
+		ensure_task_not_complete (comp_data);
+		break;
+
+	case ICAL_STATUS_INPROCESS:
+		ensure_task_partially_complete (comp_data);
+		break;
+
+	case ICAL_STATUS_CANCELLED:
+		ensure_task_not_complete (comp_data);
+		break;
+
+	case ICAL_STATUS_COMPLETED:
+		ensure_task_complete (comp_data, -1);
+		break;		
+	default:
+		break;
+	}
 }
 
 static void
@@ -715,9 +751,6 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	ECalModelTasksPrivate *priv;
 	ECalModelComponent *comp_data;
 	ECalModelTasks *model = (ECalModelTasks *) etm;
-	icaltimetype start_tt, due_tt;
-	ECellDateEditValue *dv;
-	GtkWidget *dialog;
 
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 
@@ -730,33 +763,6 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	if (!comp_data)
 		return;
 
-	if (col < E_CAL_MODEL_FIELD_LAST) {
-		if (col == E_CAL_MODEL_FIELD_DTSTART) {
-			dv = (ECellDateEditValue *) value;
-			if (dv)
-				start_tt = dv->tt;
-			else
-				start_tt = icaltime_null_time();
-			due_tt = icalcomponent_get_due (comp_data->icalcomp);
-
-			if (!icaltime_is_null_time(start_tt) &&
-			    !icaltime_is_null_time(due_tt) &&
-			    icaltime_compare (start_tt, due_tt) > 0) {
-				dialog = gtk_message_dialog_new (NULL, 0,
-						GTK_MESSAGE_ERROR,
-						GTK_BUTTONS_OK,
-						_("Due date is before start date!"));
-				g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-				gtk_widget_show (dialog);
-
-				return;
-			}
-		}
-
-		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
-		return;
-	}
-
 	switch (col) {
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 		set_completed (model, comp_data, value);
@@ -765,25 +771,6 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		set_complete (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		dv = (ECellDateEditValue *) value;
-		start_tt = icalcomponent_get_dtstart (comp_data->icalcomp);
-		if (dv)
-			due_tt = dv->tt;
-		else
-			due_tt = icaltime_null_time();
-		
-		if (!icaltime_is_null_time(start_tt) &&
-		    !icaltime_is_null_time(due_tt) &&
-		    icaltime_compare (start_tt, due_tt) > 0) {
-			dialog = gtk_message_dialog_new (NULL, 0,
-					GTK_MESSAGE_ERROR,
-					GTK_BUTTONS_OK,
-					_("Due date is before start date!"));
-			g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-			gtk_widget_show (dialog);
-			
-			return;
-		}
 		set_due (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
@@ -794,6 +781,9 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
 		set_priority (comp_data, value);
+		break;
+	case E_CAL_MODEL_TASKS_FIELD_STATUS :
+		set_status (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 		set_url (comp_data, value);
@@ -833,6 +823,7 @@ ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_PRIORITY :
+	case E_CAL_MODEL_TASKS_FIELD_STATUS :
 	case E_CAL_MODEL_TASKS_FIELD_URL :
 		return TRUE;
 	}
@@ -856,8 +847,17 @@ ecmt_duplicate_value (ETableModel *etm, int col, const void *value)
 		return g_strdup (value);
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETED :
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		/* FIXME */
+		if (value) {
+			ECellDateEditValue *dv, *orig_dv;
+
+			orig_dv = (ECellDateEditValue *) value;
+			dv = g_new0 (ECellDateEditValue, 1);
+			*dv = *orig_dv;
+
+			return dv;
+		}
 		break;
+
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 	case E_CAL_MODEL_TASKS_FIELD_PERCENT :
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
@@ -1015,22 +1015,30 @@ static void
 ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 				ETableModel *source_model, gint row)
 {
+	void *value;
+	
 	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
 	g_return_if_fail (comp_data != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (source_model));
 
-	set_completed ((ECalModelTasks *) model, comp_data,
-		       e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_COMPLETED, row));
+	/* This just makes sure if anything indicates completion, all
+	 * three fields do or if percent is 0, status is sane */
+
+	value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_COMPLETED, row);
+	set_completed ((ECalModelTasks *) model, comp_data, value);
+	if (!value) {
+		value = e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PERCENT, row);
+		set_percent (comp_data, value);
+		if (GPOINTER_TO_INT (value) != 100 && GPOINTER_TO_INT (value) != 0)
+			set_status (comp_data, e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
+	}
+	
 	set_due (comp_data,
 		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_DUE, row));
 	set_geo (comp_data,
 		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_GEO, row));
-	set_percent (comp_data,
-		     e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PERCENT, row));
 	set_priority (comp_data,
 		      e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
-	set_status (comp_data,
-		    e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_STATUS, row));
 	set_url (comp_data,
 		 e_table_model_value_at (source_model, E_CAL_MODEL_TASKS_FIELD_URL, row));
 }

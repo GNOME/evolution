@@ -1,3 +1,24 @@
+2004-04-27  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #52270 and #57593
+	
+	* gui/e-cal-model-tasks.c (ecmt_set_value_at): remove checks for
+	start after due
+	(ecmt_duplicate_value): copy the completed and due dates properly
+	(ecmt_fill_component_from_model): only set the percent and status
+	if the completion isn't set
+	(ensure_task_partially_complete): ensure the task is not complete,
+	in progress and make the percentage sensible if its 0 or 100
+	(set_status): make sure the status and related vars are set
+	properly
+	(ecmt_set_value_at): handle status
+	(ecmt_fill_component_from_model): make sure the click to add
+	fields don't clobber each other
+	(ecmt_is_cell_editable): status is editable
+
+	* gui/e-cal-model-calendar.c (ecmc_duplicate_value): copy the
+	dtend correctly
+
 2004-04-27  Larry Ewing  <lewing@ximian.com>
 
 	* gui/dialogs/calendar-setup.c: hook up the color picker and test
@@ -16,7 +37,6 @@
 	one.
 	(dialog_to_source): set the source color.
 	
-
 2004-04-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/migration.c (migrate_tasks): Fixed the version checks for

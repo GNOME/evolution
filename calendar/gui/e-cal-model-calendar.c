@@ -350,7 +350,15 @@ ecmc_duplicate_value (ETableModel *etm, int col, const void *value)
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
-		/* FIXME */
+		if (value) {
+			ECellDateEditValue *dv, *orig_dv;
+
+			orig_dv = (ECellDateEditValue *) value;
+			dv = g_new0 (ECellDateEditValue, 1);
+			*dv = *orig_dv;
+
+			return dv;
+		}
 		break;
 	case E_CAL_MODEL_CALENDAR_FIELD_LOCATION :
 	case E_CAL_MODEL_CALENDAR_FIELD_TRANSPARENCY :
