@@ -1,3 +1,9 @@
+1999-10-21  Jacob Berkman  <jberkman@andrew.cmu.edu>
+
+	* gnome-ghttp-check.m4: use a temp value until we know that
+	ghttp exists.  This will hopefully fix building on Solaris 
+	machines
+
 1999-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* compiler-flags.m4 : Remove -Wpointer-arith.  It generates large
