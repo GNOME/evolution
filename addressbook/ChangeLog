@@ -1,3 +1,8 @@
+2004-01-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (new_target_cb): call
+	widget_changed here too, since we're changing the destination.
+
 2004-01-20  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #52955 ]

@@ -985,6 +985,7 @@ new_target_cb (EBook *new_book, EBookStatus status, EContactEditor *editor)
 
 	g_object_set (editor, "target_book", new_book, NULL);
 	g_object_unref (new_book);
+	widget_changed (NULL, editor);
 }
 
 static void
