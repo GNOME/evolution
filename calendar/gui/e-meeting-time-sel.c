@@ -305,7 +305,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 
 	mts->meeting_positions_valid = FALSE;
 
-	mts->row_height = 19;
+	mts->row_height = 17;
 	mts->col_width = 55;
 	mts->day_width = 55 * 24 + 1;
 
@@ -901,17 +901,16 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
 	}
               
-	/* FIXME the 5 is for the padding etable adds on */
-	mts->row_height =
-		PANGO_PIXELS (pango_font_metrics_get_ascent (font_metrics)) +
-		PANGO_PIXELS (pango_font_metrics_get_descent (font_metrics)) + 5;
+	/* FIXME the 3 is for the padding etable adds on */
+	pango_layout_get_pixel_size (layout, NULL, &mts->row_height);
+	mts->row_height += 3;
 	mts->col_width = max_hour_width + 6;
 
 	e_meeting_time_selector_save_position (mts, &saved_time);
 	e_meeting_time_selector_recalc_grid (mts);
 	e_meeting_time_selector_restore_position (mts, &saved_time);
               
-	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3);
+	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3 + 4);
 
 	/* Calculate header height */
 	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
