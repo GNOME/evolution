@@ -394,13 +394,13 @@ passwd_cb (gchar *string, gpointer data)
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	if (status == E_BOOK_STATUS_SUCCESS) {
-		AddressbookView *view = closure;
-		AddressbookSource *source;
+	AddressbookView *view = closure;
+	AddressbookSource *source;
+	source = addressbook_storage_get_source_by_uri (view->uri);
 
+	if (status == E_BOOK_STATUS_SUCCESS) {
 		/* check if the addressbook needs authentication */
 
-		source = addressbook_storage_get_source_by_uri (view->uri);
 		if (source &&
 		    source->type == ADDRESSBOOK_SOURCE_LDAP &&
 		    source->ldap.auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE) {
@@ -431,34 +431,50 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 			       NULL);
 
 	} else {
-		GtkWidget *warning_dialog, *label, *href;
+		GtkWidget *warning_dialog, *label;
         	warning_dialog = gnome_dialog_new (
         		_("Unable to open addressbook"),
 			GNOME_STOCK_BUTTON_CLOSE,
         		NULL);
-        
-        	label = gtk_label_new (
-        		_("We were unable to open this addressbook.  This either\n"
-			  "means you have entered an incorrect URI, or have tried\n"
-			  "to access an LDAP server and don't have LDAP support\n"
-			  "compiled in.  If you've entered a URI, check the URI for\n"
-			  "correctness and reenter.  If not, you probably have\n"
-			  "attempted to access an LDAP server.  If you wish to be\n"
-			  "able to use LDAP, you'll need to download and install\n"
-			  "OpenLDAP and recompile and install Evolution.\n"));
+
+		if (source->type == ADDRESSBOOK_SOURCE_LDAP) {
+#if HAVE_LDAP
+			label = gtk_label_new (
+					       _("We were unable to open this addressbook.  This either\n"
+						 "means you have entered an incorrect URI, or the LDAP server\n"
+						 "is down"));
+#else
+			label = gtk_label_new (
+					       _("This version of Evolution does not have LDAP support\n"
+						 "compiled in to it.  If you want to use LDAP in Evolution\n"
+						 "you must compile the program from the CVS sources after\n"
+						 "retrieving OpenLDAP from the link below.\n"));
+#endif
+		}
+		else {
+			label = gtk_label_new (
+					       _("We were unable to open this addressbook.  Please check that the\n"
+						 "path exists and that you have permission to access it."));
+		}
+
 		gtk_misc_set_alignment(GTK_MISC(label),
 				       0, .5);
 		gtk_label_set_justify(GTK_LABEL(label),
 				      GTK_JUSTIFY_LEFT);
+
 		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 				    label, TRUE, TRUE, 0);
-        	gtk_widget_show (label);
+		gtk_widget_show (label);
 
-		href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
-				    href, FALSE, FALSE, 0);
-        	gtk_widget_show (href);
-
+#ifndef HAVE_LDAP
+		if (source->type == ADDRESSBOOK_SOURCE_LDAP) {
+			GtkWidget *href;
+			href = gnome_href_new ("http://www.openldap.org/", "OpenLDAP at http://www.openldap.org/");
+			gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
+					    href, FALSE, FALSE, 0);
+			gtk_widget_show (href);
+		}
+#endif
 		gnome_dialog_run (GNOME_DIALOG (warning_dialog));
 		
 		gtk_object_destroy (GTK_OBJECT (warning_dialog));
