@@ -1,3 +1,15 @@
+2005-02-08  Christophe Fergeau <teuf@users.sourceforge.net>
+
+	* importers/evolution-vcard-importer.c (has_bom)
+	(fix_utf16_endianness) (utf16_to_utf8) 
+	guess_vcard_encoding) : New functions which peeks at 
+	the conents of the file and guesses the encoding and 
+	to convert UTF-16 strings to UTF-8.
+	(load_file_fn) : check the encoding of the file
+	and convert UTF-16 and locale encoding to UTF-8
+
+	Fixes #54825 
+
 2005-02-07  JP Rosevear  <jpr@novell.com>
 
 	* gui/component/apps_evolution_addressbook.schemas.in.in: clean up

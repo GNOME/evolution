@@ -267,35 +267,127 @@ static char *supported_extensions[3] = {
 	NULL
 };
 
-/* Actually check the contents of this file */
+#define BOM (gunichar2)0xFEFF
+#define ANTIBOM (gunichar2)0xFFFE
+
 static gboolean
-check_file_is_vcard (const char *filename)
+has_bom (const gunichar2 *utf16)
+{
+	
+	if ((utf16 == NULL) || (*utf16 == '\0')) {
+		return FALSE;
+	}
+
+	return ((*utf16 == BOM) || (*utf16 == ANTIBOM));
+}
+
+static void
+fix_utf16_endianness (gunichar2 *utf16)
+{
+	gunichar2 *it;
+
+
+	if ((utf16 == NULL) || (*utf16 == '\0')) {
+		return;		
+	}
+
+	if (*utf16 != ANTIBOM) {
+		return;
+	}
+
+	for (it = utf16; *it != '\0'; it++) {
+		*it = GUINT16_SWAP_LE_BE (*it);
+	}
+}
+
+/* Converts an UTF-16 string to an UTF-8 string removing the BOM character 
+ * WARNING: this may modify the utf16 argument if the function detects the
+ * string isn't using the local endianness
+ */
+static gchar *
+utf16_to_utf8 (gunichar2 *utf16)
+{
+	
+	if (utf16 == NULL) {
+		return NULL;
+	}
+
+	fix_utf16_endianness (utf16);
+
+	if (*utf16 == BOM) {
+		utf16++;
+	}
+
+	return g_utf16_to_utf8 (utf16, -1, NULL, NULL, NULL);
+}
+
+
+enum _VCardEncoding {
+	VCARD_ENCODING_NONE,
+	VCARD_ENCODING_UTF8,
+	VCARD_ENCODING_UTF16,
+	VCARD_ENCODING_LOCALE
+};
+
+typedef enum _VCardEncoding VCardEncoding;
+
+
+/* Actually check the contents of this file */
+static VCardEncoding
+guess_vcard_encoding (const char *filename)
 {
 	FILE *handle;
 	char line[4096];
-	gboolean result;
+	char *line_utf8;
+	VCardEncoding encoding = VCARD_ENCODING_NONE;
 
 	handle = fopen (filename, "r");
 	if (handle == NULL) {
 		g_print ("\n");
-		return FALSE;
+		return VCARD_ENCODING_NONE;
 	}
 		
 	fgets (line, 4096, handle);
 	if (line == NULL) {
 		fclose (handle);
 		g_print ("\n");
-		return FALSE;
+		return VCARD_ENCODING_NONE;
 	}
-
-	if (g_ascii_strncasecmp (line, "BEGIN:VCARD", 11) == 0) {
-		result = TRUE;
-	} else {
-		result = FALSE;
-	}
-
 	fclose (handle);
-	return result;
+	
+	if (has_bom ((gunichar2*)line)) {
+		gunichar2 *utf16 = (gunichar2*)line;
+		/* Check for a BOM to try to detect UTF-16 encoded vcards
+		 * (MacOSX address book creates such vcards for example)
+		 */
+		line_utf8 = utf16_to_utf8 (utf16);
+		if (line_utf8 == NULL) {
+			return VCARD_ENCODING_NONE;
+		}
+		encoding = VCARD_ENCODING_UTF16;
+	} else if (g_utf8_validate (line, -1, NULL)) {
+		line_utf8 = g_strdup (line);
+		encoding = VCARD_ENCODING_UTF8;
+	} else {
+		line_utf8 = g_locale_to_utf8 (line, -1, NULL, NULL, NULL);
+		if (line_utf8 == NULL) {
+			return VCARD_ENCODING_NONE;
+		}
+		encoding = VCARD_ENCODING_LOCALE;
+	}
+
+	if (g_ascii_strncasecmp (line_utf8, "BEGIN:VCARD", 11) != 0) {
+		encoding = VCARD_ENCODING_NONE;
+	}
+
+	g_free (line_utf8);
+	return encoding;
+}
+
+static gboolean 
+check_file_is_vcard (const char *filename)
+{
+	return guess_vcard_encoding (filename) != VCARD_ENCODING_NONE;
 }
 
 static void
@@ -354,8 +446,9 @@ support_format_fn (EvolutionImporter *importer,
 		return check_file_is_vcard (filename);
 	}
 	for (i = 0; supported_extensions[i] != NULL; i++) {
-		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0)
+		if (g_ascii_strcasecmp (supported_extensions[i], ext) == 0) {
 			return check_file_is_vcard (filename);
+		}
 	}
 
 	return FALSE;
@@ -386,8 +479,10 @@ load_file_fn (EvolutionImporter *importer,
 {
 	VCardImporter *gci;
 	char *contents;
-	
-	if (check_file_is_vcard (filename) == FALSE) {
+	VCardEncoding encoding;
+
+	encoding = guess_vcard_encoding (filename);
+	if (encoding == VCARD_ENCODING_NONE) {
 		return FALSE;
 	}
 
@@ -408,7 +503,21 @@ load_file_fn (EvolutionImporter *importer,
 	if (!g_file_get_contents (filename, &contents, NULL, NULL)) {
 		g_message (G_STRLOC ":Couldn't read file.");
 		return FALSE;
-	}	
+	}
+
+	if (encoding == VCARD_ENCODING_UTF16) {
+		gchar *tmp;
+		gunichar2 *contents_utf16 = (gunichar2*)contents;
+		tmp = utf16_to_utf8 (contents_utf16);
+		g_free (contents);
+		contents = tmp;
+	} else if (encoding == VCARD_ENCODING_LOCALE) {
+		gchar *tmp;
+		tmp = g_locale_to_utf8 (contents, -1, NULL, NULL, NULL);
+		g_free (contents);
+		contents = tmp;
+	}
+
 	gci->contactlist = eab_contact_list_from_string (contents);
 	g_free (contents);
 
