@@ -1,3 +1,7 @@
+1999-10-18  Martin Norbäck  <norpan@bigfoot.com>
+
+	* gncal.desktop: Added swedish translation
+
 1999-10-13  Eskil Olsen   <deity@eskil.dk>
 
 	* Makefile.am: Hopefully the fixes the much-hated
