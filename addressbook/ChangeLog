@@ -1,5 +1,12 @@
 2003-05-19  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-component.c
+	(ensure_completion_uris_exist): fix the initial run case.  the
+	config upgrade code creates all elements so we can't just check
+	for NULL - we have to check if the string is empty.  Fixes #43213.
+
+2003-05-19  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard-label.c (set_colors): if we've got focus,
 	set the background of the rect to bg[NORMAL], and the fill color
 	of the text and label to text[NORMAL].  This will make the

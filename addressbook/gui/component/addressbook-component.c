@@ -601,6 +601,11 @@ ensure_completion_uris_exist()
 		
 	val = e_config_listener_get_string (db, "/apps/evolution/addressbook/completion/uris");
 
+	if (val && !*val) {
+		g_free (val);
+		val = NULL;
+	}
+		
 	if (!val) {
 		EFolderListItem f[2];
 		char *dirname, *uri;
