@@ -463,7 +463,9 @@ build_layout (ECellTextView *text_view, int row, const char *text)
 	bold = ect->bold_column >= 0 &&
 		row >= 0 &&
 		e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row);
-	strikeout = ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row);
+	strikeout = ect->strikeout_column >= 0 &&
+		row >= 0 &&
+		e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row);
 
 	if (bold || strikeout) {
 		PangoAttrList *attrs;
