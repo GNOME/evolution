@@ -22,6 +22,16 @@
 #undef LDAP_DEBUG
 #endif
 
+#if LDAP_VENDOR_VERSION > 20000
+#define OPENLDAP2
+#else
+#define OPENLDAP1
+#endif
+
+#ifdef OPENLDAP1
+#define LDAP_NAME_ERROR(x) NAME_ERROR(x)
+#endif
+
 #include "pas-backend-ldap.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
@@ -330,11 +340,7 @@ ldap_error_to_response (int ldap_error)
 {
 	if (ldap_error == LDAP_SUCCESS)
 		return GNOME_Evolution_Addressbook_BookListener_Success;
-#ifdef LDAP_NAME_ERROR
 	else if (LDAP_NAME_ERROR (ldap_error))
-#else
-	else if (NAME_ERROR (ldap_error))
-#endif
 		return GNOME_Evolution_Addressbook_BookListener_CardNotFound;
 	else if (ldap_error == LDAP_INSUFFICIENT_ACCESS)
 		return GNOME_Evolution_Addressbook_BookListener_PermissionDenied;
@@ -1304,27 +1310,31 @@ build_card_from_entry (LDAP *ldap, LDAPMessage *e)
 			char **values;
 			values = ldap_get_values (ldap, e, attr);
 
-			if (info->prop_type & PROP_TYPE_NORMAL) {
+			if (values) {
+				if (info->prop_type & PROP_TYPE_NORMAL) {
 				/* if it's a normal property just set the string */
-				e_card_simple_set (card, info->field_id, values[0]);
+					e_card_simple_set (card, info->field_id, values[0]);
 
-			}
-			else if (info->prop_type & PROP_TYPE_LIST) {
+				}
+				else if (info->prop_type & PROP_TYPE_LIST) {
 				/* if it's a list call the ecard-populate function,
 				   which calls gtk_object_set to set the property */
-				info->populate_ecard_func(card,
-							  values);
-			}
+					info->populate_ecard_func(card,
+								  values);
+				}
 
-			ldap_value_free (values);
+				ldap_value_free (values);
+			}
 		}
 	}
 
+#ifndef OPENLDAP2
 	/* if ldap->ld_errno == LDAP_DECODING_ERROR there was an
 	   error decoding an attribute, and we shouldn't free ber,
 	   since the ldap library already did it. */
 	if (ldap->ld_errno != LDAP_DECODING_ERROR && ber)
 		ber_free (ber, 0);
+#endif
 
 	e_card_simple_sync_card (card);
 
@@ -1408,16 +1418,34 @@ ldap_search_handler (PASBackend *backend, LDAPOp *op)
 		PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 		PASBackendLDAPBookView *view = search_op->view;
 		LDAP *ldap = bl->priv->ldap;
+		int ldap_err;
 
+#ifdef OPENLDAP2
+		ldap_err = ldap_search_ext (ldap, bl->priv->ldap_rootdn,
+					    bl->priv->ldap_scope,
+					    search_op->ldap_query,
+					    NULL, 0,
+					    NULL, /* XXX */
+					    NULL, /* XXX */
+					    NULL,
+					    LDAP_MAX_SEARCH_RESPONSES, &view->search_msgid);
+
+		if (ldap_err != LDAP_SUCCESS) {
+			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap_err));
+			return TRUE; /* act synchronous in this case */
+		}
+#else
 		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 		ldap->ld_deref = LDAP_DEREF_ALWAYS;
+		view->search_msgid = ldap_search (ldap, bl->priv->ldap_rootdn,
+						  bl->priv->ldap_scope,
+						  search_op->ldap_query,
+						  NULL, 0);
+		ldap_err = ldap->ld_errno;
+#endif
 
-		if ((view->search_msgid = ldap_search (ldap,
-						       bl->priv->ldap_rootdn,
-						       bl->priv->ldap_scope,
-						       search_op->ldap_query,
-						       NULL, 0)) == -1) {
-			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap->ld_errno));
+		if (view->search_msgid == -1) {
+			pas_book_view_notify_status_message (view->book_view, ldap_err2string(ldap_err));
 			return TRUE; /* act synchronous in this case */
 		}
 		else {

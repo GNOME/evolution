@@ -1,3 +1,18 @@
+2000-12-18  Chris Toshok  <toshok@helixcode.com>
+
+	* backend/pas/pas-backend-ldap.c (ldap_error_to_response): always
+	use LDAP_NAME_ERROR (in the openldap1 case it's #defined to
+	NAME_ERROR).
+	(build_card_from_entry): ldap_get_values can return NULL.  also,
+	openldap2 keeps us from getting at ldap->ld_errno, so we can't
+	tell if there was a decoding error like we used to.  the double
+	free problem where ldap would free the ber if there was a decoding
+	problem might be fixed now..  further investigation is needed.
+	for now we leak in openldap2.
+	(ldap_search_handler): the ldap structure is opaque, so use
+	ldap_search_ext to give the extra information (the max responses,
+	timeout, etc.) in the openldap2 case.
+
 2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (ldap_error_to_response): Test
