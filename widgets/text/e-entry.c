@@ -63,7 +63,8 @@ enum {
 	ARG_BREAK_CHARACTERS,
 	ARG_MAX_LINES,
 	ARG_ALLOW_NEWLINES,
-	ARG_DRAW_BORDERS
+	ARG_DRAW_BORDERS,
+	ARG_DRAW_BACKGROUND,
 };
 
 static void
@@ -142,6 +143,7 @@ e_entry_init (GtkObject *object)
 						     "fill_clip_rectangle", TRUE,
 						     "anchor", GTK_ANCHOR_NW,
 						     "draw_borders", TRUE,
+						     "draw_background", TRUE,
 						     NULL));
 	gtk_table_attach_defaults(gtk_table, GTK_WIDGET(e_entry->canvas),
 				  0, 1, 0, 1);
@@ -273,6 +275,12 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_DRAW_BORDERS:
 		gtk_object_get (item,
 				"draw_borders", &GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
+
+	case ARG_DRAW_BACKGROUND:
+		gtk_object_get (item,
+				"draw_background", &GTK_VALUE_BOOL (*arg),
 				NULL);
 		break;
 				
@@ -407,7 +415,14 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_set (item, "draw_borders", GTK_VALUE_BOOL (*arg), NULL);
 		if (need_queue)
 			gtk_widget_queue_resize (GTK_WIDGET (ee));
+		break;
 	}
+
+	case ARG_DRAW_BACKGROUND:
+		gtk_object_set (item,
+				"draw_background", GTK_VALUE_BOOL (*arg),
+				NULL);
+		break;
 	}
 }
 
@@ -480,6 +495,8 @@ e_entry_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_ALLOW_NEWLINES);
 	gtk_object_add_arg_type ("EEntry::draw_borders",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BORDERS);
+	gtk_object_add_arg_type ("EEntry::draw_background",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_DRAW_BACKGROUND);
 }
 
 E_MAKE_TYPE(e_entry, "EEntry", EEntry, e_entry_class_init, e_entry_init, PARENT_TYPE);

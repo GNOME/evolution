@@ -379,7 +379,7 @@ e_text_init (EText *text)
 	text->dbl_timeout = 0;
 	text->tpl_timeout = 0;
 
-	text->draw_background = 1;
+	text->draw_background = FALSE;
 	
 	e_canvas_item_set_reflow_callback(GNOME_CANVAS_ITEM(text), e_text_reflow);
 }
