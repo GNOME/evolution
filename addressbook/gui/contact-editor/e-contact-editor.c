@@ -894,12 +894,11 @@ save_card (EContactEditor *ce, gboolean should_close)
 static void
 close_dialog (EContactEditor *ce)
 {
-	g_assert (ce->app != NULL);
-
-	gtk_widget_destroy (ce->app);
-	ce->app = NULL;
-
-	gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[EDITOR_CLOSED]);
+	if (ce->app != NULL) {
+		gtk_widget_destroy (ce->app);
+		ce->app = NULL;
+		gtk_signal_emit (GTK_OBJECT (ce), contact_editor_signals[EDITOR_CLOSED]);
+	}
 }
 
 /* Menu callbacks */
