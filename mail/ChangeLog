@@ -1,3 +1,26 @@
+2001-05-14  Jon Trowbridge  <trow@ximian.com>
+
+	* folder-browser.c (folder_browser_config_search): Use secondary
+	searches here, so that we control the interference between the two
+	bits of searching UI.
+
+2001-05-13  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-search.c (mail_search_construct): Destroy the MailSearch
+	dialog if the underlying MailDisplay is destroyed.  I don't like
+	the way that label in the dialog with the message subject in it
+	looks, so I've #ifdef-ed it out for now.  Center the Matches
+	label --- it makes the dialog look more balanced, I think.
+	(dialog_clicked_cb): Changed to reflect adjusted
+	ESearchingTokenizer API, using primary searches.
+	(toggled_case_cb): Use the primary search API.
+
+	* e-searching-tokenizer.c: Make searching routines utf8-friendly.
+	Rationalize how the match begin/end markup is handled; allow for
+	begin/end markup that varies by search.  Add concept of primary and
+	secondary matching, to disentangle possible interactions between
+	search-bar searches and search-dialog searches.
+
 2001-05-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-local.c (mail_local_storage_shutdown): Get rid of this - we

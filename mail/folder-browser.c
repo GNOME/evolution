@@ -302,7 +302,7 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 
 	st = E_SEARCHING_TOKENIZER (fb->mail_display->html->engine->ht); 
 
-	e_searching_tokenizer_set_search_string (st, NULL);
+	e_searching_tokenizer_set_secondary_search_string (st, NULL);
 	
 	/* we scan the parts of a rule, and set all the types we know about to the query string */
 	partl = rule->parts;
@@ -317,7 +317,7 @@ static void folder_browser_config_search(EFilterBar *efb, FilterRule *rule, int 
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
 			if (input)
 				filter_input_set_value(input, query);
-			e_searching_tokenizer_set_search_string (st, query);
+			e_searching_tokenizer_set_secondary_search_string (st, query);
 		} else if(!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)

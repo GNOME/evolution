@@ -113,8 +113,8 @@ toggled_case_cb (GtkToggleButton *b, MailSearch *ms)
 {
 	ms->case_sensitive = gtk_toggle_button_get_active (b);
 
-	e_searching_tokenizer_set_case_sensitivity (mail_search_tokenizer (ms),
-						    ms->case_sensitive);
+	e_searching_tokenizer_set_primary_case_sensitivity (mail_search_tokenizer (ms),
+							    ms->case_sensitive);
 	mail_search_redisplay_message (ms);
 	
 }
@@ -154,7 +154,9 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 				g_free (ms->last_search);
 				ms->last_search = NULL;
 
-				e_searching_tokenizer_set_search_string (st, search_text);
+				e_searching_tokenizer_set_primary_search_string (st, search_text);
+				e_searching_tokenizer_set_primary_case_sensitivity (st, ms->case_sensitive);
+
 				mail_search_redisplay_message (ms);
 
 				if (gtk_html_engine_search (ms->mail->html, search_text,
@@ -170,7 +172,7 @@ dialog_clicked_cb (GtkWidget *w, gint button_number, MailSearch *ms)
 
 	} else if (button_number == 1) { /* "Close"  */
 
-		e_searching_tokenizer_set_search_string (st, NULL);
+		e_searching_tokenizer_set_primary_search_string (st, NULL);
 		mail_search_redisplay_message (ms);
 
 		gtk_widget_destroy (w);
@@ -183,13 +185,16 @@ begin_cb (ESearchingTokenizer *st, gchar *foo, MailSearch *ms)
 {
 	gtk_label_set_text (GTK_LABEL (ms->count_label), "0");
 	
+#ifdef SUBJECT_IN_DIALOG
 	if (ms->mail->current_message->subject && *ms->mail->current_message->subject) {
 		gchar *msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (ms->msg_label), ms->mail->current_message->subject);
 		gtk_label_set_text (GTK_LABEL (ms->msg_label), msg_subject); /* Use the converted string */
 		g_free (msg_subject);
-	}
-	else
+	} else {
 		gtk_label_set_text (GTK_LABEL (ms->msg_label), _("(Untitled Message)"));
+	}
+#endif
+
 }
 
 static void
@@ -207,19 +212,22 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 				   GNOME_STOCK_BUTTON_CLOSE,
 				   NULL };
 	gchar *title = NULL;
-	gchar *utf8_subject;
-	gchar *msg_subject;
 
-	GtkWidget *msg_hbox;
 	GtkWidget *find_hbox;
 	GtkWidget *matches_hbox;
 	GtkWidget *toggles_hbox;
 
 	GtkWidget *entry;
-	GtkWidget *msg_label;
 	GtkWidget *count_label;
 	GtkWidget *case_check;
 	GtkWidget *fwd_check;
+
+#ifdef SUBJECT_IN_DIALOG
+	gchar *utf8_subject;
+	gchar *msg_subject;
+	GtkWidget *msg_hbox;
+	GtkWidget *msg_label;
+#endif
 
 	g_return_if_fail (ms != NULL && IS_MAIL_SEARCH (ms));
 	g_return_if_fail (mail != NULL && IS_MAIL_DISPLAY (mail));
@@ -231,10 +239,12 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 
 	title = g_strdup (_("Find in Message")); 
 	
+#ifdef SUBJECT_IN_DIALOG
 	if (mail->current_message->subject && *mail->current_message->subject)
 		utf8_subject = g_strdup (mail->current_message->subject);
 	else
 		utf8_subject = g_strdup (_("(Untitled Message)"));
+#endif
 	
 	gnome_dialog_constructv (GNOME_DIALOG (ms), title, buttons);
 	g_free (title);
@@ -253,7 +263,7 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 
 	/* Construct the dialog contents. */
 	
-	msg_hbox     = gtk_hbox_new (FALSE, 0);
+	/* msg_hbox     = gtk_hbox_new (FALSE, 0); */
 	find_hbox    = gtk_hbox_new (FALSE, 0);
 	matches_hbox = gtk_hbox_new (FALSE, 0);
 	toggles_hbox = gtk_hbox_new (FALSE, 0);
@@ -261,33 +271,44 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	entry       = gtk_entry_new ();
 	count_label = gtk_label_new ("0");
 
+#ifdef SUBJECT_IN_DIALOG
 	msg_label   = gtk_label_new ("");	
 	msg_subject = e_utf8_to_gtk_string (GTK_WIDGET (msg_label), utf8_subject); 
 	gtk_label_set_text (GTK_LABEL (msg_label), msg_subject); /* Use converted string instead */
 	g_free (utf8_subject);
 	g_free (msg_subject);
+#endif
 
 	case_check  = gtk_check_button_new_with_label (_("Case Sensitive"));
 	fwd_check   = gtk_check_button_new_with_label (_("Search Forward"));
 
 	ms->entry       = entry;
 	ms->count_label = count_label;
+
+#ifdef SUBJECT_IN_DIALOG
 	ms->msg_label   = msg_label;
+#endif
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (fwd_check),  ms->search_forward);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (case_check), ms->case_sensitive);
-	gtk_box_pack_start (GTK_BOX (msg_hbox), gtk_label_new (_("Message subject:")), FALSE, FALSE, 3);
+#ifdef SUBJECT_IN_DIALOG
+	/* gtk_box_pack_start (GTK_BOX (msg_hbox), gtk_label_new (_("Message subject:")), FALSE, FALSE, 3); */
 	gtk_box_pack_start (GTK_BOX (msg_hbox), msg_label, TRUE, TRUE, 0);
+#endif
 	gtk_box_pack_start (GTK_BOX (find_hbox), gtk_label_new (_("Find:")), FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (find_hbox), entry, TRUE, TRUE, 0);
 
+	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_label_new (_("Matches:")), FALSE, FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (matches_hbox), count_label, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (matches_hbox), gtk_hbox_new (FALSE, 0), TRUE, TRUE, 0);
 
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), case_check, FALSE, FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (toggles_hbox), fwd_check,  FALSE, FALSE, 4);
 
+#ifdef SUBJECT_IN_DIALOG
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), msg_hbox, TRUE, TRUE, 0);
+#endif
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), find_hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), matches_hbox, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (ms)->vbox), toggles_hbox, TRUE, TRUE, 0);
@@ -296,7 +317,9 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 	gnome_dialog_set_default (GNOME_DIALOG (ms), 0); 
 	gnome_dialog_editable_enters (GNOME_DIALOG (ms), GTK_EDITABLE(entry)); /* Make <enter> run the search */
 
+#ifdef SUBJECT_IN_DIALOG
 	gtk_widget_show_all (msg_hbox);
+#endif
 	gtk_widget_show_all (find_hbox);
 	gtk_widget_show_all (matches_hbox);
 	gtk_widget_show_all (toggles_hbox);
@@ -315,6 +338,10 @@ mail_search_construct (MailSearch *ms, MailDisplay *mail)
 			    "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb),
 			    ms);
+	gtk_signal_connect_object (GTK_OBJECT (ms->mail),
+				   "destroy",
+				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
+				   GTK_OBJECT (ms));
 }
 
 GtkWidget *

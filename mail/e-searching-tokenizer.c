@@ -67,7 +67,13 @@ typedef struct _SearchInfo SearchInfo;
 struct _SearchInfo {
 	gchar *search;
 	gchar *current;
+
 	gboolean case_sensitive;
+	gboolean allow_space_tags_to_match_whitespace;
+
+	gint match_size_incr;
+	gchar *match_color;
+	gboolean match_bold;
 };
 
 struct _ESearchingTokenizerPrivate {
@@ -75,12 +81,11 @@ struct _ESearchingTokenizerPrivate {
 	SearchInfo *search;
 	GList *pending;
 	GList *trash;
-	gchar **match_begin;
-	gchar **match_end;
 
-	gchar *pending_search_string;
-	gboolean pending_search_string_clear;
-	gboolean pending_case_sensitivity;
+	gchar *str_primary;
+	gchar *str_secondary;
+	gboolean case_sensitive_primary;
+	gboolean case_sensitive_secondary;
 };
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -93,6 +98,12 @@ search_info_new (void)
 	si = g_new0 (SearchInfo, 1);
 	si->case_sensitive = FALSE;
 
+	si->match_size_incr = 1;
+	si->match_color = g_strdup ("red");
+	si->match_bold = FALSE;
+
+	si->allow_space_tags_to_match_whitespace = TRUE;
+
 	return si;
 }
 
@@ -101,6 +112,7 @@ search_info_free (SearchInfo *si)
 {
 	if (si) {
 		g_free (si->search);
+		g_free (si->match_color);
 		g_free (si);
 	}
 }
@@ -131,11 +143,48 @@ search_info_set_string (SearchInfo *si, const gchar *str)
 }
 
 static void
-search_info_reset (SearchInfo *si)
+search_info_set_case_sensitivity (SearchInfo *si, gboolean flag)
 {
 	g_return_if_fail (si);
+
+	si->case_sensitive = flag;
+}
+
+static void
+search_info_set_match_size_increase (SearchInfo *si, gint incr)
+{
+	g_return_if_fail (si);
+	g_return_if_fail (incr >= 0);
+
+	si->match_size_incr = incr;
+}
+
+static void
+search_info_set_match_color (SearchInfo *si, const gchar *color)
+{
+	g_return_if_fail (si);
+
+	g_free (si->match_color);
+	si->match_color = g_strdup (color);
+}
+
+static void
+search_info_set_match_bold (SearchInfo *si, gboolean flag)
+{
+	g_return_if_fail (si);
+
+	si->match_bold = flag;
+}
+
+static void
+search_info_reset (SearchInfo *si)
+{
+	if (si == NULL)
+		return;
 	si->current = NULL;
 }
+
+/* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
 static const gchar *
 find_whole (SearchInfo *si, const gchar *haystack, const gchar *needle)
@@ -313,7 +362,8 @@ search_info_compare (SearchInfo *si, const gchar *token, gint *start_pos, gint *
 		}
 		
 		/* "Space tags" only match whitespace in our ongoing match. */
-		if (g_unichar_isspace (g_utf8_get_char (si->current))) {
+		if (si->allow_space_tags_to_match_whitespace
+		    && g_unichar_isspace (g_utf8_get_char (si->current))) {
 			for (i=0; space_tags[i]; ++i) {
 				if (tag_match (token, space_tags[i])) {
 					si->current = g_utf8_next_char (si->current);
@@ -325,8 +375,6 @@ search_info_compare (SearchInfo *si, const gchar *token, gint *start_pos, gint *
 		/* All other tags derail our match. */
 		return MATCH_FAILED;
 	}
-
-
 
 	s = find_partial (si, token, si->current);
 	if (s) {
@@ -360,8 +408,8 @@ e_searching_tokenizer_cleanup (ESearchingTokenizer *st)
 	}
 
 	if (st->priv->pending) {
-		//g_list_foreach (st->priv->pending, (GFunc) g_free, NULL);
-		//g_list_free (st->priv->pending);
+		g_list_foreach (st->priv->pending, (GFunc) g_free, NULL);
+		g_list_free (st->priv->pending);
 		st->priv->pending = NULL;
 	}
 }
@@ -375,8 +423,8 @@ e_searching_tokenizer_destroy (GtkObject *obj)
 
 	search_info_free (st->priv->search);
 
-	g_strfreev (st->priv->match_begin);
-	g_strfreev (st->priv->match_end);
+	g_free (st->priv->str_primary);
+	g_free (st->priv->str_secondary);
 
 	g_free (st->priv);
 	st->priv = NULL;
@@ -418,13 +466,6 @@ static void
 e_searching_tokenizer_init (ESearchingTokenizer *st)
 {
 	st->priv = g_new0 (struct _ESearchingTokenizerPrivate, 1);
-
-	/* For now, hard coded match markup. */
-	st->priv->match_begin = g_new0 (gchar *, 2);
-	st->priv->match_begin[0] = g_strdup_printf ("%c<font color=red size=+1>", TAG_ESCAPE);
-
-	st->priv->match_end = g_new0 (gchar *, 2);
-	st->priv->match_end[0] = g_strdup_printf ("%c</font>", TAG_ESCAPE);
 }
 
 GtkType
@@ -493,19 +534,37 @@ add_pending (ESearchingTokenizer *st, gchar *tok)
 }
 
 static void
-add_pending_match_begin (ESearchingTokenizer *st)
+add_pending_match_begin (ESearchingTokenizer *st, SearchInfo *si)
 {
-	gint i;
-	for (i=0; st->priv->match_begin[i]; ++i)
-		add_pending (st, g_strdup (st->priv->match_begin[i]));
+	gchar *size_str = NULL;
+	gchar *color_str= NULL;
+
+	if (si->match_size_incr > 0)
+		size_str = g_strdup_printf (" size=+%d", si->match_size_incr);
+	if (si->match_color)
+		color_str = g_strdup_printf (" color=%s", si->match_color);
+
+	if (size_str || color_str)
+		add_pending (st, g_strdup_printf ("%c<font%s%s>",
+						  TAG_ESCAPE,
+						  size_str ? size_str : "",
+						  color_str ? color_str : ""));
+
+	g_free (size_str);
+	g_free (color_str);
+
+	if (si->match_bold)
+		add_pending (st, g_strdup_printf ("%c<b>", TAG_ESCAPE));
 }
 
 static void
-add_pending_match_end (ESearchingTokenizer *st)
+add_pending_match_end (ESearchingTokenizer *st, SearchInfo *si)
 {
-	gint i;
-	for (i=0; st->priv->match_end[i]; ++i)
-		add_pending (st, g_strdup (st->priv->match_end[i]));
+	if (si->match_bold)
+		add_pending (st, g_strdup_printf ("%c</b>", TAG_ESCAPE));
+
+	if (si->match_size_incr > 0 || si->match_color)
+		add_pending (st, g_strdup_printf ("%c</font>", TAG_ESCAPE));
 }
 
 static void
@@ -528,7 +587,7 @@ get_next_token (ESearchingTokenizer *st)
  * the appropriate tokens.
  */
 static GList *
-queue_matched (ESearchingTokenizer *st, GList *q)
+queue_matched (ESearchingTokenizer *st, SearchInfo *si, GList *q)
 {
 	GList *qh = q;
 	gboolean post_start = FALSE;
@@ -536,18 +595,18 @@ queue_matched (ESearchingTokenizer *st, GList *q)
 	while (q != NULL) {
 		GList *q_next = g_list_next (q);
 		if (!strcmp ((gchar *) q->data, START_MAGIC)) {
-			add_pending_match_begin (st);
+			add_pending_match_begin (st, si);
 			post_start = TRUE;
 		} else if (!strcmp ((gchar *) q->data, END_MAGIC)) {
-			add_pending_match_end (st);
+			add_pending_match_end (st, si);
 			q_next = NULL;
 		} else {
 			gboolean is_tag = *((gchar *)q->data) == TAG_ESCAPE;
 			if (is_tag && post_start)
-				add_pending_match_end (st);
+				add_pending_match_end (st, si);
 			add_pending (st, g_strdup ((gchar *) q->data));
 			if (is_tag && post_start)
-				add_pending_match_begin (st);
+				add_pending_match_begin (st, si);
 		}
 		qh = g_list_remove_link (qh, q);
 		g_list_free_1 (q);
@@ -651,9 +710,9 @@ get_pending_tokens (ESearchingTokenizer *st)
 
 				if (start_pos != 0)
 					add_pending (st, g_strndup (token, start_pos));
-				add_pending_match_begin (st);
+				add_pending_match_begin (st, st->priv->search);
 				add_pending (st, g_strndup (token+start_pos, end_pos-start_pos));
-				add_pending_match_end (st);
+				add_pending_match_end (st, st->priv->search);
 				if (*(token+end_pos)) {
 					queue->data = g_strdup (token+end_pos);
 					add_to_trash (st, (gchar *) queue->data);
@@ -705,7 +764,7 @@ get_pending_tokens (ESearchingTokenizer *st)
 				add_to_trash (st, s3);
 
 				queue = g_list_remove_link (queue, q);
-				queue = queue_matched (st, queue);
+				queue = queue_matched (st, st->priv->search, queue);
 
 				matched (st);
 
@@ -744,29 +803,42 @@ static void
 e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
+	SearchInfo *si;
 
-	if (st->priv->pending_search_string) {
+	if (st->priv->search == NULL && (st->priv->str_primary || st->priv->str_secondary)) {
+		st->priv->search = search_info_new ();
+	}
+	si = st->priv->search;
+	
 
-		if (st->priv->search == NULL)
-			st->priv->search = search_info_new ();
+	if (st->priv->str_primary) {
 
-		search_info_set_string (st->priv->search, st->priv->pending_search_string);
-		g_free (st->priv->pending_search_string);
-		st->priv->pending_search_string = NULL;
+		search_info_set_string (si, st->priv->str_primary);
+		search_info_set_case_sensitivity (si, st->priv->case_sensitive_primary);
 
-	} else if (st->priv->pending_search_string_clear) {
+		search_info_set_match_color (si, "red");
+		search_info_set_match_size_increase (si, 1);
+		search_info_set_match_bold (si, TRUE);
 
+	} else if (st->priv->str_secondary) {
+
+		search_info_set_string (si, st->priv->str_secondary);
+		search_info_set_case_sensitivity (si, st->priv->case_sensitive_secondary);
+
+		search_info_set_match_color (si, "purple");
+		search_info_set_match_size_increase (si, 1);
+		search_info_set_match_bold (si, TRUE);
+
+	} else {
+		
 		search_info_free (st->priv->search);
 		st->priv->search = NULL;
-		st->priv->pending_search_string_clear = FALSE;
-	}
 
-	if (st->priv->search) {
-		st->priv->search->case_sensitive = st->priv->pending_case_sensitivity;
 	}
 	
 	e_searching_tokenizer_cleanup (st);
 	search_info_reset (st->priv->search);
+
 	st->priv->match_count = 0;
 
 	HTML_TOKENIZER_CLASS (parent_class)->begin (t, content_type);
@@ -855,30 +927,51 @@ only_whitespace (const gchar *p)
 }
 
 void
-e_searching_tokenizer_set_search_string (ESearchingTokenizer *st, const gchar *search_str)
+e_searching_tokenizer_set_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	if (search_str == NULL
-	    || !g_utf8_validate (search_str, -1, NULL)
-	    || only_whitespace (search_str)) {
+	g_free (st->priv->str_primary);
+	st->priv->str_primary = NULL;
 
-		st->priv->pending_search_string_clear = TRUE;
+	if (search_str != NULL
+	    && g_utf8_validate (search_str, -1, NULL)
+	    && !only_whitespace (search_str)) {
 
-	} else {
-
-		st->priv->pending_search_string_clear = FALSE;
-		st->priv->pending_search_string = g_strdup (search_str);
-
+		st->priv->str_primary = g_strdup (search_str);
 	}
 }
 
 void
-e_searching_tokenizer_set_case_sensitivity (ESearchingTokenizer *st, gboolean is_case_sensitive)
+e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gboolean is_case_sensitive)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	st->priv->pending_case_sensitivity = is_case_sensitive;
+	st->priv->case_sensitive_primary = is_case_sensitive;
+}
+
+void
+e_searching_tokenizer_set_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
+{
+	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
+
+	g_free (st->priv->str_secondary);
+	st->priv->str_secondary = NULL;
+
+	if (search_str != NULL
+	    && g_utf8_validate (search_str, -1, NULL)
+	    && !only_whitespace (search_str)) {
+		
+		st->priv->str_secondary = g_strdup (search_str);
+	}
+}
+
+void
+e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, gboolean is_case_sensitive)
+{
+	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
+
+	st->priv->case_sensitive_secondary = is_case_sensitive;
 }
 
 gint

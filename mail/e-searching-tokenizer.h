@@ -59,8 +59,14 @@ GtkType e_searching_tokenizer_get_type (void);
 HTMLTokenizer *e_searching_tokenizer_new (void);
 
 /* For now, just a simple API */
-void e_searching_tokenizer_set_search_string    (ESearchingTokenizer *, const gchar *);
-void e_searching_tokenizer_set_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
+
+void e_searching_tokenizer_set_primary_search_string    (ESearchingTokenizer *, const gchar *);
+void e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
+
+void e_searching_tokenizer_set_secondary_search_string    (ESearchingTokenizer *, const gchar *);
+void e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
+
+
 gint e_searching_tokenizer_match_count          (ESearchingTokenizer *);
 
 
