@@ -1,9 +1,10 @@
 <?xml version="1.0"?>
 <e-plugin-list>
   <e-plugin id="org.gnome.mail.folder.unsubscribe" 
-   type="shlib" domain="evolution" name="Bob's Wonder Extender"
-   description="Extends wonders"
+   type="shlib" domain="evolution" name="Unsubscribe Folders"
    location="@PLUGINDIR@/liborg-gnome-mail-folder-unsubscribe.so">
+    <description>Allows unsubscribing folders in the folder tree context menu</description>
+    <author name="Jeffrey Stedfast" email="fejj@novell.com"/>
     <hook class="org.gnome.evolution.mail.popup:1.0">
       <menu id="org.gnome.evolution.mail.foldertree.popup" target="folder">
         <item type="item" path="20.emc.03" label="_Unsubscribe"
