@@ -1,5 +1,9 @@
 2003-02-06  Dan Winship  <danw@ximian.com>
 
+	* Makefile.am (INCLUDES): Fix typo in previous commit
+
+2003-02-06  Dan Winship  <danw@ximian.com>
+
 	* Makefile.am: clean up, update, etc
 
 	* component-factory.c: #include string.h

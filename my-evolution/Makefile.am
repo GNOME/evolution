@@ -8,7 +8,7 @@ INCLUDES =							\
 	-I$(top_builddir)/libical/src/libical			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
-	-DEVOLUTION_IMAGESDIR=\""$(imagedir)"\"			\
+	-DEVOLUTION_IMAGESDIR=\""$(imagesdir)"\"		\
 	-DEVOLUTION_BUTTONSDIR=\""$(buttonsdir)"\"		\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"		\
 	-DLOCATIONDIR=\""$(Locationdir)"\"			\
