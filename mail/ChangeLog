@@ -1,5 +1,14 @@
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
+	** See Bug #52817.
+	
+	* mail-session.c (request_password, do_get_pass, get_password):
+	Fix for api changes to camel_session_get_password.
+	(request_password): if we have a STATIC password, don't show any
+	'remember' checkbox.
+
+2004-01-20  Not Zed  <NotZed@Ximian.com>
+
 	* em-folder-view.c (EMFolderView): Make displayed_uid public.
 
 	* em-folder-browser.c (em_folder_browser_show_preview): use

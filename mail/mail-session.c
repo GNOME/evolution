@@ -85,7 +85,7 @@ typedef struct _MailSessionClass {
 
 static CamelSessionClass *ms_parent_class;
 
-static char *get_password(CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret, CamelService *service, const char *item, CamelException *ex);
+static char *get_password(CamelSession *session, const char *prompt, guint32 flags, CamelService *service, const char *item, CamelException *ex);
 static void forget_password(CamelSession *session, CamelService *service, const char *item, CamelException *ex);
 static gboolean alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt, gboolean cancel);
 static CamelFilterDriver *get_filter_driver(CamelSession *session, const char *type, CamelException *ex);
@@ -174,8 +174,7 @@ struct _pass_msg {
 	
 	CamelSession *session;
 	const char *prompt;
-	gboolean reprompt;
-	gboolean secret;
+	guint32 flags;
 	CamelService *service;
 	const char *item;
 	CamelException *ex;
@@ -283,20 +282,23 @@ request_password (struct _pass_msg *m)
 	gtk_container_set_border_width ((GtkContainer *) password_dialog, 6);
 	
 	m->entry = gtk_entry_new ();
-	gtk_entry_set_visibility ((GtkEntry *) m->entry, !m->secret);
+	gtk_entry_set_visibility ((GtkEntry *) m->entry, (m->flags & CAMEL_SESSION_PASSWORD_SECRET) != 0);
 	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 3);
 	gtk_widget_show (m->entry);
 	
-	if (m->reprompt && m->result) {
+	if ((m->flags & CAMEL_SESSION_PASSWORD_REPROMPT) && m->result) {
 		gtk_entry_set_text ((GtkEntry *) m->entry, m->result);
 		g_free (m->result);
 		m->result = NULL;
 	}
-	
-	if (m->service_url == NULL || m->service != NULL) {
-		m->check = gtk_check_button_new_with_mnemonic (m->service_url ? _("_Remember this password") :
-							       _("_Remember this password for the remainder of this session"));
+
+	/* static password, shouldn't be remembered between sessions,
+	   but will be remembered within the session beyond our control */
+	if ((m->service_url == NULL || m->service != NULL)
+	    && (m->flags & CAMEL_SESSION_PASSWORD_STATIC) == 0) {
+		m->check = gtk_check_button_new_with_mnemonic (m->service_url ? _("_Remember this password")
+							       : _("_Remember this password for the remainder of this session"));
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (m->check),
 					      m->config_service ? m->config_service->save_passwd : FALSE);
 		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->check, TRUE, FALSE, 3);
@@ -326,7 +328,7 @@ do_get_pass(struct _mail_msg *mm)
 			m->result = g_strdup(account->source->url);
 	} else if (m->key) {
 		m->result = e_passwords_get_password ("Mail", m->key);
-		if (m->result == NULL || m->reprompt) {
+		if (m->result == NULL || (m->flags & CAMEL_SESSION_PASSWORD_REPROMPT)) {
 			if (mail_session->interactive) {
 				request_password(m);
 				return;
@@ -354,7 +356,7 @@ static struct _mail_msg_op get_pass_op = {
 };
 
 static char *
-get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboolean secret,
+get_password (CamelSession *session, const char *prompt, guint32 flags,
 	      CamelService *service, const char *item, CamelException *ex)
 {
 	struct _pass_msg *m, *r;
@@ -369,8 +371,7 @@ get_password (CamelSession *session, const char *prompt, gboolean reprompt, gboo
 	m->ismain = pthread_self() == mail_gui_thread;
 	m->session = session;
 	m->prompt = prompt;
-	m->reprompt = reprompt;
-	m->secret = secret;
+	m->flags = flags;
 	m->service = service;
 	m->item = item;
 	m->ex = ex;
