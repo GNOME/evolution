@@ -503,8 +503,11 @@ get_service_url (GtkObject *table)
 	if (editable)
 		url->host = gtk_editable_get_chars (editable, 0, -1);
 	editable = gtk_object_get_data (table, "path_entry");
-	if (editable)
-		url->path = gtk_editable_get_chars (editable, 0, -1);
+	if (editable) {
+		char *path = gtk_editable_get_chars (editable, 0, -1);
+		url->path = g_strdup_printf ("/%s", path);
+		g_free (path);
+	}
 
 	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");
 	if (auth_optionmenu) {
@@ -546,16 +549,16 @@ set_service_url (GtkObject *table, char *url_str)
 	}
 
 	editable = gtk_object_get_data (table, "user_entry");
-	if (editable && url)
+	if (editable && url && url->user)
 		gtk_entry_set_text (GTK_ENTRY (editable), url->user);
 
 	editable = gtk_object_get_data (table, "server_entry");
-	if (editable && url)
+	if (editable && url && url->host)
 		gtk_entry_set_text (GTK_ENTRY (editable), url->host);
 
 	editable = gtk_object_get_data (table, "path_entry");
-	if (editable && url)
-		gtk_entry_set_text (GTK_ENTRY (editable), url->path);
+	if (editable && url && url->path && *url->path)
+		gtk_entry_set_text (GTK_ENTRY (editable), url->path + 1);
 
         /* How are we gonna do this? */
 	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");

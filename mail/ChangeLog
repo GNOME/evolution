@@ -1,3 +1,10 @@
+2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-config.c (get_service_url): Always prepend a leading "/" to
+	the url->path.
+	(set_service_url): Added more error checking and also strip the
+	leading '/' from the url->path
+
 2000-07-25  Michael Meeks  <michael@helixcode.com>
 
 	* mail-config.c (create_identity_page): set default signature to
