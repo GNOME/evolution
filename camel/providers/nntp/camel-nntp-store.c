@@ -626,9 +626,19 @@ nntp_store_get_subscribed_folder_info (CamelNNTPStore *store, const char *top, g
 
 				folder = (CamelNNTPFolder *)camel_store_get_folder((CamelStore *)store, si->path, 0, ex);
 				if (folder) {
+					CamelFolderChangeInfo *changes = NULL;
+
 					CAMEL_SERVICE_LOCK(store, connect_lock);
 					camel_nntp_command(store, ex, folder, &line, NULL);
+					if (camel_folder_change_info_changed(folder->changes)) {
+						changes = folder->changes;
+						folder->changes = camel_folder_change_info_new();
+					}
 					CAMEL_SERVICE_UNLOCK(store, connect_lock);
+					if (changes) {
+						camel_object_trigger_event((CamelObject *) folder, "folder_changed", changes);
+						camel_folder_change_info_free(changes);
+					}
 					camel_object_unref(folder);
 				}
 				camel_exception_clear(ex);
