@@ -1,3 +1,8 @@
+2003-12-11  Chris Toshok  <toshok@ximian.com>
+
+	* Makefile.am (INCLUDES): get the build moving again.  add
+	CERT_UI_CFLAGS here for the time being.
+
 2003-12-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixes bug #1717.

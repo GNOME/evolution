@@ -20,6 +20,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/smime/lib			\
 	-I$(top_srcdir)/smime/gui			\
 	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(CERT_UI_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_PRIVDATADIR=\""$(privdatadir)"\"	\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
