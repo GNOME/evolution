@@ -293,6 +293,7 @@ insert_preedit_text (EText *text)
 	gchar *preedit_string = NULL;
 	GString *tmp_string = g_string_new (NULL);
 	gint length = 0, cpos = 0, preedit_length = 0;
+	gboolean new_attrs = FALSE;
 
 	if (text->layout == NULL || !GTK_IS_IM_CONTEXT (text->im_context))
 		return;
@@ -302,11 +303,9 @@ insert_preedit_text (EText *text)
 
 	g_string_prepend_len (tmp_string, text->text,length); 
 
-	attrs = pango_attr_list_new ();
-
 	gtk_im_context_get_preedit_string (text->im_context,
-					&preedit_string, &preedit_attrs,
-					NULL);
+					   &preedit_string, &preedit_attrs,
+					   NULL);
 
 	if (preedit_string && g_utf8_validate (preedit_string, -1, NULL))
 		text->preedit_len = preedit_length = strlen (preedit_string);
@@ -315,15 +314,26 @@ insert_preedit_text (EText *text)
 
 	cpos = g_utf8_offset_to_pointer (text->text, text->selection_start) - text->text;	
 
-	if (preedit_length)
+	if (preedit_length) {
 		g_string_insert (tmp_string, cpos, preedit_string);
 
-	reset_layout_attrs (text);
+		reset_layout_attrs (text);
 
-	pango_layout_set_text (text->layout, tmp_string->str, tmp_string->len);
-	if (preedit_length)
+		attrs = pango_layout_get_attributes (text->layout);
+		if (!attrs) {
+			attrs = pango_attr_list_new ();
+			new_attrs = TRUE;
+		}
+
+		pango_layout_set_text (text->layout, tmp_string->str, tmp_string->len);
+
 		pango_attr_list_splice (attrs, preedit_attrs, cpos, preedit_length);
-	pango_layout_set_attributes (text->layout, attrs);
+
+		if (new_attrs) {
+			pango_layout_set_attributes (text->layout, attrs);
+			pango_attr_list_unref (attrs);
+		}
+	}
 
 	if (preedit_string)
 		g_free (preedit_string);
@@ -331,8 +341,6 @@ insert_preedit_text (EText *text)
 		pango_attr_list_unref (preedit_attrs);
 	if (tmp_string)
 		g_string_free (tmp_string, TRUE);
-	if (attrs)
-		pango_attr_list_unref (attrs);
 }
 
 static void
