@@ -1994,6 +1994,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if ( !lines ) {
 		text->needs_split_into_lines = 1;
 		e_canvas_item_request_reflow (item);
+		return;
 	}
 
 	clip_rect = NULL;
