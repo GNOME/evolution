@@ -1,4 +1,9 @@
+2000-05-05  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Added `--enable-purify' flag.
+
 2000-05-05  Chris Toshok <toshok@helixcode.com>
+	
 	* shell/Makefile.am: add support for building purified evolution.
 
 	* shell/.cvsignore: ignore evolution.pure
