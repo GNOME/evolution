@@ -1,3 +1,42 @@
+2004-03-25  Rodney Dawes  <dobey@ximian.com>
+
+	* em-composer-prefs.c (sig_edit_cb):
+	(sig_add_script_cb): Use gtk_window_present instead of doing a show
+	then raise, as this also puts the window on the current workspace
+	(em_composer_prefs_construct): Fix the border widths for the dialog
+	vbox and action area to be HIG-compliant, and realize the window
+	Remove the dialog separator
+	Use a box_pack_start, rather than box_pack_start_defaults which causes
+	some weird behaviour when changing the border widths
+	* em-subscribe-editor.c (em_subscribe_editor_new): Realize the dialog
+	and set the border widths for its vbox and action area to be compliant
+	with the HIG
+	* local-config.glade: Removed this file as it is no longer used
+	* mail-account-editor.c (construct): Realize the dialog, remove its
+	separator, and set the border widths for its vbox and action area to
+	be HIG-compliant
+	* mail-account-editor.c (source_type_changed):
+	(transport_type_changed): Fix the showing and hiding of the widgets
+	related to the SSL options
+	(mail_account_gui_new): Get the transport/source frames for the SSL
+	options, and hide them by default
+	Show the default folder buttons by default here
+	(mail_account_gui_setup): Only call _show not _show_all here, so we
+	don't mess up the shown/hidden state of things
+	* mail-account-gui.h: Add ssl_frame widget to the MailAccountGuiService
+	* mail-config.glade:
+	* mail-search.glade:
+	* mail-security.glade: HIG-compliance fixes for the glade dialogs
+	* message-tag-followup.c (construct): Don't set border_width on the
+	dialog itself
+	Remove the separator from the dialog
+	Set the border_widths for the dialog's vbox and action areas to be
+	compliant with the HIG
+	* message-tags.glade:
+	* subscribe-dialog.glade: HIG-compliance fixes for these dialogs
+
+	Original patch from Martyn Russell
+	
 2004-03-24  Danilo Šegan  <dsegan@gmx.net>
 
 	* mail-ops.c (get_messages_desc): Use ngettext for handling plural

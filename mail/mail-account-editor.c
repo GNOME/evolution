@@ -130,6 +130,11 @@ construct (MailAccountEditor *editor, EAccount *account, EMAccountPrefs *dialog)
 {
 	EAccountService *source = account->source;
 	
+	gtk_widget_realize (GTK_WIDGET (editor));
+	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->action_area), 12);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
+
 	editor->gui = mail_account_gui_new (account, dialog);
 	
 	/* get our toplevel widget and reparent it */

@@ -567,11 +567,14 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 		
 		/* ssl */
 #ifdef HAVE_SSL
-		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
-			gtk_widget_show (gui->source.ssl_hbox);
-		else
-			gtk_widget_hide (gui->source.ssl_hbox);
 		gtk_widget_hide (gui->source.no_ssl);
+		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
+			gtk_widget_show (gui->source.ssl_frame);
+			gtk_widget_show (gui->source.ssl_hbox);
+		} else {
+			gtk_widget_hide (gui->source.ssl_frame);
+			gtk_widget_hide (gui->source.ssl_hbox);
+		}
 #else
 		gtk_widget_hide (gui->source.ssl_hbox);
 		gtk_widget_show (gui->source.no_ssl);
@@ -660,11 +663,14 @@ transport_type_changed (GtkWidget *widget, gpointer user_data)
 		
 		/* ssl */
 #ifdef HAVE_SSL
-		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL)
-			gtk_widget_show (gui->transport.ssl_hbox);
-		else
-			gtk_widget_hide (gui->transport.ssl_hbox);
 		gtk_widget_hide (gui->transport.no_ssl);
+		if (provider && provider->flags & CAMEL_PROVIDER_SUPPORTS_SSL) {
+			gtk_widget_show (gui->transport.ssl_frame);
+			gtk_widget_show (gui->transport.ssl_hbox);
+		} else {
+			gtk_widget_hide (gui->transport.ssl_frame);
+			gtk_widget_hide (gui->transport.ssl_hbox);
+		}
 #else
 		gtk_widget_hide (gui->transport.ssl_hbox);
 		gtk_widget_show (gui->transport.no_ssl);
@@ -1597,6 +1603,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->source.path = GTK_ENTRY (glade_xml_get_widget (gui->xml, "source_path"));
 	g_signal_connect (gui->source.path, "changed",
 			  G_CALLBACK (service_changed), &gui->source);
+	gui->source.ssl_frame = glade_xml_get_widget (gui->xml, "source_security_frame");
+	gtk_widget_hide (gui->source.ssl_frame);
 	gui->source.ssl_hbox = glade_xml_get_widget (gui->xml, "source_ssl_hbox");
 	gui->source.use_ssl = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "source_use_ssl"));
 	construct_ssl_menu (&gui->source);
@@ -1620,6 +1628,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->transport.username = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_user"));
 	g_signal_connect (gui->transport.username, "changed",
 			  G_CALLBACK (service_changed), &gui->transport);
+	gui->transport.ssl_frame = glade_xml_get_widget (gui->xml, "transport_security_frame");
+	gtk_widget_hide (gui->transport.ssl_frame);
 	gui->transport.ssl_hbox = glade_xml_get_widget (gui->xml, "transport_ssl_hbox");
 	gui->transport.use_ssl = GTK_OPTION_MENU (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
 	construct_ssl_menu (&gui->transport);
@@ -1641,7 +1651,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	else
 		gui->drafts_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_DRAFTS));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->drafts_folder_button, gui->drafts_folder_uri);
-	
+	gtk_widget_show (gui->drafts_folder_button);
+
 	/* Sent folder */
 	gui->sent_folder_button = GTK_BUTTON (glade_xml_get_widget (gui->xml, "sent_button"));
 	g_signal_connect (gui->sent_folder_button, "selected", G_CALLBACK (folder_selected), &gui->sent_folder_uri);
@@ -1650,7 +1661,8 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	else
 		gui->sent_folder_uri = g_strdup(mail_component_get_folder_uri(NULL, MAIL_COMPONENT_FOLDER_SENT));
 	em_folder_selection_button_set_selection((EMFolderSelectionButton *)gui->sent_folder_button, gui->sent_folder_uri);
-	
+	gtk_widget_show (gui->sent_folder_button);
+
 	/* Special Folders "Reset Defaults" button */
 	gui->restore_folders_button = (GtkButton *)glade_xml_get_widget (gui->xml, "default_folders_button");
 	g_signal_connect (gui->restore_folders_button, "clicked", G_CALLBACK (default_folders_clicked), gui);
@@ -1876,7 +1888,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	}
 	
 	if (top != NULL) {
-		gtk_widget_show_all (top);
+		gtk_widget_show (top);
 	}
 	
 	if (fstore) {

@@ -242,8 +242,7 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 		
 		g_object_set_data ((GObject *) entry, "script", sig);
 		
-		gtk_widget_show (prefs->sig_script_dialog);
-		gdk_window_raise (prefs->sig_script_dialog->window);
+		gtk_window_present ((GtkWindow *) prefs->sig_script_dialog);
 	}
 }
 
@@ -354,8 +353,7 @@ sig_add_script_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	
 	g_object_set_data ((GObject *) entry, "script", NULL);
 	
-	gtk_widget_show (prefs->sig_script_dialog);
-	gdk_window_raise (prefs->sig_script_dialog->window);
+	gtk_window_present ((GtkWindow *) prefs->sig_script_dialog);
 }
 
 static void
@@ -916,13 +914,19 @@ em_composer_prefs_construct (EMComposerPrefs *prefs)
 	
 	/* Signatures */
 	dialog = (GtkDialog *) gtk_dialog_new ();
+
+	gtk_widget_realize ((GtkWidget *) dialog);
+	gtk_container_set_border_width ((GtkContainer *)dialog->action_area, 12);
+	gtk_container_set_border_width ((GtkContainer *)dialog->vbox, 0);
+
 	prefs->sig_script_dialog = (GtkWidget *) dialog;
 	gtk_dialog_add_buttons (dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
 				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+	gtk_dialog_set_has_separator (dialog, FALSE);
 	gtk_window_set_title ((GtkWindow *) dialog, _("Add script signature"));
 	g_signal_connect (dialog, "response", G_CALLBACK (sig_add_script_response), prefs);
 	widget = glade_xml_get_widget (prefs->sig_script_gui, "vbox_add_script_signature");
-	gtk_box_pack_start_defaults ((GtkBox *) dialog->vbox, widget);
+	gtk_box_pack_start ((GtkBox *) dialog->vbox, widget, TRUE, TRUE, 0);
 	
 	prefs->sig_add = GTK_BUTTON (glade_xml_get_widget (gui, "cmdSignatureAdd"));
 	g_signal_connect (prefs->sig_add, "clicked", G_CALLBACK (sig_add_cb), prefs);

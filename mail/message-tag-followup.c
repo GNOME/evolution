@@ -280,8 +280,11 @@ construct (MessageTagEditor *editor)
 	
 	gtk_window_set_title (GTK_WINDOW (editor), _("Flag to Follow Up"));
 	gnome_window_icon_set_from_file (GTK_WINDOW (editor), EVOLUTION_IMAGES "/flag-for-followup-16.png");
-	gtk_container_set_border_width (GTK_CONTAINER (editor), 6);
-	
+
+	gtk_dialog_set_has_separator (GTK_DIALOG (editor), FALSE);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (editor)->action_area), 12);
+
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/message-tags.glade", "followup_editor", NULL);
 	
 	widget = glade_xml_get_widget (gui, "toplevel");

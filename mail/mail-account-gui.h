@@ -46,6 +46,7 @@ typedef struct {
 	GtkEntry *hostname;
 	GtkEntry *username;
 	GtkEntry *path;
+	GtkWidget *ssl_frame;
 	GtkOptionMenu *use_ssl;
 	GtkWidget *ssl_selected;
 	GtkWidget *ssl_hbox;
