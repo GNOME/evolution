@@ -50,7 +50,6 @@ static void construct (CamelService *service, CamelSession *session, CamelProvid
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guint32 flags, CamelException * ex);
 static char *get_name(CamelService *service, gboolean brief);
 static CamelFolder *get_inbox (CamelStore *store, CamelException *ex);
-static void rename_folder(CamelStore *store, const char *old_name, const char *new_name, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 static void delete_folder(CamelStore *store, const char *folder_name, CamelException *ex);
 static void rename_folder(CamelStore *store, const char *old, const char *new, CamelException *ex);
@@ -207,7 +206,7 @@ get_folder_info (CamelStore *store, const char *top,
 	 * there before.
 	 */
 
-	d(printf("-- LOCAL STRE -- get folder info: %s\n", top));
+	d(printf("-- LOCAL STORE -- get folder info: %s\n", top));
 
 	return NULL;
 }
@@ -407,12 +406,12 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
 	fi->name = g_path_get_basename (folder_name);
-	fi->url = g_strdup_printf ("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
+	fi->url = g_strdup_printf ("%s:%s#%s", ((CamelService *) store)->url->protocol,
+				   CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path(fi, '/');
-
-	camel_object_trigger_event (CAMEL_OBJECT (store),
-				    "folder_deleted", fi);
+	
+	camel_object_trigger_event (store, "folder_deleted", fi);
 	
 	camel_folder_info_free (fi);
 }

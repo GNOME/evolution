@@ -73,7 +73,11 @@ typedef struct {
 	CamelFolderClass parent_class;
 
 	/* Virtual methods */	
-
+	
+	/* path construction, only used at init */
+	char * (* get_full_path) (const char *toplevel_dir, const char *full_name);
+	char * (* get_meta_path) (const char *toplevel_dir, const char *full_name, const char *ext);
+	
 	/* summary factory, only used at init */
 	CamelLocalSummary *(*create_summary)(const char *path, const char *folder, CamelIndex *index);
 

@@ -1,3 +1,33 @@
+2003-09-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/local/camel-mbox-folder.c
+	(camel_mbox_folder_get_full_path): Implements
+	CamelLocalFolder::get_full_path() (publicly namespaced so that
+	CamelMboxStore can re-use them).
+	(camel_mbox_folder_get_meta_path): Same.
+
+	* providers/local/camel-mbox-store.c (get_folder): Changed the way
+	the path is constructed, since we now handle subdirectories and
+	stuff.
+	(delete_folder): Try deleting the Folder.sbd directory. We also
+	need to manage our own meta files since CamelLocalStore's impl
+	constructs paths differently than what we need.
+	(create_folder): Implemented.
+	(rename_folder): Implemented.
+	(scan_dir): Scan an mbox tree
+	(get_folder_info): Implemented using scan_dir().
+
+	* providers/local/camel-local-store.c (delete_folder): Set fi->url
+	to the correct value, meaning we need to prefix it with the
+	protocol and the folder_name is not actually part of the path, it
+	is a separate component to the url.
+
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Use the new class virtual method
+	to construct the full folder path and all the meta files.
+	(local_get_full_path): Implemented default get_full_path method.
+	(local_get_meta_path): Implemented default get_meta_path method.
+
 2003-09-11  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (noinst_LTLIBRARIES): Remove libcamel-static.la
