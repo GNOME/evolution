@@ -185,16 +185,19 @@ e_cert_selector_new(int type, const char *currentid)
 	if (certlist != NULL) {
 		node = CERT_LIST_HEAD(certlist);
 		while (!CERT_LIST_END(node, certlist)) {
-			w = gtk_menu_item_new_with_label(node->cert->nickname);
-			gtk_menu_shell_append((GtkMenuShell *)menu, w);
-			gtk_widget_show(w);
+			if (node->cert->nickname || node->cert->emailAddr) {
+				w = gtk_menu_item_new_with_label(node->cert->nickname?node->cert->nickname:node->cert->emailAddr);
+				gtk_menu_shell_append((GtkMenuShell *)menu, w);
+				gtk_widget_show(w);
 
-			if (currentid != NULL
-			    && (strcmp(node->cert->nickname, currentid) == 0
-				|| strcmp(node->cert->emailAddr, currentid) == 0))
-				active = n;
+				if (currentid != NULL
+				    && ((node->cert->nickname != NULL && strcmp(node->cert->nickname, currentid) == 0)
+					|| (node->cert->emailAddr != NULL && strcmp(node->cert->emailAddr, currentid) == 0)))
+					active = n;
+				
+				n++;
+			}
 
-			n++;
 			node = CERT_LIST_NEXT(node);
 		}
 	}
