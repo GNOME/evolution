@@ -1,10 +1,36 @@
 2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): Removed. I
+	just realised that we ALWAYS want to get gpg's stderr in UTF-8, so
+	the better solution (plus less code duplication) is to just have
+	the diagnostics buffer be a CamelStreamMem with a charset filter.
+	(gpg_ctx_new): Setup a filter stream to convert our gpg stderr
+	diagnostics into UTF-8 if needed.
+	(gpg_ctx_free): Unref the diagnostcis stream.
+	(gpg_ctx_parse_status): Flush the diagnostics stream if we are
+	going to use the data in an exception.
+	(gpg_ctx_op_step): Use camel_stream_write() to append to the
+	diagnostics stream rather than appending the buffer to a
+	GByteArray like we used to do.
+	(gpg_ctx_op_step): Flush the diagnostics stream here too.
+	(gpg_verify): Use a const char *diagnostics string here, forcing a
+	slight rearrangement of calls - use the const char *dignostics
+	before we gpg_ctx_free, otherwise we'll be passing free'd memory
+	off to the cipher_validity.
+	(gpg_ctx_get_diagnostics): Do the work here to flush the
+	diagnostics stream and nul-terminate the buffer. Also return const
+	now, instead of strdupping. No need for that.
+	(gpg_ctx_parse_status): Convert the user hint to UTF-8.
+
+2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-gpg-context.c (gpg_ctx_get_utf8_diagnostics): Changed my
 	mind a bit on how I wanted this to work. Instead of aborting on an
 	illegal sequence, do like we do with camel-mime-filter-charset and
 	just skip over invalid sequences. Also, in the noop failure case,
 	close the iconv_t so we don't leak it.
+
+2003-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_body_decode): Save the
 	content size in a temp variable until after we've successfully

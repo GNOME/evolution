@@ -44,6 +44,9 @@
 #include "gal/util/e-iconv.h"
 
 #include "camel-gpg-context.h"
+#include "camel-mime-filter-charset.h"
+#include "camel-stream-filter.h"
+#include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
 #include "camel-operation.h"
 
@@ -260,7 +263,8 @@ struct _GpgCtx {
 	CamelStream *istream;
 	CamelStream *ostream;
 	
-	GByteArray *diagnostics;
+	GByteArray *diagbuf;
+	CamelStream *diagnostics;
 	
 	int exit_status;
 	
@@ -285,6 +289,8 @@ static struct _GpgCtx *
 gpg_ctx_new (CamelSession *session)
 {
 	struct _GpgCtx *gpg;
+	const char *charset;
+	CamelStream *stream;
 	
 	gpg = g_new (struct _GpgCtx, 1);
 	gpg->mode = GPG_CTX_MODE_SIGN;
@@ -326,7 +332,24 @@ gpg_ctx_new (CamelSession *session)
 	gpg->istream = NULL;
 	gpg->ostream = NULL;
 	
-	gpg->diagnostics = g_byte_array_new ();
+	stream = camel_stream_mem_new ();
+	gpg->diagbuf = CAMEL_STREAM_MEM (stream)->buffer;
+	
+	if ((charset = e_iconv_locale_charset ()) && !strcasecmp (charset, "UTF-8")) {
+		CamelMimeFilterCharset *filter;
+		CamelStreamFilter *fstream;
+		
+		if ((filter = camel_mime_filter_charset_new_convert (charset, "UTF-8"))) {
+			fstream = camel_stream_filter_new_with_stream (stream);
+			camel_stream_filter_add (fstream, (CamelMimeFilter *) filter);
+			camel_object_unref (filter);
+			camel_object_unref (stream);
+			
+			stream = (CamelStream *) fstream;
+		}
+	}
+	
+	gpg->diagnostics = stream;
 	
 	return gpg;
 }
@@ -400,92 +423,18 @@ gpg_ctx_set_ostream (struct _GpgCtx *gpg, CamelStream *ostream)
 	gpg->ostream = ostream;
 }
 
-static char *
+static const char *
 gpg_ctx_get_diagnostics (struct _GpgCtx *gpg)
 {
-	return g_strndup (gpg->diagnostics->data, gpg->diagnostics->len);
-}
-
-static char *
-gpg_ctx_get_utf8_diagnostics (struct _GpgCtx *gpg)
-{
-	size_t inleft, outleft, converted = 0;
-	const char *charset;
-	char *out, *outbuf;
-	const char *inbuf;
-	size_t outlen;
-	iconv_t cd;
+	if (!gpg->diagbuf->len || gpg->diagbuf->data[gpg->diagbuf->len - 1] != '\0') {
+		camel_stream_flush (gpg->diagnostics);
+		if (gpg->diagbuf->len == 0)
+			return NULL;
+		
+		g_byte_array_append (gpg->diagbuf, "", 1);
+	}
 	
-	if (gpg->diagnostics->len == 0)
-		return NULL;
-	
-	/* if the locale is C/POSIX/ASCII/UTF-8 - then there's nothing to do here */
-	if (!(charset = e_iconv_locale_charset ()) || !strcasecmp (charset, "UTF-8"))
-		return gpg_ctx_get_diagnostics (gpg);
-	
-	cd = e_iconv_open ("UTF-8", charset);
-	
-	inbuf = gpg->diagnostics->data;
-	inleft = gpg->diagnostics->len;
-	
-	outleft = outlen = (inleft * 2) + 16;
-	outbuf = out = g_malloc (outlen + 1);
-	
-	do {
-		converted = e_iconv (cd, &inbuf, &inleft, &outbuf, &outleft);
-		if (converted == (size_t) -1) {
-			if (errno == E2BIG) {
-				/*
-				 * E2BIG   There is not sufficient room at *outbuf.
-				 *
-				 * We just need to grow our outbuffer and try again.
-				 */
-				
-				converted = outbuf - out;
-				outlen += inleft * 2 + 16;
-				out = g_realloc (out, outlen + 1);
-				outbuf = out + converted;
-				outleft = outlen - converted;
-			} else if (errno == EILSEQ) {
-				/*
-				 * EILSEQ An invalid multibyte sequence has been  encountered
-				 *        in the input.
-				 *
-				 * What we do here is eat the invalid bytes in the sequence and continue
-				 */
-				
-				inbuf++;
-				inleft--;
-			} else if (errno == EINVAL) {
-				/*
-				 * EINVAL  An  incomplete  multibyte sequence has been encoun­
-				 *         tered in the input.
-				 *
-				 * We assume that this can only happen if we've run out of
-				 * bytes for a multibyte sequence, if not we're in trouble.
-				 */
-				
-				break;
-			} else
-				goto noop;
-		}
-	} while (((int) inleft) > 0);
-	
-	/* flush the iconv conversion */
-	e_iconv (cd, NULL, NULL, &outbuf, &outleft);
-	e_iconv_close (cd);
-	
-	/* nul-terminate the string */
-	outbuf[0] = '\0';
-	
-	return out;
-	
- noop:
-	
-	g_free (out);
-	e_iconv_close (cd);
-	
-	return gpg_ctx_get_diagnostics (gpg);
+	return gpg->diagbuf->data;
 }
 
 static void
@@ -539,7 +488,7 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 	if (gpg->ostream)
 		camel_object_unref (CAMEL_OBJECT (gpg->ostream));
 	
-	g_byte_array_free (gpg->diagnostics, TRUE);
+	camel_object_unref (gpg->diagnostics);
 	
 	g_free (gpg);
 }
@@ -813,6 +762,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 	status += 9;
 	
 	if (!strncmp (status, "USERID_HINT ", 12)) {
+		size_t nread, nwritten;
 		char *hint, *user;
 		
 		status += 12;
@@ -829,7 +779,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 			goto recycle;
 		}
 		
-		user = g_strdup (status);
+		if (!(user = g_locale_to_utf8 (status, -1, &nread, &nwritten, NULL)))
+			user = g_strdup (status);
+		
 		g_strstrip (user);
 		
 		g_hash_table_insert (gpg->userid_hint, hint, user);
@@ -890,9 +842,11 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		return -1;
 	} else if (!strncmp (status, "NODATA", 6)) {
 		/* this is an error */
-		if (gpg->diagnostics->len)
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM, "%.*s",
-					      gpg->diagnostics->len, gpg->diagnostics->data);
+		const char *diagnostics;
+		
+		diagnostics = gpg_ctx_get_diagnostics (gpg);
+		if (diagnostics && *diagnostics)
+			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
 		else
 			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 					     _("No data provided"));
@@ -1003,6 +957,7 @@ static int
 gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 {
 	fd_set rdset, wrset, *wrsetp = NULL;
+	const char *diagnostics;
 	struct timeval timeout;
 	const char *mode;
 	int maxfd = 0;
@@ -1108,7 +1063,9 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			goto exception;
 		
 		if (nread > 0) {
-			g_byte_array_append (gpg->diagnostics, buffer, nread);
+			printf ("pre-diag: %.*s\n", nread, buffer);
+			camel_stream_write (gpg->diagnostics, buffer, nread);
+			printf ("post-diag: %.*s\n", gpg->diagbuf->len, gpg->diagbuf->data);
 		} else {
 			gpg->seen_eof2 = TRUE;
 		}
@@ -1204,12 +1161,12 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		break;
 	}
 	
-	if (gpg->diagnostics->len) {
+	diagnostics = gpg_ctx_get_diagnostics (gpg);
+	if (diagnostics && *diagnostics) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to GPG %s: %s\n\n%.*s"),
+				      _("Failed to GPG %s: %s\n\n%s"),
 				      mode, g_strerror (errno),
-				      gpg->diagnostics->len,
-				      gpg->diagnostics->data);
+				      diagnostics);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to GPG %s: %s\n"),
@@ -1346,13 +1303,12 @@ gpg_sign (CamelCipherContext *context, const char *userid, CamelCipherHash hash,
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
-		char *diagnostics;
+		const char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     diagnostics && *diagnostics ? diagnostics :
 				     _("Failed to execute gpg."));
-		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);
 		
@@ -1403,7 +1359,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	    CamelException *ex)
 {
 	CamelCipherValidity *validity;
-	char *diagnostics = NULL;
+	const char *diagnostics = NULL;
 	struct _GpgCtx *gpg;
 	char *sigfile = NULL;
 	gboolean valid;
@@ -1448,15 +1404,12 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		}
 	}
 	
-	diagnostics = gpg_ctx_get_utf8_diagnostics (gpg);
-	
 	valid = gpg_ctx_op_wait (gpg) == 0;
-	gpg_ctx_free (gpg);
-	
 	validity = camel_cipher_validity_new ();
+	diagnostics = gpg_ctx_get_diagnostics (gpg);
 	camel_cipher_validity_set_valid (validity, valid);
 	camel_cipher_validity_set_description (validity, diagnostics);
-	g_free (diagnostics);
+	gpg_ctx_free (gpg);
 	
 	if (sigfile) {
 		unlink (sigfile);
@@ -1526,13 +1479,12 @@ gpg_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
-		char *diagnostics;
+		const char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     diagnostics && *diagnostics ? diagnostics :
 				     _("Failed to execute gpg."));
-		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);
 		
@@ -1583,13 +1535,12 @@ gpg_decrypt (CamelCipherContext *context, CamelStream *istream,
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
-		char *diagnostics;
+		const char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     diagnostics && *diagnostics ? diagnostics :
 				     _("Failed to execute gpg."));
-		g_free (diagnostics);
 		
 		gpg_ctx_free (gpg);
 		
@@ -1629,11 +1580,12 @@ gpg_import_keys (CamelCipherContext *context, CamelStream *istream, CamelExcepti
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
-		char *diagnostics;
+		const char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
-		g_free (diagnostics);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     diagnostics && *diagnostics ? diagnostics :
+				     _("Failed to execute gpg."));
 		
 		gpg_ctx_free (gpg);
 		
@@ -1679,11 +1631,12 @@ gpg_export_keys (CamelCipherContext *context, GPtrArray *keys, CamelStream *ostr
 	}
 	
 	if (gpg_ctx_op_wait (gpg) != 0) {
-		char *diagnostics;
+		const char *diagnostics;
 		
 		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
-		g_free (diagnostics);
+		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+				     diagnostics && *diagnostics ? diagnostics :
+				     _("Failed to execute gpg."));
 		
 		gpg_ctx_free (gpg);
 		
