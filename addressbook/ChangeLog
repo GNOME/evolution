@@ -1,5 +1,18 @@
 2003-09-29  Chris Toshok  <toshok@ximian.com>
 
+	* util/eab-marshal.list: new file.
+
+	* util/eab-destination.[ch]: rename
+	backend/ebook/e-destination.[ch] to this, and change all the entry
+	point names too.
+
+	* util/eab-book-util.[ch]: rename backend/ebook/e-book-util.[ch]
+	to this, and change all the entry point names too.
+
+	* util/Makefile.am: new file, build libeabutil.la
+
+2003-09-29  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names.c
 	(addressbook_model_set_uri): e_addressbook_model -> eab_model.
 	(contact_key): e-contactify this, and remove the call to
