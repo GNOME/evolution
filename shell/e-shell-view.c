@@ -307,6 +307,10 @@ reparent_storage_set_view_box_and_destroy_popup (EShellView *shell_view)
 
 	gtk_widget_destroy (priv->folder_bar_popup);
 	priv->folder_bar_popup = NULL;
+
+	/* Re-enable DnD on the StorageSetView (it got disabled when displaying
+	   the pop-up).  */
+	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), TRUE);
 }
 
 static void
@@ -320,6 +324,10 @@ popdown_transient_folder_bar (EShellView *shell_view)
 	gtk_widget_hide (priv->storage_set_view_box);
 
 	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), FALSE);
+
+	/* Re-enable DnD on the StorageSetView (it got disabled when displaying
+	   the pop-up).  */
+	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), TRUE);
 }
 
 static int
@@ -485,6 +493,9 @@ pop_up_folder_bar (EShellView *shell_view)
 	gtk_widget_show (priv->storage_set_view_box);
 
 	gtk_widget_popup (priv->folder_bar_popup, x, y);
+
+	/* Disable DnD or "interesting" things will happen.  */
+	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
 }
 
 

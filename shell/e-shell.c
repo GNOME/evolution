@@ -112,6 +112,11 @@ struct _EShellPrivate {
 
 	/* Configuration Database */
 	Bonobo_ConfigDatabase db;
+
+	/* Whether the shell is succesfully initialized.  This is needed during
+	   the start-up sequence, to avoid CORBA calls to do make wrong things
+	   to happen while the shell is initializing.  */
+	gboolean is_initialized;
 };
 
 
@@ -842,6 +847,7 @@ init (EShell *shell)
 	priv->crash_type_names             = NULL;
 	priv->line_status                  = E_SHELL_LINE_STATUS_ONLINE;
 	priv->db                           = CORBA_OBJECT_NIL;
+	priv->is_initialized               = FALSE;
 
 	shell->priv = priv;
 }
@@ -904,18 +910,7 @@ e_shell_construct (EShell *shell,
  	}
 	
 	CORBA_exception_free (&ev);
-	
-	/* Now we can register into OAF.  Notice that we shouldn't be
-	   registering into OAF until we are sure we can complete the
-	   process.  */
-	
-	/* FIXME: Multi-display stuff.  */
-	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
-	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
-		CORBA_exception_free (&ev);
-		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
-	}
-	
+
 	if (! show_splash) {
 		splash = NULL;
 	} else {
@@ -984,6 +979,17 @@ e_shell_construct (EShell *shell,
 		e_shortcuts_add_default_group (priv->shortcuts);
 	
 	g_free (shortcut_path);
+
+	/* Now we can register into OAF.  Notice that we shouldn't be
+	   registering into OAF until we are initialized.  */
+	
+	/* FIXME: Multi-display stuff.  */
+	corba_object = bonobo_object_corba_objref (BONOBO_OBJECT (shell));
+	if (oaf_active_server_register (iid, corba_object) != OAF_REG_SUCCESS) {
+		CORBA_exception_free (&ev);
+		return E_SHELL_CONSTRUCT_RESULT_CANNOTREGISTER;
+	}
+
 	return E_SHELL_CONSTRUCT_RESULT_OK;
 }
 

@@ -82,7 +82,8 @@ struct _EStorageSetViewPrivate {
 	/* Path of the row selected by the latest "cursor_activated" signal.  */
 	char *selected_row_path;
 
-	gboolean show_folders;
+	unsigned int show_folders : 1;
+	unsigned int allow_dnd : 1;
 
 	/* The `Evolution::ShellComponentDnd::SourceFolder' interface for the
 	   folder we are dragging from, or CORBA_OBJECT_NIL if no dragging is
@@ -777,7 +778,6 @@ destroy (GtkObject *object)
 }
 
 
-
 static gint
 tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
 {
@@ -787,6 +787,9 @@ tree_start_drag (ETree *tree, int row, ETreePath path, int col, GdkEvent *event)
 	EStorageSetView *storage_set_view;
 
 	storage_set_view = E_STORAGE_SET_VIEW (tree);
+
+	if (! storage_set_view->priv->allow_dnd)
+		return FALSE;
 
 	target_list = create_target_list_for_node (storage_set_view, path);
 	if (target_list == NULL)
@@ -1050,6 +1053,9 @@ tree_drag_motion (ETree *tree,
 
 	storage_set_view = E_STORAGE_SET_VIEW (tree);
 	priv = storage_set_view->priv;
+
+	if (! priv->allow_dnd)
+		return FALSE;
 
 	path = e_tree_node_at_row (E_TREE (storage_set_view), row);
 
@@ -1694,6 +1700,7 @@ init (EStorageSetView *storage_set_view)
 	priv->type_name_to_pixbuf         = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->selected_row_path           = NULL;
 	priv->show_folders                = TRUE;
+	priv->allow_dnd                   = TRUE;
 
 	priv->drag_corba_source_interface = CORBA_OBJECT_NIL;
 
@@ -2025,6 +2032,26 @@ gboolean
 e_storage_set_view_get_show_folders (EStorageSetView *storage_set_view)
 {
 	return storage_set_view->priv->show_folders;
+}
+
+
+void
+e_storage_set_view_set_allow_dnd (EStorageSetView *storage_set_view,
+				  gboolean allow_dnd)
+{
+	g_return_if_fail (storage_set_view != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
+
+	storage_set_view->priv->allow_dnd = !! allow_dnd;
+}
+
+gboolean
+e_storage_set_view_get_allow_dnd (EStorageSetView *storage_set_view)
+{
+	g_return_val_if_fail (storage_set_view != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), FALSE);
+
+	return storage_set_view->priv->allow_dnd;
 }
 
 

@@ -1,3 +1,31 @@
+2001-09-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-view.c (pop_up_folder_bar): Disable DnD on the
+	EStorageSetView to avoid strange behaviors.
+	(reparent_storage_set_view_box_and_destroy_popup): Re-enable DnD
+	here.
+	(popdown_transient_folder_bar): And here as well.
+
+	* evolution-storage-set-view-factory.c
+	(evolution_storage_set_view_factory_new_view): Disable DnD on the
+	EStorageSetView.
+
+	* e-shell-folder-selection-dialog.c
+	(e_shell_folder_selection_dialog_construct): Disable DnD on the
+	EStorageSetView.
+
+	* e-shell-folder-creation-dialog.c (add_storage_set_view): Disable
+	DnD on the EStorageSetView.
+
+	* e-storage-set-view.c: New member `allow_dnd' in
+	`EStorageSetViewPrivate'.
+	(init): Init to `allow_dnd' %TRUE.
+	(tree_start_drag): If `allow_dnd' is false, don't start the drag
+	and return %FALSE.
+	(tree_drag_motion): If `allow_dnd' is false, return %FALSE.
+	(e_storage_set_view_get_allow_dnd): New.
+	(e_storage_set_view_set_allow_dnd): New.
+
 2001-09-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c (main): Add SUB_VERSION to the version string passed to

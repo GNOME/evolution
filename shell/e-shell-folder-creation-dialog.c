@@ -331,6 +331,8 @@ add_storage_set_view (GtkWidget *dialog,
 	storage_set = e_shell_get_storage_set (shell);
 	storage_set_view = e_storage_set_new_view (storage_set, NULL/*XXX*/);
 
+	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (storage_set_view), FALSE);
+
 	GTK_WIDGET_SET_FLAGS (storage_set_view, GTK_CAN_FOCUS);
 
 	if (default_parent_folder != NULL)

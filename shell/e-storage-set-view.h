@@ -68,21 +68,25 @@ struct _EStorageSetViewClass {
 };
 
 
-GtkType     e_storage_set_view_get_type            (void);
-GtkWidget  *e_storage_set_view_new_partial_view            (EStorageSet *storage_set,
-							    GList *visible_types);
-GtkWidget  *e_storage_set_view_new                 (EStorageSet     *storage_set,
-						    BonoboUIContainer *container);
-void        e_storage_set_view_construct           (EStorageSetView *storage_set_view,
-						    EStorageSet     *storage_set,
-						    BonoboUIContainer *container);
+GtkType    e_storage_set_view_get_type          (void);
+
+GtkWidget *e_storage_set_view_new               (EStorageSet       *storage_set,
+						 BonoboUIContainer *container);
+void       e_storage_set_view_construct         (EStorageSetView   *storage_set_view,
+						 EStorageSet       *storage_set,
+						 BonoboUIContainer *container);
+
 void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
 						    const char      *path);
 const char *e_storage_set_view_get_current_folder  (EStorageSetView *storage_set_view);
 
 void        e_storage_set_view_set_show_folders    (EStorageSetView *storage_set_view,
-						    gboolean show);
+						    gboolean         show);
 gboolean    e_storage_set_view_get_show_folders    (EStorageSetView *storage_set_view);
+
+void        e_storage_set_view_set_allow_dnd       (EStorageSetView *storage_set_view,
+						    gboolean         allow_dnd);
+gboolean    e_storage_set_view_get_allow_dnd       (EStorageSetView *storage_set_view);
 						    
 #ifdef __cplusplus
 }

@@ -373,6 +373,7 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_object_ref (GTK_OBJECT (priv->storage_set));
 
 	priv->storage_set_view = e_storage_set_new_view (priv->storage_set, NULL /* No BonoboUIContainer */);
+	e_storage_set_view_set_allow_dnd (E_STORAGE_SET_VIEW (priv->storage_set_view), FALSE);
 
 	/* Load the expanded state for this StorageSetView */
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_0",
