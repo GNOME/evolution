@@ -660,7 +660,7 @@ EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
 EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.11)
 
-EVO_CHECK_LIB(GAL, gal, 0.19.99.15)
+EVO_CHECK_LIB(GAL, gal, 0.19.99.16)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 1.1.1.1)
 EVO_CHECK_LIB(Libsoup, soup, 0.6)
 
