@@ -3438,9 +3438,9 @@ header_format_date(time_t time, int offset)
 	time += ((offset / 100) * (60*60)) + (offset % 100)*60;
 
 	d(printf("converting date %s", ctime(&time)));
-
-	memcpy(&tm, gmtime(&time), sizeof(tm));
-
+	
+	gmtime_r (&time, &tm);
+	
 	return g_strdup_printf("%s, %02d %s %04d %02d:%02d:%02d %+05d",
 			       tz_days[tm.tm_wday],
 			       tm.tm_mday, tz_months[tm.tm_mon],
