@@ -1,5 +1,11 @@
 2001-07-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): No need for
+	`acharset' anymore.
+	(check_html_charset): Return a const char* and also use
+	camel_charset_get_iconv_friendly_name() internally.
+
 	* camel-mime-utils.c (rfc2047_decode_word): Remove my iso8859-1 ->
 	iso-8859-1 hack and use camel_charset_get_iconv_friendly_name()
 	instead.

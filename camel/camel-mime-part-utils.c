@@ -42,19 +42,20 @@
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-html-parser.h"
+#include "camel-charset-map.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 /* example: <META http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"> */
 
-static char *
-check_html_charset(CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
+static const char *
+check_html_charset (CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 {
 	const char *buf;
 	off_t offset;
 	int length;
 	CamelHTMLParser *hp;
-	char *charset = NULL;
+	const char *charset = NULL;
 	camel_html_parser_t state;
 	struct _header_content_type *ct;
 	CamelMimeFilterBasic *fdec = NULL;
@@ -82,7 +83,7 @@ check_html_charset(CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 	} else {
 		camel_html_parser_set_data(hp, buf, length, TRUE);
 	}
-
+	
 	do {
 		const char *data;
 		int len;
@@ -96,14 +97,14 @@ check_html_charset(CamelMimeParser *mp, CamelMimeFilterBasicType enctype)
 		case CAMEL_HTML_PARSER_ELEMENT:
 			val = camel_html_parser_tag(hp);
 			d(printf("Got tag: %s\n", tag));
-			if (strcasecmp(val, "meta") == 0
+			if (g_strcasecmp(val, "meta") == 0
 			    && (val = camel_html_parser_attr(hp, "http-equiv"))
-			    && strcasecmp(val, "content-type") == 0
+			    && g_strcasecmp(val, "content-type") == 0
 			    && (val = camel_html_parser_attr(hp, "content"))
 			    && (ct = header_content_type_decode(val))) {
-				charset = (char *)header_content_type_param(ct, "charset");
+				charset = header_content_type_param(ct, "charset");
 				if (charset)
-					charset = g_strdup(charset);
+					charset = camel_charset_get_iconv_friendly_name (charset);
 				header_content_type_unref(ct);
 			}
 			break;
@@ -173,7 +174,6 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	ct = camel_mime_parser_content_type (mp);
 	if (header_content_type_is (ct, "text", "*")) {
 		const char *charset = header_content_type_param (ct, "charset");
-		char *acharset = NULL;  /* to be alloca'd on demand */
 		
 		if (fdec) {
 			d(printf("Adding CRLF conversion filter\n"));
@@ -184,10 +184,10 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 		
 		/* Possible Lame Mailer Alert... check the META tags for a charset */
 		if (!charset && header_content_type_is (ct, "text", "html"))
-			charset = acharset = check_html_charset(mp, enctype);
+			charset = check_html_charset(mp, enctype);
 		
 		/* if the charset is not us-ascii or utf-8, then we need to convert to utf-8 */
-		if (charset && !(strcasecmp(charset, "us-ascii") == 0 || strcasecmp(charset, "utf-8") == 0)) {
+		if (charset && !(g_strcasecmp (charset, "us-ascii") == 0 || g_strcasecmp (charset, "utf-8") == 0)) {
 			d(printf("Adding conversion filter from %s to UTF-8\n", charset));
 			fch = (CamelMimeFilter *)camel_mime_filter_charset_new_convert (charset, "UTF-8");
 			if (fch) {
@@ -196,8 +196,6 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 				g_warning ("Cannot convert '%s' to 'UTF-8', message display may be corrupt", charset);
 			}
 		}
-		
-		g_free (acharset);
 	}
 	
 	buffer = g_byte_array_new ();
