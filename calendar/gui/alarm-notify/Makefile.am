@@ -1,14 +1,21 @@
 CORBA_GENERATED =				\
+        Evolution-Composer.h              		\
+        Evolution-Composer-common.c       		\
+        Evolution-Composer-skels.c        		\
+        Evolution-Composer-stubs.c			\
 	evolution-calendar.h			\
 	evolution-calendar-common.c		\
 	evolution-calendar-skels.c		\
 	evolution-calendar-stubs.c
 
-idls = $(top_srcdir)/calendar/idl/evolution-calendar.idl
+idls = 								\
+	$(top_srcdir)/composer/Evolution-Composer.idl		\
+	$(top_srcdir)/calendar/idl/evolution-calendar.idl
 
-idl_flags = $(IDL_INCLUDES) 
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_GENERATED): $(idls)
+	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../../../composer/Evolution-Composer.idl
 	$(ORBIT_IDL) $(idl_flags) $(top_srcdir)/calendar/idl/evolution-calendar.idl
 
 bin_PROGRAMS = evolution-alarm-notify
@@ -66,17 +73,17 @@ evolution_alarm_notify_LDADD =						\
 
 evolution_alarm_notify_LDFLAGS = -export-dynamic
 
-serversdir = $(libdir)/bonobo/servers
-servers_in_files = \
-	GNOME_Evolution_Calendar_AlarmNotify.server.in
+oafdir = $(datadir)/oaf
+oaf_in_files = \
+	GNOME_Evolution_Calendar_AlarmNotify.oaf.in
 
-servers_DATA = $(servers_in_files:.server.in=.server)
+oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
-@INTLTOOL_SERVER_RULE@
+@XML_I18N_MERGE_OAF_RULE@
 
 EXTRA_DIST =		\
-	$(servers_DATA)	\
-	$(servers_in_files)	\
+	$(oaf_DATA)	\
+	$(oaf_in_files)	\
 	$(glade_DATA)
 
 BUILT_SOURCES = $(CORBA_GENERATED)

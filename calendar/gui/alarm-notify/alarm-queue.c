@@ -23,20 +23,23 @@
 #endif
 
 #include <glib.h>
-#include <bonobo-activation/bonobo-activation.h>
+#include <liboaf/liboaf.h>
 #include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-exception.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkbox.h>
-#include <gtk/gtkdialog.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcheckbutton.h>
-#include <gtk/gtkstock.h>
+#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-sound.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <cal-util/timeutil.h>
+#include "Evolution-Composer.h"
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
 #include "alarm-queue.h"
@@ -44,6 +47,8 @@
 #include "save.h"
 
 
+
+#define GNOME_EVOLUTION_COMPOSER_OAFIID "OAFIID:GNOME_Evolution_Mail_Composer"
 
 /* Whether the queueing system has been initialized */
 static gboolean alarm_queue_inited;
@@ -56,6 +61,9 @@ static time_t saved_notification_time;
 
 /* Clients we are monitoring for alarms */
 static GHashTable *client_alarms_hash = NULL;
+
+/* Config for default email address */
+EConfigListener *config = NULL;
 
 /* Structure that stores a client we are monitoring */
 typedef struct {
@@ -565,8 +573,8 @@ edit_component (CompQueuedAlarms *cqa)
 	/* Get the factory */
 
 	CORBA_exception_init (&ev);
-	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
-						      0, NULL, &ev);
+	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+					0, NULL, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("edit_component(): Could not activate the component editor factory");
@@ -727,28 +735,184 @@ audio_notification (time_t trigger, CompQueuedAlarms *cqa,
 	display_notification (trigger, cqa, alarm_id, FALSE);
 }
 
+static void
+get_default_address (char **name, char **address)
+{
+	char *path;
+	glong def;
+
+	if (config == NULL)
+		config = e_config_listener_new ();
+	
+	def = e_config_listener_get_long_with_default (config, "/Mail/Accounts/default_account", 0, NULL);
+
+	if (name) {
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%ld", def);
+		*name = e_config_listener_get_string_with_default (config, path, NULL, NULL);
+		g_free (path);
+	}
+	
+	if (address) {		
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", def);
+		*address = e_config_listener_get_string_with_default (config, path, NULL, NULL);
+		*address = g_strstrip (*address);
+		g_free (path);
+	}
+	
+}
+
 /* Performs notification of a mail alarm */
 static void
 mail_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
 {
-	GtkWidget *dialog;
-	GtkWidget *label;
+	GNOME_Evolution_Composer composer_server;
+	CalClient *client;
+	CalComponent *comp;
+	CalComponentAlarm *alarm;
+	QueuedAlarm *qa;
+	GSList *attendees, *l;
+	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
+	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
+	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
+	CORBA_char *subject = NULL, *body = NULL;
+	CORBA_char *from = NULL, *description = NULL;
+	int len;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
 
-	/* FIXME */
+	client = cqa->parent_client->client;
+	comp = cqa->alarms->comp;
+	qa = lookup_queued_alarm (cqa, alarm_id);
+	if (!qa)
+		return;
 
-	display_notification (trigger, cqa, alarm_id, FALSE);
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
+	
+	/* Obtain an object reference for the Composer. */
+	composer_server = oaf_activate_from_id (GNOME_EVOLUTION_COMPOSER_OAFIID, 0, NULL, &ev);
 
-	dialog = gtk_dialog_new_with_buttons (_("Warning"),
-					      NULL, 0,
-					      GTK_STOCK_OK, GTK_RESPONSE_CANCEL,
-					      NULL);
-	label = gtk_label_new (_("Evolution does not support calendar reminders with\n"
-				 "email notifications yet, but this reminder was\n"
-				 "configured to send an email.  Evolution will display\n"
-				 "a normal reminder dialog box instead."));
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), label, TRUE, TRUE, 4);
+	/* Addresses to send to */
+	cal_component_alarm_get_attendee_list (alarm, &attendees);
+	len = g_slist_length (attendees);
+	if (len <= 0) {
+		gchar *n = NULL, *a;
+		GNOME_Evolution_Composer_Recipient *recipient;
 
-	gtk_dialog_run (GTK_DIALOG (dialog));
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = 1;
+		to_list->_length = 1;
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (1);
+
+		a = CORBA_string_dup (cal_client_get_email_address (client));		
+		if (!a)
+			get_default_address (&n, &a);
+
+		recipient = &(to_list->_buffer[0]);
+		if (n)
+			recipient->name = CORBA_string_dup (n);
+		else
+			recipient->name = CORBA_string_dup ("");
+		if (a && !g_strncasecmp (a, "mailto:", 7))
+			a += 7;
+		recipient->address = CORBA_string_dup (a);
+
+		g_free (n);
+		g_free (a);
+	} else {
+		to_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+		to_list->_maximum = len;
+		to_list->_length = 0;
+		to_list->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (len);
+
+		for (l = attendees; l != NULL; l = l->next) {
+			CalComponentAttendee *att = l->data;
+			GNOME_Evolution_Composer_Recipient *recipient;
+		
+			recipient = &(to_list->_buffer[to_list->_length]);
+			if (att->cn)
+				recipient->name = CORBA_string_dup (att->cn);
+			else
+				recipient->name = CORBA_string_dup ("");
+			if (att->value && !g_strncasecmp (att->value, "mailto:", 7))
+				att->value += 7;		
+			recipient->address = CORBA_string_dup (att->value);
+		
+			to_list->_length++;
+		}
+	}
+	
+	cal_component_free_attendee_list (attendees);
+	
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_list->_length = 0;
+	
+	/* Subject */
+	switch (cal_component_get_vtype (comp)){
+	case CAL_COMPONENT_EVENT:
+		subject = CORBA_string_dup ("Event Reminder");
+		break;
+	case CAL_COMPONENT_TODO:
+		subject = CORBA_string_dup ("Task Reminder");
+		break;
+	case CAL_COMPONENT_JOURNAL:
+		subject = CORBA_string_dup ("Journal Reminder");
+		break;
+	default:
+		subject = CORBA_string_dup ("Reminder");
+		break;
+	}
+	
+	/* From address */
+	from = CORBA_string_dup (cal_client_get_email_address (client));
+	if (!from) {
+		get_default_address (NULL, &from);
+		if (!from) {
+			g_warning ("Unable to determine sender");
+			goto cleanup;
+		}
+	}
+	
+	/* Set recipients, subject */
+	GNOME_Evolution_Composer_setHeaders (composer_server, from, to_list, cc_list, bcc_list, subject, &ev);
+	if (BONOBO_EX (&ev)) {		
+		g_warning ("Unable to set composer headers while sending reminder");
+		goto cleanup;
+	}
+
+	/* Description */
+	description = CORBA_string_dup ("Test");
+	GNOME_Evolution_Composer_setBody (composer_server, description, "text/plain", &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Unable to set body text while sending reminder");
+		goto cleanup;
+	}
+
+	GNOME_Evolution_Composer_send (composer_server, &ev);
+	if (BONOBO_EX (&ev))
+		g_warning ("Unable to send reminder");
+	
+ cleanup:
+	CORBA_exception_free (&ev);
+
+	if (to_list != NULL)
+		CORBA_free (to_list);
+	if (cc_list != NULL)
+		CORBA_free (cc_list);
+	if (bcc_list != NULL)
+		CORBA_free (bcc_list);
+
+	if (from != NULL)
+		CORBA_free (from);
+	if (subject != NULL)
+		CORBA_free (subject);
+	if (body != NULL)
+		CORBA_free (body);
+	if (description != NULL)
+		CORBA_free (description);
 }
 
 /* Performs notification of a procedure alarm */
@@ -762,11 +926,10 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	if (is_blessed_program (url))
 		return TRUE;
 	
-	dialog = gtk_dialog_new_with_buttons (_("Warning"),
-					      NULL, 0,
-					      GTK_STOCK_NO, GTK_RESPONSE_CANCEL,
-					      GTK_STOCK_YES, GTK_RESPONSE_OK,
-					      NULL);
+	dialog = gnome_dialog_new (_("Warning"),
+				   GNOME_STOCK_BUTTON_YES,
+				   GNOME_STOCK_BUTTON_NO,
+				   NULL);
 
 	str = g_strdup_printf (_("An Evolution Calendar reminder is about to trigger. "
 				 "This reminder is configured to run the following program:\n\n"
@@ -777,21 +940,21 @@ procedure_notification_dialog (const char *cmd, const char *url)
 	gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 	gtk_widget_show (label);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox),
 			    label, TRUE, TRUE, 4);
 	g_free (str);
 
 	checkbox = gtk_check_button_new_with_label
 		(_("Do not ask me about this program again."));
 	gtk_widget_show (checkbox);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), 
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), 
 			    checkbox, TRUE, TRUE, 4);
 
 	/* Run the dialog */
-	btn = gtk_dialog_run (GTK_DIALOG (dialog));
-	if (btn == GTK_RESPONSE_OK && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
+	btn = gnome_dialog_run (GNOME_DIALOG (dialog));
+	if (btn == GNOME_YES && gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (checkbox)))
 		save_blessed_program (url);
-	gtk_widget_destroy (dialog);
+	gnome_dialog_close (GNOME_DIALOG (dialog));
 
 	return (btn == GNOME_YES);
 }

@@ -1,3 +1,10 @@
+2002-12-30  JP Rosevear  <jpr@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (get_default_address): utility
+	routine to snag address info
+
+	* gui/alarm-notify/Makefile.am: build composer idl
+
 2002-12-20  JP Rosevear  <jpr@ximian.com>
 
 	* *.c: pass client param for send an cancel params
