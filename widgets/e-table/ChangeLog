@@ -1,3 +1,10 @@
+2000-04-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-table.c, e-table.h: Switch the parent object to be a GtkTable.
+	(et_real_construct): apply massaging and some loving action to
+	make the thing behave as a GtkTable.
+	(e_table_init): More love.
+
 2000-04-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header-item.c (ethi_drag_motion): Remove test for

@@ -31,7 +31,7 @@
 #define TITLE_HEIGHT         16
 #define GROUP_INDENT         10
 
-#define PARENT_TYPE gtk_hbox_get_type ()
+#define PARENT_TYPE gtk_table_get_type ()
 
 static GtkObjectClass *e_table_parent_class;
 
@@ -83,6 +83,9 @@ static void
 e_table_init (GtkObject *object)
 {
 	ETable *e_table = E_TABLE (object);
+	GtkTable *gtk_table = GTK_TABLE (object);
+
+	gtk_table->homogeneous = FALSE;
 	
 	e_table->sort_info = NULL;
 	e_table->sort_info_change_id = 0;
@@ -780,20 +783,34 @@ et_real_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
 	e_table_setup_header (e_table);
 	e_table_setup_table (e_table, full_header, e_table->header, etm);
 	e_table_fill_table (e_table, etm);
-	
-	vbox = gtk_vbox_new (FALSE, 0);
 
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->header_canvas), FALSE, FALSE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (e_table->table_canvas), TRUE, TRUE, 0);
+	/*
+	 * The header
+	 */
+	gtk_table_attach (
+		GTK_TABLE (e_table), GTK_WIDGET (e_table->header_canvas),
+		1, 2, 1, 2,
+		GTK_FILL | GTK_EXPAND,
+		GTK_FILL, 0, 0);
 
-	gtk_widget_show (vbox);
-
-	gtk_box_pack_start (GTK_BOX (e_table), vbox, TRUE, TRUE, 0);
-
+	/*
+	 * The body
+	 */
+	gtk_table_attach (
+		GTK_TABLE (e_table), GTK_WIDGET (e_table->table_canvas),
+		1, 2, 2, 3,
+		GTK_FILL | GTK_EXPAND,
+		GTK_FILL | GTK_EXPAND, 0, 0);
+		
 	vscrollbar = gtk_vscrollbar_new (gtk_layout_get_vadjustment (GTK_LAYOUT (e_table->table_canvas)));
 	gtk_widget_show (vscrollbar);
-	gtk_box_pack_start (GTK_BOX (e_table), vscrollbar, FALSE, FALSE, 0);
 
+	gtk_table_attach (
+		GTK_TABLE (e_table), vscrollbar,
+		2, 3, 2, 3,
+		GTK_FILL,
+		GTK_FILL | GTK_EXPAND, 0, 0);
+	
 	gtk_widget_pop_colormap ();
 	gtk_widget_pop_visual ();
 }

@@ -19,7 +19,7 @@ BEGIN_GNOME_DECLS
 #define E_IS_TABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_TYPE))
 
 typedef struct {
-	GtkHBox parent;
+	GtkTable parent;
 
 	ETableModel *model;
 
@@ -54,7 +54,7 @@ typedef struct {
 } ETable;
 
 typedef struct {
-	GtkHBoxClass parent_class;
+	GtkTableClass parent_class;
 
 	void        (*row_selection)      (ETable *et, int row, gboolean selected);
 } ETableClass;
