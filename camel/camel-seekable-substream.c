@@ -173,7 +173,7 @@ stream_read (CamelStream *stream, char *buffer, unsigned int n)
 
 	v = camel_stream_read (CAMEL_STREAM (parent), buffer, n);
 
-	/* ignore <0 - its an error, let the caller deal */
+	/* ignore <0 - it's an error, let the caller deal */
 	if (v > 0)
 		seekable_stream->position += v;
 
@@ -184,7 +184,7 @@ static int
 stream_write (CamelStream *stream, const char *buffer, unsigned int n)
 {
 	/* NOT VALID ON SEEKABLE SUBSTREAM */
-	/* Well, its entirely valid, just not implemented */
+	/* Well, it's entirely valid, just not implemented */
 	g_warning ("CamelSeekableSubstream:: seekable substream doesn't "
 		   "have a write method yet?\n");
 	return -1;

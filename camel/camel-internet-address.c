@@ -87,7 +87,7 @@ internet_decode	(CamelAddress *a, const char *raw)
 				while (g) {
 					if (g->type == HEADER_ADDRESS_NAME)
 						camel_internet_address_add((CamelInternetAddress *)a, g->name, g->v.addr);
-					/* otherwise, its an error, infact */
+					/* otherwise, it's an error, infact */
 					g = g->next;
 				}
 			}

@@ -1,3 +1,7 @@
+2000-10-10  Jacob "Ulysses" Berkman  <jacob@helixcode.com>
+
+	* camel-*.c: teach camel about "its" vs. "it's"
+
 2000-10-09  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-store.c (finalize): write out the

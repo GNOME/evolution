@@ -551,7 +551,7 @@ camel_mime_parser_content_type(CamelMimeParser *m)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
 
-	/* FIXME: should this search up until its found the 'right'
+	/* FIXME: should this search up until it's found the 'right'
 	   content-type?  can it? */
 	if (s->parts)
 		return s->parts->content_type;

@@ -334,7 +334,7 @@ base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, i
 			c2 = ((unsigned char *)save)[2]; goto skip2;
 		}
 		
-		/* yes, we jump into the loop, no i'm not going to change it, its beautiful! */
+		/* yes, we jump into the loop, no i'm not going to change it, it's beautiful! */
 		while (inptr < inend) {
 			c1 = *inptr++;
 		skip1:
@@ -542,7 +542,7 @@ quoted_encode_close(unsigned char *in, int len, unsigned char *out, int *state, 
 
 	last = *state;
 	if (last != -1) {
-		/* space/tab must be encoded if its the last character on
+		/* space/tab must be encoded if it's the last character on
 		   the line */
 		if (is_qpsafe(last) && last!=' ' && last!=9) {
 			*outptr++ = last;
@@ -2433,7 +2433,7 @@ header_decode_date(const char *in, int *saveoffset)
 	header_decode_lwsp (&inptr);
 	if (!isdigit (*inptr)) {
 		char *day = decode_token (&inptr);
-		/* we dont really care about the day, its only for display */
+		/* we dont really care about the day, it's only for display */
 		if (day) {
 			d(printf ("got day: %s\n", day));
 			g_free (day);
@@ -2444,7 +2444,7 @@ header_decode_date(const char *in, int *saveoffset)
 #ifndef CLEAN_DATE
 				char *newdate;
 
-				w(g_warning("day not followed by ',' its probably a broken mail client, so we'll ignore its date entirely"));
+				w(g_warning("day not followed by ',' it's probably a broken mail client, so we'll ignore its date entirely"));
 				printf ("Giving it one last chance...\n");
 				newdate = parse_broken_date (in);
 				if (newdate) {
