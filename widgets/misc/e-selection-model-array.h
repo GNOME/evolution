@@ -3,9 +3,8 @@
 #define _E_SELECTION_MODEL_ARRAY_H_
 
 #include <gtk/gtkobject.h>
-#include <gal/util/e-sorter.h>
-#include <gdk/gdktypes.h>
 #include <gal/widgets/e-selection-model.h>
+#include <gal/util/e-bit-array.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -20,8 +19,7 @@ extern "C" {
 typedef struct {
 	ESelectionModel base;
 
-	gint row_count;
-        guint32 *selection;
+	EBitArray *eba;
 
 	gint cursor_row;
 	gint cursor_col;

@@ -16,8 +16,11 @@ extern "C" {
 #define E_IS_SELECTION_MODEL(o)       (GTK_CHECK_TYPE ((o), E_SELECTION_MODEL_TYPE))
 #define E_IS_SELECTION_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_TYPE))
 
+#ifndef _E_FOREACH_FUNC_H_
+#define _E_FOREACH_FUNC_H_
 typedef void (*EForeachFunc) (int model_row,
 			      gpointer closure);
+#endif
 
 /* list selection modes */
 typedef enum {

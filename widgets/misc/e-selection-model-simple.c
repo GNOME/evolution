@@ -60,9 +60,9 @@ e_selection_model_simple_set_row_count (ESelectionModelSimple *esms,
 {
 	if (esms->row_count != row_count) {
 		ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY(esms);
-		g_free(esma->selection);
-		esma->selection = NULL;
-		esma->row_count = -1;
+		if (esma->eba)
+			gtk_object_unref(GTK_OBJECT(esma->eba));
+		esma->eba = NULL;
 	}
 	esms->row_count = row_count;
 }
