@@ -32,8 +32,6 @@
 #include <gtk/gtkliststore.h>
 #include <gtk/gtktreeselection.h>
 
-#include <bonobo/bonobo-generic-factory.h>
-
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-config-druid.h"
@@ -86,7 +84,7 @@ mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 	GObjectClass *object_class;
 	
 	object_class = (GObjectClass *) klass;
-	parent_class = g_type_class_ref(gtk_vbox_get_type ());
+	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
 	object_class->finalize = mail_accounts_tab_finalise;
 	/* override methods */
@@ -111,7 +109,7 @@ mail_accounts_tab_finalise (GObject *obj)
 {
 	MailAccountsTab *prefs = (MailAccountsTab *) obj;
 	
-	g_object_unref((prefs->gui));
+	g_object_unref (prefs->gui);
 	gdk_pixmap_unref (prefs->mark_pixmap);
 	g_object_unref (prefs->mark_bitmap);
 	

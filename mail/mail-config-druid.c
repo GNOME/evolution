@@ -33,12 +33,13 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <glade/glade.h>
+#include <gtkhtml/gtkhtml.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page-standard.h>
-#include <glade/glade.h>
-#include <gtkhtml/gtkhtml.h>
+#include <bonobo/bonobo-exception.h>
 
 #include "mail-config-druid.h"
 #include "mail-config.h"
