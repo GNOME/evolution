@@ -197,6 +197,7 @@ camel_imap4_command_newv (CamelIMAP4Engine *engine, CamelIMAP4Folder *imap4_fold
 		if (ch == '%') {
 			CamelIMAP4Literal *literal;
 			CamelIMAP4Folder *folder;
+			char *function, **strv;
 			unsigned int u;
 			char *string;
 			size_t len;
@@ -262,6 +263,24 @@ camel_imap4_command_newv (CamelIMAP4Engine *engine, CamelIMAP4Folder *imap4_fold
 				
 				g_string_truncate (str, 0);
 				
+				break;
+			case 'V':
+				/* a string vector of arguments which may need to be quoted or made into literals */
+				function = str->str + str->len - 2;
+				while (*function != ' ')
+					function--;
+				function++;
+				
+				function = g_strdup (function);
+				
+				strv = va_arg (args, char **);
+				for (d = 0; strv[d]; d++) {
+					if (d > 0)
+						g_string_append (str, function);
+					imap4_command_append_string (engine, &tail, str, strv[d]);
+				}
+				
+				g_free (function);
 				break;
 			case 'S':
 				/* string which may need to be quoted or made into a literal */

@@ -74,6 +74,170 @@ camel_imap4_merge_flags (guint32 original, guint32 local, guint32 server)
 }
 
 
+struct _uidset_range {
+	struct _uidset_range *next;
+	guint32 first, last;
+	uint8_t buflen;
+	char buf[24];
+};
+
+struct _uidset {
+	CamelFolderSummary *summary;
+	struct _uidset_range *ranges;
+	struct _uidset_range *tail;
+	size_t maxlen, setlen;
+};
+
+static void
+uidset_range_free (struct _uidset_range *range)
+{
+	struct _uidset_range *next;
+	
+	while (range != NULL) {
+		next = range->next;
+		g_free (range);
+		range = next;
+	}
+}
+
+static void
+uidset_init (struct _uidset *uidset, CamelFolderSummary *summary, size_t maxlen)
+{
+	uidset->ranges = g_new (struct _uidset_range, 1);
+	uidset->ranges->first = (guint32) -1;
+	uidset->ranges->last = (guint32) -1;
+	uidset->ranges->next = NULL;
+	uidset->ranges->buflen = 0;
+	
+	uidset->tail = uidset->ranges;
+	uidset->summary = summary;
+	uidset->maxlen = maxlen;
+	uidset->setlen = 0;
+}
+
+/* returns: -1 on full-and-not-added, 0 on added-and-not-full or 1 on added-and-full */
+static int
+uidset_add (struct _uidset *uidset, CamelMessageInfo *info)
+{
+	GPtrArray *messages = uidset->summary->messages;
+	struct _uidset_range *node, *tail = uidset->tail;
+	const char *iuid = camel_message_info_uid (info);
+	size_t uidlen, len;
+	const char *colon;
+	guint32 index;
+	
+	/* Note: depends on integer overflow for initial 'add' */
+	for (index = tail->last + 1; index < messages->len; index++) {
+		if (info == messages->pdata[index])
+			break;
+	}
+	
+	g_assert (index < messages->len);
+	
+	uidlen = strlen (iuid);
+	
+	if (tail->buflen == 0) {
+		/* first add */
+		tail->first = tail->last = index;
+		strcpy (tail->buf, iuid);
+		uidset->setlen = uidlen;
+		tail->buflen = uidlen;
+	} else if (index == (tail->last + 1)) {
+		/* add to last range */
+		if (tail->last == tail->first) {
+			/* make sure we've got enough room to add this one... */
+			if ((uidset->setlen + uidlen + 1) > uidset->maxlen)
+				return -1;
+			
+			tail->buf[tail->buflen++] = ':';
+			uidset->setlen++;
+		} else {
+			colon = strchr (tail->buf, ':') + 1;
+			
+			len = strlen (colon);
+			uidset->setlen -= len;
+			tail->buflen -= len;
+		}
+		
+		strcpy (tail->buf + tail->buflen, iuid);
+		uidset->setlen += uidlen;
+		tail->buflen += uidlen;
+		
+		tail->last = index;
+	} else if ((uidset->setlen + uidlen + 1) < uidset->maxlen) {
+		/* the beginning of a new range */
+		tail->next = node = g_new (struct _uidset_range, 1);
+		node->first = node->last = index;
+		strcpy (node->buf, iuid);
+		uidset->setlen += uidlen + 1;
+		node->buflen = uidlen;
+		uidset->tail = node;
+		node->next = NULL;
+	} else {
+		/* can't add this one... */
+		return -1;
+	}
+	
+	fprintf (stderr, "added uid %s to uidset (summary index = %u)\n", iuid, index);
+	
+	if (uidset->setlen < uidset->maxlen)
+		return 0;
+	
+	return 1;
+}
+
+static char *
+uidset_to_string (struct _uidset *uidset)
+{
+	struct _uidset_range *range;
+	GString *string;
+	char *str;
+	
+	string = g_string_new ("");
+	
+	range = uidset->ranges;
+	while (range != NULL) {
+		g_string_append (string, range->buf);
+		range = range->next;
+		if (range)
+			g_string_append_c (string, ',');
+	}
+	
+	str = string->str;
+	g_string_free (string, FALSE);
+	
+	return str;
+}
+
+int
+camel_imap4_get_uid_set (CamelIMAP4Engine *engine, CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set)
+{
+	struct _uidset uidset;
+	size_t maxlen;
+	int rv = 0;
+	int i;
+	
+	if (engine->maxlentype == CAMEL_IMAP4_ENGINE_MAXLEN_LINE)
+		maxlen = engine->maxlen - linelen;
+	else
+		maxlen = engine->maxlen;
+	
+	uidset_init (&uidset, summary, maxlen);
+	
+	for (i = cur; i < infos->len && rv != 1; i++) {
+		if ((rv = uidset_add (&uidset, infos->pdata[i])) == -1)
+			break;
+	}
+	
+	if (i > cur)
+		*set = uidset_to_string (&uidset);
+	
+	uidset_range_free (uidset.ranges);
+	
+	return (i - cur);
+}
+
+
 void
 camel_imap4_utils_set_unexpected_token_error (CamelException *ex, CamelIMAP4Engine *engine, camel_imap4_token_t *token)
 {

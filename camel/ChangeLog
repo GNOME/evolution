@@ -1,3 +1,25 @@
+2004-06-29  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-command.c
+	(camel_imap4_command_newv): Aded a new %formatter 'V' which takes
+	a string vector (needed for SEARCH).
+
+	* providers/imap4/camel-imap4-search.[c,h]: New source files
+	implementing search functionality.
+
+	* providers/imap4/camel-imap4-folder.c (imap4_sync_flag): Use the
+	new public version of imap4_get_uid_set().
+	(imap4_transfer_messages_to): Same.
+	(camel_imap4_folder_new): Create a search context.
+	(camel_imap4_folder_finalize): Unref the search context.
+	(camel_imap4_folder_class_init): Override the search methods.
+	(imap4_search_by_expression): New.
+	(imap4_search_by_uids): New.
+	(imap4_search_free): New.
+
+	* providers/imap4/camel-imap4-utils.c (camel_imap4_get_uid_set):
+	Moved here from camel-imap4-folder.c
+
 2004-06-29  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-store.c (vee_rename_folder): add any parents of the

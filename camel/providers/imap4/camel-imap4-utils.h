@@ -38,10 +38,11 @@ void camel_imap4_flags_diff (flags_diff_t *diff, guint32 old, guint32 new);
 guint32 camel_imap4_flags_merge (flags_diff_t *diff, guint32 flags);
 guint32 camel_imap4_merge_flags (guint32 original, guint32 local, guint32 server);
 
-
 struct _CamelIMAP4Engine;
 struct _CamelIMAP4Command;
 struct _camel_imap4_token_t;
+
+int camel_imap4_get_uid_set (struct _CamelIMAP4Engine *engine, struct _CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set);
 
 void camel_imap4_utils_set_unexpected_token_error (CamelException *ex, struct _CamelIMAP4Engine *engine, struct _camel_imap4_token_t *token);
 

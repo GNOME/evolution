@@ -42,6 +42,8 @@ typedef struct _CamelIMAP4FolderClass CamelIMAP4FolderClass;
 struct _CamelIMAP4Folder {
 	CamelFolder parent_object;
 	
+	CamelFolderSearch *search;
+	
 	char *cachedir;
 	char *utf7_name;
 };

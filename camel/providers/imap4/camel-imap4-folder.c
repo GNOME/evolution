@@ -50,6 +50,7 @@
 #include "camel-imap4-stream.h"
 #include "camel-imap4-command.h"
 #include "camel-imap4-summary.h"
+#include "camel-imap4-search.h"
 
 #define d(x) x
 
@@ -65,6 +66,9 @@ static void imap4_append_message (CamelFolder *folder, CamelMimeMessage *message
 				  const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
 static void imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
 					GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
+static GPtrArray *imap4_search_by_expression (CamelFolder *folder, const char *expr, CamelException *ex);
+static GPtrArray *imap4_search_by_uids (CamelFolder *folder, const char *expr, GPtrArray *uids, CamelException *ex);
+static void imap4_search_free (CamelFolder *folder, GPtrArray *uids);
 
 
 static CamelFolderClass *parent_class = NULL;
@@ -102,19 +106,27 @@ camel_imap4_folder_class_init (CamelIMAP4FolderClass *klass)
 	folder_class->get_message = imap4_get_message;
 	folder_class->append_message = imap4_append_message;
 	folder_class->transfer_messages_to = imap4_transfer_messages_to;
+	folder_class->search_by_expression = imap4_search_by_expression;
+	folder_class->search_by_uids = imap4_search_by_uids;
+	folder_class->search_free = imap4_search_free;
 }
 
 static void
 camel_imap4_folder_init (CamelIMAP4Folder *folder, CamelIMAP4FolderClass *klass)
 {
+	((CamelFolder *) folder)->folder_flags |= CAMEL_FOLDER_HAS_SUMMARY_CAPABILITY | CAMEL_FOLDER_HAS_SEARCH_CAPABILITY;
+	
 	folder->utf7_name = NULL;
 	folder->cachedir = NULL;
+	folder->search = NULL;
 }
 
 static void
 camel_imap4_folder_finalize (CamelObject *object)
 {
 	CamelIMAP4Folder *folder = (CamelIMAP4Folder *) object;
+	
+	camel_object_unref (folder->search);
 	
 	g_free (folder->utf7_name);
 	g_free (folder->cachedir);
@@ -280,12 +292,14 @@ camel_imap4_folder_new (CamelStore *store, const char *full_name, CamelException
 	
 	camel_folder_summary_load (folder->summary);
 	
+	imap_folder->search = camel_imap4_search_new (((CamelIMAP4Store *) store)->engine, imap_folder->cachedir);
+	
 	if (camel_imap4_engine_select_folder (((CamelIMAP4Store *) store)->engine, folder, ex) == -1) {
 		camel_object_unref (folder);
 		folder = NULL;
 	}
 	
-	if (camel_imap4_summary_flush_updates (folder->summary, ex) == -1) {
+	if (folder && camel_imap4_summary_flush_updates (folder->summary, ex) == -1) {
 		camel_object_unref (folder);
 		folder = NULL;
 	}
@@ -313,168 +327,6 @@ static struct {
 	{ "\\Seen",     CAMEL_MESSAGE_SEEN      },
 };
 
-struct _uidset_range {
-	struct _uidset_range *next;
-	guint32 first, last;
-	uint8_t buflen;
-	char buf[24];
-};
-
-struct _uidset {
-	CamelFolderSummary *summary;
-	struct _uidset_range *ranges;
-	struct _uidset_range *tail;
-	size_t maxlen, setlen;
-};
-
-static void
-uidset_range_free (struct _uidset_range *range)
-{
-	struct _uidset_range *next;
-	
-	while (range != NULL) {
-		next = range->next;
-		g_free (range);
-		range = next;
-	}
-}
-
-static void
-uidset_init (struct _uidset *uidset, CamelFolderSummary *summary, size_t maxlen)
-{
-	uidset->ranges = g_new (struct _uidset_range, 1);
-	uidset->ranges->first = (guint32) -1;
-	uidset->ranges->last = (guint32) -1;
-	uidset->ranges->next = NULL;
-	uidset->ranges->buflen = 0;
-	
-	uidset->tail = uidset->ranges;
-	uidset->summary = summary;
-	uidset->maxlen = maxlen;
-	uidset->setlen = 0;
-}
-
-/* returns: -1 on full-and-not-added, 0 on added-and-not-full or 1 on added-and-full */
-static int
-uidset_add (struct _uidset *uidset, CamelMessageInfo *info)
-{
-	GPtrArray *messages = uidset->summary->messages;
-	struct _uidset_range *node, *tail = uidset->tail;
-	const char *iuid = camel_message_info_uid (info);
-	size_t uidlen, len;
-	const char *colon;
-	guint32 index;
-	
-	/* Note: depends on integer overflow for initial 'add' */
-	for (index = tail->last + 1; index < messages->len; index++) {
-		if (info == messages->pdata[index])
-			break;
-	}
-	
-	g_assert (index < messages->len);
-	
-	uidlen = strlen (iuid);
-	
-	if (tail->buflen == 0) {
-		/* first add */
-		tail->first = tail->last = index;
-		strcpy (tail->buf, iuid);
-		uidset->setlen = uidlen;
-		tail->buflen = uidlen;
-	} else if (index == (tail->last + 1)) {
-		/* add to last range */
-		if (tail->last == tail->first) {
-			/* make sure we've got enough room to add this one... */
-			if ((uidset->setlen + uidlen + 1) > uidset->maxlen)
-				return -1;
-			
-			tail->buf[tail->buflen++] = ':';
-			uidset->setlen++;
-		} else {
-			colon = strchr (tail->buf, ':') + 1;
-			
-			len = strlen (colon);
-			uidset->setlen -= len;
-			tail->buflen -= len;
-		}
-		
-		strcpy (tail->buf + tail->buflen, iuid);
-		uidset->setlen += uidlen;
-		tail->buflen += uidlen;
-		
-		tail->last = index;
-	} else if ((uidset->setlen + uidlen + 1) < uidset->maxlen) {
-		/* the beginning of a new range */
-		tail->next = node = g_new (struct _uidset_range, 1);
-		node->first = node->last = index;
-		strcpy (node->buf, iuid);
-		uidset->setlen += uidlen + 1;
-		node->buflen = uidlen;
-		uidset->tail = node;
-		node->next = NULL;
-	} else {
-		/* can't add this one... */
-		return -1;
-	}
-	
-	fprintf (stderr, "added uid %s to uidset (summary index = %u)\n", iuid, index);
-	
-	if (uidset->setlen < uidset->maxlen)
-		return 0;
-	
-	return 1;
-}
-
-static char *
-uidset_to_string (struct _uidset *uidset)
-{
-	struct _uidset_range *range;
-	GString *string;
-	char *str;
-	
-	string = g_string_new ("");
-	
-	range = uidset->ranges;
-	while (range != NULL) {
-		g_string_append (string, range->buf);
-		range = range->next;
-		if (range)
-			g_string_append_c (string, ',');
-	}
-	
-	str = string->str;
-	g_string_free (string, FALSE);
-	
-	return str;
-}
-
-static int
-imap4_get_uid_set (CamelIMAP4Engine *engine, CamelFolderSummary *summary, GPtrArray *infos, int cur, size_t linelen, char **set)
-{
-	struct _uidset uidset;
-	size_t maxlen;
-	int rv = 0;
-	int i;
-	
-	if (engine->maxlentype == CAMEL_IMAP4_ENGINE_MAXLEN_LINE)
-		maxlen = engine->maxlen - linelen;
-	else
-		maxlen = engine->maxlen;
-	
-	uidset_init (&uidset, summary, maxlen);
-	
-	for (i = cur; i < infos->len && rv != 1; i++) {
-		if ((rv = uidset_add (&uidset, infos->pdata[i])) == -1)
-			break;
-	}
-	
-	if (i > cur)
-		*set = uidset_to_string (&uidset);
-	
-	uidset_range_free (uidset.ranges);
-	
-	return (i - cur);
-}
 
 static int
 imap4_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *flag, CamelException *ex)
@@ -485,7 +337,7 @@ imap4_sync_flag (CamelFolder *folder, GPtrArray *infos, char onoff, const char *
 	char *set = NULL;
 	
 	for (i = 0; i < infos->len; ) {
-		i += imap4_get_uid_set (engine, folder->summary, infos, i, 30 + strlen (flag), &set);
+		i += camel_imap4_get_uid_set (engine, folder->summary, infos, i, 30 + strlen (flag), &set);
 		
 		ic = camel_imap4_engine_queue (engine, folder, "UID STORE %s %cFLAGS.SILENT (%s)\r\n", set, onoff, flag);
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -1060,7 +912,7 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 	dest_namelen = strlen (camel_imap4_folder_utf7_name ((CamelIMAP4Folder *) dest));
 	
 	for (i = 0; i < infos->len; i += n) {
-		n = imap4_get_uid_set (engine, src->summary, infos, i, 10 + dest_namelen, &set);
+		n = camel_imap4_get_uid_set (engine, src->summary, infos, i, 10 + dest_namelen, &set);
 		
 		ic = camel_imap4_engine_queue (engine, src, "UID COPY %s %F\r\n", set, dest);
 		while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
@@ -1123,4 +975,53 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 	g_ptr_array_free (infos, TRUE);
 	
 	CAMEL_SERVICE_LOCK (src->parent_store, connect_lock);
+}
+
+static GPtrArray *
+imap4_search_by_expression (CamelFolder *folder, const char *expr, CamelException *ex)
+{
+	CamelIMAP4Folder *imap4_folder = (CamelIMAP4Folder *) folder;
+	GPtrArray *matches;
+	
+	CAMEL_SERVICE_LOCK(folder->parent_store, connect_lock);
+	
+	camel_folder_search_set_folder (imap4_folder->search, folder);
+	matches = camel_folder_search_search (imap4_folder->search, expr, NULL, ex);
+	
+	CAMEL_SERVICE_UNLOCK(folder->parent_store, connect_lock);
+	
+	return matches;
+}
+
+static GPtrArray *
+imap4_search_by_uids (CamelFolder *folder, const char *expr, GPtrArray *uids, CamelException *ex)
+{
+	CamelIMAP4Folder *imap4_folder = (CamelIMAP4Folder *) folder;
+	GPtrArray *matches;
+	
+	if (uids->len == 0)
+		return g_ptr_array_new ();
+	
+	CAMEL_SERVICE_LOCK(folder->parent_store, connect_lock);
+	
+	camel_folder_search_set_folder (imap4_folder->search, folder);
+	matches = camel_folder_search_search (imap4_folder->search, expr, uids, ex);
+	
+	CAMEL_SERVICE_UNLOCK(folder->parent_store, connect_lock);
+	
+	return matches;
+}
+
+static void
+imap4_search_free (CamelFolder *folder, GPtrArray *uids)
+{
+	CamelIMAP4Folder *imap4_folder = (CamelIMAP4Folder *) folder;
+	
+	g_return_if_fail (imap4_folder->search);
+	
+	CAMEL_SERVICE_LOCK(folder->parent_store, connect_lock);
+	
+	camel_folder_search_free_result (imap4_folder->search, uids);
+	
+	CAMEL_SERVICE_UNLOCK(folder->parent_store, connect_lock);
 }
