@@ -1,3 +1,10 @@
+2001-11-14  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-ldap.c (search_for_dn): check against
+	LDAP_SUCCESS as the return value, not -1.
+	(pas_backend_ldap_build_all_cards_list): same.
+	(pas_backend_ldap_process_authenticate_user): same.
+
 2001-11-12  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes Ximian bug #14843 ]

@@ -435,7 +435,7 @@ search_for_dn (PASBackendLDAP *bl, const char *dn)
 			   dn,
 			   LDAP_SCOPE_BASE,
 			   "(objectclass=*)",
-			   NULL, 0, &res) != -1) {
+			   NULL, 0, &res) == LDAP_SUCCESS) {
 		e = ldap_first_entry (ldap, res);
 		while (NULL != e) {
 			if (!strcmp (ldap_get_dn (ldap, e), dn)) {
@@ -1285,7 +1285,7 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 					 bl->priv->ldap_rootdn,
 					 bl->priv->ldap_scope,
 					 "(objectclass=*)",
-					 NULL, 0, &res)) == -1) {
+					 NULL, 0, &res)) != LDAP_SUCCESS) {
 		g_warning ("ldap error '%s' in "
 			   "pas_backend_ldap_build_all_cards_list\n",
 			   ldap_err2string(ldap_error));
@@ -2360,11 +2360,13 @@ pas_backend_ldap_process_authenticate_user (PASBackend *backend,
 
 	query = g_strdup_printf ("(mail=%s)", req->user);
 
-	if (ldap_search_s (bl->priv->ldap,
-			   bl->priv->ldap_rootdn,
-			   bl->priv->ldap_scope,
-			   query,
-			   NULL, 0, &res) != -1) {
+	ldap_error = ldap_search_s (bl->priv->ldap,
+				    bl->priv->ldap_rootdn,
+				    bl->priv->ldap_scope,
+				    query,
+				    NULL, 0, &res);
+
+	if (ldap_error == LDAP_SUCCESS) {
 		char *dn;
 
 		e = ldap_first_entry (bl->priv->ldap, res);
