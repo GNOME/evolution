@@ -73,7 +73,6 @@ struct _EShellPrivate {
 #define MAIL_COMPONENT_ID	       "OAFIID:evolution-shell-component:evolution-mail:d3cb3ed6-a654-4337-8aa0-f443751d6d1b"
 #define CALENDAR_COMPONENT_ID          "OAFIID:evolution-shell-component:evolution-calendar:2eb9eb63-d305-4918-9c35-faae5db19e51"
 #define ADDRESSBOOK_COMPONENT_ID       "OAFIID:evolution-shell-component:addressbook:b7a26547-7014-4bb5-98ab-2bcac2bb55ca"
-#define EXECUTIVE_SUMMARY_COMPONENT_ID "OAFIID:evolution-shell-component:evolution-executive-summary:785be7bc-2ed2-4c83-96f3-d6ec8015a5b2"
 
 
 enum {
@@ -328,9 +327,6 @@ setup_components (EShell *shell)
 
 	if (! e_component_registry_register_component (priv->component_registry, ADDRESSBOOK_COMPONENT_ID))
 		g_warning ("Cannot activate addressbook component -- %s", ADDRESSBOOK_COMPONENT_ID);
-
-	if (! e_component_registry_register_component (priv->component_registry, EXECUTIVE_SUMMARY_COMPONENT_ID))
-		g_warning ("Cannot activate executive summary component -- %s", EXECUTIVE_SUMMARY_COMPONENT_ID);
 }
 
 
