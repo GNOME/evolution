@@ -282,6 +282,7 @@ copy_subitems (ESearchBarSubitem *subitems)
 	for (i=0; i<N; ++i) {
 		copy[i].text = g_strdup (subitems[i].text);
 		copy[i].id = subitems[i].id;
+		copy[i].translate = subitems[i].translate;
 	}
 
 	copy[N].text = NULL;
