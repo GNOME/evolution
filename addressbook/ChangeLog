@@ -1,5 +1,12 @@
 2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
 
+	Fixes #58921.
+
+	* gui/contact-editor/e-contact-editor.c (extract_address_record):
+	Also check if the po box field is non-empty.
+
+2004-06-07  Hans Petter Jansson  <hpj@ximian.com>
+
 	Fixes #57795.
 
 	* gui/component/addressbook-migrate.c (migrate_contacts): Change
