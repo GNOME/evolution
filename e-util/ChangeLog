@@ -1,3 +1,8 @@
+2002-09-25  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-component-listener.c (ping_component_callback): added a comment
+	about the fix for #30918.
+
 2002-09-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* e-component-listener.c (ping_component_callback): gtk_object_ref the
