@@ -1747,7 +1747,7 @@ header_references_decode(const char *in)
 	struct _header_references *head = NULL, *node;
 	char *id, *word;
 
-	if (in == NULL)
+	if (in == NULL || in[0] == '\0')
 		return NULL;
 
 	while (*inptr) {
@@ -1764,7 +1764,7 @@ header_references_decode(const char *in)
 			word = header_decode_word(&inptr);
 			if (word)
 				g_free (word);
-			else
+			else if (*inptr != '\0')
 				inptr++; /* Stupid mailer tricks */
 		}
 	}

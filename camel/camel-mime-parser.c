@@ -1152,7 +1152,7 @@ retry:
 				}
 
 				/* we always have at least _1_ char here ... */
-				if (s->outptr[-1] == '\n')
+				if (s->outptr > s->outbuf && s->outptr[-1] == '\n')
 					s->outptr--;
 				s->outptr[0] = 0;
 				
@@ -1383,6 +1383,7 @@ folder_scan_init(void)
 	s->stream = NULL;
 
 	s->outbuf = g_malloc(1024);
+	s->outbuf[0] = '\0';
 	s->outptr = s->outbuf;
 	s->outend = s->outbuf+1024;
 
