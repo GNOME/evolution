@@ -1,3 +1,7 @@
+2005-02-07  JP Rosevear  <jpr@novell.com>
+
+	* org-gnome-subject-thread.eplug.in: specify id
+
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: dist .eplug.in file
