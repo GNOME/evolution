@@ -1,3 +1,7 @@
+2003-12-30 Nicel KM <mnicel@novell.com>
+
+	* configure.in: removed default_user directory references from AC_OUTPUT
+
 2003-12-29  JP Rosevear <jpr@ximian.com>
 
 	* configure.in: default_user is gone
