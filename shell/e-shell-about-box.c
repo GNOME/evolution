@@ -91,6 +91,7 @@ static const char *text[] = {
 	"Nike Gerdts",
 	"Grzegorz Goawski",
 	"Jody Goldberg",
+	"Mark Gordon",
 	"Kenny Graunke",
 	"Alex Graveley",
 	"Bertrand Guiheneuf",
