@@ -1,3 +1,13 @@
+2000-03-30  Dan Winship  <danw@helixcode.com>
+
+	* configure.in:
+	* Makefile.am:
+	* art/Makefile.am: install new shortcut bar pixmaps.
+
+	* widgets/shortcut-bar/e-shortcut-bar.c: Sort of use the new
+	pixmaps. This code needs to be restructured, but Damon is
+	rumored to already be doing it.
+
 2000-03-30  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* art/evolution-calendar.png art/evolution-inbox.png 

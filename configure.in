@@ -296,4 +296,5 @@ calendar/pcs/Makefile
 calendar/gui/Makefile
 filter/Makefile
 wombat/Makefile
+art/Makefile
 ])

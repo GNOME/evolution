@@ -52,10 +52,10 @@ struct _EShortcutBarBuiltinType {
 };
 
 EShortcutBarBuiltinType e_shortcut_bar_builtin_types[] = {
-	{ "folder:",	"gnome-word.png",	NULL },
-	{ "calendar:",	"gnome-calendar.png",	NULL },
-	{ "todo:",	"gnome-cromagnon.png",	NULL },
-	{ "contacts:",	"gnome-ccthemes.png",	NULL }
+	{ "folder:",	"evolution/evolution-inbox.png",	NULL },
+	{ "calendar:",	"evolution/evolution-calendar.png",	NULL },
+	{ "todo:",	"evolution/evolution-tasks.png",	NULL },
+	{ "contacts:",	"evolution/evolution-contacts.png",	NULL }
 };
 static gint e_shortcut_bar_num_builtin_types = sizeof (e_shortcut_bar_builtin_types) / sizeof (EShortcutBarBuiltinType);
 

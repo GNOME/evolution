@@ -27,6 +27,7 @@ SUBDIRS =			\
 	addressbook		\
 	calendar		\
 	wombat			\
+	art			\
 	po
 
 dist-hook:
