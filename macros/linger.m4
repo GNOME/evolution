@@ -10,11 +10,11 @@ AC_TRY_RUN([
 
 struct linger li;
 
-main ()
+int main ()
 {
     li.l_onoff = 1;
     li.l_linger = 120;
-    exit (0);
+    return 0;
 }
 ],[
 AC_DEFINE(HAVE_STRUCT_LINGER)

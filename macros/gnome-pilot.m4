@@ -88,15 +88,15 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 				if (PILOT_LINK_VERSION == $pl_ve) {
 					if (PILOT_LINK_MAJOR == $pl_ma) {
 						if (PILOT_LINK_MINOR >= $pl_mi) {
-							exit(0);
+							return 0;
 				       	  	}
 					} else if (PILOT_LINK_MAJOR > $pl_ma) {
-						exit(0);
+						return 0;
 					}
 				} else if (PILOT_LINK_VERSION > $pl_ve) {
-					exit(0);
+					return 0;
 				}
-				exit(1);
+				return 1;
 			}
 			],
 			[AC_MSG_RESULT(yes (found $PILOT_LINK_VERSION))],
