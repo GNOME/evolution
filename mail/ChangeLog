@@ -1,3 +1,35 @@
+2001-08-02  Not Zed  <NotZed@Ximian.com>
+
+	* Makefile.am (INCLUDES): Add EVOLUTION_BUTTONSDIR to get to some
+	different icons.
+
+	* mail-ops.c (mail_sync_folder): Queue the folder sync operation,
+	rather than running it in parallel.
+
+	* mail-send-recv.c: applies anna's patch for prettier send-recv
+	dialogue.
+	(parse_url): Renamed to format_url, fixed callers.
+	(format_url): Use camel_url_free instead of g_free, also handle
+	case where we have no host (use path instead).
+	(build_dialogue): Cleaned up some whitespace.
+	(build_dialogue): Create the label directly with the right text,
+	dont set any text in the progress bar, and save the label into the
+	info struct for later updating.
+	(struct _send_info): Added 'status' the label with the status
+	string.
+	(operation_status_timeout):
+	(receive_done): 
+	(receive_cancel): Set the status label, not the progress format
+	text.
+	(hide_send_info): NULL out status too.
+	(mail_receive_uri): Init status.
+	(free_folder_info): Initiate a folder sync here, so we can ...
+	(free_send_data): ... Remove the awful hack of iterating through
+	bonobo controls to sync all open folders.
+	(free_send_data): Initiate a sync of the inbox too.
+	(build_dialogue): Remove set_alignment on the icon, its not a
+	gtkmisc object.
+
 2001-08-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (folder_browser_copy): Do the Right Thing (tm)

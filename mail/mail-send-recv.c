@@ -49,10 +49,6 @@
 #include "mail-ops.h"
 #include "mail-send-recv.h"
 
-#include "folder-browser-factory.h"
-#include "folder-browser.h"
-#include "e-util/e-list.h"
-
 #define d(x)
 
 /* ms between status updates to the gui */
@@ -107,6 +103,7 @@ struct _send_info {
 	send_state_t state;
 	GtkProgressBar *bar;
 	GtkButton *stop;
+	GtkLabel *status;
 
 	int timeout_id;
 	char *what;
@@ -137,8 +134,8 @@ receive_cancel(GtkButton *button, struct _send_info *info)
 {
 	if (info->state == SEND_ACTIVE) {
 		camel_operation_cancel(info->cancel);
-		if (info->bar)
-			gtk_progress_set_format_string((GtkProgress *)info->bar, _("Cancelling..."));
+		if (info->status)
+			gtk_label_set_text(info->status, _("Cancelling..."));
 		info->state = SEND_CANCELLED;
 	}
 	if (info->stop)
@@ -149,6 +146,7 @@ static void
 free_folder_info(void *key, struct _folder_info *info, void *data)
 {
 	/*camel_folder_thaw (info->folder);	*/
+	mail_sync_folder(info->folder, NULL, NULL);
 	camel_object_unref((CamelObject *)info->folder);
 	g_free(info->uri);
 }
@@ -167,37 +165,23 @@ static void
 free_send_data(void)
 {
 	struct _send_data *data = send_data;
-	EList *list;
-	EIterator *it;
 
 	g_assert(g_hash_table_size(data->active) == 0);
 
+	if (data->inbox) {
+		mail_sync_folder(data->inbox, NULL, NULL);
+		/*camel_folder_thaw (data->inbox);		*/
+		camel_object_unref((CamelObject *)data->inbox);
+	}
 	g_list_free(data->infos);
 	g_hash_table_foreach(data->active, (GHFunc)free_send_info, NULL);
 	g_hash_table_destroy(data->active);
 	g_hash_table_foreach(data->folders, (GHFunc)free_folder_info, NULL);
 	g_hash_table_destroy(data->folders);
 	g_mutex_free(data->lock);
-	if (data->inbox) {
-		/*camel_folder_thaw (data->inbox);		*/
-		camel_object_unref((CamelObject *)data->inbox);
-	}
 	g_free(data);
 	send_data = NULL;
-
-	list = folder_browser_factory_get_control_list ();
-	for (it = e_list_get_iterator (list); e_iterator_is_valid (it); e_iterator_next (it)) {
-		BonoboControl *control = (BonoboControl *) e_iterator_get (it);
-		if (control) {			
-			FolderBrowser *fb;
-			
-			fb = FOLDER_BROWSER (bonobo_control_get_widget (control));
-			if (fb && fb->folder)
-				mail_sync_folder (fb->folder, NULL, NULL);
-		}
-	}
 }
-
 
 static void cancel_send_info(void *key, struct _send_info *info, void *data)
 {
@@ -208,6 +192,7 @@ static void hide_send_info(void *key, struct _send_info *info, void *data)
 {
 	info->stop = NULL;
 	info->bar = NULL;
+	info->status = NULL;
 }
 
 static void
@@ -232,30 +217,49 @@ dialogue_clicked(GnomeDialog *gd, int button, struct _send_data *data)
 static void operation_status(CamelOperation *op, const char *what, int pc, void *data);
 static int operation_status_timeout(void *data);
 
+static char *
+format_url(const char *internal_url)
+{
+	CamelURL *url;
+       	char *pretty_url;
+
+	url = camel_url_new(internal_url, NULL);
+	if (url->host)
+		pretty_url = g_strdup_printf("Server: %s, Type: %s", url->host, url->protocol);
+	else
+		pretty_url = g_strdup_printf("Path: %s, Type: %s", url->path, url->protocol);
+
+	camel_url_free(url);
+
+        return pretty_url;
+}
+
 static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, const char *destination)
 {
 	GnomeDialog *gd;
-	GtkFrame *frame;
 	GtkTable *table;
 	int row;
 	GList *list = NULL;
 	struct _send_data *data;
-	GtkLabel *label;
+        GtkWidget *send_icon, *recv_icon; 
+	GtkLabel *label, *status_label;
 	GtkProgressBar *bar;
 	GtkButton *stop;
+	GtkHSeparator *line;
 	struct _send_info *info;
+	char *pretty_url; 
 
 	data = setup_send_data();
 
-	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(_("Send & Receive mail"), NULL);
+	gnome_dialog_append_button_with_pixmap(GNOME_DIALOG(gd), "Cancel All", GNOME_STOCK_BUTTON_CANCEL);
+
+	gtk_window_set_policy((GtkWindow *)gd, FALSE, FALSE, FALSE);  
 	gnome_window_icon_set_from_file((GtkWindow *)gd, EVOLUTION_ICONSDIR "/send-receive.xpm");
 
-	frame= (GtkFrame *)gtk_frame_new(_("Receiving"));
-	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)frame, TRUE, TRUE, 0);
-	table = (GtkTable *)gtk_table_new(g_slist_length(sources), 3, FALSE);
-	gtk_container_add((GtkContainer *)frame, (GtkWidget *)table);
-	gtk_widget_show((GtkWidget *)frame);
-
+	table = (GtkTable *)gtk_table_new(g_slist_length(sources), 4, FALSE);
+       	gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)table, TRUE, TRUE, 0);
+	 
 	row = 0;
 	while (sources) {
 		MailConfigService *source = sources->data;
@@ -291,41 +295,42 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 			continue;
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
-
-		label = (GtkLabel *)gtk_label_new(source->url);
+			
+		recv_icon = gnome_pixmap_new_from_file(EVOLUTION_BUTTONSDIR "/receive-24.png");
+	       	pretty_url = format_url(source->url);
+		
+		label = (GtkLabel *)gtk_label_new(pretty_url);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
+		gtk_progress_set_show_text((GtkProgress *)bar, FALSE);
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
+		status_label = (GtkLabel *)gtk_label_new((info->type==SEND_UPDATE)?_("Updating..."):_("Waiting..."));
+		
+		/* gtk_object_set(data->label, "bold", TRUE, NULL); */
+		gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
+		gtk_misc_set_alignment(GTK_MISC(status_label), 0, .5);
 
-		gtk_progress_set_show_text((GtkProgress *)bar, TRUE);
-
-		if (info->type == SEND_UPDATE) {
-			gtk_progress_set_format_string((GtkProgress *)bar, _("Updating..."));
-		} else {
-			gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting..."));
-		}
-
-		gtk_table_attach(table, (GtkWidget *)label, 0, 1, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-		gtk_table_attach(table, (GtkWidget *)bar, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-		gtk_table_attach(table, (GtkWidget *)stop, 2, 3, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+	        gtk_table_attach(table, (GtkWidget *)recv_icon, 0, 1, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)label, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)bar, 2, 3, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)stop, 3, 4, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)status_label, 1, 2, row+1, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
 
 		info->bar = bar;
+		info->status = status_label;
 		info->stop = stop;
 		info->data = data;
-
+                
 		gtk_signal_connect((GtkObject *)stop, "clicked", receive_cancel, info);
 		sources = sources->next;
-		row++;
+		row = row+2;
 	}
 
+	line = (GtkHSeparator *)gtk_hseparator_new ();
+	gtk_table_attach(table, (GtkWidget *)line, 0, 4, row, row+1, GTK_EXPAND|GTK_FILL, GTK_EXPAND|GTK_FILL, 3, 3);
+	row++;
 	gtk_widget_show_all((GtkWidget *)table);
 
 	if (outbox) {
-		frame= (GtkFrame *)gtk_frame_new(_("Sending"));
-		gtk_box_pack_start((GtkBox *)gd->vbox, (GtkWidget *)frame, TRUE, TRUE, 0);
-		table = (GtkTable *)gtk_table_new(1, 3, FALSE);
-		gtk_container_add((GtkContainer *)frame, (GtkWidget *)table);
-		gtk_widget_show((GtkWidget *)frame);
-
 		info = g_hash_table_lookup(data->active, destination);
 		if (info == NULL) {
 			info = g_malloc0(sizeof(*info));
@@ -342,21 +347,29 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 			list = g_list_prepend(list, info);
 		} else if (info->timeout_id == 0)
 			info->timeout_id = gtk_timeout_add(STATUS_TIMEOUT, operation_status_timeout, info);
-
-		label = (GtkLabel *)gtk_label_new(destination);
+		
+		pretty_url = format_url(destination);
+		
+		send_icon  = gnome_pixmap_new_from_file(EVOLUTION_BUTTONSDIR "/send-24.png");
+		label = (GtkLabel *)gtk_label_new(pretty_url);
 		bar = (GtkProgressBar *)gtk_progress_bar_new();
 		stop = (GtkButton *)gnome_stock_button(GNOME_STOCK_BUTTON_CANCEL);
+		status_label = (GtkLabel *)gtk_label_new(_("Waiting..."));
 		
-		gtk_progress_set_format_string((GtkProgress *)bar, _("Waiting..."));
-		gtk_progress_set_show_text((GtkProgress *)bar, TRUE);
-		
-		gtk_table_attach(table, (GtkWidget *)label, 0, 1, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-		gtk_table_attach(table, (GtkWidget *)bar, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-		gtk_table_attach(table, (GtkWidget *)stop, 2, 3, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
-	
+		gtk_misc_set_alignment(GTK_MISC(label), 0, .5);
+		gtk_misc_set_alignment(GTK_MISC(status_label), 0, .5);
+		gtk_progress_set_show_text((GtkProgress *)bar, FALSE);
+
+		gtk_table_attach(table, (GtkWidget *)send_icon, 0, 1, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)label, 1, 2, row, row+1, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)bar, 2, 3, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)stop, 3, 4, row, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+		gtk_table_attach(table, (GtkWidget *)status_label, 1, 2, row+1, row+2, GTK_EXPAND|GTK_FILL, 0, 3, 1);
+
 		info->bar = bar;
 		info->stop = stop;
 		info->data = data;
+		info->status = status_label;
 		
 		gtk_signal_connect((GtkObject *)stop, "clicked", receive_cancel, info);
 		gtk_widget_show_all((GtkWidget *)table);
@@ -448,8 +461,7 @@ static int operation_status_timeout(void *data)
 
 	if (info->bar) {
 		gtk_progress_set_percentage((GtkProgress *)info->bar, (gfloat)(info->pc/100.0));
-		gtk_progress_set_format_string((GtkProgress *)info->bar, info->what);
-
+		gtk_label_set_text(info->status, info->what);
 		return TRUE;
 	}
 
@@ -485,11 +497,11 @@ receive_done (char *uri, void *data)
 
 		switch(info->state) {
 		case SEND_CANCELLED:
-			gtk_progress_set_format_string((GtkProgress *)info->bar, _("Cancelled."));
+			gtk_label_set_text(info->status, _("Cancelled."));
 			break;
 		default:
 			info->state = SEND_COMPLETE;
-			gtk_progress_set_format_string((GtkProgress *)info->bar, _("Complete."));
+			gtk_label_set_text(info->status, _("Complete."));
 		}
 	}
 
@@ -758,6 +770,7 @@ void mail_receive_uri(const char *uri, int keep)
 		info->type = SEND_RECEIVE;
 
 	info->bar = NULL;
+	info->status = NULL;
 	info->uri = g_strdup(uri);
 	info->keep = keep;
 	info->cancel = camel_operation_new(operation_status, info);
