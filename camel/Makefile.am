@@ -77,7 +77,6 @@ libcamel_la_SOURCES = 				\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-partition-table.c			\
-	camel-pgp-mime.c			\
 	camel-smime-context.c			\
 	camel-smime-utils.c			\
 	camel-provider.c			\
@@ -179,7 +178,6 @@ libcamelinclude_HEADERS =			\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-partition-table.h			\
-	camel-pgp-mime.h			\
 	camel-smime-context.h			\
 	camel-smime-utils.h			\
 	camel-provider.h			\

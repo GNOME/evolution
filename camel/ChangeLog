@@ -1,5 +1,7 @@
 2003-07-08  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-mime.[c,h]: Removed.
+
 	* camel-iconv.c: Updated (new copy/paste from e-iconv).
 
 	* camel-block-file.c (camel_block_file_get_block): Use
