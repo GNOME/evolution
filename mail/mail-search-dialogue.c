@@ -72,6 +72,7 @@ mail_search_dialogue_construct (MailSearchDialogue *o, FilterRule *rule)
 	GnomeDialog *dialogue = GNOME_DIALOG (o);
 	
 	gtk_window_set_policy (GTK_WINDOW (dialogue), FALSE, TRUE, FALSE);
+	gtk_window_set_default_size (GTK_WINDOW (dialogue), 500, 400);
 	
 	o->context = rule_context_new ();
 	rule_context_add_part_set (o->context, "partset", filter_part_get_type (),

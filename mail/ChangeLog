@@ -1,3 +1,11 @@
+2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-vfolder.c (vfolder_gui_add_rule): Set a default size for
+	the window so that more rules are visible.
+
+	* mail-search-dialogue.c (mail_search_dialogue_construct): Set a
+	default size for the window so that more rules are visible.
+
 2001-01-28  Not Zed  <NotZed@Ximian.com>
 
 	* mail-display.c (write_data_to_file): Changed to use
