@@ -589,7 +589,6 @@ calendar/cal-client/Makefile
 calendar/pcs/Makefile
 calendar/gui/Makefile
 calendar/gui/dialogs/Makefile
-executive-summary/Makefile
 filter/Makefile
 notes/Makefile
 wombat/Makefile
