@@ -1,3 +1,5 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * E-shell.c: Shell object for Evolution
  *
@@ -123,6 +125,17 @@ EShell_cmd_new (PortableServer_Servant servant,
 	}
 }
 
+static void 
+EShell_register_service (PortableServer_Servant servant,
+			 const Evolution_Shell_ServiceType type,
+			 const CORBA_char *uri,
+			 CORBA_Environment *ev)
+{
+	printf ("toto\n");
+
+}
+
+
 static POA_Evolution_Shell__epv *
 e_shell_get_epv (void)
 {
@@ -131,6 +144,7 @@ e_shell_get_epv (void)
 	epv = g_new0 (POA_Evolution_Shell__epv, 1);
 
 	epv->new = EShell_cmd_new;
+	epv->register_service = EShell_register_service;
 
 	return epv;
 }

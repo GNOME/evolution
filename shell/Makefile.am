@@ -32,11 +32,14 @@ evolution_SOURCES =		\
 	e-shell-view-menu.c	\
 	e-shell-view-menu.h	\
 	e-shortcut.c		\
-	e-shortcut.h
+	e-shortcut.h		\
+	evolution-service-repository.c	\
+	evolution-service-repository.h
+
 
 Evolution-impl.o: Evolution.h
 
-$(EVOLUTION_CORBA_GENERATED): Evolution.idl 
+$(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Evolution.idl
 
 evolution_LDADD = 					\
@@ -45,4 +48,7 @@ evolution_LDADD = 					\
 	../e-util/libeutil.la				\
 	$(BONOBO_GNOME_LIBS)				
 
-EXTRA_DIST = Evolution.idl
+EXTRA_DIST = Evolution.idl			\
+	Shell.idl				\
+	evolution-service-repository.idl
+

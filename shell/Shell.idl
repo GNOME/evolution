@@ -8,16 +8,38 @@
  */
 #include <bonobo.idl>
 
-module GNOME {
 
-	module Evolution {
-
-		interface Shell : GNOME::Unknown {
-		  /* 
-		   * add a service to the shell. 
-		   * 
-		   */
-		  void AddService (string service);
+module Evolution {
+	interface Shell : Bonobo::Unknown {
+		enum NewType {
+			APPOINTMENT,
+			MEETING_REQUEST,
+			TASK,
+			TASK_REQUEST,
+			CONTACT,
+			MAIL_MESSAGE,
+			DISTRIBUTION_LIST,
+			JOURNAL_ENTRY,
+			NOTE
 		};
+		
+		enum ServiceType {
+			MAIL_STORE,
+			MAIL_TRANSPORT
+		};
+
+		void new (in NewType type);
+
+		/**
+		 *  register_service : register a service into the shell
+		 * 
+		 * @type : type of the service
+		 * @uri : uri of the service, uniquely determine the service.
+		 *
+		 */
+		void register_service (in ServiceType type,
+				       in string uri);
+
+			
 	};
 };

@@ -81,10 +81,10 @@ E_MAKE_TYPE (e_service, "EService", EService, e_service_class_init, e_service_in
 EFolder *
 e_service_get_root_efolder   (EService *eservice)
 {
-	g_return_if_fail (eservice != NULL);
-	g_return_if_fail (E_IS_SERVICE (eservice));
+	g_return_val_if_fail (eservice != NULL, NULL);
+	g_return_val_if_fail (E_IS_SERVICE (eservice), NULL);
 	
-	
+	return eservice->root_efolder;
 }
 
 

@@ -1,3 +1,17 @@
+2000-03-12  bertrand  <bertrand@helixcode.com>
+
+	* shell/evolution-service-repository.c: 
+	* shell/evolution-service-repository.h: 
+	Implementation of the service repository interface
+	as a bonobo object.
+
+	* shell/evolution-service-repository.idl: 
+	new file. Contains the definition for the service
+	repository interface.
+
+	* shell/Shell.idl: move the shell related stuff 
+	here
+	
 2000-03-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/Makefile.am: Rearranged SUBDIRS for dependencies.

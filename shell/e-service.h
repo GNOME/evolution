@@ -59,6 +59,7 @@
 #ifndef _E_SERVICE_H_
 #define _E_SERVICE_H_
 
+#include "eshell-types.h"
 #include <gtk/gtkobject.h>
 
 #define E_SERVICE_TYPE        (e_service_get_type ())
@@ -76,7 +77,8 @@ typedef enum {
 	E_SERVICE_OTHER       = 1 << 4
 } EServiceType;
 
-typedef struct {
+ struct _EService {
+
 	GtkObject parent_object;
 
 	EFolder *root_efolder;  /* a service may have a root EFolder */
@@ -92,7 +94,7 @@ typedef struct {
 	EServiceType type;      /* type of the service  */
 
 	
-} EService;
+};
  
 typedef struct {
 	GtkObjectClass parent_class;
