@@ -26,11 +26,10 @@ GtkObject
    |  ` CamelTransport
    + CamelSession
    + CamelStream
-   |  + CamelDataWrapperStream
-   |  ` CamelSeekableStream
-   |     + CamelSeekableSubstream
-   |     + CamelStreamBuffer
-   |     + CamelStreamFilter
-   |     + CamelStreamFs
-   |     ` CamelStreamMem
+   |  + CamelSeekableStream
+   |  |  + CamelSeekableSubstream
+   |  |  + CamelStreamFs
+   |  |  ` CamelStreamMem
+   |  + CamelStreamBuffer
+   |  ` CamelStreamFilter
    ` CamelThreadProxy
