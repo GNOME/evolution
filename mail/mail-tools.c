@@ -589,7 +589,14 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 				lines++;
 			
 			offset = credits ? strlen (credits) : 0;
-			quoted_text = g_malloc (offset + strlen (text) + lines * 2);
+
+			/* offset is the size of the credits, strlen (text)
+			 * covers the body, lines * 2 does the "> "s, and
+			 * the last +2 covers the final "\0", plus an extra
+			 * "\n" in case text doesn't end with one.
+			 */
+			quoted_text = g_malloc (offset + strlen (text) +
+						lines * 2 + 2);
 			
 			if (credits)
 				memcpy (quoted_text, credits, offset);
