@@ -801,6 +801,8 @@ message_list_regenerate (MessageList *message_list, const char *search)
 	GPtrArray *uids;
 	int row = 0;
 
+	e_table_model_pre_change(message_list->table_model);
+
 	if (message_list->search) {
 		g_free (message_list->search);
 		message_list->search = NULL;

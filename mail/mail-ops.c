@@ -869,6 +869,8 @@ static void real_expunge_folder (gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	CamelException ex;
 
+	e_table_model_pre_change(fb->message_list->table_model);
+
 #ifdef USE_BROKEN_THREADS
 	mail_op_hide_progressbar ();
 	mail_op_set_message ("Expunging %s...", fb->message_list->folder->full_name);
