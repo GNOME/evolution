@@ -587,26 +587,10 @@ get_junk(CamelStore *store, CamelException *ex)
 CamelFolder *
 camel_store_get_trash (CamelStore *store, CamelException *ex)
 {
-	CamelFolder *folder;
-
-	/* TODO: This is quite redundant, since get_folder(CAMEL_VTRASH_NAME) does the same */
-
-	if ((store->flags & CAMEL_STORE_VTRASH) == 0
-	    || store->folders == NULL)
-		return NULL;
-
-	folder = camel_object_bag_reserve(store->folders, CAMEL_VTRASH_NAME);
-	if (!folder) {
-		folder = CS_CLASS(store)->get_trash(store, ex);
-
-		if (folder) {
-			camel_object_bag_add(store->folders, CAMEL_VTRASH_NAME, folder);
-			camel_object_trigger_event(store, "folder_opened", folder);
-		} else
-			camel_object_bag_abort(store->folders, CAMEL_VTRASH_NAME);
-	}
-
-	return folder;
+	if ((store->flags & CAMEL_STORE_VTRASH) == 0)
+		return CS_CLASS(store)->get_trash(store, ex);
+	else
+		return camel_store_get_folder(store, CAMEL_VTRASH_NAME, 0, ex);
 }
 
 /** 
@@ -620,26 +604,10 @@ camel_store_get_trash (CamelStore *store, CamelException *ex)
 CamelFolder *
 camel_store_get_junk (CamelStore *store, CamelException *ex)
 {
-	CamelFolder *folder;
-
-	/* TODO: This is quite redundant, since get_folder(CAMEL_VJUNK_NAME) does the same */
-
-	if ((store->flags & CAMEL_STORE_VJUNK) == 0
-	    || store->folders == NULL)
-		return NULL;
-
-	folder = camel_object_bag_reserve(store->folders, CAMEL_VJUNK_NAME);
-	if (!folder) {
-		folder = CS_CLASS(store)->get_junk(store, ex);
-
-		if (folder) {
-			camel_object_bag_add(store->folders, CAMEL_VJUNK_NAME, folder);
-			camel_object_trigger_event(store, "folder_opened", folder);
-		} else
-			camel_object_bag_abort(store->folders, CAMEL_VJUNK_NAME);
-	}
-	
-	return folder;
+	if ((store->flags & CAMEL_STORE_VJUNK) == 0)
+		return CS_CLASS(store)->get_junk(store, ex);
+	else
+		return camel_store_get_folder(store, CAMEL_VJUNK_NAME, 0, ex);
 }
 
 static void

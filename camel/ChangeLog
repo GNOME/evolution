@@ -1,3 +1,12 @@
+2004-05-26  Dan Winship  <danw@novell.com>
+
+	* camel-store.c (camel_store_get_trash): If the store is not a
+	vtrash store, just invoke the virtual method. (In particular,
+	don't assume that the trash folder's name is CAMEL_VTRASH_NAME).
+	If it is a vtrash store, just let camel_store_get_folder() do the
+	work since it's duplicated there anyway. #57114
+	(camel_store_get_junk): Likewise.
+
 2004-05-25 Sivaiah nallagatla <snallagatla@novell.com>
 	* providers/groupwise/came;-gw-listener.c (add_addressbook_sources):
 	set port property on  e-source 
