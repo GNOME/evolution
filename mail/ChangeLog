@@ -1,3 +1,9 @@
+2004-02-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-utils.c (em_utils_folder_name_from_uri): Make sure url->path
+	is non-NULL before setting folder_name to url->path + 1. Could
+	possibly fix bug #54853.
+
 2004-02-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html-display.c (efhd_attachment_button): Protect

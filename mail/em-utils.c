@@ -2484,12 +2484,15 @@ char *
 em_utils_folder_name_from_uri (const char *uri)
 {
 	CamelURL *url;
-	char *folder_name;
+	char *folder_name = NULL;
 	
 	if (uri == NULL || (url = camel_url_new (uri, NULL)) == NULL)
-	    return NULL;
+		return NULL;
 	
-	folder_name = url->fragment ? url->fragment : url->path + 1;
+	if (url->fragment)
+		folder_name = url->fragment;
+	else if (url->path)
+		folder_name = url->path + 1;
 	
 	if (folder_name == NULL) {
 		camel_url_free (url);
