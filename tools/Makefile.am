@@ -32,6 +32,7 @@ killev_SOURCES =						\
 	killev.c
 
 killev_LDADD =							\
-	$(top_builddir)/e-util/libeutil.la
+	$(top_builddir)/e-util/libeutil.la			\
+	$(E_UTIL_LIBS)
 
 CLEANFILES = evolution-addressbook-clean $(BUILT_SOURCES)
