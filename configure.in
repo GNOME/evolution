@@ -635,6 +635,7 @@ widgets/Makefile
 widgets/meeting-time-sel/Makefile
 widgets/misc/Makefile
 widgets/shortcut-bar/Makefile
+widgets/menus/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
 addressbook/contact-editor/Makefile
@@ -677,6 +678,7 @@ default_user/local/Executive-Summary/Makefile
 default_user/local/Inbox/Makefile
 default_user/local/Outbox/Makefile
 default_user/local/Sent/Makefile
+default_user/local/Tasks/Makefile
 default_user/local/Trash/Makefile
 tools/Makefile
 doc/Makefile

@@ -1,3 +1,12 @@
+2000-11-18  Miguel de Icaza  <miguel@helixcode.com>
+
+	* Added widgets/menus that contains the gal-view-menus.c code from
+	Gal that depended on Bonobo.
+
+	* configure.in: Update list of Makefiles;  
+
+	* widgets/Makefile.am: Update.
+
 2000-11-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Update the gal reqiurement version.

@@ -2,4 +2,5 @@
 SUBDIRS =			\
 	misc			\
 	meeting-time-sel	\
-	shortcut-bar
+	shortcut-bar		\
+	menus

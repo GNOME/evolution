@@ -19,7 +19,7 @@
 #include <ebook/e-book.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
-#include <gal/menus/gal-view-menus.h>
+#include "widgets/menus/gal-view-menus.h"
 #include "addressbook/gui/search/e-addressbook-search-dialog.h"
 
 #include "addressbook/gui/widgets/e-addressbook-view.h"
