@@ -1,0 +1,7 @@
+Makefile.in
+Makefile
+.deps
+.libs
+minicard-label-test
+minicard-test
+reflow-test
