@@ -118,21 +118,21 @@
 		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="evolution:config_item:title" type="string"
+	<oaf_attribute name="evolution2:config_item:title" type="string"
 		       _value="Calendar and Tasks"/>
 
-	<oaf_attribute name="evolution:config_item:description" type="string"
+	<oaf_attribute name="evolution2:config_item:description" type="string"
 		       _value="Configure your timezone, Calendar and Task List here "/>
 
-	<oaf_attribute name="evolution:config_item:icon_name" type="string"
+	<oaf_attribute name="evolution2:config_item:icon_name" type="string"
 		       value="evolution-calendar.png"/>
 
-	<oaf_attribute name="evolution:config_item:type" type="stringv">
+	<oaf_attribute name="evolution2:config_item:type" type="stringv">
 		<item value="calendar"/>
 		<item value="tasks"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="evolution:config_item:priority" type="string" value="-7"/>
+	<oaf_attribute name="evolution2:config_item:priority" type="string" value="-7"/>
     
 	<oaf_attribute name="name" type="string"
 		       _value="Evolution Calendar configuration control"/>
