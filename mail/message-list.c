@@ -394,75 +394,7 @@ message_list_init_header (MessageList *message_list)
 
 
 
-#if 0
-static void
-set_header_size (GnomeCanvas *canvas, GtkAllocation *alloc)
-{
-	printf ("Here\n");
-	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
-}
 
-static void
-set_content_size (GnomeCanvas *canvas, GtkAllocation *alloc)
-{
-	printf ("Here2\n");
-        gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
-}
-
-
-static GtkWidget *
-make_etable (MessageList *message_list)
-{
-	GtkTable *t;
-	GtkWidget *header, *content;
-	
-	t = (GtkTable *) gtk_table_new (0, 0, 0);
-	gtk_widget_show (GTK_WIDGET (t));
-
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
-	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-
-	header = gnome_canvas_new ();
-	gtk_signal_connect (GTK_OBJECT (header), "size_allocate",
-                            GTK_SIGNAL_FUNC (set_header_size), NULL);
-	gtk_widget_set_usize (header, 300, 20);
-	gtk_widget_show (header);
-	content = gnome_canvas_new ();
-	gtk_widget_set_usize (content, 300, 20);
-        gtk_signal_connect (GTK_OBJECT (content), "size_allocate",
-                            GTK_SIGNAL_FUNC (set_content_size), NULL);
-	gtk_widget_show (content);
-
-	gtk_widget_pop_colormap ();
-	gtk_widget_pop_visual ();
-	
-	gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (header)),
-		e_table_header_item_get_type (),
-		"ETableHeader", message_list->header_model,
-		NULL);
-
-	gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (content)),
-		e_table_item_get_type (),
-		"ETableHeader", message_list->header_model,
-		"ETableModel", message_list->table_model,
-		"drawgrid", TRUE,
-		"drawfocus", TRUE,
-		"spreadsheet", TRUE,
-		NULL);
-
-	gtk_table_attach (t, header,
-			  0, 1, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-
-	gtk_table_attach (t, content,
-			  0, 1, 1, 2,
-			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
-
-
-	return t;
-}
-#endif
 
 /*
  * GtkObject::init
@@ -471,7 +403,7 @@ static void
 message_list_init (GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-
+	
 	message_list->table_model = e_table_simple_new (
 		ml_col_count, ml_row_count, ml_value_at,
 		ml_set_value_at, ml_is_cell_editable, ml_duplicate_value, ml_free_value,
@@ -505,9 +437,10 @@ message_list_destroy (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	int i;
 
+	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
 	gtk_object_unref (GTK_OBJECT (message_list->header_model));
-
+	
 	/*
 	 * Renderers
 	 */
@@ -521,7 +454,7 @@ message_list_destroy (GtkObject *object)
 
 	for (i = 0; i < COL_LAST; i++)
 		gtk_object_unref (GTK_OBJECT (message_list->table_cols [i]));
-
+	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }
 
@@ -698,7 +631,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	printf ("Modelo cambio!\n");
 	e_table_model_changed (message_list->table_model);
 
-	select_msg (message_list, 1);
+	select_msg (message_list, 0);
 }
 
 GtkWidget *

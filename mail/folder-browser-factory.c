@@ -94,6 +94,39 @@ development_warning ()
 	
 } 
 
+
+
+static void 
+control_add_menu (BonoboControl *control)
+{
+	Bonobo_UIHandler  remote_uih;
+	BonoboUIHandler  *uih;
+
+	uih = bonobo_control_get_ui_handler (control);
+	g_assert (uih);
+	
+	remote_uih = bonobo_control_get_remote_ui_handler (control);
+	bonobo_ui_handler_set_container (uih, remote_uih);		
+	
+	bonobo_ui_handler_menu_new_item (uih,
+					 "/File/Stuff", N_("_Stuff"), NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL, 0, 0,
+					 NULL, NULL);
+	
+}
+
+
+static void
+control_activate_cb (BonoboControl *control, 
+		     gboolean activate, 
+		     gpointer user_data)
+{
+	control_add_menu (control);
+	
+}
+
+
+
 /*
  * Creates the Folder Browser, wraps it in a Bonobo Control, and
  * sets the Bonobo Control properties to point to the Folder Browser
@@ -105,6 +138,7 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 	BonoboControl *control;
 	GtkWidget *folder_browser;
 	gint warning_result;
+
 
 	warning_result = development_warning ();
 	
@@ -127,6 +161,10 @@ folder_browser_factory (BonoboGenericFactory *factory, void *closure)
 		return NULL;
 	}
 	
+	gtk_signal_connect (GTK_OBJECT (control), "activate", control_activate_cb, NULL);
+	
+
+
 	
 	bonobo_control_set_property_bag (control,
 					 FOLDER_BROWSER (folder_browser)->properties);

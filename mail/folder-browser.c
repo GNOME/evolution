@@ -58,6 +58,7 @@ folder_browser_load_folder (FolderBrowser *fb, const char *name)
 	CamelException ex;
 	gboolean new_folder_exists = FALSE;
 
+	
 	camel_exception_init (&ex);
 	new_folder = camel_store_get_folder (default_session->store, name, &ex);
 
@@ -171,6 +172,8 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (fb->message_list_w);
 
 	gtk_paned_add2 (GTK_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
+	gtk_paned_set_position (GTK_PANED (fb->vpaned), 200);
+
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));
 

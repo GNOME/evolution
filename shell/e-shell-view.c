@@ -71,12 +71,11 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 }
 
 static GtkWidget *
-get_view (EFolder *efolder)
+get_view (EFolder *efolder, Bonobo_UIHandler uih)
 {
   	GtkWidget *w = NULL;
-	BonoboControl control;
 	EFolderType e_folder_type;
-
+	BonoboControlFrame *control_frame;
 	
 	
 
@@ -95,7 +94,7 @@ get_view (EFolder *efolder)
 
 	case E_FOLDER_MAIL :
 		w = bonobo_widget_new_control ("control:evolution-mail",
-					       NULL);
+					       uih );
 		break;
 
 	default : 
@@ -103,6 +102,10 @@ get_view (EFolder *efolder)
 			e_folder_get_description (efolder));
 	}
   	
+	control_frame = bonobo_widget_get_control_frame (w);
+	bonobo_control_frame_set_autoactivate (control_frame, FALSE);
+	bonobo_control_frame_control_activate (control_frame);
+
 	if (w)	gtk_widget_show (w);
 	
 	return w;
@@ -112,13 +115,21 @@ get_view (EFolder *efolder)
 void
 e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 {
-	GtkWidget *w = get_view (efolder);
+	GtkWidget *w;
+	Bonobo_UIHandler uih;
+
+	uih = bonobo_object_corba_objref (BONOBO_OBJECT (eshell_view->uih));
+
+	w = get_view (efolder, uih);
 
 	if (eshell_view->contents){
 		gtk_widget_destroy (eshell_view->contents);
 	}
 	
 	eshell_view->contents = w;
+
+	if (!w)
+		return;
 
 	if (eshell_view->shortcut_displayed){
 		gtk_paned_pack2 (GTK_PANED (eshell_view->shortcut_hpaned),

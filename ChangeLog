@@ -1,3 +1,10 @@
+2000-03-13  bertrand  <bertrand@helixcode.com>
+
+	* shell/e-shell-view.c (get_view): 
+	once we have the bonobo control widget, 
+	disable the autoactivation and activate
+	the control frame.
+
 2000-03-12  bertrand  <bertrand@helixcode.com>
 
 	* shell/e-shell-view.c (get_view): name change

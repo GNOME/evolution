@@ -2,6 +2,10 @@
 
 	* folder-browser-factory.c (folder_browser_factory_init): 
 	name change.
+	(control_activate_cb): when the control is activated, 
+	it merges its own UI with the remote UIHandler.
+	(control_add_menu): sample menu merging.
+	(folder_browser_factory): connect the control "activate" signal.
 
 	* evolution-mail.gnorba: 
 	name changes

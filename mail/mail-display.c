@@ -239,7 +239,7 @@ mail_display_set_message (MailDisplay *mail_display,
 	 * to consecutive call to *_to_html - ber */
 	camel_formatter = camel_formatter_new ();
 
-
+	
 	/*
 	 * for the moment, camel-formatter deals only with 
 	 * mime messages, but in the future, it should be 
