@@ -1290,8 +1290,8 @@ gnome_calendar_init (GnomeCalendar *gcal)
 	priv->current_view_type = GNOME_CAL_DAY_VIEW;
 	priv->range_selected = FALSE;
 
-	setup_config (gcal);
 	setup_widgets (gcal);
+	setup_config (gcal);
 
 	priv->dn_queries = NULL;	
 	priv->sexp = g_strdup ("#t"); /* Match all */
