@@ -48,7 +48,7 @@
 #include "mail/mail.h"
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
-#include "mail/mail-threads.h"
+#include "mail/mail-ops.h"
 
 #include "e-util/e-html-utils.h"
 #include <gal/widgets/e-gui-utils.h>
@@ -717,104 +717,61 @@ load (EMsgComposer *composer,
 
 enum { REPLY_YES = 0, REPLY_NO, REPLY_CANCEL };
 
-typedef struct save_draft_input_s {
+struct _save_info {
 	EMsgComposer *composer;
-} save_draft_input_t;
+	int quitok;
+};
 
-typedef struct save_draft_data_s {
+static void save_done(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+{
+	struct _save_info *si = data;
+
+	if (ok && si->quitok)
+		gtk_widget_destroy((GtkWidget *)si->composer);
+	else
+		gtk_object_unref((GtkObject *)si->composer);
+
+	g_free(info);
+	g_free(si);
+}
+
+static void
+save_draft(EMsgComposer *composer, int quitok)
+{
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
-} save_draft_data_t;
-
-static gchar *
-describe_save_draft (gpointer in_data, gboolean gerund)
-{
-	if (gerund) {
-		return g_strdup (_("Saving changes to message..."));
-	} else {
-		return g_strdup (_("Save changes to message..."));
-	}
-}
-
-static void
-setup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	save_draft_input_t *input = (save_draft_input_t *) in_data;
-	save_draft_data_t *data = (save_draft_data_t *) op_data;
-	
-	g_return_if_fail (input->composer != NULL);
-	
-	/* initialize op_data */
-	input->composer->send_html = TRUE;  /* always save drafts as HTML to keep formatting */
-	data->msg = e_msg_composer_get_message (input->composer);
-	data->info = g_new0 (CamelMessageInfo, 1);
-	data->info->flags = CAMEL_MESSAGE_DRAFT;
-}
-
-static void
-do_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	/*save_draft_input_t *input = (save_draft_input_t *) in_data;*/
-	save_draft_data_t *data = (save_draft_data_t *) op_data;
 	extern CamelFolder *drafts_folder;
-	
-	/* perform camel operations */
-	mail_tool_camel_lock_up ();
-	camel_folder_append_message (drafts_folder, data->msg, data->info, ex);
-	mail_tool_camel_lock_down ();
-}
+	struct _save_info *si;
 
-static void
-cleanup_save_draft (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	save_draft_input_t *input = (save_draft_input_t *) in_data;
-	/*save_draft_data_t *data = (save_draft_data_t *) op_data;*/
-	
-	if (camel_exception_is_set (ex)) {
-		char *reason;
-		
-		reason = g_strdup_printf (_("Error saving composition to 'Drafts': %s"),
-					  camel_exception_get_description (ex));
-		
-		gnome_warning_dialog_parented (reason, GTK_WINDOW (input->composer));
-		g_free (reason);
-	} else {
-		gtk_widget_destroy (GTK_WIDGET (input->composer));
-	}
-}
+	composer->send_html = TRUE;  /* always save drafts as HTML to keep formatting */
+	msg = e_msg_composer_get_message(composer);
 
-static const mail_operation_spec op_save_draft = {
-	describe_save_draft,
-	sizeof (save_draft_data_t),
-	setup_save_draft,
-	do_save_draft,
-	cleanup_save_draft
-};
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_DRAFT;
+
+	si = g_malloc(sizeof(*si));
+	si->composer = composer;
+	gtk_object_ref((GtkObject *)composer);
+	si->quitok = quitok;
+
+	mail_append_mail(drafts_folder, msg, info, save_done, si);
+	camel_object_unref((CamelObject *)msg);
+}
 
 static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	EMsgComposer *composer;
-	save_draft_input_t *input;
-	
-	composer = E_MSG_COMPOSER (data);
-	
-	input = g_new0 (save_draft_input_t, 1);
-	input->composer = composer;
-	mail_operation_queue (&op_save_draft, input, TRUE);
+	save_draft(E_MSG_COMPOSER(data), FALSE);
 }
 
 static void
 exit_dialog_cb (int reply, EMsgComposer *composer)
 {
-	save_draft_input_t *input;
-	
 	switch (reply) {
 	case REPLY_YES:
 		/* this has to be done async */
-		input = g_new0 (save_draft_input_t, 1);
-		input->composer = composer;
-		mail_operation_queue (&op_save_draft, input, TRUE);
+		save_draft(composer, TRUE);
+		break;
 	case REPLY_NO:
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		break;
