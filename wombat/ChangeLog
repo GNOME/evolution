@@ -1,3 +1,9 @@
+2003-04-07  Dan Winship  <danw@ximian.com>
+
+	* GNOME_Evolution_WombatLDAP.server.in.in: clean up server names
+
+	* GNOME_Evolution_WombatNOLDAP.server.in.in: Likewise
+
 2003-03-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_WombatLDAP.server.in.in: Add InterfaceCheck

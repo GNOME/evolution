@@ -9,8 +9,8 @@
 		<item value="IDL:Bonobo/Unknown:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="The Personal Addressbook Server"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Addressbook local file backend"/>
 
         <oaf_attribute name="addressbook:supported_protocols" type="stringv">
 		<item value="file"/>
@@ -26,8 +26,8 @@
 		<item value="IDL:Bonobo/Unknown:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-                       _value="The Personal Calendar Server; calendar factory"/>
+	<oaf_attribute name="name" type="string"
+                       _value="Evolution Calendar local file backend"/>
 
 </oaf_server>
 
@@ -39,8 +39,6 @@
 		<item value="IDL:GNOME/Evolution/WombatInterfaceCheck:1.0"/>
 		<item value="IDL:Bonobo/Unknown:1.0"/>
 	</oaf_attribute>
-
-	<oaf_attribute name="description" type="string" _value="Wombat InterfaceCheck interface"/>
 
 </oaf_server>
 
