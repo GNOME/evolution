@@ -51,6 +51,7 @@ SUBDIRS = 			\
 	help			\
 	po
 
+DISTCLEANFILES = intltool-extract intltool-merge intltool-update $(pkgconfig_DATA)
 
 # CDE Stuff
 
