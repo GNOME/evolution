@@ -10,6 +10,7 @@
 
 	* folder-browser.c (on_key_press): The bonobo menu items now
 	handle 'n' and 'p'.
+	(on_key_press): 'q' as well.
 
 	* message-list.c (message_list_select): Fix inline documentation.
 

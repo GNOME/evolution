@@ -35,6 +35,7 @@
 
     <cmd name="ViewPreview"
      _tip="Show message preview window"
+     accel="q"
      type="toggle"  />
 
   </commands>

@@ -1539,13 +1539,6 @@ on_key_press (GtkWidget *widget, GdkEventKey *key, gpointer data)
 	case '!':
 		toggle_as_important (NULL, fb, NULL);
 		return TRUE;
-	case 'q':
-	case 'Q':
-		if (fb->uicomp)
-			bonobo_ui_component_set_prop (fb->uicomp, 
-						      "/commands/ViewPreview",
-						      "state", fb->preview_shown ? "0" : "1", NULL);
-		return TRUE;
 	}
 
 	return FALSE;
