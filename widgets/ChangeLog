@@ -1,3 +1,6 @@
+Nov 14 1999 Elliot Lee
+	* Makefile.am: It's libevolutionwidgets.la, not .a
+
 1999-11-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-header-item.c (is_pointer_on_division): Add resizing

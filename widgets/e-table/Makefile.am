@@ -56,7 +56,7 @@ table_test_SOURCES = 	\
 
 table_test_LDADD =		\
 	$(EXTRA_GNOME_LIBS)	\
-	libevolutionwidgets.a
+	libevolutionwidgets.la
 
 EXTRA_DIST =		\
 	sample.table
