@@ -73,6 +73,7 @@ enum {
 	ARG_FONT_GDK,
 	ARG_FONT_E,
 	ARG_BOLD,
+	ARG_STRIKEOUT,
 	ARG_ANCHOR,
 	ARG_JUSTIFICATION,
 	ARG_CLIP_WIDTH,
@@ -271,6 +272,8 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_POINTER, GTK_ARG_READWRITE, ARG_FONT_E);
 	gtk_object_add_arg_type ("EText::bold",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_BOLD);
+	gtk_object_add_arg_type ("EText::strikeout",
+				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_STRIKEOUT);
 	gtk_object_add_arg_type ("EText::anchor",
 				 GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
 	gtk_object_add_arg_type ("EText::justification",
@@ -425,6 +428,7 @@ e_text_init (EText *text)
 	text->draw_background = FALSE;
 
 	text->bold = FALSE;
+	text->strikeout = FALSE;
 
 	text->style = E_FONT_PLAIN;
 	
@@ -832,8 +836,7 @@ calc_line_widths (EText *text)
 									text->font, text->style,
 									lines->text, lines->ellipsis_length) + 
 					text->ellipsis_width;
-			}
-			else
+			} else
 				lines->ellipsis_length = lines->length;
 
 			if (lines->width > text->max_width)
@@ -1297,6 +1300,20 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_BOLD:
 		text->bold = GTK_VALUE_BOOL (*arg);
 		text->style = text->bold ? E_FONT_BOLD : E_FONT_PLAIN;
+
+		text->needs_redraw = 1;
+		text->needs_recalc_bounds = 1;
+		if ( text->line_wrap )
+			text->needs_split_into_lines = 1;
+		else
+			text->needs_calc_line_widths = 1;
+		needs_update = 1;
+		needs_reflow = 1;
+		break;
+	case ARG_STRIKEOUT:
+		text->strikeout = GTK_VALUE_BOOL (*arg);
+		text->needs_redraw = 1;
+		needs_update = 1;
 		break;
 	case ARG_ANCHOR:
 		text->anchor = GTK_VALUE_ENUM (*arg);
@@ -1534,6 +1551,10 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_BOLD:
 		GTK_VALUE_BOOL (*arg) = text->bold;
+		break;
+
+	case ARG_STRIKEOUT:
+		GTK_VALUE_BOOL (*arg) = text->strikeout;
 		break;
 
 	case ARG_ANCHOR:
@@ -2159,7 +2180,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						       ypos - y,
 						       text->ellipsis ? text->ellipsis : "...",
 						       text->ellipsis ? strlen (text->ellipsis) : 3);
-			} else
+			} else {
 				text_draw_with_objects (text->model,
 							drawable,
 							text->font, text->style,
@@ -2168,8 +2189,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 							ypos - y,
 							lines->text,
 							lines->length);
+			}
 		}
 
+		if (text->strikeout)
+			gdk_draw_rectangle (drawable,
+					    text->gc,
+					    TRUE,
+					    xpos - x,
+					    ypos - y - e_font_ascent (text->font) / 2,
+					    lines->width, 1);
 		ypos += e_font_height (text->font);
 		lines++;
 	}
@@ -2766,6 +2795,7 @@ _do_tooltip (gpointer data)
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
 					      "bold", text->bold,
+					      "strikeout", text->strikeout,
 					      "font_e", text->font,
 					      "text", text->text,
 					      "editable", FALSE,

@@ -204,6 +204,7 @@ struct _EText {
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
 
 	guint bold : 1;
+	guint strikeout : 1;
 
 	EFontStyle     style;
 
@@ -215,7 +216,6 @@ struct _EText {
 	GdkCursor *i_cursor;            /* I beam cursor */
 
 	gint tooltip_timeout;           /* Timeout for the tooltip */
-	GtkWidget *tooltip_window;      /* GtkWindow for displaying the tooltip */
 	gint tooltip_count;             /* GDK_ENTER_NOTIFY count. */
 
 	gint dbl_timeout;               /* Double click timeout */
