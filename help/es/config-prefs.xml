@@ -1,0 +1,997 @@
+<chapter id="config-prefs">
+
+      <title
+>Configuración avanzada</title>
+      <para
+> Quizás su servidor de correo haya cambiado de nombre. Quizás se cansó de siempre utilizar la misma presentación de citas. Sea cual sea la razón puede, que quiera cambiar sus configuraciones de <application
+>Evolution</application
+>. Este capítulo le explicará cómo hacerlo. </para>
+      <para
+> El cuadro de diálogo de configuración de Evolution 1.2 ha sido rediseñado hasta el último detalle. Puede abrirlo con <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+></menuchoice
+> desde cualquier lugar de Evolution. La parte izquierda de la ventana tiene una columna, parecida a la barra de atajos, donde puede seleccionar la parte de Evolution que desea personalizar. La parte derecha es donde realmente realizará cambios. </para>
+
+
+      <!-- ==============Figure===================== -->
+      <figure id="config-prefs-mail-fig">
+	<title
+>Modificación de la configuración del correo</title>
+	<screenshot
+> <screeninfo
+>Modificación de la configuración del correo</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/config-mail" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot>
+      </figure>
+      <!-- ==============End of Figure================-->
+
+  <para
+> Es posible personalizar ocho elementos, que describimos de arriba a abajo: <variablelist
+> <varlistentry
+> <term
+><guiicon
+>Cuentas de correo</guiicon
+></term
+> <listitem
+> <para
+> Declare o modifique los datos de su cuentas de correo electrónico: los servidores a los que debe acceder, la manera en la que se baje el correo, el modo en que se autentique, etc. Este es el elemento más complejo de la lista y está descrito en <xref linkend="config-prefs-mail-identity"/>. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Carpetas</guiicon
+></term
+> <listitem
+> <para
+> Puede configurar carpetas predeterminadas para varios componentes de Evolution, las carpetas que serán colocadas en caché en el disco local cuando esté en el modo desconectado y las carpetas en dónde se harán las búsquedas para autocompletar direcciones de correo electrónico. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Opciones de correo</guiicon
+></term
+> <listitem
+> <para
+> Estas son las preferencias de lectura de correo generales: opciones para la representación, notificación, seguridad, etc. Las opciones que dependen de cadacuenta están en la herramienta Cuentas de Correo descrita en <xref linkend="config-prefs-mail-identity"/>, pero la mayoría de las opciones de correo están aquí. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Editor de correo</guiicon
+></term
+> <listitem
+> <para
+> Define la manera en la que quiere usar el editor de correo: atajos, firmas, corrección ortográfica, etc. Una función entretenida es la capacidad de sustituir caritas o "emoticones" como :-), que mucha gente utiliza en el correo electrónico. Esta herramienta está descrita en <xref linkend="config-prefs-mail-composer"/>. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Calendario y tareas</guiicon
+></term
+> <listitem
+> <para
+> Puede especificar el funcionamiento del calendario, como la zona horaria y duración de su semana laboral. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Delegación de Exchange</guiicon
+></term
+> <listitem
+> <para
+> Este elemento aparecerá solamente si tiene instalado Ximian Connector for Microsoft Exchange. Permite elegir quién puede tener acceso a su cuenta Exchange. Esta característica está descrita en <xref linkend="exchange-delegate"/>. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Servidores de directorio</guiicon
+></term
+> <listitem
+> <para
+> Este elemento permite introducir los datos de la cuenta necesaria para conectarse con servidores de directorio (LDAP) remotos. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Configuración del resumen</guiicon
+></term
+> <listitem
+> <para
+> Configura qué carpetas, titulares de noticias, longitud del resumen de planificación y qué informes meteorológicos se mostrarán. Para agregar nuevos servidores de titulares de noticias escriba la dirección URL de cualquier archivo RDF. La personalización del resumen se describe en  <xref linkend="customizing-summary"/> en lugar de en este capítulo. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guiicon
+>Estoy fuera</guiicon
+></term
+> <listitem
+> <para
+> Este elemeno aparecerá solamente si tiene instalado Ximian Connector for Microsoft Exchange. Permite crear y borrar automáticamente mensajes de «fuera por vacaciones». Para saber cómo usar esta característica lea <xref linkend="exchange-out-of-office"/>. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+
+   <sect1 id="config-prefs-mail-identity">
+      <title
+>Utilización de cuentas de correo</title
+> 
+      <para
+> <application
+>Ximian Evolution</application
+> le permite administrar varias cuentas de correo, o identidades, a la vez. Esto es útil cuando desea diferenciar mensajes profesionales y personales, o cuando ejerce varias responsabilidades en su trabajo. Cuando escribe un mensaje de correo puede elegir desde qué cuenta enviarlo en la lista desplegable junto a <guilabel
+>De:</guilabel
+>. </para>
+
+       <para
+> Haga clic en <guibutton
+>Enviar/Recibir</guibutton
+> para actualizar todos los listados IMAP, <filename
+>mh</filename
+> o <filename
+>mbox</filename
+> así como para comprobar y descargar su correo de todos los servidores POP. En otras palabras, <guibutton
+>Enviar/Recibir</guibutton
+> trae todo su correo, de todos los orígenes disponibles. Si no desea recibir correo de alguna cuenta, selecciónela en la sección <guilabel
+>Cuentas de correo</guilabel
+> y haga clic en <guibutton
+>Inhabilitar</guibutton
+>. </para>
+       
+      <para
+> Para agregar una cuenta, haga clic en <guibutton
+>Añadir</guibutton
+> para abrir el asistente de configuración del correo. Para modificar una identidad existente, selecciónela y haga clic en <guibutton
+>Editar</guibutton
+> para abrir el cuadro de diálogo del editor de cuentas. </para>
+
+     <para
+> El cuadro de diálogo del editor de cuentas cuenta con seis secciones: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Identidad</guilabel
+></term
+> <listitem
+> <para
+> Escriba el nombre de la cuenta, la dirección de correo y otra información de identificación de la cuenta. También puede elegir una firma predeterminada para añadirla al final de los mensajes enviados desde esta cuenta. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Recepción de correo</guilabel
+></term
+> <listitem
+> <para
+> Especifique de qué manera desea consultar su correo: puede descargarlo desde un servidor ( <glossterm linkend="pop"
+>POP</glossterm
+>); puede leerlo y conservarlo en el mismo servidor (Microsoft Exchange o <glossterm linkend="imap"
+>IMAP</glossterm
+>), así como leer ficheros que ya están en su escritorio. Es posible que el servidor le permita utilizar conexiones cifradas (SSL), que puede activar con <guibutton
+>Usar conexiones seguras (SSL)</guibutton
+>. <note id="config-arbitrary-port"
+> <title
+>Especificación de los números de puerto</title
+> <para
+> Es posible que su administrador de sistemas le indique de debe conectarse a través de un puerto específico de su servidor. Para especificarlo, a continuación del nombre del servidor, escriba un signo de dos puntos y el número de puerto. Por ejemplo, para conectar a través del puerto 143 del servidor smtp.todostuspuertos.com, escriba el nombre de servidor como sigue: <userinput
+> smtp.todostuspuertos.com:143 </userinput
+> . </para
+> </note
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Opciones de recepción</guilabel
+></term
+> <listitem
+> <para
+> Aquí decide si quiere descargar su correo automáticamente y con qué frecuencia, así como otras opciones de recuperación de los mensajes. <variablelist
+> <varlistentry
+> <term
+>Si seleccionó el protocolo POP:</term
+> <listitem
+> <para
+> <itemizedlist
+> <listitem
+> <para
+>Descargar el correo nuevo: para que <application
+>Evolution</application
+> descargue automáticamente su correo nuevo, active esta casilla y elija la frecuencia en minutos. </para
+> </listitem
+> <listitem
+> <para
+> Almacenamiento de mensajes: active esta casilla si quiere almacenar copias de su correo en el servidor. </para
+> </listitem
+> <listitem
+> <para
+>Almacenar información de estado en las cabeceras en formato Elm/Pine/Mutt: permite a clientes de correo como Elm, Pine y Mutt, utilizar el formato de cabecera X-Status. Esta opción es útil si tiene previsto examinar su correo de vez en cuando con alguno de estos clientes. </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Si oligió Microsoft Exchange:</term
+> <listitem
+> <para
+> <itemizedlist
+> <listitem
+> <para
+><guilabel
+>Descargar el correo nuevo</guilabel
+>: si quiere que <application
+>Evolution</application
+> descargue automáticamente su correo nuevo, active esta casilla y elija la frecuencia en minutos. </para
+> </listitem
+> <listitem
+> <para
+> <guilabel
+>Global Catalog server name</guilabel
+>: escriba el nombre de su servidor Global de Catálogo para crear una carpeta para la Lista Global de Direcciones de su organización. </para
+> </listitem
+> <listitem
+> <para
+><guilabel
+>Limitar el número de respuestas</guilabel
+>: elija el número máximo de resultados en la búsqueda de una dirección. Este número limita la carga de  sistema y de la red. La mayoría de los servidores no envían más de 1000 resultados a pesar del valor que haya elegido aquí. </para
+> </listitem
+> <listitem
+> <para
+><guilabel
+>Nombre del buzón</guilabel
+>: indique el nombre de su buzón </para
+> </listitem
+> <listitem
+> <para
+> <guilabel
+>OWA Path</guilabel
+>: indique la ruta usada en su servidor con Outlook Web Access. </para
+> </listitem
+> <listitem
+> <para
+> <guilabel
+>Public Folder Server</guilabel
+>: escriba el nombre su servidor de carpetas públicas, si es que es diferente de su servidor Exchange. </para
+> </listitem
+> <listitem
+> <para
+> <guilabel
+>Aplicar filtros a los mensajes nuevos en el buzón de entrada de este servidor</guilabel
+>: active esta casilla si quiere aplicar filtros al correo de esta cuenta. </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Si oligió IMAP:</term
+> <listitem
+> <para
+> <itemizedlist
+> <listitem
+> <para
+><guilabel
+>Descargar el correo nuevo</guilabel
+>: si quiere que <application
+>Evolution</application
+> descargue automáticamente su correo nuevo, active esta casilla y elija la frecuencia en minutos. </para
+> </listitem
+> <listitem
+> <para
+>Si desea que <application
+>Evolution</application
+> descargue <emphasis
+>todos</emphasis
+> los mensajes nuevos de sus carpetas IMAP, compruebe que la casilla <guilabel
+>Comprobar si hay mensajes nuevos en todas las carpeta</guilabel
+> está activada.</para
+> </listitem
+> <listitem
+> <para
+><guilabel
+>Mostrar sólo las carpetas suscritas</guilabel
+>: active esta opción si la vista IMAP muestra más carpetas que las que desea leer.</para
+> </listitem
+> <listitem
+> <para
+> <guilabel
+>Sobreescribir el espacio de nombres proporcionado por el servidor</guilabel
+>:  si lo  desea, especifique el directorio donde su servidor almacena su correo. Los nombres más comunes son «mail» y «Mail». Para obtener más información acerca de cómo utilizar el protocolo de correo IMAP, consulte <xref linkend="usage-mail-subscriptions"/>.</para
+> </listitem
+> <listitem
+> <para
+><guilabel
+>Aplicar filtros a los mensajes nuevos en el buzón de entrada</guilabel
+>: active esta casilla si desea aplicar sus filtros en el correo de esta cuenta. </para
+> </listitem
+> <listitem
+> <para
+><guilabel
+>Almacenar información de estado en las cabeceras en formato Elm/Pine/Mutt</guilabel
+>: permite a clientes de correo como Elm, Pine y Mutt, utilizar el formato de cabecera X-Status. Esta opción es útil si tiene previsto examinar su correo de vez en cuando con alguno de estos clientes. </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Envío de correo</guilabel
+></term
+> <listitem
+> <para
+> Puede elegir y configurar el método de envío de correo. Puede optar entre <glossterm linkend="smtp"
+>SMTP</glossterm
+>, Microsoft Exchange (si ha comprado Ximian Connector para Microsoft Exchange) o <glossterm linkend="sendmail"
+>sendmail</glossterm
+>. </para
+> <para
+> Si eligió Exchange o Sendmail ya ha acabado con esta solapa. SMTP le permite elegir un servidor, el nivel de seguridad del servidor y un tipo de autenticación, que podrá reconocer como familiar a la usada por los servidores IMAP y POP en la solapa <guilabel
+>Recibiendo correo</guilabel
+>  </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Predeterminados</guilabel
+></term
+> <listitem
+> <para
+> Puede decidir dónde quiere que esta cuenta almacene los mensajes enviados y los guardados como borradores. Si quiere restaurar la configuración «de fábrica» pulse sobre el botón <guibutton
+>Predeterminados</guibutton
+>. </para
+> <para
+> Si quiere mandar copia de cada mensaje de esta cuenta a alguna persona, active la casilla titulada <guilabel
+>Siempre Cc</guilabel
+> o <guilabel
+> Siempre Cco</guilabel
+> e introduzca una o más direcciones. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Seguridad</guilabel
+></term
+> <listitem
+> <para
+> Puede definir las opciones de seguridad de esta cuenta. Si usa cifrado escriba su Id. de clave PGP (para más información consulte <xref linkend="encryption"/>)y elija entre las cuatro opciones disponibles la manera de manejar su clave y firma. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+    </sect1>
+  
+    <sect1 id="config-prefs-folders">
+      <title
+>Carpetas</title>
+      <para
+> Hay tres conjuntos de carpetas. El primero son las  <guilabel
+>Carpetas predefinidas</guilabel
+>, donde puede elegir qué carpetas pueden ser sus carpetas más frecuentes para correo, contactos, agenda y tareas. Estas carpetas son las que se abren desde la barra de atajos y cuando guarda una tarjeta de visita o un evento adjunto. </para>
+      <para
+> Las <guilabel
+>Carpetas sin conexión</guilabel
+> son de las que se mantienen copias locales cuando activa la función <guibutton
+>Trabajar desconectado</guibutton
+>. </para>
+      <para
+> Elija una o más carpetas de contactos para las <guilabel
+>Carpetas para autocompletar</guilabel
+>. Cuando escribe unas letras en los campos de los destinatarios de los mensajes, Evolution usará ese texto como patrón de búsquerda en las carpetas  que haya especificado. </para>
+    </sect1>
+
+    <sect1 id="config-prefs-mail">
+      <title
+>Opciones de correo</title>
+      <para
+> La herramienta <guilabel
+>Opciones de correo</guilabel
+> sirve para elegir cómo mostrar las citas de otros mensajes, cuánto esperar hasta marcar un mensaje como leído así como otras opciones de representación del correo. Hay tres categorías de opciones: General, Correo en HTML y Colores. </para>
+      <para
+> Para saber más sobre opciones individuales de correo electrónico  consulte <xref linkend="config-prefs-mail-identity"/>. </para>
+
+      <para
+> La solapa <guilabel
+>General</guilabel
+> permite establecer los valores siguientes: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Tipografías del mensaje</guilabel
+></term
+> <listitem
+> <para
+> En general Evolution usará las mismas tipografías que el resto de aplicaciones GNOME. Para elegir otras diferentes desactive la casilla <guilabel
+>Usar las mismas tipografías que en otras aplicaciones</guilabel
+> y elija una tipografía estándar y otra de tamaño fijo. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Vista de los mensajes</guilabel
+></term
+> <listitem
+> <para
+> Estas tres opciones manejan la manera en la que se le aparecen los mensajes. <variablelist
+> <varlistentry
+> <term
+>Marcar los mensajes como leídos</term
+> <listitem
+> <para
+> Normalmente Evolution marcará los mensajes como leídos tan pronto como los muestre en pantalla. Si lo prefiere puede configurarlo para que ocurra tras un pequeño lapso o desactivarlo del todo para que sólo se marquen como leídos cuando lo indique expresamente. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Codificación de caracteres predeterminada</term
+> <listitem
+> <para
+> Esta opción le permite elegir qué juegos .de caracteres quiere que Evolution interprete para poder mostrar diferentes alfabetos. Si no está seguro de cuál elegir, elija Unicode (UTF-8), que sirve para una gran cantidad de lenguas y juegos de caracteres. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Color para resaltar las citas.</term
+> <listitem
+> <para
+> Elija qué color quiere para resaltar las citas de otros mensajes. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Eliminación de correo</term
+> <listitem
+> <para
+> Aquí elige si quiere borrar automáticamente los mensajes al salir de Evolution o si prefiere  tener que confirmar explícitamente su borrado definitivo. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Aviso de correo nuevo</term
+> <listitem
+> <para
+> Evolution puede alertarle de la llegada de correo nuevo con un pitido o lanzando un fichero de sonido. Elija el sonido de alerta o ninguno, a placer. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+   <para
+> Las opciones en la sección  <guilabel
+>Correo en HTML</guilabel
+> son: <variablelist
+> <varlistentry
+> <term
+>Cargar imágenes</term
+> <listitem
+> <para
+> Al crear un mensaje puede incluirle una imagen que sólo se descargue solamente cuando el mensaje es leído por el destinatario. Sin embargo los «spammers» pueden usar los patrones de descarga de imágenes para confirmar «direcciones vivas» e invadir la privacidad de sus datos. Puede elegir que nunca se carguen las imágenes automáticamente, hacerlo solamente si el remitente está en su libreta de direcciones o cargarlas todas. </para
+> <para
+> Si ha elegido no descargar imágenes automáticamente puede elegir verlas en cada mensaje con <menuchoice
+> <guimenu
+>Ver</guimenu
+><guisubmenu
+>Mostrar mensaje</guisubmenu
+> <guimenuitem
+>Cargar imágenes</guimenuitem
+></menuchoice
+>. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Mostrar imágenes animadas</guilabel
+></term
+> <listitem
+> <para
+> Aquí puede activar o desactivar que se vean las animaciones en algunas imágenes. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Preguntar al mandar mensajes HTML a contactos que no los quieren</guilabel
+></term
+> <listitem
+> <para
+> Como algunas personas no les gusta el correo HTML,  puede hacer que Evolution le avise de eso. Dicha advertencia aparecerá solamente cuando envíe correo HTML a personas a las que previamente ha anotado en su libreta de direcciones  que no quieren recibirlo. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+   <para
+> La solapa <guilabel
+>Colores</guilabel
+> permie elegir colores diferentes para  mensajes puntuales. Puede restaurar los valores iniciales de la aplicación pulsando el botón <guibutton
+>Valores originales</guibutton
+>. </para>
+</sect1>
+
+
+    <sect1 id="config-prefs-mail-composer">
+      <title
+>Preferencias del editor de correo</title>
+      <para
+> La configuración del editor de correo tiene tres solapas de opciones. La solapa<guilabel
+>General</guilabel
+> permite configurar atajos y acciones asociadas, mientras las dos  controlan las firmas y la corrección ortográfica. En <guilabel
+>General</guilabel
+>  puede configurar los siguientes elementos: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Comportamiento predeterminado</guilabel
+></term
+> <listitem
+> <para
+> Elija cómo reenviará o contestará normalmente los mensajes, qué juego de caracteres usará, si desea utilizar el formato HTML y en ese caso, si desea utilizar emoticones. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Alertas</guilabel
+></term
+> <listitem
+> <para
+> Hay dos alertas opcionales: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Preguntar al mandar mensajes con el asunto vacío</guilabel
+></term
+> <listitem
+> <para
+> El editor muestra una advertencia si intenta enviar un mensaje sin asunto. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Preguntar al mandar mensajes que sólo tengan definido Bcc</guilabel
+></term
+> <listitem
+> <para
+> El editor muestra una advertencia si intenta enviar un mensaje que sólo contenga destinatarios <guilabel
+>Bcc</guilabel
+>. Esto es importante porque algunos servidores de correo sólo aceptarán copias ocultas cuando el mensaje contiene al menos un destinatario visible para todos los lectores. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+
+     <para
+> El editor de firmas permite crear varias firmas diferentes en formato de texto puro o en HTML así como especificar cuál de ellas debe agregarse a los mensajes que crea en el editor de mensajes. También puede elegir una firma alternativa, o no utilizar ninguna, desde el propio editor de correo. </para>
+    <para
+> La herramienta de corrección ortográfica incluye opciones de corrección, en una o varias lenguas. Observe que debe instalar el paquete gnome-spell, disponible en Red Carpet, para tener la corrección ortográfica disponible en Evolution. Red Carpet también incluye diccionarios para diferentes idiomas, que son detectados automáticamente tras su instalación. </para>
+    <para
+> Puede comprobar la ortografría de los mensajes con <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Comprobar la ortografía del documento</guimenuitem
+></menuchoice
+>. También puede hacerlo en la ventana principal de Evolution eligiendo <menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guisubmenu
+>Configuración</guisubmenu
+></menuchoice
+>, pinche en  el icono<guiicon
+>Preferencias del editor</guiicon
+> y después abra la solapa <guilabel
+>Ortografía</guilabel
+> y marque la casilla <guibutton
+>Verificar ortografía mientras se escribe</guibutton
+> y elija el color para resaltar las palabras mal escritas. </para>
+</sect1>
+
+<!-- NOT FOR 1.0, see usage-mail.sgml
+      <sect1 id="config-prefs-news"
+>          
+          <title
+>News Servers</title>
+          <para>
+            Newsgroups are so much like mailing lists that there's no
+            reason not to keep them right next to your mail.  When you
+            first select the <guilabel
+>News Servers</guilabel
+> tab,
+            you will see a blank box with the three familiar buttons
+            on the right: <guibutton
+>Add</guibutton
+>,
+            <guibutton
+>Edit</guibutton
+>, and
+            <guibutton
+>Delete</guibutton
+>.
+          </para>
+          <para>
+            Click <guibutton
+>Add</guibutton
+> to add a news server; you
+            will be prompted for its name.  Enter the name, click
+            <guibutton
+>OK</guibutton
+>, and you're done.  You can have
+            as many news servers as you like, of course.  News servers
+            will appear next to your IMAP servers in the
+            <interface
+>folder bar</interface
+>.
+          </para>
+     </sect2>
+  </sect1>
+-->
+
+
+    <sect1 id="config-prefs-cal">
+       <title
+>Preferencias del calendario y de la lista de tareas</title>
+       <para
+> La herramienta de configuración del calendario incluye dos solapas<guilabel
+>General</guilabel
+> y <guilabel
+>Vista</guilabel
+> y está ilustrada en <xref linkend="config-prefs-cal-fig"/>. <figure id="config-prefs-cal-fig"
+> <title
+>Diálogo de preferencias del calendario</title
+> <screenshot
+> <screeninfo
+>Configuración del calendario</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/config-cal" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot
+> </figure
+> </para>
+
+      <para
+> La ficha <guilabel
+>General</guilabel
+> permite establecer los valores siguientes: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Zona horaria</guilabel
+></term
+> <listitem
+> <para
+> La ciudad en la que se encuentra, para calcular su zona horaria. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Formato de la hora</guilabel
+></term
+> <listitem
+> <para
+>Haga clic en el botón radio para elegir el formato de doce horas (AM/PM) o de veinticuatro horas. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Semana laboral</guilabel
+></term
+> <listitem
+> <para
+> ¿Cuándo empieza su jornada laboral y cuándo acaba? Las vistas semanales y diarias del cliente <application
+>Evolution</application
+> muestran todas las horas en el rango elegido, incluso si no hay citas programadas. Por supuesto, siempre es posible planificar citas fuera de las horas presentadas, en cuyo caso la vista se amplía para poder mostrarlas. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>La semana empieza en</guilabel
+></term
+> <listitem
+> <para
+>Especifique si la semana empieza en domingo o lunes.</para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>El día comienza a las</guilabel
+></term
+> <listitem
+> <para
+> Indica la hora de inicio de jornada laboral normal. Puede que encuentre útil esta opción si tiene horarios de trabajo raros o quiere asegurarse de que aparezcan sus citas más madrugadoras. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>El día acaba a las</guilabel
+></term
+> <listitem
+> <para
+> Indica la hora  la que acaba una jornada laboral normal. Puede que encuentre útil esta opción si tiene horarios de trabajo raros o quiere asegurarse de que aparezcan sus citas vespertinas. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Alertas</guilabel
+></term
+> <listitem
+> <para
+> Active las casillas si desea mostrar una advertencia antes de eliminar una cita, o recibir recordatorios automáticos para cada evento. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+
+      <para
+> La sección <interface
+>Vista</interface
+> sirve para elegir la presentación de sus citas y tareas dentro del calendario. </para>
+      <para
+>Las propiedades de la vista que puede establecer son: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Divisiones de horas</guilabel
+></term
+> <listitem
+> <para
+> Especifique lo incrementos mostrados en la vista diaria del calendario. Puede indicar valores entre cinco minutos y una hora, con incrementos de cinco minutos.</para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Mostrar la hora del final de las citas en las vistas semanales y mensuales</guilabel
+></term
+> <listitem
+> <para
+> Si hay espacio suficiente, el cliente <application
+>Evolution</application
+> mostrará las horas finales en las vistas semanales y mensajes para cada cita. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Comprimir fines de semana en la vista mensual</guilabel
+></term
+> <listitem
+> <para
+> Con esta opción, la vista mensual agrupa todo el fin de semana en una misma celda, en lugar de una celda para cada día. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Mostrar los números de las semanas en el navegador de fechas</guilabel
+></term
+> <listitem
+> <para
+> Mostrará el número de semana en el calendario. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Tareas que vencen hoy</guilabel
+></term
+> <listitem
+> <para
+> Establece el color de las tareas que deben concluirse en el día de hoy. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Tareas vencidas</guilabel
+></term
+> <listitem
+> <para
+> Establece el color de las tareas cuyo plazo de finalización ha acabado. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+  </sect1>
+  <sect1 id="config-prefs-contact">
+    <title
+>Opciones de los servidores de directorio</title>
+    <para
+> La libreta de direcciones sólo permite establecer la utilización y configuración de servidores de directorio (LDAP y Exchange). Para saber cómo configurar las opciones de la función de autocompletado lea <xref linkend="config-prefs-folders"/>. Los demás controles de la libreta de direcciones se muestran en la propia ventana de la libreta. </para>
+      
+      <para
+> Para agregar un nuevo servidor <glossterm linkend="ldap"
+>LDAP</glossterm
+> a la lista de sus carpetas de contactos disponibles: </para>
+	<orderedlist numeration="arabic"
+> <listitem
+> <para
+> Elija <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Configuración</guimenuitem
+> </menuchoice
+> y pinche en el botón <guilabel
+>Servidores de directorio</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Para abrir el asistente e incluir un servidor de directorio, haga clic en <guibutton
+>Agregar</guibutton
+> a la derecha. </para
+> </listitem
+> <listitem
+> <para
+> Escriba los datos del servidor solicitados por el asistente: <variablelist
+> <varlistentry
+> <term
+>Nombre del servidor</term
+> <listitem
+> <para
+> Dirección del servidor donde se aloja la libreta de direcciones. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Método de inicio de sesión</term
+> <listitem
+> <para
+> Especifique el método de inicio de sesión: anónimo, con la dirección de correo electrónico o un "nombre distinguido". Si no utiliza un inicio de sesión anónimo, escriba el nombre de usuario solicitado por el servidor. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Puerto</term
+> <listitem
+> <para
+> El puerto Internet utilizado por el cliente <application
+>Evolution</application
+> para conectarse a la base de datos LDAP. Normalmente se trata del puerto 389. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Usar SSL/TLS</term
+> <listitem
+> <para
+> Los protocolos SSL y TLS son mecanismos de seguridad. Si elige <guilabel
+>Siempre</guilabel
+>, el cliente Evolution sólo se conectará cuando estén disponibles conexiones seguras. El valor predeterminado es <guilabel
+>Cuando sea posible</guilabel
+>, que utiliza conexiones seguras cuando están disponibles, pero también funciona sin problemas en caso contrario. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Base de búsqueda</term
+> <listitem
+> <para
+> La <glossterm linkend="search-base"
+>base de búsqueda</glossterm
+> es el punto de partida utilizado para las búsquedas en directorios. Consulte a su administrador para obtener información acerca de las configuraciones adecuadas. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Rango de búsqueda</term
+> <listitem
+> <para
+> La <glossterm linkend="search-scope"
+>base de búsqueda</glossterm
+> es la extensión de una búsqueda dada. Las siguientes opciones están disponibles: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>Uno</guilabel
+></term
+> <listitem
+> <para
+> Busca dentro de la raíz y un nivel de subdirectorios. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>Sub</guilabel
+></term
+> <listitem
+> <para
+> Busca dentro de la raíz y en todos los subdirectorios. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Tiempo de expiración</term
+> <listitem
+> <para
+> Es el tiempo de espera máximo para descargar los datos del servidor, antes de que el cliente Evolution abandone el intento. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Límite de descarga</term
+> <listitem
+> <para
+> El número máximo de resultados para una búsqueda dada. Muchos servidores no aceptan enviar más de 500 respuestas, pero puede fijar un número inferior para reducir el volumen de descargas, en caso de búsquedas muy amplias. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Mostrar nombre</term
+> <listitem
+> <para
+> Este es el nombre que titulará a esta carpeta, y puede ser el nombre que prefiera. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+> para aplicar permanentemente los cambios o en <guibutton
+>Aplicar</guibutton
+> para usarlos temporalmente. </para
+> </listitem
+> </orderedlist>
+        <para
+> Editar una cuenta del servidor de directorio significa cambiar la misma información, aunque se muestra en un orden ligeramente diferente. </para>
+    </sect1>
+
+
+</chapter>
+

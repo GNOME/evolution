@@ -1,0 +1,143 @@
+<?xml version='1.0' ?>
+
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" 
+ "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" [
+
+<!ENTITY GFDL SYSTEM "apx-fdl.xml">
+<!ENTITY LEGAL SYSTEM "legal.xml">
+<!ENTITY GPL SYSTEM "apx-gpl.xml">
+<!ENTITY PREFACE SYSTEM "preface.xml">
+<!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.xml">
+<!ENTITY USAGE-EXEC-SUMMARY SYSTEM "usage-exec-summary.xml">
+<!ENTITY USAGE-MAIL SYSTEM "usage-mail.xml">
+<!ENTITY USAGE-MAIL-ORG SYSTEM "usage-mail-org.xml">
+<!ENTITY USAGE-CONTACT SYSTEM "usage-contact.xml">
+<!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.xml">
+<!ENTITY USAGE-EXCHANGE SYSTEM "usage-exchange.xml">
+<!ENTITY USAGE-SYNC SYSTEM "usage-sync.xml">
+<!ENTITY USAGE-PRINT SYSTEM "usage-print.xml">
+<!ENTITY CONFIG-PREFS SYSTEM "config-prefs.xml">
+<!ENTITY CONFIG-SYNC SYSTEM "config-sync.xml">
+<!ENTITY MENUREF SYSTEM "menuref.xml">
+<!ENTITY APX-GLOSS SYSTEM "apx-gloss.xml">
+<!ENTITY APX-COMMON-TASKS SYSTEM "apx-common-tasks.xml">
+<!ENTITY APX-BUGS SYSTEM "apx-bugs.xml">
+<!ENTITY APX-AUTHORS SYSTEM "apx-authors.xml">
+
+<!ENTITY appversion "1.4">
+<!ENTITY docversion "1.4">
+<!ENTITY pubdate "May, 2003">
+
+]>
+
+<!-- Almost every chapter is an entity.  Files, Chapter id's, and
+entity names correspond.  APX is for appendix.  -->
+
+<book id="index" lang="es">
+  <bookinfo>
+    <title
+>Guía de usuario de Ximian Evolution 1.4</title>
+    <authorgroup>
+      <author
+><firstname
+>Aaron</firstname
+><surname
+>Weber</surname
+></author>
+      <author
+><firstname
+>Kevin</firstname
+><surname
+>Breit</surname
+></author>
+      <author
+><firstname
+>Ettore</firstname
+><surname
+>Perazzoli</surname
+></author>
+      <author
+><firstname
+>Duncan</firstname
+><surname
+>Mak</surname
+></author>
+    </authorgroup>
+    <copyright>
+      <year
+>2000-2003</year>
+      <holder
+>Ximian, Inc.</holder>
+    </copyright>
+    
+   <releaseinfo>
+      Esta es la &docversion; del manual de Ximian Evolution manual. Describe la versión &appversion; de la herramienta de trabajo en grupo
+      Ximian Evolution.
+   </releaseinfo>
+
+
+    <legalnotice id="legalnotice">
+      <para
+> Observe que la información legal y de licencias está en <xref linkend="preface"/> debido a asuntos relativos a la maquetación de su lugar anterior. </para>
+    </legalnotice>
+  </bookinfo>
+
+
+  <preface id="preface">
+    <title
+>Prefacio</title
+> 
+  &LEGAL;
+  &PREFACE;
+  </preface>
+
+  <part id="usage">
+    <title
+>Primeros pasos con Ximian Evolution</title>
+     <partintro>
+      <para
+> La primera parte del manual de <application
+>Ximian Evolution</application
+> describe cómo utilizar <application
+>Ximian Evolution</application
+> para manejar correo electrónico, gestión de contactos y planificación de citas y de tareas. Conforme avance descubrirá que existen varias formas de hacer las cosas y podrá elegir el método que más le agrade. </para>
+    </partintro>
+
+    &USAGE-MAINWINDOW;
+    &USAGE-EXEC-SUMMARY;
+    &USAGE-MAIL;
+    &USAGE-MAIL-ORG;
+    &USAGE-CONTACT;
+    &USAGE-CALENDAR;
+    &USAGE-EXCHANGE;
+    &USAGE-SYNC; 
+    &USAGE-PRINT;
+  </part>
+  <part id="config">
+  <title
+>Configuración y manejo de Ximian Evolution</title>
+    <partintro>
+      <para
+> <application
+>Ximian Evolution</application
+> es muy configurable. Normalmente cuando un programador dice eso quiere decir que no ha comprobado meticulosamente el sistema y que deben ser otros programadores los que lo <quote
+>configuren</quote
+> hasta ponerlo en marcha. En el caso de <application
+>Ximian Evolution</application
+> <quote
+>configurable</quote
+> significa que, además de poder confiar en la configuración de fábrica del programa, es también muy fácil modificar su comportamiento de múltiples maneras, con el fin de ajustarlo a sus necesidades. Esta parte del libro explica ese proceso, desde una presentación rápida del Asistente de Configuración, hasta una guía paso a paso por la configuración de sus preferencias más peregrinas. </para>
+    </partintro>
+
+    &CONFIG-PREFS;
+    &CONFIG-SYNC;
+  </part>
+
+  &MENUREF;
+  &APX-GLOSS;
+  &APX-BUGS;
+  &APX-AUTHORS; 
+  &GPL;
+  &GFDL;
+
+</book>

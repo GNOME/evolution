@@ -1,0 +1,1152 @@
+<chapter id="usage-mail-organize">
+    <title
+>Organización y administración del correo electrónico</title>
+    <para
+> Deseará probablemente organizar sus mensajes, por muy pocos que sean los que reciba cada día. Cuando cuente con un centenar de ellos, y quiera encontrar un mensaje de un mes de antigüedad, le resultará <emphasis
+>necesario</emphasis
+> poner orden y organizar su correo. Afortunadamente, <application
+>Ximian Evolution</application
+> cuenta con las herramientas necesarias para ayudarle en esta tarea. </para>
+
+  <sect1 id="importing-mail-and-settings">
+    <title
+>Importación de la configuración y de los mensajes existentes</title>
+    <para
+> <application
+>Evolution</application
+> permite importar mensajes y otros datos existentes: no tendrá que preocuparse por la pérdida de información anterior. </para>
+    <sect2 id="importing-mail">
+      <title
+>Importar correo electrónico y otros datos</title>
+      <para
+> <application
+>Ximian Evolution</application
+> puede importar los siguientes tipos de archivos: <variablelist
+> <varlistentry
+> <term
+>VCard (.vcf, gcrd):</term
+> <listitem
+> <para
+> El formato de libreta utilizado por los programas GNOME, KDE así como numerosas aplicaciones de administración de contactos. Será necesario poder exportar a formato VCard la libreta de direcciones de su otra aplicación. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>iCalendar (.ics):</term
+> <listitem
+> <para
+> Un formato utilizado para almacenar archivos de calendario. iCalendar es el programa utilizado por equipos de bolsillo PalmOS, así como Ximian <application
+>Evolution</application
+>, y Microsoft <application
+>Outlook</application
+>. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Microsoft Outlook Express 4 (.mbx):</term
+> <listitem
+> <para
+> El formato de archivos de Microsoft Outlook Express 4. Para otras versiones de Microsoft Outlook y Outlook Express, vea la solución descrita en la nota siguiente. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>Formato de intercambio de datos de LDAP (LDIF):</term
+> <listitem
+> <para
+> Un formato de datos estándar para tarjetas de visita. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+>MBox (mbox):</term
+> <listitem
+> <para
+> El formato de buzón de correo utilizado por los programas Mozilla, Netscape, Ximian Evolution, Eudora y muchos otros clientes de correo electrónico. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> </para>
+      <para
+> Para importar sus mensajes existentes: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Haga clic en <menuchoice
+><guimenu
+>Archivo</guimenu
+><guimenuitem
+>Importar</guimenuitem
+></menuchoice
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Siguiente</guibutton
+> tras leer la pantalla de bienvenida. </para
+> </listitem
+> <listitem
+> <para
+> Seleccione <guibutton
+>Importar un único archivo</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Busque el archivo que quiere importar en <application
+>Evolution</application
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Importar</guibutton
+> </para
+> </listitem
+> </orderedlist
+> </para>
+    </sect2>
+    <sect2 id="importing-preferences">
+      <title
+>Importación de las preferencias</title>
+      <para
+> <application
+>Evolution</application
+> es capaz de importar sus mensajes, contactos y otra información existente desde otras aplicaciones, y facilitarle de este modo su transición a <application
+>Evolution</application
+>. </para>
+      <para
+> Para importar su información existente: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Haga clic en <menuchoice
+><guimenu
+>Archivo</guimenu
+><guimenuitem
+>Importar</guimenuitem
+></menuchoice
+>. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Siguiente</guibutton
+> tras leer la pantalla de bienvenida. </para
+> </listitem
+> <listitem
+> <para
+> Seleccione <guibutton
+>Importar datos y configuración de programas antiguos</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> La columna más a la izquierda muestra la aplicación donde se encuentra la información que desea importar. Seleccione ahora las casillas de cada componente para importar las distintas propiedades de cada aplicación. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Siguiente</guibutton
+> </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Importar</guibutton
+> </para
+> </listitem
+> </orderedlist
+> </para>
+
+      <para
+> <note
+> <title
+>Usuarios expertos de Microsoft Outlook y Outlook Express</title
+> <para
+> Microsoft Outlook y las versiones de Outlook Express posteriores a la versión 4, utilizan formatos propietarios que <application
+>Ximian Evolution</application
+> no puede leer ni importar. En el caso de los contactos, debe enviárselos por correo a si mismo, e importarlos por este procedimiento. En el caso de los mensajes, existe una solución más sencilla: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Desde Windows, importe los archivos en el cliente Mozilla Mail (o en otro cliente de correo que utilice el formato mbox estándar, como Netscape o Eudora). </para
+> </listitem
+> <listitem
+> <para
+> Copie los archivos al sistema o a la partición que utiliza para <application
+>Ximian Evolution</application
+>. </para
+> </listitem
+> <listitem
+> <para
+> Utilice la herramienta de importación del programa <application
+>Ximian Evolution</application
+> para importar estos archivos. Encontrará más explicaciones acerca del porqué y del cómo de este procedimiento en el sitio Web de asistencia de Ximian. </para
+> </listitem
+> </orderedlist
+> </para
+> </note
+> <note
+> <title
+>Usuarios de Netscape</title
+> <para
+> Antes de importar mensajes desde Netscape, asegúrese de seleccionar <menuchoice
+><guimenu
+>Archivo</guimenu
+><guimenuitem
+>Compactar todas las carpetas</guimenuitem
+></menuchoice
+>. Si no lo hace, <application
+>Ximian Evolution</application
+> también importará los mensajes borrados de las carpetas de mensajes eliminados. </para
+> </note
+> </para>
+      
+    </sect2>
+  </sect1>
+  <sect1 id="usage-mail-organize-columns">
+    <title
+>Uso de cabeceras para ordenar los mensajes</title>
+    <para
+> De forma predeterminada, la lista de mensajes incluye columnas con las cabeceras siguientes: el icono de un sobre que indica si el mensaje ha sido leído o contestado; un signo de admiración que indica la prioridad y los campos <guilabel
+>De</guilabel
+>, <guilabel
+>Asunto</guilabel
+> y <guilabel
+>Fecha</guilabel
+>. Puede arrastar las columnas para cambiar su orden o para eliminarlas. Para agregar columnas: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Haga clic con el botón derecho sobre las cabeceras de las columnas </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guimenuitem
+>Añadir una columna</guimenuitem
+> </para
+> </listitem
+> <listitem
+> <para
+> Arrastre la columna hasta la posición deseada entre dos cabeceras existentes. Una flecha roja le indica el lugar donde quedará la columna. </para
+> </listitem
+> </orderedlist
+> </para>
+      <para
+> Haga clic con el botón derecho en una de las cabeceras de columna para ver una lista de opciones: <variablelist
+> <varlistentry
+> <term
+><guimenuitem
+>Orden ascendente</guimenuitem
+>:</term
+> <listitem
+><para
+> Ordena los mensajes del primero al último. </para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Orden descendente</guimenuitem
+>:</term
+> <listitem
+><para
+> Ordena los mensajes del último al primero. </para
+></listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Quitar esta columna</guimenuitem
+>:</term
+> <listitem
+> <para
+> Retira la columna de la pantalla. Para retirar columnas, también puede arrastrar y soltar la cabecera fuera de la lista. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guimenuitem
+>Personalizar vista actual</guimenuitem
+>:</term
+> <listitem
+><para
+> Elija este elemento para escoger un orden de los mensajes más complejo o para elegir qué columnas quiere ver con la información de sus mensajes. </para
+></listitem
+> </varlistentry
+> </variablelist
+> </para>
+
+      <sect2 id="usage-mail-organize-columns-followup">
+        <title
+>Ordenando la columna con la característica de Marca de seguimiento</title>
+        <para
+> Una manera de asegurar de no olvidarse de un mensaje es con la función de <guilabel
+>Seguimiento</guilabel
+>. Para usarla, seleccione uno o más mensajes y pinche con el botón derecho sobre uno de ellos y elija <guimenuitem
+>Seguimiento</guimenuitem
+>. Se abrirá un diálogo que le servirá para elegir el tipo de marca y la fecha de vencimiento. </para>
+      <para
+> Con <guilabel
+>Marcar</guilabel
+> especifica qué acción es la que se quiere recordar a sí mismo. Tiene varias disponibles, como <guilabel
+>Llamar</guilabel
+>,<guilabel
+> Reenviar</guilabel
+> y <guilabel
+> Responder</guilabel
+>, pero puede escribir la nota o acción que prefiera. Si lo desea también puede fijar una fecha de caducidad para la marca. </para>
+      <para
+> Una vez que ha añadido una marca, puede remarcar el mensaje como terminado o eliminar la marca pinchando con el botón derecho sobre el mensaje y eligiendo  <guilabel
+>Marcar como terminado</guilabel
+> o <guilabel
+>Quitar marca</guilabel
+>. </para>
+
+      <para
+> Cuando lea un mensaje marcado, y en la parte superior derecha del mismo, aparcerá una nota con el estado de la bandera, antes de la cabecera del mensaje. Al ver un mensaje atrasado podrá decirle algo como <guilabel
+>Llamar antes del 7 de abril de 2003 a las 5:00 PM </guilabel
+> </para>
+
+      <para
+> Las marcas  le pueden ayudar a organizar su correo de varias maneras. Por ejemplo, puede añadir a la lista de mensajes una columna de <interface
+>Marca de seguimiento</interface
+> y poder ordenarlos por ese campo. También puede crear una carpeta virtual que muestre todos los mensajes marcados que tiene y quitarles las marcas cuando haya acabado, de manera que la carpeta sólo contenga mensajes pendientes. </para>
+
+      </sect2>
+
+    </sect1>
+
+    <sect1 id="usage-mail-organize-folders">
+      <title
+>Organización básica de carpetas</title>
+      <para
+> <application
+>Ximian Evolution</application
+> utiliza carpetas para conservar los mensajes de correo, así como las tarjetas de direcciones y los calendarios. El programa le ofrece al principio unas pocas carpetas, como <guilabel
+>Entrada</guilabel
+>, <guilabel
+>Salida</guilabel
+> y <guilabel
+>Borradores</guilabel
+>, pero puede crear tantas otras como desee. Para crear carpetas nuevas, en el menú <guisubmenu
+>Archivo</guisubmenu
+>, seleccione <guimenuitem
+>Nuevo</guimenuitem
+> y a continuación <guimenu
+>Carpeta</guimenu
+>. <application
+>Ximian Evolution</application
+> le solicita el nombre y el tipo de carpeta, y le presenta un árbol de los directorios donde puede elegir la ubicación de la nueva carpeta. </para>
+      <para
+> Cuando hace clic en <guibutton
+>Aceptar</guibutton
+>, su nueva carpeta aparece en la <interface
+>vista de carpetas</interface
+>. A continuación, puede arrastrar y colocar mensajes o hacer clic en el icono <guibutton
+>Mover</guibutton
+> de la barra de herramientas. Si desea mover varios mensajes a la vez, para seleccionarlos haga clic en cada uno con la tecla <keycap
+>Ctrl</keycap
+> presionada, o utilice la tecla <keycap
+>Mayús</keycap
+> para selecciona un grupo de mensajes contiguos. Si crea un filtro con el <interface
+>Asistente de filtros</interface
+>, sus mensajes quedan ordenados automáticamente. </para>
+
+      <warning id="imap-subfolders">
+        <title
+>Subcarpetas en IMAP</title>
+        <para
+> El buzón de entrada de la mayoría de los servidores IMAP no puede contener a la vez subcarpetas y mensajes. Cuando crea carpetas adicionales en su servidor de correo IMAP, debe hacerlas partir de la raíz del árbol de carpetas de cuentas IMAP, y no desde el buzón de entrada. Si crea subcarpetas en el buzón de entrada, dejará de poder leer mensajes que existen en esta carpeta, hasta que las mueva hacia otro lugar. </para>
+      </warning>
+
+  </sect1
+>    
+
+  <sect1 id="usage-mail-organize-search">
+    <title
+>Búsqueda de mensajes</title>
+    <para
+> La mayoría de los clientes de correo son capaces de realizar búsquedas en los mensajes, pero <application
+>Ximian Evolution</application
+> lo hace aún más rápido. Puede realizar búsquedas sólo en el asunto, sólo en el cuerpo del mensaje, o hacerlo en el asunto y el cuerpo a la vez. </para>
+    <para
+> Para iniciar la búsqueda, escriba una palabra o una frase en el área de texto bajo la barra de herramientas, y seleccione un opción de búsqueda: <variablelist
+> <varlistentry
+> <term
+><guilabel
+>El cuerpo o el asunto contiene</guilabel
+>:</term
+> <listitem
+> <para
+> Esta opción busca en el asunto y en el cuerpo de los mensajes la palabra o frase especificada en el campo de búsqueda. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+> <guilabel
+>El cuerpo contiene</guilabel
+>:</term
+> <listitem
+> <para
+> La búsqueda se realiza únicamente en el texto del mensaje, no en el asunto. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>El asunto contiene:</guilabel
+></term
+> <listitem
+> <para
+> Esta opción mostrará los mensajes cuya línea asunto incluye el texto buscado. La búsqueda no se realiza en el cuerpo del mensaje. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>El cuerpo no contiene:</guilabel
+></term
+> <listitem
+> <para
+> Encuentra todos los mensajes que no incluyen el texto buscado en el cuerpo del mensaje. También mostrará los mensajes en los que el texto buscado aparece en la línea del asunto, cuando no en el cuerpo del mensaje. </para
+> </listitem
+> </varlistentry
+> <varlistentry
+> <term
+><guilabel
+>El asunto no contiene:</guilabel
+></term
+> <listitem
+> <para
+> Encuentra todos los mensajes cuyo asunto no contiene el texto buscado. </para
+> </listitem
+> </varlistentry
+> </variablelist
+> Tras escribir la frase buscada, presione <keycap
+>Intro</keycap
+>. <application
+>Ximian Evolution</application
+> le muestra los resultados de la búsqueda en la lista de mensajes. </para>
+    
+    <para
+> Si cree que va a necesitar la búsqueda más tarde puede guardarla y ejecutarla luego. Solamente tiene que pinchar en <guimenuitem
+>Guardar búsqueda</guimenuitem
+> en el menú <guimenu
+>Buscar</guimenu
+>. Después, podrá ejecutar esa búsqueda en cualquier carpeta eligiéndola del menú <guimenu
+>Buscar</guimenu
+>. En lugar de eso puede  que lo que quiera sea crear una carpeta virtual. Para saber más consulte <xref linkend="usage-mail-organize-vfolders"/>. </para>
+
+      <para
+> Cuando haya acabado con la búsqueda y quiera volver para ver de nuevo todos los mensajes, elija <guimenuitem
+>Mostrar todos</guimenuitem
+> en la lista desplegable <guilabel
+>Búsqueda</guilabel
+> o haga una búsqueda sin escribir ningún patrón. </para>
+
+      <para
+> Si prefiere realizar una búsqueda más compleja, abra el cuadro de diálogo de búsqueda avanzada: para ello, seleccione <guilabel
+>Avanzado...</guilabel
+> en la lista desplegable <guilabel
+>Búsqueda</guilabel
+>. A continuación, defina su criterios de búsqueda (cada uno con las mismas opciones que las que ya vimos en la barra de búsqueda normal), y especifique si desea que los mensajes encontrados coincidan con todos, o sólo con uno de los criterios. Haga clic en <guibutton
+>Buscar</guibutton
+> para buscar estos mensajes. </para>
+
+     <para
+> Éste es un procedimiento similar al que le permite ordenar mensajes mediante filtros y carpetas virtuales, que describiremos en secciones siguientes. </para>
+
+    </sect1>
+
+    <sect1 id="usage-mail-organize-filters">
+      <title
+>Creación de reglas para organizar automáticamente el correo</title>
+      <para
+> Los filtros trabajan de forma muy parecida a la del departamento de correo de una organización de gran tamaño. Su cometido es el de empaquetar, ordenar y distribuir el correo en varias carpetas. Además, es posible aplicar sobre un mismo mensaje filtros múltiples, asociados a acciones múltiples, para manipularlo de numerosas formas. Por ejemplo, sus filtros pueden crear copias de un mismo mensaje en múltiples carpetas; pueden también conservar o incluso mandar una copia a otra persona, y todo de forma rápida. Por supuesto, estas operaciones son también más rápidas y flexibles que una persona real colocada ante un montón de sobres. </para>
+
+      
+	  <tip id="easy-filter"
+> <title
+>Creación rápida de filtros</title
+> <para
+> Existe un procedimiento rápido y sencillo para crear filtros o carpetas virtuales. En la lista de mensajes, haga clic con el botón derecho en el mensaje deseado y en el submenú <guimenuitem
+>Crear una regla con el mensaje</guimenuitem
+> seleccione una de las opciones disponibles. </para
+> </tip>
+
+    <sect2 id="usage-mail-org-filters-new">
+      <title
+>Creación de filtros</title>
+      <para
+> Para crear un nuevo filtro: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Seleccione <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Filtros</guimenuitem
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Añadir</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Escriba el nombre de filtro en el campo <guilabel
+>Nombre de la regla</guilabel
+>. Para cada criterio, seleccione en primer lugar las partes de los mensajes que desea examinar con el filtro: <itemizedlist
+> <listitem
+><para
+> Remitente: la dirección del remitente. </para
+></listitem
+> <listitem
+><para
+> Destinatarios: los destinatarios del mensaje. </para
+></listitem
+> <listitem
+><para
+> Asunto: la línea asunto del mensaje. </para
+></listitem
+> <listitem
+><para
+> Cabecera específica: el filtro puede examinar cualquier cabecera deseada, por muy oscura o personalizada que sea. Escriba el nombre de la cabecera en el primer cuadro de texto, y el texto buscado en el segundo. <note id="multiple-repeated-headers"
+> <title
+>Cabeceras repetidas</title
+> <para
+> Si en un mensaje aparece más de una vez la misma cabecera, Evolution sólo se fija en la primera, aunque en la segunda el contenido sea diferente. Por ejemplo, si un mensaje declara la cabecera Resent-From: con «engineering@rupertcorp.com» y a continuación la redefine como «marketing@rupertcorp.com», Evolution aplicará el filtro como si la segunda declaración no apareciera. Para filtrar mensajes que utilizan varias cabeceras varias veces, utilice una expresión regular. </para
+> </note
+> </para
+></listitem
+> <listitem
+><para
+> Cuerpo del mensaje:busca en el texto efectivo del mensaje. </para
+></listitem
+> <listitem
+> <para
+> Expresión: sólo para programadores: busca un mensaje que corresponda a una expresión escrita en lenguaje Scheme, utilizado para definir filtros en <application
+>Ximian Evolution</application
+>. </para
+> <para
+> <figure id="usage-mail-filter-fig-createrule"
+> <title
+>Creación de filtros de correo</title
+> <screenshot
+> <screeninfo
+>Creación de filtros de correo</screeninfo
+> <mediaobject
+> <imageobject
+> <imagedata fileref="figures/filter-new-fig" format="PNG" srccredit="Aaron Weber"/> </imageobject
+> </mediaobject
+> </screenshot
+> </figure
+> <note id="lots-of-filters"
+> <title
+>¿Qué ocurre si varios filtros coinciden con un mismo mensaje?</title
+> <para
+> Cuando varios filtros coinciden con un mismo mensaje, se aplican en orden, excepto cuando uno de los filtros contiene la acción <guibutton
+>Parar el proceso</guibutton
+>. Cuando un filtro que tiene esta acción se aplica sobre  un mensaje, éste no volverá a ser procesado por ninguno de los filtros que quedan según el orden establecido. </para
+> <para
+> Cuando abre la ventana de gestión de filtros los encontrará una lista ordenados por el orden de aplicación de los mismos. Puede moverlos arriba y abajo, modificando así su prioridad, con los botones de <guibutton
+>Arriba</guibutton
+> y <guibutton
+>Abajo</guibutton
+>. </para
+> </note
+> </para
+> </listitem
+> <listitem
+><para
+> Fecha de envío: filtra los mensajes en función de la fecha de envío: en primer lugar, defina las condiciones que desea ver cumplidas con un mensaje: <guilabel
+>antes</guilabel
+> de una hora determinada, <guilabel
+>después de</guilabel
+> de ella, etc. A continuación, especifique la fecha y hora. La fecha y hora del mensaje se compara con la hora del sistema al ejecutarse el filtro, o con una hora y fecha específica elegida en el calendario. Es posibleincluso buscar mensajes dentro de un intervalo de tiempo relativo, por ejemplo, buscar mensajes dentro de los dos últimos días. </para
+></listitem
+> <listitem
+><para
+> Fecha de recepción: funciona del mismo modo que la opción <guilabel
+>Fecha de envío</guilabel
+>, excepto que compara la fecha y hora de recepción del mensaje con las fechas especificadas. </para
+></listitem
+> <listitem
+><para
+> Puntuación: asigna la puntuación de un mensaje, con un número mayor que cero. Para poder filtros con puntuación, cree un filtro que asigne una puntuación a un mensaje y después aplique otro para que filtre los mensajes con las puntuaciones que necesita.  </para
+></listitem
+> <listitem
+> <para
+> Tamaño (Kb): ordena los mensajes en función de su tamaño en kilobytes. </para
+> </listitem
+> <listitem
+> <para
+> Estado: ejecuta un filtro en función del estado del mensaje, por ejemplo «Nuevo». </para
+> </listitem
+> <listitem
+> <para
+> Adjuntos: crea un filtro en función de si el mensaje contiene un adjunto. </para
+> </listitem
+> <listitem
+> <para
+> Lista de correo: aplica un filtro en función de la lista de correo de donde proviene el mensaje. </para
+> <note
+> <title
+>¿Cómo funcionan los filtros sobre listas de correo?</title
+> <para
+> Un filtro sobre listas de correo busca en realidad una cabecera específica llamada <computeroutput
+>X-BeenThere</computeroutput
+>, utilizada para identificar las listas de correo, u otros redistribuidores de correo. </para
+> </note
+> </listitem
+> <listitem
+> <para
+> Expresión regular: si sabe lo que se hace con las <glossterm linkend="regular-expression"
+>expresiones regulares</glossterm
+>, saque provecho aquí de su poderío. Con esto puede hacer búsquedas de patrones complejos de letras de manera que, por ejemplo, podría encontrar todas las palabras que empiezan o acaban con m y tienen entre seis y quince letras de longitud, o distinguir todos los mensajes que tengan duplicacada una determinada cabecera. Para saber cómo usar las expresiones regulares examine la página del manual de la orden <command
+>grep</command
+>. </para
+> </listitem
+> <listitem
+> <para
+> Cuenta de origen: aplica un filtro en función del servidor de donde provienen los mensajes. Puede escribir, o seleccionar la dirección URL en la lista desplegable. Esta característica sólo tiene interés cuando utiliza más de un origen de correo. </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> <listitem
+> <para
+> Seleccione el criterio de la condición. si quiere utilizar múltiples criterios haga clic en <guibutton
+>Añadir criterio</guibutton
+> y repita el paso anterior. </para
+> </listitem
+> <listitem
+> <para
+> Seleccione la acciones del filtro en la sección <guilabel
+>Entonces</guilabel
+>. Puede seleccionar cualquiera las opciones siguientes. <itemizedlist
+> <listitem
+><para
+> Mover a la carpeta: al seleccionar este elemento, <application
+>Ximian Evolution</application
+> colocará los mensajes en la carpeta especificada. Haga clic en el botón <guibutton
+>&lt;pulse aquí para seleccionar una carpeta&gt;</guibutton
+>. </para
+></listitem
+> <listitem
+><para
+> Copiar a la carpeta: al seleccionar este elemento, <application
+>Ximian Evolution</application
+> colocará los mensajes en la carpeta especificada. Haga clic en el botón <guibutton
+>&lt;pulse aquí para seleccionar una carpeta&gt;</guibutton
+>. </para
+></listitem
+> <listitem
+><para
+> Reenviar a la dirección: seleccione esta opción y escriba la dirección del destinatario que recibirá una copia del mensaje. </para
+></listitem
+> <listitem
+><para
+> Borrar: marca el mensaje para borrarlo. Sigue siendo posible recuperar el mensaje de nuevo, al menos hasta que seleccione <guimenuitem
+>Purgar</guimenuitem
+> el correo. </para
+></listitem
+> <listitem
+><para
+> Parar el proceso: especifique si desea que todos los demás filtros pasen por alto este mensaje, porque con las acciones definidas es suficiente. </para
+></listitem
+> <listitem
+><para
+> Asignar color: seleccione este elemento para que <application
+>Ximian Evolution</application
+> resalte el mensaje con el color especificado. </para
+></listitem
+> <listitem
+><para
+> Asignar puntuación: por ejemplo, puede asignar una prioridad mayor a todos los mensajes que contengan en algún lugar del cuerpo la palabra «importante». En un filtro posterior, podrá entonces reordenar los mensajes en función de su valor de prioridad. </para
+></listitem
+> </itemizedlist
+> </para
+> </listitem
+> <listitem
+> <para
+> Poner estado: si desea agregar múltiples acciones al filtro, haga clic en <guibutton
+>Añadir acción</guibutton
+> y repita el paso anterior. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para>
+      
+      <note id="when-filters-go-wrong"
+> <title
+>¿Cuándo se aplican los filtros?</title
+> <para
+> Si utiliza la herramienta Ximian Connector para almacenar su correo en un servidor Exchange, los filtros se aplican sólo cuando abre el buzón de entrada y selecciona <menuchoice
+><guimenu
+>Acciones</guimenu
+><guimenuitem
+>Aplicar filtros</guimenuitem
+></menuchoice
+>, o presiona la combinación de teclas <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>Y</keycap
+></keycombo
+> </para
+> </note>
+
+      <example id="filter-example"
+> <title
+>Utilización de un filtro para evitar el correo basura</title
+> <para
+> El «spam», también conocido como el correo basura o correo comercial no solicitado, es la ruina de los buzones de correo de mucha gente, pero no tiene porqué ser así. Usando los filtros de Ximian Evolution y una herramienta externa de detección de spam» como <application
+>SpamAssassin</application
+> (<ulink url="http://spamassassin.org/"
+>http://spamassassin.org/</ulink
+>) puede interceptar la mayor parte del correo basura y enviarlo directamente a la papelera. </para
+> <para
+> La forma más sencilla de hacerlo es consiguiendo que su administrador de sistemas instale SpamAssassin (o un equivalente) en su servidor de correo. Allí se encargará de marcar en su correo los mensajes susceptibles de ser considerados como «spam»con la cabecera «X-Spam-Status», de manera que a su vez pueda localizarlos con un filtro. Aprovechando que SpamAssassin puntúa la probabilidad de que un mensaje sea basura, puede incluso definir lo estricto que quiera ser. Si su administrador de red no es demasiado amistoso, no se preocupe, puede instalar SpamAssassin en su propio sistema y redirigirle automáticamente los mensajes antes de llegar a leerlos. </para
+> <para
+> Si su administrador de sistemas o su ISP tiene instalado SpamAssasin, así es como puede desviar el correo basura: <orderedlist
+> <listitem
+><para
+> Seleccione <menuchoice
+><guimenu
+>Herramientas</guimenu
+><guimenuitem
+>Filtros</guimenuitem
+></menuchoice
+>. </para
+></listitem
+> <listitem
+><para
+> Elija la carpeta de correo que quiera ver en la columna de la izquierda. </para
+></listitem
+> <listitem
+><para
+> Defina la primera parte del criterio para buscar una <guilabel
+>Cabecera específica</guilabel
+>. </para
+></listitem
+> <listitem
+><para
+> Escriba <userinput
+>X-Spam-Flag</userinput
+> como nombre de la cabecera. </para
+></listitem
+> <listitem
+><para
+> Seleccione la opción <guilabel
+>contiene</guilabel
+> en la segunda lista desplegable. </para
+></listitem
+> <listitem
+><para
+> Para especificar el contenido a buscar escriba <userinput
+>YES</userinput
+>. Ahora está trabajando con todos los mensajes que contienen la palabra «YES» dentro de la cabecera «X-Spam-Status». </para
+></listitem
+> <listitem
+><para
+> Elija qué acciones quiere realizar con los mensajes. Puede borrarlos automáticamente pero es más prudente guardarlos en una carpeta de «posible correo basura» y darle un vistazo para estar seguro de que un mensaje auténtico no ha sido marcado por accidente. </para
+></listitem
+> <listitem
+><para
+> Haga clic en Aceptar. Ha terminado. </para
+></listitem
+> </orderedlist
+> </para
+> <para
+> Si en su servidor no tiene SpamAssassin u otra herramienta de filtrado de correo basura, todavía hay esperanza, aunque no es del todo sencillo. Primero descargue e installe SpamAssassin desde <ulink url="http://spamassassin.org"
+>http://spamassassin.org</ulink
+>. Necesitará descargar los paquetes «spamassassin» y «perl-Mail-SpamAssassin» y puede instalarlos con Red Carpet eligiendo <guimenuitem
+>Install Local Packages</guimenuitem
+> desde el menú <guimenu
+>File</guimenu
+>. Encontrará más instrucciones en el web de SpamAssassin. Una vez que haya instalado el software haga lo siguiente: <orderedlist
+> <listitem
+> <para
+> Cree un nuevo archivo de texto en cualquier editor (el más conveniente es <menuchoice
+> <guimenu
+> Programas </guimenu
+> <guisubmenu
+> Accessorios </guisubmenu
+> <guimenuitem
+> Editor de texto</guimenuitem
+> </menuchoice
+>) y escriba la siguiente orden: <command
+>spamassassin -e</command
+>, que lanzará la orden SpamAssassin y devolverá un código 0 si el mensaje no es basura. </para
+> </listitem
+> <listitem
+> <para
+> Guardar el archivo como <filename
+>spam-filter.sh</filename
+>. </para
+> </listitem
+> <listitem
+> <para
+> Marque el archivo como programa ejecutable. Abra su directorio de inicio en <application
+>Nautilus</application
+>, marque el archivo spam-filter.sh con el botón derecho del ratón y elija <guimenuitem
+>Propiedades</guimenuitem
+>. Entonces pinche en <guilabel
+>Permisos</guilabel
+> y marque la casilla en la columna <guilabel
+>Ejecución</guilabel
+> con la fila <guilabel
+>Propietario</guilabel
+>. También puede hacer abriendo una terminal (<menuchoice
+><guimenu
+>Programas</guimenu
+> <guisubmenu
+>Accesorios</guisubmenu
+><guimenuitem
+>Terminal</guimenuitem
+> </menuchoice
+>) y escribir la orden <command
+>chmod +x spam-filter.sh</command
+>. </para
+> </listitem
+> <listitem
+> <para
+> Vuelva a Evolution. Cree un nuevo filtro. Seleccione <menuchoice
+> <guimenu
+>Herramientas</guimenu
+><guimenuitem
+>Filtros</guimenuitem
+> </menuchoice
+>. y <guibutton
+>Añadir</guibutton
+>. </para
+> </listitem
+> <listitem
+><para
+> Como primera parte del criterio elija <guilabel
+>Redirigir mensaje a Orden de Shell</guilabel
+>. </para
+></listitem
+> <listitem
+><para
+> Escriba la orden shell <userinput
+>/home/username/spam-filter.sh</userinput
+> y elija <guilabel
+>no devuelve</guilabel
+> y <guilabel
+>0</guilabel
+>. En lugar de «username» escriba su identificador de usuario en su sistema, para que Evolution pueda encontrar el programa.  </para
+></listitem
+> <listitem
+><para
+> Elija qué acciones quiere realizar con los mensajes. Puede borrarlos automáticamente pero es más prudente guardarlos en una carpeta de «posible correo basura» y darle un vistazo para estar seguro de que un mensaje auténtico no ha sido marcado por accidente. </para
+></listitem
+> <listitem
+> <para
+> Ya ha acabado. Pinche en <guibutton
+>Aceptar</guibutton
+> para cerrar el filtro y en <guibutton
+>Aceptar</guibutton
+>  para cerrar el editor de filtros. </para
+> </listitem
+> </orderedlist
+> </para
+> </example>
+   </sect2>
+   
+   <sect2 id="filters-edit">
+      <title
+>Edición de filtros</title>
+      <para
+> Para modificar un filtro: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Seleccione <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Filtros</guimenuitem
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Seleccione el filtro dentro de la sección <guilabel
+>Reglas de filtrado</guilabel
+> y haga clic en <guibutton
+>Modificar</guibutton
+>. </para
+> </listitem
+> <listitem
+> <para
+> Modifique los parámetros deseados. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+> en la ventana del editor de filtros. </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Aceptar</guibutton
+> en la ventana del administrador de filtros. </para
+> </listitem
+> </orderedlist
+> </para>
+    </sect2>
+    
+    <sect2 id="filters-deleting">
+      <title
+>Eliminación de filtros</title>
+      <para
+> Para eliminar un filtro: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> Seleccione <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenu
+>Filtros</guimenu
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Seleccione el filtro y haga clic en <guibutton
+>Borrar</guibutton
+>. </para
+> </listitem
+> </orderedlist
+> </para>
+      <para
+> <note
+> <title
+>Cambio de nombres de carpetas y de filtros</title
+> <para
+> <itemizedlist
+> <listitem
+> <para
+> El correo entrante que los filtros no desplazan hacia otro sitio permanecen en la carpeta de entrada; asimismo, el correo saliente no desplazado acaba en la carpeta de correo enviado. Debe por tanto asegurarse de cambiar los filtros asociados. </para
+> </listitem
+> </itemizedlist
+> </para
+> </note
+> </para>
+    </sect2>
+  </sect1>
+    
+    <sect1 id="usage-mail-organize-vfolders">
+      <title
+>Organización avanzada con carpetas virtuales</title>
+      <para
+> Si los filtros no le resultan lo suficientemente flexibles, o si se encuentra ejecutando la misma búsqueda una y otra vez, considere la solución de las carpetas virtuales. Las carpetas virtuales (o «vFolders»), son una solución avanzada de <application
+>Ximian Evolution</application
+> para consultar los mensajes de correo. Las carpetas virtuales ayudan a controlar la situación cuando recibe una gran cantidad de correo, o cuando olvida con frecuencia a dónde mueve los mensajes. </para>
+      <para
+> Una carpeta virtual es realmente un híbrido de todas las demás herramientas de organización: es parecido a una carpeta, opera como una función de búsqueda y se configura como un filtro. En otras palabras, mientras una carpeta convencional contiene mensajes reales, una carpeta virtual es una vista de mensajes que pueden estar ubicados en carpetas diferentes. Los mensajes incluidos son identificados al vuelo mediante un conjunto de criterios elegidos de antemano. </para>
+
+      <para
+> A medida que recibe o borra los mensajes que cumplen con los criterios de la carpeta virtual, <application
+>Ximian Evolution</application
+> los incluye o los borra automáticamente de su lista de contenidos. Cuando borra un mensaje, queda eliminado de la carpeta donde existe realmente, así como de cualquier carpeta virtual con la que es posible consultarlo. </para>
+
+      <para
+> Imagine un negocio donde se intenta administrar el flujo de mensajes enviados por centenares de distribuidores y clientes; o una universidad con grupos de cursos, profesores, servicios administrativos y estudiantes que se solapan y evolucionan. Cuanto mayor sea el número de mensajes que consiga organizar, menos riesgo corre de sufrir el colapso en un sistema de organización que no es lo bastante flexible. Las carpetas virtuales contribuyen a mejorar la organización porque permiten administrar conjuntos solapados de un modo que resulta imposible de diseñar con sistemas tradicionales de carpetas y filtros. </para>
+
+
+    <note id="unmatched-vfolder"
+> <title
+>La carpeta virtual «no coincidente»</title
+> <para
+> La carpeta virtual no coincidente es el espejo de todas las demás carpetas virtuales: contiene todos los mensajes que no cumplen los criterios satisfechos por las demás carpetas virtuales. </para
+> <para
+> Si utiliza un sistema de almacenamiento remoto como IMAP o Microsoft Exchange, donde las búsquedas se realizan a través de carpetas virtuales, la carpeta virtual no coincidente se adapta a su vez y también explora las carpetas remotas. Si no crea ninguna carpeta virtual que busque en almacenes remotos, la carpeta virtual No coincidente tampoco los buscará. </para
+> </note>
+
+
+    <example id="usage-mail-organize-vfolders-ex"
+> <title
+>Carpetas, búsquedas y carpetas virtuales</title
+> <para
+> Para organizar su correo, Juan define una carpeta virtual para los mensajes enviados por su amiga y compañera de trabajo Ana. También tiene otra para los mensajes que incluyen ximian.com en la dirección, y <application
+>Ximian Evolution</application
+> en la línea del asunto, con el fin de conservar la traza de las personas que trabajan con él en el desarrollo de <application
+>Evolution</application
+>. Si Ana le manda un mensaje acerca de cualquier otro tema que <application
+>Ximian Evolution</application
+>, éste sólo aparece en la carpeta llamada «Ana». Cuando Ana le envía un correo acerca de la interfaz de usuario de <application
+>Evolution</application
+>, el mensaje aparece tanto en la carpeta virtual «Ana», como en la también carpeta virtual «Debate interno acerca de Evolution». </para
+> </example>
+
+	<!--  (INSERT SCREENSHOT HERE: vFolders in action) -->
+
+    <sect2 id="vfolder-create">
+      <title
+>Creación de carpetas virtuales</title>
+      <para
+> Para crear una carpeta virtual: <orderedlist numeration="arabic"
+> <listitem
+> <para
+> <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Editor de carpetas virtuales</guimenuitem
+> </menuchoice
+> </para
+> </listitem
+> <listitem
+> <para
+> Haga clic en <guibutton
+>Añadir</guibutton
+> </para
+> </listitem
+> <listitem
+> <para
+> Escriba un nombre para la carpeta virtual en el campo <guilabel
+>Nombre de la regla</guilabel
+>. </para
+> </listitem
+> <listitem
+> <para
+> Elija los criterios de búsqueda: para cada criterio primero tiene que seleccionar cuál de las siguientes partes del mensaje quiere que se examinen en la búsqueda: Select your search criteria. For each criterion, you must first select which of the following parts of the message you want the search to examine: <figure id="usage-mail-vfolder-fig-createrule"
+> <title
+>Elección de reglas para una carpeta virtual </title
+> <screenshot
+> <screeninfo
+>Creación de una carpeta virtual</screeninfo
+> <mediaobject
+> <imageobject
+> <imagedata fileref="figures/vfolder-createrule-fig" format="PNG" srccredit="Aaron Weber"/> </imageobject
+> </mediaobject
+> </screenshot
+> </figure
+> </para
+> <para
+> <itemizedlist
+> <listitem
+><para
+> Remitente: la dirección del remitente. </para
+></listitem
+> <listitem
+><para
+> Destinatarios: los destinatarios del mensaje. </para
+></listitem
+> <listitem
+><para
+> Asunto: la línea asunto del mensaje. </para
+></listitem
+> <listitem
+><para
+> Cuerpo del mensaje:busca en el texto efectivo del mensaje. </para
+></listitem
+> <listitem
+> <para
+> Expresión: sólo para programadores: busca un mensaje que corresponda a una expresión escrita en lenguaje Scheme, utilizado para definir carpetas virtuales en <application
+>Ximian Evolution</application
+>. </para
+> </listitem
+> <listitem
+><para
+> Fecha de envío: busca mensajes en función de la fecha de envío: en primer lugar, defina las condiciones que desea ver cumplidas con un mensaje: <guilabel
+>antes</guilabel
+> una hora determinada, <guilabel
+>después de</guilabel
+> de ella, etc. A continuación, especifique la fecha y hora. La carpeta virtual compara la fecha y hora del mensaje se compara con la hora del sistema al ejecutarse el filtro, o con una hora y fecha específica elegida en el calendario. Es incluso posible buscar mensajes dentro de un intervalo de tiempo relativo al filtro, por ejemplo, para buscar mensajes dentro de los dos últimos días. </para
+></listitem
+> <listitem
+><para
+> Fecha de recepción: funciona del mismo modo que la opción <guilabel
+>Fecha de envío</guilabel
+>, excepto que compara la fecha y hora de recepción del mensaje con las fechas especificadas. </para
+></listitem
+> <listitem
+><para
+> Etiquetar: funciona de la misma manera que  la opción <guilabel
+>Puntuación</guilabel
+>, excepto que permite aplicar a cada mensaje una etiqueta, entre varias como <guilabel
+>Importante</guilabel
+> , <guilabel
+>Personal</guilabel
+> ,<guilabel
+>Tareas pendientes</guilabel
+>, <guilabel
+>Trabajo</guilabel
+>  o <guilabel
+>Más tarde</guilabel
+> . </para
+></listitem
+> <listitem
+><para
+> Puntuación: los mensajes utilizan de un rango de prioridades entre -3 (mínima importancia) y 3 (máxima importancia). Unas Carpetas virtuales pueden establecer la prioridad de los mensajes recibidos, mientras otras se aplican únicamente a aquellos mensajes con una prioridad determinada. </para
+></listitem
+> <listitem
+> <para
+> Tamaño (Kb): ordena los mensajes en función de su tamaño en kilobytes. </para
+> </listitem
+> <listitem
+> <para
+> Estado: realiza una búsqueda sobre el estado del mensaje, por ejemplo «Nuevo». </para
+> </listitem
+> <listitem
+> <para
+> Adjuntos: crea una carpeta virtual en función de si el mensaje contiene un adjunto. </para
+> </listitem
+> <listitem
+> <para
+> Lista de correo: busca en función de la lista de correo de donde provienen los mensajes. </para
+> </listitem
+> <listitem
+> <para
+> Cuenta de origen: busca mensajes en función del servidor de donde provienen. Puede escribir, o seleccionar la dirección URL en la lista desplegable. Esta característica sólo tiene interés cuando utiliza más de un origen de correo. </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> <listitem
+> <para
+> Seleccione las carpetas de origen. Puede seleccionar: <itemizedlist
+> <listitem
+> <para
+> únicamente carpetas especificadas <note
+> <para
+> En este caso, es necesario especificar las carpetas en el campo inferior. </para
+> </note
+> </para
+> </listitem
+> <listitem
+> <para
+> Con todas las carpetas locales </para
+> </listitem
+> <listitem
+> <para
+> con todas las carpetas remotas activas </para
+> </listitem
+> <listitem
+> <para
+> Con todas las carpetas locales y remotas activas </para
+> </listitem
+> </itemizedlist
+> </para
+> </listitem
+> </orderedlist
+> </para>
+      <para
+> Las carpetas remotas se consideran activas mientras está conectado al servidor; debe conectarse al servidor de correo de su carpeta virtual para poder incluir los mensajes de dicho origen. </para>
+   
+    </sect2>
+  </sect1>
+</chapter>
+

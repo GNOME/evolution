@@ -1,0 +1,105 @@
+<chapter id="usage-print">
+  <title
+>Imprimir con Evolution</title>
+  <para
+> Si ya sabe imprimir con otra aplicación <application
+>Gnome</application
+>, también será capaz de hacerlo con <application
+>Evolution</application
+> sin mayor problema. </para>
+  <para
+> Si va a imprimir un mensaje, una página del calendario o una selección de tarjetas de visita puede elegir entre hacerlo directamente a la impresora o guardar el resultado de la impresión en un archivo <glossterm linkend="postscript"
+>PostScript</glossterm
+>. También puede utilizar la función de vista previa de impresión, para examinar el resultado antes de imprimir. </para>
+  
+  <sect1 id="printpreview">
+    <title
+>Vista previa de impresión</title>
+    <para
+> <guibutton
+>Previsualizar la impresión</guibutton
+> aparece tanto como un botón en el cuadro de diálogo de impresión con un elemento del menú <guimenu
+>Archivo</guimenu
+>. La función es la misma en ambos casos: muestra una imagen del resultado de impresión del mensaje, hoja de calendario, cita o tarjeta de visita que tiene en pantalla. </para>
+    <para
+> La ventana le permite seleccionar las páginas que desea examinar y con qué detalle. Puede alejar o acercar la vista, ajustar la página a la ventana (con <guibutton
+>Encajar</guibutton
+>) o ajustar el ancho de la página con el de la ventana (con <guibutton
+>Enc. ancho</guibutton
+>). Ninguno de estos botones modifican la manera en que la página será impresa pero le permiten verla mejor. Si le satisface el resultado, haga clic en <guibutton
+>Imprimir</guibutton
+> para imprimir el documento. Para modificarlo, sólo tiene que cerrar la ventana <guilabel
+>Previsualizar la impresión</guilabel
+> y realizar los cambios que desee en su documento de correo, calendario o libreta de direcciones. </para>
+
+
+ <!-- ==============Figure=================================== -->
+ 
+      <figure id="print-preview">
+	  <title
+>Vista previa de impresión</title>
+	  <screenshot
+> <screeninfo
+>Vista previa de impresión</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/print-preview" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot>
+      </figure>
+<!-- ==============End of Figure============================== -->
+
+  </sect1>
+
+  <sect1 id="print-destination">
+    <title
+>¿Archivo o impresora?</title>
+    <para
+> La ventana de elección de impresora mostrado en <xref linkend="print-dest"/> permite elegir el formato de impresión: <guilabel
+>PostScript genérico</guilabel
+>, archivo PDF. El formato PostScript genérico permite enviar el contenido de la impresión a un archivo o a una impresora real. Si eligió una impresora, especifique el orden de impresión en su sistema operativo (probablemente <command
+>lpr</command
+>). Si quiere imprimir en un archivo, indique su nombre. Y por supuesto debe decidir el número de copias y cómo compaginarlas. <note id="windows-ps"
+> <title
+>¿Imprimir a PostScript?</title
+> <para
+> PostScript es el formato de archivo utilizado por la mayoría de las impresoras láser y es la forma más sencilla de imprimir en un archivo en el mundo UNIX. Sin embargo muchos sistemas con Microsoft Windows no reconocen archivos PostScript. Si desea compartir sus archivos con usuarios Windows deberá imprimir en ficheros PDF. </para
+> </note
+> </para>
+
+ <!-- ==============Figure=================================== -->
+ 
+      <figure id="print-dest">
+	  <title
+>Selección de impresora</title>
+	  <screenshot
+> <screeninfo
+>Selección de impresora</screeninfo
+> <mediaobject
+><imageobject
+><imagedata fileref="figures/print-dest" format="PNG" srccredit="Aaron Weber"/> </imageobject
+></mediaobject
+> </screenshot>
+      </figure>
+<!-- ==============End of Figure============================== -->
+
+   <para
+> Si desea imprimir un mensaje mayor de una página, puede elegir qué páginas quiere imprimir. Si se trata de una hoja del calendario puede decidir qué rango de fechas quiere imprimir. Y si va a imprimir tarjetas de visita, puede decidir imprimir sólo las elegidas o todas a la vez. </para>
+    <para
+> Cuando esté preparado para imprimir, haga clic en <guibutton
+>Imprimir</guibutton
+>, <guibutton
+>Vista preliminar</guibutton
+> para darle un vistazo (u otro vistazo) a la pre-impresión o a <guibutton
+>Cancelar</guibutton
+> para anular todo el trato. </para>
+  </sect1>
+</chapter>
+
+
+
+
+
+
+
+
