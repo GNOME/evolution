@@ -119,7 +119,6 @@ typedef struct _CurrentCell{
 	ECellTextView *text_view;
 	int            width;
 	gchar         *text;
-	gchar         *starting_text; /* the text before the edits */
 	int            model_col, view_col, row;
 	ECellTextLineBreaks *breaks;
 } CurrentCell;
@@ -220,7 +219,7 @@ ect_accept_edits (ECellTextView *text_view)
 {
 	CurrentCell *cell = (CurrentCell *) text_view->edit;
 
-	if (strcmp (cell->starting_text, cell->text))
+	if (strcmp (text_view->edit->old_text, cell->text))
 		e_table_model_set_value_at (text_view->cell_view.e_table_model,
 					    cell->model_col, cell->row, cell->text);
 }
@@ -242,8 +241,6 @@ ect_stop_editing (ECellTextView *text_view)
 	
 	g_free (edit->old_text);
 	edit->old_text = NULL;
-	g_free (edit->cell.starting_text);
-	edit->cell.starting_text = NULL;
 	g_free (edit->cell.text);
 	edit->cell.text = NULL;
 	if (edit->invisible)
@@ -552,6 +549,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						    1,
 						    height);
 			}
+			ypos += height;
+			lines ++;
 		}
 		unref_lines (cell);
 	} else {
@@ -597,12 +596,10 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       lines->text,
 					       lines->length);
 			}
+			ypos += height;
+			lines++;
 		}
-		
-		ypos += height;
-		lines++;
 		unref_lines (&cell);
-		g_free (cell.starting_text);
 	}
 
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
@@ -975,7 +972,7 @@ ect_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row)
 	text_view->edit = edit;
 
 	build_current_cell (CURRENT_CELL(edit), text_view, model_col, view_col, row);
-
+	
 	edit->xofs_edit = 0.0;
 	edit->yofs_edit = 0.0;
 	
@@ -1901,7 +1898,6 @@ build_current_cell (CurrentCell *cell, ECellTextView *text_view, int model_col, 
 	cell->row = row;
 	cell->breaks = NULL;
 	cell->text = e_table_model_value_at (ecell_view->e_table_model, model_col, row);
-	cell->starting_text = g_strdup(cell->text);
 	cell->width = e_table_header_get_column (
 		((ETableItem *)ecell_view->e_table_item_view)->header,
 		view_col)->width - 8;
