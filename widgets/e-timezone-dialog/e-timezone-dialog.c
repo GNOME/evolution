@@ -269,7 +269,7 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
         g_signal_connect (map, "visibility-notify-event", G_CALLBACK (on_map_visibility_changed), etd);
 	g_signal_connect (map, "button-press-event", G_CALLBACK (on_map_button_pressed), etd);
 
-	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "activate", G_CALLBACK (on_combo_changed), etd);
+	g_signal_connect (GTK_COMBO (priv->timezone_combo)->entry, "changed", G_CALLBACK (on_combo_changed), etd);
 
 	return etd;
 

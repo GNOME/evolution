@@ -1,3 +1,10 @@
+2004-08-17  Rodney Dawes  <dobey@novell.com>
+
+	* e-timezone-dialog/e-timezone-dialog.c (e_timezone_dialog_construct):
+	Connect to the "changed" signal instead of "activate"
+
+	Fixes #62970
+
 2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
 
 	* misc/e-source-selector.c (e_source_selector_peek_primary_selection):
