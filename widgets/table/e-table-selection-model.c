@@ -483,6 +483,9 @@ e_table_selection_model_selected_count (ETableSelectionModel *selection)
 	int i;
 	int last;
 
+	if (!selection->selection)
+		return 0;
+
 	count = 0;
 
 	last = BOX(selection->row_count - 1);
