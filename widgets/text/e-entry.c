@@ -72,6 +72,8 @@ static void
 canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 		      EEntry *e_entry)
 {
+	gint xthick;
+	gint ythick;
 	gnome_canvas_set_scroll_region (
 		e_entry->canvas,
 		0, 0, alloc->width, alloc->height);
@@ -80,15 +82,23 @@ canvas_size_allocate (GtkWidget *widget, GtkAllocation *alloc,
 			"clip_height", (double) (alloc->height),
 			NULL);
 
+	if (e_entry->draw_borders) {
+		xthick = 0;
+		ythick = 0;
+	} else {
+		xthick = widget->style->klass->xthickness;
+		ythick = widget->style->klass->ythickness;
+	}
+
 	switch (e_entry->justification) {
 	case GTK_JUSTIFY_RIGHT:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width, 0);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width - xthick, ythick);
 		break;
 	case GTK_JUSTIFY_CENTER:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, 0);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), alloc->width / 2, ythick);
 		break;
 	default:
-		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), 0, 0);
+		e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(e_entry->item), xthick, ythick);
 		break;
 	}
 }
@@ -98,14 +108,12 @@ canvas_size_request (GtkWidget *widget, GtkRequisition *requisition,
 		     EEntry *ee)
 {
 	int border;
-	gboolean draw_borders = 0;
 	
 	g_return_if_fail (widget != NULL);
 	g_return_if_fail (GNOME_IS_CANVAS (widget));
 	g_return_if_fail (requisition != NULL);
 
-	gtk_object_get (GTK_OBJECT (ee->item), "draw_borders", &draw_borders, NULL);
-	if (draw_borders)
+	if (ee->draw_borders)
 		border = INNER_BORDER;
 	else
 		border = 0;
@@ -150,6 +158,7 @@ e_entry_init (GtkObject *object)
 			   GTK_SIGNAL_FUNC(canvas_size_request), e_entry);
 	gtk_signal_connect(GTK_OBJECT(e_entry->canvas), "focus_in_event",
 			   GTK_SIGNAL_FUNC(canvas_focus_in_event), e_entry);
+	e_entry->draw_borders = TRUE;
 	e_entry->item = E_TEXT(gnome_canvas_item_new(gnome_canvas_root(e_entry->canvas),
 						     e_text_get_type(),
 						     "clip", TRUE,
@@ -305,9 +314,7 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_DRAW_BORDERS:
-		gtk_object_get (item,
-				"draw_borders", &GTK_VALUE_BOOL (*arg),
-				NULL);
+		GTK_VALUE_BOOL (*arg) = ee->draw_borders;
 		break;
 
 	case ARG_DRAW_BACKGROUND:
@@ -334,6 +341,9 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	GtkObject *item = GTK_OBJECT (ee->item);
 	GtkAnchorType anchor;
 	double width, height;
+	gint xthick;
+	gint ythick;
+	GtkWidget *widget = GTK_WIDGET(ee->canvas);
 	
 	switch (arg_id){
 	case ARG_MODEL:
@@ -379,18 +389,27 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "clip_width", &width,
 			       "clip_height", &height,
 			       NULL);
+
+		if (ee->draw_borders) {
+			xthick = 0;
+			ythick = 0;
+		} else {
+			xthick = widget->style->klass->xthickness;
+			ythick = widget->style->klass->ythickness;
+		}
+
 		switch (ee->justification) {
 		case GTK_JUSTIFY_CENTER:
 			anchor = GTK_ANCHOR_N;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, 0);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width / 2, ythick);
 			break;
 		case GTK_JUSTIFY_RIGHT:
 			anchor = GTK_ANCHOR_NE;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width, 0);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), width - xthick, ythick);
 			break;
 		default:
 			anchor = GTK_ANCHOR_NW;
-			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), 0, 0);
+			e_canvas_item_move_absolute(GNOME_CANVAS_ITEM(ee->item), xthick, ythick);
 			break;
 		}
 		gtk_object_set(item,
@@ -466,13 +485,11 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_DRAW_BORDERS: {
-		gboolean draw_border;
 		gboolean need_queue;
 		
-		gtk_object_get (item, "draw_borders", &draw_border, NULL);
-
-		need_queue = (draw_border ^ GTK_VALUE_BOOL (*arg));
+		need_queue = (ee->draw_borders ^ GTK_VALUE_BOOL (*arg));
 		gtk_object_set (item, "draw_borders", GTK_VALUE_BOOL (*arg), NULL);
+		ee->draw_borders = GTK_VALUE_BOOL (*arg);
 		if (need_queue)
 			gtk_widget_queue_resize (GTK_WIDGET (ee));
 		break;
