@@ -1,3 +1,11 @@
+2001-07-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (handle_application_pgp): Implemented.
+	(setup_mime_tables): Setup the application/pgp handler to use
+	handle_application_pgp instead of handle_text_plain.
+	(handle_text_plain): Remove special-case hacks for application/pgp
+	types.
+
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
 	* mail-mt.c (do_get_pass): Use magic to make the password

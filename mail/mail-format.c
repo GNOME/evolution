@@ -55,6 +55,8 @@ static char *try_inline_pgp_sig (char *start, MailDisplay *md);
 static char *try_uudecoding (char *start, MailDisplay *md);
 static char *try_inline_binhex (char *start, MailDisplay *md);
 
+static void decode_pgp (CamelStream *ciphertext, CamelStream *plaintext, MailDisplay *md);
+
 static gboolean handle_text_plain            (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
@@ -91,6 +93,10 @@ static gboolean handle_message_rfc822        (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
 static gboolean handle_message_external_body (CamelMimePart *part,
+					      const char *mime_type,
+					      MailDisplay *md);
+
+static gboolean handle_application_pgp       (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
 
@@ -345,7 +351,7 @@ setup_mime_tables (void)
 	 * application/pgp which basically means it's a text/plain but
 	 * either signed or encrypted. */
 	g_hash_table_insert (mime_function_table, "application/pgp",
-			     handle_text_plain);
+			     handle_application_pgp);
 	
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
@@ -1033,28 +1039,28 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	gboolean check_specials;
 	const char *format;
 	int i;
-
+	
 	text = get_data_wrapper_text (wrapper);
 	if (!text)
 		return FALSE;
-
+	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = header_content_type_param (type, "format");
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
-
+	
 	mail_html_write (md->html, md->stream,
 			 "\n<!-- text/plain -->\n"
 			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n");
-
+	
 	/* Only look for binhex and stuff if this is real text/plain.
 	 * (and not, say, application/mac-binhex40 that mail-identify
 	 * has decided to call text/plain because it starts with English
 	 * text...)
 	 */
-	check_specials = !g_strcasecmp (mime_type, "text/plain") || !g_strcasecmp (mime_type, "application/pgp");
-
+	check_specials = !g_strcasecmp (mime_type, "text/plain");
+	
 	p = text;
 	while (p && check_specials) {
 		/* Look for special cases. */
@@ -1065,7 +1071,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 		}
 		if (!start)
 			break;
-
+		
 		/* Deal with special case */
 		if (start != p) {
 			/* the %.*s thing just grabs upto start-p chars; go read ANSI C */
@@ -1086,11 +1092,66 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	/* Finish up (or do the whole thing if there were no specials). */
 	if (p)
 		mail_text_write (md->html, md->stream, "%s", p);
-
+	
 	g_free (text);
 	mail_html_write (md->html, md->stream, "</td></tr></table>\n");
-
+	
 	return TRUE;
+}
+
+/* This is a special-case hack from broken mailers such as The Bat! */
+static gboolean
+handle_application_pgp (CamelMimePart *part, const char *mime_type,
+			MailDisplay *md)
+{
+	CamelDataWrapper *wrapper =
+		camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	const char *format, *xaction;
+	CamelMimePart *mime_part;
+	CamelContentType *type;
+	char *text;
+	
+	/* Check the format and x-action parameters. */
+	type = camel_mime_part_get_content_type (part);
+	format = header_content_type_param (type, "format");
+	xaction = header_content_type_param (type, "x-action");
+	
+	/* We don't know how to handle non-text broken-pgp'd mime parts */
+	if (g_strcasecmp (format, "text") != 0)
+		return FALSE;
+	
+	text = get_data_wrapper_text (wrapper);
+	if (!text)
+		return FALSE;
+	
+	mime_part = camel_mime_part_new ();
+	if (!g_strcasecmp (xaction, "sign")) {
+		camel_mime_part_set_content (mime_part, text, strlen (text), "text/plain");
+	} else {
+		CamelStream *ciphertext, *plaintext;
+		GByteArray *buffer;
+		
+		ciphertext = camel_stream_mem_new ();
+		camel_stream_write (ciphertext, text, strlen (text));
+		camel_stream_reset (ciphertext);
+		
+		plaintext = camel_stream_mem_new ();
+		decode_pgp (ciphertext, plaintext, md);
+		camel_object_unref (CAMEL_OBJECT (ciphertext));
+		
+		buffer = CAMEL_STREAM_MEM (plaintext)->buffer;
+		
+		/* FIXME: uhm, pgp decrypted data doesn't have to be plaintext
+		 * however this broken pgp method doesn't exactly tell us what it is */
+		camel_mime_part_set_content (mime_part, buffer->data, buffer->len, "text/plain");
+		camel_object_unref (CAMEL_OBJECT (plaintext));
+	}
+	
+	camel_medium_set_content_object (CAMEL_MEDIUM (part),
+					 camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)));
+	camel_object_unref (CAMEL_OBJECT (mime_part));
+	
+	return handle_text_plain (part, "text/plain", md);
 }
 
 static gboolean
