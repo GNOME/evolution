@@ -1,3 +1,10 @@
+2000-12-04  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-corba-utils.h: New.
+
+	* e-corba-utils.c: New.
+	(e_safe_corba_string): New.
+
 2000-11-30  Not Zed  <NotZed@HelixCode.com>
 
 	* e-memory.c (e_strv_new): Fix typename of args (for all funcs).
