@@ -301,12 +301,10 @@ finish_func (GnomeDruidPage *page,
 	CORBA_exception_init (&ev);
 
 	e_timezone_dialog_get_timezone (E_TIMEZONE_DIALOG (data->timezone_page->etd), &displayname);
-	if (displayname == NULL) {
+	if (displayname == NULL)
 		tz = g_strdup ("");
-	} else {
+	else
 		tz = g_strdup (displayname);
-		g_free (displayname);
-	}
 	
 	bonobo_config_set_string (data->db, "/Calendar/Display/Timezone", tz, &ev);
 	g_free (tz);

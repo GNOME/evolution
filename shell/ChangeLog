@@ -1,5 +1,10 @@
 2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-startup-wizard.c (finish_func): Don't free the returned
+	displayname.
+
+2001-08-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (pop_up_folder_bar): Make sure we display a pin
 	when we are popped up.
 
