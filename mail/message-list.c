@@ -133,6 +133,9 @@ static struct {
 	{ mail_new_xpm,		NULL },
 	{ mail_read_xpm,	NULL },
 	{ mail_replied_xpm,	NULL },
+/* FIXME: Replace these with pixmaps for multiple_read and multiple_unread */
+    	{ mail_new_xpm,		NULL },
+    	{ mail_read_xpm,	NULL },
 	{ empty_xpm,		NULL },
 	{ attachment_xpm,	NULL },
 	{ priority_high_xpm,	NULL },
@@ -610,6 +613,12 @@ ml_value_to_string (ETableModel *etm, int col, const void *value, void *data)
 		case 2:
 			return g_strdup (_("Answered"));
 			break;
+		case 3:
+			return g_strdup (_("Multiple Unseen Messages"));
+			break;
+		case 4:
+			return g_strdup (_("Multiple Messages"));
+			break;
 		default:
 			return g_strdup ("");
 			break;
@@ -780,8 +789,10 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		uid="s ERROR ERROR - UNKNOWN ROW IN TREE";
 		goto fake;
 	}
-	if (!id_is_uid(uid))
+	if (!id_is_uid(uid)) {
+		g_warning("Invalid node encountered: %s", uid);
 		goto fake;
+	}
 	uid = id_uid(uid);
 
 	/* we need ot keep the msg_info ref'd as we return the data, sigh.
@@ -802,14 +813,26 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	}
 	
 	switch (col){
-	case COL_MESSAGE_STATUS:
+	case COL_MESSAGE_STATUS: {
+		ETreePath *child;
+
+		/* if a tree is collapsed, then scan its insides for details */
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child && !e_tree_model_node_is_expanded(etm, path)) {
+			if (subtree_unread(message_list, child))
+				return (void *)3;
+			else
+				return (void *)4;
+		}
+
 		if (msg_info->flags & CAMEL_MESSAGE_ANSWERED)
 			return GINT_TO_POINTER (2);
 		else if (msg_info->flags & CAMEL_MESSAGE_SEEN)
 			return GINT_TO_POINTER (1);
 		else
 			return GINT_TO_POINTER (0);
-		
+	}
+
 	case COL_FLAGGED:
 		return (void *)((msg_info->flags & CAMEL_MESSAGE_FLAGGED) != 0);
 
@@ -849,9 +872,17 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 	case COL_DELETED:
 		return (void *)((msg_info->flags & CAMEL_MESSAGE_DELETED) != 0);
 		
-	case COL_UNREAD:
+	case COL_UNREAD: {
+		ETreePath *child;
+
+		child = e_tree_model_node_get_first_child(etm, path);
+		if (child && !e_tree_model_node_is_expanded(etm, path)
+		    && (msg_info->flags & CAMEL_MESSAGE_SEEN)) {
+			return (void *)subtree_unread(message_list, child);
+		}
+
 		return GINT_TO_POINTER (!(msg_info->flags & CAMEL_MESSAGE_SEEN));
-		
+	}
 	case COL_COLOUR:
 	{
 		const char *colour;
@@ -879,6 +910,12 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 		return (void *)subtree_unread(message_list, e_tree_model_node_get_first_child(etm, path));
 
 	case COL_MESSAGE_STATUS:
+		/* The same applies as for COL_UNREAD just above */
+		if (subtree_unread(message_list, e_tree_model_node_get_first_child(etm,path)))
+			return (void *)3;
+		else
+			return (void *)4;
+		
 	case COL_FLAGGED:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
@@ -1038,28 +1075,28 @@ message_list_create_extras (void)
 
 	extras = e_table_extras_new();
 	e_table_extras_add_pixbuf(extras, "status", states_pixmaps [0].pixbuf);
-	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [11].pixbuf);
-	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [4].pixbuf);
-	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [5].pixbuf);
+	e_table_extras_add_pixbuf(extras, "score", states_pixmaps [13].pixbuf);
+	e_table_extras_add_pixbuf(extras, "attachment", states_pixmaps [6].pixbuf);
+	e_table_extras_add_pixbuf(extras, "flagged", states_pixmaps [7].pixbuf);
 	
 	e_table_extras_add_compare(extras, "address_compare", address_compare);
 	e_table_extras_add_compare(extras, "subject_compare", subject_compare);
 	
-	for (i = 0; i < 3; i++)
+	for (i = 0; i < 5; i++)
 		images [i] = states_pixmaps [i].pixbuf;
-	
-	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 3, images));
+
+	e_table_extras_add_cell(extras, "render_message_status", e_cell_toggle_new (0, 5, images));
 
 	for (i = 0; i < 2; i++)
-		images [i] = states_pixmaps [i + 3].pixbuf;
+		images [i] = states_pixmaps [i + 5].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_attachment", e_cell_toggle_new (0, 2, images));
 	
-	images [1] = states_pixmaps [5].pixbuf;
+	images [1] = states_pixmaps [7].pixbuf;
 	e_table_extras_add_cell(extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 
 	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 5].pixbuf;
+		images[i] = states_pixmaps [i + 7].pixbuf;
 	
 	e_table_extras_add_cell(extras, "render_score", e_cell_toggle_new (0, 7, images));
 	
