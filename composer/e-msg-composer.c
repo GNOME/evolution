@@ -706,8 +706,8 @@ prepare_engine (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
 	
-	g_assert (composer);
-	g_assert (E_IS_MSG_COMPOSER (composer));
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
 	/* printf ("prepare_engine\n"); */
 	
@@ -788,7 +788,8 @@ set_editor_text (EMsgComposer *composer, const char *text)
 	CORBA_exception_init (&ev);
 	persist = (Bonobo_PersistStream) bonobo_object_client_query_interface (
 		bonobo_widget_get_server (editor), "IDL:Bonobo/PersistStream:1.0", &ev);
-	g_assert (persist != CORBA_OBJECT_NIL);
+
+	g_return_if_fail (persist != CORBA_OBJECT_NIL);
 	
 	stream = bonobo_stream_mem_create (text, strlen (text),
 					   TRUE, FALSE);
@@ -2444,13 +2445,15 @@ e_msg_composer_set_pending_body (EMsgComposer *composer, char *text)
 }
 
 static void
-e_msg_composer_apply_pending_body (EMsgComposer *composer)
+e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 {
         char *body;
 	
 	body = gtk_object_get_data (GTK_OBJECT (composer), "body:text");
 	if (body) {
-		e_msg_composer_set_body_text (composer, body);
+		if (apply) 
+			e_msg_composer_set_body_text (composer, body);
+
 		gtk_object_set_data (GTK_OBJECT (composer), "body:text", NULL);
 		g_free (body);
 	}
@@ -2624,12 +2627,10 @@ e_msg_composer_add_message_attachments (EMsgComposer *composer, CamelMimeMessage
 			e_msg_composer_set_pending_body (composer, text);
 	}
 	
-	if (settext) {
-		/* We wait until now to set the body text because we need to ensure that
-		 * the attachment bar has all the attachments, before we request them.
-		 */
-		e_msg_composer_apply_pending_body (composer);
-	}
+	/* We wait until now to set the body text because we need to ensure that
+	 * the attachment bar has all the attachments, before we request them.
+	 */
+	e_msg_composer_flush_pending_body (composer, settext);
 }
 	
 /**
@@ -2907,7 +2908,7 @@ e_msg_composer_new_from_url (const char *url_in)
 	
 	if (body) {
 		char *htmlbody = e_text_to_html (body, E_TEXT_TO_HTML_PRE);
-		set_editor_text (composer, htmlbody);
+		e_msg_composer_set_body_text (composer, htmlbody);
 		g_free (htmlbody);
 	}
 	

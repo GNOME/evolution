@@ -1,3 +1,13 @@
+2001-10-15  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_add_message_attachments):
+	s/apply/flush/.
+	(e_msg_composer_flush_pending_body): renamed from apply now takes
+	apply as an argument.
+	(e_msg_composer_show_sig_file): s/g_assert/g_return_if_fail/
+	warnings make for less painful bugs than crashes.
+	(set_editor_text): s/g_assert/g_return_if_fail/
+
 2001-10-13  Dan Winship  <danw@ximian.com>
 
 	* e-msg-composer.c (autosave_manager_unregister): Don't pop up an
