@@ -546,7 +546,7 @@ table_right_click(ETableScrolled *table, gint row, gint col, GdkEvent *event, EA
 		gtk_object_ref(GTK_OBJECT(card_and_book->book));
 		gtk_object_ref(GTK_OBJECT(card_and_book->view));
 
-		e_popup_menu_run (menu, (GdkEventButton *)event, 0, 0, card_and_book);
+		e_popup_menu_run (menu, event, 0, 0, card_and_book);
 		return TRUE;
 	} else
 		return FALSE;

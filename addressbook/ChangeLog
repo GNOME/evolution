@@ -1,3 +1,9 @@
+2001-01-19  Dan Winship  <danw@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (table_right_click): 
+	* gui/widgets/e-minicard.c (e_minicard_event): Update for
+	e_popup_menu_run prototype change.
+
 2001-01-19  Jason Leach  <jasonleach@usa.net>
 
 	(Adding a boolean "entry_changed" BonoboPropertyBag arg)

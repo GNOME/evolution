@@ -580,7 +580,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 			gtk_object_ref(GTK_OBJECT(mnp->minicard));
 			gtk_object_ref(GTK_OBJECT(mnp->parent));
 			gtk_object_ref(GTK_OBJECT(mnp->canvas));
-			e_popup_menu_run (menu, (GdkEventButton *)event, 0, E_IS_MINICARD_VIEW(mnp->parent) ? 0 : 1, mnp);
+			e_popup_menu_run (menu, event, 0, E_IS_MINICARD_VIEW(mnp->parent) ? 0 : 1, mnp);
 		}
 		break;
 
