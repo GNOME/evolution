@@ -22,6 +22,7 @@
  *
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -798,47 +799,6 @@ fe_get_first_child (ETreeModel *model, ETreePath path)
 }
 
 /* subscribing */
-
-static char *
-fe_node_to_shell_path (ftree_node *node)
-{
-	char *path = NULL;
-	int name_len, full_name_len;
-
-	name_len = strlen (ftree_node_get_name (node));
-	full_name_len = strlen (ftree_node_get_full_name (node));
-	
-	if (name_len != full_name_len) {
-		char *full_name;
-		char *iter;
-		char sep;
-	
-		/* so, we don't know the heirarchy separator. But
-		 * full_name = blahXblahXname, where X = separator
-		 * and name = .... name. So we can determine it.
-		 * (imap_store->dir_sep isn't really private, I guess,
-		 * so we could use that if we had the store. But also
-		 * we don't "know" that it is an IMAP store anyway.)
-		 */
-
-		full_name = ftree_node_get_full_name (node);
-		sep = full_name[full_name_len - (name_len + 1)];
-
-		if (sep != '/') {
-			path = g_malloc (full_name_len + 2);
-			path[0] = '/';
-			strcpy (path + 1, full_name);
-			while ((iter = strchr (path, sep)) != NULL)
-				*iter = '/';
-		}
-	}
-
-	if (!path)
-		path = g_strdup_printf ("/%s", ftree_node_get_full_name (node));
-
-	return path;
-}
-
 static void
 fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe, gboolean success, gpointer user_data)
 {
@@ -846,9 +806,9 @@ fe_done_subscribing (const char *full_name, const char *name, gboolean subscribe
 
 	if (success && closure->handle != -1) {
 		char *path;
-
-		path = fe_node_to_shell_path (closure->data);
-
+		
+		path = g_strdup_printf ("/%s", full_name);
+		
 		if (subscribe) {
 			closure->data->flags |= FTREE_NODE_SUBSCRIBED;
 			recursive_add_folder (closure->ftree->e_storage,

@@ -69,64 +69,38 @@ void mail_importer_module_init (void);
 
 /* EvolutionImporter methods */
 
-static int
-string_to_int (const char *str)
-{
-	int result = 0;
-	char *s;
-
-	for (s = (char *) str; *s; s++) {
-		char c = toupper (*s);
-
-		result *= 16;
-
-		if (c >= '0' && c <= '9') {
-			result += (c - '0');
-		} else if (c >= 'A' && c <= 'F') {
-			result += (c - 'A');
-		}
-	}
-
-	g_print ("%s became %d\n", str, result);
-
-	return result;
-}
 
 static CamelMessageInfo *
 get_info_from_mozilla (const char *mozilla_status,
 		       gboolean *deleted)
 {
-	int status;
+	unsigned int status;
 	CamelMessageInfo *info;
-
-	info = g_new0 (CamelMessageInfo, 1);
-
+	
 	*deleted = FALSE;
-
-	status = string_to_int (mozilla_status);
+	
+	status = strtoul (mozilla_status, NULL, 16);
 	if (status == 0) {
-		return info;
+		return camel_message_info_new ();
 	}
-
+	
 	if (status & MSG_FLAG_EXPUNGED) {
 		*deleted = TRUE;
-		g_free (info);
-
+		
 		return NULL;
 	}
-
-	if (status & MSG_FLAG_READ) {
+	
+	info = camel_message_info_new ();
+	
+	if (status & MSG_FLAG_READ)
 		info->flags |= CAMEL_MESSAGE_SEEN;
-	}
-
-	if (status & MSG_FLAG_MARKED) {
+	
+	if (status & MSG_FLAG_MARKED)
 		info->flags |= CAMEL_MESSAGE_FLAGGED;
-	}
-
-	if (status & MSG_FLAG_REPLIED) {
+	
+	if (status & MSG_FLAG_REPLIED)
 		info->flags |= CAMEL_MESSAGE_ANSWERED;
-	}
-
+	
 	return info;
 }
 
@@ -162,35 +136,36 @@ process_item_fn (EvolutionImporter *eimporter,
 		CamelMimeMessage *msg;
 		CamelMessageInfo *info;
 		gboolean deleted;
-
+		
 		IN;
 		msg = camel_mime_message_new ();
-		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg),
-							   mbi->mp) == -1) {
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mbi->mp) == -1) {
 			g_warning ("Failed message %d", mbi->num);
 			camel_object_unref (CAMEL_OBJECT (msg));
 			done = TRUE;
-		}
-
-		mozilla_status = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Mozilla-Status");
-		if (mozilla_status != NULL) {
-			g_print ("Got Mozilla status header: %s\n", mozilla_status);
-			info = get_info_from_mozilla (mozilla_status, &deleted);
 		} else {
-			info = g_new0 (CamelMessageInfo, 1);
-			deleted = FALSE;
-		}
-
-		if (! deleted) {
-			/* Write the message.  */
-			camel_folder_append_message (importer->folder, msg, info, NULL, ex);
-			g_free (info);
-		}
-
-		camel_object_unref (CAMEL_OBJECT (msg));
-		if (camel_exception_is_set (ex)) {
-			g_warning ("Failed message %d", mbi->num);
-			done = TRUE;
+			mozilla_status = camel_medium_get_header (CAMEL_MEDIUM (msg), "X-Mozilla-Status");
+			if (mozilla_status != NULL) {
+				g_print ("Got Mozilla status header: %s\n", mozilla_status);
+				info = get_info_from_mozilla (mozilla_status, &deleted);
+			} else {
+				deleted = FALSE;
+				info = camel_message_info_new ();
+			}
+			
+			if (deleted == FALSE) {
+				/* write the mesg */
+				camel_folder_append_message (importer->folder, msg, info, NULL, ex);
+			}
+			
+			if (info)
+				camel_message_info_free (info);
+			
+			camel_object_unref (CAMEL_OBJECT (msg));
+			if (camel_exception_is_set (ex)) {
+				g_warning ("Failed message %d", mbi->num);
+				done = TRUE;
+			}
 		}
 		OUT;
 	} else {
@@ -202,11 +177,10 @@ process_item_fn (EvolutionImporter *eimporter,
 		done = TRUE;
 		OUT;
 	}
-
-	if (!done) {
+	
+	if (!done)
 		camel_mime_parser_step (mbi->mp, 0, 0);
-	}
-
+	
 	camel_exception_free (ex);
 	GNOME_Evolution_ImporterListener_notifyResult (listener,
 						       GNOME_Evolution_ImporterListener_OK,

@@ -1,3 +1,16 @@
+2002-10-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* importers/evolution-mbox-importer.c (process_item_fn): Use the
+	camel_message_info_new/free functions rather than g_new0 and
+	g_free. Also, if we fail to parse a message make sure we don't
+	later try to use that message object.
+	(get_info_from_mozilla): Use camel_message_info_new and strtoul
+	instead of string_to_int.
+
+2002-09-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* subscribe-dialog.c (fe_node_to_shell_path): Removed (useless).
+
 2002-10-01  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #24732]
