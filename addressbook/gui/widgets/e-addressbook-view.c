@@ -535,6 +535,8 @@ set_view_preview (EABView *view)
 				      "/commands/ContactsViewPreview",
 				      "state",
 				      state ? "1" : "0", NULL);
+
+	eab_view_show_contact_preview (view, state);
 	
 	g_object_unref (gconf_client);
 }

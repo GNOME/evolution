@@ -1,5 +1,12 @@
 2004-02-26  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/e-addressbook-view.c (set_view_preview): call
+	eab_view_show_contact_preview here so we maintain the preview
+	state when switching folders.  we don't (yet... won't ever?) have
+	per-addressbook preview settings.
+
+2004-02-26  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-view.c
 	(eab_view_show_contact_preview): view->scrolled ->
 	view->contact_display.  fixes crash.
