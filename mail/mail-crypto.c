@@ -1305,7 +1305,7 @@ pgp_mime_part_encrypt (CamelMimePart **mime_part, const GPtrArray *recipients, C
 					  "multipart/encrypted");
 	camel_multipart_set_boundary (multipart, NULL);
 	mime_type = camel_data_wrapper_get_mime_type_field (CAMEL_DATA_WRAPPER (multipart));
-	header_content_type_param (mime_type, "protocol", "application/pgp-encrypted");
+	header_content_type_set_param (mime_type, "protocol", "application/pgp-encrypted");
 	
 	/* add the parts to the multipart */
 	camel_multipart_add_part (multipart, version_part);
