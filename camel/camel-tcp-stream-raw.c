@@ -176,7 +176,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
-		return  -1;
+		return -1;
 	}
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);

@@ -60,7 +60,7 @@ CamelProviderConfEntry imap_conf_entries[] = {
 
 static CamelProvider imap_provider = {
 	"imap",
-	N_("IMAPv4"),
+	N_("IMAP"),
 
 	N_("For reading and storing mail on IMAP servers."),
 

@@ -1,3 +1,7 @@
+2001-08-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-provider.c: s/IMAPv4/IMAP
+
 2001-08-27  Not Zed  <NotZed@Ximian.com>
 
 	* camel-mime-part-utils.c (convert_buffer): re-read the iconv man
@@ -17,7 +21,7 @@
 
 2001-08-25  Not Zed  <NotZed@Ximian.com>
 
-	["Summarising" and "Synchronising" are spelt with a "s" in 
+	["Summarising" and "Synchronising" are spelt with a "s" in
 	ENGLISH]
 
 	* providers/local/camel-mbox-summary.c (mbox_summary_sync_quick):
