@@ -156,13 +156,13 @@ eti_editing (ETableItem *eti)
 }
 
 inline static GdkColor *
-eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocated)
+eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selected, gboolean *allocatedp)
 {
+  	ECellView *ecell_view = eti->cell_views [col];
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(eti)->canvas);
-	GdkColor *background;
-
-	if (allocated)
-		*allocated = FALSE;
+	GdkColor *background, bg;
+	gchar *color_spec = NULL;
+	gboolean allocated = FALSE;
 
 	if (selected){
 		if (GTK_WIDGET_HAS_FOCUS(canvas))
@@ -173,17 +173,29 @@ eti_get_cell_background_color (ETableItem *eti, int row, int col, gboolean selec
 		background = &canvas->style->base [GTK_STATE_NORMAL];
 	}
 
+	color_spec = e_cell_get_bg_color (ecell_view, row);
+
+	if (color_spec != NULL) {
+		if (gdk_color_parse (color_spec, &bg)) {
+			background = gdk_color_copy (&bg);
+			allocated = TRUE;
+		}
+	}
+
 	if (eti->alternating_row_colors) {
 		if (row % 2) {
 		
 		} else {
-			if (allocated)
-				*allocated = TRUE;
-			background = gdk_color_copy (background);
+			if (!allocated) {
+				background = gdk_color_copy (background);
+				allocated = TRUE;
+			}
 			e_hsv_tweak (background, 0.0f, 0.0f, -0.05f);
 			gdk_color_alloc (gtk_widget_get_colormap (GTK_WIDGET (canvas)), background);
 		}
 	}
+	if (allocatedp)
+		*allocatedp = allocated;
 
 	return background;
 }

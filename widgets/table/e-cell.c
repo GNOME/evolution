@@ -352,3 +352,13 @@ e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col,
 	E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->show_tooltip
 		(ecell_view, model_col, view_col, row, col_width, tooltip);
 }
+
+gchar *
+e_cell_get_bg_color(ECellView *ecell_view, int row)
+{
+	if (E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->get_bg_color)
+		return E_CELL_CLASS (GTK_OBJECT (ecell_view->ecell)->klass)->get_bg_color (ecell_view, row);
+	else
+		return NULL;
+}
+		 		

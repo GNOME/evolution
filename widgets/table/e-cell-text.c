@@ -69,6 +69,7 @@ enum {
 	ARG_BOLD_COLUMN,
 	ARG_COLOR_COLUMN,
 	ARG_EDITABLE,
+	ARG_BG_COLOR_COLUMN
 };
 
 
@@ -693,6 +694,27 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	gdk_gc_set_clip_rectangle (text_view->gc, NULL);
 	gdk_gc_set_clip_rectangle (fg_gc, NULL);
 }
+
+
+/*
+ * Get the background color
+ */
+static gchar *
+ect_get_bg_color(ECellView *ecell_view, int row)
+{
+	ECellText *ect = E_CELL_TEXT (ecell_view->ecell);
+	gchar *color_spec;
+
+	if (ect->bg_color_column == -1)
+		return NULL;
+
+	color_spec = e_table_model_value_at (ecell_view->e_table_model,
+	                                     ect->bg_color_column, row);
+
+	return color_spec;
+}
+					 			 		  			
+
 
 /*
  * Selects the entire string
@@ -1330,6 +1352,10 @@ ect_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		text->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		break;
 
+	case ARG_BG_COLOR_COLUMN:
+		text->bg_color_column = GTK_VALUE_INT (*arg);
+		break;
+
 	default:
 		return;
 	}
@@ -1360,6 +1386,10 @@ ect_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = text->editable ? TRUE : FALSE;
 		break;
 
+	case ARG_BG_COLOR_COLUMN:
+		GTK_VALUE_INT (*arg) = text->bg_color_column;
+		break;
+
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -1387,6 +1417,7 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;
 	ecc->show_tooltip = ect_show_tooltip;
+	ecc->get_bg_color = ect_get_bg_color;
 
 	ectc->get_text = ect_real_get_text;
 	ectc->free_text = ect_real_free_text;
@@ -1404,6 +1435,8 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COLOR_COLUMN);
 	gtk_object_add_arg_type ("ECellText::editable",
 				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_EDITABLE);
+	gtk_object_add_arg_type ("ECellText::bg_color_column",
+				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_BG_COLOR_COLUMN);
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
@@ -1417,6 +1450,7 @@ e_cell_text_init (ECellText *ect)
 	ect->strikeout_column = -1;
 	ect->bold_column = -1;
 	ect->color_column = -1;
+	ect->bg_color_column = -1;
 	ect->editable = TRUE;
 }
 

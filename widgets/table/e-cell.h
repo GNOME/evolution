@@ -79,34 +79,86 @@ typedef struct {
 				    int model_col, int view_col, int row, gdouble width);
 	int        (*max_width) (ECellView *ecell_view, int model_col, int view_col);
 	void       (*show_tooltip) (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip);
+	gchar     *(*get_bg_color) (ECellView *ecell_view, int row);
 } ECellClass;
 
-GtkType    e_cell_get_type  (void);
-ECellView *e_cell_new_view  (ECell *ecell, ETableModel *table_model, void *e_table_item_view);
-void       e_cell_kill_view (ECellView *ecell_view);
 
-gint       e_cell_event     (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, int row, ECellFlags flags, ECellActions *actions);
+GtkType    e_cell_get_type      (void);
 
-void       e_cell_realize   (ECellView *ecell_view);
-void       e_cell_unrealize (ECellView *ecell_view);
+/* View creation methods. */
+ECellView *e_cell_new_view      (ECell             *ecell,
+				 ETableModel       *table_model,
+				 void              *e_table_item_view);
+void       e_cell_kill_view     (ECellView         *ecell_view);
 
-void       e_cell_draw      (ECellView *ecell_view, GdkDrawable *drawable, 
-			     int model_col, int view_col, int row, ECellFlags flags,
-			     int x1, int y1, int x2, int y2);
-void       e_cell_print      (ECellView *ecell_view, GnomePrintContext *context, 
-			      int model_col, int view_col, int row,
-			      double width, double height);
-gdouble    e_cell_print_height (ECellView *ecell_view, GnomePrintContext *context,
-				int model_col, int view_col, int row, gdouble width);
-int        e_cell_max_width (ECellView *ecell_view, int model_col, int view_col);
-void       e_cell_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row, int col_width, ETableTooltip *tooltip);
-void       e_cell_focus     (ECellView *ecell_view, int model_col, int view_col, int row,
-			     int x1, int y1, int x2, int y2);
-void       e_cell_unfocus   (ECellView *ecell_view);
-int        e_cell_height    (ECellView *ecell_view, int model_col, int view_col, int row);
+/* Cell View methods. */
+gint       e_cell_event         (ECellView         *ecell_view,
+				 GdkEvent          *event,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 ECellFlags         flags,
+				 ECellActions      *actions);
+void       e_cell_realize       (ECellView         *ecell_view);
+void       e_cell_unrealize     (ECellView         *ecell_view);
+void       e_cell_draw          (ECellView         *ecell_view,
+				 GdkDrawable       *drawable,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 ECellFlags         flags,
+				 int                x1,
+				 int                y1,
+				 int                x2,
+				 int                y2);
+void       e_cell_print         (ECellView         *ecell_view,
+				 GnomePrintContext *context,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 double             width,
+				 double             height);
+gdouble    e_cell_print_height  (ECellView         *ecell_view,
+				 GnomePrintContext *context,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 gdouble            width);
+int        e_cell_max_width     (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col);
+void       e_cell_show_tooltip  (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 int                col_width,
+				 ETableTooltip     *tooltip);
+gchar     *e_cell_get_bg_color  (ECellView         *ecell_view,
+				 int                row);
 
-void      *e_cell_enter_edit (ECellView *ecell_view, int model_col, int view_col, int row);
-void       e_cell_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context);
+void       e_cell_focus         (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 int                x1,
+				 int                y1,
+				 int                x2,
+				 int                y2);
+void       e_cell_unfocus       (ECellView         *ecell_view);
+int        e_cell_height        (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row);
+
+void      *e_cell_enter_edit    (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row);
+void       e_cell_leave_edit    (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 void              *edit_context);
 
 END_GNOME_DECLS
 

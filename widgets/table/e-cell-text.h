@@ -58,6 +58,7 @@ typedef struct {
 	   either a color name like "red" or a color spec like "rgb:F/0/0".
 	   See the XParseColor man page for the formats available. */
 	int color_column;
+	int bg_color_column;
 
 	/* This stores the colors we have allocated. */
 	GHashTable *colors;

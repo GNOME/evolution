@@ -478,6 +478,17 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 	tooltip->x += offset;
 	e_cell_show_tooltip (tree_view->subcell_view, model_col, view_col, row, col_width - offset, tooltip);
 }
+
+/*
+ * ECellView::get_bg_color method
+ */
+static char *
+ect_get_bg_color (ECellView *ecell_view, int row)
+{		
+	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
+
+	return e_cell_get_bg_color (tree_view->subcell_view, row);
+}
 		
 /*
  * ECellView::enter_edit method
@@ -635,19 +646,20 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 
 	object_class->destroy = ect_destroy;
 
-	ecc->new_view   = ect_new_view;
-	ecc->kill_view  = ect_kill_view;
-	ecc->realize    = ect_realize;
-	ecc->unrealize  = ect_unrealize;
-	ecc->draw       = ect_draw;
-	ecc->event      = ect_event;
-	ecc->height     = ect_height;
-	ecc->enter_edit = ect_enter_edit;
-	ecc->leave_edit = ect_leave_edit;
-	ecc->print      = ect_print;
-	ecc->print_height = ect_print_height;
-	ecc->max_width = ect_max_width;
-	ecc->show_tooltip = ect_show_tooltip;
+	ecc->new_view         = ect_new_view;
+	ecc->kill_view        = ect_kill_view;
+	ecc->realize          = ect_realize;
+	ecc->unrealize        = ect_unrealize;
+	ecc->draw             = ect_draw;
+	ecc->event            = ect_event;
+	ecc->height           = ect_height;
+	ecc->enter_edit       = ect_enter_edit;
+	ecc->leave_edit       = ect_leave_edit;
+	ecc->print            = ect_print;
+	ecc->print_height     = ect_print_height;
+	ecc->max_width        = ect_max_width;
+	ecc->show_tooltip     = ect_show_tooltip;
+	ecc->get_bg_color     = ect_get_bg_color;
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }

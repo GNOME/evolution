@@ -105,6 +105,7 @@ static void	ecp_show_tooltip	(ECellView	*ecv,
 					 int		 row,
 					 int		 col_width,
 					 ETableTooltip	*tooltip);
+static char *ecp_get_bg_color (ECellView *ecell_view, int row);
 
 static gint e_cell_popup_do_popup	(ECellPopupView	*ecp_view,
 					 GdkEvent	*event);
@@ -136,6 +137,7 @@ e_cell_popup_class_init		(GtkObjectClass	*object_class)
 	ecc->print_height = ecp_print_height;
 	ecc->max_width	  = ecp_max_width;
 	ecc->show_tooltip = ecp_show_tooltip;
+	ecc->get_bg_color = ecp_get_bg_color;
 
 	parent_class = gtk_type_class (e_cell_get_type ());
 }
@@ -462,6 +464,14 @@ ecp_show_tooltip (ECellView *ecv,
 
 	e_cell_show_tooltip (ecp_view->child_view, model_col, view_col, row,
 			     col_width, tooltip);
+}
+
+static char *
+ecp_get_bg_color (ECellView *ecell_view, int row)
+{		
+	ECellPopupView *ecp_view = (ECellPopupView *) ecell_view;
+
+	return e_cell_get_bg_color (ecp_view->child_view, row);
 }
 
 
