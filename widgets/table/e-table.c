@@ -722,6 +722,19 @@ et_canvas_realize (GtkWidget *canvas, ETable *e_table)
 		NULL);
 }
 
+static void
+et_eti_leave_edit (ETable *et)
+{
+	GnomeCanvas *canvas = et->table_canvas;
+	if (GTK_WIDGET_HAS_FOCUS(canvas)) {
+		GnomeCanvasItem *item = GNOME_CANVAS(canvas)->focused_item;
+
+		if (E_IS_TABLE_ITEM(item)) {
+			e_table_item_leave_edit_(E_TABLE_ITEM(item));
+		}
+	}
+}
+
 static gint
 et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
 {
@@ -730,14 +743,8 @@ et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
 	case GDK_2BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button != 4 && event->button.button != 5) {
-			if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
-				GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
-
-				if (E_IS_TABLE_ITEM(item)) {
-					e_table_item_leave_edit_(E_TABLE_ITEM(item));
-					return TRUE;
-				}
-			}
+			et_eti_leave_edit (e_table);
+			return TRUE;
 		}
 		break;
 	default:
@@ -1503,6 +1510,7 @@ e_table_right_click_up (ETable *table)
 void
 e_table_commit_click_to_add (ETable *table)
 {
+	et_eti_leave_edit (table);
 	if (table->click_to_add)
 		e_table_click_to_add_commit(E_TABLE_CLICK_TO_ADD(table->click_to_add));
 }
