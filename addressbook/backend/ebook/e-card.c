@@ -33,6 +33,7 @@ enum {
 	ARG_BIRTH_DATE,
 	ARG_URL,
 	ARG_TITLE,
+	ARG_NOTE,
 	ARG_ID
 };
 
@@ -61,6 +62,7 @@ static void parse_phone(ECard *card, VObject *object);
 static void parse_address(ECard *card, VObject *object);
 static void parse_url(ECard *card, VObject *object);
 static void parse_title(ECard *card, VObject *object);
+static void parse_note(ECard *card, VObject *object);
 static void parse_id(ECard *card, VObject *object);
 
 static ECardPhoneFlags get_phone_flags (VObject *vobj);
@@ -83,6 +85,7 @@ struct {
 	{ VCAdrProp,          parse_address },
 	{ VCURLProp,          parse_url },
 	{ VCTitleProp,        parse_title },
+	{ VCNoteProp,         parse_note },
 	{ VCUniqueStringProp, parse_id }
 };
 
@@ -274,6 +277,9 @@ char
 
 	if (card->title)
 		addPropValue(vobj, VCTitleProp, card->title);
+	
+	if (card->note)
+		addPropValue(vobj, VCNoteProp, card->note);
 
 	if (card->id)
 		addPropValue (vobj, VCUniqueStringProp, card->id);
@@ -486,6 +492,14 @@ parse_title(ECard *card, VObject *vobj)
 }
 
 static void
+parse_note(ECard *card, VObject *vobj)
+{
+	if (card->note)
+		g_free(card->note);
+	assign_string(vobj, &(card->note));
+}
+
+static void
 parse_id(ECard *card, VObject *vobj)
 {
 	if ( card->id )
@@ -541,6 +555,8 @@ e_card_class_init (ECardClass *klass)
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_URL);  
 	gtk_object_add_arg_type ("ECard::title",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TITLE);  
+	gtk_object_add_arg_type ("ECard::note",
+				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_NOTE);
 	gtk_object_add_arg_type ("ECard::id",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_ID);
 
@@ -631,9 +647,10 @@ e_card_destroy (GtkObject *object)
 
 	if (card->url)
 		g_free(card->url);
-
 	if (card->title)
 		g_free(card->title);
+	if (card->note)
+		g_free(card->note);
 
 	if (card->email)
 		gtk_object_unref(GTK_OBJECT(card->email));
@@ -677,6 +694,11 @@ e_card_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		if ( card->title )
 			g_free(card->title);
 		card->title = g_strdup(GTK_VALUE_STRING(*arg));
+		break;
+	case ARG_NOTE:
+		if (card->note)
+			g_free (card->note);
+		card->note = g_strdup(GTK_VALUE_STRING(*arg));
 		break;
 	case ARG_ID:
 		if (card->id)
@@ -733,6 +755,9 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_TITLE:
 		GTK_VALUE_STRING(*arg) = card->title;
 		break;
+	case ARG_NOTE:
+		GTK_VALUE_STRING(*arg) = card->note;
+		break;
 	case ARG_ID:
 		GTK_VALUE_STRING(*arg) = card->id;
 		break;
@@ -759,6 +784,7 @@ e_card_init (ECard *card)
 	card->address = NULL;
 	card->url = NULL;
 	card->title = NULL;
+	card->note = NULL;
 #if 0
 
 	c = g_new0 (ECard, 1);
@@ -768,7 +794,6 @@ e_card_init (ECard *card)
 	c->role       = 
 	c->comment    = 
 	c->categories = 
-	c->url        = 
 	c->uid        = e_card_prop_str_empty ();
 	
 	c->photo.type = PHOTO_JPEG;
@@ -807,7 +832,6 @@ e_card_init (ECard *card)
 	c->comment.prop.type    = PROP_COMMENT;
 	c->rev.prop.type        = PROP_REV;
 	c->sound.prop.type      = PROP_SOUND;
-	c->url.prop.type 	= PROP_URL;
 	c->uid.prop.type 	= PROP_UID;
 	c->key.prop.type 	= PROP_KEY;
 	
@@ -877,7 +901,6 @@ e_card_free (ECard *card)
 	e_card_prop_str_free (& card->role);
 	e_card_prop_str_free (& card->categories);
 	e_card_prop_str_free (& card->comment);
-	e_card_prop_str_free (& card->url);
 	e_card_prop_str_free (& card->uid);
 
 	/* address is a little more complicated */
@@ -1123,8 +1146,6 @@ get_CardProperty (VObject *o)
 		
 			if (has (vo, VCContentIDProp))
 			  prop.value = VAL_CID;
-			else if (has (vo, VCURLValueProp))
-			  prop.value = VAL_URL;
 			break;
 			
 		 case PROP_ENCODING:
@@ -1703,16 +1724,6 @@ e_card_construct_from_vobject (ECard   *card,
 			prop = &crd->sound.prop;
 			crd->sound = get_CardSound (o);
 			break;
-		 case PROP_URL:
-			prop = &crd->url.prop;
-			crd->url.str = g_strdup (str_val (o));
-			free (the_str);
-			break;
-		 case PROP_UID:
-			prop = &crd->uid.prop;
-			crd->uid.str = g_strdup (str_val (o));
-			free (the_str);
-			break;
 		 case PROP_VERSION:
 				{
 					char *str;
@@ -1813,9 +1824,6 @@ add_CardProperty (VObject *o, CardProperty *prop)
 	switch (prop->value) {
 	 case VAL_CID:
 		addProp (o, VCContentIDProp);
-		break;
-	 case VAL_URL:
-		addProp (o, VCURLValueProp);
 		break;
 	 case VAL_INLINE:
 		/* Do nothing: INLINE is the default. Avoids file clutter. */
@@ -2260,7 +2268,6 @@ card_to_string (Card *crd)
 		add_SoundType (string, crd->sound.type);
 	}*/
 	
-        add_CardStrProperty_to_string (string, _ ("\nURL: "), &crd->url);
         add_CardStrProperty_to_string (string, _ ("\nUnique String: "), &crd->uid);
 	
 	if (crd->key.prop.used) {

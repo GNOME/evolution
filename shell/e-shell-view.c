@@ -106,7 +106,7 @@ e_shell_view_setup_shortcut_display (EShellView *eshell_view)
 	gtk_paned_set_position (GTK_PANED (eshell_view->shortcut_hpaned), 100);
 
 	gtk_paned_pack1 (GTK_PANED (eshell_view->shortcut_hpaned),
-			 eshell_view->shortcut_bar, FALSE, TRUE);
+			 eshell_view->shortcut_bar, FALSE, FALSE);
 	gtk_widget_show (eshell_view->shortcut_bar);
 
 	gnome_app_set_contents (GNOME_APP (eshell_view), eshell_view->shortcut_hpaned);
@@ -309,7 +309,7 @@ e_shell_view_new (EShell *eshell, EFolder *efolder, gboolean show_shortcut_bar)
 		if (eshell_view->shortcut_displayed){
 			gtk_paned_pack2 (
 				GTK_PANED (eshell_view->shortcut_hpaned),
-				eshell_view->priv->notebook, FALSE, TRUE);
+				eshell_view->priv->notebook, TRUE, TRUE);
 		}
 		else {
 			gnome_app_set_contents (GNOME_APP (eshell_view),

@@ -584,6 +584,7 @@ fill_in_info(EContactEditor *editor)
 		ECardList *email_list;
 		char *title;
 		char *url;
+		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
 		GtkEditable *editable;
@@ -599,6 +600,7 @@ fill_in_info(EContactEditor *editor)
 			       "email",      &email_list,
 			       "url",        &url,
 			       "title",      &title,
+			       "note",       &note,
 			       NULL);
 		
 		position = 0;
@@ -645,6 +647,12 @@ fill_in_info(EContactEditor *editor)
 		gtk_editable_delete_text(editable, 0, -1);
 		if (title)
 			gtk_editable_insert_text(editable, title, strlen(title), &position);
+
+		position = 0;
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
+		gtk_editable_delete_text(editable, 0, -1);
+		if (note)
+			gtk_editable_insert_text(editable, note, strlen(note), &position);
 	}
 }
 
@@ -660,6 +668,7 @@ extract_info(EContactEditor *editor)
 		ECardList *email_list;
 		char *url;
 		char *title;
+		char *note;
 		const ECardDeliveryAddress *address;
 		const ECardPhone *phone;
 		ECardDeliveryAddress *address_copy;
@@ -759,6 +768,14 @@ extract_info(EContactEditor *editor)
 				       "title", title,
 				       NULL);
 		g_free(title);
+
+		editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, "text-comments"));
+		note = gtk_editable_get_chars(editable, 0, -1);
+		if (note && *note)
+			gtk_object_set(GTK_OBJECT(card),
+				       "note", note,
+				       NULL);
+		g_free(note);
 
 	}
 }

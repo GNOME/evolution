@@ -1,3 +1,11 @@
+2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/backend/ebook/e-card.c,
+	addressbook/backend/ebook/e-card.h,
+	addressbook/backend/pas/pas-backend-file.c,
+	addressbook/backend/pas/pas-backend-ldap.c,
+	addressbook/contact-editor/e-contact-editor.c: Added a note field.
+
 2000-04-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* addressbook/backend/ebook/e-card-cursor.h: #include

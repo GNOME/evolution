@@ -1,5 +1,9 @@
 2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
 
+	* e-xml-utils.c: Fixing a warning.
+
+2000-04-14  Christopher James Lahey  <clahey@helixcode.com>
+
 	* e-xml-utils.c: Add g_return_if_fails.
 
 2000-04-12  Miguel de Icaza  <miguel@gnu.org>

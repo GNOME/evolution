@@ -44,12 +44,13 @@ struct _ECard {
 
 	ECardDate       *bday;	        /* The person's birthday.           */
 
+	char            *note;
 
-#if 0
-	ECardOrg        *org;	        /* The person's organization.       */
-#endif
+
 	char            *title;	        /* The person's title w/in his org  */
 #if 0
+	ECardOrg        *org;	        /* The person's organization.       */
+
 	char            *role;	        /* The person's role w/in his org   */
 	ECardPhoto      *logo;          /* This person's org's logo.        */
 
