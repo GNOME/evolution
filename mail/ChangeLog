@@ -1,3 +1,10 @@
+2001-04-24  Iain Holmes  <iain@ximian.com>
+
+	* component-factory.c (notify_bonobo_listener): Notify the listener
+	that something has happened.
+	(storage_create_folder): Update for the new signature and emit the 
+	notify event.
+
 2001-04-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-ops.c (mail_send_message): g_strdup() the sent_folder_uri

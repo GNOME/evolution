@@ -222,6 +222,7 @@ is_kmail (const char *maildir)
 
 	return TRUE;
 }
+
 static gboolean
 elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
