@@ -1,6 +1,6 @@
 # Danish translation of evolution
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Kenneth Christiansen <kenneth@ripen.dk>, 2000.
+# Kenneth Christiansen <kenneth@gnome.dk>, 2000.
 # Keld Simonsen <keld@dkuug.dk>, 2000.
 #
 msgid ""
@@ -55,14 +55,12 @@ msgid "Home"
 msgstr "Hjem"
 
 #: addressbook/contact-editor/e-contact-editor.c:820
-#, fuzzy
 msgid "Home 2"
-msgstr "_Hjem"
+msgstr "Hjem 2"
 
 #: addressbook/contact-editor/e-contact-editor.c:821
-#, fuzzy
 msgid "Home Fax"
-msgstr "_Hjem"
+msgstr "Hjemme fax"
 
 #: addressbook/contact-editor/e-contact-editor.c:822
 msgid "ISDN"
@@ -79,10 +77,9 @@ msgstr "Andet"
 
 #: addressbook/contact-editor/e-contact-editor.c:825
 msgid "Other Fax"
-msgstr ""
+msgstr "Anden fax"
 
 #: addressbook/contact-editor/e-contact-editor.c:826
-#, fuzzy
 msgid "Pager"
 msgstr "Kalder"
 
@@ -96,11 +93,11 @@ msgstr "Radio"
 
 #: addressbook/contact-editor/e-contact-editor.c:829
 msgid "Telex"
-msgstr ""
+msgstr "Telex"
 
 #: addressbook/contact-editor/e-contact-editor.c:830
 msgid "TTY/TDD"
-msgstr ""
+msgstr "TTY/TDD"
 
 #: addressbook/contact-editor/e-contact-editor.c:874
 msgid "Primary Email"
@@ -130,7 +127,7 @@ msgstr "Find"
 
 #: addressbook/gui/component/addressbook.c:313
 msgid "Find a contact"
-msgstr ""
+msgstr "Find kontaktperson"
 
 #: addressbook/gui/component/addressbook.c:314
 #: addressbook/gui/component/addressbook.c:381
@@ -140,7 +137,7 @@ msgstr "Udskriv"
 
 #: addressbook/gui/component/addressbook.c:314
 msgid "Print contacts"
-msgstr ""
+msgstr "Udskriv kontakter"
 
 #. Delete
 #: addressbook/gui/component/addressbook.c:315 calendar/gui/gncal-todo.c:494
@@ -150,9 +147,8 @@ msgid "Delete"
 msgstr "Slet"
 
 #: addressbook/gui/component/addressbook.c:315
-#, fuzzy
 msgid "Delete a contact"
-msgstr "Vælg bilag"
+msgstr "Fjern kontaktperson"
 
 #: addressbook/gui/component/addressbook.c:388
 #: addressbook/gui/component/addressbook.c:936
@@ -160,9 +156,8 @@ msgid "As _Table"
 msgstr ""
 
 #: addressbook/gui/component/addressbook.c:395
-#, fuzzy
 msgid "_New Contact"
-msgstr "_Kontakt"
+msgstr "_Ny kontaktperson"
 
 #: addressbook/gui/component/addressbook.c:403
 msgid "N_ew Directory Server"
@@ -171,7 +166,7 @@ msgstr ""
 #: addressbook/gui/component/addressbook.c:482
 #, fuzzy
 msgid "Unable to open addressbook"
-msgstr "Klik her for adressebogen"
+msgstr "Klik hér for adressebogen"
 
 #: addressbook/gui/component/addressbook.c:487
 msgid ""
@@ -187,11 +182,11 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:943
 msgid "As _Minicards"
-msgstr ""
+msgstr "Som _minikort"
 
 #: addressbook/gui/component/addressbook.c:994 mail/folder-browser.c:249
 msgid "The URI that the Folder Browser will display"
-msgstr "URI'en som mappebladreren vil vise"
+msgstr "Uri'en som mappebladreren vil vise"
 
 #: addressbook/gui/minicard/e-minicard-view.c:110
 msgid ""
@@ -204,38 +199,35 @@ msgstr ""
 
 #: addressbook/gui/minicard/e-minicard.c:323
 msgid "Save as VCard"
-msgstr ""
+msgstr "Gem som vCard"
 
 #: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:544
-#, fuzzy
 msgid "am"
-msgstr "Navn"
+msgstr "am"
 
 #: calendar/cal-util/timeutil.c:96 calendar/gui/print.c:543
 msgid "pm"
-msgstr ""
+msgstr "pm"
 
 #: calendar/cal-util/timeutil.c:98
 msgid "h"
-msgstr ""
+msgstr "t"
 
 #: calendar/gui/calendar-commands.c:56
 msgid "Outline:"
 msgstr ""
 
 #: calendar/gui/calendar-commands.c:57
-#, fuzzy
 msgid "Headings:"
-msgstr "Overskrifter"
+msgstr "Overskrifter:"
 
 #: calendar/gui/calendar-commands.c:58
 msgid "Empty days:"
 msgstr ""
 
 #: calendar/gui/calendar-commands.c:59
-#, fuzzy
 msgid "Appointments:"
-msgstr "_Aftale"
+msgstr "Aftaler:"
 
 #: calendar/gui/calendar-commands.c:60
 msgid "Highlighted day:"
@@ -276,24 +268,24 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:456
 msgid "Open calendar"
-msgstr ""
+msgstr "Åbn kalender"
 
 #: calendar/gui/calendar-commands.c:495
 msgid "Save calendar"
-msgstr ""
+msgstr "Gem kalender"
 
 #: calendar/gui/calendar-commands.c:522 calendar/gui/gncal-todo.c:708
 #: calendar/gui/gncal-todo.c:712
 msgid "Day"
-msgstr ""
+msgstr "Dag"
 
 #: calendar/gui/calendar-commands.c:522
 msgid "Show 1 day"
-msgstr ""
+msgstr "Vis én dag "
 
 #: calendar/gui/calendar-commands.c:525
 msgid "5 Days"
-msgstr ""
+msgstr "Fem dage"
 
 #: calendar/gui/calendar-commands.c:525
 #, fuzzy
@@ -302,53 +294,47 @@ msgstr "Vis bjælke med foldere"
 
 #: calendar/gui/calendar-commands.c:528 calendar/gui/gncal-todo.c:707
 msgid "Week"
-msgstr ""
+msgstr "Uge"
 
 #: calendar/gui/calendar-commands.c:528
 msgid "Show 1 week"
-msgstr ""
+msgstr "Vis én uge"
 
 #: calendar/gui/calendar-commands.c:531
-#, fuzzy
 msgid "Month"
-msgstr "Skrifttyper"
+msgstr "Måned"
 
 #: calendar/gui/calendar-commands.c:531
 msgid "Show 1 month"
-msgstr ""
+msgstr "Vis én måned"
 
 #: calendar/gui/calendar-commands.c:535
-#, fuzzy
 msgid "Year"
-msgstr "Hoved"
+msgstr "År"
 
 #: calendar/gui/calendar-commands.c:535
-#, fuzzy
 msgid "Show 1 year"
-msgstr "Vis bjælke med foldere"
+msgstr "Vis ét år"
 
 #: calendar/gui/calendar-commands.c:544 calendar/gui/calendar-commands.c:687
 msgid "Create a new appointment"
-msgstr ""
+msgstr "Opret en ny aftale"
 
 #: calendar/gui/calendar-commands.c:548 calendar/gui/calendar-commands.c:671
-#, fuzzy
 msgid "Print this calendar"
-msgstr "Brug af _kalender"
+msgstr "Print denne kalender"
 
 #: calendar/gui/calendar-commands.c:552
-#, fuzzy
 msgid "Prev"
-msgstr "Forhåndsvisning:"
+msgstr "Forr."
 
 #: calendar/gui/calendar-commands.c:552
 msgid "Go back in time"
 msgstr ""
 
 #: calendar/gui/calendar-commands.c:553
-#, fuzzy
 msgid "Today"
-msgstr "Krop"
+msgstr "I dag"
 
 #: calendar/gui/calendar-commands.c:553
 msgid "Go to present time"
@@ -356,7 +342,7 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:554
 msgid "Next"
-msgstr ""
+msgstr "Næste"
 
 #: calendar/gui/calendar-commands.c:554
 msgid "Go forward in time"
@@ -378,25 +364,23 @@ msgstr "Brug af _kalender"
 
 #: calendar/gui/calendar-commands.c:657
 msgid "Create a new calendar"
-msgstr ""
+msgstr "Opret en ny kalender"
 
 #: calendar/gui/calendar-commands.c:660
-#, fuzzy
 msgid "Open Ca_lendar"
-msgstr "Brug af _kalender"
+msgstr "Åbn k_alender"
 
 #: calendar/gui/calendar-commands.c:661
 msgid "Open a calendar"
-msgstr ""
+msgstr "Åbn en kalender"
 
 #: calendar/gui/calendar-commands.c:665 calendar/gui/calendar-commands.c:666
 msgid "Save Calendar As"
-msgstr ""
+msgstr "Gem kalender som"
 
 #: calendar/gui/calendar-commands.c:670
-#, fuzzy
 msgid "Print..."
-msgstr "Udskriv"
+msgstr "Udskriv..."
 
 #: calendar/gui/calendar-commands.c:676
 #, fuzzy
@@ -422,12 +406,11 @@ msgstr ""
 
 #: calendar/gui/calendar-commands.c:701 calendar/gui/prop.c:712
 msgid "Preferences"
-msgstr ""
+msgstr "Opsætning"
 
 #: calendar/gui/calendar-commands.c:708 calendar/gui/calendar-commands.c:709
-#, fuzzy
 msgid "About Calendar"
-msgstr "Brug af _kalender"
+msgstr "Om kalenderen"
 
 #. i18n: This "%s%s" indicates possession. Languages where the order is
 #. * the inverse should translate it to "%2$s%1$s".
@@ -438,9 +421,8 @@ msgid "%s%s"
 msgstr ""
 
 #: calendar/gui/calendar-commands.c:751
-#, fuzzy
 msgid "'s calendar"
-msgstr "Brug af _kalender"
+msgstr "s kalender"
 
 #. This array must be in the same order as enumerations
 #. in GnomePilotConduitSyncType as they are used as index.
@@ -448,40 +430,40 @@ msgstr "Brug af _kalender"
 #.
 #: calendar/gui/calendar-conduit-control-applet.c:51
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktiveret"
 
 #: calendar/gui/calendar-conduit-control-applet.c:52
 msgid "Synchronize"
-msgstr ""
+msgstr "Synkronizér"
 
 #: calendar/gui/calendar-conduit-control-applet.c:53
 msgid "Copy From Pilot"
-msgstr ""
+msgstr "Kopiér fra pilot"
 
 #: calendar/gui/calendar-conduit-control-applet.c:54
 msgid "Copy To Pilot"
-msgstr ""
+msgstr "Kopiér til pilot"
 
 #: calendar/gui/calendar-conduit-control-applet.c:55
 msgid "Merge From Pilot"
-msgstr ""
+msgstr "Flet fra pilot"
 
 #: calendar/gui/calendar-conduit-control-applet.c:56
 msgid "Merge To Pilot"
-msgstr ""
+msgstr "Flet til pilot"
 
 #: calendar/gui/calendar-conduit-control-applet.c:142
 #: calendar/gui/todo-conduit-control-applet.c:110
 msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr ""
+msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
 
 #: calendar/gui/calendar-conduit-control-applet.c:144
 msgid "GnomeCalendar Conduit"
-msgstr ""
+msgstr "GnomeKalender-komponent"
 
 #: calendar/gui/calendar-conduit-control-applet.c:145
 msgid "(C) 1998"
-msgstr ""
+msgstr "(C) 1998"
 
 #: calendar/gui/calendar-conduit-control-applet.c:147
 msgid "Configuration utility for the calendar conduit.\n"
@@ -551,7 +533,7 @@ msgstr ""
 
 #: calendar/gui/calendar-pilot-sync.c:60
 msgid "PORT"
-msgstr ""
+msgstr "PORT"
 
 #: calendar/gui/calendar-pilot-sync.c:62
 msgid "If you want to debug the attributes on records"
@@ -615,51 +597,51 @@ msgstr ""
 
 #: calendar/gui/print.c:265
 msgid "1st"
-msgstr ""
+msgstr "Første"
 
 #: calendar/gui/print.c:265
 msgid "2nd"
-msgstr ""
+msgstr "Anden"
 
 #: calendar/gui/print.c:265
 msgid "3rd"
-msgstr ""
+msgstr "Tredje"
 
 #: calendar/gui/print.c:265
 msgid "4th"
-msgstr ""
+msgstr Fjere"
 
 #: calendar/gui/print.c:265
 msgid "5th"
-msgstr ""
+msgstr "Femte"
 
 #: calendar/gui/print.c:266
 msgid "6th"
-msgstr ""
+msgstr "Sjete"
 
 #: calendar/gui/print.c:266
 msgid "7th"
-msgstr ""
+msgstr "Syvende"
 
 #: calendar/gui/print.c:266
 msgid "8th"
-msgstr ""
+msgstr "Ottende"
 
 #: calendar/gui/print.c:266
 msgid "9th"
-msgstr ""
+msgstr "Niende"
 
 #: calendar/gui/print.c:266
 msgid "10th"
-msgstr ""
+msgstr "Tiende"
 
 #: calendar/gui/print.c:267
 msgid "11th"
-msgstr ""
+msgstr "11'te"
 
 #: calendar/gui/print.c:267
 msgid "12th"
-msgstr ""
+msgstr "12'te"
 
 #: calendar/gui/print.c:267
 msgid "13th"
@@ -739,36 +721,35 @@ msgstr ""
 
 #: calendar/gui/print.c:326
 msgid "Su"
-msgstr ""
+msgstr "Søn"
 
 #: calendar/gui/print.c:326
 msgid "Mo"
-msgstr ""
+msgstr "Man"
 
 #: calendar/gui/print.c:326
 msgid "Tu"
-msgstr ""
+msgstr "Tirs"
 
 #: calendar/gui/print.c:326
 msgid "We"
-msgstr ""
+msgstr "Ons"
 
 #: calendar/gui/print.c:326
 msgid "Th"
-msgstr ""
+msgstr "Tors"
 
 #: calendar/gui/print.c:326
-#, fuzzy
 msgid "Fr"
-msgstr "Fra"
+msgstr "Fre"
 
 #: calendar/gui/print.c:326
 msgid "Sa"
-msgstr ""
+msgstr "Lør"
 
 #: calendar/gui/print.c:894
 msgid "TODO Items"
-msgstr ""
+msgstr "Opgavepunkter"
 
 #. Day
 #: calendar/gui/print.c:1019
