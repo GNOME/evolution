@@ -6,6 +6,10 @@
 	Fixes a crash in the IMAP keepalive code, but this same problem
 	probably exists in other places too...
 
+	* providers/local/camel-mbox-provider.c:
+	* providers/vee/.cvsignore:
+	* providers/vee/libcamelvee.urls: Remove some unused stuff
+	
 2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-sasl-digest-md5.c (compute_response): Redone so as to save
