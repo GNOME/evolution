@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* $Id$ */
 
 #ifndef __TODO_CONDUIT_H__
@@ -12,8 +13,8 @@
 typedef struct _ConduitCfg ConduitCfg;
 
 struct _ConduitCfg {
-  gboolean open_secret;
-  guint32 pilotId;
+	gboolean open_secret;
+	guint32 pilotId;
 };
 
 #define GET_CONFIG(c) ((ConduitCfg*)gtk_object_get_data(GTK_OBJECT(c),"conduit_cfg"))
@@ -21,39 +22,41 @@ struct _ConduitCfg {
 typedef struct _ConduitData ConduitData;
 
 struct _ConduitData {
-  struct ToDoAppInfo ai;
+	struct ToDoAppInfo ai;
 };
 
 #define GET_DATA(c) ((ConduitData*)gtk_object_get_data(GTK_OBJECT(c),"conduit_data"))
 
 static void load_configuration(ConduitCfg **c,guint32 pilotId) {
-  gchar prefix[256];
-  g_snprintf(prefix,255,"/gnome-pilot.d/todod-conduit/Pilot_%u/",pilotId);
+	gchar prefix[256];
+	g_snprintf(prefix,255,"/gnome-pilot.d/todod-conduit/Pilot_%u/",pilotId);
 
-  *c = g_new0(ConduitCfg,1);
-  gnome_config_push_prefix(prefix);
-  (*c)->open_secret = gnome_config_get_bool("open secret=FALSE");
-  gnome_config_pop_prefix();
+	*c = g_new0(ConduitCfg,1);
+	gnome_config_push_prefix(prefix);
+	(*c)->open_secret = gnome_config_get_bool("open secret=FALSE");
+	gnome_config_pop_prefix();
 
-  (*c)->pilotId = pilotId;
+	(*c)->pilotId = pilotId;
 }
 
 static void save_configuration(ConduitCfg *c) {
-  gchar prefix[256];
+	gchar prefix[256];
 
-  g_snprintf(prefix,255,"/gnome-pilot.d/todo-conduit/Pilot_%u/",c->pilotId);
+	g_snprintf(prefix,255,"/gnome-pilot.d/todo-conduit/Pilot_%u/",c->pilotId);
 
-  gnome_config_push_prefix(prefix);
-  gnome_config_set_bool("open secret",c->open_secret);
-  gnome_config_pop_prefix();
+	gnome_config_push_prefix(prefix);
+	gnome_config_set_bool("open secret",c->open_secret);
+	gnome_config_pop_prefix();
 
-  gnome_config_sync();
-  gnome_config_drop_all();
+	gnome_config_sync();
+	gnome_config_drop_all();
 }
 
 static void destroy_configuration(ConduitCfg **c) {
-  g_free(*c);
-  *c = NULL;
+	g_return_if_fail(c!=NULL);
+	g_return_if_fail(*c!=NULL);
+	g_free(*c);
+	*c = NULL;
 }
 
 #endif __TODO_CONDUIT_H__ 

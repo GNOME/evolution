@@ -1,0 +1,8 @@
+Makefile.in
+Makefile
+.deps
+.libs
+*.lo
+*.la
+todo-conduit-control-applet
+todo.conduit

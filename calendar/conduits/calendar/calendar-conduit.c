@@ -144,7 +144,12 @@ get_calendar_objects(GnomePilotConduitStandardAbs *conduit,
 	g_return_val_if_fail (conduit != NULL, NULL);
 	g_return_val_if_fail (ctxt != NULL, NULL);
 
-	uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_ANY);
+	/* uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_ANY); */
+	uids = cal_client_get_uids (ctxt->client,
+				    CALOBJ_TYPE_EVENT |
+				    /*CALOBJ_TYPE_TODO |*/
+				    CALOBJ_TYPE_JOURNAL |
+				    CALOBJ_TYPE_OTHER);
 
 	if (status != NULL)
 		(*status) = TRUE;
@@ -531,7 +536,15 @@ check_for_slow_setting (GnomePilotConduit *c, GCalConduitContext *ctxt)
 	GList *uids;
 	unsigned long int entry_number;
 
-	uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_ANY);
+	/* get all but TODOs, those are handled by the todo conduit */
+	/* uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_ANY); */
+	uids = cal_client_get_uids (ctxt->client,
+				    CALOBJ_TYPE_EVENT |
+				    /*CALOBJ_TYPE_TODO |*/
+				    CALOBJ_TYPE_JOURNAL |
+				    CALOBJ_TYPE_OTHER);
+
+
 	entry_number = g_list_length (uids);
 
 	LOG (_("Calendar holds %d entries"), entry_number);

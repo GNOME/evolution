@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* $Id$ */
 
 #include <glib.h>
@@ -21,35 +22,45 @@
 
 #include "todo-conduit.h"
 
+
+GnomePilotConduit *conduit_get_gpilot_conduit (guint32 pilotId);
+void conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit);
+
 static gint
 load_records(GnomePilotConduit *c)
 {
-  return 0;
+	return 0;
 }
+
 
 static gint 
-pre_sync(GnomePilotConduit *c, GnomePilotDBInfo *dbi) {
-  int l;
-  unsigned char *buf;
+pre_sync(GnomePilotConduit *c, GnomePilotDBInfo *dbi)
+{
+	int l;
+	unsigned char *buf;
 
-  gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
+	gtk_object_set_data(GTK_OBJECT(c),"dbinfo",dbi);
   
-  load_records(c);
+	load_records(c);
 
-  buf = (unsigned char*)g_malloc(0xffff);
-  if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff))<0) {
-    return -1;
-  }
-  unpack_ToDoAppInfo(&(GET_DATA(c)->ai),buf,l);
-  g_free(buf);
+	buf = (unsigned char*)g_malloc(0xffff);
+	if((l=dlp_ReadAppBlock(dbi->pilot_socket,dbi->db_handle,0,(unsigned char *)buf,0xffff))<0) {
+		return -1;
+	}
+	unpack_ToDoAppInfo(&(GET_DATA(c)->ai),buf,l);
+	g_free(buf);
 
-  return 0;
+	return 0;
 }
 
+
+#if 0
 static gint 
 post_sync(GnomePilotConduit *c) {
-  return 0;
+	return 0;
 }
+#endif /* 0 */
+
 
 static gint
 match_record	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
@@ -60,6 +71,8 @@ match_record	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("in match_record\n");
 	return 0;
 }
+
+
 static gint
 free_match	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 		 LocalRecord **local,
@@ -70,6 +83,8 @@ free_match	(GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 
 	return 0;
 }
+
+
 static gint
 archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	       LocalRecord *local,
@@ -79,6 +94,8 @@ archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	return 1;
 
 }
+
+
 static gint
 archive_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 		LocalRecord *local,
@@ -88,6 +105,8 @@ archive_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering archive_remote\n");
 	return 1;
 }
+
+
 static gint
 store_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	      PilotRecord *remote,
@@ -97,6 +116,8 @@ store_remote (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
         g_print ("Rec:%s:\nLength:%d\n", remote->record, remote->length);
         return 1;
 }
+
+
 static gint
 clear_status_archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 			    LocalRecord *local,
@@ -105,6 +126,8 @@ clear_status_archive_local (GnomePilotConduitStandardAbs *pilot_conduit_standard
 	g_print ("entering clear_status_archive_local\n");
         return 1;
 }
+
+
 static gint
 iterate (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	 LocalRecord **local,
@@ -113,6 +136,8 @@ iterate (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering iterate\n");
         return 1;
 }
+
+
 static gint
 iterate_specific (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 		  LocalRecord **local,
@@ -123,6 +148,8 @@ iterate_specific (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering iterate_specific\n");
         return 1;
 }
+
+
 static gint
 purge (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
        gpointer data)
@@ -130,6 +157,8 @@ purge (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering purge\n");
         return 1;
 }
+
+
 static gint
 set_status (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	    LocalRecord *local,
@@ -139,6 +168,8 @@ set_status (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering set_status\n");
         return 1;
 }
+
+
 static gint
 set_archived (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	      LocalRecord *local,
@@ -148,6 +179,8 @@ set_archived (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering set_archived\n");
         return 1;
 }
+
+
 static gint
 set_pilot_id (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	      LocalRecord *local,
@@ -157,6 +190,8 @@ set_pilot_id (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering set_pilot_id\n");
         return 1;
 }
+
+
 static gint
 compare (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	 LocalRecord *local,
@@ -166,6 +201,8 @@ compare (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering compare\n");
         return 1;
 }
+
+
 static gint
 compare_backup (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 		LocalRecord *local,
@@ -175,6 +212,8 @@ compare_backup (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering compare_backup\n");
         return 1;
 }
+
+
 static gint
 free_transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	       LocalRecord *local,
@@ -184,6 +223,8 @@ free_transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering free_transmit\n");
         return 1;
 }
+
+
 static gint
 delete_all (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	    gpointer data)
@@ -191,6 +232,8 @@ delete_all (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	g_print ("entering delete_all\n");
         return 1;
 }
+
+
 static PilotRecord *
 transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	  LocalRecord *local,
@@ -200,7 +243,8 @@ transmit (GnomePilotConduitStandardAbs *pilot_conduit_standard_abs,
 	return NULL;
 }
 
-static GnomePilotConduit *
+
+GnomePilotConduit *
 conduit_get_gpilot_conduit (guint32 pilotId)
 {
 	GtkObject *retval;
@@ -238,13 +282,15 @@ conduit_get_gpilot_conduit (guint32 pilotId)
 	gtk_signal_connect (retval, "delete_all", (GtkSignalFunc) delete_all, NULL);
 	gtk_signal_connect (retval, "transmit", (GtkSignalFunc) transmit, NULL);
 	gtk_signal_connect (retval, "pre_sync", (GtkSignalFunc) pre_sync, NULL);
-	gtk_signal_connect (retval, "post_sync", (GtkSignalFunc) post_sync, NULL);
+	/* gtk_signal_connect (retval, "post_sync", (GtkSignalFunc) post_sync, NULL); */
 
 	load_configuration(&cfg,pilotId);
 
 	return GNOME_PILOT_CONDUIT (retval);
 }
-static void
+
+
+void
 conduit_destroy_gpilot_conduit (GnomePilotConduit *conduit)
 {
         ConduitCfg *cc;
