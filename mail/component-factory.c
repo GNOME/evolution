@@ -43,7 +43,6 @@
 #include "mail-mt.h"
 #include "mail-importer.h"
 #include "mail-vfolder.h"             /* vfolder_create_storage */
-#include "mail-vtrash.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -215,8 +214,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 		mail_msg_wait (mail_get_folder (uri, got_folder, standard_folders[i].folder));
 		g_free (uri);
 	}
-	
-	mail_vtrash_create ("file:/", _("vTrash"));
 	
 	mail_session_enable_interaction (TRUE);
 	
@@ -442,9 +439,6 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources, gboolean
 				g_warning ("Cannot load storage: %s",
 					   camel_exception_get_description (&ex));
 				camel_exception_clear (&ex);
-			} else {
-				/* add the vTrash folder */
-				mail_vtrash_add (CAMEL_STORE (store), service->url, _("vTrash"));
 			}
 		}
 		

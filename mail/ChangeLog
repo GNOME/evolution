@@ -1,3 +1,13 @@
+2001-02-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (mail_load_storages): No longer need to
+	construct the vTrash here.
+	(owner_set_cb): Don't make the vTrash for the local store here.
+
+	* mail-ops.c (add_vtrash_info): New function to add a vTrash
+	folder info to a pre-constructed CamelFolderInfo for use in the
+	get_folder_info async function.
+
 2001-02-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* main.c (main): No longer need to do a vtrash_cleanup() (it also

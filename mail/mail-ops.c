@@ -924,12 +924,47 @@ static char *get_folderinfo_desc(struct _mail_msg *mm, int done)
 	return ret;
 }
 
+static void
+add_vtrash_info (CamelFolderInfo *info)
+{
+	CamelFolderInfo *fi, *vtrash;
+	CamelURL *url;
+	char *uri;
+	
+	if (!info)
+		return;
+	
+	for (fi = info; fi->sibling; fi = fi->sibling) {
+		if (!strcmp (fi->name, "vTrash"))
+			return;
+	}
+	
+	/* create our vTrash URL */
+	url = camel_url_new (info->url, NULL);
+	g_free (url->path);
+	url->path = g_strdup ("vTrash");
+	uri = camel_url_to_string (url, FALSE);
+	camel_url_free (url);
+	
+	vtrash = g_new0 (CamelFolderInfo, 1);
+	vtrash->full_name = g_strdup ("vTrash");
+	vtrash->name = g_strdup ("vTrash");
+	vtrash->url = g_strdup_printf ("vtrash:%s", uri);
+	vtrash->unread_message_count = -1;
+	g_free (uri);
+	
+	vtrash->parent = fi;
+	
+	fi->sibling = vtrash;
+}
+
 static void get_folderinfo_get(struct _mail_msg *mm)
 {
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
-
+	
 	camel_operation_register(mm->cancel);
 	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, TRUE, &mm->ex);
+	add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);
 }
 
