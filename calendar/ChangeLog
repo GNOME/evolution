@@ -1,3 +1,43 @@
+2002-02-19  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-itip-control.c (send_item): pass extra itip_send_comp
+ 	params
+ 	(send_freebusy): ditto
+ 	(ok_clicked_cb): ditto, including the timezones culled from the
+ 	component
+ 
+ 	* gui/e-week-view.c: pass extra itip_send_comp params
+ 
+ 	* gui/calendar-commands.c: ditto
+ 
+ 	* gui/e-day-view.c: ditto
+ 
+ 	* gui/dialogs/task-editor.c: ditto
+ 
+ 	* gui/dialogs/event-editor.c: ditto
+ 
+ 	* gui/dialogs/comp-editor.c: ditto
+ 	
+ 	* gui/itip-utils.h (itip_send_comp): update proto
+ 
+ 	* gui/itip-utils.c (foreach_tzid_callback): check the passed in
+ 	zones, then the builtin time zones then the client
+
+2002-02-19  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* gui/e-itip-control.c (find_my_address): strip the ical value and
+ 	do a case insensitive compare
+ 	(find_attendee): ditto
+ 	(change_status): put the error message here
+ 	(ok_clicked_cb): don't update the item or rsvp unless
+ 	change_status was successful, trip the ical value and do a case
+ 	insensitive compare
+ 
+ 	* gui/itip-utils.c (get_address): strip the incoming address
+ 	(itip_strip_mailto): use g_strncasecmp
+ 	(comp_limit_attendees): strip the ical value and do a case
+ 	insensitive compare
+
 2002-02-14  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-meeting-model.c: use new column enums

@@ -3189,7 +3189,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 		if (cal_client_update_object (week_view->client, event->comp)) {
 			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
-				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp);
+				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, week_view->client, NULL);
 		} else {
 			g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 		}

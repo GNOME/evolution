@@ -836,7 +836,7 @@ real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 
 	priv = editor->priv;
 
-	itip_send_comp (method, priv->comp);
+	itip_send_comp (method, priv->comp, priv->client, NULL);
 }
 
 

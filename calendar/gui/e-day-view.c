@@ -4438,7 +4438,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	if (cal_client_update_object (day_view->client, comp)) {
 		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
 	}
@@ -4499,7 +4499,7 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	if (cal_client_update_object (day_view->client, comp)) {
 		if (cal_component_has_attendees (comp) && send_component_dialog (comp))
-			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+			itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 	} else {
 		g_message ("e_day_view_finish_resize(): Could not update the object!");
 	}
@@ -5842,7 +5842,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 		if (cal_client_update_object (day_view->client, event->comp)) {
 			if (cal_component_has_attendees (event->comp) && send_component_dialog (event->comp))
-				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp);
+				itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, event->comp, day_view->client, NULL);
 		} else {
 			g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
 		}
@@ -6890,7 +6890,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			if (cal_client_update_object (day_view->client, comp)) {
 				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
-					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
 					   "not update the object!");
@@ -7002,7 +7002,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 			if (cal_client_update_object (day_view->client, comp)) {
 				if (cal_component_has_attendees (comp) && send_component_dialog (comp))
-					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp);
+					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
 			} else {
 				g_message ("e_day_view_on_main_canvas_drag_data_received(): "
 					   "Could not update the object!");

@@ -356,7 +356,7 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 
 		for (l = comp_list; l; l = l->next) {
 			CalComponent *comp = CAL_COMPONENT (l->data);
-			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
+			itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp, client, NULL);
 
 			gtk_object_unref (GTK_OBJECT (comp));
 		}
