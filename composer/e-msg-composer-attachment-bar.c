@@ -587,10 +587,10 @@ attach_to_multipart (CamelMultipart *multipart,
 	 * for all else except message (which must be 7bit, 8bit, or
 	 * binary). FIXME.
 	 */
-	if (!strcasecmp (content_type->type, "text")) {
+	if (!g_strcasecmp (content_type->type, "text")) {
 		camel_mime_part_set_encoding (attachment->body,
 					      CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
-	} else if (strcasecmp (content_type->type, "message") != 0) {
+	} else if (g_strcasecmp (content_type->type, "message") != 0) {
 		camel_mime_part_set_encoding (attachment->body,
 					      CAMEL_MIME_PART_ENCODING_BASE64);
 	}
