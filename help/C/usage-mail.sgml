@@ -408,7 +408,9 @@
 	         category into the <guilabel>To:</guilabel> or
 	         <guilabel>Cc:</guilabel> fields, he'll make the
 	         company's <emphasis>entire</emphasis> client list
-	         public. It seems insignificant, but it can
+	         public. However, but putting his "Clients" addressbook
+		 into the Bcc: section, that will cause them to be hidden
+		 from the competition.  It seems insignificant, but it can
 	         make a huge difference in some situations.
 	     </para>
 	    </example>
