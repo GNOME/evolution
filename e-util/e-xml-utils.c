@@ -457,7 +457,7 @@ e_xml_save_file (const char *filename, xmlDocPtr doc)
 	if (fd == -1)
 		return -1;
 	
-	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &size);
+	xmlDocDumpFormatMemory (doc, (xmlChar **) &xmlbuf, &size, TRUE);
 	if (size <= 0) {
 		close (fd);
 		unlink (filesave);
