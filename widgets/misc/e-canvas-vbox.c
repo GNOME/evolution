@@ -24,9 +24,9 @@
 #include <gnome.h>
 #include <math.h>
 #include "e-canvas-vbox.h"
-#include <e-util/e-canvas-utils.h>
-#include <e-util/e-canvas.h>
-#include <e-util/e-util.h>
+#include "e-canvas-utils.h"
+#include "e-canvas.h"
+#include "util/e-util.h"
 
 static void e_canvas_vbox_init		(ECanvasVbox		 *CanvasVbox);
 static void e_canvas_vbox_class_init	(ECanvasVboxClass	 *klass);
