@@ -1536,8 +1536,11 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 			child = child->next;
 		}
 		
-		len += (part / 10) + 2;
 		part_spec_push (&stack, part);
+		
+		len++;
+		while ((part = part / 10))
+			len++;
 		
 		node = node->parent;
 	}
