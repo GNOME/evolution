@@ -46,9 +46,11 @@ static void message_info_free(CamelFolderSummary *, CamelMessageInfo *mi);
 static int maildir_summary_load(CamelLocalSummary *cls, int forceindex, CamelException *ex);
 static int maildir_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex);
 static int maildir_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changeinfo, CamelException *ex);
-/*static int maildir_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);*/
+static CamelMessageInfo *maildir_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *, CamelException *ex);
 
 static char *maildir_summary_next_uid_string(CamelFolderSummary *s);
+static int maildir_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *mi);
+static char *maildir_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *mi);
 
 static void camel_maildir_summary_class_init	(CamelMaildirSummaryClass *class);
 static void camel_maildir_summary_init	(CamelMaildirSummary *gspaper);
@@ -100,7 +102,9 @@ camel_maildir_summary_class_init (CamelMaildirSummaryClass *class)
 	lklass->load = maildir_summary_load;
 	lklass->check = maildir_summary_check;
 	lklass->sync = maildir_summary_sync;
-	/*lklass->add = maildir_summary_add;*/
+	lklass->add = maildir_summary_add;
+	lklass->encode_x_evolution = maildir_summary_encode_x_evolution;
+	lklass->decode_x_evolution = maildir_summary_decode_x_evolution;
 }
 
 static void
@@ -215,8 +219,34 @@ int camel_maildir_summary_name_to_info(CamelMessageInfo *info, const char *name)
 	return 0;
 }
 
-/* FIXME: We need to also provide an encode/decode X-Evolution function, as the default
-   is no good for us, and can screw up the uid info */
+/* for maildir, x-evolution isn't used, so dont try and get anything out of it */
+static int maildir_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *mi)
+{
+	return -1;
+}
+
+static char *maildir_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *mi)
+{
+	return NULL;
+}
+
+/* FIXME:
+   both 'new' and 'add' will try and set the filename, this is not ideal ...
+*/
+static CamelMessageInfo *maildir_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *changes, CamelException *ex)
+{
+	CamelMessageInfo *mi;
+
+	mi = ((CamelLocalSummaryClass *) parent_class)->add(cls, msg, info, changes, ex);
+	if (mi) {
+		if (info) {
+			camel_maildir_info_set_filename(mi, camel_maildir_summary_info_to_name(mi));
+			d(printf("Setting filename to %s\n", camel_maildir_info_filename(mi)));
+		}
+	}
+
+	return mi;
+}
 
 static CamelMessageInfo *message_info_new(CamelFolderSummary * s, struct _header_raw *h)
 {

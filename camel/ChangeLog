@@ -1,3 +1,20 @@
+2000-12-11  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-medium.c (camel_medium_set_header): Hrm, we actually want
+	to call set_header, not add_header here, probably explains some
+	duplicate X-Evolution headers i was trying to track down.  Also
+	changed the api to handle a NULL value == remove the header.
+
+	* providers/local/camel-maildir-summary.c
+	(maildir_summary_decode_x_evolution): Always return error, we dont
+	use x-evolution for maildir.
+	(maildir_summary_encode_x_evolution): Always return a NULL string,
+	likewise.
+	(maildir_summary_add): Hook in here, since the _new function
+	doesn't have access to any flags from the caller.  If we have
+	flags, then update the filename again.  Not ideal, but should
+	work.
+
 2000-12-08  JP Rosevear  <jpr@helixcode.com>
 
 	* tests/message/Makefile.am: Remove test3 from build until the files
