@@ -22,6 +22,7 @@ figs = \
 	figures/mail-threaded.png		\
 	figures/mainwindow-pic.png		\
 	figures/newmsg.png			\
+	figures/outline.png			\
 	figures/print-dest.png			\
 	figures/print-preview.png		\
 	figures/replymsg.png			\

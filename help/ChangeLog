@@ -1,3 +1,7 @@
+2003-04-27  Rodney Dawes  <dobey@ximian.com>
+
+	* C/Makefile.am: Add figures/outline.png to $(figs)
+	
 2003-04-14  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-prefs.xml: Validation, mostly. Change in some ref names.
