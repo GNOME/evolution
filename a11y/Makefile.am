@@ -1,4 +1,4 @@
-SUBDIRS = . calendar widgets
+SUBDIRS = . calendar widgets addressbook
 
 # for debug
 #A11Y_CFLAGS += -pedantic -ansi -DACC_DEBUG -Werror

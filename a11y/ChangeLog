@@ -1,3 +1,20 @@
+2003-03-15  Hao Sheng  <hao.sheng@sun.com>
+
+	* Contritbuted by Leon Zhang <leon.zhang@sun.com>
+	* Makefile.am: add directory addressbook.
+	* implement basic accessbility addressbook's minicard.
+	add new directory and Files below:
+		addressbook/
+		addressbook/Makefile.am
+		addressbook/ea-addressbook.c
+		addressbook/ea-addressbook-view.c
+		addressbook/ea-minicard.c
+		addressbook/ea-minicard-view.c
+		addressbook/ea-addressbook.h
+		addressbook/ea-addressbook-view.h
+		addressbook/ea-minicard.h
+		addressbook/ea-minicard-view.h
+
 2003-12-10  Bolian Yin <bolian.yin@sun.com>
 
 	* calendar/ea-cal-view-event.c (ea_cal_view_event_get_index_in_parent): corret index error in week view.
