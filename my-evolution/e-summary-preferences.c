@@ -1325,21 +1325,25 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 	list->_maximum = count;
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (count);
 
+	CORBA_sequence_set_release (list->_buffer, TRUE);
+
 	for (i = 0, l = global_preferences->display_folders; l; i++, l = l->next) {
 		ESummaryPrefsFolder *folder = l->data;
 		
-		/* Set duff values execpt for physicalUri & evolutionUri*/
 		list->_buffer[i].type = CORBA_string_dup ("");
 		list->_buffer[i].description = CORBA_string_dup ("");
 		list->_buffer[i].displayName = CORBA_string_dup ("");
-		if (strncmp (folder->evolution_uri, "evolution:", 10) == 0) {
+
+		if (strncmp (folder->evolution_uri, "evolution:", 10) == 0)
 			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri + 10);
-		} else {
+		else
 			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri);
-		}
+
 		list->_buffer[i].physicalUri = CORBA_string_dup (folder->physical_uri);
 		list->_buffer[i].unreadCount = 0;
 		list->_buffer[i].canSyncOffline = TRUE;
+		list->_buffer[i].sortingPriority = 0;
+		list->_buffer[i].customIconName = CORBA_string_dup ("");
 	}
 
 	CORBA_exception_init (&ev);

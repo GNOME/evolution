@@ -1,5 +1,10 @@
 2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-storage-set-view.c
+	(impl_StorageSetView__set_checkedFolders): Remove extra braces.
+
+2002-07-11  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view.c (update_folder_title_bar): Ref the folder_icon
 	that we get from e_folder_type_registry_get_icon_for_type().
 
