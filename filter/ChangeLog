@@ -1,5 +1,9 @@
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
+	* vfolder-rule.c (get_widget): Add a textcellrenderer to display
+	the folders.
+	(get_widget): Remove FIXME which was wrong.
+
 	* filter-rule.c (filter_rule_validate): FILTER_RULE_CLASS ->
 	_GET_CLASS
 

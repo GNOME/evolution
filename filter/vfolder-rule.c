@@ -508,7 +508,6 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	g_object_set_data_full ((GObject *) frame, "data", data, g_free);
 	
 	for (i = 0; i < BUTTON_LAST; i++) {
-		/* FIXME: I think these need to be unref'd */
 		data->buttons[i] = (GtkButton *) glade_xml_get_widget (gui, edit_buttons[i].name);
 		g_signal_connect (data->buttons[i], "clicked", edit_buttons[i].func, data);
 	}
@@ -518,6 +517,10 @@ get_widget (FilterRule *fr, RuleContext *rc)
 	gtk_tree_view_set_model (data->list, (GtkTreeModel *) data->model);
 	selection = gtk_tree_view_get_selection (data->list);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_SINGLE);
+	gtk_tree_view_insert_column_with_attributes(data->list, -1, _("Folder(s)"),
+						    gtk_cell_renderer_text_new(),
+						    "text", 0,
+						    NULL);
 	
 	source = NULL;
 	while ((source = vfolder_rule_next_source (vr, source))) {
