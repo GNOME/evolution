@@ -71,7 +71,7 @@ esac
 for coin in `find $srcdir -name configure.in -print`
 do 
   dr=`dirname $coin`
-  if test -f $coin/NO-AUTO-GEN; then
+  if test -f $dr/NO-AUTO-GEN; then
     echo skipping $dr -- flagged as no auto-gen
   else
     echo processing $dr
