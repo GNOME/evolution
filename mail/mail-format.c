@@ -1174,13 +1174,32 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 {
 	CamelCipherValidity *valid = NULL;
 	CamelPgpContext *context;
-	char *end, *pgp_start;
+	char *end, *msg_start, *pgp_start;
 	
-	pgp_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
+	msg_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
+	if (msg_start) {
+		/* skip over -----BEGIN PGP SIGNED MESSAGE----- */
+		msg_start = strchr (msg_start, '\n');
+		if (!msg_start++)
+			return start;
+		
+		/* skip over Hash: header */
+		msg_start = strchr (msg_start, '\n');
+		if (!msg_start++)
+			return start;
+	} else {
+		/* Some MUAs don't enclose the signed text in
+                   -----BEGIN PGP SIGNED MESSAGE----- */
+		msg_start = start;
+	}
+	
+	/* find the beginning of the signature block */
+	pgp_start = strstr (msg_start, "-----BEGIN PGP SIGNATURE-----");
 	if (!pgp_start)
 		return start;
 	
-	end = strstr (start, "-----END PGP SIGNATURE-----");
+	/* find the end of the pgp signature block */
+	end = strstr (pgp_start, "-----END PGP SIGNATURE-----");
 	if (!end)
 		return start;
 	
@@ -1208,7 +1227,7 @@ try_inline_pgp_sig (char *start, MailDisplay *md)
 		camel_exception_free (ex);
 	}
 	
-	mail_text_write (md->html, md->stream, "%.*s", pgp_start - start, start);
+	mail_text_write (md->html, md->stream, "%.*s", pgp_start - msg_start, msg_start);
 	
 	mail_write_authenticity (md, valid);
 	

@@ -1,3 +1,7 @@
+2001-05-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_inline_pgp_sig): Fix to work properly.
+
 2001-05-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser-factory.c: Added callbacks for Next/Previous
