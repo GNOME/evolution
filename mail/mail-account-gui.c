@@ -1709,7 +1709,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		g_free (account->drafts_folder_name);
-		account->drafts_folder_name = g_strdup (strrchr (default_drafts_folder_uri, '/') + 1);
+		account->drafts_folder_name = g_strdup (g_basename (default_drafts_folder_uri));
 		g_free (account->drafts_folder_uri);
 		account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	}
@@ -1728,7 +1728,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		g_free (account->sent_folder_name);
-		account->sent_folder_name = g_strdup (strrchr (default_sent_folder_uri, '/') + 1);
+		account->sent_folder_name = g_strdup (g_basename (default_sent_folder_uri));
 		g_free (account->sent_folder_uri);
 		account->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	}

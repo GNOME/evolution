@@ -1,3 +1,16 @@
+2002-01-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (mail_edit): Pass the parent window to
+	mail_account_editor_new().
+
+	* mail-account-editor.c (mail_account_editor_new): Set the parent
+	window here because construct() inadvertantly
+	gtk_widget_show_all's the editor.
+
+	* mail-account-gui.c (mail_account_gui_save): Use g_basename()
+	rather than strrchr for '/' especially since the strrchr code
+	wasn't doing any NULL checks.
+
 2002-01-30  Radek Doulik  <rodo@ximian.com>
 
 	* mail-format.c (handle_text_plain_flowed): print quoted text in

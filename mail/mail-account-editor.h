@@ -28,6 +28,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+#include <gtk/gtkwindow.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include "mail-account-gui.h"
@@ -56,7 +57,7 @@ typedef struct {
 
 GtkType mail_account_editor_get_type (void);
 
-MailAccountEditor *mail_account_editor_new (MailConfigAccount *account);
+MailAccountEditor *mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent);
 
 #ifdef __cplusplus
 }

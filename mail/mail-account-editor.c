@@ -48,7 +48,7 @@ GtkType
 mail_account_editor_get_type ()
 {
 	static GtkType type = 0;
-
+	
 	if (!type) {
 		GtkTypeInfo type_info = {
 			"MailAccountEditor",
@@ -59,10 +59,10 @@ mail_account_editor_get_type ()
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL
 		};
-
+		
 		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
 	}
-
+	
 	return type;
 }
 
@@ -132,7 +132,7 @@ static void
 ok_clicked (GtkWidget *widget, gpointer data)
 {
 	MailAccountEditor *editor = data;
-
+	
 	if (apply_changes (editor))
 		gtk_widget_destroy (GTK_WIDGET (editor));
 }
@@ -141,7 +141,7 @@ static void
 cancel_clicked (GtkWidget *widget, gpointer data)
 {
 	MailAccountEditor *editor = data;
-
+	
 	gtk_widget_destroy (GTK_WIDGET (editor));
 }
 
@@ -182,11 +182,12 @@ construct (MailAccountEditor *editor, MailConfigAccount *account)
 }
 
 MailAccountEditor *
-mail_account_editor_new (MailConfigAccount *account)
+mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent)
 {
 	MailAccountEditor *new;
 	
 	new = (MailAccountEditor *) gtk_type_new (mail_account_editor_get_type ());
+	gnome_dialog_set_parent (GNOME_DIALOG (new), parent);
 	construct (new, account);
 	
 	return new;

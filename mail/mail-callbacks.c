@@ -696,8 +696,8 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer data)
 static GtkWidget *
 create_msg_composer (const MailConfigAccount *account, const char *url)
 {
-	gboolean send_html;
 	EMsgComposer *composer;
+	gboolean send_html;
 	
 	/* Make sure that we've actually been passed in an account. If one has
 	 * not been passed in, grab the default account.
@@ -722,7 +722,7 @@ create_msg_composer (const MailConfigAccount *account, const char *url)
 void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
-	MailConfigAccount *account;
+	const MailConfigAccount *account;
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GtkWidget *composer;
 	
@@ -1624,7 +1624,7 @@ thread_select_foreach (ETreePath path, gpointer user_data)
 	thread_select_info_t *tsi = (thread_select_info_t *) user_data;
 	ETreeModel *tm = tsi->ml->model;
 	ETreePath node;
-
+	
 	/* @path part of the initial selection. If it has children,
 	 * we select them as well. If it doesn't, we select its siblings and
 	 * their children (ie, the current node must be inside the thread
