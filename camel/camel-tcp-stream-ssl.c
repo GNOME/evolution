@@ -22,7 +22,7 @@
 
 
 #include <config.h>
-#include "camel-tcp-stream-raw.h"
+#include "camel-tcp-stream-ssl.h"
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
