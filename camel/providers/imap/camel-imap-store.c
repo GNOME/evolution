@@ -63,7 +63,7 @@ static void construct (CamelService *service, CamelSession *session,
 		       CamelException *ex);
 static gboolean imap_connect (CamelService *service, CamelException *ex);
 static gboolean imap_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static guint hash_folder_name (gconstpointer key);
 static gint compare_folder_name (gconstpointer a, gconstpointer b);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, guint32 flags, CamelException *ex);
@@ -301,42 +301,35 @@ connect_to_server (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
-static CamelServiceAuthType password_authtype = {
-	N_("Password"),
-	
-	N_("This option will connect to the IMAP server using a "
-	   "plaintext password."),
-	
-	"",
-	TRUE
-};
+extern CamelServiceAuthType camel_imap_password_authtype;
 
 static GList *
-query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelServiceAuthType *authtype;
-	GList *types, *sasl_types, *t;
+	GList *types, *sasl_types, *t, *next;
 
-	if (connect && !connect_to_server (service, ex))
+	if (!connect_to_server (service, ex))
 		return NULL;
 
-	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, connect, ex);
+	types = CAMEL_SERVICE_CLASS (remote_store_class)->query_auth_types (service, ex);
+	if (camel_exception_is_set (ex))
+		return types;
 
 	sasl_types = camel_sasl_authtype_list ();
-	if (connect) {
-		for (t = types; t; t = t->next) {
-			authtype = t->data;
+	for (t = sasl_types; t; t = next) {
+		authtype = t->data;
+		next = t->next;
 
-			if (!g_hash_table_lookup (store->authtypes, authtype->authproto)) {
-				g_list_remove_link (types, t);
-				g_list_free_1 (t);
-			}
+		if (!g_hash_table_lookup (store->authtypes, authtype->authproto)) {
+			sasl_types = g_list_remove_link (sasl_types, t);
+			g_list_free_1 (t);
 		}
 	}
 	types = g_list_concat (types, sasl_types);
 
-	return g_list_prepend (types, &password_authtype);
+	return g_list_prepend (types, &camel_imap_password_authtype);
 }
 
 /* call refresh folder directly, bypassing the folder lock */

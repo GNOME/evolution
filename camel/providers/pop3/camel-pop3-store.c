@@ -72,7 +72,7 @@ static void finalize (CamelObject *object);
 
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
 static gboolean pop3_disconnect (CamelService *service, gboolean clean, CamelException *ex);
-static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name, 
 				guint32 flags, CamelException *ex);
@@ -141,41 +141,8 @@ finalize (CamelObject *object)
 		g_free (pop3_store->apop_timestamp);
 }
 
-static CamelServiceAuthType password_authtype = {
-	N_("Password"),
-
-	N_("This option will connect to the POP server using a plaintext "
-	   "password. This is the only option supported by many POP servers."),
-
-	"",
-	TRUE
-};
-
-static CamelServiceAuthType apop_authtype = {
-	"APOP",
-
-	N_("This option will connect to the POP server using an encrypted "
-	   "password via the APOP protocol. This may not work for all users "
-	   "even on servers that claim to support it."),
-
-	"+APOP",
-	TRUE
-};
-
-#ifdef HAVE_KRB4
-static CamelServiceAuthType kpop_authtype = {
-	"Kerberos 4 (KPOP)",
-
-	N_("This will connect to the POP server and use Kerberos 4 "
-	   "to authenticate to it."),
-
-	"+KPOP",
-	FALSE
-};
-#endif
-
 static gboolean
-connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
+connect_to_server (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	char *buf, *apoptime, *apopend;
@@ -282,8 +249,14 @@ connect_to_server (CamelService *service, /*gboolean real, */CamelException *ex)
 	return TRUE;
 }
 
+extern CamelServiceAuthType camel_pop3_password_authtype;
+extern CamelServiceAuthType camel_pop3_apop_authtype;
+#ifdef HAVE_KRB4
+extern CamelServiceAuthType camel_pop3_kpop_authtype;
+#endif
+
 static GList *
-query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	GList *types = NULL;
@@ -292,53 +265,39 @@ query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 	gboolean kpop = TRUE;
 	int saved_port;
 #endif
-	
-        types = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, connect, ex);
-	
-	if (connect) {
-		passwd = camel_service_connect (service, ex);
-		/*ignore the exception here; the server may just not support passwd */
-		
-		/* should we check apop too? */
-		apop = store->apop_timestamp != NULL;
-		if (passwd)
-			camel_service_disconnect (service, TRUE, ex);
-		camel_exception_clear (ex);
-		
+
+        types = CAMEL_SERVICE_CLASS (parent_class)->query_auth_types (service, ex);
+	if (camel_exception_is_set (ex))
+		return types;
+
+	passwd = camel_service_connect (service, NULL);
+	apop = store->apop_timestamp != NULL;
+	if (passwd)
+		camel_service_disconnect (service, TRUE, NULL);
+
 #ifdef HAVE_KRB4
-		saved_port = service->url->port;
-		service->url->port = KPOP_PORT;
-		kpop = camel_service_connect (service, ex);
-		service->url->port = saved_port;
-		/*ignore the exception here; the server may just not support kpop */
-		
-		if (kpop)
-			camel_service_disconnect (service, TRUE, ex);
-		camel_exception_clear (ex);
+	saved_port = service->url->port;
+	service->url->port = KPOP_PORT;
+	kpop = camel_service_connect (service, NULL);
+	service->url->port = saved_port;
+	if (kpop)
+		camel_service_disconnect (service, TRUE, NULL);
 #endif
-		
-		if (passwd)
-			types = g_list_append (types, &password_authtype);
-		if (apop)
-			types = g_list_append (types, &apop_authtype);
+
+	if (passwd)
+		types = g_list_append (types, &camel_pop3_password_authtype);
+	if (apop)
+		types = g_list_append (types, &camel_pop3_apop_authtype);
 #ifdef HAVE_KRB4
-		if (kpop)
-			types = g_list_append (types, &kpop_authtype);
+	if (kpop)
+		types = g_list_append (types, &camel_pop3_kpop_authtype);
 #endif
-		
-		if (!types) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not connect to POP server on "
-						"%s."), service->url->host);
-		}
-	} else {
-		types = g_list_append (types, &password_authtype);
-		types = g_list_append (types, &apop_authtype);
-#ifdef HAVE_KRB4
-		types = g_list_append (types, &kpop_authtype);
-#endif
+
+	if (!types) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not connect to POP server on "
+					"%s."), service->url->host);
 	}
-	
 	return types;
 }
 

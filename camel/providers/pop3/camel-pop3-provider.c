@@ -43,9 +43,7 @@ static CamelProvider pop3_provider = {
 
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
@@ -63,9 +61,40 @@ static CamelProvider spop_provider = {
 
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
+	/* ... */
+};
+#endif
 
-	NULL
+CamelServiceAuthType camel_pop3_password_authtype = {
+	N_("Password"),
+
+	N_("This option will connect to the POP server using a plaintext "
+	   "password. This is the only option supported by many POP servers."),
+
+	"",
+	TRUE
+};
+
+CamelServiceAuthType camel_pop3_apop_authtype = {
+	"APOP",
+
+	N_("This option will connect to the POP server using an encrypted "
+	   "password via the APOP protocol. This may not work for all users "
+	   "even on servers that claim to support it."),
+
+	"+APOP",
+	TRUE
+};
+
+#ifdef HAVE_KRB4
+CamelServiceAuthType camel_pop3_kpop_authtype = {
+	"Kerberos 4 (KPOP)",
+
+	N_("This will connect to the POP server and use Kerberos 4 "
+	   "to authenticate to it."),
+
+	"+KPOP",
+	FALSE
 };
 #endif
 
@@ -74,19 +103,22 @@ camel_provider_module_init (CamelSession *session)
 {
 	pop3_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_pop3_store_get_type ();
+	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+
+#ifdef HAVE_KRB4
+	pop3_provider.authtypes = g_list_prepend (camel_remote_store_authtype_list (), &camel_pop3_kpop_authtype);
+#endif
+	pop3_provider.authtypes = g_list_prepend (pop3_provider.authtypes, &camel_pop3_apop_authtype);
+	pop3_provider.authtypes = g_list_prepend (pop3_provider.authtypes, &camel_pop3_password_authtype);
+
+	camel_session_register_provider (session, &pop3_provider);
+
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 	spop_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_pop3_store_get_type ();
-#endif
-	
-	pop3_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 	spop_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-#endif
-	
-	camel_session_register_provider (session, &pop3_provider);
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	spop_provider.authtypes = g_list_copy (pop3_provider.authtypes);
+
 	camel_session_register_provider (session, &spop_provider);
 #endif
 }

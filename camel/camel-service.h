@@ -72,10 +72,7 @@ typedef struct {
 					CamelException *ex);
 
 	GList *   (*query_auth_types)  (CamelService *service,
-					gboolean connect,
 					CamelException *ex);
-	void      (*free_auth_types)   (CamelService *service,
-					GList *authtypes);
 
 	char *    (*get_name)          (CamelService *service,
 					gboolean brief);
@@ -109,10 +106,7 @@ char *              camel_service_get_path           (CamelService *service);
 CamelSession *      camel_service_get_session        (CamelService *service);
 CamelProvider *     camel_service_get_provider       (CamelService *service);
 GList *             camel_service_query_auth_types   (CamelService *service,
-						      gboolean connect,
 						      CamelException *ex);
-void                camel_service_free_auth_types    (CamelService *service,
-						      GList *authtypes);
 
 /* convenience functions */
 struct hostent *    camel_service_gethost            (CamelService *service,

@@ -70,8 +70,7 @@ static gboolean smtp_send_to (CamelTransport *transport, CamelMedium *message, G
 static gboolean smtp_connect (CamelService *service, CamelException *ex);
 static gboolean smtp_disconnect (CamelService *service, gboolean clean, CamelException *ex);
 static GHashTable *esmtp_get_authtypes (gchar *buffer);
-static GList *query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
-static void free_auth_types (CamelService *service, GList *authtypes);
+static GList *query_auth_types (CamelService *service, CamelException *ex);
 static char *get_name (CamelService *service, gboolean brief);
 
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
@@ -101,7 +100,6 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 	camel_service_class->connect = smtp_connect;
 	camel_service_class->disconnect = smtp_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
-	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 
 	camel_transport_class->can_send = smtp_can_send;
@@ -465,46 +463,28 @@ esmtp_get_authtypes (char *buffer)
 	return table;
 }
 
-static CamelServiceAuthType no_authtype = {
-	N_("No authentication required"),
-	
-	N_("This option will connect to the SMTP server without using any "
-	   "kind of authentication. This should be fine for connecting to "
-	   "most SMTP servers."),
-	
-	"",
-	FALSE
-};
-
 static GList *
-query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	CamelServiceAuthType *authtype;
-	GList *types, *t;
+	GList *types, *t, *next;
 	
-	if (connect && !smtp_connect (service, ex))
+	if (!smtp_connect (service, ex))
 		return NULL;
 	
 	types = camel_sasl_authtype_list ();
-	if (connect) {
-		for (t = types; t; t = t->next) {
-			authtype = t->data;
-			
-			if (!g_hash_table_lookup (transport->authtypes, authtype->authproto)) {
-				g_list_remove_link (types, t);
-				g_list_free_1 (t);
-			}
+	for (t = types; t; t = next) {
+		authtype = t->data;
+		next = t->next;
+		
+		if (!g_hash_table_lookup (transport->authtypes, authtype->authproto)) {
+			types = g_list_remove_link (types, t);
+			g_list_free_1 (t);
 		}
 	}
 	
-	return g_list_prepend (types, &no_authtype);
-}
-
-static void
-free_auth_types (CamelService *service, GList *authtypes)
-{
-	g_list_free (authtypes);
+	return types;
 }
 
 static char *

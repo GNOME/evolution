@@ -38,13 +38,11 @@ static CamelProvider sendmail_provider = {
 
 	"mail",
 
-	0,
+	0, /* flags */
 
-	0,
+	0, /* url_flags */
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 void

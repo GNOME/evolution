@@ -62,21 +62,36 @@ extern char *camel_provider_type_name[CAMEL_NUM_PROVIDER_TYPES];
  * for which it has set the NEED flag will be set when the service
  * is created.
  */
-#define CAMEL_URL_ALLOW_USER	 (1 << 0)
-#define CAMEL_URL_ALLOW_AUTH	 (1 << 1)
-#define CAMEL_URL_ALLOW_PASSWORD (1 << 2)
-#define CAMEL_URL_ALLOW_HOST	 (1 << 3)
-#define CAMEL_URL_ALLOW_PORT	 (1 << 4)
-#define CAMEL_URL_ALLOW_PATH	 (1 << 5)
+#define CAMEL_URL_PART_USER	 (1 << 0)
+#define CAMEL_URL_PART_AUTH	 (1 << 1)
+#define CAMEL_URL_PART_PASSWORD	 (1 << 2)
+#define CAMEL_URL_PART_HOST	 (1 << 3)
+#define CAMEL_URL_PART_PORT	 (1 << 4)
+#define CAMEL_URL_PART_PATH	 (1 << 5)
 
-#define CAMEL_URL_NEED_USER	 (1 << 6 | 1 << 0)
-#define CAMEL_URL_NEED_AUTH	 (1 << 7 | 1 << 1)
-#define CAMEL_URL_NEED_PASSWORD	 (1 << 8 | 1 << 2)
-#define CAMEL_URL_NEED_HOST	 (1 << 9 | 1 << 3)
-#define CAMEL_URL_NEED_PORT	 (1 << 10 | 1 << 4)
-#define CAMEL_URL_NEED_PATH	 (1 << 11 | 1 << 5)
+#define CAMEL_URL_PART_NEED	       6
+
+/* Use these macros to test a provider's url_flags */
+#define CAMEL_PROVIDER_ALLOWS(prov, flags) (prov->url_flags & (flags | (flags << CAMEL_URL_PART_NEED)))
+#define CAMEL_PROVIDER_NEEDS(prov, flags) (prov->url_flags & (flags << CAMEL_URL_PART_NEED))
+
+/* Providers use these macros to actually define their url_flags */
+#define CAMEL_URL_ALLOW_USER	 (CAMEL_URL_PART_USER)
+#define CAMEL_URL_ALLOW_AUTH	 (CAMEL_URL_PART_AUTH)
+#define CAMEL_URL_ALLOW_PASSWORD (CAMEL_URL_PART_PASSWORD)
+#define CAMEL_URL_ALLOW_HOST	 (CAMEL_URL_PART_HOST)
+#define CAMEL_URL_ALLOW_PORT	 (CAMEL_URL_PART_PORT)
+#define CAMEL_URL_ALLOW_PATH	 (CAMEL_URL_PART_PATH)
+
+#define CAMEL_URL_NEED_USER	 (CAMEL_URL_PART_USER << CAMEL_URL_PART_NEED)
+#define CAMEL_URL_NEED_AUTH	 (CAMEL_URL_PART_AUTH << CAMEL_URL_PART_NEED)
+#define CAMEL_URL_NEED_PASSWORD	 (CAMEL_URL_PART_PASSWORD << CAMEL_URL_PART_NEED)
+#define CAMEL_URL_NEED_HOST	 (CAMEL_URL_PART_HOST << CAMEL_URL_PART_NEED)
+#define CAMEL_URL_NEED_PORT	 (CAMEL_URL_PART_PORT << CAMEL_URL_PART_NEED)
+#define CAMEL_URL_NEED_PATH	 (CAMEL_URL_PART_PATH << CAMEL_URL_PART_NEED)
 
 #define CAMEL_URL_PATH_IS_ABSOLUTE (1 << 12)
+
 
 typedef struct {
 	/* Provider name used in CamelURLs. */
@@ -99,9 +114,13 @@ typedef struct {
 	 */
 	char *domain;
 
+	/* Flags describing the provider, flags describing its URLs */
 	int flags, url_flags;
 
 	CamelType object_types [CAMEL_NUM_PROVIDER_TYPES];
+
+	/* GList of CamelServiceAuthTypes the provider supports */
+	GList *authtypes;
 
 	GHashTable *service_cache;
 	

@@ -1,3 +1,49 @@
+2001-03-21  Dan Winship  <danw@ximian.com>
+
+	* camel-provider.h: (CamelProvider) add a "GList *authtypes", so
+	you can get the list of authtypes used by a provider without
+	needing to have an actual CamelService object handy. (Will be
+	needed by the new config druid.)
+	(CAMEL_PROVIDER_ALLOWS, CAMEL_PROVIDER_NEEDS): New macros to test
+	the URL part stuff, since the way it works is too complicated and
+	everyone always does it wrong.
+
+	* camel-service.c (camel_service_query_auth_types): Remove the
+	@connected arg again: if you don't want to connect, you can just
+	get the list of authtypes off the provider.
+	(camel_service_free_auth_types): Remove this. All existing
+	implementations do authtypes the same way, so just say the caller
+	should "g_list_free" the list. (Oh, look, removing this function
+	doesn't actually cause the mailer to not build. How 'bout that.)
+	(construct, get_path): Use the new URL part macros.
+
+	* camel-remote-store.c (remote_query_auth_types): Update
+	(remote_free_auth_types): Nuke
+	(camel_remote_store_authtype_list): New function for use by
+	subclasses.
+
+	* providers/imap/camel-imap-provider.c:
+	* providers/pop3/camel-pop3-provider.c:
+	* providers/smtp/camel-smtp-provider.c: Update CamelProvider
+	structures.
+	(camel_provider_module_init): Put all the SSL parts together so
+	there's only 1 #ifdef. Set up the provider authtypes field using
+	the SASL, CamelRemoteStore, and standard authtypes, as
+	appropriate. Copy that from the normal provider to the SSL
+	provider.
+
+	* providers/local/camel-local-provider.c:
+	* providers/sendmail/camel-sendmail-provider.c:
+	* camel-session.c: Update CamelProvider structures.
+
+	* providers/imap/camel-imap-store.c (query_auth_types):
+	* providers/pop3/camel-pop3-store.c (query_auth_types): Update
+
+	* providers/smtp/camel-smtp-store.c (query_auth_types): Update.
+	Remove the no_authtype, because that's what "ALLOW_AUTH" rather
+	than "NEED_AUTH" means.
+	(free_auth_types): Nuke.
+
 2001-03-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message):

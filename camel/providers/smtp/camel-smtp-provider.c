@@ -28,6 +28,7 @@
 #include "camel-provider.h"
 #include "camel-session.h"
 #include "camel-url.h"
+#include "camel-sasl.h"
 
 static CamelProvider smtp_provider = {
 	"smtp",
@@ -42,9 +43,7 @@ static CamelProvider smtp_provider = {
 
 	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
@@ -61,9 +60,7 @@ static CamelProvider ssmtp_provider = {
 
 	CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 #endif
 
@@ -72,19 +69,17 @@ camel_provider_module_init (CamelSession *session)
 {
 	smtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_smtp_transport_get_type ();
+	smtp_provider.authtypes = camel_sasl_authtype_list ();
+	smtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+
+	camel_session_register_provider (session, &smtp_provider);
+
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 	ssmtp_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
 		camel_smtp_transport_get_type ();
-#endif
-	
-	smtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	ssmtp_provider.authtypes = camel_sasl_authtype_list ();
 	ssmtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-#endif
-	
-	camel_session_register_provider (session, &smtp_provider);
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+
 	camel_session_register_provider (session, &ssmtp_provider);
 #endif
 }

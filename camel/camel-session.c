@@ -57,13 +57,11 @@ static CamelProvider vee_provider = {
 
 	"vfolder",
 
-	0,
+	0, /* flags */
 
-	0,
+	0, /* url_flags */
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 static void

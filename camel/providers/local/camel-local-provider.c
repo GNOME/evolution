@@ -38,8 +38,7 @@ static CamelProvider mh_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
-	{0, 0},
-	NULL
+	/* ... */
 };
 
 static CamelProvider mbox_provider = {
@@ -49,8 +48,7 @@ static CamelProvider mbox_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
-	{ 0, 0 },
-	NULL
+	/* ... */
 };
 
 static CamelProvider maildir_provider = {
@@ -60,8 +58,7 @@ static CamelProvider maildir_provider = {
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
-	{ 0, 0 },
-	NULL
+	/* ... */
 };
 
 void camel_provider_module_init(CamelSession * session)

@@ -28,6 +28,7 @@
 #include "camel-provider.h"
 #include "camel-session.h"
 #include "camel-url.h"
+#include "camel-sasl.h"
 
 static void add_hash (guint *hash, char *s);
 static guint imap_url_hash (gconstpointer key);
@@ -48,9 +49,7 @@ static CamelProvider imap_provider = {
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
 	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
@@ -68,30 +67,38 @@ static CamelProvider simap_provider = {
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST |
 	CAMEL_URL_ALLOW_PATH | CAMEL_URL_ALLOW_AUTH,
 
-	{ 0, 0 },
-
-	NULL
+	/* ... */
 };
 #endif /* HAVE_NSS or HAVE_OPENSSL */
+
+CamelServiceAuthType camel_imap_password_authtype = {
+	N_("Password"),
+	
+	N_("This option will connect to the IMAP server using a "
+	   "plaintext password."),
+	
+	"",
+	TRUE
+};
 
 void
 camel_provider_module_init (CamelSession *session)
 {
 	imap_provider.object_types[CAMEL_PROVIDER_STORE] =
 		camel_imap_store_get_type ();
+	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
+	imap_provider.authtypes = g_list_concat (camel_remote_store_authtype_list (),
+						 camel_sasl_authtype_list ());
+	imap_provider.authtypes = g_list_prepend (imap_provider.authtypes,
+						  &camel_imap_password_authtype);
+
+	camel_session_register_provider (session, &imap_provider);
+
 #if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 	simap_provider.object_types[CAMEL_PROVIDER_STORE] = 
 		camel_imap_store_get_type ();
-#endif
-	
-	imap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
-	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
 	simap_provider.service_cache = g_hash_table_new (imap_url_hash, imap_url_equal);
-#endif
-	
-	camel_session_register_provider (session, &imap_provider);
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+	simap_provider.authtypes = g_list_copy (imap_provider.authtypes);
 	camel_session_register_provider (session, &simap_provider);
 #endif
 }

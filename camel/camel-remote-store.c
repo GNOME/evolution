@@ -67,8 +67,7 @@ static CamelStoreClass *store_class = NULL;
 
 static gboolean remote_connect         (CamelService *service, CamelException *ex);
 static gboolean remote_disconnect      (CamelService *service, gboolean clean, CamelException *ex);
-static GList   *remote_query_auth_types(CamelService *service, gboolean connect, CamelException *ex);
-static void     remote_free_auth_types (CamelService *service, GList *authtypes);
+static GList   *remote_query_auth_types(CamelService *service, CamelException *ex);
 static char    *remote_get_name        (CamelService *service, gboolean brief);
 static gint     remote_send_string     (CamelRemoteStore *store, CamelException *ex, 
 					char *fmt, va_list ap);
@@ -90,7 +89,6 @@ camel_remote_store_class_init (CamelRemoteStoreClass *camel_remote_store_class)
 	camel_service_class->connect = remote_connect;
 	camel_service_class->disconnect = remote_disconnect;
 	camel_service_class->query_auth_types = remote_query_auth_types;
-	camel_service_class->free_auth_types = remote_free_auth_types;
 	camel_service_class->get_name = remote_get_name;
 	
 	camel_remote_store_class->send_string = remote_send_string;
@@ -148,31 +146,22 @@ camel_remote_store_get_type (void)
 	return camel_remote_store_type;
 }
 
-/* Auth stuff */
-
-/*
-static CamelServiceAuthType password_authtype = {
-	N_("SSH Tunneling"),
-	
-	N_("This option will connect to the server using a "
-	   "SSH tunnel."),
-	
-	"",
-	TRUE
-};
-*/
+/* Auth stuff... for now, nothing, but eventually SSL at least should
+ * be handled through here, and SSH tunnelling if we ever implement it.
+ */
 
 static GList *
-remote_query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+remote_query_auth_types (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }
 
-static void
-remote_free_auth_types (CamelService *service, GList *authtypes)
+GList *
+camel_remote_store_authtype_list (void)
 {
-	g_list_free (authtypes);
+	return NULL;
 }
+
 
 static char *
 remote_get_name (CamelService *service, gboolean brief)

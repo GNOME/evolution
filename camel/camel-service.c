@@ -45,8 +45,7 @@ static gboolean service_connect(CamelService *service, CamelException *ex);
 static gboolean service_disconnect(CamelService *service, gboolean clean,
 				   CamelException *ex);
 /*static gboolean is_connected (CamelService *service);*/
-static GList *  query_auth_types (CamelService *service, gboolean connect, CamelException *ex);
-static void     free_auth_types (CamelService *service, GList *authtypes);
+static GList *  query_auth_types (CamelService *service, CamelException *ex);
 static char *   get_name (CamelService *service, gboolean brief);
 static char *   get_path (CamelService *service);
 
@@ -61,7 +60,6 @@ camel_service_class_init (CamelServiceClass *camel_service_class)
 	camel_service_class->connect = service_connect;
 	camel_service_class->disconnect = service_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
-	camel_service_class->free_auth_types = free_auth_types;
 	camel_service_class->get_name = get_name;
 	camel_service_class->get_path = get_path;
 }
@@ -134,8 +132,7 @@ construct (CamelService *service, CamelSession *session,
 {
 	char *url_string;
 
-	if (((provider->url_flags & CAMEL_URL_NEED_USER)
-	     == CAMEL_URL_NEED_USER) &&
+	if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_USER) &&
 	    (url->user == NULL || url->user[0] == '\0')) {
 		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -143,8 +140,7 @@ construct (CamelService *service, CamelSession *session,
 				      url_string);
 		g_free (url_string);
 		return;
-	} else if (((provider->url_flags & CAMEL_URL_NEED_HOST)
-		    == CAMEL_URL_NEED_HOST) &&
+	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_HOST) &&
 		   (url->host == NULL || url->host[0] == '\0')) {
 		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -152,8 +148,7 @@ construct (CamelService *service, CamelSession *session,
 				      url_string);
 		g_free (url_string);
 		return;
-	} else if (((provider->url_flags & CAMEL_URL_NEED_PATH)
-		    == CAMEL_URL_NEED_PATH) &&
+	} else if (CAMEL_PROVIDER_NEEDS (provider, CAMEL_URL_PART_PATH) &&
 		   (url->path == NULL || url->path[0] == '\0')) {
 		url_string = camel_url_to_string (url, FALSE);
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
@@ -335,29 +330,29 @@ get_path (CamelService *service)
 	GString *gpath;
 	char *path;
 	CamelURL *url = service->url;
-	int flags = service->provider->url_flags;
+	CamelProvider *prov = service->provider;
 
 	/* A sort of ad-hoc default implementation that works for our
 	 * current set of services.
 	 */
 
 	gpath = g_string_new (service->provider->protocol);
-	if (flags & CAMEL_URL_ALLOW_USER) {
-		if (flags & CAMEL_URL_ALLOW_HOST) {
+	if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_USER)) {
+		if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
 			g_string_sprintfa (gpath, "/%s@%s",
 					   url->user ? url->user : "",
 					   url->host ? url->host : "");
 		} else {
 			g_string_sprintfa (gpath, "/%s%s",
-			   url->user ? url->user : "",
-			   ((flags & CAMEL_URL_NEED_USER) == CAMEL_URL_NEED_USER) ? "" : "@");
+					   url->user ? url->user : "",
+					   CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_USER) ? "" : "@");
 		}
-	} else if (flags & CAMEL_URL_ALLOW_HOST) {
+	} else if (CAMEL_PROVIDER_ALLOWS (prov, CAMEL_URL_PART_HOST)) {
 		g_string_sprintfa (gpath, "/%s%s",
-		   ((flags & CAMEL_URL_NEED_HOST) == CAMEL_URL_NEED_HOST) ? "" : "@",
-		   url->host ? url->host : "");
+				   CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST) ? "" : "@",
+				   url->host ? url->host : "");
 	}
-	if ((flags & CAMEL_URL_NEED_PATH) == CAMEL_URL_NEED_PATH) {
+	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
 		g_string_sprintfa (gpath, "%s%s",
 				   *url->path == '/' ? "" : "/",
 				   url->path);
@@ -419,7 +414,7 @@ camel_service_get_provider (CamelService *service)
 }
 
 static GList *
-query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+query_auth_types (CamelService *service, CamelException *ex)
 {
 	return NULL;
 }
@@ -427,57 +422,28 @@ query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
 /**
  * camel_service_query_auth_types:
  * @service: a CamelService
- * @connect: specifies whether or not to connect
  * @ex: a CamelException
  *
  * This is used by the mail source wizard to get the list of
  * authentication types supported by the protocol, and information
  * about them.
  *
- * This may be called on a service with or without an associated URL.
- * If there is no URL, the routine must return a generic answer. If
- * the service does have a URL, the routine should connect to the
- * server and query what authentication mechanisms it supports only if
- * @connect is TRUE. If it cannot do that for any reason, it should
- * set @ex accordingly.
- *
  * Return value: a list of CamelServiceAuthType records. The caller
- * must free the list by calling camel_service_free_auth_types when
- * it is done.
+ * must free the list with g_list_free() when it is done with it.
  **/
 GList *
-camel_service_query_auth_types (CamelService *service, gboolean connect, CamelException *ex)
+camel_service_query_auth_types (CamelService *service, CamelException *ex)
 {
 	GList *ret;
 
 	/* note that we get the connect lock here, which means the callee
 	   must not call the connect functions itself */
 	CAMEL_SERVICE_LOCK(service, connect_lock);
-	ret = CSERV_CLASS (service)->query_auth_types (service, connect, ex);
+	ret = CSERV_CLASS (service)->query_auth_types (service, ex);
 	CAMEL_SERVICE_UNLOCK(service, connect_lock);
 
 	return ret;
 }
-
-static void
-free_auth_types (CamelService *service, GList *authtypes)
-{
-	;
-}
-
-/**
- * camel_service_free_auth_types:
- * @service: the service
- * @authtypes: the list of authtypes
- *
- * This frees the data allocated by camel_service_query_auth_types().
- **/
-void
-camel_service_free_auth_types (CamelService *service, GList *authtypes)
-{
-	CSERV_CLASS (service)->free_auth_types (service, authtypes);
-}
-
 
 /* URL utility routines */
 

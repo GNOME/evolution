@@ -68,6 +68,8 @@ CamelType camel_remote_store_get_type (void);
    any other functions, anywhere in the world ... */
 
 /* Extra public functions */
+GList *camel_remote_store_authtype_list (void);
+
 gint camel_remote_store_send_string (CamelRemoteStore *store, CamelException *ex,
 				     char *fmt, ...);
 gint camel_remote_store_send_stream (CamelRemoteStore *store, CamelStream *stream, 
