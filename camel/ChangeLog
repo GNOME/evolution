@@ -1,3 +1,8 @@
+2000-06-27  Michael Zucchi  <zucchi@zedzone.mmc.com.au>
+
+	* camel-folder-search.c (search_header_contains): Make header
+	search 'to' match 'to', and not 'from', small typo, fixes #317.
+
 2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c: Added debugging
