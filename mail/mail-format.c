@@ -668,7 +668,6 @@ static void
 write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
 	const char *name, *email;
-	gboolean name_set, mail_set;
 	gint i;
 
 	if (addr == NULL || !camel_internet_address_get (addr, 0, NULL, NULL))

@@ -1,3 +1,11 @@
+2001-04-25  Radek Doulik  <rodo@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): set object data directly
+	in HTML source
+
+	* mail-callbacks.c (mail_generate_reply): remove \n from citation
+	(mail_generate_reply): don't use e_msg_composer_mark_text_orig
+
 2001-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c: Added a new signal, "message_loaded" that gets

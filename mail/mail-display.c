@@ -1289,8 +1289,6 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 			HTMLEngine *e;
 			HTMLPoint *point;
 			GtkWidget *popup_thing;
-			const gchar *email;
-			const gchar *name;
 			const gchar *link;
 
 			e     = GTK_HTML (widget)->engine;

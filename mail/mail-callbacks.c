@@ -400,20 +400,19 @@ create_msg_composer (const char *url)
 	gchar *sig_file = NULL;
 	EMsgComposer *composer;
 	
-	account = mail_config_get_default_account ();
+	account   = mail_config_get_default_account ();
 	send_html = mail_config_get_send_html ();
 	
 	if (account->id)
 		sig_file = account->id->signature;
 	
-	if (url != NULL) {
-		composer = e_msg_composer_new_from_url (url);
-		if (composer)
-			e_msg_composer_set_send_html (composer, send_html);
-	} else
-		composer = e_msg_composer_new_with_sig_file (sig_file, send_html);
+	composer = url ? e_msg_composer_new_from_url (url) : e_msg_composer_new ();
+	if (composer) {
+		e_msg_composer_set_send_html (composer, send_html);
+		e_msg_composer_set_sig_file  (composer, sig_file);
+	}
 	
-	return (GtkWidget *)composer;
+	return GTK_WIDGET (composer);
 }
 
 void
@@ -590,13 +589,12 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	camel_internet_address_get (sender, 0, &name, &address);
 	date = camel_mime_message_get_date (message, &offset);
 	date_str = header_format_date (date, offset);
-	text = mail_tool_quote_message (message, _("On %s, %s wrote:\n"), date_str, name && *name ? name : address);
+	text = mail_tool_quote_message (message, _("On %s, %s wrote:"), date_str, name && *name ? name : address);
 	g_free (date_str);
 	
 	if (text) {
 		e_msg_composer_set_body_text (composer, text);
 		g_free (text);
-		e_msg_composer_mark_text_orig (composer);
 	}
 	
 	/* Set the recipients */
