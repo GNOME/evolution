@@ -333,8 +333,7 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
-	g_return_if_fail (shell_view != NULL);
-	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	g_return_if_fail (shell_view != NULL && ! E_IS_SHELL_VIEW (shell_view));
 
 	shortcuts = e_shell_get_shortcuts (shell);
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);

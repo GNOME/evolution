@@ -1,3 +1,8 @@
+2001-06-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	Allow a NULL @shell_view arg.
+
 2001-06-08  Jason Leach  <jleach@ximian.com>
 
 	* e-shell.c (e_shell_construct): Fix splash setup to keep it from
