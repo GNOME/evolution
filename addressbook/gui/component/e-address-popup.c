@@ -126,7 +126,7 @@ static MiniWizard *
 mini_wizard_new (void)
 {
 	MiniWizard *wiz = g_new (MiniWizard, 1);
-	GtkWidget *hbox;
+	GtkWidget *bbox;
 
 	wiz->body          = gtk_vbox_new (FALSE, 2);
 	wiz->vbox          = gtk_vbox_new (FALSE, 2);
@@ -140,13 +140,19 @@ mini_wizard_new (void)
 	wiz->destroy_cb      = NULL;
 	wiz->destroy_closure = NULL;
 
-	hbox = gtk_hbox_new (FALSE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), wiz->ok_button, TRUE, FALSE, 2);
-	gtk_box_pack_start (GTK_BOX (hbox), wiz->cancel_button, TRUE, FALSE, 2);
+	bbox = gtk_hbutton_box_new ();
+	gtk_button_box_set_layout (GTK_BUTTON_BOX (bbox),
+				   GTK_BUTTONBOX_END);
+
+	gtk_box_pack_start (GTK_BOX (bbox), wiz->cancel_button, FALSE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (bbox), wiz->ok_button, FALSE, TRUE, 0);
+
+	gtk_box_set_spacing (GTK_BOX (bbox),
+			     10 /* ugh */);
 
 	gtk_box_pack_start (GTK_BOX (wiz->body), wiz->vbox, TRUE, TRUE, 2);
 	gtk_box_pack_start (GTK_BOX (wiz->body), gtk_hseparator_new (), FALSE, TRUE, 2);
-	gtk_box_pack_start (GTK_BOX (wiz->body), hbox, FALSE, TRUE, 2);
+	gtk_box_pack_start (GTK_BOX (wiz->body), bbox, FALSE, TRUE, 2);
 
 	gtk_widget_show_all (wiz->body);
 

@@ -1,5 +1,11 @@
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/e-address-popup.c (mini_wizard_new): change the
+	ok/cancel button layout to be higified.
+
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
+	[ last portion of #40046 fix ]
 	* gui/component/select-names/e-select-names-popup.c
 	(remove_recipient_cb): ifdef this out to quiet the compiler.
 	(remove_all_recipients_cb): same.
@@ -12,7 +18,7 @@
 	(e_select_names_populate_popup): we don't need the card, since we
 	don't check if it's a list here anymore.  also, remove the #if 0
 	surrounding the nocard case.
-{
+
 2003-04-07  Not Zed  <NotZed@Ximian.com>
  
  	Fixes #40252.
