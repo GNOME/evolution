@@ -545,6 +545,14 @@ camel_object_unref (CamelObject * obj)
 
 	g_slist_free (head);
 
+	/* Sanity check */
+
+	if (obj->ref_count != 0)
+		g_warning ("camel_object_unref: destroyed object %s at %p somehow got"
+			   " referenced in destruction chain.",
+			   camel_type_to_name (obj->s.type),
+			   obj);
+
 	/* A little bit of cleaning up.
 
 	 * Don't erase the type, so we can peek at it if a finalized object

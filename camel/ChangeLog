@@ -1,3 +1,9 @@
+2001-07-06  Peter Williams  <peterw@ximian.com>
+
+	* camel-object.c (camel_object_unref): Make sure that after the
+	finalization event has happened and the finalization functions
+	have been called that the object still has a zero refcount.
+
 2001-07-06  Joe Shaw  <joe@ximian.com>
 
 	* providers/nntp/camel-nntp-grouplist.c: Add locking to
