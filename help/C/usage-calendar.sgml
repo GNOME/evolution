@@ -115,9 +115,9 @@
       </para>
       <para>
 	<application>Evolution</application> supports the use of
-	timezones.  If you share calendar files with friends or
-	co-workers, it is quite possible you will need to configure
-	your timezone.  To configure your timezone:
+	timezones.  If you use the calendar to schedule meetings, it
+	is quite possible you will need to set your time zone.
+	To do so:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -153,7 +153,7 @@
 	per-appointment basis helps avoid that potential confusion.
       </para>
       <note>
-       <title>Multiple Simultanious Appointments</title>
+       <title>Multiple Simultaneous Appointments</title>
          <para>
            If you create calendar appointments that overlap,
            <application>Evolution</application> will display them side
@@ -212,26 +212,6 @@
          </para>
         </note>
 
-      <para>
-         <guilabel>Classification</guilabel> 
-         only applies to calendars on a
-         network. <guilabel>Public</guilabel> is the default category,
-         and a public appointment can be viewed by anyone on the calendar
-         sharing network.  <guilabel>Private</guilabel> denotes one
-         level of security, and <guilabel>Confidential</guilabel> an even 
-         higher level.
-      </para>
-      <para>
-	<application>Evolution</application> can handle not only time
-	that you're busy, but free time. This can be useful if you're
-	on a network sharing calendar files.  You can easily compare
-	schedules with other people, allowing easy setup of a RSVP.
-      </para>
-      <para>
-	To set your appointment to be free or busy, simply click the
-	box in the <guilabel>Show Time As</guilabel> section in the
-	<guilabel>Appointment Editor</guilabel>.
-      </para>
       <para>
         <application>Evolution</application> lets you categorize your
 	appointments, which can help if you lead a busy life.  The bottom
@@ -338,7 +318,7 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click the space labelled <guilabel>Click here to add an
+	      Click the space labeled <guilabel>Click here to add an
 	      attendee</guilabel> to enter the names and email
 	      addresses of people you will invite, or click the
 	      <guibutton>Invite Others</guibutton> to select them from
@@ -361,7 +341,7 @@
 	respond to one, click on the attachment icon and view it
 	inline in the mail window.  All the details are shown about
 	the event including time and dates.  Then you can choose how
-	to reply to the RSVP.  Your choices are:
+	to reply to the invitation.  Your choices are:
 	<itemizedlist>
 	  <listitem>
 	    <para>
@@ -383,6 +363,30 @@
 	the organizer with your answer.  The event will also be added
 	to your calendar if you accept.
       </para>
+      <para>
+        Note, however, that if you add a meeting to your calendar,
+        there are some limitations: only the organizer of a meeting
+        can add participants in a meeting. Your only options, as a
+        participant, are to accept the meeting, or decline it. 
+      </para>
+      <para>
+        Once you have added the meeting to your calendar, you can make
+        changes to your copy-- mark yourself the organizer, invite
+        more people, and so forth-- but be aware that if the original
+        organizer sends out another update, your changes may be overwritten.
+      </para>
+   <note id="organizer-only-one">
+     <title>There Can Be Only One</title>
+      <para> 
+         A meeting can have only one organizer. You can designate
+         yourself the organizer of the meeting, but unless you
+         coordinate that action with the organizer you are replacing,
+         you could create confusion in the scheduling process. If you
+         want to invite additional people to a meeting without
+         changing the organizer, it's best to forward the first
+         organizer's message to the additional participants
+      </para>
+    </note>
     </sect2>
 
     <sect2 id="receiving-rsvp-response">
@@ -488,7 +492,7 @@
 	</orderedlist>
       </para>
       <figure>
-        <title>Appointment Scheduing Window</title>
+        <title>Appointment Scheduling Window</title>
 	<screenshot>
 	  <screeninfo>Appointment Scheduling Window</screeninfo>
 	  <mediaobject><imageobject>
