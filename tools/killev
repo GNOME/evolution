@@ -16,7 +16,7 @@ $debug=0;
 # IIDs of specific CORBA servers that need to die that don't implement
 # useful interfaces (for querying, anyway)
 @iids = ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
-	 "OAFIID:GNOME_GtkHTML_Editor_Factory",
+	 "OAFIID:GNOME_GtkHTML_Editor_Factory:1.1",
 	 "OAFIID:Bonobo_Moniker_xmldb_Factory");
 
 ##

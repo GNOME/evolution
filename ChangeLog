@@ -1,3 +1,8 @@
+2002-03-24  Peter Williams  <peterw@ximian.com>
+
+	* tools/killev: Change the OAFIID for the GtkHTML editor to
+	have :1.1 at the end.
+
 2002-03-19  Dan Winship  <danw@ximian.com>
 
 	* tools/Makefile.am (evolution_addressbook_import_LDADD):
