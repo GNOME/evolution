@@ -2029,19 +2029,34 @@ em_utils_selection_set_urilist(GtkSelectionData *data, CamelFolder *folder, GPtr
 {
 	const char *tmpdir;
 	CamelStream *fstream;
-	char *uri, *p;
+	char *uri, *p, *file = NULL;
 	int fd;
+	CamelMessageInfo *info;
 
 	tmpdir = e_mkdtemp("drag-n-drop-XXXXXX");
 	if (tmpdir == NULL)
 		return;
 
-	/* FIXME: this used to save a single message with the subject
-	   as the filename but it was unsafe, and makes this messier,
-	   the pain */
-	
-	p = uri = g_alloca (strlen (tmpdir) + 16);
-	p += sprintf (uri, "file:///%s/mbox", tmpdir);
+	/* Try to get the drop filename from the message or folder */
+	if (uids->len == 1) {
+		info = camel_folder_get_message_info(folder, uids->pdata[0]);
+		if (info) {
+			file = g_strdup(camel_message_info_subject(info));
+			camel_folder_free_message_info(folder, info);
+		}
+	}
+
+	/* TODO: Handle conflicts? */
+	if (file == NULL) {
+		/* Drop filename for messages from a mailbox */
+		file = g_strdup_printf(_("Messages from %s"), folder->name);
+	}
+
+	e_filename_make_safe(file);
+
+	p = uri = g_alloca (strlen (tmpdir) + strlen(file) + 16);
+	p += sprintf (uri, "file:///%s/%s", tmpdir, file);
+	g_free(file);
 	
 	fd = open(uri + 7, O_WRONLY | O_CREAT | O_EXCL, 0666);
 	if (fd == -1)
@@ -2434,7 +2449,6 @@ em_utils_expunge_folder (GtkWidget *parent, CamelFolder *folder)
 void
 em_utils_empty_trash (GtkWidget *parent)
 {
-	extern CamelSession *session;
 	CamelProvider *provider;
 	EAccountList *accounts;
 	EAccount *account;

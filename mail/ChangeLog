@@ -1,5 +1,11 @@
 2004-03-03  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #54924.
+
+	* em-utils.c (em_utils_selection_set_urilist): Try to get the drop
+	filename from the message subject, or folder name.
+	(em_utils_empty_trash): kill warning.
+
 	** See bug #54121.
 
 	* mail-component.c (impl_requestCreateItem)
