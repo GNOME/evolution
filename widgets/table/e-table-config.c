@@ -56,6 +56,21 @@ config_clear_group (GtkWidget *widget, ETableConfig *config)
 	gtk_object_unref (GTK_OBJECT (config));
 }
 
+static ETableColumnSpecification *
+find_column_in_spec (ETableSpecification *spec, int model_col)
+{
+	ETableColumnSpecification **column;
+
+	for (column = spec->columns; *column; column++){
+		if ((*column)->model_col != model_col)
+			continue;
+
+		return *column;
+	}
+
+	return NULL;
+}
+
 static void
 config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 {
@@ -71,6 +86,13 @@ config_sort_config_show (GtkWidget *widget, ETableConfig *config)
 		gboolean sensitive = (i <= count);
 		
 		gtk_widget_set_sensitive (config->frames [i], sensitive);
+
+		/*
+		 * Sorting is set, auto select the text
+		 */
+		if ((i + 1) >= count){
+			
+		}
 	}
 	
 	button = gnome_dialog_run (dialog);
@@ -86,30 +108,29 @@ config_sort_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i, items = 0;
+	int count, i;
 
 	count = e_table_sort_info_sorting_get_count (info);
 	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
 		ETableSortColumn col = e_table_sort_info_sorting_get_nth (info, i);
-		ETableColumnSpecification **column;
-
-		for (column = config->spec->columns; *column; column++) {
-			if (col.column != (*column)->model_col) 
-				continue;
-				
-			g_string_append (res, _((*column)->title));
-			g_string_append_c (res, ' ');
-			g_string_append (
-				res,
-				col.ascending ?
-				_("(Ascending)") : _("(Descending)"));
-			items++;
-			if (items > 4)
-				g_string_append_c (res, '\n');
+		ETableColumnSpecification *column;
+		
+		column = find_column_in_spec (config->spec, col.column);
+		if (!column){
+			g_warning ("Could not find column model in specification");
+			continue;
 		}
+		
+		g_string_append (res, gettext ((column)->title));
+		g_string_append_c (res, ' ');
+		g_string_append (
+			res,
+			col.ascending ?
+			_("(Ascending)") : _("(Descending)"));
 	}
+	
 	if (res->str [0] == 0)
 		g_string_append (res, _("Not sorted"));
 	
@@ -123,30 +144,27 @@ config_group_info_update (ETableConfig *config)
 {
 	ETableSortInfo *info = config->state->sort_info;
 	GString *res;
-	int count, i, items = 0;
+	int count, i;
 
 	count = e_table_sort_info_grouping_get_count (info);
 	res = g_string_new ("");
 
 	for (i = 0; i < count; i++) {
 		ETableSortColumn col = e_table_sort_info_grouping_get_nth (info, i);
-		ETableColumnSpecification **column;
+		ETableColumnSpecification *column;
 
-		for (column = config->spec->columns; *column; column++) {
-			if (col.column != (*column)->model_col)
-				continue;
-			
-			g_string_append (res, _((*column)->title));
-			g_string_append_c (res, ' ');
-			g_string_append (
-				res,
-				col.ascending ?
-				_("(Ascending)") : _("(Descending)"));
-			
-			items++;
-			if (items > 4)
-				g_string_append_c (res, '\n');
+		column = find_column_in_spec (config->spec, col.column);
+		if (!column){
+			g_warning ("Could not find model column in specification");
+			continue;
 		}
+		
+		g_string_append (res, gettext ((column)->title));
+		g_string_append_c (res, ' ');
+		g_string_append (
+			res,
+			col.ascending ?
+			_("(Ascending)") : _("(Descending)"));
 	}
 	if (res->str [0] == 0)
 		g_string_append (res, _("No grouping"));
@@ -168,7 +186,7 @@ config_fields_info_update (ETableConfig *config)
 			if (config->state->columns [i] != (*column)->model_col)
 				continue;
 			
-			g_string_append (res, _((*column)->title));
+			g_string_append (res, gettext ((*column)->title));
 			if (column [1])
 				g_string_append (res, ", ");
 			items++;
@@ -249,7 +267,7 @@ configure_sort_dialog (ETableConfig *config, GladeXML *gui)
 		for (i = 0; i < 4; i++){
 			gtk_combo_text_add_item (
 				config->sort_combos [i],
-				_(label), label);
+				gettext (label), label);
 		}
 	}
 }
