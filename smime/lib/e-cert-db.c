@@ -65,8 +65,11 @@
 #include "e-cert-db.h"
 #include "e-cert-trust.h"
 
+#include "gmodule.h"
+
 #include "nss.h"
 #include "pk11func.h"
+#include "secmod.h"
 #include "certdb.h"
 #include "plstr.h"
 #include "prprf.h"
@@ -112,6 +115,8 @@ e_cert_db_class_init (ECertDBClass *klass)
 	GObjectClass *object_class;
 	char *evolution_dir_path;
 	gboolean success;
+	gboolean has_roots;
+	PK11SlotList *list;
 
 	object_class = G_OBJECT_CLASS(klass);
 
@@ -137,6 +142,49 @@ e_cert_db_class_init (ECertDBClass *klass)
 
 	if (!success) {
 		g_warning ("Failed all methods for initializing NSS");
+	}
+
+	/*
+	 * check to see if you have a rootcert module installed
+	 */
+
+	has_roots = FALSE;
+	list = PK11_GetAllTokens(CKM_INVALID_MECHANISM, PR_FALSE, PR_FALSE, NULL);
+	if (list) {
+		PK11SlotListElement *le;
+
+		for (le = list->head; le; le = le->next) {
+			if (PK11_HasRootCerts(le->slot)) {
+				has_roots = TRUE;
+				break;
+			}
+		}
+	}
+
+	if (!has_roots) {
+		/* grovel in various places for mozilla's built-in
+		   cert module.
+
+		   XXX yes this is gross.  *sigh*
+		*/
+		char *paths_to_check[] = {
+			"/usr/lib",
+			"/usr/lib/mozilla",
+		};
+		int i;
+
+		for (i = 0; i < G_N_ELEMENTS (paths_to_check); i ++) {
+			char *dll_path = g_module_build_path (paths_to_check [i],
+							      "nssckbi");
+
+			if (g_file_test (dll_path, G_FILE_TEST_EXISTS)) {
+				SECMOD_AddNewModule("Mozilla Root Certs",dll_path, 0, 0);
+				g_free (dll_path);
+				break;
+			}
+
+			g_free (dll_path);
+		}
 	}
 }
 
