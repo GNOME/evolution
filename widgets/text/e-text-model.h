@@ -43,8 +43,7 @@ struct _ETextModelClass {
 	GtkObjectClass parent_class;
 
 	/* Signal */
-	void  (* changed)  (ETextModel *model);
-	void  (* position) (ETextModel *model, gint position);
+	void  (* changed)   (ETextModel *model);
 
 	/* Virtual methods */
 	char *(* get_text)           (ETextModel *model);
@@ -68,8 +67,6 @@ void e_text_model_set_text(ETextModel *model, gchar *text);
 void e_text_model_insert(ETextModel *model, gint position, gchar *text);
 void e_text_model_insert_length(ETextModel *model, gint position, gchar *text, gint length);
 void e_text_model_delete(ETextModel *model, gint position, gint length);
-
-void e_text_model_suggest_position(ETextModel *model, gint position);
 
 gint e_text_model_object_count(ETextModel *model);
 const gchar *e_text_model_get_nth_object(ETextModel *model, gint n);

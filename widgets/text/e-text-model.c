@@ -22,7 +22,6 @@
 
 enum {
 	E_TEXT_MODEL_CHANGED,
-	E_TEXT_MODEL_POSITION,
 	E_TEXT_MODEL_LAST_SIGNAL
 };
 
@@ -34,9 +33,9 @@ static void e_text_model_destroy (GtkObject *object);
 
 static gchar *e_text_model_real_get_text(ETextModel *model);
 static void e_text_model_real_set_text(ETextModel *model, gchar *text);
-static void e_text_model_real_insert(ETextModel *model, gint position, gchar *text);
-static void e_text_model_real_insert_length(ETextModel *model, gint position, gchar *text, gint length);
-static void e_text_model_real_delete(ETextModel *model, gint position, gint length);
+static void e_text_model_real_insert(ETextModel *model, gint postion, gchar *text);
+static void e_text_model_real_insert_length(ETextModel *model, gint postion, gchar *text, gint length);
+static void e_text_model_real_delete(ETextModel *model, gint postion, gint length);
 
 static gint e_text_model_real_object_count(ETextModel *model);
 static const gchar *e_text_model_real_get_nth_object(ETextModel *model, gint n);
@@ -96,14 +95,6 @@ e_text_model_class_init (ETextModelClass *klass)
 				GTK_SIGNAL_OFFSET (ETextModelClass, changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
-	e_text_model_signals[E_TEXT_MODEL_POSITION] =
-		gtk_signal_new ("position",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (ETextModelClass, position),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
 	
 	gtk_object_class_add_signals (object_class, e_text_model_signals, E_TEXT_MODEL_LAST_SIGNAL);
 	
@@ -166,42 +157,26 @@ e_text_model_real_set_text(ETextModel *model, gchar *text)
 static void
 e_text_model_real_insert(ETextModel *model, gint position, gchar *text)
 {
-	gchar *temp;
-
-	g_return_if_fail (0<= position && position <= strlen (model->text));
-
-	temp = g_strdup_printf("%.*s%s%s", position, model->text, text, model->text + position);
-
+	gchar *temp = g_strdup_printf("%.*s%s%s", position, model->text, text, model->text + position);
 	if (model->text)
 		g_free(model->text);
 	model->text = temp;
 	e_text_model_changed(model);
-
-	e_text_model_suggest_position (model, position + strlen(text));
 }
 
 static void
 e_text_model_real_insert_length(ETextModel *model, gint position, gchar *text, gint length)
 {
-	gchar *temp;
-
-	g_return_if_fail (0 <= position && position <= strlen (model->text));
-
-	temp = g_strdup_printf("%.*s%.*s%s", position, model->text, length, text, model->text + position);
-
+	gchar *temp = g_strdup_printf("%.*s%.*s%s", position, model->text, length, text, model->text + position);
 	if (model->text)
 		g_free(model->text);
 	model->text = temp;
 	e_text_model_changed(model);
-
-	e_text_model_suggest_position (model, position + length);
 }
 
 static void
 e_text_model_real_delete(ETextModel *model, gint position, gint length)
 {
-	g_return_if_fail (0 <= position && position <= strlen (model->text));
-	
 	memmove(model->text + position, model->text + position + length, strlen(model->text + position + length) + 1);
 	e_text_model_changed(model);
 }
@@ -296,17 +271,6 @@ e_text_model_delete(ETextModel *model, gint position, gint length)
 		E_TEXT_MODEL_CLASS(GTK_OBJECT(model)->klass)->delete(model, position, length);
 }
 
-void
-e_text_model_suggest_position(ETextModel *model, gint position)
-{
-	g_return_if_fail (model != NULL);
-	g_return_if_fail (E_IS_TEXT_MODEL (model));
-	g_return_if_fail (0 <= position);
-	g_return_if_fail (position <= strlen (model->text));
-
-	gtk_signal_emit (GTK_OBJECT (model), e_text_model_signals[E_TEXT_MODEL_POSITION], position);
-}
-
 gint
 e_text_model_object_count(ETextModel *model)
 {
@@ -366,10 +330,11 @@ e_text_model_strdup_expanded_text(ETextModel *model)
 	len -= N; /* Subtract out the \1s that signify the objects. */
 
 	for (i=0; i<N; ++i)
-		len += strlen (e_text_model_get_nth_object (model, i));
+		len += strlen (e_text_model_get_nth_object (model ,i));
+	
 
 	/* Next, allocate and build the expanded string. */
-	expanded = g_new0 (gchar, len+2);
+	expanded = g_new0 (gchar, len+1);
 
 	src = model->text;
 	dest = expanded;
