@@ -42,7 +42,9 @@
 #define __E_DATE_EDIT_H_ 
 
 #include <time.h>
+#include <glib.h>
 #include <gtk/gtkhbox.h>
+#include <gtk/gtkwidget.h>
 #include <libgnome/gnome-defs.h>
  
 BEGIN_GNOME_DECLS

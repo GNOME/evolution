@@ -30,6 +30,13 @@
 #include <config.h>
 #endif
 
+
+#include <gtk/gtkbox.h>
+#include <gtk/gtkdnd.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkvbox.h>
+#include <libgnomeui/gnome-app.h>
+#include <libgnomeui/gnome-init.h>
 #include "e-calendar.h"
 
 /* Drag and Drop stuff. */

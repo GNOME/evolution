@@ -1,3 +1,12 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-calendar.c: More header fixes.
+	* e-cell-date-edit.c: Same.
+	* e-dateedit.[ch]: Same.
+	* e-title-bar.c: Same here.
+	* e-search-bar.c: More header fixes.
+	* test-calendar.c: Same here.
+	
 2001-03-29  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-dropdown-button.c: Replace #include <gtk/gtk.h>

@@ -28,6 +28,10 @@
 
 #include <stdio.h> /* printf */
 #include <glib.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtkeventbox.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-search-bar.h"

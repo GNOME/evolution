@@ -28,9 +28,12 @@
  */
 
 #include <config.h>
+#include <time.h>
 #include <gal/util/e-i18n.h>
 #include <gdk/gdkkeysyms.h>
-#include "gal/util/e-util.h"
+#include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
+#include <gal/util/e-util.h>
 #include <gal/e-table/e-table-item.h>
 #include <e-util/e-time-utils.h>
 #include "e-cell-date-edit.h"

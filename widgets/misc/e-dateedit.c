@@ -38,19 +38,28 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkarrow.h>
+#include <gtk/gtkbbox.h>
+#include <gtk/gtkcombo.h>
+#include <gtk/gtkdrawingarea.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkframe.h>
+#include <gtk/gtkhbbox.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtklist.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkvbox.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include "e-dateedit.h"
 #include "e-calendar.h"
 
-#include <gdk/gdkkeysyms.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkframe.h>
-#include <gtk/gtkarrow.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtkmenu.h>
-#include <gtk/gtkmenuitem.h>
-#include <gtk/gtkwindow.h>
 
 
 struct _EDateEditPrivate {
