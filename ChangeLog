@@ -1,3 +1,7 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in (evolutionuidir): Define iconsdir.
+
 2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in (FULL_GNOME_DEPS): Doh. Use the

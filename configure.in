@@ -1165,6 +1165,9 @@ AC_SUBST(componentdir)
 evolutionuidir="$datadir/evolution-$BASE_VERSION/ui"
 AC_SUBST(evolutionuidir)
 
+iconsdir="$datadir/evolution-$BASE_VERSION/images"
+AC_SUBST(iconsdir)
+
 ##################################################
 # Check for gtk-doc.
 ##################################################
