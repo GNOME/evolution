@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-12-12 05:36+0800\n"
-"PO-Revision-Date: 2004-10-19 10:17+0800\n"
+"PO-Revision-Date: 2004-12-12 05:54+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -48,11 +48,11 @@ msgstr "有"
 
 #: a11y/addressbook/ea-minicard-view.c:156
 msgid " cards"
-msgstr " 张卡片"
+msgstr " 张名片"
 
 #: a11y/addressbook/ea-minicard-view.c:156
 msgid " card"
-msgstr " 张卡片"
+msgstr " 张名片"
 
 #: a11y/addressbook/ea-minicard.c:31
 #: calendar/gui/alarm-notify/alarm-queue.c:863
@@ -61,12 +61,10 @@ msgid "Open"
 msgstr "打开"
 
 #: a11y/addressbook/ea-minicard.c:138
-#, fuzzy
 msgid "Contact List: "
-msgstr "联系人列表(_L)"
+msgstr "联系人列表："
 
 #: a11y/addressbook/ea-minicard.c:139
-#, fuzzy
 msgid "Contact: "
 msgstr "联系人："
 
@@ -81,11 +79,10 @@ msgstr "无法打开此地址簿。"
 
 #. addressbook:ldap-init secondary
 #: addressbook/addressbook-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This addressbook server might be unreachable or the server name may be "
 "misspelled or your network connection could be down."
-msgstr "地址簿服务器不可达，或者服务器名称拼错，又或者您的网络连接已断。"
+msgstr "此地址簿服务器不可达，或者服务器名称拼错，又或者您的网络连接已断。"
 
 #. addressbook:ldap-auth primary
 #: addressbook/addressbook-errors.xml.h:6
@@ -139,15 +136,13 @@ msgstr "无法删除地址簿。"
 
 #. addressbook:ask-delete-addressbook primary
 #: addressbook/addressbook-errors.xml.h:22
-#, fuzzy
 msgid "Delete address book '{0}'?"
-msgstr "从地址簿中选择目标联系人。"
+msgstr "删除地址簿“{0}”吗？"
 
 #. addressbook:ask-delete-addressbook secondary
 #: addressbook/addressbook-errors.xml.h:24
-#, fuzzy
 msgid "This address book will be removed permanently."
-msgstr "无法打开此地址簿。"
+msgstr "此地址簿即将被永久删除。"
 
 #. addressbook:edit-categories primary
 #: addressbook/addressbook-errors.xml.h:26
@@ -251,19 +246,16 @@ msgstr "除非您重新启动 Evolution，否则 {0} 的联系人无法使用。
 
 #. addressbook:ask-list-add-exists primary
 #: addressbook/addressbook-errors.xml.h:59
-#, fuzzy
 msgid "Address '{0}' already exists."
-msgstr "文件夹已经存在"
+msgstr "地址“{0}”已经存在。"
 
 #. addressbook:ask-list-add-exists secondary
 #: addressbook/addressbook-errors.xml.h:61
-#, fuzzy
 msgid ""
 "A contact already exists with this address.  Would you like to add a new "
 "card with the same address anyway?"
 msgstr ""
-"此联系人的姓名或地址已经在本文件夹中存在了。\n"
-"您一定要添加吗？"
+"已经存在此地址的联系人了。您想要仍然想要以相同地址添加新名片吗？"
 
 #: addressbook/addressbook-errors.xml.h:62 mail/em-vfolder-rule.c:494
 msgid "_Add"
@@ -320,7 +312,7 @@ msgstr "Evolution 地址簿地址查看器"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:9
 msgid "Evolution Addressbook card viewer"
-msgstr "Evolution 地址簿卡片查看器"
+msgstr "Evolution 地址簿名片查看器"
 
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:10
 msgid "Evolution Addressbook component"
@@ -372,9 +364,8 @@ msgid "Failed upgrading Addressbook settings or folders."
 msgstr "升级地址簿设置或文件夹失败。"
 
 #: addressbook/gui/component/addressbook-config.c:314
-#, fuzzy
 msgid "Base"
-msgstr "粘贴"
+msgstr "基础"
 
 #: addressbook/gui/component/addressbook-config.c:509
 #: calendar/gui/dialogs/calendar-setup.c:191
@@ -397,14 +388,12 @@ msgid "Addressbook"
 msgstr "地址簿"
 
 #: addressbook/gui/component/addressbook-config.c:866
-#, fuzzy
 msgid "Server Information"
-msgstr "<b>服务器信息</b>"
+msgstr "服务器信息"
 
 #: addressbook/gui/component/addressbook-config.c:868
-#, fuzzy
 msgid "Authentication"
-msgstr "SMTP 认证"
+msgstr "身份验证"
 
 #: addressbook/gui/component/addressbook-config.c:871
 #: addressbook/gui/component/ldap-config.glade.h:18
@@ -413,14 +402,12 @@ msgid "Details"
 msgstr "细节"
 
 #: addressbook/gui/component/addressbook-config.c:872
-#, fuzzy
 msgid "Searching"
-msgstr "间距"
+msgstr "搜索"
 
 #: addressbook/gui/component/addressbook-config.c:874
-#, fuzzy
 msgid "Downloading"
-msgstr "<b>下载</b>"
+msgstr "下载"
 
 #: addressbook/gui/component/addressbook-config.c:1070
 #: addressbook/gui/component/ldap-config.glade.h:14
@@ -545,23 +532,20 @@ msgid "%sEnter password for %s (user %s)"
 msgstr "%s为 %s 输入口令 (用户 %s)"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:1
-#, fuzzy
 msgid "EFolderList XML for the list of completion URIs"
-msgstr "补全 uris 列表的 EFolderList xml"
+msgstr "补全 URIs 列表的 EFolderList xml"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:2
-#, fuzzy
 msgid "EFolderList XML for the list of completion URIs."
-msgstr "补全 uris 列表的 EFolderList xml"
+msgstr "补全 URIs 列表的 EFolderList xml"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:3
 msgid "Position of the vertical pane in main view"
 msgstr "主视图中垂直面板的位置"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
-#, fuzzy
 msgid "Position of the vertical pane in main view."
-msgstr "主视图中垂直面板的位置"
+msgstr "主视图中垂直面板的位置。"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:5
 #: mail/evolution-mail.schemas.in.in.h:71
@@ -574,27 +558,24 @@ msgid "Show the \"Preview\" pane."
 msgstr "显示“预览”面板。"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:7
-#, fuzzy
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete"
 msgstr "在 Evolution 试图进行自动补全之前应该输入多少个字符"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:8
-#, fuzzy
 msgid ""
 "The number of characters that must be typed before Evolution will attempt to "
 "autocomplete."
-msgstr "在 Evolution 试图进行自动补全之前应该输入多少个字符"
+msgstr "在 Evolution 试图进行自动补全之前应该输入多少个字符。"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:9
 msgid "URI for the folder last used in the select names dialog"
 msgstr "选择名称对话框中上次使用的文件夹 URI"
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:10
-#, fuzzy
 msgid "URI for the folder last used in the select names dialog."
-msgstr "选择名称对话框中上次使用的文件夹 URI"
+msgstr "选择名称对话框中上次使用的文件夹 URI。"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -780,13 +761,12 @@ msgid ""
 msgstr "这是可下载条目的最大数量。将此数值设定得太大将导致地址簿变慢。"
 
 #: addressbook/gui/component/ldap-config.glade.h:37
-#, fuzzy
 msgid ""
 "This is the method Evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
 "server."
 msgstr ""
-"这是 evolution 用来认证您的方法。请注意若在此设定为“电子邮件地址”则需要您具有"
+"这是 Evolution 用来认证您的方法。请注意若在此设定为“电子邮件地址”则需要您具有"
 "对 ldap 服务器的匿名访问权限。"
 
 #: addressbook/gui/component/ldap-config.glade.h:38
@@ -860,7 +840,7 @@ msgstr "使用安全连接(_U)："
 
 #: addressbook/gui/component/ldap-config.glade.h:53
 msgid "cards"
-msgstr "卡片"
+msgstr "名片"
 
 #: addressbook/gui/component/ldap-config.glade.h:54
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
@@ -1898,7 +1878,6 @@ msgid "Saint Lucia"
 msgstr "圣卢西亚岛"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:320
-#, fuzzy
 msgid "Saint Vincent And The Grenadines"
 msgstr "圣文森特和格林纳达"
 
@@ -2206,9 +2185,8 @@ msgid "Writable Fields"
 msgstr "可写域"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:293
-#, fuzzy
 msgid "Required Fields"
-msgstr "必需的人(_R)"
+msgstr "必需域"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:307
 msgid "Changed"
@@ -2516,7 +2494,7 @@ msgstr "模型"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:103
 msgid "Error modifying card"
-msgstr "修改卡片错误"
+msgstr "修改名片错误"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:168
 msgid "Name begins with"
@@ -2816,7 +2794,6 @@ msgid "Column Width"
 msgstr "列宽"
 
 #: addressbook/gui/widgets/e-minicard-view.c:171
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -2826,9 +2803,9 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"本视图中没有可显示的项。\n"
+"搜索联系人\n"
 "\n"
-"请在此双击以创建新联系人。"
+"或在此双击以创建新联系人。"
 
 #: addressbook/gui/widgets/e-minicard-view.c:174
 msgid ""
@@ -2845,12 +2822,11 @@ msgstr ""
 "请在此双击以创建新联系人。"
 
 #: addressbook/gui/widgets/e-minicard-view.c:179
-#, fuzzy
 msgid ""
 "\n"
 "\n"
 "Search for the Contact."
-msgstr "搜索联系人..."
+msgstr "\n\n搜索联系人。"
 
 #: addressbook/gui/widgets/e-minicard-view.c:181
 msgid ""
@@ -3065,7 +3041,7 @@ msgid ""
 "Please make your search more specific or raise the result limit in\n"
 "the directory server preferences for this addressbook."
 msgstr ""
-"匹配此查询的卡片数既超过了服务器配置的返回数目，也超过了\n"
+"匹配此查询的名片数既超过了服务器配置的返回数目，也超过了\n"
 "Evolution 配置要显示的数目。请在搜索的时候指定更加严格的\n"
 "搜索条件，或者在此地址簿的目录服务器参数中将结果限制调高。"
 
@@ -3241,7 +3217,7 @@ msgstr "保存在地址簿中"
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:24
 msgid "Card View"
-msgstr "卡片视图"
+msgstr "名片视图"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
 msgid "GTK Tree View"
@@ -3510,7 +3486,7 @@ msgstr "列出本地地址簿文件夹"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr "将卡片显示为 vcard 还是 csv 文件"
+msgstr "将名片显示为 vcard 还是 csv 文件"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "[vcard|csv]"
@@ -3521,10 +3497,9 @@ msgid "Export in asynchronous mode "
 msgstr "以异步模式导出"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-#, fuzzy
 msgid ""
 "The number of cards in one output file in asychronous mode, default size 100."
-msgstr "异步模式中一个输出文件中的卡片数，默认大小为 100。"
+msgstr "异步模式中一个输出文件中的名片数，默认大小为 100。"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
@@ -3548,9 +3523,8 @@ msgid "In normal mode, there is no need for the size option."
 msgstr "在普通模式中，不应该有大小选项。"
 
 #: addressbook/tools/evolution-addressbook-export.c:153
-#, fuzzy
 msgid "Unhandled error"
-msgstr "未知的错误"
+msgstr "未处理的错误"
 
 #: addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
@@ -3825,39 +3799,35 @@ msgstr "除非您重新启动 Evolution，否则您的日历无法使用。"
 
 #. calendar:prompt-delete-calendar primary
 #: calendar/calendar-errors.xml.h:116
-#, fuzzy
 msgid "Delete calendar '{0}'?"
-msgstr "删除“{0}”吗？"
+msgstr "删除日历“{0}”吗？"
 
 #. calendar:prompt-delete-calendar secondary
 #: calendar/calendar-errors.xml.h:118
 msgid "This calendar will be removed permanently."
-msgstr ""
+msgstr "此日历将被永久删除。"
 
 #. calendar:prompt-delete-task-list primary
 #: calendar/calendar-errors.xml.h:120
-#, fuzzy
 msgid "Delete task list '{0}'?"
-msgstr "删除该列表"
+msgstr "删除任务列表“{0}”吗？"
 
 #. calendar:prompt-delete-task-list secondary
 #: calendar/calendar-errors.xml.h:122
 msgid "This task list will be removed permanently."
-msgstr ""
+msgstr "此任务列表将被永久删除。"
 
 #. calendar:prompt-send-no-subject-calendar primary
 #: calendar/calendar-errors.xml.h:124
-#, fuzzy
 msgid "Are you sure you want to send the appointment without a summary?"
-msgstr "您确定想要发送没有主题的信件吗？"
+msgstr "您确定想要发送没有概览的约会吗？"
 
 #. calendar:prompt-send-no-subject-calendar secondary
 #: calendar/calendar-errors.xml.h:126
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your appointment will give your recipients an "
 "idea of what your appointment is about."
-msgstr "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
+msgstr "在您的约会中添加有意义的概览可以让您的收件人更容易明白您约会的内容。"
 
 #: calendar/calendar-errors.xml.h:127 calendar/calendar-errors.xml.h:132
 #: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
@@ -3867,17 +3837,15 @@ msgstr "发送(_S)"
 
 #. calendar:prompt-send-no-subject-task primary
 #: calendar/calendar-errors.xml.h:129
-#, fuzzy
 msgid "Are you sure you want to send the task without a summary?"
-msgstr "您确定想要发送没有主题的信件吗？"
+msgstr "您确定想要发送没有概览的任务吗？"
 
 #. calendar:prompt-send-no-subject-task secondary
 #: calendar/calendar-errors.xml.h:131
-#, fuzzy
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
 "of what your appointment is about."
-msgstr "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
+msgstr "在您的任务中添加有意义的概览可以让您的收件人更容易明白您任务的内容。"
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3974,14 +3942,12 @@ msgid "Appointment"
 msgstr "约会"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-#, fuzzy
 msgid "Appointment Title"
-msgstr "约会"
+msgstr "约会标题"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#, fuzzy
 msgid "End time:"
-msgstr "结束时间(_E)："
+msgstr "结束时间："
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 #: calendar/gui/e-itip-control.c:1118
@@ -3989,14 +3955,12 @@ msgid "Location:"
 msgstr "位置："
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:5
-#, fuzzy
 msgid "Snooze _time:"
-msgstr "午睡时间(分钟)(_T)："
+msgstr "午睡时间(_T)："
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#, fuzzy
 msgid "Start time:"
-msgstr "开始时间(_S)："
+msgstr "开始时间："
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:7
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
@@ -4015,24 +3979,20 @@ msgid "_Snooze"
 msgstr "午睡(_S)"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:9
-#, fuzzy
 msgid "description of appointment"
-msgstr "约会开始"
+msgstr "约会描述"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:10
-#, fuzzy
 msgid "end-time"
-msgstr "结束时间(_E)："
+msgstr "结束时间"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:11
-#, fuzzy
 msgid "location"
 msgstr "位置"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:13
-#, fuzzy
 msgid "start-time"
-msgstr "开始时间(_S)："
+msgstr "开始时间"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:864
 msgid "Dismiss"
@@ -4043,9 +4003,8 @@ msgid "Dismiss All"
 msgstr "全部丢弃"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:947
-#, fuzzy
 msgid "No summary available."
-msgstr "没有描述。"
+msgstr "没有可用的概览。"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:956
 #: calendar/gui/alarm-notify/alarm-queue.c:958
@@ -4053,9 +4012,8 @@ msgid "No description available."
 msgstr "没有描述。"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:966
-#, fuzzy
 msgid "No location information available."
-msgstr "没有描述。"
+msgstr "没有可用的位置信息。"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:982
 #, c-format
@@ -4550,21 +4508,19 @@ msgstr "分钟"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:28
 msgid "option menu to choose alarm action"
-msgstr ""
+msgstr "选择提醒操作的选项菜单"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:29
-#, fuzzy
 msgid "option menu to choose alarm relative"
-msgstr "您忘记选择日期了。"
+msgstr "选择提醒关系的选项菜单"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:30
-#, fuzzy
 msgid "option menu to choose alarm time"
-msgstr "您忘记选择日期了。"
+msgstr "选择提醒时间的选项菜单"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:31
 msgid "option menu to choose alarm value units"
-msgstr ""
+msgstr "选择提醒值单位的选项菜单"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:32
 msgid "start of appointment"
@@ -4840,11 +4796,11 @@ msgstr "在每次约会前"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "option menu to choose reminder units"
-msgstr ""
+msgstr "选择提醒单位的选项菜单"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "option menu to choose time units"
-msgstr ""
+msgstr "选择时间单位的选项菜单"
 
 #: calendar/gui/dialogs/calendar-setup.c:299
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
@@ -4852,19 +4808,16 @@ msgid "C_olor:"
 msgstr "颜色(_O)："
 
 #: calendar/gui/dialogs/calendar-setup.c:335
-#, fuzzy
 msgid "Tasks List"
 msgstr "任务列表"
 
 #: calendar/gui/dialogs/calendar-setup.c:400
-#, fuzzy
 msgid "Calendar Properties"
-msgstr "文件夹属性"
+msgstr "日历属性"
 
 #: calendar/gui/dialogs/calendar-setup.c:464
-#, fuzzy
 msgid "Task List Properties"
-msgstr "任务列表组"
+msgstr "任务列表属性"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
 msgid "Add Calendar"
@@ -4978,9 +4931,9 @@ msgstr "编辑约会"
 
 #: calendar/gui/dialogs/comp-editor.c:905
 #: calendar/gui/dialogs/comp-editor.c:948
-#, fuzzy, c-format
+#, c-format
 msgid "Meeting - %s"
-msgstr "会议"
+msgstr "会议 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:907
 #: calendar/gui/dialogs/comp-editor.c:950
@@ -4990,9 +4943,9 @@ msgstr "约会 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:911
 #: calendar/gui/dialogs/comp-editor.c:954
-#, fuzzy, c-format
+#, c-format
 msgid "Assigned Task - %s"
-msgstr "指派的任务(_D)"
+msgstr "指派的任务 - %s"
 
 #: calendar/gui/dialogs/comp-editor.c:913
 #: calendar/gui/dialogs/comp-editor.c:956
@@ -5205,9 +5158,8 @@ msgid "Confidential"
 msgstr "机密"
 
 #: calendar/gui/dialogs/event-page.glade.h:13
-#, fuzzy
 msgid "Event Description"
-msgstr "描述："
+msgstr "事件描述"
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 msgid "Locat_ion:"
@@ -5365,9 +5317,8 @@ msgid "Or_ganizer:"
 msgstr "组织者(_G)："
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
-#, fuzzy
 msgid "Organizer"
-msgstr "组织者："
+msgstr "组织者"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:8
 #: calendar/gui/e-itip-control.glade.h:9
@@ -5653,9 +5604,8 @@ msgid "Sta_rt date:"
 msgstr "开始日期(_R)："
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "Task Description"
-msgstr "描述："
+msgstr "任务描述"
 
 #: calendar/gui/dialogs/task-page.glade.h:14
 msgid "_Due date:"
@@ -6803,9 +6753,8 @@ msgid "Expunging"
 msgstr "销毁"
 
 #: calendar/gui/e-timezone-entry.c:133
-#, fuzzy
 msgid "Timezone Button"
-msgstr "时区"
+msgstr "时区按钮"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
@@ -6824,9 +6773,8 @@ msgid "Custom View"
 msgstr "当前视图"
 
 #: calendar/gui/gnome-cal.c:2041
-#, fuzzy
 msgid "Save Custom View"
-msgstr "保存当前视图..."
+msgstr "保存自定义视图"
 
 #: calendar/gui/gnome-cal.c:2046 widgets/menus/gal-view-menus.c:373
 msgid "Define Views..."
@@ -9655,12 +9603,10 @@ msgid "Cannot create CMS message"
 msgstr "无法创建 CMS 信件"
 
 #: camel/camel-smime-context.c:242
-#, fuzzy
 msgid "Cannot create CMS signed data"
 msgstr "无法创建 CMS 签名数据"
 
 #: camel/camel-smime-context.c:248
-#, fuzzy
 msgid "Cannot attach CMS signed data"
 msgstr "无法附加 CMS 签名数据"
 
@@ -9669,22 +9615,19 @@ msgid "Cannot attach CMS data"
 msgstr "无法附加 CMS 数据"
 
 #: camel/camel-smime-context.c:261
-#, fuzzy
 msgid "Cannot create CMS Signer information"
 msgstr "无法创建 CMS 签名者信息"
 
 #: camel/camel-smime-context.c:267
-#, fuzzy
 msgid "Cannot find certificate chain"
 msgstr "找不到证书链"
 
 #: camel/camel-smime-context.c:273
-#, fuzzy
 msgid "Cannot add CMS Signing time"
 msgstr "无法添加 CMS 签名时间"
 
 #: camel/camel-smime-context.c:295 camel/camel-smime-context.c:307
-#, fuzzy, c-format
+#, c-format
 msgid "Encryption certificate for '%s' does not exist"
 msgstr "“%s”的加密证书不存在"
 
@@ -9701,7 +9644,6 @@ msgid "Cannot add encryption certificate"
 msgstr "无法添加加密证书"
 
 #: camel/camel-smime-context.c:330
-#, fuzzy
 msgid "Cannot add CMS Signer information"
 msgstr "无法添加 CMS 签名者信息"
 
@@ -9758,7 +9700,6 @@ msgid "Processing error"
 msgstr "处理错误"
 
 #: camel/camel-smime-context.c:539
-#, fuzzy
 msgid "No signed data in signature"
 msgstr "签名中没有签名数据"
 
@@ -9779,12 +9720,10 @@ msgid "Certificate import failed"
 msgstr "证书导入失败"
 
 #: camel/camel-smime-context.c:599
-#, fuzzy
 msgid "Certificate is the only message, cannot verify certificates"
 msgstr "只有证书的信件，无法校验证书"
 
 #: camel/camel-smime-context.c:602
-#, fuzzy
 msgid "Certificate is the only message, certificates imported and verified"
 msgstr "只有证书的信件，证书已导入并校验"
 
@@ -9820,12 +9759,10 @@ msgid "Cannot create CMS Message"
 msgstr "无法创建 CMS 信件"
 
 #: camel/camel-smime-context.c:808
-#, fuzzy
 msgid "Cannot create CMS Enveloped data"
 msgstr "无法创建 CMS 信封数据"
 
 #: camel/camel-smime-context.c:814
-#, fuzzy
 msgid "Cannot attach CMS Enveloped data"
 msgstr "无法附加 CMS 信封数据"
 
@@ -9834,12 +9771,10 @@ msgid "Cannot attach CMS data object"
 msgstr "无法附加 CMS 数据对象"
 
 #: camel/camel-smime-context.c:829
-#, fuzzy
 msgid "Cannot create CMS Recipient information"
 msgstr "无法创建 CMS 收件人信息"
 
 #: camel/camel-smime-context.c:834
-#, fuzzy
 msgid "Cannot add CMS Recipient information"
 msgstr "无法添加 CMS 收件人信息"
 
@@ -10172,7 +10107,6 @@ msgid "Only check for Junk messages in the INBOX folder"
 msgstr "仅在收件箱中检查垃圾邮件"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:67
-#, fuzzy
 msgid "Automatically synchronize account locally"
 msgstr "自动将远程邮件同步到本地"
 
@@ -10360,18 +10294,16 @@ msgid "Checking for New Mail"
 msgstr "检查新邮件"
 
 #: camel/providers/imap/camel-imap-provider.c:46
-#, fuzzy
 msgid "C_heck for new messages in all folders"
-msgstr "在所有文件夹中检查新信件"
+msgstr "在所有文件夹中检查新信件(_H)"
 
 #: camel/providers/imap/camel-imap-provider.c:49
 msgid "Connection to Server"
 msgstr "连接服务器"
 
 #: camel/providers/imap/camel-imap-provider.c:51
-#, fuzzy
 msgid "_Use custom command to connect to server"
-msgstr "使用自定义命令连接到服务器"
+msgstr "使用自定义命令连接到服务器(_U)"
 
 #: camel/providers/imap/camel-imap-provider.c:53
 msgid "Command:"
@@ -10384,14 +10316,12 @@ msgid "Folders"
 msgstr "文件夹"
 
 #: camel/providers/imap/camel-imap-provider.c:58
-#, fuzzy
 msgid "_Show only subscribed folders"
-msgstr "只显示订阅了的文件夹"
+msgstr "只显示订阅了的文件夹(_S)"
 
 #: camel/providers/imap/camel-imap-provider.c:60
-#, fuzzy
 msgid "O_verride server-supplied folder namespace"
-msgstr "覆盖服务器提供的文件夹命名空间"
+msgstr "覆盖服务器提供的文件夹命名空间(_V)"
 
 #: camel/providers/imap/camel-imap-provider.c:62
 #: camel/providers/imap4/camel-imap4-provider.c:47
@@ -10399,24 +10329,20 @@ msgid "Namespace"
 msgstr "命名空间"
 
 #: camel/providers/imap/camel-imap-provider.c:66
-#, fuzzy
 msgid "_Apply filters to new messages in INBOX on this server"
-msgstr "应用过滤规则到本服务器上收件箱中的新信件"
+msgstr "应用过滤规则到本服务器上收件箱中的新信件(_A)"
 
 #: camel/providers/imap/camel-imap-provider.c:68
-#, fuzzy
 msgid "Check new messages for _Junk contents"
-msgstr "检查新信件的垃圾内容"
+msgstr "检查新信件的垃圾内容(_J)"
 
 #: camel/providers/imap/camel-imap-provider.c:70
-#, fuzzy
 msgid "Only check for Junk messa_ges in the INBOX folder"
-msgstr "仅在收件箱中检查垃圾邮件"
+msgstr "仅在收件箱中检查垃圾邮件(_G)"
 
 #: camel/providers/imap/camel-imap-provider.c:72
-#, fuzzy
 msgid "Automatically synchroni_ze remote mail locally"
-msgstr "自动将远程邮件同步到本地"
+msgstr "自动将远程邮件同步到本地(_Z)"
 
 #: camel/providers/imap/camel-imap-provider.c:79
 msgid "IMAP"
@@ -10481,9 +10407,8 @@ msgstr "以安全模式连接到 IMAP 服务器 %s 失败：%s"
 
 #: camel/providers/imap/camel-imap-store.c:653
 #: camel/providers/smtp/camel-smtp-transport.c:323
-#, fuzzy
 msgid "STARTTLS not supported"
-msgstr "不支持 SSL/TLS 扩展。"
+msgstr "不支持 STARTTLS"
 
 #: camel/providers/imap/camel-imap-store.c:675
 #: camel/providers/imap4/camel-imap4-store.c:275
@@ -10595,9 +10520,9 @@ msgid "IMAP4 server %s unexpectedly disconnected: %s"
 msgstr "IMAP4 服务器 %s 意外断开连接：%s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot access folder `%s': %s"
-msgstr "无法获取文件夹“%s”：%s"
+msgstr "无法访问文件夹“%s”：%s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:418
 #, c-format
@@ -10644,9 +10569,8 @@ msgid "Cannot get message %s: %s"
 msgstr "无法获取信件 %s：%s"
 
 #: camel/providers/imap4/camel-imap4-folder.c:772
-#, fuzzy
 msgid "This message is not available in offline mode."
-msgstr "该信件目前不可用"
+msgstr "该信件无法在脱机模式中使用。"
 
 #: camel/providers/imap4/camel-imap4-folder.c:826
 #, c-format
@@ -10659,9 +10583,8 @@ msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr "无法从文件夹“%2$s”获取信件 %1$s：命令无效"
 
 #: camel/providers/imap4/camel-imap4-folder.c:873
-#, fuzzy
 msgid "Cannot append messages to IMAP folders in offline mode."
-msgstr "无法将信件追加到文件夹“%s”：未知错误"
+msgstr "无法在脱机模式下将信件追加到 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-folder.c:966
 #, c-format
@@ -10674,14 +10597,12 @@ msgid "Cannot append message to folder `%s': Bad command"
 msgstr "无法将信件追加到文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1038
-#, fuzzy
 msgid "Cannot move messages to or from IMAP folders in offline mode."
-msgstr "无法将信件从文件夹“%s”移动到文件夹“%s”：未知"
+msgstr "无法在脱机模式下将信件移入或移出 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1041
-#, fuzzy
 msgid "Cannot copy messages to or from IMAP folders in offline mode."
-msgstr "无法将信件从文件夹“%s”复制到文件夹“%s”：未知"
+msgstr "无法在脱机模式下将信件复制入或复制出 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-folder.c:1086
 #, c-format
@@ -10750,9 +10671,8 @@ msgstr "无法使用 %2$s 认证到 IMAP 服务器 %1$s"
 
 #: camel/providers/imap4/camel-imap4-store.c:656
 #: camel/providers/imap4/camel-imap4-store.c:769
-#, fuzzy
 msgid "Cannot create IMAP folders in offline mode."
-msgstr "无法以此名称创建文件夹。"
+msgstr "无法在脱机模式下创建 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-store.c:695
 #, c-format
@@ -10775,9 +10695,8 @@ msgid "Cannot delete folder `%s': Special folder"
 msgstr "无法删除文件夹“%s”：特殊文件夹"
 
 #: camel/providers/imap4/camel-imap4-store.c:862
-#, fuzzy
 msgid "Cannot delete IMAP folders in offline mode."
-msgstr "无法删除文件夹“%s”：特殊文件夹"
+msgstr "无法在脱机模式下删除 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-store.c:921
 #, c-format
@@ -10795,9 +10714,8 @@ msgid "Cannot rename folder `%s' to `%s': Special folder"
 msgstr "无法将文件夹“%s”重命名为“%s”：特殊文件夹"
 
 #: camel/providers/imap4/camel-imap4-store.c:954
-#, fuzzy
 msgid "Cannot rename IMAP folders in offline mode."
-msgstr "您无法在新闻存储中重命名文件夹。"
+msgstr "无法在脱机模式下重命名 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-store.c:985
 #, c-format
@@ -10819,9 +10737,8 @@ msgid "Bad command"
 msgstr "无效命令"
 
 #: camel/providers/imap4/camel-imap4-store.c:1280
-#, fuzzy
 msgid "Cannot subscribe to IMAP folders in offline mode."
-msgstr "无法订阅文件夹“%s”：无效的命令"
+msgstr "无法在脱机模式下订阅 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-store.c:1325
 #, c-format
@@ -10834,9 +10751,8 @@ msgid "Cannot subscribe to folder `%s': Bad command"
 msgstr "无法订阅文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-store.c:1353
-#, fuzzy
 msgid "Cannot unsubscribe from IMAP folders in offline mode."
-msgstr "无法退订文件夹“%s”：无效的命令"
+msgstr "无法在脱机模式下退订 IMAP 文件夹。"
 
 #: camel/providers/imap4/camel-imap4-store.c:1398
 #, c-format
@@ -11669,9 +11585,9 @@ msgstr ""
 "能的服务器，也不一定能使所有用户工作。"
 
 #: camel/providers/pop3/camel-pop3-store.c:202
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to read a valid greeting from POP server %s"
-msgstr "从 POP 服务器 %s(端口 %s) 读取欢迎词失败"
+msgstr "从 POP 服务器 %s 读取欢迎词失败"
 
 #: camel/providers/pop3/camel-pop3-store.c:215
 #: camel/providers/pop3/camel-pop3-store.c:232
@@ -11681,9 +11597,8 @@ msgid "Failed to connect to POP server %s in secure mode: %s"
 msgstr "以安全模式连接到 POP 服务器 %s 失败：%s"
 
 #: camel/providers/pop3/camel-pop3-store.c:216
-#, fuzzy
 msgid "STLS not supported"
-msgstr "不支持 SSL/TLS 扩展。"
+msgstr "不支持 STLS"
 
 #: camel/providers/pop3/camel-pop3-store.c:354
 #, c-format
@@ -12084,9 +11999,8 @@ msgid "_Properties"
 msgstr "属性(_P)"
 
 #: composer/e-msg-composer-attachment-bar.c:443
-#, fuzzy
 msgid "_Add attachment..."
-msgstr "添加附件..."
+msgstr "添加附件(_A)..."
 
 #: composer/e-msg-composer-attachment.c:174
 #: composer/e-msg-composer-attachment.c:190
@@ -12137,48 +12051,42 @@ msgstr "单击此处以使用地址簿"
 #. * expects the reply_to fields to be initialized.
 #.
 #: composer/e-msg-composer-hdrs.c:578
-#, fuzzy
 msgid "_Reply-To:"
-msgstr "回复到："
+msgstr "回复到(_R)："
 
 #.
 #. * From
 #.
 #: composer/e-msg-composer-hdrs.c:585
-#, fuzzy
 msgid "Fr_om:"
-msgstr "发件人："
+msgstr "发件人(_O)："
 
 #.
 #. * Subject
 #.
 #: composer/e-msg-composer-hdrs.c:592
-#, fuzzy
 msgid "S_ubject:"
-msgstr "主题："
+msgstr "主题(_U)："
 
 #: composer/e-msg-composer-hdrs.c:602
-#, fuzzy
 msgid "_To:"
-msgstr "收信人："
+msgstr "收信人(_T)："
 
 #: composer/e-msg-composer-hdrs.c:603
 msgid "Enter the recipients of the message"
 msgstr "输入信件的收件人"
 
 #: composer/e-msg-composer-hdrs.c:606
-#, fuzzy
 msgid "_Cc:"
-msgstr "抄送："
+msgstr "抄送(_C)："
 
 #: composer/e-msg-composer-hdrs.c:607
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "输入将接收该信件副本的收件人地址"
 
 #: composer/e-msg-composer-hdrs.c:610
-#, fuzzy
 msgid "_Bcc:"
-msgstr "暗送："
+msgstr "暗送(_B)："
 
 #: composer/e-msg-composer-hdrs.c:611
 msgid ""
@@ -12190,9 +12098,8 @@ msgstr "输入将接收该信件副本，但不出现在收件人列表中的收
 #. * Post-To
 #.
 #: composer/e-msg-composer-hdrs.c:618
-#, fuzzy
 msgid "_Post To:"
-msgstr "投递到："
+msgstr "投递到(_P)："
 
 #: composer/e-msg-composer-hdrs.c:623
 msgid "Click here to select folders to post to"
@@ -12238,9 +12145,8 @@ msgid "Autogenerated"
 msgstr "自动生成的"
 
 #: composer/e-msg-composer.c:2098
-#, fuzzy
 msgid "Si_gnature:"
-msgstr "签名："
+msgstr "签名(_G)："
 
 #: composer/e-msg-composer.c:2301
 #, c-format
@@ -12394,9 +12300,8 @@ msgid "_Discard Changes"
 msgstr "丢弃更改(_D)"
 
 #: composer/mail-composer-errors.xml.h:34
-#, fuzzy
 msgid "_Save Message"
-msgstr "保存信件"
+msgstr "保存信件(_S)"
 
 #. mail-composer:no-build-message primary
 #: composer/mail-composer-errors.xml.h:36
@@ -12822,9 +12727,8 @@ msgid "Test"
 msgstr "测试"
 
 #: filter/filter-rule.c:790
-#, fuzzy
 msgid "_Rule name:"
-msgstr "规则名："
+msgstr "规则名(_R)："
 
 #: filter/filter-rule.c:818
 msgid "<b>If</b>"
@@ -12863,9 +12767,8 @@ msgid "Incoming"
 msgstr "接收"
 
 #: filter/filter-rule.c:975
-#, fuzzy
 msgid "Outgoing"
-msgstr "发送"
+msgstr "寄出"
 
 #: filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
@@ -12873,11 +12776,11 @@ msgstr "<b>过滤规则(_F)</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
-msgstr "比较"
+msgstr "比较对象"
 
 #: filter/filter.glade.h:4
 msgid "Show filters for mail:"
-msgstr ""
+msgstr "显示邮件过滤器："
 
 #: filter/filter.glade.h:5
 msgid ""
@@ -13194,9 +13097,8 @@ msgid "Mailing list"
 msgstr "邮件列表"
 
 #: mail/em-filter-i18n.h:39
-#, fuzzy
 msgid "Match All"
-msgstr "全部备份"
+msgstr "全部匹配"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Body"
@@ -13719,9 +13621,8 @@ msgid "_Hide"
 msgstr "隐藏(_H)"
 
 #: mail/em-format-html-display.c:1298
-#, fuzzy
 msgid "Attachment Button"
-msgstr "附件"
+msgstr "附件按钮"
 
 #: mail/em-format-html-print.c:130
 #, c-format
@@ -14804,9 +14705,8 @@ msgid " Ch_eck for Supported Types "
 msgstr "检查支持的类型(_E)"
 
 #: mail/mail-config.glade.h:5
-#, fuzzy
 msgid "<b>SSL is not supported in this build of Evolution</b>"
-msgstr "<b>(在此版本的 evolution 中不支持 SSL)</b>"
+msgstr "<b>(在此版本的 Evolution 中不支持 SSL)</b>"
 
 #: mail/mail-config.glade.h:6
 msgid "<b>S_ignatures</b>"
@@ -14937,14 +14837,12 @@ msgid "Add _Script"
 msgstr "添加脚本(_S)"
 
 #: mail/mail-config.glade.h:38
-#, fuzzy
 msgid "Al_ways sign outgoing messages when using this account"
-msgstr "当使用该账户时总是发送签名信件(_S)"
+msgstr "当使用该账户时总是发送签名信件(_W)"
 
 #: mail/mail-config.glade.h:39
-#, fuzzy
 msgid "Also encrypt to sel_f when sending encrypted mail"
-msgstr "当发送加密邮件时总是对自身加密(_L)"
+msgstr "当发送加密邮件时总是对自身加密(_F)"
 
 #: mail/mail-config.glade.h:40
 msgid "Alway_s carbon-copy (cc) to:"
@@ -14959,9 +14857,8 @@ msgid "Always _trust keys in my keyring when encrypting"
 msgstr "加密时总是信任我的密钥环中的密钥(_T)"
 
 #: mail/mail-config.glade.h:43
-#, fuzzy
 msgid "Always encrypt to _myself when sending encrypted mail"
-msgstr "当发送加密邮件时总是对自身加密(_W)"
+msgstr "当发送加密邮件时总是对自身加密(_M)"
 
 #: mail/mail-config.glade.h:44
 msgid "Attach original message"
@@ -15008,14 +14905,12 @@ msgid "Checks incoming mail messages to be Junk"
 msgstr "检查收到的信件是否是垃圾邮件"
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Cle_ar"
-msgstr "清除(_C)"
+msgstr "清除(_A)"
 
 #: mail/mail-config.glade.h:56
-#, fuzzy
 msgid "Clea_r"
-msgstr "清除(_C)"
+msgstr "清除(_R)"
 
 #: mail/mail-config.glade.h:57
 msgid "Color for _misspelled words:"
@@ -15057,9 +14952,8 @@ msgid "Defaults"
 msgstr "默认"
 
 #: mail/mail-config.glade.h:70
-#, fuzzy
 msgid "Digitally _sign outgoing messages (by default)"
-msgstr "对寄出的信件进行数字签名(默认)(_D)"
+msgstr "对寄出的信件进行数字签名(默认)(_S)"
 
 #: mail/mail-config.glade.h:71
 msgid "Do not quote original message"
@@ -15090,9 +14984,8 @@ msgid "Encry_ption certificate:"
 msgstr "加密证书(_P)："
 
 #: mail/mail-config.glade.h:79
-#, fuzzy
 msgid "Encrypt out_going messages (by default)"
-msgstr "加密寄出的信件(默认)(_E)"
+msgstr "加密寄出的信件(默认)(_G)"
 
 #: mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
@@ -15218,18 +15111,16 @@ msgid "Remember _password"
 msgstr "记住密码(_P)"
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "S_elect..."
-msgstr "选择..."
+msgstr "选择(_E)..."
 
 #: mail/mail-config.glade.h:116
 msgid "S_tandard Font:"
 msgstr "标准字体(_T)："
 
 #: mail/mail-config.glade.h:117
-#, fuzzy
 msgid "Se_lect..."
-msgstr "选择..."
+msgstr "选择(_L)..."
 
 #: mail/mail-config.glade.h:118
 msgid "Security"
@@ -15272,9 +15163,8 @@ msgid "Server _Type: "
 msgstr "服务器类型(_T)："
 
 #: mail/mail-config.glade.h:128
-#, fuzzy
 msgid "Sig_ning certificate:"
-msgstr "签名证书(_G)："
+msgstr "签名证书(_N)："
 
 #: mail/mail-config.glade.h:129
 msgid "Signat_ure:"
@@ -15363,9 +15253,8 @@ msgid "_Do not notify me when new mail arrives"
 msgstr "新邮件到达时不要提醒我(_D)"
 
 #: mail/mail-config.glade.h:152
-#, fuzzy
 msgid "_Don't sign meeting requests (for Outlook compatibility)"
-msgstr "不要签名会议请求(同 Outlook 兼容)(_M)"
+msgstr "不要签名会议请求(同 Outlook 兼容)(_D)"
 
 #: mail/mail-config.glade.h:154
 msgid "_Enable"
@@ -15412,7 +15301,6 @@ msgid "_Show animated images"
 msgstr "显示动画图像(_S)"
 
 #: mail/mail-config.glade.h:169
-#, fuzzy
 msgid "_Use Secure Connection:"
 msgstr "使用安全连接(_U)："
 
@@ -15450,19 +15338,16 @@ msgid "<span weight=\"bold\">Encryption</span>"
 msgstr "<span weight=\"bold\">加密</span>"
 
 #: mail/mail-dialogs.glade.h:10
-#, fuzzy
 msgid "Case _Sensitive"
-msgstr "区分大小写"
+msgstr "区分大小写(_S)"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
-#, fuzzy
 msgid "Co_mpleted"
-msgstr "已完成"
+msgstr "已完成(_M)"
 
 #: mail/mail-dialogs.glade.h:13
-#, fuzzy
 msgid "F_ind:"
-msgstr "查找："
+msgstr "查找(_I)："
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
@@ -15502,9 +15387,8 @@ msgstr ""
 "请从“标志”菜单中选择跟随操作。"
 
 #: mail/mail-dialogs.glade.h:24
-#, fuzzy
 msgid "_Accept License"
-msgstr "接受协议"
+msgstr "接受协议(_A)"
 
 #: mail/mail-dialogs.glade.h:25 mail/message-tags.glade.h:6
 msgid "_Due By:"
@@ -15519,9 +15403,8 @@ msgid "_Subscribe"
 msgstr "订阅(_S)"
 
 #: mail/mail-dialogs.glade.h:28
-#, fuzzy
 msgid "_Tick this to accept the license agreement"
-msgstr "选中此处以表明您接受许可协议"
+msgstr "选中此处以表明您接受许可协议(_T)"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
@@ -16069,9 +15952,8 @@ msgstr "追加(_A)"
 
 #. mail:no-load-license primary
 #: mail/mail-errors.xml.h:234
-#, fuzzy
 msgid "Unable to read license file."
-msgstr "无法创建新文件夹“%s”：%s"
+msgstr "无法读取协议文件。"
 
 #. mail:no-load-license secondary
 #: mail/mail-errors.xml.h:236
@@ -16081,23 +15963,23 @@ msgid ""
 "until\n"
 "      you can accept its license."
 msgstr ""
+"无法读取协议文件“{0}”，可能是安装出现问题。\n"
+"      除非您接受其协议，否则您无法使用此服务。"
 
 #. mail:checking-service title
 #: mail/mail-errors.xml.h:240
 msgid "Querying server"
-msgstr ""
+msgstr "查询服务器"
 
 #. mail:checking-service primary
 #: mail/mail-errors.xml.h:242
-#, fuzzy
 msgid "Please wait."
-msgstr "请稍候"
+msgstr "请稍候。"
 
 #. mail:checking-service secondary
 #: mail/mail-errors.xml.h:244
-#, fuzzy
 msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "请求的认证机制必须加密"
+msgstr "正在查询服务器支持的身份验证机制列表。"
 
 #. mail:gw-accountsetup-error primary
 #: mail/mail-errors.xml.h:246
@@ -16465,9 +16347,8 @@ msgid "%b %d %Y"
 msgstr "%Y年%m月%d日"
 
 #: mail/message-list.c:2044
-#, fuzzy
 msgid "Message List"
-msgstr "信件(_M)"
+msgstr "信件列表"
 
 #: mail/message-list.c:3409
 msgid "Generating message list"
@@ -16932,20 +16813,18 @@ msgid "Welcome"
 msgstr "欢迎"
 
 #: shell/evolution-startup-wizard.glade.h:6
-#, fuzzy
 msgid ""
 "Welcome to Evolution. The next few screens will allow Evolution to connect "
 "to your email accounts, and to import files from other applications. \n"
 "\n"
 "Please click the \"Forward\" button to continue. "
 msgstr ""
-"欢迎使用 Evolution。下面几屏将允许 Evolution 连接到您的\n"
+"欢迎使用 Evolution。下面几屏将允许 Evolution 连接到您的"
 "电子邮件账户，并从其它应用程序中导入文件。\n"
 "\n"
 "请单击“下一步”按钮继续。"
 
 #: shell/evolution-startup-wizard.glade.h:9
-#, fuzzy
 msgid ""
 "You have successfully entered all of the information needed to set up "
 "Evolution. \n"
@@ -17083,7 +16962,6 @@ msgid "Start in online mode"
 msgstr "以联机模式启动"
 
 #: shell/main.c:480
-#, fuzzy
 msgid "Forcibly shut down all Evolution components"
 msgstr "强制关闭所有 Evolution 组件"
 
@@ -17097,11 +16975,11 @@ msgstr "把所有成员的调试输出发送到一个文件中。"
 
 #: shell/main.c:490
 msgid "Disable the mono plugin environment."
-msgstr ""
+msgstr "禁用 mono 插件环境。"
 
 #: shell/main.c:493
 msgid "Disable loading of any plugins."
-msgstr ""
+msgstr "禁止装入任何插件。"
 
 #: shell/main.c:524
 #, c-format
@@ -19114,9 +18992,8 @@ msgid "Toggle whether we are working offline."
 msgstr "切换是否脱机工作。"
 
 #: ui/evolution.xml.h:24
-#, fuzzy
 msgid "Tool_bar"
-msgstr "工具栏(_O)"
+msgstr "工具栏(_B)"
 
 #: ui/evolution.xml.h:26
 msgid "_About Evolution..."
@@ -19156,7 +19033,7 @@ msgstr "按公司(_C)"
 
 #: views/addressbook/galview.xml.h:2
 msgid "_Address Cards"
-msgstr "地址卡片(_A)"
+msgstr "地址名片(_A)"
 
 #: views/addressbook/galview.xml.h:3
 msgid "_Phone List"
@@ -19232,9 +19109,8 @@ msgid "Select a Time Zone"
 msgstr "选择一个时区"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:6
-#, fuzzy
 msgid "TimeZone Combobox"
-msgstr "时区"
+msgstr "时区组合框"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:7
 msgid ""
@@ -19265,14 +19141,12 @@ msgid "%B %Y"
 msgstr "%Y年%B"
 
 #: widgets/misc/e-calendar.c:177 widgets/misc/e-calendar.c:201
-#, fuzzy
 msgid "Previous Button"
-msgstr "上一项"
+msgstr "上一按钮"
 
 #: widgets/misc/e-calendar.c:226
-#, fuzzy
 msgid "Month Calendar"
-msgstr "装入日历"
+msgstr "月历"
 
 #: widgets/misc/e-cell-date-edit.c:232 widgets/misc/e-dateedit.c:444
 msgid "Now"
@@ -19375,34 +19249,32 @@ msgid "..."
 msgstr "..."
 
 #: widgets/misc/e-dateedit.c:313
-#, fuzzy
 msgid "Date and Time Entry"
-msgstr "<b>日期和时间</b>"
+msgstr "日期和时间输入"
 
 #: widgets/misc/e-dateedit.c:332
 msgid "Text entry to input date"
-msgstr ""
+msgstr "输入日期的文本框"
 
 #: widgets/misc/e-dateedit.c:333
 msgid "Text Date Entry"
-msgstr ""
+msgstr "日期文本框"
 
 #: widgets/misc/e-dateedit.c:350
 msgid "Click this button to show a calendar"
-msgstr ""
+msgstr "单击此按钮可显示日历"
 
 #: widgets/misc/e-dateedit.c:351
-#, fuzzy
 msgid "Date Button"
-msgstr "发送日期"
+msgstr "日期按钮"
 
 #: widgets/misc/e-dateedit.c:371
 msgid "Combo box to select time"
-msgstr ""
+msgstr "选择时间的组合框"
 
 #: widgets/misc/e-dateedit.c:372
 msgid "Time Combo Box"
-msgstr ""
+msgstr "时间组合框"
 
 #: widgets/misc/e-error.c:83 widgets/misc/e-error.c:84
 #: widgets/misc/e-error.c:126
