@@ -1,5 +1,13 @@
 2002-11-26  Not Zed  <NotZed@Ximian.com>
 
+	* mail-vfolder.c (vfolder_gui_add_rule): clicked->response signal
+	for gtk dialogue.
+	(new_rule_clicked): Dont unref after destroy (duh, idiot again).
+	(edit_rule_response): Same here.
+	(mail_vfolder_delete_uri): Connect response signal to
+	gtk_widget_destroy directrly using g_signal_connect_swapped.
+	(close_dialogue): Removed, as no longer needed.
+
 	* message-list.c (get_normalised_string): Duh idiot, "un-fixed"
 	the memleak i added.
 

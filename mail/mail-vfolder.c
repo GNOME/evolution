@@ -393,12 +393,6 @@ mail_vfolder_add_uri(CamelStore *store, const char *uri, int remove)
 		vfolder_adduri(uri, folders, remove);
 }
 
-static void
-close_dialogue(GtkDialog *gd, int response)
-{
-	g_object_unref(gd);
-}
-
 /* called when a uri is deleted from a store */
 void
 mail_vfolder_delete_uri(CamelStore *store, const char *uri)
@@ -451,7 +445,7 @@ mail_vfolder_delete_uri(CamelStore *store, const char *uri)
 							   "Used the removed folder:\n    '%s'\n"
 							   "And have been updated."),
 							 changed->str, uri);
-		g_signal_connect(gd, "response", G_CALLBACK(close_dialogue), NULL);
+		g_signal_connect_swapped(gd, "response", G_CALLBACK(gtk_widget_destroy), gd);
 		gtk_widget_show((GtkWidget *)gd);
 
 		user = g_strdup_printf("%s/vfolders.xml", evolution_dir);
@@ -835,7 +829,6 @@ edit_rule_response(GtkWidget *w, int button, void *data)
 	}
 
 	gtk_widget_destroy(w);
-	g_object_unref(w);
 }
 
 void
@@ -894,7 +887,6 @@ new_rule_clicked(GtkWidget *w, int button, void *data)
 	}
 
 	gtk_widget_destroy(w);
-	g_object_unref(w);
 }
 
 FilterPart *
@@ -940,7 +932,7 @@ vfolder_gui_add_rule(VfolderRule *rule)
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	g_object_set_data_full(G_OBJECT(gd), "rule", rule, (GtkDestroyNotify)g_object_unref);
-	g_signal_connect(gd, "clicked", G_CALLBACK(new_rule_clicked), NULL);
+	g_signal_connect(gd, "response", G_CALLBACK(new_rule_clicked), NULL);
 	gtk_widget_show((GtkWidget *)gd);
 }
 
