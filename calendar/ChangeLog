@@ -1,3 +1,29 @@
+2005-01-06  Chenthill Palanisamy <pchenthill@novell.com>
+	
+	merging send options
+	* gui/dialogs/Makefile.am: Added two new files for send options.
+	* gui/dialogs/e-send-options-utils.{ch}:
+	(e_sendoptions_utils_set_default_data),
+	(e_sendoptions_utils_fill_component): For setting and gettings the 
+	send options.
+	* gui/dialogs/event-editor.c (event_editor_construct): Check for the static
+	capabilities before showing send options.
+	* gui/dialogs/event-page.c: (event_page_show_options),
+	(event_page_fill_component), (e_sendoptions_clicked_cb):
+	* gui/dialogs/event-page.glade:
+	* gui/dialogs/event-page.h: Added function to show/hide the send options button
+	and label and run the send options dialog. 
+	* gui/dialogs/task-editor.c: (task_editor_construct),
+	(task_editor_edit_comp):
+	* gui/dialogs/task-page.c: (task_page_init), (task_page_finalize),
+	(sensitize_widgets), (task_page_hide_options),
+	(task_page_show_options), (task_page_fill_widgets),
+	(task_page_fill_component), (get_widgets), (source_changed_cb),
+	(e_sendoptions_clicked_cb), (init_widgets): Same as event-page.
+	* gui/dialogs/task-page.glade: Added the send options button
+	* gui/dialogs/task-page.h: Added functions hiding and showing send
+	options button
+
 2005-01-05  Rodrigo Moya <rodrigo@novell.com>
 
 	* gui/e-day-view.c (e_day_view_find_event_from_uid): added a new

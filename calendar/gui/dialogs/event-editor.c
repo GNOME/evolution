@@ -147,6 +147,9 @@ event_editor_construct (EventEditor *ee, ECal *client)
 				 _("Recurrence"));
 	
 	if (priv->is_meeting) {
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			event_page_show_options (priv->event_page);
+
 		comp_editor_set_group_item (COMP_EDITOR (ee), TRUE);
 		priv->sched_page = schedule_page_new (priv->model);
 		g_object_ref (priv->sched_page);
@@ -218,7 +221,7 @@ event_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 	} else {
 		GSList *l;
 		int row;
-
+	
 		if (!priv->meeting_shown) {
 			comp_editor_append_page (COMP_EDITOR (ee),
 						 COMP_EDITOR_PAGE (priv->sched_page),

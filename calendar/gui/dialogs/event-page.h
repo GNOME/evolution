@@ -53,8 +53,9 @@ typedef struct {
 GtkType    event_page_get_type  (void);
 EventPage *event_page_construct (EventPage *epage);
 EventPage *event_page_new       (void);
+void event_page_show_options (EventPage *page);
+void event_page_hide_options (EventPage *page);
 
-
 
 G_END_DECLS
 

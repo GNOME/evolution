@@ -38,6 +38,7 @@
 #include "e-util/e-categories-config.h"
 #include "e-util/e-dialog-widgets.h"
 #include "widgets/misc/e-dateedit.h"
+#include "widgets/misc/e-send-options.h"
 #include <libecal/e-cal-time-util.h>
 #include "../calendar-config.h"
 #include "../e-timezone-entry.h"
@@ -46,6 +47,7 @@
 #include "../e-alarm-list.h"
 #include "alarm-list-dialog.h"
 #include "event-page.h"
+#include "e-send-options-utils.h"
 
 
 
@@ -84,11 +86,16 @@ struct _EventPagePrivate {
 	GtkWidget *categories;
 
 	GtkWidget *source_selector;
+	
+	GtkWidget *sendoptions_label;
+	GtkWidget *sendoptions_button;
 
 	EAlarmList *alarm_list_store;
 	
 	gboolean updating;
+	gboolean sendoptions_shown;
 
+	ESendOptionsDialog *sod;
 	char *old_summary;
 	CalUnits alarm_units;
 	int alarm_interval;
@@ -163,11 +170,16 @@ event_page_init (EventPage *epage)
 	priv->alarm_custom = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
+	priv->sendoptions_label = NULL;
+	priv->sendoptions_button = NULL;
+	priv->sod = NULL;
 
 	priv->alarm_interval =  -1;
 	
 	priv->updating = FALSE;
+	priv->sendoptions_shown = FALSE;
 	priv->sync_timezones = FALSE;
+
 }
 
 /* Destroy handler for the event page */
@@ -196,6 +208,10 @@ event_page_finalize (GObject *object)
 		priv->alarm_list_store = NULL;
 	}
 
+	if (priv->sod) {
+		g_object_unref (priv->sod);
+		priv->sod = NULL;
+	}
 	g_free (priv->old_summary);
 	
 	g_free (priv);
@@ -617,8 +633,35 @@ sensitize_widgets (EventPage *epage)
 	else
 		gtk_widget_hide (priv->alarm_warning);
 	gtk_widget_set_sensitive (priv->categories_btn, !read_only);
+	gtk_widget_set_sensitive (priv->sendoptions_button, !read_only);
 	gtk_entry_set_editable (GTK_ENTRY (priv->categories), !read_only);
 }
+
+void
+event_page_hide_options (EventPage *page)
+{
+	g_return_if_fail (IS_EVENT_PAGE (page));
+
+	gtk_widget_hide (page->priv->sendoptions_label);
+	gtk_widget_hide (page->priv->sendoptions_button);
+	
+	page->priv->sendoptions_shown = FALSE;
+}
+
+void
+event_page_show_options (EventPage *page)
+{
+	g_return_if_fail (IS_EVENT_PAGE (page));
+
+	gtk_widget_show (page->priv->sendoptions_label);
+	gtk_widget_show (page->priv->sendoptions_button);
+
+	if (e_cal_get_static_capability (COMP_EDITOR_PAGE (page)->client, CAL_STATIC_CAPABILITY_NO_GEN_OPTIONS))
+		e_sendoptions_set_need_general_options (page->priv->sod, FALSE);
+	
+	page->priv->sendoptions_shown = TRUE;
+}
+
 
 /* fill_widgets handler for the event page */
 static gboolean
@@ -630,7 +673,8 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	ECalComponentClassification cl;
 	ECalComponentTransparency transparency;
 	ECalComponentDateTime start_date, end_date;
-	const char *location;
+	icalcomponent *icalcomp;
+	const char *location, *uid = NULL;
 	const char *categories;
 	ESource *source;
 	GSList *l;
@@ -746,6 +790,12 @@ event_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	/* Source */
 	source = e_cal_get_source (page->client);
 	e_source_option_menu_select (E_SOURCE_OPTION_MENU (priv->source_selector), source);
+
+	e_cal_component_get_uid (comp, &uid);
+	if (e_cal_get_object (COMP_EDITOR_PAGE (epage)->client, uid, NULL, &icalcomp, NULL)) {
+		icalcomponent_free (icalcomp);
+		event_page_hide_options (epage);
+	}
 
 	priv->updating = FALSE;
 
@@ -909,6 +959,10 @@ event_page_fill_component (CompEditorPage *page, ECalComponent *comp)
 	/* Show Time As (Transparency) */
 	busy = e_dialog_toggle_get (priv->show_time_as_busy);
 	e_cal_component_set_transparency (comp, busy ? E_CAL_COMPONENT_TRANSP_OPAQUE : E_CAL_COMPONENT_TRANSP_TRANSPARENT);
+
+	/* send options */
+	if (priv->sendoptions_shown && priv->sod) 
+		e_sendoptions_utils_fill_component (priv->sod, comp);
 
 	/* Alarm */
 	e_cal_component_remove_all_alarms (comp);
@@ -1120,6 +1174,9 @@ get_widgets (EventPage *epage)
 
 	priv->source_selector = GW ("source");
 
+	priv->sendoptions_label = GW ("send-options-label");
+	priv->sendoptions_button = GW ("send-options-button");
+
 #undef GW
 
 	return (priv->summary
@@ -1137,7 +1194,9 @@ get_widgets (EventPage *epage)
 		&& priv->alarm_warning
 		&& priv->alarm_custom
 		&& priv->categories_btn
-		&& priv->categories);
+		&& priv->categories
+		&& priv->sendoptions_label
+		&& priv->sendoptions_button);
 }
 
 /* Callback used when the summary changes; we emit the notification signal. */
@@ -1546,6 +1605,28 @@ categories_clicked_cb (GtkWidget *button, gpointer data)
 	e_categories_config_open_dialog_for_entry (GTK_ENTRY (entry));
 }
 
+static void
+e_sendoptions_clicked_cb (GtkWidget *button, gpointer data)
+{
+	EventPage *epage;
+	EventPagePrivate *priv;
+	GtkWidget *toplevel;
+	ESource *source;
+	
+	epage = EVENT_PAGE (data);
+	priv = epage->priv;
+
+	if (!priv->sod) {
+		priv->sod = e_sendoptions_dialog_new ();
+		source = e_source_option_menu_peek_selected  (E_SOURCE_OPTION_MENU (priv->source_selector));
+		e_sendoptions_utils_set_default_data (priv->sod, source, "calendar");
+		priv->sod->data->initialized = TRUE;
+	}	
+
+	toplevel = gtk_widget_get_toplevel (priv->main);
+	e_sendoptions_dialog_run (priv->sod, toplevel, E_ITEM_CALENDAR);
+}
+
 /* This is called when any field is changed; it notifies upstream. */
 static void
 field_changed_cb (GtkWidget *widget, gpointer data)
@@ -1597,6 +1678,11 @@ source_changed_cb (GtkWidget *widget, ESource *source, gpointer data)
 			comp_editor_notify_client_changed (
 				COMP_EDITOR (gtk_widget_get_toplevel (priv->main)),
 				client);
+			if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+				event_page_show_options (epage);
+			else
+				event_page_hide_options (epage);
+
 			sensitize_widgets (epage);
 		}
 	}
@@ -1766,6 +1852,10 @@ init_widgets (EventPage *epage)
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), epage);
+
+	/* send options button */
+	g_signal_connect((priv->sendoptions_button), "clicked", 
+			    G_CALLBACK (e_sendoptions_clicked_cb), epage);
 
 	/* Source selector */
 	g_signal_connect((priv->source_selector), "source_selected",

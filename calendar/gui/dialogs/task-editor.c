@@ -144,6 +144,9 @@ task_editor_construct (TaskEditor *te, ECal *client, gboolean is_assigned)
 				 COMP_EDITOR_PAGE (priv->task_details_page),
 				 _("Status"));
 	if (priv->is_assigned) {
+		if (e_cal_get_static_capability (client, CAL_STATIC_CAPABILITY_REQ_SEND_OPTIONS))
+			task_page_show_options (priv->task_page);
+
 		comp_editor_set_group_item (COMP_EDITOR (te), TRUE);
 		priv->meet_page = meeting_page_new (priv->model, client);
 		g_object_ref (priv->meet_page);
@@ -208,6 +211,7 @@ task_editor_edit_comp (CompEditor *editor, ECalComponent *comp)
 		GSList *l;
 		int row;
 		
+		task_page_hide_options (priv->task_page);		
 		if (!priv->assignment_shown)
 			comp_editor_append_page (COMP_EDITOR (te),
 						 COMP_EDITOR_PAGE (priv->meet_page),
