@@ -448,7 +448,8 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 		g_free (ret);
 		ret = NULL;
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				     g_strerror (errno));
+				     nread ? g_strerror (errno) :
+				     _("Server disconnected."));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;

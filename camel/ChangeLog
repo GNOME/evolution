@@ -1,5 +1,9 @@
 2000-11-28  Dan Winship  <danw@helixcode.com>
 
+	* camel-remote-store.c (remote_recv_line): Don't set exception to
+	g_strerror (errno) when nread == 0, because it won't have been
+	set.
+
 	* providers/pop3/camel-pop3-folder.c (pop3_finalize): Don't try to
 	free things if they haven't been set yet.
 
