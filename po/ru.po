@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-07-26 17:27+0000\n"
-"PO-Revision-Date: 2000-07-26 17:29+00:00\n"
+"POT-Creation-Date: 2000-07-30 19:34+0000\n"
+"PO-Revision-Date: 2000-07-30 19:40+00:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1262,7 +1262,7 @@ msgstr "Сегодня"
 msgid "Go to present time"
 msgstr "Перейти к настоящему"
 
-#: calendar/gui/calendar-commands.c:554 filter/filter-editor.c:210
+#: calendar/gui/calendar-commands.c:554
 msgid "Next"
 msgstr "След."
 
@@ -1746,7 +1746,7 @@ msgid "Due Date"
 msgstr "Условленная дата"
 
 #: calendar/gui/gncal-todo.c:436 calendar/gui/prop.c:605
-#: mail/message-list.c:472
+#: mail/message-list.c:470
 msgid "Priority"
 msgstr "Приоритет"
 
@@ -2373,45 +2373,45 @@ msgstr "Тема:"
 msgid "Enter the subject of the mail"
 msgstr "Введите тему письма"
 
-#: composer/e-msg-composer.c:447
+#: composer/e-msg-composer.c:444
 msgid "Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:458
+#: composer/e-msg-composer.c:455
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Ошибка сохранения файла: %s"
 
-#: composer/e-msg-composer.c:478
+#: composer/e-msg-composer.c:475
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Ошибка при загрузке файла: %s"
 
-#: composer/e-msg-composer.c:497
+#: composer/e-msg-composer.c:494
 msgid "Discard this message?"
 msgstr "Отменить это сообщение"
 
-#: composer/e-msg-composer.c:514
+#: composer/e-msg-composer.c:511
 msgid "Open file"
 msgstr "Открыть файл"
 
-#: composer/e-msg-composer.c:626
+#: composer/e-msg-composer.c:623
 msgid "That file does not exist."
 msgstr "Этот файл не существует."
 
-#: composer/e-msg-composer.c:636
+#: composer/e-msg-composer.c:633
 msgid "That is not a regular file."
 msgstr "Это не обычный файл."
 
-#: composer/e-msg-composer.c:646
+#: composer/e-msg-composer.c:643
 msgid "That file exists but is not readable."
 msgstr "Этот файл существует, но не читается."
 
-#: composer/e-msg-composer.c:656
+#: composer/e-msg-composer.c:653
 msgid "That file appeared accesible but open(2) failed."
 msgstr "Файл выглядит доступным, но произошел сбой open(2)."
 
-#: composer/e-msg-composer.c:678
+#: composer/e-msg-composer.c:675
 msgid ""
 "The file is very large (more than 100K).\n"
 "Are you sure you wish to insert it?"
@@ -2419,152 +2419,120 @@ msgstr ""
 "Файл очень большой (больше 100К).\n"
 "Вы уверены, что хотите вставить его?"
 
-#: composer/e-msg-composer.c:699
+#: composer/e-msg-composer.c:696
 msgid "An error occurred while reading the file."
 msgstr "При чтении файла возникла ошибка."
 
-#: composer/e-msg-composer.c:795 shell/e-shell-view-menu.c:438
+#: composer/e-msg-composer.c:792 shell/e-shell-view-menu.c:438
 msgid "_File"
 msgstr "Файл"
 
-#: composer/e-msg-composer.c:801
+#: composer/e-msg-composer.c:798
 msgid "_Open..."
 msgstr "Открыть..."
 
-#: composer/e-msg-composer.c:802
+#: composer/e-msg-composer.c:799
 msgid "Load a previously saved message"
 msgstr "Загрузить ранее сохраненное сообщение"
 
-#: composer/e-msg-composer.c:810
+#: composer/e-msg-composer.c:807
 msgid "_Save..."
 msgstr "Cохранить..."
 
-#: composer/e-msg-composer.c:811
+#: composer/e-msg-composer.c:808
 msgid "Save message"
 msgstr "Сохранить сообщение"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:816
 msgid "_Save as..."
 msgstr "Сохранить как..."
 
-#: composer/e-msg-composer.c:820
+#: composer/e-msg-composer.c:817
 msgid "Save message with a different name"
 msgstr "Сохранить сообщение c другим названием"
 
-#: composer/e-msg-composer.c:828
+#: composer/e-msg-composer.c:825
 msgid "Save in _folder..."
 msgstr "Сохранить в папке..."
 
-#: composer/e-msg-composer.c:829
+#: composer/e-msg-composer.c:826
 msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
-#: composer/e-msg-composer.c:838
+#: composer/e-msg-composer.c:835
 msgid "_Insert text file... (FIXME)"
 msgstr "Вставить текстовый файл... (FIXME)"
 
-#: composer/e-msg-composer.c:839
+#: composer/e-msg-composer.c:836
 msgid "Insert a file as text into the message"
 msgstr "Вставить файл в сообщение как текст"
 
-#: composer/e-msg-composer.c:848
+#: composer/e-msg-composer.c:845
 msgid "_Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:849
+#: composer/e-msg-composer.c:846
 msgid "Send the message"
 msgstr "Отправить сообщение"
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:856
 msgid "_Close..."
 msgstr "Закрыть..."
 
-#: composer/e-msg-composer.c:860
+#: composer/e-msg-composer.c:857
 msgid "Quit the message composer"
 msgstr "Выйти из редактора сообщений"
 
-#: composer/e-msg-composer.c:873 shell/e-shell-view-menu.c:480
+#: composer/e-msg-composer.c:870 shell/e-shell-view-menu.c:480
 msgid "_Edit"
 msgstr "Правка"
 
-#: composer/e-msg-composer.c:884
+#: composer/e-msg-composer.c:881
 msgid "_Format"
 msgstr "Формат"
 
-#: composer/e-msg-composer.c:890
+#: composer/e-msg-composer.c:887
 msgid "HTML"
 msgstr "HTML"
 
-#: composer/e-msg-composer.c:891
+#: composer/e-msg-composer.c:888
 msgid "Send the mail in HTML format"
 msgstr "Отправить почту в формате HTML"
 
-#: composer/e-msg-composer.c:904 shell/e-shell-view-menu.c:387
+#: composer/e-msg-composer.c:901 shell/e-shell-view-menu.c:387
 #: shell/e-shell-view-menu.c:491
 msgid "_View"
 msgstr "Просмотр"
 
-#: composer/e-msg-composer.c:910
+#: composer/e-msg-composer.c:907
 msgid "Show _attachments"
 msgstr "Показать вложения"
 
-#: composer/e-msg-composer.c:911
+#: composer/e-msg-composer.c:908
 msgid "Show/hide attachments"
 msgstr "Показать/скрыть вложения"
 
-#: composer/e-msg-composer.c:944
+#: composer/e-msg-composer.c:941
 msgid "Send"
 msgstr "Отправить"
 
-#: composer/e-msg-composer.c:945
+#: composer/e-msg-composer.c:942
 msgid "Send this message"
 msgstr "Отправить это сообщение"
 
-#: composer/e-msg-composer.c:954
+#: composer/e-msg-composer.c:951
 msgid "Attach"
 msgstr "Присоединить"
 
-#: composer/e-msg-composer.c:955
+#: composer/e-msg-composer.c:952
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: composer/e-msg-composer.c:1142
+#: composer/e-msg-composer.c:1139
 msgid "Compose a message"
 msgstr "Создать сообщение"
 
-#: filter/filter-editor.c:198
-msgid "Edit Filter"
-msgstr "Правка фильтра"
-
-#: filter/filter-editor.c:198
-msgid "Create filter"
-msgstr "Создать фильтр"
-
-#: filter/filter-editor.c:209
-msgid "Back"
-msgstr "Назад"
-
-#: filter/filter-editor.c:211
-msgid "Finish"
-msgstr "Закончить"
-
-#: filter/filter-editor.c:212
-msgid "Cancel"
-msgstr "Отмена"
-
-#: filter/filter-editor.c:216
-msgid "Apply"
-msgstr "Применить"
-
-#: filter/filter-editor.c:233
-msgid ""
-"<h2>Create Filtering Rule</h2><p>Select one of the base rules above, then "
-"continue forwards to customise it.</p>"
-msgstr ""
-"<h2>Создать правило фильтрации</h2><p>Выберите одно из приведенных ниже "
-"правил, затем продолжите его настройку.</p>"
-
-#: mail/component-factory.c:193
+#: mail/component-factory.c:188
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Невозможно инициализировать почтовый компонент \"Эволюции\"."
 
@@ -2609,8 +2577,8 @@ msgid "Forward this message"
 msgstr "Переслать это сообщение"
 
 #: mail/folder-browser-factory.c:35
-msgid "Refile"
-msgstr ""
+msgid "Move"
+msgstr "Перенести"
 
 #: mail/folder-browser-factory.c:35
 msgid "Move message to a new folder"
@@ -2628,27 +2596,31 @@ msgstr "Удалить это сообщение"
 msgid "_Threaded Message List"
 msgstr "Список подшитых сообщений"
 
-#: mail/folder-browser-factory.c:71
+#: mail/folder-browser-factory.c:72
+msgid "_Mark all messages seen"
+msgstr "Отметить все сообщения как просмотренные"
+
+#: mail/folder-browser-factory.c:78
 msgid "_Expunge"
 msgstr "Вычеркнуть"
 
-#: mail/folder-browser-factory.c:77
-msgid "_Filter Druid ..."
-msgstr "Помощник по фильтрам ..."
+#: mail/folder-browser-factory.c:84
+msgid "Mail _Filters ..."
+msgstr "Почтовые фильтры ..."
 
-#: mail/folder-browser-factory.c:83
-msgid "_Virtual Folder Druid ..."
-msgstr "Помощник по виртуальным папкам ..."
+#: mail/folder-browser-factory.c:90
+msgid "_vFolder Editor ..."
+msgstr "Редактор виртуальных папок ..."
 
-#: mail/folder-browser-factory.c:89
+#: mail/folder-browser-factory.c:96
 msgid "_Mail Configuration ..."
 msgstr "Настройка почты ..."
 
-#: mail/folder-browser-factory.c:95
+#: mail/folder-browser-factory.c:102
 msgid "Forget _Passwords"
 msgstr "Забыть пароли"
 
-#: mail/mail-config.c:262
+#: mail/mail-config.c:688
 msgid ""
 "Enter your name and email address to be used in outgoing mail. You may also, "
 "optionally, enter the name of your organization, and the name of a file to "
@@ -2658,51 +2630,51 @@ msgstr ""
 "почты. Вы можете также дополнительно ввести название вашей организации и "
 "название файла для считывания подписи."
 
-#: mail/mail-config.c:277
+#: mail/mail-config.c:701
 msgid "Full name:"
 msgstr "Полное имя:"
 
-#: mail/mail-config.c:305
+#: mail/mail-config.c:725
 msgid "Email address:"
 msgstr "Эл.адрес:"
 
-#: mail/mail-config.c:328
+#: mail/mail-config.c:740
 msgid "Organization:"
 msgstr "Организация:"
 
-#: mail/mail-config.c:340
+#: mail/mail-config.c:751
 msgid "Signature file:"
 msgstr "Файл подписи:"
 
-#: mail/mail-config.c:345
+#: mail/mail-config.c:756
 msgid "Signature File"
 msgstr "Файл подписи"
 
-#: mail/mail-config.c:730 mail/mail-config.c:824 mail/mail-config.c:1637
+#: mail/mail-config.c:1166
 msgid "Server:"
 msgstr "Сервер:"
 
-#: mail/mail-config.c:737
+#: mail/mail-config.c:1172
 msgid "Username:"
 msgstr "Имя пользователя:"
 
-#: mail/mail-config.c:744
+#: mail/mail-config.c:1178
 msgid "Path:"
 msgstr "Путь"
 
-#: mail/mail-config.c:751 mail/mail-config.c:831
+#: mail/mail-config.c:1186
 msgid "Authentication:"
 msgstr "Идентификация:"
 
-#: mail/mail-config.c:763 mail/mail-config.c:843
+#: mail/mail-config.c:1198
 msgid "Detect supported types..."
 msgstr "Определять поддерживаемые типы..."
 
-#: mail/mail-config.c:789 mail/mail-config.c:865
-msgid "Test these values before continuing"
-msgstr "Проверять эти значения до продолжения"
+#: mail/mail-config.c:1221
+msgid "Test Settings"
+msgstr "Проверка установок"
 
-#: mail/mail-config.c:976
+#: mail/mail-config.c:1343 mail/mail-config.c:1391
 msgid ""
 "Select the kind of mail server you have, and enter the relevant information "
 "about it.\n"
@@ -2716,67 +2688,47 @@ msgstr ""
 "Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить "
 "поддерживаемые типы...\" после ввода этой информации."
 
-#: mail/mail-config.c:994
-msgid "Select the method you would like to use to deliver your mail."
+#: mail/mail-config.c:1367
+msgid ""
+"Select the kind of news server you have, and enter the relevant information "
+"about it.\n"
+"\n"
+"If the server requires authentication, you can click the \"Detect supported "
+"types...\" button after entering the other information."
 msgstr ""
-"Выберите метод, который вы хотели бы использовать для доставки вашей почты."
+"Выберите тип используемого почтового сервера и введите соответствующую информацию о нем.\n"
+"\n"
+"Если сервер требует идентификации, вы можете щелкнуть на кнопке \"Определить поддерживаемые типы...\" после ввода остальной информации."
 
-#: mail/mail-config.c:1179 mail/mail-config.c:1258
-msgid "Mail Configuration"
-msgstr "Настройка почты"
-
-#. Identity page
-#: mail/mail-config.c:1196
-msgid "Identity"
-msgstr "Именование"
-
-#. Source page
-#: mail/mail-config.c:1215
-msgid "Mail Source"
-msgstr "Источник почты"
-
-#. Transport page
-#: mail/mail-config.c:1236
-msgid "Mail Transport"
-msgstr "Передача почты"
-
-#: mail/mail-config.c:1359
+#: mail/mail-config.c:1433
 msgid "Edit Identity"
 msgstr "Правка именования"
 
-#: mail/mail-config.c:1361
+#: mail/mail-config.c:1435
 msgid "Add Identity"
 msgstr "Добавить именование"
 
-#: mail/mail-config.c:1504
+#: mail/mail-config.c:1514
 msgid "Edit Source"
 msgstr "Правка источника"
 
-#: mail/mail-config.c:1506
+#: mail/mail-config.c:1516
 msgid "Add Source"
 msgstr "Добавить источник"
 
-#. "\n\n"
-#. "If the server requires authentication, you can click the "
-#. "\"Detect supported types...\" button after entering "
-#. "the other information."
-#: mail/mail-config.c:1616
-msgid "Enter the hostname of the News Server you have."
-msgstr "Введите имя вашего сервера новостей."
-
-#: mail/mail-config.c:1672
+#: mail/mail-config.c:1597
 msgid "Edit News Server"
 msgstr "Правка сервера новостей"
 
-#: mail/mail-config.c:1674
+#: mail/mail-config.c:1599
 msgid "Add News Server"
 msgstr "Добавить сервер новостей"
 
-#: mail/mail-ops.c:374
+#: mail/mail-ops.c:393
 msgid "Fetching mail"
 msgstr "Получение почты"
 
-#: mail/mail-ops.c:386
+#: mail/mail-ops.c:405
 msgid ""
 "This message has no subject.\n"
 "Really send?"
@@ -2784,9 +2736,9 @@ msgstr ""
 "Это сообщение не имеет темы.\n"
 "Послать его?"
 
-#: mail/mail-ops.c:774
-msgid "Refile message(s) to"
-msgstr ""
+#: mail/mail-ops.c:791
+msgid "Move message(s) to"
+msgstr "Переместить сообщение в"
 
 #: mail/mail-threads.c:483
 msgid "Currently pending operations:"
@@ -2812,31 +2764,31 @@ msgstr "Невозможно создать окно диалога."
 msgid "User cancelled query."
 msgstr "Пользователь отменил запрос."
 
-#: mail/message-list.c:458
+#: mail/message-list.c:456
 msgid "Online Status"
 msgstr "Подключенное состояние"
 
-#: mail/message-list.c:486
+#: mail/message-list.c:484
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:493
+#: mail/message-list.c:491
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:500
+#: mail/message-list.c:498
 msgid "Date"
 msgstr "Дата"
 
-#: mail/message-list.c:507
+#: mail/message-list.c:505
 msgid "Received"
 msgstr "Получено"
 
-#: mail/message-list.c:514
+#: mail/message-list.c:512
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:521
+#: mail/message-list.c:519
 msgid "Size"
 msgstr "Размер"
 
@@ -3068,15 +3020,15 @@ msgstr "Показать информацию о программе Evolution"
 msgid "(No folder displayed)"
 msgstr "(Папки не показаны)"
 
-#: shell/e-shell-view.c:339
+#: shell/e-shell-view.c:342
 msgid "Folders"
 msgstr "Папки"
 
-#: shell/e-shell-view.c:731
+#: shell/e-shell-view.c:734
 msgid "None"
 msgstr "Нет"
 
-#: shell/e-shell-view.c:735
+#: shell/e-shell-view.c:738
 #, c-format
 msgid "Evolution - %s"
 msgstr "Эволюция - %s"
@@ -3220,15 +3172,15 @@ msgstr ""
 "С благодарностью\n"
 "Команда Evolution\n"
 
-#: shell/main.c:124
+#: shell/main.c:128
 msgid "Cannot initialize the Evolution shell."
 msgstr "Невозможно инициализировать оболочку \"Эволюции\"."
 
-#: shell/main.c:162
+#: shell/main.c:166
 msgid "Cannot initialize the configuration system."
 msgstr "Невозможно инициализировать конфигурационную систему."
 
-#: shell/main.c:168
+#: shell/main.c:172
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Не удалось инициализировать компонентную систему Bonobo."
 
