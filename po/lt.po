@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
 "POT-Creation-Date: 2001-10-26 00:34+0200\n"
-"PO-Revision-Date: 2001-10-26 00:47+0200\n"
+"PO-Revision-Date: 2001-10-28 22:33+0200\n"
 "Last-Translator: Gediminas Paulauskas <menesis@delfi.lt>\n"
 "Language-Team: Your language <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -2952,14 +2952,13 @@ msgid "Factory for the alarm notification service"
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:232
-#, fuzzy
 msgid "invalid time"
-msgstr "Blogi argumentai"
+msgstr "blogas laikas"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:372
-#, fuzzy, c-format
+#, c-format
 msgid "Alarm on %s"
-msgstr "Perspëjimai"
+msgstr "Perspëti %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
@@ -3153,9 +3152,8 @@ msgstr "Ne"
 #. No time range is set, so don't start a query
 #: calendar/gui/calendar-model.c:2014 calendar/gui/e-day-view.c:1675
 #: calendar/gui/e-week-view.c:1182
-#, fuzzy
 msgid "Searching"
-msgstr "Nuostatos..."
+msgstr "Ieðkoma"
 
 #: calendar/gui/calendar-view-factory.c:149 views/calendar/galview.xml.h:1
 msgid "Day View"
@@ -3361,42 +3359,42 @@ msgstr "Paleisti programà"
 
 #: calendar/gui/dialogs/alarm-page.c:392
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "Neþinomas veiksmas, kurá reikia atlikti"
 
 #: calendar/gui/dialogs/alarm-page.c:404
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the start of the appointment"
-msgstr "prieð ávykio pradþià"
+msgstr "%s %s prieð ávykio pradþià"
 
 #: calendar/gui/dialogs/alarm-page.c:407
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the start of the appointment"
-msgstr "prieð ávykio pradþià"
+msgstr "%s %s po ávykio pradþios"
 
 #: calendar/gui/dialogs/alarm-page.c:412
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the start of the appointment"
-msgstr "prieð ávykio pradþià"
+msgstr "%s ávykio pradþios metu"
 
 #: calendar/gui/dialogs/alarm-page.c:421
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s before the end of the appointment"
-msgstr "prieð ávykio pradþià"
+msgstr "%s %s prieð ávykio pabaigà"
 
 #: calendar/gui/dialogs/alarm-page.c:424
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s after the end of the appointment"
-msgstr "po ávykio pabaigos"
+msgstr "%s %s po ávykio pabaigos"
 
 #: calendar/gui/dialogs/alarm-page.c:429
-#, fuzzy, c-format
+#, c-format
 msgid "%s at the end of the appointment"
-msgstr "po ávykio pabaigos"
+msgstr "%s ávykio pabaigos metu"
 
 #: calendar/gui/dialogs/alarm-page.c:454
-#, fuzzy, c-format
+#, c-format
 msgid "%s at %s"
-msgstr "%s serveris %s"
+msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.c:460
 #, c-format
@@ -4333,9 +4331,8 @@ msgid "Delete _All Occurrences"
 msgstr "Iðtrinti _visus pasitaikymus"
 
 #: calendar/gui/e-itip-control.c:1082
-#, fuzzy
 msgid "Calendar file could not be updated!\n"
-msgstr "Elementas negalëjo bûti iðsiøstas!\n"
+msgstr "Kalendoriaus byla negalëjo bûti atnaujinta!\n"
 
 #: calendar/gui/e-itip-control.c:1084
 msgid "Update complete\n"
@@ -4350,9 +4347,8 @@ msgid "Attendee status ould not be updated!\n"
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:1139
-#, fuzzy
 msgid "Attendee status updated\n"
-msgstr "Dalyvio adresas"
+msgstr "Dalyvio bûsena atnaujinta\n"
 
 #: calendar/gui/e-itip-control.c:1141
 msgid "Attendee status can not be updated because the item no longer exists"
@@ -4586,9 +4582,9 @@ msgid "Meeting _end time:"
 msgstr "Susitikimo pa_baigos laikas:"
 
 #: calendar/gui/e-tasks.c:329
-#, fuzzy, c-format
+#, c-format
 msgid "Opening tasks at %s"
-msgstr "Atidaroma saugykla %s"
+msgstr "Atidaromos uþduotys ið %s"
 
 #: calendar/gui/e-tasks.c:356
 #, c-format
@@ -4615,9 +4611,9 @@ msgid "The method required to open `%s' is not supported"
 msgstr "Metodas, reikalingas atidaryti ¥%s´, nepalaikomas"
 
 #: calendar/gui/gnome-cal.c:1684
-#, fuzzy, c-format
+#, c-format
 msgid "Opening calendar at %s"
-msgstr "Atidaryti kalendoriø"
+msgstr "Atidaromas kalendorius ið %s"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -4939,7 +4935,7 @@ msgstr "SPATKPÐ"
 
 #: calendar/pcs/query.c:235
 msgid "time-now expects 0 arguments"
-msgstr ""
+msgstr "time-now tikisi 0 argumentø"
 
 #: calendar/pcs/query.c:259
 msgid "make-time expects 1 argument"
@@ -5026,19 +5022,16 @@ msgid ""
 msgstr ""
 
 #: calendar/pcs/query.c:822
-#, fuzzy
 msgid "is-completed? expects 0 arguments"
-msgstr "Sintakses klaida parametruose arba argumentuose"
+msgstr "is-completed? tikisi 0 argumentø"
 
 #: calendar/pcs/query.c:867
-#, fuzzy
 msgid "completed-before? expects 1 argument"
-msgstr "Sintakses klaida parametruose arba argumentuose"
+msgstr "completed-before? tikisi 1 argumento"
 
 #: calendar/pcs/query.c:872
-#, fuzzy
 msgid "completed-before? expects argument 1 to be a time_t"
-msgstr "Sintakses klaida parametruose arba argumentuose"
+msgstr "completed-before? tikisi, kad pirmas argumentas bus time_t"
 
 #: calendar/pcs/query.c:1160
 msgid "Evaluation of the search expression did not yield a boolean value"
@@ -5743,28 +5736,24 @@ msgid "No such message: %s"
 msgstr "Nëra tokio laiðko: %s"
 
 #: camel/camel-vee-store.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr ""
-"Negalëjau iðtrinti aplanko:\n"
-"%s"
+msgstr "Negaliu iðtrinti aplanko: %s: Bloga operacija"
 
 #: camel/camel-vee-store.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder: %s: No such folder"
-msgstr ""
-"Negalëjau iðtrinti aplanko:\n"
-"%s"
+msgstr "Negaliu iðtrinti aplanko: %s: Nëra tokio aplanko"
 
 #: camel/camel-vee-store.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr "Negalëjau pervadinti aplanko: %s"
+msgstr "Negaliu pervadinti aplanko: %s: Bloga operacija"
 
 #: camel/camel-vee-store.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder: %s: No such folder"
-msgstr "Negalëjau pervadinti aplanko ¥%s´ á %s: %s"
+msgstr "Negaliu pervadinti aplanko: %s: Nëra tokio aplanko"
 
 #: camel/camel-vtrash-folder.c:117
 msgid "You cannot copy messages from this trash folder."
@@ -5832,9 +5821,9 @@ msgid "Could not find message body in FETCH response."
 msgstr "Negalëjau rasti laiðko teksto FETCH atsakyme"
 
 #: camel/providers/imap/camel-imap-message-cache.c:155
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open cache directory: %s"
-msgstr "Negalëjau sukurti katalogo %s: %s"
+msgstr "Negalëjau atidaryti keðo katalogo: %s"
 
 #: camel/providers/imap/camel-imap-message-cache.c:243
 #: camel/providers/imap/camel-imap-message-cache.c:300
@@ -5932,44 +5921,36 @@ msgid "MH-format mail directories"
 msgstr "MH formato paðto katalogai"
 
 #: camel/providers/local/camel-local-provider.c:44
-#, fuzzy
 msgid "For storing local mail in MH-like mail directories."
-msgstr "Paðto laikymui MH tipo paðto kataloguose"
+msgstr "Vietinio paðto laikymui MH tipo paðto kataloguose."
 
 #: camel/providers/local/camel-local-provider.c:53
-#, fuzzy
 msgid "Local delivery"
-msgstr "Vietiniai aplankai"
+msgstr "Vietinis pristatymas"
 
 #: camel/providers/local/camel-local-provider.c:54
-#, fuzzy
 msgid "For retrieving local mail from standard mbox formated spools."
-msgstr "Vietinio paðto laikymui standartiniu mbox formatu"
+msgstr "Paðto gavimui ið standartiniø mbox formato bylø."
 
 #: camel/providers/local/camel-local-provider.c:63
-#, fuzzy
 msgid "Apply filters to new messages in INBOX"
-msgstr "Pritaikyti filtrus naujiems laiðkams ðio serverio INBOX aplanke"
+msgstr "Pritaikyti filtrus naujiems laiðkams INBOX aplanke"
 
 #: camel/providers/local/camel-local-provider.c:69
-#, fuzzy
 msgid "Maildir-format mail directories"
-msgstr "MH formato paðto katalogai"
+msgstr "Maildir formato paðto katalogai"
 
 #: camel/providers/local/camel-local-provider.c:70
-#, fuzzy
 msgid "For storing local mail in maildir directories."
-msgstr "Vietinio paðto laikymui qmail maildir kataloguose"
+msgstr "Vietinio paðto laikymui maildir kataloguose."
 
 #: camel/providers/local/camel-local-provider.c:81
-#, fuzzy
 msgid "Standard Unix mbox spools"
-msgstr "Standartinë Unix mbox"
+msgstr "Standartinës Unix mbox bylos"
 
 #: camel/providers/local/camel-local-provider.c:82
-#, fuzzy
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr "Vietinio paðto laikymui standartiniuose Unix spool kataloguose"
+msgstr "Vietinio paðto skaitymui ir laikymui standartinëse mbox bylose"
 
 #: camel/providers/local/camel-local-store.c:132
 #: camel/providers/local/camel-spool-store.c:110
@@ -6013,9 +5994,9 @@ msgid "Could not delete folder index file `%s': %s"
 msgstr "Negalëjau iðtrinti aplanko indekso bylos ¥%s´: %s"
 
 #: camel/providers/local/camel-local-summary.c:367
-#, fuzzy, c-format
+#, c-format
 msgid "Could not save summary: %s: %s"
-msgstr "Nepavyko ákelti %s santraukos"
+msgstr "Negalëjau iðsaugoti santraukos: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:423
 #: camel/providers/local/camel-spool-summary.c:1158
@@ -6209,17 +6190,14 @@ msgstr "Aplankas ¥%s´ nëra tuðèias. Neiðtryniau."
 #: camel/providers/local/camel-spool-summary.c:379
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:936
-#, fuzzy
 msgid "Storing folder"
-msgstr "Sinchronizuojamas aplankas"
+msgstr "Áraðomas aplankas"
 
 #: camel/providers/local/camel-mbox-summary.c:254
 #: camel/providers/local/camel-spool-summary.c:384
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open folder: %s: %s"
-msgstr ""
-"Negalëjau atidaryti bylos %s:\n"
-"%s"
+msgstr "Negalëjau atidaryti aplanko: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:296
 #: camel/providers/local/camel-spool-summary.c:426
@@ -6229,18 +6207,16 @@ msgstr ""
 
 #: camel/providers/local/camel-mbox-summary.c:371
 #: camel/providers/local/camel-spool-summary.c:498
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr "Negalëjau gauti aplanko ¥%s´: %s"
+msgstr "Negalëjau patikrinti aplanko: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:503
 #: camel/providers/local/camel-mbox-summary.c:704
 #: camel/providers/local/camel-spool-summary.c:649
-#, fuzzy, c-format
+#, c-format
 msgid "Could not open file: %s: %s"
-msgstr ""
-"Negalëjau atidaryti bylos %s:\n"
-"%s"
+msgstr "Negalëjau atidaryti bylos: %s: %s"
 
 #: camel/providers/local/camel-mbox-summary.c:520
 #: camel/providers/local/camel-spool-summary.c:673
@@ -6452,9 +6428,8 @@ msgid "Could not open folder: message listing was incomplete."
 msgstr "Negalëjau atidaryti aplanko: laiðkø sàraðas buvo nepilnas."
 
 #: camel/providers/pop3/camel-pop3-folder.c:253
-#, fuzzy
 msgid "Expunging deleted messages"
-msgstr "Iðkirpti paþymëtus laiðkus"
+msgstr "Sunaikinami iðtrinti laiðkai"
 
 #: camel/providers/pop3/camel-pop3-folder.c:329
 #, c-format
@@ -6494,9 +6469,8 @@ msgid "POP"
 msgstr "POP"
 
 #: camel/providers/pop3/camel-pop3-provider.c:53
-#, fuzzy
 msgid "For connecting to and downloading mail from POP servers."
-msgstr "Paðto skaitymui ir raðymui IMAP serveriuose."
+msgstr "Jungimuisi ir paðto parsiuntimui ið POP serveriø."
 
 #: camel/providers/pop3/camel-pop3-provider.c:70
 msgid ""
@@ -6580,9 +6554,9 @@ msgid "No such folder `%s'."
 msgstr "Nëra tokio aplanko ¥%s´."
 
 #: camel/providers/pop3/camel-pop3-store.c:567
-#, fuzzy, c-format
+#, c-format
 msgid "Unexpected response from POP server: %s"
-msgstr "Netikëtas atsakymas ið IMAP serverio: %s"
+msgstr "Netikëtas atsakymas ið POP serverio: %s"
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:37
 #: mail/mail-config.glade.h:72
@@ -6940,14 +6914,14 @@ msgstr "Prisegti bylà prie ðio laiðko"
 
 #: composer/e-msg-composer-attachment.c:168
 #: composer/e-msg-composer-attachment.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: %s"
-msgstr "Negalëjau gauti aplanko ¥%s´: %s"
+msgstr "Negalëjau prisegtibylos %s: %s"
 
 #: composer/e-msg-composer-attachment.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot attach file %s: not a regular file"
-msgstr "Tai nëra paprasta byla."
+msgstr "Negaliu prisegti bylos %s: ne paprasta byla"
 
 #: composer/e-msg-composer-attachment.glade.h:1
 msgid "Attachment properties"
@@ -7100,12 +7074,11 @@ msgstr ""
 " %s"
 
 #: composer/e-msg-composer.c:1148
-#, fuzzy
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
-"Evolution rado neiðsaugotø bylø ið praeitos sesijos.\n"
+"Ximian Evolution rado neiðsaugotø bylø ið praeitos sesijos.\n"
 "Ar norëtum pabandyti jas atkurti?"
 
 #: composer/e-msg-composer.c:1299
@@ -7119,9 +7092,8 @@ msgstr ""
 "Ar norëtum iðsaugoti jo pakeitimus?"
 
 #: composer/e-msg-composer.c:1306
-#, fuzzy
 msgid "Warning: Modified Message"
-msgstr "Persiøstas laiðkas"
+msgstr "Áspëjimas: Pakeistas laiðkas"
 
 #: composer/e-msg-composer.c:1329
 msgid "Open file"
@@ -7142,13 +7114,12 @@ msgid ""
 msgstr ""
 
 #: composer/e-msg-composer.c:2333
-#, fuzzy
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
 msgstr ""
-"Negalëjau sukurti raðyklës lango, nes tu dar nenurodei\n"
-"jokios asmenybës paðto komponente."
+"Negalëjau sukurti raðyklës lango:\n"
+"Nepavyko aktyvuoti HTML redaktoriaus komponento."
 
 #: composer/evolution-composer.c:349
 msgid ""
@@ -7214,7 +7185,7 @@ msgstr "Tema savyje neturi"
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:168 e-util/e-time-utils.c:359
 msgid "%a %m/%d/%Y %I:%M %p"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%a %Y-%m-%d %I:%M %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without seconds.
@@ -7225,61 +7196,53 @@ msgstr "%a %Y-%m-%d %H:%M"
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%a %Y-%m-%d %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:183
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%a %Y-%m-%d %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:194
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%a %Y-%m-%d %I:%M:%S %p"
+msgstr "%Y-%m-%d %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:198
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%a %Y-%m-%d %H:%M:%S"
+msgstr "%Y-%m-%d %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:203
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%Y-%m-%d %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:208
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%Y-%m-%d %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:213
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
-msgstr "%a %Y-%m-%d %H:%M"
+msgstr "%Y-%m-%d %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:218
-#, fuzzy
 msgid "%m/%d/%Y %H"
-msgstr "%Y-%m-%d"
+msgstr "%Y-%m-%d %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:300 e-util/e-time-utils.c:399
 msgid "%I:%M:%S %p"
-msgstr "%H:%M:%S"
+msgstr "%I:%M:%S %p"
 
 #. strptime format for a time of day, in 24-hour format.
 #: e-util/e-time-utils.c:304 e-util/e-time-utils.c:391
@@ -7291,7 +7254,7 @@ msgstr "%H:%M:%S"
 #: e-util/e-time-utils.c:309 e-util/e-time-utils.c:396
 #: widgets/misc/e-dateedit.c:1385 widgets/misc/e-dateedit.c:1612
 msgid "%I:%M %p"
-msgstr "%H:%M"
+msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:313 e-util/e-time-utils.c:388
@@ -7301,9 +7264,8 @@ msgstr "%H:%M"
 
 #. strptime format for hour and AM/PM, 12-hour format.
 #: e-util/e-time-utils.c:317
-#, fuzzy
 msgid "%I %p"
-msgstr "%H:%M"
+msgstr "%I %p"
 
 #: filter/filter-datespec.c:80
 msgid "year"
@@ -7346,14 +7308,12 @@ msgid "seconds"
 msgstr "sekundþiø"
 
 #: filter/filter-datespec.c:194
-#, fuzzy
 msgid "You have forgotten to choose a date."
-msgstr "Vaje. Tu uþmirðai pasirinkti datà."
+msgstr "Tu uþmirðai pasirinkti datà."
 
 #: filter/filter-datespec.c:196
-#, fuzzy
 msgid "You have chosen an invalid date."
-msgstr "Vaje. Tu pasirinkai blogà datà."
+msgstr "Tu pasirinkai blogà datà."
 
 #: filter/filter-datespec.c:271
 msgid ""
@@ -7397,9 +7357,8 @@ msgstr "laikas, santykinis esamam laikui"
 
 #. The dialog
 #: filter/filter-datespec.c:394
-#, fuzzy
 msgid "Select a time to compare against"
-msgstr "Pasirink laiko juostà"
+msgstr "Pasirink laikà, su kuriuo palyginti"
 
 #. The label
 #: filter/filter-datespec.c:428
@@ -7440,12 +7399,11 @@ msgid "Add action"
 msgstr "Pridëti veiksmà"
 
 #: filter/filter-folder.c:147
-#, fuzzy
 msgid ""
 "You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
-"Vaje, tu pamirðai pasirinkti aplankà.\n"
+"Tu pamirðai pasirinkti aplankà.\n"
 "Praðau, gráþk atgal ir nurodyk tikrà aplankà, á kurá perkelti laiðkus."
 
 #: filter/filter-folder.c:233 filter/vfolder-rule.c:357
@@ -7765,35 +7723,30 @@ msgid "You need to to specify at least one folder as a source."
 msgstr "Tu turi nurodyti bent vienà aplankà kaip ðaltiná"
 
 #: importers/elm-importer.c:96
-#, fuzzy
 msgid "Evolution is importing your old Elm mail"
-msgstr "Evolution komponentas paðtui tvarkyti."
+msgstr "Evolution importuoja tavo senà Elm paðtà"
 
 #: importers/elm-importer.c:97 importers/netscape-importer.c:108
 #: importers/pine-importer.c:102
-#, fuzzy
 msgid "Importing..."
-msgstr "Importuojama"
+msgstr "Importuojama..."
 
 #: importers/elm-importer.c:99 importers/netscape-importer.c:110
 #: importers/pine-importer.c:104
-#, fuzzy
 msgid "Please wait"
-msgstr "baigiasi su"
+msgstr "Praðome palaukti"
 
 #: importers/elm-importer.c:171 importers/netscape-importer.c:708
 #: importers/pine-importer.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "Importing %s as %s"
-msgstr ""
-"Importuojama %s.\n"
-"Pradedama %s"
+msgstr "Importuojama %s kaip %s"
 
 #: importers/elm-importer.c:377 importers/netscape-importer.c:801
 #: importers/pine-importer.c:506
-#, fuzzy, c-format
+#, c-format
 msgid "Scanning %s"
-msgstr "Siunèiamas ¥%s´"
+msgstr "Skanuojama %s"
 
 #: importers/elm-importer.c:528 importers/netscape-importer.c:974
 #: importers/pine-importer.c:669 mail/component-factory.c:95
@@ -7813,9 +7766,8 @@ msgid "Elm"
 msgstr "Elm"
 
 #: importers/evolution-gnomecard-importer.c:230
-#, fuzzy
 msgid "GnomeCard:"
-msgstr "Kortelë: "
+msgstr "GnomeCard:"
 
 #: importers/evolution-gnomecard-importer.c:231 importers/pine-importer.c:674
 msgid "Addressbook"
@@ -7834,14 +7786,12 @@ msgid "Evolution is importing your old Netscape data"
 msgstr "Evolution importuoja tavo senus Netscape duomenis"
 
 #: importers/netscape-importer.c:904 importers/pine-importer.c:602
-#, fuzzy
 msgid "Scanning directory"
-msgstr "Skanuojamas IMAP aplankas"
+msgstr "Skanuojamas katalogas"
 
 #: importers/netscape-importer.c:913
-#, fuzzy
 msgid "Starting import"
-msgstr "_Pradþios data:"
+msgstr "Pradedama importuoti"
 
 #: importers/netscape-importer.c:979
 msgid "Settings"
@@ -7868,9 +7818,8 @@ msgstr ""
 "Ar norëtum jas importuoti á Evolution?"
 
 #: importers/pine-importer.c:723
-#, fuzzy
 msgid "Pine"
-msgstr "Spausdinti"
+msgstr "Pine"
 
 #: mail/GNOME_Evolution_Mail.oaf.in.h:1
 msgid "Evolution component for handling mail."
@@ -7914,14 +7863,12 @@ msgid "Mail storage folder (internal)"
 msgstr ""
 
 #: mail/component-factory.c:97
-#, fuzzy
 msgid "Virtual Trash"
-msgstr "Virtualûs aplankai"
+msgstr "Virtuali ðiukðlinë"
 
 #: mail/component-factory.c:97
-#, fuzzy
 msgid "Virtual Trash folder"
-msgstr "Virtualûs aplankai"
+msgstr "Virtualus ðiukðlinës aplankas"
 
 #: mail/component-factory.c:124
 #, fuzzy, c-format
@@ -8012,9 +7959,9 @@ msgid "%d unsent"
 msgstr "%d neiðsiøsti"
 
 #: mail/folder-browser.c:798
-#, fuzzy, c-format
+#, c-format
 msgid "%d sent"
-msgstr "%d neiðsiøsti"
+msgstr "%d iðsiøsti"
 
 #: mail/folder-browser.c:800
 #, c-format
@@ -8164,18 +8111,16 @@ msgid "Imports Outlook Express 4 files into Evolution"
 msgstr "Importuoja Outlook Express 4 bylas á Evolution"
 
 #: mail/local-config.glade.h:1
-#, fuzzy
 msgid "Body contents"
-msgstr "Tekstas savyje turi"
+msgstr "Teksto turinys"
 
 #: mail/local-config.glade.h:2
 msgid "Current store format:"
 msgstr "Esamas saugyklos formatas:"
 
 #: mail/local-config.glade.h:3
-#, fuzzy
 msgid "Indexing:"
-msgstr "_Indeksas"
+msgstr "Indeksuojama:"
 
 #: mail/local-config.glade.h:4
 msgid "Mailbox Format"
@@ -8222,11 +8167,8 @@ msgid "Evolution Account Editor"
 msgstr "Evolution sàskaitø tvarkyklë"
 
 #: mail/mail-account-gui.c:959
-#, fuzzy
 msgid "Could not save signature file."
-msgstr ""
-"Negalëjau atidaryti paraðo bylos %s: \n"
-"%s"
+msgstr "Negalëjau iðsaugoti paraðo bylos."
 
 #: mail/mail-account-gui.c:1036
 msgid "Save signature"
@@ -8558,9 +8500,8 @@ msgid "Connecting to server..."
 msgstr "Jungiamasi prie serverio..."
 
 #: mail/mail-config.glade.h:1
-#, fuzzy
 msgid " _Check for supported types "
-msgstr "_Patikrinti, kokie tipai palaikomi"
+msgstr " _Patikrinti, kokie tipai palaikomi"
 
 #: mail/mail-config.glade.h:2
 msgid " color"
@@ -8596,9 +8537,8 @@ msgid "Always _encrypt to myself when sending encrypted mail"
 msgstr ""
 
 #: mail/mail-config.glade.h:10
-#, fuzzy
 msgid "Always _sign outgoing messages when using this account"
-msgstr "Visada pasiraðyti siunèiamus laiðkus, kai naudojama ði sàskaita"
+msgstr "Visada pa_siraðyti siunèiamus laiðkus, kai naudojama ði sàskaita"
 
 #: mail/mail-config.glade.h:11 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -8609,7 +8549,6 @@ msgid "Authentication"
 msgstr "Autentikacija"
 
 #: mail/mail-config.glade.h:13
-#, fuzzy
 msgid "Checking for New Mail"
 msgstr "Tikrinama, ar yra naujø laiðkø"
 
@@ -8618,14 +8557,12 @@ msgid "Composer"
 msgstr "Raðyklë"
 
 #: mail/mail-config.glade.h:15
-#, fuzzy
 msgid "Configuration"
-msgstr "Paðto nustatymas"
+msgstr "Konfigûravimas"
 
 #: mail/mail-config.glade.h:16
-#, fuzzy
 msgid "Confirm when Expunging a folder"
-msgstr "Iðvalomas aplankas"
+msgstr "Patvirtinti aplankø iðvalymà"
 
 #: mail/mail-config.glade.h:17
 msgid ""
@@ -8748,9 +8685,8 @@ msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:55
-#, fuzzy
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr "Paklausti prieð siunèiant laiðkus su _tuðèia tema"
+msgstr "Paklausti, kai siunèiamas HTML laiðkas kontaktams, kurie jø nenori"
 
 #: mail/mail-config.glade.h:56
 msgid "Prompt when sending messages with an _empty subject"
@@ -8769,9 +8705,8 @@ msgid "Quoted"
 msgstr "Cituojant"
 
 #: mail/mail-config.glade.h:60
-#, fuzzy
 msgid "Re_member this password"
-msgstr "Prisiminti ðá slaptaþodá"
+msgstr "Prisi_minti ðá slaptaþodá"
 
 #: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
@@ -8819,27 +8754,24 @@ msgid "Sent"
 msgstr "Siøsti laiðkai"
 
 #: mail/mail-config.glade.h:74
-#, fuzzy
 msgid "Sent _messages folder:"
-msgstr "Iðsiøstø laiðkø aplankas:"
+msgstr "Iðsiøstø _laiðkø aplankas:"
 
 #: mail/mail-config.glade.h:75
 msgid "Sent and Draft Messages"
 msgstr "Iðsiøsti laiðkai ir juodraðèiai"
 
 #: mail/mail-config.glade.h:76
-#, fuzzy
 msgid "Ser_ver requires authentication"
-msgstr "Serveris reikalauja _autentikacijos"
+msgstr "Ser_veris reikalauja autentikacijos"
 
 #: mail/mail-config.glade.h:77
 msgid "Server Configuration"
 msgstr "Serverio nustatymas"
 
 #: mail/mail-config.glade.h:78
-#, fuzzy
 msgid "Server _Type: "
-msgstr "Serverio tipas:"
+msgstr "Serverio _tipas:"
 
 #: mail/mail-config.glade.h:79
 msgid "Signature file:"
@@ -8866,9 +8798,8 @@ msgid "Standard Unix mbox"
 msgstr "Standartinë Unix mbox"
 
 #: mail/mail-config.glade.h:86
-#, fuzzy
 msgid "Use s_ecure connection (SSL)"
-msgstr "Naudoti saugià jungtá (_SSL)"
+msgstr "Naudoti s_augià jungtá (SSL)"
 
 #: mail/mail-config.glade.h:87
 msgid ""
@@ -8885,17 +8816,14 @@ msgid "_Always load images off the net"
 msgstr "Vis_ada ákelti paveikslëlius ið tinklo"
 
 #: mail/mail-config.glade.h:92
-#, fuzzy
 msgid "_Always sign outgoing messages when using this account"
-msgstr "Visada pasiraðyti siunèiamus laiðkus, kai naudojama ði sàskaita"
+msgstr "Visad_a pasiraðyti siunèiamus laiðkus, kai naudojama ði sàskaita"
 
 #: mail/mail-config.glade.h:93
-#, fuzzy
 msgid "_Authentication Type: "
-msgstr "Autentikacijos tipas: "
+msgstr "_Autentikacijos tipas: "
 
 #: mail/mail-config.glade.h:94
-#, fuzzy
 msgid "_Automatically check for new mail"
 msgstr "_Automatiðkai tikrinti paðtà kas"
 
@@ -8904,9 +8832,8 @@ msgid "_Certificate ID:"
 msgstr ""
 
 #: mail/mail-config.glade.h:97
-#, fuzzy
 msgid "_Drafts folder:"
-msgstr "Juodraðèiø aplankas:"
+msgstr "_Juodraðèiø aplankas:"
 
 #: mail/mail-config.glade.h:99
 msgid "_Email Address:"
@@ -8938,7 +8865,7 @@ msgstr "Áke_lti paveikslëlius, jei siuntëjas yra adresø knygelëje"
 
 #: mail/mail-config.glade.h:106
 msgid "_Log filter actions to:"
-msgstr ""
+msgstr "_Log'inti filtro veiksmus á:"
 
 #: mail/mail-config.glade.h:107
 msgid "_Mark messages as Read after"
@@ -8974,9 +8901,8 @@ msgid "_Send mail in HTML format by default."
 msgstr "Áprastai siøsti laiðkus _HTML formatu."
 
 #: mail/mail-config.glade.h:115
-#, fuzzy
 msgid "_Server Type: "
-msgstr "Serverio tipas:"
+msgstr "_Serverio tipas:"
 
 #: mail/mail-config.glade.h:116
 msgid "_Signature file:"
@@ -9134,9 +9060,8 @@ msgid "Cc"
 msgstr "Cc"
 
 #: mail/mail-format.c:919
-#, fuzzy
 msgid "Bcc"
-msgstr "Bcc:"
+msgstr "Bcc"
 
 #: mail/mail-format.c:2054
 #, c-format
@@ -9169,9 +9094,8 @@ msgid "Malformed external-body part."
 msgstr "Blogai suformuota iðorinio kûno dalis."
 
 #: mail/mail-local.c:589
-#, fuzzy
 msgid "Reconfiguring folder"
-msgstr "Atnaujinamas aplankas"
+msgstr "Iðnaujo konfigûruojamas aplankas"
 
 #: mail/mail-local.c:670
 #, fuzzy, c-format
@@ -9202,7 +9126,7 @@ msgstr "Keièiamas aplanko ¥%s´ formatas á ¥%s´"
 #: mail/mail-local.c:1151
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
-msgstr ""
+msgstr "%s negalima perkonfigûruoti, nes tai nëra vietinis aplankas"
 
 #: mail/mail-local.c:1173
 msgid ""
@@ -9289,9 +9213,9 @@ msgid "Copying messages to %s"
 msgstr "Laiðkai kopijuojami á %s"
 
 #: mail/mail-ops.c:891
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot copy a folder `%s' to itself"
-msgstr "Negalima aplanko kopijuoti á já patá."
+msgstr "Negalu kopijuoti aplanko '%s' á já patá"
 
 #: mail/mail-ops.c:898
 msgid "Moving"
@@ -9326,9 +9250,9 @@ msgid "Removing folder %s"
 msgstr "Trinamas aplankas %s"
 
 #: mail/mail-ops.c:1472
-#, fuzzy, c-format
+#, c-format
 msgid "Storing folder '%s'"
-msgstr "Kuriamas aplankas %s"
+msgstr "Áraðomas aplankas '%s'"
 
 #: mail/mail-ops.c:1523
 msgid "Refreshing folder"
@@ -9395,9 +9319,9 @@ msgid "Disconnecting from %s"
 msgstr "Atsijungiama nuo %s"
 
 #: mail/mail-ops.c:2092
-#, fuzzy, c-format
+#, c-format
 msgid "Reconnecting to %s"
-msgstr "Atsijungiama nuo %s"
+msgstr "Vël jungiamasi prie %s"
 
 #: mail/mail-search-dialogue.c:113
 msgid "_Search"
@@ -9515,9 +9439,9 @@ msgid "Setting up vfolder: %s"
 msgstr "Kuriamas aplankas %s"
 
 #: mail/mail-vfolder.c:204
-#, fuzzy, c-format
+#, c-format
 msgid "Updating vfolders for uri: %s"
-msgstr "Skanuojami aplankas, esantys ¥%s´"
+msgstr "Atnaujinami vaplankai pagal uri: %s"
 
 #: mail/mail-vfolder.c:415
 #, c-format
@@ -9527,16 +9451,19 @@ msgid ""
 "    '%s'\n"
 "And have been updated."
 msgstr ""
+"Þemiau nurodyti vAplankai:\n"
+"%sNaudojo iðtrintà aplankà:\n"
+"    '%s'\n"
+"Ir buvo atnaujinti."
 
 #: mail/mail-vfolder.c:735
-#, fuzzy
 msgid "Edit VFolder"
-msgstr "Keisti vAplankus"
+msgstr "Keisti vAplankà"
 
 #: mail/mail-vfolder.c:750
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
-msgstr ""
+msgstr "Bandoma keisti neegzistuojantá vAplankà '%s'."
 
 #: mail/mail-vfolder.c:804
 msgid "New VFolder"
@@ -9710,14 +9637,12 @@ msgid "No appointments"
 msgstr "Nëra ávykiø"
 
 #: my-evolution/e-summary-calendar.c:378
-#, fuzzy
 msgid "%k:%M %d %B"
-msgstr "%A, %B %e"
+msgstr "%k:%M %d %B"
 
 #: my-evolution/e-summary-calendar.c:380
-#, fuzzy
 msgid "%l:%M %d %B"
-msgstr "%A, %B %e"
+msgstr "%l:%M %d %B"
 
 #: my-evolution/e-summary-mail.c:130
 msgid "Mail summary"
@@ -9757,9 +9682,8 @@ msgstr "Santraukos nuostatos"
 
 #: my-evolution/e-summary-rdf.c:297 my-evolution/e-summary-rdf.c:382
 #: my-evolution/e-summary-rdf.c:415
-#, fuzzy
 msgid "Error downloading RDF"
-msgstr "<b>Klaida parsiunèiant RDF</b>"
+msgstr "Klaida parsiunèiant RDF"
 
 #: my-evolution/e-summary-rdf.c:527
 msgid "News Feed"
@@ -9770,9 +9694,8 @@ msgid "No tasks"
 msgstr "Nëra uþduoèiø"
 
 #: my-evolution/e-summary-tasks.c:281
-#, fuzzy
 msgid "(No Description)"
-msgstr "Apraðymas:"
+msgstr "(Nëra apraðymo)"
 
 #: my-evolution/e-summary-weather.c:72
 msgid "My Weather"
@@ -9791,7 +9714,6 @@ msgstr "Orai"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-weather.c:650
-#, fuzzy
 msgid "KBOS:EGAA:RJTT"
 msgstr "EVRA:EETN"
 
@@ -11237,34 +11159,33 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-commands.c:401
-#, fuzzy, c-format
+#, c-format
 msgid "Delete \"%s\""
-msgstr "Iðtrinti"
+msgstr "Iðtrinti \"%s\""
 
 #. "Are you sure..." label
 #: shell/e-shell-folder-commands.c:411
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the \"%s\" folder?"
 msgstr "Ar tu tikrai nori iðtrinti aplankà '%s'?"
 
 #: shell/e-shell-folder-commands.c:488
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot rename folder:\n"
 "%s"
 msgstr ""
-"Negalëjau iðtrinti aplanko:\n"
+"Negalëjau pervadinti aplanko:\n"
 "%s"
 
 #: shell/e-shell-folder-commands.c:536
-#, fuzzy, c-format
+#, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr "Pervadinti aplankà ¥%s´"
+msgstr "Pervadinti aplankà ¥%s´ á:"
 
 #: shell/e-shell-folder-commands.c:539
-#, fuzzy
 msgid "Rename folder"
-msgstr "Pervadinti aplankà ¥%s´"
+msgstr "Pervadinti aplankà"
 
 #: shell/e-shell-folder-creation-dialog.c:111
 #, c-format
@@ -11276,16 +11197,14 @@ msgstr ""
 "%s"
 
 #: shell/e-shell-folder-creation-dialog.c:126
-#, fuzzy
 msgid "No folder name specified."
-msgstr "Nenurodyti jokie gavëjai"
+msgstr "Nenurodytas aplanko vardas."
 
 #: shell/e-shell-folder-creation-dialog.c:132
 msgid "Folder name cannot contain the Return character."
 msgstr "Aplanko varde negali bûti Return simbolio."
 
 #: shell/e-shell-folder-creation-dialog.c:137
-#, fuzzy
 msgid "Folder name cannot contain the directory separator."
 msgstr "Aplanko varde negali bûti katalogø skyriklio."
 
@@ -11320,7 +11239,7 @@ msgstr "(Bevardis)"
 
 #: shell/e-shell-importer.c:141
 msgid "Choose the type of importer to run"
-msgstr ""
+msgstr "Pasirink, kurá importerá paleisti"
 
 #: shell/e-shell-importer.c:144
 msgid ""
@@ -11337,11 +11256,8 @@ msgstr ""
 "susigaudyti pati."
 
 #: shell/e-shell-importer.c:150
-#, fuzzy
 msgid "Please select the information that you would like to import"
-msgstr ""
-"Praðom pasirinkti informacijà,\n"
-"kurià norëtum importuoti"
+msgstr "Praðom pasirinkti informacijà, kurià norëtum importuoti"
 
 #. Importer isn't ready yet.
 #. Wait 5 seconds and try again.
@@ -11366,9 +11282,9 @@ msgstr ""
 "Importuojamas elementas %d."
 
 #: shell/e-shell-importer.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "File %s does not exist"
-msgstr "Nëra tokio aplanko ¥%s´."
+msgstr "Nëra tokios bylos %s"
 
 #: shell/e-shell-importer.c:408
 msgid "You may only import to local folders"
@@ -11444,10 +11360,12 @@ msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
+"Praðome palaukti...\n"
+"Ieðkoma esamø nustatymø"
 
 #: shell/e-shell-importer.c:723 shell/e-shell-startup-wizard.c:579
 msgid "Starting Intelligent Importers"
-msgstr ""
+msgstr "Paleidþiami inteligentiðki importeriai"
 
 #: shell/e-shell-importer.c:846 shell/e-shell-startup-wizard.c:700
 #, c-format
@@ -11494,9 +11412,8 @@ msgid "Bug buddy could not be run."
 msgstr "Bug buddy negalëjo bûti paleistas."
 
 #: shell/e-shell-view-menu.c:215
-#, fuzzy
 msgid "About Ximian Evolution"
-msgstr "Apie Ximian Evolution..."
+msgstr "Apie Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:409
 msgid "Go to folder..."
@@ -11516,12 +11433,12 @@ msgstr "Pasirink aplankà á kurá norëtum, kad trumpë rodytø:"
 
 #: shell/e-shell-view-menu.c:562
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
-msgstr ""
+msgstr "Atrodo, kad GNOME Pilot árankiai nëra ádiegti á ðià sistemà"
 
 #: shell/e-shell-view-menu.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "Error executing %s."
-msgstr "Klaida vykdant filtrà: %s: %s"
+msgstr "Klaida vykdant %s."
 
 #: shell/e-shell-view-menu.c:672
 msgid "Work Online"
@@ -11537,24 +11454,23 @@ msgid "(No folder displayed)"
 msgstr "(Joks aplankas nerodomas)"
 
 #: shell/e-shell-view.c:1588
-#, fuzzy, c-format
+#, c-format
 msgid "%s (%d)"
-msgstr "%s (...)"
+msgstr "%s (%d)"
 
 #: shell/e-shell-view.c:1590
-#, fuzzy
 msgid "(None)"
-msgstr "(jokio)"
+msgstr "(Jokio)"
 
 #: shell/e-shell-view.c:1595
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Ximian Evolution %s"
-msgstr "%s - Evolution %s"
+msgstr "%s - Ximian Evolution %s"
 
 #: shell/e-shell-view.c:1597
-#, fuzzy, c-format
+#, c-format
 msgid "%s - Ximian Evolution %s [%s]"
-msgstr "%s - Evolution %s [%s]"
+msgstr "%s - Ximian Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1637
 msgid ""
@@ -11706,18 +11622,16 @@ msgid "Open the folder linked to this shortcut in a new window"
 msgstr "Atidaryti esamà laiðkà naujame lange"
 
 #: shell/e-shortcuts-view.c:390
-#, fuzzy
 msgid "_Rename"
-msgstr "Pervadinti"
+msgstr "Pe_rvadinti"
 
 #: shell/e-shortcuts-view.c:390
 msgid "Rename this shortcut"
 msgstr "Pervadinti ðià trumpæ"
 
 #: shell/e-shortcuts-view.c:392
-#, fuzzy
 msgid "Re_move"
-msgstr "Paðalinti"
+msgstr "Ið_trinti"
 
 #: shell/e-shortcuts-view.c:392
 msgid "Remove this shortcut from the shortcut bar"
@@ -11797,9 +11711,8 @@ msgid "Cannot make a folder a child of one of its descendants"
 msgstr "Negalima padaryti aplanko vaiku vienu ið savo palikuoniø"
 
 #: shell/e-storage.c:527
-#, fuzzy
 msgid "Cannot create a folder with that name"
-msgstr "Negaliu sukurti aplanko uþrakto ant %s: %s"
+msgstr "Negaliu sukurti aplanko su tokiu vardu"
 
 #: shell/e-task-widget.c:192
 #, c-format
@@ -11891,6 +11804,10 @@ msgid ""
 "The error from the component system is:\n"
 "%s"
 msgstr ""
+"%s\n"
+"\n"
+"Klaida ið komponentø sistemos yra:\n"
+"%s"
 
 #: shell/evolution-shell-component-utils.c:135
 #, c-format
@@ -11900,6 +11817,10 @@ msgid ""
 "The error from the activation system is:\n"
 "%s"
 msgstr ""
+"%s\n"
+"\n"
+"Klaida ið aktyvavimo sistemos yra:\n"
+"%s"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active connections"
@@ -11971,24 +11892,20 @@ msgid "Evolution Importer Assistant"
 msgstr "Evolution importavimo padëjëjas"
 
 #: shell/importer/import.glade.h:4
-#, fuzzy
 msgid "Import File (step 3 of 3)"
-msgstr "Importuoti bylà (Þingsnis 2 ið 2)"
+msgstr "Importuoti bylà (Þingsnis 3 ið 3)"
 
 #: shell/importer/import.glade.h:5
-#, fuzzy
 msgid "Importer Type (step 1 of 3)"
-msgstr "Importuoti bylà (Þingsnis 2 ið 2)"
+msgstr "Importerio tipas (Þingsnis 1 ið 3)"
 
 #: shell/importer/import.glade.h:6
-#, fuzzy
 msgid "Select Importers (step 2 of 3)"
-msgstr "Pasirinkti bylà (Þingsnis 1 ið 2)"
+msgstr "Pasirinkti importerius (Þingsnis 2 ið 3)"
 
 #: shell/importer/import.glade.h:7
-#, fuzzy
 msgid "Select a File (step 2 of 3)"
-msgstr "Pasirinkti bylà (Þingsnis 1 ið 2)"
+msgstr "Pasirinkti bylà (Þingsnis 2 ið 3)"
 
 #: shell/importer/import.glade.h:8
 #, fuzzy
@@ -12001,9 +11918,8 @@ msgstr ""
 "Ðis meistras padës tau importuojant iðorines bylas á Evolution."
 
 #: shell/importer/intelligent.c:191
-#, fuzzy
 msgid "Importers"
-msgstr "Importuoti"
+msgstr "Importeriai"
 
 #: shell/importer/intelligent.c:197
 msgid "Don't import"
@@ -12014,14 +11930,12 @@ msgid "Don't ask me again"
 msgstr "Kità kartà nebeklausti"
 
 #: shell/importer/intelligent.c:209
-#, fuzzy
 msgid "Evolution can import data from the following files:"
-msgstr "Evolution komponentas paðtui tvarkyti."
+msgstr "Evolution gali importuoti duomenis ið þemiau nurodytø bylø:"
 
 #: shell/main.c:86
-#, fuzzy
 msgid "Evolution is now exiting ..."
-msgstr "_Mano Evolution nuostatos..."
+msgstr "Evolution baigia darbà..."
 
 #: shell/main.c:190
 #, fuzzy, no-c-format
@@ -12058,23 +11972,21 @@ msgstr ""
 "laukiame tavo prisidëjimo!\n"
 
 #: shell/main.c:211
-#, fuzzy
 msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr ""
 "Aèiû\n"
-"Evolution komanda\n"
+"Ximian Evolution komanda\n"
 
 #: shell/main.c:265
-#, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
-msgstr "Negalëjau inicializuoti Evolution apvalkalo."
+msgstr "Negalëjau prieiti prie Ximian Evolution apvalkalo."
 
 #: shell/main.c:274
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
-msgstr "Negalëjau inicializuoti Evolution apvalkalo."
+msgstr "Negalëjau inicializuoti Ximian Evolution apvalkalo: %s"
 
 #: shell/main.c:344
 #, fuzzy
@@ -12119,7 +12031,6 @@ msgid "Delete selected contacts"
 msgstr "Iðtrinti paþymëtus kontaktus"
 
 #: ui/evolution-addressbook.xml.h:12
-#, fuzzy
 msgid "New List"
 msgstr "Naujas sàraðas"
 
@@ -12132,18 +12043,16 @@ msgid "Paste the clipboard"
 msgstr "Ádëti ið krepðio"
 
 #: ui/evolution-addressbook.xml.h:15
-#, fuzzy
 msgid "Previews the contacts to be printed"
-msgstr "Perþiûrëti kalendoriø prieð spausdinant"
+msgstr "Perþiûrëti kontaktus prieð spausdinant"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
 msgstr "Spausdinti paþymëtus kontaktus"
 
 #: ui/evolution-addressbook.xml.h:20
-#, fuzzy
 msgid "Save selected contacts as a VCard."
-msgstr "Iðtrinti kontaktà"
+msgstr "Iðsaugoti paþymëtus kontaktus kaip VCard."
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
@@ -12154,23 +12063,20 @@ msgid "Select all contacts"
 msgstr "Paþymëti visus kontaktus"
 
 #: ui/evolution-addressbook.xml.h:23 ui/evolution-contact-editor.xml.h:10
-#, fuzzy
 msgid "Send _Message to Contact..."
 msgstr "Siøsti _laiðkà kontaktui..."
 
 #: ui/evolution-addressbook.xml.h:24
-#, fuzzy
 msgid "Send a mess to the selected contacts."
-msgstr "Iðtrinti kontaktà"
+msgstr "Siøsti laiðkà paþymëtiems kontaktams."
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send message to contact"
 msgstr "Siøsti laiðkà kontaktui"
 
 #: ui/evolution-addressbook.xml.h:26
-#, fuzzy
 msgid "Send selected contacts to another person."
-msgstr "Siøsti kontaktà kitam"
+msgstr "Siøsti paþymëtus kontaktus kitam asmeniui."
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -12224,9 +12130,8 @@ msgid "_Select All"
 msgstr "Paþymëti _viskà"
 
 #: ui/evolution-calendar.xml.h:2
-#, fuzzy
 msgid "Configure the calendar's settings"
-msgstr "Konfigûruoti adresø konduità"
+msgstr "Konfigûruoti kalendoriaus nuostatas"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a New All Day _Event"
@@ -12333,14 +12238,12 @@ msgid "_Calendar Settings..."
 msgstr "_Kalendoriaus nuostatos..."
 
 #: ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Publish Free/Busy Information"
-msgstr "Bûtina informacija"
+msgstr "_Skelbti laisvas/uþimtas informacijà"
 
 #: ui/evolution-calendar.xml.h:43
-#, fuzzy
 msgid "_Task..."
-msgstr "_Uþduotis"
+msgstr "_Uþduotis..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -12351,9 +12254,8 @@ msgid "Close"
 msgstr "Uþdaryti"
 
 #: ui/evolution-comp-editor.xml.h:3
-#, fuzzy
 msgid "Close this item"
-msgstr "Iðtrinti ðá elementà"
+msgstr "Uþdaryti ðá elementà"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
@@ -12388,14 +12290,12 @@ msgid "Save and Close"
 msgstr "Iðsaugoti ir uþdaryti"
 
 #: ui/evolution-comp-editor.xml.h:15
-#, fuzzy
 msgid "Save the item and close the dialog box"
-msgstr "Iðsaugoti sàraðà ir uþdaryti dialogo langà"
+msgstr "Iðsaugoti elementà ir uþdaryti dialogo langà"
 
 #: ui/evolution-comp-editor.xml.h:16
-#, fuzzy
 msgid "Save this item to disk"
-msgstr "Pakeisti rodiná á %s"
+msgstr "Iðsaugoti ðá elementà á diskà"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
@@ -12745,7 +12645,7 @@ msgstr "Sukurti virtualø aplankà ðiai temai"
 
 #: ui/evolution-mail-message.xml.h:16
 msgid "Decrease the text size"
-msgstr ""
+msgstr "Sumaþinti teksto dydá"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Display the next important message"
@@ -12816,29 +12716,24 @@ msgid "Forward _Quoted"
 msgstr "Persiøsti _cituojant"
 
 #: ui/evolution-mail-message.xml.h:35
-#, fuzzy
 msgid "Forward the selected message in the body of a new message"
-msgstr "Persiøsti paþymëtà laiðkà kaþkam"
+msgstr "Persiøsti pasirinktà laiðkà naujo laiðko tekste"
 
 #: ui/evolution-mail-message.xml.h:36
-#, fuzzy
 msgid "Forward the selected message quoted like a reply"
-msgstr "Persiøsti paþymëtà laiðkà kaþkam"
+msgstr "Persiøsti pasirinktà laiðkà cituojamà kaip atsakymas"
 
 #: ui/evolution-mail-message.xml.h:37
-#, fuzzy
 msgid "Forward the selected message to someone"
-msgstr "Persiøsti paþymëtà laiðkà kaþkam"
+msgstr "Persiøsti pasirinktà laiðkà kaþkam"
 
 #: ui/evolution-mail-message.xml.h:38
-#, fuzzy
 msgid "Forward the selected message to someone as an attachment"
-msgstr "Persiøsti paþymëtà laiðkà kaþkam"
+msgstr "Persiøsti pasirinktà laiðkà prisegtà kaip priedas"
 
 #: ui/evolution-mail-message.xml.h:40
-#, fuzzy
 msgid "Increase the text size"
-msgstr "Áterpti tekstinæ bylà..."
+msgstr "Padidinti teksto dydá"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Load _Images"
@@ -12857,23 +12752,20 @@ msgid "Mark the selected messages as having been read"
 msgstr "Pasirinktus laiðkus paþymëti lyg jie buvo perskaityti"
 
 #: ui/evolution-mail-message.xml.h:47
-#, fuzzy
 msgid "Mark the selected messages as important"
-msgstr "Pasirinktus laiðkus paþymëti lyg jie buvo perskaityti"
+msgstr "Pasirinktus laiðkus paþymëti svarbiais"
 
 #: ui/evolution-mail-message.xml.h:48
 msgid "Mark the selected messages as not having been read"
 msgstr "Pasirinktus laiðkus paþymëti lyg jie nebuvo perskaityti"
 
 #: ui/evolution-mail-message.xml.h:49
-#, fuzzy
 msgid "Mark the selected messages as unimportant"
-msgstr "Pasirinktus laiðkus paþymëti lyg jie nebuvo perskaityti"
+msgstr "Pasirinktus laiðkus paþymëti nesvarbiais"
 
 #: ui/evolution-mail-message.xml.h:50
-#, fuzzy
 msgid "Mark the selected messages for deletion"
-msgstr "Pasirinktus laiðkus paþymëti lyg jie buvo perskaityti"
+msgstr "Pasirinktus laiðkus paþymëti iðtrynimui"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Move"
@@ -12913,7 +12805,7 @@ msgstr "Atidaryti pasirinktà laiðkà raðyklës lange siuntimui ið naujo"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Original Si_ze"
-msgstr ""
+msgstr "Originalus _dydis"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Preview the message to be printed"
@@ -12949,7 +12841,7 @@ msgstr "Atsakyti visiems"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "Reset the text to its original size"
-msgstr ""
+msgstr "Atstatyti teksto originalø dydá"
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "S_earch Message..."
@@ -12957,7 +12849,7 @@ msgstr "I_eðkoti laiðke..."
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "S_maller"
-msgstr ""
+msgstr "_Maþesnis"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Save the message as a text file"
@@ -12993,7 +12885,7 @@ msgstr "Rodyti neapdorotà laiðko ðaltiná"
 
 #: ui/evolution-mail-message.xml.h:84
 msgid "Text Si_ze"
-msgstr ""
+msgstr "Teksto _dydis"
 
 #: ui/evolution-mail-message.xml.h:85
 msgid "Un-delete the selected messages"
@@ -13032,9 +12924,8 @@ msgid "_Forward Message"
 msgstr "P_ersiøsti laiðkà"
 
 #: ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "_Larger"
-msgstr "Ieðkas"
+msgstr "_Didesnis"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "_Message Display"
@@ -13099,9 +12990,8 @@ msgid "F_ormat"
 msgstr "F_ormatas"
 
 #: ui/evolution-message-composer.xml.h:9
-#, fuzzy
 msgid "H_TML"
-msgstr "HTML"
+msgstr "H_TML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Inline Text _File..."
@@ -13391,7 +13281,7 @@ msgstr "Iðeiti ið programos"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "Importuoti duomenis ið kitø programø"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
@@ -13462,9 +13352,8 @@ msgid "_Go to Folder..."
 msgstr "_Eiti á aplankà..."
 
 #: ui/evolution.xml.h:41
-#, fuzzy
 msgid "_Import..."
-msgstr "Importuojama"
+msgstr "_Importuoti..."
 
 #: ui/evolution.xml.h:42
 msgid "_Move..."
@@ -13479,9 +13368,8 @@ msgid "_New Folder"
 msgstr "_Naujas aplankas"
 
 #: ui/evolution.xml.h:45
-#, fuzzy
 msgid "_Pilot Settings..."
-msgstr "_Paðto nuostatos..."
+msgstr "_Pilot nuostatos..."
 
 #: ui/evolution.xml.h:46
 msgid "_Rename..."
@@ -13754,61 +13642,6 @@ msgstr "init_corba(): negalëjau inicializuoti GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
-#~ msgid "Alarm on %A %b %d %Y %H:%M"
-#~ msgstr "Perspëjimas bus %A, %Y %b %d, %H:%M"
-
-#, fuzzy
-#~ msgid "%s at an unknown time"
-#~ msgstr "Neþinoma klaida"
-
-#~ msgid "0%"
-#~ msgstr "0%"
-
-#~ msgid "10%"
-#~ msgstr "10%"
-
-#~ msgid "20%"
-#~ msgstr "20%"
-
-#~ msgid "30%"
-#~ msgstr "30%"
-
-#~ msgid "40%"
-#~ msgstr "40%"
-
-#~ msgid "50%"
-#~ msgstr "50%"
-
-#~ msgid "60%"
-#~ msgstr "60%"
-
-#~ msgid "70%"
-#~ msgstr "70%"
-
-#~ msgid "80%"
-#~ msgstr "80%"
-
-#~ msgid "90%"
-#~ msgstr "90%"
-
-#~ msgid "100%"
-#~ msgstr "100%"
-
-#, fuzzy
-#~ msgid "Summarising folder"
-#~ msgstr "Daroma aplanko santrauka"
-
-#, fuzzy
-#~ msgid "Could not open folder: %s: summarising from position %ld: %s"
-#~ msgstr ""
-#~ "Negalëjau atidaryti aplanko: %s: daroma santrauka nuo vietos %ld: %s"
-
-#~ msgid "Cannot summarise folder: %s: %s"
-#~ msgstr "Negalëjau padaryti aplanko santraukos: %s: %s"
-
-#~ msgid "_Check for supported types"
-#~ msgstr "_Patikrinti, kokie tipai palaikomi"
-
 #~ msgid "Notification about your appointment starting on %s and ending on %s"
 #~ msgstr "Praneðimas apie tavo ávyká, prasidedantá %s ir besibaigiantá %s"
 
@@ -13833,15 +13666,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Notification about your task"
 #~ msgstr "Praneðimas apie tavo uþduotá"
 
-#~ msgid "Qmail maildir-format mail files"
-#~ msgstr "Qmail maildir formato paðto bylos"
-
-#~ msgid "No GPG/PGP program configured."
-#~ msgstr "Jokia PGP/GPG programa nesukonfigûruota."
-
-#~ msgid "Encrypted message not displayed"
-#~ msgstr "Uþðifruotas laiðkas neparodytas"
-
 #~ msgid "Encrypted message"
 #~ msgstr "Uþðifruotas laiðkas"
 
@@ -13859,149 +13683,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ "Ðis laiðkas yra pasiraðytas skaitmeniniu paraðu, bet neina patikrinti, ar "
 #~ "jis autentiðkas"
 
-#, fuzzy
-#~ msgid "Ximian Evolution"
-#~ msgstr "Evolution"
-
-#~ msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-#~ msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
-
-#, fuzzy
-#~ msgid ""
-#~ "Ximian Evolution is a suite of groupware applications\n"
-#~ "for mail, calendaring, and contact management\n"
-#~ "within the GNOME desktop environment."
-#~ msgstr ""
-#~ "Evolution yra rinkinys grupiniø aplikacijø\n"
-#~ "paðtui, kalendoriams ir kontaktø tvarkymui\n"
-#~ "GNOME darbo aplinkoje."
-
 #~ msgid "Other Contacts"
 #~ msgstr "Kiti kontaktai"
 
-#, fuzzy
-#~ msgid "Free/Busy info begins: <b>"
-#~ msgstr "Laisvumo/Uþimtumo informacija"
-
-#, fuzzy
-#~ msgid "<b>Description:</b> %s"
-#~ msgstr "Apraðymas:"
-
-#~ msgid "<b>%s</b> has published meeting information."
-#~ msgstr "<b>%s</b> paskelbë susitikimo informacijà."
-
 #~ msgid "Meeting Information"
 #~ msgstr "Susitikimo informacija"
-
-#~ msgid "<b>%s</b> requests your presence at a meeting."
-#~ msgstr "<b>%s</b> praðo, kad tu dalyvautum susitikime."
-
-#~ msgid "Meeting Proposal"
-#~ msgstr "Susitikimo pasiûlymas"
-
-#~ msgid "<b>%s</b> wishes to add to an existing meeting."
-#~ msgstr "<b>%s</b> nori papildyti egzistuojantá susitikimà."
-
-#~ msgid "Meeting Update"
-#~ msgstr "Susitikimo atnaujinimas"
-
-#~ msgid "<b>%s</b> wishes to receive the latest meeting information."
-#~ msgstr "<b>%s</b> nori gauti naujausià susitikimo informacijà."
-
-#~ msgid "Meeting Update Request"
-#~ msgstr "Susitikimo atnaujinimo praðymas"
-
-#~ msgid "<b>%s</b> has replied to a meeting request."
-#~ msgstr "<b>%s</b> atsakë á susitikimo uþklausà."
-
-#~ msgid "Meeting Reply"
-#~ msgstr "Susitikimo atsakymas"
-
-#~ msgid "<b>%s</b> has cancelled a meeting."
-#~ msgstr "<b>%s</b> atðaukë susitikimà."
-
-#~ msgid "Meeting Cancellation"
-#~ msgstr "Susitikimo atðaukimas"
-
-#~ msgid "Bad Meeting Message"
-#~ msgstr "Blogas susitikimo praneðimas"
-
-#~ msgid "<b>%s</b> has published task information."
-#~ msgstr "<b>%s</b> paskelbë informacijà apie uþduotá."
-
-#~ msgid "Task Information"
-#~ msgstr "Uþduoties informacija"
-
-#~ msgid "<b>%s</b> requests you perform a task."
-#~ msgstr "<b>%s</b> praðo, kad tu atliktum uþduotá."
-
-#~ msgid "Task Proposal"
-#~ msgstr "Uþduoties pasiûlymas"
-
-#~ msgid "<b>%s</b> wishes to add to an existing task."
-#~ msgstr "<b>%s</b> norëtø papildyti esanèià uþduotá."
-
-#~ msgid "Task Update"
-#~ msgstr "Uþduoties atnaujinimas"
-
-#~ msgid "<b>%s</b> wishes to receive the latest task information."
-#~ msgstr "<b>%s</b> nori gauti naujausià informacijà apie uþduotá."
-
-#~ msgid "Task Update Request"
-#~ msgstr "Uþduoties atnaujinimo praðymas"
-
-#~ msgid "<b>%s</b> has replied to a task assignment."
-#~ msgstr "<b>%s</b> atsakë á uþduoties priskyrimà."
-
-#~ msgid "Task Reply"
-#~ msgstr "Uþduoties atsakymas"
-
-#~ msgid "<b>%s</b> has cancelled a task."
-#~ msgstr "<b>%s</b> atðaukë uþduotá."
-
-#~ msgid "Task Cancellation"
-#~ msgstr "Uþduoties atðaukimas"
-
-#~ msgid "Bad Task Message"
-#~ msgstr "Bloga uþduoties þinutë"
-
-#~ msgid "<b>%s</b> has published free/busy information."
-#~ msgstr "<b>%s</b> paskelbë laisvumo/uþimtumo informacijà."
-
-#~ msgid "Free/Busy Information"
-#~ msgstr "Laisvumo/Uþimtumo informacija"
-
-#~ msgid "<b>%s</b> requests your free/busy information."
-#~ msgstr "<b>%s</b> praðo tavo laisvumo/uþimtumo informacijos."
-
-#~ msgid "Free/Busy Request"
-#~ msgstr "Laisvumo/Uþsimtumo uþklausa"
-
-#~ msgid "<b>%s</b> has replied to a free/busy request."
-#~ msgstr "<b>%s</b> atsakë á laisvumo/uþimtumo uþklausà."
-
-#~ msgid "Free/Busy Reply"
-#~ msgstr "Laisvumo/Uþimtumo atsakymas"
-
-#~ msgid "Bad Free/Busy Message"
-#~ msgstr "Bloga laisvumo/uþimtumo þinutë"
-
-#~ msgid "The message does not appear to be properly formed"
-#~ msgstr "Atrodo, kad ðis laiðkas yra blogai suformuotas"
-
-#, fuzzy
-#~ msgid "The message contains only unsupported requests."
-#~ msgstr "Ðiame laiðke yra tik Bcc gavëjai."
-
-#~ msgid "Could not create composer window."
-#~ msgstr "Negalëjau sukurti raðyklës lango."
-
-#, fuzzy
-#~ msgid "Account %d"
-#~ msgstr "Sàskaita"
-
-#~ msgid "%s: Inbox"
-#~ msgstr "%s: Gauti laiðkai"
 
 #~ msgid "Trash"
 #~ msgstr "Ðiukðlës"
@@ -14009,30 +13695,8 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "VFolders"
 #~ msgstr "vAplankai"
 
-#, fuzzy
-#~ msgid "Cannot initialize Evolution's Executive Summary component."
-#~ msgstr "Negaliu inicializuoti Evolution paðto komponento."
-
-#, fuzzy
-#~ msgid "M_etric"
-#~ msgstr "_metriniai"
-
-#~ msgid "Units: "
-#~ msgstr "Vienetai: "
-
-#, fuzzy
-#~ msgid "_Imperial"
-#~ msgstr "_angliðki"
-
 #~ msgid "Outbox"
 #~ msgstr "Siunèiami laiðkai"
-
-#, fuzzy
-#~ msgid "Local Folders"
-#~ msgstr "Ypatingi aplankai"
-
-#~ msgid "Please enter your email address and password for access to %s"
-#~ msgstr "Praðom ávesti savo paðto adresà ir slaptaþodá, kad prieitum prie %s"
 
 #~ msgid "LDAP Authentication"
 #~ msgstr "LDAP autentikacija"
@@ -14040,107 +13704,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Password:"
 #~ msgstr "Slaptaþodis:"
 
-#~ msgid "Sent By:"
-#~ msgstr "Iðsiuntë:"
-
-#~ msgid "Couldn't create temporary mbox `%s': %s"
-#~ msgstr "Negalëjau sukurti laikinos mbox ¥%s´: %s"
-
-#~ msgid ""
-#~ "Ooops!  The views for `%s' have died unexpectedly.  :-(\n"
-#~ "This probably means that the %s component has crashed."
-#~ msgstr ""
-#~ "Vaje!  ¥%s´ rodiniai netikëtai numirë.  :-(\n"
-#~ "Tikriausiai tai reiðkia, kad %s komponentas nulûþo."
-
-#~ msgid "Reminder of your appointment at "
-#~ msgstr "Priminti man apie ávyká "
-
-#~ msgid "Snooze"
-#~ msgstr "Uþtildyti"
-
-#~ msgid "Ok"
-#~ msgstr "Gerai"
-
-#~ msgid ""
-#~ "It is %s.  The Unix time is %ld right now.  We just thought you may like "
-#~ "to know."
-#~ msgstr ""
-#~ "Dabar yra %s. Unix laikas dabar yra %ld. Mes tiesiog pagalvojome, kad tu "
-#~ "gali norëti þinoti."
-
-#~ msgid "%d"
-#~ msgstr "%d"
-
-#~ msgid "The priority must be 'High', 'Normal', 'Low' or 'Undefined'."
-#~ msgstr ""
-#~ "Prioritetas turi bûti ¥Aukðtas´, ¥Normalus´, ¥Þemas´ arba ¥Neapibrëþtas´."
-
-#~ msgid "before start of appointment"
-#~ msgstr "prieð ávykio pradþià"
-
-#~ msgid "after start of appointment"
-#~ msgstr "po ávykio pradþios"
-
-#~ msgid "before end of appointment"
-#~ msgstr "prieð ávykio pabaigà"
-
-#~ msgid "I couldn't update your calendar file!\n"
-#~ msgstr "Að negalëjau atnaujinti tavo kalendoriaus bylos!\n"
-
-#~ msgid "No password provided."
-#~ msgstr "Nepateiktas slaptaþodis."
-
-#, fuzzy
-#~ msgid "No plaintext to encrypt."
-#~ msgstr "Paspausk ant ikonos, kad iððifruotum."
-
 #~ msgid "No recipients specified"
 #~ msgstr "Nenurodyti jokie gavëjai"
 
 #~ msgid "Summarizing folder"
 #~ msgstr "Daroma aplanko santrauka"
-
-#~ msgid "Could not open folder: %s: summarizing from position %ld: %s"
-#~ msgstr ""
-#~ "Negalëjau atidaryti aplanko: %s: daroma santrauka nuo vietos %ld: %s"
-
-#~ msgid "Cannot summarize folder: %s: %s"
-#~ msgstr "Negalëjau padaryti aplanko santraukos: %s: %s"
-
-#~ msgid ""
-#~ "Could not open file %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "Negalëjau atidaryti bylos %s:\n"
-#~ "%s"
-
-#~ msgid "%d/%m/%Y"
-#~ msgstr "%Y-%m-%d"
-
-#~ msgid "%Y/%m/%d"
-#~ msgstr "%Y-%m-%d"
-
-#~ msgid "%x"
-#~ msgstr "%x"
-
-#~ msgid "Each account must have a different name."
-#~ msgstr "Visos sàskaitos privalo turëti skirtingus vardus."
-
-#~ msgid "Message _preview should be displayed by default"
-#~ msgstr "Laiðko _perþiûros sritis turi bûti rodoma áprastai"
-
-#~ msgid "Message list should display in a _threaded fashion by default"
-#~ msgstr "Laiðkø sàraðas áprastai turi bûti rodomas suskirstytas _gijomis"
-
-#~ msgid "_Remember PGP Passphrase until exit"
-#~ msgstr "P_risiminti PGP slaptaþodá iki iðëjimo"
-
-#~ msgid "No such folder /%s"
-#~ msgstr "Nëra tokio aplanko /%s"
-
-#~ msgid "Registering '%s'"
-#~ msgstr "Registruojamas '%s'"
 
 #~ msgid "There was an error downloading news feed"
 #~ msgstr "Ávyko klaida parsiunèiant naujienø ðaltiná"
@@ -14151,9 +13719,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Rename"
 #~ msgstr "Pervadinti"
 
-#~ msgid "_Debug"
-#~ msgstr "_Derinti"
-
 #~ msgid "_Import File..."
 #~ msgstr "_Importuoti bylà..."
 
@@ -14163,95 +13728,8 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Factory for the Evolution addressbook component."
 #~ msgstr "Evolution adresø knygelës komponento gamykla."
 
-#~ msgid "123"
-#~ msgstr "123"
-
-#~ msgid "a"
-#~ msgstr "a"
-
-#~ msgid "b"
-#~ msgstr "b"
-
-#~ msgid "c"
-#~ msgstr "c"
-
-#~ msgid "d"
-#~ msgstr "d"
-
-#~ msgid "e"
-#~ msgstr "e"
-
-#~ msgid "f"
-#~ msgstr "f"
-
-#~ msgid "g"
-#~ msgstr "g"
-
-#~ msgid "h"
-#~ msgstr "h"
-
-#~ msgid "i"
-#~ msgstr "i"
-
-#~ msgid "j"
-#~ msgstr "j"
-
-#~ msgid "k"
-#~ msgstr "k"
-
-#~ msgid "l"
-#~ msgstr "l"
-
-#~ msgid "m"
-#~ msgstr "m"
-
-#~ msgid "n"
-#~ msgstr "n"
-
-#~ msgid "o"
-#~ msgstr "o"
-
-#~ msgid "p"
-#~ msgstr "p"
-
-#~ msgid "q"
-#~ msgstr "q"
-
-#~ msgid "r"
-#~ msgstr "r"
-
-#~ msgid "s"
-#~ msgstr "s"
-
-#~ msgid "t"
-#~ msgstr "t"
-
-#~ msgid "u"
-#~ msgstr "u"
-
-#~ msgid "v"
-#~ msgstr "v"
-
-#~ msgid "w"
-#~ msgstr "w"
-
-#~ msgid "x"
-#~ msgstr "x"
-
-#~ msgid "y"
-#~ msgstr "y"
-
-#~ msgid "z"
-#~ msgstr "z"
-
 #~ msgid "Done."
 #~ msgstr "Atlikta."
-
-#~ msgid "Factory for the Evolution calendar component."
-#~ msgstr "Evolution kalendoriaus komponento gamykla."
-
-#~ msgid "IMAPv4"
-#~ msgstr "IMAPv4"
 
 #~ msgid "Standard Unix mailbox file"
 #~ msgstr "Standartinë Unix mailbox byla"
@@ -14294,26 +13772,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Synchronizing '%s'"
 #~ msgstr "Sinchronizuojamas '%s'"
 
-#~ msgid "%l:%M%p"
-#~ msgstr "%H:%M"
-
-#~ msgid "%a %l:%M%p"
-#~ msgstr "%a %H:%M"
-
-#~ msgid "_Refresh time (seconds):"
-#~ msgstr "_Atnaujinimo laikas (sekundëmis):"
-
 #~ msgid "This seems to be the first time you are running Evolution."
 #~ msgstr "Atrodo, kad tai pirmas kartas, kai tu pasileidai Evolution."
 
 #~ msgid "Please click \"OK\" to install the Evolution user files under"
 #~ msgstr "Praðom paspausti ¥Gerai´, kad ádiegtum Evolution vartotojo bylas á"
-
-#~ msgid "RDF Summary"
-#~ msgstr "RDF apþvalga"
-
-#~ msgid "USA"
-#~ msgstr "JAV"
 
 #~ msgid "Send contact to other"
 #~ msgstr "Siøsti kontaktà kitam"
@@ -14327,33 +13790,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Calendar Preferences"
 #~ msgstr "Kalendoriaus nuostatos"
 
-#~ msgid "This is an event that can be added to your calendar."
-#~ msgstr "Tai yra ávykis, kurá galima pridëti á tavo kalendoriø."
-
-#~ msgid "This is a meeting request."
-#~ msgstr "Tai yra susitikimo uþklausa."
-
-#~ msgid "This is one or more additions to a current meeting."
-#~ msgstr "Tai yra vienas ar daugiau papildymø esamam susitikimui."
-
-#~ msgid "This is an event cancellation."
-#~ msgstr "Tai yra ávykio atðaukimas."
-
-#~ msgid "The message is not understandable."
-#~ msgstr "Ðis laiðkas nesuprantamas."
-
-#~ msgid "This is an task that can be added to your calendar."
-#~ msgstr "Tai yra uþduotis, kurià galima pridëti á tavo kalendoriø."
-
-#~ msgid "This is a task request."
-#~ msgstr "Tai yra uþduoties uþklausa."
-
-#~ msgid "This is a reply to a task request."
-#~ msgstr "Tai yra atsakymas á uþduoties uþklausà."
-
-#~ msgid "The information contained in this attachment was not valid"
-#~ msgstr "Informacija, buvusi ðiame priede, netinkama."
-
 #~ msgid "Add"
 #~ msgstr "Pridëti"
 
@@ -14363,24 +13799,8 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Evolution Account Wizard"
 #~ msgstr "Evolution sàskaitø meistras"
 
-#, fuzzy
-#~ msgid "Updating message list"
-#~ msgstr "Iðsaugomi laiðkai"
-
-#~ msgid "My Evolution Settings"
-#~ msgstr "Mano Evolution nuostatos"
-
 #~ msgid "%A, %d %B %Y"
 #~ msgstr "%A, %Y m. %B %d d."
-
-#~ msgid "Print My Evolution"
-#~ msgstr "Spausdinti Mano Evolution"
-
-#~ msgid "Printing of My Evolution failed"
-#~ msgstr "Nepavyko atspausdinti Mano Evolution"
-
-#~ msgid "My Evolution"
-#~ msgstr "Mano Evolution"
 
 #~ msgid "New contact"
 #~ msgstr "Naujas kontaktas"
@@ -14412,10 +13832,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Close this appointment"
 #~ msgstr "Uþdaryti ðá ávyká"
 
-#, fuzzy
-#~ msgid "Print S_etup"
-#~ msgstr "Spausdinimo nuostatos"
-
 #~ msgid "Save the appointment and close the dialog box"
 #~ msgstr "Iðsaugoti ávyká ir uþdaryti dialogo langà"
 
@@ -14431,114 +13847,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Compose"
 #~ msgstr "Sukurti"
 
-#, fuzzy
-#~ msgid "Print Message..."
-#~ msgstr "Spausdinti laiðkà..."
-
-#, fuzzy
-#~ msgid "Print Preview..."
-#~ msgstr "Spaudinio perþiûra"
-
-#, fuzzy
-#~ msgid "Delegate Task"
-#~ msgstr "Iðtrinti uþduotá"
-
-#~ msgid "Save task as something else"
-#~ msgstr "Iðsaugoti uþduotá kaip kaþkà kità"
-
-#~ msgid "Getting _Started"
-#~ msgstr "_Susipaþinimas"
-
-#~ msgid "Using the C_ontact Manager"
-#~ msgstr "K_ontaktø menedþerio naudojimas"
-
-#~ msgid "Using the _Calendar"
-#~ msgstr "_Kalendoriaus vartojimas"
-
-#~ msgid "Using the _Mailer"
-#~ msgstr "_Paðto programos naudojimas"
-
-#~ msgid "Unknown addressbook type"
-#~ msgstr "Neþinomas adresø knygelës tipas"
-
-#~ msgid "None (anonymous mode)"
-#~ msgstr "Jokio (anoniminis reþimas)"
-
-#~ msgid "Unknown auth type"
-#~ msgstr "Neþinomas auth tipas"
-
-#~ msgid "Subtree"
-#~ msgstr "Submedis"
-
-#~ msgid "Authentication:"
-#~ msgstr "Autentikacija:"
-
-#~ msgid "Create path if it doesn't exist."
-#~ msgstr "Sukurti kelià jei jis neegzistuoja."
-
-#~ msgid ""
-#~ "Select the kind of addressbook you have, and enter the relevant "
-#~ "information about it."
-#~ msgstr ""
-#~ "Pasirink tavo turimos adresø knygelës tipà, ir ávesk reikiamà informacijà "
-#~ "apie jà."
-
-#~ msgid "URI"
-#~ msgstr "URI"
-
-#, fuzzy
-#~ msgid "Category contains"
-#~ msgstr "Varde yra"
-
-#, fuzzy
-#~ msgid "Select name from _folder:"
-#~ msgstr "Pasirink vardà ið:"
-
-#~ msgid "Transparent"
-#~ msgstr "Skaidrus"
-
-#~ msgid "Opaque"
-#~ msgstr "Neskaidrus"
-
-#~ msgid ""
-#~ "The classification must be 'Public', 'Private', 'Confidential' or 'None'"
-#~ msgstr ""
-#~ "Klasifikacija turi bûti ¥Vieðas´, ¥Asmeniðkas´, ¥Slaptas´ arba ¥Joks´"
-
-#~ msgid "The transparency must be 'Transparent', 'Opaque', or 'None'."
-#~ msgstr "Skaidrumas turi bûti ¥Skaidrus´, ¥Neskaidrus´ arba ¥Joks´"
-
-#~ msgid "Beep when alarm windows appear."
-#~ msgstr "Pyptelëti, kai atsiranda aliarmo langai."
-
-#, fuzzy
-#~ msgid "Date Navigator"
-#~ msgstr "Datø navigatorius parinktys"
-
-#~ msgid "Defaults"
-#~ msgstr "Áprastai"
-
-#~ msgid "Remind me of all appointments"
-#~ msgstr "Priminti man apie visus ávykius"
-
-#~ msgid "minutes before they occur."
-#~ msgstr "minutes prieð jiems ávykstant."
-
-#, fuzzy
-#~ msgid "Delegated From:"
-#~ msgstr "Iðtrintas"
-
 #~ msgid "Task"
 #~ msgstr "Uþduotis"
 
 #~ msgid "% Comp_lete:"
 #~ msgstr "% uþ_baigta:"
-
-#~ msgid "Transparency"
-#~ msgstr "Skaidrumas"
-
-#~ msgid "Store search as vFolder"
-#~ msgstr "Áraðyti paieðkà kaip vAplankà"
 
 #~ msgid "Resend"
 #~ msgstr "Dar kartà siøsti"
@@ -14555,32 +13868,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Display folders starting with:"
 #~ msgstr "Rodyti aplankus, prasidedanèius:"
 
-#~ msgid "Getting store for \"%s\""
-#~ msgstr "Gaunama saugykla dël ¥%s´"
-
-#, fuzzy
-#~ msgid "_Contact Group"
-#~ msgstr "_Kontaktas"
-
-#~ msgid "Go to present time"
-#~ msgstr "Eiti á dabartiná laikà"
-
-#~ msgid "Print this Calendar"
-#~ msgstr "Spausdinti ðá kalendoriø"
-
-#, fuzzy
-#~ msgid "_Action"
-#~ msgstr "_Veiksmai"
-
 #~ msgid "Manage _Subscriptions..."
 #~ msgstr "Tvarkyti uþ_sakymus..."
 
 #~ msgid "Show _All"
 #~ msgstr "Rodyti _visus"
-
-#, fuzzy
-#~ msgid "_Re-send Message"
-#~ msgstr "_Vël pasiøsti laiðkus"
 
 #~ msgid "Customi_ze Toolbars..."
 #~ msgstr "Prisitai_kyti árankines..."
@@ -14590,29 +13882,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
 #~ msgid "Customize toolbars"
 #~ msgstr "Prisitaikyti árankines"
-
-#~ msgid "_Appointment (FIXME)"
-#~ msgstr "Á_vykis (FIXME)"
-
-#~ msgid "_Contact (FIXME)"
-#~ msgstr "_Kontaktas (FIXME)"
-
-#~ msgid "_Mail message"
-#~ msgstr "_Paðto laiðkas"
-
-#~ msgid "_Task (FIXME)"
-#~ msgstr "_Uþduotis (FIXME)"
-
-#, fuzzy
-#~ msgid "Set task view preferences"
-#~ msgstr "Sutvarkyti kalendoriø"
-
-#, fuzzy
-#~ msgid "TasksPreferences"
-#~ msgstr "Uþduoèiø nuostatos..."
-
-#~ msgid "???"
-#~ msgstr "???"
 
 #~ msgid "C_ontacts..."
 #~ msgstr "K_ontaktai..."
@@ -14626,63 +13895,17 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "As _Table"
 #~ msgstr "Rodyti _lentelæ"
 
-#~ msgid ""
-#~ "We were unable to open this addressbook.  This either\n"
-#~ "means you have entered an incorrect URI, or have tried\n"
-#~ "to access an LDAP server and don't have LDAP support\n"
-#~ "compiled in.  If you've entered a URI, check the URI for\n"
-#~ "correctness and reenter.  If not, you probably have\n"
-#~ "attempted to access an LDAP server.  If you wish to be\n"
-#~ "able to use LDAP, you'll need to download and install\n"
-#~ "OpenLDAP and recompile and install Evolution.\n"
-#~ msgstr ""
-#~ "Mes negalëjome atidaryti ðios adresø knygelës. Tai\n"
-#~ "reiðkia arba tai, kad tu ávedei neteisingà URI, arba \n"
-#~ "bandei prieiti prie LDAP serverio, bet neturi \n"
-#~ "ákompiliuoto LDAP palaikymo. Jei tu ávedei URI, \n"
-#~ "pasitikrink URI teisingumà ir ávesk ið naujo. Jei ne, \n"
-#~ "tikriausiai bandei prieiti prie LDAP serverio. Jei nori\n"
-#~ "naudoti LDAP, tu turi parsisiøsti ir ádiegti OpenLDAP,\n"
-#~ "o tada perkompiliuoti ir ádiegti Evolution.\n"
-
-#~ msgid "SASL"
-#~ msgstr "SASL"
-
 #~ msgid "Find..."
 #~ msgstr "Rasti..."
 
 #~ msgid "Save calendar"
 #~ msgstr "Iðsaugoti kalendoriø"
 
-#~ msgid "<b>Error loading calendar:<br>Method not supported"
-#~ msgstr "<b>Klaida ákeliant kalendoriø:</b>Metodas nepalaikomas"
-
 #~ msgid "Alarms timeout after"
 #~ msgstr "Perspëjimai baigiasi po"
 
-#~ msgid "Enable snoozing for"
-#~ msgstr "Leisti uþtildymà"
-
 #~ msgid "Highlight"
 #~ msgstr "Paryðkinti"
-
-#~ msgid "Items Due Today:"
-#~ msgstr "Ðiandienos ávykiai:"
-
-#~ msgid "Items Not Yet Due"
-#~ msgstr "Ávykius, kurie dar ne ðiandien"
-
-#~ msgid "Items Not Yet Due:"
-#~ msgstr "Ávykiai, kurie dar ne ðiandien:"
-
-#~ msgid "Overdue Items:"
-#~ msgstr "Praëjæ ávykiai:"
-
-#~ msgid "Time Until Due"
-#~ msgstr "Likæs laikas"
-
-#~ msgid "Visual Alarms"
-#~ msgstr "Perspëjimai vaizdu"
 
 #~ msgid "Work week"
 #~ msgstr "Darbo savaitë"
@@ -14705,9 +13928,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Delete all Occurrences"
 #~ msgstr "Iðtrinti visus pasitaikymus"
 
-#~ msgid "Component successfully updated."
-#~ msgstr "Komponentas sëkmingai atnaujintas."
-
 #~ msgid "I couldn't load your calendar file!\n"
 #~ msgstr "Að negalëjau ákelti tavo kalendoriaus bylos!\n"
 
@@ -14723,55 +13943,11 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "I couldn't delete the calendar component!\n"
 #~ msgstr "Að negalëjau iðtrinti kalendoriaus komponento!\n"
 
-#~ msgid "Component successfully deleted."
-#~ msgstr "Komponentas sëkmingai iðtrintas."
-
-#~ msgid "I don't recognize this type of calendar component."
-#~ msgstr "Að nepaþástu tokio kalendoriaus komponento tipo."
-
-#~ msgid "Add to Calendar"
-#~ msgstr "Pridëti á kalendoriø"
-
-#~ msgid "Update Calendar"
-#~ msgstr "Atnaujinti kalendoriø"
-
 #~ msgid "Attendees: "
 #~ msgstr "Dalyviai: "
 
-#~ msgid ""
-#~ "Cancel\n"
-#~ "Meeting"
-#~ msgstr ""
-#~ "Atðaukti\n"
-#~ "susitikimà"
-
 #~ msgid "Organizer: "
 #~ msgstr "Organizatorius: "
-
-#~ msgid ""
-#~ "Publish\n"
-#~ "Event"
-#~ msgstr ""
-#~ "Skelbti\n"
-#~ "ávyká"
-
-#~ msgid "Show a dialog"
-#~ msgstr "Rodyti dialogà"
-
-#~ msgid "Appointment Basics"
-#~ msgstr "Ávykio pagrindai"
-
-#~ msgid "Has category"
-#~ msgstr "Turi kategorijà"
-
-#~ msgid "Could not test lock file for %s: %s"
-#~ msgstr "Negalëjau patikrinti %s uþrakto bylos: %s"
-
-#~ msgid "Inline attachment"
-#~ msgstr "Vidinis priedas"
-
-#~ msgid "Send as:"
-#~ msgstr "Siøsti kaip:"
 
 #~ msgid "That file exists but is not readable."
 #~ msgstr "Byla yra, bet jos neámanoma perskaityti."
@@ -14785,18 +13961,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgstr ""
 #~ "Byla yra labai didelë (virð 100K).\n"
 #~ "Ar tu tikrai nori jà áterpti?"
-
-#~ msgid "%I:%M:%S %p%n"
-#~ msgstr "%I:%M:%S %p%n"
-
-#~ msgid "%H:%M:%S%n"
-#~ msgstr "%H:%M:%S%n"
-
-#~ msgid "%I:%M %p%n"
-#~ msgstr "%I:%M %p%n"
-
-#~ msgid "%H:%M%n"
-#~ msgstr "%H:%M%n"
 
 #~ msgid ""
 #~ "Cannot open the HTML file:\n"
@@ -14848,47 +14012,14 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Background:"
 #~ msgstr "Fonas:"
 
-#~ msgid "Factory for the RDF summary."
-#~ msgstr "RDF apþvalgos gamykla."
-
-#~ msgid "Factory for the test bonobo component."
-#~ msgstr "Testinio bonobo komponento gamykla."
-
-#~ msgid "Test bonobo service"
-#~ msgstr "Testinë bonobo paslauga"
-
-#~ msgid "Test service"
-#~ msgstr "Testinë paslauga"
-
-#~ msgid "Update automatically"
-#~ msgstr "Atnaujinti automatiðkai"
-
 #~ msgid "Forward to Address"
 #~ msgstr "Persiøsti adresu"
-
-#~ msgid "Change folder \"%s\" to \"%s\" format"
-#~ msgstr "Pakeisti aplanko ¥%s´ formatà á ¥%s´"
 
 #~ msgid "Closing current folder"
 #~ msgstr "Uþdaromas esamas aplankas"
 
 #~ msgid "Renaming old folder and opening"
 #~ msgstr "Pervadinamas senas aplankas ir atidaromas"
-
-#~ msgid "Evolution progress"
-#~ msgstr "Evolution paþanga"
-
-#~ msgid "Retrieving message number %d of %d (uid \"%s\")"
-#~ msgstr "Gaunamas laiðkas numeris %d ið %d (uid ¥%s´)"
-
-#~ msgid "Saving message %d of %d (uid \"%s\")"
-#~ msgstr "Iðsaugomas laiðkas %d ið %d (uid ¥%s´)"
-
-#~ msgid "Incomplete message written on pipe!"
-#~ msgstr "Nepilnas laiðkas suraðytas á pipe!"
-
-#~ msgid "[%s] (forwarded message)"
-#~ msgstr "[%s] (persiøstas laiðkas)"
 
 #~ msgid "Forwarded message (no subject)"
 #~ msgstr "Persiøstas laiðkas (be temos)"
@@ -14947,33 +14078,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Actio_ns"
 #~ msgstr "Veiksm_ai"
 
-#~ msgid "Address _Book... (FIXME)"
-#~ msgstr "_Adresø knygelë... (FIXME)"
-
-#~ msgid "Chec_k Names (FIXME)"
-#~ msgstr "Ti_krinti vardus (FIXME)"
-
-#~ msgid "Clear the selection"
-#~ msgstr "Iðvalyti paþymëjimà"
-
-#~ msgid "Cop_y to Folder... (FIXME)"
-#~ msgstr "_Kopijuoti á aplankà... (FIXME)"
-
-#~ msgid "Fi_rst Item in Folder (FIXME)"
-#~ msgstr "_Pirmas elementas aplanke (FIXME)"
-
-#~ msgid "For_ward (FIXME)"
-#~ msgstr "_Persiøsti (FIXME)"
-
-#~ msgid "Go to the next item"
-#~ msgstr "Eiti á tolesná elementà"
-
-#~ msgid "Go to the previous item"
-#~ msgstr "Eiti á ankstesná elementà"
-
-#~ msgid "In_complete Task (FIXME)"
-#~ msgstr "_Neuþbaigta uþduotis (FIXME)"
-
 #~ msgid "N_ext"
 #~ msgstr "_Kitas"
 
@@ -14988,36 +14092,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
 #~ msgid "Select everything"
 #~ msgstr "Paþymëti viskà"
-
-#~ msgid "_About..."
-#~ msgstr "_Apie..."
-
-#~ msgid "_Item (FIXME)"
-#~ msgstr "_Elementas (FIXME)"
-
-#~ msgid "_Journal Entry (FIXME)"
-#~ msgstr "Þu_rnalo áraðas (FIXME)"
-
-#~ msgid "_Last Item in Folder (FIXME)"
-#~ msgstr "P_askutinis elementas aplanke (FIXME)"
-
-#~ msgid "_Mail Message (FIXME)"
-#~ msgstr "_Paðto laiðkas (FIXME)"
-
-#~ msgid "_Move to Folder... (FIXME)"
-#~ msgstr "Per_kelti á aplankà... (FIXME)"
-
-#~ msgid "_Note (FIXME)"
-#~ msgstr "_Pastaba (FIXME)"
-
-#~ msgid "_Unread Item (FIXME)"
-#~ msgstr "_Neskaitytas elementas (FIXME)"
-
-#~ msgid "Add Service"
-#~ msgstr "Pridëti paslaugà"
-
-#~ msgid "Add a new service to the Executive Summary"
-#~ msgstr "Pridëti naujà paslaugà á Executive Summary"
 
 #~ msgid "Create a new email"
 #~ msgstr "Sukurti naujà laiðkà"
@@ -15065,9 +14139,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Print message to the printer"
 #~ msgstr "Spausdinti laiðkà spausdintuvu"
 
-#~ msgid "Redirect (FIXME: implement me)"
-#~ msgstr "Nukreipti (FIXME)"
-
 #~ msgid "Reply to all"
 #~ msgstr "Atsakyti visiems"
 
@@ -15092,63 +14163,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
 #~ msgid "View Raw Message Source"
 #~ msgstr "Rodyti neapdorotà laiðko ðaltiná"
-
-#~ msgid "_Reply"
-#~ msgstr "_Atsakyti"
-
-#~ msgid "_Threaded"
-#~ msgstr "_Gijomis"
-
-#~ msgid "Save in _folder... (FIXME)"
-#~ msgstr "Iðsaugoti á _aplankà... (FIXME)"
-
-#~ msgid "Send the message now"
-#~ msgstr "Siøsti laiðkà dabar"
-
-#~ msgid "_Insert text file... (FIXME)"
-#~ msgstr "Áterpt_i tekstinæ bylà... (FIXME)"
-
-#~ msgid "Redo"
-#~ msgstr "Pakartoti"
-
-#~ msgid "Redo the undone action"
-#~ msgstr "Pakartoti atðauktà veiksmà"
-
-#~ msgid "Replace"
-#~ msgstr "Pakeisti"
-
-#~ msgid "Replace a string"
-#~ msgstr "Pakeisti eilutæ"
-
-#~ msgid "Reply to A_ll (FIXME)"
-#~ msgstr "Atsakyti _visiems (FIXME)"
-
-#~ msgid "S_end Status Report (FIXME)"
-#~ msgstr "Siøs_ti bûsenos ataskaità (FIXME)"
-
-#~ msgid "S_kip Occurrence (FIXME)"
-#~ msgstr "Praleisti pasi_kartojimà (FIXME)"
-
-#~ msgid "Search again for the same string"
-#~ msgstr "Vël ieðkoti tos paèios eilutës"
-
-#~ msgid "Search for a string"
-#~ msgstr "Ieðkoti eilutës"
-
-#~ msgid "Undo"
-#~ msgstr "Atðaukti"
-
-#~ msgid "Undo the last action"
-#~ msgstr "Atðaukti paskutiná veiksmà"
-
-#~ msgid "_Mark Complete (FIXME)"
-#~ msgstr "_Paþymëti uþbaigta (FIXME)"
-
-#~ msgid "_Reply (FIXME)"
-#~ msgstr "_Atsakyti (FIXME)"
-
-#~ msgid "Evolution bar _shortcut"
-#~ msgstr "Evolution juostos _trumpë"
 
 #~ msgid "Advanced ..."
 #~ msgstr "Iðsami..."
@@ -15215,9 +14229,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "Include this account when receiving mail"
 #~ msgstr "Átraukti ðià sàskaità parsiunèiant paðtà"
 
-#~ msgid "Kerberos"
-#~ msgstr "Kerberos"
-
 #~ msgid "Mail Account"
 #~ msgstr "Paðto sàskaita"
 
@@ -15249,9 +14260,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 #~ msgid "minutes."
 #~ msgstr "minutes."
 
-#~ msgid "<unknown>"
-#~ msgstr "<neþinomas>"
-
 #~ msgid "_Message Hiding"
 #~ msgstr "_Laiðkø slëpimas"
 
@@ -15263,74 +14271,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
 #~ msgid "Synchronize"
 #~ msgstr "Sinchronizuoti"
-
-#~ msgid "Copy From Pilot"
-#~ msgstr "Kopijuoti ið Pilot"
-
-#~ msgid "Copy To Pilot"
-#~ msgstr "Kopijuoti á Pilot"
-
-#~ msgid "Merge From Pilot"
-#~ msgstr "Sulieti ið Pilot"
-
-#~ msgid "Merge To Pilot"
-#~ msgstr "Sulieti á Pilot"
-
-#~ msgid "Evolution Addressbook Conduit"
-#~ msgstr "Evolution adresø knygelës konduitas"
-
-#~ msgid "(C) 1998-2000 the Free Software Foundation and Helix Code"
-#~ msgstr "(C) 1998-2000 the Free Software Foundation and Helix Code"
-
-#~ msgid "Configuration utility for the evolution addressbook conduit.\n"
-#~ msgstr "Evolution adresø knygelës konduito konfigûravimo árankis\n"
-
-#~ msgid "Synchronize Action"
-#~ msgstr "Sinchronizuoti veiksmà"
-
-#~ msgid "Conduit state"
-#~ msgstr "Konduito bûsena"
-
-#~ msgid ""
-#~ "No pilot configured, please choose the\n"
-#~ "'Pilot Link Properties' capplet first."
-#~ msgstr ""
-#~ "Nëra sukonfigûruoto Piloto, praðau pirmiausia\n"
-#~ "Pasirinkti ¥Ryðio su Pilotu savybës´ capplet'à."
-
-#~ msgid "Not connected to the gnome-pilot daemon"
-#~ msgstr "Neprisijungta prie gnome-pilot demono"
-
-#~ msgid ""
-#~ "An error occured when trying to fetch\n"
-#~ "pilot list from the gnome-pilot daemon"
-#~ msgstr ""
-#~ "Ávyko klaida, bandant gauti pilotø\n"
-#~ "sàraðà ið gnome-pilot demono"
-
-#~ msgid "Evolution Address conduit "
-#~ msgstr "Evolution Adresø konduitas "
-
-#~ msgid "Evolution Calendar Conduit"
-#~ msgstr "Evolution Kalendoriaus konduitas"
-
-#~ msgid "Configuration utility for the evolution calendar conduit.\n"
-#~ msgstr "Evolution kalendoriaus konduito konfigûravimo árankis.\n"
-
-#~ msgid "Configure the Evolution Calendar conduit"
-#~ msgstr "Konfigûruoti Evolution Kalendoriaus konduità"
-
-#~ msgid "Configure the Evolution ToDo conduit"
-#~ msgstr "Konfigûruoti Evolution ToDo konduità"
-
-#~ msgid "Evolution ToDo Conduit"
-#~ msgstr "Evolution ToDo konduitas"
-
-#~ msgid "Configuration utility for the evolution todo conduit.\n"
-#~ msgstr "Evolution ToDo konduito konfigûravimo árankis.\n"
-
-#~ msgid "The priority must be between 1 and 9, inclusive"
-#~ msgstr "Svarbumas turi bûti tarp 1 ir 9 imtinai"
 
 #~ msgid "Edit this appointment..."
 #~ msgstr "Taisyti ðá ávyká..."
@@ -15346,9 +14286,6 @@ msgstr "init_bonobo(): negalëjau inicializuoti Bonobo"
 
 #~ msgid "Account Properties"
 #~ msgstr "Sàskaitos savybës"
-
-#~ msgid "Include in \"Get Mail\" operations."
-#~ msgstr "Átraukti á ¥Gauti paðtà´ veiksmus."
 
 #~ msgid "Incoming Mail Server"
 #~ msgstr "Gaunamo paðto serveris"
