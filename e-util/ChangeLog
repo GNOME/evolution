@@ -1,4 +1,13 @@
 2000-07-25  Peter Williams  <peterw@helixcode.com>
+	
+	* e-canvas.c (emit_event): Don't bother with 
+	dereferencing the event pointer.
+	(e_canvas_item_set_cursor): Reference our selection
+	item; print a debug message. Deref when destroying
+	(e_canvas_item_add_selection): Same.
+	(e_canvas_item_remove_selection): Same.
+	
+2000-07-25  Peter Williams  <peterw@helixcode.com>
 
 	* Makefile.am (libeutil_static_la_LDFLAGS): Build both libraries
 	(a typo didn't build libeutil.la, only -static.)
