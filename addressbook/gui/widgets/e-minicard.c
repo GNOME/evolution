@@ -55,7 +55,6 @@ static void e_minicard_resize_children( EMinicard *e_minicard );
 static void remodel( EMinicard *e_minicard );
 
 static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
-static void e_minicard_drag_end (GtkWidget *canvas, GdkDragContext *context, EMinicard *e_minicard);
 
 static GnomeCanvasGroupClass *parent_class = NULL;
 
@@ -530,7 +529,7 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 		return ret_val;
 	}
 	case GDK_BUTTON_RELEASE:
-		if (e_minicard->drag_button_down && e_minicard->drag_button == event->button.button) {
+		if (e_minicard->drag_button == event->button.button) {
 			e_minicard->drag_button = 0;
 			e_minicard->drag_button_down = FALSE;
 			e_minicard->button_x = -1;
@@ -549,10 +548,6 @@ e_minicard_event (GnomeCanvasItem *item, GdkEvent *event)
 				gint ret_val;
 
 				ret_val = e_minicard_drag_begin(e_minicard, event);
-
-				/* now we register with drag end on our canvas so we can know when to release our grab */
-				gtk_signal_connect (GTK_OBJECT (GNOME_CANVAS_ITEM (e_minicard)->canvas),
-						    "drag_end", (GtkSignalFunc)e_minicard_drag_end, e_minicard);
 
 				e_minicard->drag_button_down = FALSE;
 
@@ -954,19 +949,4 @@ e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event)
 			 e_minicard_signals[DRAG_BEGIN],
 			 event, &ret_val);
 	return ret_val;
-}
-
-static void
-e_minicard_drag_end (GtkWidget *canvas, GdkDragContext *context, EMinicard *e_minicard)
-{
-	e_minicard->drag_button = 0;
-	e_minicard->drag_button_down = FALSE;
-	e_minicard->button_x = -1;
-	e_minicard->button_y = -1;
-
-	gtk_grab_remove (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas));
-	gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM (e_minicard), GDK_CURRENT_TIME);
-
-	gtk_signal_disconnect_by_func (GTK_OBJECT (GNOME_CANVAS_ITEM (e_minicard)->canvas),
-				       (GtkSignalFunc)e_minicard_drag_end, e_minicard);
 }

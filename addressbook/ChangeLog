@@ -1,3 +1,11 @@
+2001-08-21  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_event): if we're dragging,
+	drag_button_down won't be true in the BUTTON_RELEASE case, since
+	we set it to false in MOTION_NOTIFY once the threshold is reached.
+	(e_minicard_drag_end): remove this function, since it was needed
+	to work around a bug in gnome-canvas.
+	
 2001-08-20  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names.c
