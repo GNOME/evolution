@@ -1,3 +1,7 @@
+2004-02-16  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: remove disable deprecated flags
+
 2003-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (save): Don't blindly claim that the file

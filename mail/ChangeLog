@@ -1,3 +1,7 @@
+2004-02-16  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: remove disable deprecated flags
+
 2004-02-01  Bill Zhu <bill.zhu@sun.com>
                                                                                 
         Fixes for bug #53530

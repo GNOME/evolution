@@ -1,8 +1,6 @@
 SUBDIRS = glade importer
 
 INCLUDES =							\
-	-DG_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED		\
-	-DBONOBO_DISABLE_DEPRECATED -DGNOME_DISABLE_DEPRECATED	\
 	-I$(top_srcdir)/widgets					\
 	-I$(top_srcdir)/widgets/misc				\
 	-I$(top_srcdir)/libical/src/libical			\
