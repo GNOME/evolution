@@ -1,14 +1,6 @@
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
+2001-10-03  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
-
-2001-10-01  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.39.
+	* pl.po: Updated Polish translation.
 
 2001-10-02  Valek Filippov  <frob@df.ru>
 
