@@ -1,4 +1,27 @@
 <Root>
+	<commands>
+		<cmd name="CalendarNew"    _tip="Create a new calendar" _label="Calendar"/>
+		<cmd name="CalendarOpen"   _tip="Open Calendar" _label="Open"/>
+		<cmd name="CalendarSaveAs" _tip="Save calendar as something else" _label="Save As"/>
+		<cmd name="CalendarPrint"  _tip="Print this Calendar" _label="Print"
+		 pixtype="stock" pixname="Print"/>
+		<cmd name="CalendarPreferences" _tip="Alter preferences"/>
+		<cmd name="EditNewAppointment" _label="New appointment"
+		 priority="1" _tip="Create a new appointment" pixtype="stock" pixname="New"/>
+		<cmd name="CalendarPrev" _label="Prev" _tip="Go back in time"
+		 pixtype="stock" pixname="Back"/>
+		<cmd name="CalendarToday" _label="Today" _tip="Go to present time"
+		 pixtype="stock" pixname="Home"/>
+		<cmd name="CalendarNext" _label="Next" _tip="Go forward in time" 
+		 pixtype="stock" pixname="Forward"/>
+		<cmd name="CalendarGoto" _label="Go to" priority="1"
+		 _tip="Go to a specific date" pixtype="stock" pixname="Jump To"/>
+		<cmd name="ShowDayView" _label="Day" _tip="Show 1 day" pixtype="pixbuf"/>
+		<cmd name="ShowWorkWeekView" _label="5 Days" _tip="Show the working week"
+		 pixtype="pixbuf"/>
+		<cmd name="ShowWeekView" _label="Week" _tip="Show 1 week" pixtype="pixbuf"/>
+		<cmd name="ShowMonthView" _label="Month" _tip="Show 1 month" pixtype="pixbuf"/>
+	</commands>
 
 	<menu>
 		<submenu name="File">
@@ -6,99 +29,67 @@
 			<submenu name="New" _label="_New">
 
 				<menuitem name="CalendarNew" verb=""
-				_label="Ca_lendar" _tip="Create a new calendar"
-                                 accel="*Control**Shift*l"/>
+				_label="Ca_lendar" accel="*Control**Shift*l"/>
 
 			</submenu>
 
 			<placeholder name="FileOps">
 				
 				<menuitem name="CalendarOpen" verb=""
-					_label="_Open Calendar" _tip="Open a calendar"
-                                        accel="*Control*o"/>
-
-	
+					_label="_Open Calendar" accel="*Control*o"/>
 
 				<menuitem name="CalendarSaveAs" verb=""
-				_label="_Save As..."
-				_tip="Save calendar as something else"
-                                accel="*Control*a"/>
+				_label="_Save As..." accel="*Control*a"/>
 
 			</placeholder>
 
 			<placeholder name="Print">
-
 				<menuitem name="Print" verb="CalendarPrint"
-				_label="_Print this calendar"
-				pixtype="stock" pixname="Print"
-				accel="*Control*p"/>
-				
+				_label="_Print this calendar" accel="*Control*p"/>
 			</placeholder>
 
 		</submenu>
 
 		<submenu name="Edit">
 
-
 		</submenu>
 
 		<submenu name="Settings">
 
-			<menuitem name="Preferences" _label="Calendar Preferences..."
-			verb="CalendarPreferences" _tip="Alter preferences"
-                        />
+			<menuitem name="CalendarPreferences" verb=""
+			 _label="Calendar Preferences..."/>
 
 		</submenu>
 	</menu>
 
 	<dockitem name="Toolbar">
-		<toolitem name="New" _label="New appointment"
-		priority="1" _tip="Create a new appointment" verb="EditNewAppointment"
-		pixtype="stock" pixname="New"/>
+		<toolitem name="New" verb="EditNewAppointment"/>
 
 		<separator/>
 
-		<toolitem name="Print" _label="Print"
-		_tip="Print this calendar" verb="CalendarPrint"
-		pixtype="stock" pixname="Print"/>
+		<toolitem name="Print" verb="CalendarPrint"/>
 
 		<separator/>
 
-		<toolitem name="Prev" _label="Prev"
-		_tip="Go back in time" verb="CalendarPrev"
-		pixtype="stock" pixname="Back"/>
+		<toolitem name="Prev" verb="CalendarPrev"/>
 
-		<toolitem name="Today" _label="Today"
-		_tip="Go to present time" verb="CalendarToday"
-		pixtype="stock" pixname="Home"/>
+		<toolitem name="Today" verb="CalendarToday"/>
 
-		<toolitem name="Next" _label="Next"
-		_tip="Go forward in time" verb="CalendarNext"
-		pixtype="stock" pixname="Forward"/>
+		<toolitem name="Next" verb="CalendarNext"/>
 
 		<separator/>
 
-		<toolitem name="Goto" _label="Go to" priority="1"
-		_tip="Go to a specific date" verb="CalendarGoto"
-		pixtype="stock" pixname="Jump To"/>
+		<toolitem name="Goto" verb="CalendarGoto"/>
 		
 		<separator/>
 
-		<toolitem name="DayView" _label="Day"
-		_tip="Show 1 day" verb="ShowDayView"
-		pixtype="pixbuf"/>
+		<toolitem name="DayView" verb="ShowDayView"/>
 
-		<toolitem name="WorkWeekView" _label="5 Days"
-		_tip="Show the working week" verb="ShowWorkWeekView"
-		pixtype="pixbuf"/>
+		<toolitem name="WorkWeekView" verb="ShowWorkWeekView"/>
 
-		<toolitem name="WeekView" _label="Week"
-		_tip="Show 1 week" verb="ShowWeekView"
-		pixtype="pixbuf"/>
+		<toolitem name="WeekView" verb="ShowWeekView"/>
 
-		<toolitem name="MonthView" _label="Month"
-		_tip="Show 1 month" verb="ShowMonthView"
-		pixtype="pixbuf"/>
+		<toolitem name="MonthView" verb="ShowMonthView"/>
 
 	</dockitem>
 
