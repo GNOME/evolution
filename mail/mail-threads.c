@@ -174,6 +174,7 @@ static gboolean busy = FALSE;
  **/
 
 static void ui_set_busy (void);
+
 static void ui_unset_busy (void);
 static void ui_set_message (const char *message);
 static void ui_unset_message (void);
@@ -741,8 +742,8 @@ read_msg (GIOChannel * source, GIOCondition condition, gpointer userdata)
 	switch (msg->type) {
 	case STARTING:
 		DEBUG (("*** Message -- STARTING %s\n", msg->message));
-		ui_set_message (msg->message);
 		ui_set_busy ();
+		ui_set_message (msg->message);
 		g_free (msg->message);
 		break;
 #if 0
@@ -1105,14 +1106,14 @@ update_active_views (void)
 			} else {
 				if (current_message == NULL)
 					GNOME_Evolution_ShellView_setMessage (shell_view_interface,
-									 "",
-									 busy,
-									 &ev);
+									      "",
+									      busy,
+									      &ev);
 				else
 					GNOME_Evolution_ShellView_setMessage (shell_view_interface,
-									 current_message,
-									 busy,
-									 &ev);
+									      current_message,
+									      busy,
+									      &ev);
 			}
 		}
 
