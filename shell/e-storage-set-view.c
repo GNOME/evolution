@@ -19,6 +19,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Author: Ettore Perazzoli
+ * Etree-ification: Chris Toshok
  */
 
 #ifdef HAVE_CONFIG_H
@@ -32,39 +33,39 @@
 
 #include "e-storage-set-view.h"
 
+#include "e-table/e-tree-simple.h"
+#include "e-table/e-cell-tree.h"
+#include "e-table/e-cell-text.h"
+
+#include "art/tree-expanded.xpm"
+#include "art/tree-unexpanded.xpm"
+
+#define ETABLE_SPEC "<ETableSpecification no-header=\"1\">             \
+	<columns-shown>                  			       \
+		<column> 0 </column>     			       \
+	</columns-shown>                 			       \
+	<grouping></grouping>                                          \
+</ETableSpecification>"
+
 
-#define PARENT_TYPE GTK_TYPE_CTREE
-static GtkCTreeClass *parent_class = NULL;
+#define PARENT_TYPE E_TABLE_TYPE
+static ETableClass *parent_class = NULL;
 
 struct _EStorageSetViewPrivate {
 	EStorageSet *storage_set;
 
-	/* These tables must always be kept in sync, and one cannot exist
-           without the other, as they share the dynamically allocated path.  */
-	GHashTable *ctree_node_to_path;
-	GHashTable *path_to_ctree_node;
+	ETreeModel *etree_model;
+	ETreePath *root_node;
+	GdkPixbuf *tree_expanded_pixbuf;
+	GdkPixbuf *tree_unexpanded_pixbuf;
 
-	/* Path of the row selected by the latest "tree_select_row" signal.  */
+	GHashTable *path_to_etree_node;
+
+	GHashTable *type_name_to_pixbuf;
+
+	/* Path of the row selected by the latest "cursor_change" signal.  */
 	const char *selected_row_path;
-
-	/* Path of the row currently being dragged.  */
-	const char *dragged_row_path;
-
-	/* Path of the row that was selected before the latest click.  */
-	const char *selected_row_path_before_click;
-
-	/* Whether we are currently performing a drag from this view.  */
-	int in_drag : 1;
-
-	/* X/Y position for the last button click.  */
-	int button_x, button_y;
-
-	/* Button used for the drag.  This is initialized in the `button_press_event'
-           handler.  */
-	int drag_button;
 };
-
-#define DRAG_RESISTANCE 3
 
 
 enum {
@@ -98,9 +99,9 @@ static GtkTargetList *target_list;
 /* Helper functions.  */
 
 static gboolean
-add_node_to_hashes (EStorageSetView *storage_set_view,
-		    const char *path,
-		    GtkCTreeNode *node)
+add_node_to_hash (EStorageSetView *storage_set_view,
+		  const char *path,
+		  ETreePath *node)
 {
 	EStorageSetViewPrivate *priv;
 	char *hash_path;
@@ -109,7 +110,7 @@ add_node_to_hashes (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	if (g_hash_table_lookup (priv->path_to_ctree_node, path) != NULL) {
+	if (g_hash_table_lookup (priv->path_to_etree_node, path) != NULL) {
 		g_warning ("EStorageSetView: Node already existing while adding -- %s", path);
 		return FALSE;
 	}
@@ -118,23 +119,21 @@ add_node_to_hashes (EStorageSetView *storage_set_view,
 
 	hash_path = g_strdup (path);
 
-	g_hash_table_insert (priv->path_to_ctree_node, hash_path, node);
-	g_hash_table_insert (priv->ctree_node_to_path, node, hash_path);
+	g_hash_table_insert (priv->path_to_etree_node, hash_path, node);
 
 	return TRUE;
 }
 
-static GtkCTreeNode *
-remove_node_from_hashes (EStorageSetView *storage_set_view,
-			 const char *path)
+static ETreePath *
+remove_node_from_hash (EStorageSetView *storage_set_view,
+		       const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *node;
-	char *hash_path;
+	ETreePath *node;
 
 	priv = storage_set_view->priv;
 
-	node = g_hash_table_lookup (priv->path_to_ctree_node, path);
+	node = g_hash_table_lookup (priv->path_to_etree_node, path);
 	if (node == NULL) {
 		g_warning ("EStorageSetView: Node not found while removing -- %s", path);
 		return NULL;
@@ -142,72 +141,56 @@ remove_node_from_hashes (EStorageSetView *storage_set_view,
 
 	g_print ("EStorageSetView: Removing -- %s\n", path);
 
-	hash_path = g_hash_table_lookup (priv->ctree_node_to_path, node);
-	g_free (hash_path);
-
-	g_hash_table_remove (priv->ctree_node_to_path, node);
-	g_hash_table_remove (priv->path_to_ctree_node, path);
+	g_hash_table_remove (priv->path_to_etree_node, path);
 
 	return node;
 }
 
-static void
-get_pixmap_and_mask_for_folder (EStorageSetView *storage_set_view,
-				EFolder *folder,
-				GdkPixmap **pixmap_return,
-				GdkBitmap **mask_return)
+static GdkPixbuf*
+get_pixbuf_for_folder (EStorageSetView *storage_set_view,
+		       EFolder *folder)
 {
-	EFolderTypeRegistry *folder_type_registry;
-	EStorageSet *storage_set;
-	const char *type_name;
-	GdkPixbuf *icon_pixbuf;
 	GdkPixbuf *scaled_pixbuf;
-	GdkVisual *visual;
-	GdkGC *gc;
+	const char *type_name;
+	EStorageSetViewPrivate *priv;
 
-	storage_set = storage_set_view->priv->storage_set;
-	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
-
+	priv = storage_set_view->priv;
+	
 	type_name = e_folder_get_type_string (folder);
-	icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-								type_name, TRUE);
 
-	if (icon_pixbuf == NULL) {
-		*pixmap_return = NULL;
-		*mask_return = NULL;
-		return;
+	scaled_pixbuf = g_hash_table_lookup (priv->type_name_to_pixbuf, type_name);
+
+	if (scaled_pixbuf == NULL) {
+		EFolderTypeRegistry *folder_type_registry;
+		EStorageSet *storage_set;
+		GdkPixbuf *icon_pixbuf;
+
+		storage_set = priv->storage_set;
+		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+
+		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
+									type_name, TRUE);
+
+		if (icon_pixbuf == NULL) {
+			return NULL;
+		}
+
+		scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
+						gdk_pixbuf_get_has_alpha (icon_pixbuf),
+						gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
+						E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
+
+		gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
+				  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+				  0.0, 0.0,
+				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
+				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
+				  GDK_INTERP_HYPER);
+
+		g_hash_table_insert (priv->type_name_to_pixbuf, g_strdup(type_name), scaled_pixbuf);
 	}
 
-	scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
-					gdk_pixbuf_get_has_alpha (icon_pixbuf),
-					gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
-					E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
-
-	gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
-			  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-			  0.0, 0.0,
-			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
-			  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
-			  GDK_INTERP_HYPER);
-
-	visual = gdk_rgb_get_visual ();
-	*pixmap_return = gdk_pixmap_new (NULL,
-					 E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-					 visual->depth);
-
-	gc = gdk_gc_new (*pixmap_return);
-	gdk_pixbuf_render_to_drawable (scaled_pixbuf, *pixmap_return, gc, 0, 0, 0, 0,
-				       E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-				       GDK_RGB_DITHER_NORMAL, 0, 0);
-	gdk_gc_unref (gc);
-
-	*mask_return = gdk_pixmap_new (NULL, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE, 1);
-	gdk_pixbuf_render_threshold_alpha (scaled_pixbuf, *mask_return,
-					   0, 0, 0, 0,
-					   E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-					   0x7f);
-
-	gdk_pixbuf_unref (scaled_pixbuf);
+	return scaled_pixbuf;
 }
 
 
@@ -228,10 +211,6 @@ folder_context_menu_activate_cb (BonoboUIHandler *uih,
 
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
 			 priv->selected_row_path);
-
-	/* Make sure we don't restore the previously selected row after the
-           menu is popped down.  */
-	priv->selected_row_path_before_click = NULL;
 }
 
 static void
@@ -290,11 +269,16 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 /* GtkObject methods.  */
 
 static void
-hash_foreach_free_path (gpointer key,
-			gpointer value,
-			gpointer data)
+path_free_func (gpointer key, gpointer value, gpointer user_data)
 {
-	g_free (value);
+	g_free (key);
+}
+
+static void
+pixbuf_free_func (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	gdk_pixbuf_unref ((GdkPixbuf*)value);
 }
 
 static void
@@ -306,11 +290,25 @@ destroy (GtkObject *object)
 	storage_set_view = E_STORAGE_SET_VIEW (object);
 	priv = storage_set_view->priv;
 
+	/* need to destroy our tree */
+	e_tree_model_node_remove (priv->etree_model, priv->root_node);
+	gtk_object_unref (GTK_OBJECT (priv->etree_model));
+
+	/* now free up all the paths stored in the hash table and
+           destroy the hash table itself */
+	g_hash_table_foreach (priv->path_to_etree_node, path_free_func, NULL);
+	g_hash_table_destroy (priv->path_to_etree_node);
+
+	/* now free up all the type_names and pixbufs stored in the
+           hash table and destroy the hash table itself */
+	g_hash_table_foreach (priv->type_name_to_pixbuf, pixbuf_free_func, NULL);
+	g_hash_table_destroy (priv->type_name_to_pixbuf);
+
 	gtk_object_unref (GTK_OBJECT (priv->storage_set));
 
-	g_hash_table_foreach (priv->ctree_node_to_path, hash_foreach_free_path, NULL);
-	g_hash_table_destroy (priv->ctree_node_to_path);
-	g_hash_table_destroy (priv->path_to_ctree_node);
+	/* free up our expanded/unexpanded pixmaps */
+	gdk_pixbuf_unref (priv->tree_expanded_pixbuf);
+	gdk_pixbuf_unref (priv->tree_unexpanded_pixbuf);
 
 	g_free (priv);
 
@@ -318,155 +316,23 @@ destroy (GtkObject *object)
 }
 
 
-/* GtkWidget methods.  */
-
-static int
-button_press_event (GtkWidget *widget,
-		    GdkEventButton *event)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
-
-	priv->selected_row_path_before_click = priv->selected_row_path;
-
-	(* GTK_WIDGET_CLASS (parent_class)->button_press_event) (widget, event);
-
-	if (priv->in_drag)
-		return FALSE;
-
-	priv->drag_button = event->button;
-	priv->button_x = event->x;
-	priv->button_y = event->y;
-
-	/* KLUDGE ALERT.  So look at this.  We need to grab the pointer now, to check for
-           motion events and maybe start a drag operation.  And GtkCTree seems to do it
-           already in the `button_press_event'.  *But* for some reason something is very
-           broken somewhere and the grab misbehaves when done by GtkCTree's
-           `button_press_event'.  So we have to ungrab the pointer and re-grab it our way.
-           Weee!  */
-
-	gdk_pointer_ungrab (GDK_CURRENT_TIME);
-	gdk_flush ();
-	gtk_grab_remove (widget);
-
-	gdk_pointer_grab (GTK_CLIST (widget)->clist_window, FALSE,
-			  GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-			  NULL, NULL, event->time);
-	gtk_grab_add (widget);
-
-	return TRUE;
-}
-
-static int
-motion_notify_event (GtkWidget *widget,
-		     GdkEventMotion *event)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	if (event->window != GTK_CLIST (widget)->clist_window)
-		return (* GTK_WIDGET_CLASS (parent_class)->motion_notify_event) (widget, event);
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
-
-	if (priv->in_drag || priv->drag_button == 0)
-		return FALSE;
-
-	if (ABS (event->x - priv->button_x) < DRAG_RESISTANCE
-	    && ABS (event->y - priv->button_y) < DRAG_RESISTANCE)
-		return FALSE;
-
-	priv->in_drag = TRUE;
-	priv->dragged_row_path = priv->selected_row_path;
-
-	gtk_drag_begin (widget, target_list, GDK_ACTION_MOVE,
-			priv->drag_button, (GdkEvent *) event);
-
-	return TRUE;
-}
+/* ETable methods */
 
 static void
-handle_left_button_selection (EStorageSetView *storage_set_view,
-			      GtkWidget *widget,
-			      GdkEventButton *event)
+etable_drag_begin (EStorageSetView *storage_set_view,
+		   int row, int col,
+		   GdkDragContext *context)
 {
 	EStorageSetViewPrivate *priv;
+	ETreePath *node;
 
 	priv = storage_set_view->priv;
 
-	gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
-			 priv->selected_row_path);
-	priv->selected_row_path = NULL;
-}
+	node = e_tree_model_node_at_row (priv->etree_model, row);
 
-static void
-handle_right_button_selection (EStorageSetView *storage_set_view,
-			       GtkWidget *widget,
-			       GdkEventButton *event)
-{
-	EStorageSetViewPrivate *priv;
+	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
 
-	priv = storage_set_view->priv;
-
-	popup_folder_menu (storage_set_view, event);
-
-	if (priv->selected_row_path_before_click != NULL)
-		e_storage_set_view_set_current_folder (storage_set_view,
-						       priv->selected_row_path_before_click);
-}
-
-static int
-button_release_event (GtkWidget *widget,
-		      GdkEventButton *event)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	if (event->window != GTK_CLIST (widget)->clist_window)
-		return (* GTK_WIDGET_CLASS (parent_class)->button_release_event) (widget, event);
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
-
-	if (! priv->in_drag) {
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
-		gtk_grab_remove (widget);
-		gdk_flush ();
-
-		if (priv->selected_row_path != NULL) {
-			if (priv->drag_button == 1)
-				handle_left_button_selection (storage_set_view, widget, event);
-			else
-				handle_right_button_selection (storage_set_view, widget, event);
-		}
-	}
-
-	priv->selected_row_path_before_click = NULL;
-
-	return TRUE;
-}
-
-static void
-drag_end (GtkWidget *widget,
-	  GdkDragContext *context)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-	priv = storage_set_view->priv;
-
-	if (priv->dragged_row_path != NULL)
-		e_storage_set_view_set_current_folder (storage_set_view,
-						       priv->selected_row_path_before_click);
-
-	priv->in_drag = FALSE;
-	priv->drag_button = 0;
-	priv->dragged_row_path = NULL;
+	g_print ("dragging %s\n", priv->selected_row_path);
 }
 
 static void
@@ -532,16 +398,14 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 }
 
 static void
-drag_data_get (GtkWidget *widget,
-	       GdkDragContext *context,
-	       GtkSelectionData *selection_data,
-	       guint info,
-	       guint32 time)
+etable_drag_data_get (EStorageSetView *storage_set_view,
+		      int drag_row,
+		      int drag_col,
+		      GdkDragContext *context,
+		      GtkSelectionData *selection_data,
+		      guint info,
+		      guint32 time)
 {
-	EStorageSetView *storage_set_view;
-
-	storage_set_view = E_STORAGE_SET_VIEW (widget);
-
 	switch (info) {
 	case DND_TARGET_TYPE_URI_LIST:
 		set_uri_list_selection (storage_set_view, selection_data);
@@ -555,7 +419,71 @@ drag_data_get (GtkWidget *widget,
 }
 
 
+/* ETreeModel Methods */
+
+static GdkPixbuf*
+etree_icon_at (ETreeModel *etree, ETreePath *tree_path, void *model_data)
+{
+	EStorageSetView *storage_set_view;
+	char *path;
+	EStorageSet *storage_set;
+
+	/* folders are from depth 2 on.  depth 1 are storages and 0 is
+           our (invisible) root node. */
+	if (e_tree_model_node_depth (etree, tree_path) < 2)
+		return NULL;
+
+	storage_set_view = E_STORAGE_SET_VIEW (model_data);
+	storage_set = storage_set_view->priv->storage_set;
+
+	path = (char*)e_tree_model_node_get_data (etree, tree_path);
+
+	return get_pixbuf_for_folder (storage_set_view,
+		      e_storage_set_get_folder (storage_set, path));
+}
+
+static void*
+etree_value_at (ETreeModel *etree, ETreePath *tree_path, int col, void *model_data)
+{
+	char *path;
+	char *last_separator;
+
+	path = (char*)e_tree_model_node_get_data (etree, tree_path);
+
+	last_separator = strrchr (path, G_DIR_SEPARATOR);
+
+	g_return_val_if_fail (last_separator != NULL, NULL);
+
+	return last_separator + 1;
+}
+
+static void
+etree_set_value_at (ETreeModel *etree, ETreePath *path, int col, const void *val, void *model_data)
+{
+	/* nada */
+}
+
+static gboolean
+etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data)
+{
+	return FALSE;
+}
+
+
 /* StorageSet signal handling.  */
+
+ETreeModel *sort_model;
+
+static gint
+treepath_compare (ETreePath **node1,
+		  ETreePath **node2)
+{
+	char *path1, *path2;
+	path1 = e_tree_model_node_get_data (sort_model, *node1);
+	path2 = e_tree_model_node_get_data (sort_model, *node2);
+
+	return strcasecmp (path1, path2);
+}
 
 static void
 new_storage_cb (EStorageSet *storage_set,
@@ -564,8 +492,7 @@ new_storage_cb (EStorageSet *storage_set,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *node;
-	char *text[2];
+	ETreePath *node;
 	char *path;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
@@ -573,15 +500,15 @@ new_storage_cb (EStorageSet *storage_set,
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
 
-	text[0] = (char *) e_storage_get_name (storage); /* Yuck.  */
-	text[1] = NULL;
+	node = e_tree_model_node_insert (priv->etree_model,
+					 priv->root_node,
+					 -1, path);
 
-	node = gtk_ctree_insert_node (GTK_CTREE (storage_set_view), NULL, NULL,
-				      text, 3, NULL, NULL, NULL, NULL, FALSE, TRUE);
+	e_tree_model_node_set_expanded (priv->etree_model, node, TRUE);
 
-	if (! add_node_to_hashes (storage_set_view, path, node)) {
+	if (! add_node_to_hash (storage_set_view, path, node)) {
 		g_free (path);
-		gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+		e_tree_model_node_remove (priv->etree_model, node);
 		return;
 	}
 
@@ -589,7 +516,8 @@ new_storage_cb (EStorageSet *storage_set,
 
 	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
            on top.  */
-	gtk_ctree_sort_node (GTK_CTREE (storage_set_view), NULL);
+	sort_model = priv->etree_model;
+	e_tree_model_node_sort (priv->etree_model, priv->root_node, (GCompareFunc)treepath_compare);
 }
 
 static void
@@ -599,17 +527,19 @@ removed_storage_cb (EStorageSet *storage_set,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *node;
+	ETreeModel *etree;
+	ETreePath *node;
 	char *path;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
+	etree = priv->etree_model;
 
 	path = g_strconcat (G_DIR_SEPARATOR_S, e_storage_get_name (storage), NULL);
-	node = remove_node_from_hashes (storage_set_view, path);
+	node = remove_node_from_hash (storage_set_view, path);
 	g_free (path);
 
-	gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+	e_tree_model_node_remove (etree, node);
 }
 
 static void
@@ -619,11 +549,9 @@ new_folder_cb (EStorageSet *storage_set,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *parent_node;
-	GtkCTreeNode *node;
-	GdkPixmap *pixmap;
-	GdkBitmap *mask;
-	char *text[2];
+	ETreeModel *etree;
+	ETreePath *parent_node;
+	ETreePath *new_node;
 	const char *last_separator;
 	char *parent_path;
 
@@ -631,11 +559,12 @@ new_folder_cb (EStorageSet *storage_set,
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
 	priv = storage_set_view->priv;
+	etree = priv->etree_model;
 
 	last_separator = strrchr (path, G_DIR_SEPARATOR);
 
 	parent_path = g_strndup (path, last_separator - path);
-	parent_node = g_hash_table_lookup (priv->path_to_ctree_node, parent_path);
+	parent_node = g_hash_table_lookup (priv->path_to_etree_node, parent_path);
 	if (parent_node == NULL) {
 		g_print ("EStorageSetView: EStorageSet reported new subfolder for non-existing folder -- %s\n",
 			 parent_path);
@@ -645,27 +574,15 @@ new_folder_cb (EStorageSet *storage_set,
 
 	g_free (parent_path);
 
-	if (parent_node == NULL)
-		return;
+	new_node = e_tree_model_node_insert (etree, parent_node, -1, (gpointer)g_strdup(path));
 
-	text[0] = (char *) last_separator + 1; /* Yuck.  */
-	text[1] = NULL;
-
-	get_pixmap_and_mask_for_folder (storage_set_view,
-					e_storage_set_get_folder (storage_set, path),
-					&pixmap, &mask);
-	node = gtk_ctree_insert_node (GTK_CTREE (storage_set_view),
-				      parent_node, NULL,
-				      text, 3,
-				      pixmap, mask, pixmap, mask,
-				      FALSE, TRUE);
-
-	if (! add_node_to_hashes (storage_set_view, path, node)) {
-		gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
+	if (! add_node_to_hash (storage_set_view, path, new_node)) {
+		e_tree_model_node_remove (etree, new_node);
 		return;
 	}
 
-	gtk_ctree_sort_node (GTK_CTREE (storage_set_view), parent_node);
+	sort_model = priv->etree_model;
+	e_tree_model_node_sort (priv->etree_model, parent_node, (GCompareFunc)treepath_compare);
 }
 
 static void
@@ -674,36 +591,16 @@ removed_folder_cb (EStorageSet *storage_set,
 		   void *data)
 {
 	EStorageSetView *storage_set_view;
-	GtkCTreeNode *node;
+	EStorageSetViewPrivate *priv;
+	ETreeModel *etree;
+	ETreePath *node;
 
 	storage_set_view = E_STORAGE_SET_VIEW (data);
-
-	node = remove_node_from_hashes (storage_set_view, path);
-	gtk_ctree_remove_node (GTK_CTREE (storage_set_view), node);
-}
-
-
-/* GtkCTree methods.  */
-
-static void
-tree_select_row (GtkCTree *ctree,
-		 GtkCTreeNode *row,
-		 gint column)
-{
-	EStorageSetView *storage_set_view;
-	EStorageSetViewPrivate *priv;
-	const char *path;
-
-	(* GTK_CTREE_CLASS (parent_class)->tree_select_row) (ctree, row, column);
-
-	storage_set_view = E_STORAGE_SET_VIEW (ctree);
 	priv = storage_set_view->priv;
+	etree = priv->etree_model;
 
-	path = g_hash_table_lookup (storage_set_view->priv->ctree_node_to_path, row);
-	if (path == NULL)
-		return;
-
-	priv->selected_row_path = path;
+	node = remove_node_from_hash (storage_set_view, path);
+	e_tree_model_node_remove (etree, node);
 }
 
 
@@ -711,23 +608,11 @@ static void
 class_init (EStorageSetViewClass *klass)
 {
 	GtkObjectClass *object_class;
-	GtkWidgetClass *widget_class;
-	GtkCTreeClass *ctree_class;
 
-	parent_class = gtk_type_class (gtk_ctree_get_type ());
+	parent_class = gtk_type_class (e_table_get_type ());
 
 	object_class = GTK_OBJECT_CLASS (klass);
 	object_class->destroy = destroy;
-
-	widget_class = GTK_WIDGET_CLASS (klass);
-	widget_class->button_press_event   = button_press_event;
-	widget_class->motion_notify_event  = motion_notify_event;
-	widget_class->button_release_event = button_release_event;
-	widget_class->drag_end             = drag_end;
-	widget_class->drag_data_get        = drag_data_get;
-
-	ctree_class = GTK_CTREE_CLASS (klass);
-	ctree_class->tree_select_row = tree_select_row;
 
 	signals[FOLDER_SELECTED]
 		= gtk_signal_new ("folder_selected",
@@ -750,28 +635,15 @@ static void
 init (EStorageSetView *storage_set_view)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCList *clist;
-
-	/* Avoid GtkCTree's broken focusing behavior.  FIXME: Other ways?  */
-	GTK_WIDGET_UNSET_FLAGS (storage_set_view, GTK_CAN_FOCUS);
 
 	priv = g_new (EStorageSetViewPrivate, 1);
 
 	priv->storage_set                    = NULL;
-	priv->ctree_node_to_path             = g_hash_table_new (g_direct_hash, g_direct_equal);
-	priv->path_to_ctree_node             = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->path_to_etree_node             = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->type_name_to_pixbuf            = g_hash_table_new (g_str_hash, g_str_equal);
 	priv->selected_row_path              = NULL;
-	priv->dragged_row_path               = NULL;
-	priv->selected_row_path_before_click = NULL;
-	priv->in_drag                        = FALSE;
-	priv->button_x                       = 0;
-	priv->button_y                       = 0;
 
 	storage_set_view->priv = priv;
-
-	/* Set up the right mouse button so that it also selects.  */
-	clist = GTK_CLIST (storage_set_view);
-	clist->button_actions[2] |= GTK_BUTTON_SELECTS;
 }
 
 
@@ -794,20 +666,19 @@ folder_compare_cb (gconstpointer a, gconstpointer b)
 
 static void
 insert_folders (EStorageSetView *storage_set_view,
-		GtkCTreeNode *parent,
+		ETreePath *parent,
 		EStorage *storage,
-		const char *path,
-		int level)
+		const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCTree *ctree;
-	GtkCTreeNode *node;
+	ETreeModel *etree;
+	ETreePath *node;
 	GList *folder_list;
 	GList *p;
 	const char *storage_name;
 
-	ctree = GTK_CTREE (storage_set_view);
 	priv = storage_set_view->priv;
+	etree = priv->etree_model;
 
 	storage_name = e_storage_get_name (storage);
 
@@ -820,30 +691,21 @@ insert_folders (EStorageSetView *storage_set_view,
 	for (p = folder_list; p != NULL; p = p->next) {
 		EFolder *folder;
 		const char *folder_name;
-		char *text[2];
 		char *subpath;
 		char *full_path;
-		GdkPixmap *pixmap;
-		GdkBitmap *mask;
 
 		folder = E_FOLDER (p->data);
 		folder_name = e_folder_get_name (folder);
 
-		text[0] = (char *) folder_name;	/* Yuck.  */
-		text[1] = NULL;
-
-		get_pixmap_and_mask_for_folder (storage_set_view, folder, &pixmap, &mask);
-		node = gtk_ctree_insert_node (ctree, parent, NULL,
-					      text, 3,
-					      pixmap, mask, pixmap, mask,
-					      FALSE, TRUE);
-
 		subpath = g_concat_dir_and_file (path, folder_name);
-		insert_folders (storage_set_view, node, storage, subpath, level + 1);
 
 		full_path = g_strconcat("/", storage_name, subpath, NULL);
-		g_hash_table_insert (priv->ctree_node_to_path, node, full_path);
-		g_hash_table_insert (priv->path_to_ctree_node, full_path, node);
+
+		node = e_tree_model_node_insert (etree, parent, -1, (gpointer)full_path);
+
+		insert_folders (storage_set_view, node, storage, subpath);
+
+		add_node_to_hash (storage_set_view, full_path, node);
 
 		g_free (subpath);
 	}
@@ -851,38 +713,92 @@ insert_folders (EStorageSetView *storage_set_view,
 	e_free_object_list (folder_list);
 }
 
+static void
+right_click (EStorageSetView *storage_set_view, int row, int col,
+	     GdkEventButton *event, gboolean *ret)
+{
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	popup_folder_menu (storage_set_view, event);
+}
+
+static void
+on_cursor_change (EStorageSetView *storage_set_view, int row, gpointer user_data)
+{
+	ETreePath *node;
+	EStorageSetViewPrivate *priv;
+
+	priv = storage_set_view->priv;
+
+	node = e_tree_model_node_at_row (priv->etree_model, row);
+
+	/* don't emit the folder selected signal for storages */
+	if (e_tree_model_node_depth (priv->etree_model, node) < 2)
+		return;
+
+	priv->selected_row_path = e_tree_model_node_get_data (priv->etree_model, node);
+
+	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED],
+			 priv->selected_row_path);
+}
+
 void
 e_storage_set_view_construct (EStorageSetView *storage_set_view,
 			      EStorageSet *storage_set)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *parent;
-	GtkCTree *ctree;
+	ETreePath *parent;
 	EStorage *storage;
 	GList *storage_list;
 	GList *p;
 	const char *name;
 	char *text[2];
 	char *path;
+	ETableCol *ecol;
+	ETableHeader *e_table_header;
+	ECell *cell_left_just;
+	ECell *cell_tree;
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
 	g_return_if_fail (storage_set != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
 
-	ctree = GTK_CTREE (storage_set_view);
 	priv = storage_set_view->priv;
 
-	/* Set up GtkCTree/GtkCList parameters.  */
+	priv->tree_expanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_expanded_xpm);
+	priv->tree_unexpanded_pixbuf = gdk_pixbuf_new_from_xpm_data((const char**)tree_unexpanded_xpm);
 
-	gtk_ctree_construct          (ctree, 1, 0, NULL);
-	gtk_ctree_set_line_style     (ctree, GTK_CTREE_LINES_DOTTED);
-	gtk_ctree_set_expander_style (ctree, GTK_CTREE_EXPANDER_SQUARE);
+	priv->etree_model = e_tree_simple_new (etree_icon_at,
+					       etree_value_at,
+					       etree_set_value_at,
+					       etree_is_editable,
+					       storage_set_view);
+	e_tree_model_root_node_set_visible (priv->etree_model, FALSE);
 
-	gtk_clist_set_selection_mode     (GTK_CLIST (ctree), GTK_SELECTION_BROWSE);
-	gtk_clist_set_row_height         (GTK_CLIST (ctree), E_SHELL_MINI_ICON_SIZE);
-	gtk_clist_set_column_auto_resize (GTK_CLIST (ctree), 0, TRUE);
-	
+	priv->root_node = e_tree_model_node_insert (priv->etree_model, NULL, -1, "/Root Node");
+
+	e_table_header = e_table_header_new ();
+	cell_left_just = e_cell_text_new (E_TABLE_MODEL (priv->etree_model), NULL, GTK_JUSTIFY_LEFT);
+	cell_tree = e_cell_tree_new (E_TABLE_MODEL (priv->etree_model),
+				     priv->tree_expanded_pixbuf,
+				     priv->tree_unexpanded_pixbuf, TRUE, cell_left_just);
+
+	ecol = e_table_col_new (0, "Folder", 80, 20, cell_tree, g_str_compare, TRUE);
+	e_table_header_add_column (e_table_header, ecol, 0);
+
+	e_table_construct (E_TABLE (storage_set_view), e_table_header, E_TABLE_MODEL(priv->etree_model),
+			   ETABLE_SPEC);
+
+	gtk_object_set (GTK_OBJECT (storage_set_view),
+			"cursor_mode", E_TABLE_CURSOR_LINE,
+			NULL);
+
+	e_table_drag_source_set (E_TABLE (storage_set_view), GDK_BUTTON1_MASK,
+				 drag_types, num_drag_types, GDK_ACTION_MOVE);
+
 	gtk_object_ref (GTK_OBJECT (storage_set));
 	priv->storage_set = storage_set;
 
@@ -898,7 +814,16 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 	gtk_signal_connect_while_alive (GTK_OBJECT (storage_set), "removed_folder",
 					GTK_SIGNAL_FUNC (removed_folder_cb), storage_set_view,
 					GTK_OBJECT (storage_set_view));
-	
+
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "right_click",
+			    GTK_SIGNAL_FUNC (right_click), GTK_OBJECT(storage_set_view));
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "cursor_change",
+			    GTK_SIGNAL_FUNC (on_cursor_change), GTK_OBJECT(storage_set_view));
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "table_drag_begin",
+			    GTK_SIGNAL_FUNC (etable_drag_begin), GTK_OBJECT(storage_set_view));
+	gtk_signal_connect (GTK_OBJECT (storage_set_view), "drag_data_get",
+			    GTK_SIGNAL_FUNC (etable_drag_data_get), GTK_OBJECT(storage_set_view));
+
 	storage_list = e_storage_set_get_storage_list (storage_set);
 
 	text[1] = NULL;
@@ -907,18 +832,15 @@ e_storage_set_view_construct (EStorageSetView *storage_set_view,
 		storage = E_STORAGE (p->data);
 
 		name = e_storage_get_name (storage);
-		text[0] = (char *) name; /* Yuck.  */
-
-		parent = gtk_ctree_insert_node (ctree, NULL, NULL,
-						text, 3,
-						NULL, NULL, NULL, NULL,
-						FALSE, TRUE);
-
 		path = g_strconcat ("/", name, NULL);
-		g_hash_table_insert (priv->ctree_node_to_path, parent, path);
-		g_hash_table_insert (priv->path_to_ctree_node, path, parent);
 
-		insert_folders (storage_set_view, parent, storage, "/", 1);
+		parent = e_tree_model_node_insert (priv->etree_model, priv->root_node,
+						   -1, path);
+		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
+
+		g_hash_table_insert (priv->path_to_etree_node, path, parent);
+
+		insert_folders (storage_set_view, parent, storage, "/");
 	}
 
 	e_free_object_list (storage_list);
@@ -944,7 +866,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 				       const char *path)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCTreeNode *node;
+	ETreePath *node;
 
 	g_return_if_fail (storage_set_view != NULL);
 	g_return_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view));
@@ -953,17 +875,18 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	priv = storage_set_view->priv;
 
 	if (path == NULL) {
-		gtk_clist_unselect_all (GTK_CLIST (storage_set_view));
+		e_table_set_cursor_row (E_TABLE (storage_set_view), -1);
 		return;
 	}
 
-	node = g_hash_table_lookup (priv->path_to_ctree_node, path);
+	node = g_hash_table_lookup (priv->path_to_etree_node, path);
 	if (node == NULL) {
-		gtk_clist_unselect_all (GTK_CLIST (storage_set_view));
+		e_table_set_cursor_row (E_TABLE (storage_set_view), -1);
 		return;
 	}
 
-	gtk_ctree_select (GTK_CTREE (storage_set_view), node);
+	e_table_set_cursor_row (E_TABLE (storage_set_view),
+				e_tree_model_row_of_node (priv->etree_model, node));
 
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
@@ -972,29 +895,22 @@ const char *
 e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 {
 	EStorageSetViewPrivate *priv;
-	GtkCList *clist;
-	GtkCTree *ctree;
-	GtkCTreeRow *ctree_row;
-	GtkCTreeNode *ctree_node;
+	ETreePath *etree_node;
 	const char *path;
+	int row;
 
 	g_return_val_if_fail (storage_set_view != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
 
 	priv = storage_set_view->priv;
 
-	clist = GTK_CLIST (storage_set_view);
-	ctree = GTK_CTREE (storage_set_view);
+	row = e_table_get_cursor_row (E_TABLE (storage_set_view));
+	etree_node = e_tree_model_node_at_row (priv->etree_model, row);
 
-	if (clist->selection == NULL)
-		return NULL;
-
-	ctree_row = GTK_CTREE_ROW (clist->selection->data);
-	ctree_node = gtk_ctree_find_node_ptr (ctree, ctree_row);
-	if (ctree_node == NULL)
+	if (etree_node == NULL)
 		return NULL;	/* Mmh? */
 
-	path = g_hash_table_lookup (priv->ctree_node_to_path, ctree_node);
+	path = (char*)e_tree_model_node_get_data(priv->etree_model, etree_node);
 
 	return path;
 }

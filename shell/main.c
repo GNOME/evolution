@@ -29,6 +29,7 @@
 #include <liboaf/liboaf.h>
 
 #include "e-util/e-gui-utils.h"
+#include "e-util/e-cursors.h"
 #include "e-setup.h"
 
 #include "e-shell.h"
@@ -148,6 +149,8 @@ main (int argc, char **argv)
 	oaf_init (argc, argv);
 
 	glade_gnome_init ();
+
+	e_cursors_init ();
 
 	gnome_window_icon_set_default_from_file (EVOLUTION_IMAGES "/evolution-inbox.png");
 

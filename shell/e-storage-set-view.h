@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include <gtk/gtkctree.h>
+#include "e-table/e-table.h"
 #include "e-storage-set.h"
 
 #ifdef __cplusplus
@@ -48,13 +48,13 @@ typedef struct _EStorageSetViewPrivate EStorageSetViewPrivate;
 typedef struct _EStorageSetViewClass   EStorageSetViewClass;
 
 struct _EStorageSetView {
-	GtkCTree parent;
+	ETable parent;
 
 	EStorageSetViewPrivate *priv;
 };
 
 struct _EStorageSetViewClass {
-	GtkCTreeClass parent_class;
+	ETableClass parent_class;
 
 	/* Signals.  */
 

@@ -111,6 +111,7 @@ evolution_LDADD =						\
 	$(top_builddir)/widgets/shortcut-bar/libshortcut-bar.a  \
 	$(top_builddir)/widgets/e-paned/libepaned.a		\
 	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(top_builddir)/widgets/e-table/libetable.a		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a		\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(UNICODE_LIBS)						\
