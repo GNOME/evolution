@@ -31,6 +31,8 @@
 
 #include <gtk/gtk.h> /* for _() macro */
 
+#include <gal/widgets/e-unicode.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,8 +51,6 @@
 #include <termios.h>
 #include <unistd.h>
 #include <signal.h>
-
-#include <iconv.h>
 
 #ifdef ENABLE_THREADS
 #include <pthread.h>
@@ -1021,31 +1021,9 @@ camel_pgp_verify (CamelPgpContext *context, CamelStream *istream,
 	}
 	
 	if (diagnostics) {
-		char *charset;
-		const char *buf;
-		char *desc, *outbuf;
-		iconv_t cd;
-		size_t len, outlen;
+		char *desc;
 		
-		charset = getenv ("CHARSET");
-		if (!charset)
-			charset = "ISO-8859-1";
-		
-		cd = iconv_open ("UTF-8", charset);
-		
-		len = strlen (diagnostics);
-		outlen = 2 * len;
-		
-		outbuf = desc = g_malloc0 (outlen + 1);
-		buf = diagnostics;
-		if (cd == (iconv_t) -1 || iconv (cd, &buf, &len, &outbuf, &outlen) == -1) {
-			g_free (desc);
-			desc = g_strdup (diagnostics);
-		}
-		
-		if (cd != (iconv_t) -1)
-			iconv_close (cd);
-		
+		desc = e_utf8_from_locale_string (diagnostics);
 		camel_pgp_validity_set_description (valid, desc);
 		g_free (desc);
 	}

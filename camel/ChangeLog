@@ -1,3 +1,9 @@
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-context.c (camel_pgp_verify): Use
+	e_utf8_from_locale_string() rather than trying to do it manually
+	since Lauris's version works much better.
+
 2001-04-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Added camel-pgp-context.[c,h] to the build. Also
