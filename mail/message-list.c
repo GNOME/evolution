@@ -88,6 +88,8 @@ static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 static void nuke_uids (GtkObject *o);
 
+static void save_tree_state(MessageList *ml);
+
 static struct {
 	char **image_base;
 	GdkPixbuf  *pixbuf;
@@ -632,6 +634,28 @@ ml_tree_icon_at (ETreeModel *etm, ETreePath *path, void *model_data)
 	return NULL;
 }
 
+/* return true if there are any unread messages in the subtree */
+static int
+subtree_unread(MessageList *ml, ETreePath *node)
+{
+	const CamelMessageInfo *info;
+	char *uid;
+
+	while (node) {
+		uid = e_tree_model_node_get_data((ETreeModel *)ml->table_model, node);
+		if (strncmp (uid, "uid:", 4) == 0) {
+			info = camel_folder_get_message_info(ml->folder, uid+4);
+			if (!(info->flags & CAMEL_MESSAGE_SEEN))
+				return TRUE;
+		}
+		if (node->children)
+			if (subtree_unread(ml, node->children))
+				return TRUE;
+		node = node->next;
+	}
+	return FALSE;
+}
+
 static void *
 ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
 {
@@ -719,12 +743,15 @@ ml_tree_value_at (ETreeModel *etm, ETreePath *path, int col, void *model_data)
  fake:
 	/* This is a fake tree parent */
 	switch (col){
+	case COL_UNREAD:
+		/* this value should probably be cached, as it could take a bit
+		   of processing to evaluate all the time */
+		return (void *)subtree_unread(message_list, path->children);
 	case COL_MESSAGE_STATUS:
 	case COL_SCORE:
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_COLOUR:
-	case COL_UNREAD:
 	case COL_SENT:
 	case COL_RECEIVED:
 		return (void *) 0;
@@ -1076,6 +1103,7 @@ message_list_destroy (GtkObject *object)
 	MessageList *message_list = MESSAGE_LIST (object);
 	int i;
 
+	save_tree_state(message_list);
 	
 	gtk_object_unref (GTK_OBJECT (message_list->table_model));
 	gtk_object_unref (GTK_OBJECT (message_list->header_model));
@@ -1234,41 +1262,156 @@ clear_tree (MessageList *ml)
 	e_tree_model_node_set_expanded (etm, ml->tree_root, TRUE);
 }
 
+static char *
+folder_to_cachename(CamelFolder *folder, const char *prefix)
+{
+	char *url, *p, *filename;
+
+	url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+	for (p = url; *p; p++) {
+		if (!isprint((unsigned char)*p) || strchr(" /'\"`&();|<>${}!", *p))
+			*p = '_';
+	}
+	
+	filename = g_strdup_printf("%s/config/%s%s", evolution_dir, prefix, url);
+	g_free(url);
+	return filename;
+}
+
+/* we save the node id to the file if the node should be closed when
+   we start up.  We only save nodeid's for messages with children */
+static void
+save_node_state(MessageList *ml, FILE *out, ETreePath *node)
+{
+	char *data;
+	const CamelMessageInfo *info;
+
+	while (node) {
+		if (node->children
+		    && !e_tree_model_node_is_expanded((ETreeModel *)ml->table_model, node)) {
+			data = e_tree_model_node_get_data((ETreeModel *)ml->table_model, node);
+			if (data) {
+				if (!strncmp(data, "uid:", 4)) {
+					info = camel_folder_get_message_info(ml->folder, data+4);
+					if (info) {
+						fprintf(out, "%s\n", info->message_id);
+					}
+				} else {
+					fprintf(out, "%s\n", data);
+				}
+			}
+		}
+		if (node->children) {
+			save_node_state(ml, out, node->children);
+		}
+		node = node->next;
+	}
+}
+
+static GHashTable *
+load_tree_state(MessageList *ml)
+{
+	char *filename, linebuf[10240];
+	GHashTable *result;
+	FILE *in;
+	int len;
+
+	result = g_hash_table_new(g_str_hash, g_str_equal);
+	filename = folder_to_cachename(ml->folder, "treestate-");
+	in = fopen(filename, "r");
+	if (in) {
+		while (fgets(linebuf, sizeof(linebuf), in) != NULL) {
+			len = strlen(linebuf);
+			if (len) {
+				linebuf[len-1] = 0;
+				g_hash_table_insert(result, g_strdup(linebuf), (void *)1);
+			}
+		}
+		fclose(in);
+	}
+	g_free(filename);
+	return result;
+}
+
+/* save tree info */
+static void
+save_tree_state(MessageList *ml)
+{
+	char *filename;
+	ETreePath *node;
+	FILE *out;
+
+	filename = folder_to_cachename(ml->folder, "treestate-");
+	out = fopen(filename, "w");
+	if (out) {
+		node = e_tree_model_get_root((ETreeModel *)ml->table_model);
+		if (node && node->children) {
+			save_node_state(ml, out, node->children);
+		}
+		fclose(out);
+	}
+	g_free(filename);
+}
+
+static void
+free_node_state(void *key, void *value, void *data)
+{
+	g_free(key);
+}
+
+static void
+free_tree_state(GHashTable *expanded_nodes)
+{
+	g_hash_table_foreach(expanded_nodes, free_node_state, 0);
+	g_hash_table_destroy(expanded_nodes);
+}
+
 /* only call if we have a tree model */
 /* builds the tree structure */
-static void build_subtree (MessageList *ml, ETreePath *parent,
-			   struct _container *c, int *row);
+static void build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *row, GHashTable *);
 
 static void
 build_tree (MessageList *ml, struct _container *c)
 {
 	int row = 0;
+	GHashTable *expanded_nodes;
 
 	clear_tree (ml);
-	build_subtree (ml, ml->tree_root, c, &row);
+	expanded_nodes = load_tree_state(ml);
+	build_subtree (ml, ml->tree_root, c, &row, expanded_nodes);
+	free_tree_state(expanded_nodes);
 }
 
 static void
-build_subtree (MessageList *ml, ETreePath *parent,
-	       struct _container *c, int *row)
+build_subtree (MessageList *ml, ETreePath *parent, struct _container *c, int *row, GHashTable *expanded_nodes)
 {
 	ETreeModel *tree = E_TREE_MODEL (ml->table_model);
 	ETreePath *node;
 	char *id;
+	int expanded;
 
 	while (c) {
 		if (c->message) {
-			id = g_strdup_printf ("uid:%s", c->message->uid);
-			g_hash_table_insert (ml->uid_rowmap,
-					     g_strdup (c->message->uid),
-					     GINT_TO_POINTER ((*row)++));
-		} else
-			id = g_strdup_printf ("subject:%s", c->root_subject);
-		node = e_tree_model_node_insert (tree, parent, 0, id);
+			id = g_strdup_printf("uid:%s", c->message->uid);
+			g_hash_table_insert(ml->uid_rowmap, g_strdup (c->message->uid), GINT_TO_POINTER ((*row)++));
+			if (c->child) {
+				if (c->message && c->message->message_id)
+					expanded = !g_hash_table_lookup(expanded_nodes, c->message->message_id) != 0;
+				else
+					expanded = TRUE;
+			}
+		} else {
+			id = g_strdup_printf("subject:%s", c->root_subject);
+			if (c->child) {
+				expanded = !g_hash_table_lookup(expanded_nodes, id) != 0;
+			}
+		}
+		node = e_tree_model_node_insert(tree, parent, 0, id);
 		if (c->child) {
 			/* by default, open all trees */
-			e_tree_model_node_set_expanded (tree, node, TRUE);
-			build_subtree (ml, node, c->child, row);
+			if (expanded)
+				e_tree_model_node_set_expanded(tree, node, expanded);
+			build_subtree(ml, node, c->child, row, expanded_nodes);
 		}
 		c = c->next;
 	}

@@ -1,3 +1,18 @@
+2000-09-25  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (folder_to_cachename): Function to convert a
+	folder name/path to a filename for per-folder data.
+	(save_tree_state): 
+	(load_tree_state): 
+	(free_tree_state): For loading/saving the state of the expansion
+	of nodes in the tree.
+	(message_list_destroy): Save the tree state when done.
+	(save_node_state): Changed logic, we save when the node should be
+	closed on startup.  i.e. any new nodes with children automatically
+	default to being open.
+	(subtree_unread): Check for unread messages in a subtree.  So
+	false messages (for tree roots) are properly displayed.
+
 2000-09-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (address_compare): Updated to use Nat's
