@@ -436,6 +436,8 @@ get_widgets (EventEditor *ee)
 		&& priv->exception_date);
 }
 
+
+
 static const int classification_map[] = {
 	CAL_COMPONENT_CLASS_PUBLIC,
 	CAL_COMPONENT_CLASS_PRIVATE,
@@ -552,6 +554,7 @@ clear_widgets (EventEditor *ee)
 	now = time (NULL);
 
 	/* Summary, description */
+
 	e_dialog_editable_set (priv->general_summary, NULL);
 	e_dialog_editable_set (priv->description, NULL);
 
@@ -1506,6 +1509,11 @@ event_editor_construct (EventEditor *ee)
 
 	gtk_signal_connect (GTK_OBJECT (priv->app), "delete_event",
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), ee);
+
+
+	/* Add focus to the summary entry */
+	
+	gtk_widget_grab_focus(GTK_OBJECT (priv->general_summary));
 
 	/* Show the dialog */
 
