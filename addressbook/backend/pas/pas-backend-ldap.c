@@ -94,6 +94,7 @@ struct _PASBackendLDAPPrivate {
 	gchar    *ldap_rootdn; /* the base dn of our searches */
 	int      ldap_scope;   /* the scope used for searches */
 	int      ldap_limit;   /* the search limit */
+	int      ldap_timeout; /* the search timeout */
 
 	gboolean ldap_v3;      /* TRUE if the server supports protocol
                                   revision 3 (necessary for TLS) */
@@ -563,6 +564,24 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 
 	if (NULL != blpriv->ldap) {
 		int ldap_error;
+
+		if (bl->priv->use_tls) {
+			ldap_error = ldap_start_tls_s (blpriv->ldap, NULL, NULL);
+			if (LDAP_SUCCESS != ldap_error) {
+				if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
+					g_message ("TLS not available (fatal version), (ldap_error 0x%02x)", ldap_error);
+					ldap_unbind (blpriv->ldap);
+					blpriv->ldap = NULL;
+					return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
+				}
+				else {
+					g_message ("TLS not available (ldap_error 0x%02x)", ldap_error);
+				}
+			}
+			else
+				g_message ("TLS active");
+		}
+
 		query_ldap_root_dse (bl);
 
 		if (bl->priv->ldap_v3) {
@@ -571,33 +590,6 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 			if (LDAP_OPT_SUCCESS != ldap_error) {
 				g_warning ("failed to set protocol version to LDAPv3");
 				bl->priv->ldap_v3 = FALSE;
-			}
-		}
-
-		if (bl->priv->use_tls) {
-			if (bl->priv->ldap_v3 /* the server supports v3 */) {
-				ldap_error = ldap_start_tls_s (blpriv->ldap, NULL, NULL);
-				if (LDAP_SUCCESS != ldap_error) {
-					if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
-						g_message ("TLS not available (fatal version), (ldap_error 0x%02x)", ldap_error);
-						ldap_unbind (blpriv->ldap);
-						blpriv->ldap = NULL;
-						return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
-					}
-					else {
-						g_message ("TLS not available (ldap_error 0x%02x)", ldap_error);
-					}
-				}
-				else
-					g_message ("TLS active");
-			}
-			else {
-				g_warning ("user wants to use TLS, but server doesn't support LDAPv3");
-				if (bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
-					ldap_unbind (blpriv->ldap);
-					blpriv->ldap = NULL;
-					return GNOME_Evolution_Addressbook_BookListener_TLSNotAvailable;
-				}
 			}
 		}
 
@@ -2983,6 +2975,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 	char **attributes;
 	int i;
 	int limit = 100;
+	int timeout = 60; /* 1 minute */
 
 	g_assert (bl->priv->connected == FALSE);
 
@@ -3008,12 +3001,12 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 			if (value)
 				limit = atoi(value);
 		}
-		else if (key_length == strlen("use_tls") && !strncmp (attributes[i], "use_tls", key_length)) {
+		else if (key_length == strlen("ssl") && !strncmp (attributes[i], "ssl", key_length)) {
 			if (value) {
 				if (!strncmp (value, "always", 6)) {
 					bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_ALWAYS;
 				}
-				else if (!strncmp (value, "when-possible", 3)) {
+				else if (!strncmp (value, "whenever_possible", 3)) {
 					bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE;
 				}
 				else {
@@ -3023,6 +3016,10 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 			else {
 				bl->priv->use_tls = PAS_BACKEND_LDAP_TLS_WHEN_POSSIBLE;
 			}
+		}
+		else if (key_length == strlen("timeout") && !strncmp (attributes[i], "timeout", key_length)) {
+			if (value)
+				timeout = atoi (value);
 		}
 	}
 
@@ -3039,6 +3036,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 			bl->priv->ldap_port = LDAP_PORT;
 		bl->priv->ldap_rootdn = g_strdup(lud->lud_dn);
 		bl->priv->ldap_limit = limit;
+		bl->priv->ldap_timeout = timeout;
 		bl->priv->ldap_scope = lud->lud_scope;
 
 		ldap_free_urldesc(lud);

@@ -373,13 +373,13 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 	g_string_sprintfa (str, "%s:%s/%s?"/*trigraph prevention*/"?%s",
 			   source->host, source->port, source->rootdn, ldap_unparse_scope (source->scope));
 
-	if (source->limit != 100)
-		g_string_sprintfa (str, ";limit=%d", source->limit);
+	g_string_sprintfa (str, ";limit=%d", source->limit);
 
-	if (source->ssl != ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE)
-		g_string_sprintfa (str, ";ssl=%s", ldap_unparse_ssl (source->ssl));
+	g_string_sprintfa (str, ";ssl=%s", ldap_unparse_ssl (source->ssl));
 
-	/* XXX need to do timeout info */
+#if 0
+	g_string_sprintfa (str, ";timeout=%d", source->timeout);
+#endif
 
 	source->uri = str->str;
 
@@ -498,6 +498,8 @@ ldap_source_foreach(AddressbookSource *source, xmlNode *root)
 		     (xmlChar *) ldap_unparse_scope(source->scope));
 	xmlNewChild (source_root, NULL, (xmlChar *) "authmethod",
 		     (xmlChar *) ldap_unparse_auth(source->auth));
+	xmlNewChild (source_root, NULL, (xmlChar *) "ssl",
+		     (xmlChar *) ldap_unparse_ssl(source->ssl));
 
 	if (source->limit != 100) {
 		char *string;

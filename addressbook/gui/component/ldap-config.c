@@ -123,7 +123,7 @@ typedef struct {
 	GtkSignalFunc connecting_modify_func;
 	GtkWidget *port_combo;
 	GtkWidget *ssl_optionmenu;
-	int ssl; /* XXX this should be AddressbookLDAPSSLType */
+	AddressbookLDAPSSLType ssl;
 
 	/* searching page fields */
 	GtkSignalFunc searching_modify_func;
@@ -239,6 +239,7 @@ addressbook_dialog_get_source (AddressbookSourceDialog *dialog)
 	source->limit      = atoi(e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->limit_spinbutton)));
 	source->scope      = dialog->scope;
 	source->auth       = dialog->auth;
+	source->ssl        = dialog->ssl;
 
 	addressbook_storage_init_source_uri (source);
 
@@ -260,20 +261,20 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->limit_spinbutton), string);
 	g_free (string);
 
-#if 0
 	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
 	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-		gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth - 1);
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_notebook), dialog->auth - 1);
+		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_label_notebook), dialog->auth - 1);
+		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
 	}
+	gtk_widget_set_sensitive (dialog->auth_label_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
+	gtk_widget_set_sensitive (dialog->auth_entry_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
 
-	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
-	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->ldap_scope);
+	dialog->scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->scope_optionmenu), dialog->scope);
 
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-	gtk_widget_set_sensitive (dialog->auth_optionmenu, source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-	gtk_widget_set_sensitive (dialog->auth_notebook, source && source->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
-#endif
+	dialog->ssl = source ? source->auth : ADDRESSBOOK_LDAP_SSL_WHENEVER_POSSIBLE;
+	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu), dialog->ssl);
 }
 
 static void
@@ -467,7 +468,7 @@ port_changed_func (GtkWidget *item, AddressbookSourceDialog *dialog)
 	dialog->connecting_modify_func (item, dialog);
 
 	if (!strcmp (string, LDAPS_PORT_STRING)) {
-		dialog->ssl = 0; /* XXX SSL_ALWAYS */
+		dialog->ssl = ADDRESSBOOK_LDAP_SSL_ALWAYS;
 		gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->ssl_optionmenu),
 					     dialog->ssl);
 

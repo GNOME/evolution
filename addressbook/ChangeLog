@@ -1,5 +1,31 @@
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/ldap-config.c (addressbook_dialog_get_source):
+	fill in source->ssl.
+	(addressbook_source_dialog_set_source): set up auth/scope/ssl
+	option menus properly.
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_init_source_uri): always include the
+	limit/ssl in the uri so we don't need to rely on defaults
+	everywhere.
+	(ldap_source_foreach): store the ssl option.
+
+	* gui/component/addressbook-storage.h: reorder SSLType to match
+	the UI.
+
+	* backend/pas/pas-backend-ldap.c: (struct _PASBackendLDAPPrivate)
+	add field for ldap_timeout.
+	(pas_backend_ldap_connect): reorder things a bit - we need to
+	start tls before the root dse query, if we can.
+	(pas_backend_ldap_load_uri): track the way ssl parameters are
+	given in the uri, and parse out the timeout.
+
+	* gui/component/ldap-config.c (port_changed_func): use the
+	symbolic SSL name instead of an integer constant.
+
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (get_ldap_library_info): fix
 	memory leaks.
 
