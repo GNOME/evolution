@@ -1,5 +1,23 @@
 2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (transfer_msg): Pass an empty flags argument to
+	mail_transfer_messages - destination folder should already be
+	created by this point.
+
+	* folder-browser.c (message_list_drag_data_received): Pass an
+	empty flags argument to mail_transfer_messages.
+	(selection_received): Same.
+
+	* component-factory.c (xfer_folder): Pass the CREATE flag to
+	mail_transfer_messages() so that the dest folder gets created.
+	(destination_folder_handle_drop): Update for mail-ops API change.
+
+	* mail-ops.c (mail_transfer_messages): Now takes a dest_flags
+	argument that it passes along to mail_tool_uri_to_folder when
+	opening the destination folder.
+
+2001-10-02  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-vfolder.c (vfolder_setup_do): Pass an empty flags argument
 	to mail_tool_uri_to_folder.
 	(vfolder_adduri_do): Same.

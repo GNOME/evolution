@@ -46,6 +46,7 @@ void mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMess
 void mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			     gboolean delete_from_source,
 			     const char *dest_uri,
+			     guint32 dest_flags,
 			     void (*done) (gboolean ok, void *data),
 			     void *data);
 

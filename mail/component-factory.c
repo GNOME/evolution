@@ -338,7 +338,7 @@ xfer_folder (EvolutionShellComponent *shell_component,
 
 		uids = camel_folder_get_uids (source);
 		mail_transfer_messages (source, uids, remove_source, destination_physical_uri,
-					xfer_folder_done, xfd);
+					CAMEL_STORE_FOLDER_CREATE, xfer_folder_done, xfd);
 		camel_object_unref (CAMEL_OBJECT (source));
 	} else
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener, GNOME_Evolution_ShellComponentListener_INVALID_URI, &ev);
@@ -575,7 +575,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 		
 		mail_transfer_messages (folder, uids,
 					action == GNOME_Evolution_ShellComponentDnd_ACTION_MOVE,
-					physical_uri, NULL, NULL);
+					physical_uri, 0, NULL, NULL);
 		
 		camel_object_unref (CAMEL_OBJECT (folder));
 		break;

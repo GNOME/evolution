@@ -1187,7 +1187,7 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
 	mail_transfer_messages (ml->folder, uids, delete_from_source,
-				physical, NULL, NULL);
+				physical, 0, NULL, NULL);
 }
 
 void

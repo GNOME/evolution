@@ -529,7 +529,7 @@ message_list_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 		}
 		
 		mail_transfer_messages (folder, uids, context->action == GDK_ACTION_MOVE,
-					fb->uri, NULL, NULL);
+					fb->uri, 0, NULL, NULL);
 		
 		camel_object_unref (CAMEL_OBJECT (folder));
 		break;
@@ -640,7 +640,7 @@ selection_received (GtkWidget *widget, GtkSelectionData *selection_data,
 		return;
 	}
 	
-	mail_transfer_messages (source, uids, FALSE, fb->uri, NULL, NULL);
+	mail_transfer_messages (source, uids, FALSE, fb->uri, 0, NULL, NULL);
 	
 	camel_object_unref (CAMEL_OBJECT (source));
 }

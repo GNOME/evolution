@@ -848,6 +848,7 @@ struct _transfer_msg {
 	GPtrArray *uids;
 	gboolean delete;
 	char *dest_uri;
+	guint32 dest_flags;
 	
 	void (*done)(gboolean ok, void *data);
 	void *data;
@@ -881,7 +882,7 @@ transfer_messages_transfer (struct _mail_msg *mm)
 		desc = _("Copying");
 	}
 	
-	dest = mail_tool_uri_to_folder (m->dest_uri, 0, &mm->ex);
+	dest = mail_tool_uri_to_folder (m->dest_uri, m->dest_flags, &mm->ex);
 	if (camel_exception_is_set (&mm->ex))
 		return;
 	
@@ -951,6 +952,7 @@ void
 mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 			gboolean delete_from_source,
 			const char *dest_uri,
+			guint32 dest_flags,
 			void (*done) (gboolean ok, void *data),
 			void *data)
 {
@@ -966,6 +968,7 @@ mail_transfer_messages (CamelFolder *source, GPtrArray *uids,
 	m->uids = uids;
 	m->delete = delete_from_source;
 	m->dest_uri = g_strdup (dest_uri);
+	m->dest_flags = dest_flags;
 	m->done = done;
 	m->data = data;
 	
