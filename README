@@ -124,7 +124,7 @@ and -devel packages for each library.
    *** "--disable-more-warnings" when configuring, or it may fail to
    *** build.
 
- - bonobo - 0.33 or later
+ - bonobo - 0.37 or later
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
@@ -135,7 +135,7 @@ and -devel packages for each library.
 
  - gconf - 0.6 or later
 
- - gal (GNOME Application Library) - 0.4.99.8 or later
+ - gal (GNOME Application Library) - 0.5.99.5 or later
 
  - gtkhtml - 0.8.2 or later
 
