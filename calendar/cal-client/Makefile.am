@@ -11,7 +11,7 @@ CORBA_GENERATED =				\
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl`
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
@@ -25,7 +25,7 @@ INCLUDES =						\
 	-I.. 						\
 	-I$(top_builddir)				\
         -I$(includedir)                                 \
-        $(GNOME_INCLUDEDIR)
+	$(BONOBO_GNOME_CFLAGS)
 
 lib_LTLIBRARIES = libcal-client.la
 

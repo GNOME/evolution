@@ -1,3 +1,10 @@
+2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* cal-client/Makefile.am: Add `$(datadir)/idl'.
+
+	* pcs/Makefile.am (idl_flags): Add `$(datadir)/idl'.
+	(INCLUDES): Use `$(BONOBO_GNOME_CFLAGS)'.
+
 2000-04-25  Seth Alves  <alves@hungry.com>
 
 	* gui/gnome-cal.c (gnome_calendar_destroy): hook for widget

@@ -3,7 +3,7 @@ INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
-	$(GNOME_INCLUDEDIR)				\
+	$(BONOBO_GNOME_CFLAGS)				\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
 CORBA_GENERATED =				\
@@ -15,7 +15,7 @@ CORBA_GENERATED =				\
 idls =						\
 	$(srcdir)/../idl/evolution-calendar.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl`
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_GENERATED): $(idls)
 	$(ORBIT_IDL) $(idl_flags) $(srcdir)/../idl/evolution-calendar.idl
