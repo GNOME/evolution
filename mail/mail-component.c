@@ -693,7 +693,7 @@ impl__get_userCreatableItems (PortableServer_Servant servant, CORBA_Environment 
 	list->_buffer[1].menuDescription = _("Mail _Folder");
 	list->_buffer[1].tooltip = _("Create a new mail folder");
 	list->_buffer[1].menuShortcut = 'f';
-	list->_buffer[1].iconName = "stock_folder";
+	list->_buffer[1].iconName = "stock_new-dir";
 	list->_buffer[1].type = GNOME_Evolution_CREATABLE_FOLDER;
 
 	return list;

@@ -2737,7 +2737,7 @@ static EPopupItem emft_popup_items[] = {
 	
 	{ E_POPUP_BAR, "20.emc" },
 	/* FIXME: need to disable for nochildren folders */
-	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_folder", 0, EM_POPUP_FOLDER_INFERIORS },
+	{ E_POPUP_ITEM, "20.emc.00", N_("_New Folder..."), emft_popup_new_folder, NULL, "stock_new-dir", 0, EM_POPUP_FOLDER_INFERIORS },
 	/* FIXME: need to disable for undeletable folders */
 	{ E_POPUP_ITEM, "20.emc.01", N_("_Delete"), emft_popup_delete_folder, NULL, "stock_delete", 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
 	{ E_POPUP_ITEM, "20.emc.02", N_("_Rename..."), emft_popup_rename_folder, NULL, NULL, 0, EM_POPUP_FOLDER_FOLDER|EM_POPUP_FOLDER_DELETE },
