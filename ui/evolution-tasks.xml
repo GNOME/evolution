@@ -65,7 +65,7 @@
 
 			<placeholder name="Component">
 				<menuitem name="Preferences"
-				 _label="Tasks Preferences..."
+				 _label="_Tasks Settings..."
 				 verb="TasksPreferences"/>
 			</placeholder>
 

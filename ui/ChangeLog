@@ -1,5 +1,10 @@
 2001-07-27  Damon Chaplin  <damon@ximian.com>
 
+	* evolution-tasks.xml: renamed "Tasks Preferences" to "Tasks Settings"
+	to be consistent with the other components.
+
+2001-07-27  Damon Chaplin  <damon@ximian.com>
+
 	* evolution-comp-editor.xml: removed Edit & Help menus. Fixes #5500.
 
 2001-07-26  Federico Mena Quintero  <federico@ximian.com>
