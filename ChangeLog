@@ -1,3 +1,7 @@
+2001-09-22  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in: Bumped the required version of gal to 0.12.99.0.
+
 2001-09-21  Nat Friedman  <nat@ximian.com>
 
 	* configure.in (EVOLUTION_MICRO_VERSION): Changed to 99.
