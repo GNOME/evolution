@@ -92,7 +92,7 @@ save_current_view (GalViewInstance *instance)
 	if (instance->current_type)
 		e_xml_set_string_prop_by_name (root, "current_view_type", instance->current_type);
 
-	xmlSaveFile(instance->current_view_filename, doc);
+	e_xml_save_file (instance->current_view_filename, doc);
 	xmlFreeDoc(doc);
 }
 

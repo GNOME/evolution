@@ -537,7 +537,7 @@ gal_view_collection_save              (GalViewCollection *collection)
 		e_xml_set_string_prop_by_name(child, "type", item->type);
 	}
 	filename = g_concat_dir_and_file(collection->local_dir, "galview.xml");
-	xmlSaveFile(filename, doc);
+	e_xml_save_file (filename, doc);
 	xmlFreeDoc(doc);
 	g_free(filename);
 }
