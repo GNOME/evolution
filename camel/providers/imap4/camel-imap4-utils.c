@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include <errno.h>
 
 #include <camel/camel-store.h>
@@ -310,6 +311,154 @@ camel_imap4_untagged_list (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guin
  unexpected:
 	
 	camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
+	
+	return -1;
+}
+
+
+static struct {
+	const char *name;
+	int type;
+} imap4_status[] = {
+	{ "MESSAGES",    CAMEL_IMAP4_STATUS_MESSAGES    },
+	{ "RECENT",      CAMEL_IMAP4_STATUS_RECENT      },
+	{ "UIDNEXT",     CAMEL_IMAP4_STATUS_UIDNEXT     },
+	{ "UIDVALIDITY", CAMEL_IMAP4_STATUS_UIDVALIDITY },
+	{ "UNSEEN",      CAMEL_IMAP4_STATUS_UNSEEN      },
+	{ NULL,          CAMEL_IMAP4_STATUS_UNKNOWN     },
+};
+
+
+void
+camel_imap4_status_free (camel_imap4_status_t *status)
+{
+	camel_imap4_status_attr_t *attr, *next;
+	
+	attr = status->attr_list;
+	while (attr != NULL) {
+		next = attr->next;
+		g_free (attr);
+		attr = next;
+	}
+	
+	g_free (status->mailbox);
+	g_free (status);
+}
+
+
+int
+camel_imap4_untagged_status (CamelIMAP4Engine *engine, CamelIMAP4Command *ic, guint32 index, camel_imap4_token_t *token, CamelException *ex)
+{
+	camel_imap4_status_attr_t *attr, *tail, *list = NULL;
+	GPtrArray *array = ic->user_data;
+	camel_imap4_status_t *status;
+	char *mailbox;
+	size_t len;
+	int type;
+	
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
+		return -1;
+	
+	switch (token->token) {
+	case CAMEL_IMAP4_TOKEN_ATOM:
+		mailbox = g_strdup (token->v.atom);
+		break;
+	case CAMEL_IMAP4_TOKEN_QSTRING:
+		mailbox = g_strdup (token->v.qstring);
+		break;
+	case CAMEL_IMAP4_TOKEN_LITERAL:
+		if (camel_imap4_engine_literal (engine, (unsigned char **) &mailbox, &len, ex) == -1)
+			return -1;
+		break;
+	default:
+		fprintf (stderr, "Unexpected token in IMAP4 untagged STATUS response: %s%c\n",
+			 token->token == CAMEL_IMAP4_TOKEN_NIL ? "NIL" : "",
+			 (unsigned char) (token->token & 0xff));
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
+		return -1;
+	}
+	
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1) {
+		g_free (mailbox);
+		return -1;
+	}
+	
+	if (token->token != '(') {
+		d(fprintf (stderr, "Expected to find a '(' token after the mailbox token in the STATUS response\n"));
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
+		g_free (mailbox);
+		return -1;
+	}
+	
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1) {
+		g_free (mailbox);
+		return -1;
+	}
+	
+	tail = (camel_imap4_status_attr_t *) &list;
+	
+	while (token->token == CAMEL_IMAP4_TOKEN_ATOM) {
+		/* parse the status messages list */
+		for (type = 0; type < G_N_ELEMENTS (imap4_status); type++) {
+			if (!g_ascii_strcasecmp (imap4_status[type].name, token->v.atom))
+				break;
+		}
+		
+		if (type == CAMEL_IMAP4_STATUS_UNKNOWN)
+			fprintf (stderr, "unrecognized token in STATUS list: %s\n", token->v.atom);
+		
+		if (camel_imap4_engine_next_token (engine, token, ex) == -1)
+			goto exception;
+		
+		if (token->token != CAMEL_IMAP4_TOKEN_NUMBER)
+			break;
+		
+		attr = g_new (camel_imap4_status_attr_t, 1);
+		attr->next = NULL;
+		attr->type = type;
+		attr->value = token->v.number;
+		
+		tail->next = attr;
+		tail = attr;
+		
+		if (camel_imap4_engine_next_token (engine, token, ex) == -1)
+			goto exception;
+	}
+	
+	status = g_new (camel_imap4_status_t, 1);
+	status->mailbox = mailbox;
+	status->attr_list = list;
+	list = NULL;
+	
+	g_ptr_array_add (array, status);
+	
+	if (token->token != ')') {
+		d(fprintf (stderr, "Expected to find a ')' token terminating the untagged STATUS response\n"));
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
+		return -1;
+	}
+	
+	if (camel_imap4_engine_next_token (engine, token, ex) == -1)
+		return -1;
+	
+	if (token->token != '\n') {
+		d(fprintf (stderr, "Expected to find a '\\n' token after the STATUS response\n"));
+		camel_imap4_utils_set_unexpected_token_error (ex, engine, token);
+		return -1;
+	}
+	
+	return 0;
+	
+ exception:
+	
+	g_free (mailbox);
+	
+	attr = list;
+	while (attr != NULL) {
+		list = attr->next;
+		g_free (attr);
+		attr = list;
+	}
 	
 	return -1;
 }

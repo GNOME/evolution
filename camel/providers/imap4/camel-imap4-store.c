@@ -996,9 +996,59 @@ list_remove_duplicates (GPtrArray *array)
 	}
 }
 
-static CamelFolderInfo *
-imap4_build_folder_info (CamelIMAP4Engine *engine, guint32 flags, GPtrArray *array, const char *top)
+static void
+imap4_status (CamelStore *store, CamelFolderInfo *fi)
 {
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	camel_imap4_status_attr_t *attr, *next;
+	camel_imap4_status_t *status;
+	CamelIMAP4Command *ic;
+	GPtrArray *array;
+	char *mailbox;
+	int id, i;
+	
+	mailbox = imap4_folder_utf7_name (store, fi->full_name, '\0');
+	ic = camel_imap4_engine_queue (engine, NULL, "STATUS %S (MESSAGES UNSEEN)\r\n", mailbox);
+	g_free (mailbox);
+	
+	camel_imap4_command_register_untagged (ic, "STATUS", camel_imap4_untagged_status);
+	ic->user_data = array = g_ptr_array_new ();
+	
+	while ((id = camel_imap4_engine_iterate (engine)) < ic->id && id != -1)
+		;
+	
+	if (id == -1 || ic->status != CAMEL_IMAP4_COMMAND_COMPLETE) {
+		camel_imap4_command_unref (ic);
+		g_ptr_array_free (array, TRUE);
+		return;
+	}
+	
+	for (i = 0; i < array->len; i++) {
+		status = array->pdata[i];
+		attr = status->attr_list;
+		while (attr != NULL) {
+			next = attr->next;
+			if (attr->type == CAMEL_IMAP4_STATUS_MESSAGES)
+				fi->total = attr->value;
+			else if (attr->type == CAMEL_IMAP4_STATUS_UNSEEN)
+				fi->unread = attr->value;
+			g_free (attr);
+			attr = next;
+		}
+		
+		g_free (status->mailbox);
+		g_free (status);
+	}
+	
+	camel_imap4_command_unref (ic);
+	g_ptr_array_free (array, TRUE);
+}
+
+static CamelFolderInfo *
+imap4_build_folder_info (CamelStore *store, const char *top, guint32 flags, GPtrArray *array)
+{
+	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) store)->engine;
+	CamelFolder *folder = (CamelFolder *) engine->folder;
 	camel_imap4_list_t *list;
 	CamelFolderInfo *fi;
 	char *name, *p;
@@ -1029,10 +1079,30 @@ imap4_build_folder_info (CamelIMAP4Engine *engine, guint32 flags, GPtrArray *arr
 		fi->name = g_strdup (p ? p + 1: name);
 		fi->uri = camel_url_to_string (url, 0);
 		fi->flags = list->flags;
-		
-		/* FIXME: use STATUS to get these values if requested */
 		fi->unread = -1;
 		fi->total = -1;
+		
+		if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST)) {
+			if (folder && !strcmp (folder->full_name, fi->full_name)) {
+				CamelMessageInfo *info;
+				int index;
+				
+				fi->total = camel_folder_summary_count (folder->summary);
+				
+				fi->unread = 0;
+				for (index = 0; index < fi->total; index++) {
+					if (!(info = camel_folder_summary_index (folder->summary, index)))
+						continue;
+					
+					if ((info->flags & CAMEL_MESSAGE_SEEN) == 0)
+						fi->unread++;
+					
+					camel_folder_summary_info_free (folder->summary, info);
+				}
+			} else {
+				imap4_status (store, fi);
+			}
+		}
 		
 		g_free (list->name);
 		g_free (list);
@@ -1117,7 +1187,7 @@ imap4_get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelE
 	
 	g_free (pattern);
 	
-	fi = imap4_build_folder_info (engine, flags, array, top);
+	fi = imap4_build_folder_info (store, top, flags, array);
 	
  done:
 	

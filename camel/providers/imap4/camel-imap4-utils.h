@@ -60,6 +60,32 @@ typedef struct {
 int camel_imap4_untagged_list (struct _CamelIMAP4Engine *engine, struct _CamelIMAP4Command *ic,
 			       guint32 index, struct _camel_imap4_token_t *token, CamelException *ex);
 
+
+enum {
+	CAMEL_IMAP4_STATUS_MESSAGES,
+	CAMEL_IMAP4_STATUS_RECENT,
+	CAMEL_IMAP4_STATUS_UIDNEXT,
+	CAMEL_IMAP4_STATUS_UIDVALIDITY,
+	CAMEL_IMAP4_STATUS_UNSEEN,
+	CAMEL_IMAP4_STATUS_UNKNOWN,
+};
+
+typedef struct _camel_imap4_status_attr {
+	struct _camel_imap4_status_attr *next;
+	guint32 type;
+	guint32 value;
+} camel_imap4_status_attr_t;
+
+typedef struct {
+	camel_imap4_status_attr_t *attr_list;
+	char *mailbox;
+} camel_imap4_status_t;
+
+void camel_imap4_status_free (camel_imap4_status_t *status);
+
+int camel_imap4_untagged_status (struct _CamelIMAP4Engine *engine, struct _CamelIMAP4Command *ic,
+				 guint32 index, struct _camel_imap4_token_t *token, CamelException *ex);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

@@ -1,3 +1,19 @@
+2004-06-10  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-store.c (imap4_build_folder_info):
+	If flags does not include FOLDER_INFO_FAST, get the total/unread
+	counts for the folder-info.
+
+	* providers/imap4/camel-imap4-engine.c (engine_parse_status):
+	Removed.
+	(camel_imap4_engine_handle_untagged_1): Don't handle untagged
+	STATUS responses anymore. Let the STATUS requestor handle them
+	instead.
+
+	* providers/imap4/camel-imap4-utils.c
+	(camel_imap4_untagged_status): New function to parse untagged
+	status events.
+
 2004-06-10  Not Zed  <NotZed@Ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_message): add
