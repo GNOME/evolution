@@ -1,5 +1,8 @@
 2002-11-01  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-store.c (delete_folder): Use
+	g_path_get_basename instead of g_strdup (g_basename (filename)).
+
 	* camel-uid-cache.c (camel_uid_cache_new): Use g_path_get_dirname
 	since g_dirname has been deprecated.
 

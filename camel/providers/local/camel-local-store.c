@@ -402,7 +402,7 @@ delete_folder(CamelStore *store, const char *folder_name, CamelException *ex)
 	
 	fi = g_new0 (CamelFolderInfo, 1);
 	fi->full_name = g_strdup (folder_name);
-	fi->name = g_strdup (g_basename (folder_name));
+	fi->name = g_path_get_basename (folder_name);
 	fi->url = g_strdup_printf ("%s%s", CAMEL_LOCAL_STORE(store)->toplevel_dir, folder_name);
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path(fi, '/');
