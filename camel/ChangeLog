@@ -1,3 +1,17 @@
+2001-10-05    <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (subscribe_folder): Use a
+	folder_subscribed event rather than a folder_created one.
+	(unsubscribe_folder): Similarly for unsubscribed/deleted.
+	(create_folder): Emit a folder_created event on the folders we
+	added.  Not sure hsould probably check which ones are new and
+	which ones are just existing ones?
+	(delete_folder): Emit a folder_deletd event when we've deleted the
+	folder.  Part of fix for #11831.
+
+	* camel-store.c (camel_store_class_init): Added
+	folder_subscribed/unsubscribed events.
+
 2001-10-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-service.c (camel_service_finalize): Turn off warnings.

@@ -1043,6 +1043,8 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		char *summary_file;
 		char *journal_file;
 		char *folder_dir;
+		CamelFolderInfo *fi;
+		char *name;
 		
 		folder_dir = e_path_to_physical (imap_store->storage_path, folder_name);
 		if (access (folder_dir, F_OK) != 0) {
@@ -1074,6 +1076,21 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 		
 		rmdir (folder_dir);
 		g_free (folder_dir);
+
+		name = strrchr (folder_name, imap_store->dir_sep);
+		if (name)
+			name++;
+		else
+			name = folder_name;
+
+		fi = g_new0 (CamelFolderInfo, 1);
+		fi->full_name = g_strdup (folder_name);
+		fi->name = g_strdup (name);
+		fi->url = g_strdup_printf ("%s/%s", imap_store->base_url, folder_name);
+		fi->unread_message_count = -1;
+		camel_folder_info_build_path (fi, imap_store->dir_sep);
+		camel_object_trigger_event (CAMEL_OBJECT (store), "folder_deleted", fi);
+		camel_folder_info_free (fi);
 	}
 }
 
@@ -1201,6 +1218,9 @@ create_folder (CamelStore *store, const char *parent_name,
 			fi->parent = parent;
 			parent = fi;
 		}
+		
+		camel_folder_info_build_path(root, imap_store->dir_sep);
+		camel_object_trigger_event (CAMEL_OBJECT (store), "folder_created", root);
 		
 		g_free (pathnames);
 		
@@ -1606,7 +1626,7 @@ subscribe_folder (CamelStore *store, const char *folder_name,
 	
 	camel_url_free (url);
 	
-	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_created", fi);
+	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_subscribed", fi);
 	camel_folder_info_free (fi);
 }
 
@@ -1647,7 +1667,7 @@ unsubscribe_folder (CamelStore *store, const char *folder_name,
 	fi->unread_message_count = -1;
 	camel_folder_info_build_path (fi, imap_store->dir_sep);
 
-	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_deleted", fi);
+	camel_object_trigger_event (CAMEL_OBJECT (store), "folder_unsubscribed", fi);
 	camel_folder_info_free (fi);
 }
 

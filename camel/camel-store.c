@@ -77,8 +77,7 @@ static void construct (CamelService *service, CamelSession *session,
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
-	CamelObjectClass *camel_object_class =
-		CAMEL_OBJECT_CLASS (camel_store_class);
+	CamelObjectClass *camel_object_class = CAMEL_OBJECT_CLASS (camel_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_store_class);
 
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
@@ -103,10 +102,10 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	/* virtual method overload */
 	camel_service_class->construct = construct;
 
-	camel_object_class_declare_event (camel_object_class,
-					  "folder_created", NULL);
-	camel_object_class_declare_event (camel_object_class,
-					  "folder_deleted", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_created", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_deleted", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_subscribed", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_unsubscribed", NULL);
 }
 
 static void
