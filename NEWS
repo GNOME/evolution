@@ -41,6 +41,11 @@ Bugs fixed:
     #14087 -- Daily repeat event with end-date misses one day
     #14489 -- UI bug in Calendar Settings
     #14699 -- gtk_signal_disconnect_by_data warning
+    #14705 -- iMIP compatibility with versions of Outlook. (We now support
+	      Outlook in an Exchange environment by default, but the old
+	      behavior can be turned on with the environment variable
+	      EVOLUTION_SEND_IMIP_AS_ATTACHMENT. This will be fixed better
+	      later.)
     #15401 -- Use UTF-8-aware gnome-print calls
     #15456 -- Typo in translatable string
     #15774 -- Crashed by selecting "decline" in meeting request
