@@ -1,3 +1,10 @@
+2001-10-09  Dan Winship  <danw@ximian.com>
+
+	* mail-callbacks.c (mail_generate_reply): Revert the change to use
+	e_msg_composer_new_with_message. That has unwanted side effects.
+	(This commit re-breaks replying to HTML messages with inline
+	images.)
+
 2001-10-08  Dan Winship  <danw@ximian.com>
 
 	* mail-local.c (mlf_set_folder, mlf_unset_folder): Update for

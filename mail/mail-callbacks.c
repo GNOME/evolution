@@ -838,7 +838,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 	time_t date;
 	const int max_subject_length = 1024;
 	
-	composer = e_msg_composer_new_with_message (message);
+	composer = e_msg_composer_new ();
 	if (!composer)
 		return NULL;
 	
