@@ -216,25 +216,25 @@ char *camel_header_location_decode (const char *in);
 void camel_header_mime_decode (const char *in, int *maj, int *min);
 
 /* do incremental base64/quoted-printable (de/en)coding */
-size_t base64_decode_step (unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save);
+size_t camel_base64_decode_step (unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save);
 
-size_t base64_encode_step (unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
-size_t base64_encode_close (unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
+size_t camel_base64_encode_step (unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
+size_t camel_base64_encode_close (unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save);
 
-size_t uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save);
+size_t camel_uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save);
 
-size_t uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
+size_t camel_uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
 		      guint32 *save);
-size_t uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
+size_t camel_uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state,
 		       guint32 *save);
 
-size_t quoted_decode_step (unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme);
+size_t camel_quoted_decode_step (unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme);
 
-size_t quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
-size_t quoted_encode_close (unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
+size_t camel_quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
+size_t camel_quoted_decode_close (unsigned char *in, size_t len, unsigned char *out, int *state, int *save);
 
-char *base64_encode_simple (const char *data, size_t len);
-size_t base64_decode_simple (char *data, size_t len);
+char *camel_base64_encode_simple (const char *data, size_t len);
+size_t camel_base64_decode_simple (char *data, size_t len);
 
 #ifdef __cplusplus
 }

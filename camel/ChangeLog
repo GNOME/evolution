@@ -1,3 +1,29 @@
+2003-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.[c,h]: namespaced the encoding/decoding
+	routines.
+
+	* camel-mime-filter-basic.c: updated for namespace changes to the
+	encoding/decoding routines in camel-mime-utils.c
+
+	* camel-multipart.c: updated for namespace changes to the
+	encoding/decoding routines in camel-mime-utils.c
+
+	* camel-sasl-digest-md5.c: updated for namespace changes to the
+	encoding/decoding routines in camel-mime-utils.c
+
+	* camel-sasl.c: updated for namespace changes to the
+	encoding/decoding routines in camel-mime-utils.c
+	
+	* camel-vee-folder.c: updated for namespace changes to the
+	encoding/decoding routines in camel-mime-utils.c
+
+	* providers/imap/camel-imap-search.c: updated for namespace
+	changes to the encoding/decoding routines in camel-mime-utils.c
+
+	* providers/pop3/camel-pop3-folder.c: updated for namespace
+	changes to the encoding/decoding routines in camel-mime-utils.c
+
 2003-08-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-parser.[c,h]: s/HSCAN_/CAMEL_MIME_PARSER_STATE_/g and

@@ -101,38 +101,38 @@ complete(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out,
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
 		camel_mime_filter_set_size(mf, len*2+6, FALSE);
-		newlen = base64_encode_close(in, len, TRUE, mf->outbuf, &f->state, &f->save);
+		newlen = camel_base64_encode_close(in, len, TRUE, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len*2+6);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is definetly more than needed ... */
 		camel_mime_filter_set_size(mf, len*4+4, FALSE);
-		newlen = quoted_encode_close(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_quoted_decode_close(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len*4+4);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_ENC:
 		/* won't go to more than 2 * (x + 2) + 62 */
 		camel_mime_filter_set_size (mf, (len + 2) * 2 + 62, FALSE);
-		newlen = uuencode_close (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
+		newlen = camel_uuencode_close (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
 		g_assert (newlen <= (len + 2) * 2 + 62);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
  		camel_mime_filter_set_size(mf, len, FALSE);
-		newlen = base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size, well unless its not really qp, then +2 max */
 		camel_mime_filter_set_size(mf, len+2, FALSE);
-		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len+2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
 		if ((f->state & CAMEL_UUDECODE_STATE_BEGIN) && !(f->state & CAMEL_UUDECODE_STATE_END)) {
 			/* "begin <mode> <filename>\n" has been found, so we can now start decoding */
 			camel_mime_filter_set_size (mf, len + 3, FALSE);
-			newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
+			newlen = camel_uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
 		} else {
 			newlen = 0;
 		}
@@ -164,31 +164,31 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 	case CAMEL_MIME_FILTER_BASIC_BASE64_ENC:
 		/* wont go to more than 2x size (overly conservative) */
 		camel_mime_filter_set_size(mf, len*2+6, FALSE);
-		newlen = base64_encode_step(in, len, TRUE, mf->outbuf, &f->state, &f->save);
+		newlen = camel_base64_encode_step(in, len, TRUE, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len*2+6);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_ENC:
 		/* *4 is overly conservative, but will do */
 		camel_mime_filter_set_size(mf, len*4+4, FALSE);
-		newlen = quoted_encode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_quoted_encode_step(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len*4+4);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_ENC:
 		/* won't go to more than 2 * (x + 2) + 62 */
 		camel_mime_filter_set_size (mf, (len + 2) * 2 + 62, FALSE);
-		newlen = uuencode_step (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
+		newlen = camel_uuencode_step (in, len, mf->outbuf, f->uubuf, &f->state, &f->save);
 		g_assert (newlen <= (len + 2) * 2 + 62);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len+3, FALSE);
-		newlen = base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len+3);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size */
 		camel_mime_filter_set_size(mf, len + 2, FALSE);
-		newlen = quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
+		newlen = camel_quoted_decode_step(in, len, mf->outbuf, &f->state, &f->save);
 		g_assert(newlen <= len + 2);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_UU_DEC:
@@ -230,7 +230,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		if ((f->state & CAMEL_UUDECODE_STATE_BEGIN) && !(f->state & CAMEL_UUDECODE_STATE_END)) {
 			/* "begin <mode> <filename>\n" has been found, so we can now start decoding */
 			camel_mime_filter_set_size (mf, len + 3, FALSE);
-			newlen = uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
+			newlen = camel_uudecode_step (in, len, mf->outbuf, &f->state, &f->save);
 		} else {
 			newlen = 0;
 		}

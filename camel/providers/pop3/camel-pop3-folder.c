@@ -173,7 +173,7 @@ cmd_builduid(CamelPOP3Engine *pe, CamelPOP3Stream *stream, void *data)
 	}
 	camel_object_unref(mp);
 	md5_final(&md5, digest);
-	fi->uid = base64_encode_simple(digest, 16);
+	fi->uid = camel_base64_encode_simple(digest, 16);
 
 	d(printf("building uid for id '%d' = '%s'\n", fi->id, fi->uid));
 }

@@ -201,13 +201,13 @@ base64_init(void)
 /* call this when finished encoding everything, to
    flush off the last little bit */
 size_t
-base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
+camel_base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	int c1, c2;
 	unsigned char *outptr = out;
 
 	if (inlen>0)
-		outptr += base64_encode_step(in, inlen, break_lines, outptr, state, save);
+		outptr += camel_base64_encode_step(in, inlen, break_lines, outptr, state, save);
 
 	c1 = ((unsigned char *)save)[1];
 	c2 = ((unsigned char *)save)[2];
@@ -246,7 +246,7 @@ base64_encode_close(unsigned char *in, size_t inlen, gboolean break_lines, unsig
   0 on first invocation).
 */
 size_t
-base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save)
+camel_base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned char *out, int *state, int *save)
 {
 	register unsigned char *inptr, *outptr;
 
@@ -322,7 +322,7 @@ base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned
 
 
 /**
- * base64_decode_step: decode a chunk of base64 encoded data
+ * camel_base64_decode_step: decode a chunk of base64 encoded data
  * @in: input stream
  * @len: max length of data to decode
  * @out: output stream
@@ -332,7 +332,7 @@ base64_encode_step(unsigned char *in, size_t len, gboolean break_lines, unsigned
  * Decodes a chunk of base64 encoded data
  **/
 size_t
-base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save)
+camel_base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state, unsigned int *save)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, c;
@@ -380,31 +380,31 @@ base64_decode_step(unsigned char *in, size_t len, unsigned char *out, int *state
 }
 
 char *
-base64_encode_simple (const char *data, size_t len)
+camel_base64_encode_simple (const char *data, size_t len)
 {
 	unsigned char *out;
 	int state = 0, outlen;
 	unsigned int save = 0;
 	
 	out = g_malloc (len * 4 / 3 + 5);
-	outlen = base64_encode_close ((unsigned char *)data, len, FALSE,
+	outlen = camel_base64_encode_close ((unsigned char *)data, len, FALSE,
 				      out, &state, &save);
 	out[outlen] = '\0';
 	return (char *)out;
 }
 
 size_t
-base64_decode_simple (char *data, size_t len)
+camel_base64_decode_simple (char *data, size_t len)
 {
 	int state = 0;
 	unsigned int save = 0;
 
-	return base64_decode_step ((unsigned char *)data, len,
+	return camel_base64_decode_step ((unsigned char *)data, len,
 				   (unsigned char *)data, &state, &save);
 }
 
 /**
- * uuencode_close: uuencode a chunk of data
+ * camel_uuencode_close: uuencode a chunk of data
  * @in: input stream
  * @len: input stream length
  * @out: output stream
@@ -413,11 +413,11 @@ base64_decode_simple (char *data, size_t len)
  * @save: leftover bits that have not yet been encoded
  *
  * Returns the number of bytes encoded. Call this when finished
- * encoding data with uuencode_step to flush off the last little
+ * encoding data with camel_uuencode_step to flush off the last little
  * bit.
  **/
 size_t
-uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
+camel_uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
 {
 	register unsigned char *outptr, *bufptr;
 	register guint32 saved;
@@ -426,7 +426,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 	outptr = out;
 	
 	if (len > 0)
-		outptr += uuencode_step (in, len, out, uubuf, state, save);
+		outptr += camel_uuencode_step (in, len, out, uubuf, state, save);
 	
 	uufill = 0;
 	
@@ -483,7 +483,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
 
 
 /**
- * uuencode_step: uuencode a chunk of data
+ * camel_uuencode_step: uuencode a chunk of data
  * @in: input stream
  * @len: input stream length
  * @out: output stream
@@ -497,7 +497,7 @@ uuencode_close (unsigned char *in, size_t len, unsigned char *out, unsigned char
  * invocation).
  **/
 size_t
-uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
+camel_uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char *uubuf, int *state, guint32 *save)
 {
 	register unsigned char *inptr, *outptr, *bufptr;
 	unsigned char *inend;
@@ -559,7 +559,7 @@ uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char 
 
 
 /**
- * uudecode_step: uudecode a chunk of data
+ * camel_uudecode_step: uudecode a chunk of data
  * @in: input stream
  * @inlen: max length of data to decode ( normally strlen(in) ??)
  * @out: output stream
@@ -571,7 +571,7 @@ uuencode_step (unsigned char *in, size_t len, unsigned char *out, unsigned char 
  * line has been stripped off.
  **/
 size_t
-uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save)
+camel_uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, guint32 *save)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, ch;
@@ -657,13 +657,13 @@ uudecode_step (unsigned char *in, size_t len, unsigned char *out, int *state, gu
 
 /* complete qp encoding */
 size_t
-quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, int *state, int *save)
+camel_quoted_decode_close(unsigned char *in, size_t len, unsigned char *out, int *state, int *save)
 {
 	register unsigned char *outptr = out;
 	int last;
 
 	if (len>0)
-		outptr += quoted_encode_step(in, len, outptr, state, save);
+		outptr += camel_quoted_encode_step(in, len, outptr, state, save);
 
 	last = *state;
 	if (last != -1) {
@@ -686,7 +686,7 @@ quoted_encode_close(unsigned char *in, size_t len, unsigned char *out, int *stat
 
 /* perform qp encoding, initialise state to -1 and save to 0 on first invocation */
 size_t
-quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *statep, int *save)
+camel_quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *statep, int *save)
 {
 	register guchar *inptr, *outptr, *inend;
 	unsigned char c;
@@ -772,7 +772,7 @@ quoted_encode_step (unsigned char *in, size_t len, unsigned char *out, int *stat
 */ 
 
 size_t
-quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme)
+camel_quoted_decode_step(unsigned char *in, size_t len, unsigned char *out, int *savestate, int *saveme)
 {
 	register unsigned char *inptr, *outptr;
 	unsigned char *inend, c;
@@ -1015,7 +1015,7 @@ rfc2047_decode_word(const char *in, size_t len)
 			int state = 0;
 			unsigned int save = 0;
 			
-			inlen = base64_decode_step((char *)inptr+2, tmplen, decword, &state, &save);
+			inlen = camel_base64_decode_step((char *)inptr+2, tmplen, decword, &state, &save);
 			/* if state != 0 then error? */
 			break;
 		}
