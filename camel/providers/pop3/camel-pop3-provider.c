@@ -45,21 +45,20 @@ CamelProviderConfEntry pop3_conf_entries[] = {
 
 static CamelProvider pop3_provider = {
 	"pop",
+	
 	N_("POP"),
-
-	N_("For connecting to POP servers. The POP protocol can also "
-	   "be used to retrieve mail from certain web mail providers "
-	   "and proprietary email systems."),
-
+	
+	N_("For connecting to and downloading mail from POP servers."),
+	
 	"mail",
-
+	
 	CAMEL_PROVIDER_IS_REMOTE | CAMEL_PROVIDER_IS_SOURCE |
 	CAMEL_PROVIDER_SUPPORTS_SSL,
-
+	
 	CAMEL_URL_NEED_USER | CAMEL_URL_NEED_HOST | CAMEL_URL_ALLOW_AUTH,
-
+	
 	pop3_conf_entries,
-
+	
 	/* ... */
 };
 

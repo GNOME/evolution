@@ -1,5 +1,12 @@
 2001-08-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-provider.c: Changed the
+	description/names of some of the local providers to try and
+	clarify the meanings.
+
+	* providers/pop3/camel-pop3-provider.c: Simplify the POP
+	description - we want short but sweet.
+
 	* providers/imap/camel-imap-provider.c: s/IMAPv4/IMAP
 
 2001-08-27  Not Zed  <NotZed@Ximian.com>

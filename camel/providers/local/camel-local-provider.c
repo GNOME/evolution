@@ -38,7 +38,7 @@
 static CamelProvider mh_provider = {
 	"mh",
 	N_("MH-format mail directories"),
-	N_("For storing local mail in MH-like mail directories"),
+	N_("For storing local mail in MH-like mail directories."),
 	"mail",
 	CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
@@ -47,8 +47,8 @@ static CamelProvider mh_provider = {
 
 static CamelProvider mbox_provider = {
 	"mbox",
-	N_("Standard Unix mailbox file"),
-	N_("For storing local mail in standard mbox format"),
+	N_("Local delivery"),
+	N_("For retrieving local mail from standard mbox formated spools."),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
@@ -58,7 +58,7 @@ static CamelProvider mbox_provider = {
 static CamelProvider maildir_provider = {
 	"maildir",
 	N_("Qmail maildir-format mail files"),
-	N_("For storing local mail in qmail maildir directories"),
+	N_("For storing local mail in qmail maildir directories."),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
@@ -67,8 +67,8 @@ static CamelProvider maildir_provider = {
 
 static CamelProvider spool_provider = {
 	"spool",
-	N_("Unix mbox spool-format mail files"),
-	N_("For storing local mail in standard Unix spool directories"),
+	N_("Standard Unix mbox spools"),
+	N_("For reading and storing local mail in standard mbox spool files."),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH | CAMEL_URL_PATH_IS_ABSOLUTE,
