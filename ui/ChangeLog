@@ -1,3 +1,12 @@
+2001-06-24  Chris Toshok  <toshok@ximian.com>
+
+	* evolution-addressbook.xml: add cmd for ContactNewList and
+	ContactsPrintPreview.  Also, correct the tip for Select All and
+	add the accelerator.  Add menu/tool items for ContactNewList, and
+	remove the tool item for ContactViewAll.
+
+	* Makefile.am (XML_FILES): add evolution-contact-list-editor.xml.
+
 2001-06-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Get rid of the status bar.

@@ -9,8 +9,16 @@
 		 _tip="Create new contact" 
 		 accel="*Control*n"/>
 
+		<cmd name="ContactNewList"
+		 _tip="Create new contact list"/>
+
 		<cmd name="ContactsPrint"
 		 _tip="Print selected contacts"
+		 pixtype="stock" pixname="Print"
+		 accel="*Control*p"/>
+
+		<cmd name="ContactsPrintPreview"
+		 _tip="Previews the contacts to be printed"
 		 pixtype="stock" pixname="Print"
 		 accel="*Control*p"/>
 
@@ -30,7 +38,8 @@
 		 accel="*Control*v"/>
 	
 		<cmd name="ContactsSelectAll" _label="Select All"
-		 _tip="Select everything"/>
+		 _tip="Select all contacts"
+		 accel="*Control*a"/>
 
 	</commands>
 
@@ -42,6 +51,9 @@
 	                        	<menuitem name="ContactNew" verb=""
 	                        	 _label="_Contact"
 					 pixtype="pixbuf"/>
+	                        	<menuitem name="ContactNewList" verb=""
+	                        	 _label="_Contact Group"
+					 pixtype="pixbuf"/>
 	                                <separator/>
 	                        </placeholder>
 		                </submenu>
@@ -50,7 +62,6 @@
 
 			    <menuitem name="ContactsPrintPreview" verb=""
 			      _label="Print Preview"
-			      _tip="Previews the message to be printed"
 			      pixtype="pixbuf"/>
 			    <menuitem name="ContactsPrint" verb=""
 			    _label="_Print..."/>
@@ -95,6 +106,10 @@
 		_label="New contact"
 		pixtype="pixbuf" priority="1"/>
 
+		<toolitem name="ContactNewList" verb=""
+		_label="New list"
+		pixtype="pixbuf" priority="1"/>
+
 		<separator/>
 
 		<toolitem name="ContactsPrint" verb=""
@@ -102,12 +117,6 @@
 
 		<toolitem name="ContactDelete" verb=""
 		_label="Delete"/>
-
-		<separator/>
-
-		<toolitem name="ContactViewAll" verb=""
-		_label="View All" _tip="View all contacts"
-		pixtype="pixbuf"/>
 
 		<toolitem name="ContactStop" verb=""
 		_label="Stop"/>
