@@ -77,8 +77,14 @@ static gint e_tasks_add_menu_item		(gpointer key,
 						 gpointer value,
 						 gpointer data);
 
+/* Signal IDs */
+enum {
+	SELECTION_CHANGED,
+	LAST_SIGNAL
+};
 
 static GtkTableClass *parent_class;
+static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
 
 E_MAKE_TYPE (e_tasks, "ETasks", ETasks,
@@ -96,7 +102,20 @@ e_tasks_class_init (ETasksClass *class)
 
 	parent_class = gtk_type_class (GTK_TYPE_TABLE);
 
+	e_tasks_signals[SELECTION_CHANGED] =
+		gtk_signal_new ("selection_changed",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ETasksClass, selection_changed),
+				gtk_marshal_NONE__INT,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_INT);
+
+	gtk_object_class_add_signals (object_class, e_tasks_signals, LAST_SIGNAL);
+
 	object_class->destroy = e_tasks_destroy;
+
+	class->selection_changed = NULL;
 }
 
 
@@ -112,6 +131,19 @@ e_tasks_init (ETasks *tasks)
 	setup_widgets (tasks);
 }
 
+/* Callback used when the selection changes in the table. */
+static void
+table_selection_change_cb (ETable *etable, gpointer data)
+{
+	ETasks *tasks;
+	int n_selected;
+
+	tasks = E_TASKS (data);
+
+	n_selected = e_table_selected_count (etable);
+	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SELECTION_CHANGED],
+			 n_selected);
+}
 
 #define E_TASKS_TABLE_DEFAULT_STATE					\
 	"<?xml version=\"1.0\"?>"					\
@@ -170,6 +202,9 @@ setup_widgets (ETasks *tasks)
 	gtk_signal_connect (GTK_OBJECT (E_CALENDAR_TABLE (priv->tasks_view)->model),
 			    "categories-changed",
 			    GTK_SIGNAL_FUNC (e_tasks_on_categories_changed), tasks);
+
+	gtk_signal_connect (GTK_OBJECT (etable), "selection_change",
+			    GTK_SIGNAL_FUNC (table_selection_change_cb), tasks);
 }
 
 
@@ -443,6 +478,27 @@ e_tasks_new_task			(ETasks		*tasks)
 	gtk_object_unref (GTK_OBJECT (comp));
 
 	task_editor_focus (tedit);
+}
+
+/**
+ * e_tasks_delete_selected:
+ * @tasks: A tasks control widget.
+ * 
+ * Deletes the selected tasks in the task list.
+ **/
+void
+e_tasks_delete_selected (ETasks *tasks)
+{
+	ETasksPrivate *priv;
+	ECalendarTable *cal_table;
+
+	g_return_if_fail (tasks != NULL);
+	g_return_if_fail (E_IS_TASKS (tasks));
+
+	priv = tasks->priv;
+
+	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
+	e_calendar_table_delete_selected (cal_table);
 }
 
 

@@ -1,3 +1,21 @@
+2001-05-21  Federico Mena Quintero  <federico@ximian.com>
+
+	Fix bug #2831; the tasks toolbar and menu now have a button to
+	delete the selected tasks.
+
+	* gui/e-calendar-table.c (e_calendar_table_delete_selected): New
+	function.
+	(delete_cb): Use e_calendar_table_delete_selected().
+	(e_calendar_table_get_table): New function.
+
+	* gui/tasks-control.c (tasks_control_new_task_cmd): Handle the
+	delete command.
+	(selection_changed_cb): Change the sensitivity of the TasksDelete
+	command when the selection in the table changes.
+
+	* gui/e-tasks.c (table_selection_change_cb): Notify upstream when
+	the ETable selection changes.
+
 2001-05-18  Federico Mena Quintero  <federico@ximian.com>
 
 	Fix bug #2829.

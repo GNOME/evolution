@@ -26,6 +26,7 @@
 #define _E_CALENDAR_TABLE_H_
 
 #include <gtk/gtktable.h>
+#include <gal/e-table/e-table-scrolled.h>
 #include <widgets/misc/e-cell-date-edit.h>
 #include "calendar-model.h"
 
@@ -97,6 +98,10 @@ CalendarModel *e_calendar_table_get_model	(ECalendarTable *cal_table);
 
 void	   e_calendar_table_set_cal_client	(ECalendarTable *cal_table,
 						 CalClient	*client);
+
+ETable *e_calendar_table_get_table (ECalendarTable *cal_table);
+
+void e_calendar_table_delete_selected (ECalendarTable *cal_table);
 
 /* These load and save the state of the table (headers shown etc.) to/from
    the given file. */

@@ -31,7 +31,6 @@
 #include <config.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <gal/e-table/e-table-scrolled.h>
 #include <gal/e-table/e-cell-checkbox.h>
 #include <gal/e-table/e-cell-toggle.h>
 #include <gal/e-table/e-cell-text.h>
@@ -526,60 +525,22 @@ e_calendar_table_set_cal_client (ECalendarTable *cal_table,
 				       CALOBJ_TYPE_TODO);
 }
 
-
-/* Opens a task in the task editor */
-static void
-open_task (ECalendarTable *cal_table, CalComponent *comp)
+/**
+ * e_calendar_table_get_table:
+ * @cal_table: A calendar table.
+ * 
+ * Queries the #ETable widget that the calendar table is using.
+ * 
+ * Return value: The #ETable widget that the calendar table uses to display its
+ * data.
+ **/
+ETable *
+e_calendar_table_get_table (ECalendarTable *cal_table)
 {
-	TaskEditor *tedit;
+	g_return_val_if_fail (cal_table != NULL, NULL);
+	g_return_val_if_fail (E_IS_CALENDAR_TABLE (cal_table), NULL);
 
-	tedit = task_editor_new ();
-	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
-	task_editor_set_todo_object (tedit, comp);
-	task_editor_focus (tedit);
-}
-
-/* Opens the task in the specified row */
-static void
-open_task_by_row (ECalendarTable *cal_table, int row)
-{
-	CalComponent *comp;
-
-	comp = calendar_model_get_component (cal_table->model, row);
-	open_task (cal_table, comp);
-}
-
-static void
-e_calendar_table_on_double_click (ETable *table,
-				  gint row, 
-				  gint col,
-				  GdkEvent *event,
-				  ECalendarTable *cal_table)
-{
-	open_task_by_row (cal_table, row);
-}
-
-/* Used from e_table_selected_row_foreach() */
-static void
-mark_row_complete_cb (int model_row, gpointer data)
-{
-	ECalendarTable *cal_table;
-
-	cal_table = E_CALENDAR_TABLE (data);
-	calendar_model_mark_task_complete (cal_table->model, model_row);
-}
-
-/* Callback used for the "mark tasks as complete" menu item */
-static void
-mark_as_complete_cb (GtkWidget *menuitem, gpointer data)
-{
-	ECalendarTable *cal_table;
-	ETable *etable;
-
-	cal_table = E_CALENDAR_TABLE (data);
-
-	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
-	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
+	return e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 }
 
 /* Used from e_table_selected_row_foreach(); puts the selected row number in an
@@ -676,16 +637,21 @@ delete_selected_components (ECalendarTable *cal_table)
 	g_slist_free (uids);
 }
 
-/* Callback for the "delete tasks" menu item */
-static void
-delete_cb (GtkWidget *menuitem, gpointer data)
+/**
+ * e_calendar_table_delete_selected:
+ * @cal_table: A calendar table.
+ * 
+ * Deletes the selected components in the table; asks the user first.
+ **/
+void
+e_calendar_table_delete_selected (ECalendarTable *cal_table)
 {
-	ECalendarTable *cal_table;
 	ETable *etable;
 	int n_selected;
 	CalComponent *comp;
 
-	cal_table = E_CALENDAR_TABLE (data);
+	g_return_if_fail (cal_table != NULL);
+	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
 
 	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
 
@@ -699,6 +665,71 @@ delete_cb (GtkWidget *menuitem, gpointer data)
 
 	if (delete_component_dialog (comp, n_selected, CAL_COMPONENT_TODO, GTK_WIDGET (cal_table)))
 		delete_selected_components (cal_table);
+}
+
+/* Opens a task in the task editor */
+static void
+open_task (ECalendarTable *cal_table, CalComponent *comp)
+{
+	TaskEditor *tedit;
+
+	tedit = task_editor_new ();
+	task_editor_set_cal_client (tedit, calendar_model_get_cal_client (cal_table->model));
+	task_editor_set_todo_object (tedit, comp);
+	task_editor_focus (tedit);
+}
+
+/* Opens the task in the specified row */
+static void
+open_task_by_row (ECalendarTable *cal_table, int row)
+{
+	CalComponent *comp;
+
+	comp = calendar_model_get_component (cal_table->model, row);
+	open_task (cal_table, comp);
+}
+
+static void
+e_calendar_table_on_double_click (ETable *table,
+				  gint row, 
+				  gint col,
+				  GdkEvent *event,
+				  ECalendarTable *cal_table)
+{
+	open_task_by_row (cal_table, row);
+}
+
+/* Used from e_table_selected_row_foreach() */
+static void
+mark_row_complete_cb (int model_row, gpointer data)
+{
+	ECalendarTable *cal_table;
+
+	cal_table = E_CALENDAR_TABLE (data);
+	calendar_model_mark_task_complete (cal_table->model, model_row);
+}
+
+/* Callback used for the "mark tasks as complete" menu item */
+static void
+mark_as_complete_cb (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+	ETable *etable;
+
+	cal_table = E_CALENDAR_TABLE (data);
+
+	etable = e_table_scrolled_get_table (E_TABLE_SCROLLED (cal_table->etable));
+	e_table_selected_row_foreach (etable, mark_row_complete_cb, cal_table);
+}
+
+/* Callback for the "delete tasks" menu item */
+static void
+delete_cb (GtkWidget *menuitem, gpointer data)
+{
+	ECalendarTable *cal_table;
+
+	cal_table = E_CALENDAR_TABLE (data);
+	e_calendar_table_delete_selected (cal_table);
 }
 
 static GnomeUIInfo tasks_popup_one[] = {

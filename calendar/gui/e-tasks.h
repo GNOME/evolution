@@ -49,6 +49,9 @@ struct _ETasks {
 
 struct _ETasksClass {
 	GtkTableClass parent_class;
+
+	/* Notification signals */
+	void (* selection_changed) (ETasks *tasks, int n_selected);
 };
 
 
@@ -63,6 +66,7 @@ gboolean   e_tasks_open            (ETasks            *tasks,
 CalClient *e_tasks_get_cal_client  (ETasks            *tasks);
 
 void       e_tasks_new_task        (ETasks            *tasks);
+void       e_tasks_delete_selected (ETasks            *tasks);
 
 void       e_tasks_setup_menus     (ETasks            *tasks,
 				    BonoboUIComponent *uic);
