@@ -10,6 +10,7 @@
 
 
 #include <gtk/gtktable.h>
+#include <gtk/gtkvbox.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnomeui/gtkcalendar.h>
 #include "gnome-cal.h"

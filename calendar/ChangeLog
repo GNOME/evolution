@@ -1,3 +1,8 @@
+1998-09-16  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gncal-week-view.c (<gtk/gtklabel.h>): Include.
+	* gncal-week-view.h (<gtk/gtkvbox.h>): Include.
+
 1998-09-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome-cal.c (mail_notify): Fixed the bug reported about the mail
