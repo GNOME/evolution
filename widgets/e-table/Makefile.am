@@ -2,11 +2,13 @@
 gladedir = $(datadir)/evolution/glade
 glade_DATA = 					\
 	e-table-config.glade			\
-	e-table-group.glade
+	e-table-group.glade			\
+	e-table-field-chooser.glade
 
 glade_headers = 				\
 	e-table-config.glade.h			\
-	e-table-group.glade.h
+	e-table-group.glade.h			\
+	e-table-field-chooser.glade.h
 
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
@@ -37,6 +39,12 @@ libetable_a_SOURCES = 				\
 	e-table-config.c			\
 	e-table-config.h			\
 	e-table-defines.h			\
+	e-table-field-chooser-dialog.c		\
+	e-table-field-chooser-dialog.h		\
+	e-table-field-chooser-item.c		\
+	e-table-field-chooser-item.h		\
+	e-table-field-chooser.c			\
+	e-table-field-chooser.h			\
 	e-table-group.c				\
 	e-table-group.h				\
 	e-table-group-container.c		\

@@ -20,7 +20,7 @@ typedef struct {
 	GdkGC           *gc;
 	GdkCursor       *change_cursor;
 
-	short            x1, y1, height, width;
+	short            height, width;
 	GdkFont         *font;
 
 	/*
@@ -45,16 +45,21 @@ typedef struct {
 	guint            maybe_drag:1;
 	guint            dnd_ready:1;
 	int              click_x, click_y;
-	int              drag_col, drag_mark;
-        guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id;
+	int              drag_col, drop_col, drag_mark;
+        guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id, drag_data_received_id, drag_data_get_id;
 	guint            sort_info_changed_id, group_info_changed_id;
 	GnomeCanvasItem *remove_item;
 	GdkBitmap       *stipple;
+
+	gchar           *dnd_code;
 
 	/*
 	 * For column sorting info
 	 */
 	ETableSortInfo  *sort_info;
+	
+	/* For adding fields. */
+	ETableHeader    *full_header;
 } ETableHeaderItem;
 
 typedef struct {

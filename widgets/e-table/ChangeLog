@@ -1,3 +1,18 @@
+2000-06-07  Christopher James Lahey  <clahey@helixcode.com>
+
+	* Makefile.am: Added e-table-field-chooser*.
+
+	* e-table-defines.h: Moved some things to here.
+
+	* e-table-field-chooser-dialog.c, e-table-field-chooser-dialog.h,
+	e-table-field-chooser-item.c, e-table-field-chooser-item.h,
+	e-table-field-chooser.c, e-table-field-chooser.glade,
+	e-table-field-chooser.glade.h, e-table-field-chooser.h: New dialog
+	to drag extra fields from.  (Not yet finished.)
+
+	* e-table-header-item.c, e-table-header-item.h: Changed to
+	accommodate e-table-field-chooser.
+
 2000-06-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-group-container.c, e-table-group-leaf.c,
