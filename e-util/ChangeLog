@@ -1,3 +1,26 @@
+2001-01-23  Not Zed  <NotZed@Ximian.com>
+
+	* e-sexp.c (e_sexp_parse): Setup error return and return error on
+	parse error.
+	(parse_list): Fail if we have a problem.
+	(parse_value): Here too.
+	(fatal_error): Fatal error handling function, jumps back to the
+	top caller.
+	(term_eval_and):
+	(e_sexp_term_eval): 
+	(term_eval_sub): 
+	(term_eval_plus): 
+	(term_eval_gt): 
+	(term_eval_lt): 
+	(term_eval_or):  Fail on error.
+	(e_sexp_term_eval): Added a comment about where this can be
+	called, which is only from inside e_sexp_eval().
+	(e_sexp_eval): Setup setjmp error handler.
+	(e_sexp_error): Error accessor function.
+
+	* e-sexp.h: Added a longjmp environment to the structure, and an
+	error return to parse.	
+
 2001-01-22  JP Rosevear  <jpr@ximian.com>
 
 	* e-dbhash.c (md5_to_dbt): New function, can't use strlen on the md5

@@ -126,6 +126,28 @@ static GScannerConfig scanner_config =
 	FALSE			/* scope_0_fallback */,
 };
 
+/* jumps back to the caller of f->failenv, only to be called from inside a callback */
+void
+e_sexp_fatal_error(struct _ESExp *f, char *why, ...)
+{
+	va_list args;
+
+	if (f->error)
+		g_free(f->error);
+	
+	va_start(args, why);
+	f->error = g_strdup_vprintf(why, args);
+	va_end(args);
+
+	longjmp(f->failenv, 1);
+}
+
+const char *
+e_sexp_error(struct _ESExp *f)
+{
+	return f->error;
+}
+
 struct _ESExpResult *
 e_sexp_result_new(int type)
 {
@@ -200,7 +222,10 @@ term_eval_and(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		if (type == -1)
 			type = r1->type;
 		if (type != r1->type) {
-			printf("invalid types in and operation, all types must be the same\n");
+			e_sexp_result_free(r);
+			e_sexp_result_free(r1);
+			g_hash_table_destroy(ht);
+			e_sexp_fatal_error(f, "Invalid types in AND");
 		} else if ( r1->type == ESEXP_RES_ARRAY_PTR ) {
 			char **a1;
 			int l1, j;
@@ -253,7 +278,10 @@ term_eval_or(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		if (type == -1)
 			type = r1->type;
 		if (r1->type != type) {
-			printf("wrong types in or operation\n");
+			e_sexp_result_free(r);
+			e_sexp_result_free(r1);
+			g_hash_table_destroy(ht);
+			e_sexp_fatal_error(f, "Invalid types in OR");
 		} else if (r1->type == ESEXP_RES_ARRAY_PTR) {
 			char **a1;
 			int l1, j;
@@ -312,7 +340,10 @@ term_eval_lt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		r1 = e_sexp_term_eval(f, argv[0]);
 		r2 = e_sexp_term_eval(f, argv[1]);
 		if (r1->type != r2->type) {
-			printf("error, invalid types in compare\n");
+			e_sexp_result_free(r1);
+			e_sexp_result_free(r2);
+			e_sexp_result_free(r);
+			e_sexp_fatal_error(f, "Incompatible types in compare <");
 		} else if (r1->type == ESEXP_RES_INT) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = r1->value.number < r2->value.number;
@@ -338,7 +369,10 @@ term_eval_gt(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 		r1 = e_sexp_term_eval(f, argv[0]);
 		r2 = e_sexp_term_eval(f, argv[1]);
 		if (r1->type != r2->type) {
-			printf("error, invalid types in compare\n");
+			e_sexp_result_free(r1);
+			e_sexp_result_free(r2);
+			e_sexp_result_free(r);
+			e_sexp_fatal_error(f, "Incompatible types in compare >");
 		} else if (r1->type == ESEXP_RES_INT) {
 			r->type = ESEXP_RES_BOOL;
 			r->value.bool = r1->value.number > r2->value.number;
@@ -394,7 +428,8 @@ term_eval_plus(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *dat
 				total += argv[i]->value.number;
 			}
 			if (i<argc) {
-				g_warning("Wrong type trying to add integers: ignored");
+				/* FIXME: this leaks the results in argv */
+				e_sexp_fatal_error(f, "Invalid types in (+ ints)");
 			}
 			r = e_sexp_result_new(ESEXP_RES_INT);
 			r->value.number = total;
@@ -405,7 +440,7 @@ term_eval_plus(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *dat
 				g_string_append(s, argv[i]->value.string);
 			}
 			if (i<argc) {
-				g_warning("Wrong type trying to concat strings: ignored");
+				e_sexp_fatal_error(f, "Invalid types in (+ strings)");
 			}
 			r = e_sexp_result_new(ESEXP_RES_STRING);
 			r->value.string = s->str;
@@ -438,7 +473,8 @@ term_eval_sub(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 				total -= argv[i]->value.number;
 			}
 			if (i<argc) {
-				g_warning("Wrong type trying to subtract numbers: ignored");
+				/* FIXME: this leaks the results in argv */
+				e_sexp_fatal_error(f, "Invalid types in -");
 			}
 			r = e_sexp_result_new(ESEXP_RES_INT);
 			r->value.number = total;
@@ -492,6 +528,7 @@ term_eval_begin(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data
 }
 
 
+/* this must only be called from inside term evaluation callbacks! */
 struct _ESExpResult *
 e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 {
@@ -553,8 +590,7 @@ e_sexp_term_eval(struct _ESExp *f, struct _ESExpTerm *t)
 		}
 		break; }
 	default:
-		printf("Warning: Unknown type encountered in parse tree: %d\n", t->type);
-		r->type = ESEXP_RES_UNDEFINED;
+		e_sexp_fatal_error(f, "Unknown type in parse tree: %d", t->type);
 	}
 
 	return r;
@@ -692,7 +728,7 @@ parse_values(ESExp *f, int *len)
 	p(printf("parsing values\n"));
 
 	/* FIXME: This hardcoded nonsense!!! :) */
-	terms = g_malloc0(20*sizeof(*terms));
+	terms = g_malloc0(30*sizeof(*terms));
 
 	while ( (token = g_scanner_peek_next_token(gs)) != G_TOKEN_EOF
 		&& token != ')') {
@@ -755,13 +791,16 @@ parse_value(ESExp *f)
 			break;
 		default:
 			printf("Invalid symbol type: %d\n", s->type);
+			e_sexp_fatal_error(f, "Invalid symbol type: %s: %d", s->name, s->type);
 		}
 		break;
 	case G_TOKEN_IDENTIFIER:
 		printf("Unknown identifier encountered: %s\n", g_scanner_cur_value(gs).v_identifier);
+		e_sexp_fatal_error(f, "Unknown identifier: %s", g_scanner_cur_value(gs).v_identifier);
 		break;
 	default:
 		printf("Innvalid token trying to parse a list of values\n");
+		e_sexp_fatal_error(f, "Unexpected token encountered: %d", token);
 	}
 	p(printf("done parsing value\n"));
 	return t;
@@ -800,20 +839,26 @@ parse_list(ESExp *f, int gotbrace)
 				t->value.func.terms = parse_values(f, &t->value.func.termcount);
 			} else {
 				printf("Error, trying to call variable as function\n");
+				parse_term_free(t);
+				e_sexp_fatal_error(f, "Trying to call variable as function: %s", s->name);
 			}
 			break; }
 		case G_TOKEN_IDENTIFIER:
 			printf("Unknown identifier: %s\n", g_scanner_cur_value(gs).v_identifier);
+			e_sexp_fatal_error(f, "Unknown identifier: %s", g_scanner_cur_value(gs).v_identifier);
 			break;
 		default:
 			printf("unknown sequence encountered, type = %d\n", token);
+			e_sexp_fatal_error(f, "Unexpected token encountered: %d", token);
 		}
 		token = g_scanner_get_next_token(gs);
 		if (token != ')') {
 			printf("Error, expected ')' not found\n");
+			e_sexp_fatal_error(f, "Missing ')'");
 		}
 	} else {
 		printf("Error, list term without opening (\n");
+		e_sexp_fatal_error(f, "Missing '('");
 	}
 
 	p(printf("returning list %p\n", t));
@@ -1046,23 +1091,36 @@ e_sexp_input_file (ESExp *f, int fd)
 	g_scanner_input_file(f->scanner, fd);
 }
 
-/* needs some error return? */
-void
+/* returns -1 on error */
+int
 e_sexp_parse(ESExp *f)
 {
-	g_return_if_fail(FILTER_IS_SEXP(f));
+	g_return_val_if_fail(FILTER_IS_SEXP(f), -1);
+
+	if (setjmp(f->failenv)) {
+		g_warning("Error in parsing: %s", f->error);
+		return -1;
+	}
 
 	if (f->tree)
 		parse_term_free(f->tree);
 
 	f->tree = parse_list(f, FALSE);
+
+	return 0;
 }
 
+/* returns NULL on error */
 struct _ESExpResult *
 e_sexp_eval(ESExp *f)
 {
 	g_return_val_if_fail(FILTER_IS_SEXP(f), NULL);
 	g_return_val_if_fail(f->tree != NULL, NULL);
+
+	if (setjmp(f->failenv)) {
+		g_warning("Error in execution: %s", f->error);
+		return NULL;
+	}
 
 	return e_sexp_term_eval(f, f->tree);
 }
