@@ -433,6 +433,8 @@ build_stuff (GalViewMenus      *gvm,
 {
 	char *xml;
 
+	gtk_object_ref (gvm);
+
 	gal_view_menus_unmerge (gvm, ev);
 
 	remove_listeners(gvm);
@@ -444,6 +446,8 @@ build_stuff (GalViewMenus      *gvm,
 	bonobo_ui_component_add_verb_list_with_data(gvm->priv->component, verbs, gvm);
 
 	set_radio (gvm, ev);
+
+	gtk_object_unref (gvm);
 }
 
 void
