@@ -41,6 +41,8 @@ extern "C" {
 #define E_IS_MSG_COMPOSER_HDRS_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
 
 
+#define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
+
 typedef struct _EMsgComposerHdrs        EMsgComposerHdrs;
 typedef struct _EMsgComposerHdrsClass   EMsgComposerHdrsClass;
 typedef struct _EMsgComposerHdrsPrivate EMsgComposerHdrsPrivate;

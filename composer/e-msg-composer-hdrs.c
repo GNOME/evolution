@@ -49,7 +49,6 @@
 #include "addressbook/backend/ebook/e-book-util.h"
 
 
-#define SELECT_NAMES_OAFID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
 
 /* Indexes in the GtkTable assigned to various items */
 
@@ -103,12 +102,11 @@ setup_corba (EMsgComposerHdrs *hdrs)
 
 	CORBA_exception_init (&ev);
 
-	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFID, 0, NULL, &ev);
+	priv->corba_select_names = oaf_activate_from_id (SELECT_NAMES_OAFIID, 0, NULL, &ev);
 
 	/* OAF seems to be broken -- it can return a CORBA_OBJECT_NIL without
            raising an exception in `ev'.  */
 	if (ev._major != CORBA_NO_EXCEPTION || priv->corba_select_names == CORBA_OBJECT_NIL) {
-		g_warning ("Cannot activate -- %s", SELECT_NAMES_OAFID);
 		CORBA_exception_free (&ev);
 		return FALSE;
 	}

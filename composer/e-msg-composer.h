@@ -104,7 +104,6 @@ struct _EMsgComposerClass {
 
 
 GtkType           e_msg_composer_get_type             (void);
-void              e_msg_composer_construct            (EMsgComposer     *composer);
 EMsgComposer     *e_msg_composer_new                  (void);
 EMsgComposer     *e_msg_composer_new_with_message     (CamelMimeMessage *msg);
 EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);

@@ -1271,6 +1271,9 @@ autosave_manager_register (AutosaveManager *am, EMsgComposer *composer)
 static void
 autosave_manager_unregister (AutosaveManager *am, EMsgComposer *composer) 
 {
+	if (!composer->autosave_file)
+		return;
+
 	g_hash_table_remove (am->table, g_basename (composer->autosave_file));
 	
 	/* only remove the file if we can successfully save it */
@@ -2155,11 +2158,6 @@ init (EMsgComposer *composer)
 	composer->charset                  = NULL;
 	composer->autosave_file            = NULL;
 	composer->autosave_fd              = -1;
-	
-	if (am == NULL) {
-		am = autosave_manager_new ();
-	}
-	autosave_manager_register (am, composer);
 }
 
 
@@ -2294,20 +2292,17 @@ map_default_cb (EMsgComposer *composer, gpointer user_data)
 	CORBA_exception_free (&ev);
 }
 
-/**
- * e_msg_composer_construct:
- * @composer: A message composer widget
- * 
- * Construct @composer.
- **/
-void
-e_msg_composer_construct (EMsgComposer *composer)
+static EMsgComposer *
+create_composer (void)
 {
+	EMsgComposer *composer;
 	GtkWidget *vbox;
 	BonoboObject *editor_server;
 	gint vis;
 	
-	g_return_if_fail (gtk_main_level () > 0);
+	g_return_val_if_fail (gtk_main_level () > 0, NULL);
+
+	composer = gtk_type_new (E_TYPE_MSG_COMPOSER);
 	
 	gtk_window_set_default_size (GTK_WINDOW (composer),
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
@@ -2329,6 +2324,15 @@ e_msg_composer_construct (EMsgComposer *composer)
 	
 	vis = e_msg_composer_get_visible_flags (composer);
 	composer->hdrs = e_msg_composer_hdrs_new (vis);
+	if (!composer->hdrs) {
+		e_activation_failure_dialog (GTK_WINDOW (composer),
+					     _("Could not create composer window:\n"
+					       "Unable to activate address selector control."),
+					     SELECT_NAMES_OAFIID,
+					     "IDL:Bonobo/Control:1.0");
+		gtk_object_destroy (GTK_OBJECT (composer));
+		return NULL;
+	}
 	
 	gtk_box_pack_start (GTK_BOX (vbox), composer->hdrs, FALSE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (composer->hdrs), "subject_changed",
@@ -2343,9 +2347,15 @@ e_msg_composer_construct (EMsgComposer *composer)
 	composer->editor = bonobo_widget_new_control (
 		GNOME_GTKHTML_EDITOR_CONTROL_ID,
 		bonobo_ui_component_get_container (composer->uic));
-	
-	if (!composer->editor)
-		return;
+	if (!composer->editor) {
+		e_activation_failure_dialog (GTK_WINDOW (composer),
+					     _("Could not create composer window:\n"
+					       "Unable to activate HTML editor component."),
+					     GNOME_GTKHTML_EDITOR_CONTROL_ID,
+					     "IDL:Bonobo/Control:1.0");
+		gtk_object_destroy (GTK_OBJECT (composer));
+		return NULL;
+	}
 	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
@@ -2393,23 +2403,13 @@ e_msg_composer_construct (EMsgComposer *composer)
 
 	prepare_engine (composer);
 	gtk_signal_connect (GTK_OBJECT (composer), "map", map_default_cb, NULL);
-}
 
-static EMsgComposer *
-create_composer (void)
-{
-	EMsgComposer *new;
-	
-	new = gtk_type_new (E_TYPE_MSG_COMPOSER);
-	e_msg_composer_construct (new);
-	if (!new->editor) {
-		e_notice (GTK_WINDOW (new), GNOME_MESSAGE_BOX_ERROR,
-			  _("Could not create composer window."));
-		gtk_object_unref (GTK_OBJECT (new));
-		return NULL;
+	if (am == NULL) {
+		am = autosave_manager_new ();
 	}
-	
-	return new;
+	autosave_manager_register (am, composer);
+
+	return composer;
 }
 
 /**
