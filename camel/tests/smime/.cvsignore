@@ -2,3 +2,4 @@
 .libs
 Makefile*
 pgp
+pgp-mime

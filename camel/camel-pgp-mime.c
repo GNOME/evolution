@@ -26,10 +26,16 @@
 #endif
 
 #include "camel-pgp-mime.h"
-#inlcude "camel-mime-filter-from.h"
+#include "camel-mime-filter-from.h"
+#include "camel-mime-filter-crlf.h"
+#include "camel-stream-filter.h"
+#include "camel-stream-mem.h"
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#define d(x) x
 
 /** rfc2015 stuff (aka PGP/MIME) *******************************/
 
@@ -198,8 +204,8 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
  * @ex will be set and #part will remain untouched.
  **/
 void
-camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, const gchar *userid,
-			  PgpHashType hash, CamelException *ex)
+camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, const char *userid,
+			  CamelPgpHashType hash, CamelException *ex)
 {
 	CamelMimePart *part, *signed_part;
 	CamelMultipart *multipart;
@@ -213,7 +219,6 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	g_return_if_fail (*mime_part != NULL);
 	g_return_if_fail (CAMEL_IS_MIME_PART (*mime_part));
 	g_return_if_fail (userid != NULL);
-	g_return_if_fail (hash != PGP_HASH_TYPE_NONE);
 	
 	part = *mime_part;
 	
@@ -249,28 +254,31 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 		g_slist_free (encodings);
 		return;
 	}
+	
 	camel_object_unref (CAMEL_OBJECT (stream));
+	camel_stream_reset (sigstream);
 	
 	/* we don't need these anymore... */
 	g_slist_free (encodings);
 	
 	/* construct the pgp-signature mime part */
-	d(fprintf (stderr, "signature:\n%*.s\n", CAMEL_STREAM_MEM (sigstream)->buffer->len,
-		   CAMEL_STREAM_MEM (sigstream)->buffer->data));
 	signed_part = camel_mime_part_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (signed_part), sigstream);
+	camel_mime_part_set_content (signed_part, CAMEL_STREAM_MEM (sigstream)->buffer->data,
+				     CAMEL_STREAM_MEM (sigstream)->buffer->len,
+				     "application/pgp-signature");
 	camel_object_unref (CAMEL_OBJECT (sigstream));
-	camel_mime_part_set_content_type (signed_part, "application/pgp-signature");
 	
 	/* construct the container multipart/signed */
 	switch (hash) {
-	case PGP_HASH_TYPE_MD5:
+	case CAMEL_PGP_HASH_TYPE_MD5:
 		hash_type = "pgp-md5";
 		break;
-	case PGP_HASH_TYPE_SHA1:
+	case CAMEL_PGP_HASH_TYPE_SHA1:
 		hash_type = "pgp-sha1";
 		break;
 	default:
+		/* set a reasonable default */
+		hash = CAMEL_PGP_HASH_TYPE_SHA1;
 		hash_type = "pgp-sha1";
 		break;
 	}
@@ -305,18 +313,18 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
  * @mime_part: a multipart/signed MIME Part
  * @ex: exception
  *
- * Returns a PgpValidity on success or NULL on fail.
+ * Returns a CamelPgpValidity on success or NULL on fail.
  **/
-PgpValidity *
+CamelPgpValidity *
 camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelDataWrapper *wrapper;
 	CamelMultipart *multipart;
 	CamelMimePart *part, *sigpart;
 	CamelStreamFilter *filtered_stream;
-	CamelMimeFilter *crlf_filter;
+	CamelMimeFilter *crlf_filter, *from_filter;
 	CamelStream *stream, *sigstream;
-	PgpValidity *valid;
+	CamelPgpValidity *valid;
 	
 	g_return_val_if_fail (mime_part != NULL, NULL);
 	g_return_val_if_fail (CAMEL_IS_MIME_PART (mime_part), NULL);
@@ -332,9 +340,12 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	stream = camel_stream_mem_new ();
 	crlf_filter = camel_mime_filter_crlf_new (CAMEL_MIME_FILTER_CRLF_ENCODE,
 						  CAMEL_MIME_FILTER_CRLF_MODE_CRLF_ONLY);
+	from_filter = CAMEL_MIME_FILTER (camel_mime_filter_from_new ());
 	filtered_stream = camel_stream_filter_new_with_stream (stream);
 	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (crlf_filter));
 	camel_object_unref (CAMEL_OBJECT (crlf_filter));
+	camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (from_filter));
+	camel_object_unref (CAMEL_OBJECT (from_filter));
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (part), CAMEL_STREAM (filtered_stream));
 	camel_object_unref (CAMEL_OBJECT (filtered_stream));
 	camel_stream_reset (stream);
@@ -369,7 +380,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
  **/
 void
 camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part,
-			     const GPtrArray *recipients, CamelException *ex)
+			     GPtrArray *recipients, CamelException *ex)
 {
 	CamelMultipart *multipart;
 	CamelMimePart *part, *version_part, *encrypted_part;
@@ -414,12 +425,13 @@ camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part
 	
 	/* construct the pgp-encrypted mime part */
 	encrypted_part = camel_mime_part_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (encrypted_part), ciphertext);
+	camel_mime_part_set_content (encrypted_part, CAMEL_STREAM_MEM (ciphertext)->buffer->data,
+				     CAMEL_STREAM_MEM (ciphertext)->buffer->len,
+				     "application/octet-stream");
 	camel_object_unref (CAMEL_OBJECT (ciphertext));
-	camel_mime_part_set_content_type (encrypted_part, "application/octet-stream");
 	camel_mime_part_set_encoding (encrypted_part, CAMEL_MIME_PART_ENCODING_7BIT);
 	
-	/* construct the container multipart/signed */
+	/* construct the container multipart/encrypted */
 	multipart = camel_multipart_new ();
 	
 	mime_type = header_content_type_new ("multipart", "encrypted");
@@ -480,6 +492,7 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	/* get the ciphertext */
 	ciphertext = camel_stream_mem_new ();
 	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (encrypted_part), ciphertext);
+	camel_stream_reset (ciphertext);
 	
 	/* get the cleartext */
 	stream = camel_stream_mem_new ();

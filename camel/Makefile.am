@@ -55,6 +55,7 @@ libcamel_la_SOURCES = 				\
 	camel-object.c				\
 	camel-operation.c			\
 	camel-pgp-context.c			\
+	camel-pgp-mime.c			\
 	camel-provider.c			\
 	camel-remote-store.c			\
 	camel-sasl.c				\
@@ -128,6 +129,7 @@ libcamelinclude_HEADERS =			\
 	camel-object.h				\
 	camel-operation.h			\
 	camel-pgp-context.h			\
+	camel-pgp-mime.h			\
 	camel-provider.h			\
 	camel-remote-store.h			\
 	camel-sasl.h				\

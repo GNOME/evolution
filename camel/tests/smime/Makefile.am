@@ -14,9 +14,7 @@ LDADD = \
 	$(BONOBO_GNOME_LIBS)
 
 check_PROGRAMS =  	\
-	pgp
+	pgp		\
+	pgp-mime
 
-TESTS = pgp
-
-
-
+TESTS = pgp pgp-mime

@@ -25,8 +25,10 @@
 #define CAMEL_PGP_MIME_H
 
 #include <glib.h>
+#include <camel/camel-multipart.h>
 #include <camel/camel-mime-part.h>
 #include <camel/camel-pgp-context.h>
+#include <camel/camel-exception.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -38,17 +40,17 @@ gboolean camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *part);
 
 void camel_pgp_mime_part_sign (CamelPgpContext *context,
 			       CamelMimePart **mime_part,
-			       const gchar *userid,
+			       const char *userid,
 			       CamelPgpHashType hash,
 			       CamelException *ex);
 
-CamelPgpValidity *camel_pgp_mime_part_verify (CamelPgpContext,
+CamelPgpValidity *camel_pgp_mime_part_verify (CamelPgpContext *context,
 					      CamelMimePart *mime_part,
 					      CamelException *ex);
 
 void camel_pgp_mime_part_encrypt (CamelPgpContext *context,
 				  CamelMimePart **mime_part,
-				  const GPtrArray *recipients,
+				  GPtrArray *recipients,
 				  CamelException *ex);
 
 CamelMimePart *camel_pgp_mime_part_decrypt (CamelPgpContext *context,

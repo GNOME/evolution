@@ -1,3 +1,15 @@
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* tests/smime/Makefile.am: Added pgp-mime.c to the tests.
+
+	* tests/smime/pgp-mime.c: Test suite for camel-pgp-mime.c functions.
+
+	* Makefile.am: Add camel-pgp-mime.[c,h] to the build.
+
+	* camel-pgp-mime.c: Made a number of fixes to get it to compile
+	and also fixed a few logic errors (mostly forgetting to reset
+	streams) so that it worked (thanks to the pgp-mime test program).
+
 2001-04-11  JP Rosevear  <jpr@ximian.com>
 
 	* providers/imap/Makefile.am: user GNOME_INCLUDEDIR since gnome
