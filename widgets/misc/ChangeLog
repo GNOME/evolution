@@ -1,3 +1,12 @@
+2003-11-16  JP Rosevear <jpr@ximian.com>
+
+	* e-source-selector.c (e_source_selector_set_primary_selection):
+	use find_source_iter and get the selection from the right spot
+	(find_source_iter): util function to find the iter given the
+	source
+	(e_source_selector_select_source): signal that the model changed
+	(e_source_selector_unselect_source): ditto
+
 2003-11-14  JP Rosevear <jpr@ximian.com>
 
 	* e-source-selector.h: include e-source stuff from e-d-s

@@ -102,6 +102,30 @@ unselect_source (ESourceSelector *selector,
 	g_hash_table_remove (selector->priv->selected_sources, source);
 }
 
+static gboolean
+find_source_iter (ESourceSelector *selector, ESource *source, GtkTreeIter *source_iter)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (selector->priv->tree_store);
+	GtkTreeIter iter;
+
+	if (gtk_tree_model_get_iter_first (model, &iter)) {
+		do {
+			if (gtk_tree_model_iter_children (model, source_iter, &iter)) {
+				do {
+					void *data;
+
+					gtk_tree_model_get (model, source_iter, 0, &data, -1);
+					g_assert (E_IS_SOURCE (data));
+
+					if (E_SOURCE (data) == source)
+						return TRUE;
+				} while (gtk_tree_model_iter_next (model, source_iter));
+			}
+		} while (gtk_tree_model_iter_next (model, &iter));
+	}
+
+	return FALSE;
+}
 
 /* Setting up the model.  */
 
@@ -594,6 +618,8 @@ void
 e_source_selector_select_source (ESourceSelector *selector,
 				 ESource *source)
 {
+	GtkTreeIter source_iter;
+	
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
 
@@ -601,7 +627,17 @@ e_source_selector_select_source (ESourceSelector *selector,
 		return;
 
 	select_source (selector, source);
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+
+	if (find_source_iter (selector, source, &source_iter)) {
+		GtkTreeModel *model = GTK_TREE_MODEL (selector->priv->tree_store);
+		GtkTreePath *path;
+		
+		path = gtk_tree_model_get_path (model, &source_iter);
+		gtk_tree_model_row_changed (model, path, &source_iter);
+		gtk_tree_path_free (path);
+		
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	}	
 }
 
 /**
@@ -615,6 +651,8 @@ void
 e_source_selector_unselect_source (ESourceSelector *selector,
 				   ESource *source)
 {
+	GtkTreeIter source_iter;
+
 	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
 	g_return_if_fail (E_IS_SOURCE (source));
 
@@ -622,7 +660,17 @@ e_source_selector_unselect_source (ESourceSelector *selector,
 		return;
 
 	unselect_source (selector, source);
-	g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+
+	if (find_source_iter (selector, source, &source_iter)) {
+		GtkTreeModel *model = GTK_TREE_MODEL (selector->priv->tree_store);
+		GtkTreePath *path;
+		
+		path = gtk_tree_model_get_path (model, &source_iter);
+		gtk_tree_model_row_changed (model, path, &source_iter);
+		gtk_tree_path_free (path);
+		
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
+	}
 }
 
 /**
@@ -683,31 +731,15 @@ void
 e_source_selector_set_primary_selection (ESourceSelector *selector,
 					 ESource *source)
 {
-	GtkTreeModel *model = GTK_TREE_MODEL (selector->priv->tree_store);
-	GtkTreeIter iter;
+	GtkTreeIter source_iter;
 
-	if (gtk_tree_model_get_iter_first (model, &iter)) {
-		do {
-			GtkTreeIter children_iter;
-
-			if (gtk_tree_model_iter_children (model, &children_iter, &iter)) {
-				do {
-					void *data;
-
-					gtk_tree_model_get (model, &iter, 0, &data, -1);
-					g_assert (E_IS_SOURCE (data));
-
-					if (E_SOURCE (data) == source) {
-						GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selection));
-						gtk_tree_selection_select_iter (selection, &children_iter);
-						return;
-					}
-				} while (gtk_tree_model_iter_next (model, &iter));
-			}
-		} while (gtk_tree_model_iter_next (model, &iter));
+	if (find_source_iter (selector, source, &source_iter)) {
+		GtkTreeSelection *selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (selector));
+		gtk_tree_selection_select_iter (selection, &source_iter);
+	} else {
+		g_warning (G_STRLOC ": Cannot find source %p (%s) in selector %p", 
+			   source, e_source_peek_name (source), selector);
 	}
-
-	g_warning (G_GNUC_FUNCTION ": Cannot find source %p (%s) in selector %p", source, e_source_peek_name (source), selector);
 }
 
 
