@@ -351,6 +351,9 @@ main (int argc, char **argv)
 
 	gtk_idle_add (idle_cb, uri_list);
 
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
 	bonobo_main ();
 
 	return 0;

@@ -61,6 +61,8 @@ struct _DialogData {
 
 	EShellFolderCreationDialogCallback result_callback;
 	void *result_callback_data;
+
+	gboolean creation_in_progress;
 };
 typedef struct _DialogData DialogData;
 
@@ -85,6 +87,11 @@ async_create_cb (EStorageSet *storage_set,
 
 	dialog_data = (DialogData *) data;
 
+	dialog_data->creation_in_progress = FALSE;
+
+	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 0, TRUE);
+	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog_data->dialog), 1, TRUE);
+
 	if (result == E_STORAGE_OK) {
 		/* Success! Tell the callback of this, then return */
 		if (dialog_data->result_callback != NULL)
@@ -92,7 +99,14 @@ async_create_cb (EStorageSet *storage_set,
 							  E_SHELL_FOLDER_CREATION_DIALOG_RESULT_SUCCESS,
 							  dialog_data->folder_path,
 							  dialog_data->result_callback_data);
-		gtk_widget_destroy (dialog_data->dialog);
+		if (dialog_data->dialog != NULL) {
+			gtk_widget_destroy (dialog_data->dialog);
+		} else {
+			/* If dialog_data->dialog is NULL, it means that the
+			   dialog has been destroyed before we were done, so we
+			   have to free the dialog_data ourselves.  */
+			dialog_data_destroy (dialog_data);
+		}
 		return;
 	} else if (result == E_STORAGE_EXISTS) {
 		e_storage_set_view_set_current_folder (E_STORAGE_SET_VIEW (dialog_data->storage_set_view),
@@ -110,6 +124,12 @@ async_create_cb (EStorageSet *storage_set,
 	e_notice (GTK_WINDOW (dialog_data->dialog), GNOME_MESSAGE_BOX_ERROR,
 		  _("Cannot create the specified folder:\n%s"),
 		  e_storage_result_to_string (result));
+
+	/* If dialog_data->dialog is NULL, it means that the dialog has been
+	   destroyed before we were done, so we have to free the dialog_data
+	   ourselves.  */
+	if (dialog_data->dialog == NULL)
+		dialog_data_destroy (dialog_data);
 }
 
 
@@ -177,6 +197,11 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	g_free (dialog_data->folder_path);
 	dialog_data->folder_path = path;
 
+	gnome_dialog_set_sensitive (dialog, 0, FALSE);
+	gnome_dialog_set_sensitive (dialog, 1, FALSE);
+
+	dialog_data->creation_in_progress = TRUE;
+
 	e_storage_set_async_create_folder (storage_set,
 					   path,
 					   folder_type,
@@ -191,6 +216,18 @@ dialog_destroy_cb (GtkObject *object,
 	DialogData *dialog_data;
 
 	dialog_data = (DialogData *) data;
+
+	if (dialog_data->creation_in_progress) {
+		/* If the dialog has been closed before we are done creating
+		   the folder, the dialog_data will be freed after the creation
+		   is completed.  */
+		dialog_data->dialog = NULL;
+		dialog_data->folder_name_entry = NULL;
+		dialog_data->storage_set_view = NULL;
+		dialog_data->folder_type_option_menu = NULL;
+		return;
+	}
+
 	dialog_data_destroy (dialog_data);
 }
 
@@ -500,6 +537,7 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	dialog_data->folder_path             = NULL;
 	dialog_data->result_callback         = result_callback;
 	dialog_data->result_callback_data    = result_callback_data;
+	dialog_data->creation_in_progress    = FALSE;
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);

@@ -1,4 +1,33 @@
-2001-12-14  Ettore Perazzoli  <ettore@ximian.com>
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-about-box.c: Add Michael MacDonald.
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #17377, Evolution doesn't work on multi-depth displays.]
+
+	* main.c (main): Push GdkRGB visual and colormap.
+
+2001-12-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #16693.  What happens there is that the user closed the
+	dialog before the async operation was completed, so when the
+	notification was received the shell crashed.]
+
+	* e-shell-folder-creation-dialog.c: New member
+	`creation_in_progress' in `DialogData'.
+	(e_shell_show_folder_creation_dialog): Init to %FALSE.
+	(async_create_cb): Set to %FALSE.  Also, if the
+	dialog_data->dialog is %NULL, free the dialog_data before
+	returning.
+	(dialog_clicked_cb): Set to %TRUE.
+	(dialog_destroy_cb): If a creation is in progress, just set the
+	widget pointers in the DialogData struct to %NULL instead of
+	freeing the whole struct.
+	(async_create_cb): Make the OK and Cancel buttons sensitive.
+	(dialog_clicked_cb): Make them insensitive here.
+
+2001-12-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #17258, shell displays splash even if Evolution is already
 	running.]
@@ -6,7 +35,7 @@
 	* e-shell.c (e_shell_construct): Display the splash screen only if
 	the registration succeeds.
 
-2001-12-12  Ettore Perazzoli  <ettore@ximian.com>
+2001-12-10  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #14838, saving passwords doesn't work.  It is actually a
 	workaround for some obscure Bonobo-conf bug.]
@@ -15,10 +44,15 @@
 	function to create the `~/evolution/private' directory.
 	(e_setup): Call it.
 
-2001-12-05  Ettore Perazzoli  <ettore@ximian.com>
+2001-12-07  Iain Holmes  <iain@ximian.com>
 
-	* e-shell-about-box.c: Add missing comma.
+	[Trying to fix #14701, importing locks up Evolution.]
 
+	* e-shell-importer.c (show_error): Show an error message, but not
+	modally.
+	(start_import): Use above function so none of the errors are modal.
+	(folder_selected): Hide the folder dialog.
+	
 2001-12-04  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #7827, Switching desktops leaves the folder bar popped up.]
