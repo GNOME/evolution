@@ -1,3 +1,9 @@
+1998-08-30  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-check.m4: Added (AC_SUBST): `LIBGTOP_VERSION_CODE'.
+	Added (AC_DEFINE_UNQUOTED): `LIBGTOP_VERSION', `LIBGTOP_VERSION_CODE',
+	`LIBGTOP_{MAJOR,MINOR,MICRO,SERVER}_VERSION'.
+
 1998-08-29  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: Make it require libgtop >= 0.26.0.
