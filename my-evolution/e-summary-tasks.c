@@ -251,11 +251,14 @@ generate_html (gpointer data)
 						       "<font size=\"-1\"><a href=\"evolution:/local/Tasks\">%s</a></font><br>", 
 						       text.value);
 			} else {
+#if 0
 				tmp = g_strdup_printf ("<img align=\"middle\" src=\"task.xpm\" "
 						       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 						       "<font size=\"-1\"><strike><a href=\"evolution:/local/Tasks\">%s</a></strike></font><br>",
 						       text.value);
+#endif
 				cal_component_free_icaltimetype (completed);
+				continue;
 			}
 
 			g_string_append (string, tmp);

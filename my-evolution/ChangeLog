@@ -1,3 +1,11 @@
+2001-08-23  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c (rdfs): Remove the 4 that don't work.
+
+2001-08-22  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-tasks.c (generate_html): Skip the task if it's completed.
+
 2001-08-22  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c (mail_show_full_path_toggled): Set the 
