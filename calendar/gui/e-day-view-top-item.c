@@ -182,7 +182,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	EDayViewTopItem *dvtitem;
 	EDayView *day_view;
 	GtkStyle *style;
-	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc;
+	GdkGC *gc, *fg_gc, *bg_gc, *light_gc, *dark_gc;
 	gchar buffer[128], *format;
 	GdkRectangle clip_rect;
 	GdkFont *font;
@@ -200,6 +200,7 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 	style = GTK_WIDGET (day_view)->style;
 	font = style->font;
+	gc = day_view->main_gc;
 	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
 	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
 	light_gc = style->light_gc[GTK_STATE_NORMAL];
@@ -209,11 +210,6 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	left_edge = 0;
 	item_height = day_view->top_row_height - E_DAY_VIEW_TOP_CANVAS_Y_GAP;
 
-	/* Clear the entire background. */
-	gdk_draw_rectangle (drawable, dark_gc, TRUE,
-			    left_edge - x, 0,
-			    canvas_width - left_edge, height);
-
 	/* Draw the shadow around the dates. */
 	gdk_draw_line (drawable, light_gc,
 		       left_edge + 1 - x, 1 - y,
@@ -221,12 +217,25 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 	gdk_draw_line (drawable, light_gc,
 		       left_edge + 1 - x, 2 - y,
 		       left_edge + 1 - x, item_height - 1 - y);
+	gdk_draw_line (drawable, dark_gc,
+		       left_edge + 2 - x, item_height - 1 - y,
+		       canvas_width - 1 - x, item_height - 1 - y);
+	gdk_draw_line (drawable, dark_gc,
+		       canvas_width - 1 - x, 1 - y,
+		       canvas_width - 1 - x, item_height - 1 - y);
 
 	/* Draw the background for the dates. */
 	gdk_draw_rectangle (drawable, bg_gc, TRUE,
 			    left_edge + 2 - x, 2 - y,
 			    canvas_width - left_edge - 3,
 			    item_height - 3);
+
+	/* Clear the main area background. */
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS]);
+	gdk_draw_rectangle (drawable, gc, TRUE,
+			    left_edge - x, item_height - y,
+			    canvas_width - left_edge,
+			    canvas_height - item_height);
 
 	/* Draw the selection background. */
 	if (GTK_WIDGET_HAS_FOCUS (day_view)
@@ -244,7 +253,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 			rect_w = day_view->day_offsets[end_col + 1] - rect_x;
 			rect_h = canvas_height - 1 - rect_y;
 
-			gdk_draw_rectangle (drawable, style->white_gc, TRUE,
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED]);
+			gdk_draw_rectangle (drawable, gc, TRUE,
 					    rect_x - x, rect_y - y,
 					    rect_w, rect_h);
 		}
@@ -302,7 +312,8 @@ e_day_view_top_item_draw (GnomeCanvasItem *canvas_item,
 
 		/* Draw the lines between each column. */
 		if (day != 0) {
-			gdk_draw_line (drawable, style->black_gc,
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID]);
+			gdk_draw_line (drawable, gc,
 				       day_view->day_offsets[day] - x,
 				       item_height - y,
 				       day_view->day_offsets[day] - x,
@@ -371,15 +382,17 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 	comp = event->comp;
 
 	/* Draw the lines across the top & bottom of the entire event. */
-	gdk_draw_line (drawable, fg_gc,
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	gdk_draw_line (drawable, gc,
 		       item_x - x, item_y - y,
 		       item_x + item_w - 1 - x, item_y - y);
-	gdk_draw_line (drawable, fg_gc,
+	gdk_draw_line (drawable, gc,
 		       item_x - x, item_y + item_h - 1 - y,
 		       item_x + item_w - 1 - x, item_y + item_h - 1 - y);
 
 	/* Fill it in. */
-	gdk_draw_rectangle (drawable, bg_gc, TRUE,
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	gdk_draw_rectangle (drawable, gc, TRUE,
 			    item_x - x, item_y + 1 - y,
 			    item_w, item_h - 2);
 
@@ -405,7 +418,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 						   -E_DAY_VIEW_BAR_WIDTH,
 						   item_h);
 	} else {
-		gdk_draw_line (drawable, fg_gc,
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+		gdk_draw_line (drawable, gc,
 			       item_x - x, item_y - y,
 			       item_x - x, item_y + item_h - 1 - y);
 	}
@@ -419,7 +433,8 @@ e_day_view_top_item_draw_long_event (EDayViewTopItem *dvtitem,
 						   E_DAY_VIEW_BAR_WIDTH,
 						   item_h);
 	} else {
-		gdk_draw_line (drawable, fg_gc,
+		gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+		gdk_draw_line (drawable, gc,
 			       item_x + item_w - 1 - x,
 			       item_y - y,
 			       item_x + item_w - 1 - x,
@@ -565,15 +580,14 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 {
 	EDayView *day_view;
 	GtkStyle *style;
-	GdkGC *fg_gc, *bg_gc;
+	GdkGC *gc;
 	GdkPoint points[3];
 	gint c1, c2;
 
 	day_view = dvtitem->day_view;
 
 	style = GTK_WIDGET (day_view)->style;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
+	gc = day_view->main_gc;
 
 	points[0].x = x;
 	points[0].y = y;
@@ -588,9 +602,12 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 	if (h % 2 == 0)
 		c1--;
 
-	gdk_draw_polygon (drawable, bg_gc, TRUE, points, 3);
-	gdk_draw_line (drawable, fg_gc, x, y, x + w, c1);
-	gdk_draw_line (drawable, fg_gc, x, y + h - 1, x + w, c2);
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND]);
+	gdk_draw_polygon (drawable, gc, TRUE, points, 3);
+
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER]);
+	gdk_draw_line (drawable, gc, x, y, x + w, c1);
+	gdk_draw_line (drawable, gc, x, y + h - 1, x + w, c2);
 }
 
 

@@ -169,11 +169,9 @@ static void e_week_view_on_delete_appointment (GtkWidget *widget,
 static void e_week_view_on_unrecur_appointment (GtkWidget *widget,
 						gpointer data);
 
-#ifndef NO_WARNINGS
 static gboolean e_week_view_update_event_cb (EWeekView *week_view,
 					     gint event_num,
 					     gpointer data);
-#endif
 static gboolean e_week_view_remove_event_cb (EWeekView *week_view,
 					     gint event_num,
 					     gpointer data);
@@ -458,6 +456,26 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].green = 0;
 	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].blue  = 0;
 
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].red   = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].green = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].blue  = 0;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].blue  = 0 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].blue  = 156 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].blue  = 0 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].red   = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
+
 	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
 					     E_WEEK_VIEW_COLOR_LAST, FALSE,
 					     TRUE, success);
@@ -502,9 +520,11 @@ e_week_view_style_set (GtkWidget *widget,
 		      GtkStyle  *previous_style)
 {
 	EWeekView *week_view;
+	EWeekViewEventSpan *span;
 	GdkFont *font;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
+	gint span_num;
 	GDate date;
 	gchar buffer[128];
 
@@ -574,6 +594,19 @@ e_week_view_style_set (GtkWidget *widget,
 						       week_view->am_string);
 	week_view->pm_string_width = gdk_string_width (font,
 						       week_view->pm_string);
+
+	/* Set the font of all the EText items. */
+	if (week_view->spans) {
+		for (span_num = 0; span_num < week_view->spans->len;
+		     span_num++) {
+			span = &g_array_index (week_view->spans,
+					       EWeekViewEventSpan, span_num);
+			if (span->text_item)
+				gnome_canvas_item_set (span->text_item,
+						       "font_gdk", font,
+						       NULL);
+		}
+	}
 }
 
 
@@ -892,23 +925,26 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
-#ifndef NO_WARNINGS
-#warning "FIXME"
-#endif
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
-		/* Do this the long way every time for now */
+		if (!cal_component_has_recurrences (comp)
+		    && !cal_component_has_recurrences (event->comp)
+		    && cal_component_event_dates_match (comp, event->comp)) {
 #if 0
-		if (ical_object_compare_dates (event->ico, ico)) {
+			g_print ("updated object's dates unchanged\n");
+#endif
 			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, comp);
 			gtk_object_unref (GTK_OBJECT (comp));
 			gtk_widget_queue_draw (week_view->main_canvas);
 			return;
 		}
-#endif
+
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
+#if 0
+		g_print ("dates changed - removing occurrences\n");
+#endif
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb,
 						    NULL);
@@ -1473,7 +1509,6 @@ e_week_view_recalc_display_start_day	(EWeekView	*week_view)
 }
 
 
-#ifndef NO_WARNINGS
 static gboolean
 e_week_view_update_event_cb (EWeekView *week_view,
 			     gint event_num,
@@ -1513,7 +1548,6 @@ e_week_view_update_event_cb (EWeekView *week_view,
 
 	return TRUE;
 }
-#endif
 
 
 /* This calls a given function for each event instance that matches the given
@@ -2772,6 +2806,10 @@ e_week_view_start_editing_event (EWeekView *week_view,
 				       NULL);
 	}
 
+	/* FIXME: This implicitly stops any edit of another item, causing it
+	   to be sent to the server and resulting in a call to obj_updated_cb()
+	   which may reload all the events and so our span and text item may
+	   actually be destroyed. So we often get a SEGV. */
 	e_canvas_item_grab_focus (span->text_item);
 
 	/* Try to move the cursor to the end of the text. */
@@ -3137,10 +3175,11 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 	*date.value = icaltime_from_timet (dtend, FALSE, TRUE);
 	cal_component_set_dtend (comp, &date);
 
-	/* We add the event locally and start editing it. When we get the
-	   "update_event" callback from the server, we basically ignore it.
-	   If we were to wait for the "update_event" callback it wouldn't be
-	   as responsive and we may lose a few keystrokes. */
+	/* We add the event locally and start editing it. We don't send the
+	   new event to the server until the edit is finished.
+	   FIXME: If we get an obj-updated or obj-removed signal while editing
+	   the event, and we have to do a re-layout, we may lose this new
+	   event. */
 	e_week_view_add_event (comp, dtstart, dtend, week_view);
 	e_week_view_check_layout (week_view);
 	gtk_widget_queue_draw (week_view->main_canvas);

@@ -1,3 +1,28 @@
+2001-01-17  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-week-view*.c
+	* gui/e-day-view*.c: don't use the theme colors at all within
+	the graphical parts of the widgets, since they may clash with
+	our colors. May make them configurable in future so people can tweak
+	them to go with their theme. At least the calendars are usable in any
+	theme now, even though the colors may not go well with the theme.
+	Also set the font of all the EText items in style_set.
+	
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): don't
+	draw the icons if we are editing the event.
+
+	* gui/e-day-view.c: 
+	* gui/e-week-view.c: reinstated the optimizations so we don't do a
+	complete relayout if the event's dates haven't been changed.
+	(Though we still do a re-layout when recurring events change, since
+	comparing all the RDATES/RRULES/EXDATES/EXRULES is too much hassle.)
+	A side-effect of this change is that the EWeekView won't crash so
+	often - only recurring events will be a problem.
+	
+	* cal-util/cal-component.[hc]: added function to check if the start
+	and end dates of a component match. Used for optimizing the updating
+	of the EDayView & EWeekView.
+
 2001-01-17  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (start_calendar_server): Check

@@ -385,12 +385,10 @@ static void e_day_view_on_main_canvas_drag_data_received (GtkWidget      *widget
 							  guint           time,
 							  EDayView	 *day_view);
 
-#if 0
 static gboolean e_day_view_update_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
 					    gpointer data);
-#endif
 static gboolean e_day_view_remove_event_cb (EDayView *day_view,
 					    gint day,
 					    gint event_num,
@@ -404,6 +402,10 @@ static time_t e_day_view_find_work_week_start	(EDayView	*day_view,
 						 time_t		 start_time);
 static void e_day_view_recalc_work_week		(EDayView	*day_view);
 static void e_day_view_recalc_work_week_days_shown	(EDayView	*day_view);
+static gboolean e_day_view_set_event_font_cb	(EDayView	*day_view,
+						 gint		 day,
+						 gint		 event_num,
+						 gpointer	 data);
 
 
 static GtkTableClass *parent_class;
@@ -883,6 +885,26 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].green = 216 * 257;
 	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].blue  = 214 * 257;
 
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].red   = 0 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 148 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 149 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 148 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 148 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 149 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 148 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].red   = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].green = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].blue  = 65535;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].blue  = 0;
+
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].red   = 0;
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].green = 0;
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].blue  = 65535;
@@ -894,6 +916,14 @@ e_day_view_realize (GtkWidget *widget)
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].red   = 0;
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].green = 0;
 	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].blue  = 0;
+
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red   = 213 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green = 213 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue  = 213 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].blue  = 0;
 
 	nfailed = gdk_colormap_alloc_colors (colormap, day_view->colors,
 					     E_DAY_VIEW_COLOR_LAST, FALSE,
@@ -949,16 +979,6 @@ e_day_view_realize (GtkWidget *widget)
 	gnome_canvas_item_set (day_view->drag_bar_item,
 			       "fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
 			       "outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			       NULL);
-
-
-	/* Set the fonts for the text items used when dragging. */
-	gnome_canvas_item_set (day_view->drag_long_event_item,
-			       "font_gdk", GTK_WIDGET (day_view)->style->font,
-			       NULL);
-
-	gnome_canvas_item_set (day_view->drag_item,
-			       "font_gdk", GTK_WIDGET (day_view)->style->font,
 			       NULL);
 }
 
@@ -1108,6 +1128,44 @@ e_day_view_style_set (GtkWidget *widget,
 	/* Calculate the width of the time column. */
 	times_width = e_day_view_time_item_get_column_width (E_DAY_VIEW_TIME_ITEM (day_view->time_canvas_item));
 	gtk_widget_set_usize (day_view->time_canvas, times_width, -1);
+
+	/* Set the font of all the EText items. */
+	e_day_view_foreach_event (day_view, e_day_view_set_event_font_cb,
+				  font);
+
+	/* Set the fonts for the text items used when dragging. */
+	gnome_canvas_item_set (day_view->drag_long_event_item,
+			       "font_gdk", GTK_WIDGET (day_view)->style->font,
+			       NULL);
+
+	gnome_canvas_item_set (day_view->drag_item,
+			       "font_gdk", GTK_WIDGET (day_view)->style->font,
+			       NULL);
+}
+
+
+static gboolean
+e_day_view_set_event_font_cb		(EDayView	*day_view,
+					 gint		 day,
+					 gint		 event_num,
+					 gpointer	 data)
+{
+	EDayViewEvent *event;
+	GdkFont *font = data;
+
+	if (day == E_DAY_VIEW_LONG_EVENT)
+		event = &g_array_index (day_view->long_events,
+					EDayViewEvent, event_num);
+	else
+		event = &g_array_index (day_view->events[day],
+					EDayViewEvent, event_num);
+
+	if (event->canvas_item)
+		gnome_canvas_item_set (event->canvas_item,
+				       "font_gdk", font,
+				       NULL);
+
+	return TRUE;
 }
 
 
@@ -1367,21 +1425,20 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 		else
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
-#ifndef NO_WARNINGS
-#warning "FIXME"
-#endif
 
-		/* Do this the long way every time for now */
+		if (!cal_component_has_recurrences (comp)
+		    && !cal_component_has_recurrences (event->comp)
+		    && cal_component_event_dates_match (comp, event->comp)) {
 #if 0
-		if (ical_object_compare_dates (event->ico, ico)) {
 			g_print ("updated object's dates unchanged\n");
-			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
-			ical_object_unref (ico);
+#endif
+			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, comp);
+			gtk_object_unref (GTK_OBJECT (comp));
 			gtk_widget_queue_draw (day_view->top_canvas);
 			gtk_widget_queue_draw (day_view->main_canvas);
 			return;
 		}
-#endif
+
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
 #if 0
@@ -1404,6 +1461,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
+
 
 /* Callback used when the calendar client tells us that an object was removed */
 static void
@@ -1466,7 +1524,7 @@ e_day_view_set_cal_client	(EDayView	*day_view,
 	e_day_view_queue_reload_events (day_view);
 }
 
-#if 0
+
 static gboolean
 e_day_view_update_event_cb (EDayView *day_view,
 			    gint day,
@@ -1502,10 +1560,10 @@ e_day_view_update_event_cb (EDayView *day_view,
 	}
 	return TRUE;
 }
-#endif
+
 
 /* This calls a given function for each event instance (in both views).
-   If the callback returns TRUE the iteration is stopped.
+   If the callback returns FALSE the iteration is stopped.
    Note that it is safe for the callback to remove the event (since we
    step backwards through the arrays). */
 static void
@@ -1542,7 +1600,7 @@ e_day_view_foreach_event		(EDayView	*day_view,
 
 
 /* This calls a given function for each event instance that matches the given
-   uid. If the callback returns TRUE the iteration is stopped.
+   uid. If the callback returns FALSE the iteration is stopped.
    Note that it is safe for the callback to remove the event (since we
    step backwards through the arrays). */
 static void

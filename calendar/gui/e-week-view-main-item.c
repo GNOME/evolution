@@ -223,8 +223,7 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 {
 	EWeekView *week_view;
 	GtkStyle *style;
-	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc, *gc, *date_gc;
-	GdkGC *selected_fg_gc, *selected_bg_gc;
+	GdkGC *gc;
 	GdkFont *font;
 	gint right_edge, bottom_edge, date_width, date_x, line_y;
 	gboolean show_day_name, show_month_name, selected;
@@ -238,12 +237,6 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	week_view = wvmitem->week_view;
 	style = GTK_WIDGET (week_view)->style;
 	font = style->font;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_PRELIGHT];
-	light_gc = style->light_gc[GTK_STATE_NORMAL];
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
-	selected_fg_gc = style->fg_gc[GTK_STATE_SELECTED];
-	selected_bg_gc = style->bg_gc[GTK_STATE_SELECTED];
 	gc = week_view->main_gc;
 
 	g_return_if_fail (gc != NULL);
@@ -272,9 +265,10 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	right_edge = x + width - 1;
 	bottom_edge = y + height - 1;
 
-	gdk_draw_line (drawable, fg_gc,
+	gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+	gdk_draw_line (drawable, gc,
 		       right_edge, y, right_edge, bottom_edge);
-	gdk_draw_line (drawable, fg_gc,
+	gdk_draw_line (drawable, gc,
 		       x, bottom_edge, right_edge, bottom_edge);
 
 	/* If the day is selected, draw the blue background. */
@@ -285,16 +279,18 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	    || week_view->selection_end_day < day)
 		selected = FALSE;
 	if (selected) {
-		if (week_view->multi_week_view)
-			gdk_draw_rectangle (drawable, selected_bg_gc, TRUE,
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_SELECTED]);
+		if (week_view->multi_week_view) {
+			gdk_draw_rectangle (drawable, gc, TRUE,
 					    x + 2, y + 1,
 					    width - 5,
 					    E_WEEK_VIEW_DATE_T_PAD - 1
 					    + font->ascent + font->descent);
-		else
-			gdk_draw_rectangle (drawable, selected_bg_gc, TRUE,
+		} else {
+			gdk_draw_rectangle (drawable, gc, TRUE,
 					    x + 2, y + 1,
 					    width - 5, line_y - y);
+		}
 	}
 
 	/* Display the date in the top of the cell.
@@ -355,16 +351,17 @@ e_week_view_main_item_draw_day (EWeekViewMainItem *wvmitem,
 	date_x = MAX (date_x, x + 1);
 
 	if (selected)
-		date_gc = selected_fg_gc;
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED]);
 	else
-		date_gc = fg_gc;
-	gdk_draw_string (drawable, font, date_gc,
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_DATES]);
+	gdk_draw_string (drawable, font, gc,
 			 date_x, y + E_WEEK_VIEW_DATE_T_PAD + font->ascent,
 			 buffer);
 
 	/* Draw the line under the date. */
 	if (!week_view->multi_week_view) {
-		gdk_draw_line (drawable, fg_gc,
+		gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_GRID]);
+		gdk_draw_line (drawable, gc,
 			       x + E_WEEK_VIEW_DATE_LINE_L_PAD, line_y,
 			       right_edge, line_y);
 	}

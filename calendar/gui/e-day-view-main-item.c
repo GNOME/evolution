@@ -182,7 +182,7 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	EDayViewMainItem *dvmitem;
 	EDayView *day_view;
 	GtkStyle *style;
-	GdkGC *fg_gc, *bg_gc, *light_gc, *dark_gc, *gc;
+	GdkGC *gc;
 	GdkFont *font;
 	gint row, row_y, grid_x1, grid_x2;
 	gint day, grid_y1, grid_y2;
@@ -202,10 +202,6 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 
 	style = GTK_WIDGET (day_view)->style;
 	font = style->font;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
-	bg_gc = style->bg_gc[GTK_STATE_NORMAL];
-	light_gc = style->light_gc[GTK_STATE_NORMAL];
-	dark_gc = style->dark_gc[GTK_STATE_NORMAL];
 
 	/* Paint the background colors. */
 	gc = day_view->main_gc;
@@ -266,7 +262,7 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 			rect_y = start_row * day_view->row_height - y;
 			rect_height = (end_row - start_row + 1) * day_view->row_height;
 
-			gc = style->bg_gc[GTK_STATE_SELECTED];
+			gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED]);
 			gdk_draw_rectangle (drawable, gc, TRUE,
 					    rect_x, rect_y,
 					    rect_width, rect_height);
@@ -277,11 +273,12 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 	grid_x1 = day_view->day_offsets[0] - x;
 	grid_x2 = day_view->day_offsets[day_view->days_shown] - x;
 
+	gdk_gc_set_foreground (gc, &day_view->colors[E_DAY_VIEW_COLOR_BG_GRID]);
 	for (row = 0, row_y = 0 - y;
 	     row < day_view->rows && row_y < height;
 	     row++, row_y += day_view->row_height) {
 		if (row_y >= 0 && row_y < height)
-			gdk_draw_line (drawable, dark_gc,
+			gdk_draw_line (drawable, gc,
 				       grid_x1, row_y, grid_x2, row_y);
 	}
 
@@ -295,10 +292,10 @@ e_day_view_main_item_draw (GnomeCanvasItem *canvas_item, GdkDrawable *drawable,
 		if (grid_x1 >= width || grid_x1 + E_DAY_VIEW_BAR_WIDTH <= 0)
 			continue;
 
-		gdk_draw_line (drawable, fg_gc,
+		gdk_draw_line (drawable, style->black_gc,
 			       grid_x1, grid_y1,
 			       grid_x1, grid_y2);
-		gdk_draw_line (drawable, fg_gc,
+		gdk_draw_line (drawable, style->black_gc,
 			       grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y1,
 			       grid_x1 + E_DAY_VIEW_BAR_WIDTH - 1, grid_y2);
 		gdk_draw_rectangle (drawable, style->white_gc, TRUE,

@@ -255,6 +255,8 @@ void cal_component_set_transparency (CalComponent *comp, CalComponentTransparenc
 void cal_component_get_url (CalComponent *comp, const char **url);
 void cal_component_set_url (CalComponent *comp, const char *url);
 
+gboolean cal_component_event_dates_match (CalComponent *comp1, CalComponent *comp2);
+
 /* Functions to free returned values */
 
 void cal_component_free_categories_list (GSList *categ_list);

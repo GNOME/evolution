@@ -416,13 +416,15 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			clip_rect.width = x2 - x1 - E_WEEK_VIEW_EVENT_R_PAD
 				- E_WEEK_VIEW_EVENT_BORDER_WIDTH + 1;
 			clip_rect.height = y2 - y1 + 1;
-			gdk_gc_set_clip_rectangle (fg_gc, &clip_rect);
+			gdk_gc_set_clip_rectangle (gc, &clip_rect);
+
+			gdk_gc_set_foreground (gc, &week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT]);
 
 			e_week_view_draw_time (week_view, drawable,
 					       time_x, time_y,
 					       start_hour, start_minute);
 
-			gdk_gc_set_clip_rectangle (fg_gc, NULL);
+			gdk_gc_set_clip_rectangle (gc, NULL);
 
 			/* We don't want the end time to be drawn over the
 			   start time, so we increase the minimum position. */
@@ -455,7 +457,9 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 		}
 
 		/* Draw the icons. */
-		if (span->text_item) {
+		if (span->text_item &&
+		    week_view->editing_event_num != wveitem->event_num
+		    && week_view->editing_span_num != wveitem->span_num) {
 			icon_x = span->text_item->x1 - x;
 			e_week_view_event_item_draw_icons (wveitem, drawable,
 							   icon_x, icon_y,
@@ -474,7 +478,7 @@ e_week_view_draw_time	(EWeekView	*week_view,
 			 gint		 minute)
 {
 	GtkStyle *style;
-	GdkGC *fg_gc;
+	GdkGC *gc;
 	GdkFont *font, *small_font;
 	gint hour_to_display, suffix_width;
 	gint time_y_normal_font, time_y_small_font;
@@ -483,7 +487,8 @@ e_week_view_draw_time	(EWeekView	*week_view,
 	style = GTK_WIDGET (week_view)->style;
 	font = style->font;
 	small_font = week_view->small_font;
-	fg_gc = style->fg_gc[GTK_STATE_NORMAL];
+	gc = week_view->main_gc;
+
 
 	time_y_normal_font = time_y_small_font = time_y + font->ascent;
 	if (small_font)
@@ -498,24 +503,24 @@ e_week_view_draw_time	(EWeekView	*week_view,
 
 		/* Draw the hour. */
 		if (hour_to_display < 10)
-			gdk_draw_text (drawable, font, fg_gc,
+			gdk_draw_text (drawable, font, gc,
 				       time_x + week_view->digit_width,
 				       time_y_normal_font, buffer + 1, 1);
 		else
-			gdk_draw_text (drawable, font, fg_gc,
+			gdk_draw_text (drawable, font, gc,
 				       time_x, time_y_normal_font, buffer, 2);
 
 		time_x += week_view->digit_width * 2;
 
 		/* Draw the start minute, in the small font. */
-		gdk_draw_text (drawable, week_view->small_font, fg_gc,
+		gdk_draw_text (drawable, week_view->small_font, gc,
 			       time_x, time_y_small_font, buffer + 3, 2);
 
 		time_x += week_view->small_digit_width * 2;
 
 		/* Draw the 'am'/'pm' suffix, if 12-hour format. */
 		if (!week_view->use_24_hour_format) {
-			gdk_draw_string (drawable, font, fg_gc,
+			gdk_draw_string (drawable, font, gc,
 					 time_x, time_y_normal_font, suffix);
 		}
 	} else {
@@ -523,11 +528,11 @@ e_week_view_draw_time	(EWeekView	*week_view,
 		g_snprintf (buffer, sizeof (buffer), "%2i:%02i%s",
 			    hour_to_display, minute, suffix);
 		if (hour_to_display < 10)
-			gdk_draw_string (drawable, font, fg_gc,
+			gdk_draw_string (drawable, font, gc,
 					 time_x + week_view->digit_width,
 					 time_y_normal_font, buffer + 1);
 		else
-			gdk_draw_string (drawable, font, fg_gc,
+			gdk_draw_string (drawable, font, gc,
 					 time_x, time_y_normal_font,
 					 buffer);
 

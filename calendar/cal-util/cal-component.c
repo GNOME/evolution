@@ -3890,3 +3890,76 @@ cal_component_alarm_set_trigger (CalComponentAlarm *alarm, CalAlarmTrigger trigg
 		}
 	}
 }
+
+
+/**
+ * cal_component_event_dates_match:
+ * @comp1: A calendar component object.
+ * @comp2: A calendar component object.
+ *
+ * Checks if the DTSTART and DTEND properties of the 2 components match.
+ * Note that the events may have different recurrence properties which are not
+ * taken into account here.
+ *
+ * Returns: TRUE if the DTSTART and DTEND properties of the 2 components match.
+ **/
+gboolean
+cal_component_event_dates_match	(CalComponent *comp1,
+				 CalComponent *comp2)
+{
+	CalComponentDateTime comp1_dtstart, comp1_dtend;
+	CalComponentDateTime comp2_dtstart, comp2_dtend;
+
+	cal_component_get_dtstart (comp1, &comp1_dtstart);
+	cal_component_get_dtend   (comp1, &comp1_dtend);
+	cal_component_get_dtstart (comp2, &comp2_dtstart);
+	cal_component_get_dtend   (comp2, &comp2_dtend);
+
+	/* If either value is NULL they must both be NULL to match. */
+	if (comp1_dtstart.value == NULL || comp2_dtstart.value == NULL) {
+		if (comp1_dtstart.value != comp2_dtstart.value)
+			return FALSE;
+	} else {
+		if (icaltime_compare (*comp1_dtstart.value,
+				      *comp2_dtstart.value))
+			return FALSE;
+	}
+
+	if (comp1_dtend.value == NULL || comp2_dtend.value == NULL) {
+		if (comp1_dtend.value != comp2_dtend.value)
+			return FALSE;
+	} else {
+		if (icaltime_compare (*comp1_dtend.value,
+				      *comp2_dtend.value))
+			return FALSE;
+	}
+
+	/* Now check the timezones. */
+	if (!cal_component_strings_match (comp1_dtstart.tzid,
+					  comp2_dtstart.tzid))
+		return FALSE;
+
+	if (!cal_component_strings_match (comp1_dtend.tzid,
+					  comp2_dtend.tzid))
+		return FALSE;
+
+	return TRUE;
+}
+
+
+/* Returns TRUE if both strings match, i.e. they are both NULL or the
+   strings are equal. */
+static gboolean
+cal_component_strings_match	(const gchar	*string1,
+				 const gchar	*string2)
+{
+	if (string1 == NULL || string2 == NULL)
+		return (string1 == string2) ? TRUE : FALSE;
+
+	if (!strcmp (string1, string2))
+		return TRUE;
+
+	return FALSE;
+}
+
+
