@@ -1,5 +1,9 @@
 2004-11-09  Rodney Dawes  <dobey@novell.com>
 
+	* Makefile.am: Add org-gnome-mailing-list-actions.xml to EXTRA_DIST
+
+2004-11-09  Rodney Dawes  <dobey@novell.com>
+
 	* Makefile.am: Add the eplug.in file to EXTRA_DIST
 
 2004-11-05  JP Rosevear  <jpr@novell.com>
