@@ -11,7 +11,7 @@ CORBA_SOURCE =						\
 idls =							\
 	$(srcdir)/../idl/addressbook.idl
 
-idl_flags = `$(GNOME_CONFIG) --cflags idl`
+idl_flags = `$(GNOME_CONFIG) --cflags idl` -I $(datadir)/idl
 
 $(CORBA_SOURCE): $(idls)
 	$(ORBIT_IDL) $(srcdir)/../idl/addressbook.idl $(idl_flags)
@@ -22,7 +22,7 @@ INCLUDES =						\
 	-I$(top_srcdir) 				\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
-        $(GNOME_INCLUDEDIR)
+        $(BONOBO_GNOME_CFLAGS)
 
 gnome_libs =						\
 	$(GNOME_LIBDIR)					\
@@ -65,11 +65,7 @@ test_client_SOURCES =					\
 	test-client.c
 
 test_client_LDADD =					\
-	$(GTK_LIBS)					\
-	$(GNOME_LIBDIR)					\
-	$(GNOMEGNORBA_LIBS)				\
-	$(INTLLIBS)					\
-	-lbonobo					\
+	$(BONOBO_GNOME_LIBS)				\
 	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 
@@ -77,11 +73,7 @@ test_client_list_SOURCES =				\
 	test-client-list.c
 
 test_client_list_LDADD =				\
-	$(GTK_LIBS)					\
-	$(GNOME_LIBDIR)					\
-	$(GNOMEGNORBA_LIBS)				\
-	$(INTLLIBS)					\
-	-lbonobo					\
+	$(BONOBO_GNOME_LIBS)				\
 	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 
@@ -89,11 +81,7 @@ test_card_SOURCES =					\
 	test-card.c
 
 test_card_LDADD =					\
-	$(GTK_LIBS)					\
-	$(GNOME_LIBDIR)					\
-	$(GNOMEGNORBA_LIBS)				\
-	$(INTLLIBS)					\
-	-lbonobo					\
+	$(BONOBO_GNOME_LIBS)				\
 	$(ebook_libs)					\
 	$(top_builddir)/libversit/libversit.la
 

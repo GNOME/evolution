@@ -1,3 +1,14 @@
+2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* backend/ebook/Makefile.am (ORBIT_IDL): Use `-I $(datadir)/idl'
+	to get the IDLs from the installation prefix as well.
+	(INCLUDES): Add `$(BONOBO_GNOME_CFLAGS)'.
+	(test_client_LDADD): Use `$(BONOBO_GNOME_LIBS)' instead of
+	hardcoding `-lbonobo'!  Also get rid of some other useless flags,
+	as `$(BONOBO_GNOME_LIBS)' really has all what we need.
+	(test_client_list_LDADD): Likewise.
+	(test_card_LDADD): Likewise.
+
 2000-04-18  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/minicard/Makefile.am (INCLUDES): Use "e-minicard" as the log
