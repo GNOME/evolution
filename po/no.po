@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-10-02 17:45-0400\n"
-"PO-Revision-Date: 2001-09-29 10:19+0200\n"
+"POT-Creation-Date: 2001-10-03 23:51+0200\n"
+"PO-Revision-Date: 2001-10-03 23:52+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1224,7 +1224,7 @@ msgstr "_Kontakter..."
 #: calendar/gui/dialogs/meeting-page.c:834 filter/filter.glade.h:8
 #: mail/folder-browser.c:1406 mail/mail-config.glade.h:95
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
-#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
+#: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:36
 msgid "_Delete"
 msgstr "_Slett"
 
@@ -8735,6 +8735,9 @@ msgid ""
 "%s\n"
 "No shortcut will be created."
 msgstr ""
+"Kunne ikke finne innboks for det nye postlageret:\n"
+"%s\n"
+"Ingen snarvei vil bli opprettet."
 
 #. Create the shortcut. FIXME: This only works if the
 #. * full name matches the path.
@@ -9383,9 +9386,9 @@ msgid "You cannot change the format of a non-local folder."
 msgstr "Du kan ikke endre format på en ikke-lokal mappe."
 
 #: mail/mail-local.c:1209
-#, fuzzy, c-format
+#, c-format
 msgid "Reconfigure /%s"
-msgstr "Omkonfigurer %s"
+msgstr "Omkonfigurer /%s"
 
 #: mail/mail-mt.c:199
 #, c-format
@@ -11718,7 +11721,7 @@ msgid "Work Online"
 msgstr "Arbeid \"online\""
 
 #: shell/e-shell-view-menu.c:718 shell/e-shell-view-menu.c:731
-#: ui/evolution.xml.h:30
+#: ui/evolution.xml.h:31
 msgid "Work Offline"
 msgstr "Arbeid \"offline\""
 
@@ -11886,7 +11889,7 @@ msgstr "Endre navn på valgt snarvei til:"
 msgid "Open the folder linked to this shortcut"
 msgstr "Åpne mappen som er lenket til denne snarveien"
 
-#: shell/e-shortcuts-view.c:387 ui/evolution.xml.h:19
+#: shell/e-shortcuts-view.c:387 ui/evolution.xml.h:20
 msgid "Open in New _Window"
 msgstr "Åpne i nytt _vindu"
 
@@ -12460,7 +12463,7 @@ msgstr "Lagre denne oppføringen til disk"
 #: ui/evolution-mail-messagedisplay.xml.h:7
 #: ui/evolution-message-composer.xml.h:48
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:11
-#: ui/evolution.xml.h:36
+#: ui/evolution.xml.h:37
 msgid "_File"
 msgstr "_Fil"
 
@@ -12726,7 +12729,7 @@ msgstr "Meldingsliste med tråder"
 msgid "_Expunge"
 msgstr "_Tøm"
 
-#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
+#: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:38
 msgid "_Folder"
 msgstr "M_appe"
 
@@ -13070,7 +13073,7 @@ msgstr "_Normal visning"
 msgid "_Open Message"
 msgstr "_Åpne melding"
 
-#: ui/evolution-mail-message.xml.h:98 ui/evolution.xml.h:49
+#: ui/evolution-mail-message.xml.h:98 ui/evolution.xml.h:50
 #: ui/my-evolution.xml.h:9
 msgid "_Tools"
 msgstr "_Verktøy"
@@ -13082,12 +13085,12 @@ msgstr "Lukk dette vinduet"
 #: ui/evolution-mail-messagedisplay.xml.h:5
 #: ui/evolution-message-composer.xml.h:45
 #: ui/evolution-signature-editor.xml.h:5 ui/evolution-subscribe.xml.h:9
-#: ui/evolution.xml.h:33
+#: ui/evolution.xml.h:34
 msgid "_Close"
 msgstr "L_ukk"
 
 #: ui/evolution-mail-messagedisplay.xml.h:8
-#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:50
+#: ui/evolution-message-composer.xml.h:55 ui/evolution.xml.h:51
 msgid "_View"
 msgstr "_Vis"
 
@@ -13273,7 +13276,7 @@ msgstr "Svar-til felt"
 msgid "_Security"
 msgstr "_Sikkerhet"
 
-#: ui/evolution-signature-editor.xml.h:8 ui/evolution.xml.h:40
+#: ui/evolution-signature-editor.xml.h:8 ui/evolution.xml.h:41
 msgid "_Help"
 msgstr "_Hjelp"
 
@@ -13414,102 +13417,106 @@ msgid "Move this folder to another place"
 msgstr "Flytt denne mappen til et annet sted"
 
 #: ui/evolution.xml.h:18
+msgid "Open a new Evolution window"
+msgstr "Åpne et nytt Evolution vindu"
+
+#: ui/evolution.xml.h:19
 msgid "Open in New Window"
 msgstr "Åpne i nytt vindu"
 
-#: ui/evolution.xml.h:20
+#: ui/evolution.xml.h:21
 msgid "Open this folder in an other window"
 msgstr "Åpne denne mappen i et annet vindu"
 
-#: ui/evolution.xml.h:21
+#: ui/evolution.xml.h:22
 msgid "Show information about Ximian Evolution"
 msgstr "Vis informasjon om Ximian Evolution"
 
-#: ui/evolution.xml.h:22
+#: ui/evolution.xml.h:23
 msgid "Submit Bug Report"
 msgstr "Send inn feilrapport"
 
-#: ui/evolution.xml.h:23
+#: ui/evolution.xml.h:24
 msgid "Submit _Bug Report"
 msgstr "Sen_d inn feilrapport"
 
-#: ui/evolution.xml.h:24
+#: ui/evolution.xml.h:25
 msgid "Submit a bug report using Bug Buddy"
 msgstr "Send inn en feilrapport med Bug Buddy"
 
-#: ui/evolution.xml.h:25
+#: ui/evolution.xml.h:26
 msgid "Toggle"
 msgstr "Bytt"
 
-#: ui/evolution.xml.h:26
+#: ui/evolution.xml.h:27
 msgid "Toggle whether to show the folder bar"
 msgstr "Slå av/på visning av mappelinjen"
 
-#: ui/evolution.xml.h:27
+#: ui/evolution.xml.h:28
 msgid "Toggle whether to show the shortcut bar"
 msgstr "Slå av/på visning av snarveilinjen"
 
-#: ui/evolution.xml.h:28
+#: ui/evolution.xml.h:29
 msgid "Toggle whether we are working offline."
 msgstr "Skift til \"offline\" arbeidsmodus."
 
-#: ui/evolution.xml.h:29
+#: ui/evolution.xml.h:30
 msgid "View the selected folder"
 msgstr "Vis den valgte mappen"
 
-#: ui/evolution.xml.h:31
+#: ui/evolution.xml.h:32
 msgid "Ximian Evolution _FAQ"
 msgstr "Ximian Evolution _OBS"
 
-#: ui/evolution.xml.h:32
+#: ui/evolution.xml.h:33
 msgid "_About Ximian Evolution..."
 msgstr "_Om Ximian Evolution..."
 
-#: ui/evolution.xml.h:34
+#: ui/evolution.xml.h:35
 msgid "_Copy..."
 msgstr "_Kopier..."
 
-#: ui/evolution.xml.h:38
+#: ui/evolution.xml.h:39
 msgid "_Folder Bar"
 msgstr "_Mappelinje"
 
-#: ui/evolution.xml.h:39
+#: ui/evolution.xml.h:40
 msgid "_Go to Folder..."
 msgstr "_Gå til mappe..."
 
-#: ui/evolution.xml.h:41
+#: ui/evolution.xml.h:42
 msgid "_Import..."
 msgstr "_Importer..."
 
-#: ui/evolution.xml.h:42
+#: ui/evolution.xml.h:43
 msgid "_Move..."
 msgstr "_Flytt..."
 
-#: ui/evolution.xml.h:43
+#: ui/evolution.xml.h:44
 msgid "_New"
 msgstr "_Ny"
 
-#: ui/evolution.xml.h:44
+#: ui/evolution.xml.h:45
 msgid "_New Folder"
 msgstr "_Ny mappe"
 
-#: ui/evolution.xml.h:45
+#: ui/evolution.xml.h:46
 msgid "_Pilot Settings..."
 msgstr "Innstillinger for _pilot..."
 
-#: ui/evolution.xml.h:46
+#: ui/evolution.xml.h:47
 msgid "_Rename..."
 msgstr "_Gi nytt navn..."
 
-#: ui/evolution.xml.h:47
+#: ui/evolution.xml.h:48
 msgid "_Shortcut"
 msgstr "_Snarvei"
 
-#: ui/evolution.xml.h:48
+#: ui/evolution.xml.h:49
 msgid "_Shortcut Bar"
 msgstr "_Snarveilinje"
 
-#: ui/evolution.xml.h:51
+#: ui/evolution.xml.h:52
 msgid "_Work Offline"
 msgstr "Ar_beid \"offline\""
 
@@ -13767,9 +13774,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "_Debug"
 #~ msgstr "_Feilsøk"
-
-#~ msgid "Open a new Evolution window"
-#~ msgstr "Åpne et nytt Evolution vindu"
 
 #~ msgid "_Calendar Information:"
 #~ msgstr "_Kalenderinformasjon:"
