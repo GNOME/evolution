@@ -28,9 +28,12 @@
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 
+#include "e-msg-composer.h"
 #include "e-msg-composer-attachment.h"
 #include "e-msg-composer-attachment-bar.h"
+
 #include "e-icon-list.h"
+
 #include "camel/camel-data-wrapper.h"
 #include "camel/camel-stream-fs.h"
 #include "camel/camel-stream-mem.h"
@@ -382,53 +385,18 @@ edit_selected (EMsgComposerAttachmentBar *bar)
 /* "Attach" dialog.  */
 
 static void
-attach_cb (GtkWidget *widget,
-	   gpointer data)
-{
-	EMsgComposerAttachmentBar *bar;
-	GtkWidget *file_selection;
-	const gchar *file_name;
-
-	file_selection = gtk_widget_get_toplevel (widget);
-	bar = E_MSG_COMPOSER_ATTACHMENT_BAR (data);
-
-	file_name = gtk_file_selection_get_filename
-		                          (GTK_FILE_SELECTION (file_selection));
-	add_from_file (bar, file_name);
-
-	gtk_widget_hide (file_selection);
-}
-
-static void
 add_from_user (EMsgComposerAttachmentBar *bar)
 {
-	static GtkWidget *fs;
+	EMsgComposer *composer;
+	char *file_name;
 
-	if (!fs) {
-		GtkWidget *cancel_button;
-		GtkWidget *ok_button;
+	composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
 
-		fs = gtk_file_selection_new (_("Add attachment"));
+	file_name = e_msg_composer_select_file (composer, _("Attach a file"));
 
-		ok_button = GTK_FILE_SELECTION (fs)->ok_button;
-		gtk_signal_connect (GTK_OBJECT (ok_button),
-				    "clicked", GTK_SIGNAL_FUNC (attach_cb),
-				    bar);
+	add_from_file (bar, file_name);
 
-		cancel_button = GTK_FILE_SELECTION (fs)->cancel_button;
-		gtk_signal_connect_object (GTK_OBJECT (cancel_button),
-					   "clicked",
-					   GTK_SIGNAL_FUNC (gtk_widget_hide),
-					   GTK_OBJECT (fs));
-
-		gtk_signal_connect (GTK_OBJECT (fs), "delete_event",
-				    GTK_SIGNAL_FUNC (gtk_widget_hide), NULL);
-	} else
-		gtk_file_selection_set_filename (GTK_FILE_SELECTION (fs), "");
-
-	gtk_window_set_position (GTK_WINDOW (fs), GTK_WIN_POS_MOUSE);
-
-	gtk_widget_show (GTK_WIDGET (fs));
+	g_free (file_name);
 }
 
 

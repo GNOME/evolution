@@ -1,3 +1,9 @@
+2000-10-22  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (attach_cb): Removed.
+	(add_from_user): Use `e_msg_composer_select_file()' instead of
+	doing the file selector widget magic by yourself.
+
 2000-10-19  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* Makefile.am (glade_DATA): Add `e-msg-composer-attachment.glade'.
