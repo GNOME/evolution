@@ -1041,7 +1041,7 @@ create_folder (CamelStore *store, const char *parent_name,
 		delete_folder (store, parent_name, &internal_ex);
 		if (camel_exception_is_set (&internal_ex)) {
 			camel_exception_xfer (ex, &internal_ex);
-			return;
+			return NULL;
 		}
 
 		/* add the dirsep to the end of parent_name */
