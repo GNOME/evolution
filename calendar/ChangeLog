@@ -1,5 +1,16 @@
 2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/alarm-options.c (alarm_options_dialog_run): adapted to
+	to new glade_xml_new signature.
+
+	* gui/calendar-model.h:
+	* gui/dialogs/comp-editor-page.h:
+	* gui/dialogs/alarm-page.[ch]: removed non-existant header files.
+
+	* gui/dialogs/comp-editor-util.h: added missing headers.
+
+2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
+
 	* pcs/cal-backend.c: use libxml2 headers.
 
 	* gui/alarm-notify/Makefile.am:

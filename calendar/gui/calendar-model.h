@@ -22,11 +22,10 @@
 #ifndef CALENDAR_MODEL_H
 #define CALENDAR_MODEL_H
 
-#include <libgnome/gnome-defs.h>
 #include <gal/e-table/e-table-model.h>
 #include <cal-client/cal-client.h>
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -95,6 +94,6 @@ void            calendar_model_set_status_message   (CalendarModel      *model,
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

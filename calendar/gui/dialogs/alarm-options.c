@@ -592,7 +592,7 @@ alarm_options_dialog_run (CalComponentAlarm *alarm)
 
 	g_return_val_if_fail (alarm != NULL, FALSE);
 
-	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL);
+	dialog.xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-options.glade", NULL, NULL);
 	if (!dialog.xml) {
 		g_message ("alarm_options_dialog_new(): Could not load the Glade XML file!");
 		return FALSE;

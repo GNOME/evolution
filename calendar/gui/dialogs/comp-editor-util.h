@@ -23,6 +23,7 @@
 
 #include <gtk/gtkwidget.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-event-source.h>
 #include "Evolution-Addressbook-SelectNames.h"
 #include "comp-editor-page.h"
 

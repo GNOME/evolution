@@ -22,12 +22,11 @@
 #define COMP_EDITOR_PAGE_H
 
 #include <time.h>
-#include <libgnome/gnome-defs.h>
 #include <gtk/gtkwidget.h>
 #include <cal-util/cal-component.h>
 #include "cal-client.h"
 
-BEGIN_GNOME_DECLS
+G_BEGIN_DECLS
 
 
 
@@ -107,6 +106,6 @@ void       comp_editor_page_display_validation_error (CompEditorPage      *page,
 
 
 
-END_GNOME_DECLS
+G_END_DECLS
 
 #endif

@@ -27,7 +27,6 @@
 
 #include <string.h>
 #include <gtk/gtksignal.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
@@ -861,7 +860,7 @@ alarm_page_construct (AlarmPage *apage)
 	priv = apage->priv;
 
 	priv->xml = glade_xml_new (EVOLUTION_GLADEDIR "/alarm-page.glade",
-				   NULL);
+				   NULL, NULL);
 	if (!priv->xml) {
 		g_message ("alarm_page_construct(): "
 			   "Could not load the Glade XML file!");
