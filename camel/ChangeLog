@@ -1,3 +1,11 @@
+2002-06-27  Not Zed  <NotZed@Ximian.com>
+
+	* camel-object.c (camel_object_hook_event): Take a void object arg.
+	(camel_object_remove_event): "
+	(camel_object_unhook_event): "
+	(camel_object_trigger_event): ", also, execute events in the same
+	order they were added, i.e. reverse hook-list order.
+
 2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_ctx_get_argv): Don't use
@@ -62,6 +70,7 @@
 	* providers/local/camel-local-provider.c
 	(camel_provider_module_init): Removed spoold provider.  The spool
 	provider does it now.
+	(): Spoold doesn't exist anymore, remove its header.
 
 2002-06-25  Not Zed  <NotZed@Ximian.com>
 

@@ -201,10 +201,10 @@ void camel_object_unref(void *);
 #endif
 
 /* hooks */
-CamelObjectHookID camel_object_hook_event(CamelObject *obj, const char *name, CamelObjectEventHookFunc hook, void *data);
-void camel_object_remove_event(CamelObject *obj, CamelObjectHookID id);
-void camel_object_unhook_event(CamelObject *obj, const char *name, CamelObjectEventHookFunc hook, void *data);
-void camel_object_trigger_event(CamelObject *obj, const char *name, void *event_data);
+CamelObjectHookID camel_object_hook_event(void *obj, const char *name, CamelObjectEventHookFunc hook, void *data);
+void camel_object_remove_event(void *obj, CamelObjectHookID id);
+void camel_object_unhook_event(void *obj, const char *name, CamelObjectEventHookFunc hook, void *data);
+void camel_object_trigger_event(void *obj, const char *name, void *event_data);
 
 /* get/set methods */
 int camel_object_set(void *obj, struct _CamelException *ex, ...);

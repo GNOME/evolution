@@ -694,15 +694,16 @@ static CamelHookList *camel_object_get_hooks(CamelObject *o)
 #endif
 
 unsigned int
-camel_object_hook_event(CamelObject * obj, const char * name, CamelObjectEventHookFunc func, void *data)
+camel_object_hook_event(void *vo, const char * name, CamelObjectEventHookFunc func, void *data)
 {
+	CamelObject *obj = vo;
 	CamelHookPair *pair, *hook;
 	CamelHookList *hooks;
 	int id;
 
-	g_return_val_if_fail (CAMEL_IS_OBJECT (obj), 0);
-	g_return_val_if_fail (name != NULL, 0);
-	g_return_val_if_fail (func != NULL, 0);
+	g_return_val_if_fail(CAMEL_IS_OBJECT (obj), 0);
+	g_return_val_if_fail(name != NULL, 0);
+	g_return_val_if_fail(func != NULL, 0);
 
 	hook = obj->klass->hooks;
 	while (hook) {
@@ -736,8 +737,9 @@ setup:
 }
 
 void
-camel_object_remove_event(CamelObject * obj, unsigned int id)
+camel_object_remove_event(void *vo, unsigned int id)
 {
+	CamelObject *obj = vo;
 	CamelHookList *hooks;
 	CamelHookPair *pair, *parent;
 
@@ -778,8 +780,9 @@ camel_object_remove_event(CamelObject * obj, unsigned int id)
 }
 
 void
-camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEventHookFunc func, void *data)
+camel_object_unhook_event(void *vo, const char * name, CamelObjectEventHookFunc func, void *data)
 {
+	CamelObject *obj = vo;
 	CamelHookList *hooks;
 	CamelHookPair *pair, *parent;
 
@@ -823,8 +826,9 @@ camel_object_unhook_event(CamelObject * obj, const char * name, CamelObjectEvent
 }
 
 void
-camel_object_trigger_event (CamelObject * obj, const char * name, void *event_data)
+camel_object_trigger_event(void *vo, const char * name, void *event_data)
 {
+	CamelObject *obj = vo;
 	CamelHookList *hooks;
 	CamelHookPair *pair, **pairs, *parent, *hook;
 	int i, size;
@@ -872,7 +876,7 @@ trigger:
 		}
 
 		/* now execute the events we have, if they haven't been removed during our calls */
-		for (i=0;i<size;i++) {
+		for (i=size-1;i>=0;i--) {
 			pair = pairs[i];
 			if ((pair->flags & CAMEL_HOOK_PAIR_REMOVED) == 0)
 				(pair->func.event) (obj, event_data, pair->data);
