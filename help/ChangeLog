@@ -1,3 +1,26 @@
+2001-10-22  Aaron Weber  <aaron@ximian.com>
+
+	* C/evolution.sgml: validation. SIlly me.
+
+2001-10-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail-org.sgml: Many changes w/r/t IMAP and importation and encryption.
+
+	* C/usage-contact.sgml: A few changes, w/r/t import.
+
+	* C/usage-mainwindow.sgml: IMAP stuff.
+
+	* C/usage-exec-summary.sgml: More changes. Update to intro sect.
+	
+2001-10-19  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.sgml: Assorted fixes. Kevin, there's a FIXME for ya in here.
+
+	* C/preface.sgml: Added a few fixes.
+
+	* C/apx-bugs.sgml: Added a link to bugzilla, and a list of a few
+	1.1 features.
+
 2001-10-19  Kevin Breit  <mrproper@ximian.com>
 
 	* C/usage-mail.sgml: Added in import dialogue documentation

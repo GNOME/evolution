@@ -1594,7 +1594,7 @@
 	</varlistentry>
 
 	<varlistentry>
-	  <term>>Accept</term>
+	  <term>Accept</term>
 	  <listitem>
 	    <para>
 	  Select this entry if you will probably attend the meeting.
@@ -2061,7 +2061,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Select </guibutton>Import a single file</guibutton>.
+	      Select <guibutton>Import a single file</guibutton>.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -2115,7 +2115,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	      Click <guibutton>Import</guibutton>
 	    </para>
 	  </listitem>
-	</itemizedlist>
+	</orderedlist>
       </para>
     </sect2>
   </sect1>

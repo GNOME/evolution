@@ -25,6 +25,7 @@
     <member>Read foreign mail folders without importing them</member>
     <member>Import of WINMAIL.DAT attachments</member>
     <member>A "You have new mail" popup or other indicator</member>
+</simplelist>
     </para>
     <para>
      A more complete list of feature requests and other issues with

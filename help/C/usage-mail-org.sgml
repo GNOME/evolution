@@ -807,12 +807,13 @@
          </para>
      </listitem>
    </orderedlist>
+</para>
 <para>
 Remote folders are considered active if you are connected to the
 server; you must be connected to your mail server for the vFolder to
 include any messages from that source.
 </para>
-
+<para>
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>
 	<screenshot>
