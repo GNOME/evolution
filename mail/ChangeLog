@@ -1,3 +1,7 @@
+2005-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* searchtypes.xml: changed for 69122.
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #46404

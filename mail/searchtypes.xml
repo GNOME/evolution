@@ -429,30 +429,12 @@
   <ruleset>
 
     <rule grouping="any" source="demand">
-      <_title>Subject contains</_title>
+      <_title>Subject or Sender contains</_title>
       <partset>
         <part name="subject">
           <value name="subject-type" type="option" value="contains"/>
           <value name="subject" type="string"/>
         </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Subject does not contain</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="not contains"/>
-          <value name="subject" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Sender contains</_title>
-      <partset>
         <part name="sender">
           <value name="sender-type" type="option" value="contains"/>
           <value name="sender" type="string"/>
@@ -467,43 +449,6 @@
         <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
           <value name="recipient" type="address"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Body contains</_title>
-      <partset>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Body does not contain</_title>
-      <partset>
-        <part name="body">
-          <value name="body-type" type="option" value="not contains"/>
-          <value name="word" type="string"/>
-        </part>
-      </partset>
-      <sources/>
-    </rule>
-
-    <rule grouping="any" source="demand">
-      <_title>Body or subject contains</_title>
-      <partset>
-        <part name="subject">
-          <value name="subject-type" type="option" value="contains"/>
-          <value name="subject" type="string"/>
-        </part>
-        <part name="body">
-          <value name="body-type" type="option" value="contains"/>
-          <value name="word" type="string"/>
         </part>
       </partset>
       <sources/>
@@ -527,6 +472,28 @@
         <part name="to">
           <value name="recipient-type" type="option" value="contains"/>
           <value name="recipient" type="address"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
+      <_title>Subject contains</_title>
+      <partset>
+        <part name="subject">
+          <value name="subject-type" type="option" value="contains"/>
+          <value name="subject" type="string"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
+      <_title>Sender contains</_title>
+      <partset>
+        <part name="sender">
+          <value name="sender-type" type="option" value="contains"/>
+          <value name="sender" type="string"/>
         </part>
       </partset>
       <sources/>
