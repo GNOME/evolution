@@ -263,6 +263,14 @@ e_uri_get_param (EUri *uri, const char *name)
 	return g_datalist_get_data (&uri->params, name);
 }
 
+static void
+copy_param_cb (GQuark key_id, gpointer data, gpointer user_data)
+{
+	GData *params = (GData *) user_data;
+
+	g_datalist_id_set_data_full (&params, key_id, g_strdup (data), g_free);
+}
+
 EUri *
 e_uri_copy (EUri *uri)
 {
@@ -280,7 +288,11 @@ e_uri_copy (EUri *uri)
 	uri_copy->path = g_strdup (uri->path);
 	uri_copy->query = g_strdup (uri->query);
 	uri_copy->fragment = g_strdup (uri->fragment);
-	/* FIXME: copy uri->params */
+
+	/* copy uri->params */
+	g_datalist_foreach (&uri->params,
+			    (GDataForeachFunc) copy_param_cb,
+			    &uri_copy->params);
 
 	return uri_copy;
 }
