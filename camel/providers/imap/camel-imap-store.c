@@ -108,11 +108,13 @@ camel_imap_store_init (gpointer object, gpointer klass)
 			       CAMEL_SERVICE_URL_NEED_HOST |
 			       CAMEL_SERVICE_URL_ALLOW_PATH |
 			       CAMEL_SERVICE_URL_ALLOW_AUTH);
-
+	
 	remote_store->default_port = 143;
 	
 	imap_store->dir_sep = NULL;
 	imap_store->current_folder = NULL;
+	
+	imap_store->connected = FALSE;
 }
 
 CamelType
@@ -259,6 +261,9 @@ imap_connect (CamelService *service, CamelException *ex)
 		}
 	}
 	
+	/* At this point we know we're connected... */
+	store->connected = TRUE;
+	
 	/* Now lets find out the IMAP capabilities */
 	response = camel_imap_command (store, NULL, ex, "CAPABILITY");
 	if (!response)
@@ -324,11 +329,13 @@ imap_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelImapStore *store = CAMEL_IMAP_STORE (service);
 	CamelImapResponse *response;
-
-	/* send the logout command */
-	response = camel_imap_command (store, NULL, ex, "LOGOUT");
-	camel_imap_response_free (response);
-
+	
+	if (store->connected) {
+		/* send the logout command */
+		response = camel_imap_command (store, NULL, ex, "LOGOUT");
+		camel_imap_response_free (response);
+	}
+	
 	g_free (store->dir_sep);
 	store->dir_sep = NULL;
 	
@@ -416,7 +423,7 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	CamelFolder *new_folder;
+	CamelFolder *new_folder = NULL;
 	char *folder_path, *summary_file, *p;
 	gboolean selectable;
 
@@ -554,8 +561,8 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	if (!topfi) {
 		camel_exception_clear (ex);
 		topfi = g_new0 (CamelFolderInfo, 1);
-		fi->full_name = g_strdup (namespace);
-		fi->name = g_strdup (namespace);
+		topfi->full_name = g_strdup (namespace);
+		topfi->name = g_strdup (namespace);
 	}
 
 	response = camel_imap_command (imap_store, NULL, ex,

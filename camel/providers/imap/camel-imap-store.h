@@ -57,6 +57,8 @@ typedef struct {
 	gboolean has_status_capability;
 	
 	gchar *dir_sep, *storage_path;
+	
+	gboolean connected;
 } CamelImapStore;
 
 

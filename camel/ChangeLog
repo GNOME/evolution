@@ -1,3 +1,18 @@
+2000-10-16  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (imap_disconnect): Only send
+	the LOGOUT command if the store is connected.
+	(imap_connect): Set the 'connected' state to TRUE when we
+	successfully connect.
+	(get_folder_info): if (!topfi), 'topfi' was allocated but then
+	'fi' was set. I think Dan meant to set topfi since fi is an
+	uninitialized value at this point.
+
+	* providers/imap/camel-imap-command.c (imap_read_response): Check
+	for the untagged BYE response and set the 'connected' state to
+	FALSE if we receive the BYE response. Return NULL if we get a BYE
+	response.
+
 2000-10-16  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (get_folder_info): Deal with
@@ -70,7 +85,8 @@
 	Fix camel_summary_* function rename
 	(imap_get_message_info_internal): Likewise.
 
-	* camel-mime-parser.c (camel_mime_parser_finalise): Fixed a spelling mistake.
+	* camel-mime-parser.c (camel_mime_parser_finalise): Fixed a
+	spelling mistake.
 
 	* camel-folder-summary.c (camel_summary_format_address): Uh, why
 	do we encode and then decode here ... sigh.  This is not the way
@@ -82,7 +98,8 @@
 
 2000-10-11  Chris Toshok  <toshok@helixcode.com>
 
-	* providers/nntp/camel-nntp-store.c (nntp_store_unsubscribe_folder): remove the leading '/'.
+	* providers/nntp/camel-nntp-store.c
+	(nntp_store_unsubscribe_folder): remove the leading '/'.
 	(nntp_store_subscribe_folder): same.
 	(nntp_store_folder_subscribed): same.
 

@@ -170,6 +170,15 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 				g_free (respbuf);
 				goto next;
 			}
+		} else {
+			p = imap_next_word (respbuf);
+			if (!g_strncasecmp (p, "BYE", 3)) {
+				/* connection was lost, no more data to fetch */
+				store->connected = FALSE;
+				g_free (respbuf);
+				respbuf = NULL;
+				break;
+			}
 		}
 
 		g_ptr_array_add (response->untagged, respbuf);
@@ -187,7 +196,7 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	if (expunged)
 		g_array_free (expunged, TRUE);
 
-	if (camel_exception_is_set (ex)) {
+	if (!respbuf || camel_exception_is_set (ex)) {
 		camel_imap_response_free (response);
 		return NULL;
 	}
