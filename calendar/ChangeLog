@@ -1,5 +1,12 @@
 2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
 
+	This makes alarm notification work.
+
+	* gui/alarm-notify/notify-main.c (main): Initialize GTK. Don't
+	initialize bonobo activation - bonobo_init() does that for us.
+
+2003-02-26  Hans Petter Jansson  <hpj@ximian.com>
+
 	This makes creating appointments and tasks from the "New" button work.
 
 	* gui/main.c (comp_editor_factory_fn): Doesn't need to take any args.

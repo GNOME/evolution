@@ -164,7 +164,7 @@ main (int argc, char **argv)
 	textdomain (GETTEXT_PACKAGE);
 
 	gnome_program_init ("evolution-alarm-notify", VERSION, LIBGNOME_MODULE, argc, argv, NULL);
-	bonobo_activation_init (argc, argv);
+	gtk_init (&argc, &argv);
 
 	if (bonobo_init (&argc, argv) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
