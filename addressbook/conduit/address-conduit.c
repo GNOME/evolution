@@ -1323,6 +1323,8 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	e_card_set_id (ecard, cons.id);
 	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);
 
+	gtk_object_unref (GTK_OBJECT (ecard));
+
 	return retval;
 }
 

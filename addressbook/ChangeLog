@@ -1,3 +1,11 @@
+2001-10-28  JP Rosevear  <jpr@ximian.com>
+
+	* conduit/address-conduit.h: tidy
+
+	* conduit/address-conduit-config.h: ditto
+
+	* conduit/address-conduit.c (add_record): unref ecard when done
+
 2001-10-28  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-card.c (e_card_date_from_string): Expose this
