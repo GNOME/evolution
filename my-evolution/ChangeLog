@@ -1,7 +1,5 @@
 2003-02-19  Dan Winship  <danw@ximian.com>
 
-	* Makefile.am (summary_libs): s/libalarm.a/libalarm.la/
-
 	* e-summary-rdf.c: Declare xmlSubstituteEntitiesDefaultValue
 	extern.
 	(message_finished): And set its value here. Fixes a duplicate

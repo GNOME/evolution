@@ -18,10 +18,10 @@ INCLUDES =						\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES = 				\
-	libecontactlisteditor.la
+noinst_LIBRARIES =				\
+	libecontactlisteditor.a
 
-libecontactlisteditor_la_SOURCES = 		\
+libecontactlisteditor_a_SOURCES = 		\
 	e-contact-list-editor.c			\
 	e-contact-list-editor.h			\
 	e-contact-list-editor-marshal.c		\

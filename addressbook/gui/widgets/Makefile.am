@@ -17,10 +17,10 @@ INCLUDES =										\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES =				\
-	libeminicard.la
+noinst_LIBRARIES =				\
+	libeminicard.a
 
-libeminicard_la_SOURCES =			\
+libeminicard_a_SOURCES =			\
 	e-addressbook-marshal.c			\
 	e-addressbook-reflow-adapter.c		\
 	e-addressbook-reflow-adapter.h		\

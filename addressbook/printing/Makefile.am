@@ -18,10 +18,10 @@ INCLUDES =					\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LTLIBRARIES = 				\
-	libecontactprint.la
+noinst_LIBRARIES =				\
+	libecontactprint.a
 
-libecontactprint_la_SOURCES = 			\
+libecontactprint_a_SOURCES = 			\
 	e-contact-print-envelope.c		\
 	e-contact-print-envelope.h		\
 	e-contact-print-style-editor.c		\
