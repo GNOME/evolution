@@ -275,7 +275,7 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 		
 		CAMEL_IMAP_STORE (store)->current_folder = NULL;
 	} else {
-		/* parse the mode we opened it in and set as current mailbox */
+		/* set as current mailbox */
 		CAMEL_IMAP_STORE (store)->current_folder = folder;
 	}
 	g_free (result);
@@ -301,7 +301,7 @@ imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 				flags = g_strconcat (info->flags & CAMEL_MESSAGE_SEEN ? "\\Seen " : "",
 						     info->flags & CAMEL_MESSAGE_DRAFT ? "\\Draft " : "",
 						     info->flags & CAMEL_MESSAGE_DELETED ? "\\Deleted " : "",
-						     info->flags & CAMEL_MESSAGE_DELETED ? "\\Answered " : "",
+						     info->flags & CAMEL_MESSAGE_ANSWERED ? "\\Answered " : "",
 						     NULL);
 				if (*flags) {
 					gchar *result;
