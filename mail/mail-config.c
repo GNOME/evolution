@@ -46,12 +46,14 @@
 
 #include <gal/util/e-util.h>
 #include <gal/unicode/gunicode.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <e-util/e-html-utils.h>
 #include <e-util/e-url.h>
 #include <e-util/e-unicode-i18n.h>
 #include "mail.h"
 #include "mail-config.h"
 #include "mail-mt.h"
+#include "mail-tools.h"
 
 #include "Mail.h"
 
@@ -1520,10 +1522,9 @@ add_shortcut_entry (const char *name, const char *uri, const char *type)
 	extern EvolutionShellClient *global_shell_client;
 	CORBA_Environment ev;
 	GNOME_Evolution_Shortcuts shortcuts_interface;
-	GNOME_Evolution_Shortcuts_GroupList *groups;
 	GNOME_Evolution_Shortcuts_Group *the_group;
 	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
-	int i, group_num;
+	int i;
 	
 	if (!global_shell_client)
 		return;
@@ -1590,6 +1591,8 @@ static void
 new_source_created (MailConfigAccount *account)
 {
 	CamelProvider *prov;
+	CamelFolder *inbox;
+	CamelException ex;
 	gchar *name;
 	gchar *url;
 	
@@ -1597,28 +1600,52 @@ new_source_created (MailConfigAccount *account)
 	if (!account->source || !account->source->url)
 		return;
 
-	prov = camel_session_get_provider (session, account->source->url, NULL);
+	camel_exception_init (&ex);
+	prov = camel_session_get_provider (session, account->source->url, &ex);
+	if (camel_exception_is_set (&ex)) {
+		g_warning ("Configured provider that doesn't exist?");
+		camel_exception_clear (&ex);
+		return;
+	}
 
 	/* not a storage, don't bother. */
-
 	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
 		return;
 
-	/* right now, the URL always works basically as a matter of luck...
-	 * both IMAP and mbox spool stores have INBOX as their inbox folder
-	 * name. I don't think this will work with maildir. How can we figure out
-	 * what shortcut to insert?
-	 */
+	inbox = mail_tool_get_inbox (account->source->url, &ex);
+	if (camel_exception_is_set (&ex)) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not get inbox for new mail store:\n%s\n"
+			    "No shortcut will be created."),
+			  camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+		return;
+	}
 
-	name = g_strdup_printf (U_("%s: Inbox"), account->name);
-	url = g_strdup_printf ("evolution:/%s/INBOX", account->name);
-	add_shortcut_entry (name, url, "mail");
-	g_free (name);
-	g_free (url);
+	if (inbox) {
+		/* Create the shortcut. FIXME: This only works if the
+		 * full name matches the path.
+		 */
+		name = g_strdup_printf (U_("%s: Inbox"), account->name);
+		url = g_strdup_printf ("evolution:/%s/%s", account->name,
+				       inbox->full_name);
+		add_shortcut_entry (name, url, "mail");
+		g_free (name);
+		g_free (url);
 
-	/* while we're here, add the storage to the folder tree */
+		/* If we unref inbox here, it will disconnect from the
+		 * store, but then add_new_storage will reconnect. So
+		 * we'll keep holding the ref until after that.
+		 */
+	}
 
-	add_new_storage (account->source->url, account->name);
+	if (!(prov->flags & CAMEL_PROVIDER_IS_EXTERNAL)) {
+		/* add the storage to the folder tree */
+		add_new_storage (account->source->url, account->name);
+	}
+
+	if (inbox)
+		camel_object_unref (CAMEL_OBJECT (inbox));
 }
 
 void

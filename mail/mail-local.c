@@ -888,7 +888,8 @@ static void mail_local_store_remove_folder(MailLocalStore *mls, const char *path
 
 static CamelProvider local_provider = {
 	"file", "Local mail", NULL, "mail",
-	CAMEL_PROVIDER_IS_STORAGE, CAMEL_URL_NEED_PATH,
+	CAMEL_PROVIDER_IS_STORAGE | CAMEL_PROVIDER_IS_EXTERNAL,
+	CAMEL_URL_NEED_PATH,
 	/* ... */
 };
 
@@ -1227,11 +1228,8 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	while (p) {
 		CamelProvider *cp = p->data;
 
-		/* we only want local storages */
-		/* hack it so we also dont see file or spool stores, which aren't really meant for this */
-		if ((cp->flags & (CAMEL_PROVIDER_IS_REMOTE|CAMEL_PROVIDER_IS_STORAGE)) == CAMEL_PROVIDER_IS_STORAGE
-		    && strcmp(cp->protocol, "file")
-		    && strcmp(cp->protocol, "spool")) {
+		/* we only want local providers */
+		if (cp->flags & CAMEL_PROVIDER_IS_LOCAL) {
 			GtkWidget *item;
 			char *label;
 

@@ -1056,20 +1056,9 @@ mail_load_storage_by_uri (GNOME_Evolution_Shell shell, const char *uri, const ch
 		camel_exception_clear (&ex);
 		return;
 	}
-		
-	/* FIXME: this case is ambiguous for things like the
-	 * mbox provider, which can really be a spool
-	 * (/var/spool/mail/user) or a storage (~/mail/, eg).
-	 * That issue can't be resolved on the provider level
-	 * -- it's a per-URL problem.
-	 *  MPZ Added a hack to let spool protocol through temporarily ...
-	 *      And vfolder, and maildir ...
-	 */
-	if ((!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
-	     !(prov->flags & CAMEL_PROVIDER_IS_REMOTE))
-	    && !((strcmp (prov->protocol, "spool") == 0)
-		 || (strcmp (prov->protocol, "maildir") == 0)
-		 || (strcmp (prov->protocol, "vfolder") == 0)))
+
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return;
 
 	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, &ex);
@@ -1189,27 +1178,20 @@ void
 mail_remove_storage_by_uri (const char *uri)
 {
 	CamelProvider *prov;
-	CamelException ex;
-			
-	camel_exception_init (&ex);
-	prov = camel_session_get_provider (session, uri, &ex);
-	if (prov != NULL && prov->flags & CAMEL_PROVIDER_IS_STORAGE &&
-	    prov->flags & CAMEL_PROVIDER_IS_REMOTE) {
-		CamelService *store;
-				
-		store = camel_session_get_service (session, uri,
-						   CAMEL_PROVIDER_STORE, &ex);
-		if (store != NULL) {
-			g_warning ("removing storage: %s", uri);
-			mail_remove_storage (CAMEL_STORE (store));
-			camel_object_unref (CAMEL_OBJECT (store));
-		}
-	} else {
-		/* why make the caller redundantly check this? */
-		/*g_warning ("%s is not a remote storage.", uri);*/
-	}
+	CamelService *store;
 
-	camel_exception_clear (&ex);
+	prov = camel_session_get_provider (session, uri, NULL);
+	if (!prov)
+		return;
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+		return;
+
+	store = camel_session_get_service (session, uri, CAMEL_PROVIDER_STORE, NULL);
+	if (store != NULL) {
+		mail_remove_storage (CAMEL_STORE (store));
+		camel_object_unref (CAMEL_OBJECT (store));
+	}
 }
 
 int

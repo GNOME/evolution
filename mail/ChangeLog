@@ -1,5 +1,33 @@
 2001-10-01  Dan Winship  <danw@ximian.com>
 
+	* component-factory.c (mail_load_storage_by_uri): create storages
+	for providers that are STORAGE and aren't EXTERNAL, rather than
+	"(STORAGE and REMOTE) or spool, maildir, or vfolder".
+	(mail_remove_storage_by_uri): Use the same rule here (which makes
+	it possible now to remove maildir and spool stores now, which
+	weren't properly special-cased before). Remove some CamelException
+	misuse.
+
+	* mail-config.c (new_source_created): Fix up the broken INBOX-
+	shortcut-generating assumption a little by only assuming that if
+	you call camel_store_get_inbox(), that its full_name is the same
+	as its path. (This happens to always be true for inboxes now, and
+	will be always true by definition at some point in the future.)
+	Now maildir stores get working Inbox shortcuts.
+
+	* mail-send-recv.c (get_receive_type): If PROVIDER_IS_STORAGE
+	then use SEND_UPDATE, if not, use SEND_RECEIVE.
+
+	* mail-local.c (local_provider): The local provider is EXTERNAL.
+	(The shell creates it.)
+	(mail_local_reconfigure_folder): Allow reconfiguring between
+	IS_LOCAL providers.
+
+	* mail-accounts.c (news_delete): Don't need to check the provider
+	flags here... we know nntp is a STORAGE.
+
+2001-10-01  Dan Winship  <danw@ximian.com>
+
 	* mail-local.c (mail_local_reconfigure_folder): Don't use
 	mail_tool_get_folder_name here since that function only existed to
 	be clever in a certain case that this is not.

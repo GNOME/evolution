@@ -253,9 +253,10 @@ format_url(const char *internal_url)
 
 static send_info_t get_receive_type(const char *url)
 {
-	if (!strncmp(url, "imap:", 5)
-	    || !strncmp(url, "spool:", 6)
-	    || !strncmp(url, "maildir:", 8))
+	CamelProvider *provider;
+
+	provider = camel_session_get_provider (session, url, NULL);
+	if (provider->flags & CAMEL_PROVIDER_IS_STORAGE)
 		return SEND_UPDATE;
 	else
 		return SEND_RECEIVE;
@@ -301,7 +302,6 @@ build_dialogue (GSList *sources, CamelFolder *outbox, const char *destination)
 		info = g_hash_table_lookup (data->active, source->url);
 		if (info == NULL) {
 			info = g_malloc0 (sizeof (*info));
-			/* imap and spool are handled differently */
 			info->type = get_receive_type(source->url);
 			d(printf("adding source %s\n", source->url));
 			
@@ -795,7 +795,6 @@ mail_receive_uri (const char *uri, int keep)
 	d(printf("starting non-interactive download of '%s'\n", uri));
 	
 	info = g_malloc0 (sizeof (*info));
-	/* imap is handled differently */
 	info->type = get_receive_type(uri);
 	info->bar = NULL;
 	info->status = NULL;
