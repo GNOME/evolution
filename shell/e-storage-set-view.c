@@ -569,9 +569,10 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 			  GtkSelectionData *selection_data)
 {
 	EStorageSetViewPrivate *priv;
+	ETreePath node;
+	EFolder *folder;
 	int shortcut_len;
 	char *shortcut;
-	const char *trailing_slash;
 	const char *name;
 
 	g_assert (storage_set_view != NULL);
@@ -579,11 +580,9 @@ set_e_shortcut_selection (EStorageSetView *storage_set_view,
 
 	priv = storage_set_view->priv;
 
-	trailing_slash = strrchr (priv->selected_row_path, '/');
-	if (trailing_slash == NULL)
-		name = NULL;
-	else
-		name = trailing_slash + 1;
+	node = lookup_node_in_hash (storage_set_view, priv->selected_row_path);
+	folder = get_folder_at_node (storage_set_view, node);
+	name = e_folder_get_name (folder);
 
 	/* FIXME: Get `evolution:' from somewhere instead of hardcoding it here.  */
 
