@@ -1240,6 +1240,11 @@ addressbook/Makefile
 addressbook/gui/Makefile
 addressbook/gui/component/Makefile
 addressbook/gui/component/select-names/Makefile
+addressbook/gui/contact-editor/Makefile
+addressbook/gui/contact-list-editor/Makefile
+addressbook/gui/merging/Makefile
+addressbook/gui/search/Makefile
+addressbook/gui/widgets/Makefile
 addressbook/backend/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/backend/pas/Makefile

@@ -1,3 +1,7 @@
+2002-11-06  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add some more addressbook dirs to AC_OUTPUT.
+
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Re-enable the filter cflags/libs stuff.
