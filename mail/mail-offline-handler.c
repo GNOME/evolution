@@ -48,9 +48,9 @@ service_is_relevant (CamelService *service, gboolean going_offline)
 	    (service->provider->flags & CAMEL_PROVIDER_IS_EXTERNAL))
 		return FALSE;
 
-	if (CAMEL_IS_DISCO_STORE (service) && going_offline &&
+	if (CAMEL_IS_DISCO_STORE (service) &&
 	    camel_disco_store_status (CAMEL_DISCO_STORE (service)) == CAMEL_DISCO_STORE_OFFLINE)
-			return FALSE;
+			return !going_offline;
 
 	return service->status != CAMEL_SERVICE_DISCONNECTED;
 }

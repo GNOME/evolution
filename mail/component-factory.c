@@ -1409,7 +1409,8 @@ mail_load_storages (GNOME_Evolution_Shell shell, const GSList *sources)
 		if (service == NULL || service->url == NULL || service->url[0] == '\0')
 			continue;
 		
-		mail_load_storage_by_uri (shell, service->url, name, service->enabled);
+		/* don't auto-connect here; the shell will tell us to goOnline */
+		mail_load_storage_by_uri (shell, service->url, name, FALSE);
 	}
 }
 

@@ -1,3 +1,15 @@
+2002-07-15  Peter Williams  <peterw@ximian.com>
+
+	* mail-offline-handler.c (service_is_relevant): Account for the case
+	that when a disco store is "online" but actually offline and we're
+	going online, we should actually connect it.
+
+	* component-factory.c (mail_load_storages): Always set auto_connect
+	to FALSE, same reason as below.
+
+	* mail-session.c (mail_session_init): Initialize our session to not be online,
+	since the shell will tell us to go online if we need to.
+
 2002-07-10  Peter Williams  <peterw@ximian.com>
 
 	* Makefile.am (importerdir): Define this in terms of the new

@@ -979,6 +979,10 @@ mail_session_init (void)
 	
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
 	camel_session_construct (session, camel_dir);
+
+	/* The shell will tell us to go online. */
+	camel_session_set_online ((CamelSession *)session, FALSE);
+
 	g_free (camel_dir);
 }
 
