@@ -1,3 +1,7 @@
+2004-09-30  David Malcolm  <dmalcolm@redhat.com>
+
+	* em-migrate.c (upgrade_passwords_1_2): fix uninitialised pointer.
+
 2004-09-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #63521.
