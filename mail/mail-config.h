@@ -93,6 +93,9 @@ void     mail_config_set_send_html            (gboolean send_html);
 gint     mail_config_get_mark_as_seen_timeout (void);
 void     mail_config_set_mark_as_seen_timeout (gint timeout);
 
+gboolean mail_config_get_prompt_empty_subject (void);
+void     mail_config_set_prompt_empty_subject (gboolean value);
+
 const MailConfigAccount  *mail_config_get_default_account (void);
 const MailConfigAccount  *mail_config_get_account_by_name (const char *account_name);
 const GSList             *mail_config_get_accounts        (void);

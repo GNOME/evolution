@@ -39,6 +39,7 @@ typedef struct {
 	gboolean view_source;
 	gint paned_size;
 	gboolean send_html;
+	gboolean prompt_empty_subject;
 	gint seen_timeout;
 	
 	GSList *accounts;
@@ -331,6 +332,12 @@ config_read (void)
 	config->paned_size = gnome_config_get_int (str);
 	g_free (str);
 	
+	/* Empty Subject */
+	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject=true", 
+			       evolution_dir);
+	config->prompt_empty_subject = gnome_config_get_bool (str);
+	g_free (str);
+	
 	gnome_config_sync ();
 }
 
@@ -422,6 +429,12 @@ mail_config_write (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
 			       evolution_dir);
 	gnome_config_set_bool (str, config->send_html);
+	g_free (str);
+	
+	/* Empty Subject */
+	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->prompt_empty_subject);
 	g_free (str);
 	
 	gnome_config_sync ();
@@ -524,6 +537,18 @@ void
 mail_config_set_mark_as_seen_timeout (gint timeout)
 {
 	config->seen_timeout = timeout;
+}
+
+gboolean
+mail_config_get_prompt_empty_subject (void)
+{
+	return config->prompt_empty_subject;
+}
+
+void
+mail_config_set_prompt_empty_subject (gboolean value)
+{
+	config->prompt_empty_subject = value;
 }
 
 const MailConfigAccount *

@@ -46,6 +46,7 @@
 #include "filter/filter-driver.h"
 #include <gal/e-table/e-table.h>
 #include <gal/widgets/e-gui-utils.h>
+#include "e-messagebox.h"
 
 /* FIXME: is there another way to do this? */
 #include "Evolution.h"
@@ -249,18 +250,44 @@ send_receieve_mail (GtkWidget *widget, gpointer user_data)
 	send_queued_mail (widget, user_data);
 }
 
+static void
+empty_subject_destroyed (GtkWidget *widget, gpointer data)
+{
+	gboolean *show_again = data;
+	GtkWidget *checkbox;
+	
+	checkbox = e_message_box_get_checkbox (E_MESSAGE_BOX (widget));
+	*show_again = !GTK_TOGGLE_BUTTON (checkbox)->active;
+}
+
 static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
-	GtkWidget *message_box;
+	/* FIXME: EMessageBox should really handle this stuff
+           automagically. What Miguel thinks would be nice is to pass
+           in a message-id which could be used as a key in the config
+           file and the value would be an int. -1 for always show or
+           the button pressed otherwise. This probably means we'd have
+           to write e_messagebox_run () */
+	gboolean show_again = TRUE;
+	GtkWidget *mbox;
 	int button;
 	
-	message_box = gnome_message_box_new (_("This message has no subject.\nReally send?"),
-					     GNOME_MESSAGE_BOX_QUESTION,
-					     GNOME_STOCK_BUTTON_YES, GNOME_STOCK_BUTTON_NO,
-					     NULL);
+	if (!mail_config_get_prompt_empty_subject ())
+		return TRUE;
 	
-	button = gnome_dialog_run_and_close (GNOME_DIALOG (message_box));
+	mbox = e_message_box_new (_("This message has no subject.\nReally send?"),
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    empty_subject_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
+	
+	mail_config_set_prompt_empty_subject (show_again);
 	
 	if (button == 0)
 		return TRUE;

@@ -1,3 +1,13 @@
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_empty_subject): Update to use
+	EMessageBox and to record if the user doesn't want to ever see
+	this dialog again.
+
+	* mail-config.c (mail_config_get_prompt_empty_subject): New config
+	function.
+	(mail_config_set_prompt_empty_subject): Another new one.
+
 2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (apply_changes): Modify to be able to
