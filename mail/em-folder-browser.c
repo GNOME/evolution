@@ -543,7 +543,8 @@ emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderBrowser *emfb = data;
 
-	em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
+	if (emfb->view.folder_uri)
+		em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
 }
 
 static void
