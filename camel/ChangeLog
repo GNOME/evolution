@@ -1,3 +1,9 @@
+2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-tcp-stream-openssl.c (open_ssl_connection): Call
+	SSL_CTX_set_default_verify_paths() to initialise the certificate
+	database paths. Thanks to Anton Altaparmakov for this fix.
+
 2004-08-21 Sivaiah Nallagatla <snallagatla@novell.com>
 	
 	* providers/groupwise/camel-gw-listener.c (account_changed) :

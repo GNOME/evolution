@@ -732,6 +732,7 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamSSL *opens
 	ssl_ctx = SSL_CTX_new (SSLv23_client_method ());
 	g_return_val_if_fail (ssl_ctx != NULL, NULL);
 	
+	SSL_CTX_set_default_verify_paths (ssl_ctx);
 	SSL_CTX_set_verify (ssl_ctx, SSL_VERIFY_PEER, &ssl_verify);
 	ssl = SSL_new (ssl_ctx);
 	SSL_set_fd (ssl, sockfd);
