@@ -24,14 +24,15 @@
 #ifndef _GAL_VIEW_ETABLE_H_
 #define _GAL_VIEW_ETABLE_H_
 
+#include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
 #include <gal/menus/gal-view.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-table-specification.h>
+#include <gal/e-table/e-table.h>
+#include <gal/e-table/e-tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+BEGIN_GNOME_DECLS
 
 #define GAL_VIEW_ETABLE_TYPE        (gal_view_etable_get_type ())
 #define GAL_VIEW_ETABLE(o)          (GTK_CHECK_CAST ((o), GAL_VIEW_ETABLE_TYPE, GalViewEtable))
@@ -45,6 +46,12 @@ typedef struct {
 	ETableSpecification *spec;
 	ETableState         *state;
 	char                *title;
+
+	ETable              *table;
+	guint                table_state_changed_id;
+
+	ETree               *tree;
+	guint                tree_state_changed_id;
 } GalViewEtable;
 
 typedef struct {
@@ -52,15 +59,20 @@ typedef struct {
 } GalViewEtableClass;
 
 /* Standard functions */
-GtkType  gal_view_etable_get_type   (void);
-GalView *gal_view_etable_new        (ETableSpecification *spec,
-				     const gchar         *title);
-GalView *gal_view_etable_construct  (GalViewEtable       *view,
-				     ETableSpecification *spec,
-				     const gchar         *title);
+GtkType  gal_view_etable_get_type      (void);
+GalView *gal_view_etable_new           (ETableSpecification *spec,
+					const gchar         *title);
+GalView *gal_view_etable_construct     (GalViewEtable       *view,
+					ETableSpecification *spec,
+					const gchar         *title);
+void     gal_view_etable_set_state     (GalViewEtable       *view,
+					ETableState         *state);
+void     gal_view_etable_attach_table  (GalViewEtable       *view,
+					ETable              *table);
+void     gal_view_etable_attach_tree   (GalViewEtable       *view,
+					ETree               *tree);
+void     gal_view_etable_detach        (GalViewEtable       *view);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+END_GNOME_DECLS
 
 #endif /* _GAL_VIEW_ETABLE_H_ */

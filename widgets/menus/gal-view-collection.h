@@ -51,9 +51,12 @@ typedef struct {
 	int removed_view_count;
 
 	guint loaded : 1;
+	guint default_view_built_in : 1;
 
 	char *system_dir;
 	char *local_dir;
+
+	char *default_view;
 } GalViewCollection;
 
 typedef struct {
@@ -77,6 +80,7 @@ struct GalViewCollectionItem {
 	char *title;
 	char *type;
 	GalViewCollection *collection;
+	guint view_changed_id;
 };
 
 /* Standard functions */
@@ -123,6 +127,19 @@ gboolean               gal_view_collection_loaded                   (GalViewColl
 GalView               *gal_view_collection_load_view_from_file      (GalViewCollection *collection,
 								     const char        *type,
 								     const char        *filename);
+
+/* Returns id of the new view.  These functions are used for
+   GalViewInstanceSaveAsDialog. */
+const char            *gal_view_collection_append_with_title        (GalViewCollection *collection,
+								     const char        *title,
+								     GalView           *view);
+const char            *gal_view_collection_set_nth_view             (GalViewCollection *collection,
+								     int                i,
+								     GalView           *view);
+
+const char            *gal_view_collection_get_default_view         (GalViewCollection *collection);
+void                   gal_view_collection_set_default_view         (GalViewCollection *collection,
+								     const char        *id);
 
 
 END_GNOME_DECLS

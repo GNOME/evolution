@@ -30,16 +30,22 @@
 #include <gnome-xml/parser.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <gal/util/e-util.h>
 #include <gal/util/e-xml-utils.h>
 #include <gal/widgets/e-unicode.h>
 #include "gal-view-instance.h"
+#include "gal-view-instance-save-as-dialog.h"
+#include <sys/stat.h>
+#include <unistd.h>
 
 #define GVI_CLASS(e) ((GalViewInstanceClass *)((GtkObject *)e)->klass)
 
 #define PARENT_TYPE gtk_object_get_type ()
 
 static GtkObjectClass *gal_view_instance_parent_class;
+
+#define d(x) x
 
 enum {
 	DISPLAY_VIEW,
@@ -71,23 +77,94 @@ gal_view_instance_display_view (GalViewInstance *instance, GalView *view)
 }
 
 static void
+save_current_view (GalViewInstance *instance)
+{
+	xmlDoc *doc;
+	xmlNode *root;
+
+	doc = xmlNewDoc("1.0");
+	root = xmlNewNode (NULL, "GalViewCurrentView");
+	xmlDocSetRootElement(doc, root);
+
+	if (instance->current_id)
+		e_xml_set_string_prop_by_name (root, "current_view", instance->current_id);
+	if (instance->current_type)
+		e_xml_set_string_prop_by_name (root, "current_view_type", instance->current_type);
+
+	xmlSaveFile(instance->current_view_filename, doc);
+	xmlFreeDoc(doc);
+}
+
+static void
+view_changed (GalView *view, GalViewInstance *instance)
+{
+	if (instance->current_id != NULL) {
+		g_free (instance->current_id);
+		instance->current_id = NULL;
+		save_current_view (instance);
+		gal_view_instance_changed(instance);
+	}
+
+	gal_view_save (view, instance->custom_filename);
+}
+
+static void
+disconnect_view (GalViewInstance *instance)
+{
+	if (instance->current_view) {
+		if (instance->view_changed_id) {
+			gtk_signal_disconnect (GTK_OBJECT (instance->current_view),
+					       instance->view_changed_id);
+		}
+
+		gtk_object_unref (GTK_OBJECT (instance->current_view));
+	}
+	g_free (instance->current_type);
+	g_free (instance->current_title);
+	instance->current_title = NULL;
+	instance->current_type = NULL;
+	instance->view_changed_id = 0;
+	instance->current_view = NULL;
+}
+
+static void
+connect_view (GalViewInstance *instance, GalView *view)
+{
+	if (instance->current_view)
+		disconnect_view (instance);
+	instance->current_view = view;
+
+	instance->current_title = g_strdup (gal_view_get_title(view));
+	instance->current_type = g_strdup (gal_view_get_type_code(view));
+	instance->view_changed_id =
+		gtk_signal_connect(GTK_OBJECT(instance->current_view), "changed",
+				   GTK_SIGNAL_FUNC(view_changed), instance);
+
+	gal_view_instance_display_view (instance, instance->current_view);
+}
+
+static void
 gal_view_instance_destroy (GtkObject *object)
 {
 	GalViewInstance *instance = GAL_VIEW_INSTANCE(object);
 
-	if (instance->collection)
+	if (instance->collection) {
+		if (instance->collection_changed_id) {
+			gtk_signal_disconnect (GTK_OBJECT (instance->collection),
+					       instance->collection_changed_id);
+		}
 		gtk_object_unref (GTK_OBJECT (instance->collection));
+	}
 
 	g_free (instance->instance_id);
 	g_free (instance->custom_filename);
 	g_free (instance->current_view_filename);
 
-	g_free (instance->current_title);
-	g_free (instance->current_type);
 	g_free (instance->current_id);
-	if (instance->current_view)
-		gtk_object_unref (GTK_OBJECT (instance->current_view));
-	
+	disconnect_view (instance);
+
+	g_free (instance->default_view);
+
 	if (gal_view_instance_parent_class->destroy)
 		(*gal_view_instance_parent_class->destroy)(object);
 }
@@ -125,17 +202,22 @@ gal_view_instance_class_init (GtkObjectClass *object_class)
 static void
 gal_view_instance_init (GalViewInstance *instance)
 {
-	instance->collection = NULL;
+	instance->collection            = NULL;
 
-	instance->instance_id = NULL;
-	instance->custom_filename = NULL;
+	instance->instance_id           = NULL;
+	instance->custom_filename       = NULL;
 	instance->current_view_filename = NULL;
-	
-	instance->current_title = NULL;
-	instance->current_type = NULL;
-	instance->current_id = NULL;
-	instance->current_view = NULL;
 
+	instance->current_title         = NULL;
+	instance->current_type          = NULL;
+	instance->current_id            = NULL;
+	instance->current_view          = NULL;
+
+	instance->view_changed_id       = 0;
+	instance->collection_changed_id       = 0;
+
+	instance->loaded = FALSE;
+	instance->default_view = NULL;
 }
 
 /**
@@ -168,34 +250,14 @@ gal_view_instance_get_type (void)
 }
 
 static void
-save_current_view (GalViewInstance *instance)
+collection_changed (GalView *view, GalViewInstance *instance)
 {
-	xmlDoc *doc;
-	xmlNode *root;
-
-	doc = xmlNewDoc("1.0");
-	root = xmlNewNode (NULL, "GalViewCurrentView");
-	xmlDocSetRootElement(doc, root);
-
-	if (instance->current_id)
-		e_xml_set_string_prop_by_name (root, "current_view", instance->current_id);
-	if (instance->current_type)
-		e_xml_set_string_prop_by_name (root, "current_view_type", instance->current_type);
-
-	xmlSaveFile(instance->current_view_filename, doc);
-	xmlFreeDoc(doc);
-}
-
-static void
-view_changed (GalView *view, GalViewInstance *instance)
-{
-	if (instance->current_id != NULL) {
-		instance->current_view = NULL;
-		save_current_view (instance);
-		gal_view_instance_changed(instance);
+	if (instance->current_id) {
+		char *view_id = instance->current_id;
+		instance->current_id = NULL;
+		gal_view_instance_set_current_view_id (instance, view_id);
+		g_free (view_id);
 	}
-
-	gal_view_save (view, instance->custom_filename);
 }
 
 static void
@@ -203,37 +265,52 @@ load_current_view (GalViewInstance *instance)
 {
 	xmlDoc *doc;
 	xmlNode *root;
+	GalView *view = NULL;
 
 	doc = xmlParseFile(instance->current_view_filename);
 
-	if (!doc)
+	if (doc == NULL) {
+		instance->current_id = g_strdup (gal_view_instance_get_default_view (instance));
+
+		if (instance->current_id) {
+			int index = gal_view_collection_get_view_index_by_id (instance->collection,
+									      instance->current_id);
+
+			if (index != -1) {
+				view = gal_view_collection_get_view (instance->collection,
+								     index);
+				view = gal_view_clone(view);
+				connect_view (instance, view);
+			}
+		}
 		return;
+	}
 
 	root = xmlDocGetRootElement(doc);
 	instance->current_id = e_xml_get_string_prop_by_name_with_default (root, "current_view", NULL);
-	instance->current_type = e_xml_get_string_prop_by_name_with_default (root, "current_view_type", NULL);
-	xmlFreeDoc(doc);
 
-	if (instance->current_id == NULL) {
-		instance->current_view =
-			gal_view_collection_load_view_from_file (instance->collection,
-								 instance->current_type,
-								 instance->custom_filename);
-
-	} else {
+	if (instance->current_id != NULL) {
 		int index = gal_view_collection_get_view_index_by_id (instance->collection,
 								      instance->current_id);
-		GalView *view = gal_view_collection_get_view (instance->collection,
-							      index);
-		instance->current_view = gal_view_clone(view);
 
+		if (index != -1) {
+			view = gal_view_collection_get_view (instance->collection,
+							     index);
+			view = gal_view_clone(view);
+		}
+	}
+	if (view == NULL) {
+		char *type;
+		type = e_xml_get_string_prop_by_name_with_default (root, "current_view_type", NULL);
+		view = gal_view_collection_load_view_from_file (instance->collection,
+								type,
+								instance->custom_filename);
+		g_free (type);
 	}
 
-	instance->current_title = g_strdup (gal_view_get_title(instance->current_view));
-	gtk_signal_connect(GTK_OBJECT(instance->current_view), "changed",
-			   GTK_SIGNAL_FUNC(view_changed), instance);
+	connect_view (instance, view);
 
-	gal_view_instance_display_view (instance, instance->current_view);
+	xmlFreeDoc(doc);
 }
 
 /**
@@ -268,6 +345,9 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 	instance->collection = collection;
 	if (collection)
 		gtk_object_ref (GTK_OBJECT (collection));
+	instance->collection_changed_id =
+		gtk_signal_connect (GTK_OBJECT (collection), "changed",
+				    GTK_SIGNAL_FUNC (collection_changed), instance);
 	instance->instance_id = g_strdup (instance_id);
 
 	safe_id = g_strdup (instance->instance_id);
@@ -283,8 +363,6 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 
 	g_free (safe_id);
 
-	load_current_view (instance);
-
 	return instance;
 }
 
@@ -292,11 +370,14 @@ gal_view_instance_construct (GalViewInstance *instance, GalViewCollection *colle
 char *
 gal_view_instance_get_current_view_id (GalViewInstance *instance)
 {
-	return g_strdup (instance->current_id);
+	if (instance->current_id && gal_view_collection_get_view_index_by_id (instance->collection, instance->current_id) != -1)
+		return g_strdup (instance->current_id);
+	else
+		return NULL;
 }
 
 void
-gal_view_instance_set_current_view_id (GalViewInstance *instance, char *view_id)
+gal_view_instance_set_current_view_id (GalViewInstance *instance, const char *view_id)
 {
 	GalView *view;
 	int index;
@@ -304,35 +385,97 @@ gal_view_instance_set_current_view_id (GalViewInstance *instance, char *view_id)
 	g_return_if_fail (instance != NULL);
 	g_return_if_fail (GAL_IS_VIEW_INSTANCE (instance));
 
-	if (instance->current_view && !strcmp (instance->current_id, view_id))
+	d(g_print("%s: view_id set to %s\n", __FUNCTION__, view_id));
+
+	if (instance->current_id && !strcmp (instance->current_id, view_id))
 		return;
 
-	if (instance->current_view) {
-		gtk_object_unref (GTK_OBJECT (instance->current_view));
-	}
-
-	g_free (instance->current_type);
-	g_free (instance->current_title);
 	g_free (instance->current_id);
+	instance->current_id = g_strdup (view_id);
 
 	index = gal_view_collection_get_view_index_by_id (instance->collection, view_id);
-	view = gal_view_collection_get_view (instance->collection, index);
-
-	instance->current_title = g_strdup (gal_view_get_title(view));
-	instance->current_type = g_strdup (gal_view_get_type_code(view));
-	instance->current_id = g_strdup (view_id);
-	instance->current_view = gal_view_clone(view);
-
-	gtk_signal_connect(GTK_OBJECT(instance->current_view), "changed",
-			   GTK_SIGNAL_FUNC(view_changed), instance);
+	if (index != -1) {
+		view = gal_view_collection_get_view (instance->collection, index);
+		connect_view (instance, gal_view_clone (view));
+	}
 
 	save_current_view (instance);
 	gal_view_instance_changed(instance);
-	gal_view_instance_display_view (instance, view);
+	gal_view_instance_display_view (instance, instance->current_view);
 }
 
 GalView *
 gal_view_instance_get_current_view (GalViewInstance *instance)
 {
 	return instance->current_view;
+}
+
+void
+gal_view_instance_set_custom_view (GalViewInstance *instance, GalView *view)
+{
+	g_free (instance->current_id);
+	instance->current_id = NULL;
+
+	view = gal_view_clone (view);
+	connect_view (instance, view);
+	gal_view_save (view, instance->custom_filename);
+	save_current_view (instance);
+	gal_view_instance_changed(instance);
+}
+
+static void
+dialog_clicked(GtkWidget *dialog, int button, GalViewInstance *instance)
+{
+	if (button == 0) {
+		gal_view_instance_save_as_dialog_save (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (dialog));
+	}
+	gnome_dialog_close(GNOME_DIALOG(dialog));
+}
+
+void
+gal_view_instance_save_as (GalViewInstance *instance)
+{
+	GtkWidget *dialog = gal_view_instance_save_as_dialog_new(instance);
+	gtk_signal_connect(GTK_OBJECT(dialog), "clicked",
+			   GTK_SIGNAL_FUNC(dialog_clicked), instance);
+	gtk_widget_show(dialog);
+}
+
+/* This is idempotent.  Once it's been called once, the rest of the calls are ignored. */
+void
+gal_view_instance_load (GalViewInstance *instance)
+{
+	if (!instance->loaded) {
+		load_current_view (instance);
+		instance->loaded = TRUE;
+	}
+}
+
+/* These only mean anything before gal_view_instance_load is called the first time.  */
+const char *
+gal_view_instance_get_default_view (GalViewInstance *instance)
+{
+	if (instance->default_view)
+		return instance->default_view;
+	else
+		return gal_view_collection_get_default_view (instance->collection);
+}
+
+void
+gal_view_instance_set_default_view (GalViewInstance *instance, const char *id)
+{
+	g_free (instance->default_view);
+	instance->default_view = g_strdup (id);
+}
+
+gboolean
+gal_view_instance_exists (GalViewInstance *instance)
+{
+	struct stat st;
+
+	if (instance->current_view_filename && stat (instance->current_view_filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
+		return TRUE;
+	else
+		return FALSE;
+	
 }

@@ -30,6 +30,31 @@
 
 static GalViewClass *gal_view_etable_parent_class;
 
+static void
+detach_table (GalViewEtable *view)
+{
+	if (view->table == NULL)
+		return;
+	if (view->table_state_changed_id) {
+		gtk_signal_disconnect (GTK_OBJECT (view->table),
+				       view->table_state_changed_id);
+	}
+	gtk_object_unref (GTK_OBJECT (view->table));
+	view->table = NULL;
+}
+
+static void
+detach_tree (GalViewEtable *view)
+{
+	if (view->tree == NULL)
+		return;
+	if (view->tree_state_changed_id) {
+		gtk_signal_disconnect (GTK_OBJECT (view->tree),
+				       view->tree_state_changed_id);
+	}
+	gtk_object_unref (GTK_OBJECT (view->tree));
+	view->tree = NULL;
+}
 
 static void
 config_changed (ETableConfig *config, GalViewEtable *view)
@@ -79,8 +104,8 @@ gal_view_etable_get_title       (GalView *view)
 }
 
 static void
-gal_view_etable_set_title       (GalView *view,
-				 const char *title)
+gal_view_etable_set_title (GalView *view,
+			   const char *title)
 {
 	g_free(GAL_VIEW_ETABLE(view)->title);
 	GAL_VIEW_ETABLE(view)->title = g_strdup(title);
@@ -113,6 +138,9 @@ static void
 gal_view_etable_destroy         (GtkObject *object)
 {
 	GalViewEtable *view = GAL_VIEW_ETABLE(object);
+
+	gal_view_etable_detach (view);
+
 	g_free(view->title);
 	if (view->spec)
 		gtk_object_unref(GTK_OBJECT(view->spec));
@@ -146,6 +174,31 @@ gal_view_etable_init      (GalViewEtable *gve)
 	gve->spec  = NULL;
 	gve->state = e_table_state_new();
 	gve->title = NULL;
+}
+
+GtkType
+gal_view_etable_get_type        (void)
+{
+	static guint type = 0;
+	
+	if (!type)
+	{
+		GtkTypeInfo info =
+		{
+			"GalViewEtable",
+			sizeof (GalViewEtable),
+			sizeof (GalViewEtableClass),
+			(GtkClassInitFunc) gal_view_etable_class_init,
+			(GtkObjectInitFunc) gal_view_etable_init,
+			/* reserved_1 */ NULL,
+			/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+		
+		type = gtk_type_unique (PARENT_TYPE, &info);
+	}
+
+	return type;
 }
 
 /**
@@ -194,27 +247,73 @@ gal_view_etable_construct  (GalViewEtable *view,
 	return GAL_VIEW(view);
 }
 
-GtkType
-gal_view_etable_get_type        (void)
+void
+gal_view_etable_set_state (GalViewEtable *view, ETableState *state)
 {
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"GalViewEtable",
-			sizeof (GalViewEtable),
-			sizeof (GalViewEtableClass),
-			(GtkClassInitFunc) gal_view_etable_class_init,
-			(GtkObjectInitFunc) gal_view_etable_init,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
+	if (view->state)
+		gtk_object_unref(GTK_OBJECT(view->state));
+	view->state = e_table_state_duplicate(state);
 
-	return type;
+	gal_view_changed(GAL_VIEW(view));
+}
+
+static void
+table_state_changed (ETable *table, GalViewEtable *view)
+{
+	ETableState *state;
+
+	state = e_table_get_state_object (table);
+	gtk_object_unref (GTK_OBJECT (view->state));
+	view->state = state;
+
+	gal_view_changed(GAL_VIEW(view));
+}
+
+static void
+tree_state_changed (ETree *tree, GalViewEtable *view)
+{
+	ETableState *state;
+
+	state = e_tree_get_state_object (tree);
+	gtk_object_unref (GTK_OBJECT (view->state));
+	view->state = state;
+
+	gal_view_changed(GAL_VIEW(view));
+}
+
+void
+gal_view_etable_attach_table (GalViewEtable *view, ETable *table)
+{
+	gal_view_etable_detach (view);
+
+	view->table = table;
+
+	e_table_set_state_object(view->table, view->state);
+	gtk_object_ref (GTK_OBJECT (view->table));
+	view->table_state_changed_id =
+		gtk_signal_connect(GTK_OBJECT(view->table), "state_change",
+				   GTK_SIGNAL_FUNC (table_state_changed), view);
+}
+
+void
+gal_view_etable_attach_tree (GalViewEtable *view, ETree *tree)
+{
+	gal_view_etable_detach (view);
+
+	view->tree = tree;
+
+	e_tree_set_state_object(view->tree, view->state);
+	gtk_object_ref (GTK_OBJECT (view->tree));
+	view->tree_state_changed_id =
+		gtk_signal_connect(GTK_OBJECT(view->tree), "state_change",
+				   GTK_SIGNAL_FUNC (tree_state_changed), view);
+}
+
+void
+gal_view_etable_detach (GalViewEtable *view)
+{
+	if (view->table != NULL)
+		detach_table (view);
+	if (view->tree != NULL)
+		detach_tree (view);
 }
