@@ -1,4 +1,13 @@
 2001-11-13  JP Rosevear  <jpr@ximian.com>
+ 
+ 	* e-pilot-map.c (real_e_pilot_map_insert): only insert non-0 pids
+ 	into the pid map
+ 	(e_pilot_map_insert): remove and free old keys/values here -
+ 	including possibly orphaned keys
+ 	(e_pilot_map_remove_by_uid): only free things if they should have
+ 	been found
+
+2001-11-13  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am (libeutil_la_LIBADD): Explicitly add -lc
 

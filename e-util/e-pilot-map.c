@@ -56,21 +56,25 @@ real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean 
 	guint32 *new_pid;
 	EPilotMapPidNode *pnode;
 	EPilotMapUidNode *unode;
-	gpointer key, value;
 
 	g_return_if_fail (map != NULL);
 	g_return_if_fail (uid != NULL);
 
-	new_pid = g_new (guint32, 1);
-	*new_pid = pid;
-
+	/* Keys */
+	if (pid != 0) {
+		new_pid = g_new (guint32, 1);
+		*new_pid = pid;
+	}	
 	new_uid = g_strdup (uid);
 
-	pnode = g_new0 (EPilotMapPidNode, 1);
-	pnode->uid = new_uid;
-	pnode->archived = archived;
-	if (touch)
-		pnode->touched = TRUE;
+	/* Values */
+	if (pid != 0) {
+		pnode = g_new0 (EPilotMapPidNode, 1);
+		pnode->uid = new_uid;
+		pnode->archived = archived;
+		if (touch)
+			pnode->touched = TRUE;
+	}
 	
 	unode = g_new0 (EPilotMapUidNode, 1);
 	unode->pid = pid;
@@ -78,18 +82,9 @@ real_e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean 
 	if (touch)
 		unode->touched = TRUE;
 	
-	if (g_hash_table_lookup_extended (map->pid_map, new_pid, &key, &value)) {
-		g_hash_table_remove (map->pid_map, new_pid);
-		g_free (key);
-		g_free (value);
-	}
-	if (g_hash_table_lookup_extended (map->uid_map, new_uid, &key, &value)) {
-		g_hash_table_remove (map->uid_map, new_uid);
-		g_free (key);
-		g_free (value);
-	}
-	
-	g_hash_table_insert (map->pid_map, new_pid, pnode);
+	/* Insertion */
+	if (pid != 0)
+		g_hash_table_insert (map->pid_map, new_pid, pnode);
 	g_hash_table_insert (map->uid_map, new_uid, unode);
 }
 
@@ -210,6 +205,41 @@ e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
 void 
 e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
 {
+	gpointer key, value;
+	
+	if (g_hash_table_lookup_extended (map->pid_map, &pid, &key, &value)) {
+		EPilotMapPidNode *pnode = value;
+		gpointer other_key, other_value;
+
+		g_hash_table_remove (map->pid_map, &pid);
+
+		/* In case the pid<->uid mapping is not the same anymore */
+		if (g_hash_table_lookup_extended (map->uid_map, pnode->uid, &other_key, &other_value)) {
+			g_hash_table_remove (map->uid_map, pnode->uid);
+			g_free (other_key);
+			g_free (other_value);
+		}
+
+		g_free (key);
+		g_free (value);
+	}
+	if (g_hash_table_lookup_extended (map->uid_map, uid, &key, &value)) {
+		EPilotMapUidNode *unode = value;
+		gpointer other_key, other_value;
+
+		g_hash_table_remove (map->uid_map, uid);
+
+		/* In case the pid<->uid mapping is not the same anymore */
+		if (g_hash_table_lookup_extended (map->pid_map, &unode->pid, &other_key, &other_value)) {
+			g_hash_table_remove (map->pid_map, &unode->pid);
+			g_free (other_key);
+			g_free (other_value);
+		}
+
+		g_free (key);
+		g_free (value);
+	}
+
 	real_e_pilot_map_insert (map, pid, uid, archived, TRUE);
 }
 
@@ -242,24 +272,28 @@ e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid)
 void 
 e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 {
-	EPilotMapPidNode *pnode;
-	EPilotMapUidNode *unode;
+	EPilotMapPidNode *pnode = NULL;
+	EPilotMapUidNode *unode = NULL;
 	gpointer pkey, ukey;
+	gboolean found;
 	
 	g_return_if_fail (map != NULL);
 	g_return_if_fail (uid != NULL);
 
 	if (!g_hash_table_lookup_extended (map->uid_map, uid, &ukey, (gpointer *)&unode))
 		return;
-	
+
 	g_hash_table_lookup_extended (map->pid_map, &unode->pid, &pkey, (gpointer *)&pnode);
 
 	g_hash_table_remove (map->uid_map, uid);
 	g_hash_table_remove (map->pid_map, &unode->pid);
 
-	g_free (pkey);
+	if (unode->pid != 0)
+		g_free (pkey);
 	g_free (ukey);
-	g_free (pnode);
+
+	if (unode->pid != 0)
+		g_free (pnode);
 	g_free (unode);
 }
 
