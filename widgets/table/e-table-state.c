@@ -240,5 +240,9 @@ e_table_state_duplicate (ETableState *state)
 	e_table_state_load_from_string (new_state, copy);
 	g_free (copy);
 
+	e_table_sort_info_set_can_group
+		(new_state->sort_info,
+		 e_table_sort_info_get_can_group (state->sort_info));
+
 	return new_state;
 }
