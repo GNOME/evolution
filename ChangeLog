@@ -1,3 +1,8 @@
+2001-08-31  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* configure.in: Bumped required version of GAL to 0.11.3
+	(for g_utf8_collate)
+
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Patch from Nike Gerdts <michael.gerdts@usa.alcatel.com> for
