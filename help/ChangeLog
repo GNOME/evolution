@@ -1,3 +1,7 @@
+2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (EXTRA_DIST): Ooops, add omf.make.
+
 2003-03-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* C/evolution-1.4-C.omf: Renamed from evolution-C.omf.
