@@ -1143,6 +1143,56 @@ menu_format_html_cb (BonoboUIComponent           *component,
 	e_msg_composer_set_send_html (composer, new_state);
 }
 
+static void
+menu_security_pgp_sign_cb (BonoboUIComponent           *component,
+			   const char                  *path,
+			   Bonobo_UIComponent_EventType type,
+			   const char                  *state,
+			   gpointer                     user_data)
+
+{
+	EMsgComposer *composer;
+	gboolean new_state;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	composer = E_MSG_COMPOSER (user_data);
+	
+	new_state = atoi (state);
+	
+	if ((new_state && composer->pgp_sign) ||
+	    (!new_state && ! composer->pgp_sign))
+		return;
+	
+	e_msg_composer_set_pgp_sign (composer, new_state);
+}
+
+static void
+menu_security_pgp_encrypt_cb (BonoboUIComponent           *component,
+			      const char                  *path,
+			      Bonobo_UIComponent_EventType type,
+			      const char                  *state,
+			      gpointer                     user_data)
+
+{
+	EMsgComposer *composer;
+	gboolean new_state;
+	
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+	
+	composer = E_MSG_COMPOSER (user_data);
+	
+	new_state = atoi (state);
+	
+	if ((new_state && composer->pgp_encrypt) ||
+	    (!new_state && ! composer->pgp_encrypt))
+		return;
+	
+	e_msg_composer_set_pgp_encrypt (composer, new_state);
+}
+
 
 static BonoboUIVerb verbs [] = {
 
@@ -1180,16 +1230,30 @@ setup_ui (EMsgComposer *composer)
 			       "evolution-message-composer.xml",
 			       "evolution-message-composer");
 	
+	/* Format -> HTML */
 	bonobo_ui_component_set_prop (composer->uic, "/commands/FormatHtml",
 				      "state", composer->send_html ? "1" : "0", NULL);
 	
-	bonobo_ui_component_add_listener (
-		composer->uic, "FormatHtml",
-		menu_format_html_cb, composer);
+	bonobo_ui_component_add_listener (composer->uic, "FormatHtml",
+					  menu_format_html_cb, composer);
 	
-	bonobo_ui_component_add_listener (
-		composer->uic, "ViewAttach",
-		menu_view_attachments_activate_cb, composer);
+	/* Security -> PGP Sign */
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPSign",
+				      "state", composer->pgp_sign ? "1" : "0", NULL);
+	
+	bonobo_ui_component_add_listener (composer->uic, "SecurityPGPSign",
+					  menu_security_pgp_sign_cb, composer);
+	
+	/* Security -> PGP Encrypt */
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPEncrypt",
+				      "state", composer->pgp_encrypt ? "1" : "0", NULL);
+	
+	bonobo_ui_component_add_listener (composer->uic, "SecurityPGPEncrypt",
+					  menu_security_pgp_encrypt_cb, composer);
+	
+	/* View -> Attachments */
+	bonobo_ui_component_add_listener (composer->uic, "ViewAttach",
+					  menu_view_attachments_activate_cb, composer);
 }
 
 
@@ -2184,7 +2248,7 @@ e_msg_composer_set_pgp_sign (EMsgComposer *composer, gboolean pgp_sign)
 	
 	composer->pgp_sign = pgp_sign;
 	
-	bonobo_ui_component_set_prop (composer->uic, "/commands/SecuritySign",
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPSign",
 				      "state", composer->pgp_sign ? "1" : "0", NULL);
 }
 
@@ -2227,7 +2291,7 @@ e_msg_composer_set_pgp_encrypt (EMsgComposer *composer, gboolean pgp_encrypt)
 	
 	composer->pgp_encrypt = pgp_encrypt;
 	
-	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityEncrypt",
+	bonobo_ui_component_set_prop (composer->uic, "/commands/SecurityPGPEncrypt",
 				      "state", composer->pgp_encrypt ? "1" : "0", NULL);
 }
 

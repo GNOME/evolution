@@ -1,3 +1,14 @@
+2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (menu_security_pgp_encrypt_cb): New callback.
+	(menu_security_pgp_sign_cb): Another new callback.
+	(setup_ui): Added initialization for the PGP sign and encrypt
+	bonobo menu items.
+	(e_msg_composer_set_pgp_encrypt): Change the Bonobo UI name to
+	SecurityPGPEncrypt.
+	(e_msg_composer_set_pgp_sign): Change the Bonobo UI name to
+	SecurityPGPSign.
+
 2001-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Fixed some memory leaks
