@@ -1032,12 +1032,13 @@ if test -z "$with_kde_applnk_path"; then
 fi
 if test -d "$with_kde_applnk_path" ; then
 	AC_MSG_RESULT("$with_kde_applnk_path" found)
+	AC_DEFINE(HAVE_KDE_APPLNK)
 	KDE_APPLNK_DIR="$with_kde_applnk_path"
 else
 	AC_MSG_RESULT(not found)
-	KDE_APPLNK_DIR="no"
+	KDE_APPLNK_DIR=""
 fi
-AM_CONDITIONAL(HAVE_KDE_APPLNK, test "x$with_kde_applnk_path" != xno)
+AM_CONDITIONAL(HAVE_KDE_APPLNK, test x"$KDE_APPLNK_DIR" != x)
 AC_SUBST(KDE_APPLNK_DIR)
 
 dnl ******************************

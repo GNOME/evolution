@@ -1,3 +1,11 @@
+2001-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* acconfig.h: HAVE_KDE_APPLNK.
+
+	* configure.in (EVO_CHECK_LIB): AC_DEFINE `HAVE_KDE_APPLNK' in the
+	case in which the kde applnk dir is found.  Also fix the logic
+	with the checking so it doesn't get fooled.
+
 2001-10-22  JP Rosevear  <jpr@ximian.com>
 
 	* data/Makefile.am: include destdir in the path of the kde desktop
