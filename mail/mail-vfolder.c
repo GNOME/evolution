@@ -298,7 +298,7 @@ vfolder_gui_add_rule(VfolderRule *rule)
 					     GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
 	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
+	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
 	gtk_signal_connect((GtkObject *)gd, "clicked", new_rule_clicked, NULL);

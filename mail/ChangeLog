@@ -1,3 +1,8 @@
+2000-12-06  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-vfolder.c (vfolder_gui_add_rule): Make the vfolder editor
+	resize correctly. Fixes bug #835.
+
 2000-12-06  Dan Winship  <danw@helixcode.com>
 
 	Fix up shutdown so that things that should be destroyed get
