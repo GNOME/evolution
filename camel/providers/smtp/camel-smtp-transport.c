@@ -1136,8 +1136,6 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 static gboolean
 smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean has_8bit_parts, CamelException *ex)
 {
-	/* now we can actually send what's important :p */
-	CamelBestencRequired required = CAMEL_BESTENC_GET_ENCODING;
 	CamelBestencEncoding enctype = CAMEL_BESTENC_8BIT;
 	char *cmdbuf, *respbuf = NULL;
 	CamelStreamFilter *filtered_stream;
@@ -1156,7 +1154,7 @@ smtp_data (CamelSmtpTransport *transport, CamelMimeMessage *message, gboolean ha
 	   within our required encoding type and also force any text
 	   parts with long lines (longer than 998 octets) to wrap by
 	   QP or base64 encoding them. */
-	camel_mime_message_set_best_encoding (message, required, enctype);
+	camel_mime_message_set_best_encoding (message, CAMEL_BESTENC_GET_ENCODING, enctype);
 	
 	cmdbuf = g_strdup ("DATA\r\n");
 	

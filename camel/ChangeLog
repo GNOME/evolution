@@ -1,5 +1,9 @@
 2002-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_data): Get rid of
+	the constant 'required' variable, just use the value when calling
+	set_best_encoding.
+
 	* providers/local/camel-local-provider.c: Changed the mbox and
 	spool provider descriptions to try and be more clear. I'm not sure
 	I like the mention of Evolution in the mbox provider description,
