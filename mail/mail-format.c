@@ -1622,7 +1622,7 @@ EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	CamelDataWrapper *contents;
-	char *text, *subject;
+	char *text, *subject, *recipient;
 	EMsgComposer *composer;
 	gboolean want_plain, is_html;
 	const char *repl_to, *message_id, *references;
@@ -1694,7 +1694,9 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	repl_to = camel_mime_message_get_reply_to (message);
 	if (!repl_to)
 		repl_to = camel_mime_message_get_from (message);
-	to = g_list_append (NULL, (gpointer)repl_to);
+
+	recipient = g_strdup (repl_to ? repl_to : ""); 
+	to = g_list_append (NULL, (gpointer)recipient);
 	
 	if (to_all) {
 		const CamelInternetAddress *recip;
