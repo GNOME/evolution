@@ -700,10 +700,23 @@ set_adjustments (FilterDatespec *fds)
 }
 
 static gchar *
+format_time (time_t time)
+{
+	struct tm *as_tm;
+	char buf[128];
+
+	/* no idea if this format is the 'correct' one */
+
+	as_tm = localtime (&time);
+	strftime (buf, 128, _("%b %d %l:%M %p"), as_tm);
+	return g_strdup (buf);
+}
+
+static gchar *
 describe_button (FilterDatespec *fds)
 {
 	gchar *desc = NULL;
-	
+
 	switch (fds->type) {
 	case FDST_UNKNOWN:
 		desc = g_strdup (_("<click here to select a date>"));
@@ -712,7 +725,7 @@ describe_button (FilterDatespec *fds)
 		desc = g_strdup (_("now"));
 		break;
 	case FDST_SPECIFIED:
-		desc = g_strdup (ctime (&(fds->value)));
+		desc = format_time (fds->value);
 		break;
 	case FDST_X_AGO:
 		desc = stringify_agoness (fds);
