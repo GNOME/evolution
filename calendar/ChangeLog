@@ -1,3 +1,8 @@
+1999-11-05  Eskil Heyn Olsen  <deity@eskil.dk>
+
+	* calendar-conduit-control-applet.c (readStateCfg): Commented the
+	code out, thus the capplet works again.
+
 1999-11-04  Eskil Olsen   <deity@eskil.dk>
 
 	* Makefile.am: Uses the PISOCK_LIBDIR, for people with odd install

@@ -235,6 +235,7 @@ setStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
 static void
 readStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
 {
+/*
   GtkWidget *button;
 
   button  = gtk_object_get_data(GTK_OBJECT(w), "conduit_on_off");
@@ -242,6 +243,7 @@ readStateCfg(GtkWidget *w,GCalConduitCfg *cfg)
   g_assert(button!=NULL);
 
   activated = GTK_TOGGLE_BUTTON(button)->active;
+*/
 }
 
 static void
