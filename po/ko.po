@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-31 03:32+0900\n"
-"PO-Revision-Date: 2004-01-01 23:04+0900\n"
+"POT-Creation-Date: 2004-01-09 01:38+0900\n"
+"PO-Revision-Date: 2004-01-09 01:39+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
@@ -88,18 +88,18 @@ msgstr "Evolution 폴더 설정 컨트롤"
 msgid "Manager your S/Mime certificates here"
 msgstr "여기서 s/MIME 인증서를 관리합니다"
 
-#: addressbook/gui/component/addressbook-component.c:211
+#: addressbook/gui/component/addressbook-component.c:217
 #: addressbook/gui/component/ldap-config.glade.h:28
 msgid "New Addressbook"
 msgstr "새 주소록"
 
-#: addressbook/gui/component/addressbook-component.c:212
+#: addressbook/gui/component/addressbook-component.c:218
 msgid "Properties..."
 msgstr "등록 정보..."
 
-#: addressbook/gui/component/addressbook-component.c:213
+#: addressbook/gui/component/addressbook-component.c:219
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:418
+#: calendar/gui/calendar-component.c:423 calendar/gui/tasks-component.c:418
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -107,61 +107,34 @@ msgstr "등록 정보..."
 msgid "Delete"
 msgstr "지우기"
 
-#: addressbook/gui/component/addressbook-component.c:214
-#: calendar/gui/calendar-component.c:435 calendar/gui/tasks-component.c:416
+#: addressbook/gui/component/addressbook-component.c:220
+#: calendar/gui/calendar-component.c:422 calendar/gui/tasks-component.c:416
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: addressbook/gui/component/addressbook-component.c:285
+#: addressbook/gui/component/addressbook-component.c:291
 msgid "New Contact"
 msgstr "새 연락처"
 
-#: addressbook/gui/component/addressbook-component.c:286
+#: addressbook/gui/component/addressbook-component.c:292
 msgid "_Contact"
 msgstr "연락처(_C)"
 
-#: addressbook/gui/component/addressbook-component.c:287
+#: addressbook/gui/component/addressbook-component.c:293
 msgid "Create a new contact"
 msgstr "새로운 연락처를 만듭니다"
 
-#: addressbook/gui/component/addressbook-component.c:292
+#: addressbook/gui/component/addressbook-component.c:298
 msgid "New Contact List"
 msgstr "새 연락처 목록"
 
-#: addressbook/gui/component/addressbook-component.c:293
+#: addressbook/gui/component/addressbook-component.c:299
 msgid "Contact _List"
 msgstr "연락처 목록(_L)"
 
-#: addressbook/gui/component/addressbook-component.c:294
+#: addressbook/gui/component/addressbook-component.c:300
 msgid "Create a new contact list"
 msgstr "새 연락처 목록을 만듭니다"
-
-#: addressbook/gui/component/addressbook-component.c:443
-#: calendar/gui/calendar-component.c:831 calendar/gui/tasks-component.c:772
-msgid "On This Computer"
-msgstr "이 컴퓨터에"
-
-#. orange
-#: addressbook/gui/component/addressbook-component.c:453
-#: calendar/gui/calendar-component.c:839 calendar/gui/migration.c:123
-#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:780
-#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
-#: shell/e-config-upgrade.c:1456
-msgid "Personal"
-msgstr "개인"
-
-#. red
-#: addressbook/gui/component/addressbook-component.c:460
-#: calendar/gui/calendar-component.c:846 filter/filter-label.c:122
-#: mail/mail-config.c:64 mail/mail-config.glade.h:135
-#: shell/e-config-upgrade.c:1455
-msgid "Work"
-msgstr "업무"
-
-#. Create the LDAP source group
-#: addressbook/gui/component/addressbook-component.c:468
-msgid "On LDAP Servers"
-msgstr "LDAP 서버에"
 
 #. FIXME: parent
 #: addressbook/gui/component/addressbook-config.c:244
@@ -233,40 +206,37 @@ msgstr "이 질의가 성공적으로 끝나지 않았습니다."
 
 #: addressbook/gui/component/addressbook.c:592
 msgid ""
-"We were unable to open this addressbook.  Please check that the\n"
-"path exists and that you have permission to access it."
+"We were unable to open this addressbook.  Please check that the path exists "
+"and that you have permission to access it."
 msgstr ""
-"이 주소록을 열 수 없습니다.  해당 경로가 있고 그 경로에 접근할\n"
-"권한이 있는 지 확인하십시오."
+"이 주소록을 열 수 없습니다.  해당 경로가 있고 그 경로에 접근할 권한이 있는 "
+"지 확인하십시오."
 
 #: addressbook/gui/component/addressbook.c:599
 msgid ""
-"We were unable to open this addressbook.  This either\n"
-"means you have entered an incorrect URI, or the LDAP server\n"
-"is unreachable."
+"We were unable to open this addressbook.  This either means you have entered "
+"an incorrect URI, or the LDAP server is unreachable."
 msgstr ""
-"이 주소록을 열 수 없습니다.  잘못된 URI를 입력했거나,\n"
-"해당 LDAP 서버에 연결할 수 없습니다."
+"이 주소록을 열 수 없습니다.  잘못된 URI를 입력했거나, 해당 LDAP 서버에 연결"
+"할 수 없습니다."
 
 #: addressbook/gui/component/addressbook.c:604
 msgid ""
-"This version of Evolution does not have LDAP support\n"
-"compiled in to it.  If you want to use LDAP in Evolution\n"
-"you must compile the program from the CVS sources after\n"
-"retrieving OpenLDAP from the link below.\n"
+"This version of Evolution does not have LDAP support compiled in to it.  If "
+"you want to use LDAP in Evolution you must compile the program from the CVS "
+"sources after retrieving OpenLDAP from the link below."
 msgstr ""
-"이 Evolution 버전은 LDAP 지원 기능을 컴파일하지 않았습니다.\n"
-"LDAP를 사용하려면 아래의 바로가기에서 OpenLDAP를 받아 온\n"
-"다음에 CVS 소스에서 프로그램을 컴파일해야 합니다.\n"
+"이 Evolution 버전에는 LDAP 지원 기능을 컴파일하지 않았습니다.  LDAP를 사용하"
+"려면 아래의 바로가기에서 OpenLDAP를 받아 온 다음에 CVS 소스에서 프로그램을 컴"
+"파일해야 합니다."
 
 #: addressbook/gui/component/addressbook.c:613
 msgid ""
-"We were unable to open this addressbook.  This either\n"
-"means you have entered an incorrect URI, or the server\n"
-"is unreachable."
+"We were unable to open this addressbook.  This either means you have entered "
+"an incorrect URI, or the server is unreachable."
 msgstr ""
-"이 주소록을 열 수 없습니다.  잘못된 URI를 입력했거나,\n"
-"해당 서버에 연결할 수 없습니다."
+"이 주소록을 열 수 없습니다.  잘못된 URI를 입력했거나, 해당 서버에 연결할 수 "
+"없습니다."
 
 #: addressbook/gui/component/addressbook.c:630
 msgid "Unable to open addressbook"
@@ -544,7 +514,8 @@ msgid ""
 "if you\n"
 "need to change these options."
 msgstr ""
-"이 페이지의 옵션은 얼마나 많은 엔트리를 찾을 것인지 및 얼마나 오래동안 찾을 것인지를\n"
+"이 페이지의 옵션은 얼마나 많은 엔트리를 찾을 것인지 및 얼마나 오래동안 찾을 "
+"것인지를\n"
 "조정합니다. 이 옵션을 바꿔야 하는 경우에 시스템 관리자에게 문의하십시오."
 
 #: addressbook/gui/component/ldap-config.glade.h:57
@@ -568,7 +539,8 @@ msgid ""
 msgstr ""
 "찾기 범위는 디렉토리 트리 아래로 얼마나 깊이 찾을 지 정의합니다.\n"
 "\"아래\"의 찾기 범위는 찾기 기준 아래의 모든 엔트리에 대해서 찾게 됩니다.\n"
-"찾기 범위가 \"한 단계\"이면 찾기 기준에서 한 단계 아래의 엔트리만 포함합니다.\n"
+"찾기 범위가 \"한 단계\"이면 찾기 기준에서 한 단계 아래의 엔트리만 포함합니"
+"다.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:63
 msgid ""
@@ -679,7 +651,7 @@ msgstr "다운로드 제한(_D):"
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
-#: ui/evolution-tasks.xml.h:19
+#: ui/evolution-tasks.xml.h:20
 msgid "_Edit"
 msgstr "편집(_E)"
 
@@ -723,35 +695,35 @@ msgstr "찾기-탭"
 msgid "Evolution Addressbook name selection interface"
 msgstr "Evolution 주소록 이름 선택 인터페이스"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:205
+#: addressbook/gui/component/select-names/e-select-names-popup.c:207
 msgid "Remove All"
 msgstr "전부 지우기"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:212
-#: addressbook/gui/component/select-names/e-select-names.c:694
+#: addressbook/gui/component/select-names/e-select-names-popup.c:214
+#: addressbook/gui/component/select-names/e-select-names.c:693
 #: composer/e-msg-composer-attachment-bar.c:444
 msgid "Remove"
 msgstr "지우기"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:219
+#: addressbook/gui/component/select-names/e-select-names-popup.c:221
 msgid "View Contact List"
 msgstr "연락처 목록 보기"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:219
+#: addressbook/gui/component/select-names/e-select-names-popup.c:221
 msgid "View Contact Info"
 msgstr "연락처 정보 보기"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:226
-#: addressbook/gui/component/select-names/e-select-names-popup.c:336
+#: addressbook/gui/component/select-names/e-select-names-popup.c:228
+#: addressbook/gui/component/select-names/e-select-names-popup.c:338
 msgid "Send HTML Mail?"
 msgstr "HTML 편지 보내기?"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:328
+#: addressbook/gui/component/select-names/e-select-names-popup.c:330
 #: addressbook/gui/widgets/eab-popup-control.c:1002
 msgid "Add to Contacts"
 msgstr "연락처에 더하기"
 
-#: addressbook/gui/component/select-names/e-select-names-popup.c:354
+#: addressbook/gui/component/select-names/e-select-names-popup.c:356
 msgid "Unnamed Contact"
 msgstr "이름없는 연락처"
 
@@ -768,41 +740,33 @@ msgstr "이름"
 msgid "Source"
 msgstr "원본"
 
-#: addressbook/gui/component/select-names/e-select-names.c:518
-msgid "Select Contacts from Addressbook"
-msgstr "주소록에서 연락처 선택"
+#: addressbook/gui/component/select-names/e-select-names.c:494
+msgid "Select Contents from Address Book"
+msgstr "주소록에서 내용을 선택하십시오"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:2
-msgid "Find"
-msgstr "찾기"
+msgid "<b>Contacts</b>"
+msgstr "<b>연락처</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
-msgid "Select Names"
-msgstr "선택한 이름"
+msgid "<b>Show Contacts</b>"
+msgstr "<b>연락처 보기</b>"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
-msgid "Selected Contacts:"
-msgstr "선택한 연락처:"
+msgid "Address _Book:"
+msgstr "주소록(_B)::"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:5
-msgid "Show Contacts"
-msgstr "연락처 보기"
+msgid "C_ategory:"
+msgstr "분류(_A):"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:6
-msgid ""
-"Type a name into the entry, or\n"
-"select one from the list below:"
-msgstr ""
-"직접 이름을 입력하거나,\n"
-"아래 목록에서 선택하십시오:"
+msgid "Select Contacts from Address Book"
+msgstr "주소록에서 연락처를 선택하십시오"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:8
-msgid "_Category:"
-msgstr "분류(_C):"
-
-#: addressbook/gui/component/select-names/select-names.glade.h:9
-msgid "_Folder:"
-msgstr "폴더(_F):"
+#: addressbook/gui/component/select-names/select-names.glade.h:7
+msgid "_Find"
+msgstr "찾기(_F)"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid " B_usiness:"
@@ -920,12 +884,12 @@ msgstr "분류(_C)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
 #: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1236
-#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-calendar-table.c:1043
-#: calendar/gui/e-calendar-table.c:1061 mail/em-folder-tree.c:1502
-#: mail/em-folder-view.c:706 ui/evolution-addressbook.xml.h:33
+#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-calendar-table.c:1053
+#: calendar/gui/e-calendar-table.c:1071 mail/em-folder-tree.c:1502
+#: mail/em-folder-view.c:731 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
-#: ui/evolution-tasks.xml.h:18
+#: ui/evolution-tasks.xml.h:19
 msgid "_Delete"
 msgstr "지우기(_D)"
 
@@ -1180,9 +1144,12 @@ msgid "Comoros"
 msgstr "코모로스"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:185
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:186
 msgid "Congo"
 msgstr "콩고"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:186
+msgid "Congo, The Democratic Republic Of The"
+msgstr "콩고 민주 공화국"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:187
 msgid "Cook Islands"
@@ -1229,116 +1196,116 @@ msgid "Dominican Republic"
 msgstr "도미니카 공화국"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
-msgid "East Timor"
-msgstr "동 티모르"
-
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Ecuador"
 msgstr "에쿠아도르"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:200
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Egypt"
 msgstr "이집트"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:201
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:200
 msgid "El Salvador"
 msgstr "엘 살바도르"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:202
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
 msgstr "적도기니"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:203
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
 msgstr "에리트리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:204
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:203
 msgid "Estonia"
 msgstr "에스토니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:205
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:204
 msgid "Ethiopia"
 msgstr "에티오피아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:206
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:205
 msgid "Falkland Islands"
 msgstr "포클랜드 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:207
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:206
 msgid "Faroe Islands"
 msgstr "패로 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:208
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Fiji"
 msgstr "피지"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:209
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Finland"
 msgstr "핀란드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:210
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:209
 msgid "France"
 msgstr "프랑스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:211
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
 msgstr "프랑스령 기아나"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:212
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
 msgstr "프랑스령 폴리네시아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:213
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
 msgstr "프랑스령 남 자치구역"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:214
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
 msgstr "가봉"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:215
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:214
 msgid "Gambia"
 msgstr "감비아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:216
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Georgia"
 msgstr "그루지야"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:217
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Germany"
 msgstr "독일"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:218
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
 msgstr "가나"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:219
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
 msgstr "지브롤터"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:220
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Greece"
 msgstr "그리스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:221
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
 msgstr "그린란드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:222
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
 msgstr "그레나다"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:223
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:222
 msgid "Guadeloupe"
 msgstr "과달루프"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:224
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:223
 msgid "Guam"
 msgstr "괌"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:225
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:224
 msgid "Guatemala"
 msgstr "과테말라"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:225
+msgid "Guernsey"
+msgstr "건지"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:226
 msgid "Guinea"
@@ -1389,530 +1356,562 @@ msgid "Indonesia"
 msgstr "인도네시아"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:238
+msgid "Iran"
+msgstr "이란"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:239
+msgid "Iraq"
+msgstr "이라크"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:240
 msgid "Ireland"
 msgstr "아이랜드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:239
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:241
+msgid "Isle of Man"
+msgstr "맨 섬"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Israel"
 msgstr "이스라엘"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:240
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Italy"
 msgstr "이탈리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:241
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Jamaica"
 msgstr "자메이카"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:242
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Japan"
 msgstr "일본"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:243
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:246
+msgid "Jersey"
+msgstr "저지"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:247
 msgid "Jordan"
 msgstr "조단"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:244
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:248
 msgid "Kazakhstan"
 msgstr "카자흐스탄"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:245
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:249
 msgid "Kenya"
 msgstr "케냐"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:246
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:250
 msgid "Kiribati"
 msgstr "키리바시"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:247
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:251
+msgid "Korea, Democratic People's Republic Of"
+msgstr "조선민주주의인민공화국"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:252
 msgid "Korea, Republic Of"
 msgstr "대한민국"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:248
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:253
 msgid "Kuwait"
 msgstr "쿠웨이트"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:249
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kyrgyzstan"
 msgstr "키르기즈스탄"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:250
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Laos"
 msgstr "라오스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:251
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:256
 msgid "Latvia"
 msgstr "라트비아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:252
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
 msgstr "레바논"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:253
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lesotho"
 msgstr "레소토"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:254
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Liberia"
 msgstr "라이베리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:255
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:260
+msgid "Libya"
+msgstr "리비아"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Liechtenstein"
 msgstr "리히텐슈타인"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:256
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Lithuania"
 msgstr "리투아니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:257
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Luxembourg"
 msgstr "룩셈부르크"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:258
-msgid "Macau"
-msgstr "마코"
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:264
+msgid "Macao"
+msgstr "마카오"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:259
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macedonia"
 msgstr "마케도니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:260
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Madagascar"
 msgstr "마다가스카르"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:261
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malawi"
 msgstr "말라위"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:262
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
 msgstr "말레이시아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:263
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Maldives"
 msgstr "몰디브"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:264
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mali"
 msgstr "말리"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:265
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:271
 msgid "Malta"
 msgstr "마르타"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:266
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:272
 msgid "Marshall Islands"
 msgstr "마샬 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:267
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Martinique"
 msgstr "마르띠니크"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:268
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mauritania"
 msgstr "모리타니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:269
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:275
 msgid "Mauritius"
 msgstr "모리셔스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:270
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:276
 msgid "Mayotte"
 msgstr "마요트"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:271
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
 msgstr "멕시코"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:272
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
 msgstr "미크로네시아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:273
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:279
 msgid "Moldova, Republic Of"
 msgstr "몰도바"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:274
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
 msgstr "모나코"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:275
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Mongolia"
 msgstr "몽골리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:276
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:282
 msgid "Montserrat"
 msgstr "몽세라트"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:277
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:283
 msgid "Morocco"
 msgstr "모로코"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:278
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:284
 msgid "Mozambique"
 msgstr "모잠비크"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:279
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:285
 msgid "Myanmar"
 msgstr "미얀마"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:280
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:286
 msgid "Namibia"
 msgstr "나미비아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:281
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:287
 msgid "Nauru"
 msgstr "나우루"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:282
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nepal"
 msgstr "네팔"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:283
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Netherlands"
 msgstr "네델란드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:284
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
 msgstr "네델란드령 앤틸레스 열도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:285
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
 msgstr "뉴 칼레도니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:286
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Zealand"
 msgstr "뉴질랜드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:287
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:293
 msgid "Nicaragua"
 msgstr "니카라과"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:288
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
 msgstr "니제르"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:289
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Nigeria"
 msgstr "나이지리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:290
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:296
 msgid "Niue"
 msgstr "니우에"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:291
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:297
 msgid "Norfolk Island"
 msgstr "노퍽 섬"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:292
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
 msgstr "북 마리아나 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:293
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Norway"
 msgstr "노르웨이"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:294
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Oman"
 msgstr "오만"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:295
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Pakistan"
 msgstr "파키스탄"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:296
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:302
 msgid "Palau"
 msgstr "팔라우"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:297
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:303
 msgid "Palestinian Territory"
 msgstr "팔레스타인 자치구역"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:298
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:304
 msgid "Panama"
 msgstr "파나마"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:299
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Papua New Guinea"
 msgstr "파푸아 뉴기니"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:300
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Paraguay"
 msgstr "파라과이"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:301
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Peru"
 msgstr "페루"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:302
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:308
 msgid "Philippines"
 msgstr "필리핀"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:303
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:309
 msgid "Pitcairn"
 msgstr "핏케언"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:304
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:310
 msgid "Poland"
 msgstr "폴란드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:305
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:311
 msgid "Portugal"
 msgstr "포르투갈"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:306
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Puerto Rico"
 msgstr "푸에르토리코"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:307
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Qatar"
 msgstr "카타르"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:308
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
 msgstr "레위니옹"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:309
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:315
 msgid "Romania"
 msgstr "루마니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:310
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:316
 msgid "Russian Federation"
 msgstr "러시아 연방"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:311
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:317
 msgid "Rwanda"
 msgstr "르완다"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:312
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:318
 msgid "Saint Kitts And Nevis"
 msgstr "세인트 키츠 네비스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:313
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:319
 msgid "Saint Lucia"
 msgstr "세인트 루시아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:314
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:320
 msgid "Saint Vincent And The Grena-dines"
 msgstr "세인트 빈센트 그레나 다인즈"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:315
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:321
 msgid "Samoa"
 msgstr "사모아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:316
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:322
 msgid "San Marino"
 msgstr "산마리노"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:317
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:323
 msgid "Sao Tome And Principe"
 msgstr "상투메 프린시페"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:318
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:324
 msgid "Saudi Arabia"
 msgstr "사우디아라비아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:319
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Senegal"
 msgstr "세네갈"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:320
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:326
+msgid "Serbia And Montenegro"
+msgstr "세르비아 몬테네그로"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:327
 msgid "Seychelles"
 msgstr "세이셸"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:321
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:328
 msgid "Sierra Leone"
 msgstr "시에라리온"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:322
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Singapore"
 msgstr "싱가폴"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:323
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Slovakia"
 msgstr "슬로바키아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:324
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:331
 msgid "Slovenia"
 msgstr "슬로베니아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:325
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:332
 msgid "Solomon Islands"
 msgstr "솔로몬 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:326
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:333
 msgid "Somalia"
 msgstr "소말리아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:327
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:334
 msgid "South Africa"
 msgstr "남 아프리카 공화국"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:328
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:335
 msgid "South Georgia And The South Sandwich Islands"
 msgstr "남 조지아 & 남 샌드위치 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:329
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:336
 msgid "Spain"
 msgstr "스페인"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:330
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:337
 msgid "Sri Lanka"
 msgstr "스리랑카"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:331
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:338
 msgid "St. Helena"
 msgstr "세인트 헬레나"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:332
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:339
 msgid "St. Pierre And Miquelon"
 msgstr "쌩 피에르 미켈론"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:333
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:340
 msgid "Sudan"
 msgstr "수단"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:334
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:341
 msgid "Suriname"
 msgstr "수리남"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:335
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:342
 msgid "Svalbard And Jan Mayen Islands"
 msgstr "스발바르드 얀마이엔 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:336
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Swaziland"
 msgstr "스와질란드"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:337
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Sweden"
 msgstr "스웨덴"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:338
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:345
 msgid "Switzerland"
 msgstr "스위스"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:339
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:346
+msgid "Syria"
+msgstr "시리아"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
 msgstr "대만"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:340
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Tajikistan"
 msgstr "타지키스탄"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:341
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tanzania, United Republic Of"
 msgstr "탄자니아 연방 공화국"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:342
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Thailand"
 msgstr "태국"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:343
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:351
+msgid "Timor-Leste"
+msgstr "동티모르"
+
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:352
 msgid "Togo"
 msgstr "토고"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:344
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:353
 msgid "Tokelau"
 msgstr "토켈로"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:345
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:354
 msgid "Tonga"
 msgstr "통가"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:346
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:355
 msgid "Trinidad And Tobago"
 msgstr "트리니다드 토바고"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:347
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:356
 msgid "Tunisia"
 msgstr "튀니지"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:348
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:357
 msgid "Turkey"
 msgstr "터키"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:349
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkmenistan"
 msgstr "투르크멘"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:350
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turks And Caicos Islands"
 msgstr "터크 스케이커스 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:351
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:360
 msgid "Tuvalu"
 msgstr "투발루"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:352
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:361
 msgid "Uganda"
 msgstr "우간다"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:353
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
 msgstr "우크라이나"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:354
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
 msgstr "아랍 에미리트 연합"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:355
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:364
 msgid "United Kingdom"
 msgstr "영국"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:356
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:365
 msgid "United States Minor Outlying Islands"
 msgstr "미국령 소군도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:357
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Uruguay"
 msgstr "우르과이"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:358
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uzbekistan"
 msgstr "우즈베키스탄"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:359
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Vanuatu"
 msgstr "바누아투"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:360
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:369
 msgid "Venezuela"
 msgstr "베네수엘라"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:361
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Viet Nam"
 msgstr "베트남"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:362
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Virgin Islands, British"
 msgstr "버진 제도, 영국령"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:363
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, U.S."
 msgstr "버진 제도, 미국령"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:364
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Wallis And Futuna Islands"
 msgstr "왈리스 후투나 제도"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:365
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
 msgstr "서부 사하라"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:366
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Yemen"
 msgstr "예멘"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:367
-msgid "Yugoslavia"
-msgstr "유고슬라비아"
-
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:368
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:376
 msgid "Zambia"
 msgstr "잠비아"
 
-#: addressbook/gui/contact-editor/e-contact-editor-address.c:369
+#: addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zimbabwe"
 msgstr "짐바브웨"
 
@@ -2327,7 +2326,7 @@ msgstr "잘라내기"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:433
+#: calendar/gui/calendar-component.c:420
 #: calendar/gui/dialogs/copy-source-dialog.c:136
 #: calendar/gui/tasks-component.c:414 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
@@ -3163,6 +3162,10 @@ msgstr "파일이름이 주어지지 않음"
 msgid "Unnamed List"
 msgstr "이름 없는 목록"
 
+#: calendar/common/authentication.c:34
+msgid "Enter password"
+msgstr "열쇠글을 입력하십시오"
+
 # event -> 행사, Microsoft Office XP 참고
 #: calendar/conduits/calendar/calendar-conduit.c:206
 msgid "Split Multi-Day Events:"
@@ -3237,8 +3240,8 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution 작업 컴포넌트"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1082 calendar/gui/print.c:1795
-#: calendar/gui/tasks-control.c:490
+#: calendar/gui/e-tasks.c:1091 calendar/gui/print.c:1795
+#: calendar/gui/tasks-control.c:506
 #: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
@@ -3287,12 +3290,12 @@ msgstr "연기할 시간 (분)"
 msgid "_Edit appointment"
 msgstr "약속 편집(_E)"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:871
+#: calendar/gui/alarm-notify/alarm-queue.c:882
 msgid "No description available."
 msgstr "설명이 없습니다."
 
 # Alarm -> 알림, Microsoft Office XP 참고
-#: calendar/gui/alarm-notify/alarm-queue.c:889
+#: calendar/gui/alarm-notify/alarm-queue.c:900
 #, c-format
 msgid ""
 "Alarm on %s\n"
@@ -3305,13 +3308,13 @@ msgstr ""
 "시작: %s\n"
 "끝: %s"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:976
-#: calendar/gui/alarm-notify/alarm-queue.c:1000
+#: calendar/gui/alarm-notify/alarm-queue.c:987
+#: calendar/gui/alarm-notify/alarm-queue.c:1011
 msgid "Warning"
 msgstr "경고"
 
 # Reminder -> 미리 알림, Microsoft Office XP
-#: calendar/gui/alarm-notify/alarm-queue.c:980
+#: calendar/gui/alarm-notify/alarm-queue.c:991
 msgid ""
 "Evolution does not support calendar reminders with\n"
 "email notifications yet, but this reminder was\n"
@@ -3324,7 +3327,7 @@ msgstr ""
 "보내는 대신 일반적인 미리 알림 대화 상자를 표시합니다."
 
 # Reminder -> 미리 알림, Microsoft Office XP
-#: calendar/gui/alarm-notify/alarm-queue.c:1006
+#: calendar/gui/alarm-notify/alarm-queue.c:1017
 #, c-format
 msgid ""
 "An Evolution Calendar reminder is about to trigger. This reminder is "
@@ -3341,7 +3344,7 @@ msgstr ""
 "\n"
 "정말로 이 프로그램을 실행하시겠습니까?"
 
-#: calendar/gui/alarm-notify/alarm-queue.c:1020
+#: calendar/gui/alarm-notify/alarm-queue.c:1031
 msgid "Do not ask me about this program again."
 msgstr "이 메세지를 다시 보지 않습니다."
 
@@ -3502,7 +3505,7 @@ msgstr "설명에 포함"
 msgid "Comment contains"
 msgstr "주석에 포함"
 
-#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1134
+#: calendar/gui/cal-search-bar.c:357 mail/mail-ops.c:1113
 msgid "Unmatched"
 msgstr "맞지 않음"
 
@@ -3557,82 +3560,101 @@ msgstr "%Y년 %B %d일"
 msgid "%d %B"
 msgstr "%B %d일"
 
-#: calendar/gui/calendar-component.c:369
+#: calendar/gui/calendar-component.c:356
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "'%s' 달력을 지우게 됩니다. 정말로 계속 하시겠습니까?"
 
-#: calendar/gui/calendar-component.c:410
+#: calendar/gui/calendar-component.c:397
 msgid "Rename this calendar to"
 msgstr "이 달력의 이름 바꾸기"
 
-#: calendar/gui/calendar-component.c:431
+#: calendar/gui/calendar-component.c:418
 msgid "New Calendar"
 msgstr "새 달력"
 
-#: calendar/gui/calendar-component.c:615
+#: calendar/gui/calendar-component.c:533 calendar/gui/tasks-component.c:519
+msgid "On This Computer"
+msgstr "이 컴퓨터에"
+
+#. orange
+#: calendar/gui/calendar-component.c:541 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:527
+#: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
+#: shell/e-config-upgrade.c:1456
+msgid "Personal"
+msgstr "개인"
+
+#. red
+#: calendar/gui/calendar-component.c:548 filter/filter-label.c:122
+#: mail/mail-config.c:64 mail/mail-config.glade.h:135
+#: shell/e-config-upgrade.c:1455
+msgid "Work"
+msgstr "업무"
+
+#. create the remote source group
+#: calendar/gui/calendar-component.c:555
+msgid "On The Web"
+msgstr "웹에"
+
+#: calendar/gui/calendar-component.c:655
 msgid "New appointment"
 msgstr "새 약속"
 
-#: calendar/gui/calendar-component.c:616
+#: calendar/gui/calendar-component.c:656
 msgid "_Appointment"
 msgstr "약속(_A)"
 
-#: calendar/gui/calendar-component.c:617
+#: calendar/gui/calendar-component.c:657
 msgid "Create a new appointment"
 msgstr "새 약속을 만듭니다"
 
-#: calendar/gui/calendar-component.c:622
+#: calendar/gui/calendar-component.c:662
 msgid "New meeting"
 msgstr "새 모임"
 
-#: calendar/gui/calendar-component.c:623
+#: calendar/gui/calendar-component.c:663
 msgid "M_eeting"
 msgstr "모임(_E)"
 
-#: calendar/gui/calendar-component.c:624
+#: calendar/gui/calendar-component.c:664
 msgid "Create a new meeting request"
 msgstr "새 모임 요청을 만듭니다"
 
-#: calendar/gui/calendar-component.c:629
+#: calendar/gui/calendar-component.c:669
 msgid "New all day appointment"
 msgstr "새 하루 종일 약속"
 
-#: calendar/gui/calendar-component.c:630
+#: calendar/gui/calendar-component.c:670
 msgid "All _Day Appointment"
 msgstr "하루 종일 약속(_D)"
 
-#: calendar/gui/calendar-component.c:631
+#: calendar/gui/calendar-component.c:671
 msgid "Create a new all-day appointment"
 msgstr "새 하루 종일 약속을 만듭니다"
 
-#: calendar/gui/calendar-component.c:636
+#: calendar/gui/calendar-component.c:676
 msgid "New calendar"
 msgstr "새 달력"
 
-#: calendar/gui/calendar-component.c:637
+#: calendar/gui/calendar-component.c:677
 msgid "C_alendar"
 msgstr "달력(_A)"
 
-#: calendar/gui/calendar-component.c:638
+#: calendar/gui/calendar-component.c:678
 msgid "Create a new calendar"
 msgstr "새 달력을 만듭니다"
 
 # event -> 행사, Microsoft Office XP 참고
-#: calendar/gui/calendar-component.c:705
+#: calendar/gui/calendar-component.c:745
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "행사와 회의를 만드는 데 달력 '%s'을(를) 열 수 없습니다"
 
 # event -> 행사, Microsoft Office XP 참고
-#: calendar/gui/calendar-component.c:718
+#: calendar/gui/calendar-component.c:758
 msgid "There is no calendar available for creating events and meetings"
 msgstr "행사와 회의를 만드는 데 쓸 수 있는 달력이 없습니다"
-
-#. create the remote source group
-#: calendar/gui/calendar-component.c:855
-msgid "On The Web"
-msgstr "웹에"
 
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
@@ -4198,54 +4220,53 @@ msgstr " (기한 "
 msgid "Due "
 msgstr "기한 "
 
-#: calendar/gui/dialogs/comp-editor.c:348
+#: calendar/gui/dialogs/comp-editor.c:404
 msgid "Could not update object"
 msgstr "오브젝트를 업데이트할 수 없습니다"
 
-#: calendar/gui/dialogs/comp-editor.c:818
-#: calendar/gui/dialogs/comp-editor.c:855
+#: calendar/gui/dialogs/comp-editor.c:870
+#: calendar/gui/dialogs/comp-editor.c:907
 msgid "Edit Appointment"
 msgstr "약속 편집"
 
-#: calendar/gui/dialogs/comp-editor.c:823
-#: calendar/gui/dialogs/comp-editor.c:860
+#: calendar/gui/dialogs/comp-editor.c:875
+#: calendar/gui/dialogs/comp-editor.c:912
 #, c-format
 msgid "Appointment - %s"
 msgstr "약속 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:826
-#: calendar/gui/dialogs/comp-editor.c:863
+#: calendar/gui/dialogs/comp-editor.c:878
+#: calendar/gui/dialogs/comp-editor.c:915
 #, c-format
 msgid "Task - %s"
 msgstr "작업 - %s"
 
 # journal -> 일지, Microsoft Office XP 참고
-#: calendar/gui/dialogs/comp-editor.c:829
-#: calendar/gui/dialogs/comp-editor.c:866
+#: calendar/gui/dialogs/comp-editor.c:881
+#: calendar/gui/dialogs/comp-editor.c:918
 #, c-format
 msgid "Journal entry - %s"
 msgstr "일지 항목 - %s"
 
-#: calendar/gui/dialogs/comp-editor.c:840
-#: calendar/gui/dialogs/comp-editor.c:876
+#: calendar/gui/dialogs/comp-editor.c:892
+#: calendar/gui/dialogs/comp-editor.c:928
 msgid "No summary"
 msgstr "요약 없음"
 
-#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:992
-#: calendar/gui/e-calendar-table.c:1175 composer/e-msg-composer.c:1138
+#: calendar/gui/dialogs/comp-editor.c:1353 calendar/gui/e-cal-view.c:992
+#: calendar/gui/e-calendar-table.c:1185 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "다른 이름으로 저장..."
 
-#: calendar/gui/dialogs/comp-editor.c:1416
-#: calendar/gui/dialogs/comp-editor.c:1440
-#: calendar/gui/dialogs/comp-editor.c:1466
+#: calendar/gui/dialogs/comp-editor.c:1456
+#: calendar/gui/dialogs/comp-editor.c:1480
+#: calendar/gui/dialogs/comp-editor.c:1506
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "업데이트가 도착하면 이 항목에 대해 변경된 사항을 버립니다."
 
-#: calendar/gui/dialogs/comp-editor.c:1506
-#: calendar/gui/dialogs/comp-editor.c:1515
-msgid "Unable to obtain current version!"
-msgstr "현재 버전을 가져올 수 없습니다!"
+#: calendar/gui/dialogs/comp-editor.c:1562
+msgid "Unable to use current version!"
+msgstr "현재 버전을 사용할 수 없습니다!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:142
 msgid "Select destination source"
@@ -4484,7 +4505,7 @@ msgstr "시작 시각(_S):"
 #: calendar/gui/dialogs/meeting-page.c:311
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2050
-#: mail/em-account-prefs.c:448 mail/em-folder-view.c:715
+#: mail/em-account-prefs.c:448 mail/em-folder-view.c:740
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
 #: mail/mail-config.glade.h:80
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
@@ -5165,11 +5186,11 @@ msgstr "반복됨"
 msgid "Assigned"
 msgstr "예약됨"
 
-#: calendar/gui/e-cal-view.c:626 calendar/gui/e-calendar-table.c:686
+#: calendar/gui/e-cal-view.c:626 calendar/gui/e-calendar-table.c:696
 msgid "Deleting selected objects"
 msgstr "선택한 오브젝트를 지우는 중입니다"
 
-#: calendar/gui/e-cal-view.c:730 calendar/gui/e-calendar-table.c:847
+#: calendar/gui/e-cal-view.c:730 calendar/gui/e-calendar-table.c:857
 msgid "Updating objects"
 msgstr "오브젝트를 업데이트하는 중입니다"
 
@@ -5191,19 +5212,19 @@ msgid "New Task"
 msgstr "새 작업"
 
 #: calendar/gui/e-cal-view.c:1197 calendar/gui/e-cal-view.c:1220
-#: calendar/gui/e-cal-view.c:1287 calendar/gui/e-calendar-table.c:1026
-#: calendar/gui/e-calendar-table.c:1068 ui/evolution-addressbook.xml.h:40
+#: calendar/gui/e-cal-view.c:1287 calendar/gui/e-calendar-table.c:1036
+#: calendar/gui/e-calendar-table.c:1078 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
-#: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
+#: ui/evolution-tasks.xml.h:23 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "인쇄(_P)..."
 
 #: calendar/gui/e-cal-view.c:1201 calendar/gui/e-cal-view.c:1227
-#: calendar/gui/e-cal-view.c:1285 calendar/gui/e-calendar-table.c:1032
-#: calendar/gui/e-calendar-table.c:1066 ui/evolution-addressbook.xml.h:38
+#: calendar/gui/e-cal-view.c:1285 calendar/gui/e-calendar-table.c:1042
+#: calendar/gui/e-calendar-table.c:1076 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
-#: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:20
+#: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:22
 msgid "_Paste"
 msgstr "붙여 넣기(_P)"
 
@@ -5222,31 +5243,31 @@ msgid "_Publish Free/Busy Information"
 msgstr "약속 있음/없음 정보 게시(_P)"
 
 #: calendar/gui/e-cal-view.c:1218 calendar/gui/e-cal-view.c:1283
-#: calendar/gui/e-calendar-table.c:1023 calendar/gui/e-calendar-table.c:1064
-#: mail/em-folder-view.c:681 shell/e-shortcuts-view.c:422
+#: calendar/gui/e-calendar-table.c:1033 calendar/gui/e-calendar-table.c:1074
+#: mail/em-folder-view.c:706 shell/e-shortcuts-view.c:422
 #: ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "열기(_O)"
 
 #: calendar/gui/e-cal-view.c:1219 calendar/gui/e-cal-view.c:1289
-#: calendar/gui/e-calendar-table.c:1025 calendar/gui/e-calendar-table.c:1070
-#: mail/em-folder-view.c:683 mail/em-popup.c:597 mail/em-popup.c:712
+#: calendar/gui/e-calendar-table.c:1035 calendar/gui/e-calendar-table.c:1080
+#: mail/em-folder-view.c:708 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "다른 이름으로 저장(_S)..."
 
 #: calendar/gui/e-cal-view.c:1225 calendar/gui/e-cal-view.c:1265
-#: calendar/gui/e-calendar-table.c:1030 calendar/gui/e-calendar-table.c:1059
+#: calendar/gui/e-calendar-table.c:1040 calendar/gui/e-calendar-table.c:1069
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "잘라내기(_U)"
 
 #: calendar/gui/e-cal-view.c:1226 calendar/gui/e-cal-view.c:1263
-#: calendar/gui/e-calendar-table.c:1031 calendar/gui/e-calendar-table.c:1057
+#: calendar/gui/e-calendar-table.c:1041 calendar/gui/e-calendar-table.c:1067
 #: mail/em-folder-tree.c:1497 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
-#: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:17
+#: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:18
 msgid "_Copy"
 msgstr "복사(_C)"
 
@@ -5314,31 +5335,31 @@ msgstr "90%"
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:1024
+#: calendar/gui/e-calendar-table.c:1034
 msgid "Open _Web Page"
 msgstr "웹 페이지 열기(_W)"
 
-#: calendar/gui/e-calendar-table.c:1036
+#: calendar/gui/e-calendar-table.c:1046
 msgid "_Assign Task"
 msgstr "작업 할당(_A)"
 
-#: calendar/gui/e-calendar-table.c:1037
+#: calendar/gui/e-calendar-table.c:1047
 msgid "_Forward as iCalendar"
 msgstr "iCalendar로 전달(_F)"
 
-#: calendar/gui/e-calendar-table.c:1038
+#: calendar/gui/e-calendar-table.c:1048
 msgid "_Mark as Complete"
 msgstr "작업 완료 표시(_M)"
 
-#: calendar/gui/e-calendar-table.c:1039
+#: calendar/gui/e-calendar-table.c:1049
 msgid "_Mark Selected Tasks as Complete"
 msgstr "선택한 작업을 마친 작업으로 표시(_M)"
 
-#: calendar/gui/e-calendar-table.c:1044 calendar/gui/e-calendar-table.c:1062
+#: calendar/gui/e-calendar-table.c:1054 calendar/gui/e-calendar-table.c:1072
 msgid "_Delete Selected Tasks"
 msgstr "선택한 작업 지우기(_D)"
 
-#: calendar/gui/e-calendar-table.c:1355
+#: calendar/gui/e-calendar-table.c:1365
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "작업을 더하려면 누르십시오"
@@ -5354,7 +5375,7 @@ msgid "Alarms"
 msgstr "알림"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1167
-#: camel/camel-filter-driver.c:1262 mail/mail-send-recv.c:576
+#: camel/camel-filter-driver.c:1262 mail/mail-send-recv.c:578
 msgid "Complete"
 msgstr "완료"
 
@@ -5636,8 +5657,8 @@ msgid "Send Latest Information"
 msgstr "가장 최근 정보 보내기"
 
 #: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:438
-#: mail/mail-send-recv.c:386 mail/mail-send-recv.c:438
-#: shell/e-shell-startup-wizard.c:788 ui/evolution-mail-global.xml.h:1
+#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: shell/e-shell-startup-wizard.c:794 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "취소"
 
@@ -6118,7 +6139,7 @@ msgstr "우선 순위:"
 msgid "Web Page:"
 msgstr "웹 페이지:"
 
-#: calendar/gui/e-tasks.c:710 calendar/gui/tasks-control.c:200
+#: calendar/gui/e-tasks.c:710 calendar/gui/tasks-control.c:203
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "`%s'의 작업을 읽어들일 수 없습니다"
@@ -6128,12 +6149,12 @@ msgstr "`%s'의 작업을 읽어들일 수 없습니다"
 msgid "The method required to load `%s' is not supported"
 msgstr "`%s'을(를) 읽어들이는 데 필요한 메소드를 지원하지 않습니다"
 
-#: calendar/gui/e-tasks.c:739 calendar/gui/gnome-cal.c:1765
+#: calendar/gui/e-tasks.c:739
 #, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "`%s'에 있는 폴더를 열 올바른 권한이 없습니다"
 
-#: calendar/gui/e-tasks.c:800 calendar/gui/gnome-cal.c:1978
+#: calendar/gui/e-tasks.c:800 calendar/gui/gnome-cal.c:1877
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6142,15 +6163,15 @@ msgstr ""
 "%s에서 오류 발생:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:958
+#: calendar/gui/e-tasks.c:967
 msgid "Completing tasks..."
 msgstr "작업을 완료하는 중입니다..."
 
-#: calendar/gui/e-tasks.c:981
+#: calendar/gui/e-tasks.c:990
 msgid "Deleting selected objects..."
 msgstr "선택한 오브젝트를 지웁니다..."
 
-#: calendar/gui/e-tasks.c:1006
+#: calendar/gui/e-tasks.c:1015
 msgid "Expunging"
 msgstr "지운 메세지 비우는 중"
 
@@ -6159,22 +6180,12 @@ msgstr "지운 메세지 비우는 중"
 msgid "Calendar"
 msgstr "달력"
 
-#: calendar/gui/gnome-cal.c:1737
+#: calendar/gui/gnome-cal.c:1758
 #, c-format
-msgid "Could not open the folder in `%s'"
-msgstr "`%s'에 있는 폴더를 열 수가 없습니다"
+msgid "Could not open '%s': %s"
+msgstr "'%s'을(를) 열 수 없습니다: %s"
 
-#: calendar/gui/gnome-cal.c:1751
-#, c-format
-msgid "The method required to open `%s' is not supported"
-msgstr "`%s' 열기에 필요한 메소드를 지원하지 않습니다"
-
-#: calendar/gui/gnome-cal.c:1808
-#, c-format
-msgid "Adding %s"
-msgstr "%s 더하는 중"
-
-#: calendar/gui/gnome-cal.c:1999
+#: calendar/gui/gnome-cal.c:1898
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6185,7 +6196,7 @@ msgstr ""
 "%s\n"
 "다시 사용하려면 Evolution을 다시 시작해야 합니다"
 
-#: calendar/gui/gnome-cal.c:2007
+#: calendar/gui/gnome-cal.c:1906
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6196,7 +6207,7 @@ msgstr ""
 "%s\n"
 "다시 사용하려면 Evolution을 다시 시작해야 합니다"
 
-#: calendar/gui/gnome-cal.c:2867
+#: calendar/gui/gnome-cal.c:2785
 msgid "Purging"
 msgstr "비우는 중"
 
@@ -6534,7 +6545,7 @@ msgid "Contacts: "
 msgstr "연락처:"
 
 #: calendar/gui/print.c:2530 calendar/gui/print.c:2616
-#: calendar/gui/tasks-control.c:567 mail/em-format-html-print.c:147
+#: calendar/gui/tasks-control.c:583 mail/em-format-html-print.c:147
 msgid "Print Preview"
 msgstr "인쇄 미리 보기"
 
@@ -6559,45 +6570,45 @@ msgstr "이 작업 목록 이름 바꾸기"
 msgid "New Task List"
 msgstr "새 작업 목록"
 
-#: calendar/gui/tasks-component.c:587
+#: calendar/gui/tasks-component.c:630
 msgid "New task"
 msgstr "새 작업"
 
-#: calendar/gui/tasks-component.c:588
+#: calendar/gui/tasks-component.c:631
 msgid "_Task"
 msgstr "작업(_T)"
 
-#: calendar/gui/tasks-component.c:589
+#: calendar/gui/tasks-component.c:632
 msgid "Create a new task"
 msgstr "새 작업을 만듭니다"
 
-#: calendar/gui/tasks-component.c:594
+#: calendar/gui/tasks-component.c:637
 msgid "New task list"
 msgstr "새 작업 목록"
 
-#: calendar/gui/tasks-component.c:595
+#: calendar/gui/tasks-component.c:638
 msgid "_Task List"
 msgstr "작업 목록(_T)"
 
-#: calendar/gui/tasks-component.c:596
+#: calendar/gui/tasks-component.c:639
 msgid "Create a new task list"
 msgstr "새 작업 목록을 만듭니다"
 
 # event -> 행사, Microsoft Office XP 참고
-#: calendar/gui/tasks-component.c:663
+#: calendar/gui/tasks-component.c:706
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr "행사와 회의를 만드는 데 쓸 작업 목록 '%s'을(를) 열 수 없습니다"
 
-#: calendar/gui/tasks-component.c:676
+#: calendar/gui/tasks-component.c:719
 msgid "There is no calendar available for creating tasks"
 msgstr "작업을 만들 때 쓸 수 있는 달력이 없습니다"
 
-#: calendar/gui/tasks-control.c:148
+#: calendar/gui/tasks-control.c:151
 msgid "The URI of the tasks folder to display"
 msgstr "보여줄 작업 폴더의 URI"
 
-#: calendar/gui/tasks-control.c:450
+#: calendar/gui/tasks-control.c:466
 msgid ""
 "This operation will permanently erase all tasks marked as completed. If you "
 "continue, you will not be able to recover these tasks.\n"
@@ -6609,11 +6620,11 @@ msgstr ""
 "\n"
 "정말로 이 작업들을 지우시겠습니까?"
 
-#: calendar/gui/tasks-control.c:454
+#: calendar/gui/tasks-control.c:470
 msgid "Do not ask me again."
 msgstr "다시 묻지 않습니다."
 
-#: calendar/gui/tasks-control.c:596
+#: calendar/gui/tasks-control.c:612
 msgid "Print Tasks"
 msgstr "작업 인쇄"
 
@@ -8429,18 +8440,18 @@ msgid ""
 "You need a passphrase to unlock the key for\n"
 "user: \"%s\""
 msgstr ""
-"다음 사용자에 대한 키를 열려면 암호가 필요합니다:\n"
+"다음 사용자에 대한 키를 열려면 열쇠글이 필요합니다:\n"
 "\"%s\""
 
 #: camel/camel-gpg-context.c:778 camel/camel-gpg-context.c:1268
 #: camel/camel-gpg-context.c:1427 camel/camel-gpg-context.c:1507
-#: camel/camel-gpg-context.c:1614 mail/mail-send-recv.c:572
+#: camel/camel-gpg-context.c:1614 mail/mail-send-recv.c:574
 msgid "Cancelled."
 msgstr "취소됨."
 
 #: camel/camel-gpg-context.c:796
 msgid "Failed to unlock secret key: 3 bad passphrases given."
-msgstr "비밀 키를 여는 데 실패했습니다: 3번 암호가 틀렸습니다."
+msgstr "비밀 키를 여는 데 실패했습니다: 열쇠글이 3번 틀렸습니다."
 
 #: camel/camel-gpg-context.c:802
 #, c-format
@@ -8453,7 +8464,7 @@ msgstr "데이터가 주어지지 않았습니다"
 
 #: camel/camel-gpg-context.c:852
 msgid "Failed to encrypt: No valid recipients specified."
-msgstr "암호화하는 데 실패했습니다: 올바르게 지정된 받는 사람이 없습니다."
+msgstr "암호화하는 데 실패했습니다: 받는이가 올바르게 지정되지 않았습니다."
 
 #: camel/camel-gpg-context.c:1129
 #, c-format
@@ -8693,7 +8704,7 @@ msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
-"이 옵션을 켜면 보안용 CRAM-MD5 암호를 사용해 서버에 연결합니다 (지원하는 경"
+"이 옵션을 켜면 보안용 CRAM-MD5 열쇠글을 사용해 서버에 연결합니다 (지원하는 경"
 "우)."
 
 #: camel/camel-sasl-digest-md5.c:48
@@ -8705,8 +8716,8 @@ msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
-"이 옵션을 켜면 보안용 DIGEST-MD5 암호를 사용해 서버에 연결합니다 (지원하는 경"
-"우)."
+"이 옵션을 켜면 보안용 DIGEST-MD5 열쇠글을 사용해 서버에 연결합니다 (지원하는 "
+"경우)."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
@@ -8744,7 +8755,9 @@ msgstr "이 옵션을 켜면 Kerberos 5 인증을 사용해 서버에 연결합�
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
-msgstr "지정한 방식은 제공한 증명서가 지원하지 않습니다. 혹은 현재 구현해 놓은 것에서 인식할 수 없습니다."
+msgstr ""
+"지정한 방식은 제공한 증명서가 지원하지 않습니다. 혹은 현재 구현해 놓은 것에"
+"서 인식할 수 없습니다."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
@@ -8762,7 +8775,9 @@ msgstr ""
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
-msgstr "input_chan_bindings 인수를 통해 지정된 것과 다른 채널 바인딩이 input_token에 들어 있습니다."
+msgstr ""
+"input_chan_bindings 인수를 통해 지정된 것과 다른 채널 바인딩이 input_token에 "
+"들어 있습니다."
 
 #: camel/camel-sasl-gssapi.c:165
 msgid ""
@@ -8774,7 +8789,9 @@ msgstr "input_token에 잘못된 서명 혹은 확인할 수 없는 서명이 �
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
-msgstr "제공된 증명서가 컨텍스트 초기화에 올바르지 않거나, 증명서 핸들이 어떤 증명서도 참조하지 않습니다."
+msgstr ""
+"제공된 증명서가 컨텍스트 초기화에 올바르지 않거나, 증명서 핸들이 어떤 증명서"
+"도 참조하지 않습니다."
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
@@ -8831,7 +8848,7 @@ msgstr "로그인"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr "이 옵션을 켜면 단순히 일반 암호를 사용해 서버에 연결합니다."
+msgstr "이 옵션을 켜면 단순히 일반 열쇠글을 사용해 서버에 연결합니다."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
@@ -8846,7 +8863,7 @@ msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
 msgstr ""
-"이 옵션을 켜면 NTLM / 보안 암호 인증을 Windows 기반의 서버에 연결합니다."
+"이 옵션을 켜면 NTLM / 보안 열쇠글 인증을 Windows 기반의 서버에 연결합니다."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
@@ -9010,11 +9027,11 @@ msgid "Cannot create folder: Invalid operation on this store"
 msgstr "폴더를 만들 수 없습니다: 이 저장고에 잘못된 동작입니다"
 
 #: camel/camel-store.c:791 mail/importers/netscape-importer.c:1842
-#: mail/mail-ops.c:1119
+#: mail/mail-ops.c:1098
 msgid "Trash"
 msgstr "휴지통"
 
-#: camel/camel-store.c:793 mail/mail-ops.c:1125
+#: camel/camel-store.c:793 mail/mail-ops.c:1104
 #: ui/evolution-mail-message.xml.h:46
 msgid "Junk"
 msgstr "쓰레기"
@@ -9266,6 +9283,47 @@ msgstr "폴더 이름을 바꿀 수 없습니다: %s: 잘못된 동작"
 msgid "Cannot rename folder: %s: No such folder"
 msgstr "폴더 이름을 바꿀 수 없습니다: %s: 그런 폴더가 없습니다"
 
+#: camel/providers/groupwise/camel-groupwise-provider.c:53
+#: camel/providers/imap/camel-imap-provider.c:50
+msgid "Checking for new mail"
+msgstr "새 메일 확인중"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:55
+#: camel/providers/imap/camel-imap-provider.c:52
+msgid "Check for new messages in all folders"
+msgstr "모든 폴더에서 새 메세지 확인"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:71
+msgid "Apply filters to new messages in Inbox on this server"
+msgstr "이 서버의 받은 편지함에 있는 새 메세지에 거르개를 적용합니다"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:74
+#: camel/providers/imap/camel-imap-provider.c:66
+msgid "Automatically synchronize remote mail locally"
+msgstr "로컬에서 자동으로 원격 메일과 동기화합니다"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:82
+msgid "Novell GroupWise"
+msgstr "Novell GroupWise"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:84
+msgid "For accesing Novell Groupwise servers"
+msgstr "Novell GroupWise 서버에 접근합니다"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:99
+#: camel/providers/imap/camel-imap-provider.c:89
+#: camel/providers/imapp/camel-imapp-provider.c:65
+#: camel/providers/nntp/camel-nntp-store.c:265
+#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:87
+msgid "Password"
+msgstr "열쇠글"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:101
+#: camel/providers/imap/camel-imap-provider.c:91
+#: camel/providers/imapp/camel-imapp-provider.c:67
+msgid "This option will connect to the IMAP server using a plaintext password."
+msgstr "이 옵션을 켜면 일반 텍스트 열쇠글을 이용해 IMAP 서버에 연결합니다."
+
 #: camel/providers/imap/camel-imap-command.c:221
 #: camel/providers/imap/camel-imap-command.c:260
 #: camel/providers/imap/camel-imap-command.c:450
@@ -9404,14 +9462,6 @@ msgstr "서버에 연결하는 데 사용자 설정 명령을 사용합니다"
 msgid "Command:"
 msgstr "명령:"
 
-#: camel/providers/imap/camel-imap-provider.c:50
-msgid "Checking for new mail"
-msgstr "새 메일 확인중"
-
-#: camel/providers/imap/camel-imap-provider.c:52
-msgid "Check for new messages in all folders"
-msgstr "모든 폴더에서 새 메세지 확인"
-
 #: camel/providers/imap/camel-imap-provider.c:55
 msgid "Folders"
 msgstr "폴더"
@@ -9434,10 +9484,6 @@ msgstr "이름 공간"
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr "이 서버의 받은 편지함에 있는 새 메세지에 거르개를 적용합니다"
 
-#: camel/providers/imap/camel-imap-provider.c:66
-msgid "Automatically synchronize remote mail locally"
-msgstr "로컬에서 자동으로 원격 메일과 동기화합니다"
-
 #: camel/providers/imap/camel-imap-provider.c:72
 msgid "IMAP"
 msgstr "IMAP"
@@ -9445,18 +9491,6 @@ msgstr "IMAP"
 #: camel/providers/imap/camel-imap-provider.c:74
 msgid "For reading and storing mail on IMAP servers."
 msgstr "IMAP서버에 메일을 읽고 저장"
-
-#: camel/providers/imap/camel-imap-provider.c:89
-#: camel/providers/imapp/camel-imapp-provider.c:65
-#: camel/providers/nntp/camel-nntp-store.c:265
-#: camel/providers/pop3/camel-pop3-provider.c:71 mail/mail-config.glade.h:87
-msgid "Password"
-msgstr "열쇠글"
-
-#: camel/providers/imap/camel-imap-provider.c:91
-#: camel/providers/imapp/camel-imapp-provider.c:67
-msgid "This option will connect to the IMAP server using a plaintext password."
-msgstr "이 옵션을 켜면 일반 텍스트 암호를 이용해 IMAP 서버에 연결합니다."
 
 #: camel/providers/imap/camel-imap-store.c:459
 #, c-format
@@ -10181,7 +10215,7 @@ msgstr "%s 서버를 통한 USENET 뉴스"
 msgid ""
 "This option will authenticate with the NNTP server using a plaintext "
 "password."
-msgstr "이 옵션을 켜면 일반 텍스트 암호를 이용해 NNTP 서버에 인증합니다."
+msgstr "이 옵션을 켜면 일반 텍스트 열쇠글을 이용해 NNTP 서버에 인증합니다."
 
 #: camel/providers/nntp/camel-nntp-summary.c:237
 #, c-format
@@ -10273,8 +10307,8 @@ msgid ""
 "This option will connect to the POP server using a plaintext password. This "
 "is the only option supported by many POP servers."
 msgstr ""
-"이 옵션을 켜면 일반 텍스트 암호를 이용해 POP 서버에 연결합니다. 많은 POP 서버"
-"에서 이 옵션만을 지원합니다."
+"이 옵션을 켜면 일반 텍스트 열쇠글을 이용해 POP 서버에 연결합니다. 많은 POP 서"
+"버에서 이 옵션만을 지원합니다."
 
 #: camel/providers/pop3/camel-pop3-provider.c:83
 msgid ""
@@ -10339,7 +10373,7 @@ msgid ""
 "Error sending password: %s"
 msgstr ""
 "POP 서버 %s에 연결하는 데 실패했습니다.\n"
-"암호를 보내는 데 오류가 발생했습니다: %s"
+"열쇠글을 보내는 데 오류가 발생했습니다: %s"
 
 #: camel/providers/pop3/camel-pop3-store.c:639
 #, c-format
@@ -10359,7 +10393,7 @@ msgstr "로컬 시스템의 \"sendmail\"프로그램을 통해서 메일을 보�
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:113
 msgid "Could not parse recipient list"
-msgstr "받는 사람 목록을 파싱할 수 없습니다"
+msgstr "받는이 목록을 파싱할 수 없습니다"
 
 #: camel/providers/sendmail/camel-sendmail-transport.c:144
 #, c-format
@@ -10538,7 +10572,7 @@ msgstr "SMTP 서버 %s에서 요청한 인증 타입 %s을(를) 지원하지 않
 #: camel/providers/smtp/camel-smtp-transport.c:514
 #, c-format
 msgid "%sPlease enter the SMTP password for %s@%s"
-msgstr "%s%s@%s의 SMTP 암호를 입력하십시오"
+msgstr "%s%s@%s의 SMTP 열쇠글을 입력하십시오"
 
 #: camel/providers/smtp/camel-smtp-transport.c:533
 #, c-format
@@ -10565,17 +10599,17 @@ msgstr "%s 서버를 통한 SMTP 메일"
 msgid "Cannot send message: sender address not valid."
 msgstr "메세지를 보낼 수 없습니다; 보내는 사람 주소가 올바르지 않습니다."
 
-#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:632
+#: camel/providers/smtp/camel-smtp-transport.c:691 mail/mail-ops.c:611
 msgid "Sending message"
 msgstr "메세지를 보냄"
 
 #: camel/providers/smtp/camel-smtp-transport.c:706
 msgid "Cannot send message: no recipients defined."
-msgstr "메세지를 보낼 수 없습니다: 받는 사람이 정의되지 않았습니다."
+msgstr "메세지를 보낼 수 없습니다: 받는이가 정의되지 않았습니다."
 
 #: camel/providers/smtp/camel-smtp-transport.c:717
 msgid "Cannot send message: one or more invalid recipients"
-msgstr "메세지를 보낼 수 없습니다: 받는 사람중에 한 명 이상이 잘못되었습니다"
+msgstr "메세지를 보낼 수 없습니다: 받는이 중에 한 명 이상이 잘못되었습니다"
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
@@ -10755,7 +10789,7 @@ msgstr "회신 주소:"
 #.
 #: composer/e-msg-composer-hdrs.c:516
 msgid "From:"
-msgstr "보낸 사람:"
+msgstr "보낸이:"
 
 #.
 #. * Subject
@@ -10766,7 +10800,7 @@ msgstr "제목:"
 
 #: composer/e-msg-composer-hdrs.c:531
 msgid "To:"
-msgstr "받는 사람:"
+msgstr "받는이:"
 
 #: composer/e-msg-composer-hdrs.c:532
 msgid "Enter the recipients of the message"
@@ -10943,7 +10977,7 @@ msgstr ""
 "편지 작성 창을 만들 수 없습니다:\n"
 "주소 선택 컨트롤을 활성화할 수 없습니다."
 
-#: composer/e-msg-composer.c:2991
+#: composer/e-msg-composer.c:2990
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component.\n"
@@ -10955,7 +10989,7 @@ msgstr ""
 "올바른 버전의 gtkhtml과 libgtkhtml이\n"
 "설치되었는 지 확인하십시오.\n"
 
-#: composer/e-msg-composer.c:3061
+#: composer/e-msg-composer.c:3060
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10963,11 +10997,13 @@ msgstr ""
 "편지 작성 창을 만들 수 없습니다:\n"
 "HTML 편집기 컴포넌트를 활성화할 수 없습니다."
 
-#: composer/e-msg-composer.c:4071
+#: composer/e-msg-composer.c:4073
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
-msgstr "<b>(편지 작성기에 텍스트가 아닌 메세지 본문이 들어 있습니다. 이 메세지 본문은 편집할 수 없습니다.)<b>"
+msgstr ""
+"<b>(편지 작성기에 텍스트가 아닌 메세지 본문이 들어 있습니다. 이 메세지 본문"
+"은 편집할 수 없습니다.)<b>"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -11350,7 +11386,7 @@ msgstr "할 일"
 msgid "Later"
 msgstr "나중에"
 
-#: filter/filter-part.c:531
+#: filter/filter-part.c:531 shell/evolution-test-component.c:63
 msgid "Test"
 msgstr "테스트"
 
@@ -11547,7 +11583,7 @@ msgstr "표현"
 msgid "Follow Up"
 msgstr "추가 작업"
 
-#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:714
+#: filter/libfilter-i18n.h:18 mail/em-folder-view.c:739
 msgid "Label"
 msgstr "레이블"
 
@@ -11581,7 +11617,7 @@ msgstr "읽음"
 
 #: filter/libfilter-i18n.h:26
 msgid "Recipients"
-msgstr "받는 사람"
+msgstr "받는이"
 
 #: filter/libfilter-i18n.h:27
 msgid "Regex Match"
@@ -11628,7 +11664,7 @@ msgstr "특정 헤더"
 msgid "Stop Processing"
 msgstr "처리 중지"
 
-#: filter/libfilter-i18n.h:39 mail/em-format-html.c:1449 mail/em-format.c:678
+#: filter/libfilter-i18n.h:39 mail/em-format-html.c:1472 mail/em-format.c:679
 #: mail/em-mailer-prefs.c:72 mail/message-list.etspec.h:13
 #: mail/message-tag-followup.c:305 smime/lib/e-cert.c:1074
 msgid "Subject"
@@ -11774,6 +11810,42 @@ msgstr "규칙 이름"
 msgid "Score Rules"
 msgstr "점수 규칙"
 
+# FIXME - hard to translate UI + string based on English grammar
+#: filter/searchtypes.xml.h:1
+msgid "Body contains"
+msgstr "본문에 포함"
+
+# FIXME - hard to translate UI + string based on English grammar
+#: filter/searchtypes.xml.h:2
+msgid "Body does not contain"
+msgstr "본문에 포함하지 않음"
+
+# FIXME - hard to translate UI + string based on English grammar
+#: filter/searchtypes.xml.h:3
+msgid "Body or subject contains"
+msgstr "본문이나 제목에 포함"
+
+#: filter/searchtypes.xml.h:4
+msgid "Message contains"
+msgstr "메세지에 포함"
+
+#: filter/searchtypes.xml.h:5
+msgid "Recipients contain"
+msgstr "받는이에 포함"
+
+#: filter/searchtypes.xml.h:6
+msgid "Sender contains"
+msgstr "보낸이에 포함"
+
+#: filter/searchtypes.xml.h:7
+msgid "Subject contains"
+msgstr "제목에 포함"
+
+# FIXME - hard to translate UI + string based on English grammar
+#: filter/searchtypes.xml.h:8
+msgid "Subject does not contain"
+msgstr "제목에 포함하지 않음"
+
 #: filter/vfolder-rule.c:209
 msgid "You must name this vfolder."
 msgstr "이 가상폴더의 이름을 지정해야 합니다."
@@ -11831,7 +11903,7 @@ msgstr "Evolution 메일 폴더 보기"
 msgid "Evolution Mail preferences control"
 msgstr "Evolution 메일 기본 설정 컨트롤"
 
-#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:804
+#: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-browser.c:810
 #: mail/importers/elm-importer.c:526 mail/importers/netscape-importer.c:2085
 #: mail/importers/pine-importer.c:572
 msgid "Mail"
@@ -11917,7 +11989,7 @@ msgid ""
 "the following recipients are willing and able to receive HTML mail:\n"
 "%sSend anyway?"
 msgstr ""
-"HTML 형식의 메세지를 보내려고 합니다. 받는 사람이 HTML 메일을\n"
+"HTML 형식의 메세지를 보내려고 합니다. 받는이가 HTML 메일을\n"
 "받고 싶어하고, 받을 수 있는 지 확인하십시오.\n"
 "%s어쨌든 메세지를 보내시겠습니까?"
 
@@ -11939,7 +12011,7 @@ msgstr ""
 
 #: mail/em-composer-utils.c:157
 msgid "This message contains only Bcc recipients."
-msgstr "이 메세지는 숨은 참조로 받는 사람만 있습니다"
+msgstr "이 메세지는 숨은 참조로 받는이만 있습니다"
 
 #: mail/em-composer-utils.c:162
 msgid ""
@@ -11947,13 +12019,12 @@ msgid ""
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
-"메일 서버에서 Apparently-To 헤더를 추가해서 받는 사람을 밝혀줄 수도 있습니"
-"다.\n"
+"메일 서버에서 Apparently-To 헤더를 추가해서 받는이를 밝혀줄 수도 있습니다.\n"
 "그래도 메일을 보내시겠습니까?"
 
 #: mail/em-composer-utils.c:301
 msgid "You must specify recipients in order to send this message."
-msgstr "이 메세지를 보내려면 받는 사람을 지정해야 합니다."
+msgstr "이 메세지를 보내려면 받는이를 지정해야 합니다."
 
 #: mail/em-composer-utils.c:543
 msgid ""
@@ -11986,27 +12057,27 @@ msgstr "폴더 만들 곳을 지정하세요:"
 msgid "Folder _name:"
 msgstr "폴더 이름(_N):"
 
-#: mail/em-folder-tree-model.c:559 mail/em-utils.c:1994
+#: mail/em-folder-tree-model.c:560 mail/em-utils.c:1994
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "임시 디렉토리를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:568
+#: mail/em-folder-tree-model.c:569
 #, c-format
 msgid "Could not create temporary mbox store: %s"
 msgstr "임시 메일함 저장고를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:577
+#: mail/em-folder-tree-model.c:578
 #, c-format
 msgid "Could not create temporary mbox folder: %s"
 msgstr "임시 메일함 폴더를 만들 수가 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:592
+#: mail/em-folder-tree-model.c:593
 #, c-format
 msgid "Could not copy messages to temporary mbox folder: %s"
 msgstr "메세지를 임시 메일함 폴더에 복사할 수 없습니다: %s"
 
-#: mail/em-folder-tree-model.c:771 mail/em-folder-tree-model.c:1001
+#: mail/em-folder-tree-model.c:772 mail/em-folder-tree-model.c:1062
 msgid "Loading..."
 msgstr "읽어들이는 중..."
 
@@ -12016,7 +12087,7 @@ msgid "%s"
 msgstr "%s"
 
 #: mail/em-folder-tree.c:985 mail/em-folder-tree.c:998
-#: mail/em-folder-view.c:591 mail/em-folder-view.c:605
+#: mail/em-folder-view.c:616 mail/em-folder-view.c:630
 #: shell/e-shell-importer.c:1060
 msgid "Select folder"
 msgstr "폴더 선택"
@@ -12094,182 +12165,193 @@ msgid "_Properties..."
 msgstr "등록 정보(_P)..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:682 mail/em-popup.c:596
+#: mail/em-folder-view.c:707 mail/em-popup.c:596
 msgid "_Edit as New Message..."
 msgstr "새 메세지로 고침(_E)..."
 
-#: mail/em-folder-view.c:684
+#: mail/em-folder-view.c:709
 msgid "_Print"
 msgstr "인쇄(_P)"
 
-#: mail/em-folder-view.c:687 ui/evolution-mail-message.xml.h:124
+#: mail/em-folder-view.c:712 ui/evolution-mail-message.xml.h:124
 msgid "_Reply to Sender"
 msgstr "보낸 이에게 회신(_R)"
 
-#: mail/em-folder-view.c:688 mail/em-popup.c:716
+# List는 메일링 리스트를 말함.
+#: mail/em-folder-view.c:713 mail/em-popup.c:716
 #: ui/evolution-mail-message.xml.h:86
 msgid "Reply to _List"
-msgstr "목록에 회신(_L)"
+msgstr "리스트에 회신(_L)"
 
-#: mail/em-folder-view.c:689 mail/em-popup.c:717
+#: mail/em-folder-view.c:714 mail/em-popup.c:717
 #: ui/evolution-mail-message.xml.h:85
 msgid "Reply to _All"
 msgstr "전체에 회신(_A)"
 
-#: mail/em-folder-view.c:690 mail/em-popup.c:719
+#: mail/em-folder-view.c:715 mail/em-popup.c:719
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Forward"
 msgstr "전달(_F)"
 
-#: mail/em-folder-view.c:693
+#: mail/em-folder-view.c:718
 msgid "Follo_w Up..."
 msgstr "추가 작업(_W)..."
 
-#: mail/em-folder-view.c:694
+#: mail/em-folder-view.c:719
 msgid "Fla_g Completed"
 msgstr "표시 완료(_G)"
 
-#: mail/em-folder-view.c:695
+#: mail/em-folder-view.c:720
 msgid "Cl_ear Flag"
 msgstr "표시 비우기(_E)"
 
-#: mail/em-folder-view.c:698 ui/evolution-mail-message.xml.h:48
+#: mail/em-folder-view.c:723 ui/evolution-mail-message.xml.h:48
 msgid "Mar_k as Read"
 msgstr "읽은 것으로 표시(_K)"
 
-#: mail/em-folder-view.c:699
+#: mail/em-folder-view.c:724
 msgid "Mark as _Unread"
 msgstr "읽지 않은 것으로 표시(_U)"
 
-#: mail/em-folder-view.c:700
+#: mail/em-folder-view.c:725
 msgid "Mark as _Important"
 msgstr "중요한 것으로 표시(_I)"
 
-#: mail/em-folder-view.c:701
+#: mail/em-folder-view.c:726
 msgid "_Mark as Unimportant"
 msgstr "중요하지 않은 것으로 표시(_M)"
 
-#: mail/em-folder-view.c:702 ui/evolution-mail-message.xml.h:52
+#: mail/em-folder-view.c:727 ui/evolution-mail-message.xml.h:52
 msgid "Mark as _Junk"
 msgstr "쓰레기로 표시(_J)"
 
-#: mail/em-folder-view.c:703 ui/evolution-mail-message.xml.h:53
+#: mail/em-folder-view.c:728 ui/evolution-mail-message.xml.h:53
 msgid "Mark as _Not Junk"
 msgstr "쓰레기가 아닌 것으로 표시(_N)"
 
-#: mail/em-folder-view.c:707
+#: mail/em-folder-view.c:732
 msgid "U_ndelete"
 msgstr "되살림(_N)"
 
-#: mail/em-folder-view.c:710
+#: mail/em-folder-view.c:735
 msgid "Mo_ve to Folder..."
 msgstr "폴더로 옮김(_V)..."
 
-#: mail/em-folder-view.c:711 ui/evolution-addressbook.xml.h:32
+#: mail/em-folder-view.c:736 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
 msgstr "폴더로 복사(_C)..."
 
-#: mail/em-folder-view.c:719
+#: mail/em-folder-view.c:744
 msgid "Add Sender to Address_book"
 msgstr "보낸이를 주소록에 더하기"
 
-#: mail/em-folder-view.c:722
+#: mail/em-folder-view.c:747
 msgid "Appl_y Filters"
 msgstr "거르개 적용(_Y)"
 
-#: mail/em-folder-view.c:725
+#: mail/em-folder-view.c:750
 msgid "Crea_te Rule From Message"
 msgstr "메시지로부터 거르게 만들기(_T)"
 
-#: mail/em-folder-view.c:726
+#: mail/em-folder-view.c:751
 msgid "VFolder on _Subject"
 msgstr "제목에따른 가상폴더(_S)"
 
-#: mail/em-folder-view.c:727
+#: mail/em-folder-view.c:752
 msgid "VFolder on Se_nder"
 msgstr "보낸이에 따른 가상폴더(_N)"
 
-#: mail/em-folder-view.c:728
+#: mail/em-folder-view.c:753
 msgid "VFolder on _Recipients"
 msgstr "받은이에 따른 가상폴더(_R)"
 
-#: mail/em-folder-view.c:729
+#: mail/em-folder-view.c:754
 msgid "VFolder on Mailing _List"
 msgstr "메일링 리스트에 대한 가상폴더(_L)"
 
-#: mail/em-folder-view.c:731
+#: mail/em-folder-view.c:756
 msgid "VFolder on Thread"
 msgstr "쓰레드에 가상폴더"
 
-#: mail/em-folder-view.c:735
+#: mail/em-folder-view.c:760
 msgid "Filter on Sub_ject"
 msgstr "제목에 대한 거르게(_J)"
 
-#: mail/em-folder-view.c:736
+#: mail/em-folder-view.c:761
 msgid "Filter on Sen_der"
 msgstr "보낸이에 대한 거르게(_D)"
 
-#: mail/em-folder-view.c:737
+#: mail/em-folder-view.c:762
 msgid "Filter on Re_cipients"
 msgstr "받은이에 대한 거르게(_C)"
 
-#: mail/em-folder-view.c:738
+#: mail/em-folder-view.c:763
 msgid "Filter on _Mailing List"
 msgstr "메일링 리스트에 대한 거르개(_M)"
 
-#: mail/em-folder-view.c:740
+#: mail/em-folder-view.c:765
 msgid "Filter on Thread"
 msgstr "쓰레드에 거르게"
 
 #. default charset used in mail view
-#: mail/em-folder-view.c:1512 mail/em-folder-view.c:1550
+#: mail/em-folder-view.c:1537 mail/em-folder-view.c:1575
 #: mail/mail-config.glade.h:41
 msgid "Default"
 msgstr "기본값"
 
-#: mail/em-folder-view.c:1584
+#: mail/em-folder-view.c:1611
 msgid "Print Message"
 msgstr "메세지 인쇄"
 
-#: mail/em-folder-view.c:1826
+#: mail/em-folder-view.c:1865
 msgid "_Copy Link Location"
 msgstr "링크 위치 복사(_C)"
 
+#: mail/em-folder-view.c:2113
+#, c-format
+msgid "Click to mail %s"
+msgstr "메일을 %s(으)로 보내려면 누르십시오"
+
+#: mail/em-folder-view.c:2115
+#, c-format
+msgid "Click to open %s"
+msgstr "URL %s을(를) 열려면 누르십시오"
+
 #. message-search popup match count string
-#: mail/em-format-html-display.c:373
+#: mail/em-format-html-display.c:395
 #, c-format
 msgid "Matches: %d"
 msgstr "일치: %d"
 
-#: mail/em-format-html-display.c:603 mail/em-format-html.c:564
+#: mail/em-format-html-display.c:632 mail/em-format-html.c:564
 msgid "Unsigned"
 msgstr "서명 없음"
 
-#: mail/em-format-html-display.c:603
+#: mail/em-format-html-display.c:632
 msgid ""
 "This message is not signed.  There is no guarantee the sender of the message "
 "is authentic."
 msgstr ""
-"이 메세지에는 디지탈 사인이 없습니다.  메세지를 보낸 사람이 확실한 지 보장할 "
-"수 없습니다."
+"이 메세지에는 디지탈 사인이 없습니다.  메세지를 보낸이가 확실한 지 보장할 수 "
+"없습니다."
 
-#: mail/em-format-html-display.c:604 mail/em-format-html.c:565
+#: mail/em-format-html-display.c:633 mail/em-format-html.c:565
 msgid "Valid signature"
 msgstr "올바른 서명"
 
-#: mail/em-format-html-display.c:604
+#: mail/em-format-html-display.c:633
 msgid ""
 "This message is signed and is valid, the sender of this message is very "
 "likely who they claim to be."
 msgstr ""
-"이 메세지는 디지탈 사인되었고 사인이 올바릅니다.  메세지를 보낸 사람은 그 사"
-"람이 거의 확실합니다."
+"이 메세지는 디지탈 사인되었고 사인이 올바릅니다.  메세지를 보낸이가 그 사람"
+"이 거의 확실합니다."
 
-#: mail/em-format-html-display.c:605 mail/em-format-html.c:566
+#: mail/em-format-html-display.c:634 mail/em-format-html.c:566
 msgid "Invalid signature"
 msgstr "잘못된 서명"
 
-#: mail/em-format-html-display.c:605
+#: mail/em-format-html-display.c:634
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
@@ -12277,11 +12359,11 @@ msgstr ""
 "이 메세지의 서명을 확인할 수 없습니다. 메일이 전송중에 변경되었을 수 있습니"
 "다."
 
-#: mail/em-format-html-display.c:606 mail/em-format-html.c:567
+#: mail/em-format-html-display.c:635 mail/em-format-html.c:567
 msgid "Valid signature, cannot verify sender"
-msgstr "올바른 서명, 보낸 사람을 확인할 수 없음"
+msgstr "올바른 서명, 보낸이를 확인할 수 없음"
 
-#: mail/em-format-html-display.c:606
+#: mail/em-format-html-display.c:635
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
@@ -12289,23 +12371,23 @@ msgstr ""
 "이 메세지는 올바른 서명으로 사인되었습니다. 하지만 메세지를 보낸 사람을 확인"
 "할 수 없습니다."
 
-#: mail/em-format-html-display.c:612 mail/em-format-html.c:573
+#: mail/em-format-html-display.c:641 mail/em-format-html.c:573
 msgid "Unencrypted"
 msgstr "암호화 안 됨"
 
-#: mail/em-format-html-display.c:612
+#: mail/em-format-html-display.c:641
 msgid ""
-"This message is not encrypted.  It's content may be viewed in transit across "
-"The Internet."
+"This message is not encrypted.  Its content may be viewed in transit across "
+"the Internet."
 msgstr ""
-"메세지가 암호화되어 있지 않습니다.  이 메세지가 인터넷을 통해 전달되는 동안, "
-"다른 사람이 메세지 내용을 볼 수도 있습니다."
+"메세지를 암호화하지 않았습니다.  이 메세지가 인터넷을 통해 전달되는 동안, 다"
+"른 사람이 메세지 내용을 볼 수도 있습니다."
 
-#: mail/em-format-html-display.c:613 mail/em-format-html.c:574
+#: mail/em-format-html-display.c:642 mail/em-format-html.c:574
 msgid "Encrypted, weak"
 msgstr "암호화됨, 약함"
 
-#: mail/em-format-html-display.c:613
+#: mail/em-format-html-display.c:642
 msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
@@ -12315,11 +12397,11 @@ msgstr ""
 "사람이 이 메세지의 내용을 알아 내는 게 어렵긴 하지만, 현실적인 시간 내에 불가"
 "능하지는 않습니다."
 
-#: mail/em-format-html-display.c:614 mail/em-format-html.c:575
+#: mail/em-format-html-display.c:643 mail/em-format-html.c:575
 msgid "Encrypted"
 msgstr "암호화됨"
 
-#: mail/em-format-html-display.c:614
+#: mail/em-format-html-display.c:643
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
@@ -12327,11 +12409,11 @@ msgstr ""
 "메세지가 암호화되어 있습니다.  다른 사람이 이 메세지의 내용을 알아 내기는 어"
 "렵습니다."
 
-#: mail/em-format-html-display.c:615 mail/em-format-html.c:576
+#: mail/em-format-html-display.c:644 mail/em-format-html.c:576
 msgid "Encrypted, strong"
 msgstr "암호화됨, 강력"
 
-#: mail/em-format-html-display.c:615
+#: mail/em-format-html-display.c:644
 msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
@@ -12340,33 +12422,33 @@ msgstr ""
 "메세지가 암호화되어 있지만, 약한 암호화 알고리즘으로 암호화되었습니다.  현실"
 "적인 시간 내에 다른 사람이 이 메세지의 내용을 알아 내는 건 매우 어렵습니다."
 
-#: mail/em-format-html-display.c:699
+#: mail/em-format-html-display.c:728
 msgid "_View Certificate"
 msgstr "인증서 보기(_V)"
 
-#: mail/em-format-html-display.c:704
+#: mail/em-format-html-display.c:733
 msgid "This certificate is not viewable"
 msgstr "이 인증서는 볼 수 없습니다"
 
-#: mail/em-format-html-display.c:866 mail/em-format-html.c:645
+#: mail/em-format-html-display.c:895 mail/em-format-html.c:645
 msgid "Could not parse S/MIME message: Unknown error"
 msgstr "s/MIME 메세지를 분석할 수 없습니다: 알 수 없는 오류가 발생했습니다"
 
-#: mail/em-format-html-display.c:902 mail/em-format-html.c:1051
-#: mail/em-format.c:1198
+#: mail/em-format-html-display.c:931 mail/em-format-html.c:1051
+#: mail/em-format.c:1199
 msgid "Unsupported signature format"
 msgstr "지원하지 않는 서명 형식입니다"
 
-#: mail/em-format-html-display.c:910 mail/em-format-html.c:1059
+#: mail/em-format-html-display.c:939 mail/em-format-html.c:1059
 msgid "Unknown error verifying signature"
 msgstr "서명을 확인하는 중 알 수 없는 오류가 발생했습니다"
 
 # FIXME - inline의 나은 번역을 찾아보자
-#: mail/em-format-html-display.c:1007
+#: mail/em-format-html-display.c:1070
 msgid "_View Inline"
 msgstr "인라인으로 보기"
 
-#: mail/em-format-html-display.c:1008
+#: mail/em-format-html-display.c:1071
 msgid "_Hide"
 msgstr "숨기기(_H)"
 
@@ -12417,61 +12499,61 @@ msgstr "MIME 메세지를 분석할 수 없습니다. 소스로 보여줍니다.
 msgid "Formatting message"
 msgstr "메세지를 포맷하는 중입니다"
 
-#: mail/em-format-html.c:1434 mail/em-format.c:673 mail/em-mailer-prefs.c:67
+#: mail/em-format-html.c:1419 mail/em-format.c:674 mail/em-mailer-prefs.c:67
 #: mail/message-list.etspec.h:7 mail/message-tag-followup.c:301
 msgid "From"
 msgstr "보낸이"
 
-#: mail/em-format-html.c:1436 mail/em-format.c:674 mail/em-mailer-prefs.c:68
+#: mail/em-format-html.c:1419 mail/em-format.c:675 mail/em-mailer-prefs.c:68
 msgid "Reply-To"
 msgstr "회신 주소"
 
-#: mail/em-format-html.c:1438 mail/em-format.c:675 mail/em-mailer-prefs.c:69
+#: mail/em-format-html.c:1419 mail/em-format.c:676 mail/em-mailer-prefs.c:69
 #: mail/message-list.etspec.h:14
 msgid "To"
 msgstr "받는이"
 
-#: mail/em-format-html.c:1440 mail/em-format.c:676 mail/em-mailer-prefs.c:70
+#: mail/em-format-html.c:1419 mail/em-format.c:677 mail/em-mailer-prefs.c:70
 msgid "Cc"
 msgstr "참조"
 
-#: mail/em-format-html.c:1442 mail/em-format.c:677 mail/em-mailer-prefs.c:71
+#: mail/em-format-html.c:1419 mail/em-format.c:678 mail/em-mailer-prefs.c:71
 msgid "Bcc"
 msgstr "숨은 참조"
 
-#: mail/em-format-html.c:1458 mail/em-mailer-prefs.c:631
+#: mail/em-format-html.c:1479 mail/em-mailer-prefs.c:631
 msgid "Mailer"
 msgstr "메일 프로그램"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
-#: mail/em-format-html.c:1485
+#: mail/em-format-html.c:1505
 msgid "<I> (%a, %R %Z)</I>"
 msgstr "<I> (%a %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
-#: mail/em-format-html.c:1488
+#: mail/em-format-html.c:1508
 msgid "<I> (%R %Z)</I>"
 msgstr "<I> (%R %Z)</I>"
 
-#: mail/em-format-html.c:1499 mail/em-format.c:679 mail/em-mailer-prefs.c:73
+#: mail/em-format-html.c:1520 mail/em-format.c:680 mail/em-mailer-prefs.c:73
 #: mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "날짜"
 
-#: mail/em-format.c:893
+#: mail/em-format.c:894
 #, c-format
 msgid "%s attachment"
 msgstr "%s 첨부"
 
-#: mail/em-format.c:1186
+#: mail/em-format.c:1187
 msgid "Session not initialised"
 msgstr "세션이 초기화되지 않았습니다"
 
-#: mail/em-format.c:1212
+#: mail/em-format.c:1213
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "이 메세지는 디지탈 서명되어 있고 인증되었습니다."
 
-#: mail/em-format.c:1214
+#: mail/em-format.c:1215
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr "이 메세지는 디지탈 서명되어 있지만 인증되었는지 알아볼 수 없습니다"
 
@@ -12500,17 +12582,22 @@ msgstr ""
 msgid "Migrating `%s':"
 msgstr "`%s' 옮기는 중:"
 
-#: mail/em-migrate.c:775
+#: mail/em-migrate.c:833
 #, c-format
 msgid "Failed to migrate `%s': %s"
 msgstr "`%s' 옮기는 데 실패했습니다: %s"
 
-#: mail/em-migrate.c:801 mail/em-migrate.c:818
+#: mail/em-migrate.c:857 mail/em-migrate.c:872
+#, c-format
+msgid "Failed to migrate pop3 uid caches: %s"
+msgstr "POP3 UID 캐시를 옮기는 데 실패했습니다: %s"
+
+#: mail/em-migrate.c:931 mail/em-migrate.c:948
 #, c-format
 msgid "Failed to create directory `%s': %s"
 msgstr "`%s' 디렉토리를 만들 수 없습니다: %s"
 
-#: mail/em-migrate.c:830
+#: mail/em-migrate.c:960
 #, c-format
 msgid "Failed to open store for `%s': %s"
 msgstr "`%s'에 쓸 저장고를 여는 데 실패했습니다: %s"
@@ -12551,13 +12638,14 @@ msgstr "%s에서 열기..."
 
 #: mail/em-subscribe-editor.c:583
 msgid "This store does not support subscriptions, or the are not enabled."
-msgstr "이 저장고는 가입을 지원하지 않거나, 가입할 수 있도록 설정하지 않았습니다."
+msgstr ""
+"이 저장고는 가입을 지원하지 않거나, 가입할 수 있도록 설정하지 않았습니다."
 
 #: mail/em-subscribe-editor.c:612
 msgid "Subscribed"
 msgstr "구독"
 
-#: mail/em-subscribe-editor.c:616
+#: mail/em-subscribe-editor.c:616 shell/e-storage-set-view.etspec.h:2
 msgid "Folder"
 msgstr "폴더"
 
@@ -12786,8 +12874,8 @@ msgid ""
 "Always load images off the net"
 msgstr ""
 "http로 HTML 메세지의 그림을 읽어들입니다. 사용 가능한 값은: 0 - 그림을 전혀 "
-"읽어들이지 않습니다 2 - 보낸 사람이 주소록에 들어 있으면 그림을 읽어들입니다 "
-"2 - 항상 네트워크에서 그림을 읽어들입니다"
+"읽어들이지 않습니다 2 - 보낸이가 주소록에 들어 있으면 그림을 읽어들입니다 2 "
+"- 항상 네트워크에서 그림을 읽어들입니다"
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Log filter actions"
@@ -12862,7 +12950,7 @@ msgstr "HTML 메세지를 원하지 않는 사람한테 HTML 메일을 보내려
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
-msgstr "To나 Cc로 받는 사람이 없이 메세지를 보내려 할 때 물어봅니다"
+msgstr "To나 Cc로 받는이가 없는 상태로 메세지를 보내려 할 때 물어봅니다"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Prompt when user tries to send unwanted HTML"
@@ -13174,7 +13262,7 @@ msgstr "메일 거르개를 검사하는 중입니다"
 msgid "Scanning directory"
 msgstr "디렉토리를 검사하는 중입니다"
 
-#: mail/importers/netscape-importer.c:2015 shell/e-shell-startup-wizard.c:563
+#: mail/importers/netscape-importer.c:2015 shell/e-shell-startup-wizard.c:569
 msgid "Starting import"
 msgstr "가져오기 시작하는 중"
 
@@ -13316,26 +13404,17 @@ msgstr ""
 msgid "On this Computer"
 msgstr "이 컴퓨터에"
 
-#: mail/mail-component.c:379
+#: mail/mail-component.c:389
 msgid "New Mail Message"
 msgstr "새 메일 메세지"
 
-#: mail/mail-component.c:380
+#: mail/mail-component.c:390
 msgid "_Mail Message"
 msgstr "메일 만들기(_M)"
 
-#: mail/mail-component.c:381
+#: mail/mail-component.c:391
 msgid "Compose a new mail message"
 msgstr "메일 메세지를 새로 작성합니다"
-
-#: mail/mail-component.c:496
-#, c-format
-msgid ""
-"The following error occured while migrating your mail data:\n"
-"%s"
-msgstr ""
-"메일 데이터를 옮겨 오는 중에 다음 오류가 발생했습니다:\n"
-"%s"
 
 #: mail/mail-config-druid.c:367 mail/mail-config.glade.h:65
 msgid "Identity"
@@ -13923,7 +14002,7 @@ msgid "_Junk"
 msgstr "쓰레기(_J)"
 
 #: mail/mail-config.glade.h:158
-msgid "_Load images if sender is in addressbook"
+msgid "_Load images if sender is in address book"
 msgstr "보낸이가 주소록에 있으면 그림 읽어들이기(_L)"
 
 #: mail/mail-config.glade.h:159
@@ -14041,16 +14120,16 @@ msgstr "작업 중"
 msgid "Filtering Folder"
 msgstr "폴더 거르는 중"
 
-#: mail/mail-ops.c:264
+#: mail/mail-ops.c:243
 msgid "Fetching Mail"
 msgstr "메일 가져오는 중"
 
-#: mail/mail-ops.c:558
+#: mail/mail-ops.c:537
 #, c-format
 msgid "Failed to apply outgoing filters: %s"
 msgstr "나가는 거르개를 적용하는 데 실패했습니다: %s"
 
-#: mail/mail-ops.c:579
+#: mail/mail-ops.c:558
 #, c-format
 msgid ""
 "Failed to append to %s: %s\n"
@@ -14059,106 +14138,106 @@ msgstr ""
 "%s에 추가하는 데 실패했습니다: %s\n"
 "대신에 로컬의 `보낸 편지함'에 추가합니다."
 
-#: mail/mail-ops.c:588
+#: mail/mail-ops.c:567
 #, c-format
 msgid "Failed to append to local `Sent' folder: %s"
 msgstr "로컬의 '보낸 편지함' 폴더에 추가하는 데 실패했습니다: %s"
 
-#: mail/mail-ops.c:630
+#: mail/mail-ops.c:609
 #, c-format
 msgid "Sending \"%s\""
 msgstr "\"%s\" 보내는 중"
 
-#: mail/mail-ops.c:748
+#: mail/mail-ops.c:727
 #, c-format
 msgid "Sending message %d of %d"
 msgstr "%2$d개 중 %1$d개 메세지 보냄"
 
-#: mail/mail-ops.c:767
+#: mail/mail-ops.c:746
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr "%2$d개 중 %1$d 메시지 실패"
 
-#: mail/mail-ops.c:769
+#: mail/mail-ops.c:748
 msgid "Complete."
 msgstr "완료됨"
 
-#: mail/mail-ops.c:863
+#: mail/mail-ops.c:842
 msgid "Saving message to folder"
 msgstr "메세지를 폴더로 저장하는 중"
 
-#: mail/mail-ops.c:944
+#: mail/mail-ops.c:923
 #, c-format
 msgid "Moving messages to %s"
 msgstr "메시지들을 %s(으)로 옮기는 중"
 
-#: mail/mail-ops.c:944
+#: mail/mail-ops.c:923
 #, c-format
 msgid "Copying messages to %s"
 msgstr "메시지들을 %s(으)로 복사하는 중"
 
-#: mail/mail-ops.c:1057
+#: mail/mail-ops.c:1036
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\"의 폴더를 찾는 중"
 
-#: mail/mail-ops.c:1260
+#: mail/mail-ops.c:1239
 msgid "Forwarded messages"
 msgstr "전달된 메시지"
 
-#: mail/mail-ops.c:1303
+#: mail/mail-ops.c:1282
 #, c-format
 msgid "Opening folder %s"
 msgstr "%s 폴더를 열기"
 
-#: mail/mail-ops.c:1375
+#: mail/mail-ops.c:1354
 #, c-format
 msgid "Opening store %s"
 msgstr "저장고 %s을(를) 여는 중입니다"
 
-#: mail/mail-ops.c:1453
+#: mail/mail-ops.c:1432
 #, c-format
 msgid "Removing folder %s"
 msgstr "%s 폴더를 지우는 중입니다"
 
-#: mail/mail-ops.c:1547
+#: mail/mail-ops.c:1526
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "%s 폴더를 저장하는 중입니다"
 
-#: mail/mail-ops.c:1598
+#: mail/mail-ops.c:1577
 msgid "Refreshing folder"
 msgstr "폴더 다시 읽는 중입니다"
 
-#: mail/mail-ops.c:1634 mail/mail-ops.c:1685
+#: mail/mail-ops.c:1613 mail/mail-ops.c:1664
 msgid "Expunging folder"
 msgstr "지운 메세지를 비우는 중입니다"
 
-#: mail/mail-ops.c:1682
+#: mail/mail-ops.c:1661
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' 안의 휴지통을 비우는 중입니다"
 
-#: mail/mail-ops.c:1683
+#: mail/mail-ops.c:1662
 msgid "Local Folders"
 msgstr "로컬 폴더"
 
-#: mail/mail-ops.c:1766
+#: mail/mail-ops.c:1745
 #, c-format
 msgid "Retrieving message %s"
 msgstr "메세지 %s을(를) 가져오기"
 
-#: mail/mail-ops.c:1838
+#: mail/mail-ops.c:1817
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "메세지 %d개 가져오는중"
 
-#: mail/mail-ops.c:1922
+#: mail/mail-ops.c:1901
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "메시지 %d개 저장중"
 
-#: mail/mail-ops.c:1970
+#: mail/mail-ops.c:1949
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -14167,7 +14246,7 @@ msgstr ""
 "출력파일을 만들 수가 없습니다: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1998
+#: mail/mail-ops.c:1977
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -14176,11 +14255,11 @@ msgstr ""
 "%s(으)로 메시지 저장 중 오류 발생:\n"
 " %s"
 
-#: mail/mail-ops.c:2069
+#: mail/mail-ops.c:2048
 msgid "Saving attachment"
 msgstr "첨부 저장"
 
-#: mail/mail-ops.c:2086
+#: mail/mail-ops.c:2065
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -14189,22 +14268,22 @@ msgstr ""
 "출력 파일을 만들 수 없음: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2116
+#: mail/mail-ops.c:2095
 #, c-format
 msgid "Could not write data: %s"
 msgstr "데이터를 쓸 수가 없습니다: %s"
 
-#: mail/mail-ops.c:2264
+#: mail/mail-ops.c:2243
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s에서 연결 끊는 중"
 
-#: mail/mail-ops.c:2264
+#: mail/mail-ops.c:2243
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s(으)로 다시 연결중"
 
-#: mail/mail-ops.c:2366
+#: mail/mail-ops.c:2345
 msgid "Changing junk status"
 msgstr "쓰레기 메일 상태를 바꾸는 중"
 
@@ -14259,15 +14338,15 @@ msgstr "형식: %s"
 msgid "Send & Receive Mail"
 msgstr "메일 주고받기"
 
-#: mail/mail-send-recv.c:307
+#: mail/mail-send-recv.c:309
 msgid "Cancel _All"
 msgstr "모두 취소(_A)"
 
-#: mail/mail-send-recv.c:388
+#: mail/mail-send-recv.c:390
 msgid "Updating..."
 msgstr "업데이트 중..."
 
-#: mail/mail-send-recv.c:388 mail/mail-send-recv.c:440
+#: mail/mail-send-recv.c:390 mail/mail-send-recv.c:442
 msgid "Waiting..."
 msgstr "기다리는 중..."
 
@@ -14446,7 +14525,7 @@ msgstr "%m %d %p %l:%M"
 msgid "%b %d %Y"
 msgstr "%Y년 %b %d일"
 
-#: mail/message-list.c:3085
+#: mail/message-list.c:3091
 msgid "Generating message list"
 msgstr "메세지 목록 작성중"
 
@@ -14800,7 +14879,7 @@ msgstr ""
 "파일 종류를 모르겠으면 \"자동\"을 선택하면, Evolution에서 자동으로 파일 종류"
 "를 알아내 처리하려고 합니다."
 
-#: shell/e-shell-importer.c:147 shell/e-shell-startup-wizard.c:731
+#: shell/e-shell-importer.c:147 shell/e-shell-startup-wizard.c:737
 msgid "Please select the information that you would like to import:"
 msgstr "다음에서 가져오고 싶은 정보를 선택하십시오:"
 
@@ -14903,7 +14982,7 @@ msgstr "과거에 쓰던 프로그램에서 데이터 및 설정 사항 가져�
 msgid "Import a _single file"
 msgstr "파일 한 개 가져오기(_S)"
 
-#: shell/e-shell-importer.c:754 shell/e-shell-startup-wizard.c:560
+#: shell/e-shell-importer.c:754 shell/e-shell-startup-wizard.c:566
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -14915,7 +14994,7 @@ msgstr ""
 msgid "Starting Intelligent Importers"
 msgstr "똑똑한 가져오기를 시작하는 중입니다"
 
-#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:686
+#: shell/e-shell-importer.c:883 shell/e-shell-startup-wizard.c:692
 #, c-format
 msgid "From %s:"
 msgstr "%s에서:"
@@ -14966,7 +15045,7 @@ msgstr "공유 폴더를 열 수 없습니다: %s."
 msgid "Cannot find the specified shared folder."
 msgstr "명시된 공유 폴더를 찾을 수 없습니다."
 
-#: shell/e-shell-startup-wizard.c:778
+#: shell/e-shell-startup-wizard.c:784
 msgid ""
 "If you quit the Evolution Setup Assistant now, all of the information that "
 "you have entered will be forgotten. You will need to run this assistant "
@@ -14979,7 +15058,7 @@ msgstr ""
 "\n"
 "도우미를 지금 끝내시겠습니까?"
 
-#: shell/e-shell-startup-wizard.c:789
+#: shell/e-shell-startup-wizard.c:795
 msgid "Quit Assistant"
 msgstr "도우미 끝내기"
 
@@ -15211,6 +15290,10 @@ msgstr "받은 편지함"
 msgid "Shortcuts"
 msgstr "바로가기"
 
+#: shell/e-storage-set-view.etspec.h:1
+msgid "Checkbox"
+msgstr "확인란"
+
 #: shell/e-task-widget.c:211
 #, c-format
 msgid "%s (...)"
@@ -15269,6 +15352,14 @@ msgstr ""
 "\n"
 "액티베이션 시스템의 오류는:\n"
 "%s"
+
+#: shell/evolution-test-component.c:63
+msgid "Test type"
+msgstr "테스트 타입"
+
+#: shell/evolution-test-component.c:703
+msgid "Evolution Test Component"
+msgstr "Evolution 테스트 컴포넌트"
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active Connections"
@@ -15516,34 +15607,34 @@ msgstr ""
 "%s: --online과 --offline은 같이 쓸 수 없습니다\n"
 "  자세한 정보를 %s --help를 실행하십시오.\n"
 
-#: smime/gui/certificate-manager.c:122 smime/gui/certificate-manager.c:238
-#: smime/gui/certificate-manager.c:395
+#: smime/gui/certificate-manager.c:122 smime/gui/certificate-manager.c:311
+#: smime/gui/certificate-manager.c:458
 msgid "Select a cert to import..."
 msgstr "가져올 인증서를 선택하십시오..."
 
-#: smime/gui/certificate-manager.c:156 smime/gui/certificate-manager.c:317
-#: smime/gui/certificate-manager.c:473
+#: smime/gui/certificate-manager.c:233 smime/gui/certificate-manager.c:395
+#: smime/gui/certificate-manager.c:541
 msgid "Certificate Name"
 msgstr "인증서 이름"
 
-#: smime/gui/certificate-manager.c:162 smime/gui/certificate-manager.c:329
+#: smime/gui/certificate-manager.c:241 smime/gui/certificate-manager.c:411
 msgid "Purposes"
 msgstr "목적"
 
-#: smime/gui/certificate-manager.c:168 smime/gui/smime-ui.glade.h:36
+#: smime/gui/certificate-manager.c:249 smime/gui/smime-ui.glade.h:36
 #: smime/lib/e-cert.c:512
 msgid "Serial Number"
 msgstr "일련 번호"
 
-#: smime/gui/certificate-manager.c:174
+#: smime/gui/certificate-manager.c:257
 msgid "Expires"
 msgstr "만료"
 
-#: smime/gui/certificate-manager.c:323
+#: smime/gui/certificate-manager.c:403
 msgid "E-Mail Address"
 msgstr "전자메일 주소"
 
-#: smime/gui/certificate-viewer.c:281
+#: smime/gui/certificate-viewer.c:326
 #, c-format
 msgid "Certificate Viewer: %s"
 msgstr "인증서 보기: %s"
@@ -15659,7 +15750,7 @@ msgstr "편집"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
-msgstr "전자메일 받는 사람 인증서"
+msgstr "전자메일 받는이 인증서"
 
 #: smime/gui/smime-ui.glade.h:25
 msgid "Email Signer Certificate"
@@ -15738,7 +15829,7 @@ msgstr "다음 사람들은 확인할 수 있는 인증서가 있습니다:"
 msgid "Your Certificates"
 msgstr "내 인증서"
 
-#: smime/lib/e-cert-db.c:494
+#: smime/lib/e-cert-db.c:566
 msgid "Certificate already exists"
 msgstr "인증서가 이미 있습니다"
 
@@ -15932,15 +16023,15 @@ msgstr "소유자 고유 ID"
 msgid "Certificate Signature Value"
 msgstr "인증서 서명 값"
 
-#: smime/lib/e-pkcs12.c:246
+#: smime/lib/e-pkcs12.c:261
 msgid "PKCS12 File Password"
-msgstr "PKCS12 파일 암호"
+msgstr "PKCS12 파일 열쇠글"
 
-#: smime/lib/e-pkcs12.c:246
+#: smime/lib/e-pkcs12.c:261
 msgid "Enter password for PKCS12 file:"
-msgstr "PKCS12 파일의 암호를 입력하십시오:"
+msgstr "PKCS12 파일의 열쇠글을 입력하십시오:"
 
-#: smime/lib/e-pkcs12.c:379
+#: smime/lib/e-pkcs12.c:359
 msgid "Imported Certificate"
 msgstr "가져온 인증서"
 
@@ -16073,7 +16164,7 @@ msgstr "현재 연락처를 봅니다"
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:105
 #: ui/evolution-mail-messagedisplay.xml.h:4 ui/evolution-task-editor.xml.h:9
-#: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:23
+#: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:23
 msgid "_Actions"
 msgstr "명령(_A)"
 
@@ -16400,11 +16491,11 @@ msgstr "휴지통 비우기(_T)"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Forget _Passwords"
-msgstr "기억한 암호 버리기"
+msgstr "기억한 열쇠글 버리기(_P)"
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget remembered passwords so you will be prompted for them again"
-msgstr "기억한 암호를 버리고 다음에 다시 물어보게 합니다"
+msgstr "기억한 열쇠글을 버리고 다음에 다시 물어보게 합니다"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Open a window for composing a mail message"
@@ -17235,6 +17326,14 @@ msgstr "인쇄할 작업 목록을 미리 봅니다"
 msgid "Print the list of tasks"
 msgstr "작업 목록 인쇄"
 
+#: ui/evolution-tasks.xml.h:16
+msgid "View the selected task"
+msgstr "선택한 작업을 봅니다"
+
+#: ui/evolution-tasks.xml.h:21
+msgid "_Open Task"
+msgstr "작업 열기(_O)"
+
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
 msgstr "Ximian Evolution 정보..."
@@ -17381,7 +17480,7 @@ msgstr "상태별로(_T)"
 
 #: views/mail/galview.xml.h:3
 msgid "By Se_nder"
-msgstr "보낸 사람별로(_N)"
+msgstr "보낸이별로(_N)"
 
 #: views/mail/galview.xml.h:4
 msgid "By Su_bject"
