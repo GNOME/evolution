@@ -1,3 +1,7 @@
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add some more addressbook paths.
+
 2002-11-08  Not Zed  <NotZed@Ximian.com>
 
 	* configure.in: Added composer/Makefile & gtkhtml-3.0 deps.

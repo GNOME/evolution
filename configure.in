@@ -1248,6 +1248,8 @@ addressbook/gui/widgets/Makefile
 addressbook/backend/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/backend/pas/Makefile
+addressbook/backend/idl/Makefile
+addressbook/printing/Makefile
 art/Makefile
 camel/Makefile
 camel/providers/Makefile
