@@ -55,9 +55,12 @@
 struct _CompEditorPrivate {
 	/* Client to use */
 	ECal *client;
-
+	
 	/* Source client (where comp lives currently) */
 	ECal *source_client;
+
+	/* View to listen for changes */
+	ECalView *view;
 
 	/* Calendar object/uid we are editing; this is an internal copy */
 	ECalComponent *comp;
@@ -105,8 +108,8 @@ static void page_summary_changed_cb (GtkObject *obj, const char *summary, gpoint
 static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, gpointer data);
 static void page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data);
 
-static void obj_updated_cb (ECal *client, const char *uid, gpointer data);
-static void obj_removed_cb (ECal *client, const char *uid, gpointer data);
+static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
+static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
 static void save_cmd (GtkWidget *widget, gpointer data);
 static void save_close_cmd (GtkWidget *widget, gpointer data);
@@ -267,15 +270,23 @@ comp_editor_finalize (GObject *object)
 	priv = editor->priv;
 
 	if (priv->client) {
-		g_signal_handlers_disconnect_matched (priv->client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
 		g_object_unref (priv->client);
 		priv->client = NULL;
 	}
 	
 	if (priv->source_client) {
-		g_signal_handlers_disconnect_matched (priv->source_client, G_SIGNAL_MATCH_DATA, 0, 0, NULL, NULL, editor);
 		g_object_unref (priv->source_client);
 		priv->source_client = NULL;
+	}
+
+	if (priv->view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      editor);
+
+		g_object_unref (priv->view);
+		priv->view = NULL;
 	}
 
 	/* We want to destroy the pages after the widgets get destroyed,
@@ -296,6 +307,49 @@ comp_editor_finalize (GObject *object)
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
 		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+}
+
+static void
+listen_for_changes (CompEditor *editor)
+{
+	CompEditorPrivate *priv;
+	const char *uid = NULL;
+
+	priv = editor->priv;
+
+	/* Discard change listener */
+	if (priv->view) {
+		g_signal_handlers_disconnect_matched (G_OBJECT (priv->view),
+						      G_SIGNAL_MATCH_DATA,
+						      0, 0, NULL, NULL,
+						      editor);
+				
+		g_object_unref (priv->view);
+		priv->view = NULL;
+	}
+	
+	/* Listen for changes */
+	if (priv->comp)
+		e_cal_component_get_uid (priv->comp, &uid);
+
+	if (uid) {
+		char *query;
+		
+		query = g_strdup_printf ("(uid? \"%s\")", uid);
+		g_message ("%s", query);		
+		e_cal_get_query (priv->source_client, query, &priv->view, NULL);
+		g_free (query);
+	}
+	
+	if (priv->view) {
+		g_signal_connect (priv->view, "objects_modified",
+				  G_CALLBACK (obj_modified_cb), editor);
+
+		g_signal_connect((priv->view), "objects_removed",
+				 G_CALLBACK (obj_removed_cb), editor);
+
+		e_cal_view_start (priv->view);
+	}
 }
 
 static gboolean
@@ -365,12 +419,10 @@ save_comp (CompEditor *editor)
 
 			/* Let priv->source_client point to new home, so we can move it
 			 * again this session. */
-			g_signal_handlers_disconnect_matched (priv->source_client, G_SIGNAL_MATCH_DATA,
-							      0, 0, NULL, NULL, editor);
 			g_object_unref (priv->source_client);
-
-			priv->source_client = priv->client;
-			g_object_ref (priv->source_client);
+			priv->source_client = g_object_ref (priv->client);
+			
+			listen_for_changes (editor);
 		}
 
 		priv->changed = FALSE;
@@ -969,30 +1021,16 @@ real_set_e_cal (CompEditor *editor, ECal *client)
 		g_object_ref (client);
 	}
 
-	if (priv->client) {
-		g_signal_handlers_disconnect_matched (G_OBJECT (priv->client),
-						      G_SIGNAL_MATCH_DATA,
-						      0, 0, NULL, NULL,
-						      editor);
+	if (priv->client)
 		g_object_unref (priv->client);
-	}
 
 	priv->client = client;
-
-	if (!priv->source_client) {
-		priv->source_client = client;
-		g_object_ref (client);
-	}
+	if (!priv->source_client)
+		priv->source_client = g_object_ref (client);
 
 	/* Pass the client to any pages that need it. */
 	for (elem = priv->pages; elem; elem = elem->next)
 		comp_editor_page_set_e_cal (elem->data, client);
-
-	g_signal_connect((priv->client), "obj_updated",
-			    G_CALLBACK (obj_updated_cb), editor);
-
-	g_signal_connect((priv->client), "obj_removed",
-			    G_CALLBACK (obj_removed_cb), editor);
 }
 
 static void
@@ -1020,6 +1058,8 @@ real_edit_comp (CompEditor *editor, ECalComponent *comp)
 	set_title_from_comp (editor);
 	set_icon_from_comp (editor);
 	fill_widgets (editor);
+
+	listen_for_changes (editor);
 }
 
 
@@ -1481,59 +1521,49 @@ page_client_changed_cb (GtkObject *obj, ECal *client, gpointer data)
 }
 
 static void
-obj_updated_cb (ECal *client, const char *uid, gpointer data)
+obj_modified_cb (ECal *client, GList *objects, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
 	ECalComponent *comp = NULL;
-	const char *edit_uid;
 
 	priv = editor->priv;
 
-	e_cal_component_get_uid (priv->comp, &edit_uid);
+	/* We queried based on a specific UID so we definitely changed */
+	if (priv->updating)
+		return;
 
-	if (!strcmp (uid, edit_uid) && !priv->updating) {
-		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
-			icalcomponent *icalcomp;
+	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, FALSE, priv->changed)) {
+		icalcomponent *icalcomp = icalcomponent_new_clone (objects->data);
 
-			if (!e_cal_get_object (priv->client, uid, NULL, &icalcomp, NULL)) {
-				comp = e_cal_component_new ();
-				if (e_cal_component_set_icalcomponent (comp, icalcomp))
-					comp_editor_edit_comp (editor, comp);
-				else {
-					GtkWidget *dlg;
-
-					dlg = gnome_error_dialog (_("Unable to obtain current version!"));
-					gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-					icalcomponent_free (icalcomp);
-				}
-
-				g_object_unref (comp);
-			} else {
-				GtkWidget *dlg;
-
-				dlg = gnome_error_dialog (_("Unable to obtain current version!"));
-				gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
-			}
+		comp = e_cal_component_new ();
+		if (e_cal_component_set_icalcomponent (comp, icalcomp)) {
+			comp_editor_edit_comp (editor, comp);
+		} else {
+			GtkWidget *dlg;
+			
+			dlg = gnome_error_dialog (_("Unable to use current version!"));
+			gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+			icalcomponent_free (icalcomp);
 		}
+
+		g_object_unref (comp);
 	}
 }
 
 static void
-obj_removed_cb (ECal *client, const char *uid, gpointer data)
+obj_removed_cb (ECal *client, GList *uids, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	const char *edit_uid;
 
 	priv = editor->priv;
 
-	e_cal_component_get_uid (priv->comp, &edit_uid);
+	if (priv->updating)
+		return;
 
-	if (!strcmp (uid, edit_uid) && !priv->updating) {
-		if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
-			close_dialog (editor);
-	}
+	if (changed_component_dialog ((GtkWindow *) editor, priv->comp, TRUE, priv->changed))
+		close_dialog (editor);
 }
 
 static gint

@@ -1,5 +1,18 @@
 2004-01-06  JP Rosevear <jpr@ximian.com>
 
+	* gui/dialogs/comp-editor.c (comp_editor_finalize): we don't put
+	any signal handlers on the client or source client now, but we do
+	on the view
+	(real_set_e_cal): no signal handlers on the client
+	(obj_modified_cb): we are guaranteed this is a signal for our
+	component
+	(obj_removed_cb): ditto
+	(listen_for_changes): listen for changes on the object
+	(save_comp): use above since the source_client changed
+	(real_edit_comp): use above since the comp changed
+
+2004-01-06  JP Rosevear <jpr@ximian.com>
+
 	* gui/e-select-names-renderer.c (esnr_activated): if we are
 	de-activated, the editing is done
 	(esnr_start_editing): listen for activated signal on the control
