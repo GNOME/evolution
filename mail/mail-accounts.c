@@ -131,7 +131,11 @@ account_add_finished (GtkWidget *widget, gpointer user_data)
 	MailAccountsTab *prefs = user_data;
 	
 	prefs->druid = NULL;
-	mail_accounts_load (prefs);
+	
+	if (!GTK_OBJECT_DESTROYED (prefs))
+		mail_accounts_load (prefs);
+	
+	gtk_object_unref ((GtkObject *) prefs);
 }
 
 static void
@@ -145,6 +149,7 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 				    GTK_SIGNAL_FUNC (account_add_finished), prefs);
 		
 		gtk_widget_show (prefs->druid);
+		gtk_object_ref ((GtkObject *) prefs);
 	} else {
 		gdk_window_raise (prefs->druid->window);
 	}
@@ -156,7 +161,11 @@ account_edit_finished (GtkWidget *widget, gpointer user_data)
 	MailAccountsTab *prefs = user_data;
 	
 	prefs->editor = NULL;
-	mail_accounts_load (prefs);
+	
+	if (!GTK_OBJECT_DESTROYED (prefs))
+		mail_accounts_load (prefs);
+	
+	gtk_object_unref ((GtkObject *) prefs);
 }
 
 static void
@@ -187,6 +196,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 					    GTK_SIGNAL_FUNC (account_edit_finished),
 					    prefs);
 			gtk_widget_show (prefs->editor);
+			gtk_object_ref ((GtkObject *) prefs);
 		}
 	} else {
 		gdk_window_raise (prefs->editor->window);

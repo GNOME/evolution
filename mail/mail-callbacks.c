@@ -75,8 +75,8 @@
 
 struct post_send_data {
 	CamelFolder *folder;
-	gchar *uid;
 	guint32 flags, set;
+	char *uid;
 };
 
 static void

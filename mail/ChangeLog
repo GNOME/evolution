@@ -1,3 +1,12 @@
+2002-06-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #27055.
+
+	* mail-accounts.c (account_add_finished): Unref the main accounts widget.
+	(account_add_clicked): Ref the main accounts widget.
+	(account_edit_finished): Unref the main accounts widget.
+	(account_edit_clicked): Ref the main accounts widget.
+
 2002-06-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (storage_remove_folder): Recursively delete
