@@ -158,9 +158,9 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		break;
 	case CAMEL_MIME_FILTER_BASIC_BASE64_DEC:
 		/* output can't possibly exceed the input size */
-		camel_mime_filter_set_size(mf, len, FALSE);
+		camel_mime_filter_set_size(mf, len+3, FALSE);
 		newlen = base64_decode_step(in, len, mf->outbuf, &f->state, &f->save);
-		g_assert(newlen <= len);
+		g_assert(newlen <= len+3);
 		break;
 	case CAMEL_MIME_FILTER_BASIC_QP_DEC:
 		/* output can't possibly exceed the input size */
