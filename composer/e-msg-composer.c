@@ -2931,7 +2931,7 @@ drag_data_received (EMsgComposer *composer, GdkDragContext *context,
 		for (i=0;i<sizeof(drop_popup_menu)/sizeof(drop_popup_menu[0]);i++)
 			menus = g_slist_append(menus, &drop_popup_menu[i]);
 
-		e_popup_add_items((EPopup *)emp, menus, drop_popup_free, m);
+		e_popup_add_items((EPopup *)emp, menus, NULL, drop_popup_free, m);
 		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, time);
 	} else {

@@ -517,7 +517,7 @@ emcab_popup(EMsgComposerAttachmentBar *bar, GdkEventButton *event, int id)
 	 * This is the context menu on the composer attachment bar.
 	 */
 	emp = em_popup_new("org.gnome.evolution.mail.composer.attachmentbar.popup");
-	e_popup_add_items((EPopup *)emp, menus, emcab_popups_free, bar);
+	e_popup_add_items((EPopup *)emp, menus, NULL,emcab_popups_free, bar);
 	t = em_popup_target_new_attachments(emp, attachments);
 	t->target.widget = (GtkWidget *)bar;
 	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)t, 0);
