@@ -28,7 +28,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
-#include <glib.h>
+#include "camel-folder-summary.h"
 
 char *imap_next_word (const char *buf);
 
@@ -39,10 +39,16 @@ char *imap_next_word (const char *buf);
 gboolean imap_parse_list_response (const char *buf, int *flags, char *sep, char **folder);
 
 char *imap_create_flag_list (guint32 flags);
-guint32 imap_parse_flag_list (const char *flag_list);
+guint32 imap_parse_flag_list (char **flag_list);
 
-char *imap_parse_nstring (char **str_p, int *len);
-char *imap_parse_astring (char **str_p, int *len);
+enum { IMAP_STRING, IMAP_NSTRING, IMAP_ASTRING };
+char *imap_parse_string_generic (char **str_p, int *len, int type);
+#define imap_parse_string(str_p, len_p) \
+	imap_parse_string_generic (str_p, len_p, IMAP_STRING)
+#define imap_parse_nstring(str_p, len_p) \
+	imap_parse_string_generic (str_p, len_p, IMAP_NSTRING)
+#define imap_parse_astring(str_p, len_p) \
+	imap_parse_string_generic (str_p, len_p, IMAP_ASTRING)
 
 char *imap_quote_string (const char *str);
 

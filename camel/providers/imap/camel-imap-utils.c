@@ -155,15 +155,18 @@ imap_create_flag_list (guint32 flags)
 }
 
 guint32
-imap_parse_flag_list (const char *flag_list)
+imap_parse_flag_list (char **flag_list_p)
 {
+	char *flag_list = *flag_list_p;
 	guint32 flags = 0;
 	int len;
 	
-	if (*flag_list++ != '(')
+	if (*flag_list++ != '(') {
+		*flag_list_p = NULL;
 		return 0;
+	}
 	
-	while (*flag_list != ')') {
+	while (*flag_list && *flag_list != ')') {
 		len = strcspn (flag_list, " )");
 		if (!g_strncasecmp (flag_list, "\\Answered", len))
 			flags |= CAMEL_MESSAGE_ANSWERED;
@@ -180,20 +183,40 @@ imap_parse_flag_list (const char *flag_list)
 		if (*flag_list == ' ')
 			flag_list++;
 	}
-	
+
+	if (*flag_list++ != ')') {
+		*flag_list_p = NULL;
+		return 0;
+	}
+
+	*flag_list_p = flag_list;
 	return flags;
 }
 
+static char imap_atom_specials[128] = {
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+};
+#define imap_is_atom_char(ch) (isascii (ch) && !imap_atom_specials[ch])
+
 /**
- * imap_parse_nstring:
+ * imap_parse_string_generic:
  * @str_p: a pointer to a string
  * @len: a pointer to an int to return the length in
+ * @type: type of string (#IMAP_STRING, #IMAP_ASTRING, or #IMAP_NSTRING)
+ * to parse.
  *
- * This parses an "nstring" (NIL, a quoted string, or a literal)
- * starting at *@str_p. On success, *@str_p will point to the first
- * character after the end of the nstring, and *@len will contain
- * the length of the returned string. On failure, *@str_p will be
- * set to %NULL.
+ * This parses an IMAP "string" (quoted string or literal), "nstring"
+ * (NIL or string), or "astring" (atom or string) starting at *@str_p.
+ * On success, *@str_p will point to the first character after the end
+ * of the string, and *@len will contain the length of the returned
+ * string. On failure, *@str_p will be set to %NULL.
  *
  * This assumes that the string is in the form returned by
  * camel_imap_command(): that line breaks are indicated by LF rather
@@ -204,7 +227,7 @@ imap_parse_flag_list (const char *flag_list)
  * latter, it will point to the character after the NIL.)
  **/
 char *
-imap_parse_nstring (char **str_p, int *len)
+imap_parse_string_generic (char **str_p, int *len, int type)
 {
 	char *str = *str_p;
 	char *out;
@@ -248,51 +271,23 @@ imap_parse_nstring (char **str_p, int *len)
 		out = g_strndup (str, *len);
 		*str_p = str + *len;
 		return out;
-	} else if (!g_strncasecmp (str, "nil", 3)) {
+	} else if (type == IMAP_NSTRING && !g_strncasecmp (str, "nil", 3)) {
 		*str_p += 3;
 		*len = 0;
 		return NULL;
+	} else if (type == IMAP_ASTRING &&
+		   imap_is_atom_char ((unsigned char)*str)) {
+		while (imap_is_atom_char ((unsigned char)*str))
+			str++;
+
+		*len = str - *str_p;
+		str = g_strndup (*str_p, *len);
+		*str_p += *len;
+		return str;
 	} else {
 		*str_p = NULL;
 		return NULL;
 	}
-}
-
-/**
- * imap_parse_astring:
- * @str_p: a pointer to a string
- * @len: a pointer to an int to return the length in
- *
- * This parses an "astring" (an atom, a quoted string, or a literal)
- * starting at *@str_p. On success, *@str_p will point to the first
- * character after the end of the astring, and *@len will contain
- * the length of the returned string. On failure, *@str_p will be
- * set to %NULL.
- *
- * This assumes that the string is in the form returned by
- * camel_imap_command(): that line breaks are indicated by LF rather
- * than CRLF.
- *
- * Return value: the parsed string, or %NULL if no string
- * was parsed. (In this case, *@str_p will also be %NULL.)
- **/
-char *
-imap_parse_astring (char **str_p, int *len)
-{
-	char *p;
-
-	if (**str_p == '{' || **str_p == '"')
-		return imap_parse_nstring (str_p, len);
-
-	p = *str_p;
-	while (isascii ((unsigned char)*p) &&
-	       !strchr ("(){ \"\\%*", *p))
-		p++;
-
-	*len = p - *str_p;
-	p = g_strndup (*str_p, *len);
-	*str_p += *len;
-	return p;
 }
 
 /**

@@ -1,5 +1,41 @@
 2001-01-02  Dan Winship  <danw@helixcode.com>
 
+	IMAP randomness.
+
+	* providers/imap/camel-imap-stream.[ch]: Remove. To be replaced.
+
+	* providers/imap/Makefile.am (libcamelimapinclude_HEADERS): Remove
+	camel-imap-stream.h
+
+	* providers/imap/camel-imap-utils.c (imap_parse_flag_list): Take a
+	char ** instead of char *, to return the position at the end of
+	parsing like the string parsing functions.
+	(imap_parse_string_generic): New function to parse a string,
+	nstring, or astring.
+	(imap_parse_nstring, imap_parse_astring): Now macros
+	(imap_parse_string): Added
+
+	* providers/imap/camel-imap-folder.h: Remove the "exists" field
+	from CamelImapFolder.
+
+	* providers/imap/camel-imap-folder.c: Remove unused include of
+	camel-imap-stream.h.
+	(camel_imap_folder_init): Remove no-longer-relevant summary
+	initialization.
+	(camel_imap_folder_new): Update for imap_parse_flag_list change,
+	exists removal, and imap_rescan.
+	(imap_rescan): New function that does most of the work of the old
+	imap_refresh_info, but taking "exists" as an argument instead of
+	getting it from the folder. Also calls camel_imap_folder_changed
+	to do the summary updating and signalling, rather than duplicating
+	that code.
+	(imap_refresh_info): Just call imap_rescan (using the size of the
+	folder summary as "exists").
+	(imap_update_summary): Update for imap_parse_flag_list change
+	(camel_imap_folder_changed): Update for "exists" change.
+
+2001-01-02  Dan Winship  <danw@helixcode.com>
+
 	* camel-mime-utils.c (header_content_type_simple): New function to
 	return just foo/bar with no parameters.
 
