@@ -31,6 +31,7 @@
 #include <gal/e-table/e-table-without.h>
 #include <gal/e-table/e-table-subset-variable.h>
 #include <gal/e-table/e-table.h>
+#include <gtk/gtkwindow.h>
 
 G_BEGIN_DECLS
 
@@ -100,11 +101,13 @@ typedef struct {
 GType         e_table_config_get_type  (void);
 ETableConfig *e_table_config_new       (const char          *header,
 					ETableSpecification *spec,
-					ETableState         *state);
+					ETableState         *state,
+					GtkWindow           *parent_window);
 ETableConfig *e_table_config_construct (ETableConfig        *etco,
 					const char          *header,
 					ETableSpecification *spec,
-					ETableState         *state);
+					ETableState         *state,
+					GtkWindow           *parent_window);
 void          e_table_config_raise     (ETableConfig        *config);
 
 G_END_DECLS

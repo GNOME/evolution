@@ -36,7 +36,6 @@
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
-#include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-propertybox.h>
 #include <glade/glade.h>
@@ -54,6 +53,11 @@ static GObjectClass *config_parent_class;
 enum {
 	CHANGED,
 	LAST_SIGNAL
+};
+
+enum {
+	PROP_0,
+	PROP_STATE,
 };
 
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
@@ -98,6 +102,33 @@ e_table_config_changed (ETableConfig *config, ETableState *state)
 }
 
 static void
+config_dialog_changed (ETableConfig *config)
+{
+	/* enable the apply/ok buttons */
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
+					   GTK_RESPONSE_APPLY, TRUE);
+	gtk_dialog_set_response_sensitive (GTK_DIALOG (config->dialog_toplevel),
+					   GTK_RESPONSE_OK, TRUE);
+}
+
+static void
+config_get_property (GObject *object,
+		     guint prop_id,
+		     GValue *value,
+		     GParamSpec *pspec)
+{
+	ETableConfig *config = E_TABLE_CONFIG (object);
+
+	switch (prop_id) {
+	case PROP_STATE:
+		g_value_set_object (value, config->state);
+		break;
+	default:
+		break;
+	}
+}
+
+static void
 config_class_init (GObjectClass *object_class)
 {
 	ETableConfigClass *klass = E_TABLE_CONFIG_CLASS(object_class);
@@ -107,6 +138,7 @@ config_class_init (GObjectClass *object_class)
 	klass->changed        = NULL;
 
 	object_class->finalize = config_finalize;
+	object_class->get_property = config_get_property;
 
 	e_table_config_signals [CHANGED] =
 		g_signal_new ("changed",
@@ -116,6 +148,13 @@ config_class_init (GObjectClass *object_class)
 			      (GSignalAccumulator) NULL, NULL,
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+
+	g_object_class_install_property (object_class, PROP_STATE,
+					 g_param_spec_object ("state",
+							      _("State"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TABLE_STATE_TYPE,
+							      G_PARAM_READABLE));
 
 	glade_gnome_init ();
 }
@@ -386,6 +425,8 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 	else
 		dialog = GTK_DIALOG (config->dialog_group_by);
 	
+	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (config->dialog_toplevel));
+
 	do {
 		response = gtk_dialog_run (dialog);
 		switch (response){
@@ -405,8 +446,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 			config->state = config->temp_state;
 			config->temp_state = 0;
 			running = 0;
-			gnome_property_box_changed (
-				GNOME_PROPERTY_BOX (config->dialog_toplevel));
+			config_dialog_changed (config);
 			break;
 
 		case GTK_RESPONSE_CANCEL:
@@ -434,6 +474,9 @@ do_fields_config_dialog (ETableConfig *config)
 
 	setup_fields (config);
 
+	gtk_window_set_transient_for (GTK_WINDOW (config->dialog_show_fields),
+				      GTK_WINDOW (config->dialog_toplevel));
+
 	do {
 		response = gtk_dialog_run (GTK_DIALOG(config->dialog_show_fields));
 		switch (response){
@@ -442,8 +485,7 @@ do_fields_config_dialog (ETableConfig *config)
 			config->state = config->temp_state;
 			config->temp_state = 0;
 			running = 0;
-			gnome_property_box_changed (
-				GNOME_PROPERTY_BOX (config->dialog_toplevel));
+			config_dialog_changed (config);
 			break;
 
 			/* CANCEL */
@@ -543,13 +585,18 @@ dialog_destroyed (gpointer data, GObject *where_object_was)
 }
 
 static void
-dialog_apply (GnomePropertyBox *pbox, gint page_num, ETableConfig *config)
+dialog_response (GtkWidget *dialog, int response_id, ETableConfig *config)
 {
-	if (page_num != -1)
-		return;
+	if (response_id == GTK_RESPONSE_APPLY
+	    || response_id == GTK_RESPONSE_OK) {
+		e_table_config_changed (config, config->state);
+	}
 
-	e_table_config_changed (config, config->state);
-}
+	if (response_id == GTK_RESPONSE_CANCEL
+	    || response_id == GTK_RESPONSE_OK) {
+		gtk_widget_destroy (dialog);
+	}
+}	
 
 /*
  * Invoked by the Glade auto-connect code
@@ -1007,13 +1054,6 @@ setup_gui (ETableConfig *config)
 	if (config->header)
 		gtk_window_set_title (GTK_WINDOW (config->dialog_toplevel), config->header);
 
-	gtk_widget_hide (GNOME_PROPERTY_BOX(config->dialog_toplevel)->help_button);
-
-	gtk_notebook_set_show_tabs (
-		GTK_NOTEBOOK (GNOME_PROPERTY_BOX (
-			config->dialog_toplevel)->notebook),
-		FALSE);
-	
 	config->dialog_show_fields = glade_xml_get_widget (
 		gui, "dialog-show-fields");
 	config->dialog_group_by =  glade_xml_get_widget (
@@ -1039,9 +1079,8 @@ setup_gui (ETableConfig *config)
 	g_object_weak_ref (G_OBJECT (config->dialog_toplevel),
 			   dialog_destroyed, config);
 
-	g_signal_connect (
-		G_OBJECT (config->dialog_toplevel), "apply",
-		G_CALLBACK (dialog_apply), config);
+	g_signal_connect (config->dialog_toplevel, "response",
+			  G_CALLBACK (dialog_response), config);
 
 	g_object_unref (gui);
 }
@@ -1056,7 +1095,8 @@ ETableConfig *
 e_table_config_construct (ETableConfig        *config,
 			  const char          *header,
 			  ETableSpecification *spec,
-			  ETableState         *state)
+			  ETableState         *state,
+			  GtkWindow           *parent_window)
 {
 	ETableColumnSpecification **column;
 
@@ -1088,6 +1128,10 @@ e_table_config_construct (ETableConfig        *config,
 
 	setup_gui (config);
 
+	if (parent_window)
+		gtk_window_set_transient_for (GTK_WINDOW (config->dialog_toplevel),
+					      parent_window);
+
 	config_sort_info_update   (config);
 	config_group_info_update  (config);
 	config_fields_info_update (config);
@@ -1108,11 +1152,12 @@ e_table_config_construct (ETableConfig        *config,
 ETableConfig *
 e_table_config_new (const char          *header,
 		    ETableSpecification *spec,
-		    ETableState         *state)
+		    ETableState         *state,
+		    GtkWindow           *parent_window)
 {
 	ETableConfig *config = g_object_new (E_TABLE_CONFIG_TYPE, NULL);
 
-	if (e_table_config_construct (config, header, spec, state) == NULL){
+	if (e_table_config_construct (config, header, spec, state, parent_window) == NULL){
 		g_object_unref (config);
 		return NULL;
 	}
