@@ -87,8 +87,11 @@ struct _EContactEditor
 	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 
-	/* Whether the contact editor will accept modifications */
-	guint editable : 1;
+	/* Whether the contact editor will accept delete */
+	guint source_editable : 1;
+
+	/* Whether the contact editor will accept modifications, save */
+	guint target_editable : 1;
 
 	/* Whether the fullname will accept modifications */
 	guint fullname_editable : 1;

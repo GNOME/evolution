@@ -765,7 +765,7 @@ set_entry_changed_signal_email(EContactEditor *editor, char *id)
 static void
 widget_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	if (!editor->editable) {
+	if (!editor->target_editable) {
 		g_warning ("non-editable contact editor has an editable field in it.");
 		return;
 	}
@@ -1048,8 +1048,8 @@ contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseSt
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
-	if (ce->source_book != ce->target_book && status == E_BOOK_ERROR_OK &&
-	    ce->is_new_contact == FALSE) {
+	if (ce->source_book != ce->target_book && ce->source_editable &&
+	    status == E_BOOK_ERROR_OK && ce->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
 		e_book_async_remove_contact (ce->source_book, ce->contact,
 					     (EBookCallback) contact_moved_cb, ecs);
@@ -1474,7 +1474,8 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->contact = NULL;
 	e_contact_editor->changed = FALSE;
 	e_contact_editor->in_async_call = FALSE;
-	e_contact_editor->editable = TRUE;
+	e_contact_editor->source_editable = TRUE;
+	e_contact_editor->target_editable = TRUE;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL, NULL);
 	e_contact_editor->gui = gui;
@@ -1651,15 +1652,15 @@ command_state_changed (EContactEditor *ce)
 	bonobo_ui_component_set_prop (ce->uic,
 				      "/commands/ContactEditorSaveClose",
 				      "sensitive",
-				      ce->changed ? "1" : "0", NULL);
+				      (ce->target_editable && ce->changed) ? "1" : "0", NULL);
 	bonobo_ui_component_set_prop (ce->uic,
 				      "/commands/ContactEditorSave",
 				      "sensitive",
-				      ce->changed ? "1" : "0", NULL);
+				      (ce->target_editable && ce->changed) ? "1" : "0", NULL);
 	bonobo_ui_component_set_prop (ce->uic,
 				      "/commands/ContactEditorDelete",
 				      "sensitive",
-				      (ce->editable && !ce->is_new_contact) ? "1" : "0", NULL);
+				      (ce->source_editable && !ce->is_new_contact) ? "1" : "0", NULL);
 }
 
 static void
@@ -1729,7 +1730,10 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	editor = E_CONTACT_EDITOR (object);
 	
 	switch (prop_id){
-	case PROP_SOURCE_BOOK:
+	case PROP_SOURCE_BOOK: {
+		gboolean writable;
+		gboolean changed = FALSE;
+
 		if (editor->source_book)
 			g_object_unref(editor->source_book);
 		editor->source_book = E_BOOK (g_value_get_object (value));
@@ -1738,11 +1742,36 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 		if (!editor->target_book) {
 			editor->target_book = editor->source_book;
 			g_object_ref (editor->target_book);
+
+			e_book_async_get_supported_fields (editor->target_book,
+							   (EBookFieldsCallback) supported_fields_cb, editor);
+		}
+
+		writable = e_book_is_writable (editor->source_book);
+		if (writable != editor->source_editable) {
+			editor->source_editable = writable;
+			changed = TRUE;
+		}
+
+		writable = e_book_is_writable (editor->target_book);
+		if (writable != editor->target_editable) {
+			editor->target_editable = writable;
+			changed = TRUE;
+		}
+
+		if (changed) {
+			set_editable (editor);
+			command_state_changed (editor);
 		}
 
 		/* XXX more here about editable/etc. */
 		break;
-	case PROP_TARGET_BOOK:
+	}
+
+	case PROP_TARGET_BOOK: {
+		gboolean writable;
+		gboolean changed = FALSE;
+
 		if (editor->target_book)
 			g_object_unref(editor->target_book);
 		editor->target_book = E_BOOK (g_value_get_object (value));
@@ -1753,11 +1782,23 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 		if (!editor->changed && !editor->is_new_contact) {
 			editor->changed = TRUE;
-			command_state_changed (editor);
+			changed = TRUE;
 		}
+
+		writable = e_book_is_writable (editor->target_book);
+		if (writable != editor->target_editable) {
+			editor->target_editable = writable;
+			set_editable (editor);
+			changed = TRUE;
+		}
+
+		if (changed)
+			command_state_changed (editor);
 
 		/* XXX more here about editable/etc. */
 		break;
+	}
+
 	case PROP_CONTACT:
 		if (editor->contact)
 			g_object_unref(editor->contact);
@@ -1772,9 +1813,9 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 
 	case PROP_EDITABLE: {
 		gboolean new_value = g_value_get_boolean (value) ? TRUE : FALSE;
-		gboolean changed = (editor->editable != new_value);
+		gboolean changed = (editor->target_editable != new_value);
 
-		editor->editable = new_value;
+		editor->target_editable = new_value;
 
 		if (changed) {
 			set_editable (editor);
@@ -1835,7 +1876,7 @@ e_contact_editor_get_property (GObject *object, guint prop_id, GValue *value, GP
 		break;
 
 	case PROP_EDITABLE:
-		g_value_set_boolean (value, e_contact_editor->editable ? TRUE : FALSE);
+		g_value_set_boolean (value, e_contact_editor->target_editable ? TRUE : FALSE);
 		break;
 
 	case PROP_CHANGED:
@@ -2043,7 +2084,7 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		editor->phone_choice[which - 1] = phones[result];
 		set_fields (editor);
 		enable_widget (glade_xml_get_widget (editor->gui, label), TRUE);
-		enable_widget (w, editor->editable);
+		enable_widget (w, editor->target_editable);
 	}
 
 	g_free(label);
@@ -2077,8 +2118,8 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 
 		/* make sure the buttons/entry is/are sensitive */
 		enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-		enable_widget (entry, editor->editable);
-		enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
+		enable_widget (entry, editor->target_editable);
+		enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->target_editable);
 	}
 }
 
@@ -2496,13 +2537,13 @@ enable_writable_fields(EContactEditor *editor)
                    enabled. */
 		if (!strcmp (field, e_contact_field_name (editor->email_choice))) {
 			enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-			enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
-			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), editor->target_editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->target_editable);
 		}
 		else if (!strcmp (field, e_contact_field_name (editor->address_choice))) {
 			enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), editor->editable);
-			enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-mailingaddress"), editor->target_editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->target_editable);
 		}
 		else for (i = 0; i < 4; i ++) {
 			if (!strcmp (field, e_contact_field_name (editor->phone_choice[i]))) {
@@ -2510,7 +2551,7 @@ enable_writable_fields(EContactEditor *editor)
 				enable_widget (glade_xml_get_widget (editor->gui, widget_name), TRUE);
 				g_free (widget_name);
 				widget_name = g_strdup_printf ("entry-phone%d", i+1);
-				enable_widget (glade_xml_get_widget (editor->gui, widget_name), editor->editable);
+				enable_widget (glade_xml_get_widget (editor->gui, widget_name), editor->target_editable);
 				g_free (widget_name);
 			}
 		}
@@ -2533,7 +2574,7 @@ enable_writable_fields(EContactEditor *editor)
 
 		enabled = (g_hash_table_lookup (supported_hash, field) != NULL);
 
-		if (widget_field_mappings[i].desensitize_for_read_only && !editor->editable) {
+		if (widget_field_mappings[i].desensitize_for_read_only && !editor->target_editable) {
 			enabled = FALSE;
 		}
 
@@ -2555,7 +2596,7 @@ set_editable (EContactEditor *editor)
 	for (i = 0; i < num_widget_field_mappings; i ++) {
 		if (widget_field_mappings[i].desensitize_for_read_only) {
 			GtkWidget *widget = glade_xml_get_widget(editor->gui, widget_field_mappings[i].widget_name);
-			enable_widget (widget, editor->editable);
+			enable_widget (widget, editor->target_editable);
 		}
 	}
 
@@ -2564,7 +2605,7 @@ set_editable (EContactEditor *editor)
 		entry = g_strdup_printf ("entry-phone%d", i+1);
 
 		enable_widget (glade_xml_get_widget(editor->gui, entry),
-			       editor->editable);
+			       editor->target_editable);
 
 		g_free (entry);
 	}
@@ -2572,14 +2613,14 @@ set_editable (EContactEditor *editor)
 	/* handle the email dropdown entry */
 	entry = "entry-email1";
 	enable_widget (glade_xml_get_widget(editor->gui, entry),
-		       editor->editable);
+		       editor->target_editable);
 	enable_widget (glade_xml_get_widget(editor->gui, "checkbutton-htmlmail"),
-		       editor->editable);
+		       editor->target_editable);
 
 	/* handle the address dropdown entry */
 	entry = "text-address";
 	enable_widget (glade_xml_get_widget(editor->gui, entry),
-		       editor->editable);
+		       editor->target_editable);
 }
 
 static void

@@ -1,3 +1,22 @@
+2003-12-18  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (widget_changed):
+	editable -> target_editable
+	(e_contact_editor_get_property): Same.
+	(_email_arrow_pressed): Same.
+	(enable_writable_fields): Same.
+	(set_editable): Same.
+	(contact_added_cb): Make sure source book is editable before trying
+	to remove contact from there.
+	(e_contact_editor_init): Set up source/target editability.
+	(command_state_changed): Allow save only if target editable. Allow
+	delete only if source editable.
+	(e_contact_editor_set_property): Set editability flags for
+	source/target.
+
+	* gui/contact-editor/e-contact-editor.h: Add source_editable,
+	target_editable flags in place of old editable flag.
+
 2003-12-17  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (eab_view_class_init): install
