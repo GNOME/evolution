@@ -33,7 +33,6 @@
 #include <gtk/gtkoptionmenu.h>
 #include <gtk/gtktooltips.h>
 #include <libgnomeui/gnome-uidefs.h>
-/*#include <liboaf/liboaf.h>*/
 
 #include "Composer.h"
 
@@ -665,12 +664,14 @@ init (EMsgComposerHdrs *hdrs)
 	priv = g_new0 (EMsgComposerHdrsPrivate, 1);
 	
 	priv->tooltips = gtk_tooltips_new ();
-	
+	g_object_ref(priv->tooltips);
+	gtk_object_sink((GtkObject *)priv->tooltips);
+
 	hdrs->priv = priv;
 }
 
 
-GtkType
+GType
 e_msg_composer_hdrs_get_type (void)
 {
 	static GType type = 0;
@@ -938,7 +939,7 @@ e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (to_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", str, NULL); 
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, str, NULL); 
 	g_free (str);
 }
 
@@ -951,7 +952,7 @@ e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (cc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", str, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, str, NULL);
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->cc, TRUE);
 	g_free (str);
@@ -966,7 +967,7 @@ e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (bcc_destv);
-	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", str, NULL); 
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, str, NULL); 
 	if (str && *str)
 		set_pair_visibility (hdrs, &hdrs->priv->bcc, TRUE);
 	g_free (str);
@@ -1045,7 +1046,7 @@ e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", &str, NULL); 
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
 		destv = e_destination_importv (str);
@@ -1063,7 +1064,7 @@ e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", &str, NULL); 
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
 		destv = e_destination_importv (str);
@@ -1081,7 +1082,7 @@ e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", &str, NULL); 
+	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", TC_CORBA_string, &str, NULL); 
 	
 	if (str != NULL) {
 		destv = e_destination_importv (str);

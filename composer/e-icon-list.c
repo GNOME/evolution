@@ -1981,8 +1981,11 @@ eil_init (Eil *eil)
 	eil->_priv->selection_mode = GTK_SELECTION_SINGLE;
 	eil->_priv->dirty = TRUE;
 
+#if 0
+	/* FIXME: This needs to be moved into a constructor because of gtklayout changes? */
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (eil), 0.0, 0.0, 1000000.0, 1000000.0);
 	gnome_canvas_scroll_to (GNOME_CANVAS (eil), 0, 0);
+#endif
 }
 
 /**

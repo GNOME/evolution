@@ -180,7 +180,6 @@ add_from_file (EMsgComposerAttachmentBar *bar,
 						"%s", camel_exception_get_description (&ex));
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 		camel_exception_clear (&ex);
 	}
 }

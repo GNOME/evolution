@@ -1,3 +1,27 @@
+2002-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment-bar.c (add_from_file): dont unref
+	after destroy. duh.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_set_to): Add type
+	code to set_property call.
+	(e_msg_composer_hdrs_set_cc): "
+	(e_msg_composer_hdrs_set_bcc): "
+	(e_msg_composer_hdrs_get_to): Do the same for get_property calls.
+	(init): ref/sink the tooltip object.
+	(e_msg_composer_hdrs_get_type): fix return type.
+
+	* e-msg-composer.c (GNOME_GTKHTML_EDITOR_CONTROL_ID): we want
+	version 3.0 not 1.1.
+	(create_composer): Add type code to set property call.
+	(autosave_manager_query_load_orphans): my bad, we dont unref
+	dialog's once we've destroyed 'em.
+	(build_message): "
+	(get_file_content): "
+	(save): "
+	(do_exit): "
+	(composer_dispose): moved the autosave shutdown here.
+
 2002-11-18  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c (create_composer): Remove check for

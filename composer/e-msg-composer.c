@@ -100,7 +100,7 @@
 #include "Editor.h"
 #include "listener.h"
 
-#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:1.1"
+#define GNOME_GTKHTML_EDITOR_CONTROL_ID "OAFIID:GNOME_GtkHTML_Editor:3.0"
 
 #define d(x) x
 
@@ -755,7 +755,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 						"%s", camel_exception_get_description (&ex));
 		gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 		camel_exception_clear (&ex);
 	}
 	
@@ -787,7 +786,6 @@ get_file_content (EMsgComposer *composer, const char *file_name, gboolean want_h
 							file_name, g_strerror (errno));
 			gtk_dialog_run(GTK_DIALOG(dialog));
 			gtk_widget_destroy(dialog);
-			g_object_unref(dialog);
 		}
 		return g_strdup ("");
 	}
@@ -1166,7 +1164,6 @@ save (EMsgComposer *composer, const char *file_name)
 						_("File exists, overwrite?"));
 		resp = gtk_dialog_run(GTK_DIALOG(dialog));
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 		if (resp != GTK_RESPONSE_YES) {
 			g_free(my_file_name);
 			return;
@@ -1380,7 +1377,6 @@ autosave_manager_query_load_orphans (AutosaveManager *am, EMsgComposer *composer
 						  "Would you like to try to recover them?"));
 		load = gtk_dialog_run(GTK_DIALOG(dialog)) == GTK_RESPONSE_YES;
 		gtk_widget_destroy(dialog);
-		g_object_unref(dialog);
 	}
 	
 	while (match != NULL) {
@@ -1546,7 +1542,6 @@ do_exit (EMsgComposer *composer)
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_YES);
 	button = gtk_dialog_run(GTK_DIALOG(dialog));
 	gtk_widget_destroy(dialog);
-	g_object_unref(dialog);
 
 	switch(button) {
 	case GTK_RESPONSE_YES:
@@ -2309,7 +2304,7 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 }
 
 
-/* GtkObject methods.  */
+/* GObject methods.  */
 
 static void
 composer_finalise (GObject *object)
@@ -2340,17 +2335,22 @@ composer_finalise (GObject *object)
 	g_free (composer->mime_body);
 
 	if (composer->redirect)
-		camel_object_unref (CAMEL_OBJECT (composer->redirect));
-		
+		camel_object_unref (composer->redirect);
+}
+
+static void
+composer_dispose(GObject *object)
+{
 	/* When destroy() is called, the contents of the window
 	 * (including the remote editor control) will already have
 	 * been destroyed, so we have to do this here.
 	 */
 	autosave_manager_unregister (am, E_MSG_COMPOSER (object));
-	if (G_OBJECT_CLASS (parent_class)->finalize != NULL)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose != NULL)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
+/* GtkObject methods */
 static void
 destroy (GtkObject *object)
 {
@@ -2542,6 +2542,7 @@ class_init (EMsgComposerClass *klass)
 	widget_class = GTK_WIDGET_CLASS (klass);
 	
 	gobject_class->finalize = composer_finalise;
+	gobject_class->dispose = composer_dispose;
 	object_class->destroy = destroy;
 	widget_class->delete_event = delete_event;
 	
@@ -2843,7 +2844,7 @@ create_composer (int visible_mask)
 	
 	/* let the editor know which mode we are in */
 	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), 
-				    "FormatHTML", composer->send_html,
+				    "FormatHTML", TC_CORBA_boolean, composer->send_html,
 				    NULL);
 	
 	editor_server = bonobo_widget_get_objref (BONOBO_WIDGET (composer->editor));
@@ -4190,8 +4191,9 @@ e_msg_composer_set_send_html (EMsgComposer *composer,
 		"state", composer->send_html ? "1" : "0", NULL);
 	
 	/* let the editor know which mode we are in */
-	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor), "FormatHTML",
-				    composer->send_html, NULL);
+	bonobo_widget_set_property (BONOBO_WIDGET (composer->editor),
+				    "FormatHTML", TC_CORBA_boolean, composer->send_html,
+				    NULL);
 	
 	set_config (composer, "FormatHTML", composer->send_html);
 	GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "unblock-redraw", &ev);
