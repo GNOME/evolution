@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-27 03:29+0200\n"
-"PO-Revision-Date: 2003-08-29 16:44+0200\n"
+"POT-Creation-Date: 2003-08-30 11:35+0200\n"
+"PO-Revision-Date: 2003-08-30 19:57+0200\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@arrakis.es>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -3977,7 +3977,7 @@ msgstr ""
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Ninguno"
 
@@ -5606,7 +5606,7 @@ msgstr "Rechazado"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Desconocido"
 
@@ -6036,7 +6036,7 @@ msgstr "%a %d/%m/%Y"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%d/%m/%Y"
 
@@ -10959,13 +10959,13 @@ msgstr "%H:%M:%S"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -11854,7 +11854,7 @@ msgstr "Propiedades para «%s»"
 msgid "Properties"
 msgstr "Propiedades"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "No se pudo crear el directorio temporal: %s"
@@ -13110,70 +13110,70 @@ msgstr ""
 "El archivo «%s» ya existe.\n"
 "¿Quiere que lo sobreescriba?"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Guardar adjunto"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "No se pudo crear el archivo temporal: «%s»: %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Guardar adjunto..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "Ver incluido"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "Abrir en %s..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Ver incluido (vía %s)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Ocultar"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Visores externos"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Descargando imágenes"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "Cargando el contenido del mensaje"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "Retrasadas:"
 
-#: mail/mail-display.c:1875
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
 msgstr "por %B %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2243
 msgid "Open Link in Browser"
 msgstr "Abrir enlace en el Navegador"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Copy Link Location"
 msgstr "Copiar dirección del enlace"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2246
 msgid "Save Link as (FIXME)"
 msgstr "Guardar enlace como (ARRÉGLAME)"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2248
 msgid "Save Image as..."
 msgstr "Guardar imagen como..."
 
@@ -27067,7 +27067,7 @@ msgid "Reset the text to its original size"
 msgstr "Restablecer el texto a su tamaño original"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
+msgid "S_earch in Message..."
 msgstr "Bu_scar mensaje..."
 
 #: ui/evolution-mail-message.xml.h:78

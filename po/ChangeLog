@@ -1,6 +1,11 @@
+2003-09-01  Pablo Gonzalo del Campo  <pablodc@bigfoot.com>
+
+        * es.po: Revision of Spanish translation by
+                 Francisco Javier F. Serrador <serrador@arrakis.es>.
+
 2003-09-01  Jordi Mallach  <jordi@sindominio.net>
 
-	* ca.po: Updated Catalan translation by Enric Balletb� i Serra
+	* ca.po: Updated Catalan translation by Enric Balletbò i Serra
 	<enric.balletbo@campus.uab.es>.
 
 2003-08-31  Miloslav Trmac  <mitr@volny.cz>
@@ -43,7 +48,7 @@
 
 	* ja.po: Updated Japanese translation.
 
-2003-08-23  Danilo Šegan  <dsegan@gmx.net>
+2003-08-23  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -82,7 +87,7 @@
 
 	* no.po: Update Norwegian translation.
 
-2003-08-16  Danilo Šegan  <dsegan@gmx.net>
+2003-08-16  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -94,7 +99,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2003-08-13  Danilo Šegan  <dsegan@gmx.net>
+2003-08-13  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
@@ -199,7 +204,7 @@
 
 2003-07-29  Christian Neumair  <chris@gnome-de.org>
 
-	* de.po: Updated German translation. Thanks to Lawrence Häcker from SUN
+	* de.po: Updated German translation. Thanks to Lawrence HÃ€cker from SUN
 	<lhaecker@L10n.de> for his extensive review efforts.
 
 2003-07-31  Christian Rose  <menthos@menthos.com>
@@ -210,7 +215,7 @@
 
 	* pl.po: Updated Polish translation.
 
-2003-07-26  Danilo Šegan  <dsegan@gmx.net>
+2003-07-26  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian 
 	team (Prevod.org).
@@ -328,7 +333,7 @@
 
 	* el.po: Greek translation updated by Nikos Charonitakis <charosn@her.forthnet.gr>
 
-2003-06-22  Danilo Šegan  <dsegan@gmx.net>
+2003-06-22  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Updated Serbian translation by Serbian team
 	(Prevod.org).
@@ -353,7 +358,7 @@
 
 	* sv.po: Updated Swedish translation.
 
-2003-06-19  Danilo Šegan  <dsegan@gmx.net>
+2003-06-19  Danilo Å egan  <dsegan@gmx.net>
 
 	* sr.po, sr@Latn.po: Added Serbian translation by Serbian team
 	(Prevod.org).
