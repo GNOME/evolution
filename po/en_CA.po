@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-04-30 18:09-0400\n"
-"PO-Revision-Date: 2004-04-30 18:11-0400\n"
+"POT-Creation-Date: 2004-05-01 01:25-0400\n"
+"PO-Revision-Date: 2004-05-01 01:25-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -3542,41 +3542,34 @@ msgstr "Tasks"
 msgid "Evolution Calendar alarm notification service"
 msgstr "Evolution Calendar alarm notification service"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:212
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:213
 msgid "Starting:"
 msgstr "Starting:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:214
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:215
 msgid "Ending:"
 msgstr "Ending:"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:258
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:259
 msgid "Evolution Alarm"
 msgstr "Evolution Alarm"
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:353
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:358
 #, c-format
 msgid "Alarm on %s"
 msgstr "Alarm on %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
-#: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-signature-editor.xml.h:1
-msgid "C_lose"
-msgstr "C_lose"
+msgid "Snooze _time (minutes):"
+msgstr "Snooze _time (minutes):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
-msgid "Snoo_ze"
-msgstr "Snoo_ze"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-msgid "Snooze time (minutes)"
-msgstr "Snooze time (minutes)"
-
-#: calendar/gui/alarm-notify/alarm-notify.glade.h:4
 msgid "_Edit appointment"
 msgstr "_Edit appointment"
+
+#: calendar/gui/alarm-notify/alarm-notify.glade.h:3
+msgid "_Snooze"
+msgstr "_Snooze"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:873
 #: ui/evolution-message-composer.xml.h:10
@@ -17014,6 +17007,12 @@ msgstr "Work Week"
 #: ui/evolution-calendar.xml.h:42
 msgid "_Open Appointment"
 msgstr "_Open Appointment"
+
+#: ui/evolution-comp-editor.xml.h:1 ui/evolution-contact-editor.xml.h:1
+#: ui/evolution-contact-list-editor.xml.h:1
+#: ui/evolution-signature-editor.xml.h:1
+msgid "C_lose"
+msgstr "C_lose"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
