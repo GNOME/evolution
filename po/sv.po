@@ -41,7 +41,7 @@ msgstr "Klistra in objekt från urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:528
 msgid "Select recipients' addresses"
-msgstr ""
+msgstr "Välj mottagaradresser"
 
 #: composer/e-msg-composer-attachment-bar.c:73
 msgid "1 byte"
@@ -50,7 +50,7 @@ msgstr "1 byte"
 #: composer/e-msg-composer-attachment-bar.c:75
 #, c-format
 msgid "%u bytes"
-msgstr "%u bytes"
+msgstr "%u byte"
 
 #: composer/e-msg-composer-attachment-bar.c:82
 #, c-format
@@ -69,7 +69,7 @@ msgstr "%.1fG"
 
 #: composer/e-msg-composer-attachment-bar.c:304
 msgid "Add attachment"
-msgstr ""
+msgstr "Lägg till bilaga"
 
 #: composer/e-msg-composer-attachment-bar.c:361
 msgid "Remove"
@@ -81,19 +81,19 @@ msgstr ""
 
 #: composer/e-msg-composer-attachment-bar.c:393
 msgid "Add attachment..."
-msgstr ""
+msgstr "Lägg till bilaga..."
 
 #: composer/e-msg-composer-attachment-bar.c:394
 msgid "Attach a file to the message"
-msgstr ""
+msgstr "Bifoga en fil till meddelandet"
 
 #: composer/e-msg-composer-attachment.c:259
 msgid "Select attachment"
-msgstr ""
+msgstr "Välj bilaga"
 
 #: composer/e-msg-composer-hdrs.c:88
 msgid "Click here for the address book"
-msgstr "Klicka här för adressboken"
+msgstr "Klicka här för att ta fram adressboken"
 
 #: composer/e-msg-composer-hdrs.c:123
 msgid "To:"
@@ -101,7 +101,7 @@ msgstr "Till:"
 
 #: composer/e-msg-composer-hdrs.c:124
 msgid "Enter the recipients of the message"
-msgstr ""
+msgstr "Ange meddelandets mottagare"
 
 #: composer/e-msg-composer-hdrs.c:128
 msgid "Cc:"
@@ -109,7 +109,7 @@ msgstr "Cc:"
 
 #: composer/e-msg-composer-hdrs.c:129
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr ""
+msgstr "Ange adresserna som ska få en kopia av meddelandet"
 
 #: composer/e-msg-composer-hdrs.c:134
 msgid "Bcc:"
@@ -128,15 +128,15 @@ msgstr "Ämne:"
 
 #: composer/e-msg-composer-hdrs.c:142
 msgid "Enter the subject of the mail"
-msgstr ""
+msgstr "Ange brevets ämne"
 
 #: composer/e-msg-composer.c:307
 msgid "Save in _folder..."
-msgstr ""
+msgstr "Spara i _mapp..."
 
 #: composer/e-msg-composer.c:307
 msgid "Save the message in a specified folder"
-msgstr ""
+msgstr "Spara meddelandet i en viss mapp"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
 msgid "Send"
@@ -148,11 +148,11 @@ msgstr "Skicka meddelandet"
 
 #: composer/e-msg-composer.c:318
 msgid "View _attachments"
-msgstr ""
+msgstr "Visa _bilagor"
 
 #: composer/e-msg-composer.c:318
 msgid "View/hide attachments"
-msgstr ""
+msgstr "Visa/göm bilagor"
 
 #: composer/e-msg-composer.c:347
 msgid "Send this message"
@@ -180,11 +180,11 @@ msgstr "Ångra senaste ändringen"
 
 #: composer/e-msg-composer.c:354
 msgid "Attach"
-msgstr ""
+msgstr "Bifoga"
 
 #: composer/e-msg-composer.c:354
 msgid "Attach a file"
-msgstr ""
+msgstr "Bifoga en fil"
 
 #: e-util/e-setup.c:38
 #, c-format
@@ -219,7 +219,7 @@ msgstr ""
 
 #: mail/folder-browser.c:148
 msgid "Whether a message preview should be shown"
-msgstr ""
+msgstr "Huruvida meddelanden ska förhandsgranskas"
 
 #: mail/mail-component.c:30 mail/main.c:33
 msgid "Mail Component: I could not initialize Bonobo"
@@ -250,7 +250,7 @@ msgstr "Prioritet"
 
 #: mail/message-list.c:361
 msgid "Attachment"
-msgstr ""
+msgstr "Bilaga"
 
 #: mail/message-list.c:367
 msgid "From"
@@ -330,7 +330,7 @@ msgstr "Ta bort grupp"
 
 #: shell/e-shell-shortcut.c:104
 msgid "Rename Group"
-msgstr "Döp om grupp"
+msgstr "Byt namn på grupp"
 
 #: shell/e-shell-shortcut.c:106
 msgid "Add Shortcut"
@@ -374,15 +374,15 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:116 shell/e-shell-view-menu.c:119
 msgid "Composes a new mail message"
-msgstr ""
+msgstr "Skriv ett nytt brev"
 
 #: shell/e-shell-view-menu.c:118
 msgid "_Appointment"
-msgstr ""
+msgstr "_Möte"
 
 #: shell/e-shell-view-menu.c:121
 msgid "Meeting Re_quest"
-msgstr ""
+msgstr "Begäran om möte"
 
 #: shell/e-shell-view-menu.c:124
 msgid "_Contact"
@@ -402,11 +402,11 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:136
 msgid "_Note"
-msgstr ""
+msgstr "_Anteckning"
 
 #: shell/e-shell-view-menu.c:146
 msgid "_Selected Items"
-msgstr ""
+msgstr "_Markerade objekt"
 
 #: shell/e-shell-view-menu.c:154
 msgid "_New Folder"
@@ -422,11 +422,11 @@ msgstr "_Öppna"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Clos_e All Items"
-msgstr ""
+msgstr "Stäng _alla objekt"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Closes all the open items"
-msgstr ""
+msgstr "Stänger alla öppna objekt"
 
 #. FIXME: add Favorites here
 #: shell/e-shell-view-menu.c:203
@@ -447,19 +447,19 @@ msgstr ""
 
 #: shell/e-shell.c:260
 msgid "Inbox"
-msgstr ""
+msgstr "Inbox"
 
 #: shell/e-shell.c:260
 msgid "New mail messages"
-msgstr ""
+msgstr "Nya brev"
 
 #: shell/e-shell.c:263
 msgid "Sent messages"
-msgstr ""
+msgstr "Skickade brev"
 
 #: shell/e-shell.c:263
 msgid "Sent mail messages"
-msgstr ""
+msgstr "Skickade brev"
 
 #: shell/e-shell.c:266
 msgid "Drafts"
@@ -487,11 +487,11 @@ msgstr "Din kontaktlista"
 
 #: shell/e-shell.c:275
 msgid "Tasks"
-msgstr ""
+msgstr "Uppgifter"
 
 #: shell/e-shell.c:275
 msgid "Tasks list"
-msgstr ""
+msgstr "Lista med uppgifter"
 
 #: shell/e-shell.c:284
 msgid "Main Shortcuts"
@@ -507,7 +507,7 @@ msgstr "Ny grupp"
 
 #: shell/main.c:27
 msgid "Enables some debugging functions"
-msgstr ""
+msgstr "Aktiverar felsökningsfunktioner"
 
 #: shell/main.c:27
 msgid "LEVEL"
@@ -515,4 +515,4 @@ msgstr "NIVÅ"
 
 #: shell/main.c:44
 msgid "Failed to initialize the Bonobo component system"
-msgstr "Misslyckades att initialisera Bonobo-komponentsystemet"
+msgstr "Misslyckades att initiera Bonobo-komponentsystemet"
