@@ -1,5 +1,12 @@
 2004-06-24  JP Rosevear  <jpr@novell.com>
 
+	* gui/dialogs/alarm-list-dialog.c (selection_changed_cb):
+	sensitize the buttons
+	(init_widgets): listen for selection changes so we can delete
+	alarms
+
+2004-06-24  JP Rosevear  <jpr@novell.com>
+
 	* gui/dialogs/event-page.c (event_page_fill_component): store all
 	the custom alarms
 	(alarm_custom_clicked_cb): emit changed signal if necessary

@@ -169,6 +169,14 @@ delete_clicked_cb (GtkButton *button, gpointer data)
 	gtk_tree_path_free (path);
 }
 
+static void
+selection_changed_cb (GtkTreeSelection *selection, gpointer data)
+{
+	Dialog *dialog = data;
+
+	sensitize_buttons (dialog);
+}
+
 /* Hooks the widget signals */
 static void
 init_widgets (Dialog *dialog)
@@ -192,6 +200,9 @@ init_widgets (Dialog *dialog)
 			  G_CALLBACK (add_clicked_cb), dialog);
 	g_signal_connect (dialog->delete, "clicked",
 			  G_CALLBACK (delete_clicked_cb), dialog);
+
+	g_signal_connect (gtk_tree_view_get_selection (GTK_TREE_VIEW (dialog->list)), "changed",
+			  G_CALLBACK (selection_changed_cb), dialog);
 }
 
 gboolean
