@@ -105,8 +105,10 @@ remove_instance (GalViewMenus *gvm)
 	gvm->priv->instance_changed_id = 0;
 	gvm->priv->collection_changed_id = 0;
 
-	if (gvm->priv->instance)
+	if (gvm->priv->instance) {
 		g_object_unref (gvm->priv->instance);
+		gvm->priv->instance = NULL;
+	}
 
         remove_listeners(gvm);
 	remove_xml(gvm);

@@ -1,3 +1,8 @@
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* menus/gal-view-menus.c (remove_instance): NULL out
+	priv->instance when we unref it.  Bug #51713.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* */Makefile.am: Remove hard coded disable deprecated flags
