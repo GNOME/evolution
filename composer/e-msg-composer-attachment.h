@@ -26,6 +26,7 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <glade/glade-xml.h>
 #include <camel/camel-mime-part.h>
+#include <camel/camel-exception.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -62,8 +63,9 @@ struct _EMsgComposerAttachmentClass {
 
 
 GtkType e_msg_composer_attachment_get_type (void);
-EMsgComposerAttachment *e_msg_composer_attachment_new (const gchar *file_name,
-						       const gchar *disposition);
+EMsgComposerAttachment *e_msg_composer_attachment_new (const char *file_name,
+						       const char *disposition,
+						       CamelException *ex);
 EMsgComposerAttachment *e_msg_composer_attachment_new_from_mime_part (CamelMimePart *part);
 void e_msg_composer_attachment_edit (EMsgComposerAttachment *attachment,
 				     GtkWidget *parent);

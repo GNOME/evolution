@@ -31,6 +31,8 @@
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
+#include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-dialog.h>
 #include <glade/glade.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
@@ -145,17 +147,17 @@ add_common (EMsgComposerAttachmentBar *bar,
 	    EMsgComposerAttachment *attachment)
 {
 	g_return_if_fail (attachment != NULL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (attachment), "changed",
 			    GTK_SIGNAL_FUNC (attachment_changed_cb),
 			    bar);
-
+	
 	bar->priv->attachments = g_list_append (bar->priv->attachments,
 						attachment);
 	bar->priv->num_attachments++;
-
+	
 	update (bar);
-
+	
 	gtk_signal_emit (GTK_OBJECT (bar), signals[CHANGED]);
 }
 
@@ -168,10 +170,28 @@ add_from_mime_part (EMsgComposerAttachmentBar *bar,
 
 static void
 add_from_file (EMsgComposerAttachmentBar *bar,
-	       const gchar *file_name,
-	       const gchar *disposition)
+	       const char *file_name,
+	       const char *disposition)
 {
-	add_common (bar, e_msg_composer_attachment_new (file_name, disposition));
+	EMsgComposerAttachment *attachment;
+	EMsgComposer *composer;
+	CamelException ex;
+	GtkWidget *dialog;
+	
+	camel_exception_init (&ex);
+	attachment = e_msg_composer_attachment_new (file_name, disposition, &ex);
+	if (attachment) {
+		add_common (bar, attachment);
+	} else {
+		composer = E_MSG_COMPOSER (gtk_widget_get_toplevel (GTK_WIDGET (bar)));
+		
+		dialog = gnome_error_dialog_parented (camel_exception_get_description (&ex),
+						      GTK_WINDOW (composer));
+		
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
+		
+		camel_exception_clear (&ex);
+	}
 }
 
 static void

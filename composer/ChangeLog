@@ -1,5 +1,11 @@
 2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer-attachment-bar.c (add_from_file): If the
+	attachment fails, report the error to the user.
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new): Now
+	takes a CamelException argument.
+
 	* e-msg-composer.c (setup_ui): Pass /menu/Edit as the menu path to
 	e_charset_picker thingy.
 
