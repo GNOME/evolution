@@ -113,7 +113,7 @@
      accel="*Control*u"/>
 
     <cmd name="PrintMessage"
-     _tip="Print message to the printer"
+     _tip="Print this message"
      accel="*Control*p"
      pixtype="pixbuf"/>
 
