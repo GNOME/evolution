@@ -74,10 +74,9 @@ glade_DATA = ldap-config.glade
 
 iconsdir = $(datadir)/images/evolution
 
-extra_dist = 				\
-	$(glade_data)			\
-	$(oaf_data)			\
-	ldap-config.glade	\
+EXTRA_DIST = 				\
+	$(glade_DATA)			\
+	$(oaf_DATA)			\
 	$(oaf_in_files)
 
 if ENABLE_PURIFY
