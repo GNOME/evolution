@@ -915,17 +915,15 @@ rfc2047_decode_word(const char *in, int len)
 
 	d(printf("rfc2047: decoding '%.*s'\n", len, in));
 
-	/* just make sure we're not passed shit */
-	if (len<7
-	    || !(in[0]=='=' && in[1]=='?' && in[len-1]=='=' && in[len-2]=='?')) {
+	/* quick check to see if this could possibly be a real encoded word */
+	if (len < 8 || !(in[0] == '=' && in[1] == '?' && in[len-1] == '=' && in[len-2] == '?')) {
 		d(printf("invalid\n"));
 		return NULL;
 	}
-
-	inptr = memchr(inptr, '?', inend-inptr);
-	if (inptr!=NULL
-	    && inptr<inend+2
-	    && inptr[2]=='?') {
+	
+	/* skip past the charset to the encoding type */
+	inptr = memchr (inptr, '?', inend-inptr);
+	if (inptr != NULL && inptr < inend + 2 && inptr[2] == '?') {
 		d(printf("found ?, encoding is '%c'\n", inptr[0]));
 		inptr++;
 		tmplen = inend-inptr-2;
@@ -941,6 +939,9 @@ rfc2047_decode_word(const char *in, int len)
 			/* if state != 0 then error? */
 			break;
 		}
+		default:
+			/* uhhh, unknown encoding type - probably an invalid encoded word string */
+			return NULL;
 		}
 		d(printf("The encoded length = %d\n", inlen));
 		if (inlen>0) {
@@ -967,7 +968,8 @@ rfc2047_decode_word(const char *in, int len)
 				}
 				iconv_close(ic);
 			} else {
-				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s", encname, strerror(errno)));
+				w(g_warning("Cannot decode charset, header display may be corrupt: %s: %s",
+					    encname, strerror(errno)));
 				/* TODO: Should this do this, or just leave the encoded strings? */
 				decword[inlen] = 0;
 				decoded = g_strdup(decword);
@@ -1019,11 +1021,11 @@ static char *
 header_decode_text (const char *in, int inlen)
 {
 	GString *out;
-	char *inptr, *inend, *start;
+	const char *inptr, *inend, *start;
 	char *decoded;
 	unsigned char lastc = 0;
 	int wasdword = FALSE;
-
+	
 	out = g_string_new ("");
 	start = inptr = (char *) in;
 	inend = inptr + inlen;
@@ -1031,7 +1033,7 @@ header_decode_text (const char *in, int inlen)
 	while (inptr && inptr < inend) {
 		unsigned char c = *inptr++;
 		
-		if (is_lwsp(c)) {
+		if (is_lwsp (c)) {
 			char *word, *dword;
 			guint len;
 			
@@ -1039,10 +1041,10 @@ header_decode_text (const char *in, int inlen)
 			word = start;
 			
 			dword = rfc2047_decode_word (word, len);
-
+			
 			if (dword) {
 				if (!wasdword && lastc)
-					g_string_append_c(out, lastc);
+					g_string_append_c (out, lastc);
 					
 				g_string_append (out, dword);
 				g_free (dword);
@@ -1050,12 +1052,12 @@ header_decode_text (const char *in, int inlen)
 				wasdword = TRUE;
 			} else {
 				if (lastc)
-					g_string_append_c(out, lastc);
+					g_string_append_c (out, lastc);
 				out = append_latin1 (out, word, len);
 				lastc = c;
 				wasdword = FALSE;
 			}
-						
+			
 			start = inptr;
 		}
 	}
@@ -1071,12 +1073,12 @@ header_decode_text (const char *in, int inlen)
 		
 		if (dword) {
 			if (!wasdword && lastc)
-				g_string_append_c(out, lastc);
+				g_string_append_c (out, lastc);
 			g_string_append (out, dword);
 			g_free (dword);
 		} else {
 			if (lastc)
-				g_string_append_c(out, lastc);
+				g_string_append_c (out, lastc);
 			out = g_string_append_len (out, word, len);
 		}
 	}

@@ -1,3 +1,12 @@
+2001-03-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-utils.c (rfc2047_decode_word): encoded string
+	segments need to be at least 8 chars (7 doesn't leave room for an
+	ecoding value. To be more realistic, even 8 chars isn't enough as
+	this assumes there is no charset nor any encoded text. If the
+	encoding value is not 'Q' or 'B', then return NULL. This fixes bug
+	#1689.
+
 2001-03-03  Not Zed  <NotZed@Ximian.com>
 
 	* camel-vee-folder.c (vee_folder_remove_folder): New function to
