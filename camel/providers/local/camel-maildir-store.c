@@ -420,7 +420,7 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 	url = camel_url_new("maildir:", NULL);
 	camel_url_set_path(url, ((CamelService *)local_store)->url->path);
 
-	if (scan_dir(store, visited, url, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
+	if (scan_dir(store, visited, url, top == NULL || top[0] == 0?".":top, flags, NULL, &fi, ex) == -1 && fi != NULL) {
 		camel_store_free_folder_info_full(store, fi);
 		fi = NULL;
 	}

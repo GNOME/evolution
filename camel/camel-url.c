@@ -65,11 +65,13 @@ camel_url_new_with_base (CamelURL *base, const char *url_string)
 	 * FUNCTION, RUN tests/misc/url AFTERWARDS.
 	 */
 
-	/* Find fragment. */
+	/* Find fragment.  RFC 1808 2.4.1 */
 	end = hash = strchr (url_string, '#');
-	if (hash && hash[1]) {
-		url->fragment = g_strdup (hash + 1);
-		camel_url_decode (url->fragment);
+	if (hash) {
+		if (hash[1]) {
+			url->fragment = g_strdup (hash + 1);
+			camel_url_decode (url->fragment);
+		}
 	} else
 		end = url_string + strlen (url_string);
 

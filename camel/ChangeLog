@@ -1,3 +1,14 @@
+2004-06-11  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-store.c (get_folder_info): if we
+	scan from "" or top == NULL, then we really want to scan from "."
+	instead.
+
+	* camel-url.c (camel_url_new_with_base): don't check the for a
+	character after the # before extracting the fragment.  An empty
+	fragment is still allowed and # should never be added to the path.
+	See Rfc1808 2.4.1.
+
 2004-06-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-summary.c
