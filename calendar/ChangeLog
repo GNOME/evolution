@@ -1,3 +1,8 @@
+2000-10-11  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/e-day-view-time-item.c (e_day_view_time_item_draw): got 12/24
+	hour format the wrong way round.
+
 2000-10-12  JP Rosevear  <jpr@helixcode.com>
 
 	* conduits/calendar/calendar-conduit.c (comp_from_remote_record): 

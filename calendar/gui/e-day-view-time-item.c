@@ -262,7 +262,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 	}
 
 	hour = day_view->first_hour_shown;
-	if (day_view->use_24_hour_format) {
+	if (!day_view->use_24_hour_format) {
 		if (hour == 0 || hour == 12)
 			hour = 12;
 		else
@@ -323,7 +323,7 @@ e_day_view_time_item_draw (GnomeCanvasItem *canvas_item,
 		minute += day_view->mins_per_row;
 		if (minute >= 60) {
 			hour++;
-			if (day_view->use_24_hour_format) {
+			if (!day_view->use_24_hour_format) {
 				if (hour == 0 || hour == 12)
 					hour = 12;
 				else
