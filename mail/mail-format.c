@@ -1710,7 +1710,13 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 							    name, addr);
 			} else
 				fulladdr = g_strdup (addr);
-			cc = g_list_append (cc, fulladdr);
+			
+			/* Here I'll check to see if the cc:'d address is the address
+			of the sender, and if so, don't add it to the cc: list; this
+			is to fix Bugzilla bug #455. */
+			
+			if (strcmp (addr, id->address) != 0)
+                                cc = g_list_append (cc, fulladdr);
 		}
 		
 		recip = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -1720,7 +1726,9 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 				fulladdr = g_strdup_printf ("\"%s\" <%s>", name, addr);
 			} else
 				fulladdr = g_strdup (addr);
-			cc = g_list_append (cc, fulladdr);
+
+			if (strcmp (addr, id->address) != 0)
+                                cc = g_list_append (cc, fulladdr);
 		}
 	} else
 		cc = NULL;
