@@ -54,14 +54,13 @@
 
 /* this is commented because otherwise we get an error about the
    redefinition of MD5Context...yay */
-/*#include <libedataserver/md5-utils.h>*/
+/*#include <e-util/md5-utils.h>*/
 
 #include "camel-tcp-stream-ssl.h"
 #include "camel-stream-fs.h"
 #include "camel-session.h"
 #include "camel-certdb.h"
 #include "camel-operation.h"
-#include "camel-i18n.h"
 
 /* from md5-utils.h */
 void md5_get_digest (const char *buffer, int buffer_size, unsigned char digest[16]);

@@ -1,6 +1,7 @@
 /* Evolution calendar - Data model for ETable
  *
- * Copyright (C) 2004 Ximian, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *
@@ -25,6 +26,7 @@
 #include <string.h>
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include <e-util/e-time-utils.h>
 #include <libecal/e-cal-time-util.h>
 #include "comp-util.h"
@@ -74,6 +76,8 @@ struct _ECalModelPrivate {
         gboolean use_24_hour_format;
 };
 
+static void e_cal_model_class_init (ECalModelClass *klass);
+static void e_cal_model_init (ECalModel *model, ECalModelClass *klass);
 static void e_cal_model_dispose (GObject *object);
 static void e_cal_model_finalize (GObject *object);
 
@@ -105,13 +109,18 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-G_DEFINE_TYPE (ECalModel, e_cal_model, E_TABLE_MODEL_TYPE);
+static GObjectClass *parent_class = NULL;
+
+E_MAKE_TYPE (e_cal_model, "ECalModel", ECalModel, e_cal_model_class_init,
+	     e_cal_model_init, E_TABLE_MODEL_TYPE);
 
 static void
 e_cal_model_class_init (ECalModelClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
+
+	parent_class = g_type_class_peek_parent (klass);
 
 	object_class->dispose = e_cal_model_dispose;
 	object_class->finalize = e_cal_model_finalize;
@@ -151,7 +160,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 }
 
 static void
-e_cal_model_init (ECalModel *model)
+e_cal_model_init (ECalModel *model, ECalModelClass *klass)
 {
 	ECalModelPrivate *priv;
 
@@ -262,8 +271,8 @@ e_cal_model_dispose (GObject *object)
 		priv->clients = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->dispose)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->dispose (object);
+	if (parent_class->dispose)
+		parent_class->dispose (object);
 }
 
 static void
@@ -286,8 +295,8 @@ e_cal_model_finalize (GObject *object)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (e_cal_model_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_parent_class)->finalize (object);
+	if (parent_class->finalize)
+		parent_class->finalize (object);
 }
 
 /* ETableModel methods */

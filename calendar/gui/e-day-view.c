@@ -47,6 +47,7 @@
 #include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/util/e-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-exec.h>
@@ -121,9 +122,10 @@ static GtkTargetEntry target_table[] = {
 };
 static guint n_targets = sizeof(target_table) / sizeof(target_table[0]);
 
+static void e_day_view_class_init (EDayViewClass *class);
+static void e_day_view_init (EDayView *day_view);
 static void e_day_view_destroy (GtkObject *object);
 static void e_day_view_realize (GtkWidget *widget);
-static void e_day_view_set_colors(EDayView *day_view, GtkWidget *widget);
 static void e_day_view_unrealize (GtkWidget *widget);
 static void e_day_view_style_set (GtkWidget *widget,
 				  GtkStyle  *previous_style);
@@ -439,7 +441,10 @@ static void e_day_view_queue_layout (EDayView *day_view);
 static void e_day_view_cancel_layout (EDayView *day_view);
 static gboolean e_day_view_layout_timeout_cb (gpointer data);
 
-G_DEFINE_TYPE (EDayView, e_day_view, E_TYPE_CALENDAR_VIEW);
+static GtkTableClass *parent_class;
+
+E_MAKE_TYPE (e_day_view, "EDayView", EDayView, e_day_view_class_init,
+	     e_day_view_init, e_calendar_view_get_type ());
 
 static void
 e_day_view_class_init (EDayViewClass *class)
@@ -448,6 +453,7 @@ e_day_view_class_init (EDayViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
@@ -1131,7 +1137,7 @@ e_day_view_destroy (GtkObject *object)
 		}
 	}
 
-	GTK_OBJECT_CLASS (e_day_view_parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 
@@ -1143,8 +1149,8 @@ e_day_view_realize (GtkWidget *widget)
 	gboolean success[E_DAY_VIEW_COLOR_LAST];
 	gint nfailed;
 
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
 
 	day_view = E_DAY_VIEW (widget);
 	day_view->main_gc = gdk_gc_new (widget->window);
@@ -1152,9 +1158,64 @@ e_day_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	
-	e_day_view_set_colors(day_view, widget);
-	
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].red   = 247 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].green = 247 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING].blue  = 244 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].red   = 216 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].green = 216 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING].blue  = 214 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].red   = 0 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].green = 0 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED].blue  = 156 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].red   = 16 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].green = 78 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED].blue  = 139 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].red   = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].green = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID].blue  = 0x8000;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].red   = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].green = 0x8000;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS].blue  = 0x8000;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].red   = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].green = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED].blue  = 65535;
+
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID].blue  = 0;
+
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR].blue  = 65535;
+
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].red   = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].green = 65535;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND].blue  = 65535;
+
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER].blue  = 0;
+
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].red   = 213 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].green = 213 * 257;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND].blue  = 213 * 257;
+
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].red   = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].green = 0;
+	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER].blue  = 0;
+
+	nfailed = gdk_colormap_alloc_colors (colormap, day_view->colors,
+					     E_DAY_VIEW_COLOR_LAST, FALSE,
+					     TRUE, success);
+	if (nfailed)
+		g_warning ("Failed to allocate all colors");
+
 	gdk_gc_set_colormap (day_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
@@ -1208,23 +1269,6 @@ e_day_view_realize (GtkWidget *widget)
 			       NULL);
 }
 
-static void
-e_day_view_set_colors(EDayView *day_view, GtkWidget *widget)
-{
-	day_view->colors[E_DAY_VIEW_COLOR_BG_WORKING] = widget->style->base[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_NOT_WORKING] = widget->style->bg[GTK_STATE_ACTIVE];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_GRID] = widget->style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS] = widget->style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_SELECTED] = widget->style->bg[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_BG_TOP_CANVAS_GRID] = widget->style->light[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR] = widget->style->base[GTK_STATE_SELECTED];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BACKGROUND] = widget->style->base[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BACKGROUND] = widget->style->bg[GTK_STATE_ACTIVE];
-	day_view->colors[E_DAY_VIEW_COLOR_LONG_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
-}
 
 static void
 e_day_view_unrealize (GtkWidget *widget)
@@ -1249,8 +1293,8 @@ e_day_view_unrealize (GtkWidget *widget)
 	g_object_unref (day_view->meeting_icon);
 	day_view->meeting_icon = NULL;
 
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
 }
 
 
@@ -1272,39 +1316,11 @@ e_day_view_style_set (GtkWidget *widget,
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-	gint week_day, event_num;
-	EDayViewEvent *event;
 
-	if (GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_day_view_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	day_view = E_DAY_VIEW (widget);
-	e_day_view_set_colors(day_view, widget);
-
-	for (week_day = 0; week_day < E_DAY_VIEW_MAX_DAYS; week_day++){
-		for (event_num = 0; event_num < day_view->events[week_day]->len; event_num++) {
-			event = &g_array_index (day_view->events[week_day], EDayViewEvent, event_num);
-			if (event->canvas_item)
-				gnome_canvas_item_set (event->canvas_item,
-						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-						NULL);
-		}
-	}
-	for (event_num = 0; event_num < day_view->long_events->len; event_num++) {
-		event = &g_array_index (day_view->long_events, EDayViewEvent, event_num);
-		if (event->canvas_item)
-			gnome_canvas_item_set (event->canvas_item,
-					"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-					NULL);
-	}
-	gnome_canvas_item_set (day_view->main_canvas_top_resize_bar_item,
-			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			NULL);
-	gnome_canvas_item_set (day_view->main_canvas_bottom_resize_bar_item,
-			"fill_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_VBAR],
-			"outline_color_gdk", &day_view->colors[E_DAY_VIEW_COLOR_EVENT_BORDER],
-			NULL);
 
 	/* Set up Pango prerequisites */
 	font_desc = gtk_widget_get_style (widget)->font_desc;
@@ -1460,7 +1476,7 @@ e_day_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 #endif
 	day_view = E_DAY_VIEW (widget);
 
-	(*GTK_WIDGET_CLASS (e_day_view_parent_class)->size_allocate) (widget, allocation);
+	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
 	e_day_view_recalc_cell_sizes (day_view);
 
@@ -2850,7 +2866,7 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 			return TRUE;
 		}
 
-		if (!GTK_WIDGET_HAS_FOCUS (day_view) && !GTK_WIDGET_HAS_FOCUS (day_view->main_canvas))
+		if (!GTK_WIDGET_HAS_FOCUS (day_view))
 			gtk_widget_grab_focus (GTK_WIDGET (day_view));
 
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
@@ -2858,7 +2874,6 @@ e_day_view_on_main_canvas_button_press (GtkWidget *widget,
 				      | GDK_BUTTON_RELEASE_MASK,
 				      FALSE, NULL, event->time) == 0) {
 			e_day_view_start_selection (day_view, day, row);
-			g_signal_emit_by_name (day_view, "selected_time_changed");
 		}
 	} else if (event->button == 3) {
 		if (!GTK_WIDGET_HAS_FOCUS (day_view))
@@ -3237,7 +3252,6 @@ e_day_view_on_event_double_click (EDayView *day_view,
 				  gint event_num)
 {
 	EDayViewEvent *event;
-	icalproperty *attendee_prop = NULL;
 
 	if (day == -1)
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
@@ -3248,11 +3262,9 @@ e_day_view_on_event_double_click (EDayView *day_view,
 
 	e_day_view_stop_editing_event (day_view);
 
-    
-	attendee_prop = icalcomponent_get_first_property (event->comp_data->icalcomp, ICAL_ATTENDEE_PROPERTY);
 	e_calendar_view_edit_appointment (E_CALENDAR_VIEW (day_view),
 				     event->comp_data->client, 
-				     event->comp_data->icalcomp, attendee_prop ? TRUE:FALSE);
+				     event->comp_data->icalcomp, FALSE);
 }
 
 static void
@@ -3277,7 +3289,7 @@ e_day_view_show_popup_menu (EDayView *day_view,
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (day_view));
 	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, day_view);
-	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, gdk_event?gdk_event->button.button:0, gdk_event?gdk_event->button.time:gtk_get_current_event_time());
+	e_popup_menu (popup, gdk_event);
 }
 
 static gboolean
@@ -4346,9 +4358,6 @@ e_day_view_reshape_long_event (EDayView *day_view,
 	}
 
 	if (!event->canvas_item) {
-		GtkWidget *widget;
-
-		widget = (GtkWidget *)day_view;
 		event->canvas_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->top_canvas)->root),
 					       e_text_get_type (),
@@ -4358,7 +4367,7 @@ e_day_view_reshape_long_event (EDayView *day_view,
 					       "editable", TRUE,
 					       "use_ellipsis", TRUE,
 					       "draw_background", FALSE,
-					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					       "fill_color_rgba", GNOME_CANVAS_COLOR (0, 0, 0),
 					       "im_context", E_CANVAS (day_view->top_canvas)->im_context,
 					       NULL);
 		g_signal_connect (event->canvas_item, "event",
@@ -4524,9 +4533,6 @@ e_day_view_reshape_day_event (EDayView *day_view,
 		}
 
 		if (!event->canvas_item) {
-			GtkWidget *widget;
-
-			widget = (GtkWidget *)day_view;
 			event->canvas_item =
 				gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (day_view->main_canvas)->root),
 						       e_text_get_type (),
@@ -4536,7 +4542,7 @@ e_day_view_reshape_day_event (EDayView *day_view,
 						       "clip", TRUE,
 						       "use_ellipsis", TRUE,
 						       "draw_background", FALSE,
-						       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+						       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 						       "im_context", E_CANVAS (day_view->main_canvas)->im_context,
 						       NULL);
 			g_signal_connect (event->canvas_item, "event",
@@ -4889,7 +4895,7 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* if not handled, try key bindings */
 	if (!handled)
-		handled = GTK_WIDGET_CLASS (e_day_view_parent_class)->key_press_event (widget, event);
+		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
 	return handled;
 }
 

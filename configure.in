@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 2.1.1, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.0.3, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -15,38 +15,6 @@ ACLOCAL="$ACLOCAL $ACLOCAL_FLAGS"
 
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
-
-dnl *************************************************************************************************
-dnl Base Version
-dnl
-dnl This is for api/versioning tracking for things like bonobo .server files
-dnl
-dnl This should always be the major/minor of the stable version or stable version to be
-dnl *************************************************************************************************
-BASE_VERSION=2.2
-AC_SUBST(BASE_VERSION)
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
-
-dnl *************************************************************************************************
-dnl Updgrade Revision
-dnl
-dnl This is for triggering migration calls between varying versions.
-dnl
-dnl This should be reset to 0 whenever BASE_VERSION changes
-dnl *************************************************************************************************
-UPGRADE_REVISION=0
-AC_SUBST(UPGRADE_REVISION)
-AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
-
-dnl *************************************************************************************************
-dnl Development mode
-dnl 
-dnl The controls whether things like the development warning in shell/main.c are displayed.
-dnl
-dnl This should be set to 0 for stable releases and 1 for unstable releases
-dnl *************************************************************************************************
-AC_DEFINE(DEVELOPMENT, 1, [If we are in development mode or not])
-AC_SUBST(DEVELOPMENT)
 
 AC_ISC_POSIX
 AC_PROG_CC
@@ -78,10 +46,20 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hi hr hu id is it ja ko lt lv mk ml mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv ta tr uk vi wa zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
-GETTEXT_PACKAGE=evolution-2.2
+dnl The base version for OAFIIDs, install dirs, binary names
+BASE_VERSION=2.0
+AC_SUBST(BASE_VERSION)
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
+
+dnl Update/migration version
+UPGRADE_REVISION=0
+AC_SUBST(UPGRADE_REVISION)
+AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
+
+GETTEXT_PACKAGE=evolution-$BASE_VERSION
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
@@ -122,7 +100,7 @@ AC_ARG_ENABLE(test-component, [  --enable-test-component=[no/yes]      Enable te
 AM_CONDITIONAL(ENABLE_TEST_COMPONENT, test "x$enable_test_comp" = "xyes")
 
 dnl
-dnl system mail stuff (tbd?)
+dnl system mail stuff
 dnl
 AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL", [Path to a sendmail binary, or equivalent])
@@ -425,7 +403,7 @@ dnl **************************************************
 dnl New IMAP code support.
 dnl **************************************************
 AC_ARG_ENABLE(imap4, 
-[  --enable-imap4=[no/yes]      Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation],,enable_imap4="yes")
+[  --enable-imap4=[no/yes]      Attempt to compile yet another, incomplete, very unsupported IMAPv4r1 implementation],,enable_imap4=no)
 if test "x$enable_imap4" = "xyes"; then
 	AC_DEFINE(ENABLE_IMAP4,1,[Really don't try this at home])
 	msg_imap4=yes
@@ -511,15 +489,11 @@ dnl *********
 dnl Libraries
 dnl *********
 
-PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.6)
+PKG_CHECK_MODULES(GTKHTML, libgtkhtml-3.1)
 AC_SUBST(GTKHTML_CFLAGS)
 AC_SUBST(GTKHTML_LIBS)
-GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.6`
+GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir libgtkhtml-3.1`
 AC_SUBST(GTKHTML_DATADIR)
-GTKHTML_API_VERSION=`$PKG_CONFIG --variable gtkhtml_apiversion libgtkhtml-3.6`
-AC_DEFINE_UNQUOTED(GTKHTML_API_VERSION, "$GTKHTML_API_VERSION", [The gtkhtml api version])
-
-
 
 
 dnl ******************************
@@ -687,16 +661,6 @@ AC_SUBST(KRB5_LDFLAGS)
 AC_SUBST(KRB4_CFLAGS)
 AC_SUBST(KRB4_LDFLAGS)
 
-dnl Mono hooks
-
-AC_ARG_ENABLE(mono, [  --enable-mono=[yes,no]        Add Mono embedded hooks.],
-	enable_mono="$enableval", enable_mono="no")
-
-if test "x${enable_mono}" = "xyes"; then
-	AC_DEFINE(ENABLE_MONO,1,[Define if Mono embedding should be enabled])
-	mono_package="mono"
-fi
-AM_CONDITIONAL(ENABLE_MONO, test x$enable_mono = xyes)
 
 dnl ********************************************************************************
 dnl security extension support (SSL and S/MIME)
@@ -1074,7 +1038,7 @@ esac
 AM_PATH_ORBIT2(2.9.8)
 
 AC_MSG_CHECKING(for CORBA include paths)
-IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.2`
+IDL_INCLUDES="-I "`pkg-config --variable=idldir libbonobo-2.0`" -I "`pkg-config --variable=idldir bonobo-activation-2.0`" -I "`pkg-config --variable=idldir evolution-data-server-1.0`
 AC_MSG_RESULT($IDL_INCLUDES)
 AC_SUBST(IDL_INCLUDES)
 
@@ -1098,25 +1062,19 @@ fi
 
 dnl --- Required version numbers
 
-GAL_REQUIRED=2.3.1
-GAL_PACKAGE=2.4
-GTKHTML_REQUIRED=3.5.1
-GTKHTML_PACKAGE=3.6
-EDS_REQUIRED=1.1.1
-EDS_PACKAGE=1.2
+GAL_REQUIRED=2.2.4
+GTKHTML_REQUIRED=3.2.4
+EDS_REQUIRED=1.0.3
 BONOBOUI_REQUIRED=2.4.2
 
 AC_SUBST(GAL_REQUIRED)
-AC_SUBST(GAL_PACKAGE)
 AC_SUBST(GTKHTML_REQUIRED)
-AC_SUBST(GTKHTML_PACKAGE)
 AC_SUBST(EDS_REQUIRED)
-AC_SUBST(EDS_PACKAGE)
 AC_SUBST(BONOBOUI_REQUIRED)
 
 dnl --- Flags to get all the GNOME stuff
 
-FULL_GNOME_DEPS="glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED"
+FULL_GNOME_DEPS="glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-2.2 >= $GAL_REQUIRED"
 
 EVO_SET_COMPILE_FLAGS(GNOME_FULL, $FULL_GNOME_DEPS)
 AC_SUBST(GNOME_FULL_CFLAGS)
@@ -1130,11 +1088,15 @@ CPPFLAGS="$CPPFLAGS_save"
 
 dnl --- Flags for the various libraries we build
 
-EVO_SET_COMPILE_FLAGS(CAMEL, camel-provider-$EDS_PACKAGE)
+EVO_SET_COMPILE_FLAGS(CAMEL, glib-2.0 gthread-2.0 gal-2.2 >= $GAL_REQUIRED $mozilla_nss,
+		      $THREADS_CFLAGS $KRB4_CFLAGS $KRB5_CFLAGS $MANUAL_NSS_CFLAGS $OPENSSL_CFLAGS,
+	              $THREADS_LIBS $KRB4_LDFLAGS $KRB5_LDFLAGS $MANUAL_NSS_LIBS $OPENSSL_LDFLAGS)
 AC_SUBST(CAMEL_CFLAGS)
 AC_SUBST(CAMEL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, camel-provider-$EDS_PACKAGE libedataserver-$EDS_PACKAGE libegroupwise-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(CAMEL_GROUPWISE, libegroupwise-1.0 >= $EDS_REQUIRED,
+		      $CAMEL_CFLAGS,
+	              $CAMEL_LIBS)
 AC_SUBST(CAMEL_GROUPWISE_CFLAGS)
 AC_SUBST(CAMEL_GROUPWISE_LIBS)
 
@@ -1153,39 +1115,45 @@ EVO_SET_COMPILE_FLAGS(CERT_UI, glib-2.0 gobject-2.0 gthread-2.0,
 AC_SUBST(CERT_UI_CFLAGS)
 AC_SUBST(CERT_UI_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED)
+EVO_SET_COMPILE_FLAGS(E_NAME, libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-2.2 >= $GAL_REQUIRED)
 AC_SUBST(E_NAME_CFLAGS)
 AC_SUBST(E_NAME_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED $mozilla_nspr $mono_package, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
+EVO_SET_COMPILE_FLAGS(E_UTIL, gthread-2.0 gconf-2.0 libxml-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 libedataserver-1.0 >= $EDS_REQUIRED $mozilla_nspr, $THREADS_CFLAGS $MANUAL_NSPR_CFLAGS, $THREADS_LIBS $MANUAL_NSPR_LIBS)
 AC_SUBST(E_UTIL_CFLAGS)
 AC_SUBST(E_UTIL_LIBS)
 
-EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-$EDS_PACKAGE >= $EDS_REQUIRED, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
+EVO_SET_COMPILE_FLAGS(TZDIALOG, libecal-1.0 >= $EDS_REQUIRED, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
 AC_SUBST(TZDIALOG_CFLAGS)
 AC_SUBST(TZDIALOG_LIBS)
 
-EVO_SET_COMPILE_FLAGS(E_WIDGETS, glib-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gnome-vfs-2.0 libgnomeui-2.0 libglade-2.0 libgnomecanvas-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libedataserverui-$EDS_PACKAGE)
-AC_SUBST(E_WIDGETS_CFLAGS)
-AC_SUBST(E_WIDGETS_LIBS)
- 
-EVO_SET_COMPILE_FLAGS(IMPORTERS, camel-$EDS_PACKAGE gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(SOURCE_SEL, libedataserver-1.0 >= $EDS_REQUIRED, $GNOME_FULL_CFLAGS, $GNOME_FULL_LIBS)
+AC_SUBST(SOURCE_SEL_CFLAGS)
+AC_SUBST(SOURCE_SEL_LIBS)
+
+
+dnl 
+dnl EVO_SET_COMPILE_FLAGS(E_WIDGETS, bonobo_conf bonobox_print gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs)
+dnl AC_SUBST(E_WIDGETS_CFLAGS)
+dnl AC_SUBST(E_WIDGETS_LIBS)
+dnl 
+EVO_SET_COMPILE_FLAGS(IMPORTERS, gconf-2.0 libglade-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libgnomeui-2.0 libebook-1.0 >= $EDS_REQUIRED)
 AC_SUBST(IMPORTERS_CFLAGS)
 AC_SUBST(IMPORTERS_LIBS)
 
-EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libedataserver-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(LIBFILTER, libgnome-2.0 libgnomeui-2.0 libglade-2.0 libxml-2.0 gconf-2.0 gal-2.2 >= $GAL_REQUIRED)
 AC_SUBST(LIBFILTER_CFLAGS)
 AC_SUBST(LIBFILTER_LIBS)
 
 dnl --- evolution (shell) flags
 
-EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED)
+EVO_SET_COMPILE_FLAGS(SHELL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgtkhtml-3.1 >= $GTKHTML_REQUIRED)
 AC_SUBST(SHELL_CFLAGS)
 AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED camel-$EDS_PACKAGE"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED libglade-2.0 gal-2.2 >= $GAL_REQUIRED libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0 >= $EDS_REQUIRED"
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
 AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -1198,11 +1166,11 @@ AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 fi
 
 dnl --- evolution-calendar flags
-EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.2 >= 2.2.0)
+EVO_SET_COMPILE_FLAGS(LIBSOUP, libsoup-2.2 >= 2.2.1)
 AC_SUBST(LIBSOUP_CFLAGS)
 AC_SUBST(LIBSOUP_LIBS)
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libebook-$EDS_PACKAGE >= $EDS_REQUIRED libecal-$EDS_PACKAGE >= $EDS_REQUIRED libedataserverui-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_CALENDAR, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libebook-1.0 >= $EDS_REQUIRED libecal-1.0 >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_CALENDAR_CFLAGS)
 AC_SUBST(EVOLUTION_CALENDAR_LIBS)
 
@@ -1214,17 +1182,17 @@ fi
 
 dnl --- evolution-mail flags
 
-EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, camel-provider-$EDS_PACKAGE libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-$GAL_PACKAGE >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-$GTKHTML_PACKAGE >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-$EDS_PACKAGE >= $EDS_REQUIRED)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_MAIL, libgnome-2.0 libgnomeui-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED gal-2.2 >= $GAL_REQUIRED libglade-2.0 gnome-vfs-module-2.0 libgnomeprint-2.2 libgnomeprintui-2.2 libgtkhtml-3.1 >= $GTKHTML_REQUIRED libxml-2.0 bonobo-activation-2.0 gthread-2.0 gconf-2.0 $mozilla_nss libebook-1.0 >= $EDS_REQUIRED)
 AC_SUBST(EVOLUTION_MAIL_CFLAGS)
 AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- evolution-data-server IDL and version
 
-AC_DEFINE(DATASERVER_API_VERSION, "1.2", evolution-data-server API version)
-AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.2`", evolution-data-server version)
+AC_DEFINE(DATASERVER_API_VERSION, "1.0", evolution-data-server API version)
+AC_DEFINE_UNQUOTED(DATASERVER_VERSION, "`pkg-config --modversion evolution-data-server-1.0`", evolution-data-server version)
 
 AC_MSG_CHECKING(for evolution-data-server IDL)
-DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.2`/Evolution-DataServer.idl
+DATASERVER_IDL=`pkg-config --variable=idldir evolution-data-server-1.0`/Evolution-DataServer.idl
 if test -f "$DATASERVER_IDL"; then
 	AC_MSG_RESULT($DATASERVER_IDL)
 	 AC_SUBST(DATASERVER_IDL)
@@ -1257,6 +1225,9 @@ AC_SUBST(privdatadir)
 
 privincludedir='${includedir}'/evolution-$BASE_VERSION
 AC_SUBST(privincludedir)
+
+camel_providerdir="$privlibdir/camel-providers"
+AC_SUBST(camel_providerdir)
 
 componentdir="$privlibdir/components"
 AC_SUBST(componentdir)
@@ -1319,61 +1290,6 @@ AC_DEFINE_UNQUOTED(INTERFACE_VERSION, "$INTERFACE_VERSION", [IDL interface versi
 
 EVO_SERVER_RULE=$srcdir/server.mk
 AC_SUBST_FILE(EVO_SERVER_RULE)
-
-dnl ************************
-dnl Plugins
-dnl ************************
-
-plugindir="$privlibdir/plugins"
-AC_SUBST(plugindir)
-
-EVO_PLUGIN_RULE=$srcdir/plugin.mk
-AC_SUBST_FILE(EVO_PLUGIN_RULE)
-
-AC_ARG_ENABLE(plugins, [  --enable-plugins=[no/all/list]      Enable plugins.],enable_plugins="$enableval",enable_plugins=base)
-
-dnl Add any new plugins here
-plugins_base="calendar-http groupwise-account-setup plugin-manager" 
-plugins_all="bbdb subject-thread save-attachments prefer-plain save-calendar select-one-source copy-tool mail-to-meeting mail-to-task folder-unsubscribe mark-calendar-offline audio-inline mailing-list-actions groupwise-account-setup"
-
-case x"$enable_plugins" in
-xno)
-	plugins_enabled=""
-	msg_plugins="no (some core functionality will not be available)"
-	;;
-xall | x | xyes)
-	plugins_enabled="$plugins_base $plugins_all"
-	msg_plugins="yes (all)"
-	;;
-xbase)
-	plugins_enabled="$plugins_base"
-	msg_plugins="yes ($plugins_base)"
-	;;
-*)
-	plugins_enabled="$enable_plugins"
-	msg_plugins="yes ($enable_plugins)"
-	;;
-esac
-AC_SUBST(plugins_enabled)
-AC_SUBST(plugins_all)
-AC_SUBST(plugins_base)
-
-if echo ${plugins_enabled} | grep -q "audio-inline"
-then
-	if ${PKG_CONFIG} --exists gstreamer-0.8
-	then
-		dnl *********************
-		dnl gstreamer
-		dnl *********************
-		PKG_CHECK_MODULES(GSTREAMER, gstreamer-0.8)
-		AC_SUBST(GSTREAMER_CFLAGS)
-		AC_SUBST(GSTREAMER_LIBS)
-	else
-		plugins_enabled=`echo $plugins_enabled | sed -e "s/audio-inline//g"`
-		echo "warning: gstreamer was not found, audio-inline pluging will not be built."
-		echo "you are probably missing gstreamer-devel package."
-	fi
-fi
 
 ##################################################
 # Check for gtk-doc.
@@ -1459,7 +1375,6 @@ dnl ******************************
 export privlibdir
 export privincludedir
 export privdatadir
-export plugindir
 
 EVOLUTION_DIR=`(cd $srcdir; pwd)`
 AC_SUBST(EVOLUTION_DIR)
@@ -1485,6 +1400,25 @@ addressbook/printing/Makefile
 addressbook/tools/Makefile
 addressbook/util/Makefile
 art/Makefile
+camel/Makefile
+camel/providers/Makefile
+camel/providers/groupwise/Makefile
+camel/providers/imap/Makefile
+camel/providers/imapp/Makefile
+camel/providers/imap4/Makefile
+camel/providers/local/Makefile
+camel/providers/nntp/Makefile
+camel/providers/pop3/Makefile
+camel/providers/sendmail/Makefile
+camel/providers/smtp/Makefile
+camel/tests/Makefile
+camel/tests/folder/Makefile
+camel/tests/lib/Makefile
+camel/tests/message/Makefile
+camel/tests/mime-filter/Makefile
+camel/tests/misc/Makefile
+camel/tests/smime/Makefile
+camel/tests/stream/Makefile
 data/Makefile
 data/cde_app_root/Makefile
 data/cde_app_root/dt/Makefile
@@ -1531,28 +1465,12 @@ mail/Makefile
 mail/default/Makefile
 mail/default/C/Makefile
 mail/importers/Makefile
-plugins/Makefile
-plugins/calendar-http/Makefile
-plugins/plugin-manager/Makefile
-plugins/bbdb/Makefile
-plugins/audio-inline/Makefile
-plugins/mail-to-meeting/Makefile
-plugins/mail-to-task/Makefile
-plugins/subject-thread/Makefile
-plugins/save-attachments/Makefile
-plugins/save-calendar/Makefile
-plugins/select-one-source/Makefile
-plugins/mark-calendar-offline/Makefile
-plugins/prefer-plain/Makefile
-plugins/copy-tool/Makefile
-plugins/folder-unsubscribe/Makefile
-plugins/mailing-list-actions/Makefile
-plugins/groupwise-account-setup/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
 tools/Makefile
 evolution-shell.pc
+camel.pc
 ])
 
 if test "x$with_sub_version" != "x"; then
@@ -1578,7 +1496,6 @@ echo "\
 	IPv6 support:     $msg_ipv6
 	Dot Locking:	  $msg_dot
 	File Locking:	  $msg_file
-	Plugins:	  $msg_plugins
 	Gtk-doc:	  $enable_gtk_doc"
 
 if test x$enable_gtk_doc = xyes; then

@@ -55,15 +55,13 @@
 #include "camel-session.h"
 #include "camel-exception.h"
 #include "camel-sasl.h"
-#include "camel-i18n.h"
-#include "camel-net-utils.h"
+
 
 extern int camel_verbose_debug;
 #define d(x) (camel_verbose_debug ? (x) : 0)
 
 /* Specified in RFC 821 */
-#define SMTP_PORT "25"
-#define SMTPS_PORT "465"
+#define SMTP_PORT 25
 
 /* camel smtp transport class prototypes */
 static gboolean smtp_send_to (CamelTransport *transport, CamelMimeMessage *message,
@@ -147,7 +145,18 @@ smtp_construct (CamelService *service, CamelSession *session,
 		CamelProvider *provider, CamelURL *url,
 		CamelException *ex)
 {
+	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (service);
+	const char *use_ssl;
+	
 	CAMEL_SERVICE_CLASS (parent_class)->construct (service, session, provider, url, ex);
+	
+	if ((use_ssl = camel_url_get_param (url, "use_ssl"))) {
+		/* Note: previous versions would use "" to toggle use_ssl to 'on' */
+		if (!*use_ssl || !strcmp (use_ssl, "always"))
+			smtp_transport->flags |= CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS;
+		else if (!strcmp (use_ssl, "when-possible"))
+			smtp_transport->flags |= CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE;
+	}
 }
 
 static const char *
@@ -219,56 +228,82 @@ smtp_error_string (int error)
 	}
 }
 
-enum {
-	MODE_CLEAR,
-	MODE_SSL,
-	MODE_TLS,
-};
-
 #define SSL_PORT_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_SSL2 | CAMEL_TCP_STREAM_SSL_ENABLE_SSL3)
 #define STARTTLS_FLAGS (CAMEL_TCP_STREAM_SSL_ENABLE_TLS)
 
 static gboolean
-connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, CamelException *ex)
+connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 {
 	CamelSmtpTransport *transport = CAMEL_SMTP_TRANSPORT (service);
 	CamelStream *tcp_stream;
 	char *respbuf = NULL;
 	int ret;
+	struct addrinfo *ai, hints = { 0 };
+	char *serv;
+	const char *port = NULL;
 	
 	if (!CAMEL_SERVICE_CLASS (parent_class)->connect (service, ex))
 		return FALSE;
 	
 	/* set some smtp transport defaults */
-	transport->flags = 0;
+	transport->flags &= CAMEL_SMTP_TRANSPORT_USE_SSL; /* reset all but ssl flags */
 	transport->authtypes = NULL;
+
+	if (service->url->port) {
+		serv = g_alloca(16);
+		sprintf(serv, "%d", service->url->port);
+	} else {
+		serv = "smtp";
+		port = "25";
+	}
 	
-	if (ssl_mode != MODE_CLEAR) {
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
 #ifdef HAVE_SSL
-		if (ssl_mode == MODE_TLS) {
-			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, STARTTLS_FLAGS);
+		if (try_starttls) {
+			tcp_stream = camel_tcp_stream_ssl_new_raw (service->session, service->url->host, STARTTLS_FLAGS);
 		} else {
+			if (service->url->port == 0) {
+				serv = "smtps";
+				port = "465";
+			}
 			tcp_stream = camel_tcp_stream_ssl_new (service->session, service->url->host, SSL_PORT_FLAGS);
 		}
 #else
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to %s: %s"),
-				      service->url->host, _("SSL unavailable"));
+		if (!try_starttls && service->url->port == 0) {
+			serv = "smtps";
+			port = "465";
+		}
 		
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not connect to %s (port %s): %s"),
+				      service->url->host, serv,
+				      _("SSL unavailable"));
+
 		return FALSE;
 #endif /* HAVE_SSL */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
+
+	hints.ai_socktype = SOCK_STREAM;
+	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
+	/* fallback to numerical port if the system is misconfigured */
+	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
+		camel_exception_clear(ex);
+		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
+	}
+	if (ai == NULL) {
+		camel_object_unref(tcp_stream);
+		return FALSE;
+	}
 	
-	if ((ret = camel_tcp_stream_connect ((CamelTcpStream *) tcp_stream, ai)) == -1) {
-		if (errno == EINTR)
-			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-					     _("Connection cancelled"));
-		else
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not connect to %s: %s"),
-					      service->url->host, g_strerror (errno));
+	ret = camel_tcp_stream_connect(CAMEL_TCP_STREAM(tcp_stream), ai);
+	camel_freeaddrinfo(ai);
+	if (ret == -1) {
+		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      _("Could not connect to %s (port %s): %s"),
+				      service->url->host, serv,
+				      g_strerror (errno));
 		
 		camel_object_unref (tcp_stream);
 		
@@ -312,19 +347,30 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	/* clear any EHLO/HELO exception and assume that any SMTP errors encountered were non-fatal */
 	camel_exception_clear (ex);
 	
-	if (ssl_mode != MODE_TLS) {
-		/* we're done */
-		return TRUE;
+#ifdef HAVE_SSL
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE) {
+		/* try_starttls is always TRUE here */
+		if (transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS)
+			goto starttls;
+	} else if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS) {
+		if (try_starttls) {
+			if (transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS) {
+				goto starttls;
+			} else {
+				/* server doesn't support STARTTLS, abort */
+				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+						      _("Failed to connect to SMTP server %s in secure mode: %s"),
+						      service->url->host, _("server does not appear to support SSL"));
+				goto exception_cleanup;
+			}
+		}
 	}
+#endif /* HAVE_SSL */
 	
-	if (!(transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS)) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("Failed to connect to SMTP server %s in secure mode: %s"),
-				      service->url->host, _("STARTTLS not supported"));
-		
-		goto exception_cleanup;
-	}
+	return TRUE;
 	
+#ifdef HAVE_SSL
+ starttls:
 	d(fprintf (stderr, "sending : STARTTLS\r\n"));
 	if (camel_stream_write (tcp_stream, "STARTTLS\r\n", 10) == -1) {
 		camel_exception_setv (ex, errno == EINTR ? CAMEL_EXCEPTION_USER_CANCEL : CAMEL_EXCEPTION_SYSTEM,
@@ -374,68 +420,38 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 	transport->connected = FALSE;
 	
 	return FALSE;
+#endif /* HAVE_SSL */
 }
-
-static struct {
-	char *value;
-	char *serv;
-	char *port;
-	int mode;
-} ssl_options[] = {
-	{ "",              "smtps", SMTPS_PORT, MODE_SSL   },  /* really old (1.x) */
-	{ "always",        "smtps", SMTPS_PORT, MODE_SSL   },
-	{ "when-possible", "smtp",  SMTP_PORT, MODE_TLS   },
-	{ "never",         "smtp",  SMTP_PORT, MODE_CLEAR },
-	{ NULL,            "smtp",  SMTP_PORT, MODE_CLEAR },
-};
 
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
-	struct addrinfo hints, *ai;
-	const char *ssl_mode;
-	int mode, ret, i;
-	char *serv;
-	const char *port;
+#ifdef HAVE_SSL
+	CamelSmtpTransport *transport = (CamelSmtpTransport *) service;
 	
-	if ((ssl_mode = camel_url_get_param (service->url, "use_ssl"))) {
-		for (i = 0; ssl_options[i].value; i++)
-			if (!strcmp (ssl_options[i].value, ssl_mode))
-				break;
-		mode = ssl_options[i].mode;
-		serv = ssl_options[i].serv;
-		port = ssl_options[i].port;
+	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS) {
+		/* First try connecting to the SSL port  */
+		if (!connect_to_server (service, FALSE, ex)) {
+			if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_SERVICE_UNAVAILABLE) {
+				/* Seems the SSL port is unavailable, lets try STARTTLS */
+				camel_exception_clear (ex);
+				return connect_to_server (service, TRUE, ex);
+			} else {
+				return FALSE;
+			}
+		}
+		
+		return TRUE;
+	} else if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE) {
+		/* If the server supports STARTTLS, use it */
+		return connect_to_server (service, TRUE, ex);
 	} else {
-		mode = MODE_CLEAR;
-		serv = "smtp";
-		port = SMTP_PORT;
+		/* User doesn't care about SSL */
+		return connect_to_server (service, FALSE, ex);
 	}
-	
-	if (service->url->port) {
-		serv = g_alloca (16);
-		sprintf (serv, "%d", service->url->port);
-		port = NULL;
-	}
-	
-	memset (&hints, 0, sizeof (hints));
-	hints.ai_socktype = SOCK_STREAM;
-	hints.ai_family = PF_UNSPEC;
-	ai = camel_getaddrinfo(service->url->host, serv, &hints, ex);
-	if (ai == NULL && port != NULL && camel_exception_get_id(ex) != CAMEL_EXCEPTION_USER_CANCEL) {
-		camel_exception_clear (ex);
-		ai = camel_getaddrinfo(service->url->host, port, &hints, ex);
-	}
-	if (ai == NULL)
-		return FALSE;
-
-	if (!(ret = connect_to_server (service, ai, mode, ex)) && mode == MODE_SSL)
-		ret = connect_to_server (service, ai, MODE_TLS, ex);
-	else if (!ret && mode == MODE_TLS)
-		ret = connect_to_server (service, ai, MODE_CLEAR, ex);
-	
-	camel_freeaddrinfo (ai);
-	
-	return ret;
+#else
+	return connect_to_server (service, FALSE, ex);
+#endif
 }
 
 static gboolean

@@ -1,143 +1,85 @@
-Evolution 2.1.1, 2004-11-28
+Evolution 2.0.3, 2004-12-06
 ----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
  * Addressbook
 
-   #28725 - should not say "no items in this view" until the backend is done responding (Sushma)
-   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu)
-   #61976 - Near-identical strings, should be made identical (Rodney)
    #67656 - almost the same email address are considrered identical (Siva)
-   #61966 - Typo in string: Word "be" missing (Andre Klapper)
    #69079 - Data repeated after save with bad date format (Siva)
-   #66854 - Some strings are missed to translation (partial, Rodney)
+   #66854 - Some strings are missed to translation (Rodney)
+
+ * Calendar
+ 	
+   #47529 - Date in reminder window appears in UTF-8 in non-UTF-8 locale (Rodney)
+   #68707 - Events ending at 12:00 AM show as ending at 12:00 pm (JP)
+   #67403 - wrong alarm time displayed (Rodrigo)
+   #68077 - appointment dialog re-size (Rodrigo)
 
  * Mail
 
-   #68787 - Crash when migrating 1.4 data to 2.0.2 (Michael)
-   #69109 - EHLO or HELO with ip addresses does not conform rfc 821 (Michael)
-   #69408 - Evolution hang in message fetching with ima4rev1 (Jeff)
+   #69533 - Unable to subscribe to the alt hierarchy (Michael)
+   #69776 - Signed Mail with attachments displays everything with multipart/boundaries stuff (Michael)
+   #69615 - delete certificate after viewing smime message (Michael)
+   #69109 - EHLO or HELO with ip addresses does not conform rfc 821  (Michael)
+   #69982 - During Newsgroup list refresh, it crashes (Michael) 
+   #69446 - Mail shown as attachment if some headers are upper case (S. Caglar Onur) 
+   #68556 - NNTP with SSL won't work, even with stunnel (Michael) 
    #69145 - toplevel message/rfc822 parts are broken for IMAP (Michael)
    #69241 - base64 attachement holding PGP block (Jeff)
-   #69160 - IMAP4 dont freez on scaning imap folders (Jeff)
+   #67895 - nntp support not asking for password (Michael)
+   #67898 - Use of symbolic port-names is not guaranteed to work everywhere (Michael)
+   #69851 - remember password check doesn't stick (Michael)
+   #69623 - Moving a message from an IMAP INBOX to an IMAP folder caused crash (Radek)
+   #69339 - postscript and some other attachments not visable (Michael)
+   #69579 - vFolders#UNMATCHED generates errors (Michael)
+   #68958 - current message forgotten in vfolders (Michael)
+   #68974 - Wizard doesn't store smtp auth settings (Michael)
    #67496 - html email not rendered in preview pane (Michael)
-
- * Calendar
-
-   #68624 - Requires URL to have http:// or webcal:// at beginning (Diego Sevilla Ruiz)
-   #47529 - Date in reminder window appears in UTF-8 in non-UTF-8 locale (Rodney)
-   #6767  - Fix hardcode colors in day, week, month views (Li Yuan)
-   #68707 - Events ending at 12:00 AM show as ending at 12:00 pm (JP)
-
- * Shell
-
-   #61065 - Evolution should be spelled with uppercase E in evolution message (Joan Sanfeliu) 
+   #67014 - Checking supported auth types doesn't work with new SSL certificate (Michael)
+   #68006 - Evo crashed after viewing previously-sent email and copying URL from it (Michael)
+   #68787 - Crash when migrating 1.4 data to 2.0.2 (Michael)
+   #67622 - SMTP auth usernames containing % character fail (Jeff)
 
 Other bugs
 
- * Address Book
-
-    - Handle required fields (Siva)
-    - a11y fixes (Hao Sheng)
-    - make shift-F10 popup menu (Hao Sheng)
-    - don't show error dialog when cancelling operation (Siva)
-
  * Mail
 
-    - Reduce memory for vfolder operations (Michael)
-    - Use unix sockets for spam checking (Radek)
-		
+    - fix pthread_key_delete args (Julio M. Merino Vidal)
+
  * Calendar
 
-    - warn is summary is blank (Chen)
-    - allow creating new calendar with right click on a group (Harish)
-    - EConfigize new calendar and calendar properties (David Trowbridge)
-    - make sure switch between 12/24h time shows immediately (JP)
-
-  * Plugins
-
-    - set "base" plugin target (Michael)
-    - add webcal config plugin (David Trowbridge)
-    - mailing list actions plugin (Meilof Venningen)   
-    - plugin manager plugin (Michael)   
+    - leak fixes (Chen)
+    - sensitize menu items in list view properly (JP)
+    - redraw display when 24hr time setting changes (JP)	
 
 Updated translations:
 
-  - da (Martin Willemoes Hansen)
-  - lt (Žygimantas Beručka)
   - nl (Vincent van Adrighem)
-  - de (Hendrik Richter)
-  - it (Marco Ciampa)
+  - pt (Duarte Loreto)
+  - hu (Laszlo Dvornik)
   - ca (Jordi Mallach)
-  - fa (Meelad Zakaria)
-  - sq (Laurent Dhima)
-  - fr (Sebastien Bacher)
-  - cs (Juraj Kubelka)
-
-Evolution 2.1.0, 2004-11-01
-----------------------------
-
-Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
-
- * Addressbook
-
-   #61069 - Missing space in evolution addressbook message (Andre Klapper)
-   #61972 - Typo in country name: Is "Grena-dines", should be "Grenadines" (Andre Klapper)
-
- * Mail
-
-   #68894 - IMAP4 rev1, error on selecting INBOX (Jeff)
-   #68814 - evo crash while fetching mail using IMAP4 rev1 (Jeff)
-   #44876 - Missing keyboard navigation in the e-mail recipient section (Mengjie Yu)
-
-Other bugs
-
- * Address Book
-
-    - Display multi value attributes in the preview (Nat)
-
- * Mail
-
-    - Enable IMAP4 camel provider by default (Jeff)
-    - IMAP4 offline folder info caching (Jeff)
-		
- * Calendar
-
-    - a11y fixes (Li Yuan)
-    - make free/busy information gathering more efficient (Harish)
-
- * Shell
-
-    - remove deprecated calls (Kjartan Maraas)
-
-  * Plugins
-
-    - convert mail, address book to econfig (Zucchi)
-    - convert all components to e-menu (Zucchi)
-    - add new mail event (Zucchi)
-    - add message replied event (Nat/Zucchi)
-    - add online/offline event (Zucchi)
-    - inline audio via gstreamer (Radek)
-    - big brother database (Nat)
-    - copy address tool (Zucchi)
-    - folder unsubscribe (Jeff)
-    - mail to task (Rodrigo)
-    - mark calendar for offline (Harish)
-    - prefer plain text for messages (Zucchi)
-    - save attachments (Zucchi)
-    - save calendar (Rodrigo)
-    - select one calendar/task (JP)
-    - subject threading (JP/Zucchi)
-
-Updated translations:
-
+  - fr (Jeremie Knuesel, Sebastien Bacher, Christophe Merlet)
+  - sv (Christian Rose)
+  - de (Hendrik Brandt)
+  - id (Mohammad DAMT)
+  - es (Francisco Javier F. Serrador)
   - da (Martin Willemoes Hansen)
-  - it (Marco Ciampa)
-  - sq (Laurent Dhima)
-  - el (Nikos Charonitakis)
+  - ko (Changwoo Ryu)
+  - zh_CN (Funda Wang)
   - ms (Hasbullah Bin Pit)
+  - hu (Laszlo Dvornik)
+  - cs (Miloslav Trmac)
+  - ru (Leonid Kanter)
   - bg (Vladimir Petkov)
+  - sq (Laurent Dhima)
+  - en_GB (David Lodge)
+  - pl (Artur Flinta)
+  - sr (Danilo Segan)
+  - sr@Latn (Danilo Segan)
+  - en_CA (Adam Weinberger)
+  - pt_BR (Raphael Higino)
+  - nn (Åsmund Skjæveland)
 
 Evolution 2.0.2, 2004-10-11
 ----------------------------

@@ -269,11 +269,11 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client, e_cal_component_has_attendees (comp)));
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		break;
 
 	case E_CAL_COMPONENT_TODO:
-		editor = COMP_EDITOR (task_editor_new (oc->client, e_cal_component_has_attendees (comp)));
+		editor = COMP_EDITOR (task_editor_new (oc->client));
 		break;
 
 	default:
@@ -311,19 +311,16 @@ edit_new (OpenClient *oc, const GNOME_Evolution_Calendar_CompEditorFactory_CompE
 	
 	switch (type) {
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
-		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
-		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_MEETING:
-		editor = COMP_EDITOR (event_editor_new (oc->client, TRUE));
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		comp = cal_comp_event_new_with_current_time (oc->client, FALSE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_ALLDAY_EVENT:
-		editor = COMP_EDITOR (event_editor_new (oc->client, FALSE));
+		editor = COMP_EDITOR (event_editor_new (oc->client));
 		comp = cal_comp_event_new_with_current_time (oc->client, TRUE);
 		break;
 	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
-		editor = COMP_EDITOR (task_editor_new (oc->client, FALSE));
+		editor = COMP_EDITOR (task_editor_new (oc->client));
 		comp = get_default_task (oc->client);
 		break;
 	default:

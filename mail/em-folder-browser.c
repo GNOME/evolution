@@ -60,7 +60,7 @@
 #include <bonobo/bonobo-ui-util.h>
 
 /* for efilterbar stuff */
-#include <libedataserver/e-sexp.h>
+#include <e-util/e-sexp.h>
 #include "mail-vfolder.h"
 #include "em-vfolder-rule.h"
 #include <widgets/misc/e-filter-bar.h>
@@ -74,7 +74,6 @@
 #include "em-folder-browser.h"
 #include "em-folder-properties.h"
 #include "em-subscribe-editor.h"
-#include "em-menu.h"
 #include "message-list.h"
 
 #include "mail-component.h"
@@ -102,8 +101,6 @@ struct _EMFolderBrowserPrivate {
 	
 	char *select_uid;
 	guint folder_changed_id;
-
-	EMMenu *menu;		/* toplevel menu manager */
 };
 
 static void emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int state);
@@ -290,15 +287,6 @@ em_folder_browser_get_type(void)
 GtkWidget *em_folder_browser_new(void)
 {
 	EMFolderBrowser *emfb = g_object_new(em_folder_browser_get_type(), 0);
-
-	/** @HookPoint-EMMenu: Main Mail Menu
-	 * @Id: org.gnome.evolution.mail.browser
-	 * @Class: org.gnome.evolution.mail.bonobomenu:1.0
-	 * @Target: EMMenuTargetSelect
-	 *
-	 * The main menu of mail view of the main application window.
-	 */
-	((EMFolderView *)emfb)->menu = em_menu_new("org.gnome.evolution.mail.browser");
 
 	return (GtkWidget *)emfb;
 }

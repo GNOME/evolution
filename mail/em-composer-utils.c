@@ -28,7 +28,6 @@
 #include <gtk/gtkdialog.h>
 
 #include <gal/util/e-util.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "mail-mt.h"
 #include "mail-ops.h"
@@ -45,7 +44,6 @@
 #include "composer/e-msg-composer.h"
 #include "em-format-html.h"
 #include "em-format-quote.h"
-#include "em-event.h"
 
 #include "e-util/e-account-list.h"
 
@@ -415,8 +413,8 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 	
 	if (mail_folder) {
 		/* mail the message */
-		info = camel_message_info_new(NULL);
-		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
+		info = camel_message_info_new ();
+		info->flags = CAMEL_MESSAGE_SEEN;
 		
 		send = g_malloc (sizeof (*send));
 		send->emcs = user_data;
@@ -439,8 +437,8 @@ em_utils_composer_send_cb (EMsgComposer *composer, gpointer user_data)
 		mail_tool_destroy_xevolution (xev);
 		
 		/* mail the message */
-		info = camel_message_info_new(NULL);
-		camel_message_info_set_flags(info, CAMEL_MESSAGE_SEEN, ~0);
+		info = camel_message_info_new ();
+		info->flags = CAMEL_MESSAGE_SEEN;
 		
 		post_ptr = post_folders;
 		while (post_ptr) {
@@ -530,7 +528,7 @@ save_draft_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *i
 	g_object_unref (sdi->composer);
 	if (sdi->emcs)
 		emcs_unref (sdi->emcs);
-	camel_message_info_free(info);
+	g_free (info);
 	g_free (sdi);
 }
 
@@ -578,8 +576,8 @@ em_utils_composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user
 	
 	msg = e_msg_composer_get_message_draft (composer);
 	
-	info = camel_message_info_new(NULL);
-	camel_message_info_set_flags(info, CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN, ~0);
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_SEEN;
 	
 	sdi = g_malloc (sizeof (struct _save_draft_info));
 	sdi->composer = composer;
@@ -631,9 +629,7 @@ create_new_composer (const char *subject, const char *fromuri)
 	EAccount *account = NULL;
 
 	composer = e_msg_composer_new ();
-	if (composer == NULL)
-		return NULL;
-
+	
 	if (fromuri)
 		account = mail_config_get_account_by_source_url(fromuri);
 
@@ -656,8 +652,6 @@ em_utils_compose_new_message (const char *fromuri)
 	GtkWidget *composer;
 
 	composer = (GtkWidget *) create_new_composer ("", fromuri);
-	if (composer == NULL)
-		return;
 
 	e_msg_composer_unset_changed ((EMsgComposer *)composer);
 	e_msg_composer_drop_editor_undo ((EMsgComposer *)composer);
@@ -833,10 +827,8 @@ forward_attached (CamelFolder *folder, GPtrArray *messages, CamelMimePart *part,
 	EMsgComposer *composer;
 	
 	composer = create_new_composer (subject, fromuri);
-	if (composer == NULL)
-		return;
-
 	e_msg_composer_attach (composer, part);
+	
 	e_msg_composer_unset_changed (composer);
 	e_msg_composer_drop_editor_undo (composer);
 	
@@ -899,16 +891,16 @@ forward_non_attached (GPtrArray *messages, int style, const char *fromuri)
 		if (text) {
 			composer = create_new_composer (subject, fromuri);
 
-			if (composer) {
-				if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
-					e_msg_composer_add_message_attachments(composer, message, FALSE);
+			if (CAMEL_IS_MULTIPART(camel_medium_get_content_object((CamelMedium *)message)))
+				e_msg_composer_add_message_attachments(composer, message, FALSE);
 
-				e_msg_composer_set_body_text (composer, text, len);
-				e_msg_composer_unset_changed (composer);
-				e_msg_composer_drop_editor_undo (composer);
+			e_msg_composer_set_body_text (composer, text, len);
+						
+			e_msg_composer_unset_changed (composer);
+			e_msg_composer_drop_editor_undo (composer);
 			
-				gtk_widget_show (GTK_WIDGET (composer));
-			}
+			gtk_widget_show (GTK_WIDGET (composer));
+			
 			g_free (text);
 		}
 		
@@ -1746,8 +1738,6 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	EAccount *account;
 	const char *postto = NULL;
 	guint32 flags;
-	EMEvent *eme;
-	EMEventTargetMessage *target;
 
 	if (folder && uid && message == NULL) {
 		struct _reply_data *rd = g_malloc0(sizeof(*rd));
@@ -1761,18 +1751,6 @@ em_utils_reply_to_message(CamelFolder *folder, const char *uid, CamelMimeMessage
 	}
 
 	g_return_if_fail(message != NULL);
-
-	/** @Event: message.replying
-	 * @Title: Message being replied to
-	 * @Target: EMEventTargetMessage
-	 * 
-	 * message.replying is emitted when a user starts replying to a message.
-	 */
-
-	eme = em_event_peek();
-	target = em_event_target_new_message(eme, folder, message, uid,
-					     mode == REPLY_MODE_ALL ? EM_EVENT_MESSAGE_REPLY_ALL : 0);
-	e_event_emit((EEvent *)eme, "message.replying", (EEventTarget *)target);
 	
 	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;

@@ -31,7 +31,6 @@
 #include <bonobo/bonobo-exception.h>
 #include <gconf/gconf-client.h>
 #include <libecal/e-cal.h>
-#include <libedataserverui/e-source-selector.h>
 #include <shell/e-user-creatable-items-handler.h>
 #include "e-cal-model.h"
 #include "e-tasks.h"
@@ -41,14 +40,13 @@
 #include "migration.h"
 #include "comp-util.h"
 #include "calendar-config.h"
-#include "e-cal-popup.h"
 #include "common/authentication.h"
 #include "dialogs/calendar-setup.h"
 #include "dialogs/comp-editor.h"
 #include "dialogs/copy-source-dialog.h"
 #include "dialogs/task-editor.h"
+#include "widgets/misc/e-source-selector.h"
 #include "widgets/misc/e-info-label.h"
-#include "widgets/misc/e-error.h"
 #include "e-util/e-icon-factory.h"
 
 #define CREATE_TASK_ID               "task"
@@ -254,118 +252,137 @@ update_primary_selection (TasksComponentView *component_view)
 
 /* Callbacks.  */
 static void
-copy_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *icon_name,
+		     GCallback callback, gpointer user_data, gboolean sensitive)
 {
-	TasksComponentView *component_view = data;
+	GtkWidget *item, *image;
+	GdkPixbuf *pixbuf;
+
+	if (icon_name) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		pixbuf = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_MENU);
+		image = gtk_image_new_from_pixbuf (pixbuf);
+
+		if (image) {
+			gtk_widget_show (image);
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+		}
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	if (!sensitive)
+		gtk_widget_set_sensitive (item, FALSE);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
+static void
+copy_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
+{
 	ESource *selected_source;
 	
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
-	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source, E_CAL_SOURCE_TYPE_TODO);
+	copy_source_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source, E_CAL_SOURCE_TYPE_TODO);
 }
 
 static void
-delete_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+delete_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
-	TasksComponentView *component_view = data;
 	ESource *selected_source;
-	ECal *cal;
-	char *uri;
+	GtkWidget *dialog;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
-	if (e_error_run((GtkWindow *)gtk_widget_get_toplevel(ep->target->widget),
-			"calendar:prompt-delete-task-list", e_source_peek_name(selected_source)) != GTK_RESPONSE_YES)
-		return;
+	/* create the confirmation dialog */
+	dialog = gtk_message_dialog_new (
+		GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+		GTK_DIALOG_MODAL,
+		GTK_MESSAGE_QUESTION,
+		GTK_BUTTONS_YES_NO,
+		_("Task List '%s' will be removed. Are you sure you want to continue?"),
+		e_source_peek_name (selected_source));
+	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
+		ECal *cal;
+		char *uri;
 
-	/* first, ask the backend to remove the task list */
-	uri = e_source_get_uri (selected_source);
-	cal = e_cal_model_get_client_for_uri (
-		e_calendar_table_get_model (E_CALENDAR_TABLE (e_tasks_get_calendar_table (component_view->tasks))),
-		uri);
-	if (!cal)
-		cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_TODO);
-	g_free (uri);
-	if (cal) {
-		if (e_cal_remove (cal, NULL)) {
-			if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
-								  selected_source)) {
-				e_tasks_remove_todo_source (component_view->tasks, selected_source);
-				e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
-								   selected_source);
+		/* first, ask the backend to remove the task list */
+		uri = e_source_get_uri (selected_source);
+		cal = e_cal_model_get_client_for_uri (
+			e_calendar_table_get_model (E_CALENDAR_TABLE (e_tasks_get_calendar_table (component_view->tasks))),
+			uri);
+		if (!cal)
+			cal = e_cal_new_from_uri (uri, E_CAL_SOURCE_TYPE_TODO);
+		g_free (uri);
+		if (cal) {
+			if (e_cal_remove (cal, NULL)) {
+				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (component_view->source_selector),
+									  selected_source)) {
+					e_tasks_remove_todo_source (component_view->tasks, selected_source);
+					e_source_selector_unselect_source (E_SOURCE_SELECTOR (component_view->source_selector),
+									   selected_source);
+				}
+
+				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
+				e_source_list_sync (component_view->source_list, NULL);
 			}
-			
-			e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
-			e_source_list_sync (component_view->source_list, NULL);
 		}
 	}
+
+	gtk_widget_destroy (dialog);
 }
 
 static void
-new_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+new_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
-	calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)));
+	calendar_setup_new_task_list (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
 }
 
 static void
-edit_task_list_cb (EPopup *ep, EPopupItem *pitem, void *data)
+edit_task_list_cb (GtkWidget *widget, TasksComponentView *component_view)
 {
-	TasksComponentView *component_view = data;
 	ESource *selected_source;
 
 	selected_source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
 	if (!selected_source)
 		return;
 
-	calendar_setup_edit_task_list (GTK_WINDOW (gtk_widget_get_toplevel(ep->target->widget)), selected_source);
+	calendar_setup_edit_task_list (GTK_WINDOW (gtk_widget_get_toplevel (widget)), selected_source);
 }
-
-static EPopupItem etc_source_popups[] = {
-	{ E_POPUP_ITEM, "10.new", N_("New Task List"), new_task_list_cb, NULL, "stock_todo", 0, 0 },
-	{ E_POPUP_ITEM, "15.copy", N_("Copy"), copy_task_list_cb, NULL, "stock_folder-copy", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "20.delete", N_("Delete"), delete_task_list_cb, NULL, "stock_delete", 0, E_CAL_POPUP_SOURCE_USER|E_CAL_POPUP_SOURCE_PRIMARY },
-	{ E_POPUP_ITEM, "30.properties", N_("Properties..."), edit_task_list_cb, NULL, "stock_folder-properties", 0, E_CAL_POPUP_SOURCE_PRIMARY },
-};
 
 static void
-etc_source_popup_free(EPopup *ep, GSList *list, void *data)
+fill_popup_menu_cb (ESourceSelector *selector, GtkMenu *menu, TasksComponentView *component_view)
 {
-	g_slist_free(list);
-}
+	ESource *source;
+	gboolean sensitive, system;
+	const char *source_uri;
+	
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (component_view->source_selector));
+	sensitive =  source ? TRUE : FALSE;
 
-static gboolean
-popup_event_cb(ESourceSelector *selector, ESource *insource, GdkEventButton *event, TasksComponentView *component_view)
-{
-	ECalPopup *ep;
-	ECalPopupTargetSource *t;
-	GSList *menus = NULL;
-	int i;
-	GtkMenu *menu;
+	/* FIXME Gross hack, should have a property or something */
+	source_uri = e_source_peek_relative_uri (source);
+	system = source_uri && !strcmp ("system", source_uri);
 
-	/** @HookPoint-ECalPopup: Tasks Source Selector Context Menu
-	 * @Id: org.gnome.evolution.tasks.source.popup
-	 * @Class: org.gnome.evolution.calendar.popup:1.0
-	 * @Target: ECalPopupTargetSource
-	 *
-	 * The context menu on the source selector in the tasks window.
-	 */
-	ep = e_cal_popup_new("org.gnome.evolution.tasks.source.popup");
-	t = e_cal_popup_target_new_source(ep, selector);
-	t->target.widget = (GtkWidget *)component_view->tasks;
-
-	for (i=0;i<sizeof(etc_source_popups)/sizeof(etc_source_popups[0]);i++)
-		menus = g_slist_prepend(menus, &etc_source_popups[i]);
-
-	e_popup_add_items((EPopup *)ep, menus, etc_source_popup_free, component_view);
-
-	menu = e_popup_create_menu_once((EPopup *)ep, (EPopupTarget *)t, 0);
-	gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event?event->button:0, event?event->time:gtk_get_current_event_time());
-
-	return TRUE;
+	add_popup_menu_item (menu, _("New Task List"), "stock_todo",
+			     G_CALLBACK (new_task_list_cb), component_view, TRUE);
+	add_popup_menu_item (menu, _("Copy"), "stock_folder-copy",
+			     G_CALLBACK (copy_task_list_cb), component_view, sensitive);
+	add_popup_menu_item (menu, _("Delete"), "stock_delete", G_CALLBACK (delete_task_list_cb),
+			     component_view, sensitive && !system);
+	add_popup_menu_item (menu, _("Properties..."), NULL, G_CALLBACK (edit_task_list_cb),
+			     component_view, sensitive);
 }
 
 static void
@@ -791,7 +808,7 @@ create_new_todo (TasksComponent *task_component, gboolean is_assigned, TasksComp
 	if (!ecal)
 		return FALSE;
 
-	editor = task_editor_new (ecal, is_assigned);
+	editor = task_editor_new (ecal);
 	comp = cal_comp_task_new_with_defaults (ecal);
 
 	comp_editor_edit_comp (COMP_EDITOR (editor), comp);
@@ -850,7 +867,7 @@ create_component_view (TasksComponent *tasks_component)
 	
 	/* Create sidebar selector */
 	component_view->source_selector = e_source_selector_new (tasks_component->priv->source_list);
-	e_source_selector_set_select_new ((ESourceSelector *)component_view->source_selector, TRUE);
+	e_source_selector_set_select_new (component_view->source_selector, TRUE);
 
 	g_signal_connect (component_view->source_selector, "drag-motion", G_CALLBACK (selector_tree_drag_motion), 
 			  tasks_component);
@@ -919,8 +936,8 @@ create_component_view (TasksComponent *tasks_component)
 			  G_CALLBACK (source_selection_changed_cb), component_view);
 	g_signal_connect (component_view->source_selector, "primary_selection_changed",
 			  G_CALLBACK (primary_source_selection_changed_cb), component_view);
-	g_signal_connect (component_view->source_selector, "popup_event",
-			  G_CALLBACK (popup_event_cb), component_view);
+	g_signal_connect (component_view->source_selector, "fill_popup_menu",
+			  G_CALLBACK (fill_popup_menu_cb), component_view);
 
 	/* Set up the "new" item handler */
 	component_view->creatable_items_handler = e_user_creatable_items_handler_new ("tasks", create_local_item_cb, tasks_component);

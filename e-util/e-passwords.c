@@ -51,7 +51,7 @@
 #include <gtk/gtkmessagedialog.h>
 
 #include "e-passwords.h"
-#include "libedataserver/e-msgport.h"
+#include "e-msgport.h"
 #include "widgets/misc/e-error.h"
 
 #ifndef ENABLE_THREADS
@@ -420,7 +420,6 @@ ep_ask_password(EPassMsg *msg)
 	GtkWidget *vbox;
 	int type = msg->flags & E_PASSWORDS_REMEMBER_MASK;
 	int noreply = msg->noreply;
-	AtkObject *a11y;
 
 	msg->noreply = 1;
 
@@ -443,9 +442,6 @@ ep_ask_password(EPassMsg *msg)
 	gtk_container_set_border_width((GtkContainer *)vbox, 6);
 	
 	msg->entry = gtk_entry_new ();
-
-	a11y = gtk_widget_get_accessible (msg->entry);
-	atk_object_set_description (a11y, msg->prompt);
 	gtk_entry_set_visibility ((GtkEntry *)msg->entry, !(msg->flags & E_PASSWORDS_SECRET));
 	gtk_entry_set_activates_default((GtkEntry *)msg->entry, TRUE);
 	gtk_box_pack_start (GTK_BOX (vbox), msg->entry, TRUE, FALSE, 3);

@@ -162,7 +162,7 @@ lookup_account_info (const char *key)
 #define SELECTED_TASKS   "/apps/evolution/calendar/tasks/selected_tasks"
 
 static void
-add_esource (const char *conf_key, const char *group_name,  const char *source_name, CamelURL *url)
+add_esource (const char *conf_key, const char *group_name,  const char* source_name, const char *username, const char* relative_uri, const char *soap_port, const char *use_ssl)
 {
 	ESourceList *source_list;
 	ESourceGroup *group;
@@ -170,45 +170,20 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
         GConfClient* client;
 	GSList *ids, *temp ;
 	char *source_selection_key;
-	char *relative_uri;
-	const char *soap_port;
-	const char * use_ssl;
-	const char *poa_address;
-	const char *offline_sync;
-	
-	
-	poa_address = camel_url_get_param (url, "poa");
-	if (!poa_address || strlen (poa_address) ==0)
-		return;
-	soap_port = camel_url_get_param (url, "soap_port");
 
- 	if (!soap_port || strlen (soap_port) == 0)
-		soap_port = "7181";
-
-	use_ssl = camel_url_get_param (url, "soap_ssl");
-	if (use_ssl)
-		use_ssl = "always";
-	else 
-		use_ssl = NULL;
-
-	offline_sync = camel_url_get_param (url, "offline_sync");
-	
 	client = gconf_client_get_default();	
 	source_list = e_source_list_new_for_gconf (client, conf_key);
 
 	group = e_source_group_new (group_name,  GROUPWISE_URI_PREFIX);
-	if (!e_source_list_add_group (source_list, group, -1))
+	if ( !e_source_list_add_group (source_list, group, -1))
 		return;
-	relative_uri = g_strdup_printf ("%s@%s/", url->user, poa_address);
-	
+
 	source = e_source_new (source_name, relative_uri);
 	e_source_set_property (source, "auth", "1");
-	e_source_set_property (source, "username", url->user);
-	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
+	e_source_set_property (source, "username", username);
+	e_source_set_property (source, "port", soap_port);
 	e_source_set_property (source, "auth-domain", "Groupwise");
-	e_source_set_property (source, "use_ssl", camel_url_get_param (url, "use_ssl"));
-	e_source_set_property (source, "offline_sync", offline_sync);
-		//	e_source_set_property (source, "offline_sync",  );
+	e_source_set_property (source, "use_ssl", use_ssl);
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
 
@@ -231,7 +206,6 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	g_object_unref (group);
 	g_object_unref (source_list);
 	g_object_unref (client);
-	g_free (relative_uri);
 }
 
 
@@ -308,7 +282,7 @@ remove_esource (const char *conf_key, const char *group_name, char* source_name,
 /* looks up for e-source with having same info as old_account_info and changes its values passed in new values */
 
 static void 
-modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, CamelURL *new_url)
+modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const char* new_group_name, const char *username, const char* new_relative_uri, const char *soap_port, const char *use_ssl)
 {
 	ESourceList *list;
         ESourceGroup *group;
@@ -320,15 +294,11 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 	gboolean found_group;
       	GConfClient* client;
 	const char *poa_address;
-	char *new_relative_uri;
-	const char *new_poa_address;
-	
+
 	url = camel_url_new (old_account_info->source_url, NULL);
 	poa_address = camel_url_get_param (url, "poa");
 	if (!poa_address || strlen (poa_address) ==0)
 		return;
-	new_poa_address = camel_url_get_param (new_url, "poa");
-	
 	old_relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
 	client = gconf_client_get_default ();
         list = e_source_list_new_for_gconf (client, conf_key);
@@ -351,16 +321,13 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 				
 				if (strcmp (e_source_peek_relative_uri (source), old_relative_uri) == 0) {
 					
-					new_relative_uri = g_strdup_printf ("%s@%s/", new_url->user, new_poa_address); 
 					e_source_group_set_name (group, new_group_name);
 					e_source_set_relative_uri (source, new_relative_uri);
-					e_source_set_property (source, "username", new_url->user);
-					e_source_set_property (source, "port", camel_url_get_param (new_url,"soap_port"));
-					e_source_set_property (source, "use_ssl",  camel_url_get_param (url, "soap_ssl"));
-					e_source_set_property (source, "offline_sync",  camel_url_get_param (url, "offline_sync"));
+					e_source_set_property (source, "username", username);
+					e_source_set_property (source, "port", soap_port);
+					e_source_set_property (source, "use_ssl", use_ssl);		
 					e_source_list_sync (list, NULL);
 					found_group = TRUE;
-					g_free (new_relative_uri);
 					break;
 				}
 			}
@@ -371,7 +338,6 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 	g_object_unref (client);
 	camel_url_free (url);
 	g_free (old_relative_uri);
-
 	
 }
 /* add sources for calendar and tasks if the account added is groupwise account
@@ -402,8 +368,8 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 		use_ssl = NULL;
 
 	relative_uri =  g_strdup_printf ("%s@%s/", url->user, poa_address);
-	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
-	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url);
+	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url->user, relative_uri, soap_port, use_ssl);
+	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url->user,  relative_uri, soap_port, use_ssl);
 	
 	camel_url_free (url);
 	g_free (relative_uri);
@@ -551,7 +517,7 @@ add_addressbook_sources (EAccount *account)
 		e_source_set_property (source, "auth-domain", "Groupwise");
 		e_source_set_property (source, "port", soap_port);
 		e_source_set_property(source, "user", url->user);
-		e_source_set_property (source, "offline_sync", camel_url_get_param (url, "offline_sync"));
+		
 		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
 			e_source_set_property (source, "completion", "true");
 		if (e_gw_container_get_is_frequent_contacts (E_GW_CONTAINER(temp_list->data)))
@@ -593,7 +559,6 @@ modify_addressbook_sources ( EAccount *account, GwAccountInfo *existing_account_
 	ESource *source;
 	GConfClient *client;
 	const char *poa_address;
-	
 
 	url = camel_url_new (existing_account_info->source_url, NULL);
 	if (url == NULL) {
@@ -766,6 +731,7 @@ account_changed (EAccountList *account_listener, EAccount *account)
 {
 	gboolean is_gw_account;
 	CamelURL *old_url, *new_url;
+	char *relative_uri;
 	const char *old_soap_port, *new_soap_port;
 	GwAccountInfo *existing_account_info;
 	const char *old_use_ssl, *new_use_ssl;
@@ -833,9 +799,11 @@ account_changed (EAccountList *account_listener, EAccount *account)
 			account_added (account_listener, account);
 		} else if (strcmp (existing_account_info->name, account->name)) {
 			
-			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url);
-			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name,  new_url);
+			relative_uri =  g_strdup_printf ("%s@%s/", new_url->user, new_poa_address); 
+			modify_esource ("/apps/evolution/calendar/sources", existing_account_info, account->name, new_url->user, relative_uri, new_soap_port, new_use_ssl);
+			modify_esource ("/apps/evolution/tasks/sources", existing_account_info, account->name, new_url->user, relative_uri, new_soap_port, new_use_ssl);
 			modify_addressbook_sources (account, existing_account_info);
+			g_free (relative_uri);
 			
 		}
 		

@@ -35,7 +35,7 @@ extern "C" {
 #include <config.h>
 #endif
 
-#include "libedataserver/e-msgport.h"
+#include "e-util/e-msgport.h"
 
 struct _CamelNNTPStorePrivate {
 	int dummy;

@@ -43,13 +43,12 @@
 #include "camel-multipart-signed.h"
 #include "camel-mime-part.h"
 #include "camel-exception.h"
-#include "libedataserver/md5-utils.h"
+#include "md5-utils.h"
 
 #include "camel-stream-filter.h"
 #include "camel-seekable-substream.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-canon.h"
-#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))
 	       #include <stdio.h>;*/
@@ -541,6 +540,124 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	return total;	
 }
 
+/* See rfc3156, section 2 and others */
+/* We do this simply: Anything not base64 must be qp
+   This is so that we can safely translate any occurance of "From "
+   into the quoted-printable escaped version safely. */
+static void
+prepare_sign(CamelMimePart *mime_part)
+{
+	CamelDataWrapper *wrapper;
+	CamelTransferEncoding encoding;
+	int parts, i;
+	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+	if (!wrapper)
+		return;
+	
+	if (CAMEL_IS_MULTIPART (wrapper)) {
+		parts = camel_multipart_get_number((CamelMultipart *)wrapper);
+		for (i = 0; i < parts; i++)
+			prepare_sign(camel_multipart_get_part((CamelMultipart *)wrapper, i));
+	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+		prepare_sign((CamelMimePart *)wrapper);
+	} else {
+		encoding = camel_mime_part_get_encoding(mime_part);
+
+		if (encoding != CAMEL_TRANSFER_ENCODING_BASE64
+		    && encoding != CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE) {
+			camel_mime_part_set_encoding(mime_part, CAMEL_TRANSFER_ENCODING_QUOTEDPRINTABLE);
+		}
+	}
+}
+
+/**
+ * camel_multipart_signed_sign:
+ * @mps: 
+ * @context: The CipherContext to use for signing.
+ * @content: CamelMimePart content you wish to sign/transport.
+ * @userid: The id of the signing key to use.
+ * @hash: The algorithm to use.
+ * @ex: 
+ * 
+ * Sign the part @content, and attach it as the first part
+ * (CAMEL_MULTIPART_SIGNED_CONTENT) of the multipart @mps.  A
+ * signature object will be created and setup as the second part
+ * (CAMEL_MULTIPART_SIGNED_SIGNATURE) of the object.  Once a part has
+ * been successfully signed the mutlipart is ready for transmission.
+ *
+ * This method should be used to create multipart/signed objects
+ * which are properly canoncalised before signing, etc.
+ * 
+ * Return value: -1 on error, setting @ex appropriately.  On error
+ * neither the content or signature parts will be setup.
+ **/
+int
+camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *context, CamelMimePart *content, const char *userid, CamelCipherHash hash, CamelException *ex)
+{
+	abort();
+#if 0
+	CamelMimeFilter *canon_filter;
+	CamelStream *mem;
+	CamelStreamFilter *filter;
+	CamelContentType *mime_type;
+	CamelMimePart *sigpart;
+
+	/* this needs to be set */
+	g_return_val_if_fail(context->sign_protocol != NULL, -1);
+
+	prepare_sign(content);
+
+	mem = camel_stream_mem_new();
+	filter = camel_stream_filter_new_with_stream(mem);
+	
+	/* Note: see rfc2015 or rfc3156, section 5 */
+	canon_filter = camel_mime_filter_canon_new(CAMEL_MIME_FILTER_CANON_STRIP|CAMEL_MIME_FILTER_CANON_CRLF|CAMEL_MIME_FILTER_CANON_FROM);
+	camel_stream_filter_add(filter, (CamelMimeFilter *)canon_filter);
+	camel_object_unref((CamelObject *)canon_filter);
+
+	camel_data_wrapper_write_to_stream((CamelDataWrapper *)content, (CamelStream *)filter);
+	camel_stream_flush((CamelStream *)filter);
+	camel_object_unref((CamelObject *)filter);
+	camel_stream_reset(mem);
+
+#if 0
+	printf("-- Signing:\n");
+	fwrite(((CamelStreamMem *)mem)->buffer->data, ((CamelStreamMem *)mem)->buffer->len, 1, stdout);
+	printf("-- end\n");
+#endif
+
+	sigpart = camel_mime_part_new();
+
+	if (camel_cipher_sign(context, userid, hash, mem, sigpart, ex) == -1) {
+		camel_object_unref(mem);
+		camel_object_unref(sigpart);
+		return -1;
+	}
+
+	/* setup our mime type and boundary */
+	mime_type = camel_content_type_new("multipart", "signed");
+	camel_content_type_set_param(mime_type, "micalg", camel_cipher_hash_to_id(context, hash));
+	camel_content_type_set_param(mime_type, "protocol", context->sign_protocol);
+	camel_data_wrapper_set_mime_type_field(CAMEL_DATA_WRAPPER (mps), mime_type);
+	camel_content_type_unref(mime_type);
+	camel_multipart_set_boundary((CamelMultipart *)mps, NULL);
+
+	/* just keep the whole raw content.  We dont *really* need to do this because
+	   we know how we just proccessed it, but, well, better to be safe than sorry */
+	mps->signature = sigpart;
+	mps->contentraw = mem;
+	camel_stream_reset(mem);
+
+	/* clear the data-wrapper stream - tells write_to_stream to use the right object */
+	if (((CamelDataWrapper *)mps)->stream) {
+		camel_object_unref((CamelObject *) ((CamelDataWrapper *)mps)->stream);
+		((CamelDataWrapper *)mps)->stream = NULL;
+	}
+#endif
+	return 0;
+}
+
 CamelStream *
 camel_multipart_signed_get_content_stream(CamelMultipartSigned *mps, CamelException *ex)
 {
@@ -573,3 +690,77 @@ camel_multipart_signed_get_content_stream(CamelMultipartSigned *mps, CamelExcept
 
 	return constream;
 }
+
+/**
+ * camel_multipart_signed_verify:
+ * @mps: 
+ * @context: 
+ * @ex: 
+ * 
+ * Verify a signed object.  This may be used to verify newly signed
+ * objects as well as those created from external streams or parsers.
+ * 
+ * Return value: A validity value, or NULL on error, setting @ex
+ * appropriately.
+ **/
+CamelCipherValidity *
+camel_multipart_signed_verify(CamelMultipartSigned *mps, CamelCipherContext *context, CamelException *ex)
+{
+	abort();
+
+	return NULL;
+#if 0
+	CamelCipherValidity *valid;
+	CamelMimePart *sigpart;
+	CamelStream *constream;
+
+	/* we need to be able to verify stuff we just signed as well as stuff we loaded from a stream/parser */
+
+	if (mps->contentraw) {
+		constream = mps->contentraw;
+		camel_object_ref((CamelObject *)constream);
+	} else {
+		CamelStream *sub;
+		CamelMimeFilter *canon_filter;
+
+		if (mps->start1 == -1 && parse_content(mps) == -1) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("parse error"));
+			return NULL;
+		}
+
+		/* first, prepare our parts */
+		sub = camel_seekable_substream_new((CamelSeekableStream *)((CamelDataWrapper *)mps)->stream, mps->start1, mps->end1);
+		constream = (CamelStream *)camel_stream_filter_new_with_stream(sub);
+		camel_object_unref((CamelObject *)sub);
+		
+		/* Note: see rfc2015 or rfc3156, section 5 */
+		canon_filter = camel_mime_filter_canon_new (CAMEL_MIME_FILTER_CANON_CRLF);
+		camel_stream_filter_add((CamelStreamFilter *)constream, (CamelMimeFilter *)canon_filter);
+		camel_object_unref((CamelObject *)canon_filter);
+	}
+
+	/* we do this as a normal mime part so we can have it handle transfer encoding etc */
+	sigpart = camel_multipart_get_part((CamelMultipart *)mps, CAMEL_MULTIPART_SIGNED_SIGNATURE);
+
+	/* do the magic, the caller must supply the right context for this kind of object */
+	valid = camel_cipher_verify(context, camel_cipher_id_to_hash(context, mps->micalg), constream, sigpart, ex);
+
+#if 0
+	{
+		CamelStream *sout = camel_stream_fs_new_with_fd(dup(0));
+
+		camel_stream_printf(sout, "-- Verifying:\n");
+		camel_stream_reset(constream);
+		camel_stream_write_to_stream(constream, sout);
+		camel_stream_printf(sout, "-- end\n");
+		camel_object_unref((CamelObject *)sout);
+	}
+#endif
+
+	camel_object_unref(constream);
+
+	return valid;
+#endif
+}
+
+

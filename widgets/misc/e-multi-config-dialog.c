@@ -37,7 +37,11 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 
+#define PARENT_TYPE gtk_dialog_get_type ()
+static GtkDialogClass *parent_class = NULL;
+
 #define SWITCH_PAGE_INTERVAL 250
+
 
 struct _EMultiConfigDialogPrivate {
 	GSList *pages;
@@ -50,8 +54,6 @@ struct _EMultiConfigDialogPrivate {
 	int set_page_timeout_id;
 	int set_page_timeout_page;
 };
-
-G_DEFINE_TYPE (EMultiConfigDialog, e_multi_config_dialog, GTK_TYPE_DIALOG)
 
 
 /* ETable stuff.  */
@@ -175,7 +177,7 @@ impl_finalize (GObject *object)
 
 	g_free (priv);
 
-	(* G_OBJECT_CLASS (e_multi_config_dialog_parent_class)->finalize) (object);
+	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -214,7 +216,7 @@ impl_response (GtkDialog *dialog, int response_id)
 /* GObject ctors.  */
 
 static void
-e_multi_config_dialog_class_init (EMultiConfigDialogClass *class)
+class_init (EMultiConfigDialogClass *class)
 {
 	GObjectClass *object_class;
 	GtkDialogClass *dialog_class;
@@ -224,6 +226,8 @@ e_multi_config_dialog_class_init (EMultiConfigDialogClass *class)
 
 	dialog_class = GTK_DIALOG_CLASS (class);
 	dialog_class->response = impl_response;
+
+	parent_class = g_type_class_ref (PARENT_TYPE);
 }
 
 #define RGB_COLOR(color) (((color).red & 0xff00) << 8 | \
@@ -283,7 +287,7 @@ static ETableMemoryStoreColumnInfo columns[] = {
 };
 
 static void
-e_multi_config_dialog_init (EMultiConfigDialog *multi_config_dialog)
+init (EMultiConfigDialog *multi_config_dialog)
 {
 	EMultiConfigDialogPrivate *priv;
 	ETableModel *list_e_table_model;
@@ -391,8 +395,6 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 				EConfigPage *page_widget)
 {
 	EMultiConfigDialogPrivate *priv;
-	AtkObject *a11y;
-	gint page_no;
 
 	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
 	g_return_if_fail (title != NULL);
@@ -409,17 +411,10 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 		fill_in_pixbufs (dialog, e_table_model_row_count (priv->list_e_table_model) - 1);
 	}
 
-	page_no = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  create_page_container (description, GTK_WIDGET (page_widget)),
 				  NULL);
 
-	a11y = gtk_widget_get_accessible (GTK_WIDGET(priv->notebook));
-	AtkObject *a11yPage = atk_object_ref_accessible_child (a11y, page_no);
-	if (a11yPage != NULL) {
-		if (atk_object_get_role (a11yPage) == ATK_ROLE_PAGE_TAB)
-			atk_object_set_name (a11yPage, title);
-		g_object_unref (a11yPage);
-	}
 	if (priv->pages->next == NULL) {
 		ETable *table;
 
@@ -445,3 +440,5 @@ e_multi_config_dialog_show_page (EMultiConfigDialog *dialog, int page)
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), page);
 }
 
+
+E_MAKE_TYPE (e_multi_config_dialog, "EMultiConfigDialog", EMultiConfigDialog, class_init, init, PARENT_TYPE)

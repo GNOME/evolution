@@ -30,7 +30,6 @@
 #include <ctype.h>
 #include <errno.h>
 
-#include "camel-net-utils.h"
 #include "camel-http-stream.h"
 
 #include "camel-mime-utils.h"

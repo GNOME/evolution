@@ -36,7 +36,6 @@
 #include "camel/camel-stream-null.h"
 #include "camel/camel-operation.h"
 #include "camel/camel-data-cache.h"
-#include "camel/camel-i18n.h"
 #include "camel/camel-debug.h"
 
 #include "camel-nntp-summary.h"
@@ -60,7 +59,7 @@ struct _CamelNNTPSummaryPrivate {
 
 #define _PRIVATE(o) (((CamelNNTPSummary *)(o))->priv)
 
-static CamelMessageInfo * message_info_new_from_header (CamelFolderSummary *, struct _camel_header_raw *);
+static CamelMessageInfo * message_info_new (CamelFolderSummary *, struct _camel_header_raw *);
 static int summary_header_load(CamelFolderSummary *, FILE *);
 static int summary_header_save(CamelFolderSummary *, FILE *);
 
@@ -94,7 +93,7 @@ camel_nntp_summary_class_init(CamelNNTPSummaryClass *klass)
 	
 	camel_nntp_summary_parent = CAMEL_FOLDER_SUMMARY_CLASS(camel_type_get_global_classfuncs(camel_folder_summary_get_type()));
 
-	sklass->message_info_new_from_header  = message_info_new_from_header;
+	sklass->message_info_new  = message_info_new;
 	sklass->summary_header_load = summary_header_load;
 	sklass->summary_header_save = summary_header_save;
 }
@@ -108,7 +107,7 @@ camel_nntp_summary_init(CamelNNTPSummary *obj)
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 
 	/* subclasses need to set the right instance data sizes */
-	s->message_info_size = sizeof(CamelMessageInfoBase);
+	s->message_info_size = sizeof(CamelMessageInfo);
 	s->content_info_size = sizeof(CamelMessageContentInfo);
 
 	/* and a unique file version */
@@ -124,11 +123,9 @@ camel_nntp_summary_finalise(CamelObject *obj)
 }
 
 CamelNNTPSummary *
-camel_nntp_summary_new(struct _CamelFolder *folder, const char *path)
+camel_nntp_summary_new(const char *path)
 {
 	CamelNNTPSummary *cns = (CamelNNTPSummary *)camel_object_new(camel_nntp_summary_get_type());
-
-	((CamelFolderSummary *)cns)->folder = folder;
 
 	camel_folder_summary_set_filename((CamelFolderSummary *)cns, path);
 	camel_folder_summary_set_build_content((CamelFolderSummary *)cns, FALSE);
@@ -137,9 +134,9 @@ camel_nntp_summary_new(struct _CamelFolder *folder, const char *path)
 }
 
 static CamelMessageInfo *
-message_info_new_from_header(CamelFolderSummary *s, struct _camel_header_raw *h)
+message_info_new(CamelFolderSummary *s, struct _camel_header_raw *h)
 {
-	CamelMessageInfoBase *mi;
+	CamelMessageInfo *mi;
 	CamelNNTPSummary *cns = (CamelNNTPSummary *)s;
 
 	/* error to call without this setup */
@@ -149,13 +146,13 @@ message_info_new_from_header(CamelFolderSummary *s, struct _camel_header_raw *h)
 	/* we shouldn't be here if we already have this uid */
 	g_assert(camel_folder_summary_uid(s, cns->priv->uid) == NULL);
 
-	mi = (CamelMessageInfoBase *)((CamelFolderSummaryClass *)camel_nntp_summary_parent)->message_info_new_from_header(s, h);
+	mi = ((CamelFolderSummaryClass *)camel_nntp_summary_parent)->message_info_new(s, h);
 	if (mi) {
-		mi->uid = g_strdup(cns->priv->uid);
+		camel_message_info_set_uid(mi, cns->priv->uid);
 		cns->priv->uid = NULL;
 	}
 	
-	return (CamelMessageInfo *)mi;
+	return mi;
 }
 
 static int
@@ -209,7 +206,7 @@ static int
 add_range_xover(CamelNNTPSummary *cns, CamelNNTPStore *store, unsigned int high, unsigned int low, CamelFolderChangeInfo *changes, CamelException *ex)
 {
 	CamelFolderSummary *s;
-	CamelMessageInfoBase *mi;
+	CamelMessageInfo *mi;
 	struct _camel_header_raw *headers = NULL;
 	char *line, *tab;
 	int len, ret;
@@ -273,16 +270,16 @@ add_range_xover(CamelNNTPSummary *cns, CamelNNTPStore *store, unsigned int high,
 
 		/* truncated line? ignore? */
 		if (xover == NULL) {
-			mi = (CamelMessageInfoBase *)camel_folder_summary_uid(s, cns->priv->uid);
+			mi = camel_folder_summary_uid(s, cns->priv->uid);
 			if (mi == NULL) {
-				mi = (CamelMessageInfoBase *)camel_folder_summary_add_from_header(s, headers);
+				mi = camel_folder_summary_add_from_header(s, headers);
 				if (mi) {
 					mi->size = size;
 					cns->high = n;
 					camel_folder_change_info_add_uid(changes, camel_message_info_uid(mi));
 				}
 			} else {
-				camel_message_info_free(mi);
+				camel_folder_summary_info_free(s, mi);
 			}
 		}
 
@@ -354,7 +351,7 @@ add_range_head(CamelNNTPSummary *cns, CamelNNTPStore *store, unsigned int high, 
 				camel_folder_change_info_add_uid(changes, camel_message_info_uid(mi));
 			} else {
 				/* already have, ignore */
-				camel_message_info_free(mi);
+				camel_folder_summary_info_free(s, mi);
 			}
 			if (cns->priv->uid) {
 				g_free(cns->priv->uid);
@@ -447,7 +444,7 @@ camel_nntp_summary_check(CamelNNTPSummary *cns, CamelNNTPStore *store, char *lin
 					i--;
 				}
 				
-				camel_message_info_free(mi);
+				camel_folder_summary_info_free(s, mi);
 			}
 		}
 		cns->low = f;
@@ -475,12 +472,12 @@ update:
 
 		count = camel_folder_summary_count(s);
 		for (i = 0; i < count; i++) {
-			CamelMessageInfoBase *mi = (CamelMessageInfoBase *)camel_folder_summary_index(s, i);
+			CamelMessageInfo *mi = camel_folder_summary_index(s, i);
 
 			if (mi) {
 				if ((mi->flags & CAMEL_MESSAGE_SEEN) == 0)
 					unread++;
-				camel_message_info_free(mi);
+				camel_folder_summary_info_free(s, mi);
 			}
 		}
 		

@@ -43,7 +43,7 @@
 #include <camel/camel-private.h>
 #include <camel/camel-utf8.h>
 #include <camel/camel-session.h>
-#include "camel-i18n.h"
+
 
 extern int camel_verbose_debug;
 
@@ -499,10 +499,16 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		
 		fulllen += str->len;
 		g_ptr_array_add (data, str);
-		
+
 		/* Read the next line. */
-		if (camel_imap_store_readline (store, &line, ex) < 0)
-			goto lose;
+		do {
+			if (camel_imap_store_readline (store, &line, ex) < 0)
+				goto lose;
+
+			/* MAJOR HACK ALERT, gropuwise sometimes sends an extra blank line after literals, check that here */
+			if (line[0] == 0)
+				g_warning("Server sent empty line after a literal, assuming in error");
+		} while (line[0] == 0);
 	}
 	
 	/* Now reassemble the data. */

@@ -52,7 +52,12 @@
 #include <glade/glade.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnome/gnome-i18n.h>
+
+#if 0
+#include <libgnomevfs/gnome-vfs-utils.h>
+#include <libgnomevfs/gnome-vfs-mime-utils.h>
+#include <libgnomevfs/gnome-vfs-mime.h>
+#endif
 
 #include <bonobo/bonobo-control-frame.h>
 #include <bonobo/bonobo-stream-memory.h>
@@ -72,7 +77,7 @@
 /* should this be in e-util rather than gal? */
 #include <gal/util/e-util.h>
 
-#include <libedataserver/e-msgport.h>
+#include <e-util/e-msgport.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-icon-factory.h>
@@ -833,6 +838,7 @@ static gboolean
 efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObject *pobject)
 {
 	GtkWidget *icon, *button;
+	GdkPixbuf *pixbuf;
 	struct _smime_pobject *po = (struct _smime_pobject *)pobject;
 	const char *name;
 
@@ -842,7 +848,10 @@ efhd_xpkcs7mime_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	else
 		name = smime_encrypt_table[po->valid->encrypt.status].icon;
 
-	icon = e_icon_factory_get_image (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	pixbuf = e_icon_factory_get_icon (name, E_ICON_SIZE_LARGE_TOOLBAR);
+	
+	icon = gtk_image_new_from_pixbuf (pixbuf);
+	g_object_unref(pixbuf);
 	gtk_widget_show(icon);
 
 	button = gtk_button_new();
@@ -921,17 +930,19 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 {
 	const EMFormatHandler *handle;
 
-	if ( (handle = ((EMFormatClass *)efhd_parent)->find_handler(emf, mime_type)) == NULL
-	     && efhd_use_component(mime_type)
-	     && (handle = g_hash_table_lookup(efhd_bonobo_handlers, mime_type)) == NULL) {
-		EMFormatHandler *h = g_malloc0(sizeof(*h));
+	if (efhd_use_component(mime_type)) {
+		if ((handle = g_hash_table_lookup(efhd_bonobo_handlers, mime_type)) == NULL) {
+			EMFormatHandler *h = g_malloc0(sizeof(*h));
 
-		h->mime_type = g_strdup(mime_type);
-		h->handler = efhd_bonobo_unknown;
-		h->flags = EM_FORMAT_HANDLER_INLINE_DISPOSITION;
-		g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
+			h->mime_type = g_strdup(mime_type);
+			h->handler = efhd_bonobo_unknown;
+			h->flags = EM_FORMAT_HANDLER_INLINE_DISPOSITION;
+			g_hash_table_insert(efhd_bonobo_handlers, h->mime_type, h);
 
-		handle = h;
+			handle = h;
+		}
+	} else {
+		handle = ((EMFormatClass *)efhd_parent)->find_handler(emf, mime_type);
 	}
 
 	return handle;
@@ -1032,33 +1043,19 @@ static void efhd_format_source(EMFormat *emf, CamelStream *stream, CamelMimePart
 
 /* if it hasn't been processed yet, format the attachment */
 static void
-efhd_attachment_show(EPopup *ep, EPopupItem *item, void *data)
+efhd_attachment_show(GtkWidget *w, struct _attach_puri *info)
 {
-	struct _attach_puri *info = data;
-
 	d(printf("show attachment button called\n"));
 
 	info->shown = ~info->shown;
 	em_format_set_inline(info->puri.format, info->puri.part_id, info->shown);
 }
 
-static void
-efhd_attachment_button_show(GtkWidget *w, void *data)
-{
-	efhd_attachment_show(NULL, NULL, data);
-}
-
-static EPopupItem efhd_menu_items[] = {
-	{ E_POPUP_BAR, "05.display", },
-	{ E_POPUP_ITEM, "05.display.00", N_("_View Inline"), efhd_attachment_show },
-	{ E_POPUP_ITEM, "05.display.00", N_("_Hide"), efhd_attachment_show },
+static EMPopupItem efhd_menu_items[] = {
+	{ EM_POPUP_BAR, "05.display", },
+	{ EM_POPUP_ITEM, "05.display.00", N_("_View Inline"), G_CALLBACK(efhd_attachment_show) },
+	{ EM_POPUP_ITEM, "05.display.00", N_("_Hide"), G_CALLBACK(efhd_attachment_show) },
 };
-
-static void
-efhd_menu_items_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-}
 
 static void
 efhd_popup_place_widget(GtkMenu *menu, int *x, int *y, gboolean *push_in, gpointer user_data)
@@ -1076,8 +1073,8 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 	GtkMenu *menu;
 	GSList *menus = NULL;
 	EMPopup *emp;
-	EMPopupTargetPart *target;
-	EPopupItem *item;
+	EMPopupTarget *target;
+	EMPopupItem *item;
 
 	d(printf("attachment popup, button %d\n", event->button));
 
@@ -1086,29 +1083,23 @@ efhd_attachment_popup(GtkWidget *w, GdkEventButton *event, struct _attach_puri *
 		return FALSE;
 	}
 
-	/** @HookPoint-EMPopup: Attachment Button Context Menu
-	 * @Id: org.gnome.evolution.mail.formathtmldisplay.popup
-	 * @Class: org.gnome.evolution.mail.popup:1.0
-	 * @Target: EMPopupTargetPart
-	 *
-	 * This is the drop-down menu shown when a user clicks on the down arrow
-	 * of the attachment button in inline mail content.
-	 */
-	emp = em_popup_new("org.gnome.evolution.mail.formathtmldisplay.popup");
-	target = em_popup_target_new_part(emp, info->puri.part, info->handle?info->handle->mime_type:NULL);
-	target->target.widget = w;
+	emp = em_popup_new("com.ximian.mail.formathtmldisplay.popup.part");
+	target = em_popup_target_new_part(info->puri.part, info->handle?info->handle->mime_type:NULL);
+	target->widget = w;
 
 	/* add our local menus */
 	if (info->handle) {
 		/* show/hide menus, only if we have an inline handler */
+		efhd_menu_items[0].activate_data = info;
 		menus = g_slist_prepend(menus, &efhd_menu_items[0]);
 		item = &efhd_menu_items[info->shown?2:1];
+		item->activate_data = info;
 		menus = g_slist_prepend(menus, item);
 	}
 
-	e_popup_add_items((EPopup *)emp, menus, efhd_menu_items_free, info);
+	em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
 
-	menu = e_popup_create_menu_once((EPopup *)emp, (EPopupTarget *)target, 0);
+	menu = em_popup_create_menu_once(emp, target, target->mask, target->mask);
 	if (event)
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, event->button, event->time);
 	else
@@ -1213,7 +1204,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 		{ NULL, 0, 0 },
 		{ "text/uri-list", 0, 1 },
 	};
-	AtkObject *a11y;
 
 	/* FIXME: handle default shown case */
 	d(printf("adding attachment button/content\n"));
@@ -1227,7 +1217,7 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	button = gtk_button_new();
 
 	if (info->handle)
-		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_button_show), info);
+		g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_show), info);
 	else {
 		gtk_widget_set_sensitive(button, FALSE);
 		GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);
@@ -1293,11 +1283,6 @@ efhd_attachment_button(EMFormatHTML *efh, GtkHTMLEmbedded *eb, EMFormatHTMLPObje
 	button = gtk_button_new();
 	/*GTK_WIDGET_UNSET_FLAGS(button, GTK_CAN_FOCUS);*/
 	gtk_container_add((GtkContainer *)button, gtk_arrow_new(GTK_ARROW_DOWN, GTK_SHADOW_NONE));
-
-	a11y = gtk_widget_get_accessible (button);
-	atk_object_set_name (a11y, _("Attachment Button"));
-
-
 	g_signal_connect(button, "button_press_event", G_CALLBACK(efhd_attachment_popup), info);
 	g_signal_connect(button, "popup_menu", G_CALLBACK(efhd_attachment_popup_menu), info);
 	g_signal_connect(button, "clicked", G_CALLBACK(efhd_attachment_popup_menu), info);

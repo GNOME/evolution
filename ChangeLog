@@ -1,165 +1,14 @@
-2004-12-03  Sivaiah Nallagatla <snallagatla@novell.com>
+2004-10-11  JP Rosevear  <jpr@novell.com>
 
-	* configure.in : Add groupwise-account-setup to plguin 
-	 and base plugin list. Add corresponding Makfile to AC_OUTPUT section.
-	
-2004-12-01  Dafydd Harries  <daf@muse.19inch.net>
+	* NEWS: update
 
-	* configure.in: Add "cy" (Welsh) to ALL_LINGUAS.
+	* configure.in: bump version
 
-2004-11-29  JP Rosevear  <jpr@novell.com>
+2004-09-24  JP Rosevear  <jpr@novell.com>
 
-	* configure.in: bump version, requires
+	* NEWS: update
 
-2004-12-02  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Make evolution mail link to camel-provider not
-	camel only.  Removed some camel stuff.
-
-2004-11-16  Not Zed  <NotZed@Ximian.com>
-
-	* Makefile.am (SUBDIRS): removed camel.
-
-	* configure.in: Removed camel building, fixed module includes to
-	use camel via packageconfig.
-
-2004-11-15  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: Added libeds to camel and mail and filter cflags.
-
-2004-11-09  Rodney Dawes  <dobey@novell.com>
-
-	* configure.in: Add AC_SUBST for plugins_base also
-
-	* plugins/Makefile.am: Add plugins_base to DIST_SUBDIRS so that we
-	dist the plug-ins we actually build by default
-
-2004-11-04  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: added mailing-list-actions plugin.
-
-2004-11-04  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: modified base vs optional logic slightly and added
-	a warning if you build with --enable-plugins=no.
-
-2004-11-04  David Trowbridge <David.Trowbridge@Colorado.edu>
-
-	* configure.in: Added calendar-http module, and setup a mechanism
-	for base vs optional plugins.
-
-2004-11-03  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: fix the logic
-	
-2004-11-03  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: handle plain --enable-plugins and
-	--enable-plugins=yes by making it the equivalent of "all"		
-
-2004-11-03  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: added plugin-manager plugin.
-
-2004-11-01  JP Rosevear  <jpr@novell.com>
-
-	* Makefile.am: dist plugin.mk
-
-2004-10-29  Rodrigo Moya <rodrigo@novell.com>
-
-	* configure.in: added mail-to-meeting plugin.
-
-2004-10-28 Nat Friedman <nat@novell.com>
-
-	* configure.in: Re-enable bbwhatever becuase I think it works now.
-
-2004-10-27  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: revive E_WIDGETS_CFLAGS/LIBS because of needing to
-	add libedataserverui
-
-2004-10-27  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: removed bbwhatever it is until the makefiles are
-	fixed.
-
-2004-10-25  Radek Doulik  <rodo@ximian.com>
-
-	* configure.in: added audio-inline plugin, added gstreamer check
-	for it
-
-	if gstreamer is not available, remove audio-inline plugin from the
-	plugins list
-
-2004-10-22  Harish K  <kharish@novell.com>
-
-	* configure.in: Added mark-calendar-offline plugin
-
-2004-10-22  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* configure.in: Added folder-unsubscribe plugin
-
-2004-10-22  Nat Friedman <nat@novell.com>
-
-	* configure.in: Added the bbdb plugin.
-
-2004-10-21  Rodrigo Moya <rodrigo@novell.com>
-
-	* configure.in: added save-calendar plugin.
-
-2004-10-21  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: added copy-tool plugin.
-
-2004-10-20  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: add select-one-source to the plugin list
-
-2004-10-20  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: added prefer plain plugin.
-	
-2004-10-20  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: added save attachments plugin.
-
-2004-10-20  JP Rosevear  <jpr@novell.com>
-
-	* Makefile.am: list plugins as a subdir
-
-	* plugins/Makefile.am: build enabled plugins
-
-	* plugin.mk: simple rule for creating .eplug files
-
-	* configure.in: add plugin foo; --enable-plugins=all turns them
-	all on, or you can --enable-plugins="<plugin dir> <plugin dir>" to
-	list specific ones
-
-2004-10-15  Sarfraaz Ahmed <asarfraaz@novell.com>
-	
-	* camel.pc.in : Change gal-2.2 to gal-2.4
-	* evolution-shell.pc.in : Similar
-
-2004-10-13  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: remove plugins from ac output
-	
-2004-10-13  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: pull in libedataserverui as appropriate
-
-2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
-
-	* configure.in (localedir): Enable imap4 plugin by default. We
-	need to get people building this and testing it.
-
-2004-10-01  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: set the GETTEXT_PACKAGE to evolution-2.2
-	
-2004-10-01  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: set a GTKHTML_API_VERSION variable
+	* configure.in: bump version, requirements
 
 2004-09-13  Not Zed  <NotZed@Ximian.com>
 
@@ -167,23 +16,41 @@
 	setting from getaddrinfo call check, and default to on if the
 	interfaces are available.
 
-2004-09-17  William Jon McCann  <mccann@jhu.edu>
+2004-09-14  Danilo Šegan  <dsegan@gmx.net>
 
-	* configure.in: Fix typos in gal dependency.
+	* configure.in: Added "bs" to ALL_LINGUAS.
 
-2004-09-16  JP Rosevear  <jpr@novell.com>
+2004-09-13  JP Rosevear  <jpr@novell.com>
 
-	* configure.in: use AC_DEFINE properly
+	* configure.in: bump version, requires
+
+2004-09-13  JP Rosevear  <jpr@novell.com>
 	
-2004-09-16  JP Rosevear  <jpr@novell.com>
+	Fixes #63369
+	
+	* README: Update
 
-	* configure.in: bump EDS and gal requirements
+2004-09-12  Abel Cheung  <maddog@linuxhall.org>
 
-2004-09-16  JP Rosevear  <jpr@novell.com>
+	* configure.in: Added "hi" "mk" "ml" "ta" to ALL_LINGUAS.
 
-	* configure.in: bump version to 2.1.0 and set base version to 2.2;
-	define DEVELOPMENT here so we don't have to alter code to change
-	in future
+2004-09-10  Mohammad DAMT  <mdamt@bisnisweb.com>
+
+	* configure.in: Added Indonesian "id" to ALL_LINGUAS
+	* po/id.po: Added Indonesian translation
+
+2004-09-09  Runa Bhattacharjee	<runab@redhat.com>
+	* configure.in: Added Bengali "bn" to ALL_LINGUAS.
+
+2004-09-04  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
+
+	* configure.in: Added "cy" (Welsh) to ALL_LINGUAS.
+
+2004-08-30  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: hard code BASE_VERSION to 2.0; reset
+	UPGRADE_VERSION to 0 because BASE_VERSION changed; base
+	GETTEXT_PACKAGE on BASE_VERSION
 
 2004-09-13  Tomasz Kłoczko <kloczek@pld.org.pl>
 
@@ -283,19 +150,6 @@
 2004-07-02  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements
-
-2004-08-24  JP Rosevear  <jpr@novell.com>
-
-	* configure.in (plugindir): set a plugin dir so we can easily
-	install to the same place everywhere
-	
-2004-08-24  JP Rosevear  <jpr@novell.com>
-
-	* configure.in: Check for mono support properly
-
-2004-07-05  Not Zed  <NotZed@Ximian.com>
-
-	* configure.in: add some mono checks.
 
 2004-06-24  Pablo Saratxaga  <pablo@mandrakesoft.com>
 

@@ -49,7 +49,6 @@
 #include "camel/camel-multipart.h"
 #include "camel/camel-mime-part.h"
 #include "camel/camel-stream-buffer.h"
-#include "camel/camel-i18n.h"
 #include "camel/camel-private.h"
 
 #include "camel-nntp-summary.h"
@@ -511,7 +510,7 @@ camel_nntp_folder_new (CamelStore *parent, const char *folder_name, CamelExcepti
 	g_free(root);
 
 	root = g_strdup_printf("%s.ev-summary", nntp_folder->storage_path);
-	folder->summary = (CamelFolderSummary *) camel_nntp_summary_new (folder, root);
+	folder->summary = (CamelFolderSummary *) camel_nntp_summary_new (root);
 	g_free(root);
 	camel_folder_summary_load (folder->summary);
 	

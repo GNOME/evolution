@@ -46,7 +46,6 @@
 #define GSS_C_OID_KRBV5_DES GSS_C_NO_OID
 #endif
 
-#include "camel-i18n.h"
 #include "camel-sasl-gssapi.h"
 
 CamelServiceAuthType camel_sasl_gssapi_authtype = {
@@ -205,6 +204,7 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	gss_buffer_desc inbuf, outbuf;
 	GByteArray *challenge = NULL;
 	gss_buffer_t input_token;
+	struct hostent *h;
 	int conf_state;
 	gss_qop_t qop;
 	gss_OID mech;

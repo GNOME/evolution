@@ -36,7 +36,6 @@
 #include <errno.h>
 
 #include "em-popup.h"
-#include "em-menu.h"
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format.h"
@@ -76,7 +75,6 @@
 
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-tree-memory.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <camel/camel-file-utils.h>
 #include <camel/camel-vtrash-folder.h>
@@ -100,10 +98,6 @@ struct _store_info {
 	/* we keep a reference to these so they remain around for the session */
 	CamelFolder *vtrash;
 	CamelFolder *vjunk;
-
-	/* for setup only */
-	void (*done)(CamelStore *store, CamelFolderInfo *info, void *data);
-	void *done_data;
 };
 
 struct _MailComponentPrivate {
@@ -178,21 +172,6 @@ store_info_free(struct _store_info *si)
 	g_free(si);
 }
 
-static void
-mc_add_store_done(CamelStore *store, CamelFolderInfo *info, void *data)
-{
-	struct _store_info *si = data;
-
-	if (si->done)
-		si->done(store, info, si);
-
-	/* let the counters know about the already opened junk/trash folders */
-	if (si->vtrash)
-		mail_note_folder(si->vtrash);
-	if (si->vjunk)
-		mail_note_folder(si->vjunk);
-}
-
 /* Utility functions.  */
 static void
 mc_add_store(MailComponent *component, CamelStore *store, const char *name, void (*done)(CamelStore *store, CamelFolderInfo *info, void *data))
@@ -202,10 +181,9 @@ mc_add_store(MailComponent *component, CamelStore *store, const char *name, void
 	MAIL_COMPONENT_DEFAULT(component);
 
 	si = store_info_new(store, name);
-	si->done = done;
 	g_hash_table_insert(component->priv->store_hash, store, si);
 	em_folder_tree_model_add_store(component->priv->model, store, si->name);
-	mail_note_store(store, NULL, mc_add_store_done, si);
+	mail_note_store(store, NULL, done, component);
 }
 
 static void
@@ -342,17 +320,6 @@ mc_startup(MailComponent *mc)
 	mc_setup_local_store(mc);
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
-
-	e_plugin_hook_register_type(em_popup_hook_get_type());
-	e_plugin_hook_register_type(em_menu_hook_get_type());
-	e_plugin_hook_register_type(em_config_hook_get_type());
-
-	em_format_hook_register_type(em_format_get_type());
-	em_format_hook_register_type(em_format_html_get_type());
-	em_format_hook_register_type(em_format_html_display_get_type());
-	e_plugin_hook_register_type(em_format_hook_get_type());
-
-	e_plugin_hook_register_type(em_event_hook_get_type());
 }
 
 static void
@@ -891,7 +858,7 @@ mail_component_init (MailComponent *component)
 	priv->async_event = mail_async_event_new();
 	priv->store_hash = g_hash_table_new (NULL, NULL);
 	
-	mail_autoreceive_init();
+	mail_autoreceive_setup();
 	
 	offline = mail_offline_handler_new();
 	bonobo_object_add_interface((BonoboObject *)component, (BonoboObject *)offline);

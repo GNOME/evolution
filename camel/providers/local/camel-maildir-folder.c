@@ -39,7 +39,6 @@
 #include "camel-data-wrapper.h"
 #include "camel-mime-message.h"
 #include "camel-exception.h"
-#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -153,7 +152,7 @@ camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint3
 
 static CamelLocalSummary *maildir_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
-	return (CamelLocalSummary *)camel_maildir_summary_new((CamelFolder *)lf, path, folder, index);
+	return (CamelLocalSummary *)camel_maildir_summary_new(path, folder, index);
 }
 
 static void
@@ -251,7 +250,7 @@ static CamelMimeMessage *maildir_get_message(CamelFolder * folder, const gchar *
 	/* what do we do if the message flags (and :info data) changes?  filename mismatch - need to recheck I guess */
 	name = g_strdup_printf("%s/cur/%s", lf->folder_path, camel_maildir_info_filename(mdi));
 
-	camel_message_info_free(info);
+	camel_folder_summary_info_free(folder->summary, info);
 
 	if ((message_stream = camel_stream_fs_new_with_name(name, O_RDONLY, 0)) == NULL) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,

@@ -94,9 +94,10 @@ typedef struct {
 	ECalModelComponent *comp_data;
 } AddEventData;
 
+static void e_week_view_class_init (EWeekViewClass *class);
+static void e_week_view_init (EWeekView *week_view);
 static void e_week_view_destroy (GtkObject *object);
 static void e_week_view_realize (GtkWidget *widget);
-static void e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget);
 static void e_week_view_unrealize (GtkWidget *widget);
 static void e_week_view_style_set (GtkWidget *widget,
 				   GtkStyle  *previous_style);
@@ -156,6 +157,8 @@ static void e_week_view_reshape_event_span (EWeekView *week_view,
 					    gint span_num);
 static void e_week_view_recalc_day_starts (EWeekView *week_view,
 					   time_t lower);
+static void e_week_view_on_adjustment_changed (GtkAdjustment *adjustment,
+					       EWeekView *week_view);
 static void e_week_view_on_editing_started (EWeekView *week_view,
 					    GnomeCanvasItem *item);
 static void e_week_view_on_editing_stopped (EWeekView *week_view,
@@ -206,7 +209,10 @@ static void e_week_view_queue_layout (EWeekView *week_view);
 static void e_week_view_cancel_layout (EWeekView *week_view);
 static gboolean e_week_view_layout_timeout_cb (gpointer data);
 
-G_DEFINE_TYPE (EWeekView, e_week_view, E_TYPE_CALENDAR_VIEW);
+static ECalendarViewClass *parent_class;
+
+E_MAKE_TYPE (e_week_view, "EWeekView", EWeekView, e_week_view_class_init,
+	     e_week_view_init, e_calendar_view_get_type ());
 
 static void
 e_week_view_class_init (EWeekViewClass *class)
@@ -215,6 +221,7 @@ e_week_view_class_init (EWeekViewClass *class)
 	GtkWidgetClass *widget_class;
 	ECalendarViewClass *view_class;
 
+	parent_class = g_type_class_peek_parent (class);
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
 	view_class = (ECalendarViewClass *) class;
@@ -734,7 +741,7 @@ e_week_view_destroy (GtkObject *object)
 		week_view->resize_width_cursor = NULL;
 	}
 
-	GTK_OBJECT_CLASS (e_week_view_parent_class)->destroy (object);
+	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
 
 
@@ -746,8 +753,8 @@ e_week_view_realize (GtkWidget *widget)
 	gboolean success[E_WEEK_VIEW_COLOR_LAST];
 	gint nfailed;
 
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->realize)
+		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
 
 	week_view = E_WEEK_VIEW (widget);
 	week_view->main_gc = gdk_gc_new (widget->window);
@@ -755,8 +762,56 @@ e_week_view_realize (GtkWidget *widget)
 	colormap = gtk_widget_get_colormap (widget);
 
 	/* Allocate the colors. */
-	e_week_view_set_colors(week_view, widget);
-	
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].red   = 0xe0e0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].green = 0xe0e0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS].blue  = 0xe0e0;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].red   = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].green = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS].blue  = 65535;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].red   = 213 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].green = 213 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND].blue  = 213 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].red   = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].green = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER].blue  = 0;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].red   = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].green = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT].blue  = 0;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_GRID].blue  = 0 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED].blue  = 156 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].red   = 16 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].green = 78 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED].blue  = 139 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].red   = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].green = 0 * 257;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES].blue  = 0 * 257;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].red   = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].green = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED].blue  = 65535;
+
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].red   = 65535;
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].green = 0;
+	week_view->colors[E_WEEK_VIEW_COLOR_TODAY].blue  = 0;
+
+	nfailed = gdk_colormap_alloc_colors (colormap, week_view->colors,
+					     E_WEEK_VIEW_COLOR_LAST, FALSE,
+					     TRUE, success);
+	if (nfailed)
+		g_warning ("Failed to allocate all colors");
+
 	gdk_gc_set_colormap (week_view->main_gc, colormap);
 
 	/* Create the pixmaps. */
@@ -765,21 +820,6 @@ e_week_view_realize (GtkWidget *widget)
 	week_view->timezone_icon = e_icon_factory_get_icon ("stock_timezone", E_ICON_SIZE_MENU);
 }
 
-static void
-e_week_view_set_colors(EWeekView *week_view, GtkWidget *widget)
-{
-	week_view->colors[E_WEEK_VIEW_COLOR_EVEN_MONTHS] = widget->style->base[GTK_STATE_INSENSITIVE];
-	week_view->colors[E_WEEK_VIEW_COLOR_ODD_MONTHS] = widget->style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BACKGROUND] = widget->style->base[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_BORDER] = widget->style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_EVENT_TEXT] = widget->style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_GRID] = widget->style->dark[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED] = widget->style->base[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_SELECTED_UNFOCUSSED] = widget->style->bg[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES] = widget->style->text[GTK_STATE_NORMAL];
-	week_view->colors[E_WEEK_VIEW_COLOR_DATES_SELECTED] = widget->style->text[GTK_STATE_SELECTED];
-	week_view->colors[E_WEEK_VIEW_COLOR_TODAY] = widget->style->base[GTK_STATE_SELECTED];
-}
 
 static void
 e_week_view_unrealize (GtkWidget *widget)
@@ -802,8 +842,8 @@ e_week_view_unrealize (GtkWidget *widget)
 	g_object_unref (week_view->timezone_icon);
 	week_view->timezone_icon = NULL;
 
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
 }
 
 static gint
@@ -848,34 +888,18 @@ e_week_view_style_set (GtkWidget *widget,
 	GtkStyle *style;
 	gint day, day_width, max_day_width, max_abbr_day_width;
 	gint month, month_width, max_month_width, max_abbr_month_width;
-	gint span_num;
 	GDate date;
 	gchar buffer[128];
 	PangoFontDescription *font_desc;
 	PangoContext *pango_context;
 	PangoFontMetrics *font_metrics;
 	PangoLayout *layout;
-	EWeekViewEventSpan *span;
 
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
 
 	week_view = E_WEEK_VIEW (widget);
 	style = gtk_widget_get_style (widget);
-
-	e_week_view_set_colors(week_view, widget);
-	if (week_view->spans) {
-		for (span_num = 0; span_num < week_view->spans->len;
-				span_num++) {
-			span = &g_array_index (week_view->spans,
-					EWeekViewEventSpan, span_num);
-			if (span->text_item){
-				gnome_canvas_item_set (span->text_item,
-						"fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
-						NULL);
-			}
-		}
-	}
 
 	/* Set up Pango prerequisites */
 	font_desc = style->font_desc;
@@ -974,7 +998,7 @@ e_week_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	week_view = E_WEEK_VIEW (widget);
 
-	(*GTK_WIDGET_CLASS (e_week_view_parent_class)->size_allocate) (widget, allocation);
+	(*GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
 
 	e_week_view_recalc_cell_sizes (week_view);
 
@@ -1176,8 +1200,8 @@ e_week_view_expose_event (GtkWidget *widget,
 
 	e_week_view_draw_shadow (week_view);
 
-	if (GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (e_week_view_parent_class)->expose_event)(widget, event);
+	if (GTK_WIDGET_CLASS (parent_class)->expose_event)
+		(*GTK_WIDGET_CLASS (parent_class)->expose_event)(widget, event);
 
 	return FALSE;
 }
@@ -2120,7 +2144,7 @@ e_week_view_on_button_press (GtkWidget *widget,
 
 	if (event->button == 1) {
 		/* Start the selection drag. */
-		if (!GTK_WIDGET_HAS_FOCUS (week_view) &&  !GTK_WIDGET_HAS_FOCUS (week_view->main_canvas))
+		if (!GTK_WIDGET_HAS_FOCUS (week_view))
 			gtk_widget_grab_focus (GTK_WIDGET (week_view));
 
 		if (gdk_pointer_grab (GTK_LAYOUT (widget)->bin_window, FALSE,
@@ -2130,7 +2154,6 @@ e_week_view_on_button_press (GtkWidget *widget,
 			week_view->selection_start_day = day;
 			week_view->selection_end_day = day;
 			week_view->selection_drag_pos = E_WEEK_VIEW_DRAG_END;
-			g_signal_emit_by_name (week_view, "selected_time_changed");
 
 			/* FIXME: Optimise? */
 			gtk_widget_queue_draw (week_view->main_canvas);
@@ -2671,9 +2694,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 	/* Create the text item if necessary. */
 	if (!span->text_item) {
 		ECalComponentText text;
-		GtkWidget *widget;
 
-		widget = (GtkWidget *)week_view;
 		e_cal_component_get_summary (comp, &text);
 		span->text_item =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (week_view->main_canvas)->root),
@@ -2684,7 +2705,7 @@ e_week_view_reshape_event_span (EWeekView *week_view,
 					       "editable", TRUE,
 					       "text", text.value ? text.value : "",
 					       "use_ellipsis", TRUE,
-					       "fill_color_gdk", &widget->style->text[GTK_STATE_NORMAL],
+					       "fill_color_rgba", GNOME_CANVAS_COLOR(0, 0, 0),
 					       "im_context", E_CANVAS (week_view->main_canvas)->im_context,
 					       NULL);
 
@@ -3484,9 +3505,9 @@ e_week_view_do_cursor_key_up (EWeekView *week_view)
 	if (week_view->selection_start_day <= 0)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3497,9 +3518,9 @@ e_week_view_do_cursor_key_down (EWeekView *week_view)
 		week_view->selection_start_day >= 6)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3509,9 +3530,9 @@ e_week_view_do_cursor_key_left (EWeekView *week_view)
 	if (week_view->selection_start_day == -1)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day = map_left[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3521,9 +3542,9 @@ e_week_view_do_cursor_key_right (EWeekView *week_view)
 	if (week_view->selection_start_day == -1)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day = map_right[week_view->selection_start_day];
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3533,9 +3554,9 @@ e_month_view_do_cursor_key_up (EWeekView *week_view)
 	if (week_view->selection_start_day < 7)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day -= 7;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3548,9 +3569,9 @@ e_month_view_do_cursor_key_down (EWeekView *week_view)
 		week_view->selection_start_day >= (weeks_shown - 1) * 7)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day += 7;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3560,9 +3581,9 @@ e_month_view_do_cursor_key_left (EWeekView *week_view)
 	if (week_view->selection_start_day <= 0)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day--;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3575,9 +3596,9 @@ e_month_view_do_cursor_key_right (EWeekView *week_view)
 		week_view->selection_start_day >= weeks_shown * 7 - 1)
 		return;
 	
+	g_signal_emit_by_name (week_view, "selected_time_changed");
 	week_view->selection_start_day++;
 	week_view->selection_end_day = week_view->selection_start_day;
-	g_signal_emit_by_name (week_view, "selected_time_changed");
 	gtk_widget_queue_draw (week_view->main_canvas);
 }
 
@@ -3897,7 +3918,7 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 
 	/* if not handled, try key bindings */
 	if (!handled)
-		handled = GTK_WIDGET_CLASS (e_week_view_parent_class)->key_press_event (widget, event);
+		handled = GTK_WIDGET_CLASS (parent_class)->key_press_event (widget, event);
 	return handled;
 }
 
@@ -3920,7 +3941,7 @@ e_week_view_show_popup_menu (EWeekView	     *week_view,
 
 	popup = e_calendar_view_create_popup_menu (E_CALENDAR_VIEW (week_view));
 	g_object_weak_ref (G_OBJECT (popup), popup_destroyed_cb, week_view);
-	gtk_menu_popup (popup, NULL, NULL, NULL, NULL, bevent?bevent->button:0, bevent?bevent->time:gtk_get_current_event_time());
+	e_popup_menu (popup, (GdkEvent *) bevent);
 }
 
 static gboolean

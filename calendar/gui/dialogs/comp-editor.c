@@ -76,13 +76,14 @@ struct _CompEditorPrivate {
 	
  	gboolean existing_org;
  	gboolean user_org;
-	gboolean is_group_item;
 	
  	gboolean warned;
 };
 
 
 
+static void comp_editor_class_init (CompEditorClass *class);
+static void comp_editor_init (CompEditor *editor);
 static gint comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e);
 static void comp_editor_finalize (GObject *object);
 
@@ -101,7 +102,12 @@ static void page_dates_changed_cb (GtkObject *obj, CompEditorPageDates *dates, g
 static void obj_modified_cb (ECal *client, GList *objs, gpointer data);
 static void obj_removed_cb (ECal *client, GList *uids, gpointer data);
 
-G_DEFINE_TYPE (CompEditor, comp_editor, GTK_TYPE_DIALOG);
+static GtkObjectClass *parent_class;
+
+
+
+E_MAKE_TYPE (comp_editor, "CompEditor", CompEditor, comp_editor_class_init, comp_editor_init,
+	     GTK_TYPE_DIALOG);
 
 /* Class initialization function for the calendar component editor */
 static void
@@ -110,6 +116,7 @@ comp_editor_class_init (CompEditorClass *klass)
 	GObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
+	parent_class = g_type_class_peek_parent (klass);
 	object_class = G_OBJECT_CLASS (klass);
 	widget_class = GTK_WIDGET_CLASS (klass);
 
@@ -328,7 +335,7 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return FALSE;
-		
+
 		if (send && save_comp_with_send (editor))
 			return TRUE;
 		else if (!send && save_comp (editor))
@@ -348,7 +355,6 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
 	CompEditorPrivate *priv;
-	ECalComponentText text;
 	
 	priv = editor->priv;
 	
@@ -359,18 +365,9 @@ response_cb (GtkWidget *widget, int response, gpointer data)
 		if (e_cal_component_is_instance (priv->comp))
 			if (!recur_component_dialog (priv->client, priv->comp, &priv->mod, GTK_WINDOW (editor)))
 				return;
-	
-		if (save_comp_with_send (editor)) {
-	
-			e_cal_component_get_summary (priv->comp, &text);
 		
-			if (!text.value) {
-				if (!send_component_prompt_subject ((GtkWindow *) editor, priv->client, priv->comp))
-					return;
-			}
+		if (save_comp_with_send (editor))
 			close_dialog (editor);
-		}
-
 		break;
 	case GTK_RESPONSE_CANCEL:
 	case GTK_RESPONSE_DELETE_EVENT:
@@ -422,7 +419,6 @@ comp_editor_init (CompEditor *editor)
  	priv->existing_org = FALSE;
  	priv->user_org = FALSE;
  	priv->warned = FALSE;
-	priv->is_group_item = FALSE;
 
 	gtk_window_set_type_hint (GTK_WINDOW (editor), GDK_WINDOW_TYPE_HINT_NORMAL);
 }
@@ -439,8 +435,8 @@ comp_editor_key_press_event (GtkWidget *d, GdkEventKey *e)
 	}
 #endif
 
-	if (GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event)
-		return (* GTK_WIDGET_CLASS (comp_editor_parent_class)->key_press_event) (d, e);
+	if (GTK_WIDGET_CLASS (parent_class)->key_press_event)
+		return (* GTK_WIDGET_CLASS (parent_class)->key_press_event) (d, e);
 
 	return FALSE;
 }
@@ -490,8 +486,8 @@ comp_editor_finalize (GObject *object)
 	g_free (priv);
 	editor->priv = NULL;
 
-	if (G_OBJECT_CLASS (comp_editor_parent_class)->finalize)
-		(* G_OBJECT_CLASS (comp_editor_parent_class)->finalize) (object);
+	if (G_OBJECT_CLASS (parent_class)->finalize)
+		(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
 
@@ -580,31 +576,6 @@ comp_editor_get_user_org (CompEditor *editor)
 	return priv->user_org;
 }
 
-void
-comp_editor_set_group_item (CompEditor *editor, gboolean group_item)
-{
-	CompEditorPrivate *priv;
-
-	g_return_if_fail (editor != NULL);
-	g_return_if_fail (IS_COMP_EDITOR (editor));
-
-	priv = editor->priv;
-
-	priv->is_group_item = group_item;
-}
-
-gboolean
-comp_editor_get_is_group_item (CompEditor *editor)
-{
-	CompEditorPrivate *priv;
-
-	g_return_val_if_fail (editor != NULL, FALSE);
-	g_return_val_if_fail (IS_COMP_EDITOR (editor), FALSE);
-
-	priv = editor->priv;
-
-	return priv->is_group_item;
-}
 
 /**
  * comp_editor_set_changed:
@@ -888,7 +859,7 @@ comp_editor_get_e_cal (CompEditor *editor)
 
 /* Creates an appropriate title for the event editor dialog */
 static char *
-make_title_from_comp (ECalComponent *comp, gboolean is_group_item)
+make_title_from_comp (ECalComponent *comp)
 {
 	char *title;
 	const char *type_string;
@@ -901,16 +872,10 @@ make_title_from_comp (ECalComponent *comp, gboolean is_group_item)
 	type = e_cal_component_get_vtype (comp);
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
-		if (is_group_item)
-			type_string = _("Meeting - %s");
-		else
-			type_string = _("Appointment - %s");
+		type_string = _("Appointment - %s");
 		break;
 	case E_CAL_COMPONENT_TODO:
-		if (is_group_item)
-			type_string = _("Assigned Task - %s");
-		else
-			type_string = _("Task - %s");
+		type_string = _("Task - %s");
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
 		type_string = _("Journal entry - %s");
@@ -932,7 +897,7 @@ make_title_from_comp (ECalComponent *comp, gboolean is_group_item)
 
 /* Creates an appropriate title for the event editor dialog */
 static char *
-make_title_from_string (ECalComponent *comp, const char *str, gboolean is_group_item)
+make_title_from_string (ECalComponent *comp, const char *str)
 {
 	char *title;
 	const char *type_string;
@@ -944,16 +909,10 @@ make_title_from_string (ECalComponent *comp, const char *str, gboolean is_group_
 	type = e_cal_component_get_vtype (comp);
 	switch (type) {
 	case E_CAL_COMPONENT_EVENT:
-		if (is_group_item)
-			type_string = _("Meeting - %s");
-		else
-			type_string = _("Appointment - %s");
+		type_string = _("Appointment - %s");
 		break;
 	case E_CAL_COMPONENT_TODO:
-		if (is_group_item)
-			type_string = _("Assigned Task - %s");	
-		else
-			type_string = _("Task - %s");
+		type_string = _("Task - %s");
 		break;
 	case E_CAL_COMPONENT_JOURNAL:
 		type_string = _("Journal entry - %s");
@@ -1001,7 +960,7 @@ set_title_from_comp (CompEditor *editor)
 	char *title;
 
 	priv = editor->priv;
-	title = make_title_from_comp (priv->comp, priv->is_group_item);
+	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (editor), title);
 	g_free (title);
 }
@@ -1013,7 +972,7 @@ set_title_from_string (CompEditor *editor, const char *str)
 	char *title;
 
 	priv = editor->priv;
-	title = make_title_from_string (priv->comp, str, priv->is_group_item);
+	title = make_title_from_string (priv->comp, str);
 	gtk_window_set_title (GTK_WINDOW (editor), title);
 	g_free (title);
 }

@@ -1,42 +1,3 @@
-2004-11-22  Joan Sanfeliu  <joan@fibranet.com>
-
-	* main.c: Evolution product name spelled with an uppercase E
-
-	Fixes #61605
-
-2004-11-02  mengjie yu  <meng-jie.yu@sun.com>
-
-	* evolution-startup-wizard.glade:remove the hard line breaks.
-
-2004-10-25  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): register event hook.
-
-	* e-shell.c (offline_procedure_finished_cb, e_shell_go_online):
-	emit new state changed event.
-
-	* main.c (main): register the menu hook.
-	(): only define DEVELOPMENT if not already.
-
-	* e-shell-window.c (init): setup menu manager.
-	(e_shell_window_new): activate menu manager.
-	(update_offline_toggle_status): update the menu manager when the
-	offline state changes (currently only state which requires it)
-
-	* es-menu.[ch]: Shell plugin menu manager.
-
-2004-10-07  Not Zed  <NotZed@Ximian.com>
-
-	* main.c (main): initialise plugin system.
-	(main): add --disable-eplugin and --disable-mono arguments.
-
-2004-09-30  Kjartan Maraas  <kmaraas@gnome.org>
-
-	* e-shell-importer.c: (import_cb): use g_timeout_add().
-	* importer/intelligent.c: (select_row_cb), (unselect_row_cb),
-	(create_gui): use gtk_notebook_set_current_page() instead of
-	deprecated gtk_notebook_set_page()
-
 2004-09-24  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell-window-commands.c: Added ed catmur to the credits.
@@ -53,6 +14,10 @@
 	* e-shell-window-commands.c (about_box_new): don't show
 	"translator-credits" if not translated
 
+2004-09-13  JP Rosevear  <jpr@novell.com>
+
+	* main.c: turn off development mode
+
 2004-09-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #17338
@@ -60,6 +25,14 @@
 	* e-shell-window-commands.c (about_box_new): use per language
 	translator credits, update authors lists (not strictly authors,
 	but we have a lot of helpful people)
+
+2004-09-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61285.
+
+	* e-shell-settings-dialog.c (load_pages): use a better query to
+	get the configuration pages, the old one didn't include version
+	information properly.
 
 2004-09-13  Sivaiah Nallagatla <snallagatla@novell.com>
 
@@ -156,10 +129,6 @@
 
 	* e-shell-errors.xml.h: Add this back to CVS for translators
 	* .cvsignore: Don't ignore e-shell-errors.xml.h
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* e-shell.c (e_shell_construct): disable the startup wizard.
 
 2004-06-24  Not Zed  <NotZed@Ximian.com>
 

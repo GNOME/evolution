@@ -44,8 +44,8 @@
 #include "camel-session.h"
 #include "camel-file-utils.h"
 #include "camel-lock-client.h"
+
 #include "camel-local-private.h"
-#include "camel-i18n.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -160,7 +160,7 @@ spool_get_meta_path(CamelLocalFolder *lf, const char *toplevel_dir, const char *
 static CamelLocalSummary *
 spool_create_summary(CamelLocalFolder *lf, const char *path, const char *folder, CamelIndex *index)
 {
-	return (CamelLocalSummary *)camel_spool_summary_new((CamelFolder *)lf, folder);
+	return (CamelLocalSummary *)camel_spool_summary_new(folder);
 }
 
 static int

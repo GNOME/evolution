@@ -44,13 +44,13 @@
 #include <libgnomevfs/gnome-vfs-mime.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
-#include <libgnome/gnome-i18n.h>
 
 #include "mail-component.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
 #include "mail-tools.h"
 #include "mail-config.h"
+#include "mail-config-druid.h"
 #include "message-tag-followup.h"
 
 #include <e-util/e-mktemp.h>
@@ -63,7 +63,6 @@
 #include "em-utils.h"
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
-#include "em-account-editor.h"
 
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
@@ -179,18 +178,19 @@ druid_destroy_cb (gpointer user_data, GObject *deadbeef)
 gboolean
 em_utils_configure_account (GtkWidget *parent)
 {
-	EMAccountEditor *emae;
-
-	emae = em_account_editor_new(NULL, EMAE_DRUID);
-	if (parent != NULL)
-		e_dialog_set_transient_for((GtkWindow *)emae->editor, parent);
-
-	g_object_weak_ref((GObject *)emae->editor, (GWeakNotify) druid_destroy_cb, NULL);
-	gtk_widget_show(emae->editor);
-	gtk_grab_add(emae->editor);
-	gtk_main();
+	MailConfigDruid *druid;
 	
-	return mail_config_is_configured();
+	druid = mail_config_druid_new ();
+	
+	if (parent != NULL)
+		e_dialog_set_transient_for ((GtkWindow *) druid, parent);
+	
+	g_object_weak_ref ((GObject *) druid, (GWeakNotify) druid_destroy_cb, NULL);
+	gtk_widget_show ((GtkWidget *) druid);
+	gtk_grab_add ((GtkWidget *) druid);
+	gtk_main ();
+	
+	return mail_config_is_configured ();
 }
 
 /**
@@ -696,10 +696,8 @@ em_utils_flag_for_followup (GtkWidget *parent, CamelFolder *folder, GPtrArray *u
 		
 		info = camel_folder_get_message_info (folder, uids->pdata[0]);
 		if (info) {
-			const CamelTag *tags = camel_message_info_user_tags(info);
-
-			if (tags)
-				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), tags);
+			if (info->user_tags)
+				message_tag_editor_set_tag_list (MESSAGE_TAG_EDITOR (editor), info->user_tags);
 			camel_folder_free_message_info (folder, info);
 		}
 	}

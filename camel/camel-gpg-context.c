@@ -46,7 +46,7 @@
 #include <errno.h>
 #include <ctype.h>
 
-#include "libedataserver/e-iconv.h"
+#include "gal/util/e-iconv.h"
 
 #include "camel-gpg-context.h"
 #include "camel-mime-filter-charset.h"
@@ -56,9 +56,9 @@
 #include "camel-operation.h"
 #include "camel-mime-part.h"
 #include "camel-mime-filter-canon.h"
+
 #include "camel-multipart-signed.h"
 #include "camel-multipart-encrypted.h"
-#include "camel-i18n.h"
 
 #define d(x) 
 

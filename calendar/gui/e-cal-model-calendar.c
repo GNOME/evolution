@@ -1,6 +1,7 @@
 /* Evolution calendar - Data model for ETable
  *
- * Copyright (C) 2004 Ximian, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Rodrigo Moya <rodrigo@ximian.com>
  *
@@ -18,12 +19,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
-
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
+#include <gal/util/e-util.h>
 #include "e-cal-model-calendar.h"
 #include "e-cell-date-edit-text.h"
 #include "misc.h"
@@ -31,7 +30,9 @@
 struct _ECalModelCalendarPrivate {
 };
 
-static void e_cal_model_calendar_finalize (GObject *object);
+static void ecmc_class_init (ECalModelCalendarClass *klass);
+static void ecmc_init (ECalModelCalendar *model, ECalModelCalendarClass *klass);
+static void ecmc_finalize (GObject *object);
 static int ecmc_column_count (ETableModel *etm);
 static void *ecmc_value_at (ETableModel *etm, int col, int row);
 static void ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value);
@@ -45,16 +46,21 @@ static char *ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 static void ecmc_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
 					    ETableModel *source_model, gint row);
 
-G_DEFINE_TYPE (ECalModelCalendar, e_cal_model_calendar, E_TYPE_CAL_MODEL);
+static GObjectClass *parent_class = NULL;
+
+E_MAKE_TYPE (e_cal_model_calendar, "ECalModelCalendar", ECalModelCalendar, ecmc_class_init,
+	     ecmc_init, E_TYPE_CAL_MODEL);
 
 static void
-e_cal_model_calendar_class_init (ECalModelCalendarClass *klass)
+ecmc_class_init (ECalModelCalendarClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
 	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
 
-	object_class->finalize = e_cal_model_calendar_finalize;
+	parent_class = g_type_class_peek_parent (klass);
+
+	object_class->finalize = ecmc_finalize;
 
 	etm_class->column_count = ecmc_column_count;
 	etm_class->value_at = ecmc_value_at;
@@ -70,7 +76,7 @@ e_cal_model_calendar_class_init (ECalModelCalendarClass *klass)
 }
 
 static void
-e_cal_model_calendar_init (ECalModelCalendar *model)
+ecmc_init (ECalModelCalendar *model, ECalModelCalendarClass *klass)
 {
 	ECalModelCalendarPrivate *priv;
 
@@ -81,7 +87,7 @@ e_cal_model_calendar_init (ECalModelCalendar *model)
 }
 
 static void
-e_cal_model_calendar_finalize (GObject *object)
+ecmc_finalize (GObject *object)
 {
 	ECalModelCalendarPrivate *priv;
 	ECalModelCalendar *model = (ECalModelCalendar *) object;
@@ -94,8 +100,8 @@ e_cal_model_calendar_finalize (GObject *object)
 		model->priv = NULL;
 	}
 
-	if (G_OBJECT_CLASS (e_cal_model_calendar_parent_class)->finalize)
-		G_OBJECT_CLASS (e_cal_model_calendar_parent_class)->finalize (object);
+	if (parent_class->finalize)
+		parent_class->finalize (object);
 }
 
 /* ETableModel methods */
@@ -196,7 +202,7 @@ ecmc_value_at (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (row >= 0 && row < e_table_model_row_count (etm), NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->value_at (etm, col, row);
+		return E_TABLE_MODEL_CLASS (parent_class)->value_at (etm, col, row);
 
 	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
 	if (!comp_data)
@@ -336,7 +342,7 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 	g_return_if_fail (row >= 0 && row < e_table_model_row_count (etm));
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->set_value_at (etm, col, row, value);
+		E_TABLE_MODEL_CLASS (parent_class)->set_value_at (etm, col, row, value);
 		return;
 	}
 
@@ -374,7 +380,7 @@ ecmc_is_cell_editable (ETableModel *etm, int col, int row)
 	g_return_val_if_fail (row >= -1 || (row >= 0 && row < e_table_model_row_count (etm)), FALSE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->is_cell_editable (etm, col, row);
+		return E_TABLE_MODEL_CLASS (parent_class)->is_cell_editable (etm, col, row);
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -392,7 +398,7 @@ ecmc_duplicate_value (ETableModel *etm, int col, const void *value)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->duplicate_value (etm, col, value);
+		return E_TABLE_MODEL_CLASS (parent_class)->duplicate_value (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -420,7 +426,7 @@ ecmc_free_value (ETableModel *etm, int col, void *value)
 	g_return_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST);
 
 	if (col < E_CAL_MODEL_FIELD_LAST) {
-		E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->free_value (etm, col, value);
+		E_TABLE_MODEL_CLASS (parent_class)->free_value (etm, col, value);
 		return;
 	}
 
@@ -440,7 +446,7 @@ ecmc_initialize_value (ETableModel *etm, int col)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, NULL);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->initialize_value (etm, col);
+		return E_TABLE_MODEL_CLASS (parent_class)->initialize_value (etm, col);
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -459,7 +465,7 @@ ecmc_value_is_empty (ETableModel *etm, int col, const void *value)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, TRUE);
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->value_is_empty (etm, col, value);
+		return E_TABLE_MODEL_CLASS (parent_class)->value_is_empty (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
@@ -478,7 +484,7 @@ ecmc_value_to_string (ETableModel *etm, int col, const void *value)
 	g_return_val_if_fail (col >= 0 && col < E_CAL_MODEL_CALENDAR_FIELD_LAST, g_strdup (""));
 
 	if (col < E_CAL_MODEL_FIELD_LAST)
-		return E_TABLE_MODEL_CLASS (e_cal_model_calendar_parent_class)->value_to_string (etm, col, value);
+		return E_TABLE_MODEL_CLASS (parent_class)->value_to_string (etm, col, value);
 
 	switch (col) {
 	case E_CAL_MODEL_CALENDAR_FIELD_DTEND :
