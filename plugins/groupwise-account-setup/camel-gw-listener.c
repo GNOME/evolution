@@ -378,7 +378,7 @@ add_calendar_tasks_sources (GwAccountInfo *info)
 {
 	CamelURL *url;
 	
-
+	url = camel_url_new (info->source_url, NULL);
 	add_esource ("/apps/evolution/calendar/sources", info->name, _("Calendar"), url);
 	add_esource ("/apps/evolution/tasks/sources", info->name, _("Tasks"), url);
 	
