@@ -47,7 +47,8 @@ enum {
 	SEARCH_ANY_FIELD_CONTAINS,
 	SEARCH_SUMMARY_CONTAINS,
 	SEARCH_DESCRIPTION_CONTAINS,
-	SEARCH_COMMENT_CONTAINS
+	SEARCH_COMMENT_CONTAINS,
+	SEARCH_CATEGORY_IS,
 };
 
 static ESearchBarItem search_option_items[] = {
@@ -55,13 +56,19 @@ static ESearchBarItem search_option_items[] = {
 	{ N_("Summary contains"), SEARCH_SUMMARY_CONTAINS, NULL },
 	{ N_("Description contains"), SEARCH_DESCRIPTION_CONTAINS, NULL },
 	{ N_("Comment contains"), SEARCH_COMMENT_CONTAINS, NULL },
+	{ N_("Category is"), SEARCH_CATEGORY_IS, NULL },
 	{ NULL, -1, NULL }
 };
 
+/* IDs for the categories suboptions */
+#define CATEGORIES_ALL 0
+#define CATEGORIES_UNMATCHED 1
+#define CATEGORIES_OFFSET 2
+
 /* Private part of the CalSearchBar structure */
 struct CalSearchBarPrivate {
-	/* Option menu for the categories drop-down */
-	GtkOptionMenu *categories_omenu;
+	/* Array of categories */
+	GPtrArray *categories;
 };
 
 
@@ -167,7 +174,22 @@ cal_search_bar_init (CalSearchBar *cal_search)
 	priv = g_new (CalSearchBarPrivate, 1);
 	cal_search->priv = priv;
 
-	priv->categories_omenu = NULL;
+	priv->categories = g_ptr_array_new ();
+	g_ptr_array_set_size (priv->categories, 0);
+}
+
+/* Frees an array of categories */
+static void
+free_categories (GPtrArray *categories)
+{
+	int i;
+
+	for (i = 0; i < categories->len; i++) {
+		g_assert (categories->pdata[i] != NULL);
+		g_free (categories->pdata[i]);
+	}
+
+	g_ptr_array_free (categories, TRUE);
 }
 
 /* Destroy handler for the calendar search bar */
@@ -183,7 +205,10 @@ cal_search_bar_destroy (GtkObject *object)
 	cal_search = CAL_SEARCH_BAR (object);
 	priv = cal_search->priv;
 
-	priv->categories_omenu = NULL;
+	if (priv->categories) {
+		free_categories (priv->categories);
+		priv->categories = NULL;
+	}
 
 	g_free (priv);
 	cal_search->priv = NULL;
@@ -209,19 +234,47 @@ static const char *
 get_current_category (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	GtkMenu *menu;
-	GtkWidget *active;
-	const char *category;
+	int option, suboption;
 
 	priv = cal_search->priv;
 
-	menu = GTK_MENU (gtk_option_menu_get_menu (priv->categories_omenu));
+	g_assert (priv->categories != NULL);
 
-	active = gtk_menu_get_active (menu);
-	g_assert (active != NULL);
+	option = e_search_bar_get_option_choice (E_SEARCH_BAR (cal_search));
+	if (option != SEARCH_CATEGORY_IS)
+		return NULL;
 
-	category = gtk_object_get_user_data (GTK_OBJECT (active));
-	return category;
+	suboption = e_search_bar_get_suboption_choice (E_SEARCH_BAR (cal_search));
+	if (suboption == CATEGORIES_ALL)
+		return (const char *) 1;
+	else if (suboption == CATEGORIES_UNMATCHED)
+		return NULL;
+	else {
+		int i;
+
+		i = suboption - CATEGORIES_OFFSET;
+		g_assert (i >= 0 && i < priv->categories->len);
+
+		return priv->categories->pdata[i];
+	}
+}
+
+/* Sets the query string to be (contains? "field" "text") */
+static void
+notify_query_contains (CalSearchBar *cal_search, const char *field)
+{
+	char *text;
+	char *sexp;
+
+	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
+	if (!text)
+		return; /* This is an error in the UTF8 conversion, not an empty string! */
+
+	sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
+	g_free (text);
+
+	notify_sexp_changed (cal_search, sexp);
+	g_free (sexp);
 }
 
 /* Returns a sexp for the selected category in the drop-down menu.  The "All"
@@ -243,30 +296,20 @@ get_category_sexp (CalSearchBar *cal_search)
 		return g_strdup_printf ("(has-categories? \"%s\")", category); /* Specific category */
 }
 
-/* Sets the query string to be (contains? "field" "text") */
+/* Sets the query string to the appropriate match for categories */
 static void
-notify_query_contains (CalSearchBar *cal_search, const char *field, const char *text)
+notify_category_is (CalSearchBar *cal_search)
 {
 	char *sexp;
-	char *category_sexp;
 
-	category_sexp = get_category_sexp (cal_search);
-
-	if (category_sexp)
-		/* "Contains" sexp plus a sexp for a category or for unfiled items */
-		sexp = g_strdup_printf ("(and (contains? \"%s\" \"%s\")"
-					"     %s)",
-					field, text, category_sexp);
+	sexp = get_category_sexp (cal_search);
+	if (!sexp)
+		notify_sexp_changed (cal_search, "#t"); /* Match all */
 	else
-		/* "Contains" sexp; matches any category */
-		sexp = g_strdup_printf ("(contains? \"%s\" \"%s\")", field, text);
+		notify_sexp_changed (cal_search, sexp);
 
-	notify_sexp_changed (cal_search, sexp);
-
-	if (category_sexp)
-		g_free (category_sexp);
-
-	g_free (sexp);
+	if (sexp)
+		g_free (sexp);
 }
 
 /* Creates a new query from the values in the widgets and notifies upstream */
@@ -275,42 +318,44 @@ regen_query (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
 	int item;
-	char *text;
+	const char *category;
 
 	priv = cal_search->priv;
 
 	/* Fetch the data from the ESearchBar's entry widgets */
 
 	item = e_search_bar_get_option_choice (E_SEARCH_BAR (cal_search));
-	text = e_search_bar_get_text (E_SEARCH_BAR (cal_search));
-
-	if (!text)
-		return; /* This is an error in the UTF8 conversion, not an empty string! */
 
 	/* Generate the different types of queries */
 
 	switch (item) {
 	case SEARCH_ANY_FIELD_CONTAINS:
-		notify_query_contains (cal_search, "any", text);
+		notify_query_contains (cal_search, "any");
 		break;
 
 	case SEARCH_SUMMARY_CONTAINS:
-		notify_query_contains (cal_search, "summary", text);
+		notify_query_contains (cal_search, "summary");
 		break;
 
 	case SEARCH_DESCRIPTION_CONTAINS:
-		notify_query_contains (cal_search, "description", text);
+		notify_query_contains (cal_search, "description");
 		break;
 
 	case SEARCH_COMMENT_CONTAINS:
-		notify_query_contains (cal_search, "comment", text);
+		notify_query_contains (cal_search, "comment");
+		break;
+
+	case SEARCH_CATEGORY_IS:
+		notify_category_is (cal_search);
+
+		category = cal_search_bar_get_category (cal_search);
+		gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
+				 category);
 		break;
 
 	default:
 		g_assert_not_reached ();
 	}
-
-	g_free (text);
 }
 
 /* query_changed handler for the calendar search bar */
@@ -347,37 +392,59 @@ cal_search_bar_menu_activated (ESearchBar *search, int item)
 
 
 
-/* Callback used when an item is selected in the categories option menu */
+/* Creates the suboptions menu for the ESearchBar with the list of categories */
 static void
-categories_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
-{
-	CalSearchBar *cal_search;
-	const char *category;
-
-	cal_search = CAL_SEARCH_BAR (data);
-	regen_query (cal_search);
-
-	category = cal_search_bar_get_category (cal_search);
-	gtk_signal_emit (GTK_OBJECT (cal_search), cal_search_bar_signals[CATEGORY_CHANGED],
-			 category);
-}
-
-/* Creates the option menu of categories */
-static void
-setup_categories_omenu (CalSearchBar *cal_search)
+make_suboptions (CalSearchBar *cal_search)
 {
 	CalSearchBarPrivate *priv;
-	GtkWidget *label;
+	ESearchBarSubitem *subitems;
+	int i;
 
 	priv = cal_search->priv;
 
-	priv->categories_omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	gtk_box_pack_end (GTK_BOX (cal_search), GTK_WIDGET (priv->categories_omenu), FALSE, FALSE, 0);
-	gtk_widget_show (GTK_WIDGET (priv->categories_omenu));
+	g_assert (priv->categories != NULL);
 
-	label = gtk_label_new (_("Category:"));
-	gtk_box_pack_end (GTK_BOX (cal_search), label, FALSE, FALSE, 4);
-	gtk_widget_show (label);
+	/* Categories plus "all", "unmatched", separator, terminator */
+	subitems = g_new (ESearchBarSubitem, priv->categories->len + 3 + 1);
+
+	/* All, unmatched, separator */
+
+	subitems[0].text = _("Any");
+	subitems[0].id = CATEGORIES_ALL;
+	subitems[0].translate = FALSE;
+
+	subitems[1].text = _("Unmatched");
+	subitems[1].id = CATEGORIES_UNMATCHED;
+	subitems[1].translate = FALSE;
+
+	if (priv->categories->len > 0) {
+		subitems[2].text = NULL; /* separator */
+		subitems[2].id = 0;
+
+		/* All the other items */
+
+		for (i = 0; i < priv->categories->len; i++) {
+			const char *category;
+			char *str;
+
+			category = priv->categories->pdata[i];
+			str = e_utf8_to_gtk_string (GTK_WIDGET (cal_search), category);
+			if (!str)
+				str = g_strdup ("");
+
+			subitems[i + CATEGORIES_OFFSET].text      = str;
+			subitems[i + CATEGORIES_OFFSET].id        = i + CATEGORIES_OFFSET;
+			subitems[i + CATEGORIES_OFFSET].translate = FALSE;
+
+			g_free (str);
+		}
+
+		subitems[i + CATEGORIES_OFFSET].id = -1; /* terminator */
+	} else
+		subitems[2].id = -1; /* terminator */
+
+	e_search_bar_set_suboption (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, subitems);
+	g_free (subitems);
 }
 
 /**
@@ -395,7 +462,7 @@ cal_search_bar_construct (CalSearchBar *cal_search)
 	g_return_val_if_fail (IS_CAL_SEARCH_BAR (cal_search), NULL);
 
 	e_search_bar_construct (E_SEARCH_BAR (cal_search), search_menu_items, search_option_items);
-	setup_categories_omenu (cal_search);
+	make_suboptions (cal_search);
 
 	return cal_search;
 }
@@ -417,20 +484,6 @@ cal_search_bar_new (void)
 	return GTK_WIDGET (cal_search_bar_construct (cal_search));
 }
 
-/* Callback used when a categories menu item is destroyed.  We free its user
- * data, which is the category string.
- */
-static void
-item_destroyed_cb (GtkObject *object, gpointer data)
-{
-	char *category;
-
-	category = gtk_object_get_user_data (object);
-	g_assert (category != NULL);
-
-	g_free (category);
-}
-
 /* Used from qsort() */
 static int
 compare_categories_cb (const void *a, const void *b)
@@ -444,8 +497,8 @@ compare_categories_cb (const void *a, const void *b)
 	return strcmp (*ca, *cb);
 }
 
-/* Creates a sorted array of categories based on the original one; does not
- * duplicate the string values.
+/* Creates a sorted array of categories based on the original one; copies the
+ * string values.
  */
 static GPtrArray *
 sort_categories (GPtrArray *categories)
@@ -457,7 +510,7 @@ sort_categories (GPtrArray *categories)
 	g_ptr_array_set_size (c, categories->len);
 
 	for (i = 0; i < categories->len; i++)
-		c->pdata[i] = categories->pdata[i];
+		c->pdata[i] = g_strdup (categories->pdata[i]);
 
 	qsort (c->pdata, c->len, sizeof (gpointer), compare_categories_cb);
 
@@ -478,10 +531,6 @@ void
 cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 {
 	CalSearchBarPrivate *priv;
-	GtkMenu *menu;
-	GtkWidget *item;
-	GPtrArray *sorted;
-	int i;
 
 	g_return_if_fail (cal_search != NULL);
 	g_return_if_fail (IS_CAL_SEARCH_BAR (cal_search));
@@ -489,59 +538,11 @@ cal_search_bar_set_categories (CalSearchBar *cal_search, GPtrArray *categories)
 
 	priv = cal_search->priv;
 
-	menu = GTK_MENU (gtk_menu_new ());
-	gtk_signal_connect (GTK_OBJECT (menu), "selection_done",
-			    GTK_SIGNAL_FUNC (categories_selection_done_cb), cal_search);
+	g_assert (priv->categories != NULL);
+	free_categories (priv->categories);
 
-	/* All, Unmatched, separator items */
-
-	item = gtk_menu_item_new_with_label (_("All"));
-	gtk_object_set_user_data (GTK_OBJECT (item), (char *) 1);
-	gtk_menu_append (menu, item);
-	gtk_widget_show (item);
-
-	item = gtk_menu_item_new_with_label (_("Unfiled"));
-	gtk_object_set_user_data (GTK_OBJECT (item), NULL);
-	gtk_menu_append (menu, item);
-	gtk_widget_show (item);
-
-	if (categories->len > 0) {
-		item = gtk_menu_item_new ();
-		gtk_widget_set_sensitive (item, FALSE);
-		gtk_menu_append (menu, item);
-		gtk_widget_show (item);
-	}
-
-	/* Categories items */
-
-	sorted = sort_categories (categories);
-
-	for (i = 0; i < sorted->len; i++) {
-		char *str;
-
-		/* FIXME: Put the category icons here */
-
-		str = e_utf8_to_gtk_string (GTK_WIDGET (menu), sorted->pdata[i]);
-		if (!str)
-			continue;
-
-		item = gtk_menu_item_new_with_label (str);
-		g_free (str);
-
-		gtk_object_set_user_data (GTK_OBJECT (item), g_strdup (sorted->pdata[i]));
-		gtk_signal_connect (GTK_OBJECT (item), "destroy",
-				    GTK_SIGNAL_FUNC (item_destroyed_cb),
-				    NULL);
-
-		gtk_menu_append (menu, item);
-		gtk_widget_show (item);
-	}
-
-	g_ptr_array_free (sorted, TRUE);
-
-	/* Set the new menu; the old one will be destroyed automatically */
-
-	gtk_option_menu_set_menu (priv->categories_omenu, GTK_WIDGET (menu));
+	priv->categories = sort_categories (categories);
+	make_suboptions (cal_search);
 }
 
 /**

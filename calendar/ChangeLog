@@ -1,3 +1,16 @@
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/cal-search-bar.c (get_current_category): Handle an array of
+	categories in the CalSearchBar instead of our own menu items.
+	(notify_query_contains): Fetch the text from the search bar here
+	instead of in regen_query().
+	(regen_query): Handle category searches.
+	(notify_category_is): New function.
+	(cal_search_bar_construct): Do not create an option menu.
+	(make_suboptions): New function to create the suboption items from
+	the list of categories.
+	(notify_query_contains): Do not include a category sexp here.
+
 2001-08-13  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (update_item): add dialog for feedback

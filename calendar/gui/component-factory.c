@@ -41,6 +41,7 @@
 
 
 
+/* OAFIID for the component factory */
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
 
 static BonoboGenericFactory *factory = NULL;
@@ -379,7 +380,7 @@ factory_fn (BonoboGenericFactory *factory,
 
 	shells = g_list_append (shells, shell_component);
 #endif
-	
+
 	return BONOBO_OBJECT (shell_component);
 }
 
