@@ -206,6 +206,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	EItipControlPrivate *priv = data;
 	gchar *vcalendar;
 	gint pos, length, length2;
+	icalcomponent_kind comp_kind;
 
 	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
 	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
@@ -249,11 +250,36 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-	priv->cal_comp = cal_component_new ();
-	if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE) {
-		g_printerr ("e-itip-control.c: I couldn't create a CalComponent from the iTip data.\n");
-		gtk_object_unref (GTK_OBJECT (priv->cal_comp));
-	}
+	comp_kind = icalcomponent_isa (priv->comp);
+
+	switch (comp_kind) {
+	case ICAL_VEVENT_COMPONENT:
+	case ICAL_VTODO_COMPONENT:
+	case ICAL_VJOURNAL_COMPONENT:
+		priv->cal_comp = cal_component_new ();
+		if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE) {
+			g_printerr ("e-itip-control.c: I couldn't create a CalComponent from the iTip data.\n");
+			gtk_object_unref (GTK_OBJECT (priv->cal_comp));
+		}
+		break;
+	case ICAL_VFREEBUSY_COMPONENT:
+		/* Take care of busy time information. */
+		break;
+	default:
+		/* We don't know what this is, so bail. */
+		{
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I don't recognize this type of calendar component.");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+
+		g_free (vcalendar);
+
+		return;
+		}
+		break;
+	} /* End switch. */
+
 
 	/* Okay, good then; now I will pick apart the component to get
 	 all the things I'll show in my control. */

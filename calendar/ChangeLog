@@ -18,6 +18,12 @@
 	* gui/Makefile.am: Clean the idl-generated sources properly.
 	* cal-client/Makefile.am: Likewise.
 
+2000-11-03  Jesse Pavel <jpavel@helixcode.com>
+
+	* gui/e-itip-control.c: added some checks for the type of an
+	incoming iCal component before passing it off to the CalComponent
+	routines.
+
 2000-11-02  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/dialogs/task-editor.c (init_widgets): The date editor's

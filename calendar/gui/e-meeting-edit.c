@@ -688,7 +688,7 @@ send_button_clicked_cb (GtkWidget *widget, gpointer data)
 	CORBA_free (description);
 	CORBA_free (attach_data);
 
-	bonobo_object_unref (BONOBO_OBJECT (bonobo_server));  
+	/* bonobo_object_unref (BONOBO_OBJECT (bonobo_server));   */
 }
 
 	
