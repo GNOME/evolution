@@ -1,3 +1,26 @@
+2001-03-25  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/e-calendar-table.c (e_calendar_table_init): The
+	model_rows_{inserted,deleted} signals changed names; deal with it.
+	(e_calendar_table_on_rows_inserted): Updated for new ETable API.
+	(e_calendar_table_on_rows_deleted): Likewise.
+
+	* gui/gnome-cal.h (GnomeCalendarOpenMode): Removed unused enum.
+
+	* gui/gnome-cal.c (gnome_calendar_open): Constify.
+
+	* gui/calendar-commands.c (calendar_set_uri): Removed function,
+	since it was just calling gnome_calendar_open().
+
+	* gui/control-factory.c (set_prop): Replace usage of
+	calendar_set_uri() with gnome_calendar_open().
+	(load_calendar): Likewise.
+	(calendar_persist_init): Made static.
+
+	* gui/e-tasks.c: #include "calendar-config.h"
+	(e_tasks_update_all_config_settings): We are configuring a table,
+	not a calendar!  Use the appropriate function.
+
 2001-03-17  Miguel de Icaza  <miguel@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_new_event,

@@ -96,11 +96,10 @@ set_prop (BonoboPropertyBag *bag,
 	char *filename;
 
 	switch (arg_id) {
-
 	case PROPERTY_CALENDAR_URI_IDX:
 		filename = g_strdup_printf ("%s/calendar.ics",
 					    BONOBO_ARG_GET_STRING (arg));
-		calendar_set_uri (gcal, filename);
+		gnome_calendar_open (gcal, filename); /* FIXME: result value -> exception? */
 		g_free (filename);
 		break;
 
@@ -163,27 +162,25 @@ load_calendar (BonoboPersistFile *pf, const CORBA_char *filename, CORBA_Environm
 {
 	GnomeCalendar *gcal = closure;
 	
-	calendar_set_uri (gcal, filename);
-
-	return 0;
+	return gnome_calendar_open (gcal, filename);
 }
 
 static int
-save_calendar (BonoboPersistFile *pf, const CORBA_char *filename, CORBA_Environment *ev, void *closure)
+save_calendar (BonoboPersistFile *pf, const CORBA_char *filename,
+	       CORBA_Environment *ev,
+	       void *closure)
 {
 	/* Do not know how to save stuff yet */
 	return -1;
 }
 
-void
+static void
 calendar_persist_init (GnomeCalendar *gcal, BonoboControl *control)
 {
 	BonoboPersistFile *f;
-	
+
 	f = bonobo_persist_file_new (load_calendar, save_calendar, gcal);
-	bonobo_object_add_interface (
-		BONOBO_OBJECT (control),
-		BONOBO_OBJECT (f));
+	bonobo_object_add_interface (BONOBO_OBJECT (control), BONOBO_OBJECT (f));
 }
 
 BonoboControl *

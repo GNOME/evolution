@@ -887,7 +887,7 @@ gnome_calendar_get_cal_client (GnomeCalendar *gcal)
 }
 
 gboolean
-gnome_calendar_open (GnomeCalendar *gcal, char *str_uri)
+gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 {
 	GnomeCalendarPrivate *priv;
 	char *tasks_uri;

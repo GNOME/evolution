@@ -84,11 +84,13 @@ static void e_calendar_table_open_task		(ECalendarTable *cal_table,
 static void e_calendar_table_apply_filter	(ECalendarTable	*cal_table);
 static void e_calendar_table_on_model_changed	(ETableModel	*model,
 						 ECalendarTable	*cal_table);
-static void e_calendar_table_on_row_inserted	(ETableModel	*model,
-						 gint		 row,
+static void e_calendar_table_on_rows_inserted	(ETableModel	*model,
+						 int		 row,
+						 int		 count,
 						 ECalendarTable	*cal_table);
-static void e_calendar_table_on_row_deleted	(ETableModel	*model,
-						 gint		 row,
+static void e_calendar_table_on_rows_deleted	(ETableModel	*model,
+						 int		 row,
+						 int		 count,
 						 ECalendarTable	*cal_table);
 
 
@@ -266,11 +268,11 @@ e_calendar_table_init (ECalendarTable *cal_table)
 	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_changed",
 			    GTK_SIGNAL_FUNC (e_calendar_table_on_model_changed),
 			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_row_inserted",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_row_inserted),
+	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_rows_inserted",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_rows_inserted),
 			    cal_table);
-	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_row_deleted",
-			    GTK_SIGNAL_FUNC (e_calendar_table_on_row_deleted),
+	gtk_signal_connect (GTK_OBJECT (cal_table->model), "model_rows_deleted",
+			    GTK_SIGNAL_FUNC (e_calendar_table_on_rows_deleted),
 			    cal_table);
 
 	/* Create the header columns */
@@ -798,36 +800,45 @@ e_calendar_table_on_model_changed	(ETableModel	*model,
 
 
 static void
-e_calendar_table_on_row_inserted	(ETableModel	*model,
-					 gint		 row,
+e_calendar_table_on_rows_inserted	(ETableModel	*model,
+					 int		 row,
+					 int		 count,
 					 ECalendarTable	*cal_table)
 {
-	ETableSubsetVariable *etssv;
-	CalComponent *comp;
-	gboolean add_row = FALSE;
+	int i;
 
-	etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
+	for (i = 0; i < count; i++) {
+		gboolean add_row;
 
-	if (cal_table->filter_func == NULL) {
-		add_row = TRUE;
-	} else {
-		comp = calendar_model_get_component (cal_table->model, row);
+		add_row = FALSE;
 
-		if ((*cal_table->filter_func) (cal_table, comp,
-					       cal_table->filter_data))
+		if (cal_table->filter_func) {
+			CalComponent *comp;
+
+			comp = calendar_model_get_component (cal_table->model, row + i);
+			g_assert (comp != NULL);
+
+			add_row = (* cal_table->filter_func) (cal_table, comp,
+							      cal_table->filter_data);
+		} else
 			add_row = TRUE;
-	}
 
-	if (add_row) {
-		e_table_subset_variable_increment (etssv, row, 1);
-		e_table_subset_variable_add (etssv, row);
+		if (add_row) {
+			ETableSubsetVariable *etssv;
+
+			etssv = E_TABLE_SUBSET_VARIABLE (cal_table->subset_model);
+
+			e_table_subset_variable_increment (etssv, row, 1);
+			e_table_subset_variable_add (etssv, row);
+		}
 	}
 }
 
 
 static void
-e_calendar_table_on_row_deleted		(ETableModel	*model,
-					 gint		 row,
+e_calendar_table_on_rows_deleted	(ETableModel	*model,
+					 int		 row,
+					 int		 count,
 					 ECalendarTable	*cal_table)
 {
 	/* We just reapply the filter since we aren't too bothered about

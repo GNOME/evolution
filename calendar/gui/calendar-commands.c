@@ -487,13 +487,3 @@ new_calendar (void)
 
 	return GNOME_CALENDAR (gcal);
 }
-
-
-void
-calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
-{
-	g_return_if_fail (gcal);
-	g_return_if_fail (calendar_file);
-
-	gnome_calendar_open (gcal, calendar_file);
-}

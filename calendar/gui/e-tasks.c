@@ -33,6 +33,7 @@
 #include "widgets/menus/gal-view-menus.h"
 #include "dialogs/task-editor.h"
 #include "e-calendar-table.h"
+#include "calendar-config.h"
 #include "component-factory.h"
 
 #include "e-tasks.h"
@@ -579,7 +580,7 @@ e_tasks_setup_menus (ETasks            *tasks,
 /* This updates all the preference settings for all the ETasks widgets in use.
  */
 void
-e_tasks_update_all_config_settings	()
+e_tasks_update_all_config_settings	(void)
 {
 	ETasks *tasks;
 	ETasksPrivate *priv;
@@ -588,6 +589,6 @@ e_tasks_update_all_config_settings	()
 	for (elem = all_tasks; elem; elem = elem->next) {
 		tasks = E_TASKS (elem->data);
 		priv = tasks->priv;
-		calendar_config_configure_e_calendar (E_CALENDAR_TABLE (priv->tasks_view));
+		calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 	}
 }
