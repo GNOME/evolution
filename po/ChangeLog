@@ -1,3 +1,8 @@
+2001-04-17  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* POTFILES.in: Alphabeticize.
+	* no.po: Updated Norwegian translation.
+	
 2001-04-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* POTFILES.in: Add the galview.xml files here.
