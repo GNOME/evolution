@@ -383,8 +383,14 @@ insert_node(ETreeTableAdapter *etta, ETreePath parent, ETreePath path)
 	}
 
 	parent_gnode = lookup_gnode(etta, parent);
-
-	g_return_if_fail(parent_gnode != NULL);
+	if (!parent_gnode) {
+		ETreePath grandparent = e_tree_model_node_get_parent(etta->priv->source, parent);
+		if (e_tree_model_node_is_root(etta->priv->source, parent))
+			generate_tree(etta, parent);
+		else
+			insert_node(etta, grandparent, parent);
+		return;
+	}
 
 	parent_node = (node_t *) parent_gnode->data;
 
@@ -931,8 +937,6 @@ e_tree_table_adapter_load_expanded_state (ETreeTableAdapter *etta, const char *f
 
 	xmlFreeDoc (doc);
 
-	update_node(etta, e_tree_model_get_root (etta->priv->source));
-
 	e_table_model_changed (E_TABLE_MODEL (etta));
 }
 
@@ -969,6 +973,12 @@ e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ETreePath path,
 	if (!expanded && e_tree_model_node_is_root (etta->priv->source, path) && !etta->priv->root_visible)
 		return;
 
+	if (!gnode && expanded) {
+		ETreePath parent = e_tree_model_node_get_parent(etta->priv->source, path);
+		g_return_if_fail(parent != NULL);
+		e_tree_table_adapter_node_set_expanded(etta, parent, expanded);
+		gnode = lookup_gnode(etta, path);
+	}
 	g_return_if_fail(gnode != NULL);
 
 	node = (node_t *) gnode->data;
@@ -1081,6 +1091,10 @@ e_tree_table_adapter_set_sort_info (ETreeTableAdapter *etta, ETableSortInfo *sor
 		etta->priv->sort_info_changed_id = g_signal_connect(G_OBJECT(sort_info), "sort_info_changed",
 				                                    G_CALLBACK(etta_sort_info_changed), etta);
 	}
+
+	if (!etta->priv->root)
+		return;
+
 	e_table_model_pre_change(E_TABLE_MODEL(etta));
 	resort_node(etta, etta->priv->root, TRUE);
 	fill_map(etta, 0, etta->priv->root);
