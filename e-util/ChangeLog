@@ -1,3 +1,9 @@
+2000-09-12  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* e-unicode.c (e_utf8_to_gtk_string_sized): Use underscores
+	for untranslatable characters
+	(e_utf8_from_gtk_string_sized): Ditto
+
 2000-09-12  Dan Winship  <danw@helixcode.com>
 
 	* e-font.c (e_font_from_gdk_font): Change this a bit so that if

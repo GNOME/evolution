@@ -97,50 +97,45 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 gchar *
 e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
-#ifndef FONT_TESTING
-	/* test it out with iso-8859-1 */
-
-	static gboolean uinit = FALSE;
-	static gboolean uerror = FALSE;
-	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
-#else
 	unicode_iconv_t uiconv;
-#endif
 	char *new, *ob;
+	const gchar * ib;
 	size_t ibl, obl;
 
 	g_return_val_if_fail (widget != NULL, NULL);
 	g_return_val_if_fail (GTK_IS_WIDGET (widget), NULL);
 
-#ifndef FONT_TESTING
-	if (uerror) return NULL;
-#endif
-
 	if (!string) return NULL;
 
 	g_return_val_if_fail (widget, NULL);
 
-#ifndef FONT_TESTING
-	if (!uinit) {
-		e_unicode_init ();
-		uiconv = unicode_iconv_open ("UTF-8", "iso-8859-1");
-		if (uiconv == (unicode_iconv_t) -1) {
-			uerror = TRUE;
-			return NULL;
-		} else {
-			uinit = TRUE;
-		}
-	}
-#else
 	uiconv = e_uiconv_from_gdk_font (widget->style->font);
 	if (uiconv == (unicode_iconv_t) -1) return NULL;
-#endif
 
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
 
-	unicode_iconv (uiconv, &string, &ibl, &ob, &obl);
+	while (ibl > 0) {
+		unicode_iconv (uiconv, &ib, &ibl, &ob, &obl);
+		if (ibl > 0) {
+			gint len;
+			if ((*ib & 0x80) == 0x00) len = 1;
+			else if ((*ib &0xe0) == 0xc0) len = 2;
+			else if ((*ib &0xf0) == 0xe0) len = 3;
+			else if ((*ib &0xf80) == 0xf0) len = 4;
+			else {
+				g_warning ("Invalid UTF-8 sequence");
+				break;
+			}
+			ib += len;
+			ibl = bytes - (ib - string);
+			if (ibl > bytes) ibl = 0;
+			*ob++ = '_';
+			obl--;
+		}
+	}
 
 	*ob = '\0';
 
@@ -156,47 +151,42 @@ e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string)
 gchar *
 e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
-#ifndef FONT_TESTING
-	/* test it out with iso-8859-1 */
-
-	static gboolean uinit = FALSE;
-	static gboolean uerror = FALSE;
-	static unicode_iconv_t uiconv = (unicode_iconv_t) -1;
-#else
 	unicode_iconv_t uiconv;
-#endif
 	char *new, *ob;
+	const gchar * ib;
 	size_t ibl, obl;
-
-#ifndef FONT_TESTING
-	if (uerror) return NULL;
-#endif
 
 	if (!string) return NULL;
 
 	g_return_val_if_fail (widget, NULL);
 
-#ifndef FONT_TESTING
-	if (!uinit) {
-		e_unicode_init ();
-		uiconv = unicode_iconv_open ("iso-8859-1", "UTF-8");
-		if (uiconv == (unicode_iconv_t) -1) {
-			uerror = TRUE;
-			return NULL;
-		} else {
-			uinit = TRUE;
-		}
-	}
-#else
 	uiconv = e_uiconv_to_gdk_font (widget->style->font);
 	if (uiconv == (unicode_iconv_t) -1) return NULL;
-#endif
 
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
 
-	unicode_iconv (uiconv, &string, &ibl, &ob, &obl);
+	while (ibl > 0) {
+		unicode_iconv (uiconv, &ib, &ibl, &ob, &obl);
+		if (ibl > 0) {
+			gint len;
+			if ((*ib & 0x80) == 0x00) len = 1;
+			else if ((*ib &0xe0) == 0xc0) len = 2;
+			else if ((*ib &0xf0) == 0xe0) len = 3;
+			else if ((*ib &0xf80) == 0xf0) len = 4;
+			else {
+				g_warning ("Invalid UTF-8 sequence");
+				break;
+			}
+			ib += len;
+			ibl = bytes - (ib - string);
+			if (ibl > bytes) ibl = 0;
+			*ob++ = '_';
+			obl--;
+		}
+	}
 
 	*ob = '\0';
 
