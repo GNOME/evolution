@@ -1,3 +1,11 @@
+2002-05-14  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-summary-mail.c (folder_gen_html): Use the uri stored in the
+	ESummaryMailFolder object here.
+	(e_summary_mail_generate_html): Only show email folders if they
+	have > 0 unread messages.
+	(new_folder_cb): Save the evolutionUri here.
+
 2002-04-08  Iain Holmes <iain@ximian.com>
 
 	* e-summary-shown.c (construct_pixmap_butto): Create a button with a 

@@ -89,6 +89,7 @@ typedef struct _StorageInfo {
 typedef struct _ESummaryMailFolder {
 	char *name;
 	char *path;
+	char *uri;
 
 	int count;
 	int unread;
@@ -122,13 +123,12 @@ folder_gen_html (ESummary *summary,
 		 ESummaryMailFolder *folder,
 		 GString *string)
 {
-	char *str, *pretty_name, *uri;
+	char *str, *pretty_name;
 	
 	pretty_name = make_pretty_foldername (summary, folder->name);
-	uri = g_strconcat ("evolution:/local", folder->name, NULL); 
 	str = g_strdup_printf ("<tr><td><a href=\"%s\"><pre>%s</pre></a></td><td align=\"Left\"><pre>%d/%d</pre></td></tr>", 
-			       uri, pretty_name, folder->unread, folder->count);
-	g_free (uri);
+			       folder->uri, pretty_name, folder->unread, folder->count);
+	g_print ("%s\n", folder->uri);
 	g_string_append (string, str);
 	g_free (pretty_name);
 	g_free (str);
@@ -155,7 +155,10 @@ e_summary_mail_generate_html (ESummary *summary)
 	g_string_append (string, "</a></b></dt><dd><table numcols=\"2\" width=\"100%\">");
 	
 	for (p = folder_store->shown; p; p = p->next) {
-		folder_gen_html (summary, p->data, string);
+		ESummaryMailFolder *mail_folder = p->data;
+		if (mail_folder->unread > 0) {
+			folder_gen_html (summary, p->data, string);
+		}
 	}
 
 	g_string_append (string, "</table></dd></dl>");
@@ -222,6 +225,7 @@ new_folder_cb (EvolutionStorageListener *listener,
 	mail_folder = g_new (ESummaryMailFolder, 1);
 	mail_folder->si = si;
 	mail_folder->path = g_strdup (folder->physicalUri);
+	mail_folder->uri = g_strdup (folder->evolutionUri);
 	mail_folder->name = g_strdup (path);
 	mail_folder->count = -1;
 	mail_folder->unread = -1;
@@ -298,6 +302,7 @@ remove_folder_cb (EvolutionStorageListener *listener,
 	g_hash_table_remove (folder_store->folders, path);
 	g_free (mail_folder->name);
 	g_free (mail_folder->path);
+	g_free (mail_folder->uri);
 	g_free (mail_folder);
 }
 
@@ -548,35 +553,6 @@ e_summary_mail_reconfigure (void)
 /*  	e_summary_redraw_all (); */
 }
 
-static void
-free_row_data (gpointer data)
-{
-	ESummaryMailRowData *rd = data;
-
-	g_free (rd->name);
-	g_free (rd->uri);
-	g_free (rd);
-}
-
-static void
-hash_to_list (gpointer key,
-	      gpointer value,
-	      gpointer data)
-{
-	ESummaryMailRowData *rd;
-	ESummaryMailFolder *folder;
-	GList **p;
-
-	p = (GList **) data;
-	folder = (ESummaryMailFolder *) value;
-
-	rd = g_new (ESummaryMailRowData, 1);
-	rd->name = g_strdup (folder->name);
-	rd->uri = g_strdup (key);
-
-	*p = g_list_prepend (*p, rd);
-}
-
 static int
 str_compare (gconstpointer a,
 	     gconstpointer b)
@@ -800,6 +776,7 @@ e_summary_mail_uri_to_name (const char *uri)
 	}
 }
 	
+#if 0
 static void
 free_folder (gpointer key,
 	     gpointer value,
@@ -809,8 +786,10 @@ free_folder (gpointer key,
 	
 	g_free (folder->name);
 	g_free (folder->path);
+	g_free (folder->uri);
 	g_free (folder);
 }
+#endif
 
 void
 e_summary_mail_free (ESummary *summary)
