@@ -1,3 +1,9 @@
+2001-01-19  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/weekday-picker.c (weekday_picker_init): Unset the
+	GTK_CAN_FOCUS flag on the weekday picker.  This will do until it
+	supports being used with the keyboard.
+
 2001-01-19  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.c (cal_component_alarm_new): create a new 

@@ -219,6 +219,8 @@ weekday_picker_init (WeekdayPicker *wp)
 {
 	WeekdayPickerPrivate *priv;
 
+	GTK_WIDGET_UNSET_FLAGS (wp, GTK_CAN_FOCUS);
+
 	priv = g_new0 (WeekdayPickerPrivate, 1);
 
 	wp->priv = priv;
