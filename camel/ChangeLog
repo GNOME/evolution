@@ -1,3 +1,8 @@
+2003-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (pipe_to_system): Redirect the program's
+	stderr to /dev/null
+
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream-ssl.c (stream_connect): Fixed a type-o in the

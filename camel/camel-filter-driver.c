@@ -679,9 +679,13 @@ pipe_to_system (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFil
 	if (!(pid = fork ())) {
 		/* child process */
 		GPtrArray *args;
-		int maxfd;
+		int maxfd, fd;
 		
-		if (dup2 (fds[0], STDIN_FILENO) < 0 || dup2 (fds[3], STDOUT_FILENO) < 0)
+		fd = open ("/dev/null", O_WRONLY);
+		
+		if (dup2 (fds[0], STDIN_FILENO) < 0 ||
+		    dup2 (fds[3], STDOUT_FILENO) < 0 ||
+		    dup2 (fd, STDERR_FILENO) < 0)
 			_exit (255);
 		
 		setsid ();
