@@ -111,37 +111,10 @@ last_calendar_gone_cb (CalFactory *factory, gpointer data)
 	queue_termination ();
 }
 
-static gboolean
-register_pcs (CORBA_Object obj)
-{
-	OAF_RegistrationResult result;
-
-	result = oaf_active_server_register
-		("OAFIID:GNOME_Evolution_Wombat_CalendarFactory",
-		 obj);
-
-	switch (result) {
-	case OAF_REG_SUCCESS:
-		return TRUE;	/* Wooho! */
-	case OAF_REG_NOT_LISTED:
-		g_message ("Cannot register the PCS because not listed");
-		return FALSE;
-	case OAF_REG_ALREADY_ACTIVE:
-		g_message ("Cannot register the PCS because already active");
-		return FALSE;
-	case OAF_REG_ERROR:
-	default:
-		g_message ("Cannot register the PCS because we suck");
-		return FALSE;
-	}
-}
-
 /* Creates the calendar factory object and registers it */
 static gboolean
 setup_pcs (int argc, char **argv)
 {
-	CORBA_Object object;
-
 	cal_factory = cal_factory_new ();
 
 	if (!cal_factory) {
@@ -151,9 +124,7 @@ setup_pcs (int argc, char **argv)
 
 	cal_factory_register_method (cal_factory, "file", CAL_BACKEND_FILE_TYPE);
 
-	object = bonobo_object_corba_objref (BONOBO_OBJECT (cal_factory));
-
-	if (!register_pcs (object)) {
+	if (!cal_factory_oaf_register (cal_factory)) {
 		bonobo_object_unref (BONOBO_OBJECT (cal_factory));
 		cal_factory = NULL;
 		return FALSE;
@@ -225,7 +196,18 @@ main (int argc, char **argv)
 	if (!(setup_pas (argc, argv)
 	      && setup_pcs (argc, argv)
 	      && setup_config (argc, argv))) {
-		g_message ("main(): could not initialize all of the Wombat services");
+		g_message ("main(): could not initialize all of the Wombat services; terminating");
+
+		if (pas_book_factory) {
+			bonobo_object_unref (BONOBO_OBJECT (pas_book_factory));
+			pas_book_factory = NULL;
+		}
+
+		if (cal_factory) {
+			bonobo_object_unref (BONOBO_OBJECT (cal_factory));
+			cal_factory = NULL;
+		}
+
 		exit (EXIT_FAILURE);
 	}
 

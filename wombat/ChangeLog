@@ -1,3 +1,10 @@
+2001-02-16  Federico Mena Quintero  <federico@ximian.com>
+
+	* wombat.c (main): Unref the factories if we failed to initialize
+	anything.
+	(setup_pcs): Call cal_factory_oaf_register().  Removed the OAF
+	registration code from here; now it is in the CalFactory itself.
+
 2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* Makefile.am: xml-i18n-tools setup.
