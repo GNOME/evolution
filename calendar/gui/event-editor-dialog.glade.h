@@ -88,6 +88,7 @@ gchar *s = N_("_Starting date:");
 gchar *s = N_("Recurrence Rule");
 gchar *s = N_("No recurrence");
 gchar *s = N_("Simple recurrence");
+gchar *s = N_("Custom recurrence");
 gchar *s = N_("Every");
 gchar *s = N_("day(s)");
 gchar *s = N_("week(s)");
@@ -96,12 +97,6 @@ gchar *s = N_("year(s)");
 gchar *s = N_("for");
 gchar *s = N_("until");
 gchar *s = N_("forever");
-gchar *s = N_("days");
-gchar *s = N_("weeks");
-gchar *s = N_("months");
-gchar *s = N_("years");
-gchar *s = N_("iterations");
-gchar *s = N_("Custom recurrence");
 gchar *s = N_("Exceptions");
 gchar *s = N_("Add");
 gchar *s = N_("Modify");
@@ -109,5 +104,5 @@ gchar *s = N_("Delete");
 gchar *s = N_("label21");
 gchar *s = N_("This appointment has custom recurrence rules that cannot be edited by Evolution.\n"
               "\n"
-              "However, the appointment will recur at the appropriate time and be displayed in the calendar views.");
+              "However, the appointment will recur at the appropriate time and will be displayed properly in the calendar views.");
 gchar *s = N_("Recurrence");

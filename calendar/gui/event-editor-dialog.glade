@@ -2100,33 +2100,60 @@ Sunday
 	      <spacing>4</spacing>
 
 	      <widget>
-		<class>GtkRadioButton</class>
-		<name>recurrence-none</name>
-		<can_focus>True</can_focus>
-		<label>No recurrence</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>recurrence-radio</group>
+		<class>GtkHBox</class>
+		<name>hbox47</name>
+		<homogeneous>False</homogeneous>
+		<spacing>4</spacing>
 		<child>
 		  <padding>0</padding>
 		  <expand>False</expand>
 		  <fill>False</fill>
 		</child>
-	      </widget>
 
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>recurrence-simple</name>
-		<can_focus>True</can_focus>
-		<label>Simple recurrence</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>recurrence-radio</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
+		<widget>
+		  <class>GtkRadioButton</class>
+		  <name>recurrence-none</name>
+		  <can_focus>True</can_focus>
+		  <label>No recurrence</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <group>recurrence-radio</group>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkRadioButton</class>
+		  <name>recurrence-simple</name>
+		  <can_focus>True</can_focus>
+		  <label>Simple recurrence</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <group>recurrence-radio</group>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
+
+		<widget>
+		  <class>GtkRadioButton</class>
+		  <name>recurrence-custom</name>
+		  <can_focus>True</can_focus>
+		  <label>Custom recurrence</label>
+		  <active>False</active>
+		  <draw_indicator>True</draw_indicator>
+		  <group>recurrence-radio</group>
+		  <child>
+		    <padding>0</padding>
+		    <expand>False</expand>
+		    <fill>False</fill>
+		  </child>
+		</widget>
 	      </widget>
 
 	      <widget>
@@ -2167,9 +2194,9 @@ Sunday
 		  <update_policy>GTK_UPDATE_ALWAYS</update_policy>
 		  <snap>False</snap>
 		  <wrap>False</wrap>
-		  <value>3</value>
-		  <lower>0</lower>
-		  <upper>1000</upper>
+		  <value>1</value>
+		  <lower>1</lower>
+		  <upper>10000</upper>
 		  <step>1</step>
 		  <page>10</page>
 		  <page_size>10</page_size>
@@ -2265,62 +2292,6 @@ forever
 		    <class>Placeholder</class>
 		  </widget>
 		</widget>
-
-		<widget>
-		  <class>GtkSpinButton</class>
-		  <name>spinbutton25</name>
-		  <can_focus>True</can_focus>
-		  <climb_rate>1</climb_rate>
-		  <digits>0</digits>
-		  <numeric>False</numeric>
-		  <update_policy>GTK_UPDATE_ALWAYS</update_policy>
-		  <snap>False</snap>
-		  <wrap>False</wrap>
-		  <value>3</value>
-		  <lower>0</lower>
-		  <upper>100</upper>
-		  <step>1</step>
-		  <page>10</page>
-		  <page_size>10</page_size>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
-
-		<widget>
-		  <class>GtkOptionMenu</class>
-		  <name>optionmenu29</name>
-		  <can_focus>True</can_focus>
-		  <items>days
-weeks
-months
-years
-iterations
-</items>
-		  <initial_choice>3</initial_choice>
-		  <child>
-		    <padding>0</padding>
-		    <expand>False</expand>
-		    <fill>False</fill>
-		  </child>
-		</widget>
-	      </widget>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>recurrence-custom</name>
-		<can_focus>True</can_focus>
-		<label>Custom recurrence</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>recurrence-radio</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
 	      </widget>
 	    </widget>
 	  </widget>
@@ -2477,7 +2448,7 @@ iterations
 	      <name>recurrence-custom-warning</name>
 	      <label>This appointment has custom recurrence rules that cannot be edited by Evolution.
 
-However, the appointment will recur at the appropriate time and be displayed in the calendar views.</label>
+However, the appointment will recur at the appropriate time and will be displayed properly in the calendar views.</label>
 	      <justify>GTK_JUSTIFY_LEFT</justify>
 	      <wrap>True</wrap>
 	      <xalign>0</xalign>

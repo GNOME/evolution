@@ -1,3 +1,20 @@
+2000-10-27  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (init_widgets): Connect to the recurrence
+	ending menu.
+	(recur_ending_selection_done_cb): Implemented.
+	(make_recurrence_ending_special): Implemented.
+	(make_recur_ending_until_special): Implemented.
+	(fill_ending_date): Implemented.
+	(make_recur_ending_count_special): Implemented.
+	(simple_recur_to_comp_object): Fill in the ending date.
+	(clear_widgets): Clear the recurrence ending widgets.
+
+	* gui/event-editor-dialog.glade: Moved the recurrence type radio
+	buttons to a single hbox to save space.
+	Fixed the lower value of the recurrence interval spin button.
+	Removed the stale widgets from the recurrence ending date part.
+
 2000-10-27  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: fixed problems in which I allocated CORBA
