@@ -1,5 +1,10 @@
 2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-ssl.c (stream_connect): Fixed a type-o in the
+	ENABLE_IPv6 ifdef section.
+
+2003-02-19  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-filter-driver.c (pipe_message): New filter action that
 	pipes the message source to the user-program and reads back the
 	modified message and replaces driver->priv->message with the new

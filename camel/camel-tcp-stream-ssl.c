@@ -1004,7 +1004,7 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	
 	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
 #ifdef ENABLE_IPv6
-	if (h->addrtype == AF_INET6)
+	if (host->h_addrtype == AF_INET6)
 		memcpy (&netaddr.ipv6.ip, host->h_addr, sizeof (netaddr.ipv6.ip));
 	else
 		memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
