@@ -57,7 +57,7 @@
 /* dunno where this fucking thing is got from */
 #define _(x) (x)
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 /**
  * camel_lock_dot:

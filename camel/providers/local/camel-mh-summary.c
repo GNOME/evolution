@@ -33,7 +33,7 @@
 
 #include <ctype.h>
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #define CAMEL_MH_SUMMARY_VERSION (0x2000)
 
@@ -279,10 +279,71 @@ mh_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, Came
 	return 0;
 }
 
+static int
+mh_summary_sync_message(CamelLocalSummary *cls, CamelMessageInfo *info, CamelException *ex)
+{
+	CamelMimeParser *mp;
+	const char *xev, *buffer;
+	int xevoffset;
+	int fd, outfd, len, outlen, ret=0;
+	char *name, *tmpname, *xevnew;
 
+	name = g_strdup_printf("%s/%s", cls->folder_path, info->uid);
+	fd = open(name, O_RDWR);
+	if (fd == -1)
+		return -1;
 
-/* sync the summary with the ondisk files.
-   It doesnt store the state in the file, the summary only, == MUCH faster */
+	mp = camel_mime_parser_new();
+	camel_mime_parser_init_with_fd(mp, fd);
+	if (camel_mime_parser_step(mp, 0, 0) != HSCAN_EOF) {
+		xev = camel_mime_parser_header(mp, "X-Evolution", &xevoffset);
+		xevnew = camel_local_summary_encode_x_evolution(cls, info);
+		if (xev == NULL
+		    || camel_local_summary_decode_x_evolution(cls, xev, NULL) == -1
+		    || strlen(xev)+1 != strlen(xevnew)) {
+
+			/* need to write a new copy/unlink old */
+			tmpname = g_strdup_printf("%s/.tmp.%d.%s", cls->folder_path, getpid(), info->uid);
+			outfd = open(tmpname, O_CREAT|O_WRONLY|O_TRUNC, 0600);
+			if (outfd != -1) {
+				outlen = 0;
+				if ( (len = camel_local_summary_write_headers(outfd, camel_mime_parser_headers_raw(mp), xevnew)) == 0) {
+					while (outlen != -1 && (len = camel_mime_parser_read(mp, &buffer, 10240)) > 0) {
+						do {
+							outlen = write(fd, buffer, len);
+						} while (outlen == -1 && errno == EINTR);
+					}
+				}
+				if (close(outfd) == -1
+				    || len == -1
+				    || outlen == -1
+				    || rename(tmpname, name) == -1) {
+					unlink(tmpname);
+					ret = -1;
+				}
+			} else {
+				g_warning("sync can't create tmp file: %s", strerror(errno));
+			}
+			g_free(tmpname);
+		} else {
+			/* else, we can just update the flags field */
+			lseek(fd, xevoffset+strlen("X-Evolution: "), SEEK_SET);
+			do {
+				len = write(fd, xevnew, strlen(xevnew));
+			} while (len == -1 && errno == EINTR);
+			if (len == -1)
+				ret = -1;
+		}
+
+		g_free(xevnew);
+	}
+
+	camel_object_unref((CamelObject *)mp);
+	g_free(name);
+	return ret;
+}
+
+/* sync the summary file with the ondisk files */
 static int
 mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo *changes, CamelException *ex)
 {
@@ -292,16 +353,16 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 
 	d(printf("summary_sync(expunge=%s)\n", expunge?"true":"false"));
 
-	if (cls->index) {
-		ibex_save(cls->index);
-	}
-	if (!expunge)
-		return 0;
+	/* we could probably get away without this ... but why not use it, esp if we're going to
+	   be doing any significant io already */
+	if (camel_local_summary_check(cls, changes, ex) == -1)
+		return -1;
 
 	count = camel_folder_summary_count((CamelFolderSummary *)cls);
 	for (i=count-1;i>=0;i--) {
 		info = camel_folder_summary_index((CamelFolderSummary *)cls, i);
-		if (info && info->flags & CAMEL_MESSAGE_DELETED) {
+		g_assert(info);
+		if (expunge && (info->flags & CAMEL_MESSAGE_DELETED)) {
 			name = g_strdup_printf("%s/%s", cls->folder_path, info->uid);
 			d(printf("deleting %s\n", name));
 			if (unlink(name) == 0 || errno==ENOENT) {
@@ -309,12 +370,19 @@ mh_summary_sync(CamelLocalSummary *cls, gboolean expunge, CamelFolderChangeInfo 
 				/* FIXME: put this in folder_summary::remove()? */
 				if (cls->index)
 					ibex_unindex(cls->index, info->uid);
-
+				
 				camel_folder_change_info_remove_uid(changes, info->uid);
 				camel_folder_summary_remove((CamelFolderSummary *)cls, info);
 			}
+			g_free(name);
+		} else if (info->flags & (CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED)) {
+			if (mh_summary_sync_message(cls, info, ex) != -1) {
+				info->flags &= 0xffff;
+			} else {
+				g_warning("Problem occured when trying to expunge, ignored");
+			}
 		}
 	}
+
 	return 0;
 }
-

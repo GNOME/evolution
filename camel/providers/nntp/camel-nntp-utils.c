@@ -30,6 +30,8 @@
 #include "camel-stream-mem.h"
 #include "camel-exception.h"
 
+#include "e-util/md5-utils.h"
+
 #include <stdlib.h>
 #include <string.h>
 
@@ -39,6 +41,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 {
 	int status;
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
+	char digest[16];
 
 	status = camel_nntp_command (nntp_store, ex, NULL,
 				     "XOVER %d-%d",
@@ -61,7 +64,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				g_print ("done\n");
 			}
 			else {
-				CamelMessageInfo *new_info = g_new0(CamelMessageInfo, 1);
+				CamelMessageInfo *new_info = camel_folder_summary_info_new(nntp_folder->summary);
 				char **split_line = g_strsplit (line, "\t", 7);
 				char *subject, *from, *date, *message_id, *bytes;
 
@@ -95,7 +98,8 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 #endif
 				new_info->size = atoi(bytes);
 				new_info->uid = g_strdup_printf ("%s,%s", split_line[0], message_id);
-				new_info->message_id = g_strdup(message_id);
+				md5_get_digest(message_id, strlen(message_id), digest);
+				memcpy(new_info->message_id.id.hash, digest, sizeof(new_info->message_id.id.hash));
 
 				if (camel_nntp_newsrc_article_is_read (nntp_store->newsrc,
 								       folder->name,

@@ -23,6 +23,8 @@
 #include "camel-local-summary.h"
 #include <camel/camel-mime-message.h>
 
+#include <ctype.h>
+
 #include <sys/stat.h>
 #include <sys/uio.h>
 #include <unistd.h>
@@ -31,7 +33,7 @@
 #include <stdlib.h>
 
 #define io(x)
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #define CAMEL_LOCAL_SUMMARY_VERSION (0x100)
 
@@ -166,10 +168,114 @@ camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, 
 	return ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->decode_x_evolution(cls, xev, info);
 }
 
+#define DOSTATS
+#ifdef DOSTATS
+struct _stat_info {
+	int mitotal;
+	int micount;
+	int citotal;
+	int cicount;
+	int msgid;
+	int msgcount;
+};
+
+static void
+do_stat_ci(CamelLocalSummary *cls, struct _stat_info *info, CamelMessageContentInfo *ci)
+{
+	info->cicount++;
+	info->citotal += ((CamelFolderSummary *)cls)->content_info_size /*+ 4 memchunks are 1/4 byte overhead per mi */;
+	if (ci->id)
+		info->citotal += strlen(ci->id) + 4;
+	if (ci->description)
+		info->citotal += strlen(ci->description) + 4;
+	if (ci->encoding)
+		info->citotal += strlen(ci->encoding) + 4;
+	if (ci->type) {
+		struct _header_content_type *ct = ci->type;
+		struct _header_param *param;
+
+		info->citotal += sizeof(*ct) + 4;
+		if (ct->type)
+			info->citotal += strlen(ct->type) + 4;
+		if (ct->subtype)
+			info->citotal += strlen(ct->subtype) + 4;
+		param = ct->params;
+		while (param) {
+			info->citotal += sizeof(*param) + 4;
+			if (param->name)
+				info->citotal += strlen(param->name)+4;
+			if (param->value)
+				info->citotal += strlen(param->value)+4;
+			param = param->next;
+		}
+	}
+	ci = ci->childs;
+	while (ci) {
+		do_stat_ci(cls, info, ci);
+		ci = ci->next;
+	}
+}
+
+static void
+do_stat_mi(CamelLocalSummary *cls, struct _stat_info *info, CamelMessageInfo *mi)
+{
+	info->micount++;
+	info->mitotal += ((CamelFolderSummary *)cls)->content_info_size /*+ 4*/;
+
+	if (mi->subject)
+		info->mitotal += strlen(mi->subject) + 4;
+	if (mi->to)
+		info->mitotal += strlen(mi->to) + 4;
+	if (mi->from)
+		info->mitotal += strlen(mi->from) + 4;
+	if (mi->cc)
+		info->mitotal += strlen(mi->cc) + 4;
+	if (mi->uid)
+		info->mitotal += strlen(mi->uid) + 4;
+
+	if (mi->references) {
+		info->mitotal += (mi->references->size-1) * sizeof(CamelSummaryMessageID) + sizeof(CamelSummaryReferences) + 4;
+		info->msgid += (mi->references->size) * sizeof(CamelSummaryMessageID);
+		info->msgcount += mi->references->size;
+	}
+
+	/* dont have any user flags yet */
+
+	if (mi->content) {
+		do_stat_ci(cls, info, mi->content);
+	}
+}
+
+#endif
+
 int
 camel_local_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changeinfo, CamelException *ex)
 {
-	return ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->check(cls, changeinfo, ex);
+	int ret;
+
+	ret = ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->check(cls, changeinfo, ex);
+
+#ifdef DOSTATS
+	if (ret != -1) {
+		int i;
+		CamelFolderSummary *s = (CamelFolderSummary *)cls;
+		struct _stat_info stats = { 0 };
+
+		for (i=0;i<camel_folder_summary_count(s);i++) {
+			CamelMessageInfo *info = camel_folder_summary_index(s, i);
+			do_stat_mi(cls, &stats, info);
+		}
+
+		printf("\nMemory used by summary:\n\n");
+		printf("Total of %d messages\n", camel_folder_summary_count(s)); 
+		printf("Total: %d bytes (ave %f)\n", stats.citotal + stats.mitotal,
+		       (double)(stats.citotal+stats.mitotal)/(double)camel_folder_summary_count(s));
+		printf("Message Info: %d (ave %f)\n", stats.mitotal, (double)stats.mitotal/(double)stats.micount);
+		printf("Content Info; %d (ave %f) count %d\n", stats.citotal, (double)stats.citotal/(double)stats.cicount, stats.cicount);
+		printf("message id's: %d (ave %f) count %d\n", stats.msgid, (double)stats.msgid/(double)stats.msgcount, stats.msgcount);
+	}
+#endif
+	return ret;
 }
 
 int
@@ -182,6 +288,64 @@ CamelMessageInfo *
 camel_local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *ci, CamelException *ex)
 {
 	return ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->add(cls, msg, info, ci, ex);
+}
+
+/**
+ * camel_local_summary_write_headers:
+ * @fd: 
+ * @header: 
+ * @xevline: 
+ * 
+ * Write a bunch of headers to the file @fd.  IF xevline is non NULL, then
+ * an X-Evolution header line is created at the end of all of the headers.
+ * The headers written are termianted with a blank line.
+ * 
+ * Return value: -1 on error, otherwise the number of bytes written.
+ **/
+int
+camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevline)
+{
+	int outlen = 0, len;
+	int newfd;
+	FILE *out;
+
+	/* dum de dum, maybe the whole sync function should just use stdio for output */
+	newfd = dup(fd);
+	if (newfd == -1)
+		return -1;
+
+	out = fdopen(newfd, "w");
+	if (out == NULL) {
+		close(newfd);
+		errno = EINVAL;
+		return -1;
+	}
+
+	while (header) {
+		if (strcasecmp(header->name, "X-Evolution")) {
+			len = fprintf(out, "%s:%s\n", header->name, header->value);
+			if (len == -1) {
+				fclose(out);
+				return -1;
+			}
+			outlen += len;
+		}
+		header = header->next;
+	}
+
+	if (xevline) {
+		len = fprintf(out, "X-Evolution: %s\n\n", xevline);
+		if (len == -1) {
+			fclose(out);
+			return -1;
+		}
+		outlen += len;
+	}
+
+	if (fclose(out) == -1)
+		return -1;
+
+	return outlen;
 }
 
 #if 0
@@ -271,6 +435,7 @@ local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMess
 
 			mi->flags = mi->flags | (info->flags & 0xffff);
 		}
+		mi->flags &= ~(CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED);
 		xev = camel_local_summary_encode_x_evolution(cls, mi);
 		camel_medium_set_header((CamelMedium *)msg, "X-Evolution", xev);
 		g_free(xev);
@@ -351,15 +516,20 @@ local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelM
 	if (header && strlen(header) == strlen("00000000-0000")
 	    && sscanf(header, "%08x-%04x", &uid, &flags) == 2) {
 		char uidstr[20];
-		sprintf(uidstr, "%u", uid);
-		g_free(mi->uid);
-		mi->uid = g_strdup(uidstr);
-		mi->flags = flags;
+		if (mi) {
+			sprintf(uidstr, "%u", uid);
+			g_free(mi->uid);
+			mi->uid = g_strdup(uidstr);
+			mi->flags = flags;
+		}
 	} else {
 		g_free(header);
 		return -1;
 	}
 	g_free(header);
+
+	if (mi == NULL)
+		return 0;
 
 	/* check for additional data */	
 	header = strchr(xev, ';');

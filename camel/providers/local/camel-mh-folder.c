@@ -40,7 +40,7 @@
 #include "camel-mime-message.h"
 #include "camel-exception.h"
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 static CamelFolderClass *parent_class = NULL;
 

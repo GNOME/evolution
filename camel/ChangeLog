@@ -1,3 +1,117 @@
+2000-11-20  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): Fixes for
+	the summary messageid changes.  Hash the messageid and store it.
+	(get_XOVER_headers): Use camel_folder_summary_info_new() to create
+	the summary item before adding it.
+
+	* camel-folder-summary.h (CamelMessageInfo): Changed the
+	messgae-id to be an 8 byte md5 hash, and the references list to be
+	an array of these.
+
+	* providers/local/camel-mh-summary.c (mh_summary_sync_message):
+	New function, sync out the message info stuff.  Only updates the
+	X-Ev header if it can get away with it, otherwise writes out a
+	whole new message.
+	(mh_summary_sync): Added more functionality.  All summary info is
+	now written to the X-Ev header, etc, and new messages re-written
+	if required during the sync process.
+
+	* providers/local/camel-local-folder.c
+	(local_set_message_user_flag): Set the XEVCHANGE flag.
+	(local_set_message_user_tag): And here too.
+
+	* providers/local/camel-local-summary.h: New flag
+	CAMEL_MESSAGE_FOLDER_XEVCHANGE to indicate the XEV header has
+	probably changed size and needs to be rewritten in whole.
+
+	* camel-folder-summary.c (next_uid_string): Want this static, not
+	const.
+	(message_info_new): Store the references and message-id values as
+	64 bit, binary hashes.
+	(message_info_load): fix for message-id/references changes.
+	(message_info_save): Likewise.
+	(camel_message_info_dup_to): And here.
+	(camel_message_info_free): And here too.  No longer free
+	message_id, and simple free for references array.
+	(CAMEL_FOLDER_SUMMARY_VERSION): Bumped file revision.
+	(camel_folder_summary_init): Init memchunk allocators to empty.
+	(camel_folder_summary_finalize): Free memchunk allocators if
+	there.
+	(message_info_new): Use the chunk allocator to allocate message
+	info's.	
+	(camel_folder_summary_info_new): New helper to allocate the
+	message info, and setup the memchunk if required.
+	(content_info_alloc): Likewise for content info's.
+	(message_info_load): Use summary_info_new_empty.
+	(content_info_new): Use content_info_alloc.
+	(content_info_load): "
+	(content_info_free): Free the content info as a memchunk.
+	(message_info_free): Free everything directly and the base as a
+	memchunk, rather than calling camel_message_info_free(), which
+	assumes a malloc'd array.
+
+	* providers/local/camel-local-summary.c: Include ctype.h, kill a
+	warning.
+	(local_summary_decode_x_evolution): If we get a NULL message info,
+	then dont try and set anything, just check for validity.
+	(camel_local_summary_write_headers): New function to write a set
+	of headers to an fd.
+	(camel_local_summary_check): Added some statistic generation
+	stuff for memory profiling.
+
+	* providers/local/camel-mbox-summary.c (header_write): Changed to
+	use stdoi functions to write out the header to a buffered stream,
+	instead of using writev, which is apparently slow (and writing
+	each line separately is slow anyway).
+	(mbox_summary_sync_full): New implementation.  Does things
+	differently, doesn't use or require the content info stuff.
+	(summary_rebuild): Dont return an error if we start scanning at
+	the end of file.
+	(mbox_summary_sync_full): If we are not writing out new headers,
+	make sure we copy the From line as we go, and update frompos
+	appropriately.
+	(mbox_summary_sync_full): Always copy the From line from the
+	existing one, rather than trying to make one up ourselves.
+	(mbox_summary_sync): If we can get by with a quick-sync, then try
+	it, if that fails, then try a full sync anyway.
+	(mbox_summary_sync_quick): Quick sync.  Only update system flags,
+	etc.
+	(mbox_summary_sync_full): Use the proper local summary encode_xev
+	function.
+	(header_evolution_decode): Removed, no longer needed.
+	(header_evolution_encode): Same.
+	(copy_block): No longer needed, removed.
+	(header_write): Removed, replaced with
+	camel_local_summary_write_headers.
+	(mbox_summary_sync_full): Fixed for header_write change.
+
+	* camel-mime-parser.c (folder_scan_step): Implement the new
+	optional parser state HSCAN_PRE_FROM, that returns the (currently
+	unfiltered) input data.
+	(folder_scan_drop_step): Do the right thing for the PRE_FROM
+	state.
+	(camel_mime_parser_scan_from): Update the doco.
+	(camel_mime_parser_scan_pre_from): Ok, make this behaviour
+	optional, it simplifies a lot of loops that dont otherwise need to
+	know about it.
+	(folder_scan_step): Made the PRE_FROM state optional.
+	(struct _header_scan_state): Made the bool vars 1 bit.
+	(folder_pull_part): Free the from_line buffer if it is there.
+	(folder_scan_skip_line): Added a new arg, can save the skpped data
+	to a byte_array, as we go.
+	(folder_scan_step): Fixed calls to skip_line approrpiately.  Now
+	we save the from line as we parse it.
+	(camel_mime_parser_read): New function to read from the mime
+	parser buffer directly.  Useful if you use the parser to read the
+	first/some headers, then need to scan the rest of the data,
+	without needing to use a seek(), or allocate your own buffers.
+
+	* camel-mime-parser.h (struct _header_state): Added a new parser state,
+	pre-from which returns any data found before a from line during
+	parsing (all other data can be retrieved by the caller except
+	this).
+
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_nstring): When
@@ -16,6 +130,11 @@
 	count.
 
 2000-11-17  Not Zed  <NotZed@HelixCode.com>
+
+	* providers/local/camel-local-summary.c (local_summary_add): Clear
+	the NOXEV/FLAGGED bits, since we do have an xev header.  um m,
+	maybe this is right, this assumes a write is following.  Maybe
+	this should be done in folder::append() instead ...
 
 	* camel-stream-buffer.c (camel_stream_buffer_gets): We should
 	always terminate the string.  No need to check outptr is in range,

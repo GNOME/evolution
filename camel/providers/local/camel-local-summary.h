@@ -37,6 +37,7 @@ typedef struct _CamelLocalSummaryClass CamelLocalSummaryClass;
 /* extra summary flags */
 enum {
 	CAMEL_MESSAGE_FOLDER_NOXEV = 1<<17,
+	CAMEL_MESSAGE_FOLDER_XEVCHANGE = 1<<18,
 };
 
 struct _CamelLocalSummary {
@@ -76,6 +77,9 @@ CamelMessageInfo *camel_local_summary_add(CamelLocalSummary *cls, CamelMimeMessa
 /* generate an X-Evolution header line */
 char *camel_local_summary_encode_x_evolution(CamelLocalSummary *cls, const CamelMessageInfo *info);
 int camel_local_summary_decode_x_evolution(CamelLocalSummary *cls, const char *xev, CamelMessageInfo *info);
+
+/* utility functions - write headers to a file with optional X-Evolution header */
+int camel_local_summary_write_headers(int fd, struct _header_raw *header, char *xevline);
 
 #endif /* ! _CAMEL_LOCAL_SUMMARY_H */
 

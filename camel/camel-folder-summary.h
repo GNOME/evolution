@@ -48,6 +48,8 @@ typedef struct _CamelMessageContentInfo {
 	char *description;
 	char *encoding;
 
+	/* NOTE: The fields below are to be deprecated, and eventually removed */
+
 	/* information about where this object lives in the stream.
 	   if pos is -1 these are all invalid */
 	off_t pos;
@@ -78,24 +80,57 @@ typedef struct _CamelTag {
 	char name[1];		/* name allocated as part of the structure */
 } CamelTag;
 
+/* a summary messageid is a 64 bit identifier (partial md5 hash) */
+typedef struct _CamelSummaryMessageID {
+	union {
+		guint64 id;
+		unsigned char hash[8];
+		struct {
+			guint32 hi;
+			guint32 lo;
+		} part;
+	} id;
+} CamelSummaryMessageID;
+
+/* summary references is a fixed size array of references */
+typedef struct _CamelSummaryReferences {
+	int size;
+	CamelSummaryMessageID references[1];
+} CamelSummaryReferences;
+
+#ifdef DOESTRV
+/* string array indices */
+enum {
+	CAMEL_MESSAGE_INFO_SUBJECT,
+	CAMEL_MESSAGE_INFO_FROM,
+	CAMEL_MESSAGE_INFO_TO,
+	CAMEL_MESSAGE_INFO_CC,
+	CAMEL_MESSAGE_INFO_UID,
+	CAMEL_MESSAGE_INFO_STRING_COUNT,
+};
+#endif
+
 /* information about a given object */
 typedef struct {
 	/* public fields */
+#ifdef DOESTRV
+	EStrv *strings;		/* all strings packed into a single compact array */
+#else
 	gchar *subject;
 	gchar *from;
 	gchar *to;
 	gchar *cc;
 
 	gchar *uid;
+#endif
 	guint32 flags;
 	guint32 size;
 
 	time_t date_sent;
 	time_t date_received;
 
-	/* Message-ID / References structures */
-	char *message_id;	/* for this message */
-	struct _header_references *references; /* from parent to root */
+	CamelSummaryMessageID message_id;/* for this message */
+	CamelSummaryReferences *references;/* from parent to root */
 
 	struct _CamelFlag *user_flags;
 	struct _CamelTag *user_tags;
@@ -123,6 +158,10 @@ struct _CamelFolderSummary {
 	/* sizes of memory objects */
 	guint32 message_info_size;
 	guint32 content_info_size;
+	
+	/* memory allocators (setup automatically) */
+	struct _EMemChunk *message_info_chunks;
+	struct _EMemChunk *content_info_chunks;
 
 	char *summary_path;
 	gboolean build_content;	/* do we try and parse/index the content, or not? */
@@ -185,6 +224,7 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *, Cam
 CamelMessageInfo *camel_folder_summary_add_from_message(CamelFolderSummary *, CamelMimeMessage *);
 
 /* Just build raw summary items */
+CamelMessageInfo *camel_folder_summary_info_new(CamelFolderSummary *s);
 CamelMessageInfo *camel_folder_summary_info_new_from_header(CamelFolderSummary *, struct _header_raw *);
 CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *, CamelMimeParser *);
 CamelMessageInfo *camel_folder_summary_info_new_from_message(CamelFolderSummary *, CamelMimeMessage *);
@@ -238,8 +278,27 @@ void		camel_tag_set(CamelTag **list, const char *name, const char *value);
 int		camel_tag_list_size(CamelTag **list);
 void		camel_tag_list_free(CamelTag **list);
 
-/* message info utils */
+/* message info utils for working with pseudo-messageinfo structures
+   NOTE: These cannot be added to a real summary object, but suffice for all
+   other external interfaces that use message info's */
 void camel_message_info_dup_to(const CamelMessageInfo *from, CamelMessageInfo *to);
 void camel_message_info_free(CamelMessageInfo *mi);
+
+/* accessors */
+#ifdef DOESTRV
+const char *camel_message_info_string(CamelMessageInfo *mi, int type);
+#define camel_message_info_subject(x) camel_message_info_string(m, CAMEL_MESSAGE_INFO_SUBJECT)
+#define camel_message_info_from(x) camel_message_info_string(m, CAMEL_MESSAGE_INFO_FROM)
+#define camel_message_info_to(x) camel_message_info_string(m, CAMEL_MESSAGE_INFO_TO)
+#define camel_message_info_cc(x) camel_message_info_string(m, CAMEL_MESSAGE_INFO_CC)
+#define camel_message_info_uid(x) camel_message_info_string(m, CAMEL_MESSAGE_INFO_UID)
+
+void camel_message_info_set_string(CamelMessageInfo *mi, int type, const char *str);
+#define camel_message_info_set_subject(x, s) camel_message_info_string(m, CAMEL_MESSAGE_INFO_SUBJECT, s)
+#define camel_message_info_set_from(x, s) camel_message_info_string(m, CAMEL_MESSAGE_INFO_FROM, s)
+#define camel_message_info_set_to(x, s) camel_message_info_string(m, CAMEL_MESSAGE_INFO_TO, s)
+#define camel_message_info_set_cc(x, s) camel_message_info_string(m, CAMEL_MESSAGE_INFO_CC, s)
+#define camel_message_info_set_uid(x, s) camel_message_info_string(m, CAMEL_MESSAGE_INFO_UID, s)
+#endif
 
 #endif /* ! _CAMEL_FOLDER_SUMMARY_H */

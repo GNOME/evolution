@@ -38,6 +38,7 @@ typedef struct _CamelMimeParserClass CamelMimeParserClass;
    the same as the matching start tag, with a bit difference */
 enum _header_state {
 	HSCAN_INITIAL,
+	HSCAN_PRE_FROM,		/* data before a 'From' line */
 	HSCAN_FROM,		/* got 'From' line */
 	HSCAN_HEADER,		/* toplevel header */
 	HSCAN_BODY,		/* scanning body of message */
@@ -49,6 +50,7 @@ enum _header_state {
 	HSCAN_END = 8,		/* bit mask for 'end' flags */
 
 	HSCAN_EOF = 8,		/* end of file */
+	HSCAN_PRE_FROM_END,	/* pre from end */
 	HSCAN_FROM_END,		/* end of whole from bracket */
 	HSCAN_HEADER_END,	/* dummy value */
 	HSCAN_BODY_END,		/* end of message */
@@ -84,6 +86,8 @@ int		camel_mime_parser_fd(CamelMimeParser *m);
 
 /* scan 'From' separators? */
 void camel_mime_parser_scan_from(CamelMimeParser *, int);
+/* Do we want to know about the pre-from data? */
+void camel_mime_parser_scan_pre_from(CamelMimeParser *, int);
 
 /* what headers to save, MUST include ^Content-Type: */
 int camel_mime_parser_set_header_regex(CamelMimeParser *m, char *matchstr);
@@ -93,6 +97,9 @@ enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, int *);
 void camel_mime_parser_unstep(CamelMimeParser *);
 void camel_mime_parser_drop_step(CamelMimeParser *m);
 enum _header_state camel_mime_parser_state(CamelMimeParser *);
+
+/* read through the parser */
+int camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len);
 
 /* get content type for the current part/header */
 struct _header_content_type *camel_mime_parser_content_type(CamelMimeParser *);
@@ -106,6 +113,9 @@ struct _header_raw *camel_mime_parser_headers_raw(CamelMimeParser *);
 /* get multipart pre/postface */
 const char *camel_mime_parser_preface(CamelMimeParser *m);
 const char *camel_mime_parser_postface(CamelMimeParser *m);
+
+/* return the from line content */
+const char *camel_mime_parser_from_line(CamelMimeParser *m);
 
 /* add a processing filter for body contents */
 int camel_mime_parser_filter_add(CamelMimeParser *, CamelMimeFilter *);

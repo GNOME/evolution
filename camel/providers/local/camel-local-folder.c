@@ -42,7 +42,7 @@
 #include "camel-mime-filter-from.h"
 #include "camel-exception.h"
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 static CamelFolderClass *parent_class = NULL;
 
@@ -455,7 +455,7 @@ local_set_message_user_flag(CamelFolder *folder, const char *uid, const char *na
 	g_return_if_fail(info != NULL);
 
 	camel_flag_set(&info->user_flags, name, value);
-	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
 	camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }
@@ -482,7 +482,7 @@ local_set_message_user_tag(CamelFolder *folder, const char *uid, const char *nam
 	g_return_if_fail(info != NULL);
 
 	camel_tag_set(&info->user_tags, name, value);
-	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED;
+	info->flags |= CAMEL_MESSAGE_FOLDER_FLAGGED|CAMEL_MESSAGE_FOLDER_XEVCHANGE;
 	camel_folder_summary_touch(CAMEL_FOLDER_SUMMARY(mf->summary));
 	camel_object_trigger_event(CAMEL_OBJECT(folder), "message_changed", (char *) uid);
 }

@@ -225,8 +225,9 @@ struct _header_scan_state {
 	int seek;		/* current offset to start of buffer */
 	int unstep;		/* how many states to 'unstep' (repeat the current state) */
 
-	int midline;		/* are we mid-line interrupted? */
-	int scan_from;		/* do we care about From lines? */
+	unsigned int midline:1;		/* are we mid-line interrupted? */
+	unsigned int scan_from:1;	/* do we care about From lines? */
+	unsigned int scan_pre_from:1;	/* do we return pre-from data? */
 
 	int start_of_from;	/* where from started */
 	int start_of_headers;	/* where headers started from the last scan */
@@ -259,6 +260,8 @@ struct _header_scan_stack {
 	GByteArray *posttext;	/* for multipart types, save the post-boundary data here */
 	int prestage;		/* used to determine if it is a pre-boundary or post-boundary data segment */
 
+	GByteArray *from_line;	/* the from line */
+
 	char *boundary;		/* for multipart/ * boundaries, including leading -- and trailing -- for the final part */
 	int boundarylen;	/* actual length of boundary, including leading -- if there is one */
 	int boundarylenfinal;	/* length of boundary, including trailing -- if there is one */
@@ -279,9 +282,10 @@ static struct _header_scan_state *folder_scan_init(void);
 static void folder_scan_close(struct _header_scan_state *s);
 static struct _header_scan_stack *folder_scan_content(struct _header_scan_state *s, int *lastone, char **data, int *length);
 static struct _header_scan_stack *folder_scan_header(struct _header_scan_state *s, int *lastone);
-static int folder_scan_skip_line(struct _header_scan_state *s);
+static int folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save);
 static off_t folder_seek(struct _header_scan_state *s, off_t offset, int whence);
 static off_t folder_tell(struct _header_scan_state *s);
+static int folder_read(struct _header_scan_state *s);
 #ifdef MEMPOOL
 static void header_append_mempool(struct _header_scan_state *s, struct _header_scan_stack *h, char *header, int offset);
 #endif
@@ -291,6 +295,7 @@ static void camel_mime_parser_init       (CamelMimeParser *obj);
 
 static char *states[] = {
 	"HSCAN_INITIAL",
+	"HSCAN_PRE_FROM",	/* pre-from data */
 	"HSCAN_FROM",		/* got 'From' line */
 	"HSCAN_HEADER",		/* toplevel header */
 	"HSCAN_BODY",		/* scanning body of message */
@@ -298,9 +303,9 @@ static char *states[] = {
 	"HSCAN_MESSAGE",	/* rfc822/news message */
 
 	"HSCAN_PART",		/* part of a multipart */
-	"<invalid>",
 
 	"HSCAN_EOF",		/* end of file */
+	"HSCAN_PRE_FROM_END",
 	"HSCAN_FROM_END",
 	"HSCAN_HEAER_END",
 	"HSCAN_BODY_END",
@@ -532,6 +537,29 @@ camel_mime_parser_postface(CamelMimeParser *m)
 	return NULL;
 }
 
+/**
+ * camel_mime_parser_from_line:
+ * @m: 
+ * 
+ * Get the last scanned "From " line, from a recently scanned from.
+ * This should only be called in the HSCAN_FROM state.  The
+ * from line will include the closing \n found (if there was one).
+ *
+ * The return value will remain valid while in the HSCAN_FROM
+ * state, or any deeper state.
+ * 
+ * Return value: The From line, or NULL if called out of context.
+ **/
+const char *
+camel_mime_parser_from_line(CamelMimeParser *m)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+
+	if (s->parts)
+		return byte_array_to_string(s->parts->from_line);
+
+	return NULL;
+}
 
 /**
  * camel_mime_parser_init_with_fd:
@@ -589,12 +617,33 @@ camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream)
  * If the scanner is scanning from lines, two additional
  * states HSCAN_FROM and HSCAN_FROM_END will be returned
  * to the caller during parsing.
+ *
+ * This may also be preceeded by an optional
+ * HSCAN_PRE_FROM state which contains the scanned data
+ * found before the From line is encountered.  See also
+ * scan_pre_from().
  **/
 void
 camel_mime_parser_scan_from(CamelMimeParser *m, int scan_from)
 {
 	struct _header_scan_state *s = _PRIVATE(m);
 	s->scan_from = scan_from;
+}
+
+/**
+ * camel_mime_parser_scan_pre_from:
+ * @: 
+ * @scan_pre_from: #TRUE if we want to get pre-from data.
+ * 
+ * Tell the scanner whether we want to know abou the pre-from
+ * data during a scan.  If we do, then we may get an additional
+ * state HSCAN_PRE_FROM which returns the specified data.
+ **/
+void
+camel_mime_parser_scan_pre_from(CamelMimeParser *m, int scan_pre_from)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+	s->scan_pre_from = scan_pre_from;
 }
 
 /**
@@ -704,6 +753,52 @@ camel_mime_parser_step(CamelMimeParser *m, char **databuffer, int *datalength)
 	d(printf("NEW STATE:  '%s' :\n", states[s->state]));
 
 	return s->state;
+}
+
+/**
+ * camel_mime_parser_read:
+ * @m: 
+ * @databuffer: 
+ * @len: 
+ * 
+ * Read at most @len bytes from the internal mime parser buffer.
+ *
+ * Returns the address of the internal buffer in @databuffer,
+ * and the length of useful data.
+ *
+ * @len may be specified as INT_MAX, in which case you will
+ * get the full remainder of the buffer at each call.
+ *
+ * Note that no parsing of the data read through this function
+ * occurs, so no state changes occur, but the seek position
+ * is updated appropriately.
+ *
+ * Return value: The number of bytes available, or -1 on error.
+ **/
+int
+camel_mime_parser_read(CamelMimeParser *m, const char **databuffer, int len)
+{
+	struct _header_scan_state *s = _PRIVATE(m);
+	int there;
+
+	if (len == 0)
+		return 0;
+
+	there = MIN(s->inend - s->inptr, len);
+	if (there > 0) {
+		*databuffer = s->inptr;
+		s->inptr += there;
+		return there;
+	}
+
+	if (folder_read(s) == -1)
+		return -1;
+
+	there = MIN(s->inend - s->inptr, len);
+	*databuffer = s->inptr;
+	s->inptr += there;
+
+	return there;
 }
 
 /**
@@ -976,6 +1071,8 @@ folder_pull_part(struct _header_scan_state *s)
 			g_byte_array_free(h->pretext, TRUE);
 		if (h->posttext)
 			g_byte_array_free(h->posttext, TRUE);
+		if (h->from_line)
+			g_byte_array_free(h->from_line, TRUE);
 		g_free(h);
 	} else {
 		g_warning("Header stack underflow!\n");
@@ -983,7 +1080,7 @@ folder_pull_part(struct _header_scan_state *s)
 }
 
 static int
-folder_scan_skip_line(struct _header_scan_state *s)
+folder_scan_skip_line(struct _header_scan_state *s, GByteArray *save)
 {
 	int atleast = s->atleast;
 	register char *inptr, *inend, c;
@@ -999,6 +1096,9 @@ folder_scan_skip_line(struct _header_scan_state *s)
 		while (inptr<inend
 		       && (c = *inptr++)!='\n')
 			;
+
+		if (save)
+			g_byte_array_append(save, s->inptr, inptr-s->inptr);
 
 		s->inptr = inptr;
 
@@ -1390,6 +1490,7 @@ folder_scan_init(void)
 
 	s->midline = FALSE;
 	s->scan_from = FALSE;
+	s->scan_pre_from = FALSE;
 
 	s->filters = NULL;
 	s->filterid = 1;
@@ -1483,37 +1584,49 @@ tail_recurse:
 
 	switch (s->state) {
 
-	case HSCAN_INITIAL:
 #ifdef USE_FROM
+	case HSCAN_INITIAL:
 		if (s->scan_from) {
-			/* FIXME: it would be nice not to have to allocate this every pass */
 			h = g_malloc0(sizeof(*h));
 			h->boundary = g_strdup("From ");
 			h->boundarylen = strlen(h->boundary);
 			h->boundarylenfinal = h->boundarylen;
+			h->from_line = g_byte_array_new();
 			folder_push_part(s, h);
-			
-			h = s->parts;
-			do {
-				hb = folder_scan_content(s, &state, databuffer, datalength);
-			} while (hb==h && *datalength>0);
-			
-			if (*datalength==0 && hb==h) {
-				d(printf("found 'From '\n"));
-				s->start_of_from = folder_tell(s);
-				folder_scan_skip_line(s);
-				h->savestate = HSCAN_INITIAL;
-				s->state = HSCAN_FROM;
-			} else {
-				folder_pull_part(s);
-				s->state = HSCAN_EOF;
-			}
-			return;
+			s->state = HSCAN_PRE_FROM;
 		} else {
 			s->start_of_from = -1;
+			goto scan_header;
 		}
 
-#endif
+	case HSCAN_PRE_FROM:
+
+		h = s->parts;
+		do {
+			hb = folder_scan_content(s, &state, databuffer, datalength);
+			if (s->scan_pre_from && *datalength > 0) {
+				d(printf("got pre-from content %d bytes\n", *datalength));
+				return;
+			}
+		} while (hb==h && *datalength>0);
+
+		if (*datalength==0 && hb==h) {
+			d(printf("found 'From '\n"));
+			s->start_of_from = folder_tell(s);
+			folder_scan_skip_line(s, h->from_line);
+			h->savestate = HSCAN_INITIAL;
+			s->state = HSCAN_FROM;
+		} else {
+			folder_pull_part(s);
+			s->state = HSCAN_EOF;
+		}
+		return;
+#else
+	case HSCAN_INITIAL:
+	case HSCAN_PRE_FROM:
+#endif /* !USE_FROM */
+
+	scan_header:
 	case HSCAN_FROM:
 		s->start_of_headers = folder_tell(s);
 		h = folder_scan_header(s, &state);
@@ -1636,7 +1749,7 @@ tail_recurse:
 			h->prestage++;
 			if (*datalength==0 && hb==h) {
 				d(printf("got boundary: %s\n", hb->boundary));
-				folder_scan_skip_line(s);
+				folder_scan_skip_line(s, NULL);
 				if (!state) {
 					s->state = HSCAN_FROM;
 					folder_scan_step(s, databuffer, datalength);
@@ -1688,6 +1801,7 @@ folder_scan_drop_step(struct _header_scan_state *s)
 		return;
 
 	case HSCAN_FROM:
+	case HSCAN_PRE_FROM:
 		s->state = HSCAN_INITIAL;
 		folder_pull_part(s);
 		return;

@@ -42,7 +42,7 @@
 #include "camel-mime-filter-from.h"
 #include "camel-exception.h"
 
-#define d(x) (printf("%s(%d): ", __FILE__, __LINE__),(x))
+#define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 static CamelLocalFolderClass *parent_class = NULL;
 
@@ -118,7 +118,7 @@ camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, guint32 f
 {
 	CamelFolder *folder;
 
-	d(printf("Creating mbox folder: %s\n", full_name));
+	d(printf("Creating mbox folder: %s in %s\n", full_name, camel_local_store_get_toplevel_dir((CamelLocalStore *)parent_store)));
 
 	folder = (CamelFolder *)camel_object_new(CAMEL_MBOX_FOLDER_TYPE);
 	folder = (CamelFolder *)camel_local_folder_construct((CamelLocalFolder *)folder,
@@ -169,7 +169,9 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	char *fromline = NULL;
 	int fd;
 	struct stat st;
-
+#if 0
+	char *xev;
+#endif
 	/* If we can't lock, dont do anything */
 	if (camel_local_folder_lock(lf, CAMEL_LOCK_WRITE, ex) == -1)
 		return;
@@ -186,9 +188,6 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 	if (camel_exception_is_set(ex))
 		goto fail;
 
-	/* and we need to set the frompos explicitly */
-	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size?mbs->folder_size+1:0;
-
 	d(printf("Appending message: uid is %s\n", mi->uid));
 
 	output_stream = camel_stream_fs_new_with_name(lf->folder_path, O_WRONLY|O_APPEND, 0600);
@@ -196,6 +195,18 @@ mbox_append_message(CamelFolder *folder, CamelMimeMessage * message, const Camel
 		camel_exception_setv(ex, 1, _("Cannot open mailbox: %s: %s\n"), lf->folder_path, strerror(errno));
 		goto fail;
 	}
+
+	/* and we need to set the frompos/XEV explicitly */
+	((CamelMboxMessageInfo *)mi)->frompos = mbs->folder_size?mbs->folder_size+1:0;
+#if 0
+	xev = camel_local_summary_encode_x_evolution(lf->summary, mi);
+	if (xev) {
+		/* the x-ev header should match the 'current' flags, no problem, so store as much */
+		camel_medium_set_header((CamelMedium *)message, "X-Evolution", xev);
+		mi->flags &= ~ CAMEL_MESSAGE_FOLDER_NOXEV|CAMEL_MESSAGE_FOLDER_FLAGGED;
+		g_free(xev);
+	}
+#endif
 
 	/* we must write this to the non-filtered stream ... prepend a \n if not at the start of the file */
 	fromline = camel_mbox_summary_build_from(((CamelMimePart *)message)->headers);
@@ -330,8 +341,9 @@ retry:
 	    || camel_mime_parser_tell_start_from(parser) != info->frompos) {
 
 		g_warning("Summary doesn't match the folder contents!  eek!\n"
-			  "  expecting offset %ld got %ld", (long int)info->frompos,
-			  (long int)camel_mime_parser_tell_start_from(parser));
+			  "  expecting offset %ld got %ld, state = %d", (long int)info->frompos,
+			  (long int)camel_mime_parser_tell_start_from(parser),
+			  camel_mime_parser_state(parser));
 
 		camel_object_unref((CamelObject *)parser);
 
