@@ -181,7 +181,7 @@ conduits_DATA =				\
 	evo-48-todo-conduit.png
 
 appicondir = $(datadir)/pixmaps
-appicon_DATA = evolution-icon.png
+appicon_DATA = evolution.png
 
 EXTRA_DIST = \
 	attachment.xpm			\

@@ -1,3 +1,10 @@
+2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am: Install `evolution.png', not `evolution-icon.png'.
+
+	* evolution.png: Renamed from `evolution-icon.png', removing the
+	old, now unused `evolution.png'.
+
 2001-10-30  Jakub Steiner <jimmac@ximian.com>
 
 	* splash-1-0.png: new style splash 
