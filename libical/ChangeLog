@@ -1,3 +1,8 @@
+2000-11-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle
+	both the position and weekday in the by_day field.
+
 2000-10-20  Jesse Pavel	  	<jpavel@helixcode.com>
 
 	* src/libical/icalproperty.c: added support for the

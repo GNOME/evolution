@@ -663,11 +663,16 @@ char* icalvalue_recur_as_ical_string(icalvalue* value)
 	    for(i=0; i< limit  && array[i] != ICAL_RECURRENCE_ARRAY_MAX;
 		i++){
 		if (j == 3) { /* BYDAY */
+		    short pos = icalrecurrencetype_day_position(array[i]);
 		    short dow = icalrecurrencetype_day_day_of_week(array[i]);
 		    char *daystr = icalenum_weekday_to_string(dow);
 
-		    /* HACK, does not correctly handle the integer value */
-		    icalmemory_append_string(&str,&str_p,&buf_sz,daystr);
+		    if (pos == 0)
+			icalmemory_append_string(&str,&str_p,&buf_sz,daystr);
+		    else {
+			sprintf(temp,"%d%s",pos,daystr);
+			icalmemory_append_string(&str,&str_p,&buf_sz,temp);
+		    }
 		} else {
 		    sprintf(temp,"%d",array[i]);
 		    icalmemory_append_string(&str,&str_p,&buf_sz, temp);
