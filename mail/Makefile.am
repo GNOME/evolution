@@ -69,6 +69,8 @@ libevolution_mail_la_SOURCES =			\
 	em-mailer-prefs.h			\
 	em-inline-filter.c			\
 	em-inline-filter.h			\
+	em-folder-properties.c			\
+	em-folder-properties.h			\
 	em-folder-selection.c			\
 	em-folder-selection.h			\
 	em-folder-selection-button.c		\

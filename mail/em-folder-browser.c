@@ -79,6 +79,7 @@
 #include "em-format-html-display.h"
 #include "em-format-html-print.h"
 #include "em-folder-browser.h"
+#include "em-folder-properties.h"
 #include "em-subscribe-editor.h"
 #include "message-list.h"
 
@@ -536,9 +537,9 @@ emfb_edit_select_thread(BonoboUIComponent *uid, void *data, const char *path)
 static void
 emfb_folder_properties(BonoboUIComponent *uid, void *data, const char *path)
 {
-	/* If only we could remove this ... */
-	/* Should it be part of the factory? */
-	printf("FIXME: folderproperties\n");
+	EMFolderBrowser *emfb = data;
+
+	em_folder_properties_show(NULL, emfb->view.folder, emfb->view.folder_uri);
 }
 
 static void

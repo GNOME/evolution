@@ -1,5 +1,22 @@
 2004-02-02  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #52994.
+
+	* em-folder-properties.c (em_folder_properties_show): redirect
+	vFolder uri's to the vFolder editor.
+
+	** See bug #53502.
+
+	* em-folder-browser.c (emfb_folder_properties): implement.
+
+	* em-folder-tree.c (emft_popup_properties): fixed for change
+	below.
+
+	* em-folder-properties.[ch]: Moved the folder properties window
+	from em-folder-tree.c to its own file.
+
+2004-02-02  Not Zed  <NotZed@Ximian.com>
+
 	** See bug #53559.
 
 	* em-folder-tree.c (folder_tree_new): set CAN_FOCUS flag on the

@@ -60,7 +60,7 @@
 #include "em-folder-tree.h"
 #include "em-folder-selector.h"
 #include "em-folder-selection.h"
-
+#include "em-folder-properties.h"
 
 #define d(x) x
 
@@ -114,7 +114,6 @@ struct _emft_selection_data {
 
 
 static GtkVBoxClass *parent_class = NULL;
-
 
 GType
 em_folder_tree_get_type (void)
@@ -1533,207 +1532,6 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	}
 }
 
-struct _prop_data {
-	void *object;
-	CamelArgV *argv;
-	GtkWidget **widgets;
-};
-
-static void
-emft_popup_properties_response (GtkWidget *dialog, int response, struct _prop_data *prop_data)
-{
-	CamelArgV *argv = prop_data->argv;
-	int i;
-	
-	if (response != GTK_RESPONSE_OK) {
-		gtk_widget_destroy (dialog);
-		return;
-	}
-	
-	for (i = 0; i < argv->argc; i++) {
-		CamelArg *arg = &argv->argv[i];
-		
-		switch (arg->tag & CAMEL_ARG_TYPE) {
-		case CAMEL_ARG_BOO:
-			arg->ca_int = gtk_toggle_button_get_active ((GtkToggleButton *) prop_data->widgets[i]);
-			break;
-		case CAMEL_ARG_STR:
-			g_free (arg->ca_str);
-			arg->ca_str = (char *) gtk_entry_get_text ((GtkEntry *) prop_data->widgets[i]);
-			break;
-		default:
-			g_assert_not_reached ();
-			break;
-		}
-	}
-	
-	camel_object_setv (prop_data->object, NULL, argv);
-	gtk_widget_destroy (dialog);
-}
-
-static void
-emft_popup_properties_free (void *data)
-{
-	struct _prop_data *prop_data = data;
-	int i;
-	
-	for (i = 0; i < prop_data->argv->argc; i++) {
-		if ((prop_data->argv->argv[i].tag & CAMEL_ARG_TYPE) == CAMEL_ARG_STR)
-			g_free (prop_data->argv->argv[i].ca_str);
-	}
-	
-	camel_object_unref (prop_data->object);
-	g_free (prop_data->argv);
-	g_free (prop_data);
-}
-
-static void
-emft_popup_properties_got_folder (char *uri, CamelFolder *folder, void *data)
-{
-	GtkWidget *dialog, *w, *table, *label;
-	struct _prop_data *prop_data;
-	CamelArgGetV *arggetv;
-	CamelArgV *argv;
-	GSList *list, *l;
-	gint32 count, i;
-	char *name;
-	char countstr[16];
-	int row = 0, total=0, unread=0;
-	
-	if (folder == NULL)
-		return;
-	
-	camel_object_get (folder, NULL, CAMEL_FOLDER_PROPERTIES, &list, CAMEL_FOLDER_NAME, &name,
-			  CAMEL_FOLDER_TOTAL, &total, CAMEL_FOLDER_UNREAD, &unread, NULL);
-	
-	dialog = gtk_dialog_new_with_buttons (_("Folder properties"), NULL,
-					      GTK_DIALOG_DESTROY_WITH_PARENT,
-					      GTK_STOCK_OK, GTK_RESPONSE_OK,
-					      NULL);
-	
-	/* TODO: maybe we want some basic properties here, like message counts/approximate size/etc */
-	w = gtk_frame_new (_("Properties"));
-	gtk_widget_show (w);
-	gtk_box_pack_start ((GtkBox *) ((GtkDialog *) dialog)->vbox, w, TRUE, TRUE, 6);
-	
-	table = gtk_table_new (g_slist_length (list) + 3, 2, FALSE);
-	gtk_widget_show (table);
-	gtk_container_add ((GtkContainer *) w, table);
-
-	/* TODO: can this be done in a loop? */
-	label = gtk_label_new (_("Folder Name"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	
-	label = gtk_label_new (name);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	row++;
-
-	label = gtk_label_new (_("Total messages"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	
-	sprintf(countstr, "%d", total);
-	label = gtk_label_new (countstr);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	row++;
-
-	label = gtk_label_new (_("Unread messages"));
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	
-	sprintf(countstr, "%d", unread);
-	label = gtk_label_new (countstr);
-	gtk_widget_show (label);
-	gtk_misc_set_alignment ((GtkMisc *) label, 0.0, 0.5);
-	gtk_table_attach ((GtkTable *) table, label, 1, 2, row, row+1, GTK_FILL | GTK_EXPAND, 0, 3, 0);
-	row++;
-
-	/* build an arggetv/argv to retrieve/store the results */
-	count = g_slist_length (list);
-	arggetv = g_malloc0 (sizeof (*arggetv) + (count - CAMEL_ARGV_MAX) * sizeof (arggetv->argv[0]));
-	arggetv->argc = count;
-	argv = g_malloc0 (sizeof (*argv) + (count - CAMEL_ARGV_MAX) * sizeof (argv->argv[0]));
-	argv->argc = count;
-	
-	i = 0;
-	l = list;
-	while (l) {
-		CamelProperty *prop = l->data;
-		
-		argv->argv[i].tag = prop->tag;
-		arggetv->argv[i].tag = prop->tag;
-		arggetv->argv[i].ca_ptr = &argv->argv[i].ca_ptr;
-		
-		l = l->next;
-		i++;
-	}
-	
-	camel_object_getv (folder, NULL, arggetv);
-	g_free (arggetv);
-	
-	prop_data = g_malloc0 (sizeof (*prop_data));
-	prop_data->widgets = g_malloc0 (sizeof (prop_data->widgets[0]) * count);
-	prop_data->argv = argv;
-	
-	/* setup the ui with the values retrieved */
-	l = list;
-	i = 0;
-	while (l) {
-		CamelProperty *prop = l->data;
-		
-		switch (prop->tag & CAMEL_ARG_TYPE) {
-		case CAMEL_ARG_BOO:
-			w = gtk_check_button_new_with_label (prop->description);
-			gtk_toggle_button_set_active ((GtkToggleButton *) w, argv->argv[i].ca_int != 0);
-			gtk_widget_show (w);
-			gtk_table_attach ((GtkTable *) table, w, 0, 2, row, row + 1, 0, 0, 3, 3);
-			prop_data->widgets[i] = w;
-			break;
-		case CAMEL_ARG_STR:
-			label = gtk_label_new (prop->description);
-			gtk_misc_set_alignment ((GtkMisc *) label, 1.0, 0.5);
-			gtk_widget_show (label);
-			gtk_table_attach ((GtkTable *) table, label, 0, 1, row, row + 1, GTK_FILL | GTK_EXPAND, 0, 3, 3);
-			
-			w = gtk_entry_new ();
-			gtk_widget_show (w);
-			if (argv->argv[i].ca_str) {
-				gtk_entry_set_text ((GtkEntry *) w, argv->argv[i].ca_str);
-				camel_object_free (folder, argv->argv[i].tag, argv->argv[i].ca_str);
-				argv->argv[i].ca_str = NULL;
-			}
-			gtk_table_attach ((GtkTable *) table, w, 1, 2, row, row + 1, GTK_FILL, 0, 3, 3);
-			prop_data->widgets[i] = w;
-			break;
-		default:
-			g_assert_not_reached ();
-			break;
-		}
-		
-		row++;
-		l = l->next;
-	}
-	
-	prop_data->object = folder;
-	camel_object_ref (folder);
-	
-	camel_object_free (folder, CAMEL_FOLDER_PROPERTIES, list);
-	camel_object_free (folder, CAMEL_FOLDER_NAME, name);
-	
-	/* we do 'apply on ok' ... since instant apply may apply some very long running tasks */
-	
-	g_signal_connect (dialog, "response", G_CALLBACK (emft_popup_properties_response), prop_data);
-	g_object_set_data_full ((GObject *) dialog, "e-prop-data", prop_data, emft_popup_properties_free);
-	gtk_widget_show (dialog);
-}
 
 static void
 emft_popup_properties (GtkWidget *item, EMFolderTree *emft)
@@ -1747,8 +1545,8 @@ emft_popup_properties (GtkWidget *item, EMFolderTree *emft)
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);
 	gtk_tree_model_get (model, &iter, COL_STRING_URI, &uri, -1);
-	
-	mail_get_folder (uri, 0, emft_popup_properties_got_folder, emft, mail_thread_new);
+
+	em_folder_properties_show(NULL, NULL, uri);
 }
 
 static EMPopupItem emft_popup_menu[] = {
