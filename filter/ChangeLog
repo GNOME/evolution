@@ -1,5 +1,13 @@
 2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): Modified to return a
+	boolean value specifying whether or not the message was filtered
+	into a folder other than the default. The default mailbox can now
+	also be specified as NULL if the message shouldn't be appended to
+	it in the case that it's not filtered into some other folder.
+
+2000-09-07  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): Rewrote - this shouldn't
 	need to be an async function
 

@@ -373,7 +373,7 @@ free_key (gpointer key, gpointer value, gpointer user_data)
 }
 #endif
 
-void
+gboolean
 filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 		   CamelFolder *inbox, enum _filter_source_t sourcetype,
 		   gpointer unhook_func, gpointer unhook_data,
@@ -383,10 +383,12 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 	ESExpResult *r;
 	GString *fsearch, *faction;
 	FilterFilter *rule;
+	gboolean filtered = FALSE;
 	
 	gtk_object_ref (GTK_OBJECT (driver));
 	camel_object_ref (CAMEL_OBJECT (message));
-	camel_object_ref (CAMEL_OBJECT (inbox));
+	if (inbox)
+		camel_object_ref (CAMEL_OBJECT (inbox));
 	
 	p->ex = camel_exception_new ();
 	p->terminated = FALSE;
@@ -444,7 +446,7 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	if (!p->deleted && g_hash_table_size (p->folders) == 0) {
+	if (!p->deleted && g_hash_table_size (p->folders) == 0 && inbox) {
 		/* copy it to the default inbox */
 		mail_tool_camel_lock_up ();
 		camel_folder_append_message (inbox, p->message, p->info, p->ex);
@@ -454,6 +456,8 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 			camel_object_unhook_event (CAMEL_OBJECT (inbox), "folder_changed", 
 						   unhook_func, unhook_data);
 		mail_tool_camel_lock_down ();
+	} else {
+		filtered = TRUE;
 	}
 	
 	/* close all folders that were opened for appending */
@@ -471,7 +475,10 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message,
 	camel_exception_free (p->ex);
 	
 	camel_object_unref (CAMEL_OBJECT (message));
-	camel_object_unref (CAMEL_OBJECT (inbox));
+	if (inbox)
+		camel_object_unref (CAMEL_OBJECT (inbox));
 	if (self_destruct)
 		gtk_object_unref (GTK_OBJECT (driver));
+	
+	return filtered;
 }
