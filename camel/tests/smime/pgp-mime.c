@@ -131,7 +131,8 @@ int main (int argc, char **argv)
 	CamelMultipartSigned *mps;
 	CamelMultipartEncrypted *mpe;
 	GPtrArray *recipients;
-	
+	int ret;
+
 	camel_test_init (argc, argv);
 	
 	/* clear out any camel-test data */
