@@ -1,3 +1,13 @@
+2004-10-19  JP Rosevear  <jpr@novell.com>
+
+	* gui/gnome-cal.c (connect_list_view_focus): listen to the canvas
+	for focus events
+	(setup_widgets): listen for listen view selection changes
+
+	* gui/e-cal-list-view.c (setup_e_table): listen for the cursor to
+	move
+	(e_cal_list_view_cursor_change_cb): indicate the selection changed
+
 2004-10-19  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/calendar-component.c (create_new_event):
