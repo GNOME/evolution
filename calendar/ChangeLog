@@ -1,5 +1,14 @@
 2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/calendar-setup.c (create_new_source_with_group):
+	added 'ECalSourceType' argument to be able to create the
+	ECal correctly. Added a call to e_cal_open with 'only_if_exists'
+	set to FALSE so that the backend creates the calendar.
+	(new_calendar_finish, new_task_list_finish): pass new argument
+	to create_new_source_with_group.
+
+2004-01-21  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/tasks-component.c (delete_task_list_cb): call
 	e_cal_remove_calendar to actually remove the task list via
 	the backend.

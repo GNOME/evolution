@@ -34,6 +34,7 @@
 #include <libgnomeui/gnome-druid-page.h>
 #include <glade/glade.h>
 #include <libedataserver/e-source-list.h>
+#include <libecal/e-cal.h>
 #include <e-util/e-dialog-utils.h>
 #include <e-util/e-url.h>
 #include "calendar-setup.h"
@@ -204,9 +205,11 @@ static ESource *
 create_new_source_with_group (GtkWindow *parent,
 			      ESourceGroup *group,
 			      const char *source_name,
-			      const char *source_location)
+			      const char *source_location,
+			      ECalSourceType source_type)
 {
 	ESource *source;
+	ECal *cal;
 
 	if (e_source_group_peek_source_by_name (group, source_name)) {
 		e_notice (parent, GTK_MESSAGE_ERROR,
@@ -242,24 +245,21 @@ create_new_source_with_group (GtkWindow *parent,
 
 		g_free (relative_uri);
 	} else {
-		char *new_dir;
-
 		/* Local source */
-
-		new_dir = g_build_filename (e_source_group_peek_base_uri (group),
-					    source_name, NULL);
-		if (e_mkdir_hier (new_dir, 0700)) {
-			g_free (new_dir);
-			e_notice (parent, GTK_MESSAGE_ERROR,
-				  _("Could not create directory for new calendar"));
-			return NULL;
-		}
-
 		source = e_source_new (source_name, source_name);
-		g_free (new_dir);
 	}
 
 	e_source_group_add_source (group, source, -1);
+
+	/* create the calendar in the backend */
+	cal = e_cal_new (source, source_type);
+	if (!e_cal_open (cal, FALSE, NULL)) {
+		e_source_group_remove_source (group, source);
+		g_object_unref (source);
+	}
+
+	g_object_unref (cal);
+
 	return source;
 }
 
@@ -482,7 +482,8 @@ new_calendar_finish (SourceDialog *source_dialog)
 	source_dialog->source =
 		create_new_source_with_group (GTK_WINDOW (source_dialog->window), source_dialog->source_group, 
 					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)),
-					      gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)));
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)),
+					      E_CAL_SOURCE_TYPE_EVENT);
 	dialog_to_source (source_dialog);
 
 	gtk_widget_destroy (source_dialog->window);
@@ -643,7 +644,8 @@ new_task_list_finish (SourceDialog *source_dialog)
 {
 	source_dialog->source =
 		create_new_source_with_group (GTK_WINDOW (source_dialog->window), source_dialog->source_group, 
-					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)), NULL);
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)), NULL,
+					      E_CAL_SOURCE_TYPE_TODO);
 	dialog_to_source (source_dialog);
 
 	gtk_widget_destroy (source_dialog->window);
