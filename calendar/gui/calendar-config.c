@@ -269,7 +269,7 @@ calendar_config_set_dnav_show_week_no	(gboolean     show_week_no)
 gint
 calendar_config_get_default_view	(void)
 {
-	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/view", 0, NULL);
+	return e_config_listener_get_long_with_default (config, "/apps/evolution/calendar/display/default_view", 0, NULL);
 }
 
 

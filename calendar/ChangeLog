@@ -1,5 +1,10 @@
 2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
 
+	* gui/calendar-config.c (calendar_config_get_default_view): Get
+	default view from correct key.
+
+2003-02-25  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/dialogs/cal-prefs-dialog.c (get_widgets): Show start/end-of-day
 	widgets.
 	
