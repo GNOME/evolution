@@ -185,7 +185,7 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 
 # Misc data to install
 
-glade_DATA = mail-config.glade local-config.glade subscribe-dialog.glade message-tags.glade mail-search.glade mail-security.glade
+glade_DATA = mail-config.glade  subscribe-dialog.glade message-tags.glade mail-search.glade mail-security.glade
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
 @EVO_MARSHAL_RULE@
 
