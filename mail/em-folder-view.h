@@ -74,7 +74,7 @@ struct _EMFolderView {
 	struct _BonoboUIComponent *uic;	/* if we're active, this will be set */
 	GSList *enable_map;	/* bonobo menu enable map, entries are 0-terminated EMFolderViewEnable arryas
 				   TODO: should this be on class? */
-
+	
 	int mark_seen_timeout;	/* local copy of gconf stuff */
 	int mark_seen:1;
 	int preview_active:1;	/* is preview being used */

@@ -106,7 +106,10 @@ static const EMFolderViewEnable emfv_enable_map[];
 struct _EMFolderViewPrivate {
 	guint seen_id;
 	guint setting_notify_id;
-
+	
+	char *loaded_uid;
+	char *loading_uid;
+	
 	CamelObjectHookID folder_changed_id;
 
 	GtkWidget *invisible;
@@ -176,7 +179,10 @@ emfv_finalise(GObject *o)
 
 	g_slist_free(emfv->ui_files);
 	g_slist_free(emfv->enable_map);
-
+	
+	g_free (p->loaded_uid);
+	g_free (p->loading_uid);
+	
 	g_free(p);
 
 	((GObjectClass *)emfv_parent)->finalize(o);
@@ -1583,6 +1589,14 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 {
 	EMFolderView *emfv = data;
 	
+	g_free (emfv->priv->loaded_uid);
+	if (emfv->priv->loading_uid && !strcmp (emfv->priv->loading_uid, uid)) {
+		emfv->priv->loaded_uid = emfv->priv->loading_uid;
+		emfv->priv->loading_uid = NULL;
+	} else {
+		emfv->priv->loaded_uid = g_strdup (uid);
+	}
+	
 	em_format_format((EMFormat *) emfv->preview, (struct _CamelMedium *)msg);
 	
 	if (emfv->priv->seen_id)
@@ -1591,11 +1605,11 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 	if (msg && emfv->mark_seen) {
 		if (emfv->mark_seen_timeout > 0) {
 			struct mst_t *mst;
-		
+			
 			mst = g_new (struct mst_t, 1);
 			mst->emfv = emfv;
 			mst->uid = g_strdup (uid);
-		
+			
 			emfv->priv->seen_id = g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE, emfv->mark_seen_timeout,
 								 (GSourceFunc)do_mark_seen, mst, (GDestroyNotify)mst_free);
 		} else {
@@ -1608,12 +1622,35 @@ static void
 emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 {
 	/* FIXME: ui stuff based on messageinfo, if available */
-
 	if (emfv->preview_active) {
-		if (uid)
+		if (uid != NULL) {
+			if (emfv->priv->loading_uid != NULL) {
+				if (!strcmp (emfv->priv->loading_uid, uid))
+					return;
+			} else if (emfv->priv->loaded_uid != NULL) {
+				if (!strcmp (emfv->priv->loaded_uid, uid))
+					return;
+			}
+			
+			g_free (emfv->priv->loading_uid);
+			emfv->priv->loading_uid = g_strdup (uid);
+			
 			mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_new);
-		else
+		} else {
+			g_free (emfv->priv->loaded_uid);
+			emfv->priv->loaded_uid = NULL;
+			
+			g_free (emfv->priv->loading_uid);
+			emfv->priv->loading_uid = NULL;
+			
 			em_format_format((EMFormat *)emfv->preview, NULL);
+		}
+	} else {
+		g_free (emfv->priv->loaded_uid);
+		emfv->priv->loaded_uid = NULL;
+		
+		g_free (emfv->priv->loading_uid);
+		emfv->priv->loading_uid = NULL;
 	}
 
 	emfv_enable_menus(emfv);

@@ -2658,7 +2658,6 @@ on_selection_changed_cmd(ETree *tree, MessageList *ml)
 		message_list_free_uids(ml, uids);
 		gtk_selection_owner_set(NULL, GDK_SELECTION_PRIMARY, gtk_get_current_event_time());
 	}
-
 }
 
 static gint

@@ -1,3 +1,13 @@
+2003-09-19  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #48618.
+
+	* em-folder-view.c (emfv_list_message_selected): See if we have
+	already loaded the message uid that has just been selected, if so
+	- don't bother re-loading it.
+	(emfv_list_done_message_selected): Update loaded_uid and
+	loading_uid.
+
 2003-09-18  Radek Doulik  <rodo@ximian.com>
 
 	* em-format-html.c (efh_init): use gtkhtml's blocking
