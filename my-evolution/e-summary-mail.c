@@ -236,8 +236,9 @@ new_folder_cb (EvolutionStorageListener *listener,
 
 	global_preferences = e_summary_preferences_get_global ();
 	for (p = global_preferences->display_folders; p; p = p->next) {
-		if (strcmp (p->data, folder->physicalUri) == 0) {
-/* 			g_print ("Showing: %s\n", folder->physicalUri); */
+		ESummaryPrefsFolder *f = p->data;
+		
+		if (strcmp (f->physical_uri, folder->physicalUri) == 0) {
 			folder_store->shown = g_list_append (folder_store->shown, mail_folder);
 			e_summary_mail_get_info (mail_folder->path, 
 						 folder_store->listener);
@@ -255,7 +256,6 @@ update_folder_cb (EvolutionStorageListener *listener,
 	char *proto;
 	char *uri;
 
-	/* Make this static, saves having to recompute it each time */
 	if (strcmp (si->name, _("VFolders")) == 0) {
 		evolution_dir = gnome_util_prepend_user_home ("evolution/vfolder");
 		uri = g_strdup_printf ("vfolder:%s#%s", evolution_dir,
@@ -268,10 +268,9 @@ update_folder_cb (EvolutionStorageListener *listener,
 		uri = e_path_to_physical (proto, path);
 	} else {
 		uri = g_strconcat (si->name, path, NULL);
+		g_print ("uri: %s\n", uri);
 	}
 
-	g_print ("path: %s\n", path);
-	g_print ("uri: %s\n", uri);
 	e_summary_mail_get_info (uri, folder_store->listener);
 
 	g_free (uri);
@@ -332,9 +331,8 @@ mail_change_notify (BonoboListener *listener,
 	/* Are we displaying this folder? */
 	global_preferences = e_summary_preferences_get_global ();
 	for (p = global_preferences->display_folders; p; p = p->next) {
-		g_print ("folder: %s\n", folder->path);
-		if (strcmp (p->data, folder->path) == 0) {
-			g_print ("Received info for shown folder %s\n", folder->path);
+		ESummaryPrefsFolder *f = p->data;
+		if (strcmp (f->physical_uri, folder->path) == 0) {
 			e_summary_redraw_all (); /* All summaries should be redrawn, not just this one */
 			return;
 		}
@@ -524,6 +522,7 @@ e_summary_mail_reconfigure (void)
 	preferences = e_summary_preferences_get_global ();
 	for (p = g_list_last (preferences->display_folders); p; p = p->prev) {
 		ESummaryMailFolder *folder;
+		ESummaryPrefsFolder *f = p->data;
 		char *uri;
 
 #if 0
@@ -534,7 +533,7 @@ e_summary_mail_reconfigure (void)
 			uri = g_strconcat ("file://", p->data, NULL);
 		}
 #endif
-		uri = g_strdup (p->data);
+		uri = g_strdup (f->physical_uri);
 		folder = g_hash_table_lookup (folder_store->folders, uri);
 		if (folder != NULL) {
 			if (folder->init == FALSE) {
@@ -553,6 +552,7 @@ e_summary_mail_reconfigure (void)
 /*  	e_summary_redraw_all (); */
 }
 
+#if 0
 static int
 str_compare (gconstpointer a,
 	     gconstpointer b)
@@ -762,7 +762,7 @@ e_summary_mail_fill_list (ESummaryTable *est)
 		add_storage_to_table (est, si);
 	}
 }
-
+#endif
 const char *
 e_summary_mail_uri_to_name (const char *uri)
 {

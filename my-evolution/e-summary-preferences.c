@@ -41,8 +41,12 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo/bonobo-shlib-factory.h>
+#include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-widget.h>
 
 #include <bonobo-conf/bonobo-config-database.h>
+
+#include <shell/evolution-storage-set-view-listener.h>
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
@@ -54,17 +58,29 @@
 #define FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
 
 static ESummaryPrefs *global_preferences = NULL;
+static GNOME_Evolution_Shell global_shell = NULL;
+
+static char *default_folders[2] = {
+	"/local/Inbox", "/local/Outbox"
+};
 
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
 {
 	char *evolution_dir;
-	GList *folders;
+	GList *folders = NULL;
+	int i;
+	
+	evolution_dir = gnome_util_prepend_user_home ("evolution");
+	for (i = 0; i < 2; i++) {
+		ESummaryPrefsFolder *folder;
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution/local");
-
-	folders = g_list_append (NULL, g_strconcat (evolution_dir, "/Inbox", NULL));
-	folders = g_list_append (folders, g_strconcat (evolution_dir, "/Outbox", NULL));
+		folder = g_new (ESummaryPrefsFolder, 1);
+		folder->evolution_uri = g_strconcat ("evolution:", default_folders[i], NULL);
+		folder->physical_uri = g_strconcat ("file://", evolution_dir, default_folders[i], NULL);
+		
+		folders = g_list_append (folders, folder);
+	}
 
 	g_free (evolution_dir);
 	prefs->display_folders = folders;
@@ -152,6 +168,65 @@ str_list_from_vector (const char *vector)
 	return strlist;
 }
 
+static GList *
+folder_list_from_vector (const char *vector)
+{
+	GList *flist = NULL;
+	char **tokens, **t;
+
+	t = tokens = g_strsplit (vector, " !<-->! ", 8196);
+	if (tokens == NULL) {
+		return NULL;
+	}
+
+	for (tokens = t; *tokens; tokens += 2) {
+		ESummaryPrefsFolder *folder;
+
+		folder = g_new (ESummaryPrefsFolder, 1);
+		g_print ("%s - %s\n", *tokens, *(tokens + 1));
+		folder->evolution_uri = g_strdup (*tokens);
+		folder->physical_uri = g_strdup (*(tokens + 1));
+
+		flist = g_list_prepend (flist, folder);
+	}
+
+	g_strfreev (t);
+
+	flist = g_list_reverse (flist);
+	return flist;
+}
+
+static char *
+vector_from_folder_list (GList *flist)
+{
+	char *vector;
+	GString *string;
+
+	if (flist == NULL) {
+		return g_strdup ("");
+	}
+
+	string = g_string_new ("");
+	for (; flist; flist = flist->next) {
+		ESummaryPrefsFolder *folder;
+
+		folder = flist->data;
+		string = g_string_append (string, folder->evolution_uri);
+		string = g_string_append (string, " !<-->! ");
+		string = g_string_append (string, folder->physical_uri);
+
+		if (flist->next != NULL) {
+			string = g_string_append (string, " !<-->! ");
+		}
+	}
+
+	vector = string->str;
+	g_string_free (string, FALSE);
+	g_print ("vector: %s\n", vector);
+
+	return vector;
+}
+
 gboolean
 e_summary_preferences_restore (ESummaryPrefs *prefs)
 {
@@ -170,15 +245,15 @@ e_summary_preferences_restore (ESummaryPrefs *prefs)
 	}
 
 	CORBA_exception_free (&ev);
-	vector = bonobo_config_get_string (db, "My-Evolution/Mail/display_folders", &ev);
+	vector = bonobo_config_get_string (db, "My-Evolution/Mail/display_folders-1.2", &ev);
 	if (BONOBO_EX (&ev)) {
-		g_warning ("Error getting Mail/display_folders");
+		g_warning ("Error getting Mail/display_folders. Using defaults");
 		CORBA_exception_free (&ev);
-		bonobo_object_release_unref (db, NULL);
-		return FALSE;
+		make_initial_mail_list (prefs);
+	} else {
+		prefs->display_folders = folder_list_from_vector (vector);
+		g_free (vector);
 	}
-	prefs->display_folders = str_list_from_vector (vector);
-  	g_free (vector);
 
 	prefs->show_full_path = bonobo_config_get_boolean (db, "My-Evolution/Mail/show_full_path", &ev);
 	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
@@ -269,8 +344,8 @@ e_summary_preferences_save (ESummaryPrefs *prefs)
 	}
 	CORBA_exception_free (&ev);
 
-	vector = vector_from_str_list (prefs->display_folders);
-	bonobo_config_set_string (db, "My-Evolution/Mail/display_folders", vector, NULL);
+	vector = vector_from_folder_list (prefs->display_folders);
+	bonobo_config_set_string (db, "My-Evolution/Mail/display_folders-1.2", vector, NULL);
   	g_free (vector); 
 
 	bonobo_config_set_boolean (db, "My-Evolution/Mail/show_full_path", prefs->show_full_path, NULL);
@@ -307,11 +382,23 @@ free_str_list (GList *list)
 	}
 }
 
+static void
+free_folder_list (GList *list)
+{
+	for (; list; list = list->next) {
+		ESummaryPrefsFolder *f = list->data;
+		
+		g_free (f->evolution_uri);
+		g_free (f->physical_uri);
+		g_free (f);
+	}
+}
+
 void
 e_summary_preferences_free (ESummaryPrefs *prefs)
 {
 	if (prefs->display_folders) {
-		free_str_list (prefs->display_folders);
+		free_folder_list (prefs->display_folders);
 		g_list_free (prefs->display_folders);
 	}
 
@@ -341,6 +428,26 @@ copy_str_list (GList *list)
 	return list_copy;
 }
 
+static GList *
+copy_folder_list (GList *list)
+{
+	GList *list_copy = NULL;
+
+	for (; list; list = list->next) {
+		ESummaryPrefsFolder *f1, *f2;
+
+		f1 = list->data;
+		f2 = g_new (ESummaryPrefsFolder, 1);
+		f2->evolution_uri = g_strdup (f1->evolution_uri);
+		f2->physical_uri = g_strdup (f1->physical_uri);
+
+		list_copy = g_list_prepend (list_copy, f2);
+	}
+
+	list_copy = g_list_reverse (list_copy);
+	return list_copy;
+}
+
 ESummaryPrefs *
 e_summary_preferences_copy (ESummaryPrefs *prefs)
 {
@@ -348,7 +455,7 @@ e_summary_preferences_copy (ESummaryPrefs *prefs)
 
 	prefs_copy = g_new (ESummaryPrefs, 1);
 
-	prefs_copy->display_folders = copy_str_list (prefs->display_folders);
+	prefs_copy->display_folders = copy_folder_list (prefs->display_folders);
 	prefs_copy->show_full_path = prefs->show_full_path;
 
 	prefs_copy->rdf_urls = copy_str_list (prefs->rdf_urls);
@@ -409,7 +516,7 @@ e_summary_preferences_get_global (void)
 }
 
 struct _MailPage {
-	GtkWidget *etable;
+	GtkWidget *storage_set_view;
 	GtkWidget *all, *shown;
 	GtkWidget *fullpath;
 	GtkWidget *add, *remove;
@@ -598,7 +705,8 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->location = g_strdup (rdfs[i].url);
 		entry->name = g_strdup (rdfs[i].name);
 		entry->showable = TRUE;
-
+		entry->data = &rdfs[i];
+		
 		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, rdfs[i].url) == TRUE) {
@@ -606,6 +714,7 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->location = g_strdup (rdfs[i].url);
 			entry->name = g_strdup (rdfs[i].name);
 			entry->showable = TRUE;
+			entry->data = &rdfs[i];
 			
 			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
@@ -662,7 +771,8 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->location = g_strdup (info->url);
 		entry->name = g_strdup (info->name);
 		entry->showable = TRUE;
-
+		entry->data = info;
+		
 		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, tokens[0]) == TRUE) {
@@ -670,6 +780,7 @@ fill_rdf_etable (GtkWidget *widget,
 			entry->location = g_strdup (info->url);
 			entry->name = g_strdup (info->name);
 			entry->showable = TRUE;
+			entry->data = info;
 			
 			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
@@ -685,13 +796,6 @@ fill_weather_etable (ESummaryShown *ess,
 		     PropertyData *pd)
 {
 	e_summary_weather_fill_etable (ess);
-}
-
-static void
-fill_mail_etable (ESummaryTable *est,
-		  PropertyData *pd)
-{
-	e_summary_mail_fill_list (est);
 }
 
 static void
@@ -712,8 +816,8 @@ add_dialog_clicked_cb (GtkWidget *widget,
 		char *url;
 		char *name;
 
-		name = gtk_entry_get_text (pd->new_name_entry);
-		url = gtk_entry_get_text (pd->new_url_entry);
+		name = gtk_entry_get_text (GTK_ENTRY (pd->new_name_entry));
+		url = gtk_entry_get_text (GTK_ENTRY (pd->new_url_entry));
 
 		if (name != NULL && *name != 0 &&
 		    url != NULL && *url != 0) {
@@ -731,8 +835,9 @@ add_dialog_clicked_cb (GtkWidget *widget,
 			entry->location = g_strdup (info->url);
 			entry->name = g_strdup (info->name);
 			entry->showable = TRUE;
-
-			e_summary_shown_add_node (pd->rdf->etable, TRUE,
+			entry->data = info;
+			
+			e_summary_shown_add_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE,
 						  entry, NULL, TRUE, NULL);
 
 			/* Should we add to shown? */
@@ -789,6 +894,33 @@ rdf_new_url_clicked_cb (GtkButton *button,
 }
 
 static void
+rdf_delete_url_cb (GtkButton *button,
+		   PropertyData *pd)
+{
+	GList *selection;
+	
+	selection = e_summary_shown_get_selection (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE);
+
+	for (; selection; selection = selection->next) {
+		ETreePath path = selection->data;
+		ESummaryShownModelEntry *entry;
+
+		entry = g_hash_table_lookup (E_SUMMARY_SHOWN (pd->rdf->etable)->all_model, path);
+		
+		if (entry == NULL) {
+			continue;
+		}
+		
+		e_summary_shown_remove_node (E_SUMMARY_SHOWN (pd->rdf->etable), TRUE, entry);
+		pd->rdf->known = g_list_remove (pd->rdf->known, entry->data);
+		
+		/* FIXME: Remove from shown side as well */
+	}
+
+	save_known_rdfs (pd->rdf->known);
+}
+
+static void
 rdf_refresh_value_changed_cb (GtkAdjustment *adj,
 			      PropertyData *pd)
 {
@@ -821,6 +953,39 @@ rdf_etable_item_changed_cb (ESummaryShown *ess,
 	if (pd->config_control != NULL) {
 		evolution_config_control_changed (pd->config_control);
 	}
+}
+
+static void
+rdf_etable_selection_cb (ESummaryShown *ess,
+			 GList *selection,
+			 PropertyData *pd)
+{
+	if (pd->rdf->delete_url == NULL) {
+		return;
+	}
+
+	if (selection != NULL) {
+		GList *p;
+		
+		for (p = selection; p; p = p->next) {
+			ESummaryShownModelEntry *entry;
+			struct _RDFInfo *info;
+
+			entry = g_hash_table_lookup (E_SUMMARY_SHOWN (pd->rdf->etable)->all_model, p->data);
+			if (entry == NULL) {
+				g_warning ("Hmmm\n");
+				continue;
+			}
+
+			info = entry->data;
+			if (info->custom == TRUE) {
+				gtk_widget_set_sensitive (pd->rdf->delete_url, TRUE);
+				return;
+			}
+		}
+	}
+
+	gtk_widget_set_sensitive (pd->rdf->delete_url, FALSE);
 }
 
 static void
@@ -937,6 +1102,13 @@ calendar_today_toggled_cb (GtkToggleButton *tb,
 	evolution_config_control_changed (pd->config_control);
 }
 
+static void
+storage_set_changed (EvolutionStorageSetViewListener *listener,
+		     PropertyData *pd)
+{
+	evolution_config_control_changed (pd->config_control);
+}
+
 static gboolean
 make_property_dialog (PropertyData *pd)
 {
@@ -944,38 +1116,37 @@ make_property_dialog (PropertyData *pd)
 	struct _RDFPage *rdf;
 	struct _WeatherPage *weather;
 	struct _CalendarPage *calendar;
-
+	GtkWidget *listener;
+	
 	/* Mail */
 	mail = pd->mail = g_new (struct _MailPage, 1);
 	mail->tmp_list = NULL;
-	
-	mail->etable = glade_xml_get_widget (pd->xml, "mail-custom");
-	g_return_val_if_fail (mail->etable != NULL, FALSE);
 
-	fill_mail_etable (E_SUMMARY_TABLE (mail->etable), pd);
-	
-	gtk_signal_connect (GTK_OBJECT (mail->etable), "item-changed",
-			    GTK_SIGNAL_FUNC (mail_etable_item_changed_cb), pd);
-	mail->model = E_SUMMARY_TABLE (mail->etable)->model;
+	mail->storage_set_view = glade_xml_get_widget (pd->xml, "mail-custom");
+	g_return_val_if_fail (mail->storage_set_view != NULL, FALSE);
+
+	listener = gtk_object_get_data (GTK_OBJECT (mail->storage_set_view),
+					"listener");
+	gtk_signal_connect (GTK_OBJECT (listener), "folder-toggled",
+			    GTK_SIGNAL_FUNC (storage_set_changed), pd);
+
 	mail->fullpath = glade_xml_get_widget (pd->xml, "checkbutton1");
 	g_return_val_if_fail (mail->fullpath != NULL, FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (mail->fullpath),
 				      global_preferences->show_full_path);
 	gtk_signal_connect (GTK_OBJECT (mail->fullpath), "toggled",
 			    GTK_SIGNAL_FUNC (mail_show_full_path_toggled_cb), pd);
-
-	/* RDF */
-	rdf = pd->rdf = g_new (struct _RDFPage, 1);
-	rdf->known = NULL;
-	rdf->tmp_list = NULL;
-	rdf->default_hash = NULL;
 	
+	/* RDF */
+	rdf = pd->rdf = g_new0 (struct _RDFPage, 1);
 	rdf->etable = glade_xml_get_widget (pd->xml, "rdf-custom");
 	g_return_val_if_fail (rdf->etable != NULL, FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (rdf->etable), "item-changed",
 			    GTK_SIGNAL_FUNC (rdf_etable_item_changed_cb), pd);
-
+	gtk_signal_connect (GTK_OBJECT (rdf->etable), "selection-changed",
+			    GTK_SIGNAL_FUNC (rdf_etable_selection_cb), pd);
+	
 	fill_rdf_etable (rdf->etable, pd);
 	rdf->refresh = glade_xml_get_widget (pd->xml, "spinbutton1");
 	g_return_val_if_fail (rdf->refresh != NULL, FALSE);
@@ -996,6 +1167,11 @@ make_property_dialog (PropertyData *pd)
 	gtk_signal_connect (GTK_OBJECT (rdf->new_button), "clicked",
 			    GTK_SIGNAL_FUNC (rdf_new_url_clicked_cb), pd);
 
+	rdf->delete_url = glade_xml_get_widget (pd->xml, "delete-button");
+	g_return_val_if_fail (rdf->delete_url != NULL, FALSE);
+	gtk_signal_connect (GTK_OBJECT (rdf->delete_url), "clicked",
+			    GTK_SIGNAL_FUNC (rdf_delete_url_cb), pd);
+	
 	/* Weather */
 	weather = pd->weather = g_new (struct _WeatherPage, 1);
 	weather->tmp_list = NULL;
@@ -1132,10 +1308,96 @@ GtkWidget *e_summary_preferences_make_mail_table (PropertyData *pd);
 GtkWidget *e_summary_preferences_make_rdf_table (PropertyData *pd);
 GtkWidget *e_summary_preferences_make_weather_table (PropertyData *pd);
 
+static void
+set_selected_folders (GNOME_Evolution_StorageSetView view)
+{
+	GNOME_Evolution_FolderList *list;
+	CORBA_Environment ev;
+	GList *l;
+	int i, count;
+	
+	for (count = 0, l = global_preferences->display_folders; l;
+	     l = l->next, count++)
+		;
+
+	list = GNOME_Evolution_FolderList__alloc ();
+	list->_length = count;
+	list->_maximum = count;
+	list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (count);
+
+	for (i = 0, l = global_preferences->display_folders; l; i++, l = l->next) {
+		ESummaryPrefsFolder *folder = l->data;
+		
+		/* Set duff values execpt for physicalUri & evolutionUri*/
+		list->_buffer[i].type = CORBA_string_dup ("");
+		list->_buffer[i].description = CORBA_string_dup ("");
+		list->_buffer[i].displayName = CORBA_string_dup ("");
+		if (strncmp (folder->evolution_uri, "evolution:", 10) == 0) {
+			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri + 10);
+		} else {
+			list->_buffer[i].evolutionUri = CORBA_string_dup (folder->evolution_uri);
+		}
+		list->_buffer[i].physicalUri = CORBA_string_dup (folder->physical_uri);
+		list->_buffer[i].unreadCount = 0;
+		list->_buffer[i].canSyncOffline = TRUE;
+	}
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_StorageSetView__set_checkedFolders (view, list, &ev);
+	CORBA_exception_free (&ev);
+}
+
 GtkWidget *
 e_summary_preferences_make_mail_table (PropertyData *pd)
 {
-	return e_summary_table_new (g_hash_table_new (NULL, NULL));
+	CORBA_Environment ev;
+	Bonobo_Control control;
+	GNOME_Evolution_StorageSetView view;
+	EvolutionStorageSetViewListener *listener;
+	GNOME_Evolution_StorageSetViewListener corba_listener;
+	GtkWidget *widget;
+	
+	g_assert (global_shell != NULL);
+	
+	CORBA_exception_init (&ev);
+	control = GNOME_Evolution_Shell_createStorageSetView (global_shell, &ev);
+	if (BONOBO_EX (&ev) || control == CORBA_OBJECT_NIL) {
+		g_warning ("Error getting StorageSetView");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	view = Bonobo_Unknown_queryInterface (control,
+					      "IDL:GNOME/Evolution/StorageSetView:1.0", &ev);
+	if (BONOBO_EX (&ev) || view == CORBA_OBJECT_NIL) {
+		g_warning ("Error querying %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	GNOME_Evolution_StorageSetView__set_showCheckboxes (view, TRUE, &ev);
+
+	listener = evolution_storage_set_view_listener_new ();
+
+	corba_listener = evolution_storage_set_view_listener_corba_objref (listener);
+
+	GNOME_Evolution_StorageSetView_addListener (view, corba_listener, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error adding listener %s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
+	gtk_object_set_data (GTK_OBJECT (widget), "listener", listener);
+	gtk_object_set_data (GTK_OBJECT (widget), "corba_view", view);
+
+	set_selected_folders (view);
+	return widget;
 }
 
 GtkWidget *
@@ -1167,6 +1429,43 @@ add_shown_to_list (gpointer key,
 	*list = g_list_prepend (*list, g_strdup (item->location));
 }
 
+static GList *
+get_folders_from_view (GtkWidget *view)
+{
+	GNOME_Evolution_StorageSetView set_view;
+	GNOME_Evolution_FolderList *list;
+	CORBA_Environment ev;
+	GList *out_list = NULL;
+	int i;
+	
+	set_view = gtk_object_get_data (GTK_OBJECT (view), "corba_view");
+	CORBA_exception_init (&ev);
+
+	list = GNOME_Evolution_StorageSetView__get_checkedFolders (set_view, &ev);
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Error getting checkedFolders\n%s",
+			   CORBA_exception_id (&ev));
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+
+	CORBA_exception_free (&ev);
+
+	for (i = 0; i < list->_length; i++) {
+		GNOME_Evolution_Folder folder = list->_buffer[i];
+		ESummaryPrefsFolder *f;
+
+		f = g_new (ESummaryPrefsFolder, 1);
+		f->evolution_uri = g_strdup (folder.evolutionUri);
+		f->physical_uri = g_strdup (folder.physicalUri);
+		g_print ("Physical: %s\n", folder.physicalUri);
+		g_print ("Evolution: %s\n----\n", folder.evolutionUri);
+		out_list = g_list_append (out_list, f);
+	}
+	
+	return out_list;
+}
+	
 static void
 config_control_apply_cb (EvolutionConfigControl *control,
 			 void *data)
@@ -1213,7 +1512,10 @@ config_control_apply_cb (EvolutionConfigControl *control,
 		g_list_free (pd->mail->tmp_list);
 		pd->mail->tmp_list = NULL;
 	}
+#if 0
 	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
+#endif
+	pd->mail->tmp_list = get_folders_from_view (pd->mail->storage_set_view);
 	
 	if (global_preferences->display_folders) {
 		free_str_list (global_preferences->display_folders);
@@ -1272,10 +1574,12 @@ factory_fn (BonoboGenericFactory *generic_factory,
 }
 
 gboolean
-e_summary_preferences_register_config_control_factory (void)
+e_summary_preferences_register_config_control_factory (GNOME_Evolution_Shell corba_shell)
 {
 	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, NULL) == NULL)
 		return FALSE;
 
+	global_shell = corba_shell;
+	
 	return TRUE;
 }

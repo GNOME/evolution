@@ -44,6 +44,7 @@
 
 typedef struct _ESummaryPrivate ESummaryPrivate;
 typedef struct _ESummaryClass ESummaryClass;
+typedef struct _ESummaryPrefsFolder ESummaryPrefsFolder;
 typedef struct _ESummaryPrefs ESummaryPrefs;
 typedef struct _ESummaryConnection ESummaryConnection;
 typedef struct _ESummaryConnectionData ESummaryConnectionData;
@@ -77,10 +78,15 @@ struct _ESummaryConnectionData {
 	char *type;
 };
 
+struct _ESummaryPrefsFolder {
+	char *physical_uri;
+	char *evolution_uri;
+};
+
 struct _ESummaryPrefs {
 
 	/* Mail */
-	GList *display_folders;
+	GList *display_folders; /* List of ESummaryPrefsFolder */
 	gboolean show_full_path;
 
 	/* RDF */
@@ -153,6 +159,7 @@ void e_summary_add_protocol_listener (ESummary *summary,
 				      void *closure);
 
 void e_summary_reconfigure (ESummary *summary);
+void e_summary_reconfigure_all (void);
 
 int e_summary_count_connections (ESummary *summary);
 GList *e_summary_add_connections (ESummary *summary);

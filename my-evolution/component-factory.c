@@ -102,7 +102,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	e_summary_folder_init_folder_store (corba_shell);
-	e_summary_preferences_register_config_control_factory ();
+	e_summary_preferences_register_config_control_factory (corba_shell);
 }
 
 static void

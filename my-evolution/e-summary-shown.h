@@ -44,6 +44,8 @@ typedef struct _ESummaryShownModelEntry {
 
 	gboolean showable;
 	int ref_count;
+
+	gpointer data;
 } ESummaryShownModelEntry;
 
 struct _ESummaryShown {
@@ -58,6 +60,8 @@ struct _ESummaryShownClass {
 	GtkHBoxClass parent_class;
 
 	void (* item_changed) (ESummaryShown *shown);
+	void (* selection_changed) (ESummaryShown *shown,
+				    GList *rows);
 };
 
 GtkType e_summary_shown_get_type (void);
@@ -71,4 +75,6 @@ ETreePath e_summary_shown_add_node (ESummaryShown *shown,
 void e_summary_shown_remove_node (ESummaryShown *shown,
 				  gboolean all,
 				  ESummaryShownModelEntry *entry);
+GList *e_summary_shown_get_selection (ESummaryShown *shown,
+				      gboolean all);
 #endif

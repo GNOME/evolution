@@ -69,6 +69,7 @@ static GtkObjectClass *e_summary_shown_parent_class;
 
 enum {
 	ITEM_CHANGED,
+	SELECTION_CHANGED,
 	LAST_SIGNAL
 };
 static guint32 shown_signals[LAST_SIGNAL] = { 0 };
@@ -207,6 +208,13 @@ e_summary_shown_class_init (GtkObjectClass *object_class)
 						      GTK_SIGNAL_OFFSET (ESummaryShownClass, item_changed),
 						      gtk_marshal_NONE__NONE,
 						      GTK_TYPE_NONE, 0);
+	shown_signals[SELECTION_CHANGED] = gtk_signal_new ("selection-changed",
+							   GTK_RUN_LAST,
+							   object_class->type,
+							   GTK_SIGNAL_OFFSET (ESummaryShownClass, selection_changed),
+							   gtk_marshal_NONE__POINTER,
+							   GTK_TYPE_NONE, 1,
+							   GTK_TYPE_POINTER);
 	gtk_object_class_add_signals (object_class, shown_signals, LAST_SIGNAL);
 }
 
@@ -253,6 +261,7 @@ find_entry_from_location (ESummaryShown *shown,
 
 struct _CountData {
 	ESummaryShown *shown;
+	GList *selected_list;
 	int count;
 };
 
@@ -265,7 +274,8 @@ real_selected_count (ETreePath path,
 
 	entry = g_hash_table_lookup (cd->shown->all_model, path);
 	g_return_if_fail (entry != NULL);
-	
+
+	cd->selected_list = g_list_prepend (cd->selected_list, path);
 	if (entry->showable == FALSE) {
 		return;
 	}
@@ -289,11 +299,14 @@ all_selection_changed (ETree *et,
 	count = e_selection_model_selected_count (esm);
 	if (count == 0) {
 		gtk_widget_set_sensitive (shown->priv->add, FALSE);
+
+		gtk_signal_emit (GTK_OBJECT (shown), shown_signals[SELECTION_CHANGED], 0, NULL);
 	} else {
 		struct _CountData *cd;
 
 		cd = g_new (struct _CountData, 1);
 		cd->shown = shown;
+		cd->selected_list = NULL;
 		cd->count = 0;
 
 		e_tree_selection_model_foreach (E_TREE_SELECTION_MODEL (esm),
@@ -303,6 +316,11 @@ all_selection_changed (ETree *et,
 		} else {
 			gtk_widget_set_sensitive (shown->priv->add, FALSE);
 		}
+
+		gtk_signal_emit (GTK_OBJECT (shown), shown_signals[SELECTION_CHANGED], cd->selected_list);
+
+		g_list_free (cd->selected_list);
+		g_free (cd);
 	}
 }
 
@@ -651,3 +669,36 @@ e_summary_shown_remove_node (ESummaryShown *shown,
 	}
 
 }
+
+static void
+make_list (ETreePath path,
+	   gpointer data)
+{
+	GList **list = data;
+
+	*list = g_list_prepend (*list, path);
+}
+
+GList *
+e_summary_shown_get_selection (ESummaryShown *shown,
+			       gboolean all)
+{
+	ETree *et;
+	ESelectionModel *esm;
+	GList *list = NULL;
+	
+	if (all) {
+		et = e_tree_scrolled_get_tree (E_TREE_SCROLLED (shown->priv->all->etable));
+	} else {
+		et = e_tree_scrolled_get_tree (E_TREE_SCROLLED (shown->priv->shown->etable));
+	}
+	
+	esm = e_tree_get_selection_model (et);
+	
+	e_tree_selection_model_foreach (E_TREE_SELECTION_MODEL (esm),
+					make_list, &list);
+
+	return list;
+}
+	
+			       

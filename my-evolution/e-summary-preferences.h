@@ -24,7 +24,7 @@
 #define __E_SUMMARY_PREFERENCES_H__
 
 #include <bonobo/bonobo-ui-component.h>
-
+#include <Evolution.h>
 
 gboolean       e_summary_preferences_restore  (ESummaryPrefs *prefs);
 void           e_summary_preferences_save     (ESummaryPrefs *prefs);
@@ -33,7 +33,7 @@ ESummaryPrefs *e_summary_preferences_copy     (ESummaryPrefs *prefs);
 ESummaryPrefs *e_summary_preferences_init     (void);
 ESummaryPrefs *e_summary_preferences_get_global (void);
 
-gboolean  e_summary_preferences_register_config_control_factory  (void);
+gboolean  e_summary_preferences_register_config_control_factory  (GNOME_Evolution_Shell shell);
 
 
 #endif

@@ -1,3 +1,46 @@
+2002-06-26  Iain <iain@ximian.com>
+
+	* component-factory.c (owner_set_cb): Pass the shell.
+
+	* e-summary-mail.c (new_folder_cb): Use the ESummaryPrefsFolder stuff.
+	Remove some debugging spew.
+
+	* e-summary-preferences.c (make_initial_mail_list): Make a mail list
+	using the ESummaryPrefsFolder stuff.
+	(folder_list_from_vector): Given a vector make ESummaryPrefsFolders.
+	(vector_from_folder_list): Given ESummaryPrefsFolders, make a vector.
+	(e_summary_preferences_restore): Use a new ident.
+	(free_folder_list): Free a list of ESummaryPrefsFolders.
+	(copy_folder_list): Copy a list of ESummaryPrefsFolders.
+	(fill_rdf_etable): Store the RDFInfo struct in the model.
+	(fill_mail_etable): Remove.
+	(add_dialog_clicked_cb): Cast some stuff and add a new entry.
+	(rdf_delete_url_cb): Delete the selected urls.
+	(rdf_etable_selection_cb): Change the Delete button depending on what
+	rdfs are selected.
+	(storage_set_changed): Pass the changed signal to the control.
+	(make_property_data): Use the StorageSetView and hook up the new
+	button.
+	(set_selected_folders): Set the checkboxes  inthe StorageSetView.
+	(e_summary_preferences_make_mail_table): Get the StorageSetView
+	widget and hook it up.
+	(get_folders_from_view): Get the list of checked folders and make
+	ESummaryPrefsFolders for them.
+
+	* e-summary-shown.c: Add a selection_changed signal.
+	(real_selected_count): Add the path to the selected list.
+	(make_list): Make a list from the selection.
+	(e_summary_shown_get_selection): Get the selection as a list.
+
+	* my-evolution.glade: Add a Delete New Feed button.
+
+2002-06-21  Iain Holmes <iain@ximian.com>
+
+	* main.c (main): Init GConf, and set the proxy.
+	(set_proxy): Get all the proxy stuff and set Soup to use it.
+	(proxy_setting_changed): Listen to GConf stuff being changed.
+	(init_soup_proxy): Set up GConf to listen to changes in gnome-vfs
+
 2002-06-05  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-summary-shown.c (maybe_move_to_shown, add_clicked,
