@@ -24,9 +24,13 @@
 #include <config.h>
 #include <fcntl.h>
 #include <glib.h>
-#include <gtk/gtkmain.h>
+
+#include <gtk/gtkframe.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkwindow.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -54,9 +58,55 @@ static gboolean no_splash = FALSE;
 extern char *evolution_debug_log;
 
 
+static GtkWidget *
+quit_box_new (void)
+{
+	GtkWidget *window;
+	GtkWidget *label;
+	GtkWidget *frame;
+
+	window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+	gtk_window_set_position (GTK_WINDOW (window), GTK_WIN_POS_CENTER);
+
+	gtk_window_set_title (GTK_WINDOW (window), _("Evolution"));
+
+	frame = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
+	gtk_container_add (GTK_CONTAINER (window), frame);
+
+	label = gtk_label_new (_("Evolution is now exiting ..."));
+	gtk_misc_set_padding (GTK_MISC (label), 30, 25);
+
+	gtk_container_add (GTK_CONTAINER (frame), label);
+
+	gtk_widget_show (frame);
+	gtk_widget_show (label);
+	gtk_widget_show (window);
+
+	while (gtk_events_pending ())
+		gtk_main_iteration ();
+
+	return window;
+}
+
+static void
+quit_box_destroyed_callback (GtkObject *object,
+			     void *data)
+{
+	GtkWidget **p;
+
+	p = (GtkWidget **) data;
+	*p = NULL;
+}
+
 static void
 no_views_left_cb (EShell *shell, gpointer data)
 {
+	GtkWidget *quit_box;
+
+	quit_box = quit_box_new ();
+	gtk_signal_connect (GTK_OBJECT (quit_box), "destroy", quit_box_destroyed_callback, &quit_box);
+
 	/* FIXME: This is wrong.  We should exit only when the shell is
 	   destroyed.  But refcounting is broken at present, so this is a
 	   reasonable workaround for now.  */
@@ -64,6 +114,9 @@ no_views_left_cb (EShell *shell, gpointer data)
 	e_shell_unregister_all (shell);
 
 	bonobo_object_unref (BONOBO_OBJECT (shell));
+
+	if (quit_box != NULL)
+		gtk_widget_destroy (quit_box);
 
 	gtk_main_quit ();
 }
