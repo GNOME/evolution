@@ -1,5 +1,9 @@
 2002-05-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-mime.c (pgp_mime_part_sign_prepare_part): Use
+	CamelMimeFilterBestenc to get a more appropriate encoding rather
+	than just blindling assigning QP.
+
 	* providers/imap/camel-imap-folder.c (do_append): Call
 	camel_mime_message_encode_8bit_parts() which fixes bug #10885.
 

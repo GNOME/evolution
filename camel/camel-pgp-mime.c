@@ -28,10 +28,12 @@
 #include "camel-pgp-mime.h"
 #include "camel-mime-message.h"
 #include "camel-mime-filter-from.h"
+#include "camel-mime-filter-bestenc.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-mime-filter-charset.h"
 #include "camel-mime-filter-chomp.h"
 #include "camel-stream-filter.h"
+#include "camel-stream-null.h"
 #include "camel-stream-mem.h"
 #include "camel-stream-fs.h"
 
@@ -197,7 +199,10 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 			pgp_mime_part_sign_prepare_part (part, encodings);
 		}
 	} else {
-		CamelMimePartEncodingType encoding;
+		CamelMimePartEncodingType encoding, best;
+		CamelStream *stream, *filtered_stream;
+		CamelMimeFilterBestenc *bestenc;
+		guint32 flags;
 		
 		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
 			/* prepare the message parts' subparts */
@@ -205,12 +210,29 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 		} else {
 			encoding = camel_mime_part_get_encoding (mime_part);
 			
-			/* FIXME: find the best encoding for this part and use that instead?? */
-			/* the encoding should really be QP or Base64 */
-			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
-				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
-			
-			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64) {
+				flags = CAMEL_BESTENC_GET_ENCODING;
+				
+				stream = camel_stream_null_new ();
+				filtered_stream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
+				camel_object_unref (CAMEL_OBJECT (stream));
+				bestenc = camel_mime_filter_bestenc_new (flags);
+				camel_stream_filter_add (CAMEL_STREAM_FILTER (filtered_stream),
+							 CAMEL_MIME_FILTER (bestenc));
+				
+				camel_data_wrapper_write_to_stream (wrapper, filtered_stream);
+				
+				best = camel_mime_filter_bestenc_get_best_encoding (bestenc, CAMEL_BESTENC_7BIT);
+				
+				camel_object_unref (CAMEL_OBJECT (filtered_stream));
+				camel_object_unref (CAMEL_OBJECT (bestenc));
+				
+				if (encoding != best) {
+					camel_mime_part_set_encoding (mime_part, best);
+					
+					*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+				}
+			}
 		}
 	}
 }
