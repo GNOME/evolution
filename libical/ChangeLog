@@ -1,3 +1,7 @@
+2001-10-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (CLEANFILES): Assign with `=', not `+='.
+
 2001-09-26  Federico Mena Quintero  <federico@ximian.com>
 
 	Fix the libical-related part of Ximian bug #7892.

@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.31 2001/09/10 21:54:44 federico Exp $
+#  $Id: Makefile.am,v 1.32 2001/10/05 20:23:26 ettore Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -217,7 +217,7 @@ icalderivedvalue.c: $(VALUEDEPS) $(BUILT_COMBINEDHEADERS)
 # housekeeping
 CONFIG_CLEAN_FILES = y.output
 
-CLEANFILES += $(BUILT_SOURCES) ical.h
+CLEANFILES = $(BUILT_SOURCES) ical.h
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
