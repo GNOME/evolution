@@ -1,3 +1,9 @@
+2002-05-21  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_config_search): Split the
+	search word up for a body search and add it to the tokeniser to
+	highlight.
+
 2002-05-18  Not Zed  <NotZed@Ximian.com>
 
 	* e-searching-tokenizer.c
