@@ -1152,8 +1152,8 @@ fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
 
 static void
 menu_file_insert_file_cb (BonoboUIComponent *uic,
-		void *data,
-		const char *path)
+			  void *data,
+			  const char *path)
 {
 #if 0
 	EMsgComposer *composer;

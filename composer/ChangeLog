@@ -1,3 +1,8 @@
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-select-file.c (create_file_selection): Change
+	into the user's home dir before opening the filesel.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-msg-composer-attachment.c: Fix headers.
