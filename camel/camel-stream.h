@@ -54,6 +54,9 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
+	
+	void  (*data_available) (CamelStream *stream); /* default "data_available" signal handler */
+
 	gint  (*read)      (CamelStream *stream, gchar *buffer, gint n);
 	gint  (*write)     (CamelStream *stream, const gchar *buffer, gint n);
 	void  (*flush)     (CamelStream *stream);

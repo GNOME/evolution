@@ -1,3 +1,18 @@
+2000-01-24  bertrand  <bertrand@helixcode.com>
+
+	* camel/camel-data-wrapper.h: 
+	* camel/camel-data-wrapper.c 
+	(_set_input_stream): 
+	(_get_input_stream): 
+	(_set_output_stream): 
+	(_get_output_stream): 
+	The CamelDataWrapper can now be provided with input and
+	output streams, so that nothing has to be kept in memory. 
+	
+	* camel/camel-stream.c (camel_stream_class_init): 
+	added the "data_available" signal.
+	
+
 2000-01-24  Federico Mena Quintero  <federico@helixcode.com>
 
 	* configure.in: Added the gnome-pilot and capplet checks; they
@@ -10,7 +25,8 @@
 
 	* camel/camel-seekable-stream.c: 
 	* camel/camel-seekable-stream.h: 
-
+	new files. 
+	
 	* camel/camel-simple-data-wrapper-stream.h:  parent class is now
 	CamelSeekableStream
 	* camel/camel-stream-buffered-fs.h: idem

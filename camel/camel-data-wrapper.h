@@ -51,6 +51,9 @@ typedef struct
 {
 	GtkObject parent_object;
 
+	CamelStream *input_stream;
+	CamelStream *output_stream;
+
 	GMimeContentField *mime_type;
 } CamelDataWrapper;
 
@@ -60,13 +63,20 @@ typedef struct {
 	GtkObjectClass parent_class;
 	
 	/* Virtual methods */	
-	void  (*write_to_stream) (CamelDataWrapper *data_wrapper, CamelStream *stream);
-	void  (*construct_from_stream) (CamelDataWrapper *data_wrapper, CamelStream *stream);
-	void  (*set_mime_type) (CamelDataWrapper *data_wrapper, gchar * mime_type);
-	gchar * (*get_mime_type) (CamelDataWrapper *data_wrapper);
-	GMimeContentField * (*get_mime_type_field) (CamelDataWrapper *data_wrapper);
-	void (*set_mime_type_field) (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type_field);
-	CamelStream * (*get_stream) (CamelDataWrapper *data_wrapper);
+	void                (*set_input_stream)       (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	CamelStream *       (*get_input_stream)       (CamelDataWrapper *data_wrapper);
+	void                (*set_output_stream)      (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	CamelStream *       (*get_output_stream)      (CamelDataWrapper *data_wrapper);
+
+	/* deprecated method */
+	void                (*write_to_stream)        (CamelDataWrapper *data_wrapper, CamelStream *stream);
+	void                (*construct_from_stream)  (CamelDataWrapper *data_wrapper, CamelStream *stream);
+
+	void                (*set_mime_type)          (CamelDataWrapper *data_wrapper, gchar * mime_type);
+	gchar *             (*get_mime_type)          (CamelDataWrapper *data_wrapper);
+	GMimeContentField * (*get_mime_type_field)    (CamelDataWrapper *data_wrapper);
+	void                (*set_mime_type_field)    (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type_field);
+	CamelStream *       (*get_stream)             (CamelDataWrapper *data_wrapper);
 } CamelDataWrapperClass;
 
 
@@ -76,6 +86,8 @@ GtkType camel_data_wrapper_get_type (void);
 
 
 /* public methods */
+
+
 
 void camel_data_wrapper_write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 void camel_data_wrapper_construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);

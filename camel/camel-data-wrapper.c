@@ -35,6 +35,12 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (GTK_OBJECT(so)->klass)
 
+
+static void _set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+static CamelStream *_get_input_stream (CamelDataWrapper *data_wrapper);
+static void _set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
+CamelStream *_get_output_stream (CamelDataWrapper *data_wrapper);
+
 static void _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
 static void _set_mime_type (CamelDataWrapper *data_wrapper, gchar *mime_type);
@@ -118,6 +124,47 @@ _finalize (GtkObject *object)
 	parent_class->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelDataWrapper::finalize\n");
 }
+
+
+
+
+
+
+void 
+_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	g_assert (data_wrapper);
+	data_wrapper->input_stream;
+}
+
+
+CamelStream * 
+_get_input_stream (CamelDataWrapper *data_wrapper)
+{
+	g_assert (data_wrapper);
+	return (data_wrapper->input_stream);
+}
+
+
+void 
+_set_output_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
+{
+	g_assert (data_wrapper);
+	data_wrapper->output_stream;
+}
+
+
+CamelStream * 
+_get_output_stream (CamelDataWrapper *data_wrapper)
+{
+	g_assert (data_wrapper);
+	return (data_wrapper->output_stream);
+}
+
+
+
+
+
 
 
 /**

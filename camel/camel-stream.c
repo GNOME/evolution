@@ -27,6 +27,14 @@
 #include <config.h>
 #include "camel-stream.h"
 
+
+enum {
+  DATA_AVAILABLE,
+  LAST_SIGNAL
+};
+
+static guint camel_stream_signals[LAST_SIGNAL] = { 0 };
+
 static GtkObjectClass *parent_class = NULL;
 
 
@@ -49,6 +57,7 @@ default_camel_close (CamelStream *stream)
 static void
 camel_stream_class_init (CamelStreamClass *camel_stream_class)
 {
+	GtkObjectClass *gtk_object_class = GTK_OBJECT_CLASS (camel_stream_class);
 
 	parent_class = gtk_type_class (gtk_object_get_type ());
 
@@ -61,6 +70,18 @@ camel_stream_class_init (CamelStreamClass *camel_stream_class)
 	camel_stream_class->close = default_camel_close;
 
 	/* virtual method overload */
+	
+	/* signal definition */
+	camel_stream_signals[DATA_AVAILABLE] =
+		gtk_signal_new ("data_available",
+				GTK_RUN_LAST,
+				gtk_object_class->type,
+				GTK_SIGNAL_OFFSET (CamelStreamClass, data_available),
+				gtk_marshal_NONE__NONE,
+				GTK_TYPE_NONE, 0);
+	
+	gtk_object_class_add_signals (gtk_object_class, camel_stream_signals, LAST_SIGNAL);
+	
 }
 
 GtkType
