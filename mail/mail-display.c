@@ -29,11 +29,15 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <sys/stat.h>
 #include <ctype.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <string.h>
+
+#include <gtk/gtkinvisible.h>
+#include <libgnome/gnome-program.h>
+
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <bonobo/bonobo-control-frame.h>
@@ -44,8 +48,7 @@
 #include <gdk-pixbuf/gdk-pixbuf-loader.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-unicode.h>
-#include <gtk/gtkinvisible.h>
+
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-embedded.h>
 #include <gtkhtml/htmlengine.h>
@@ -53,8 +56,8 @@
 #include <gtkhtml/htmltext.h>
 #include <gtkhtml/htmlinterval.h>
 #include <gtkhtml/gtkhtml-stream.h>
+
 #include <libsoup/soup-message.h>
-#include <libgnome/gnome-program.h>
 
 #include "e-util/e-html-utils.h"
 #include "e-util/e-mktemp.h"
@@ -206,13 +209,11 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 static char *
 make_safe_filename (const char *prefix,CamelMimePart *part)
 {
-	const char *name = NULL;
+	const char *name;
 	char *safe, *p;
 	
-	if (part) {
-		name = camel_mime_part_get_filename (part);
-	}
-		
+	name = part ? camel_mime_part_get_filename (part) : NULL;
+	
 	if (!name) {
 		/* This is a filename. Translators take note. */
 		name = _("attachment");
@@ -283,7 +284,7 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 	char *anchor = strstr (url, "#");
 	
 	g_return_if_fail (anchor != NULL);
-
+	
 	if (anchor)
 		gtk_html_jump_to_anchor (md->html, anchor + 1);
 }
@@ -291,9 +292,9 @@ mail_display_jump_to_anchor (MailDisplay *md, const char *url)
 static void
 on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 {
-	if (!g_ascii_strncasecmp (url, "news:", 5) || !g_ascii_strncasecmp (url, "nntp:", 5)) {
+	if (!strncasecmp (url, "news:", 5) || !strncasecmp (url, "nntp:", 5)) {
 		g_warning ("Can't handle news URLs yet.");
-	} else if (!g_ascii_strncasecmp (url, "mailto:", 7)) {
+	} else if (!strncasecmp (url, "mailto:", 7)) {
 		send_to_url (url);
 	} else if (*url == '#') {
 		mail_display_jump_to_anchor (md, url);
@@ -308,7 +309,6 @@ save_part (CamelMimePart *part)
 	GtkFileSelection *file_select;
 	char *filename, *base;
 	
-	g_return_if_fail (part != NULL);
 	camel_object_ref (CAMEL_OBJECT (part));
 	
 	filename = make_safe_filename (mail_config_get_last_filesel_dir (), part);
@@ -324,10 +324,11 @@ save_part (CamelMimePart *part)
 	
 	g_signal_connect (file_select->ok_button, "clicked", 
 			  G_CALLBACK (save_data_cb), part);
+	
 	/* FIXME: deprecated */
+#warning "gtk_signal_connect_object"
 	gtk_signal_connect_object (GTK_OBJECT (file_select->cancel_button),
-				   "clicked",
-				   G_CALLBACK (gtk_widget_destroy),
+				   "clicked", G_CALLBACK (gtk_widget_destroy),
 				   GTK_OBJECT (file_select));
 	
 	g_object_weak_ref ((GObject *) file_select, (GWeakNotify) save_destroy_cb, part);
@@ -400,8 +401,8 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	}
 	
 	command = g_strdup_printf ("%s %s%s &", app->command,
-				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ? "file://" : "",
-				   filename);
+				   app->expects_uris == GNOME_VFS_MIME_APPLICATION_ARGUMENT_TYPE_URIS ?
+				   "file://" : "", filename);
 	g_free (filename);
 	
 	system (command);
@@ -411,9 +412,9 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 static void
 inline_cb (GtkWidget *widget, gpointer user_data)
 {
-	MailDisplay *md = g_object_get_data(user_data, "MailDisplay");
-	CamelMimePart *part = g_object_get_data(user_data, "CamelMimePart");
-
+	MailDisplay *md = g_object_get_data (user_data, "MailDisplay");
+	CamelMimePart *part = g_object_get_data (user_data, "CamelMimePart");
+	
 	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
 }
@@ -422,13 +423,13 @@ static void
 button_press (GtkWidget *widget, CamelMimePart *part)
 {
 	MailDisplay *md;
-
-	md = g_object_get_data(G_OBJECT(widget), "MailDisplay");
+	
+	md = g_object_get_data ((GObject *) widget, "MailDisplay");
 	if (md == NULL) {
 		g_warning ("No MailDisplay on button!");
 		return;
 	}
-
+	
 	mail_part_toggle_displayed (part, md);
 	mail_display_queue_redisplay (md);
 }
@@ -461,11 +462,11 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	
 	/* Stop the signal, since we don't want the button's class method to
 	   mess up our popup. */
-	g_signal_stop_emission_by_name(widget, "button_press_event");
+	g_signal_stop_emission_by_name (widget, "button_press_event");
 	
-	part = g_object_get_data(G_OBJECT(widget), "CamelMimePart");
-	handler = mail_lookup_handler (g_object_get_data(G_OBJECT(widget), "mime_type"));
-
+	part = g_object_get_data((GObject *) widget, "CamelMimePart");
+	handler = mail_lookup_handler (g_object_get_data ((GObject *) widget, "mime_type"));
+	
 	if (handler && handler->applications)
 		nitems = g_list_length (handler->applications) + 2;
 	else
@@ -475,20 +476,21 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 	/* Save item */
 	memcpy (&menu[0], &save_item, sizeof (menu[0]));
 	menu[0].name = _(menu[0].name);
-
+	
 	/* Inline view item */
 	memcpy (&menu[1], &view_item, sizeof (menu[1]));
 	if (handler && handler->builtin) {
-		md = g_object_get_data(G_OBJECT(widget), "MailDisplay");
+		md = g_object_get_data ((GObject *) widget, "MailDisplay");
 		
 		if (!mail_part_is_displayed_inline (part, md)) {
 			if (handler->component) {
 				Bonobo_ActivationProperty *prop;
 				char *name;
-
-				prop = bonobo_server_info_prop_find(handler->component, "name");
+				
+				prop = bonobo_server_info_prop_find (handler->component, "name");
 				if (!prop) {
-					prop = bonobo_server_info_prop_find(handler->component, "description");
+					prop = bonobo_server_info_prop_find (handler->component,
+									     "description");
 				}
 				if (prop && prop->v._d == Bonobo_ACTIVATION_P_STRING)
 					name = prop->v._u.value_string;
@@ -503,13 +505,13 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 		menu[1].name = g_strdup (_(menu[1].name));
 		mask |= 2;
 	}
-
+	
 	/* External views */
 	if (handler && handler->applications) {
 		GnomeVFSMimeApplication *app;
 		GList *apps;
 		int i;
-
+		
 		apps = handler->applications;
 		for (i = 2; i < nitems; i++, apps = apps->next) {
 			app = apps->data;
@@ -521,9 +523,9 @@ pixmap_press (GtkWidget *widget, GdkEventButton *event, EScrollFrame *user_data)
 		menu[2].name = g_strdup_printf (_(menu[2].name), _("External Viewer"));
 		mask |= 1;
 	}
-
+	
 	e_popup_menu_run (menu, (GdkEvent *)event, mask, 0, widget);
-
+	
 	for (i = 1; i < nitems; i++)
 		g_free (menu[i].name);
 	g_free (menu);
@@ -537,8 +539,8 @@ pixbuf_for_mime_type (const char *mime_type)
 	char *filename = NULL;
 	GdkPixbuf *pixbuf = NULL;
 	
-	icon_name = gnome_vfs_mime_get_icon(mime_type);
-
+	icon_name = gnome_vfs_mime_get_icon (mime_type);
+	
 	if (icon_name) {
 		if (*icon_name == '/') {
 			pixbuf = gdk_pixbuf_new_from_file (icon_name, NULL);
@@ -546,16 +548,19 @@ pixbuf_for_mime_type (const char *mime_type)
 				return pixbuf;
 		}
 		
-		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,  icon_name, TRUE, NULL);
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+						      icon_name, TRUE, NULL);
 		if (!filename) {
 			char *fm_icon;
 			
 			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
-			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,  fm_icon, TRUE, NULL);
+			filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+							      fm_icon, TRUE, NULL);
 			if (!filename) {
 				g_free (fm_icon);
 				fm_icon = g_strdup_printf ("mc/%s", icon_name);
-				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,  fm_icon, TRUE, NULL);
+				filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+								      fm_icon, TRUE, NULL);
 			}
 			g_free (fm_icon);
 		}
@@ -567,7 +572,8 @@ pixbuf_for_mime_type (const char *mime_type)
 	}
 	
 	if (!pixbuf) {
-		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,  "gnome-unknown.png", TRUE, NULL);
+		filename = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+						      "gnome-unknown.png", TRUE, NULL);
 		if (filename) {
 			pixbuf = gdk_pixbuf_new_from_file (filename, NULL);
 			g_free (filename);
@@ -584,7 +590,7 @@ static gboolean
 pixbuf_uncache (gpointer key)
 {
 	GdkPixbuf *pixbuf;
-
+	
 	pixbuf = g_hash_table_lookup (thumbnail_cache, key);
 	g_object_unref (pixbuf);
 	g_hash_table_remove (thumbnail_cache, key);
@@ -600,55 +606,57 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 	char tmp[4096];
 	int len, width, height, ratio;
 	gpointer orig_key;
-
+	
 	/* Get the pixbuf from the cache */
 	if (g_hash_table_lookup_extended (thumbnail_cache, pbl->cid,
 					  &orig_key, (gpointer *)&mini)) {
 		width = gdk_pixbuf_get_width (mini);
 		height = gdk_pixbuf_get_height (mini);
-
-		gtk_image_set_from_pixbuf((GtkImage *)pbl->pixmap, mini);
+		
+		gtk_image_set_from_pixbuf ((GtkImage *) pbl->pixmap, mini);
 		gtk_widget_set_size_request (pbl->pixmap, width, height);
 		
 		/* Restart the cache-cleaning timer */
 		g_source_remove_by_user_data (orig_key);
 		g_timeout_add (5 * 60 * 1000, pixbuf_uncache, orig_key);
-
+		
 		if (pbl->loader) {
 			gdk_pixbuf_loader_close (pbl->loader, NULL);
 			g_object_unref (pbl->loader);
 			camel_object_unref (pbl->mstream);
 		}
-		g_signal_handler_disconnect((pbl->eb), pbl->destroy_id);
+		
+		g_signal_handler_disconnect (pbl->eb, pbl->destroy_id);
 		g_free (pbl->type);
 		g_free (pbl->cid);
 		g_free (pbl);
-
+		
 		return FALSE;
 	}
-
+	
 	/* Not in cache, so get a pixbuf from the wrapper */
-
+	
 	if (!GTK_IS_WIDGET (pbl->pixmap)) {
 		/* Widget has died */
 		if (pbl->mstream)
 			camel_object_unref (pbl->mstream);
-
+		
 		if (pbl->loader) {
 			gdk_pixbuf_loader_close (pbl->loader, NULL);
 			g_object_unref (pbl->loader);
 		}
-	
+		
 		g_free (pbl->type);
 		g_free (pbl->cid);
 		g_free (pbl);
+		
 		return FALSE;
 	}
-
+	
 	if (pbl->mstream) {
 		if (pbl->loader == NULL)
 			pbl->loader = gdk_pixbuf_loader_new ();
-
+		
 		len = camel_stream_read (pbl->mstream, tmp, 4096);
 		if (len > 0) {
 			error = !gdk_pixbuf_loader_write (pbl->loader, tmp, len, NULL);
@@ -657,7 +665,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 		} else if (!camel_stream_eos (pbl->mstream))
 			error = TRUE;
 	}
-
+	
 	if (error || !pbl->mstream) {
 		if (pbl->type)
 			pixbuf = pixbuf_for_mime_type (pbl->type);
@@ -682,24 +690,27 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
 			width /= ratio;
 		}
 	}
-
+	
 	mini = gdk_pixbuf_scale_simple (pixbuf, width, height, GDK_INTERP_BILINEAR);
 	if (error || !pbl->mstream)
 		g_object_unref (pixbuf);
-	gtk_image_set_from_pixbuf((GtkImage *)pbl->pixmap, mini);
-
+	
+	gtk_image_set_from_pixbuf ((GtkImage *) pbl->pixmap, mini);
+	
 	/* Add the pixbuf to the cache */
 	g_hash_table_insert (thumbnail_cache, pbl->cid, mini);
 	g_timeout_add (5 * 60 * 1000, pixbuf_uncache, pbl->cid);
-
-	g_signal_handler_disconnect(pbl->eb, pbl->destroy_id);
+	
+	g_signal_handler_disconnect (pbl->eb, pbl->destroy_id);
 	if (pbl->loader) {
 		gdk_pixbuf_loader_close (pbl->loader, NULL);
-		g_object_unref(pbl->loader);
+		g_object_unref (pbl->loader);
 		camel_object_unref (pbl->mstream);
 	}
+	
 	g_free (pbl->type);
 	g_free (pbl);
+	
 	return FALSE;
 }
 
@@ -707,8 +718,7 @@ pixbuf_gen_idle (struct _PixbufLoader *pbl)
    as the widget that the pixbuf was to be rendered to
    has died on us. */
 static void
-embeddable_destroy_cb (GtkObject *embeddable,
-		       struct _PixbufLoader *pbl)
+embeddable_destroy_cb (GtkObject *embeddable, struct _PixbufLoader *pbl)
 {
 	g_idle_remove_by_data (pbl);
 	if (pbl->mstream)
@@ -748,22 +758,22 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 			 * destruction path that we have to balance out to
 			 * prevent problems.
 			 */
-			bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
+			bonobo_object_ref (BONOBO_OBJECT (bonobo_widget_get_client_site (
 				BONOBO_WIDGET (embedded))));
-
+			
 			return embedded;
 		}
 #endif
 	}
-
+	
 	if (embedded == NULL)
 		return NULL;
-
+	
 	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (embedded));
-		
-	prop_bag = bonobo_control_frame_get_control_property_bag ( control_frame, NULL );
-		
-	if (prop_bag != CORBA_OBJECT_NIL){
+	
+	prop_bag = bonobo_control_frame_get_control_property_bag (control_frame, NULL);
+	
+	if (prop_bag != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
 		/*
 		 * Now we can take care of business. Currently, the only control
@@ -774,20 +784,20 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 		 */
 		const CamelInternetAddress *from;
 		char *from_address;
-
+		
 		CORBA_exception_init (&ev);
 		
 		from = camel_mime_message_get_from (md->current_message);
-		from_address = camel_address_encode((CamelAddress *)from);
+		from_address = camel_address_encode ((CamelAddress *) from);
 		bonobo_property_bag_client_set_value_string (
 			prop_bag, "from_address", 
 			from_address, &ev);
-		g_free(from_address);
-
+		g_free (from_address);
+		
 		Bonobo_Unknown_unref (prop_bag, &ev);
 		CORBA_exception_free (&ev);
 	}
-
+	
 	return embedded;
 }
 
@@ -796,7 +806,7 @@ save_url (MailDisplay *md, const char *url)
 {
 	GHashTable *urls;
 	CamelMimePart *part;
-
+	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_val_if_fail (urls != NULL, NULL);
 	
@@ -836,23 +846,24 @@ save_url (MailDisplay *md, const char *url)
 	} else {
 		camel_object_ref (part);
 	}
-
+	
 	if (part) {
 		CamelDataWrapper *data;
-
+		
 		g_return_val_if_fail (CAMEL_IS_MIME_PART (part), NULL);
-
+		
 		data = camel_medium_get_content_object ((CamelMedium *)part);
 		if (!mail_content_loaded (data, md, TRUE, NULL, NULL, NULL)) {
 			return NULL;
 		}
-
+		
 		save_part (part);
 		camel_object_unref (part);
 		return NULL;
 	}
 	
 	g_warning ("part not found");
+	
 	return NULL;
 }
 
@@ -867,11 +878,11 @@ drag_data_get_cb (GtkWidget *widget,
 	CamelMimePart *part = user_data;
 	const char *filename, *tmpdir;
 	char *uri_list;
-
+	
 	switch (info) {
 	case DND_TARGET_TYPE_TEXT_URI_LIST:
 		/* Kludge around Nautilus requesting the same data many times */
-		uri_list = g_object_get_data(G_OBJECT(widget), "uri-list");
+		uri_list = g_object_get_data ((GObject *) widget, "uri-list");
 		if (uri_list) {
 			gtk_selection_data_set (selection_data, selection_data->target, 8,
 						uri_list, strlen (uri_list));
@@ -906,13 +917,13 @@ drag_data_get_cb (GtkWidget *widget,
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					uri_list, strlen (uri_list));
 		
-		g_object_set_data_full(G_OBJECT(widget), "uri-list", uri_list, g_free);		
+		g_object_set_data_full ((GObject *) widget, "uri-list", uri_list, g_free);		
 		break;
 	case DND_TARGET_TYPE_PART_MIME_TYPE:
 		if (header_content_type_is (part->content_type, "text", "*")) {
 		        GByteArray *ba;
-
-			ba = mail_format_get_data_wrapper_text ((CamelDataWrapper *)part, NULL);
+			
+			ba = mail_format_get_data_wrapper_text ((CamelDataWrapper *) part, NULL);
 			if (ba) {
 				gtk_selection_data_set (selection_data, selection_data->target, 8,
 							ba->data, ba->len);
@@ -921,8 +932,8 @@ drag_data_get_cb (GtkWidget *widget,
 		} else {
 			CamelDataWrapper *wrapper;
 			CamelStreamMem *cstream;
-
-			cstream = (CamelStreamMem *)camel_stream_mem_new();
+			
+			cstream = (CamelStreamMem *) camel_stream_mem_new ();
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
 			camel_data_wrapper_write_to_stream (wrapper, (CamelStream *)cstream);
 			
@@ -944,10 +955,10 @@ drag_data_delete_cb (GtkWidget *widget,
 {
 	char *uri_list;
 	
-	uri_list = g_object_get_data(G_OBJECT(widget), "uri-list");
+	uri_list = g_object_get_data ((GObject *) widget, "uri-list");
 	if (uri_list) {
 		unlink (uri_list + 7);
-		g_object_set_data(G_OBJECT(widget), "uri-list", NULL);
+		g_object_set_data ((GObject *) widget, "uri-list", NULL);
 	}
 }
 
@@ -960,7 +971,7 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	struct _PixbufLoader *pbl;
 	
 	pbl = g_new0 (struct _PixbufLoader, 1);
-	if (g_ascii_strncasecmp (eb->type, "image/", 6) == 0) {
+	if (strncasecmp (eb->type, "image/", 6) == 0) {
 		CamelDataWrapper *content;
 		
 		content = camel_medium_get_content_object (CAMEL_MEDIUM (part));
@@ -970,47 +981,47 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 			camel_stream_reset (pbl->mstream);
 		}
 	}
+	
 	pbl->type = g_strdup (eb->type);
 	pbl->cid = g_strdup (eb->classid + 6);
 	pbl->pixmap = gtk_image_new();
   	gtk_widget_set_size_request (pbl->pixmap, 24, 24);
 	pbl->eb = eb;
-	pbl->destroy_id = g_signal_connect(G_OBJECT(eb), "destroy", G_CALLBACK(embeddable_destroy_cb), pbl);
+	pbl->destroy_id = g_signal_connect (eb, "destroy", G_CALLBACK (embeddable_destroy_cb), pbl);
 	
-	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, pbl, NULL);
+	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) pixbuf_gen_idle, pbl, NULL);
 	
 	mainbox = gtk_hbox_new (FALSE, 0);
 	
 	button = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
-	g_object_set_data(G_OBJECT(button), "MailDisplay", md);
+	g_object_set_data ((GObject *) button, "MailDisplay", md);
 	
 	handler = mail_lookup_handler (eb->type);
 	if (handler && handler->builtin)
-		g_signal_connect (button, "clicked", 
-				G_CALLBACK (button_press), part);
+		g_signal_connect (button, "clicked", G_CALLBACK (button_press), part);
 	
 	/* Drag & Drop */
-	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple(part->content_type);
+	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple (part->content_type);
 	g_strdown (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
-
+	
 	gtk_drag_source_set (button, GDK_BUTTON1_MASK,
 			     drag_types, num_drag_types,
 			     GDK_ACTION_COPY);
-	g_signal_connect(G_OBJECT(button), "drag-data-get", G_CALLBACK(drag_data_get_cb), part);
-	g_signal_connect(G_OBJECT(button), "drag-data-delete", G_CALLBACK(drag_data_delete_cb), part);
+	g_signal_connect (button, "drag-data-get", G_CALLBACK (drag_data_get_cb), part);
+	g_signal_connect (button, "drag-data-delete", G_CALLBACK (drag_data_delete_cb), part);
 	
 	g_free (drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target);
 	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = NULL;
-
+	
 	hbox = gtk_hbox_new (FALSE, 2);
 	gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
-
+	
 	/* should this be a gtk_arrow? */
 	if (handler && mail_part_is_displayed_inline (part, md))
-		arrow = gtk_image_new_from_stock(GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON);
+		arrow = gtk_image_new_from_stock (GTK_STOCK_GO_DOWN, GTK_ICON_SIZE_BUTTON);
 	else
-		arrow = gtk_image_new_from_stock(GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);
+		arrow = gtk_image_new_from_stock (GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON);
 	gtk_box_pack_start (GTK_BOX (hbox), arrow, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), pbl->pixmap, TRUE, TRUE, 0);
 	gtk_container_add (GTK_CONTAINER (button), hbox);
@@ -1021,11 +1032,11 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 			   gtk_arrow_new (GTK_ARROW_DOWN,
 					  GTK_SHADOW_ETCHED_IN));
 	
-	g_object_set_data(G_OBJECT(popup), "MailDisplay", md);
-	g_object_set_data(G_OBJECT(popup), "CamelMimePart", part);
-	g_object_set_data_full(G_OBJECT(popup), "mime_type", g_strdup (eb->type), (GDestroyNotify)g_free);
+	g_object_set_data ((GObject *) popup, "MailDisplay", md);
+	g_object_set_data ((GObject *) popup, "CamelMimePart", part);
+	g_object_set_data_full ((GObject *) popup, "mime_type", g_strdup (eb->type), (GDestroyNotify) g_free);
 	
-	g_signal_connect(popup, "button_press_event", G_CALLBACK (pixmap_press), md->scroll);
+	g_signal_connect (popup, "button_press_event", G_CALLBACK (pixmap_press), md->scroll);
 	
 	gtk_box_pack_start (GTK_BOX (mainbox), button, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (mainbox), popup, TRUE, TRUE, 0);
@@ -1048,51 +1059,53 @@ do_external_viewer (GtkHTML *html, GtkHTMLEmbedded *eb,
 	GByteArray *ba;
 	CamelStreamMem *cstream;
 	BonoboStream *bstream;
-
+	
 	component = gnome_vfs_mime_get_default_component (eb->type);
 	if (!component)
 		return FALSE;
-
+	
 	embedded = get_embedded_for_component (component->iid, md);
 	CORBA_free (component);
 	if (!embedded)
 		return FALSE;
-
-	persist = (Bonobo_PersistStream) Bonobo_Unknown_queryInterface(bonobo_widget_get_objref (BONOBO_WIDGET (embedded)),
-								      "IDL:Bonobo/PersistStream:1.0", NULL);
+	
+	persist = (Bonobo_PersistStream) Bonobo_Unknown_queryInterface (
+		bonobo_widget_get_objref (BONOBO_WIDGET (embedded)),
+		"IDL:Bonobo/PersistStream:1.0", NULL);
+	
 	if (persist == CORBA_OBJECT_NIL) {
 		gtk_object_sink (GTK_OBJECT (embedded));
 		return FALSE;
 	}
-
+	
 	/* Write the data to a CamelStreamMem... */
-	cstream = (CamelStreamMem *)camel_stream_mem_new();
+	cstream = (CamelStreamMem *) camel_stream_mem_new ();
 	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
  	camel_data_wrapper_write_to_stream (wrapper, (CamelStream *)cstream);
-
+	
 	/* ...convert the CamelStreamMem to a BonoboStreamMem... */
 	bstream = bonobo_stream_mem_create (cstream->buffer->data, cstream->buffer->len, TRUE, FALSE);
 	camel_object_unref (cstream);
-
+	
 	/* ...and hydrate the PersistStream from the BonoboStream. */
 	CORBA_exception_init (&ev);
 	Bonobo_PersistStream_load (persist,
-				   bonobo_object_corba_objref(BONOBO_OBJECT (bstream)),
+				   bonobo_object_corba_objref (BONOBO_OBJECT (bstream)),
 				   eb->type, &ev);
 	bonobo_object_unref (BONOBO_OBJECT (bstream));
 	Bonobo_Unknown_unref (persist, &ev);
 	CORBA_Object_release (persist, &ev);
-
+	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		gtk_object_sink (GTK_OBJECT (embedded));
 		CORBA_exception_free (&ev);				
 		return FALSE;
 	}
 	CORBA_exception_free (&ev);
-
+	
 	gtk_widget_show (embedded);
 	gtk_container_add (GTK_CONTAINER (eb), embedded);
-
+	
 	return TRUE;
 }
 
@@ -1102,16 +1115,16 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 {
 	GtkWidget *button;
 	struct _PixbufLoader *pbl;
-
+	
 	pbl = g_new0 (struct _PixbufLoader, 1);
 	pbl->type = NULL;
 	pbl->cid = g_strdup (eb->classid);
-	pbl->pixmap = gtk_image_new();
+	pbl->pixmap = gtk_image_new ();
   	gtk_widget_set_size_request (pbl->pixmap, 24, 24);
 	pbl->eb = eb;
-	pbl->destroy_id = g_signal_connect(eb, "destroy", G_CALLBACK(embeddable_destroy_cb), pbl);
+	pbl->destroy_id = g_signal_connect (eb, "destroy", G_CALLBACK (embeddable_destroy_cb), pbl);
 	
-	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc)pixbuf_gen_idle, pbl, NULL);
+	g_idle_add_full (G_PRIORITY_LOW, (GSourceFunc) pixbuf_gen_idle, pbl, NULL);
 	
 	button = gtk_button_new ();
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
@@ -1120,7 +1133,7 @@ do_signature (GtkHTML *html, GtkHTMLEmbedded *eb,
 	gtk_container_add (GTK_CONTAINER (button), pbl->pixmap);
 	gtk_widget_show_all (button);
 	gtk_container_add (GTK_CONTAINER (eb), button);
-
+	
 	return TRUE;
 }
 
@@ -1130,10 +1143,10 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	MailDisplay *md = data;
 	GHashTable *urls;
 	CamelMimePart *part;
-
+	
 	if (!eb->classid)
 		return FALSE;
-
+	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	if (!urls)
 		return FALSE;
@@ -1154,7 +1167,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 			return FALSE;
 		return do_external_viewer (html, eb, part, md);
 	}
-
+	
 	return FALSE;
 }
 
@@ -1162,11 +1175,11 @@ static void
 ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 {
 	MailDisplay *md = data;
-
+	
 	if (card && md->current_message) {
 		const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
 		const char *md_name = NULL, *md_addr = NULL;
-
+		
 		/* We are extra anal, in case we are dealing with some sort of pathological message
 		   w/o a From: header. */
 		if (from != NULL && camel_internet_address_get (from, 0, &md_name, &md_addr)) {
@@ -1197,7 +1210,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
 		
 		if (md->related)
-			g_hash_table_remove(md->related, medium);
+			g_hash_table_remove (md->related, medium);
 		
 		data = camel_medium_get_content_object (medium);
 		if (!mail_content_loaded (data, md, FALSE, url, html, handle))
@@ -1244,16 +1257,17 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 	if (strncmp (url, "http:", 5) == 0 || strncmp (url, "https:", 6) == 0) {
 		if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS ||
 		    g_datalist_get_data (md->data, "load_images")) {
-			fetch_remote(md, url, html, handle);
+			fetch_remote (md, url, html, handle);
 		} else if (mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES &&
 			   !g_datalist_get_data (md->data, "checking_from")) {
-			const CamelInternetAddress *from = camel_mime_message_get_from (md->current_message);
+			const CamelInternetAddress *from;
 			const char *name, *addr;
 			
-			g_datalist_set_data (md->data, "checking_from",
-					     GINT_TO_POINTER (1));
+			from = camel_mime_message_get_from (md->current_message);
+			g_datalist_set_data (md->data, "checking_from", GINT_TO_POINTER (1));
 			
-			/* Make sure we aren't deal w/ some sort of a pathological message w/o a From: header */
+			/* Make sure we aren't deal w/ some sort of a
+                           pathological message w/o a From: header */
 			if (from != NULL && camel_internet_address_get (from, 0, &name, &addr))
 				e_book_query_address_default (addr, ebook_callback, md);
 			else
@@ -1267,20 +1281,22 @@ static struct _mail_msg_op fetch_fake_op = {
 	NULL, NULL, NULL, NULL,
 };
 
-static gboolean fetch_cancelled(GIOChannel *source, GIOCondition cond, void *data)
+static gboolean
+fetch_cancelled (GIOChannel *source, GIOCondition cond, void *user_data)
 {
-	fetch_cancel((MailDisplay *)data);
-
+	fetch_cancel ((MailDisplay *) user_data);
+	
 	return FALSE;
 }
 
-static void fetch_next(MailDisplay *md)
+static void
+fetch_next (MailDisplay *md)
 {
 	struct _remote_data *rd;
 	struct _MailDisplayPrivate *p = md->priv;
 	SoupMessage *msg;
 	SoupContext *ctx;
-
+	
 	/* if we're called and no more work to do, clean up, otherwise, setup */
 	if (e_dlist_empty(&p->fetch_active) && e_dlist_empty(&p->fetch_queue)) {
 		if (p->fetch_msg) {
@@ -1556,8 +1572,9 @@ load_content_loaded (struct _mail_msg *mm)
 				if (!try_part_urls (m) && !try_data_urls (m))
 					gtk_html_end (m->html, m->handle, GTK_HTML_STREAM_ERROR);
 			}
-		} else
+		} else {
 			mail_display_redisplay (m->display, FALSE);
+		}
 	}
 }
 
@@ -1567,8 +1584,8 @@ load_content_free (struct _mail_msg *mm)
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
 	
 	g_free (m->url);
-	g_object_unref((m->html));
-	g_object_unref((m->display));
+	g_object_unref (m->html);
+	g_object_unref (m->display);
 	camel_object_unref (m->message);
 }
 
@@ -1590,8 +1607,9 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 {
 	struct _load_content_msg *m;
 	GHashTable *loading;
-
-#if 0	
+	
+#if 0
+#warning "GTK_OBJECT_DESTROYED"
 	if (GTK_OBJECT_DESTROYED (md))
 		return;
 #endif
@@ -1602,9 +1620,9 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 	} else {
 		loading = g_hash_table_new (NULL, NULL);
 		g_datalist_set_data_full (md->data, "loading", loading,
-					  (GDestroyNotify)g_hash_table_destroy);
+					  (GDestroyNotify) g_hash_table_destroy);
 	}
-	g_hash_table_insert (loading, (gpointer)key, GINT_TO_POINTER (1));
+	g_hash_table_insert (loading, (gpointer) key, GINT_TO_POINTER (1));
 	
 	m = mail_msg_new (&load_content_op, NULL, sizeof (*m));
 	m->display = md;
@@ -1671,7 +1689,7 @@ mail_text_write (GtkHTML *html, GtkHTMLStream *stream, MailDisplay *md, CamelMim
 	g_byte_array_append (ba, (const guint8 *) htmltext, strlen (htmltext) + 1);
 	g_byte_array_append (ba, (const guint8 *) ett, strlen (ett) + 1);
 	g_free (htmltext);
-
+	
 	xed = g_strdup_printf ("x-evolution-data:%p-%d", part, idx);
 	iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
 	mail_display_add_url (md, "data_urls", xed, ba);
@@ -1820,6 +1838,7 @@ void
 mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 {
 #if 0
+#warning "GTK_OBJECT_DESTROYED"
 	if (GTK_OBJECT_DESTROYED (md))
 		return;
 #endif
@@ -1922,7 +1941,7 @@ static void
 mail_display_init (GObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
-
+	
 	mail_display->scroll            = NULL;
 	mail_display->html              = NULL;
 	mail_display->redisplay_counter = 0;
@@ -1936,13 +1955,13 @@ mail_display_init (GObject *object)
 	mail_display->data              = NULL;
 	
 	mail_display->invisible         = gtk_invisible_new ();
-	g_object_ref(mail_display->invisible);
-	gtk_object_sink((GtkObject *)mail_display->invisible);
-
+	g_object_ref (mail_display->invisible);
+	gtk_object_sink ((GtkObject *) mail_display->invisible);
+	
 	mail_display->display_style     = mail_config_get_message_display_style ();
-
+	
 	mail_display->printing          = FALSE;
-
+	
 	mail_display->priv = g_malloc0(sizeof(*mail_display->priv));
 	e_dlist_init(&mail_display->priv->fetch_active);
 	e_dlist_init(&mail_display->priv->fetch_queue);
@@ -1952,9 +1971,9 @@ static void
 mail_display_destroy (GtkObject *object)
 {
 	MailDisplay *mail_display = MAIL_DISPLAY (object);
-
+	
 	if (mail_display->html) {
-		g_object_unref(mail_display->html);
+		g_object_unref (mail_display->html);
 		mail_display->html = NULL;
 	}
 	
@@ -1969,30 +1988,30 @@ mail_display_destroy (GtkObject *object)
 	mail_display->charset = NULL;
 	g_free (mail_display->selection);
 	mail_display->selection = NULL;
-
+	
 	if (mail_display->folder) {
 		if (mail_display->info)
 			camel_folder_free_message_info (mail_display->folder, mail_display->info);
 		camel_object_unref (mail_display->folder);
 		mail_display->folder = NULL;
 	}
-		
+	
 	g_free (mail_display->data);
 	mail_display->data = NULL;
-		
+	
 	if (mail_display->idle_id) {
 		gtk_timeout_remove (mail_display->idle_id);
 		mail_display->idle_id = 0;
 	}
-
+	
 	if (mail_display->invisible) {
 		g_object_unref (mail_display->invisible);
 		mail_display->invisible = NULL;
 	}
-
-	g_free(mail_display->priv);
+	
+	g_free (mail_display->priv);
 	mail_display->priv = NULL;
-
+	
 	mail_display_parent_class->destroy (object);
 }
 
@@ -2004,14 +2023,14 @@ invisible_selection_get_callback (GtkWidget *widget,
 				  void *data)
 {
 	MailDisplay *display;
-
+	
 	display = MAIL_DISPLAY (data);
 	
 	if (!display->selection)
 		return;
 	
 	g_assert (info == 1);
-
+	
 	gtk_selection_data_set (selection_data, GDK_SELECTION_TYPE_STRING, 8,
 				display->selection, strlen (display->selection));
 }
@@ -2022,12 +2041,12 @@ invisible_selection_clear_event_callback (GtkWidget *widget,
 					  void *data)
 {
 	MailDisplay *display;
-
+	
 	display = MAIL_DISPLAY (data);
-
+	
 	g_free (display->selection);
 	display->selection = NULL;
-
+	
 	return TRUE;
 }
 
@@ -2035,19 +2054,21 @@ static void
 mail_display_class_init (GtkObjectClass *object_class)
 {
 	object_class->destroy = mail_display_destroy;
-
+	
 	if (mail_display_parent_class == NULL) {
 		/* blah, this is an unecessary dependency ... */
 		extern char *evolution_dir;
-		char *path = alloca(strlen(evolution_dir)+16);
-
-		sprintf(path, "%s/cache", evolution_dir);
+		char *path;
+		
+		path = g_alloca (strlen (evolution_dir) + 16);
+		sprintf (path, "%s/cache", evolution_dir);
+		
 		/* cache expiry - 2 hour access, 1 day max */
 		fetch_cache = camel_data_cache_new(path, 0, NULL);
 		camel_data_cache_set_expire_age(fetch_cache, 24*60*60);
 		camel_data_cache_set_expire_access(fetch_cache, 2*60*60);
-
-		mail_display_parent_class = g_type_class_ref(PARENT_TYPE);
+		
+		mail_display_parent_class = g_type_class_ref (PARENT_TYPE);
 		thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
 	}
 }
@@ -2074,18 +2095,18 @@ static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
 	GdkAtom clipboard_atom;
-
+	
 	g_free (mail_display->selection);
 	mail_display->selection = g_strdup (mail_display->html->pointer_url);
-
+	
 	clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
 	if (clipboard_atom == GDK_NONE)
 		return; /* failed */
-
+	
 	/* We don't check the return values of the following since there is not
 	 * much we can do if we cannot assert the selection.
 	 */
-
+	
 	gtk_selection_owner_set (GTK_WIDGET (mail_display->invisible),
 				 GDK_SELECTION_PRIMARY,
 				 GDK_CURRENT_TIME);
@@ -2098,9 +2119,9 @@ static void
 image_save_as (GtkWidget *w, MailDisplay *mail_display)
 {
 	const char *src;
-
-	src = g_object_get_data(G_OBJECT(mail_display), "current_src_uri");
-
+	
+	src = g_object_get_data ((GObject *) mail_display, "current_src_uri");
+	
 	g_warning ("loading uri=%s", src);
 	
 	save_url (mail_display, src);
@@ -2128,7 +2149,7 @@ static EPopupMenu link_menu [] = {
 	E_POPUP_ITEM (N_("Save Link as (FIXME)"), G_CALLBACK (link_save_as),  MASK_URL),
 #endif
 	E_POPUP_ITEM (N_("Save Image as..."), G_CALLBACK (image_save_as), MASK_SRC), 
-     
+	
 	TERMINATOR
 };
 
@@ -2157,7 +2178,7 @@ popup_info_free (PopupInfo *pop)
 	if (pop) {
 		if (pop->destroy_timeout)
 			gtk_timeout_remove (pop->destroy_timeout);
-
+		
 		bonobo_event_source_client_remove_listener (bonobo_widget_get_objref (BONOBO_WIDGET (pop->w)),
 							    pop->listener,
 							    NULL);
@@ -2174,40 +2195,40 @@ popup_window_destroy_cb (PopupInfo *pop, GObject *deadbeef)
 	popup_info_free (pop);
 }
 
-static gint
+static int
 popup_timeout_cb (gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-
+	
 	pop->destroy_timeout = 0;
 	gtk_widget_destroy (pop->win);
-
+	
 	return 0;
 }
 
-static gint
+static int
 popup_enter_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-
+	
 	if (pop->destroy_timeout)
 		gtk_timeout_remove (pop->destroy_timeout);
 	pop->destroy_timeout = 0;
-
+	
 	return 0;
 }
 
-static gint
+static int
 popup_leave_cb (GtkWidget *w, GdkEventCrossing *ev, gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-
+	
 	if (pop->destroy_timeout)
 		gtk_timeout_remove (pop->destroy_timeout);
-
+	
 	if (!pop->hidden)
 		pop->destroy_timeout = gtk_timeout_add (500, popup_timeout_cb, pop);
-
+	
 	return 0;
 }
 
@@ -2215,9 +2236,9 @@ static void
 popup_realize_cb (GtkWidget *widget, gpointer user_data)
 {
 	PopupInfo *pop = (PopupInfo *) user_data;
-
+	
 	gtk_widget_add_events (pop->win, GDK_ENTER_NOTIFY_MASK | GDK_LEAVE_NOTIFY_MASK);
-
+	
 	if (pop->destroy_timeout == 0) {
 		if (!pop->hidden) {
 			pop->destroy_timeout = gtk_timeout_add (5000, popup_timeout_cb, pop);
@@ -2230,11 +2251,11 @@ popup_realize_cb (GtkWidget *widget, gpointer user_data)
 static void
 popup_size_allocate_cb (GtkWidget *widget, GtkAllocation *alloc, gpointer user_data)
 {
-	gint x, y, w, h, xmax, ymax;
-
+	int x, y, w, h, xmax, ymax;
+	
 	xmax = gdk_screen_width ();
 	ymax = gdk_screen_height ();
-
+	
 	gdk_window_get_pointer (NULL, &x, &y, NULL);
 	w = alloc->width;
 	h = alloc->height;
@@ -2286,22 +2307,22 @@ listener_cb (BonoboListener    *listener,
 {
 	PopupInfo *pop;
 	char *type;
-
+	
 	pop = user_data;
-
+	
 	if (pop->destroy_timeout)
 		gtk_timeout_remove (pop->destroy_timeout);
 	pop->destroy_timeout = 0;
 	
 	type = bonobo_event_subtype (event_name);
-
+	
 	if (!strcmp (type, "Destroy")) {
 		gtk_widget_destroy (GTK_WIDGET (pop->win));
 	} else if (!strcmp (type, "Hide")) {
 		pop->hidden = TRUE;
 		gtk_widget_hide (GTK_WIDGET (pop->win));
 	}
-
+	
 	g_free (type);
 }
 
@@ -2310,72 +2331,70 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 {
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
-
+	
 	if (event->type == GDK_BUTTON_PRESS) {
 		if (event->button == 3) {
 			HTMLEngine *e;
 			HTMLPoint *point;
 			GtkWidget *popup_thing;
-
+			
 			e     = GTK_HTML (widget)->engine;
 			point = html_engine_get_point_at (e, event->x + e->x_offset, event->y + e->y_offset, FALSE);
 			
 			if (point) {
-				const gchar *url;
-				const gchar *src;
-
+				const char *url, *src;
+				
 				url = html_object_get_url (point->object);
 				src = html_object_get_src (point->object);
-
-				if (url && !g_ascii_strncasecmp (url, "mailto:", 7)) {
+				
+				if (url && !strncasecmp (url, "mailto:", 7)) {
 					PopupInfo *pop;
-					gchar *url_decoded;
-
+					char *url_decoded;
+					
 					url_decoded = gtk_html_get_url_object_relative (GTK_HTML (widget),
 											point->object,
 											url);
 					camel_url_decode (url_decoded);
-
+					
 					popup_thing = bonobo_widget_new_control ("OAFIID:GNOME_Evolution_Addressbook_AddressPopup",
 										 CORBA_OBJECT_NIL);
-
+					
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
 								    "email", TC_CORBA_string, url_decoded+7,
 								    NULL);
 					g_free (url_decoded);
 					
 					pop = make_popup_window (popup_thing);
-
+					
 					pop->listener = bonobo_event_source_client_add_listener_full(
 						bonobo_widget_get_objref (BONOBO_WIDGET (popup_thing)),
-						g_cclosure_new(G_CALLBACK(listener_cb), pop, NULL),
+						g_cclosure_new (G_CALLBACK (listener_cb), pop, NULL),
 						NULL, NULL);
 				} else if (url || src) {
-				        gint hide_mask = 0;
-
+				        int hide_mask = 0;
+					
 					if (!url)
 						hide_mask |= MASK_URL;
-
+					
 					if (!src)
 						hide_mask |= MASK_SRC;
-
-					g_free (g_object_get_data(G_OBJECT(mail_display), "current_src_uri"));
-					g_object_set_data(G_OBJECT(mail_display), "current_src_uri", 
+					
+					g_free (g_object_get_data ((GObject *) mail_display, "current_src_uri"));
+					g_object_set_data ((GObject *) mail_display, "current_src_uri", 
 							  gtk_html_get_url_object_relative (GTK_HTML (widget),
 											    point->object,
 											    src));
 					
 					e_popup_menu_run (link_menu, (GdkEvent *) event, 0, hide_mask, mail_display);
-
 				}
-
+				
 				html_point_destroy (point);
 			}
-
+			
 			return TRUE;
 		}
 	}
-		
+	
 	return FALSE;
 }
 
@@ -2383,7 +2402,7 @@ static inline void
 set_underline (HTMLEngine *e, HTMLObject *o, gboolean underline)
 {
 	HTMLText *text = HTML_TEXT (o);
-
+	
 	html_text_set_font_style (text, e, underline
 				  ? html_text_get_font_style (text) | GTK_HTML_FONT_STYLE_UNDERLINE
 				  : html_text_get_font_style (text) & ~GTK_HTML_FONT_STYLE_UNDERLINE);
@@ -2396,9 +2415,9 @@ update_active (GtkWidget *widget, gint x, gint y, MailDisplay *mail_display)
 	HTMLEngine *e;
 	HTMLPoint *point;
 	const gchar *email;
-
+	
 	e = GTK_HTML (widget)->engine;
-
+	
 	point = html_engine_get_point_at (e, x + e->x_offset, y + e->y_offset, FALSE);
 	if (mail_display->last_active && (!point || mail_display->last_active != point->object)) {
 		set_underline (e, HTML_OBJECT (mail_display->last_active), FALSE);
@@ -2414,44 +2433,44 @@ update_active (GtkWidget *widget, gint x, gint y, MailDisplay *mail_display)
 	}
 }
 
-static gint
+static int
 html_enter_notify_event (GtkWidget *widget, GdkEventCrossing *event, MailDisplay *mail_display)
 {
 	update_active (widget, event->x, event->y, mail_display);
-
+	
 	return TRUE;
 }
 
-static gint
+static int
 html_motion_notify_event (GtkWidget *widget, GdkEventMotion *event, MailDisplay *mail_display)
 {
-	gint x, y;
-
+	int x, y;
+	
 	g_return_val_if_fail (widget != NULL, 0);
 	g_return_val_if_fail (GTK_IS_HTML (widget), 0);
 	g_return_val_if_fail (event != NULL, 0);
-
+	
 	if (event->is_hint)
 		gdk_window_get_pointer (GTK_LAYOUT (widget)->bin_window, &x, &y, NULL);
 	else {
 		x = event->x;
 		y = event->y;
 	}
-
+	
 	update_active (widget, x, y, mail_display);
-
+	
 	return TRUE;
 }
 
 static void
 html_iframe_created (GtkWidget *w, GtkHTML *iframe, MailDisplay *mail_display)
 {
-	g_signal_connect(iframe, "button_press_event",
-			 G_CALLBACK (html_button_press_event), mail_display);
-	g_signal_connect(iframe, "motion_notify_event",
-			 G_CALLBACK (html_motion_notify_event), mail_display);
-	g_signal_connect(iframe, "enter_notify_event",
-			 G_CALLBACK (html_enter_notify_event), mail_display);
+	g_signal_connect (iframe, "button_press_event",
+			  G_CALLBACK (html_button_press_event), mail_display);
+	g_signal_connect (iframe, "motion_notify_event",
+			  G_CALLBACK (html_motion_notify_event), mail_display);
+	g_signal_connect (iframe, "enter_notify_event",
+			  G_CALLBACK (html_enter_notify_event), mail_display);
 }
 
 static GNOME_Evolution_ShellView
@@ -2460,25 +2479,25 @@ retrieve_shell_view_interface_from_control (BonoboControl *control)
 	Bonobo_ControlFrame control_frame;
 	GNOME_Evolution_ShellView shell_view_interface;
 	CORBA_Environment ev;
-
+	
 	control_frame = bonobo_control_get_control_frame (control, NULL);
-
+	
 	if (control_frame == NULL)
 		return CORBA_OBJECT_NIL;
-
+	
 	CORBA_exception_init (&ev);
 	shell_view_interface = Bonobo_Unknown_queryInterface (control_frame,
 							      "IDL:GNOME/Evolution/ShellView:1.0",
 							      &ev);
 	CORBA_exception_free (&ev);
-
+	
 	if (shell_view_interface != CORBA_OBJECT_NIL)
-		g_object_set_data(G_OBJECT(control),
-				  "mail_threads_shell_view_interface",
-				  shell_view_interface);
+		g_object_set_data ((GObject *) control,
+				   "mail_threads_shell_view_interface",
+				   shell_view_interface);
 	else
 		g_warning ("Control frame doesn't have Evolution/ShellView.");
-
+	
 	return shell_view_interface;
 }
 
@@ -2496,7 +2515,7 @@ set_status_message (const char *message, int busy)
 		
 		control = BONOBO_CONTROL (e_iterator_get (it));
 		
-		shell_view_interface = g_object_get_data(G_OBJECT(control), "mail_threads_shell_view_interface");
+		shell_view_interface = g_object_get_data ((GObject *) control, "mail_threads_shell_view_interface");
 		
 		if (shell_view_interface == CORBA_OBJECT_NIL)
 			shell_view_interface = retrieve_shell_view_interface_from_control (control);
@@ -2517,18 +2536,17 @@ set_status_message (const char *message, int busy)
 		   random ones lying around otherwise.  Shrug. */
 		break;
 	}
-	g_object_unref(it);
+	
+	g_object_unref (it);
 }
 
 /* For now show every url but possibly limit it to showing only http:
    or ftp: urls */
 static void
-html_on_url (GtkHTML *html,
-	     const char *url,
-	     MailDisplay *mail_display)
+html_on_url (GtkHTML *html, const char *url, MailDisplay *mail_display)
 {
 	static char *previous_url = NULL;
-
+	
 	/* This all looks silly but yes, this is the proper way to mix
            GtkHTML's on_url with BonoboUIComponent statusbar */
 	if (!url || (previous_url && (strcmp (url, previous_url) != 0)))
@@ -2562,17 +2580,17 @@ mail_display_new (void)
 	html = gtk_html_new ();
 	tok = e_searching_tokenizer_new ();
 	html_engine_set_tokenizer (GTK_HTML (html)->engine, tok);
-	g_object_unref((tok));
+	g_object_unref (tok);
 	
 	mail_display_initialize_gtkhtml (mail_display, GTK_HTML (html));
 	
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
 	
-	g_signal_connect(mail_display->invisible, "selection_get",
-			 G_CALLBACK (invisible_selection_get_callback), mail_display);
-	g_signal_connect(mail_display->invisible, "selection_clear_event",
-			 G_CALLBACK (invisible_selection_clear_event_callback), mail_display);
+	g_signal_connect (mail_display->invisible, "selection_get",
+			  G_CALLBACK (invisible_selection_get_callback), mail_display);
+	g_signal_connect (mail_display->invisible, "selection_clear_event",
+			  G_CALLBACK (invisible_selection_clear_event_callback), mail_display);
 	
 	gtk_selection_add_target (mail_display->invisible,
 				  GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
@@ -2584,7 +2602,7 @@ mail_display_new (void)
 	
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
-	g_object_ref(mail_display->html);
+	g_object_ref (mail_display->html);
 	mail_display->last_active = NULL;
 	mail_display->data = g_new0 (GData *, 1);
 	g_datalist_init (mail_display->data);
@@ -2595,30 +2613,29 @@ mail_display_new (void)
 void
 mail_display_initialize_gtkhtml (MailDisplay *mail_display, GtkHTML *html)
 {
-	gtk_html_set_default_content_type (GTK_HTML (html),
-					   "text/html; charset=utf-8");
+	gtk_html_set_default_content_type (GTK_HTML (html), "text/html; charset=utf-8");
 	
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	
-	g_signal_connect(html, "url_requested",
-			 G_CALLBACK (on_url_requested),
-			 mail_display);
-	g_signal_connect(html, "object_requested",
-			 G_CALLBACK (on_object_requested),
-			 mail_display);
-	g_signal_connect(html, "link_clicked",
-			 G_CALLBACK (on_link_clicked),
-			 mail_display);
-	g_signal_connect(html, "button_press_event",
-			 G_CALLBACK (html_button_press_event), mail_display);
-	g_signal_connect(html, "motion_notify_event",
-			 G_CALLBACK (html_motion_notify_event), mail_display);
-	g_signal_connect(html, "enter_notify_event",
-			 G_CALLBACK (html_enter_notify_event), mail_display);
-	g_signal_connect(html, "iframe_created",
-			 G_CALLBACK (html_iframe_created), mail_display);
-	g_signal_connect(html, "on_url",
-			 G_CALLBACK (html_on_url), mail_display);
+	g_signal_connect (html, "url_requested",
+			  G_CALLBACK (on_url_requested),
+			  mail_display);
+	g_signal_connect (html, "object_requested",
+			  G_CALLBACK (on_object_requested),
+			  mail_display);
+	g_signal_connect (html, "link_clicked",
+			  G_CALLBACK (on_link_clicked),
+			  mail_display);
+	g_signal_connect (html, "button_press_event",
+			  G_CALLBACK (html_button_press_event), mail_display);
+	g_signal_connect (html, "motion_notify_event",
+			  G_CALLBACK (html_motion_notify_event), mail_display);
+	g_signal_connect (html, "enter_notify_event",
+			  G_CALLBACK (html_enter_notify_event), mail_display);
+	g_signal_connect (html, "iframe_created",
+			  G_CALLBACK (html_iframe_created), mail_display);
+	g_signal_connect (html, "on_url",
+			  G_CALLBACK (html_on_url), mail_display);
 }
 
 static void
@@ -2671,7 +2688,8 @@ mail_display_get_url_for_icon (MailDisplay *md, const char *icon_name)
 	if (*icon_name == '/')
 		icon_path = g_strdup (icon_name);
 	else {
-		icon_path = gnome_program_locate_file(NULL, GNOME_FILE_DOMAIN_PIXMAP,  icon_name, TRUE, NULL);
+		icon_path = gnome_program_locate_file (NULL, GNOME_FILE_DOMAIN_PIXMAP,
+						       icon_name, TRUE, NULL);
 		if (!icon_path)
 			return "file:///dev/null";
 	}
