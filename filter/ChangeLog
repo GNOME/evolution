@@ -1,3 +1,9 @@
+2001-08-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-rule.c (get_widget): Do an evil kludgy hack so that the
+	Rule Name entry widget gets focused when the filter editor is
+	shown.
+
 2001-08-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-rule.c: Wrap some debug printf's with d().

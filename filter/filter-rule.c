@@ -602,6 +602,12 @@ filter_rule_get_widget (FilterRule *fr, struct _RuleContext *f)
 	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->get_widget(fr, f);
 }
 
+static void
+grab_focus (GtkWidget *entry, gpointer data)
+{
+	gtk_widget_grab_focus (entry);
+}
+
 static GtkWidget *
 get_widget (FilterRule *fr, struct _RuleContext *f)
 {
@@ -636,9 +642,8 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 	}
 	
-	gtk_widget_grab_focus (GTK_WIDGET (name));
-	/* Why does GTK say we can't grab the default?? */
-	/*gtk_widget_grab_default (GTK_WIDGET (name));*/
+	/* evil kludgy hack because gtk sucks */
+	gtk_signal_connect (GTK_OBJECT (name), "realize", grab_focus, name);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
