@@ -1,3 +1,8 @@
+2001-04-26  Dan Winship  <danw@ximian.com>
+
+	* camel-service.c (get_host): Use e_gethostbyname_r.
+	(camel_service_gethost): Remove unused var.
+
 2001-04-26  Not Zed  <NotZed@Ximian.com>
 
         * Applied jacob's patches for e-poolv stuff.

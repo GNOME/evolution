@@ -38,6 +38,8 @@
 #include "e-util/e-msgport.h"
 #endif
 
+#include "e-util/e-host-utils.h"
+
 #include "camel-service.h"
 #include "camel-session.h"
 #include "camel-exception.h"
@@ -480,7 +482,6 @@ struct hostent *
 camel_service_gethost (CamelService *service, CamelException *ex)
 {
 	char *hostname;
-	struct hostent *h;
 
 	if (service->url->host)
 		hostname = service->url->host;
@@ -504,9 +505,6 @@ struct _lookup_msg {
 	int result;
 	int herr;
 	struct hostent hostbuf;
-#ifndef GETHOSTBYNAME_R_FIVE_ARGS
-	struct hostent *hp;
-#endif
 	int hostbuflen;
 	char *hostbufmem;
 };
@@ -516,11 +514,7 @@ get_host(void *data)
 {
 	struct _lookup_msg *info = data;
 
-#ifdef GETHOSTBYNAME_R_FIVE_ARGS
-	while (gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->herr) && info->herr == ERANGE) {
-#else
-	while ((info->result = gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->hp, &info->herr)) == ERANGE) {
-#endif
+	while ((info->result = e_gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
 		d(printf("gethostbyname fialed?\n"));
 #ifdef ENABLE_THREADS
 		pthread_testcancel();
