@@ -1,10 +1,7 @@
-2004-05-19  Chris Toshok  <toshok@ximian.com>
+2004-05-20  JP Rosevear  <jpr@novell.com>
 
-	* gui/e-meeting-store.c (start_addressbook_server): use the new
-	e_book_new_* and e_book_open apis.
-
-	* gui/e-meeting-list-view.c (start_addressbook_server): use the
-	new e_book_new_* and e_book_open apis.
+	* gui/tag-calendar.c (tag_calendar_by_comp): pass the client
+	properly
 
 2004-05-05  William Jon McCann  <mccann@jhu.edu>
 
