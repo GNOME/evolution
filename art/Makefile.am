@@ -131,7 +131,7 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
-   summary_preferences-16.png \
+	summary_preferences-16.png	\
 	talking-heads.png		\
 	task.xpm			\
 	task.png			\
@@ -141,6 +141,7 @@ images_DATA = \
 	undelete_message-16.png		\
 	wax-seal.png			\
 	wax-seal-broken.png		\
+	working-16.png			\
 	work_offline.xpm		\
 	work_online-16.png		\
 	world_map-960.png

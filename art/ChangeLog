@@ -1,3 +1,8 @@
+2002-03-25  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (images_DATA): Add working-16.png (the GNOME2 stock
+	"wait" icon, from Jakub)
+
 2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* forward.xpm, reply.xpm, reply_to_all.xpm: Rename the internal
