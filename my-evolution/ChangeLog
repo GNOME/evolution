@@ -1,3 +1,8 @@
+2003-03-31  Larry Ewing  <lewing@ximian.com>
+
+	* e-summary-factory.c: make the verbs static so they don't enter
+	the global namespace.
+
 2003-03-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	[#40358]

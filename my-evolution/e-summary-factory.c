@@ -37,7 +37,7 @@
 #include "e-summary-preferences.h"
 #include "evolution-shell-component-utils.h" /* For E_PIXMAP */
 
-BonoboUIVerb verbs[] = {
+static BonoboUIVerb summary_verbs[] = {
 	BONOBO_UI_VERB ("PrintMyEvolution", e_summary_print),
 	BONOBO_UI_VERB ("Reload", e_summary_reload),
 	BONOBO_UI_VERB_END
@@ -61,7 +61,7 @@ control_activate (BonoboControl *control,
 	bonobo_ui_component_set_container (ui_component, container, NULL);
 	bonobo_object_release_unref (container, NULL);
 
-	bonobo_ui_component_add_verb_list_with_data (ui_component, verbs, summary);
+	bonobo_ui_component_add_verb_list_with_data (ui_component, summary_verbs, summary);
 	bonobo_ui_component_freeze (ui_component, NULL);
 
 	bonobo_ui_util_set_ui (ui_component, EVOLUTION_DATADIR,
