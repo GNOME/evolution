@@ -471,11 +471,6 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 		/* copy it to the default inbox */
 		mail_tool_camel_lock_up ();
 		camel_folder_append_message (inbox, p->message, p->info, p->ex);
-		
-		/* warn that inbox was changed */
-		if (unhook_func)
-			camel_object_unhook_event (CAMEL_OBJECT (inbox), "folder_changed", 
-						   unhook_func, unhook_data);
 		mail_tool_camel_lock_down ();
 	} else {
 		filtered = TRUE;

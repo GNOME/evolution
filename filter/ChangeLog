@@ -1,3 +1,11 @@
+2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* filter-driver.c (filter_driver_run): Updated to not emit the
+	folder_changed signal when a message is appended to the default
+	mailbox - lets leave that up to the caller so we don't queue up a
+	bunch of these emits if the caller is downloading messages for
+	example.
+
 2000-09-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filtertypes.xml: Added scoring xml stuffs
