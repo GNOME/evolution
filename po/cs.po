@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-16 03:11+0200\n"
-"PO-Revision-Date: 2004-06-16 12:54+0200\n"
+"POT-Creation-Date: 2004-06-17 03:13+0200\n"
+"PO-Revision-Date: 2004-06-17 09:07+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1969,20 +1969,20 @@ msgstr "Zapisovatelná pole"
 msgid "Changed"
 msgstr "Změněno"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2353
+#: addressbook/gui/contact-editor/e-contact-editor.c:2356
 msgid "This contact belongs to these categories:"
 msgstr "Tento kontakt patří do těchto kategorií"
 
 #. Create the selector
-#: addressbook/gui/contact-editor/e-contact-editor.c:2430
+#: addressbook/gui/contact-editor/e-contact-editor.c:2433
 msgid "Please select an image for this contact"
 msgstr "Zvolte prosím obrázek pro tento kontakt"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2434
+#: addressbook/gui/contact-editor/e-contact-editor.c:2437
 msgid "No image"
 msgstr "Žádný obrázek"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2637
+#: addressbook/gui/contact-editor/e-contact-editor.c:2640
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -1990,22 +1990,22 @@ msgstr ""
 "Data kontaktu nejsou platná:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2665
+#: addressbook/gui/contact-editor/e-contact-editor.c:2668
 msgid "Invalid contact."
 msgstr "Neplatný kontakt."
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2724
+#: addressbook/gui/contact-editor/e-contact-editor.c:2727
 msgid ""
 "The contact cannot be saved to the selected address book. Do you want to "
 "discard changes?"
 msgstr "Kontakt nelze uložit do vybraného adresáře. Chcete změny zahodit?"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2728
-#: addressbook/gui/contact-editor/e-contact-editor.c:2752
+#: addressbook/gui/contact-editor/e-contact-editor.c:2731
+#: addressbook/gui/contact-editor/e-contact-editor.c:2755
 msgid "_Discard"
 msgstr "Za_hodit"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2747
+#: addressbook/gui/contact-editor/e-contact-editor.c:2750
 msgid ""
 "You are moving the contact from one address book to another, but it cannot "
 "be removed from the source. Do you want to save a copy instead?"
@@ -12558,33 +12558,32 @@ msgstr "neznámý odesílatel"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr "${Sender} píše v ${AbbrevWeekdayName} %{Day}. ${Month}. ${Year} v ${24Hour}:${Minute} ${TimeZone}:"
+msgstr ""
+"${Sender} píše v ${AbbrevWeekdayName} %{Day}. ${Month}. ${Year} v ${24Hour}:"
+"${Minute} ${TimeZone}:"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
 msgstr "Vytvořit virtuální _složku z vyhledávání..."
 
-#: mail/em-folder-properties.c:120
-msgid "Folder properties"
+#: mail/em-folder-properties.c:122
+msgid "Folder Properties"
 msgstr "Vlastnosti složky"
 
-#. TODO: maybe we want some basic properties here, like message counts/approximate size/etc
-#: mail/em-folder-properties.c:126
-msgid "Properties"
-msgstr "Vlastnosti"
-
 #. TODO: can this be done in a loop?
-#: mail/em-folder-properties.c:135
-msgid "Folder Name"
-msgstr "Název složky"
+#: mail/em-folder-properties.c:161
+msgid "Total message:"
+msgid_plural "Total messages:"
+msgstr[0] "Celkem zpráva:"
+msgstr[1] "Celkem zprávy:"
+msgstr[2] "Celkem zpráv:"
 
-#: mail/em-folder-properties.c:146
-msgid "Total messages"
-msgstr "Celkem zpráv"
-
-#: mail/em-folder-properties.c:158
-msgid "Unread messages"
-msgstr "Nepřečtených zpráv"
+#: mail/em-folder-properties.c:173
+msgid "Unread message:"
+msgid_plural "Unread messages:"
+msgstr[0] "Nepřečtená zpráva:"
+msgstr[1] "Nepřečtené zprávy:"
+msgstr[2] "Nepřečtených zpráv:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
@@ -14112,7 +14111,7 @@ msgstr[2] "%d konceptů"
 #: mail/mail-component.c:496
 #, c-format
 msgid "%d sent"
-msgid_plural "%d send"
+msgid_plural "%d sent"
 msgstr[0] "%d odeslána"
 msgstr[1] "%d odeslány"
 msgstr[2] "%d odesláno"
@@ -15531,7 +15530,7 @@ msgstr ""
 msgid "Saving attachment"
 msgstr "Ukládám přílohu"
 
-#: mail/mail-ops.c:2015
+#: mail/mail-ops.c:2010
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -15540,17 +15539,17 @@ msgstr ""
 "Nemohu vytvořit soubor výstupu: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2045
+#: mail/mail-ops.c:2020
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Nemohu zapisovat data: %s"
 
-#: mail/mail-ops.c:2193
+#: mail/mail-ops.c:2168
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Odpojuji se od %s"
 
-#: mail/mail-ops.c:2193
+#: mail/mail-ops.c:2168
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Znovu se připojuji na %s"
@@ -18631,6 +18630,12 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% hotovo)"
+
+#~ msgid "Properties"
+#~ msgstr "Vlastnosti"
+
+#~ msgid "Folder Name"
+#~ msgstr "Název složky"
 
 #~ msgid "Save List as VCard"
 #~ msgstr "Uložit seznam jako VCard"
