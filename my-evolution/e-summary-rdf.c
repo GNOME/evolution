@@ -558,7 +558,7 @@ e_summary_rdf_init (ESummary *summary)
 		e_summary_rdf_add_uri (summary, "http://www.salon.com/feed/RDF/salon_use.rdf");
 		timeout = 600;
 	} else {
-		GList *p;
+		GSList *p;
 
 		for (p = prefs->rdf_urls; p; p = p->next) {
 			e_summary_rdf_add_uri (summary, p->data);
@@ -578,6 +578,7 @@ e_summary_rdf_reconfigure (ESummary *summary)
 {
 	ESummaryRDF *rdf;
 	GList *old, *p;
+	GSList *sp;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -597,8 +598,8 @@ e_summary_rdf_reconfigure (ESummary *summary)
 	}
 	g_list_free (old);
 
-	for (p = summary->preferences->rdf_urls; p; p = p->next) {
-		e_summary_rdf_add_uri (summary, p->data);
+	for (sp = summary->preferences->rdf_urls; sp; sp = sp->next) {
+		e_summary_rdf_add_uri (summary, sp->data);
 	}
 
 	rdf->timeout = gtk_timeout_add (summary->preferences->rdf_refresh_time * 1000, (GtkFunction) e_summary_rdf_update, summary);

@@ -290,7 +290,7 @@ e_pixmap_file (const char *filename)
 	}
 
 	/* Try the evolution images dir */
-	edir = g_concat_dir_and_file (EVOLUTION_IMAGEDIR, filename);
+	edir = g_concat_dir_and_file (EVOLUTION_IMAGESDIR, filename);
 
 	if (g_file_exists (edir)) {
 		ret = g_strdup (edir);

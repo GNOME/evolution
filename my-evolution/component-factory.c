@@ -24,6 +24,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>

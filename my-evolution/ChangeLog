@@ -1,3 +1,13 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: clean up, update, etc
+
+	* component-factory.c: #include string.h
+
+	* e-summary.c (e_pixmap_file): s/IMAGEDIR/IMAGESDIR/
+
+	* e-summary-rdf.c: Fix some warnings
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* e-summary-offline-handler.c: s/BonoboXObject/BonoboObject/
