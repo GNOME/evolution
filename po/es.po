@@ -4577,9 +4577,8 @@ msgid "Accept"
 msgstr "Aceptar"
 
 #: calendar/gui/e-itip-control.c:796
-#, fuzzy
 msgid "Tentatively accept"
-msgstr "Tentativa"
+msgstr "Aceptar tentativamente"
 
 #: calendar/gui/e-itip-control.c:797
 msgid "Decline"
