@@ -1,5 +1,10 @@
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
+	[#40652]
+
+	* e-shell-view.c (setup_widgets): Pack the folder and shortcut
+	bars into the paned as sizeable.
+
 	[#39467]
 	
 	* e-shell.c (e_shell_construct): Change the splash logic slightly,

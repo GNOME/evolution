@@ -1376,7 +1376,7 @@ setup_widgets (EShellView *shell_view)
 			  G_CALLBACK (forward_clicked_callback), shell_view);
 
 	priv->view_hpaned = gtk_hpaned_new ();
-	gtk_paned_pack1 (GTK_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (priv->view_hpaned), priv->storage_set_view_box, TRUE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 
 	gray_bar = gtk_event_box_new ();
@@ -1387,7 +1387,7 @@ setup_widgets (EShellView *shell_view)
 
 	priv->hpaned = gtk_hpaned_new ();
 	gtk_container_add (GTK_CONTAINER (priv->shortcut_frame), priv->shortcut_bar);
-	gtk_paned_pack1 (GTK_PANED (priv->hpaned), priv->shortcut_frame, FALSE, FALSE);
+	gtk_paned_pack1 (GTK_PANED (priv->hpaned), priv->shortcut_frame, TRUE, FALSE);
 	gtk_paned_pack2 (GTK_PANED (priv->hpaned), priv->view_vbox, TRUE, FALSE);
 	gtk_paned_set_position (GTK_PANED (priv->hpaned), DEFAULT_SHORTCUT_BAR_WIDTH);
 
