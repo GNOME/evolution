@@ -201,6 +201,18 @@ pas_backend_start_book_view (PASBackend *backend,
 }
 
 void
+pas_backend_stop_book_view (PASBackend             *backend,
+			    PASBookView            *book_view)
+{
+	g_return_if_fail (backend && PAS_IS_BACKEND (backend));
+	g_return_if_fail (book_view && PAS_IS_BOOK_VIEW (book_view));
+
+	g_assert (PAS_BACKEND_GET_CLASS (backend)->stop_book_view);
+
+	(* PAS_BACKEND_GET_CLASS (backend)->stop_book_view) (backend, book_view);
+}
+
+void
 pas_backend_get_changes (PASBackend *backend,
 			 PASBook *book,
 			 const char *change_id)
@@ -304,6 +316,17 @@ pas_backend_add_book_view (PASBackend *backend,
 	g_mutex_lock (backend->priv->views_mutex);
 
 	e_list_append (backend->priv->views, view);
+
+	g_mutex_unlock (backend->priv->views_mutex);
+}
+
+void
+pas_backend_remove_book_view (PASBackend *backend,
+			      PASBookView *view)
+{
+	g_mutex_lock (backend->priv->views_mutex);
+
+	e_list_remove (backend->priv->views, view);
 
 	g_mutex_unlock (backend->priv->views_mutex);
 }

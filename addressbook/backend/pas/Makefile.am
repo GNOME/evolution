@@ -35,14 +35,14 @@ LDAP_BACKEND_FILES =					\
 	pas-backend-ldap.h
 
 if ENABLE_LDAP
-LDAP_BACKEND = libpasldap.a
+LDAP_BACKEND = libpasldap.la
 endif
 
 ldapschemadir = $(privdatadir)
 ldapschema_DATA= $(LDAP_SCHEMA)
 
-privlib_LIBRARIES = libpas.a
-noinst_LIBRARIES = libpasfile.a libpasvcf.a $(LDAP_BACKEND)
+privlib_LTLIBRARIES = libpas.la
+noinst_LTLIBRARIES = libpasfile.la libpasvcf.la $(LDAP_BACKEND)
 
 pasincludedir = $(privincludedir)/pas
 
@@ -57,32 +57,33 @@ pasinclude_HEADERS =					\
 	pas-backend-sync.h				\
 	pas-types.h
 
-libpas_a_SOURCES =					\
+libpas_la_SOURCES =					\
 	$(pasinclude_HEADERS)				\
 	$(CORBA_SOURCE_C)				\
 	pas-book-factory.c				\
 	pas-book-view.c					\
 	pas-book.c					\
 	pas-backend-card-sexp.c				\
-	pas-backend-file.c				\
 	pas-backend.c					\
 	pas-backend-summary.c				\
 	pas-backend-sync.c				\
 	pas-marshal.c					\
 	ximian-vcard.h
 
-libpasfile_a_SOURCES =					\
+libpasfile_la_SOURCES =					\
 	pas-backend-file.c				\
 	pas-backend-file.h
 
-libpasvcf_a_SOURCES =					\
+libpasvcf_la_SOURCES =					\
 	pas-backend-vcf.c				\
 	pas-backend-vcf.h
 
 if ENABLE_LDAP
-libpasldap_a_SOURCES =					\
+libpasldap_la_SOURCES =					\
 	$(LDAP_BACKEND_FILES)
 endif
+
+libpas_la_LIBADD = libpasfile.la libpasvcf.la $(LDAP_BACKEND) $(DB3_LDADD)
 
 MARSHAL_GENERATED = pas-marshal.c pas-marshal.h
 @EVO_MARSHAL_RULE@

@@ -711,8 +711,6 @@ pas_backend_summary_add_contact (PASBackendSummary *summary, EContact *contact)
 	g_ptr_array_add (summary->priv->items, new_item);
 	g_hash_table_insert (summary->priv->id_to_item, new_item->id, new_item);
 
-	g_object_unref (contact);
-
 #ifdef SUMMARY_STATS
 	summary->priv->size += sizeof (PASBackendSummaryItem);
 	summary->priv->size += new_item->id ? strlen (new_item->id) : 0;

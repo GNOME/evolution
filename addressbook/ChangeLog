@@ -19,6 +19,107 @@
 	"evolution:button_label" property on the component for use in the
 	shell.
 
+2003-10-21  Chris Toshok  <toshok@ximian.com>
+
+	* tools/evolution-addressbook-abuse.c: use the synchronous api for
+	this.  simplifies it a bunch.
+
+2003-10-21  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-book.c
+	(impl_GNOME_Evolution_Addressbook_Book_remove): we can ill afford
+	bad debug spew.
+	(view_listener_died_cb): implement.
+	(impl_GNOME_Evolution_Addressbook_Book_getBookView): hook up an
+	ORBit_small connection listener on the view's listener.
+	(pas_book_respond_create): use e_contact_get_const instead of
+	e_contact_get here.  fixes a leak.
+
+	* backend/pas/pas-book-view.c
+	(impl_GNOME_Evolution_Addressbook_BookView_stop): implement, call
+	pas_backend_stop_book_view.
+	(pas_book_view_get_listener): return the book view's listener.
+	(pas_book_view_class_init): fill in epv->stop.
+	(pas_book_view_init): use a #define for THRESHOLD_MAX instead of
+	the constant.
+
+	* backend/pas/pas-book-view.h: add prototype for
+	pas_book_view_get_listener.
+
+	* backend/pas/pas-backend.c (pas_backend_stop_book_view):
+	implement.
+	(pas_backend_remove_book_view): implement.
+
+	* backend/pas/pas-backend.h: add prototype for stop_book_view and
+	remove_book_view.
+
+	* backend/pas/pas-backend-vcf.c (load_file): pass in the fd and
+	use fdopen here.
+	(foreach_build_list): don't creat EContacts here, because we'll
+	just be converting them back to vcards anyway.
+	(save_file): use char*'s instead of EContacts, and split entries
+	with 2 blank lines.  Also, hold the lock over the entire function.
+	(do_create): hold the lock around uid generation and touching the
+	hash table.
+	(pas_backend_vcf_process_remove_contacts): same.
+	(pas_backend_vcf_process_modify_contact): same.
+	(pas_backend_vcf_stop_book_view): new function, but leave
+	unimplemented for now.
+	(pas_backend_vcf_load_uri): the uri contains the directory name,
+	not the filename.
+	(pas_backend_vcf_dispose): grab the lock here just for sanity's
+	sake.  Also reorder things a bit, and free the hashtable and
+	mutex.
+	(pas_backend_vcf_init): init the mutex.
+
+	* backend/pas/pas-backend-summary.c
+	(pas_backend_summary_add_contact): don't unref the contact here.
+
+	* backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_process_stop_book_view): new function, but leave
+	unimplemented for now.
+
+	* backend/pas/pas-backend-file.c (build_summary): use an EContact
+	for this call.
+	(do_summary_query): nuke, the contents of this has been moved to
+	start_book_view.
+	(pas_backend_file_search_timeout): same.
+	(pas_backend_file_search): same.
+	(pas_backend_file_start_book_view): glom everything into here
+	involving searching.  This function could (and should) be renamed
+	and reused from both this function and _get_contact_list.
+	(pas_backend_file_stop_book_view): new function.
+	(pas_backend_file_class_init): fill in backend->stop_book_view.
+
+	* backend/pas/Makefile.am (LDAP_BACKEND): libpasldap.a ->
+	libpasldap.la
+	(noinst_LTLIBRARIES): *.a -> *.la.
+	(libpas_la_SOURCES): same.
+	(libpasfile_la_SOURCES): same.
+	(libpasvcf_la_SOURCES): same.
+	(libpasldap_la_SOURCES): same.
+
+	* backend/idl/addressbook.idl: add BookView::stop.
+
+	* backend/ebook/e-vcard.c (read_attribute_value): fix GString
+	related leaks.
+	(read_attribute_params): same.
+	(parse): don't leak the EVCardAttributes corresponding to
+	BEGIN/END:vCard.
+	(free_gstring): new function
+	(e_vcard_attribute_remove_values): free the decoded_values list,
+	using free_gstring.
+
+	* backend/ebook/e-book.c (e_book_response_get_book_view): ref the
+	listener here.
+
+	* backend/ebook/e-book-view.h: add prototype for e_book_view_stop.
+
+	* backend/ebook/e-book-view.c (e_book_view_stop): new function.
+
+	* backend/ebook/e-book-async.c (_get_book_view_response_dtor):
+	unref the book view.
+
 2003-10-20  Dan Winship  <danw@ximian.com>
 
 	* backend/pas/pas-book-view.c: Queue up removes and modifies as
@@ -79,10 +180,6 @@
 	const char *vcard.
 
 	* backend/ebook/e-contact.c (photo_getter): s/malloc/g_malloc/
-
-	* backend/ebook/tests/ebook/Makefile.am: 
-	* backend/ebook/tests/vcard/Makefile.am: Make these automake-1.7
-	compliant
 
 2003-10-20  JP Rosevear <jpr@ximian.com>
 

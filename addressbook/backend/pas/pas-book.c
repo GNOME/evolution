@@ -42,7 +42,7 @@ impl_GNOME_Evolution_Addressbook_Book_remove (PortableServer_Servant servant,
 {
 	PASBook *book = PAS_BOOK (bonobo_object (servant));
 
-	printf ("impl_GNOME_Evolution_Addressbook_Book_open\n");
+	printf ("impl_GNOME_Evolution_Addressbook_Book_remove\n");
 
 	pas_backend_remove (pas_book_get_backend (book), book);
 }
@@ -122,6 +122,15 @@ impl_GNOME_Evolution_Addressbook_Book_modifyContact (PortableServer_Servant serv
 }
 
 static void
+view_listener_died_cb (gpointer cnx, gpointer user_data)
+{
+	PASBookView *book_view = PAS_BOOK_VIEW (user_data);
+
+	pas_backend_stop_book_view (pas_book_view_get_backend (book_view), book_view);
+	pas_backend_remove_book_view (pas_book_view_get_backend (book_view), book_view);
+}
+
+static void
 impl_GNOME_Evolution_Addressbook_Book_getBookView (PortableServer_Servant servant,
 				   const GNOME_Evolution_Addressbook_BookViewListener listener,
 				   const CORBA_char *search,
@@ -154,6 +163,7 @@ impl_GNOME_Evolution_Addressbook_Book_getBookView (PortableServer_Servant servan
 		return;
 	}
 
+	ORBit_small_listen_for_broken (pas_book_view_get_listener (view), G_CALLBACK (view_listener_died_cb), view);
 
 	pas_backend_add_book_view (backend, view);
 
@@ -298,7 +308,7 @@ pas_book_respond_create (PASBook                                *book,
 
 	GNOME_Evolution_Addressbook_BookListener_notifyContactCreated (
 		book->priv->listener, status,
-		e_contact_get (contact, E_CONTACT_UID), &ev);
+		e_contact_get_const (contact, E_CONTACT_UID), &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_respond_create: Exception "

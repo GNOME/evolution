@@ -19,6 +19,8 @@ struct _PASBookViewPrivate {
 	GNOME_Evolution_Addressbook_BookViewListener  listener;
 
 #define INITIAL_THRESHOLD 20
+#define THRESHOLD_MAX 3000
+
 	GMutex *pending_mutex;
 
 	CORBA_sequence_GNOME_Evolution_Addressbook_VCard adds;
@@ -339,6 +341,15 @@ impl_GNOME_Evolution_Addressbook_BookView_start (PortableServer_Servant servant,
 	pas_backend_start_book_view (pas_book_view_get_backend (view), view);
 }
 
+static void
+impl_GNOME_Evolution_Addressbook_BookView_stop (PortableServer_Servant servant,
+						CORBA_Environment *ev)
+{
+	PASBookView *view = PAS_BOOK_VIEW (bonobo_object (servant));
+
+	pas_backend_stop_book_view (pas_book_view_get_backend (view), view);
+}
+
 /**
  * pas_book_view_get_card_query
  */
@@ -361,6 +372,12 @@ PASBackend*
 pas_book_view_get_backend (PASBookView *book_view)
 {
 	return book_view->priv->backend;
+}
+
+GNOME_Evolution_Addressbook_BookViewListener
+pas_book_view_get_listener (PASBookView  *book_view)
+{
+	return book_view->priv->listener;
 }
 
 /**
@@ -423,6 +440,7 @@ pas_book_view_class_init (PASBookViewClass *klass)
 	epv = &klass->epv;
 
 	epv->start                = impl_GNOME_Evolution_Addressbook_BookView_start;
+	epv->stop                 = impl_GNOME_Evolution_Addressbook_BookView_stop;
 
 }
 
@@ -434,7 +452,7 @@ pas_book_view_init (PASBookView *book_view)
 	book_view->priv->pending_mutex = g_mutex_new();
 
 	book_view->priv->next_threshold = INITIAL_THRESHOLD;
-	book_view->priv->threshold_max = 3000;
+	book_view->priv->threshold_max = THRESHOLD_MAX;
 
 	book_view->priv->ids = g_hash_table_new_full (g_str_hash, g_str_equal,
 						      g_free, NULL);

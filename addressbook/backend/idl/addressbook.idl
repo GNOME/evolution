@@ -80,6 +80,7 @@ module Addressbook {
 	
 	interface BookView : Bonobo::Unknown {
 		oneway void start ();
+		oneway void stop ();
 	};
 
 	interface Book : Bonobo::Unknown {

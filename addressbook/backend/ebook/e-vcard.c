@@ -252,8 +252,8 @@ read_attribute_value (EVCardAttribute *attr, char **p, gboolean quoted_printable
 			lp = g_utf8_next_char(lp);
 		}
 		else if (*lp == ';') {
-			e_vcard_attribute_add_value (attr, g_string_free (str, FALSE));
-			str = g_string_new ("");
+			e_vcard_attribute_add_value (attr, str->str);
+			g_string_assign (str, "");
 			lp = g_utf8_next_char(lp);
 		}
 		else {
@@ -261,8 +261,10 @@ read_attribute_value (EVCardAttribute *attr, char **p, gboolean quoted_printable
 			lp = g_utf8_next_char(lp);
 		}
 	}
-	if (str)
-		e_vcard_attribute_add_value (attr, g_string_free (str, FALSE));
+	if (str) {
+		e_vcard_attribute_add_value (attr, str->str);
+		g_string_free (str, TRUE);
+	}
 
 	if (*lp == '\r') {
 		lp = g_utf8_next_char (lp); /* \n */
@@ -290,7 +292,7 @@ read_attribute_params (EVCardAttribute *attr, char **p, gboolean *quoted_printab
 		if (*lp == '=') {
 			if (str->len > 0) {
 				param = e_vcard_attribute_param_new (str->str);
-				str = g_string_assign (str, "");
+				g_string_assign (str, "");
 				lp = g_utf8_next_char (lp);
 			}
 			else {
@@ -311,7 +313,7 @@ read_attribute_params (EVCardAttribute *attr, char **p, gboolean *quoted_printab
 			if (param) {
 				if (str->len > 0) {
 					e_vcard_attribute_param_add_value (param, str->str);
-					str = g_string_assign (str, "");
+					g_string_assign (str, "");
 					if (!colon)
 						lp = g_utf8_next_char (lp);
 				}
@@ -354,7 +356,7 @@ read_attribute_params (EVCardAttribute *attr, char **p, gboolean *quoted_printab
 						param = e_vcard_attribute_param_new (param_name);
 						e_vcard_attribute_param_add_value (param, str->str);
 					}
-					str = g_string_assign (str, "");
+					g_string_assign (str, "");
 					if (!colon)
 						lp = g_utf8_next_char (lp);
 				}
@@ -376,7 +378,7 @@ read_attribute_params (EVCardAttribute *attr, char **p, gboolean *quoted_printab
 		}
 		else {
 			g_warning ("invalid character found in parameter spec");
-			str = g_string_assign (str, "");
+			g_string_assign (str, "");
 			skip_until (&lp, ":;");
 		}
 	}
@@ -514,6 +516,8 @@ parse (EVCard *evc, const char *str)
 	if (!attr || attr->group || g_ascii_strcasecmp (attr->name, "begin")) {
 		g_warning ("vcard began without a BEGIN:VCARD\n");
 	}
+	if (attr)
+		e_vcard_attribute_free (attr);
 
 	while (*p) {
 		EVCardAttribute *next_attr = read_attribute (&p);
@@ -528,6 +532,9 @@ parse (EVCard *evc, const char *str)
 	if (!attr || attr->group || g_ascii_strcasecmp (attr->name, "end")) {
 		g_warning ("vcard ended without END:VCARD\n");
 	}
+
+	if (attr && !g_ascii_strcasecmp (attr->name, "end"))
+		e_vcard_attribute_free (attr);
 
 	g_free (buf);
 }
@@ -712,7 +719,8 @@ e_vcard_to_string_vcard_30 (EVCard *evc)
 
 		attr_str = g_string_append (attr_str, CRLF);
 
-		str = g_string_append (str, g_string_free (attr_str, FALSE));
+		str = g_string_append (str, attr_str->str);
+		g_string_free (attr_str, TRUE);
 	}
 
 	str = g_string_append (str, "END:vCard");
@@ -925,11 +933,19 @@ e_vcard_attribute_add_values (EVCardAttribute *attr,
 	va_end (ap);
 }
 
+static void
+free_gstring (GString *str)
+{
+	g_string_free (str, TRUE);
+}
+
 void
 e_vcard_attribute_remove_values (EVCardAttribute *attr)
 {
 	g_list_foreach (attr->values, (GFunc)g_free, NULL);
 	g_list_free (attr->values);
+	g_list_foreach (attr->decoded_values, (GFunc)free_gstring, NULL);
+	g_list_free (attr->decoded_values);
 	attr->values = NULL;
 }
 

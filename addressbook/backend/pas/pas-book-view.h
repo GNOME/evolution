@@ -48,6 +48,7 @@ PASBookView *pas_book_view_new                    (PASBackend                 *b
 const char*  pas_book_view_get_card_query         (PASBookView                *book_view);
 PASBackendCardSExp* pas_book_view_get_card_sexp   (PASBookView                *book_view);
 PASBackend*  pas_book_view_get_backend            (PASBookView                *book_view);
+GNOME_Evolution_Addressbook_BookViewListener pas_book_view_get_listener (PASBookView  *book_view);
 
 void         pas_book_view_notify_update          (PASBookView                *book_view,
 						   EContact                   *contact);

@@ -1027,6 +1027,8 @@ e_book_response_get_book_view (EBook       *book,
 	op->status = status;
 	op->view = e_book_view_new (corba_book_view, op->listener);
 
+	bonobo_object_ref(BONOBO_OBJECT(op->listener));
+
 	pthread_cond_signal (&op->cond);
 
 	e_mutex_unlock (op->mutex);
@@ -1677,7 +1679,6 @@ e_book_load_uri (EBook        *book,
 								      &ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION) {
-
 			e_book_clear_op (book, our_op);
 
 			CORBA_exception_free (&ev);

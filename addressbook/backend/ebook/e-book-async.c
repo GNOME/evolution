@@ -969,6 +969,7 @@ _get_book_view_response_dtor (EBookMsg *msg)
 	GetBookViewResponse *resp = (GetBookViewResponse*)msg;
 
 	g_object_unref (resp->book);
+	g_object_unref (resp->book_view);
 	g_free (resp);
 }
 

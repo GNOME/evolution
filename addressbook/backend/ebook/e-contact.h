@@ -127,6 +127,10 @@ typedef enum {
 	E_CONTACT_BIRTH_DATE,    /* structured field (EContactDate) */
 	E_CONTACT_ANNIVERSARY,   /* structured field (EContactDate) */
 
+	/* Security Fields */
+	E_CONTACT_X509_CERT,                  /* string field */
+	E_CONTACT_X509_CERT_SHA1_FINGERPRINT, /* string field */
+
 	E_CONTACT_FIELD_LAST,
 
 	/* useful constants */

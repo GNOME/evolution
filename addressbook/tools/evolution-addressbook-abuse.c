@@ -2,15 +2,12 @@
 
 #include <config.h>
 
-#include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-main.h>
 
-#include <backend/ebook/e-book-async.h>
+#include <backend/ebook/e-book.h>
 #include <gnome.h>
 
-static int contacts_to_add_total = 1000;
-static int contacts_to_add = 50;
-static int call_count = 0;
+#define CONTACTS_TO_ADD 2000
 
 static gchar *
 make_random_string (void)
@@ -53,58 +50,12 @@ make_random_vcard (void)
 	return vcard;
 }
 
-/* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
-
-static void
-add_cb (EBook *book, EBookStatus status, const char *id, gpointer closure)
-{
-	switch (status) {
-	case E_BOOK_ERROR_OK:
-		--contacts_to_add_total;
-		g_message ("succesful add! (%d remaining)", contacts_to_add_total);
-		if (contacts_to_add_total <= 0)
-			g_main_loop_quit (NULL);
-		break;
-	default:
-		g_message ("something went wrong...");
-		g_main_loop_quit (NULL);
-		break;
-	}
-}
-
-static void
-use_addressbook (EBook *book, EBookStatus status, gpointer closure)
-{
-	gint i;
-
-	if (book == NULL || status != E_BOOK_ERROR_OK)
-		g_error (_("Error loading default addressbook."));
-
-	for (i = 0; i < contacts_to_add; ++i) {
-		gchar *vcard = make_random_vcard ();
-		EContact *contact = e_contact_new_from_vcard (vcard);
-		g_message ("adding %d", i);
-		e_book_async_add_contact (book, contact, add_cb, NULL);
-		g_free (vcard);
-		g_object_unref (contact);
-	}
-
-	g_object_unref (book);
-}
-
-static gint
-abuse_timeout (gpointer foo)
-{
-	e_book_async_get_default_addressbook (use_addressbook, NULL);
-
-	++call_count;
-	g_message ("timeout!");
-	return call_count < contacts_to_add_total / contacts_to_add;
-}
-
 int
 main (int argc, char *argv[])
 {
+	EBook *book;
+	int i;
+
 	if (getenv ("ABUSE_THE_WOMBAT") == NULL) {
 		g_print ("You probably don't want to use this program.\n"
 			 "It isn't very nice.\n");
@@ -119,9 +70,22 @@ main (int argc, char *argv[])
 			    GNOME_PROGRAM_STANDARD_PROPERTIES,
 			    NULL);
 
-	g_timeout_add (20, abuse_timeout, NULL);
+	if (!e_book_get_default_addressbook (&book, NULL)) {
+		g_warning ("couldn't open addressbook");
+		exit (1);
+	}
 
-	bonobo_main ();
+	for (i = 0; i < CONTACTS_TO_ADD; ++i) {
+		gchar *vcard = make_random_vcard ();
+		EContact *contact = e_contact_new_from_vcard (vcard);
+		g_message ("adding %d", i);
+		if (!e_book_add_contact (book, contact, NULL)) {
+			g_warning ("something went wrong...");
+			exit (1);
+		}
+		g_free (vcard);
+		g_object_unref (contact);
+	}
 
 	return 0;
 }

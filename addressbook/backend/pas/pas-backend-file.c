@@ -90,59 +90,14 @@ build_summary (PASBackendFilePrivate *bfpriv)
 		/* don't include the version in the list of cards */
 		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
 		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
-
-			pas_backend_summary_add_contact (bfpriv->summary, vcard_dbt.data);
+			EContact *contact = e_contact_new_from_vcard (vcard_dbt.data);
+			pas_backend_summary_add_contact (bfpriv->summary, contact);
+			g_object_unref (contact);
 		}
 
 		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
 
 	}
-}
-
-static void
-do_summary_query (PASBackendFile *bf,
-		  PASBookView    *view)
-{
-	GPtrArray *ids = pas_backend_summary_search (bf->priv->summary, pas_book_view_get_card_query (view));
-	int     db_error = 0;
-	DB      *db = bf->priv->file_db;
-	DBT     id_dbt, vcard_dbt;
-	int i;
-
-	for (i = 0; i < ids->len; i ++) {
-		char *id = g_ptr_array_index (ids, i);
-
-#if SUMMARY_STORES_ENOUGH_INFO
-		/* this is disabled for the time being because lists
-		   can have more than 3 email addresses and the
-		   summary only stores 3. */
-
-		if (completion_search) {
-			vcard = pas_backend_summary_get_summary_vcard (bf->priv->summary,
-								       id);
-			if (vcard) {
-				EContact *contact = e_contact_new_from_vcard (vcard_dbt.data);
-				pas_book_view_notify_update (view, contact);
-				g_object_unref (contact);
-			}
-		}
-		else {
-#endif
-			string_to_dbt (id, &id_dbt);
-			memset (&vcard_dbt, 0, sizeof (vcard_dbt));
-				
-			db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
-
-			if (db_error == 0)
-				pas_book_view_notify_update (view, vcard_dbt.data);
-#if SUMMARY_STORES_ENOUGH_INFO
-		}
-#endif
-	}
-
-	g_ptr_array_free (ids, TRUE);
-
-	pas_book_view_notify_complete (view, GNOME_Evolution_Addressbook_Success);
 }
 
 static char *
@@ -153,105 +108,6 @@ pas_backend_file_create_unique_id (void)
 	   should be okay. */
 	static guint c = 0;
 	return g_strdup_printf (PAS_ID_PREFIX "%08lX%08X", time(NULL), c++);
-}
-
-typedef struct {
-	PASBackendFile *bf;
-	PASBook *book;
-	PASBookView *view;
-	DBC    *dbc;
-
-	gboolean done_first;
-} FileBackendSearchClosure;
-
-static void
-free_search_closure (FileBackendSearchClosure *closure)
-{
-	g_free (closure);
-}
-
-static gboolean
-pas_backend_file_search_timeout (gpointer data)
-{
-	FileBackendSearchClosure *closure = data;
-	int     db_error = 0;
-	DBT     id_dbt, vcard_dbt;
-	int     file_version_name_len;
-	DBC     *dbc = closure->dbc;
-
-	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
-
-	memset (&id_dbt, 0, sizeof (id_dbt));
-	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
-
-	if (closure->done_first) {
-		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
-	}
-	else {
-		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
-		closure->done_first = TRUE;
-	}
-
-	while (db_error == 0) {
-
-		/* don't include the version in the list of cards */
-		if (strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
-			char *vcard_string = vcard_dbt.data;
-			EContact *contact = e_contact_new_from_vcard (vcard_string);
-
-			/* notify_update will check if it matches for us */
-			pas_book_view_notify_update (closure->view, contact);
-			g_object_unref (contact);
-		}
-
-		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
-	}
-
-	dbc->c_close (dbc);
-
-	if (db_error != DB_NOTFOUND) {
-		g_warning ("pas_backend_file_search: error building list\n");
-		free_search_closure (closure);
-	}
-
-	pas_book_view_notify_complete (closure->view, GNOME_Evolution_Addressbook_Success);
-
-	free_search_closure (closure);
-
-	return FALSE;
-}
-
-
-static void
-pas_backend_file_search (PASBackendFile  	      *bf,
-			 PASBookView         	      *book_view)
-{
-	const char *query = pas_book_view_get_card_query (book_view);
-
-	if ( ! strcmp (query, "(contains \"x-evolution-any-field\" \"\")"))
-		pas_book_view_notify_status_message (book_view, _("Loading..."));
-	else
-		pas_book_view_notify_status_message (book_view, _("Searching..."));
-
-	if (pas_backend_summary_is_summary_query (bf->priv->summary, query)) {
-		do_summary_query (bf, book_view);
-	}
-	else {
-		FileBackendSearchClosure *closure = g_new0 (FileBackendSearchClosure, 1);
-		DB  *db = bf->priv->file_db;
-		int db_error;
-
-		closure->view = book_view;
-		closure->bf = bf;
-
-		db_error = db->cursor (db, NULL, &closure->dbc, 0);
-
-		if (db_error != 0) {
-			g_warning ("pas_backend_file_search: error building list\n");
-		} else {
-			g_idle_add (pas_backend_file_search_timeout, closure);
-		}
-	}
 }
 
 static EContact *
@@ -509,11 +365,146 @@ pas_backend_file_get_contact_list (PASBackendSync *backend,
 		: GNOME_Evolution_Addressbook_Success;
 }
 
+typedef struct {
+	GMutex *mutex;
+	gboolean stopped;
+} FileBackendSearchClosure;
+
 static void
 pas_backend_file_start_book_view (PASBackend  *backend,
 				  PASBookView *book_view)
 {
-	pas_backend_file_search (PAS_BACKEND_FILE (backend), book_view);
+	FileBackendSearchClosure *closure = g_new0 (FileBackendSearchClosure, 1);
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	const char *query;
+	DB  *db;
+	DBT id_dbt, vcard_dbt;
+	int db_error;
+	gboolean stopped = FALSE;
+
+	printf ("starting initial population of book view\n");
+
+	/* ref the book view because it'll be removed and unrefed
+	   when/if it's stopped */
+	g_object_ref (book_view);
+
+	db = bf->priv->file_db;
+	query = pas_book_view_get_card_query (book_view);
+
+	closure->mutex = g_mutex_new();
+	closure->stopped = FALSE;
+	g_object_set_data (G_OBJECT (book_view), "PASBackendFile.BookView::closure", closure);
+
+	if ( ! strcmp (query, "(contains \"x-evolution-any-field\" \"\")"))
+		pas_book_view_notify_status_message (book_view, _("Loading..."));
+	else
+		pas_book_view_notify_status_message (book_view, _("Searching..."));
+
+	if (pas_backend_summary_is_summary_query (bf->priv->summary, query)) {
+		/* do a summary query */
+		GPtrArray *ids = pas_backend_summary_search (bf->priv->summary, pas_book_view_get_card_query (book_view));
+		int i;
+
+		for (i = 0; i < ids->len; i ++) {
+			char *id = g_ptr_array_index (ids, i);
+
+			g_mutex_lock (closure->mutex);
+			stopped = closure->stopped;
+			g_mutex_unlock (closure->mutex);
+
+			if (stopped) {
+				g_mutex_free (closure->mutex);
+				g_free (closure);
+				break;
+			}
+
+			string_to_dbt (id, &id_dbt);
+			memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+				
+			db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
+
+			if (db_error == 0) {
+				EContact *contact = e_contact_new_from_vcard (vcard_dbt.data);
+				pas_book_view_notify_update (book_view, contact);
+				g_object_unref (contact);
+			}
+		}
+
+		g_ptr_array_free (ids, TRUE);
+	}
+	else {
+		/* iterate over the db and do the query there */
+		DBC    *dbc;
+
+		memset (&id_dbt, 0, sizeof (id_dbt));
+		memset (&vcard_dbt, 0, sizeof (vcard_dbt));
+
+		db_error = db->cursor (db, NULL, &dbc, 0);
+
+		db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_FIRST);
+		while (db_error == 0) {
+
+			g_mutex_lock (closure->mutex);
+			stopped = closure->stopped;
+			g_mutex_unlock (closure->mutex);
+
+			if (stopped) {
+				g_mutex_free (closure->mutex);
+				g_free (closure);
+				break;
+			}
+
+			/* don't include the version in the list of cards */
+			if (strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+				char *vcard_string = vcard_dbt.data;
+				EContact *contact = e_contact_new_from_vcard (vcard_string);
+
+				/* notify_update will check if it matches for us */
+				pas_book_view_notify_update (book_view, contact);
+				g_object_unref (contact);
+			}
+
+			db_error = dbc->c_get(dbc, &id_dbt, &vcard_dbt, DB_NEXT);
+		}
+
+		dbc->c_close (dbc);
+
+		if (db_error != DB_NOTFOUND)
+			g_warning ("pas_backend_file_search: error building list\n");
+
+	}
+
+	g_mutex_lock (closure->mutex);
+	stopped = closure->stopped;
+	g_mutex_unlock (closure->mutex);
+	if (!stopped)
+		pas_book_view_notify_complete (book_view, GNOME_Evolution_Addressbook_Success);
+
+	g_mutex_free (closure->mutex);
+	g_free (closure);
+
+	g_object_set_data (G_OBJECT (book_view), "PASBackendFile.BookView::closure", NULL);
+
+	/* unref the */
+	g_object_unref (book_view);
+
+	printf ("finished initial population of book view\n");
+}
+
+static void
+pas_backend_file_stop_book_view (PASBackend  *backend,
+				 PASBookView *book_view)
+{
+	FileBackendSearchClosure *closure = g_object_get_data (G_OBJECT (book_view), "PASBackendFile.BookView::closure");
+	if (!closure) {
+		printf ("book view is already done populating\n");
+		return;
+	}
+
+	printf ("stopping book view!\n");
+	g_mutex_lock (closure->mutex);
+	closure->stopped = TRUE;
+	g_mutex_lock (closure->mutex);
 }
 
 typedef struct {
@@ -1108,6 +1099,7 @@ pas_backend_file_class_init (PASBackendFileClass *klass)
 	backend_class->load_uri                = pas_backend_file_load_uri;
 	backend_class->get_static_capabilities = pas_backend_file_get_static_capabilities;
 	backend_class->start_book_view         = pas_backend_file_start_book_view;
+	backend_class->stop_book_view          = pas_backend_file_stop_book_view;
 	backend_class->cancel_operation        = pas_backend_file_cancel_operation;
 
 	sync_class->remove_sync                = pas_backend_file_remove;

@@ -2820,6 +2820,13 @@ pas_backend_ldap_process_start_book_view (PASBackend  *backend,
 }
 
 static void
+pas_backend_ldap_process_stop_book_view (PASBackend *backend,
+					 PASBookView *view)
+{
+	/* FIXME we don't stop them... */
+}
+
+static void
 pas_backend_ldap_process_get_changes (PASBackend *backend,
 				      PASBook    *book,
 				      const char *change_id)
@@ -3146,6 +3153,7 @@ pas_backend_ldap_class_init (PASBackendLDAPClass *klass)
 	parent_class->modify_contact          = pas_backend_ldap_process_modify_contact;
 	parent_class->get_contact             = pas_backend_ldap_process_get_contact;
 	parent_class->start_book_view         = pas_backend_ldap_process_start_book_view;
+	parent_class->stop_book_view          = pas_backend_ldap_process_stop_book_view;
 	parent_class->get_changes             = pas_backend_ldap_process_get_changes;
 	parent_class->authenticate_user       = pas_backend_ldap_process_authenticate_user;
 	parent_class->get_supported_fields    = pas_backend_ldap_process_get_supported_fields;

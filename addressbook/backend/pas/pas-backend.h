@@ -58,6 +58,7 @@ struct _PASBackendClass {
 	void (*get_contact) (PASBackend *backend, PASBook *book, const char *id);
 	void (*get_contact_list) (PASBackend *backend, PASBook *book, const char *query);
 	void (*start_book_view) (PASBackend *backend, PASBookView *book_view);
+	void (*stop_book_view) (PASBackend *backend, PASBookView *book_view);
 	void (*get_changes) (PASBackend *backend, PASBook *book, const char *change_id);
 	void (*authenticate_user) (PASBackend *backend, PASBook *book, const char *user, const char *passwd, const char *auth_method);
 	void (*get_supported_fields) (PASBackend *backend, PASBook *book);
@@ -134,8 +135,13 @@ GNOME_Evolution_Addressbook_CallStatus pas_backend_cancel_operation (PASBackend 
 
 void        pas_backend_start_book_view            (PASBackend             *backend,
 						    PASBookView            *view);
+void        pas_backend_stop_book_view             (PASBackend             *backend,
+						    PASBookView            *view);
 
 void        pas_backend_add_book_view              (PASBackend             *backend,
+						    PASBookView            *view);
+
+void        pas_backend_remove_book_view           (PASBackend             *backend,
 						    PASBookView            *view);
 
 EList      *pas_backend_get_book_views             (PASBackend             *backend);

@@ -36,6 +36,7 @@ typedef struct _PASBackendVCFSearchContext PASBackendVCFSearchContext;
 struct _PASBackendVCFPrivate {
 	char       *uri;
 	char       *filename;
+	GMutex     *mutex;
 	GHashTable *contacts;
 	gboolean    dirty;
 	int         flush_timeout_tag;
@@ -122,13 +123,13 @@ insert_contact (PASBackendVCF *vcf, char *vcard)
 }
 
 static void
-load_file (PASBackendVCF *vcf)
+load_file (PASBackendVCF *vcf, int fd)
 {
 	FILE *fp;
 	GString *str;
 	char buf[1024];
 
-	fp = fopen (vcf->priv->filename, "r");
+	fp = fdopen (fd, "r");
 	if (!fp) {
 		g_warning ("failed to open `%s' for reading", vcf->priv->filename);
 		return;
@@ -160,30 +161,32 @@ load_file (PASBackendVCF *vcf)
 static void
 foreach_build_list (char *id, char *vcard_string, GList **list)
 {
-	*list = g_list_append (*list, e_contact_new_from_vcard (vcard_string));
+	*list = g_list_append (*list, vcard_string);
 }
 
 static gboolean
 save_file (PASBackendVCF *vcf)
 {
-	GList *contacts = NULL;
+	GList *vcards = NULL;
 	GList *l;
 	char *new_path;
 	int fd, rv;
 
-	g_hash_table_foreach (vcf->priv->contacts, (GHFunc)foreach_build_list, &contacts);
+	g_warning ("PASBackendVCF flushing file to disk");
+
+	g_mutex_lock (vcf->priv->mutex);
+	g_hash_table_foreach (vcf->priv->contacts, (GHFunc)foreach_build_list, &vcards);
 
 	new_path = g_strdup_printf ("%s.new", vcf->priv->filename);
 
 	fd = open (new_path, O_CREAT | O_TRUNC | O_WRONLY, 0666);
 
-	for (l = contacts; l; l = l->next) {
-		EContact *contact = l->data;
-		char *vcard_str = e_vcard_to_string (E_VCARD (contact), EVC_FORMAT_VCARD_30);
+	for (l = vcards; l; l = l->next) {
+		char *vcard_str = l->data;
 		int len = strlen (vcard_str);
 
 		rv = write (fd, vcard_str, len);
-		g_free (vcard_str);
+
 		if (rv < len) {
 			/* XXX */
 			g_warning ("write failed.  we need to handle short writes\n");
@@ -192,8 +195,8 @@ save_file (PASBackendVCF *vcf)
 			return FALSE;
 		}
 
-		rv = write (fd, "\r\n", 2);
-		if (rv < 2) {
+		rv = write (fd, "\r\n\r\n", 4);
+		if (rv < 4) {
 			/* XXX */
 			g_warning ("write failed.  we need to handle short writes\n");
 			close (fd);
@@ -208,11 +211,12 @@ save_file (PASBackendVCF *vcf)
 		return FALSE;
 	}
 
-	g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
-	g_list_free (contacts);
+	g_list_free (vcards);
 	g_free (new_path);
 
 	vcf->priv->dirty = FALSE;
+
+	g_mutex_unlock (vcf->priv->mutex);
 
 	return TRUE;
 }
@@ -245,6 +249,10 @@ do_create(PASBackendVCF  *bvcf,
 	EContact       *contact;
 	char           *vcard;
 
+	/* at the very least we need the unique_id generation to be
+	   protected by the lock, even if the actual vcard parsing
+	   isn't. */
+	g_mutex_lock (bvcf->priv->mutex);
 	id = pas_backend_vcf_create_unique_id ();
 
 	contact = e_contact_new_from_vcard (vcard_req);
@@ -260,6 +268,8 @@ do_create(PASBackendVCF  *bvcf,
 			bvcf->priv->flush_timeout_tag = g_timeout_add (FILE_FLUSH_TIMEOUT,
 								       vcf_flush_file, bvcf);
 	}
+
+	g_mutex_unlock (bvcf->priv->mutex);
 
 	return contact;
 }
@@ -292,8 +302,13 @@ pas_backend_vcf_process_remove_contacts (PASBackendSync *backend,
 	/* FIXME: make this handle bulk deletes like the file backend does */
 	PASBackendVCF *bvcf = PAS_BACKEND_VCF (backend);
 	char *id = id_list->data;
+	gboolean success;
 
-	if (!g_hash_table_remove (bvcf->priv->contacts, id)) {
+	g_mutex_lock (bvcf->priv->mutex);
+	success = g_hash_table_remove (bvcf->priv->contacts, id);
+
+	if (!success) {
+		g_mutex_unlock (bvcf->priv->mutex);
 		return GNOME_Evolution_Addressbook_ContactNotFound;
 	}
 	else {
@@ -301,6 +316,7 @@ pas_backend_vcf_process_remove_contacts (PASBackendSync *backend,
 		if (!bvcf->priv->flush_timeout_tag)
 			bvcf->priv->flush_timeout_tag = g_timeout_add (FILE_FLUSH_TIMEOUT,
 								       vcf_flush_file, bvcf);
+		g_mutex_unlock (bvcf->priv->mutex);
 
 		*ids = g_list_append (*ids, id);
 
@@ -317,16 +333,26 @@ pas_backend_vcf_process_modify_contact (PASBackendSync *backend,
 	PASBackendVCF *bvcf = PAS_BACKEND_VCF (backend);
 	char *old_id, *old_vcard_string;
 	const char *id;
+	gboolean success;
 
 	/* create a new ecard from the request data */
 	*contact = e_contact_new_from_vcard (vcard);
 	id = e_contact_get_const (*contact, E_CONTACT_UID);
 
-	if (!g_hash_table_lookup_extended (bvcf->priv->contacts, id, (gpointer)&old_id, (gpointer)&old_vcard_string)) {
+	g_mutex_lock (bvcf->priv->mutex);
+	success = g_hash_table_lookup_extended (bvcf->priv->contacts, id, (gpointer)&old_id, (gpointer)&old_vcard_string);
+
+	if (!success) {
+		g_mutex_unlock (bvcf->priv->mutex);
 		return GNOME_Evolution_Addressbook_ContactNotFound;
 	}
 	else {
 		g_hash_table_insert (bvcf->priv->contacts, old_id, g_strdup (vcard));
+		bvcf->priv->dirty = TRUE;
+		if (!bvcf->priv->flush_timeout_tag)
+			bvcf->priv->flush_timeout_tag = g_timeout_add (FILE_FLUSH_TIMEOUT,
+								       vcf_flush_file, bvcf);
+		g_mutex_unlock (bvcf->priv->mutex);
 
 		g_free (old_vcard_string);
 
@@ -400,6 +426,13 @@ pas_backend_vcf_start_book_view (PASBackend  *backend,
 	pas_backend_vcf_search (PAS_BACKEND_VCF (backend), book_view);
 }
 
+static void
+pas_backend_vcf_stop_book_view (PASBackend  *backend,
+				PASBookView *book_view)
+{
+	/* XXX nothing here yet, and there should be. */
+}
+
 static char *
 pas_backend_vcf_extract_path_from_uri (const char *uri)
 {
@@ -443,16 +476,17 @@ pas_backend_vcf_load_uri (PASBackend             *backend,
 			  gboolean                only_if_exists)
 {
 	PASBackendVCF *bvcf = PAS_BACKEND_VCF (backend);
-	char           *filename;
+	char           *dirname;
 	gboolean        writable = FALSE;
 	int fd;
 
 	g_free(bvcf->priv->uri);
 	bvcf->priv->uri = g_strdup (uri);
 
-	bvcf->priv->filename = filename = pas_backend_vcf_extract_path_from_uri (uri);
+	dirname = pas_backend_vcf_extract_path_from_uri (uri);
+	bvcf->priv->filename = g_build_filename (dirname, "addressbook.vcf", NULL);
 
-	fd = open (filename, O_RDWR);
+	fd = open (bvcf->priv->filename, O_RDWR);
 
 	bvcf->priv->contacts = g_hash_table_new_full (g_str_hash, g_str_equal,
 						      g_free, g_free);
@@ -460,10 +494,10 @@ pas_backend_vcf_load_uri (PASBackend             *backend,
 	if (fd != -1) {
 		writable = TRUE;
 	} else {
-		fd = open (filename, O_RDONLY);
+		fd = open (bvcf->priv->filename, O_RDONLY);
 
 		if (fd == -1) {
-			fd = open (filename, O_CREAT, 0666);
+			fd = open (bvcf->priv->filename, O_CREAT, 0666);
 
 			if (fd != -1 && !only_if_exists) {
 				EContact *contact;
@@ -485,8 +519,7 @@ pas_backend_vcf_load_uri (PASBackend             *backend,
 		return GNOME_Evolution_Addressbook_OtherError;
 	}
 
-	close (fd); /* XXX ugh */
-	load_file (bvcf);
+	load_file (bvcf, fd);
 
 	pas_backend_set_is_loaded (backend, TRUE);
 	pas_backend_set_is_writable (backend, writable);
@@ -546,16 +579,24 @@ pas_backend_vcf_dispose (GObject *object)
 
 	if (bvcf->priv) {
 
-		if (bvcf->priv->dirty)
-			save_file (bvcf);
+		g_mutex_lock (bvcf->priv->mutex);
 
 		if (bvcf->priv->flush_timeout_tag) {
 			g_source_remove (bvcf->priv->flush_timeout_tag);
 			bvcf->priv->flush_timeout_tag = 0;
 		}
 
+		if (bvcf->priv->dirty)
+			save_file (bvcf);
+
+		g_hash_table_destroy (bvcf->priv->contacts);
+
 		g_free (bvcf->priv->uri);
 		g_free (bvcf->priv->filename);
+
+		g_mutex_unlock (bvcf->priv->mutex);
+
+		g_mutex_free (bvcf->priv->mutex);
 
 		g_free (bvcf->priv);
 		bvcf->priv = NULL;
@@ -580,6 +621,7 @@ pas_backend_vcf_class_init (PASBackendVCFClass *klass)
 	backend_class->load_uri                = pas_backend_vcf_load_uri;
 	backend_class->get_static_capabilities = pas_backend_vcf_get_static_capabilities;
 	backend_class->start_book_view         = pas_backend_vcf_start_book_view;
+	backend_class->stop_book_view          = pas_backend_vcf_stop_book_view;
 	backend_class->cancel_operation        = pas_backend_vcf_cancel_operation;
 
 	sync_class->create_contact_sync        = pas_backend_vcf_process_create_contact;
@@ -598,8 +640,9 @@ pas_backend_vcf_init (PASBackendVCF *backend)
 {
 	PASBackendVCFPrivate *priv;
 
-	priv             = g_new0 (PASBackendVCFPrivate, 1);
-	priv->uri        = NULL;
+	priv                 = g_new0 (PASBackendVCFPrivate, 1);
+	priv->uri            = NULL;
+	priv->mutex = g_mutex_new();
 
 	backend->priv = priv;
 }
