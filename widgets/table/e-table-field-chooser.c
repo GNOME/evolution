@@ -106,9 +106,9 @@ ensure_nonzero_step_increments (ETableFieldChooser *etfc)
 	  it looks pretty complicated to get height of column header
 	  so use 16 pixels which should be OK
 	*/ 
-	if (va && va->step_increment == 0.0)
+	if (va)
 		va->step_increment = 16.0;
-	if (ha && ha->step_increment == 0.0)
+	if (ha)
 		ha->step_increment = 16.0;
 }
 
