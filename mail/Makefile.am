@@ -60,6 +60,7 @@ Spell-impl.o: Spell.h
 
 libevolution_mail_la_SOURCES =			\
 	$(SPELL_IDL_GENERATED)			\
+	$(MARSHAL_GENERATED)			\
 	e-searching-tokenizer.c			\
 	e-searching-tokenizer.h			\
 	em-account-prefs.c			\
@@ -92,8 +93,6 @@ libevolution_mail_la_SOURCES =			\
 	em-format-html-quote.h			\
 	em-format-quote.c			\
 	em-format-quote.h			\
-	em-marshal.c				\
-	em-marshal.h				\
 	em-message-browser.c			\
 	em-message-browser.h			\
 	em-migrate.c				\

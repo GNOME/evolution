@@ -1,3 +1,12 @@
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: build the marshall files right at the beginning
+
+2003-11-07  JP Rosevear <jpr@ximian.com>
+
+	* Makefile.am: Make sure the marshal files are listed above other
+	sources
+
 2003-11-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate_filter_file): Call em_migrate_uri()
