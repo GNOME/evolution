@@ -12054,11 +12054,11 @@ msgstr "Komu"
 
 #: mail/mail-format.c:879
 msgid "Cc"
-msgstr "Kopii"
+msgstr "Kopie"
 
 #: mail/mail-format.c:884
 msgid "Bcc"
-msgstr "Skrytou kopii"
+msgstr "Skrytá kopie"
 
 #: mail/mail-format.c:915
 msgid "Mailer"
