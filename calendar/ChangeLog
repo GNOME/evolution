@@ -1,3 +1,8 @@
+1999-02-20  Tomas Ogren  <stric@ing.umu.se>
+
+	* main.c (init_username): Made use of g_get_{user,real}_name() instead
+	of our own home-brew...
+
 1999-02-17  Sergey Panov <sipan@mit.edu>
 
 	* gnome-month-item.c,gnome-month-item.h,goto.c,mark.h,

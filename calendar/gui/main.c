@@ -79,30 +79,8 @@ static int show_events;
 static void
 init_username (void)
 {
-	char *p;
-	struct passwd *passwd;
-
-	passwd = getpwuid (getuid ());
-	if ((p = passwd->pw_name)) {
-		char *comma;
-
-		user_name = g_strdup (p);
-		full_name = g_strdup (passwd->pw_gecos);
-
-		/* Keep only the name from the gecos field */
-		if ((comma = strchr (full_name, ',')) != NULL)
-			*comma = 0;
-	} else {
-		if ((p = getenv ("USER"))) {
-			user_name = g_strdup (p);
-			full_name = g_strdup (p);
-			return;
-		} else {
-			user_name = g_strdup ("unknown");
-			full_name = g_strdup ("unknown");
-		}
-	}
-	endpwent ();
+        user_name = g_strdup(g_get_user_name());
+        full_name = g_strdup(g_get_real_name());
 }
 
 static int
