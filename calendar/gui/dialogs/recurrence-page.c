@@ -2087,6 +2087,12 @@ exception_select_row_cb (GtkCList *clist, gint row, gint col,
 	rpage = RECURRENCE_PAGE (data);
 	priv = rpage->priv;
 
+	/* Sometimes GtkCList emits a 'row-selected' signal for row 0 when
+	   there are 0 rows in the list (after you delete the last row).
+	   So we check that the row is valid here. */
+	if (row >= clist->rows)
+		return;
+
 	dt = gtk_clist_get_row_data (clist, row);
 	g_assert (dt != NULL);
 

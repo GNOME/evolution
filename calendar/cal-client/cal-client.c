@@ -86,6 +86,8 @@ static char *client_get_password_cb (WombatClient *w_client,
 static void  client_forget_password_cb (WombatClient *w_client,
 					const gchar *key,
 					gpointer user_data);
+static void cal_client_get_object_timezones_cb (icalparameter *param,
+						void *data);
 
 static guint cal_client_signals[LAST_SIGNAL];
 
@@ -752,6 +754,19 @@ cal_client_get_n_objects (CalClient *client, CalObjType type)
 	return n;
 }
 
+
+/* This is used in the callback which fetches all the timezones needed for an
+   object. */
+typedef struct _CalClientGetTimezonesData CalClientGetTimezonesData;
+struct _CalClientGetTimezonesData {
+	CalClient *client;
+
+	/* This starts out at CAL_CLIENT_GET_SUCCESS. If an error occurs this
+	   contains the last error. */
+	CalClientGetStatus status;
+};
+
+
 /**
  * cal_client_get_object:
  * @client: A calendar client.
@@ -771,6 +786,7 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 	GNOME_Evolution_Calendar_CalObj comp_str;
 	CalClientGetStatus retval;
 	icalcomponent *icalcomp;
+	CalClientGetTimezonesData cb_data;
 
 	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_NOT_FOUND);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_NOT_FOUND);
@@ -813,13 +829,50 @@ cal_client_get_object (CalClient *client, const char *uid, CalComponent **comp)
 		goto out;
 	}
 
-	retval = CAL_CLIENT_GET_SUCCESS;
+	/* Now make sure we have all timezones needed for this object.
+	   We do this to try to avoid any problems caused by getting a timezone
+	   in the middle of other code. Any calls to ORBit result in a 
+	   recursive call of the GTK+ main loop, which can cause problems for
+	   code that doesn't expect it. Currently GnomeCanvas has problems if
+	   we try to get a timezone in the middle of a redraw, and there is a
+	   resize pending, which leads to an assert failure and an abort. */
+	cb_data.client = client;
+	cb_data.status = CAL_CLIENT_GET_SUCCESS;
+	icalcomponent_foreach_tzid (icalcomp,
+				    cal_client_get_object_timezones_cb,
+				    &cb_data);
+
+	retval = cb_data.status;
 
  out:
 
 	CORBA_exception_free (&ev);
 	return retval;
 }
+
+
+static void
+cal_client_get_object_timezones_cb (icalparameter *param,
+				    void *data)
+{
+	CalClientGetTimezonesData *cb_data = data;
+	const char *tzid;
+	icaltimezone *zone;
+	CalClientGetStatus status;
+
+	tzid = icalparameter_get_tzid (param);
+	if (!tzid) {
+		cb_data->status = CAL_CLIENT_GET_SYNTAX_ERROR;
+		return;
+	}
+
+	g_print ("Pre-fetching timezone: %s\n", tzid);
+
+	status = cal_client_get_timezone (cb_data->client, tzid, &zone);
+	if (status != CAL_CLIENT_GET_SUCCESS)
+		cb_data->status = status;
+}
+
 
 CalClientGetStatus
 cal_client_get_timezone (CalClient *client,

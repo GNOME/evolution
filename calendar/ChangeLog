@@ -1,3 +1,15 @@
+2001-07-26  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (exception_select_row_cb): check that
+	the row passed in is valid. Sometimes we get the "row-selected"
+	signal for row 0 when there are no rows in the list. Fixes bug #4266.
+
+	* cal-client/cal-client.c (cal_client_get_object): prefetch all the
+	timezone data needed by the object, to try to avoid making Corba
+	calls all over the place. They can cause problems because they call
+	the GTK+ main loop recursively. This currently leads to an assertion
+	failure in the GnomeCanvas occasionally.
+
 2001-07-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (e_itip_control_set_data): gracefully
