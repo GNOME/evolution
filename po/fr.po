@@ -19318,7 +19318,7 @@ msgstr "Importer les données d'autres programmes"
 
 #: ui/evolution.xml.h:14
 msgid "New _Window"
-msgstr "Nouvelle _Fenêtre"
+msgstr "Nouvelle _fenêtre"
 
 #: ui/evolution.xml.h:15
 msgid "Pi_lot Settings..."
