@@ -1,3 +1,8 @@
+2003-09-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_save): Allow any file: uri
+	to point to a sent or drafts folder.
+
 2003-09-25  Rodney Dawes  <dobey@ximian.com>
 
 	* mail-send-recv.c: Make the dialog more HIG-compliant by fixing
