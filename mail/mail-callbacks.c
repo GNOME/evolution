@@ -449,8 +449,21 @@ delete_msg (GtkWidget *button, gpointer user_data)
 
 	uids = g_ptr_array_new ();
 	message_list_foreach (ml, enumerate_msg, uids);
-	mail_do_flag_messages (ml->folder, uids, TRUE,
-			       CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
+	if (uids->len == 1) {
+		guint32 flags;
+		char *uid = uids->pdata[0];
+
+		mail_tool_camel_lock_up ();
+		flags = camel_folder_get_message_flags (ml->folder, uid);
+		camel_folder_set_message_flags (ml->folder, uid,
+						CAMEL_MESSAGE_DELETED,
+						~flags);
+		mail_tool_camel_lock_down ();
+	} else {
+		mail_do_flag_messages (ml->folder, uids, TRUE,
+				       CAMEL_MESSAGE_DELETED,
+				       CAMEL_MESSAGE_DELETED);
+	}
 }
 
 void

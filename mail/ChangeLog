@@ -1,5 +1,11 @@
 2000-08-12  Dan Winship  <danw@helixcode.com>
 
+	* mail-callbacks.c (delete_msg): Toggling a flag is an
+	"instantaneous" operation, so if we're only doing one, just do it
+	and return, rather than queueing it for the other thread. This
+	makes the "Delete" key work correctly (move to the next message)
+	again.
+
 	* mail-identify.c: Remove workaround for gnome-vfs 0.2 bug.
 
 	* mail-format.c (lookup_handler): Remove workaround for function
