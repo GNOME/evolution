@@ -1,5 +1,11 @@
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_init): set the title of the window to
+	"Advanced Search".
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook.c (search_cb): pass view->view instead
 	of the EBook.
 	(addressbook_search_menu_items): remove E_FILTERBAR_ADVANCED.
