@@ -1,3 +1,7 @@
+2004-07-25  Gil Osher  <dolfin@rpg.org.il>
+
+	* configure.in: Added 'he' (Hebrew) to ALL_LINGUAS.
+
 2004-07-21  Ray Strode  <rstrode@redhat.com>
 	* evolution/data/evolution.desktop.in.in: Add MimeType line to desktop file
 	new mime sytem.
