@@ -1832,6 +1832,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 			return TRUE;
 #endif
+
 		gtk_object_get(GTK_OBJECT(eti->selection),
 			       "cursor_row", &row,
 			       "cursor_col", &col,
@@ -1843,9 +1844,11 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		button.y = y1;
 #endif
 
-		gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
-				 row, col, &button);
-		d(g_print("Double click\n"));
+		if (row != -1 && col != -1) {
+			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [DOUBLE_CLICK],
+					 row, col, &button);
+			d(g_print("Double click\n"));
+		}
 		break;
 	}
 	case GDK_MOTION_NOTIFY: {
