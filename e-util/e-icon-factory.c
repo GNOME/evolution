@@ -74,10 +74,6 @@ icon_new (const char *name, GdkPixbuf **pixbufs)
 	return icon;
 }
 
-#if 0
-
-/* (This is not currently used since we never prune icons out of the
-   cache.)  */
 static void
 icon_free (Icon *icon)
 {
@@ -92,8 +88,6 @@ icon_free (Icon *icon)
 	
 	g_free (icon);
 }
-
-#endif
 
 /* Loading icons.  */
 
@@ -151,14 +145,33 @@ pixel_size_to_icon_size (int pixel_size)
 void
 e_icon_factory_init (void)
 {
-	if (name_to_icon != NULL) {
-		/* Already initialized.  */
+	if (name_to_icon != NULL)
 		return;
-	}
 	
 	name_to_icon = g_hash_table_new (g_str_hash, g_str_equal);
 	icon_theme   = gnome_icon_theme_new ();
 	empty_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) empty_xpm);
+}
+
+
+static void
+icon_foreach_free (gpointer key, gpointer value, gpointer user_data)
+{
+	icon_free (value);
+}
+
+
+void
+e_icon_factory_shutdown (void)
+{
+	if (name_to_icon == NULL)
+		return;
+	
+	g_hash_table_foreach (name_to_icon, (GHFunc) icon_foreach_free, NULL);
+	g_hash_table_destroy (name_to_icon);
+	g_object_unref (empty_pixbuf);
+	g_object_unref (icon_theme);
+	name_to_icon = NULL;
 }
 
 
