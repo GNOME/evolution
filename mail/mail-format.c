@@ -212,9 +212,6 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 					   E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 		g_byte_array_free (bytes, TRUE);
 		
-		//mail_html_write (html, stream, html_str);
-		//g_free (html_str);
-
 		ba = g_byte_array_new ();
 		g_byte_array_append (ba, (const guint8 *) btt, strlen (btt) + 1);
 		g_byte_array_append (ba, (const guint8 *) html_str, strlen (html_str) + 1);
