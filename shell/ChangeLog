@@ -1,5 +1,10 @@
 2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* main.c (development_warning): Slightly updated the text for the
+	release.
+
+2000-12-14  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-splash.c (ICON_Y): Update for the size of the new splash.
 
 2000-12-12  Jeffrey Stedfast  <fejj@helixcode.com>
