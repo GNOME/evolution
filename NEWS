@@ -12,6 +12,10 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41910 - Crash when deleting addresses from long contact lists. (Toshok)
     #42048 - "Print" not hooked up in etable view.
     #42177 - Cannot tab out of date edit widgets in contact editor. (Toshok)
+    #42596 - Selecting text in a contact address field selects all
+             rows of text (Toshok)
+    #42604 - Display not shifted when cursor moved to next address
+             line (Toshok)
     #42780 - Crash on solaris due to missing NULL in g_guild_filename.
              (sean.gao@sun.com)
 
