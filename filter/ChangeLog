@@ -1,3 +1,11 @@
+2000-07-05  Dan Winship  <danw@helixcode.com>
+
+	* filter-driver.c (do_delete, do_copy, do_stop,
+	filter_driver_run): Add uids to the "processed" list only after
+	succesfully doing something with them. Fixes the problem where
+	copying a message to a folder that didn't exist would result in it
+	disapearing.
+
 2000-07-02  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-driver.c (filter_driver_new): Don't free the ruleset nor

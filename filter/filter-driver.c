@@ -206,12 +206,6 @@ filter_driver_new (const char *system, const char *user, FilterFolderFetcher fet
 	} else
 		p->options = filter_load_optionset(filt, p->rules);
 
-#warning "Zucchi: is this safe? Doesn't seem to cause problems..."
-#if 0
-	filter_load_ruleset_free (p->rules);
-	xmlFreeDoc (desc);
-#endif
-
 	return new;
 }
 
@@ -369,7 +363,10 @@ do_delete(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *
 	while (m) {
 		printf(" %s\n", (char *)m->data);
 
-		camel_folder_set_message_flags (p->source, m->data, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED, p->ex);
+		camel_folder_delete_message (p->source, m->data, p->ex);
+		if (g_hash_table_lookup(p->processed, m->data) == NULL) {
+			g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
+		}
 
 		m = m->next;
 	}
@@ -423,6 +420,11 @@ do_copy(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 				camel_folder_append_message(outbox, mm, p->ex);
 				gtk_object_unref((GtkObject *)mm);
 
+				if (!camel_exception_is_set(p->ex) &&
+				    g_hash_table_lookup(p->processed, m->data) == NULL) {
+					g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
+				}
+
 				printf(" %s\n", (char *)m->data);
 				m = m->next;
 			}
@@ -443,6 +445,9 @@ do_stop(struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterDriver *d)
 	while (m) {
 		printf(" %s\n", (char *)m->data);
 		g_hash_table_insert(p->terminated, g_strdup(m->data), (void *)1);
+		if (g_hash_table_lookup(p->processed, m->data) == NULL) {
+			g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
+		}
 		m = m->next;
 	}
 	return NULL;
@@ -551,11 +556,6 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 
 			printf("matched: %s\n", (char *) m->data);
 
-			/* for all matching id's, so we can work out what to default */
-			if (g_hash_table_lookup(p->processed, m->data) == NULL) {
-				g_hash_table_insert(p->processed, g_strdup(m->data), (void *)1);
-			}
-
 			if (g_hash_table_lookup(p->terminated, m->data)) {
 				printf("removing terminated message %s\n", (char *)m->data);
 				p->matches = g_list_remove_link(p->matches, m);
@@ -589,10 +589,10 @@ filter_driver_run(FilterDriver *d, CamelFolder *source, CamelFolder *inbox)
 			if (inbox) {
 				printf("Applying default rule to message %s\n", uid);
 
-				mm = camel_folder_get_message(p->source, all->pdata[i], p->ex);
+				mm = camel_folder_get_message(p->source, uid, p->ex);
 				camel_folder_append_message(inbox, mm, p->ex);
 				gtk_object_unref((GtkObject *)mm);
-				camel_folder_set_message_flags(p->source, all->pdata[i], CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED, p->ex);
+				camel_folder_delete_message(p->source, uid, p->ex);
 			}
 		} else {
 			camel_folder_delete_message(p->source, uid, p->ex);
