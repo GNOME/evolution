@@ -2454,7 +2454,7 @@ header_decode_mailbox(const char **in)
 		dom = header_decode_domain(&inptr);
 		addr = g_string_append(addr, dom);
 		g_free(dom);
-	} else {
+	} else if (*inptr != '>' || !closeme) {
 		/* If we get a <, the address was probably a name part, lets try again shall we? */
 		/* Another fix for seriously-broken-mailers */
 		if (*inptr && *inptr != ',') {

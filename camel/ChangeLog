@@ -1,3 +1,9 @@
+2002-06-05  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-utils.c (header_decode_mailbox): Parse
+	"From: Dan Winship <danw>" (with no domain) in the way the sender
+	meant it, even though it's completely wrong.
+
 2002-06-04  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-local-provider.c: Remove the
