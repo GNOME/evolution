@@ -1,5 +1,13 @@
 2004-03-19  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #52667 ]
+	
+	* gui/certificate-manager.c (import_ca): don't expand the CA tree
+	by default.
+	(populate_ui): same.
+
+2004-03-19  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #52829 ]
 	
 	* lib/smime-marshal.list: add BOOL:POINTER,POINTER for

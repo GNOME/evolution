@@ -474,7 +474,6 @@ import_ca (GtkWidget *widget, CertificateManagerData *cfm)
 			   so we blow away the CA cert display and regenerate it. */
 			unload_certs (cfm, E_CERT_CA);
 			load_certs (cfm, E_CERT_CA, add_ca_cert);
-			gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->authoritycerts_treeview));
 		}
 	}
 
@@ -806,7 +805,6 @@ populate_ui (CertificateManagerData *cfm)
 	/* expand all three trees */
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->yourcerts_treeview));
 	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->contactcerts_treeview));
-	gtk_tree_view_expand_all (GTK_TREE_VIEW (cfm->authoritycerts_treeview));
 }
 
 EvolutionConfigControl*
