@@ -1,12 +1,11 @@
 INCLUDES =						\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"	\
 	-DG_LOG_DOMAIN=\"cal-util\"			\
-	-I$(srcdir) -I$(top_srcdir) 			\
-	-I$(srcdir)/calendar				\
+	-I$(top_srcdir) 				\
+	-I$(top_srcdir)/calendar			\
 	-I. 						\
 	-I.. 						\
 	-I$(top_builddir)				\
-        -I$(includedir)                                 \
         $(GNOME_INCLUDEDIR)
 
 lib_LTLIBRARIES = libcal-util.la

@@ -1,3 +1,7 @@
+2000-04-18  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/Makefile.am (INCLUDES): Fix include path.
+
 2000-04-16  Federico Mena Quintero  <federico@helixcode.com>
 
 	* pcs/cal-factory.h (CalFactoryClass): We have a new
