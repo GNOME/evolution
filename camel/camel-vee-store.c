@@ -36,7 +36,6 @@ static CamelFolder *vee_get_trash  (CamelStore *store, CamelException *ex);
 static CamelFolderInfo *vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelException *ex);
 
 struct _CamelVeeStorePrivate {
-	CamelFolderInfo *folder_info;
 };
 
 #define _PRIVATE(o) (((CamelVeeStore *)(o))->priv)

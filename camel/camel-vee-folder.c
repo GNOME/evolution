@@ -148,6 +148,7 @@ camel_vee_folder_init (CamelVeeFolder *obj)
 #ifdef ENABLE_THREADS
 	p->summary_lock = g_mutex_new();
 	p->subfolder_lock = g_mutex_new();
+	p->changed_lock = g_mutex_new();
 #endif
 
 }
@@ -188,6 +189,7 @@ camel_vee_folder_finalise (CamelObject *obj)
 #ifdef ENABLE_THREADS
 	g_mutex_free(p->summary_lock);
 	g_mutex_free(p->subfolder_lock);
+	g_mutex_free(p->changed_lock);
 #endif
 	g_free(p);
 }
@@ -301,8 +303,10 @@ camel_vee_folder_set_expression(CamelVeeFolder *vf, const char *query)
 		node = node->next;
 	}
 
+	CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 	g_list_free(p->folders_changed);
 	p->folders_changed = NULL;
+	CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 }
@@ -360,7 +364,9 @@ camel_vee_folder_remove_folder(CamelVeeFolder *vf, CamelFolder *sub)
 
 	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
 
+	CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 	p->folders_changed = g_list_remove(p->folders_changed, sub);
+	CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 
 	if (g_list_find(p->folders, sub) == NULL) {
 		CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
@@ -421,11 +427,11 @@ camel_vee_folder_set_folders(CamelVeeFolder *vf, GList *folders)
 			camel_object_unref((CamelObject *)folder);
 
 			/* if this was a changed folder, re-update it while we're here */
-			CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
+			CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 			changed = g_list_find(p->folders_changed, folder) != NULL;
 			if (changed)
 				p->folders_changed = g_list_remove(p->folders_changed, folder);
-			CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
+			CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 			if (changed)
 				vee_folder_build_folder(vf, folder, NULL);
 		} else {
@@ -476,11 +482,14 @@ static void vee_refresh_info(CamelFolder *folder, CamelException *ex)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
-	GList *node;
+	GList *node, *list;
 
-	CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
+	CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
+	list = p->folders_changed;
+	p->folders_changed = NULL;
+	CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 
-	node = p->folders_changed;
+	node = list;
 	while (node) {
 		CamelFolder *f = node->data;
 
@@ -490,10 +499,7 @@ static void vee_refresh_info(CamelFolder *folder, CamelException *ex)
 		node = node->next;
 	}
 
-	g_list_free(p->folders_changed);
-	p->folders_changed = NULL;
-
-	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);	
+	g_list_free(list);
 }
 
 static void
@@ -519,8 +525,10 @@ vee_sync(CamelFolder *folder, gboolean expunge, CamelException *ex)
 		node = node->next;
 	}
 
+	CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 	g_list_free(p->folders_changed);
 	p->folders_changed = NULL;
+	CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 
 	CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
 }
@@ -1015,7 +1023,7 @@ folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder 
 	/* if not auto-updating, only propagate changed/removed events, not added items */
 	if ((vf->flags & CAMEL_STORE_VEE_FOLDER_AUTO) == 0) {
 
-		CAMEL_VEE_FOLDER_LOCK(vf, subfolder_lock);
+		CAMEL_VEE_FOLDER_LOCK(vf, changed_lock);
 		/* add this folder to our changed folders list if we have stuff we can't catch easily */
 		/* Unfortuantely if its a change that doesn't affect the match, we're still going to
 		   rerun it :( */
@@ -1023,7 +1031,7 @@ folder_changed(CamelFolder *sub, CamelFolderChangeInfo *changes, CamelVeeFolder 
 			if (g_list_find(vf->priv->folders_changed, sub) != NULL)
 				vf->priv->folders_changed = g_list_prepend(vf->priv->folders_changed, sub);
 
-		CAMEL_VEE_FOLDER_UNLOCK(vf, subfolder_lock);
+		CAMEL_VEE_FOLDER_UNLOCK(vf, changed_lock);
 
 		CAMEL_VEE_FOLDER_LOCK(vf, summary_lock);
 		CAMEL_VEE_FOLDER_LOCK(folder_unmatched, summary_lock);

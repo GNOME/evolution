@@ -164,17 +164,6 @@ struct _CamelFolderSummaryPrivate {
 #define CAMEL_SUMMARY_UNLOCK(f, l)
 #endif
 
-struct _CamelVeeStorePrivate {
-};
-
-#ifdef ENABLE_THREADS
-#define CAMEL_VEE_STORE_LOCK(f, l) (e_mutex_lock(((CamelVeeStore *)f)->priv->l))
-#define CAMEL_VEE_STORE_UNLOCK(f, l) (e_mutex_unlock(((CamelVeeStore *)f)->priv->l))
-#else
-#define CAMEL_VEE_STORE_LOCK(f, l)
-#define CAMEL_VEE_STORE_UNLOCK(f, l)
-#endif
-
 struct _CamelVeeFolderPrivate {
 	GList *folders;			/* lock using subfolder_lock before changing/accessing */
 	GList *folders_changed;		/* for list of folders that have changed between updates */
@@ -182,6 +171,7 @@ struct _CamelVeeFolderPrivate {
 #ifdef ENABLE_THREADS
 	GMutex *summary_lock;		/* for locking vfolder summary */
 	GMutex *subfolder_lock;		/* for locking the subfolder list */
+	GMutex *changed_lock;		/* for locking the folders-changed list */
 #endif
 };
 

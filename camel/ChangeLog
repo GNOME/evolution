@@ -1,3 +1,21 @@
+2001-09-26    <NotZed@Ximian.com>
+
+	* camel-vee-store.c: Emptied VeeStorePrivate, member wasn't used.
+
+	* camel-vee-folder.c (camel_vee_folder_set_expression): Lock
+	changed list separately.
+	(camel_vee_folder_remove_folder): "
+	(camel_vee_folder_set_folders): Use changed_lock for changed list.
+	(vee_refresh_info): Use changed_lock, also just grab the list,
+	reset it in the lock, and do the work unlocked.
+	(vee_sync): Use changed lock for changed list.
+	(folder_changed): ".  All this kills a deadlock with sync/expunge.
+	
+	* camel-private.h (CamelVeeFolderPrivate): Added a new lock for
+	the folders-changed list.
+	(CamelVeeStorePrivate): Removed, defined in camel-vee-store.c,
+	thanks to a pedantic.
+
 2001-09-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* Makefile.am: Fix Ettore's fix.
