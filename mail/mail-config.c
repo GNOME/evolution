@@ -50,7 +50,6 @@
 #include <e-util/e-url.h>
 #include "mail.h"
 #include "mail-config.h"
-#include "mail-ops.h"
 #include "mail-mt.h"
 
 #include "Mail.h"
@@ -1403,10 +1402,149 @@ mail_config_get_accounts (void)
 	return config->accounts;
 }
 
+static void
+add_shortcut_entry (const char *name, const char *uri, const char *type)
+{
+	extern EvolutionShellClient *global_shell_client;
+	CORBA_Environment ev;
+	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_Shortcuts_GroupList *groups;
+	GNOME_Evolution_Shortcuts_Group *the_group;
+	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
+	int i, group_num;
+
+	CORBA_exception_init (&ev);
+
+	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
+	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
+		g_warning ("No ::Shortcut interface on the shell");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	the_group = NULL;
+	group_num = 0;
+
+	for (i = 0; i < groups->_length; i++) {
+		GNOME_Evolution_Shortcuts_Group *iter;
+		
+		iter = groups->_buffer + i;
+		if (!strcmp (iter->name, "Evolution Shortcuts")) {
+			the_group = iter;
+			group_num = i;
+			break;
+		}
+	}
+
+	if (the_group == NULL) {
+		/* Bleah, just create it. Probably not the best
+		 * course of action. */
+
+		GNOME_Evolution_Shortcuts_addGroup (shortcuts_interface,
+						    group_num,
+						    "Evolution Shortcuts",
+						    &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception recreating \"Evolution Shortcuts\" group: %s", ev._repo_id);
+			goto cleanup;
+		}
+
+		the_group = GNOME_Evolution_Shortcuts_getGroup (shortcuts_interface,
+								group_num,
+								&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception getting newly created \"Evolution Shortcuts\" group: %s", ev._repo_id);
+			goto cleanup;
+		}
+	}
+
+	the_shortcut = NULL;
+
+	for (i = 0; i < the_group->shortcuts._length; i++) {
+		GNOME_Evolution_Shortcuts_Shortcut *iter;
+		
+		iter = the_group->shortcuts._buffer + i;
+		if (!strcmp (iter->name, name)) {
+			the_shortcut = iter;
+			break;
+		}
+	}
+
+	if (the_shortcut == NULL) {
+		the_shortcut = 
+			GNOME_Evolution_Shortcuts_Shortcut__alloc ();
+
+		the_shortcut->name = CORBA_string_dup (name);
+		the_shortcut->uri = CORBA_string_dup (uri);
+		the_shortcut->type = CORBA_string_dup (type);
+
+		GNOME_Evolution_Shortcuts_add (shortcuts_interface,
+					       group_num,
+					       the_group->shortcuts._length,
+					       the_shortcut,
+					       &ev);
+
+		CORBA_free (the_shortcut);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Exception creating shortcut \"%s\": %s", name, ev._repo_id);
+			goto cleanup;
+		}
+
+	} 
+
+ cleanup:
+	CORBA_exception_free (&ev);
+	CORBA_free (groups);
+}
+
+static void
+maybe_add_shortcut (MailConfigAccount *account)
+{
+	CamelProvider *prov;
+	gchar *name;
+	gchar *url;
+	
+	/* no source, don't bother. */
+	if (!account->source || !account->source->url)
+		return;
+
+	prov = camel_session_get_provider (session, account->source->url, NULL);
+
+	/* not a storage, don't bother. */
+
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE))
+		return;
+
+	/* right now, the URL always works basically as a matter of luck...
+	 * both IMAP and mbox spool stores have INBOX as their inbox folder
+	 * name. I don't think this will work with maildir. How can we figure out
+	 * what shortcut to insert?
+	 */
+
+	name = g_strdup_printf (_("%s: Inbox"), account->name);
+	url = g_strdup_printf ("evolution:/%s/INBOX", account->name);
+	add_shortcut_entry (name, url, "mail");
+	g_free (name);
+	g_free (url);
+}
+
 void
 mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
+
+	if (account->source && account->source->url)
+		maybe_add_shortcut (account);
 }
 
 static void

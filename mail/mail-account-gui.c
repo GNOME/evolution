@@ -117,17 +117,24 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 {
 	const CamelProvider *prov = service->provider;
 	char *text;
-	
+	GtkWidget *path;
+
 	if (!prov)
 		return TRUE;
-	
+
+	/* transports don't have a path */
+	if (service->path)
+		path = GTK_WIDGET (service->path);
+	else
+		path = NULL;
+
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_HOST)) {
 		text = gtk_entry_get_text (service->hostname);
 		if (!text || !*text) {
 			if (incomplete)
 				*incomplete = get_focused_widget (GTK_WIDGET (service->hostname),
 								  GTK_WIDGET (service->username),
-								  GTK_WIDGET (service->path),
+								  path,
 								  NULL);
 			return FALSE;
 		}
@@ -138,14 +145,19 @@ service_complete (MailAccountGuiService *service, GtkWidget **incomplete)
 		if (!text || !*text) {
 			if (incomplete)
 				*incomplete = get_focused_widget (GTK_WIDGET (service->username),
-								  GTK_WIDGET (service->path),
 								  GTK_WIDGET (service->hostname),
+								  path,
 								  NULL);
 			return FALSE;
 		}
 	}
 	
 	if (CAMEL_PROVIDER_NEEDS (prov, CAMEL_URL_PART_PATH)) {
+		if (!path) {
+			printf ("aagh, transports aren't supposed to have paths.\n");
+			return TRUE;
+		}
+
 		text = gtk_entry_get_text (service->path);
 		if (!text || !*text) {
 			if (incomplete)
@@ -1618,8 +1630,8 @@ mail_account_gui_save (MailAccountGui *gui)
 	account->smime_encrypt_to_self = gtk_toggle_button_get_active (gui->smime_encrypt_to_self);
 	account->smime_always_sign = gtk_toggle_button_get_active (gui->smime_always_sign);
 	
-	mail_autoreceive_setup ();
-	
+	mail_autoreceive_setup_account (account->source);
+
 	return TRUE;
 }
 

@@ -175,20 +175,21 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	MailConfigDruid *druid = user_data;
 	MailAccountGui *gui = druid->gui;
 
-	/* Add the account to our list (do it first because future
-           steps might want to access config->accounts) */
-	mail_config_add_account (gui->account);
-
 	/* Save the settings for that account */
 	mail_account_gui_save (gui);
 	if (gui->account->source)
 		gui->account->source->enabled = TRUE;
 
+	/* Add the account to our list (do it early because future
+           steps might want to access config->accounts) */
+	mail_config_add_account (gui->account);
+
 	/* Write out the config info */
 	mail_config_write ();
 
-	/* Load up this new account */
-	mail_load_storage_by_uri (druid->shell, gui->account->source->url, gui->account->name);
+	/* Load up this new account if necessary */
+	if (gui->account->source && gui->account->source->url)
+		mail_load_storage_by_uri (druid->shell, gui->account->source->url, gui->account->name);
 	
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }

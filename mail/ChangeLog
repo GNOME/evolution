@@ -1,3 +1,38 @@
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* mail-send-recv.c (mail_autoreceive_setup): Break most of the
+	functionality into a separate function.
+	(autoreceive_setup_list): Rename of mail_autoreceive_setup that is
+	passed a list of accounts.
+	(mail_autoreceive_setup_account): New function. Set up a single
+	account using autoreceive_setup_account.
+
+	* mail-send-receive.h: Prototype mail_autoreceive_setup_account.
+
+	* mail-account-gui.c (mail_account_gui_save): Instead of setting
+	up all accounts, set up only this source with the new
+	mail_autoreceive_setup_account.
+
+	* mail-config-druid.c (druid_finish): ... which means we can call
+	mail_config_add_account() after the MailConfigAccount has been
+	created by mail_account_gui_save() because we no longer need the
+	account to be in the list for mail_autoreceive_setup()
+
+	* mail-config.c (mail_config_add_account): ... which means we can
+	possibly add a shortcut to the account's sources's Inbox here.
+	(maybe_add_shortcut): New function. If the store is a storage, add
+	a shortcut to its inbox. Hope that /INBOX exists.
+	(add_shortcut_entry): New function. Creates a shortcut if it doesn't
+	yet exist.
+
+2001-08-13  Peter Williams  <peterw@ximian.com>
+
+	* mail-account-gui.c (service_complete): Take account of the fact that
+	service->path may be NULL (if service is a transport.)
+
+	* mail-config-druid.c (druid_finish): Bleah, bugfix in case the
+	account has no source.
+
 2001-08-13  Anna Marie Dirks <anna@ximian.com>
 	
 	* mail-config.glade: Changed all instances of "Wizard" and "Druid"
