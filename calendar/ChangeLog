@@ -1,3 +1,18 @@
+2001-01-23  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/calendar-model.c (ensure_task_complete): make sure the status
+	is set to "Completed". Fixes bug #1253.
+
+	* gui/e-tasks.c (e_tasks_open): load the ETable state after opening
+	the tasks folder, since it relies on the folder uri, which isn't set
+	now until you open the folder.
+
+	* gui/calendar-model.c (obj_updated_cb): add the categories from the
+	updated object to our tree, and emit the "categories-changed" signal
+	if they have changed. Fixes bug #1255.
+
+	* gui/e-tasks.c: removed debug messages.
+
 2001-01-23  JP Rosevear  <jpr@ximian.com>
 
 	*  libical import cleanup

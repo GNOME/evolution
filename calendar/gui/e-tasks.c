@@ -260,16 +260,15 @@ e_tasks_open			(ETasks		*tasks,
 
 	priv = tasks->priv;
 
-	config_filename = e_tasks_get_config_filename (tasks);
-	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->tasks_view),
-				     config_filename);
-	g_free (config_filename);
-
-
 	if (!cal_client_open_calendar (priv->client, file, FALSE)) {
 		g_message ("e_tasks_open(): Could not issue the request");
 		return FALSE;
 	}
+
+	config_filename = e_tasks_get_config_filename (tasks);
+	e_calendar_table_load_state (E_CALENDAR_TABLE (priv->tasks_view),
+				     config_filename);
+	g_free (config_filename);
 
 	return TRUE;
 }
@@ -452,8 +451,6 @@ e_tasks_on_filter_selected		(GtkMenuShell	*menu_shell,
 	cal_table = E_CALENDAR_TABLE (priv->tasks_view);
 	model = cal_table->model;
 
-	g_print ("!#!#!#!#!# filter selected: %s\n", category);
-
 	if (!strcmp (category, _("All"))) {
 		calendar_model_set_default_category (model, NULL);
 		e_calendar_table_set_filter_func (cal_table, NULL, NULL,
@@ -471,8 +468,6 @@ static void
 e_tasks_on_categories_changed	(CalendarModel	*model,
 				 ETasks		*tasks)
 {
-	g_print ("In e_tasks_on_categories_changed\n");
-
 	e_tasks_rebuild_categories_menu (tasks);
 }
 

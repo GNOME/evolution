@@ -1698,6 +1698,14 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 			e_table_model_row_changed (E_TABLE_MODEL (model), *new_idx);
 		}
 
+		/* See if we need to add any categories. Note that old
+		   categories won't be removed, but I don't think that matters
+		   too much here. */
+		if (calendar_model_collect_categories (model, new_comp)) {
+			gtk_signal_emit (GTK_OBJECT (model),
+					 calendar_model_signals [CATEGORIES_CHANGED]);
+		}
+
 		break;
 
 	case CAL_CLIENT_GET_NOT_FOUND:
@@ -1986,6 +1994,7 @@ ensure_task_complete (CalComponent *comp,
 	struct icaltimetype *old_completed = NULL;
 	struct icaltimetype new_completed;
 	int *old_percent, new_percent;
+	icalproperty_status status;
 	gboolean set_completed = TRUE;
 
 	/* Date Completed. */
@@ -2013,6 +2022,12 @@ ensure_task_complete (CalComponent *comp,
 	}
 	if (old_percent)
 		cal_component_free_percent (old_percent);
+
+	/* Status. */
+	cal_component_get_status (comp, &status);
+	if (status != ICAL_STATUS_COMPLETED) {
+		cal_component_set_status (comp, ICAL_STATUS_COMPLETED);
+	}
 }
 
 
