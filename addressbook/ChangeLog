@@ -1,3 +1,8 @@
+2000-09-25  Nat Friedman  <nat@helixcode.com>
+
+	* ename/e-name-western-tables.h: Added a ton of new prefixes and
+	suffixes.
+
 2000-09-22  Michael Meeks  <michael@helixcode.com>
 
 	* gui/component/addressbook.c (control_activate): update.
