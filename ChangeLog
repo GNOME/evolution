@@ -1,3 +1,8 @@
+2001-11-09  Ettore Perazzoli  <ettore@ximian.com>
+
+	* tools/killev: Chop the output from `uname -s'.  Thanks to
+	Michael Gerdts for suggesting the fix.
+
 2001-11-09  Abel Cheung  <maddog@linux.org.hk>
 
 	* configure.in: Re-added zh_TW to ALL_LINGUAS. Translator keep

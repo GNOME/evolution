@@ -24,6 +24,7 @@ $debug=0;
 ##
 
 $sysname=`uname -s`;
+chop $sysname;
 
 if ($sysname eq "SunOS") {
 	$killcmd="pkill";
