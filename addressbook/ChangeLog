@@ -1,3 +1,17 @@
+2004-06-22  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #59622.
+
+	* gui/widgets/e-minicard-view.c (e_minicard_view_init): Clear drag_list
+	and canvas_drag_data_delete_id.
+	(e_minicard_view_dispose): Clear drag_list. Disconnect drag_data_delete
+	signal if connected.
+	(e_minicard_view_drag_begin): Set up drag_data_delete signal if
+	necessary. Clear old data before drag starts.
+	(clear_drag_data): Implement.
+	(e_minicard_view_drag_data_delete): Implement.
+	(e_minicard_view_drag_data_get): Don't clear drag_list here.
+
 2004-06-22  Chris Toshok  <toshok@ximian.com>
 
 	[ should fix #60495, #58635 ]
