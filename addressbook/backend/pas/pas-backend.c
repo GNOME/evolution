@@ -28,7 +28,7 @@ pas_backend_construct (PASBackend *backend)
 	return TRUE;
 }
 
-gboolean
+GNOME_Evolution_Addressbook_BookListener_CallStatus
 pas_backend_load_uri (PASBackend             *backend,
 		      const char             *uri)
 {

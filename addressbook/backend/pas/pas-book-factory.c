@@ -278,16 +278,19 @@ pas_book_factory_process_request (PASBookFactory              *factory,
 	backend = g_hash_table_lookup (factory->priv->active_server_map, uri);
 
 	if (!backend) {
+		GNOME_Evolution_Addressbook_BookListener_CallStatus status;
+
 		backend = pas_book_factory_launch_backend (factory, listener, uri);
 		if (!backend)
 			goto out;
 
-		if (!pas_backend_load_uri (backend, uri) ) {
+		status = pas_backend_load_uri (backend, uri);
+		if (status != GNOME_Evolution_Addressbook_BookListener_Success) {
 			/* tell the listener that we failed to open the book */
 			CORBA_exception_init (&ev);
 
 			GNOME_Evolution_Addressbook_BookListener_notifyBookOpened (
-					   listener, GNOME_Evolution_Addressbook_BookListener_RepositoryOffline,
+					   listener, status,
 					   CORBA_OBJECT_NIL,
 					   &ev);
 

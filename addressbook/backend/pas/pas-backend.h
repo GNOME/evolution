@@ -40,7 +40,7 @@ typedef struct {
 	GtkObjectClass parent_class;
 
 	/* Virtual methods */
-	gboolean (*load_uri) (PASBackend *backend, const char *uri);
+	GNOME_Evolution_Addressbook_BookListener_CallStatus (*load_uri) (PASBackend *backend, const char *uri);
 	const char *(* get_uri) (PASBackend *backend);
 	gboolean (*add_client) (PASBackend *backend, GNOME_Evolution_Addressbook_BookListener listener);
 	void (*remove_client) (PASBackend *backend, PASBook *book);
@@ -53,7 +53,9 @@ typedef struct {
 typedef PASBackend * (*PASBackendFactoryFn) (void);
 
 gboolean    pas_backend_construct                (PASBackend             *backend);
-gboolean    pas_backend_load_uri                 (PASBackend             *backend,
+
+GNOME_Evolution_Addressbook_BookListener_CallStatus
+            pas_backend_load_uri                 (PASBackend             *backend,
 						  const char             *uri);
 const char *pas_backend_get_uri                  (PASBackend             *backend);
 

@@ -1,3 +1,34 @@
+2002-02-20  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri):
+	track change to signature, and (for now) just change all the
+	return FALSE's to _RepositoryOffline (what FALSE used to map to in
+	pas_book_factory_process_request), and change TRUE to _Success.
+
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_load_uri):
+	track change to signature, and differentiate between
+	pas_backend_ldap_connect failing (RepositoryOffline), and
+	ldap_url_parse failing (OtherError).
+	
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_process_request): since pas_backend_load_uri
+	returns status now, use it to nodify the BookListener if there's a
+	failure.
+
+	* backend/pas/pas-backend.c (pas_backend_load_uri): track change
+	to signature.
+
+	* backend/pas/pas-backend.h: change return type of
+	pas_backend_load_uri to
+	GNOME_Evolution_Addressbook_BookListener_CallStatus to allow
+	differentiation between failure types.
+
+	* backend/ebook/e-book-listener.c
+	(e_book_listener_convert_status): handle _AUTHENTICATION_FAILED.
+
+	* backend/ebook/e-book-types.h (EBookStatus): add
+	_AUTHENTICATION_FAILED.
+
 2002-02-18  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-book-factory.c
