@@ -1,3 +1,10 @@
+2004-04-21  Sivaiah Nallagatla   <snallagatla@novell.com>
+	
+	* gui/component/addressbook.c (remove_parameters_from_uri) : added 
+        a new function to striff off any parameters present after ';' in the uri 
+	 (load_source_auth_cb) (addressbook_authenticate) : call above function to 
+	 remove anything after ';' before passing uri to e-password calls 	
+	
 2004-04-21  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.h (EContactEditor): Remove

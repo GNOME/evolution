@@ -52,6 +52,22 @@ free_load_source_data (LoadSourceData *data)
 	g_free (data);
 }
 
+/*this function removes of anything present after semicolon
+in uri*/
+
+static gchar*
+remove_parameters_from_uri (gchar *uri)
+{
+  gchar **components;
+  gchar *new_uri = NULL;
+                                                                                                                             
+  components = g_strsplit (uri, ";", 2);
+  if (components[0])
+        new_uri = g_strdup (components[0]);
+   g_strfreev (components);
+   return new_uri;
+}
+
 static void
 load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 {
@@ -79,10 +95,11 @@ load_source_auth_cb (EBook *book, EBookStatus status, gpointer closure)
 		}
 		else {
 			gchar *uri = e_source_get_uri (data->source);
-
-			e_passwords_forget_password ("Addressbook", uri);
+			gchar *stripped_uri = remove_parameters_from_uri (uri);
+			e_passwords_forget_password ("Addressbook", stripped_uri);
 			addressbook_authenticate (book, TRUE, data->source, load_source_auth_cb, closure);
-
+			
+			g_free (stripped_uri);
 			g_free (uri);
 			return;
 		}
@@ -121,6 +138,10 @@ addressbook_authenticate (EBook *book, gboolean previous_failure, ESource *sourc
 	const gchar *auth;
 	const gchar *user;
 	gchar *uri = e_source_get_uri (source);
+        gchar *stripped_uri = remove_parameters_from_uri (uri);
+
+	g_free (uri);
+	uri = stripped_uri;
 
 	password = e_passwords_get_password ("Addressbook", uri);
 
