@@ -1145,13 +1145,14 @@ views/tasks/Makefile
 views/calendar/Makefile
 tools/Makefile
 doc/Makefile
-doc/C/Makefile
-doc/no/Makefile
 doc/devel/Makefile
 doc/devel/calendar/Makefile
 doc/devel/calendar/cal-client/Makefile
 doc/devel/calendar/cal-util/Makefile
 doc/devel/executive-summary/Makefile
+help/Makefile
+help/C/Makefile
+help/no/Makefile
 omf-install/Makefile
 ])
 

@@ -1,3 +1,7 @@
+2001-08-16  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* configure.in: Adjust for the move of the user docs.
+	
 2001-08-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Addded missing dirs to the build. Add checks for
