@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-06-13 03:17+0200\n"
-"PO-Revision-Date: 2004-06-13 12:59+0800\n"
+"PO-Revision-Date: 2004-06-14 11:42+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -9254,7 +9254,7 @@ msgstr ""
 #: camel/camel-smime-context.c:651
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
-msgstr "签名者：%s <%s>：%s"
+msgstr "签名者：%s <%s>：%s\n"
 
 #: camel/camel-smime-context.c:752
 msgid "Decoder failed"
@@ -9868,73 +9868,73 @@ msgid "Unknown error"
 msgstr "未知的错误"
 
 #: camel/providers/imap4/camel-imap4-store.c:381
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
-msgstr "无法连接到 POP 服务器 %s：不支持请求认证机制。"
+msgstr "无法使用 %2$s 身份验证算法对 IMAP 服务器 %1$s 进行身份验证"
 
 #: camel/providers/imap4/camel-imap4-store.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "%sPlease enter the IMAP password for %s on host %s"
 msgstr "%s请为 %s@%s 输入 IMAP 密码"
 
 #: camel/providers/imap4/camel-imap4-store.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot authenticate to IMAP server %s using %s"
-msgstr "认证到 POP 服务器 %s 失败：%s"
+msgstr "无法使用 %2$s 认证到 IMAP 服务器 %1$s"
 
 #: camel/providers/imap4/camel-imap4-store.c:731
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot get folder `%s' on IMAP server %s: Unknown"
-msgstr "无法获取文件夹：%s：%s"
+msgstr "无法获取 IMAP 服务器 %2$s 上的文件夹 %1$s：未知"
 
 #: camel/providers/imap4/camel-imap4-store.c:793
 #: camel/providers/imap/camel-imap-store.c:1885
 #: camel/providers/imap/camel-imap-store.c:2263
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "文件夹名不能含有字符“#”。"
+msgstr "文件夹名“%s”无效，原因是其中含有字符“%c”"
 
 #: camel/providers/imap4/camel-imap4-store.c:837
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Invalid mailbox name"
-msgstr "无法选择文件夹“%s”：无效的邮箱名"
+msgstr "无法创建文件夹“%s”：无效的邮箱名"
 
 #: camel/providers/imap4/camel-imap4-store.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法创建文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-store.c:870
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Special folder"
-msgstr "无法删除文件夹：%s：没有该文件夹"
+msgstr "无法删除文件夹“%s”：特殊文件夹"
 
 #: camel/providers/imap4/camel-imap4-store.c:903
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Invalid mailbox name"
-msgstr "无法选择文件夹“%s”：无效的邮箱名"
+msgstr "无法删除文件夹“%s”：无效的邮箱名"
 
 #: camel/providers/imap4/camel-imap4-store.c:908
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot delete folder `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法删除文件夹“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-store.c:928
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Special folder"
-msgstr "无法删除文件夹：%s：没有该文件夹"
+msgstr "无法将文件夹“%s”重命名为“%s”：特殊文件夹"
 
 #: camel/providers/imap4/camel-imap4-store.c:960
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "无法选择文件夹“%s”：无效的邮箱名"
+msgstr "无法将文件夹“%s”重命名为“%s”：无效的邮箱名"
 
 #: camel/providers/imap4/camel-imap4-store.c:965
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot rename folder `%s' to `%s': Bad command"
-msgstr "无法选择文件夹“%s”：无效的命令"
+msgstr "无法将文件夹“%s”重命名为“%s”：无效的命令"
 
 #: camel/providers/imap4/camel-imap4-store.c:1171
 #, c-format
@@ -10429,7 +10429,7 @@ msgstr "无法获取文件夹“%s”：%s"
 #: camel/providers/local/camel-mh-store.c:211
 #, c-format
 msgid "Cannot get folder `%s': folder does not exist."
-msgstr "无法获得文件夹“%s”：文件夹“%s”不存在。"
+msgstr "无法获得文件夹“%s”：文件夹不存在。"
 
 #: camel/providers/local/camel-maildir-store.c:119
 #: camel/providers/local/camel-mbox-store.c:184
@@ -11154,7 +11154,7 @@ msgstr "SMTP"
 
 #: camel/providers/smtp/camel-smtp-provider.c:39
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
-msgstr ""
+msgstr "要投递邮件，应该使用 SMTP 连接到远程的邮件交换服务器。"
 
 #: camel/providers/smtp/camel-smtp-transport.c:174
 msgid "Syntax error, command unrecognized"
@@ -11766,7 +11766,7 @@ msgid ""
 msgstr ""
 "无法激活 HTML 编辑器组件。\n"
 "请确定您的 gtkhtml 和 libgtkhtml 所安装的版"
-"本正确。\n"
+"本正确。"
 
 #: data/evolution.desktop.in.in.h:1
 msgid "The Ximian Evolution Groupware Suite"
@@ -12586,7 +12586,7 @@ msgstr "虚拟文件夹"
 #. UNMATCHED is always last
 #: mail/em-folder-tree-model.c:205 mail/em-folder-tree-model.c:207
 msgid "UNMATCHED"
-msgstr ""
+msgstr "不匹配"
 
 #. Inbox is always first
 #: mail/em-folder-tree-model.c:211 mail/em-folder-tree-model.c:213
@@ -13065,7 +13065,7 @@ msgstr "无法创建目录“%s”：%s"
 #: mail/em-migrate.c:2058
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "无法复制 POP3 在服务器上保留的数据“%s”：%s"
 
 #: mail/em-migrate.c:2413 mail/em-migrate.c:2425
 #, fuzzy, c-format
@@ -13073,11 +13073,10 @@ msgid "Failed to create local mail storage `%s': %s"
 msgstr "创建到“%s”的管道失败：%s"
 
 #: mail/em-migrate.c:2576
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to create local mail folders at `%s': %s"
 msgstr ""
-"无法创建输出文件：%s\n"
-" %s"
+"无法在“%s”创建本地邮件文件夹：%s"
 
 #: mail/em-migrate.c:2594
 msgid ""
@@ -13463,23 +13462,20 @@ msgid "Send HTML mail by default."
 msgstr "默认以 HTML 发送邮件。"
 
 #: mail/evolution-mail.schemas.in.in.h:67
-#, fuzzy
 msgid "Show Animations"
-msgstr "显示动画图像(_S)"
+msgstr "显示动画"
 
 #: mail/evolution-mail.schemas.in.in.h:68
-#, fuzzy
 msgid "Show animated images as animations."
-msgstr "显示动画图像(_S)"
+msgstr "将动画图像显示为动画。"
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
+msgstr "在邮件列表中显示删除了的邮件(带有删除线)。"
 
 #: mail/evolution-mail.schemas.in.in.h:70
-#, fuzzy
 msgid "Show deleted messages in the message-list"
-msgstr "以普通样式显示邮件"
+msgstr "在邮件列表中显示删除了的邮件"
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show the \"Preview\" pane"
@@ -13571,7 +13567,7 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use custom fonts"
-msgstr ""
+msgstr "使用自定义字体"
 
 #: mail/evolution-mail.schemas.in.in.h:92
 msgid "Use custom fonts for displaying mail"
@@ -13826,7 +13822,7 @@ msgid ""
 "These filters will be dropped."
 msgstr ""
 "您的某些 Netscape 邮件过滤器使用“忽略线索”\n"
-"或“观察线索”特性，而 Evolution 并不支持该\n"
+"或“监视线索”特性，而 Evolution 并不支持该\n"
 "特性。这些过滤器将被丢弃。"
 
 #: mail/importers/netscape-importer.c:703
@@ -14678,16 +14674,15 @@ msgstr "无效的身份验证"
 
 #. mail:camel-service-auth-invalid secondary
 #: mail/mail-errors.xml.h:4
-#, fuzzy
 msgid ""
 "This server does not support this type of authentication and may not support "
 "authentication at all."
-msgstr "SMTP 服务器 %s 不支持请求的认证类型 %s。"
+msgstr "此服务器不支持此类型的身份验证，而且可能根本不支持身份验证。"
 
 #. mail:camel-service-auth-failed primary
 #: mail/mail-errors.xml.h:6
 msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr ""
+msgstr "您以登录到服务器“{0}”失败。"
 
 #. mail:camel-service-auth-failed secondary
 #: mail/mail-errors.xml.h:8
@@ -14818,7 +14813,7 @@ msgstr "清空回收站(_E)"
 #. mail:exit-unsaved primary
 #: mail/mail-errors.xml.h:53
 msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr ""
+msgstr "您有未发的邮件，您仍然想要退出吗？"
 
 #. mail:exit-unsaved secondary
 #: mail/mail-errors.xml.h:55
@@ -14957,7 +14952,7 @@ msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗?？"
 msgid ""
 "If you delete the folder, all of its contents and its subfolders contents "
 "will be deleted permanently."
-msgstr ""
+msgstr "如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
 
 #. mail:no-rename-folder-exists primary
 #. mail:no-rename-folder primary
@@ -14969,7 +14964,7 @@ msgstr "无法将“{0}”重命名为“{1}”。"
 #. mail:vfolder-notunique secondary
 #: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
 msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr ""
+msgstr "名为“{1}”的文件夹已经存在。请使用不同的名称。"
 
 #. mail:no-rename-folder secondary
 #: mail/mail-errors.xml.h:134
@@ -15063,7 +15058,7 @@ msgstr "无法设置签名脚本“{0}”。"
 #. mail:signature-notscript secondary
 #: mail/mail-errors.xml.h:177
 msgid "The script file must exist and be executable."
-msgstr ""
+msgstr "脚本文件必须存在且可执行。"
 
 #. mail:ask-signature-changed title
 #: mail/mail-errors.xml.h:179
@@ -15104,7 +15099,7 @@ msgstr "无法添加虚拟文件夹“{0}”。"
 #. mail:vfolder-updated primary
 #: mail/mail-errors.xml.h:194
 msgid "vFolders automatically updated."
-msgstr ""
+msgstr "虚拟文件夹已自动更新。"
 
 #. mail:vfolder-updated secondary
 #: mail/mail-errors.xml.h:196
@@ -15119,7 +15114,7 @@ msgstr ""
 #. mail:filter-updated primary
 #: mail/mail-errors.xml.h:202
 msgid "Mail filters automatically updated."
-msgstr ""
+msgstr "邮件过滤器已自动更新。"
 
 #. mail:filter-updated secondary
 #: mail/mail-errors.xml.h:204
@@ -15134,7 +15129,7 @@ msgstr ""
 #. mail:ask-migrate-existing primary
 #: mail/mail-errors.xml.h:210
 msgid "Problem migrating old mail folder \"{0}\"."
-msgstr ""
+msgstr "升迁旧的邮件文件夹“{0}”有问题。"
 
 #. mail:ask-migrate-existing secondary
 #: mail/mail-errors.xml.h:212
@@ -15192,10 +15187,10 @@ msgstr "追加到本地“已发”文件夹失败：%s"
 #: mail/mail-ops.c:672
 #, c-format
 msgid "Sending message %d of %d"
-msgstr "发送第 %d 个邮件，共 %d 个"
+msgstr "发送第%d封邮件，共%d封"
 
 #: mail/mail-ops.c:703
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to send %d of %d messages"
 msgstr "在第%d封邮件失败，共%d封"
 
@@ -15247,9 +15242,9 @@ msgid "Storing folder '%s'"
 msgstr "存储文件夹“%s”"
 
 #: mail/mail-ops.c:1467
-#, fuzzy, c-format
+#, c-format
 msgid "Expunging and storing account '%s'"
-msgstr "存储账户“%s”"
+msgstr "销毁并存储账户“%s”"
 
 #: mail/mail-ops.c:1468
 #, c-format
@@ -16116,7 +16111,7 @@ msgstr "强制关闭所有 Evolution 组件"
 
 #: shell/main.c:507
 msgid "Forcibly re-migrate from Evolution 1.4"
-msgstr ""
+msgstr "强制从 Evolution 1.4 重新升迁"
 
 #: shell/main.c:510
 msgid "Send the debugging output of all components to a file."
@@ -16230,7 +16225,7 @@ msgstr "<b>颁发给</b>"
 
 #: smime/gui/smime-ui.glade.h:8
 msgid "<b>This certificate has been verified for the following uses:</b>"
-msgstr ""
+msgstr "<b>此证书已经被下列用户所验证：</b>"
 
 #: smime/gui/smime-ui.glade.h:9
 msgid "<b>Validity</b>"
@@ -16276,7 +16271,7 @@ msgstr "联系人证书"
 
 #: smime/gui/smime-ui.glade.h:20
 msgid "Do not trust the authenticity of this certificate"
-msgstr ""
+msgstr "不信任此证书的颁发机构"
 
 #: smime/gui/smime-ui.glade.h:21
 msgid "Dummy window only"
@@ -16287,9 +16282,8 @@ msgid "Edit"
 msgstr "编辑"
 
 #: smime/gui/smime-ui.glade.h:23
-#, fuzzy
 msgid "Email Certificate Trust Settings"
-msgstr "无效的证书颁发机构(CA)"
+msgstr "电子邮件证书信任设置"
 
 #: smime/gui/smime-ui.glade.h:24
 msgid "Email Recipient Certificate"
@@ -16333,19 +16327,19 @@ msgstr "SSL 服务器证书"
 
 #: smime/gui/smime-ui.glade.h:37
 msgid "Trust the authenticity of this certificate"
-msgstr ""
+msgstr "信任此证书的颁发机构"
 
 #: smime/gui/smime-ui.glade.h:38
 msgid "Trust this CA to identify email users."
-msgstr ""
+msgstr "信任此颁发机构标识的电子邮件用户。"
 
 #: smime/gui/smime-ui.glade.h:39
 msgid "Trust this CA to identify software developers."
-msgstr ""
+msgstr "信任此颁发机构标识的软件开发者。"
 
 #: smime/gui/smime-ui.glade.h:40
 msgid "Trust this CA to identify web sites."
-msgstr ""
+msgstr "信任此颁发机构标识的网站。"
 
 #: smime/gui/smime-ui.glade.h:41
 msgid "View"
@@ -18073,7 +18067,7 @@ msgstr "到期日期(_D)"
 
 #: views/tasks/galview.xml.h:2
 msgid "With _Status"
-msgstr "状态(_S)s"
+msgstr "状态(_S)"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:197
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:635
@@ -18293,9 +18287,8 @@ msgid "A widget to display in place of the usual expander label"
 msgstr ""
 
 #: widgets/misc/e-expander.c:222
-#, fuzzy
 msgid "Expander Size"
-msgstr "已展开"
+msgstr "扩展器大小"
 
 #: widgets/misc/e-expander.c:223
 msgid "Size of the expander arrow"
