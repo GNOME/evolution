@@ -1,5 +1,9 @@
 2003-08-20  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/e-calendar-table.c (setup_popup_icons): new function to set icons
+	on the popup menu items.
+	(e_calendar_table_show_popup_menu): call setup_popup_icons.
+
 	* gui/e-cal-view.c (setup_popup_icons): set more icons for the
 	popup menu.
 

@@ -987,7 +987,7 @@ enum {
 static EPopupMenu tasks_popup_menu [] = {
 	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_calendar_table_on_open_task), MASK_SINGLE),
 	E_POPUP_ITEM (N_("Open _Web Page"), GTK_SIGNAL_FUNC (open_url_cb), MASK_SINGLE | MASK_LACKS_URL),
-	E_POPUP_ITEM (N_("_Save as..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Save As..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
 	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_calendar_table_on_print_task), MASK_SINGLE),
 
 	E_POPUP_SEPARATOR,
@@ -1010,6 +1010,36 @@ static EPopupMenu tasks_popup_menu [] = {
 
 	E_POPUP_TERMINATOR
 };
+
+static void
+setup_popup_icons (EPopupMenu *context_menu)
+{
+	gint i;
+
+	for (i = 0; context_menu[i].name; i++) {
+		GtkWidget *pixmap_widget = NULL;
+
+		if (!strcmp (context_menu[i].name, _("_Copy")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("C_ut")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_CUT, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Delete")) ||
+			 !strcmp (context_menu[i].name, _("_Delete Selected Tasks")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Open")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Paste")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Print...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU);
+		else if (!strcmp (context_menu[i].name, _("_Save As...")))
+			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, GTK_ICON_SIZE_MENU);
+
+		if (pixmap_widget)
+			gtk_widget_show (pixmap_widget);
+		context_menu[i].pixmap_widget = pixmap_widget;
+	}
+}
 
 static gint
 e_calendar_table_show_popup_menu (ETable *table,
@@ -1047,6 +1077,7 @@ e_calendar_table_show_popup_menu (ETable *table,
 	if (cal_client_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
+	setup_popup_icons (tasks_popup_menu);
         gtk_menu = e_popup_menu_create (tasks_popup_menu, disable_mask,
 					hide_mask, cal_table);
                                                                             
