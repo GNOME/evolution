@@ -1,3 +1,7 @@
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
+	
+	* configure.in: Added new Directories section for the default_user.
+
 2000-05-06  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: Updated for the new `default_user' directory
