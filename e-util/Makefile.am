@@ -10,7 +10,7 @@ INCLUDES =							\
 	$(BONOBO_CONF_CFLAGS)					\
 	$(PISOCK_CFLAGS)					\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"			\
-	-DEVOLUTION_CATEGORY_ICONS=\""$(imagedir)/categories"\"	\
+	-DEVOLUTION_CATEGORY_ICONS=\""$(imagesdir)/categories"\"	\
 	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la libeutil-static.la \
