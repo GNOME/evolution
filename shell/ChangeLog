@@ -1,5 +1,15 @@
 2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-folder-mail.c: Removed.
+
+	* e-folder-mail.h: Removed.
+
+	* eshell-types.h: Removed.
+
+	* e-folder.h: Don't #include "eshell-types.h".
+
+2000-05-02  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-folder.h: Removed member `eservice' from `EFolder'.
 
 	* e-service.c: Removed.

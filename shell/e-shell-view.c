@@ -10,6 +10,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+
 #include "shortcut-bar/e-shortcut-bar.h"
 #include "e-util/e-util.h"
 #include "e-shell-view.h"

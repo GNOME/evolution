@@ -39,7 +39,6 @@ evolution_SOURCES =		\
 	evolution-service-repository.c	\
 	evolution-service-repository.h
 
-
 Evolution-impl.o: Evolution.h
 
 $(EVOLUTION_CORBA_GENERATED): Evolution.idl evolution-service-repository.idl

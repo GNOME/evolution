@@ -6,7 +6,6 @@
 #define _E_FOLDER_H_
 
 
-#include "eshell-types.h"
 #include <gtk/gtkobject.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
@@ -31,7 +30,7 @@ typedef enum {
 	E_FOLDER_OTHER
 } EFolderType;
 
-struct  _EFolder {
+struct _EFolder {
 	GtkObject parent_object;
 
 	EFolderType type;
@@ -49,15 +48,17 @@ struct  _EFolder {
 	 */
 	char *view_name;	/* View name */
 };
+typedef struct _EFolder EFolder;
  
-typedef struct {
+struct _EFolderClass {
 	GtkObjectClass parent_class;
 
 	/*
 	 * Notifies views of visible changes in the Efolder
 	 */
 	void (*changed) (EFolder *efolder);
-} EFolderClass;
+};
+typedef struct _EFolderClass EFolderClass;
 
 GtkType     e_folder_get_type        (void);
 void        e_folder_construct       (EFolder *efolder, EFolderType type,
