@@ -1,3 +1,12 @@
+2004-09-24  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #65599
+
+	* gui/itip-utils.c (comp_fb_normalize): don't use NULL properties.
+
+	* gui/e-pub-utils.c (e_pub_publish): use auth_new_cal_from_source()
+	instead of auth_new_cal_from_uri().
+
 2004-09-24  JP Rosevear  <jpr@novell.com>
  
  	Fixes #66344
@@ -64,7 +73,7 @@
  	* conduits/calendar/calendar-conduit.c (local_record_from_comp):
  	handle -1 (last) for monthly recurrences and check both by_set_pos
  	and by_day since either can indicate this type of recurrence
-	
+
 2004-09-20  Tony Tsui <ttsui9@gmail.com>
 
 	Fixes #66174
