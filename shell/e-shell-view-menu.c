@@ -268,7 +268,7 @@ command_new_folder (BonoboUIComponent *uih,
 
 static void
 command_new_view (BonoboUIComponent *uih,
-		  void *data,
+		  gpointer          data,
 		  const char *path)
 {
 	EShellView *shell_view;
@@ -315,7 +315,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 
 static void
 command_goto_folder (BonoboUIComponent *uih,
-		     void *data,
+		     gpointer    data,
 		     const char *path)
 {
 	GtkWidget *folder_selection_dialog;
@@ -389,32 +389,32 @@ DEFINE_UNIMPLEMENTED (command_new_contact)
 DEFINE_UNIMPLEMENTED (command_new_task_request)
 
 BonoboUIVerb new_verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("NewView", command_new_view),
-	BONOBO_UI_UNSAFE_VERB ("NewFolder", command_new_folder),
-	BONOBO_UI_UNSAFE_VERB ("NewShortcut", command_new_shortcut),
-	BONOBO_UI_UNSAFE_VERB ("NewMailMessage", command_new_mail_message),
-
-	BONOBO_UI_UNSAFE_VERB ("NewAppointment", command_new_shortcut),
-	BONOBO_UI_UNSAFE_VERB ("NewContact", command_new_contact),
-	BONOBO_UI_UNSAFE_VERB ("NewTask", command_new_task_request),
+	BONOBO_UI_VERB ("NewView", command_new_view),
+	BONOBO_UI_VERB ("NewFolder", command_new_folder),
+	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
+	BONOBO_UI_VERB ("NewMailMessage", command_new_mail_message),
+		  
+	BONOBO_UI_VERB ("NewAppointment", command_new_shortcut),
+	BONOBO_UI_VERB ("NewContact", command_new_contact),
+	BONOBO_UI_VERB ("NewTask", command_new_task_request),
 
 	BONOBO_UI_VERB_END
 };
 
 BonoboUIVerb file_verbs [] = {
-	BONOBO_UI_UNSAFE_VERB ("FileGoToFolder", command_goto_folder),
-	BONOBO_UI_UNSAFE_VERB ("FileCreateFolder", command_create_folder),
-	BONOBO_UI_UNSAFE_VERB ("FileExit", command_quit),
+	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
+	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
+	BONOBO_UI_VERB ("FileExit", command_quit),
 
 	BONOBO_UI_VERB_END
 };
 
 BonoboUIVerb help_verbs [] = {
-	BONOBO_UI_UNSAFE_VERB_DATA ("HelpIndex", command_help, "index.html"),
-	BONOBO_UI_UNSAFE_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
-	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
-	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
-	BONOBO_UI_UNSAFE_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
+	BONOBO_UI_VERB_DATA ("HelpIndex", command_help, "index.html"),
+	BONOBO_UI_VERB_DATA ("HelpGetStarted", command_help, "usage-mainwindow.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingMail", command_help, "usage-mail.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingCalendar", command_help, "usage-calendar.html"),
+	BONOBO_UI_VERB_DATA ("HelpUsingContact", command_help, "usage-contact.html"),
 
 	BONOBO_UI_VERB_END
 };
