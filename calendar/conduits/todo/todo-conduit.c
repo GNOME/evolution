@@ -392,30 +392,10 @@ static char *print_remote (GnomePilotRecord *remote)
 	return buff;
 }
 
-
-/* Calendar Server routines */
-static void
-start_calendar_server_cb (ECal *e_cal,
-			  ECalOpenStatus status,
-			  gpointer data)
-{
-	gboolean *success = data;
-
-	if (status == E_CAL_OPEN_SUCCESS) {
-		*success = TRUE;
-	} else {
-		*success = FALSE;
-		WARN ("Failed to open calendar!\n");
-	}
-	
-	gtk_main_quit (); /* end the sub event loop */
-}
-
 static int
 start_calendar_server (EToDoConduitContext *ctxt)
 {
 	char *uri;
-	gboolean success = FALSE;
 	
 	g_return_val_if_fail (ctxt != NULL, -2);
 
@@ -428,20 +408,10 @@ start_calendar_server (EToDoConduitContext *ctxt)
 	if (!ctxt->client)
 		return -1;
 
-	g_signal_connect (ctxt->client, "cal_opened",
-			  G_CALLBACK (start_calendar_server_cb), &success);
-
 	if (!e_cal_open (ctxt->client,  FALSE, NULL))
 		return -1;
 
-	/* run a sub event loop to turn cal-client's async load
-	   notification into a synchronous call */
-	gtk_main ();
-	
-	if (success)
-		return 0;
-
-	return -1;
+	return 0;
 }
 
 /* Utility routines */

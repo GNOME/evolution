@@ -1,3 +1,10 @@
+2003-11-11  JP Rosevear <jpr@ximian.com>
+
+	* conduits/todo/todo-conduit.c (start_calendar_server): load the
+	calendar synchronously
+
+	* conduits/calendar/calendar-conduit.c (start_calendar_server): ditto
+	
 2003-11-10  JP Rosevear <jpr@ximian.com>
 
 	* importers/icalendar-importer.c (update_single_object): return
