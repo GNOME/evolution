@@ -1,3 +1,34 @@
+2004-06-03  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #53643 and #26903.
+
+	* gui/search/addresstypes.xml: category -> category_list
+
+	* gui/search/e-addressbook-search-dialog.c (get_widget): Get
+	filter rule from parent view.
+	(eab_search_dialog_set_property): Implement.
+	(eab_search_dialog_get_property): Impleent.
+	(eab_search_dialog_class_init): Set up property methods.
+	(get_query): Get filter rule from parent view.
+	(eab_search_dialog_init): Don't get the filter widget here,
+	wait until parent view property is set.
+	(eab_search_dialog_new): Don't poke the parent view in, set it
+	as a property instead.
+	(eab_search_dialog_dispose): No longer needs to unref rule.
+
+	* gui/search/e-addressbook-search-dialog.c: EABSearchDialog no
+	longer needs to keep rule internally.
+
+	* gui/widgets/Makefile.am: Set SEARCH_RULE_DIR define.
+
+	* gui/widgets/e-addressbook-view.c (eab_view_new): Set up filter
+	rule and context.
+	(eab_view_peek_search_context): Implement.
+	(eab_view_peek_search_rule): Implement.
+
+	* gui/widgets/e-addressbook-view.h: Keep track of filter rule
+	and context. Add protos for added API.
+
 2004-06-03  Jeffrey Stedfast  <fejj@novell.com>
 
 	* conduit/address-conduit.c (set_status_cleared): Protect against

@@ -45,11 +45,7 @@ struct _EABSearchDialog
 	GtkDialog parent;
 
 	GtkWidget *search;
-
 	EABView *view;
-
-	RuleContext *context;
-	FilterRule *rule;
 };
 
 struct _EABSearchDialogClass

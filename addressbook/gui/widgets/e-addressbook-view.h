@@ -92,9 +92,10 @@ struct _EABView
 	BonoboUIComponent *uic;
 
 	/* the search bar and related machinery */
-	ESearchBar *search;
-	gint        ecml_changed_id;
-
+	ESearchBar  *search;
+	gint         ecml_changed_id;
+	RuleContext *search_context;
+	FilterRule  *search_rule;
 };
 
 struct _EABViewClass
@@ -118,6 +119,9 @@ void       eab_view_show_contact_preview (EABView *view, gboolean show);
 void       eab_view_setup_menus         (EABView  *view,
 					 BonoboUIComponent *uic);
 void       eab_view_discard_menus       (EABView  *view);
+
+RuleContext *eab_view_peek_search_context (EABView *view);
+FilterRule  *eab_view_peek_search_rule    (EABView *view);
 
 void       eab_view_save_as             (EABView  *view);
 void       eab_view_view                (EABView  *view);

@@ -411,6 +411,7 @@ eab_view_new (void)
 {
 	GtkWidget *widget = GTK_WIDGET (g_object_new (E_TYPE_AB_VIEW, NULL));
 	EABView *eav = EAB_VIEW (widget);
+	FilterPart *part;
 
 	/* create our model */
 	eav->model = eab_model_new ();
@@ -450,6 +451,20 @@ eab_view_new (void)
 	gtk_widget_show (GTK_WIDGET (eav->search));
 	gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
 
+	/* create the search context */
+	eav->search_context = rule_context_new ();
+	rule_context_add_part_set (eav->search_context, "partset", filter_part_get_type (),
+				   rule_context_add_part, rule_context_next_part);
+	rule_context_load (eav->search_context, SEARCH_RULE_DIR "/addresstypes.xml", "");
+
+	eav->search_rule = filter_rule_new ();
+	part = rule_context_next_part (eav->search_context, NULL);
+
+	if (part == NULL)
+		g_warning ("Could not load addressbook search; no parts.");
+	else
+		filter_rule_add_part (eav->search_rule, filter_part_clone (part));
+
 	/* create the paned window and contact display */
 	eav->paned = gtk_vpaned_new ();
 	gtk_box_pack_start (GTK_BOX (eav), eav->paned, TRUE, TRUE, 0);
@@ -486,6 +501,18 @@ eab_view_new (void)
 	g_object_weak_ref (G_OBJECT (eav->invisible), invisible_destroyed, eav);
 
 	return widget;
+}
+
+RuleContext *
+eab_view_peek_search_context (EABView *view)
+{
+	return view->search_context;
+}
+
+FilterRule *
+eab_view_peek_search_rule (EABView *view)
+{
+	return view->search_rule;
 }
 
 static void

@@ -45,6 +45,67 @@ E_MAKE_TYPE (eab_search_dialog,
 	     eab_search_dialog_init,
 	     PARENT_TYPE)
 
+enum
+{
+	PROP_VIEW = 1
+};
+
+static GtkWidget *
+get_widget (EABSearchDialog *view)
+{
+	RuleContext *context;
+	FilterRule  *rule;
+
+	context = eab_view_peek_search_context (view->view);
+	rule    = eab_view_peek_search_rule    (view->view);
+
+	if (!context || !rule) {
+		g_warning ("Could not get search context.");
+		return gtk_entry_new ();
+	}
+
+	return filter_rule_get_widget (rule, context);
+}
+
+static void
+eab_search_dialog_set_property (GObject *object, guint property_id, const GValue *value, GParamSpec *pspec)
+{
+	EABSearchDialog *search_dialog;
+
+	search_dialog = EAB_SEARCH_DIALOG (object);
+	
+	switch (property_id) {
+	case PROP_VIEW:
+		search_dialog->view = g_value_get_object (value);
+		search_dialog->search = get_widget (search_dialog);
+		gtk_container_set_border_width (GTK_CONTAINER (search_dialog->search), 12);
+		gtk_box_pack_start (GTK_BOX (GTK_DIALOG (search_dialog)->vbox),
+				    search_dialog->search, TRUE, TRUE, 0);
+		gtk_widget_show (search_dialog->search);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+static void
+eab_search_dialog_get_property (GObject *object, guint property_id, GValue *value, GParamSpec *pspec)
+{
+	EABSearchDialog *search_dialog;
+
+	search_dialog = EAB_SEARCH_DIALOG (object);
+
+	switch (property_id) {
+	case PROP_VIEW:
+		g_value_set_object (value, search_dialog->view);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
 static void
 eab_search_dialog_class_init (EABSearchDialogClass *klass)
 {
@@ -54,37 +115,25 @@ eab_search_dialog_class_init (EABSearchDialogClass *klass)
 
 	parent_class = g_type_class_ref (PARENT_TYPE);
 
+	object_class->set_property = eab_search_dialog_set_property;
+	object_class->get_property = eab_search_dialog_get_property;
 	object_class->dispose = eab_search_dialog_dispose;
-}
 
-static GtkWidget *
-get_widget (EABSearchDialog *view)
-{
-	FilterPart *part;
-
-	view->context = rule_context_new();
-	/* FIXME: hide this in a class */
-	rule_context_add_part_set(view->context, "partset", filter_part_get_type(),
-				  rule_context_add_part, rule_context_next_part);
-	rule_context_load(view->context, SEARCH_RULE_DIR "/addresstypes.xml", "");
-	view->rule = filter_rule_new();
-	part = rule_context_next_part(view->context, NULL);
-	if (part == NULL) {
-		g_warning("Problem loading search for addressbook no parts to load");
-		return gtk_entry_new();
-	} else {
-		filter_rule_add_part(view->rule, filter_part_clone(part));
-		return filter_rule_get_widget(view->rule, view->context);
-	}
+	g_object_class_install_property (object_class, PROP_VIEW,
+					 g_param_spec_object ("view", NULL, NULL, E_TYPE_AB_VIEW,
+							      G_PARAM_READWRITE | G_PARAM_CONSTRUCT_ONLY));
 }
 
 static char *
 get_query (EABSearchDialog *view)
 {
+	FilterRule *rule;
 	GString *out = g_string_new("");
 	char *ret;
 
-	filter_rule_build_code(view->rule, out);
+	rule = eab_view_peek_search_rule (view->view);
+
+	filter_rule_build_code(rule, out);
 	ret = out->str;
 	printf("Searching using %s\n", ret);
 	g_string_free(out, FALSE);
@@ -119,10 +168,6 @@ eab_search_dialog_init (EABSearchDialog *view)
 
 	gtk_window_set_default_size (GTK_WINDOW (view), 550, 400);
 	gtk_window_set_title(GTK_WINDOW(view), _("Advanced Search"));
-	view->search = get_widget(view);
-	gtk_container_set_border_width (GTK_CONTAINER (view->search), 12);
-	gtk_box_pack_start(GTK_BOX(dialog->vbox), view->search, TRUE, TRUE, 0);
-	gtk_widget_show(view->search);
 
 	gtk_dialog_add_buttons (dialog,
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -139,8 +184,8 @@ eab_search_dialog_init (EABSearchDialog *view)
 GtkWidget *
 eab_search_dialog_new (EABView *addr_view)
 {
-	EABSearchDialog *view = g_object_new (EAB_SEARCH_DIALOG_TYPE, NULL);
-	view->view = addr_view;
+	EABSearchDialog *view = g_object_new (EAB_SEARCH_DIALOG_TYPE, "view", addr_view, NULL);
+
 	return GTK_WIDGET(view);
 }
 
@@ -150,15 +195,6 @@ eab_search_dialog_dispose (GObject *object)
 	EABSearchDialog *view;
 
 	view = EAB_SEARCH_DIALOG (object);
-
-	if (view->context) {
-		g_object_unref(view->context);
-		view->context = NULL;
-	}
-	if (view->rule) {
-		g_object_unref(view->rule);
-		view->rule = NULL;
-	}
 
 	G_OBJECT_CLASS(parent_class)->dispose (object);
 }

@@ -58,19 +58,19 @@
    <input type="optionlist" name="category-type">
     <option value="contains">
         <title>contains</title>
-	<code>(contains "category" ${category})</code>
+	<code>(contains "category_list" ${category})</code>
     </option>
     <option value="not contains">
         <title>does not contain</title>
-	<code>(not (contains "category" ${category}))</code>
+	<code>(not (contains "category_list" ${category}))</code>
     </option>
     <option value="is">
         <title>is</title>
-	<code>(is "category" ${category})</code>
+	<code>(is "category_list" ${category})</code>
     </option>
     <option value="is not">
         <title>is not</title>
-	<code>(not (is "category" ${category}))</code>
+	<code>(not (is "category_list" ${category}))</code>
     </option>
    </input>
    <input type="string" name="category"/>

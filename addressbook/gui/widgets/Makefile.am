@@ -1,3 +1,5 @@
+ruledir = $(privdatadir)
+
 INCLUDES =										\
 	-DG_LOG_DOMAIN=\"eab-widgets\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
@@ -12,6 +14,7 @@ INCLUDES =										\
 	-I$(top_srcdir)/addressbook/gui/component	\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
+	-DSEARCH_RULE_DIR=\"$(ruledir)\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 CORBA_COMPOSER_SOURCE_H	=			\
