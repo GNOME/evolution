@@ -1,35 +1,9 @@
-2002-11-02  Chris Toshok  <toshok@ximian.com>
+2002-11-20  Chris Toshok  <toshok@ximian.com>
 
-	* backend/ebook/e-book-types.h: just include glib.h instead of the
-	gtk stuff.
-
-	* backend/ebook/e-book-listener.[ch]: convert to
-	GObject/bonobo-activation/etc/etc.
-	* e-book-util.[ch]: same.
-	* e-book-view-listener.[ch]: same.
-	* e-book-view.[ch]: same.
-	* e-book.[ch]: same.
-	* e-card-compare.[ch]: same.
-	* e-card-cursor.[ch]: same.
-	* e-card-simple.[ch]: same.
-	* e-card.[ch]: same.
-	* e-destination.[ch]: same.
-	* evolution-ldif-importer.c: same.
-	* evolution-vcard-importer.c: same.
-	* load-gnomecard-addressbook.c: same.
-	* load-pine-addressbok.c: same.
-	* test-card.c: same.
-	* test-client-list.c: same.
-	* test-client.c: same.
-
-	* backend/ebook/Makefile.am: add e-book-marshal.c to SOURCES, add
-	e-book-marshal.[ch] to CLEANFILES, and add e-book-marshal.list to
-	EXTRA_DIST.  Also, remove the camel libs from the test LDADD's,
-	and leave e-destination.[ch] out of the build.
-
-	* backend/ebook/.cvsignore: ignore e-book-marshal.[ch]
-
-	* backend/ebook/e-book-marshal.list: marshallers for e-book.
+	[ Should fixes bugs #30323, #33097, #33930, #33332 ]
+	* gui/contact-editor/e-contact-editor.c: unref the *@(&E(@
+	select_names_contacts object.  fixes the very, very, very
+	longstanding crash when modifying the list of completion folders.
 
 2002-10-28  Larry Ewing  <lewing@ximian.com>
 

@@ -1462,6 +1462,9 @@ e_contact_editor_destroy (GtkObject *object) {
 	if (e_contact_editor->book)
 		gtk_object_unref(GTK_OBJECT(e_contact_editor->book));
 
+	if (e_contact_editor->select_names_contacts)
+		gtk_object_unref(GTK_OBJECT(e_contact_editor->select_names_contacts));
+
 	e_card_name_unref(e_contact_editor->name);
 	g_free (e_contact_editor->company);
 
