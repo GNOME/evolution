@@ -69,15 +69,15 @@ COMBINEDHEADERS =					\
 	$(top_srcdir)/src/libical/icalenums.h		\
 	$(top_srcdir)/src/libical/icaltypes.h		\
 	$(top_srcdir)/src/libical/icalrecur.h		\
-	$(top_srcdir)/src/libical/icalvalue.h		\
-	$(top_srcdir)/src/libical/icalparameter.h	\
-	$(top_srcdir)/src/libical/icalproperty.h	\
+	icalvalue.h					\
+	icalparameter.h					\
+	icalproperty.h					\
 	$(top_srcdir)/src/libical/pvl.h			\
 	$(top_srcdir)/src/libical/icalcomponent.h	\
 	$(top_srcdir)/src/libical/icalparser.h		\
 	$(top_srcdir)/src/libical/icalmemory.h		\
 	$(top_srcdir)/src/libical/icalerror.h		\
-	$(top_srcdir)/src/libical/icalrestriction.h	\
+	icalrestriction.h				\
 	$(top_srcdir)/src/libical/sspm.h		\
 	$(top_srcdir)/src/libical/icalmime.h 		\
 	$(top_srcdir)/src/libical/icallangbind.h

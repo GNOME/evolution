@@ -1,3 +1,10 @@
+2001-02-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* src/libical/Makefile.am (COMBINEDHEADERS): `icalvalue.h',
+	`icalparameter.h', `icalproperty.h' and `icalrestriction.h' are
+	created in the builddir so they shouldn't be prefixed with
+	`$(top_builddir)/src/libical'.
+
 2001-01-26  Eric Busboom  <eric@softwarestudio.org>
 
 	* icalproperty.c.in Improved icalproperty_as_ical_string() to
