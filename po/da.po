@@ -27,7 +27,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-12-03 20:29+0100\n"
+"POT-Creation-Date: 2004-12-06 23:55+0100\n"
 "PO-Revision-Date: 2004-12-03 23:15+0100\n"
 "Last-Translator: Martin Willemoes Hansen <mwh@sysrq.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
@@ -392,13 +392,13 @@ msgstr ""
 msgid "Base"
 msgstr "Base"
 
-#: addressbook/gui/component/addressbook-config.c:508
+#: addressbook/gui/component/addressbook-config.c:509
 #: calendar/gui/dialogs/calendar-setup.c:191
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
 msgstr "_Type:"
 
-#: addressbook/gui/component/addressbook-config.c:857
+#: addressbook/gui/component/addressbook-config.c:862
 #: addressbook/gui/component/ldap-config.glade.h:23
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/calendar-setup.c:324
@@ -407,34 +407,34 @@ msgstr "_Type:"
 msgid "General"
 msgstr "Generelt"
 
-#: addressbook/gui/component/addressbook-config.c:858
+#: addressbook/gui/component/addressbook-config.c:863
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
 msgstr "Adressebog"
 
-#: addressbook/gui/component/addressbook-config.c:861
+#: addressbook/gui/component/addressbook-config.c:866
 msgid "Server Information"
 msgstr "Serverinformation"
 
-#: addressbook/gui/component/addressbook-config.c:863
+#: addressbook/gui/component/addressbook-config.c:868
 msgid "Authentication"
 msgstr "Godkendelse"
 
-#: addressbook/gui/component/addressbook-config.c:866
+#: addressbook/gui/component/addressbook-config.c:871
 #: addressbook/gui/component/ldap-config.glade.h:18
 #: mail/mail-dialogs.glade.h:13 smime/gui/smime-ui.glade.h:19
 msgid "Details"
 msgstr "Detaljer"
 
-#: addressbook/gui/component/addressbook-config.c:867
+#: addressbook/gui/component/addressbook-config.c:872
 msgid "Searching"
 msgstr "Søger"
 
-#: addressbook/gui/component/addressbook-config.c:869
+#: addressbook/gui/component/addressbook-config.c:874
 msgid "Downloading"
 msgstr "Henter"
 
-#: addressbook/gui/component/addressbook-config.c:1065
+#: addressbook/gui/component/addressbook-config.c:1070
 #: addressbook/gui/component/ldap-config.glade.h:14
 msgid "Address Book Properties"
 msgstr "Egenskaber for adressebog"
@@ -4643,7 +4643,7 @@ msgstr "valgmenu for alarm-værdi-enheder"
 msgid "start of appointment"
 msgstr "start på aftale"
 
-#: calendar/gui/dialogs/alarm-list-dialog.c:192
+#: calendar/gui/dialogs/alarm-list-dialog.c:199
 msgid "Action/Trigger"
 msgstr "Handling/udløser"
 
@@ -13360,7 +13360,7 @@ msgstr "Beskeden er spam"
 
 #: mail/em-filter-i18n.h:43
 msgid "Message is not Junk"
-msgstr "Beskeden er ham"
+msgstr "Beskeden er ikke-spam"
 
 #: mail/em-filter-i18n.h:44
 msgid "Move to Folder"
@@ -13668,7 +13668,7 @@ msgstr "Marker som _spam"
 
 #: mail/em-folder-view.c:949 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr "Markér som værende _ham"
+msgstr "Markér som værende _ikke-spam"
 
 #: mail/em-folder-view.c:953
 msgid "U_ndelete"
@@ -18811,7 +18811,7 @@ msgstr "Næste _ulæste besked"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Not Junk"
-msgstr "Ham"
+msgstr "Ikke-Spam"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
