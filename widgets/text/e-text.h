@@ -134,6 +134,7 @@ struct _EText {
 	gint model_repos_signal_id;
 
 	const gchar *text;              /* Text to display --- from the ETextModel */
+	PangoLayout *layout;
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
@@ -157,6 +158,7 @@ struct _EText {
 	GdkGC *gc;			/* GC for drawing text */
 
 	int cx, cy;			/* Top-left canvas coordinates for text */
+	int text_cx, text_cy;		/* Top-left canvas coordinates for text */
 	int clip_cx, clip_cy;		/* Top-left canvas coordinates for clip rectangle */
 	int clip_cwidth, clip_cheight;	/* Size of clip rectangle in pixels */
 	int max_width;			/* Maximum width of text lines */
@@ -218,6 +220,7 @@ struct _EText {
 	guint needs_calc_height : 1;    /* Need calc_height */
 	guint needs_calc_line_widths : 1; /* Needs calc_line_widths */
 	guint needs_split_into_lines : 1; /* Needs split_into_lines */
+	guint needs_reset_layout : 1; /* Needs split_into_lines */
 
 	guint bold : 1;
 	guint strikeout : 1;

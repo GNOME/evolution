@@ -295,6 +295,68 @@ e_text_dispose (GObject *object)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
+ static void
+reset_layout_attrs (EText *text)
+{
+	PangoAttrList *attrs = NULL;
+	int object_count;
+
+	if (text->layout == NULL)
+		return;
+
+	object_count = e_text_model_object_count (text->model);
+
+	if (text->bold || text->strikeout || object_count > 0) {
+		int length = 0;
+		int i;
+
+		attrs = pango_attr_list_new ();
+
+		for (i = 0; i < object_count; i++) {
+			int start_pos, end_pos;
+			PangoAttribute *attr = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+
+			e_text_model_get_nth_object_bounds (text->model, i, &start_pos, &end_pos);
+
+			attr->start_index = start_pos;
+			attr->end_index = end_pos;
+
+			pango_attr_list_insert (attrs, attr);
+		}
+
+		if (text->bold || text->strikeout)
+			length = strlen (text->text);
+
+		if (text->bold) {
+			PangoAttribute *attr = pango_attr_weight_new (PANGO_WEIGHT_BOLD);
+			attr->start_index = 0;
+			attr->end_index = length;
+
+			pango_attr_list_insert_before (attrs, attr);
+		}
+		if (text->strikeout) {
+			PangoAttribute *attr = pango_attr_strikethrough_new (TRUE);
+			attr->start_index = 0;
+			attr->end_index = length;
+
+			pango_attr_list_insert_before (attrs, attr);
+		}
+	}
+	pango_layout_set_attributes (text->layout, attrs);
+	if (attrs)
+		pango_attr_list_unref (attrs);
+	calc_height (text);
+}
+
+static void
+reset_layout (EText *text)
+{
+	if (text->layout == NULL)
+		return;
+	pango_layout_set_text (text->layout, text->text, -1);
+	reset_layout_attrs (text);
+}
+
 static void
 e_text_text_model_changed (ETextModel *model, EText *text)
 {
@@ -306,6 +368,7 @@ e_text_text_model_changed (ETextModel *model, EText *text)
 	text->selection_start = CLAMP (text->selection_start, 0, model_len);
 	text->selection_end   = CLAMP (text->selection_end,   0, model_len);
 
+	text->needs_reset_layout = 1;
 	text->needs_split_into_lines = 1;
 	text->needs_redraw = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM(text));
@@ -336,117 +399,10 @@ e_text_text_model_reposition (ETextModel *model, ETextModelReposFn fn, gpointer 
 }
 
 static void
-get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, double *py2)
-{
-	GnomeCanvasItem *item;
-	double x, y;
-	double clip_x, clip_y;
-	int old_height;
-
-	item = GNOME_CANVAS_ITEM (text);
-	
-	x = 0;
-	y = 0;
-
-	clip_x = x;
-	clip_y = y;
-
-	/* Calculate text dimensions */
-
-	old_height = text->height;
-
-	if (text->text && text->font)
-		text->height = (e_font_height (text->font)) * text->num_lines;
-	else
-		text->height = 0;
-
-	if (old_height != text->height)
-		e_canvas_item_request_parent_reflow(item);
-
-	/* Anchor text */
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		x -= text->max_width / 2;
-		if ( text->clip_width >= 0)
-			clip_x -= text->clip_width / 2;
-		else
-			clip_x -= text->width / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		x -= text->max_width;
-		if (text->clip_width >= 0)
-			clip_x -= text->clip_width;
-		else
-			clip_x -= text->width;
-		break;
-	}
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		y -= text->height / 2;
-		if ( text->clip_height >= 0 )
-			clip_y -= text->clip_height / 2;
-		else
-			clip_y -= text->height / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		y -= text->height;
-		if ( text->clip_height >= 0 )
-			clip_y -= text->clip_height;
-		else
-			clip_y -= text->height;
-		break;
-	}
-
-	/* Bounds */
-
-	if (text->clip) {
-		/* maybe do bbox intersection here? */
-		*px1 = clip_x;
-		*py1 = clip_y;
-		if (text->clip_width >= 0)
-			*px2 = clip_x + text->clip_width;
-		else
-			*px2 = clip_x + text->width;
-
-		if ( text->clip_height >= 0 )
-			*py2 = clip_y + text->clip_height;
-		else
-			*py2 = clip_y + text->height;
-	} else {
-		*px1 = x;
-		*py1 = y;
-		*px2 = x + text->max_width;
-		*py2 = y + text->height;
-	}
-}
-
-static void
 get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 {
 	GnomeCanvasItem *item;
-	double wx, wy, clip_width;
+	double wx, wy, clip_width, clip_height;
 
 	item = GNOME_CANVAS_ITEM (text);
 
@@ -456,19 +412,21 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	wy = 0;
 	gnome_canvas_item_i2w (item, &wx, &wy);
 	gnome_canvas_w2c (item->canvas, wx + text->xofs, wy + text->yofs, &text->cx, &text->cy);
+	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
 
 	if (text->clip_width < 0)
-		clip_width = text->max_width;
+		clip_width = text->width;
 	else
 		clip_width = text->clip_width;
 
-	/* Get canvas pixel coordinates for clip rectangle position */
-	gnome_canvas_w2c (item->canvas, wx, wy, &text->clip_cx, &text->clip_cy);
-	text->clip_cwidth = clip_width * item->canvas->pixels_per_unit;
-	if ( text->clip_height >= 0 )
-		text->clip_cheight = text->clip_height * item->canvas->pixels_per_unit;
+	if ( text->clip_height < 0 )
+		clip_height = text->height;
 	else
-		text->clip_cheight = text->height * item->canvas->pixels_per_unit;
+		clip_height = text->clip_height;
+
+	/* Get canvas pixel coordinates for clip rectangle position */
+	text->clip_cwidth = clip_width * item->canvas->pixels_per_unit;
+	text->clip_cheight = clip_height * item->canvas->pixels_per_unit;
 
 	/* Anchor text */
 
@@ -481,14 +439,14 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	case GTK_ANCHOR_N:
 	case GTK_ANCHOR_CENTER:
 	case GTK_ANCHOR_S:
-		text->cx -= text->max_width / 2;
+		text->cx -= text->width / 2;
 		text->clip_cx -= text->clip_cwidth / 2;
 		break;
 
 	case GTK_ANCHOR_NE:
 	case GTK_ANCHOR_E:
 	case GTK_ANCHOR_SE:
-		text->cx -= text->max_width;
+		text->cx -= text->width;
 		text->clip_cx -= text->clip_cwidth;
 		break;
 	}
@@ -514,6 +472,14 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 		break;
 	}
 
+	text->text_cx = text->cx;
+	text->text_cy = text->cy;
+
+	if (text->draw_borders) {
+		text->text_cx += BORDER_INDENT;
+		text->text_cy += BORDER_INDENT;
+	}
+
 	/* Bounds */
 
 	if (text->clip) {
@@ -524,7 +490,7 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 	} else {
 		*px1 = text->cx;
 		*py1 = text->cy;
-		*px2 = text->cx + text->max_width;
+		*px2 = text->cx + text->width;
 		*py2 = text->cy + text->height;
 	}
 }
@@ -534,19 +500,24 @@ calc_height (EText *text)
 {
 	GnomeCanvasItem *item;
 	int old_height;
+	int old_width;
+	int width = 0;
+	int height = 0;
 
 	item = GNOME_CANVAS_ITEM (text);
 
 	/* Calculate text dimensions */
 
 	old_height = text->height;
+	old_width = text->width;
 
-	if (text->text && text->font)
-		text->height = e_font_height (text->font) * text->num_lines;
-	else
-		text->height = 0;
+	if (text->layout)
+		pango_layout_get_pixel_size (text->layout, &width, &height);
 
-	if (old_height != text->height)
+	text->height = height;
+	text->width = width;
+
+	if (old_height != text->height || old_width != text->width)
 		e_canvas_item_request_parent_reflow(item);
 }
 
@@ -646,59 +617,6 @@ text_width_with_objects (ETextModel *model,
 			 const gchar *text, gint numbytes)
 {
 	return text && *text ? e_font_utf8_text_width (font, style, text, numbytes) : 0;
-}
-
-static void
-text_draw_with_objects (ETextModel *model, 
-			GdkDrawable *drawable,
-			EFont *font, EFontStyle style,
-			GdkGC *gc,
-			gint x, gint y,
-			const gchar *text, gint numbytes)
-{
-	const gchar *c;
-
-	if (text == NULL)
-		return;
-	
-	if (text == NULL)
-		return;
-	
-	while (*text && numbytes > 0) {
-		gint obj_num = -1;
-		
-		c = text;
-
-		while (*c
-		       && (obj_num = e_text_model_get_object_at_pointer (model, c)) == -1
-		       && numbytes > 0) {
-			++c;
-			--numbytes;
-		}
-
-		e_font_draw_utf8_text (drawable, font, style, gc, x, y, text, c-text);
-		x += e_font_utf8_text_width (font, style, text, c-text);
-		
-		if (obj_num != -1 && numbytes > 0) {
-			gint len;
-			gint start_x = x;
-
-			e_text_model_get_nth_object (model, obj_num, &len);
-
-			if (len > numbytes)
-				len = numbytes;
-			e_font_draw_utf8_text (drawable, font, style, gc, x, y, c, len);
-			x += e_font_utf8_text_width (font, style, c, len);
-
-			/* We underline our objects. */
-			gdk_draw_line (drawable, gc, start_x, y+1, x, y+1);
-
-			c += len;
-			numbytes -= len;
-		}
-		
-		text = c;
-	}
 }
 
 typedef void (*LineSplitterFn) (int line_num, const char *start, int length, gpointer user_data);
@@ -1030,6 +948,9 @@ e_text_set_property (GObject *object,
 	case PROP_CLIP_WIDTH:
 		text->clip_width = fabs (g_value_get_double (value));
 		calc_ellipsis (text);
+		if (text->layout) {
+			pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
+		}
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
 		else {
@@ -1086,7 +1007,7 @@ e_text_set_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR_GDK:
-		pcolor = g_value_get_pointer (value);
+		pcolor = g_value_get_boxed (value);
 		if (pcolor) {
 			color = *pcolor;
 		}
@@ -1217,15 +1138,10 @@ e_text_set_property (GObject *object,
 	}
 
 	if (color_changed) {
-#ifndef NO_WARNINGS
-#warning Color stuff ...
-#endif
-#if 0
-		if (GNOME_CANVAS_ITEM_REALIZED & GTK_OBJECT_FLAGS(item))
-			gdk_color_context_query_color (item->canvas->cc, &color);
-#endif
+		GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
 		text->color = color;
+		gdk_rgb_find_color (colormap, &text->color);
 
 		if (!item->canvas->aa)
 			set_text_gc_foreground (text);
@@ -1310,7 +1226,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_FILL_COLOR_GDK:
-		g_value_set_pointer (value, gdk_color_copy (&text->color));
+		g_value_set_boxed (value, &text->color);
 		break;
 
 	case PROP_FILL_COLOR_RGBA:
@@ -1322,7 +1238,7 @@ e_text_get_property (GObject *object,
 		break;
 
 	case PROP_TEXT_WIDTH:
-		g_value_set_double (value, text->max_width / text->item.canvas->pixels_per_unit);
+		g_value_set_double (value, text->width / text->item.canvas->pixels_per_unit);
 		break;
 
 	case PROP_TEXT_HEIGHT:
@@ -1394,6 +1310,12 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 	EText *text;
 
 	text = E_TEXT (item);
+
+	if (text->needs_reset_layout) {
+		reset_layout (text);
+		text->needs_reset_layout = 0;
+		text->needs_calc_height = 1;
+	}
 
 	if (text->needs_split_into_lines) {
 		split_into_lines (text);
@@ -1474,8 +1396,6 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 {
 	EText *text;
 	double x1, y1, x2, y2;
-	ArtDRect i_bbox, c_bbox;
-	int i;
 
 	text = E_TEXT (item);
 
@@ -1500,12 +1420,9 @@ e_text_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int fla
 				text->needs_redraw = 1;
 				item->canvas->need_repick = TRUE;
 			}
-		} else {
-			/* aa rendering */
-			for (i = 0; i < 6; i++)
-				text->affine[i] = affine[i];
-			get_bounds_item_relative (text, &i_bbox.x0, &i_bbox.y0, &i_bbox.x1, &i_bbox.y1);
-			art_drect_affine_transform (&c_bbox, &i_bbox, affine);
+
+			if (!text->fill_clip_rectangle)
+				item->canvas->need_repick = TRUE;
 		}
 		text->needs_recalc_bounds = 0;
 	}
@@ -1525,6 +1442,10 @@ e_text_realize (GnomeCanvasItem *item)
 
 	if (parent_class->realize)
 		(* parent_class->realize) (item);
+
+	text->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), text->text);
+	pango_layout_set_width (text->layout, text->clip_width < 0 ? -1 : text->clip_width * PANGO_SCALE);
+	reset_layout_attrs (text);
 
 	text->gc = gdk_gc_new (item->canvas->layout.bin_window);
 #ifndef NO_WARNINGS
@@ -1558,120 +1479,11 @@ e_text_unrealize (GnomeCanvasItem *item)
 	text->i_cursor = NULL;
 	gdk_cursor_destroy (text->default_cursor);
 	text->default_cursor = NULL;
+	g_object_unref (text->layout);
+	text->layout = NULL;
 
 	if (parent_class->unrealize)
 		(* parent_class->unrealize) (item);
-}
-
-/* Calculates the x position of the specified line of text, based on the text's justification */
-static double
-get_line_xpos_item_relative (EText *text, struct line *line)
-{
-	double x;
-
-	x = 0;
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_SW:
-		break;
-
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_S:
-		x -= text->max_width / 2;
-		break;
-
-	case GTK_ANCHOR_NE:
-	case GTK_ANCHOR_E:
-	case GTK_ANCHOR_SE:
-		x -= text->max_width;
-		break;
-	}
-
-	switch (text->justification) {
-	case GTK_JUSTIFY_RIGHT:
-		x += text->max_width - line->width;
-		break;
-
-	case GTK_JUSTIFY_CENTER:
-		x += (text->max_width - line->width) * 0.5;
-		break;
-
-	default:
-		if (text->draw_borders)
-			x += BORDER_INDENT;
-
-		/* For GTK_JUSTIFY_LEFT, we don't have to do anything.  We do not support
-		 * GTK_JUSTIFY_FILL, yet.
-		 */
-		break;
-	}
-	
-	return x;
-}
-
-#if 0
-/* Calculates the y position of the first line of text. */
-static double
-get_line_ypos_item_relative (EText *text)
-{
-	double y;
-
-	y = 0;
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_NW:
-	case GTK_ANCHOR_N:
-	case GTK_ANCHOR_NE:
-		break;
-
-	case GTK_ANCHOR_W:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_E:
-		y -= text->height / 2;
-		break;
-
-	case GTK_ANCHOR_SW:
-	case GTK_ANCHOR_S:
-	case GTK_ANCHOR_SE:
-		y -= text->height;
-		break;
-	}
-
-	return y;
-}
-#endif
-
-/* Calculates the x position of the specified line of text, based on the text's justification */
-static int
-get_line_xpos (EText *text, struct line *line)
-{
-	int x;
-
-	x = text->cx;
-
-	switch (text->justification) {
-	case GTK_JUSTIFY_RIGHT:
-		x += text->max_width - line->width;
-		break;
-
-	case GTK_JUSTIFY_CENTER:
-		x += (text->max_width - line->width) / 2;
-		break;
-
-	default:
-		if (text->draw_borders)
-			x += BORDER_INDENT;
-		/* For GTK_JUSTIFY_LEFT, we don't have to do anything.  We do not support
-		 * GTK_JUSTIFY_FILL, yet.
-		 */
-		break;
-	}
-
-
-	return x;
 }
 
 static void
@@ -1681,27 +1493,102 @@ _get_tep(EText *text)
 		text->tep = e_text_event_processor_emacs_like_new();
 		g_object_ref (text->tep);
 		text->tep_command_id = 
-			g_signal_connect (text->tep,
-					  "command",
-					  G_CALLBACK(e_text_command),
-					  (gpointer) text);
+			g_signal_connect(text->tep,
+					 "command",
+					 G_CALLBACK (e_text_command),
+					 (gpointer) text);
 	}
+}
+
+static void
+draw_pango_rectangle (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, PangoRectangle rect)
+{
+	int width = rect.width / PANGO_SCALE;
+	int height = rect.height / PANGO_SCALE;
+	if (width <= 0)
+		width = 1;
+	if (height <= 0)
+		height = 1;
+	gdk_draw_rectangle (drawable, gc, TRUE,
+			    x1 + rect.x / PANGO_SCALE, y1 + rect.y / PANGO_SCALE, width, height);
+}
+
+static gboolean
+show_pango_rectangle (EText *text, PangoRectangle rect)
+{
+	int x1 = rect.x / PANGO_SCALE;
+	int x2 = (rect.x + rect.width) / PANGO_SCALE;
+
+	int y1 = rect.y / PANGO_SCALE;
+	int y2 = (rect.y + rect.height) / PANGO_SCALE;
+
+	int new_xofs_edit = text->xofs_edit;
+	int new_yofs_edit = text->yofs_edit;
+
+	int clip_width, clip_height;
+
+	clip_width = text->clip_width;
+	if (clip_width >= 0 && text->draw_borders) {
+		clip_width -= 6;
+		if (clip_width < 0)
+			clip_width = 0;
+	}
+
+	clip_height = text->clip_height;
+
+	if (clip_height >= 0 && text->draw_borders) {
+		clip_height -= 6;
+		if (clip_height < 0)
+			clip_height = 0;
+	}
+
+	if (x1 < new_xofs_edit)
+		new_xofs_edit = x1;
+
+	if (y1 < new_yofs_edit)
+		new_yofs_edit = y1;
+
+#if 0
+	if (clip_width >= 0) {
+		if (2 + x2 - clip_width > new_xofs_edit)
+			new_xofs_edit = 2 + x2 - clip_width;
+	} else {
+		new_xofs_edit = 0;
+	}
+
+	if (clip_height >= 0) {
+		if (2 + y2 - clip_height > new_yofs_edit)
+			new_yofs_edit = 2 + y2 - clip_height;
+	} else {
+		new_yofs_edit = 0;
+	}
+#endif
+ 
+	if (new_xofs_edit < 0)
+		new_xofs_edit = 0;
+	if (new_yofs_edit < 0)
+		new_yofs_edit = 0;
+
+	if (new_xofs_edit != text->xofs_edit ||
+	    new_yofs_edit != text->yofs_edit) {
+		text->xofs_edit = new_xofs_edit;
+		text->yofs_edit = new_yofs_edit;
+		return TRUE;
+	}
+
+
+	return FALSE;
 }
 
 /* Draw handler for the text item */
 static void
 e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-			int x, int y, int width, int height)
+	     int x, int y, int width, int height)
 {
 	EText *text;
 	GdkRectangle rect, *clip_rect;
-	struct line *lines;
-	int i;
 	int xpos, ypos;
-	int start_char, end_char;
-	int sel_start, sel_end;
-	GdkRectangle sel_rect;
-	GdkGC *fg_gc, *main_gc;
+	GdkGC *main_gc;
 	GnomeCanvas *canvas;
 	GtkWidget *widget;
 
@@ -1709,7 +1596,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	canvas = GNOME_CANVAS_ITEM(text)->canvas;
 	widget = GTK_WIDGET(canvas);
 
-	fg_gc = widget->style->fg_gc[text->has_selection ? GTK_STATE_SELECTED : GTK_STATE_ACTIVE];
 	if (text->draw_background || text->draw_button) {
 		main_gc = widget->style->fg_gc[GTK_WIDGET_STATE (widget)];
 	} else {
@@ -1866,13 +1752,6 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	if (!text->text || !text->font)
 		return;
 
-	lines = text->lines;
-	if ( !lines ) {
-		text->needs_split_into_lines = 1;
-		e_canvas_item_request_reflow (item);
-		return;
-	}
-
 	clip_rect = NULL;
 	if (text->clip) {
 		rect.x = text->clip_cx - x;
@@ -1881,159 +1760,107 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		rect.height = text->clip_cheight;
 		
 		gdk_gc_set_clip_rectangle (main_gc, &rect);
-		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 	}
-	ypos = text->cy + e_font_ascent (text->font);
-	if (text->draw_borders)
-		ypos += BORDER_INDENT;
-
-	if (text->editing)
-		ypos -= text->yofs_edit;
 
 	if (text->stipple)
 		gnome_canvas_set_stipple_origin (item->canvas, main_gc);
 
-	for (i = 0; i < text->num_lines; i++) {
+	xpos = text->text_cx;
+	ypos = text->text_cy;
 
-		xpos = get_line_xpos (text, lines);
-		if (text->editing) {
-			xpos -= text->xofs_edit;
-			start_char = lines->text - text->text;
-			end_char = start_char + lines->length;
-			sel_start = text->selection_start;
-			sel_end = text->selection_end;
-			if (sel_start > sel_end ) {
-				sel_start ^= sel_end;
-				sel_end ^= sel_start;
-				sel_start ^= sel_end;
-			}
-			if ( sel_start < start_char )
-				sel_start = start_char;
-			if ( sel_end > end_char )
-				sel_end = end_char;
-			if ( sel_start < sel_end ) {
-				sel_rect.x = xpos - x + text_width_with_objects (text->model,
-										 text->font, text->style,
-										 lines->text,
-										 sel_start - start_char);
-				sel_rect.y = ypos - y - e_font_ascent (text->font);
-				sel_rect.width = text_width_with_objects (text->model,
-									  text->font, text->style,
-									  lines->text + sel_start - start_char,
-									  sel_end - sel_start);
-				sel_rect.height = e_font_height (text->font);
-				gtk_paint_flat_box(GTK_WIDGET(item->canvas)->style,
-						   drawable,
-						   text->has_selection ?
-						   GTK_STATE_SELECTED :
-						   GTK_STATE_ACTIVE,
-						   GTK_SHADOW_NONE,
-						   clip_rect,
-						   GTK_WIDGET(item->canvas),
-						   "text",
-						   sel_rect.x,
-						   sel_rect.y,
-						   sel_rect.width,
-						   sel_rect.height);
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							main_gc,
-							xpos - x,
-							ypos - y,
-							lines->text,
-							sel_start - start_char);
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							fg_gc,
-							xpos - x + text_width_with_objects (text->model,
-											    text->font, text->style,
-											    lines->text,
-											    sel_start - start_char),
-							ypos - y,
-							lines->text + sel_start - start_char,
-							sel_end - sel_start);
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							main_gc,
-							xpos - x + text_width_with_objects (text->model,
-											    text->font, text->style,
-											    lines->text,
-											    sel_end - start_char),
-							ypos - y,
-							lines->text + sel_end - start_char,
-							end_char - sel_end);
+	xpos -= x;
+	ypos -= y;
+
+	if (text->editing) {
+		xpos -= text->xofs_edit;
+		ypos -= text->yofs_edit;
+	}
+
+	printf ("pos = (%d,%d), ofs = (%d,%d)\n",
+		xpos, ypos, text->xofs_edit, text->yofs_edit);
+
+	gdk_draw_layout (drawable, main_gc,
+			 xpos, ypos,
+			 text->layout);
+
+	if (text->editing) {
+		if (text->selection_start != text->selection_end) {
+			int start_index, end_index;
+			PangoLayoutLine *line;
+			gint *ranges;
+			gint n_ranges, i;
+			PangoRectangle logical_rect;
+			GdkRegion *clip_region = gdk_region_new ();
+			GdkGC *selection_gc;
+			GdkGC *text_gc;
+
+			start_index = MIN (text->selection_start, text->selection_end);
+			end_index = text->selection_start ^ text->selection_end ^ start_index;
+
+			if (text->has_selection) {
+				selection_gc = widget->style->base_gc [GTK_STATE_SELECTED];
+				text_gc = widget->style->text_gc[GTK_STATE_SELECTED];
 			} else {
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							main_gc,
-							xpos - x,
-							ypos - y,
-							lines->text,
-							lines->length);
+				selection_gc = widget->style->base_gc [GTK_STATE_ACTIVE];
+				text_gc = widget->style->text_gc[GTK_STATE_ACTIVE];
 			}
-			if (text->selection_start == text->selection_end &&
-			    text->selection_start >= start_char &&
-			    text->selection_start <= end_char &&
-			    text->show_cursor) {
-				gdk_draw_rectangle (drawable,
-						    main_gc,
-						    TRUE,
-						    xpos - x + text_width_with_objects (text->model,
-											text->font, text->style,
-											lines->text,
-											sel_start - start_char),
-						    ypos - y - e_font_ascent (text->font),
-						    1,
-						    e_font_height (text->font));
+
+			gdk_gc_set_clip_rectangle (selection_gc, clip_rect);
+
+			line = pango_layout_get_lines (text->layout)->data;
+
+			pango_layout_line_get_x_ranges (line, start_index, end_index, &ranges, &n_ranges);
+
+			pango_layout_get_extents (text->layout, NULL, &logical_rect);
+
+			for (i=0; i < n_ranges; i++) {
+				GdkRectangle sel_rect;
+
+				sel_rect.x = xpos + ranges[2*i] / PANGO_SCALE;
+				sel_rect.y = ypos;
+				sel_rect.width = (ranges[2*i + 1] - ranges[2*i]) / PANGO_SCALE;
+				sel_rect.height = logical_rect.height / PANGO_SCALE;
+
+				gdk_draw_rectangle (drawable, selection_gc, TRUE,
+						    sel_rect.x, sel_rect.y, sel_rect.width, sel_rect.height);
+
+				gdk_region_union_with_rect (clip_region, &sel_rect);
 			}
+
+			if (clip_rect) {
+				GdkRegion *rect_region = gdk_region_rectangle (clip_rect);
+				gdk_region_intersect (clip_region, rect_region);
+				gdk_region_destroy (rect_region);
+			}
+
+			gdk_gc_set_clip_region (text_gc, clip_region);
+			gdk_draw_layout (drawable, text_gc, 
+					 xpos, ypos,
+					 text->layout);
+
+			gdk_gc_set_clip_region (text_gc, NULL);
+			gdk_gc_set_clip_region (selection_gc, NULL);
+
+			gdk_region_destroy (clip_region);
+			g_free (ranges);
 		} else {
-			if (text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							main_gc,
-							xpos - x,
-							ypos - y,
-							lines->text,
-							lines->ellipsis_length);
-				e_font_draw_utf8_text (drawable,
-						       text->font, text->style,
-						       main_gc,
-						       xpos - x + lines->width - text->ellipsis_width,
-						       ypos - y,
-						       text->ellipsis ? text->ellipsis : "...",
-						       text->ellipsis ? strlen (text->ellipsis) : 3);
-			} else {
-				text_draw_with_objects (text->model,
-							drawable,
-							text->font, text->style,
-							main_gc,
-							xpos - x,
-							ypos - y,
-							lines->text,
-							lines->length);
+			if (text->show_cursor) {
+				PangoRectangle strong_pos, weak_pos;
+				pango_layout_get_cursor_pos (text->layout, text->selection_start, &strong_pos, &weak_pos);
+				draw_pango_rectangle (drawable, main_gc, xpos, ypos, strong_pos);
+				if (strong_pos.x != weak_pos.x ||
+				    strong_pos.y != weak_pos.y ||
+				    strong_pos.width != weak_pos.width ||
+				    strong_pos.height != weak_pos.height)
+					draw_pango_rectangle (drawable, main_gc, xpos, ypos, weak_pos);
+
 			}
 		}
-
-		if (text->strikeout)
-			gdk_draw_rectangle (drawable,
-					    main_gc,
-					    TRUE,
-					    xpos - x,
-					    ypos - y - e_font_ascent (text->font) / 2,
-					    lines->width, 1);
-		ypos += e_font_height (text->font);
-		lines++;
 	}
 
 	if (text->clip) {
 		gdk_gc_set_clip_rectangle (main_gc, NULL);
-		gdk_gc_set_clip_rectangle (fg_gc, NULL);
 	}
 }
 
@@ -2041,90 +1868,16 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 static void
 e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 {
-#if 0
-	EText *text;
-	guint32 fg_color;
-	double xpos, ypos;
-	struct line *lines;
-	int i, j;
-	double affine[6];
-	int dx, dy;
-	ArtPoint start_i, start_c;
-
-	text = E_TEXT (item);
-
-	if (!text->text || !text->font || !text->suckfont)
-		return;
-
-	suckfont = text->suckfont;
-
-	fg_color = text->rgba;
-
-        gnome_canvas_buf_ensure_buf (buf);
-
-	lines = text->lines;
-	if ( !lines )
-		return;
-
-	start_i.y = get_line_ypos_item_relative (text);
-
-	art_affine_scale (affine, item->canvas->pixels_per_unit, item->canvas->pixels_per_unit);
-	for (i = 0; i < 6; i++)
-		affine[i] = text->affine[i];
-
-	for (i = 0; i < text->num_lines; i++) {
-		if (lines->length != 0) {
-			start_i.x = get_line_xpos_item_relative (text, lines);
-			art_affine_point (&start_c, &start_i, text->affine);
-			xpos = start_c.x;
-			ypos = start_c.y;
-
-			for (j = 0; j < lines->length; j++) {
-				ETextSuckChar *ch;
-
-				ch = &suckfont->chars[(unsigned char)((lines->text)[j])];
-
-				affine[4] = xpos;
-				affine[5] = ypos;
-				art_rgb_bitmap_affine (
-					buf->buf,
-					buf->rect.x0, buf->rect.y0, buf->rect.x1, buf->rect.y1,
-					buf->buf_rowstride,
-					suckfont->bitmap + (ch->bitmap_offset >> 3),
-					ch->width,
-					suckfont->bitmap_height,
-					suckfont->bitmap_width >> 3,
-					fg_color,
-					affine,
-					ART_FILTER_NEAREST, NULL);
-
-				dx = ch->left_sb + ch->width + ch->right_sb;
-				xpos += dx * affine[0];
-				ypos += dx * affine[1];
-			}
-		}
-
-		dy = text->font->ascent + text->font->descent;
-		start_i.y += dy;
-		lines++;
-	}
-
-	buf->is_bg = 0;
-#endif
 }
 
 /* Point handler for the text item */
 static double
 e_text_point (GnomeCanvasItem *item, double x, double y,
-			 int cx, int cy, GnomeCanvasItem **actual_item)
+	      int cx, int cy, GnomeCanvasItem **actual_item)
 {
 	EText *text;
-	int i;
-	struct line *lines;
-	int x1, y1, x2, y2;
-	int font_height;
-	int dx, dy;
-	double dist, best;
+	double clip_width;
+	double clip_height;
 
 	text = E_TEXT (item);
 
@@ -2136,106 +1889,35 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	 * Otherwise, calculate the distance to the nearest rectangle.
 	 */
 
-	if (text->font)
-		font_height = e_font_height (text->font);
+	if (text->clip_width < 0)
+		clip_width = text->width;
 	else
-		font_height = 0;
+		clip_width = text->clip_width;
 
-	best = 1.0e36;
+	if ( text->clip_height < 0 )
+		clip_height = text->height;
+	else
+		clip_height = text->clip_height;
 
-	lines = text->lines;
+	/* Get canvas pixel coordinates for clip rectangle position */
+	clip_width = clip_width * item->canvas->pixels_per_unit;
+	clip_height = clip_height * item->canvas->pixels_per_unit;
 
-	if ( !lines ) {
-		text->needs_split_into_lines = 1;
-		e_canvas_item_request_reflow (item);
+	if (cx < text->clip_cx ||
+	    cx > text->clip_cx + clip_width ||
+	    cy < text->clip_cy ||
+	    cy > text->clip_cy + clip_height)
 		return 1;
-	}
 
-	if (text->fill_clip_rectangle) {
-		double clip_width;
-		double clip_height;
+	if (text->fill_clip_rectangle)
+		return 0;
 
-		if (text->clip_width < 0)
-			clip_width = text->max_width;
-		else
-			clip_width = text->clip_width;
+	cx -= text->cx;
 
-		/* Get canvas pixel coordinates for clip rectangle position */
-		clip_width = clip_width * item->canvas->pixels_per_unit;
-		if ( text->clip_height >= 0 )
-			clip_height = text->clip_height * item->canvas->pixels_per_unit;
-		else
-			clip_height = text->height * item->canvas->pixels_per_unit;
+	if (pango_layout_xy_to_index (text->layout, cx, cy, NULL, NULL))
+		return 0;
 
-		if (cx >= text->clip_cx &&
-		    cx <= text->clip_cx + clip_width &&
-		    cy >= text->clip_cy &&
-		    cy <= text->clip_cy + clip_height)
-			return 0;
-		else
-			return 1;
-	}
-
-	for (i = 0; i < text->num_lines; i++) {
-		/* Compute the coordinates of rectangle for the current line,
-		 * clipping if appropriate.
-		 */
-
-		x1 = get_line_xpos (text, lines);
-		y1 = text->cy + i * font_height;
-		x2 = x1 + lines->width;
-		y2 = y1 + font_height;
-
-		if (text->clip) {
-			if (x1 < text->clip_cx)
-				x1 = text->clip_cx;
-
-			if (y1 < text->clip_cy)
-				y1 = text->clip_cy;
-			
-			if ( text->clip_width >= 0 ) {
-				if (x2 > (text->clip_cx + text->clip_width))
-					x2 = text->clip_cx + text->clip_width;
-			}
-
-			if ( text->clip_height >= 0 ) {
-				if (y2 > (text->clip_cy + text->clip_height))
-					y2 = text->clip_cy + text->clip_height;
-			}
-
-			if ((x1 >= x2) || (y1 >= y2))
-				continue;
-		}
-
-		/* Calculate distance from point to rectangle */
-
-		if (cx < x1)
-			dx = x1 - cx;
-		else if (cx >= x2)
-			dx = cx - x2 + 1;
-		else
-			dx = 0;
-
-		if (cy < y1)
-			dy = y1 - cy;
-		else if (cy >= y2)
-			dy = cy - y2 + 1;
-		else
-			dy = 0;
-
-		if ((dx == 0) && (dy == 0))
-			return 0.0;
-
-		dist = sqrt (dx * dx + dy * dy);
-		if (dist < best)
-			best = dist;
-
-		/* Next! */
-
-		lines++;
-	}
-
-	return best / item->canvas->pixels_per_unit;
+	return 1;
 }
 
 /* Bounds handler for the text item */
@@ -2250,15 +1932,18 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 	*x1 = 0;
 	*y1 = 0;
 
+	width = text->width;
+	height = text->height;
+
 	if (text->clip) {
-		width = text->clip_width;
+		if (text->clip_width >= 0)
+			width = text->clip_width;
 		if ( text->clip_height >= 0 )
 			height = text->clip_height;
-		else height = text->height;
-	} else {
-		width = text->max_width / item->canvas->pixels_per_unit;
-		height = text->height / item->canvas->pixels_per_unit;
 	}
+
+	width = width / item->canvas->pixels_per_unit;
+	height = height / item->canvas->pixels_per_unit;
 
 	switch (text->anchor) {
 	case GTK_ANCHOR_NW:
@@ -2302,140 +1987,31 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 	*y2 = *y1 + height;
 }
 
-static gboolean
-_get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
-{
-	if (text->lines && (xp || yp)) {
-		struct line *lines = NULL;
-		int x, y;
-		double xd, yd;
-		int j;
-		x = get_line_xpos_item_relative (text, lines);
-		y = text->yofs;
-		y -= text->yofs_edit;
-		for (j = 0, lines = text->lines; j < text->num_lines; lines++, j++) {
-			if (lines->text > text->text + position)
-				break;
-			y += e_font_height (text->font);
-		}
-		lines --;
-		y -= e_font_descent (text->font);
-		
-		x += text_width_with_objects (text->model,
-					      text->font, text->style,
-					      lines->text,
-					      position - (lines->text - text->text));
-		x -= text->xofs_edit;
-
-		xd = x;  yd = y;
-		gnome_canvas_item_i2w (GNOME_CANVAS_ITEM(text), &xd, &yd);
-		gnome_canvas_w2c (GNOME_CANVAS_ITEM(text)->canvas, xd, yd, &x, &y);
-
-		if (xp)
-			*xp = x;
-		if (yp)
-			*yp = y;
-
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
 static gint
-_get_position_from_xy (EText *text, gint x, gint y)
+get_position_from_xy (EText *text, gint x, gint y)
 {
-	int i, j;
-	int ypos = text->yofs;
-	int xpos;
-	double xd, yd;
-	const char *p;
-	gunichar unival;
-	gint font_ht, adjust=0;
-	struct line *lines;
+	int index;
+	int trailing;
 
-	xd = x;  yd = y;
-	gnome_canvas_c2w (GNOME_CANVAS_ITEM(text)->canvas, xd, yd, &xd, &yd);
-	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM(text), &xd, &yd);
-	x = xd;  y = yd;
-
-	y += text->yofs_edit;
-	font_ht = e_font_height (text->font);
-
-	if (text->draw_borders)
-		ypos += BORDER_INDENT;
-
-	switch (text->anchor) {
-	case GTK_ANCHOR_WEST:
-	case GTK_ANCHOR_CENTER:
-	case GTK_ANCHOR_EAST:
-		y += (text->num_lines * font_ht)/2;
-		break;
-	case GTK_ANCHOR_SOUTH:
-	case GTK_ANCHOR_SOUTH_EAST:
-	case GTK_ANCHOR_SOUTH_WEST:
-		y += text->num_lines * font_ht;
-	default:
-		/* Do nothing */
-		break;
-	}
-		
-
-	j = 0;
-	while (y > ypos) {
-		ypos += font_ht;
-		j ++;
-	}
-	j--;
-	if (j >= text->num_lines)
-		j = text->num_lines - 1;
-	if (j < 0)
-		j = 0;
-	i = 0;
-	lines = text->lines;
-	
-	if ( !lines )
-		return 0;
-
-	lines += j;
-	x += text->xofs_edit;
-	xpos = get_line_xpos_item_relative (text, lines);
-
-	for (i = 0, p = lines->text; p && i < lines->length; i++, p = e_unicode_get_utf8 (p, &unival)) {
-		int charwidth;
-		int step1, step2;
-
-#if 0
-		if (unival == '\1') {
-			const gchar *obj_str = NULL; /*e_text_model_get_nth_object (text->model, object_num);*/
-			charwidth = e_font_utf8_text_width (text->font, text->style, obj_str, strlen (obj_str));
-			++object_num;
-
-			step1 = charwidth;
-			step2 = 0;
-			adjust = -1;
-
-		} else {
-#endif
-			charwidth = e_font_utf8_char_width (text->font, text->style, (gchar *) p);
-			
-			step1 = charwidth / 2;
-			step2 = (charwidth + 1) / 2;
-			adjust = 0;
-#if 0
-		}
-#endif
-
-		xpos += step1;
-		if (xpos > x) {
-			break;
-		}
-		xpos += step2;
+	if (text->draw_borders) {
+		x -= BORDER_INDENT;
+		y -= BORDER_INDENT;
 	}
 
-	if (!p) return 0;
-	
-	return MAX (p - text->text + adjust, 0);
+	x -= text->xofs;
+	y -= text->yofs;
+
+	if (text->editing) {
+		x += text->xofs_edit;
+		y += text->yofs_edit;
+	}
+
+	x -= text->cx;
+	y -= text->cy;
+
+	pango_layout_xy_to_index (text->layout, x * PANGO_SCALE, y * PANGO_SCALE, &index, &trailing);
+
+	return g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
 }
 
 #define SCROLL_WAIT_TIME 30000
@@ -2459,47 +2035,50 @@ _blink_scroll_timeout (gpointer data)
 		    current_time < text->scroll_start)
 			scroll = TRUE;
 	}
-	if (scroll && text->button_down) {
-		if (text->lastx - text->clip_cx > text->clip_cwidth &&
-		    text->xofs_edit < text->max_width - text->clip_cwidth) {
+	if (scroll && text->button_down && text->clip) {
+		int old_xofs_edit = text->xofs_edit;
+		int old_yofs_edit = text->yofs_edit;
+
+		if (text->clip_cwidth >= 0 &&
+		    text->lastx - text->clip_cx > text->clip_cwidth &&
+		    text->xofs_edit < text->width - text->clip_cwidth) {
 			text->xofs_edit += 4;
-			if (text->xofs_edit > text->max_width - text->clip_cwidth + 1)
-				text->xofs_edit = text->max_width - text->clip_cwidth + 1;
-			redraw = TRUE;
+			if (text->xofs_edit > text->width - text->clip_cwidth + 1)
+				text->xofs_edit = text->width - text->clip_cwidth + 1;
 		}
 		if (text->lastx - text->clip_cx < 0 &&
 		    text->xofs_edit > 0) {
 			text->xofs_edit -= 4;
 			if (text->xofs_edit < 0)
 				text->xofs_edit = 0;
-			redraw = TRUE;
 		}
 
-		if (text->lasty - text->clip_cy > text->clip_cheight &&
+		if (text->clip_cheight >= 0 &&
+		    text->lasty - text->clip_cy > text->clip_cheight &&
 		    text->yofs_edit < text->height - text->clip_cheight) {
 			text->yofs_edit += 4;
 			if (text->yofs_edit > text->height - text->clip_cheight + 1)
 				text->yofs_edit = text->height - text->clip_cheight + 1;
-			redraw = TRUE;
 		}
 		if (text->lasty - text->clip_cy < 0 &&
 		    text->yofs_edit > 0) {
 			text->yofs_edit -= 4;
 			if (text->yofs_edit < 0)
 				text->yofs_edit = 0;
-			redraw = TRUE;
 		}
 
-		if (redraw) {
+		if (old_xofs_edit != text->xofs_edit ||
+		    old_yofs_edit != text->yofs_edit) {
 			ETextEventProcessorEvent e_tep_event;
 			e_tep_event.type = GDK_MOTION_NOTIFY;
 			e_tep_event.motion.state = text->last_state;
 			e_tep_event.motion.time = 0;
-			e_tep_event.motion.position = _get_position_from_xy(text, text->lastx, text->lasty);
+			e_tep_event.motion.position = get_position_from_xy(text, text->lastx, text->lasty);
 			_get_tep(text);
 			e_text_event_processor_handle_event (text->tep,
 							     &e_tep_event);
 			text->scroll_start = current_time;
+			redraw = TRUE;
 		}
 	}
 
@@ -2902,7 +2481,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = _get_position_from_xy(text, button.x, button.y);
+			e_tep_event.button.position = get_position_from_xy(text, button.x, button.y);
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 									  &e_tep_event);
@@ -2923,7 +2502,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			g_signal_emit (text,
 				       e_text_signals[E_TEXT_POPUP], 0,
 				       &(event->button),
-				       _get_position_from_xy (text, event->button.x, event->button.y));
+				       get_position_from_xy (text, event->button.x, event->button.y));
 
 			break;
 		}
@@ -2951,7 +2530,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.time = button.time;
 			e_tep_event.button.state = button.state;
 			e_tep_event.button.button = button.button;
-			e_tep_event.button.position = _get_position_from_xy(text, button.x, button.y);
+			e_tep_event.button.position = get_position_from_xy(text, button.x, button.y);
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 									  &e_tep_event);
@@ -2971,7 +2550,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			GdkEventMotion motion = event->motion;
 			e_tep_event.motion.time = motion.time;
 			e_tep_event.motion.state = motion.state;
-			e_tep_event.motion.position = _get_position_from_xy(text, motion.x, motion.y);
+			e_tep_event.motion.position = get_position_from_xy(text, motion.x, motion.y);
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
 								       &e_tep_event);
@@ -3076,7 +2655,8 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	gunichar unival;
 	char *p = NULL;
 	gint new_pos = 0;
-	
+	int index, trailing;
+
 	switch (command->position) {
 		
 	case E_TEP_VALUE:
@@ -3187,16 +2767,38 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		break;
 
 	case E_TEP_FORWARD_LINE:
-		if (_get_xy_from_position(text, text->selection_end, &x, &y)) {
-			y += e_font_height (text->font);
-			new_pos = _get_position_from_xy(text, x, y);
+		pango_layout_move_cursor_visually (text->layout,
+						   TRUE,
+						   text->selection_end, 0,
+						   1,
+						   &index, &trailing);
+		index = g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
+		if (index < 0) {
+			new_pos = 0;
+		} else {
+			length = strlen (text->text);
+			if (index >= length)
+				new_pos = length;
+			else
+				new_pos = index;
 		}
 		break;
 
 	case E_TEP_BACKWARD_LINE:
-		if (_get_xy_from_position(text, text->selection_end, &x, &y)) {
-			y -= e_font_height (text->font);
-			new_pos = _get_position_from_xy(text, x, y);
+		pango_layout_move_cursor_visually (text->layout,
+						   TRUE,
+						   text->selection_end, 0,
+						   -1,
+						   &index, &trailing);
+		index = g_utf8_offset_to_pointer (text->text + index, trailing) - text->text;
+		if (index < 0) {
+			new_pos = 0;
+		} else {
+			length = strlen (text->text);
+			if (index >= length)
+				new_pos = length;
+			else
+				new_pos = index;
 		}
 		break;
 
@@ -3383,7 +2985,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 {
 	EText *text = E_TEXT(data);
 	int sel_start, sel_end;
-	gboolean scroll = TRUE;
+	gboolean changed = TRUE;
 
 	switch (command->action) {
 	case E_TEP_MOVE:
@@ -3440,7 +3042,7 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (text->timer) {
 			g_timer_reset(text->timer);
 		}
-		scroll = FALSE;
+		changed = FALSE;
 		break;
 	case E_TEP_PASTE:
 		e_text_get_selection (text, clipboard_atom, command->time);
@@ -3468,13 +3070,13 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 				    command->time,
 				    NULL,
 				    NULL);
-		scroll = FALSE;
+		changed = FALSE;
 		break;
 	case E_TEP_UNGRAB:
 		e_canvas_item_ungrab (E_CANVAS (GNOME_CANVAS_ITEM(text)->canvas),
 				      GNOME_CANVAS_ITEM(text),
 				      command->time);
-		scroll = FALSE;
+		changed = FALSE;
 		break;
 	case E_TEP_CAPS:
 		if (text->selection_start == text->selection_end) {
@@ -3486,51 +3088,23 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		}
 		break;
 	case E_TEP_NOP:
-		scroll = FALSE;
+		changed = FALSE;
 		break;
 	}
 
-	if (scroll && !text->button_down) {
-		int x;
-		int i;
-		struct line *lines = text->lines;
-		gdouble clip_width;
-		if ( !lines )
-			return;
 
-		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
-			if ((lines->text - text->text) > text->selection_end) {
-				break;
-			}
-		}
-		lines --;
-		i --;
-		x = text_width_with_objects (text->model,
-					     text->font, text->style,
-					     lines->text, 
-					     text->selection_end - (lines->text - text->text));
-		
+	if (changed && !text->button_down) {
+		PangoRectangle strong_pos, weak_pos;
 
-		if (x < text->xofs_edit) {
-			text->xofs_edit = x;
-		}
+		pango_layout_get_cursor_pos (text->layout, text->selection_end, &strong_pos, &weak_pos);
 
-		clip_width = text->clip_width;
-		if (clip_width >= 0 && text->draw_borders) {
-			clip_width -= 6;
-			if (clip_width < 0)
-				clip_width = 0;
-		}
+		if (strong_pos.x != weak_pos.x ||
+		    strong_pos.y != weak_pos.y ||
+		    strong_pos.width != weak_pos.width ||
+		    strong_pos.height != weak_pos.height)
+			show_pango_rectangle (text, weak_pos);
 
-		if (2 + x - clip_width > text->xofs_edit) {
-			text->xofs_edit = 2 + x - clip_width;
-		}
-		
-		if (e_font_height (text->font) * i < text->yofs_edit)
-			text->yofs_edit = e_font_height (text->font) * i;
-		
-		if (e_font_height (text->font) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
-			text->yofs_edit = e_font_height (text->font) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
+		show_pango_rectangle (text, strong_pos);
 	}
 
 	text->needs_redraw = 1;
@@ -3868,109 +3442,6 @@ e_text_real_paste_clipboard (EText *text)
 }
 #endif
 
-
-#if 0
-/* Routines for sucking fonts from the X server */
-
-static ETextSuckFont *
-e_suck_font (GdkFont *font)
-{
-	ETextSuckFont *suckfont;
-	int i;
-	int x, y;
-	char text[1];
-	int lbearing, rbearing, ch_width, ascent, descent;
-	GdkPixmap *pixmap;
-	GdkColor black, white;
-	GdkImage *image;
-	GdkGC *gc;
-	guchar *line;
-	int width, height;
-	int black_pixel, pixel;
-
-	if (!font)
-		return NULL;
-
-	suckfont = g_new (ETextSuckFont, 1);
-
-	height = font->ascent + font->descent;
-	x = 0;
-	for (i = 0; i < 256; i++) {
-		text[0] = i;
-		gdk_text_extents (font, text, 1,
-				  &lbearing, &rbearing, &ch_width, &ascent, &descent);
-		suckfont->chars[i].left_sb = lbearing;
-		suckfont->chars[i].right_sb = ch_width - rbearing;
-		suckfont->chars[i].width = rbearing - lbearing;
-		suckfont->chars[i].ascent = ascent;
-		suckfont->chars[i].descent = descent;
-		suckfont->chars[i].bitmap_offset = x;
-		x += (ch_width + 31) & -32;
-	}
-
-	width = x;
-
-	suckfont->bitmap_width = width;
-	suckfont->bitmap_height = height;
-	suckfont->ascent = font->ascent;
-
-	pixmap = gdk_pixmap_new (NULL, suckfont->bitmap_width,
-				 suckfont->bitmap_height, 1);
-	gc = gdk_gc_new (pixmap);
-	gdk_gc_set_font (gc, font);
-
-	black_pixel = BlackPixel (gdk_display, DefaultScreen (gdk_display));
-	black.pixel = black_pixel;
-	white.pixel = WhitePixel (gdk_display, DefaultScreen (gdk_display));
-	gdk_gc_set_foreground (gc, &white);
-	gdk_draw_rectangle (pixmap, gc, 1, 0, 0, width, height);
-
-	gdk_gc_set_foreground (gc, &black);
-	for (i = 0; i < 256; i++) {
-		text[0] = i;
-		gdk_draw_text (pixmap, font, gc,
-			       suckfont->chars[i].bitmap_offset - suckfont->chars[i].left_sb,
-			       font->ascent,
-			       text, 1);
-	}
-
-	/* The handling of the image leaves me with distinct unease.  But this
-	 * is more or less copied out of gimp/app/text_tool.c, so it _ought_ to
-	 * work. -RLL
-	 */
-
-	image = gdk_image_get (pixmap, 0, 0, width, height);
-	suckfont->bitmap = g_malloc0 ((width >> 3) * height);
-
-	line = suckfont->bitmap;
-	for (y = 0; y < height; y++) {
-		for (x = 0; x < width; x++) {
-			pixel = gdk_image_get_pixel (image, x, y);
-			if (pixel == black_pixel)
-				line[x >> 3] |= 128 >> (x & 7);
-		}
-		line += width >> 3;
-	}
-
-	gdk_image_destroy (image);
-
-	/* free the pixmap */
-	gdk_pixmap_unref (pixmap);
-
-	/* free the gc */
-	gdk_gc_destroy (gc);
-
-	return suckfont;
-}
-
-static void
-e_suck_font_free (ETextSuckFont *suckfont)
-{
-	g_free (suckfont->bitmap);
-	g_free (suckfont);
-}
-#endif
-
 /* Class initialization function for the text item */
 static void
 e_text_class_init (ETextClass *klass)
@@ -4162,10 +3633,11 @@ e_text_class_init (ETextClass *klass)
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_GDK,
-					 g_param_spec_pointer ("fill_color_gdk",
-							       _( "GDK fill color" ),
-							       _( "GDK fill color" ),
-							       G_PARAM_READWRITE));
+					 g_param_spec_boxed ("fill_color_gdk",
+							     _( "GDK fill color" ),
+							     _( "GDK fill color" ),
+							     GDK_TYPE_COLOR,
+							     G_PARAM_READWRITE));
 
 
 	g_object_class_install_property (object_class, PROP_FILL_COLOR_RGBA,
@@ -4179,7 +3651,7 @@ e_text_class_init (ETextClass *klass)
 					 g_param_spec_object ("fill_stipple",
 							      _( "Fill stipple" ),
 							      _( "FIll stipple" ),
-							      GDK_TYPE_WINDOW,
+							      GDK_TYPE_DRAWABLE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_TEXT_WIDTH,
@@ -4300,6 +3772,7 @@ e_text_init (EText *text)
 {
 	text->model                   = e_text_model_new ();
 	text->text                    = e_text_model_get_text (text->model);
+	text->layout                  = NULL;
 
 	text->revert                  = NULL;
 
