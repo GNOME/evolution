@@ -34,6 +34,8 @@ typedef enum {
 int g_str_compare(const void *x, const void *y);
 int g_int_compare(const void *x, const void *y);
 
+char *e_strdup_strip(char *string);
+
 void e_free_object_list (GList *list);
 char *e_read_file(const char *filename);
 

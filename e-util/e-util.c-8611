@@ -25,6 +25,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #include "e-util.h"
 
@@ -43,6 +44,23 @@ g_int_compare(const void *x, const void *y)
     return 0;
   else
     return -1;
+}
+
+char *
+e_strdup_strip(char *string)
+{
+	int i;
+	int length = 0;
+	int initial = 0;
+	for ( i = 0; string[i]; i++ ) {
+		if (initial == i && isspace(string[i])) {
+			initial ++;
+		}
+		if (!isspace(string[i])) {
+			length = i - initial + 1;
+		}
+	}
+	return g_strndup(string + initial, length);
 }
 
 void

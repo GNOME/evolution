@@ -1,3 +1,8 @@
+2000-05-14  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-util.c, e-util.h: Added e_strdup_strip which returns a copy of
+	the string with the leading and trailing spaces removed.
+
 2000-05-11  NotZed  <NotZed@HelixCode.com>
 
 	* e-sexp.c (e_sexp_finalise): Destroy the g_scanner when cleaning up.
