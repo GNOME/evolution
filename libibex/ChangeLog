@@ -1,3 +1,8 @@
+2000-02-21  NotZed  <NotZed@HelixCode.com>
+
+	* Makefile.am: change noinst_LIBRARIES to noinst_LTLIBRARIES, and supply -static to
+	LDFLAGS.  Duh, and changed LDADD back to libibex.la.
+
 2000-02-20  Matt Loper  <matt@helixcode.com>
 
 	* Makefile.am: changed mkindex_LDADD to libibex.a instead of
