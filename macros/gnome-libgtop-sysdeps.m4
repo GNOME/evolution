@@ -203,6 +203,30 @@ main (void)
 	    AC_DEFINE(HAVE_LINUX_TABLE)
 	  fi
 	  AM_CONDITIONAL(LINUX_TABLE, test $linux_table = yes)
+
+	  os_major_version=`uname -r | \
+	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+	  os_minor_version=`uname -r | \
+	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+	  os_micro_version=`uname -r | \
+	    sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+	  os_version_expr="$os_major_version 65536 * $os_minor_version 256 * + $os_micro_version + p q"
+
+	  AC_CHECK_HEADERS(linux/version.h, have_linux_version_h=yes,
+	    have_linux_version_h=no)
+
+	  if test x$have_linux_version_h = xyes ; then
+	    version_code=`cat /usr/include/linux/version.h | \
+	      grep \#define | grep LINUX_VERSION_CODE`
+	    os_version_code=`echo $version_code | \
+	      sed 's/^.*LINUX_VERSION_CODE[[ \t]]*\([[0-9]]*\).*$/\1/'`
+	  else
+	    os_version_code=`echo "$os_version_expr" | dc`
+	  fi
+
+	  AC_MSG_CHECKING(for Linux kernel version code)
+	  AC_DEFINE_UNQUOTED(GLIBTOP_LINUX_VERSION_CODE, $os_version_code)
+	  AC_MSG_RESULT($os_version_code)
 	  ;;
 	esac
 

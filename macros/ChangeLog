@@ -1,3 +1,9 @@
+1998-12-03  Martin Baulig  <martin@home-of-linux.org>
+
+	* gnome-libgtop-sysdeps.m4 (GLIBTOP_LINUX_VERSION_CODE):
+	Define this to be the same as LINUX_VERSION_CODE either from
+	<linux/version.h> or from the running kernel.
+
 1998-12-02  Raja R Harinath  <harinath@cs.umn.edu>
 
 	* autogen.sh: "Improve" indentation and messages somewhat.
