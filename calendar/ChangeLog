@@ -1,5 +1,18 @@
 2001-07-26  JP Rosevear  <jpr@ximian.com>
 
+	* gui/dialogs/meeting-page.c (invite_entry_changed): when an entry
+	has changed, iterate over the elements of the entry and add them
+	to the list if need be
+	(get_select_name_dialog): add a Chair Persons section
+
+	* gui/itip-utils.c (itip_send_comp): send the empty string as
+	subject if there is no summary
+	
+2001-07-26  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): send the empty string as
+	subject if there is no summary
+
 	* gui/dialogs/meeting-page.c (cleanup_attendees): free a list of
 	attendees
 	(meeting_page_fill_widgets): clean up attendee lists and fix typo
