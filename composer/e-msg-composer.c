@@ -3533,7 +3533,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (message)->headers;
 	while (headers) {
-		if (!is_special_header (headers->name)) {
+		if (!is_special_header (headers->name) ||
+		    !g_strcasecmp (headers->name, "References") ||
+		    !g_strcasecmp (headers->name, "In-Reply-To")) {
 			g_ptr_array_add (new->extra_hdr_names, g_strdup (headers->name));
 			g_ptr_array_add (new->extra_hdr_values, g_strdup (headers->value));
 		}

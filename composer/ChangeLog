@@ -1,3 +1,8 @@
+2002-10-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): Make sure to
+	save References and In-Reply-To headers. Fixes bug #32932.
+
 2002-10-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): Don't set
