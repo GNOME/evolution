@@ -61,7 +61,7 @@ struct _CamelMimePart
 {
 	CamelMedium parent_object;
 	
-	/* All fields here are -** PRIVATE **- */ 
+	/* All fields here are -** PRIVATE **- */
 	gchar *description;
 	CamelMimeDisposition *disposition;
 	gchar *content_id;
