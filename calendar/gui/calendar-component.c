@@ -146,8 +146,8 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		gnome_calendar_add_event_source (priv->calendar, selected_source);
-		uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
+		if (gnome_calendar_add_event_source (priv->calendar, selected_source))
+			uids_selected = g_slist_append (uids_selected, (char *) e_source_peek_uid (selected_source));
 	}
 	
 	e_source_selector_free_selection (priv->source_selection);
