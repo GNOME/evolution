@@ -606,13 +606,13 @@ camel_mime_part_encoding_from_string (const gchar *string)
 {
 	if (string == NULL)
 		return CAMEL_MIME_PART_ENCODING_DEFAULT;
-	else if (g_strcasecmp (string, "7bit") == 0)
+	else if (strcasecmp (string, "7bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_7BIT;
-	else if (g_strcasecmp (string, "8bit") == 0)
+	else if (strcasecmp (string, "8bit") == 0)
 		return CAMEL_MIME_PART_ENCODING_8BIT;
-	else if (g_strcasecmp (string, "base64") == 0)
+	else if (strcasecmp (string, "base64") == 0)
 		return CAMEL_MIME_PART_ENCODING_BASE64;
-	else if (g_strcasecmp (string, "quoted-printable") == 0)
+	else if (strcasecmp (string, "quoted-printable") == 0)
 		return CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE;
 	else
 		/* FIXME?  Spit a warning?  */

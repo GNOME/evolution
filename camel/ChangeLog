@@ -1,3 +1,25 @@
+2000-05-04  NotZed  <NotZed@HelixCode.com>
+
+	* providers/mbox/camel-mbox-summary.c: Yes, and anotherone.
+
+	* camel-mime-utils.c: And another one.
+
+	* camel-mime-part.c: And another one.
+
+	* camel-mime-part-utils.c: And another one.
+
+	* camel-folder-search.c: And another one.
+
+	* camel-mime-parser.c: Reverted a change wihtout a ChangeLog entry.
+
+2000-05-04  NotZed  <NotZed@HelixCode.com>
+
+	* camel-folder-summary.[hc]: Yes, CamelFolderSummary is back ...
+	... re-usable class to summarise and index any stream or message
+	and to manage/load/save the created summaries.
+	
+	* camel-folder.c: Include string.h to kill a warning.
+
 2000-05-03  Jason Leach  <leach@wam.umd.edu>
 
 	* Makefile.am (INCLUDES): add $(UNICODE_CFLAGS) to the INCLUDES,
@@ -5,6 +27,18 @@
 	this.
 
 2000-05-03  NotZed  <NotZed@HelixCode.com>
+
+	* camel-folder.h: Added pos/bodypos/endpos to the basic message
+	content info object.  Size to be removed?  Moved the
+	messageconentinfo and messageinfo back to camel-folder-summary.h.
+
+	* camel-mime-filter-index.c (camel_mime_filter_index_set_ibex):
+	New function to (re)set the index to use on a filter.
+
+	* camel-mime-parser.c (camel_mime_parser_scan_from): Whole bunch
+	of inline docs.
+	(camel_mime_parser_drop_step): New function to drop a state from
+	the parser.  Needs more testing.
 
 	* camel-mime-utils.c (rfc2047_decode_word): If the iconv handle is
 	-1, then dont try and convert (crashes unicode_iconv?).

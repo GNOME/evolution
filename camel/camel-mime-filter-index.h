@@ -53,5 +53,6 @@ CamelMimeFilterIndex      *camel_mime_filter_index_new_ibex (ibex *);
 
 /* Set the match name for any indexed words */
 void camel_mime_filter_index_set_name (CamelMimeFilterIndex *, char *);
+void camel_mime_filter_index_set_ibex (CamelMimeFilterIndex *mf, ibex *index);
 
 #endif /* ! _CAMEL_MIME_FILTER_INDEX_H */

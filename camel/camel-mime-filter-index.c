@@ -163,4 +163,16 @@ void camel_mime_filter_index_set_name (CamelMimeFilterIndex *mf, char *name)
 	mf->name = g_strdup(name);
 }
 
+void camel_mime_filter_index_set_ibex (CamelMimeFilterIndex *mf, ibex *index)
+{
+	if (mf->index) {
+		char *out;
+		size_t outlen, outspace;
+
+		camel_mime_filter_complete((CamelMimeFilter *)mf, "", 0, 0, &out, &outlen, &outspace);
+	}
+	mf->index = index;
+}
+
+
 

@@ -24,6 +24,7 @@
  * USA
  */
 #include <config.h>
+#include <string.h>
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-store.h"

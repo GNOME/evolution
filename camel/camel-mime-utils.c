@@ -808,7 +808,7 @@ char *rfc2047_encode_word(const char *in, int len, char *type)
 	out = buffer;
 
 	/* if we can't convert from utf-8, just encode as utf-8 */
-	if (!g_strcasecmp(type, "UTF-8")
+	if (!strcasecmp(type, "UTF-8")
 	    || (ic = unicode_iconv_open(type, "UTF-8")) == (unicode_iconv_t)-1) {
 		memcpy(buffer, in, len);
 		out = buffer+len;
@@ -1065,7 +1065,7 @@ header_decode_param(const char **in, char **paramp, char **valuep)
 char *
 header_param(struct _header_param *p, const char *name)
 {
-	while (p && g_strcasecmp(p->name, name) != 0)
+	while (p && strcasecmp(p->name, name) != 0)
 		p = p->next;
 	if (p)
 		return p->value;
@@ -1079,7 +1079,7 @@ header_set_param(struct _header_param **l, const char *name, const char *value)
 
 	while (p->next) {
 		pn = p->next;
-		if (!g_strcasecmp(pn->name, name)) {
+		if (!strcasecmp(pn->name, name)) {
 			g_free(pn->value);
 			if (value) {
 				pn->value = g_strdup(value);
@@ -1135,16 +1135,16 @@ header_content_type_is(struct _header_content_type *ct, const char *type, const 
 {
 	/* no type == text/plain or text/"*" */
 	if (ct==NULL) {
-		return (!g_strcasecmp(type, "text")
-			&& (!g_strcasecmp(subtype, "plain")
-			    || !g_strcasecmp(subtype, "*")));
+		return (!strcasecmp(type, "text")
+			&& (!strcasecmp(subtype, "plain")
+			    || !strcasecmp(subtype, "*")));
 	}
 
 	return (ct->type != NULL
-		&& (!g_strcasecmp(ct->type, type)
+		&& (!strcasecmp(ct->type, type)
 		    && ((ct->subtype != NULL
-			 && !g_strcasecmp(ct->subtype, subtype))
-			|| !g_strcasecmp("*", subtype))));
+			 && !strcasecmp(ct->subtype, subtype))
+			|| !strcasecmp("*", subtype))));
 }
 
 void
@@ -1660,7 +1660,7 @@ header_content_type_decode(const char *in)
 			inptr++;
 			subtype = decode_token(&inptr);
 		}
-		if (subtype == NULL && (!g_strcasecmp(type, "text"))) {
+		if (subtype == NULL && (!strcasecmp(type, "text"))) {
 			g_warning("text type with no subtype, resorting to text/plain: %s", in);
 			subtype = g_strdup("plain");
 		}
@@ -1713,7 +1713,7 @@ header_content_type_format(struct _header_content_type *ct)
 		g_warning("Content-Type with no main type");
 	} else if (ct->subtype == NULL) {
 		g_warning("Content-Type with no sub type: %s", ct->type);
-		if (!g_strcasecmp(ct->type, "multipart"))
+		if (!strcasecmp(ct->type, "multipart"))
 			g_string_sprintfa(out, "%s/mixed", ct->type);
 		else
 			g_string_sprintfa(out, "%s", ct->type);
@@ -1879,7 +1879,7 @@ header_decode_date(const char *in, int *saveoffset)
 	monthname = decode_token(&inptr);
 	if (monthname) {
 		for (i=0;i<sizeof(tz_months)/sizeof(tz_months[0]);i++) {
-			if (!g_strcasecmp(tz_months[i], monthname)) {
+			if (!strcasecmp(tz_months[i], monthname)) {
 				tm.tm_mon = i;
 				break;
 			}
@@ -1916,7 +1916,7 @@ header_decode_date(const char *in, int *saveoffset)
 
 		if (tz) {
 			for (i=0;i<sizeof(tz_offsets)/sizeof(tz_offsets[0]);i++) {
-				if (!g_strcasecmp(tz_offsets[i].name, tz)) {
+				if (!strcasecmp(tz_offsets[i].name, tz)) {
 					offset = tz_offsets[i].offset;
 					break;
 				}
@@ -2031,13 +2031,13 @@ header_raw_append(struct _header_raw **list, const char *name, const char *value
 
 	/* debug */
 #if 0
-	if (!g_strcasecmp(name, "To")) {
+	if (!strcasecmp(name, "To")) {
 		printf("- Decoding To\n");
 		header_to_decode(value);
-	} else if (!g_strcasecmp(name, "Content-type")) {
+	} else if (!strcasecmp(name, "Content-type")) {
 		printf("- Decoding content-type\n");
 		header_content_type_dump(header_content_type_decode(value));		
-	} else if (!g_strcasecmp(name, "MIME-Version")) {
+	} else if (!strcasecmp(name, "MIME-Version")) {
 		printf("- Decoding mime version\n");
 		header_mime_decode(value);
 	}
@@ -2051,7 +2051,7 @@ header_raw_find_node(struct _header_raw **list, const char *name)
 
 	l = *list;
 	while (l) {
-		if (!g_strcasecmp(l->name, name))
+		if (!strcasecmp(l->name, name))
 			break;
 		l = l->next;
 	}
@@ -2103,7 +2103,7 @@ header_raw_remove(struct _header_raw **list, const char *name)
 	p = (struct _header_raw *)list;
 	l = *list;
 	while (l) {
-		if (!g_strcasecmp(l->name, name)) {
+		if (!strcasecmp(l->name, name)) {
 			p->next = l->next;
 			header_raw_free(l);
 			l = p->next;

@@ -89,6 +89,7 @@ void camel_mime_parser_scan_from(CamelMimeParser *, int);
 /* normal interface */
 enum _header_state camel_mime_parser_step(CamelMimeParser *, char **, int *);
 void camel_mime_parser_unstep(CamelMimeParser *);
+void camel_mime_parser_drop_step(CamelMimeParser *m);
 enum _header_state camel_mime_parser_state(CamelMimeParser *);
 
 /* get content type for the current part/header */

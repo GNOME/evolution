@@ -358,15 +358,15 @@ search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, C
 
 		/* only a subset of headers are supported .. */
 		headername = argv[0]->value.string;
-		if (!g_strcasecmp(headername, "subject")) {
+		if (!strcasecmp(headername, "subject")) {
 			header = search->current->subject;
-		} else if (!g_strcasecmp(headername, "date")) {
+		} else if (!strcasecmp(headername, "date")) {
 			/* FIXME: not a very useful form of the date */
 			sprintf(strbuf, "%d", (int)search->current->date_sent);
 			header = strbuf;
-		} else if (!g_strcasecmp(headername, "from")) {
+		} else if (!strcasecmp(headername, "from")) {
 			header = search->current->from;
-		} else if (!g_strcasecmp(headername, "to")) {
+		} else if (!strcasecmp(headername, "to")) {
 			header = search->current->from;
 		} else {
 			g_warning("Performing query on unknown header: %s", headername);

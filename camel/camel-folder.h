@@ -56,11 +56,8 @@ typedef enum {
 } CamelFolderOpenMode;
 
 
-typedef void (*CamelFolderAsyncCallback) ();
+#warning old summary stuff to be removed!
 
-/* these structs from camel-folder-summary.h ... (remove comment after cleanup soon) */
-/* TODO: perhaps they should be full-block objects? */
-/* FIXME: rename this to something more suitable */
 typedef struct {
 	gchar *name;
 	gint nb_message;	/* ick, these should be renamed to something better */
@@ -82,10 +79,10 @@ typedef struct _CamelMessageContentInfo {
 	char *encoding;
 
 	guint32 size;
+
 } CamelMessageContentInfo;
 
-/* TODO: rename this?? */
-/* TODO: Make this an object, maybe? */
+/* information about a given object */
 typedef struct {
 	/* public fields */
 	gchar *subject;
@@ -98,10 +95,12 @@ typedef struct {
 	time_t date_sent;
 	time_t date_received;
 
-	/* tree of content description */
+	/* tree of content description - NULL if it is not available */
 	CamelMessageContentInfo *content;
 } CamelMessageInfo;
 
+
+typedef void (*CamelFolderAsyncCallback) ();
 
 struct _CamelFolder
 {
