@@ -1,3 +1,11 @@
+2000-03-27  Michael Meeks  <michael@helixcode.com>
+
+	* camel-mime-part.c (my_set_disposition): fix so less broken.
+	(my_finalize): remove dodgy disposition free.
+
+	* camel-data-wrapper.c (my_set_mime_type_field): unref instead of
+	free on mime_type.
+
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
 	* camel-service.c (camel_service_free_auth_types): new routine to

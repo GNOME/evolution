@@ -243,7 +243,6 @@ my_finalize (GtkObject *object)
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelMimePart::finalize\n");
 
 	g_free (mime_part->description);
-	gmime_content_field_unref (mime_part->disposition);
 	g_free (mime_part->content_id);
 	g_free (mime_part->content_MD5);
 	string_list_free (mime_part->content_languages);
@@ -320,11 +319,13 @@ my_set_disposition (CamelMimePart *mime_part, const gchar *disposition)
 {
 #warning Do not use MimeContentfield here !!!
 	
-	if (mime_part->disposition) g_free ((mime_part->disposition)->type);
-	g_free (mime_part->disposition);
+	if (mime_part->disposition) {
+		g_free (mime_part->disposition->type);
+		g_free (mime_part->disposition);
+	}
 	
 	mime_part->disposition = g_new0 (GMimeContentField,1);
-	(mime_part->disposition)->type = g_strdup (disposition);
+	mime_part->disposition->type = g_strdup (disposition);
 }
 
 

@@ -363,7 +363,7 @@ camel_data_wrapper_get_mime_type_field (CamelDataWrapper *data_wrapper)
 static void
 my_set_mime_type_field (CamelDataWrapper *data_wrapper, GMimeContentField *mime_type)
 {
-	if (data_wrapper->mime_type) gmime_content_field_free (data_wrapper->mime_type);
+	if (data_wrapper->mime_type) gmime_content_field_unref (data_wrapper->mime_type);
 	data_wrapper->mime_type = mime_type;
 }
 
