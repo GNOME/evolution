@@ -72,7 +72,7 @@ CamelServiceAuthType camel_imapp_password_authtype = {
 };
 
 void
-camel_imapp_module_init(CamelSession *session)
+camel_imapp_module_init(void)
 {
 	extern void camel_exception_setup(void);
 
@@ -87,11 +87,11 @@ camel_imapp_module_init(CamelSession *session)
 	/* TEMPORARY */
 	camel_exception_setup();
 
-	camel_session_register_provider(session, &imapp_provider);
+	camel_provider_register(&imapp_provider);
 }
 
 void
-camel_provider_module_init(CamelSession *session)
+camel_provider_module_init(void)
 {
-	camel_imapp_module_init(session);
+	camel_imapp_module_init();
 }

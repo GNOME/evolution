@@ -38,6 +38,7 @@
 #include "camel.h"
 #include "camel-certdb.h"
 #include "camel-mime-utils.h"
+#include "camel-provider.h"
 
 gboolean camel_verbose_debug = FALSE;
 
@@ -80,10 +81,11 @@ camel_init (const char *configdir, gboolean nss_init)
 		camel_verbose_debug = TRUE;
 	
 	/* initialise global camel_object_type */
-	camel_object_get_type ();
+	camel_object_get_type();
 	
-	camel_mime_utils_init ();
+	camel_mime_utils_init();
 	camel_operation_init();
+	camel_provider_init();
 
 #ifdef HAVE_NSS
 	if (nss_init) {

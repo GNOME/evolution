@@ -96,17 +96,15 @@ CamelServiceAuthType camel_imap_password_authtype = {
 };
 
 void
-camel_provider_module_init (CamelSession *session)
+camel_provider_module_init(void)
 {
-	imap_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_imap_store_get_type ();
+	imap_provider.object_types[CAMEL_PROVIDER_STORE] = camel_imap_store_get_type ();
 	imap_provider.url_hash = imap_url_hash;
 	imap_provider.url_equal = imap_url_equal;
 	imap_provider.authtypes = camel_sasl_authtype_list (FALSE);
-	imap_provider.authtypes = g_list_prepend (imap_provider.authtypes,
-						  &camel_imap_password_authtype);
+	imap_provider.authtypes = g_list_prepend (imap_provider.authtypes, &camel_imap_password_authtype);
 
-	camel_session_register_provider (session, &imap_provider);
+	camel_provider_register(&imap_provider);
 }
 
 static void

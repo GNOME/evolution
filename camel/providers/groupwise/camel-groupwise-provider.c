@@ -107,38 +107,28 @@ CamelServiceAuthType camel_groupwise_password_authtype = {
 };
 
 void
-camel_provider_module_init (CamelSession *session)
+camel_provider_module_init(void)
 {
-
-
 	CamelProvider *imap_provider;
 	CamelProvider *smtp_provider;
-	CamelSession *temp_session;
 
-	temp_session = CAMEL_SESSION ( camel_object_new ( CAMEL_SESSION_TYPE));
-	imap_provider =  camel_session_get_provider (temp_session, "imap://", NULL);
-	smtp_provider = camel_session_get_provider (temp_session, "smtp://", NULL);
+	imap_provider =  camel_provider_get("imap://", NULL);
+	smtp_provider = camel_provider_get("smtp://", NULL);
 
 	groupwise_provider.url_hash = groupwise_url_hash;
 	groupwise_provider.url_equal = groupwise_url_equal;
-	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes,  &camel_groupwise_password_authtype);
+	groupwise_provider.authtypes = g_list_prepend (groupwise_provider.authtypes, &camel_groupwise_password_authtype);
 
 	if (imap_provider != NULL && smtp_provider != NULL) {
-
 		groupwise_provider.object_types[CAMEL_PROVIDER_STORE] =  imap_provider->object_types [CAMEL_PROVIDER_STORE];
 		groupwise_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = smtp_provider->object_types [CAMEL_PROVIDER_TRANSPORT];
-		camel_session_register_provider (session, &groupwise_provider);
+		camel_provider_register(&groupwise_provider);
 	}
 
-
-	if (!config_listener)	{
-
+	if (!config_listener) {
 		config_listener = camel_gw_listener_new ();	
 		g_atexit ( free_groupwise_listener );
 	}
-	
-	camel_object_unref (temp_session);
-
 }
 
 void free_groupwise_listener ( void )

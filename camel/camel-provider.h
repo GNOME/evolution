@@ -192,11 +192,15 @@ struct _CamelProviderModule {
 	int loaded:1;
 };
 
-GHashTable *camel_provider_init (void);
-void camel_provider_load (CamelSession *session, const char *path, CamelException *ex);
+void camel_provider_init(void);
+
+void camel_provider_load(const char *path, CamelException *ex);
+void camel_provider_register(CamelProvider *provider);
+GList *camel_provider_list(gboolean load);
+CamelProvider *camel_provider_get(const char *url_string, CamelException *ex);
 
 /* This is defined by each module, not by camel-provider.c. */
-void camel_provider_module_init (CamelSession *session);
+void camel_provider_module_init(void);
 
 
 int camel_provider_auto_detect (CamelProvider *provider, CamelURL *url,

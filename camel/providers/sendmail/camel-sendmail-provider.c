@@ -48,15 +48,14 @@ static CamelProvider sendmail_provider = {
 };
 
 void
-camel_provider_module_init (CamelSession *session)
+camel_provider_module_init(void)
 {
-	sendmail_provider.object_types[CAMEL_PROVIDER_TRANSPORT] =
-		camel_sendmail_transport_get_type();
+	sendmail_provider.object_types[CAMEL_PROVIDER_TRANSPORT] = camel_sendmail_transport_get_type();
 	
 	sendmail_provider.url_hash = camel_url_hash;
 	sendmail_provider.url_equal = camel_url_equal;
 	
-	camel_session_register_provider (session, &sendmail_provider);
+	camel_provider_register(&sendmail_provider);
 }
 
 

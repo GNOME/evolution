@@ -1,3 +1,18 @@
+2004-02-19  Not Zed  <NotZed@Ximian.com>
+
+	* providers/*/camel-*-provider.c
+	(camel_provider_module_init): Fixes for api changes.
+
+	* camel-provider.c (camel_provider_load): no longer take session
+	argument.  the providers are global resources.
+	(camel_provider_init): dont return anything anymore.  (error?)
+	call from camel_init now.  Use a recursive lock too.
+
+	* camel-session.c (camel_session_register_provider)
+	(camel_session_list_providers, camel_session_get_provider): Moved
+	to camel-provider, camel_provider_register/list/get.
+	(vee_provider): moved to camel-provider.c
+
 2004-02-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-gpg-context.c (gpg_verify): Use the trust to decide the

@@ -89,7 +89,7 @@ CamelServiceAuthType camel_pop3_apop_authtype = {
 };
 
 void
-camel_provider_module_init (CamelSession *session)
+camel_provider_module_init(void)
 {
 	CamelServiceAuthType *auth;
 
@@ -104,5 +104,5 @@ camel_provider_module_init (CamelSession *session)
 	pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, &camel_pop3_apop_authtype);
 	pop3_provider.authtypes = g_list_prepend(pop3_provider.authtypes, &camel_pop3_password_authtype);
 
-	camel_session_register_provider(session, &pop3_provider);
+	camel_provider_register(&pop3_provider);
 }

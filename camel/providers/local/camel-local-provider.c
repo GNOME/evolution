@@ -189,7 +189,7 @@ local_url_equal(const void *v, const void *v2)
 		&& u1->port == u2->port;
 }
 
-void camel_provider_module_init(CamelSession * session)
+void camel_provider_module_init(void)
 {
 	char *path;
 	static int init = 0;
@@ -202,7 +202,7 @@ void camel_provider_module_init(CamelSession * session)
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type ();
 	mh_provider.url_hash = local_url_hash;
 	mh_provider.url_equal = local_url_equal;
-	camel_session_register_provider(session, &mh_provider);
+	camel_provider_register(&mh_provider);
 	
 	if (!(path = getenv ("MAIL")))
 		path = g_strdup_printf (SYSTEM_MAIL_DIR "/%s", g_get_user_name ());
@@ -210,18 +210,18 @@ void camel_provider_module_init(CamelSession * session)
 	mbox_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mbox_store_get_type ();
 	mbox_provider.url_hash = local_url_hash;
 	mbox_provider.url_equal = local_url_equal;
-	camel_session_register_provider(session, &mbox_provider);
+	camel_provider_register(&mbox_provider);
 	
 	spool_conf_entries[0].value = path;  /* default path - same as mbox */
 	spool_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spool_store_get_type ();
 	spool_provider.url_hash = local_url_hash;
 	spool_provider.url_equal = local_url_equal;
-	camel_session_register_provider(session, &spool_provider);
+	camel_provider_register(&spool_provider);
 	
-	path = getenv ("MAILDIR");
+	path = getenv("MAILDIR");
 	maildir_conf_entries[0].value = path ? path : "";  /* default path */
 	maildir_provider.object_types[CAMEL_PROVIDER_STORE] = camel_maildir_store_get_type ();
 	maildir_provider.url_hash = local_url_hash;
 	maildir_provider.url_equal = local_url_equal;
-	camel_session_register_provider(session, &maildir_provider);
+	camel_provider_register(&maildir_provider);
 }

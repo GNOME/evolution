@@ -78,16 +78,15 @@ CamelServiceAuthType camel_nntp_password_authtype = {
 };
 
 void
-camel_provider_module_init (CamelSession *session)
+camel_provider_module_init(void)
 {
-	news_provider.object_types[CAMEL_PROVIDER_STORE] =
-		camel_nntp_store_get_type();
+	news_provider.object_types[CAMEL_PROVIDER_STORE] = camel_nntp_store_get_type();
 
 	news_provider.url_hash = nntp_url_hash;
 	news_provider.url_equal = nntp_url_equal;
 	news_provider.authtypes = g_list_append (NULL, &camel_nntp_password_authtype);
 	
-	camel_session_register_provider (session, &news_provider);
+	camel_provider_register(&news_provider);
 }
 
 static void

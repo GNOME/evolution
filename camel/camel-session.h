@@ -64,7 +64,6 @@ struct _CamelSession
 	struct _CamelSessionPrivate *priv;
 
 	char *storage_path;
-	GHashTable *providers, *modules;
 	gboolean online;
 
 	CamelJunkPlugin *junk_plugin;
@@ -79,14 +78,6 @@ typedef struct _CamelSessionThreadMsg CamelSessionThreadMsg;
 
 typedef struct {
 	CamelObjectClass parent_class;
-
-	void            (*register_provider) (CamelSession *session,
-					      CamelProvider *provider);
-	GList *         (*list_providers)    (CamelSession *session,
-					      gboolean load);
-	CamelProvider * (*get_provider)      (CamelSession *session,
-					      const char *url_string,
-					      CamelException *ex);
 
 	CamelService *  (*get_service)       (CamelSession *session,
 					      const char *url_string,
@@ -134,15 +125,6 @@ CamelType camel_session_get_type (void);
 
 void            camel_session_construct             (CamelSession *session,
 						     const char *storage_path);
-
-void            camel_session_register_provider     (CamelSession *session,
-						     CamelProvider *provider);
-GList *         camel_session_list_providers        (CamelSession *session,
-						     gboolean load);
-
-CamelProvider * camel_session_get_provider          (CamelSession *session,
-						     const char *url_string,
-						     CamelException *ex);
 
 CamelService *  camel_session_get_service           (CamelSession *session,
 						     const char *url_string,

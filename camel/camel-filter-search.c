@@ -463,7 +463,7 @@ header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 	}
 
 	if (src
-	    && (provider = camel_session_get_provider(fms->session, src, NULL))
+	    && (provider = camel_provider_get(src, NULL))
 	    && provider->url_equal) {
 		uria = camel_url_new(src, NULL);
 		if (uria) {
