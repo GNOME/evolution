@@ -1,3 +1,7 @@
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplug.in file
+
 2004-10-22  Harish Krishnaswamy <kharish@novell.com>
 
 	* mark-calendar-offline.c: implement a plugin that lets the user mark a

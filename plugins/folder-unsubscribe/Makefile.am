@@ -9,3 +9,5 @@ plugin_LTLIBRARIES = liborg-gnome-mail-folder-unsubscribe.la
 
 liborg_gnome_mail_folder_unsubscribe_la_SOURCES = folder-unsubscribe.c
 liborg_gnome_mail_folder_unsubscribe_la_LDFLAGS = -module -avoid-version
+
+EXTRA_DIST = org-gnome-mail-folder-unsubscribe.eplug.in

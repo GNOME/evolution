@@ -1,2 +1,8 @@
-	Fixed hook id.
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplug.in file
+
+2004-10-28  Not Zed  <NotZed@Ximian.com>
+
+	* org-gnome-mail-folder-unsubscribe.eplug.in: fix hook id
 

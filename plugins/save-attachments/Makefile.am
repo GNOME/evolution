@@ -9,3 +9,5 @@ plugin_LTLIBRARIES = liborg-gnome-save-attachments.la
 
 liborg_gnome_save_attachments_la_SOURCES = save-attachments.c
 liborg_gnome_save_attachments_la_LDFLAGS = -module -avoid-version
+
+EXTRA_DIST = org-gnome-save-attachments.eplug.in

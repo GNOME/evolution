@@ -9,3 +9,5 @@ plugin_LTLIBRARIES = liborg-gnome-copy-tool.la
 
 liborg_gnome_copy_tool_la_SOURCES = copy-tool.c
 liborg_gnome_copy_tool_la_LDFLAGS = -module -avoid-version
+
+EXTRA_DIST = org-gnome-copy-tool.eplug.in

@@ -1,5 +1,9 @@
 2004-11-01  JP Rosevear  <jpr@novell.com>
 
+	* Makefile.am: dist .eplug.in file
+
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
 	* Makefile.am: list bbdb.h as a source so it gets disted
 
 2004-10-27  Nat Friedman  <nat@novell.com>

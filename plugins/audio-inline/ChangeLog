@@ -1,3 +1,7 @@
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplug.in file
+
 2004-10-25  Radek Doulik  <rodo@ximian.com>
 
 	* audio-inline.c: removed unused enum declaration

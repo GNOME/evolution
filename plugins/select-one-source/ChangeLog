@@ -1,3 +1,7 @@
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplug.in file
+
 2004-10-20  JP Rosevear  <jpr@novell.com>
 
 	* select-one-source.c: implement a plugin that allows the user to

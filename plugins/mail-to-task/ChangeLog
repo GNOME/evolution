@@ -1,3 +1,7 @@
+2004-11-01  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: dist .eplugin.in file
+
 2004-10-29  Rodrigo Moya <rodrigo@novell.com>
 
 	* org-gnome-mail-to-task.eplug.in: fix folder view popup id again.
