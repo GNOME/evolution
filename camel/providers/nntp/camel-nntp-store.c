@@ -1262,14 +1262,6 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 				     _("Not connected."));
 		return -1;
 	}
-
-	/* Check for unprocessed data, ! */
-	if (store->stream->mode == CAMEL_NNTP_STREAM_DATA) {
-		g_warning("Unprocessed data left in stream, flushing");
-		while (camel_nntp_stream_getd(store->stream, (unsigned char **)&p, &u) > 0)
-			;
-	}
-	camel_nntp_stream_set_mode(store->stream, CAMEL_NNTP_STREAM_LINE);
 	
 	retry = 0;
 	do {
@@ -1278,6 +1270,14 @@ camel_nntp_command (CamelNNTPStore *store, CamelException *ex, CamelNNTPFolder *
 		if (store->stream == NULL
 		    && !camel_service_connect (CAMEL_SERVICE (store), ex))
 			return -1;
+
+		/* Check for unprocessed data, ! */
+		if (store->stream->mode == CAMEL_NNTP_STREAM_DATA) {
+			g_warning("Unprocessed data left in stream, flushing");
+			while (camel_nntp_stream_getd(store->stream, (unsigned char **)&p, &u) > 0)
+				;
+		}
+		camel_nntp_stream_set_mode(store->stream, CAMEL_NNTP_STREAM_LINE);
 
 		if (folder != NULL
 		    && (store->current_folder == NULL || strcmp(store->current_folder, ((CamelFolder *)folder)->full_name) != 0)) {
