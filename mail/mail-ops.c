@@ -1376,7 +1376,7 @@ cleanup_create_folder (gpointer in_data, gpointer op_data,
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     "Exception while reporting result to shell "
 				     "component listener.");
-	CORBA_free (input->listener);
+	CORBA_Object_release (input->listener, &ev);
 
 	g_free (input->uri);
 	g_free (input->type);

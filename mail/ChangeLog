@@ -1,5 +1,10 @@
 2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* mail-ops.c (cleanup_create_folder): Release the listener object
+	with `CORBA_Object_release()', not `CORBA_free()'.
+
+2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* main.c (main): Set the signal handlers for `SIGSEGV' and
 	`SIGBUS' to the default ones.
 
