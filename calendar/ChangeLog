@@ -1,3 +1,19 @@
+2003-04-07  Hans Petter Jansson  <hpj@ximian.com>
+
+	Fixes #35926.
+
+	* gui/dialogs/event-page.glade: Remove contacts entry/chooser.
+
+	* gui/dialogs/event-page.c: Remove contacts entry/chooser.
+	(event_page_init): Remove references.
+	(event_page_finalize): Ditto.
+	(event_page_fill_widgets): Ditto.
+	(event_page_fill_component): Ditto.
+	(get_widgets): Ditto.
+	(init_widgets): Ditto.
+	(contacts_clicked_cb): Remove wholesale.
+	(contacts_changed_cb): Ditto.
+
 2003-04-07  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #40876

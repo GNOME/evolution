@@ -72,9 +72,6 @@ struct _EventPagePrivate {
 	GtkWidget *show_time_as_free;
 	GtkWidget *show_time_as_busy;
 
-	GtkWidget *contacts_btn;
-	GtkWidget *contacts_box;
-
 	GtkWidget *categories_btn;
 	GtkWidget *categories;
 
@@ -84,11 +81,6 @@ struct _EventPagePrivate {
 	   start timezone is then changed, we updated the end timezone to the
 	   same value, since 99% of events start and end in one timezone. */
 	gboolean sync_timezones;
-
-	/* The Corba component for selecting contacts, and the entry field
-	   which we place in the dialog. */
-	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-	GtkWidget *contacts_entry;
 };
 
 
@@ -168,16 +160,11 @@ event_page_init (EventPage *epage)
 	priv->show_time_frame = NULL;
 	priv->show_time_as_free = NULL;
 	priv->show_time_as_busy = NULL;
-	priv->contacts_btn = NULL;
-	priv->contacts_box = NULL;
 	priv->categories_btn = NULL;
 	priv->categories = NULL;
 
 	priv->updating = FALSE;
 	priv->sync_timezones = FALSE;
-
-	priv->corba_select_names = CORBA_OBJECT_NIL;
-	priv->contacts_entry = NULL;
 }
 
 /* Destroy handler for the event page */
@@ -192,14 +179,6 @@ event_page_finalize (GObject *object)
 
 	epage = EVENT_PAGE (object);
 	priv = epage->priv;
-
-	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		bonobo_object_release_unref (priv->corba_select_names, &ev);
-		CORBA_exception_free (&ev);
-	}
 
 	if (priv->xml) {
 		g_object_unref((priv->xml));
@@ -427,28 +406,6 @@ clear_widgets (EventPage *epage)
 }
 
 
-static void
-contacts_changed_cb (BonoboListener    *listener,
-		     const char        *event_name,
-		     const CORBA_any   *arg,
-		     CORBA_Environment *ev,
-		     gpointer           data)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-	
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
-	
-#if 0
-	g_print ("In contacts_changed_cb\n");
-#endif
-
-	if (!priv->updating)
-		comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
-}
-
-
 /* fill_widgets handler for the event page */
 static void
 event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
@@ -555,17 +512,6 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	/* Categories */
 	cal_component_get_categories (comp, &categories);
 	e_dialog_editable_set (priv->categories, categories);
-
-	/* Contacts */
-	comp_editor_contacts_to_widget (priv->contacts_entry, comp);
-
-	/* We connect the contacts changed signal here, as we have to be a bit
-	   more careful with it due to the use of Corba. The priv->updating
-	   flag won't work as we won't get the changed event immediately.
-	   FIXME: Unfortunately this doesn't work either. We never get the
-	   changed event now. */
-	comp_editor_connect_contacts_changed (priv->contacts_entry,
-					      contacts_changed_cb, epage);
 
 	priv->updating = FALSE;
 }
@@ -731,10 +677,6 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 					   transparency_map);
 	cal_component_set_transparency (comp, transparency);
 
-	/* Contacts */
-
-	comp_editor_contacts_to_component (priv->contacts_entry, comp);
-
 	return TRUE;
 }
 
@@ -805,9 +747,6 @@ get_widgets (EventPage *epage)
 	priv->show_time_as_free = GW ("show-time-as-free");
 	priv->show_time_as_busy = GW ("show-time-as-busy");
 
-	priv->contacts_btn = GW ("contacts-button");
-	priv->contacts_box = GW ("contacts-box");
-
 	priv->categories_btn = GW ("categories-button");
 	priv->categories = GW ("categories");
 
@@ -827,8 +766,6 @@ get_widgets (EventPage *epage)
 		&& priv->show_time_frame
 		&& priv->show_time_as_free
 		&& priv->show_time_as_busy
-		&& priv->contacts_btn
-		&& priv->contacts_box
 		&& priv->categories_btn
 		&& priv->categories);
 }
@@ -1222,27 +1159,6 @@ all_day_event_toggled_cb (GtkWidget *toggle, gpointer data)
 	notify_dates_changed (epage, &start_tt, &end_tt);
 }
 
-/* Callback used when the contacts button is clicked; we must bring up the
- * contact list dialog.
- */
-static void
-contacts_clicked_cb (GtkWidget *button, gpointer data)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-
-	epage = EVENT_PAGE (data);
-	priv = epage->priv;
-
-	comp_editor_show_contacts_dialog (priv->corba_select_names);
-
-	/* FIXME: Currently we aren't getting the changed event from the
-	   SelectNames component correctly, so we aren't saving the event
-	   if just the contacts are changed. To work around that, we assume
-	   that if the contacts button is clicked it is changed. */
-	comp_editor_page_notify_changed (COMP_EDITOR_PAGE (epage));
-}
-
 /* Callback used when the categories button is clicked; we must bring up the
  * category list dialog.
  */
@@ -1319,10 +1235,6 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->all_day_event), "toggled",
 			    G_CALLBACK (all_day_event_toggled_cb), epage);
 
-	/* Contacts button */
-	g_signal_connect((priv->contacts_btn), "clicked",
-			    G_CALLBACK (contacts_clicked_cb), epage);
-
 	/* Categories button */
 	g_signal_connect((priv->categories_btn), "clicked",
 			    G_CALLBACK (categories_clicked_cb), epage);
@@ -1366,18 +1278,6 @@ init_widgets (EventPage *epage)
 			    epage);
 	g_signal_connect((priv->categories), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
-
-	/* Create the contacts entry, a corba control from the address book. */
-	priv->corba_select_names = comp_editor_create_contacts_component ();
-	if (priv->corba_select_names == CORBA_OBJECT_NIL)
-		return FALSE;
-
-	priv->contacts_entry = comp_editor_create_contacts_control (priv->corba_select_names);
-	if (priv->contacts_entry == NULL)
-		return FALSE;
-
-	gtk_container_add (GTK_CONTAINER (priv->contacts_box),
-			   priv->contacts_entry);
 
 	/* Set the default timezone, so the timezone entry may be hidden. */
 	location = calendar_config_get_timezone ();
