@@ -11,7 +11,7 @@ dnl * 'libgtop_need_server'    - is the server really needed? Defines 'NEED_LIBG
 dnl                              if true; defines conditional 'NEED_LIBGTOP'.
 
 AC_DEFUN([GNOME_LIBGTOP_SYSDEPS],[
-	AC_REQUIRE([AC_LC_CANONICAL_HOST])
+	AC_REQUIRE([AC_CANONICAL_HOST])
 
 	AC_SUBST(libgtop_sysdeps_dir)
 	AC_SUBST(libgtop_use_machine_h)
