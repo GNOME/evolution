@@ -197,15 +197,16 @@ camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex
 }
 
 static void
-imap_summary_free (GPtrArray *summary)
+imap_summary_free (GPtrArray **summary)
 {
 	CamelMessageInfo *info;
+	GPtrArray *array = *summary;
 	gint i, max;
 	
-	if (summary) {
-		max = summary->len;
+	if (array) {
+		max = array->len;
 		for (i = 0; i < max; i++) {
-			info = g_ptr_array_index (summary, i);
+			info = g_ptr_array_index (array, i);
 			g_free (info->subject);
 			g_free (info->from);
 			g_free (info->to);
@@ -217,8 +218,8 @@ imap_summary_free (GPtrArray *summary)
 			info = NULL;
 		}
 
-		g_ptr_array_free (summary, TRUE);
-		summary = NULL;
+		g_ptr_array_free (array, TRUE);
+		*summary = NULL;
 	}
 }
 
@@ -229,7 +230,7 @@ imap_finalize (GtkObject *object)
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
 	gint max, i;
 	
-	imap_summary_free (imap_folder->summary);
+	imap_summary_free (&imap_folder->summary);
 
 	if (imap_folder->lsub) {
 		max = imap_folder->lsub->len;
@@ -361,8 +362,7 @@ imap_expunge (CamelFolder *folder, CamelException *ex)
 
 	/* FIXME: maybe remove the appropriate messages from the summary
 	   so we don't need to refetch the entire summary? */
-	imap_summary_free (imap_folder->summary);
-	imap_folder->summary = NULL;
+	imap_summary_free (&imap_folder->summary);
 
 	camel_imap_folder_changed (folder, -1, ex);
 }
@@ -995,7 +995,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	switch (num) {
 	case 0:
 		/* clean up any previous summary data */
-		imap_summary_free (imap_folder->summary);
+		imap_summary_free (&imap_folder->summary);
 		
 		imap_folder->summary = g_ptr_array_new ();
 		
@@ -1163,7 +1163,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	g_ptr_array_free (headers, TRUE);
 
 	/* clean up any previous summary data */
-	imap_summary_free (imap_folder->summary);
+	imap_summary_free (&imap_folder->summary);
 	
 	imap_folder->summary = summary;
 	

@@ -1,3 +1,8 @@
+2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_summary_free): Fixed the
+	real problem that Peter was running into.
+
 2000-07-25  Dan Winship  <danw@helixcode.com>
 
 	* camel-mime-message.c (write_to_stream): Don't add a Mime-Version
@@ -15,22 +20,25 @@
 
 2000-07-25  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed): 
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_changed):
 	Optimized to try and get the new message headers without reloading
 	the entire summary from scratch.
-	(imap_get_summary_internal): Will now sync() before attempting to reload
-	the summary so that flags are set in the reloaded summary as well.
+	(imap_get_summary_internal): Will now sync() before attempting to
+	reload the summary so that flags are set in the reloaded summary
+	as well.
 
 2000-07-24  Jeffrey Stedfast  <fejj@helixcode.com>
 
-	* providers/imap/camel-imap-store.c (get_folder): Updated to give special
-	attention to the root folder.
+	* providers/imap/camel-imap-store.c (get_folder): Updated to give
+	special attention to the root folder.
 
-	* providers/imap/camel-imap-folder.c (imap_get_subfolder_names_internal): 
-	Updated to handle the root folder
-	(imap_get_message_count_internal): return 0 if folder can't hold messages
-	(camel_imap_folder_new): Change so that root folder gets special attention
-	and always gets can_hold_messages set to FALSE
+	* providers/imap/camel-imap-folder.c
+	(imap_get_subfolder_names_internal): Updated to handle the root
+	folder
+	(imap_get_message_count_internal): return 0 if folder can't hold
+	messages
+	(camel_imap_folder_new): Change so that root folder gets special
+	attention and always gets can_hold_messages set to FALSE
 
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
