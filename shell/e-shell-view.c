@@ -364,14 +364,18 @@ storage_set_removed_folder_callback (EStorageSet *storage_set,
 
 	page_num = gtk_notebook_page_num (GTK_NOTEBOOK (priv->notebook), view->control);
 
+	if (strncmp (priv->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
+	    && strcmp (priv->uri + E_SHELL_URI_PREFIX_LEN, path) == 0) {
+		e_shell_view_display_uri (shell_view, "evolution:/local/Inbox");
+	}
+
+	bonobo_control_frame_control_deactivate (BONOBO_CONTROL_FRAME (bonobo_widget_get_control_frame (BONOBO_WIDGET (view->control))));
 	gtk_widget_destroy (view->control);
 
 	g_hash_table_remove (priv->uri_to_view, view->uri);
 	view_destroy (view);
 
 	gtk_notebook_remove_page (GTK_NOTEBOOK (priv->notebook), page_num);
-
-	e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 }
 
 

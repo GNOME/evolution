@@ -1607,6 +1607,7 @@ e_shell_component_maybe_crashed   (EShell *shell,
 {
 	EShellPrivate *priv;
 	GtkWindow *parent_window;
+	EvolutionShellComponentClient *component;
 	GList *p;
 
 	g_return_if_fail (shell != NULL);
@@ -1616,6 +1617,19 @@ e_shell_component_maybe_crashed   (EShell *shell,
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
 	priv = shell->priv;
+
+	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0) {
+		const char *path;
+
+		path = uri + E_SHELL_URI_PREFIX_LEN;
+		if (e_storage_set_get_folder (priv->storage_set, path) == NULL)
+			return;
+	}
+
+	component = e_folder_type_registry_get_handler_for_type (priv->folder_type_registry, type_name);
+	if (component != NULL
+	    && bonobo_unknown_ping (bonobo_object_corba_objref (BONOBO_OBJECT (component))))
+		return;
 
 	/* See if that type has caused a crash already.  */
 
