@@ -1436,14 +1436,14 @@ cal_backend_file_compute_changes (CalBackend *backend, CalObjType type, const ch
 			coc->calobj =  CORBA_string_dup (calobj);
 			coc->type = GNOME_Evolution_Calendar_ADDED;
 			changes = g_list_prepend (changes, coc);
-			change_ids = g_list_prepend (change_ids, uid);
+			change_ids = g_list_prepend (change_ids, g_strdup (uid));
 			break;
 		case E_DBHASH_STATUS_DIFFERENT:
 			coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
 			coc->calobj =  CORBA_string_dup (calobj);
 			coc->type = GNOME_Evolution_Calendar_MODIFIED;
 			changes = g_list_prepend (changes, coc);
-			change_ids = g_list_prepend (change_ids, uid);
+			change_ids = g_list_prepend (change_ids, g_strdup (uid));
 			break;
 		}
 	}
@@ -1482,11 +1482,11 @@ cal_backend_file_compute_changes (CalBackend *backend, CalObjType type, const ch
 		} else {
 			e_dbhash_remove (ehash, uid);
 		}		
-		e_dbhash_write (ehash);
 
 		CORBA_free (coc);
 		g_free (uid);
 	}	
+	e_dbhash_write (ehash);
   	e_dbhash_destroy (ehash);
 
 	cal_obj_uid_list_free (uids);
