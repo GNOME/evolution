@@ -1,12 +1,3 @@
-Pilot:
-
-* Better support for untimed events (we have none now).
-
-* Hash objects based on their UIDs.
-
-* Add placeholders for deleted events, so that we can kill those
-  when syncing to the pilot.
-
 BUGS:
 
 - Recurrence end date is wrong.  An event that repeats daily will not

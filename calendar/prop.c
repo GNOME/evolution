@@ -562,7 +562,7 @@ build_list_options_frame(void)
 {
 	GtkWidget *frame;
 	GtkWidget *vbox;
-	frame = gtk_frame_new (_("Show on TODO List:"));
+	frame = gtk_frame_new (_("Show on To Do List:"));
 	
 	vbox = gtk_vbox_new (FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);

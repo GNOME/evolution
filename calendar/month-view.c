@@ -477,8 +477,7 @@ month_view_init (MonthView *mv)
 						     "clip", TRUE,
 						     NULL);
 	}
-	gnome_canvas_points_free (points);
-	
+
 	mv->old_current_index = -1;
 }
 

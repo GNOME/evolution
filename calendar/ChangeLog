@@ -21,55 +21,17 @@
 
 	* calobj.c (ical_object_generate_events): Get rid of pointers to
 	values returned from localtime, as it uses a static buffer.
-
-1999-09-26  Eskil Olsen <deity@eskil.dk>
-	* corba-cal.c: the g_free that was commented out since glib said
-	was a duplicate free, was supposed to be a free.
-		
-	* GnomeCal.idl/corba-cal.c: added a get_object_id_list and a
-	get_objects_by_id_list. Latter is not done.
-
-	* calendar-conduit.c: rewrote the way the conduit iterates over
-	records. It no longers fetches all entries (since that didn't work 
-	with more then 285 entries. It now fetches the id list, and gets
-	each record. (will be using get_objects_by_id_list to get records
-	in amounts of 10 or so later, to reduce amount of corba calls).
-
-	* calendar-conduit.c: now sets alarm parameters when transferring
-	from gnomecal to pilot.
-
-1999-09-23  Eskil Olsen <deity@eskil.dk>
-
-	* calendar-conduit.c: better merge of summary/description
- 	when doing ical_from_remote (update_record), also handles
-	import from gnomecal to pilot better, and on both ways, repeat
-	events are much better now.
-
-1999-09-22  Eskil Olsen <deity@eskil.dk>
-
-	* corba-cal.c: commented out a g_free that glib reported
-	as being a duplicate free.
-	* calendar-conduit.c: got gnomecal->pilot up and runnning.
-
-1999-02-06  Lauris Kaplinski <lauris@ariman.ee>
-
-	* gncal.desktop: Added Estonian translations.
-
+	
 1999-09-14  Federico Mena Quintero  <federico@redhat.com>
 
 	* gncal-full-day.c (child_popup_menu): Set the data pointers for
 	all the items.
 
-1999-09-14  Kjartan Maraas  <kmaraas@online.no>
+1999-09-13  Kjartan Maraas  <kmaraas@online.no>
 
-	* doc/C/gnomecal.sgml: Merge from gnome-pim-1-0. Synced with newest
-	user-guide.
+	* doc/C/gnomecal.sgml: Updated and synced with the latest 
+	version of gnome-users-guide. (1.0.6)
 	
-1999-09-01  Miguel de Icaza  <miguel@gnu.org>
-
-	* eventedit.c (ee_create_buttons): Make the OK button the default
-	button per Russell's suggestion.
-
 1999-08-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* calendar.c (calendar_object_changed): Modify the
@@ -77,141 +39,71 @@
 	(calendar_add_object): Ditto.
 
 	Closes bug #676
-	
+
 	* main.c (save_calendar_cmd): Fix problem in which we warned the
 	user about the calendar being modified the first time the calendar
 	was used. 
 
-1999-08-22  Tomas Ogren  <stric@ing.umu.se>
+1999-04-27  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
-	* gnomecal.gnorba: "GenericFactoy" is wrong...
+	* gnome-month-item.c (gnome_month_item_set_arg): Fixed cut&paste
+	bug for day fontsets.
 
-1999-08-15  Miguel de Icaza  <miguel@gnu.org>
+1999-05-26  Russell Steinthal  <steintr@condor.penguinpowered.com>
 
-	* calobj.c (ical_gen_uid): Fix the hostname part.
+	* gncal-todo.c main.c main.h prop.c: Added support for priorities
+	for todo items.  Doesn't do much, but you can set them and sort by
+	them.  (Use the properties box to enable them; should they be on
+	by default?)
 
-1999-08-07  Peter Teichman  <pat4@acpub.duke.edu>
+1999-05-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	* calendar-pilot-sync.c (sync_pilot): sync correctly for objects
-	created on the pilot, but not dirty (because they have been synced
-	with some other program in the past)
+	* main.c (parse_an_arg): Added missing break here.  It was causing
+	core dumps when invoked with --userfile.
 
-1999-07-30  Miguel de Icaza  <miguel@gnu.org>
+	* gnome-cal.c (gnome_calendar_set_view): Add some assertions here,
+	to pin point the bug reported on gnome-list.
 
-	* month-view.c (month_view_init): Release points here. 
+	* calobj.c (load_recurrence): Make intervals always exist.  a 0
+	interval is wrong.
 
-1999-08-02  Peter Teichman  <pat4@acpub.duke.edu>
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
-	* Makefile.am (libcalendar_conduit_la_LDFLAGS):
-	libcalendar_conduit now installs
+	* year-view.c: Removed unused macro CALENDAR_HEIGHT.
 
-	* calendar-pilot-sync.c (sync_pilot): do deletion of appointments
-	correctly, when they are deleted on the pilot
-	(conduit_free_Appointment): protect against double-freeing parts
-	of the Appointment structure
-	(update_record): all-day events from the pilot are handled a bit
-	more reasonably
+1999-05-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
-1999-08-01  Peter Teichman  <pat4@acpub.duke.edu>
+	* year-view.c (idle_handler): Set the canvas scroll region here,
+	not in size_allocate().  Also, use the correct width and height
+	based on the allocation and the precomputed minimum width/height
+	values.
 
-	* calendar-pilot-sync.c (sync_object_to_pilot): The multi-day
-	appointment corruption bug is dead. Whoo!
+	* gnome-cal.c (setup_widgets): Set the scrollbar policy of the
+	scrolled window.
 
-1999-07-31  Peter Teichman  <pat4@acpub.duke.edu>
+	* main.c (setup_appbar): Use the correct type for the appbar.
 
-	* Makefile.am: fixed this up slightly with respect to pilot conduits
+	* gncal-day-view.c: Removed unused function switch_to_day().
 
-1999-07-30  Jonathan Blandford  <jrb@redhat.com>
+	* gncal-day-panel.c (calendar_day_selected): Removed unused variable.
 
-	* Makefile.am (libcalendar_conduit_la_LIBADD): More autoconf-stuff
+1999-05-25  Nat Friedman  <nat@nat.org>
 
-1999-07-29  Jonathan Blandford  <jrb@redhat.com>
+	* doc/C/gnomecal.sgml: Fixed a typo.
 
-	* gnome-cal.c (setup_widgets): Add scrolling to the yearview.
+	* gnome-cal.c (setup_widgets): Added a scrolled window widget into
+ 	which the year view is placed.
 
-1999-07-28  Miguel de Icaza  <miguel@gnu.org>
+	* year-view.c (CALENDAR_HEIGHT): The height of the total year view
+ 	inside the scrolled window.
+	(idle_handler): Set the height of the year view to
+ 	CALENDAR_HEIGHT.
+	(year_view_size_allocate): Set the scroll region of the year view
+ 	canvas to allocation->width, CALENDAR_HEIGHT.
 
-	* calendar-pilot-sync.c: (sync_object_to_pilot): If the enddate is
-	not set, set the repeatForever to 1.  This fixes all of the
-	birthdays problems I had.
+1999-04-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
-	Make the code not take arguments
-	(sync_cal_to_pilot): Nice event update information
-
-	* calendar.c (calendar_new): Add Event UID hash table.
-	(calendar_add_object): Add events to the hash table here.
-	(calendar_remove_object): Remove events here.
-	(calendar_object_find_event): Use the hash table here.
-
-	* main.c (save_calendar_cmd): The object is already destroyed by
-	gnome_dialog_run. 
-
-	* calendar-pilot-sync.c (sync_object_to_pilot): Do not turn
-	archived bit on. 
-
-	* calobj.c (ical_gen_uid): Use the hostname, not the domain name.
-	(ical_gen_uid): Add a serial number.  Isodates can be small.
-
-	* corba-cal.c (cal_repo_update_pilot_id): New method to update the
-	pilot status.
-	(cal_repo_get_updated_objects): New method.  Returns a list of
-	modified and not-sycned objects
-
-	* calendar-pilot-sync.c (sync_cal_to_pilot): New function to sync
-	from the GnomeCalendar to the pilot.
-	(sync_object_to_pilot): Sync a single event to the pilot.
-	(try_alarm): Alarm syncing code.
-
-1999-07-27  Miguel de Icaza  <miguel@gnu.org>
-
-	* calendar-pilot-sync.c: New file.  Implements PalmPilot
-	syncronization with the Gnome Calendar.
-	
-	* calobj.c (ical_object_new_from_string): New function.  Creates
-	an iCalObject from a vCalendar string that is supposed to contain
-	only one vEvent.
-
-	* calendar.c:
-	(calendar_save): Split this routine in two.
-
-	* gnome-cal.c (gnome_calendar_new): Create the corba server here.
-
-	* main.c: Include gnorba.h, and corba-cal-factory.h here
-	(close_cmd): Kill the calendar server on shutdown.
-
-	* calobj.c (load_recur_yearly_day): Added a fixme comment.  WE
-	need to handle intervals in the years.
-
-	* calendar.c (calendar_object_find_in_list, calendar_object_find,
-	calendar_object_find_todo, calendar_object_find_event): New
-	functions for looking up information.
-
-	* main.c (gnome_calendar_locate): New function.
-
-	* corba-cal.c (calendar_create_object): New file.  Implements the
-	corba server.
-
-	* calendar.c (calendar_object_changed): Flag pilot-status as changed.
-
-	* calobj.c (ical_object_to_vobject): Save pilot information for syncing.
-	(ical_object_create_from_vobject): Load syncing information for
-	pilot.  Do it in a way compatible with KOrganizer.
-
-1999-07-26  Miguel de Icaza  <miguel@gnu.org>
-
-	* calobj.c (ical_object_create_from_vobject): Generate unique IDs
-	on Vevents we load that lack it.  WE need this for the old
-	gnome calendar generated files (ie, before now :-).
-
-	Required to sync with the Palm
-
-1999-07-26  Miguel de Icaza  <miguel@gnu.org>
-
-	* calobj.c (ical_object_create_from_vobject): Generate unique IDs
-	on Vevents we load that lack it.  WE need this for the old
-	gnome calendar generated files (ie, before now :-).
-
-	Required to sync with the Palm
+	* main.c (dump_todo): Add --todo flag to dump the todo contents.
 
 1999-07-19  Matt Martin <matt@abacusnet.net>
 

@@ -75,7 +75,4 @@ char *color_spec_from_prop (ColorProp propnum);
 
 void save_default_calendar (GnomeCalendar *gcal);
 
-GnomeCalendar *new_calendar (char *full_name, char *calendar_file,
-			     char *geometry, char *page, gboolean hidden);
-
 #endif
