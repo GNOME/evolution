@@ -1080,10 +1080,13 @@ source_group_menu_add_groups (GtkMenuShell *menu_shell, ESourceList *source_list
 		if (!strcmp ("ldap://", e_source_group_peek_base_uri (group)))
 			continue;
 #endif
-
 		menu_item = gtk_menu_item_new_with_label (e_source_group_peek_name (group));
 		gtk_widget_show (menu_item);
 		gtk_menu_shell_append (menu_shell, menu_item);
+
+		if (!strcmp ("exchange://", e_source_group_peek_base_uri (group)))
+			gtk_widget_set_sensitive (menu_item, FALSE);
+
 	}
 }
 
