@@ -11,6 +11,12 @@
 Introduction:
 -------------
 
+[ NB. Camel has been written now. Please convert future tense to
+present tense. Thank you.
+
+	-- Peter Williams <peterw@ximian.com> 7/2/2001
+]
+
 Camel will be a generic messaging library. It will evntually support 
 the standard messaging system for receiving and sending messages.
 It aims at being the backend for the future gnome-mailer system.
