@@ -743,9 +743,9 @@
 	  </listitem>
 	  <listitem>
 	<para>
-	  If you want multiple criterion for this filter, press <guibutton>Add
-	    criterion</guibutton> and repeat the previous step.
-	</para>
+	      If you want multiple criterion for this filter, press <guibutton>Add
+		criterion</guibutton> and repeat the previous step.
+	    </para>
       </listitem>
     </orderedlist>
 
@@ -757,6 +757,14 @@
 	  </graphic>
 	</screenshot>
       </figure>
+      </para>
+    </sect2>
+    <sect2 id="usage-mail-vfolder-unmatched">
+      <title>Unmatched vFolder</title>
+      <para>
+	Obveously, not all messages will fit into all your vFolders.  That is
+	what the UNMATCHED vFolder is for.  The UNMATCHED vFolder is a vFolder
+	for any mail that doesn't get matched by other rules.
       </para>
     </sect2>
   </sect1>

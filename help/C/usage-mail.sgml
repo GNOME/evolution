@@ -200,6 +200,13 @@
 	  </listitem>
 	</orderedlist>
       </para>
+      <note>
+	<title>Trash is Actually a vFolder?</title>
+	<para>
+	  Your trash bin is actually a vFolder that searches for all mails that
+	  are queued to be deleted.
+	</para>
+      </note>
     </sect2>
     <sect2 id="usage-mail-getnsend-undelete">
       <title>Undeleting Messages</title>

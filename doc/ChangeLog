@@ -1,3 +1,9 @@
+2001-07-09  Kevin Breit  <battery841@mediaone.net>
+
+	* C/usage-mail-org.sgml: Mention UNMATCHED
+
+	* C/usage-mail.sgml: Commented on trash being a vFolder
+
 2001-07-06  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-mail.sgml: Spell check
