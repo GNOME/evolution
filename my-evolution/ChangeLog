@@ -1,3 +1,9 @@
+2003-08-26  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-summary-tasks.c:
+	* e-summary-calendar.c (uids_to_array): use correct type for arguments
+	to cal_client_get_object.
+
 2003-08-19  Harry Lu  <harry.lu@sun.com>
 
 	** For bug #47461.

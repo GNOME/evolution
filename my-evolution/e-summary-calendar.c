@@ -267,16 +267,19 @@ uids_to_array (ESummary *summary,
 	for (p = uids; p; p = p->next) {
 		ESummaryCalEvent *event;
 		CalClientGetStatus status;
+		icalcomponent *icalcomp;
 
 		event = g_new (ESummaryCalEvent, 1);
 
 		event->uid = g_strdup (p->data);
-		status = cal_client_get_object (client, p->data, &event->comp);
+		status = cal_client_get_object (client, p->data, &icalcomp);
 		if (status != CAL_CLIENT_GET_SUCCESS) {
 			g_free (event);
 			continue;
 		}
 
+		event->comp = cal_component_new ();
+		cal_component_set_icalcomponent (event->comp, icalcomp);
 		if (cal_component_has_recurrences (event->comp) == TRUE) {
 			struct _RecurData *recur;
 
