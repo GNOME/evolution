@@ -1578,6 +1578,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	const char *uri;
 	gboolean viewing_closed_uri;
 	char *copy_of_uri;
+	const char *current_uri;
 
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
@@ -1602,7 +1603,15 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 					   get_storage_set_path_from_uri (uri));
 
 	/* See if we were actively viewing the uri for the socket that's being closed */
-	viewing_closed_uri = !strcmp (uri, e_shell_view_get_current_uri (shell_view));
+	current_uri = e_shell_view_get_current_uri (shell_view);
+	if (current_uri == NULL) {
+		viewing_closed_uri = FALSE;
+	} else {
+		if (strcmp (uri, current_uri) == 0)
+			viewing_closed_uri = TRUE;
+		else
+			viewing_closed_uri = FALSE;
+	}
 
 	if (viewing_closed_uri)
 		e_shell_view_display_uri (shell_view, NULL);

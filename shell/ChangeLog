@@ -1,3 +1,12 @@
+2001-07-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixed #3643, Shell crash when component crashed]
+
+	* e-shell-view.c (socket_destroy_cb): Fix Jason's broken fix for
+	#3205 that was causing #3643.  It is not safe to strcmp() the
+	return value from `e_shell_view_get_current_uri()' as it might be
+	NULL already.
+
 2001-07-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (INCLUDES): Added $(BONOBO_CONF_CFLAGS).
