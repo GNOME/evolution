@@ -299,10 +299,13 @@ vfolder_gui_add_rule(VfolderRule *rule)
 	GnomeDialog *gd;
 
 	w = filter_rule_get_widget((FilterRule *)rule, (RuleContext *)context);
+
 	gd = (GnomeDialog *)gnome_dialog_new(_("New VFolder"),
 					     GNOME_STOCK_BUTTON_OK,
 					     GNOME_STOCK_BUTTON_CANCEL,
 					     NULL);
+	gnome_dialog_set_default (gd, 0);
+
 	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);

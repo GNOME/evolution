@@ -102,7 +102,12 @@ mail_search_dialogue_init (MailSearchDialogue *o)
 {
 	GnomeDialog *dialogue = GNOME_DIALOG (o);
 	
-	gnome_dialog_append_buttons (dialogue, _("Ok"), _("Search"), _("Cancel"), 0);
+	gnome_dialog_append_buttons (dialogue,
+				     GNOME_STOCK_BUTTON_OK,
+				     _("_Search"),
+				     GNOME_STOCK_BUTTON_CANCEL,
+				     NULL);
+	gnome_dialog_set_default (dialogue, 0);
 }
 
 

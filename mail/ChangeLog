@@ -1,5 +1,13 @@
 2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-vfolder.c (vfolder_gui_add_rule): Make the OK button the
+	default one.
+
+	* mail-search-dialogue.c (mail_search_dialogue_init): Use stock
+	buttons for OK and Cancel.  Make the OK button the default one.
+
+2001-01-28  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-vfolder.c (vfolder_gui_add_rule): Set a default size for
 	the window so that more rules are visible.
 
