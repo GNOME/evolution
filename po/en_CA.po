@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-13 14:55-0400\n"
-"PO-Revision-Date: 2004-08-10 19:18-0700\n"
+"POT-Creation-Date: 2004-08-13 17:05-0400\n"
+"PO-Revision-Date: 2004-08-13 19:18-0700\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -4768,9 +4768,8 @@ msgid "_Add Calendar"
 msgstr "_Add Calendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Task List"
-msgstr "Add Task List"
+msgstr "_Add Task List"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 msgid "_Refresh:"
@@ -10141,9 +10140,8 @@ msgid "Automatically synchronize remote mail locally"
 msgstr "Automatically synchronize remote mail locally"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:69
-#, fuzzy
 msgid "Address Book and Calendar"
-msgstr "Address Book And Calendar"
+msgstr "Address Book and Calendar"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
 msgid "Post Office Agent:"
@@ -10154,9 +10152,8 @@ msgid "Post Office Agent SOAP Port:"
 msgstr "Post Office Agent SOAP Port:"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:78
-#, fuzzy
 msgid "Use Secure Connection (SSL)"
-msgstr "_Use Secure Connection (SSL):"
+msgstr "Use Secure Connection (SSL)"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
@@ -17157,13 +17154,12 @@ msgstr ""
 "convenience.\n"
 
 #: shell/shell-errors.xml.h:25
-#, fuzzy
 msgid "_Remind Me Later"
-msgstr "Reminder!!"
+msgstr "_Remind Me Later"
 
 #: shell/shell-errors.xml.h:26
 msgid "_Keep Data"
-msgstr ""
+msgstr "_Keep Data"
 
 #. shell:upgrade-remove-1-4-confirm title
 #. shell:upgrade-remove-1-4-confirm primary
@@ -19534,12 +19530,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% complete)"
-
-#~ msgid "_Add Group"
-#~ msgstr "_Add Group"
-
-#~ msgid "Use ssl"
-#~ msgstr "Use ssl"
-
-#~ msgid "Keep"
-#~ msgstr "Keep"
