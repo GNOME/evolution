@@ -112,25 +112,37 @@ async_create_cb (EStorageSet *storage_set,
 		  e_storage_result_to_string (result));
 }
 
-
+
 /* Sanity check for the user-specified folder name.  */
 /* FIXME in the future we would like not to have the `G_DIR_SEPARATOR' limitation.  */
 static gboolean
-entry_name_is_valid (GtkEntry *entry)
+entry_name_is_valid (GtkEntry *entry, char **reason)
 {
 	const char *name;
-
+	
 	name = gtk_entry_get_text (entry);
-
-	if (name == NULL || *name == '\0')
+	
+	if (name == NULL || *name == '\0') {
+		*reason = _("No folder name specified.");
 		return FALSE;
-
-	if (strchr (name, G_DIR_SEPARATOR) != NULL)
+	}
+	
+	/* GtkEntry is broken - if you hit KP_ENTER you get a \r inserted... */
+	if (strchr (name, '\r')) {
+		*reason = _("Folder name cannot contain the Return character.");
 		return FALSE;
-
-	if (strcmp (name, ".") == 0 || strcmp (name, "..") == 0)
+	}
+	
+	if (strchr (name, G_DIR_SEPARATOR) != NULL) {
+		*reason = _("Folder cannot contain the directory separator.");
 		return FALSE;
-
+	}
+	
+	if (strcmp (name, ".") == 0 || strcmp (name, "..") == 0) {
+		*reason = _("'.' and '..' are reserved folder names.");
+		return FALSE;
+	}
+	
 	return TRUE;
 }
 
@@ -148,6 +160,7 @@ dialog_clicked_cb (GnomeDialog *dialog,
 	const char *folder_type;
 	const char *parent_path;
 	char *folder_name;
+	char *reason;
 	char *path;
 
 	dialog_data = (DialogData *) data;
@@ -162,10 +175,9 @@ dialog_clicked_cb (GnomeDialog *dialog,
 		return;
 	}
 
-	if (! entry_name_is_valid (GTK_ENTRY (dialog_data->folder_name_entry))) {
-		/* FIXME: Explain better.  */
+	if (!entry_name_is_valid (GTK_ENTRY (dialog_data->folder_name_entry), &reason)) {
 		e_notice (GTK_WINDOW (dialog), GNOME_MESSAGE_BOX_ERROR,
-			  _("The specified folder name is not valid."));
+			  _("The specified folder name is not valid: %s"), reason);
 		return;
 	}
 

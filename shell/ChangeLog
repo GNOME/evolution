@@ -1,3 +1,11 @@
+2001-08-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-shell-folder-creation-dialog.c (entry_name_is_valid): Check
+	for \r in the folder name, this is an invalid char. Also take a
+	"reason" argument so we can inform the user why his folder name is
+	invalid.
+	(dialog_clicked_cb): Tell the user why the folder name is invalid.
+
 2001-08-28  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #8125, Evolution crashes while starting.]
