@@ -1,3 +1,10 @@
+2000-09-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (tree_example_2_LDADD): Add `$(GNOME_VFS_LIBS)' and
+	`$(OAF_LIBS)'.
+	(INCLUDES): Add `$(GNOME_VFS_CFLAGS)' and
+	`$(GNOME_BONOBO_CFLAGS)'.
+
 2000-09-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-cell-text.c: Made bold text calculate widths properly.

@@ -12,7 +12,9 @@ glade_headers = 				\
 
 INCLUDES =					\
 	$(EXTRA_GNOME_CFLAGS)			\
+	$(GNOME_VFS_CFLAGS)			\
 	$(GNOME_PRINT_CFLAGS)			\
+	$(GNOME_BONOBO_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
 	-DETABLE_GLADEDIR=\"$(gladedir)\"	\
 	-I$(top_srcdir)/widgets/e-text		\
@@ -176,6 +178,8 @@ tree_example_2_LDADD =				\
 	$(top_builddir)/widgets/e-paned/libepaned.a \
 	$(top_builddir)/widgets/misc/libemiscwidgets.a \
 	$(top_builddir)/e-util/libeutil.la	\
+	$(GNOME_VFS_LIBS)			\
+	$(OAF_LIBS)				\
 	$(GNOME_PRINT_LIBS)
 
 icons = 			\
