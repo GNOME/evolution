@@ -1007,13 +1007,14 @@ widgets/misc/Makefile
 widgets/menus/Makefile
 addressbook/Makefile
 addressbook/conduit/Makefile
-addressbook/contact-editor/Makefile
 addressbook/printing/Makefile
 addressbook/backend/Makefile
 addressbook/backend/idl/Makefile
 addressbook/backend/pas/Makefile
 addressbook/backend/ebook/Makefile
 addressbook/gui/Makefile
+addressbook/gui/contact-editor/Makefile
+addressbook/gui/contact-list-editor/Makefile
 addressbook/gui/merging/Makefile
 addressbook/gui/widgets/Makefile
 addressbook/gui/search/Makefile
