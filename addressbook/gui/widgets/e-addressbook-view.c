@@ -723,12 +723,14 @@ e_addressbook_view_print(EAddressbookView *view)
 	} else if (view->view_type == E_ADDRESSBOOK_VIEW_TABLE) {
 		GtkWidget *dialog;
 		EPrintable *printable;
+		ETable *etable;
 
 		dialog = gnome_print_dialog_new("Print cards", GNOME_PRINT_DIALOG_RANGE | GNOME_PRINT_DIALOG_COPIES);
 		gnome_print_dialog_construct_range_any(GNOME_PRINT_DIALOG(dialog), GNOME_PRINT_RANGE_ALL | GNOME_PRINT_RANGE_SELECTION,
 						       NULL, NULL, NULL);
-		
-		printable = e_table_scrolled_get_printable(E_TABLE_SCROLLED(view->widget));
+
+		gtk_object_get(GTK_OBJECT(view->widget), "table", &etable, NULL);
+		printable = e_table_get_printable(etable);
 
 		gtk_object_ref(GTK_OBJECT(view->widget));
 
