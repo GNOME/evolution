@@ -62,6 +62,7 @@ static POA_Evolution_MessageList__vepv evolution_message_list_vepv;
 static void on_cursor_change_cmd (ETableScrolled *table, int row, gpointer user_data);
 static void select_row (ETableScrolled *table, gpointer user_data);
 static gint on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list);
+static void on_double_click (ETableScrolled *table, gint row, MessageList *list);
 static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 
@@ -587,10 +588,13 @@ message_list_init (GtkObject *object)
 			    GTK_SIGNAL_FUNC (select_row), message_list);
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "cursor_change",
-			   GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
+			    GTK_SIGNAL_FUNC (on_cursor_change_cmd), message_list);
 	
 	gtk_signal_connect (GTK_OBJECT (message_list->etable), "right_click",
-			   GTK_SIGNAL_FUNC (on_right_click), message_list);
+			    GTK_SIGNAL_FUNC (on_right_click), message_list);
+	
+	gtk_signal_connect (GTK_OBJECT (message_list->etable), "double_click",
+			    GTK_SIGNAL_FUNC (on_double_click), message_list);
 	
 	gtk_widget_show (message_list->etable);
 	
@@ -980,22 +984,30 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 	FolderBrowser *fb = list->parent_folder_browser;
 	extern CamelFolder *drafts_folder;
 	EPopupMenu menu[] = {
-		{ "View Message",    NULL, GTK_SIGNAL_FUNC (view_msg),        0	},
-		{ "Edit Message",    NULL, GTK_SIGNAL_FUNC (edit_msg),        1	},
-		{ "Print Message",   NULL, GTK_SIGNAL_FUNC (print_msg),       0	},
-		{ "",                NULL, GTK_SIGNAL_FUNC (NULL),            0	},
-		{ "Reply to Sender", NULL, GTK_SIGNAL_FUNC (reply_to_sender), 0	},
-		{ "Reply to All",    NULL, GTK_SIGNAL_FUNC (reply_to_all),    0	},
-		{ "Forward Message", NULL, GTK_SIGNAL_FUNC (forward_msg),     0	},
-		{ "",                NULL, GTK_SIGNAL_FUNC (NULL),            0	},
-		{ "Delete Message",  NULL, GTK_SIGNAL_FUNC (delete_msg),      0	},
-		{ "Move Message",    NULL, GTK_SIGNAL_FUNC (move_msg),        0	},
-		{ NULL,              NULL, NULL,                              0	}
+		{ "Open in New Window", NULL, GTK_SIGNAL_FUNC (view_msg),        0 },
+		{ "Edit Message",       NULL, GTK_SIGNAL_FUNC (edit_msg),        1 },
+		{ "Print Message",      NULL, GTK_SIGNAL_FUNC (print_msg),       0 },
+		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
+		{ "Reply to Sender",    NULL, GTK_SIGNAL_FUNC (reply_to_sender), 0 },
+		{ "Reply to All",       NULL, GTK_SIGNAL_FUNC (reply_to_all),    0 },
+		{ "Forward Message",    NULL, GTK_SIGNAL_FUNC (forward_msg),     0 },
+		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
+		{ "Delete Message",     NULL, GTK_SIGNAL_FUNC (delete_msg),      0 },
+		{ "Move Message",       NULL, GTK_SIGNAL_FUNC (move_msg),        0 },
+		{ NULL,                 NULL, NULL,                              0 }
 	};
 	
 	e_popup_menu_run (menu, (GdkEventButton *)event, (fb->folder == drafts_folder) ? 0 : 1, fb);
 	
 	return TRUE;
+}
+
+static void
+on_double_click (ETableScrolled *table, gint row, MessageList *list)
+{
+	FolderBrowser *fb = list->parent_folder_browser;
+	
+	view_msg (NULL, fb);
 }
 
 struct message_list_foreach_data {
