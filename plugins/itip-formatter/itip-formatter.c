@@ -792,12 +792,13 @@ update_attendee_status (FormatItipPObject *pitip)
 {
 	ECalComponent *comp = NULL;
 	icalcomponent *icalcomp = NULL;
-	const char *uid;
+	const char *uid, *rid;
 	GError *error;
 	
 	/* Obtain our version */
 	e_cal_component_get_uid (pitip->comp, &uid);
-	if (e_cal_get_object (pitip->current_ecal, uid, NULL, &icalcomp, NULL)) {
+	rid = e_cal_component_get_recurid_as_string (pitip->comp);
+	if (e_cal_get_object (pitip->current_ecal, uid, rid, &icalcomp, NULL)) {
 		GSList *attendees;
 
 		comp = e_cal_component_new ();
@@ -831,7 +832,7 @@ update_attendee_status (FormatItipPObject *pitip)
 			}
 		}
 
-		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, CALOBJ_MOD_ALL, &error)) {
+		if (!e_cal_modify_object (pitip->current_ecal, icalcomp, rid ? CALOBJ_MOD_THIS : CALOBJ_MOD_ALL, &error)) {
 			itip_view_add_lower_info_item_printf (ITIP_VIEW (pitip->view), ITIP_VIEW_INFO_ITEM_TYPE_ERROR, 
 							      _("Unable to update attendee. %s"), error->message);
 			

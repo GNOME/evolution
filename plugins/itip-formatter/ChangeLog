@@ -1,3 +1,8 @@
+2005-01-27  Rodrigo Moya <rodrigo@novell.com>
+
+	* itip-formatter.c (update_attendee_status): deal with the itip
+	message having an individual instance.
+
 2005-01-26  JP Rosevear  <jpr@novell.com>
 
 	Fixes #71485
