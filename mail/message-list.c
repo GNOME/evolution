@@ -158,16 +158,15 @@ select_msg (MessageList *message_list, gint row)
 	}
 
 	if (message) {
-		static guint timeout;
-
-		if (timeout)
-			gtk_timeout_remove (timeout);
+		if (message_list->seen_id)
+			gtk_timeout_remove (message_list->seen_id);
 
 		mail_display_set_message (message_list->parent_folder_browser->mail_display,
 					  CAMEL_MEDIUM (message));
 		gtk_object_unref (GTK_OBJECT (message));
 
-		timeout = gtk_timeout_add (1500, mark_msg_seen, message_list);
+		message_list->seen_id =
+			gtk_timeout_add (1500, mark_msg_seen, message_list);
 	}
 }
 
@@ -314,12 +313,38 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 static void
 ml_set_value_at (ETableModel *etm, int col, int row, const void *value, void *data)
 {
+	MessageList *message_list = data;
+	CamelMessageInfo *msg_info;
+
+	switch (col) {
+	case COL_MESSAGE_STATUS:
+		msg_info = get_message_info (message_list, row);
+		camel_folder_set_message_flags (message_list->folder,
+						msg_info->uid,
+						CAMEL_MESSAGE_SEEN,
+						~(msg_info->flags), NULL);
+		if (message_list->seen_id) {
+			gtk_timeout_remove (message_list->seen_id);
+			message_list->seen_id = 0;
+		}
+		break;
+	default:
+		break;
+	}
+
 }
 
 static gboolean
 ml_is_cell_editable (ETableModel *etm, int col, int row, void *data)
 {
-	return FALSE;
+	switch (col) {
+	case COL_MESSAGE_STATUS:
+		return TRUE;
+		break;
+	default:
+		return FALSE;
+		break;
+	}
 }
 
 static void *
@@ -865,8 +890,6 @@ message_list_set_search (MessageList *message_list, const char *search)
 static void
 folder_changed(CamelFolder *f, int type, MessageList *message_list)
 {
-	int row;
-
 	if (message_list->summary_table)
 		camel_folder_free_summary(f, message_list->summary_table);
 	message_list->summary_table = camel_folder_get_summary (f, NULL);

@@ -1,12 +1,20 @@
 2000-06-16  Dan Winship  <danw@helixcode.com>
 
+	* message-list.c (ml_set_value_at): Implement clicking on the
+	envelope icon to set read/unread. Based on a patch by clahey.
+	(select_msg): keep the timeout id for the "seen" flagging in the
+	message_list structure, so ml_set_value_at can clear it so it
+	doesn't re-mark a message seen after you click it unseen.
+
+2000-06-16  Dan Winship  <danw@helixcode.com>
+
 	* message-list.c (get_message_row): new function to do a uid to
 	row mapping.
 	(mark_msg_seen, select_msg, message_changed,
 	message_list_set_folder): Update for Camel flag changes.
 	(on_cursor_change_cmd): Rename "row_to_select" to "selected_row",
 	and keep a "selected_uid" as well.
-	
+
 	* mail-ops.c (composer_send_cb): Update for Camel flag changes,
 	and fix some memory-handling bugs. (Free the post_send_data when
 	the composer is destroyed, not when the user clicks "send", which

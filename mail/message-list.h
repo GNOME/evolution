@@ -76,9 +76,9 @@ struct _MessageList {
 	int selected_row;
 	const char *selected_uid;
 
-	/* used by the idle-call to select a row */
-	guint idle_id;
-} ;
+	/* row-selection and seen-marking timers */
+	guint idle_id, seen_id;
+};
 
 typedef struct {
 	BonoboObjectClass parent_class;
