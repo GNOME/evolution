@@ -46,6 +46,7 @@ extern "C" {
 #include <camel/camel-mime-body-part.h>
 #include <camel/camel-mime-message.h>
 #include <camel/camel-mime-part.h>
+#include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-op-queue.h>
 #include <camel/camel-provider.h>
