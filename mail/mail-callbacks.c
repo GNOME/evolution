@@ -85,8 +85,9 @@ static void
 e_gnome_dialog_set_parent (GnomeDialog *dialog, GtkWindow *parent)
 {
 	gnome_dialog_set_parent (dialog, parent);
-	gtk_signal_connect (GTK_OBJECT (parent), "destroy",
-			    e_gnome_dialog_parent_destroyed, dialog);
+	gtk_signal_connect_while_alive (GTK_OBJECT (parent), "destroy",
+					e_gnome_dialog_parent_destroyed,
+					dialog, dialog);
 }
 
 static GtkWidget *

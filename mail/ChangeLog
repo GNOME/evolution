@@ -1,5 +1,16 @@
 2001-10-09  Dan Winship  <danw@ximian.com>
 
+	* mail-callbacks.c (e_gnome_dialog_set_parent): Use
+	gtk_signal_connect_while_alive here so
+	e_gnome_dialog_parent_destroyed doesn't get called on an
+	already-destroyed dialog.
+
+	* mail-config-druid.c (*_prepare): Record which page we're
+	currently in.
+	(*_changed): Only update the druid buttons if we're the current
+	page. Fixes a problem that could make it impossible to get beyond
+	the first page of the setup wizard.
+
 	* mail-callbacks.c (mail_generate_reply): Revert the change to use
 	e_msg_composer_new_with_message. That has unwanted side effects.
 	(This commit re-breaks replying to HTML messages with inline

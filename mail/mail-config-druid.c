@@ -65,6 +65,15 @@ static EvolutionWizard *account_wizard;
 
 #define WIZARD_IID "OAFIID:GNOME_Evolution_Mail_Wizard_Factory"
 
+typedef enum {
+	MAIL_CONFIG_WIZARD_PAGE_NONE = -1,
+	MAIL_CONFIG_WIZARD_PAGE_IDENTITY,
+	MAIL_CONFIG_WIZARD_PAGE_SOURCE,
+	MAIL_CONFIG_WIZARD_PAGE_EXTRA,
+	MAIL_CONFIG_WIZARD_PAGE_TRANSPORT,
+	MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT,
+} MailConfigWizardPage;
+
 typedef struct {
 	MailAccountGui *gui;
 
@@ -73,6 +82,7 @@ typedef struct {
 
 	gboolean identity_copied;
 	CamelProvider *last_source;
+	MailConfigWizardPage page;
 } MailConfigWizard;
 
 GtkType
@@ -219,6 +229,9 @@ identity_changed (GtkWidget *widget, gpointer data)
 	GtkWidget *incomplete;
 	gboolean next_sensitive;
 	
+	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_IDENTITY)
+		return;
+
 	next_sensitive = mail_account_gui_identity_complete (gui->gui, &incomplete);
 	
 	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
@@ -232,6 +245,7 @@ identity_prepare (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
 	
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_IDENTITY;
 	gtk_widget_grab_focus (GTK_WIDGET (gui->gui->full_name));
 	identity_changed (NULL, data);
 }
@@ -267,6 +281,9 @@ source_changed (GtkWidget *widget, gpointer data)
 	GtkWidget *incomplete;
 	gboolean next_sensitive;
 	
+	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_SOURCE)
+		return;
+
 	next_sensitive = mail_account_gui_source_complete (gui->gui, &incomplete);
 	
 	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
@@ -280,6 +297,7 @@ source_prepare (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
 	
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_SOURCE;
 	source_changed (NULL, gui);
 }
 
@@ -287,7 +305,6 @@ static gboolean
 source_next (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
-	GtkWidget *transport_page;
 	
 	/* FIXME: if online, check that the data is good. */
 	
@@ -295,11 +312,7 @@ source_next (EvolutionWizard *wizard, gpointer data)
 		return FALSE;
 	
 	/* Otherwise, skip to transport page. */
-	transport_page = glade_xml_get_widget (gui->gui->xml, "transport_page");
-	evolution_wizard_set_page (gui->wizard, 3, NULL);
-#if 0
-	gnome_druid_set_page (config->druid, GNOME_DRUID_PAGE (transport_page));
-#endif
+	evolution_wizard_set_page (gui->wizard, MAIL_CONFIG_WIZARD_PAGE_TRANSPORT, NULL);
 	
 	return TRUE;
 }
@@ -310,6 +323,7 @@ extra_prepare (EvolutionWizard *wizard, gpointer data)
 {
 	MailConfigWizard *gui = data;
 	
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_EXTRA;
 	if (gui->gui->source.provider != gui->last_source) {
 		gui->last_source = gui->gui->source.provider;
 		mail_account_gui_build_extra_conf (gui->gui, NULL);
@@ -317,21 +331,6 @@ extra_prepare (EvolutionWizard *wizard, gpointer data)
 }
 
 /* Transport Page */
-static void
-transport_prepare (EvolutionWizard *wizard, gpointer data)
-{
-	MailConfigWizard *gui = data;
-	GtkWidget *incomplete;
-	gboolean next_sensitive;
-	
-	next_sensitive = mail_account_gui_transport_complete (gui->gui, &incomplete);
-	
-	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
-	
-	if (!next_sensitive)
-		gtk_widget_grab_focus (incomplete);
-}
-
 static gboolean
 transport_next (EvolutionWizard *wizard, gpointer data)
 {
@@ -347,7 +346,7 @@ transport_back (EvolutionWizard *wizard, gpointer data)
 	if (gui->gui->source.provider && gui->gui->source.provider->extra_conf)
 		return FALSE;
 	else {
-		evolution_wizard_set_page (wizard, 1, NULL);
+		evolution_wizard_set_page (wizard, MAIL_CONFIG_WIZARD_PAGE_SOURCE, NULL);
 		return TRUE;
 	}
 }
@@ -355,7 +354,27 @@ transport_back (EvolutionWizard *wizard, gpointer data)
 static void
 transport_changed (GtkWidget *widget, gpointer data)
 {
-	transport_prepare (NULL, data);
+	MailConfigWizard *gui = data;
+	GtkWidget *incomplete;
+	gboolean next_sensitive;
+
+	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_TRANSPORT)
+		return;
+	next_sensitive = mail_account_gui_transport_complete (gui->gui, &incomplete);
+	
+	evolution_wizard_set_buttons_sensitive (gui->wizard, TRUE, next_sensitive, TRUE, NULL);
+	
+	if (!next_sensitive)
+		gtk_widget_grab_focus (incomplete);
+}
+
+static void
+transport_prepare (EvolutionWizard *wizard, gpointer data)
+{
+	MailConfigWizard *gui = data;
+	
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_TRANSPORT;
+	transport_changed (NULL, data);
 }
 
 /* Management page */
@@ -382,6 +401,7 @@ management_prepare (EvolutionWizard *wizard, gpointer data)
 	MailConfigWizard *gui = data;
 	char *name;
 	
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT;
 	name = gtk_entry_get_text (gui->gui->email_address);
 	if (name && *name)
 		gtk_entry_set_text (gui->gui->account_name, name);
@@ -394,6 +414,8 @@ management_changed (GtkWidget *widget, gpointer data)
 {
 	MailConfigWizard *gui = data;
 
+	if (gui->page != MAIL_CONFIG_WIZARD_PAGE_MANAGEMENT)
+		return;
 	management_check (gui);
 }
 
@@ -874,6 +896,7 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
         gui->account = account;
 	gui->identity_copied = FALSE;
 	gui->last_source = NULL;
+	gui->page = MAIL_CONFIG_WIZARD_PAGE_NONE;
 	
         wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
