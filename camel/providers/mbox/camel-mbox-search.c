@@ -37,9 +37,9 @@
 #include "camel-mbox-folder.h"
 
 #include "camel-mbox-search.h"
-/* #define HAVE_FILTER */
+#define HAVE_FILTER
 #ifdef HAVE_FILTER
-#include "filter-sexp.h"
+#include "e-sexp.h"
 
 #define HAVE_IBEX
 #ifdef HAVE_IBEX
@@ -101,20 +101,20 @@ g_lib_sux_htor(char *key, int value, struct _glib_sux_donkeys *fuckup)
 	g_ptr_array_add(fuckup->uids, key);
 }
 
-static FilterSEXPResult *
-func_body_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **argv, void *data)
+static ESExpResult *
+func_body_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	FilterSEXPResult *r;
+	ESExpResult *r;
 	int i, j;
 	struct _searchcontext *ctx = data;
 
 	if (ctx->message_current) {
 		int truth = FALSE;
 
-		r = filter_sexp_result_new(FSEXP_RES_BOOL);
+		r = e_sexp_result_new(ESEXP_RES_BOOL);
 		if (ctx->index) {
 			for (i=0;i<argc && !truth;i++) {
-				if (argv[i]->type == FSEXP_RES_STRING) {
+				if (argv[i]->type == ESEXP_RES_STRING) {
 					truth = ibex_find_name(ctx->index, ctx->message_current->uid, argv[i]->value.string);
 				} else {
 					g_warning("Invalid type passed to body-contains match function");
@@ -125,7 +125,7 @@ func_body_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **a
 		}
 		r->value.bool = truth;
 	} else {
-		r = filter_sexp_result_new(FSEXP_RES_ARRAY_PTR);
+		r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
 
 		if (ctx->index) {
 			if (argc==1) {
@@ -138,7 +138,7 @@ func_body_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **a
 
 				/* this sux, perform an or operation on the result(s) of each word */
 				for (i=0;i<argc;i++) {
-					if (argv[i]->type == FSEXP_RES_STRING) {
+					if (argv[i]->type == ESEXP_RES_STRING) {
 						pa = ibex_find(ctx->index, argv[i]->value.string);
 						for (j=0;j<pa->len;j++) {
 							g_hash_table_insert(ht, g_ptr_array_index(pa, j), (void *)1);
@@ -158,13 +158,13 @@ func_body_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **a
 	return r;
 }
 
-static FilterSEXPResult *
-func_date_sent(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **argv, void *data)
+static ESExpResult *
+func_date_sent(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	FilterSEXPResult *r;
+	ESExpResult *r;
 	struct _searchcontext *ctx = data;
 
-	r = filter_sexp_result_new(FSEXP_RES_INT);
+	r = e_sexp_result_new(ESEXP_RES_INT);
 
 	if (ctx->message_current) {
 		g_warning("FIXME: implement date parsing ...");
@@ -176,30 +176,30 @@ func_date_sent(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **argv,
 }
 
 
-static FilterSEXPResult *
-func_match_all(struct _FilterSEXP *f, int argc, struct _FilterSEXPTerm **argv, void *data)
+static ESExpResult *
+func_match_all(struct _ESExp *f, int argc, struct _ESExpTerm **argv, void *data)
 {
 	int i;
-	FilterSEXPResult *r, *r1;
+	ESExpResult *r, *r1;
 	struct _searchcontext *ctx = data;
 
 	if (argc>1) {
 		g_warning("match-all only takes a single argument, other arguments ignored");
 	}
-	r = filter_sexp_result_new(FSEXP_RES_ARRAY_PTR);
+	r = e_sexp_result_new(ESEXP_RES_ARRAY_PTR);
 	r->value.ptrarray = g_ptr_array_new();
 
 	for (i=0;i<ctx->message_info->len;i++) {
 		if (argc>0) {
 			ctx->message_current = &g_array_index(ctx->message_info, CamelMessageInfo, i);
-			r1 = filter_sexp_term_eval(f, argv[0]);
-			if (r1->type == FSEXP_RES_BOOL) {
+			r1 = e_sexp_term_eval(f, argv[0]);
+			if (r1->type == ESEXP_RES_BOOL) {
 				if (r1->value.bool)
 					g_ptr_array_add(r->value.ptrarray, ctx->message_current->uid);
 			} else {
 				g_warning("invalid syntax, matches require a single bool result");
 			}
-			filter_sexp_result_free(r1);
+			e_sexp_result_free(r1);
 		} else {
 			g_ptr_array_add(r->value.ptrarray, ctx->message_current->uid);
 		}
@@ -209,10 +209,10 @@ func_match_all(struct _FilterSEXP *f, int argc, struct _FilterSEXPTerm **argv, v
 	return r;
 }
 
-static FilterSEXPResult *
-func_header_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult **argv, void *data)
+static ESExpResult *
+func_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
-	FilterSEXPResult *r;
+	ESExpResult *r;
 	struct _searchcontext *ctx = data;
 	int truth = FALSE;
 
@@ -220,7 +220,7 @@ func_header_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult *
 
 	/* are we inside a match-all? */
 	if (ctx->message_current && argc>1
-	    && argv[0]->type == FSEXP_RES_STRING) {
+	    && argv[0]->type == ESEXP_RES_STRING) {
 		char *headername, *header;
 		int i;
 
@@ -239,7 +239,7 @@ func_header_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult *
 
 		if (header) {
 			for (i=1;i<argc && !truth;i++) {
-				if (argv[i]->type == FSEXP_RES_STRING
+				if (argv[i]->type == ESEXP_RES_STRING
 				    && strstr(header, argv[i]->value.string)) {
 					printf("%s got a match with %s of %s\n", ctx->message_current->uid, header, argv[i]->value.string);
 					truth = TRUE;
@@ -248,7 +248,7 @@ func_header_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult *
 			}
 		}
 	}
-	r = filter_sexp_result_new(FSEXP_RES_BOOL);
+	r = e_sexp_result_new(ESEXP_RES_BOOL);
 	r->value.bool = truth;
 
 	return r;
@@ -258,13 +258,13 @@ func_header_contains(struct _FilterSEXP *f, int argc, struct _FilterSEXPResult *
 /* 'builtin' functions */
 static struct {
 	char *name;
-	FilterSEXPFunc *func;
+	ESExpFunc *func;
 	int type;		/* set to 1 if a function can perform shortcut evaluation, or
 				   doesn't execute everything, 0 otherwise */
 } symbols[] = {
 	{ "body-contains", func_body_contains, 0 },
 	{ "date-sent", func_date_sent, 0 },
-	{ "match-all", (FilterSEXPFunc *)func_match_all, 1 },
+	{ "match-all", (ESExpFunc *)func_match_all, 1 },
 	{ "header-contains", func_header_contains, 0 },
 };
 
@@ -274,11 +274,11 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 	int i;
 	struct _searchcontext ctx;
 	GList *matches = NULL;
-	FilterSEXP *f;
-	FilterSEXPResult *r;
+	ESExp *f;
+	ESExpResult *r;
 
 	/* setup our expression evaluator */
-	f = filter_sexp_new();
+	f = e_sexp_new();
 
 	/* setup out context */
 	ctx.folder = folder;
@@ -292,25 +292,25 @@ camel_mbox_folder_search_by_expression(CamelFolder *folder, const char *expressi
 
 	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
 		if (symbols[i].type == 1) {
-			filter_sexp_add_ifunction(f, 0, symbols[i].name, (FilterSEXPIFunc *)symbols[i].func, &ctx);
+			e_sexp_add_ifunction(f, 0, symbols[i].name, (ESExpIFunc *)symbols[i].func, &ctx);
 		} else {
-			filter_sexp_add_function(f, 0, symbols[i].name, symbols[i].func, &ctx);
+			e_sexp_add_function(f, 0, symbols[i].name, symbols[i].func, &ctx);
 		}
 	}
 
-	filter_sexp_input_text(f, expression, strlen(expression));
-	filter_sexp_parse(f);
-	r = filter_sexp_eval(f);
+	e_sexp_input_text(f, expression, strlen(expression));
+	e_sexp_parse(f);
+	r = e_sexp_eval(f);
 
 	/* now create a folder summary to return?? */
 	if (r
-	    && r->type == FSEXP_RES_ARRAY_PTR) {
+	    && r->type == ESEXP_RES_ARRAY_PTR) {
 		d(printf("got result ...\n"));
 		for (i=0;i<r->value.ptrarray->len;i++) {
 			d(printf("adding match: %s\n", (char *)g_ptr_array_index(r->value.ptrarray, i)));
 			matches = g_list_prepend(matches, g_strdup(g_ptr_array_index(r->value.ptrarray, i)));
 		}
-		filter_sexp_result_free(r);
+		e_sexp_result_free(r);
 	} else {
 		printf("no result!\n");
 	}

@@ -13,7 +13,7 @@ INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel	\
 	-I$(top_srcdir)/libibex			\
-	-I$(top_srcdir)/filter
+	-I$(top_srcdir)/e-util
 
 libcamelmbox_la_SOURCES = 			\
 	camel-mbox-folder.c			\
@@ -35,7 +35,7 @@ libcamelmboxinclude_HEADERS =			\
 
 libcamelmbox_la_LDFLAGS = -version-info 0:0:0 -rpath $(libdir) 
 
-#libcamelmbox_la_LIBADD = $(top_builddir)/filter/libfilter.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
-libcamelmbox_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
+libcamelmbox_la_LIBADD = $(top_builddir)/e-util/libeutil.la $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
+#libcamelmbox_la_LIBADD = $(top_builddir)/libibex/libibex.la $(UNICODE_LIBS)
 
 EXTRA_DIST = 

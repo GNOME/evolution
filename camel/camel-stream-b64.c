@@ -423,8 +423,8 @@ my_read_encode (CamelStream *stream,
 
 				status->end_state = 6;
 				buffer [j++] = '\n';
-				stream->eos = TRUE;
-;
+				stream_b64->eos = TRUE;
+
 			} else {
 				
 				switch (status->state) {
