@@ -2921,7 +2921,7 @@ mail_config_signature_run_script (gchar *script)
 	if (!(pid = fork ())) {
 		/* child process */
 		int maxfd, i;
-
+		
 		close (in_fds [0]);
 		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
 			_exit (255);
@@ -2945,22 +2945,59 @@ mail_config_signature_run_script (gchar *script)
 		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
 		return NULL;
 	} else {
-#define BUFFER_SIZE 4096
-		GString *str = g_string_new (NULL);
-		gchar *rv;
-		gchar buffer [BUFFER_SIZE];
-		ssize_t rb;
-
+		CamelStreamFilter *filtered_stream;
+		CamelStreamMem *memstream;
+		CamelMimeFilter *charenc;
+		CamelStream *stream;
+		GByteArray *buffer;
+		const char *charset;
+		char *content;
+		
 		/* parent process */
 		close (in_fds[1]);
-		while ((rb = read (in_fds [0], buffer, BUFFER_SIZE - 1)) > 0) {
-			buffer [rb] = 0;
-			g_string_append (str, buffer);
+		
+		stream = camel_stream_fs_new_with_fd (in_fds[0]);
+		
+		memstream = (CamelStreamMem *) camel_stream_mem_new ();
+		buffer = g_byte_array_new ();
+		camel_stream_mem_set_byte_array (memstream, buffer);
+		
+		camel_stream_write_to_stream (stream, (CamelStream *) memstream);
+		camel_object_unref (stream);
+		
+		/* signature scripts are supposed to generate UTF-8 content, but because users
+		   are known to not ever read the manual... we try to do our best if the
+                   content isn't valid UTF-8 by assuming that the content is in the user's
+		   preferred charset. */
+		if (!g_utf8_validate (buffer->data, buffer->len, NULL)) {
+			stream = (CamelStream *) memstream;
+			memstream = (CamelStreamMem *) camel_stream_mem_new ();
+			camel_stream_mem_set_byte_array (memstream, g_byte_array_new ());
+			
+			filtered_stream = camel_stream_filter_new_with_stream (stream);
+			camel_object_unref (stream);
+			
+			charset = mail_config_get_default_charset ();
+			charenc = (CamelMimeFilter *) camel_mime_filter_charset_new_convert (charset, "utf-8");
+			camel_stream_filter_add (filtered_stream, charenc);
+			camel_object_unref (charenc);
+			
+			camel_stream_write_to_stream ((CamelStream *) filtered_stream, (CamelStream *) memstream);
+			camel_object_unref (filtered_stream);
+			g_byte_array_free (buffer, TRUE);
+			
+			buffer = memstream->buffer;
 		}
-
-		close (in_fds [0]);
+		
+		camel_object_unref (memstream);
+		
+		g_byte_array_append (buffer, "", 1);
+		content = buffer->data;
+		g_byte_array_free (buffer, FALSE);
+		
+		/* wait for the script process to terminate */
 		result = waitpid (pid, &status, 0);
-	
+		
 		if (result == -1 && errno == EINTR) {
 			/* child process is hanging... */
 			kill (pid, SIGTERM);
@@ -2973,11 +3010,8 @@ mail_config_signature_run_script (gchar *script)
 				result = waitpid (pid, &status, WNOHANG);
 			}
 		}
-
-		rv = str->str;
-		g_string_free (str, FALSE);
-
-		return rv;
+		
+		return content;
 	}
 }
 

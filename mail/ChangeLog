@@ -1,3 +1,9 @@
+2002-07-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_signature_run_script): Check to make
+	sure the script output is valid UTF-8, if not then attempt to
+	convert it into UTF-8. Fixes bug #28086.
+
 2002-07-22  Not Zed  <NotZed@Ximian.com>
 
 	* message-list.c (regen_list_regened): Remove the assert, and
