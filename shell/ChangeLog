@@ -1,3 +1,7 @@
+2004-02-10  JP Rosevear <jpr@ximian.com>
+
+	* Remove dead files
+
 2004-02-06  JP Rosevear <jpr@ximian.com>
 
 	* importer/intelligent.c (get_intelligent_importers): use base
