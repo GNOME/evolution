@@ -1742,7 +1742,12 @@ static void
 emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeMessage *msg, void *data)
 {
 	EMFolderView *emfv = data;
-
+	
+	if (emfv->preview == NULL) {
+		g_object_unref (emfv);
+		return;
+	}
+	
 	em_format_format((EMFormat *)emfv->preview, folder, uid, msg);
 	
 	if (emfv->priv->seen_id)
@@ -1762,6 +1767,8 @@ emfv_list_done_message_selected(CamelFolder *folder, const char *uid, CamelMimeM
 			camel_folder_set_message_flags(emfv->folder, uid, CAMEL_MESSAGE_SEEN, CAMEL_MESSAGE_SEEN);
 		}
 	}
+	
+	g_object_unref (emfv);
 }
 
 static void
@@ -1774,6 +1781,7 @@ emfv_list_message_selected(MessageList *ml, const char *uid, EMFolderView *emfv)
 			if (emfv->displayed_uid == NULL || strcmp(emfv->displayed_uid, uid) != 0) {
 				g_free(emfv->displayed_uid);
 				emfv->displayed_uid = g_strdup(uid);
+				g_object_ref (emfv);
 				mail_get_message(emfv->folder, uid, emfv_list_done_message_selected, emfv, mail_thread_new);
 			}
 		} else {

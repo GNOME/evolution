@@ -1,3 +1,12 @@
+2004-02-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fix for bug #53997
+
+	* em-folder-view.c (emfv_list_message_selected): Ref the emfv
+	before spawning the async event.
+	(emfv_list_done_message_selected): Check emfv->preview !=
+	NULL. Also unref the emfv when done.
+
 2004-02-20  Dan Winship  <danw@ximian.com>
 
 	* mail-component.c (set_prop): Remove the debug message here.
