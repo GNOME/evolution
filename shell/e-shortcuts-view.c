@@ -105,7 +105,7 @@ icon_callback (EShortcutBar *shortcut_bar,
 	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
 
 	if (strcmp ("evolution:/My Evolution", uri) == 0) {
-		type = g_strdup ("My Evolution");
+		type = "My Evolution";
 	} else {
 		folder = e_storage_set_get_folder (storage_set,
 						   get_storage_set_path_from_uri (uri));
@@ -113,14 +113,14 @@ icon_callback (EShortcutBar *shortcut_bar,
 		if (folder == NULL)
 			return NULL;
 		
-		type = g_strdup (e_folder_get_type_string (folder));
+		type = e_folder_get_type_string (folder);
 		if (type == NULL)
 			return NULL;
 	}
 
 	/* FIXME mini icons?  */
 	pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry, type, FALSE);
-	g_free (type);
+
 	if (pixbuf != NULL)
 		gdk_pixbuf_ref (pixbuf);
 

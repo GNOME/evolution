@@ -1,10 +1,13 @@
 2001-07-25  Jason Leach  <jleach@ximian.com>
 
+	* e-shortcuts-view.c (icon_callback): A warning fix from Jacob.
+	Bug #5057.
+
 	* Makefile.am (INCLUDES): $(BONOBO_CONF_CFLAGS) was here twice,
 	took out one of them.
 
 	* e-shell-view.c (socket_destroy_cb): Mem leak fix.  Thanks to the
-	amazing Jacob B. Bug #5054.
+	amazing Jacob B.  Bug #5054.
 
 2001-07-25  Jason Leach  <jleach@ximian.com>
 
