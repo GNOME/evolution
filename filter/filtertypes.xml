@@ -52,6 +52,18 @@
         (match-all (not (header-ends-with "From" ${sender})))
      </code>
     </option>
+    <option value="matches soundex">
+     <title>sounds like</title>
+     <code>
+        (match-all (header-soundex "From" ${sender}))
+     </code>
+    </option>
+    <option value="not match soundex">
+     <title>does not sound like</title>
+     <code>
+        (match-all (not (header-soundex "From" ${sender})))
+     </code>
+    </option>
     <option value="matches regex">
      <title>matches regex</title>
      <code>
@@ -131,6 +143,21 @@
 	       (header-ends-with "Cc" ${recipient}))))
      </code>
     </option>
+    <option value="matches soundex">
+     <title>sounds like</title>
+     <code>
+	(match-all (or (header-soundex "To" ${recipient})
+	    	       (header-soundex "Cc" ${recipient})))
+     </code>
+    </option>
+    <option value="not match soundex">
+     <title>does not sound like</title>
+     <code>
+	(match-all (not (or
+               (header-soundex "To" ${recipient})
+	       (header-soundex "Cc" ${recipient}))))
+     </code>
+    </option>
     <option value="matches regex">
      <title>matches regex</title>
      <code>
@@ -199,6 +226,18 @@
      <title>does not end with</title>
      <code>
 	(match-all (not (header-ends-with "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="matches soundex">
+     <title>sounds like</title>
+     <code>
+        (match-all (header-soundex "Subject" ${subject}))
+     </code>
+    </option>
+    <option value="not match soundex">
+     <title>does not sound like</title>
+     <code>
+        (match-all (not (header-soundex "Subject" ${subject})))
      </code>
     </option>
     <option value="matches regex">
@@ -279,6 +318,18 @@
      <title>does not exist</title>
      <code>
 	(match-all (not (header-exists ${header-field}))
+     </code>
+    </option>
+    <option value="matches soundex">
+     <title>sounds like</title>
+     <code>
+        (match-all (header-soundex ${header-field} ${word}))
+     </code>
+    </option>
+    <option value="not match soundex">
+     <title>does not sound like</title>
+     <code>
+        (match-all (not (header-soundex ${header-field} ${word})))
      </code>
     </option>
     <option value="matches regex">

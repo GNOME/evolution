@@ -39,6 +39,7 @@ static ESExpResult *header_matches (struct _ESExp *f, int argc, struct _ESExpRes
 static ESExpResult *header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms);
 static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -66,6 +67,7 @@ static struct {
 	{ "header-starts-with", (ESExpFunc *) header_starts_with, 0 },
 	{ "header-ends-with",   (ESExpFunc *) header_ends_with,   0 },
 	{ "header-exists",      (ESExpFunc *) header_exists,      0 },
+	{ "header-soundex",     (ESExpFunc *) header_soundex,     0 },
 	{ "header-regex",       (ESExpFunc *) header_regex,       0 },
 	{ "user-tag",           (ESExpFunc *) user_tag,           0 },
 	{ "user-flag",          (ESExpFunc *) user_flag,          0 },
@@ -130,10 +132,10 @@ header_matches (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMe
 			}
 			
 			if (is_lowercase) {
-				if (g_strcasecmp (contents, match))
+				if (!g_strcasecmp (contents, match))
 					matched = TRUE;
 			} else {
-				if (strcmp (contents, match))
+				if (!strcmp (contents, match))
 					matched = TRUE;
 			}
 		}
@@ -174,10 +176,10 @@ header_starts_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filt
 			}
 			
 			if (is_lowercase) {
-				if (g_strncasecmp (contents, match, strlen (match)))
+				if (!g_strncasecmp (contents, match, strlen (match)))
 					matched = TRUE;
 			} else {
-				if (strncmp (contents, match, strlen (match)))
+				if (!strncmp (contents, match, strlen (match)))
 					matched = TRUE;
 			}
 		}
@@ -220,10 +222,10 @@ header_ends_with (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filter
 			end = (char *) contents + strlen (contents) - strlen (match);
 			
 			if (is_lowercase) {
-				if (g_strcasecmp (end, match))
+				if (!g_strcasecmp (end, match))
 					matched = TRUE;
 			} else {
-				if (strcmp (end, match))
+				if (!strcmp (end, match))
 					matched = TRUE;
 			}
 		}
@@ -249,6 +251,81 @@ header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 		
 		if (contents)
 			matched = TRUE;
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static unsigned char soundex_table[256] = {
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0, 49, 50, 51,  0, 49, 50,  0,  0, 50, 50, 52, 53, 53,  0,
+	 49, 50, 54, 50, 51,  0, 49,  0, 50,  0, 50,  0,  0,  0,  0,  0,
+	  0,  0, 49, 50, 51,  0, 49, 50,  0,  0, 50, 50, 52, 53, 53,  0,
+	 49, 50, 54, 50, 51,  0, 49,  0, 50,  0, 50,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+	  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+};
+
+static void
+soundexify (const gchar *sound, gchar code[5])
+{
+	guchar *c, last = '\0';
+	gint n;
+	
+	for (c = (guchar *) sound; *c && !isalpha (*c); c++);
+	code[0] = toupper (*c);
+	memset (code + 1, '0', 3);
+	for (n = 1; *c && n < 5; c++) {
+		guchar ch = soundex_table[*c];
+		
+		if (ch && ch != last) {
+			code[n++] = ch;
+			last = ch;
+		}
+	}
+	code[4] = '\0';
+}
+
+static gint
+soundexcmp (const gchar *sound1, const gchar *sound2)
+{
+	gchar code1[5], code2[5];
+	
+	soundexify (sound1, code1);
+	soundexify (sound2, code2);
+	
+	return strcmp (code1, code2);
+}
+
+static ESExpResult *
+header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 2) {
+		char *header = (argv[0])->value.string;
+		char *match = (argv[1])->value.string;
+		const char *contents;
+		
+		contents = camel_medium_get_header (CAMEL_MEDIUM (fms->message), header);
+		
+		if (contents) {
+			if (!soundexcmp (contents, match))
+				matched = TRUE;
+		}
 	}
 	
 	r = e_sexp_result_new (ESEXP_RES_BOOL);

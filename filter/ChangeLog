@@ -1,5 +1,18 @@
 2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Updated to allow the user to select "sounds
+	like" or "does not sound like" (uses header-soundex).
+
+	* filter-message-search.c (header_matches): Oops. Should be using
+	!g_strncasecmp. This should fix it so this filter match works
+	right.
+	(header_starts_with): Same.
+	(header_ends_with): Same.
+	(header_soundex): New filter callback for soundex matching (yes,
+	it's probably a bloated feature but hey, it was fun to code)
+
+2000-10-31  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* filter-folder.c (validate): Override the default validate
 	function to only return TRUE if a folder has been selected.
 
