@@ -761,9 +761,9 @@
       <type>bool</type>
       <default>true</default>
       <locale name="C">
-         <short>Use Spamasssassin daemon and client</short>
+         <short>Use Spamassassin daemon and client</short>
          <long>
-          Use Spamasssassin daemon and client (spamc/spamd)
+          Use Spamassassin daemon and client (spamc/spamd)
          </long>
       </locale>
     </schema>

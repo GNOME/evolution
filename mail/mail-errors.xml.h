@@ -190,7 +190,7 @@ char *s = N_("_Discard changes");
 /* mail:vfolder-notexist primary */
 char *s = N_("Cannot edit vFolder \"{0}\" as it does not exist.");
 /* mail:vfolder-notexist secondary */
-char *s = N_("This folder may have been added implictly, go to the virtual folder editor to add it explictly, if required.");
+char *s = N_("This folder may have been added implicitly, go to the virtual folder editor to add it explicitly, if required.");
 /* mail:vfolder-notunique primary */
 char *s = N_("Cannot add vFolder \"{0}\".");
 /* mail:vfolder-notunique secondary */
