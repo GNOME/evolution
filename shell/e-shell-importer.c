@@ -618,7 +618,7 @@ folder_selected (EShellFolderSelectionDialog *dialog,
 	char *filename, *iid;
 
 	iid = g_strdup (data->choosen_iid);
-	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
+	filename = gnome_file_entry_get_full_path (GNOME_FILE_ENTRY (data->filepage->filename), FALSE);
 
 	gtk_widget_destroy (data->dialog);
 	start_import (path, filename, iid);

@@ -1,3 +1,8 @@
+2001-09-21  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-importer.c (folder_selected): Use GNOME functions to get
+	full expanded path from file entry.
+
 2001-09-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (tree_drag_motion): Check for a component
