@@ -1,3 +1,11 @@
+2001-12-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-offline-handler.c (backend_cal_opened): connect to
+	"cal_set_mode" signal before calling cal_client_set_mode. Also,
+	s/cal_mode_set/cal_set_mode
+	(backend_go_offline): connect to "cal_opened" signal before calling
+	cal_client_open_calendar
+
 2001-11-30  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c (remove_item): only show the dialog if we
