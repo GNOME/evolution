@@ -132,7 +132,7 @@ do_got_info (struct _mail_msg *mm)
 	CORBA_any a;
 	GNOME_Evolution_FolderInfo_MessageCount count;
 
-	g_print ("You've got mail: %d, %d\n", m->read, m->unread);
+	/*g_print ("You've got mail: %d, %d\n", m->read, m->unread);*/
 
 	count.path = m->foldername;
 	count.count = m->read;
@@ -179,7 +179,7 @@ mail_get_info (const char *foldername,
 
 	m = mail_msg_new (&get_info_op, NULL, sizeof (*m));
 
-	g_print ("Folder: %s", foldername);
+	/*g_print ("Folder: %s", foldername);*/
 	m->foldername = g_strdup (foldername);
 
 	CORBA_exception_init (&ev);

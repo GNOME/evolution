@@ -1,5 +1,21 @@
 2001-10-30    <NotZed@Ximian.com>
 
+	* folder-info.c: Comment out the Folder: and you've got mail
+	prints.
+
+	* mail-config-druid.c (wizard_next_cb): If we have a next
+	function, honour if it tells us its going to set the page, and
+	dont set it, otherwise, set it to the next page, unless we're at
+	the end of our pages, and let the wizard do it itself.
+	(wizard_back_cb): Same for going back.  Rest of fix for #12127,
+	see e-shell-startup-wizard for the rest.
+	(next_func): If we're not on the last page, tell the druid we're
+	gonna handle the next button, so we can sync properly with it,
+	needed for above changes.
+	(back_func): Similarly for going back past page 0.
+	(wizard_listener_event): We want to set the page to the actual one
+	asked for not, pagenum-1.
+
 	* mail-local.c (mls_rename_folder): Oops, dont use the url storage
 	path to offset the folder name we're renaming/opening, etc.
 

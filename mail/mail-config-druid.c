@@ -479,6 +479,10 @@ next_func (GnomeDruidPage *page,
 	pagenum = page_to_num (page);
 	GNOME_Evolution_Wizard_notifyAction (wiz, pagenum, GNOME_Evolution_Wizard_NEXT, &ev);
 	CORBA_exception_free (&ev);
+
+	if (pagenum < 5-1)
+		return TRUE;
+
 	return FALSE;
 }
 
@@ -515,6 +519,10 @@ back_func (GnomeDruidPage *page,
 	pagenum = page_to_num (page);
 	GNOME_Evolution_Wizard_notifyAction (wiz, pagenum, GNOME_Evolution_Wizard_BACK, &ev);
 	CORBA_exception_free (&ev);
+
+	if (pagenum > 0)
+		return TRUE;
+
 	return FALSE;
 }
 
@@ -560,7 +568,7 @@ wizard_listener_event (BonoboListener *listener,
 	} else if (strcmp (event_name, EVOLUTION_WIZARD_SET_PAGE) == 0) {
 		pagenum = (int) *((CORBA_short *) event_data->_value);
 
-		page = g_list_nth_data (page_list, pagenum - 1);
+		page = g_list_nth_data (page_list, pagenum);
 		gnome_druid_set_page (GNOME_DRUID (druid->druid), page);
 	}
 }
@@ -768,36 +776,38 @@ get_fn (EvolutionWizard *wizard,
         return control;
 }
 
+typedef gboolean (*NextFunc)(EvolutionWizard *wizard, gpointer data);
+
 static struct {
-        GtkSignalFunc next_func;
+        NextFunc next_func;
         GtkSignalFunc prepare_func;
-        GtkSignalFunc back_func;
+        NextFunc back_func;
         GtkSignalFunc finish_func;
         GtkSignalFunc help_func;
 } wizard_pages[] = {
-        { GTK_SIGNAL_FUNC (identity_next),
+        { identity_next,
           GTK_SIGNAL_FUNC (identity_prepare),
-          GTK_SIGNAL_FUNC (NULL),
+          NULL,
           GTK_SIGNAL_FUNC (NULL),
           GTK_SIGNAL_FUNC (NULL) },
-        { GTK_SIGNAL_FUNC (source_next),
+        { source_next,
           GTK_SIGNAL_FUNC (source_prepare),
-          GTK_SIGNAL_FUNC (NULL),
+          NULL,
           GTK_SIGNAL_FUNC (NULL),
           GTK_SIGNAL_FUNC (NULL) },
-        { GTK_SIGNAL_FUNC (NULL),
+        { NULL,
           GTK_SIGNAL_FUNC (extra_prepare),
-          GTK_SIGNAL_FUNC (NULL),
+          NULL,
           GTK_SIGNAL_FUNC (NULL),
           GTK_SIGNAL_FUNC (NULL) },
-        { GTK_SIGNAL_FUNC (transport_next),
+        { transport_next,
           GTK_SIGNAL_FUNC (transport_prepare),
-          GTK_SIGNAL_FUNC (transport_back),
+          transport_back,
           GTK_SIGNAL_FUNC (NULL),
           GTK_SIGNAL_FUNC (NULL) },
-        { GTK_SIGNAL_FUNC (NULL),
+        { NULL,
           GTK_SIGNAL_FUNC (management_prepare),
-          GTK_SIGNAL_FUNC (NULL),
+          NULL,
           GTK_SIGNAL_FUNC (NULL),
           GTK_SIGNAL_FUNC (NULL) }
 };
@@ -807,9 +817,12 @@ wizard_next_cb (EvolutionWizard *wizard,
                 int page_num,
                 MailConfigWizard *gui)
 {
-        if (wizard_pages[page_num].next_func != NULL) {
-                wizard_pages[page_num].next_func (wizard, gui);
-        }
+        if (wizard_pages[page_num].next_func == NULL
+	    || !(wizard_pages[page_num].next_func (wizard, gui))) {
+		if (page_num < 5-1) {
+			evolution_wizard_set_page(wizard, page_num+1, NULL);
+		}
+	}
 }
 
 static void
@@ -827,8 +840,10 @@ wizard_back_cb (EvolutionWizard *wizard,
                 int page_num,
                 MailConfigWizard *gui) 
 {
-        if (wizard_pages[page_num].back_func != NULL) {
-                wizard_pages[page_num].back_func (wizard, gui);
+        if (wizard_pages[page_num].back_func == NULL
+	    || !(wizard_pages[page_num].back_func (wizard, gui))) {
+		if (page_num > 0)
+			evolution_wizard_set_page(wizard, page_num-1, NULL);
         }
 }
 
@@ -838,7 +853,7 @@ wizard_finish_cb (EvolutionWizard *wizard,
 		  MailConfigWizard *w)
 {
 	MailAccountGui *gui = w->gui;
-	
+
 	/* Save the settings for that account */
 	if (mail_account_gui_save (gui) == FALSE)
 		/* problem. Um, how to keep the druid alive? */
