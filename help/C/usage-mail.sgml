@@ -367,7 +367,7 @@
            If you use an HTTP proxy,
            <application>Evolution</application> must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
-           before it can load iamges from the Internet.  You can set
+           before it can load images from the Internet.  You can set
            this in one of two ways:
             <variablelist>
 	    <varlistentry>
@@ -426,7 +426,7 @@
 		      <para>
                         Enter the command 
                         <command>
-                        --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
+      gconftool --type=string --set /system/gnome-vfs/http-proxy-host "your-proxy-url"
                         </command>
                       </para>
 		    </listitem>
@@ -434,7 +434,7 @@
 		      <para>
                         Enter the command 
                         <command>
-                        $ gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
+                        gconftool --type=int --set /system/gnome-vfs/http-proxy-port "8080"
                         </command>                  
                       </para>
 		    </listitem>
