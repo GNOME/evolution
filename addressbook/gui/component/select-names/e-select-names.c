@@ -403,7 +403,8 @@ new_folder      (EvolutionStorageListener *storage_listener,
 		 const GNOME_Evolution_Folder *folder,
 		 ESelectNames *e_select_names)
 {
-	if (!strcmp(folder->type, "contacts")) {
+	if (!strcmp(folder->type, "contacts")
+	    || !strcmp(folder->type, "ldap-contacts")) {
 		ESelectNamesFolder *e_folder = g_new(ESelectNamesFolder, 1);
 		e_folder->description  = g_strdup(folder->description );
 		e_folder->display_name = g_strdup(folder->displayName);

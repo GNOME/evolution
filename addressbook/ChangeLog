@@ -1,3 +1,8 @@
+2001-10-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names.c (new_folder): make
+	sure to also add "ldap-contacts" folders to the option menu.
+
 2001-10-17  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (ecard_from_remote_record): sync all
