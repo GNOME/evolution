@@ -1,3 +1,11 @@
+2000-07-25  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-message.c (write_to_stream): Don't add a Mime-Version
+	header to a message that already has one.
+
+	* camel-internet-address.c (internet_encode): Don't put <>s around
+	addresses with no name part.
+
 2000-07-25  Peter Williams  <peterw@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c (imap_expunge): Set 

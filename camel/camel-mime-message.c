@@ -445,7 +445,8 @@ write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	/* FIXME: "To" header needs to be set explicitly as well ... */
 
-	camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
+	if (!camel_medium_get_header ((CamelMedium *)mm, "Mime-Version"))
+		camel_medium_set_header((CamelMedium *)mm, "Mime-Version", "1.0");
 
 	return CAMEL_DATA_WRAPPER_CLASS (parent_class)->write_to_stream (data_wrapper, stream);
 }

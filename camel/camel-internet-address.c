@@ -129,11 +129,11 @@ static char * internet_encode		(CamelAddress *a)
 		if (i!=0)
 			g_string_append(out, ", ");
 
-		if (name) {
-			g_string_sprintfa(out, "%s ", name);
+		if (name && *name) {
+			g_string_sprintfa(out, "%s <%s>", name, addr->address);
 			g_free(name);
-		}
-		g_string_sprintfa(out, "<%s>", addr->address);
+		} else
+			g_string_sprintfa(out, "%s", addr->address);
 	}
 	ret = out->str;
 	g_string_free(out, FALSE);
