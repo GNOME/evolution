@@ -16,6 +16,7 @@
 #include "e-select-names-model.h"
 #include "e-select-names-text-model.h"
 #include "e-select-names.h"
+#include <addressbook/backend/ebook/e-address-completion.h>
 #include <gal/e-text/e-entry.h>
 
 /* Object argument IDs */
@@ -242,6 +243,32 @@ entry_destroyed(EEntry *entry, ESelectNamesManager *manager)
 	gtk_object_unref(GTK_OBJECT(manager));
 }
 
+static void
+completion_handler (EEntry *entry, const gchar *text, gpointer user_data)
+{
+	ESelectNamesModel *snm = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
+	ESelectNamesModelData *data = g_new0 (ESelectNamesModelData, 1);
+	EIterator *iterator;
+
+	data->type = E_SELECT_NAMES_MODEL_DATA_TYPE_CARD;
+	data->card = E_CARD (user_data);
+	gtk_object_ref (GTK_OBJECT (data->card));
+	data->string = g_strdup (text);
+	
+	iterator = e_list_get_iterator (snm->data);
+	e_select_names_model_replace_item (snm, iterator, data);
+}
+
+static void
+set_completion (EBook *book, EBookStatus status, EEntry *entry)
+{
+	ECompletion *addr_comp;
+
+	addr_comp = e_address_completion_new (book);
+	e_entry_enable_completion_full (entry, addr_comp, -1, completion_handler);
+	gtk_object_unref (GTK_OBJECT (book));
+}
+
 GtkWidget                    *e_select_names_manager_create_entry              (ESelectNamesManager *manager,
 										const char *id)
 {
@@ -253,11 +280,23 @@ GtkWidget                    *e_select_names_manager_create_entry              (
 		if (!strcmp(section->id, id)) {
 			ESelectNamesManagerEntry *entry;
 			EEntry *eentry;
-			eentry = E_ENTRY(e_entry_new());
+			gchar *filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
+			gchar *uri = g_strdup_printf ("file://%s", filename);
+			EBook *book;
 
+			eentry = E_ENTRY(e_entry_new());
+			gtk_object_set_data (GTK_OBJECT (eentry), "select_names_model",  section->model);
+
+			book = e_book_new ();
+			gtk_object_ref (GTK_OBJECT (book));
+			e_book_load_uri (book, uri, (EBookCallback) set_completion, eentry);
+			g_free (uri);
+			g_free (filename);
+			
 			entry = g_new(ESelectNamesManagerEntry, 1);
 			entry->entry = eentry;
 			entry->id = (char *)id;
+
 			model = e_select_names_text_model_new(section->model);
 			e_list_append(manager->entries, entry);
 			g_free(entry);

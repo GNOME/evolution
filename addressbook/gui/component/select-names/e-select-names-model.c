@@ -420,13 +420,45 @@ e_select_names_model_replace           (ESelectNamesModel *model,
 	gtk_object_unref(GTK_OBJECT(iterator));
 }
 
+static void
+esnm_add_item_real (ESelectNamesModel *model,
+		    EIterator *iterator, /* NULL for at the beginning. */
+		    gboolean before,
+		    ESelectNamesModelData *data)
+{
+	if (iterator == NULL)
+		iterator = e_list_get_iterator(model->data);
+	else
+		gtk_object_ref(GTK_OBJECT(iterator));
+
+	e_iterator_insert(iterator, data, before);
+
+	gtk_object_unref(GTK_OBJECT(iterator));
+}
+
+static void
+esnm_remove_item_real       (ESelectNamesModel *model,
+			     EIterator *iterator)
+{
+	e_iterator_delete(iterator);
+}
 
 void
 e_select_names_model_add_item          (ESelectNamesModel *model,
 					EIterator *iterator, /* NULL for at the beginning. */
 					ESelectNamesModelData *data)
 {
-	e_iterator_insert(iterator, data, FALSE);
+	esnm_add_item_real(model, iterator, FALSE, data);
+	e_select_names_model_changed(model);
+}
+
+void
+e_select_names_model_replace_item      (ESelectNamesModel *model,
+					EIterator *iterator,
+					ESelectNamesModelData *data)
+{
+	esnm_remove_item_real(model, iterator);
+	esnm_add_item_real(model, iterator, FALSE, data);
 	e_select_names_model_changed(model);
 }
 
@@ -434,7 +466,7 @@ void
 e_select_names_model_remove_item       (ESelectNamesModel *model,
 					EIterator *iterator)
 {
-	e_iterator_delete(iterator);
+	esnm_remove_item_real(model, iterator);
 	e_select_names_model_changed(model);
 }
 

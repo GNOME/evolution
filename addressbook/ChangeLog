@@ -1,3 +1,35 @@
+2001-02-19  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_create_entry): When creating the entry,
+	open up an ebook (corresponding to the local addressbook) and make
+	the entry use an EAddressCompletion.
+	(completion_handler): Added; this is the actual completion
+	handler, which manipulates the entry when the user selects
+	something from the drop-down.
+
+	* gui/component/select-names/e-select-names-model.c: Various hacks
+	by clahey to unbreak e_select_names_model_add_item,
+	e_select_names_model_replace_item (which I added) and
+	e_select_names_model_remove_item.
+	
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_obj_count,
+	e_select_names_text_model_get_nth_obj): Make chunks of text that
+	correspond to ECards in the ESelectNamesModel be embedded objects.
+	(e_select_names_text_model_activate_obj): On activation, pop up a
+	contact editor for the embedded object's card.
+	(e_select_names_text_model_model_changed): Fixed to work with
+	ETextModel API changes.
+	(e_select_names_text_model_set_text): Make const correct.
+	(e_select_names_text_model_insert): Make const correct.
+	(e_select_names_text_model_insert_length): Make const correct.
+
+	* backend/ebook/e-address-completion.h,
+	backend/ebook/e-address-completion.c: Added.  EAddressCompletion
+	is a derived class of ECompletion that does asynchronous address
+	lookups for completions.
+
 2001-02-17  Chris Toshok  <toshok@ximian.com>
 
 	* backend/idl/addressbook.idl: add sequence<string> typedef, and

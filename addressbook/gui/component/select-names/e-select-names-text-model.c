@@ -12,6 +12,7 @@
 #include <string.h>
 #include <gtk/gtk.h>
 
+#include <addressbook/contact-editor/e-contact-editor.h>
 #include "e-select-names-text-model.h"
 
 /* Object argument IDs */
@@ -27,10 +28,14 @@ static void e_select_names_text_model_destroy    (GtkObject *object);
 static void e_select_names_text_model_set_arg    (GtkObject *object, GtkArg *arg, guint arg_id);
 static void e_select_names_text_model_get_arg    (GtkObject *object, GtkArg *arg, guint arg_id);
 
-static void  e_select_names_text_model_set_text      (ETextModel *model, gchar *text);
-static void  e_select_names_text_model_insert        (ETextModel *model, gint position, gchar *text);
-static void  e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar *text, gint length);
+static void  e_select_names_text_model_set_text      (ETextModel *model, const gchar *text);
+static void  e_select_names_text_model_insert        (ETextModel *model, gint position, const gchar *text);
+static void  e_select_names_text_model_insert_length (ETextModel *model, gint position, const gchar *text, gint length);
 static void  e_select_names_text_model_delete        (ETextModel *model, gint position, gint length);
+
+static gint         e_select_names_text_model_obj_count   (ETextModel *model);
+static const gchar *e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len);
+static void         e_select_names_text_model_activate_obj (ETextModel *model, gint n);
 
 static void e_select_names_text_model_model_changed (ESelectNamesModel *source,
 						     ESelectNamesTextModel *model);
@@ -110,6 +115,10 @@ e_select_names_text_model_class_init (ESelectNamesTextModelClass *klass)
 	text_model_class->insert        = e_select_names_text_model_insert;
 	text_model_class->insert_length = e_select_names_text_model_insert_length;
 	text_model_class->delete        = e_select_names_text_model_delete;
+
+	text_model_class->obj_count     = e_select_names_text_model_obj_count;
+	text_model_class->get_nth_obj   = e_select_names_text_model_get_nth_obj;
+	text_model_class->object_activated = e_select_names_text_model_activate_obj;
 }
 
 static int
@@ -120,14 +129,11 @@ get_length(EIterator *iterator)
 }
 
 static void
-e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
+e_select_names_text_model_set_text    	(ETextModel *model, const gchar *text)
 {
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
-	int length = 0;
-	if (model->text) {
-		length = strlen(model->text);
-	}
+	int length = e_text_model_get_text_length (model);
 	
 	e_iterator_reset(iterator);
 	if (!e_iterator_is_valid(iterator)) {
@@ -138,13 +144,13 @@ e_select_names_text_model_set_text    	(ETextModel *model, gchar *text)
 				     iterator,
 				     0,
 				     length,
-				     text);
+				     (gchar *) text);
 	if (iterator)
 		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
-e_select_names_text_model_insert      	(ETextModel *model, gint position, gchar *text)
+e_select_names_text_model_insert      	(ETextModel *model, gint position, const gchar *text)
 {
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
@@ -164,13 +170,13 @@ e_select_names_text_model_insert      	(ETextModel *model, gint position, gchar 
 	e_select_names_model_insert(source,
 				    iterator,
 				    position,
-				    text);
+				    (gchar *) text);
 	if (iterator)
 		gtk_object_unref(GTK_OBJECT(iterator));
 }
 
 static void
-e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar *text, gint length)
+e_select_names_text_model_insert_length (ETextModel *model, gint position, const gchar *text, gint length)
 {
 	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL(model)->source;
 	EIterator *iterator = e_list_get_iterator(e_select_names_model_get_data(source));
@@ -190,7 +196,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint position, gchar
 	e_select_names_model_insert_length(source,
 					   iterator,
 					   position,
-					   text,
+					   (gchar *) text,
 					   length);
 	if (iterator)
 		gtk_object_unref(GTK_OBJECT(iterator));
@@ -216,6 +222,83 @@ e_select_names_text_model_delete        (ETextModel *model, gint position, gint 
 	}
 	if (iterator)
 		gtk_object_unref(GTK_OBJECT(iterator));
+}
+
+static gint
+e_select_names_text_model_obj_count (ETextModel *model)
+{
+	ESelectNamesModel *source = E_SELECT_NAMES_TEXT_MODEL (model)->source;
+	EIterator *iterator = e_list_get_iterator (e_select_names_model_get_data (source));
+	gint count = 0;
+	
+	for (e_iterator_reset (iterator); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
+		const ESelectNamesModelData *data = e_iterator_get (iterator);
+		if (data->type == E_SELECT_NAMES_MODEL_DATA_TYPE_CARD)
+			++count;
+	}
+
+	return count;
+}
+
+static const gchar *
+e_select_names_text_model_get_nth_obj (ETextModel *model, gint n, gint *len)
+{
+	ESelectNamesTextModel *select_text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	ESelectNamesModel *source = select_text_model->source;
+	EIterator *iterator = e_list_get_iterator (e_select_names_model_get_data (source));
+	const ESelectNamesModelData *data;
+	gint i, pos;
+	
+	pos = 0;
+	i = 0;
+	e_iterator_reset (iterator);
+	while (e_iterator_is_valid (iterator) && n > 0) {
+		gint len;
+		data = e_iterator_get (iterator);
+		len = strlen (data->string);
+
+		pos += len + 1; /* advance and extra space for comma */
+		++i;
+		if (data->type == E_SELECT_NAMES_MODEL_DATA_TYPE_CARD)
+			--n;
+
+		if (n >= 0)
+			e_iterator_next (iterator);
+	}
+
+	if (len) {
+		data = e_iterator_get (iterator);
+		*len = strlen (data->string);
+	}
+
+	return e_text_model_get_text (model) + pos;
+}
+
+static void
+e_select_names_text_model_activate_obj (ETextModel *model, gint n)
+{
+	ESelectNamesTextModel *select_text_model = E_SELECT_NAMES_TEXT_MODEL (model);
+	ESelectNamesModel *source = select_text_model->source;
+	EIterator *iterator = e_list_get_iterator (e_select_names_model_get_data (source));
+	const ESelectNamesModelData *data;
+	const ECard *card;
+	EContactEditor *contact_editor;
+
+	e_iterator_reset (iterator);
+	while (e_iterator_is_valid (iterator) && n > 0) {
+		data = e_iterator_get (iterator);
+		if (data->type == E_SELECT_NAMES_MODEL_DATA_TYPE_CARD)
+			--n;
+
+		if (n >= 0)
+			e_iterator_next (iterator);
+	}
+
+	data = e_iterator_get (iterator);
+	card = E_CARD (data->card);
+	
+	contact_editor = e_contact_editor_new (card, FALSE);
+	e_contact_editor_raise (contact_editor);
 }
 
 static void
@@ -260,9 +343,9 @@ e_select_names_text_model_model_changed (ESelectNamesModel     *source,
 		*stringp = 0;
 	}
 	*lengthsp = -1;
-	g_free(E_TEXT_MODEL(model)->text);
-	E_TEXT_MODEL(model)->text = string;
-	e_text_model_changed(E_TEXT_MODEL(model));
+
+	E_TEXT_MODEL_CLASS (parent_class)->set_text (E_TEXT_MODEL (model), string);
+	g_free (string);
 }
 
 

@@ -67,6 +67,8 @@ libeselectnames_la_SOURCES = 		\
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = select-names.glade
 
+
+
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
 	$(oaf_in_files)		\

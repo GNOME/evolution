@@ -78,6 +78,9 @@ void               e_select_names_model_replace           (ESelectNamesModel *mo
 void               e_select_names_model_add_item          (ESelectNamesModel *model,
 							   EIterator *iterator, /* NULL for at the beginning. */
 							   ESelectNamesModelData *data);
+void               e_select_names_model_replace_item      (ESelectNamesModel *model,
+							   EIterator *iterator,
+							   ESelectNamesModelData *data);
 void               e_select_names_model_remove_item       (ESelectNamesModel *model,
 							   EIterator *iterator);
 

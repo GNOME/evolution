@@ -1,4 +1,4 @@
-noinst_PROGRAMS = test-card test-client test-client-list
+noinst_PROGRAMS = test-card test-client test-client-list test-completion
 
 bin_PROGRAMS = evolution-gnomecard-importer 		\
 	load-pine-addressbook load-gnomecard-addressbook
@@ -39,6 +39,7 @@ lib_LTLIBRARIES = libebook.la
 
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
+	e-address-completion.c				\
 	e-book-listener.c				\
 	e-book-view-listener.c				\
 	e-book-view.c					\
@@ -50,6 +51,7 @@ libebook_la_SOURCES =					\
 libebookincludedir = $(includedir)/evolution/ebook
 
 libebookinclude_HEADERS =				\
+	e-address-completion.h				\
 	e-book-listener.h				\
 	e-book-types.h					\
 	e-book-view-listener.h				\
@@ -96,6 +98,17 @@ test_card_SOURCES =					\
 	test-card.c
 
 test_card_LDADD =					\
+	libebook.la					\
+	$(BONOBO_GNOME_LIBS)				\
+	$(EXTRA_GNOME_LIBS)				\
+	$(top_builddir)/e-util/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la
+
+test_completion_SOURCES =				\
+	test-completion.c
+
+test_completion_LDADD =					\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(EXTRA_GNOME_LIBS)				\
@@ -151,3 +164,7 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 #	GNOME_Evolution_Addressbook_Pine_Importer.oafinfo
 
 EXTRA_DIST = $(oaf_in_files) $(oaf_DATA)
+
+
+
+
