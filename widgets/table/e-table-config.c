@@ -373,7 +373,7 @@ setup_fields (ETableConfig *config)
 	if (config->temp_state) {
 		for (i = 0; i < config->temp_state->col_count; i++) {
 			e_table_subset_variable_add (config->shown_model, config->temp_state->columns[i]);
-			e_table_without_hide (config->available_model, (void *) config->temp_state->columns[i]);
+			e_table_without_hide (config->available_model, GINT_TO_POINTER(config->temp_state->columns[i]));
 		}
 	}
 }
