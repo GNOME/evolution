@@ -66,9 +66,6 @@
 #define IMAP_PORT 143
 #define SIMAP_PORT 993
 
-/* this enables an experimental fix for bug #28177 */
-#define COMMAND_LOCK_IS_CONNECT_LOCK
-
 
 extern int camel_verbose_debug;
 
