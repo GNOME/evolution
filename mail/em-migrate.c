@@ -231,11 +231,10 @@ is_mail_folder (const char *metadata)
 	return FALSE;
 }
 
-static CamelStore *
-get_local_store (CamelSession *session, const char *dirname, const char *metadata, char **namep, int *index, CamelException *ex)
+static char *
+get_local_store_uri (const char *dirname, const char *metadata, char **namep, int *index, CamelException *ex)
 {
 	char *protocol, *name, *buf;
-	CamelStore *store;
 	struct stat st;
 	xmlNodePtr node;
 	xmlDocPtr doc;
@@ -274,15 +273,10 @@ get_local_store (CamelSession *session, const char *dirname, const char *metadat
 			buf = g_strdup_printf ("%s:%s", protocol, dirname);
 			xmlFree (protocol);
 			
-			if ((store = camel_session_get_store (session, buf, ex)))
-				*namep = g_strdup (name);
-			else
-				*namep = NULL;
-			
+			*namep = g_strdup (name);
 			xmlFree (name);
-			g_free (buf);
 			
-			return store;
+			return buf;
 		}
 		
 		node = node->next;
@@ -295,6 +289,111 @@ get_local_store (CamelSession *session, const char *dirname, const char *metadat
 	return NULL;
 }
 
+static int
+cp (const char *src, const char *dest, gboolean show_progress)
+{
+	unsigned char readbuf[4096];
+	ssize_t nread, nwritten;
+	int errnosav, fd[2];
+	size_t total = 0;
+	struct stat st;
+	
+	if (stat (src, &st) == -1)
+		return -1;
+	
+	if ((fd[0] = open (src, O_RDONLY)) == -1)
+		return -1;
+	
+	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_APPEND, 0666)) == -1) {
+		errnosav = errno;
+		close (fd[0]);
+		errno = errnosav;
+		return -1;
+	}
+	
+	do {
+		do {
+			nread = read (fd[0], readbuf, sizeof (readbuf));
+		} while (nread == -1 && errno == EINTR);
+		
+		if (nread == 0)
+			break;
+		else if (nread < 0)
+			goto exception;
+		
+		do {
+			nwritten = write (fd[1], readbuf, nread);
+		} while (nwritten == -1 && errno == EINTR);
+		
+		if (nwritten < nread)
+			goto exception;
+		
+		total += nwritten;
+		
+		if (show_progress)
+			em_migrate_set_progress (((double) total) / ((double) st.st_size));
+	} while (total < st.st_size);
+	
+	if (fsync (fd[1]) == -1)
+		goto exception;
+	
+	close (fd[0]);
+	close (fd[1]);
+	
+	return 0;
+	
+ exception:
+	
+	errnosav = errno;
+	
+	close (fd[0]);
+	close (fd[1]);
+	unlink (dest);
+	
+	errno = errnosav;
+	
+	return -1;
+}
+
+static GString *
+mbox_build_filename (const char *toplevel_dir, const char *full_name)
+{
+	const char *start, *inptr = full_name;
+	int subdirs = 0;
+	GString *path;
+	
+	while (*inptr != '\0') {
+		if (*inptr == '/')
+			subdirs++;
+		inptr++;
+	}
+	
+	path = g_string_new (toplevel_dir);
+	g_string_append_c (path, '/');
+	
+	inptr = full_name;
+	while (*inptr != '\0') {
+		start = inptr;
+		while (*inptr != '/' && *inptr != '\0')
+			inptr++;
+		
+		g_string_append_len (path, start, inptr - start);
+		
+		if (*inptr == '/') {
+			g_string_append (path, ".sbd/");
+			inptr++;
+			
+			/* strip extranaeous '/'s */
+			while (*inptr == '/')
+				inptr++;
+		}
+	}
+	
+	return path;
+}
+
+#define mbox_store_build_filename(s,n) mbox_build_filename (((CamelService *) s)->url->path, n)
+
 static void
 em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full_name)
 {
@@ -303,7 +402,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	CamelStore *local_store;
 	struct dirent *dent;
 	CamelException ex;
-	char *path, *name;
+	char *path, *name, *uri;
 	GPtrArray *uids;
 	struct stat st;
 	int index, i;
@@ -327,7 +426,7 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	/* get old store & folder */
 	path = g_strdup_printf ("%s/local-metadata.xml", dirname);
-	if (!(local_store = get_local_store ((CamelSession *) session, dirname, path, &name, &index, &ex))) {
+	if (!(uri = get_local_store_uri (dirname, path, &name, &index, &ex))) {
 		g_warning ("error opening old store for `%s': %s", full_name, ex.desc);
 		camel_exception_clear (&ex);
 		g_free (path);
@@ -338,69 +437,117 @@ em_migrate_dir (EMMigrateSession *session, const char *dirname, const char *full
 	
 	g_free (path);
 	
-	if (!(old_folder = camel_store_get_folder (local_store, name, 0, &ex))) {
-		g_warning ("error opening old folder `%s': %s", full_name, ex.desc);
-		camel_object_unref (local_store);
-		camel_exception_clear (&ex);
-		g_free (name);
-		
-		/* try subfolders anyway? */
-		goto try_subdirs;
-	}
-	
-	g_free (name);
-	
-	flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
-	if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, &ex))) {
-		g_warning ("error creating new mbox folder `%s': %s", full_name, ex.desc);
-		camel_object_unref (local_store);
-		camel_object_unref (old_folder);
-		camel_exception_clear (&ex);
-		
-		/* try subfolders anyway? */
-		goto try_subdirs;
-	}
-	
 	em_migrate_set_folder_name (full_name);
 	
-	uids = camel_folder_get_uids (old_folder);
-	for (i = 0; i < uids->len; i++) {
-		CamelMimeMessage *message;
-		CamelMessageInfo *info;
+	if (!strncmp (uri, "mbox:", 5)) {
+		GString *src, *dest;
+		char *p;
 		
-		if (!(info = camel_folder_get_message_info (old_folder, uids->pdata[i])))
-			continue;
+		src = g_string_new ("");
+		g_string_append_printf (src, "%s/%s", uri + 5, name);
+		g_free (name);
 		
-		if (!(message = camel_folder_get_message (old_folder, uids->pdata[i], &ex))) {
-			camel_folder_free_message_info (old_folder, info);
-			break;
+		dest = mbox_store_build_filename (session->store, full_name);
+		p = strrchr (dest->str, '/');
+		*p = '\0';
+		
+		if (camel_mkdir (dest->str, 0777) == -1 && errno != EEXIST) {
+			g_string_free (dest, TRUE);
+			g_string_free (src, TRUE);
+			goto try_subdirs;
 		}
 		
-		camel_folder_append_message (new_folder, message, info, NULL, &ex);
-		camel_folder_free_message_info (old_folder, info);
-		camel_object_unref (message);
+		*p = '/';
+		if (cp (src->str, dest->str, TRUE) == -1) {
+			g_string_free (dest, TRUE);
+			g_string_free (src, TRUE);
+			goto try_subdirs;
+		}
 		
-		if (camel_exception_is_set (&ex))
-			break;
+		g_string_append (src, ".ev-summary");
+		g_string_append (dest, ".ev-summary");
+		if (cp (src->str, dest->str, FALSE) == -1) {
+			g_string_free (dest, TRUE);
+			g_string_free (src, TRUE);
+			goto try_subdirs;
+		}
 		
-		em_migrate_set_progress (((double) i + 1) / ((double) uids->len));
-	}
-	camel_folder_free_uids (old_folder, uids);
+		g_string_free (dest, TRUE);
+		g_string_free (src, TRUE);
+	} else {
+		if (!(local_store = camel_session_get_store ((CamelSession *) session, uri, &ex))) {
+			g_warning ("error opening old store for `%s': %s", full_name, ex.desc);
+			camel_exception_clear (&ex);
+			g_free (name);
+			g_free (uri);
+			
+			/* try subfolders anyway? */
+			goto try_subdirs;
+		}
+		
+		if (!(old_folder = camel_store_get_folder (local_store, name, 0, &ex))) {
+			g_warning ("error opening old folder `%s': %s", full_name, ex.desc);
+			camel_object_unref (local_store);
+			camel_exception_clear (&ex);
+			g_free (name);
+			
+			/* try subfolders anyway? */
+			goto try_subdirs;
+		}
+		
+		g_free (name);
+		
+		flags |= (index ? CAMEL_STORE_FOLDER_BODY_INDEX : 0);
+		if (!(new_folder = camel_store_get_folder (session->store, full_name, flags, &ex))) {
+			g_warning ("error creating new mbox folder `%s': %s", full_name, ex.desc);
+			camel_object_unref (local_store);
+			camel_object_unref (old_folder);
+			camel_exception_clear (&ex);
+			
+			/* try subfolders anyway? */
+			goto try_subdirs;
+		}
 	
-	if (camel_exception_is_set (&ex)) {
-		g_warning ("error migrating folder `%s': %s", full_name, ex.desc);
-		camel_object_unref (local_store);
+		uids = camel_folder_get_uids (old_folder);
+		for (i = 0; i < uids->len; i++) {
+			CamelMimeMessage *message;
+			CamelMessageInfo *info;
+			
+			if (!(info = camel_folder_get_message_info (old_folder, uids->pdata[i])))
+				continue;
+			
+			if (!(message = camel_folder_get_message (old_folder, uids->pdata[i], &ex))) {
+				camel_folder_free_message_info (old_folder, info);
+				break;
+			}
+			
+			camel_folder_append_message (new_folder, message, info, NULL, &ex);
+			camel_folder_free_message_info (old_folder, info);
+			camel_object_unref (message);
+			
+			if (camel_exception_is_set (&ex))
+				break;
+			
+			em_migrate_set_progress (((double) i + 1) / ((double) uids->len));
+		}
+		
+		camel_folder_free_uids (old_folder, uids);
+		
+		if (camel_exception_is_set (&ex)) {
+			g_warning ("error migrating folder `%s': %s", full_name, ex.desc);
+			camel_object_unref (local_store);
+			camel_object_unref (old_folder);
+			camel_object_unref (new_folder);
+			camel_exception_clear (&ex);
+			
+			/* try subfolders anyway? */
+			goto try_subdirs;
+		}
+		
+		/*camel_object_unref (local_store);*/
 		camel_object_unref (old_folder);
 		camel_object_unref (new_folder);
-		camel_exception_clear (&ex);
-		
-		/* try subfolders anyway? */
-		goto try_subdirs;
 	}
-	
-	/*camel_object_unref (local_store);*/
-	camel_object_unref (old_folder);
-	camel_object_unref (new_folder);
 	
  try_subdirs:
 	

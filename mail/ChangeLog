@@ -4,6 +4,12 @@
 
 2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-migrate.c (em_migrate_dir): Modified to simply copy mbox
+	files from one place to another (and the summary files) rather
+	than going thru camel so as to bypass the need for parsing MIME.
+
+2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-migrate.c (get_local_store): Fixed a leak.
 
 	* mail-component.c (impl_upgradeFromVersion): Implemented.
