@@ -134,20 +134,6 @@ nntp_folder_sync (CamelFolder *folder, gboolean expunge,
 	camel_nntp_newsrc_write (store->newsrc);
 }
 
-static const gchar *
-nntp_folder_get_name (CamelFolder *folder)
-{
-	g_assert(0);
-	return NULL;
-}
-
-static const gchar *
-nntp_folder_get_full_name (CamelFolder *folder)
-{
-	g_assert(0);
-	return NULL;
-}
-
 static CamelFolder*
 nntp_folder_get_subfolder (CamelFolder *folder,
 			   const gchar *folder_name,
@@ -375,8 +361,6 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	/* virtual method overload */
 	camel_folder_class->init = nntp_folder_init;
 	camel_folder_class->sync = nntp_folder_sync;
-	camel_folder_class->get_name = nntp_folder_get_name;
-	camel_folder_class->get_full_name = nntp_folder_get_full_name;
 	camel_folder_class->get_subfolder = nntp_folder_get_subfolder;
 	camel_folder_class->get_message_count = nntp_folder_get_message_count;
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;

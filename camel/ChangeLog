@@ -1,5 +1,12 @@
 2000-08-11  Chris Toshok  <toshok@helixcode.com>
 
+	* providers/nntp/camel-nntp-folder.c
+	(camel_nntp_folder_class_init): remove get_name and get_full_name
+	assignments, since the camel-folder.c implementation does what we
+	need.
+
+2000-08-11  Chris Toshok  <toshok@helixcode.com>
+
 	* providers/nntp/camel-nntp-store.c
 	(camel_nntp_store_get_toplevel_dir): use g_get_home_dir, since
 	evolution_dir isn't available in the providers.
