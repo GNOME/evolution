@@ -1,5 +1,13 @@
 2004-06-15  JP Rosevear  <jpr@novell.com>
 
+	Fixes #59401
+	
+	* gui/e-week-view.c (e_week_view_on_text_item_event): if we are
+	editing the event, don't ignore the right click, stop editing the
+	event and continue on
+
+2004-06-15  JP Rosevear  <jpr@novell.com>
+
 	Fixes #57393
 	
 	* gui/e-week-view.c (e_week_view_set_compress_weekend): redraw the
