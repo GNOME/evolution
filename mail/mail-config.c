@@ -365,18 +365,13 @@ service_note_doneness (GtkObject *page, gpointer user_data)
 	GtkWidget *button;
 	GtkEntry *entry;
 	char *data;
-	gboolean sensitive = TRUE;
+	gboolean required, sensitive = TRUE;
 
 	entry = gtk_object_get_data (page, "server_entry");
 	if (entry) {
-		data = gtk_entry_get_text (entry);
-		if (!data || !*data)
-			sensitive = FALSE;
-	}
-
-	if (sensitive) {
-		entry = gtk_object_get_data (page, "user_entry");
-		if (entry) {
+		required = GPOINTER_TO_INT (
+			gtk_object_get_data (GTK_OBJECT (entry), "required"));
+		if (required) {
 			data = gtk_entry_get_text (entry);
 			if (!data || !*data)
 				sensitive = FALSE;
@@ -384,11 +379,30 @@ service_note_doneness (GtkObject *page, gpointer user_data)
 	}
 
 	if (sensitive) {
+		entry = gtk_object_get_data (page, "user_entry");
+		if (entry) {
+			required = GPOINTER_TO_INT (
+				gtk_object_get_data (GTK_OBJECT (entry),
+						     "required"));
+			if (required) {
+				data = gtk_entry_get_text (entry);
+				if (!data || !*data)
+					sensitive = FALSE;
+			}
+		}
+	}
+
+	if (sensitive) {
 		entry = gtk_object_get_data (page, "path_entry");
 		if (entry) {
-			data = gtk_entry_get_text (entry);
-			if (!data || !*data)
-				sensitive = FALSE;
+			required = GPOINTER_TO_INT (
+				gtk_object_get_data (GTK_OBJECT (entry),
+						     "required"));
+			if (required) {
+				data = gtk_entry_get_text (entry);
+				if (!data || !*data)
+					sensitive = FALSE;
+			}
 		}
 	}
 
@@ -660,7 +674,7 @@ destroy_service (GtkObject *notebook, gpointer urlp)
 
 static void
 add_row (GtkWidget *table, int row, const char *label_text,
-	 const char *tag, int flag)
+	 const char *tag, gboolean required)
 {
 	GtkWidget *label, *entry;
 
@@ -675,6 +689,8 @@ add_row (GtkWidget *table, int row, const char *label_text,
 	gtk_signal_connect_object (GTK_OBJECT (entry), "changed",
 				   GTK_SIGNAL_FUNC (service_note_doneness),
 				   GTK_OBJECT (table));
+	gtk_object_set_data (GTK_OBJECT (entry), "required",
+			     GINT_TO_POINTER (required));
 	gtk_object_set_data (GTK_OBJECT (table), tag, entry);
 }
 
@@ -698,20 +714,23 @@ create_source (struct service_type *st)
 	row = 0;
 	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
-	if (service_flags & CAMEL_SERVICE_URL_NEED_HOST) {
+	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
 		add_row (table, row, _("Server:"), "server_entry",
+			 (service_flags & CAMEL_SERVICE_URL_NEED_HOST) ==
 			 CAMEL_SERVICE_URL_NEED_HOST);
 		row++;
 	}
 
-	if (service_flags & CAMEL_SERVICE_URL_NEED_USER) {
+	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {
 		add_row (table, row, _("Username:"), "user_entry",
+			 (service_flags & CAMEL_SERVICE_URL_NEED_USER) ==
 			 CAMEL_SERVICE_URL_NEED_USER);
 		row++;
 	}
 
-	if (service_flags & CAMEL_SERVICE_URL_NEED_PATH) {
+	if (service_flags & CAMEL_SERVICE_URL_ALLOW_PATH) {
 		add_row (table, row, _("Path:"), "path_entry",
+			 (service_flags & CAMEL_SERVICE_URL_NEED_PATH) ==
 			 CAMEL_SERVICE_URL_NEED_PATH);
 		row++;
 	}
@@ -789,9 +808,10 @@ create_transport (struct service_type *st)
 	row = 0;
 	service_flags = st->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
-	if (service_flags & CAMEL_SERVICE_URL_NEED_HOST) {
+	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
 		add_row (table, row, _("Server:"), "server_entry",
-			 CAMEL_SERVICE_URL_NEED_HOST);
+			 (service_flags & CAMEL_SERVICE_URL_NEED_HOST) ==
+			 CAMEL_SERVICE_NEED_HOST);
 		row++;
 	}
 
