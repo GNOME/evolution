@@ -42,11 +42,9 @@
 #include "e-summary.h"
 #include "Evolution.h"
 
-#include <evolution-services/executive-summary-component-client.h>
 #include <evolution-services/Executive-Summary.h>
-#include <evolution-services/executive-summary.h>
 #include <evolution-services/executive-summary-component.h>
-#include <evolution-services/executive-summary-component-view.h>
+#include <evolution-services/executive-summary-component-factory-client.h>
 
 static GList *control_list = NULL;
 
@@ -170,51 +168,6 @@ control_destroy_cb (BonoboControl *control,
 	gtk_object_destroy (GTK_OBJECT (esummary));
 }
 
-static void 
-update (ExecutiveSummary *summary,
-	int id,
-	const char *html,
-	ESummary *esummary)
-{
-	ExecutiveSummaryComponentView *view;
-
-	view = e_summary_view_from_id (esummary, id);
-	executive_summary_component_view_set_html (view, html);
-	e_summary_update_window (esummary, summary, html);
-}
-
-static void
-set_title (ExecutiveSummary *summary,
-	   int id,
-	   const char *title,
-	   ESummary *esummary)
-{
-	ExecutiveSummaryComponentView *view;
-	
-	view = e_summary_view_from_id (esummary, id);
-	executive_summary_component_view_set_title (view, title);
-}
-
-static void
-flash (ExecutiveSummary *summary,
-       int id,
-       gpointer user_data)
-{
-	g_print ("FLASH!\n");
-}
-
-static void
-view_destroyed (ExecutiveSummaryComponentView *view,
-		ExecutiveSummaryComponentClient *client)
-{
-	int id;
-
-	g_print ("%s\n", __FUNCTION__);
-	id = executive_summary_component_view_get_id (view);
-	g_print ("%d\n", id);
-	executive_summary_component_client_destroy_view (client, view);
-}
-
 /* A ********very********
    temporary function to embed something
 */
@@ -222,7 +175,7 @@ void
 embed_service (GtkWidget *widget,
 	       ESummary *esummary)
 {
-	char *required_interfaces[2] = {"IDL:GNOME/Evolution:SummaryComponent:1.0",
+	char *required_interfaces[2] = {"IDL:GNOME/Evolution:Summary:ComponentFactory:1.0",
 					NULL};
 	char *obj_id;
 	
@@ -234,37 +187,23 @@ embed_service (GtkWidget *widget,
 	e_summary_factory_embed_service_from_id (esummary, obj_id);
 }
 
-void
+ESummaryWindow *
 e_summary_factory_embed_service_from_id (ESummary *esummary,
 					 const char *obj_id)
 {
-	ExecutiveSummaryComponentClient *client;
-	ExecutiveSummary *summary;
-	ExecutiveSummaryComponentView *view;
-	int id;
+	GNOME_Evolution_Summary_Component component;
+	ExecutiveSummaryComponentFactoryClient *client;
+	ESummaryWindow *window;
+	CORBA_Environment ev;
+
+	client = executive_summary_component_factory_client_new (obj_id);
+
+	component = executive_summary_component_factory_client_create_view (client);
 	
-	client = executive_summary_component_client_new (obj_id);
-	
-	g_return_if_fail (client != NULL);
-
-	/* Set the owner */
-	summary = EXECUTIVE_SUMMARY (executive_summary_new ());
-	executive_summary_component_client_set_owner (client, summary);
-	gtk_signal_connect (GTK_OBJECT (summary), "flash",
-			    GTK_SIGNAL_FUNC (flash), esummary);
-	gtk_signal_connect (GTK_OBJECT (summary), "set_title",
-			    GTK_SIGNAL_FUNC (set_title), esummary);
-	gtk_signal_connect (GTK_OBJECT (summary), "update",
-			    GTK_SIGNAL_FUNC (update), esummary);
-
-	/* Create view */
-	id = executive_summary_component_create_unique_id ();
-	view = executive_summary_component_client_create_view (client, id);
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroyed), client);
-
-	e_summary_add_service (esummary, summary, view, obj_id);
+	window = e_summary_add_service (esummary, component, obj_id);
 	e_summary_rebuild_page (esummary);
+
+	return window;
 }
 
 BonoboControl *

@@ -61,7 +61,6 @@ evolution_executive_summary_LDADD = 					\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a	\
 	$(top_builddir)/e-util/libeutil.la		\
 	$(top_builddir)/executive-summary/evolution-services/libevolution-services.la	\
-	$(top_builddir)/executive-summary/widgets/libesummary-widgets.a	\
 	$(BONOBO_VFS_GNOME_LIBS)			\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\

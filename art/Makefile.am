@@ -21,9 +21,13 @@ images_DATA = \
 	service-close.png		\
 	service-configure.png		\
 	service-down.png		\
+	service-down-disabled.png	\
 	service-left.png		\
+	service-left-disabled.png	\
 	service-right.png		\
+	service-right-disabled.png	\
 	service-up.png			\
+	service-up-disabled.png		\
 	splash.png
 
 buttonsdir = $(datadir)/images/evolution/buttons

@@ -5,7 +5,7 @@
 		location="test-service">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME:GenericFactory:1.0"/>
+		<item value="IDL:GNOME/GenericFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -17,11 +17,37 @@
 		location="OAFIID:evolution-summary-component-factory:test-service:0ea887d5-622b-4b8c-b525-18aa1cbe18a6">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution:SummaryComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution:Summary:ComponentFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
 			value="Test service"/>
 </oaf_server>
 
+<!-- This does not work
+<oaf_server iid="OAFIID:evolution-summary-component-factory:test-bonobo-service:b6da2ad2-1fbb-4539-93f9-038b1702810e"
+                type="exe"
+                location="test-bonobo-service">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:GNOME:GenericFactory:1.0"/>
+        </oaf_attribute>
+
+        <oaf_attribute name="description" type="string"
+                        value="Factory for the test bonobo component."/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:evolution-summary-component:test-bonobo-service:d3cb3ed6-a654-4337-8aa0-f443751d6d1b"
+                type="factory"
+                location="OAFIID:evolution-summary-component-factory:test-bonobo-service:b6da2ad2-1fbb-4539-93f9-038b1702810e">
+
+        <oaf_attribute name="repo_ids" type="stringv">
+                <item value="IDL:Evolution:SummaryComponent:1.0"/>
+        </oaf_attribute>
+
+        <oaf_attribute name="description" type="string"
+                        value="Test bonobo service"/>
+</oaf_server>
+
+-->
 </oaf_info>

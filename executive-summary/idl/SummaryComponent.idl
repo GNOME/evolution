@@ -11,6 +11,7 @@
 /* TODO: Needs Exceptions */
 
 #include <Bonobo.idl>
+#include <oaf-factory.idl>
 
 module GNOME {
 module Evolution {
@@ -33,38 +34,10 @@ module Summary {
 		 * Unsets the owner of the component.
 		 */
 		void unsetOwner ();
+	};
 
-		/**
-		 * createView:
-		 * @control: A Bonobo_Control
-		 * @html: HTML of the view.
-		 * @title: Title of the view.
-		 * @icon: Icon to be used for the view.
-	 	 *
-		 * Creates a summary of the data that the component has.
-		 * Returns: The ID of the view.
-		 */
-		long createView (in long id,
-				 out Bonobo::Control control,
-				 out string html,
-				 out string title,
-				 out string icon);
-
-		/**
-		 * destroyView:
-		 * @id: ID of the view to be destroyed.
-		 *
-		 * Tells a service that a view has been destroyed.
-		 */
-		void destroyView (in long id);
-
-		/**
-		 * configure:
-		 * 
-		 * Instructs the component to open a preferences dialog.
-		 */
-		void configure ();
-
+	interface ComponentFactory: Bonobo::Unknown {
+		Component createView ();
 	};
 };
 };

@@ -44,7 +44,6 @@
 
 #include "component-factory.h"
 
-#include <executive-summary/evolution-services/executive-summary-component.h>
 #include "mail-summary.h"
 
 CamelFolder *drafts_folder = NULL;
@@ -161,17 +160,17 @@ free_storage (gpointer service, gpointer storage, gpointer data)
 
 static void
 factory_destroy (BonoboEmbeddable *embeddable,
-		 gpointer          dummy)
+		 BonoboObject     *destroy_factory)
 {
 	running_objects--;
 	if (running_objects > 0)
 		return;
 
-	if (factory)
-		bonobo_object_unref (BONOBO_OBJECT (factory));
+	if (destroy_factory)
+		bonobo_object_unref (BONOBO_OBJECT (destroy_factory));
 	else
 		g_warning ("Serious ref counting error");
-	factory = NULL;
+	destroy_factory = NULL;
 
 	g_hash_table_foreach (storages_hash, free_storage, NULL);
 	g_hash_table_destroy (storages_hash);
@@ -183,11 +182,16 @@ factory_destroy (BonoboEmbeddable *embeddable,
 static BonoboObject *
 summary_fn (BonoboGenericFactory *factory, void *closure)
 {
-	ExecutiveSummaryComponent *summary_component;
+	BonoboObject *summary_component_factory;
 
-	summary_component = executive_summary_component_new (create_summary_view, 
-							     NULL, NULL);
-	return BONOBO_OBJECT (summary_component);
+	running_objects++;
+
+	summary_component_factory = executive_summary_component_factory_new (create_summary_view, 
+									     NULL);
+	gtk_signal_connect (GTK_OBJECT (summary_component_factory), "destroy",
+			    GTK_SIGNAL_FUNC (factory_destroy), summary_factory);
+
+	return summary_component_factory;
 }
 
 static BonoboObject *
@@ -205,7 +209,7 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
-			    GTK_SIGNAL_FUNC (factory_destroy), NULL);
+			    GTK_SIGNAL_FUNC (factory_destroy), factory);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
@@ -222,7 +226,6 @@ component_factory_init (void)
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
-
 	storages_hash = g_hash_table_new (NULL, NULL);
 
 	if (factory == NULL) {

@@ -31,9 +31,7 @@
 #include <gal/util/e-util.h>
 
 #include "Executive-Summary.h"
-#include "executive-summary.h"
 #include "executive-summary-component.h"
-#include "executive-summary-component-view.h"
 #include "executive-summary-client.h"
 
 static void executive_summary_component_destroy (GtkObject *object);
@@ -41,22 +39,26 @@ static void executive_summary_component_init (ExecutiveSummaryComponent *compone
 static void executive_summary_component_class_init (ExecutiveSummaryComponentClass *esc_class);
 
 #define PARENT_TYPE (bonobo_object_get_type ())
+#define FACTORY_PARENT_TYPE (bonobo_object_get_type ())
 
 static BonoboObjectClass *parent_class;
+static BonoboObjectClass *factory_parent_class;
 
 struct _ExecutiveSummaryComponentPrivate {
-	EvolutionServicesCreateViewFn create_view;
-	EvolutionServicesConfigureFn configure;
-	
+	int dummy;
+#if 0
 	ExecutiveSummaryClient *owner_client;
-	
-	void *closure;
+#endif
+};
 
-	GHashTable *id_to_view;
+struct _ExecutiveSummaryComponentFactoryPrivate {
+	EvolutionServicesCreateViewFn create_view;
+	void *closure;
 };
 
 /* CORBA interface */
 static POA_GNOME_Evolution_Summary_Component__vepv SummaryComponent_vepv;
+static POA_GNOME_Evolution_Summary_ComponentFactory__vepv ComponentFactory_vepv;
 
 static POA_GNOME_Evolution_Summary_Component *
 create_servant (void)
@@ -80,37 +82,19 @@ create_servant (void)
 	return servant;
 }
 
-#if 0
-static void
-impl_GNOME_Evolution_Summary_Component_supports (PortableServer_Servant servant,
-					  CORBA_boolean *html,
-					  CORBA_boolean *bonobo,
-					  CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentPrivate *priv;
-
-	bonobo_object = bonobo_object_from_servant (servant);
-	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
-	priv = component->private;
-
-	*html = (priv->create_html_view != NULL);
-	*bonobo = (priv->create_bonobo_view != NULL);
-}
-#endif
-
 static void
 impl_GNOME_Evolution_Summary_Component_set_owner (PortableServer_Servant servant,
-					   GNOME_Evolution_Summary_ViewFrame summary,
-					   CORBA_Environment *ev)
+						  GNOME_Evolution_Summary_ViewFrame summary,
+						  CORBA_Environment *ev)
 {
+#if 0
+
 	BonoboObject *bonobo_object;
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
 	ExecutiveSummaryClient *client;
 	GNOME_Evolution_Summary_ViewFrame summary_duplicate;
-
+	
 	bonobo_object = bonobo_object_from_servant (servant);
 	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
 	priv = component->private;
@@ -122,12 +106,14 @@ impl_GNOME_Evolution_Summary_Component_set_owner (PortableServer_Servant servant
 	executive_summary_client_construct (client, summary_duplicate);
 
 	priv->owner_client = client;
+#endif
 }
 
 static void
 impl_GNOME_Evolution_Summary_Component_unset_owner (PortableServer_Servant servant,
 					     CORBA_Environment *ev)
 {
+#if 0
 	BonoboObject *bonobo_object;
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
@@ -141,127 +127,7 @@ impl_GNOME_Evolution_Summary_Component_unset_owner (PortableServer_Servant serva
 
 	bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 	priv->owner_client = NULL;
-}
-
-static CORBA_long
-impl_GNOME_Evolution_Summary_Component_create_view (PortableServer_Servant servant,
-					     CORBA_long id,
-					     Bonobo_Control *control,
-					     CORBA_char **html,
-					     CORBA_char **title,
-					     CORBA_char **icon,
-					     CORBA_Environment *ev)
-{
-	ExecutiveSummaryComponentView *view;
-	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentPrivate *priv;
-	BonoboObject *initial_control;
-	const char *initial_title, *initial_icon, *initial_html;
-	
-	bonobo_object = bonobo_object_from_servant (servant);
-	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
-	priv = component->private;
-	
-	view = gtk_type_new (executive_summary_component_view_get_type ());
-	executive_summary_component_view_set_id (view, id);
-
-	(* priv->create_view) (component, view, priv->closure);
-	
-	/* Extract the values */
-	initial_title = executive_summary_component_view_get_title (view);
-	initial_icon = executive_summary_component_view_get_icon (view);
-	initial_html = executive_summary_component_view_get_html (view);
-	initial_control = executive_summary_component_view_get_control (view);
-
-	/* Put the view in the hash table so it can be found later */
-	g_hash_table_insert (priv->id_to_view, GINT_TO_POINTER (id), view);
-
-	/* Duplicate the values */
-	if (initial_control != NULL) {
-		*control = bonobo_object_corba_objref (BONOBO_OBJECT (initial_control));
-	} else {
-		*control = CORBA_OBJECT_NIL;
-	}
-
-	*html = CORBA_string_dup (initial_html ? initial_html:"");
-	*title = CORBA_string_dup (initial_title ? initial_title:"");
-	*icon = CORBA_string_dup (initial_icon ? initial_icon:"");
-
-	return id;
-}
-
-#if 0
-static CORBA_char *
-impl_GNOME_Evolution_Summary_Component_create_html_view (PortableServer_Servant servant,
-						  CORBA_char **title,
-						  CORBA_char **icon,
-						  CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentPrivate *priv;
-	CORBA_char *ret_str;
-	char *ret_html;
-	char *initial_title, *initial_icon;
-
-	bonobo_object = bonobo_object_from_servant (servant);
-	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
-	priv = component->private;
-
-	ret_html = (* priv->create_html_view) (component, &initial_title,
-					       &initial_icon,
-					       priv->closure);
-
-	*title = CORBA_string_dup (initial_title ? initial_title:"");
-	*icon = CORBA_string_dup (initial_icon ? initial_icon:"");
-	g_free (initial_title);
-	g_free (initial_icon);
-
-	ret_str = CORBA_string_dup (ret_html ? ret_html:"");
-	g_free (ret_html);
-	return ret_str;
-}
-#endif	
-
-static void
-impl_GNOME_Evolution_Summary_Component_destroy_view (PortableServer_Servant servant,
-					      CORBA_long id,
-					      CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentPrivate *priv;
-	ExecutiveSummaryComponentView *view;
-
-	g_print ("%s\n", __FUNCTION__);
-	bonobo_object = bonobo_object_from_servant (servant);
-	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
-	priv = component->private;
-
-	view = g_hash_table_lookup (priv->id_to_view, GINT_TO_POINTER (id));
-	if (view == NULL) {
-		g_warning ("Unknown view: %d. Emit exception", id);
-		return;
-	}
-
-	/* Destroy the view */
-	gtk_object_unref (GTK_OBJECT (view));
-}
-
-static void
-impl_GNOME_Evolution_Summary_Component_configure (PortableServer_Servant servant,
-					   CORBA_Environment *ev)
-{
-	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentPrivate *priv;
-	
-	bonobo_object = bonobo_object_from_servant (servant);
-	component = EXECUTIVE_SUMMARY_COMPONENT (bonobo_object);
-	priv = component->private;
-	
-	(* priv->configure) (component, priv->closure);
+#endif
 }
 
 static void
@@ -278,11 +144,13 @@ executive_summary_component_destroy (GtkObject *object)
 		return;
 	
 	CORBA_exception_init (&ev);
-	
+
+#if 0	
 	if (priv->owner_client != NULL) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->owner_client));
 		priv->owner_client = NULL;
 	}
+#endif
 
 	CORBA_exception_free (&ev);
 	
@@ -308,10 +176,7 @@ corba_class_init (void)
 	epv = g_new0 (POA_GNOME_Evolution_Summary_Component__epv, 1);
 	epv->setOwner    = impl_GNOME_Evolution_Summary_Component_set_owner;
 	epv->unsetOwner  = impl_GNOME_Evolution_Summary_Component_unset_owner;
-	epv->createView  = impl_GNOME_Evolution_Summary_Component_create_view;
-	epv->destroyView = impl_GNOME_Evolution_Summary_Component_destroy_view;
-	epv->configure   = impl_GNOME_Evolution_Summary_Component_configure;
-	
+		
 	vepv = &SummaryComponent_vepv;
 	vepv->_base_epv = base_epv;
 	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
@@ -336,44 +201,37 @@ executive_summary_component_init (ExecutiveSummaryComponent *component)
 {
 	ExecutiveSummaryComponentPrivate *priv;
 	
-	priv = g_new0 (ExecutiveSummaryComponentPrivate, 1);
+	priv = g_new (ExecutiveSummaryComponentPrivate, 1);
 	
-	priv->create_view = NULL;
-	priv->configure = NULL;
-	
-	priv->owner_client = NULL;
-	priv->closure = NULL;
-
-	priv->id_to_view = g_hash_table_new (NULL, NULL);
 	component->private = priv;
 }
 
+E_MAKE_TYPE (executive_summary_component, "ExecutiveSummaryComponent", 
+	     ExecutiveSummaryComponent, executive_summary_component_class_init,
+	     executive_summary_component_init, PARENT_TYPE);
+
+
 static void
 executive_summary_component_construct (ExecutiveSummaryComponent *component,
-				       GNOME_Evolution_Summary_Component corba_object,
-				       EvolutionServicesCreateViewFn create_view,
-				       EvolutionServicesConfigureFn configure,
-				       void *closure)
+				       GNOME_Evolution_Summary_Component corba_object)
 {
-	ExecutiveSummaryComponentPrivate *priv;
-	
 	g_return_if_fail (component != NULL);
 	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
 	
 	bonobo_object_construct (BONOBO_OBJECT (component), corba_object);
-	
-	priv = component->private;
-	
-	priv->create_view = create_view;
-	priv->configure = configure;
-	
-	priv->closure = closure;
 }
+
 
+/*** Public API ***/
+/**
+ * executive_summary_component_new:
+ *
+ * Creates a BonoboObject that implements the Summary::Component interface.
+ *
+ * Returns: A pointer to a BonoboObject.
+ */
 BonoboObject *
-executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
-				 EvolutionServicesConfigureFn configure,
-				 void *closure)
+executive_summary_component_new (void)
 {
 	ExecutiveSummaryComponent *component;
 	POA_GNOME_Evolution_Summary_Component *servant;
@@ -387,64 +245,12 @@ executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (component),
 						       servant);
 	
-	executive_summary_component_construct (component, corba_object,
-					       create_view, configure, closure);
+	executive_summary_component_construct (component, corba_object);
 	
 	return BONOBO_OBJECT (component);
 }
 
-E_MAKE_TYPE (executive_summary_component, "ExecutiveSummaryComponent", 
-	     ExecutiveSummaryComponent, executive_summary_component_class_init,
-	     executive_summary_component_init, PARENT_TYPE);
-
-void
-executive_summary_component_set_title (ExecutiveSummaryComponent *component,
-				       gpointer view)
-{
-	ExecutiveSummaryComponentPrivate *priv;
-	int id;
-	const char *title;
-
-	g_return_if_fail (component != NULL);
-	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
-
-	priv = component->private;
-
-	if (priv->owner_client == NULL) {
-		g_warning ("Component not owned!");
-		return;
-	}
-
-	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
-	title = executive_summary_component_view_get_title (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
-
-	executive_summary_client_set_title (priv->owner_client, id, title);
-}
-
-void
-executive_summary_component_set_icon (ExecutiveSummaryComponent *component,
-				      gpointer view)
-{
-	ExecutiveSummaryComponentPrivate *priv;
-	int id;
-	const char *icon;
-
-	g_return_if_fail (component != NULL);
-	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT (component));
-
-	priv = component->private;
-
-	if (priv->owner_client == NULL) {
-		g_warning ("Component not owned!");
-		return;
-	}
-
-	id = executive_summary_component_view_get_id (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
-	icon = executive_summary_component_view_get_icon (EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
-
-	executive_summary_client_set_icon (priv->owner_client, id, icon);
-}
-
+#if 0
 void
 executive_summary_component_flash (ExecutiveSummaryComponent *component,
 				   gpointer view)
@@ -490,13 +296,175 @@ executive_summary_component_update (ExecutiveSummaryComponent *component,
 
 	executive_summary_client_update (priv->owner_client, id, html);
 }
+#endif
 
-int
-executive_summary_component_create_unique_id (void)
+
+/**** ComponentFactory implementation ****/
+
+static POA_GNOME_Evolution_Summary_ComponentFactory *
+create_factory_servant (void)
 {
-	static int id = 0;
-
-	id++;
-	g_print ("%s -- %d\n", __FUNCTION__, id);
-	return id;
+	POA_GNOME_Evolution_Summary_ComponentFactory *servant;
+	CORBA_Environment ev;
+	
+	servant = (POA_GNOME_Evolution_Summary_ComponentFactory *)g_new0 (BonoboObjectServant, 1);
+	servant->vepv = &ComponentFactory_vepv;
+	
+	CORBA_exception_init (&ev);
+	POA_GNOME_Evolution_Summary_ComponentFactory__init ((PortableServer_Servant) servant, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free (servant);
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	
+	CORBA_exception_free (&ev);
+	
+	return servant;
 }
+
+static GNOME_Evolution_Summary_Component
+impl_GNOME_Evolution_Summary_ComponentFactory_createView (PortableServer_Servant servant,
+							  CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ExecutiveSummaryComponent *view;
+	ExecutiveSummaryComponentFactory *factory;
+	ExecutiveSummaryComponentFactoryPrivate *priv;
+	GNOME_Evolution_Summary_Component component, component_dup;
+	CORBA_Environment ev2;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	factory = EXECUTIVE_SUMMARY_COMPONENT_FACTORY (bonobo_object);
+	priv = factory->private;
+
+	g_warning ("Hello?");
+	view = (* priv->create_view) (factory, priv->closure);
+	g_return_val_if_fail (view != NULL, CORBA_OBJECT_NIL);
+
+	component = bonobo_object_corba_objref (BONOBO_OBJECT (view));
+
+	return component;
+}
+
+static void
+corba_factory_init (void)
+{
+	POA_GNOME_Evolution_Summary_ComponentFactory__vepv *vepv;
+	POA_GNOME_Evolution_Summary_ComponentFactory__epv *epv;
+	PortableServer_ServantBase__epv *base_epv;
+	
+	base_epv = g_new0 (PortableServer_ServantBase__epv, 1);
+	base_epv->_private = NULL;
+	base_epv->finalize = NULL;
+	base_epv->default_POA = NULL;
+	
+	epv = g_new0 (POA_GNOME_Evolution_Summary_ComponentFactory__epv, 1);
+	epv->createView = impl_GNOME_Evolution_Summary_ComponentFactory_createView;
+
+	vepv = &ComponentFactory_vepv;
+	vepv->_base_epv = base_epv;
+	vepv->Bonobo_Unknown_epv = bonobo_object_get_epv ();
+	vepv->GNOME_Evolution_Summary_ComponentFactory_epv = epv;
+}
+
+/* GtkObject methods */
+static void
+executive_summary_component_factory_destroy (GtkObject *object)
+{
+	ExecutiveSummaryComponentFactory *factory;
+	ExecutiveSummaryComponentFactoryPrivate *priv;
+
+	factory = EXECUTIVE_SUMMARY_COMPONENT_FACTORY (object);
+	priv = factory->private;
+
+	if (priv == NULL)
+		return;
+
+	g_free (priv);
+	factory->private = NULL;
+
+	(* GTK_OBJECT_CLASS (factory_parent_class)->destroy) (object);
+}
+
+static void
+executive_summary_component_factory_class_init (ExecutiveSummaryComponentFactoryClass *klass)
+{
+	GtkObjectClass *object_class;
+
+	object_class = GTK_OBJECT_CLASS (klass);
+	object_class->destroy = executive_summary_component_factory_destroy;
+
+	factory_parent_class = gtk_type_class (FACTORY_PARENT_TYPE);
+	corba_factory_init ();
+}
+
+static void
+executive_summary_component_factory_init (ExecutiveSummaryComponentFactory *factory)
+{
+	ExecutiveSummaryComponentFactoryPrivate *priv;
+
+	priv = g_new (ExecutiveSummaryComponentFactoryPrivate, 1);
+
+	priv->create_view = NULL;
+	priv->closure = NULL;
+	factory->private = priv;
+}
+
+E_MAKE_TYPE (executive_summary_component_factory, 
+	     "ExecutiveSummaryComponentFactory",
+	     ExecutiveSummaryComponentFactory,
+	     executive_summary_component_factory_class_init,
+	     executive_summary_component_factory_init, FACTORY_PARENT_TYPE);
+
+static void
+executive_summary_component_factory_construct (ExecutiveSummaryComponentFactory *factory,
+					       GNOME_Evolution_Summary_ComponentFactory corba_object,
+					       EvolutionServicesCreateViewFn create_view,
+					       void *closure)
+{
+	ExecutiveSummaryComponentFactoryPrivate *priv;
+
+	g_return_if_fail (factory != NULL);
+	g_return_if_fail (corba_object != CORBA_OBJECT_NIL);
+
+	bonobo_object_construct (BONOBO_OBJECT (factory), corba_object);
+	priv = factory->private;
+
+	priv->create_view = create_view;
+	priv->closure = closure;
+}
+
+
+/*** Public API ***/
+/**
+ * executive_summary_component_factory_new:
+ * @create_view: A pointer to the function to create a new view.
+ * @closure: The data to be passed to the @create_view function when it is 
+ * called.
+ *
+ * Creates a BonoboObject that implements the Summary::ComponentFactory
+ * interface.
+ *
+ * Returns: A pointer to a BonoboObject.
+ */
+BonoboObject *
+executive_summary_component_factory_new (EvolutionServicesCreateViewFn create_view,
+					 void *closure)
+{
+	ExecutiveSummaryComponentFactory *factory;
+	POA_GNOME_Evolution_Summary_ComponentFactory *servant;
+	GNOME_Evolution_Summary_ComponentFactory corba_object;
+
+	servant = create_factory_servant ();
+	if (servant == NULL)
+		return NULL;
+
+	factory = gtk_type_new (executive_summary_component_factory_get_type ());
+	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (factory),
+						       servant);
+	executive_summary_component_factory_construct (factory, corba_object,
+						       create_view, closure);
+	return BONOBO_OBJECT (factory);
+}
+	

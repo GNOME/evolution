@@ -1,3 +1,4 @@
 #include <Bonobo.idl>
 #include <SummaryComponent.idl>
 #include <Summary.idl>
+#include <HtmlView.idl>

@@ -65,3 +65,4 @@ void executive_summary_construct (ExecutiveSummary *es,
 				  GNOME_Evolution_Summary_ViewFrame corba_object);
 BonoboObject *executive_summary_new (void);
 #endif
+

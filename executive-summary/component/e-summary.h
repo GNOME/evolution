@@ -24,13 +24,11 @@
 #ifndef _E_SUMMARY_H__
 #define _E_SUMMARY_H__
 
-#include <gtk/gtksignal.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtk/gtkvbox.h>
 #include <evolution-services/executive-summary.h>
-#include <evolution-services/executive-summary-component-client.h>
-#include <evolution-services/executive-summary-component-view.h>
 
+#include <bonobo.h>
 #include <Evolution.h>
 
 #define E_SUMMARY_TYPE (e_summary_get_type ())
@@ -45,9 +43,20 @@ typedef struct _ESummaryClass ESummaryClass;
 typedef struct _ESummaryWindow ESummaryWindow;
 
 struct _ESummaryWindow {
-	ExecutiveSummary *summary;
-	ExecutiveSummaryComponentView *view;
+	GNOME_Evolution_Summary_Component component;
+
+	Bonobo_Control control;
+	GNOME_Evolution_Summary_HTMLView html;
+
+	Bonobo_PersistStream persiststream;
+	Bonobo_PropertyBag propertybag;
+	Bonobo_PropertyControl propertycontrol;
+
+	BonoboPropertyListener *listener;
+
 	char *iid;
+	char *title;
+	char *icon;
 };
 
 struct _ESummary {
@@ -63,31 +72,14 @@ struct _ESummaryClass {
 GtkType e_summary_get_type (void);
 GtkWidget *e_summary_new (const GNOME_Evolution_Shell shell);
 int e_summary_rebuild_page (ESummary *esummary);
-void e_summary_add_html_service (ESummary *esummary,
-				 ExecutiveSummary *summary,
-				 ExecutiveSummaryComponentClient *client,
-				 const char *html,
-				 const char *title,
-				 const char *icon);
-void e_summary_add_bonobo_service (ESummary *esummary,
-				   ExecutiveSummary *summary,
-				   ExecutiveSummaryComponentClient *client,
-				   GtkWidget *control,
-				   const char *title,
-				   const char *icon);
-void e_summary_update_window (ESummary *esummary,
-			      ExecutiveSummary *summary,
-			      const char *html);
-void e_summary_window_free (ESummaryWindow *window,
-			    ESummary *esummary);
-void  e_summary_window_remove_from_ht (ESummaryWindow *window,
-				       ESummary *esummary);
-void e_summary_add_service (ESummary *esummary,
-			    ExecutiveSummary *summary,
-			    ExecutiveSummaryComponentView *view,
-			    const char *iid);
-ExecutiveSummaryComponentView * e_summary_view_from_id (ESummary *esummary,
-							int id);
+
+void e_summary_window_free (ESummaryWindow *window);
+void e_summary_remove_window (ESummary *esummary,
+			      ESummaryWindow *window);
+ESummaryWindow *e_summary_add_service (ESummary *esummary,
+				       GNOME_Evolution_Summary_Component component,
+				       const char *iid);
+
 void e_summary_set_shell_view_interface (ESummary *summary,
 					 GNOME_Evolution_ShellView svi);
 void e_summary_set_message (ESummary *esummary,
@@ -98,8 +90,7 @@ void e_summary_change_current_view (ESummary *esummary,
 				    const char *uri);
 void e_summary_set_title (ESummary *esummary,
 			  const char *title);
-ESummaryWindow *e_summary_window_from_view (ESummary *esummary,
-					    ExecutiveSummaryComponentView *view);
+
 void e_summary_window_move_left (ESummary *esummary,
 				 ESummaryWindow *window);
 void e_summary_window_move_right (ESummary *esummary,

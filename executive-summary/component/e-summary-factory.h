@@ -29,7 +29,7 @@
 
 BonoboControl *e_summary_factory_new_control (const char *uri,
 					      const GNOME_Evolution_Shell shell);
-void e_summary_factory_embed_service_from_id (ESummary *esummary,
-					      const char *obj_id);
+ESummaryWindow *e_summary_factory_embed_service_from_id (ESummary *esummary,
+							 const char *obj_id);
 
 #endif

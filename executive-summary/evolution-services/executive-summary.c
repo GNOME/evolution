@@ -79,6 +79,7 @@ create_servant (void)
 	return servant;
 }
 
+#if 0
 static void
 impl_GNOME_Evolution_Summary_ViewFrame_setTitle (PortableServer_Servant servant,
 				  CORBA_long id,
@@ -140,6 +141,7 @@ impl_GNOME_Evolution_Summary_ViewFrame_updateComponent (PortableServer_Servant s
 	gtk_signal_emit (GTK_OBJECT (summary), summary_signals[UPDATE],
 			 id, html);
 }
+#endif
 
 /* GtkObject methods */
 static void
@@ -173,10 +175,6 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_GNOME_Evolution_Summary_ViewFrame__epv, 1);
-	epv->setTitle        = impl_GNOME_Evolution_Summary_ViewFrame_setTitle;
-	epv->setIcon         = impl_GNOME_Evolution_Summary_ViewFrame_setIcon;
-	epv->flash           = impl_GNOME_Evolution_Summary_ViewFrame_flash;
-	epv->updateComponent = impl_GNOME_Evolution_Summary_ViewFrame_updateComponent;
 
 	vepv = &Summary_vepv;
 	vepv->_base_epv = base_epv;

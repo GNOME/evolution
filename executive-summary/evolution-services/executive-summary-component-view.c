@@ -37,6 +37,8 @@ struct _ExecutiveSummaryComponentViewPrivate {
 	ExecutiveSummaryComponent *component;
 
 	BonoboControl *control;
+	Bonobo_Control objref;
+
 	char *html;
 	
 	char *title;
@@ -47,6 +49,13 @@ struct _ExecutiveSummaryComponentViewPrivate {
 
 static GtkObjectClass *parent_class = NULL;
 #define PARENT_TYPE (gtk_object_get_type ())
+
+enum {
+	CONFIGURE,
+	LAST_SIGNAL
+};
+
+static gint32 view_signals[LAST_SIGNAL] = { 0 };
 
 static void
 executive_summary_component_view_destroy (GtkObject *object)
@@ -83,6 +92,14 @@ executive_summary_component_view_class_init (ExecutiveSummaryComponentViewClass 
 	object_class = GTK_OBJECT_CLASS (view_class);
 
 	object_class->destroy = executive_summary_component_view_destroy;
+	
+	view_signals[CONFIGURE] = gtk_signal_new ("configure",
+						  GTK_RUN_FIRST,
+						  object_class->type,
+						  GTK_SIGNAL_OFFSET (ExecutiveSummaryComponentViewClass, configure),
+						  gtk_marshal_NONE__NONE,
+						  GTK_TYPE_NONE, 0);
+	gtk_object_class_add_signals (object_class, view_signals, LAST_SIGNAL);
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
@@ -96,6 +113,7 @@ executive_summary_component_view_init (ExecutiveSummaryComponentView *view)
 	view->private = priv;
 
 	priv->control = NULL;
+	priv->objref = NULL;
 	priv->html = NULL;
 	priv->title = NULL;
 	priv->icon = NULL;
@@ -191,7 +209,6 @@ executive_summary_component_view_set_title (ExecutiveSummaryComponentView *view,
 
 	component = priv->component;
 	if (component == NULL) {
-		g_warning ("Calling %s from the wrong side of the CORBA interface", __FUNCTION__);
 		return;
 	}
 
@@ -230,7 +247,6 @@ executive_summary_component_view_set_icon (ExecutiveSummaryComponentView *view,
 	if (component == NULL) {
 		return;
 	}
-
 	
 	executive_summary_component_set_icon (component, view);
 }
@@ -291,6 +307,12 @@ executive_summary_component_view_set_html (ExecutiveSummaryComponentView *view,
 	executive_summary_component_update (component, view);
 }
 
+void
+executive_summary_component_view_configure (ExecutiveSummaryComponentView *view)
+{
+	gtk_signal_emit (GTK_OBJECT (view), view_signals[CONFIGURE]);
+}
+
 const char *
 executive_summary_component_view_get_html (ExecutiveSummaryComponentView *view)
 {
@@ -314,7 +336,7 @@ executive_summary_component_view_get_control (ExecutiveSummaryComponentView *vie
 
 	priv = view->private;
 
-	return priv->control;
+	return (BonoboObject *)priv->control;
 }
 
 void
@@ -342,4 +364,40 @@ executive_summary_component_view_get_id (ExecutiveSummaryComponentView *view)
 	priv = view->private;
 	
 	return priv->id;
+}
+
+void
+executive_summary_component_view_set_objref (ExecutiveSummaryComponentView *view,
+					     Bonobo_Control objref)
+{
+	ExecutiveSummaryComponentViewPrivate *priv;
+
+	g_return_if_fail (view != NULL);
+	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
+
+	priv = view->private;
+
+	if (priv->objref) {
+		g_warning ("View already has an objref.");
+		return;
+	}
+
+	priv->objref = objref;
+}
+
+GtkWidget *
+executive_summary_component_view_get_widget (ExecutiveSummaryComponentView *view)
+{
+	ExecutiveSummaryComponentViewPrivate *priv;
+
+	g_return_val_if_fail (view != NULL, NULL);
+	g_return_val_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_VIEW (view), NULL);
+
+	priv = view->private;
+	if (priv->objref == NULL) {
+		g_warning ("View has no objref.");
+		return NULL;
+	}
+
+	return bonobo_widget_new_control_from_objref (priv->objref, NULL);
 }

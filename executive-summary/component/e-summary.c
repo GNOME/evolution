@@ -34,6 +34,8 @@
 #include <gtkhtml/htmlengine.h>
 #include <gtkhtml/htmlselection.h>
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-gui-utils.h>
+#include <libgnomevfs/gnome-vfs.h>
 
 #include "e-summary.h"
 #include "e-summary-factory.h"
@@ -41,6 +43,10 @@
 #include "e-summary-url.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
+
+#define STORAGE_TYPE "efs"
+#define IID_FILE "oaf.id"
+#define DATA_FILE "data"
 
 /* From component-factory.c */
 extern char *evolution_dir;
@@ -54,15 +60,17 @@ struct _ESummaryPrivate {
 	GtkWidget *html_scroller;
 	GtkWidget *html;
 
-	GHashTable *id_to_view;
-	GHashTable *view_to_window;
-	GHashTable *summary_to_window;
-	GList *window_list;
-
 	guint idle;
 
 	GtkHTMLStream *stream;
 	gboolean grabbed;
+
+	GList *window_list;
+
+	char *header;
+	int header_len;
+	char *footer;
+	int footer_len;
 };
 
 static gboolean on_object_requested (GtkHTML *html,
@@ -72,23 +80,29 @@ static void e_summary_save_state (ESummary *esummary,
 				  const char *path);
 static void e_summary_load_state (ESummary *esummary,
 				  const char *path);
-		
-/* GtkObject methods */
 
-static void
-s2w_foreach (gpointer *key,
-	     gpointer *value,
-	     ESummary *esummary)
-{
-	e_summary_window_free ((ESummaryWindow *) value, esummary);
-	g_free (value);
-}
+/* Used to distinguish dead windows */
+static ESummaryWindow dead_window = {
+	CORBA_OBJECT_NIL,
+	CORBA_OBJECT_NIL,
+	CORBA_OBJECT_NIL,
+	CORBA_OBJECT_NIL,
+	CORBA_OBJECT_NIL,
+	CORBA_OBJECT_NIL,
+	NULL,
+	NULL,
+	NULL,
+	NULL
+};
+
+/* GtkObject methods */
 
 static void
 e_summary_destroy (GtkObject *object)
 {
 	ESummary *esummary = E_SUMMARY (object);
 	ESummaryPrivate *priv;
+	GList *l;
 	char *prefix;
 
 	priv = esummary->private;
@@ -99,12 +113,12 @@ e_summary_destroy (GtkObject *object)
 	e_summary_save_state (esummary, prefix);
 	g_free (prefix);
 
-	g_hash_table_foreach (priv->summary_to_window, 
-			      (GHFunc) s2w_foreach, esummary);
-	g_hash_table_destroy (priv->summary_to_window);
-	g_hash_table_destroy (priv->id_to_view);
-	g_hash_table_destroy (priv->view_to_window);
+	for (l = priv->window_list; l; l = l->next)
+		e_summary_window_free (l->data);
+	g_list_free (priv->window_list);
 
+	g_free (priv->header);
+	g_free (priv->footer);
 	g_free (esummary->private);
 	esummary->private = NULL;
 
@@ -120,51 +134,64 @@ e_summary_class_init (GtkObjectClass *object_class)
 }
 
 static void
-e_summary_start_load (ESummary *summary)
+e_summary_start_load (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
-	char *header = "<html><body bgcolor=\"#ffffff\">";
 
-	priv = summary->private;
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+
+	priv = esummary->private;
 
 	priv->stream = gtk_html_begin (GTK_HTML (priv->html));
 
 	/* Hack to stop page returning to the top */
 	GTK_HTML (priv->html)->engine->newPage = FALSE;
-
-	gtk_html_write (GTK_HTML (priv->html), priv->stream,
-			header, strlen (header));
 }
 
 static void
-load_default (ESummary *summary)
+load_default_header (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
-	char *def = "<table width=\"100%\"><tr><td align=\"right\">"
+	char *def = "<html><body bgcolor=\"#ffffff\">"
+		"<table width=\"100%\"><tr><td align=\"right\">"
 		"<img src=\"ccsplash.png\"></td></tr></table>"
 		"<table><tr><td><a href=\"exec://bug-buddy\"><img src=\"file://gnome-spider.png\" width=\"24\" height=\"24\" border=\"0\">"
 		"</a></td><td><a href=\"exec://bug-buddy\">Submit a bug report"
 		"</a></td></tr></table><hr>";
 
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
 
-	priv = summary->private;
+	priv = esummary->private;
 
 	g_return_if_fail (priv->stream != NULL);
 
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, def, strlen (def));
 }
-
 static void
-e_summary_end_load (ESummary *summary)
+load_default_footer (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
 	char *footer = "<hr><p align=\"right\">All Executive Summary comments to <a href=\"mailto:iain@helixcode.com\">Iain Holmes (iain@helixcode.com)</a></p></body></html>";
 
-	priv = summary->private;
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+
+	priv = esummary->private;
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, 
 			footer, strlen (footer));
+}
+
+static void
+e_summary_end_load (ESummary *esummary)
+{
+	ESummaryPrivate *priv;
+
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+
+	priv = esummary->private;
 	gtk_html_end (GTK_HTML (priv->html), priv->stream, GTK_HTML_STREAM_OK);
 
 	priv->stream = NULL;
@@ -195,7 +222,7 @@ e_summary_init (ESummary *esummary)
   			    GTK_SIGNAL_FUNC (on_object_requested), esummary); 
 	gtk_signal_connect (GTK_OBJECT (priv->html), "link-clicked",
 			    GTK_SIGNAL_FUNC (e_summary_url_click), esummary);
-	gtk_signal_connect (GTK_OBJECT (priv->html), "on_url",
+	gtk_signal_connect (GTK_OBJECT (priv->html), "on-url",
 			    GTK_SIGNAL_FUNC (e_summary_url_over), esummary);
 
 	gtk_container_add (GTK_CONTAINER (priv->html_scroller), priv->html);
@@ -206,11 +233,6 @@ e_summary_init (ESummary *esummary)
 	/* Pack stuff */
 	gtk_box_pack_start (GTK_BOX (esummary), priv->html_scroller, 
 			    TRUE, TRUE, 0);
-
-	/* Init hashtables */
-	priv->summary_to_window = g_hash_table_new (NULL, NULL);
-	priv->id_to_view = g_hash_table_new (NULL, NULL);
-	priv->view_to_window = g_hash_table_new (NULL, NULL);
 }
 
 E_MAKE_TYPE (e_summary, "ESummary", ESummary, e_summary_class_init,
@@ -237,40 +259,172 @@ e_summary_new (const GNOME_Evolution_Shell shell)
 	return GTK_WIDGET (esummary);
 }
 
+#if 0
+static void
+control_unrealize (GtkHTMLEmbedded *eb,
+		   GtkWidget *widget)
+{
+	g_print ("Removing\n");
+}
+
+static void
+being_unrealized (GtkWidget *widget,
+		  GtkHTMLEmbedded *eb)
+{
+	g_warning ("Widget is being unrealized");
+	gtk_container_remove (GTK_CONTAINER (eb), widget);
+}
+
+static void
+being_realized (GtkWidget *widget,
+		gpointer user_data)
+{
+	gdk_window_ref (widget->window);
+}
+#endif
+
 static gboolean
 on_object_requested (GtkHTML *html,
 		     GtkHTMLEmbedded *eb,
-		     ESummary *summary)
+		     ESummary *esummary)
 {
-	ESummaryWindow *window;
-	int type;
+#if 0
+	static GtkWidget *widget = NULL;
+	int id;
 
-	if (sscanf (eb->classid, "cid:%d-%p", &type, &window) != 2) {
-		g_warning ("Could not get the window reference\n");
+	if (sscanf (eb->classid, "cid:%d", &id) != 1) {
+		g_warning ("Could not get the view id: eb->classid = %s",
+			   eb->classid);
 		return FALSE;
 	}
 
-	switch (type) {
-	case 1:
-		g_assert_not_reached ();
-		break;
-
-	case 2:
-		g_warning ("Bonobo services are not supported in this version.");
-		break;
-
-	default:
-		g_assert_not_reached ();
+	if (widget == NULL || !GTK_IS_WIDGET (widget)) {
+		g_print ("Create new\n");
+      		widget = executive_summary_component_view_get_widget (view);  
+/*    		widget = gtk_button_new_with_label ("Hello?");  */
+		gtk_signal_connect (GTK_OBJECT (widget), "realize",
+				    GTK_SIGNAL_FUNC (being_realized), NULL);
+		gtk_signal_connect (GTK_OBJECT (widget), "unrealize",
+				    GTK_SIGNAL_FUNC (being_unrealized), eb);
+		g_print ("New widget: %p\n", GTK_BIN (widget)->child);
+	} else {
+		g_print ("No new\n");
 	}
 
+	if (widget == NULL) {
+		g_warning ("View %d has no GtkWidget.", id);
+		return FALSE;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (eb), "unrealize",
+			    GTK_SIGNAL_FUNC (control_unrealize), widget);
+	gtk_widget_show_all (widget);
+	gtk_widget_ref (widget);
+
+	if (widget->parent == NULL)
+		gtk_container_add (GTK_CONTAINER (eb), widget);
+
 	return TRUE;
+#endif
+}
+
+/* Generates the window controls and works out
+   if they should be disabled or not */
+static char *
+make_control_html (ESummaryWindow *window,
+		   int row, 
+		   int col,
+		   int numwindows)
+{
+	char *html, *tmp;
+	int id = GPOINTER_TO_INT (window);
+	gboolean u, d, l, r, config;
+
+	u = d = l = r = config = TRUE;
+
+	if (window->propertycontrol == CORBA_OBJECT_NIL)
+		config = FALSE;
+
+	if (row == 0) /* Top row */
+		u = FALSE;
+
+	if (row >= numwindows - 3) /* Bottom row */
+		d = FALSE;
+
+	if (col == 0) /* Leftmost column */
+		l = FALSE;
+	
+	if (col == 2 || ((row * 3) + col) == numwindows - 1) /* Rightmost column */
+		r = FALSE;
+
+	html = g_strdup_printf ("<table><tr><td><a href=\"close://%d\">"
+				"<img src=\"service-close.png\" border=\"0\">"
+				"</a></td><td>", id);
+
+	tmp = html;
+	if (!config) {
+		html = g_strdup_printf ("%s<img src=\"service-configure.png\">"
+					"</td></tr><tr><td>", tmp);
+	} else {
+		html = g_strdup_printf ("%s<a href=\"configure://%d\">"
+					"<img src=\"service-configure.png\" border=\"0\">"
+					"</a></td></tr><tr><td>", tmp, id);
+	}
+	g_free (tmp);
+
+	tmp = html;
+	if (!l) {
+		html = g_strdup_printf ("%s<img src=\"service-left-disabled.png\">"
+					"</td><td>", tmp);
+	} else {
+		html = g_strdup_printf ("%s<a href=\"left://%d\">"
+					"<img src=\"service-left.png\" border=\"0\">"
+					"</a></td><td>", tmp, id);
+	}
+	g_free (tmp);
+	
+	tmp = html;
+	if (!r) {
+		html = g_strdup_printf ("%s<img src=\"service-right-disabled.png\">"
+					"</td></tr><tr><td>", tmp);
+	} else {
+		html = g_strdup_printf ("%s<a href=\"right://%d\">"
+					"<img src=\"service-right.png\" border=\"0\">"
+					"</a></td></tr><tr><td>", tmp, id);
+	}
+	g_free (tmp);
+
+	tmp = html;
+	if (!d) {
+		html = g_strdup_printf ("%s<img src=\"service-down-disabled.png\">"
+					"</td><td>", tmp);
+	} else {
+		html = g_strdup_printf ("%s<a href=\"down://%d\">"
+					"<img src=\"service-down.png\" border=\"0\">"
+					"</a></td><td>", tmp, id);
+	}
+	g_free (tmp);
+
+	tmp = html;
+	if (!u) {
+		html = g_strdup_printf ("%s<img src=\"service-up-disabled.png\">"
+					"</td></tr></table>", tmp);
+	} else {
+		html = g_strdup_printf ("%s<a href=\"up://%d\">"
+					"<img src=\"service-up.png\" border=\"0\">"
+					"</a></td></tr></table>", tmp, id);
+	}
+	g_free (tmp);
+
+	return html;
 }
 
 static void
 e_summary_display_window (ESummary *esummary,
 			  ESummaryWindow *window,
 			  int row,
-			  int col)
+			  int col,
+			  int numwindows)
 {
 	ESummaryPrivate *priv;
 	char *footer = "</td></tr></table>";
@@ -280,52 +434,50 @@ e_summary_display_window (ESummary *esummary,
 			   "edeeeb"};
 	char *title_colour[2] = {"bac1b6", 
 				 "cdd1c7"};
-	const char *title, *icon, *html;
-	int id;
 
 	priv = esummary->private;
 
-	title = executive_summary_component_view_get_title (window->view);
-	icon = executive_summary_component_view_get_icon (window->view);
-	html = executive_summary_component_view_get_html (window->view);
-	id = executive_summary_component_view_get_id (window->view);
-
-	/** FIXME: Make this faster by caching it? */
-
-	control_html = g_strdup_printf 
-		("<table width=\"32\" height=\"48\"><tr><td>"
-		 "<a href=\"close://%d\"><img border=\"0\" src=\"service-close.png\"></a></td>"
-		 "<td><a href=\"configure://%d\"><img border=\"0\" src=\"service-configure.png\"></a></td></tr>"
-		 "<tr><td><a href=\"left://%d\"><img border=\"0\" src=\"service-left.png\"></a></td>"
-		 "<td><a href=\"right://%d\"><img border=\"0\" src=\"service-right.png\"></a></td></tr>"
-		 "<tr><td><a href=\"down://%d\"><img border=\"0\" src=\"service-down.png\"></a></td>"
-		 "<td><a href=\"up://%d\"><img border=\"0\" src=\"service-up.png\"></a></td></tr></table>", id, id, id, id, id, id);
-	
+	control_html = make_control_html (window, row, col, numwindows);
 	title_html = g_strdup_printf ("<table cellspacing=\"0\" "
 				      "cellpadding=\"0\" border=\"0\" width=\"100%%\" height=\"100%%\">"
 				      "<tr><td bgcolor=\"#%s\">"
-				      "<table width=\"100%%\"><tr><td>"
+				      "<table width=\"100%%\" height=\"100%%\"><tr><td>"
 				      "<img src=\"%s\"></td>"
 				      "<td nowrap align=\"center\" width=\"100%%\">"
 				      "<b>%s</b></td><td>%s</td></tr></table></td></tr><tr>"
 				      "<td bgcolor=\"#%s\" height=\"100%%\">",
-				      title_colour[col % 2], icon, title,
-				      control_html, colour[col % 2]);
+				      title_colour[col % 2], window->icon, 
+				      window->title, control_html, 
+				      colour[col % 2]);
 	g_free (control_html);
 	
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_html,
 			strlen (title_html));
 	g_free (title_html);
 	
-	if (html != NULL && *html != '\0') {
+	if (window->html != CORBA_OBJECT_NIL) {
+		char *html;
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		html = GNOME_Evolution_Summary_HTMLView_getHtml (window->html,
+								 &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("Cannot get HTML.");
+			return;
+		}
+		CORBA_exception_free (&ev);
+
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
 				html, strlen (html));
 	} else {
-		g_warning ("Bonobo executive summary components are not supported at this time.");
 #if 0
-		body_cid = g_strdup_printf ("<object classid=\"cid:2-%p\"></object>", window);
+		char *body_cid;
+
+		body_cid = g_strdup_printf ("<object classid=\"cid:%d\"></object>", id);
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
 				body_cid, strlen (body_cid));
+		g_free (body_cid);
 #endif
 	}
 
@@ -340,6 +492,7 @@ e_summary_rebuild_page (ESummary *esummary)
 	GList *windows;
 	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%\">";
 	int loc;
+	int numwindows;
 
 	g_return_val_if_fail (esummary != NULL, FALSE);
 	g_return_val_if_fail (IS_E_SUMMARY (esummary), FALSE);
@@ -354,13 +507,20 @@ e_summary_rebuild_page (ESummary *esummary)
 
 	gtk_layout_freeze (GTK_LAYOUT (priv->html));
 	e_summary_start_load (esummary);
-	load_default (esummary);
+	
+	if (priv->header == NULL) {
+		load_default_header (esummary);
+	} else {
+		gtk_html_write (GTK_HTML (priv->html), priv->stream,
+				priv->header, priv->header_len);
+	}
 
 	/* Load the start of the services */
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, service_table,
 			strlen (service_table));
 	/* Load each of the services */
 	loc = 0;
+	numwindows = g_list_length (priv->window_list);
 	for (windows = priv->window_list; windows; windows = windows->next) {
 		ESummaryWindow *window;
 		char *td = "<td height=\"100%\" width=\"33%\" valign=\"top\">";
@@ -380,7 +540,7 @@ e_summary_rebuild_page (ESummary *esummary)
 				td, strlen (td));
 
 		e_summary_display_window (esummary, window, 
-					  (loc / 3), (loc % 3));
+					  (loc / 3), (loc % 3), numwindows);
 
 		gtk_html_write (GTK_HTML (priv->html), priv->stream, "</td>", 5);
 		loc++;
@@ -388,6 +548,14 @@ e_summary_rebuild_page (ESummary *esummary)
 				
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>",
 			13);
+
+	if (priv->footer == NULL) {
+		load_default_footer (esummary);
+	} else {
+		gtk_html_write (GTK_HTML (priv->html), priv->stream,
+				priv->footer, priv->footer_len);
+	}
+
 	e_summary_end_load (esummary);
 	gtk_layout_thaw (GTK_LAYOUT (priv->html));
 
@@ -395,169 +563,187 @@ e_summary_rebuild_page (ESummary *esummary)
 	return FALSE;
 }
 
-void
-e_summary_add_service (ESummary *esummary,
-		       ExecutiveSummary *summary,
-		       ExecutiveSummaryComponentView *view,
-		       const char *iid)     
+static void
+prop_changed_cb (BonoboPropertyListener *listener,
+		 char *name,
+		 BonoboArg *arg,
+		 ESummaryWindow *window)
 {
-	ESummaryWindow *window;
-	ESummaryPrivate *priv;
-	int id;
-
-	g_return_if_fail (esummary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (esummary));
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (IS_EXECUTIVE_SUMMARY (summary));
-	g_return_if_fail (view != NULL);
-	g_return_if_fail (IS_EXECUTIVE_SUMMARY_COMPONENT_VIEW (view));
-
-	window = g_new0 (ESummaryWindow, 1);
-	window->summary = summary;
-	window->iid = g_strdup (iid);
-	window->view = view;
-
-	priv = esummary->private;
-	priv->window_list = g_list_append (priv->window_list, window);
-	g_hash_table_insert (priv->summary_to_window, summary, window);
-	
-	id = executive_summary_component_view_get_id (view);
-	g_hash_table_insert (priv->id_to_view, GINT_TO_POINTER (id), view);
-	g_hash_table_insert (priv->view_to_window, view, window);
-}
-
-#if 0
-void
-e_summary_add_html_service (ESummary *esummary,
-			    ExecutiveSummary *summary,
-			    ExecutiveSummaryComponentClient *client,
-			    const char *html,
-			    const char *title,
-			    const char *icon)
-{
-	ESummaryWindow *window;
-	ESummaryPrivate *priv;
-
-	window = g_new0 (ESummaryWindow, 1);
-	window->type = E_SUMMARY_WINDOW_HTML;
-	window->html = g_strdup (html);
-	window->title = g_strdup (title);
-	window->icon = icon ? g_strdup (icon) : NULL;
-	window->client = client;
-
-	window->summary = summary;
-	priv = esummary->private;
-	priv->window_list = g_list_append (priv->window_list, window);
-
-	g_hash_table_insert (priv->summary_to_window, summary, window);
-}
-
-void
-e_summary_add_bonobo_service (ESummary *esummary,
-			      ExecutiveSummary *summary,
-			      ExecutiveSummaryComponentClient *client,
-			      GtkWidget *control,
-			      const char *title,
-			      const char *icon)
-{
-	ESummaryWindow *window;
-	ESummaryPrivate *priv;
-	
-	window = g_new0 (ESummaryWindow, 1);
-	window->type = E_SUMMARY_WINDOW_BONOBO;
-	window->control = control;
-
-	window->client = client;
-
-	window->title = g_strdup (title);
-	window->summary = summary;
-	window->icon = icon ? g_strdup (icon): NULL;
-
-	priv = esummary->private;
-	priv->window_list = g_list_append (priv->window_list, window);
-
-	g_hash_table_insert (priv->summary_to_window, summary, window);
-}
-#endif
-
-void
-e_summary_window_free (ESummaryWindow *window,
-		       ESummary *esummary)
-{
-	ESummaryPrivate *priv;
-
-	g_return_if_fail (window != NULL);
-	g_return_if_fail (esummary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (esummary));
-
-	priv = esummary->private;
-	g_free (window->iid);
-
-	priv->window_list = g_list_remove (priv->window_list, window);
-
-	bonobo_object_unref (BONOBO_OBJECT (window->summary));
-	gtk_object_unref (GTK_OBJECT (window->view));
-}
-
-/* Call this before e_summary_window_free, execpt when you are freeing
-   the hash table */
-void
-e_summary_window_remove_from_ht (ESummaryWindow *window,
-				 ESummary *esummary)
-{
-	ESummaryPrivate *priv;
-
-	priv = esummary->private;
-	g_hash_table_remove (priv->summary_to_window, window->summary);
-}
-
-void
-e_summary_update_window (ESummary *esummary,
-			 ExecutiveSummary *summary,
-			 const char *html)
-{
-	ESummaryPrivate *priv;
-	
-	g_return_if_fail (esummary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (esummary));
-	g_return_if_fail (summary != NULL);
-	
-	priv = esummary->private;
-	
-	if (priv->idle != 0)
+	if (strcmp (name, "window_title") == 0) {
+		if (window->title != NULL)
+			g_free (window->title);
+		window->title = g_strdup (BONOBO_ARG_GET_STRING (arg));
 		return;
-	
-	priv->idle = g_idle_add ((GSourceFunc) e_summary_rebuild_page, esummary);
-}
+	}
 
-ExecutiveSummaryComponentView *
-e_summary_view_from_id (ESummary *esummary,
-			int id)
+	if (strcmp (name, "window_icon") == 0) {
+		if (window->icon != NULL)
+			g_free (window->icon);
+		window->icon = g_strdup (BONOBO_ARG_GET_STRING (arg));
+		return;
+	}
+}
+		
+ESummaryWindow *
+e_summary_add_service (ESummary *esummary,
+		       GNOME_Evolution_Summary_Component component,
+		       const char *iid)
 {
+	ESummaryWindow *window;
 	ESummaryPrivate *priv;
-	ExecutiveSummaryComponentView *view;
+	Bonobo_Unknown unknown = CORBA_OBJECT_NIL;
+	Bonobo_PropertyListener corba_listener;
+	CORBA_Environment ev;
 
 	g_return_val_if_fail (esummary != NULL, NULL);
 	g_return_val_if_fail (IS_E_SUMMARY (esummary), NULL);
-	g_return_val_if_fail (id > 0, NULL);
+	g_return_val_if_fail (component != CORBA_OBJECT_NIL, NULL);
 
 	priv = esummary->private;
-	view = g_hash_table_lookup (priv->id_to_view, GINT_TO_POINTER (id));
 
-	return view;
+	window = g_new0 (ESummaryWindow, 1);
+	window->component = component;
+	window->iid = g_strdup (iid);
+
+	/* See what interfaces our component supports */
+	CORBA_exception_init (&ev);
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:Bonobo/Control:1.0", &ev);
+	window->control = (Bonobo_Control) unknown;
+
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:GNOME/Evolution/Summary/HTMLView:1.0", 
+						 &ev);
+	window->html = (GNOME_Evolution_Summary_HTMLView) unknown;
+
+	/* Check at least one of the above interfaces was supported */
+	if (window->html == CORBA_OBJECT_NIL &&
+	    window->control == CORBA_OBJECT_NIL) {
+		CORBA_Environment ev2;
+		g_warning ("This component does not support either" 
+			   "Bonobo/Control:1.0 or GNOME/Evolution/Summary/HTMLView:1.0");
+
+		CORBA_exception_init (&ev2);
+		CORBA_Object_release (component, &ev2);
+		CORBA_exception_free (&ev2);
+
+		g_free (window);
+		return NULL;
+	}
+
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:Bonobo/PropertyBag:1.0",
+						 &ev);
+	window->propertybag = (Bonobo_PropertyBag) unknown;
+
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:Bonobo/PersistStream:1.0",
+						 &ev);
+	window->persiststream = (Bonobo_PersistStream) unknown;
+
+	unknown = Bonobo_Unknown_queryInterface (component,
+						 "IDL:Bonobo/PropertyControl:1.0",
+						 &ev);
+	window->propertycontrol = (Bonobo_PropertyControl) unknown;
+
+	/* Cache the title and icon */
+	window->title = g_strdup (bonobo_property_bag_client_get_value_string (
+				          window->propertybag,
+					  "window_title", 
+					  NULL));
+	window->icon = g_strdup (bonobo_property_bag_client_get_value_string (
+                                          window->propertybag,
+					  "window_icon", NULL));
+	/* Listen to changes */
+	window->listener = bonobo_property_listener_new ();
+	gtk_signal_connect (GTK_OBJECT (window->listener), "prop_changed",
+			    GTK_SIGNAL_FUNC (prop_changed_cb), window);
+	corba_listener = bonobo_object_corba_objref (BONOBO_OBJECT (window->listener));
+	Bonobo_PropertyBag_addChangeListener (window->propertybag, 
+					      "window_title", 
+					      corba_listener, &ev);
+
+	Bonobo_PropertyBag_addChangeListener (window->propertybag, 
+					      "window_icon", 
+					      corba_listener, &ev);
+	CORBA_exception_free (&ev);
+
+	priv->window_list = g_list_append (priv->window_list, window);
+
+	return window;
 }
 
 void
-e_summary_set_shell_view_interface (ESummary *summary,
+e_summary_window_free (ESummaryWindow *window)
+{
+	CORBA_Environment ev;
+
+	g_return_if_fail (window != NULL);
+
+	g_free (window->iid);
+	g_free (window->icon);
+	g_free (window->title);
+
+	CORBA_exception_init (&ev);
+	Bonobo_Unknown_unref (window->component, &ev);
+	CORBA_Object_release (window->component, &ev);
+
+	if (window->control != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (window->control, &ev);
+	}
+
+	if (window->html != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (window->html, &ev);
+	}
+
+	if (window->propertybag != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (window->propertybag, &ev);
+	}
+
+	if (window->persiststream != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (window->persiststream, &ev);
+	}
+
+	if (window->propertycontrol != CORBA_OBJECT_NIL) {
+		CORBA_Object_release (window->propertycontrol, &ev);
+	}
+
+	CORBA_exception_free (&ev);
+
+	g_free (window);
+
+	/* The contents of window are set to dead_window
+	   so we know if we're trying to access a window 
+	   that no longer exists */
+	*window = dead_window;
+}
+
+void
+e_summary_remove_window (ESummary *esummary,
+			 ESummaryWindow *window)
+{
+	ESummaryPrivate *priv;
+
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+	g_return_if_fail (window != NULL);
+
+	priv = esummary->private;
+	priv->window_list = g_list_remove (priv->window_list, window);
+	e_summary_window_free (window);
+}
+	
+void
+e_summary_set_shell_view_interface (ESummary *esummary,
 				    GNOME_Evolution_ShellView svi)
 {
 	ESummaryPrivate *priv;
 
-	g_return_if_fail (summary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (summary));
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
 	g_return_if_fail (svi != CORBA_OBJECT_NIL);
 
-	priv = summary->private;
+	priv = esummary->private;
 	priv->shell_view_interface = svi;
 }
 
@@ -654,72 +840,329 @@ e_summary_set_title (ESummary *esummary,
 }
 
 static void
-e_summary_load_state (ESummary *esummary,
-		      const char *path)
+load_html_page (ESummary *esummary,
+		const char *filename)
 {
-	char *fullpath;
-	char **argv;
-	int argc, i;
+	ESummaryPrivate *priv;
+	GnomeVFSHandle *handle = NULL;
+	GnomeVFSResult result;
+	GtkWidget *toplevel;
+	GString *string;
+	char *str, *comment;
 
 	g_return_if_fail (esummary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (esummary));
 
-	fullpath = g_strdup_printf ("=%s=/services/iids", path);
-	gnome_config_get_vector (fullpath, &argc, &argv);
+	priv = esummary->private;
 
-	for (i = 0; i < argc; i++) {
-		e_summary_factory_embed_service_from_id (esummary, argv[i]);
+	/* Pass NULL to reset the page to the default */
+	if (filename == NULL || *filename == '\0') {
+		g_free (priv->header);
+		g_free (priv->footer);
+		return;
 	}
-	
-	g_free (argv);
-	g_free (fullpath);
+
+	toplevel = gtk_widget_get_toplevel (GTK_WIDGET (esummary));
+	string = g_string_new ("");
+	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
+	if (result != GNOME_VFS_OK) {
+		e_notice (GTK_WINDOW (toplevel), GNOME_MESSAGE_BOX_WARNING,
+			  _("Cannot open the HTML file:\n%s"), filename);
+		return;
+	}
+
+	while (1) {
+		char buffer[4096];
+		GnomeVFSFileSize size;
+
+		memset (buffer, 0x00, 4096);
+		result = gnome_vfs_read (handle, buffer, 4096, &size);
+		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+			e_notice (GTK_WINDOW (toplevel), GNOME_MESSAGE_BOX_WARNING, 
+				  _("Error reading data:\n%s"),
+				  gnome_vfs_result_to_string (result));
+			gnome_vfs_close (handle);
+			return;
+		}
+		if (size == 0)
+			break; /* EOF */
+
+		string = g_string_append (string, buffer);
+	}
+
+	gnome_vfs_close (handle);
+	str = string->str;
+	g_string_free (string, FALSE);
+
+	comment = strstr (str, "<!-- EVOLUTION EXECUTIVE SUMMARY SERVICES DO NOT REMOVE -->");
+	if (comment == NULL) {
+		e_notice (GTK_WINDOW (toplevel), GNOME_MESSAGE_BOX_WARNING, 
+			  _("File does not have a place for the services.\n"));
+		g_free (str);
+		return;
+	}
+
+	priv->header = g_strndup (str, comment - str);
+	priv->header_len = strlen (priv->header);
+	priv->footer = g_strdup (comment);
+	priv->footer_len = strlen (priv->footer);
+	g_free (str);
 }
 
+static char *
+load_component_id_stream_read (Bonobo_Stream stream,
+			       CORBA_Environment *ev)
+{
+	Bonobo_Stream_iobuf *buffer;
+	GString *str;
+	char *ans;
+
+	str = g_string_sized_new (256);
+#define READ_CHUNK_SIZE 65536
+	do {
+		int i;
+		Bonobo_Stream_read (stream, READ_CHUNK_SIZE, &buffer, ev);
+		if (ev->_major != CORBA_NO_EXCEPTION)
+			return NULL;
+
+		/* FIXME: make better PLEASE!!!*/
+		for (i = 0; i < buffer->_length; i++)
+			g_string_append_c (str, buffer->_buffer[i]);
+
+		if (buffer->_length <= 0)
+			break;
+		CORBA_free (buffer);
+	} while (1);
+#undef READ_CHUNK_SIZE
+	CORBA_free (buffer);
+
+	ans = str->str;
+	g_string_free (str, FALSE);
+
+	return ans;
+}
+
+static char *
+load_component_id (Bonobo_Storage corba_storage,
+		   CORBA_Environment *ev)
+{
+	Bonobo_Stream corba_stream;
+	char *iid;
+
+	corba_stream = Bonobo_Storage_openStream (corba_storage, IID_FILE,
+						  Bonobo_Storage_READ, ev);
+	if (ev->_major != CORBA_NO_EXCEPTION)
+		return NULL;
+
+	if (corba_stream) {
+		iid = load_component_id_stream_read (corba_stream, ev);
+		Bonobo_Unknown_unref (corba_stream, ev);
+		CORBA_Object_release (corba_stream, ev);
+	} else {
+		g_warning ("Cannot find `%s'", IID_FILE);
+		return NULL;
+	}
+
+	return iid;
+}
+
+static void
+load_component (ESummary *esummary,
+		BonoboStorage *storage,
+		int index)
+{
+	char *curdir;
+	char *iid;
+	Bonobo_Storage corba_subdir;
+	Bonobo_Storage corba_storage;
+	ESummaryWindow *window;
+	CORBA_Environment ev;
+
+	curdir = g_strdup_printf ("%08d", index);
+	corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (storage));
+	CORBA_exception_init (&ev);
+
+	corba_subdir = Bonobo_Storage_openStorage (corba_storage, curdir,
+						   Bonobo_Storage_READ, &ev);
+	iid = load_component_id (corba_subdir, &ev);
+
+	if (iid) {
+		Bonobo_Stream corba_stream;
+
+		window = e_summary_factory_embed_service_from_id (esummary, iid);
+		if (window) {
+			if (window->persiststream) {
+				corba_stream = Bonobo_Storage_openStream 
+					(corba_subdir,
+					 DATA_FILE,
+					 Bonobo_Storage_READ, &ev);
+				if (ev._major != CORBA_NO_EXCEPTION)
+					return;
+
+				Bonobo_PersistStream_load (window->persiststream,
+							   corba_stream, 
+							   "", &ev);
+				if (ev._major != CORBA_NO_EXCEPTION)
+					g_warning ("Could not load `%s'", iid);
+
+			}
+		}
+
+		g_free (iid);
+	}
+
+	CORBA_exception_free (&ev);
+	g_free (curdir);
+}
+									  
+static void
+e_summary_load_state (ESummary *esummary,
+		      const char *path)
+{
+	char *fullpath;
+	char *htmlpage = NULL;
+	BonoboStorage *storage;
+	Bonobo_Storage corba_storage;
+	Bonobo_Storage_DirectoryList *list;
+	CORBA_Environment ev;
+	int i;
+
+	g_return_if_fail (esummary != NULL);
+	g_return_if_fail (IS_E_SUMMARY (esummary));
+
+	fullpath = g_strdup_printf ("%s", path);
+	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,
+				       Bonobo_Storage_READ |
+				       Bonobo_Storage_WRITE, 
+				       0664);
+	if (storage != NULL) {
+		CORBA_exception_init (&ev);
+		
+		corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (storage));
+		list = Bonobo_Storage_listContents (corba_storage, "/", 0, &ev);
+		if (!list) {
+			CORBA_exception_free (&ev);
+			bonobo_object_unref (BONOBO_OBJECT (storage));
+			return;
+		}
+		
+		for (i = 0; i < list->_length; i++)
+			load_component (esummary, storage, i);
+		
+		CORBA_free (list);
+		bonobo_object_unref (BONOBO_OBJECT (storage));
+	}
+
+	g_free (fullpath);
+
+	/* Load the html page */
+	fullpath = g_strdup_printf ("=%s=/executive-summary/page", path);
+	htmlpage = gnome_config_get_string (fullpath);
+	g_print ("htmlpage: %s\n", htmlpage);
+	if (htmlpage) {
+		load_html_page (esummary, htmlpage);
+	}
+	g_free (fullpath);
+	g_free (htmlpage);
+}
+
+static void
+save_component (BonoboStorage *storage,
+		ESummaryWindow *window,
+		int index)
+{
+	char *curdir = g_strdup_printf ("%08d", index);
+	Bonobo_Storage corba_storage;
+	Bonobo_Storage corba_subdir;
+	CORBA_Environment ev;
+
+	corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (storage));
+	CORBA_exception_init (&ev);
+
+	corba_subdir = Bonobo_Storage_openStorage (corba_storage, curdir,
+						   Bonobo_Storage_CREATE, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Cannot create '%s'", curdir);
+	} else {
+		Bonobo_Stream corba_stream;
+
+		corba_stream = Bonobo_Storage_openStream
+			(corba_subdir, IID_FILE, Bonobo_Storage_CREATE, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("EEk: %s", CORBA_exception_id (&ev));
+			return;
+		}
+
+		bonobo_stream_client_write_string (corba_stream,
+						   window->iid, TRUE, &ev);
+  		Bonobo_Unknown_unref (corba_stream, &ev);
+  		CORBA_Object_release (corba_stream, &ev);
+
+		corba_stream = Bonobo_Storage_openStream (corba_subdir, DATA_FILE,
+							  Bonobo_Storage_CREATE,
+							  &ev);
+		if (window->persiststream != CORBA_OBJECT_NIL) {
+			Bonobo_PersistStream_save (window->persiststream,
+						   corba_stream, "", &ev);
+			if (ev._major != CORBA_NO_EXCEPTION) {
+				g_warning ("Unable to save %s", window->iid);
+			}
+		}
+
+		Bonobo_Unknown_unref (corba_stream, &ev);
+		CORBA_Object_release (corba_stream, &ev);
+		
+		Bonobo_Unknown_unref (corba_subdir, &ev);
+		CORBA_Object_release (corba_subdir, &ev);
+	}
+
+	g_free (curdir);
+	CORBA_exception_free (&ev);
+}
+		
 static void
 e_summary_save_state (ESummary *esummary,
 		      const char *path)
 {
 	ESummaryPrivate *priv;
+	BonoboStorage *storage;
+	Bonobo_Storage corba_storage;
+	CORBA_Environment ev;
 	GList *windows;
 	char *fullpath;
-	char **argv;
-	int argc, i;
+	int i;
 
 	g_return_if_fail (esummary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (esummary));
 
-	fullpath = g_strdup_printf("=%s=/services/iids", path);
 	priv = esummary->private;
 
-	argc = g_list_length (priv->window_list);
-	argv = g_new (char *, argc);
+#if 0
+	fullpath = g_strdup_printf("%s", path);
+	g_print ("fullpath: %s\n", fullpath);
+	unlink (fullpath);
 
-	for (windows = priv->window_list, i = 0; windows; 
-	     windows = windows->next, i++) {
-		ESummaryWindow *window;
+	storage = bonobo_storage_open (STORAGE_TYPE, fullpath,
+				       Bonobo_Storage_READ |
+				       Bonobo_Storage_WRITE |
+				       Bonobo_Storage_CREATE, 0660);
+	g_return_if_fail (storage);
 
-		window = windows->data;
-		g_print ("%s: IID: %s\n", path, window->iid);
-		argv[i] = window->iid;
+	CORBA_exception_init (&ev);
+	corba_storage = bonobo_object_corba_objref (BONOBO_OBJECT (storage));
+	
+	i = 0;
+	for (windows = priv->window_list; windows; windows = windows->next) {
+		save_component (storage, windows->data, i);
+		i++;
 	}
 
-	gnome_config_set_vector (fullpath, argc, (const char **)argv);
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	Bonobo_Storage_commit (corba_storage, &ev);
+	CORBA_exception_free (&ev);
+	bonobo_object_unref (BONOBO_OBJECT (storage));
 
 	g_free (fullpath);
-	g_free (argv);
-}
-
-ESummaryWindow *
-e_summary_window_from_view (ESummary *esummary,
-			    ExecutiveSummaryComponentView *view)
-{
-	ESummaryPrivate *priv;
-
-	priv = esummary->private;
-	return g_hash_table_lookup (priv->view_to_window, view);
+#endif
 }
 
 void

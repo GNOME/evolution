@@ -24,6 +24,7 @@
 #ifndef __EXECUTIVE_SUMMARY_COMPONENT_VIEW_H__
 #define __EXECUTIVE_SUMMARY_COMPONENT_VIEW_H__
 
+#include <bonobo/bonobo-control.h>
 #include <evolution-services/executive-summary-component.h>
 
 #define EXECUTIVE_SUMMARY_COMPONENT_VIEW_TYPE (executive_summary_component_view_get_type ())
@@ -37,13 +38,16 @@ typedef struct _ExecutiveSummaryComponentView ExecutiveSummaryComponentView;
 typedef struct _ExecutiveSummaryComponentViewClass ExecutiveSummaryComponentViewClass;
 
 struct _ExecutiveSummaryComponentView {
-  GtkObject object;
-
-  ExecutiveSummaryComponentViewPrivate *private;
+	GtkObject object;
+	
+	ExecutiveSummaryComponentViewPrivate *private;
 };
 
 struct _ExecutiveSummaryComponentViewClass {
-  GtkObjectClass parent_class;
+	GtkObjectClass parent_class;
+
+	/* Signals */
+	void (* configure) (ExecutiveSummaryComponentView *view);
 };
 
 GtkType executive_summary_component_view_get_type (void);
@@ -77,6 +81,12 @@ const char *executive_summary_component_view_get_html (ExecutiveSummaryComponent
 BonoboObject *executive_summary_component_view_get_control (ExecutiveSummaryComponentView *view);
 
 int executive_summary_component_view_get_id (ExecutiveSummaryComponentView *view);
+void executive_summary_component_view_set_id (ExecutiveSummaryComponentView *view,
+					      int id);
+void executive_summary_component_view_configure (ExecutiveSummaryComponentView *view);
+void executive_summary_component_view_set_objref (ExecutiveSummaryComponentView *view,
+						  Bonobo_Control objref);
+GtkWidget *executive_summary_component_view_get_widget (ExecutiveSummaryComponentView *view);
 
 #endif
 

@@ -1,3 +1,18 @@
+2000-11-03  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (update): Pass NULL
+	instead of icon_name to the e_icon_list_append_pixbuf
+	function.
+	(init) Take the font size into account when setting the
+	height of the bar.
+
+2000-11-02  Iain Holmes  <iain@helixcode.com>
+
+	* e-msg-composer-attachment-bar.c (update): Use the 
+	pixbuf_for_mime_type function to get the icon.
+	(pixbuf_for_mime_type): Functino that searches nautilus/
+	and mc/ for icon files.
+
 2000-11-15  Radek Doulik  <rodo@helixcode.com>
 
 	* e-msg-composer.c (prepare_engine): update namespace

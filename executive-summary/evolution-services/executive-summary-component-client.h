@@ -59,7 +59,8 @@ void executive_summary_component_client_supports (ExecutiveSummaryComponentClien
 						  gboolean *bonobo,
 						  gboolean *html);
 
-void executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client);
+void executive_summary_component_client_configure (ExecutiveSummaryComponentClient *client,
+						   ExecutiveSummaryComponentView *view);
 void executive_summary_component_client_destroy_view (ExecutiveSummaryComponentClient *client,
 						      ExecutiveSummaryComponentView *view);
 

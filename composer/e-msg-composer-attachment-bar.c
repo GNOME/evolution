@@ -179,6 +179,44 @@ remove_attachment (EMsgComposerAttachmentBar *bar,
 
 /* Icon list contents handling.  */
 
+static GdkPixbuf *
+pixbuf_for_mime_type (const char *mime_type)
+{
+	const char *icon_name;
+	char *filename = NULL;
+	GdkPixbuf *pixbuf;
+
+	icon_name = gnome_vfs_mime_get_value (mime_type, "icon-filename");
+	if (icon_name) {
+		if (*icon_name == '/') {
+			pixbuf = gdk_pixbuf_new_from_file (icon_name);
+			if (pixbuf)
+				return pixbuf;
+		}
+		
+		filename = gnome_pixmap_file (icon_name);
+		if (!filename) {
+			char *fm_icon;
+			
+			fm_icon = g_strdup_printf ("nautilus/%s", icon_name);
+			filename = gnome_pixmap_file (fm_icon);
+			if (!filename) {
+				fm_icon = g_strdup_printf ("mc/%s", icon_name);
+				filename = gnome_pixmap_file (fm_icon);
+			}
+			g_free (fm_icon);
+		}
+	}
+	
+	if (!filename)
+		filename = gnome_pixmap_file ("gnome-unknown.png");
+	
+	pixbuf = gdk_pixbuf_new_from_file (filename);
+	g_free (filename);
+	
+	return pixbuf;
+}
+
 static void
 update (EMsgComposerAttachmentBar *bar)
 {
@@ -196,7 +234,7 @@ update (EMsgComposerAttachmentBar *bar)
 	/* FIXME could be faster, but we don't care.  */
 	for (p = priv->attachments; p != NULL; p = p->next) {
 		EMsgComposerAttachment *attachment;
-		const gchar *icon_name, *desc;
+		const gchar *desc;
 		gchar *size_string, *label, *mime_type;
 		GMimeContentField *content_type;
 		GdkPixbuf *pixbuf;
@@ -207,14 +245,6 @@ update (EMsgComposerAttachmentBar *bar)
 
 		mime_type = g_strdup_printf ("%s/%s", content_type->type,
 					     content_type->subtype);
-		icon_name = gnome_vfs_mime_get_value (mime_type,
-						      "icon-filename");
-		g_free (mime_type);
-
-		/* FIXME we need some better default icon.  */
-		if (icon_name == NULL)
-			icon_name = gnome_vfs_mime_get_value ("text/plain",
-							      "icon-filename");
 
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
@@ -308,26 +338,16 @@ update (EMsgComposerAttachmentBar *bar)
 			label = g_strdup (desc);
 
 		if (image) {
-			e_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, icon_name, label);
+			e_icon_list_append_pixbuf (icon_list, attachment->pixbuf_cache, NULL, label);
 		} else {
-			if (icon_name)
-				pixbuf = gdk_pixbuf_new_from_file (icon_name);
-			else
-				pixbuf = NULL;
-
-			/* Get the default */
-			if (pixbuf == NULL) {
-				icon_name = gnome_vfs_mime_get_value ("text/plain",
-								      "icon-filename");
-				if (icon_name != NULL)
-					pixbuf = gdk_pixbuf_new_from_file (icon_name);
-			}
+			pixbuf = pixbuf_for_mime_type (mime_type);
 			e_icon_list_append_pixbuf (icon_list, pixbuf, 
-						   icon_name, label);
+						   NULL, label);
 			if (pixbuf)
 				gdk_pixbuf_unref (pixbuf);
 		}
 
+		g_free (mime_type);
 		g_free (label);
 	}
 
@@ -586,7 +606,8 @@ static void
 init (EMsgComposerAttachmentBar *bar)
 {
 	EMsgComposerAttachmentBarPrivate *priv;
-	guint icon_size;
+	guint icon_size, icon_height;
+	GdkFont *font;
 
 	priv = g_new (EMsgComposerAttachmentBarPrivate, 1);
 
@@ -601,9 +622,12 @@ init (EMsgComposerAttachmentBar *bar)
 	/* FIXME partly hardcoded.  We should compute height from the font, and
            allow at least 2 lines for every item.  */
 	icon_size = ICON_WIDTH + ICON_SPACING + ICON_BORDER + ICON_TEXT_SPACING;
-	icon_size += 24;
 
-	gtk_widget_set_usize (GTK_WIDGET (bar), icon_size * 4, icon_size);
+	font = GTK_WIDGET (bar)->style->font;
+	icon_height = icon_size + ((font->ascent + font->descent) * 2);
+	icon_size += 24;
+	
+	gtk_widget_set_usize (GTK_WIDGET (bar), icon_size * 4, icon_height);
 }
 
 

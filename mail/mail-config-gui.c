@@ -2201,9 +2201,6 @@ mail_config (GNOME_Evolution_Shell shell)
 	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (mail_config_close),
 			    dialog);
-	gtk_signal_connect (GTK_OBJECT (dialog->dialog), "delete_event",
-			    GTK_SIGNAL_FUNC (mail_config_close),
-			    dialog);
 
 	gtk_widget_show (dialog->dialog);
 }

@@ -365,6 +365,7 @@ pixbuf_for_mime_type (const char *mime_type)
 				fm_icon = g_strdup_printf ("mc/%s", icon_name);
 				filename = gnome_pixmap_file (fm_icon);
 			}
+			g_free (fm_icon);
 		}
 	}
 	

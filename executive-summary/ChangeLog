@@ -1,3 +1,130 @@
+2000-17-10  Iain Holmes  <iain@helixcode.com>
+
+	 * component/e-summary.c (make_control_html): Set the configure button
+	active if there is a Bonobo_PropertyControl object associated with the
+	window.
+
+	* Makefile.am: Remove the widgets subdirectory.
+
+2000-16-10  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_display_window): Use the property
+	bag to get the window title and icon.
+
+	* test-service/main.c: (create_view): Add a PropertyBag to the object.
+	(set_property): Set the properties.
+	(get_property): Get the properties.
+ 
+2000-15-10  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-component-factory-client.[ch]:
+	A client for the factory stuff.
+
+2000-14-10  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-html-view.[ch]: Implementation
+	of the HtmlView interface.
+
+	* component/e-summary-factory.c 
+	(e_summary_factory_embed_service_from_id): Rewrote to use the new
+	component_factory.
+
+	* component/e-summary.c (e_summary_add_service): Rewrote to use
+	the new component stuff. Lots of queryInterfaces :)
+	(e_summary_window_free): Rewrote.
+	
+	* test-service/main.c: Rewrote completely as an example of the
+	new services.
+
+2000-13-10  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-component.c:
+	Created the ExecutiveSummaryComponentFactory type, that implements
+	GNOME/Evolution/Summary/ComponentFactory. Changed the way 
+	GNOME/Evolution/Summary/Component is implemented.
+
+	* idl/SummaryComponent.idl: Removed all methods from Component
+	execpt setOwner and unsetOwner. Added ComponentFactory interface
+	with a createView method.
+
+	* idl/HtmlView.idl: New interface for HTML services. One method
+	getHtml.
+
+2000-11-10  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-component-view.c
+	(executive_summary_component_view_set_title): Removed the
+	"wrong side" warning.
+
+	* component/e-summary-factory.c (set_icon): Change the view's 
+	icon.
+	(e_summary_factory_embed_service_from_id): Connect to the set_icon
+	signal.
+
+2000-11-09  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/rdf-summary.c: Made Alan Cox's rdf-engine.c from
+	Portaloo into a summary component.
+
+2000-11-08  Iain Holmes  <iain@helixcode.com>
+	
+	* component/e-summary.c (e_summary_window_free): Remove the view
+	from the id_to_view hash table.
+	(make_control_html): Fix the bottom row comparison.
+	
+2000-11-07  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (e_summary_load_state): Load the HTML
+	page for the background.
+	(load_html_page): Use GnomeVFS to load this page, and split it
+	into a header and footer.
+	(e_summary_rebuild_page): If a header and footer exist, use them
+	otherwise just load the default.
+
+2000-11-06  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (on_object_requested): Load a bonobo 
+	service and try to get it to display (Not working yet).
+
+2000-11-04  Iain Holmes  <iain@helixcode.com>
+
+	* test-service/test-bonobo.c: New file to test Bonobo control
+	based services.
+
+	* test-service/test-service.oafinfo: Added the details for the
+	test-bonobo service.
+
+2000-11-03  Iain Holmes  <iain@helixcode.com>
+
+	* component/e-summary.c (make_control_html): Make a neater
+	function to create the window controls. Check if a window can
+	be moved in a certain direction before making a link.
+
+	* evolution-services/executive-summary-component-view.c: Added a
+	GtkWidget to the private structure to store the control's widget.
+
+2000-11-03  Iain Holmes  <iain@helixcode.com>
+
+	* evolution-services/executive-summary-component-view.c:
+	(executive_summary_component_view_class_init): Add a "configure"
+	signal.
+
+	* evolution-services/executive-summary-component-view.h: Add the
+	default handler in the class type.
+
+	* idl/SummaryComponent.idl: Add an id to the configure method.
+
+	* evolution-services/executive-summary-component-client.[ch]:
+	executive_summary_component_client_configure: Takes a View param. 
+
+	* component/e-summary-factory.c: Connect to the configure signal
+	of the created view and call the configure method.
+
+	* component/e-summary-url.c: When the [?] is clicked, emit the
+	configure signal.
+
+	* test-service/main.c: Connect the configure signal to something.
+
 2000-11-21  Radek Doulik  <rodo@helixcode.com>
 
 	* component/e-summary.c (e_summary_rebuild_page): use html_engine_is_selection_active
@@ -17,6 +144,7 @@
 	* component/Makefile.am: Regenerate the idl-generated files
 	if composer idl changes.
 
+>>>>>>> 1.18
 2000-11-03  Federico Mena Quintero  <federico@helixcode.com>
 
 	* evolution-services/Makefile.am: Clean the idl-generated files

@@ -39,7 +39,6 @@
 #include "e-summary-url.h"
 #include "e-summary-util.h"
 
-#include <evolution-services/executive-summary-component-view.h>
 #include "Composer.h"
 
 typedef enum _ESummaryProtocol {
@@ -101,7 +100,8 @@ e_summary_url_request (GtkHTML *html,
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
 		return;
 	}
-	
+
+	g_print ("Filename: %s\n", filename);
 	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
 	
 	if (result != GNOME_VFS_OK) {
@@ -143,10 +143,10 @@ parse_uri (const char *uri,
 	   ESummaryProtocol protocol,
 	   ESummary *esummary)
 {
-	ExecutiveSummaryComponentView *view;
 	char *parsed;
 	char *p;
-	int id;
+	int address;
+	ESummaryWindow *window;
 
 	switch (protocol) {
 		
@@ -184,39 +184,39 @@ parse_uri (const char *uri,
 		break;
 
 	case PROTOCOL_CLOSE:
-		id = atoi (uri + 8);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 8);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_LEFT:
-		id = atoi (uri + 7);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 7);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_RIGHT:
-		id = atoi (uri + 8);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 8);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_UP:
-		id = atoi (uri + 5);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 5);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_DOWN:
-		id = atoi (uri + 7);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 7);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_CONFIGURE:
-		id = atoi (uri + 12);
-		view = e_summary_view_from_id (esummary, id);
-		parsed = g_strdup (executive_summary_component_view_get_title (view));
+		address = atoi (uri + 12);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		parsed = g_strdup (window->title);
 		break;
 
 	case PROTOCOL_NONE:
@@ -325,10 +325,9 @@ e_summary_url_click (GtkWidget *widget,
 		     ESummary *esummary)
 {
 	ESummaryProtocol protocol;
-	ExecutiveSummaryComponentView *view;
-	gpointer window; /* FIXME */
 	char *parsed;
-	int id;
+	int address;
+	ESummaryWindow *window;
 
 	protocol = get_protocol (url);
 
@@ -352,22 +351,20 @@ e_summary_url_click (GtkWidget *widget,
 
 	case PROTOCOL_CLOSE:
 		/* Close the window. */
-		id = atoi (url + 8);
-		view = e_summary_view_from_id (esummary, id);
-		if (view == NULL)
+		address = atoi (url + 8);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
 
-		window = e_summary_window_from_view (esummary, view);
-		e_summary_window_remove_from_ht (window, esummary);
-		e_summary_window_free (window, esummary);
+		e_summary_remove_window (esummary, window);
 		e_summary_rebuild_page (esummary);
 		break;
 
 	case PROTOCOL_CONFIGURE:
 		/* Configure the window. . . */
-		id = atoi (url + 12);
-		view = e_summary_view_from_id (esummary, id);
-		if (view == NULL)
+		address = atoi (url + 12);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
 	
 		/* Issue the configure command some how :) */
@@ -375,49 +372,40 @@ e_summary_url_click (GtkWidget *widget,
 
 	case PROTOCOL_LEFT:
 		/* Window left */
-		id = atoi (url + 7);
-		view = e_summary_view_from_id (esummary, id);
-
-		if (view == NULL)
+		address = atoi (url + 7);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
-
-		window = e_summary_window_from_view (esummary, view);
 
 		e_summary_window_move_left (esummary, window);
 		e_summary_rebuild_page (esummary);
 		break;
 
 	case PROTOCOL_RIGHT:
-		id = atoi (url + 8);
-		view = e_summary_view_from_id (esummary, id);
-		if (view == NULL)
+		address = atoi (url + 8);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
-
-		window = e_summary_window_from_view (esummary, view);
 
 		e_summary_window_move_right (esummary, window);
 		e_summary_rebuild_page (esummary);
 		break;
 
 	case PROTOCOL_UP:
-		id = atoi (url + 5);
-		view = e_summary_view_from_id (esummary, id);
-		if (view == NULL)
+		address = atoi (url + 5);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
-
-		window = e_summary_window_from_view (esummary, view);
 
 		e_summary_window_move_up (esummary, window);
 		e_summary_rebuild_page (esummary);
 		break;
 
 	case PROTOCOL_DOWN:
-		id = atoi (url + 7);
-		view = e_summary_view_from_id (esummary, id);
-		if (view == NULL)
+		address = atoi (url + 7);
+		window = (ESummaryWindow *) GINT_TO_POINTER (address);
+		if (window->iid == NULL)
 			return;
-
-		window = e_summary_window_from_view (esummary, view);
 
 		e_summary_window_move_down (esummary, window);
 		e_summary_rebuild_page (esummary);
@@ -437,16 +425,75 @@ e_summary_url_click (GtkWidget *widget,
 	g_free (parsed);
 }
 
+static void
+parse_mail_url (char *url,
+		GList **cc,
+		GList **bcc,
+		char **subject)
+{
+	char **options;
+	int i = 0;
+
+	options = g_strsplit (url, "&", 0);
+	while (options[i] != NULL) {
+		char **params;
+
+		params = g_strsplit (options[i], "=", 2);
+		if (strcmp (params[0], "subject") == 0) {
+			*subject = g_strdup (params[1]);
+		} else if (strcmp (params[0], "cc") == 0) {
+			*cc = g_list_prepend (*cc, g_strdup (params[1]));
+		} else if (strcmp (params[1], "bcc") == 0) {
+			*bcc = g_list_prepend (*bcc, g_strdup (params[1]));
+		}
+
+		g_strfreev (params);
+		i++;
+	}
+	
+	g_strfreev (options);
+	/* Reverse the list so it's in the correct order */
+	*cc = g_list_reverse (*cc);
+	*bcc = g_list_reverse (*bcc);
+}
+
+static void
+recipients_from_list (GNOME_Evolution_Composer_RecipientList *recipients,
+		      GList *list)
+{
+	GList *t;
+	int i;
+
+	for (i = 0, t = list; t; i++, t = t->next) {
+		GNOME_Evolution_Composer_Recipient *recipient;
+		char *address = (char *)t->data;
+
+		recipient = recipients->_buffer + i;
+		recipient->name = CORBA_string_dup ("");
+		recipient->address = CORBA_string_dup (address ? address : "");
+	}
+}
+
+static void
+free_list (GList *list)
+{
+	for (; list; list = list->next) {
+		g_free (list->data);
+	}
+}
+
 gboolean
 e_summary_url_mail_compose (ESummary *esummary,
 			    const char *url)
 {
 	CORBA_Object composer;
 	CORBA_Environment ev;
+	char *full_address, *address, *proto, *q;
 	GNOME_Evolution_Composer_RecipientList *to, *cc, *bcc;
 	GNOME_Evolution_Composer_Recipient *recipient;
-	char *address, *proto;
 	CORBA_char *subject;
+	GList *gcc = NULL, *gbcc = NULL;
+	char *gsubject = NULL;
 	
 	CORBA_exception_init (&ev);
 	
@@ -459,12 +506,20 @@ e_summary_url_mail_compose (ESummary *esummary,
 	}
 
 	if ( (proto = strstr (url, "://")) != NULL){
-		address = proto + 3;
+		full_address = proto + 3;
 	} else {
 		if (strncmp (url, "mailto:", 7) == 0)
-			address = (char *) (url + 7);
+			full_address = (char *) (url + 7);
 		else
-			address = (char *) url;
+			full_address = (char *) url;
+	}
+
+	q = strchr (full_address, '?');
+	if (q != NULL) {
+		address = g_strndup (full_address, q - full_address);
+		parse_mail_url (q + 1, &gcc, &gbcc, &gsubject);
+	} else {
+		address = g_strdup (full_address);
 	}
 
 	to = GNOME_Evolution_Composer_RecipientList__alloc ();
@@ -475,31 +530,48 @@ e_summary_url_mail_compose (ESummary *esummary,
 	recipient = to->_buffer;
 	recipient->name = CORBA_string_dup ("");
 	recipient->address = CORBA_string_dup (address?address:"");
-	
+	g_free (address);
+
 	/* FIXME: Get these out of the URL */
 	cc = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc->_length = 0;
-	cc->_maximum = 0;
+	cc->_length = g_list_length (gcc);
+	cc->_maximum = cc->_length;
 	cc->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (cc->_maximum);
 	
+	recipients_from_list (cc, gcc);
+	free_list (gcc);
+	g_list_free (gcc);
+
 	bcc = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc->_length = 0;
-	bcc->_maximum = 0;
+	bcc->_length = g_list_length (gbcc);
+	bcc->_maximum = bcc->_length;
 	bcc->_buffer = CORBA_sequence_GNOME_Evolution_Composer_Recipient_allocbuf (bcc->_maximum);
 	
-	subject = CORBA_string_dup ("");
-	
+	recipients_from_list (bcc, gbcc);
+	free_list (gbcc);
+	g_list_free (gbcc);
+
+	subject = CORBA_string_dup (gsubject ? gsubject : "");
+	g_free (gsubject);
+
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Composer_setHeaders (composer, to, cc, bcc, subject, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		CORBA_free (to);
+		CORBA_free (cc);
+		CORBA_free (bcc);
+		CORBA_free (subject);
+
 		g_warning ("%s(%d): Error setting headers", __FUNCTION__, __LINE__);
 		return FALSE;
 	}
 	
 	CORBA_free (to);
-	
+	CORBA_free (cc);
+	CORBA_free (bcc);
+	CORBA_free (subject);
+
 	CORBA_exception_init (&ev);  
 	GNOME_Evolution_Composer_show (composer, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {

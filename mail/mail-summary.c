@@ -26,6 +26,7 @@
 #endif
 
 #include <bonobo.h>
+#include <bonobo/bonobo-property-bag.h>
 
 #include "camel.h"
 #include <gnome.h>
@@ -40,7 +41,7 @@
 #include "filter/vfolder-context.h"
 
 #include <evolution-services/executive-summary-component.h>
-#include <evolution-services/executive-summary-component-view.h>
+#include <evolution-services/executive-summary-html-view.h>
 
 typedef struct {
 	CamelFolder *folder;
@@ -51,12 +52,15 @@ typedef struct {
 } FolderSummary;
 
 typedef struct {
-	ExecutiveSummaryComponent *component;
-	ExecutiveSummaryComponentView *view;
+	BonoboObject *component;
+	BonoboObject *view;
 
 	GHashTable *folder_to_summary;
 	FolderSummary **folders;
 	int numfolders;
+
+	char *title;
+	char *icon;
 } MailSummary;
 
 #define SUMMARY_IN() g_print ("IN: %s: %d\n", __FUNCTION__, __LINE__);
@@ -77,6 +81,11 @@ static int dispatch_compipe[2] = {-1, -1};
 GIOChannel *summary_chan_reader = NULL;
 
 static void do_changed (MailSummary *summary);
+
+enum {
+	PROPERTY_TITLE,
+	PROPERTY_ICON
+};
 
 /* Read a message from the pipe */
 static gboolean
@@ -141,7 +150,12 @@ summary_free (MailSummary *summary)
 	}
 
 	g_free (summary->folders);
+	g_free (summary->title);
+	g_free (summary->icon);
+
 	g_hash_table_destroy (summary->folder_to_summary);
+	bonobo_object_unref (summary->view);
+	bonobo_object_unref (summary->component);
 }
 
 static void
@@ -194,7 +208,7 @@ do_changed (MailSummary *summary)
 	char *ret_html;
 
 	ret_html = generate_html_summary (summary);
-	executive_summary_component_view_set_html(summary->view, ret_html);
+	executive_summary_html_view_set_html(summary->view, (const char *) ret_html);
 	g_free (ret_html);
 }
 
@@ -345,18 +359,40 @@ generate_folder_summaries (MailSummary *summary)
 	gtk_object_destroy (GTK_OBJECT (context));
 }
 
-void
-create_summary_view (ExecutiveSummaryComponent *component,
-		     ExecutiveSummaryComponentView *view,
+static void
+get_property (BonoboPropertyBag *bag,
+	      BonoboArg *arg,
+	      guint arg_id,
+	      gpointer user_data)
+{
+	MailSummary *summary = (MailSummary *) user_data;
+
+	switch (arg_id) {
+	case PROPERTY_TITLE:
+		BONOBO_ARG_SET_STRING (arg, summary->title);
+		break;
+
+	case PROPERTY_ICON:
+		BONOBO_ARG_SET_STRING (arg, summary->icon);
+		break;
+
+	default:
+		break;
+	}
+}
+
+BonoboObject *
+create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
 {
+	BonoboObject *component, *view, *bag;
 	char *html;
 	MailSummary *summary;
 
 	summary = g_new (MailSummary, 1);
-	summary->component = component;
 	summary->folder_to_summary = g_hash_table_new (NULL, NULL);
-	summary->view = view;
+	summary->title = g_strdup ("Mail Summary");
+	summary->icon = g_strdup ("envelope.png");
 
 	generate_folder_summaries (summary);
 
@@ -364,10 +400,28 @@ create_summary_view (ExecutiveSummaryComponent *component,
 
 	check_compipes ();
 
-	executive_summary_component_view_construct (view, component, NULL, html,
-						    _("Mailbox summary"),
-						    "envelope.png");
-	gtk_signal_connect (GTK_OBJECT (view), "destroy",
-			    GTK_SIGNAL_FUNC (view_destroy_cb), summary);
+	component = executive_summary_component_new ();
+	summary->component = component;
+
+	view = executive_summary_html_view_new ();
+	executive_summary_html_view_set_html (EXECUTIVE_SUMMARY_HTML_VIEW (view),
+					      html);
+	bonobo_object_add_interface (component, view);
+	summary->view = view;
+
+	bag = bonobo_property_bag_new (get_property, NULL, summary);
+	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+				 "window_title", PROPERTY_TITLE,
+				 BONOBO_ARG_STRING, NULL,
+				 "The title of this component's window", 
+				 BONOBO_PROPERTY_READABLE);
+	bonobo_property_bag_add (BONOBO_PROPERTY_BAG (bag),
+				 "window_icon", PROPERTY_ICON,
+				 BONOBO_ARG_STRING, NULL,
+				 "The icon for this component's window", 
+				 BONOBO_PROPERTY_READABLE);
+	bonobo_object_add_interface (component, bag);
 	g_free (html);
+
+	return component;
 }

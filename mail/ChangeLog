@@ -1,3 +1,17 @@
+2000-11-21  Iain Holmes  <iain@helixcode.com>
+
+	* mail-config-gui.c (mail_config): Don't use the "delete-event"
+	signal.
+
+2000-11-21  Iain Holmes  <iain@helixcode.com>
+
+	* mail-display.c (pixbuf_for_mime_type): free fm_icon.
+
+	* component-factory (summary_fn): Remove the configure param.
+	(factory_destroy): Made into a generic function so that the
+	summary_factory can be ref-counted as well as the normal
+	factory.
+
 2000-11-21  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am: add GPGME_CFLAGS and GPGME_LIBS

@@ -28,7 +28,8 @@ Executive-Summary-impl.o: Executive-Summary.h
 IDLS = \
 	$(srcdir)/../idl/Executive-Summary.idl		\
 	$(srcdir)/../idl/Summary.idl			\
-	$(srcdir)/../idl/SummaryComponent.idl
+	$(srcdir)/../idl/SummaryComponent.idl		\
+	$(srcdir)/../idl/HtmlView.idl
 
 $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
@@ -36,16 +37,12 @@ $(IDL_GENERATED): $(IDLS)
 
 libevolution_services_la_SOURCES =		\
 	$(IDL_GENERATED)		\
-	executive-summary.c		\
-	executive-summary.h		\
-	executive-summary-client.c	\
-	executive-summary-client.h	\
 	executive-summary-component.c	\
 	executive-summary-component.h	\
-	executive-summary-component-client.c	\
-	executive-summary-component-client.h	\
-	executive-summary-component-view.c	\
-	executive-summary-component-view.h
+	executive-summary-component-factory-client.c	\
+	executive-summary-component-factory-client.h	\
+	executive-summary-html-view.c	\
+	executive-summary-html-view.h
 
 libevolution_services_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la		\

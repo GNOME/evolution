@@ -37,13 +37,6 @@ typedef struct _ExecutiveSummaryComponentPrivate ExecutiveSummaryComponentPrivat
 typedef struct _ExecutiveSummaryComponent ExecutiveSummaryComponent;
 typedef struct _ExecutiveSummaryComponentClass ExecutiveSummaryComponentClass;
 
-/* view is a ExecutiveSummaryComponentView * */
-typedef void (* EvolutionServicesCreateViewFn) (ExecutiveSummaryComponent *component,
-						gpointer view,
-						void *closure);
-typedef void (* EvolutionServicesConfigureFn) (ExecutiveSummaryComponent *component,
-					       void *closure);
-
 struct _ExecutiveSummaryComponent {
   BonoboObject parent;
 
@@ -56,18 +49,36 @@ struct _ExecutiveSummaryComponentClass {
 
 GtkType executive_summary_component_get_type (void);
 
-BonoboObject *executive_summary_component_new (EvolutionServicesCreateViewFn create_view,
-					       EvolutionServicesConfigureFn configure,
-					       void *closure);
-void executive_summary_component_set_title (ExecutiveSummaryComponent *component,
-					    gpointer view);
-void executive_summary_component_set_icon (ExecutiveSummaryComponent *component,
-					   gpointer view);
+BonoboObject *executive_summary_component_new (void);
 
-void executive_summary_component_flash (ExecutiveSummaryComponent *component,
-					gpointer view);
-void executive_summary_component_update (ExecutiveSummaryComponent *component,
-					 gpointer view);
-int executive_summary_component_create_unique_id (void);
+
+/* Factory */
 
+#define EXECUTIVE_SUMMARY_COMPONENT_FACTORY_TYPE (executive_summary_component_factory_get_type ())
+#define EXECUTIVE_SUMMARY_COMPONENT_FACTORY(obj) (GTK_CHECK_CAST ((obj), EXECUTIVE_SUMMARY_COMPONENT_FACTORY_TYPE, ExecutiveSummaryComponentFactory))
+#define EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLASS(klass) (GTK_CHECK_CLASS_CAST ((klass), EXECUTIVE_SUMMARY_COMPONENT_FACTORY_TYPE, ExecutiveSummaryComponentFactoryClass))
+#define IS_EXECUTIVE_SUMMARY_COMPONENT_FACTORY(obj) (GTK_CHECK_TYPE ((obj), EXECUTIVE_SUMMARY_COMPONENT_FACTORY_TYPE))
+#define IS_EXECUTIVE_SUMMARY_COMPONENT_FACTORY_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EXECUTIVE_SUMMARY_COMPONENT_FACTORY_TYPE))
+
+typedef struct _ExecutiveSummaryComponentFactoryPrivate ExecutiveSummaryComponentFactoryPrivate;
+typedef struct _ExecutiveSummaryComponentFactory ExecutiveSummaryComponentFactory;
+typedef struct _ExecutiveSummaryComponentFactoryClass ExecutiveSummaryComponentFactoryClass;
+
+typedef BonoboObject *(* EvolutionServicesCreateViewFn) (ExecutiveSummaryComponentFactory *factory,
+							 void *closure);
+
+struct _ExecutiveSummaryComponentFactory {
+	BonoboObject parent;
+
+	ExecutiveSummaryComponentFactoryPrivate *private;
+};
+
+struct _ExecutiveSummaryComponentFactoryClass {
+	BonoboObjectClass parent_class;
+};
+
+GtkType executive_summary_component_factory_get_type (void);
+
+BonoboObject *executive_summary_component_factory_new (EvolutionServicesCreateViewFn create_view,
+						       void *closure);
 #endif

@@ -58,7 +58,7 @@
 	    location="evolution-mail">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME:GenericFactory:1.0"/>
+		<item value="IDL:Bonobo/Unknown:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -70,7 +70,7 @@
 	    location="OAFIID:evolution-executive-summary-component-factory:evolution-mail:be210cba-0eee-4def-84fa-643d50321217">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Evolution:SummaryComponent:1.0"/>
+		<item value="IDL:GNOME/Evolution:Summary:ComponentFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"

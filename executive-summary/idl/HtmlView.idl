@@ -1,6 +1,6 @@
 /*-*- Mode: IDL; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * CORBA interface for the Evolution shell.
+ * CORBA interface for an HTML view.
  *
  * Authors:
  *   Iain Holmes  <iain@helixcode.com> 
@@ -13,8 +13,11 @@
 module GNOME {
 module Evolution {
 module Summary {
-	interface ViewFrame: Bonobo::Unknown {
+
+	interface HTMLView : Bonobo::Unknown{
+		string getHtml ();
 	};
 };
 };
 };
+
