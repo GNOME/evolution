@@ -2736,16 +2736,11 @@ composer_key_pressed (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
 {
 	if (event->keyval == GDK_Escape) {
 		do_exit (E_MSG_COMPOSER (widget));
-		
-		return TRUE; /* Stop the event? is this TRUE or FALSE? */
+
+		gtk_signal_emit_stop_by_name (GTK_OBJECT (widget), "key-press-event");
+		return TRUE; /* Handled.  */
 	}
-	
-	/* Have to call parent's handler, or the widget wouldn't get any 
-	   key press events. Note that this is NOT done if the dialog
-	   may have been destroyed. */
-	if (GTK_WIDGET_CLASS (parent_class)->key_press_event)
-		return (* (GTK_WIDGET_CLASS (parent_class)->key_press_event)) (widget, event);
-	
+
 	return FALSE; /* Not handled. */
 }
 
