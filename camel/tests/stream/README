@@ -1,4 +1,0 @@
-
-test1	camelstreamfs, creating, read/write, eos, refcounting
-test2	camelstreammem, creating, read/write, eos, refcounting
-test3	camelseekablesubstream
