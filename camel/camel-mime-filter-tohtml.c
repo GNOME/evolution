@@ -28,9 +28,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "camel-utf8.h"
 #include "camel-url-scanner.h"
 #include "camel-mime-filter-tohtml.h"
+#include "camel-utf8.h"
 
 #define d(x)
 

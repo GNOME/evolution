@@ -1212,6 +1212,7 @@ void *camel_object_bag_reserve(CamelObjectBag *bag, const char *key)
 			/* NOTE: We dont actually reserve the key, we just reserve
 			   the whole bag.  We could do either but this is easier */
 			if (bag->flags & CAMEL_OBJECT_BAG_RESERVED) {
+				g_assert(bag->owner != pthread_self());
 				e_mutex_cond_wait(&bag->cond, type_lock);
 				retry = TRUE;
 			} else {
@@ -1265,8 +1266,11 @@ GPtrArray *camel_object_bag_list(CamelObjectBag *bag)
 	list = g_ptr_array_new();
 	E_LOCK(type_lock);
 
-	while (bag->flags & CAMEL_OBJECT_BAG_RESERVED)
-		e_mutex_cond_wait(&bag->cond, type_lock);
+	if (bag->flags & CAMEL_OBJECT_BAG_RESERVED
+	    && (bag->owner != pthread_self())) {
+		while (bag->flags & CAMEL_OBJECT_BAG_RESERVED)
+			e_mutex_cond_wait(&bag->cond, type_lock);
+	}
 
 	g_hash_table_foreach(bag->object_table, (GHFunc)save_bag, list);
 	E_UNLOCK(type_lock);
