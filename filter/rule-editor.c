@@ -713,6 +713,7 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	g_object_ref (context);
 	
 	gtk_window_set_resizable ((GtkWindow *) re, TRUE);
+	gtk_window_set_default_size ((GtkWindow *) re, 350, 400);
 	
         w = glade_xml_get_widget (gui, "rule_editor");
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re)->vbox), w, TRUE, TRUE, 0);

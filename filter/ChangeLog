@@ -1,5 +1,8 @@
 2003-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* rule-editor.c (rule_editor_construct): Set the default window
+	size to something reasonable (350x400?). Fixes bug #39808.
+
 	* vfolder-rule.c (source_remove): Fixed to work properly. Fixes
 	bug #39654.
 
