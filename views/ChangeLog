@@ -1,3 +1,7 @@
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* addressbook/galview.xml: Add accelerators.  [#10068]
+
 2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail/galview.xml: Offer the new By Follow Up Flag view.
