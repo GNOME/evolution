@@ -1,3 +1,17 @@
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-user-creatable-items-handler.c (ensure_menu_items): Set
+	the icons for all the "New..." menu items from the specified one
+	in the type definitions.
+
+	* e-activity-handler.c (create_gdk_pixbuf_from_corba_icon):
+	Removed.
+	(impl_operationStarted): Just use
+	`e_new_gdk_pixbuf_from_corba_icon()'.
+
+	* e-shell-corba-icon-utils.c (e_new_gdk_pixbuf_from_corba_icon):
+	New.
+
 2002-02-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #20311, new window from Shortcuts should not show the folder

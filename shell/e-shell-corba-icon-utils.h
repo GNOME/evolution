@@ -33,4 +33,8 @@ void                          e_store_corba_icon_from_pixbuf               (GdkP
 GNOME_Evolution_Icon         *e_new_corba_icon_from_pixbuf                 (GdkPixbuf             *pixbuf);
 GNOME_Evolution_AnimatedIcon *e_new_corba_animated_icon_from_pixbuf_array  (GdkPixbuf            **pixbuf_array);
 
+GdkPixbuf *e_new_gdk_pixbuf_from_corba_icon  (const GNOME_Evolution_Icon *icon,
+					      int                         scaled_width,
+					      int                         scaled_height);
+
 #endif

@@ -26,6 +26,8 @@
 
 #include "e-shell-user-creatable-items-handler.h"
 
+#include "e-shell-corba-icon-utils.h"
+
 #include "widgets/misc/e-combo-button.h"
 
 #include "e-util/e-corba-utils.h"
@@ -200,7 +202,11 @@ ensure_menu_items (EShellUserCreatableItemsHandler *handler)
 				item->label    = type->menuDescription;
 				item->shortcut = type->menuShortcut;
 				item->verb     = create_verb_from_component_number_and_type_id (component_num, type->id);
-				item->icon     = NULL;
+
+				if (type->icon.width == 0 || type->icon.height == 0)
+					item->icon = NULL;
+				else
+					item->icon = e_new_gdk_pixbuf_from_corba_icon (& type->icon, 16, 16);
 
 				menu_items = g_slist_prepend (menu_items, item);
 			}
@@ -544,10 +550,6 @@ shell_view_view_changed_callback (EShellView *shell_view,
 
 	gtk_widget_set_sensitive (combo_button_widget, TRUE);
 
-	/* FIXME: This is temporary.  We should just always say "New" once we
-	   have the icons for all the actions.  */
-	e_combo_button_set_label (E_COMBO_BUTTON (combo_button_widget), default_menu_item->label);
-
 	e_combo_button_set_icon (E_COMBO_BUTTON (combo_button_widget), default_menu_item->icon);
 }
 
@@ -653,12 +655,9 @@ e_shell_user_creatable_items_handler_attach_menus (EShellUserCreatableItemsHandl
 
 	priv = handler->priv;
 
-	/* FIXME: Re-enable this.  */
-	if (0) {
-		setup_toolbar_button (handler, shell_view);
-		gtk_signal_connect (GTK_OBJECT (shell_view), "view_changed",
-				    GTK_SIGNAL_FUNC (shell_view_view_changed_callback), handler);
-	}
+	setup_toolbar_button (handler, shell_view);
+	gtk_signal_connect (GTK_OBJECT (shell_view), "view_changed",
+			    GTK_SIGNAL_FUNC (shell_view_view_changed_callback), handler);
 
 	ensure_menu_xml (handler);
 

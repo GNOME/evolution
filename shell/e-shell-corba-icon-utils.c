@@ -140,3 +140,69 @@ e_new_corba_animated_icon_from_pixbuf_array (GdkPixbuf **pixbuf_array)
 
 	return animated_icon;
 }
+
+
+/**
+ * e_new_gdk_pixbuf_from_corba_icon:
+ * @icon: A CORBA Evolution::Icon.
+ * @scaled_width: Width of the GdkPixbuf to obtain.
+ * @scaled_height: Width of the GdkPixbuf to obtain.
+ *
+ * If @scaled_width or @scaled_height is -1, do not scale.
+ * 
+ * Create a GdkPixbuf for the specified CORBA @icon.
+ * 
+ * Return value: The newly created GdkPixbuf.
+ **/
+GdkPixbuf *
+e_new_gdk_pixbuf_from_corba_icon  (const GNOME_Evolution_Icon *icon,
+				   int scaled_width,
+				   int scaled_height)
+{
+	GdkPixbuf *pixbuf;
+	GdkPixbuf *scaled_pixbuf;
+	unsigned char *p;
+	int src_offset;
+	int i, j;
+	int rowstride;
+	int total_width;
+
+	g_return_val_if_fail (icon != NULL, NULL);
+
+	if (scaled_width == -1)
+		scaled_width = icon->width;
+
+	if (scaled_height == -1)
+		scaled_height = icon->height;
+
+	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, icon->hasAlpha, 8, icon->width, icon->height);
+
+	if (icon->hasAlpha)
+		total_width = 4 * icon->width;
+	else
+		total_width = 3 * icon->width;
+
+	rowstride = gdk_pixbuf_get_rowstride (pixbuf);
+	src_offset = 0;
+	p = gdk_pixbuf_get_pixels (pixbuf);
+
+	for (i = 0; i < icon->height; i++) {
+		for (j = 0; j < total_width; j++)
+			p[j] = icon->rgbaData._buffer[src_offset ++];
+		p += rowstride;
+	}
+
+	if (icon->width == scaled_width && icon->height == scaled_height)
+		return pixbuf;
+		
+	scaled_pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, icon->hasAlpha, 8, scaled_width, scaled_height);
+	gdk_pixbuf_scale (pixbuf, scaled_pixbuf,
+			  0, 0, scaled_width, scaled_height,
+			  0, 0, (double) scaled_width / icon->width, (double) scaled_height / icon->height,
+			  GDK_INTERP_HYPER);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	return scaled_pixbuf;
+}
+
