@@ -1,3 +1,7 @@
+2001-02-03  Federico Mena Quintero  <federico@ximian.com>
+
+	* configure.in: Make sure we have gnome-libs 1.2.9 or higher.
+
 2001-02-01  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: allow --enable/disable-ldap.

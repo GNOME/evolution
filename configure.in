@@ -54,8 +54,8 @@ LIBS_save=$LIBS
 CFLAGS=`gnome-config --cflags gnomeui`
 LIBS=`gnome-config --libs gnomeui`
 
-AC_CHECK_LIB(gnomeui, gnome_window_icon_set_default_from_file, ,[
-AC_MSG_ERROR(gnome-libs 1.0.59 or higher is required.)])
+AC_CHECK_LIB(gnomeui, gnome_dialog_grab_focus, ,[
+AC_MSG_ERROR(gnome-libs 1.2.9 or higher is required.)])
 
 CFLAGS=$CFLAGS_save
 LIBS=$LIBS_save
