@@ -1,3 +1,8 @@
+2001-10-15  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-startup-wizard.c (prepare_importer_page): Stop the prepare
+	running twice.
+
 2001-10-14  Dan Winship  <danw@ximian.com>
 
 	* e-corba-storage.c (async_folder_cb): 

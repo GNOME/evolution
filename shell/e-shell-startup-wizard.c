@@ -571,6 +571,8 @@ prepare_importer_page (GnomeDruidPage *page,
 		return TRUE;
 	}
 
+	data->import_page->prepared = TRUE;
+
 	dialog = gnome_message_box_new (_("Please wait...\nScanning for existing setups"), GNOME_MESSAGE_BOX_INFO, NULL);
 	e_make_widget_backing_stored (dialog);
 
