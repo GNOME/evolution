@@ -374,8 +374,8 @@ my_read_encode (CamelStream *stream,
 				switch (status->state){
 
 				case 0:				
-					buffer [j++] = six_bits_to_char [c >> 2];
-					status->keep = (c & 0xc0 ) >> 2;
+					buffer [j++] = six_bits_to_char [(c >> 2) & 0x3f];
+					status->keep = (c & 0x3 ) << 4;
 					break;
 					
 				case 1:
