@@ -1,3 +1,8 @@
+2001-10-23  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-utils.c (mail_list_magic): Remove an extra * in one
+	of the regexps that glibc apparently doesn't mind but bsd does.
+
 2001-10-23    <NotZed@Ximian.com>
 
 	* providers/local/camel-mbox-summary.c: made d(x) x recompile again.

@@ -3653,7 +3653,7 @@ static struct {
 	/* X-Mailing-List: gnome-hackers@gnome.org */
 	/* X-Mailing-List: gnome-hackers */
 	/* X-Mailing-List: <gnome-hackers> */
-	{ "X-Mailing-List", " <?*([^@>]+)@?([^ \n\t\r>]*)" },
+	{ "X-Mailing-List", " <?([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-Loop: gnome-hackers@gnome.org */
 	{ "X-Loop", " *([^@]+)@?([^ \n\t\r>]*)" },
 	/* List-Id: GNOME stuff <gnome-hackers.gnome.org> */
