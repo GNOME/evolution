@@ -1,3 +1,11 @@
+2001-10-11  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c
+	(e_destination_reverting_is_a_good_idea): Added.  Heuristic for
+	whether or not we want to revert to an earlier cardified state.
+	(e_destination_cardify): Don't be quite as aggressive about
+	reverting to previous cardified states. (Bug #11890)
+
 2001-10-11  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-card-simple.c (e_card_simple_destroy,
