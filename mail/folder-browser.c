@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000, 2001 Ximian, Inc.
  */
 #include <config.h>
 #include <ctype.h>
@@ -218,12 +218,12 @@ enum {
 };
 
 static ESearchBarItem folder_browser_search_menu_items[] = {
-	{ N_("Show All"),    ESB_SHOW_ALL },
-	{ NULL,              0            },
-	{ N_("Advanced..."), ESB_ADVANCED },
-	{ NULL,              0            },
-	{ N_("Save"),        ESB_SAVE     },
-	{ NULL,              -1           }
+	{ N_("Show All"),         	  ESB_SHOW_ALL },
+	{ NULL,                   	  0            },
+	{ N_("Advanced..."),      	  ESB_ADVANCED },
+	{ NULL,                   	  0            },
+	{ N_("Store search as vFolder"),  ESB_SAVE     },
+	{ NULL,                           -1           }
 };
 
 enum {
