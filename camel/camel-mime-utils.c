@@ -3715,13 +3715,28 @@ static struct {
 	char *name;
 	char *pattern;
 } mail_list_magic[] = {
-	{ "Sender", " *owner-([^@]+)" },
-	{ "Sender", " *([^@]+)-owner" },
-	{ "Return-Path", " *owner-([^@]+)" },
-	{ "X-BeenThere", " *([^@]+)" },
-	{ "Delivered-To", " *mailing list ([^@]+)" },
-	{ "X-Mailing-List", " *([^@]+)" },
-	{ "X-Loop", " *([^@]+)" },
+	/* Sender: owner-gnome-hackers@gnome.org */
+	/* Sender: owner-gnome-hacekrs */
+	{ "Sender", " *owner-([^@]+)@?([^ \n\t\r>]*)" },
+	/* Sender: gnome-hackers-owner@gnome.org */
+	/* Sender: gnome-hackers-owner */
+	{ "Sender", " *([^@]+)-owner@?(([^ \n\t\r>]*)" },
+	/* Sender: owner-gnome-hackers@gnome.org */
+	/* Sender: <owner-gnome-hackers@gnome.org> */
+	/* Sender: owner-gnome-hackers */
+	/* Sender: <owner-gnome-hackers> */
+	{ "Return-Path", " <?owner-([^@]+)@?([^ \n\t\r>]*)" },
+	/* X-BeenThere: gnome-hackers@gnome.org */
+	/* X-BeenThere: gnome-hackers */
+	{ "X-BeenThere", " *([^@]+)@?([^ \n\t\r>]*)" },
+	/* Delivered-To: mailing list gnome-hackers@gnome.org */
+	/* Delivered-To: mailing list gnome-hackers */
+	{ "Delivered-To", " *mailing list ([^@]+)@?([^ \n\t\r>]*)" },
+	/* X-Mailing-List: <gnome-hackers@gnome.org> arcive/latest/100 */
+	/* X-Mailing-List: gnome-hackers@gnome.org */
+	{ "X-Mailing-List", " <?*([^@]+)@?([^ \n\t\r>]*)" },
+	/* X-Loop: gnome-hackers@gnome.org */
+	{ "X-Loop", " *([^@]+)@?([^ \n\t\r>]*)" },
 	{ "List-Id", " *([^<]+)" },
 	{ "List-Post", " *<mailto:([^@]+)" },
 	{ "Mailing-List", " *list ([^@]+)" },

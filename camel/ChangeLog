@@ -3,6 +3,7 @@
 	* camel-search-private.c (camel_search_header_match): Match check
 	against all addresses in a multiple address match.  Should fix
 	#13051.
+	(camel_search_header_match): Oops, missing i=0.
 
 2001-10-22  Dan Winship  <danw@ximian.com>
 
