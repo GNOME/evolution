@@ -1,4 +1,4 @@
-
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 
 <chapter id="usage-contact">
   <title>The Evolution Contact Manager</title>
@@ -67,15 +67,15 @@
   <sect1 id="usage-contact-cards">
     <title>Creating, Deleting, and Adding Cards</title>
     <para>
-       You can create a new card by pressing the <guibutton>New
-       Card</guibutton> button, or by pressing
-       <keysym>KEYSYM</keysym>. The <interface>Contact
-       Editor</interface> window will appear.  It has two tabs,
-       <guilabel>General</guilabel>, for basic contact information,
-       and <guilabel>Details</guilabel>, for a more specific
-       description of the person.  In addition, it contains a full
-       menu bar with all the items from the main window (IS THIS TRUE?
-       DESCRIBE MENUBAR AGAIN?)
+      You can create a new card by pressing the <guibutton>New
+      Card</guibutton> button, or by pressing
+      <keysym>KEYSYM</keysym>. The <interface>Contact
+      Editor</interface> window will appear.  It has two tabs,
+      <guilabel>General</guilabel>, for basic contact information, and
+      <guilabel>Details</guilabel>, for a more specific description of
+      the person.  In addition, it contains a full menu bar with all
+      the items from the main window (IS THIS TRUE?  DESCRIBE MENUBAR
+      AGAIN?)
     </para>
     <para>
       The <guilabel>General</guilabel> tab contains no less than seven
@@ -123,8 +123,7 @@
       </screenshot>
     </figure>
 
-
-!--
+<!--
       <variablelist>
          <listitem>
 	  <term>
@@ -150,6 +149,7 @@
         </para>
     
 -->
+
     <para>
        You can choose which fields an address card has, and create new
        fields for cards.  For example,
@@ -211,11 +211,10 @@
       <title>Groups of contacts</title>
       <para>
          <application>Evolution</application> lets you put cards into
-         folders, mark them as members of different groups, and search
-         through them in a variety of ways.  This section will
-         describe how to organize and find contact information using
-         <application>Evolution</application>.  CHANGE THIS paragraph:
-         it needs a great deal of work.
+         folders and mark them as members of different categories.
+         Although the contact manager does not support vFolders,
+         categories should provide as much flexibility as you need in
+         grouping your address cards.
       </para>
 
       <sect3 id="usage-contact-organize-group-folder">
@@ -226,13 +225,17 @@
 	   <guilabel>Contacts</guilabel> folder.  You can create more
 	   folders inside that one, or create other address book
 	   folders as well.  Each card must be in one and only one
-	   folder.
+	   folder.  If you've read <xref linkend="usage-mainwindow">
+	   then you already know that you can create a new folder by
+	   selecting <guisubmenu>New</guisubmenu> and then
+	   <guimenuitem>Folder</guimenuitem> from the
+	   <guimenu>File</guimenu> menu.
 	 </para>
 	<para>
-           To create a new folder, do this:
-	</para>
-	<para>
-          To put a card into a folder, do this:
+          To put a card into a folder, just drag it there from the
+          folder view, or (SOMETHING ELSE).  Remember that address
+          cards can only go in contact folders, just like mail can
+          only go in mail folders, and calendars in calendar folders.
          </para>
       </sect3>
       
@@ -251,7 +254,11 @@
            and can never remember his phone number.
          </para>
 	<para>
-           To mark a card as belonging to a category, do this:
+           To mark a card as belonging to a category, click the
+           <guibutton>Categories</guibutton> button at the lower
+           right.  A dialog box will pop up with check-boxes for
+           different categories in it.  You can select as many or as
+           few categories as you like.
         </para>
 	<para>
            Then, you can refer to all the cards in that category by:
