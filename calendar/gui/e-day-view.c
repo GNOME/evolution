@@ -26,7 +26,9 @@
  * EDayView - displays the Day & Work-Week views of the calendar.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
 
 #include "e-day-view.h"
 #include "ea-calendar.h"

@@ -460,9 +460,6 @@ struct _EDayViewClass
 GtkType	   e_day_view_get_type			(void);
 GtkWidget* e_day_view_new			(void);
 
-void       e_day_view_set_query			(EDayView	*day_view,
-						 const char	*sexp);
-
 /* Whether we are displaying a work-week, in which case the display always
    starts on the first day of the working week. */
 gboolean   e_day_view_get_work_week_view	(EDayView	*day_view);

@@ -25,7 +25,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307, USA.
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <unistd.h>
 #include <signal.h>
 #include <sys/wait.h>
@@ -656,15 +659,8 @@ adjust_e_cal_view_for_view (ECalendarView *cal_view, const char *sexp)
 	g_free (real_sexp);
 }
 
-/**
- * gnome_calendar_set_query:
- * @gcal: A calendar.
- * @sexp: Sexp that defines the query.
- * 
- * Sets the query sexp for all the views in a calendar.
- **/
-void
-gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp)
+static void
+set_query (GnomeCalendar *gcal, const char *sexp)
 {
 	GnomeCalendarPrivate *priv;
 	ECalModel *model;
@@ -721,7 +717,7 @@ search_bar_sexp_changed_cb (CalSearchBar *cal_search, const char *sexp, gpointer
 	GnomeCalendar *gcal;
 
 	gcal = GNOME_CALENDAR (data);
-	gnome_calendar_set_query (gcal, sexp);
+	set_query (gcal, sexp);
 }
 
 /* Callback used when the selected category in the search bar changes */

@@ -1,3 +1,14 @@
+2004-02-27  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.h: remove proto
+
+	* gui/gnome-cal.c (set_query): rename from
+	gnome_calendar_set_query and make static
+
+	* gui/e-day-view.h: remove proto for dead function
+
+	* gui/e-day-view.c: guard config.h include
+
 2004-02-26  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):

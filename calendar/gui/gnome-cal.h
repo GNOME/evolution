@@ -112,8 +112,6 @@ gboolean   gnome_calendar_add_event_source      (GnomeCalendar *gcal, ESource *s
 gboolean   gnome_calendar_remove_event_source   (GnomeCalendar *gcal, ESource *source);
 gboolean   gnome_calendar_set_default_source    (GnomeCalendar *gcal, ESource *source);
 
-void gnome_calendar_set_query (GnomeCalendar *gcal, const char *sexp);
-
 void       gnome_calendar_next             	(GnomeCalendar *gcal);
 void       gnome_calendar_previous         	(GnomeCalendar *gcal);
 void       gnome_calendar_goto             	(GnomeCalendar *gcal,
