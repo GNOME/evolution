@@ -109,7 +109,7 @@
 		</submenu>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none"/>
+	<dockitem name="Toolbar" relief="none" behavior="exclusive"/>
 
 	<status>
 		<item name="main"/>

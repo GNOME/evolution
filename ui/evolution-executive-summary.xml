@@ -1,5 +1,5 @@
 <Root>
-  <dockitem name="Toolbar" relief="none">
+  <dockitem name="Toolbar" relief="none" behavior="exclusive">
 
     <toolitem name="AddService" verb="AddService"
     _label="Add Service" _tip="Add a new service to the Executive Summary"

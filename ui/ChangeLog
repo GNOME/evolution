@@ -1,3 +1,13 @@
+2000-10-11  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-addressbook-ldap.xml: Apply behavior "exclusive" to
+	"Toolbar".
+	* evolution.xml: Likewise.
+	* evolution-addressbook.xml: Likewise.
+	* evolution-mail.xml: Likewise.
+	* evolution-contact-editor.xml: Likewise.
+	* evolution-subscribe.xml: Likewise.
+
 2000-10-08  Damon Chaplin  <damon@helixcode.com>
 
 	* evolution-calendar.xml: moved the calendar settings menu item to the

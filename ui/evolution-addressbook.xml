@@ -36,7 +36,7 @@
 		</placeholder>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none">
+	<dockitem name="Toolbar" relief="none" behavior="exclusive">
 		<toolitem name="New" _label="New"
 		_descr="Create a new contact" verb="ContactNew"
 		pixtype="stock" pixname="New"/>

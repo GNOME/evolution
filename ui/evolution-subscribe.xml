@@ -31,7 +31,7 @@
     </placeholder>
   </menu>
 
-  <dockitem name="Toolbar" relief="none">
+  <dockitem name="Toolbar" relief="none" behavior="exclusive">
 
     <toolitem name="SubscribeFolder" verb=""
     _label="Subscribe" _tip="Add folder to your list of subscribed folders"

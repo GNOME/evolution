@@ -211,7 +211,7 @@ static GnomeUIInfo main_menu[] = {
 		</submenu>
 	</menu>
 
-	<dockitem name="Toolbar" relief="none">
+	<dockitem name="Toolbar" relief="none" behavior="exclusive">
 	        <toolitem name="Save and Close" _label="Save and Close"
 		_tip="Save the contact and close the dialog box" verb="ContactEditorSaveClose"
 		pixtype="stock" pixname="Save"/>
