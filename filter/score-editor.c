@@ -1,7 +1,8 @@
 /*
- *  Copyright (C) 2000 Helix Code Inc.
+ *  Copyright (C) 2001 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
+ *           Jeffrey Stedfast <fejj@helixcode.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License
@@ -29,11 +30,24 @@
 
 #define d(x)
 
-#if 0
-static void score_editor_class_init	(ScoreEditorClass *class);
-static void score_editor_init	(ScoreEditor *gspaper);
+static FilterRule * create_rule(RuleEditor *re);
 
-static GnomeDialogClass *parent_class;
+static void score_editor_class_init (ScoreEditorClass *class);
+static void score_editor_init	(ScoreEditor *gspaper);
+static void score_editor_finalise (GtkObject *obj);
+
+#define _PRIVATE(x) (((ScoreEditor *)(x))->priv)
+
+struct _ScoreEditorPrivate {
+};
+
+static RuleEditorClass *parent_class;
+
+enum {
+	LAST_SIGNAL
+};
+
+static guint signals[LAST_SIGNAL] = { 0 };
 
 guint
 score_editor_get_type (void)
@@ -51,7 +65,7 @@ score_editor_get_type (void)
 			(GtkArgGetFunc)NULL
 		};
 		
-		type = gtk_type_unique(gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique (rule_editor_get_type (), &type_info);
 	}
 	
 	return type;
@@ -60,18 +74,35 @@ score_editor_get_type (void)
 static void
 score_editor_class_init (ScoreEditorClass *class)
 {
-	GtkObjectClass *object_class;
+	GtkObjectClass *object_class = (GtkObjectClass *)class;
+	RuleEditorClass *re_class = (RuleEditorClass *)class;
+
+	parent_class = gtk_type_class (rule_editor_get_type ());
 	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(gnome_dialog_get_type ());
+	object_class->finalize = score_editor_finalise;
 
 	/* override methods */
+	re_class->create_rule = create_rule;
 
+	/* signals */
+	
+	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
 static void
 score_editor_init (ScoreEditor *o)
 {
+	o->priv = g_malloc0 (sizeof (*o->priv));
+}
+
+static void
+score_editor_finalise(GtkObject *obj)
+{
+	ScoreEditor *o = (ScoreEditor *)obj;
+
+	g_free(o->priv);
+
+        ((GtkObjectClass *)(parent_class))->finalize(obj);
 }
 
 /**
@@ -82,246 +113,33 @@ score_editor_init (ScoreEditor *o)
  * Return value: A new #ScoreEditor object.
  **/
 ScoreEditor *
-score_editor_new(void)
-{
-	ScoreEditor *o = (ScoreEditor *)gtk_type_new(score_editor_get_type ());
-	return o;
-}
-#endif
-
-
-enum {
-	BUTTON_ADD,
-	BUTTON_EDIT,
-	BUTTON_DELETE,
-	BUTTON_UP,
-	BUTTON_DOWN,
-	BUTTON_LAST
-};
-
-struct _editor_data {
-	RuleContext *f;
-	FilterRule *current;
-	GtkList *list;
-	GtkButton *buttons[BUTTON_LAST];
-};
-
-static void set_sensitive(struct _editor_data *data);
-
-static void rule_add(GtkWidget *widget, struct _editor_data *data)
-{
-	ScoreRule *rule;
-	int result;
-	GnomeDialog *gd;
-	GtkWidget *w;
-	FilterPart *part;
-
-	d(printf("add rule\n"));
-	/* create a new rule with 1 match and 1 action */
-	rule = score_rule_new();
-
-	part = rule_context_next_part(data->f, NULL);
-	filter_rule_add_part((FilterRule *)rule, filter_part_clone(part));
-
-	w = filter_rule_get_widget((FilterRule *)rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new(_("Add Rule"),
-					     GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
-					     NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
-	gtk_widget_show((GtkWidget *)gd);
-	result = gnome_dialog_run_and_close(gd);
-	if (result == 0) {
-		GtkListItem *item;
-		GList *l = NULL;
-		gchar *s;
-
-		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, ((FilterRule *) rule)->name);
-		item = (GtkListItem *)gtk_list_item_new_with_label (s);
-		g_free (s);
-		gtk_object_set_data((GtkObject *)item, "rule", rule);
-		gtk_widget_show((GtkWidget *)item);
-		l = g_list_append(l, item);
-		gtk_list_append_items(data->list, l);
-		gtk_list_select_child(data->list, (GtkWidget *)item);
-		data->current = (FilterRule *)rule;
-		rule_context_add_rule(data->f, (FilterRule *)rule);
-		set_sensitive(data);
-	} else {
-		gtk_object_unref((GtkObject *)rule);
-	}
-}
-
-static void rule_edit(GtkWidget *widget, struct _editor_data *data)
-{
-	GtkWidget *w;
-	int result;
-	GnomeDialog *gd;
-	FilterRule *rule;
-	int pos;
-
-	d(printf("edit rule\n"));
-	rule = data->current;
-	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new(_("Edit Score Rule"), GNOME_STOCK_BUTTON_OK, NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);
-	gtk_widget_show((GtkWidget *)gd);
-	result = gnome_dialog_run_and_close(gd);
-
-	if (result == 0) {
-		pos = rule_context_get_rank_rule(data->f, data->current, NULL);
-		if (pos != -1) {
-			GtkListItem *item = g_list_nth_data(data->list->children, pos);
-			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, data->current->name);
-			gtk_label_set_text((GtkLabel *)(((GtkBin *)item)->child), s);
-			g_free (s);
-		}
-	 }
-}
-
-static void rule_delete(GtkWidget *widget, struct _editor_data *data)
-{
-	int pos;
-	GList *l;
-	GtkListItem *item;
-
-	d(printf("ddelete rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
-	if (pos != -1) {
-		rule_context_remove_rule(data->f, data->current);
-
-		item = g_list_nth_data(data->list->children, pos);
-		l = g_list_append(NULL, item);
-		gtk_list_remove_items(data->list, l);
-		g_list_free(l);
-
-		gtk_object_unref((GtkObject *)data->current);
-		data->current = NULL;
-	}
-	set_sensitive(data);
-}
-
-static void rule_move(struct _editor_data *data, int from, int to)
-{
-	GList *l;
-	GtkListItem *item;
-
-	d(printf("moving %d to %d\n", from, to));
-	rule_context_rank_rule(data->f, data->current, to);
-	
-	item = g_list_nth_data(data->list->children, from);
-	l = g_list_append(NULL, item);
-	gtk_list_remove_items_no_unref(data->list, l);
-	gtk_list_insert_items(data->list, l, to);			      
-	gtk_list_select_child(data->list, (GtkWidget *)item);
-	set_sensitive(data);
-}
-
-static void rule_up(GtkWidget *widget, struct _editor_data *data)
-{
-	int pos;
-
-	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
-	if (pos>0) {
-		rule_move(data, pos, pos-1);
-	}
-}
-
-static void rule_down(GtkWidget *widget, struct _editor_data *data)
-{
-	int pos;
-
-	d(printf("down rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
-	rule_move(data, pos, pos+1);
-}
-
-static struct {
-	char *name;
-	GtkSignalFunc func;
-} edit_buttons[] = {
-	{ "rule_add", rule_add },
-	{ "rule_edit", rule_edit },
-	{ "rule_delete", rule_delete },
-	{ "rule_up", rule_up },
-	{ "rule_down", rule_down },
-};
-
-static void
-set_sensitive(struct _editor_data *data)
-{
-	FilterRule *rule = NULL;
-	int index=-1, count=0;
-
-	while ((rule = rule_context_next_rule(data->f, rule, NULL))) {
-		if (rule == data->current)
-			index=count;
-		count++;
-	}
-	d(printf("index = %d count=%d\n", index, count));
-	count--;
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_EDIT], index != -1);
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_DELETE], index != -1);
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_UP], index > 0);
-	gtk_widget_set_sensitive((GtkWidget *)data->buttons[BUTTON_DOWN], index >=0 && index<count);
-}
-
-static void
-select_rule(GtkWidget *w, GtkWidget *child, struct _editor_data *data)
-{
-	data->current = gtk_object_get_data((GtkObject *)child, "rule");
-	if (data->current)
-		d(printf("seledct rule: %s\n", data->current->name));
-	else
-		d(printf("bad data?\n"));
-	set_sensitive(data);
-}
-
-GtkWidget	*score_editor_construct	(struct _ScoreContext *f)
+score_editor_new(ScoreContext *f)
 {
 	GladeXML *gui;
-	GtkWidget *d, *w;
-	GList *l;
-	FilterRule *rule = NULL;
-	struct _editor_data *data;
-	int i;
+	ScoreEditor *o = (ScoreEditor *)gtk_type_new (score_editor_get_type ());
+	GtkWidget *w;
 
-	g_assert(IS_SCORE_CONTEXT(f));
+	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "rule_editor");
+	rule_editor_construct((RuleEditor *)o, (RuleContext *)f, gui, NULL);
 
-	data = g_malloc0(sizeof(*data));
-	data->f = (RuleContext *)f;
+        w = glade_xml_get_widget(gui, "rule_frame");
+	gtk_frame_set_label((GtkFrame *)w, _("Score Rules"));
 
-	gui = glade_xml_new(FILTER_GLADEDIR "/filter.glade", "edit_vfolder");
-        d = glade_xml_get_widget (gui, "edit_vfolder");
-	gtk_object_set_data_full((GtkObject *)d, "data", data, g_free);
-
-	gtk_window_set_title((GtkWindow *)d, "Edit Score List");
-	for (i=0;i<BUTTON_LAST;i++) {
-		data->buttons[i] = (GtkButton *)w = glade_xml_get_widget (gui, edit_buttons[i].name);
-		gtk_signal_connect((GtkObject *)w, "clicked", edit_buttons[i].func, data);
-	}
-
-        w = glade_xml_get_widget (gui, "rule_list");
-	data->list = (GtkList *)w;
-	l = NULL;
-	while ((rule = rule_context_next_rule((RuleContext *)f, rule, NULL))) {
-		GtkListItem *item;
-		gchar *s;
-
-		s = e_utf8_to_gtk_string ((GtkWidget *) data->list, rule->name);
-		item = (GtkListItem *)gtk_list_item_new_with_label (s);
-		g_free (s);
-		gtk_object_set_data((GtkObject *)item, "rule", rule);
-		gtk_widget_show((GtkWidget *)item);
-		l = g_list_append(l, item);
-	}
-	gtk_list_append_items(data->list, l);
-	gtk_signal_connect((GtkObject *)w, "select_child", select_rule, data);
-
-	set_sensitive(data);
 	gtk_object_unref((GtkObject *)gui);
+	
+	return o;
+}
 
-	return d;
+static FilterRule *
+create_rule(RuleEditor *re)
+{
+	FilterRule *rule = filter_rule_new();
+	FilterPart *part;
+
+	/* create a rule with 1 part in it */
+	rule = (FilterRule *)score_rule_new ();
+	part = rule_context_next_part(re->context, NULL);
+	filter_rule_add_part(rule, filter_part_clone(part));
+
+	return rule;
 }

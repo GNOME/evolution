@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2000 Helix Code Inc.
+ *  Copyright (C) 2000, 2001 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *
@@ -22,10 +22,7 @@
 #define _VFOLDER_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
-
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#include "rule-editor.h"
 
 #define VFOLDER_EDITOR(obj)	GTK_CHECK_CAST (obj, vfolder_editor_get_type (), VfolderEditor)
 #define VFOLDER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, vfolder_editor_get_type (), VfolderEditorClass)
@@ -35,27 +32,24 @@ typedef struct _VfolderEditor	VfolderEditor;
 typedef struct _VfolderEditorClass	VfolderEditorClass;
 
 struct _VfolderEditor {
-	GnomeDialog parent;
+	RuleEditor parent;
+
 	struct _VfolderEditorPrivate *priv;
 
 };
 
 struct _VfolderEditorClass {
-	GnomeDialogClass parent_class;
+	RuleEditorClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		vfolder_editor_get_type	(void);
-VfolderEditor	*vfolder_editor_new	(void);
-#endif
-
 struct _VfolderContext;
 
-/* methods */
-GtkWidget	*vfolder_editor_construct	(struct _VfolderContext *f);
+guint		vfolder_editor_get_type	(void);
+VfolderEditor	*vfolder_editor_new	(struct _VfolderContext *);
 
 #endif /* ! _VFOLDER_EDITOR_H */
 

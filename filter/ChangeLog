@@ -1,3 +1,32 @@
+2001-03-15  Not Zed  <NotZed@Ximian.com>
+
+	* filter.glade: Changed the edit_filter to be a standalone window
+	rather than a widget, so we can get the rule editor part out
+	separately.  Same for vfolder editor, and new score, and basic rule
+	editors.
+
+	* score-editor.c (score_editor_new): Turned back on object
+	stuff, subclass rule-editor, and removed most of the code.
+
+	* filter-editor.c (filter_editor_new): Turned into an object,
+	subclass rule-editor, removed most of the code.  Now we accept the
+	source list during create, and plug that into the glade.
+
+	* vfolder-editor.c (vfolder_editor_new): Turned back on object
+	stuff, subclass rule-editor, and removed most of the code.
+
+	* Makefile.am (libfilter_la_SOURCES): Added rule-editor.[ch].
+
+	* filter-filter.c (validate): inherit the validate function and
+	also validate the actions part of a filterfilter.
+
+	* filter-rule.c (filter_rule_validate): New method so that filter
+	rules can validate themselves.
+	(validate): Default implementation, validates base rules.
+
+	* rule-editor.h: New generic rule editor, to be used for filter
+	editor/vfolder editor/score editor/saved searches editor.
+
 2001-03-15  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* filter-system-flag.c: translate status flag title.

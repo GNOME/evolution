@@ -14,7 +14,7 @@
 
 <widget>
   <class>GnomeDialog</class>
-  <name>edit_filter</name>
+  <name>edit_filter_2</name>
   <title>Edit Filters</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -205,7 +205,7 @@ Outgoing
 
 <widget>
   <class>GnomeDialog</class>
-  <name>edit_vfolder</name>
+  <name>edit_vfolder_2</name>
   <title>Edit VFolders</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
@@ -561,6 +561,155 @@ with all local and active remote folders
 		<can_focus>True</can_focus>
 		<label>Remove</label>
 	      </widget>
+	    </widget>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+<widget>
+  <class>GtkWindow</class>
+  <name>edit_filter</name>
+  <title>window1</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
+  <position>GTK_WIN_POS_NONE</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+
+  <widget>
+    <class>GtkVBox</class>
+    <name>rule_editor</name>
+    <homogeneous>False</homogeneous>
+    <spacing>0</spacing>
+
+    <widget>
+      <class>GtkOptionMenu</class>
+      <name>filter_source</name>
+      <visible>False</visible>
+      <can_focus>True</can_focus>
+      <items>Incoming
+</items>
+      <initial_choice>0</initial_choice>
+      <child>
+	<padding>0</padding>
+	<expand>False</expand>
+	<fill>False</fill>
+      </child>
+    </widget>
+
+    <widget>
+      <class>GtkFrame</class>
+      <name>rule_frame</name>
+      <label>Filter Rules</label>
+      <label_xalign>0</label_xalign>
+      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+      <child>
+	<padding>0</padding>
+	<expand>True</expand>
+	<fill>True</fill>
+      </child>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox4</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+
+	<widget>
+	  <class>GtkScrolledWindow</class>
+	  <name>scrolledwindow4</name>
+	  <width>256</width>
+	  <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+	  <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+	  <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkViewport</class>
+	    <name>viewport4</name>
+	    <shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	    <widget>
+	      <class>GtkList</class>
+	      <name>rule_list</name>
+	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	    </widget>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox5</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkVButtonBox</class>
+	    <name>vbuttonbox4</name>
+	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	    <spacing>0</spacing>
+	    <child_min_width>85</child_min_width>
+	    <child_min_height>27</child_min_height>
+	    <child_ipad_x>6</child_ipad_x>
+	    <child_ipad_y>0</child_ipad_y>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>rule_add</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Add</label>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>rule_edit</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Edit</label>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>rule_delete</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Delete</label>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>rule_up</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <stock_button>GNOME_STOCK_BUTTON_UP</stock_button>
+	    </widget>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>rule_down</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <stock_button>GNOME_STOCK_BUTTON_DOWN</stock_button>
 	    </widget>
 	  </widget>
 	</widget>

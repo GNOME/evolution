@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2000 Helix Code Inc.
+ *  Copyright (C) 2000, 2001 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *
@@ -22,10 +22,7 @@
 #define _FILTER_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
-
-#if 0
-/* NOTE: object stuff not used (yet?), this is just a holder file for a static factory */
+#include "rule-editor.h"
 
 #define FILTER_EDITOR(obj)	GTK_CHECK_CAST (obj, filter_editor_get_type (), FilterEditor)
 #define FILTER_EDITOR_CLASS(klass)	GTK_CHECK_CLASS_CAST (klass, filter_editor_get_type (), FilterEditorClass)
@@ -35,27 +32,24 @@ typedef struct _FilterEditor	FilterEditor;
 typedef struct _FilterEditorClass	FilterEditorClass;
 
 struct _FilterEditor {
-	GnomeDialog parent;
+	RuleEditor parent;
 	struct _FilterEditorPrivate *priv;
 
 };
 
 struct _FilterEditorClass {
-	GnomeDialogClass parent_class;
+	RuleEditorClass parent_class;
 
 	/* virtual methods */
 
 	/* signals */
 };
 
-guint		filter_editor_get_type	(void);
-FilterEditor	*filter_editor_new	(void);
-#endif
-
 struct _FilterContext;
 
-/* methods */
-GtkWidget	*filter_editor_construct	(struct _FilterContext *f);
+guint		filter_editor_get_type	(void);
+FilterEditor    *filter_editor_new(struct _FilterContext *f, const char **source_names);
+void		filter_editor_construct(FilterEditor *fe, struct _FilterContext *fc, struct _GladeXML *gui, const char **source_names);
 
 #endif /* ! _FILTER_EDITOR_H */
 

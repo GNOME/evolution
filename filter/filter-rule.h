@@ -60,6 +60,8 @@ struct _FilterRuleClass {
 	GtkObjectClass parent_class;
 	
 	/* virtual methods */
+	int (*validate)(FilterRule *);
+
 	xmlNodePtr (*xml_encode)(FilterRule *);
 	int (*xml_decode)(FilterRule *, xmlNodePtr, struct _RuleContext *);
 	
@@ -78,6 +80,8 @@ FilterRule 	*filter_rule_clone	(FilterRule *base, struct _RuleContext *f);
 /* methods */
 void		filter_rule_set_name	(FilterRule *fr, const char *name);
 void		filter_rule_set_source	(FilterRule *fr, const char *source);
+
+int		filter_rule_validate	(FilterRule *fr);
 
 xmlNodePtr	filter_rule_xml_encode	(FilterRule *fr);
 int		filter_rule_xml_decode	(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);

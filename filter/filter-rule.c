@@ -30,6 +30,7 @@
 
 #define d(x)
 
+static int validate(FilterRule *);
 static xmlNodePtr xml_encode (FilterRule *);
 static int xml_decode (FilterRule *, xmlNodePtr, RuleContext *);
 static void build_code (FilterRule *, GString * out);
@@ -86,6 +87,7 @@ filter_rule_class_init (FilterRuleClass * class)
 	object_class->finalize = filter_rule_finalise;
 	
 	/* override methods */
+	class->validate = validate;
 	class->xml_encode = xml_encode;
 	class->xml_decode = xml_decode;
 	class->build_code = build_code;
@@ -172,6 +174,29 @@ filter_rule_set_source (FilterRule *fr, const char *source)
 
 	g_free (fr->source);
 	fr->source = g_strdup (source);
+}
+
+int		filter_rule_validate	(FilterRule *fr)
+{
+	g_assert(IS_FILTER_RULE(fr));
+
+	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->validate(fr);
+}
+
+static int
+validate(FilterRule *fr)
+{
+	int valid = TRUE;
+	GList *parts;
+
+	/* validate rule parts */
+	parts = fr->parts;
+	while (parts && valid) {
+		valid = filter_part_validate((FilterPart *)parts->data);
+		parts = parts->next;
+	}
+
+	return valid;
 }
 
 xmlNodePtr
