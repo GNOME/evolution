@@ -42,6 +42,11 @@ extern "C" {
 #define CAMEL_IS_MEDIUM(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MEDIUM_TYPE))
 
 
+typedef struct {
+	const char *name;
+	const char *value;
+} CamelMediumHeader;
+
 struct _CamelMedium
 {
 	CamelDataWrapper parent_object;
@@ -54,8 +59,6 @@ struct _CamelMedium
 
 };
 
-
-
 typedef struct {
 	CamelDataWrapperClass parent_class;
 
@@ -64,6 +67,9 @@ typedef struct {
 	void  (*set_header) (CamelMedium *medium, const gchar *header_name, const void *header_value);
 	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
 	const void * (*get_header) (CamelMedium *medium,  const gchar *header_name);
+
+	GArray * (*get_headers) (CamelMedium *medium);
+	void (*free_headers) (CamelMedium *medium, GArray *headers);
 
 	CamelDataWrapper * (*get_content_object) (CamelMedium *medium);
 	void (*set_content_object) (CamelMedium *medium, CamelDataWrapper *content);
@@ -78,6 +84,9 @@ void camel_medium_add_header (CamelMedium *medium, const gchar *header_name, con
 void camel_medium_set_header (CamelMedium *medium, const gchar *header_name, const void *header_value);
 void camel_medium_remove_header (CamelMedium *medium, const gchar *header_name);
 const void *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
+
+GArray *camel_medium_get_headers (CamelMedium *medium);
+void camel_medium_free_headers (CamelMedium *medium, GArray *headers);
 
 /* accessor methods */
 CamelDataWrapper *camel_medium_get_content_object (CamelMedium *medium);

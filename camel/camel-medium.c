@@ -46,6 +46,9 @@ static void set_header (CamelMedium *medium, const gchar *header_name, const voi
 static void remove_header (CamelMedium *medium, const gchar *header_name);
 static const void *get_header (CamelMedium *medium, const gchar *header_name);
 
+static GArray *get_headers (CamelMedium *medium);
+static void free_headers (CamelMedium *medium, GArray *headers);
+
 static CamelDataWrapper *get_content_object (CamelMedium *medium);
 static void set_content_object (CamelMedium *medium,
 				CamelDataWrapper *content);
@@ -65,6 +68,9 @@ camel_medium_class_init (CamelMediumClass *camel_medium_class)
 	camel_medium_class->set_header = set_header;
 	camel_medium_class->remove_header = remove_header;
 	camel_medium_class->get_header = get_header;
+
+	camel_medium_class->get_headers = get_headers;
+	camel_medium_class->free_headers = free_headers;
 
 	camel_medium_class->set_content_object = set_content_object;
 	camel_medium_class->get_content_object = get_content_object;
@@ -217,6 +223,56 @@ camel_medium_get_header(CamelMedium *medium, const char *header_name)
 #endif
 
 	return CM_CLASS (medium)->get_header (medium, header_name);
+}
+
+
+static GArray *
+get_headers(CamelMedium *medium)
+{
+	g_warning("No %s::get_headers implemented", camel_type_to_name(CAMEL_OBJECT_GET_TYPE(medium)));
+	return NULL;
+}
+
+/**
+ * camel_medium_get_headers:
+ * @medium: a medium
+ *
+ * Returns an array of all header name/value pairs (as
+ * CamelMediumHeader structures). The values will be decoded
+ * to UTF-8 for any headers that are recognized by Camel. The
+ * caller should not modify the returned data.
+ *
+ * Return value: the array of headers, which must be freed with
+ * camel_medium_free_headers().
+ **/
+GArray *
+camel_medium_get_headers(CamelMedium *medium)
+{
+	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), NULL);
+
+	return CM_CLASS (medium)->get_headers (medium);
+}
+
+static void
+free_headers (CamelMedium *medium, GArray *headers)
+{
+	g_warning("No %s::free_headers implemented", camel_type_to_name(CAMEL_OBJECT_GET_TYPE(medium)));
+}
+
+/**
+ * camel_medium_free_headers:
+ * @medium: a medium
+ * @headers: an array of headers returned from camel_medium_get_headers()
+ *
+ * Frees @headers
+ **/
+void
+camel_medium_free_headers (CamelMedium *medium, GArray *headers)
+{
+	g_return_if_fail (CAMEL_IS_MEDIUM (medium));
+	g_return_if_fail (headers != NULL);
+
+	CM_CLASS (medium)->free_headers (medium, headers);
 }
 
 

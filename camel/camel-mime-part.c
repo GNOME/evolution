@@ -76,6 +76,8 @@ static void            add_header                      (CamelMedium *medium, con
 static void            set_header                      (CamelMedium *medium, const char *header_name, const void *header_value);
 static void            remove_header                   (CamelMedium *medium, const char *header_name);
 static const void     *get_header                      (CamelMedium *medium, const char *header_name);
+static GArray         *get_headers                     (CamelMedium *medium);
+static void            free_headers                    (CamelMedium *medium, GArray *headers);
 
 static void            set_content_object              (CamelMedium *medium, CamelDataWrapper *content);
 
@@ -127,6 +129,8 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_medium_class->set_header                = set_header;
 	camel_medium_class->get_header                = get_header;
 	camel_medium_class->remove_header             = remove_header;
+	camel_medium_class->get_headers               = get_headers;
+	camel_medium_class->free_headers              = free_headers;
 	camel_medium_class->set_content_object        = set_content_object;
 
 	camel_data_wrapper_class->write_to_stream     = write_to_stream;
@@ -282,6 +286,34 @@ get_header (CamelMedium *medium, const char *header_name)
 	return header_raw_find(&part->headers, header_name, NULL);
 }
 
+static GArray *
+get_headers (CamelMedium *medium)
+{
+	CamelMimePart *part = (CamelMimePart *)medium;
+	GArray *headers;
+	CamelMediumHeader header;
+	struct _header_raw *h;
+
+	headers = g_array_new (FALSE, FALSE, sizeof (CamelMediumHeader));
+	for (h = part->headers; h; h = h->next) {
+		header.name = h->name;
+		header.value = header_decode_string (h->value);
+		g_array_append_val (headers, header);
+	}
+
+	return headers;
+}
+
+static void
+free_headers (CamelMedium *medium, GArray *gheaders)
+{
+	CamelMediumHeader *headers = (CamelMediumHeader *)gheaders->data;
+	int i;
+
+	for (i = 0; i < gheaders->len; i++)
+		g_free ((gpointer)headers[i].value);
+	g_array_free (gheaders, TRUE);
+}
 
 /* **** Content-Description */
 void

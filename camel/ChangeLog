@@ -1,3 +1,12 @@
+2001-05-16  Dan Winship  <danw@ximian.com>
+
+	* camel-medium.c (camel_medium_get_headers): New function to
+	return an array of all headers.
+	(camel_medium_free_headers): And free them.
+
+	* camel-mime-part.c (get_headers, free_headers): Implement this
+	for CamelMimePart. (Works for CamelMimeMessage too.)
+
 2001-05-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-smime-context.c (camel_smime_context_finalise): Don't
