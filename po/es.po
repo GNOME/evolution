@@ -269,13 +269,12 @@ msgid "Note"
 msgstr "Nota"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#, fuzzy
 msgid "Calendar URI"
-msgstr "Calendario"
+msgstr "URI del calendario"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
 msgid "CALUri"
-msgstr ""
+msgstr "CALUri"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 #: addressbook/gui/widgets/e-addressbook-view.c:906
@@ -284,7 +283,7 @@ msgstr "URL de disponibilidad"
 
 #: addressbook/backend/ebook/e-card-simple.c:98
 msgid "FBUrl"
-msgstr ""
+msgstr "DISUrl"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
 msgid "Anniversary"
@@ -891,9 +890,8 @@ msgid "_Server name:"
 msgstr "Nombre del _servidor:"
 
 #: addressbook/gui/component/addressbook-storage.c:163
-#, fuzzy
 msgid "Other Contacts"
-msgstr "Contactos"
+msgstr "Otros contactos"
 
 #: addressbook/gui/component/addressbook.c:393
 #, c-format
@@ -1201,9 +1199,8 @@ msgid "_Business"
 msgstr "_Trabajo"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
-#, fuzzy
 msgid "_Calendar Information:"
-msgstr "información del calendario"
+msgstr "información del _calendario:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:22
 #: calendar/gui/dialogs/event-page.glade.h:12
@@ -1225,9 +1222,8 @@ msgid "_Department:"
 msgstr "_Departamento:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
-#, fuzzy
 msgid "_Free/Busy Information:"
-msgstr "Información de disponibilidad"
+msgstr "Información de _disponibilidad:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Full Name..."
@@ -1274,11 +1270,12 @@ msgid "_Web page address:"
 msgstr "Dirección de la página _web:"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:1
-#, fuzzy
 msgid ""
 "Are you sure you want\n"
 "to delete this contact?"
-msgstr "¿Esta seguro que quiere borrar esta cuenta?"
+msgstr ""
+"¿Esta seguro que quiere\n"
+"borrar este contacto?"
 
 #: addressbook/gui/contact-editor/e-contact-editor-confirm-delete.glade.h:3
 msgid "Delete Contact?"
@@ -3867,9 +3864,8 @@ msgstr "Recurrencia"
 
 #: calendar/gui/dialogs/event-editor.c:198
 #: calendar/gui/dialogs/event-editor.c:345
-#, fuzzy
 msgid "Scheduling"
-msgstr "Concertar un _encuentro"
+msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:203
 #: calendar/gui/dialogs/event-editor.c:348
@@ -3971,9 +3967,8 @@ msgstr "Participantes"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
-#, fuzzy
 msgid "Click here to add an attendee"
-msgstr "* Pulse aquí para añadir un contacto *"
+msgstr "Pulse aquí para añadir un participante"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
@@ -4414,20 +4409,21 @@ msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
+"<br> Por favor revise la siguiente información, y seleccion una acción del "
+"menú de debajo."
 
 #: calendar/gui/e-itip-control.c:664
 #, c-format
 msgid "<b>Summary:</b> %s<br><br>"
-msgstr ""
+msgstr "<b>Resumen:</b> %s<br><br>"
 
 #: calendar/gui/e-itip-control.c:664
 msgid "<i>None</i>"
-msgstr ""
+msgstr "<i>Nada</i>"
 
 #: calendar/gui/e-itip-control.c:674
-#, fuzzy, c-format
 msgid "<b>Description:</b> %s"
-msgstr "Descripción:"
+msgstr "<b>Descripción:</b> %s"
 
 #: calendar/gui/e-itip-control.c:710
 #, c-format
@@ -4583,18 +4579,16 @@ msgid "Bad Free/Busy Message"
 msgstr "Mensaje de disponibilidad erroneo"
 
 #: calendar/gui/e-itip-control.c:889
-#, fuzzy
 msgid "The message does not appear to be properly formed"
-msgstr "La carpeta parece estar corrompida e irrecuperable."
+msgstr "Parece que el mensaje no está formado correctamente"
 
 #: calendar/gui/e-itip-control.c:908
-#, fuzzy
 msgid "The message contains only unsupported requests."
-msgstr "Este mensaje solo contiene destinatarios Bcc."
+msgstr "Este mensaje solo contiene peticiones no soportadas."
 
 #: calendar/gui/e-itip-control.c:936 calendar/gui/e-itip-control.c:942
 msgid "The attachment does not contain a valid calendar message"
-msgstr ""
+msgstr "El adjunto no contiene un mensaje de calendario válido"
 
 #: calendar/gui/e-itip-control.c:1061
 msgid "Calendar file could not be updated!\n"
@@ -5266,14 +5260,12 @@ msgid "is-completed? expects 0 arguments"
 msgstr "¿esta completo? espera 0 argumentos"
 
 #: calendar/pcs/query.c:862
-#, fuzzy
 msgid "completed-before? expects 1 argument"
-msgstr "¿esta completo? espera 0 argumentos"
+msgstr "completed-before espera 1 argumentos"
 
 #: calendar/pcs/query.c:867
-#, fuzzy
 msgid "completed-before? expects argument 1 to be a time_t"
-msgstr "time-day-begin espera que el argumento 1 sea time_t"
+msgstr "completed-before espera que el argumento 1 sea time_t"
 
 #: calendar/pcs/query.c:1155
 msgid "Evaluation of the search expression did not yield a boolean value"
@@ -5522,73 +5514,60 @@ msgid "Please enter your %s passphrase"
 msgstr "Por favor introduzca su frase de paso %s"
 
 #: camel/camel-pgp-context.c:518
-#, fuzzy
 msgid "Cannot sign this message: no plaintext to sign"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo firmar este mensaje: no hay texto plano que firmar"
 
 #: camel/camel-pgp-context.c:525 camel/camel-pgp-context.c:700
-#, fuzzy
 msgid "Cannot sign this message: no password provided"
-msgstr "No puedo enviar el mensaje: dirección del remitente no válida."
+msgstr "No puedo firmar este mensaje: no se facilito la contraseña"
 
 #: camel/camel-pgp-context.c:531 camel/camel-pgp-context.c:706
-#, fuzzy, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "No pude comunicar con GPG/PGP: %s"
+msgstr "No puedo firmar este mensaje: no pude comunicar con GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:693
-#, fuzzy
 msgid "Cannot sign this message: no plaintext to clearsign"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo firmar este mensaje: no hay texto plano a firmar en claro"
 
 #: camel/camel-pgp-context.c:886
-#, fuzzy
 msgid "Cannot verify this message: no plaintext to verify"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo verificar este mensaje: no texto plano a verificar"
 
 #: camel/camel-pgp-context.c:892
-#, fuzzy, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "No pude comunicar con GPG/PGP: %s"
+msgstr "No puedo verificar este mensaje: no pude comunicar con GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:903
-#, fuzzy, c-format
 msgid "Cannot verify this message: couldn't create temp file: %s"
-msgstr "No pude crear archivo temporal: %s"
+msgstr "No puedo verificar este mensaje: no pude crear archivo temporal: %s"
 
 #: camel/camel-pgp-context.c:1069
-#, fuzzy
 msgid "Cannot encrypt this message: no plaintext to encrypt"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo encriptar este mensaje: no hay texto plano a encriptar"
 
 #: camel/camel-pgp-context.c:1079
-#, fuzzy
 msgid "Cannot encrypt this message: no password provided"
-msgstr "No puedo enviar el mensaje: dirección del remitente no válida."
+msgstr "No puedo encriptar este mensaje: no se facilitó la contraseña"
 
 #: camel/camel-pgp-context.c:1086
-#, fuzzy, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "No pude comunicar con GPG/PGP: %s"
+msgstr "No puedo encriptar este mensaje: no pude comunicar con GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1095
-#, fuzzy
 msgid "Cannot encrypt this message: no recipients specified"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo encriptar este mensaje: no hay destinatarios."
 
 #: camel/camel-pgp-context.c:1258
-#, fuzzy
 msgid "Cannot decrypt this message: no ciphertext to decrypt"
-msgstr "No puedo enviar el mensaje: no hay destinatarios."
+msgstr "No puedo desencriptar este mensaje: no hay texto cifrado a desencriptar"
 
 #: camel/camel-pgp-context.c:1266
 msgid "Cannot decrypt this message: no password provided"
-msgstr ""
+msgstr "No puedo desencriptar este mensaje: no se facilito la contraseña"
 
 #: camel/camel-pgp-context.c:1273
-#, fuzzy, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr "No pude comunicar con GPG/PGP: %s"
+msgstr "No puedo desencriptar este mensaje: no pude comunicar con GPG/PGP: %s"
 
 #: camel/camel-provider.c:131
 #, c-format
@@ -5890,9 +5869,8 @@ msgid "Failed to verify certificates."
 msgstr "Error al verificar el certificado."
 
 #: camel/camel-store.c:273
-#, fuzzy
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr "No puedo crear un bloqueo de carpetas en %s: %s"
+msgstr "No puedo crear la carpeta: Operación no válida"
 
 #: camel/camel-tcp-stream-openssl.c:463
 #, c-format
@@ -6129,9 +6107,8 @@ msgid "For retrieving local mail from standard mbox formated spools."
 msgstr "Para obtener el correo local de archivos mbox estandar."
 
 #: camel/providers/local/camel-local-provider.c:60
-#, fuzzy
 msgid "Apply filters to new messages in INBOX"
-msgstr "Aplicar filtros a los mensajes nuevos en INBOX en este servidor"
+msgstr "Aplicar filtros a los mensajes nuevos en INBOX"
 
 #: camel/providers/local/camel-local-provider.c:66
 msgid "Qmail maildir-format mail files"
@@ -7368,56 +7345,48 @@ msgstr "%a %m/%d/%Y %H:%M"
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:178
-#, fuzzy
 msgid "%a %m/%d/%Y %I %p"
-msgstr "%a %m/%d/%Y %I:%M %p"
+msgstr "%a %m/%d/%Y %I %p"
 
 #. strptime format of a weekday, a date and a time,
 #. in 24-hour format, without minutes or seconds.
 #: e-util/e-time-utils.c:183
-#, fuzzy
 msgid "%a %m/%d/%Y %H"
-msgstr "%a %m/%d/%Y %H:%M"
+msgstr "%a %m/%d/%Y %H"
 
 #. strptime format of a date and a time, in 12-hour format.
 #: e-util/e-time-utils.c:194
-#, fuzzy
 msgid "%m/%d/%Y %I:%M:%S %p"
-msgstr "%a %m/%d/%Y %I:%M:%S %p"
+msgstr "%m/%d/%Y %I:%M:%S %p"
 
 #. strptime format of a date and a time, in 24-hour format.
 #: e-util/e-time-utils.c:198
-#, fuzzy
 msgid "%m/%d/%Y %H:%M:%S"
-msgstr "%a %m/%d/%Y %H:%M:%S"
+msgstr "%m/%d/%Y %H:%M:%S"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:203
-#, fuzzy
 msgid "%m/%d/%Y %I:%M %p"
-msgstr "%a %m/%d/%Y %I:%M %p"
+msgstr "%m/%d/%Y %I:%M %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without seconds.
 #: e-util/e-time-utils.c:208
-#, fuzzy
 msgid "%m/%d/%Y %H:%M"
-msgstr "%a %m/%d/%Y %H:%M"
+msgstr "%m/%d/%Y %H:%M"
 
 #. strptime format of a date and a time, in 12-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:213
-#, fuzzy
 msgid "%m/%d/%Y %I %p"
-msgstr "%a %m/%d/%Y %I:%M %p"
+msgstr "%m/%d/%Y %I %p"
 
 #. strptime format of a date and a time, in 24-hour format,
 #. without minutes or seconds.
 #: e-util/e-time-utils.c:218
-#, fuzzy
 msgid "%m/%d/%Y %H"
-msgstr "%m/%d/%Y"
+msgstr "%m/%d/%Y %H"
 
 #. strptime format for a time of day, in 12-hour format.
 #: e-util/e-time-utils.c:300 e-util/e-time-utils.c:399
@@ -8426,14 +8395,12 @@ msgstr "No has definido un sistema para enviar el correo"
 
 #. FIXME: this wording sucks
 #: mail/mail-callbacks.c:216
-#, fuzzy
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
 msgstr ""
-"Estas enviando un mensaje formateado en HTML, pero las informaciones de "
-"contacto de los siguientes destinatarios no indica que quieran recibir este "
-"tipo de mensajes:\n"
+"Estas enviando un mensaje formateado en HTML, pero los siguientes "
+"destinatarios no indica que quieran recibir mensajes formateados en HTML:\n"
 
 #: mail/mail-callbacks.c:231
 msgid "Send anyway?"
@@ -8639,9 +8606,8 @@ msgid "Evolution Account Assistant"
 msgstr "Asistente de cuentas de Evolution"
 
 #: mail/mail-config.c:1486
-#, fuzzy
 msgid "Evolution Shortcuts"
-msgstr "Evolution"
+msgstr "Atajos de Evolution"
 
 #. right now, the URL always works basically as a matter of luck...
 #. * both IMAP and mbox spool stores have INBOX as their inbox folder
@@ -8649,9 +8615,8 @@ msgstr "Evolution"
 #. * what shortcut to insert?
 #.
 #: mail/mail-config.c:1618
-#, fuzzy, c-format
 msgid "%s: Inbox"
-msgstr "Inbox"
+msgstr "%s: Inbox"
 
 #: mail/mail-config.c:1851
 msgid "Checking Service"
@@ -9325,14 +9290,12 @@ msgid "Remember this password"
 msgstr "Recuerda esta contraseña"
 
 #: mail/mail-mt.c:511
-#, fuzzy, c-format
 msgid "Enter Password for %s"
-msgstr "Por favor introduzca su contraseña para %s"
+msgstr "Introduzca su contraseña para %s"
 
 #: mail/mail-mt.c:514
-#, fuzzy
 msgid "Enter Password"
-msgstr "Clave"
+msgstr "Introduzca contraseña"
 
 #: mail/mail-mt.c:824
 msgid "Working"
@@ -9398,9 +9361,8 @@ msgstr "Escaneando carpetas en «%s»"
 
 #. Fill in the new fields
 #: mail/mail-ops.c:1040 shell/e-local-storage.c:179
-#, fuzzy
 msgid "Trash"
-msgstr "Turco"
+msgstr "Papelera"
 
 #: mail/mail-ops.c:1173
 msgid "Forwarded messages"
@@ -9588,14 +9550,12 @@ msgid "Forwarded Message"
 msgstr "Mensaje reenviado"
 
 #: mail/mail-vfolder.c:161
-#, fuzzy, c-format
 msgid "Setting up vfolder: %s"
-msgstr "Guardando carpeta '%s'"
+msgstr "Configurando vfolder: %s"
 
 #: mail/mail-vfolder.c:435
-#, fuzzy
 msgid "VFolders"
-msgstr "Carpetas"
+msgstr "Carpetas virtuales"
 
 #: mail/mail-vfolder.c:541
 msgid "New VFolder"
@@ -9814,9 +9774,8 @@ msgstr "Configuración del resumen"
 
 #: my-evolution/e-summary-rdf.c:277 my-evolution/e-summary-rdf.c:362
 #: my-evolution/e-summary-rdf.c:395
-#, fuzzy
 msgid "Error downloading RDF"
-msgstr "<b>Error obteniendo RDF</b>"
+msgstr "Error obteniendo RDF"
 
 #: my-evolution/e-summary-rdf.c:487
 msgid "News Feed"
@@ -9827,9 +9786,8 @@ msgid "No tasks"
 msgstr "No hay tareas"
 
 #: my-evolution/e-summary-tasks.c:255
-#, fuzzy
 msgid "(No Description)"
-msgstr "Descripción:"
+msgstr "(Sin descripción)"
 
 #: my-evolution/e-summary-weather.c:57
 msgid "My Weather"
@@ -11178,14 +11136,12 @@ msgid "Inbox"
 msgstr "Inbox"
 
 #: shell/e-local-storage.c:176
-#, fuzzy
 msgid "Outbox"
-msgstr "mbox"
+msgstr "Salida"
 
 #: shell/e-local-storage.c:624
-#, fuzzy
 msgid "Local Folders"
-msgstr "Carpetas Especiales"
+msgstr "Carpetas locales"
 
 #: shell/e-setup.c:125
 msgid "Evolution installation"
@@ -11944,9 +11900,8 @@ msgid "Evolution can import data from the following files:"
 msgstr "Evolution puede importar datos de los siguiente s archivos:"
 
 #: shell/main.c:82
-#, fuzzy
 msgid "Evolution is now exiting ..."
-msgstr "_Ventana de Evolution"
+msgstr "Evolution esta termiando ..."
 
 #: shell/main.c:153
 #, no-c-format
@@ -13621,66 +13576,3 @@ msgstr "init_corba(): no pude inicializar GNOME"
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonob(): no pude inicializar Bonobo"
 
-#, fuzzy
-#~ msgid "Cannot open folder: %s: No such folder"
-#~ msgstr "No pude acceder a la carpeta: %s: %s"
-
-#~ msgid "Unable to get local storage.  This should never happen."
-#~ msgstr ""
-#~ "No fue posible obtener el almacén local.  Esto no debería ocurrir nunca."
-
-#~ msgid ""
-#~ "It is %s.  The Unix time is %ld right now.  We just thought you may like "
-#~ "to know."
-#~ msgstr ""
-#~ "Son las %s.  El tiempo Unix es %ld en estos momentos.  pensamos que le "
-#~ "gustaría saberlo."
-
-#~ msgid "%d"
-#~ msgstr "%d"
-
-#~ msgid "FIXME: mail alarm options"
-#~ msgstr "ARREGLAME: opciones de las alarmas de correo"
-
-#~ msgid "No plaintext to sign."
-#~ msgstr "No hay ningún texto plano a firmar"
-
-#~ msgid "No password provided."
-#~ msgstr "No se dio contraseña"
-
-#~ msgid "No plaintext to clearsign."
-#~ msgstr "No hay ningún texto plano para firmar."
-
-#~ msgid "No plaintext to verify."
-#~ msgstr "No hay ningún texto plano a verificar."
-
-#~ msgid "No plaintext to encrypt."
-#~ msgstr "No hay ningún texto plano a encriptar."
-
-#~ msgid "No recipients specified"
-#~ msgstr "No ha especificado destinatarios"
-
-#~ msgid "No ciphertext to decrypt."
-#~ msgstr "No hay ningún texto cifrado a desencriptar."
-
-#~ msgid ""
-#~ "Could not open file %s:\n"
-#~ "%s"
-#~ msgstr ""
-#~ "No puedo abrir el archivo %s:\n"
-#~ "%s"
-
-#~ msgid "%d/%m/%Y"
-#~ msgstr "%d/%m/%Y"
-
-#~ msgid "%Y/%m/%d"
-#~ msgstr "%Y/%m/%d"
-
-#~ msgid "%x"
-#~ msgstr "%x"
-
-#~ msgid "There was an error downloading news feed"
-#~ msgstr "Hubo un error descargando la fuente de noticias"
-
-#~ msgid "All Attendees"
-#~ msgstr "Todos los participantes"
