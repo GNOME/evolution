@@ -6157,7 +6157,7 @@ msgstr ""
 #: camel/camel-url.c:288
 #, c-format
 msgid "Could not parse URL `%s'"
-msgstr "Impossibile smistare URL `%s'"
+msgstr "Impossibile interpretare URL `%s'"
 
 #: camel/camel-vee-folder.c:588
 #, c-format
@@ -9493,7 +9493,7 @@ msgstr "Copia la collocazione del Link"
 
 #: mail/mail-display.c:1597
 msgid "Save Link as (FIXME)"
-msgstr ""
+msgstr "Salva il Link come"
 
 #: mail/mail-display.c:1600
 msgid "Save Image as..."
@@ -9506,7 +9506,7 @@ msgstr "%s allegato"
 
 #: mail/mail-format.c:680
 msgid "Could not parse MIME message. Displaying as source."
-msgstr "Impossibile smistare messaggio MIME. Visualizzazione come sorgente."
+msgstr "Impossibile interpretare il messaggio MIME.  Viene visualizzato il sorgente."
 
 #: mail/mail-format.c:763
 msgid "Date"
