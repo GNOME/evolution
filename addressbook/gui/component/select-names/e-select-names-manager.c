@@ -114,6 +114,7 @@ e_select_names_manager_destroy (GtkObject *object)
 	
 	manager = E_SELECT_NAMES_MANAGER (object);
 
+	g_hash_table_destroy (manager->id_to_names);
 	gtk_object_unref(GTK_OBJECT(manager->sections));
 	gtk_object_unref(GTK_OBJECT(manager->entries));
 }
@@ -208,6 +209,7 @@ entry_free(void *ent, void *data)
 static void
 e_select_names_manager_init (ESelectNamesManager *manager)
 {
+	manager->id_to_names = g_hash_table_new (g_str_hash, g_str_equal);
 	manager->sections = e_list_new(section_copy, section_free, manager);
 	manager->entries  = e_list_new(entry_copy, entry_free, manager);
 }
@@ -316,21 +318,49 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNamesManager *m
 	gnome_dialog_close(GNOME_DIALOG(dialog));
 }
 
+static void
+remove_id_from_table (GtkWidget *names,
+		      ESelectNamesManager *manager)
+{
+	char *id;
+
+	id = gtk_object_get_data (GTK_OBJECT (names), "section-id");
+	g_hash_table_remove (manager->id_to_names, id);
+	g_free (id);
+}
+
 void                          e_select_names_manager_activate_dialog           (ESelectNamesManager *manager,
 										const char *id)
 {
-	ESelectNames *names = E_SELECT_NAMES(e_select_names_new());
+	ESelectNames *names;
 	EIterator *iterator;
-	iterator = e_list_get_iterator(manager->sections);
-	for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
-		const ESelectNamesManagerSection *section = e_iterator_get(iterator);
-		ESelectNamesModel *newmodel = e_select_names_model_duplicate(section->model);
-		e_select_names_add_section(names, section->id, section->title, newmodel);
-		gtk_object_unref(GTK_OBJECT(newmodel));
+	
+	names = g_hash_table_lookup (manager->id_to_names, id);
+
+	if (names) {
+		g_assert (GTK_WIDGET_REALIZED (GTK_WIDGET (names)));
+		gdk_window_show (GTK_WIDGET (names)->window);
+		gdk_window_raise (GTK_WIDGET (names)->window);
+	} else {
+		char *id_dup;
+		names = E_SELECT_NAMES (e_select_names_new ());
+
+		iterator = e_list_get_iterator(manager->sections);
+		for (e_iterator_reset(iterator); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
+			const ESelectNamesManagerSection *section = e_iterator_get(iterator);
+			ESelectNamesModel *newmodel = e_select_names_model_duplicate(section->model);
+			e_select_names_add_section(names, section->id, section->title, newmodel);
+			gtk_object_unref(GTK_OBJECT(newmodel));
+		}
+		gtk_signal_connect(GTK_OBJECT(names), "clicked",
+				   GTK_SIGNAL_FUNC(e_select_names_clicked), manager);
+		id_dup = g_strdup (id);
+		gtk_object_set_data(GTK_OBJECT(names), "section-id", id_dup);
+		g_hash_table_insert (manager->id_to_names, id_dup, names);
+		gtk_signal_connect(GTK_OBJECT(names), "destroy",
+				   GTK_SIGNAL_FUNC(remove_id_from_table), manager);
+		gtk_widget_show(GTK_WIDGET(names));
 	}
-	gtk_signal_connect(GTK_OBJECT(names), "clicked",
-			   GTK_SIGNAL_FUNC(e_select_names_clicked), manager);
-	gtk_widget_show(GTK_WIDGET(names));
 }
 
 /* Of type ECard */

@@ -28,6 +28,8 @@ struct _ESelectNamesManager {
 	
 	EList *sections;
 	EList *entries;
+
+	GHashTable *id_to_names;
 };
 
 struct _ESelectNamesManagerClass {
