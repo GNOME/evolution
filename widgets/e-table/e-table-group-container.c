@@ -12,6 +12,7 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-table-group-container.h"
+#include "e-table-group-leaf.h"
 #include "e-table-item.h"
 #include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include "e-util/e-util.h"
@@ -81,19 +82,19 @@ etgc_destroy (GtkObject *object)
 {
 	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (object);
 
-	if (etgc->font){
+	if (etgc->font)
 		gdk_font_unref (etgc->font);
 		etgc->font = NULL;
-	}
-	if (etgc->ecol){
+
+	if (etgc->ecol)
 		gtk_object_unref (GTK_OBJECT(etgc->ecol));
-	}
-	if (etgc->sort_info){
+
+	if (etgc->sort_info)
 		gtk_object_unref (GTK_OBJECT(etgc->sort_info));
-	}
-	if (etgc->rect){
+
+	if (etgc->rect)
 		gtk_object_destroy (GTK_OBJECT(etgc->rect));
-	}	
+
 	e_table_group_container_list_free (etgc);
 
 	GTK_OBJECT_CLASS (etgc_parent_class)->destroy (object);
@@ -555,7 +556,7 @@ child_row_selection (ETableGroup *etg, int row, gboolean selected,
 static void
 etgc_add (ETableGroup *etg, gint row)
 {
-	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
 	void *val = e_table_model_value_at (etg->model, etgc->ecol->col_idx, row);
 	GCompareFunc comp = etgc->ecol->compare;
 	GList *list = etgc->children;
@@ -565,7 +566,8 @@ etgc_add (ETableGroup *etg, gint row)
 
 	for (; list; list = g_list_next (list), i++){
 		int comp_val;
-		child_node = (ETableGroupContainerChildNode *)(list->data);
+
+		child_node = list->data;
 		comp_val = (*comp)(child_node->key, val);
 		if (comp_val == 0) {
 			child = child_node->child;
@@ -881,6 +883,23 @@ etgc_init (GtkObject *object)
 
 E_MAKE_TYPE (e_table_group_container, "ETableGroupContainer", ETableGroupContainer, etgc_class_init, etgc_init, PARENT_TYPE);
 
+void
+e_table_group_apply_to_leafs (ETableGroup *etg, ETableGroupLeafFn fn, void *closure)
+{
+	if (E_IS_TABLE_GROUP_CONTAINER (etg)){
+		ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER (etg);
+		GList *list = etgc->children;
 
+		for (list = etgc->children; list; list = list->next){
+			ETableGroupContainerChildNode *child_node = list->data;
 
+			e_table_group_apply_to_leafs (child_node->child, fn, closure);
+		}
+	} else if (E_IS_TABLE_GROUP_LEAF (etg)){
+		(*fn) (E_TABLE_GROUP_LEAF (etg)->item, closure);
+	} else {
+		g_error ("Unknown ETableGroup found: %s",
+			 gtk_type_name (GTK_OBJECT (etg)->klass->type));
+	}
+}
 

@@ -93,4 +93,8 @@ void             e_table_group_row_selection (ETableGroup      *etg,
 
 GtkType          e_table_group_get_type  (void);
 
+typedef void (*ETableGroupLeafFn) (void *e_table_item, void *closure);
+void         e_table_group_apply_to_leafs (ETableGroup *etg,
+					   ETableGroupLeafFn fn, void *closure);
+
 #endif /* _E_TABLE_GROUP_H_ */

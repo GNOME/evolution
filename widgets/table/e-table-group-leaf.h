@@ -35,6 +35,8 @@ ETableGroup *e_table_group_leaf_new       (GnomeCanvasGroup *parent,
 					   ETableHeader     *header,
 					   ETableModel *model,
 					   ETableSortInfo *sort_info);
-GtkType          e_table_group_leaf_get_type  (void);
+GtkType      e_table_group_leaf_get_type  (void);
+
 
 #endif /* _E_TABLE_GROUP_LEAF_H_ */
+

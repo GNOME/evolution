@@ -40,17 +40,18 @@ typedef struct {
 
 	GnomeCanvasItem *header_item, *root;
 
-	xmlDoc *specification;
-	
-	guint draw_grid:1;
-	guint draw_focus:1;
-	guint spreadsheet:1;
-	
 	guint need_rebuild:1;
 	guint need_row_changes:1;
 	
 	GHashTable *row_changes_list;
 	gint rebuild_idle_id;
+
+	/*
+	 * Configuration settings
+	 */
+	guint draw_grid:1;
+	guint draw_focus:1;
+	guint spreadsheet:1;
 } ETable;
 
 typedef struct {
@@ -59,19 +60,21 @@ typedef struct {
 	void        (*row_selection)      (ETable *et, int row, gboolean selected);
 } ETableClass;
 
-GtkType    e_table_get_type  (void);
-void       e_table_construct (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
-			      const char *spec);
-GtkWidget *e_table_new       (ETableHeader *full_header, ETableModel *etm,
-			      const char *spec);
+GtkType    e_table_get_type   		    (void);
 
-void       e_table_construct_from_spec_file (ETable *e_table,
+ETable    *e_table_construct  		    (ETable *e_table, ETableHeader *full_header, ETableModel *etm,
+			      		     const char *spec);
+GtkWidget *e_table_new        		    (ETableHeader *full_header, ETableModel *etm,
+			      		     const char *spec);
+
+ETable    *e_table_construct_from_spec_file (ETable *e_table,
 					     ETableHeader *full_header,
 					     ETableModel *etm,
 					     const char *filename);
 GtkWidget *e_table_new_from_spec_file       (ETableHeader *full_header,
 					     ETableModel *etm,
 					     const char *filename);
+
 gchar     *e_table_get_specification        (ETable *e_table);
 void       e_table_save_specification       (ETable *e_table, gchar *filename);
 

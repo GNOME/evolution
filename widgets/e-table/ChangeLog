@@ -1,3 +1,26 @@
+2000-04-24  Miguel de Icaza  <miguel@helixcode.com>
+
+	* e-table.c (e_table_class_init): Add argument handling here.
+
+	* e-table-group-leaf.c (e_table_group_apply_to_leafs): New method.
+	Enables us to walk all the children of an ETableGroup.
+
+	* e-table.c (et_get_arg, et_set_arg): Implement ::get and ::set
+	methods.
+	(e_table_construct_from_spec_file): Now we return the etable.
+	(e_table_construct): ditto.
+	(et_real_construct): Now we return the ETable.  Returns NULL on
+	construct failure. 
+	(e_table_new): ditto.
+	(e_table_new_from_spec_file): ditto.
+
+	* (et_build_grouping_spec): Removed vestige code that still
+	contained references to the etable->specification XML code.
+
+	Dumped all the ifdefed out code. 
+	
+	* e-table.h: Removed ETable->specification finally.
+	
 2000-04-25  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-size-test.c: Fixed a warning.

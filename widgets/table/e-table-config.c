@@ -98,7 +98,7 @@ load_label_data (GladeXML *gui, ETable *etable)
 	xmlNode *xmlRoot;
 	char *s;
 	
-	xmlRoot = xmlDocGetRootElement (etable->specification);
+/*	xmlRoot = xmlDocGetRootElement (etable->specification); */
 
 	s = get_fields (etable, xmlRoot);
 	load_data (gui, "label1", s);

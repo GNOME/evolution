@@ -3,9 +3,10 @@
  * E-Table-Group.c: Implements the grouping objects for elements on a table
  *
  * Author:
- *   Miguel de Icaza (miguel@gnu.org ()
+ *   Miguel de Icaza (miguel@helixcode.com)
+ *   Chris Lahey (clahey@helixcode.com)
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, 2000 Helix Code, Inc.
  */
 
 #include <config.h>
@@ -357,6 +358,4 @@ etg_class_init (GtkObjectClass *object_class)
 }
 
 E_MAKE_TYPE (e_table_group, "ETableGroup", ETableGroup, etg_class_init, NULL, PARENT_TYPE);
-
-
 

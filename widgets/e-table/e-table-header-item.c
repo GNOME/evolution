@@ -5,7 +5,7 @@
  * Author:
  *   Miguel de Icaza (miguel@gnu.org)
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, 2000 Helix Code, Inc.
  */
 #include <config.h>
 #include <gtk/gtksignal.h>
@@ -221,17 +221,26 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_SORT_INFO:
 		if (ethi->sort_info){
 			if (ethi->sort_info_changed_id)
-				gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+				gtk_signal_disconnect (
+					GTK_OBJECT(ethi->sort_info),
+					ethi->sort_info_changed_id);
+
 			if (ethi->group_info_changed_id)
-				gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
+				gtk_signal_disconnect (
+					GTK_OBJECT(ethi->sort_info),
+					ethi->group_info_changed_id);
 			gtk_object_unref (GTK_OBJECT(ethi->sort_info));
 		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
 		gtk_object_ref (GTK_OBJECT(ethi->sort_info));
-		ethi->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT(ethi->sort_info), "sort_info_changed",
-								 GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
-		ethi->group_info_changed_id = gtk_signal_connect (GTK_OBJECT(ethi->sort_info), "group_info_changed",
-								  GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+		ethi->sort_info_changed_id =
+			gtk_signal_connect (
+				GTK_OBJECT(ethi->sort_info), "sort_info_changed",
+				GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+		ethi->group_info_changed_id =
+			gtk_signal_connect (
+				GTK_OBJECT(ethi->sort_info), "group_info_changed",
+				GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
 		break;
 		
 	}
@@ -405,7 +414,8 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 		gtk_object_destroy (GTK_OBJECT (ethi->remove_item));
 
 	if (!ethi->stipple)
-		ethi->stipple = gdk_bitmap_create_from_data  (NULL, gray50_bits, gray50_width, gray50_height);
+		ethi->stipple = gdk_bitmap_create_from_data  (
+			NULL, gray50_bits, gray50_width, gray50_height);
 	
 	x1 = ethi->x1 + (double) e_table_header_col_diff (ethi->eth, 0, ethi->drag_col);
 	if (ethi->drag_col > 0)
@@ -416,7 +426,9 @@ ethi_add_destroy_marker (ETableHeaderItem *ethi)
 		gnome_canvas_rect_get_type (),
 		"x1", x1 + 1,
 		"y1", (double) ethi->y1 + 1,
-		"x2", (double) x1 + e_table_header_col_diff (ethi->eth, ethi->drag_col, ethi->drag_col+1) - 2,
+		"x2", (double) x1 + e_table_header_col_diff (
+			ethi->eth, ethi->drag_col, ethi->drag_col+1) - 2,
+
 		"y2", (double) ethi->y1 + ethi->height - 2,
 		"fill_color", "red",
 		"fill_stipple", ethi->stipple,
@@ -912,6 +924,21 @@ ethi_start_drag (ETableHeaderItem *ethi, GdkEvent *event)
 	g_hash_table_destroy (arrows);
 }
 
+static GtkMenu *
+ethi_create_context_menu (ETableHeaderItem *ethi)
+{
+}
+	
+static EPopupMenu ethi_context_menu [] = {
+	{ NULL, NULL, NULL, 0 }
+};
+
+static void
+ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
+{
+	e_popup_menu_run (ethi_context_menu, event, 0, ethi);
+}
+
 /*
  * Handles the events on the ETableHeaderItem, particularly it handles resizing
  */
@@ -995,6 +1022,8 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				ethi->click_x = e->button.x;
 				ethi->click_y = e->button.y;
 				ethi->maybe_drag = TRUE;
+			} else if (e->button.button == 3){
+				ethi_header_context_menu (ethi, &e->button);
 			}
 		}
 		break;

@@ -44,7 +44,7 @@ enum {
 	
 	ARG_WIDTH,
 	ARG_HEIGHT,
-	ARG_HAS_FOCUS
+	ARG_HAS_FOCUS,
 };
 
 static int eti_get_height (ETableItem *eti);
@@ -643,6 +643,7 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_MODE_SPREADSHEET:
 		eti->mode_spreadsheet = GTK_VALUE_BOOL (*arg);
 		break;
+
 	}
 	eti->needs_redraw = 1;
 	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(eti));

@@ -290,9 +290,18 @@ row_selection_test (ETable *table, int row, gboolean selected)
 }
 
 static void
+toggle_grid (void *nothing, ETable *etable)
+{
+	static gboolean shown;
+
+	gtk_object_get (GTK_OBJECT (etable), "drawgrid", &shown, NULL);
+	gtk_object_set (GTK_OBJECT (etable), "drawgrid", !shown, NULL);
+}
+
+static void
 do_e_table_demo (const char *spec)
 {
-	GtkWidget *e_table, *window, *frame, *vbox, *button;
+	GtkWidget *e_table, *window, *frame, *vbox, *button, *bhide;
 	ECell *cell_left_just;
 	ETableHeader *full_header;
 	int i;
@@ -328,23 +337,26 @@ do_e_table_demo (const char *spec)
 	gtk_signal_connect (GTK_OBJECT(e_table), "row_selection",
 			   GTK_SIGNAL_FUNC(row_selection_test), NULL);
 
-	button = gtk_button_new_with_label ("Save spec");
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (save_spec), e_table);
-
 	vbox = gtk_vbox_new (FALSE, 0);
-	
 	gtk_box_pack_start (GTK_BOX (vbox), e_table, TRUE, TRUE, 0);
-	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
 	gtk_container_add (GTK_CONTAINER (frame), vbox);
 	gtk_container_add (GTK_CONTAINER (window), frame);
 
+	/*
+	 * gadgets
+	 */
+	button = gtk_button_new_with_label ("Save spec");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    GTK_SIGNAL_FUNC (save_spec), e_table);
+	gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, FALSE, 0);
+
+	bhide = gtk_button_new_with_label ("Toggle Grid");
+	gtk_signal_connect (GTK_OBJECT (bhide), "clicked",
+			    GTK_SIGNAL_FUNC (toggle_grid), e_table);
+	gtk_box_pack_start (GTK_BOX (vbox), bhide, FALSE, FALSE, 0);
+
 	gtk_widget_set_usize (window, 200, 200);
-	gtk_widget_show (e_table);
-	gtk_widget_show (button);
-	gtk_widget_show (vbox);
-	gtk_widget_show (frame);
-	gtk_widget_show (window);
+	gtk_widget_show_all (window);
 
 	if (getenv ("TEST")){
 		e_table_do_gui_config (NULL, E_TABLE(e_table));
