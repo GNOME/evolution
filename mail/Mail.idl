@@ -45,9 +45,6 @@ module Evolution {
 			string name;
 			string address;
 			string organization;
-			string signature;
-			string html_signature;
-			boolean has_html_signature;
 		};
 
 		struct Service {

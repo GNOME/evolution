@@ -94,6 +94,8 @@ evolution_mail_SOURCES =		\
 	mail-send-recv.h		\
 	mail-session.c			\
 	mail-session.h			\
+	mail-signature-editor.c		\
+	mail-signature-editor.h		\
 	mail-stream-gtkhtml.c		\
 	mail-stream-gtkhtml.h		\
 	mail-tools.c			\

@@ -146,11 +146,11 @@ cancel_clicked (GtkWidget *widget, gpointer data)
 }
 
 static void
-construct (MailAccountEditor *editor, MailConfigAccount *account)
+construct (MailAccountEditor *editor, MailConfigAccount *account, MailAccountsDialog *dialog)
 {
 	MailConfigService *source = account->source;
 	
-	editor->gui = mail_account_gui_new (account);
+	editor->gui = mail_account_gui_new (account, dialog);
 	
 	/* get our toplevel widget and reparent it */
 	editor->notebook = GTK_NOTEBOOK (glade_xml_get_widget (editor->gui->xml, "account_editor_notebook"));
@@ -182,13 +182,13 @@ construct (MailAccountEditor *editor, MailConfigAccount *account)
 }
 
 MailAccountEditor *
-mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent)
+mail_account_editor_new (MailConfigAccount *account, GtkWindow *parent, MailAccountsDialog *dialog)
 {
 	MailAccountEditor *new;
 	
 	new = (MailAccountEditor *) gtk_type_new (mail_account_editor_get_type ());
 	gnome_dialog_set_parent (GNOME_DIALOG (new), parent);
-	construct (new, account);
+	construct (new, account, dialog);
 	
 	return new;
 }

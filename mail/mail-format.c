@@ -31,7 +31,8 @@
 #include <fcntl.h>
 
 #include <liboaf/liboaf.h>
-#include <libgnome/libgnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-util.h>
 #include <libgnomevfs/gnome-vfs-mime-info.h>
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <gal/widgets/e-unicode.h>

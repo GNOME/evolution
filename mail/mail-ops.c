@@ -30,7 +30,8 @@
 
 /* #include <ctype.h> */
 #include <errno.h>
-#include <gnome.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-exec.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>

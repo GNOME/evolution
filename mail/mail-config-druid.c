@@ -696,7 +696,7 @@ get_fn (EvolutionWizard *wizard,
 					     gui->account);
 		}
 		
-		gui->gui = mail_account_gui_new (gui->account);
+		gui->gui = mail_account_gui_new (gui->account, NULL);
 		
 		/* set up signals, etc */
 		gtk_signal_connect (GTK_OBJECT (gui->gui->account_name),
