@@ -1,3 +1,7 @@
+2004-08-01  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: add libedataserver to E_UTIL flags
+
 2004-07-25  Gil Osher  <dolfin@rpg.org.il>
 
 	* configure.in: Added 'he' (Hebrew) to ALL_LINGUAS.
