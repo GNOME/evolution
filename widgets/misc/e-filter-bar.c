@@ -266,7 +266,14 @@ option_changed (ESearchBar *esb, void *data)
 	
 	switch (id) {
 	case E_FILTERBAR_ADVANCED_ID:
-		do_advanced (esb);
+		query = e_search_bar_get_text (esb);
+		if (query && *query)
+			do_advanced (esb);
+		else if (!efb->setquery) 
+			/* clearing advanced search, reset because search may 
+			 * have rules not dependent on query text */
+			e_search_bar_set_item_id (esb, 0);
+		g_free (query);
 		break;
 	default:
 		if (id >= efb->option_base && id < efb->option_base + efb->option_rules->len) {

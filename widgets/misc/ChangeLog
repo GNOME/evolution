@@ -1,3 +1,9 @@
+2002-08-29  Peter Williams  <peterw@ximian.com>
+
+	* e-filter-bar.c (option_changed): If the item is ADVANCED_ID, check
+	the query and efb->setquery to see whether we should pop up the advanced
+	dialog or clear an advanced search. Fixes #29625.
+
 2002-08-21  Peter Williams  <peterw@ximian.com>
 
 	* e-search-bar.c (clear_search): Don't set the item id; clear search
