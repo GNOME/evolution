@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-summary-calendar.c
  *
- * Copyright (C) 2001, 2002 Ximian, Inc.
+ * Copyright (C) 2001, 2002, 2003 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -404,7 +404,7 @@ generate_html (gpointer data)
 			if (calendar->wants24hr == TRUE) {
 				strftime (start_str, sizeof start_str, _("%k:%M %d %B"), &start_tm);
 			} else {
-				strftime (start_str, sizeof start_str, _("%l:%M %d %B"), &start_tm);
+				strftime (start_str, sizeof start_str, _("%l:%M%P %d %B"), &start_tm);
 			}
 
 			if (cal_component_has_alarms (event->comp)) {

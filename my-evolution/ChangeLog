@@ -1,3 +1,8 @@
+2003-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Add a %P in the strftime
+	string for the case when the user wants am/pm format.  [#19957]
+
 2003-03-13  Mike Kestner  <mkestner@ximian.com>
 
 	* e-summary-preferences.c (fill_rdf_etable): pass FALSE for 
