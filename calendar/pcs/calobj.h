@@ -180,8 +180,8 @@ typedef struct {
 	void *user_data;		/* Generic data pointer */
 
 	/* Pilot */
-	int           pilot_status;     /* Status information */
-	int           pilot_id;         /* Pilot ID */
+	iCalPilotState pilot_status;    /* Status information */
+	int            pilot_id;        /* Pilot ID */
 } iCalObject;
 
 /* The callback for the recurrence generator */

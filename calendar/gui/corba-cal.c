@@ -79,12 +79,12 @@ cal_repo_get_object_by_pilot_id (PortableServer_Servant servant,
 	iCalObject *obj;
 	char *buffer;
 	CORBA_char *ret;
-	
+
 	obj = calendar_object_find_by_pilot (gcal->cal, pilot_id);
 	if (obj == NULL){
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_GNOME_Calendar_Repository_NotFound, "");
+				     ex_GNOME_Calendar_Repository_NotFound, NULL);
 		return NULL;
 	}
 
@@ -108,7 +108,7 @@ cal_repo_get_id_from_pilot_id (PortableServer_Servant servant,
 	if (obj == NULL){
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
-				     ex_GNOME_Calendar_Repository_NotFound, "");
+				     ex_GNOME_Calendar_Repository_NotFound, NULL);
 		return NULL;
 	}
 

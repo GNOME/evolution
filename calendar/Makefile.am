@@ -120,7 +120,16 @@ calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 calendar_conduits_LTLIBRARIES = libcalendar_conduit.la
 
 libcalendar_conduit_la_SOURCES = \
-	calendar-conduit.c
+	calendar-conduit.c	\
+	calobj.c 		\
+	alarm.c			\
+	GnomeCal-common.c	\
+	GnomeCal-stubs.c	\
+	calendar.c 		\
+	vcc.c 	\
+	vcaltmp.c 	\
+	vobject.c 	\
+	timeutil.c
 
 libcalendar_conduit_la_LDFLAGS = \
 	-rpath $(libdir)
