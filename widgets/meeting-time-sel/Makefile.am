@@ -25,6 +25,7 @@ test_meeting_time_selector_LDADD =			\
 	libevolutionmtsel.a				\
 	$(top_builddir)/widgets/e-text/libetext.a	\
 	$(top_builddir)/e-util/libeutil.la		\
+	$(EXTRA_GNOME_LIBS)				\
 	$(GNOMEUI_LIBS)
 
 test_meeting_time_selector_LDFLAGS = $(GNOME_LIBDIR)

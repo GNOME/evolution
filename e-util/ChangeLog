@@ -1,5 +1,9 @@
 2000-08-19  Lauris Kaplinski  lauris@helixcode.com
 
+	* e-font.h: #define e_font_height(f) to save some space
+	
+2000-08-19  Lauris Kaplinski  lauris@helixcode.com
+
 	* e-font.h:
 	* e-font.c: Thin wrapper around GdkFont to deal with UTF-8 directly
 	Also handles bold/italic styling

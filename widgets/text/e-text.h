@@ -20,6 +20,7 @@
 #define E_TEXT_H
 
 #include <gnome.h>
+#include "e-util/e-font.h"
 #include "e-text-event-processor.h"
 #include "e-text-model.h"
 
@@ -80,6 +81,8 @@ BEGIN_GNOME_DECLS
 
 typedef struct _EText EText;
 typedef struct _ETextClass ETextClass;
+
+#if 0
 typedef struct _ETextSuckFont ETextSuckFont;
 typedef struct _ETextSuckChar ETextSuckChar;
 
@@ -99,6 +102,7 @@ struct _ETextSuckFont {
 	gint    ascent;
 	ETextSuckChar chars[256];
 };
+#endif
 
 struct _EText {
 	GnomeCanvasItem item;
@@ -110,7 +114,11 @@ struct _EText {
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
+#if 0
 	GdkFont *font;			/* Font for text */
+#else
+	EFont *font;
+#endif
 	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
 
@@ -134,7 +142,9 @@ struct _EText {
 	guint fill_clip_rectangle : 1;  /* Fill the clipping rectangle. */
 
 	/* Antialiased specific stuff follows */
+#if 0
 	ETextSuckFont *suckfont; /* Sucked font */
+#endif
 	guint32 rgba;			/* RGBA color for text */
 	double affine[6];               /* The item -> canvas affine */
 

@@ -39,6 +39,8 @@ void e_font_unref (EFont *font);
 gint e_font_ascent (EFont * font);
 gint e_font_descent (EFont * font);
 
+#define e_font_height(f) (e_font_ascent (f) + e_font_descent (f))
+
 /*
  * NB! UTF-8 text widths are given in chars, not bytes
  */

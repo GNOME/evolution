@@ -1,3 +1,8 @@
+2000-08-19  Lauris Kaplinski  <lauris@helixcode.com>
+
+	* widgets/e-text/e-text.h: Commented out Suckfont, added EFont
+	* widgets/e-text/e-text.c: Ported to UTF-8
+
 2000-08-18  Peter Williams  <peterw@helixcode.com>
 
 	* configure.in (gnome-vfs): Check for new enough gnome-vfs

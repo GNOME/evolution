@@ -24,6 +24,7 @@
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb.h>
 #include <libart_lgpl/art_rgb_bitmap_affine.h>
+#include <unicode.h>
 #include <gtk/gtkinvisible.h>
 #include "e-util/e-canvas.h"
 #include "e-util/e-canvas-utils.h"
@@ -140,8 +141,11 @@ static void _selection_received (GtkInvisible *invisible,
 				 guint time,
 				 EText *text);
 
+#if 0
 static ETextSuckFont *e_suck_font (GdkFont *font);
 static void e_suck_font_free (ETextSuckFont *suckfont);
+#endif
+
 static void e_text_free_lines(EText *text);
 
 static void calc_height (EText *text);
@@ -401,10 +405,12 @@ e_text_destroy (GtkObject *object)
 		g_free (text->lines);
 
 	if (text->font)
-		gdk_font_unref (text->font);
+		e_font_unref (text->font);
 
+#if 0
 	if (text->suckfont)
 		e_suck_font_free (text->suckfont);
+#endif
 
 	if (text->stipple)
 		gdk_bitmap_unref (text->stipple);
@@ -460,7 +466,7 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 	old_height = text->height;
 
 	if (text->text && text->font)
-		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
+		text->height = (e_font_ascent (text->font) + e_font_descent (text->font)) * text->num_lines;
 	else
 		text->height = 0;
 
@@ -654,7 +660,7 @@ calc_height (EText *text)
 		split_into_lines (text);
 
 	if (text->text && text->font)
-		text->height = (text->font->ascent + text->font->descent) * text->num_lines;
+		text->height = (e_font_ascent (text->font) + e_font_descent (text->font)) * text->num_lines;
 	else
 		text->height = 0;
 
@@ -667,9 +673,9 @@ calc_ellipsis (EText *text)
 {
 	if (text->font)
 		text->ellipsis_width = 
-			gdk_text_width (text->font,
-					text->ellipsis ? text->ellipsis : "...",
-					text->ellipsis ? strlen (text->ellipsis) : 3);
+			e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+						text->ellipsis ? text->ellipsis : "...",
+						text->ellipsis ? unicode_strlen (text->ellipsis, -1) : 3);
 }
 
 /* Calculates the line widths (in pixels) of the text's splitted lines */
@@ -702,8 +708,8 @@ calc_line_widths (EText *text)
 	for (i = 0; i < text->num_lines; i++) {
 		if (lines->length != 0) {
 			if (text->font) {
-				lines->width = gdk_text_width (text->font,
-							       lines->text, lines->length);
+				lines->width = e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+								       lines->text, lines->length);
 				lines->ellipsis_length = 0;
 			} else {
 				lines->width = 0;
@@ -717,7 +723,8 @@ calc_line_widths (EText *text)
 				if (text->font) {
 					lines->ellipsis_length = 0;
 					for (j = 0; j < lines->length; j++ ) {
-						if (gdk_text_width (text->font, lines->text, j) + text->ellipsis_width <= clip_width)
+						if (e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, j) + text->ellipsis_width
+						    <= clip_width)
 							lines->ellipsis_length = j;
 						else
 							break;
@@ -725,7 +732,7 @@ calc_line_widths (EText *text)
 				}
 				else
 					lines->ellipsis_length = 0;
-				lines->width = gdk_text_width (text->font, lines->text, lines->ellipsis_length) +
+				lines->width = e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, lines->ellipsis_length) +
 					text->ellipsis_width;
 			}
 			else
@@ -749,12 +756,12 @@ e_text_free_lines(EText *text)
 	text->num_lines = 0;
 }
 
-#define IS_BREAKCHAR(text,c) ((text)->break_characters && strchr ((text)->break_characters, (c)))
+#define IS_BREAKCHAR(text,c) ((text)->break_characters && unicode_strchr ((text)->break_characters, (c)))
 /* Splits the text of the text item into lines */
 static void
 split_into_lines (EText *text)
 {
-	char *p;
+	char *p, *cp;
 	struct line *lines;
 	int len;
 	int line_num;
@@ -762,6 +769,8 @@ split_into_lines (EText *text)
 	char *lastend;
 	char *linestart;
 	double clip_width;
+	unicode_char_t unival;
+	gint charpos;
 
 	/* Free old array of lines */
 	e_text_free_lines(text);
@@ -782,50 +791,55 @@ split_into_lines (EText *text)
 			clip_width = 0;
 	}
 
-	for (p = text->text; *p; p++) {
-		if (text->line_wrap && (*p == ' ' || *p == '\n')) {
-			if ( laststart != lastend
-			     && gdk_text_width(text->font,
-					       linestart,
-					       p - linestart)
-			     > clip_width ) {
+	cp = text->text;
+	charpos = 0;
+
+	for (p = unicode_get_utf8 (cp, &unival); (unival && p); charpos++, cp = p, p = unicode_get_utf8 (p, &unival)) {
+		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
+			if (laststart != lastend
+			    && e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+						      linestart,
+						      unicode_index_to_offset (linestart, cp - linestart))
+			    > clip_width ) {
 				text->num_lines ++;
 				linestart = laststart;
-				laststart = p + 1;
-				lastend = p;
-			} else if (*p == ' ') {
-				laststart = p + 1;
-				lastend = p;
+				laststart = p;
+				lastend = cp;
+			} else if (unicode_isspace (unival)) {
+				laststart = p;
+				lastend = cp;
 			}
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, *p))) {
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival))) {
 			if ( laststart != lastend
-			     && p != linestart + 1
-			     && gdk_text_width(text->font,
-					       linestart,
-					       p + 1 - linestart)
+			     && unicode_index_to_offset (linestart, cp - linestart) != 1
+			     && e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+						       linestart,
+						       unicode_index_to_offset (linestart, p - linestart))
 			     > clip_width ) {
 				text->num_lines ++;
 				linestart = laststart;
-				laststart = p + 1;
-				lastend = p + 1;
+				laststart = p;
+				lastend = p;
 			} else {
-				laststart = p + 1;
-				lastend = p + 1;
+				laststart = p;
+				lastend = p;
 			}
 		} 
-		if (*p == '\n') {
+		if (unival == '\n') {
 			text->num_lines ++;
-			lastend = p + 1;
-			laststart = p + 1;
-			linestart = p + 1;
+			lastend = p;
+			laststart = p;
+			linestart = p;
 		} 
 	}
 
+	/* fixme: */
 	if (text->line_wrap) {
-		if ( laststart != lastend
-		     && gdk_text_width(text->font,
-				       linestart,
-				       p - linestart)
+		if ( p
+		     && laststart != lastend
+		     && e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+					       linestart,
+					       unicode_index_to_offset (linestart, cp - linestart))
 		     > clip_width ) {
 			text->num_lines ++;
 		}
@@ -845,58 +859,59 @@ split_into_lines (EText *text)
 	lastend = text->text;
 	laststart = text->text;
 
-	for (p = text->text; line_num < text->num_lines && *p; p++) {
+	cp = text->text;
+	for (p = unicode_get_utf8 (cp, &unival); line_num < text->num_lines && unival; cp = p, p = unicode_get_utf8 (p, &unival)) {
 		gboolean handled = FALSE;
 		if (len == 0)
-			lines->text = p;
-		if (text->line_wrap && (*p == ' ' || *p == '\n')) {
-			if ( gdk_text_width(text->font,
-					    lines->text,
-					    p - lines->text)
-			     > clip_width 
-			     && laststart != lastend ) {
-				lines->length = lastend - lines->text;
+			lines->text = cp;
+		if (text->line_wrap && (unicode_isspace (unival) || unival == '\n')) {
+			if (e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+						   lines->text,
+						   unicode_index_to_offset (lines->text, cp - lines->text))
+			    > clip_width 
+			    && laststart != lastend) {
+				lines->length = unicode_index_to_offset (lines->text, lastend - lines->text);
 				lines++;
-				line_num ++;
-				len = p - laststart;
+				line_num++;
+				len = unicode_index_to_offset (laststart, cp - laststart);
 				lines->text = laststart;
-				laststart = p + 1;
-				lastend = p;
-			} else if (*p == ' ') {
-				laststart = p + 1;
-				lastend = p;
+				laststart = p;
+				lastend = cp;
+			} else if (unicode_isspace (unival)) {
+				laststart = p;
+				lastend = cp;
 				len ++;
 			}
 			handled = TRUE;
-		} else if (text->line_wrap && (IS_BREAKCHAR(text, *p))) {
-			if ( laststart != lastend
-			     && p != lines->text + 1
-			     && gdk_text_width(text->font,
-					       lines->text,
-					       p + 1 - lines->text)
-			     > clip_width ) {
-				lines->length = lastend - lines->text;
+		} else if (text->line_wrap && (IS_BREAKCHAR(text, unival))) {
+			if (laststart != lastend
+			    && unicode_index_to_offset (lines->text, cp - lines->text) != 1
+			    && e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+						      lines->text,
+						      unicode_index_to_offset (lines->text, p - lines->text))
+			    > clip_width ) {
+				lines->length = unicode_index_to_offset (lines->text, lastend - lines->text);
 				lines++;
 				line_num++;
-				len = p + 1 - laststart;
+				len = unicode_index_to_offset (laststart, p - laststart);
 				lines->text = laststart;
-				laststart = p + 1;
-				lastend = p + 1;
+				laststart = p;
+				lastend = p;
 			} else {
-				laststart = p + 1;
-				lastend = p + 1;
+				laststart = p;
+				lastend = p;
 				len ++;
 			}
 		} 
-		if ( line_num >= text->num_lines )
+		if (line_num >= text->num_lines)
 			break;
-		if (*p == '\n') {
-			lines->length = p - lines->text;
+		if (unival == '\n') {
+			lines->length = unicode_index_to_offset (lines->text, cp - lines->text);
 			lines++;
-			line_num ++;
+			line_num++;
 			len = 0;
-			lastend = p + 1;
-			laststart = p + 1;
+			lastend = p;
+			laststart = p;
 			handled = TRUE;
 		} 
 		if (!handled)
@@ -904,24 +919,24 @@ split_into_lines (EText *text)
 	}
 
 	if ( line_num < text->num_lines && text->line_wrap ) {
-		if ( gdk_text_width(text->font,
-				    lines->text,
-				    p - lines->text)
-		     > clip_width 
-		     && laststart != lastend ) {
-			lines->length = lastend - lines->text;
+		if (e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+					   lines->text,
+					   unicode_index_to_offset (lines->text, cp - lines->text))
+		    > clip_width 
+		    && laststart != lastend ) {
+			lines->length = unicode_index_to_offset (lines->text, lastend - lines->text);
 			lines++;
-			line_num ++;
-			len = p - laststart;
+			line_num++;
+			len = unicode_index_to_offset (laststart, cp - laststart);
 			lines->text = laststart;
-			laststart = p + 1;
-			lastend = p;
+			laststart = p;
+			lastend = cp;
 		}
 	} 
 	
 	if (len == 0)
-		lines->text = p;
-	lines->length = strlen(lines->text);
+		lines->text = cp;
+	lines->length = unicode_strlen (lines->text, -1);
 }
 
 /* Convenience function to set the text's GC's foreground color */
@@ -1021,16 +1036,18 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FONT:
 		if (text->font)
-			gdk_font_unref (text->font);
+			e_font_unref (text->font);
 
-		text->font = gdk_font_load (GTK_VALUE_STRING (*arg));
+		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
 
+#if 0
 		if (item->canvas->aa) {
 			if (text->suckfont)
 				e_suck_font_free (text->suckfont);
 
 			text->suckfont = e_suck_font (text->font);
 		}
+#endif
 		
 		calc_ellipsis (text);
 		if ( text->line_wrap )
@@ -1042,16 +1059,18 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FONTSET:
 		if (text->font)
-			gdk_font_unref (text->font);
+			e_font_unref (text->font);
 
-		text->font = gdk_fontset_load (GTK_VALUE_STRING (*arg));
+		text->font = e_font_from_gdk_name (GTK_VALUE_STRING (*arg));
 
+#if 0
 		if (item->canvas->aa) {
 			if (text->suckfont)
 				e_suck_font_free (text->suckfont);
 
 			text->suckfont = e_suck_font (text->font);
 		}
+#endif
 
 		calc_ellipsis (text);
 		if ( text->line_wrap )
@@ -1063,17 +1082,19 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_FONT_GDK:
 		if (text->font)
-			gdk_font_unref (text->font);
+			e_font_unref (text->font);
 
-		text->font = GTK_VALUE_BOXED (*arg);
-		gdk_font_ref (text->font);
+		text->font = e_font_from_gdk_font (GTK_VALUE_BOXED (*arg));
 
+#if 0
 		if (item->canvas->aa) {
 			if (text->suckfont)
 				e_suck_font_free (text->suckfont);
 
 			text->suckfont = e_suck_font (text->font);
 		}
+#endif
+
 		calc_ellipsis (text);
 		if ( text->line_wrap )
 			text->needs_split_into_lines = 1;
@@ -1289,6 +1310,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_STRING (*arg) = g_strdup (text->text);
 		break;
 
+		/* fixme: */
 	case ARG_FONT_GDK:
 		GTK_VALUE_BOXED (*arg) = text->font;
 		break;
@@ -1418,15 +1440,15 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 			return;
 
 		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
-			if (lines->text - text->text > text->selection_end) {
+			if (unicode_index_to_offset (text->text, lines->text - text->text) > text->selection_end) {
 				break;
 			}
 		}
 		lines --;
 		i--;
-		x = gdk_text_width(text->font,
-				   lines->text,
-				   text->selection_end - (lines->text - text->text));
+		x = e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+					   lines->text,
+					   text->selection_end - unicode_index_to_offset (text->text, lines->text - text->text));
 		
 
 		if (x < text->xofs_edit) {
@@ -1444,11 +1466,13 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 			text->xofs_edit = 2 + x - clip_width;
 		}
 		
-		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * i;
+		if ((e_font_ascent (text->font) + e_font_descent (text->font)) * i < text->yofs_edit)
+			text->yofs_edit = (e_font_ascent (text->font) + e_font_descent (text->font)) * i;
 		
-		if ((text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
+		if ((e_font_ascent (text->font) + e_font_descent (text->font)) * (i + 1) -
+		    (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
+			text->yofs_edit = (e_font_ascent (text->font) + e_font_descent (text->font)) * (i + 1) -
+				(text->clip_height != -1 ? text->clip_height : text->height);
 	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);
@@ -1520,8 +1544,7 @@ e_text_realize (GnomeCanvasItem *item)
 	text->i_cursor = gdk_cursor_new (GDK_XTERM);
 	text->default_cursor = gdk_cursor_new (GDK_LEFT_PTR);
 	if (text->font == NULL) {
-		text->font = GTK_WIDGET(item->canvas)->style->font;
-		gdk_font_ref(text->font);
+		text->font = e_font_from_gdk_font (GTK_WIDGET(item->canvas)->style->font);
 	}
 }
 
@@ -1739,7 +1762,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		gdk_gc_set_clip_rectangle (fg_gc, &rect);
 		clip_rect = &rect;
 	}
-	ypos = text->cy + text->font->ascent;
+	ypos = text->cy + e_font_ascent (text->font);
 	if (text->draw_borders)
 		ypos += BORDER_INDENT;
 
@@ -1753,7 +1776,7 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		xpos = get_line_xpos (text, lines);
 		if (text->editing) {
 			xpos -= text->xofs_edit;
-			start_char = lines->text - text->text;
+			start_char = unicode_index_to_offset (text->text, lines->text - text->text);
 			end_char = start_char + lines->length;
 			sel_start = text->selection_start;
 			sel_end = text->selection_end;
@@ -1767,14 +1790,14 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			if ( sel_end > end_char )
 				sel_end = end_char;
 			if ( sel_start < sel_end ) {
-				sel_rect.x = xpos - x + gdk_text_width (text->font,
-									lines->text,
-									sel_start - start_char);
-				sel_rect.y = ypos - y - text->font->ascent;
-				sel_rect.width = gdk_text_width (text->font,
-								 lines->text + sel_start - start_char,
-								 sel_end - sel_start);
-				sel_rect.height = text->font->ascent + text->font->descent;
+				sel_rect.x = xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+										lines->text,
+										sel_start - start_char);
+				sel_rect.y = ypos - y - e_font_ascent (text->font);
+				sel_rect.width = e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+									 lines->text + unicode_offset_to_index (lines->text, sel_start - start_char),
+									 sel_end - sel_start);
+				sel_rect.height = e_font_ascent (text->font) + e_font_descent (text->font);
 				gtk_paint_flat_box(GTK_WIDGET(item->canvas)->style,
 						   drawable,
 						   text->has_selection ?
@@ -1788,39 +1811,39 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 						   sel_rect.y,
 						   sel_rect.width,
 						   sel_rect.height);
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       sel_start - start_char);
-				gdk_draw_text (drawable,
-					       text->font,
-					       fg_gc,
-					       xpos - x + gdk_text_width (text->font,
-									  lines->text,
-									  sel_start - start_char),
-					       ypos - y,
-					       lines->text + sel_start - start_char,
-					       sel_end - sel_start);
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x + gdk_text_width (text->font,
-									  lines->text,
-									  sel_end - start_char),
-					       ypos - y,
-					       lines->text + sel_end - start_char,
-					       end_char - sel_end);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       sel_start - start_char);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       fg_gc,
+						       xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+											  lines->text,
+											  sel_start - start_char),
+						       ypos - y,
+						       lines->text + unicode_offset_to_index (lines->text, sel_start - start_char),
+						       sel_end - sel_start);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+											  lines->text,
+											  sel_end - start_char),
+						       ypos - y,
+						       lines->text + unicode_offset_to_index (lines->text, sel_end - start_char),
+						       end_char - sel_end);
 			} else {
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       lines->length);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->length);
 			}
 			if (text->selection_start == text->selection_end &&
 			    text->selection_start >= start_char &&
@@ -1829,42 +1852,40 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				gdk_draw_rectangle (drawable,
 						    text->gc,
 						    TRUE,
-						    xpos - x + gdk_text_width (text->font, 
-									       lines->text,
-									       sel_start - start_char),
-						    ypos - y - text->font->ascent,
+						    xpos - x + e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+										       lines->text,
+										       sel_start - start_char),
+						    ypos - y - e_font_ascent (text->font),
 						    1,
-						    text->font->ascent + text->font->descent);
+						    e_font_ascent (text->font) + e_font_descent (text->font));
 			}
 		} else {
-			if ( text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       lines->ellipsis_length);
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x + 
-					       lines->width - text->ellipsis_width,
-					       ypos - y,
-					       text->ellipsis ? text->ellipsis : "...",
-					       text->ellipsis ? strlen (text->ellipsis) : 3);
+			if (text->clip && text->use_ellipsis && lines->ellipsis_length < lines->length) {
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->ellipsis_length);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x + lines->width - text->ellipsis_width,
+						       ypos - y,
+						       text->ellipsis ? text->ellipsis : "...",
+						       text->ellipsis ? unicode_strlen (text->ellipsis, -1) : 3);
 			} else
-					
-				gdk_draw_text (drawable,
-					       text->font,
-					       text->gc,
-					       xpos - x,
-					       ypos - y,
-					       lines->text,
-					       lines->length);
+				e_font_draw_utf8_text (drawable,
+						       text->font, E_FONT_PLAIN,
+						       text->gc,
+						       xpos - x,
+						       ypos - y,
+						       lines->text,
+						       lines->length);
 		}
 
-		ypos += text->font->ascent + text->font->descent;
+		ypos += e_font_ascent (text->font) + e_font_descent (text->font);
 		lines++;
 	}
 
@@ -1878,13 +1899,13 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 static void
 e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 {
+#if 0
 	EText *text;
 	guint32 fg_color;
 	double xpos, ypos;
 	struct line *lines;
 	int i, j;
 	double affine[6];
-	ETextSuckFont *suckfont;
 	int dx, dy;
 	ArtPoint start_i, start_c;
 
@@ -1947,6 +1968,7 @@ e_text_render (GnomeCanvasItem *item, GnomeCanvasBuf *buf)
 	}
 
 	buf->is_bg = 0;
+#endif
 }
 
 /* Point handler for the text item */
@@ -1973,7 +1995,7 @@ e_text_point (GnomeCanvasItem *item, double x, double y,
 	 */
 
 	if (text->font)
-		font_height = text->font->ascent + text->font->descent;
+		font_height = e_font_ascent (text->font) + e_font_descent (text->font);
 	else
 		font_height = 0;
 
@@ -2152,14 +2174,14 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 		for (j = 0, lines = text->lines; j < text->num_lines; lines++, j++) {
 			if (lines->text > text->text + position)
 				break;
-			y += text->font->ascent + text->font->descent;
+			y += e_font_height (text->font);
 		}
 		lines --;
-		y -= text->font->descent;
+		y -= e_font_descent (text->font);
 		
-		x += gdk_text_width (text->font,
-				     lines->text,
-				     position - (lines->text - text->text));
+		x += e_font_utf8_text_width (text->font, E_FONT_PLAIN,
+					     lines->text,
+					     position - unicode_index_to_offset (text->text, lines->text - text->text));
 		x -= text->xofs_edit;
 
 		xd = x;  yd = y;
@@ -2180,6 +2202,8 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	int ypos = text->yofs;
 	int xpos;
 	double xd, yd;
+	char *p;
+	unicode_char_t unival;
 	
 	struct line *lines;
 
@@ -2195,7 +2219,7 @@ _get_position_from_xy (EText *text, gint x, gint y)
 
 	j = 0;
 	while (y > ypos) {
-		ypos += text->font->ascent + text->font->descent;
+		ypos += e_font_height (text->font);
 		j ++;
 	}
 	j--;
@@ -2212,17 +2236,18 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	lines += j;
 	x += text->xofs_edit;
 	xpos = get_line_xpos_item_relative (text, lines);
-	for(i = 0; i < lines->length; i++) {
-		int charwidth = gdk_text_width(text->font,
-					       lines->text + i,
-					       1);
+
+	for (i = 0, p = lines->text; i < lines->length; i++, p = unicode_get_utf8 (p, &unival)) {
+		int charwidth;
+
+		charwidth = e_font_utf8_text_width (text->font, E_FONT_PLAIN, p, 1);
 		xpos += charwidth / 2;
 		if (xpos > x) {
 			break;
 		}
 		xpos += (charwidth + 1) / 2;
 	}
-	return lines->text + i - text->text;
+	return unicode_index_to_offset (text->text, p - text->text);
 }
 
 #define SCROLL_WAIT_TIME 30000
@@ -2405,7 +2430,7 @@ _do_tooltip (gpointer data)
 	for (lines = text->lines, i = 0; i < text->num_lines; lines++, i++) {
 		gdouble line_width;
 
-		line_width = gdk_text_width (text->font, lines->text, lines->length);
+		line_width = e_font_utf8_text_width (text->font, E_FONT_PLAIN, lines->text, lines->length);
 		max_width = MAX (max_width, line_width);
 	}
 
@@ -2418,6 +2443,7 @@ _do_tooltip (gpointer data)
 				      "fill_color", "yellow",
 				      NULL);
 
+	/* fixme: */
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
@@ -2757,12 +2783,16 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 		return 0;
 }
 
+/* fixme: */
+
 static int
 _get_position(EText *text, ETextEventProcessorCommand *command)
 {
 	int i;
 	int length;
 	int x, y;
+	unicode_char_t unival;
+	char *p;
 	
 	switch (command->position) {
 		
@@ -2775,27 +2805,33 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 	case E_TEP_START_OF_BUFFER:
 		return 0;
 	case E_TEP_END_OF_BUFFER:
-		return strlen(text->text);
+		return unicode_strlen (text->text, -1);
 
 	case E_TEP_START_OF_LINE:
-		for (i = text->selection_end - 2; i > 0; i--)
-			if (text->text[i] == '\n') {
+		for (i = text->selection_end - 2; i > 0; i--) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unival == '\n') {
 				i++;
 				break;
 			}
+		}
 		return i;
 	case E_TEP_END_OF_LINE:
-		length = strlen(text->text);
-		for (i = text->selection_end + 1; i < length; i++)
-			if (text->text[i] == '\n') {
+		length = unicode_strlen(text->text, -1);
+		for (i = text->selection_end + 1; i < length; i++) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unival == '\n') {
 				break;
 			}
+		}
 		if (i > length)
 			i = length;
 		return i;
 
 	case E_TEP_FORWARD_CHARACTER:
-		length = strlen(text->text);
+		length = unicode_strlen (text->text, -1);
 		i = text->selection_end + 1;
 		if (i > length)
 			i = length;
@@ -2807,56 +2843,68 @@ _get_position(EText *text, ETextEventProcessorCommand *command)
 		return i;
 
 	case E_TEP_FORWARD_WORD:
-		length = strlen(text->text);
-		for (i = text->selection_end + 1; i < length; i++)
-			if (isspace(text->text[i])) {
+		length = unicode_strlen (text->text, -1);
+		for (i = text->selection_end + 1; i < length; i++) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) {
 				break;
 			}
+		}
 		if (i > length)
 			i = length;
 		return i;
 	case E_TEP_BACKWARD_WORD:
-		for (i = text->selection_end - 2; i > 0; i--)
-			if (isspace(text->text[i])) {
+		for (i = text->selection_end - 2; i > 0; i--) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) {
 				i++;
 				break;
 			}
+		}
 		if (i < 0)
 			i = 0;
 		return i;
 
 	case E_TEP_FORWARD_LINE:
 		_get_xy_from_position(text, text->selection_end, &x, &y);
-		y += text->font->ascent + text->font->descent;
+		y += e_font_height (text->font);
 		return _get_position_from_xy(text, x, y);
 	case E_TEP_BACKWARD_LINE:
 		_get_xy_from_position(text, text->selection_end, &x, &y);
-		y -= text->font->ascent + text->font->descent;
+		y -= e_font_height (text->font);
 		return _get_position_from_xy(text, x, y);
 
 	case E_TEP_SELECT_WORD:
-		for (i = text->selection_end - 2; i > 0; i--)
-			if (isspace (text->text[i])) {
+		for (i = text->selection_end - 2; i > 0; i--) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) {
 				i++;
 				break;
 			}
+		}
 		if (i < 0)
 			text->selection_start = 0;
 		else
 			text->selection_start = i;
 
-		length = strlen (text->text);
-		for (i = text->selection_end + 1; i < length; i++)
-			if (isspace (text->text[i])) {
+		length = unicode_strlen (text->text, -1);
+		for (i = text->selection_end + 1; i < length; i++) {
+			p = text->text + unicode_offset_to_index (text->text, i);
+			unicode_get_utf8 (p, &unival);
+			if (unicode_isspace (unival)) {
 				break;
 			}
+		}
 		if (i > length)
 			i = length;
 		return i;
 
 	case E_TEP_SELECT_ALL:
 		text->selection_start = 0;
-		length = strlen (text->text);
+		length = unicode_strlen (text->text, -1);
 		return length;
 
 	case E_TEP_FORWARD_PARAGRAPH:
@@ -2911,7 +2959,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		sel_start = MIN(text->selection_start, text->selection_end);
 		sel_end = MAX(text->selection_start, text->selection_end);
 		if (sel_start != sel_end) {
-			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY, text->text + sel_start, sel_end - sel_start);
+			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY,
+						 text->text + unicode_offset_to_index (text->text, sel_start), sel_end - sel_start);
 		} else if (text->timer) {
 			g_timer_reset(text->timer);
 		}
@@ -2939,7 +2988,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		sel_start = MIN(text->selection_start, text->selection_end);
 		sel_end = MAX(text->selection_start, text->selection_end);
 		if (sel_start != sel_end) {
-			e_text_supply_selection (text, command->time, clipboard_atom, text->text + sel_start, sel_end - sel_start);
+			e_text_supply_selection (text, command->time, clipboard_atom,
+						 text->text + unicode_offset_to_index (text->text, sel_start), sel_end - sel_start);
 		}
 		if (text->timer) {
 			g_timer_reset(text->timer);
@@ -2985,15 +3035,15 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			return;
 
 		for (lines = text->lines, i = 0; i < text->num_lines ; i++, lines ++) {
-			if (lines->text - text->text > text->selection_end) {
+			if (unicode_index_to_offset (text->text, lines->text - text->text) > text->selection_end) {
 				break;
 			}
 		}
 		lines --;
 		i --;
-		x = gdk_text_width(text->font,
-				   lines->text, 
-				   text->selection_end - (lines->text - text->text));
+		x = e_font_utf8_text_width(text->font, E_FONT_PLAIN,
+					   lines->text, 
+					   text->selection_end - unicode_index_to_offset (text->text, lines->text - text->text));
 		
 
 		if (x < text->xofs_edit) {
@@ -3011,11 +3061,11 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 			text->xofs_edit = 2 + x - clip_width;
 		}
 		
-		if ((text->font->ascent + text->font->descent) * i < text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * i;
+		if (e_font_height (text->font) * i < text->yofs_edit)
+			text->yofs_edit = e_font_height (text->font) * i;
 		
-		if ((text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
-			text->yofs_edit = (text->font->ascent + text->font->descent) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
+		if (e_font_height (text->font) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
+			text->yofs_edit = e_font_height (text->font) * (i + 1) - (text->clip_height != -1 ? text->clip_height : text->height);
 	}
 
 	text->needs_redraw = 1;
@@ -3202,8 +3252,8 @@ e_text_real_paste_clipboard (EText *text)
 }
 #endif
 
-
 
+#if 0
 /* Routines for sucking fonts from the X server */
 
 static ETextSuckFont *
@@ -3303,3 +3353,11 @@ e_suck_font_free (ETextSuckFont *suckfont)
 	g_free (suckfont->bitmap);
 	g_free (suckfont);
 }
+#endif
+
+
+
+
+
+
+
