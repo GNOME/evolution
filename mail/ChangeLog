@@ -1,3 +1,11 @@
+2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (storage_remove_folder): The CamelFolderInfo
+	that we get back has nodes for all parent folders, so do not
+	delete all folders that have nodes in the returned tree. Instead,
+	descend into the tree until we find the folder we want to delete
+	and start deleting from there.
+
 2002-10-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Don't default 'me' to
