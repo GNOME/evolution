@@ -552,6 +552,18 @@ setup_status_bar (EShellWindow *window)
 }
 
 static void
+menu_component_selected (BonoboUIComponent *uic,
+			 EShellWindow *window,
+			 const char *path)
+{
+	char *component_id;
+
+	component_id = strchr(path, '-');
+	if (component_id)
+		e_shell_window_switch_to_component (window, component_id+1);
+}
+
+static void
 setup_widgets (EShellWindow *window)
 {
 	EShellWindowPrivate *priv = window->priv;
@@ -559,6 +571,7 @@ setup_widgets (EShellWindow *window)
 	GConfClient *gconf_client = gconf_client_get_default ();
 	GtkWidget *contents_vbox;
 	GSList *p;
+	GString *xml;
 	int button_id;
 
 	priv->paned = gtk_hpaned_new ();
@@ -582,15 +595,47 @@ setup_widgets (EShellWindow *window)
 				gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL));
 
 	button_id = 0;
+	xml = g_string_new("");
 	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
+		char *tmp;
 		EComponentInfo *info = p->data;
 		ComponentView *view = component_view_new (info->id, info->alias, button_id);
 
 		window->priv->component_views = g_slist_prepend (window->priv->component_views, view);
 		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_icon, button_id);
 
+		g_string_printf(xml, "SwitchComponent-%s", info->alias);
+		bonobo_ui_component_add_verb (e_shell_window_peek_bonobo_ui_component (window),
+					      xml->str,
+					      (BonoboUIVerbFn)menu_component_selected,
+					      window);
+
+		g_string_printf(xml, "<submenu name=\"View\">"
+				"<submenu name=\"Window\">"
+				"<placeholder name=\"WindowComponent\">"
+				"<menuitem name=\"SwitchComponent-%s\" "
+				"verb=\"\" label=\"%s\" accel=\"%s\" tip=\"",
+				info->alias,
+				info->menu_label,
+				info->menu_accelerator);
+		g_string_append_printf(xml, _("Switch to %s"), info->button_label);
+		tmp = bonobo_ui_util_pixbuf_to_xml (info->menu_icon),
+		g_string_append_printf(xml, "\" pixtype=\"pixbuf\" pixname=\"%s\"/>"
+				       "</placeholder></submenu></submenu>\n",
+				       tmp);
+		g_free(tmp);
+		bonobo_ui_component_set_translate (e_shell_window_peek_bonobo_ui_component (window),
+						   "/menu",
+						   xml->str,
+						   NULL);
+		g_string_printf(xml, "<cmd name=\"SwitchComponent-%s\"/>\n", info->alias);
+		bonobo_ui_component_set_translate (e_shell_window_peek_bonobo_ui_component (window),
+						   "/commands",
+						   xml->str,
+						   NULL);
 		button_id ++;
 	}
+	g_string_free(xml, TRUE);
 
 	setup_status_bar (window);
 

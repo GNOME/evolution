@@ -54,19 +54,28 @@ static EComponentInfo *
 component_info_new (const char *id,
 		    const char *alias,
 		    const char *button_label,
+		    const char *menu_label,
+		    const char *menu_accelerator,
 		    int sort_order,
-		    GdkPixbuf *button_icon)
+		    GdkPixbuf *button_icon,
+		    GdkPixbuf *menu_icon)
 {
 	EComponentInfo *info = g_new0 (EComponentInfo, 1);
 
 	info->id = g_strdup (id);
 	info->alias = g_strdup (alias);
 	info->button_label = g_strdup (button_label);
+	info->menu_label = g_strdup (menu_label);
+	info->menu_accelerator = g_strdup (menu_accelerator);
 	info->sort_order = sort_order;
 
 	info->button_icon = button_icon;
 	if (info->button_icon)
 		g_object_ref (info->button_icon);
+
+	info->menu_icon = menu_icon;
+	if (info->menu_icon)
+		g_object_ref (info->menu_icon);
 
 	return info;
 }
@@ -77,9 +86,14 @@ component_info_free (EComponentInfo *info)
 	g_free (info->id);
 	g_free (info->alias);
 	g_free (info->button_label);
+	g_free (info->menu_label);
+	g_free (info->menu_accelerator);
 
 	if (info->button_icon)
 		g_object_unref (info->button_icon);
+
+	if (info->menu_icon)
+		g_object_unref (info->menu_icon);
 
 	if (info->iface != NULL)
 		bonobo_object_release_unref (info->iface, NULL);
@@ -157,10 +171,12 @@ query_components (EComponentRegistry *registry)
 	for (i = 0; i < info_list->_length; i++) {
 		const char *id;
 		const char *label;
+		const char *menu_label;
+		const char *menu_accelerator;
 		const char *alias;
 		const char *icon_name;
 		const char *sort_order_string;
-		GdkPixbuf *icon;
+		GdkPixbuf *icon = NULL, *menuicon = NULL;
 		EComponentInfo *info;
 		int sort_order;
 
@@ -169,13 +185,18 @@ query_components (EComponentRegistry *registry)
 		if (label == NULL)
 			label = g_strdup (_("Unknown"));
 
+		menu_label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_label", language_list);
+		if (menu_label == NULL)
+			menu_label = g_strdup (_("Unknown"));
+
+		menu_accelerator = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:menu_accelerator", language_list);
+
 		alias = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:component_alias", NULL);
 
 		icon_name = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_icon", NULL);
-		if (icon_name == NULL) {
-			icon = NULL;
-		} else {
+		if (icon_name) {
 			icon = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_LARGE_TOOLBAR);
+			menuicon = e_icon_factory_get_icon (icon_name, E_ICON_SIZE_MENU);
 		}
 
 		sort_order_string = bonobo_server_info_prop_lookup (& info_list->_buffer[i],
@@ -185,7 +206,8 @@ query_components (EComponentRegistry *registry)
 		else
 			sort_order = atoi (sort_order_string);
 
-		info = component_info_new (id, alias, label, sort_order, icon);
+		info = component_info_new (id, alias, label, menu_label,
+					   menu_accelerator, sort_order, icon, menuicon);
 		set_schemas (info, & info_list->_buffer [i]);
 
 		registry->priv->infos = g_slist_prepend (registry->priv->infos, info);

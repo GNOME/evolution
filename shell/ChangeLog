@@ -1,3 +1,28 @@
+2004-05-19  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell-window.c (setup_widgets): use the menu icon not the
+	button icon for the menus.
+	(setup_widgets): fixed some i18n stuff with the menu xml.  no use
+	putting _x stuff here, it also needs a source.  And a memleak.
+	Yucko.
+
+	* e-component-registry.c (component_info_new): take menu icon.
+	(query_components): setup the menu icon, not a large toolbar sized
+	icon.
+
+	* e-shell-window.c (menu_component_selected): just use '-' as
+	ascii, its always going to be hte same in utf8.  simplifies the
+	code somewhat.
+
+2004-05-05  William Jon McCann  <mccann@jhu.edu>
+
+	* e-shell-window.c (menu_component_selected, setup_widgets):
+	Add components to View menu.
+
+	* e-component-registry.[ch] (component_info_new) 
+	(component_info_free, query_components): Add menu_label and
+	menu_accelerator fields.
+
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
 	* shell-errors.xml: added noshell and noshell-reason error
