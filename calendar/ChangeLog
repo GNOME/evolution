@@ -1,5 +1,14 @@
 2000-09-10  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.c (update_calendar_entry_in_repository): 
+	Make log output a little more sensible
+	(comp_from_remote_record): Minor correction when making a CalComponent
+	from scratch.
+	(update_record): Use comp_from_remote_record for new items, rather
+	than repeating the code here.
+
+2000-09-10  JP Rosevear  <jpr@helixcode.com>
+
 	* conduits/todo/todo-conduit.c: Remove catch_ret_val function
 	since its no longer useful.  Fix naming of various fields from
 	the header changes.  Use GnomePilotRecord* stuff instead of 

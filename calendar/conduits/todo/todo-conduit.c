@@ -341,22 +341,21 @@ find_record_in_repository(GnomePilotConduitStandardAbs *conduit,
  */
 static void
 update_calendar_entry_in_repository(GnomePilotConduitStandardAbs *conduit,
-				    CalComponent *obj,
+				    CalComponent *comp,
 				    EToDoConduitContext *ctxt) 
 {
 	gboolean success;
 
-	g_return_if_fail (conduit!=NULL);
-	g_return_if_fail (obj!=NULL);
+	g_return_if_fail (conduit != NULL);
+	g_return_if_fail (comp != NULL);
 
 	LOG ("        update_calendar_entry_in_repository "
-		"saving %s to desktop\n", cal_component_get_as_string (obj));
+		"saving to desktop\n%s", cal_component_get_as_string (comp));
 
-	success = cal_client_update_object (ctxt->client, obj);
+	success = cal_client_update_object (ctxt->client, comp);
 
-	if (!success) {
+	if (!success)
 		WARN (_("Error while communicating with calendar server"));
-	}
 }
 
 
@@ -373,25 +372,25 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 	CalComponentText comment = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
 	struct icaltimetype due;
-
  	GSList *comment_list;
 
-	g_return_val_if_fail(remote!=NULL,NULL);
+	g_return_val_if_fail (remote != NULL, NULL);
+
 	memset (&todo, 0, sizeof (struct ToDo));
 	unpack_ToDo (&todo, remote->record, remote->length);
 
-	LOG ("        comp_from_remote_record: "
-		"merging remote %s into local %s\n",
-		print_remote (remote), cal_component_get_as_string (in_comp));
-	
 	if (in_comp == NULL) {
 		comp = cal_component_new ();
 		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+		cal_component_set_created (comp, &now);
 	} else {
 		comp = cal_component_clone (in_comp);
 	}
 
-	cal_component_set_created (comp, &now);
+  	LOG ("        comp_from_remote_record: " 
+  	     "merging remote %s into local %s\n", 
+  	     print_remote (remote), cal_component_get_as_string (comp));
+
 	cal_component_set_last_modified (comp, &now);
 
 	summary.value = todo.description;
@@ -423,6 +422,8 @@ comp_from_remote_record (GnomePilotConduitStandardAbs *conduit,
 	cal_component_set_pilot_id (comp, &remote->ID);
 	cal_component_set_pilot_status (comp, &pilot_status);
 
+	cal_component_commit_sequence (comp);
+	
 	free_ToDo(&todo);
 
 	return comp;
@@ -451,10 +452,6 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	unsigned long pilot_status = GnomePilotRecordNothing;
 	char *uid;
 
-	CalComponentText summary = {NULL, NULL};
-	CalComponentText comment = {NULL, NULL};
-	GSList *comment_list;
-
 	g_return_val_if_fail (remote!=NULL,-1);
 
 	memset (&todo, 0, sizeof (struct ToDo));
@@ -471,33 +468,14 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 	}
 
 	if (status != CAL_CLIENT_GET_SUCCESS) {
-		struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
-
-		LOG ("failed, making a new one.\n");
-
-		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
-		
-		summary.value = todo.description;
-		cal_component_set_summary (comp, &summary);
-
-		comment.value = todo.note;
-		comment_list = g_slist_append (NULL, &comment);
-		cal_component_set_comment_list (comp, comment_list);
-		g_slist_free (comment_list);
-
-		cal_component_set_created (comp, &now);
-	  	cal_component_set_last_modified (comp, &now);
-		cal_component_set_priority (comp, &todo.priority);
-		cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
-		cal_component_set_pilot_id (comp, &remote->ID);
-  		cal_component_set_pilot_status (comp, &pilot_status);
+		comp = comp_from_remote_record (conduit, remote, NULL);
 	} else {
 		CalComponent *new_comp;
 
 		LOG ("succeeded %s\n", cal_component_get_as_string (comp));
 
 		new_comp = comp_from_remote_record (conduit, remote, comp);
+		gtk_object_unref (GTK_OBJECT (comp));
 		comp = new_comp;
 	}
 
