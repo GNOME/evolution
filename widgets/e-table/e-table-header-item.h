@@ -42,7 +42,7 @@ typedef struct {
 	guint            dnd_ready:1;
 	int              click_x, click_y;
 	int              drag_col, drag_mark;
-	guint            drag_motion_id, drag_end_id, drag_leave_id;
+        guint            drag_motion_id, drag_end_id, drag_leave_id, drag_drop_id;
 	GnomeCanvasItem *drag_mark_item, *remove_item;
 	GdkBitmap       *stipple;
 } ETableHeaderItem;

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * E-table-column-view.c: A canvas item based view of the ETableColumn.
  *
@@ -307,26 +308,27 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 		  gint x, gint y, guint time,
 		  ETableHeaderItem *ethi)
 {
-	
-	if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
-	    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
-		int col;
-
-		col = ethi_find_col_by_x (ethi, x);
-
-		if (col != -1){
-			ethi_remove_destroy_marker (ethi);
-			ethi_add_drop_marker (ethi, col);
+	gdk_drag_status (context, 0, time);
+	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
+		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
+		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
+			int col;
+			
+			col = ethi_find_col_by_x (ethi, x);
+			
+			if (col != -1){
+				ethi_remove_destroy_marker (ethi);
+				ethi_add_drop_marker (ethi, col);
+				gdk_drag_status (context, context->suggested_action, time);
+			} else {
+				ethi_remove_drop_marker (ethi);
+				ethi_add_destroy_marker (ethi);
+			}
 		} else {
 			ethi_remove_drop_marker (ethi);
 			ethi_add_destroy_marker (ethi);
 		}
-	} else {
-		ethi_remove_drop_marker (ethi);
-		ethi_add_destroy_marker (ethi);
 	}
-	
-	gdk_drag_status (context, context->suggested_action, time);
 
 	return TRUE;
 }
@@ -334,16 +336,54 @@ ethi_drag_motion (GtkObject *canvas, GdkDragContext *context,
 static void
 ethi_drag_end (GtkWidget *canvas, GdkDragContext *context, ETableHeaderItem *ethi)
 {
-	ethi_remove_drop_marker (ethi);
-	ethi_remove_destroy_marker (ethi);
-	ethi->drag_col = -1;
+	if (canvas == gtk_drag_get_source_widget(context)) {
+		if (context->action == 0) {
+			ethi_request_redraw (ethi);
+			e_table_header_remove(ethi->eth, ethi->drag_col);
+		}
+		ethi_remove_drop_marker (ethi);
+		ethi_remove_destroy_marker (ethi);
+		ethi->drag_col = -1;
+	}
+}
+
+static gboolean
+ethi_drag_drop (GtkWidget *canvas,
+		GdkDragContext *context,
+		gint x,
+		gint y,
+		guint time,
+		ETableHeaderItem *ethi)
+{
+	gboolean successful = FALSE;
+	if (GTK_WIDGET(canvas) == gtk_drag_get_source_widget(context)) {
+		if ((x >= ethi->x1) && (x <= (ethi->x1 + ethi->width)) &&
+		    (y >= ethi->y1) && (y <= (ethi->y1 + ethi->height))){
+			int col;
+			
+			col = ethi_find_col_by_x (ethi, x);
+			ethi_add_drop_marker(ethi, col);
+			
+			if (col != -1) {
+				if (col != ethi->drag_col) {
+					ethi_request_redraw (ethi);
+					e_table_header_move(ethi->eth, ethi->drag_col, col);
+				}
+				successful = TRUE;
+			}
+		}
+	}
+	gtk_drag_finish(context, successful, successful, time);
+	return successful;
 }
 
 static void
 ethi_drag_leave (GtkWidget *widget, GdkDragContext *context, guint time, ETableHeaderItem *ethi)
 {
-	ethi_remove_drop_marker (ethi);
-	ethi_add_destroy_marker (ethi);
+	if (widget == gtk_drag_get_source_widget(context)) {
+		ethi_remove_drop_marker (ethi);
+		ethi_add_destroy_marker (ethi);
+	}
 }
 
 static void
@@ -372,7 +412,7 @@ ethi_realize (GnomeCanvasItem *item)
 	/*
 	 * Now, configure DnD
 	 */
-	gtk_drag_dest_set (GTK_WIDGET (item->canvas), GTK_DEST_DEFAULT_ALL,
+	gtk_drag_dest_set (GTK_WIDGET (item->canvas), 0,
 			   ethi_drop_types, ELEMENTS (ethi_drop_types),
 			   GDK_ACTION_MOVE);
 
@@ -387,6 +427,10 @@ ethi_realize (GnomeCanvasItem *item)
 	ethi->drag_end_id = gtk_signal_connect (
 		GTK_OBJECT (item->canvas), "drag_end",
 		GTK_SIGNAL_FUNC (ethi_drag_end), ethi);
+
+	ethi->drag_drop_id = gtk_signal_connect (
+		GTK_OBJECT (item->canvas), "drag_drop",
+		GTK_SIGNAL_FUNC (ethi_drag_drop), ethi);
 }
 
 static void
@@ -403,6 +447,7 @@ ethi_unrealize (GnomeCanvasItem *item)
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_motion_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_end_id);
 	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_leave_id);
+	gtk_signal_disconnect (GTK_OBJECT (item->canvas), ethi->drag_drop_id);
 
 	if (ethi->stipple){
 		gdk_bitmap_unref (ethi->stipple);

@@ -100,9 +100,10 @@ e_table_header_new (void)
 static void
 eth_do_insert (ETableHeader *eth, int pos, ETableCol *val)
 {
-	memcpy (&eth->columns [pos+1], &eth->columns [pos],
+	memmove (&eth->columns [pos+1], &eth->columns [pos],
 		sizeof (ETableCol *) * (eth->col_count - pos));
 	eth->columns [pos] = val;
+	eth->col_count ++;
 }
 
 static void
@@ -139,7 +140,6 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	gtk_object_sink (GTK_OBJECT (tc));
 	
 	eth_do_insert (eth, pos, tc);
-	eth->col_count++;
 	eth_update_offsets (eth);
 
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [STRUCTURE_CHANGE]);
@@ -261,7 +261,7 @@ eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 	if (do_unref)
 		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
 	
-	memcpy (&eth->columns [idx], &eth->columns [idx+1],
+	memmove (&eth->columns [idx], &eth->columns [idx+1],
 		sizeof (ETableCol *) * eth->col_count - idx);
 	eth->col_count--;
 }
