@@ -64,17 +64,17 @@ select_msg (MessageList *message_list, gint row)
 	camel_exception_init (&ex);
 
 	if (camel_folder_has_uid_capability  (message_list->folder)) {
-		const GArray *msg_info_array;
-		CamelMessageInfo msg_info;
+		GPtrArray *msg_info_array;
+		CamelMessageInfo *msg_info;
 		
-		msg_info_array = camel_folder_summary_get_message_info_list 
-			(message_list->folder_summary);
+		msg_info_array = camel_folder_summary_get_message_info 
+			(message_list->folder_summary, row, 1);
 		
-		if (msg_info_array->len > 0 ) {
-			msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
+		if (msg_info_array) {
+			msg_info = msg_info_array->pdata[0];
 			
 			message = camel_folder_get_message_by_uid (message_list->folder, 
-								   msg_info.uid,
+								   msg_info->uid,
 								   &ex);
 			if (camel_exception_get_id (&ex)) {
 				printf ("Unable to get message: %s\n",
@@ -83,6 +83,8 @@ select_msg (MessageList *message_list, gint row)
 			}
 		}
 		
+		g_ptr_array_free (msg_info_array, TRUE);
+
 		printf ("Message = %p\n", message);
 		if (message)
 			mail_display_set_message (message_list->parent_folder_browser->mail_display,
@@ -132,9 +134,10 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	static char buffer [10];
 	MessageList *message_list = data;
 	CamelFolderSummary *summary;
-	const GArray *msg_info_array;
-	CamelMessageInfo msg_info;
+	GPtrArray *msg_info_array;
+	CamelMessageInfo *msg_info;
 	CamelException ex;
+	void *retval = NULL;
 
 	camel_exception_init (&ex);
 	
@@ -144,7 +147,8 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	
 	
 	/* retrieve the message information array */
-	msg_info_array = camel_folder_summary_get_message_info_list (summary);
+	msg_info_array = camel_folder_summary_get_message_info (summary,
+								row, 1);
 
 	/* 
 	 * in the case where it is zero message long 
@@ -153,58 +157,71 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 	if (msg_info_array->len == 0)
 		goto nothing_to_see;
 
-	msg_info = g_array_index (msg_info_array, CamelMessageInfo, row);
+	msg_info = msg_info_array->pdata[0];
 	
 	
 	switch (col){
 	case COL_ONLINE_STATUS:
-		return GINT_TO_POINTER (0);
+		retval = GINT_TO_POINTER (0);
+		break;
 		
 	case COL_MESSAGE_STATUS:
-		return GINT_TO_POINTER (1);
+		retval = GINT_TO_POINTER (1);
+		break;
 		
 	case COL_PRIORITY:
-		return GINT_TO_POINTER (1);
+		retval = GINT_TO_POINTER (1);
+		break;
 		
 	case COL_ATTACHMENT:
-		return GINT_TO_POINTER (0);
+		retval = GINT_TO_POINTER (0);
+		break;
 		
 	case COL_FROM:
-		if (msg_info.sender)
-			return msg_info.sender;
+		if (msg_info->sender)
+			retval = msg_info->sender;
 		else
-			return "";
+			retval = "";
+		break;
 		
 	case COL_SUBJECT:
-		if (msg_info.subject)
-			return msg_info.subject;
+		if (msg_info->subject)
+			retval = msg_info->subject;
 		else
-			return "";
+			retval = "";
+		break;
 		
 	case COL_SENT:
-		return "sent";
+		retval = "sent";
+		break;
 		
 	case COL_RECEIVE:
-		return "receive";
+		retval = "receive";
+		break;
 		
 	case COL_TO:
-		return "dudes@server";
+		retval = "dudes@server";
+		break;
 		
 	case COL_SIZE:
-		sprintf (buffer, "%d", msg_info.size);
-		return buffer;
+		sprintf (buffer, "%d", msg_info->size);
+		retval = buffer;
+		break;
 			
 	default:
 		g_assert_not_reached ();
 	}
-	return NULL;
+
+	g_ptr_array_free (msg_info_array, TRUE);
+	return retval;
 	
 	
 	nothing_to_see :
 		/* 
 		 * in the case there is nothing to look at, 
-		 * notice the user.
+		 * notify the user.
 		 */	
+		g_ptr_array_free (msg_info_array, TRUE);
 		if (col == COL_SUBJECT)
 			return "No item in this view";
 		else 
