@@ -1,5 +1,10 @@
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
+	* mail-send-recv.c (build_dialogue): Treat the spool provider like IMAP:
+	update instead of performing an explicit receive.
+
+2001-08-21  Peter Williams  <peterw@ximian.com>
+
 	* folder-browser-ui.c (fbui_sensitize_items): Rename to 
 	fbui_real_sensitize_items. Now we queue a change and set up a timeout,
 	making sure weed out redundant changes, fixing flicker.

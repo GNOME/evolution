@@ -277,8 +277,8 @@ static struct _send_data *build_dialogue(GSList *sources, CamelFolder *outbox, c
 		info = g_hash_table_lookup(data->active, source->url);
 		if (info == NULL) {
 			info = g_malloc0(sizeof(*info));
-			/* imap is handled differently */
-			if (!strncmp(source->url, "imap:", 5))
+			/* imap and spool are handled differently */
+			if (!strncmp(source->url, "imap:", 5) || !strncmp (source->url, "spool:", 6))
 				info->type = SEND_UPDATE;
 			else
 				info->type = SEND_RECEIVE;
