@@ -372,7 +372,7 @@ e_table_memory_store_insert (ETableMemoryStore *etms, int row, gpointer data, ..
 }
 
 void
-e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **store, gpointer data)
+e_table_memory_store_insert_adopt_array (ETableMemoryStore *etms, int row, void **store, gpointer data)
 {
 	int row_count;
 	int i;
@@ -390,6 +390,26 @@ e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, void **stor
 	}
 
 	e_table_memory_insert (E_TABLE_MEMORY (etms), row, data);
+}
+
+void
+e_table_memory_store_insert_adopt (ETableMemoryStore *etms, int row, gpointer data, ...)
+{
+	void **store;
+	va_list args;
+	int i;
+
+	store = g_new (void *, etms->priv->col_count + 1);
+
+	va_start (args, data);
+	for (i = 0; i < etms->priv->col_count; i++) {
+		store[i] = va_arg (args, void *);
+	}
+	va_end (args);
+
+	e_table_memory_store_insert_adopt_array (etms, row, store, data);
+
+	g_free (store);
 }
 
 void

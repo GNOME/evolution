@@ -1478,13 +1478,13 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	info->col = ethi_find_col_by_x (ethi, event->x);
 	col = e_table_header_get_column (ethi->eth, info->col);
 
-	popup = e_popup_menu_create (ethi_context_menu,
-				     1 +
-				     (col->sortable ? 0 : 2) +
-				     ((ethi->table || ethi->tree) ? 0 : 4) + 
-				     ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
-				     ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
-				     128, info);
+	popup = e_popup_menu_create_with_domain (ethi_context_menu,
+						 1 +
+						 (col->sortable ? 0 : 2) +
+						 ((ethi->table || ethi->tree) ? 0 : 4) + 
+						 ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
+						 ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
+						 128, info, E_I18N_DOMAIN);
 	gtk_signal_connect (GTK_OBJECT (popup), "selection-done",
 			    GTK_SIGNAL_FUNC (free_popup_info), info);
 	e_popup_menu (popup, (GdkEvent *) event);

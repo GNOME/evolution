@@ -83,35 +83,39 @@ typedef struct {
 	ETableMemoryClass parent_class;
 } ETableMemoryStoreClass;
 
-GtkType      e_table_memory_store_get_type        (void);
+GtkType      e_table_memory_store_get_type            (void);
 
 /* Object Creation */
-ETableModel *e_table_memory_store_new             (ETableMemoryStoreColumnInfo  *columns);
-ETableModel *e_table_memory_store_construct       (ETableMemoryStore            *store,
-						   ETableMemoryStoreColumnInfo  *columns);
+ETableModel *e_table_memory_store_new                 (ETableMemoryStoreColumnInfo  *columns);
+ETableModel *e_table_memory_store_construct           (ETableMemoryStore            *store,
+						       ETableMemoryStoreColumnInfo  *columns);
 
 /* Adopt a value instead of copying it. */
-void         e_table_memory_store_adopt_value_at  (ETableMemoryStore            *etms,
-						   int                           col,
-						   int                           row,
-						   void                         *value);
+void         e_table_memory_store_adopt_value_at      (ETableMemoryStore            *etms,
+						       int                           col,
+						       int                           row,
+						       void                         *value);
 
 /* The size of these arrays is the number of columns. */
-void         e_table_memory_store_insert_array    (ETableMemoryStore            *etms,
-						   int                           row,
-						   void                        **store,
-						   gpointer                      data);
-void         e_table_memory_store_insert          (ETableMemoryStore            *etms,
-						   int                           row,
-						   gpointer                      data,
-						   ...);
-void         e_table_memory_store_insert_adopt    (ETableMemoryStore            *etms,
-						   int                           row,
-						   void                        **store,
-						   gpointer                      data);
-void         e_table_memory_store_remove          (ETableMemoryStore            *etms,
-						   int                           row);
-void         e_table_memory_store_clear           (ETableMemoryStore            *etms);
+void         e_table_memory_store_insert_array        (ETableMemoryStore            *etms,
+						       int                           row,
+						       void                        **store,
+						       gpointer                      data);
+void         e_table_memory_store_insert              (ETableMemoryStore            *etms,
+						       int                           row,
+						       gpointer                      data,
+						       ...);
+void         e_table_memory_store_insert_adopt        (ETableMemoryStore            *etms,
+						       int                           row,
+						       gpointer                      data,
+						       ...);
+void         e_table_memory_store_insert_adopt_array  (ETableMemoryStore            *etms,
+						       int                           row,
+						       void                        **store,
+						       gpointer                      data);
+void         e_table_memory_store_remove              (ETableMemoryStore            *etms,
+						       int                           row);
+void         e_table_memory_store_clear               (ETableMemoryStore            *etms);
 
 END_GNOME_DECLS
 

@@ -40,30 +40,6 @@
 
 #include <libgnome/gnome-i18n.h>
 
-#ifndef GNOME_APP_HELPER_H
-/* Copied this i18n function to use for the same purpose */
-
-#ifdef ENABLE_NLS
-#define L_(x) gnome_app_helper_gettext(x)
-
-static gchar *
-gnome_app_helper_gettext (const gchar *str)
-{
-	char *s;
-
-        s = gettext (str);
-	if ( s == str )
-	        s = dgettext (PACKAGE, str);
-
-	return s;
-}
-
-#else
-#define L_(x) x
-#endif
-
-#endif
-
 /*
  * Creates an item with an optional icon
  */
@@ -99,7 +75,25 @@ make_item (GtkMenu *menu, GtkMenuItem *item, const char *name, GtkWidget *pixmap
 }
 
 GtkMenu *
-e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_mask, void *default_closure)
+e_popup_menu_create (EPopupMenu *menu_list,
+		     guint32 disable_mask,
+		     guint32 hide_mask,
+		     void *default_closure)
+{
+	return e_popup_menu_create_with_domain (menu_list,
+						disable_mask,
+						hide_mask,
+						default_closure,
+						NULL);
+}
+
+
+GtkMenu *
+e_popup_menu_create_with_domain (EPopupMenu *menu_list,
+				 guint32 disable_mask,
+				 guint32 hide_mask,
+				 void *default_closure,
+				 const char *domain)
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 	GSList *group = NULL;
@@ -133,7 +127,7 @@ e_popup_menu_create (EPopupMenu *menu_list, guint32 disable_mask, guint32 hide_m
 				if (menu_list[i].is_radio)
 					group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
 
-				make_item (menu, GTK_MENU_ITEM (item), L_(menu_list[i].name), menu_list[i].pixmap_widget);
+				make_item (menu, GTK_MENU_ITEM (item), dgettext(domain, menu_list[i].name), menu_list[i].pixmap_widget);
 			} else {
 				item = gtk_menu_item_new ();
 			}

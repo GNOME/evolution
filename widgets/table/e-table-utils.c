@@ -24,6 +24,7 @@
 #include <config.h>
 #include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
+#include "gal/widgets/e-unicode.h"
 #include "e-table-utils.h"
 #include "e-table-header-utils.h"
 
@@ -84,7 +85,9 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 		search = e_table_extras_get_search(ete, col_spec->search);
 
 	if (cell && compare) {
-		const char *title = dgettext (domain, col_spec->title);
+		char *title = dgettext (domain, col_spec->title);
+
+		title = e_utf8_from_locale_string (title);
 
 		if (col_spec->pixbuf && *col_spec->pixbuf) {
 			GdkPixbuf *pixbuf;
@@ -106,6 +109,8 @@ et_col_spec_to_col (ETableColumnSpecification *col_spec,
 				cell, compare, col_spec->resizable, col_spec->disabled, col_spec->priority);
 		}
 		col->search = search;
+
+		g_free (title);
 	}
 	return col;
 }

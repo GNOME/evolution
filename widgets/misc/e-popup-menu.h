@@ -91,24 +91,29 @@ struct _EPopupMenu {
 };
 
 
-GtkMenu    *e_popup_menu_create  (EPopupMenu       *menu_list,
-				  guint32           disable_mask,
-				  guint32           hide_mask,
-				  void             *default_closure);
-void        e_popup_menu_run     (EPopupMenu       *menu_list,
-				  GdkEvent         *event,
-				  guint32           disable_mask,
-				  guint32           hide_mask,
-				  void             *default_closure);
+GtkMenu    *e_popup_menu_create              (EPopupMenu       *menu_list,
+					      guint32           disable_mask,
+					      guint32           hide_mask,
+					      void             *default_closure);
+GtkMenu    *e_popup_menu_create_with_domain  (EPopupMenu       *menu_list,
+					      guint32           disable_mask,
+					      guint32           hide_mask,
+					      void             *default_closure,
+					      const char       *domain);
+void        e_popup_menu_run                 (EPopupMenu       *menu_list,
+					      GdkEvent         *event,
+					      guint32           disable_mask,
+					      guint32           hide_mask,
+					      void             *default_closure);
 
 /* Doesn't copy or free the memory.  Just the contents. */
-void        e_popup_menu_copy_1  (EPopupMenu       *destination,
-				  const EPopupMenu *menu_item);
-void        e_popup_menu_free_1  (EPopupMenu       *menu_item);
+void        e_popup_menu_copy_1              (EPopupMenu       *destination,
+					      const EPopupMenu *menu_item);
+void        e_popup_menu_free_1              (EPopupMenu       *menu_item);
 
 /* Copies or frees the entire structure. */
-EPopupMenu *e_popup_menu_copy    (const EPopupMenu *menu_item);
-void        e_popup_menu_free    (EPopupMenu       *menu_item);
+EPopupMenu *e_popup_menu_copy                (const EPopupMenu *menu_item);
+void        e_popup_menu_free                (EPopupMenu       *menu_item);
 
 END_GNOME_DECLS
 

@@ -43,6 +43,7 @@
 #include <glade/glade.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-i18n.h"
+#include "gal/widgets/e-unicode.h"
 
 #include <e-table-scrolled.h>
 #include <e-table-without.h>
@@ -498,7 +499,10 @@ create_global_store (ETableConfig *config)
 
 	global_store = e_table_memory_store_new (store_columns);
 	for (i = 0; config->source_spec->columns[i]; i++) {
-		e_table_memory_store_insert (E_TABLE_MEMORY_STORE (global_store), i, NULL, config->source_spec->columns[i]->title);
+		char *text = e_utf8_from_locale_string (dgettext (config->domain,
+								  config->source_spec->columns[i]->title));
+
+		e_table_memory_store_insert_adopt (E_TABLE_MEMORY_STORE (global_store), i, NULL, text);
 	}
 }
 
