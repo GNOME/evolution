@@ -165,7 +165,7 @@ compare_email (ECardSimple *card, const char *str,
 	for (i = E_CARD_SIMPLE_EMAIL_ID_EMAIL; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
 		const char *email = e_card_simple_get_email (card, i);
 
-		if (compare(email, str))
+		if (email && compare(email, str))
 			return TRUE;
 	}
 
@@ -181,7 +181,7 @@ compare_phone (ECardSimple *card, const char *str,
 	for (i = E_CARD_SIMPLE_PHONE_ID_ASSISTANT; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
 		const ECardPhone *phone = e_card_simple_get_phone (card, i);
 
-		if (compare(phone->number, str))
+		if (phone && compare(phone->number, str))
 			return TRUE;
 	}
 
