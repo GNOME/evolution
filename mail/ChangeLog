@@ -9,7 +9,9 @@
 	rather than bonobo methods to destroy the message list.
 	(on_right_click, on_double_click): These are being attached to the
 	ETable directly now, so fix the first argument (which isn't being
-	used anyway, but...)
+	used anyway, but...). Ignore double-clicks on "active" columns
+	(the ones where clicking does something beyond "select"), fixing
+	bug #811, which is what got me started on this to begin with...
 	(folder_browser_gui_init): simplify now that MessageList itself is
 	a widget. Also use message_list->table rather than
 	e_table_scrolled_get_table.

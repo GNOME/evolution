@@ -38,6 +38,9 @@ enum {
 	COL_COLOUR,
 };
 
+#define MESSAGE_LIST_COLUMN_IS_ACTIVE(col) (col == COL_MESSAGE_STATUS || \
+					    col == COL_FLAGGED)
+
 struct _MessageList {
 	ETableScrolled parent;
 

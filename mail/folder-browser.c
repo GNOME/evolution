@@ -633,6 +633,12 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 static void
 on_double_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
+	/* Ignore double-clicks on columns where single-click doesn't
+	 * just select.
+	 */
+	if (MESSAGE_LIST_COLUMN_IS_ACTIVE (col))
+		return;
+
 	view_msg (NULL, fb);
 }
 
