@@ -8,7 +8,7 @@ INCLUDES = 					\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
 
 # Address Conduit
-privlib_LTLIBRARIES = libeaddress_conduit.la
+privconduit_LTLIBRARIES = libeaddress_conduit.la
 
 libeaddress_conduit_la_SOURCES = \
 	address-conduit.c
@@ -21,7 +21,7 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 e-address-$(BASE_VERSION).conduit: e-address.conduit.in
-	sed -e 's^\@privlibdir\@^$(privlibdir)^g' 			\
+	sed -e 's^\@privconduitdir\@^$(privconduitdir)^g' 		\
 	    -e 's^\@datadir\@^$(datadir)^g' 				\
 	    -e 's^\@BASE_VERSION\@^$(BASE_VERSION)^g' 			\
 	    $< > $@
