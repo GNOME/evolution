@@ -40,9 +40,9 @@
 #define IS_SUBSCRIBE_DIALOG_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), SUBSCRIBE_DIALOG_TYPE))
 
 struct  _SubscribeDialog {
-	GtkObject parent;
+	GtkObject                 parent;
 
-	GNOME_Evolution_Shell           shell;
+	GNOME_Evolution_Shell     shell;
 
 	GtkWidget                *app;
 

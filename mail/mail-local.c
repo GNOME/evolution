@@ -178,7 +178,8 @@ save_metainfo(struct _local_meta *meta)
 typedef struct {
 	CamelStore parent_object;	
 
-	GNOME_Evolution_LocalStorage corba_local_storage;
+	EvolutionStorage *storage;
+	GNOME_Evolution_Storage corba_storage;
 	EvolutionStorageListener *local_storage_listener;
 	
 	char *local_path;
@@ -245,7 +246,7 @@ mail_local_store_init (gpointer object, gpointer klass)
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (object);
 
-	local_store->corba_local_storage = CORBA_OBJECT_NIL;
+	local_store->corba_storage = CORBA_OBJECT_NIL;
 }
 
 static void
@@ -276,8 +277,8 @@ mail_local_store_finalize (gpointer object)
 	CORBA_Environment ev;
 
 	CORBA_exception_init (&ev);
-	if (!CORBA_Object_is_nil (local_store->corba_local_storage, &ev))
-		bonobo_object_release_unref (local_store->corba_local_storage, &ev);
+	if (!CORBA_Object_is_nil (local_store->corba_storage, &ev))
+		bonobo_object_release_unref (local_store->corba_storage, &ev);
 	CORBA_exception_free (&ev);
 
 	if (local_store->local_storage_listener)
@@ -369,7 +370,7 @@ init_trash (CamelStore *store)
 		/* would prefer not to special-case this, but... */
 		mail_folder_cache_note_folder ("vtrash:file:/", store->vtrash);
 		mail_folder_cache_set_update_lstorage ("vtrash:file:/", 
-						       local_store->corba_local_storage,
+						       local_store->corba_storage,
 						       "/local/Trash");
 	}
 }
@@ -512,7 +513,7 @@ register_folder_registered(struct _mail_msg *mm)
 		vfolder_register_source(local_folder->folder);
 		
 		mail_folder_cache_set_update_lstorage (local_folder->uri, 
-						       local_folder->local_store->corba_local_storage,
+						       local_folder->local_store->corba_storage,
 						       local_folder->path);
 		
 		name = strrchr (local_folder->path, '/');
@@ -637,6 +638,7 @@ void
 mail_local_storage_startup (EvolutionShellClient *shellclient,
 			    const char *evolution_path)
 {
+	EvolutionStorageListener *local_storage_listener;
 	GNOME_Evolution_StorageListener corba_local_storage_listener;
 	CORBA_Environment ev;
 
@@ -655,32 +657,32 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 		g_warning ("No local store!");
 		return;
 	}
-	local_store->corba_local_storage =
-		evolution_shell_client_get_local_storage (shellclient);
-	if (local_store->corba_local_storage == CORBA_OBJECT_NIL) {
+
+	local_store->corba_storage = evolution_shell_client_get_local_storage (shellclient);
+	if (local_store->corba_storage == CORBA_OBJECT_NIL) {
 		g_warning ("No local storage!");
 		camel_object_unref (CAMEL_OBJECT (local_store));
 		return;
 	}
 	
-	local_store->local_storage_listener =
-		evolution_storage_listener_new ();
-	corba_local_storage_listener =
-		evolution_storage_listener_corba_objref (
-			local_store->local_storage_listener);
+	local_storage_listener = evolution_storage_listener_new ();
+	corba_local_storage_listener = evolution_storage_listener_corba_objref (
+		local_storage_listener);
 
-	gtk_signal_connect (GTK_OBJECT (local_store->local_storage_listener),
+	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
 			    "destroyed",
 			    GTK_SIGNAL_FUNC (local_storage_destroyed_cb),
 			    local_store);
-	gtk_signal_connect (GTK_OBJECT (local_store->local_storage_listener),
+	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
 			    "new_folder",
 			    GTK_SIGNAL_FUNC (local_storage_new_folder_cb),
 			    local_store);
-	gtk_signal_connect (GTK_OBJECT (local_store->local_storage_listener),
+	gtk_signal_connect (GTK_OBJECT (local_storage_listener),
 			    "removed_folder",
 			    GTK_SIGNAL_FUNC (local_storage_removed_folder_cb),
 			    local_store);
+
+	local_store->local_storage_listener = local_storage_listener;
 
 	local_store->local_path = g_strdup_printf ("%s/local",
 						   evolution_path);
@@ -689,7 +691,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 	local_store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 
 	CORBA_exception_init (&ev);
-	GNOME_Evolution_Storage_addListener (local_store->corba_local_storage,
+	GNOME_Evolution_Storage_addListener (local_store->corba_storage,
 					     corba_local_storage_listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Cannot add a listener to the Local Storage.");

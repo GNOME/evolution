@@ -44,7 +44,7 @@ static GList *importer_modules = NULL;
 
 extern char *evolution_dir;
 
-static GNOME_Evolution_LocalStorage local_storage = NULL;
+static GNOME_Evolution_Storage local_storage = NULL;
 
 /* Prototype */
 

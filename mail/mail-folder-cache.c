@@ -62,7 +62,7 @@ typedef enum mail_folder_info_update_mode {
 
 typedef union mail_folder_info_update_info {
 	EvolutionStorage *es;
-	GNOME_Evolution_LocalStorage ls;
+	GNOME_Evolution_Storage ls;
 } mfiui;
 
 typedef struct _mail_folder_info {
@@ -198,7 +198,6 @@ update_idle (gpointer user_data)
 {
 	mail_folder_info *mfi = (mail_folder_info *) user_data;
 	gchar *f_name, *f_status;
-	gboolean bold;
 	gchar *uri, *path;
 	mfiui info;
 	mfium mode;
@@ -230,14 +229,6 @@ update_idle (gpointer user_data)
 	f_name = make_folder_name (mfi);
 	f_status = make_folder_status (mfi);
 
-	/* bold? */
-
-	if (mfi->flags & MAIL_FIF_UNREAD_VALID &&
-	    mfi->unread)
-		bold = TRUE;
-	else
-		bold = FALSE;
-
 	/* Set the value */
 
 	/* Who knows how long these corba calls will take? 
@@ -261,13 +252,12 @@ update_idle (gpointer user_data)
 
 	switch (mode) {
 	case MAIL_FIUM_LOCAL_STORAGE:
-		d(g_message("Updating via LocalStorage"));
 		CORBA_exception_init (&ev);
-		GNOME_Evolution_LocalStorage_updateFolder (info.ls,
-							   path,
-							   f_name,
-							   bold,
-							   &ev);
+		GNOME_Evolution_Storage_updateFolder (info.ls,
+						      mfi->path,
+						      mfi->name,
+						      mfi->unread,
+						      &ev);
 		if (BONOBO_EX (&ev))
 			g_warning ("Exception in local storage update: %s",
 				   bonobo_exception_get_text (&ev));
@@ -277,8 +267,8 @@ update_idle (gpointer user_data)
 		d(g_message("Updating via EvolutionStorage"));
 		evolution_storage_update_folder_by_uri (info.es,
 							uri,
-							f_name,
-							bold);
+							mfi->name,
+							mfi->unread);
 		break;
 	case MAIL_FIUM_UNKNOWN:
 	default:
@@ -554,7 +544,8 @@ get_mail_info (CamelFolder *folder, mail_folder_info *mfi)
 /* Public functions */
 
 void 
-mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estorage)
+mail_folder_cache_set_update_estorage (const gchar *uri,
+				       EvolutionStorage *estorage)
 {
 	mail_folder_info *mfi;
 
@@ -579,7 +570,9 @@ mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estor
 }
 
 void 
-mail_folder_cache_set_update_lstorage (const gchar *uri, GNOME_Evolution_LocalStorage lstorage, const gchar *path)
+mail_folder_cache_set_update_lstorage (const gchar *uri,
+				       GNOME_Evolution_Storage lstorage,
+				       const gchar *path)
 {
 	mail_folder_info *mfi;
 

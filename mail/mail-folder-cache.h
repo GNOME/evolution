@@ -42,7 +42,7 @@
 
 void mail_folder_cache_set_update_estorage (const gchar *uri, EvolutionStorage *estorage);
 void mail_folder_cache_set_update_lstorage (const gchar *uri, 
-					    GNOME_Evolution_LocalStorage lstorage,
+					    GNOME_Evolution_Storage lstorage,
 					    const gchar *path);
 /* We always update the shell view */
 /*void mail_folder_cache_set_update_shellview (const gchar *uri);*/
