@@ -46,6 +46,9 @@
       <menuitem name="SetMailConfig" verb=""
       _label="_Mail Configuration..."/>
 
+      <menuitem name="SetSubscribe" verb=""
+      _label="Manage Subscriptions..."/>
+
       <menuitem name="SetForgetPwd" verb=""
       _label="Forget _Passwords"/>
 

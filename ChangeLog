@@ -1,3 +1,10 @@
+2000-09-29  Chris Toshok  <toshok@helixcode.com>
+
+	* ui/evolution-mail.xml: add a Settings/Manage Subscriptions...
+	menu item.
+
+	* ui/evolution-subscribe.xml: add a File/Close menu item.
+
 2000-09-28  Chris Toshok  <toshok@helixcode.com>
 
 	* ui/evolution-subscribe.xml: add a FolderSearch control, and

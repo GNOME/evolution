@@ -1,5 +1,12 @@
 <Root>
   <menu>
+    <submenu name="File" _label="_File">
+
+        <menuitem name="FileCloseWin" verb=""
+        _label="Close"/>
+
+    </submenu>
+
     <submenu name="Edit" _label="_Edit">
 
         <menuitem name="EditSelectAll" verb=""
