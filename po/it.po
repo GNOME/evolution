@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-10-28 16:49-0500\n"
-"PO-Revision-Date: 2003-01-07 17:58+0100\n"
+"PO-Revision-Date: 2003-01-08 09:44+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5455,9 +5455,9 @@ msgid "Task Information"
 msgstr "Informazioni sull'Attività"
 
 #: calendar/gui/e-itip-control.c:1174
-#, fuzzy, c-format
+#, c-format
 msgid "<b>%s</b> requests %s to perform a task."
-msgstr "<b>%s</b> ha richiesto che venga eseguito un compito."
+msgstr "<b>%s</b> richiede che %s eseguito un compito."
 
 #: calendar/gui/e-itip-control.c:1176
 #, c-format
@@ -5540,9 +5540,8 @@ msgid "Bad Free/Busy Message"
 msgstr "Messaggio di Disponibilità Indecifrabile"
 
 #: calendar/gui/e-itip-control.c:1320
-#, fuzzy
 msgid "The message does not appear to be properly formed"
-msgstr "La cartella appare irrimediabilmente corrotta."
+msgstr "Il messaggio sembra malformato"
 
 #: calendar/gui/e-itip-control.c:1382
 msgid "The message contains only unsupported requests."
@@ -5558,22 +5557,19 @@ msgstr "L'allegato non ha nessun elemento di calendario visibile"
 
 #: calendar/gui/e-itip-control.c:1662 calendar/gui/e-itip-control.c:1754
 msgid "Object is invalid and cannot be updated\n"
-msgstr ""
+msgstr "L'oggetto non è valido e non può essere aggiornato\n"
 
 #: calendar/gui/e-itip-control.c:1665 calendar/gui/e-itip-control.c:1757
-#, fuzzy
 msgid "There was an error on the CORBA system\n"
-msgstr "Si è verificato un errore nella ricezione dei dati da"
+msgstr "Si è verificato un errore nel sistema CORBA\n"
 
 #: calendar/gui/e-itip-control.c:1668 calendar/gui/e-itip-control.c:1760
-#, fuzzy
 msgid "Object could not be found\n"
-msgstr "L'elemento non può essere spedito!\n"
+msgstr "Impossibile trovare l'oggetto\n"
 
 #: calendar/gui/e-itip-control.c:1671
-#, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
-msgstr "Impossibile aprire la cartella in `%s'"
+msgstr "Non si possiede i diritti di scrittura necessari per aggiornare il calendario\n"
 
 #: calendar/gui/e-itip-control.c:1674
 msgid "Update complete\n"
@@ -5589,16 +5585,15 @@ msgstr "Impossibile aggiornare lo stato del partecipante; l'elemento non esiste 
 
 #: calendar/gui/e-itip-control.c:1727
 msgid "This response is not from a current attendee.  Add as an attendee?"
-msgstr ""
+msgstr "Questa risposta non proviene da un partecipante...aggiungerlo come partecipante?"
 
 #: calendar/gui/e-itip-control.c:1739
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr "Impossibile aggiornare lo stato del partecipante; lo stato non è valido!\n"
 
 #: calendar/gui/e-itip-control.c:1763
-#, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
-msgstr "Impossibile aprire la cartella in `%s'"
+msgstr "Non si possiede i diritti necessari per aggiornare il calendario\n"
 
 #: calendar/gui/e-itip-control.c:1766
 msgid "Attendee status updated\n"
@@ -5621,14 +5616,12 @@ msgid "The item could not be sent!\n"
 msgstr "L'elemento non può essere spedito!\n"
 
 #: calendar/gui/e-itip-control.c:1961
-#, fuzzy
 msgid "Select Calendar Folder"
-msgstr "Scegli Cartella"
+msgstr "Scegli Cartella Calendario"
 
 #: calendar/gui/e-itip-control.c:1968
-#, fuzzy
 msgid "Select Tasks Folder"
-msgstr "Scegli Cartella"
+msgstr "Scegli Cartella Azioni"
 
 #: calendar/gui/e-itip-control.glade.h:2
 #, no-c-format
@@ -5837,26 +5830,26 @@ msgid "The method required to load `%s' is not supported"
 msgstr "Il metodo richiesto per caricare `%s' non è supportato"
 
 #: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1552
-#, fuzzy, c-format
+#, c-format
 msgid "You don't have permission to open the folder in `%s'"
-msgstr "Impossibile aprire la cartella in `%s'"
+msgstr "Non si possiede i permessi necessari per aprire la cartella in `%s'"
 
 #: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1750
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Error on %s:\n"
 " %s"
-msgstr "Errore nell'avvio di %s"
+msgstr ""
+"Errore su %s:\n"
+" %s"
 
 #: calendar/gui/e-tasks.c:540
-#, fuzzy
 msgid "Completing tasks..."
-msgstr "Ultimato il"
+msgstr "Completamento azioni..."
 
 #: calendar/gui/e-tasks.c:563
-#, fuzzy
 msgid "Deleting selected objects..."
-msgstr "Rimozione degli elementi selezionati in corso"
+msgstr "Rimozione degli oggetti selezionati..."
 
 #: calendar/gui/e-tasks.c:656
 msgid "Expunging"
@@ -5878,9 +5871,9 @@ msgstr "Il metodo richiesto per aprire `%s' non è supportato"
 
 #. add the alarms for this client
 #: calendar/gui/gnome-cal.c:1581
-#, fuzzy, c-format
+#, c-format
 msgid "Adding alarms for %s"
-msgstr "Allarme: %s"
+msgstr "Aggiunta Segnalazioni per %s"
 
 #: calendar/gui/gnome-cal.c:1767
 #, c-format
@@ -5889,6 +5882,9 @@ msgid ""
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Il backend del calendario per \n"
+"%s\n"
+"è crashato. E' necessario riavviare Evolution se si vuole continuare ad utilizzarlo"
 
 #: calendar/gui/gnome-cal.c:1772
 #, c-format
@@ -5897,6 +5893,9 @@ msgid ""
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Il backend per\n"
+"%s\n"
+"è crashato. E' necessario riavviare Evolution per continuare ad utilizzarlo"
 
 #: calendar/gui/gnome-cal.c:1996
 #, c-format
@@ -5904,9 +5903,8 @@ msgid "Opening calendar at %s"
 msgstr "Apertura calendario %s"
 
 #: calendar/gui/gnome-cal.c:2035
-#, fuzzy
 msgid "Opening default tasks folder"
-msgstr "Lettura cartella %s in corso"
+msgstr "Lettura cartella azioni predefinite"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -5993,18 +5991,16 @@ msgid "Calendar information"
 msgstr "Informazioni di calendario"
 
 #: calendar/gui/itip-utils.c:506
-#, fuzzy
 msgid "Updated"
-msgstr "Aggiornare"
+msgstr "Aggiornato"
 
 #: calendar/gui/itip-utils.c:514
-#, fuzzy
 msgid "Refresh"
-msgstr "Aggiorna Lista"
+msgstr "Aggiorna"
 
 #: calendar/gui/itip-utils.c:518
 msgid "Counter-proposal"
-msgstr ""
+msgstr "Contro-proposta"
 
 #: calendar/gui/itip-utils.c:586
 #, c-format
@@ -6020,9 +6016,8 @@ msgid "You must be an attendee of the event."
 msgstr "Devi essere un partecipante all'evento."
 
 #: calendar/gui/main.c:70
-#, fuzzy
 msgid "Could not activate Bonobo"
-msgstr "Impossibile inizializzare Bonobo"
+msgstr "Impossibile attivare Bonobo"
 
 #: calendar/gui/main.c:99
 msgid "Could not create the component editor factory"
@@ -6223,9 +6218,9 @@ msgid "Status: %s"
 msgstr "Stato: %s"
 
 #: calendar/gui/print.c:2324
-#, fuzzy, c-format
+#, c-format
 msgid "Priority: %s"
-msgstr "_Priorità:"
+msgstr "Priorità: %s"
 
 #: calendar/gui/print.c:2338
 #, c-format
@@ -6293,9 +6288,8 @@ msgid "Do not ask me again."
 msgstr "Non chiedere più in futuro."
 
 #: calendar/gui/tasks-control.c:618
-#, fuzzy
 msgid "Print Tasks"
-msgstr "Stampa card"
+msgstr "Stampa Azioni"
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -6352,40 +6346,34 @@ msgid "Imports vCalendar files into Evolution"
 msgstr "Importa i file VCalendar in Evolution."
 
 #: calendar/importers/icalendar-importer.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "Can't get storage list from registry: %s"
-msgstr ""
-"Impossibile prendere il messaggio: %s dalla cartella: %s\n"
-"  %s"
+msgstr "Impossibile prelevare elenco memorizzati dal registro: %s"
 
 #: calendar/importers/icalendar-importer.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "Can't call getFolderAtPath on storage: %s"
-msgstr "Impossibile connettersi allo store: %s"
+msgstr "Impossibile chiamare getFolderAtPath nella memorizzazione: %s"
 
 #: calendar/importers/icalendar-importer.c:483
-#, fuzzy
 msgid "Reminder!!"
-msgstr "Promemoria"
+msgstr "Promemoria!"
 
 #: calendar/importers/icalendar-importer.c:697
-#, fuzzy
 msgid "Calendar Events"
-msgstr "Messaggio del Calendario"
+msgstr "Eventi del Calendario"
 
 #: calendar/importers/icalendar-importer.c:722
-#, fuzzy
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
-"Evolution ha trovato file di posta Pine.\n"
-"Si desidera importarli in Evolution"
+"Evolution ha trovato i file di Calendario di Gnome.\n"
+"Si desidera importarli in Evolution?"
 
 #: calendar/importers/icalendar-importer.c:729
-#, fuzzy
 msgid "Gnome Calendar"
-msgstr "Calendario"
+msgstr "Calendario di Gnome"
 
 #: calendar/pcs/query.c:289
 msgid "time-now expects 0 arguments"
@@ -6498,9 +6486,8 @@ msgstr ""
 "booleano"
 
 #: calendar/pcs/query.c:1483
-#, fuzzy
 msgid "Parse error"
-msgstr "Altro errore"
+msgstr "Analizza errore"
 
 #.
 #. * These are the timezone names from the Olson timezone data.
@@ -7400,7 +7387,6 @@ msgid "Asia/Macao"
 msgstr "Asia/Macao"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
 msgstr "Asia/Macao"
 
@@ -7409,9 +7395,8 @@ msgid "Asia/Magadan"
 msgstr "Asia/Magadan"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "Asia/Magadan"
+msgstr "Asia/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -7434,9 +7419,8 @@ msgid "Asia/Omsk"
 msgstr "Asia/Omsk"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "Asia/Kabul"
+msgstr "Asia/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
@@ -7455,9 +7439,8 @@ msgid "Asia/Qatar"
 msgstr "Asia/Qatar"
 
 #: calendar/zones.h:243
-#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr "Asia/Gaza"
+msgstr "Asia/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
@@ -8087,9 +8070,9 @@ msgid "Resynchronizing with server"
 msgstr "Sincronizzazione con il server"
 
 #: camel/camel-disco-folder.c:278
-#, fuzzy, c-format
+#, c-format
 msgid "Preparing folder '%s' for offline"
-msgstr "Archiviazione cartella '%s'"
+msgstr "Preparazione cartella '%s' per l'accesso fuorilinea"
 
 #: camel/camel-disco-store.c:367
 msgid "You must be working online to complete this operation"
@@ -8150,24 +8133,22 @@ msgid "Failed to retrieve message"
 msgstr "Errore di ricazione del messaggio"
 
 #: camel/camel-filter-search.c:387
-#, fuzzy
 msgid "Invalid arguments to (system-flag)"
-msgstr "Argomenti non validi"
+msgstr "Argomenti non validi per (flag di sistema)"
 
 #: camel/camel-filter-search.c:402
-#, fuzzy
 msgid "Invalid arguments to (user-tag)"
-msgstr "Argomenti non validi"
+msgstr "Argomenti non validi per (selezione utente)"
 
 #: camel/camel-filter-search.c:514
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create pipe to '%s': %s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile creare pipe a '%s': %s"
 
 #: camel/camel-filter-search.c:550
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create create child process '%s': %s"
-msgstr "Impossibile salvare messaggio %s nella cache: %s"
+msgstr "Impossibile creare processo figlio '%s': %s"
 
 #: camel/camel-filter-search.c:656 camel/camel-filter-search.c:664
 #, c-format
@@ -8223,9 +8204,8 @@ msgid "Moving messages"
 msgstr "Trasferimento dei messaggi in corso"
 
 #: camel/camel-folder.c:1319
-#, fuzzy
 msgid "Copying messages"
-msgstr "Copia messaggi in %s"
+msgstr "Copia messaggi"
 
 #: camel/camel-gpg-context.c:697
 #, c-format
@@ -8234,14 +8214,17 @@ msgid ""
 "\n"
 "%s"
 msgstr ""
+"Incontrato messaggio di stato GnuPG inaspettato:\n"
+"\n"
+"%s"
 
 #: camel/camel-gpg-context.c:711
 msgid "Failed to parse gpg userid hint."
-msgstr ""
+msgstr "Fallita analisi userid hint gpg."
 
 #: camel/camel-gpg-context.c:734
 msgid "Failed to parse gpg passphrase request."
-msgstr ""
+msgstr "Fallita analisi richiesta passphrase gpg."
 
 #: camel/camel-gpg-context.c:742
 #, c-format
