@@ -3,6 +3,8 @@
 	* gui/e-calendar-table.c (tasks_popup_menu): Cast signal handlers
 	to GtkSignalFunc, avoid warnings.
 
+	* gui/gnome-cal.c (set_view): Only set view ID if we have an instance.
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* cal-util/Makefile.am (EXTRA_DIST): cal-util-marshal.list.

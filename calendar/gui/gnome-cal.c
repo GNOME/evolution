@@ -1244,7 +1244,8 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	updating = TRUE;
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
-	gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+	if (priv->view_instance)
+		gal_view_instance_set_current_view_id (priv->view_instance, view_id);
 	updating = FALSE;
 
 	if (grab_focus)
