@@ -280,6 +280,9 @@ impl_ShellComponent_populate_folder_context_menu (PortableServer_Servant servant
 	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
 	priv = shell_component->priv;
 
+	if (priv->populate_folder_context_menu_fn == NULL)
+		return;
+
 	uih = bonobo_ui_handler_new ();
 	bonobo_ui_handler_set_container (uih, corba_uih);
 

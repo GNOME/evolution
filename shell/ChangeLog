@@ -1,5 +1,12 @@
 2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* evolution-shell-component.c
+	(impl_ShellComponent_populate_folder_context_menu): If the pointer
+	to the function to populate the folder context menu is NULL, don't
+	do anything.
+
+2000-07-21  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-storage-set-view.c (popup_folder_menu): New.  Create a
 	BonoboUIHandler-managed pop-up menu, let the component fill it in
 	with `::populate_folder_context_menu', and display it.  Then
