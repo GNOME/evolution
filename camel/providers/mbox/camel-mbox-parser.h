@@ -44,3 +44,13 @@ typedef struct {
 
 typedef void camel_mbox_preparser_status_callback (double percentage_done, gpointer user_data);
 
+
+GArray *
+camel_mbox_parse_file (int fd, 
+		       const gchar *message_delimiter,
+		       guint start_position,
+		       gboolean get_message_summary,
+		       camel_mbox_preparser_status_callback *status_callback,
+		       double status_interval,
+		       gpointer user_data);
+

@@ -458,7 +458,7 @@ read_message_begining (CamelMboxPreParser *parser, gchar **message_summary)
  * body. The @get_message_summary parameter allows to enable or disable this option.
  * 
  * 
- * Return value: 
+ * Return value: An array of CamelMboxParserMessageInfo containing the informations on each message parsed in the file
  **/
 GArray *
 camel_mbox_parse_file (int fd, 

@@ -1,5 +1,11 @@
 2000-01-12  bertrand  <bertrand@helixcode.com>
 
+	* camel/providers/mbox/camel-mbox-parser.h (camel_mbox_parse_file): 
+	Added the prototype of camel_mbox_parse_file. 
+
+	* camel/providers/mbox/camel-mbox-parser.c (camel_mbox_parse_file): 
+	updated in-line documentation.
+
 	* tests/Makefile.am (noinst_PROGRAMS): 
 	remove non updated tests from the build 
 	process. 
