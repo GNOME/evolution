@@ -1,3 +1,22 @@
+Version 0.9
+-----------
+
+Shell:
+
+  - Importing framework.  (Iain)
+
+  - Made the splash screen a regular window.  (Miguel)
+
+  - Added a menu item to hide the shortcut bar to the shortuct bar
+    right-click menu.  (Jason)
+
+  - Update the shortcut labels to contain the number of unread
+    messages as well.  (Jason)
+
+  - Pre-select a newly created folder in the folder selection dialog.
+    (Ettore)
+
+
 Version 0.8 "Archaeopteryx", 2000-12-14
 ---------------------------------------
 
