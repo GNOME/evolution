@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-17 00:01+0200\n"
-"PO-Revision-Date: 2001-10-17 00:13+0200\n"
+"POT-Creation-Date: 2001-10-19 10:25+0200\n"
+"PO-Revision-Date: 2001-10-19 10:30+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2535,12 +2535,13 @@ msgid "Error modifying card"
 msgstr "B³±d przy modyfikacji karty"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:1
+#: shell/evolution-shell-component.c:1
 msgid "Success"
 msgstr "Sukces"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:1
 #: camel/providers/imap/camel-imap-command.c:1 shell/e-shell.c:1
-#: shell/e-storage.c:1
+#: shell/e-storage.c:1 shell/evolution-shell-component.c:1
 msgid "Unknown error"
 msgstr "Nieznany b³±d"
 
@@ -2549,6 +2550,7 @@ msgid "Repository offline"
 msgstr "Repozytorium roz³±czone"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:1 shell/e-storage.c:1
+#: shell/evolution-shell-component.c:1
 msgid "Permission denied"
 msgstr "Brak uprawnieñ"
 
@@ -2964,42 +2966,16 @@ msgid "Factory for the alarm notification service"
 msgstr "Generator us³ugi przypominania za pomoc± alarmu"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your appointment starting on %s and ending on %s"
-msgstr "Przypomnienie o terminie rozpoczynaj±cym siê o %s i koñcz±cym o %s"
+msgid "Starting:"
+msgstr "Pocz±tek:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your appointment starting on %s"
-msgstr "Przypomnienie o terminie rozpoczynaj±cym siê o %s"
+msgid "Ending:"
+msgstr "Koniec:"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your appointment ending on %s"
-msgstr "Przypomnienie o terminie koñcz±cym siê o %s"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-msgid "Notification about your appointment"
-msgstr "Przypomnienie o terminie"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your task starting on %s and ending on %s"
-msgstr "Przypomnienie o zadaniu rozpoczynaj±cym siê o %s i koñcz±cym o %s"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your task starting on %s"
-msgstr "Przypomnienie o zadaniu rozpoczynaj±cym siê o %s"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-#, c-format
-msgid "Notification about your task ending on %s"
-msgstr "Przypomnienie o zadaniu koñcz±cym siê o %s"
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
-msgid "Notification about your task"
-msgstr "Przypomnienie o zadaniu"
+msgid "Evolution Alarm"
+msgstr "Alarm Evolution"
 
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:1
 msgid "Alarm on %A %b %d %Y %H:%M"
@@ -3062,6 +3038,10 @@ msgstr "Nie mo¿na zainicjowaæ GNOME"
 #: calendar/gui/alarm-notify/notify-main.c:1 calendar/gui/main.c:1
 msgid "Could not initialize gnome-vfs"
 msgstr "Nie mo¿na zainicjowaæ gnome-vfs"
+
+#: calendar/gui/alarm-notify/notify-main.c:1
+msgid "Could not create the alarm notify service"
+msgstr "Nie mo¿na stworzyæ us³ugi przypominania za pomoc± alarmu"
 
 #: calendar/gui/alarm-notify/notify-main.c:1
 msgid "Could not create the alarm notify service factory"
@@ -3138,7 +3118,7 @@ msgid "Free"
 msgstr "Wolny"
 
 #: calendar/gui/calendar-model.c:1 calendar/gui/e-calendar-table.c:1
-#: calendar/gui/e-meeting-time-sel.c:1
+#: calendar/gui/e-meeting-time-sel.c:1 shell/evolution-shell-component.c:1
 msgid "Busy"
 msgstr "Zajêty"
 
@@ -3999,27 +3979,6 @@ msgid "An organizer is required."
 msgstr "Wymagany jest organizator."
 
 #: calendar/gui/dialogs/meeting-page.c:1
-#: calendar/gui/dialogs/meeting-page.c:1
-msgid "Chair Persons"
-msgstr "Osoby przewodnicz±ce"
-
-#: calendar/gui/dialogs/meeting-page.c:1
-#: calendar/gui/dialogs/meeting-page.c:1
-#: calendar/gui/dialogs/meeting-page.c:1
-msgid "Required Participants"
-msgstr "Wymagani uczestnicy"
-
-#: calendar/gui/dialogs/meeting-page.c:1
-#: calendar/gui/dialogs/meeting-page.c:1
-msgid "Optional Participants"
-msgstr "Opcjonalni uczestnicy"
-
-#: calendar/gui/dialogs/meeting-page.c:1
-#: calendar/gui/dialogs/meeting-page.c:1
-msgid "Non-Participants"
-msgstr "Nie uczestnicy"
-
-#: calendar/gui/dialogs/meeting-page.c:1
 msgid "That person is already attending the meeting!"
 msgstr "Ta osoba ju¿ uczestniczy w spotkaniu!"
 
@@ -4852,6 +4811,23 @@ msgstr "Oddelegowane"
 #: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
 msgid "In Process"
 msgstr "W trakcie"
+
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
+msgid "Chair Persons"
+msgstr "Osoby przewodnicz±ce"
+
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
+#: calendar/gui/e-meeting-model.c:1
+msgid "Required Participants"
+msgstr "Wymagani uczestnicy"
+
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
+msgid "Optional Participants"
+msgstr "Opcjonalni uczestnicy"
+
+#: calendar/gui/e-meeting-model.c:1 calendar/gui/e-meeting-model.c:1
+msgid "Non-Participants"
+msgstr "Nie uczestnicy"
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
@@ -6311,12 +6287,12 @@ msgid "Apply filters to new messages in INBOX"
 msgstr "Zastosowywanie filtrów w odniesieniu do nowych listów w INBOX"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "Qmail maildir-format mail files"
-msgstr "Pliki z listami w formacie maildir Qmaila"
+msgid "Maildir-format mail directories"
+msgstr "Katalogi z listami formacie Maildir"
 
 #: camel/providers/local/camel-local-provider.c:1
-msgid "For storing local mail in qmail maildir directories."
-msgstr "Do przechowywania lokalnej poczty w katalogach maildir qmaila."
+msgid "For storing local mail in maildir directories."
+msgstr "Do przechowywania lokalnej poczty w katalogach Maildir."
 
 #: camel/providers/local/camel-local-provider.c:1
 msgid "Standard Unix mbox spools"
@@ -6380,6 +6356,10 @@ msgstr "Nie mo¿na zapisaæ zestawienia: %s: %s"
 #: camel/providers/local/camel-spool-summary.c:1
 msgid "Unable to add message to summary: unknown reason"
 msgstr "Nie mo¿na dodaæ listu do zestawienia: przyczyna nieznana"
+
+#: camel/providers/local/camel-maildir-folder.c:1
+msgid "Maildir append message cancelled"
+msgstr "Anulowano do³±czenie listu do katalogu Maildir"
 
 #: camel/providers/local/camel-maildir-folder.c:1
 #, c-format
@@ -6480,6 +6460,10 @@ msgstr "Nie mo¿na stworzyæ blokady folderu dla %s: %s"
 #, c-format
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr "Nie mo¿na otworzyæ skrzynki: %s: %s\n"
+
+#: camel/providers/local/camel-mbox-folder.c:1
+msgid "Mail append cancelled"
+msgstr "Anulowano do³±czenie listu"
 
 #: camel/providers/local/camel-mbox-folder.c:1
 #, c-format
@@ -6634,6 +6618,10 @@ msgstr "Nie mo¿na zmieniæ nazwy folderu: %s"
 #, c-format
 msgid "Unknown error: %s"
 msgstr "Nieznany b³±d: %s"
+
+#: camel/providers/local/camel-mh-folder.c:1
+msgid "MH append message cancelled"
+msgstr "Anulowano do³±czenie listu do katalogu MH"
 
 #: camel/providers/local/camel-mh-folder.c:1
 #, c-format
@@ -12175,6 +12163,66 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (zakoñczono %d%%)"
+
+#: shell/evolution-shell-component.c:1
+msgid "CORBA error"
+msgstr "B³±d Corby"
+
+#: shell/evolution-shell-component.c:1
+msgid "Interrupted"
+msgstr "Przerwane"
+
+#: shell/evolution-shell-component.c:1
+msgid "Invalid argument"
+msgstr "Niepoprawny argument"
+
+#: shell/evolution-shell-component.c:1
+msgid "Already has an owner"
+msgstr "Ma ju¿ w³a¶ciciela"
+
+#: shell/evolution-shell-component.c:1
+msgid "No owner"
+msgstr "Brak w³a¶ciciela"
+
+#: shell/evolution-shell-component.c:1
+msgid "Not found"
+msgstr "Nie odnaleziono"
+
+#: shell/evolution-shell-component.c:1
+msgid "Unsupported type"
+msgstr "Nieobs³ugiwany typ"
+
+#: shell/evolution-shell-component.c:1
+msgid "Unsupported schema"
+msgstr "Nieobs³ugiwany schemat"
+
+#: shell/evolution-shell-component.c:1
+msgid "Unsupported operation"
+msgstr "Nieobs³ugiwana operacja"
+
+#: shell/evolution-shell-component.c:1
+msgid "Internal error"
+msgstr "B³±d wewnêtrzny"
+
+#: shell/evolution-shell-component.c:1
+msgid "Exists"
+msgstr "Istnieje"
+
+#: shell/evolution-shell-component.c:1
+msgid "Invalid URI"
+msgstr "Niepoprawny URI"
+
+#: shell/evolution-shell-component.c:1
+msgid "Has subfolders"
+msgstr "Zawiera foldery podrzêdne"
+
+#: shell/evolution-shell-component.c:1
+msgid "No space left"
+msgstr "Brak miejsca"
+
+#: shell/evolution-shell-component.c:1
+msgid "Old owner has died"
+msgstr "Poprzedni w³a¶ciciel zakoñczy³ dzia³anie"
 
 #: shell/evolution-shell-component-utils.c:1
 #, c-format
