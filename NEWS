@@ -1,3 +1,14 @@
+Evolution ?.?.?, ????-??-??
+---------------------------
+
+Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
+
+  * Addressbook
+
+    #41144 - Use stock buttons in the ldap config page. (Toshok)
+    #41211 - Add icon to "Add" button in "Add to Contacts" dialog. (Toshok)
+    #41255 - Use stock Add/Remove icons in the contact list editor. (Toshok)
+
 Evolution 1.3.3, 2003-04-29
 ---------------------------
 
