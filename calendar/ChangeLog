@@ -28,7 +28,6 @@
 	* gui/dialogs/send-comp.c (send_component_dialog): remove useless
 	assignment
 	
->>>>>>> 1.910
 2001-06-20  Rodrigo Moya <rodrigo@ximian.com>
 
 	* idl/evolution-calendar.idl: added getFreeBusy method
