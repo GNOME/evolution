@@ -89,6 +89,8 @@
 
 #define PARENT_TYPE (e_tree_scrolled_get_type ())
 
+/* #define SMART_ADDRESS_COMPARE */
+
 #ifdef SMART_ADDRESS_COMPARE
 struct _EMailAddress {
 	ENameWestern *wname;
@@ -156,7 +158,7 @@ static GtkTargetEntry drag_types[] = {
 };
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
-#ifdef SMART_ADDRESS_SORT
+#ifdef SMART_ADDRESS_COMPARE
 static EMailAddress *
 e_mail_address_new (const char *address)
 {
@@ -205,50 +207,52 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 	g_return_val_if_fail (addr1 != NULL, 1);
 	g_return_val_if_fail (addr2 != NULL, -1);
 	
-	if (!addr1->wname || !addr2->wname) {
+	if (!addr1->wname && !addr2->wname) {
 		/* have to compare addresses, one or both don't have names */
 		g_return_val_if_fail (addr1->address != NULL, 1);
 		g_return_val_if_fail (addr2->address != NULL, -1);
 		
-		retval = g_strcasecmp (addr1->address, addr2->address);
-	} else {
-		if (!addr1->wname->last && !addr2->wname->last) {
-			/* neither has a last name - default to address? */
-			/* FIXME: what do we compare next? */
-			g_return_val_if_fail (addr1->address != NULL, 1);
-			g_return_val_if_fail (addr2->address != NULL, -1);
-			
-			retval = g_strcasecmp (addr1->address, addr2->address);
-		} else {
-			/* compare last names */
-			if (!addr1->wname->last)
-				retval = -1;
-			else if (!addr2->wname->last)
-				retval = 1;
-			else {
-				retval = g_strcasecmp (addr1->wname->last, addr2->wname->last);
-				if (!retval) {
-					/* last names are identical - compare first names */
-					if (!addr1->wname->first)
-						retval = -1;
-					else if (!addr2->wname->first)
-						retval = 1;
-					else {
-						retval = g_strcasecmp (addr1->wname->first, addr2->wname->first);
-						if (!retval) {
-							/* first names are identical - compare addresses */
-							g_return_val_if_fail (addr1->address != NULL, 1);
-							g_return_val_if_fail (addr2->address != NULL, -1);
-							
-							retval = g_strcasecmp (addr1->address, addr2->address);
-						}
-					}
-				}
-			}
-		}
+		return g_strcasecmp (addr1->address, addr2->address);
 	}
-	
-	return retval;
+
+	if (!addr1->wname)
+		return -1;
+	if (!addr2->wname)
+		return 1;
+
+	if (!addr1->wname->last && !addr2->wname->last) {
+		/* neither has a last name - default to address? */
+		/* FIXME: what do we compare next? */
+		g_return_val_if_fail (addr1->address != NULL, 1);
+		g_return_val_if_fail (addr2->address != NULL, -1);
+			
+		return g_strcasecmp (addr1->address, addr2->address);
+	} 
+
+	if (!addr1->wname->last)
+		return -1;
+	if (!addr2->wname->last)
+		return 1;
+
+	retval = g_strcasecmp (addr1->wname->last, addr2->wname->last);
+	if (retval) 
+		return retval;
+
+	/* last names are identical - compare first names */
+
+	if (!addr1->wname->first && !addr2->wname->first)
+		return g_strcasecmp (addr1->address, addr2->address);
+
+	if (!addr1->wname->first)
+		return -1;
+	if (!addr2->wname->first)
+		return 1;
+
+	retval = g_strcasecmp (addr1->wname->first, addr2->wname->first);
+	if (retval) 
+		return retval;
+
+	return g_strcasecmp (addr1->address, addr2->address);
 }
 #endif /* SMART_ADDRESS_COMPARE */
 
@@ -510,6 +514,31 @@ ml_get_save_id (ETreeModel *etm, ETreePath path, void *data)
 	return g_strdup (camel_message_info_uid(info));
 }
 
+/*
+ * SimpleTableModel::has_save_id
+ */
+static gboolean
+ml_has_get_node_by_id (ETreeModel *etm, void *data)
+{
+	return TRUE;
+}
+
+/*
+ * SimpleTableModel::get_save_id
+ */
+static ETreePath
+ml_get_node_by_id (ETreeModel *etm, char *save_id, void *data)
+{
+	MessageList *ml;
+
+	ml = data;
+
+	if (!strcmp (save_id, "root"))
+		return e_tree_model_get_root (etm);
+
+	return g_hash_table_lookup(ml->uid_nodemap, save_id);
+}
+
 static void *
 ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 {
@@ -529,6 +558,7 @@ ml_duplicate_value (ETreeModel *etm, int col, const void *value, void *data)
 	case COL_SUBJECT:
 	case COL_TO:
 		return g_strdup (value);
+
 	default:
 		g_assert_not_reached ();
 	}
@@ -1169,7 +1199,10 @@ message_list_construct (MessageList *message_list)
 
 					     ml_has_save_id,
 					     ml_get_save_id,
-					     
+
+					     ml_has_get_node_by_id,
+					     ml_get_node_by_id,
+
 					     ml_tree_value_at,
 					     ml_tree_set_value_at,
 					     ml_tree_is_cell_editable,
@@ -1361,47 +1394,41 @@ free_tree_state(GHashTable *expanded_nodes)
 	g_hash_table_destroy(expanded_nodes);
 }
 
-/* we try and find something that isn't deleted in our tree
-   there is actually no assurance that we'll find somethign that will
-   still be there next time, but its probably going to work most of the time */
-static const char *find_next_undeleted_rec(MessageList *ml, ETreePath *node)
-{
-	ETreePath *child;
-	
-	while (node) {
-		CamelMessageInfo *info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
-		if ((info->flags & CAMEL_MESSAGE_DELETED) == 0) {
-			return camel_message_info_uid(info);
-		}
-
-		child = e_tree_model_node_get_first_child(ml->model, node);
-		if (child) {
-			const char *ret = find_next_undeleted_rec(ml, child);
-			if (ret)
-				return ret;
-		}
-
-		node = e_tree_model_node_get_next(ml->model, node);
-	}
-
-	return NULL;
-}
-
 static char *find_next_undeleted(MessageList *ml)
 {
-	ETreePath *child;
-	ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
-	const char *ret = NULL;
+	ETreePath *node;
+	int last;
+	int vrow;
+	ETree *et = ml->tree;
+	CamelMessageInfo *info;
 
-	child = e_tree_model_node_get_first_child(ml->model, node);
-	if (child == NULL)
-		child = e_tree_model_node_get_next(ml->model, node);
+	node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
+	if (node == NULL)
+		return NULL;
 
-	if (child)
-		ret = find_next_undeleted_rec(ml, child);
+	info = get_message_info (ml, node);
+	if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+		return NULL;
+	}
 
-	if (ret)
-		return g_strdup(ret);
+	last = e_tree_row_count (ml->tree);
+
+	/* model_to_view_row etc simply dont work for sorted views.  Sigh. */
+	vrow = e_tree_row_of_node (et, node);
+
+	/* We already checked this node. */
+	vrow ++;
+
+	while (vrow < last) {
+		CamelMessageInfo *info;
+
+		node = e_tree_node_at_row (et, vrow);
+		info = get_message_info (ml, node);
+		if (info && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+			return g_strdup (camel_message_info_uid(info));
+		}
+		vrow ++;
+	}
 
 	return NULL;
 }
@@ -1428,6 +1455,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	d(printf("Building tree\n"));
 	gettimeofday(&start, NULL);
 #endif
+
 	expanded_nodes = load_tree_state(ml);
 
 #ifdef TIMEIT
@@ -1444,8 +1472,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 	if (ml->cursor_uid) {
 		if (ml->hidedeleted) {
 			saveuid = find_next_undeleted(ml);
-		} else {
-			saveuid = g_strdup(ml->cursor_uid);
 		}
 	}
 
@@ -1481,10 +1507,6 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 			e_tree_set_cursor(ml->tree, node);
 		}
 		g_free(saveuid);
-	} else if (ml->cursor_uid) {
-		g_free(ml->cursor_uid);
-		ml->cursor_uid = NULL;
-		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 
 	free_tree_state(expanded_nodes);
@@ -1766,8 +1788,6 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	if (ml->cursor_uid) {
 		if (ml->hidedeleted) {
 			saveuid = find_next_undeleted(ml);
-		} else {
-			saveuid = g_strdup(ml->cursor_uid);
 		}
 	}
 
@@ -1801,10 +1821,6 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 			e_tree_set_cursor(ml->tree, node);
 		}
 		g_free(saveuid);
-	} else if (ml->cursor_uid) {
-		g_free(ml->cursor_uid);
-		ml->cursor_uid = NULL;
-		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 
 #ifdef TIMEIT
@@ -2042,10 +2058,13 @@ on_cursor_activated_cmd (ETree *tree, int row, ETreePath path, gpointer user_dat
 	MessageList *message_list;
 	
 	message_list = MESSAGE_LIST (user_data);
-	
+
 	message_list->cursor_row = row;
 	g_free(message_list->cursor_uid);
-	message_list->cursor_uid = g_strdup(get_message_uid(message_list, path));
+	if (path == NULL)
+		message_list->cursor_uid = NULL;
+	else
+		message_list->cursor_uid = g_strdup(get_message_uid(message_list, path));
 
 	if (!message_list->idle_id) {
 		message_list->idle_id =

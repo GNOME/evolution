@@ -21,18 +21,10 @@
  *
  */
 
-#ifdef HAVE_CONFIG_H
 #include <config.h>
-#endif
 
-#include <bonobo/bonobo-main.h>
-#include <bonobo/bonobo-object.h>
-#include <bonobo/bonobo-generic-factory.h>
-#include <bonobo/bonobo-control.h> 
-#include <bonobo/bonobo-ui-component.h>
-#include <bonobo/bonobo-ui-util.h>
-#include <bonobo/bonobo-widget.h>
-
+#include "subscribe-dialog.h"
+#include "e-util/e-html-utils.h"
 #include <gtkhtml/gtkhtml.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
@@ -51,14 +43,20 @@
 
 #include <gal/e-paned/e-hpaned.h>
 
-#include <e-util/e-html-utils.h>
+#include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-control.h> 
+#include <bonobo/bonobo-ui-component.h>
+#include <bonobo/bonobo-ui-util.h>
+#include <bonobo/bonobo-widget.h>
+
 #include "mail.h"
 #include "mail-tools.h"
 #include "mail-mt.h"
 #include "camel/camel-exception.h"
 #include "camel/camel-store.h"
 #include "camel/camel-session.h"
-#include "subscribe-dialog.h"
 
 #include "art/empty.xpm"
 #include "art/mark.xpm"
@@ -890,7 +888,7 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	CORBA_exception_init (&ev);
 
 	/* Construct the app */
-	sc->app = bonobo_window_new ("subscribe-dialog", _("Manage Subscriptions"));
+	sc->app = bonobo_window_new ("subscribe-dialog", "Manage Subscriptions");
 
 	/* Build the menu and toolbar */
 	container = bonobo_ui_container_new ();
@@ -966,6 +964,9 @@ subscribe_dialog_gui_init (SubscribeDialog *sc)
 	sc->folder_model = e_tree_memory_callbacks_new (folder_etree_icon_at,
 
 							folder_etree_column_count,
+
+							NULL,
+							NULL,
 
 							NULL,
 							NULL,
