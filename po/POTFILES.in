@@ -11,13 +11,13 @@ addressbook/contact-editor/e-contact-editor-strings.h
 addressbook/contact-editor/fullname-strings.h
 addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
-addressbook/gui/component/alphabet.glade.h
 addressbook/gui/component/e-ldap-storage.c
 addressbook/gui/component/ldap-server-dialog.glade.h
 addressbook/gui/component/select-names/select-names.glade.h
 addressbook/gui/widgets/e-minicard-control.c
 addressbook/gui/widgets/e-minicard-view.c
 addressbook/gui/widgets/e-minicard.c
+addressbook/gui/widgets/alphabet.glade.h
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/printing/e-contact-print.glade.h
 calendar/cal-util/timeutil.c

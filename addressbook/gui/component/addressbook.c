@@ -31,6 +31,7 @@
 #include <e-addressbook-model.h>
 #include <select-names/e-select-names.h>
 #include <select-names/e-select-names-manager.h>
+
 #include "e-contact-editor.h"
 #include "e-contact-save-as.h"
 #include "e-ldap-server-dialog.h"

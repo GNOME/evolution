@@ -24,7 +24,7 @@
 #include "e-select-names.h"
 #include <e-table-simple.h>
 #include <e-cell-text.h>
-#include <addressbook/gui/component/e-addressbook-model.h>
+#include <addressbook/gui/widgets/e-addressbook-model.h>
 #include <addressbook/gui/component/e-cardlist-model.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include "e-select-names-table-model.h"

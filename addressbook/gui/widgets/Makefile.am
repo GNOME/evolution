@@ -6,6 +6,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)/widgets/e-reflow		\
+	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_srcdir)/widgets/misc			\
 	$(BONOBO_GNOME_CFLAGS)
 
@@ -13,6 +14,8 @@ noinst_LIBRARIES =				\
 	libeminicard.a
 
 libeminicard_a_SOURCES =			\
+	e-addressbook-model.c			\
+	e-addressbook-model.h			\
 	e-minicard-control.c			\
 	e-minicard-control.h			\
 	e-minicard-label.c			\
@@ -120,3 +123,10 @@ minicard_widget_test_LDADD =				\
 	$(top_builddir)/widgets/e-reflow/libereflow.a 			\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/widgets/e-text/libetext.a
+
+gladedir   = $(datadir)/evolution/glade
+glade_DATA = alphabet.glade 
+
+EXTRA_DIST = 			\
+	$(glade_DATA)		\
+	alphabet.glade.h

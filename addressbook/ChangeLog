@@ -1,3 +1,25 @@
+2000-09-16  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/widgets/Makefile.am (gladedir): Define.
+	(glade_DATA): Install `alphabet.glade'.
+	(EXTRA_DIST): Define.
+
+	* gui/component/Makefile.am (glade_DATA): Remove `alphabet.glade'.
+	(EXTRA_DIST): Remove `alphabet.glade.h'.
+
+	* gui/widgets/Makefile.am (libeminicard_a_SOURCES): Add
+	`e-addressbook-model.c' and `e-addressbook-model.h'.  I hope this
+	is what Chris meant to do.
+
+	* gui/component/Makefile.am (INCLUDES): Add
+	`-I$(top_srcdir)/addressbook/gui/widgets'.
+	(evolution_addressbook_SOURCES): Remove `e-addressbook-model.c'
+	and `e-addressbook-model.h'.
+
+	* gui/component/select-names/e-select-names.c: #include
+	"e-addressbook-model.h" from "addressbook/gui/widgets" instead of
+	"addressbook/gui/component", as it has been moved there.
+
 2000-09-15  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c: split all the ldap operations

@@ -15,6 +15,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/widgets/e-table			\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_srcdir)/addressbook/gui/minicard	\
+	-I$(top_srcdir)/addressbook/gui/widgets		\
 	-I$(top_srcdir)/addressbook/contact-editor	\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
@@ -34,8 +35,6 @@ evolution_addressbook_SOURCES = 	\
 	addressbook-factory.c		\
 	addressbook.c			\
 	addressbook.h			\
-	e-addressbook-model.c		\
-	e-addressbook-model.h		\
 	e-cardlist-model.c		\
 	e-cardlist-model.h		\
 	e-ldap-server-dialog.c          \
@@ -68,12 +67,11 @@ oafdir = $(datadir)/oaf
 oaf_DATA = addressbook.oafinfo
 
 gladedir   = $(datadir)/evolution/glade
-glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h alphabet.glade
+glade_DATA = ldap-server-dialog.glade ldap-server-dialog.glade.h
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\
-	$(oaf_DATA)		\
-	alphabet.glade.h 
+	$(oaf_DATA)
 
 if ENABLE_PURIFY
 PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
