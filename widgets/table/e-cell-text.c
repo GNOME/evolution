@@ -482,6 +482,9 @@ build_layout (ECellTextView *text_view, int row, const char *text, gint width)
 		pango_attr_list_unref (attrs);
 	}
 
+	if (text_view->edit)
+		return layout;
+
 	if (width > 0)
 		pango_layout_set_width (layout, width * PANGO_SCALE);
 	pango_layout_set_wrap (layout, PANGO_WRAP_CHAR);
