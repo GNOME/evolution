@@ -1,5 +1,10 @@
 2003-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* component-factory.c (storage_remove_folder): Change
+	strcmp(fi->path, path) to strcmp(fi->name, name) and now the
+	execution takes the right path. My patch base on Callie's patch
+	for bug #33525.
+
 	* mail-identify.c (mail_identify_mime_part): Fixed a #warning by
 	converting a local path into a file: uri before feeding it to
 	gnome-vfs.

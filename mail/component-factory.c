@@ -1266,20 +1266,23 @@ storage_remove_folder (EvolutionStorage *storage,
 	
 	root = camel_store_get_folder_info (store, name, CAMEL_STORE_FOLDER_INFO_FAST |
 					    CAMEL_STORE_FOLDER_INFO_RECURSIVE, &ex);
-	camel_url_free (url);
+	
 	if (!root || camel_exception_is_set (&ex)) {
 		notify_listener_exception (listener, &ex);
 		camel_exception_clear (&ex);
+		camel_url_free (url);
 		return;
 	}
 	
 	/* walk the tree until we find the particular child folder we want to delete */
 	fi = root;
 	while (fi) {
-		if (!strcmp (fi->path, path))
+		if (!strcmp (fi->full_name, name))
 			break;
 		fi = fi->child;
 	}
+	
+	camel_url_free (url);
 	
 	if (!fi) {
 		notify_listener (listener, GNOME_Evolution_Storage_INVALID_URI);
