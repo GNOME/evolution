@@ -178,16 +178,28 @@ e_book_use_default_book (EBookCommonCallback cb, gpointer closure)
 
 static char *default_book_uri;
 
-static void
-set_default_book_uri_local (void)
+static char*
+get_local_book_uri (void)
 {
 	char *filename;
+	char *uri;
 
 	filename = g_build_filename (g_get_home_dir(),
 				     "evolution/local/Contacts/addressbook.db",
 				     NULL);
-	default_book_uri = g_strdup_printf ("file://%s", filename);
+	uri = g_strdup_printf ("file://%s", filename);
+
 	g_free (filename);
+
+	return uri;
+}
+
+static void
+set_default_book_uri_local (void)
+{
+	g_free (default_book_uri);
+
+	default_book_uri = get_local_book_uri ();
 }
 
 static void
@@ -250,13 +262,20 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 	g_free (default_book_closure);
 
 	/* If there's a transient error, report it to the caller, but
-	 * if the old default folder has disappeared, fall back to
-	 * the local contacts folder instead.
+	 * if the old default folder has disappeared, fall back to the
+	 * local contacts folder instead, except when the default
+	 * folder is also the local folder.
 	 */
 	if (status == E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED ||
 	    status == E_BOOK_STATUS_NO_SUCH_BOOK) {
-		set_default_book_uri_local ();
-		e_book_load_default_book (book, user_response, user_closure);
+		char *local_uri = get_local_book_uri();
+		if (strcmp (local_uri, default_book_uri)) {
+			set_default_book_uri_local ();
+			e_book_load_default_book (book, user_response, user_closure);
+		}
+		else
+			user_response (book, status, user_closure);
+		g_free (local_uri);
 	} else {
 		user_response (book, status, user_closure);
 	}

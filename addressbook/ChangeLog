@@ -1,3 +1,11 @@
+2003-03-31  Chris Toshok  <toshok@ximian.com>
+
+	* backend/ebook/e-book-util.c (get_local_book_uri): new function,
+	just return the local uri.
+	(set_default_book_uri_local): use get_local_book_uri.
+	(e_book_default_book_open): only try and reload the default book
+	if it's not already the local book.
+
 2003-03-31  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (card_removed): it emits a list now
