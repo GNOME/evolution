@@ -78,6 +78,7 @@ Other bugs:
   * Addressbook
 
     - Mostly, if not completely, fixed 33708.  (Dan, Toshok)
+    - Fix duplicate entry in exported CSV (Gilbert Fang)
 
   * Calendar
 
