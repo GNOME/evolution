@@ -161,7 +161,7 @@ add_time_to_csv (GString *line, icaltimetype *time, CsvConfig *config)
 	if (time) {
 		gboolean needquotes = FALSE;
 		struct tm mytm =  icaltimetype_to_tm (time);
-		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
+		gchar *str = (char*) g_malloc (sizeof (char) * 200);
 		
 		/* 
 		 * Translator: the %F %T is the thirth argument for a strftime function.

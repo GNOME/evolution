@@ -146,7 +146,7 @@ add_time_to_rdf (xmlNodePtr node, const gchar *tag, icaltimetype *time)
 	if (time) {
 		xmlNodePtr cur_node = NULL;
 		struct tm mytm =  icaltimetype_to_tm (time);
-		gchar *str = (gchar*) g_malloc (sizeof (gchar) * 200);
+		gchar *str = (gchar*) g_malloc (sizeof (char) * 200);
 		gchar *tmp = NULL;
 
 		/*
