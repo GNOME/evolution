@@ -467,6 +467,8 @@ cal_search_bar_construct (CalSearchBar *cal_search)
 	e_search_bar_construct (E_SEARCH_BAR (cal_search), search_menu_items, search_option_items);
 	make_suboptions (cal_search);
 
+	e_search_bar_set_ids (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, CATEGORIES_ALL);
+
 	return cal_search;
 }
 

@@ -28,7 +28,28 @@
 
 
 
-/* An client we have open */
+/* A pending request */
+
+typedef enum {
+	REQUEST_EXISTING,
+	REQUEST_NEW
+} RequestType;
+
+typedef struct {
+	RequestType type;
+
+	union {
+		struct {
+			char *uid;
+		} existing;
+
+		struct {
+			CalObjType type;
+		} new;
+	} u;
+} Request;
+
+/* A client we have open */
 typedef struct {
 	/* Uri of the calendar, used as key in the clients hash table */
 	GnomeVFSURI *uri;
@@ -39,8 +60,8 @@ typedef struct {
 	/* Hash table of components that belong to this client */
 	GHashTable *uid_comp_hash;
 
-	/* Number of times this client has been opened */
-	int refcount;
+	/* Pending requests; they are pending if the client is still being opened */
+	GSList *pending;
 } OpenClient;
 
 /* A component that is being edited */
@@ -112,17 +133,56 @@ comp_editor_factory_init (CompEditorFactory *factory)
 	priv->uri_client_hash = g_hash_table_new (gnome_vfs_uri_hash, gnome_vfs_uri_hequal);
 }
 
+/* Used from g_hash_table_foreach(); frees a component structure */
+static void
+free_component_cb (gpointer key, gpointer value, gpointer data)
+{
+	Component *c;
+
+	c = value;
+
+	c->parent = NULL;
+	c->uid = NULL;
+
+	cal_component_unref (c->comp);
+	c->comp = NULL;
+
+	g_free (c);
+}
+
 /* Used from g_hash_table_foreach(); frees a client structure */
 static void
 free_client_cb (gpointer key, gpointer value, gpointer data)
 {
 	OpenClient *oc;
+	GSList *l;
 
 	oc = value;
 
 	gnome_vfs_uri_unref (oc->uri);
+	oc->uri = NULL;
+
 	cal_client_unref (oc->client);
+	oc->client = NULL;
+
+	g_hash_table_foreach (oc->uid_comp_hash, free_component_cb, NULL);
 	g_hash_table_destroy (oc->uid_comp_hash);
+	oc->uid_comp_hash = NULL;
+
+	for (l = oc->pending; l; l = l->next) {
+		Request *r;
+
+		r = l->data;
+
+		if (r->type == REQUEST_EXISTING) {
+			g_assert (r->u.existing.uid != NULL);
+			g_free (r->u.existing.uid);
+		}
+
+		g_free (r);
+	}
+	g_slist_free (oc->pending);
+	oc->pending = NULL;
 
 	g_free (oc);
 }
@@ -153,11 +213,12 @@ comp_editor_factory_destroy (GtkObject *object)
 
 
 
-/* Creates a new OpenClient structure by synchronously (!) opening a calendar
- * client.  Returns NULL if it could not open it.
+/* Creates a new OpenClient structure and queues the component editing/creation
+ * process until the client is open.  Returns NULL if it could not issue the
+ * open request.
  */
 static OpenClient *
-open_client (GnomeVFSURI *uri)
+open_client (GnomeVFSURI *uri, gboolean only_if_exists)
 {
 	CalClient *client;
 
@@ -165,15 +226,28 @@ open_client (GnomeVFSURI *uri)
 	if (!client)
 		return NULL;
 
-	gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
-			    GTK_SIGNAL_FUNC (cal_opened_cb), NULL);
-
 	oc = g_new (OpenClient, 1);
+
+	gnome_vfs_uri_ref (uri);
 	oc->uri = uri;
+
 	oc->client = client;
 	oc->uid_comp_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	oc->refcount = 1;
-	
+	oc->pending = NULL;
+
+	gtk_signal_connect (GTK_OBJECT (oc->client), "cal_opened",
+			    GTK_SIGNAL_FUNC (cal_opened_cb), oc);
+
+	if (!cal_client_open_calendar (oc->client, uri, only_if_exists)) {
+		gnome_vfs_uri_unref (oc->uri);
+		gtk_object_unref (GTK_OBJECT (oc->client));
+		g_hash_table_destroy (oc->uid_comp_hash);
+		g_free (oc);
+
+		return NULL;
+	}
+
+	return oc;
 }
 
 static void

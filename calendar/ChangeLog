@@ -1,3 +1,24 @@
+2001-08-28  Federico Mena Quintero  <federico@ximian.com>
+
+	Fixes bug #7879, a query may receive an update notification from
+	the backend before the query itself gets populated.
+
+	* pcs/query.c (ensure_sexp): New function; ensures that the esexp
+	is created and notifies of parse errors.  It is the bulk of
+	start_query_cb() but put in a separate function so that we can
+	share it elsewhere.
+	(start_query_cb): Use ensure_sexp().
+	(process_component_cb): Oops, notify of a successfully finished
+	query.
+	(match_component): Call ensure_sexp().  This function can be
+	called by the backend notification callbacks before the query is
+	populated, so we need to make sure the esexp exists here.
+
+2001-08-22  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/cal-search-bar.c (cal_search_bar_construct): Set the
+	"category is" criterion as the default for the calendar and tasks.
+
 2001-08-22  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (recurrence_page_fill_widgets):

@@ -36,6 +36,14 @@
 
 
 
+/* States of a query */
+typedef enum {
+	QUERY_START_PENDING,	/* the query is not populated yet */
+	QUERY_IN_PROGRESS,	/* the query is populated; components are still being processed */
+	QUERY_DONE,		/* the query is done, but still accepts object changes */
+	QUERY_PARSE_ERROR	/* a parse error occurred when initially creating the ESexp */
+} QueryState;
+
 /* Private part of the Query structure */
 struct _QueryPrivate {
 	/* The backend we are monitoring */
@@ -48,8 +56,9 @@ struct _QueryPrivate {
 	char *sexp;
 	ESExp *esexp;
 
-	/* Idle handler ID for asynchronous queries */
+	/* Idle handler ID for asynchronous queries and the current state */
 	guint idle_id;
+	QueryState state;
 
 	/* List of UIDs that we still have to process */
 	GList *pending_uids;
@@ -109,6 +118,9 @@ query_init (Query *query)
 	priv->backend = NULL;
 	priv->ql = CORBA_OBJECT_NIL;
 	priv->sexp = NULL;
+
+	priv->idle_id = 0;
+	priv->state = QUERY_START_PENDING;
 
 	priv->pending_uids = NULL;
 	priv->uids = g_hash_table_new (g_str_hash, g_str_equal);
@@ -954,6 +966,66 @@ create_sexp (Query *query)
 	return esexp;
 }
 
+/* Ensures that the sexp has been parsed and the ESexp has been created.  If a
+ * parse error occurs, it sets the query state to QUERY_PARSE_ERROR and returns
+ * FALSE.
+ */
+static gboolean
+ensure_sexp (Query *query)
+{
+	QueryPrivate *priv;
+
+	priv = query->priv;
+
+	if (priv->state == QUERY_PARSE_ERROR)
+		g_assert_not_reached (); /* we should already have terminated everything */
+
+	if (priv->esexp)
+		return TRUE;
+
+	/* Compile the query string */
+
+	priv->esexp = create_sexp (query);
+
+	g_assert (priv->sexp != NULL);
+	e_sexp_input_text (priv->esexp, priv->sexp, strlen (priv->sexp));
+
+	if (e_sexp_parse (priv->esexp) == -1) {
+		const char *error_str;
+		CORBA_Environment ev;
+
+		/* Change the state and disconnect from any notifications */
+
+		priv->state = QUERY_PARSE_ERROR;
+		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->backend), query);
+
+		/* Report the error to the listener */
+
+		error_str = e_sexp_error (priv->esexp);
+		g_assert (error_str != NULL);
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+			priv->ql,
+			GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR,
+			error_str,
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("ensure_sexp(): Could not notify the listener of "
+				   "a parse error");
+
+		CORBA_exception_free (&ev);
+
+		e_sexp_unref (priv->esexp);
+		priv->esexp = NULL;
+
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 /* Evaluates the query sexp on the specified component and notifies the listener
  * as appropriate.
  */
@@ -966,6 +1038,11 @@ match_component (Query *query, const char *uid,
 	ESExpResult *result;
 
 	priv = query->priv;
+
+	g_assert (priv->state != QUERY_PARSE_ERROR);
+
+	if (!ensure_sexp (query))
+		return;
 
 	comp = cal_backend_get_object_component (priv->backend, uid);
 	g_assert (comp != NULL);
@@ -1041,9 +1118,26 @@ process_component_cb (gpointer data)
 	/* No more components? */
 
 	if (!priv->pending_uids) {
+		CORBA_Environment ev;
+
 		g_assert (priv->n_pending == 0);
 
 		priv->idle_id = 0;
+		priv->state = QUERY_DONE;
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
+			priv->ql,
+			GNOME_Evolution_Calendar_QueryListener_SUCCESS,
+			"",
+			&ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_message ("process_component_cb(): Could not notify the listener of "
+				   "a finished query");
+
+		CORBA_exception_free (&ev);
+
 		return FALSE;
 	}
 
@@ -1087,12 +1181,14 @@ populate_query (Query *query)
 
 	priv = query->priv;
 	g_assert (priv->idle_id == 0);
+	g_assert (priv->state == QUERY_START_PENDING);
 
 	priv->pending_uids = cal_backend_get_uids (priv->backend, CALOBJ_TYPE_ANY);
 	priv->pending_total = g_list_length (priv->pending_uids);
 	priv->n_pending = priv->pending_total;
 
 	priv->idle_id = g_idle_add (process_component_cb, query);
+	priv->state = QUERY_IN_PROGRESS;
 }
 
 /* Idle handler for starting a query */
@@ -1101,40 +1197,14 @@ start_query_cb (gpointer data)
 {
 	Query *query;
 	QueryPrivate *priv;
-	CORBA_Environment ev;
 
 	query = QUERY (data);
 	priv = query->priv;
 
 	priv->idle_id = 0;
 
-	priv->esexp = create_sexp (query);
-
-	/* Compile the query string */
-
-	g_assert (priv->sexp != NULL);
-	e_sexp_input_text (priv->esexp, priv->sexp, strlen (priv->sexp));
-
-	if (e_sexp_parse (priv->esexp) == -1) {
-		const char *error_str;
-
-		error_str = e_sexp_error (priv->esexp);
-		g_assert (error_str != NULL);
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_QueryListener_notifyQueryDone (
-			priv->ql,
-			GNOME_Evolution_Calendar_QueryListener_PARSE_ERROR,
-			error_str,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("start_query_cb(): Could not notify the listener of "
-				   "a parse error");
-
-		CORBA_exception_free (&ev);
+	if (!ensure_sexp (query))
 		return FALSE;
-	}
 
 	/* Populate the query with UIDs so that we can process them asynchronously */
 
