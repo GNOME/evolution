@@ -1,5 +1,12 @@
 2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (subitem_activated_cb): Don't emit
+	"search_activated" here.
+	(e_search_bar_set_subitem_id): And not here either.
+	(e_search_bar_set_text): Same.
+
+2002-07-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #7736.]
 
 	* e-search-bar.c (activate_by_subitems): Don't set the entry to be

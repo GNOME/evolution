@@ -258,7 +258,6 @@ subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
 
 	esb->item_id = id;
 	esb->subitem_id = subid;
-	emit_search_activated (esb);
 }
 
 static char *
@@ -1095,7 +1094,6 @@ e_search_bar_set_subitem_id (ESearchBar *search_bar, int id)
 
 	search_bar->subitem_id = id;
 	gtk_option_menu_set_history (GTK_OPTION_MENU (search_bar->suboption), row);
-	emit_search_activated (search_bar);
 }
 
 /**
@@ -1164,7 +1162,6 @@ e_search_bar_set_text (ESearchBar *search_bar, const char *text)
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
 	e_utf8_gtk_editable_set_text (GTK_EDITABLE (search_bar->entry), text);
-	emit_search_activated (search_bar);
 }
 
 /**
