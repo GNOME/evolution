@@ -27,6 +27,7 @@
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
@@ -113,25 +114,48 @@ static ssize_t
 tcp_write (int fd, const char *buffer, size_t buflen)
 {
 	size_t len = buflen;
+	ssize_t nwritten;
 	int val;
+	
+	if (buflen == 0)
+		return 0;
 	
 	val = 1 + (int) (10.0 * rand () / (RAND_MAX + 1.0));
 	
 	switch (val) {
 	case 1:
+		printf ("tcp_write (%d, ..., %d): (-1) EINTR\n", fd, buflen);
 		errno = EINTR;
 		return -1;
+#if 0
+		/* seems that if we set errno to either EAGAIN or
+                   EWOULDBLOCK, libc's pthread crashes...wacky */
 	case 2:
+		printf ("tcp_write (%d, ..., %d): (-1) EAGAIN\n", fd, buflen);
 		errno = EAGAIN;
 		return -1;
 	case 3:
+		printf ("tcp_write (%d, ..., %d): (-1) EWOULDBLOCK\n", fd, buflen);
+		errno = EWOULDBLOCK;
+		return -1;
+#endif
 	case 4:
 	case 5:
+	case 6:
 		len = 1 + (size_t) (buflen * rand () / (RAND_MAX + 1.0));
 		len = MIN (len, buflen);
 		/* fall through... */
 	default:
-		return write (fd, buffer, len);
+		printf ("tcp_write (%d, ..., %d): (%d) '%.*s'", fd, buflen, len, (int) len, buffer);
+		nwritten = write (fd, buffer, len);
+		if (nwritten < 0)
+			printf (" errno => %s\n", g_strerror (errno));
+		else if (nwritten < len)
+			printf (" only wrote %d bytes\n", nwritten);
+		else
+			printf ("\n");
+		
+		return nwritten;
 	}
 }
 
@@ -172,7 +196,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	if (cancel_fd == -1) {
 		do {
 			nread = read (tcp_stream_raw->sockfd, buffer, n);
-		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
+		} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 	} else {
 		int error, flags, fdmax;
 		fd_set rdset;
@@ -196,7 +220,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 			do {
 				nread = read (tcp_stream_raw->sockfd, buffer, n);
 			} while (nread == -1 && errno == EINTR);
-		} while (nread == -1 && errno == EAGAIN);
+		} while (nread == -1 && (errno == EAGAIN || errno == EWOULDBLOCK));
 		
 		error = errno;
 		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
@@ -223,7 +247,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		do {
 			do {
 				w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
-			} while (w == -1 && (errno == EINTR || errno == EAGAIN));
+			} while (w == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
 			
 			if (w > 0)
 				written += w;
@@ -254,7 +278,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 			} while (w == -1 && errno == EINTR);
 			
 			if (w == -1) {
-				if (errno == EAGAIN)
+				if (errno == EAGAIN || errno == EWOULDBLOCK)
 					continue;
 			} else
 				written += w;
