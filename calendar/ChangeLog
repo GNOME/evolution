@@ -1,3 +1,8 @@
+2004-05-05  William Jon McCann  <mccann@jhu.edu>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in: Add menu_label and
+	menu_accelerator.
+
 2004-05-18  JP Rosevear  <jpr@novell.com>
 
 	* idl/evolution-calendar.idl: add arg
