@@ -1,3 +1,8 @@
+2004-05-25  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-attachment-bar.c (update): if we have a cached
+	icon, use it, don't just ignore it!  #58831.
+
 2004-05-19  JP Rosevear  <jpr@novell.com>
 
 	* Makefile.am: don't dist the error .h file

@@ -226,14 +226,17 @@ update (EMsgComposerAttachmentBar *bar)
 		EMsgComposerAttachment *attachment;
 		CamelContentType *content_type;
 		char *size_string, *label;
-		GdkPixbuf *pixbuf = NULL;
+		GdkPixbuf *pixbuf;
 		const char *desc;
 		
 		attachment = p->data;
 		content_type = camel_mime_part_get_content_type (attachment->body);
 		/* Get the image out of the attachment 
 		   and create a thumbnail for it */
-		if (camel_content_type_is(content_type, "image", "*") && attachment->pixbuf_cache == NULL) {
+		pixbuf = attachment->pixbuf_cache;
+		if (pixbuf) {
+			g_object_ref(pixbuf);
+		} else if (camel_content_type_is(content_type, "image", "*")) {
 			CamelDataWrapper *wrapper;
 			CamelStreamMem *mstream;
 			GdkPixbufLoader *loader;
