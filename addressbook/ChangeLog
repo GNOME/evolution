@@ -1,3 +1,21 @@
+2002-08-29  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #25038 ]
+	* gui/contact-editor/Makefile.am (INCLUDES): need to have
+	EVOLUTION_ICONSDIR defined.
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): same.
+
+	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
+	set the window icon to the contact mini icon.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(e_contact_list_editor_init): set the window icon to the new
+	contact list icon.
+	
+	* gui/widgets/e-minicard.c (LIST_ICON_FILENAME): change to (the
+	prettier, imo) "contact-list-16.png"
+
 2002-08-28  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_search): spew

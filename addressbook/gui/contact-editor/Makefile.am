@@ -9,6 +9,7 @@ INCLUDES =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"	\
 	-DEVOLUTIONDIR=\""$(evolutiondir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-editor\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -31,6 +32,8 @@ libecontacteditor_a_SOURCES = 			\
 evolutiondir = $(datadir)/evolution
 
 evolution_DATA = arrow.png
+
+iconsdir = $(datadir)/images/evolution
 
 gladedir   = $(datadir)/evolution/glade
 

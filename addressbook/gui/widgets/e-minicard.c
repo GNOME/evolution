@@ -67,7 +67,7 @@ struct _EMinicardField {
 
 #define d(x)
 
-#define LIST_ICON_FILENAME "contact-is-a-list.png"
+#define LIST_ICON_FILENAME "contact-list-16.png"
 
 #define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 

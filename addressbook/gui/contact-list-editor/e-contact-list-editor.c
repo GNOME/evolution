@@ -25,6 +25,7 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <gal/e-table/e-table-scrolled.h>
@@ -209,6 +210,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	GladeXML *gui;
 	GtkWidget *bonobo_win;
 	BonoboUIContainer *container;
+	char *icon_path;
 
 	editor->card = NULL;
 	editor->changed = FALSE;
@@ -296,6 +298,11 @@ e_contact_list_editor_init (EContactListEditor *editor)
 
 	gtk_signal_connect (GTK_OBJECT (editor->app), "delete_event",
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), editor);
+
+	/* set the icon */
+	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "contact-list-16.png");
+	gnome_window_icon_set_from_file (GTK_WINDOW (editor->app), icon_path);
+	g_free (icon_path);
 }
 
 static void

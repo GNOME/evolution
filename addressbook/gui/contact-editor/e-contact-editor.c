@@ -30,6 +30,7 @@
 #include <gtk/gtktext.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-dialog-util.h>
+#include <libgnomeui/gnome-window-icon.h>
 #include <libgnomeui/gnome-stock.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -1287,6 +1288,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	GtkWidget *bonobo_win;
 	GtkWidget *wants_html;
 	BonoboUIContainer *container;
+	char *icon_path;
 
 	e_contact_editor->email_info = NULL;
 	e_contact_editor->phone_info = NULL;
@@ -1407,6 +1409,11 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	gtk_signal_connect (GTK_OBJECT (e_contact_editor->app), "delete_event",
 			    GTK_SIGNAL_FUNC (app_delete_event_cb), e_contact_editor);
+
+	/* set the icon */
+	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png");
+	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor->app), icon_path);
+	g_free (icon_path);
 }
 
 void

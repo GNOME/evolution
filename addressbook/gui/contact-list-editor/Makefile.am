@@ -9,6 +9,7 @@ INCLUDES =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"	\
+	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"	\
 	-DEVOLUTIONDIR=\""$(evolutiondir)"\"	\
 	-DG_LOG_DOMAIN=\"contact-list-editor\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
@@ -21,6 +22,8 @@ libecontactlisteditor_a_SOURCES = 		\
 	e-contact-list-editor.h			\
 	e-contact-list-model.c			\
 	e-contact-list-model.h
+
+iconsdir = $(datadir)/images/evolution
 
 gladedir   = $(datadir)/evolution/glade
 
