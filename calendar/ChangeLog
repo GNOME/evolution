@@ -1,3 +1,16 @@
+2000-11-30  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c:  Debug message cleanups
+	(comp_from_remote_record): Properly set the ical description field
+
+	* conduits/calendar/calendar-conduit.c (is_empty_time): New utility
+	functions that look for all 0's in a struct tm
+	(comp_from_remote_record): use above
+	(local_record_from_comp): Correctly set the repeatForever value so
+	that we repeat forever instead of a really long time
+	(comp_from_remote_record): Only set the cal component recurrence
+	until field when repeatForever is 0
+
 2000-11-30  Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-itip-control.c: fixed a bug that caused the calendar to

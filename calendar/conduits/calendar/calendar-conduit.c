@@ -53,7 +53,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.2"
+#define CONDUIT_VERSION "0.1.3"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -254,6 +254,17 @@ get_pilot_day (icalrecurrencetype_weekday wd)
 	}
 }
 
+/* FIX ME Is there a better way to see if no start time set? */
+static gboolean
+is_empty_time (struct tm time) 
+{
+	if (time.tm_sec || time.tm_min || time.tm_hour 
+	    || time.tm_mday || time.tm_mon || time.tm_year) 
+		return FALSE;
+	
+	return TRUE;
+}
+
 static short
 nth_weekday (int pos, icalrecurrencetype_weekday weekday)
 {
@@ -391,7 +402,7 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 
 	/* Recurrence Rules */
 	local->appt->repeatType = repeatNone;
-
+	
 	if (cal_component_has_rrules (comp)) {
 		GSList *list;
 		struct icalrecurrencetype *recur;
@@ -449,6 +460,14 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 
 		if (local->appt->repeatType != repeatNone) {
 			local->appt->repeatFrequency = recur->interval;
+		}
+		
+		if (icaltime_is_null_time (recur->until)) {
+			local->appt->repeatForever = 1;
+		} else {
+			local->appt->repeatForever = 0;
+			dt_time = icaltime_as_timet (recur->until);
+			local->appt->repeatEnd = *localtime (&dt_time);
 		}
 		
 		cal_component_free_recur_list (list);
@@ -534,9 +553,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		cal_component_set_description_list (comp, &l);
 	} 
 
-	/* FIX ME Is there a better way to see if no start time set? */
-	if (appt.begin.tm_sec || appt.begin.tm_min || appt.begin.tm_hour 
-	    || appt.begin.tm_mday || appt.begin.tm_mon || appt.begin.tm_year) {
+	if (!is_empty_time (appt.begin)) {
 		it = icaltime_from_timet (mktime (&appt.begin), FALSE, FALSE);
 		dt.value = &it;
 		cal_component_set_dtstart (comp, &dt);
@@ -549,8 +566,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		it = icaltime_from_timet (t, FALSE, FALSE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
-	} else if (appt.end.tm_sec || appt.end.tm_min || appt.end.tm_hour 
-	    || appt.end.tm_mday || appt.end.tm_mon || appt.end.tm_year) {
+	} else if (!is_empty_time (appt.end)) {
 		it = icaltime_from_timet (mktime (&appt.end), FALSE, FALSE);
 		dt.value = &it;
 		cal_component_set_dtend (comp, &dt);
@@ -608,8 +624,7 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		/* recurrence start of week */
 		recur.week_start = get_ical_day (appt.repeatWeekstart);
 
-		if (appt.repeatEnd.tm_sec || appt.repeatEnd.tm_min || appt.repeatEnd.tm_hour 
-		    || appt.repeatEnd.tm_mday || appt.repeatEnd.tm_mon || appt.repeatEnd.tm_year) {
+		if (!appt.repeatForever) {
 			time_t t = mktime (&appt.repeatEnd);
 			t = time_add_day (t, 1);
 			recur.until = icaltime_from_timet (t, FALSE, FALSE);

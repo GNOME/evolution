@@ -53,7 +53,7 @@
 GnomePilotConduit * conduit_get_gpilot_conduit (guint32);
 void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 
-#define CONDUIT_VERSION "0.1.1"
+#define CONDUIT_VERSION "0.1.2"
 #ifdef G_LOG_DOMAIN
 #undef G_LOG_DOMAIN
 #endif
@@ -71,7 +71,7 @@ void conduit_destroy_gpilot_conduit (GnomePilotConduit*);
 #define WARN(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_WARNING, e)
 #define INFO(e...) g_log (G_LOG_DOMAIN, G_LOG_LEVEL_MESSAGE, e)
 
-/* debug spew DELETE ME */
+/* Debug routines */
 static char *
 print_local (EToDoLocalRecord *local)
 {
@@ -96,8 +96,6 @@ print_local (EToDoLocalRecord *local)
 	return "";
 }
 
-
-/* debug spew DELETE ME */
 static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 4096 ];
@@ -396,10 +394,8 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	struct ToDo todo;
 	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
 	CalComponentText summary = {NULL, NULL};
-	CalComponentText description = {NULL, NULL};
 	CalComponentDateTime dt = {NULL, NULL};
 	struct icaltimetype due;
- 	GSList *d_list;
 
 	g_return_val_if_fail (remote != NULL, NULL);
 
@@ -414,19 +410,25 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 		comp = cal_component_clone (in_comp);
 	}
 
- 	LOG ("        comp_from_remote_record: "
- 	     "creating from remote %s and comp %s\n", 
-  	     print_remote (remote), cal_component_get_as_string (comp));
-
 	cal_component_set_last_modified (comp, &now);
 
 	summary.value = todo.description;
 	cal_component_set_summary (comp, &summary);
 
-	description.value = todo.note;
-	d_list = g_slist_append (NULL, &description);
-	cal_component_set_comment_list (comp, d_list);
-	g_slist_free (d_list);
+	/* The iCal description field */
+	if (!todo.note) {
+		cal_component_set_comment_list (comp, NULL);
+	} else {
+		GSList l;
+		CalComponentText text;
+
+		text.value = todo.note;
+		text.altrep = NULL;
+		l.data = &text;
+		l.next = NULL;
+
+		cal_component_set_description_list (comp, &l);
+	} 
 
 	if (todo.complete) {
 		int percent = 100;
@@ -467,9 +469,6 @@ update_comp (GnomePilotConduitSyncAbs *conduit, CalComponent *comp,
 
 	g_return_if_fail (conduit != NULL);
 	g_return_if_fail (comp != NULL);
-
-	LOG ("update_comp: saving to desktop\n%s\n", 
-	     cal_component_get_as_string (comp));
 
 	success = cal_client_update_object (ctxt->client, comp);
 
