@@ -2451,7 +2451,8 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 
 	event->ico->summary = text;
 
-	gnome_calendar_update_object (week_view->calendar, event->ico);
+	if (!cal_client_update_object (week_view->calendar->client, event->ico))
+		g_message ("e_week_view_on_editing_stopped(): Could not update the object!");
 }
 
 
@@ -2606,7 +2607,9 @@ e_week_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	gnome_calendar_update_object (week_view->calendar, ico);
+	if (!cal_client_update_object (week_view->calendar->client, ico))
+		g_message ("e_week_view_key_press(): Could not update the object!");
+
 	ical_object_unref (ico);
 
 	return TRUE;
@@ -2739,7 +2742,9 @@ e_week_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	ical_object_add_exdate (ico, event->start);
-	gnome_calendar_update_object (week_view->calendar, ico);
+	if (!cal_client_update_object (week_view->calendar->client, ico))
+		g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
+
 	ical_object_unref (ico);
 }
 
@@ -2758,7 +2763,8 @@ e_week_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	event = &g_array_index (week_view->events, EWeekViewEvent,
 				week_view->popup_event_num);
 
-	gnome_calendar_remove_object (week_view->calendar, event->ico);
+	if (!cal_client_remove_object (week_view->calendar->client, event->ico->uid))
+		g_message ("e_week_view_on_delete_appointment(): Could not remove the object!");
 }
 
 
@@ -2795,10 +2801,14 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	/* Now update both iCalObjects. Note that we do this last since at
 	   present the updates happen synchronously so our event may disappear.
 	*/
-	gnome_calendar_update_object (week_view->calendar, ico);
+	if (!cal_client_update_object (week_view->calendar->client, ico))
+		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
+
 	ical_object_unref (ico);
 
-	gnome_calendar_update_object (week_view->calendar, new_ico);
+	if (!cal_client_update_object (week_view->calendar->client, new_ico))
+		g_message ("e_week_view_on_unrecur_appointment(): Could not update the object!");
+
 	ical_object_unref (new_ico);
 }
 

@@ -112,10 +112,10 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->column_count = calendar_model_column_count;
 	etm_class->row_count = calendar_model_row_count;
 	etm_class->value_at = calendar_model_value_at;
-#if 0
 	etm_class->set_value_at = calendar_model_set_value_at;
 	etm_class->is_cell_editable = calendar_model_is_cell_editable;
 	etm_class->duplicate_value = calendar_model_duplicate_value;
+#if 0
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
@@ -246,10 +246,8 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	model = CALENDAR_MODEL (etm);
 	priv = model->priv;
 
-	if (row >= priv->objects->len) {
-		g_message ("calendar_model_value_at(): Requested invalid row index %d", row);
-		return NULL;
-	}
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
 
 	ico = g_array_index (priv->objects, iCalObject *, row);
 	g_assert (ico != NULL);
@@ -307,6 +305,209 @@ calendar_model_value_at (ETableModel *etm, int col, int row)
 	default:
 		g_message ("calendar_model_value_at(): Requested invalid column %d", col);
 		return NULL;
+	}
+}
+
+/* Replaces a string */
+static void
+set_string (char **dest, char *value)
+{
+	if (*dest)
+		g_free (*dest);
+
+	if (value)
+		*dest = g_strdup (value);
+	else
+		*dest = NULL;
+}
+
+/* Replaces a time_t value */
+static void
+set_time_t (time_t *dest, time_t *value)
+{
+	*dest = *value;
+}
+
+/* Replaces a geo value */
+static void
+set_geo (iCalGeo *dest, iCalGeo *value)
+{
+	*dest = *value;
+}
+
+/* Replaces a person value */
+static void
+set_person (iCalPerson *dest, iCalPerson *value)
+{
+	/* FIXME */
+}
+
+/* Sets an int value */
+static void
+set_int (int *dest, int *value)
+{
+	*dest = *value;
+}
+
+/* set_value_at handler for the calendar table model */
+static void
+calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *value)
+{
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+	iCalObject *ico;
+
+	model = CALENDAR_MODEL (etm);
+	priv = model->priv;
+
+	g_return_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS);
+	g_return_if_fail (row >= 0 && row < priv->objects->len);
+
+	ico = g_array_index (priv->objects, iCalObject *, row);
+	g_assert (ico != NULL);
+
+	switch (col) {
+	case ICAL_OBJECT_FIELD_COMMENT:
+		set_string (&ico->comment);
+		break;
+
+	case ICAL_OBJECT_FIELD_COMPLETED:
+		set_time_t (&ico->completed, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_CREATED:
+		set_time_t (&ico->created, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_DESCRIPTION:
+		set_string (&ico->desc, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_DTSTAMP:
+		set_time_t (&ico->dtstamp, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_DTSTART:
+		set_time_t (&ico->dtstart, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_DTEND:
+		set_time_t (&ico->dtend, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_GEO:
+		set_geo (&ico->geo, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_LAST_MOD:
+		set_time (&ico->last_mod, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_LOCATION:
+		set_string (&ico->location, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_ORGANIZER:
+		set_person (&ico->organizer, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_PERCENT:
+		set_int (&ico->percent, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_PRIORITY:
+		set_int (&ico->priority, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_SUMMARY:
+		set_string (&ico->summary, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_URL:
+		set_string (&ico->url, value);
+		break;
+
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+		g_message ("calendar_model_set_value_at(): HAS_ALARMS is not a settable field!");
+		break;
+
+	default:
+		g_message ("calendar_model_set_value_at(): Requested invalid column %d", col);
+		break;
+	}
+
+	if (!cal_client_update_object (priv->client, ico))
+		g_message ("calendar_model_set_value_at(): Could not update the object!");
+}
+
+/* is_cell_editable handler for the calendar table model */
+static gboolean
+calendar_model_is_cell_editable (ETableModel *etm, int col, int row)
+{
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+
+	model = CALENDAR_MODEL (etm);
+	priv = model->priv;
+
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+	g_return_val_if_fail (row >= 0 && row < priv->objects->len, NULL);
+
+	switch (col) {
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+		return FALSE;
+
+	default:
+		return TRUE;
+	}
+}
+
+/* duplicate_value handler for the calendar table model */
+static void *
+calendar_model_duplicate_value (ETableModel *etm, int col, const void *value)
+{
+	CalendarModel *model;
+	CalendarModelPrivate *priv;
+
+	model = CALENDAR_MODEL (etm);
+	priv = model->priv;
+
+	g_return_val_if_fail (col >= 0 && col < ICAL_OBJECT_FIELD_NUM_FIELDS, NULL);
+
+	switch (col) {
+	case ICAL_OBJECT_FIELD_COMMENT:
+
+	case ICAL_OBJECT_FIELD_COMPLETED:
+
+	case ICAL_OBJECT_FIELD_CREATED:
+
+	case ICAL_OBJECT_FIELD_DESCRIPTION:
+
+	case ICAL_OBJECT_FIELD_DTSTAMP:
+
+	case ICAL_OBJECT_FIELD_DTSTART:
+
+	case ICAL_OBJECT_FIELD_DTEND:
+
+	case ICAL_OBJECT_FIELD_GEO:
+
+	case ICAL_OBJECT_FIELD_LAST_MOD:
+
+	case ICAL_OBJECT_FIELD_LOCATION:
+
+	case ICAL_OBJECT_FIELD_ORGANIZER:
+
+	case ICAL_OBJECT_FIELD_PERCENT:
+
+	case ICAL_OBJECT_FIELD_PRIORITY:
+
+	case ICAL_OBJECT_FIELD_SUMMARY:
+
+	case ICAL_OBJECT_FIELD_URL:
+
+	case ICAL_OBJECT_FIELD_HAS_ALARMS:
+
+	default:
 	}
 }
 

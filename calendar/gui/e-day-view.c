@@ -2385,7 +2385,10 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	ico = ical_object_duplicate (event->ico);
 
 	ical_object_add_exdate (ico, event->start);
-	gnome_calendar_update_object (day_view->calendar, ico);
+
+	if (!cal_client_update_object (day_view->calendar->client, ico))
+		g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
+
 	ical_object_unref (ico);
 }
 
@@ -2405,7 +2408,8 @@ e_day_view_on_delete_appointment (GtkWidget *widget, gpointer data)
 	if (day_view->editing_event_day >= 0)
 		e_day_view_stop_editing_event (day_view);
 
-	gnome_calendar_remove_object (day_view->calendar, event->ico);
+	if (!cal_client_remove_object (day_view->calendar->client, event->ico->uid))
+		g_message ("e_day_view_on_delete_appointment(): Could not remove the object!");
 }
 
 
@@ -2438,12 +2442,16 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	new_ico->dtend   = event->end;
 
 	/* Now update both iCalObjects. Note that we do this last since at
-	   present the updates happen synchronously so our event may disappear.
-	*/
-	gnome_calendar_update_object (day_view->calendar, ico);
+	 * present the updates happen synchronously so our event may disappear.
+	 */
+	if (!cal_client_update_object (day_view->calendar->client, ico))
+		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+
 	ical_object_unref (ico);
 
-	gnome_calendar_update_object (day_view->calendar, new_ico);
+	if (!cal_client_update_object (day_view->calendar->client, new_ico))
+		g_message ("e_day_view_on_unrecur_appointment(): Could not update the object!");
+
 	ical_object_unref (new_ico);
 }
 
@@ -2947,7 +2955,8 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	gnome_calendar_update_object (day_view->calendar, &ico);
+	if (!cal_client_update_object (day_view->calendar->client, &ico))
+		g_message ("e_day_view_finish_long_event_resize(): Could not update the object!");
 }
 
 
@@ -2987,7 +2996,8 @@ e_day_view_finish_resize (EDayView *day_view)
 
 	day_view->resize_drag_pos = E_DAY_VIEW_POS_NONE;
 
-	gnome_calendar_update_object (day_view->calendar, &ico);
+	if (!cal_client_update_object (day_view->calendar->client, &ico))
+		g_message ("e_day_view_finish_resize(): Could not update the object!");
 }
 
 
@@ -3983,7 +3993,9 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		g_warning ("Couldn't find event to start editing.\n");
 	}
 
-	gnome_calendar_update_object (day_view->calendar, ico);
+	if (!cal_client_update_object (day_view->calendar->client, ico))
+		g_message ("e_day_view_key_press(): Could not update the object!");
+
 	ical_object_unref (ico);
 
 	return TRUE;
@@ -4470,7 +4482,8 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 
 	event->ico->summary = text;
 
-	gnome_calendar_update_object (day_view->calendar, event->ico);
+	if (!cal_client_update_object (day_view->calendar->client, event->ico))
+		g_message ("e_day_view_on_editing_stopped(): Could not update the object!");
 }
 
 
@@ -5433,7 +5446,9 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			gnome_calendar_update_object (day_view->calendar, &ico);
+			if (!cal_client_update_object (day_view->calendar->client, &ico))
+				g_message ("e_day_view_on_top_canvas_drag_data_received(): Could "
+					   "not update the object!");
 			return;
 		}
 	}
@@ -5518,7 +5533,9 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (event->canvas_item)
 				gnome_canvas_item_show (event->canvas_item);
 
-			gnome_calendar_update_object (day_view->calendar, &ico);
+			if (!cal_client_update_object (day_view->calendar->client, &ico))
+				g_message ("e_day_view_on_main_canvas_drag_data_received(): "
+					   "Could not update the object!");
 			return;
 		}
 	}

@@ -82,7 +82,9 @@ ok_button (GtkWidget *widget, GnomeDialog *dialog)
 	ico->comment = gtk_editable_get_chars( GTK_EDITABLE(comment), 0, -1);
 	ico->user_data = NULL;
 
-	gnome_calendar_update_object (todo->calendar, ico);
+	if (!cal_client_update_object (todo->calendar->client, ico))
+		g_message ("ok_button(): Could not update the object!");
+
 	ical_object_unref (ico);
 
 	gtk_widget_destroy (GTK_WIDGET (dialog));
@@ -281,7 +283,9 @@ edit_todo (GncalTodo *todo)
 static void
 delete_todo (GncalTodo *todo)
 {
-	gnome_calendar_remove_object (todo->calendar, get_clist_selected_ico (todo->clist));
+	if (!cal_client_remove_object (todo->calendar->client,
+				       get_clist_selected_ico (todo->clist)->uid))
+		g_message ("delete_todo(): Could not remove the object!");
 }
 
 static void

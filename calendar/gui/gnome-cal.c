@@ -1012,34 +1012,6 @@ gnome_calendar_open (GnomeCalendar *gcal,
 	return 1;
 }
 
-void
-gnome_calendar_update_object (GnomeCalendar *gcal, iCalObject *obj)
-{
-	char *obj_string;
-
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (obj != NULL);
-	g_return_if_fail (obj->uid != NULL);
-
-	obj_string = ical_object_to_string (obj);
-	cal_client_update_object (gcal->client, obj->uid, obj_string);
-	g_free (obj_string);
-}
-
-void
-gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
-{
-	gboolean r;
-
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (obj != NULL);
-	g_return_if_fail (obj->uid != NULL);
-
-	r = cal_client_remove_object (gcal->client, obj->uid);
-}
-
 static void
 stop_beeping (GtkObject* object, gpointer data)
 {
@@ -1328,7 +1300,8 @@ save_ical_object_cb (EventEditor *ee, iCalObject *ico, gpointer data)
 	GnomeCalendar *gcal;
 
 	gcal = GNOME_CALENDAR (data);
-	gnome_calendar_update_object (gcal, ico);
+	if (!cal_client_update_object (gcal->client, ico))
+		g_message ("save_ical_object_cb(): Could not update the object!");
 }
 
 void

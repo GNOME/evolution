@@ -97,7 +97,7 @@ gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 					   time_t start, time_t end,
 					   GList **alarms);
 
-gboolean cal_client_update_object (CalClient *client, const char *uid, const char *calobj);
+gboolean cal_client_update_object (CalClient *client, iCalObject *ico);
 
 gboolean cal_client_remove_object (CalClient *client, const char *uid);
 

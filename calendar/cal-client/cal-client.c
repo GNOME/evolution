@@ -979,22 +979,22 @@ cal_client_get_alarms_for_object (CalClient *client, const char *uid,
 /**
  * cal_client_update_object:
  * @client: A calendar client.
- * @uid: Unique identifier of object to update.
- * @calobj: String representation of the new calendar object.
+ * @ico: A calendar object.
  *
- * Asks a calendar to update an object based on its UID.  Any existing object
- * with the specified UID will be replaced.  The client program should not
- * assume that the object is actually in the server's storage until it has
- * received the "obj_updated" notification signal.
+ * Asks a calendar to update an object.  Any existing object with the specified
+ * UID will be replaced.  The client program should not assume that the object
+ * is actually in the server's storage until it has received the "obj_updated"
+ * notification signal.
  *
  * Return value: TRUE on success, FALSE on specifying an invalid object.
  **/
 gboolean
-cal_client_update_object (CalClient *client, const char *uid, const char *calobj)
+cal_client_update_object (CalClient *client, iCalObject *ico)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	gboolean retval;
+	char *obj_string;
 
 	g_return_val_if_fail (client != NULL, FALSE);
 	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
@@ -1002,13 +1002,16 @@ cal_client_update_object (CalClient *client, const char *uid, const char *calobj
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, FALSE);
 
-	g_return_val_if_fail (uid != NULL, FALSE);
-	g_return_val_if_fail (calobj != NULL, FALSE);
+	g_return_val_if_fail (ico != NULL, FALSE);
+	g_return_val_if_fail (ico->uid != NULL, FALSE);
 
 	retval = FALSE;
 
+	obj_string = ical_object_to_string (ico);
+
 	CORBA_exception_init (&ev);
-	Evolution_Calendar_Cal_update_object (priv->cal, uid, calobj, &ev);
+	Evolution_Calendar_Cal_update_object (priv->cal, ico->uid, obj_string, &ev);
+	g_free (obj_string);
 
 	if (ev._major == CORBA_USER_EXCEPTION &&
 	    strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_InvalidObject) == 0)
