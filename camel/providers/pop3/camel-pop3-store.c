@@ -233,8 +233,13 @@ pop3_connect (CamelService *service, CamelException *ex)
 	}
 
 	sin.sin_family = h->h_addrtype;
-	sin.sin_port = port;
-	memcpy (&sin.sin_addr, h->h_addr, sizeof (sin.sin_addr));
+	sin.sin_port = htons (port);
+
+	/*
+	 * We copy only 4 bytes, as we can not trust h->h_length, as it
+	 * comes from the DNS and might have been tampered with.
+	 */
+	memcpy (&sin.sin_addr, h->h_addr, 4);
 
 	fd = socket (h->h_addrtype, SOCK_STREAM, 0);
 	if (fd == -1 ||

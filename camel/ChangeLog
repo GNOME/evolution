@@ -1,3 +1,9 @@
+2000-03-29  Miguel de Icaza  <miguel@gnu.org>
+
+	* providers/pop3/camel-pop3-store.c (pop3_connect): Add htons
+	(port), and only copy 4 bytes for the IP address to prevent a DNS
+	attack. 
+
 2000-03-28  Dan Winship  <danw@helixcode.com>
 
 	* camel-seekable-substream.c
