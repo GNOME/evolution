@@ -271,18 +271,11 @@ menu_file_save_close_cb (BonoboUIComponent *uic, gpointer data, const gchar *pat
 	destroy_editor (editor);
 }
 
-static void
-menu_help (BonoboUIComponent *uih, void *data, const char *path)
-{
-	gnome_help_display ("usage-mail-getnsend-send.html", "HTML-SIGNATURE-HOWTO", NULL);
-}
-
 static BonoboUIVerb verbs [] = {
 
 	BONOBO_UI_VERB ("FileSave",       menu_file_save_cb),
 	BONOBO_UI_VERB ("FileClose",      menu_file_close_cb),
 	BONOBO_UI_VERB ("FileSaveClose",  menu_file_save_close_cb),
-	BONOBO_UI_VERB ("HelpSigEditor",  menu_help),
 	
 	BONOBO_UI_VERB_END
 };

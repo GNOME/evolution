@@ -1,3 +1,8 @@
+2003-04-17  Not Zed  <NotZed@Ximian.com>
+
+	* mail-signature-editor.c (menu_help): remove the help menu item
+	handling, as the help menu is removed.  Clean up of #38927.
+
 2003-04-16  Not Zed  <NotZed@Ximian.com>
 
 	* importers/Makefile.am (%.server.in): Remove COMPONENTDIR and set
