@@ -1,3 +1,10 @@
+2003-11-07  Dan Winship  <danw@ximian.com>
+
+	* message-list.c: Don't #include e-name-western.h, since the code
+	that uses it is commented out, and we want to remove the local
+	copy, but we don't want to make the mailer depend on the e-d-s
+	copy if it's not even going to be using it.
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: build the marshall files right at the beginning

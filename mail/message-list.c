@@ -50,7 +50,6 @@
 #include <camel/camel-file-utils.h>
 #include <camel/camel-folder.h>
 #include <camel/camel-folder-thread.h>
-#include <e-util/ename/e-name-western.h>
 #include <e-util/e-memory.h>
 
 #include "filter/filter-label.h"
