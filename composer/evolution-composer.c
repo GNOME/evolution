@@ -74,6 +74,7 @@ corba_recipientlist_to_destv (const GNOME_Evolution_Composer_RecipientList *cl)
 
 static void
 impl_Composer_set_headers (PortableServer_Servant servant,
+			   const CORBA_char *from,
 			   const GNOME_Evolution_Composer_RecipientList *to,
 			   const GNOME_Evolution_Composer_RecipientList *cc,
 			   const GNOME_Evolution_Composer_RecipientList *bcc,
@@ -83,15 +84,31 @@ impl_Composer_set_headers (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionComposer *composer;
 	EDestination **tov, **ccv, **bccv;
+	const MailConfigAccount *account;
+	const GSList *accounts;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	composer = EVOLUTION_COMPOSER (bonobo_object);
+
+	account = mail_config_get_account_by_name (from);
+	if (!account) {
+		accounts = mail_config_get_accounts ();
+		while (accounts) {
+			account = accounts->data;
+			if (!g_strcasecmp (account->id->address, from))
+				break;
+			accounts = accounts->next;
+		}
+		if (!accounts)
+			account = mail_config_get_default_account ();
+	}
 
 	tov  = corba_recipientlist_to_destv (to);
 	ccv  = corba_recipientlist_to_destv (cc);
 	bccv = corba_recipientlist_to_destv (bcc);
 	
-	e_msg_composer_set_headers (composer->composer, NULL, tov, ccv, bccv, subject);
+	e_msg_composer_set_headers (composer->composer, account->name,
+				    tov, ccv, bccv, subject);
 
 	e_destination_freev (tov);
 	e_destination_freev (ccv);

@@ -1,3 +1,11 @@
+2002-09-27  Dan Winship  <danw@ximian.com>
+
+	* Evolution-Composer.idl (setHeaders): let the caller set the
+	"From" account too (by name or address).
+
+	* evolution-composer.c (impl_Composer_set_headers): Update for
+	that.
+
 2002-09-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Don't reuse the part that

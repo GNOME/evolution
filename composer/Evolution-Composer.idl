@@ -29,6 +29,7 @@ module Evolution {
 
 		/**
 		 * setHeaders:
+		 * @from: the "From" account or address
 		 * @to: the "To" recipients
 		 * @cc: the "CC" recipients
 		 * @bcc: the "Bcc" recipients
@@ -36,10 +37,14 @@ module Evolution {
 		 *
 		 * Sets the composer headers. Any of @to, @cc, and
 		 * @bcc may be an empty list, and @subject may be an
-		 * empty string.
+		 * empty string. If @from is empty or invalid, the
+		 * default account will be used. Otherwise is
+		 * specifies an account name or email address to send
+		 * from.
 		 **/
-		void setHeaders (in RecipientList to, in RecipientList cc,
-				 in RecipientList bcc, in string subject);
+		void setHeaders (in string from, in RecipientList to,
+				 in RecipientList cc, in RecipientList bcc,
+				 in string subject);
 
 		/**
 		 * setMultipartType:
