@@ -1,3 +1,7 @@
+2004-12-20  Takeshi AIHANA <aihana@gnome.gr.jp>
+
+	* default/Makefile.am: Added 'ja' and 'nl' to install.
+
 2004-12-14  Rodney Dawes  <dobey@novell.com>
 
 	* mail-account-gui.c: Remove this from CVS
