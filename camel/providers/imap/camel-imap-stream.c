@@ -123,10 +123,10 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		gint status, part_len;
 		
 		camel_exception_init (&ex);
-		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store),
-						      CAMEL_FOLDER (imap_stream->folder),
-						      &result, &ex, "%s\r\n",
-						      imap_stream->command);
+		status = camel_imap_fetch_command (CAMEL_IMAP_STORE (folder->parent_store),
+						   CAMEL_FOLDER (imap_stream->folder),
+						   &result, &ex, "%s\r\n",
+						   imap_stream->command);
 		/* FIXME: exception is ignored */
 		camel_exception_clear (&ex);
 

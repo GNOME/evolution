@@ -1,3 +1,21 @@
+2000-08-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-remote-store.c (remote_send_string): Don't wrap printed
+	strings in quotes, makes things messy
+	
+	* providers/imap/camel-imap-folder.c (imap_get_message): Updated
+	to use the camel_imap_fetch_command
+	
+	* providers/imap/camel-imap-stream.c (stream_read): Updated to use
+	camel_imap_fetch_command
+
+	* providers/imap/camel-imap-store.c (camel_imap_command_extended):
+	No longer handles FETCH requests so no longer needs to be
+	concerned with checking to make sure that server responses are
+	valid (they have to be).
+	(camel_imap_fetch_command): New convenience function that handles
+	all FETCH requests
+
 2000-08-30  Peter Williams  <peterw@helixcode.com>
 
 	* camel-remote-store.c (remote_connect): Unify with remote_post_connect.

@@ -181,7 +181,7 @@ imap_connect (CamelService *service, CamelException *ex)
 	
 	if (CAMEL_SERVICE_CLASS (remote_store_class)->connect (service, ex) == FALSE)
 		return FALSE;
-
+	
 	store->command = 0;
 	g_free (store->dir_sep);
 	store->dir_sep = g_strdup ("/");  /* default dir sep */
@@ -524,7 +524,7 @@ check_current_folder (CamelImapStore *store, CamelFolder *folder, char *fmt, Cam
 	 * 1. the command doesn't care about which folder we're in (folder == NULL)
 	 * 2. if we're already in the right folder (store->current_folder == folder)
 	 * 3. we're going to create a new folder */
-	if (!folder || store->current_folder == folder || !strncmp (fmt, "CREATE", 5))
+	if (!folder || store->current_folder == folder || !strncmp (fmt, "CREATE ", 7))
 		return CAMEL_IMAP_OK;
 	
 	dir_sep = store->dir_sep;
@@ -567,139 +567,6 @@ send_command (CamelImapStore *store, char **cmdid, char *fmt, va_list ap, CamelE
 	
 	g_free (cmdbuf);
 	return TRUE;
-}
-
-static gint
-slurp_response (CamelImapStore *store, CamelFolder *folder, char *cmdid, char **ret,
-		gboolean stop_on_plus, CamelException *ex)
-{
-	gint status = CAMEL_IMAP_OK;
-	GPtrArray *data, *expunged;
-	gchar *respbuf;
-	guint32 len = 0;
-	gint recent = 0;
-	gint i;
-	
-	data = g_ptr_array_new ();
-	expunged = g_ptr_array_new ();
-	
-	while (1) {
-		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
-			for (i = 0; i < data->len; i++)
-				g_free (data->pdata[i]);
-			g_ptr_array_free (data, TRUE);
-			g_ptr_array_free (expunged, TRUE);
-			
-			return CAMEL_IMAP_FAIL;
-		}
-		
-		g_ptr_array_add (data, respbuf);
-		len += strlen (respbuf) + 1;
-		
-		/* IMAP's last response starts with our command id or, sometimes, a plus */	
-		if (stop_on_plus && *respbuf == '+') {
-			status = CAMEL_IMAP_PLUS;
-			break;
-		}
-		
-		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
-			status = camel_imap_status (cmdid, respbuf);
-			break;
-		}
-		
-		/* If recent or expunge flags were somehow set and this
-		   response doesn't begin with a '*' then
-		   recent/expunged must have been misdetected */
-		if ((recent || expunged->len > 0) && *respbuf != '*') {
-			d(fprintf (stderr, "hmmm, someone tried to pull a fast one on us.\n"));
-			
-			recent = 0;
-			
-			for (i = 0; i < expunged->len; i++) {
-				g_free (expunged->pdata[i]);
-				g_ptr_array_remove_index (expunged, i);
-			}
-		}
-		
-		/* Check for a RECENT in the untagged response */
-		if (*respbuf == '*') {
-			if (strstr (respbuf, "RECENT")) {
-				char *rcnt;
-				
-				d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
-				/* Make sure it's in the form: "* %d RECENT" */
-				rcnt = imap_next_word (respbuf);
-				if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
-					recent = atoi (rcnt);
-			} else if (strstr (respbuf, "EXPUNGE")) {
-				char *id_str;
-				int id;
-				
-				d(fprintf (stderr, "*** We may have found an 'EXPUNGE' flag: %s\n", respbuf));
-				/* Make sure it's in the form: "* %d EXPUNGE" */
-				id_str = imap_next_word (respbuf);
-				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
-					id = atoi (id_str);
-					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
-				}
-			}
-		}
-	}
-	
-	/* Apply the 'recent' changes */
-	if (folder && recent > 0)
-		camel_imap_folder_changed (folder, recent, expunged, ex);
-	
-	if (status == CAMEL_IMAP_OK || status == CAMEL_IMAP_PLUS) {
-		gchar *p;
-		
-		/* Command succeeded! Put the output into one big
-		 * string of love. */
-		
-		*ret = g_new (char, len + 1);
-		p = *ret;
-		
-		for (i = 0; i < data->len; i++) {
-			char *datap;
-			
-			datap = (char *) data->pdata[i];
-			if (*datap == '.')
-				datap++;
-			len = strlen (datap);
-			memcpy (p, datap, len);
-			p += len;
-			*p++ = '\n';
-		}
-		
-		*p = '\0';
-	} else {
-		/* Bummer. Try to grab what the server said. */
-		if (respbuf) {
-			char *word;
-			
-			word = imap_next_word (respbuf); /* should now point to status */
-			
-			word = imap_next_word (word);    /* points to fail message, if there is one */
-			
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      "IMAP command failed: %s", word);
-		}
-		
-		*ret = NULL;
-	}
-	
-	/* Can this be put into the 'if succeeded' bit?
-	 * Or can a failed command generate untagged responses? */
-	
-	for (i = 0; i < data->len; i++)
-		g_free (data->pdata[i]);
-	g_ptr_array_free (data, TRUE);
-	
-	for (i = 0; i < expunged->len; i++)
-		g_free (expunged->pdata[i]);
-	g_ptr_array_free (expunged, TRUE);
-	
-	return status;
 }
 
 
@@ -792,7 +659,7 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, CamelException *
  * be set to NULL.) The caller function is responsible for freeing @ret.
  * 
  * This camel method gets the additional data returned by "multi-line" IMAP
- * commands, such as SELECT, LIST, FETCH, and various other commands.
+ * commands, such as SELECT, LIST, and various other commands.
  * The returned data is un-byte-stuffed, and has lines termined by
  * newlines rather than CR/LF pairs.
  * 
@@ -806,8 +673,12 @@ gint
 camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...)
 {
 	gint status = CAMEL_IMAP_OK;
-	gchar *cmdid;
+	GPtrArray *data, *expunged;
+	gchar *respbuf, *cmdid;
+	guint32 len = 0;
+	gint recent = 0;
 	va_list ap;
+	gint i;
 	
 	status = check_current_folder (store, folder, fmt, ex);
 	if (status != CAMEL_IMAP_OK)
@@ -821,7 +692,284 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	}
 	va_end (ap);
 	
-	return slurp_response (store, folder, cmdid, ret, FALSE, ex);
+	data = g_ptr_array_new ();
+	expunged = g_ptr_array_new ();
+	
+	/* read multi-line response */
+	while (1) {
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			/* cleanup */
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+			
+			for (i = 0; i < expunged->len; i++)
+				g_free (expunged->pdata[i]);
+			g_ptr_array_free (expunged, TRUE);
+			
+			return CAMEL_IMAP_FAIL;
+		}
+		
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
+		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
+		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+			status = camel_imap_status (cmdid, respbuf);
+			break;
+		}
+		
+		/* Check for a RECENT in the untagged response */
+		if (*respbuf == '*') {
+			if (strstr (respbuf, "RECENT")) {
+				char *rcnt;
+				
+				d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d RECENT" */
+				rcnt = imap_next_word (respbuf);
+				if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
+					recent = atoi (rcnt);
+			} else if (strstr (respbuf, "EXPUNGE")) {
+				char *id_str;
+				int id;
+				
+				d(fprintf (stderr, "*** We may have found an 'EXPUNGE' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d EXPUNGE" */
+				id_str = imap_next_word (respbuf);
+				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
+					id = atoi (id_str);
+					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
+				}
+			}
+		}
+	}
+	
+	if (status == CAMEL_IMAP_OK) {
+		gchar *p;
+		
+		/* populate the return buffer with the server response */
+		*ret = g_new (char, len + 1);
+		p = *ret;
+		
+		for (i = 0; i < data->len; i++) {
+			char *datap;
+			
+			datap = (char *) data->pdata[i];
+			if (*datap == '.')
+				datap++;
+			len = strlen (datap);
+			memcpy (p, datap, len);
+			p += len;
+			*p++ = '\n';
+		}
+		
+		*p = '\0';
+	} else {
+		/* command failed */
+		if (respbuf) {
+			char *word;
+			
+			word = imap_next_word (respbuf); /* should now point to status */
+			
+			word = imap_next_word (word);    /* points to fail message, if there is one */
+			
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: %s", word);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: Unknown");
+		}
+		
+		*ret = NULL;
+	}
+	
+	/* Update the summary */
+	if (folder && (recent > 0 || expunged->len > 0))
+		camel_imap_folder_changed (folder, recent, expunged, ex);
+	
+	for (i = 0; i < data->len; i++)
+		g_free (data->pdata[i]);
+	g_ptr_array_free (data, TRUE);
+	
+	for (i = 0; i < expunged->len; i++)
+		g_free (expunged->pdata[i]);
+	g_ptr_array_free (expunged, TRUE);
+	
+	return status;
+}
+
+/**
+ * camel_imap_fetch_command: Send a FETCH request to an IMAP server and get
+ * a multi-line response.
+ * @store: the IMAP store
+ * @folder: The folder to perform the operation in
+ * @ret: a pointer to return the full server response in
+ * @fmt: a printf-style format string, followed by arguments
+ * 
+ * This camel method sends the IMAP FETCH command specified by @fmt and the
+ * following arguments to the IMAP store specified by @store. If the
+ * store is in a disconnected state, camel_imap_fetch_command will first
+ * re-connect the store before sending the specified IMAP command. It then
+ * reads the server's response and parses out the status code. If the caller
+ * passed a non-NULL pointer for @ret, camel_imap_fetch_command will set
+ * it to point to a buffer containing the rest of the response from the IMAP
+ * server. (If @ret was passed but there was no extended response, @ret will
+ * be set to NULL.) The caller function is responsible for freeing @ret.
+ * 
+ * Return value: one of CAMEL_IMAP_OK (command executed successfully),
+ * CAMEL_IMAP_NO (operational error message), CAMEL_IMAP_BAD (error
+ * message from the server), or CAMEL_IMAP_FAIL (a protocol-level error
+ * occurred, and Camel is uncertain of the result of the command.)
+ **/
+
+gint
+camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder, char **ret, CamelException *ex, char *fmt, ...)
+{
+	/* Security Note/FIXME: We have to be careful about assuming
+	 * that a server response is valid as the command we are
+	 * calling may require a literal string response which could
+	 * possibly contain strings that appear to be valid server
+	 * responses but aren't. We should, therefor, find a way to
+	 * determine whether we are actually reading server responses.
+	*/
+	gint status = CAMEL_IMAP_OK;
+	GPtrArray *data, *expunged;
+	gchar *respbuf, *cmdid;
+	guint32 len = 0;
+	gint recent = 0;
+	va_list ap;
+	gint i;
+	
+	status = check_current_folder (store, folder, fmt, ex);
+	if (status != CAMEL_IMAP_OK)
+		return status;
+	
+	/* send the command */
+	va_start (ap, fmt);
+        if (!send_command (store, &cmdid, fmt, ap, ex)) {
+		va_end (ap);
+		return CAMEL_IMAP_FAIL;
+	}
+	va_end (ap);
+	
+	data = g_ptr_array_new ();
+	expunged = g_ptr_array_new ();
+	
+	/* read multi-line response */
+	while (1) {
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			/* cleanup */
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+			
+			for (i = 0; i < expunged->len; i++)
+				g_free (expunged->pdata[i]);
+			g_ptr_array_free (expunged, TRUE);
+			
+			return CAMEL_IMAP_FAIL;
+		}
+		
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
+		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
+		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+			status = camel_imap_status (cmdid, respbuf);
+			break;
+		}
+		
+		/* If recent or expunge flags were somehow set and this
+		   response doesn't begin with a '*' then
+		   recent/expunged must have been misdetected */
+		if ((recent || expunged->len > 0) && *respbuf != '*') {
+			d(fprintf (stderr, "hmmm, someone tried to pull a fast one on us.\n"));
+			
+			recent = 0;
+			
+			for (i = 0; i < expunged->len; i++) {
+				g_free (expunged->pdata[i]);
+				g_ptr_array_remove_index (expunged, i);
+			}
+		}
+		
+		/* Check for a RECENT in the untagged response */
+		if (*respbuf == '*') {
+			if (strstr (respbuf, "RECENT")) {
+				char *rcnt;
+				
+				d(fprintf (stderr, "*** We may have found a 'RECENT' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d RECENT" */
+				rcnt = imap_next_word (respbuf);
+				if (*rcnt >= '0' && *rcnt <= '9' && !strncmp ("RECENT", imap_next_word (rcnt), 6))
+					recent = atoi (rcnt);
+			} else if (strstr (respbuf, "EXPUNGE")) {
+				char *id_str;
+				int id;
+				
+				d(fprintf (stderr, "*** We may have found an 'EXPUNGE' flag: %s\n", respbuf));
+				/* Make sure it's in the form: "* %d EXPUNGE" */
+				id_str = imap_next_word (respbuf);
+				if (*id_str >= '0' && *id_str <= '9' && !strncmp ("EXPUNGE", imap_next_word (id_str), 7)) {
+					id = atoi (id_str);
+					g_ptr_array_add (expunged, g_strdup_printf ("%d", id));
+				}
+			}
+		}
+	}
+	
+	if (status == CAMEL_IMAP_OK) {
+		gchar *p;
+		
+		/* populate the return buffer with the server response */
+		*ret = g_new (char, len + 1);
+		p = *ret;
+		
+		for (i = 0; i < data->len; i++) {
+			char *datap;
+			
+			datap = (char *) data->pdata[i];
+			if (*datap == '.')
+				datap++;
+			len = strlen (datap);
+			memcpy (p, datap, len);
+			p += len;
+			*p++ = '\n';
+		}
+		
+		*p = '\0';
+	} else {
+		/* command failed */
+		if (respbuf) {
+			char *word;
+			
+			word = imap_next_word (respbuf); /* should now point to status */
+			
+			word = imap_next_word (word);    /* points to fail message, if there is one */
+			
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: %s", word);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: Unknown");
+		}
+		
+		*ret = NULL;
+	}
+	
+	/* Update the summary */
+	if (folder && (recent > 0 || expunged->len > 0))
+		camel_imap_folder_changed (folder, recent, expunged, ex);
+	
+	for (i = 0; i < data->len; i++)
+		g_free (data->pdata[i]);
+	g_ptr_array_free (data, TRUE);
+	
+	for (i = 0; i < expunged->len; i++)
+		g_free (expunged->pdata[i]);
+	g_ptr_array_free (expunged, TRUE);
+	
+	return status;
 }
 
 /**
@@ -915,13 +1063,86 @@ camel_imap_command_preliminary (CamelImapStore *store, char **cmdid, CamelExcept
 gint
 camel_imap_command_continuation (CamelImapStore *store, char **ret, char *cmdid, char *cmdbuf, CamelException *ex)
 {
+	gint status = CAMEL_IMAP_OK;
+	GPtrArray *data;
+	gchar *respbuf;
+	guint32 len = 0;
+	gint i;
+	
 	if (camel_remote_store_send_string (CAMEL_REMOTE_STORE (store), ex, "%s\r\n", cmdbuf) < 0) {
 		if (ret)
 			*ret = NULL;
 		return CAMEL_IMAP_FAIL;
 	}
 	
-	return slurp_response (store, NULL, cmdid, ret, TRUE, ex);
+	data = g_ptr_array_new ();
+	
+	/* read multi-line response */
+	while (1) {
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			/* cleanup */
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+			
+			return CAMEL_IMAP_FAIL;
+		}
+		
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
+		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
+		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+			status = camel_imap_status (cmdid, respbuf);
+			break;
+		}
+	}
+	
+	if (status == CAMEL_IMAP_OK) {
+		gchar *p;
+		
+		/* populate the return buffer with the server response */
+		*ret = g_new (char, len + 1);
+		p = *ret;
+		
+		for (i = 0; i < data->len; i++) {
+			char *datap;
+			
+			datap = (char *) data->pdata[i];
+			if (*datap == '.')
+				datap++;
+			len = strlen (datap);
+			memcpy (p, datap, len);
+			p += len;
+			*p++ = '\n';
+		}
+		
+		*p = '\0';
+	} else {
+		/* command failed */
+		if (respbuf) {
+			char *word;
+			
+			word = imap_next_word (respbuf); /* should now point to status */
+			
+			word = imap_next_word (word);    /* points to fail message, if there is one */
+			
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: %s", word);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: Unknown");
+		}
+		
+		*ret = NULL;
+	}
+	
+	/* cleanup */
+	for (i = 0; i < data->len; i++)
+		g_free (data->pdata[i]);
+	g_ptr_array_free (data, TRUE);
+	
+	return status;
 }
 
 /**
@@ -949,11 +1170,85 @@ gint
 camel_imap_command_continuation_with_stream (CamelImapStore *store, char **ret, char *cmdid,
 					     CamelStream *cstream, CamelException *ex)
 {
+	gint status = CAMEL_IMAP_OK;
+	GPtrArray *data;
+	gchar *respbuf;
+	guint32 len = 0;
+	gint i;
+	
+	/* send stream */
 	if (camel_remote_store_send_stream (CAMEL_REMOTE_STORE (store), cstream, ex) < 0) {
 		if (ret)
 			*ret = NULL;
 		return CAMEL_IMAP_FAIL;
 	}
 	
-	return slurp_response (store, NULL, cmdid, ret, TRUE, ex);
+	data = g_ptr_array_new ();
+	
+	/* read the servers multi-line response */
+	while (1) {
+		if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (store), &respbuf, ex) < 0) {
+			/* cleanup */
+			for (i = 0; i < data->len; i++)
+				g_free (data->pdata[i]);
+			g_ptr_array_free (data, TRUE);
+			
+			return CAMEL_IMAP_FAIL;
+		}
+		
+		g_ptr_array_add (data, respbuf);
+		len += strlen (respbuf) + 1;
+		
+		/* IMAPs multi-line response ends with the cmdid string at the beginning of the line */
+		if (!strncmp (respbuf, cmdid, strlen (cmdid))) {
+			status = camel_imap_status (cmdid, respbuf);
+			break;
+		}
+	}
+	
+	if (status == CAMEL_IMAP_OK) {
+		gchar *p;
+		
+		/* populate the return buffer with the server response */
+		*ret = g_new (char, len + 1);
+		p = *ret;
+		
+		for (i = 0; i < data->len; i++) {
+			char *datap;
+			
+			datap = (char *) data->pdata[i];
+			if (*datap == '.')
+				datap++;
+			len = strlen (datap);
+			memcpy (p, datap, len);
+			p += len;
+			*p++ = '\n';
+		}
+		
+		*p = '\0';
+	} else {
+		/* command failed */
+		if (respbuf) {
+			char *word;
+			
+			word = imap_next_word (respbuf); /* should now point to status */
+			
+			word = imap_next_word (word);    /* points to fail message, if there is one */
+			
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: %s", word);
+		} else {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+					      "IMAP command failed: Unknown");
+		}
+		
+		*ret = NULL;
+	}
+	
+	/* cleanup */
+	for (i = 0; i < data->len; i++)
+		g_free (data->pdata[i]);
+	g_ptr_array_free (data, TRUE);
+	
+	return status;
 }

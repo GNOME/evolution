@@ -334,7 +334,7 @@ remote_send_string (CamelRemoteStore *store, CamelException *ex, char *fmt, va_l
 	/* create the command */
 	cmdbuf = g_strdup_vprintf (fmt, ap);
 	
-	d(fprintf (stderr, "sending : \"%s\"\n", cmdbuf));
+	d(fprintf (stderr, "sending : %s", cmdbuf));
 	
 	if (camel_stream_printf (store->ostream, "%s", cmdbuf) == -1) {
 		CamelException dex;

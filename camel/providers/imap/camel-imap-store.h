@@ -89,6 +89,9 @@ gint camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 gint camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder,
 				  char **ret, CamelException *ex, char *fmt, ...);
 
+gint camel_imap_fetch_command (CamelImapStore *store, CamelFolder *folder,
+			       char **ret, CamelException *ex, char *fmt, ...);
+
 /* multi-transactional commands... */
 gint camel_imap_command_preliminary (CamelImapStore *store,
 				     char **cmdid,

@@ -802,9 +802,9 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	else
 		data_item = "RFC822.HEADER";
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, ex, "UID FETCH %s %s", uid,
-					      data_item);
+	status = camel_imap_fetch_command (CAMEL_IMAP_STORE (folder->parent_store), folder,
+					   &result, ex, "UID FETCH %s %s", uid,
+					   data_item);
 	
 	if (!result || status != CAMEL_IMAP_OK)
 		return NULL;
@@ -855,9 +855,9 @@ imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 	else
 		data_item = "RFC822.TEXT";
 	
-	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, ex, "UID FETCH %s %s", uid,
-					      data_item);
+	status = camel_imap_fetch_command (CAMEL_IMAP_STORE (folder->parent_store), folder,
+					   &result, ex, "UID FETCH %s %s", uid,
+					   data_item);
 	
 	if (!result || status != CAMEL_IMAP_OK) {
 		g_free (header);
@@ -1024,6 +1024,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 	
 	summary_specifier = imap_protocol_get_summary_specifier (folder);
 	
+	/* We use camel_imap_command_extended here because it's safe */
 	if (num == 1) {
 		status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 						      &result, ex, "FETCH 1 (%s)", summary_specifier);
@@ -1083,7 +1084,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		for (uid += 4; *uid && (*uid < '0' || *uid > '9'); uid++); /* advance to <uid> */
 		for (q = uid; *q && *q >= '0' && *q <= '9'; q++); /* find the end of the <uid> */
 		info->uid = g_strndup (uid, (gint)(q - uid));
-		d(fprintf (stderr, "*** info->uid = %s\n", info->uid));
+		/*d(fprintf (stderr, "*** info->uid = %s\n", info->uid));*/
 		
 		/* now lets grab the FLAGS */
 		if (!(flags = strstr (headers->pdata[i], "FLAGS "))) {
@@ -1096,7 +1097,7 @@ imap_get_summary_internal (CamelFolder *folder, CamelException *ex)
 		for (flags += 6; *flags && *flags != '('; flags++); /* advance to <flags> */
 		for (q = flags; *q && *q != ')'; q++);         /* find the end of <flags> */
 		flags = g_strndup (flags, (gint)(q - flags + 1));
-		d(fprintf (stderr, "*** info->flags = %s\n", flags));
+		/*d(fprintf (stderr, "*** info->flags = %s\n", flags));*/
 		
 		/* now we gotta parse for the flags */
 		info->flags = 0;
@@ -1211,6 +1212,7 @@ imap_get_message_info_internal (CamelFolder *folder, guint id, CamelException *e
 	/* we don't have a cached copy, so fetch it */
 	summary_specifier = imap_protocol_get_summary_specifier (folder);
 	
+	/* again, we use camel_imap_command_extended here because it's safe to do so */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
 					      &result, ex, "FETCH %d (%s)", id, summary_specifier);
 	
