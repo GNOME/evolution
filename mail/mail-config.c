@@ -920,8 +920,10 @@ mail_config_get_show_preview (const char *uri)
 					     GINT_TO_POINTER (value));
 			
 			return value;
-		} else
+		} else {
+			g_free (dbkey);
 			return GPOINTER_TO_INT (val);
+		}
 	}
 	
 	/* return the default value */

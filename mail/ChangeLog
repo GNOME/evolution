@@ -1,5 +1,8 @@
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_get_show_preview): Free dbkey if we
+	don't use it.
+
 	* folder-browser.c (on_right_click): Added a comment about leaking
 	memory here, but we seem to not even use the 2 strings we
 	strdup...is this code still under construction?

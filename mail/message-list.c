@@ -1032,7 +1032,7 @@ sort_info_changed (GtkWidget *widget, MessageList *ml)
 }
 
 static void
-message_list_setup_etree(MessageList *message_list, gboolean outgoing)
+message_list_setup_etree (MessageList *message_list, gboolean outgoing)
 {
 	ETableState *etstate;
 	
@@ -1044,8 +1044,8 @@ message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 		struct stat st;
 		
 		name = camel_service_get_name (CAMEL_SERVICE (message_list->folder->parent_store), TRUE);
-		printf ("folder name is '%s'\n", name);
-
+		d(printf ("folder name is '%s'\n", name));
+		
 		path = mail_config_folder_to_cachename (message_list->folder, "et-header-");
 		if (path && stat (path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
 			/* build based on saved file */
@@ -1067,20 +1067,20 @@ message_list_setup_etree(MessageList *message_list, gboolean outgoing)
 			e_tree_load_expanded_state (message_list->tree, path);
 		}
 		g_free (path);
-
+		
 		g_free (name);
-
-		etstate = e_tree_get_state_object(message_list->tree);
-		gtk_signal_connect(GTK_OBJECT(etstate->sort_info), 
-				   "sort_info_changed",
-				   GTK_SIGNAL_FUNC(sort_info_changed),
-				   message_list);
-		gtk_signal_connect(GTK_OBJECT(etstate->sort_info), 
-				   "group_info_changed",
-				   GTK_SIGNAL_FUNC(sort_info_changed),
-				   message_list);
-
-		gtk_object_unref((GtkObject *)etstate);
+		
+		etstate = e_tree_get_state_object (message_list->tree);
+		gtk_signal_connect (GTK_OBJECT (etstate->sort_info), 
+				    "sort_info_changed",
+				    GTK_SIGNAL_FUNC (sort_info_changed),
+				    message_list);
+		gtk_signal_connect (GTK_OBJECT (etstate->sort_info), 
+				    "group_info_changed",
+				    GTK_SIGNAL_FUNC (sort_info_changed),
+				    message_list);
+		
+		gtk_object_unref (GTK_OBJECT (etstate));
 	}
 }
 
