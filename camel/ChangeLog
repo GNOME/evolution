@@ -1,3 +1,18 @@
+2002-06-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.[c,h]: New source files implementing the
+	CamelCipherContext class for gnupg.
+
+	* camel-pgp-context.c (camel_pgp_context_new): Return a
+	CamelCipherContext.
+
+	* camel-pgp-mime.c (camel_pgp_mime_part_decrypt): Take a
+	CamelCipherContext argument rather than a CamelPgpContext since we
+	now have a CamelGpgContext also.
+	(camel_pgp_mime_part_encrypt): Same.
+	(camel_pgp_mime_part_verify): Same.
+	(camel_pgp_mime_part_sign): Same.
+
 2002-06-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-digest-folder.c: Updated to support searching as well as

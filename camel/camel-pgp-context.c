@@ -155,7 +155,7 @@ camel_pgp_context_get_type (void)
  *
  * Return value: the new CamelPgpContext
  **/
-CamelPgpContext *
+CamelCipherContext *
 camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *path)
 {
 	CamelPgpContext *context;
@@ -172,7 +172,7 @@ camel_pgp_context_new (CamelSession *session, CamelPgpType type, const char *pat
 	context->priv->type = type;
 	context->priv->path = g_strdup (path);
 	
-	return context;
+	return (CamelCipherContext *) context;
 }
 
 

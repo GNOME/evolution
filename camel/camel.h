@@ -30,7 +30,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif /* __cplusplus }*/
+#endif /* __cplusplus */
 
 #include <camel/camel-cipher-context.h>
 #include <camel/camel-cms-context.h>
@@ -59,6 +59,7 @@ extern "C" {
 #include <camel/camel-movemail.h>
 #include <camel/camel-multipart.h>
 #include <camel/camel-pgp-context.h>
+#include <camel/camel-gpg-context.h>
 #include <camel/camel-pgp-mime.h>
 #include <camel/camel-provider.h>
 #include <camel/camel-seekable-stream.h>

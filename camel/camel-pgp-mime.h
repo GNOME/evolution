@@ -38,22 +38,22 @@ extern "C" {
 gboolean camel_pgp_mime_is_rfc2015_signed (CamelMimePart *part);
 gboolean camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *part);
 
-void camel_pgp_mime_part_sign (CamelPgpContext *context,
+void camel_pgp_mime_part_sign (CamelCipherContext *cipher,
 			       CamelMimePart **mime_part,
 			       const char *userid,
 			       CamelCipherHash hash,
 			       CamelException *ex);
 
-CamelCipherValidity *camel_pgp_mime_part_verify (CamelPgpContext *context,
+CamelCipherValidity *camel_pgp_mime_part_verify (CamelCipherContext *cipher,
 						 CamelMimePart *mime_part,
 						 CamelException *ex);
 
-void camel_pgp_mime_part_encrypt (CamelPgpContext *context,
+void camel_pgp_mime_part_encrypt (CamelCipherContext *cipher,
 				  CamelMimePart **mime_part,
 				  GPtrArray *recipients,
 				  CamelException *ex);
 
-CamelMimePart *camel_pgp_mime_part_decrypt (CamelPgpContext *context,
+CamelMimePart *camel_pgp_mime_part_decrypt (CamelCipherContext *cipher,
 					    CamelMimePart *mime_part,
 					    CamelException *ex);
 

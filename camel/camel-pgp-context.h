@@ -60,19 +60,8 @@ typedef struct _CamelPgpContextClass {
 
 CamelType         camel_pgp_context_get_type (void);
 
-CamelPgpContext  *camel_pgp_context_new (CamelSession *session, CamelPgpType type,
-					 const char *path);
-
-/* PGP routines */
-#define camel_pgp_sign(c, u, h, i, o, e) camel_cipher_sign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
-
-#define camel_pgp_clearsign(c, u, h, i, o, e) camel_cipher_clearsign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
-
-#define camel_pgp_verify(c, i, s, e) camel_cipher_verify (CAMEL_CIPHER_CONTEXT (c), CAMEL_CIPHER_HASH_DEFAULT, i, s, e)
-
-#define camel_pgp_encrypt(c, s, u, r, i, o, e) camel_cipher_encrypt (CAMEL_CIPHER_CONTEXT (c), s, u, r, i, o, e)
-
-#define camel_pgp_decrypt(c, i, o, e) camel_cipher_decrypt (CAMEL_CIPHER_CONTEXT (c), i, o, e)
+CamelCipherContext  *camel_pgp_context_new (CamelSession *session, CamelPgpType type,
+					    const char *path);
 
 #ifdef __cplusplus
 }

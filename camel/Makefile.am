@@ -40,6 +40,7 @@ libcamel_la_SOURCES = 				\
 	camel-folder-summary.c			\
 	camel-folder-thread.c			\
 	camel-folder.c				\
+	camel-gpg-context.c			\
 	camel-html-parser.c			\
 	camel-http-stream.c			\
 	camel-index.c				\
@@ -140,6 +141,7 @@ libcamelinclude_HEADERS =			\
 	camel-folder-summary.h			\
 	camel-folder-thread.h			\
 	camel-folder.h				\
+	camel-gpg-context.h			\
 	camel-http-stream.h			\
 	camel-index.h				\
 	camel-internet-address.h		\

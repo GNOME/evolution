@@ -240,7 +240,7 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 
 /**
  * camel_pgp_mime_part_sign:
- * @context: PGP Context
+ * @cipher: PGP Cipher Context
  * @mime_part: a MIME part that will be replaced by a pgp signed part
  * @userid: userid to sign with
  * @hash: one of CAMEL_PGP_HASH_TYPE_MD5 or CAMEL_PGP_HASH_TYPE_SHA1
@@ -251,7 +251,7 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
  * @ex will be set and #part will remain untouched.
  **/
 void
-camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, const char *userid,
+camel_pgp_mime_part_sign (CamelCipherContext *cipher, CamelMimePart **mime_part, const char *userid,
 			  CamelCipherHash hash, CamelException *ex)
 {
 	CamelMimePart *part, *signed_part;
@@ -327,7 +327,7 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	}
 	
 	/* get the signature */
-	if (camel_pgp_sign (context, userid, hash, stream, sigstream, ex) == -1) {
+	if (camel_cipher_sign (cipher, userid, hash, stream, sigstream, ex) == -1) {
 		GSList *list;
 		
 		camel_object_unref (CAMEL_OBJECT (stream));
@@ -381,14 +381,14 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 
 /**
  * camel_pgp_mime_part_verify:
- * @context: PGP Context
+ * @cipher: PGP Cipher Context
  * @mime_part: a multipart/signed MIME Part
  * @ex: exception
  *
  * Returns a CamelCipherValidity on success or NULL on fail.
  **/
 CamelCipherValidity *
-camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, CamelException *ex)
+camel_pgp_mime_part_verify (CamelCipherContext *cipher, CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelDataWrapper *wrapper;
 	CamelMultipart *multipart;
@@ -437,7 +437,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 	camel_stream_reset (sigstream);
 	
 	/* verify */
-	valid = camel_pgp_verify (context, stream, sigstream, ex);
+	valid = camel_cipher_verify (cipher, CAMEL_CIPHER_HASH_DEFAULT, stream, sigstream, ex);
 	
 	d(printf ("attempted to verify data:\n----- BEGIN SIGNED PART -----\n%.*s----- END SIGNED PART -----\n",
 		  CAMEL_STREAM_MEM (stream)->buffer->len, CAMEL_STREAM_MEM (stream)->buffer->data));
@@ -451,7 +451,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
 
 /**
  * camel_pgp_mime_part_encrypt:
- * @context: PGP Context
+ * @cipher: PGP Cipher Context
  * @mime_part: a MIME part that will be replaced by a pgp encrypted part
  * @recipients: list of recipient PGP Key IDs
  * @ex: exception which will be set if there are any errors.
@@ -461,7 +461,7 @@ camel_pgp_mime_part_verify (CamelPgpContext *context, CamelMimePart *mime_part, 
  * #ex will be set and #part will remain untouched.
  **/
 void
-camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part,
+camel_pgp_mime_part_encrypt (CamelCipherContext *cipher, CamelMimePart **mime_part,
 			     GPtrArray *recipients, CamelException *ex)
 {
 	CamelMultipart *multipart;
@@ -490,7 +490,7 @@ camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part
 	
 	/* pgp encrypt */
 	ciphertext = camel_stream_mem_new ();
-	if (camel_pgp_encrypt (context, FALSE, NULL, recipients, stream, ciphertext, ex) == -1) {
+	if (camel_cipher_encrypt (cipher, FALSE, NULL, recipients, stream, ciphertext, ex) == -1) {
 		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_object_unref (CAMEL_OBJECT (ciphertext));
 		return;
@@ -540,14 +540,14 @@ camel_pgp_mime_part_encrypt (CamelPgpContext *context, CamelMimePart **mime_part
 
 /**
  * camel_pgp_mime_part_decrypt:
- * @context: PGP Context
+ * @cipher: PGP Cipher Context
  * @mime_part: a multipart/encrypted MIME Part
  * @ex: exception
  *
  * Returns the decrypted MIME Part on success or NULL on fail.
  **/
 CamelMimePart *
-camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part, CamelException *ex)
+camel_pgp_mime_part_decrypt (CamelCipherContext *cipher, CamelMimePart *mime_part, CamelException *ex)
 {
 	CamelDataWrapper *wrapper;
 	CamelMultipart *multipart;
@@ -580,7 +580,7 @@ camel_pgp_mime_part_decrypt (CamelPgpContext *context, CamelMimePart *mime_part,
 	
 	/* get the cleartext */
 	stream = camel_stream_mem_new ();
-	if (camel_pgp_decrypt (context, ciphertext, stream, ex) == -1) {
+	if (camel_cipher_decrypt (cipher, ciphertext, stream, ex) == -1) {
 		camel_object_unref (CAMEL_OBJECT (ciphertext));
 		camel_object_unref (CAMEL_OBJECT (stream));
 		return NULL;
