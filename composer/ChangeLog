@@ -1,3 +1,8 @@
+2003-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-select-file.c (e_msg_composer_select_file): Guard
+	against the filesel's selection being NULL. Fixes bug #40679.
+
 2003-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (composer_entry_focus_in_event_cb): Keep track

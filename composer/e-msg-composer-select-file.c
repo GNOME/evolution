@@ -118,13 +118,16 @@ e_msg_composer_select_file_attachments (EMsgComposer *composer, gboolean *showin
 
 	selection = run_selector(composer, _("Attach file(s)"), TRUE, showinline_p);
 	if (selection) {
-
-		list = g_ptr_array_new();
 		files = gtk_file_selection_get_selections(selection);
-		for (i=0;files[i];i++)
-			g_ptr_array_add(list, g_strdup(files[i]));
-
-		g_strfreev(files);
+		
+		if (files != NULL) {
+			list = g_ptr_array_new ();
+			for (i = 0; files[i]; i++)
+				g_ptr_array_add (list, g_strdup (files[i]));
+			
+			g_strfreev (files);
+		}
+		
 		gtk_widget_destroy((GtkWidget *)selection);
 	}
 
