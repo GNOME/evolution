@@ -3,7 +3,7 @@ VERSION = 0.15
 DISTNAME = libical
 SUBDIRS = src
 
-prefix = /usr/local
+prefix = /home/miguel
 PREFIX = ${prefix}
 EXEC_PREFIX = ${prefix}
 BIN_DIR = $(EXEC_PREFIX)/bin

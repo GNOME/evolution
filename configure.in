@@ -160,20 +160,20 @@ AC_SUBST(GLIB_CFLAGS)
 AC_SUBST(GLIB_LIBS)
 
 
-EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_LIBS `unicode-config --libs`"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_CFLAGS `unicode-config --cflags`"
+EXTRA_GNOME_LIBS="`gnome-config --libs libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_LIBS `unicode-config --libs`"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags libglade gdk_pixbuf gnomecanvaspixbuf gnomeui ` $THREADS_CFLAGS `unicode-config --cflags`"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
 
 
-BONOBO_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf `"
-BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf `"
+BONOBO_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gnomecanvaspixbuf gnomeui`"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanvaspixbuf gnomeui `"
 AC_SUBST(BONOBO_GNOME_LIBS)
 AC_SUBST(BONOBO_GNOME_CFLAGS)
 
-BONOBO_HTML_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf ` `glib-config --libs gthread`"
-BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf ` `glib-config --cflags gthread`"
+BONOBO_HTML_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` `glib-config --libs gthread`"
+BONOBO_HTML_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gtkhtml gnomecanvaspixbuf gnomeui ` `glib-config --cflags gthread`"
 AC_SUBST(BONOBO_HTML_GNOME_LIBS)
 AC_SUBST(BONOBO_HTML_GNOME_CFLAGS)
 
@@ -194,8 +194,8 @@ else
 	AC_MSG_ERROR(GNOME-VFS is required to compile Evolution)
 fi
 
-BONOBO_VFS_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"
-BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs `"
+BONOBO_VFS_GNOME_LIBS="`gnome-config --libs bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
+BONOBO_VFS_GNOME_CFLAGS="`gnome-config --cflags bonobo libglade gdk_pixbuf gnomecanvaspixbuf vfs gnomeui `"
 AC_SUBST(BONOBO_VFS_GNOME_LIBS)
 AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 
