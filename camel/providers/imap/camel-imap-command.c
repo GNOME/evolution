@@ -48,9 +48,13 @@ static CamelImapResponse *imap_read_response (CamelImapStore *store,
  * @ex: a CamelException
  * @fmt: a printf-style format string, followed by arguments
  *
- * This camel method sends the IMAP command specified by @fmt and the
- * following arguments to the IMAP store specified by @store. It then
- * reads the server's response(s) and parses the final result.
+ * This function makes sure that @folder (if non-%NULL) is the
+ * currently-selected folder on @store and then sends the IMAP command
+ * specified by @fmt and the following arguments. It then reads the
+ * server's response(s) and parses the final result.
+ *
+ * As a special case, if @fmt is %NULL, it will just select @folder
+ * and return the response from doing so.
  * 
  * Return value: %NULL if an error occurred (in which case @ex will
  * be set). Otherwise, a CamelImapResponse describing the server's
@@ -64,23 +68,25 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder,
 	va_list ap;
 
 	/* Check for current folder */
-	if (folder && folder != store->current_folder) {
+	if (folder && (!fmt || folder != store->current_folder)) {
 		char *folder_path;
 		CamelImapResponse *response;
 
 		folder_path = camel_imap_store_folder_path (store,
 							    folder->full_name);
+		store->current_folder = NULL;
 		response = camel_imap_command (store, NULL, ex,
 					       "SELECT \"%s\"", folder_path);
 		g_free (folder_path);
 
-		if (!response) {
-			store->current_folder = NULL;
+		if (!response)
 			return NULL;
-		}
-		camel_imap_response_free (response);
-
 		store->current_folder = folder;
+
+		if (!fmt)
+			return response;
+
+		camel_imap_response_free (response);
 	}
 
 	/* Send the command */
@@ -126,7 +132,7 @@ static CamelImapResponse *
 imap_read_response (CamelImapStore *store, CamelException *ex)
 {
 	CamelImapResponse *response;
-	int number, recent = 0;
+	int number, exists = 0;
 	GArray *expunged = NULL;
 	char *respbuf, *retcode, *p;
 
@@ -149,10 +155,10 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 		 * it ourselves.
 		 */
 		number = strtoul (respbuf + 2, &p, 10);
-		if (p != respbuf + 2) {
+		if (p != respbuf + 2 && store->current_folder) {
 			p = imap_next_word (p);
-			if (!g_strcasecmp (p, "RECENT")) {
-				recent = number;
+			if (!g_strcasecmp (p, "EXISTS")) {
+				exists = number;
 				g_free (respbuf);
 				goto next;
 			} else if (!g_strcasecmp (p, "EXPUNGE")) {
@@ -174,8 +180,8 @@ imap_read_response (CamelImapStore *store, CamelException *ex)
 	}
 
 	/* Update the summary */
-	if (store->current_folder && (recent > 0 || expunged)) {
-		camel_imap_folder_changed (store->current_folder, recent,
+	if (store->current_folder && (exists > 0 || expunged)) {
+		camel_imap_folder_changed (store->current_folder, exists,
 					   expunged, NULL);
 	}
 	if (expunged)

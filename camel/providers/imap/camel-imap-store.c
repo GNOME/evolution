@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include <gal/util/e-util.h>
 
@@ -198,6 +199,12 @@ imap_connect (CamelService *service, CamelException *ex)
 	store->command = 0;
 	g_free (store->dir_sep);
 	store->dir_sep = g_strdup ("/");  /* default dir sep */
+	if (!store->storage_path) {
+		store->storage_path =
+			camel_session_get_storage_path (session, service, ex);
+		if (camel_exception_is_set (ex))
+			return FALSE;
+	}
 	
 	/* Read the greeting, if any. */
 	if (camel_remote_store_recv_line (CAMEL_REMOTE_STORE (service), &buf, ex) < 0) {
@@ -410,9 +417,9 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelFolder *new_folder;
-	char *folder_path;
+	char *folder_path, *summary_file, *p;
 	gboolean selectable;
-	
+
 	folder_path = camel_imap_store_folder_path (imap_store, folder_name);
 	if (!imap_folder_exists (imap_store, folder_path, &selectable, ex)) {
 		if (!create) {
@@ -431,14 +438,26 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 		g_free (folder_path);
 		return NULL;
 	}
+
+	summary_file = g_strdup_printf ("%s/%s/#summary",
+					imap_store->storage_path,
+					folder_path);
+	p = strrchr (summary_file, '/');
+	*p = '\0';
+	if (e_mkdir_hier (summary_file, S_IRWXU) == 0) {
+		*p = '/';
+		new_folder = camel_imap_folder_new (store, folder_name,
+						    summary_file, ex);
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not create directory %s: %s",
+				      summary_file, g_strerror (errno));
+	}
+	g_free (summary_file);
 	g_free (folder_path);
 
-	new_folder = camel_imap_folder_new (store, folder_name);
-	camel_folder_refresh_info (new_folder, ex);
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (new_folder));
+	if (camel_exception_is_set (ex))
 		return NULL;
-	}
 
 	return new_folder;
 }

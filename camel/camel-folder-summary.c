@@ -521,6 +521,15 @@ void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid)
         }
 }
 
+void camel_folder_summary_remove_index(CamelFolderSummary *s, int index)
+{
+        CamelMessageInfo *oldinfo;
+
+	oldinfo = camel_folder_summary_index (s, index);
+	if (oldinfo)
+		camel_folder_summary_remove(s, oldinfo);
+}
+
 int
 camel_folder_summary_encode_uint32(FILE *out, guint32 value)
 {

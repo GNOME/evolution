@@ -181,6 +181,7 @@ CamelMessageInfo *camel_folder_summary_add_from_parser(CamelFolderSummary *, Cam
 /* removes a summary item, doesn't fix content offsets */
 void camel_folder_summary_remove(CamelFolderSummary *s, CamelMessageInfo *info);
 void camel_folder_summary_remove_uid(CamelFolderSummary *s, const char *uid);
+void camel_folder_summary_remove_index(CamelFolderSummary *s, int);
 /* remove all items */
 void camel_folder_summary_clear(CamelFolderSummary *s);
 

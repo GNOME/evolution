@@ -24,12 +24,14 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-folder.c			\
 	camel-imap-provider.c			\
 	camel-imap-store.c			\
+	camel-imap-summary.c			\
 	camel-imap-utils.c
 
 libcamelimapinclude_HEADERS =			\
 	camel-imap-command.h			\
 	camel-imap-folder.h			\
 	camel-imap-store.h			\
+	camel-imap-summary.h			\
 	camel-imap-utils.h
 
 libcamelimap_la_LDFLAGS = -version-info 0:0:0

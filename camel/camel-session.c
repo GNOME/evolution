@@ -354,26 +354,13 @@ camel_session_get_storage_path (CamelSession *session, CamelService *service,
 	if (access (path, F_OK) == 0)
 		return path;
 
-	p = path + strlen (session->storage_path);
-	do {
-		p = strchr (p + 1, '/');
-		if (p)
-			*p = '\0';
-		if (access (path, F_OK) == -1) {
-			if (mkdir (path, S_IRWXU) == -1) {
-				camel_exception_setv (ex,
-						      CAMEL_EXCEPTION_SYSTEM,
-						      "Could not create "
-						      "directory %s:\n%s",
-						      path,
-						      g_strerror (errno));
-				g_free (path);
-				return NULL;
-			}
-		}
-		if (p)
-			*p = '/';
-	} while (p);
+	if (e_mkdir_hier (path, S_IRWXU) == -1) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not create directory %s:\n%s",
+				      path, g_strerror (errno));
+		g_free (path);
+		return NULL;
+	}
 
 	return path;
 }

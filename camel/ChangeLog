@@ -1,3 +1,52 @@
+2000-10-12  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-summary.c: Simple subclass of
+	CamelFolderSummary that also keeps a UIDVALIDITY value (and
+	doesn't, for the moment, build content info).
+
+	* providers/imap/camel-imap-folder.c:
+	(various): Use a CamelImapSummary to store/fetch summary info.
+	(camel_imap_folder_new): Take a path to a file to use for the
+	summary. Set the folder's permanent_flags correctly according to
+	the server response. Read in the summary (checking the
+	UIDVALIDITY) and update it if it's out of date.
+	(imap_refresh_info): Just fetch UIDs and flags. If the UIDs all
+	match, update the flags as needed and be done with it. Otherwise,
+	delete messages that have been expunged from the server and fetch
+	full summary info for any new messages.
+	(imap_sync): Save the summary to disk.
+	(imap_update_summary): Renamed from imap_get_summary_internal. Can
+	now be told to get summary for only a subset of messages. Use
+	camel-mime-utils functions rather than rolling our own header
+	parsing.
+	(imap_get_message_info_internal): Merged into imap_update_summary.
+	(imap_set_message_flags): Don't marked the message FOLDER_FLAGGED
+	if we're not actually changing the value of any of the flags.
+	(camel_imap_folder_changed): Deal with EXISTS rather than RECENT.
+	
+	* providers/imap/camel-imap-store.c (imap_connect): Call
+	camel_session_get_storage_path and save the value.
+	(get_folder): Create a local directory to store summary
+	information and pass a summary file name to camel_imap_folder_new.
+	Don't call camel_folder_refresh_info from here any more since
+	camel_imap_folder_new does it again.
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): Add a
+	special case to this to make it possible to get the repsonses from
+	a SELECT and still have store->current_folder be updated
+	correctly.
+	(imap_read_response): parse EXISTS rather than RECENT
+
+	* camel-session.c (camel_session_get_storage_path): Use
+	e_mkdir_hier.
+
+	* camel-folder-summary.c (camel_folder_summary_remove_index): New
+	function.
+
+	* camel-mime-utils.c (header_raw_append_parse): fix this.
+	(camel-mime-parser.c doesn't use this code because of the MEMPOOL
+	optimization, so nothing was ever actually calling it before.)
+
 2000-10-11  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-part.h (struct _CamelMimePart): Removed
@@ -71,7 +120,6 @@
 	* providers/nntp/camel-nntp-newsrc.c: robustification and bug
 	fixes.
 
->>>>>>> 1.527
 2000-10-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-folder-summary.c (camel_summary_format_address): Decode

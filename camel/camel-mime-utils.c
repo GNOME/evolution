@@ -2583,14 +2583,13 @@ header_raw_append_parse(struct _header_raw **list, const char *header, int offse
 	in = header;
 	while (is_fieldname(*in) || *in==':')
 		in++;
-	fieldlen = in-header;
+	fieldlen = in-header-1;
 	while (is_lwsp(*in))
 		in++;
-	if (fieldlen == 0 || *in != ':') {
+	if (fieldlen == 0 || header[fieldlen] != ':') {
 		printf("Invalid header line: '%s'\n", header);
 		return;
 	}
-	in++;
 	name = alloca(fieldlen+1);
 	memcpy(name, header, fieldlen);
 	name[fieldlen] = 0;
