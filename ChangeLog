@@ -1,4 +1,19 @@
-1999-06-21  root  <guiheneu@linoleum.inria.fr>
+1999-06-22  root  <guiheneu@jean.joudboeuf.fr>
+
+	* camel/gmime-content-field.c (gmime_content_field_get_mime_type): 
+	new function, returns "type/subtype" mime type string.
+	(gmime_content_field_construct_from_string): 
+	new function, construbt a content_field object
+	form a string. be used to set the mime_type from a
+	string.
+
+	* camel/camel-mime-part.c (_set_content_type): 
+	(camel_mime_part_set_content_type): 
+	(_get_content_type): 
+	(_get_content_type): 
+	new methods.
+
+1999-06-21  bertrand  <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/gmime-utils.c (get_header_table_from_stream): 
 	replace CR/LF+'\t' with ' ' 

@@ -68,6 +68,8 @@ static void _set_content_languages (CamelMimePart *mime_part, GList *content_lan
 static GList *_get_content_languages (CamelMimePart *mime_part);
 static void _set_header_lines (CamelMimePart *mime_part, GList *header_lines);
 static GList *_get_header_lines (CamelMimePart *mime_part);
+static void _set_content_type (CamelMimePart *mime_part, GString *content_type);
+static GString *_get_content_type (CamelMimePart *mime_part);
 
 static CamelDataWrapper *_get_content_object(CamelMimePart *mime_part);
 static void _write_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream);
@@ -120,6 +122,8 @@ camel_mime_part_class_init (CamelMimePartClass *camel_mime_part_class)
 	camel_mime_part_class->get_header_lines=_get_header_lines;
 	camel_mime_part_class->parse_header_pair = _parse_header_pair;
 	camel_mime_part_class->get_content_object = _get_content_object;
+	camel_mime_part_class->set_content_type = _set_content_type;
+	camel_mime_part_class->get_content_type = _get_content_type;
 
 	
 	
@@ -133,6 +137,7 @@ camel_mime_part_init (gpointer   object,  gpointer   klass)
 	CamelMimePart *camel_mime_part = CAMEL_MIME_PART (object);
 
 	camel_mime_part->headers =  g_hash_table_new (g_string_hash, g_string_equal_for_hash);
+	camel_mime_part->content_type_field = gmime_content_field_new (NULL, NULL);
 
 }
 
@@ -491,6 +496,38 @@ camel_mime_part_get_content_object(CamelMimePart *mime_part)
 	return CMP_CLASS(mime_part)->get_content_object (mime_part);
 }
 
+
+static void
+_set_content_type (CamelMimePart *mime_part, GString *content_type)
+{
+	g_assert (content_type);
+	gmime_content_field_construct_from_string (mime_part->content_type_field, content_type);
+}
+
+void 
+camel_mime_part_set_content_type (CamelMimePart *mime_part, GString *content_type)
+{
+	CMP_CLASS(mime_part)->set_content_type (mime_part, content_type);
+}
+
+static GString *
+_get_content_type (CamelMimePart *mime_part)
+{
+	GString *mime_type;
+
+	mime_type = gmime_content_field_get_mime_type (mime_part->content_type_field);
+	return mime_type;
+}
+
+static GString *
+camel_mime_part_get_content_type (CamelMimePart *mime_part)
+{
+	return CMP_CLASS(mime_part)->get_content_type (mime_part);
+}
+
+
+
+/**********************************************************************/
 #ifdef WHPT
 #warning : WHPT is already defined !!!!!!
 #endif

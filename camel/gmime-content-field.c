@@ -27,6 +27,7 @@
 #include "gmime-content-field.h"
 #include "gstring-util.h"
 
+
 GMimeContentField *
 gmime_content_field_new (GString *type, GString *subtype)
 {
@@ -41,7 +42,7 @@ gmime_content_field_new (GString *type, GString *subtype)
 
 
 void 
-gmime_content_field_set_parameter(GMimeContentField *content_field, GString *attribute, GString *value)
+gmime_content_field_set_parameter (GMimeContentField *content_field, GString *attribute, GString *value)
 {
 	gboolean attribute_exists;
 	GString *old_attribute;
@@ -86,23 +87,34 @@ gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStre
 {
 	if (!content_field) return;
 	if ((content_field->type) && ((content_field->type)->str)) {
-		//fprintf (file, "Content-Type: %s", content_field->type->str);
 		camel_stream_write_strings (stream, "Content-Type: ", content_field->type->str, NULL);
 		if ((content_field->subtype) && ((content_field->subtype)->str)) {
-			//fprintf (file, "/%s", content_field->subtype->str);
 			camel_stream_write_strings (stream, "/", content_field->subtype->str, NULL);
 		}
 		/* print all parameters */
 		g_hash_table_foreach (content_field->parameters, _print_parameter, stream);
-		//fprintf (file, "\n");
 		camel_stream_write_string (stream, "\n");
 	}
 }
 
-GMimeContentField *
-gmime_content_field_construct_from_string (GString *string)
+GString * 
+gmime_content_field_get_mime_type (GMimeContentField *content_field)
 {
-	GMimeContentField *cf;
+	GString *mime_type;
+
+	if (!content_field->type) return NULL;
+	mime_type = g_string_clone (content_field->type);
+	if (content_field->subtype) {
+		g_string_append_c (mime_type, '/');
+		g_string_append_g_string (mime_type, content_field->subtype);
+	}
+	return mime_type;
+}
+
+
+void
+gmime_content_field_construct_from_string (GMimeContentField *content_field, GString *string)
+{
 	gint first, len;
 	gchar *str;
 	gint i=0;
@@ -113,31 +125,38 @@ gmime_content_field_construct_from_string (GString *string)
 	g_assert (string);
 	g_assert (string->str);
 
-	cf = g_new (GMimeContentField,1);
+	if (content_field->type) g_string_free (content_field->type, FALSE);
+	if (content_field->subtype) g_string_free (content_field->subtype, FALSE);
+	
 	str = string->str;
 	first = 0;
 	len = string->len;
-	if (!len) return NULL;
+	if (!len) return;
 
 	/* find the type */
 	while ( (i<len) && (!strchr ("/;", str[i])) ) i++;
 	
-	if (i == 0) return NULL;
+	if (i == 0) return;
 	
-	type = g_string_new (strndup (str, i));
-	if (i == len) return (gmime_content_field_new (type, NULL));
+	type = g_string_new (g_strndup (str, i));
+	content_field->type = type;
+	
+	if (i == len) {
+		content_field->subtype = NULL;
+		return;
+	}
 	
 	first = i+1;
 	/* find the subtype, if any */
 	if (str[i++] == '/') {
 		while ( (i<len) && (str[i] != ';') ) i++;
 		if (i != first) {
-			subtype = g_string_new (strndup (str+first, i-first));
-			if (first == len) return (gmime_content_field_new (type, subtype));
+			subtype = g_string_new (g_strndup (str+first, i-first));
+			content_field->subtype = subtype;
+			if (i == len) return;
 		}
  	}
 	first = i+1;
-	cf = gmime_content_field_new (type, subtype);
 
 	/* parse parameters list */
 	param_end = FALSE;
@@ -146,17 +165,35 @@ gmime_content_field_construct_from_string (GString *string)
 		if ((i == len) || (i==first)) param_end = TRUE;
 		else {
 			/* we have found parameter name */
-			param_name = g_string_new (strndup (str+first, i-first));
+			param_name = g_string_new (g_strndup (str+first, i-first));
 			i++;
 			first = i;
+			/* Let's find parameter value */
 			while ( (i<len) && (str[i] != ';') ) i++;
-			if (i != first) {
-				/** ****/
-			} else {
-
-			}
+			if (i != first) param_value = g_string_new (g_strndup (str+first, i-first));
+			else param_value = g_string_new ("");
+			gmime_content_field_set_parameter (content_field, param_name, param_value);
+			i++;
+			first = i;
 		}
 	} while ((!param_end) && (first < len));
 
-	return cf;
+}
+
+
+static void
+_free_parameter (gpointer name, gpointer value, gpointer user_data)
+{
+	g_string_free (name, FALSE);
+	g_string_free (value, FALSE);
+}
+
+void 
+gmime_content_field_free (GMimeContentField *content_field)
+{
+	g_hash_table_foreach (content_field->parameters, _free_parameter, NULL);
+	g_string_free (content_field->type, FALSE);
+	g_string_free (content_field->subtype, FALSE);
+	g_hash_table_destroy (content_field->parameters);
+	g_free (content_field);
 }

@@ -46,6 +46,9 @@ typedef struct {
 GMimeContentField *gmime_content_field_new (GString *type, GString *subtype);
 void gmime_content_field_set_parameter(GMimeContentField *content_field, GString *attribute, GString *value);
 void gmime_content_field_write_to_stream (GMimeContentField *content_field, CamelStream *stream);
+void gmime_content_field_construct_from_string (GMimeContentField *content_field, GString *string);
+void gmime_content_field_free (GMimeContentField *content_field);
+GString * gmime_content_field_get_mime_type (GMimeContentField *content_field);
 
 
 #ifdef __cplusplus
