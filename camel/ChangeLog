@@ -1,3 +1,8 @@
+2000-11-01  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_get_full_name): Deal
+	correctly with namespace == ""
+
 2000-11-01  Gediminas Paulauskas  <menesis@delfi.lt>
 
 	* camel-charset-map.c, camel-charset-map-private.h: synced all charsets

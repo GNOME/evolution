@@ -396,7 +396,7 @@ imap_get_full_name (CamelFolder *folder)
 	CamelURL *url = ((CamelService *)folder->parent_store)->url;
 	int len;
 
-	if (!url->path || !*url->path)
+	if (!url->path || !*url->path || !strcmp (url->path, "/"))
 		return folder->full_name;
 	len = strlen (url->path + 1);
 	if (!strncmp (url->path + 1, folder->full_name, len) &&
