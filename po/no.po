@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
-"POT-Creation-Date: 2001-08-20 22:33+0200\n"
-"PO-Revision-Date: 2001-08-20 22:56+0200\n"
+"POT-Creation-Date: 2001-08-21 09:15+0200\n"
+"PO-Revision-Date: 2001-08-21 09:29+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -723,7 +723,7 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr "Factory for adressebokens grensesnitt for navnevalg"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:156
-#: addressbook/gui/component/select-names/e-select-names.c:661
+#: addressbook/gui/component/select-names/e-select-names.c:729
 #: composer/e-msg-composer-attachment-bar.c:477 filter/filter-filter.c:401
 #: filter/filter-rule.c:543 shell/e-shortcuts-view.c:176
 #: shell/e-shortcuts-view.c:385
@@ -742,11 +742,11 @@ msgstr "Send HTML e-post?"
 msgid "Unnamed Contact"
 msgstr "Kontakt uten navn:"
 
-#: addressbook/gui/component/select-names/e-select-names.c:430
+#: addressbook/gui/component/select-names/e-select-names.c:487
 msgid "Unable to get local storage.  This should never happen."
 msgstr "Kunne ikke finne lokalt lager. Burde aldri skje."
 
-#: addressbook/gui/component/select-names/e-select-names.c:503
+#: addressbook/gui/component/select-names/e-select-names.c:560
 msgid "Select Contacts from Addressbook"
 msgstr "Velg kontakter fra adresseboken"
 
@@ -2316,7 +2316,7 @@ msgstr "Slett"
 
 #: addressbook/gui/widgets/e-addressbook-table-adapter.c:128
 #: addressbook/gui/widgets/e-addressbook-util.c:68
-#: addressbook/gui/widgets/e-minicard.c:451
+#: addressbook/gui/widgets/e-minicard.c:452
 msgid "Error modifying card"
 msgstr "Feil ved endring av kort"
 
@@ -4913,9 +4913,8 @@ msgid "make-time expects argument 1 to be a string"
 msgstr "lag-tid forventer at argument 1 er en streng"
 
 #: calendar/pcs/query.c:255
-#, fuzzy
 msgid "make-time argument 1 must be an ISO 8601 date/time string"
-msgstr "lag-tid forventer at argument 1 er en streng"
+msgstr "argument 1 til make-time må være en dato/tid streng på ISO 8601 format"
 
 #: calendar/pcs/query.c:284
 #, fuzzy
@@ -5790,7 +5789,7 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:837 mail/mail-local.c:333
+#: camel/providers/imap/camel-imap-store.c:837
 #, c-format
 msgid "No such folder %s"
 msgstr "Mappen %s eksisterer ikke"
@@ -6071,7 +6070,7 @@ msgstr "Kan ikke lage sammendrag for mappe: %s: %s"
 #: camel/providers/local/camel-mbox-summary.c:502
 #: camel/providers/local/camel-mbox-summary.c:703
 #: camel/providers/local/camel-spool-summary.c:644
-#: camel/providers/local/camel-spool-summary.c:931 mail/mail-ops.c:1549
+#: camel/providers/local/camel-spool-summary.c:931 mail/mail-ops.c:1550
 msgid "Synchronizing folder"
 msgstr "Synkroniserer mappe"
 
@@ -7566,7 +7565,7 @@ msgstr "Oops. Du må spesifisere minst en mappe som kilde."
 
 #: importers/elm-importer.c:470 importers/evolution-gnomecard-importer.c:228
 #: importers/netscape-importer.c:814 importers/pine-importer.c:627
-#: shell/e-shell-importer.c:651 shell/importer/intelligent.c:194
+#: shell/e-shell-importer.c:685 shell/importer/intelligent.c:194
 msgid "Import"
 msgstr "Importer"
 
@@ -7667,27 +7666,27 @@ msgstr "Mappe som inneholder e-post"
 msgid "This folder cannot contain messages."
 msgstr "Denne mappen kan ikke inneholde meldinger."
 
-#: mail/component-factory.c:334
+#: mail/component-factory.c:341
 msgid "Properties..."
 msgstr "Egenskaper ..."
 
-#: mail/component-factory.c:334
+#: mail/component-factory.c:341
 msgid "Change this folder's properties"
 msgstr "Endre denne mappens egenskaper"
 
-#: mail/component-factory.c:750
+#: mail/component-factory.c:757
 msgid "New Mail Message"
 msgstr "Ny e-post melding"
 
-#: mail/component-factory.c:750
+#: mail/component-factory.c:757
 msgid "New _Mail Message"
 msgstr "Ny e-post _melding"
 
-#: mail/component-factory.c:782
+#: mail/component-factory.c:789
 msgid "Cannot initialize Evolution's mail component."
 msgstr "Kan ikke initiere Evolutions e-postkomponent."
 
-#: mail/component-factory.c:921
+#: mail/component-factory.c:928
 msgid "Cannot register storage with shell"
 msgstr "Kan ikke registrere lagring i skallet"
 
@@ -8129,49 +8128,50 @@ msgstr "Er du sikker på at du vil åpne alle %d meldingene i separate vinduer?"
 #: mail/mail-config-druid.c:135
 msgid ""
 "Please enter your name and email address below. The \"optional\" fields "
-"below do not need to be filled in, unless you wish to include this "
-"information in email you send."
+"below do not need to be filled in,\n"
+"unless you wish to include this information in email you send."
 msgstr ""
-"Vennligst skriv inn ditt navn og din e-post adresse under. De \"valgfrie\" "
-"feltene under må ikke nødvendigvis fylles ut, hvis du ikke ønsker å "
-"inkludere denne informasjonen i e-post du sender."
+"Vennligst skriv inn navn og e-post adresse under. De \"valgfrie\" feltene under må ikke nødvendigvis fylles ut,\n"
+"hvis du ikke ønsker å inkludere denne informasjonen i meldingene du sender."
 
 #: mail/mail-config-druid.c:137
 msgid ""
-"Please enter information about your incoming mail server below. If you don't "
-"know what kind of server you use, contact your system administrator or "
-"Internet Service Provider."
+"Please enter information about your incoming mail server below. If you are "
+"not sure, ask your system\n"
+"administrator or Internet Service Provider."
 msgstr ""
-"Vennligst skriv inn informasjon om din tjener for innkommende e-post under. "
-"Hvis du ikke vet hvilken type tjener du bruker, kontakt din "
-"systemadministrator eller Internett tjenestetilbyder."
+"Vennligst skriv inn informasjon om din tjener for innkommende e-post under. Hvis du ikke er sikker, kontakt din systemadministrator\n"
+"eller Internett tjenestetilbyder."
+
+#: mail/mail-config-druid.c:139
+msgid "Please select among the following options"
+msgstr "Vennligst velg mellom følgende alternativer"
 
 #: mail/mail-config-druid.c:141
 msgid ""
-"Please enter information about your outgoing mail protocol below. If you "
-"don't know which protocol you use, contact your system administrator or "
-"Internet Service Provider."
+"Please enter information about the way you will send mail. If you are not "
+"sure, ask your system\n"
+"administrator or Internet Service Provider."
 msgstr ""
-"Vennligst skriv inn informasjon om protokoll for utgående e-post under. Hvis "
-"du ikke vet hvilken protokoll du bruker, kontakt din systemadministrator "
-"eller Internett tjenestetilbyder."
+"Vennligst skriv inn informasjon om måten du sender e-post. Hvis du ikke er sikker, kontakt din systemadministrator\n"
+"eller din Internett tjenestetilbyder."
 
 #: mail/mail-config-druid.c:143
 msgid ""
 "You are almost done with the mail configuration process. The identity, "
-"incoming mail server and outgoing mail transport method which you provided "
-"will be grouped together to make an Evolution mail account. Please enter a "
-"name for this account in the space below. This name will be used for display "
-"purposes only."
+"incoming mail server and\n"
+"outgoing mail transport method which you provided will be grouped together "
+"to\n"
+"make an Evolution mail account. Please enter a name for this account in the "
+"space below.\n"
+"This name will be used for display purposes only."
 msgstr ""
-"Du er nesten ferdig med konfigurasjonsprosessen. Verdiene for identitet, "
-"inkommende e-post-tjener og metode for utgående e-post-transport du har "
-"oppgitt vil grupperes sammen til en Evolution e-post-konto. Vennligst oppgi "
-"et navn for denne kontoen i feltet under. Dette navnet blir kun brukt for "
-"visning på skjermen."
+"Du er nesten ferdig med konfigurasjonsprosessen. Verdiene for identitet, inkommende e-post-tjener og\n"
+"metoode for utgående e-post-transport du har oppgitt vil grupperes sammen til en \n"
+"Evolution e-post-konto. Vennligst oppgi et navn for denne kontoen i feltet under. Dette navnet blir kun brukt for visning på skjermen."
 
 #. set window title
-#: mail/mail-config-druid.c:622
+#: mail/mail-config-druid.c:589
 msgid "Evolution Account Assistant"
 msgstr "Evolution kontoassistent"
 
@@ -8803,17 +8803,22 @@ msgstr "Peker til ukjent ekstern data (\"%s\"-type)"
 msgid "Malformed external-body part."
 msgstr "Feilutformet del for ekstern-kropp."
 
-#: mail/mail-local.c:466
+#: mail/mail-local.c:330
 #, c-format
-msgid "Opening '%s'"
-msgstr "Åpner '%s'"
+msgid "No such folder /%s"
+msgstr "Ingen slik mappe /%s"
 
-#: mail/mail-local.c:754
+#: mail/mail-local.c:460
+#, c-format
+msgid "Registering '%s'"
+msgstr "Registrerer '%s'"
+
+#: mail/mail-local.c:748
 #, c-format
 msgid "Changing folder \"%s\" to \"%s\" format"
 msgstr "Endrer mappe \"%s\" til \"%s\"-format"
 
-#: mail/mail-local.c:875
+#: mail/mail-local.c:869
 #, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
@@ -8822,7 +8827,7 @@ msgstr ""
 "Kan ikke lagre metainformasjon for mappe; du vil sannsynligvis\n"
 "ikke kunne åpne denne mappen igjen: %s"
 
-#: mail/mail-local.c:914
+#: mail/mail-local.c:909
 msgid ""
 "If you can no longer open this mailbox, then\n"
 "you may need to repair it manually."
@@ -8830,11 +8835,11 @@ msgstr ""
 "Hvis du ikke kan åpne denne postboksen igjen må\n"
 "du reparere den manuelt."
 
-#: mail/mail-local.c:1007
+#: mail/mail-local.c:1002
 msgid "You cannot change the format of a non-local folder."
 msgstr "Du kan ikke endre format på en ikke-lokal mappe."
 
-#: mail/mail-local.c:1018
+#: mail/mail-local.c:1013
 #, c-format
 msgid "Reconfigure %s"
 msgstr "Omkonfigurer %s"
@@ -8929,7 +8934,7 @@ msgstr "Søppel"
 msgid "Forwarded messages"
 msgstr "Videresendte meldinger"
 
-#: mail/mail-ops.c:1253 mail/mail-ops.c:1394
+#: mail/mail-ops.c:1253
 #, c-format
 msgid "Opening folder %s"
 msgstr "Åpner mappe %s"
@@ -8939,35 +8944,40 @@ msgstr "Åpner mappe %s"
 msgid "Opening store %s"
 msgstr "Åpner lager %s"
 
-#: mail/mail-ops.c:1460
+#: mail/mail-ops.c:1395
+#, c-format
+msgid "Creating folder %s"
+msgstr "Oppretter en ny mappe %s"
+
+#: mail/mail-ops.c:1465
 #, c-format
 msgid "Removing folder %s"
 msgstr "Fjerner mappe %s"
 
-#: mail/mail-ops.c:1599
+#: mail/mail-ops.c:1600
 msgid "Refreshing folder"
 msgstr "Oppfrisker mappe"
 
-#: mail/mail-ops.c:1635
+#: mail/mail-ops.c:1636
 msgid "Expunging folder"
 msgstr "Tømmer mappe"
 
-#: mail/mail-ops.c:1684
+#: mail/mail-ops.c:1685
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Henter melding %s"
 
-#: mail/mail-ops.c:1751
+#: mail/mail-ops.c:1752
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Henter %d melding(er)"
 
-#: mail/mail-ops.c:1837
+#: mail/mail-ops.c:1838
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Lagrer %d melding(er)"
 
-#: mail/mail-ops.c:1917
+#: mail/mail-ops.c:1918
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -8976,7 +8986,7 @@ msgstr ""
 "Kunne ikke opprette utdatafil: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1943
+#: mail/mail-ops.c:1944
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -8985,11 +8995,11 @@ msgstr ""
 "Feil under lagring av av meldinger til: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2017
+#: mail/mail-ops.c:2018
 msgid "Saving attachment"
 msgstr "Lagrer vedlegg"
 
-#: mail/mail-ops.c:2033
+#: mail/mail-ops.c:2034
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -8998,12 +9008,12 @@ msgstr ""
 "Kunne ikke opprette utdatafil: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2064
+#: mail/mail-ops.c:2065
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kan ikke skrive data: %s"
 
-#: mail/mail-ops.c:2133
+#: mail/mail-ops.c:2134
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Kobler fra %s"
@@ -10958,11 +10968,11 @@ msgstr "Velg en fil"
 msgid "File type:"
 msgstr "Filtype:"
 
-#: shell/e-shell-importer.c:599
+#: shell/e-shell-importer.c:623
 msgid "Select folder"
 msgstr "Velg mappe"
 
-#: shell/e-shell-importer.c:600
+#: shell/e-shell-importer.c:624
 msgid "Select a destination folder for importing this data"
 msgstr "Velg en målmappe for å importere data"
 
@@ -10970,7 +10980,7 @@ msgstr "Velg en målmappe for å importere data"
 msgid "Closing connections..."
 msgstr "Lukker forbindelser..."
 
-#: shell/e-shell-startup-wizard.c:536
+#: shell/e-shell-startup-wizard.c:539
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
@@ -10978,7 +10988,7 @@ msgstr ""
 "Vennligst vent...\n"
 "Søker etter eksisterende oppsett"
 
-#: shell/e-shell-startup-wizard.c:539
+#: shell/e-shell-startup-wizard.c:542
 msgid "Starting Intelligent Importers"
 msgstr "Starter intelligent import"
 
@@ -13598,9 +13608,6 @@ msgstr "init_bonobo(): kunne ikke initialisere Bonobo"
 
 #~ msgid "Renaming old folder and opening"
 #~ msgstr "Endrer navn på gammel mappe og gjenåpner"
-
-#~ msgid "Creating new folder"
-#~ msgstr "Oppretter en ny mappe"
 
 #~ msgid "Copying messages"
 #~ msgstr "Kopierer meldinger"
