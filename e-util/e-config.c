@@ -1244,7 +1244,7 @@ ech_commit(EConfig *ec, GSList *items, void *data)
 {
 	struct _EConfigHookGroup *group = data;
 
-	if (group->commit)
+	if (group->commit && group->hook->hook.plugin->enabled)
 		e_plugin_invoke(group->hook->hook.plugin, group->commit, ec->target);
 }
 
@@ -1253,7 +1253,7 @@ ech_abort(EConfig *ec, GSList *items, void *data)
 {
 	struct _EConfigHookGroup *group = data;
 
-	if (group->abort)
+	if (group->abort && group->hook->hook.plugin->enabled)
 		e_plugin_invoke(group->hook->hook.plugin, group->abort, ec->target);
 }
 
@@ -1280,7 +1280,8 @@ ech_config_factory(EConfig *emp, void *data)
 
 	d(printf("config factory called %s\n", group->id?group->id:"all menus"));
 
-	if (emp->target->type != group->target_type)
+	if (emp->target->type != group->target_type
+	    || !group->hook->hook.plugin->enabled)
 		return;
 
 	if (group->items)
@@ -1313,15 +1314,19 @@ static struct _GtkWidget *
 ech_config_widget_factory(EConfig *ec, EConfigItem *item, GtkWidget *parent, GtkWidget *old, void *data)
 {
 	struct _EConfigHookGroup *group = data;
-	EConfigHookItemFactoryData hdata;
 
-	hdata.config = ec;
-	hdata.item = item;
-	hdata.target = ec->target;
-	hdata.parent = parent;
-	hdata.old = old;
+	if (group->hook->hook.plugin->enabled) {
+		EConfigHookItemFactoryData hdata;
 
-	return (struct _GtkWidget *)e_plugin_invoke(group->hook->hook.plugin, (char *)item->user_data, &hdata);
+		hdata.config = ec;
+		hdata.item = item;
+		hdata.target = ec->target;
+		hdata.parent = parent;
+		hdata.old = old;
+
+		return (struct _GtkWidget *)e_plugin_invoke(group->hook->hook.plugin, (char *)item->user_data, &hdata);
+	} else
+		return NULL;
 }
 
 static struct _EConfigItem *
