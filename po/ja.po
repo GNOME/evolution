@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20000518\n"
-"POT-Creation-Date: 2000-05-18 01:48+0900\n"
-"PO-Revision-Date: 2000-05-18 02:09+0900\n"
+"POT-Creation-Date: 2000-05-22 03:08+0900\n"
+"PO-Revision-Date: 2000-05-22 03:09+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -39,8 +39,8 @@ msgid "Web page address:"
 msgstr "Web ページアドレス:"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:12
-msgid "Wants _HTML mail"
-msgstr "HTML メールを望む(_H)"
+msgid "Wants to receive _HTML mail"
+msgstr "HTML メールの受信を望む(_H)"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:13
 msgid "Address:"
@@ -140,7 +140,7 @@ msgid "Add"
 msgstr "追加"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:37
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:94
 msgid "Delete"
 msgstr "削除"
 
@@ -619,7 +619,7 @@ msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
 #: composer/e-msg-composer.c:427 composer/e-msg-composer.c:464
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:80
 msgid "Send"
 msgstr "送信"
 
@@ -667,126 +667,71 @@ msgstr "添付"
 msgid "Attach a file"
 msgstr "ファイルを添付する"
 
-#: mail/folder-browser-factory.c:85
-msgid ""
-"Hi.  Thanks for taking the time to download this preview release of\n"
-"the Evolution groupware suite.\n"
-"\n"
-"The Evolution team has worked hard to make Evolution as robust,\n"
-"extensible, pretty, fast and well-suited to heavy internet users as\n"
-"possible.  And we're very tired.  But we're not done -- not yet.\n"
-"\n"
-"As you explore Evolution, please understand that most of our work has\n"
-"been focused on the backend engine which drives the entire system and\n"
-"not on the user interface.  We are just cresting the hill now, though,\n"
-"and will be pouring most of our love and attention into the UI from\n"
-"here out.  But at least you know that you're not using demoware.\n"
-"\n"
-"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
-"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
-"send HTML mail to random mailing lists, and embarass you in front of\n"
-"your friends and co-workers.  Use at your own risk.\n"
-"\n"
-"We hope that you enjoy the results of our hard work, and we eagerly\n"
-"await your contributions!\n"
-msgstr ""
-"やあ，Evolution グループウェアスイートのこの preview release の\n"
-"ダウンロードに時間を割いてくれてありがとう\n"
-"\n"
-"Evolution チームは Evolution をヘビーインターネットユーザに可能\n"
-"な限り，丈夫で，拡張性があり，立派で，しっかりとしたそして便利に\n"
-"するために一生懸命作業して来ました. そして我々はひどく疲れました．\n"
-"しかしまだ終わっていません…まだです.\n"
-"\n"
-"あなたが Evolution を探求する時，どうか我々の作業の大部分がユーザ\n"
-"インターフェースに焦点を合わせられたのではなく，全体のシステムを\n"
-"駆動するバックエンドエンジンに焦点を合わせられたということを理解\n"
-"して下さい. 我々は現在ちょうど丘の頂上に達していてここから UI に\n"
-"我々の愛と注目の大部分を注いでいるでしょう．しかし少なくともあなた\n"
-"はデモウェアを使用していないのを知っています．\n"
-"\n"
-"だから，野暮な否認には調節してください．Evolution は: クラッシュ\n"
-"したり，あなたのメールを紛失したり，プロセスが動作したままたまに\n"
-"残ったり，100% の CPU パワーを消費したり，速く動いたり，ロックし\n"
-"たり，任意のメーリングリストに HTML メールを送ったり，そして，\n"
-"あなたの友人と仕事仲間の前で embarass するようになるでしょう．\n"
-"\n"
-"我々はあなたが我々の困難な作業の結果を楽しむことを望んでいて，そ\n"
-"してあなたの貢献を熱心に待ち受けます．\n"
-
-#: mail/folder-browser-factory.c:114
-msgid ""
-"Thanks\n"
-"The Evolution Team\n"
-msgstr ""
-"ありがとう\n"
-"Evolution チーム\n"
-
-#: mail/folder-browser-factory.c:138
+#: mail/folder-browser-factory.c:79
 msgid "Get mail"
 msgstr "新着メール"
 
-#: mail/folder-browser-factory.c:138
+#: mail/folder-browser-factory.c:79
 msgid "Check for new mail"
 msgstr "新着メールのチェック"
 
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:80
 msgid "Send a new message"
 msgstr "メッセージを送信する"
 
-#: mail/folder-browser-factory.c:140
+#: mail/folder-browser-factory.c:81
 msgid "Find"
 msgstr "検索"
 
-#: mail/folder-browser-factory.c:140
+#: mail/folder-browser-factory.c:81
 msgid "Find messages"
 msgstr "メッセージを検索する"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:85
 msgid "Reply"
 msgstr "返信"
 
-#: mail/folder-browser-factory.c:144
+#: mail/folder-browser-factory.c:85
 msgid "Reply to the sender of this message"
 msgstr "メッセージの差出人へ返信する"
 
-#: mail/folder-browser-factory.c:145
+#: mail/folder-browser-factory.c:86
 msgid "Reply to All"
 msgstr "全員へ返信"
 
-#: mail/folder-browser-factory.c:145
+#: mail/folder-browser-factory.c:86
 msgid "Reply to all recipients of this message"
 msgstr "このメッセージの受取人全員へ返信する"
 
-#: mail/folder-browser-factory.c:147
+#: mail/folder-browser-factory.c:88
 msgid "Forward"
 msgstr "転送"
 
-#: mail/folder-browser-factory.c:147
+#: mail/folder-browser-factory.c:88
 msgid "Forward this message"
 msgstr "このメッセージを転送する"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:92
 msgid "Print"
 msgstr "印刷"
 
-#: mail/folder-browser-factory.c:151
+#: mail/folder-browser-factory.c:92
 msgid "Print the selected message"
 msgstr "選択されたメッセージを印刷する"
 
-#: mail/folder-browser-factory.c:153
+#: mail/folder-browser-factory.c:94
 msgid "Delete this message"
 msgstr "このメッセージを削除する"
 
-#: mail/folder-browser-factory.c:170
+#: mail/folder-browser-factory.c:111
 msgid "_Expunge"
 msgstr "抹消(_E)"
 
-#: mail/folder-browser-factory.c:176
+#: mail/folder-browser-factory.c:117
 msgid "_Filter Druid"
 msgstr "フィルタドルイド(_F)"
 
-#: mail/folder-browser-factory.c:299
+#: mail/folder-browser-factory.c:231
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "すいませんが，Evolution のフォルダブラウザは初期化することが出来ません"
 
@@ -802,31 +747,31 @@ msgstr "メッセージプレビューは表示すべきかどうか"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
-#: mail/message-list.c:420
+#: mail/message-list.c:464
 msgid "Priority"
 msgstr "優先度"
 
-#: mail/message-list.c:434
+#: mail/message-list.c:478
 msgid "From"
 msgstr "差出人"
 
-#: mail/message-list.c:441
+#: mail/message-list.c:485
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:448
+#: mail/message-list.c:492
 msgid "Sent"
 msgstr "送信"
 
-#: mail/message-list.c:455
+#: mail/message-list.c:499
 msgid "Receive"
 msgstr "受信"
 
-#: mail/message-list.c:462
+#: mail/message-list.c:506
 msgid "To"
 msgstr "受取人"
 
-#: mail/message-list.c:469
+#: mail/message-list.c:513
 msgid "Size"
 msgstr "サイズ"
 
@@ -966,11 +911,66 @@ msgstr "行動(_A)"
 msgid "Cannot set up local storage -- %s"
 msgstr "局部記憶装置のセットアップが出来ません -- %s"
 
-#: shell/main.c:111
+#: shell/main.c:98
+msgid ""
+"Hi.  Thanks for taking the time to download this preview release of\n"
+"the Evolution groupware suite.\n"
+"\n"
+"The Evolution team has worked hard to make Evolution as robust,\n"
+"extensible, pretty, fast and well-suited to heavy internet users as\n"
+"possible.  And we're very tired.  But we're not done -- not yet.\n"
+"\n"
+"As you explore Evolution, please understand that most of our work has\n"
+"been focused on the backend engine which drives the entire system and\n"
+"not on the user interface.  We are just cresting the hill now, though,\n"
+"and will be pouring most of our love and attention into the UI from\n"
+"here out.  But at least you know that you're not using demoware.\n"
+"\n"
+"So, time for the nerdy disclaimer.  Evolution will: crash, lose your\n"
+"mail, leave stray processes running, consume 100% CPU, race, lock,\n"
+"send HTML mail to random mailing lists, and embarass you in front of\n"
+"your friends and co-workers.  Use at your own risk.\n"
+"\n"
+"We hope that you enjoy the results of our hard work, and we eagerly\n"
+"await your contributions!\n"
+msgstr ""
+"やあ，Evolution グループウェアスイートのこの preview release の\n"
+"ダウンロードに時間を割いてくれてありがとう\n"
+"\n"
+"Evolution チームは Evolution をヘビーインターネットユーザに可能\n"
+"な限り，丈夫で，拡張性があり，立派で，しっかりとしたそして便利に\n"
+"するために一生懸命作業して来ました. そして我々はひどく疲れました．\n"
+"しかしまだ終わっていません…まだです.\n"
+"\n"
+"あなたが Evolution を探求する時，どうか我々の作業の大部分がユーザ\n"
+"インターフェースに焦点を合わせられたのではなく，全体のシステムを\n"
+"駆動するバックエンドエンジンに焦点を合わせられたということを理解\n"
+"して下さい. 我々は現在ちょうど丘の頂上に達していてここから UI に\n"
+"我々の愛と注目の大部分を注いでいるでしょう．しかし少なくともあなた\n"
+"はデモウェアを使用していないのを知っています．\n"
+"\n"
+"だから，野暮な否認には調節してください．Evolution は: クラッシュ\n"
+"したり，あなたのメールを紛失したり，プロセスが動作したままたまに\n"
+"残ったり，100% の CPU パワーを消費したり，速く動いたり，ロックし\n"
+"たり，任意のメーリングリストに HTML メールを送ったり，そして，\n"
+"あなたの友人と仕事仲間の前で embarass するようになるでしょう．\n"
+"\n"
+"我々はあなたが我々の困難な作業の結果を楽しむことを望んでいて，そ\n"
+"してあなたの貢献を熱心に待ち受けます．\n"
+
+#: shell/main.c:127
+msgid ""
+"Thanks\n"
+"The Evolution Team\n"
+msgstr ""
+"ありがとう\n"
+"Evolution チーム\n"
+
+#: shell/main.c:170
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Bonobo コンポーネントシステムを初期化出来ません"
 
-#: shell/main.c:126
+#: shell/main.c:185
 msgid "Cannot initialize the Evolution shell."
 msgstr "Evolution シェルの初期化が出来ません"
 
