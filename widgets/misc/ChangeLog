@@ -1,3 +1,9 @@
+2001-01-25  Damon Chaplin  <damon@ximian.com>
+
+	* e-calendar-item.[hc]: e_calendar_item_get_date_range() now returns
+	a boolean, which is FALSE if no dates are currently shown.
+	Plus a couple of minor sanity checks.
+
 2001-01-19  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-calendar.c (e_calendar_init): Unset the GTK_CAN_FOCUS flag on

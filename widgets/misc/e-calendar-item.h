@@ -261,10 +261,11 @@ gint     e_calendar_item_get_days_start_week_sel(ECalendarItem	*calitem);
 void	 e_calendar_item_set_days_start_week_sel(ECalendarItem	*calitem,
 						 gint            days);
 
-/* Returns the range of dates actually shown. Months are 0 to 11.
+/* Gets the range of dates actually shown. Months are 0 to 11.
    This also includes the last days of the previous month and the first days
-   of the following month, which are normally shown in gray. */
-void	 e_calendar_item_get_date_range		(ECalendarItem	*calitem,
+   of the following month, which are normally shown in gray.
+   It returns FALSE if no dates are currently shown. */
+gboolean e_calendar_item_get_date_range		(ECalendarItem	*calitem,
 						 gint		*start_year,
 						 gint		*start_month,
 						 gint		*start_day,

@@ -792,11 +792,18 @@ e_calendar_item_update		(GnomeCanvasItem *item,
 	width -= xthickness * 2;
 	height -= ythickness * 2;
 
-	rows = height / calitem->min_month_height;
+	if (calitem->min_month_height == 0)
+		rows = 1;
+	else
+		rows = height / calitem->min_month_height;
 	rows = MAX (rows, calitem->min_rows);
 	if (calitem->max_rows > 0)
 		rows = MIN (rows, calitem->max_rows);
-	cols = width / calitem->min_month_width;
+
+	if (calitem->min_month_width == 0)
+		cols = 1;
+	else
+		cols = width / calitem->min_month_width;
 	cols = MAX (cols, calitem->min_cols);
 	if (calitem->max_cols > 0)
 		cols = MIN (cols, calitem->max_cols);
@@ -1504,16 +1511,20 @@ e_calendar_item_recalc_sizes		(ECalendarItem *calitem)
 	canvas_item = GNOME_CANVAS_ITEM (calitem);
 	style = GTK_WIDGET (canvas_item->canvas)->style;
 
+	if (!style)
+		return;
+
 	font = calitem->font;
 	if (!font)
 		font = style->font;
 	wkfont = calitem->week_number_font;
 	if (!wkfont)
 		wkfont = font;
-	char_height = font->ascent + font->descent;
 
 	g_return_if_fail (font != NULL);
 	g_return_if_fail (wkfont != NULL);
+
+	char_height = font->ascent + font->descent;
 
 	/* If both fonts are the same, just return. */
 	if (font != calitem->old_font
@@ -2261,8 +2272,11 @@ e_calendar_item_add_days_to_selection	(ECalendarItem	*calitem,
 }
 
 
-/* Returns the range of dates actually shown. Months are 0 to 11. */
-void
+/* Gets the range of dates actually shown. Months are 0 to 11.
+   This also includes the last days of the previous month and the first days
+   of the following month, which are normally shown in gray.
+   It returns FALSE if no dates are currently shown. */
+gboolean
 e_calendar_item_get_date_range	(ECalendarItem	*calitem,
 				 gint		*start_year,
 				 gint		*start_month,
@@ -2272,6 +2286,9 @@ e_calendar_item_get_date_range	(ECalendarItem	*calitem,
 				 gint		*end_day)
 {
 	gint first_day_offset, days_in_month, days_in_prev_month;
+
+	if (calitem->rows == 0 || calitem->cols == 0)
+		return FALSE;
 
 	/* Calculate the first day shown. This will be one of the greyed-out
 	   days before the first full month begins. */
@@ -2296,6 +2313,8 @@ e_calendar_item_get_date_range	(ECalendarItem	*calitem,
 	*end_month %= 12;
 	*end_day = E_CALENDAR_ROWS_PER_MONTH * E_CALENDAR_COLS_PER_MONTH
 		- first_day_offset - days_in_month;
+
+	return TRUE;
 }
 
 
