@@ -41,6 +41,7 @@
 #include "mail-local.h"
 #include "mail-session.h"
 #include "mail-mt.h"
+#include "mail-importer.h"
 #include "openpgp-utils.h"
 #include <gal/widgets/e-gui-utils.h>
 
@@ -267,6 +268,8 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_unset",
 			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (shell_component), "destroy",
+			    GTK_SIGNAL_FUNC (owner_unset_cb), NULL);
 
 	return BONOBO_OBJECT (shell_component);
 }
@@ -285,6 +288,7 @@ component_factory_init (void)
 							component_fn, NULL);
 	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID,
 						      summary_fn, NULL);
+	mail_importer_init ();
 
 	if (component_factory == NULL || summary_factory == NULL) {
 		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,

@@ -942,6 +942,19 @@ non_equal (gconstpointer a, gconstpointer b)
 	return TRUE;
 }
 
+CamelFolder *
+mail_local_lookup_folder (const char *name,
+			  CamelException *ev)
+{
+	MailLocalStore *local_store;
+
+	local_store = (MailLocalStore *)camel_session_get_service (session,
+								   "file:/",
+								   CAMEL_PROVIDER_STORE, NULL);
+
+	return get_folder (local_store, name, 0, ev);
+}
+
 void
 mail_local_storage_startup (EvolutionShellClient *shellclient,
 			    const char *evolution_path)

@@ -1,34 +1,52 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/* evolution-outlook-importer.c
+ *
+ * Authors: Iain Holmes <iain@ximian.com>
+ *
+ * Copyright (C) 2001  Ximian, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ */
+
+
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <bonobo.h>
-#include <gnome.h>
-#include <liboaf/liboaf.h>
+#endif
+
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+
 #include <stdio.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
-#include <camel/camel-session.h>
-#include <camel/camel-folder.h>
-#include <camel/camel-store.h>
-#include <camel/camel-mime-message.h>
-#include <camel/camel-stream-mem.h>
+#include "mail-importer.h"
+
 #include <camel/camel-exception.h>
-#include <camel/camel-url.h>
 
-#define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Outlook_ImporterFactory"
-
-static BonoboGenericFactory *factory = NULL;
-
+extern char *evolution_dir;
 typedef struct {
+	MailImporter importer;
+
 	char *filename;
 	gboolean oe4; /* Is file OE4 or not? */
 	FILE *handle;
 	fpos_t pos;
 	off_t size;
-
-	CamelStream *mstream;
-	CamelFolder *folder;
 
 	gboolean busy;
 } OutlookImporter;
@@ -46,55 +64,19 @@ typedef struct oe_msg_segmentheader oe_msg_segmentheader;
 
 /* EvolutionImporter methods */
 
-static void
-add_line (OutlookImporter *oli,
-	  const char *str,
-	  gboolean finished)
-{
-	CamelMimeMessage *msg;
-	CamelMessageInfo *info;
-	CamelException *ex;
-
-	if (oli->mstream == NULL) {
-		oli->mstream = camel_stream_mem_new ();
-	}
-
-	camel_stream_write (oli->mstream, str, strlen (str));
-	
-	if (finished == FALSE)
-		return;
-
-	camel_stream_reset (oli->mstream);
-	info = g_new0 (CamelMessageInfo, 1);
-	info->flags = CAMEL_MESSAGE_SEEN;
-
-	msg = camel_mime_message_new ();
-	camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg),
-						  oli->mstream);
-	
-	camel_object_unref (CAMEL_OBJECT (oli->mstream));
-	oli->mstream = NULL;
-
-	ex = camel_exception_new ();
-	camel_folder_append_message (oli->folder, msg, info, ex);
-	camel_object_unref (CAMEL_OBJECT (msg));
-
-	camel_exception_free (ex);
-	g_free (info);
-}
-
 /* Based on code from liboe 0.92 (STABLE)
    Copyright (C) 2000 Stephan B. Nedregård (stephan@micropop.com)
    Modified 2001 Iain Holmes  <iain@ximian.com>
    Copyright (C) 2001 Ximian, Inc. */
 
 static void
-process_item_fn (EvolutionImporter *importer,
+process_item_fn (EvolutionImporter *eimporter,
 		 CORBA_Object listener,
 		 void *closure,
 		 CORBA_Environment *ev)
 {
 	OutlookImporter *oli = (OutlookImporter *) closure;
+	MailImporter *importer = (MailImporter *) oli;
 	oe_msg_segmentheader *header;
 	gboolean more = TRUE;
 	char *cb, *sfull, *s;
@@ -113,7 +95,8 @@ process_item_fn (EvolutionImporter *importer,
 	fread (header, 16, 1, oli->handle);
 
 	/* Write a From line */
-	add_line (oli, "From evolution-outlook-importer", FALSE);
+	mail_importer_add_line (importer, 
+				"From evolution-outlook-importer", FALSE);
 	end_pos = oli->pos + header->include;
 	if (end_pos >= oli->size) {
 		end_pos = oli->size;
@@ -134,7 +117,8 @@ process_item_fn (EvolutionImporter *importer,
 
 				if (*(cb + i) == 0x0a) {
 					*s = '\0';
-					add_line (oli, sfull, FALSE);
+					mail_importer_add_line (importer, 
+								sfull, FALSE);
 					s = sfull;
 				}
 			}
@@ -143,11 +127,11 @@ process_item_fn (EvolutionImporter *importer,
 
 	if (s != sfull) {
 		*s = '\0';
-		add_line (oli, sfull, FALSE);
+		mail_importer_add_line (importer, sfull, FALSE);
 		s = sfull;
 	}
 
-	add_line (oli, "\n", TRUE);
+	mail_importer_add_line (importer, "\n", TRUE);
 
 	oli->pos = end_pos;
 	fsetpos (oli->handle, &oli->pos);
@@ -163,8 +147,8 @@ process_item_fn (EvolutionImporter *importer,
 		CamelException *ex;
 
 		ex = camel_exception_new ();
-		camel_folder_thaw (oli->folder);
-		camel_folder_sync (oli->folder, FALSE, ex);
+		camel_folder_thaw (importer->folder);
+		camel_folder_sync (importer->folder, FALSE, ex);
 		camel_exception_free (ex);
 		fclose (oli->handle);
 		oli->handle = NULL;
@@ -216,38 +200,49 @@ static void
 importer_destroy_cb (GtkObject *object,
 		     OutlookImporter *oli)
 {
-	if (oli->folder)
-		camel_object_unref (CAMEL_OBJECT (oli->folder));
+	MailImporter *importer;
+
+	importer = (MailImporter *) oli;
+	if (importer->folder)
+		camel_object_unref (CAMEL_OBJECT (importer->folder));
+
 	g_free (oli->filename);
 	if (oli->handle)
 		fclose (oli->handle);
+
 	g_free (oli);
 }
 
 static gboolean
-load_file_fn (EvolutionImporter *importer,
+load_file_fn (EvolutionImporter *eimporter,
 	      const char *filename,
 	      void *closure)
 {
 	OutlookImporter *oli;
-	CamelException *ex;
+	MailImporter *importer;
 	struct stat buf;
 	fpos_t pos = 0x54;
 
 	oli = (OutlookImporter *) closure;
+	importer = (MailImporter *) oli;
+
 	oli->filename = g_strdup (filename);
 	/* Will return TRUE if oe4 format */
 	oli->oe4 = support_format_fn (NULL, filename, NULL);
-	if (oli->oe4 == FALSE)
+	if (oli->oe4 == FALSE) {
+		g_warning ("Not OE4 format");
 		return FALSE;
+	}
 
 	oli->handle = fopen (filename, "rb");
 	if (oli->handle == NULL) {
+		g_warning ("Cannot open the file");
 		return FALSE;
 	}
 
 	/* Get size of file */
 	if (stat (filename, &buf) == -1) {
+		g_warning ("Cannot stat file");
 		return FALSE;
 	}
 	
@@ -257,30 +252,29 @@ load_file_fn (EvolutionImporter *importer,
 	fsetpos (oli->handle, &pos);
 	oli->pos = pos;
 
-	oli->mstream = NULL;
+	importer->mstream = NULL;
 
-	ex = camel_exception_new ();
-	oli->folder = mail_local_lookup_folder ("home/iain/evolution/local/Inbox", ex);
-	camel_exception_free (ex);
+	importer->folder = mail_importer_get_folder ("Inbox", NULL);
 
-	if (oli->folder == NULL){
-		g_print ("Bad folder\n");
+	if (importer->folder == NULL){
+		g_warning ("Bad folder");
 		return FALSE;
 	}
 
-	camel_folder_freeze (oli->folder);
+	camel_folder_freeze (importer->folder);
 	oli->busy = FALSE;
 	return TRUE;
 }
 
-static BonoboObject *
-factory_fn (BonoboGenericFactory *_factory,
-	    void *closure)
+BonoboObject *
+outlook_factory_fn (BonoboGenericFactory *_factory,
+		    void *closure)
 {
 	EvolutionImporter *importer;
 	OutlookImporter *oli;
 
 	oli = g_new0 (OutlookImporter, 1);
+
 	importer = evolution_importer_new (support_format_fn, load_file_fn, 
 					   process_item_fn, NULL, oli);
 	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
@@ -289,17 +283,5 @@ factory_fn (BonoboGenericFactory *_factory,
 	return BONOBO_OBJECT (importer);
 }
 
-void
-outlook_importer_init (void)
-{
-	if (factory != NULL)
-		return;
 
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID,
-					      factory_fn, NULL);
-
-	if (factory == NULL) {
-		g_error ("Unable to create factory.");
-	}
-}
 
