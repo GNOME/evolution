@@ -1,3 +1,8 @@
+2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (transfer_msg): Prepend the uri with evolution:
+	to fix bug #6916.
+
 2001-08-10  Jason Leach  <jleach@ximian.com>
 
 	* folder-browser.c: Make the context menu for the Sent folder have

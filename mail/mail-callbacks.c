@@ -999,7 +999,7 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	path = strchr (uri, '/');
 	if (path && strcmp (last, path) != 0) {
 		g_free (last);
-		last = g_strdup (path);
+		last = g_strdup_printf ("evolution:%s", path);
 	}
 	g_free (uri);
 	
