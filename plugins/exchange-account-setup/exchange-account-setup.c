@@ -602,29 +602,42 @@ exchange_authtype_changed (GtkComboBox *dropdown, EConfig *config)
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	CamelServiceAuthType *authtype;
-	CamelURL *url;
-	const char *source_url;
-	char *url_string;
+	CamelURL *url_source, *url_transport;
+	const char *source_url, *transport_url;
+	char *source_url_string, *transport_url_string;
 
 	source_url = e_account_get_string (target->account,
 					   E_ACCOUNT_SOURCE_URL);
 	if (id == -1)
 		return;
 
-	url = camel_url_new (source_url, NULL);
+	url_source = camel_url_new (source_url, NULL);
+
+	transport_url = e_account_get_string (target->account,
+					      E_ACCOUNT_TRANSPORT_URL);
+	url_transport = camel_url_new (transport_url, NULL);
+	
 	model = gtk_combo_box_get_model(dropdown);
 	if (gtk_tree_model_iter_nth_child(model, &iter, NULL, id)) {
 		gtk_tree_model_get(model, &iter, 1, &authtype, -1);
-		if (authtype)
-			camel_url_set_authmech(url, authtype->authproto);
-		else
-			camel_url_set_authmech(url, NULL);
+		if (authtype) {
+			camel_url_set_authmech(url_source, authtype->authproto);
+			camel_url_set_authmech(url_transport, authtype->authproto);
+		}
+		else {
+			camel_url_set_authmech(url_source, NULL);
+			camel_url_set_authmech(url_transport, NULL);
+		}
 	
-		url_string = camel_url_to_string(url, 0);
-		e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, url_string);
-		g_free(url_string);
+		source_url_string = camel_url_to_string(url_source, 0);
+		transport_url_string = camel_url_to_string(url_transport, 0);
+		e_account_set_string(target->account, E_ACCOUNT_SOURCE_URL, source_url_string);
+		e_account_set_string(target->account, E_ACCOUNT_TRANSPORT_URL, transport_url_string);
+		g_free(source_url_string);
+		g_free(transport_url_string);
 	}
-	camel_url_free(url);
+	camel_url_free(url_source);
+	camel_url_free(url_transport);
 }
 
 
