@@ -1116,7 +1116,7 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 }
 
 static void
-folder_browser_search_query_changed (ESearchBar *esb, FolderBrowser *fb)
+folder_browser_search_do_search (ESearchBar *esb, FolderBrowser *fb)
 {
 	char *search_word;
 
@@ -1804,9 +1804,11 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (GTK_WIDGET (fb->search));
 	
 	gtk_signal_connect (GTK_OBJECT (fb->search), "query_changed",
-			    GTK_SIGNAL_FUNC (folder_browser_search_query_changed), fb);
+			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
 	gtk_signal_connect (GTK_OBJECT (fb->search), "menu_activated",
 			    GTK_SIGNAL_FUNC (folder_browser_search_menu_activated), fb);
+	gtk_signal_connect (GTK_OBJECT (fb->search), "search_activated",
+			    GTK_SIGNAL_FUNC (folder_browser_search_do_search), fb);
 	
 	
 	gtk_table_attach (GTK_TABLE (fb), GTK_WIDGET (fb->search),

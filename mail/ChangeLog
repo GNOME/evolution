@@ -1,3 +1,11 @@
+2002-02-24  Chris Toshok  <toshok@ximian.com>
+
+	* folder-browser.c (folder_browser_search_do_search): rename
+	folder_browser_search_query_changed to this.
+	(folder_browser_gui_init): hook both query_changed and
+	search_activated up to folder_browser_search_do_search, preserving
+	current behavior.
+
 2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (launch_cb): Some programs are buggy when it
