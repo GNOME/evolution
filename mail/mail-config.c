@@ -427,14 +427,62 @@ config_cache_mime_types (void)
 }
 
 static void
+config_spell_ensure_copy ()
+{
+	gboolean copied = gconf_client_get_bool (config->gconf, "/apps/evolution/mail/composer/spell_copied_from_old_location", NULL);
+
+	if (!copied) {
+		GConfValue *val;
+		GdkColor color;
+		gchar *language;
+#define GET(t,x,prop,c) \
+        val = gconf_client_get_without_default (config->gconf, "/GNOME/Spell/" x, NULL); \
+        if (val) { prop = c (gconf_value_get_ ## t (val)); \
+        gconf_value_free (val); }
+
+		GET (int, "spell_error_color_red", color.red, (int));
+		if (val) {
+			gchar *str_color;
+
+			GET (int, "spell_error_color_green", color.green, (int));
+			GET (int, "spell_error_color_blue",  color.blue, (int));
+			str_color = g_strdup_printf ("#%02x%02x%02x", 0xff & (color.red >> 8), 0xff & (color.green >> 8), 0xff & (color.blue >> 8));
+			gconf_client_set_string (config->gconf, "/apps/evolution/mail/composer/spell_error_color", str_color, NULL);
+			g_free (str_color);
+		}
+	
+		GET (string, "language", language, g_strdup);
+		if (val) {
+			gconf_client_set_string (config->gconf, "/apps/evolution/mail/composer/spell_language", language, NULL);
+			g_free (language);
+		}
+
+		gconf_client_set_bool (config->gconf, "/apps/evolution/mail/composer/spell_copied_from_old_location", TRUE, NULL);
+		gconf_client_suggest_sync (config->gconf, NULL);
+	}
+}
+
+static void
+config_spell_get_error_color (GdkColor *color)
+{
+	gchar *str_color;
+
+	config_spell_ensure_copy ();
+
+	str_color = gconf_client_get_string (config->gconf, "/apps/evolution/mail/composer/spell_error_color", NULL);
+	gdk_color_parse (str_color, color);
+	g_free (str_color);
+}
+
+static void
 config_write_style (void)
 {
+	GdkColor spell_error_color;
 	char *filename;
 	FILE *rc;
 	gboolean custom;
 	char *fix_font;
 	char *var_font;
-	gint red, green, blue;
 	
 	/*
 	 * This is the wrong way to get the path but it needs to 
@@ -458,13 +506,11 @@ config_write_style (void)
 	var_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/variable", NULL);
 	fix_font = gconf_client_get_string (config->gconf, "/apps/evolution/mail/display/fonts/monospace", NULL);
 
-	red   = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_red", NULL);
-	green = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_green", NULL);
-	blue  = gconf_client_get_int (config->gconf, "/GNOME/Spell/spell_error_color_blue", NULL);
+	config_spell_get_error_color (&spell_error_color);
 
 	fprintf (rc, "style \"evolution-mail-custom-fonts\" {\n");
 	fprintf (rc, "        GtkHTML::spell_error_color = \"#%02x%02x%02x\"\n",
-		 red >> 8, green >> 8, blue >> 8);
+		 0xff & (spell_error_color.red >> 8), 0xff & (spell_error_color.green >> 8), 0xff & (spell_error_color.blue >> 8));
 
 	if (custom && var_font && fix_font) {
 		fprintf (rc,
@@ -528,13 +574,14 @@ mail_config_init (void)
 	gtk_rc_parse (filename);
 	g_free (filename);
 	
-	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts", 			      
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
-	gconf_client_add_dir (config->gconf, "/GNOME/Spell", 			      
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/composer/",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	config_spell_ensure_copy ();
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
 							  gconf_style_changed, NULL, NULL, NULL);
-	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/GNOME/Spell",
+	config->spell_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/composer/",
 							   gconf_style_changed, NULL, NULL, NULL);
 
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",

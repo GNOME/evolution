@@ -565,11 +565,6 @@ spell_get_ui (MailComposerPrefs *prefs)
 	prefs->language_str = spell_get_language_str (prefs);
 }
 
-#define GET(t,x,prop,f,c) \
-        val = gconf_client_get_without_default (prefs->gconf, GNOME_SPELL_GCONF_DIR x, NULL); \
-        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
-        gconf_value_free (val); }
-
 static void
 spell_save_orig (MailComposerPrefs *prefs)
 {
@@ -590,6 +585,7 @@ static void
 spell_load_values (MailComposerPrefs *prefs)
 {
 	GConfValue *val;
+	gchar *str_color;
 	char *def_lang;
 
 	def_lang = g_strdup (e_iconv_locale_language ());
@@ -598,13 +594,15 @@ spell_load_values (MailComposerPrefs *prefs)
 	prefs->spell_error_color.red   = 0xffff;
 	prefs->spell_error_color.green = 0;
 	prefs->spell_error_color.blue  = 0;
-	
-	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red, (void)0, (int));
-	GET (int, "/spell_error_color_green", prefs->spell_error_color.green, (void)0, (int));
-	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue, (void)0, (int));
-	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
-	
-	if (prefs->language_str == NULL)
+
+	str_color = gconf_client_get_string (prefs->gconf, "/apps/evolution/mail/composer/spell_error_color", NULL);
+	gdk_color_parse (str_color, &prefs->spell_error_color);
+
+        val = gconf_client_get_without_default (prefs->gconf, "/apps/evolution/mail/composer/spell_language", NULL);
+        if (val) {
+		prefs->language_str = g_strdup (gconf_value_get_string (val));
+		gconf_value_free (val);
+	} else
 		prefs->language_str = g_strdup (def_lang);
 	
 	spell_save_orig (prefs);
@@ -612,23 +610,22 @@ spell_load_values (MailComposerPrefs *prefs)
 	g_free (def_lang);
 }
 
-#define SET(t,x,prop) \
-        gconf_client_set_ ## t (prefs->gconf, GNOME_SPELL_GCONF_DIR x, prop, NULL);
-
 #define STR_EQUAL(str1, str2) ((str1 == NULL && str2 == NULL) || (str1 && str2 && !strcmp (str1, str2)))
 
 static void
 spell_save_values (MailComposerPrefs *prefs, gboolean force)
 {
 	if (force || !gdk_color_equal (&prefs->spell_error_color, &prefs->spell_error_color_orig)) {
-		SET (int, "/spell_error_color_red",   prefs->spell_error_color.red);
-		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
-		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
+		gchar *str_color = g_strdup_printf ("#%02x%02x%02x",
+						    prefs->spell_error_color.red >> 8,
+						    prefs->spell_error_color.green >> 8,
+						    prefs->spell_error_color.blue >> 8);
+		gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/spell_error_color", str_color, NULL);
+		g_free (str_color);
 	}
 	
-	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig)) {
-		SET (string, "/language", prefs->language_str ? prefs->language_str : "");
-	}
+	if (force || !STR_EQUAL (prefs->language_str, prefs->language_str_orig))
+		gconf_client_set_string (prefs->gconf, "/apps/evolution/mail/composer/spell_language", prefs->language_str ? prefs->language_str : "", NULL);
 	
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }
