@@ -1,4 +1,4 @@
-defaultcalendardir = $(datadir)/evolution-$(BASE_VERSION)/default_user/local/Trash
-defaultcalendar_DATA = folder-metadata.xml
+defaulttrashdir = $(privdatadir)/default_user/local/Trash
+defaulttrash_DATA = folder-metadata.xml
 
-EXTRA_DIST = $(defaultcalendar_DATA)
+EXTRA_DIST = $(defaulttrash_DATA)

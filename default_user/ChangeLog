@@ -1,3 +1,15 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: Use privdatadir
+	* local/Trash/Makefile.am: Likewise.
+	* local/Tasks/Makefile.am: Likewise.
+	* local/Sent/Makefile.am: Likewise.
+	* local/Outbox/Makefile.am: Likewise.
+	* local/Inbox/Makefile.am: Likewise.
+	* local/Drafts/Makefile.am: Likewise.
+	* local/Contacts/Makefile.am: Likewise.
+	* local/Calendar/Makefile.am: Likewise.
+
 2003-01-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Version using $(BASE_VERSION).
