@@ -20,16 +20,22 @@
  * Boston, MA 02111-1307, USA.
  */
 
+
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include "em-utils.h"
 #include "evolution-composer.h"
-#include "mail-accounts.h"
 #include "mail-component.h"
-#include "mail-composer-prefs.h"
+#include "em-account-prefs.h"
+#include "em-composer-prefs.h"
+#include "em-mailer-prefs.h"
+
 #include "mail-config-druid.h"
 #include "mail-config-factory.h"
 #include "mail-config.h"
 #include "mail-mt.h"
-#include "mail-preferences.h"
 
 #include <bonobo-activation/bonobo-activation.h>
 #include <bonobo/bonobo-shlib-factory.h>
@@ -67,9 +73,9 @@ factory (BonoboGenericFactory *factory,
 		return (BonoboObject *)g_object_new (evolution_mail_config_get_type (), NULL);
 	} else if (strcmp(component_id, WIZARD_ID) == 0) {
 		return evolution_mail_config_wizard_new();
-	} else if (strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID) == 0
-		   || strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID) == 0
-		   || strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID) == 0) {
+	} else if (strcmp (component_id, EM_ACCOUNT_PREFS_CONTROL_ID) == 0
+		   || strcmp (component_id, EM_MAILER_PREFS_CONTROL_ID) == 0
+		   || strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID) == 0) {
 		return mail_config_control_factory_cb (factory, component_id, CORBA_OBJECT_NIL);
 	} else if (strcmp(component_id, COMPOSER_ID) == 0) {
 		/* FIXME: how to remove need for callbacks, probably make the composer more tightly integrated with mail */

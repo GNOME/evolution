@@ -42,7 +42,7 @@
 #include "mail-send-recv.h"
 #include "mail-signature-editor.h"
 #include "mail-component.h"
-#include "mail-composer-prefs.h"
+#include "em-composer-prefs.h"
 #include "mail-config.h"
 #include "mail-ops.h"
 #include "mail-mt.h"
@@ -1308,7 +1308,7 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 	parent = gtk_widget_get_toplevel (w);
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 	
-	gui->def_signature = mail_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
+	gui->def_signature = em_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
 	gui->auto_signature = FALSE;
 	
 	gtk_option_menu_set_history (GTK_OPTION_MENU (gui->sig_option_menu), sig_gui_get_index (gui));
@@ -1407,7 +1407,7 @@ prepare_signatures (MailAccountGui *gui)
 }
 
 MailAccountGui *
-mail_account_gui_new (EAccount *account, MailAccountsTab *dialog)
+mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 {
 	MailAccountGui *gui;
 	GtkWidget *button;

@@ -4,7 +4,7 @@
  *    Jeffrey Stedfast <fejj@ximian.com>
  *    Dan Winship <danw@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -132,7 +132,7 @@ editor_response_cb (GtkWidget *widget, int button, gpointer user_data)
 }
 
 static void
-construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog)
+construct (MailAccountEditor *editor, EAccount *account, EMAccountPrefs *dialog)
 {
 	EAccountService *source = account->source;
 	
@@ -162,7 +162,7 @@ construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog
 }
 
 MailAccountEditor *
-mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *dialog)
+mail_account_editor_new (EAccount *account, GtkWindow *parent, EMAccountPrefs *dialog)
 {
 	MailAccountEditor *new;
 	

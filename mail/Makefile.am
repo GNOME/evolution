@@ -83,6 +83,12 @@ libevolution_mail_la_SOURCES =			\
 	$(MAILER_IDL_GENERATED)			\
 	e-searching-tokenizer.c			\
 	e-searching-tokenizer.h			\
+	em-account-prefs.c			\
+	em-account-prefs.h			\
+	em-composer-prefs.c			\
+	em-composer-prefs.h			\
+	em-mailer-prefs.c			\
+	em-mailer-prefs.h			\
 	em-inline-filter.c			\
 	em-inline-filter.h			\
 	em-folder-selection.c			\
@@ -133,15 +139,11 @@ libevolution_mail_la_SOURCES =			\
 	mail-account-editor.h			\
 	mail-account-gui.c			\
 	mail-account-gui.h			\
-	mail-accounts.c				\
-	mail-accounts.h				\
 	mail-autofilter.c			\
 	mail-autofilter.h			\
 	mail-component-factory.c		\
 	mail-component.c			\
 	mail-component.h			\
-	mail-composer-prefs.c			\
-	mail-composer-prefs.h			\
 	mail-config.c				\
 	mail-config.h				\
 	mail-config-druid.c			\
@@ -150,8 +152,6 @@ libevolution_mail_la_SOURCES =			\
 	mail-crypto.h				\
 	mail-config-factory.c			\
 	mail-config-factory.h			\
-	mail-preferences.c			\
-	mail-preferences.h			\
 	mail-folder-cache.c			\
 	mail-folder-cache.h			\
 	mail-importer.c				\

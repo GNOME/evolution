@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #include <string.h>
 
-#include "mail-preferences.h"
+#include "em-mailer-prefs.h"
 
 #include <gal/util/e-iconv.h>
 #include <gtkhtml/gtkhtml-properties.h>
@@ -37,56 +37,56 @@
 #include "mail-config.h"
 
 
-static void mail_preferences_class_init (MailPreferencesClass *class);
-static void mail_preferences_init       (MailPreferences *dialog);
-static void mail_preferences_finalise   (GObject *obj);
+static void em_mailer_prefs_class_init (EMMailerPrefsClass *class);
+static void em_mailer_prefs_init       (EMMailerPrefs *dialog);
+static void em_mailer_prefs_finalise   (GObject *obj);
 
 static GtkVBoxClass *parent_class = NULL;
 
 
 GtkType
-mail_preferences_get_type (void)
+em_mailer_prefs_get_type (void)
 {
 	static GType type = 0;
 	
 	if (!type) {
 		GTypeInfo type_info = {
-			sizeof (MailPreferencesClass),
+			sizeof (EMMailerPrefsClass),
 			NULL, NULL,
-			(GClassInitFunc) mail_preferences_class_init,
+			(GClassInitFunc) em_mailer_prefs_class_init,
 			NULL, NULL,
-			sizeof (MailPreferences),
+			sizeof (EMMailerPrefs),
 			0,
-			(GInstanceInitFunc) mail_preferences_init,
+			(GInstanceInitFunc) em_mailer_prefs_init,
 		};
 		
-		type = g_type_register_static (gtk_vbox_get_type (), "MailPreferences", &type_info, 0);
+		type = g_type_register_static (gtk_vbox_get_type (), "EMMailerPrefs", &type_info, 0);
 	}
 	
 	return type;
 }
 
 static void
-mail_preferences_class_init (MailPreferencesClass *klass)
+em_mailer_prefs_class_init (EMMailerPrefsClass *klass)
 {
 	GObjectClass *object_class;
 	
 	object_class = (GObjectClass *) klass;
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
-	object_class->finalize = mail_preferences_finalise;
+	object_class->finalize = em_mailer_prefs_finalise;
 }
 
 static void
-mail_preferences_init (MailPreferences *preferences)
+em_mailer_prefs_init (EMMailerPrefs *preferences)
 {
 	preferences->gconf = mail_config_get_gconf_client ();
 }
 
 static void
-mail_preferences_finalise (GObject *obj)
+em_mailer_prefs_finalise (GObject *obj)
 {
-	MailPreferences *prefs = (MailPreferences *) obj;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
 	
@@ -126,7 +126,7 @@ colorpicker_get_color (GnomeColorPicker *color)
 static void
 settings_changed (GtkWidget *widget, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -135,7 +135,7 @@ settings_changed (GtkWidget *widget, gpointer user_data)
 static void
 font_share_changed (GtkWidget *w, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	gboolean use_custom;
 
 	use_custom = !gtk_toggle_button_get_active (prefs->font_share);
@@ -150,7 +150,7 @@ font_share_changed (GtkWidget *w, gpointer user_data)
 static void
 font_changed (GnomeFontPicker *fontpicker, gchar *arg1, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -159,7 +159,7 @@ font_changed (GnomeFontPicker *fontpicker, gchar *arg1, gpointer user_data)
 static void
 color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -168,7 +168,7 @@ color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_
 static void
 restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	int i;
 	
 	for (i = 0; i < 5; i++) {
@@ -180,7 +180,7 @@ restore_labels_clicked (GtkWidget *widget, gpointer user_data)
 static void
 menu_changed (GtkWidget *widget, gpointer user_data)
 {
-	MailPreferences *prefs = (MailPreferences *) user_data;
+	EMMailerPrefs *prefs = (EMMailerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -203,7 +203,7 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 }
 
 static void
-mail_preferences_construct (MailPreferences *prefs)
+em_mailer_prefs_construct (EMMailerPrefs *prefs)
 {
 	GtkWidget *toplevel, *menu;
 	GSList *list;
@@ -364,24 +364,24 @@ mail_preferences_construct (MailPreferences *prefs)
 
 
 GtkWidget *
-mail_preferences_new (void)
+em_mailer_prefs_new (void)
 {
-	MailPreferences *new;
+	EMMailerPrefs *new;
 	
-	new = (MailPreferences *) g_object_new (mail_preferences_get_type (), NULL);
-	mail_preferences_construct (new);
+	new = (EMMailerPrefs *) g_object_new (em_mailer_prefs_get_type (), NULL);
+	em_mailer_prefs_construct (new);
 	
 	return (GtkWidget *) new;
 }
 
 
 void
-mail_preferences_apply (MailPreferences *prefs)
+em_mailer_prefs_apply (EMMailerPrefs *prefs)
 {
 	GtkWidget *entry, *menu;
 	char *string, buf[20];
 	const char *cstring;
-	GSList *list, *l;
+	GSList *list, *l, *n;
 	guint32 rgb;
 	int i, val;
 	
@@ -447,10 +447,9 @@ mail_preferences_apply (MailPreferences *prefs)
 			       !gtk_toggle_button_get_active (prefs->font_share), NULL);
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/display/animate_images",
 			       gtk_toggle_button_get_active (prefs->show_animated), NULL);
-
+	
 	gconf_client_set_bool (prefs->gconf, "/apps/evolution/mail/prompts/unwanted_html",
 			       gtk_toggle_button_get_active (prefs->prompt_unwanted_html), NULL);
-	
 	
 	/* Labels and Colours */
 	list = NULL;
@@ -465,10 +464,11 @@ mail_preferences_apply (MailPreferences *prefs)
 	
 	l = list;
 	while (l != NULL) {
+		n = l->next;
 		g_free (l->data);
-		l = l->next;
+		g_slist_free_1 (l);
+		l = n;
 	}
-	g_slist_free (list);
 	
 	gconf_client_suggest_sync (prefs->gconf, NULL);
 }

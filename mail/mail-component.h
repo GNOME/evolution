@@ -26,14 +26,13 @@
 #ifndef _MAIL_COMPONENT_H_
 #define _MAIL_COMPONENT_H_
 
+#include <camel/camel-store.h>
+#include <filter/rule-context.h>
 #include <bonobo/bonobo-object.h>
 
-#include <camel/camel-store.h>
+#include "shell/e-storage-set.h"
 
-#include "e-storage-set.h"
 #include "Evolution.h"
-
-#include "filter/rule-context.h"
 
 
 #define MAIL_TYPE_COMPONENT			(mail_component_get_type ())

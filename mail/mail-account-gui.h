@@ -4,7 +4,7 @@
  *    Jeffrey Stedfast <fejj@ximian.com>
  *    Dan Winship <danw@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -36,7 +36,7 @@ extern "C" {
 #include <camel/camel-provider.h>
 
 #include "mail-config.h"
-#include "mail-accounts.h"
+#include "em-account-prefs.h"
 
 typedef struct {
 	GtkOptionMenu *type;
@@ -59,7 +59,7 @@ typedef struct {
 
 typedef struct {
 	EAccount *account;
-	MailAccountsTab *dialog;
+	EMAccountPrefs *dialog;
 	GladeXML *xml;
 	
 	/* identity */
@@ -114,7 +114,7 @@ typedef struct {
 } MailAccountGui;
 
 
-MailAccountGui *mail_account_gui_new (EAccount *account, MailAccountsTab *dialog);
+MailAccountGui *mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog);
 void mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top);
 gboolean mail_account_gui_save (MailAccountGui *gui);
 void mail_account_gui_destroy (MailAccountGui *gui);

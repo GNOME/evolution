@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  */
 
 
-#ifndef __MAIL_COMPOSER_PREFS_H__
-#define __MAIL_COMPOSER_PREFS_H__
+#ifndef __EM_COMPOSER_PREFS_H__
+#define __EM_COMPOSER_PREFS_H__
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif
+#endif /* __cplusplus */
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -44,16 +44,16 @@ extern "C" {
 #include <shell/Evolution.h>
 #include "Spell.h"
 
-#define MAIL_COMPOSER_PREFS_TYPE        (mail_composer_prefs_get_type ())
-#define MAIL_COMPOSER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefs))
-#define MAIL_COMPOSER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefsClass))
-#define IS_MAIL_COMPOSER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_COMPOSER_PREFS_TYPE))
-#define IS_MAIL_COMPOSER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_COMPOSER_PREFS_TYPE))
+#define EM_COMPOSER_PREFS_TYPE        (em_composer_prefs_get_type ())
+#define EM_COMPOSER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_COMPOSER_PREFS_TYPE, EMComposerPrefs))
+#define EM_COMPOSER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_COMPOSER_PREFS_TYPE, EMComposerPrefsClass))
+#define EM_IS_COMPOSER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_COMPOSER_PREFS_TYPE))
+#define EM_IS_COMPOSER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_COMPOSER_PREFS_TYPE))
 
-typedef struct _MailComposerPrefs MailComposerPrefs;
-typedef struct _MailComposerPrefsClass MailComposerPrefsClass;
+typedef struct _EMComposerPrefs EMComposerPrefs;
+typedef struct _EMComposerPrefsClass EMComposerPrefsClass;
 
-struct _MailComposerPrefs {
+struct _EMComposerPrefs {
 	GtkVBox parent_object;
 	
 	EvolutionConfigControl *control;
@@ -104,7 +104,7 @@ struct _MailComposerPrefs {
 	GtkWidget *sig_script_dialog;
 };
 
-struct _MailComposerPrefsClass {
+struct _EMComposerPrefsClass {
 	GtkVBoxClass parent_class;
 	
 	/* signals */
@@ -112,19 +112,19 @@ struct _MailComposerPrefsClass {
 };
 
 
-GType mail_composer_prefs_get_type (void);
+GType em_composer_prefs_get_type (void);
 
-GtkWidget *mail_composer_prefs_new (void);
+GtkWidget *em_composer_prefs_new (void);
 
-void mail_composer_prefs_apply (MailComposerPrefs *prefs);
+void em_composer_prefs_apply (EMComposerPrefs *prefs);
 
-MailConfigSignature *mail_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
+MailConfigSignature *em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script);
 
 /* needed by global config */
-#define MAIL_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
+#define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl"
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
-#endif /* __MAIL_COMPOSER_PREFS_H__ */
+#endif /* __EM_COMPOSER_PREFS_H__ */

@@ -24,10 +24,7 @@
 #include <camel/camel.h>
 #include <composer/e-msg-composer.h>
 #include <shell/evolution-storage.h>
-#include "mail-accounts.h"
-#include "mail-account-editor.h"
 #include "mail-config.h"
-#include "mail-config-druid.h"
 #include "mail-session.h"
 #include "mail-types.h"
 

@@ -1,3 +1,25 @@
+2003-10-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-account-prefs.[c,h]: Re-Namespaced mail-accounts.c
+
+	* em-composer-prefs.[c,h]: Re-Namespaced mail-composer-prefs.c
+
+	* em-mailer-prefs.[c,h]: Re-Namespaced mail-preferences.c
+
+	* mail-accounts.[c,h]: Removed.
+
+	* mail-composer-prefs.[c,h]: Removed.
+
+	* mail-preferences.[c,h]: Removed.
+
+	* mail-account-editor.c: Updated.
+
+	* mail-account-gui.c: Updated.
+
+	* mail-config-factory.c: Updated.
+
+	* mail-component-factory.c: Updated.
+
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Add an

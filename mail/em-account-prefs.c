@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,8 +25,6 @@
 #include <config.h>
 #endif
 
-#include "mail-accounts.h"
-
 #include <camel/camel-url.h>
 
 #include <gtk/gtkliststore.h>
@@ -42,13 +40,15 @@
 
 #include "art/mark.xpm"
 
+#include "em-account-prefs.h"
 
-static void mail_accounts_tab_class_init (MailAccountsTabClass *class);
-static void mail_accounts_tab_init       (MailAccountsTab *prefs);
-static void mail_accounts_tab_finalise   (GObject *obj);
-static void mail_accounts_tab_destroy    (GtkObject *object);
 
-static void mail_accounts_load (MailAccountsTab *tab);
+static void em_account_prefs_class_init (EMAccountPrefsClass *class);
+static void em_account_prefs_init       (EMAccountPrefs *prefs);
+static void em_account_prefs_finalise   (GObject *obj);
+static void em_account_prefs_destroy    (GtkObject *object);
+
+static void mail_accounts_load (EMAccountPrefs *prefs);
 
 static GdkPixbuf *disabled_pixbuf = NULL;
 static GdkPixbuf *enabled_pixbuf = NULL;
@@ -60,38 +60,38 @@ static GtkVBoxClass *parent_class = NULL;
 
 
 GType
-mail_accounts_tab_get_type (void)
+em_account_prefs_get_type (void)
 {
 	static GType type = 0;
 	
 	if (!type) {
 		GTypeInfo type_info = {
-			sizeof (MailAccountsTabClass),
+			sizeof (EMAccountPrefsClass),
 			NULL, NULL,
-			(GClassInitFunc) mail_accounts_tab_class_init,
+			(GClassInitFunc) em_account_prefs_class_init,
 			NULL, NULL,
-			sizeof (MailAccountsTab),
+			sizeof (EMAccountPrefs),
 			0,
-			(GInstanceInitFunc) mail_accounts_tab_init,
+			(GInstanceInitFunc) em_account_prefs_init,
 		};
 		
-		type = g_type_register_static (gtk_vbox_get_type (), "MailAccountsTab", &type_info, 0);
+		type = g_type_register_static (gtk_vbox_get_type (), "EMAccountPrefs", &type_info, 0);
 	}
 	
 	return type;
 }
 
 static void
-mail_accounts_tab_class_init (MailAccountsTabClass *klass)
+em_account_prefs_class_init (EMAccountPrefsClass *klass)
 {
 	GtkObjectClass *gtk_object_class = (GtkObjectClass *) klass;
 	GObjectClass *object_class = (GObjectClass *) klass;
 	
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
-	gtk_object_class->destroy = mail_accounts_tab_destroy;
+	gtk_object_class->destroy = em_account_prefs_destroy;
 	
-	object_class->finalize = mail_accounts_tab_finalise;
+	object_class->finalize = em_account_prefs_finalise;
 	
 	/* setup static data */
 	disabled_pixbuf = NULL;
@@ -99,7 +99,7 @@ mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 }
 
 static void
-mail_accounts_tab_init (MailAccountsTab *prefs)
+em_account_prefs_init (EMAccountPrefs *prefs)
 {
 	prefs->druid = NULL;
 	prefs->editor = NULL;
@@ -108,9 +108,9 @@ mail_accounts_tab_init (MailAccountsTab *prefs)
 }
 
 static void
-mail_accounts_tab_destroy (GtkObject *obj)
+em_account_prefs_destroy (GtkObject *obj)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) obj;
+	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
 	
 	prefs->destroyed = TRUE;
 	
@@ -118,9 +118,9 @@ mail_accounts_tab_destroy (GtkObject *obj)
 }
 
 static void
-mail_accounts_tab_finalise (GObject *obj)
+em_account_prefs_finalise (GObject *obj)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) obj;
+	EMAccountPrefs *prefs = (EMAccountPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
 	gdk_pixmap_unref (prefs->mark_pixmap);
@@ -130,7 +130,7 @@ mail_accounts_tab_finalise (GObject *obj)
 }
 
 static void
-account_add_finished (MailAccountsTab *prefs, GObject *deadbeef)
+account_add_finished (EMAccountPrefs *prefs, GObject *deadbeef)
 {
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
 	prefs->druid = NULL;
@@ -144,7 +144,7 @@ account_add_finished (MailAccountsTab *prefs, GObject *deadbeef)
 static void
 account_add_clicked (GtkButton *button, gpointer user_data)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
+	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
 	GtkWidget *parent;
 	
 	if (prefs->druid == NULL) {
@@ -165,7 +165,7 @@ account_add_clicked (GtkButton *button, gpointer user_data)
 }
 
 static void
-account_edit_finished (MailAccountsTab *prefs, GObject *deadbeef)
+account_edit_finished (EMAccountPrefs *prefs, GObject *deadbeef)
 {
 	prefs->editor = NULL;
 	
@@ -178,7 +178,7 @@ account_edit_finished (MailAccountsTab *prefs, GObject *deadbeef)
 static void
 account_edit_clicked (GtkButton *button, gpointer user_data)
 {
-	MailAccountsTab *prefs = (MailAccountsTab *) user_data;
+	EMAccountPrefs *prefs = (EMAccountPrefs *) user_data;
 	
 	if (prefs->editor == NULL) {
 		GtkTreeSelection *selection;
@@ -210,7 +210,7 @@ account_edit_clicked (GtkButton *button, gpointer user_data)
 static void
 account_delete_clicked (GtkButton *button, gpointer user_data)
 {
-	MailAccountsTab *prefs = user_data;
+	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
 	EAccount *account = NULL;
 	EAccountList *accounts;
@@ -277,7 +277,7 @@ account_delete_clicked (GtkButton *button, gpointer user_data)
 static void
 account_default_clicked (GtkButton *button, gpointer user_data)
 {
-	MailAccountsTab *prefs = user_data;
+	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
 	EAccount *account = NULL;
 	GtkTreeModel *model;
@@ -300,7 +300,7 @@ static void
 account_able_clicked (GtkButton *button, gpointer user_data)
 {
 	MailComponent *component = mail_component_peek ();
-	MailAccountsTab *prefs = user_data;
+	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
 	EAccount *account = NULL;
 	GtkTreeModel *model;
@@ -336,7 +336,7 @@ account_able_clicked (GtkButton *button, gpointer user_data)
 static void
 account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user_data)
 {
-	MailAccountsTab *prefs = user_data;
+	EMAccountPrefs *prefs = user_data;
 	GtkTreeSelection *selection;
 	EAccount *account = NULL;
 	GtkTreeModel *model;
@@ -377,13 +377,13 @@ account_able_toggled (GtkCellRendererToggle *renderer, char *arg1, gpointer user
 
 static void
 account_double_click (GtkTreeView *treeview, GtkTreePath *path,
-		      GtkTreeViewColumn *column, MailAccountsTab *prefs)
+		      GtkTreeViewColumn *column, EMAccountPrefs *prefs)
 {
 	account_edit_clicked (NULL, prefs);
 }
 
 static void
-account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
+account_cursor_change (GtkTreeSelection *selection, EMAccountPrefs *prefs)
 {
 	EAccount *account = NULL;
 	GtkTreeModel *model;
@@ -408,7 +408,7 @@ account_cursor_change (GtkTreeSelection *selection, MailAccountsTab *prefs)
 }
 
 static void
-mail_accounts_load (MailAccountsTab *prefs)
+mail_accounts_load (EMAccountPrefs *prefs)
 {
 	EAccount *default_account;
 	EAccountList *accounts;
@@ -463,11 +463,11 @@ mail_accounts_load (MailAccountsTab *prefs)
 
 
 
-GtkWidget *mail_accounts_treeview_new (char *widget_name, char *string1, char *string2,
-				       int int1, int int2);
+GtkWidget *em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2,
+					  int int1, int int2);
 
 GtkWidget *
-mail_accounts_treeview_new (char *widget_name, char *string1, char *string2, int int1, int int2)
+em_account_prefs_treeview_new (char *widget_name, char *string1, char *string2, int int1, int int2)
 {
 	GtkWidget *table, *scrolled;
 	GtkTreeSelection *selection;
@@ -513,7 +513,7 @@ mail_accounts_treeview_new (char *widget_name, char *string1, char *string2, int
 }
 
 static void
-mail_accounts_tab_construct (MailAccountsTab *prefs)
+em_account_prefs_construct (EMAccountPrefs *prefs)
 {
 	GtkWidget *toplevel, *widget;
 	GtkCellRenderer *renderer;
@@ -561,12 +561,12 @@ mail_accounts_tab_construct (MailAccountsTab *prefs)
 
 
 GtkWidget *
-mail_accounts_tab_new (GNOME_Evolution_Shell shell)
+em_account_prefs_new (GNOME_Evolution_Shell shell)
 {
-	MailAccountsTab *new;
+	EMAccountPrefs *new;
 	
-	new = (MailAccountsTab *) g_object_new (mail_accounts_tab_get_type (), NULL);
-	mail_accounts_tab_construct (new);
+	new = (EMAccountPrefs *) g_object_new (em_account_prefs_get_type (), NULL);
+	em_account_prefs_construct (new);
 	new->shell = shell;
 	
 	return (GtkWidget *) new;
@@ -574,7 +574,7 @@ mail_accounts_tab_new (GNOME_Evolution_Shell shell)
 
 
 void
-mail_accounts_tab_apply (MailAccountsTab *prefs)
+em_account_prefs_apply (EMAccountPrefs *prefs)
 {
 	/* nothing to do here... */
 }

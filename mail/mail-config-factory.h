@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif
+#endif /* __cplusplus */
 
 #include <bonobo/bonobo-generic-factory.h>
 #include "evolution-config-control.h"
@@ -40,6 +40,6 @@ BonoboObject *mail_config_control_factory_cb (BonoboGenericFactory *factory, con
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
 #endif /* __MAIL_CONFIG_FACTORY_H__ */

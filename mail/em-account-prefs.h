@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  */
 
 
-#ifndef __MAIL_ACCOUNTS_TAB_H__
-#define __MAIL_ACCOUNTS_TAB_H__
+#ifndef __EM_ACCOUNT_PREFS_H__
+#define __EM_ACCOUNT_PREFS_H__
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif
+#endif /* __cplusplus */
 
 #include <gtk/gtkvbox.h>
 #include <gtk/gtkbutton.h>
@@ -42,16 +42,16 @@ extern "C" {
 #include <shell/Evolution.h>
 
 
-#define MAIL_ACCOUNTS_TAB_TYPE        (mail_accounts_tab_get_type ())
-#define MAIL_ACCOUNTS_TAB(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_ACCOUNTS_TAB_TYPE, MailAccountsTab))
-#define MAIL_ACCOUNTS_TAB_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_ACCOUNTS_TAB_TYPE, MailAccountsTabClass))
-#define IS_MAIL_ACCOUNTS_TAB(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_ACCOUNTS_TAB_TYPE))
-#define IS_MAIL_ACCOUNTS_TAB_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_ACCOUNTS_TAB_TYPE))
+#define EM_ACCOUNT_PREFS_TYPE        (em_account_prefs_get_type ())
+#define EM_ACCOUNT_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefs))
+#define EM_ACCOUNT_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_ACCOUNT_PREFS_TYPE, EMAccountPrefsClass))
+#define EM_IS_ACCOUNT_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_ACCOUNT_PREFS_TYPE))
+#define EM_IS_ACCOUNT_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_ACCOUNT_PREFS_TYPE))
 
-typedef struct _MailAccountsTab MailAccountsTab;
-typedef struct _MailAccountsTabClass MailAccountsTabClass;
+typedef struct _EMAccountPrefs EMAccountPrefs;
+typedef struct _EMAccountPrefsClass EMAccountPrefsClass;
 
-struct _MailAccountsTab {
+struct _EMAccountPrefs {
 	GtkVBox parent_object;
 	
 	GNOME_Evolution_Shell shell;
@@ -75,7 +75,7 @@ struct _MailAccountsTab {
 	guint destroyed : 1;
 };
 
-struct _MailAccountsTabClass {
+struct _EMAccountPrefsClass {
 	GtkVBoxClass parent_class;
 	
 	/* signals */
@@ -83,17 +83,17 @@ struct _MailAccountsTabClass {
 };
 
 
-GtkType mail_accounts_tab_get_type (void);
+GtkType em_account_prefs_get_type (void);
 
-GtkWidget *mail_accounts_tab_new (GNOME_Evolution_Shell shell);
+GtkWidget *em_account_prefs_new (GNOME_Evolution_Shell shell);
 
-void mail_accounts_tab_apply (MailAccountsTab *accounts);
+void em_account_prefs_apply (EMAccountPrefs *prefs);
 
 /* needed by global config */
-#define MAIL_ACCOUNTS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
+#define EM_ACCOUNT_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_Accounts_ConfigControl"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __MAIL_ACCOUNTS_TAB_H__ */
+#endif /* __EM_ACCOUNT_PREFS_H__ */

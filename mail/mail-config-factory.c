@@ -27,9 +27,10 @@
 
 #include <string.h>
 
-#include "mail-accounts.h"
-#include "mail-preferences.h"
-#include "mail-composer-prefs.h"
+#include "em-account-prefs.h"
+#include "em-composer-prefs.h"
+#include "em-mailer-prefs.h"
+
 #include "mail-config-factory.h"
 
 #define CONFIG_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Mail_ConfigControlFactory"
@@ -67,16 +68,15 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	
 	data = g_new (struct _config_data, 1);
 	
-	/* TODO: should use ascii_str*cmp? */
-	if (!strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID)) {
-		prefs = mail_accounts_tab_new (shell);
-		data->apply = (ApplyFunc) mail_accounts_tab_apply;
-	} else if (!strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID)) {
-		prefs = mail_preferences_new ();
-		data->apply = (ApplyFunc) mail_preferences_apply;
-	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
-		prefs = mail_composer_prefs_new ();
-		data->apply = (ApplyFunc) mail_composer_prefs_apply;
+	if (!strcmp (component_id, EM_ACCOUNT_PREFS_CONTROL_ID)) {
+		prefs = em_account_prefs_new (shell);
+		data->apply = (ApplyFunc) em_account_prefs_apply;
+	} else if (!strcmp (component_id, EM_MAILER_PREFS_CONTROL_ID)) {
+		prefs = em_mailer_prefs_new ();
+		data->apply = (ApplyFunc) em_mailer_prefs_apply;
+	} else if (!strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID)) {
+		prefs = em_composer_prefs_new ();
+		data->apply = (ApplyFunc) em_composer_prefs_apply;
 	} else {
 		g_assert_not_reached ();
 	}
@@ -88,12 +88,12 @@ mail_config_control_factory_cb (BonoboGenericFactory *factory, const char *compo
 	
 	control = evolution_config_control_new (prefs);
 	
-	if (!strcmp (component_id, MAIL_ACCOUNTS_CONTROL_ID)) {
+	if (!strcmp (component_id, EM_ACCOUNT_PREFS_CONTROL_ID)) {
 		/* nothing to do here... */
-	} else if (!strcmp (component_id, MAIL_PREFERENCES_CONTROL_ID)) {
-		MAIL_PREFERENCES (prefs)->control = control;
-	} else if (!strcmp (component_id, MAIL_COMPOSER_PREFS_CONTROL_ID)) {
-		MAIL_COMPOSER_PREFS (prefs)->control = control;
+	} else if (!strcmp (component_id, EM_MAILER_PREFS_CONTROL_ID)) {
+		EM_MAILER_PREFS (prefs)->control = control;
+	} else if (!strcmp (component_id, EM_COMPOSER_PREFS_CONTROL_ID)) {
+		EM_COMPOSER_PREFS (prefs)->control = control;
 	} else {
 		g_assert_not_reached ();
 	}

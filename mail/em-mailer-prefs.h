@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,13 +21,13 @@
  */
 
 
-#ifndef __MAIL_PREFERENCES_H__
-#define __MAIL_PREFERENCES_H__
+#ifndef __EM_MAILER_PREFS_H__
+#define __EM_MAILER_PREFS_H__
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
-#endif
+#endif /* __cplusplus */
 
 #include <gtk/gtk.h>
 #include <glade/glade.h>
@@ -40,16 +40,16 @@ extern "C" {
 
 #include <shell/Evolution.h>
 
-#define MAIL_PREFERENCES_TYPE        (mail_preferences_get_type ())
-#define MAIL_PREFERENCES(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_PREFERENCES_TYPE, MailPreferences))
-#define MAIL_PREFERENCES_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), MAIL_PREFERENCES_TYPE, MailPreferencesClass))
-#define IS_MAIL_PREFERENCES(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), MAIL_PREFERENCES_TYPE))
-#define IS_MAIL_PREFERENCES_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), MAIL_PREFERENCES_TYPE))
+#define EM_MAILER_PREFS_TYPE        (em_mailer_prefs_get_type ())
+#define EM_MAILER_PREFS(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EM_MAILER_PREFS_TYPE, EMMailerPrefs))
+#define EM_MAILER_PREFS_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EM_MAILER_PREFS_TYPE, EMMailerPrefsClass))
+#define EM_IS_MAILER_PREFS(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EM_MAILER_PREFS_TYPE))
+#define EM_IS_MAILER_PREFS_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EM_MAILER_PREFS_TYPE))
 
-typedef struct _MailPreferences MailPreferences;
-typedef struct _MailPreferencesClass MailPreferencesClass;
+typedef struct _EMMailerPrefs EMMailerPrefs;
+typedef struct _EMMailerPrefsClass EMMailerPrefsClass;
 
-struct _MailPreferences {
+struct _EMMailerPrefs {
 	GtkVBox parent_object;
 	
 	GNOME_Evolution_Shell shell;
@@ -100,7 +100,7 @@ struct _MailPreferences {
 	GtkButton *restore_labels;
 };
 
-struct _MailPreferencesClass {
+struct _EMMailerPrefsClass {
 	GtkVBoxClass parent_class;
 	
 	/* signals */
@@ -108,17 +108,17 @@ struct _MailPreferencesClass {
 };
 
 
-GtkType mail_preferences_get_type (void);
+GtkType em_mailer_prefs_get_type (void);
 
-GtkWidget *mail_preferences_new (void);
+GtkWidget *em_mailer_prefs_new (void);
 
-void mail_preferences_apply (MailPreferences *prefs);
+void em_mailer_prefs_apply (EMMailerPrefs *prefs);
 
 /* needed by global config */
-#define MAIL_PREFERENCES_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
+#define EM_MAILER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_Preferences_ConfigControl"
 
 #ifdef __cplusplus
 }
-#endif
+#endif /* __cplusplus */
 
-#endif /* __MAIL_PREFERENCES_H__ */
+#endif /* __EM_MAILER_PREFS_H__ */

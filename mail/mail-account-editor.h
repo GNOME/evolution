@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -32,7 +32,7 @@ extern "C" {
 #include <libgnomeui/gnome-file-entry.h>
 
 #include "mail-account-gui.h"
-#include "mail-accounts.h"
+#include "em-account-prefs.h"
 
 #define MAIL_ACCOUNT_EDITOR_TYPE        (mail_account_editor_get_type ())
 #define MAIL_ACCOUNT_EDITOR(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), MAIL_ACCOUNT_EDITOR_TYPE, MailAccountEditor))
@@ -58,7 +58,7 @@ typedef struct {
 
 GtkType mail_account_editor_get_type (void);
 
-MailAccountEditor *mail_account_editor_new (EAccount *account, GtkWindow *parent, MailAccountsTab *dialog);
+MailAccountEditor *mail_account_editor_new (EAccount *account, GtkWindow *parent, EMAccountPrefs *dialog);
 
 #ifdef __cplusplus
 }

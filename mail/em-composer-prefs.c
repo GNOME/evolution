@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2002 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2002-2003 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 
 #include <string.h>
 
-#include "mail-composer-prefs.h"
+#include "em-composer-prefs.h"
 #include "composer/e-msg-composer.h"
 
 #include <bonobo/bonobo-generic-factory.h>
@@ -49,52 +49,52 @@
 
 #define d(x)
 
-static void mail_composer_prefs_class_init (MailComposerPrefsClass *class);
-static void mail_composer_prefs_init       (MailComposerPrefs *dialog);
-static void mail_composer_prefs_destroy    (GtkObject *obj);
-static void mail_composer_prefs_finalise   (GObject *obj);
+static void em_composer_prefs_class_init (EMComposerPrefsClass *class);
+static void em_composer_prefs_init       (EMComposerPrefs *dialog);
+static void em_composer_prefs_destroy    (GtkObject *obj);
+static void em_composer_prefs_finalise   (GObject *obj);
 
-static void sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs);
+static void sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, EMComposerPrefs *prefs);
 
 static GtkVBoxClass *parent_class = NULL;
 
 
 GType
-mail_composer_prefs_get_type (void)
+em_composer_prefs_get_type (void)
 {
 	static GType type = 0;
 	
 	if (!type) {
 		static const GTypeInfo info = {
-			sizeof (MailComposerPrefsClass),
+			sizeof (EMComposerPrefsClass),
 			NULL, NULL,
-			(GClassInitFunc) mail_composer_prefs_class_init,
+			(GClassInitFunc) em_composer_prefs_class_init,
 			NULL, NULL,
-			sizeof (MailComposerPrefs),
+			sizeof (EMComposerPrefs),
 			0,
-			(GInstanceInitFunc) mail_composer_prefs_init,
+			(GInstanceInitFunc) em_composer_prefs_init,
 		};
 		
-		type = g_type_register_static (gtk_vbox_get_type (), "MailComposerPrefs", &info, 0);
+		type = g_type_register_static (gtk_vbox_get_type (), "EMComposerPrefs", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-mail_composer_prefs_class_init (MailComposerPrefsClass *klass)
+em_composer_prefs_class_init (EMComposerPrefsClass *klass)
 {
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 	
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
 	
-	object_class->destroy = mail_composer_prefs_destroy;
-	gobject_class->finalize = mail_composer_prefs_finalise;
+	object_class->destroy = em_composer_prefs_destroy;
+	gobject_class->finalize = em_composer_prefs_finalise;
 }
 
 static void
-mail_composer_prefs_init (MailComposerPrefs *composer_prefs)
+em_composer_prefs_init (EMComposerPrefs *composer_prefs)
 {
 	composer_prefs->enabled_pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) mark_xpm);
 	gdk_pixbuf_render_pixmap_and_mask (composer_prefs->enabled_pixbuf,
@@ -102,9 +102,9 @@ mail_composer_prefs_init (MailComposerPrefs *composer_prefs)
 }
 
 static void
-mail_composer_prefs_finalise (GObject *obj)
+em_composer_prefs_finalise (GObject *obj)
 {
-	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) obj;
 	
 	g_object_unref (prefs->gui);
 	g_object_unref (prefs->enabled_pixbuf);
@@ -115,9 +115,9 @@ mail_composer_prefs_finalise (GObject *obj)
 }
 
 static void
-mail_composer_prefs_destroy (GtkObject *obj)
+em_composer_prefs_destroy (GtkObject *obj)
 {
-	MailComposerPrefs *prefs = (MailComposerPrefs *) obj;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) obj;
 
 	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, prefs);
 	
@@ -137,7 +137,7 @@ attach_style_info (GtkWidget *item, gpointer user_data)
 static void
 toggle_button_toggled (GtkWidget *widget, gpointer user_data)
 {
-	MailComposerPrefs *prefs = (MailComposerPrefs *) user_data;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -146,7 +146,7 @@ toggle_button_toggled (GtkWidget *widget, gpointer user_data)
 static void
 menu_changed (GtkWidget *widget, gpointer user_data)
 {
-	MailComposerPrefs *prefs = (MailComposerPrefs *) user_data;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -169,7 +169,7 @@ option_menu_connect (GtkOptionMenu *omenu, gpointer user_data)
 }
 
 static void
-sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
+sig_load_preview (EMComposerPrefs *prefs, MailConfigSignature *sig)
 {
 	char *str;
 	
@@ -205,7 +205,7 @@ sig_load_preview (MailComposerPrefs *prefs, MailConfigSignature *sig)
 }
 
 static void
-sig_edit_cb (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	GtkTreeSelection *selection;
 	MailConfigSignature *sig;
@@ -248,7 +248,7 @@ sig_edit_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 MailConfigSignature *
-mail_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script)
+em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script)
 {
 	MailConfigSignature *sig;
 	
@@ -259,7 +259,7 @@ mail_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char 
 }
 
 static void
-sig_delete_cb (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_delete_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	MailConfigSignature *sig;
 	GtkTreeModel *model;
@@ -275,7 +275,7 @@ sig_delete_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
-sig_add_cb (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	GConfClient *gconf;
 	gboolean send_html;
@@ -287,11 +287,11 @@ sig_add_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 	
-	mail_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
+	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
 }
 
 static void
-sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs)
+sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 {
 	const char *script, *name;
 	GtkWidget *dialog;
@@ -317,7 +317,7 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 					/* we're just editing an existing signature script */
 					mail_config_signature_set_name (sig, name);
 				} else {
-					sig = mail_composer_prefs_new_signature ((GtkWindow *) parent, TRUE, script);
+					sig = em_composer_prefs_new_signature ((GtkWindow *) parent, TRUE, script);
 					mail_config_signature_set_name (sig, name);
 					mail_config_signature_add (sig);
 				}
@@ -341,7 +341,7 @@ sig_add_script_response (GtkWidget *widget, int button, MailComposerPrefs *prefs
 }
 
 static void
-sig_add_script_cb (GtkWidget *widget, MailComposerPrefs *prefs)
+sig_add_script_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	GtkWidget *entry;
 	
@@ -355,7 +355,7 @@ sig_add_script_cb (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static void
-sig_selection_changed (GtkTreeSelection *selection, MailComposerPrefs *prefs)
+sig_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
 {
 	MailConfigSignature *sig;
 	GtkTreeModel *model;
@@ -425,7 +425,7 @@ url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle)
 }
 
 static void
-sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailComposerPrefs *prefs)
+sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, EMComposerPrefs *prefs)
 {
 	MailConfigSignature *current;
 	GtkTreeSelection *selection;
@@ -485,7 +485,7 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 #define SPELL_API_VERSION "0.3"
 
 static void
-spell_set_ui (MailComposerPrefs *prefs)
+spell_set_ui (EMComposerPrefs *prefs)
 {
 	GtkListStore *model;
 	GtkTreeIter iter;
@@ -525,7 +525,7 @@ spell_set_ui (MailComposerPrefs *prefs)
 }
 
 static gchar *
-spell_get_language_str (MailComposerPrefs *prefs)
+spell_get_language_str (EMComposerPrefs *prefs)
 {
 	GString *str = g_string_new ("");
 	GtkListStore *model;
@@ -555,7 +555,7 @@ spell_get_language_str (MailComposerPrefs *prefs)
 }
 
 static void
-spell_get_ui (MailComposerPrefs *prefs)
+spell_get_ui (EMComposerPrefs *prefs)
 {
 	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (prefs->colour),
 				    &prefs->spell_error_color.red,
@@ -571,7 +571,7 @@ spell_get_ui (MailComposerPrefs *prefs)
         gconf_value_free (val); }
 
 static void
-spell_save_orig (MailComposerPrefs *prefs)
+spell_save_orig (EMComposerPrefs *prefs)
 {
 	g_free (prefs->language_str_orig);
 	prefs->language_str_orig = g_strdup (prefs->language_str ? prefs->language_str : "");
@@ -579,7 +579,7 @@ spell_save_orig (MailComposerPrefs *prefs)
 }
 
 /* static void
-spell_load_orig (MailComposerPrefs *prefs)
+spell_load_orig (EMComposerPrefs *prefs)
 {
 	g_free (prefs->language_str);
 	prefs->language_str = g_strdup (prefs->language_str_orig);
@@ -587,7 +587,7 @@ spell_load_orig (MailComposerPrefs *prefs)
 } */
 
 static void
-spell_load_values (MailComposerPrefs *prefs)
+spell_load_values (EMComposerPrefs *prefs)
 {
 	GConfValue *val;
 	char *def_lang;
@@ -618,7 +618,7 @@ spell_load_values (MailComposerPrefs *prefs)
 #define STR_EQUAL(str1, str2) ((str1 == NULL && str2 == NULL) || (str1 && str2 && !strcmp (str1, str2)))
 
 static void
-spell_save_values (MailComposerPrefs *prefs, gboolean force)
+spell_save_values (EMComposerPrefs *prefs, gboolean force)
 {
 	if (force || !gdk_color_equal (&prefs->spell_error_color, &prefs->spell_error_color_orig)) {
 		SET (int, "/spell_error_color_red",   prefs->spell_error_color.red);
@@ -634,14 +634,14 @@ spell_save_values (MailComposerPrefs *prefs, gboolean force)
 }
 
 static void
-spell_apply (MailComposerPrefs *prefs)
+spell_apply (EMComposerPrefs *prefs)
 {
 	spell_get_ui (prefs);
 	spell_save_values (prefs, FALSE);
 }
 
 /* static void
-spell_revert (MailComposerPrefs *prefs)
+spell_revert (EMComposerPrefs *prefs)
 {
 	spell_load_orig (prefs);
 	spell_set_ui (prefs);
@@ -651,7 +651,7 @@ spell_revert (MailComposerPrefs *prefs)
 static void
 spell_changed (gpointer user_data)
 {
-	MailComposerPrefs *prefs = (MailComposerPrefs *) user_data;
+	EMComposerPrefs *prefs = (EMComposerPrefs *) user_data;
 	
 	if (prefs->control)
 		evolution_config_control_changed (prefs->control);
@@ -664,7 +664,7 @@ spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer
 }
 
 static void
-spell_language_selection_changed (GtkTreeSelection *selection, MailComposerPrefs *prefs)
+spell_language_selection_changed (GtkTreeSelection *selection, EMComposerPrefs *prefs)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -679,7 +679,7 @@ spell_language_selection_changed (GtkTreeSelection *selection, MailComposerPrefs
 }
 
 static void
-spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
+spell_language_enable (GtkWidget *widget, EMComposerPrefs *prefs)
 {
 	GtkTreeIter iter;
 	GtkTreeModel *model;
@@ -696,7 +696,7 @@ spell_language_enable (GtkWidget *widget, MailComposerPrefs *prefs)
 }
 
 static gboolean
-spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, MailComposerPrefs *prefs)
+spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, EMComposerPrefs *prefs)
 {
 	GtkTreePath *path = NULL;
 	GtkTreeViewColumn *column = NULL;
@@ -722,7 +722,7 @@ spell_language_button_press (GtkTreeView *tv, GdkEventButton *event, MailCompose
 }
 
 static void
-spell_setup (MailComposerPrefs *prefs)
+spell_setup (EMComposerPrefs *prefs)
 {
 	GtkListStore *model;
 	GtkTreeIter iter;
@@ -750,7 +750,7 @@ spell_setup (MailComposerPrefs *prefs)
 }
 
 static gboolean
-spell_setup_check_options (MailComposerPrefs *prefs)
+spell_setup_check_options (EMComposerPrefs *prefs)
 {
 	GNOME_Spell_Dictionary dict;
 	CORBA_Environment ev;
@@ -785,7 +785,7 @@ spell_setup_check_options (MailComposerPrefs *prefs)
  */
 
 static void
-mail_composer_prefs_construct (MailComposerPrefs *prefs)
+em_composer_prefs_construct (EMComposerPrefs *prefs)
 {
 	GtkWidget *toplevel, *widget, *menu, *info_pixmap;
 	GtkDialog *dialog;
@@ -943,19 +943,19 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 
 
 GtkWidget *
-mail_composer_prefs_new (void)
+em_composer_prefs_new (void)
 {
-	MailComposerPrefs *new;
+	EMComposerPrefs *new;
 	
-	new = (MailComposerPrefs *) g_object_new (mail_composer_prefs_get_type (), NULL);
-	mail_composer_prefs_construct (new);
+	new = (EMComposerPrefs *) g_object_new (em_composer_prefs_get_type (), NULL);
+	em_composer_prefs_construct (new);
 	
 	return (GtkWidget *) new;
 }
 
 
 void
-mail_composer_prefs_apply (MailComposerPrefs *prefs)
+em_composer_prefs_apply (EMComposerPrefs *prefs)
 {
 	GtkWidget *menu, *item;
 	char *string;
