@@ -625,14 +625,14 @@ command_pilot_settings (BonoboUIComponent *uih,
 }
 
 
-BonoboUIVerb new_verbs [] = {
+static BonoboUIVerb new_verbs [] = {
 	BONOBO_UI_VERB ("NewFolder", command_new_folder),
 	BONOBO_UI_VERB ("NewShortcut", command_new_shortcut),
 		  
 	BONOBO_UI_VERB_END
 };
 
-BonoboUIVerb file_verbs [] = {
+static BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB ("FileImporter", (BonoboUIVerbFn) show_import_wizard),
 	BONOBO_UI_VERB ("FileGoToFolder", command_goto_folder),
 	BONOBO_UI_VERB ("FileCreateFolder", command_create_folder),
@@ -645,7 +645,7 @@ BonoboUIVerb file_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-BonoboUIVerb folder_verbs [] = {
+static BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB ("ActivateView", command_activate_view),
 	BONOBO_UI_VERB ("OpenFolderInNewWindow", command_open_folder_in_new_window),
 	BONOBO_UI_VERB ("MoveFolder", command_move_folder),
@@ -659,13 +659,13 @@ BonoboUIVerb folder_verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-BonoboUIVerb actions_verbs[] = {
+static BonoboUIVerb actions_verbs[] = {
 	BONOBO_UI_VERB ("SendReceive", command_send_receive),
 
 	BONOBO_UI_VERB_END
 };
 
-BonoboUIVerb tools_verbs[] = {
+static BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB ("Settings", command_settings),
 
 	BONOBO_UI_VERB ("PilotSettings", command_pilot_settings),
@@ -673,7 +673,7 @@ BonoboUIVerb tools_verbs[] = {
 	BONOBO_UI_VERB_END
 };
 
-BonoboUIVerb help_verbs [] = {
+static BonoboUIVerb help_verbs [] = {
 	BONOBO_UI_VERB_DATA ("HelpFAQ", command_help_faq, NULL),
 
 	BONOBO_UI_VERB_END

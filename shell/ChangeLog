@@ -1,5 +1,10 @@
 2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view-menu.c: Make all the verb/menu arrays appropriately
+	static.
+
+2002-03-20  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-view-menu.c (command_send_receive): New, implementation
 	for the "SendReceive" verb.
 
