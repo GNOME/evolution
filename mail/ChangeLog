@@ -1,5 +1,46 @@
 2002-03-26  Not Zed  <NotZed@Ximian.com>
 
+	* mail-callbacks.c (addrbook_sender): Changed to get the address
+	from the messageinfo of the current selected message rather than
+	from the current_message.
+	(requeue_mail_reply): Only re-queue if we got a message, could
+	potentially cause an infinite loop trying to get a message it
+	can't.
+	(reply_to_sender, reply_to_list, reply_to_all): Always pass NULL
+	as the msg to mail_replay, this forces mail_reply to always load
+	the message anew.  Fixes FIXME's and popup behaviour.  Basically
+	this and stuff below fixes #8542.  Its probably not the nicest
+	way, but it works.
+	(mark_as_important): Use the flags properly, we can set all flags
+	to any combination of on or off as we want, so we just need to
+	call set_flags once, thats why its set flags and not set_option.
+	(toggle_flags): Fixed the logic here also, so we dont have to call
+	set_message_flags more than once, and also implement a true toggle
+	for any number of simultaneous flags (whilst simplifying code).
+
+	* mail-vfolder.c (vfolder_gui_add_from_mlist): Removed the 'msg'
+	parameter, its not used, fixed callers.
+
+	* folder-browser.c (on_right_click): Lookup the mlist from
+	messageinfo, and change the 'no selected' logic slightly, fixes
+	most of #8542.
+	(filter_data_free): Free filter data struct.
+	(vfolder_type_got_message): Actually create vfolder once we have
+	the message we need to use for it.  Code could probably be changed
+	to use messageinfo instead.
+	(vfolder_type_uid): Lookup a message based on uid, and use that to
+	create a vfolder based on type.
+	(vfolder_subject_uid, vfolder_sender_uid, vfolder_receipient_uid,
+	vfolder_mlist_uid): Callbacks for the popup menu, used to create
+	rules based on the uid rather than the message, which it loads as
+	required.
+	(filter_type_got_message, filter_*_uid): Similar to vfolder
+	stuff above.
+	(filter_menu[]): Changed callbacks to popup specific ones, not
+	folderbrowser specific ones used by bonobo.
+	(on_right_click): Initialise callback data for the filter submenu
+	so it can look up messages for callback implementation.
+
 	* local-config.glade: New version from anna, with fixed widget
 	names.
 

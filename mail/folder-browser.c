@@ -1273,6 +1273,7 @@ folder_browser_charset_changed (BonoboUIComponent           *component,
 	}
 }
 
+/* external api to vfolder/filter on X, based on current message */
 void
 vfolder_subject (GtkWidget *w, FolderBrowser *fb)
 {
@@ -1301,7 +1302,7 @@ vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
 	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
 	if (name) {
 		g_strstrip (name);
-		vfolder_gui_add_from_mlist(fb->mail_display->current_message, name, fb->uri);
+		vfolder_gui_add_from_mlist(name, fb->uri);
 		g_free(name);
 	}
 }
@@ -1337,6 +1338,84 @@ filter_mlist (GtkWidget *w, FolderBrowser *fb)
 		g_free(name);
 	}
 }
+
+/* ************************************************************ */
+
+/* popup api to vfolder/filter on X, based on current selection */
+struct _filter_data {
+	CamelFolder *folder;
+	char *uid;
+	int type;
+	char *uri;
+	char *mlist;
+};
+
+static void
+filter_data_free(struct _filter_data *fdata)
+{
+	g_free(fdata->uid);
+	g_free(fdata->uri);
+	if (fdata->folder)
+		camel_object_unref((CamelObject *)fdata->folder);
+	g_free(fdata->mlist);
+	g_free(fdata);
+}
+
+static void
+vfolder_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
+{
+	struct _filter_data *data = d;
+
+	if (msg)
+		vfolder_gui_add_from_message(msg, data->type, data->uri);
+
+	filter_data_free(data);
+}
+
+static void
+vfolder_type_uid(struct _filter_data *fdata, int type)
+{
+	struct _filter_data *data;
+
+	/* sigh, we need to copy this because the menu will free the one we got passed in */
+	data = g_malloc0(sizeof(*data));
+	data->type = type;
+	data->uri = fdata->uri;
+	fdata->uri = NULL;
+	mail_get_message(fdata->folder, fdata->uid, vfolder_type_got_message, data, mail_thread_new);
+}
+
+static void vfolder_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_SUBJECT); }
+static void vfolder_sender_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_FROM); }
+static void vfolder_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ vfolder_type_uid(fdata, AUTO_TO); }
+static void vfolder_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ vfolder_gui_add_from_mlist(fdata->mlist, fdata->uri); }
+
+static void
+filter_type_got_message(CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *d)
+{
+	struct _filter_data *data = d;
+
+	if (msg)
+		filter_gui_add_from_message(msg, data->type);
+
+	filter_data_free(data);
+}
+
+static void
+filter_type_uid(struct _filter_data *fdata, int type)
+{
+	struct _filter_data *data;
+
+	/* sigh, we need to copy this because the menu will free the one we got passed in */
+	data = g_malloc0(sizeof(*data));
+	data->type = type;
+	mail_get_message(fdata->folder, fdata->uid, filter_type_got_message, data, mail_thread_new);
+}
+
+static void filter_subject_uid (GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_SUBJECT); }
+static void filter_sender_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_type_uid(fdata, AUTO_FROM); }
+static void filter_recipient_uid(GtkWidget *w, struct _filter_data *fdata)	{ filter_type_uid(fdata, AUTO_TO); }
+static void filter_mlist_uid(GtkWidget *w, struct _filter_data *fdata)		{ filter_gui_add_from_mlist(fdata->mlist); }
 
 void
 hide_none(GtkWidget *w, FolderBrowser *fb)
@@ -1493,17 +1572,17 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	{ N_("VFolder on _Subject"),        NULL, GTK_SIGNAL_FUNC (vfolder_subject),   NULL, NULL, SELECTION_SET },
-	{ N_("VFolder on Se_nder"),         NULL, GTK_SIGNAL_FUNC (vfolder_sender),    NULL, NULL, SELECTION_SET },
-	{ N_("VFolder on _Recipients"),     NULL, GTK_SIGNAL_FUNC (vfolder_recipient), NULL, NULL, SELECTION_SET },
-	{ N_("VFolder on Mailing _List"),   NULL, GTK_SIGNAL_FUNC (vfolder_mlist),     NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
+	{ N_("VFolder on _Subject"),        NULL, GTK_SIGNAL_FUNC (vfolder_subject_uid),   NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on Se_nder"),         NULL, GTK_SIGNAL_FUNC (vfolder_sender_uid),    NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on _Recipients"),     NULL, GTK_SIGNAL_FUNC (vfolder_recipient_uid), NULL, NULL, SELECTION_SET },
+	{ N_("VFolder on Mailing _List"),   NULL, GTK_SIGNAL_FUNC (vfolder_mlist_uid),     NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_SEPARATOR,
 	
-	{ N_("Filter on Sub_ject"),         NULL, GTK_SIGNAL_FUNC (filter_subject),    NULL, NULL, SELECTION_SET },
-	{ N_("Filter on Sen_der"),          NULL, GTK_SIGNAL_FUNC (filter_sender),     NULL, NULL, SELECTION_SET },
-	{ N_("Filter on Re_cipients"),      NULL, GTK_SIGNAL_FUNC (filter_recipient),  NULL, NULL, SELECTION_SET },
-	{ N_("Filter on _Mailing List"),    NULL, GTK_SIGNAL_FUNC (filter_mlist),      NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
+	{ N_("Filter on Sub_ject"),         NULL, GTK_SIGNAL_FUNC (filter_subject_uid),    NULL, NULL, SELECTION_SET },
+	{ N_("Filter on Sen_der"),          NULL, GTK_SIGNAL_FUNC (filter_sender_uid),     NULL, NULL, SELECTION_SET },
+	{ N_("Filter on Re_cipients"),      NULL, GTK_SIGNAL_FUNC (filter_recipient_uid),  NULL, NULL, SELECTION_SET },
+	{ N_("Filter on _Mailing List"),    NULL, GTK_SIGNAL_FUNC (filter_mlist_uid),      NULL, NULL, SELECTION_SET | IS_MAILING_LIST },
 	
 	E_POPUP_TERMINATOR
 };
@@ -1683,33 +1762,15 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	int i;
 	char *mlist = NULL;
 	GtkMenu *menu;
+	struct _filter_data *fdata = NULL;
 	
 	if (fb->folder != sent_folder) {
 		enable_mask |= CAN_RESEND;
 		hide_mask |= CAN_RESEND;
 	}
-	
-	if (fb->mail_display->current_message == NULL) {
-		enable_mask |= SELECTION_SET;
-	} else {
-		char *mname, *p, c, *o;
-		
-		mname = header_raw_check_mailing_list (&((CamelMimePart *)fb->mail_display->current_message)->headers);
-		/* Escape the mailing list name before showing it */
-		if (mname) {
-			mlist = alloca (strlen (mname)+2);
-			p = mname;
-			o = mlist;
-			while ((c = *p++)) {
-				if (c == '_')
-					*o++ = '_';
-				*o++ = c;
-			}
-			*o = 0;
-			g_free (mname);
-		}
-	}
-	
+
+	enable_mask |= SELECTION_SET;
+
 	/* get a list of uids */
 	uids = g_ptr_array_new ();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
@@ -1731,6 +1792,35 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 			info = camel_folder_get_message_info (fb->folder, uids->pdata[i]);
 			if (info == NULL)
 				continue;
+
+			if (i == 0 && uids->len == 1) {
+				const char *mname, *p;
+				char c, *o;
+
+				/* used by filter/vfolder from X callbacks */
+				fdata = g_malloc0(sizeof(*fdata));
+				fdata->uid = g_strdup(uids->pdata[i]);
+				fdata->uri = g_strdup(fb->uri);
+				fdata->folder = fb->folder;
+				camel_object_ref((CamelObject *)fdata->folder);
+
+				enable_mask &= ~SELECTION_SET;
+				mname = camel_message_info_mlist(info);
+				if (mname && mname[0]) {
+					fdata->mlist = g_strdup(mname);
+
+					/* Escape the mailing list name before showing it */
+					mlist = alloca (strlen (mname)+2);
+					p = mname;
+					o = mlist;
+					while ((c = *p++)) {
+						if (c == '_')
+							*o++ = '_';
+						*o++ = c;
+					}
+					*o = 0;
+				}
+			}
 			
 			if (info->flags & CAMEL_MESSAGE_SEEN)
 				have_seen = TRUE;
@@ -1874,12 +1964,16 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	}
 	
 	setup_popup_icons ();
+
+	for (i=0;i<sizeof(filter_menu)/sizeof(filter_menu[0]);i++)
+		filter_menu[i].closure = fdata;
 	
 	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, fb);
 	e_auto_kill_popup_menu_on_hide (menu);
 	
-	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures",
-				  (GtkDestroyNotify) closures, colour_closures_free);
+	gtk_object_set_data_full (GTK_OBJECT (menu), "colour_closures", closures, (GtkDestroyNotify)colour_closures_free);
+	if (fdata)
+		gtk_object_set_data_full(GTK_OBJECT(menu), "filter_data", fdata, (GtkDestroyNotify)filter_data_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;
@@ -1901,7 +1995,7 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 	for (i = 0; i < 5; i++) {
 		g_free (label_menu[i + 2].name);
 	}
-	
+
 	return TRUE;
 }
 

@@ -57,7 +57,7 @@ struct  _FolderBrowser {
 	char	    *new_uid;	/* place to save the next uid during idle timeout */
 	char	    *loaded_uid; /* what we have loaded */
 	guint	     loading_id, seen_id;
-	
+
 	/* a folder we are expunging, dont use other than to compare the pointer value */
 	CamelFolder *expunging;
 	
@@ -89,6 +89,9 @@ struct  _FolderBrowser {
 	struct _MailAsyncEvent *async_event;
 	
 	int get_id;		/* for getting folder op */
+
+	/* info used by popup for filter/vfolder */
+	struct _popup_filter_data *popup;
 };
 
 typedef struct {

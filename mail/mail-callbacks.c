@@ -1029,7 +1029,8 @@ requeue_mail_reply (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void 
 {
 	int mode = GPOINTER_TO_INT (data);
 	
-	mail_reply (folder, msg, uid, mode);
+	if (msg != NULL)
+		mail_reply (folder, msg, uid, mode);
 }
 
 void
@@ -1076,13 +1077,10 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	/* FIXME: make this always load the message based on cursor */
-	
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	mail_reply (fb->folder, fb->mail_display->current_message, 
-		    fb->message_list->cursor_uid, REPLY_SENDER);
+	mail_reply(fb->folder, NULL, fb->message_list->cursor_uid, REPLY_SENDER);
 }
 
 void
@@ -1093,10 +1091,7 @@ reply_to_list (GtkWidget *widget, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	/* FIXME: make this always load the message based on cursor */
-	
-	mail_reply (fb->folder, fb->mail_display->current_message, 
-		    fb->message_list->cursor_uid, REPLY_LIST);
+	mail_reply (fb->folder, NULL, fb->message_list->cursor_uid, REPLY_LIST);
 }
 
 void
@@ -1107,10 +1102,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 	if (FOLDER_BROWSER_IS_DESTROYED (fb) || !check_send_configuration (fb))
 		return;
 	
-	/* FIXME: make this always load the message based on cursor */
-	
-	mail_reply (fb->folder, fb->mail_display->current_message, 
-		    fb->message_list->cursor_uid, REPLY_ALL);
+	mail_reply(fb->folder, NULL, fb->message_list->cursor_uid, REPLY_ALL);
 }
 
 void
@@ -1502,27 +1494,26 @@ void
 addrbook_sender (GtkWidget *widget, gpointer user_data)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
-	CamelMimeMessage *msg = NULL;
-	const CamelInternetAddress *addr;
-	gchar *addr_str;
+	const char *addr_str;
+	CamelMessageInfo *info;
 	GtkWidget *win;
 	GtkWidget *control;
 	GtkWidget *socket;
-	
-	/* FIXME: make this use the cursor message id */
-	
+	GPtrArray *uids;
+	int i;
+
 	if (FOLDER_BROWSER_IS_DESTROYED (fb))
 		return;
-	
-	msg = fb->mail_display->current_message;
-	if (msg == NULL)
-		return;
-	
-	addr = camel_mime_message_get_from (msg);
-	if (addr == NULL)
-		return;
-	
-	addr_str = camel_address_format (CAMEL_ADDRESS (addr));
+
+	uids = g_ptr_array_new();
+	message_list_foreach(fb->message_list, enumerate_msg, uids);
+	if (uids->len != 1)
+		goto done;
+
+	info = camel_folder_get_message_info(fb->folder, uids->pdata[0]);
+	if (info == NULL
+	    || (addr_str = camel_message_info_from(info)) == NULL)
+		goto done;
 	
 	win = gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	gtk_window_set_title (GTK_WINDOW (win), _("Sender"));
@@ -1544,6 +1535,11 @@ addrbook_sender (GtkWidget *widget, gpointer user_data)
 	
 	gtk_container_add (GTK_CONTAINER (win), control);
 	gtk_widget_show_all (win);
+
+done:
+	for (i=0; i < uids->len; i++)
+		g_free(uids->pdata[i]);
+	g_ptr_array_free(uids, TRUE);
 }
 
 void
@@ -1712,18 +1708,24 @@ toggle_flags (FolderBrowser *fb, guint32 mask)
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
 	camel_folder_freeze (fb->folder);
 	for (i = 0; i < uids->len; i++) {
-		int flags;
+		guint32 flags;
 		
-		flags = camel_folder_get_message_flags (fb->folder, uids->pdata[i]);
-		
-		if (flags & mask)
-			camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, 0);
-		else {
-			if ((mask & CAMEL_MESSAGE_FLAGGED) && (flags & CAMEL_MESSAGE_DELETED))
-				camel_folder_set_message_flags (fb->folder, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
-			camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, mask);
+		flags = ~(camel_folder_get_message_flags (fb->folder, uids->pdata[i]));
+
+		/* if we're flagging a message important, always undelete it too */
+		if (mask & flags & CAMEL_MESSAGE_FLAGGED) {
+			flags &= ~CAMEL_MESSAGE_DELETED;
+			mask |= CAMEL_MESSAGE_DELETED;
 		}
-		
+
+		/* if we're flagging a message deleted, always mark it seen too */
+		if (mask & flags & CAMEL_MESSAGE_DELETED) {
+			flags |= CAMEL_MESSAGE_SEEN;
+			mask |= CAMEL_MESSAGE_SEEN;
+		}
+
+		camel_folder_set_message_flags (fb->folder, uids->pdata[i], mask, flags);
+
 		g_free (uids->pdata[i]);
 	}
 	camel_folder_thaw (fb->folder);
@@ -1777,8 +1779,7 @@ mark_all_as_seen (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 mark_as_important (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_DELETED, 0);
-	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
+	flag_messages (FOLDER_BROWSER (user_data), CAMEL_MESSAGE_FLAGGED|CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_FLAGGED);
 }
 
 void
