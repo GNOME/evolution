@@ -9,4 +9,6 @@ GtkWidget *e_create_image_widget         (gchar *name, gchar *string1, gchar *st
 
 GtkWidget *e_button_new_with_stock_icon  (const char *label_str, const char *stockid);
 
+GdkPixbuf *e_icon_for_mime_type          (const char *mime_type, int size);
+
 #endif /* E_GUI_UTILS_H */
