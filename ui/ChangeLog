@@ -1,3 +1,7 @@
+2001-04-02  Anders Carlsson  <andersca@codefactory.se>
+
+	* evolution-mail.xml: Added a space after an attribute to make libxml happy.
+
 2001-04-01  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* evolution-addressbook.xml, evolution-calendar.xml, evolution-mail.xml,

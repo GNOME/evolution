@@ -140,7 +140,7 @@
     <submenu name="Actions">
         <placeholder name="Component">
       	    <menuitem name="SendReceive" verb="MailGetSend"
-      	     _label="_Send / Receive"pixtype="pixbuf"/>
+      	     _label="_Send / Receive" pixtype="pixbuf"/>
       	    
       	    <separator/>
       	    
