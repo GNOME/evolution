@@ -5,17 +5,9 @@
 #include <glib.h>
 #include <bonobo/bonobo-i18n.h>
 #include <bonobo/bonobo-main.h>
+#include <libgnome/gnome-init.h>
 
 #include "e-book.h"
-
-static CORBA_Environment ev;
-
-static void
-init_bonobo (int *argc, char **argv)
-{
-	if (bonobo_init (argc, argv) == FALSE)
-		g_error (_("Could not initialize Bonobo"));
-}
 
 static void
 add_card_cb (EBook *book, EBookStatus status, const gchar *id, gpointer closure)
@@ -154,13 +146,11 @@ read_file (char *name)
 int
 main (int argc, char **argv)
 {
+	GnomeProgram *program;
 
-	CORBA_exception_init (&ev);
-
-	gnome_init_with_popt_table("blah", "0.0", argc, argv, NULL, 0, NULL);
-
-	bonobo_activation_init (argc, argv);
-	init_bonobo (&argc, argv);
+	program = gnome_program_init ("load-pine-addressbook", VERSION, LIBGNOME_MODULE, argc, argv, 
+				      GNOME_PROGRAM_STANDARD_PROPERTIES,
+				      NULL);
 
 	g_idle_add (ebook_create, NULL);
 	

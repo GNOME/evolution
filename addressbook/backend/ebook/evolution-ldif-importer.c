@@ -15,17 +15,20 @@
 #include <config.h>
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 
 #include <e-book.h>
 #include <e-card-simple.h>
 #include <e-destination.h>
 
+#include <libgnome/gnome-init.h>
+#include <bonobo/bonobo-generic-factory.h>
+
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory"
-
-static BonoboGenericFactory *factory = NULL;
+#define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer"
 
 static GHashTable *dn_card_hash;
 
@@ -546,10 +549,10 @@ support_format_fn (EvolutionImporter *importer,
 }
 
 static void
-importer_destroy_cb (GObject *object,
-		     LDIFImporter *gci)
+importer_destroy_cb (gpointer data,
+		     GObject *where_object_was)
 {
-	g_main_quit ();
+	bonobo_main_quit ();
 }
 
 static gboolean
@@ -572,55 +575,26 @@ load_file_fn (EvolutionImporter *importer,
 					   
 static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
+	    const char *component_id,
 	    void *closure)
 {
 	EvolutionImporter *importer;
 	LDIFImporter *gci;
 
-	gci = g_new (LDIFImporter, 1);
-	importer = evolution_importer_new (support_format_fn, load_file_fn, 
-					   process_item_fn, NULL, gci);
+	if (!strcmp (component_id, COMPONENT_IID)) {
+		gci = g_new (LDIFImporter, 1);
+		importer = evolution_importer_new (support_format_fn, load_file_fn, 
+						   process_item_fn, NULL, gci);
 	
-	g_signal_connect (importer, "destroy",
-			  G_CALLBACK (importer_destroy_cb), gci);
+		g_object_weak_ref (G_OBJECT (importer),
+				   importer_destroy_cb, gci);
 	
-	return BONOBO_OBJECT (importer);
-}
-
-static void
-importer_init (void)
-{
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
-					      factory_fn, NULL);
-
-	if (factory == NULL) {
-		g_error ("Unable to create factory");
+		return BONOBO_OBJECT (importer);
 	}
-
-	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
-}
-
-int
-main (int argc,
-      char **argv)
-{
-	CORBA_ORB orb;
-	
-	gnome_init_with_popt_table ("Evolution-LDIF-Importer",
-				    "0.0", argc, argv, oaf_popt_options, 0,
-				    NULL);
-	orb = bonobo_activation_init (argc, argv);
-	if (bonobo_init_full (&argc, argv, orb, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE) {
-		g_error ("Could not initialize Bonobo.");
+	else {
+		g_warning (COMPONENT_FACTORY_IID, ": Don't know what to do with %s", component_id);
+		return NULL;
 	}
-
-	importer_init ();
-	bonobo_main ();
-
-	return 0;
 }
 
-
+BONOBO_ACTIVATION_FACTORY (COMPONENT_FACTORY_IID, "Evolution LDIF Importer Factory", VERSION, factory_fn, NULL);
