@@ -1,3 +1,8 @@
+2000-04-24  Christopher James Lahey  <clahey@helixcode.com>
+
+	* idl/folder.idl: Made some functions syncronous that didn't need
+	to be asyncronous.
+
 2000-04-24  Matt Loper  <matt@helixcode.com>
 
 	* e-shell-view.h: Added hpaned and treeview widgets to

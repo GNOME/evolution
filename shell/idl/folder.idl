@@ -38,27 +38,13 @@ module Evolution {
 		void folder_listener_ready (in CallStatus status,
 					    in Folder folder);
 
-		void respond_get_control (in CallStatus stutus,
-					  in Bonobo::Control control);
-		/*
-		 * You must know what interface to query_interface()
-		 * for once you get a data source! 
-		 */
-		void respond_get_data_source (in CallStatus status,
-					      in Bonobo::Unknown data_source);
-
-		void respond_get_name(in CallStatus status,
-				      in string viewable_name);
-		/*		void respond_get_icon(in CallStatus status,
-				in */
-
 		void respond_add_subfolder (in CallStatus status,
 					    in Folder folder);
 		void respond_move_subfolder (in CallStatus status);
 		void respond_delete_subfolder (in CallStatus status);
 
 		/* This signals that some piece of data has changed.
-                   The name, control or data source has changed. */
+                   The name or icon has changed. */
 		void signal_name_changed(in Folder folder);
 		void signal_icon_changed(in Folder folder);
 
@@ -77,16 +63,16 @@ module Evolution {
 		 * only the wombat knows how to do that, by surfing
 		 * the physical evolution directory structure 
 		 */
-		void get_control();
+		Bonobo::control get_control();
 		
 		/*
 		 * You must know what interface to query_interface()
 		 * for once you get a data source!
 		 */
-		void get_data_source();
+		Bonobo::Unknown get_data_source();
 
-		void get_name();
-		void get_icon();
+		char *get_name();
+		char *get_icon();
 		
 		void add_subfolder (in string data_source_id,
 				      in string control_id,
