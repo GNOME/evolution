@@ -174,7 +174,7 @@ build_menus(GalViewMenus *menus)
 	
 	submenu = bonobo_ui_node_new_child(place, "submenu");
 	bonobo_ui_node_set_attr(submenu, "name", "CurrentView");
-	bonobo_ui_node_set_attr(submenu, "_label", _("_Current View"));
+	bonobo_ui_node_set_attr(submenu, "_label", N_("_Current View"));
 
 	length = gal_view_collection_get_count(collection);
 	for (i = 0; i < length; i++) {
@@ -193,9 +193,7 @@ build_menus(GalViewMenus *menus)
 
 	menuitem = bonobo_ui_node_new_child(submenu, "menuitem");
 	bonobo_ui_node_set_attr(menuitem, "name", "DefineViews");
-	label = e_utf8_from_locale_string(_("Define Views"));
-	bonobo_ui_node_set_attr(menuitem, "_label", label);
-	g_free (label);
+	bonobo_ui_node_set_attr(menuitem, "_label", N_("Define Views"));
 	bonobo_ui_node_set_attr(menuitem, "verb", "DefineViews");
 
 	string = bonobo_ui_node_to_string(root, TRUE);
