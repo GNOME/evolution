@@ -34,7 +34,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-
+#undef MIN
+#undef MAX
 #include "camel-smtp-transport.h"
 #include "camel-mime-message.h"
 #include "camel-stream-buffer.h"
@@ -77,6 +78,8 @@ camel_smtp_transport_class_init (CamelSmtpTransportClass *camel_smtp_transport_c
 		CAMEL_TRANSPORT_CLASS (camel_smtp_transport_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_smtp_transport_class);
+	
+	service_class = gtk_type_class (camel_service_get_type ());
 
 	/* virtual method overload */
 	camel_service_class->connect = smtp_connect;

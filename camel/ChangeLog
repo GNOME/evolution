@@ -1,3 +1,8 @@
+2000-05-10  Jeffrey Stedfast  <fejj@stampede.org>
+
+	* providers/smtp/camel-smtp-transport.c: (camel_smtp_transport_class_init):
+	Added initialization for service_class
+
 2000-05-10  Dan Winship  <danw@helixcode.com>
 
 	* camel-multipart.c (write_to_stream): fix a stupid typo. Thank
