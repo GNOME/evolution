@@ -28,6 +28,8 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
+#ifdef THIS_NEEDS_UPDATING_FOR_NEW_BONOBOS
+
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
@@ -83,7 +85,7 @@ control_activate_cb (BonoboControl *control,
 	else
 		control_deactivate (control, uih);
 }
-
+#endif
 
 static BonoboControl *
 create_view (EvolutionShellComponent *shell_component,
@@ -94,8 +96,10 @@ create_view (EvolutionShellComponent *shell_component,
 
 	control = notes_factory_new_control ();
 
+#ifdef THIS_CODE_IS_TOTALY_DEAD
 	gtk_signal_connect (GTK_OBJECT (control), "activate",
 			    control_activate_cb, NULL);
+#endif
 	
 
 	return control;
