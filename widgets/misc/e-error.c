@@ -67,6 +67,7 @@ struct _e_error {
 
 struct _e_error_table {
 	char *domain;
+	char *translation_domain;
 	GHashTable *errors;
 };
 
@@ -184,13 +185,27 @@ ee_load(const char *path)
 
 	table = g_hash_table_lookup(error_table, tmp);
 	if (table == NULL) {
+		char *tmp2;
+
 		table = g_malloc0(sizeof(*table));
 		table->domain = g_strdup(tmp);
 		table->errors = g_hash_table_new(g_str_hash, g_str_equal);
 		g_hash_table_insert(error_table, table->domain, table);
+
+		tmp2 = xmlGetProp(root, "translation-domain");
+		if (tmp2) {
+			table->translation_domain = g_strdup(tmp2);
+			xmlFree(tmp2);
+
+			tmp2 = xmlGetProp(root, "translation-localedir");
+			if (tmp2) {
+				bindtextdomain(table->translation_domain, tmp2);
+				xmlFree(tmp2);
+			}
+		}
 	} else
 		g_warning("Error file '%s', domain '%s' already used, merging", path, tmp);
-	g_free(tmp);
+	xmlFree(tmp);
 
 	for (error = root->children;error;error = error->next) {
 		if (!strcmp(error->name, "error")) {
@@ -224,17 +239,17 @@ ee_load(const char *path)
 			for (scan = error->children;scan;scan=scan->next) {
 				if (!strcmp(scan->name, "primary")) {
 					if ((tmp = xmlNodeGetContent(scan))) {
-						e->primary = g_strdup(_(tmp));
+						e->primary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "secondary")) {
 					if ((tmp = xmlNodeGetContent(scan))) {
-						e->secondary = g_strdup(_(tmp));
+						e->secondary = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "title")) {
 					if ((tmp = xmlNodeGetContent(scan))) {
-						e->title = g_strdup(_(tmp));
+						e->title = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
 				} else if (!strcmp(scan->name, "help")) {
@@ -254,7 +269,7 @@ ee_load(const char *path)
 					}
 					tmp = xmlGetProp(scan, "label");
 					if (tmp) {
-						b->label = g_strdup(_(tmp));
+						b->label = g_strdup(dgettext(table->translation_domain, tmp));
 						xmlFree(tmp);
 					}
 					tmp = xmlGetProp(scan, "response");
@@ -478,21 +493,21 @@ e_error_newv(GtkWindow *parent, const char *tag, const char *arg0, va_list ap)
 	out = g_string_new("");
 
 	if (e->title) {
-		ee_build_label(out, _(e->title), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->title), args);
 		gtk_window_set_title((GtkWindow *)dialog, out->str);
 		g_string_truncate(out, 0);
 	} else
-		gtk_window_set_title((GtkWindow *)dialog, _(type_map[e->type].title));
+		gtk_window_set_title((GtkWindow *)dialog, dgettext(table->translation_domain, type_map[e->type].title));
 
 
 	if (e->primary) {
 		g_string_append(out, "<span weight=\"bold\" size=\"larger\">");
-		ee_build_label(out, _(e->primary), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->primary), args);
 		g_string_append(out, "</span>\n\n");
 	}
 
 	if (e->secondary)
-		ee_build_label(out, _(e->secondary), args);
+		ee_build_label(out, dgettext(table->translation_domain, e->secondary), args);
 
 	g_ptr_array_free(args, TRUE);
 
