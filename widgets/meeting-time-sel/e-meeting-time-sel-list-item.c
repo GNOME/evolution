@@ -28,7 +28,10 @@
  * column. 
  */
 
+#include HAVE_CONFIG_H
 #include <config.h>
+#endif
+
 #include <time.h>
 #include <gal/widgets/e-canvas.h>
 #include "e-meeting-time-sel-list-item.h"

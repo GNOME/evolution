@@ -22,8 +22,10 @@
  * USA
  */
 
+#ifdef HAVE_CONFIG_H
 #include <config.h>
-#include <gnome.h>
+#endif
+
 #include "e-meeting-time-sel.h"
 
 void add_random_attendee_test_data (EMeetingTimeSelector *mts);
