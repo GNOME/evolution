@@ -1,6 +1,10 @@
-2001-11-15  Valek Filippov  <frob@df.ru>
+2001-11-16  Andras Timar <timar@gnome.hu>
 
-	* ru.po: updated russian translation.
+        * hu.po: Updated Hungarian translation.
+
+2001-11-14  gettextize  <bug-gnu-utils@gnu.org>
+
+	* Makefile.in.in: Upgrade to gettext-0.10.39.
 
 2001-11-14  Christian Rose  <menthos@menthos.com>
 
