@@ -1,3 +1,7 @@
+2002-06-02  Larry Ewing  <lewing@ximian.com>
+
+	* configure.in: require gtkhtml-1.1.1.1 aka multicite branch.
+
 2002-05-14  Dan Winship  <danw@ximian.com>
 
 	* data/evolution.1: Document "evolution default:mail"
