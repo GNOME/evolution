@@ -291,9 +291,9 @@ eti_get_cell_foreground_color (ETableItem *eti, int row, int col, gboolean selec
 
 	if (selected){
 		if (GTK_WIDGET_HAS_FOCUS (canvas))
-			foreground = &canvas->style->text [GTK_STATE_SELECTED];
+			foreground = &canvas->style->fg [GTK_STATE_SELECTED];
 		else
-			foreground = &canvas->style->text [GTK_STATE_ACTIVE];
+			foreground = &canvas->style->fg [GTK_STATE_ACTIVE];
 	} else {
 		foreground = &canvas->style->text [GTK_STATE_NORMAL];
 	}
