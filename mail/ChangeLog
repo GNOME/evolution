@@ -1,3 +1,13 @@
+2004-01-22  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c (em_junk_sa_test_spamd): uncomment system wide
+	spamd test
+
+2004-01-20  Radek Doulik  <rodo@ximian.com>
+
+	* em-junk-filter.c: lock report calls by em_junk_sa_report_lock
+	mutex
+
 2004-01-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate_1_4): Migrate the ETree expanded state

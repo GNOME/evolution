@@ -39,6 +39,7 @@
 #define UNLOCK(x) pthread_mutex_unlock(&x)
 
 static pthread_mutex_t em_junk_sa_test_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_mutex_t em_junk_sa_report_lock = PTHREAD_MUTEX_INITIALIZER;
 
 static const char * em_junk_sa_get_name (void);
 static gboolean em_junk_sa_check_junk (CamelMimeMessage *msg);
@@ -201,19 +202,19 @@ em_junk_sa_test_spamd ()
 		em_junk_sa_available = TRUE;
 		em_junk_sa_use_spamc = FALSE;
 
-		/* if (em_junk_sa_test_spamd_running (-1)) {
-		em_junk_sa_use_spamc = TRUE;
-		em_junk_sa_spamd_port = -1;
-		} else { */
-		for (i = 0; i < NPORTS; i ++) {
-			if (em_junk_sa_test_spamd_running (port)) {
-				em_junk_sa_use_spamc = TRUE;
-				em_junk_sa_spamd_port = port;
-				break;
+		if (em_junk_sa_test_spamd_running (-1)) {
+			em_junk_sa_use_spamc = TRUE;
+			em_junk_sa_spamd_port = -1;
+		} else {
+			for (i = 0; i < NPORTS; i ++) {
+				if (em_junk_sa_test_spamd_running (port)) {
+					em_junk_sa_use_spamc = TRUE;
+					em_junk_sa_spamd_port = port;
+					break;
+				}
+				port ++;
 			}
-			port ++;
 		}
-		/* } */
 
 		if (!em_junk_sa_use_spamc) {
 			static gchar *sad_args [4] = {
@@ -316,7 +317,9 @@ em_junk_sa_report_junk (CamelMimeMessage *msg)
 			 " --single%s",         /* single message */
 			 mail_session_get_sa_local_only ()
 			 ? " --local" : "");    /* local only */
+		LOCK (em_junk_sa_report_lock);
 		pipe_to_sa (msg, NULL, 3, args);
+		UNLOCK (em_junk_sa_report_lock);
 		g_free (args [2]);
 	}
 }
@@ -341,7 +344,9 @@ em_junk_sa_report_notjunk (CamelMimeMessage *msg)
 			 " --single%s",         /* single message */
 			 mail_session_get_sa_local_only ()
 			 ? " --local" : "");    /* local only */
+		LOCK (em_junk_sa_report_lock);
 		pipe_to_sa (msg, NULL, 3, args);
+		UNLOCK (em_junk_sa_report_lock);
 		g_free (args [2]);
 	}
 }
@@ -364,7 +369,9 @@ em_junk_sa_commit_reports (void)
 			 " --rebuild%s",           /* do not rebuild db */
 			 mail_session_get_sa_local_only ()
 			 ? " --local" : "");       /* local only */
+		LOCK (em_junk_sa_report_lock);
 		pipe_to_sa (NULL, NULL, 3, args);
+		UNLOCK (em_junk_sa_report_lock);
 		g_free (args [2]);
 	}
 }
