@@ -34,6 +34,8 @@ struct _GncalDayView {
 	time_t upper;
 
 	char *day_str;          /* what day is it? */
+
+	GtkShadowType shadow_type;
 };
 
 struct _GncalDayViewClass {
@@ -46,6 +48,8 @@ GtkWidget *gncal_day_view_new          (Calendar *calendar, time_t lower, time_t
 
 void       gncal_day_view_update       (GncalDayView *dview);
 void       gncal_day_view_set_bounds   (GncalDayView *dview, time_t lower, time_t upper);
+
+void       gncal_day_view_set_shadow   (GncalDayView *dview, GtkShadowType shadow_type);
 
 
 END_GNOME_DECLS

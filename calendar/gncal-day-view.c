@@ -77,6 +77,8 @@ gncal_day_view_init (GncalDayView *dview)
 
 	dview->lower = 0;
 	dview->upper = 0;
+
+	dview->shadow_type = GTK_SHADOW_ETCHED_IN;
 }
 
 static void
@@ -202,7 +204,7 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 			       event->area.width, event->area.height);
 
 	gtk_draw_shadow (widget->style, widget->window,
-			 GTK_STATE_NORMAL, GTK_SHADOW_IN,
+			 GTK_STATE_NORMAL, dview->shadow_type,
 			 0, 0,
 			 widget->allocation.width,
 			 widget->allocation.height);
@@ -303,5 +305,18 @@ gncal_day_view_set_bounds (GncalDayView *dview, time_t lower, time_t upper)
 		dview->upper = upper;
 
 		gncal_day_view_update (dview);
+	}
+}
+
+void
+gncal_day_view_set_shadow (GncalDayView *dview, GtkShadowType shadow_type)
+{
+	g_return_if_fail (dview != NULL);
+	g_return_if_fail (GNCAL_IS_DAY_VIEW (dview));
+
+	if (shadow_type != dview->shadow_type) {
+		dview->shadow_type = shadow_type;
+
+		gtk_widget_draw (GTK_WIDGET (dview), NULL);
 	}
 }
