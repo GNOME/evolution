@@ -820,6 +820,18 @@ set_folder_picker_label (GtkButton *button, const char *name)
 	g_free (string);
 }
 
+static char *
+basename_from_uri (const char *uri)
+{
+	const char *base;
+	
+	base = strrchr (uri, '/');
+	g_assert (base != NULL);
+	
+	/* translate the basename: fixes bug #7160 */
+	return g_strdup (_(base));
+}
+
 static void
 folder_picker_clicked (GtkButton *button, gpointer user_data)
 {
@@ -842,7 +854,7 @@ folder_picker_clicked (GtkButton *button, gpointer user_data)
 	g_free (folder->uri);
 	folder->uri = physical_uri;
 	g_free (folder->name);
-	folder->name = g_strdup (g_basename (evolution_uri));
+	folder->name = basename_from_uri (evolution_uri);
 	g_free (evolution_uri);
 	set_folder_picker_label (button, folder->name);
 }
@@ -1710,7 +1722,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		g_free (account->drafts_folder_name);
-		account->drafts_folder_name = g_strdup (g_basename (default_drafts_folder_uri));
+		account->drafts_folder_name = basename_from_uri (default_drafts_folder_uri);
 		g_free (account->drafts_folder_uri);
 		account->drafts_folder_uri = g_strdup (default_drafts_folder_uri);
 	}
@@ -1729,7 +1741,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	} else {
 		/* assign defaults - the uri is unknown to us (probably pointed to an old source url) */
 		g_free (account->sent_folder_name);
-		account->sent_folder_name = g_strdup (g_basename (default_sent_folder_uri));
+		account->sent_folder_name = basename_from_uri (default_sent_folder_uri);
 		g_free (account->sent_folder_uri);
 		account->sent_folder_uri = g_strdup (default_sent_folder_uri);
 	}

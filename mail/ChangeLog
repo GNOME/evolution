@@ -1,5 +1,11 @@
 2002-02-14  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (basename_from_uri): Replacement for using
+	g_basename and also translates the basename string to fix bug
+	#7160.
+	(mail_account_gui_save): Use basename_from_uri().
+	(folder_picker_clicked): Here too.
+
 	* mail-callbacks.c (mail_generate_reply): Default the from-account
 	to the source account. If that fails, then guess the from-account
 	based on the recipients. Fixes bug #20479.
