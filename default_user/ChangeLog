@@ -1,3 +1,8 @@
+2003-04-18  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am (install-data-hook): Don't need "private" dir any
+	more
+
 2003-04-07  Dan Winship  <danw@ximian.com>
 
 	* local/Inbox/mbox: Fix the From header to be valid. Dum de dum.
