@@ -1,3 +1,9 @@
+2001-08-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* component-factory.c (create_view): Don't blindly make all vtrash
+	folder types have a uri of vtrash:file:/, instead only make it use
+	vtrash:file:/ if it's a file: uri, else use physical_uri.
+
 2001-08-22  jacob berkman  <jacob@ximian.com>
 
 	* mail-display.c: rework how the e-card-popup thing has its life
@@ -13,8 +19,8 @@
 
 	Prevent the user from creating two accounts with the same name.
 	
-	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Abort
-	if the account has the same name as another account.
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount):
+	Abort if the account has the same name as another account.
 
 	* mail-account-gui.c (mail_account_gui_save): Don't let the user
 	save if the account has the same name as another account.
@@ -27,8 +33,8 @@
 	(wizard_finish_cb): Save the account first because that's the
 	right way, and try to honor mail_account_gui_save's return value.
 	
-	* mail-config.glade: Add a label noting that you're not allowed
-	to create two accounts with the same name.
+	* mail-config.glade: Add a label noting that you're not allowed to
+	create two accounts with the same name.
 	
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
@@ -38,10 +44,11 @@
 
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
-	* mail-account-editor.c (apply_changes): Honor the return value of 
+	* mail-account-editor.c (apply_changes): Honor the return value of
 	mail_account_gui_save.
 
-	* mail-ops.c (sync_folder_desc): Say which folder is getting saved.
+	* mail-ops.c (sync_folder_desc): Say which folder is getting
+	saved.
 
 2001-08-21  Dan Winship  <danw@ximian.com>
 
@@ -50,7 +57,7 @@
 	something different. Fixes a problem with recognizing icalendar
 	attachments labeled "application/octet-stream". Also, don't bother
 	asking gnome-vfs about winmail.dat attachments, since it will
-	often claim that they're MPEGs due to some mis-magic. 
+	often claim that they're MPEGs due to some mis-magic.
 
 2001-08-21  Jeffrey Stedfast  <fejj@ximian.com>
 
@@ -60,27 +67,27 @@
 
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
-	* message-list.c (message_list_set_folder): Don't sink the extras since
-	_set_folder can get called more than once (on reconfigure.)
+	* message-list.c (message_list_set_folder): Don't sink the extras
+	since _set_folder can get called more than once (on reconfigure.)
 	(message_list_destroy): So just unref the extras here.
 
-	* mail-send-recv.c (build_dialogue): Treat the spool provider like IMAP:
-	update instead of performing an explicit receive.
+	* mail-send-recv.c (build_dialogue): Treat the spool provider like
+	IMAP: update instead of performing an explicit receive.
 
 2001-08-21  Peter Williams  <peterw@ximian.com>
 
-	* folder-browser-ui.c (fbui_sensitize_items): Rename to 
-	fbui_real_sensitize_items. Now we queue a change and set up a timeout,
-	making sure weed out redundant changes, fixing flicker.
+	* folder-browser-ui.c (fbui_sensitize_items): Rename to
+	fbui_real_sensitize_items. Now we queue a change and set up a
+	timeout, making sure weed out redundant changes, fixing flicker.
 	(fbui_sensitize_timeout): New function. The timeout.
 	(fbui_real_sensitize_items): Semi-new function. Rename of old
 	fbui_sensitize_items.
-	(folder_browser_ui_set_selection_state): Pass the FB instead of only
-	the UIC to sensitize_items.
+	(folder_browser_ui_set_selection_state): Pass the FB instead of
+	only the UIC to sensitize_items.
 	(folder_browser_ui_message_loaded): Same.
 
-	* folder-browser.c (folder_browser_destroy): Kill the new timeout if
-	it is registered.
+	* folder-browser.c (folder_browser_destroy): Kill the new timeout
+	if it is registered.
 
 	* folder-browser.h: Add some members to FolderBrowser for keeping
 	track of the queue of changes.
@@ -289,17 +296,18 @@
 
 2001-08-16  Peter Williams  <peterw@ximian.com>
 
-	* folder-browser-ui.c (folder_browser_ui_set_selection_state): Disable
-	"Search Message" when more or less than exactly one message is selected.
+	* folder-browser-ui.c (folder_browser_ui_set_selection_state):
+	Disable "Search Message" when more or less than exactly one
+	message is selected.
 
-	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully 
-	getting the path, use a CamelURL so that escaping is handled. Silly
-	me. -- See below --
-	(fe_node_to_shell_path): Use node->name and node->full_name to generate
-	the the shell path of this item. Don't need to escape the URL, and
-	handle cases when dir_sep != '/'
-	(fe_done_subscribing): Use fe_node_to_shell_path instead of the CamelURL.
-	Third time's the charm...
+	* subscribe-dialog.c (fe_done_subscribing): Instead of hackfully
+	getting the path, use a CamelURL so that escaping is
+	handled. Silly me. -- See below --
+	(fe_node_to_shell_path): Use node->name and node->full_name to
+	generate the the shell path of this item. Don't need to escape the
+	URL, and handle cases when dir_sep != '/'
+	(fe_done_subscribing): Use fe_node_to_shell_path instead of the
+	CamelURL.  Third time's the charm...
 
 2001-08-15  Jeffrey Stedfast  <fejj@ximian.com>
 

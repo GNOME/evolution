@@ -130,7 +130,7 @@ create_view (EvolutionShellComponent *shell_component,
 	shell_client = evolution_shell_component_get_owner (shell_component);
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
-	if (g_strcasecmp (folder_type, "mail") == 0) {
+	if (!g_strcasecmp (folder_type, "mail")) {
 		const char *noselect;
 		CamelURL *url;
 		
@@ -142,7 +142,7 @@ create_view (EvolutionShellComponent *shell_component,
 			control = folder_browser_factory_new_control (physical_uri,
 								      corba_shell);
 		camel_url_free (url);
-	} else if (g_strcasecmp (folder_type, "mailstorage") == 0) {
+	} else if (!g_strcasecmp (folder_type, "mailstorage")) {
 		CamelService *store;
 		EvolutionStorage *storage;
 		
@@ -157,12 +157,15 @@ create_view (EvolutionShellComponent *shell_component,
 		}
 		
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_scan_subfolders (CAMEL_STORE(store), storage);
+			mail_scan_subfolders (CAMEL_STORE (store), storage);
 		camel_object_unref (CAMEL_OBJECT (store));
 		
 		control = folder_browser_factory_new_control ("", corba_shell);
-	} else if (g_strcasecmp (folder_type, "vtrash") == 0) {
-		control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
+	} else if (!g_strcasecmp (folder_type, "vtrash")) {
+		if (!g_strncasecmp (physical_uri, "file:", 5))
+			control = folder_browser_factory_new_control ("vtrash:file:/", corba_shell);
+		else
+			control = folder_browser_factory_new_control (physical_uri, corba_shell);
 	} else
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 	

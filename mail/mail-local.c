@@ -647,8 +647,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 
 	local_provider.service_cache = g_hash_table_new (non_hash, non_equal);
 	camel_session_register_provider (session, &local_provider);
-
-
+	
 	/* Now build the storage. */
 	local_store = (MailLocalStore *)camel_session_get_service (
 		session, "file:/", CAMEL_PROVIDER_STORE, NULL);
@@ -656,7 +655,7 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 		g_warning ("No local store!");
 		return;
 	}
-
+	
 	local_store->corba_storage = evolution_shell_client_get_local_storage (shellclient);
 	if (local_store->corba_storage == CORBA_OBJECT_NIL) {
 		g_warning ("No local storage!");
