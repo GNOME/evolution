@@ -516,30 +516,32 @@ static int
 text_index_rename(CamelIndex *idx, const char *path)
 {
 	struct _CamelTextIndexPrivate *p = CTI_PRIVATE(idx);
-	char *newlink;
+	char *newlink, *newblock;
 	int err, ret;
 
 	CAMEL_TEXT_INDEX_LOCK(idx, lock);
 
-	ret = camel_block_file_rename(p->blocks, path);
+	newblock = alloca(strlen(path)+8);
+	sprintf(newblock, "%s.index", path);
+	ret = camel_block_file_rename(p->blocks, newblock);
 	if (ret == -1) {
 		CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 		return -1;
 	}
 
-	newlink = alloca(strlen(path)+8);
-	sprintf(newlink, "%s.data", path);
+	newlink = alloca(strlen(path)+16);
+	sprintf(newlink, "%s.index.data", path);
 	ret = camel_key_file_rename(p->links, newlink);
 	if (ret == -1) {
 		err = errno;
-		camel_block_file_rename(p->blocks, path);
+		camel_block_file_rename(p->blocks, idx->path);
 		CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 		errno = err;
 		return -1;
 	}
 
 	g_free(idx->path);
-	idx->path = g_strdup(path);
+	idx->path = g_strdup(newblock);
 
 	CAMEL_TEXT_INDEX_UNLOCK(idx, lock);
 
@@ -909,13 +911,13 @@ camel_text_index_rename(const char *old, const char *new)
 	sprintf(oldname, "%s.index", old);
 	sprintf(newname, "%s.index", new);
 
-	if (rename(oldname, newname) == -1)
+	if (rename(oldname, newname) == -1 && errno != ENOENT)
 		return -1;
 
 	sprintf(oldname, "%s.index.data", old);
 	sprintf(newname, "%s.index.data", new);
 
-	if (rename(oldname, newname) == -1) {
+	if (rename(oldname, newname) == -1 && errno != ENOENT) {
 		err = errno;
 		sprintf(oldname, "%s.index", old);
 		sprintf(newname, "%s.index", new);

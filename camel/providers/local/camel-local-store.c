@@ -40,7 +40,7 @@
 #include "camel-local-folder.h"
 #include <camel/camel-text-index.h>
 
-#define d(x)
+#define d(x) 
 
 /* Returns the class for a CamelLocalStore */
 #define CLOCALS_CLASS(so) CAMEL_LOCAL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
@@ -323,7 +323,7 @@ rename_folder(CamelStore *store, const char *old, const char *new, CamelExceptio
 	CAMEL_STORE_LOCK(store, cache_lock);
 	folder = g_hash_table_lookup(store->folders, old);
 	if (folder && folder->index) {
-		if (folder->index && camel_index_rename(folder->index, newibex) == -1)
+		if (camel_index_rename(folder->index, newibex) == -1)
 			goto ibex_failed;
 	} else {
 		/* TODO: camel_text_index_rename should find out if we have an active index itself? */
@@ -354,6 +354,10 @@ summary_failed:
 	} else
 		camel_text_index_rename(newibex, oldibex);
 ibex_failed:
+	camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
+			     _("Could not rename '%s': %s"),
+			     old, strerror(errno));
+
 	CAMEL_STORE_UNLOCK(store, cache_lock);
 	g_free(newibex);
 	g_free(oldibex);

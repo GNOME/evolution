@@ -1,5 +1,13 @@
 2002-04-18  Not Zed  <NotZed@Ximian.com>
 
+	* providers/local/camel-local-store.c (rename_folder): If we get a
+	failure, make sure we set an exception.
+
+	* camel-text-index.c (camel_text_index_rename): If the file
+	doesn't exist, just assume it never did, dont return failure.
+	(text_index_rename): Add '.index' to the path name we're using,
+	since we dont get it passed in.
+
 	* camel-folder-search.c (check_header): When doing a contains
 	match, split the words and perform an and on it.
 	(match_words_messages): If we have an index, but were forced to do
