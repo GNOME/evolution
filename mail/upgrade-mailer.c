@@ -86,23 +86,32 @@ e_memmem (const void *haystack, size_t haystacklen, const void *needle, size_t n
 static char
 find_dir_sep (GByteArray *buf)
 {
-	unsigned char *p;
+	register unsigned char *inptr;
+	unsigned char *inend;
 	
-	if (!(p = e_memmem (buf->data, buf->len, "* LSUB (", 8)))
+	inend = buf->data + buf->len;
+	
+	if (!(inptr = e_memmem (buf->data, buf->len, "* LSUB (", 8)))
 		return '\0';
 	
-	p += 9;
-	while (*p != ')')
-		p++;
+	inptr += 9;
+	while (inptr < inend && *inptr != ')')
+		inptr++;
 	
-	p++;
-	while (isspace ((int) *p))
-		p++;
+	if (inptr >= inend)
+		return '\0';
 	
-	if (*p == '\"')
-		p++;
+	inptr++;
+	while (inptr < inend && isspace ((int) *inptr))
+		inptr++;
 	
-	return *p;
+	if (inptr >= inend)
+		return '\0';
+	
+	if (*inptr == '\"')
+		inptr++;
+	
+	return inptr < inend ? *inptr : '\0';
 }
 
 static void
@@ -112,7 +121,8 @@ si_free (gpointer key, gpointer val, gpointer user_data)
 	
 	g_free (si->base_url);
 	g_free (si->namespace);
-	g_byte_array_free (si->junk, TRUE);
+	if (si->junk)
+		g_byte_array_free (si->junk, TRUE);
 	g_free (si);
 }
 
@@ -753,7 +763,8 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 			}
 			g_free (path);
 			
-			si->dir_sep = find_dir_sep (si->junk);
+			if (si->junk)
+				si->dir_sep = find_dir_sep (si->junk);
 			
 			g_hash_table_insert (imap_sources, si->base_url, si);
 			
