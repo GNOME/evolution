@@ -1,5 +1,28 @@
 2001-12-05  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c
+	(search_for_dn_with_objectclasses): move search_for_dn's contents
+	here, and add an "existing_objectclasses" parameter that we pass
+	on to build_card_from_entry.
+	(search_for_dn): call search_for_dn_with_objectclasses with NULL
+	for existing_objectclasses.
+	(build_card_from_entry): if existing_objectclasses is non-NULL,
+	fill it in with the list of existing objectclass values for this
+	entry.
+	(add_objectclass_mod): if existing_objectclasses is non-NULL,
+	meaning we're modifying an entry, search in the existing
+	objectclasses for the ones we want to be there, and only add
+	what's missing.  If none are missing, don't add objectclass_mod to
+	the list of mods.
+	(create_card_handler): track change to add_objectclass_mod (pass
+	NULL).
+	(modify_card_handler): use search_for_dn_with_objectclasses
+	instead of search_for_dn, and pass the existing objectclasses to
+	add_objectclass_mod.  also, free the list when we're done.
+	(poll_ldap): track change to build_card_from_entry (pass NULL).
+
+2001-12-05  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (enable_writable_fields):
 	we need to be able to disable non-labels here as well.  since
 	we're using enable_widget and not gtk_widget_set_sensitive, it's
