@@ -1664,11 +1664,9 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 	/* set the menus on the optionmenus */
 	gtk_option_menu_remove_menu (gui->source.type);
 	gtk_option_menu_set_menu (gui->source.type, stores);
-	gtk_option_menu_set_history (gui->source.type, hstore);
 	
 	gtk_option_menu_remove_menu (gui->transport.type);
 	gtk_option_menu_set_menu (gui->transport.type, transports);
-	gtk_option_menu_set_history (gui->transport.type, htransport);
 	
 	/* Force the authmenus to the width of the widest element */
 	if (max_authname) {
@@ -1694,11 +1692,15 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 		gtk_widget_show_all (top);
 	}
 	
-	if (fstore)
+	if (fstore) {
 		gtk_signal_emit_by_name (GTK_OBJECT (fstore), "activate");
+		gtk_option_menu_set_history (gui->source.type, hstore);
+	}
 	
-	if (ftransport)
+	if (ftransport) {
 		gtk_signal_emit_by_name (GTK_OBJECT (ftransport), "activate");
+		gtk_option_menu_set_history (gui->transport.type, htransport);
+	}
 	
 	if (source_proto) {
 		setup_service (&gui->source, gui->account->source);
