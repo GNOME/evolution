@@ -25,6 +25,7 @@
  */
 #include <config.h>
 #include "camel-service.h"
+#include "camel-session.h"
 #include "camel-exception.h"
 
 #include <ctype.h>
@@ -124,15 +125,13 @@ camel_service_new (GtkType type, CamelSession *session, CamelURL *url,
 {
 	CamelService *service;
 
-	g_assert(session);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 
 	service = CAMEL_SERVICE (gtk_object_new (type, NULL));
 	service->session = session;
 	gtk_object_ref (GTK_OBJECT (session));
-	if (!url->empty) {
-		if (!_set_url (service, url, ex))
-			return NULL;
-	}
+	if (!_set_url (service, url, ex) && !url->empty)
+		return NULL;
 
 	return service;
 }
@@ -150,13 +149,6 @@ camel_service_new (GtkType type, CamelSession *session, CamelURL *url,
 static gboolean
 _connect (CamelService *service, CamelException *ex)
 {
-	g_assert (service->session);
-	/* XXX it's possible that this should be an exception
-	 * rather than an assertion... I'm not sure how the code
-	 * is supposed to be used.
-	 */
-	g_assert (service->url);
-
 	service->connected = TRUE;
 	return TRUE;
 }
@@ -176,6 +168,10 @@ _connect (CamelService *service, CamelException *ex)
 gboolean
 camel_service_connect (CamelService *service, CamelException *ex)
 {
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+	g_return_val_if_fail (service->session != NULL, FALSE);
+	g_return_val_if_fail (service->url != NULL, FALSE);
+
 	return CSERV_CLASS(service)->connect(service, ex);
 }
 
@@ -195,8 +191,6 @@ camel_service_connect (CamelService *service, CamelException *ex)
 static gboolean
 _connect_with_url (CamelService *service, CamelURL *url, CamelException *ex)
 {
-	g_assert (service->session);
-
 	if (!_set_url (service, url, ex))
 		return FALSE;
 
@@ -218,8 +212,12 @@ gboolean
 camel_service_connect_with_url (CamelService *service, char *url_string,
 				CamelException *ex)
 {
-	CamelURL *url = camel_url_new (url_string, ex);
+	CamelURL *url;
 
+	g_return_val_if_fail (CAMEL_IS_SERVICE (service), FALSE);
+	g_return_val_if_fail (service->session != NULL, FALSE);
+
+	url = camel_url_new (url_string, ex);
 	if (!url)
 		return FALSE;
 	return CSERV_CLASS(service)->connect_with_url (service, url, ex);

@@ -1,3 +1,10 @@
+2000-05-29  Dan Winship  <danw@helixcode.com>
+
+	* camel-service.c (camel_service_new): Fix up some glib
+	precondition stuff. Try to set the URL in camel_service_new before
+	checking whether or not it's "empty" so that you can successfully
+	set "sendmail:" as a URL.
+
 2000-05-28  Dan Winship  <danw@helixcode.com>
 
 	* camel-provider.h: Add a domain field to CamelProvider, to say
