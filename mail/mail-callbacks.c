@@ -1566,8 +1566,9 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	if (!folder_browser_is_drafts (fb)) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog (_("You may only edit messages saved\n"
-						  "in the Drafts folder."));
+		message = gnome_warning_dialog_parented (_("You may only edit messages saved\n"
+							   "in the Drafts folder."),
+							 GTK_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
@@ -1600,8 +1601,9 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	if (!folder_browser_is_sent (fb)) {
 		GtkWidget *message;
 		
-		message = gnome_warning_dialog (_("You may only resend messages\n"
-						  "in the Sent folder."));
+		message = gnome_warning_dialog_parented (_("You may only resend messages\n"
+							   "in the Sent folder."),
+							 GTK_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
@@ -1633,7 +1635,7 @@ search_msg (GtkWidget *widget, gpointer user_data)
 	GtkWidget *w;
 
 	if (fb->mail_display->current_message == NULL) {
-		gtk_widget_show_all (gnome_warning_dialog (_("No Message Selected")));
+		gtk_widget_show_all (gnome_warning_dialog_parented (_("No Message Selected"), GTK_WINDOW (fb)));
 		return;
 	}
 
@@ -1672,6 +1674,8 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 					   GNOME_STOCK_BUTTON_YES, 
 					   GNOME_STOCK_BUTTON_NO,
 					   NULL);
+		
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (user_data));
 		
 		gtk_widget_set_parent (dialog, GTK_WIDGET (user_data));
 		text = gtk_label_new (_("A file by that name already exists.\nOverwrite it?"));
@@ -1857,7 +1861,7 @@ expunged_folder (CamelFolder *f, void *data)
 }
 
 static gboolean
-confirm_expunge (void)
+confirm_expunge (FolderBrowser *fb)
 {
 	GtkWidget *dialog, *label, *checkbox;
 	int button;
@@ -1869,6 +1873,8 @@ confirm_expunge (void)
 				   GNOME_STOCK_BUTTON_YES,
 				   GNOME_STOCK_BUTTON_NO,
 				   NULL);
+	
+	gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
 	
 	label = gtk_label_new (_("This operation will permanently erase all messages marked as deleted. If you continue, you will not be able to recover these messages.\n\nReally erase these messages?"));
 	
@@ -1900,7 +1906,7 @@ expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	
-	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge ()) {
+	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging) && confirm_expunge (fb)) {
 		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
 		
@@ -1984,7 +1990,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 		
 		err = g_strdup_printf (_("Error loading filter information:\n%s"),
 				       ((RuleContext *)fc)->error);
-		dialog = gnome_warning_dialog (err);
+		dialog = gnome_warning_dialog_parented (err, GTK_WINDOW (fb));
 		g_free (err);
 		
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
@@ -1992,6 +1998,7 @@ filter_edit (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 	
 	filter_editor = (GtkWidget *)filter_editor_new (fc, filter_source_names);
+	gnome_dialog_set_parent (GNOME_DIALOG (filter_editor), GTK_WINDOW (fb));
 	gtk_window_set_title (GTK_WINDOW (filter_editor), _("Filters"));
 	
 	gtk_object_set_data_full (GTK_OBJECT (filter_editor), "context", fc, (GtkDestroyNotify)gtk_object_unref);
@@ -2012,9 +2019,11 @@ void
 providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	static MailAccountsDialog *dialog = NULL;
+	FolderBrowser *fb = user_data;
 	
 	if (!dialog) {
-		dialog = mail_accounts_dialog_new ((FOLDER_BROWSER (user_data))->shell);
+		dialog = mail_accounts_dialog_new (fb->shell);
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), GTK_WINDOW (fb));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 		dialog = NULL;
 	} else {

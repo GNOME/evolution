@@ -1,5 +1,15 @@
 2001-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c (providers_config): Set the parent window as
+	the fb. This fixes bug #11723.
+	(filter_edit): Do the same thing here too and also to the warning
+	dialog.
+	(edit_msg): Set the parent on the warning dialog.
+	(resend_msg): And here.
+	(search_msg): Here too.
+	(confirm_expunge): Set the parent window on the dialog here too.
+	(save_msg_ok): Same here.
+
 	* mail-accounts.c (images_radio_toggled): Ignore the signal if the
 	radio button is not "on". This fixes bug #10532 because the on/off
 	signals don't always come in the off->on order.
