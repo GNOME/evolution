@@ -1481,7 +1481,6 @@ html_button_press_event (GtkWidget *widget, GdkEventButton *event, MailDisplay *
 										 CORBA_OBJECT_NIL);
 
 					bonobo_widget_set_property (BONOBO_WIDGET (popup_thing),
-								    "name", "",
 								    "email", url+7,
 								    NULL);
 					make_popup_window (popup_thing);

@@ -1,3 +1,8 @@
+2001-06-21  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (html_button_press_event): Remove empty "name"
+	property setting from the popup control.
+
 2001-06-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (composer_get_message): Allow the message to be
