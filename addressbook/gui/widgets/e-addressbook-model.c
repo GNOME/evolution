@@ -405,6 +405,7 @@ get_view (EAddressbookModel *model)
 				e_book_get_book_view (model->book, model->query, book_view_loaded, model);
 			}
 			model->first_get_view = FALSE;
+			g_free (capabilities);
 		}
 		else
 			e_book_get_book_view (model->book, model->query, book_view_loaded, model);
