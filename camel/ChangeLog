@@ -1,3 +1,10 @@
+2002-09-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c
+	(camel_imap_folder_fetch_data): Clear the exception even if we
+	failed to get the message (part) from the imap-message-cache if we
+	are online and able to try fetching it from the IMAP server.
+
 2002-09-10  Not Zed  <NotZed@Ximian.com>
 
 	* camel-data-cache.c (data_cache_expire): Remove the hash table

@@ -2430,6 +2430,7 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 		return NULL;
 	}
 	
+	camel_exception_clear (ex);
 	if (store->server_level < IMAP_LEVEL_IMAP4REV1 && !*section_text) {
 		response = camel_imap_command (store, folder, ex,
 					       "UID FETCH %s RFC822.PEEK",
