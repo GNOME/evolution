@@ -1,5 +1,9 @@
 2004-10-20  Not Zed  <NotZed@Ximian.com>
 
+	* configure.in: added prefer plain plugin.
+	
+2004-10-20  Not Zed  <NotZed@Ximian.com>
+
 	* configure.in: added save attachments plugin.
 
 2004-10-20  JP Rosevear  <jpr@novell.com>
