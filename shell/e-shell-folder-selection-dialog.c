@@ -335,10 +335,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (folder_selection_dialog)->vbox),
 			    scroll_frame, TRUE, TRUE, 2);
 
-	gtk_widget_show (scroll_frame);
 	gtk_widget_show (priv->storage_set_view);
-
-	gtk_widget_grab_focus (priv->storage_set_view);
+	gtk_widget_show (scroll_frame);
 }
 
 /**
