@@ -1009,25 +1009,22 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
 	CamelImapResponse *response;
-
+	
 	if (!camel_disco_store_check_online (CAMEL_DISCO_STORE (store), ex))
 		return;
-
+	
 	/* make sure this folder isn't currently SELECTed */
-
 	response = camel_imap_command (imap_store, NULL, ex, "SELECT INBOX");
 	if (response) {
-		camel_imap_response_free (imap_store, response);
-
+		camel_imap_response_free_without_processing (imap_store, response);
+		
 		if (imap_store->current_folder)
 			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
 		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 	} else
 		return;
-
-	/* delete the old parent and recreate it */
-
+	
 	response = camel_imap_command (imap_store, NULL, ex, "DELETE %F",
 				       folder_name);
 	if (response)
