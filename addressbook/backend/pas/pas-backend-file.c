@@ -486,6 +486,8 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	if (!bf->priv->loaded)
 		return;
 
+	pas_book_view_notify_status_message (view->book_view, "Searching...");
+
 	if (view->search_sexp)
 		e_sexp_unref(view->search_sexp);
 	view->search_sexp = e_sexp_new();
@@ -506,7 +508,9 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	file_version_name_len = strlen (PAS_BACKEND_FILE_VERSION_NAME);
 
 	if (esexp_error == -1) {
+		/* need a different error message here. */
 		pas_book_view_notify_complete (view->book_view);
+		pas_book_view_notify_status_message (view->book_view, "Error in search expression.");
 		return;
 	}
 
@@ -553,6 +557,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 		pas_book_view_notify_add (view->book_view, cards);
 
 	pas_book_view_notify_complete (view->book_view);
+	pas_book_view_notify_status_message (view->book_view, "Search complete");
 
 	/*
 	** It's fine to do this now since the data has been handed off.

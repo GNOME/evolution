@@ -1,5 +1,21 @@
 2001-05-23  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (view_destroy): fix strings such
+	that ones that happening at the beginning or during an operation
+	are followed by "..." and those that stop the operation are
+	followed by "."
+	(create_card_handler): same.
+	(ldap_op_process_current): same, and also call _notify_complete if
+	we can't connect to ldap server.
+	(poll_ldap): same, and change "Polling for LDAP search result" to
+	"Receiving LDAP search results"
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): call
+	notify_status_message at the beginning of this function, and
+	whenever we call _notify_complete.
+
+2001-05-23  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-addressbook-model.h: add sequence_complete_id to
 	EAddressbookModel and stop_state_changed to
 	EAddressbookModelClass.  also, add prototype for
