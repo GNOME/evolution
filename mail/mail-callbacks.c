@@ -1618,32 +1618,47 @@ previous_flagged_msg (GtkWidget *button, gpointer user_data)
 			     CAMEL_MESSAGE_FLAGGED, CAMEL_MESSAGE_FLAGGED);
 }
 
+struct _expunged_folder_data {
+	FolderBrowser *fb;
+	gboolean hidedeleted;
+};
+
 static void
 expunged_folder (CamelFolder *f, void *data)
 {
-	FolderBrowser *fb = data;
-
+	FolderBrowser *fb = ((struct _expunged_folder_data *) data)->fb;
+	gboolean hidedeleted = ((struct _expunged_folder_data *) data)->hidedeleted;
+	
 	fb->expunging = NULL;
+	message_list_set_hidedeleted (fb->message_list, hidedeleted);
+	
+	g_free (data);
 }
 
 void
 expunge_folder (BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	FolderBrowser *fb = FOLDER_BROWSER(user_data);
-
-	if (fb->folder
-	    && (fb->expunging == NULL
-		|| fb->folder != fb->expunging)) {
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (fb->folder && (fb->expunging == NULL || fb->folder != fb->expunging)) {
+		struct _expunged_folder_data *data;
 		CamelMessageInfo *info;
-
+		
+		data = g_malloc (sizeof (*data));
+		data->fb = fb;
+		data->hidedeleted = fb->message_list->hidedeleted;
+		
+		/* hide the deleted messages so user can't click on them while we expunge */
+		message_list_set_hidedeleted (fb->message_list, TRUE);
+		
 		/* Only blank the mail display if the message being
                    viewed is one of those to be expunged */
 		info = camel_folder_get_message_info (fb->folder, fb->loaded_uid);
 		if (info->flags & CAMEL_MESSAGE_DELETED)
 			mail_display_set_message (fb->mail_display, NULL);
-
+		
 		fb->expunging = fb->folder;
-		mail_expunge_folder(fb->folder, expunged_folder, fb);
+		mail_expunge_folder (fb->folder, expunged_folder, data);
 	}
 }
 

@@ -1,3 +1,10 @@
+2001-07-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (expunge_folder): Force-hide all deleted
+	messages before expunging.
+	(expunged_folder): Restore the user's "hide deleted messages"
+	preference.
+
 2001-07-12  Jason Leach  <jleach@ximian.com>
 
 	* mail-callbacks.c (expunge_folder): Only blank the mail display
@@ -18,9 +25,9 @@
 
 2001-07-10  Federico Mena Quintero  <federico@ximian.com>
 
-	* mail-display.c (link_copy_location): Set the CLIPBOARD
-	selection as well as the primary selection so that Edit/Paste will
-	work in other programs (e.g. Netscape).
+	* mail-display.c (link_copy_location): Set the CLIPBOARD selection
+	as well as the primary selection so that Edit/Paste will work in
+	other programs (e.g. Netscape).
 	(mail_display_new): Add the target for the CLIPBOARD selection.
 
 2001-07-10  Jason Leach  <jleach@ximian.com>
@@ -48,20 +55,23 @@
 
 2001-07-10  Peter Williams  <peterw@ximian.com>
 
-	* mail-format.c (attachment_header): Took the logic of whether or not
-	to make the attachment header out of the actual function.
-	(mail_part_is_displayed_inline): Return if the part is being displayed
-	inline (regardless of whether it is actually inline).
-	(mail_part_toggle_displayed): Toggle whether it's displayed inline or not.
-	(get_inline_flags): Determine whether the part is displayed inline and whether
-	it is actually inline.
-	(mail_format_mime_message): Initialize the attachment_status hash table.
+	* mail-format.c (attachment_header): Took the logic of whether or
+	not to make the attachment header out of the actual function.
+	(mail_part_is_displayed_inline): Return if the part is being
+	displayed inline (regardless of whether it is actually inline).
+	(mail_part_toggle_displayed): Toggle whether it's displayed inline
+	or not.
+	(get_inline_flags): Determine whether the part is displayed inline
+	and whether it is actually inline.
+	(mail_format_mime_message): Initialize the attachment_status hash
+	table.
 
-	* mail-display.c (inline_cb): Instead of modifying the CamelMimePart,
-	use mail_part_toggle_displayed
+	* mail-display.c (inline_cb): Instead of modifying the
+	CamelMimePart, use mail_part_toggle_displayed
 	(button_press): As above.
 	(pixmap_press): Use mail_part_is_displayed_inline instead of
-	mail_part_is_inline. Get the MailDisplay from the popup to do this.
+	mail_part_is_inline. Get the MailDisplay from the popup to do
+	this.
 
 	* mail.h: Add prototypes.
 
