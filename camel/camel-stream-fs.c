@@ -43,7 +43,7 @@ static CamelSeekableStreamClass *parent_class=NULL;
 static gint _read (CamelStream *stream, gchar *buffer, gint n);
 static gint _write (CamelStream *stream, const gchar *buffer, gint n);
 static void _flush (CamelStream *stream);
-static gint _available (CamelStream *stream);
+static gboolean _available (CamelStream *stream);
 static gboolean _eos (CamelStream *stream);
 static void _close (CamelStream *stream);
 static gint _seek (CamelSeekableStream *stream, gint offset, CamelStreamSeekPolicy policy);
@@ -93,6 +93,7 @@ camel_stream_fs_init (gpointer   object,  gpointer   klass)
 	CamelStreamFs *stream = CAMEL_STREAM_FS (object);
 
 	stream->name = NULL;
+	stream->eof = FALSE;
 }
 
 
@@ -357,6 +358,9 @@ _read (CamelStream *stream, gchar *buffer, gint n)
 	else 
 		CAMEL_SEEKABLE_STREAM (stream)->cur_pos += v;
 
+	if (v == 0)
+		stream_fs->eof = TRUE;
+
 	return v;
 }
 
@@ -430,11 +434,11 @@ _flush (CamelStream *stream)
  * 
  * Return value: the number of bytes available
  **/
-static gint 
+static gboolean
 _available (CamelStream *stream)
 {
 	g_warning ("Not implemented yet");
-	return -1;
+	return FALSE;
 }
 
 
@@ -449,8 +453,10 @@ _available (CamelStream *stream)
 static gboolean
 _eos (CamelStream *stream)
 {
-	g_warning ("Not implemented yet");
-	return FALSE;
+	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
+
+	g_assert (stream_fs);
+	return stream_fs->eof;
 }
 
 

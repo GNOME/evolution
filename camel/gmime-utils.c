@@ -221,7 +221,8 @@ get_header_array_from_stream (CamelStream *stream)
 				}
 			} else {
 				
-				if (nb_char_read <0) {
+				if (camel_stream_eos (stream)) {
+
 					end_of_file=TRUE;
 					end_of_header_line = TRUE;
 					
@@ -275,7 +276,7 @@ gmime_read_line_from_stream (CamelStream *stream)
 			}
 		} else {
 
-			if (nb_char_read <0) 
+			if (camel_stream_eos (stream)) 
 				end_of_stream = TRUE;
 
 		}
