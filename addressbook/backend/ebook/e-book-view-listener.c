@@ -27,44 +27,32 @@ POA_GNOME_Evolution_Addressbook_BookViewListener__vepv  e_book_view_listener_vep
 
 struct _EBookViewListenerPrivate {
 	GList   *response_queue;
-	gint     idle_id;
-	gboolean idle_lock;
+	gint     timeout_id;
 
-	guint stopped : 1;
+	guint timeout_lock : 1;
+	guint stopped      : 1;
 };
 
-/* Only release our listener reference when the idle is finished. */
 static gboolean
 e_book_view_listener_check_queue (EBookViewListener *listener)
 {
-	if (listener->priv->idle_lock)
+	if (listener->priv->timeout_lock)
 		return TRUE;
 
-	listener->priv->idle_lock = TRUE;
+	listener->priv->timeout_lock = TRUE;
 
-	if (listener->priv->stopped) {
-		listener->priv->idle_id = 0;
-		goto exit_gracefully;
-	}
-
-	if (listener->priv->response_queue != NULL) {
+	if (listener->priv->response_queue != NULL && !listener->priv->stopped) {
 		gtk_signal_emit (GTK_OBJECT (listener), e_book_view_listener_signals [RESPONSES_QUEUED]);
 	}
 
-	if (listener->priv->response_queue == NULL) {
-		listener->priv->idle_id = 0;
-	}
-
- exit_gracefully:
-
-	listener->priv->idle_lock = FALSE;
-	
-	/* Only drop the reference when we exit for the last time. */
-	if (listener->priv->idle_id == 0) {
-		gtk_object_unref (GTK_OBJECT (listener));
+	if (listener->priv->response_queue == NULL || listener->priv->stopped) {
+		listener->priv->timeout_id = 0;
+		listener->priv->timeout_lock = FALSE;
+		bonobo_object_unref (BONOBO_OBJECT (listener));
 		return FALSE;
 	}
 
+	listener->priv->timeout_lock = FALSE;
 	return TRUE;
 }
 
@@ -72,14 +60,28 @@ static void
 e_book_view_listener_queue_response (EBookViewListener         *listener,
 				     EBookViewListenerResponse *response)
 {
+	if (response == NULL)
+		return;
+
+	if (listener->priv->stopped) {
+		/* Free response and return */
+		g_free (response->id);
+		g_list_foreach (response->cards, (GFunc) gtk_object_unref, NULL);
+		g_list_free (response->cards);
+		g_free (response->message);
+		g_free (response);
+		return;
+	}
+	
 	listener->priv->response_queue = g_list_append (listener->priv->response_queue, response);
 
-	if (listener->priv->idle_id == 0) {
+	if (listener->priv->timeout_id == 0) {
 
-		/* Hold a reference to the listener while the idle is active. */
-		gtk_object_ref (GTK_OBJECT (listener));
+		/* Here, 20 == an arbitrary small number */		
+		listener->priv->timeout_id = g_timeout_add (20, (GSourceFunc) e_book_view_listener_check_queue, listener);
 
-		listener->priv->idle_id = g_idle_add ((GSourceFunc) e_book_view_listener_check_queue, listener);
+		/* Hold a reference to the listener on behalf of the timeout */
+		bonobo_object_ref (BONOBO_OBJECT (listener));
 	}
 }
 
@@ -340,24 +342,31 @@ e_book_view_listener_init (EBookViewListener *listener)
 {
 	listener->priv                 = g_new0 (EBookViewListenerPrivate, 1);
 	listener->priv->response_queue = NULL;
-	listener->priv->idle_id        = 0;
+	listener->priv->timeout_id     = 0;
+	listener->priv->timeout_lock   = FALSE;
 	listener->priv->stopped        = FALSE;
 }
 
 void
 e_book_view_listener_stop (EBookViewListener *listener)
 {
+	g_return_if_fail (E_IS_BOOK_VIEW_LISTENER (listener));
+	listener->priv->stopped = TRUE;
+}
+
+static void
+e_book_view_listener_destroy (GtkObject *object)
+{
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (object);
 	GList *l;
-
-	if (listener->priv->stopped)
-		return;
-
-	if (listener->priv->idle_id) {
-		g_source_remove(listener->priv->idle_id);
-		listener->priv->idle_id = 0;
-		bonobo_object_unref (BONOBO_OBJECT (listener));
+	
+	/* Remove our response queue handler: In theory, this can never happen since we
+	 always hold a reference to the listener while the timeout is running. */
+	if (listener->priv->timeout_id) {
+		g_source_remove (listener->priv->timeout_id);
 	}
 
+	/* Clear out the queue */
 	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
 		EBookViewListenerResponse *resp = l->data;
 
@@ -365,24 +374,17 @@ e_book_view_listener_stop (EBookViewListener *listener)
 
 		g_list_foreach(resp->cards, (GFunc) gtk_object_unref, NULL);
 		g_list_free(resp->cards);
+		resp->cards = NULL;
 
 		g_free (resp->message);
+		resp->message = NULL;
 
 		g_free (resp);
 	}
 	g_list_free (listener->priv->response_queue);
-	listener->priv->response_queue = NULL;
-
-	listener->priv->stopped = TRUE;
-}
-
-static void
-e_book_view_listener_destroy (GtkObject *object)
-{
-	EBookViewListener     *listener = E_BOOK_VIEW_LISTENER (object);
-
-	e_book_view_listener_stop (listener);
+	
 	g_free (listener->priv);
+	listener->priv = NULL;
 	
 	GTK_OBJECT_CLASS (e_book_view_listener_parent_class)->destroy (object);
 }

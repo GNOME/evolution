@@ -517,8 +517,10 @@ pas_backend_file_process_create_card (PASBackend *backend,
 		for (iterator = e_list_get_iterator(bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 			const PASBackendFileBookView *view = e_iterator_get(iterator);
 			if (vcard_matches_search (view, vcard)) {
+				bonobo_object_ref (BONOBO_OBJECT (view->book_view));
 				pas_book_view_notify_add_1 (view->book_view, vcard);
 				pas_book_view_notify_complete (view->book_view);
+				bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 			}
 		}
 		gtk_object_unref(GTK_OBJECT(iterator));
@@ -584,8 +586,10 @@ pas_backend_file_process_remove_card (PASBackend *backend,
 	for (iterator = e_list_get_iterator (bf->priv->book_views); e_iterator_is_valid(iterator); e_iterator_next(iterator)) {
 		const PASBackendFileBookView *view = e_iterator_get(iterator);
 		if (vcard_matches_search (view, vcard_string)) {
+			bonobo_object_ref (BONOBO_OBJECT (view->book_view));
 			pas_book_view_notify_remove (view->book_view, req->id);
 			pas_book_view_notify_complete (view->book_view);
+			bonobo_object_unref (BONOBO_OBJECT (view->book_view));
 		}
 	}
 	gtk_object_unref(GTK_OBJECT(iterator));

@@ -38,6 +38,7 @@ pas_book_check_queue (PASBook *book)
 
 	if (book->priv->request_queue == NULL) {
 		book->priv->idle_id = 0;
+		gtk_object_unref (GTK_OBJECT (book));
 		return FALSE;
 	}
 
@@ -51,6 +52,7 @@ pas_book_queue_request (PASBook *book, PASRequest *req)
 		g_list_append (book->priv->request_queue, req);
 
 	if (book->priv->idle_id == 0) {
+		gtk_object_ref (GTK_OBJECT (book));
 		book->priv->idle_id = g_idle_add ((GSourceFunc) pas_book_check_queue, book);
 	}
 }

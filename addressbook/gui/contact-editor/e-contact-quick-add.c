@@ -83,7 +83,6 @@ quick_add_unref (QuickAdd *qa)
 	if (qa) {
 		--qa->refs;
 		if (qa->refs == 0) {
-			g_message ("freeing %s / %s", qa->name, qa->email);
 			g_free (qa->name);
 			g_free (qa->email);
 			gtk_object_unref (GTK_OBJECT (qa->card));

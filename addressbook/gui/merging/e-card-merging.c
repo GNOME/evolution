@@ -71,6 +71,7 @@ static void
 match_query_callback (ECard *card, ECard *match, ECardMatchType type, gpointer closure)
 {
 	ECardMergingLookup *lookup = closure;
+
 	if ((gint) type <= (gint) E_CARD_MATCH_VAGUE) {
 		doit (lookup);
 		g_free (lookup);
@@ -113,6 +114,7 @@ e_card_merging_book_add_card (EBook           *book,
 			      gpointer         closure)
 {
 	ECardMergingLookup *lookup;
+
 	lookup = g_new (ECardMergingLookup, 1);
 
 	lookup->op = E_CARD_MERGING_ADD;
@@ -122,6 +124,7 @@ e_card_merging_book_add_card (EBook           *book,
 	lookup->closure = closure;
 
 	e_card_locate_match_full (book, card, NULL, match_query_callback, lookup);
+
 	return TRUE;
 }
 
@@ -133,6 +136,7 @@ e_card_merging_book_commit_card (EBook                 *book,
 {
 	ECardMergingLookup *lookup;
 	GList *avoid;
+	
 	lookup = g_new (ECardMergingLookup, 1);
 
 	lookup->op = E_CARD_MERGING_COMMIT;

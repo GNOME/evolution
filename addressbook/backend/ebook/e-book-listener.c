@@ -27,43 +27,92 @@ POA_GNOME_Evolution_Addressbook_BookListener__vepv  e_book_listener_vepv;
 
 struct _EBookListenerPrivate {
 	GList   *response_queue;
-	gint     idle_id;
-	gboolean idle_lock;
+	gint     timeout_id;
 
-	guint stopped : 1;
+	guint timeout_lock : 1;
+	guint stopped      : 1;
 };
+
+static void
+response_free (EBookListenerResponse *resp)
+{
+	if (resp == NULL)
+		return;
+
+	g_free (resp->msg);
+	g_free (resp->id);
+
+	if (resp->book != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+		
+		CORBA_exception_init (&ev);
+		
+		bonobo_object_release_unref (resp->book, &ev);
+		
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_listener_destroy: "
+				   "Exception destroying book "
+				   "in response queue!\n");
+		}
+		
+		CORBA_exception_free (&ev);
+	}
+
+	if (resp->cursor != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		
+		bonobo_object_release_unref (resp->cursor, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_listener_destroy: "
+				   "Exception destroying cursor "
+				   "in response queue!\n");
+		}
+		
+		CORBA_exception_free (&ev);
+	}
+
+	if (resp->book_view != CORBA_OBJECT_NIL) {
+		CORBA_Environment ev;
+		
+		CORBA_exception_init (&ev);
+		
+		bonobo_object_release_unref (resp->book_view, &ev);
+		
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_listener_destroy: "
+				   "Exception destroying book_view "
+				   "in response queue!\n");
+		}
+		
+		CORBA_exception_free (&ev);
+	}
+	
+	g_free (resp);
+}
 
 static gboolean
 e_book_listener_check_queue (EBookListener *listener)
 {
-	if (listener->priv->idle_lock)
+	if (listener->priv->timeout_lock)
 		return TRUE;
 
-	listener->priv->idle_lock = TRUE;
+	listener->priv->timeout_lock = TRUE;
 
-	if (listener->priv->stopped) {
-		listener->priv->idle_id = 0;
-		goto exit_gracefully;
-	}
-
-	if (listener->priv->response_queue != NULL) {
+	if (listener->priv->response_queue != NULL && !listener->priv->stopped) {
 		gtk_signal_emit (GTK_OBJECT (listener), e_book_listener_signals [RESPONSES_QUEUED]);
 	}
 
-	if (listener->priv->response_queue == NULL) {
-		listener->priv->idle_id = 0;
-	}
-
- exit_gracefully:
-
-	listener->priv->idle_lock = FALSE;
-	
-	/* Only drop the reference when we exit for the last time. */
-	if (listener->priv->idle_id == 0) {
-		gtk_object_unref (GTK_OBJECT (listener));
+	if (listener->priv->response_queue == NULL || listener->priv->stopped) {
+		listener->priv->timeout_id = 0;
+		listener->priv->timeout_lock = FALSE;
+		bonobo_object_unref (BONOBO_OBJECT (listener)); /* release the timeout's reference */
 		return FALSE;
 	}
 
+	listener->priv->timeout_lock = FALSE;
 	return TRUE;
 }
 
@@ -71,16 +120,24 @@ static void
 e_book_listener_queue_response (EBookListener         *listener,
 				EBookListenerResponse *response)
 {
-	listener->priv->response_queue =
-		g_list_append (listener->priv->response_queue,
-			       response);
+	if (response == NULL)
+		return;
 
-	if (listener->priv->idle_id == 0) {
+	if (listener->priv->stopped) {
+		response_free (response);
+		return;
+	}
 
-		/* Hold a reference to the listener until the idle function is finished. */
-		gtk_object_ref (GTK_OBJECT (listener));
+	listener->priv->response_queue = g_list_append (listener->priv->response_queue, response);
 
-		listener->priv->idle_id = g_idle_add ((GSourceFunc) e_book_listener_check_queue, listener);
+	if (listener->priv->timeout_id == 0) {
+
+		/* 20 == an arbitrary small integer */
+		listener->priv->timeout_id = g_timeout_add (20, (GSourceFunc) e_book_listener_check_queue, listener);
+
+		/* Hold a reference on behalf of the timeout */
+		bonobo_object_ref (BONOBO_OBJECT (listener));
+		
 	}
 }
 
@@ -655,69 +712,7 @@ e_book_listener_init (EBookListener *listener)
 void
 e_book_listener_stop (EBookListener *listener)
 {
-	GList *l;
-
-	if (listener->priv->stopped)
-		return;
-
-	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
-		EBookListenerResponse *resp = l->data;
-
-		g_free (resp->msg);
-		g_free (resp->id);
-
-		if (resp->book != CORBA_OBJECT_NIL) {
-			CORBA_Environment ev;
-
-			CORBA_exception_init (&ev);
-
-			bonobo_object_release_unref (resp->book, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				g_warning ("e_book_listener_destroy: "
-					   "Exception destroying book "
-					   "in response queue!\n");
-			}
-			
-			CORBA_exception_free (&ev);
-		}
-
-		if (resp->cursor != CORBA_OBJECT_NIL) {
-			CORBA_Environment ev;
-
-			CORBA_exception_init (&ev);
-
-			bonobo_object_release_unref (resp->cursor, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				g_warning ("e_book_listener_destroy: "
-					   "Exception destroying cursor "
-					   "in response queue!\n");
-			}
-			
-			CORBA_exception_free (&ev);
-		}
-
-		if (resp->book_view != CORBA_OBJECT_NIL) {
-			CORBA_Environment ev;
-
-			CORBA_exception_init (&ev);
-
-			bonobo_object_release_unref (resp->book_view, &ev);
-
-			if (ev._major != CORBA_NO_EXCEPTION) {
-				g_warning ("e_book_listener_destroy: "
-					   "Exception destroying book_view "
-					   "in response queue!\n");
-			}
-			
-			CORBA_exception_free (&ev);
-		}
-
-		g_free (resp);
-	}
-	g_list_free (listener->priv->response_queue);
-	listener->priv->response_queue = NULL;
+	g_return_if_fail (E_IS_BOOK_LISTENER (listener));
 
 	listener->priv->stopped = TRUE;
 }
@@ -725,9 +720,23 @@ e_book_listener_stop (EBookListener *listener)
 static void
 e_book_listener_destroy (GtkObject *object)
 {
-	EBookListener     *listener = E_BOOK_LISTENER (object);
+	EBookListener *listener = E_BOOK_LISTENER (object);
+	GList *l;
 
-	e_book_listener_stop (listener);
+	/* Remove our response queue handler: In theory, this can never happen since we
+	 always hold a reference to the listener while the timeout is running. */
+	if (listener->priv->timeout_id) {
+		g_source_remove (listener->priv->timeout_id);
+	}
+
+	/* Clean up anything still sitting in response_queue */
+	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
+		EBookListenerResponse *resp = l->data;
+
+		response_free (resp);
+	}
+	g_list_free (listener->priv->response_queue);
+
 	g_free (listener->priv);
 	
 	GTK_OBJECT_CLASS (e_book_listener_parent_class)->destroy (object);

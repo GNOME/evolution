@@ -114,7 +114,7 @@ e_book_view_check_listener_queue (EBookViewListener *listener, EBookView *book_v
 	EBookViewListenerResponse *resp;
 
 	resp = e_book_view_listener_pop_response (listener);
-
+	
 	if (resp == NULL)
 		return;
 
@@ -170,10 +170,10 @@ e_book_view_construct (EBookView *book_view, GNOME_Evolution_Addressbook_BookVie
 	 * Create our local BookListener interface.
 	 */
 	book_view->priv->listener = listener;
-
-	bonobo_object_ref(BONOBO_OBJECT(book_view->priv->listener));
 	book_view->priv->responses_queued_id = gtk_signal_connect (GTK_OBJECT (book_view->priv->listener), "responses_queued",
 								   e_book_view_check_listener_queue, book_view);
+
+	bonobo_object_ref(BONOBO_OBJECT(book_view->priv->listener));
 
 	return TRUE;
 }

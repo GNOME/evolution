@@ -186,11 +186,6 @@ book_issue_tag (EBook *book)
 	return tag;
 }
 
-#ifdef USE_WORKAROUND
-static GList *WORKAROUND_sq_queue = NULL;
-static gboolean WORKAROUND_running_query = FALSE;
-#endif
-
 static SimpleQueryInfo *
 simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, gpointer closure)
 {
@@ -206,12 +201,26 @@ simple_query_new (EBook *book, const char *query, EBookSimpleQueryCallback cb, g
 	/* Automatically add ourselves to the EBook's pending list. */
 	book_add_simple_query (book, sq);
 
-#ifdef USE_WORKAROUND
-	/* Add ourselves to the queue. */
-	WORKAROUND_sq_queue = g_list_append (WORKAROUND_sq_queue, sq);
-#endif
-
 	return sq;
+}
+
+static void
+simple_query_disconnect (SimpleQueryInfo *sq)
+{
+	if (sq->add_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->add_tag);
+		sq->add_tag = 0;
+	}
+
+	if (sq->seq_complete_tag) {
+		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->seq_complete_tag);
+		sq->seq_complete_tag = 0;
+	}
+
+	if (sq->view) {
+		gtk_object_unref (GTK_OBJECT (sq->view));
+		sq->view = NULL;
+	}
 }
 
 static void
@@ -220,33 +229,9 @@ simple_query_free (SimpleQueryInfo *sq)
 	/* Remove ourselves from the EBook's pending list. */
 	book_remove_simple_query (sq->book, sq);
 
-#ifdef USE_WORKAROUND
-	Glist *i;
-	
-	/* If we are still in the queue, remove ourselves. */
-	for (i = WORKAROUND_sq_queue; i != NULL; i = g_list_next (i)) {
-		if (i->data == sq) {
-			WORKAROUND_sq_queue = g_list_remove_link (WORKAROUND_sq_queue, i);
-			g_list_free_1 (i);
-			break;
-		} 
-	}
-#endif
-	
 	g_free (sq->query);
 
-	if (sq->add_tag)
-		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->add_tag);
-	if (sq->seq_complete_tag)
-		gtk_signal_disconnect (GTK_OBJECT (sq->view), sq->seq_complete_tag);
-
-#ifdef USE_WORKAROUND
-	if (sq->view)
-		WORKAROUND_running_query = FALSE;
-#endif
-
-	if (sq->view)
-		gtk_object_unref (GTK_OBJECT (sq->view));
+	simple_query_disconnect (sq);
 
 	if (sq->book)
 		gtk_object_unref (GTK_OBJECT (sq->book));
@@ -271,6 +256,9 @@ simple_query_sequence_complete_cb (EBookView *view, gpointer closure)
 {
 	SimpleQueryInfo *sq = closure;
 
+	/* Disconnect signals, so that we don't pick up any changes to the book that occur
+	   in our callback */
+	simple_query_disconnect (sq);
 	sq->cb (sq->book, E_BOOK_SIMPLE_QUERY_STATUS_SUCCESS, sq->cards, sq->closure);
 	simple_query_free (sq);
 }
@@ -299,31 +287,6 @@ simple_query_book_view_cb (EBook *book, EBookStatus status, EBookView *book_view
 						   sq);
 }
 
-#ifdef USE_WORKAROUND
-static gint
-WORKAROUND_try_queue (gpointer foo)
-{
-	if (WORKAROUND_sq_queue) {
-		SimpleQueryInfo *sq;
-		GList *i;
-
-		if (WORKAROUND_running_query) 
-			return TRUE;
-
-		WORKAROUND_running_query = TRUE;
-		sq = WORKAROUND_sq_queue->data;
-
-		i = WORKAROUND_sq_queue;
-		WORKAROUND_sq_queue = g_list_remove_link (WORKAROUND_sq_queue, WORKAROUND_sq_queue);
-		g_list_free_1 (i);
-
-		e_book_get_book_view (sq->book, sq->query, simple_query_book_view_cb, sq);
-	}
-
-	return FALSE;
-}
-#endif
-
 guint
 e_book_simple_query (EBook *book, const char *query, EBookSimpleQueryCallback cb, gpointer closure)
 {
@@ -334,11 +297,7 @@ e_book_simple_query (EBook *book, const char *query, EBookSimpleQueryCallback cb
 	g_return_val_if_fail (cb, 0);
 
 	sq = simple_query_new (book, query, cb, closure);
-#ifdef USE_WORKAROUND
-	gtk_timeout_add (50, WORKAROUND_try_queue, NULL);
-#else
 	e_book_get_book_view (book, (gchar *) query, simple_query_book_view_cb, sq);
-#endif
 
 	return sq->tag;
 }

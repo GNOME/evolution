@@ -1,3 +1,70 @@
+2001-09-15  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book-listener.c (e_book_listener_stop): Make
+	"stop" do nothing but set the stopped flag, as in
+	e-book-view-listener.c.
+	(e_book_listener_destroy): Clean up our queue here, rather than in
+	e_book_listener_stop.
+	(response_free): Added.  Move the rather lengthy bit of code
+	needed to free a EBookListenerResponse into one place.
+	(e_book_listener_check_queue): Properly deal with the stopped
+	flag.
+	(e_book_listener_queue_response): If the stopped flag is set, just
+	drop the incoming response.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_stop): Make "stop" do nothing but set the
+	stopped flag.
+	(e_book_view_listener_destroy): Move all of the clean-up that used
+	to be in e_book_view_listener_stop here.  This considerably simplifies
+	the logic required to avoid various race conditions.
+	(e_book_view_listener_check_queue): Properly deal with the stopped flag.
+	(e_book_view_listener_queue_response): Drop all incoming responses if
+	we are stopped.
+
+2001-09-14  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/pas/pas-book.c (pas_book_queue_request): Hold a
+	reference to the book on behalf of our idle function.
+	(pas_book_check_queue): When we are finished, drop the reference
+	we've been holding on behalf of the idle function.
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_process_create_card): Hold a reference to the
+	book_view while sending our notifications.
+	(pas_backend_file_process_remove_card): Hold a reference to the
+	book_view while sending our notifications.
+
+	* gui/contact-editor/e-contact-quick-add.c (quick_add_unref): Remove
+	debugging spew.
+
+	* backend/ebook/e-book-util.c: Remove a lot of unused code that
+	worked around bugs that have long since been fixed.
+	(simple_query_disconnect): Added.  Breaks out the part of
+	simple_query_free that disconnect signals.
+	(simple_query_free): Replace code w/ a call to
+	simple_query_disconnect.
+	(simple_query_sequence_complete_cb): Call simple_query_disconnect
+	before executing the callback, so that our callbacks don't get
+	triggered by any book changes that might occur during that
+	callback.
+
+	* backend/ebook/e-book-view-listener.c
+	(e_book_view_listener_check_queue): Changed to be consistent with
+	e_book_listener_check_queue.
+	(e_book_view_listener_queue_response): Also changed to use a
+	high-frequency timeout.
+
+	* backend/ebook/e-book-listener.c (e_book_listener_check_queue):
+	OK, I've agonized over this stupid little function, and it should
+	now be race-free.
+	(e_book_listener_queue_response): We process our response queue in
+	a high-frequency timeout rather than an idle.  Using an idle
+	function leads to some tricky race conditions and bad interactions
+	with bonobo's semi-broken attempts to take over event processing.
+	(e_book_view_listener_stop): Manually disable our timeout and
+	clean up.
+
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Automake 1.5 fixes pointed out by Richard Boulton

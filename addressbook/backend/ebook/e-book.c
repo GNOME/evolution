@@ -305,7 +305,7 @@ e_book_do_response_get_view (EBook                 *book,
 		return;
 	}
 	
-	book_view = e_book_view_new(resp->book_view, op->listener);
+	book_view = e_book_view_new (resp->book_view, op->listener);
 
 	if (book_view != NULL) {
 		e_book_view_set_book (book_view, book);
