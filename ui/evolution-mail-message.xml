@@ -121,7 +121,7 @@
 
     <cmd name="MessageReplyList"
      _tip="Compose a reply to the mailing list of the selected message"
-     accel=""/>
+     accel="*Control*l"/>
 
     <cmd name="MessageReplySender"
      _tip="Compose a reply to the sender of the selected message"
