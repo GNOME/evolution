@@ -67,6 +67,8 @@ config_changed (ETableConfig *config, GalViewEtable *view)
 		      "state", &state,
 		      NULL);
 	view->state = e_table_state_duplicate(state);
+	g_object_unref (state);
+
 	gal_view_changed(GAL_VIEW(view));
 }
 
