@@ -1,3 +1,8 @@
+2004-12-28  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* em-folder-tree.c: (em_folder_tree_new_with_model):
+	add atk name for the treeview.
+
 2004-12-22  Not Zed  <NotZed@Ximian.com>
 
 	* em-account-editor.c (emae_needs_auth): moved to after

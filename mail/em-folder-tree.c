@@ -655,6 +655,7 @@ GtkWidget *
 em_folder_tree_new_with_model (EMFolderTreeModel *model)
 {
 	EMFolderTree *emft;
+	AtkObject *a11y;
 	
 	emft = g_object_new (EM_TYPE_FOLDER_TREE, NULL);
 	em_folder_tree_construct (emft, model);
@@ -664,6 +665,9 @@ em_folder_tree_new_with_model (EMFolderTreeModel *model)
 	
 	emft->priv->loading_row_id = g_signal_connect (model, "loading-row", G_CALLBACK (emft_maybe_expand_row), emft);
 	emft->priv->loaded_row_id = g_signal_connect (model, "loaded-row", G_CALLBACK (emft_maybe_expand_row), emft);
+
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (emft->priv->treeview));
+	atk_object_set_name (a11y, _("Mail Folder Tree"));
 	
 	return (GtkWidget *) emft;
 }
