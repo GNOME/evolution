@@ -1,5 +1,12 @@
 2004-06-10  Rodrigo Moya <rodrigo@novell.com>
 
+	Fixes #58748
+
+	* gui/gnome-cal.c (setup_widgets): set the timezone on all views
+	when creating them.
+
+2004-06-10  Rodrigo Moya <rodrigo@novell.com>
+
 	* gui/e-calendar-table.c (e_calendar_table_init): don't set
 	the "bg_color_column" property on the ECellToggle class.
 
