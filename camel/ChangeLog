@@ -1,5 +1,9 @@
 2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-multipart-signed.c: Updated to use g_alloca instead of
+	alloca so that we can skip all the #ifdef checks and skip checking
+	for alloca in configure.in and all that foo.
+
 	* camel-store.c (camel_store_delete_folder): Make sure the folder
 	is non-NULL before trying to remove it from the store's
 	object-bag.

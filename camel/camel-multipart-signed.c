@@ -206,7 +206,7 @@ parse_content(CamelMultipartSigned *mps)
 	g_byte_array_set_size(mem->buffer, mem->buffer->len-1);
 	last = mem->buffer->data + mem->buffer->len;
 
-	bound = alloca(strlen(boundary)+5);
+	bound = g_alloca(strlen(boundary)+5);
 	sprintf(bound, "--%s", boundary);
 
 	start = strstr(mem->buffer->data, bound);
@@ -613,7 +613,7 @@ camel_multipart_signed_sign(CamelMultipartSigned *mps, CamelCipherContext *conte
 	/* create the signature wrapper object */
 	signature = camel_mime_part_new();
 	dw = camel_data_wrapper_new();
-	type = alloca(strlen(context->sign_protocol) + 32);
+	type = g_alloca(strlen(context->sign_protocol) + 32);
 	sprintf(type, "%s; name=signature.asc", context->sign_protocol);
 	camel_data_wrapper_set_mime_type(dw, type);
 	camel_stream_reset(sigstream);
