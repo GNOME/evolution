@@ -1,3 +1,10 @@
+2001-10-01  JP Rosevear  <jpr@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_changes_foreach_key): if there is a db error,
+	assume deletion
+	(pas_backend_file_changes): write after all is done for efficiency
+
 2001-09-28  JP Rosevear  <jpr@ximian.com>
 
 	* backend/pas/pas-backend-file.c

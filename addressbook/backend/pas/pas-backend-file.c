@@ -346,7 +346,7 @@ pas_backend_file_changes_foreach_key (const char *key, gpointer user_data)
 	memset (&vcard_dbt, 0, sizeof (vcard_dbt));
 	db_error = db->get (db, NULL, &id_dbt, &vcard_dbt, 0);
 	
-	if (db_error == DB_NOTFOUND) {
+	if (db_error != 0) {
 		char *id = id_dbt.data;
 		
 		ctx->del_ids = g_list_append (ctx->del_ids, g_strdup (id));
@@ -452,8 +452,6 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		char *vcard = v->data;
 
 		e_dbhash_add (ehash, id, vcard);
-		e_dbhash_write (ehash);
-
 		g_free (i->data);
 		g_free (v->data);		
 	}	
@@ -462,8 +460,6 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		char *vcard = v->data;
 
 		e_dbhash_add (ehash, id, vcard);
-		e_dbhash_write (ehash);
-
 		g_free (i->data);
 		g_free (v->data);		
 	}	
@@ -471,11 +467,10 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		char *id = i->data;
 
 		e_dbhash_remove (ehash, id);
-		e_dbhash_write (ehash);
-
 		g_free (i->data);
 	}
 
+	e_dbhash_write (ehash);
   	e_dbhash_destroy (ehash);
 }
 
