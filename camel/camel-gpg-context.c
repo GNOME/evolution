@@ -213,6 +213,14 @@ enum _GpgCtxMode {
 	GPG_CTX_MODE_DECRYPT,
 };
 
+enum _GpgTrustMetric {
+	GPG_TRUST_UNKNOWN,
+	GPG_TRUST_NEVER,
+	GPG_TRUST_MARGINAL,
+	GPG_TRUST_FULLY,
+	GPG_TRUST_ULTIMATE
+};
+
 struct _GpgCtx {
 	enum _GpgCtxMode mode;
 	CamelSession *session;
@@ -244,6 +252,7 @@ struct _GpgCtx {
 	GByteArray *diagnostics;
 	
 	unsigned int complete:1;
+	unsigned int await_read:1;
 	unsigned int reading:1;
 	unsigned int always_trust:1;
 	unsigned int armor:1;
@@ -252,7 +261,10 @@ struct _GpgCtx {
 	
 	unsigned int bad_passwds:2;
 	
-	unsigned int padding:24;
+	unsigned int validsig:1;
+	unsigned int trust:3;
+	
+	unsigned int padding:19;
 };
 
 static struct _GpgCtx *
@@ -266,6 +278,7 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	camel_object_ref (CAMEL_OBJECT (session));
 	gpg->userid_hint = g_hash_table_new (g_str_hash, g_str_equal);
 	gpg->complete = FALSE;
+	gpg->await_read = FALSE;
 	gpg->reading = FALSE;
 	gpg->pid = (pid_t) -1;
 	
@@ -291,6 +304,9 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->need_passwd = FALSE;
 	gpg->send_passwd = FALSE;
 	gpg->passwd = NULL;
+	
+	gpg->validsig = FALSE;
+	gpg->trust = GPG_TRUST_UNKNOWN;
 	
 	gpg->istream = NULL;
 	gpg->ostream = NULL;
@@ -438,13 +454,13 @@ gpg_hash_str (CamelCipherHash hash)
 {
 	switch (hash) {
 	case CAMEL_CIPHER_HASH_MD2:
-		return "MD2";
+		return "--digest-algo=MD2";
 	case CAMEL_CIPHER_HASH_MD5:
-		return "MD5";
+		return "--digest-algo=MD5";
 	case CAMEL_CIPHER_HASH_SHA1:
-		return "SHA1";
+		return "--digest-algo=SHA1";
 	case CAMEL_CIPHER_HASH_RIPEMD160:
-		return "RIPEMD160";
+		return "--digest-algo=RIPEMD160";
 	default:
 		return NULL;
 	}
@@ -487,10 +503,8 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		if (gpg->armor)
 			g_ptr_array_add (argv, "--armor");
 		hash_str = gpg_hash_str (gpg->hash);
-		if (hash_str) {
-			g_ptr_array_add (argv, "--digest-algo");
+		if (hash_str)
 			g_ptr_array_add (argv, (char *) hash_str);
-		}
 		if (gpg->userid) {
 			g_ptr_array_add (argv, "-u");
 			g_ptr_array_add (argv, (char *) gpg->userid);
@@ -531,6 +545,10 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		g_ptr_array_add (argv, "-");
 		break;
 	}
+	
+	for (i = 0; i < argv->len; i++)
+		printf ("%s ", argv->pdata[i]);
+	printf ("\n");
 	
 	g_ptr_array_add (argv, NULL);
 	
@@ -742,9 +760,9 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		g_free (passwd);
 		
 		gpg->send_passwd = TRUE;
-	} else if (!strncmp (status, "GOOD_PASSPHRASE ", 16)) {
+	} else if (!strncmp (status, "GOOD_PASSPHRASE", 15)) {
 		gpg->bad_passwds = 0;
-	} else if (!strncmp (status, "BAD_PASSPHRASE ", 15)) {
+	} else if (!strncmp (status, "BAD_PASSPHRASE", 14)) {
 		gpg->bad_passwds++;
 		
 		camel_session_forget_password (gpg->session, NULL, gpg->userid, ex);
@@ -764,24 +782,54 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		/* check to see if we are complete */
 		switch (gpg->mode) {
 		case GPG_CTX_MODE_SIGN:
-			if (!strncmp (status, "SIG_CREATED ", 12))
+			if (!strncmp (status, "SIG_CREATED ", 12)) {
 				gpg->complete = TRUE;
+				gpg->await_read = TRUE;
+			}
 			break;
 		case GPG_CTX_MODE_VERIFY:
-			/* FIXME: we should save this so we can present it to the user? */
-			/* Note: NO_PUBKEY often comes after an ERRSIG, but do we really care? */
-			if (!strncmp (status, "TRUST_", 6) ||
-			    !strncmp (status, "BADSIG", 6) ||
-			    !strncmp (status, "ERRSIG", 6))
+			if (!strncmp (status, "TRUST_", 6)) {
+				status += 6;
+				if (!strncmp (status, "NEVER", 5)) {
+					gpg->trust = GPG_TRUST_NEVER;
+				} else if (!strncmp (status, "MARGINAL", 8)) {
+					gpg->trust = GPG_TRUST_MARGINAL;
+				} else if (!strncmp (status, "FULLY", 5)) {
+					gpg->trust = GPG_TRUST_FULLY;
+				} else if (!strncmp (status, "ULTIMATE", 8)) {
+					gpg->trust = GPG_TRUST_ULTIMATE;
+				} 
+				
 				gpg->complete = TRUE;
+			} else if (!strncmp (status, "VALIDSIG", 8)) {
+				gpg->validsig = TRUE;
+				gpg->complete = TRUE;
+			} else if (!strncmp (status, "BADSIG", 6)) {
+				gpg->validsig = FALSE;
+				gpg->complete = TRUE;
+			} else if (!strncmp (status, "ERRSIG", 6)) {
+				/* Note: NO_PUBKEY often comes after an ERRSIG, but do we really care? */
+				gpg->validsig = FALSE;
+				gpg->complete = TRUE;
+			}
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
-			if (!strncmp (status, "END_ENCRYPTION", 14))
+			if (!strncmp (status, "BEGIN_ENCRYPTION", 16)) {
+				gpg->await_read = TRUE;
+			} else if (!strncmp (status, "END_ENCRYPTION", 14)) {
 				gpg->complete = TRUE;
+			} else if (!strncmp (status, "NO_RECP", 7)) {
+				camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+						     _("Failed to encrypt: No valid recipients specified."));
+				return -1;
+			}
 			break;
 		case GPG_CTX_MODE_DECRYPT:
-			if (!strncmp (status, "END_DECRYPTION", 14))
+			if (!strncmp (status, "BEGIN_DECRYPTION", 16)) {
+				gpg->await_read = TRUE;
+			} else if (!strncmp (status, "END_DECRYPTION", 14)) {
 				gpg->complete = TRUE;
+			}
 			break;
 		}
 		
@@ -913,6 +961,8 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 			if (camel_stream_write (gpg->ostream, buffer, (size_t) nread) == -1)
 				goto exception;
 			
+			gpg->await_read = FALSE;
+			
 			/* make sure we don't exit before reading all the data... */
 			gpg->reading = TRUE;
 		}
@@ -1030,7 +1080,7 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 static gboolean
 gpg_ctx_op_complete (struct _GpgCtx *gpg)
 {
-	return gpg->complete && !gpg->reading;
+	return gpg->complete && !gpg->await_read && !gpg->reading;
 }
 
 static void
@@ -1282,7 +1332,7 @@ gpg_encrypt (CamelCipherContext *context, gboolean sign, const char *userid,
 	gpg = gpg_ctx_new (context->session, ctx->path);
 	gpg_ctx_set_mode (gpg, GPG_CTX_MODE_ENCRYPT);
 	gpg_ctx_set_armor (gpg, TRUE);
-	gpg_ctx_set_userid (gpg, "fejj@stampede.org");
+	gpg_ctx_set_userid (gpg, userid);
 	gpg_ctx_set_istream (gpg, istream);
 	gpg_ctx_set_ostream (gpg, ostream);
 	gpg_ctx_set_always_trust (gpg, ctx->always_trust);
