@@ -389,6 +389,8 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 				len = strcspn (s, "\n");
 				if (len == 0 && !*s)
 					break;
+				if (!strncmp ("-- \n", s, 4) || !strncmp ("--\n", s, 3))
+					break;
 				sprintf (d, "> %.*s\n", len, s);
 				s += len;
 				if (!*s++)

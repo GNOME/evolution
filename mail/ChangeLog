@@ -1,3 +1,9 @@
+2001-08-15  Jason Leach  <jleach@ximian.com>
+
+	* mail-tools.c (mail_tool_quote_message): Stop building the quote
+	after a sigdash, hence, omitting the signature from a
+	reply/forward.  Bug #5529.
+
 2001-08-15  Anna Marie Dirks <anna@ximian.com>
 
 	* mail-callbacks.c (expunge-folders): Re-added, at Ettore's
