@@ -26,6 +26,7 @@
 
 #include "e-util/e-source-list.h"
 
+#include <gtk/gtkmenu.h>
 #include <gtk/gtktreeview.h>
 
 
@@ -51,6 +52,7 @@ struct _ESourceSelectorClass {
 
 	void (* selection_changed) (ESourceSelector *selector);
 	void (* primary_selection_changed) (ESourceSelector *selector);
+	void (* fill_popup_menu) (ESourceSelector *selector, GtkMenu *menu);
 };
 
 

@@ -1,3 +1,12 @@
+2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-source-selector.[ch]: added "fill_popup_menu" signal, to
+	allow the addition of new items to the popup menu.
+	(class_init): create new signal.
+	(init): connect to "button_press_event" for the tree view.
+	(selector_button_press_event): callback for "button_press_event".
+	(e_source_selector_selection_shown): use g_return_val_if_fail.
+
 2003-10-22  Dan Winship  <danw@ximian.com>
 
 	* e-bonobo-widget.[ch]: Remove these (unused since 1.2)

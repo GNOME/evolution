@@ -55,6 +55,7 @@ struct _ESourceSelectorPrivate {
 enum {
 	SELECTION_CHANGED,
 	PRIMARY_SELECTION_CHANGED,
+	FILL_POPUP_MENU,
 	NUM_SIGNALS
 };
 static unsigned int signals[NUM_SIGNALS] = { 0 };
@@ -315,6 +316,24 @@ selection_changed_callback (GtkTreeSelection *selection,
 	g_signal_emit (selector, signals[PRIMARY_SELECTION_CHANGED], 0);
 }
 
+static gboolean
+selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSelector *selector)
+{
+	GtkWidget *menu;
+
+	/* only process right-clicks */
+	if (event->button != 3)
+		return FALSE;
+
+	/* create the menu */
+	menu = gtk_menu_new ();
+	g_signal_emit (G_OBJECT (selector), signals[FILL_POPUP_MENU], 0, GTK_MENU (menu));
+
+	/* popup the menu */
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, event->button, event->time);
+
+	return TRUE;
+}
 
 /* GObject methods.  */
 
@@ -386,6 +405,14 @@ class_init (ESourceSelectorClass *class)
 			      NULL, NULL,
 			      e_util_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
+	signals[FILL_POPUP_MENU] =
+		g_signal_new ("fill_popup_menu",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESourceSelectorClass, fill_popup_menu),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__OBJECT,
+			      G_TYPE_OBJECT, 0);
 }
 
 static void
@@ -398,6 +425,9 @@ init (ESourceSelector *selector)
 
 	priv = g_new0 (ESourceSelectorPrivate, 1);
 	selector->priv = priv;
+
+	g_signal_connect (G_OBJECT (selector), "button_press_event",
+			  G_CALLBACK (selector_button_press_event), selector);
 
 	priv->checkboxes_shown = TRUE;
 
@@ -546,7 +576,7 @@ e_source_selector_show_selection (ESourceSelector *selector,
 gboolean
 e_source_selector_selection_shown (ESourceSelector *selector)
 {
-	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
+	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
 
 	return selector->priv->checkboxes_shown;
 }
