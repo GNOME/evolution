@@ -204,6 +204,10 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
+	if (!mail_content_loaded (CAMEL_DATA_WRAPPER (mime_message), md,
+				  TRUE, NULL, NULL))
+		return;
+
 	mail_html_write (md->html, md->stream, "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td><tt>\n");
 
 	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message));
