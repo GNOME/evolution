@@ -28,64 +28,56 @@
 #include "gal-define-views-model.h"
 #include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <gal/util/e-i18n.h>
+#include <gal/util/e-util.h>
 
 static void gal_view_new_dialog_init		(GalViewNewDialog		 *card);
 static void gal_view_new_dialog_class_init	(GalViewNewDialogClass	 *klass);
-static void gal_view_new_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void gal_view_new_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void gal_view_new_dialog_destroy (GtkObject *object);
+static void gal_view_new_dialog_set_property	(GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void gal_view_new_dialog_get_property	(GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void gal_view_new_dialog_dispose		(GObject *object);
 
-static GnomeDialogClass *parent_class = NULL;
-#define PARENT_TYPE gnome_dialog_get_type()
+static GtkDialogClass *parent_class = NULL;
+#define PARENT_TYPE GTK_TYPE_DIALOG
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_NAME,
-	ARG_FACTORY
+	PROP_0,
+	PROP_NAME,
+	PROP_FACTORY
 };
 
-GtkType
-gal_view_new_dialog_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		static const GtkTypeInfo info =
-		{
-			"GalViewNewDialog",
-			sizeof (GalViewNewDialog),
-			sizeof (GalViewNewDialogClass),
-			(GtkClassInitFunc) gal_view_new_dialog_class_init,
-			(GtkObjectInitFunc) gal_view_new_dialog_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_view_new_dialog, "GalViewNewDialog",
+	    GalViewNewDialog,
+	    gal_view_new_dialog_class_init,
+	    gal_view_new_dialog_init, PARENT_TYPE)
 
 static void
 gal_view_new_dialog_class_init (GalViewNewDialogClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->set_arg = gal_view_new_dialog_set_arg;
-	object_class->get_arg = gal_view_new_dialog_get_arg;
-	object_class->destroy = gal_view_new_dialog_destroy;
+	object_class->set_property = gal_view_new_dialog_set_property;
+	object_class->get_property = gal_view_new_dialog_get_property;
+	object_class->dispose      = gal_view_new_dialog_dispose;
 
-	gtk_object_add_arg_type ("GalViewNewDialog::name", GTK_TYPE_STRING,
-				 GTK_ARG_READWRITE, ARG_NAME);
-	gtk_object_add_arg_type ("GalViewNewDialog::factory", GTK_TYPE_OBJECT,
-				 GTK_ARG_READABLE, ARG_FACTORY);
+	g_object_class_install_property (object_class, PROP_FACTORY, 
+					 g_param_spec_string ("name",
+							      _("Name"),
+							      /*_( */"XXX blurb" /*)*/,
+							      NULL,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_FACTORY, 
+					 g_param_spec_object ("factory",
+							      _("Factory"),
+							      /*_( */"XXX blurb" /*)*/,
+							      GAL_VIEW_FACTORY_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 static void
@@ -103,13 +95,13 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-				    GTK_STOCK_OK,
-				    GTK_STOCK_CANCEL,
-				    NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
 
@@ -118,23 +110,23 @@ gal_view_new_dialog_init (GalViewNewDialog *dialog)
 }
 
 static void
-gal_view_new_dialog_destroy (GtkObject *object)
+gal_view_new_dialog_dispose (GObject *object)
 {
 	GalViewNewDialog *gal_view_new_dialog = GAL_VIEW_NEW_DIALOG(object);
 	
 	if (gal_view_new_dialog->gui)
-		gtk_object_unref(GTK_OBJECT(gal_view_new_dialog->gui));
+		g_object_unref(gal_view_new_dialog->gui);
 	gal_view_new_dialog->gui = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 GtkWidget*
 gal_view_new_dialog_new (GalViewCollection *collection)
 {
 	GtkWidget *widget =
-		gal_view_new_dialog_construct(gtk_type_new (gal_view_new_dialog_get_type ()),
+		gal_view_new_dialog_construct(g_object_new (GAL_VIEW_NEW_DIALOG_TYPE, NULL),
 					      collection);
 	return widget;
 }
@@ -167,60 +159,62 @@ gal_view_new_dialog_construct (GalViewNewDialog  *dialog,
 		char *text[1];
 		int row;
 
-		gtk_object_ref(GTK_OBJECT(factory));
+		g_object_ref(factory);
 		text[0] = (char *) gal_view_factory_get_title(factory);
 		row = gtk_clist_append(GTK_CLIST(list), text);
 		gtk_clist_set_row_data(GTK_CLIST(list), row, factory);
 	}
 
-	gtk_signal_connect(GTK_OBJECT (list),
-			   "select_row",
-			   GTK_SIGNAL_FUNC(gal_view_new_dialog_select_row_callback),
-			   dialog);
+	g_signal_connect(list,
+			 "select_row",
+			 G_CALLBACK(gal_view_new_dialog_select_row_callback),
+			 dialog);
 
 	return GTK_WIDGET(dialog);
 }
 
 static void
-gal_view_new_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+gal_view_new_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GalViewNewDialog *dialog;
 	GtkWidget *entry;
 
-	dialog = GAL_VIEW_NEW_DIALOG (o);
+	dialog = GAL_VIEW_NEW_DIALOG (object);
 	
-	switch (arg_id){
-	case ARG_NAME:
+	switch (prop_id){
+	case PROP_NAME:
 		entry = glade_xml_get_widget(dialog->gui, "entry-name");
-		if (entry && GTK_IS_EDITABLE(entry)) {
-			e_utf8_gtk_editable_set_text(GTK_EDITABLE(entry), GTK_VALUE_STRING(*arg));
+		if (entry && GTK_IS_ENTRY(entry)) {
+			gtk_entry_set_text(GTK_ENTRY(entry), g_value_get_string (value));
 		}
 		break;
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		return;
 	}
 }
 
+
 static void
-gal_view_new_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+gal_view_new_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	GalViewNewDialog *dialog;
 	GtkWidget *entry;
 
 	dialog = GAL_VIEW_NEW_DIALOG (object);
 
-	switch (arg_id) {
-	case ARG_NAME:
+	switch (prop_id) {
+	case PROP_NAME:
 		entry = glade_xml_get_widget(dialog->gui, "entry-name");
-		if (entry && GTK_IS_EDITABLE(entry)) {
-			GTK_VALUE_STRING(*arg) = e_utf8_gtk_editable_get_text(GTK_EDITABLE(entry));
+		if (entry && GTK_IS_ENTRY(entry)) {
+			g_value_set_string (value, gtk_entry_get_text (GTK_ENTRY (entry)));
 		}
 		break;
-	case ARG_FACTORY:
-		GTK_VALUE_OBJECT(*arg) = dialog->selected_factory ? GTK_OBJECT(dialog->selected_factory) : NULL;
+	case PROP_FACTORY:
+		g_value_set_object (value, dialog->selected_factory);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }

@@ -24,6 +24,7 @@
 #ifndef __GAL_VIEW_NEW_DIALOG_H__
 #define __GAL_VIEW_NEW_DIALOG_H__
 
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <gal-view-collection.h>
 
@@ -40,18 +41,18 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define GAL_VIEW_NEW_DIALOG_TYPE			(gal_view_new_dialog_get_type ())
-#define GAL_VIEW_NEW_DIALOG(obj)			(GTK_CHECK_CAST ((obj), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialog))
-#define GAL_VIEW_NEW_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialogClass))
-#define GAL_IS_VIEW_NEW_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
-#define GAL_IS_VIEW_NEW_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
+#define GAL_VIEW_NEW_DIALOG_TYPE		(gal_view_new_dialog_get_type ())
+#define GAL_VIEW_NEW_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialog))
+#define GAL_VIEW_NEW_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_VIEW_NEW_DIALOG_TYPE, GalViewNewDialogClass))
+#define GAL_IS_VIEW_NEW_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
+#define GAL_IS_VIEW_NEW_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_VIEW_NEW_DIALOG_TYPE))
 
 typedef struct _GalViewNewDialog       GalViewNewDialog;
 typedef struct _GalViewNewDialogClass  GalViewNewDialogClass;
 
 struct _GalViewNewDialog
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	/* item specific fields */
 	GladeXML *gui;
@@ -62,11 +63,11 @@ struct _GalViewNewDialog
 
 struct _GalViewNewDialogClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 GtkWidget *gal_view_new_dialog_new        (GalViewCollection *collection);
-GtkType    gal_view_new_dialog_get_type   (void);
+GType      gal_view_new_dialog_get_type   (void);
 
 GtkWidget *gal_view_new_dialog_construct  (GalViewNewDialog  *dialog,
 					   GalViewCollection *collection);

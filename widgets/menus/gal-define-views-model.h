@@ -33,10 +33,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define GAL_DEFINE_VIEWS_MODEL_TYPE        (gal_define_views_model_get_type ())
-#define GAL_DEFINE_VIEWS_MODEL(o)          (GTK_CHECK_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
-#define GAL_DEFINE_VIEWS_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModelClass))
-#define GAL_IS_DEFINE_VIEWS_MODEL(o)       (GTK_CHECK_TYPE ((o), GAL_DEFINE_VIEWS_MODEL_TYPE))
-#define GAL_IS_DEFINE_VIEWS_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_DEFINE_VIEWS_MODEL_TYPE))
+#define GAL_DEFINE_VIEWS_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModel))
+#define GAL_DEFINE_VIEWS_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), GAL_DEFINE_VIEWS_MODEL_TYPE, GalDefineViewsModelClass))
+#define GAL_IS_DEFINE_VIEWS_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), GAL_DEFINE_VIEWS_MODEL_TYPE))
+#define GAL_IS_DEFINE_VIEWS_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), GAL_DEFINE_VIEWS_MODEL_TYPE))
 
 typedef struct {
 	ETableModel parent;
@@ -53,7 +53,7 @@ typedef struct {
 } GalDefineViewsModelClass;
 
 
-GtkType      gal_define_views_model_get_type     (void);
+GType        gal_define_views_model_get_type     (void);
 ETableModel *gal_define_views_model_new          (void);
 
 void         gal_define_views_model_append       (GalDefineViewsModel *model,

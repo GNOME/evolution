@@ -26,7 +26,6 @@
 #include <util/e-i18n.h>
 #include <ctype.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include <libxml/parser.h>
 #include <libgnome/gnome-util.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -492,7 +491,7 @@ add_popup_radio_item (EPopupMenu *menu_item,
 static void
 add_popup_menu_item (EPopupMenu *menu_item,
 		     gchar *title,
-		     GtkSignalFunc fn,
+		     GCallback fn,
 		     gpointer closure)
 {
 	const EPopupMenu menu_item_struct = 
@@ -559,18 +558,18 @@ gal_view_instance_get_popup_menu (GalViewInstance *instance)
 			value = TRUE;
 		}
 
-		add_popup_radio_item (ret_val + i, item->title, GTK_SIGNAL_FUNC (view_item_cb), closure, value);
+		add_popup_radio_item (ret_val + i, item->title, G_CALLBACK (view_item_cb), closure, value);
 	}
 
 	if (!found) {
 		e_popup_menu_copy_1 (ret_val + i++, &separator);
 
 		add_popup_radio_item (ret_val + i++, N_("Custom View"), NULL, NULL, TRUE);
-		add_popup_menu_item (ret_val + i++, N_("Save Custom View"), GTK_SIGNAL_FUNC (save_current_view_cb), instance);
+		add_popup_menu_item (ret_val + i++, N_("Save Custom View"), G_CALLBACK (save_current_view_cb), instance);
 	}
 
 	e_popup_menu_copy_1 (ret_val + i++, &separator);
-	add_popup_menu_item (ret_val + i++, N_("Define Views"), GTK_SIGNAL_FUNC (define_views_cb), instance);
+	add_popup_menu_item (ret_val + i++, N_("Define Views"), G_CALLBACK (define_views_cb), instance);
 	e_popup_menu_copy_1 (ret_val + i++, &terminator);
 
 	return ret_val;

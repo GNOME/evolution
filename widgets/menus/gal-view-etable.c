@@ -25,7 +25,7 @@
 #include "gal-view-etable.h"
 #include <gal/e-table/e-table-config.h>
 
-#define PARENT_TYPE gal_view_get_type ()
+#define PARENT_TYPE GAL_VIEW_TYPE
 
 static GalViewClass *gal_view_etable_parent_class;
 

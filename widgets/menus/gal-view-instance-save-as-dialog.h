@@ -24,7 +24,7 @@
 #ifndef __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
 #define __GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_H__
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/menus/gal-view-collection.h>
@@ -44,10 +44,10 @@ extern "C" {
  */
 
 #define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE			(gal_view_instance_save_as_dialog_get_type ())
-#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)			(GTK_CHECK_CAST ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialog))
-#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialogClass))
-#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
-#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)			(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialog))
+#define GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)		(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, GalViewInstanceSaveAsDialogClass))
+#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
+#define GAL_IS_VIEW_INSTANCE_SAVE_AS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE))
 
 typedef struct _GalViewInstanceSaveAsDialog       GalViewInstanceSaveAsDialog;
 typedef struct _GalViewInstanceSaveAsDialogClass  GalViewInstanceSaveAsDialogClass;
@@ -59,7 +59,7 @@ typedef enum {
 
 struct _GalViewInstanceSaveAsDialog
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	/* item specific fields */
 	GladeXML *gui;
@@ -73,11 +73,11 @@ struct _GalViewInstanceSaveAsDialog
 
 struct _GalViewInstanceSaveAsDialogClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 GtkWidget *gal_view_instance_save_as_dialog_new       (GalViewInstance             *instance);
-GtkType    gal_view_instance_save_as_dialog_get_type  (void);
+GType      gal_view_instance_save_as_dialog_get_type  (void);
 
 void       gal_view_instance_save_as_dialog_save      (GalViewInstanceSaveAsDialog *dialog);
 

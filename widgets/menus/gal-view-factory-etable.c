@@ -27,7 +27,7 @@
 #include "gal-view-factory-etable.h"
 #include "gal-view-etable.h"
 
-#define PARENT_TYPE gal_view_factory_get_type ()
+#define PARENT_TYPE GAL_VIEW_FACTORY_TYPE
 
 static GalViewFactoryClass *gal_view_factory_etable_parent_class;
 

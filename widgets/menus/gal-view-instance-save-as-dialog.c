@@ -35,13 +35,13 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkbox.h>
 
-static GnomeDialogClass *parent_class = NULL;
-#define PARENT_TYPE gnome_dialog_get_type()
+static GtkDialogClass *parent_class = NULL;
+#define PARENT_TYPE GTK_TYPE_DIALOG
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_INSTANCE,
+	PROP_0,
+	PROP_INSTANCE,
 };
 
 typedef struct {
@@ -58,9 +58,9 @@ gal_view_instance_save_as_dialog_set_instance(GalViewInstanceSaveAsDialog *dialo
 {
 	dialog->instance = instance;
 	if (dialog->model) {
-		gtk_object_set(GTK_OBJECT(dialog->model),
-			       "collection", instance ? instance->collection : NULL,
-			       NULL);
+		g_object_set(dialog->model,
+			     "collection", instance ? instance->collection : NULL,
+			     NULL);
 	}
 }
 
@@ -98,28 +98,28 @@ gvisad_radio_toggled (GtkWidget *widget, GalViewInstanceSaveAsDialog *dialog)
 }
 
 static void
-gvisad_connect_signal(GalViewInstanceSaveAsDialog *dialog, char *widget_name, char *signal, GtkSignalFunc handler)
+gvisad_connect_signal(GalViewInstanceSaveAsDialog *dialog, char *widget_name, char *signal, GCallback handler)
 {
 	GtkWidget *widget;
 
 	widget = glade_xml_get_widget(dialog->gui, widget_name);
 
 	if (widget)
-		g_signal_connect (G_OBJECT (widget), signal, G_CALLBACK (handler), dialog);
+		g_signal_connect (G_OBJECT (widget), signal, handler, dialog);
 }
 
 /* Method override implementations */
 static void
-gal_view_instance_save_as_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+gal_view_instance_save_as_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GalViewInstanceSaveAsDialog *dialog;
 
-	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (o);
+	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 	
-	switch (arg_id){
-	case ARG_INSTANCE:
-		if (GTK_VALUE_OBJECT(*arg))
-			gal_view_instance_save_as_dialog_set_instance(dialog, GAL_VIEW_INSTANCE(GTK_VALUE_OBJECT(*arg)));
+	switch (prop_id){
+	case PROP_INSTANCE:
+		if (g_value_get_object (value))
+			gal_view_instance_save_as_dialog_set_instance(dialog, GAL_VIEW_INSTANCE(g_value_get_object (value)));
 		else
 			gal_view_instance_save_as_dialog_set_instance(dialog, NULL);
 		break;
@@ -130,53 +130,56 @@ gal_view_instance_save_as_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_i
 }
 
 static void
-gal_view_instance_save_as_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+gal_view_instance_save_as_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	GalViewInstanceSaveAsDialog *dialog;
 
 	dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (object);
 
-	switch (arg_id) {
-	case ARG_INSTANCE:
-		if (dialog->instance)
-			GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(dialog->instance);
-		else
-			GTK_VALUE_OBJECT(*arg) = NULL;
+	switch (prop_id) {
+	case PROP_INSTANCE:
+		g_value_set_object (value, dialog->instance);
 		break;
 
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
 
 static void
-gal_view_instance_save_as_dialog_destroy (GtkObject *object)
+gal_view_instance_save_as_dialog_dispose (GObject *object)
 {
 	GalViewInstanceSaveAsDialog *gal_view_instance_save_as_dialog = GAL_VIEW_INSTANCE_SAVE_AS_DIALOG(object);
 
-	gtk_object_unref(GTK_OBJECT(gal_view_instance_save_as_dialog->gui));
+	if (gal_view_instance_save_as_dialog->gui)
+		g_object_unref(gal_view_instance_save_as_dialog->gui);
+	gal_view_instance_save_as_dialog->gui = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 /* Init functions */
 static void
 gal_view_instance_save_as_dialog_class_init (GalViewInstanceSaveAsDialogClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->set_arg = gal_view_instance_save_as_dialog_set_arg;
-	object_class->get_arg = gal_view_instance_save_as_dialog_get_arg;
-	object_class->destroy = gal_view_instance_save_as_dialog_destroy;
+	object_class->set_property = gal_view_instance_save_as_dialog_set_property;
+	object_class->get_property = gal_view_instance_save_as_dialog_get_property;
+	object_class->dispose      = gal_view_instance_save_as_dialog_dispose;
 
-	gtk_object_add_arg_type("GalViewInstanceSaveAsDialog::instance", GAL_VIEW_INSTANCE_TYPE,
-				GTK_ARG_READWRITE, ARG_INSTANCE);
+	g_object_class_install_property (object_class, PROP_INSTANCE, 
+					 g_param_spec_object ("instance",
+							      _("Instance"),
+							      /*_( */"XXX blurb" /*)*/,
+							      GAL_VIEW_INSTANCE_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 static void
@@ -197,24 +200,24 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-				    GNOME_STOCK_BUTTON_OK,
-				    GNOME_STOCK_BUTTON_CANCEL,
-				    NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 
-	gvisad_connect_signal(dialog, "radiobutton-replace", "toggled", GTK_SIGNAL_FUNC(gvisad_radio_toggled));
-	gvisad_connect_signal(dialog, "radiobutton-create",  "toggled", GTK_SIGNAL_FUNC(gvisad_radio_toggled));
+	gvisad_connect_signal(dialog, "radiobutton-replace", "toggled", G_CALLBACK(gvisad_radio_toggled));
+	gvisad_connect_signal(dialog, "radiobutton-create",  "toggled", G_CALLBACK(gvisad_radio_toggled));
 
 	dialog->model = NULL;
 	etable = glade_xml_get_widget(dialog->gui, "custom-replace");
 	if (etable) {
-		dialog->model = gtk_object_get_data(GTK_OBJECT(etable), "GalViewInstanceSaveAsDialog::model");
-		gtk_object_set(GTK_OBJECT(dialog->model),
-			       "collection", dialog->instance ? dialog->instance->collection : NULL,
-			       NULL);
+		dialog->model = g_object_get_data(etable, "GalViewInstanceSaveAsDialog::model");
+		g_object_set(dialog->model,
+			     "collection", dialog->instance ? dialog->instance->collection : NULL,
+			     NULL);
 	}
 	
 	gvisad_setup_radio_buttons (dialog);
@@ -238,7 +241,7 @@ gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *
 	ETableModel *model;
 	model = gal_define_views_model_new();
 	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	gtk_object_set_data(GTK_OBJECT(table), "GalViewInstanceSaveAsDialog::model", model);
+	g_object_set_data(table, "GalViewInstanceSaveAsDialog::model", model);
 	return table;
 }
 
@@ -253,34 +256,15 @@ gal_view_instance_save_as_dialog_create_etable(char *name, char *string1, char *
 GtkWidget*
 gal_view_instance_save_as_dialog_new (GalViewInstance *instance)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (gal_view_instance_save_as_dialog_get_type ()));
+	GtkWidget *widget = g_object_new (GAL_VIEW_INSTANCE_SAVE_AS_DIALOG_TYPE, NULL);
 	gal_view_instance_save_as_dialog_set_instance(GAL_VIEW_INSTANCE_SAVE_AS_DIALOG (widget), instance);
 	return widget;
 }
 
-GtkType
-gal_view_instance_save_as_dialog_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		static const GtkTypeInfo info =
-		{
-			"GalViewInstanceSaveAsDialog",
-			sizeof (GalViewInstanceSaveAsDialog),
-			sizeof (GalViewInstanceSaveAsDialogClass),
-			(GtkClassInitFunc) gal_view_instance_save_as_dialog_class_init,
-			(GtkObjectInitFunc) gal_view_instance_save_as_dialog_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_view_instance_save_as_dialog, "GalViewInstanceSaveAsDialog",
+	    GalViewInstanceSaveAsDialog,
+	    gal_view_instance_save_as_dialog_class_init,
+	    gal_view_instance_save_as_dialog_init, PARENT_TYPE)
 
 void
 gal_view_instance_save_as_dialog_save (GalViewInstanceSaveAsDialog *dialog)

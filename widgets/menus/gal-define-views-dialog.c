@@ -25,27 +25,26 @@
 
 #include "gal-define-views-dialog.h"
 
-#include <libgnomeui/gnome-dialog.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtk.h>
 #include "gal-define-views-model.h"
 #include "gal-view-new-dialog.h"
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/util/e-i18n.h>
+#include <gal/util/e-util.h>
 
-static void gal_define_views_dialog_init		(GalDefineViewsDialog		 *card);
-static void gal_define_views_dialog_class_init	(GalDefineViewsDialogClass	 *klass);
-static void gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void gal_define_views_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void gal_define_views_dialog_destroy (GtkObject *object);
+static void gal_define_views_dialog_init	 (GalDefineViewsDialog		 *card);
+static void gal_define_views_dialog_class_init	 (GalDefineViewsDialogClass	 *klass);
+static void gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void gal_define_views_dialog_dispose	 (GObject *object);
 
-static GnomeDialogClass *parent_class = NULL;
-#define PARENT_TYPE gnome_dialog_get_type()
+static GtkDialogClass *parent_class = NULL;
+#define PARENT_TYPE GTK_TYPE_DIALOG
 
-/* The arguments we take */
+/* The properties we support */
 enum {
-	ARG_0,
-	ARG_COLLECTION
+	PROP_0,
+	PROP_COLLECTION
 };
 
 typedef struct {
@@ -54,45 +53,28 @@ typedef struct {
 	GalDefineViewsDialog *names;
 } GalDefineViewsDialogChild;
 
-GtkType
-gal_define_views_dialog_get_type (void)
-{
-	static GtkType type = 0;
 
-	if (!type) {
-		static const GtkTypeInfo info =
-		{
-			"GalDefineViewsDialog",
-			sizeof (GalDefineViewsDialog),
-			sizeof (GalDefineViewsDialogClass),
-			(GtkClassInitFunc) gal_define_views_dialog_class_init,
-			(GtkObjectInitFunc) gal_define_views_dialog_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-	return type;
-}
+E_MAKE_TYPE(gal_define_views_dialog, "GalDefineViewsDialog", GalDefineViewsDialog, gal_define_views_dialog_class_init, gal_define_views_dialog_init, PARENT_TYPE)
 
 static void
 gal_define_views_dialog_class_init (GalDefineViewsDialogClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
+	object_class = (GObjectClass*) klass;
 
-	parent_class = gtk_type_class (PARENT_TYPE);
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class->set_arg = gal_define_views_dialog_set_arg;
-	object_class->get_arg = gal_define_views_dialog_get_arg;
-	object_class->destroy = gal_define_views_dialog_destroy;
+	object_class->set_property = gal_define_views_dialog_set_property;
+	object_class->get_property = gal_define_views_dialog_get_property;
+	object_class->dispose = gal_define_views_dialog_dispose;
 
-	gtk_object_add_arg_type("GalDefineViewsDialog::collection", GAL_VIEW_COLLECTION_TYPE,
-				GTK_ARG_READWRITE, ARG_COLLECTION);
+	g_object_class_install_property (object_class, PROP_COLLECTION, 
+					 g_param_spec_object ("collection",
+							      _("Collection"),
+							      /*_( */"XXX blurb" /*)*/,
+							      GAL_VIEW_COLLECTION_TYPE,
+							      G_PARAM_READWRITE));
 }
 
 /* ETable creation */
@@ -111,43 +93,43 @@ gal_define_views_dialog_create_etable(char *name, char *string1, char *string2, 
 	ETableModel *model;
 	model = gal_define_views_model_new();
 	table = e_table_scrolled_new(model, NULL, SPEC, NULL);
-	gtk_object_set_data(GTK_OBJECT(table), "GalDefineViewsDialog::model", model);
+	g_object_set_data(G_OBJECT (table), "GalDefineViewsDialog::model", model);
 	return table;
 }
 
 /* Button callbacks */
 
 static void
-gdvd_button_new_dialog_callback(GtkWidget *widget, int button, GalDefineViewsDialog *dialog)
+gdvd_button_new_dialog_callback(GtkWidget *widget, int id, GalDefineViewsDialog *dialog)
 {
 	gchar *name;
 	GalView *view;
 	GalViewFactory *factory;
-	switch (button) {
-	case 0:
-		gtk_object_get(GTK_OBJECT(widget),
-			       "name", &name,
-			       "factory", &factory,
-			       NULL);
+	switch (id) {
+	case GTK_RESPONSE_OK:
+		g_object_get(widget,
+			     "name", &name,
+			     "factory", &factory,
+			     NULL);
 		if (name && factory) {
 			view = gal_view_factory_new_view(factory,
 							 name);
 			gal_define_views_model_append(GAL_DEFINE_VIEWS_MODEL(dialog->model), view);
 			gal_view_edit(view);
-			gtk_object_unref(GTK_OBJECT(view));
+			g_object_unref(view);
 		}
 		break;
 	}
-	gnome_dialog_close(GNOME_DIALOG(widget));
+	gtk_widget_destroy (widget);
 }
 
 static void
 gdvd_button_new_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 {
 	GtkWidget *view_new_dialog = gal_view_new_dialog_new(dialog->collection);
-	gtk_signal_connect(GTK_OBJECT(view_new_dialog), "clicked",
-			   GTK_SIGNAL_FUNC(gdvd_button_new_dialog_callback), dialog);
-	gtk_widget_show(GTK_WIDGET(view_new_dialog));
+	g_signal_connect(view_new_dialog, "response",
+			 G_CALLBACK(gdvd_button_new_dialog_callback), dialog);
+	gtk_widget_show(view_new_dialog);
 }
 
 static void
@@ -207,14 +189,14 @@ gdvd_button_copy_callback(GtkWidget *widget, GalDefineViewsDialog *dialog)
 }
 
 static void
-gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GtkSignalFunc handler)
+gdvd_connect_signal(GalDefineViewsDialog *dialog, char *widget_name, char *signal, GCallback handler)
 {
 	GtkWidget *widget;
 
 	widget = glade_xml_get_widget(dialog->gui, widget_name);
 
 	if (widget)
-		gtk_signal_connect(GTK_OBJECT(widget), signal, handler, dialog);
+		g_signal_connect(widget, signal, handler, dialog);
 }
 
 static void
@@ -235,42 +217,42 @@ gal_define_views_dialog_init (GalDefineViewsDialog *dialog)
 	}
 	gtk_widget_ref(widget);
 	gtk_widget_unparent(widget);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), widget, TRUE, TRUE, 0);
 	gtk_widget_unref(widget);
 
-	gnome_dialog_append_buttons(GNOME_DIALOG(dialog),
-				    GTK_STOCK_OK,
-				    GTK_STOCK_CANCEL,
-				    NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG (dialog),
+				GTK_STOCK_OK, GTK_RESPONSE_OK,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				NULL);
 
-	gdvd_connect_signal(dialog, "button-new",    "clicked", GTK_SIGNAL_FUNC(gdvd_button_new_callback));
-	gdvd_connect_signal(dialog, "button-modify", "clicked", GTK_SIGNAL_FUNC(gdvd_button_modify_callback));
-	gdvd_connect_signal(dialog, "button-delete", "clicked", GTK_SIGNAL_FUNC(gdvd_button_delete_callback));
-	gdvd_connect_signal(dialog, "button-copy",   "clicked", GTK_SIGNAL_FUNC(gdvd_button_copy_callback));
+	gdvd_connect_signal(dialog, "button-new",    "clicked", G_CALLBACK(gdvd_button_new_callback));
+	gdvd_connect_signal(dialog, "button-modify", "clicked", G_CALLBACK(gdvd_button_modify_callback));
+	gdvd_connect_signal(dialog, "button-delete", "clicked", G_CALLBACK(gdvd_button_delete_callback));
+	gdvd_connect_signal(dialog, "button-copy",   "clicked", G_CALLBACK(gdvd_button_copy_callback));
 
 	dialog->model = NULL;
 	etable = glade_xml_get_widget(dialog->gui, "custom-table");
 	if (etable) {
-		dialog->model = gtk_object_get_data(GTK_OBJECT(etable), "GalDefineViewsDialog::model");
-		gtk_object_set(GTK_OBJECT(dialog->model),
-			       "collection", dialog->collection,
-			       NULL);
+		dialog->model = g_object_get_data(G_OBJECT (etable), "GalDefineViewsDialog::model");
+		g_object_set(dialog->model,
+			     "collection", dialog->collection,
+			     NULL);
 	}
 
 	gtk_window_set_policy(GTK_WINDOW(dialog), FALSE, TRUE, FALSE);
 }
 
 static void
-gal_define_views_dialog_destroy (GtkObject *object)
+gal_define_views_dialog_dispose (GObject *object)
 {
 	GalDefineViewsDialog *gal_define_views_dialog = GAL_DEFINE_VIEWS_DIALOG(object);
 
 	if (gal_define_views_dialog->gui)
-		gtk_object_unref(GTK_OBJECT(gal_define_views_dialog->gui));
+		g_object_unref(gal_define_views_dialog->gui);
 	gal_define_views_dialog->gui = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
@@ -279,9 +261,9 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 {
 	dialog->collection = collection;
 	if (dialog->model) {
-		gtk_object_set(GTK_OBJECT(dialog->model),
-			       "collection", collection,
-			       NULL);
+		g_object_set(dialog->model,
+			     "collection", collection,
+			     NULL);
 	}
 	if (dialog->gui) {
 		GtkWidget *widget = glade_xml_get_widget(dialog->gui, "label-views");
@@ -310,48 +292,45 @@ gal_define_views_dialog_set_collection(GalDefineViewsDialog *dialog,
 GtkWidget*
 gal_define_views_dialog_new (GalViewCollection *collection)
 {
-	GtkWidget *widget = GTK_WIDGET (gtk_type_new (gal_define_views_dialog_get_type ()));
+	GtkWidget *widget = g_object_new (GAL_DEFINE_VIEWS_DIALOG_TYPE, NULL);
 	gal_define_views_dialog_set_collection(GAL_DEFINE_VIEWS_DIALOG (widget), collection);
 	return widget;
 }
 
 static void
-gal_define_views_dialog_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+gal_define_views_dialog_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	GalDefineViewsDialog *dialog;
 
-	dialog = GAL_DEFINE_VIEWS_DIALOG (o);
+	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 	
-	switch (arg_id){
-	case ARG_COLLECTION:
-		if (GTK_VALUE_OBJECT(*arg))
-			gal_define_views_dialog_set_collection(dialog, GAL_VIEW_COLLECTION(GTK_VALUE_OBJECT(*arg)));
+	switch (prop_id){
+	case PROP_COLLECTION:
+		if (g_value_get_object (value))
+			gal_define_views_dialog_set_collection(dialog, GAL_VIEW_COLLECTION(g_value_get_object (value)));
 		else
 			gal_define_views_dialog_set_collection(dialog, NULL);
 		break;
 
 	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		return;
 	}
 }
 
 static void
-gal_define_views_dialog_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+gal_define_views_dialog_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	GalDefineViewsDialog *dialog;
 
 	dialog = GAL_DEFINE_VIEWS_DIALOG (object);
 
-	switch (arg_id) {
-	case ARG_COLLECTION:
-		if (dialog->collection)
-			GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(dialog->collection);
-		else
-			GTK_VALUE_OBJECT(*arg) = NULL;
-		break;
+	switch (prop_id) {
+	case PROP_COLLECTION:
+		g_value_set_object (value, dialog->collection);
 
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }

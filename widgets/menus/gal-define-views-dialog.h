@@ -24,7 +24,7 @@
 #ifndef __GAL_DEFINE_VIEWS_DIALOG_H__
 #define __GAL_DEFINE_VIEWS_DIALOG_H__
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <gal/e-table/e-table-model.h>
 #include <gal/menus/gal-view-collection.h>
@@ -42,18 +42,18 @@ extern "C" {
  * --------------------------------------------------------------------------------
  */
 
-#define GAL_DEFINE_VIEWS_DIALOG_TYPE			(gal_define_views_dialog_get_type ())
-#define GAL_DEFINE_VIEWS_DIALOG(obj)			(GTK_CHECK_CAST ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialog))
-#define GAL_DEFINE_VIEWS_DIALOG_CLASS(klass)		(GTK_CHECK_CLASS_CAST ((klass), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialogClass))
-#define GAL_IS_DEFINE_VIEWS_DIALOG(obj)		(GTK_CHECK_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
-#define GAL_IS_DEFINE_VIEWS_DIALOG_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
+#define GAL_DEFINE_VIEWS_DIALOG_TYPE		(gal_define_views_dialog_get_type ())
+#define GAL_DEFINE_VIEWS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialog))
+#define GAL_DEFINE_VIEWS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), GAL_DEFINE_VIEWS_DIALOG_TYPE, GalDefineViewsDialogClass))
+#define GAL_IS_DEFINE_VIEWS_DIALOG(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
+#define GAL_IS_DEFINE_VIEWS_DIALOG_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), GAL_DEFINE_VIEWS_DIALOG_TYPE))
 
 typedef struct _GalDefineViewsDialog       GalDefineViewsDialog;
 typedef struct _GalDefineViewsDialogClass  GalDefineViewsDialogClass;
 
 struct _GalDefineViewsDialog
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 
 	/* item specific fields */
 	GladeXML *gui;
@@ -64,11 +64,11 @@ struct _GalDefineViewsDialog
 
 struct _GalDefineViewsDialogClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 GtkWidget               *gal_define_views_dialog_new          (GalViewCollection *collection);
-GtkType                  gal_define_views_dialog_get_type     (void);
+GType                    gal_define_views_dialog_get_type     (void);
 
 #ifdef __cplusplus
 }
