@@ -211,7 +211,7 @@ write_data_to_file (CamelMimePart *part, const char *name, gboolean unique)
 }
 
 static char *
-make_safe_filename (const char *prefix,CamelMimePart *part)
+make_safe_filename (const char *prefix, CamelMimePart *part)
 {
 	const char *name;
 	char *safe, *p;
@@ -318,19 +318,19 @@ on_link_clicked (GtkHTML *html, const char *url, MailDisplay *md)
 static void 
 save_part (CamelMimePart *part)
 {
+	char *filename, *dir, *home, *base;
 	GtkFileSelection *file_select;
-	char *filename, *dir, *base;
 	GConfClient *gconf;
 	
 	camel_object_ref (part);
 	
+	home = getenv ("HOME");
 	gconf = gconf_client_get_default ();
 	dir = gconf_client_get_string (gconf, "/apps/evolution/mail/save_dir", NULL);
-	filename = make_safe_filename (dir, part);
+	filename = make_safe_filename (dir ? dir : (home ? home : ""), part);
 	g_free (dir);
 	
-	file_select = GTK_FILE_SELECTION (
-		gtk_file_selection_new (_("Save Attachment")));
+	file_select = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save Attachment")));
 	gtk_file_selection_set_filename (file_select, filename);
 	/* set the GtkEntry with the locale filename by breaking abstraction */
 	base = g_path_get_basename (filename);

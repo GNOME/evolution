@@ -1,3 +1,9 @@
+2003-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (save_part): Don't allow the 'prefix' argument to
+	make_safe_filename() be NULL. If we don't yet have a save_dir in
+	gconf, use $HOME, etc. Fixes bug #40608.
+
 2003-04-02  Not Zed  <NotZed@Ximian.com>
 
 	* component-factory.c (interactive_cb): Call
@@ -11,6 +17,10 @@
 	again.  Fixes #40522.
 
 2003-03-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (regen_list_regened): Save tree state and then
+	after building the new tree, re-load the tree state. Finishes the
+	fix for bug #40074.
 
 	* mail-session.c: Properly init message_list. Fixed a type-o that
 	initialized it to the password_list.
