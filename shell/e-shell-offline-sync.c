@@ -289,6 +289,11 @@ sync_folder (SyncData *sync_data,
 		return;
 	}
 
+	/* Don't attempt to sync folders that don't have the can_sync_offline
+	   property set.  */
+	if (! e_folder_get_can_sync_offline (folder))
+		return;
+
 	component_client = e_folder_type_registry_get_handler_for_type (e_shell_get_folder_type_registry (sync_data->shell),
 									e_folder_get_type_string (folder));
 
