@@ -205,18 +205,18 @@ PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAG
 
 all-local: evolution-mail.pure
 
+evolution-mail.pure: evolution-mail
+	@rm -f evolution-mail.pure
+	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
+
+endif
+
 install-data-local:
 	if test -z "$(DESTDIR)" ; then \
 		for p in $(schema_DATA) ; do \
 			GCONF_CONFIG_SOURCE=$(GCONF_SCHEMA_CONFIG_SOURCE) $(GCONFTOOL) --makefile-install-rule $(srcdir)/$$p; \
 		done \
 	fi
-
-evolution-mail.pure: evolution-mail
-	@rm -f evolution-mail.pure
-	$(PLINK) $(evolution_mail_LDFLAGS) $(evolution_mail_OBJECTS) $(evolution_mail_LDADD) $(LIBS)
-
-endif
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
