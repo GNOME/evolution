@@ -1,3 +1,7 @@
+2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: added libwombat to LDADD
+
 2001-06-15  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Get weather.h disted
