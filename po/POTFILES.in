@@ -59,6 +59,7 @@ addressbook/printing/e-contact-print-envelope.c
 addressbook/printing/e-contact-print.c
 addressbook/printing/e-contact-print.glade
 calendar/cal-util/cal-component.c
+calendar/cal-util/cal-recur.c
 calendar/cal-util/cal-util.c
 calendar/cal-util/timeutil.c
 calendar/conduits/calendar/calendar-conduit.c

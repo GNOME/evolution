@@ -1,3 +1,7 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* POTFILES.in: add cal-recur.c
+
 2003-02-05  Dmitry G. Mastrukov  <dmitry@taurussoft.org>
 
 	* ru.po: updated Russian translation
