@@ -1422,7 +1422,6 @@ try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md)
 	CamelCipherValidity *valid = NULL;
 	CamelPgpContext *context;
 	char *msg_start, *pgp_start, *sig_start, *sig_end;
-	const char *charset;
 	
 	pgp_start = strstr (start, "-----BEGIN PGP SIGNED MESSAGE-----");
 	if (pgp_start) {
@@ -1480,7 +1479,7 @@ try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md)
 		filtered_stream = camel_stream_filter_new_with_stream (ciphertext);
 		camel_stream_filter_add (filtered_stream, CAMEL_MIME_FILTER (charset_filter));
 		
-		camel_stream_write (filtered_stream, pgp_start, sig_end - pgp_start);
+		camel_stream_write (CAMEL_STREAM (filtered_stream), pgp_start, sig_end - pgp_start);
 		camel_stream_flush (CAMEL_STREAM (filtered_stream));
 		camel_object_unref (CAMEL_OBJECT (filtered_stream));
 		
