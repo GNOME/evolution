@@ -14,12 +14,14 @@
 #include <glade/glade.h>
 #include <icaltypes.h>
 #include <ical.h>
+#include <time.h>
 
 #include "e-itip-control.h"
+#include <cal-util/cal-component.h>
 
 
-#define DEFAULT_WIDTH 300
-#define DEFAULT_HEIGHT 200
+#define DEFAULT_WIDTH 500
+#define DEFAULT_HEIGHT 400
 
 
 typedef struct _EItipControlPrivate EItipControlPrivate;
@@ -28,10 +30,27 @@ struct _EItipControlPrivate {
 	GladeXML *xml;
 	GtkWidget *main_frame;
 	GtkWidget *text_box;
+	GtkWidget *organizer_entry, *dtstart_label, *dtend_label;
+	GtkWidget *summary_entry, *description_box;
 
-	icalcomponent *main_comp;
+	icalcomponent *main_comp, *comp;
+	CalComponent *cal_comp;
 };
 
+
+#if 0
+static icalparameter *
+get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
+{
+	icalparameter *param;
+
+	for (param = icalproperty_get_first_parameter (prop, ICAL_ANY_PARAMETER);
+	     param != NULL && icalparameter_isa (param) != kind;
+	     param = icalproperty_get_next_parameter (prop, ICAL_ANY_PARAMETER) );
+
+	return param;
+}
+#endif
 
 static void
 itip_control_destroy_cb (GtkObject *object,
@@ -40,6 +59,10 @@ itip_control_destroy_cb (GtkObject *object,
 	EItipControlPrivate *priv = data;
 
 	gtk_object_unref (GTK_OBJECT (priv->xml));
+	if (priv->main_comp != NULL) {
+		icalcomponent_free (priv->main_comp);
+	}
+
 	g_free (priv);
 }
 	
@@ -111,7 +134,7 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 {
 	EItipControlPrivate *priv = data;
 	gchar *vcalendar;
-	gint pos, length;
+	gint pos, length, length2;
 
 	if (type && g_strcasecmp (type, "text/calendar") != 0 &&	    
 	    g_strcasecmp (type, "text/x-calendar") != 0) {	    
@@ -129,9 +152,106 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 	/* Do something with the data, here. */
 	pos = 0;
 	length = strlen (vcalendar);
+	length2 = strlen (gtk_editable_get_chars (GTK_EDITABLE (priv->text_box), 0, -1));
+	
 
-	if (length > 0) 
-		gtk_editable_delete_text (GTK_EDITABLE (priv->text_box), 0, length);
+	if (length2 > 0) 
+		gtk_editable_delete_text (GTK_EDITABLE (priv->text_box), 0, length2);
+
+	gtk_editable_insert_text (GTK_EDITABLE (priv->text_box),
+				  vcalendar,
+				  length,
+				  &pos);
+
+	priv->main_comp = icalparser_parse_string (vcalendar);
+	if (priv->main_comp == NULL) {
+		g_printerr ("e-itip-control.c: the iCalendar data was invalid!\n");
+		return;
+	}
+
+	priv->comp = icalcomponent_get_first_component (priv->main_comp,
+							ICAL_ANY_COMPONENT);
+	if (priv->comp == NULL) {
+		g_printerr ("e-itip-control.c: I could not extract a proper component from\n"
+			    "     the vCalendar data.\n");
+		icalcomponent_free (priv->main_comp);
+		return;
+	}
+
+#if 0	
+	priv->cal_comp = cal_component_new ();
+	if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE)) {
+		gtk_object_destroy (GTK_OBJECT (priv->cal_comp));
+		icalcomponent_free (main_comp);
+	}
+#endif
+
+	/* Okay, good then; now I will pick apart the CalComponent to get
+	 all the things I'll show in my control. */
+	{
+		icalproperty *prop;
+		gchar *new_text;
+		gchar *organizer, *description, *summary;
+		struct icaltimetype dtstart, dtend;
+		time_t tstart, tend;
+
+		prop = icalcomponent_get_first_property (priv->comp, ICAL_ORGANIZER_PROPERTY);
+		if (prop) {
+			organizer = icalproperty_get_organizer (prop);
+		
+			/* Here I strip off the "MAILTO:" if it is present. */
+			new_text = strchr (organizer, ':');
+			if (new_text != NULL)
+				new_text++;
+			else
+				new_text = organizer;
+
+			gtk_entry_set_text (GTK_ENTRY (priv->organizer_entry), new_text);
+		}
+
+		prop = icalcomponent_get_first_property (priv->comp, ICAL_SUMMARY_PROPERTY);
+		if (prop) {
+			summary = icalproperty_get_summary (prop);
+			gtk_entry_set_text (GTK_ENTRY (priv->summary_entry), summary);
+		}
+
+		prop = icalcomponent_get_first_property (priv->comp, ICAL_DESCRIPTION_PROPERTY);
+		if (prop) {
+			description = icalproperty_get_summary (prop);
+	
+			pos = 0;
+			length = strlen (description);
+			length2 = strlen (gtk_editable_get_chars 
+						(GTK_EDITABLE (priv->description_box), 0, -1));
+		
+			if (length2 > 0)
+				gtk_editable_delete_text (GTK_EDITABLE (priv->description_box), 0, length2);
+		
+			gtk_editable_insert_text (GTK_EDITABLE (priv->description_box),
+						  description,
+						  length,
+						  &pos);
+		}
+
+		prop = icalcomponent_get_first_property (priv->comp, ICAL_DTSTART_PROPERTY);
+		dtstart = icalproperty_get_dtstart (prop);
+		prop = icalcomponent_get_first_property (priv->comp, ICAL_DTEND_PROPERTY);
+		dtend = icalproperty_get_dtend (prop);
+
+		tstart = icaltime_as_timet (dtstart);
+		tend = icaltime_as_timet (dtend);
+
+		gtk_label_set_text (GTK_LABEL (priv->dtstart_label), ctime (&tstart));
+		gtk_label_set_text (GTK_LABEL (priv->dtend_label), ctime (&tend));
+	}
+	
+	pos = 0;
+	length = strlen (vcalendar);
+	length2 = strlen (gtk_editable_get_chars (GTK_EDITABLE (priv->text_box), 0, -1));
+	
+
+	if (length2 > 0) 
+		gtk_editable_delete_text (GTK_EDITABLE (priv->text_box), 0, length2);
 
 	gtk_editable_insert_text (GTK_EDITABLE (priv->text_box),
 				  vcalendar,
@@ -203,6 +323,11 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	/* Create the control. */
 	priv->main_frame = glade_xml_get_widget (priv->xml, "main_frame");
 	priv->text_box = glade_xml_get_widget (priv->xml, "text_box");
+	priv->organizer_entry = glade_xml_get_widget (priv->xml, "organizer_entry");
+	priv->dtstart_label = glade_xml_get_widget (priv->xml, "dtstart_label");
+	priv->dtend_label = glade_xml_get_widget (priv->xml, "dtend_label");
+	priv->summary_entry = glade_xml_get_widget (priv->xml, "summary_entry");
+	priv->description_box = glade_xml_get_widget (priv->xml, "description_box");
 	gtk_text_set_editable (GTK_TEXT (priv->text_box), FALSE);
 
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "destroy",

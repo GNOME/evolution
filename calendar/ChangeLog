@@ -1,3 +1,8 @@
+2000-10-12  Jesse Pavel		<jpavel@helixcode.com>
+
+	* gui/e-itip-control.{c,glade}: Made the control much more
+	relavent to the function at hand.
+
 2000-10-12  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): set the 2 icon
