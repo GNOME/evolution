@@ -273,7 +273,7 @@ emfv_class_init(GObjectClass *klass)
 	signals[EMFV_CHANGED] = g_signal_new("changed",
 					     G_OBJECT_CLASS_TYPE(klass),
 					     G_SIGNAL_RUN_LAST,
-					     G_STRUCT_OFFSET(EMFolderViewClass, on_url),
+					     G_STRUCT_OFFSET(EMFolderViewClass, changed),
 					     NULL, NULL,
 					     g_cclosure_marshal_VOID__VOID,
 					     G_TYPE_NONE,

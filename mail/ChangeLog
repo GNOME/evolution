@@ -1,5 +1,8 @@
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
+	* em-folder-view.c (emfv_class_init): use the right signal
+	callback for the changed signal.  Fixes #57246.
+
 	* mail-component.c (impl_createControls): fix for
 	e_user_creatable_items api changes.
 	(create_item): split out the code to create the item.
