@@ -1,5 +1,10 @@
 2000-11-29  Federico Mena Quintero  <federico@helixcode.com>
 
+	* calendar/architecture.sgml: Finished the calendar architecture
+	chapter.
+
+2000-11-29  Federico Mena Quintero  <federico@helixcode.com>
+
 	* evolution-devel-guide.sgml: Added an id for the API reference <part>.
 	Added the FDL <legalnotice>.
 	Added the preface and toplevel reference entities.
