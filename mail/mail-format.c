@@ -829,7 +829,7 @@ handle_multipart_related (CamelMimePart *part, const char *mime_type,
 
 /* RFC 2046 says "display the last part that you are able to display". */
 static CamelMimePart *
-find_preferred_alternative (CamelMultipart *multipart)
+find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 {
 	int i, nparts;
 	CamelMimePart *preferred_part = NULL;
@@ -842,6 +842,8 @@ find_preferred_alternative (CamelMultipart *multipart)
 			camel_mime_part_get_content_type (part));
 
 		g_strdown (mime_type);
+		if (want_plain && !strcmp (mime_type, "text/plain"))
+			return part;
 		if (lookup_handler (mime_type, &generic) &&
 		    (!preferred_part || !generic))
 			preferred_part = part;
@@ -863,7 +865,7 @@ handle_multipart_alternative (CamelMimePart *part, const char *mime_type,
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	multipart = CAMEL_MULTIPART (wrapper);
 
-	mime_part = find_preferred_alternative (multipart);	
+	mime_part = find_preferred_alternative (multipart, FALSE);
 	if (mime_part)
 		return call_handler_function (mime_part, mfd);
 	else
@@ -1208,7 +1210,7 @@ handle_via_bonobo (CamelMimePart *part, const char *mime_type,
 }
 
 static char *
-reply_body (CamelDataWrapper *data, gboolean *html)
+reply_body (CamelDataWrapper *data, gboolean want_plain, gboolean *is_html)
 {
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
@@ -1226,12 +1228,12 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	 * the headers...
 	 */
 	if (g_strcasecmp (mime_type->type, "message") == 0) {
-		*html = FALSE;
+		*is_html = FALSE;
 		return get_data_wrapper_text (data);
 	}
 
 	if (g_strcasecmp (mime_type->type, "text") == 0) {
-		*html = !g_strcasecmp (mime_type->subtype, "html");
+		*is_html = !g_strcasecmp (mime_type->subtype, "html");
 		return get_data_wrapper_text (data);
 	}
 
@@ -1246,13 +1248,13 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 	if (g_strcasecmp (mime_type->subtype, "alternative") == 0) {
 		/* Pick our favorite alternative and reply to it. */
 
-		subpart = find_preferred_alternative (mp);
+		subpart = find_preferred_alternative (mp, want_plain);
 		if (!subpart)
 			return NULL;
 
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
-		return reply_body (data, html);
+		return reply_body (data, want_plain, is_html);
 	}
 
 	nparts = camel_multipart_get_number (mp);
@@ -1271,10 +1273,10 @@ reply_body (CamelDataWrapper *data, gboolean *html)
 
 		data = camel_medium_get_content_object (
 			CAMEL_MEDIUM (subpart));
-		subtext = reply_body (data, html);
+		subtext = reply_body (data, want_plain, is_html);
 		if (!subtext)
 			continue;
-		if (*html) {
+		if (*is_html) {
 			g_free (text);
 			return subtext;
 		}
@@ -1299,14 +1301,19 @@ EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	CamelDataWrapper *contents;
-	char *text, *subject;
+	char *text, *subject, *path, *string;
 	EMsgComposer *composer;
-	gboolean html;
+	gboolean want_plain, is_html;
 	const char *repl_to, *message_id, *references;
 	GList *to, *cc;
 
+	path = g_strdup_printf ("=%s/config=/mail/msg_format", evolution_dir);
+	string = gnome_config_get_string (path);
+	g_free (path);
+	want_plain = string && !strcasecmp (string, "plain");
+
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
-	text = reply_body (contents, &html);
+	text = reply_body (contents, want_plain, &is_html);
 
 	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 
@@ -1314,7 +1321,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	if (text) {
 		char *repl_text;
 
-		if (html) {
+		if (is_html) {
 			repl_text = g_strdup_printf ("<blockquote><i>\n%s\n"
 						     "</i></blockquote>\n",
 						     text);

@@ -1,3 +1,12 @@
+2000-06-19  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (find_preferred_alternative): add an option to
+	prefer text/plain.
+	(reply_body): add an option to prefer text/plain
+	(mail_generate_reply): Check the mail sending preferences, and
+	generate a text/plain reply if the user prefers to send plain text
+	(and we have a text/plain part to generate a reply from).
+
 2000-06-19  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config.c (providers_config_new): Should now correctly display
