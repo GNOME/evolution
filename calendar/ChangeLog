@@ -4,6 +4,8 @@
 	that the work week view goes to the current work week if the day
 	selected is before the start of the work week
 
+	Fixes #20317
+	
 2002-07-28  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/task-details-page.c: fixed mapping of popdown menu
@@ -45,6 +47,8 @@
 	* gui/comp-editor-factory.c (impl_editExisting): focus the editor
 	if it does exist, create a new one if it doesn't (not vice-versa)
 
+	Fixes #23468
+	
 2002-07-25  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_init): set large_font to NULL
@@ -58,6 +62,8 @@
 	* gui/e-itip-control.c (write_html): display the location in the
 	itip information
 
+	Fixes #24690
+	
 2002-07-24  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-model.c (set_percent): set status to in progress if
