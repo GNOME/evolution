@@ -7,10 +7,10 @@ INCLUDES = -O								\
 	$(BONOBO_GNOME_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   		\
+	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"   			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            		\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"		\
-	-DEVOLUTION_ETSPECDIR=\"$(datadir)/evolution/etspec\"		\
+	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"			\
 	-DG_LOG_DOMAIN=\"evolution-shell\"
 
 # CORBA stuff

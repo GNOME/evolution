@@ -1,5 +1,10 @@
 2001-06-29  Christopher James Lahey  <clahey@ximian.com>
 
+	* Makefile.am (INCLUDES): Changed $(datadir)/evolution/etspec to
+	"$(etspecdir)" here.
+
+2001-06-29  Christopher James Lahey  <clahey@ximian.com>
+
 	* e-shortcuts-view-model.c (load_group_into_model): Replaced GList
 	with GSList here to fix a type mismatch.
 
