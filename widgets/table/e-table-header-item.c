@@ -68,8 +68,8 @@ static GtkTargetEntry  ethi_drop_types [] = {
 static void
 ethi_destroy (GtkObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
-
-	gtk_object_unref (GTK_OBJECT (ethi->eth));
+	
+	ethi_drop_table_header (ethi);
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);

@@ -33,7 +33,7 @@ e_table_header_destroy (GtkObject *object)
 	/*
 	 * Destroy columns
 	 */
-	for (i = 0; i < cols; i++){
+	for (i = cols - 1; i >= 0; i--){
 		e_table_header_remove (eth, i);
 	}
 	
