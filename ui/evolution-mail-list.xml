@@ -103,7 +103,7 @@
         <separator/>
         <menuitem name="ViewShowAll" verb="" _label="Show _All"/>
         <menuitem name="ViewHideSelected" verb="" _label="Hide S_elected Messages"/>
-        <menuitem name="ViewHideRead" verb="" _label="Hide _Read messages"/>
+        <menuitem name="ViewHideRead" verb="" _label="Hide _Read Messages"/>
       </placeholder>
     </submenu>
 

@@ -1,3 +1,8 @@
+2001-07-21  Jason Leach  <jleach@ximian.com>
+
+	* evolution-mail-list.xml: Capitalize "messgaes" in "Hide Read
+	messages" menu item label.  Bug #5091.
+
 2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Removed the "Redirect" menu since
