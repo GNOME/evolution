@@ -2468,20 +2468,13 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart)
 		
 		if (header_content_type_is (content_type, "text", "html")) {
 			CamelDataWrapper *contents;
-			char *text, *final_text;
-			gboolean is_html;
+			char *text;
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			text = mail_get_message_body (contents, FALSE, &is_html);
+			text = mail_get_message_body (contents, FALSE, FALSE);
 			if (text) {
-				if (is_html)
-					final_text = g_strdup (text);
-				else
-					final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-								     E_TEXT_TO_HTML_CONVERT_SPACES);
+				e_msg_composer_set_body_text (composer, text);
 				g_free (text);
-				
-				e_msg_composer_set_body_text (composer, final_text);
 			}
 			
 			return;
@@ -2524,20 +2517,13 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 		} else if (depth == 0 && i == 0) {
 			/* Since the first part is not multipart/alternative, then this must be the body */
 			CamelDataWrapper *contents;
-			char *text, *final_text;
-			gboolean is_html;
+			char *text;
 			
 			contents = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
-			text = mail_get_message_body (contents, FALSE, &is_html);
+			text = mail_get_message_body (contents, FALSE, FALSE);
 			if (text) {
-				if (is_html)
-					final_text = g_strdup (text);
-				else
-					final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-								     E_TEXT_TO_HTML_CONVERT_SPACES);
+				e_msg_composer_set_body_text (composer, text);
 				g_free (text);
-				
-				e_msg_composer_set_body_text (composer, final_text);
 			}
 		} else {
 			/* this is a leaf of the tree, so attach it */
@@ -2714,20 +2700,13 @@ e_msg_composer_new_with_message (CamelMimeMessage *msg)
 	} else {
 		/* We either have a text/plain or a text/html part */
 		CamelDataWrapper *contents;
-		char *text, *final_text;
-		gboolean is_html;
+		char *text;
 		
 		contents = camel_medium_get_content_object (CAMEL_MEDIUM (msg));
-		text = mail_get_message_body (contents, FALSE, &is_html);
+		text = mail_get_message_body (contents, FALSE, FALSE);
 		if (text) {
-			if (is_html)
-				final_text = g_strdup (text);
-			else
-				final_text = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL |
-							     E_TEXT_TO_HTML_CONVERT_SPACES);
+			e_msg_composer_set_body_text (new, text);
 			g_free (text);
-			
-			e_msg_composer_set_body_text (new, final_text);
 		}
 	}
 

@@ -2,6 +2,9 @@
 
 	* e-msg-composer.c (save): Have to specify a mode when using
 	O_CREAT.
+	(handle_multipart_alternative, handle_multipart,
+	e_msg_composer_new_with_message): Update for mail_get_message_body
+	change.
 
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
