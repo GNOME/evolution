@@ -423,10 +423,20 @@ e_hpaned_motion (GtkWidget      *widget,
 
   if (paned->in_drag)
     {
-      gint size = x - GTK_CONTAINER (paned)->border_width - paned->handle_size / 2;
-      
+      gint size;
+      gint new_child1_size;
+
+      size = x - GTK_CONTAINER (paned)->border_width - paned->handle_size / 2;
+
+      new_child1_size = CLAMP (e_paned_quantized_size(paned, size),
+			       paned->min_position,
+			       paned->max_position);
+
+      if (new_child1_size == paned->child1_size)
+	return TRUE;
+
       e_hpaned_xor_line (paned);
-      paned->child1_size = CLAMP (e_paned_quantized_size(paned, size), paned->min_position, paned->max_position);
+      paned->child1_size = new_child1_size;
       paned->child1_real_size = paned->child1_size;
       e_hpaned_xor_line (paned);
     }
