@@ -29,10 +29,23 @@
 
 #define PARENT_TYPE E_TABLE_MODEL_TYPE
 
+#define TREEPATH_CHUNK_AREA_SIZE (30 * sizeof (ETreePath))
+
 static ETableModel *e_tree_model_parent_class;
+
+struct ETreeModelPriv {
+	GMemChunk  *node_chunk;
+	ETreePath  *root;
+	gboolean    root_visible;
+	GArray     *row_array; /* used in the mapping between ETable and our tree */
+	GHashTable *expanded_state; /* used for loading/saving expanded state */
+	GString    *sort_group;	/* for caching the last sort group info */
+	gboolean    expanded_default; /* whether nodes are created expanded or collapsed by default */
+};
 
 struct ETreePath {
 	gboolean             expanded;
+	gboolean             expanded_set;
 	guint                visible_descendents;
 	char                *save_id;
 	ETreePathCompareFunc compare;
@@ -142,7 +155,11 @@ e_tree_path_unlink (ETreePath *path)
 void
 e_tree_model_node_traverse (ETreeModel *model, ETreePath *path, ETreePathFunc func, gpointer data)
 {
-	ETreePath *child = path->first_child;
+	ETreePath *child;
+
+	g_return_if_fail (path);
+
+	child = path->first_child;
 
 	while (child) {
 		ETreePath *next_child = child->next_sibling;
@@ -168,20 +185,25 @@ static void
 etree_destroy (GtkObject *object)
 {
 	ETreeModel *etree = E_TREE_MODEL (object);
+	ETreeModelPriv *priv = etree->priv;
 
 	/* XXX lots of stuff to free here */
-	g_array_free (etree->row_array, TRUE);
-	g_hash_table_foreach_remove (etree->expanded_state,
+	g_array_free (priv->row_array, TRUE);
+	g_hash_table_foreach_remove (priv->expanded_state,
 				     expanded_remove_func, NULL);
 
-	g_string_free(etree->sort_group, TRUE);
+	g_string_free(priv->sort_group, TRUE);
+
+	g_free (priv);
+
 	GTK_OBJECT_CLASS (e_tree_model_parent_class)->destroy (object);
 }
 
 static ETreePath*
 etree_get_root (ETreeModel *etm)
 {
-	return etm->root;
+	ETreeModelPriv *priv = etm->priv;
+	return priv->root;
 }
 
 static ETreePath*
@@ -269,10 +291,13 @@ etree_is_visible (ETreeModel *etm, ETreePath* node)
 static void
 etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 {
+	ETreeModelPriv *priv = etm->priv;
 	ETreePath *child;
 	int row;
 
 	g_return_if_fail (node);
+
+	node->expanded_set = TRUE;
 
 	if (node->expanded == expanded)
 		return;
@@ -286,18 +311,7 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 
 	node->expanded = expanded;
 	if (node->save_id) {
-		g_hash_table_insert (etm->expanded_state, node->save_id, (gpointer)expanded);
-
-		if (expanded) {
-			/* the node previously was collapsed */
-			etm->num_collapsed_to_save --;
-			etm->num_expanded_to_save ++;
-		}
-		else {
-			/* the node previously was expanded */
-			etm->num_expanded_to_save --;
-			etm->num_collapsed_to_save ++;
-		}
+		g_hash_table_insert (priv->expanded_state, node->save_id, (gpointer)expanded);
 	}
 
 	/* if the node wasn't visible at present */
@@ -333,7 +347,7 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 
 		if (e_tree_model_node_is_visible (etm, node)) {
 			for (i = 0; i < node->visible_descendents; i ++) {
-				etm->row_array = g_array_remove_index (etm->row_array, row);
+				priv->row_array = g_array_remove_index (priv->row_array, row);
 				e_table_model_row_deleted (E_TABLE_MODEL (etm), row);
 			}
 		}
@@ -350,32 +364,35 @@ etree_set_expanded (ETreeModel *etm, ETreePath* node, gboolean expanded)
 	}
 }
 
+void
+e_tree_model_set_expanded_default (ETreeModel *etree,
+				   gboolean expanded)
+{
+	ETreeModelPriv *priv = etree->priv;
+
+	priv->expanded_default = expanded;
+}
+
 /* fairly naive implementation */
 static void
 etree_set_expanded_recurse (ETreeModel *etm, ETreePath* node, gboolean expanded)
 {
-	ETreePath **paths;
-	guint num_children;
-	int i;
+	ETreePath *child;
 
 	e_tree_model_node_set_expanded (etm, node, expanded);
 
-	num_children = e_tree_model_node_get_children (etm, node, &paths);
-	if (num_children) {
-		for (i = 0; i < num_children; i ++) {
-			e_tree_model_node_set_expanded_recurse (etm, paths[i], expanded);
-		}
-
-		g_free (paths);
-	}
+	for (child = node->first_child; child; child = child->next_sibling)
+		e_tree_model_node_set_expanded_recurse (etm, child, expanded);
 }
 
 static ETreePath *
 etree_node_at_row (ETreeModel *etree, int row)
 {
-	g_return_val_if_fail (row < etree->row_array->len, NULL);
+	ETreeModelPriv *priv = etree->priv;
 
-	return g_array_index (etree->row_array, ETreePath*, row);
+	g_return_val_if_fail (row < priv->row_array->len, NULL);
+
+	return g_array_index (priv->row_array, ETreePath*, row);
 }
 
 
@@ -417,7 +434,8 @@ static int
 etable_row_count (ETableModel *etm)
 {
 	ETreeModel *tree = E_TREE_MODEL (etm);
-	return tree->row_array->len;
+	ETreeModelPriv *priv = tree->priv;
+	return priv->row_array->len;
 }
 
 static void *
@@ -474,15 +492,16 @@ static const char *
 etable_row_sort_group(ETableModel *etm, int row)
 {
 	ETreeModel *etree = E_TREE_MODEL(etm);
+	ETreeModelPriv *priv = etree->priv;
 	ETreePath* node = e_tree_model_node_at_row (etree, row);
 
 	g_return_val_if_fail (node, "");
 
-	g_string_truncate(etree->sort_group, 0);
+	g_string_truncate(priv->sort_group, 0);
 	if (node)
-		build_sort_group(etree->sort_group, node);
+		build_sort_group(priv->sort_group, node);
 
-	return etree->sort_group->str;
+	return priv->sort_group->str;
 }
 
 static gboolean
@@ -586,8 +605,7 @@ static void
 e_tree_init (GtkObject *object)
 {
 	ETreeModel *etree = (ETreeModel *)object;
-
-	etree->sort_group = g_string_new("");
+	e_tree_model_construct (etree);
 }
 
 E_MAKE_TYPE(e_tree_model, "ETreeModel", ETreeModel, e_tree_model_class_init, e_tree_init, PARENT_TYPE)
@@ -667,13 +685,20 @@ e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *
 }
 
 
+
 void
 e_tree_model_construct (ETreeModel *etree)
 {
-	etree->root = NULL;
-	etree->root_visible = TRUE;
-	etree->row_array = g_array_new (FALSE, FALSE, sizeof(ETreePath*));
-	etree->expanded_state = g_hash_table_new (g_str_hash, g_str_equal);
+	ETreeModelPriv *priv = g_new0 (ETreeModelPriv, 1);
+
+	etree->priv = priv;
+
+	priv->node_chunk = g_mem_chunk_create (ETreePath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
+	priv->root = NULL;
+	priv->root_visible = TRUE;
+	priv->row_array = g_array_new (FALSE, FALSE, sizeof(ETreePath*));
+	priv->expanded_state = g_hash_table_new (g_str_hash, g_str_equal);
+	priv->sort_group = g_string_new("");
 }
 
 ETreeModel *
@@ -707,10 +732,11 @@ e_tree_model_icon_of_node (ETreeModel *etree, ETreePath *path)
 int
 e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 {
+	ETreeModelPriv *priv = etree->priv;
 	int i;
 
-	for (i = 0; i < etree->row_array->len; i ++)
-		if (g_array_index (etree->row_array, ETreePath*, i) == node)
+	for (i = 0; i < priv->row_array->len; i ++)
+		if (g_array_index (priv->row_array, ETreePath*, i) == node)
 			return i;
 
 	return -1;
@@ -719,16 +745,18 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 void
 e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 {
-	if (visible != etm->root_visible) {
-		etm->root_visible = visible;
-		if (etm->root) {
+	ETreeModelPriv *priv = etm->priv;
+
+	if (visible != priv->root_visible) {
+		priv->root_visible = visible;
+		if (priv->root) {
 			if (visible) {
-				etm->row_array = g_array_insert_val (etm->row_array, 0, etm->root);
+				priv->row_array = g_array_insert_val (priv->row_array, 0, priv->root);
 			}
 			else {
 				ETreePath *root_path = e_tree_model_get_root (etm);
 				e_tree_model_node_set_expanded (etm, root_path, TRUE);
-				etm->row_array = g_array_remove_index (etm->row_array, 0);
+				priv->row_array = g_array_remove_index (priv->row_array, 0);
 			}
 			
 			e_table_model_changed (E_TABLE_MODEL (etm));
@@ -739,7 +767,8 @@ e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 gboolean
 e_tree_model_root_node_is_visible (ETreeModel *etm)
 {
-	return etm->root_visible;
+	ETreeModelPriv *priv = etm->priv;
+	return priv->root_visible;
 }
 
 ETreePath *
@@ -849,15 +878,28 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 			  int position,
 			  gpointer node_data)
 {
+	ETreeModelPriv *priv;
 	ETreePath *new_path;
-	g_return_val_if_fail (parent_path != NULL || tree_model->root == NULL, NULL);
 
-	new_path = g_new0 (ETreePath, 1);
+	priv = tree_model->priv;
+
+	g_return_val_if_fail (parent_path != NULL || priv->root == NULL, NULL);
+
+	priv = tree_model->priv;
+
+	new_path = g_chunk_new0 (ETreePath, priv->node_chunk);
 
 	new_path->expanded = FALSE;
 	new_path->node_data = node_data;
 
 	if (parent_path != NULL) {
+
+		if (parent_path->first_child == NULL
+		    && !parent_path->expanded_set) {
+			e_tree_model_node_set_expanded (tree_model,
+							parent_path,
+							priv->expanded_default);
+		}
 
 		e_tree_path_insert (parent_path, position, new_path);
 
@@ -877,22 +919,23 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 
 			parent_row = e_tree_model_row_of_node (tree_model, parent_path);
 
-			tree_model->row_array = g_array_insert_val (tree_model->row_array,
-								    parent_row + position + 1, new_path);
+			priv->row_array = g_array_insert_val (priv->row_array,
+							      parent_row + position + 1, new_path);
 
 			e_table_model_row_inserted (E_TABLE_MODEL(tree_model), parent_row + position + 1);
 		}
 	}
 	else {
-		tree_model->root = new_path;
-		if (tree_model->root_visible) {
-			tree_model->row_array = g_array_insert_val (tree_model->row_array, 0, tree_model->root);
+		priv->root = new_path;
+		if (priv->root_visible) {
+			priv->row_array = g_array_insert_val (priv->row_array, 0, priv->root);
 			e_table_model_row_inserted (E_TABLE_MODEL (tree_model), 0);
 		}
 		else {
 			/* need to mark the new node as expanded or
                            we'll never see it's children */
 			new_path->expanded = TRUE;
+			new_path->expanded_set = TRUE;
 		}
 	}
 
@@ -940,6 +983,7 @@ child_remove (ETreeModel *model, ETreePath *node, gpointer data)
 gpointer
 e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 {
+	ETreeModelPriv *priv = etree->priv;
 	ETreePath *parent = path->parent;
 	gpointer ret = path->node_data;
 
@@ -951,7 +995,7 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 		if (e_tree_model_node_is_visible (etree, path)) {
 			int row = e_tree_model_row_of_node (etree, path);
 			e_table_model_row_deleted (E_TABLE_MODEL (etree), row);
-			etree->row_array = g_array_remove_index (etree->row_array, row);
+			priv->row_array = g_array_remove_index (priv->row_array, row);
 
 			/* we need to iterate back up to the root, incrementing the number of visible
 			   descendents */
@@ -960,10 +1004,10 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 			}
 		}
 	}
-	else if (path == etree->root) {
-		etree->root = NULL;
-		if (etree->root_visible) {
-			etree->row_array = g_array_remove_index (etree->row_array, 0);
+	else if (path == priv->root) {
+		priv->root = NULL;
+		if (priv->root_visible) {
+			priv->row_array = g_array_remove_index (priv->row_array, 0);
 			e_table_model_row_deleted (E_TABLE_MODEL (etree), 0);
 		}
 	}
@@ -976,7 +1020,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	e_tree_path_unlink (path);
 
 	/* now free up the storage from that path */
-	g_free (path);
+	g_free (path->save_id);
+	g_chunk_free (path, priv->node_chunk);
 
 	return ret;
 }
@@ -985,8 +1030,10 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 static void
 add_visible_descendents_to_array (ETreeModel *etm, ETreePath *node, int *row, int *count)
 {
+	ETreeModelPriv *priv = etm->priv;
+
 	/* add a row for this node */
-	etm->row_array = g_array_insert_val (etm->row_array, (*row), node);
+	priv->row_array = g_array_insert_val (priv->row_array, (*row), node);
 	e_table_model_row_inserted (E_TABLE_MODEL (etm), (*row)++);
 	(*count) ++;
 
@@ -1021,17 +1068,17 @@ e_tree_model_save_expanded_state (ETreeModel *etm, const char *filename)
 	int fd, rv;
 	xmlChar *buf;
 	int buf_size;
-	gboolean save_expanded = etm->num_expanded_to_save < etm->num_collapsed_to_save;
-
-	g_print ("saving expanded state: %d expanded, %d collapsed, should save %s\n",
-		 etm->num_expanded_to_save, etm->num_collapsed_to_save,
-		 save_expanded ? "expanded" : "collapsed");
+	ETreeModelPriv *priv = etm->priv;
 
 	doc = xmlNewDoc ((xmlChar*) "1.0");
-	root = xmlNewDocNode (doc, NULL, (xmlChar *) save_expanded ? "expanded_state" : "collapsed_state", NULL);
+	root = xmlNewDocNode (doc, NULL,
+			      (xmlChar *) "expanded_state",
+			      NULL);
 	xmlDocSetRootElement (doc, root);
 
-	g_hash_table_foreach (etm->expanded_state, (GHFunc)save_expanded_state_func, root);
+	g_hash_table_foreach (priv->expanded_state,
+			      (GHFunc)save_expanded_state_func,
+			      root);
 
 	fd = open (filename, O_CREAT | O_TRUNC | O_WRONLY, 0777);
 
@@ -1081,6 +1128,7 @@ get_string_value (xmlNode *node,
 gboolean
 e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 {
+	ETreeModelPriv *priv = etm->priv;
 	xmlDoc *doc;
 	xmlNode *root;
 	xmlNode *child;
@@ -1090,7 +1138,7 @@ e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 		return FALSE;
 
 	root = xmlDocGetRootElement (doc);
-	if (root == NULL || strcmp (root->name, "expanded_state") != 0) {
+	if (root == NULL || strcmp (root->name, "expanded_state")) {
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
@@ -1105,7 +1153,7 @@ e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 
 		id = get_string_value (child, "id");
 
-		g_hash_table_insert (etm->expanded_state, id, (gpointer)TRUE);
+		g_hash_table_insert (priv->expanded_state, id, (gpointer)TRUE);
 	}
 
 	xmlFreeDoc (doc);
@@ -1119,20 +1167,18 @@ e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 {
 	char *key;
 	gboolean expanded_state;
+	ETreeModelPriv *priv;
 
 	g_return_if_fail (E_TREE_MODEL (etm));
 	g_return_if_fail (node);
 
-	if (g_hash_table_lookup_extended (etm->expanded_state,
+	priv = etm->priv;
+
+	if (g_hash_table_lookup_extended (priv->expanded_state,
 					  id, (gpointer*)&key, (gpointer*)&expanded_state)) {
 
 		e_tree_model_node_set_expanded (etm, node,
 						expanded_state);
-
-		if (expanded_state)
-			etm->num_expanded_to_save ++;
-		else
-			etm->num_collapsed_to_save ++;
 
 		/* important that this comes after the e_tree_model_node_set_expanded */
 		node->save_id = key;
@@ -1140,12 +1186,7 @@ e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 	else {
 		node->save_id = g_strdup (id);
 
-		g_hash_table_insert (etm->expanded_state, node->save_id, (gpointer)node->expanded);
-
-		if (node->expanded)
-			etm->num_expanded_to_save ++;
-		else
-			etm->num_collapsed_to_save ++;
+		g_hash_table_insert (priv->expanded_state, node->save_id, (gpointer)node->expanded);
 	}
 }
 
@@ -1191,7 +1232,8 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	int i;
 	int child_index;
 	gboolean node_expanded = e_tree_model_node_is_expanded (tree_model, node);
-	
+	ETreeModelPriv *priv = tree_model->priv;;
+
 	g_return_if_fail (E_TREE_MODEL (tree_model));
 	g_return_if_fail (node);
 
@@ -1213,7 +1255,7 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 
 		e_tree_model_node_set_expanded(tree_model, sort_info[i].path, FALSE);
 		if (node_expanded)
-			tree_model->row_array = g_array_remove_index (tree_model->row_array, child_index);
+			priv->row_array = g_array_remove_index (priv->row_array, child_index);
 		e_tree_path_unlink (sort_info[i].path);
 	}
 
@@ -1224,8 +1266,8 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	for (i = 0; i < num_nodes; i ++) {
 		e_tree_path_insert (node, i, sort_info[i].path);
 		if (node_expanded)
-			tree_model->row_array = g_array_insert_val (tree_model->row_array, child_index + i,
-								    sort_info[i].path);
+			priv->row_array = g_array_insert_val (priv->row_array, child_index + i,
+							      sort_info[i].path);
 	}
 
 	/* make another pass expanding the children as needed.  

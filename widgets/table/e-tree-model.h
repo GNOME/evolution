@@ -13,19 +13,14 @@
 
 typedef struct ETreePath ETreePath;
 typedef struct ETreeModel ETreeModel;
+typedef struct ETreeModelPriv ETreeModelPriv;
 typedef struct ETreeModelClass ETreeModelClass;
 typedef gint (*ETreePathCompareFunc)(ETreeModel *model, ETreePath *path1, ETreePath *path2);
 typedef gboolean (*ETreePathFunc)(ETreeModel *model, ETreePath *path, gpointer data);
 
 struct ETreeModel {
 	ETableModel base;
-	ETreePath  *root;
-	gboolean    root_visible;
-	GArray     *row_array; /* used in the mapping between ETable and our tree */
-	guint32     num_expanded_to_save;
-	guint32     num_collapsed_to_save;
-	GHashTable *expanded_state; /* used for loading/saving expanded state */
-	GString    *sort_group;	/* for caching the last sort group info */
+	ETreeModelPriv *priv;
 };
 
 struct ETreeModelClass {
@@ -71,9 +66,9 @@ struct ETreeModelClass {
 
 };
 
-GtkType     e_tree_model_get_type (void);
+GtkType     e_tree_model_get_type  (void);
 void        e_tree_model_construct (ETreeModel *etree);
-ETreeModel *e_tree_model_new (void);
+ETreeModel *e_tree_model_new       (void);
 
 /* tree traversal operations */
 ETreePath *e_tree_model_get_root             (ETreeModel *etree);
@@ -93,6 +88,7 @@ gboolean e_tree_model_node_is_root                 (ETreeModel *etree, ETreePath
 gboolean e_tree_model_node_is_expandable           (ETreeModel *etree, ETreePath *path);
 gboolean e_tree_model_node_is_expanded             (ETreeModel *etree, ETreePath *path);
 gboolean e_tree_model_node_is_visible              (ETreeModel *etree, ETreePath *path);
+void     e_tree_model_set_expanded_default         (ETreeModel *etree, gboolean expanded);
 void     e_tree_model_node_set_expanded            (ETreeModel *etree, ETreePath *path, gboolean expanded);
 void     e_tree_model_node_set_expanded_recurse    (ETreeModel *etree, ETreePath *path, gboolean expanded);
 guint    e_tree_model_node_get_children            (ETreeModel *etree, ETreePath *path, ETreePath ***paths);
