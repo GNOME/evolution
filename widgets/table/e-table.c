@@ -721,8 +721,8 @@ et_state_to_header (ETable *e_table, ETableHeader *full_header, ETableState *sta
 	return nh;
 }
 
-static void
-et_set_state(ETable *e_table, ETableState *state)
+void
+e_table_set_state_object(ETable *e_table, ETableState *state)
 {
 	if (e_table->header)
 		gtk_object_unref(GTK_OBJECT(e_table->header));
@@ -764,7 +764,7 @@ void            e_table_set_state                 (ETable               *e_table
 	e_table_state_load_from_string(state, state_str);
 
 	if (state->col_count > 0)
-		et_set_state(e_table, state);
+		e_table_set_state_object(e_table, state);
 
 	gtk_object_sink(GTK_OBJECT(state));
 }
@@ -782,7 +782,7 @@ void            e_table_load_state                (ETable               *e_table
 	e_table_state_load_from_file(state, filename);
 
 	if (state->col_count > 0)
-		et_set_state(e_table, state);
+		e_table_set_state_object(e_table, state);
 
 	gtk_object_sink(GTK_OBJECT(state));
 }

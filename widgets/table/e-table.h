@@ -194,6 +194,8 @@ ETableState    *e_table_get_state_object          (ETable               *e_table
 /* note that it is more efficient to provide the state at creation time */
 void            e_table_set_state                 (ETable               *e_table,
 						   const gchar          *state);
+void            e_table_set_state_object          (ETable               *e_table,
+						   ETableState          *state);
 void            e_table_load_state                (ETable               *e_table,
 						   const gchar          *filename);
 
