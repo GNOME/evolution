@@ -1,5 +1,13 @@
 2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-folder-commands.c (e_shell_command_rename_folder): Make
+	old_name_locale non-const to placate a compiler warning.
+	(get_corba_null_value): Likewise.
+
+	* e-activity-handler.c (report_task_event): `#if 0' out.
+
+2002-03-09  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-settings-dialog.c (load_pages): Use ECorbaConfigPages.
 
 	* e-corba-config-page.c: New.

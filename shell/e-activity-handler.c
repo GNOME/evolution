@@ -98,6 +98,7 @@ lookup_activity (GList *list,
 	return NULL;
 }
 
+#if 0
 static const CORBA_any *
 get_corba_null_value (void)
 {
@@ -125,6 +126,7 @@ report_task_event (ActivityInfo *activity_info,
 
 	CORBA_exception_free (&ev);
 }
+#endif
 
 
 /* ETaskWidget actions.  */

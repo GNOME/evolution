@@ -524,7 +524,8 @@ e_shell_command_rename_folder (EShell *shell,
 	EStorageSet *storage_set;
 	EFolder *folder;
 	RenameCallbackData *callback_data;
-	const char *old_name, *old_name_locale;
+	const char *old_name;
+	char *old_name_locale;
 	char *prompt;
 	char *new_name;
 	char *old_base_path;
