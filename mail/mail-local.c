@@ -987,67 +987,96 @@ static struct _mail_msg_op reconfigure_folder_op = {
 	reconfigure_folder_free,
 };
 
+/* hash table of folders that the user has a reconfig-folder dialog for */
+static GHashTable *reconfigure_folder_hash = NULL;
+
 static void
-reconfigure_clicked(GnomeDialog *d, int button, struct _reconfigure_msg *m)
+reconfigure_clicked (GnomeDialog *dialog, int button, struct _reconfigure_msg *m)
 {
 	if (button == 0) {
-		GtkMenu *menu;
+		GtkWidget *menu;
 		int type;
 		char *types[] = { "mbox", "maildir", "mh" };
-
+		
 		/* hack to clear the message list during update */
-		message_list_set_folder(m->fb->message_list, NULL);
-
-		menu = (GtkMenu *)gtk_option_menu_get_menu(m->optionlist);
-		type = g_list_index(GTK_MENU_SHELL(menu)->children, gtk_menu_get_active(menu));
+		message_list_set_folder (m->fb->message_list, NULL);
+		
+		menu = gtk_option_menu_get_menu (m->optionlist);
+		type = g_list_index (GTK_MENU_SHELL (menu)->children,
+				     gtk_menu_get_active (GTK_MENU (menu)));
 		if (type < 0 || type > 2)
 			type = 0;
-
-		gtk_widget_set_sensitive(m->frame, FALSE);
-		gtk_widget_set_sensitive(m->apply, FALSE);
-		gtk_widget_set_sensitive(m->cancel, FALSE);
-
+		
+		gtk_widget_set_sensitive (m->frame, FALSE);
+		gtk_widget_set_sensitive (m->apply, FALSE);
+		gtk_widget_set_sensitive (m->cancel, FALSE);
+		
 		m->newtype = g_strdup (types[type]);
-		e_thread_put(mail_thread_queued, (EMsg *)m);
+		e_thread_put (mail_thread_queued, (EMsg *)m);
 	} else
-		mail_msg_free((struct _mail_msg *)m);
-
+		mail_msg_free ((struct _mail_msg *)m);
+	
 	if (button != -1)
-		gnome_dialog_close(d);
+		gnome_dialog_close (dialog);
 }
 
 void
-mail_local_reconfigure_folder(FolderBrowser *fb)
+mail_local_reconfigure_folder (FolderBrowser *fb)
 {
 	CamelStore *store;
 	GladeXML *gui;
 	GnomeDialog *gd;
 	struct _reconfigure_msg *m;
-
+	char *name, *title;
+	
 	if (fb->folder == NULL) {
-		g_warning("Trying to reconfigure nonexistant folder");
+		g_warning ("Trying to reconfigure nonexistant folder");
 		return;
 	}
-
-	m = mail_msg_new(&reconfigure_folder_op, NULL, sizeof(*m));
-	store = camel_folder_get_parent_store(fb->folder);
-
-	gui = glade_xml_new(EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
+	
+	if ((gd = g_hash_table_lookup (reconfigure_folder_hash, fb->folder))) {
+		/* FIXME: raise this dialog?? */
+		return;
+	}
+	
+	m = mail_msg_new (&reconfigure_folder_op, NULL, sizeof (*m));
+	store = camel_folder_get_parent_store (fb->folder);
+	
+	gui = glade_xml_new (EVOLUTION_GLADEDIR "/local-config.glade", "dialog_format");
 	gd = (GnomeDialog *)glade_xml_get_widget (gui, "dialog_format");
-
+	
+	name = mail_tool_get_folder_name (fb->folder);
+	title = g_strdup_printf ("Reconfigure %s", name);
+	gtk_window_set_title (GTK_WINDOW (gd), title);
+	g_free (title);
+	g_free (name);
+	
 	m->frame = glade_xml_get_widget (gui, "frame_format");
 	m->apply = glade_xml_get_widget (gui, "apply_format");
 	m->cancel = glade_xml_get_widget (gui, "cancel_format");
 	m->optionlist = (GtkOptionMenu *)glade_xml_get_widget (gui, "option_format");
 	m->newtype = NULL;
 	m->fb = fb;
-	gtk_object_ref((GtkObject *)fb);
-
-	gtk_label_set_text((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
-			   ((CamelService *)store)->url->protocol);
-
-	gtk_signal_connect((GtkObject *)gd, "clicked", reconfigure_clicked, m);
-	gtk_object_unref((GtkObject *)gui);
-
+	gtk_object_ref (GTK_OBJECT (fb));
+	
+	gtk_label_set_text ((GtkLabel *)glade_xml_get_widget (gui, "label_format"),
+			    ((CamelService *)store)->url->protocol);
+	
+	gtk_signal_connect (GTK_OBJECT (gd), "clicked", reconfigure_clicked, m);
+	gtk_object_unref (GTK_OBJECT (gui));
+	
+	if (!reconfigure_folder_hash)
+		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
+	
+	g_hash_table_insert (reconfigure_folder_hash, (gpointer) fb->folder, (gpointer) gd);
+	
 	gnome_dialog_run_and_close (GNOME_DIALOG (gd));
+	
+	/* remove this folder from our hash since we are done with it */
+	g_hash_table_remove (reconfigure_folder_hash, fb->folder);
+	if (g_hash_table_size (reconfigure_folder_hash) == 0) {
+		/* additional cleanup */
+		g_hash_table_destroy (reconfigure_folder_hash);
+		reconfigure_folder_hash = NULL;
+	}
 }

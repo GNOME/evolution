@@ -34,7 +34,7 @@ mail_tool_get_folder_from_urlname (const gchar *url, const gchar *name,
 				   guint32 flags, CamelException *ex);
 
 /* Get a useful name for a given CamelFolder (ie, not "mbox") */
-const gchar *mail_tool_get_folder_name (CamelFolder *folder);
+char *mail_tool_get_folder_name (CamelFolder *folder);
 
 /* Get the url for the local inbox, index returns if the mailbox is indexed */
 gchar *mail_tool_get_local_inbox_url (int *index);

@@ -1,3 +1,12 @@
+2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-local.c (mail_local_reconfigure_folder): Set a title on the
+	window "Reconfigure %s" where %s is the folder name. Also, don't
+	allow more than one of these type windows to be opened per folder.
+
+	* mail-tools.c (mail_tool_get_folder_name): Fix Danw's kludge to
+	actually work :-)
+
 2001-05-11  Martha Burke  <martha@ximian.com>
 
 	* gui/Makefile.am: sanitize LD_ADDS and CFLAGS so the libtool
