@@ -1,3 +1,16 @@
+2005-01-12 Chenthill Palanisamy <pchenthill@novell.com>
+
+	* Makefile.am:
+	* send-options.c: (get_cnc), (e_send_options_load_general_opts),
+	(e_sendoptions_clicked_cb), (org_gnome_send_options),
+	(e_send_options_copy_general_opts),
+	(e_send_options_copy_status_options),
+	(check_status_options_changed), (check_general_changed),
+	(send_options_copy_check_changed), (get_source),
+	(add_return_value), (put_options_in_source),
+	(add_send_options_to_source), (send_options_commit): Added some
+	functons to change the global send options.
+
 2005-01-10  Rodney Dawes  <dobey@novell.com>
 
 	* Makefile.am (INCLUDES): Clean up spacing

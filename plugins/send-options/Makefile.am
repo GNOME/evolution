@@ -2,6 +2,7 @@ INCLUDES =						\
 	-I$(top_srcdir)					\
 	-I$(top_srcdir)/camel                           \
 	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(EVOLUTION_CALENDAR_CFLAGS)			\
 	$(CAMEL_GROUPWISE_CFLAGS)
 
 @EVO_PLUGIN_RULE@
