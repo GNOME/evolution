@@ -832,7 +832,6 @@ get_password (com_msg_t * msg)
 
 	dialog = gnome_request_dialog (msg->secret, msg->message, NULL,
 				       0, get_password_cb, msg, NULL);
-	g_free (msg->message);
 
 	/* Stop the other thread */
 

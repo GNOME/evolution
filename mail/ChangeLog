@@ -1,3 +1,8 @@
+2000-08-13  Dan Winship  <danw@helixcode.com>
+
+	* mail-threads.c (get_password): Don't free the prompt. It
+	doesn't belong to you.
+
 2000-08-13  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-ops.c (mail_do_create_folder): Duplicate the listener
