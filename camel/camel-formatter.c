@@ -763,7 +763,7 @@ handle_image (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 static void
 handle_vcard (CamelFormatter *formatter, CamelDataWrapper *wrapper)
 {
-	gchar* vcard = NULL;
+//	gchar* vcard = NULL;
 	debug ("handle_vcard: entered\n");
 
 	camel_stream_write_string (formatter->priv->stream,
@@ -923,7 +923,7 @@ static void
 handle_multipart_related (CamelFormatter *formatter,
 			  CamelDataWrapper *wrapper)
 {
-	CamelMultipart* mp = CAMEL_MULTIPART (wrapper);
+//	CamelMultipart* mp = CAMEL_MULTIPART (wrapper);
 	debug ("handle_multipart_related: entered\n");
 
 	debug ("handle_multipart_related: NYI!!\n");

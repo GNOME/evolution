@@ -68,7 +68,6 @@ _collect_params (GtkArg	*params,
 		 CamelFuncDef *func_def,
 		 va_list var_args)
 {
-  GtkArg *last_param;
   int i;
   gboolean failed = FALSE;
   
@@ -110,7 +109,6 @@ _collect_params (GtkArg	*params,
 CamelOp *
 camel_marshal_create_op (CamelFuncDef *func_def, CamelFunc func, ...)
 {
-	GtkArg	*params;
 	gboolean error;
 	CamelOp *op;
 	va_list args;
@@ -191,9 +189,6 @@ camel_op_free (CamelOp *op)
 void
 camel_op_run (CamelOp *op)
 {
-	GtkArg	*params;
-	gboolean error;
-	
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelOp::run\n");
 	g_assert (op);
 	g_assert (op->func_def);

@@ -32,7 +32,7 @@
 #include "hash-table-utils.h"
 
 static DataWrapperRepository _repository;
-static _initialized = -1;
+static int _initialized = -1;
 GMimeContentField *_content_field;
 
 

@@ -1479,7 +1479,7 @@ int camel_folder_search_by_expression  (CamelFolder *folder,
 gboolean camel_folder_search_complete(CamelFolder *folder, int searchid, gboolean wait, CamelException *ex)
 {
 	g_assert (folder != NULL);
-	g_return_if_fail (folder->has_search_capability);
+	g_return_val_if_fail (folder->has_search_capability, FALSE);
 
 	return CF_CLASS (folder)->search_complete (folder, searchid, wait, ex);
 }

@@ -78,8 +78,6 @@ camel_op_queue_free (CamelOpQueue *op_queue)
 void
 camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op)
 {
-	GList *new_op;
-
 	CAMEL_LOG_FULL_DEBUG ("Entering CamelOpQueue::push_op\n");
 	g_assert (queue);
 	g_static_mutex_lock (&op_queue_mutex);

@@ -419,7 +419,6 @@ my_read_encode (CamelStream *stream,
 		 * we are at the end of the input stream
 		 * we must pad the output with '='.
 		 */
-		printf ("%d\n", status->end_state);
 		while ((j<n) && (status->end_state != 6)) {
 			
 			if (status->end_state == 5) {

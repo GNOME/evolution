@@ -132,7 +132,7 @@ _finalize (GtkObject *object)
 	}
 
 	if (medium->content)
-		gtk_object_unref(medium->content);
+		gtk_object_unref (GTK_OBJECT (medium->content));
 
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMedium::finalize\n");

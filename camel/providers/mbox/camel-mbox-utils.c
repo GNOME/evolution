@@ -309,7 +309,7 @@ index_message_content(ibex *index, CamelDataWrapper *object)
 			parts = camel_multipart_get_number (CAMEL_MULTIPART(containee));
 			/*printf("multipart message, scanning contents  %d parts ...\n", parts);*/
 			for (i=0;i<parts;i++) {
-				index_message_content(index, camel_multipart_get_part(CAMEL_MULTIPART(containee), i));
+				index_message_content(index, CAMEL_DATA_WRAPPER (camel_multipart_get_part(CAMEL_MULTIPART(containee), i)));
 			}
 		} else {
 			/*printf("\nunknwon format, ignored\n");*/
@@ -357,7 +357,6 @@ index_message(ibex *index, int fd, CamelMboxParserMessageInfo *mi)
 	CamelStream *stream;
 	CamelMimeMessage *message;
 	int newfd;
-	int i;
 
 	if (index != NULL) {
 		/*printf("indexing message\n %s\n %d for %d bytes\n", mi->from, mi->message_position, mi->size);*/
@@ -371,11 +370,11 @@ index_message(ibex *index, int fd, CamelMboxParserMessageInfo *mi)
 		camel_data_wrapper_set_input_stream (
 			CAMEL_DATA_WRAPPER (message), stream);
 		
-		index_message_content(index, message);
+		index_message_content(index, CAMEL_DATA_WRAPPER (message));
 		
 		/*	printf("messageid = '%s'\n", message->message_uid);*/
 		
-		gtk_object_unref (message);
+		gtk_object_unref (GTK_OBJECT (message));
 		gtk_object_unref (GTK_OBJECT (stream));
 		
 		lseek(fd, pos, SEEK_SET);

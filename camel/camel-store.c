@@ -33,7 +33,6 @@ static CamelServiceClass *parent_class = NULL;
 /* Returns the class for a CamelStore */
 #define CS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
-static void _set_separator(CamelStore *store, gchar sep, CamelException *ex);
 static CamelFolder *_get_root_folder(CamelStore *store, CamelException *ex);
 static CamelFolder *_get_default_folder(CamelStore *store, CamelException *ex);
 static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);

@@ -386,7 +386,6 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	int v;
-	gint nb_to_write;
 	gint nb_bytes_written = 0;
 	
 	if (n <= 0)

@@ -25,6 +25,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include "gmime-utils.h"
 #include "string-utils.h"
 #include "camel-log.h"
@@ -119,8 +120,10 @@ gmime_write_header_with_glist_to_stream (CamelStream *stream,
 static void
 _store_header_pair_from_string (GArray *header_array, gchar *header_line)
 {
+#if 0
 	gchar dich_result;
 	gchar *header_name, *header_value;
+#endif
 	Rfc822Header header;
 
 	CAMEL_LOG_FULL_DEBUG ( "_store_header_pair_from_string:: Entering\n");

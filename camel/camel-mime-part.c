@@ -676,12 +676,10 @@ my_write_content_to_stream (CamelMimePart *mime_part, CamelStream *stream)
 	medium = CAMEL_MEDIUM (mime_part);
 	content = medium->content;
 	
-	if (!content) { 
-		content = camel_medium_get_content_object (mime_part);
-	}
-		
 	if (!content) {
-		return;
+		content = camel_medium_get_content_object (CAMEL_MEDIUM (mime_part));
+		if (!content)
+			return;
 	}
 
 	switch (mime_part->encoding) {
@@ -875,7 +873,7 @@ my_set_input_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	printf ("Current position = %d\n", content_stream_inf_bound);
 	
 	if (mime_part->content_input_stream)
-		gtk_object_unref (mime_part->content_input_stream);
+		gtk_object_unref (GTK_OBJECT (mime_part->content_input_stream));
 	mime_part->content_input_stream = camel_seekable_substream_new_with_seekable_stream_and_bounds (seekable_stream,
 													content_stream_inf_bound, 
 													-1);
