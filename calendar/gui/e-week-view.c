@@ -51,6 +51,7 @@
 #include <e-util/e-categories-config.h>
 #include <e-util/e-dialog-utils.h>
 #include "dialogs/delete-comp.h"
+#include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
@@ -1914,7 +1915,7 @@ e_week_view_cut_clipboard (EWeekView *week_view)
 
 	e_week_view_copy_clipboard (week_view);
 	cal_component_get_uid (event->comp, &uid);
-	cal_client_remove_object (week_view->client, uid);
+	delete_error_dialog (cal_client_remove_object (week_view->client, uid), CAL_COMPONENT_EVENT);
 
 	e_week_view_set_status_message (week_view, NULL);
 }
@@ -3924,10 +3925,7 @@ e_week_view_delete_event_internal (EWeekView *week_view, gint event_num)
 
 		cal_component_get_uid (event->comp, &uid);
 
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (week_view->client, uid);
+		delete_error_dialog (cal_client_remove_object (week_view->client, uid), CAL_COMPONENT_EVENT);
 	}
 }
 
@@ -3973,9 +3971,8 @@ e_week_view_delete_occurrence_internal (EWeekView *week_view, gint event_num)
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);
-		if (cal_client_remove_object_with_mod (week_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
-			g_message ("e_week_view_on_delete_occurrence(): Could not update the object!");
-
+		delete_error_dialog (cal_client_remove_object_with_mod (week_view->client, uid, CALOBJ_MOD_THIS),
+				     CAL_COMPONENT_EVENT);
 		return;
 	}
 
@@ -4037,7 +4034,7 @@ e_week_view_on_cut (GtkWidget *widget, gpointer data)
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, week_view->client, NULL);
 
  	cal_component_get_uid (event->comp, &uid);
- 	cal_client_remove_object (week_view->client, uid);
+ 	delete_error_dialog (cal_client_remove_object (week_view->client, uid), CAL_COMPONENT_EVENT);
 }
 
 static void

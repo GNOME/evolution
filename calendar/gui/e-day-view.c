@@ -54,6 +54,7 @@
 
 #include "cal-util/timeutil.h"
 #include "dialogs/delete-comp.h"
+#include "dialogs/delete-error.h"
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
@@ -2821,7 +2822,7 @@ e_day_view_cut_clipboard (EDayView *day_view)
 
 	e_day_view_copy_clipboard (day_view);
 	cal_component_get_uid (event->comp, &uid);
-	cal_client_remove_object (day_view->client, uid);
+	delete_error_dialog (cal_client_remove_object (day_view->client, uid), CAL_COMPONENT_EVENT);
 
 	e_day_view_set_status_message (day_view, NULL);
 }
@@ -4077,10 +4078,7 @@ e_day_view_delete_event_internal (EDayView *day_view, EDayViewEvent *event)
 
 		cal_component_get_uid (event->comp, &uid);
 
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (day_view->client, uid);
+		delete_error_dialog (cal_client_remove_object (day_view->client, uid), CAL_COMPONENT_EVENT);
 	}
 }
 
@@ -4141,9 +4139,9 @@ e_day_view_delete_occurrence_internal (EDayView *day_view, EDayViewEvent *event)
 		const char *uid;
 
 		cal_component_get_uid (event->comp, &uid);
-		if (cal_client_remove_object_with_mod (day_view->client, uid, CALOBJ_MOD_THIS) != CAL_CLIENT_RESULT_SUCCESS)
-			g_message ("e_day_view_on_delete_occurrence(): Could not update the object!");
-
+		
+		delete_error_dialog (cal_client_remove_object_with_mod (day_view->client, uid, CALOBJ_MOD_THIS),
+				     CAL_COMPONENT_EVENT);
 		return;
 	}
 	
@@ -4215,7 +4213,7 @@ e_day_view_on_cut (GtkWidget *widget, gpointer data)
 		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, event->comp, day_view->client, NULL);
 
 	cal_component_get_uid (event->comp, &uid);
-	cal_client_remove_object (day_view->client, uid);
+	delete_error_dialog (cal_client_remove_object (day_view->client, uid), CAL_COMPONENT_EVENT);
 }
 
 static void

@@ -53,6 +53,8 @@ libcal_dialogs_la_SOURCES =	\
 	comp-editor-util.h	\
 	delete-comp.c		\
 	delete-comp.h		\
+	delete-error.c		\
+	delete-error.h		\
 	e-delegate-dialog.c	\
 	e-delegate-dialog.h	\
 	event-editor.c		\

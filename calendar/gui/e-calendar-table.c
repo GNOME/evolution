@@ -48,6 +48,7 @@
 #include "calendar-model.h"
 #include "print.h"
 #include "dialogs/delete-comp.h"
+#include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
 
 /* Pixmaps. */
@@ -716,13 +717,10 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	for (l = uids; l; l = l->next) {
 		const char *uid;
-
+		
 		uid = l->data;
 
-		/* We don't check the return value; FALSE can mean the object
-		 * was not in the server anyways.
-		 */
-		cal_client_remove_object (client, uid);
+		delete_error_dialog (cal_client_remove_object (client, uid), CAL_COMPONENT_TODO);
 	}
 
 	calendar_model_set_status_message (e_calendar_table_get_model (cal_table), NULL);

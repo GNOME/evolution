@@ -51,6 +51,7 @@
 #include <evolution-shell-client.h>
 #include <evolution-folder-selector-button.h>
 #include <camel/camel-mime-filter-tohtml.h>
+#include "dialogs/delete-error.h"
 #include "calendar-config.h"
 #include "itip-utils.h"
 #include "e-itip-control.h"
@@ -2036,7 +2037,8 @@ remove_item (EItipControl *itip)
 	CalComponentVType type;
 	const char *uid;
 	GtkWidget *dialog;
-
+	CalClientResult result;
+	
 	priv = itip->priv;
 
 	type = cal_component_get_vtype (priv->comp);
@@ -2049,10 +2051,13 @@ remove_item (EItipControl *itip)
 		return;
 	
 	cal_component_get_uid (priv->comp, &uid);
-	if (cal_client_remove_object (client, uid) == CAL_CLIENT_RESULT_SUCCESS) {
+	result = cal_client_remove_object (client, uid);
+	if (result == CAL_CLIENT_RESULT_SUCCESS || result == CAL_CLIENT_RESULT_NOT_FOUND) {
 		dialog = gnome_ok_dialog (_("Removal Complete"));
 		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
-	}
+	} else {
+		delete_error_dialog (result, type);
+	}	
 }
 
 static void

@@ -1,3 +1,23 @@
+2003-04-24  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #37552
+	
+	* gui/dialogs/Makefile.am: build delete-error.[hc]
+
+	* gui/e-tasks.c: wrap calls to cal_client_remove_object with
+	delete_error_dialog
+
+	* gui/e-itip-control.c: ditto
+
+	* gui/e-calendar-table.c: ditto
+
+	* gui/e-week-view.c: ditto
+
+	* gui/e-day-view.c: ditto
+
+	* gui/dialogs/delete-error.[hc]: gemerate an error message based
+	on result
+
 2003-04-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-day-view.c (e_day_view_on_delete_occurrence): removed

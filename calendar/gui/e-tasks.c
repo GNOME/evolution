@@ -32,6 +32,7 @@
 
 #include "e-util/e-url.h"
 #include "widgets/menus/gal-view-menus.h"
+#include "dialogs/delete-error.h"
 #include "dialogs/task-editor.h"
 #include "cal-search-bar.h"
 #include "calendar-config.h"
@@ -604,7 +605,7 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 	tasks = E_TASKS (data);
 	priv = tasks->priv;
 	
-	cal_client_remove_object (priv->client, uid);
+	delete_error_dialog (cal_client_remove_object (priv->client, uid), CAL_COMPONENT_TODO);
 }
 
 /* Callback used when an evaluation error occurs when running a query */
