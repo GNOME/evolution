@@ -1,3 +1,9 @@
+2005-03-22  Jeffrey Stedfast  <fejj@novell.com>
+
+	* lib/e-cert-db.c (install_loadable_roots): Copied Mozilla code to
+	check if the nssckbi root certs module was too old and if it was,
+	delete/unload it.
+
 2005-02-21  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #68592
