@@ -25,8 +25,8 @@
  * USA.
  */
 
-#ifndef __E_DESTINATION_H__
-#define __E_DESTINATION_H__
+#ifndef __EAB_DESTINATION_H__
+#define __EAB_DESTINATION_H__
 
 #include <glib.h>
 #include <glib-object.h>

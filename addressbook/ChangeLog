@@ -1,5 +1,9 @@
 2004-04-05  Chris Toshok  <toshok@ximian.com>
 
+	* util/eab-destination.h: wrap this with the correct #ifdef.
+
+2004-04-05  Chris Toshok  <toshok@ximian.com>
+
 	* gui/merging/eab-contact-merging.c (match_query_callback): use
 	the correct glade filename.
 
