@@ -1,5 +1,10 @@
 2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set-view.c (handle_evolution_path_drag_motion): Ooops,
+	remove debugging message.
+
+2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-storage.c (e_storage_async_xfer_folder): Make this a no-op if
 	the source and the destination path are the same.
 
