@@ -1,3 +1,8 @@
+2001-03-04  Damon Chaplin  <damon@ximian.com>
+
+	* e-time-utils.[hc]: new files to contain functions to parse and
+	format dates and times for various calendar widgets.
+
 2001-03-01  Dan Winship  <danw@ximian.com>
 
 	* e-path.c (e_path_to_physical): New function to turn foo/bar into
