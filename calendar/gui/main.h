@@ -93,9 +93,24 @@ void save_default_calendar (GnomeCalendar *gcal);
 GnomeCalendar *new_calendar (char *full_name, char *calendar_file,
 			     char *geometry, char *page, gboolean hidden);
 
+
+/*----------------------------------------------------------------------*/
+/* FIX ME -- where should this stuff go?                                */
+/*----------------------------------------------------------------------*/
+
+/* This is only used by the calendar_get_events_in_range routine to get
+ * a list of objects that recur on a specific date
+ */
+typedef struct {
+	time_t     ev_start;
+	time_t     ev_end;
+	iCalObject *ico;
+} CalendarObject;
+
+GList *calendar_get_events_in_range (CalClient *calc,
+				     time_t start, time_t end);
+void
+calendar_iterate (GnomeCalendar *cal,
+		  time_t start, time_t end,
+		  calendarfn cb, void *closure);
 #endif
-
-
-
-
-

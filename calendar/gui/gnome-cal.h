@@ -10,7 +10,8 @@
 
 #include <gnome.h>
 
-#include "calendar.h"
+/*#include "calendar.h"*/
+#include "cal-client/cal-client.h"
 
 BEGIN_GNOME_DECLS
 
@@ -20,9 +21,9 @@ BEGIN_GNOME_DECLS
 
 typedef struct {
 	GnomeApp    gnome_app;
-	Calendar    *cal;
+	CalClient   *calc; /* was Calendar *cal; */
 	time_t      current_display;
-	
+
 	GtkWidget   *notebook;
 	GtkWidget   *day_view;
 	GtkWidget   *week_view;
@@ -62,6 +63,8 @@ void       gnome_calendar_set_view              (GnomeCalendar *gcal,
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,
 						 iCalObject *obj,
 						 int flags);
+
+void      calendar_notify (time_t time, CalendarAlarm *which, void *data);
 
 GnomeCalendar *gnome_calendar_locate            (const char *pathname);
 

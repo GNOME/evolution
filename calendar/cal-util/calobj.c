@@ -15,7 +15,13 @@
 #include "timeutil.h"
 #include "libversit/vcc.h"
 
-extern CalendarAlarm alarm_defaults[4];
+/* Default values for alarms */
+CalendarAlarm alarm_defaults[4] = {
+	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
+	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
+	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
+	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
+};
 
 static char *
 ical_gen_uid (void)

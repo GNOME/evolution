@@ -31,7 +31,7 @@ update (void)
 	struct tm tm;
 
 	unmark_month_item (month_item);
-	mark_month_item (month_item, gnome_calendar->cal);
+	mark_month_item (month_item, gnome_calendar);
 
 	if (current_index != -1) {
 		item = gnome_month_item_num2child (month_item,

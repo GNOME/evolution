@@ -68,7 +68,7 @@ calendar_create_object (PortableServer_Servant servant,
 
 	gcal = gnome_calendar_locate (name);
 	if (gcal != NULL)
-		return CORBA_Object_duplicate (gcal->cal->corba_server, ev);
+		return CORBA_Object_duplicate (gcal->calc->corba_server, ev);
 	
 	if (stat (name, &s) != 0){
                 CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
@@ -79,7 +79,7 @@ calendar_create_object (PortableServer_Servant servant,
 
 	gcal = new_calendar ("", name, NULL, NULL, FALSE);
 
-	return CORBA_Object_duplicate (gcal->cal->corba_server, ev);
+	return CORBA_Object_duplicate (gcal->calc->corba_server, ev);
 }
 
 void

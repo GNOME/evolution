@@ -15,7 +15,7 @@
 #include <libgnorba/gnome-factory.h>
 #include <libgnorba/gnorba.h>
 #include "calobj.h"
-#include "calendar.h"
+/* #include "calendar.h" DELETE */
 #include "timeutil.h"
 #include "GnomeCal.h"
 #include "pi-source.h"

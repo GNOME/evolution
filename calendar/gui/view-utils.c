@@ -9,6 +9,8 @@
 #include <string.h>
 #include "view-utils.h"
 #include <libgnomeui/gnome-icon-text.h>
+#include "gnome-cal.h"
+#include "main.h"
 
 int am_pm_flag = 0;
 

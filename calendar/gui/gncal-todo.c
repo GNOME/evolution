@@ -798,7 +798,6 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 void
 gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 {
-	GList *list;	
 	GSList *current_list;
 
 	g_return_if_fail (todo != NULL);
@@ -844,7 +843,9 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 	  gtk_clist_set_column_visibility (todo->clist, 2, 0);
 	
 	/* free the memory locations that were used in the previous display */
-	for (current_list = todo->data_ptrs; current_list != NULL; current_list = g_slist_next(current_list)){
+	for (current_list = todo->data_ptrs;
+	     current_list != NULL;
+	     current_list = g_slist_next(current_list)){
 		g_free(current_list->data);
 	}
 
@@ -854,8 +855,25 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 
 	gtk_clist_clear (todo->clist);
 
-	for (list = todo->calendar->cal->todo; list; list = list->next)
+	{
+	  /* DELETE
+	     for (list = todo->calendar->cal->todo; list; list = list->next)
 		insert_in_clist (todo, list->data);
+	  */
+
+		GList *l, *uids;
+		uids = cal_client_get_uids (todo->calendar->calc,
+					    CALOBJ_TYPE_EVENT);
+		for (l = uids; l; l = l->next){
+			char *obj_string =
+				cal_client_get_object (todo->calendar->calc,
+						       l->data);
+			iCalObject *obj = string_to_ical_object (obj_string);
+			insert_in_clist (todo, obj);
+			g_free (l->data);
+		}
+		g_list_free (uids);
+	}
 
 	/* if we are autoresizing then do it now */
 	if(todo_list_autoresize && todo->clist->rows != 0) 

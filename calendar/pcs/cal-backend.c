@@ -23,7 +23,7 @@
 #include <gtk/gtksignal.h>
 #include "cal-backend.h"
 #include "calobj.h"
-#include "../libversit/vcc.h"
+#include "libversit/vcc.h"
 #include "icalendar.h"
 
 

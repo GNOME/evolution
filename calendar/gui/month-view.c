@@ -83,7 +83,8 @@ do_quick_view_popup (MonthView *mv, GdkEventButton *event, int day)
 	day_begin_time = time_from_day (mv->year, mv->month, day);
 	day_end_time = time_day_end (day_begin_time);
 
-	list = calendar_get_events_in_range (mv->calendar->cal, day_begin_time, day_end_time);
+	list = calendar_get_events_in_range (mv->calendar->calc,
+					     day_begin_time, day_end_time);
 
 	strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), localtime (&day_begin_time));
 	qv = quick_view_new (mv->calendar, date_str, list);
@@ -91,7 +92,7 @@ do_quick_view_popup (MonthView *mv, GdkEventButton *event, int day)
 	quick_view_do_popup (QUICK_VIEW (qv), event);
 
 	gtk_widget_destroy (qv);
-	calendar_destroy_event_list (list);
+	/* calendar_destroy_event_list (list); DELETE / FIX ME*/
 }
 
 /* Callback used to destroy the popup menu when the month view is destroyed */
@@ -679,7 +680,8 @@ month_view_update (MonthView *mv, iCalObject *object, int flags)
 	ii.month_begin = time_month_begin (t);
 	ii.month_end = time_month_end (t);
 
-	calendar_iterate (mv->calendar->cal, ii.month_begin, ii.month_end, add_event, &ii);
+	calendar_iterate (mv->calendar,
+			  ii.month_begin, ii.month_end, add_event, &ii);
 
 	for (i = 0; i < 42; i++) {
 		/* Delete the last character if it is a newline */

@@ -11,7 +11,7 @@
 
 #include <gtk/gtkcontainer.h>
 #include <libgnome/gnome-defs.h>
-#include "calendar.h"
+/*#include "calendar.h"*/
 #include "gnome-cal.h"
 
 

@@ -101,7 +101,7 @@ mark_event_in_month (GnomeMonthItem *mitem, time_t start, time_t end)
 }
 
 void
-mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
+mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *cal)
 {
 	time_t month_begin, month_end;
 	GList *list, *l;
@@ -114,7 +114,8 @@ mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 	month_begin = time_month_begin (time_from_day (mitem->year, mitem->month, 1));
 	month_end = time_month_end (month_begin);
 
-	list = calendar_get_events_in_range (cal, month_begin, month_end);
+	list =
+	  calendar_get_events_in_range (cal->calc, month_begin, month_end);
 
 	for (l = list; l; l = l->next) {
 		co = l->data;
@@ -124,7 +125,7 @@ mark_month_item (GnomeMonthItem *mitem, Calendar *cal)
 		mark_event_in_month (mitem, MAX (co->ev_start, month_begin), MIN (co->ev_end, month_end));
 	}
 
-	calendar_destroy_event_list (list);
+	/* calendar_destroy_event_list (list); DELETE / FIX ME */
 }
 
 void

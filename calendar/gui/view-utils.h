@@ -10,7 +10,8 @@
 
 
 #include <gtk/gtk.h>
-#include "calendar.h"
+/*#include "calendar.h"*/
+#include "cal-util/calobj.h"
 
 
 enum {

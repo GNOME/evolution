@@ -307,7 +307,8 @@ do_quick_view_popup (YearView *yv, GdkEventButton *event, int year, int month, i
 	day_start = time_from_day (year, month, day);
 	day_end = time_day_end (day_start);
 
-	list = calendar_get_events_in_range (yv->calendar->cal, day_start, day_end);
+	list = calendar_get_events_in_range (yv->calendar->calc,
+					     day_start, day_end);
 
 	strftime (date_str, sizeof (date_str), _("%a %b %d %Y"), localtime (&day_start));
 	qv = quick_view_new (yv->calendar, date_str, list);
@@ -315,7 +316,7 @@ do_quick_view_popup (YearView *yv, GdkEventButton *event, int year, int month, i
 	quick_view_do_popup (QUICK_VIEW (qv), event);
 
 	gtk_widget_destroy (qv);
-	calendar_destroy_event_list (list);
+	/* calendar_destroy_event_list (list); DELETE */
 }
 
 /* Event handler for days in the year's month items */
@@ -702,7 +703,8 @@ year_view_set (YearView *yv, time_t year)
 
 	for (i = 0; i < 12; i++) {
 		unmark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]));
-		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]),
+				 yv->calendar);
 	}
 
 	mark_current_day (yv);
@@ -734,7 +736,8 @@ year_view_colors_changed (YearView *yv)
 
 	for (i = 0; i < 12; i++) {
 		colorify_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), default_color_func, NULL);
-		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]), yv->calendar->cal);
+		mark_month_item (GNOME_MONTH_ITEM (yv->mitems[i]),
+				 yv->calendar);
 	}
 
 	mark_current_day (yv);

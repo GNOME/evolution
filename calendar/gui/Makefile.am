@@ -78,8 +78,6 @@ gnomecal_SOURCES =				\
 	goto.c					\
 	layout.c				\
 	layout.h				\
-	main.c					\
-	main.h					\
 	mark.c					\
 	mark.h					\
 	month-view.c				\
@@ -93,7 +91,10 @@ gnomecal_SOURCES =				\
 	view-utils.h				\
 	view-utils.c				\
 	year-view.c				\
-	year-view.h
+	year-view.h				\
+	main.c					\
+	main.h
+
 
 #	calobj.c				\
 #	calobj.h				\

@@ -25,6 +25,7 @@
 #include <libgnome/gnome-defs.h>
 #include <time.h>
 #include <glib.h>
+#include "calobj.h"
 
 BEGIN_GNOME_DECLS
 
@@ -53,7 +54,8 @@ typedef enum {
 
 void cal_obj_uid_list_free (GList *list);
 
-
+char *ical_object_to_string (iCalObject *ico);
+iCalObject *string_to_ical_object (char *);
 
 END_GNOME_DECLS
 

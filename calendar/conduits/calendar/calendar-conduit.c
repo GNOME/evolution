@@ -25,7 +25,7 @@
 
 #include "GnomeCal.h"
 #include "calobj.h"
-#include "calendar.h"
+/*#include "calendar.h" DELETE */
 #include "timeutil.h"
 
 #include "calendar-conduit.h"

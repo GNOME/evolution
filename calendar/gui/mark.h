@@ -8,7 +8,7 @@
 #ifndef MARK_H
 #define MARK_H
 
-#include "calendar.h"
+/*#include "calendar.h"*/
 #include "gnome-month-item.h"
 
 
@@ -34,10 +34,11 @@ typedef char * (* GetColorFunc) (ColorProp propnum, gpointer data);
 /* Sets the user-configured colors and font for a month item.  It also tags the days as unmarked. */
 void colorify_month_item (GnomeMonthItem *month, GetColorFunc func, gpointer func_data);
 
-/* Takes a monthly calendar item and marks the days that have events scheduled for them in the
- * specified calendar.  It also highlights the current day.
+/* Takes a monthly calendar item and marks the days that have events
+ * scheduled for them in the specified calendar.  It also highlights
+ * the current day.
  */
-void mark_month_item (GnomeMonthItem *mitem, Calendar *cal);
+void mark_month_item (GnomeMonthItem *mitem, GnomeCalendar *cal);
 
 /* Marks a day specified by index, not by day number */
 void mark_month_item_index (GnomeMonthItem *mitem, int index, GetColorFunc func, gpointer func_data);

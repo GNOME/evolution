@@ -16,8 +16,8 @@
 #include <string.h>
 #include <ctype.h>
 #include <errno.h>
-#include "calendar.h"
-/*#include "alarm.h"*/
+/* #include "calendar.h" DELETE */
+#include "alarm.h"
 #include "eventedit.h"
 #include "gnome-cal.h"
 #include "main.h"
@@ -97,13 +97,7 @@ const guint MAX_SNOOZE_SECS = 3600;
 gboolean enable_snooze = 0;
 guint snooze_secs = 60;
 
-/* Default values for alarms */
-CalendarAlarm alarm_defaults[4] = {
-	{ ALARM_MAIL, 0, 15, ALARM_MINUTES },
-	{ ALARM_PROGRAM, 0, 15, ALARM_MINUTES },
-	{ ALARM_DISPLAY, 0, 15, ALARM_MINUTES },
-	{ ALARM_AUDIO, 0, 15, ALARM_MINUTES }
-};
+extern CalendarAlarm alarm_defaults[4];
 
 static void
 init_username (void)
@@ -251,7 +245,7 @@ init_calendar (void)
 
 		
 	
-static void save_calendar_cmd (GtkWidget *widget, void *data);
+/* static void save_calendar_cmd (GtkWidget *widget, void *data); DELETE */
 
 static void
 about_calendar_cmd (GtkWidget *widget, void *data)
@@ -311,7 +305,7 @@ gnome_calendar_locate (const char *pathname)
 	for (l = all_calendars; l; l = l->next){
 		GnomeCalendar *gcal = l->data;
 
-		if (strcmp (gcal->cal->filename, pathname) == 0){
+		if (strcmp (gcal->calc->filename, pathname) == 0){
 			return gcal;
 		}
 	}
@@ -323,12 +317,15 @@ close_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	all_calendars = g_list_remove (all_calendars, gcal);
 
+	/* DELETE
+	   FIX ME -- what do i do here?
 	if (gcal->cal->modified){
 		if (!gcal->cal->filename)
 			save_calendar_cmd (widget, gcal);
 		else
 			calendar_save (gcal->cal, gcal->cal->filename);
 	}
+	*/
 
 	gtk_widget_destroy (GTK_WIDGET (gcal));
 	active_calendars--;
@@ -483,7 +480,7 @@ save_ok (GtkWidget *widget, GtkFileSelection *fs)
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
 
 	fname = g_strdup (gtk_file_selection_get_filename (fs));
-	calendar_save (gcal->cal, fname);
+	/* calendar_save (gcal->cal, fname); DELETE / FIX ME*/
 	g_free(fname);
 	gtk_main_quit ();
 }
@@ -523,7 +520,8 @@ properties_cmd (GtkWidget *widget, GtkWidget *gcal)
 {
 	properties (gcal);
 }
-		
+
+# if 0 /* DELETE */
 static void
 save_calendar_cmd (GtkWidget *widget, void *data)
 {
@@ -563,6 +561,7 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 	} else
 		save_as_calendar_cmd (widget, data);
 }
+#endif /* 0 */
 
 /*
  * Saves @gcal if it is the default calendar
@@ -570,10 +569,10 @@ save_calendar_cmd (GtkWidget *widget, void *data)
 void
 save_default_calendar (GnomeCalendar *gcal)
 {
-	if (!gcal->cal->filename)
+	if (!gcal->calc->filename)
 		return;
 	
-	save_calendar_cmd (NULL, gcal);
+	/* save_calendar_cmd (NULL, gcal); FIX ME */
 }
 
 static GnomeUIInfo gnome_cal_file_menu [] = {
@@ -583,7 +582,7 @@ static GnomeUIInfo gnome_cal_file_menu [] = {
 
 	GNOMEUIINFO_MENU_OPEN_ITEM(open_calendar_cmd, NULL),
 
-	GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL),
+	/* GNOMEUIINFO_MENU_SAVE_ITEM(save_calendar_cmd, NULL), FIX ME */
 
 	GNOMEUIINFO_MENU_SAVE_AS_ITEM(save_as_calendar_cmd, NULL),
 
@@ -705,7 +704,7 @@ new_calendar (char *full_name, char *calendar_file, char *geometry, char *page, 
 	if (calendar_file && g_file_exists (calendar_file))
 		gnome_calendar_load (GNOME_CALENDAR (toplevel), calendar_file);
 	else
-		GNOME_CALENDAR (toplevel)->cal->filename = g_strdup (calendar_file);
+		GNOME_CALENDAR (toplevel)->calc->filename = g_strdup (calendar_file);
 
 	gtk_signal_connect (GTK_OBJECT (toplevel), "delete_event",
 			    GTK_SIGNAL_FUNC(calendar_close_event), toplevel);
@@ -764,22 +763,33 @@ same_day (struct tm *a, struct tm *b)
 static void
 dump_events (void)
 {
-	Calendar *cal;
+	CalClient *calc;
+	gboolean r;
 	GList *l;
-	char *s;
 	time_t now = time (NULL);
 	struct tm today = *localtime (&now);
 
 	process_dates ();
 	init_calendar ();
 
+	/* DELETE
 	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
 	if (s){
 		printf ("error: %s\n", s);
 		exit (1);
 	}
-	l = calendar_get_events_in_range (cal, from_t, to_t);
+	*/
+
+	r = cal_client_load_calendar (calc,
+	       		    load_file ? load_file : user_calendar_file);
+	if (r == FALSE) {
+		printf ("error: loading %s\n",
+			load_file ? load_file : user_calendar_file);
+		exit (1);
+	}
+	l = calendar_get_events_in_range (calc, from_t, to_t);
+
 	for (; l; l = l->next){
 		char start [80], end [80];
 		CalendarObject *co = l->data;
@@ -802,36 +812,49 @@ dump_events (void)
 		printf ("%s -- %s\n", start, end);
 		printf ("  %s\n", co->ico->summary);
 	}
-	calendar_destroy_event_list (l);
-	calendar_destroy (cal);
+	/* calendar_destroy_event_list (l); DELETE / FIX ME */
+	/* calendar_destroy (cal); DELETE */
 	exit (0);
 }
 
 static void
 dump_todo (void)
 {
-	Calendar *cal;
+	CalClient *calc;
+	gboolean r;
 	GList *l;
-	char *s;
 
 	process_dates ();
 	init_calendar ();
 
+	/* DELETE
 	cal = calendar_new (full_name, CALENDAR_INIT_ALARMS);
 	s = calendar_load (cal, load_file ? load_file : user_calendar_file);
 	if (s){
 		printf ("error: %s\n", s);
 		exit (1);
 	}
-	for (l = cal->todo; l; l = l->next){
-		iCalObject *object = l->data;
+	*/
+
+	r = cal_client_load_calendar (calc,
+	       		    load_file ? load_file : user_calendar_file);
+	if (r == FALSE) {
+		printf ("error: loading %s\n",
+			load_file ? load_file : user_calendar_file);
+		exit (1);
+	}
+	l = calendar_get_events_in_range (calc, from_t, to_t);
+
+	for (; l; l = l->next){
+		CalendarObject *co = l->data;
+		iCalObject *object = co->ico;
 
 		if (object->type != ICAL_TODO)
 			continue;
 
 		printf ("[%s]: %s\n",object->organizer->addr, object->summary);
 	}
-	calendar_destroy (cal);
+	/* calendar_destroy (cal); DELETE */
 	exit (0);
 }
 
@@ -939,18 +962,18 @@ session_save_state (GnomeClient *client, gint phase, GnomeRestartStyle save_styl
 
 		geometry = gnome_geometry_string (GTK_WIDGET (gcal)->window);
 
-		if (strcmp (gcal->cal->filename, user_calendar_file) == 0)
+		if (strcmp (gcal->calc->filename, user_calendar_file) == 0)
 			argv [i++] = "--userfile";
 		else {
 			argv [i++] = "--file";
-			argv [i++] = gcal->cal->filename;
+			argv [i++] = gcal->calc->filename;
 		}
 		argv [i++] = "--geometry";
 		argv [i++] = geometry;
 		argv [i++] = "--view";
 		argv [i++] = gnome_calendar_get_current_view_name (gcal);
 		free_list = g_list_append (free_list, geometry);
-		calendar_save (gcal->cal, gcal->cal->filename);
+		/* calendar_save (gcal->cal, gcal->cal->filename); FIX ME */
 	}
 	argv [i] = NULL;
 	gnome_client_set_clone_command (client, i, argv);
@@ -1041,4 +1064,63 @@ main(int argc, char *argv[])
 	}
 	gtk_main ();
 	return 0;
+}
+
+
+
+/* FIX ME -- where should this go? */
+void
+calendar_iterate (GnomeCalendar *cal,
+		  time_t start, time_t end,
+		  calendarfn cb, void *closure)
+{
+	GList *l, *uids = 0;
+
+	uids = cal_client_get_uids (cal->calc, CALOBJ_TYPE_EVENT);
+
+	for (l = uids; l; l = l->next){
+		char *obj_string = cal_client_get_object (cal->calc, l->data);
+		iCalObject *obj = string_to_ical_object (obj_string);
+
+		ical_object_generate_events (obj, start, end, cb, closure);
+		g_free (l->data);
+	}
+	g_list_free (uids);
+}
+
+
+
+static gint
+calendar_object_compare_by_start (gconstpointer a, gconstpointer b)
+{
+	const CalendarObject *ca = a;
+	const CalendarObject *cb = b;
+	time_t diff;
+	
+	diff = ca->ev_start - cb->ev_start;
+	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+/* FIX ME -- where should this (and calendar_object_compare_by_start) go? */
+/* returns a list of events in the form of CalendarObject* */
+GList *calendar_get_events_in_range (CalClient *calc,
+				     time_t start, time_t end)
+{
+	GList *l, *uids, *res = 0;
+	uids = cal_client_get_events_in_range (calc, start, end);
+
+	for (l = uids; l; l = l->next){
+		char *obj_string = cal_client_get_object (calc, l->data);
+		iCalObject *obj = string_to_ical_object (obj_string);
+
+		CalendarObject *co = g_new (CalendarObject, 1);
+		co->ev_start = start;
+		co->ev_end   = end;
+		co->ico      = obj;
+
+		res = g_list_insert_sorted (res, co,
+					    calendar_object_compare_by_start);
+	}
+
+	return res;
 }

@@ -10,8 +10,8 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-/*#include "alarm.h"*/
-#include "calendar.h"
+#include "alarm.h"
+/* #include "calendar.h" DELETE */
 #include "gnome-cal.h"
 #include "gncal-day-panel.h"
 #include "gncal-week-view.h"
@@ -228,7 +228,8 @@ gnome_calendar_new (char *title)
 	gtk_window_set_title(GTK_WINDOW(retval), title);
 
 	gcal->current_display = time_day_begin (time (NULL));
-	gcal->cal = calendar_new (title, CALENDAR_INIT_ALARMS);
+	/*gcal->cal = calendar_new (title, CALENDAR_INIT_ALARMS); DELETE */
+	gcal->calc = cal_client_new ();
 	setup_widgets (gcal);
 	gnome_calendar_create_corba_server (gcal);
 
@@ -247,14 +248,13 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 int
 gnome_calendar_load (GnomeCalendar *gcal, char *file)
 {
-	char *r;
-
 	g_return_val_if_fail (gcal != NULL, 0);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
 	g_return_val_if_fail (file != NULL, 0);
 
-	if ((r = calendar_load (gcal->cal, file)) != NULL){
-		printf ("Error loading calendar: %s\n", r);
+	/* if ((r = calendar_load (gcal->cal, file)) != NULL){ DELETE */
+	if (cal_client_load_calendar (gcal->calc, file) == FALSE){
+		printf ("Error loading calendar: %s\n", file);
 		return 0;
 	}
 	gnome_calendar_update_all (gcal, NULL, 0);
@@ -264,22 +264,29 @@ gnome_calendar_load (GnomeCalendar *gcal, char *file)
 void
 gnome_calendar_add_object (GnomeCalendar *gcal, iCalObject *obj)
 {
+	char *obj_string;
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	calendar_add_object (gcal->cal, obj);
+	/*calendar_add_object (gcal->cal, obj); DELETE */
+	obj_string = ical_object_to_string (obj);
+	cal_client_update_object (gcal->calc, obj->uid, obj_string);
+	g_free (obj_string);
 	gnome_calendar_update_all (gcal, obj, CHANGE_NEW);
 }
 
 void
 gnome_calendar_remove_object (GnomeCalendar *gcal, iCalObject *obj)
 {
+	gboolean r;
+
 	g_return_if_fail (gcal != NULL);
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	calendar_remove_object (gcal->cal, obj);
+	/* calendar_remove_object (gcal->cal, obj); DELETE */
+	r = cal_client_remove_object (gcal->calc, obj->uid);
 	gnome_calendar_update_all (gcal, obj, CHANGE_ALL);
 }
 
@@ -290,10 +297,11 @@ gnome_calendar_object_changed (GnomeCalendar *gcal, iCalObject *obj, int flags)
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 	g_return_if_fail (obj != NULL);
 
-	gcal->cal->modified = TRUE;
+	/* FIX ME -- i don't know what to do here */
+	/* gcal->cal->modified = TRUE; */
 
 	gnome_calendar_update_all (gcal, obj, flags);
-	calendar_object_changed (gcal->cal, obj, flags);
+	/* calendar_object_changed (gcal->cal, obj, flags); */
 }
 
 static int
@@ -567,7 +575,8 @@ gnome_calendar_tag_calendar (GnomeCalendar *cal, GtkCalendar *gtk_cal)
 
 	gtk_calendar_freeze (gtk_cal);
 	gtk_calendar_clear_marks (gtk_cal);
-	calendar_iterate (cal->cal, month_begin, month_end, mark_gtk_calendar_day, gtk_cal);
+	calendar_iterate (cal, month_begin, month_end,
+			  mark_gtk_calendar_day, gtk_cal);
 	gtk_calendar_thaw (gtk_cal);
 }
 

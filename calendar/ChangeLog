@@ -1,3 +1,16 @@
+2000-03-09  Seth Alves  <alves@hungry.com>
+
+	* gui/gnome-cal.h: replaced "Calendar *cal" with "CalClient *calc"
+	in the GnomeCalendar struct.
+
+	* gui/*.c: tracked change from Calendar * to CalClient
+	
+	* gui/main.c: moved alarm_defaults from here to cal-util/calobj.c
+	(calendar_get_events_in_range): pulled this out of calendar.c and
+	fixed it up to use cal-client stuff.  i'm not sure where to put it yet.
+
+	* gui/main.c (calendar_iterate): pulled this one out of calendar.c also
+	
 2000-03-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client/Makefile.am: Removed cal-client-alarm.[ch] from the

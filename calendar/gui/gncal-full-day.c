@@ -2134,19 +2134,20 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 	g_return_if_fail (fullday != NULL);
 	g_return_if_fail (GNCAL_IS_FULL_DAY (fullday));
 
-	if (!fullday->calendar->cal)
+	if (!fullday->calendar->calc)
 		return;
 
 	/* Try to find child that changed */
 
-	for (children = fullday->children; children; children = children->next) {
+	for (children=fullday->children; children; children = children->next) {
 		child = children->data;
 
 		if (child->ico == ico)
 			break;
 	}
 
-	/* If child was found and nothing but the summary changed, we can just paint the child and return */
+	/* If child was found and nothing but the summary changed,
+	   we can just paint the child and return */
 
 	if (children && !(flags & ~CHANGE_SUMMARY)) {
 		child_draw (fullday, child, NULL, NULL, TRUE);
@@ -2157,7 +2158,7 @@ gncal_full_day_update (GncalFullDay *fullday, iCalObject *ico, int flags)
 
 	destroy_children (fullday);
 
-	calendar_iterate (fullday->calendar->cal,
+	calendar_iterate (fullday->calendar,
 			  fullday->lower,
 			  fullday->upper,
 			  fullday_add_children,
