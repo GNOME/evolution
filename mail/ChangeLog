@@ -1,3 +1,9 @@
+2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-account-gui.c (folder_picker_clicked): Pass the toplevel to
+	`evolution_shell_client_user_select_folder()'.
+	* mail-callbacks.c (transfer_msg): Likewise.
+
 2001-10-18    <NotZed@Ximian.com>
 
 	* mail-send-recv.c (build_dialogue): call setup_send_data *after*

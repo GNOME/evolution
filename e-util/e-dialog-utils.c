@@ -147,3 +147,21 @@ e_set_dialog_parent (GtkWindow *dialog,
 	gdk_window = gdk_window_foreign_new (xid);
 	set_transient_for_gdk (dialog, gdk_window);
 }
+
+/**
+ * e_set_dialog_parent_from_xid:
+ * @dialog: 
+ * @xid: 
+ * 
+ * Like %e_set_dialog_parent_from_xid, but use an XID to specify the parent
+ * window.
+ **/
+void
+e_set_dialog_parent_from_xid (GtkWindow *dialog,
+			      Window xid)
+{
+	g_return_if_fail (dialog != NULL);
+	g_return_if_fail (GTK_IS_WINDOW (dialog));
+
+	set_transient_for_gdk (dialog, gdk_window_foreign_new (xid));
+}

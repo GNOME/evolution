@@ -819,7 +819,9 @@ folder_picker_clicked (GtkButton *button, gpointer user_data)
 	
 	physical_uri = evolution_uri = NULL;
 	evolution_shell_client_user_select_folder (
-		global_shell_client, _("Select Folder"), folder->uri,
+		global_shell_client,
+		GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
+		_("Select Folder"), folder->uri,
 		allowed_types, &evolution_uri, &physical_uri);
 	if (!physical_uri || !*physical_uri) {
 		g_free (physical_uri);

@@ -1,5 +1,16 @@
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell.c (impl_Shell_selectUserFolder): Set the parent
+	according to the XID we get.
+
+	* Evolution-Shell.idl: New arg @parent_xid in `::selectUserFolder'.
+
+	* evolution-shell-client.c
+	(evolution_shell_client_user_select_folder): New arg @parent.
+	(user_select_folder): Likewise.  Pass it to the CORBA method.
+
+2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (idle_cb): Urgh.  Remove stale line that caused
 	`display_default' to be set to TRUE for all the non-NULL shell
 	cases.

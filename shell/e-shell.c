@@ -26,8 +26,13 @@
 #endif
 
 #include <glib.h>
+
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
+#include <gdk/gdkx.h>
+
+#include <X11/Xatom.h>
+
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
@@ -43,6 +48,8 @@
 #include <gal/util/e-util.h>
 
 #include "Evolution.h"
+
+#include "e-util/e-dialog-utils.h"
 
 #include "e-activity-handler.h"
 #include "e-component-registry.h"
@@ -372,6 +379,7 @@ corba_listener_destroy_notify (void *data)
 
 static void
 impl_Shell_selectUserFolder (PortableServer_Servant servant,
+			     const CORBA_long_long parent_xid,
 			     const GNOME_Evolution_FolderSelectionListener listener,
 			     const CORBA_char *title,
 			     const CORBA_char *default_folder,
@@ -407,6 +415,7 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 								       allowed_type_names,
 								       default_type);
 
+
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
 	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",
 				  listener_duplicate, corba_listener_destroy_notify);
@@ -416,7 +425,43 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
 			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell);
 
-	gtk_widget_show (folder_selection_dialog);
+	if (parent_xid == 0) {
+		gtk_widget_show (folder_selection_dialog);
+	} else {
+		XClassHint class_hints;
+		XWMHints *parent_wm_hints;
+		int format;
+
+		/* Set the WM class and the WindowGroup hint to be the same as
+		   the foreign parent window's.  This way smartass window
+		   managers like Sawfish don't get confused.  */
+
+		e_set_dialog_parent_from_xid (GTK_WINDOW (folder_selection_dialog), parent_xid);
+
+		XGetClassHint (GDK_DISPLAY (), (Window) parent_xid, &class_hints);
+
+		gtk_window_set_wmclass (GTK_WINDOW (folder_selection_dialog),
+					class_hints.res_name, class_hints.res_class);
+
+		gtk_widget_show (folder_selection_dialog);
+
+		while (folder_selection_dialog->window == NULL)
+			gtk_main_iteration ();
+
+		parent_wm_hints = XGetWMHints (GDK_DISPLAY (), (Window) parent_xid);
+
+		if (parent_wm_hints->flags & WindowGroupHint) {
+			XWMHints *wm_hints;
+
+			wm_hints = XAllocWMHints ();
+			wm_hints->flags = WindowGroupHint;
+			wm_hints->window_group = parent_wm_hints->window_group;
+			XSetWMHints (GDK_DISPLAY (), GDK_WINDOW_XWINDOW (folder_selection_dialog->window), wm_hints);
+			XFree (wm_hints);
+		}
+
+		XFree (parent_wm_hints);
+	}
 }
 
 static GNOME_Evolution_Storage

@@ -229,6 +229,7 @@ button_clicked (GtkButton *button, FilterFolder *ff)
 	def = ff->uri ? ff->uri : "";
 	
 	evolution_shell_client_user_select_folder (global_shell_client,
+						   GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (button))),
 						   _("Select Folder"),
 						   def, allowed_types,
 						   &evolution_uri,

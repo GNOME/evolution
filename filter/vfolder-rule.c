@@ -353,6 +353,7 @@ source_add(GtkWidget *widget, struct _source_data *data)
 
 	def = "";
 	evolution_shell_client_user_select_folder (global_shell_client,
+						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
 						   _("Select Folder"),
 						   def, allowed_types, NULL, &uri);
 

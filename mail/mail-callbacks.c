@@ -1242,7 +1242,9 @@ transfer_msg (GtkWidget *widget, gpointer user_data, gboolean delete_from_source
 	else
 		desc = _("Copy message(s) to");
 	
-	evolution_shell_client_user_select_folder (global_shell_client, desc, last,
+	evolution_shell_client_user_select_folder (global_shell_client,
+						   GTK_WINDOW (gtk_widget_get_toplevel (widget)),
+						   desc, last,
 						   allowed_types, &uri, &physical);
 	if (!uri)
 		return;

@@ -1,3 +1,9 @@
+2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* filter-folder.c (button_clicked): Pass the toplevel to
+	`evolution_shell_client_user_select_folder()'.
+	* vfolder-rule.c (source_add): Likewise.
+
 2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-folder.c (button_clicked): Kludge to raise the filter

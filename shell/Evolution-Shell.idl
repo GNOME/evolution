@@ -64,6 +64,7 @@ module Evolution {
 
 		/**
 		 * selectUserFolder:
+		 * @parent_xid: XID for the parent window (or zero if no parent window).
 		 * @listener: a listener interface to report the answer of the user.
 		 * @title: title for the folder selector dialog
 		 * @default_folder: physical or `evolution:' URI for the folder that must be
@@ -75,7 +76,8 @@ module Evolution {
 		 * folder by using the "New..." button.  The dialog only lets the user choose
 		 * a folder whose type is listed in @possible_types.
 		 */
-		void selectUserFolder (in FolderSelectionListener listener,
+		void selectUserFolder (in long long parent_xid,
+				       in FolderSelectionListener listener,
 				       in string title,
 				       in string default_folder,
 				       in FolderTypeNameList possible_types,

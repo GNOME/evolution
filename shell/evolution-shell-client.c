@@ -25,7 +25,9 @@
 #include <config.h>
 #endif
 
+#include <gdk/gdkx.h>
 #include <gtk/gtkmain.h>
+
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 
@@ -196,6 +198,7 @@ count_string_items (const char *list[])
 
 static void
 user_select_folder (EvolutionShellClient *shell_client,
+		    GtkWindow *parent,
 		    const char *title,
 		    const char *default_folder,
 		    const char *possible_types[],
@@ -206,6 +209,7 @@ user_select_folder (EvolutionShellClient *shell_client,
 	GNOME_Evolution_Shell corba_shell;
 	CORBA_Environment ev;
 	GNOME_Evolution_Shell_FolderTypeNameList corba_type_name_list;
+	CORBA_long_long parent_xid;
 	int num_possible_types;
 	char *result;
 
@@ -231,7 +235,9 @@ user_select_folder (EvolutionShellClient *shell_client,
 	corba_type_name_list._maximum = num_possible_types;
 	corba_type_name_list._buffer  = (CORBA_char **) possible_types;
 
-	GNOME_Evolution_Shell_selectUserFolder (corba_shell, listener_interface,
+	parent_xid = (CORBA_long_long) GDK_WINDOW_XWINDOW (GTK_WIDGET (parent)->window);
+
+	GNOME_Evolution_Shell_selectUserFolder (corba_shell, parent_xid, listener_interface,
 						title, default_folder, &corba_type_name_list,
 						"", &ev);
 
@@ -368,6 +374,7 @@ evolution_shell_client_new (GNOME_Evolution_Shell corba_shell)
 /**
  * evolution_shell_client_user_select_folder:
  * @shell_client: A EvolutionShellClient object
+ * @parent: Parent window for the dialog (must be realized when invoking)
  * @title: The title for the folder selection dialog
  * @default_folder: URI (physical or evolution:) of the folder initially selected on the dialog
  * @uri_return: 
@@ -380,6 +387,7 @@ evolution_shell_client_new (GNOME_Evolution_Shell corba_shell)
  **/
 void
 evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
+					   GtkWindow *parent,
 					   const char *title,
 					   const char *default_folder,
 					   const char *possible_types[],
@@ -390,8 +398,9 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 	g_return_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client));
 	g_return_if_fail (title != NULL);
 	g_return_if_fail (default_folder != NULL);
+	g_return_if_fail (parent == NULL || GTK_WIDGET_REALIZED (parent));
 
-	user_select_folder (shell_client, title, default_folder, possible_types,
+	user_select_folder (shell_client, parent, title, default_folder, possible_types,
 			    uri_return, physical_uri_return);
 }
 

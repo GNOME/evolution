@@ -27,7 +27,11 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkwidget.h>
 
-void e_set_dialog_parent (GtkWindow *dialog,
-			  GtkWidget *parent_widget);
+#include <X11/Xlib.h>		/* Window */
+
+void  e_set_dialog_parent           (GtkWindow *dialog,
+				     GtkWidget *parent_widget);
+void  e_set_dialog_parent_from_xid  (GtkWindow *dialog,
+				     Window     xid);
 
 #endif
