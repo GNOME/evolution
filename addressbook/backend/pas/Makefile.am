@@ -41,6 +41,8 @@ libpas_a_SOURCES =					\
 	pas-book-view.h					\
 	pas-book.c					\
 	pas-book.h					\
+	pas-backend-card-sexp.c				\
+	pas-backend-card-sexp.h				\
 	pas-backend-file.c				\
 	pas-backend-file.h				\
 	$(LDAP_BACKEND)					\

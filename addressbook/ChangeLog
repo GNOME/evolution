@@ -1,3 +1,15 @@
+2001-08-17  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/pas-backend-file.c
+	(pas_backend_file_book_view_copy): use card_sexp.
+	(pas_backend_file_book_view_free): same.
+	(vcard_matches_search): use the new pas_backend_card_sexp_match_vcard call.
+	(pas_backend_file_search): use card_sexp.
+	(pas_backend_file_process_get_book_view): same.
+
+	* backend/pas/Makefile.am (libpas_a_SOURCES): add
+	pas-backend-card-sexp.[ch].
+
 2001-08-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-component.c (factory_fn): Added code

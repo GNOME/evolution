@@ -30,11 +30,11 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <ebook/e-card-simple.h>
-#include <e-util/e-sexp.h>
 #include <e-util/e-dbhash.h>
 #include <e-util/e-db3-utils.h>
 #include "pas-book.h"
 #include "pas-card-cursor.h"
+#include "pas-backend-card-sexp.h"
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
@@ -65,14 +65,9 @@ struct _PASBackendFileCursorPrivate {
 struct _PASBackendFileBookView {
 	PASBookView                 *book_view;
 	gchar                       *search;
-	ESExp                       *search_sexp;
-	PASBackendFileSearchContext *search_context;
+	PASBackendCardSExp          *card_sexp;
 	gchar                       *change_id;
 	PASBackendFileChangeContext *change_context;
-};
-
-struct _PASBackendFileSearchContext {
-	ECardSimple *card;
 };
 
 struct _PasBackendFileChangeContext {
@@ -93,14 +88,9 @@ pas_backend_file_book_view_copy(const PASBackendFileBookView *book_view, void *c
 	new_book_view->book_view = book_view->book_view;
 
 	new_book_view->search = g_strdup(book_view->search);
-	new_book_view->search_sexp = book_view->search_sexp;
-	if (new_book_view->search_sexp)
-		gtk_object_ref(GTK_OBJECT(new_book_view->search_sexp));
-	if (book_view->search_context) {		
-		new_book_view->search_context = g_new(PASBackendFileSearchContext, 1);
-		new_book_view->search_context->card = book_view->search_context->card;
-	} else
-		new_book_view->search_context = NULL;
+	new_book_view->card_sexp = book_view->card_sexp;
+	if (new_book_view->card_sexp)
+		gtk_object_ref(GTK_OBJECT(new_book_view->card_sexp));
 	
 	new_book_view->change_id = g_strdup(book_view->change_id);
 	if (book_view->change_context) {
@@ -121,9 +111,8 @@ static void
 pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure)
 {
 	g_free(book_view->search);
-	if (book_view->search_sexp)
-		e_sexp_unref (book_view->search_sexp);
-	g_free(book_view->search_context);
+	if (book_view->card_sexp)
+		gtk_object_unref (GTK_OBJECT(book_view->card_sexp));
 
 	g_free(book_view->change_id);
 	if (book_view->change_context) {
@@ -229,292 +218,13 @@ pas_backend_file_create_unique_id (char *vcard)
 }
 
 static gboolean
-compare_email (ECardSimple *card, const char *str,
-	       char *(*compare)(const char*, const char*))
-{
-	int i;
-
-	for (i = E_CARD_SIMPLE_EMAIL_ID_EMAIL; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
-		const char *email = e_card_simple_get_email (card, i);
-
-		if (email && compare(email, str))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gboolean
-compare_phone (ECardSimple *card, const char *str,
-	       char *(*compare)(const char*, const char*))
-{
-	int i;
-
-	for (i = E_CARD_SIMPLE_PHONE_ID_ASSISTANT; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
-		const ECardPhone *phone = e_card_simple_get_phone (card, i);
-
-		if (phone && compare(phone->number, str))
-			return TRUE;
-	}
-
-	return FALSE;
-}
-
-static gboolean
-compare_address (ECardSimple *card, const char *str,
-		 char *(*compare)(const char*, const char*))
-{
-	g_warning("address searching not implemented\n");
-	return FALSE;
-}
-
-static gboolean
-compare_category (ECardSimple *card, const char *str,
-		  char *(*compare)(const char*, const char*))
-{
-	EList *categories;
-	EIterator *iterator;
-	ECard *ecard;
-	gboolean ret_val = FALSE;
-
-	gtk_object_get (GTK_OBJECT (card),
-			"card", &ecard,
-			NULL);
-	gtk_object_get (GTK_OBJECT (ecard),
-			"category_list", &categories,
-			NULL);
-
-	for (iterator = e_list_get_iterator(categories); e_iterator_is_valid (iterator); e_iterator_next (iterator)) {
-		const char *category = e_iterator_get (iterator);
-
-		if (compare(category, str)) {
-			ret_val = TRUE;
-			break;
-		}
-	}
-
-	gtk_object_unref (GTK_OBJECT (iterator));
-	e_card_free_empty_lists (ecard);
-	return ret_val;
-}
-
-static struct prop_info {
-	ECardSimpleField field_id;
-	const char *query_prop;
-	const char *ecard_prop;
-#define PROP_TYPE_NORMAL   0x01
-#define PROP_TYPE_LIST     0x02
-#define PROP_TYPE_LISTITEM 0x03
-#define PROP_TYPE_ID 0x04
-	int prop_type;
-	gboolean (*list_compare)(ECardSimple *ecard, const char *str,
-				 char *(*compare)(const char*, const char*));
-
-} prop_info_table[] = {
-#define NORMAL_PROP(f,q,e) {f, q, e, PROP_TYPE_NORMAL, NULL}
-#define ID_PROP {0, "id", NULL, PROP_TYPE_ID, NULL}
-#define LIST_PROP(q,e,c) {0, q, e, PROP_TYPE_LIST, c}
-
-	/* query prop,  ecard prop,   type,              list compare function */
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FILE_AS, "file_as", "file_as" ),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name",  "full_name" ),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_URL, "url", "url" ),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_MAILER, "mailer", "mailer"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ORG, "org", "org"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ORG_UNIT, "org_unit", "org_unit"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_OFFICE, "office", "office"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_TITLE, "title", "title"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ROLE, "role", "role"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_MANAGER, "manager", "manager"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ASSISTANT, "assistant", "assistant"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NICKNAME, "nickname", "nickname"),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_SPOUSE, "spouse", "spouse" ),
-	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NOTE, "note", "note"),
-	ID_PROP,
-	LIST_PROP ( "email", "email", compare_email ),
-	LIST_PROP ( "phone", "phone", compare_phone ),
-	LIST_PROP ( "address", "address", compare_address ),
-	LIST_PROP ( "category", "category", compare_category ),
-};
-static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
-
-static ESExpResult *
-entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
-	      int argc, struct _ESExpResult **argv,
-	      char *(*compare)(const char*, const char*))
-{
-	ESExpResult *r;
-	int truth = FALSE;
-
-	if (argc == 2
-	    && argv[0]->type == ESEXP_RES_STRING
-	    && argv[1]->type == ESEXP_RES_STRING) {
-		char *propname;
-		struct prop_info *info = NULL;
-		int i;
-		gboolean any_field;
-
-		propname = argv[0]->value.string;
-
-		any_field = !strcmp(propname, "x-evolution-any-field");
-		for (i = 0; i < num_prop_infos; i ++) {
-			if (any_field
-			    || !strcmp (prop_info_table[i].query_prop, propname)) {
-				info = &prop_info_table[i];
-				
-				if (info->prop_type == PROP_TYPE_NORMAL) {
-					char *prop = NULL;
-					/* searches where the query's property
-					   maps directly to an ecard property */
-					
-					prop = e_card_simple_get (ctx->card, info->field_id);
-
-					if (prop && compare(prop, argv[1]->value.string)) {
-						truth = TRUE;
-					}
-					if ((!prop) && compare("", argv[1]->value.string)) {
-						truth = TRUE;
-					}
-					g_free (prop);
-				} else if (info->prop_type == PROP_TYPE_LIST) {
-				/* the special searches that match any of the list elements */
-					truth = info->list_compare (ctx->card, argv[1]->value.string, compare);
-				} else if (info->prop_type == PROP_TYPE_ID) {
-					const char *prop = NULL;
-					/* searches where the query's property
-					   maps directly to an ecard property */
-					
-					prop = e_card_get_id (ctx->card->card);
-
-					if (prop && compare(prop, argv[1]->value.string)) {
-						truth = TRUE;
-					}
-					if ((!prop) && compare("", argv[1]->value.string)) {
-						truth = TRUE;
-					}
-				}
-
-				/* if we're looking at all fields and find a match,
-				   or if we're just looking at this one field,
-				   break. */
-				if ((any_field && truth)
-				    || !any_field)
-					break;
-			}
-		}
-		
-	}
-	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
-	r->value.bool = truth;
-
-	return r;
-}
-
-static ESExpResult *
-func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	PASBackendFileSearchContext *ctx = data;
-
-	return entry_compare (ctx, f, argc, argv, (char *(*)(const char*, const char*)) e_utf8_strstrcase);
-}
-
-static char *
-is_helper (const char *s1, const char *s2)
-{
-	if (!strcmp(s1, s2))
-		return (char*)s1;
-	else
-		return NULL;
-}
-
-static ESExpResult *
-func_is(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	PASBackendFileSearchContext *ctx = data;
-
-	return entry_compare (ctx, f, argc, argv, is_helper);
-}
-
-static char *
-endswith_helper (const char *s1, const char *s2)
-{
-	char *p;
-	if ((p = strstr(s1, s2))
-	    && (strlen(p) == strlen(s2)))
-		return p;
-	else
-		return NULL;
-}
-
-static ESExpResult *
-func_endswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	PASBackendFileSearchContext *ctx = data;
-
-	return entry_compare (ctx, f, argc, argv, endswith_helper);
-}
-
-static char *
-beginswith_helper (const char *s1, const char *s2)
-{
-	char *p;
-	if ((p = strstr(s1, s2))
-	    && (p == s1))
-		return p;
-	else
-		return NULL;
-}
-
-static ESExpResult *
-func_beginswith(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
-{
-	PASBackendFileSearchContext *ctx = data;
-
-	return entry_compare (ctx, f, argc, argv, beginswith_helper);
-}
-
-/* 'builtin' functions */
-static struct {
-	char *name;
-	ESExpFunc *func;
-	int type;		/* set to 1 if a function can perform shortcut evaluation, or
-				   doesn't execute everything, 0 otherwise */
-} symbols[] = {
-	{ "contains", func_contains, 0 },
-	{ "is", func_is, 0 },
-	{ "beginswith", func_beginswith, 0 },
-	{ "endswith", func_endswith, 0 },
-};
-
-static gboolean
 vcard_matches_search (const PASBackendFileBookView *view, char *vcard_string)
 {
-	ESExpResult *r;
-	gboolean retval;
-	ECard *card;
-
 	/* If this is not a search context view, it doesn't match be default */
-	if (view->search_context == NULL)
+	if (view->card_sexp == NULL)
 		return FALSE;
 
-	card = e_card_new (vcard_string);
-	view->search_context->card = e_card_simple_new (card);
-	gtk_object_unref(GTK_OBJECT(card));
-
-	/* if it's not a valid vcard why is it in our db? :) */
-	if (!view->search_context->card)
-		return FALSE;
-
-	r = e_sexp_eval(view->search_sexp);
-
-	retval = (r && r->type == ESEXP_RES_BOOL && r->value.bool);
-
-
-	gtk_object_unref(GTK_OBJECT(view->search_context->card));
-
-	e_sexp_result_free(view->search_sexp, r);
-
-	return retval;
+	return pas_backend_card_sexp_match_vcard (view->card_sexp, vcard_string);
 }
 
 static void
@@ -528,8 +238,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	DB      *db = bf->priv->file_db;
 	DBC     *dbc;
 	DBT     id_dbt, vcard_dbt;
-	int     i, file_version_name_len;
-	int esexp_error;
+	int     file_version_name_len;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	gboolean search_needed;
 
@@ -546,24 +255,12 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	else
 		pas_book_view_notify_status_message (view->book_view, "Loading...");
 
-	if (view->search_sexp)
-		e_sexp_unref(view->search_sexp);
-	view->search_sexp = e_sexp_new();
+	if (view->card_sexp)
+		gtk_object_unref (GTK_OBJECT(view->card_sexp));
+
+	view->card_sexp = pas_backend_card_sexp_new (view->search);
 	
-	for(i=0;i<sizeof(symbols)/sizeof(symbols[0]);i++) {
-		if (symbols[i].type == 1) {
-			e_sexp_add_ifunction(view->search_sexp, 0, symbols[i].name,
-					     (ESExpIFunc *)symbols[i].func, view->search_context);
-		} else {
-			e_sexp_add_function(view->search_sexp, 0, symbols[i].name,
-					    symbols[i].func, view->search_context);
-		}
-	}
-
-	e_sexp_input_text(view->search_sexp, view->search, strlen(view->search));
-	esexp_error = e_sexp_parse(view->search_sexp);
-
-	if (esexp_error == -1) {
+	if (!view->card_sexp) {
 		/* need a different error message here. */
 		pas_book_view_notify_complete (view->book_view);
 		pas_book_view_notify_status_message (view->book_view, "Error in search expression.");
@@ -1115,7 +812,6 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 	CORBA_Environment ev;
 	PASBookView       *book_view;
 	PASBackendFileBookView view;
-	PASBackendFileSearchContext ctx;
 	EIterator *iterator;
 
 	g_return_if_fail (req->listener != NULL);
@@ -1129,11 +825,9 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 
 	view.book_view = book_view;
 	view.search = req->search;
-	view.search_sexp = NULL;
-	view.search_context = &ctx;
+	view.card_sexp = NULL;
 	view.change_id = NULL;
 	view.change_context = NULL;	
-	ctx.card = NULL;
 
 	e_list_append(bf->priv->book_views, &view);
 
@@ -1199,8 +893,6 @@ pas_backend_file_process_get_changes (PASBackend *backend,
 	ctx.mod_ids = NULL;
 	ctx.del_ids = NULL;
 	view.search = NULL;
-	view.search_sexp = NULL;
-	view.search_context = NULL;
 
 	e_list_append(bf->priv->book_views, &view);
 
