@@ -660,7 +660,7 @@ et_col_spec_to_col (ETable *e_table, ETableColumnSpecification *col_spec, ETable
 			
 			pixbuf = e_table_extras_get_pixbuf(ete, col_spec->pixbuf);
 			if (pixbuf) {
-				col = e_table_col_new_with_pixbuf (col_spec->model_col, pixbuf,
+				col = e_table_col_new_with_pixbuf (col_spec->model_col, col_spec->title_, pixbuf,
 								   col_spec->expansion, col_spec->minimum_width,
 								   cell, compare, col_spec->resizable);
 			}

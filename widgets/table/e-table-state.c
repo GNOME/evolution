@@ -18,6 +18,8 @@
 
 #define PARENT_TYPE (gtk_object_get_type())
 
+#define STATE_VERSION 0.1
+
 static GtkObjectClass *etst_parent_class;
 
 static void
@@ -83,7 +85,10 @@ e_table_state_load_from_node    (ETableState *state,
 {
 	xmlNode *children;
 	GList *list = NULL, *iterator;
+	gdouble state_version;
 	int i;
+
+	state_version = e_xml_get_double_prop_by_name_with_default(node, "state-version", STATE_VERSION);
 
 	if (state->sort_info)
 		gtk_object_unref(GTK_OBJECT(state->sort_info));
@@ -97,7 +102,7 @@ e_table_state_load_from_node    (ETableState *state,
 			list = g_list_append(list, column);
 		} else if (state->sort_info == NULL && !strcmp(children->name, "grouping")) {
 			state->sort_info = e_table_sort_info_new();
-			e_table_sort_info_load_from_node(state->sort_info, children);
+			e_table_sort_info_load_from_node(state->sort_info, children, state_version);
 		}
 	}
 	g_free(state->columns);
@@ -151,7 +156,7 @@ e_table_state_save_to_node      (ETableState *state,
 	else
 		node = xmlNewNode (NULL, "ETableState");
 
-	e_xml_set_double_prop_by_name(node, "state-version", 0.0);
+	e_xml_set_double_prop_by_name(node, "state-version", STATE_VERSION);
 
 	for (i = 0; i < state->col_count; i++) {
 		int column = state->columns[i];

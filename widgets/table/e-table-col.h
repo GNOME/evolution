@@ -50,7 +50,8 @@ ETableCol     *e_table_col_new             (int col_idx, const char *text,
 					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);
-ETableCol     *e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf,
+ETableCol     *e_table_col_new_with_pixbuf (int col_idx, const char *text, 
+					    GdkPixbuf *pixbuf,
 					    double expansion, int min_width,
 					    ECell *ecell, GCompareFunc compare,
 					    gboolean resizable);

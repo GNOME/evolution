@@ -80,7 +80,7 @@ e_table_column_specification_load_from_node    (ETableColumnSpecification *etcs,
 
 	etcs->model_col     = e_xml_get_integer_prop_by_name(node, "model_col");
 	etcs->title_        = e_xml_get_translated_string_prop_by_name(node, "_title");
-	etcs->pixbuf        = e_xml_get_translated_string_prop_by_name(node, "pixbuf");
+	etcs->pixbuf        = e_xml_get_string_prop_by_name(node, "pixbuf");
 
 	etcs->expansion     = e_xml_get_double_prop_by_name(node, "expansion");
 	etcs->minimum_width = e_xml_get_integer_prop_by_name(node, "minimum_width");

@@ -66,7 +66,8 @@ void              e_table_sort_info_sorting_set_nth     (ETableSortInfo   *info,
 
 ETableSortInfo   *e_table_sort_info_new                 (void);
 void              e_table_sort_info_load_from_node      (ETableSortInfo   *info,
-							 xmlNode          *node);
+							 xmlNode          *node,
+							 gdouble           state_version);
 xmlNode          *e_table_sort_info_save_to_node        (ETableSortInfo   *info,
 							 xmlNode          *parent);
 

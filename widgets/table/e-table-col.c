@@ -30,9 +30,9 @@ etc_destroy (GtkObject *object)
 
 	gtk_object_unref (GTK_OBJECT(etc->ecell));
 
-	if (etc->is_pixbuf)
+	if (etc->pixbuf)
 		gdk_pixbuf_unref (etc->pixbuf);
-	else
+	if (etc->text)
 		g_free (etc->text);
 	
 	(*parent_class->destroy)(object);
@@ -174,7 +174,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
  * Returns: the newly created ETableCol object.
  */
 ETableCol *
-e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, int min_width,
+e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, double expansion, int min_width,
 			     ECell *ecell, GCompareFunc compare, gboolean resizable)
 {
 	ETableCol *etc;
@@ -190,7 +190,7 @@ e_table_col_new_with_pixbuf (int col_idx, GdkPixbuf *pixbuf, double expansion, i
 	etc->is_pixbuf = TRUE;
 
 	etc->col_idx = col_idx;
-	etc->text = NULL;
+	etc->text = g_strdup(text);
 	etc->pixbuf = pixbuf;
 	etc->expansion = expansion;
 	etc->min_width = min_width;
