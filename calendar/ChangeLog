@@ -1,3 +1,15 @@
+2003-12-29  Kidd Wang  <kidd.wang@sun.com>
+
+	* gui/calendar-commands.c (file_open_event_cb): add a menu item
+	for "open appointment".
+
+	* gui/e-cal-view.[ch] (e_calendar_view_open_event): add a signal
+	"open_event" and bind it to "ctrl+o". When the signal is delivered,
+	a dialog will be opened to edit the selected event.
+
+	* gui/e-calendar-table.c (e_calendar_table_on_key_press): press "ctrl-o"
+	to open a dialog.
+
 2003-12-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-select-names-renderer.c (esnr_start_editing): fix the

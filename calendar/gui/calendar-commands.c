@@ -71,6 +71,17 @@ typedef struct {
 	guint taskpad_focused : 1;
 } FocusData;
 
+static void
+file_open_event_cb (BonoboUIComponent *uic, gpointer data, const char *path)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	e_calendar_view_open_event (gnome_calendar_get_current_view_widget (gcal));
+}
+
+
 /* Prints the calendar at its current view and time range */
 static void
 print (GnomeCalendar *gcal, gboolean preview)
@@ -532,6 +543,9 @@ calendar_control_sensitize_calendar_commands (BonoboControl *control, GnomeCalen
 			read_only = TRUE;
 	}
 
+	bonobo_ui_component_set_prop (uic, "/commands/EventOpen", "sensitive",
+				      n_selected == 0 || read_only ? "0" : "1",
+				      NULL);
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
 				      NULL);
@@ -685,6 +699,7 @@ gcal_taskpad_focus_change_cb (GnomeCalendar *gcal, gboolean in, gpointer data)
 
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_VERB ("EventOpen", file_open_event_cb),
 	BONOBO_UI_VERB ("CalendarPrint", file_print_cb),
 	BONOBO_UI_VERB ("CalendarPrintPreview", file_print_preview_cb),
 

@@ -25,6 +25,8 @@
 #include <string.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkbindings.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-dialog-utils.h"
@@ -94,6 +96,7 @@ enum {
 	TIMEZONE_CHANGED,
 	EVENT_CHANGED,
 	EVENT_ADDED,
+	OPEN_EVENT,
 	LAST_SIGNAL
 };
 
@@ -143,6 +146,8 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	GObjectClass *gobject_class = G_OBJECT_CLASS (klass);
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS (klass);
 
+	GtkBindingSet *binding_set;
+
 	parent_class = g_type_class_peek_parent (klass);
 
 	/* Method override */
@@ -160,6 +165,7 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	klass->set_selected_time_range = NULL;
 	klass->get_visible_time_range = NULL;
 	klass->update_query = NULL;
+	klass->open_event = e_calendar_view_open_event;
 
 	g_object_class_install_property (gobject_class, PROP_MODEL, 
 					 g_param_spec_object ("model", NULL, NULL, E_TYPE_CAL_MODEL,
@@ -202,6 +208,15 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 			      G_TYPE_NONE, 1,
 			      G_TYPE_POINTER);
 
+	e_calendar_view_signals[OPEN_EVENT] =
+		g_signal_new ("open_event",
+			      G_TYPE_FROM_CLASS (klass),
+			      G_SIGNAL_RUN_FIRST | G_SIGNAL_ACTION,
+			      G_STRUCT_OFFSET (ECalendarViewClass, open_event),
+			      NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
+
 	e_calendar_view_signals[EVENT_ADDED] =
 		g_signal_new ("event_added",
 			      G_TYPE_FROM_CLASS (object_class),
@@ -215,6 +230,17 @@ e_calendar_view_class_init (ECalendarViewClass *klass)
 	/* clipboard atom */
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+
+
+        /*
+         * Key bindings
+         */
+
+	binding_set = gtk_binding_set_by_class (klass);
+
+	gtk_binding_entry_add_signal (binding_set, GDK_o,
+                                      GDK_CONTROL_MASK,
+                                      "open_event", 0);
 
 	/* init the accessibility support for e_day_view */
  	e_cal_view_a11y_init ();
@@ -1331,6 +1357,23 @@ e_calendar_view_create_popup_menu (ECalendarView *cal_view)
 	g_signal_connect (popup, "selection-done", G_CALLBACK (free_view_popup), cal_view);
 
 	return popup;
+}
+
+void 
+e_calendar_view_open_event (ECalendarView *cal_view)
+{
+	GList *selected;
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (selected) {
+		ECalendarViewEvent *event = (ECalendarViewEvent *) selected->data;
+
+		if (event)
+			e_calendar_view_edit_appointment (cal_view, event->comp_data->client,
+						     event->comp_data->icalcomp, FALSE);
+
+		g_list_free (selected);
+	}
 }
 
 /**

@@ -2101,7 +2101,7 @@ e_day_view_recalc_day_starts (EDayView *day_view,
 	day_view->lower = start_time;
 	day_view->upper = day_view->day_starts[day_view->days_shown];
 
-	e_day_view_update_query (day_view);
+	e_day_view_update_query ((ECalendarView *) day_view);
 }
 
 
@@ -3906,6 +3906,9 @@ e_day_view_free_events (EDayView *day_view)
 	day_view->resize_event_day = -1;
 	day_view->pressed_event_day = -1;
 	day_view->drag_event_day = -1;
+	day_view->editing_event_num = -1;
+	day_view->popup_event_num = -1;
+
 
 	e_day_view_free_event_array (day_view, day_view->long_events);
 
