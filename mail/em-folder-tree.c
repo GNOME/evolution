@@ -620,7 +620,6 @@ tree_drag_data_get(GtkWidget *widget, GdkDragContext *context, GtkSelectionData 
 	switch (info) {
 	case DND_DRAG_TYPE_FOLDER:
 		/* dragging to a new location in the folder tree */
-		printf ("dragging uri: %s\n", uri);
 		gtk_selection_data_set(selection, drag_atoms[info], 8, uri, strlen (uri) + 1);
 		break;
 	case DND_DRAG_TYPE_TEXT_URI_LIST:
@@ -1008,7 +1007,6 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		/* Check for dragging from spethal folders which can't be moved/copied */
 		url = camel_url_new(src_uri, NULL);
 		path = url->fragment?url->fragment:url->path;
-		printf("checking url src path '%s'\n", path);
 		if (path
 		    && 	(strcmp(path, CAMEL_VTRASH_NAME) == 0
 			 || strcmp(path, CAMEL_VJUNK_NAME) == 0
@@ -1024,7 +1022,6 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 			/* Check for dragging folders into spethal folders */
 			url = camel_url_new(uri, NULL);
 			path = url->fragment?url->fragment:url->path;
-			printf("checking url dest path '%s'\n", path);
 			if (path && path[0]
 			    && (strcmp(path, CAMEL_VTRASH_NAME) == 0
 				|| strcmp(path, CAMEL_VJUNK_NAME) == 0
