@@ -98,6 +98,10 @@
         _label="_Forward"
          accel="*Control**Alt*f"/>
 
+        <menuitem name="MessageForwardAttach" verb=""
+        _label="Forward as Attachment"
+         accel=""/>
+
         <menuitem/>
 
         <menuitem name="MessageMarkAsRead" verb=""

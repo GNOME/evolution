@@ -1,3 +1,7 @@
+2000-11-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* evolution-mail.xml: Added Forward as Attachment.
+
 2000-11-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* evolution-contact-editor.xml: Added Send contact as attachment
@@ -17,8 +21,8 @@
 
 2000-11-07  Jesse Pavel	  <jpavel@helixcode.com>
 
-	* evolution-event-editor.xml: removed ``FIXME'' from the ``Schedule Meeting''
-	menu.
+	* evolution-event-editor.xml: removed ``FIXME'' from the
+	``Schedule Meeting'' menu.
 
 2000-11-06  Jeffrey Stedfast  <fejj@helixcode.com>
 
