@@ -536,6 +536,27 @@ item_selected (GtkWidget *item,
 		data->choosen_iid = g_strdup (iid);
 }
 
+static int
+compare_info_name (const void *data1, const void  *data2)
+{
+	const Bonobo_ServerInfo *info1 = (Bonobo_ServerInfo *)data1;
+	const Bonobo_ServerInfo *info2 = (Bonobo_ServerInfo *)data2;
+	const char *name1 = get_name_from_component_info (info1);
+	const char *name2 = get_name_from_component_info (info2);
+
+	/* If we can't find a name for a plug-in, its iid will be used
+	 * for display. Put such plug-ins at the end of the list since
+	 * their displayed name won't be really user-friendly
+	 */
+	if (name1 == NULL) {
+		return -1;
+	}
+	if (name2 == NULL) {
+		return 1;
+	}
+	return g_utf8_collate (name1, name2);
+}
+
 static GtkWidget *
 create_plugin_menu (ImportData *data)
 {
@@ -552,6 +573,13 @@ create_plugin_menu (ImportData *data)
 
 	CORBA_exception_init (&ev);
 	info_list = bonobo_activation_query (IMPORTER_REPO_ID_QUERY, NULL, &ev);
+	/* Sort info list to get a consistent ordering of the items in the
+	 * combo box from one run of evolution to another.
+	 */
+	qsort (info_list->_buffer, info_list->_length, 
+	       sizeof (Bonobo_ServerInfo),
+	       compare_info_name);
+
 	for (i = 0; i < info_list->_length; i++) {
 		const Bonobo_ServerInfo *info;
 		char *name = NULL;

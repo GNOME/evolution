@@ -1,3 +1,9 @@
+2004-06-01  Christophe Fergeau  <teuf@gnome.org>
+ 	
+ 	* e-shell-importer.c: sort the various available importer plugins by
+  	name in the importer druid combo box so that the list doesn't change
+  	from one evolution run to another. 
+	
 2004-05-27  Not Zed  <NotZed@Ximian.com>
 
 	** See #58827.
