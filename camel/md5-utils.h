@@ -1,36 +1,45 @@
-#ifndef MD5_H
-#define MD5_H
-
-#ifdef __alpha
-typedef unsigned int uint32;
-#else
-typedef unsigned long uint32;
-#endif
-
-struct MD5Context {
-	uint32 buf[4];
-	uint32 bits[2];
-	unsigned char in[64];
-	int doByteReverse;
-};
-
-void rpmMD5Init(struct MD5Context *context, int brokenEndian);
-void rpmMD5Update(struct MD5Context *context, unsigned char const *buf,
-	       unsigned len);
-void rpmMD5Final(unsigned char digest[16], struct MD5Context *context);
-void rpmMD5Transform(uint32 buf[4], uint32 const in[16]);
-
-int mdfile(const char *fn, unsigned char *digest);
-int mdbinfile(const char *fn, unsigned char *bindigest);
-
-/* These assume a little endian machine and return incorrect results!
-   They are here for compatibility with old (broken) versions of RPM */
-int mdfileBroken(const char *fn, unsigned char *digest);
-int mdbinfileBroken(const char *fn, unsigned char *bindigest);
-
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * This is needed to make RSAREF happy on some MS-DOS compilers.
+ * This code implements the MD5 message-digest algorithm.
+ * The algorithm is due to Ron Rivest.  This code was
+ * written by Colin Plumb in 1993, no copyright is claimed.
+ * This code is in the public domain; do with it what you wish.
+ *
+ * Equivalent code is available from RSA Data Security, Inc.
+ * This code has been tested against that, and is equivalent,
+ * except that you don't need to include two pages of legalese
+ * with every copy.
+ *
+ * To compute the message digest of a chunk of bytes, declare an
+ * MD5Context structure, pass it to rpmMD5Init, call rpmMD5Update as
+ * needed on buffers full of bytes, and then call rpmMD5Final, which
+ * will fill a supplied 16-byte array with the digest.
  */
-typedef /*@abstract@*/ struct MD5Context MD5_CTX;
 
-#endif	/* MD5_H */
+/* parts of this file are :
+ * Written March 1993 by Branko Lankester
+ * Modified June 1993 by Colin Plumb for altered md5.c.
+ * Modified October 1995 by Erik Troan for RPM
+ */
+
+
+#ifndef MD5_UTILS_H
+#define MD5_UTILS_H
+
+#include <glib.h>
+
+
+typedef struct {
+	guint32 buf[4];
+	guint32 bits[2];
+	guchar in[64];
+	gint doByteReverse;
+
+} MD5Context ;
+
+
+int md5_file (const gchar *fn, guchar *digest);
+int md5_bin_file (const gchar *fn, guchar *bindigest);
+
+
+#endif	/* MD5_UTILS_H */
