@@ -1364,7 +1364,7 @@ rebuild_time_popup			(EDateEdit	*dedit)
 {
 	EDateEditPrivate *priv;
 	GtkList *list;
-	GtkWidget *listitem;
+	GtkWidget *listitem, *label;
 	char buffer[40], *format;
 	struct tm tmp_tm;
 	gint hour, min;
@@ -1405,8 +1405,20 @@ rebuild_time_popup			(EDateEdit	*dedit)
 
 			e_utf8_strftime (buffer, sizeof (buffer), format, &tmp_tm);
 
-			listitem = gtk_list_item_new_with_label (buffer);
-			gtk_widget_show (listitem);
+			/* For 12-hour am/pm format, we want space padding, not zero padding. This
+			 * can be done with strftime's %l, but it's a potentially unportable extension. */
+			if (!priv->use_24_hour_format && buffer [0] == '0')
+				buffer [0] = ' ';
+
+			/* We need to make sure labels are right-aligned, since we want digits to line up,
+			 * and with a nonproportional font, the width of a space != width of a digit.
+			 * Technically, only 12-hour format needs this, but we do it always, for consistency. */
+			listitem = gtk_list_item_new ();
+			label = gtk_label_new (buffer);
+			gtk_misc_set_alignment (GTK_MISC (label), 1.0, 0.5);
+			gtk_container_add (GTK_CONTAINER (listitem), label);
+
+			gtk_widget_show_all (listitem);
 			gtk_container_add (GTK_CONTAINER (list), listitem);
 		}
 	}
