@@ -1,5 +1,13 @@
 2000-08-09  Not Zed  <NotZed@HelixCode.com>
 
+	* mail-autofilter.c (filter_gui_add_from_message): Helper function to add with confirm.
+
+	* message-list.c (on_right_click): Added menu to install vfolders/filters from message.
+
+<<<<<<< ChangeLog
+<<<<<<< ChangeLog
+2000-08-09  Not Zed  <NotZed@HelixCode.com>
+
 	* mail-autofilter.c: New file to hold auto filter/vfolder stuff.
 
 2000-08-09  Christopher James Lahey  <clahey@helixcode.com>

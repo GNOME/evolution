@@ -25,6 +25,9 @@
 #include "widgets/e-table/e-table-header-item.h"
 #include "widgets/e-table/e-table-item.h"
 
+#include "mail-vfolder.h"
+#include "mail-autofilter.h"
+
 #include "art/mail-new.xpm"
 #include "art/mail-read.xpm"
 #include "art/mail-replied.xpm"
@@ -978,11 +981,51 @@ select_row (ETableScrolled *table, gpointer user_data)
 	gtk_idle_add (idle_select_row, message_list->etable);
 }
 
+static void
+vfolder_subject(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT,
+				     fb->uri);
+}
+
+static void
+vfolder_sender(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM,
+				     fb->uri);
+}
+
+static void
+vfolder_recipient(GtkWidget *w, FolderBrowser *fb)
+{
+	vfolder_gui_add_from_message(fb->mail_display->current_message, AUTO_TO,
+				     fb->uri);
+}
+
+static void
+filter_subject(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_SUBJECT);
+}
+
+static void
+filter_sender(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_FROM);
+}
+
+static void
+filter_recipient(GtkWidget *w, FolderBrowser *fb)
+{
+	filter_gui_add_from_message(fb->mail_display->current_message, AUTO_TO);
+}
+
 static gint
 on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, MessageList *list)
 {
 	FolderBrowser *fb = list->parent_folder_browser;
 	extern CamelFolder *drafts_folder;
+	int enable_mask = 0;
 	EPopupMenu menu[] = {
 		{ "Open in New Window", NULL, GTK_SIGNAL_FUNC (view_msg),        0 },
 		{ "Edit Message",       NULL, GTK_SIGNAL_FUNC (edit_msg),        1 },
@@ -994,10 +1037,22 @@ on_right_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, Mess
 		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
 		{ "Delete Message",     NULL, GTK_SIGNAL_FUNC (delete_msg),      0 },
 		{ "Move Message",       NULL, GTK_SIGNAL_FUNC (move_msg),        0 },
+		{ "",                   NULL, GTK_SIGNAL_FUNC (NULL),            0 },
+		{ "Vfolder from Subject",       NULL, GTK_SIGNAL_FUNC (vfolder_subject),        2 },
+		{ "Vfolder from Sender",       NULL, GTK_SIGNAL_FUNC (vfolder_sender),        2 },
+		{ "Vfolder from Recipients",       NULL, GTK_SIGNAL_FUNC (vfolder_recipient),        2 },
+		{ "Filter from Subject",       NULL, GTK_SIGNAL_FUNC (filter_subject),        2 },
+		{ "Filter from Sender",       NULL, GTK_SIGNAL_FUNC (filter_sender),        2 },
+		{ "Filter from Recipients",       NULL, GTK_SIGNAL_FUNC (filter_recipient),        2 },
 		{ NULL,                 NULL, NULL,                              0 }
 	};
-	
-	e_popup_menu_run (menu, (GdkEventButton *)event, (fb->folder == drafts_folder) ? 0 : 1, 0, fb);
+
+	if (fb->folder != drafts_folder)
+		enable_mask |= 1;
+	if (fb->mail_display->current_message == NULL)
+		enable_mask |= 2;
+
+	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	
 	return TRUE;
 }

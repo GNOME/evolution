@@ -18,6 +18,7 @@
 #include "evolution-shell-component.h"
 #include "folder-browser.h"
 #include "mail-vfolder.h"
+#include "mail-autofilter.h"
 
 #include "camel/camel.h"
 
@@ -30,12 +31,6 @@
 #include "filter/filter-editor.h"
 #include "filter/filter-option.h"
 
-enum {
-	AUTO_SUBJECT = 0x01,
-	AUTO_FROM = 0x02,
-	AUTO_TO = 0x04,
-};
-
 static void
 rule_match_recipients(RuleContext *context, FilterRule *rule, CamelInternetAddress *iaddr)
 {
@@ -43,6 +38,7 @@ rule_match_recipients(RuleContext *context, FilterRule *rule, CamelInternetAddre
 	FilterElement *element;
 	int i;
 	const char *real, *addr;
+	char *namestr;
 
 	/* address types etc should handle multiple values */
 	for (i=0;camel_internet_address_get(iaddr, i, &real, &addr);i++) {
@@ -52,6 +48,10 @@ rule_match_recipients(RuleContext *context, FilterRule *rule, CamelInternetAddre
 		filter_option_set_current((FilterOption *)element, "contains");
 		element = filter_part_find_element(part, "recipient");
 		filter_input_set_value((FilterInput *)element, addr);
+
+		namestr = g_strdup_printf("Mail to %s", real?real:addr);
+		filter_rule_set_name(rule, namestr);
+		g_free(namestr);
 	}
 }
 
@@ -187,17 +187,27 @@ rule_from_message(FilterRule *rule, RuleContext *context, CamelMimeMessage *msg,
 
 	if (flags & AUTO_SUBJECT) {
 		rule_match_subject(context, rule, msg->subject);
+		filter_rule_set_name(rule, strip_re(msg->subject));
 	}
 	/* should parse the from address into an internet address? */
 	if (flags & AUTO_FROM) {
 		struct _header_address *haddr, *scan;
+		char *name, *namestr;
 
 		haddr = header_address_decode(msg->from);
 		scan = haddr;
 		while (scan) {
 			if (scan->type == HEADER_ADDRESS_NAME) {
 				rule_add_sender(context, rule, scan->v.addr);
+				if (scan->name)
+					name = scan->name;
+				else
+					name = scan->v.addr;
+				namestr = g_strdup_printf("Mail from %s", name);
+				filter_rule_set_name(rule, namestr);
+				g_free(namestr);
 			}
+			scan = scan->next;
 		}
 		header_address_unref(haddr);
 	}
@@ -210,101 +220,46 @@ rule_from_message(FilterRule *rule, RuleContext *context, CamelMimeMessage *msg,
 }
 
 FilterRule *
-vfolder_rule_from_message(RuleContext *context, FolderBrowser *fb, CamelMimeMessage *msg, int flags)
+vfolder_rule_from_message(VfolderContext *context, CamelMimeMessage *msg, int flags, const char *source)
 {
 	VfolderRule *rule;
 
 	rule = vfolder_rule_new();
-	vfolder_rule_add_source(rule, fb->uri);
-	rule_from_message((FilterRule *)rule, context, msg, flags);
+	vfolder_rule_add_source(rule, source);
+	rule_from_message((FilterRule *)rule, (RuleContext *)context, msg, flags);
 
 	return (FilterRule *)rule;
 }
 
 FilterRule *
-filter_rule_from_message(RuleContext *context, FolderBrowser *fb, CamelMimeMessage *msg, int flags)
+filter_rule_from_message(FilterContext *context, CamelMimeMessage *msg, int flags)
 {
 	FilterFilter *rule;
 
 	rule = filter_filter_new();
-	rule_from_message((FilterRule *)rule, context, msg, flags);
+	rule_from_message((FilterRule *)rule, (RuleContext *)context, msg, flags);
 
 	/* should we define the default action? */
 
 	return (FilterRule *)rule;
 }
 
-#if 0
-
-#error "Ok, this is all useless because we're not using gnome-libs afteralll ..."
-
-static void create_filter(GtkWidget *w, void *data);
-static void create_vfolder(GtkWidget *w, void *data);
-
-static GnomeUIInfo auto_filter_popup[] = {
-	GNOMEUIINFO_ITEM_NONE("Subject", "", create_filter),
-	GNOMEUIINFO_ITEM_NONE("From", "", create_filter),
-	GNOMEUIINFO_ITEM_NONE("To", "", create_filter),
-	GNOMEUIINFO_ITEM_NONE("Subject & To", "", create_filter),
-	GNOMEUIINFO_ITEM_NONE("Subject & From", "", create_filter),
-        GNOMEUIINFO_END
-};
-
-static GnomeUIInfo auto_vfolder_popup[] = {
-	GNOMEUIINFO_ITEM_NONE("Subject", "", create_vfolder),
-	GNOMEUIINFO_ITEM_NONE("From", "", create_vfolder),
-	GNOMEUIINFO_ITEM_NONE("To", "", create_vfolder),
-	GNOMEUIINFO_ITEM_NONE("Subject & To", "", create_vfolder),
-	GNOMEUIINFO_ITEM_NONE("Subject & From", "", create_vfolder),
-        GNOMEUIINFO_END
-};
-
-static GnomeUIInfo auto_popup[] = {
-	GNOMEUIINFO_SUBTREE("New Filter", auto_filter_popup),
-	GNOMEUIINFO_SUBTREE("New vFolder", auto_vfolder_popup),
-        GNOMEUIINFO_END
-};
-
-static int flags[] = {
-	AUTO_SUBJECT, AUTO_FROM, AUTO_TO,
-	AUTO_SUBJECT|AUTO_TO, AUTO_SUBJECT|AUTO_FROM
-};
-
-static int widget_index(GnomeUIInfo *info, GtkWidget *w)
-{
-	int i;
-
-	for (i=0;info[i].widget;i++)
-		if (info[i].widget == w)
-			return i;
-	return -1;
-}
-
-static void
-create_filter(GtkWidget *w, void *data)
-{
-	int index;
-
-	index = widget_index(auto_filter_popup, w);
-	printf("filter index = %d\n", index);
-}
-
-static void
-create_vfolder(GtkWidget *w, void *data)
-{
-	int index;
-
-	index = widget_index(auto_vfolder_popup, w);
-	printf("filter index = %d\n", index);
-}
-
 void
-message_popup(GdkEventButton *event, FolderBrowser *fb)
+filter_gui_add_from_message(CamelMimeMessage *msg, int flags)
 {
-        GtkWidget *popup_menu;
-	int i;
+	FilterContext *fc;
+	char *userrules, *systemrules;
+	FilterRule *rule;
+	extern char *evolution_dir;
 
-	popup_menu = gnome_popup_menu_new(auto_popup);
-        gnome_popup_menu_do_popup(popup_menu, NULL, NULL, event, fb);
+	fc = filter_context_new();
+	userrules = g_strdup_printf("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	rule_context_load((RuleContext *)fc, systemrules, userrules);
+	rule = filter_rule_from_message(fc, msg, flags);
+	rule_context_add_rule_gui((RuleContext *)fc, rule, "Add Filter Rule", userrules);
+	g_free (userrules);
+	g_free (systemrules);
+	gtk_object_unref((GtkObject *)fc);
 }
-#endif
+
