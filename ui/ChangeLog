@@ -1,3 +1,8 @@
+2001-06-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-message.xml: Change type of "MailPrevious" and
+	"MailNext" buttons from "stock" to "pixbuf".
+
 2001-06-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* evolution-tasks.xml: fixed typos

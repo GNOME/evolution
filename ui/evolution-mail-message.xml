@@ -287,7 +287,7 @@
 
       <toolitem name="PrintMessage" verb=""
        _label="Print"
-       pixtype="stock" pixname="Print"/>
+       pixtype="pixbuf"/>
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"
@@ -297,11 +297,11 @@
     <placeholder name="MailNextButtons">
       <toolitem name="MailPrevious" verb=""
        _label="Previous"
-       pixtype="stock" pixname="Back"/>
+       pixtype="pixbuf"/>
 
       <toolitem name="MailNext" verb=""
        _label="Next"
-       pixtype="stock" pixname="Forward"/>
+       pixtype="pixbuf"/>
     </placeholder>
   </dockitem>
 

@@ -1,3 +1,8 @@
+2001-06-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (buttons_DATA): Add `print.png', `next-message.png',
+	`previous-message.png'.
+
 2001-06-29  Jakub Steiner <jimmac@ximian.com>
 
 	* remove-nntp-folder-24.png, add-nntp-folder-24.png,

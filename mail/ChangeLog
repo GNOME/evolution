@@ -1,3 +1,9 @@
+2001-06-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* folder-browser-ui.c: Get MailNext/MailPrevious to use
+	next-message.png and previous-message.png, respectively.  Also
+	change Print to use print.png.
+
 2001-06-30  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-display.c (make_popup_window): Changed to return the

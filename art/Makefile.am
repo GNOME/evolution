@@ -99,7 +99,10 @@ buttons_DATA = 				\
 	forward.png			\
 	monthview.xpm  			\
 	move-message.png		\
+	next-message.png		\
 	new_appointment.png		\
+	previous-message.png		\
+	print.png			\
 	reply.png			\
 	reply-to-all.png		\
 	send-24-receive.png		\
