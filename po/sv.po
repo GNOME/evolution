@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.145 2002/01/09 04:05:08 menthos Exp $
+# $Id: sv.po,v 1.146 2002/01/12 00:28:20 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2002-01-09 05:01+0100\n"
-"PO-Revision-Date: 2002-01-09 05:03+0100\n"
+"POT-Creation-Date: 2002-01-12 01:23+0100\n"
+"PO-Revision-Date: 2002-01-12 01:26+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgid "Imports VCard files into Evolution."
 msgstr "Importerar VCard-filer till Evolution."
 
 #: addressbook/backend/ebook/e-card-simple.c:60
-#: addressbook/gui/widgets/e-addressbook-view.c:895
+#: addressbook/gui/widgets/e-addressbook-view.c:959
 msgid "File As"
 msgstr "Arkivera som"
 
@@ -45,7 +45,7 @@ msgid "Name"
 msgstr "Namn"
 
 #: addressbook/backend/ebook/e-card-simple.c:62
-#: addressbook/gui/widgets/e-addressbook-view.c:897
+#: addressbook/gui/widgets/e-addressbook-view.c:961
 msgid "Email"
 msgstr "E-post"
 
@@ -61,7 +61,7 @@ msgstr "Prim"
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
 #: addressbook/gui/contact-editor/e-contact-editor.c:1644
-#: addressbook/gui/widgets/e-addressbook-view.c:929
+#: addressbook/gui/widgets/e-addressbook-view.c:993
 msgid "Assistant"
 msgstr "Assistent"
 
@@ -101,7 +101,7 @@ msgid "Home"
 msgstr "Hem"
 
 #: addressbook/backend/ebook/e-card-simple.c:69
-#: addressbook/gui/widgets/e-addressbook-view.c:904
+#: addressbook/gui/widgets/e-addressbook-view.c:968
 msgid "Organization"
 msgstr "Organisation"
 
@@ -123,7 +123,7 @@ msgstr "Bil"
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
 #: addressbook/gui/contact-editor/e-contact-editor.c:1647
-#: addressbook/gui/widgets/e-addressbook-view.c:909
+#: addressbook/gui/widgets/e-addressbook-view.c:973
 msgid "Business Fax"
 msgstr "Företagsfax"
 
@@ -133,7 +133,7 @@ msgstr "För.fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
 #: addressbook/gui/contact-editor/e-contact-editor.c:1653
-#: addressbook/gui/widgets/e-addressbook-view.c:910
+#: addressbook/gui/widgets/e-addressbook-view.c:974
 msgid "Home Fax"
 msgstr "Fax hem"
 
@@ -153,7 +153,7 @@ msgstr "Hem 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
 #: addressbook/gui/contact-editor/e-contact-editor.c:1654
-#: addressbook/gui/widgets/e-addressbook-view.c:913
+#: addressbook/gui/widgets/e-addressbook-view.c:977
 msgid "ISDN"
 msgstr "ISDN"
 
@@ -167,49 +167,49 @@ msgstr "Annat"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
 #: addressbook/gui/contact-editor/e-contact-editor.c:1657
-#: addressbook/gui/widgets/e-addressbook-view.c:915
+#: addressbook/gui/widgets/e-addressbook-view.c:979
 msgid "Other Fax"
 msgstr "Annan fax"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1658
-#: addressbook/gui/widgets/e-addressbook-view.c:916
+#: addressbook/gui/widgets/e-addressbook-view.c:980
 msgid "Pager"
 msgstr "Personsökare"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
 #: addressbook/gui/contact-editor/e-contact-editor.c:1660
-#: addressbook/gui/widgets/e-addressbook-view.c:917
+#: addressbook/gui/widgets/e-addressbook-view.c:981
 msgid "Radio"
 msgstr "Radio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
 #: addressbook/gui/contact-editor/e-contact-editor.c:1661
-#: addressbook/gui/widgets/e-addressbook-view.c:918
+#: addressbook/gui/widgets/e-addressbook-view.c:982
 msgid "Telex"
 msgstr "Telex"
 
 #: addressbook/backend/ebook/e-card-simple.c:84
-#: addressbook/gui/widgets/e-addressbook-view.c:919
+#: addressbook/gui/widgets/e-addressbook-view.c:983
 msgid "TTY"
 msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
 #: addressbook/gui/contact-editor/e-contact-editor.c:1687
-#: addressbook/gui/widgets/e-addressbook-view.c:921
+#: addressbook/gui/widgets/e-addressbook-view.c:985
 msgid "Email 2"
 msgstr "E-post 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
 #: addressbook/gui/contact-editor/e-contact-editor.c:1688
-#: addressbook/gui/widgets/e-addressbook-view.c:922
+#: addressbook/gui/widgets/e-addressbook-view.c:986
 msgid "Email 3"
 msgstr "E-post 3"
 
 #: addressbook/backend/ebook/e-card-simple.c:88
-#: addressbook/gui/widgets/e-addressbook-view.c:923
+#: addressbook/gui/widgets/e-addressbook-view.c:987
 msgid "Web Site"
 msgstr "Webbsida"
 
@@ -218,7 +218,7 @@ msgid "Url"
 msgstr "Url"
 
 #: addressbook/backend/ebook/e-card-simple.c:89
-#: addressbook/gui/widgets/e-addressbook-view.c:924
+#: addressbook/gui/widgets/e-addressbook-view.c:988
 msgid "Department"
 msgstr "Avdelning"
 
@@ -227,7 +227,7 @@ msgid "Dep"
 msgstr "Avd"
 
 #: addressbook/backend/ebook/e-card-simple.c:90
-#: addressbook/gui/widgets/e-addressbook-view.c:925
+#: addressbook/gui/widgets/e-addressbook-view.c:989
 msgid "Office"
 msgstr "Kontor"
 
@@ -236,12 +236,12 @@ msgid "Off"
 msgstr "Kont"
 
 #: addressbook/backend/ebook/e-card-simple.c:91
-#: addressbook/gui/widgets/e-addressbook-view.c:926
+#: addressbook/gui/widgets/e-addressbook-view.c:990
 msgid "Title"
 msgstr "Titel"
 
 #: addressbook/backend/ebook/e-card-simple.c:92
-#: addressbook/gui/widgets/e-addressbook-view.c:927
+#: addressbook/gui/widgets/e-addressbook-view.c:991
 msgid "Profession"
 msgstr "Yrke"
 
@@ -250,7 +250,7 @@ msgid "Prof"
 msgstr "Yrke"
 
 #: addressbook/backend/ebook/e-card-simple.c:93
-#: addressbook/gui/widgets/e-addressbook-view.c:928
+#: addressbook/gui/widgets/e-addressbook-view.c:992
 msgid "Manager"
 msgstr "Manager"
 
@@ -263,7 +263,7 @@ msgid "Ass"
 msgstr "Ass"
 
 #: addressbook/backend/ebook/e-card-simple.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:930
+#: addressbook/gui/widgets/e-addressbook-view.c:994
 msgid "Nickname"
 msgstr "Smeknamn"
 
@@ -272,12 +272,12 @@ msgid "Nick"
 msgstr "Smek"
 
 #: addressbook/backend/ebook/e-card-simple.c:96
-#: addressbook/gui/widgets/e-addressbook-view.c:931
+#: addressbook/gui/widgets/e-addressbook-view.c:995
 msgid "Spouse"
 msgstr "Partner"
 
 #: addressbook/backend/ebook/e-card-simple.c:97
-#: addressbook/gui/widgets/e-addressbook-view.c:932
+#: addressbook/gui/widgets/e-addressbook-view.c:996
 msgid "Note"
 msgstr "Notering"
 
@@ -290,7 +290,7 @@ msgid "CALUri"
 msgstr "KALUri"
 
 #: addressbook/backend/ebook/e-card-simple.c:99
-#: addressbook/gui/widgets/e-addressbook-view.c:933
+#: addressbook/gui/widgets/e-addressbook-view.c:997
 msgid "Free-busy URL"
 msgstr "Ledig/Upptagen-URL"
 
@@ -934,11 +934,11 @@ msgstr "Kunde inte initiera gnome-vfs"
 msgid "Other Contacts"
 msgstr "Andra kontakter"
 
-#: addressbook/gui/component/addressbook.c:485
+#: addressbook/gui/component/addressbook.c:486
 msgid "Unable to open addressbook"
 msgstr "Kan inte öppna adressboken"
 
-#: addressbook/gui/component/addressbook.c:494
+#: addressbook/gui/component/addressbook.c:495
 msgid ""
 "We were unable to open this addressbook.  This either\n"
 "means you have entered an incorrect URI, or the LDAP server\n"
@@ -948,7 +948,7 @@ msgstr ""
 "att du har angett en felaktig URI eller att LDAP-servern är\n"
 "onåbar"
 
-#: addressbook/gui/component/addressbook.c:499
+#: addressbook/gui/component/addressbook.c:500
 msgid ""
 "This version of Evolution does not have LDAP support\n"
 "compiled in to it.  If you want to use LDAP in Evolution\n"
@@ -960,7 +960,7 @@ msgstr ""
 "programmet från CVS-källkod efter det att du har hämtat\n"
 "OpenLDAP från länken nedan.\n"
 
-#: addressbook/gui/component/addressbook.c:507
+#: addressbook/gui/component/addressbook.c:508
 msgid ""
 "We were unable to open this addressbook.  Please check that the\n"
 "path exists and that you have permission to access it."
@@ -968,42 +968,42 @@ msgstr ""
 "Vi kunde inte öppna denna adressbok. Kontrollera att sökvägen\n"
 "existerar och att du har rätt att komma åt den."
 
-#: addressbook/gui/component/addressbook.c:640
+#: addressbook/gui/component/addressbook.c:641
 #, c-format
 msgid "Enter password for %s (user %s)"
 msgstr "Ange lösenord för %s (användare %s)"
 
-#: addressbook/gui/component/addressbook.c:808
+#: addressbook/gui/component/addressbook.c:809
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
 msgstr "Något fält innehåller"
 
-#: addressbook/gui/component/addressbook.c:809
+#: addressbook/gui/component/addressbook.c:810
 msgid "Name contains"
 msgstr "Namnet innehåller"
 
-#: addressbook/gui/component/addressbook.c:810
+#: addressbook/gui/component/addressbook.c:811
 msgid "Email contains"
 msgstr "E-postadressen innehåller"
 
-#: addressbook/gui/component/addressbook.c:811
+#: addressbook/gui/component/addressbook.c:812
 #: calendar/gui/cal-search-bar.c:59
 msgid "Category is"
 msgstr "Kategori är"
 
 #. We attach subitems below
-#: addressbook/gui/component/addressbook.c:812 widgets/misc/e-filter-bar.h:97
+#: addressbook/gui/component/addressbook.c:813 widgets/misc/e-filter-bar.h:97
 #: widgets/misc/e-filter-bar.h:104
 msgid "Advanced..."
 msgstr "Avancerat..."
 
 #. All, unmatched, separator
-#: addressbook/gui/component/addressbook.c:1030
+#: addressbook/gui/component/addressbook.c:1040
 #: calendar/gui/cal-search-bar.c:412
 msgid "Any Category"
 msgstr "Alla kategorier"
 
-#: addressbook/gui/component/addressbook.c:1112
+#: addressbook/gui/component/addressbook.c:1123
 msgid "The URI that the Folder Browser will display"
 msgstr "URI:n som mappbläddraren kommer att visa"
 
@@ -1331,7 +1331,7 @@ msgstr "Spara kontakt som VCard"
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2287
+#: addressbook/gui/contact-editor/e-contact-editor.c:2309
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Kunde inte hitta widget för fältet: \"%s\""
@@ -1345,7 +1345,7 @@ msgid "Edit Full"
 msgstr "Redigera fullständigt namn"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:326
-#: addressbook/gui/widgets/e-addressbook-view.c:896
+#: addressbook/gui/widgets/e-addressbook-view.c:960
 msgid "Full Name"
 msgstr "Fullständigt namn"
 
@@ -2595,9 +2595,9 @@ msgstr "%d kort"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:140
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:291
-#: addressbook/gui/widgets/e-addressbook-view.c:674
-#: addressbook/gui/widgets/e-addressbook-view.c:774
-#: addressbook/gui/widgets/e-addressbook-view.c:1451
+#: addressbook/gui/widgets/e-addressbook-view.c:733
+#: addressbook/gui/widgets/e-addressbook-view.c:833
+#: addressbook/gui/widgets/e-addressbook-view.c:1515
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
 msgstr "Spara som VCard"
@@ -2608,18 +2608,18 @@ msgid "Open"
 msgstr "Öppna"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:292
-#: addressbook/gui/widgets/e-addressbook-view.c:775
+#: addressbook/gui/widgets/e-addressbook-view.c:834
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
 msgstr "Vidarebefordra kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:293
-#: addressbook/gui/widgets/e-addressbook-view.c:776
+#: addressbook/gui/widgets/e-addressbook-view.c:835
 msgid "Send Message to Contact"
 msgstr "Skicka meddelande till kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:294
-#: addressbook/gui/widgets/e-addressbook-view.c:777
+#: addressbook/gui/widgets/e-addressbook-view.c:836
 #: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
 #: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
 #: ui/my-evolution.xml.h:2
@@ -2627,31 +2627,31 @@ msgid "Print"
 msgstr "Skriv ut"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:296
-#: addressbook/gui/widgets/e-addressbook-view.c:779
+#: addressbook/gui/widgets/e-addressbook-view.c:838
 msgid "Print Envelope"
 msgstr "Skriv ut kuvert"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:298
-#: addressbook/gui/widgets/e-addressbook-view.c:781
+#: addressbook/gui/widgets/e-addressbook-view.c:840
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:7
 msgid "Cut"
 msgstr "Klipp ut"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:299
-#: addressbook/gui/widgets/e-addressbook-view.c:782
+#: addressbook/gui/widgets/e-addressbook-view.c:841
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:6
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy"
 msgstr "Kopiera"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:300
-#: addressbook/gui/widgets/e-addressbook-view.c:783
+#: addressbook/gui/widgets/e-addressbook-view.c:842
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:13
 msgid "Paste"
 msgstr "Klistra in"
 
 #: addressbook/gui/widgets/e-addressbook-reflow-adapter.c:301
-#: addressbook/gui/widgets/e-addressbook-view.c:784 filter/libfilter-i18n.h:9
+#: addressbook/gui/widgets/e-addressbook-view.c:843 filter/libfilter-i18n.h:9
 #: mail/mail-accounts.c:296 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:18
@@ -2731,14 +2731,14 @@ msgid "Error removing list"
 msgstr "Fel vid borttagning av lista"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:95
-#: addressbook/gui/widgets/e-addressbook-view.c:1324
+#: addressbook/gui/widgets/e-addressbook-view.c:1388
 msgid "Error removing card"
 msgstr "Fel vid borttagning av kort"
 
 #. Translators: put here a list of labels you want to see on buttons in
 #. addressbook. You may use any character to separate labels but it must
 #. also be placed at the begining ot the string
-#: addressbook/gui/widgets/e-addressbook-view.c:378
+#: addressbook/gui/widgets/e-addressbook-view.c:403
 msgid ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z,å,ä,ö"
 
@@ -2746,67 +2746,67 @@ msgstr ",123,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z,å,ä,ö"
 #. in addressbook. You may use any character to separate labels but it
 #. must also be placed at the begining ot the string.
 #. Use lower case letters if possible.
-#: addressbook/gui/widgets/e-addressbook-view.c:383
+#: addressbook/gui/widgets/e-addressbook-view.c:408
 msgid ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z"
 msgstr ",0,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z,å,ä,ö"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:894
+#: addressbook/gui/widgets/e-addressbook-view.c:958
 msgid "* Click here to add a contact *"
 msgstr "* Klicka här för att lägga till en kontakt *"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:898
+#: addressbook/gui/widgets/e-addressbook-view.c:962
 msgid "Primary Phone"
 msgstr "Primär telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:899
+#: addressbook/gui/widgets/e-addressbook-view.c:963
 msgid "Assistant Phone"
 msgstr "Sekreterartelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:900
+#: addressbook/gui/widgets/e-addressbook-view.c:964
 msgid "Business Phone"
 msgstr "Arbetstelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:901
+#: addressbook/gui/widgets/e-addressbook-view.c:965
 msgid "Callback Phone"
 msgstr "Tillbakaringningstelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:902
+#: addressbook/gui/widgets/e-addressbook-view.c:966
 msgid "Company Phone"
 msgstr "Företagets telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:903
+#: addressbook/gui/widgets/e-addressbook-view.c:967
 msgid "Home Phone"
 msgstr "Hemtelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:905
+#: addressbook/gui/widgets/e-addressbook-view.c:969
 msgid "Business Address"
 msgstr "Företagsadress"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:906
+#: addressbook/gui/widgets/e-addressbook-view.c:970
 msgid "Home Address"
 msgstr "Hemadress"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:907
+#: addressbook/gui/widgets/e-addressbook-view.c:971
 msgid "Mobile Phone"
 msgstr "Mobiltelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:908
+#: addressbook/gui/widgets/e-addressbook-view.c:972
 msgid "Car Phone"
 msgstr "Biltelefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:911
+#: addressbook/gui/widgets/e-addressbook-view.c:975
 msgid "Business Phone 2"
 msgstr "Företagstelefon 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:912
+#: addressbook/gui/widgets/e-addressbook-view.c:976
 msgid "Home Phone 2"
 msgstr "Hemtelefon 2"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:914
+#: addressbook/gui/widgets/e-addressbook-view.c:978
 msgid "Other Phone"
 msgstr "Annan telefon"
 
-#: addressbook/gui/widgets/e-addressbook-view.c:920
+#: addressbook/gui/widgets/e-addressbook-view.c:984
 msgid "Other Address"
 msgstr "Annan adress"
 
@@ -3959,12 +3959,12 @@ msgstr "Dagbokspost - %s"
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/comp-editor.c:1077 mail/mail-callbacks.c:2014
+#: calendar/gui/dialogs/comp-editor.c:1077 mail/mail-callbacks.c:2011
 #: mail/mail-display.c:102
 msgid "Overwrite file?"
 msgstr "Skriv över fil?"
 
-#: calendar/gui/dialogs/comp-editor.c:1081 mail/mail-callbacks.c:2021
+#: calendar/gui/dialogs/comp-editor.c:1081 mail/mail-callbacks.c:2018
 #: mail/mail-display.c:106
 msgid ""
 "A file by that name already exists.\n"
@@ -4484,7 +4484,7 @@ msgid "Alarms"
 msgstr "Alarm"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:885
-#: camel/camel-filter-driver.c:999
+#: camel/camel-filter-driver.c:987
 msgid "Complete"
 msgstr "Färdigt"
 
@@ -5503,7 +5503,7 @@ msgid "Print Calendar"
 msgstr "Skriv ut kalender"
 
 #: calendar/gui/print.c:2477 calendar/gui/print.c:2569
-#: mail/mail-callbacks.c:2511 my-evolution/e-summary.c:623
+#: mail/mail-callbacks.c:2508 my-evolution/e-summary.c:623
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:68
 msgid "Print Preview"
 msgstr "Förhandsgranska"
@@ -5526,7 +5526,7 @@ msgstr ""
 msgid "The URI of the tasks folder to display"
 msgstr "URI:t som uppgiftsmappen ska visa"
 
-#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2234
+#: calendar/gui/tasks-control.c:426 mail/mail-callbacks.c:2231
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Varning"
@@ -5544,7 +5544,7 @@ msgstr ""
 "\n"
 "Vill du verkligen ta bort dessa uppgifter?"
 
-#: calendar/gui/tasks-control.c:441 mail/mail-callbacks.c:2248
+#: calendar/gui/tasks-control.c:441 mail/mail-callbacks.c:2245
 msgid "Do not ask me again."
 msgstr "Fråga mig inte igen."
 
@@ -7283,12 +7283,12 @@ msgstr "Du måste vara ansluten för att kunna genomföra denna åtgärd"
 msgid "Syncing folders"
 msgstr "Synkroniserar mappar"
 
-#: camel/camel-filter-driver.c:750 camel/camel-filter-driver.c:1083
+#: camel/camel-filter-driver.c:750 camel/camel-filter-driver.c:1130
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr "Fel vid tolkning av filter: %s: %s"
 
-#: camel/camel-filter-driver.c:759 camel/camel-filter-driver.c:1089
+#: camel/camel-filter-driver.c:759 camel/camel-filter-driver.c:1136
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr "Fel vid körning av filter: %s: %s"
@@ -7315,21 +7315,25 @@ msgstr "Kan inte öppna meddelande"
 msgid "Failed on message %d"
 msgstr "Misslyckades med meddelande %d"
 
-#: camel/camel-filter-driver.c:881 camel/camel-filter-driver.c:994
+#: camel/camel-filter-driver.c:881 camel/camel-filter-driver.c:982
 msgid "Syncing folder"
 msgstr "Synkroniserar mapp"
 
-#: camel/camel-filter-driver.c:951
+#: camel/camel-filter-driver.c:949
 #, c-format
 msgid "Getting message %d of %d"
 msgstr "Hämtar meddelande %d av %d"
 
-#: camel/camel-filter-driver.c:956 camel/camel-filter-driver.c:974
+#: camel/camel-filter-driver.c:964
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr "Misslyckades vid meddelande %d av %d"
 
-#: camel/camel-filter-search.c:502 camel/camel-filter-search.c:509
+#: camel/camel-filter-search.c:126
+msgid "Failed to retrieve message"
+msgstr "Misslyckades med att hämta meddelande"
+
+#: camel/camel-filter-search.c:543 camel/camel-filter-search.c:551
 #, c-format
 msgid "Error executing filter search: %s: %s"
 msgstr "Fel vid körning av filtersökning: %s: %s"
@@ -8056,7 +8060,7 @@ msgid "Scanning for changed messages"
 msgstr "Letar efter ändrade meddelanden"
 
 #: camel/providers/imap/camel-imap-folder.c:1586
-#: camel/providers/imap/camel-imap-folder.c:2002
+#: camel/providers/imap/camel-imap-folder.c:2046
 msgid "This message is not currently available"
 msgstr "Detta meddelande är inte tillgängligt för tillfället"
 
@@ -8069,7 +8073,7 @@ msgstr "Hämtar meddelandeinformation för nya meddelanden"
 msgid "Scanning for new messages"
 msgstr "Letar efter nya meddelanden"
 
-#: camel/providers/imap/camel-imap-folder.c:2039
+#: camel/providers/imap/camel-imap-folder.c:2083
 msgid "Could not find message body in FETCH response."
 msgstr "Kunde inte hitta meddelandetext i FETCH-svaret."
 
@@ -9296,16 +9300,7 @@ msgstr ""
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: composer/e-msg-composer.c:753
-#, c-format
-msgid ""
-"Error while executing file %s:\n"
-"%s"
-msgstr ""
-"Fel vid körning av filen %s:\n"
-"%s"
-
-#: composer/e-msg-composer.c:761
+#: composer/e-msg-composer.c:688
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -9314,38 +9309,38 @@ msgstr ""
 "Fel vid läsning av filen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:961
+#: composer/e-msg-composer.c:905
 msgid "Save as..."
 msgstr "Spara som..."
 
-#: composer/e-msg-composer.c:970
+#: composer/e-msg-composer.c:914
 msgid "Warning!"
 msgstr "Varning!"
 
-#: composer/e-msg-composer.c:974
+#: composer/e-msg-composer.c:918
 msgid "File exists, overwrite?"
 msgstr "Filen finns, skriv över?"
 
-#: composer/e-msg-composer.c:996
+#: composer/e-msg-composer.c:940
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fel vid sparande av filen: %s"
 
-#: composer/e-msg-composer.c:1015
+#: composer/e-msg-composer.c:959
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fel vid inläsning av filen: %s"
 
-#: composer/e-msg-composer.c:1046
+#: composer/e-msg-composer.c:990
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fel vid åtkomst av filen: %s"
 
-#: composer/e-msg-composer.c:1054
+#: composer/e-msg-composer.c:998
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: composer/e-msg-composer.c:1061
+#: composer/e-msg-composer.c:1005
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -9354,7 +9349,7 @@ msgstr ""
 "Kan inte spola filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1068
+#: composer/e-msg-composer.c:1012
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -9363,7 +9358,7 @@ msgstr ""
 "Kan inte trunkera filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1077
+#: composer/e-msg-composer.c:1021
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -9372,7 +9367,7 @@ msgstr ""
 "Fel vid automatiskt sparande av meddelande: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1179
+#: composer/e-msg-composer.c:1123
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -9380,7 +9375,7 @@ msgstr ""
 "Ximian Evolution har hittat osparade filer från en tidigare session.\n"
 "Vill du försöka återställa dem?"
 
-#: composer/e-msg-composer.c:1337
+#: composer/e-msg-composer.c:1281
 msgid ""
 "This message has not been sent.\n"
 "\n"
@@ -9390,23 +9385,23 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:1344
+#: composer/e-msg-composer.c:1288
 msgid "Warning: Modified Message"
 msgstr "Varning: Ändrat meddelande"
 
-#: composer/e-msg-composer.c:1367
+#: composer/e-msg-composer.c:1311
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:1516
+#: composer/e-msg-composer.c:1460
 msgid "Insert File"
 msgstr "Infoga fil"
 
-#: composer/e-msg-composer.c:1902 composer/e-msg-composer.c:2378
+#: composer/e-msg-composer.c:1846 composer/e-msg-composer.c:2322
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
 
-#: composer/e-msg-composer.c:2395
+#: composer/e-msg-composer.c:2339
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
@@ -9414,7 +9409,7 @@ msgstr ""
 "Kan inte skapa redigerarfönstret:\n"
 "Kan inte aktivera adressväljarkontrollen."
 
-#: composer/e-msg-composer.c:2418 composer/e-msg-composer.c:2473
+#: composer/e-msg-composer.c:2362 composer/e-msg-composer.c:2417
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -10846,12 +10841,12 @@ msgstr "Flytta meddelande(n) till"
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:1865
+#: mail/mail-callbacks.c:1862
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Är du säker på att du vill redigera alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1890
+#: mail/mail-callbacks.c:1887
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -10859,7 +10854,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Utkast."
 
-#: mail/mail-callbacks.c:1929
+#: mail/mail-callbacks.c:1926
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -10867,24 +10862,24 @@ msgstr ""
 "Du kan bara skicka om meddelanden\n"
 "som du sparat i mappen Skickat."
 
-#: mail/mail-callbacks.c:1943
+#: mail/mail-callbacks.c:1940
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Är du säker på att du vill skicka om alla %d meddelanden?"
 
-#: mail/mail-callbacks.c:1969
+#: mail/mail-callbacks.c:1966
 msgid "No Message Selected"
 msgstr "Inget meddelande markerat"
 
-#: mail/mail-callbacks.c:2068
+#: mail/mail-callbacks.c:2065
 msgid "Save Message As..."
 msgstr "Spara meddelande som..."
 
-#: mail/mail-callbacks.c:2070
+#: mail/mail-callbacks.c:2067
 msgid "Save Messages As..."
 msgstr "Spara meddelanden som..."
 
-#: mail/mail-callbacks.c:2241
+#: mail/mail-callbacks.c:2238
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -10897,7 +10892,7 @@ msgstr ""
 "\n"
 "Vill du verkligen ta bort dessa meddelanden?"
 
-#: mail/mail-callbacks.c:2356
+#: mail/mail-callbacks.c:2353
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -10906,23 +10901,23 @@ msgstr ""
 "Fel vid läsning av filterinformation:\n"
 "%s"
 
-#: mail/mail-callbacks.c:2368
+#: mail/mail-callbacks.c:2365
 msgid "Filters"
 msgstr "Filter"
 
-#: mail/mail-callbacks.c:2452
+#: mail/mail-callbacks.c:2449
 msgid "Print Message"
 msgstr "Skriv ut meddelande"
 
-#: mail/mail-callbacks.c:2479
+#: mail/mail-callbacks.c:2476
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:2518
+#: mail/mail-callbacks.c:2515
 msgid "Printing of message failed"
 msgstr "Utskrift av meddelande misslyckades"
 
-#: mail/mail-callbacks.c:2684
+#: mail/mail-callbacks.c:2681
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -25997,6 +25992,13 @@ msgstr "init_corba(): kunde inte initiera GNOME"
 #: wombat/wombat.c:225
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunde inte initiera Bonobo"
+
+#~ msgid ""
+#~ "Error while executing file %s:\n"
+#~ "%s"
+#~ msgstr ""
+#~ "Fel vid körning av filen %s:\n"
+#~ "%s"
 
 #~ msgid "Copyright 1999, 2000, 2001, 2002 Ximian, Inc."
 #~ msgstr "Copyright 1999, 2000, 2001, 2002 Ximian, Inc."
