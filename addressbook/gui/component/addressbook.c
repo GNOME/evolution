@@ -438,7 +438,7 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 
 	if (search_word && strlen (search_word))
 		search_query = g_strdup_printf (
-			"(or (contains \"full_name\" \"%s\") (contains \"org\" \"%s\"))",
+			"(contains \"x-evolution-any-field\" \"%s\")",
 			search_word, search_word);
 	else
 		search_query = g_strdup (
@@ -1023,7 +1023,7 @@ change_view_type (AddressbookView *view, AddressbookViewType view_type)
 	if (view->view_type != ADDRESSBOOK_VIEW_NONE)
 		query = get_query(view);
 	else
-		query = g_strdup("(contains \"full_name\" \"\")");
+		query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 
 
 	switch (view_type) {

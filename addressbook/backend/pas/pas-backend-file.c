@@ -20,7 +20,7 @@
 #include "pas-backend-file.h"
 #include "pas-book.h"
 #include "pas-card-cursor.h"
-#include <ebook/e-card.h>
+#include <ebook/e-card-simple.h>
 #include <e-util/e-sexp.h>
 #include <e-util/e-util.h>
 
@@ -56,7 +56,7 @@ struct _PASBackendFileBookView {
 };
 
 struct _PASBackendFileSearchContext {
-	ECard *ecard;
+	ECardSimple *card;
 };
 
 static long
@@ -157,65 +157,39 @@ pas_backend_file_create_unique_id (char *vcard)
 }
 
 static gboolean
-compare_email (ECard *ecard, const char *str,
+compare_email (ECardSimple *card, const char *str,
 	       char *(*compare)(const char*, const char*))
 {
-	EList *prop_list;
-	EIterator *iter;
-	gboolean truth = FALSE;
+	int i;
 
-	gtk_object_get(GTK_OBJECT(ecard),
-		       "email", &prop_list, NULL);
+	for (i = E_CARD_SIMPLE_EMAIL_ID_EMAIL; i < E_CARD_SIMPLE_EMAIL_ID_LAST; i ++) {
+		const char *email = e_card_simple_get_email (card, i);
 
-	iter = e_list_get_iterator(prop_list);
-
-	while (e_iterator_is_valid(iter)) {
-		
-		if (compare((char*)e_iterator_get(iter), str)) {
-			truth = TRUE;
-			break;
-		}
-		else {
-			e_iterator_next(iter);
-		}
+		if (compare(email, str))
+			return TRUE;
 	}
 
-	gtk_object_unref (GTK_OBJECT(iter));
-
-	return truth;
+	return FALSE;
 }
 
 static gboolean
-compare_phone (ECard *ecard, const char *str,
+compare_phone (ECardSimple *card, const char *str,
 	       char *(*compare)(const char*, const char*))
 {
-	EList *prop_list;
-	EIterator *iter;
-	gboolean truth = FALSE;
+	int i;
 
-	gtk_object_get(GTK_OBJECT(ecard),
-		       "phone", &prop_list, NULL);
-				
-	iter = e_list_get_iterator(prop_list);
+	for (i = E_CARD_SIMPLE_PHONE_ID_ASSISTANT; i < E_CARD_SIMPLE_PHONE_ID_LAST; i ++) {
+		const ECardPhone *phone = e_card_simple_get_phone (card, i);
 
-	while (e_iterator_is_valid(iter)) {
-		ECardPhone *phone = (ECardPhone*)e_iterator_get(iter);
-		if (compare(phone->number, str)) {
-			truth = TRUE;
-			break;
-		}
-		else {
-			e_iterator_next(iter);
-		}
+		if (compare(phone->number, str))
+			return TRUE;
 	}
 
-	gtk_object_unref (GTK_OBJECT(iter));
-
-	return truth;
+	return FALSE;
 }
 
 static gboolean
-compare_address (ECard *ecard, const char *str,
+compare_address (ECardSimple *card, const char *str,
 		 char *(*compare)(const char*, const char*))
 {
 	g_warning("address searching not implemented\n");
@@ -223,34 +197,38 @@ compare_address (ECard *ecard, const char *str,
 }
 
 static struct prop_info {
+	ECardSimpleField field_id;
 	const char *query_prop;
 	const char *ecard_prop;
 #define PROP_TYPE_NORMAL   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_TYPE_LISTITEM 0x03
 	int prop_type;
-	gboolean (*list_compare)(ECard *ecard, const char *str,
+	gboolean (*list_compare)(ECardSimple *ecard, const char *str,
 				 char *(*compare)(const char*, const char*));
 
 } prop_info_table[] = {
+#define NORMAL_PROP(f,q,e) {f, q, e, PROP_TYPE_NORMAL, NULL}
+#define LIST_PROP(q,e,c) {0, q, e, PROP_TYPE_LIST, c}
+
 	/* query prop,  ecard prop,   type,              list compare function */
-	{ "file_as",    "file_as",    PROP_TYPE_NORMAL,  NULL },
-	{ "full_name",  "full_name",  PROP_TYPE_NORMAL,  NULL },
-	{ "url",        "url",        PROP_TYPE_NORMAL,  NULL },
-	{ "mailer",     "mailer",     PROP_TYPE_NORMAL,  NULL },
-	{ "org",        "org",        PROP_TYPE_NORMAL,  NULL },
-	{ "org_unit",   "org_unit",   PROP_TYPE_NORMAL,  NULL },
-	{ "office",     "office",     PROP_TYPE_NORMAL,  NULL },
-	{ "title",      "title",      PROP_TYPE_NORMAL,  NULL },
-	{ "role",       "role",       PROP_TYPE_NORMAL,  NULL },
-	{ "manager",    "manager",    PROP_TYPE_NORMAL,  NULL },
-	{ "assistant",  "assistant",  PROP_TYPE_NORMAL,  NULL },
-	{ "nickname",   "nickname",   PROP_TYPE_NORMAL,  NULL },
-	{ "spouse",     "spouse",     PROP_TYPE_NORMAL,  NULL },
-	{ "email",      "email",      PROP_TYPE_LIST,    compare_email },
-	{ "phone",      "phone",      PROP_TYPE_LIST,    compare_phone },
-	{ "address",    "address",    PROP_TYPE_LIST,    compare_address },
-	{ "note",       "note",       PROP_TYPE_NORMAL,  NULL },
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FILE_AS, "file_as", "file_as" ),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_FULL_NAME, "full_name",  "full_name" ),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_URL, "url", "url" ),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_MAILER, "mailer", "mailer"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ORG, "org", "org"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ORG_UNIT, "org_unit", "org_unit"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_OFFICE, "office", "office"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_TITLE, "title", "title"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ROLE, "role", "role"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_MANAGER, "manager", "manager"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_ASSISTANT, "assistant", "assistant"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NICKNAME, "nickname", "nickname"),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_SPOUSE, "spouse", "spouse" ),
+	NORMAL_PROP ( E_CARD_SIMPLE_FIELD_NOTE, "note", "note"),
+	LIST_PROP ( "email", "email", compare_email ),
+	LIST_PROP ( "phone", "phone", compare_phone ),
+	LIST_PROP ( "address", "address", compare_address ),
 };
 static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
 
@@ -268,35 +246,41 @@ entry_compare(PASBackendFileSearchContext *ctx, struct _ESExp *f,
 		char *propname;
 		struct prop_info *info = NULL;
 		int i;
+		gboolean any_field;
 
 		propname = argv[0]->value.string;
 
+		any_field = !strcmp(propname, "x-evolution-any-field");
 		for (i = 0; i < num_prop_infos; i ++) {
-			if (!strcmp (prop_info_table[i].query_prop, propname)) {
+			if (any_field
+			    || strcmp (prop_info_table[i].query_prop, propname)) {
 				info = &prop_info_table[i];
-				break;
-			}
-		}
+				
+				if (info->prop_type == PROP_TYPE_NORMAL) {
+					char *prop = NULL;
+					/* searches where the query's property
+					   maps directly to an ecard property */
+					
+					prop = e_card_simple_get (ctx->card, info->field_id);
 
-		if (info) {
-			if (info->prop_type == PROP_TYPE_NORMAL) {
-				char *prop = NULL;
-				/* searches where the query's property
-                                   maps directly to an ecard property */
-
-				gtk_object_get(GTK_OBJECT(ctx->ecard),
-					       info->ecard_prop, &prop, NULL);
-
-				if (prop && compare(prop, argv[1]->value.string)) {
-					truth = TRUE;
+					if (prop && compare(prop, argv[1]->value.string)) {
+						truth = TRUE;
+					}
+					if ((!prop) && compare("", argv[1]->value.string)) {
+						truth = TRUE;
+					}
 				}
-				if ((!prop) && compare("", argv[1]->value.string)) {
-					truth = TRUE;
-				}
-			}
-			else if (info->prop_type == PROP_TYPE_LIST) {
+				else if (info->prop_type == PROP_TYPE_LIST) {
 				/* the special searches that match any of the list elements */
-				truth = info->list_compare (ctx->ecard, argv[1]->value.string, compare);
+					truth = info->list_compare (ctx->card, argv[1]->value.string, compare);
+				}
+
+				/* if we're looking at all fields and find a match,
+				   or if we're just looking at this one field,
+				   break. */
+				if ((any_field && truth)
+				    || !any_field)
+					break;
 			}
 		}
 		
@@ -389,17 +373,17 @@ vcard_matches_search (PASBackendFileBookView *view, char *vcard_string)
 	ESExpResult *r;
 	gboolean retval;
 
-	view->search_context->ecard = e_card_new (vcard_string);
+	view->search_context->card = e_card_simple_new (e_card_new (vcard_string));
 
 	/* if it's not a valid vcard why is it in our db? :) */
-	if (!view->search_context->ecard)
+	if (!view->search_context->card)
 		return FALSE;
 
 	r = e_sexp_eval(view->search_sexp);
 
 	retval = (r && r->type == ESEXP_RES_BOOL && r->value.bool);
 
-	gtk_object_unref(GTK_OBJECT(view->search_context->ecard));
+	gtk_object_unref(GTK_OBJECT(view->search_context->card));
 
 	e_sexp_result_free(r);
 

@@ -98,7 +98,7 @@ static void
 e_minicard_view_init (EMinicardView *view)
 {
 	view->book = NULL;
-	view->query = g_strdup("(contains \"full_name\" \"\")");
+	view->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 	view->book_view = NULL;
 	view->get_view_idle = 0;
 	view->create_card_id = 0;

@@ -1,3 +1,26 @@
+2000-08-08  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/e-addressbook-model.c (e_addressbook_model_init):
+	use x-evolution-any-field.
+
+	* gui/component/addressbook.c (search_entry_activated): use
+	x-evolution-any-field.
+	(change_view_type): same.
+
+	* gui/minicard/e-minicard-view.c (e_minicard_view_init): set query
+	to x-evolution-any-field.
+
+	* backend/pas/pas-backend-ldap.c (func_contains): support
+	x-evolution-any-field for matching any evolution supported field.
+
+	* backend/pas/pas-backend-file.c (compare_email): switch to using
+	ECardSimple calls.
+	(compare_phone): same.
+	(compare_address): same.
+	(entry_compare): switch to using ECardSimple calls, and support a
+	'x-evolution-any-field' wildcard field.
+	(vcard_matches_search): use an ECardSimple.
+
 2000-08-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c: Removed the next and prev

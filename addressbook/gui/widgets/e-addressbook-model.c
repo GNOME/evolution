@@ -254,7 +254,7 @@ e_addressbook_model_init (GtkObject *object)
 {
 	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
 	model->book = NULL;
-	model->query = g_strdup("(contains \"full_name\" \"\")");
+	model->query = g_strdup("(contains \"x-evolution-any-field\" \"\")");
 	model->book_view = NULL;
 	model->get_view_idle = 0;
 	model->create_card_id = 0;

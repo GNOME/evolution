@@ -314,6 +314,36 @@ pas_backend_ldap_process_get_cursor (PASBackend *backend,
 		cursor);
 }
 
+static void
+construct_email_list(ECardSimple *card, const char *prop, char **values)
+{
+	int i;
+
+	for (i = 0; values[i] && i < 3; i ++) {
+		e_card_simple_set_email (card, i, values[i]);
+	}
+}
+
+struct prop_info {
+	ECardSimpleField field_id;
+	char *query_prop;
+	char *ldap_attr;
+#define PROP_TYPE_NORMAL   0x01
+#define PROP_TYPE_LIST     0x02
+#define PROP_TYPE_LISTITEM 0x03
+	int prop_type;
+	void (*construct_list_func)(ECardSimple *card, const char *prop, char **values);
+} prop_info_table[] = {
+	/* field_id,                         query prop,   ldap attr,        type,             list construct function */
+	{ E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn",              PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_TITLE,         "title",     "title",           PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_ORG,           "org",       "o",               PROP_TYPE_NORMAL, NULL },
+	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",     "telephonenumber", PROP_TYPE_NORMAL, NULL },
+	{ 0 /* unused */,                    "email",     "mail",            PROP_TYPE_LIST,   construct_email_list },
+};
+
+static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
+
 static ESExpResult *
 func_and(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data)
 {
@@ -415,18 +445,59 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 	    && argv[1]->type == ESEXP_RES_STRING) {
 		char *propname = argv[0]->value.string;
 		char *str = argv[1]->value.string;
-		char *ldap_attr = query_prop_to_ldap(propname);
 		gboolean one_star = FALSE;
 
 		if (strlen(str) == 0)
 			one_star = TRUE;
 
-		if (ldap_attr)
-			*list = g_list_prepend(*list,
-					       g_strdup_printf("(%s=*%s%s)",
-							       ldap_attr,
-							       str,
-							       one_star ? "" : "*"));
+		if (!strcmp (propname, "x-evolution-any-field")) {
+			int i;
+			int query_length;
+			char *big_query;
+			char *header, *footer;
+			char *match_str;
+
+			header = g_malloc0((num_prop_infos - 1) * 2 + 1);
+			footer = g_malloc0(num_prop_infos + 1);
+			for (i = 0; i < num_prop_infos - 1; i ++) {
+				strcat (header, "(|");
+				strcat (footer, ")");
+			}
+
+			match_str = g_strdup_printf("=*%s%s)",
+						    str, one_star ? "" : "*");
+
+			query_length = strlen (header);
+
+			for (i = 0; i < num_prop_infos; i ++) {
+				query_length += 1 + strlen(prop_info_table[i].ldap_attr) + strlen (match_str);
+			}
+
+			big_query = g_malloc0(query_length + 1);
+			strcat (big_query, header);
+			for (i = 0; i < num_prop_infos; i ++) {
+				strcat (big_query, "(");
+				strcat (big_query, prop_info_table[i].ldap_attr);
+				strcat (big_query, match_str);
+			}
+			strcat (big_query, footer);
+
+			*list = g_list_prepend(*list, big_query);
+
+			g_free (match_str);
+			g_free (header);
+			g_free (footer);
+		}
+		else {
+			char *ldap_attr = query_prop_to_ldap(propname);
+
+			if (ldap_attr)
+				*list = g_list_prepend(*list,
+						       g_strdup_printf("(%s=*%s%s)",
+								       ldap_attr,
+								       str,
+								       one_star ? "" : "*"));
+		}
 	}
 
 	r = e_sexp_result_new(ESEXP_RES_BOOL);
@@ -577,36 +648,6 @@ pas_backend_ldap_build_query (gchar *query)
 	g_list_free (list);
 	return retval;
 }
-
-static void
-construct_email_list(ECardSimple *card, const char *prop, char **values)
-{
-	int i;
-
-	for (i = 0; values[i] && i < 3; i ++) {
-		e_card_simple_set_email (card, i, values[i]);
-	}
-}
-
-struct prop_info {
-	ECardSimpleField field_id;
-	char *query_prop;
-	char *ldap_attr;
-#define PROP_TYPE_NORMAL   0x01
-#define PROP_TYPE_LIST     0x02
-#define PROP_TYPE_LISTITEM 0x03
-	int prop_type;
-	void (*construct_list_func)(ECardSimple *card, const char *prop, char **values);
-} prop_info_table[] = {
-	/* field_id,                         query prop,   ldap attr,        type,             list construct function */
-	{ E_CARD_SIMPLE_FIELD_FULL_NAME,     "full_name", "cn",              PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_TITLE,         "title",     "title",           PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_ORG,           "org",       "o",               PROP_TYPE_NORMAL, NULL },
-	{ E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, "phone",     "telephonenumber", PROP_TYPE_NORMAL, NULL },
-	{ 0 /* unused */,                    "email",     "mail",            PROP_TYPE_LIST,   construct_email_list },
-};
-
-static int num_prop_infos = sizeof(prop_info_table) / sizeof(prop_info_table[0]);
 
 static gchar *
 query_prop_to_ldap(gchar *query_prop)
