@@ -67,10 +67,10 @@ void e_signature_list_construct (ESignatureList *signature_list, GConfClient *gc
 
 void e_signature_list_save (ESignatureList *signature_list);
 
-void e_signature_list_add (ESignatureList *, ESignature *);
-void e_signature_list_change (ESignatureList *, ESignature *);
-void e_signature_list_remove (ESignatureList *, ESignature *);
+void e_signature_list_add (ESignatureList *signature_list, ESignature *signature);
+void e_signature_list_change (ESignatureList *signature_list, ESignature *signature);
+void e_signature_list_remove (ESignatureList *signature_list, ESignature *signature);
 
-const ESignature *e_signature_list_find (ESignatureList *, e_signature_find_t type, const char *key);
+const ESignature *e_signature_list_find (ESignatureList *signature_list, e_signature_find_t type, const char *key);
 
 #endif /* __E_SIGNATURE_LIST__ */

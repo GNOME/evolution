@@ -1,3 +1,13 @@
+2004-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Really fixes bug #56623
+
+	* e-signature-list.c (gconf_signatures_changed): If we've had to
+	"fix" any signatures by adding a uid, set the resave state on the
+	list (only cared about if this is at initial load time).
+	(e_signature_list_construct): If we've set any uids in
+	signatures_changed(), then save the signature list back out.
+
 2004-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-account.c (xml_set_identity): If we fail to set a sig_uid then

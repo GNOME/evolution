@@ -27,6 +27,8 @@
 
 #include <string.h>
 
+#include "e-uid.h"
+
 #include "e-util-marshal.h"
 
 #include "e-signature-list.h"
@@ -34,6 +36,7 @@
 struct _ESignatureListPrivate {
 	GConfClient *gconf;
 	guint notify_id;
+	gboolean resave;
 };
 
 enum {
@@ -167,6 +170,7 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	ESignatureList *signature_list = user_data;
 	GSList *list, *l, *n, *new_sigs = NULL;
 	gboolean have_autogen = FALSE;
+	gboolean resave = FALSE;
 	ESignature *signature;
 	EList *old_sigs;
 	EIterator *iter;
@@ -204,11 +208,17 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 		if (!have_autogen) {
 			add_autogen (signature_list);
 			have_autogen = TRUE;
+			resave = TRUE;
 		}
 		
 		if (!found) {
 			/* Must be a new signature */
 			signature = e_signature_new_from_xml (l->data);
+			if (!signature->uid) {
+				signature->uid = e_uid_new ();
+				resave = TRUE;
+			}
+			
 			e_list_append (E_LIST (signature_list), signature);
 			new_sigs = g_slist_prepend (new_sigs, signature);
 		}
@@ -219,6 +229,7 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	if (!have_autogen) {
 		add_autogen (signature_list);
 		have_autogen = TRUE;
+		resave = TRUE;
 	}
 	
 	if (new_sigs != NULL) {
@@ -243,6 +254,8 @@ gconf_signatures_changed (GConfClient *client, guint cnxn_id, GConfEntry *entry,
 	
 	g_object_unref (iter);
 	g_object_unref (old_sigs);
+	
+	signature_list->priv->resave = resave;
 }
 
 static void *
@@ -311,6 +324,11 @@ e_signature_list_construct (ESignatureList *signature_list, GConfClient *gconf)
 	gconf_signatures_changed (signature_list->priv->gconf,
 				  signature_list->priv->notify_id,
 				  NULL, signature_list);
+	
+	if (signature_list->priv->resave) {
+		e_signature_list_save (signature_list);
+		signature_list->priv->resave = FALSE;
+	}		
 }
 
 
@@ -422,7 +440,6 @@ e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, cons
 {
 	const ESignature *signature = NULL;
 	EIterator *it;
-	char *val;
 	
 	/* this could use a callback for more flexibility ...
 	   ... but this makes the common cases easier */
@@ -437,7 +454,6 @@ e_signature_list_find (ESignatureList *signatures, e_signature_find_t type, cons
 		
 		signature = (const ESignature *) e_iterator_get (it);
 		
-		val = NULL;
 		switch (type) {
 		case E_SIGNATURE_FIND_NAME:
 			found = strcmp (signature->name, key) == 0;
