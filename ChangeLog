@@ -1,3 +1,8 @@
+2005-02-01  Priit Laes <amd@store20.com>
+
+	* configure.in : Remove duplicate entry for calendar-file in
+	plugins list.
+
 2005-01-30  Harish Krishnaswamy <kharish@novell.com>
 
 	* configure.in : Correct the typo in plugins_base made in
