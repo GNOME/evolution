@@ -139,7 +139,7 @@ static struct {
 	char *text;
 } info[] = {
 	{ "type_html",
-	  N_("Choose the type of importer to run")
+	  N_("Choose the type of importer to run:")
 	},
 	{ "file_html",
 	  N_("Choose the file that you want to import into Evolution, "
@@ -148,7 +148,7 @@ static struct {
 	     "Evolution will attempt to work it out.")
 	},
 	{ "intelligent_html",
-	  N_("Please select the information that you would like to import")
+	  N_("Please select the information that you would like to import:")
 	}
 };
 static int num_info = (sizeof (info) / sizeof (info[0]));
@@ -848,10 +848,13 @@ prepare_intelligent_page (GnomeDruid *druid,
 		str = g_strdup_printf (_("From %s:"), id->name);
 		label = gtk_label_new (str);
 		g_free (str);
+		
+		gtk_misc_set_alignment (GTK_MISC (label), 0, .5); 
+
 		gtk_table_attach (GTK_TABLE (table), label, 0, 1, running - 1,
-				  running, 0, 0, 0, 0);
+				  running, GTK_FILL, 0, 0, 0);
 		gtk_table_attach (GTK_TABLE (table), id->widget, 1, 2,
-				  running - 1, running, 0, 0, 0, 0);
+				  running - 1, running, GTK_FILL, 0, 3, 0);
 		gtk_widget_show_all (table);
 
 		gtk_box_pack_start (GTK_BOX (data->importerpage->vbox), table,

@@ -1,3 +1,11 @@
+2001-11-05  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-shell-importer.c (prepare_intelligent_page): Fixed spacing and
+	alignment probelms. (See bug #14281)
+
+	* e-shell-startup-wizard.c (prepare_importer_page): Fixed
+	spacing and alignment problems. (See bug #14281) 
+
 2001-11-05  Dan Winship  <danw@ximian.com>
 
 	* e-storage-set-view.c (set_e_shortcut_selection): Set the

@@ -712,10 +712,13 @@ prepare_importer_page (GnomeDruidPage *page,
 		str = g_strdup_printf (_("From %s:"), id->name);
 		label = gtk_label_new (str);
 		g_free (str);
+
+		gtk_misc_set_alignment (GTK_MISC (label), 0, .5); 
+
 		gtk_table_attach (GTK_TABLE (table), label, 0, 1, running - 1,
-				  running, 0, 0, 0, 0);
+				  running, GTK_FILL, 0, 0, 0);
 		gtk_table_attach (GTK_TABLE (table), id->widget, 1, 2,
-				  running - 1, running, 0, 0, 0, 0);
+				  running - 1, running, GTK_FILL, 0, 3, 0);
 		gtk_widget_show_all (table);
 
 		gtk_box_pack_start (GTK_BOX (data->import_page->vbox), table,
@@ -751,11 +754,11 @@ make_importer_page (SWData *data)
 	page->vbox = GNOME_DRUID_PAGE_STANDARD (page->page)->vbox;
 	gtk_container_set_border_width (GTK_CONTAINER (page->vbox), 4);
 
-	label = gtk_label_new (_("Please select the information\nthat you would like to import"));
-	gtk_box_pack_start (GTK_BOX (page->vbox), label, FALSE, FALSE, 0);
+	label = gtk_label_new (_("Please select the information that you would like to import:"));
+	gtk_box_pack_start (GTK_BOX (page->vbox), label, FALSE, FALSE, 3);
 
 	sep = gtk_hseparator_new ();
-	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (page->vbox), sep, FALSE, FALSE, 3);
 
 	page->prepared = FALSE;
 	return page;
