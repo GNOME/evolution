@@ -716,7 +716,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (sdialog->window));
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 
-	gtk_widget_realize (dialog);
+	gtk_widget_ensure_style (dialog);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 0);
 	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 12);
 
@@ -933,6 +933,10 @@ addressbook_add_server_dialog (void)
 
 	sdialog->window = glade_xml_get_widget (sdialog->gui, "account-add-window");
 	
+	gtk_widget_ensure_style (sdialog->window);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (sdialog->window)->vbox), 0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (sdialog->window)->action_area), 12);
+
 	sdialog->display_name = glade_xml_get_widget (sdialog->gui, "display-name-entry");
 	g_signal_connect (sdialog->display_name, "changed",
 			  G_CALLBACK (add_folder_modify), sdialog);

@@ -1,3 +1,18 @@
+2004-08-02  Rodney Dawes  <dobey@novell.com>
+
+	* gui/component/ldap-config.glade: Make the main dialog here be
+	an actual GtkDialog instead of a GtkWindow
+	Fix up a few small spacing issues with the UI
+	Change "Contacts Group" to "Address Book"
+
+	* gui/component/addressbook-config.c (query_for_supported_bases):
+	Use gtk_widget_ensure_style instead of gtk_widget_realize
+	(addressbook_add_server_dialog):
+	Use gtk_widget_ensure_style on the dialog and fix the spacing and
+	border width of the dialog containers
+
+	Fixes #61365
+
 2004-07-30  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #61365 and other misc issues with the addressbook source
