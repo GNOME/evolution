@@ -1,3 +1,10 @@
+2005-01-10  Rodney Dawes  <dobey@novell.com>
+
+	* Makefile.am (INCLUDES): Clean up spacing
+	(liborg_gnome_send_options_la_LIBADD): Don't specify the path to
+	the la file directly, use the _LIBS variables that correspond with
+	those in INCLUDES to link to the correct libraries
+
 2005-01-10 Chenthill Palanisamy <pchenthill@novell.com>
 
 	* MakeFile.am:

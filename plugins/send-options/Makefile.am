@@ -1,8 +1,8 @@
 INCLUDES =						\
-	-I$(top_srcdir)\
+	-I$(top_srcdir)					\
 	-I$(top_srcdir)/camel                           \
-		$(EVOLUTION_MAIL_CFLAGS)\
-		$(CAMEL_GROUPWISE_CFLAGS)
+	$(EVOLUTION_MAIL_CFLAGS)			\
+	$(CAMEL_GROUPWISE_CFLAGS)
 
 @EVO_PLUGIN_RULE@
 
@@ -11,6 +11,8 @@ plugin_LTLIBRARIES = liborg-gnome-send-options.la
 
 liborg_gnome_send_options_la_SOURCES = send-options.c
 liborg_gnome_send_options_la_LDFLAGS = -module -avoid-version
-liborg_gnome_send_options_la_LIBADD= $(prefix)/lib/libegroupwise-1.2.la
+liborg_gnome_send_options_la_LIBADD =			\
+	$(EVOLUTION_MAIL_LIBS)				\
+	$(CAMEL_GROUPWISE_LIBS)
 
 EXTRA_DIST = org-gnome-send-options.eplug.in 
