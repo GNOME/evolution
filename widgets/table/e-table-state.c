@@ -28,8 +28,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <gtk/gtksignal.h>
-#include <gtk/gtkobject.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include "gal/util/e-util.h"
@@ -37,14 +35,25 @@
 #include "e-table-state.h"
 
 
-#define PARENT_TYPE (gtk_object_get_type())
-
 #define STATE_VERSION 0.1
 
-static GtkObjectClass *etst_parent_class;
+static GObjectClass *etst_parent_class;
 
 static void
-etst_destroy (GtkObject *object)
+etst_dispose (GObject *object)
+{
+	ETableState *etst = E_TABLE_STATE (object);
+
+	if (etst->sort_info) {
+		g_object_unref (etst->sort_info);
+		etst->sort_info = NULL;
+	}
+
+	G_OBJECT_CLASS (etst_parent_class)->dispose (object);
+}
+	
+static void
+etst_finalize (GObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
@@ -58,40 +67,32 @@ etst_destroy (GtkObject *object)
 		etst->expansions = NULL;
 	}
 	
-	if (etst->sort_info) {
-		gtk_object_unref (GTK_OBJECT (etst->sort_info));
-		etst->sort_info = NULL;
-	}
-	
-	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
+	G_OBJECT_CLASS (etst_parent_class)->finalize (object);
 }
 
 static void
-etst_class_init (GtkObjectClass *klass)
+etst_class_init (GObjectClass *klass)
 {
-	etst_parent_class = gtk_type_class (PARENT_TYPE);
+	etst_parent_class = g_type_class_peek_parent (klass);
 	
-	klass->destroy = etst_destroy;
+	klass->dispose = etst_dispose;
+	klass->finalize = etst_finalize;
 }
 
 static void
 etst_init (ETableState *state)
 {
-	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (state), GTK_FLOATING);
-
 	state->columns = NULL;
 	state->expansions = NULL;
 	state->sort_info = e_table_sort_info_new();
 }
 
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, G_TYPE_OBJECT)
 
 ETableState *
 e_table_state_new (void)
 {
-	ETableState *etst = gtk_type_new (E_TABLE_STATE_TYPE);
-
-	return (ETableState *) etst;
+	return (ETableState *) g_object_new (E_TABLE_STATE_TYPE, NULL);
 }
 
 ETableState *
@@ -160,7 +161,7 @@ e_table_state_load_from_node (ETableState *state,
 		node, "state-version", STATE_VERSION);
 
 	if (state->sort_info)
-		gtk_object_unref (GTK_OBJECT(state->sort_info));
+		g_object_unref (state->sort_info);
 
 	state->sort_info = NULL;
 	children = node->xmlChildrenNode;

@@ -36,7 +36,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtknotebook.h>
-#include <gtk/gtksignal.h>
 #include <gtk/gtktogglebutton.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-propertybox.h>
@@ -50,18 +49,11 @@
 #include <e-table-memory-store.h>
 
 
-#define PARENT_TYPE (gtk_object_get_type())
-
-static GtkObjectClass *config_parent_class;
+static GObjectClass *config_parent_class;
 
 enum {
 	CHANGED,
 	LAST_SIGNAL
-};
-
-enum {
-	ARG_0,
-	ARG_STATE
 };
 
 static guint e_table_config_signals [LAST_SIGNAL] = { 0, };
@@ -74,11 +66,11 @@ config_finalize (GObject *object)
 	gtk_object_destroy (GTK_OBJECT (config->state));
 
 	if (config->source_state)
-		gtk_object_unref (GTK_OBJECT (config->source_state));
+		g_object_unref (config->source_state);
 	config->source_state = NULL;
 
 	if (config->source_spec)
-		gtk_object_unref (GTK_OBJECT (config->source_spec));
+		g_object_unref (config->source_spec);
 	config->source_spec = NULL;
 
 	g_free (config->header);
@@ -90,22 +82,7 @@ config_finalize (GObject *object)
 	g_free (config->domain);
 	config->domain = NULL;
 
-	G_OBJECT_CLASS (config_parent_class)->finalize (object);
-}
-
-static void
-config_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	ETableConfig *config = E_TABLE_CONFIG (o);
-
-	switch (arg_id){
-	case ARG_STATE:
-		GTK_VALUE_OBJECT (*arg) = (GtkObject *) config->state;
-		break;
-
-	default:
-		break;
-	}
+	config_parent_class->finalize (object);
 }
 
 static void
@@ -115,35 +92,28 @@ e_table_config_changed (ETableConfig *config, ETableState *state)
 	g_return_if_fail (E_IS_TABLE_CONFIG (config));
 
 	
-	gtk_signal_emit(GTK_OBJECT(config),
-			e_table_config_signals [CHANGED],
-			state);
+	g_signal_emit(G_OBJECT(config), e_table_config_signals [CHANGED], 0, state);
 }
 
 static void
-config_class_init (GtkObjectClass *object_class)
+config_class_init (GObjectClass *object_class)
 {
 	ETableConfigClass *klass = E_TABLE_CONFIG_CLASS(object_class);
 
-	config_parent_class   = gtk_type_class (PARENT_TYPE);
+	config_parent_class   = g_type_class_peek_parent (klass);
 	
 	klass->changed        = NULL;
 
-	object_class->get_arg = config_get_arg;
-	G_OBJECT_CLASS (object_class)->finalize = config_finalize;
+	object_class->finalize = config_finalize;
 
 	e_table_config_signals [CHANGED] =
-		gtk_signal_new ("changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableConfigClass, changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_config_signals, LAST_SIGNAL);
-
-	gtk_object_add_arg_type ("ETableConfig::state", E_TABLE_STATE_TYPE,
-				 GTK_ARG_READABLE, ARG_STATE);
+		g_signal_new ("changed",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableConfigClass, changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	glade_gnome_init ();
 }
@@ -430,7 +400,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 
 			/* OK */
 		case 1:
-			gtk_object_unref (GTK_OBJECT (config->state));
+			g_object_unref (config->state);
 			config->state = config->temp_state;
 			config->temp_state = 0;
 			running = 0;
@@ -440,7 +410,7 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 
 			/* CANCEL */
 		case 2:
-			gtk_object_unref (GTK_OBJECT (config->temp_state));
+			g_object_unref (config->temp_state);
 			config->temp_state = 0;
 			running = 0;
 			break;
@@ -469,7 +439,7 @@ do_fields_config_dialog (ETableConfig *config)
 		switch (button){
 			/* OK */
 		case 0:
-			gtk_object_unref (GTK_OBJECT (config->state));
+			g_object_unref (config->state);
 			config->state = config->temp_state;
 			config->temp_state = 0;
 			running = 0;
@@ -479,7 +449,7 @@ do_fields_config_dialog (ETableConfig *config)
 
 			/* CANCEL */
 		case 1:
-			gtk_object_unref (GTK_OBJECT (config->temp_state));
+			g_object_unref (config->temp_state);
 			config->temp_state = 0;
 			running = 0;
 			break;
@@ -609,8 +579,8 @@ connect_button (ETableConfig *config, GladeXML *gui, const char *widget_name, Gt
 	GtkWidget *button = glade_xml_get_widget (gui, widget_name);
 
 	if (button) {
-		gtk_signal_connect (GTK_OBJECT (button), "clicked",
-				    cback, config);
+		g_signal_connect (G_OBJECT (button), "clicked",
+				  G_CALLBACK (cback), config);
 	}
 }
 
@@ -1022,7 +992,7 @@ setup_gui (ETableConfig *config)
 		gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config-no-group.glade", NULL, E_I18N_DOMAIN);
 	}
 
-	gtk_object_unref (GTK_OBJECT (global_store));
+	g_object_unref (global_store);
 	
 	config->dialog_toplevel = glade_xml_get_widget (
 		gui, "e-table-config");
@@ -1059,15 +1029,15 @@ setup_gui (ETableConfig *config)
 	configure_group_dialog (config, gui);
 	configure_fields_dialog (config, gui);
 	
-	gtk_signal_connect (
-		GTK_OBJECT (config->dialog_toplevel), "destroy",
-		GTK_SIGNAL_FUNC (dialog_destroyed), config);
+	g_signal_connect (
+		G_OBJECT (config->dialog_toplevel), "destroy",
+		G_CALLBACK (dialog_destroyed), config);
 
-	gtk_signal_connect (
-		GTK_OBJECT (config->dialog_toplevel), "apply",
-		GTK_SIGNAL_FUNC (dialog_apply), config);
+	g_signal_connect (
+		G_OBJECT (config->dialog_toplevel), "apply",
+		G_CALLBACK (dialog_apply), config);
 
-	gtk_object_unref (GTK_OBJECT (gui));
+	g_object_unref (gui);
 }
 
 static void
@@ -1093,8 +1063,8 @@ e_table_config_construct (ETableConfig        *config,
 	config->source_state = state;
 	config->header = g_strdup (header);
 
-	gtk_object_ref (GTK_OBJECT (config->source_spec));
-	gtk_object_ref (GTK_OBJECT (config->source_state));
+	g_object_ref (config->source_spec);
+	g_object_ref (config->source_state);
 
 	config->state = e_table_state_duplicate (state);
 
@@ -1134,10 +1104,10 @@ e_table_config_new (const char          *header,
 		    ETableSpecification *spec,
 		    ETableState         *state)
 {
-	ETableConfig *config = gtk_type_new (E_TABLE_CONFIG_TYPE);
+	ETableConfig *config = g_object_new (E_TABLE_CONFIG_TYPE, NULL);
 
 	if (e_table_config_construct (config, header, spec, state) == NULL){
-		gtk_object_destroy (GTK_OBJECT (config));
+		g_object_unref (config);
 		return NULL;
 	}
 
@@ -1157,4 +1127,4 @@ e_table_config_raise (ETableConfig *config)
 	gdk_window_raise (GTK_WIDGET (config->dialog_toplevel)->window);
 }
 
-E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_config, "ETableConfig", ETableConfig, config_class_init, config_init, G_TYPE_OBJECT)

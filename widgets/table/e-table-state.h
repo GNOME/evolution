@@ -24,23 +24,21 @@
 #ifndef _E_TABLE_STATE_H_
 #define _E_TABLE_STATE_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libxml/tree.h>
 #include <gal/e-table/e-table-sort-info.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define E_TABLE_STATE_TYPE        (e_table_state_get_type ())
-#define E_TABLE_STATE(o)          (GTK_CHECK_CAST ((o), E_TABLE_STATE_TYPE, ETableState))
-#define E_TABLE_STATE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_STATE_TYPE, ETableStateClass))
-#define E_IS_TABLE_STATE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_STATE_TYPE))
-#define E_IS_TABLE_STATE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_STATE_TYPE))
+#define E_TABLE_STATE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_STATE_TYPE, ETableState))
+#define E_TABLE_STATE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_STATE_TYPE, ETableStateClass))
+#define E_IS_TABLE_STATE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_STATE_TYPE))
+#define E_IS_TABLE_STATE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_STATE_TYPE))
+#define E_TABLE_STATE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_STATE_TYPE, ETableStateClass))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 
 	ETableSortInfo *sort_info;
 	int             col_count;
@@ -49,10 +47,10 @@ typedef struct {
 } ETableState;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } ETableStateClass;
 
-GtkType      e_table_state_get_type          (void);
+GType        e_table_state_get_type          (void);
 ETableState *e_table_state_new               (void);
 
 ETableState *e_table_state_vanilla	     (int col_count);
@@ -71,8 +69,6 @@ xmlNode     *e_table_state_save_to_node      (ETableState   *state,
 					      xmlNode       *parent);
 ETableState *e_table_state_duplicate         (ETableState   *state);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_STATE_H_ */

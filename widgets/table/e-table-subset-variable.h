@@ -24,18 +24,17 @@
 #ifndef _E_TABLE_SUBSET_VARIABLE_H_
 #define _E_TABLE_SUBSET_VARIABLE_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <gal/e-table/e-table-subset.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_SUBSET_VARIABLE_TYPE        (e_table_subset_variable_get_type ())
-#define E_TABLE_SUBSET_VARIABLE(o)          (GTK_CHECK_CAST ((o), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariable))
-#define E_TABLE_SUBSET_VARIABLE_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariableClass))
-#define E_IS_TABLE_SUBSET_VARIABLE(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SUBSET_VARIABLE_TYPE))
-#define E_IS_TABLE_SUBSET_VARIABLE_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SUBSET_VARIABLE_TYPE))
+#define E_TABLE_SUBSET_VARIABLE(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariable))
+#define E_TABLE_SUBSET_VARIABLE_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariableClass))
+#define E_IS_TABLE_SUBSET_VARIABLE(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SUBSET_VARIABLE_TYPE))
+#define E_IS_TABLE_SUBSET_VARIABLE_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SUBSET_VARIABLE_TYPE))
+#define E_TABLE_SUBSET_VARIABLE_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SUBSET_VARIABLE_TYPE, ETableSubsetVariableClass))
 
 typedef struct {
 	ETableSubset base;
@@ -56,7 +55,7 @@ typedef struct {
 			       gint                  row);
 } ETableSubsetVariableClass;
 
-GtkType      e_table_subset_variable_get_type        (void);
+GType        e_table_subset_variable_get_type        (void);
 ETableModel *e_table_subset_variable_new             (ETableModel          *etm);
 ETableModel *e_table_subset_variable_construct       (ETableSubsetVariable *etssv,
 						      ETableModel          *source);
@@ -77,10 +76,7 @@ void         e_table_subset_variable_decrement       (ETableSubsetVariable *ets,
 						      gint                  amount);
 void         e_table_subset_variable_set_allocation  (ETableSubsetVariable *ets,
 						      gint                  total);
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* _E_TABLE_SUBSET_VARIABLE_H_ */
 

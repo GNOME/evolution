@@ -26,7 +26,6 @@
 
 #include <string.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
 
 #include "gal/util/e-util.h"
 
@@ -190,19 +189,19 @@ add_model(ETableSelectionModel *etsm, ETableModel *model)
 {
 	etsm->model = model;
 	if (model) {
-		gtk_object_ref(GTK_OBJECT(model));
-		etsm->model_pre_change_id = gtk_signal_connect(GTK_OBJECT(model), "model_pre_change",
-							       GTK_SIGNAL_FUNC(model_pre_change), etsm);
-		etsm->model_changed_id = gtk_signal_connect(GTK_OBJECT(model), "model_changed",
-							    GTK_SIGNAL_FUNC(model_changed), etsm);
-		etsm->model_row_changed_id = gtk_signal_connect(GTK_OBJECT(model), "model_row_changed",
-								GTK_SIGNAL_FUNC(model_row_changed), etsm);
-		etsm->model_cell_changed_id = gtk_signal_connect(GTK_OBJECT(model), "model_cell_changed",
-								 GTK_SIGNAL_FUNC(model_cell_changed), etsm);
-		etsm->model_rows_inserted_id = gtk_signal_connect(GTK_OBJECT(model), "model_rows_inserted",
-								  GTK_SIGNAL_FUNC(model_rows_inserted), etsm);
-		etsm->model_rows_deleted_id = gtk_signal_connect(GTK_OBJECT(model), "model_rows_deleted",
-								 GTK_SIGNAL_FUNC(model_rows_deleted), etsm);
+		g_object_ref(model);
+		etsm->model_pre_change_id = g_signal_connect(G_OBJECT(model), "model_pre_change",
+							G_CALLBACK(model_pre_change), etsm);
+		etsm->model_changed_id = g_signal_connect(G_OBJECT(model), "model_changed",
+							G_CALLBACK(model_changed), etsm);
+		etsm->model_row_changed_id = g_signal_connect(G_OBJECT(model), "model_row_changed",
+							G_CALLBACK(model_row_changed), etsm);
+		etsm->model_cell_changed_id = g_signal_connect(G_OBJECT(model), "model_cell_changed",
+							G_CALLBACK(model_cell_changed), etsm);
+		etsm->model_rows_inserted_id = g_signal_connect(G_OBJECT(model), "model_rows_inserted",
+							G_CALLBACK(model_rows_inserted), etsm);
+		etsm->model_rows_deleted_id = g_signal_connect(G_OBJECT(model), "model_rows_deleted",
+							G_CALLBACK(model_rows_deleted), etsm);
 	}
 	e_selection_model_array_confirm_row_count(E_SELECTION_MODEL_ARRAY(etsm));
 }
@@ -211,20 +210,20 @@ inline static void
 drop_model(ETableSelectionModel *etsm)
 {
 	if (etsm->model) {
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_pre_change_id);
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_changed_id);
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_row_changed_id);
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_cell_changed_id);
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_rows_inserted_id);
-		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
-				      etsm->model_rows_deleted_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_pre_change_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_changed_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_row_changed_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_cell_changed_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_rows_inserted_id);
+		g_signal_handler_disconnect(G_OBJECT(etsm->model),
+					    etsm->model_rows_deleted_id);
 
-		gtk_object_unref(GTK_OBJECT(etsm->model));
+		g_object_unref(etsm->model);
 	}
 	etsm->model = NULL;
 }
@@ -254,10 +253,10 @@ etsm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	switch (arg_id){
 	case ARG_MODEL:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(etsm->model);
+		GTK_VALUE_POINTER (*arg) = GTK_OBJECT(etsm->model);
 		break;
 	case ARG_HEADER:
-		GTK_VALUE_OBJECT (*arg) = (GtkObject *)etsm->eth;
+		GTK_VALUE_POINTER (*arg) = (GtkObject *)etsm->eth;
 		break;
 	}
 }
@@ -270,10 +269,10 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	switch (arg_id){
 	case ARG_MODEL:
 		drop_model(etsm);
-		add_model(etsm, GTK_VALUE_OBJECT (*arg) ? E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg)) : NULL);
+		add_model(etsm, GTK_VALUE_POINTER (*arg) ? E_TABLE_MODEL(GTK_VALUE_POINTER (*arg)) : NULL);
 		break;
 	case ARG_HEADER:
-		etsm->eth = (ETableHeader *)GTK_VALUE_OBJECT (*arg);
+		etsm->eth = (ETableHeader *)GTK_VALUE_POINTER (*arg);
 		break;
 	}
 }
@@ -305,7 +304,7 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	esma_class->get_row_count = etsm_get_row_count;
 
-	gtk_object_add_arg_type ("ETableSelectionModel::model", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableSelectionModel::model", GTK_TYPE_POINTER,
 				 GTK_ARG_READWRITE, ARG_MODEL);
 	gtk_object_add_arg_type ("ETableSelectionModel::header", E_TABLE_HEADER_TYPE,
 				 GTK_ARG_READWRITE, ARG_HEADER);

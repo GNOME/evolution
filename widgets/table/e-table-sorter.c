@@ -24,7 +24,6 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-table-sorter.h"
 
@@ -63,20 +62,20 @@ ets_destroy (GtkObject *object)
 {
 	ETableSorter *ets = E_TABLE_SORTER (object);
 
-	gtk_signal_disconnect (GTK_OBJECT (ets->source),
-			       ets->table_model_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->source),
-			       ets->table_model_row_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->source),
-			       ets->table_model_cell_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->source),
-			       ets->table_model_rows_inserted_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->source),
-			       ets->table_model_rows_deleted_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
-			       ets->sort_info_changed_id);
-	gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
-			       ets->group_info_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->source),
+			             ets->table_model_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->source),
+			             ets->table_model_row_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->source),
+			             ets->table_model_cell_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->source),
+			             ets->table_model_rows_inserted_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->source),
+			             ets->table_model_rows_deleted_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
+			             ets->sort_info_changed_id);
+	g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
+			             ets->group_info_changed_id);
 
 	ets->table_model_changed_id = 0;
 	ets->table_model_row_changed_id = 0;
@@ -87,15 +86,15 @@ ets_destroy (GtkObject *object)
 	ets->group_info_changed_id = 0;
 	
 	if (ets->sort_info)
-		gtk_object_unref(GTK_OBJECT(ets->sort_info));
+		g_object_unref(ets->sort_info);
 	ets->sort_info = NULL;
 
 	if (ets->full_header)
-		g_object_unref(G_OBJECT(ets->full_header));
+		g_object_unref(ets->full_header);
 	ets->full_header = NULL;
 
 	if (ets->source)
-		gtk_object_unref(GTK_OBJECT(ets->source));
+		g_object_unref(ets->source);
 	ets->source = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
@@ -110,18 +109,18 @@ ets_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_SORT_INFO:
 		if (ets->sort_info) {
 			if (ets->sort_info_changed_id)
-				gtk_signal_disconnect(GTK_OBJECT(ets->sort_info), ets->sort_info_changed_id);
+				g_signal_handler_disconnect(G_OBJECT(ets->sort_info), ets->sort_info_changed_id);
 			if (ets->group_info_changed_id)
-				gtk_signal_disconnect(GTK_OBJECT(ets->sort_info), ets->group_info_changed_id);
-			gtk_object_unref(GTK_OBJECT(ets->sort_info));
+				g_signal_handler_disconnect(G_OBJECT(ets->sort_info), ets->group_info_changed_id);
+			g_object_unref(ets->sort_info);
 		}
 
-		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_OBJECT (*arg));
-		gtk_object_ref(GTK_OBJECT(ets->sort_info));
-		ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "sort_info_changed",
-								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
-		ets->group_info_changed_id = gtk_signal_connect (GTK_OBJECT (ets->sort_info), "group_info_changed",
-								GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+		ets->sort_info = E_TABLE_SORT_INFO(GTK_VALUE_POINTER (*arg));
+		g_object_ref(ets->sort_info);
+		ets->sort_info_changed_id = g_signal_connect (G_OBJECT (ets->sort_info), "sort_info_changed",
+							      G_CALLBACK (ets_sort_info_changed), ets);
+		ets->group_info_changed_id = g_signal_connect (G_OBJECT (ets->sort_info), "group_info_changed",
+							       G_CALLBACK (ets_sort_info_changed), ets);
 
 		ets_clean (ets);
 		break;
@@ -136,7 +135,7 @@ ets_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	ETableSorter *ets = E_TABLE_SORTER (object);
 	switch (arg_id) {
 	case ARG_SORT_INFO:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(ets->sort_info);
+		GTK_VALUE_POINTER (*arg) = G_OBJECT(ets->sort_info);
 		break;
 	}
 }
@@ -147,7 +146,7 @@ ets_class_init (ETableSorterClass *klass)
 	GtkObjectClass *object_class = GTK_OBJECT_CLASS(klass);
 	ESorterClass *sorter_class = E_SORTER_CLASS(klass);
 
-	parent_class                            = gtk_type_class (PARENT_TYPE);
+	parent_class                            = g_type_class_peek_parent (klass);
 
 	object_class->destroy                   = ets_destroy;
 	object_class->set_arg                   = ets_set_arg;
@@ -159,7 +158,7 @@ ets_class_init (ETableSorterClass *klass)
 	sorter_class->get_sorted_to_model_array = ets_get_sorted_to_model_array ;		
 	sorter_class->needs_sorting             = ets_needs_sorting             ;
 
-	gtk_object_add_arg_type ("ETableSorter::sort_info", GTK_TYPE_OBJECT, 
+	gtk_object_add_arg_type ("ETableSorter::sort_info", GTK_TYPE_POINTER, 
 				 GTK_ARG_READWRITE, ARG_SORT_INFO); 
 }
 
@@ -189,26 +188,26 @@ e_table_sorter_new (ETableModel *source, ETableHeader *full_header, ETableSortIn
 	ETableSorter *ets = gtk_type_new (E_TABLE_SORTER_TYPE);
 	
 	ets->sort_info = sort_info;
-	gtk_object_ref(GTK_OBJECT(ets->sort_info));
+	g_object_ref(ets->sort_info);
 	ets->full_header = full_header;
-	g_object_ref(G_OBJECT(ets->full_header));
+	g_object_ref(ets->full_header);
 	ets->source = source;
-	gtk_object_ref(GTK_OBJECT(ets->source));
+	g_object_ref(ets->source);
 
-	ets->table_model_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
-							   GTK_SIGNAL_FUNC (ets_model_changed), ets);
-	ets->table_model_row_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
-							       GTK_SIGNAL_FUNC (ets_model_row_changed), ets);
-	ets->table_model_cell_changed_id = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
-								GTK_SIGNAL_FUNC (ets_model_cell_changed), ets);
-	ets->table_model_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_inserted",
-								GTK_SIGNAL_FUNC (ets_model_rows_inserted), ets);
-	ets->table_model_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_deleted",
-							       GTK_SIGNAL_FUNC (ets_model_rows_deleted), ets);
-	ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
-							 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
-	ets->group_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "group_info_changed",
-							 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+	ets->table_model_changed_id = g_signal_connect (G_OBJECT (source), "model_changed",
+							G_CALLBACK (ets_model_changed), ets);
+	ets->table_model_row_changed_id = g_signal_connect (G_OBJECT (source), "model_row_changed",
+							G_CALLBACK (ets_model_row_changed), ets);
+	ets->table_model_cell_changed_id = g_signal_connect (G_OBJECT (source), "model_cell_changed",
+						        G_CALLBACK (ets_model_cell_changed), ets);
+	ets->table_model_rows_inserted_id = g_signal_connect (G_OBJECT (source), "model_rows_inserted",
+							G_CALLBACK (ets_model_rows_inserted), ets);
+	ets->table_model_rows_deleted_id = g_signal_connect (G_OBJECT (source), "model_rows_deleted",
+							G_CALLBACK (ets_model_rows_deleted), ets);
+	ets->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+							G_CALLBACK (ets_sort_info_changed), ets);
+	ets->group_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "group_info_changed",
+							G_CALLBACK (ets_sort_info_changed), ets);
 	
 	return ets;
 }

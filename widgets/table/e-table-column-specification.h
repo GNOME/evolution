@@ -25,22 +25,20 @@
 #define _E_TABLE_COLUMN_SPECIFICATION_H_
 
 #include <glib.h>
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libxml/tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
-
+G_BEGIN_DECLS
 
 #define E_TABLE_COLUMN_SPECIFICATION_TYPE        (e_table_column_specification_get_type ())
-#define E_TABLE_COLUMN_SPECIFICATION(o)          (GTK_CHECK_CAST ((o), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecification))
-#define E_TABLE_COLUMN_SPECIFICATION_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecificationClass))
-#define E_IS_TABLE_COLUMN_SPECIFICATION(o)       (GTK_CHECK_TYPE ((o), E_TABLE_COLUMN_SPECIFICATION_TYPE))
-#define E_IS_TABLE_COLUMN_SPECIFICATION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_COLUMN_SPECIFICATION_TYPE))
+#define E_TABLE_COLUMN_SPECIFICATION(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecification))
+#define E_TABLE_COLUMN_SPECIFICATION_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecificationClass))
+#define E_IS_TABLE_COLUMN_SPECIFICATION(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_COLUMN_SPECIFICATION_TYPE))
+#define E_IS_TABLE_COLUMN_SPECIFICATION_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_COLUMN_SPECIFICATION_TYPE))
+#define E_TABLE_COLUMN_SPECIFICATION_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_COLUMN_SPECIFICATION_TYPE, ETableColumnSpecificationClass))
 
 typedef struct {
-	GtkObject base;
+	GObject base;
 	int model_col;
 	int compare_col;
 	char *title;
@@ -58,10 +56,10 @@ typedef struct {
 } ETableColumnSpecification;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } ETableColumnSpecificationClass;
 
-GtkType                    e_table_column_specification_get_type        (void);
+GType                      e_table_column_specification_get_type        (void);
 
 ETableColumnSpecification *e_table_column_specification_new             (void);
 
@@ -70,8 +68,6 @@ void                       e_table_column_specification_load_from_node  (ETableC
 xmlNode                   *e_table_column_specification_save_to_node    (ETableColumnSpecification *state,
 									 xmlNode                   *parent);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_COLUMN_SPECIFICATION_H_ */

@@ -135,7 +135,7 @@ static void
 eth_do_remove (ETableHeader *eth, int idx, gboolean do_unref)
 {
 	if (do_unref)
-		gtk_object_unref (GTK_OBJECT (eth->columns [idx]));
+		g_object_unref (eth->columns [idx]);
 	
 	memmove (&eth->columns [idx], &eth->columns [idx+1],
 		 sizeof (ETableCol *) * (eth->col_count - idx - 1));
@@ -151,9 +151,9 @@ eth_finalize (GObject *object)
 	
 	if (eth->sort_info) {
 		if (eth->sort_info_group_change_id)
-			g_signal_handler_disconnect(GTK_OBJECT(eth->sort_info),
+			g_signal_handler_disconnect(G_OBJECT(eth->sort_info),
 					            eth->sort_info_group_change_id);
-		gtk_object_unref(GTK_OBJECT(eth->sort_info));
+		g_object_unref(eth->sort_info);
 		eth->sort_info = NULL;
 	}
 
@@ -205,12 +205,12 @@ eth_set_prop (GObject *object, guint prop_id, const GValue *val, GParamSpec *psp
 	case PROP_SORT_INFO:
 		if (eth->sort_info) {
 			if (eth->sort_info_group_change_id)
-				g_signal_handler_disconnect(GTK_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
-			g_object_unref (G_OBJECT(eth->sort_info));
+				g_signal_handler_disconnect(G_OBJECT(eth->sort_info), eth->sort_info_group_change_id);
+			g_object_unref (eth->sort_info);
 		}
 		eth->sort_info = E_TABLE_SORT_INFO(g_value_get_object (val));
 		if (eth->sort_info) {
-			g_object_ref(G_OBJECT(eth->sort_info));
+			g_object_ref(eth->sort_info);
 			eth->sort_info_group_change_id 
 				= g_signal_connect(G_OBJECT(eth->sort_info), "group_info_changed",
 						   G_CALLBACK(eth_group_info_changed), eth);
@@ -393,8 +393,7 @@ e_table_header_add_column (ETableHeader *eth, ETableCol *tc, int pos)
 	/*
 	 * We are the primary owners of the column
 	 */
-	gtk_object_ref (GTK_OBJECT (tc));
-	gtk_object_sink (GTK_OBJECT (tc));
+	g_object_ref (tc);
 	
 	eth_do_insert (eth, pos, tc);
 
@@ -522,7 +521,7 @@ e_table_header_get_index_at (ETableHeader *eth, int x_offset)
  * contained in the ETableHeader @eth.  Note that every
  * returned ETableCol in the array has been referenced, to release
  * this information you need to g_free the buffer returned
- * and you need to gtk_object_unref every element returned
+ * and you need to g_object_unref every element returned
  */
 ETableCol **
 e_table_header_get_columns (ETableHeader *eth)
@@ -538,7 +537,7 @@ e_table_header_get_columns (ETableHeader *eth)
 	ret [eth->col_count] = NULL;
 
 	for (i = 0; i < eth->col_count; i++) {
-		gtk_object_ref(GTK_OBJECT(ret[i]));
+		g_object_ref(ret[i]);
 	}
 
 	return ret;

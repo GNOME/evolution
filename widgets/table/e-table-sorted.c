@@ -23,15 +23,12 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include <string.h>
 #include "gal/util/e-util.h"
 #include "e-table-sorted.h"
 #include "e-table-sorting-utils.h"
 
 #define d(x)
-
-#define PARENT_TYPE E_TABLE_SUBSET_TYPE
 
 #define INCREMENT_AMOUNT 100
 
@@ -49,7 +46,7 @@ static void ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *sour
 static void ets_proxy_model_rows_deleted  (ETableSubset *etss, ETableModel *source, int row, int count);
 
 static void
-ets_destroy (GtkObject *object)
+ets_dispose (GObject *object)
 {
 	ETableSorted *ets = E_TABLE_SORTED (object);
 
@@ -62,25 +59,25 @@ ets_destroy (GtkObject *object)
 	ets->insert_idle_id = 0;
 
 	if (ets->sort_info) {
-		gtk_signal_disconnect (GTK_OBJECT (ets->sort_info),
-				       ets->sort_info_changed_id);
-		gtk_object_unref(GTK_OBJECT(ets->sort_info));
+		g_signal_handler_disconnect (G_OBJECT (ets->sort_info),
+				             ets->sort_info_changed_id);
+		g_object_unref(ets->sort_info);
 		ets->sort_info = NULL;
 	}
 
 	if (ets->full_header)
-		g_object_unref(G_OBJECT(ets->full_header));
+		g_object_unref(ets->full_header);
 	ets->full_header = NULL;
 
-	GTK_OBJECT_CLASS (ets_parent_class)->destroy (object);
+	G_OBJECT_CLASS (ets_parent_class)->dispose (object);
 }
 
 static void
-ets_class_init (GtkObjectClass *object_class)
+ets_class_init (GObjectClass *object_class)
 {
 	ETableSubsetClass *etss_class = E_TABLE_SUBSET_CLASS(object_class);
 
-	ets_parent_class = gtk_type_class (PARENT_TYPE);
+	ets_parent_class = g_type_class_peek_parent (object_class);
 
 	etss_class->proxy_model_changed = ets_proxy_model_changed;
 	etss_class->proxy_model_row_changed = ets_proxy_model_row_changed;
@@ -88,7 +85,7 @@ ets_class_init (GtkObjectClass *object_class)
 	etss_class->proxy_model_rows_inserted = ets_proxy_model_rows_inserted;
 	etss_class->proxy_model_rows_deleted = ets_proxy_model_rows_deleted;
 
-	object_class->destroy = ets_destroy;
+	object_class->dispose = ets_dispose;
 }
 
 static void
@@ -103,16 +100,16 @@ ets_init (ETableSorted *ets)
 	ets->insert_count = 0;
 }
 
-E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, ets_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_sorted, "ETableSorted", ETableSorted, ets_class_init, ets_init, E_TABLE_SUBSET_TYPE)
 
 static gboolean
 ets_sort_idle(ETableSorted *ets)
 {
-	gtk_object_ref(GTK_OBJECT(ets));
+	g_object_ref(ets);
 	ets_sort(ets);
 	ets->sort_idle_id = 0;
 	ets->insert_count = 0;
-	gtk_object_unref(GTK_OBJECT(ets));
+	g_object_unref(ets);
 	return FALSE;
 }
 
@@ -127,26 +124,26 @@ ets_insert_idle(ETableSorted *ets)
 ETableModel *
 e_table_sorted_new (ETableModel *source, ETableHeader *full_header, ETableSortInfo *sort_info)
 {
-	ETableSorted *ets = gtk_type_new (E_TABLE_SORTED_TYPE);
+	ETableSorted *ets = g_object_new (E_TABLE_SORTED_TYPE, NULL);
 	ETableSubset *etss = E_TABLE_SUBSET (ets);
 
 	if (ets_parent_class->proxy_model_pre_change)
 		(ets_parent_class->proxy_model_pre_change) (etss, source);
 
 	if (e_table_subset_construct (etss, source, 0) == NULL){
-		gtk_object_unref (GTK_OBJECT (ets));
+		g_object_unref (ets);
 		return NULL;
 	}
 
 	ets->sort_info = sort_info;
-	gtk_object_ref(GTK_OBJECT(ets->sort_info));
+	g_object_ref(ets->sort_info);
 	ets->full_header = full_header;
-	g_object_ref(G_OBJECT(ets->full_header));
+	g_object_ref(ets->full_header);
 
 	ets_proxy_model_changed(etss, source);
 
-	ets->sort_info_changed_id = gtk_signal_connect (GTK_OBJECT (sort_info), "sort_info_changed",
-							 GTK_SIGNAL_FUNC (ets_sort_info_changed), ets);
+	ets->sort_info_changed_id = g_signal_connect (G_OBJECT (sort_info), "sort_info_changed",
+						      G_CALLBACK (ets_sort_info_changed), ets);
 
 	return E_TABLE_MODEL(ets);
 }

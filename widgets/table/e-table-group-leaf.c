@@ -61,7 +61,7 @@ etgl_destroy (GtkObject *object)
 	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF(object);
 
 	if (etgl->ets) {
-		gtk_object_unref (GTK_OBJECT(etgl->ets));
+		g_object_unref (etgl->ets);
 		etgl->ets = NULL;
 	}
 
@@ -101,7 +101,7 @@ etgl_destroy (GtkObject *object)
 	}
 
 	if (etgl->selection_model) {
-		gtk_object_unref (GTK_OBJECT(etgl->selection_model));
+		g_object_unref (etgl->selection_model);
 		etgl->selection_model = NULL;
 	}
 
@@ -128,8 +128,6 @@ e_table_group_leaf_construct (GnomeCanvasGroup *parent,
 							       full_header,
 							       sort_info));
 
-	gtk_object_ref (GTK_OBJECT (etgl->ets));
-	gtk_object_sink (GTK_OBJECT (etgl->ets));
 	e_table_group_construct (parent, E_TABLE_GROUP (etgl), full_header, header, model);
 }
 
@@ -449,10 +447,10 @@ etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_SELECTION_MODEL:
 		if (etgl->selection_model)
-			gtk_object_unref(GTK_OBJECT(etgl->selection_model));
-		etgl->selection_model = E_SELECTION_MODEL(GTK_VALUE_OBJECT (*arg));
+			g_object_unref(etgl->selection_model);
+		etgl->selection_model = E_SELECTION_MODEL(GTK_VALUE_POINTER (*arg));
 		if (etgl->selection_model) {
-			gtk_object_ref(GTK_OBJECT(etgl->selection_model));
+			g_object_ref(etgl->selection_model);
 		}
 		if (etgl->item) {
 			gnome_canvas_item_set (GNOME_CANVAS_ITEM(etgl->item),

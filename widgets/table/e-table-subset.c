@@ -24,7 +24,6 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-table-subset.h"
 
@@ -36,12 +35,11 @@ static void etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel 
 static void etss_proxy_model_rows_inserted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
 static void etss_proxy_model_rows_deleted_real (ETableSubset *etss, ETableModel *etm, int row, int count);
 
-#define PARENT_TYPE E_TABLE_MODEL_TYPE
 #define d(x)
 
 static ETableModelClass *etss_parent_class;
 
-#define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT_GET_CLASS(object)))
+#define ETSS_CLASS(object) (E_TABLE_SUBSET_GET_CLASS(object))
 
 static gint
 etss_get_view_row (ETableSubset *etss, int row)
@@ -81,27 +79,27 @@ etss_get_view_row (ETableSubset *etss, int row)
 }
 
 static void
-etss_destroy (GtkObject *object)
+etss_dispose (GObject *object)
 {
 	ETableSubset *etss = E_TABLE_SUBSET (object);
 
 	if (etss->source) {
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_pre_change_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_no_change_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_row_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_cell_changed_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_rows_inserted_id);
-		gtk_signal_disconnect (GTK_OBJECT (etss->source),
-				       etss->table_model_rows_deleted_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_pre_change_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_no_change_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_row_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_cell_changed_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_rows_inserted_id);
+		g_signal_handler_disconnect (G_OBJECT (etss->source),
+					     etss->table_model_rows_deleted_id);
 
-		gtk_object_unref (GTK_OBJECT (etss->source));
+		g_object_unref (etss->source);
 		etss->source = NULL;
 
 		etss->table_model_changed_id = 0;
@@ -111,10 +109,18 @@ etss_destroy (GtkObject *object)
 		etss->table_model_rows_deleted_id = 0;
 	}
 
+	G_OBJECT_CLASS (etss_parent_class)->dispose (object);
+}
+
+static void
+etss_finalize (GObject *object)
+{
+	ETableSubset *etss = E_TABLE_SUBSET (object);
+
 	g_free (etss->map_table);
 	etss->map_table = NULL;
 
-	GTK_OBJECT_CLASS (etss_parent_class)->destroy (object);
+	G_OBJECT_CLASS (etss_parent_class)->finalize (object);
 }
 
 static int
@@ -226,14 +232,15 @@ etss_value_to_string (ETableModel *etm, int col, const void *value)
 }
 
 static void
-etss_class_init (GtkObjectClass *object_class)
+etss_class_init (GObjectClass *object_class)
 {
 	ETableSubsetClass *klass         = (ETableSubsetClass *) object_class;
 	ETableModelClass *table_class    = (ETableModelClass *) object_class;
 
-	etss_parent_class                = gtk_type_class (PARENT_TYPE);
+	etss_parent_class                = g_type_class_peek_parent (klass);
 	
-	object_class->destroy            = etss_destroy;
+	object_class->dispose            = etss_dispose;
+	object_class->finalize           = etss_finalize;
 
 	table_class->column_count        = etss_column_count;
 	table_class->row_count           = etss_row_count;
@@ -267,7 +274,7 @@ etss_init (ETableSubset *etss)
 	etss->last_access = 0;
 }
 
-E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_subset, "ETableSubset", ETableSubset, etss_class_init, etss_init, E_TABLE_MODEL_TYPE)
 
 static void
 etss_proxy_model_pre_change_real (ETableSubset *etss, ETableModel *etm)
@@ -383,26 +390,26 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 	etss->map_table = buffer;
 	etss->n_map = nvals;
 	etss->source = source;
-	gtk_object_ref (GTK_OBJECT (source));
+	g_object_ref (source);
 	
 	/* Init */
 	for (i = 0; i < nvals; i++)
 		etss->map_table [i] = i;
 
-	etss->table_model_pre_change_id    = gtk_signal_connect (GTK_OBJECT (source), "model_pre_change",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_pre_change), etss);
-	etss->table_model_no_change_id     = gtk_signal_connect (GTK_OBJECT (source), "model_no_change",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_no_change), etss);
-	etss->table_model_changed_id       = gtk_signal_connect (GTK_OBJECT (source), "model_changed",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_changed), etss);
-	etss->table_model_row_changed_id   = gtk_signal_connect (GTK_OBJECT (source), "model_row_changed",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_row_changed), etss);
-	etss->table_model_cell_changed_id  = gtk_signal_connect (GTK_OBJECT (source), "model_cell_changed",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_cell_changed), etss);
-	etss->table_model_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (source), "model_rows_inserted",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_rows_inserted), etss);
-	etss->table_model_rows_deleted_id  = gtk_signal_connect (GTK_OBJECT (source), "model_rows_deleted",
-								 GTK_SIGNAL_FUNC (etss_proxy_model_rows_deleted), etss);
+	etss->table_model_pre_change_id    = g_signal_connect (G_OBJECT (source), "model_pre_change",
+							G_CALLBACK (etss_proxy_model_pre_change), etss);
+	etss->table_model_no_change_id     = g_signal_connect (G_OBJECT (source), "model_no_change",
+							G_CALLBACK (etss_proxy_model_no_change), etss);
+	etss->table_model_changed_id       = g_signal_connect (G_OBJECT (source), "model_changed",
+							G_CALLBACK (etss_proxy_model_changed), etss);
+	etss->table_model_row_changed_id   = g_signal_connect (G_OBJECT (source), "model_row_changed",
+							G_CALLBACK (etss_proxy_model_row_changed), etss);
+	etss->table_model_cell_changed_id  = g_signal_connect (G_OBJECT (source), "model_cell_changed",
+							G_CALLBACK (etss_proxy_model_cell_changed), etss);
+	etss->table_model_rows_inserted_id = g_signal_connect (G_OBJECT (source), "model_rows_inserted",
+							G_CALLBACK (etss_proxy_model_rows_inserted), etss);
+	etss->table_model_rows_deleted_id  = g_signal_connect (G_OBJECT (source), "model_rows_deleted",
+							G_CALLBACK (etss_proxy_model_rows_deleted), etss);
 	
 	return E_TABLE_MODEL (etss);
 }
@@ -410,18 +417,19 @@ e_table_subset_construct (ETableSubset *etss, ETableModel *source, int nvals)
 ETableModel *
 e_table_subset_new (ETableModel *source, const int nvals)
 {
-	ETableSubset *etss = gtk_type_new (E_TABLE_SUBSET_TYPE);
+	ETableSubset *etss = g_object_new (E_TABLE_SUBSET_TYPE, NULL);
 
 	if (e_table_subset_construct (etss, source, nvals) == NULL){
-		gtk_object_unref (GTK_OBJECT (etss));
+		g_object_unref (etss);
 		return NULL;
 	}
 
 	return (ETableModel *) etss;
 }
 
-int          e_table_subset_model_to_view_row  (ETableSubset *ets,
-						int           model_row)
+int
+e_table_subset_model_to_view_row  (ETableSubset *ets,
+				   int           model_row)
 {
 	int i;
 	for (i = 0; i < ets->n_map; i++) {
@@ -431,8 +439,9 @@ int          e_table_subset_model_to_view_row  (ETableSubset *ets,
 	return -1;
 }
 
-int          e_table_subset_view_to_model_row  (ETableSubset *ets,
-						int           view_row)
+int
+e_table_subset_view_to_model_row  (ETableSubset *ets,
+				   int           view_row)
 {
 	if (view_row >= 0 && view_row < ets->n_map)
 		return ets->map_table[view_row];

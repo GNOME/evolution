@@ -24,18 +24,17 @@
 #ifndef _E_TABLE_SORT_INFO_H_
 #define _E_TABLE_SORT_INFO_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libxml/tree.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_SORT_INFO_TYPE        (e_table_sort_info_get_type ())
-#define E_TABLE_SORT_INFO(o)          (GTK_CHECK_CAST ((o), E_TABLE_SORT_INFO_TYPE, ETableSortInfo))
-#define E_TABLE_SORT_INFO_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_SORT_INFO_TYPE, ETableSortInfoClass))
-#define E_IS_TABLE_SORT_INFO(o)       (GTK_CHECK_TYPE ((o), E_TABLE_SORT_INFO_TYPE))
-#define E_IS_TABLE_SORT_INFO_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_SORT_INFO_TYPE))
+#define E_TABLE_SORT_INFO(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_SORT_INFO_TYPE, ETableSortInfo))
+#define E_TABLE_SORT_INFO_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_SORT_INFO_TYPE, ETableSortInfoClass))
+#define E_IS_TABLE_SORT_INFO(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_SORT_INFO_TYPE))
+#define E_IS_TABLE_SORT_INFO_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_SORT_INFO_TYPE))
+#define E_TABLE_SORT_INFO_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_SORT_INFO_TYPE, ETableSortInfoClass))
 
 typedef struct _ETableSortColumn ETableSortColumn;
 
@@ -45,7 +44,7 @@ struct _ETableSortColumn {
 };
 
 typedef struct {
-	GtkObject   base;
+	GObject   base;
 	
 	gint group_count;
 	ETableSortColumn *groupings;
@@ -60,7 +59,7 @@ typedef struct {
 } ETableSortInfo;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Signals
@@ -69,7 +68,7 @@ typedef struct {
 	void        (*group_info_changed)     (ETableSortInfo *info);
 } ETableSortInfoClass;
 
-GtkType           e_table_sort_info_get_type            (void);
+GType             e_table_sort_info_get_type            (void);
 
 void              e_table_sort_info_freeze              (ETableSortInfo   *info);
 void              e_table_sort_info_thaw                (ETableSortInfo   *info);
@@ -103,8 +102,6 @@ void              e_table_sort_info_set_can_group       (ETableSortInfo   *info,
 							 gboolean          can_group);
 gboolean          e_table_sort_info_get_can_group       (ETableSortInfo   *info);
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_TABLE_SORT_INFO_H_ */

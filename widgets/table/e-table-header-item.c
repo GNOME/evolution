@@ -129,10 +129,10 @@ ethi_destroy (GtkObject *object){
 
 	if (ethi->sort_info) {
 		if (ethi->sort_info_changed_id)
-			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+			g_signal_handler_disconnect (G_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
 		if (ethi->group_info_changed_id)
-			gtk_signal_disconnect (GTK_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
-		gtk_object_unref (GTK_OBJECT(ethi->sort_info));
+			g_signal_handler_disconnect (G_OBJECT(ethi->sort_info), ethi->group_info_changed_id);
+		g_object_unref (ethi->sort_info);
 		ethi->sort_info = NULL;
 	}
 
@@ -141,7 +141,7 @@ ethi_destroy (GtkObject *object){
 	ethi->full_header = NULL;
 
 	if (ethi->config)
-		gtk_object_destroy (GTK_OBJECT (ethi->config));
+		g_object_unref (ethi->config);
 	ethi->config = NULL;
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
@@ -325,10 +325,10 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 
 	case ARG_FULL_HEADER:
 		if (ethi->full_header)
-			g_object_unref(G_OBJECT(ethi->full_header));
+			g_object_unref(ethi->full_header);
 		ethi->full_header = E_TABLE_HEADER(GTK_VALUE_POINTER (*arg));
 		if (ethi->full_header)
-			g_object_ref(G_OBJECT(ethi->full_header));
+			g_object_ref(ethi->full_header);
 		break;
 
 	case ARG_DND_CODE:
@@ -343,26 +343,26 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_SORT_INFO:
 		if (ethi->sort_info){
 			if (ethi->sort_info_changed_id)
-				gtk_signal_disconnect (
-					GTK_OBJECT(ethi->sort_info),
+				g_signal_handler_disconnect (
+					G_OBJECT(ethi->sort_info),
 					ethi->sort_info_changed_id);
 
 			if (ethi->group_info_changed_id)
-				gtk_signal_disconnect (
-					GTK_OBJECT(ethi->sort_info),
+				g_signal_handler_disconnect (
+					G_OBJECT(ethi->sort_info),
 					ethi->group_info_changed_id);
-			gtk_object_unref (GTK_OBJECT(ethi->sort_info));
+			g_object_unref (G_OBJECT(ethi->sort_info));
 		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
-		gtk_object_ref (GTK_OBJECT(ethi->sort_info));
+		g_object_ref (ethi->sort_info);
 		ethi->sort_info_changed_id =
-			gtk_signal_connect (
-				GTK_OBJECT(ethi->sort_info), "sort_info_changed",
-				GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+			g_signal_connect (
+				G_OBJECT(ethi->sort_info), "sort_info_changed",
+				G_CALLBACK (ethi_sort_info_changed), ethi);
 		ethi->group_info_changed_id =
-			gtk_signal_connect (
-				GTK_OBJECT(ethi->sort_info), "group_info_changed",
-				GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
+			g_signal_connect (
+				G_OBJECT(ethi->sort_info), "group_info_changed",
+				G_CALLBACK(ethi_sort_info_changed), ethi);
 		break;
 	case ARG_TABLE:
 		if (GTK_VALUE_OBJECT(*arg))
@@ -696,14 +696,14 @@ context_destroyed (gpointer data)
 	ethi->last_drop_context = NULL;
 	scroll_off (ethi);
 
-	gtk_object_unref (GTK_OBJECT (ethi));
+	g_object_unref (ethi);
 }
 
 static void
 context_connect (ETableHeaderItem *ethi, GdkDragContext *context)
 {
 	if (g_dataset_get_data (context, "e-table-header-item") == NULL) {
-		gtk_object_ref (GTK_OBJECT (ethi));
+		g_object_ref (ethi);
 		g_dataset_set_data_full (context, "e-table-header-item", ethi, context_destroyed);
 	}
 }
@@ -1735,7 +1735,7 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_DND_CODE);
 	gtk_object_add_arg_type ("ETableHeaderItem::fontset", GTK_TYPE_STRING,
 				 GTK_ARG_WRITABLE, ARG_TABLE_FONTSET);
-	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", GTK_TYPE_OBJECT,
+	gtk_object_add_arg_type ("ETableHeaderItem::sort_info", G_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
 	gtk_object_add_arg_type ("ETableHeaderItem::table", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE);

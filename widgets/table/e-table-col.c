@@ -22,21 +22,11 @@
  */
 
 #include <config.h>
-#include <gtk/gtkobject.h>
-#include <gtk/gtksignal.h>
 #include "e-table-col.h"
 #include "gal/util/e-util.h"
 
-#define PARENT_TYPE (gtk_object_get_type ())
-
 static GObjectClass *parent_class;
 
-
-enum {
-	ARG_0,
-	ARG_SORTABLE,
-	ARG_COMPARE_COL
-};
 
 static void
 etc_finalize (GObject *object)
@@ -44,7 +34,7 @@ etc_finalize (GObject *object)
 	ETableCol *etc = E_TABLE_COL (object);
 
 	if (etc->ecell)
-		gtk_object_unref (GTK_OBJECT(etc->ecell));
+		g_object_unref (etc->ecell);
 	etc->ecell = NULL;
 
 	if (etc->pixbuf)
@@ -59,51 +49,11 @@ etc_finalize (GObject *object)
 }
  
 static void
-etc_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_table_col_class_init (GObjectClass *object_class)
 {
-	ETableCol *etc = E_TABLE_COL (o);
-	
-	switch (arg_id){
-	case ARG_SORTABLE:
-		etc->sortable = GTK_VALUE_BOOL(*arg);
-		break;
-	case ARG_COMPARE_COL:
-		etc->compare_col = GTK_VALUE_INT(*arg);
-		break;
-	}
-}
+	parent_class = g_type_class_peek_parent (object_class);
 
-static void
-etc_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
-{
-	ETableCol *etc = E_TABLE_COL (o);
-	
-	switch (arg_id){
-	case ARG_SORTABLE:
-		GTK_VALUE_BOOL(*arg) = etc->sortable;
-		break;
-	case ARG_COMPARE_COL:
-		GTK_VALUE_INT(*arg) = etc->compare_col;
-		break;
-	default:
-		arg->type = GTK_TYPE_INVALID;
-		break;
-	}
-}
-     
-static void
-e_table_col_class_init (GtkObjectClass *object_class)
-{
-	parent_class = gtk_type_class (PARENT_TYPE);
-	object_class->get_arg = etc_get_arg;
-	object_class->set_arg = etc_set_arg;
-
-	G_OBJECT_CLASS (object_class)->finalize = etc_finalize;
-
-	gtk_object_add_arg_type ("ETableCol::sortable",
-				 GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_SORTABLE);  
-	gtk_object_add_arg_type ("ETableCol::compare_col",
-				 GTK_TYPE_INT, GTK_ARG_READWRITE, ARG_COMPARE_COL);
+	object_class->finalize = etc_finalize;
 }
 
 static void
@@ -116,7 +66,7 @@ e_table_col_init (ETableCol *etc)
 	etc->priority = 0;
 }
 
-E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_col, "ETableCol", ETableCol, e_table_col_class_init, e_table_col_init, G_TYPE_OBJECT)
 
 /** 
  * e_table_col_new:
@@ -157,7 +107,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	g_return_val_if_fail (compare != NULL, NULL);
 	g_return_val_if_fail (text != NULL, NULL);
 
-	etc = gtk_type_new (E_TABLE_COL_TYPE);
+	etc = g_object_new (E_TABLE_COL_TYPE, NULL);
        
 	etc->is_pixbuf = FALSE;
 
@@ -175,7 +125,7 @@ e_table_col_new (int col_idx, const char *text, double expansion, int min_width,
 	etc->selected = 0;
 	etc->resizable = resizable;
 
-	gtk_object_ref (GTK_OBJECT(etc->ecell));
+	g_object_ref (etc->ecell);
 
 	return etc;
 }
@@ -218,7 +168,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	g_return_val_if_fail (compare != NULL, NULL);
 	g_return_val_if_fail (pixbuf != NULL, NULL);
 
-	etc = gtk_type_new (E_TABLE_COL_TYPE);
+	etc = g_object_new (E_TABLE_COL_TYPE, NULL);
 
 	etc->is_pixbuf = TRUE;
 
@@ -236,7 +186,7 @@ e_table_col_new_with_pixbuf (int col_idx, const char *text, GdkPixbuf *pixbuf, d
 	etc->selected = 0;
 	etc->resizable = resizable;
 
-	gtk_object_ref (GTK_OBJECT(etc->ecell));
+	g_object_ref (etc->ecell);
 	gdk_pixbuf_ref (etc->pixbuf);
 
 	return etc;

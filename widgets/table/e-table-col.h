@@ -27,15 +27,14 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/e-table/e-cell.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 #define E_TABLE_COL_TYPE        (e_table_col_get_type ())
-#define E_TABLE_COL(o)          (GTK_CHECK_CAST ((o), E_TABLE_COL_TYPE, ETableCol))
-#define E_TABLE_COL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_TABLE_COL_TYPE, ETableColClass))
-#define E_IS_TABLE_COL(o)       (GTK_CHECK_TYPE ((o), E_TABLE_COL_TYPE))
-#define E_IS_TABLE_COL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_TABLE_COL_TYPE))
+#define E_TABLE_COL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_TABLE_COL_TYPE, ETableCol))
+#define E_TABLE_COL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_TABLE_COL_TYPE, ETableColClass))
+#define E_IS_TABLE_COL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_TABLE_COL_TYPE))
+#define E_IS_TABLE_COL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_TABLE_COL_TYPE))
+#define E_TABLE_COL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS((o), E_TABLE_COL_TYPE, ETableColClass))
 
 typedef enum {
 	E_TABLE_COL_ARROW_NONE = 0,
@@ -47,7 +46,7 @@ typedef enum {
  * Information about a single column
  */
 typedef struct {
-	GtkObject         base;
+	GObject         base;
 	char             *text;
 	GdkPixbuf        *pixbuf;
 	int               min_width;
@@ -72,10 +71,10 @@ typedef struct {
 } ETableCol;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 } ETableColClass;
 
-GtkType    e_table_col_get_type         (void);
+GType      e_table_col_get_type         (void);
 ETableCol *e_table_col_new              (int           col_idx,
 					 const char   *text,
 					 double        expansion,
@@ -95,13 +94,8 @@ ETableCol *e_table_col_new_with_pixbuf  (int           col_idx,
 					 gboolean      resizable,
 					 gboolean      disabled,
 					 int           priority);
-void       e_table_col_destroy          (ETableCol    *etc);
 
-
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
-
+G_END_DECLS
 
 #endif /* _E_TABLE_COL_H_ */
 

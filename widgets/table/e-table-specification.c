@@ -45,14 +45,14 @@ etsp_finalize (GObject *object)
 
 	if (etsp->columns) {
 		for (i = 0; etsp->columns[i]; i++) {
-			gtk_object_unref (GTK_OBJECT (etsp->columns[i]));
+			g_object_unref (etsp->columns[i]);
 		}
 		g_free (etsp->columns);
 		etsp->columns = NULL;
 	}
 
 	if (etsp->state)
-		gtk_object_unref (GTK_OBJECT (etsp->state));
+		g_object_unref (etsp->state);
 	etsp->state                = NULL;
 
 	g_free (etsp->click_to_add_message);
@@ -234,11 +234,11 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 	}
 
 	if (specification->state)
-		gtk_object_unref (GTK_OBJECT (specification->state));
+		g_object_unref (specification->state);
 	specification->state = NULL;
 	if (specification->columns) {
 		for (i = 0; specification->columns[i]; i++) {
-			gtk_object_unref (GTK_OBJECT (specification->columns[i]));
+			g_object_unref (specification->columns[i]);
 		}
 		g_free (specification->columns);
 	}
@@ -248,8 +248,7 @@ e_table_specification_load_from_node (ETableSpecification *specification,
 		if (!strcmp (children->name, "ETableColumn")) {
 			ETableColumnSpecification *col_spec = e_table_column_specification_new ();
 
-			gtk_object_ref (GTK_OBJECT (col_spec));
-			gtk_object_sink (GTK_OBJECT (col_spec));
+			g_object_ref (col_spec);
 			e_table_column_specification_load_from_node (col_spec, children);
 			list = g_list_append (list, col_spec);
 		} else if (specification->state == NULL && !strcmp (children->name, "ETableState")) {

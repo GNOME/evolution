@@ -24,17 +24,12 @@
 #include <config.h>
 #include <stdlib.h>
 #include <string.h>
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "e-table-subset-variable.h"
 
-#define ETSSV_CLASS(e) ((ETableSubsetVariableClass *)(GTK_OBJECT_GET_CLASS (e)))
-
-#define PARENT_TYPE E_TABLE_SUBSET_TYPE
+#define ETSSV_CLASS(e) (E_TABLE_SUBSET_VARIABLE_GET_CLASS (e))
 
 #define INCREMENT_AMOUNT 10
-
-static ETableSubsetClass *etssv_parent_class;
 
 static void
 etssv_add       (ETableSubsetVariable *etssv,
@@ -119,10 +114,9 @@ etssv_remove    (ETableSubsetVariable *etssv,
 }
 
 static void
-etssv_class_init (GtkObjectClass *object_class)
+etssv_class_init (GObjectClass *object_class)
 {
 	ETableSubsetVariableClass *klass = E_TABLE_SUBSET_VARIABLE_CLASS(object_class);
-	etssv_parent_class = gtk_type_class (PARENT_TYPE);
 
 	klass->add     = etssv_add;
 	klass->add_array = etssv_add_array;
@@ -130,7 +124,7 @@ etssv_class_init (GtkObjectClass *object_class)
 	klass->remove  = etssv_remove;
 }
 
-E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, PARENT_TYPE)
+E_MAKE_TYPE(e_table_subset_variable, "ETableSubsetVariable", ETableSubsetVariable, etssv_class_init, NULL, E_TABLE_SUBSET_TYPE)
 
 ETableModel *
 e_table_subset_variable_construct (ETableSubsetVariable *etssv,
@@ -146,10 +140,10 @@ e_table_subset_variable_construct (ETableSubsetVariable *etssv,
 ETableModel *
 e_table_subset_variable_new (ETableModel *source)
 {
-	ETableSubsetVariable *etssv = gtk_type_new (E_TABLE_SUBSET_VARIABLE_TYPE);
+	ETableSubsetVariable *etssv = g_object_new (E_TABLE_SUBSET_VARIABLE_TYPE, NULL);
 
 	if (e_table_subset_variable_construct (etssv, source) == NULL){
-		gtk_object_unref (GTK_OBJECT (etssv));
+		g_object_unref (etssv);
 		return NULL;
 	}
 

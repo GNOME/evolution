@@ -23,16 +23,13 @@
 
 #include <config.h>
 #include <stdlib.h>
-#include <gtk/gtksignal.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
 #include "gal/util/e-xml-utils.h"
 #include "gal/util/e-util.h"
 #include "e-table-column-specification.h"
 
-#define PARENT_TYPE (gtk_object_get_type())
-
-static GtkObjectClass *etcs_parent_class;
+static GObjectClass *etcs_parent_class;
 
 static void
 free_strings (ETableColumnSpecification *etcs)
@@ -50,21 +47,21 @@ free_strings (ETableColumnSpecification *etcs)
 }
 
 static void
-etcs_destroy (GtkObject *object)
+etcs_finalize (GObject *object)
 {
 	ETableColumnSpecification *etcs = E_TABLE_COLUMN_SPECIFICATION (object);
 
 	free_strings(etcs);
 
-	GTK_OBJECT_CLASS (etcs_parent_class)->destroy (object);
+	etcs_parent_class->finalize (object);
 }
 
 static void
-etcs_class_init (GtkObjectClass *klass)
+etcs_class_init (GObjectClass *klass)
 {
-	etcs_parent_class = gtk_type_class (PARENT_TYPE);
+	etcs_parent_class = g_type_class_peek_parent (klass);
 	
-	klass->destroy = etcs_destroy;
+	klass->finalize = etcs_finalize;
 }
 
 static void
@@ -86,12 +83,12 @@ etcs_init (ETableColumnSpecification *specification)
 	specification->priority      = 0;
 }
 
-E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, PARENT_TYPE)
+E_MAKE_TYPE(e_table_column_specification, "ETableColumnSpecification", ETableColumnSpecification, etcs_class_init, etcs_init, G_TYPE_OBJECT)
 
 ETableColumnSpecification *
 e_table_column_specification_new (void)
 {
-	ETableColumnSpecification *etcs = gtk_type_new (E_TABLE_COLUMN_SPECIFICATION_TYPE);
+	ETableColumnSpecification *etcs = g_object_new (E_TABLE_COLUMN_SPECIFICATION_TYPE, NULL);
 
 	return (ETableColumnSpecification *) etcs;
 }

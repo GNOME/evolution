@@ -25,17 +25,13 @@
 
 #include "e-table-sort-info.h"
 
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include <string.h>
 
-#define ETM_CLASS(e) ((ETableSortInfoClass *)((GtkObject *)e)->klass)
+#define ETM_CLASS(e) (E_TABLE_SORT_INFO_GET_CLASS (e))
 
-#define PARENT_TYPE gtk_object_get_type ()
-					  
-
-static GtkObjectClass *e_table_sort_info_parent_class;
+static GObjectClass *e_table_sort_info_parent_class;
 
 enum {
 	SORT_INFO_CHANGED,
@@ -46,11 +42,9 @@ enum {
 static guint e_table_sort_info_signals [LAST_SIGNAL] = { 0, };
 
 static void
-etsi_destroy (GtkObject *object)
+etsi_finalize (GObject *object)
 {
-	ETableSortInfo *etsi;
-
-	etsi = E_TABLE_SORT_INFO (object);
+	ETableSortInfo *etsi = E_TABLE_SORT_INFO (object);
 	
 	if (etsi->groupings)
 		g_free(etsi->groupings);
@@ -60,14 +54,12 @@ etsi_destroy (GtkObject *object)
 		g_free(etsi->sortings);
 	etsi->sortings = NULL;
 
-	GTK_OBJECT_CLASS (e_table_sort_info_parent_class)->destroy (object);
+	G_OBJECT_CLASS (e_table_sort_info_parent_class)->finalize (object);
 }
 
 static void
 e_table_sort_info_init (ETableSortInfo *info)
 {
-	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (info), GTK_FLOATING);
-
 	info->group_count = 0;
 	info->groupings = NULL;
 	info->sort_count = 0;
@@ -81,38 +73,36 @@ e_table_sort_info_init (ETableSortInfo *info)
 static void
 e_table_sort_info_class_init (ETableSortInfoClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass * object_class = G_OBJECT_CLASS (klass);
 
-	e_table_sort_info_parent_class = gtk_type_class (gtk_object_get_type ());
+	e_table_sort_info_parent_class = g_type_class_peek_parent (klass);
 
-	object_class = GTK_OBJECT_CLASS(klass);
-	
-	object_class->destroy = etsi_destroy;
+	object_class->finalize = etsi_finalize;
 
 	e_table_sort_info_signals [SORT_INFO_CHANGED] =
-		gtk_signal_new ("sort_info_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableSortInfoClass, sort_info_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("sort_info_changed",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableSortInfoClass, sort_info_changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	e_table_sort_info_signals [GROUP_INFO_CHANGED] =
-		gtk_signal_new ("group_info_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ETableSortInfoClass, group_info_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("group_info_changed",
+			      E_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ETableSortInfoClass, group_info_changed),
+			      (GSignalAccumulator) NULL, NULL,
+			      g_cclosure_marshal_VOID__VOID,
+			      G_TYPE_NONE, 0);
 
 	klass->sort_info_changed = NULL;
 	klass->group_info_changed = NULL;
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_table_sort_info_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE(e_table_sort_info, "ETableSortInfo", ETableSortInfo,
-	    e_table_sort_info_class_init, e_table_sort_info_init, PARENT_TYPE)
+	    e_table_sort_info_class_init, e_table_sort_info_init, G_TYPE_OBJECT)
 
 static void
 e_table_sort_info_sort_info_changed (ETableSortInfo *info)
@@ -123,8 +113,7 @@ e_table_sort_info_sort_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->sort_info_changed = 1;
 	} else {
-		gtk_signal_emit (GTK_OBJECT (info),
-				 e_table_sort_info_signals [SORT_INFO_CHANGED]);
+		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [SORT_INFO_CHANGED], 0);
 	}
 }
 
@@ -137,8 +126,7 @@ e_table_sort_info_group_info_changed (ETableSortInfo *info)
 	if (info->frozen) {
 		info->group_info_changed = 1;
 	} else {
-		gtk_signal_emit (GTK_OBJECT (info),
-				 e_table_sort_info_signals [GROUP_INFO_CHANGED]);
+		g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [GROUP_INFO_CHANGED], 0);
 	}
 }
 
@@ -356,7 +344,7 @@ e_table_sort_info_sorting_set_nth   (ETableSortInfo *info, int n, ETableSortColu
 ETableSortInfo *
 e_table_sort_info_new (void)
 {
-	return gtk_type_new (e_table_sort_info_get_type ());
+	return g_object_new (E_TABLE_SORT_INFO_TYPE, NULL);
 }
 
 /**
@@ -407,8 +395,7 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 			e_table_sort_info_sorting_set_nth(info, i++, column);
 		}
 	}
-	gtk_signal_emit (GTK_OBJECT (info),
-			 e_table_sort_info_signals [SORT_INFO_CHANGED]);
+	g_signal_emit (G_OBJECT (info), e_table_sort_info_signals [SORT_INFO_CHANGED], 0);
 	
 }
 
