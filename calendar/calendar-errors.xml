@@ -191,6 +191,18 @@
   <button label="_Send" response="GTK_RESPONSE_YES"/>
  </error>
 
+ <error id="prompt-no-contents-offline-calendar" type="error" default="GTK_RESPONSE_YES">
+  <primary>Error loading calendar</primary>
+  <secondary>The calendar is not marked for offline usage</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+ 
+ <error id="prompt-no-contents-offline-tasks" type="error" default="GTK_RESPONSE_YES">
+  <primary>Error loading task list</primary>
+  <secondary>The task list is not marked for offline usage</secondary>
+  <button stock ="gtk-ok" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="server-version" type="warning">
 	 <title>Server Version</title> 
 	 <primary>Your server needs to be updated</primary>

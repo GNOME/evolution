@@ -817,6 +817,8 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 		break;
 	case E_CALENDAR_STATUS_BUSY :
 		break;
+	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
+		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (tasks))), "calendar:prompt-no-contents-offline-tasks", NULL);
 	default :
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);

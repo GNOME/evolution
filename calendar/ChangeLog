@@ -1,5 +1,15 @@
 2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
 
+	* calendar-errors.xml:
+	* calendar-errors.xml.h:
+	* gui/e-tasks.c: (client_cal_opened_cb):
+	* gui/gnome-cal.c: (client_cal_opened_cb),
+	(default_client_cal_opened_cb): add messages for
+	calendar/tasks not marked for offline usage.
+	
+
+2005-02-05  Harish Krishnaswamy  <kharish@novell.com>
+
 	* gui/dialogs/comp-editor.c (attach_message), (drop_action),
 	(drop_popup_copy), (drop_popup_move), (drop_popup_cancel),
 	(drop_popup_free), (drag_data_received), (drag_motion),

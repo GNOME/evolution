@@ -130,6 +130,14 @@ char *s = N_("Are you sure you want to send the task without a summary?");
 /* calendar:prompt-send-no-subject-task secondary */
 char *s = N_("Adding a meaningful Summary to your task will give your recipients an idea of what your task is about.");
 char *s = N_("_Send");
+/* calendar:prompt-no-contents-offline-calendar primary */
+char *s = N_("Error loading calendar");
+/* calendar:prompt-no-contents-offline-calendar secondary */
+char *s = N_("The calendar is not marked for offline usage");
+/* calendar:prompt-no-contents-offline-tasks primary */
+char *s = N_("Error loading task list");
+/* calendar:prompt-no-contents-offline-tasks secondary */
+char *s = N_("The task list is not marked for offline usage");
 /* calendar:server-version title */
 char *s = N_("Server Version");
 /* calendar:server-version primary */

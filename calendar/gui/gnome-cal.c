@@ -2170,6 +2170,7 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	ECalSourceType source_type;
 	ESource *source;
 	char *msg;
+	const char *id;
 	int i;
 
 	priv = gcal->priv;
@@ -2177,29 +2178,39 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 	source_type = e_cal_get_source_type (ecal);
 	source = e_cal_get_source (ecal);
 
-	if (source_type == E_CAL_SOURCE_TYPE_EVENT)
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_EVENT:
+		id = "calendar:prompt-no-contents-offline-calendar";
 		e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);
-	else
+		break;
+	case E_CAL_SOURCE_TYPE_TODO:
+		id = "calendar:prompt-no-contents-offline-tasks";
 		e_calendar_table_set_status_message (E_CALENDAR_TABLE (priv->todo), NULL);
-
-	if (status == E_CALENDAR_STATUS_BUSY)
+		break;
+	default:
+		break;
+	}
+	switch (status) {
+	case E_CALENDAR_STATUS_OK:
+		break;
+	case E_CALENDAR_STATUS_BUSY:
 		return;
-	
-	if (status == E_CALENDAR_STATUS_INVALID_SERVER_VERSION) {
+	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION 
 		e_error_run (NULL, "calendar:server-version", NULL);
 		status = E_CALENDAR_STATUS_OK;
-	}
-	if (status != E_CALENDAR_STATUS_OK) {
+		break;
+	case E_CALENDAR_STATUS_REPOSITORY_OFFLINE:
+		e_error_run (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))), id, NULL);
+	default:
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
-		
+
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
 
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
-		
 		g_object_unref (source);
-		
+
 		return;
 	}
 
@@ -2267,18 +2278,18 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		break;
 	}
 	
-	if (status == E_CALENDAR_STATUS_BUSY)
+	switch (status) {
+	case E_CALENDAR_STATUS_OK:
+		break;
+	case E_CALENDAR_STATUS_BUSY:
 		return;
-
-	if (status == E_CALENDAR_STATUS_INVALID_SERVER_VERSION) {
+	case E_CALENDAR_STATUS_INVALID_SERVER_VERSION :
 		e_error_run (NULL, "calendar:server-version", NULL);
 		status = E_CALENDAR_STATUS_OK;
-	}
-
-	if (status != E_CALENDAR_STATUS_OK) {
+	default:	
 		/* Make sure the source doesn't disappear on us */
 		g_object_ref (source);
-		
+
 		/* FIXME should we do this to prevent multiple error dialogs? */
 		priv->clients_list[source_type] = g_list_remove (priv->clients_list[source_type], ecal);
 		g_hash_table_remove (priv->clients[source_type], e_source_peek_uid (source));
@@ -2286,11 +2297,10 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar 
 		/* FIXME Is there a better way to handle this? */
 		g_object_unref (priv->default_client[source_type]);
 		priv->default_client[source_type] = NULL;
-		
+
 		gtk_signal_emit (GTK_OBJECT (gcal), gnome_calendar_signals[SOURCE_REMOVED], source_type, source);
-		
 		g_object_unref (source);
-		
+
 		return;
 	}
 
