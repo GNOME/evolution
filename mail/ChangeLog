@@ -1,3 +1,10 @@
+2002-10-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (management_prepare): Only set an account
+	name if one doesn't already exist. Also use the
+	e_utf8_gtk_entry_get/set_text functions since account names are
+	supposed to be in UTF8. Fixes bug #31891.
+
 2002-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* folder-browser.c (main_folder_changed): Don't do anything if the
