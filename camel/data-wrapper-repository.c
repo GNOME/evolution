@@ -53,6 +53,9 @@ data_wrapper_repository_init ()
 
 	/* this is a temporary default so that Michael can use get_stream on text messages  */
 	data_wrapper_repository_set_data_wrapper_type ("text", camel_simple_data_wrapper_get_type());
+
+	/* this is for matt the great lopper */
+	data_wrapper_repository_set_data_wrapper_type ("message/rfc822", camel_mime_message_get_type());
 	_content_field = gmime_content_field_new (NULL, NULL);
 	_initialized = 1;
 	return 1;
