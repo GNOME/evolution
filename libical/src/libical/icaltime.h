@@ -71,6 +71,12 @@ struct icaltimetype icaltime_from_timet(time_t v, int is_date);
 struct icaltimetype icaltime_from_timet_with_zone(time_t tm, int is_date,
 						  icaltimezone *zone);
 
+/* Returns the current time in the given timezone, as an icaltimetype. */
+struct icaltimetype icaltime_current_time_with_zone(icaltimezone *zone);
+
+/* Returns the current day as an icaltimetype, with is_date set. */
+struct icaltimetype icaltime_today(void);
+
 /* Return the time as seconds past the UNIX epoch */
 time_t icaltime_as_timet(struct icaltimetype);
 

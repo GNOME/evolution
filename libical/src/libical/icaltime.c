@@ -77,7 +77,7 @@ icaltime_from_timet(time_t tm, int is_date)
 struct icaltimetype 
 icaltime_from_timet_with_zone(time_t tm, int is_date, icaltimezone *zone)
 {
-    struct icaltimetype tt = icaltime_null_time();
+    struct icaltimetype tt;
     struct tm t;
     icaltimezone *utc_zone;
 
@@ -90,24 +90,41 @@ icaltime_from_timet_with_zone(time_t tm, int is_date, icaltimezone *zone)
     tt.year   = t.tm_year + 1900;
     tt.month  = t.tm_mon + 1;
     tt.day    = t.tm_mday;
-    tt.hour   = t.tm_hour;
-    tt.minute = t.tm_min;
-    tt.second = t.tm_sec;
 
     tt.is_utc = (zone == utc_zone) ? 1 : 0;
     tt.is_date = is_date; 
     tt.is_daylight = 0;
-
-    /* Use our timezone functions to convert to the required timezone. */
-    icaltimezone_convert_time (&tt, utc_zone, zone);
+    tt.zone = NULL;
 
     if (is_date) { 
-	/* FIXME: is_daylight may need to be changed. */
-	tt.second = tt.minute = tt.hour = 0;
+	/* We don't convert DATE values between timezones. */
+	tt.hour   = 0;
+	tt.minute = 0;
+	tt.second = 0;
+    } else {
+	tt.hour   = t.tm_hour;
+	tt.minute = t.tm_min;
+	tt.second = t.tm_sec;
+
+	/* Use our timezone functions to convert to the required timezone. */
+	icaltimezone_convert_time (&tt, utc_zone, zone);
     }
 
     return tt;
 }
+
+/* Returns the current time in the given timezone, as an icaltimetype. */
+struct icaltimetype icaltime_current_time_with_zone(icaltimezone *zone)
+{
+    return icaltime_from_timet_with_zone (time (NULL), 0, zone);
+}
+
+/* Returns the current day as an icaltimetype, with is_date set. */
+struct icaltimetype icaltime_today(void)
+{
+    return icaltime_from_timet_with_zone (time (NULL), 1, NULL);
+}
+
 
 /* Structure used by set_tz to hold an old value of TZ, and the new
    value, which is in memory we will have to free in unset_tz */
@@ -228,7 +245,8 @@ time_t icaltime_as_timet_with_zone(struct icaltimetype tt, icaltimezone *zone)
     }
 
     /* Use our timezone functions to convert to UTC. */
-    icaltimezone_convert_time (&tt, zone, utc_zone);
+    if (!tt.is_date)
+	icaltimezone_convert_time (&tt, zone, utc_zone);
 
     /* Copy the icaltimetype to a struct tm. */
     memset (&stm, 0, sizeof (struct tm));
@@ -529,42 +547,70 @@ int icaltime_is_null_time(struct icaltimetype t)
 
 }
 
-int icaltime_compare(struct icaltimetype a,struct icaltimetype b)
+int icaltime_compare(struct icaltimetype a, struct icaltimetype b)
 {
-    time_t t1 = icaltime_as_timet(a);
-    time_t t2 = icaltime_as_timet(b);
+    int retval;
 
-    if (t1 > t2) { 
-	return 1; 
-    } else if (t1 < t2) { 
-	return -1;
-    } else { 
-	return 0; 
-    }
+    if (a.year > b.year)
+	retval = 1;
+    else if (a.year < b.year)
+	retval = -1;
 
+    else if (a.month > b.month)
+	retval = 1;
+    else if (a.month < b.month)
+	retval = -1;
+
+    else if (a.day > b.day)
+	retval = 1;
+    else if (a.day < b.day)
+	retval = -1;
+
+    else if (a.hour > b.hour)
+	retval = 1;
+    else if (a.hour < b.hour)
+	retval = -1;
+
+    else if (a.minute > b.minute)
+	retval = 1;
+    else if (a.minute < b.minute)
+	retval = -1;
+
+    else if (a.second > b.second)
+	retval = 1;
+    else if (a.second < b.second)
+	retval = -1;
+
+    else
+	retval = 0;
+
+    return retval;
 }
 
 int
 icaltime_compare_date_only (struct icaltimetype a, struct icaltimetype b)
 {
-    time_t t1;
-    time_t t2;
+    int retval;
 
-    if (a.year == b.year && a.month == b.month && a.day == b.day)
-        return 0;
+    if (a.year > b.year)
+	retval = 1;
+    else if (a.year < b.year)
+	retval = -1;
 
-    t1 = icaltime_as_timet (a);
-    t2 = icaltime_as_timet (b);
+    else if (a.month > b.month)
+	retval = 1;
+    else if (a.month < b.month)
+	retval = -1;
 
-    if (t1 > t2) 
-	return 1; 
-    else if (t1 < t2)
-	return -1;
-    else {
-	/* not reached */
-	assert (0);
-	return 0;
-    }
+    else if (a.day > b.day)
+	retval = 1;
+    else if (a.day < b.day)
+	retval = -1;
+
+    else
+	retval = 0;
+
+    return retval;
 }
 
 /* These are defined in icalduration.c:

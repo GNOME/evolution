@@ -1,3 +1,15 @@
+2001-07-10  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/icaltimezone.c (icaltimezone_convert_time): don't convert
+	DATE values.
+
+	* src/libical/icaltime.c (icaltime_from_timet_with_zone): 
+	(icaltime_as_timet_with_zone): changed so they do not convert DATE
+	values according to the timezone.
+
+	* src/libical/icaltime.[hc]: added icaltime_current_time_with_zone()
+	and icaltime_today() functions.
+
 2001-07-09  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltime.c (icaltime_adjust): forgot to compile before
