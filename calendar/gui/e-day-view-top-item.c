@@ -26,6 +26,7 @@
  * EDayViewTopItem - displays the top part of the Day/Work Week calendar view.
  */
 
+#include <config.h>
 #include "e-day-view-top-item.h"
 
 static void e_day_view_top_item_class_init	(EDayViewTopItemClass *class);
@@ -496,6 +497,7 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 	GtkStyle *style;
 	GdkGC *fg_gc, *bg_gc;
 	GdkPoint points[3];
+	gint c1, c2;
 
 	day_view = dvtitem->day_view;
 
@@ -510,9 +512,15 @@ e_day_view_top_item_draw_triangle (EDayViewTopItem *dvtitem,
 	points[2].x = x;
 	points[2].y = y + h - 1;
 
+	/* If the height is odd we can use the same central point for both
+	   lines. If it is even we use different end-points. */
+	c1 = c2 = y + (h / 2);
+	if (h % 2 == 0)
+		c1--;
+
 	gdk_draw_polygon (drawable, bg_gc, TRUE, points, 3);
-	gdk_draw_line (drawable, fg_gc, x, y, x + w, y + (h / 2) - 1);
-	gdk_draw_line (drawable, fg_gc, x, y + h - 1, x + w, y + h - (h / 2));
+	gdk_draw_line (drawable, fg_gc, x, y, x + w, c1);
+	gdk_draw_line (drawable, fg_gc, x, y + h - 1, x + w, c2);
 }
 
 

@@ -120,7 +120,7 @@ create_months (int month)
 	struct tm tm;
 	char buf[100];
 
-	tm = *localtime (&gnome_calendar->current_display);
+	tm = *localtime (&gnome_calendar->selection_start_time);
 
 	table = gtk_table_new (2, 6, TRUE);
 
@@ -259,7 +259,7 @@ goto_dialog (GnomeCalendar *gcal)
 	gnome_calendar = gcal;
 	current_index = -1;
 
-	tm = *localtime (&gnome_calendar->current_display);
+	tm = *localtime (&gnome_calendar->selection_start_time);
 
 	goto_win = gnome_dialog_new (_("Go to date"),
 				     GNOME_STOCK_BUTTON_CANCEL,

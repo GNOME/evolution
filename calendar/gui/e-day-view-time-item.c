@@ -27,6 +27,9 @@
  * the EDayView.
  */
 
+#include <config.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkradiomenuitem.h>
 #include "e-day-view-time-item.h"
 
 
@@ -62,7 +65,12 @@ static double e_day_view_time_item_point (GnomeCanvasItem *item,
 					  double x, double y,
 					  int cx, int cy,
 					  GnomeCanvasItem **actual_item);
-
+static gint e_day_view_time_item_event (GnomeCanvasItem *item,
+					GdkEvent *event);
+static void e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
+						  GdkEvent *event);
+static void e_day_view_time_item_on_set_divisions (GtkWidget *item,
+						   EDayViewTimeItem *dvtmitem);
 
 
 static GnomeCanvasItemClass *parent_class;
@@ -120,6 +128,7 @@ e_day_view_time_item_class_init (EDayViewTimeItemClass *class)
 	item_class->update      = e_day_view_time_item_update;
 	item_class->draw        = e_day_view_time_item_draw;
 	item_class->point       = e_day_view_time_item_point;
+	item_class->event       = e_day_view_time_item_event;
 }
 
 
@@ -309,4 +318,96 @@ e_day_view_time_item_point (GnomeCanvasItem *item, double x, double y,
 {
 	*actual_item = item;
 	return 0.0;
+}
+
+
+static gint
+e_day_view_time_item_event (GnomeCanvasItem *item,
+			    GdkEvent *event)
+{
+	EDayViewTimeItem *dvtmitem;
+
+	dvtmitem = E_DAY_VIEW_TIME_ITEM (item);
+
+	switch (event->type) {
+	case GDK_BUTTON_PRESS:
+		if (event->button.button == 3) {
+			e_day_view_time_item_show_popup_menu (dvtmitem, event);
+			return TRUE;
+		}
+		break;
+	case GDK_BUTTON_RELEASE:
+
+	case GDK_MOTION_NOTIFY:
+
+	default:
+		break;
+	}
+
+	return FALSE;
+}
+
+
+static void
+e_day_view_time_item_show_popup_menu (EDayViewTimeItem *dvtmitem,
+				      GdkEvent *event)
+{
+	static gint divisions[] = { 60, 30, 15, 10, 5 };
+	EDayView *day_view;
+	gint num_divisions = sizeof (divisions) / sizeof (divisions[0]);
+	GtkWidget *menu, *item;
+	gchar buffer[256];
+	GSList *group = NULL;
+	gint current_divisions, i;
+
+	g_print ("In e_day_view_time_item_show_popup_menu\n");
+
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	current_divisions = e_day_view_get_mins_per_row (day_view);
+
+	menu = gtk_menu_new ();
+
+	for (i = 0; i < num_divisions; i++) {
+		sprintf (buffer, _("%02i minute divisions"), divisions[i]);
+		item = gtk_radio_menu_item_new_with_label (group, buffer);
+		group = gtk_radio_menu_item_group (GTK_RADIO_MENU_ITEM (item));
+		gtk_widget_show (item);
+		gtk_menu_append (GTK_MENU (menu), item);
+
+		if (current_divisions == divisions[i])
+			gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
+
+		gtk_object_set_data (GTK_OBJECT (item), "divisions",
+				     GINT_TO_POINTER (divisions[i]));
+
+		gtk_signal_connect (GTK_OBJECT (item), "toggled",
+				    e_day_view_time_item_on_set_divisions,
+				    dvtmitem);
+	}
+
+	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,
+			event->button.button, event->button.time);
+
+	/* FIXME: Use e-util function to destroy menu when hidden. */
+}
+
+
+static void
+e_day_view_time_item_on_set_divisions (GtkWidget *item,
+				       EDayViewTimeItem *dvtmitem)
+{
+	EDayView *day_view;
+	gint divisions;
+
+	day_view = dvtmitem->day_view;
+	g_return_if_fail (day_view != NULL);
+
+	if (!GTK_CHECK_MENU_ITEM (item)->active)
+		return;
+
+	divisions = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (item),
+							  "divisions"));
+	e_day_view_set_mins_per_row (day_view, divisions);
 }

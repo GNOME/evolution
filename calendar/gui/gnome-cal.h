@@ -12,7 +12,7 @@
 #include <time.h>
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkcalendar.h>
-#include <libgnomeui/gnome-app.h>
+#include <gtk/gtkvbox.h>
 #include <cal-client/cal-client.h>
 #include <bonobo.h>
 
@@ -25,24 +25,37 @@ BEGIN_GNOME_DECLS
 #define GNOME_IS_CALENDAR(obj)      GTK_CHECK_TYPE(obj, gnome_calendar_get_type())
 
 typedef struct {
-	GnomeApp    gnome_app;
+	GtkVBox      vbox;
+
 	CalClient   *client;
-	time_t      current_display;
 
         BonoboPropertyBag *properties;
 	BonoboControl *control;
 
-	GtkWidget   *notebook;
+	time_t      selection_start_time;
+	time_t      selection_end_time;
+
+	GtkWidget   *main_notebook;
+	GtkWidget   *sub_notebook;
+	GtkWidget   *hpane;
+	GtkCalendar *gtk_calendar;
+	GtkWidget   *todo;
+
 	GtkWidget   *day_view;
+	GtkWidget   *work_week_view;
 	GtkWidget   *week_view;
 	GtkWidget   *month_view;
 	GtkWidget   *year_view;
 	GtkWidget   *year_view_sw;
+
 	void        *event_editor;
+
+	/* The signal handler id for our GtkCalendar "day_selected" handler. */
+	guint	     day_selected_id;
 } GnomeCalendar;
 
 typedef struct {
-	GnomeAppClass parent_class;
+	GtkVBoxClass parent_class;
 } GnomeCalendarClass;
 
 
@@ -77,6 +90,10 @@ void       gnome_calendar_tag_calendar          (GnomeCalendar *cal,
 char      *gnome_calendar_get_current_view_name (GnomeCalendar *gcal);
 void       gnome_calendar_set_view              (GnomeCalendar *gcal,
 						 char *page_name);
+
+void	   gnome_calendar_set_selected_time_range (GnomeCalendar *gcal,
+						   time_t	  start_time,
+						   time_t	  end_time);
 
 /* Flags is a bitmask of CalObjectChange values */
 void       gnome_calendar_object_changed        (GnomeCalendar *gcal,

@@ -27,6 +27,7 @@
  * data in the main Day/Work Week display.
  */
 
+#include <config.h>
 #include "e-day-view-main-item.h"
 
 static void e_day_view_main_item_class_init (EDayViewMainItemClass *class);

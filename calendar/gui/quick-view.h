@@ -9,6 +9,7 @@
 #define QUICK_VIEW_H
 
 #include <libgnome/gnome-defs.h>
+#include <gtk/gtkwindow.h>
 #include "gnome-cal.h"
 
 

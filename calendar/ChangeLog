@@ -1,3 +1,36 @@
+2000-04-24  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/Makefile.am: added new source files and pixmaps, and removed
+	old source files, which can be deleted.
+
+	* gui/e-week-view-titles-item.[hc]: 
+	* gui/e-week-view-main-item.[hc]: 
+	* gui/e-week-view-event-item.[hc]: 
+	* gui/e-week-view.[hc]: new files implementing the week/month views.
+
+	* gui/yearview.xpm: 
+	* gui/monthview.xpm: 
+	* gui/weekview.xpm: 
+	* gui/workweekview.xpm: 
+	* gui/dayview.xpm: new pixmaps for the toolbar buttons. These aren't
+	intended to be the final pixmaps.
+
+	* gui/calendar-commands.c: added radio buttons to the toolbar to
+	switch between the calendar views, and moved the am_pm_flag here so we
+	can get rid of view-utils.c.
+
+	* gui/gnome-cal.[hc]: made it a subclass of GtkVBox, rearranged the
+	widgets into 2 notebooks, and added the	selection_start_time and
+	selection_end_time fields.
+
+	* gui/goto.c: updated to use new selection time range.
+
+	* gui/quick-view.c: added '#include <gtk/gtkwindow.h>' so it compiles.
+
+	* gui/e-day-view.[hc]: changed the interface to support the new
+	selection time range, got rid of a few debugging messages and changed
+	a few bits.
+
 2000-04-21  Seth Alves  <alves@hungry.com>
 
 	* pcs/icalendar-save.c: start on code to do the opposite of

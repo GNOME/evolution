@@ -40,17 +40,17 @@ evolution_calendar_SOURCES =			\
 	e-day-view-top-item.h			\
 	e-day-view.c				\
 	e-day-view.h				\
+	e-week-view-event-item.c		\
+	e-week-view-event-item.h		\
+	e-week-view-main-item.c			\
+	e-week-view-main-item.h			\
+	e-week-view-titles-item.c		\
+	e-week-view-titles-item.h		\
+	e-week-view.c				\
+	e-week-view.h				\
 	eventedit.c				\
 	eventedit.h				\
 	getdate.y				\
-	gncal-day-panel.c			\
-	gncal-day-panel.h			\
-	gncal-day-view.c			\
-	gncal-day-view.h			\
-	gncal-full-day.c			\
-	gncal-full-day.h			\
-	gncal-week-view.c			\
-	gncal-week-view.h			\
 	gncal-todo.c				\
 	gncal-todo.h				\
 	gnome-month-item.c			\
@@ -58,20 +58,14 @@ evolution_calendar_SOURCES =			\
 	gnome-cal.c				\
 	gnome-cal.h				\
 	goto.c					\
-	layout.c				\
-	layout.h				\
 	mark.c					\
 	mark.h					\
-	month-view.c				\
-	month-view.h				\
 	popup-menu.c				\
 	popup-menu.h				\
 	prop.c					\
 	quick-view.c				\
 	quick-view.h				\
 	todo-conduit.h				\
-	view-utils.h				\
-	view-utils.c				\
 	year-view.c				\
 	year-view.h				\
 	calendar-commands.c			\
@@ -182,9 +176,14 @@ gnorba_DATA = calendar-control.gnorba
 #Conduits_second_DATA = $(Conduits_DATA)
 #endif
 
-EXTRA_DIST =		\
-	bell.xpm	\
-	recur.xpm
+EXTRA_DIST =			\
+	bell.xpm		\
+	recur.xpm		\
+	dayview.xpm		\
+	workweekview.xpm	\
+	weekview.xpm		\
+	monthview.xpm		\
+	yearview.xpm
 
 #	gnome-calendar-conduit.png
 #	todo-conduit-control-applet.desktop

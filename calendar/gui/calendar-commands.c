@@ -25,6 +25,11 @@
 #include "gnome-cal.h"
 #include "calendar-commands.h"
 
+#include "dayview.xpm"
+#include "workweekview.xpm"
+#include "weekview.xpm"
+#include "monthview.xpm"
+#include "yearview.xpm"
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -44,6 +49,9 @@ int week_starts_on_monday;
 /* If true, enable debug output for alarms */
 int debug_alarms = 0;
 
+/* If AM/PM indicators should be used. This may not be supported by the new
+   views. */
+int am_pm_flag = 0;
 
 /* The array of color properties -- keep in sync with the enumeration defined in main.h.  The color
  * values specified here are the defaults for the program.
@@ -181,11 +189,12 @@ display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
 	iCalObject *ico;
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 
-	/* Default to the day the user is looking at */
+	/* FIXME: Should get the selection time from the view, since they
+	   may not be using the gcal's times. */
 	ico = ical_new ("", user_name, "");
 	ico->new = 1;
-	ico->dtstart = time_add_minutes (gcal->current_display, day_begin * 60);
-	ico->dtend   = time_add_minutes (ico->dtstart, day_begin * 60 + 30 );
+	ico->dtstart = gcal->selection_start_time;
+	ico->dtend = gcal->selection_end_time;
 
 	ee = event_editor_new (gcal, ico);
 	gtk_widget_show (ee);
@@ -280,6 +289,41 @@ goto_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	goto_dialog (gcal);
+}
+
+static void
+show_day_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	gnome_calendar_set_view (gcal, "dayview");
+}
+
+static void
+show_work_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	gnome_calendar_set_view (gcal, "workweekview");
+}
+
+static void
+show_week_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	gnome_calendar_set_view (gcal, "weekview");
+}
+
+static void
+show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	gnome_calendar_set_view (gcal, "monthview");
+}
+
+static void
+show_year_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
+	gnome_calendar_set_view (gcal, "yearview");
 }
 
 static void
@@ -417,6 +461,28 @@ properties_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 
 
+static GnomeUIInfo gnome_toolbar_view_buttons [] = {
+	GNOMEUIINFO_RADIOITEM (N_("Day"),    N_("Show 1 day"),
+			       show_day_view_clicked,
+			       dayview_xpm),
+	GNOMEUIINFO_RADIOITEM (N_("5 Days"), N_("Show 5 days"),
+			       show_work_week_view_clicked,
+			       workweekview_xpm),
+	GNOMEUIINFO_RADIOITEM (N_("Week"),   N_("Show 1 week"),
+			       show_week_view_clicked,
+			       weekview_xpm),
+	GNOMEUIINFO_RADIOITEM (N_("Month"),  N_("Show 1 month"),
+			       show_month_view_clicked,
+			       monthview_xpm),
+#if 0
+	GNOMEUIINFO_RADIOITEM (N_("Year"),   N_("Show 1 year"),
+			       show_year_view_clicked,
+			       yearview_xpm),
+#endif
+	GNOMEUIINFO_END
+};
+
+
 static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"), N_("Create a new appointment"), display_objedit, GNOME_STOCK_PIXMAP_NEW),
 
@@ -429,6 +495,10 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Go to"), N_("Go to a specific date"), goto_clicked, GNOME_STOCK_PIXMAP_JUMP_TO),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_RADIOLIST (gnome_toolbar_view_buttons),
 
 	GNOMEUIINFO_END
 };
@@ -479,7 +549,7 @@ calendar_control_activate (BonoboControl *control,
 				       gnome_toolbar, &uibdata, 
 				       /*app->accel_group*/ NULL);
 
-	gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));
+	/*gtk_toolbar_append_space (GTK_TOOLBAR (toolbar));*/
 
 	gtk_widget_show_all (toolbar);
 

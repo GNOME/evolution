@@ -332,7 +332,8 @@ struct _EDayView
 	gint selection_start_row;
 	gint selection_end_row;
 
-	/* This is TRUE if the user is selecting a region on the calendar. */
+	/* This specifies which end of the selection is being dragged, or is
+	   E_DAY_VIEW_DRAG_NONE if the selection isn't being dragged. */
 	EDayViewDragPosition selection_drag_pos;
 
 	/* This is TRUE if the selection is in the top canvas only (i.e. if the
@@ -405,21 +406,32 @@ GtkWidget* e_day_view_new			(void);
 void       e_day_view_set_calendar		(EDayView	*day_view,
 						 GnomeCalendar	*calendar);
 
-void       e_day_view_set_interval		(EDayView	*day_view,
-						 time_t		 lower,
-						 time_t		 upper);
+/* This sets the selected time range. The EDayView will show the day or week
+   corresponding to the start time. If the start_time & end_time are not equal
+   and are both visible in the view, then the selection is set to those times,
+   otherwise it is set to 1 hour from the start of the working day. */
+void       e_day_view_set_selected_time_range	(EDayView	*day_view,
+						 time_t		 start_time,
+						 time_t		 end_time);
 
-void       e_day_view_update_event		(EDayView	*fullday,
+
+/* This is called when one or more events have been updated, either within the
+   EDayView itself, or via another calendar view or application. If only one
+   event has changed, it is passed in the ico argument and the flags indicate
+   the change - whether it is a new event, or just the summary has changed. */
+void       e_day_view_update_event		(EDayView	*day_view,
 						 iCalObject	*ico,
 						 int		 flags);
 
 
-
-
+/* The number of days shown in the EDayView, from 1 to 7. This is normally
+   either 1 or 5 (for the Work-Week view). */
 gint	   e_day_view_get_days_shown		(EDayView	*day_view);
 void	   e_day_view_set_days_shown		(EDayView	*day_view,
 						 gint		 days_shown);
 
+/* This specifies how many minutes are represented by one row in the display.
+   It can be 60, 30, 15, 10 or 5. The default is 30. */
 gint	   e_day_view_get_mins_per_row		(EDayView	*day_view);
 void	   e_day_view_set_mins_per_row		(EDayView	*day_view,
 						 gint		 mins_per_row);
