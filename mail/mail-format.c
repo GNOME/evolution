@@ -648,6 +648,22 @@ write_subject (const char *subject, int flags, GtkHTML *html, GtkHTMLStream *str
 		g_free (encoded_subj);
 }
 
+static gchar *
+elide_quotes (const gchar *str)
+{
+	gchar *cpy = g_strdup (str);
+	gchar *c = cpy;
+
+	if (c) {
+		while (*c) {
+			if (*c == '"')
+				*c = '\'';
+			++c;
+		}
+	}
+	return cpy;
+}
+
 static void
 write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *field_name, int flags)
 {
@@ -662,43 +678,53 @@ write_address(MailDisplay *md, const CamelInternetAddress *addr, const char *fie
 
 	i = 0;
 	while (camel_internet_address_get (addr, i, &name, &email)) {
-		
-		if ((name && *name) || (email && *email)) {
+		gboolean have_name = name && *name;
+		gboolean have_email = email && *email;
+		gchar *name_arg = NULL;
+		gchar *email_arg = NULL;
+		gchar *name_disp = NULL;
+		gchar *email_disp = NULL;
 
-			/* we need these <B> </B> to separate HTMLText objects */
-			mail_html_write (md->html, md->stream, i ? ",<B> </B> " : "<td>");
-			mail_html_write (md->html, md->stream, " ");
-
-			name_set = mail_set = FALSE;
-			if (name && *name) {
-				mail_html_write (md->html, md->stream,
-						 "<!--+GtkHTML:<DATA class=\"Text\" key=\"name\" value=\"%s\">-->",
-						 name);
-				name_set = TRUE;
-			}
-
-			if (email && *email) {
-				mail_html_write (md->html, md->stream,
-						 "<!--+GtkHTML:<DATA class=\"Text\" key=\"email\" value=\"%s\">-->",
-						 email);
-				mail_set = TRUE;
-			}
-
-			if (name && *name)
-				mail_html_write (md->html, md->stream, "%s ", name);
-			if (email && *email)
-				mail_html_write (md->html, md->stream, "%s%s%s",
-						 name && *name ? "&lt;" : "",
-						 email,
-						 name && *name ? "&gt;" : "");
-			if (name_set)
-				mail_html_write (md->html, md->stream,
-						 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"name\">-->");
-			if (mail_set)
-				mail_html_write (md->html, md->stream,
-						 "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">-->");
+		if (have_name) {
+			name_arg = elide_quotes (name);
+			name_disp = e_text_to_html (name, 0);
 		}
+
+		if (have_email) {
+			email_arg = elide_quotes (email);
+			email_disp = e_text_to_html (email, 0);
+		}
+
+		mail_html_write (md->html, md->stream, i ? ", " : "<td>");
 		
+		if (have_email || have_name) {
+
+			if (!have_email) {
+				email_arg = g_strdup ("???");
+				email_disp = g_strdup ("???");
+			}
+			
+			if (have_name) {
+				mail_html_write (md->html, md->stream,
+						 "%s &lt;<a href=\"mailto:%s <%s>\">%s</a>&gt;",
+						 name_disp, name_arg, email_arg, email_disp);
+			} else {
+				mail_html_write (md->html, md->stream,
+						 "<a href=\"mailto:%s\">%s</a>",
+						 email_arg, email_disp);
+			}
+
+		} else {
+
+			mail_html_write (md->html, md->stream, "<i>Bad Address</i>");
+
+		}
+
+		g_free (name_arg);
+		g_free (email_arg);
+		g_free (name_disp);
+		g_free (email_disp);
+
 		++i;
 	}
 	mail_html_write (md->html, md->stream, "</td></tr>"); /* Finish up the table row */

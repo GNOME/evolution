@@ -1,3 +1,16 @@
+2001-04-23  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/e-address-popup.c: Lots of code has been
+	simplified here.
+	(e_address_popup_factory_new_control): Rather than directly pop
+	our control up in a window (via the e_address_popup_popup
+	function, which is now gone), just return the widget and let the
+	caller do the popping.  This works better, since it means we don't
+	have to work around the vagaries of bonobo focus & event handling.
+	(e_address_popup_set_name): Refresh when both name & email have
+	been set, rather than checking a stupid counter.
+	(e_address_popup_set_email): Ditto.
+
 2001-04-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/addressbook-storage.c

@@ -1,3 +1,16 @@
+2001-04-23  Jon Trowbridge  <trow@ximian.com>
+
+	* mail-display.c (html_button_press_event): Check for mailto:
+	links, and pop up our mail address menu when we find one.
+	(make_popup_window): The main piece of code (ignoring a zillion
+	little callbacks) to pop up our windows with reasonable semantics
+	for having them close automatically.
+	(mail_text_write): Enable converting addresses to mailto links
+	in message bodies.
+
+	* mail-format.c (write_address): Simplify code, removing Radek's
+	<DATA> hacks.  Write out addresses as mailto: links.
+
 2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (do_view_message): Use the message-browser

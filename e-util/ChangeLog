@@ -1,5 +1,11 @@
 2001-04-23  Jon Trowbridge  <trow@ximian.com>
 
+	* e-html-utils.c (e_text_to_html_full): Removed attempts to use
+	Radek's evil <DATA> hacks, which were just causing me
+	(and GtkHTML) grief.
+
+2001-04-23  Jon Trowbridge  <trow@ximian.com>
+
 	* e-host-utils.c: Include glib.h, so that the g_warning in
 	e_gethostbyname_r will be treated as a macro and not as an
 	unresolved symbol.

@@ -65,11 +65,14 @@ url_extract (const unsigned char **text, gboolean check)
 	return out;
 }
 
-/* FIXME */
+/* FIXME -- this should be smarter */
 static gboolean
 is_email_address (const unsigned char *c)
 {
 	gboolean seen_at = FALSE, seen_postat = FALSE;
+
+	if (c == NULL)
+		return FALSE;
 
 	if (*c == '<')
 		++c;
@@ -99,6 +102,9 @@ email_address_extract (const unsigned char **text)
 {
 	const unsigned char *end = *text;
 	char *out;
+
+	if (end == NULL)
+		return NULL;
 
 	while (*end && !isspace (*end) && (*end != '>') && (*end < 0x80))
 		++end;
@@ -293,12 +299,8 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			dispaddr = e_text_to_html (addr, 0);
 			
 			if (addr) {
-				gchar *outaddr = g_strdup_printf ("<a href=\"mailto:%s\">"
-								  "<!--+GtkHTML:<DATA class=\"Text\" key=\"email\" value=\"%s\">-->"
-								  "%s"
-								  "<!--+GtkHTML:<DATA class=\"Text\" clear=\"email\">--> "
-								  "</a>",
-								  addr, addr, dispaddr);
+				gchar *outaddr = g_strdup_printf ("<a href=\"mailto:%s\">%s</a>",
+								  addr, dispaddr);
 				out = check_size (&buffer, &buffer_size, out, strlen(outaddr));
 				out += sprintf (out, "%s", outaddr);
 				col += strlen (addr);

@@ -49,7 +49,6 @@ struct _EAddressPopup {
 	guint leave_timeout_tag;
 	gboolean grabbed;
 
-	gint set_count;
 	gchar *name;
 	gchar *email;
 
