@@ -1,3 +1,8 @@
+2001-07-10  Chris Toshok  <toshok@ximian.com>
+
+	* backend/pas/evolutionperson.schema: assign OID's to the schema
+	entries, and add schema support for contact lists.
+
 2001-07-10  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri): Set
