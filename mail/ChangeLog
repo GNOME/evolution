@@ -1,5 +1,7 @@
 2001-01-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* Makefile.am: Removed GPG_* variables.
+
 	* component-factory.c (mail_load_storages): Now takes a
 	'is_account_data' variable to specify whether the sources is a
 	list of accounts of a list of services. Basically, the only time

@@ -22,7 +22,6 @@ INCLUDES = \
 	$(UNICODE_CFLAGS)				\
 	$(GTKHTML_CFLAGS)				\
 	$(THREADS_CFLAGS)				\
-	$(GPGME_CFLAGS)					\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
@@ -114,8 +113,7 @@ evolution_mail_LDADD = 					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GTKHTML_LIBS)					\
 	$(THREADS_LIBS)					\
-	$(UNICODE_LIBS)					\
-	$(GPGME_LIBS)
+	$(UNICODE_LIBS)					
 
 evolution_mail_LDFLAGS =				\
 	-export-dynamic
