@@ -949,11 +949,15 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 
 	e_cal_component_get_description_list (comp, &text_list);
 
-	text = *((ECalComponentText *)text_list->data);
-	if (text.value)
-		description = text.value;
-	else
-	        description = _("No description available.");
+	if (text_list) {
+		text = *((ECalComponentText *)text_list->data);
+		if (text.value)
+			description = text.value;
+		else
+			description = _("No description available.");
+	} else {
+		description = _("No description available.");
+	}
 
 	e_cal_component_free_text_list (text_list);
 

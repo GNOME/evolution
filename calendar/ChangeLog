@@ -1,3 +1,8 @@
+2004-11-26  JP Rosevear  <jpr@novell.com>
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): prevent
+	crash if there is no description
+
 2004-11-25  Harish Krishnaswamy  <kharish@novell.com>
 
 	* gui/calendar-component.c: 
