@@ -1,3 +1,18 @@
+2001-03-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-local-storage.c (impl_async_xfer_folder): New, implementation
+	for `EStorage::async_xfer_folder'.
+	(class_init): Install it.
+	(check_valid_name): Removed.  Conflicts shouldn't be handled this
+	way, and hardcoding the names is *bad*.
+	(create_folder_directory): New helper function.
+	(real_do_folder_create): Removed.
+	(create_folder): New.  Do things here using
+	`create_folder_directory'.
+	(impl_async_create_folder): Use `create_folder'.
+	(notify_bonobo_listener): Renamed from `notify_listener'.  Moved
+	on top for clarity.
+
 2001-03-22  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-importer-listener.c (evolution_importer_listener_new):
