@@ -25,10 +25,10 @@
         Como parte de proyecto GNOME,
         <application>Evolution</application> is Software Libre.  El
         programa y su código fuente están liberados bajo los términos de
-        la <ulink type="help" url="gnome-help:gpl"><citetitle>General Public License "Licencia Pública
+        la <ulink type="help" url="ghelp:gpl"><citetitle>General Public License "Licencia Pública
         General" (GPL)</citetitle></ulink> de GNU, y la
         documentación está bajo la <ulink type="help"
-        url="gnome-help:fdl"><citetitle>Free Documentation
+        url="ghelp:fdl"><citetitle>Free Documentation
         License "Licencia Libre de Documentación"</citetitle></ulink>
         (FDL). Para más información acerca de la GPL y de la FDL,
         visite el sitio web de la Free Software Foundation "Fundación para

@@ -23,9 +23,9 @@
         <application>Ximian Evolution</application> is Free Software.  The
         program and its source code are released under the terms of
         the GNU <ulink type="help"
-        url="gnome-help:gpl"><citetitle>General Public License
+        url="ghelp:gpl"><citetitle>General Public License
         (GPL)</citetitle></ulink>, and the documentation falls under
-        the <ulink type="help" url="gnome-help:fdl"><citetitle>Free
+        the <ulink type="help" url="ghelp:fdl"><citetitle>Free
         Documentation License</citetitle></ulink> (FDL). For more
         information about the GPL and the FDL, visit the Free Software
         Foundation's website at <ulink

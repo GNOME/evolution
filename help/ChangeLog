@@ -1,3 +1,16 @@
+2003-01-15  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mainwindow.xml: s/gnome-help/ghelp/
+
+	* es/evolution.sgml: s/gnome-help/ghelp
+
+	* es/preface.sgml: s/gnome-help/ghelp
+
+2003-01-11  Aaron Weber  <aaron@ximian.com>
+
+	* C/usage-mail.xml: "Send Later" feature changed for 1.2 and I
+	didn't notice. Shame on me.
+
 2002-12-16  Aaron Weber  <aaron@ximian.com>
 
 	* C/config-sync.xml: spelling/typos
