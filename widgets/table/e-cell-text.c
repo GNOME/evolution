@@ -1373,6 +1373,9 @@ ect_show_tooltip (ECellView *ecell_view,
 	tooltip->timer = 0;
 
 	build_current_cell (&cell, text_view, model_col, view_col, row);
+
+	set_style(ecell_view, &cell, row);
+
 	cell.width = col_width - 8;
 	split_into_lines (&cell);
 	calc_line_widths (&cell);
@@ -1413,7 +1416,7 @@ ect_show_tooltip (ECellView *ecell_view,
 		gdouble line_width;
 
 		line_width = e_font_utf8_text_width (text_view->font, 
-						     E_FONT_PLAIN, lines->text,
+						     cell.style, lines->text,
 						     lines->length);
 		max_width = MAX (max_width, line_width);
 	}
