@@ -117,7 +117,7 @@ CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 		CAMEL_FOLDER (gtk_object_new (camel_pop3_folder_get_type (),
 					      NULL));
 
-	CF_CLASS (folder)->init (folder, parent, NULL, "inbox", '/', ex);
+	CF_CLASS (folder)->init (folder, parent, NULL, "inbox", "/", TRUE, ex);
 	return folder;
 }
 

@@ -57,8 +57,9 @@ static CamelFolderClass *parent_class=NULL;
 
 
 static void mbox_init (CamelFolder *folder, CamelStore *parent_store,
-		   CamelFolder *parent_folder, const gchar *name,
-		   gchar separator, CamelException *ex);
+		       CamelFolder *parent_folder, const gchar *name,
+		       gchar *separator, gboolean path_begins_with_sep,
+		       CamelException *ex);
 
 static void mbox_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void mbox_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -156,15 +157,15 @@ camel_mbox_folder_get_type (void)
 
 static void 
 mbox_init (CamelFolder *folder, CamelStore *parent_store,
-       CamelFolder *parent_folder, const gchar *name, gchar separator,
-       CamelException *ex)
+       CamelFolder *parent_folder, const gchar *name, gchar *separator,
+       gboolean path_begins_with_sep, CamelException *ex)
 {
 	CamelMboxFolder *mbox_folder = (CamelMboxFolder *)folder;
 	const gchar *root_dir_path;
 
 	/* call parent method */
 	parent_class->init (folder, parent_store, parent_folder,
-			    name, separator, ex);
+			    name, separator, path_begins_with_sep, ex);
 	if (camel_exception_get_id (ex))
 		return;
 

@@ -119,7 +119,7 @@ vee_get_folder (CamelStore *store, const char *folder_name, gboolean create, Cam
 
 	printf("my type is: %s\n", gtk_type_name(((GtkObject *)folder)->klass->type));
 
-	((CamelFolderClass *)((GtkObject *)folder)->klass)->init (folder, store, NULL, folder_name, '/', ex);
+	((CamelFolderClass *)((GtkObject *)folder)->klass)->init (folder, store, NULL, folder_name, "/", TRUE, ex);
 	return folder;
 }
 

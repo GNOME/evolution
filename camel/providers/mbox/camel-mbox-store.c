@@ -57,8 +57,6 @@ camel_mbox_store_class_init (CamelMboxStoreClass *camel_mbox_store_class)
 	camel_store_class->get_folder_name = get_folder_name;
 }
 
-
-
 static void
 camel_mbox_store_init (gpointer object, gpointer klass)
 {
@@ -70,9 +68,6 @@ camel_mbox_store_init (gpointer object, gpointer klass)
 	/* mbox names are filenames, so they are case-sensitive. */
 	store->folders = g_hash_table_new (g_str_hash, g_str_equal);
 }
-
-
-
 
 GtkType
 camel_mbox_store_get_type (void)
@@ -98,7 +93,6 @@ camel_mbox_store_get_type (void)
 	return camel_mbox_store_type;
 }
 
-
 const gchar *
 camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 {
@@ -107,7 +101,6 @@ camel_mbox_store_get_toplevel_dir (CamelMboxStore *store)
 	g_assert(url != NULL);
 	return url->path;
 }
-
 
 static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create,
@@ -161,7 +154,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create,
 	new_folder =  gtk_type_new (CAMEL_MBOX_FOLDER_TYPE);
 	
 	CF_CLASS (new_folder)->init (new_folder, store, NULL,
-				     folder_name, '/', ex);
+				     folder_name, "/", TRUE, ex);
 	
 	return new_folder;
 }

@@ -39,8 +39,9 @@ struct _CamelVeeFolderPrivate {
 #define _PRIVATE(o) (((CamelVeeFolder *)(o))->priv)
 
 static void vee_init (CamelFolder *folder, CamelStore *parent_store,
-		   CamelFolder *parent_folder, const gchar *name,
-		   gchar separator, CamelException *ex);
+		      CamelFolder *parent_folder, const gchar *name,
+		      gchar *separator, gboolean path_begins_with_sep,
+		      CamelException *ex);
 
 static void vee_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void vee_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -203,8 +204,9 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 
 
 static void vee_init (CamelFolder *folder, CamelStore *parent_store,
-		   CamelFolder *parent_folder, const gchar *name,
-		   gchar separator, CamelException *ex)
+		      CamelFolder *parent_folder, const gchar *name,
+		      gchar *separator, gboolean path_begins_with_sep,
+		      CamelException *ex)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 	char *namepart, *searchpart;
@@ -218,7 +220,7 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 		*searchpart++ = 0;
 	}
 
-	camel_vee_folder_parent->init (folder, parent_store, parent_folder, name, separator, ex);
+	camel_vee_folder_parent->init (folder, parent_store, parent_folder, name, separator, TRUE, ex);
 	if (camel_exception_get_id (ex))
 		return;
 

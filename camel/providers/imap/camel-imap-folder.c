@@ -57,7 +57,8 @@ static CamelFolderClass *parent_class = NULL;
 
 static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelFolder *parent_folder, const gchar *name,
-		       gchar separator, CamelException *ex);
+		       gchar *separator, gboolean path_begns_with_sep,
+		       CamelException *ex);
 
 static void imap_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex);
 static void imap_close (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -174,7 +175,7 @@ camel_imap_folder_new (CamelStore *parent, CamelException *ex)
 {
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
 	
-	CF_CLASS (folder)->init (folder, parent, NULL, "INBOX", '/', ex);
+	CF_CLASS (folder)->init (folder, parent, NULL, "INBOX", "/", FALSE, ex);
 
 	return folder;
 }
@@ -187,12 +188,12 @@ imap_finalize (GtkObject *object)
 
 static void 
 imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_folder,
-	   const gchar *name, gchar separator, CamelException *ex)
+	   const gchar *name, gchar *separator, gboolean path_begins_with_sep, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	
 	/* call parent method */
-	parent_class->init (folder, parent_store, parent_folder, name, separator, ex);
+	parent_class->init (folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
 	if (camel_exception_get_id (ex))
 		return;
 

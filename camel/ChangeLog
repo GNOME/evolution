@@ -1,3 +1,25 @@
+2000-06-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-folder.c (init): Updated: a separator is now a char* rather than
+	a single char because IMAP can have a string for a directory separator.
+	Also, since IMAP does not begin with a directory separator, there is a new
+	argument (path_begins_with_sep) which decides if a directory should begin
+	with a directory separator.
+
+	* providers/imap/camel-imap-store.c (imap_create): Since, on connect,
+	Camel tries to create INBOX (which already exists on every IMAP provider)
+	we can return TRUE when the folder name is "INBOX".
+
+	* providers/vee/camel-vee-folder.c (vee_init): Updated.
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Updated.
+
+	* providers/mbox/camel-mbox-store.c (get_folder): Updated.
+
+	* providers/mbox/camel-mbox-folder.c (mbox_init): Updated.
+
+	* providers/pop3/camel-pop3-folder.c (camel_pop3_folder_new): Updated.
+
 2000-06-14  Dan Winship  <danw@helixcode.com>
 
 	* providers/mbox/camel-mbox-summary.c (camel_mbox_summary_sync):

@@ -47,7 +47,9 @@ static guint signals[LAST_SIGNAL] = { 0 };
 
 static void init (CamelFolder *folder, CamelStore *parent_store,
 		  CamelFolder *parent_folder, const gchar *name,
-		  gchar separator, CamelException *ex);
+		  gchar *separator, gboolean path_begins_with_sep,
+		  CamelException *ex);
+
 static void finalize (GtkObject *object);
 
 
@@ -226,7 +228,8 @@ finalize (GtkObject *object)
 static void
 init (CamelFolder *folder, CamelStore *parent_store,
       CamelFolder *parent_folder, const gchar *name,
-      gchar separator, CamelException *ex)
+      gchar *separator, gboolean path_begins_with_sep,
+      CamelException *ex)
 {
 	gchar *full_name;
 	const gchar *parent_full_name;
@@ -246,6 +249,7 @@ init (CamelFolder *folder, CamelStore *parent_store,
 	folder->open_mode = FOLDER_OPEN_UNKNOWN;
 	folder->open_state = FOLDER_CLOSE;
 	folder->separator = separator;
+	folder->path_begins_with_sep = path_begins_with_sep;
 
 	/* if the folder already has a name, free it */
 	g_free (folder->name);
@@ -260,10 +264,13 @@ init (CamelFolder *folder, CamelStore *parent_store,
 		parent_full_name =
 			camel_folder_get_full_name (folder->parent_folder);
 
-		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
+		full_name = g_strdup_printf ("%s%s%s", parent_full_name,
 					     folder->separator, name);
 	} else {
-		full_name = g_strdup_printf ("%c%s", folder->separator, name);
+		if (path_begins_with_sep)
+			full_name = g_strdup_printf ("%s%s", folder->separator, name);
+		else
+			full_name = g_strdup (name);
 	}
 
 	folder->name = g_strdup (name);
@@ -275,8 +282,7 @@ static void
 folder_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
 {
 	if (folder->open_state == FOLDER_OPEN) {
-		camel_exception_set (ex,
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
+		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
 				     "folder is already open");
 		return;
 	}
@@ -426,7 +432,7 @@ get_subfolder (CamelFolder *folder, const gchar *folder_name,
 
 	current_folder_full_name = camel_folder_get_full_name (folder);
 
-	full_name = g_strdup_printf ("%s%c%s", current_folder_full_name,
+	full_name = g_strdup_printf ("%s%s%s", current_folder_full_name,
 				     folder->separator, folder_name);
 	new_folder = camel_store_get_folder (folder->parent_store,
 					     full_name, create, ex);
@@ -943,6 +949,5 @@ GList *camel_folder_search_by_expression (CamelFolder *folder,
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 	g_return_val_if_fail (folder->has_search_capability, NULL);
 
-	return CF_CLASS (folder)->search_by_expression (folder, expression,
-							ex);
+	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
 }

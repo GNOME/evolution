@@ -324,16 +324,19 @@ imap_create (CamelFolder *folder, CamelException *ex)
 	gint status;
 
 	g_return_val_if_fail (folder != NULL, FALSE);
-
+	
 	if (!(folder->full_name || folder->name)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID,
 				     "invalid folder path. Use set_name ?");
 		return FALSE;
 	}
+
+	if (!strcmp(folder->full_name, "INBOX"))
+		return TRUE;
 	
 	if (camel_folder_get_subfolder(folder->parent_folder, folder->name, FALSE, ex))
 		return TRUE;
-
+	
         /* create the directory for the subfolder */
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), NULL,
 					      &result, "CREATE %s", folder->full_name);

@@ -61,11 +61,13 @@ struct _CamelFolder
 	CamelFolderState open_state;
 	gchar *name;
 	gchar *full_name;
-	gchar separator;
+	gchar *separator;
 	CamelStore *parent_store;
 	CamelFolder *parent_folder;
 	guint32 permanent_flags;
 
+	gboolean path_begins_with_sep;
+	
 	gboolean can_hold_folders:1;
 	gboolean can_hold_messages:1;
 	gboolean has_summary_capability:1;
@@ -81,7 +83,8 @@ typedef struct {
 	/* Virtual methods */	
 	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
 			CamelFolder *parent_folder, const gchar *name,
-			gchar separator, CamelException *ex);
+			gchar *separator, gboolean path_begins_with_sep,
+			CamelException *ex);
 
 	void   (*open) (CamelFolder *folder, 
 			CamelFolderOpenMode mode, 
@@ -255,7 +258,7 @@ void               camel_folder_free_uids             (CamelFolder *folder,
 
 /* search api */
 gboolean           camel_folder_has_search_capability (CamelFolder *folder);
-GList *		   camel_folder_search_by_expression(CamelFolder *folder, const char *expression, CamelException *ex);
+GList *		   camel_folder_search_by_expression  (CamelFolder *folder, const char *expression, CamelException *ex);
 
 /* summary info. FIXME: rename this slightly? */
 const CamelMessageInfo *camel_folder_summary_get_by_uid (CamelFolder *summary,
