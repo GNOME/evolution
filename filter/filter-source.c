@@ -26,12 +26,20 @@
  */
 
 #include <config.h>
+#include "filter-source.h"
+
 #include <gtk/gtk.h>
 #include <gnome.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-url.h>
 #include <e-util/e-sexp.h>
-#include "filter-source.h"
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo-conf/bonobo-config-database.h>
+
 
 typedef struct _SourceInfo SourceInfo;
 struct _SourceInfo {
@@ -155,7 +163,6 @@ static void
 xml_create (FilterElement *fe, xmlNodePtr node)
 {
 	/* Call parent implementation */
-
 	((FilterElementClass *)parent_class)->xml_create (fe, node);
 }
 
@@ -167,19 +174,11 @@ xml_encode (FilterElement *fe)
 	FilterSource *fs = (FilterSource *) fe;
 
 	value = xmlNewNode (NULL, "value");
-	/*
-	  xmlSetProp (value, "name", fe->name);
-	  g_message ("fe->name: [%s]", fe->name);
-	*/
-
-	/* FIXME */
-	xmlSetProp (value, "name", "uri");
-
-
-	xmlSetProp (value, "type", "source");
+	xmlSetProp (value, "name", fe->name);
+	xmlSetProp (value, "type", "uri");
 
 	if (fs->priv->current_url)
-		xmlSetProp (value, "uri", fs->priv->current_url);
+		xmlNewTextChild (value, NULL, "uri", fs->priv->current_url);
 
 	return value;
 }
@@ -189,13 +188,13 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 {
 	FilterSource *fs = (FilterSource *) fe;
 	gchar *value;
-	
-	xmlFree (fe->name);
-	fe->name = xmlGetProp (node, "name");
-	value = xmlGetProp (node, "uri");
-	xmlFree (fs->priv->current_url);
-	fs->priv->current_url = value;
-	
+
+	node = node->childs;
+	if (node && node->name && !strcmp (node->name, "uri")) {
+		g_free (fs->priv->current_url);
+		fs->priv->current_url = xmlNodeGetContent (node);
+	}
+
 	return 0;
 }
 
@@ -205,6 +204,8 @@ clone (FilterElement *fe)
 	FilterSource *fs = (FilterSource *) fe;
 	FilterSource *cpy = filter_source_new ();
 	GList *i;
+
+	((FilterElement *)cpy)->name = g_strdup (fe->name);
 
 	cpy->priv->current_url = g_strdup (fs->priv->current_url);
 
@@ -243,28 +244,33 @@ get_widget (FilterElement *fe)
 
 	index = 0;
 	current_index = -1;
+
 	for (i = fs->priv->sources; i != NULL; i = g_list_next (i)) {
 		SourceInfo *info = (SourceInfo *) i->data;
 		gchar *label, *native_label;
 
-		if (first == NULL)
-			first = info;
-
-		label = g_strdup_printf ("%s <%s>", info->name, info->address);
-		native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
-		item = gtk_menu_item_new_with_label (native_label);
-		g_free (label);
-		g_free (native_label);
-
-		gtk_object_set_data (GTK_OBJECT (item), "source", info);
-		gtk_signal_connect (GTK_OBJECT (item), "activate", GTK_SIGNAL_FUNC (source_changed), fs);
-		gtk_menu_append (GTK_MENU (menu), item);
-		gtk_widget_show (item);
-
-		if (fs->priv->current_url && e_url_equal (info->url, fs->priv->current_url))
-			current_index = index;
-
-		++index;
+		if (info->url != NULL) {
+			
+			if (first == NULL)
+				first = info;
+			
+			label = g_strdup_printf ("%s <%s>", info->name, info->address);
+			native_label = e_utf8_to_gtk_string (GTK_WIDGET (menu), label);
+			item = gtk_menu_item_new_with_label (native_label);
+			g_free (label);
+			g_free (native_label);
+			
+			gtk_object_set_data (GTK_OBJECT (item), "source", info);
+			gtk_signal_connect (GTK_OBJECT (item), "activate", GTK_SIGNAL_FUNC (source_changed), fs);
+			gtk_menu_append (GTK_MENU (menu), item);
+			gtk_widget_show (item);
+			
+			if (fs->priv->current_url && e_url_equal (info->url, fs->priv->current_url)) {
+				current_index = index;
+			}
+			
+			++index;
+		}
 	}
 
 	omenu = gtk_option_menu_new ();
@@ -288,7 +294,7 @@ get_widget (FilterElement *fe)
 static void
 build_code (FilterElement *fe, GString *out, struct _FilterPart *ff)
 {
-	g_message ("build_code: [%s]", out->str);
+	/* We are doing nothing on purpose. */
 }
 
 static void
@@ -296,7 +302,6 @@ format_sexp (FilterElement *fe, GString *out)
 {
 	FilterSource *fs = (FilterSource *) fe;
 
-	g_message ("format_sexp: [%s](%d)", out->str, out->len);
 	e_sexp_encode_string (out, fs->priv->current_url);
 }
 
@@ -315,34 +320,41 @@ filter_source_add_source (FilterSource *fs, const gchar *name, const gchar *addr
 	fs->priv->sources = g_list_append (fs->priv->sources, info);
 }
 
-/* Bad hack; copies some code from mail-config.c */
 static void
 filter_source_get_sources (FilterSource *fs)
 {
-	gchar *str;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 	gint i, len;
 
-	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", "/home/trow/evolution");
-	gnome_config_push_prefix (str);
-	g_free (str);
+	CORBA_exception_init (&ev);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
 
-	len = gnome_config_get_int ("num");
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	CORBA_exception_free (&ev);
+
+	len = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL);
+	
 	for (i = 0; i < len; ++i) {
 		gchar *path;
 		gchar *name;
 		gchar *addr;
 		gchar *url;
 
-		path = g_strdup_printf ("identity_name_%d", i);
-		name = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
+		name = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
-		path = g_strdup_printf ("identity_address_%d", i);
-		addr = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
+		addr = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
-		path = g_strdup_printf ("source_url_%d", i);
-		url = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
+		url = bonobo_config_get_string (db, path, NULL);
 		g_free (path);
 
 		filter_source_add_source (fs, name, addr, url);

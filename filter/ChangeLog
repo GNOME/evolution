@@ -1,3 +1,12 @@
+2001-07-09  Jon Trowbridge  <trow@ximian.com>
+
+	* filter-source.c (filter_source_get_sources): Bonobo-conf-ified.
+	Removed /home/trow hard-wiring. :)
+	(xml_encode): Encode things properly.
+	(xml_decode): Decode things properly.
+	(get_widget): Ignore accounts w/o source URLs.
+	(clone): Set the ->name in our copy.
+
 2001-07-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (rule_delete): Select the most appropriate filter

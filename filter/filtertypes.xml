@@ -559,17 +559,17 @@
    <option value="is">
     <title>is</title>
     <code>
-      (match-all (= (get-source) ${uri}))
+      (match-all (= (get-source) ${source}))
     </code>
    </option>
    <option value="is-not">
     <title>is not</title>
     <code>
-      (match-all (not (= (get-source) ${uri})))
+      (match-all (not (= (get-source) ${source})))
     </code>
    </option>
   </input>
-  <input type="source" name="uri"/>
+  <input type="source" name="source"/>
  </part>
   
 </partset>
