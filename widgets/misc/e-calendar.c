@@ -34,6 +34,7 @@
 #include "e-calendar.h"
 
 #include <glib.h>
+#include <gtk/gtkarrow.h>
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkpixmap.h>

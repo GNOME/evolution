@@ -23,7 +23,7 @@
 #endif
 
 #include "e-charset-picker.h"
-#include <gal/widgets/e-gui-utils.h>
+#include "e-util/e-dialog-utils.h"
 
 #include <string.h>
 #include <iconv.h>
@@ -181,7 +181,7 @@ add_other_charset (GtkWidget *menu, GtkWidget *other, char *new_charset)
 	ic = iconv_open ("UTF-8", new_charset);
 	if (ic == (iconv_t)-1) {
 		GtkWidget *window = gtk_widget_get_ancestor (other, GTK_TYPE_WINDOW);
-		e_notice (GTK_WINDOW (window), GTK_MESSAGE_ERROR,
+		e_notice (window, GTK_MESSAGE_ERROR,
 			  _("Unknown character set: %s"), new_charset);
 		return FALSE;
 	}

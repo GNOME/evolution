@@ -26,6 +26,7 @@
 
 #include "e-combo-button.h"
 
+#include <gtk/gtkarrow.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkmain.h>
