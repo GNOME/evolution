@@ -24,6 +24,7 @@
 #include "filter/filter-input.h"
 
 #include "mail-local.h"
+#include "mail-config.h"
 
 #define PARENT_TYPE (gtk_table_get_type ())
 
@@ -454,7 +455,7 @@ folder_browser_gui_init (FolderBrowser *fb)
 	gtk_widget_show (fb->message_list_w);
 
 	e_paned_add2 (E_PANED (fb->vpaned), GTK_WIDGET (fb->mail_display));
-	e_paned_set_position (E_PANED (fb->vpaned), 200);
+	e_paned_set_position (E_PANED (fb->vpaned), mail_config_paned_size());
 
 	gtk_widget_show (GTK_WIDGET (fb->mail_display));
 	gtk_widget_show (GTK_WIDGET (fb));

@@ -48,6 +48,7 @@ typedef struct
 	MailConfigService *transport;
 	gboolean send_html;
 	gboolean thread_list;
+	gint paned_size;
 } MailConfig;
 
 /* Identities */
@@ -74,7 +75,9 @@ MailConfigService *mail_config_get_default_source (void);
 MailConfigService *mail_config_get_transport (void);
 gboolean mail_config_send_html (void);
 gboolean mail_config_thread_list (void);
+gint mail_config_paned_size (void);
 void mail_config_set_thread_list (gboolean value);
+void mail_config_set_paned_size (gint size);
 MailConfig *mail_config_fetch (void);
 
 #endif

@@ -249,7 +249,13 @@ mail_config_read ()
 			       evolution_dir);
 	config->thread_list = gnome_config_get_bool (str);
 	g_free (str);
-	
+
+	/* Size of vpaned in mail view */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size=200", 
+			       evolution_dir);
+	config->paned_size = gnome_config_get_int (str);
+	g_free (str);
+
 	gnome_config_sync ();
 }
 
@@ -359,7 +365,13 @@ mail_config_write_on_exit ()
 			       evolution_dir);
 	gnome_config_set_bool (str, config->thread_list);
 	g_free (str);
-	
+
+	/* Size of vpaned in mail view */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->paned_size);
+	g_free (str);
+
 	gnome_config_sync ();
 }
 
@@ -410,6 +422,18 @@ void
 mail_config_set_thread_list (gboolean value)
 {
 	config->thread_list = value;
+}
+
+gint
+mail_config_paned_size ()
+{
+	return config->paned_size;
+}
+
+void
+mail_config_set_paned_size (gint value)
+{
+	config->paned_size = value;
 }
 
 MailConfig *
