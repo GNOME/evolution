@@ -29,7 +29,7 @@
 #include "camel-stream-fs.h"
 #include "camel-stream-mem.h"
 
-#include <nss.h>
+#include "nss.h"
 #include <cert.h>
 #include <secpkcs7.h>
 #include <secmime.h>
@@ -114,7 +114,7 @@ camel_smime_context_get_type (void)
 /**
  * camel_smime_context_new:
  * @session: CamelSession
- * @certdb: certificate db
+ * @certdb: certificate db path or NULL to create a volatile temp db
  *
  * This creates a new CamelSMimeContext object which is used to sign,
  * verify, encrypt and decrypt streams.
@@ -128,6 +128,7 @@ camel_smime_context_new (CamelSession *session, const char *certdb)
 	CERTCertDBHandle *handle;
 	
 	g_return_val_if_fail (session != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_SESSION (session), NULL);
 	
 	context = CAMEL_SMIME_CONTEXT (camel_object_new (CAMEL_SMIME_CONTEXT_TYPE));
 	
