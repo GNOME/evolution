@@ -264,7 +264,7 @@ get_object (BonoboItemHandler *h, const char *item_name, gboolean only_if_exists
 	for (l = options; l; l = l->next){
 		BonoboItemOption *option = l->data;
 
-		if (strcmp (option->key, "visible")){
+		if (strcmp (option->key, "visible") == 0){
 			gboolean show = 1;
 			
 			if (option->value)
