@@ -1,3 +1,8 @@
+2001-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-message-composer.xml: Change Security* to SecurityPGP*
+	as we may someday have S/MIME sign/encrypt.
+
 2001-01-24  Jason Leach  <jasonleach@usa.net>
 
 	(Fix #1252: Need a File->Close way to close a view)
