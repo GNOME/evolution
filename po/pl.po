@@ -9,13 +9,21 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-25 21:45+0200\n"
-"PO-Revision-Date: 2001-10-25 21:49+0200\n"
+"POT-Creation-Date: 2001-10-26 17:45+0200\n"
+"PO-Revision-Date: 2001-10-26 17:52+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
+msgid "Factory to import LDIF files into Evolution."
+msgstr "Generator importu plików z LDIF do Evolution."
+
+#: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.oaf.in.h:1
+msgid "Imports LDIF files into Evolution."
+msgstr "Importuje pliki LDIF do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Factory to import VCard files into Evolution."
@@ -23,7 +31,7 @@ msgstr "Generator importu plików z VCard do Evolution."
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:1
 msgid "Imports VCard files into Evolution."
-msgstr "Impurtuje pliki VCard do Evolution."
+msgstr "Importuje pliki VCard do Evolution."
 
 #: addressbook/backend/ebook/e-card-simple.c:1
 #: addressbook/gui/widgets/e-addressbook-view.c:1
@@ -609,6 +617,8 @@ msgstr "Plik VCard z pozycj± %s"
 #: calendar/conduits/calendar/calendar-conduit.c:1
 #: calendar/conduits/todo/todo-conduit.c:1
 #: calendar/gui/alarm-notify/notify-main.c:1 calendar/gui/main.c:1
+#: tools/evolution-addressbook-export.c:1
+#: tools/evolution-addressbook-import.c:1
 msgid "Could not initialize Bonobo"
 msgstr "Nie mo¿na zainicjowaæ Bonobo"
 
@@ -3935,6 +3945,7 @@ msgid "Classification"
 msgstr "Klasyfikacja"
 
 #: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Con_fidential"
 msgstr "Taj_ny"
 
@@ -4023,6 +4034,7 @@ msgid "Member"
 msgstr "Cz³onek"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
+#: calendar/gui/e-itip-control.c:1
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "RSVP"
 msgstr "RSVP"
@@ -4205,10 +4217,6 @@ msgstr "Opis:"
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "Sta_rt Date:"
 msgstr "Cza_s rozpoczêcia:"
-
-#: calendar/gui/dialogs/task-page.glade.h:1
-msgid "_Confidential"
-msgstr "Taj_ny"
 
 #: calendar/gui/dialogs/task-page.glade.h:1
 msgid "_Due Date:"
@@ -4485,10 +4493,14 @@ msgstr "Zadanie ukoñczone: <b>"
 msgid "Task Due: <b>"
 msgstr "Zadanie na: <b>"
 
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+msgid "iCalendar Information"
+msgstr "Informacje iKalendarza"
+
 #. Title
 #: calendar/gui/e-itip-control.c:1
 msgid "iCalendar Error"
-msgstr "B³±d iCalendarza"
+msgstr "B³±d iKalendarza"
 
 #: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
 msgid "An unknown person"
@@ -4506,6 +4518,51 @@ msgstr ""
 #: calendar/gui/e-itip-control.c:1
 msgid "<i>None</i>"
 msgstr "<i>Brak</i>"
+
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+msgid "Choose an action:"
+msgstr "Wybór czynno¶ci:"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Update"
+msgstr "Aktualizacja"
+
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+#: calendar/gui/e-itip-control.c:1 calendar/gui/e-itip-control.c:1
+#: shell/e-shell.c:1 widgets/misc/e-cell-date-edit.c:1
+msgid "OK"
+msgstr "OK"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Accept"
+msgstr "Akceptacja"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Tentatively accept"
+msgstr "Próbna akceptacja"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Decline"
+msgstr "Odrzucenie"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Send Free/Busy Information"
+msgstr "Wys³anie informacji o zajêto¶ci"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Update respondent status"
+msgstr "Pobranie stanu wezwanej osoby"
+
+#: calendar/gui/e-itip-control.c:1
+msgid "Send Latest Information"
+msgstr "Wys³anie naj¶wie¿szej informacji"
+
+#: calendar/gui/e-itip-control.c:1 ui/evolution-mail-global.xml.h:1
+msgid "Cancel"
+msgstr "Anuluj"
 
 #: calendar/gui/e-itip-control.c:1
 #, c-format
@@ -5251,6 +5308,12 @@ msgstr "Ustawienia wydruku"
 #: calendar/gui/tasks-control.c:1
 msgid "The URI of the tasks folder to display"
 msgstr "URI folderu zadañ, który nale¿y wy¶wietliæ"
+
+#: calendar/gui/tasks-control-factory.c:1
+msgid ""
+"Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr ""
+"Nie mo¿na stworzyæ widoku zadañ.  Zweryfikuj ustawienia ORBita i OAF-a."
 
 #: calendar/gui/tasks-migrate.c:1
 msgid ""
@@ -7576,6 +7639,15 @@ msgstr "Temat zawiera"
 msgid "Subject does not contain"
 msgstr "Temat nie zawiera"
 
+#. Remember the password?
+#: e-util/e-passwords.c:1 mail/mail-session.c:1
+msgid "Remember this password"
+msgstr "Zapamiêtanie has³a"
+
+#: e-util/e-passwords.c:1 mail/mail-session.c:1
+msgid "Remember this password for the remainder of this session"
+msgstr "Zapamiêtanie tego has³a na czas bie¿±cej sesji"
+
 #. strptime format of a weekday, a date and a time,
 #. in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:1 e-util/e-time-utils.c:1
@@ -8484,6 +8556,10 @@ msgstr "Filtr w oparciu o listê dyskusyjn± (%s)"
 msgid "VFolder on Mailing List (%s)"
 msgstr "VFolder w oparciu o listê dyskusyjn± (%s)"
 
+#: mail/folder-browser.h:1
+msgid "Default"
+msgstr "Domy¶lny"
+
 #: mail/folder-info.c:1
 msgid "Getting Folder Information"
 msgstr "Pobieranie informacji o folderze"
@@ -8494,7 +8570,7 @@ msgstr "Generator importu plików mbox do Evolution."
 
 #: mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in.h:1
 msgid "Imports mbox files into Evolution"
-msgstr "Impurtuje pliki mbox do Evolution."
+msgstr "Importuje pliki mbox do Evolution."
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:1
 msgid "Factory to import Outlook Express 4 mails into Evolution"
@@ -8502,7 +8578,7 @@ msgstr "Generator importu plików Outlook Express 4 do Evolution."
 
 #: mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in.h:1
 msgid "Imports Outlook Express 4 files into Evolution"
-msgstr "Impurtuje pliki Outlook Express 4 do Evolution."
+msgstr "Importuje pliki Outlook Express 4 do Evolution."
 
 #: mail/local-config.glade.h:1
 msgid "Body contents"
@@ -9839,15 +9915,6 @@ msgstr "Anulowano."
 #: mail/mail-session.c:1
 msgid "User canceled operation."
 msgstr "Operacja anulowana przez u¿ytkownika."
-
-#. Remember the password?
-#: mail/mail-session.c:1
-msgid "Remember this password"
-msgstr "Zapamiêtanie has³a"
-
-#: mail/mail-session.c:1
-msgid "Remember this password for the remainder of this session"
-msgstr "Zapamiêtanie tego has³a na czas bie¿±cej sesji"
 
 #: mail/mail-session.c:1
 #, c-format
@@ -11574,6 +11641,18 @@ msgstr ""
 "Evolution. Przenie¶ go w inne miejsce, aby umo¿liwiæ\n"
 "instalacjê plików u¿ytkownika Evolution."
 
+#: shell/e-shell-about-box.c:1
+msgid "Evolution "
+msgstr "Evolution "
+
+#: shell/e-shell-about-box.c:1
+msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
+msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
+
+#: shell/e-shell-about-box.c:1
+msgid "Brought to you by"
+msgstr "Dostarczone przez"
+
 #: shell/e-shell-folder-commands.c:1
 msgid "Cannot move a folder over itself."
 msgstr "Nie mo¿na przenie¶æ folderu do niego samego."
@@ -11902,11 +11981,14 @@ msgid "Error executing %s."
 msgstr "B³±d przy wykonywaniu %s."
 
 #: shell/e-shell-view-menu.c:1
-msgid "Work Online"
-msgstr "Praca z pod³±czeniem"
+msgid "_Work Online"
+msgstr "Praca _z pod³±czeniem"
 
-#: shell/e-shell-view-menu.c:1 shell/e-shell-view-menu.c:1
-#: ui/evolution.xml.h:1
+#: shell/e-shell-view-menu.c:1 ui/evolution.xml.h:1
+msgid "_Work Offline"
+msgstr "Praca _bez pod³±czenia"
+
+#: shell/e-shell-view-menu.c:1 ui/evolution.xml.h:1
 msgid "Work Offline"
 msgstr "Praca bez pod³±czenia"
 
@@ -11922,16 +12004,6 @@ msgstr "%s (%d)"
 #: shell/e-shell-view.c:1
 msgid "(None)"
 msgstr "(Brak)"
-
-#: shell/e-shell-view.c:1
-#, c-format
-msgid "%s - Ximian Evolution %s"
-msgstr "%s - Ximian Evolution %s"
-
-#: shell/e-shell-view.c:1
-#, c-format
-msgid "%s - Ximian Evolution %s [%s]"
-msgstr "%s - Ximian Evolution %s [%s]"
 
 #: shell/e-shell-view.c:1
 msgid ""
@@ -11966,10 +12038,6 @@ msgstr ""
 "Komponent Evolution obs³uguj±cy foldery typu \"%s\"\n"
 "nieoczekiwanie zakoñczy³ dzia³anie. Aby ponownie uzyskaæ dostêp do\n"
 "danych, nale¿y zakoñczyæ Evolution, a nastêpnie uruchomiæ ponownie."
-
-#: shell/e-shell.c:1 widgets/misc/e-cell-date-edit.c:1
-msgid "OK"
-msgstr "OK"
 
 #: shell/e-shell.c:1
 msgid "Invalid arguments"
@@ -12457,6 +12525,23 @@ msgstr ""
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Nie mo¿na zainicjowaæ systemu komponentów Bonobo."
 
+#: tools/evolution-addressbook-export.c:1
+#: tools/evolution-addressbook-import.c:1
+msgid "Error loading default addressbook."
+msgstr "B³±d przy odczycie domy¶lnej ksi±¿ki adresowej."
+
+#: tools/evolution-addressbook-export.c:1
+msgid "Output File"
+msgstr "Plik wy¶ciowy"
+
+#: tools/evolution-addressbook-import.c:1
+msgid "Input File"
+msgstr "Plik wej¶ciowy"
+
+#: tools/evolution-addressbook-import.c:1
+msgid "No filename provided."
+msgstr "Nie podano nazwy pliku."
+
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-mail-message.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "Copy"
@@ -12837,10 +12922,6 @@ msgstr "Planuje spotkanie zwi±zane z tym elementem"
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
 msgstr "Dopasuj Moje Evolution"
-
-#: ui/evolution-mail-global.xml.h:1
-msgid "Cancel"
-msgstr "Anuluj"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel the current mail operation"
@@ -13841,10 +13922,6 @@ msgstr "_Skrót"
 #: ui/evolution.xml.h:1
 msgid "_Shortcut Bar"
 msgstr "Pasek _skrótów"
-
-#: ui/evolution.xml.h:1
-msgid "_Work Offline"
-msgstr "Praca _bez pod³±czenia"
 
 #: ui/my-evolution.xml.h:1
 msgid "Change the settings for the summary"
