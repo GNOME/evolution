@@ -25,6 +25,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <stdlib.h>
+#include <string.h>
 #include <glib.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>

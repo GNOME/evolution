@@ -1,11 +1,8 @@
-ecpsdir    = $(datadir)/evolution-$(BASE_VERSION)/ecps
-
+ecpsdir    = $(privdatadir)/ecps
 ecps_DATA  =				\
 	smallbook.ecps			\
 	medbook.ecps			\
 	phonelist.ecps
-
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 
 glade_DATA = 				\
 	e-contact-print.glade
@@ -19,7 +16,6 @@ INCLUDES =					\
 	-I$(top_srcdir)				\
         -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
-	-DDATADIR=\""$(datadir)"\"		\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 noinst_LIBRARIES =				\

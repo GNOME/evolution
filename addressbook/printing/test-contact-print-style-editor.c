@@ -25,6 +25,7 @@
 #include <gtk/gtkmain.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-ui-init.h>
+#include <bonobo/bonobo-main.h>
 #include "e-contact-print-style-editor.h"
 
 /* This is a horrible thing to do, but it is just a test. */

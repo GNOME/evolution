@@ -26,6 +26,7 @@
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-ui-init.h>
 #include <glade/glade.h>
+#include <bonobo/bonobo-main.h>
 #include "e-contact-print.h"
 
 /* This is a horrible thing to do, but it is just a test. */
