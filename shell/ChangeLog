@@ -1,3 +1,9 @@
+2003-02-26  Chris Toshok  <toshok@ximian.com>
+
+	* e-folder-list.c (e_folder_list_parse_xml): make this more robust
+	- only assume it's a folderlistitem node if the name of the node
+	is "folder".
+
 2003-02-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-config-upgrade.c: Change the type of load_http_images to INT

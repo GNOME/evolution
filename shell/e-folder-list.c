@@ -490,10 +490,13 @@ e_folder_list_parse_xml (char *xml)
 
 	items = g_new (EFolderListItem, i + 1);
 
-	for (node = root->xmlChildrenNode, i = 0; node; node = node->next, i++) {
-		items[i].uri = e_xml_get_string_prop_by_name_with_default (node, "uri", "");
-		items[i].physical_uri = e_xml_get_string_prop_by_name_with_default (node, "physical-uri", "");
-		items[i].display_name = e_xml_get_string_prop_by_name_with_default (node, "display-name", "");
+	for (node = root->xmlChildrenNode, i = 0; node; node = node->next) {
+		if (node->name && !strcmp (node->name, "folder")) {
+			items[i].uri = e_xml_get_string_prop_by_name_with_default (node, "uri", "");
+			items[i].physical_uri = e_xml_get_string_prop_by_name_with_default (node, "physical-uri", "");
+			items[i].display_name = e_xml_get_string_prop_by_name_with_default (node, "display-name", "");
+			i++;
+		}
 	}
 	items[i].uri = NULL;
 	items[i].physical_uri = NULL;
