@@ -1,3 +1,9 @@
+1999-06-01  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* calobj.c (daynumberlist): Work around broken software that
+	writes a broken month-of-day as "zero".  Use the dtstart date for
+	this on this event.
+
 1999-05-28  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* Makefile.am (install-data-local): help files be gone.  They are

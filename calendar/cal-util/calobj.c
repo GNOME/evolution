@@ -300,6 +300,14 @@ daynumberlist (iCalObject *o, char **str)
 			(*str)++;
 		}
 		if (!first){
+			/*
+			 * Some broken applications set this to zero
+			 */
+			if (val == 0){
+				struct tm *day = localtime (&o->dtstart);
+				
+				val = tm->tm_mday;
+			}
 			o->recur->u.month_day = val;
 			first = 1;
 			val = 0;
