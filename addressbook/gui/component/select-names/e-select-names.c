@@ -291,7 +291,6 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	ETableModel *without;
 	EAddressbookModel *model;
 	GtkWidget *table;
-	char *spec;
 
 	model = e_addressbook_model_new ();
 	adapter = E_TABLE_MODEL (e_addressbook_table_adapter_new (model));
@@ -712,7 +711,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	GtkTable *table;
 	char *label_text;
 	ETable *etable;
-	PangoLayout *layout;
 
 	GtkWidget *sw;
 	GtkWidget *recipient_table;

@@ -33,8 +33,11 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <string.h>
+#include <unistd.h>
 
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-main.h>
 
 #include "evolution-shell-component.h"
 #include "evolution-shell-component-dnd.h"
@@ -96,7 +99,7 @@ create_view (EvolutionShellComponent *shell_component,
 	if (!IS_CONTACT_TYPE (type))
 		return EVOLUTION_SHELL_COMPONENT_UNSUPPORTEDTYPE;
 
-	control = addressbook_factory_new_control ();
+	control = addressbook_new_control ();
 	bonobo_control_set_property (control, NULL, "folder_uri", TC_CORBA_string, physical_uri, NULL);
 
 	*control_return = control;
@@ -372,8 +375,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	if (global_shell_client == NULL)
 		global_shell_client = shell_client;
 
-	addressbook_config_register_factory (evolution_shell_client_corba_objref (shell_client));
-
 	addressbook_storage_setup (shell_component, evolution_homedir);
 }
 
@@ -620,24 +621,10 @@ ensure_completion_uris_exist()
 }
 
 
-/* FIXME this should probably be renamed as we don't use factories anymore.  */
-void
-addressbook_component_factory_init (void)
+/* FIXME this is wrong.  */
+BonoboObject *
+addressbook_component_init (void)
 {
-	BonoboObject *object;
-	int result;
-
-	object = create_component ();
-
-	/* FIXME: Handle errors better?  */
-
-	result = bonobo_activation_active_server_register (GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID,
-							   bonobo_object_corba_objref (object));
-	if (result == Bonobo_ACTIVATION_REG_ERROR)
-		g_error ("Cannot register -- %s", GNOME_EVOLUTION_ADDRESSBOOK_COMPONENT_ID);
-
-	/* XXX this could probably go someplace else, but I'll leave
-	   it here for now since it's a component init time
-	   operation. */
 	ensure_completion_uris_exist ();
+	return create_component ();
 }

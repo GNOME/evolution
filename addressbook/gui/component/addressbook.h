@@ -12,7 +12,6 @@
 gboolean       addressbook_load_uri             (EBook *book, const char *uri, EBookCallback cb, gpointer closure);
 gboolean       addressbook_load_default_book    (EBook *book, EBookCallback open_response, gpointer closure);
 
-BonoboControl *addressbook_factory_new_control  (void);
-void           addressbook_factory_init         (void);
+BonoboControl *addressbook_new_control  (void);
 
 #endif /* __ADDRESSBOOK_H__ */

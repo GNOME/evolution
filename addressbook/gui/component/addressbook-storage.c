@@ -47,6 +47,9 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <string.h>
+#include <ctype.h>
+#include <unistd.h>
 
 #include <glib.h>
 #include <gtk/gtk.h>

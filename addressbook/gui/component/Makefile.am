@@ -27,19 +27,19 @@ INCLUDES =							\
 	$(LDAP_CFLAGS)						\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-libexec_PROGRAMS =	\
-	evolution-addressbook
+componentdir = $(COMPONENT_DIR)
+component_LTLIBRARIES = libevolution-addressbook.la
 
-evolution_addressbook_SOURCES = 	\
+libevolution_addressbook_la_SOURCES = 	\
 	addressbook-component.c		\
 	addressbook-component.h		\
 	addressbook-config.c		\
 	addressbook-config.h		\
-	addressbook-factory.c		\
 	addressbook-storage.c		\
 	addressbook-storage.h		\
 	addressbook.c			\
 	addressbook.h			\
+	component-factory.c		\
 	e-cardlist-model.c		\
 	e-cardlist-model.h		\
 	e-address-widget.h		\
@@ -47,7 +47,7 @@ evolution_addressbook_SOURCES = 	\
 	e-address-popup.h		\
 	e-address-popup.c
 
-evolution_addressbook_LDADD =								\
+libevolution_addressbook_la_LIBADD =							\
 	select-names/libeselectnames.la							\
 	$(top_builddir)/shell/libeshell.la						\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a				\
@@ -68,6 +68,9 @@ evolution_addressbook_LDADD =								\
 # not done yet:
 #	$(top_builddir)/filter/libfilter.la
 
+
+libevolution_addressbook_la_LDFLAGS = -module -avoid-version
+
 # GConf schemas
 
 schemadir   = $(GCONF_SCHEMA_FILE_DIR)
@@ -85,7 +88,8 @@ server_in_files = GNOME_Evolution_Addressbook.server.in.in
 serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
-	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
+	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
+
 @INTLTOOL_SERVER_RULE@
 
 gladedir   = $(datadir)/evolution/glade

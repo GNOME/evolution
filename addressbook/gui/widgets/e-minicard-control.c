@@ -2,10 +2,24 @@
 /*
  * e-minicard-control.c
  *
+ * Copyright (C) 1999, 2000, 2001, 2002, Ximian, Inc.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
  * Authors:
  *    Chris Lahey <clahey@ximian.com>
- *
- * Copyright 1999, 2000, Ximian, Inc.
  */
 
 #include <config.h>
@@ -25,9 +39,6 @@
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
 #include "e-card-merging.h"
-
-#define MINICARD_CONTROL_ID         "OAFIID:GNOME_Evolution_Addressbook_MiniCard_Control"
-#define MINICARD_CONTROL_FACTORY_ID "OAFIID:GNOME_Evolution_Addressbook_MiniCard_ControlFactory"
 
 typedef struct {
 	EMinicardWidget *minicard;
@@ -272,10 +283,8 @@ free_struct (gpointer data, GObject *where_object_was)
 	g_free (minicard_control);
 }
 
-static BonoboObject *
-e_minicard_control_factory (BonoboGenericFactory *Factory,
-			    const char           *component_id,
-			    void *closure)
+BonoboControl *
+e_minicard_control_new (void)
 {
 #if 0
 	BonoboPropertyBag  *pb;
@@ -342,22 +351,5 @@ e_minicard_control_factory (BonoboGenericFactory *Factory,
 	bonobo_object_add_interface (BONOBO_OBJECT (control),
 				    BONOBO_OBJECT (stream));
 
-	return BONOBO_OBJECT (control);
-}
-
-void
-e_minicard_control_factory_init (void)
-{
-	static BonoboGenericFactory *factory = NULL;
-
-	if (factory != NULL)
-		return;
-
-	factory =
-		bonobo_generic_factory_new (
-			MINICARD_CONTROL_FACTORY_ID,
-			e_minicard_control_factory, NULL);
-
-	if (factory == NULL)
-		g_error ("I could not register a EMinicard control factory.");
+	return control;
 }

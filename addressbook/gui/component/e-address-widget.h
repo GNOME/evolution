@@ -75,10 +75,7 @@ void e_address_widget_set_text  (EAddressWidget *, const gchar *text);
 void e_address_widget_construct (EAddressWidget *);
 GtkWidget *e_address_widget_new (void);
 
-
-void e_address_widget_factory_init (void);
-
-
+BonoboControl *e_address_widget_new_control (void);
 
 G_END_DECLS
 

@@ -11,6 +11,9 @@
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/xmlmemory.h>
+
+#include <string.h>
+
 #include "e-cardlist-model.h"
 
 #define PARENT_TYPE e_table_model_get_type()

@@ -1,3 +1,57 @@
+2002-12-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/e-cardlist-model.c: #include <string.h>.
+
+	* gui/component/addressbook-storage.c: #include <string.h>,
+	<ctype.h>, <unistd.h>.
+
+	* gui/component/addressbook-factory.c: Removed.
+
+	* gui/component/addressbook-component.c: #include
+	<bonobo/bonobo-main.h>, <unistd.h> and <string.h>.
+	(create_view): addressbook_new_control() instead of
+	addressbook_factory_new_control().
+
+	* gui/component/select-names/e-select-names.c
+	(e_addressbook_create_ebook_table): Removed unused variable.
+	(e_select_names_add_section): Removed unused variable.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(focus_in_cb): Use g_source_remove() here instead of
+	gtk_timeout_remove().
+
+	* gui/component/component-factory.c: New.
+
+	* gui/widgets/e-minicard-control.c
+	(e_minicard_control_factory_init): Removed.
+	(e_minicard_control_control_factory): Removed.
+	(e_minicard_control_new): New.
+
+	* gui/component/e-address-widget.c
+	(e_address_widget_factory_init): Removed.
+	(e_address_widget_new_control): Renamed from
+	e_address_widget_factory_new_control(), made public.
+	(e_address_widget_factory): Removed.
+
+	* gui/component/e-address-popup.c (e_address_popup_new_control):
+	New.
+	(e_address_popup_factory_new_control): Removed.
+	(e_address_popup_factory): Removed.
+	(e_address_popup_factory_init): Removed.
+
+	* gui/component/addressbook-config.c
+	(addressbook_config_register_factory): Removed.
+	(addressbook_config_create_control): New.
+
+	* gui/component/addressbook-component.c
+	(addressbook_component_factory_init): Removed.
+	(addressbook_component_get_object): New.
+	(owner_set_cb): Do not call addressbok_config_register_factory().
+
+	* gui/component/addressbook.c (addressbook_factory_init): Removed.
+	(addressbook_new_control): Renamed from
+	addressbook_factory_new_control().
+
 2002-12-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* gui/component/select-names/e-select-names.etspec: Use collate

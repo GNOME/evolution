@@ -80,7 +80,7 @@ void e_address_popup_set_email (EAddressPopup *, const gchar *email);
 void e_address_popup_construct (EAddressPopup *);
 GtkWidget *e_address_popup_new (void);
 
-void e_address_popup_factory_init (void);
+BonoboControl *e_address_popup_new_control (void);
 
 G_END_DECLS
 

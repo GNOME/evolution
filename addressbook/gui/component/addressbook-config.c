@@ -26,6 +26,7 @@
 #include <glade/glade.h>
 
 #include "addressbook.h"
+#include "addressbook-component.h"
 #include "addressbook-config.h"
 #include "addressbook-storage.h"
 
@@ -1673,45 +1674,16 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 }
 
 
-/* Implementation of the factory for the configuration control.  */
-
-static BonoboGenericFactory *factory = NULL;
-
-static BonoboObject *
-config_control_factory_fn (BonoboGenericFactory *factory,
-			   const char *component_id,
-			   void *data)
+BonoboControl *
+addressbook_config_control_new (void)
 {
 	GNOME_Evolution_Shell shell;
-	EvolutionConfigControl *control;
 
-	shell = (GNOME_Evolution_Shell) data;
+	shell = BONOBO_OBJREF (addressbook_component_get_shell_client ());
+	if (! shell)
+		return NULL;
 
-	if (!strcmp (component_id, LDAP_CONFIG_CONTROL_ID)) {
-		control = ldap_config_control_new (shell);
-	} else {
-		control = NULL;
-		g_assert_not_reached ();
-	}
-
-	return BONOBO_OBJECT (control);
-}
-
-gboolean
-addressbook_config_register_factory (GNOME_Evolution_Shell shell)
-{
-	g_return_val_if_fail (shell != CORBA_OBJECT_NIL, FALSE);
-
-	factory = bonobo_generic_factory_new (CONFIG_CONTROL_FACTORY_ID,
-					      config_control_factory_fn,
-					      shell);
-
-	if (factory != NULL) {
-		return TRUE;
-	} else {
-		g_warning ("Cannot register factory %s", CONFIG_CONTROL_FACTORY_ID);
-		return FALSE;
-	}
+	return BONOBO_CONTROL (ldap_config_control_new (shell));
 }
 
 void

@@ -26,7 +26,7 @@
 #include "evolution-shell-component.h"
 #include "evolution-storage.h"
 
-void                  addressbook_component_factory_init      (void);
+BonoboObject         *addressbook_component_init              (void);
 EvolutionShellClient *addressbook_component_get_shell_client  (void);
 
 #endif /* _ADDRESSBOOK_COMPONENT_H */

@@ -522,7 +522,7 @@ set_prop (BonoboPropertyBag *bag, const BonoboArg *arg, guint arg_id, CORBA_Envi
 	}
 }
 
-static BonoboControl *
+BonoboControl *
 e_address_widget_factory_new_control (void)
 {
 	BonoboControl *control;
@@ -556,27 +556,3 @@ e_address_widget_factory_new_control (void)
 
 	return control;
 }
-
-static BonoboObject *
-e_address_widget_factory (BonoboGenericFactory *factory,
-			  const char           *component_id,
-			  gpointer user_data)
-{
-	return BONOBO_OBJECT (e_address_widget_factory_new_control ());
-}
-
-void
-e_address_widget_factory_init (void)
-{
-	static BonoboGenericFactory *factory = NULL;
-
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Addressbook_AddressWidgetFactory",
-					      e_address_widget_factory, NULL);
-
-	if (factory == NULL)
-		g_error ("I could not register an AddressWidget factory.");
-}
-

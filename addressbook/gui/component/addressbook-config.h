@@ -27,9 +27,8 @@
 
 #include "addressbook-storage.h"
 
-void  addressbook_config_create_new_source  (const char            *new_source,
-					     GtkWidget             *parent);
-
-gboolean  addressbook_config_register_factory  (GNOME_Evolution_Shell shell);
+BonoboControl *addressbook_config_control_new (void);
+void  addressbook_config_create_new_source  (const char *new_source,
+					     GtkWidget  *parent);
 
 #endif /* __ADDRESSBOOK_CONFIG_H__ */

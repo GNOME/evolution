@@ -169,7 +169,7 @@ focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 	ESelectNamesManagerEntry *entry = user_data;
 
 	if (entry->cleaning_tag) {
-		gtk_timeout_remove (entry->cleaning_tag);
+		g_source_remove (entry->cleaning_tag);
 		entry->cleaning_tag = 0;
 	}
 
@@ -558,7 +558,7 @@ e_select_names_manager_create_entry (ESelectNamesManager *manager, const char *i
 static void
 e_select_names_response(ESelectNames *dialog, gint response_id, ESelectNamesManager *manager)
 {
-	gtk_widget_destroy (GTK_DIALOG (dialog));
+	gtk_widget_destroy (GTK_WIDGET (dialog));
 
 	switch(response_id) {
 	case GTK_RESPONSE_OK:

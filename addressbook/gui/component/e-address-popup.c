@@ -1218,8 +1218,8 @@ get_prop (BonoboPropertyBag *bag, BonoboArg *arg, guint arg_id, CORBA_Environmen
 	}
 }
 
-static BonoboControl *
-e_address_popup_factory_new_control (void)
+BonoboControl *
+e_address_popup_new_control (void)
 {
         BonoboControl *control;
         BonoboPropertyBag *bag;
@@ -1253,27 +1253,4 @@ e_address_popup_factory_new_control (void)
 				     BONOBO_OBJECT (addy->es));
 
         return control;
-}
-
-static BonoboObject *
-e_address_popup_factory (BonoboGenericFactory *factory,
-			 const char           *component_id,
-			 gpointer user_data)
-{
-	return BONOBO_OBJECT (e_address_popup_factory_new_control ());
-}
-
-void
-e_address_popup_factory_init (void)
-{
-	static BonoboGenericFactory *factory = NULL;
-
-	if (factory != NULL)
-		return;
-
-	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Addressbook_AddressPopupFactory",
-					      e_address_popup_factory, NULL);
-	
-	if (factory == NULL)
-		g_error ("I could not register an AddressPopup factory.");
 }

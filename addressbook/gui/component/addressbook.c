@@ -1,11 +1,23 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
- * addressbook.c: 
+/* addressbook.c
  *
- * Author:
- *   Chris Lahey (clahey@ximian.com)
+ * Copyright (C) 2000, 2001, 2002 Ximian, Inc.
  *
- * (C) 2000 Ximian, Inc.
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public
+ * License along with this program; if not, write to the
+ * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ * Author: Chris Lahey (clahey@ximian.com)
  */
 
 #include <config.h>
@@ -1089,7 +1101,7 @@ connect_master_list_changed (AddressbookView *view)
 }
 
 BonoboControl *
-addressbook_factory_new_control (void)
+addressbook_new_control (void)
 {
 	AddressbookView *view;
 	GtkWidget *frame;
@@ -1174,29 +1186,3 @@ addressbook_factory_new_control (void)
 
 	return view->control;
 }
-
-static BonoboObject *
-addressbook_factory (BonoboGenericFactory *Factory,
-		     const char           *component_id,
-		     void *closure)
-{
-	return BONOBO_OBJECT (addressbook_factory_new_control ());
-}
-
-void
-addressbook_factory_init (void)
-{
-	static BonoboGenericFactory *addressbook_control_factory = NULL;
-
-	if (addressbook_control_factory != NULL)
-		return;
-
-	addressbook_control_factory = bonobo_generic_factory_new (
-		"OAFIID:GNOME_Evolution_Addressbook_ControlFactory",
-		addressbook_factory, NULL);
-
-	if (addressbook_control_factory == NULL) {
-		g_error ("I could not register a Addressbook factory.");
-	}
-}
-
