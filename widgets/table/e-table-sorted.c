@@ -31,8 +31,8 @@ static void ets_sort                     (ETableSorted *ets);
 static void ets_proxy_model_changed      (ETableSubset *etss, ETableModel *source);
 static void ets_proxy_model_row_changed  (ETableSubset *etss, ETableModel *source, int row);
 static void ets_proxy_model_cell_changed (ETableSubset *etss, ETableModel *source, int col, int row);
-static void ets_proxy_model_row_inserted (ETableSubset *etss, ETableModel *source, int row);
-static void ets_proxy_model_row_deleted  (ETableSubset *etss, ETableModel *source, int row);
+static void ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row, int count);
+static void ets_proxy_model_rows_deleted  (ETableSubset *etss, ETableModel *source, int row, int count);
 
 static void
 ets_destroy (GtkObject *object)
@@ -68,8 +68,8 @@ ets_class_init (GtkObjectClass *object_class)
 	etss_class->proxy_model_changed = ets_proxy_model_changed;
 	etss_class->proxy_model_row_changed = ets_proxy_model_row_changed;
 	etss_class->proxy_model_cell_changed = ets_proxy_model_cell_changed;
-	etss_class->proxy_model_row_inserted = ets_proxy_model_row_inserted;
-	etss_class->proxy_model_row_deleted = ets_proxy_model_row_deleted;
+	etss_class->proxy_model_rows_inserted = ets_proxy_model_rows_inserted;
+	etss_class->proxy_model_rows_deleted = ets_proxy_model_rows_deleted;
 
 	object_class->destroy = ets_destroy;
 }
@@ -172,14 +172,14 @@ static void
 ets_proxy_model_cell_changed (ETableSubset *subset, ETableModel *source, int col, int row)
 {
 	ETableSorted *ets = E_TABLE_SORTED(subset);
-	if (e_table_sorting_utils_affects_sort(source, ets->sort_info, ets->full_header, col))
+	if (e_table_sorting_utils_affects_sort(ets->sort_info, ets->full_header, col))
 		ets_proxy_model_row_changed(subset, source, row);
 	else if (ets_parent_class->proxy_model_cell_changed)
 		(ets_parent_class->proxy_model_cell_changed) (subset, source, col, row);
 }
 
 static void
-ets_proxy_model_row_inserted (ETableSubset *etss, ETableModel *source, int row)
+ets_proxy_model_rows_inserted (ETableSubset *etss, ETableModel *source, int row, int count)
 {
  	ETableModel *etm = E_TABLE_MODEL(etss);
 	ETableSorted *ets = E_TABLE_SORTED(etss);
@@ -189,64 +189,69 @@ ets_proxy_model_row_inserted (ETableSubset *etss, ETableModel *source, int row)
 
 	for (i = 0; i < etss->n_map; i++) {
 		if (etss->map_table[i] >= row)
-			etss->map_table[i] ++;
+			etss->map_table[i] += count;
 	}
 
-	etss->map_table = g_realloc (etss->map_table, (etss->n_map + 1) * sizeof(int));
+	etss->map_table = g_realloc (etss->map_table, (etss->n_map + count) * sizeof(int));
 
-	i = etss->n_map;
-	if (ets->sort_idle_id == 0) {
-		/* this is to see if we're inserting a lot of things between idle loops.
-		   If we are, we're busy, its faster to just append and perform a full sort later */
-		ets->insert_count++;
-		if (ets->insert_count > ETS_INSERT_MAX) {
-			/* schedule a sort, and append instead */
-			ets->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
-		} else {
-			/* make sure we have an idle handler to reset the count every now and then */
-			if (ets->insert_idle_id == 0) {
-				ets->insert_idle_id = g_idle_add_full(40, (GSourceFunc) ets_insert_idle, ets, NULL);
+	for (; count > 0; count --) {
+		i = etss->n_map;
+		if (ets->sort_idle_id == 0) {
+			/* this is to see if we're inserting a lot of things between idle loops.
+			   If we are, we're busy, its faster to just append and perform a full sort later */
+			ets->insert_count++;
+			if (ets->insert_count > ETS_INSERT_MAX) {
+				/* schedule a sort, and append instead */
+				ets->sort_idle_id = g_idle_add_full(50, (GSourceFunc) ets_sort_idle, ets, NULL);
+			} else {
+				/* make sure we have an idle handler to reset the count every now and then */
+				if (ets->insert_idle_id == 0) {
+					ets->insert_idle_id = g_idle_add_full(40, (GSourceFunc) ets_insert_idle, ets, NULL);
+				}
+				i = e_table_sorting_utils_insert(etss->source, ets->sort_info, ets->full_header, etss->map_table, etss->n_map, row);
+				memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 			}
-			i = e_table_sorting_utils_insert(etss->source, ets->sort_info, ets->full_header, etss->map_table, etss->n_map, row);
-			memmove(etss->map_table + i + 1, etss->map_table + i, (etss->n_map - i) * sizeof(int));
 		}
-	}
-	etss->map_table[i] = row;
-	etss->n_map++;
+		etss->map_table[i] = row;
+		etss->n_map++;
 
-	e_table_model_row_inserted (etm, i);
-	d(g_print("inserted row %d", row));
+		e_table_model_row_inserted (etm, i);
+		d(g_print("inserted row %d", row));
+	}
 	d(e_table_subset_print_debugging(etss));
 }
 
 static void
-ets_proxy_model_row_deleted (ETableSubset *etss, ETableModel *source, int row)
+ets_proxy_model_rows_deleted (ETableSubset *etss, ETableModel *source, int row, int count)
 {
 	ETableModel *etm = E_TABLE_MODEL(etss);
 	int i;
 	gboolean shift;
+	int j;
 
 	shift = row == etss->n_map - 1;
 	
-	for (i = 0; i < etss->n_map; i++){
-		if (etss->map_table[i] == row) {
-			e_table_model_pre_change (etm);
-			memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
-			etss->n_map --;
-			if (shift)
-				e_table_model_row_deleted (etm, i);
+	for (j = 0; j < count; j++) {
+		for (i = 0; i < etss->n_map; i++){
+			if (etss->map_table[i] == row) {
+				e_table_model_pre_change (etm);
+				memmove (etss->map_table + i, etss->map_table + i + 1, (etss->n_map - i - 1) * sizeof(int));
+				etss->n_map --;
+				if (shift)
+					e_table_model_row_deleted (etm, i);
+			}
 		}
 	}
 	if (!shift) {
 		for (i = 0; i < etss->n_map; i++) {
 			if (etss->map_table[i] >= row)
-				etss->map_table[i] --;
+				etss->map_table[i] -= count;
 		}
 
 		e_table_model_changed (etm);
 	}
 
-	d(g_print("deleted row %d", row));
+	d(g_print("deleted row %d count %d", row, count));
 	d(e_table_subset_print_debugging(etss));
 }
 

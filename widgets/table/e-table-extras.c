@@ -72,6 +72,15 @@ ete_class_init (GtkObjectClass *klass)
 	klass->destroy = ete_destroy;
 }
 
+static gint
+e_strint_compare(gconstpointer data1, gconstpointer data2)
+{
+	int int1 = atoi(data1);
+	int int2 = atoi(data2);
+
+	return g_int_compare(GINT_TO_POINTER(int1), GINT_TO_POINTER(int2));
+}
+
 static void
 ete_init (ETableExtras *extras)
 {
@@ -81,6 +90,7 @@ ete_init (ETableExtras *extras)
 
 	e_table_extras_add_compare(extras, "string", g_str_compare);
 	e_table_extras_add_compare(extras, "integer", g_int_compare);
+	e_table_extras_add_compare(extras, "string-integer", e_strint_compare);
 
 	e_table_extras_add_cell(extras, "checkbox", e_cell_checkbox_new());
 	e_table_extras_add_cell(extras, "date", e_cell_date_new (NULL, GTK_JUSTIFY_LEFT));

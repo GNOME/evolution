@@ -28,8 +28,8 @@ enum {
 	MODEL_PRE_CHANGE,
 	MODEL_ROW_CHANGED,
 	MODEL_CELL_CHANGED,
-	MODEL_ROW_INSERTED,
-	MODEL_ROW_DELETED,
+	MODEL_ROWS_INSERTED,
+	MODEL_ROWS_DELETED,
 	ROW_SELECTION,
 	LAST_SIGNAL
 };
@@ -65,6 +65,23 @@ e_table_model_row_count (ETableModel *e_table_model)
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), 0);
 
 	return ETM_CLASS (e_table_model)->row_count (e_table_model);
+}
+
+/**
+ * e_table_model_append_row:
+ * @e_table_model: the table model to append the a row to.
+ * @source:
+ * @row:
+ *
+ */
+void
+e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int row)
+{
+	g_return_if_fail (e_table_model != NULL);
+	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
+
+	if (ETM_CLASS (e_table_model)->append_row)
+		ETM_CLASS (e_table_model)->append_row (e_table_model, source, row);
 }
 
 /**
@@ -131,46 +148,6 @@ e_table_model_is_cell_editable (ETableModel *e_table_model, int col, int row)
 	return ETM_CLASS (e_table_model)->is_cell_editable (e_table_model, col, row);
 }
 
-/**
- * e_table_model_append_row:
- * @e_table_model: the table model to append the a row to.
- * @source:
- * @row:
- *
- */
-void
-e_table_model_append_row (ETableModel *e_table_model, ETableModel *source, int row)
-{
-	g_return_if_fail (e_table_model != NULL);
-	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
-
-	if (ETM_CLASS (e_table_model)->append_row)
-		ETM_CLASS (e_table_model)->append_row (e_table_model, source, row);
-}
-
-const char *
-e_table_model_row_sort_group(ETableModel *e_table_model, int row)
-{
-	g_return_val_if_fail (e_table_model != NULL, "/");
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
-
-	if (ETM_CLASS (e_table_model)->row_sort_group)
-		return ETM_CLASS (e_table_model)->row_sort_group (e_table_model, row);
-	else
-		return "/";
-}
-
-gboolean
-e_table_model_has_sort_group(ETableModel *e_table_model)
-{
-	g_return_val_if_fail (e_table_model != NULL, FALSE);
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
-
-	if (ETM_CLASS (e_table_model)->has_sort_group)
-		return ETM_CLASS (e_table_model)->has_sort_group (e_table_model);
-	else
-		return FALSE;
-}
 
 void *
 e_table_model_duplicate_value (ETableModel *e_table_model, int col, const void *value)
@@ -192,6 +169,30 @@ e_table_model_free_value (ETableModel *e_table_model, int col, void *value)
 
 	if (ETM_CLASS (e_table_model)->free_value)
 		ETM_CLASS (e_table_model)->free_value (e_table_model, col, value);
+}
+
+char *
+e_table_model_get_save_id(ETableModel *e_table_model, int row)
+{
+	g_return_val_if_fail (e_table_model != NULL, "/");
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
+
+	if (ETM_CLASS (e_table_model)->get_save_id)
+		return ETM_CLASS (e_table_model)->get_save_id (e_table_model, row);
+	else
+		return NULL;
+}
+
+gboolean
+e_table_model_has_save_id(ETableModel *e_table_model)
+{
+	g_return_val_if_fail (e_table_model != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
+
+	if (ETM_CLASS (e_table_model)->has_save_id)
+		return ETM_CLASS (e_table_model)->has_save_id (e_table_model);
+	else
+		return FALSE;
 }
 
 void *
@@ -277,44 +278,46 @@ e_table_model_class_init (GtkObjectClass *object_class)
 				gtk_marshal_NONE__INT_INT,
 				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	e_table_model_signals [MODEL_ROW_INSERTED] =
-		gtk_signal_new ("model_row_inserted",
+	e_table_model_signals [MODEL_ROWS_INSERTED] =
+		gtk_signal_new ("model_rows_inserted",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_inserted),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_rows_inserted),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
-	e_table_model_signals [MODEL_ROW_DELETED] =
-		gtk_signal_new ("model_row_deleted",
+	e_table_model_signals [MODEL_ROWS_DELETED] =
+		gtk_signal_new ("model_rows_deleted",
 				GTK_RUN_LAST,
 				object_class->type,
-				GTK_SIGNAL_OFFSET (ETableModelClass, model_row_deleted),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+				GTK_SIGNAL_OFFSET (ETableModelClass, model_rows_deleted),
+				gtk_marshal_NONE__INT_INT,
+				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, e_table_model_signals, LAST_SIGNAL);
 
 	klass->column_count = NULL;     
 	klass->row_count = NULL;        
+	klass->append_row = NULL;
+
 	klass->value_at = NULL;         
 	klass->set_value_at = NULL;     
 	klass->is_cell_editable = NULL; 
-	klass->append_row = NULL;
 
-	klass->row_sort_group = NULL;
-	klass->has_sort_group = NULL;
+	klass->get_save_id = NULL;
+	klass->has_save_id = NULL;
 
 	klass->duplicate_value = NULL;  
 	klass->free_value = NULL;       
 	klass->initialize_value = NULL; 
 	klass->value_is_empty = NULL;   
 	klass->value_to_string = NULL;
+
 	klass->model_changed = NULL;    
 	klass->model_row_changed = NULL;
 	klass->model_cell_changed = NULL;
-	klass->model_row_inserted = NULL;
-	klass->model_row_deleted = NULL;
+	klass->model_rows_inserted = NULL;
+	klass->model_rows_deleted = NULL;
 }
 
 
@@ -444,17 +447,18 @@ e_table_model_cell_changed (ETableModel *e_table_model, int col, int row)
 }
 
 /**
- * e_table_model_row_inserted:
+ * e_table_model_rows_inserted:
  * @e_table_model: the table model to notify of the change
  * @row: the row that was inserted into the model.
+ * @count: The number of rows that were inserted.
  *
  * Use this function to notify any views of the table model that
- * the row @row has been inserted into the model.  This function
- * will emit the "model_row_inserted" signal on the @e_table_model
- * object
+ * @count rows at row @row have been inserted into the model.  This
+ * function will emit the "model_rows_inserted" signal on the
+ * @e_table_model object
  */
 void
-e_table_model_row_inserted (ETableModel *e_table_model, int row)
+e_table_model_rows_inserted (ETableModel *e_table_model, int row, int count)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -463,22 +467,38 @@ e_table_model_row_inserted (ETableModel *e_table_model, int row)
 	d(g_print("Emitting row_inserted on model 0x%p, row %d.\n", e_table_model, row));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
-			 e_table_model_signals [MODEL_ROW_INSERTED], row);
+			 e_table_model_signals [MODEL_ROWS_INSERTED], row, count);
 	d(depth--);
+}
+
+/**
+ * e_table_model_row_inserted:
+ * @e_table_model: the table model to notify of the change
+ * @row: the row that was inserted into the model.
+ *
+ * Use this function to notify any views of the table model that the
+ * row @row has been inserted into the model.  This function will emit
+ * the "model_rows_inserted" signal on the @e_table_model object
+ */
+void
+e_table_model_row_inserted (ETableModel *e_table_model, int row)
+{
+	e_table_model_rows_inserted(e_table_model, row, 1);
 }
 
 /**
  * e_table_model_row_deleted:
  * @e_table_model: the table model to notify of the change
  * @row: the row that was deleted
+ * @count: The number of rows deleted
  *
  * Use this function to notify any views of the table model that
- * the row @row has been deleted from the model.  This function
- * will emit the "model_row_deleted" signal on the @e_table_model
- * object
+ * @count rows at row @row have been deleted from the model.  This
+ * function will emit the "model_rows_deleted" signal on the
+ * @e_table_model object
  */
 void
-e_table_model_row_deleted (ETableModel *e_table_model, int row)
+e_table_model_rows_deleted (ETableModel *e_table_model, int row, int count)
 {
 	g_return_if_fail (e_table_model != NULL);
 	g_return_if_fail (E_IS_TABLE_MODEL (e_table_model));
@@ -487,6 +507,21 @@ e_table_model_row_deleted (ETableModel *e_table_model, int row)
 	d(g_print("Emitting row_deleted on model 0x%p, row %d.\n", e_table_model, row));
 	d(depth++);
 	gtk_signal_emit (GTK_OBJECT (e_table_model),
-			 e_table_model_signals [MODEL_ROW_DELETED], row);
+			 e_table_model_signals [MODEL_ROWS_DELETED], row, count);
 	d(depth--);
+}
+
+/**
+ * e_table_model_row_deleted:
+ * @e_table_model: the table model to notify of the change
+ * @row: the row that was deleted
+ *
+ * Use this function to notify any views of the table model that the
+ * row @row has been deleted from the model.  This function will emit
+ * the "model_rows_deleted" signal on the @e_table_model object
+ */
+void
+e_table_model_row_deleted (ETableModel *e_table_model, int row)
+{
+	e_table_model_rows_deleted(e_table_model, row, 1);
 }

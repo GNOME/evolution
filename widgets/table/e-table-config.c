@@ -363,16 +363,18 @@ do_sort_and_group_config_dialog (ETableConfig *config, gboolean is_sort)
 		config_group_info_update (config);
 }
 
-GtkWidget *
+#if 0
+static GtkWidget *
 e_table_proxy_etable_new (void)
 {
 	return gtk_label_new ("Waiting for the ETable/ETree\nmerger to be commited");
 }
+#endif
 
 static void
 config_button_fields (GtkWidget *widget, ETableConfig *config)
 {
-	gnome_dialog_run (config->dialog_show_fields);
+	gnome_dialog_run (GNOME_DIALOG(config->dialog_show_fields));
 	gnome_dialog_close (GNOME_DIALOG (config->dialog_show_fields));
 }
 		

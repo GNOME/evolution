@@ -4,9 +4,7 @@
 
 #include <gal/widgets/e-scroll-frame.h>
 #include <gal/e-table/e-table-model.h>
-#include <gal/e-table/e-table-header.h>
 #include <gal/e-table/e-table.h>
-#include <gal/widgets/e-printable.h>
 
 BEGIN_GNOME_DECLS
 

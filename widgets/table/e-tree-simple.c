@@ -181,8 +181,6 @@ e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 
 	etg = gtk_type_new (e_tree_simple_get_type ());
 
-	e_tree_model_construct (E_TREE_MODEL (etg));
-
 	etg->col_count        = col_count;
 	etg->duplicate_value  = duplicate_value;
 	etg->free_value       = free_value;

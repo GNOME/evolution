@@ -32,6 +32,8 @@
 #include "e-table-state.h"
 #include "e-table-column-specification.h"
 
+#include "e-table-utils.h"
+
 #define COLUMN_HEADER_HEIGHT 16
 
 #define PARENT_TYPE gtk_table_get_type ()
@@ -133,18 +135,18 @@ et_disconnect_model (ETable *et)
 	if (et->table_cell_change_id != 0)
 		gtk_signal_disconnect (GTK_OBJECT (et->model),
 				       et->table_cell_change_id);
-	if (et->table_row_inserted_id != 0)
+	if (et->table_rows_inserted_id != 0)
 		gtk_signal_disconnect (GTK_OBJECT (et->model),
-				       et->table_row_inserted_id);
-	if (et->table_row_deleted_id != 0)
+				       et->table_rows_inserted_id);
+	if (et->table_rows_deleted_id != 0)
 		gtk_signal_disconnect (GTK_OBJECT (et->model),
-				       et->table_row_deleted_id);
+				       et->table_rows_deleted_id);
 
 	et->table_model_change_id = 0;
 	et->table_row_change_id = 0;
 	et->table_cell_change_id = 0;
-	et->table_row_inserted_id = 0;
-	et->table_row_deleted_id = 0;
+	et->table_rows_inserted_id = 0;
+	et->table_rows_deleted_id = 0;
 }
 
 static void
@@ -514,27 +516,31 @@ et_table_cell_changed (ETableModel *table_model, int view_col, int row, ETable *
 }
 
 static void
-et_table_row_inserted (ETableModel *table_model, int row, ETable *et)
+et_table_rows_inserted (ETableModel *table_model, int row, int count, ETable *et)
 {
 	/* This number has already been decremented. */
 	int row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
-		if (row != row_count - 1)
-			e_table_group_increment(et->group, row, 1);
-		e_table_group_add (et->group, row);
+		int i;
+		if (row != row_count - count)
+			e_table_group_increment(et->group, row, count);
+		for (i = 0; i < count; i++)
+			e_table_group_add (et->group, row);
 		if (et->horizontal_scrolling)
 			e_table_header_update_horizontal(et->header);
 	}
 }
 
 static void
-et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
+et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
 {
 	int row_count = e_table_model_row_count(table_model);
 	if (!et->need_rebuild) {
-		e_table_group_remove (et->group, row);
+		int i;
+		for (i = 0; i < count; i++)
+			e_table_group_remove (et->group, row);
 		if (row != row_count)
-			e_table_group_decrement(et->group, row, 1);
+			e_table_group_decrement(et->group, row, count);
 		if (et->horizontal_scrolling)
 			e_table_header_update_horizontal(et->header);
 	}
@@ -589,11 +595,11 @@ et_build_groups (ETable *et)
 		et->table_cell_change_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_cell_changed",
 							       GTK_SIGNAL_FUNC (et_table_cell_changed), et);
 
-		et->table_row_inserted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_row_inserted",
-								GTK_SIGNAL_FUNC (et_table_row_inserted), et);
+		et->table_rows_inserted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_rows_inserted",
+								GTK_SIGNAL_FUNC (et_table_rows_inserted), et);
 
-		et->table_row_deleted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_row_deleted",
-							       GTK_SIGNAL_FUNC (et_table_row_deleted), et);
+		et->table_rows_deleted_id = gtk_signal_connect (GTK_OBJECT (et->model), "model_rows_deleted",
+							       GTK_SIGNAL_FUNC (et_table_rows_deleted), et);
 
 	}
 
@@ -741,114 +747,18 @@ e_table_fill_table (ETable *e_table, ETableModel *model)
 	e_table_group_add_all (e_table->group);
 }
 
-static ETableCol *
-et_col_spec_to_col (ETable                    *e_table,
-		    ETableColumnSpecification *col_spec,
-		    ETableExtras              *ete)
-{
-	ETableCol *col = NULL;
-	ECell *cell;
-	GCompareFunc compare;
-
-	cell = e_table_extras_get_cell(ete, col_spec->cell);
-	compare = e_table_extras_get_compare(ete, col_spec->compare);
-
-	if (cell && compare) {
-		if (col_spec->pixbuf && *col_spec->pixbuf) {
-			GdkPixbuf *pixbuf;
-
-			pixbuf = e_table_extras_get_pixbuf(
-				ete, col_spec->pixbuf);
-			if (pixbuf) {
-				col = e_table_col_new_with_pixbuf (
-					col_spec->model_col, gettext (col_spec->title),
-					pixbuf, col_spec->expansion,
-					col_spec->minimum_width,
-					cell, compare, col_spec->resizable);
-			}
-		}
-		if (col == NULL && col_spec->title && *col_spec->title) {
-			col = e_table_col_new (
-				col_spec->model_col, gettext (col_spec->title),
-				col_spec->expansion, col_spec->minimum_width,
-				cell, compare, col_spec->resizable);
-		}
-	}
-	return col;
-}
-
-static ETableHeader *
-et_spec_to_full_header (ETable              *e_table,
-			ETableSpecification *spec,
-			ETableExtras        *ete)
-{
-	ETableHeader *nh;
-	int column;
-
-	g_return_val_if_fail (e_table, NULL);
-	g_return_val_if_fail (spec, NULL);
-	g_return_val_if_fail (ete, NULL);
-
-	nh = e_table_header_new ();
-
-	for (column = 0; spec->columns[column]; column++) {
-		ETableCol *col = et_col_spec_to_col (
-			e_table, spec->columns[column], ete);
-
-		if (col)
-			e_table_header_add_column (nh, col, -1);
-	}
-
-	return nh;
-}
-
-static ETableHeader *
-et_state_to_header (ETable *e_table, ETableHeader *full_header, ETableState *state)
-{
-	ETableHeader *nh;
-	const int max_cols = e_table_header_count (full_header);
-	int column;
-
-	g_return_val_if_fail (e_table, NULL);
-	g_return_val_if_fail (full_header, NULL);
-	g_return_val_if_fail (state, NULL);
-
-	nh = e_table_header_new ();
-
-	gtk_object_set(GTK_OBJECT(nh),
-		       "width_extras", e_table_header_width_extras(GTK_WIDGET(e_table)->style),
-		       NULL);
-
-	for (column = 0; column < state->col_count; column++) {
-		int col;
-		double expansion;
-		ETableCol *table_col;
-
-		col = state->columns[column];
-		expansion = state->expansions[column];
-
-		if (col >= max_cols)
-			continue;
-
-		table_col = e_table_header_get_column (full_header, col);
-
-		if (expansion >= -1)
-			table_col->expansion = expansion;
-
-		e_table_header_add_column (nh, table_col, -1);
-	}
-
-	return nh;
-}
-
 void
 e_table_set_state_object(ETable *e_table, ETableState *state)
 {
 	if (e_table->header)
 		gtk_object_unref(GTK_OBJECT(e_table->header));
-	e_table->header = et_state_to_header (e_table, e_table->full_header, state);
+	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 	if (e_table->header)
 		gtk_object_ref(GTK_OBJECT(e_table->header));
+
+	gtk_object_set (GTK_OBJECT (e_table->header),
+			"width", (double) (GTK_WIDGET(e_table->table_canvas)->allocation.width),
+			NULL);
 
 	if (e_table->sort_info) {
 		if (e_table->group_info_change_id)
@@ -1031,7 +941,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_grid = specification->draw_grid;
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
-	e_table->full_header = et_spec_to_full_header(e_table, specification, ete);
+	e_table->full_header = e_table_spec_to_full_header(specification, ete);
 
 	gtk_object_set(GTK_OBJECT(e_table->selection),
 		       "selection_mode", specification->selection_mode,
@@ -1044,7 +954,7 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
-	e_table->header = et_state_to_header (e_table, e_table->full_header, state);
+	e_table->header = e_table_state_to_header (GTK_WIDGET(e_table), e_table->full_header, state);
 	e_table->horizontal_scrolling = specification->horizontal_scrolling;
 
 	e_table->sort_info = state->sort_info;

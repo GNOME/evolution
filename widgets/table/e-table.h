@@ -52,8 +52,8 @@ typedef struct {
 	int table_model_change_id;
 	int table_row_change_id;
 	int table_cell_change_id;
-	int table_row_inserted_id;
-	int table_row_deleted_id;
+	int table_rows_inserted_id;
+	int table_rows_deleted_id;
 
 	int group_info_change_id;
 

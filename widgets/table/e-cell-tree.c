@@ -13,6 +13,9 @@
  */
 
 #include <config.h>
+
+#include "e-cell-tree.h"
+
 #include <gtk/gtkenums.h>
 #include <gtk/gtkentry.h>
 #include <gtk/gtkwindow.h>
@@ -21,9 +24,9 @@
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeui/gnome-canvas.h>
 #include <stdio.h>
-#include "e-table-sorted-variable.h"
+
+#include "e-tree-table-adapter.h"
 #include "e-tree-model.h"
-#include "e-cell-tree.h"
 #include "gal/util/e-util.h"
 #include "e-table-item.h"
 
@@ -49,29 +52,38 @@ static ECellClass *parent_class;
 
 #define INDENT_AMOUNT 16
 
-static int
-visible_depth_of_node (ETreeModel *tree_model, ETreePath *path)
-{
-	return (e_tree_model_node_depth (tree_model, path) 
-		- (e_tree_model_root_node_is_visible (tree_model) ? 0 : 1));
-}
-
-static gint
-offset_of_node (ETreeModel *tree_model, ETreePath *path)
-{
-	return (visible_depth_of_node(tree_model, path) + 1) * INDENT_AMOUNT;
-}
-
-static ETreePath*
+static ETreePath
 e_cell_tree_get_node (ETableModel *table_model, int row)
 {
-	return (ETreePath*)e_table_model_value_at (table_model, -1, row);
+	return e_table_model_value_at (table_model, -1, row);
 }
 
 static ETreeModel*
 e_cell_tree_get_tree_model (ETableModel *table_model, int row)
 {
-	return (ETreeModel*)e_table_model_value_at (table_model, -2, row);
+	return e_table_model_value_at (table_model, -2, row);
+}
+
+static ETreeTableAdapter *
+e_cell_tree_get_tree_table_adapter (ETableModel *table_model, int row)
+{
+	return e_table_model_value_at (table_model, -3, row);
+}
+
+static int
+visible_depth_of_node (ETableModel *model, int row)
+{
+	ETreeModel *tree_model = e_cell_tree_get_tree_model(model, row);
+	ETreeTableAdapter *adapter = e_cell_tree_get_tree_table_adapter(model, row);
+	ETreePath path = e_cell_tree_get_node(model, row);
+	return (e_tree_model_node_depth (tree_model, path)
+		- (e_tree_table_adapter_root_node_is_visible (adapter) ? 0 : 1));
+}
+
+static gint
+offset_of_node (ETableModel *table_model, int row)
+{
+	return (visible_depth_of_node(table_model, row) + 1) * INDENT_AMOUNT;
 }
 
 /*
@@ -159,7 +171,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 {
 	ECellTreeView *tree_view = (ECellTreeView *)ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
-	ETreePath *node;
+	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
+	ETreePath node;
 	GdkRectangle rect, *clip_rect;
 	GtkWidget *canvas = GTK_WIDGET (tree_view->canvas);
 	GdkGC *fg_gc = canvas->style->fg_gc[GTK_STATE_ACTIVE];
@@ -175,21 +188,21 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	if (/* XXX */ TRUE) {
 		GdkPixbuf *node_image;
 		int node_image_width = 0, node_image_height = 0;
-		ETreePath *parent_node;
+		ETreePath parent_node;
 
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
-		expanded = e_tree_model_node_is_expanded (tree_model, node);
+		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 
-		if (visible_depth_of_node (tree_model, node) > 0 || expandable) {
-			offset = offset_of_node (tree_model, node);
+		if (visible_depth_of_node (ecell_view->e_table_model, row) > 0 || expandable) {
+			offset = offset_of_node (ecell_view->e_table_model, row);
 		} else {
 			offset = 0;
 		}
 		subcell_offset = offset;
 
-		node_image = e_tree_model_icon_of_node (tree_model, node);
+		node_image = e_tree_model_icon_at (tree_model, node);
 
 		if (node_image) {
 			node_image_width = gdk_pixbuf_get_width (node_image);
@@ -219,7 +232,9 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
 
-			if (visible_depth_of_node (tree_model, node) > 0
+			int depth;
+
+			if (visible_depth_of_node (ecell_view->e_table_model, row) > 0
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0)
 				gdk_draw_line (drawable, tree_view->gc,
 					       rect.x + offset - INDENT_AMOUNT / 2 + 1,
@@ -227,7 +242,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 					       rect.x + offset,
 					       rect.y + rect.height / 2);
 
-			if (visible_depth_of_node (tree_model, node) != 0) {
+			if (visible_depth_of_node (ecell_view->e_table_model, row) != 0) {
 				gdk_draw_line (drawable, tree_view->gc,
 					       rect.x + offset - INDENT_AMOUNT / 2,
 					       rect.y,
@@ -242,7 +257,8 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 			   correct vertical pipe for it's configuration. */
 			parent_node = e_tree_model_node_get_parent (tree_model, node);
 			offset -= INDENT_AMOUNT;
-			while (parent_node && visible_depth_of_node (tree_model, parent_node) != 0) {
+			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
+			while (parent_node && depth != 0) {
 				if (e_tree_model_node_get_next(tree_model, parent_node)) {
 					gdk_draw_line (drawable, tree_view->gc,
 						       rect.x + offset - INDENT_AMOUNT / 2,
@@ -251,6 +267,7 @@ ect_draw (ECellView *ecell_view, GdkDrawable *drawable,
 						       rect.y + rect.height);
 				}
 				parent_node = e_tree_model_node_get_parent (tree_model, parent_node);
+				depth --;
 				offset -= INDENT_AMOUNT;
 			}
 		}
@@ -309,8 +326,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-	ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	int offset = offset_of_node (tree_model, node);
+	ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
+	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
+	int offset = offset_of_node (ecell_view->e_table_model, row);
 
 	switch (event->type) {
 	case GDK_BUTTON_PRESS: {
@@ -320,9 +338,9 @@ ect_event (ECellView *ecell_view, GdkEvent *event, int model_col, int view_col, 
 		/* only activate the tree control if the click/release happens in the icon's area. */
 		if (event->button.x > (offset - INDENT_AMOUNT) && event->button.x < offset) {
 			if (e_tree_model_node_is_expandable (tree_model, node)) {
-				e_tree_model_node_set_expanded (tree_model,
-								node,
-								!e_tree_model_node_is_expanded(tree_model, node));
+				e_tree_table_adapter_node_set_expanded (tree_table_adapter,
+									node,
+									!e_tree_table_adapter_node_is_expanded(tree_table_adapter, node));
 				return TRUE;
 			}
 		}
@@ -399,7 +417,8 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 	
 	for (row = 0; row < number_of_rows; row++) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model(ecell_view->e_table_model, row);
-		ETreePath *node;
+		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
+		ETreePath node;
 		GdkPixbuf *node_image;
 		int node_image_width = 0, node_image_height = 0;
 		
@@ -408,12 +427,12 @@ ect_max_width (ECellView *ecell_view, int model_col, int view_col)
 		
 		node = e_cell_tree_get_node (ecell_view->e_table_model, row);
 		
-		offset = offset_of_node (tree_model, node);
+		offset = offset_of_node (ecell_view->e_table_model, row);
 		expandable = e_tree_model_node_is_expandable (tree_model, node);
-		expanded = e_tree_model_node_is_expanded (tree_model, node);
+		expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 		subcell_offset = offset;
 
-		node_image = e_tree_model_icon_of_node (tree_model, node);
+		node_image = e_tree_model_icon_at (tree_model, node);
 
 		if (node_image) {
 			node_image_width = gdk_pixbuf_get_width (node_image);
@@ -447,11 +466,11 @@ ect_show_tooltip (ECellView *ecell_view, int model_col, int view_col, int row,
 {		
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 	ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-	ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-	int offset = offset_of_node (tree_model, node);
+	ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
+	int offset = offset_of_node (ecell_view->e_table_model, row);
 	GdkPixbuf *node_image;
 
-	node_image = e_tree_model_icon_of_node (tree_model, node);
+	node_image = e_tree_model_icon_at (tree_model, node);
 	if (node_image)
 		offset += gdk_pixbuf_get_width (node_image);
 
@@ -492,14 +511,16 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 
 	if (/* XXX only if we're the active sort */ TRUE) {
 		ETreeModel *tree_model = e_cell_tree_get_tree_model (ecell_view->e_table_model, row);
-		ETreePath *node = e_cell_tree_get_node (ecell_view->e_table_model, row);
-		int offset = offset_of_node (tree_model, node);
+		ETreeTableAdapter *tree_table_adapter = e_cell_tree_get_tree_table_adapter(ecell_view->e_table_model, row);
+		ETreePath node = e_cell_tree_get_node (ecell_view->e_table_model, row);
+		int offset = offset_of_node (ecell_view->e_table_model, row);
 		int subcell_offset = offset;
 		gboolean expandable = e_tree_model_node_is_expandable (tree_model, node);
-		gboolean expanded = e_tree_model_node_is_expanded (tree_model, node);
+		gboolean expanded = e_tree_table_adapter_node_is_expanded (tree_table_adapter, node);
 
 		/* draw our lines */
 		if (E_CELL_TREE(tree_view->cell_view.ecell)->draw_lines) {
+			int depth;
 
 			if (!e_tree_model_node_is_root (tree_model, node)
 			    || e_tree_model_node_get_children (tree_model, node, NULL) > 0) {
@@ -512,7 +533,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 						    height / 2);
 			}
 
-			if (visible_depth_of_node (tree_model, node) != 0) {
+			if (visible_depth_of_node (ecell_view->e_table_model, row) != 0) {
 				gnome_print_moveto (context,
 						    offset - INDENT_AMOUNT / 2,
 						    height);
@@ -527,8 +548,9 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 			   each level if the node has siblings, and drawing the
 			   correct vertical pipe for it's configuration. */
 			node = e_tree_model_node_get_parent (tree_model, node);
+			depth = visible_depth_of_node (ecell_view->e_table_model, row) - 1;
 			offset -= INDENT_AMOUNT;
-			while (node && visible_depth_of_node (tree_model, node) != 0) {
+			while (node && depth != 0) {
 				if (e_tree_model_node_get_next(tree_model, node)) {
 					gnome_print_moveto (context,
 							    offset - INDENT_AMOUNT / 2,
@@ -538,6 +560,7 @@ ect_print (ECellView *ecell_view, GnomePrintContext *context,
 							    0);
 				}
 				node = e_tree_model_node_get_parent (tree_model, node);
+				depth --;
 				offset -= INDENT_AMOUNT;
 			}
 		}

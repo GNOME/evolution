@@ -28,8 +28,8 @@ typedef struct {
 	int              table_model_changed_id;
 	int              table_model_row_changed_id;
 	int              table_model_cell_changed_id;
-	int              table_model_row_inserted_id;
-	int              table_model_row_deleted_id;
+	int              table_model_rows_inserted_id;
+	int              table_model_rows_deleted_id;
 } ETableSubset;
 
 typedef struct {
@@ -39,8 +39,8 @@ typedef struct {
 	void (*proxy_model_changed)      (ETableSubset *etss, ETableModel *etm);
 	void (*proxy_model_row_changed)  (ETableSubset *etss, ETableModel *etm, int row);
 	void (*proxy_model_cell_changed) (ETableSubset *etss, ETableModel *etm, int col, int row);
-	void (*proxy_model_row_inserted) (ETableSubset *etss, ETableModel *etm, int row);
-	void (*proxy_model_row_deleted)  (ETableSubset *etss, ETableModel *etm, int row);
+	void (*proxy_model_rows_inserted) (ETableSubset *etss, ETableModel *etm, int row, int count);
+	void (*proxy_model_rows_deleted)  (ETableSubset *etss, ETableModel *etm, int row, int count);
 } ETableSubsetClass;
 
 GtkType      e_table_subset_get_type         (void);

@@ -16,10 +16,12 @@ extern "C" {
 
 typedef int         (*ETableSimpleColumnCountFn)     (ETableModel *etm, void *data);
 typedef	int         (*ETableSimpleRowCountFn)        (ETableModel *etm, void *data);
+typedef void        (*ETableSimpleAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
+
 typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col, int row, void *data);
 typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
-typedef void        (*ETableSimpleAppendRowFn)       (ETableModel *etm, ETableModel *model, int row, void *data);
+
 typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
 typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
 typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
@@ -31,15 +33,17 @@ typedef struct {
 
 	ETableSimpleColumnCountFn     col_count;
 	ETableSimpleRowCountFn        row_count;
+	ETableSimpleAppendRowFn       append_row;
+
 	ETableSimpleValueAtFn         value_at;
 	ETableSimpleSetValueAtFn      set_value_at;
 	ETableSimpleIsCellEditableFn  is_cell_editable;
+
 	ETableSimpleDuplicateValueFn  duplicate_value;
 	ETableSimpleFreeValueFn       free_value;
 	ETableSimpleInitializeValueFn initialize_value;
 	ETableSimpleValueIsEmptyFn    value_is_empty;
 	ETableSimpleValueToStringFn   value_to_string;
-	ETableSimpleAppendRowFn       append_row;
 	void *data;
 } ETableSimple;
 
@@ -51,9 +55,11 @@ GtkType e_table_simple_get_type (void);
 
 ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
 				 ETableSimpleRowCountFn row_count,
+
 				 ETableSimpleValueAtFn value_at,
 				 ETableSimpleSetValueAtFn set_value_at,
 				 ETableSimpleIsCellEditableFn is_cell_editable,
+
 				 ETableSimpleDuplicateValueFn duplicate_value,
 				 ETableSimpleFreeValueFn free_value,
 				 ETableSimpleInitializeValueFn initialize_value,
