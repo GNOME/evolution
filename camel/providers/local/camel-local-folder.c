@@ -394,7 +394,7 @@ local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
 			props.argc = 1;
 			props.argv[0] = *arg;
 			((CamelObjectClass *)parent_class)->getv(object, ex, &props);
-			*arg->ca_ptr = g_slist_concat(*arg->ca_ptr, local_folder_properties);
+			*arg->ca_ptr = g_slist_concat(*arg->ca_ptr, g_slist_copy(local_folder_properties));
 
 			break; }
 

@@ -1,3 +1,8 @@
+2003-08-29  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-local-folder.c (local_getv): Need to copy
+	the local properties list before passing it out, since it's freed.
+
 2003-08-27  Not Zed  <NotZed@Ximian.com>
 
 	* providers/local/camel-local-folder.c (local_getv): implement
