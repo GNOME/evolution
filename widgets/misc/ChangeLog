@@ -1,3 +1,15 @@
+2002-05-30  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-filter-bar.c (dup_item_no_subitems): New helper function.
+	(build_items): g_strdup() the text for all the items.  Prepend the
+	user-defined items with an order number.
+	(free_built_items): New function to free the array returned by
+	build_items, freeing the text strings too [since now they are
+	newly allocated instead of just pointing to the exiting ones].
+	(generate_menu): Call free_built_items() on the built items
+	instead of just g_array_free().
+	(set_option): Likewise.
+
 2002-05-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-search-bar.c (update_bonobo_menus): Put the stuff in

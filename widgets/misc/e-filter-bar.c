@@ -268,6 +268,17 @@ option_changed (ESearchBar *esb, void *data)
 	efb->setquery = FALSE;
 }
 
+static void
+dup_item_no_subitems (ESearchBarItem *dest,
+		      const ESearchBarItem *src)
+{
+	g_assert (src->subitems == NULL);
+
+	dest->id = src->id;
+	dest->text = g_strdup (src->text);
+	dest->subitems = NULL;
+}
+
 static GArray *
 build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrArray *rules)
 {
@@ -278,6 +289,7 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	ESearchBarItem item;
 	char *source;
 	GSList *gtksux = NULL;
+	int num;
 
 	/* So gtk calls a signal again if you connect to it WHILE inside a changed event.
 	   So this snot is to work around that shit fucked up situation */
@@ -288,29 +300,42 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 
 	/* find a unique starting point for the id's of our items */
 	for (i = 0; items[i].id != -1; i++) {
+		ESearchBarItem dup_item;
+
 		if (items[i].id >= id)
 			id = items[i].id + 1;
+
+		dup_item_no_subitems (&dup_item, items + i);
+		g_array_append_vals (menu, &dup_item, 1);
 	}
-	
-	/* add the user menus */
-	g_array_append_vals (menu, items, i);
 	
 	*start = id;
 	
 	if (type == 0) {
-		/* and add ours */
-		item.id = 0;
-		item.text = NULL;
-		item.subitems = NULL;
-		g_array_append_vals (menu, &item, 1);
 		source = FILTER_SOURCE_INCOMING;
+
+		/* Add a separator if there is at least one custom rule.  */
+		if (rule_context_next_rule (efb->context, rule, source) != NULL) {
+			item.id = 0;
+			item.text = NULL;
+			item.subitems = NULL;
+			g_array_append_vals (menu, &item, 1);
+		}
 	} else {
 		source = FILTER_SOURCE_DEMAND;
 	}
-	
+
+	num = 1;
 	while ((rule = rule_context_next_rule (efb->context, rule, source))) {
 		item.id = id++;
-		item.text = rule->name;
+
+		if (num <= 10) {
+			item.text = g_strdup_printf ("_%d. %s", num % 10, rule->name);
+			num ++;
+		} else {
+			item.text = g_strdup (rule->name);
+		}
+
 		item.subitems = NULL;
 		g_array_append_vals (menu, &item, 1);
 
@@ -340,7 +365,11 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 	/* always add on the advanced menu */
 	if (type == 1) {
 		ESearchBarItem items[2] = { E_FILTERBAR_SEPARATOR, E_FILTERBAR_ADVANCED };
-		g_array_append_vals (menu, &items, 2);
+		ESearchBarItem dup_items[2];
+
+		dup_item_no_subitems (&dup_items[0], &items[0]);
+		dup_item_no_subitems (&dup_items[1], &items[1]);
+		g_array_append_vals (menu, &dup_items, 2);
 	}
 	
 	item.id = -1;
@@ -352,6 +381,23 @@ build_items (ESearchBar *esb, ESearchBarItem *items, int type, int *start, GPtrA
 }
 
 static void
+free_built_items (GArray *menu)
+{
+	int i;
+
+	for (i = 0; i < menu->len; i ++) {
+		ESearchBarItem *item;
+
+		item = & g_array_index (menu, ESearchBarItem, i);
+		g_free (item->text);
+
+		g_assert (item->subitems == NULL);
+	}
+
+	g_array_free (menu, TRUE);
+}
+
+static void
 generate_menu (ESearchBar *esb, ESearchBarItem *items)
 {
 	EFilterBar *efb = (EFilterBar *)esb;
@@ -359,7 +405,7 @@ generate_menu (ESearchBar *esb, ESearchBarItem *items)
 
 	menu = build_items (esb, items, 0, &efb->menu_base, efb->menu_rules);
 	((ESearchBarClass *)parent_class)->set_menu (esb, (ESearchBarItem *)menu->data);
-	g_array_free (menu, TRUE);
+	free_built_items (menu);
 }
 
 static ESearchBarSubitem *
@@ -436,7 +482,7 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	
 	menu = build_items (esb, items, 1, &efb->option_base, efb->option_rules);
 	((ESearchBarClass *)parent_class)->set_option (esb, (ESearchBarItem *)menu->data);
-	g_array_free (menu, TRUE);
+	free_built_items (menu);
 
 	e_search_bar_set_item_id (esb, efb->option_base);
 }
