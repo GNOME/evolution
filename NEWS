@@ -1,14 +1,30 @@
-Version 0.16
-------------
+Version 0.16 (Beta 6)
+---------------------
+
+Shell:
+
+Mailer:
+
+  - Bcc: addresses are now visible when browsing messages in
+    the "Sent" folder. (Trow)
+
+Addressbook:
+
+  - Fixed crashes related to editing the Master Category List. (Trow)
+
+  - Address completion is no longer confused by whitespace. (Trow)
+
+  - Contact names no longer mysteriously disappear when using the
+    SelectNames dialog. (Trow)
 
 Calendar:
 
   - Backend improvements (Rodrigo)
 
   - Compilation fixes for latest Bonobo (Rodrigo)
- 
-Version 0.15
-------------
+
+Version 0.15 (Beta 5)
+---------------------
 
 Shell:
 
