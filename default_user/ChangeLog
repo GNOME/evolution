@@ -1,3 +1,7 @@
+2002-07-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* searches.xml: Reordered.
+
 2002-06-25  Aaron Weber  <aaron@ximian.com>
 
 	* local/Inbox/mbox: Add example FAQ items in welcome email, as per
