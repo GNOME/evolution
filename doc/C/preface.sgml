@@ -167,11 +167,11 @@
       </formalpara>
   </sect1>
   <sect1 id="commontasks">
-    <title>A Quick Reference to Common Tasks</title>
+    <title>Quick Reference for Common Tasks</title>
     <para>
-        You might want to copy the next few pages and tape them to the
-        wall next to your computer: They contain a very short run-down
-        of most of the things you'll want to do with
+        You might want to get a copy of this section and tape it to
+        the wall next to your computer: they contain a very short
+        run-down of most of the things you'll want to do with
         <application>Evolution</application>, and pointers to the
         sections of the book where you'll find more in-depth
         description of those tasks.
@@ -305,7 +305,7 @@
 	  </varlistentry>
 
           <varlistentry>
-	    <term>Reply to Message</term>
+	    <term>Reply to a message Message</term>
 	    <listitem>
 	      <para>
                 Select the message to which you want to reply, and
@@ -321,7 +321,7 @@
 	  </varlistentry>
 	  
           <varlistentry>
-	    <term>Forward Message</term>
+	    <term>Forward a Message</term>
 	    <listitem>
 	      <para>
                 Select the message you want to forward, and
@@ -359,7 +359,6 @@
       <sect2 id="quickref-cal">
         <title>Calendar</title>
         <para>
-
 
         <variablelist>
 	  <varlistentry>

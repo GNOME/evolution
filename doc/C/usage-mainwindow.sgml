@@ -302,7 +302,7 @@
 
     <para>
       Any time new information arrives in a folder, that folder label
-      is displayed as bold text.
+      is displayed in bold text.
     </para>
     <para>
       To delete a folder, right-click it and select
@@ -324,10 +324,8 @@
       items will relate to mail; some will relate to other components
       of <application>Evolution</application> and some, especially
       those in the <guimenu>File Menu</guimenu> will relate to the
-      application as a whole. This section describes those items that
-      cover the application as a whole; items specific to mailer are
-      discussed in the mail chapter, calendar items in the calendar
-      chapter, and so forth.
+      application as a whole. The contents of the menu bar are
+      described in <xref linkend="menuref">.
    </para>
    <para>
       <variablelist>
@@ -335,31 +333,11 @@
           <term> <guimenu>File</guimenu> Menu</term>
 
           <listitem><para> 
-            Anything related to a file falls under this
-            menu:
-              <itemizedlist>
-                <listitem><para>
-                    <guisubmenu>New... &mdash; </guisubmenu> If you
-                    want to create a new folder, calendar,
-                    appointment, address card, or message, this is
-                    where you should look.
-                </para></listitem>
+            Anything even related to a file or to the operations
+            of the application generally  falls under this
+            menu: creating things, saving them to disk, 
+            printing them, and quitting the program itself.  
 
-                <listitem><para>
-                   <guimenuitem>Go to Folder &mdash; </guimenuitem> 
-                    Select this item, then choose which folder you'd 
-                    like to view.
-                </para></listitem>
-                <listitem><para>
-                    <guimenuitem>Exit &mdash; </guimenuitem> Quits the application.
-                 </para></listitem>
-
-                <listitem><para>
-                    <guimenuitem>Print... &mdash; </guimenuitem> Opens the printing 
-                     dialog box so you can print items from the view pane of 
-                     <application>Evolution</application>. 
-                 </para></listitem>
-              </itemizedlist>
             </para></listitem>
         </varlistentry>
 
@@ -368,7 +346,7 @@
           <listitem><para>
               Although it doesn't contain anything at first,
               the <guimenu>Edit</guimenu> menu fills up with 
-              useful editing tools when you're... editing.
+              useful tools that help you edit text and move it around.
           </para></listitem>
         </varlistentry>
 
@@ -380,7 +358,8 @@
           Configuration</guimenuitem> and the <guimenuitem>vFolder
           Editor</guimenuitem>.  For the
           <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface> </para></listitem>
+          Manager</interface>, it's color, network, and layout
+          configuration. </para></listitem>
         </varlistentry>
 
         <varlistentry>
@@ -401,16 +380,17 @@
           <term> <guimenu>Help</guimenu> Menu</term>
           <listitem><para>
              Select among these items to open the 
-             <application>Help Browser</application> to the appropriate section. 
+             <application>Help Browser</application> 
+             and read the <application>Evolution</application> manual.
           </para></listitem>
         </varlistentry>
       </variablelist>
    </para>
    <para>
       Once you've familiarized yourself with the <interface>main
-      window</interface> you can start doing things with it.  We'lql
-      start with your email inbox: you've got a letter waiting for you
-      already.
+      window</interface> you can start doing things with it.  We'll
+      start with your email inbox, since you've got a letter waiting
+      for you already.
     </para>
   </sect1>
 </chapter>

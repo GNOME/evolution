@@ -1,4 +1,5 @@
 <!DOCTYPE Book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
+
 <!ENTITY PREFACE SYSTEM "preface.sgml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
@@ -9,18 +10,18 @@
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
-<!ENTITY APX-MENUREF SYSTEM "apx-menuref.sgml">
+<!ENTITY MENUREF SYSTEM "menuref.sgml">
 <!ENTITY APX-GLOSS SYSTEM "apx-gloss.sgml">
 <!ENTITY APX-BUGS SYSTEM "apx-bugs.sgml">
 <!ENTITY APX-AUTHORS SYSTEM "apx-authors.sgml">
 <!ENTITY APX-FDL SYSTEM "apx-fdl.sgml">
 <!ENTITY APX-GPL SYSTEM "apx-gpl.sgml">
 
-
 ]>
 
 
 <!-- Almost every chapter is an entity.  Files, Chapter id's, and entity names correspond.  APX is for appendix.  -->
+
 <book id="index">
   <bookinfo>
     <title>A User's Guide to Evolution</title>
@@ -115,7 +116,18 @@
     &CONFIG-SYNC;
   </part>
 
-  &APX-MENUREF;
+  <part>  
+    <title>Comprehensive Menu reference</title>
+    <partintro>
+      <para>
+        The following reference covers all, or nearly all, of the
+        menus and menu commands that
+        <application>Evolution</application> has to offer you.
+      </para>
+    </partintro>
+    &MENUREF;
+  </part>
+ 
   &APX-GLOSS;
   &APX-BUGS;
   &APX-AUTHORS; 

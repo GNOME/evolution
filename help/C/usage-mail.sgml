@@ -48,6 +48,7 @@
 
   <sect1 id="usage-mail-getnsend">
     <title>Reading, Getting and Sending Mail</title>
+
     <sect2 id="usage-mail-getnsend-read">
       <title>Reading Mail</title>
       <para>
@@ -55,161 +56,37 @@
        <guibutton>Inbox</guibutton> in the shortcut bar.  By
        default, the <interface>Inbox</interface> is open when you
        start <application>Evolution</application>, and the first
-       time you see your inbox, there's a message in it from Helix
+       time you see your Inbox, there's a message in it from Helix
        Code welcoming you to the application.
       </para>
       <para>
-	The first time you open your
-	<application>Evolution</application>
-	<guilabel>Inbox</guilabel>, you will see a window like the one
-	in <xref linkend="usage-mail-intro-fig">, with a message from
-	Helix Code in the <interface>message list</interface>.  The
-	message is displayed below that, in the <interface>view
-	pane</interface>.  If you find the <interface>view
-	pane</interface> too small, you can double-click on the
-	message in the <interface>message list</interface> to have it
-	open in a new window.  As is the case with folders, you can
-	right-click on messages in the message list and get a menu of
-	possible actions:
-        <variablelist>
-	 
-         <varlistentry>
-	    <term><guimenuitem>Open in New Window</guimenuitem> </term>  
-	    <listitem><para> 
-               Select this item to view the message in
-               a new <application>Evolution</application>
-               window. 
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Edit Message</guimenuitem></term>
-            <listitem><para>
-               This item is available only for messages and drafts
-               that you have written. Select it to open the message
-               composer and make changes to the message.
-            </para></listitem> 
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Print Message</guimenuitem> </term>
-             <listitem><para>
-               Select this item to print a message.
-             </para></listitem>
-	  </varlistentry>
-	  
-	  <varlistentry>
-	    <term><guimenuitem>Reply to Sender</guimenuitem></term>
-	    <listitem><para>
-               Use this item to reply only to the author of the message.
-            </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Reply to All</guimenuitem></term>
-	    <listitem><para> 
-               Send a reply to the author of the message
-	       and to all others on the recipient list. See <xref
-	       linkend="usage-mail-getnsend-send-reply"> for more information.
-	    </para></listitem>
-	  </varlistentry>
-	  
-          <varlistentry>
-             <term><guimenuitem>Forward Message</guimenuitem> </term>
-             <listitem><para> 
-               Send the message on to another person.
-               See <xref linkend="usage-mail-getnsend-fwd"> for
-               information about how to use the Forward feature.
-             </para></listitem>
-           </varlistentry>
-          
-	  <varlistentry>
-             <term><guimenuitem>Delete Message</guimenuitem> </term>
-             <listitem><para>
-                Mark the message for deletion. Choose <menuchoice> 
-                <guimenu>Actions</guimenu><guimenuitem>Expunge</guimenuitem>
-                </menuchoice> to delete marked messages permanently.
-             </para></listitem>
-           </varlistentry>
-
-	  <varlistentry>
-             <term><guimenuitem>Move Message</guimenuitem> </term>
-             <listitem><para>
-                Select this item to move the message to another folder. 
-                This will open a dialog to let you choose the destination
-                from a folder tree.
-             </para></listitem>
-           </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>vFolder for Subject</guimenuitem></term>
-	    <listitem><para>
-	     Select this item to create a pre-fabricated vFolder based on
-	     the current message's Subject line.
-	   </para></listitem>
-	  </varlistentry>
-	  <varlistentry>
-	    <term><guimenuitem>vFolder for Sender</guimenuitem></term>
-	    <listitem><para>
-	     Select this item to create a pre-fabricated vFolder based on
-	     who sent the current message.
-	   </para></listitem>
-	 </varlistentry>
-	 <varlistentry>
-	   <term><guimenuitem>vFolder for Recipients</guimenuitem></term>
-	   <listitem><para>
-	     Select this item to create a pre-fabricated vFolder based on
-	   who the recipients are.
-	   </para></listitem>
-	 </varlistentry>
-	 <varlistentry>
-	   <term><guimenuitem>Filter for Subject</guimenuitem></term>
-	   <listitem><para>
-	     Select this item to create a pre-fabricated filter based on
-	     the current message's Subject line.
-	   </para></listitem>
-	 </varlistentry>
-	 <varlistentry>
-	   <term><guimenuitem>Filter for Sender</guimenuitem></term>
-	   <listitem><para>
-	     Select this item to create a pre-fabricated filter based on
-	     who sent the current message.
-	   </para></listitem>
-	 </varlistentry>
-	 <varlistentry>
-	   <term><guimenuitem>Filter for Recipients</guimenuitem></term>
-	   <listitem><para>
-	     Select this item to create a pre-fabricated filter based on
-	     who the recipients are.
-	   </para></listitem>
-	 </varlistentry>
-      </variablelist>
+	The <application>Evolution</application>
+	<guilabel>Inbox</guilabel>, should look like the one in <xref
+	linkend="usage-mail-intro-fig">, which has a message from
+	Helix Code. The message summary appears at the top, in the
+	<interface>message list</interface>.  The message itself is
+	displayed below that, in the <interface>view pane</interface>.
+	If you find the <interface>view pane</interface> too small,
+	you can double-click on the message in the <interface>message
+	list</interface> to have it open in a new window.  Just like
+	with folders, you can right-click on messages in the message
+	list and get a menu of possible actions.
      </para>
-    
-      <note id="usage-mail-listorder">
-	<title>The Order of the Message List</title>
-	<para>
-          You can also select the order in which messages appear in
-          that list.  To sort by sender, subject, or date, click on the
-          bars with those labels at the top of the message list.  If
-          you click twice, you'll sort them in reverse order.
-        </para>
-	<para>
-          Aside from sorting the messages, you can opt to have the
-          messages threaded. Select <menuchoice>
-          <guimenu>View</guimenu> <guimenuitem>Threaded Message
-          List</guimenuitem> </menuchoice> to turn the threaded view
-          on or off.  If the option selected,
-          <application>Evolution</application> will attempt to
-          associate related messages by using the
-          <systemitem>References</systemitem>,
-          <systemitem>In-Reply-To</systemitem>, and
-          <systemitem>Subject</systemitem> message headers.  Messages
-          which are related are then placed next to each other, so
-          that it's easier to follow the thread of a conversation from
-          message to message.
-        </para>
-      </note>
+
+ <!-- ==============Figure=================================== -->
+ 
+      <figure id="usage-mail-intro-fig">
+	  <title>Evolution Mail</title>
+	  <screenshot>
+	    <screeninfo>Inbox</screeninfo>
+	    <graphic fileref="fig/mail-pic" format="png" srccredit="Aaron Weber">
+	</graphic>
+	</screenshot>
+      </figure>
+<!-- ==============End of Figure============================== -->
+
+
+
       <para>
          Other actions you can perform are listed, appropriately, in
          the <guimenu>Actions</guimenu> menu in the menu bar:
@@ -249,6 +126,35 @@
 	    </varlistentry>
 	  </variablelist>
       </para>
+      <sect3 id="usage-mail-listorder">
+	<title>Sorting the message list</title>
+	<para>
+          You can also select the order in which messages appear in
+          that list.  To sort by sender, subject, or date, click on the
+          bars with those labels at the top of the message list.  If
+          you click twice, you'll sort them in reverse order.
+        </para>
+	<para>
+          Aside from sorting the messages, you can opt to have the
+          messages threaded. Select <menuchoice>
+          <guimenu>View</guimenu> <guimenuitem>Threaded Message
+          List</guimenuitem> </menuchoice> to turn the threaded view
+          on or off.  If the option selected,
+          <application>Evolution</application> will attempt to
+          associate related messages by using the
+          <systemitem>References</systemitem>,
+          <systemitem>In-Reply-To</systemitem>, and
+          <systemitem>Subject</systemitem> message headers.  Messages
+          which are related are then placed next to each other, so
+          that it's easier to follow the thread of a conversation from
+          message to message.
+        </para>
+      </sect3>
+    </sect2>
+
+    <sect2 id="usage-mail-getnsend-get">
+      <title>Checking Mail</title>
+
       <para>
 	Now that you've had a look around the
 	<interface>Inbox</interface>, select the welcome message in
@@ -263,22 +169,8 @@
 	marked as deleted.  At some point in the future, this feature
 	will change to something a little less counter-intuitive.
       </para>
- <!-- ==============Figure=================================== -->
- 
-      <figure id="usage-mail-intro-fig">
-	  <title>Evolution Mail</title>
-	  <screenshot>
-	    <screeninfo>Inbox</screeninfo>
-	    <graphic fileref="fig/mail-pic" format="png" srccredit="Aaron Weber">
-	</graphic>
-	</screenshot>
-      </figure>
-<!-- ==============End of Figure============================== -->
 
-    </sect2>
 
-    <sect2 id="usage-mail-getnsend-get">
-      <title>Checking Mail</title>
       <para>
 	To check your email, just click <guibutton>Get
 	mail</guibutton> in the toolbar.  If this is the first time
@@ -620,18 +512,10 @@ with quoted materials and the relevant replies interspersed-->
 	      <term><guimenuitem>Find Regex</guimenuitem></term>
 	      <listitem>
 		<para>
-                  Regular expressions, often called "regex" for short,
-                  are a powerful way of expressing complicated
-                  statements using metacharacters or wildcard symbols.
-                  For example, the statement
-                  <userinput>fly*so[a|u]p</userinput> means "any
-                  phrase beginning with 'fly' and ending in 'soup' or
-                  'soap'", so you'd find both "fly in my soup" and
-                  "fly in my soap."  There's not room here to go into
-                  depth here, but if you want, have a look at the
-                  documentation for the <command>grep</command>
-                  command.
-                </para></listitem>
+                  Perform a search for a <glossterm>regular
+                  expression</glossterm>, or "regex."
+               </para>
+             </listitem>
 	    </varlistentry>
 
 	    <varlistentry>

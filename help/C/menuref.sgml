@@ -1,8 +1,8 @@
 <!--
-<!DOCTYPE Appendix PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+<!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
 
-<appendix id="menuref">
+<chapter id="menuref">
   <title>Menu Reference</title>
   <para>
     This section will serve as a reference for every capability that
@@ -559,6 +559,140 @@
       </para>
     </sect2>
   </sect1>
+  <sect1 id="menuref-mail-context">
+    <title>Contextual Menus in Evolution Mail</title>
+    <para>
+      The following menus appear when you right-click on something:
+    </para>
+
+    <sect2 id="menuref-mail-context-message">
+      <title>Right-click menu for messages in the message list</title>
+      <para>
+        <variablelist>
+
+	  <varlistentry>
+	    <term><guimenuitem>Open in New Window</guimenuitem></term>
+	    <listitem><para>
+	       Open a new window to read this message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Edit this Message</guimenuitem></term>
+	    <listitem><para>
+              Available only for messages you have
+	      written and saved to the <guilabel>Drafts</guilabel>
+              or <guilabel>Outbox</guilabel> folders, this opens the
+              message in a message composition window, so you can alter it.
+	    </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Print</guimenuitem></term>
+	    <listitem><para>
+	       Opens the Print Preview window in preparation
+               for printing the message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Reply to Sender</guimenuitem></term>
+	    <listitem><para>
+	       Opens a message composition window addressed to the
+               author of the  message.  Covered in detail in 
+               <xref linkend="usage-mail-getnsend-send-reply">.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Reply to All</guimenuitem></term>
+	    <listitem><para>
+	        Opens a message composition window addressed to the
+                author of the  message and all known recipients.
+                Covered in detail in <xref linkend="usage-mail-getnsend-send-reply">.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Forward</guimenuitem></term>
+	    <listitem><para>
+	       Appends the body of the selected message to a new message.
+               Covered in detail in  <xref linkend="usage-mail-getnsend-fwd">.               
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Delete Message</guimenuitem></term>
+	    <listitem><para>
+	       Marks a message for deletion.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Move Message</guimenuitem></term>
+	    <listitem><para>
+	       Choose a folder in which to place this message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Subject</guimenuitem></term>
+	    <listitem><para>
+	       This item, and the three that follow it, will create vFolders 
+               which you may customize further or save as-is. This one will
+               create a vFolder which will display all messages that contain the 
+               subject line of the selected message.                
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Sender</guimenuitem></term>
+	    <listitem><para>
+	       Creates a vFolder to hold all messages from the sender of
+               the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Recipients</guimenuitem></term>
+	    <listitem><para>
+	       Creates a VFolder to hold all messages addressed to the 
+               recipient of the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Subject</guimenuitem></term>
+	    <listitem><para>
+	       This item, and the three that follow it, will create Filters 
+               for which you must select actions.  You may keep the criteria as 
+               they are, or alter them as you wish. This one will
+               create a filter which will affect all messages that contain the 
+               subject line of the selected message.                
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Sender</guimenuitem></term>
+	    <listitem><para>
+	       Creates a Filter which affects all messages from the sender of
+               the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Recipients</guimenuitem></term>
+	    <listitem><para>
+	       Creates a filter which will affect all messages addressed to the 
+               recipient of the selected message.
+	      </para></listitem>
+	  </varlistentry>
+	</variablelist>
+      </para>
+    </sect2>
+  </sect1>
   
   <sect1 id="menuref-cal">
     <title>The Calendar Menus</title>
@@ -1052,7 +1186,7 @@
   </sect1>
   
 
-</appendix>
+</chapter>
 
 
 

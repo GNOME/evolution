@@ -227,6 +227,22 @@
   </glossdef>
  </glossentry>
 
+ <glossentry id="regular-expression">
+  <glossterm>Regular Expression</glossterm>
+  <glossdef>
+   <para>
+      A regular expression, or "regex", is a way of describing a
+      string of text using metacharacters or wildcard symbols.  For
+      example, the statement <userinput>fly*so[a|u]p</userinput> means
+      "any phrase beginning with 'fly' and ending in 'soup' or
+      'soap'".  If you searched for that expression, you'd find both
+      "fly in my soup" and "fly in my soap."  There's not room here to
+      go into depth, but if you want, have a look at the documentation
+      for the <command>grep</command> command.
+   </para>
+  </glossdef>
+ </glossentry>
+
  <glossentry id="script">
   <glossterm>Script</glossterm>
   <glossdef>
@@ -282,3 +298,17 @@
  </glossentry>
 
 </glossary>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
