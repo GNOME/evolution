@@ -1,5 +1,9 @@
 2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/Makefile.am: Fixed compile error.
+
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/Makefile.am: Removed e-card-iterator.c,
 	e-card-iterator.h, e-card-list-iterator.c, e-card-list-iterator.h,
 	e-card-list.c, e-card-list.h.

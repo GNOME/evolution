@@ -25,8 +25,6 @@ INCLUDES =						\
 lib_LTLIBRARIES = libeselectnames.la
 
 libeselectnames_la_SOURCES = 		\
-	e-select-names-entry.c		\
-	e-select-names-entry.h		\
 	e-select-names-manager.c	\
 	e-select-names-manager.h	\
 	e-select-names-model.c		\
