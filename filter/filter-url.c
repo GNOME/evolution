@@ -21,6 +21,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>

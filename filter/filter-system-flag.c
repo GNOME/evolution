@@ -21,6 +21,10 @@
  */
 
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <gtk/gtk.h>
 #include <gnome.h>
 #include <gnome-xml/xmlmemory.h>
@@ -60,11 +64,11 @@ struct _system_flag {
 	char *title;
 	char *value;
 } system_flags[] = {
-	{ _("Replied to"), "Answered" },
+	{ N_("Replied to"), "Answered" },
 	/*{ _("Deleted"), "Deleted" },*/
 	/*{ _("Draft"), "Draft" },*/
-	{ _("Important"), "Flagged" },
-	{ _("Read"), "Seen" },
+	{ N_("Important"), "Flagged" },
+	{ N_("Read"), "Seen" },
 	{ NULL, NULL }
 };
 

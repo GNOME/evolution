@@ -1,3 +1,10 @@
+2001-02-05  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* filter-code.c, filter-colour.c, filter-context.c,
+	filter-element.c, filter-input.c, filter-score.c,
+	filter-system-flag.c, filter-url.c: Add #include <config.h>
+	and mark some strings for translation.
+	
 2001-01-22  Not Zed  <NotZed@Ximian.com>
 
 	* filter-message-search.[ch]: Removed, now lives in
