@@ -7270,7 +7270,7 @@ msgstr "Tiskanje Moje evolucije ni uspelo"
 
 #: my-evolution/main.c:52
 msgid "Executive summary component could not initialize Bonobo.\n"
-msgstr "Komponenta povzetka ni mogla inicializirati Bonoba"
+msgstr "Komponenta povzetka ni mogla inicializirati Bonoba.\n"
 
 #: my-evolution/metar.c:43
 msgid "Clear sky"
