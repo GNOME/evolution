@@ -1,3 +1,14 @@
+2001-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Workaround for Nautilus/Scrollkeeper bug that prevents our SGML
+	files to generate the docs properly; pointed out by Greg Leblanc.]
+
+	* C/evolution-C.omf: Point to index.html instead of
+	`evolution.sgml'.
+
+	* sgmldocs.make: Install the SGML files in evolution/sgml, and the
+	HTML files in evolution.
+
 2001-10-29  Aaron Weber  <aaron@ximian.com>
 
 	* C/apx-bugs.sgml: typos, redescribe 1.1 bugs. Re-validated.

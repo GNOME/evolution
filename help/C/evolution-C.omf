@@ -7,8 +7,8 @@
     <subject>
       <category>GNOME|Applications</category>
     </subject>
-    <format mime="text/sgml"/>
-    <identifier url="evolution.sgml"/>
+    <format mime="text/html"/>
+    <identifier url="index.html"/>
     <language code="C"/>
   </resource>
 </omf>
