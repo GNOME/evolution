@@ -1,5 +1,34 @@
 2002-03-10  Dan Winship  <danw@ximian.com>
 
+	Rename the OpenSSL implementation of things to match the NSS
+	implementation so that callers don't need to care which one is
+	being used.
+
+	* camel-tcp-stream-openssl.c: Implement CamelTcpStreamSSL, not
+	CamelTcpStreamOpenSSL. Rename methods as well. Replace the
+	camel-tcp-stream-openssl.h include with camel-tcp-stream-ssl.h.
+
+	* camel-tcp-stream-openssl.h: Gone.
+
+	* camel-tcp-stream-ssl.c: Add a note explaining that this
+	implementation is only used for NSS, and that OpenSSL's
+	implementation is in another file. (Should probably do some CVS
+	renaming magic at some point.)
+
+	* camel-http-stream.c (http_connect): Remove OpenSSL refs; the
+	previously-NSS-specific code works for both now.
+
+	* camel-remote-store.c: Likewise.
+
+	* providers/smtp/camel-smtp-transport.c: Likewise.
+
+	* providers/pop3/camel-pop3-store.c: Likewise.
+
+	* Makefile.am (libcamelinclude_HEADERS): Remove
+	camel-tcp-stream-openssl.h
+
+2002-03-10  Dan Winship  <danw@ximian.com>
+
 	* camel-tcp-stream.c (camel_tcp_stream_get_socket): Remove this:
 	it couldn't be generically used, because different subclasses
 	returned entirely different types of data.

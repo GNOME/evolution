@@ -34,11 +34,8 @@
 #include "camel-http-stream.h"
 #include "camel-stream-buffer.h"
 #include "camel-tcp-stream-raw.h"
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 #include "camel-tcp-stream-ssl.h"
-#endif
-#ifdef HAVE_OPENSSL
-#include "camel-tcp-stream-openssl.h"
 #endif
 #include "camel-exception.h"
 #include "camel-session.h"
@@ -182,13 +179,9 @@ http_connect (CamelService *service, CamelURL *url)
 	int errsave;
 	
 	if (!strcasecmp (url->protocol, "https")) {
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 		stream = camel_tcp_stream_ssl_new (service, url->host);
-#else
-#ifdef HAVE_OPENSSL
-		stream = camel_tcp_stream_openssl_new (service, url->host);
-#endif /* HAVE_OPENSSL */
-#endif /* HAVE_NSS */  
+#endif
 	} else {
 		stream = camel_tcp_stream_raw_new ();
 	}

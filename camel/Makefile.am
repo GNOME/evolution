@@ -183,7 +183,6 @@ libcamelinclude_HEADERS =			\
 	camel-stream.h				\
 	camel-tcp-stream-raw.h			\
 	camel-tcp-stream-ssl.h			\
-	camel-tcp-stream-openssl.h		\
 	camel-tcp-stream.h			\
 	camel-transport.h			\
 	camel-types.h				\

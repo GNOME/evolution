@@ -47,12 +47,8 @@
 #include "camel-tcp-stream.h"
 #include "camel-tcp-stream-raw.h"
 
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 #include "camel-tcp-stream-ssl.h"
-#endif
-
-#ifdef HAVE_OPENSSL
-#include "camel-tcp-stream-openssl.h"
 #endif
 
 #include "camel-url.h"
@@ -240,21 +236,15 @@ remote_connect (CamelService *service, CamelException *ex)
 	else
 		port = store->default_port;	
 	
-#if defined(HAVE_NSS) || defined(HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	if (store->use_ssl) {
-#ifdef HAVE_NSS
-		/* this is the preferred SSL implementation */
 		tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
-#else
-		/* use openssl... */
-		tcp_stream = camel_tcp_stream_openssl_new (service, service->url->host);
-#endif /* HAVE_NSS */
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 #else
 	tcp_stream = camel_tcp_stream_raw_new ();
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host(h);

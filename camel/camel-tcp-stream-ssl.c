@@ -20,6 +20,13 @@
  *
  */
 
+/* NOTE: This is the default implementation of CamelTcpStreamSSL,
+ * used when the Mozilla NSS libraries are used. If you configured
+ * OpenSSL support instead, then this file won't be compiled and
+ * the CamelTcpStreamSSL implementation in camel-tcp-stream-openssl.c
+ * will be used instead.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

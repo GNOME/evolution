@@ -49,11 +49,8 @@
 #include "camel-stream-buffer.h"
 #include "camel-tcp-stream.h"
 #include "camel-tcp-stream-raw.h"
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 #include "camel-tcp-stream-ssl.h"
-#endif
-#ifdef HAVE_OPENSSL
-#include "camel-tcp-stream-openssl.h"
 #endif
 #include "camel-session.h"
 #include "camel-exception.h"
@@ -261,28 +258,20 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	
 	port = service->url->port ? service->url->port : SMTP_PORT;
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL) {
-		if (!try_starttls)
-			port = service->url->port ? service->url->port : 465;
-#ifdef HAVE_NSS
-		/* use the preferred implementation - NSS */
 		if (try_starttls)
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host);
-		else
+		else {
+			port = service->url->port ? service->url->port : 465;
 			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
-#else
-		if (try_starttls)
-			tcp_stream = camel_tcp_stream_openssl_new_raw (service, service->url->host);
-		else
-			tcp_stream = camel_tcp_stream_openssl_new (service, service->url->host);
-#endif /* HAVE_NSS */
+		}
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 #else
 	tcp_stream = camel_tcp_stream_raw_new ();
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
@@ -335,7 +324,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 		smtp_helo (transport, ex);
 	}
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_WHEN_POSSIBLE) {
 		/* try_starttls is always TRUE here */
 		if (transport->flags & CAMEL_SMTP_TRANSPORT_STARTTLS)
@@ -353,11 +342,11 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 			}
 		}
 	}
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 	
 	return TRUE;
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
  starttls:
 	d(fprintf (stderr, "sending : STARTTLS\r\n"));
 	if (camel_stream_write (tcp_stream, "STARTTLS\r\n", 10) == -1) {
@@ -384,11 +373,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	} while (*(respbuf+3) == '-'); /* if we got "220-" then loop again */
 	
 	/* Okay, now toggle SSL/TLS mode */
-#ifdef HAVE_NSS
 	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
-#else /* HAVE_OPENSSL */
-	ret = camel_tcp_stream_openssl_enable_ssl (CAMEL_TCP_STREAM_OPENSSL (tcp_stream));
-#endif
 	if (ret != -1)
 		return TRUE;
 	
@@ -403,7 +388,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 	transport->ostream = NULL;
 	
 	return FALSE;
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 }
 
 #define EXCEPTION_RETRY(ex) (camel_exception_get_id (ex) != CAMEL_EXCEPTION_USER_CANCEL && \
@@ -412,7 +397,7 @@ connect_to_server (CamelService *service, int try_starttls, CamelException *ex)
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	CamelSmtpTransport *transport = (CamelSmtpTransport *) service;
 	
 	if (transport->flags & CAMEL_SMTP_TRANSPORT_USE_SSL_ALWAYS) {

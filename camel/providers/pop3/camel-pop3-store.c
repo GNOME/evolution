@@ -51,12 +51,8 @@
 #include "camel-data-cache.h"
 #include "camel-tcp-stream.h"
 #include "camel-tcp-stream-raw.h"
-#ifdef HAVE_NSS
+#ifdef HAVE_SSL
 #include "camel-tcp-stream-ssl.h"
-#include <prnetdb.h>
-#endif
-#ifdef HAVE_OPENSSL
-#include "camel-tcp-stream-openssl.h"
 #endif
 
 /* Specified in RFC 1939 */
@@ -161,30 +157,21 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	
 	port = service->url->port ? service->url->port : 110;
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	/* FIXME: check for "always" and "when-possible" to support STARTTLS */
 	if (camel_url_get_param (service->url, "use_ssl")) {
-		if (!try_starttls)
-			port = service->url->port ? service->url->port : 995;
-#ifdef HAVE_NSS
-		/* this is the preferred SSL implementation */
 		if (try_starttls)
 			tcp_stream = camel_tcp_stream_ssl_new_raw (service, service->url->host);
-		else
+		else {
+			port = service->url->port ? service->url->port : 995;
 			tcp_stream = camel_tcp_stream_ssl_new (service, service->url->host);
-#else
-		/* use openssl... */
-		if (try_starttls)
-			tcp_stream = camel_tcp_stream_openssl_new_raw (service, service->url->host);
-		else
-			tcp_stream = camel_tcp_stream_openssl_new (service, service->url->host);
-#endif /* HAVE_NSS */
+		}
 	} else {
 		tcp_stream = camel_tcp_stream_raw_new ();
 	}
 #else
 	tcp_stream = camel_tcp_stream_raw_new ();
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 	
 	ret = camel_tcp_stream_connect (CAMEL_TCP_STREAM (tcp_stream), h, port);
 	camel_free_host (h);
@@ -211,7 +198,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	if (stls_support)
 		*stls_support = store->engine->capa & CAMEL_POP3_CAP_STLS;
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	if (store->engine) {
 		if (ssl_mode == USE_SSL_WHEN_POSSIBLE) {
 			if (store->engine->capa & CAMEL_POP3_CAP_STLS)
@@ -233,13 +220,13 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 			}
 		}
 	}
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 	
 	camel_object_unref (CAMEL_OBJECT (tcp_stream));
 	
 	return store->engine != NULL;
 	
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
  starttls:
 	/* as soon as we send a STLS command, all hope is lost of a clean QUIT if problems arise */
 	clean_quit = FALSE;
@@ -259,11 +246,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	}
 	
 	/* Okay, now toggle SSL/TLS mode */
-#ifdef HAVE_NSS
 	ret = camel_tcp_stream_ssl_enable_ssl (CAMEL_TCP_STREAM_SSL (tcp_stream));
-#else /* HAVE_OPENSSL */
-	ret = camel_tcp_stream_openssl_enable_ssl (CAMEL_TCP_STREAM_OPENSSL (tcp_stream));
-#endif
 	
 	camel_object_unref (CAMEL_OBJECT (tcp_stream));
 	
@@ -294,7 +277,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, int *s
 	store->engine = NULL;
 	
 	return FALSE;
-#endif /* HAVE_NSS || HAVE_OPENSSL */
+#endif /* HAVE_SSL */
 }
 
 static struct {
@@ -314,7 +297,7 @@ static struct {
 static gboolean
 connect_to_server_wrapper (CamelService *service, CamelException *ex)
 {
-#if defined (HAVE_NSS) || defined (HAVE_OPENSSL)
+#ifdef HAVE_SSL
 	const char *use_ssl;
 	int stls_supported;
 	int i, ssl_mode;
