@@ -1,3 +1,7 @@
+2000-10-30  Federico Mena Quintero  <federico@helixcode.com>
+
+	* pl.po: Removed spurious character that kept it from building.
+
 2000-10-30  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* pl.po: Updated Polish translation.
