@@ -248,18 +248,21 @@ impl_destroy (GtkObject *object)
 	combo_button = E_COMBO_BUTTON (object);
 	priv = combo_button->priv;
 
-	if (priv->arrow_pixmap != NULL) {
-		gtk_widget_destroy (priv->arrow_pixmap);
-		priv->arrow_pixmap = NULL;
+	if (priv) {
+		if (priv->arrow_pixmap != NULL) {
+			gtk_widget_destroy (priv->arrow_pixmap);
+			priv->arrow_pixmap = NULL;
+		}
+		
+		if (priv->icon != NULL) {
+			g_object_unref (priv->icon);
+			priv->icon = NULL;
+		}
+
+		g_free (priv);
+		combo_button->priv = NULL;
 	}
-
-	if (priv->icon != NULL) {
-		g_object_unref (priv->icon);
-		priv->icon = NULL;
-	}
-
-	g_free (priv);
-
+	
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 

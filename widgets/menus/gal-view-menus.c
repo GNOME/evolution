@@ -148,6 +148,9 @@ gvm_finalize (GObject *object)
 
 	gal_view_menus_unmerge (gvm, NULL);
 
+	if (gvm->priv->component)
+		bonobo_object_unref (gvm->priv->component);
+	
 	if (gvm->priv->define_views_dialog)
 		g_object_weak_unref (G_OBJECT (gvm->priv->define_views_dialog), clear_define_views_dialog, gvm);
 
