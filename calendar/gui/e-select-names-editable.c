@@ -24,7 +24,7 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtkcelleditable.h>
 #include <libebook/e-destination.h>
-#include <libedataserverui/e-select-names-entry.h>
+#include <libedataserverui/e-name-selector-entry.h>
 
 #include "e-select-names-editable.h"
 

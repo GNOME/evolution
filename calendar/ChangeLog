@@ -1,3 +1,11 @@
+2004-12-23  Hans Petter Jansson  <hpj@novell.com>
+
+	* gui/e-select-names-editable.c: Correct bad include.
+
+	* gui/dialogs/Makefile.am (IDL_GENERATED_H)
+	(IDL_GENERATED)
+	(BUILT_SOURCES): No longer needed, removed.
+
 2004-12-22  Hans Petter Jansson  <hpj@novell.com>
 
 	* gui/Makefile.am (IDLS)
