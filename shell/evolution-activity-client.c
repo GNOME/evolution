@@ -251,6 +251,9 @@ impl_destroy (GtkObject *object)
 
 	CORBA_exception_free (&ev);
 
+	if (priv->listener)
+		bonobo_object_unref(BONOBO_OBJECT(priv->listener));
+
 	g_free (priv->new_information);
 
 	g_free (priv);
