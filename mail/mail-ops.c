@@ -635,7 +635,8 @@ reply (FolderBrowser *fb, gboolean to_all)
 	EMsgComposer *composer;
 	struct post_send_data *psd;
 
-	if (!check_configured () || !fb->message_list->cursor_uid)
+	if (!check_configured () || !fb->message_list->cursor_uid ||
+	    !fb->mail_display->current_message)
 		return;
 
 	psd = g_new (struct post_send_data, 1);

@@ -1,3 +1,9 @@
+2000-07-25  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops.c (reply): Check for the case of fb->mail_display->
+	current_message = NULL, which shouldn't happen, but has happened
+	to me.
+
 2000-07-25  Dan Winship  <danw@helixcode.com>
 
 	* message-thread.c (group_root_set): Don't group together messages
