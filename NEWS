@@ -17,7 +17,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
     #16864 -- LDIF importer chokes on long description field (Toshok)
     #17441 -- Crash trying to import VCards file into an LDAP folder
-             (Ettore)
+              (Ettore)
 
   * Mail
 
@@ -27,7 +27,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #16947 -- Crash while setting up a new mail account (Jeff)
     #17205 -- Crash of evolution-mail on start-up (Jeff)
     #17634 -- Marking a message as unread should undelete it, as well
-             (Jeff)
+              (Jeff)
     #17694 -- Exchange 5.5 reporting 2 messages as having the same UID
               breaks Evolution (Jeff)
     #17759 -- Cancelling Send/Receive can lose mail for local case

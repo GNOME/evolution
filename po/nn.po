@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution-1.01\n"
-"POT-Creation-Date: 2002-01-15 04:06+0100\n"
+"POT-Creation-Date: 2002-01-24 13:27-0500\n"
 "PO-Revision-Date: 2002-01-18 05:36+0100\n"
 "Last-Translator: Roy-Magne Mo <rmo@sunnmore.net>\n"
 "Language-Team: \n"
@@ -805,8 +805,8 @@ msgstr "E-postadresse:"
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
-"Evolution kjem til å bruke denne e-postaddressa for å autentisere deg ovanfor "
-"tenaren"
+"Evolution kjem til å bruke denne e-postaddressa for å autentisere deg "
+"ovanfor tenaren"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -2971,12 +2971,12 @@ msgstr "Breidd:"
 msgid "_Font..."
 msgstr "_Skrifttype ..."
 
-#: addressbook/printing/e-contact-print.c:1111
+#: addressbook/printing/e-contact-print.c:1115
 msgid "Print cards"
 msgstr "Skriv ut kort"
 
-#: addressbook/printing/e-contact-print.c:1171
-#: addressbook/printing/e-contact-print.c:1193
+#: addressbook/printing/e-contact-print.c:1175
+#: addressbook/printing/e-contact-print.c:1197
 msgid "Print card"
 msgstr "Skriv ut kort"
 
@@ -5171,12 +5171,12 @@ msgstr "&Slett avtale"
 msgid "%s at the end of the appointment"
 msgstr "&Slett avtale"
 
-#: calendar/gui/dialogs/alarm-page.c:453
+#: calendar/gui/dialogs/alarm-page.c:452
 #, fuzzy, c-format
 msgid "%s at %s"
 msgstr "Diskusjonsgruppetenarar"
 
-#: calendar/gui/dialogs/alarm-page.c:459
+#: calendar/gui/dialogs/alarm-page.c:458
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr ""
@@ -5688,7 +5688,6 @@ msgstr "Oppteke"
 #: calendar/gui/dialogs/task-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:5
 #, fuzzy
-#, fuzzy
 msgid "Classification"
 msgstr "Klassifisering"
 
@@ -5971,7 +5970,7 @@ msgid "Progress"
 msgstr "Framgang"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#: my-evolution/e-summary-preferences.c:965
+#: my-evolution/e-summary-preferences.c:966
 msgid "URL:"
 msgstr "URL:"
 
@@ -7238,8 +7237,8 @@ msgstr ""
 #: calendar/gui/tasks-migrate.c:133
 #, c-format
 msgid ""
-"The method required to load `%s' is not supported; no items from the calendar "
-"folder will be migrated to the tasks folder."
+"The method required to load `%s' is not supported; no items from the "
+"calendar folder will be migrated to the tasks folder."
 msgstr ""
 
 #: calendar/gui/weekday-picker.c:314 calendar/gui/weekday-picker.c:409
@@ -7320,8 +7319,8 @@ msgstr ""
 
 #: calendar/pcs/query.c:691
 msgid ""
-"contains? expects argument 1 to be one of \"any\", \"summary\", "
-"\"description\""
+"contains? expects argument 1 to be one of \"any\", \"summary\", \"description"
+"\""
 msgstr ""
 
 #: calendar/pcs/query.c:733
@@ -7807,8 +7806,8 @@ msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:45
 msgid ""
-"This option will connect to the server using a secure DIGEST-MD5 password, if "
-"the server supports it."
+"This option will connect to the server using a secure DIGEST-MD5 password, "
+"if the server supports it."
 msgstr ""
 
 #: camel/camel-sasl-digest-md5.c:810
@@ -7840,8 +7839,7 @@ msgid "Kerberos 4"
 msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:42
-msgid ""
-"This option will connect to the server using Kerberos 4 authentication."
+msgid "This option will connect to the server using Kerberos 4 authentication."
 msgstr ""
 
 #: camel/camel-sasl-kerberos4.c:161
@@ -8121,7 +8119,7 @@ msgid "Scanning for changed messages"
 msgstr "Melding"
 
 #: camel/providers/imap/camel-imap-folder.c:1585
-#: camel/providers/imap/camel-imap-folder.c:2001
+#: camel/providers/imap/camel-imap-folder.c:2028
 #, fuzzy
 msgid "This message is not currently available"
 msgstr "%1 er ikkje tilgjengeleg."
@@ -8136,7 +8134,7 @@ msgstr ""
 msgid "Scanning for new messages"
 msgstr "Melding"
 
-#: camel/providers/imap/camel-imap-folder.c:2038
+#: camel/providers/imap/camel-imap-folder.c:2065
 msgid "Could not find message body in FETCH response."
 msgstr ""
 
@@ -8196,8 +8194,7 @@ msgid "For reading and storing mail on IMAP servers."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-provider.c:82
-msgid ""
-"This option will connect to the IMAP server using a plaintext password."
+msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap/camel-imap-store.c:518
@@ -8834,8 +8831,8 @@ msgstr ""
 #: camel/providers/pop3/camel-pop3-provider.c:79
 msgid ""
 "This option will connect to the POP server using an encrypted password via "
-"the APOP protocol. This may not work for all users even on servers that claim "
-"to support it."
+"the APOP protocol. This may not work for all users even on servers that "
+"claim to support it."
 msgstr ""
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
@@ -10869,8 +10866,8 @@ msgstr "Er du sikker på at du vil sletta denne overføringa?"
 
 #: mail/mail-config-druid.c:146
 msgid ""
-"Please enter your name and email address below. The \"optional\" fields below "
-"do not need to be filled in,\n"
+"Please enter your name and email address below. The \"optional\" fields "
+"below do not need to be filled in,\n"
 "unless you wish to include this information in email you send."
 msgstr ""
 
@@ -10897,8 +10894,9 @@ msgid ""
 "You are almost done with the mail configuration process. The identity, "
 "incoming mail server and\n"
 "outgoing mail transport method which you provided will be grouped together "
-"to\nmake an Evolution mail account. Please enter a name for this account in "
-"the space below.\n"
+"to\n"
+"make an Evolution mail account. Please enter a name for this account in the "
+"space below.\n"
 "This name will be used for display purposes only."
 msgstr ""
 
@@ -11570,8 +11568,7 @@ msgid "This message is digitally signed and has been found to be authentic."
 msgstr ""
 
 #: mail/mail-format.c:1853
-msgid ""
-"This message is digitally signed but can not be proven to be authentic."
+msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 
 #: mail/mail-format.c:2069
@@ -12196,20 +12193,20 @@ msgstr ""
 msgid "Quotes of the Day"
 msgstr "Tips for dagen"
 
-#: my-evolution/e-summary-preferences.c:945
+#: my-evolution/e-summary-preferences.c:946
 msgid "Add a news feed"
 msgstr "Legg til ei nyhendekjelde"
 
-#: my-evolution/e-summary-preferences.c:953
+#: my-evolution/e-summary-preferences.c:954
 #, fuzzy
 msgid "Enter the URL of the news feed you wish to add"
 msgstr "Oppgi namnet på gruppa du vil leggja til."
 
-#: my-evolution/e-summary-preferences.c:957
+#: my-evolution/e-summary-preferences.c:958
 msgid "Name:"
 msgstr "Namn:"
 
-#: my-evolution/e-summary-preferences.c:1503
+#: my-evolution/e-summary-preferences.c:1504
 #, fuzzy
 msgid "Summary Settings"
 msgstr "Spørjinga inneheld"
@@ -12838,7 +12835,6 @@ msgstr ""
 
 #: my-evolution/metar.c:249
 #, fuzzy
-#, fuzzy
 msgid "Light precipitation"
 msgstr "Lett regn"
 
@@ -12872,7 +12868,6 @@ msgid "Unknown thunderstorm"
 msgstr "Ukjend tordenstorm"
 
 #: my-evolution/metar.c:256
-#, fuzzy
 #, fuzzy
 msgid "Blowing precipitation"
 msgstr "Blåsande nedbør"
@@ -20044,6 +20039,7 @@ msgstr "Nantucket"
 msgid "Napa"
 msgstr "Nepal"
 
+#: my-evolution/Locations.h:1510
 msgid "Naples"
 msgstr "Napoli"
 
@@ -22627,7 +22623,6 @@ msgid "Spickard"
 msgstr "Spickard"
 
 #: my-evolution/Locations.h:2121
-#, fuzzy
 #, fuzzy
 msgid "Split"
 msgstr "Del opp"
