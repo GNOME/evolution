@@ -1,5 +1,8 @@
 2002-02-15  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (basename_from_uri): Ack, strip off the
+	leading '/' char.
+
 	* mail-display.c (do_attachment_header): Don't display a
 	down-arrow if the attachment is undisplayable. Fixes bug #6919.
 	(launch_cb): Some programs are buggy when it comes to parsing
