@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: evolution 2.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-01-27 18:36+0100\n"
-"PO-Revision-Date: 2004-01-27 18:37+0100\n"
+"PO-Revision-Date: 2004-01-28 17:00+0100\n"
 "Last-Translator: Данило Шеган <danilo@prevod.org>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -3937,6 +3937,7 @@ msgstr "прозорче1"
 msgid "extra times every"
 msgstr "покажи још на сваких"
 
+# bug: plural-forms
 #: calendar/gui/dialogs/alarm-options.glade.h:13 filter/filter.glade.h:18
 msgid "hours"
 msgstr "сати"
@@ -4615,16 +4616,19 @@ msgstr "Сигурно желите да избришете унос у днев
 msgid "Are you sure want to delete this untitled journal entry?"
 msgstr "Сигурно желите да избришете ован неименовани унос у дневник?"
 
+# bug: plural-forms
 #: calendar/gui/dialogs/delete-comp.c:131
 #, c-format
 msgid "Are you sure you want to delete %d appointments?"
 msgstr "Сигурно желите да избришете %d заказаних састанака?"
 
+# bug: plural-forms
 #: calendar/gui/dialogs/delete-comp.c:136
 #, c-format
 msgid "Are you sure you want to delete %d tasks?"
 msgstr "Сигурно желите да избришете %d задужења"
 
+# bug: plural-forms
 #: calendar/gui/dialogs/delete-comp.c:141
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
@@ -5770,6 +5774,7 @@ msgstr "Да. (Сложени повраћај)"
 msgid "Every day"
 msgstr "Сваки дан"
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:606
 #, c-format
 msgid "Every %d days"
@@ -5779,6 +5784,7 @@ msgstr "Свака %d дана"
 msgid "Every week"
 msgstr "Сваке недеље"
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:614
 #, c-format
 msgid "Every %d weeks"
@@ -5788,6 +5794,7 @@ msgstr "Сваких %d недеља"
 msgid "Every week on "
 msgstr "Сваке недеље у "
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:619
 #, c-format
 msgid "Every %d weeks on "
@@ -5811,6 +5818,7 @@ msgstr "%s %s "
 msgid "every month"
 msgstr "сваки месец"
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:657
 #, c-format
 msgid "every %d months"
@@ -5820,11 +5828,13 @@ msgstr "сваких %d месеци"
 msgid "Every year"
 msgstr "Сваке године"
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:665
 #, c-format
 msgid "Every %d years"
 msgstr "Сваких %d година"
 
+# bug: plural-forms
 #: calendar/gui/e-itip-control.c:677
 #, c-format
 msgid " a total of %d times"
@@ -11710,64 +11720,78 @@ msgstr "%H:%M"
 msgid "%I %p"
 msgstr "%I %p"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:65
 msgid "1 second ago"
 msgstr "пре једне секунде"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:65
 #, c-format
 msgid "%d seconds ago"
 msgstr "пре %d секунде"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:66
 msgid "1 minute ago"
 msgstr "пре једног минута"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:66
 #, c-format
 msgid "%d minutes ago"
 msgstr "пре %d минута"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:67
 msgid "1 hour ago"
 msgstr "пре једног сата"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:67
 #, c-format
 msgid "%d hours ago"
 msgstr "пре %d сати"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:68
 msgid "1 day ago"
 msgstr "пре једног дана"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:68
 #, c-format
 msgid "%d days ago"
 msgstr "пре %d дана"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:69
 msgid "1 week ago"
 msgstr "пре једне недеље"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:69
 #, c-format
 msgid "%d weeks ago"
 msgstr "пре %d недеља"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:70
 msgid "1 month ago"
 msgstr "пре једног месеца"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:70
 #, c-format
 msgid "%d months ago"
 msgstr "пре %d месеца"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:71
 msgid "1 year ago"
 msgstr "пре једне године"
 
+# bug: plural-forms
 #: filter/filter-datespec.c:71
 #, c-format
 msgid "%d years ago"
@@ -14727,11 +14751,13 @@ msgstr "Локални директоријуми"
 msgid "Retrieving message %s"
 msgstr "Учитавам поруку %s"
 
+# bug: plural-forms
 #: mail/mail-ops.c:1818
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Учитавам %d порука(е)"
 
+# bug: plural-forms
 #: mail/mail-ops.c:1902
 #, c-format
 msgid "Saving %d messsage(s)"

@@ -1,5 +1,9 @@
 2004-01-28  Danilo Šegan  <dsegan@gmx.net>
 
+	* sr.po: Marked all plural-forms bugs with 'bug: plural-forms'.
+
+2004-01-28  Danilo Šegan  <dsegan@gmx.net>
+
 	* sr.po, sr@Latn.po: Updated Serbian translation.
 
 2004-01-28  Takeshi AIHANA <aihana@gnome.gr.jp>
