@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.6\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-28 20:32-0400\n"
-"PO-Revision-Date: 2004-07-28 20:35-0400\n"
+"POT-Creation-Date: 2004-07-31 10:39-0400\n"
+"PO-Revision-Date: 2004-07-31 10:40-0400\n"
 "Last-Translator: Gareth Owen <gowen72@yahoo.com>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -258,7 +258,7 @@ msgstr "Configure autocomplete here"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#: addressbook/gui/component/addressbook-view.c:1044
+#: addressbook/gui/component/addressbook-view.c:1104
 #: calendar/gui/migration.c:377
 msgid "Contacts"
 msgstr "Contacts"
@@ -320,7 +320,7 @@ msgid "Create a new contact list"
 msgstr "Create a new contact list"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:714
+#: addressbook/gui/component/addressbook-view.c:773
 msgid "New Address Book"
 msgstr "New Address Book"
 
@@ -423,12 +423,12 @@ msgstr ""
 "\n"
 "Please be patient while Evolution migrates your Pilot Sync data..."
 
-#: addressbook/gui/component/addressbook-view.c:633
+#: addressbook/gui/component/addressbook-view.c:671
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "Address book '%s' will be removed. Are you sure you want to continue?"
 
-#: addressbook/gui/component/addressbook-view.c:715
+#: addressbook/gui/component/addressbook-view.c:774
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -439,7 +439,7 @@ msgstr "Address book '%s' will be removed. Are you sure you want to continue?"
 msgid "Delete"
 msgstr "Delete"
 
-#: addressbook/gui/component/addressbook-view.c:716
+#: addressbook/gui/component/addressbook-view.c:775
 #: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
 msgid "Properties..."
 msgstr "Properties..."
@@ -449,12 +449,12 @@ msgid "Accessing LDAP Server anonymously"
 msgstr "Accessing LDAP Server anonymously"
 
 #: addressbook/gui/component/addressbook.c:173
-#: camel/providers/groupwise/camel-gw-listener.c:388
+#: camel/providers/groupwise/camel-gw-listener.c:417
 msgid "Failed to authenticate.\n"
 msgstr "Failed to authenticate.\n"
 
 #: addressbook/gui/component/addressbook.c:179
-#: camel/providers/groupwise/camel-gw-listener.c:377
+#: camel/providers/groupwise/camel-gw-listener.c:406
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sEnter password for %s (user %s)"
@@ -3849,7 +3849,7 @@ msgid "Evolution's Tasks component"
 msgstr "Evolution's Tasks component"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
-#: calendar/gui/e-tasks.c:1194 calendar/gui/print.c:1819
+#: calendar/gui/e-tasks.c:1198 calendar/gui/print.c:1819
 #: calendar/gui/tasks-component.c:419 calendar/gui/tasks-component.c:884
 #: calendar/gui/tasks-control.c:405 calendar/importers/icalendar-importer.c:83
 #: calendar/importers/icalendar-importer.c:709
@@ -4129,8 +4129,8 @@ msgstr "Unmatched"
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:564
 #: calendar/gui/dialogs/select-source-dialog.c:112
 #: calendar/gui/gnome-cal.c:1858
-#: camel/providers/groupwise/camel-gw-listener.c:315
-#: camel/providers/groupwise/camel-gw-listener.c:338
+#: camel/providers/groupwise/camel-gw-listener.c:331
+#: camel/providers/groupwise/camel-gw-listener.c:361
 msgid "Calendar"
 msgstr "Calendar"
 
@@ -6254,12 +6254,15 @@ msgstr "Send Latest Information"
 msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
-msgstr "The meeting has been cancelled, however it could not be found in your calendars"
+msgstr ""
+"The meeting has been cancelled, however it could not be found in your "
+"calendars"
 
 #: calendar/gui/e-itip-control.c:1121
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
-msgstr "The task has been cancelled, however it could not be found in your task lists"
+msgstr ""
+"The task has been cancelled, however it could not be found in your task lists"
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
 #: mail/mail-send-recv.c:410 mail/mail-send-recv.c:464
@@ -6677,7 +6680,7 @@ msgstr "Required people and _one resource"
 msgid "Enter the password for %s"
 msgstr "Enter the password for %s"
 
-#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2250
+#: calendar/gui/e-tasks.c:744 calendar/gui/gnome-cal.c:2255
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6690,20 +6693,20 @@ msgstr ""
 msgid "Loading tasks"
 msgstr "Loading tasks"
 
-#: calendar/gui/e-tasks.c:869
+#: calendar/gui/e-tasks.c:873
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Opening tasks at %s"
 
-#: calendar/gui/e-tasks.c:1066
+#: calendar/gui/e-tasks.c:1070
 msgid "Completing tasks..."
 msgstr "Completing tasks..."
 
-#: calendar/gui/e-tasks.c:1089
+#: calendar/gui/e-tasks.c:1093
 msgid "Deleting selected objects..."
 msgstr "Deleting selected objects..."
 
-#: calendar/gui/e-tasks.c:1116
+#: calendar/gui/e-tasks.c:1120
 msgid "Expunging"
 msgstr "Expunging"
 
@@ -6711,22 +6714,22 @@ msgstr "Expunging"
 msgid "Updating query"
 msgstr "Updating query"
 
-#: calendar/gui/gnome-cal.c:2036
+#: calendar/gui/gnome-cal.c:2038
 #, c-format
 msgid "Loading appointments at %s"
 msgstr "Loading appointments at %s"
 
-#: calendar/gui/gnome-cal.c:2055
+#: calendar/gui/gnome-cal.c:2057
 #, c-format
 msgid "Loading tasks at %s"
 msgstr "Loading tasks at %s"
 
-#: calendar/gui/gnome-cal.c:2139
+#: calendar/gui/gnome-cal.c:2144
 #, c-format
 msgid "Opening %s"
 msgstr "Opening %s"
 
-#: calendar/gui/gnome-cal.c:3106
+#: calendar/gui/gnome-cal.c:3111
 msgid "Purging"
 msgstr "Purging"
 
@@ -10126,18 +10129,26 @@ msgid "Address Book And Calendar"
 msgstr "Address Book And Calendar"
 
 #: camel/providers/groupwise/camel-groupwise-provider.c:72
+msgid "Post Office Agent:"
+msgstr "Post Office Agent:"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:75
 msgid "Post Office Agent SOAP Port:"
 msgstr "Post Office Agent SOAP Port:"
 
-#: camel/providers/groupwise/camel-groupwise-provider.c:86
+#: camel/providers/groupwise/camel-groupwise-provider.c:78
+msgid "Use ssl"
+msgstr "Use ssl"
+
+#: camel/providers/groupwise/camel-groupwise-provider.c:92
 msgid "Novell GroupWise"
 msgstr "Novell GroupWise"
 
-#: camel/providers/groupwise/camel-groupwise-provider.c:88
+#: camel/providers/groupwise/camel-groupwise-provider.c:94
 msgid "For accessing Novell Groupwise servers"
 msgstr "For accessing Novell Groupwise servers"
 
-#: camel/providers/groupwise/camel-groupwise-provider.c:103
+#: camel/providers/groupwise/camel-groupwise-provider.c:109
 #: camel/providers/imap/camel-imap-provider.c:93
 #: camel/providers/imap4/camel-imap4-provider.c:70
 #: camel/providers/imapp/camel-imapp-provider.c:65
@@ -10146,15 +10157,15 @@ msgstr "For accessing Novell Groupwise servers"
 msgid "Password"
 msgstr "Password"
 
-#: camel/providers/groupwise/camel-groupwise-provider.c:105
+#: camel/providers/groupwise/camel-groupwise-provider.c:111
 #: camel/providers/imap/camel-imap-provider.c:95
 #: camel/providers/imapp/camel-imapp-provider.c:67
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 "This option will connect to the IMAP server using a plaintext password."
 
-#: camel/providers/groupwise/camel-gw-listener.c:316
-#: camel/providers/groupwise/camel-gw-listener.c:339
+#: camel/providers/groupwise/camel-gw-listener.c:332
+#: camel/providers/groupwise/camel-gw-listener.c:362
 msgid "Checklist"
 msgstr "Checklist"
 
@@ -16058,7 +16069,7 @@ msgstr "_Overwrite"
 msgid "_Append"
 msgstr "_Append"
 
-#: mail/mail-folder-cache.c:785
+#: mail/mail-folder-cache.c:795
 #, c-format
 msgid "Pinging %s"
 msgstr "Pinging %s"
