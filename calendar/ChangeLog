@@ -1,5 +1,13 @@
 2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/event-editor.c (clear_widgets): Block the signals as appropriate.
+	(fill_ending_date): Ditto.
+	(fill_recurrence_widgets): Ditto.
+	(recurrence_type_toggled_cb): Only sensitize the widgets and
+	preview the recurrence if the toggle button is active.
+
+2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/event-editor.c (recur_to_comp_object): Clear the rdate and
 	exrule lists from the component if we are setting a simple
 	recurrence.

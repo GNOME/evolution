@@ -736,13 +736,16 @@ sensitize_recur_widgets (EventEditor *ee)
  * enable or the recurrence parameters.
  */
 static void
-recurrence_type_toggled_cb (GtkWidget *widget, gpointer data)
+recurrence_type_toggled_cb (GtkToggleButton *toggle, gpointer data)
 {
 	EventEditor *ee;
 
 	ee = EVENT_EDITOR (data);
-	sensitize_recur_widgets (ee);
-	preview_recur (ee);
+
+	if (toggle->active) {
+		sensitize_recur_widgets (ee);
+		preview_recur (ee);
+	}
 }
 
 /* Callback used when the recurrence interval value spin button changes. */
@@ -1063,6 +1066,8 @@ clear_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
 	time_t now;
+	GtkAdjustment *adj;
+	GtkWidget *menu;
 
 	priv = ee->priv;
 
@@ -1122,17 +1127,33 @@ clear_widgets (EventEditor *ee)
 	priv->recurrence_month_index = 1;
 	priv->recurrence_month_day = MONTH_DAY_NTH;
 
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 	e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->recurrence_interval_value));
+	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), ee);
 	e_dialog_spin_set (priv->recurrence_interval_value, 1);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), ee);
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 	e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_DAILY_RECURRENCE,
 				  recur_freq_map);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 
 	priv->recurrence_ending_date = time (NULL);
 	priv->recurrence_ending_count = 1;
 
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_ending_menu));
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 	e_dialog_option_menu_set (priv->recurrence_ending_menu, ENDING_FOREVER,
 				  ending_types_map);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 
 	/* Exceptions list */
 
@@ -1146,8 +1167,12 @@ static void
 fill_ending_date (EventEditor *ee, struct icalrecurrencetype *r)
 {
 	EventEditorPrivate *priv;
+	GtkWidget *menu;
 
 	priv = ee->priv;
+
+	menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_ending_menu));
+	gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 
 	if (r->count == 0) {
 		if (r->until.year == 0) {
@@ -1172,6 +1197,8 @@ fill_ending_date (EventEditor *ee, struct icalrecurrencetype *r)
 					  ENDING_FOR,
 					  ending_types_map);
 	}
+
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 
 	make_recurrence_ending_special (ee);
 }
@@ -1282,6 +1309,8 @@ fill_recurrence_widgets (EventEditor *ee)
 	int n_by_second, n_by_minute, n_by_hour;
 	int n_by_day, n_by_month_day, n_by_year_day;
 	int n_by_week_no, n_by_month, n_by_set_pos;
+	GtkWidget *menu;
+	GtkAdjustment *adj;
 
 	priv = ee->priv;
 	g_assert (priv->comp != NULL);
@@ -1293,7 +1322,14 @@ fill_recurrence_widgets (EventEditor *ee)
 	if (!cal_component_has_rdates (priv->comp)
 	    && !cal_component_has_rrules (priv->comp)
 	    && !cal_component_has_exrules (priv->comp)) {
+		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+		gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 		e_dialog_radio_set (priv->recurrence_none, RECUR_NONE, recur_type_map);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
+		
 		sensitize_recur_widgets (ee);
 		preview_recur (ee);
 		return;
@@ -1354,8 +1390,11 @@ fill_recurrence_widgets (EventEditor *ee)
 		    || n_by_set_pos != 0)
 			goto custom;
 
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_DAILY_RECURRENCE,
 					  recur_freq_map);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE: {
@@ -1417,8 +1456,11 @@ fill_recurrence_widgets (EventEditor *ee)
 
 		priv->recurrence_weekday_day_mask = day_mask;
 
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_WEEKLY_RECURRENCE,
 					  recur_freq_map);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 		break;
 	}
 
@@ -1487,8 +1529,11 @@ fill_recurrence_widgets (EventEditor *ee)
 		} else
 			goto custom;
 
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_MONTHLY_RECURRENCE,
 					  recur_freq_map);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
@@ -1500,8 +1545,11 @@ fill_recurrence_widgets (EventEditor *ee)
 		    || n_by_set_pos != 0)
 			goto custom;
 
+		menu = gtk_option_menu_get_menu (GTK_OPTION_MENU (priv->recurrence_interval_unit));
+		gtk_signal_handler_block_by_data (GTK_OBJECT (menu), ee);
 		e_dialog_option_menu_set (priv->recurrence_interval_unit, ICAL_YEARLY_RECURRENCE,
 					  recur_freq_map);
+		gtk_signal_handler_unblock_by_data (GTK_OBJECT (menu), ee);
 		break;
 
 	default:
@@ -1510,10 +1558,21 @@ fill_recurrence_widgets (EventEditor *ee)
 
 	/* If we got here it means it is a simple recurrence */
 
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 	e_dialog_radio_set (priv->recurrence_simple, RECUR_SIMPLE, recur_type_map);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
+		
 	sensitize_recur_widgets (ee);
 	make_recurrence_special (ee);
+
+	adj = gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (priv->recurrence_interval_value));
+	gtk_signal_handler_block_by_data (GTK_OBJECT (adj), ee);
 	e_dialog_spin_set (priv->recurrence_interval_value, r->interval);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (adj), ee);
 
 	fill_ending_date (ee, r);
 
@@ -1521,7 +1580,14 @@ fill_recurrence_widgets (EventEditor *ee)
 
  custom:
 
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
 	e_dialog_radio_set (priv->recurrence_custom, RECUR_CUSTOM, recur_type_map);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_none), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_simple), ee);
+	gtk_signal_handler_unblock_by_data (GTK_OBJECT (priv->recurrence_custom), ee);
+
 	sensitize_recur_widgets (ee);
 
  out:
