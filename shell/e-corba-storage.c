@@ -262,6 +262,8 @@ destroy (GtkObject *object)
 
 	g_free (priv);
 
+	corba_storage->priv = NULL;
+
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
@@ -455,21 +457,44 @@ async_xfer_folder (EStorage *storage,
 	CORBA_exception_free (&ev);
 }
 
+static gboolean
+async_open_folder_idle (gpointer data)
+{
+	gpointer *pair = data;
+
+	EStorage *storage = pair[0];
+	char *path = pair[1];
+
+	ECorbaStorage *corba_storage;
+	CORBA_Environment ev;
+
+	corba_storage = E_CORBA_STORAGE (storage);
+
+	if (corba_storage->priv != NULL) {
+
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Storage_asyncOpenFolder (corba_storage->priv->storage_interface,
+							 path, &ev);
+		CORBA_exception_free (&ev);
+	}
+
+	gtk_object_unref (GTK_OBJECT (storage));
+	g_free (path);
+	g_free (pair);
+
+	return FALSE;
+}
+
 static void
 async_open_folder (EStorage *storage,
 		   const char *path)
 {
-	ECorbaStorage *corba_storage;
-	ECorbaStoragePrivate *priv;
-	CORBA_Environment ev;
+	gpointer *pair = g_new (gpointer, 2);
+	pair[0] = storage;
+	gtk_object_ref (GTK_OBJECT (storage));
+	pair[1] = g_strdup (path);
 
-	corba_storage = E_CORBA_STORAGE (storage);
-	priv = corba_storage->priv;
-
-	CORBA_exception_init (&ev);
-	GNOME_Evolution_Storage_asyncOpenFolder (priv->storage_interface,
-						 path, &ev);
-	CORBA_exception_free (&ev);
+	g_idle_add (async_open_folder_idle, pair);
 }
 
 

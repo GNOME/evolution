@@ -80,6 +80,20 @@ setup_folder_name_combo (GladeXML *glade_xml)
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (combo)->entry), "Calendar");
 }
 
+static void
+user_clicked (GtkWidget *button, GNOME_Evolution_Addressbook_SelectNames corba_iface)
+{
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Addressbook_SelectNames_activateDialog (corba_iface, "User", &ev);
+
+	if (BONOBO_EX (&ev)) {
+		g_warning ("Cannot activate SelectNames dialog -- %s", BONOBO_EX_ID (&ev));
+	}
+	CORBA_exception_free (&ev);
+}
+
 static GtkWidget *
 setup_name_selector (GladeXML *glade_xml)
 {
@@ -88,6 +102,7 @@ setup_name_selector (GladeXML *glade_xml)
 	CORBA_Environment ev;
 	GtkWidget *placeholder;
 	GtkWidget *control_widget;
+	GtkWidget *button;
 
 	placeholder = glade_xml_get_widget (glade_xml, "user-picker-placeholder");
 	g_assert (GTK_IS_CONTAINER (placeholder));
@@ -117,6 +132,10 @@ setup_name_selector (GladeXML *glade_xml)
 	control_widget = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
 	gtk_container_add (GTK_CONTAINER (placeholder), control_widget);
 	gtk_widget_show (control_widget);
+
+	button = glade_xml_get_widget (glade_xml, "button-user");
+	gtk_signal_connect (GTK_OBJECT (button), "clicked",
+			    user_clicked, corba_iface);
 
 	CORBA_exception_free (&ev);
 	return control_widget;
@@ -214,13 +233,16 @@ show_dialog (EShell *shell,
 	     EShellView *parent,
 	     char **user_email_address_return,
 	     char **storage_name_return,
-	     char **folder_name_return)
+	     char **folder_name_return/*,
+					char **mailbox_name_return*/)
 {
 	GladeXML *glade_xml;
 	GtkWidget *dialog;
 	GtkWidget *name_selector_widget;
 	GtkWidget *folder_name_entry;
 	int button_num;
+	/*	GNOME_Evolution_Addressbook_SimpleCardList *simple_card_list;*/
+	
 
 	glade_xml = glade_xml_new (EVOLUTION_GLADEDIR "/e-shell-shared-folder-picker-dialog.glade",
 				   NULL);

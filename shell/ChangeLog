@@ -1,3 +1,12 @@
+2002-05-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-corba-storage.c (async_open_folder_idle): Do async_open_folder
+	in an idle callback.
+
+	* e-shell-shared-folder-picker-dialog.c (user_clicked),
+	glade/e-shell-shared-folder-picker-dialog.glade: Added a select
+	names button here.
+
 2002-05-20  Chris Toshok  <toshok@ximian.com>
 
 	* evolution-folder-selector-button.c (clicked): set the parent
