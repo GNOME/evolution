@@ -402,7 +402,8 @@ save_shortcuts (EShortcuts *shortcuts,
 			xmlNode *shortcut_node;
 
 			shortcut = (EShortcutItem *) q->data;
-			shortcut_node = xmlNewChild (group_node, NULL, (xmlChar *) "item", (xmlChar *) shortcut->uri);
+			shortcut_node = xmlNewTextChild (group_node, NULL, (xmlChar *) "item",
+							 (xmlChar *) shortcut->uri);
 
 			if (shortcut->name != NULL)
 				xmlSetProp (shortcut_node, (xmlChar *) "name", shortcut->name);

@@ -1,5 +1,17 @@
 2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fixes, among other things, #5705, "Ampersands not handled
+	correctly in drag + drop".  Thanks to Nat for actually discovering
+	the problem.]
+
+	* e-shortcuts.c (save_shortcuts): Use `xmlNewTextChild()' instead
+	of `xmlNewChild()'.
+
+	* e-local-folder.c (save_metadata): Use `xmlNewTextChild' instead
+	of `xmlNewChild()'.
+
+2001-08-08  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c
 	(fill_corba_sequence_from_null_terminated_string_array): Set the
 	release flag on the sequence, and CORBA_string_dup() the strings

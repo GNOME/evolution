@@ -327,8 +327,8 @@ save_metadata (ELocalFolder *local_folder)
 		     (xmlChar *) e_folder_get_type_string (folder));
 
 	if (e_folder_get_description (folder) != NULL)
-		xmlNewChild (root, NULL, (xmlChar *) "description",
-			     (xmlChar *) e_folder_get_description (folder));
+		xmlNewTextChild (root, NULL, (xmlChar *) "description",
+				 (xmlChar *) e_folder_get_description (folder));
 
 	physical_directory = e_folder_get_physical_uri (folder) + URI_PREFIX_LEN - 1;
 	physical_path = g_concat_dir_and_file (physical_directory, E_LOCAL_FOLDER_METADATA_FILE_NAME);
