@@ -1,5 +1,56 @@
 /* -*- Mode: C -*- */
 /*======================================================================
+ FILE: icalgauge.h
+ CREATOR: eric 23 December 1999
+
+
+ $Id$
+ $Locker$
+
+ (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
+
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of either: 
+
+    The LGPL as published by the Free Software Foundation, version
+    2.1, available at: http://www.fsf.org/copyleft/lesser.html
+
+  Or:
+
+    The Mozilla Public License Version 1.0. You may obtain a copy of
+    the License at http://www.mozilla.org/MPL/
+
+ The Original Code is eric. The Initial Developer of the Original
+ Code is Eric Busboom
+
+
+======================================================================*/
+
+#ifndef ICALGAUGE_H
+#define ICALGAUGE_H
+
+typedef void icalgauge;
+
+icalgauge* icalgauge_new_from_sql(char* sql);
+
+void icalgauge_free(icalgauge* gauge);
+
+char* icalgauge_as_sql(icalcomponent* gauge);
+
+void icalgauge_dump(icalcomponent* gauge);
+
+/* Return true is comp matches the gauge. The component must be in
+   cannonical form -- a VCALENDAR with one VEVENT, VTODO or VJOURNAL
+   sub component */
+int icalgauge_compare(icalgauge* g, icalcomponent* comp);
+
+/* Clone the component, but only return the properties specified in
+   the gauge */
+icalcomponent* icalgauge_new_clone(icalgauge* g, icalcomponent* comp);
+
+#endif /* ICALGAUGE_H*/
+/* -*- Mode: C -*- */
+/*======================================================================
  FILE: icalset.h
  CREATOR: eric 28 November 1999
 
@@ -128,6 +179,11 @@ icalcomponent* icalset_get_next_component(icalset* set);
 #ifndef ICALFILESET_H
 #define ICALFILESET_H
 
+#include <sys/types.h> /* For open() flags and mode */
+#include <sys/stat.h> /* For open() flags and mode */
+#include <fcntl.h> /* For open() flags and mode */
+
+extern int icalfileset_safe_saves;
 
 typedef void icalfileset;
 
@@ -139,6 +195,11 @@ typedef void icalfileset;
 
 
 icalfileset* icalfileset_new(const char* path);
+
+/* Like _new, but takes open() flags for opening the file */
+icalfileset* icalfileset_new_open(const char* path, 
+				  int flags, mode_t mode);
+
 void icalfileset_free(icalfileset* cluster);
 
 const char* icalfileset_path(icalfileset* cluster);
@@ -159,7 +220,7 @@ int icalfileset_count_components(icalfileset* cluster,
 
 /* Restrict the component returned by icalfileset_first, _next to those
    that pass the gauge. _clear removes the gauge */
-icalerrorenum icalfileset_select(icalfileset* store, icalcomponent* gauge);
+icalerrorenum icalfileset_select(icalfileset* store, icalgauge* gauge);
 void icalfileset_clear(icalfileset* store);
 
 /* Get and search for a component by uid */
@@ -335,49 +396,6 @@ icalset* icalcalendar_get_freebusy(icalcalendar* calendar);
 
 
 
-/* -*- Mode: C -*- */
-/*======================================================================
- FILE: icalgauge.h
- CREATOR: eric 23 December 1999
-
-
- $Id$
- $Locker$
-
- (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
-
- This program is free software; you can redistribute it and/or modify
- it under the terms of either: 
-
-    The LGPL as published by the Free Software Foundation, version
-    2.1, available at: http://www.fsf.org/copyleft/lesser.html
-
-  Or:
-
-    The Mozilla Public License Version 1.0. You may obtain a copy of
-    the License at http://www.mozilla.org/MPL/
-
- The Original Code is eric. The Initial Developer of the Original
- Code is Eric Busboom
-
-
-======================================================================*/
-
-#ifndef ICALGAUGE_H
-#define ICALGAUGE_H
-
-typedef void icalgauge;
-
-icalgauge* icalgauge_new_from_sql(char* sql);
-
-void icalgauge_free(icalgauge* gauge);
-
-char* icalgauge_as_sql(icalcomponent* gauge);
-
-int icalgauge_test(icalcomponent* comp, icalcomponent* gaugecontainer);
-
-
-#endif /* ICALGAUGE_H*/
 /* -*- Mode: C -*- */
 /*======================================================================
  FILE: icalssutil.h
@@ -566,8 +584,8 @@ icalcomponent* icalmessage_new_decline_reply(icalcomponent* c,
 					    const char* msg);
 
 /* New is modified version of old */
-icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* old,
-						    icalcomponent* new,
+icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* oldc,
+						    icalcomponent* newc,
 						    const char* user,
 						    const char* msg);
 
@@ -576,7 +594,6 @@ icalcomponent* icalmessage_new_delegate_reply(icalcomponent* c,
 					      const char* user,
 					      const char* delegatee,
 					      const char* msg);
-
 
 
 icalcomponent* icalmessage_new_cancel_event(icalcomponent* c,
@@ -651,9 +668,10 @@ icalcomponent* icalmessage_new_error_reply(icalcomponent* c,
 
    1) Construct a new icalcstps, bound to your code via stubs
    2) Repeat forever:
-   2a) Get string from client & give to icalcstps_next_input()
-   2b) Call icalcstps_next_output. Send string to client. 
-
+     2a) Get string from client & give to icalcstps_next_input()
+     2b) Repeat until icalcstp_next_output returns 0:
+       2b1) Call icalcstps_next_output. 
+       2b2) Send string to client.
 */
 
 
@@ -700,11 +718,11 @@ int icalcstps_next_input(icalcstps* cstp);
 /* How to use: 
 
    1) Construct a new icalcstpc
-   2) Issue a command
+   2) Issue a command by calling one of the command routines. 
    3) Repeat until both call icalcstpc_next_output and
    icalcstpc_next_input return 0:
-   3a) Call icalcstpc_next_output. Send string to server. 
-   3b) Get string from server, & give to icalcstp_next_input()
+     3a) Call icalcstpc_next_output. Send string to server. 
+     3b) Get string from server, & give to icalcstp_next_input()
    4) Iterate with icalcstpc_first_response & icalcstp_next_response to 
    get the servers responses
    5) Repeat at #2

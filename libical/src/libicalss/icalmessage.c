@@ -43,17 +43,17 @@ icalcomponent* icalmessage_get_inner(icalcomponent* comp)
 char* lowercase(const char* str)
 {
     char* p = 0;
-    char* new = icalmemory_strdup(str);
+    char* n = icalmemory_strdup(str);
 
     if(str ==0){
 	return 0;
     }
 
-    for(p = new; *p!=0; p++){
+    for(p = n; *p!=0; p++){
 	*p = tolower(*p);
     }
 
-    return new;
+    return n;
 }
 
 icalproperty* icalmessage_find_attendee(icalcomponent* comp, const char* user)
@@ -122,7 +122,7 @@ icalcomponent *icalmessage_new_reply_base(icalcomponent* c,
 	icalproperty_new_method(ICAL_METHOD_REPLY),
 	icalcomponent_vanew(
 	    ICAL_VEVENT_COMPONENT,
-	    icalproperty_new_dtstamp(icaltime_from_timet(time(0),0,1)),
+	    icalproperty_new_dtstamp(icaltime_from_timet(time(0),0)),
 	    0),
 	0);
 
@@ -136,7 +136,7 @@ icalcomponent *icalmessage_new_reply_base(icalcomponent* c,
     icalmessage_copy_properties(reply,c,ICAL_SUMMARY_PROPERTY);
     icalmessage_copy_properties(reply,c,ICAL_SEQUENCE_PROPERTY);
 
-    icalcomponent_set_dtstamp(reply,icaltime_from_timet(time(0),0,1));
+    icalcomponent_set_dtstamp(reply,icaltime_from_timet(time(0),0));
 
     if(msg != 0){
 	icalcomponent_add_property(inner,icalproperty_new_comment(msg));
@@ -220,21 +220,21 @@ icalcomponent* icalmessage_new_decline_reply(icalcomponent* c,
 }
 
 /* New is modified version of old */
-icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* old,
-						    icalcomponent* new,
+icalcomponent* icalmessage_new_counterpropose_reply(icalcomponent* oldc,
+						    icalcomponent* newc,
 						    const char* user,
 						    const char* msg)
 {
     icalcomponent *reply;
 
-    icalerror_check_arg_rz(old,"old");
-    icalerror_check_arg_rz(new,"new");
+    icalerror_check_arg_rz(oldc,"oldc");
+    icalerror_check_arg_rz(newc,"newc");
     
-    reply = icalcomponent_new_clone(new);
+    reply = icalcomponent_new_clone(newc);
 
     icalcomponent_set_method(reply,ICAL_METHOD_COUNTER);
 
-    return new;
+    return newc;
 
 }
 

@@ -263,7 +263,7 @@ icalset* icalset_new_mysql(const char* path)
 void icalset_free(icalset* set)
 {
     struct icalset_impl impl = icalset_get_impl(set);
-    return (*(impl.fp->free))(impl.derived_impl);
+    (*(impl.fp->free))(impl.derived_impl);
 
    if(strcmp((char*)set,ICALSET_ID)) {    
        free(set);
@@ -279,7 +279,7 @@ const char* icalset_path(icalset* set)
 void icalset_mark(icalset* set)
 {
     struct icalset_impl impl = icalset_get_impl(set);
-    return (*(impl.fp->mark))(impl.derived_impl);
+    (*(impl.fp->mark))(impl.derived_impl);
 }
 
 icalerrorenum icalset_commit(icalset* set)
@@ -315,7 +315,7 @@ icalerrorenum icalset_select(icalset* set, icalcomponent* gauge)
 void icalset_clear(icalset* set)
 {
     struct icalset_impl impl = icalset_get_impl(set);
-    return (*(impl.fp->clear))(impl.derived_impl);
+    (*(impl.fp->clear))(impl.derived_impl);
 }
 
 icalcomponent* icalset_fetch(icalset* set, const char* uid)

@@ -177,10 +177,10 @@ void icalproperty_set_xlicerror(icalproperty* prop, const char* v);
 const char* icalproperty_get_xlicerror(icalproperty* prop);
 
 /* TRIGGER */
-icalproperty* icalproperty_new_trigger(union icaltriggertype v);
-icalproperty* icalproperty_vanew_trigger(union icaltriggertype v, ...);
-void icalproperty_set_trigger(icalproperty* prop, union icaltriggertype v);
-union icaltriggertype icalproperty_get_trigger(icalproperty* prop);
+icalproperty* icalproperty_new_trigger(struct icaltriggertype v);
+icalproperty* icalproperty_vanew_trigger(struct icaltriggertype v, ...);
+void icalproperty_set_trigger(icalproperty* prop, struct icaltriggertype v);
+struct icaltriggertype icalproperty_get_trigger(icalproperty* prop);
 
 /* CLASS */
 icalproperty* icalproperty_new_class(const char* v);

@@ -112,7 +112,6 @@ int main(int argc, char* argv[])
 	if (c != 0){
 	    /*icalcomponent_convert_errors(c);*/
 	    printf("%s",icalcomponent_as_ical_string(c));
-	    icalparser_claim(parser);
 	    printf("\n---------------\n");
 	    icalcomponent_free(c);
 	}

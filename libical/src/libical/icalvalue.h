@@ -147,9 +147,9 @@ struct icaltimetype icalvalue_get_time(icalvalue* value);
 void icalvalue_set_time(icalvalue* value, struct icaltimetype v);
 
 /* TRIGGER # Non-std */
-icalvalue* icalvalue_new_trigger(union icaltriggertype v);
-union icaltriggertype icalvalue_get_trigger(icalvalue* value);
-void icalvalue_set_trigger(icalvalue* value, union icaltriggertype v);
+icalvalue* icalvalue_new_trigger(struct icaltriggertype v);
+struct icaltriggertype icalvalue_get_trigger(icalvalue* value);
+void icalvalue_set_trigger(icalvalue* value, struct icaltriggertype v);
 
 /* URI  */
 icalvalue* icalvalue_new_uri(const char* v);
@@ -166,7 +166,7 @@ icalvalue* icalvalue_new_query(const char* v);
 const char* icalvalue_get_query(icalvalue* value);
 void icalvalue_set_query(icalvalue* value, const char* v);
 
-/* STATUS #Non-st */
+/* STATUS #Non-std */
 icalvalue* icalvalue_new_status(icalproperty_status v);
 icalproperty_status icalvalue_get_status(icalvalue* value);
 void icalvalue_set_status(icalvalue* value, icalproperty_status v);

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalssyacc.y,v 1.1 2000/12/11 22:06:18 federico Exp $
+  $Id: icalssyacc.y,v 1.1.1.2 2001/01/23 19:20:41 jpr Exp $
   $Locker:  $
 
 (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -32,16 +32,17 @@
 #include <limits.h> /* for SHRT_MAX*/
 #include "ical.h"
 #include "pvl.h"
+#include "icalgauge.h"
 #include "icalgaugeimpl.h"
 
 
 extern struct icalgauge_impl *icalss_yy_gauge;
 
-void ssyacc_add_where(struct icalgauge_impl* impl, char* str1, 
-	enum icalparameter_xliccomparetype compare , char* str2);
+void ssyacc_add_where(struct icalgauge_impl* impl, char* prop, 
+	icalgaugecompare compare , char* value);
 void ssyacc_add_select(struct icalgauge_impl* impl, char* str1);
 void ssyacc_add_from(struct icalgauge_impl* impl, char* str1);
-void move_where(int w);
+void set_logic(struct icalgauge_impl* impl,icalgaugelogic l);
 void sserror(char *s); /* Don't know why I need this.... */
 
 
@@ -54,7 +55,7 @@ void sserror(char *s); /* Don't know why I need this.... */
 
 
 %token <v_string> STRING
-%token SELECT FROM WHERE COMMA EQUALS NOTEQUALS  LESS GREATER LESSEQUALS
+%token SELECT FROM WHERE COMMA QUOTE EQUALS NOTEQUALS  LESS GREATER LESSEQUALS
 %token GREATEREQUALS AND OR EOL END
 
 %%
@@ -79,61 +80,54 @@ from_list:
 
 where_clause:
 	/* Empty */
-	| STRING EQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_EQUAL,$3); }
+	| STRING EQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_EQUAL,$3); }
 	
-	| STRING NOTEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_NOTEQUAL,$3); }
-	| STRING LESS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_LESS,$3); }
-	| STRING GREATER STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_GREATER,$3); }
-	| STRING LESSEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_LESSEQUAL,$3); }
-	| STRING GREATEREQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICAL_XLICCOMPARETYPE_GREATEREQUAL,$3); }
+	| STRING NOTEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_NOTEQUAL,$3); }
+	| STRING LESS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_LESS,$3); }
+	| STRING GREATER STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_GREATER,$3); }
+	| STRING LESSEQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_LESSEQUAL,$3); }
+	| STRING GREATEREQUALS STRING {ssyacc_add_where(icalss_yy_gauge,$1,ICALGAUGECOMPARE_GREATEREQUAL,$3); }
 	;
 
 where_list:
-	where_clause {move_where(1);}
-	| where_list AND where_clause {move_where(2);} 
-	| where_list OR where_clause {move_where(3);}
+	where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_NONE);}
+	| where_list AND where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_AND);} 
+	| where_list OR where_clause {set_logic(icalss_yy_gauge,ICALGAUGELOGIC_OR);}
 	;
 
 
 %%
 
 void ssyacc_add_where(struct icalgauge_impl* impl, char* str1, 
-	enum icalparameter_xliccomparetype compare , char* str2)
+	icalgaugecompare compare , char* value_str)
 {
-    icalproperty *p;
-    icalvalue *v;
-    icalproperty_kind kind;
+
+    struct icalgauge_where *where;
+    char *compstr, *propstr, *c, *s,*l;
     
-    kind = icalenum_string_to_property_kind(str1);
-    
-    if(kind == ICAL_NO_PROPERTY){
-	assert(0);
+    if ( (where = malloc(sizeof(struct icalgauge_where))) ==0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return;
     }
 
-    p = icalproperty_new(kind);
+    memset(where,0,sizeof(struct icalgauge_where));
+    where->logic = ICALGAUGELOGIC_NONE;
+    where->compare = ICALGAUGECOMPARE_NONE;
+    where->comp = ICAL_NO_COMPONENT;
+    where->prop = ICAL_NO_PROPERTY;
 
-    v = icalvalue_new_text(str2);
-
-    if(v == 0){
-	assert(0);
+    /* remove enclosing quotes */
+    s = value_str;
+    if(*s == '\''){
+	s++;
     }
+    l = s+strlen(s)-1;
+    if(*l == '\''){
+	*l=0;
+    }
+	
+    where->value = strdup(s);
 
-    icalproperty_set_value(p,v);
-
-    icalproperty_add_parameter(p,icalparameter_new_xliccomparetype(compare));
-
-    icalcomponent_add_property(impl->where,p);
-}
-
-void ssyacc_add_select(struct icalgauge_impl* impl, char* str1)
-{
-    icalproperty *p;
-    icalproperty_kind pkind;
-    icalcomponent_kind ckind = ICAL_NO_COMPONENT;
-    char* c;
-    char* compstr;
-    char* propstr;
-    
     /* Is there a period in str1 ? If so, the string specified both a
        component and a property*/
     if( (c = strrchr(str1,'.')) != 0){
@@ -148,50 +142,91 @@ void ssyacc_add_select(struct icalgauge_impl* impl, char* str1)
 
     /* Handle the case where a component was specified */
     if(compstr != 0){
-	ckind = icalenum_string_to_component_kind(compstr);
-	
-	if(ckind == ICAL_NO_COMPONENT){
-	    assert(0);
-	}
+	where->comp = icalenum_string_to_component_kind(compstr);
     } else {
-	ckind = ICAL_NO_COMPONENT;
+	where->comp = ICAL_NO_COMPONENT;
+    }
+
+    where->prop = icalenum_string_to_property_kind(propstr);    
+
+    where->compare = compare;
+
+    if(where->value == 0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	free(where->value);
+	return;
+    }
+
+    pvl_push(impl->where,where);
+}
+
+void set_logic(struct icalgauge_impl* impl,icalgaugelogic l)
+{
+    pvl_elem e = pvl_tail(impl->where);
+    struct icalgauge_where *where = pvl_data(e);
+
+    where->logic = l;
+   
+}
+
+
+
+void ssyacc_add_select(struct icalgauge_impl* impl, char* str1)
+{
+    char *c, *compstr, *propstr;
+    struct icalgauge_where *where;
+    
+    /* Uses only the prop and comp fields of the where structure */
+    if ( (where = malloc(sizeof(struct icalgauge_where))) ==0){
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return;
+    }
+
+    memset(where,0,sizeof(struct icalgauge_where));
+    where->logic = ICALGAUGELOGIC_NONE;
+    where->compare = ICALGAUGECOMPARE_NONE;
+    where->comp = ICAL_NO_COMPONENT;
+    where->prop = ICAL_NO_PROPERTY;
+
+    /* Is there a period in str1 ? If so, the string specified both a
+       component and a property*/
+    if( (c = strrchr(str1,'.')) != 0){
+	compstr = str1;
+	propstr = c+1;
+	*c = '\0';
+    } else {
+	compstr = 0;
+	propstr = str1;
+    }
+
+
+    /* Handle the case where a component was specified */
+    if(compstr != 0){
+	where->comp = icalenum_string_to_component_kind(compstr);
+    } else {
+	where->comp = ICAL_NO_COMPONENT;
     }
 
 
     /* If the property was '*', then accept all properties */
     if(strcmp("*",propstr) == 0) {
-	pkind = ICAL_ANY_PROPERTY; 	    
+	where->prop = ICAL_ANY_PROPERTY; 	    
     } else {
-	pkind = icalenum_string_to_property_kind(str1);    
+	where->prop = icalenum_string_to_property_kind(propstr);    
     }
     
 
-    if(pkind == ICAL_NO_PROPERTY){
-	assert(0);
+    if(where->prop == ICAL_NO_PROPERTY){
+	icalgauge_free(where);
+	icalerror_set_errno(ICAL_BADARG_ERROR);
+	return;
     }
 
-
-    if(ckind == ICAL_NO_COMPONENT){
-	p = icalproperty_new(pkind);
-	assert(p!=0);
-	icalcomponent_add_property(impl->select,p);
-
-    } else {
-	icalcomponent *comp = 
-	    icalcomponent_new(ckind);
-	p = icalproperty_new(pkind);
-
-	assert(p!=0);
-
-	icalcomponent_add_property(comp,p);
-	icalcomponent_add_component(impl->select,comp);
-	
-    }
+    pvl_push(impl->select,where);
 }
 
 void ssyacc_add_from(struct icalgauge_impl* impl, char* str1)
 {
-    icalcomponent *c;
     icalcomponent_kind ckind;
 
     ckind = icalenum_string_to_component_kind(str1);
@@ -200,15 +235,10 @@ void ssyacc_add_from(struct icalgauge_impl* impl, char* str1)
 	assert(0);
     }
 
-    c = icalcomponent_new(ckind);
-
-    icalcomponent_add_component(impl->from,c);
+    pvl_push(impl->from,(void*)ckind);
 
 }
 
-void move_where(int w)
-{
-}
 
 void sserror(char *s){
     fprintf(stderr,"Parse error \'%s\'\n", s);

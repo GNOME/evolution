@@ -696,8 +696,8 @@ time_t icalcomponent_convert_time(icalproperty *p)
     tzp = icalproperty_get_first_parameter(p,ICAL_TZID_PARAMETER);
 
     if (sict.is_utc == 1 && tzp != 0){
-	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
 	icalerror_warn("icalcomponent_get_span: component has a UTC DTSTART with a timezone specified ");
+	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
 	return 0; 
     }
 
@@ -715,7 +715,7 @@ time_t icalcomponent_convert_time(icalproperty *p)
 
 	/* _as_timet will use localtime() to do the conversion */
 	convt = icaltime_as_timet(sict);
-	offset = icaltime_local_utc_offset();
+	offset = icaltime_utc_offset(sict,0);
 	convt += offset;
 
 #ifdef TEST_CONVERT_TIME
@@ -837,7 +837,7 @@ struct icaltime_span icalcomponent_get_span(icalcomponent* comp)
 	
 	dur = icalproperty_get_duration(duration);
 
-	durt = icaldurationtype_as_timet(dur);
+	durt = icaldurationtype_as_int(dur);
 	span.end = span.start+durt;
     }
 
@@ -1163,14 +1163,16 @@ struct icaltimetype icalcomponent_get_dtend(icalcomponent* comp)
     } else if ( end_prop != 0) {
 	return icalproperty_get_dtend(end_prop);
     } else if ( dur_prop != 0) { 
+	
 	struct icaltimetype start = 
 	    icalcomponent_get_dtstart(inner);
-	time_t startt = icaltime_as_timet(start);
 	struct icaldurationtype duration = 
 	    icalproperty_get_duration(dur_prop);
-	time_t durt = icaldurationtype_as_timet(duration);
 	
-	return icaltime_from_timet(startt+durt,start.is_date,start.is_utc);
+	struct icaltimetype end = icaltime_add(start,duration);
+
+	return end;
+
     } else {
 	/* Error, both duration and dtend have been specified */
 	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
@@ -1200,14 +1202,12 @@ void icalcomponent_set_dtend(icalcomponent* comp, struct icaltimetype v)
     } else if ( dur_prop != 0) { 
 	struct icaltimetype start = 
 	    icalcomponent_get_dtstart(inner);
-	time_t startt = icaltime_as_timet(start);
 
 	struct icaltimetype end = 
 	    icalcomponent_get_dtend(inner);
-	time_t endt = icaltime_as_timet(end);
-	
+
 	struct icaldurationtype dur 
-	    = icaldurationtype_from_timet(endt-startt);
+	    = icaltime_subtract(end,start);
 
 	icalproperty_set_duration(dur_prop,dur);
 
@@ -1235,17 +1235,13 @@ void icalcomponent_set_duration(icalcomponent* comp,
     } else if ( end_prop != 0) {
 	struct icaltimetype start = 
 	    icalcomponent_get_dtstart(inner);
-	time_t startt = icaltime_as_timet(start);
 	
-	time_t durt = icaldurationtype_as_timet(v);
-
-	struct icaltimetype new_end 
-	    = icaltime_from_timet(startt+durt,start.is_date,start.is_utc);
+	struct icaltimetype new_end = icaltime_add(start,v);
 
 	icalproperty_set_dtend(end_prop,new_end);
 
     } else if ( dur_prop != 0) { 
-	icalproperty_set_duration(end_prop,v);
+	icalproperty_set_duration(dur_prop,v);
     } else {
 	/* Error, both duration and dtend have been specified */
 	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
@@ -1277,7 +1273,7 @@ struct icaldurationtype icalcomponent_get_duration(icalcomponent* comp)
 	    icalcomponent_get_dtend(inner);
 	time_t endt = icaltime_as_timet(end);
 	
-	return icaldurationtype_from_timet(endt-startt);
+	return icaldurationtype_from_int(endt-startt);
     } else if ( dur_prop != 0) { 
 	return icalproperty_get_duration(dur_prop);
     } else {
@@ -1286,8 +1282,6 @@ struct icaldurationtype icalcomponent_get_duration(icalcomponent* comp)
 	return null_duration;
     }
 }
-
-
 
 void icalcomponent_set_method(icalcomponent* comp, icalproperty_method method)
 {
@@ -1348,8 +1342,34 @@ struct icaltimetype icalcomponent_get_dtstamp(icalcomponent* comp)
 }
 
 
-void icalcomponent_set_summary(icalcomponent* comp, const char* v);
-const char* icalcomponent_get_summary(icalcomponent* comp);
+void icalcomponent_set_summary(icalcomponent* comp, const char* v)
+{
+    icalcomponent *inner = icalcomponent_get_inner(comp); 
+    icalproperty *prop 
+	= icalcomponent_get_first_property(inner, ICAL_SUMMARY_PROPERTY);
+
+    if (prop == 0){
+	prop = icalproperty_new_summary(v);
+	icalcomponent_add_property(inner, prop);
+    }
+    
+    icalproperty_set_summary(prop,v);
+}
+
+
+const char* icalcomponent_get_summary(icalcomponent* comp)
+{
+    icalcomponent *inner = icalcomponent_get_inner(comp); 
+    icalproperty *prop 
+	= icalcomponent_get_first_property(inner,ICAL_SUMMARY_PROPERTY);
+
+    if (prop == 0){
+	return 0;
+    }
+    
+    return icalproperty_get_summary(prop);
+
+}
 
 void icalcomponent_set_comment(icalcomponent* comp, const char* v);
 const char* icalcomponent_get_comment(icalcomponent* comp);

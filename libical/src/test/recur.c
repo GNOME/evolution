@@ -23,10 +23,6 @@
   the License for the specific language governing rights and
   limitations under the License.
 
-  The original author is Eric Busboom
-  The original code is usecases.c
-
-    
   ======================================================================*/
 
 #include "ical.h"
@@ -48,23 +44,39 @@ int main(int argc, char *argv[])
     struct icalrecurrencetype recur;
     icalrecur_iterator* ritr;
     time_t tt;
+    char* file; 
 
-    cin = icalfileset_new(argv[1]);
-    assert(cin != 0);
+    if (argc <= 1){
+	file = "../../test-data/recur.txt";
+    } else if (argc == 2){
+	file = argv[1];
+    } else {
+	fprintf(stderr,"usage: recur [input file]\n");
+	exit(1);
+    }
+
+    cin = icalfileset_new(file);
+
+    if(cin == 0){
+	fprintf(stderr,"recur: can't open file %s\n",file);
+	exit(1);
+    }
+
 
     for (itr = icalfileset_get_first_component(cin);
          itr != 0;
          itr = icalfileset_get_next_component(cin)){
 
 	desc = icalcomponent_get_first_property(itr,ICAL_DESCRIPTION_PROPERTY);
-	assert(desc !=0);
-
 	dtstart = icalcomponent_get_first_property(itr,ICAL_DTSTART_PROPERTY);
-	assert(dtstart !=0);
-
 	rrule = icalcomponent_get_first_property(itr,ICAL_RRULE_PROPERTY);
-	assert(rrule !=0);
 
+	if (desc == 0 || dtstart == 0 || rrule == 0){
+	    printf("\n******** Error in input component ********\n");
+	    printf("The following component is malformed:\n %s\n",
+		   icalcomponent_as_ical_string(itr));
+	    continue;
+	}
 
 	recur = icalproperty_get_rrule(rrule);
 	start = icalproperty_get_dtstart(dtstart);

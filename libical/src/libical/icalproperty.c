@@ -23,7 +23,7 @@
   The original code is icalproperty.c
 
 ======================================================================*/
-#line 27 "icalproperty.c.in"
+/*#line 27 "icalproperty.c.in"*/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
@@ -180,17 +180,13 @@ icalproperty* icalproperty_new_from_string(char* str)
 
     kind = icalenum_string_to_property_kind(str);
 
-    if (kind == ICAL_NO_PROPERTY){
-	
-	if( str[0] == 'X' && str[1] == '-'){
+    if(kind == ICAL_X_PROPERTY){
 	    icalproperty *p = icalproperty_new(ICAL_X_PROPERTY);    
 	    icalproperty_set_x_name(p,str);
 	    return p;
-	} else {
-	    icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
-	    return 0;
-	}
-
+    } else if (kind == ICAL_NO_PROPERTY){
+	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);
+	return 0;
     } else {
 	return icalproperty_new(kind);
     }
@@ -380,7 +376,7 @@ icalproperty_add_parameter (icalproperty* prop,icalparameter* parameter)
 void
 icalproperty_set_parameter (icalproperty* prop,icalparameter* parameter)
 {
-    icalproperty_kind kind;
+    icalparameter_kind kind;
 
     kind = icalparameter_isa(parameter);
 
@@ -1603,7 +1599,7 @@ const char* icalproperty_get_xlicerror(icalproperty* prop)
 
 /* TRIGGER */
 
-icalproperty* icalproperty_new_trigger(union icaltriggertype v)
+icalproperty* icalproperty_new_trigger(struct icaltriggertype v)
 {
    struct icalproperty_impl *impl = icalproperty_new_impl(ICAL_TRIGGER_PROPERTY);  
    
@@ -1613,7 +1609,7 @@ icalproperty* icalproperty_new_trigger(union icaltriggertype v)
    return (icalproperty*)impl;
 }
 
-icalproperty* icalproperty_vanew_trigger(union icaltriggertype v, ...)
+icalproperty* icalproperty_vanew_trigger(struct icaltriggertype v, ...)
 {
    va_list args;
    struct icalproperty_impl *impl = icalproperty_new_impl(ICAL_TRIGGER_PROPERTY);  
@@ -1628,7 +1624,7 @@ icalproperty* icalproperty_vanew_trigger(union icaltriggertype v, ...)
    return (icalproperty*)impl;
 }
  
-void icalproperty_set_trigger(icalproperty* prop, union icaltriggertype v)
+void icalproperty_set_trigger(icalproperty* prop, struct icaltriggertype v)
 {
     icalvalue *value;
    
@@ -1641,7 +1637,7 @@ void icalproperty_set_trigger(icalproperty* prop, union icaltriggertype v)
 
 }
 
-union icaltriggertype icalproperty_get_trigger(icalproperty* prop)
+struct icaltriggertype icalproperty_get_trigger(icalproperty* prop)
 {
     icalvalue *value;
     icalerror_check_arg( (prop!=0),"prop");

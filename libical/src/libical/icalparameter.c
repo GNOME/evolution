@@ -26,7 +26,7 @@
      Graham Davison (g.m.davison@computer.org)
 
  ======================================================================*/
-#line 29 "icalparameter.c.in"
+/*#line 29 "icalparameter.c.in"*/
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -233,7 +233,8 @@ void icalparameter_set_impl_data(icalparameter_kind kind,
 	   data->v_xlicerrortype=value; break;
 	case ICAL_XLICCOMPARETYPE_PARAMETER:
 	   data->v_xliccomparetype=value; break;
-	default:
+	default: 
+	    break;
     }
 }
 
@@ -727,19 +728,30 @@ icalparameter_as_ical_string (icalparameter* parameter)
     buf_ptr = buf;
     impl = (struct icalparameter_impl*)parameter;
 
-    kind_string = icalenum_parameter_kind_to_string(impl->kind);
+    if(impl->kind == ICAL_X_PARAMETER) {
 
-    if (impl->kind == ICAL_NO_PARAMETER || 
-	impl->kind == ICAL_ANY_PARAMETER || 
-	kind_string == 0)
-    {
-	icalerror_set_errno(ICAL_BADARG_ERROR);
-	return 0;
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, 
+				 icalparameter_get_xname(impl));
+
+    } else {
+
+	kind_string = icalenum_parameter_kind_to_string(impl->kind);
+	
+	if (impl->kind == ICAL_NO_PARAMETER || 
+	    impl->kind == ICAL_ANY_PARAMETER || 
+	    kind_string == 0)
+	{
+	    icalerror_set_errno(ICAL_BADARG_ERROR);
+	    return 0;
+	}
+	
+	
+	/* Put the parameter name into the string */
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
+
     }
-    
-    /* Put the parameter name into the string */
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "=");
+
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, "=");
     
     switch (impl->kind) {
 	case ICAL_CUTYPE_PARAMETER:
@@ -1068,12 +1080,12 @@ icalparameter_as_ical_string (icalparameter* parameter)
 		{
 		    strcpy(tend,"REGEX");break;
 		}
+		default:{
+		    icalerror_set_errno(ICAL_BADARG_ERROR);break;
+		}
 		break;
 	    }
 
-	    default:{
-		icalerror_set_errno(ICAL_BADARG_ERROR);break;
-	    }
 	    break;
 	}
 
@@ -1225,7 +1237,7 @@ icalproperty* icalparameter_get_parent(icalparameter* param)
 {
     struct icalparameter_impl *impl = (struct icalparameter_impl*)param;
 
-    icalerror_check_arg_rv( (param!=0),"param");
+    icalerror_check_arg_rz( (param!=0),"param");
 
     return impl->parent;
 }

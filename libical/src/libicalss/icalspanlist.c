@@ -265,9 +265,9 @@ struct icalperiodtype icalspanlist_next_free_time(icalspanlist* sl,
 	 period.start =  t;
 
 	 if (s->is_busy == 0){
-	     period.end =  icaltime_from_timet(s->start,0,0);
+	     period.end =  icaltime_from_timet(s->start,0);
 	 } else {
-	     period.end =  icaltime_from_timet(s->end,0,0);
+	     period.end =  icaltime_from_timet(s->end,0);
 	 }
 
 	 return period;
@@ -286,12 +286,12 @@ struct icalperiodtype icalspanlist_next_free_time(icalspanlist* sl,
 	    ( rangett < s->end || s->end == s->start)){
 
 	    if (rangett < s->start){
-		period.start = icaltime_from_timet(s->start,0,0);
+		period.start = icaltime_from_timet(s->start,0);
 	    } else {
-		period.start = icaltime_from_timet(rangett,0,0);
+		period.start = icaltime_from_timet(rangett,0);
 	    }
 	    
-	    period.end = icaltime_from_timet(s->end,0,0);
+	    period.end = icaltime_from_timet(s->end,0);
 
 	    return period;
 	}

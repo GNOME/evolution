@@ -32,6 +32,7 @@
 
 #include <stdio.h> /* For fprintf */
 #include <stdio.h> /* For stderr */
+#include <string.h> /* For strncmp */
 #include <assert.h>
 
 struct icalproperty_kind_map {
@@ -41,6 +42,7 @@ struct icalproperty_kind_map {
 
 static struct icalproperty_kind_map property_map[] = 
 {
+    { ICAL_ANY_PROPERTY, "ANY"},
     { ICAL_ACTION_PROPERTY, "ACTION"},
     { ICAL_ATTACH_PROPERTY, "ATTACH"},
     { ICAL_ATTENDEE_PROPERTY, "ATTENDEE"},
@@ -126,7 +128,7 @@ const char* icalenum_property_kind_to_string(icalproperty_kind kind)
 
 }
 
-icalproperty_kind icalenum_string_to_property_kind(char* string)
+icalproperty_kind icalenum_string_to_property_kind(const char* string)
 {
     int i;
 
@@ -134,11 +136,17 @@ icalproperty_kind icalenum_string_to_property_kind(char* string)
 	return ICAL_NO_PROPERTY;
     }
 
+
     for (i=0; property_map[i].kind  != ICAL_NO_PROPERTY; i++) {
 	if (strcmp(property_map[i].name, string) == 0) {
 	    return property_map[i].kind;
 	}
     }
+
+    if(strncmp(string,"X-",2)==0){
+	return ICAL_X_PROPERTY;
+    }
+
 
     return ICAL_NO_PROPERTY;
 }
@@ -173,6 +181,7 @@ static struct icalparameter_kind_map parameter_map[] =
     { ICAL_SENTBY_PARAMETER, "SENT-BY"},
     { ICAL_TZID_PARAMETER, "TZID"},
     { ICAL_VALUE_PARAMETER, "VALUE"},
+    { ICAL_X_PARAMETER, "X"},
 
     /* CAP parameters */
 
@@ -198,7 +207,7 @@ const char* icalenum_parameter_kind_to_string(icalparameter_kind kind)
 
 }
 
-icalparameter_kind icalenum_string_to_parameter_kind(char* string)
+icalparameter_kind icalenum_string_to_parameter_kind(const char* string)
 {
     int i;
 
@@ -210,6 +219,10 @@ icalparameter_kind icalenum_string_to_parameter_kind(char* string)
 	if (strcmp(parameter_map[i].name, string) == 0) {
 	    return parameter_map[i].kind;
 	}
+    }
+
+    if(strncmp(string,"X-",2)==0){
+	return ICAL_X_PARAMETER;
     }
 
     return ICAL_NO_PARAMETER;
@@ -239,9 +252,10 @@ static struct icalvalue_kind_map value_map[] =
     { ICAL_METHOD_VALUE, "METHOD"}, /* Not an RFC2445 type */
     { ICAL_STATUS_VALUE, "STATUS"}, /* Not an RFC2445 type */
     { ICAL_GEO_VALUE, "FLOAT"}, /* Not an RFC2445 type */
-    { ICAL_ATTACH_VALUE, "XATTACH"}, /* Not an RFC2445 type */
-    { ICAL_DATETIMEDATE_VALUE, "XDATETIMEDATE"}, /* Not an RFC2445 type */
-    { ICAL_DATETIMEPERIOD_VALUE, "XDATETIMEPERIOD"}, /* Not an RFC2445 type */
+    { ICAL_ATTACH_VALUE, "ATTACH"}, /* Not an RFC2445 type */
+    { ICAL_DATETIMEDATE_VALUE, "DATETIMEDATE"}, /* Not an RFC2445 type */
+    { ICAL_DATETIMEPERIOD_VALUE, "DATETIMEPERIOD"}, /* Not an RFC2445 type */
+    { ICAL_TRIGGER_VALUE, "TRIGGER"}, /* Not an RFC2445 type */
     { ICAL_QUERY_VALUE, "QUERY"},
     { ICAL_NO_VALUE, ""},
 };
@@ -319,7 +333,7 @@ const char* icalenum_component_kind_to_string(icalcomponent_kind kind)
 
 }
 
-icalcomponent_kind icalenum_string_to_component_kind(char* string)
+icalcomponent_kind icalenum_string_to_component_kind(const char* string)
 {
     int i;
 
@@ -389,7 +403,7 @@ static struct icalproperty_kind_value_map propval_map[] =
     { ICAL_RECURRENCEID_PROPERTY, ICAL_DATETIME_VALUE }, 
     { ICAL_EXDATE_PROPERTY, ICAL_DATETIME_VALUE }, 
     { ICAL_RDATE_PROPERTY, ICAL_DATETIME_VALUE }, 
-    { ICAL_TRIGGER_PROPERTY, ICAL_DURATION_VALUE }, 
+    { ICAL_TRIGGER_PROPERTY, ICAL_TRIGGER_VALUE }, 
     { ICAL_DURATION_PROPERTY, ICAL_DURATION_VALUE }, 
 
     /* CAP properties */

@@ -30,6 +30,8 @@
 #include "config.h"
 #endif
 
+#include "icalgauge.h"
+
 /* This definition is in its own file so it can be kept out of the
    main header file, but used by "friend classes" like icaldirset*/
 
@@ -37,10 +39,11 @@
 
 struct icalfileset_impl {
 
-	char id[5]; /*fset*/
-	char *path;
-	icalcomponent* cluster;
-	int changed;
-	FILE* stream;
+  char id[5]; /*fset*/
+  char *path;
+  icalcomponent* cluster;
+  icalgauge* gauge;
+  int changed;
+  int fd; /* file descriptor */
 };
 

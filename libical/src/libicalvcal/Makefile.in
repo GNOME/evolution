@@ -70,6 +70,7 @@ MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
+PERL = @PERL@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
@@ -263,6 +264,11 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+icalvcal.lo icalvcal.o : icalvcal.c icalvcal.h ../../src/libical/ical.h \
+	../../config.h vcc.h vobject.h port.h
+vcaltmp.lo vcaltmp.o : vcaltmp.c vcaltmp.h vcc.h vobject.h port.h
+vcc.lo vcc.o : vcc.c vcc.h vobject.h port.h
+vobject.lo vobject.o : vobject.c vobject.h port.h
 
 info-am:
 info: info-am

@@ -745,7 +745,6 @@ icalcomponent* read_nonmime_component(struct options_struct *opt)
 	comp = icalparser_add_line(parser,line);
 	
 	if (comp != 0){
-	    icalparser_claim(parser);
 	    return comp;
 	}
 	

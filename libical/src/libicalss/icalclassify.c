@@ -122,7 +122,7 @@ icalparameter_partstat icalclassify_find_attendee(icalcomponent *c,
 {
     icalproperty *p;
     char* lattendee = icalclassify_lowercase(attendee);
-    char* upn =  index(lattendee,':');
+    char* upn =  strchr(lattendee,':');
     icalcomponent *inner = icalcomponent_get_first_real_component(c);
 
     for(p  = icalcomponent_get_first_property(inner,ICAL_ATTENDEE_PROPERTY);
@@ -131,7 +131,7 @@ icalparameter_partstat icalclassify_find_attendee(icalcomponent *c,
     {
 	const char* this_attendee
 	    = icalclassify_lowercase(icalproperty_get_attendee(p));
-	char* this_upn = index(this_attendee,':');
+	char* this_upn = strchr(this_attendee,':');
 
 	if(strcmp(this_upn,upn)==0){
 

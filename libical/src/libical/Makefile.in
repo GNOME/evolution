@@ -70,6 +70,7 @@ MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
+PERL = @PERL@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
@@ -88,7 +89,7 @@ INCLUDES =  	-I$(top_builddir)		-I$(top_srcdir)/src		-I$(top_builddir)/src		-I$(
 
 libical_la_LDFLAGS = -version-info 0:0:0
 
-libical_la_SOURCES =  	icalcomponent.c			icalcomponent.h			icalenums.c			icalenums.h			icalerror.c			icalerror.h			icallexer.l			icalmemory.c			icalmemory.h			icalmime.c			icalmime.h			icalparameter.c			icalparameter.h			icalparser.c			icalparser.h			icalproperty.c			icalproperty.h			icalrecur.c			icalrecur.h			icalrestriction.c		icalrestriction.h		icaltime.c			icaltime.h			icaltypes.c			icaltypes.h			icalvalue.c			icalvalue.h			icalyacc.h			icalyacc.y			pvl.c				pvl.h				sspm.c				sspm.h
+libical_la_SOURCES =  	icalcomponent.c			icalcomponent.h			icalenums.c			icalenums.h			icalerror.c			icalerror.h			icallexer.l			icalmemory.c			icalmemory.h			icalmime.c			icalmime.h			icalparameter.c			icalparameter.h			icalparser.c			icalparser.h			icalproperty.c			icalproperty.h			icalrecur.c			icalrecur.h			icalrestriction.c		icalrestriction.h		icaltime.c			icaltime.h			icaltypes.c			icaltypes.h			icalvalue.c			icalvalue.h			icalyacc.h			icalyacc.y			pvl.c				pvl.h				sspm.c				sspm.h				vsnprintf.c
 
 
 libicalincludedir = $(includedir)
@@ -141,7 +142,7 @@ libical_la_LIBADD =
 libical_la_OBJECTS =  icalcomponent.lo icalenums.lo icalerror.lo \
 icallexer.lo icalmemory.lo icalmime.lo icalparameter.lo icalparser.lo \
 icalproperty.lo icalrecur.lo icalrestriction.lo icaltime.lo \
-icaltypes.lo icalvalue.lo icalyacc.lo pvl.lo sspm.lo
+icaltypes.lo icalvalue.lo icalyacc.lo pvl.lo sspm.lo vsnprintf.lo
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
@@ -308,10 +309,42 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
+icalcomponent.lo icalcomponent.o : icalcomponent.c ../../config.h \
+	icalcomponent.h icalproperty.h icalparameter.h icalenums.h \
+	icalvalue.h icaltypes.h icaltime.h icalrecur.h pvl.h \
+	icalerror.h icalmemory.h
+icalenums.lo icalenums.o : icalenums.c ../../config.h icalenums.h
+icalerror.lo icalerror.o : icalerror.c ../../config.h icalerror.h
+icallexer.lo icallexer.o : icallexer.c icalparser.h icalenums.h \
+	icaltypes.h icaltime.h icalcomponent.h icalproperty.h \
+	icalparameter.h icalvalue.h icalrecur.h pvl.h icalmemory.h \
+	icalyacc.h
+icalmemory.lo icalmemory.o : icalmemory.c ../../config.h icalmemory.h \
+	icalerror.h
+icalmime.lo icalmime.o : icalmime.c icalmime.h icalcomponent.h \
+	icalproperty.h icalparameter.h icalenums.h icalvalue.h \
+	icaltypes.h icaltime.h icalrecur.h pvl.h icalparser.h \
+	icalerror.h ../../config.h icalmemory.h sspm.h
+icalparameter.lo icalparameter.o : icalparameter.c ../../config.h \
+	icalparameter.h icalenums.h icalproperty.h icalvalue.h \
+	icaltypes.h icaltime.h icalrecur.h icalerror.h icalmemory.h
+icalparser.lo icalparser.o : icalparser.c ../../config.h icalparser.h \
+	icalenums.h icaltypes.h icaltime.h icalcomponent.h \
+	icalproperty.h icalparameter.h icalvalue.h icalrecur.h pvl.h \
+	icalmemory.h icalerror.h
+icalproperty.lo icalproperty.o : icalproperty.c ../../config.h \
+	icalproperty.h icalparameter.h icalenums.h icalvalue.h \
+	icaltypes.h icaltime.h icalrecur.h icalcomponent.h pvl.h \
+	icalerror.h icalmemory.h
 icalrecur.lo icalrecur.o : icalrecur.c ../../config.h icalrecur.h \
-	icaltime.h ical.h
-icaltime.lo icaltime.o : icaltime.c icaltime.h icalvalue.h icalenums.h \
-	icaltypes.h icalrecur.h
+	icaltime.h icalerror.h icalmemory.h
+icalrestriction.lo icalrestriction.o : icalrestriction.c ../../config.h \
+	icalrestriction.h icalproperty.h icalparameter.h icalenums.h \
+	icalvalue.h icaltypes.h icaltime.h icalrecur.h icalcomponent.h \
+	pvl.h icalerror.h
+icaltime.lo icaltime.o : icaltime.c ../../config.h icaltime.h \
+	icalerror.h icalmemory.h icalvalue.h icalenums.h icaltypes.h \
+	icalrecur.h
 icaltypes.lo icaltypes.o : icaltypes.c ../../config.h icaltypes.h \
 	icalenums.h icaltime.h icalerror.h icalmemory.h
 icalvalue.lo icalvalue.o : icalvalue.c ../../config.h icalerror.h \
@@ -321,6 +354,9 @@ icalvalue.lo icalvalue.o : icalvalue.c ../../config.h icalerror.h \
 icalyacc.lo icalyacc.o : icalyacc.c icalparser.h icalenums.h icaltypes.h \
 	icaltime.h icalcomponent.h icalproperty.h icalparameter.h \
 	icalvalue.h icalrecur.h pvl.h
+pvl.lo pvl.o : pvl.c ../../config.h pvl.h
+sspm.lo sspm.o : sspm.c sspm.h
+vsnprintf.lo vsnprintf.o : vsnprintf.c
 
 info-am:
 info: info-am

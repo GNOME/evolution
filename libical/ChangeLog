@@ -1,3 +1,59 @@
+2001-01-23  Eric Busboom  <eric@softwarestudio.org>
+
+	* icltime.c Removed all of the _local_ routines and simplified
+ 	icaltime_utc_offset and icaltime_as_timet
+
+	* regression.c Added tests for triggers and improvements to icaltime.c
+
+	* icaltypes.c Addedd icaltriggertype_from_string and changed
+ 	icaltriggertype to be a struct
+
+2001-01-22  Eric Busboom  <eric@softwarestudio.org>
+
+	* icaltime.c implemented icaldurationtype_from_string to parse the
+ 	string it self, rather than use lex/yacc
+
+2001-01-15  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalfileset.c Many improvements. File locking now works, and so
+ 	does searching with icalfileset_select()
+
+2001-01-08  Eric Busboom  <eric@softwarestudio.org>
+
+	* Makefile.am Remove spaces after -I in several 
+	Makefile.am routines. 
+
+	* icalset.c removed return statements from some void functions.
+
+	* icalparameter.c.in Added break to default: case that had no
+ 	body. Compilers on Solaris and Tru64 UNIX complained.
+
+2001-01-02  Eric Busboom  <eric@softwarestudio.org>
+
+	* icaltime.c Changed icaldurationtype_from_time and _as_timet to
+ 	_from_int and _as_int. This is a change interface that may break
+ 	some code.
+
+	* icalgauge.c icalgaugeimpl.h, icalgauge.h., Rewrote gauge code to
+ 	use pvl-lists directly, instead of trying to reuse icalcomponent.
+
+2000-12-12  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalparser.c Addedd support for x-parameters. 
+
+	* icalenum.c Fixed icalenum_parameter_type_to_string and
+ 	icalenum_property_type_to_string to property identify X- parameers
+ 	and properties.
+
+	* icalparameter.c Fixed icalparameter_as_ical_string to property
+ 	write out X-Parameters.
+
+	
+2000-12-11  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalcstp.c added empty bodies to prep_* routines so that shared
+ 	libraries would build.
+
 2000-12-11  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/icaltime.c (icaltime_compare_date_only): New
@@ -25,6 +81,31 @@
 	(COMBINEDHEADERS): Added paths to make "make distcheck" work.
 	(libical_la_SOURCES): Added headers for distribution in our weird
 	setup.
+
+2000-12-06  Eric Busboom  <eric@softwarestudio.org>
+
+	* icaltime.c added icaltime_as_local to convert a UTC time to a
+ 	local time
+
+	* icaltime.h icaltime.c Removed is_utc argument from
+ 	icaltime_from_timet
+
+	
+2000-11-29  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c More testing and bug fixes. Many more of the rules
+ 	in recur.txt work correctly.
+
+2000-11-28  Eric Busboom  <eric@softwarestudio.org>
+
+	* icalrecur.c Several changes to extract icalrecur.c from
+ 	libical. I'd like to make it into a reference impl for recurrence
+ 	rules. CHanges include moving all of the recurrence type and
+ 	recurrence enums from icalenum and icaltypes into icalrecur, and
+ 	adding code to parse recurrence rule strings.
+
+	* icaltime.c Changed icaltime_from_string to parse the string
+ 	directly. Now icaltime.c has no dependency on icalvalue.c
 
 2000-11-21  Eric Busboom  <eric@softwarestudio.org>
 
@@ -73,8 +154,8 @@
 
 2000-11-06  Federico Mena Quintero  <federico@helixcode.com>
  
-        * src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle
-        both the position and weekday in the by_day field.        
+	* src/libical/icalvalue.c (icalvalue_recur_as_ical_string): Handle
+	both the position and weekday in the by_day field.
 
 2000-10-20  Eric Busboom  <eric@agony.busboom.org>
 

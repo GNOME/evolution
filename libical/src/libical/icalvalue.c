@@ -43,6 +43,7 @@
 #include <errno.h>
 #include <time.h> /* for mktime */
 #include <stdlib.h> /* for atoi and atof */
+#include <limits.h> /* for SHRT_MAX */         
 
 #if _MAC_OS_
 #include "icalmemory_strdup.h"
@@ -90,7 +91,7 @@ struct icalvalue_impl {
                    a reference*/
 
 		struct icalrecurrencetype *v_recur;
-		union icaltriggertype v_trigger;
+		struct icaltriggertype v_trigger;
 		icalproperty_method v_method;
 		icalproperty_status v_status;
 
@@ -196,7 +197,7 @@ icalvalue* icalvalue_new_clone(icalvalue* value){
 
 char* icalmemory_strdup_and_dequote(const char* str)
 {
-    char* p;
+    const char* p;
     char* out = (char*)malloc(sizeof(char) * strlen(str) +1);
     char* pout;
 
@@ -214,8 +215,9 @@ char* icalmemory_strdup_and_dequote(const char* str)
 	    switch(*p){
 		case 0:
 		{
-		    break;
 		    *pout = '\0';
+		    break;
+
 		}
 		case 'n':
 		{
@@ -416,16 +418,54 @@ icalvalue* icalvalue_new_from_string_with_error(icalvalue_kind kind,const char* 
 	}
 
 	case ICAL_RECUR_VALUE:
-	case ICAL_DATE_VALUE:
-	case ICAL_DATETIME_VALUE:
-	case ICAL_DATETIMEDATE_VALUE:
-	case ICAL_DATETIMEPERIOD_VALUE:
+	{
+	    struct icalrecurrencetype rt;
+	    rt = icalrecurrencetype_from_string(str);
+	    value = icalvalue_new_recur(rt);
+	    break;
+	}
+
 	case ICAL_TIME_VALUE:
-	case ICAL_DURATION_VALUE:
-	case ICAL_PERIOD_VALUE:
-	case ICAL_TRIGGER_VALUE:
+	{
+	    struct icaltimetype tt;
+	    tt = icaltime_from_string(str);
+	    value = icalvalue_new_time(tt);
+	    break;
+	}
+	case ICAL_DATE_VALUE:
+	{
+	    struct icaltimetype tt;
+	    tt = icaltime_from_string(str);
+	    value = icalvalue_new_date(tt);
+	    break;
+	}
+	case ICAL_DATETIME_VALUE:
+	{
+	    struct icaltimetype tt;
+	    tt = icaltime_from_string(str);
+	    value = icalvalue_new_datetime(tt);
+	    break;
+	}
+	case ICAL_DATETIMEDATE_VALUE:
+	{
+	    struct icaltimetype tt;
+	    tt = icaltime_from_string(str);
+	    value = icalvalue_new_datetimedate(tt);
+	    break;
+	}
+
+	case ICAL_DATETIMEPERIOD_VALUE:
+        case ICAL_DURATION_VALUE:
+         case ICAL_PERIOD_VALUE:
 	{
 	    value = icalparser_parse_value(kind,str,error);
+	    break;
+	}
+	
+        case ICAL_TRIGGER_VALUE:
+	{
+	    struct icaltriggertype tr = icaltriggertype_from_string(str);
+	    value = icalvalue_new_trigger(tr);
 	    break;
 	}
 
@@ -555,14 +595,15 @@ char* icalvalue_binary_as_ical_string(icalvalue* value) {
 }
 
 
+#define MAX_INT_DIGITS 12 /* Enough for 2^32 + sign*/ 
 char* icalvalue_int_as_ical_string(icalvalue* value) {
     
     int data;
-    char* str = (char*)icalmemory_tmp_buffer(2);
+    char* str = (char*)icalmemory_tmp_buffer(MAX_INT_DIGITS); 
     icalerror_check_arg_rz( (value!=0),"value");
     data = icalvalue_get_integer(value);
 	
-    sprintf(str,"%d",data);
+    snprintf(str,MAX_INT_DIGITS,"%d",data);
 
     return str;
 }
@@ -607,101 +648,10 @@ char* icalvalue_string_as_ical_string(icalvalue* value) {
 
 char* icalvalue_recur_as_ical_string(icalvalue* value) 
 {
-    char* str;
-    char *str_p;
-    size_t buf_sz = 200;
-    char temp[20];
-    int i,j;
     struct icalvalue_impl *impl = (struct icalvalue_impl*)value;
     struct icalrecurrencetype *recur = impl->data.v_recur;
 
-    struct { char* str;size_t offset; short limit;  } recurmap[] = 
-      {
-        {";BYSECOND=",offsetof(struct icalrecurrencetype,by_second),60},
-        {";BYMINUTE=",offsetof(struct icalrecurrencetype,by_minute),60},
-        {";BYHOUR=",offsetof(struct icalrecurrencetype,by_hour),24},
-        {";BYDAY=",offsetof(struct icalrecurrencetype,by_day),7},
-        {";BYMONTHDAY=",offsetof(struct icalrecurrencetype,by_month_day),31},
-        {";BYYEARDAY=",offsetof(struct icalrecurrencetype,by_year_day),366},
-        {";BYWEEKNO=",offsetof(struct icalrecurrencetype,by_week_no),52},
-        {";BYMONTH=",offsetof(struct icalrecurrencetype,by_month),12},
-        {";BYSETPOS=",offsetof(struct icalrecurrencetype,by_set_pos),366},
-        {0,0,0},
-      };
-
-
-
-    icalerror_check_arg_rz((value != 0),"value");
-
-    if(recur->freq == ICAL_NO_RECURRENCE){
-	return 0;
-    }
-
-    str = (char*)icalmemory_tmp_buffer(buf_sz);
-    str_p = str;
-
-    icalmemory_append_string(&str,&str_p,&buf_sz,"FREQ=");
-    icalmemory_append_string(&str,&str_p,&buf_sz,
-			     icalrecur_recurrence_to_string(recur->freq));
-
-    if(recur->until.year != 0){
-	
-	temp[0] = 0;
-	print_datetime_to_string(temp,&(recur->until));
-	
-	icalmemory_append_string(&str,&str_p,&buf_sz,";UNTIL=");
-	icalmemory_append_string(&str,&str_p,&buf_sz, temp);
-    }
-
-    if(recur->count != 0){
-	sprintf(temp,"%d",recur->count);
-	icalmemory_append_string(&str,&str_p,&buf_sz,";COUNT=");
-	icalmemory_append_string(&str,&str_p,&buf_sz, temp);
-    }
-
-    if(recur->interval != 0){
-	sprintf(temp,"%d",recur->interval);
-	icalmemory_append_string(&str,&str_p,&buf_sz,";INTERVAL=");
-	icalmemory_append_string(&str,&str_p,&buf_sz, temp);
-    }
-    
-    for(j =0; recurmap[j].str != 0; j++){
-	short* array = (short*)(recurmap[j].offset+ (size_t)recur);
-	short limit = recurmap[j].limit;
-
-	/* Skip unused arrays */
-	if( array[0] != ICAL_RECURRENCE_ARRAY_MAX ) {
-
-	    icalmemory_append_string(&str,&str_p,&buf_sz,recurmap[j].str);
-	    
-	    for(i=0; i< limit  && array[i] != ICAL_RECURRENCE_ARRAY_MAX;
-		i++){
-		if (j == 3) { /* BYDAY */
-		    short dow = icalrecurrencetype_day_day_of_week(array[i]);
-		    const char *daystr = icalrecur_weekday_to_string(dow);
-		    short pos = icalrecurrencetype_day_position(array[i]);  
-		    
-		    if (pos == 0)
-			icalmemory_append_string(&str,&str_p,&buf_sz,daystr);
-		    else {
-			sprintf(temp,"%d%s",pos,daystr);
-			icalmemory_append_string(&str,&str_p,&buf_sz,temp);
-		    }                  
-		    
-		} else {
-		    sprintf(temp,"%d",array[i]);
-		    icalmemory_append_string(&str,&str_p,&buf_sz, temp);
-		}
-		
-		if( (i+1)<limit &&array[i+1] 
-		    != ICAL_RECURRENCE_ARRAY_MAX){
-		    icalmemory_append_char(&str,&str_p,&buf_sz,',');
-		}
-	    }	 
-	}   
-    }
-
-    return  str;
+    return icalrecurrencetype_as_string(recur);
 }
 
 char* icalvalue_text_as_ical_string(icalvalue* value) {
@@ -825,64 +775,15 @@ char* icalvalue_attach_as_ical_string(icalvalue* value) {
     }
 }
 
-void append_duration_segment(char** buf, char** buf_ptr, size_t* buf_size, 
-			     char* sep, unsigned int value) {
-
-    char temp[TMP_BUF_SIZE];
-
-    sprintf(temp,"%d",value);
-
-    icalmemory_append_string(buf, buf_ptr, buf_size, temp);
-    icalmemory_append_string(buf, buf_ptr, buf_size, sep);
-    
-}
 
 char* icalvalue_duration_as_ical_string(icalvalue* value) {
 
     struct icaldurationtype data;
-    char *buf, *output_line;
-    size_t buf_size = 256;
-    char* buf_ptr = 0;
 
     icalerror_check_arg_rz( (value!=0),"value");
     data = icalvalue_get_duration(value);
 
-    buf = (char*)icalmemory_new_buffer(buf_size);
-    buf_ptr = buf;
-    
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "P");
-    
-    
-    if (data.weeks != 0 ) {
-	append_duration_segment(&buf, &buf_ptr, &buf_size, "W", data.weeks);
-    }
-
-    if (data.days != 0 ) {
-	append_duration_segment(&buf, &buf_ptr, &buf_size, "D", data.days);
-    }
-
-    if (data.hours != 0 || data.minutes != 0 || data.seconds != 0) {
-
-	icalmemory_append_string(&buf, &buf_ptr, &buf_size, "T");
-
-	if (data.hours != 0 ) {
-	    append_duration_segment(&buf, &buf_ptr, &buf_size, "H", data.hours);
-	}
-	if (data.minutes != 0 ) {
-	    append_duration_segment(&buf, &buf_ptr, &buf_size, "M", data.minutes);
-	}
-	if (data.seconds != 0 ) {
-	    append_duration_segment(&buf, &buf_ptr, &buf_size, "S", data.seconds);
-	}
-
-    }
- 
-    output_line = icalmemory_tmp_copy(buf);
-    icalmemory_free_buffer(buf);
-
-    return output_line;
-
-    
+    return icaldurationtype_as_ical_string(data);
 }
 
 void print_time_to_string(char* str,  struct icaltimetype *data)
@@ -1082,15 +983,18 @@ char* icalvalue_period_as_ical_string(icalvalue* value) {
 
 char* icalvalue_trigger_as_ical_string(icalvalue* value) {
 
-    union icaltriggertype data;
+    struct icaltriggertype data;
     char* str;
+
     icalerror_check_arg_rz( (value!=0),"value");
     data = icalvalue_get_trigger(value);
 
-    str = (char*)icalmemory_tmp_buffer(60);
-    sprintf(str,"icalvalue_trigger_as_ical_string is not implemented yet");
+    if(!icaltime_is_null_time(data.time)){
+	return icaltime_as_ical_string(data.time);
+    } else {
+	return icaldurationtype_as_ical_string(data.duration);
+    }   
 
-    return str;
 }
 
 const char*
@@ -1199,6 +1103,20 @@ icalvalue_isa_value (void* value)
 }
 
 
+int icalvalue_is_time(icalvalue* a) {
+    icalvalue_kind kind = icalvalue_isa(a);
+
+    if(kind == ICAL_DATETIMEDATE_VALUE ||
+       kind == ICAL_DATETIME_VALUE ||
+       kind == ICAL_DATE_VALUE ||
+       kind == ICAL_TIME_VALUE ){
+	return 1;
+    }
+
+    return 0;
+
+}
+
 icalparameter_xliccomparetype
 icalvalue_compare(icalvalue* a, icalvalue *b)
 {
@@ -1209,7 +1127,8 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
     icalerror_check_arg_rz( (b!=0), "b");
 
     /* Not the same type; they can only be unequal */
-    if (icalvalue_isa(a) != icalvalue_isa(b)){
+    if( ! (icalvalue_is_time(a) && icalvalue_is_time(b)) &&
+	icalvalue_isa(a) != icalvalue_isa(b)){
 	return ICAL_XLICCOMPARETYPE_NOTEQUAL;
     }
 
@@ -1250,6 +1169,21 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	    }
 	}
 
+	case ICAL_DURATION_VALUE: 
+	{
+	    int a = icaldurationtype_as_int(impla->data.v_duration);
+	    int b = icaldurationtype_as_int(implb->data.v_duration);
+
+	    if (a > b){
+		return ICAL_XLICCOMPARETYPE_GREATER;
+	    } else if (a < b){
+		return ICAL_XLICCOMPARETYPE_LESS;
+	    } else {
+		return ICAL_XLICCOMPARETYPE_EQUAL;
+	    }
+	}	    
+
+
 	case ICAL_TEXT_VALUE:
 	case ICAL_URI_VALUE:
 	case ICAL_CALADDRESS_VALUE:
@@ -1257,7 +1191,6 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	case ICAL_DATE_VALUE:
 	case ICAL_DATETIME_VALUE:
 	case ICAL_DATETIMEDATE_VALUE:
-	case ICAL_DURATION_VALUE: /* HACK. Not correct for DURATION */
 	case ICAL_TIME_VALUE:
 	case ICAL_DATETIMEPERIOD_VALUE:
 	{
@@ -1271,7 +1204,7 @@ icalvalue_compare(icalvalue* a, icalvalue *b)
 	    } else if (r < 0){
 		return ICAL_XLICCOMPARETYPE_LESS;
 	    } else {
-		return 0;
+		return ICAL_XLICCOMPARETYPE_EQUAL;
 	    }
 
 		
@@ -1329,9 +1262,7 @@ icalproperty* icalvalue_get_parent(icalvalue* value)
 
 
 
-/* Recur is a special case, so it is not auto generated. Well,
-   actually, it is auto-generated, but you will have to manually
-   remove the auto-generated version after each generation.  */
+/* Recur is a special case, so it is not auto generated. */
 icalvalue*
 icalvalue_new_recur (struct icalrecurrencetype v)
 {
@@ -2014,7 +1945,7 @@ icalvalue_get_time(icalvalue* value)
 
 
 icalvalue*
-icalvalue_new_trigger (union icaltriggertype v)
+icalvalue_new_trigger (struct icaltriggertype v)
 {
    struct icalvalue_impl* impl = icalvalue_new_impl(ICAL_TRIGGER_VALUE);
  
@@ -2025,7 +1956,7 @@ icalvalue_new_trigger (union icaltriggertype v)
 }
 
 void
-icalvalue_set_trigger(icalvalue* value, union icaltriggertype v)
+icalvalue_set_trigger(icalvalue* value, struct icaltriggertype v)
 {
     struct icalvalue_impl* impl; 
     
@@ -2038,7 +1969,7 @@ icalvalue_set_trigger(icalvalue* value, union icaltriggertype v)
     impl->data.v_trigger = v;
 }
 
-union icaltriggertype
+struct icaltriggertype
 icalvalue_get_trigger(icalvalue* value)
 {
     icalerror_check_arg( (value!=0),"value");
