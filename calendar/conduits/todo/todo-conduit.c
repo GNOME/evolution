@@ -359,7 +359,7 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 {
 	const char *uid;
 	int *priority;
-	struct icaltimetype *completed;
+	icalproperty_status status;
 	CalComponentText summary;
 	GSList *d_list = NULL;
 	CalComponentText *description;
@@ -427,12 +427,12 @@ local_record_from_comp (EToDoLocalRecord *local, CalComponent *comp, EToDoCondui
 	}
 	cal_component_free_datetime (&due);	
 
-	cal_component_get_completed (comp, &completed);
-	if (completed) {
+	cal_component_get_status (comp, &status);	
+	if (status == ICAL_STATUS_COMPLETED)
 		local->todo->complete = 1;
-		cal_component_free_icaltimetype (completed);
-	}	
-
+	else
+		local->todo->complete = 0;
+	
 	cal_component_get_priority (comp, &priority);
 	if (priority && *priority != 0) {
 		if (*priority <= 3)
@@ -545,6 +545,23 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 
 		cal_component_set_completed (comp, &now);
 		cal_component_set_percent (comp, &percent);
+		cal_component_set_status (comp, ICAL_STATUS_COMPLETED);
+	} else {
+		int *percent;
+		icalproperty_status status;
+		
+		cal_component_set_completed (comp, NULL);
+		
+		cal_component_get_percent (comp, &percent);
+		if (percent == NULL || *percent == 100) {
+			int p = 0;
+			cal_component_set_percent (comp, &p);
+		}
+		cal_component_free_percent (percent);
+
+		cal_component_get_status (comp, &status);
+		if (status == ICAL_STATUS_COMPLETED)
+			cal_component_set_status (comp, ICAL_STATUS_NEEDSACTION);
 	}
 
 	if (!is_empty_time (todo.due)) {

@@ -55,10 +55,13 @@
 
 #include <gal/widgets/e-canvas.h>
 #include <gal/widgets/e-canvas-utils.h>
+#include <gal/widgets/e-font.h>
 #include <gal/e-table/e-cell-combo.h>
 #include <gal/e-table/e-cell-text.h>
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-scrolled.h>
+#include <gal/e-table/e-table-header-item.h>
+#include <gal/e-table/e-table-header-utils.h>
 
 #include <widgets/misc/e-dateedit.h>
 #include "component-factory.h"
@@ -109,6 +112,8 @@ static void e_meeting_time_selector_autopick_menu_detacher (GtkWidget *widget,
 							    GtkMenu   *menu);
 static void e_meeting_time_selector_realize (GtkWidget *widget);
 static void e_meeting_time_selector_unrealize (GtkWidget *widget);
+static void e_meeting_time_selector_style_set (GtkWidget *widget,
+					       GtkStyle  *previous_style);
 static gint e_meeting_time_selector_expose_event (GtkWidget *widget,
 						  GdkEventExpose *event);
 static void e_meeting_time_selector_draw (GtkWidget    *widget,
@@ -178,7 +183,7 @@ static EMeetingFreeBusyPeriod* e_meeting_time_selector_find_time_clash (EMeeting
 static void e_meeting_time_selector_recalc_grid (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_recalc_date_format (EMeetingTimeSelector *mts);
 static void e_meeting_time_selector_save_position (EMeetingTimeSelector *mts,
-						   EMeetingTime*mtstime);
+						   EMeetingTime *mtstime);
 static void e_meeting_time_selector_restore_position (EMeetingTimeSelector *mts,
 						      EMeetingTime*mtstime);
 static void e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
@@ -242,6 +247,7 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 
 	widget_class->realize      = e_meeting_time_selector_realize;
 	widget_class->unrealize    = e_meeting_time_selector_unrealize;
+	widget_class->style_set    = e_meeting_time_selector_style_set;
 	widget_class->expose_event = e_meeting_time_selector_expose_event;
 	widget_class->draw	   = e_meeting_time_selector_draw;
 }
@@ -271,7 +277,7 @@ void
 e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *emm)
 {
 	GtkWidget *hbox, *vbox, *separator, *button, *label, *table;
-	GtkWidget *alignment, *child_hbox, *child_vbox, *arrow, *menuitem;
+	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
 	GdkVisual *visual;
 	GdkColormap *colormap;
@@ -313,10 +319,9 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 			  vbox, 0, 1, 0, 2, GTK_EXPAND | GTK_FILL, GTK_FILL, 0, 0);
 	gtk_widget_show (vbox);
 
-	child_vbox = gtk_vbox_new (FALSE, 0);
-	gtk_widget_set_usize (child_vbox, 1, mts->row_height * 2 - 6);
-	gtk_box_pack_start (GTK_BOX (vbox), child_vbox, FALSE, FALSE, 0);
-	gtk_widget_show (child_vbox);
+	mts->attendees_vbox_spacer = gtk_vbox_new (FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), mts->attendees_vbox_spacer, FALSE, FALSE, 0);
+	gtk_widget_show (mts->attendees_vbox_spacer);
 	
 	mts->attendees_vbox = gtk_vbox_new (FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), mts->attendees_vbox, TRUE, TRUE, 0);
@@ -344,7 +349,7 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingModel *em
 	gtk_box_pack_start (GTK_BOX (mts->attendees_vbox), mts->etable, TRUE, TRUE, 2);
 	gtk_widget_show (mts->etable);
 	g_free (filename);
-	
+
 	/* The free/busy information */
 	mts->display_top = gnome_canvas_new ();
 	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3);
@@ -824,7 +829,6 @@ static void
 e_meeting_time_selector_destroy (GtkObject *object)
 {
 	EMeetingTimeSelector *mts;
-	ETable *real_table;
 
 	mts = E_MEETING_TIME_SELECTOR (object);
 
@@ -864,6 +868,70 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 
 	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
 		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
+}
+
+static void
+e_meeting_time_selector_style_set (GtkWidget *widget,
+				   GtkStyle  *previous_style)
+{
+	EMeetingTimeSelector *mts;
+	EMeetingTime saved_time;
+	ETable *real_table;
+	ETableHeader *eth;
+	GdkFont *font;
+	EFont *efont;
+	int hour, max_hour_width;
+	int numcols, col;
+	int maxheight;      
+
+	if (GTK_WIDGET_CLASS (parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
+
+	mts = E_MEETING_TIME_SELECTOR (widget);
+	font = widget->style->font;
+	efont = e_font_from_gdk_font (font);
+	
+	/* Calculate the widths of the hour strings in the style's font. */
+	max_hour_width = 0;
+	for (hour = 0; hour < 24; hour++) {
+		if (calendar_config_get_24_hour_format ())
+			mts->hour_widths[hour] = gdk_string_width (font, EMeetingTimeSelectorHours[hour]);
+		else
+			mts->hour_widths[hour] = gdk_string_width (font, EMeetingTimeSelectorHours12[hour]);
+		max_hour_width = MAX (max_hour_width, mts->hour_widths[hour]);
+	}
+              
+	/* FIXME the 5 is for the padding etable adds on */
+	mts->row_height = e_font_height (efont) + 5;
+	mts->col_width = max_hour_width + 6;
+
+	e_font_unref (efont);
+              
+	e_meeting_time_selector_save_position (mts, &saved_time);
+	e_meeting_time_selector_recalc_grid (mts);
+	e_meeting_time_selector_restore_position (mts, &saved_time);
+              
+	gtk_widget_set_usize (mts->display_top, -1, mts->row_height * 3);
+
+	/* Calculate header height */
+	real_table = e_table_scrolled_get_table (E_TABLE_SCROLLED (mts->etable));
+	eth = real_table->full_header;
+	numcols = e_table_header_count (eth);
+	maxheight = 0;
+	for (col = 0; col < numcols; col++) {
+		ETableCol *ecol = e_table_header_get_column (eth, col);
+		int height;
+
+		height = e_table_header_compute_height (ecol, widget->style, font);
+
+		if (height > maxheight)
+			maxheight = height;
+	}
+	/* FIXME the 5 is for the padding etable adds on */
+	gtk_widget_set_usize (mts->attendees_vbox_spacer, 1, mts->row_height * 3 - maxheight - 5);
+
+	GTK_LAYOUT (mts->display_main)->hadjustment->step_increment = mts->col_width;
+	GTK_LAYOUT (mts->display_main)->vadjustment->step_increment = mts->row_height;
 }
 
 /* This draws a shadow around the top display and main display. */

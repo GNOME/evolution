@@ -488,22 +488,22 @@ e_meeting_time_selector_item_paint_day_top (EMeetingTimeSelectorItem *mts_item,
 	clip_rect.height = mts->row_height - 2;
 	gdk_gc_set_clip_rectangle (gc, &clip_rect);
 	gdk_draw_string (drawable, font, gc,
-			 x + 4, 4 + font->ascent - scroll_y, buffer);
+			 x + 2, 4 + font->ascent - scroll_y, buffer);
 	gdk_gc_set_clip_rectangle (gc, NULL);
 
 	/* Draw the hours. */
 	hour = mts->first_hour_shown;
-	hour_x = x;
+	hour_x = x + 2;
 	hour_y = mts->row_height + 4 + font->ascent - scroll_y;
 	while (hour < mts->last_hour_shown) {
 		if (calendar_config_get_24_hour_format ())
 			gdk_draw_string (drawable, font, gc,
-					 hour_x - (mts->hour_widths[hour] / 2),
-					 hour_y, EMeetingTimeSelectorHours[hour]);
+					 hour_x, hour_y,
+					 EMeetingTimeSelectorHours[hour]);
 		else
 			gdk_draw_string (drawable, font, gc,
-					 hour_x - (mts->hour_widths[hour] / 2),
-					 hour_y, EMeetingTimeSelectorHours12[hour]);
+					 hour_x, hour_y,
+					 EMeetingTimeSelectorHours12[hour]);
 
 		hour += mts->zoomed_out ? 3 : 1;
 		hour_x += mts->col_width;

@@ -1,3 +1,22 @@
+2001-10-24  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_construct):
+	track the spacer vbox
+	(e_meeting_time_selector_style_set): make sure the rows are the
+	correct size for the style
+
+	* gui/e-meeting-time-sel-item.c
+	(e_meeting_time_selector_item_paint_day_top): slight adjustments
+	to where the text is drawn
+
+	* gui/e-meeting-time-sel.h: new member
+
+	* gui/e-meeting-model.c (build_etable): ensure uniform row height
+
+	* conduits/todo/todo-conduit.c (comp_from_remote_record): mark
+	status as completed in appropriate places and don't overwrite
+	legitimate percentages and such
+
 2001-10-24  Federico Mena Quintero  <federico@ximian.com>
 
 	Fixes bug #5282.

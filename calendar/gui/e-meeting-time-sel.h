@@ -119,7 +119,8 @@ struct _EMeetingTimeSelector
 	   title bar packed at the end. Extra widgets can be added here
 	   with PACK_START if necessary. */
 	GtkWidget *attendees_vbox;
-
+	GtkWidget *attendees_vbox_spacer;
+	
 	/* The etable and model */
 	EMeetingModel *model;
 	GtkWidget *etable;
