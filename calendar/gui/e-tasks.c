@@ -863,13 +863,12 @@ e_tasks_add_todo_source (ETasks *tasks, ESource *source)
 						 str_uri, error ? error->message : "");
 
 		g_error_free (error);
-		g_hash_table_remove (priv->clients, str_uri);
 		priv->clients_list = g_list_prepend (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, tasks);	
 
-		g_free (str_uri);
-		g_object_unref (client);
+		/* Do this last because it unrefs the client */
+		g_hash_table_remove (priv->clients, str_uri);
 
 		gtk_dialog_run (GTK_DIALOG (dialog));
 		gtk_widget_destroy (dialog);
@@ -895,7 +894,7 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	ETasksPrivate *priv;
 	ECal *client;
 	ECalModel *model;
-	char *str_uri, *orig_uri;
+	char *str_uri;
 
 	g_return_val_if_fail (tasks != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TASKS (tasks), FALSE);
@@ -904,12 +903,12 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	priv = tasks->priv;
 
 	str_uri = e_source_get_uri (source);
-	if (!g_hash_table_lookup_extended (priv->clients, str_uri, &orig_uri, &client)) {
+	client = g_hash_table_lookup (priv->clients, str_uri);
+	if (!client) {
 		g_free (str_uri);
 		return TRUE;
 	}
 
-	g_hash_table_remove (priv->clients, str_uri);
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, tasks);	
@@ -917,9 +916,8 @@ e_tasks_remove_todo_source (ETasks *tasks, ESource *source)
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
 	e_cal_model_remove_client (model, client);
 
+	g_hash_table_remove (priv->clients, str_uri);
 	g_free (str_uri);
-	g_free (orig_uri);
-	g_object_unref (client);
 
 	return TRUE;
 }
