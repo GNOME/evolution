@@ -1,5 +1,19 @@
 2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-tcp-stream-raw.c (stream_read): Made cancellable.
+	(stream_write): Same.
+	(stream_connect): Removed checks for DIVINE_INTERVENTION as the
+	code worked fine.
+
+	* camel-tcp-stream-ssl.c (stream_write): get rid of 'w' as it
+	wasn't really needed.
+	(set_errno): New function to set errno based on the NSPR error
+	code.
+	(stream_read): If an error occured, call set_errno().
+	(stream_write): Same.
+
+2001-03-13  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Makefile.am: Added camel-tcp-stream-ssl to the build.
 
 	* camel-remote-store.h: Add a use_ssl member to the

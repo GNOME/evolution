@@ -125,10 +125,40 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelTcpStreamRaw *tcp_stream_raw = CAMEL_TCP_STREAM_RAW (stream);
 	ssize_t nread;
+	int cancel_fd;
 	
-	do {
+	if (camel_operation_cancel_check (NULL)) {
+		errno = EINTR;
+		return  -1;
+	}
+	
+	cancel_fd = camel_operation_cancel_fd (NULL);
+	if (cancel_fd == -1) {
+		do {
+			nread = read (tcp_stream_raw->sockfd, buffer, n);
+		} while (nread == -1 && errno == EINTR);
+	} else {
+		int flags, fdmax;
+		fd_set rdset;
+		
+		flags = fcntl (tcp_stream_raw->sockfd, F_GETFL);
+		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags | O_NONBLOCK);
+		
+		FD_ZERO (&rdset);
+		FD_SET (tcp_stream_raw->sockfd, &rdset);
+		FD_SET (cancel_fd, &rdset);
+		fdmax = MAX (tcp_stream_raw->sockfd, cancel_fd) + 1;
+		
+		select (fdmax, &rdset, 0, 0, NULL);
+		if (FD_ISSET (cancel_fd, &rdset)) {
+			fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+			errno = EINTR;
+			return -1;
+		}
+		
 		nread = read (tcp_stream_raw->sockfd, buffer, n);
-	} while (nread == -1 && errno == EINTR);
+		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+	}
 	
 	return nread;
 }
@@ -137,18 +167,49 @@ static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamRaw *tcp_stream_raw = CAMEL_TCP_STREAM_RAW (stream);
-	ssize_t v, written = 0;
+	ssize_t w, written = 0;
+	int cancel_fd;
 	
-	do {
-		v = write (tcp_stream_raw->sockfd, buffer, n);
-		if (v > 0)
-			written += v;
-	} while (v == -1 && errno == EINTR);
+	if (camel_operation_cancel_check (NULL)) {
+		errno = EINTR;
+		return  -1;
+	}
 	
-	if (v == -1)
-		return -1;
-	else
-		return written;
+	cancel_fd = camel_operation_cancel_fd (NULL);
+	if (cancel_fd == -1) {
+		do {
+			written = write (tcp_stream_raw->sockfd, buffer, n);
+		} while (written == -1 && errno == EINTR);
+	} else {
+		fd_set rdset, wrset;
+		int flags, fdmax;
+		
+		flags = fcntl (tcp_stream_raw->sockfd, F_GETFL);
+		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags | O_NONBLOCK);
+		
+		fdmax = MAX (tcp_stream_raw->sockfd, cancel_fd) + 1;
+		do {
+			FD_ZERO (&rdset);
+			FD_ZERO (&wrset);
+			FD_SET (tcp_stream_raw->sockfd, &wrset);
+			FD_SET (cancel_fd, &rdset);
+			
+			select (fdmax, &rdset, &wrset, 0, NULL);
+			if (FD_ISSET (cancel_fd, &rdset)) {
+				fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+				errno = EINTR;
+				return -1;
+			}
+			
+			w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
+			if (w > 0)
+				written += w;
+		} while (w != -1 && written < n);
+		
+		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
+	}
+	
+	return written;
 }
 
 static int
@@ -258,43 +319,22 @@ socket_connect (struct hostent *h, int port)
 	return fd;
 }
 
-#define DIVINE_INTERVENTION
 static int
 stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 {
 	CamelTcpStreamRaw *raw = CAMEL_TCP_STREAM_RAW (stream);
-#ifndef DIVINE_INTERVENTION
-	struct sockaddr_in sin;
-#endif
 	int fd;
 	
 	g_return_val_if_fail (host != NULL, -1);
 	
-#ifdef DIVINE_INTERVENTION
 	fd = socket_connect (host, port);
 	if (fd == -1)
 		return -1;
-#else
-	sin.sin_family = host->h_addrtype;
-	sin.sin_port = htons (port);
-	
-	memcpy (&sin.sin_addr, host->h_addr, sizeof (sin.sin_addr));
-	
-	fd = socket (host->h_addrtype, SOCK_STREAM, 0);
-	
-	if (fd == -1 || connect (fd, (struct sockaddr *)&sin, sizeof (sin)) == -1) {
-		if (fd > -1)
-			close (fd);
-		
-		return -1;
-	}
-#endif
 	
 	raw->sockfd = fd;
 	
 	return 0;
 }
-
 
 static int
 get_sockopt_level (const CamelSockOptData *data)

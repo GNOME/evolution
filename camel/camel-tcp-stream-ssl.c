@@ -142,6 +142,23 @@ camel_tcp_stream_ssl_new (CamelSession *session, const char *expected_host)
 	return CAMEL_STREAM (stream);
 }
 
+static void
+set_errno (int code)
+{
+	/* FIXME: this should handle more. */
+	switch (code) {
+	case PR_IO_TIMEOUT_ERROR:
+		errno = EAGAIN;
+		break;
+	case PR_IO_ERROR:
+		errno = EIO;
+		break;
+	default:
+		/* what to set by default?? */
+		errno = EINTR;
+	}
+}
+
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
@@ -152,6 +169,9 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		nread = PR_Read (tcp_stream_ssl->sockfd, buffer, n);
 	} while (nread == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
+	if (nread == -1)
+		set_errno (PR_GetError ());
+	
 	return nread;
 }
 
@@ -159,18 +179,16 @@ static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelTcpStreamSSL *tcp_stream_ssl = CAMEL_TCP_STREAM_SSL (stream);
-	ssize_t w, written = 0;
+	ssize_t written;
 	
 	do {
-		w = PR_Write (tcp_stream_ssl->sockfd, buffer, n);
-		if (w > 0)
-			written += w;
-	} while (w == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
+		written = PR_Write (tcp_stream_ssl->sockfd, buffer, n);
+	} while (written == -1 && PR_GetError () == PR_PENDING_INTERRUPT_ERROR);
 	
-	if (w == -1)
-		return -1;
-	else
-		return written;
+	if (written == -1)
+		set_errno (PR_GetError ());
+	
+	return written;
 }
 
 static int
