@@ -48,9 +48,9 @@ module Evolution {
 
 		exception Busy {};
 
-		void addFolderAsync (in ShellComponentListener listener,
-				     in string physical_uri,
-				     in string type)
+		void createFolderAsync (in ShellComponentListener listener,
+					in string physical_uri,
+					in string type)
 			raises (Busy);
 
 		void removeFolderAsync (in ShellComponentListener listener,

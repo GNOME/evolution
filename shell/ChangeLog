@@ -1,3 +1,15 @@
+2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* evolution-shell-component.c (corba_class_init):
+	s/addFolderAsync/createFolderAsync/.
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_async_create_folder):
+	s/addFolderAsync/createFolderAsync/.
+
+	* Evolution-ShellComponent.idl: Rename `addFolder' into
+	`createFolder'.
+
 2001-01-12  Dan Winship  <danw@ximian.com>
 
 	* importer/.cvsignore: Create
@@ -6,8 +18,7 @@
 
 	* e-storage-set-view.c: Added translation strings.
 
-	* e-shell-view-menu.c 	(command_about_box): Update our name
-
+	* e-shell-view-menu.c (command_about_box): Update our name
 	(command_new_mail_message): Remove "window"
 	from the moniker path.
 

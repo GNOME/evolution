@@ -352,7 +352,7 @@ corba_class_init (void)
 	epv->setOwner                  = impl_ShellComponent_set_owner;
 	epv->unsetOwner                = impl_ShellComponent_unset_owner;
 	epv->createView                = impl_ShellComponent_create_view;
-	epv->addFolderAsync            = impl_ShellComponent_async_create_folder;
+	epv->createFolderAsync         = impl_ShellComponent_async_create_folder;
 	epv->removeFolderAsync         = impl_ShellComponent_async_remove_folder;
 	epv->populateFolderContextMenu = impl_ShellComponent_populate_folder_context_menu;
 

@@ -483,10 +483,10 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 	priv->callback      = callback;
 	priv->callback_data = data;
 
-	GNOME_Evolution_ShellComponent_addFolderAsync (corba_shell_component,
-						       priv->listener_interface,
-						       physical_uri, type,
-						       &ev);
+	GNOME_Evolution_ShellComponent_createFolderAsync (corba_shell_component,
+							  priv->listener_interface,
+							  physical_uri, type,
+							  &ev);
 
 	CORBA_exception_free (&ev);
 }
