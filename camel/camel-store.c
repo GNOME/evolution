@@ -690,14 +690,16 @@ get_folder_info (CamelStore *store, const char *top,
 }
 
 static void
-add_special_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *full_name, gchar *url_base, gboolean unread_count)
+add_special_info (CamelStore *store, CamelFolderInfo *info, const char *name, const char *full_name,
+		  const char *url_base, gboolean unread_count)
 {
 	CamelFolderInfo *fi, *vinfo, *parent;
+	CamelProvider *provider;
 	char *uri, *path;
 	CamelURL *url;
 	
 	g_return_if_fail (info != NULL);
-
+	
 	parent = NULL;
 	for (fi = info; fi; fi = fi->sibling) {
 		if (!strcmp (fi->name, name))
@@ -707,12 +709,14 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *
 	
 	/* create our vTrash/vJunk URL */
 	url = camel_url_new (info->url, NULL);
-	path = g_strdup_printf ("/%s", name);
-	if (url->fragment)
-		camel_url_set_fragment (url, path);
-	else
+	if (((CamelService *) store)->provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH) {
+		camel_url_set_fragment (url, name);
+	} else {
+		path = g_strdup_printf ("/%s", name);
 		camel_url_set_path (url, path);
-	g_free (path);
+		g_free (path);
+	}
+	
 	uri = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
 	camel_url_free (url);
 	
@@ -725,23 +729,23 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *
 	} else {
 		/* There wasn't a Trash/Junk folder so create a new folder entry */
 		vinfo = g_new0 (CamelFolderInfo, 1);
-
+		
 		g_assert(parent != NULL);
-
+		
 		vinfo->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_SUBSCRIBED;
-
+		
 		/* link it into the right spot */
 		vinfo->sibling = parent->sibling;
 		parent->sibling = vinfo;
 	}
-
+	
 	/* Fill in the new fields */
 	vinfo->full_name = g_strdup (full_name);
-	vinfo->name = g_strdup(vinfo->full_name);
+	vinfo->name = g_strdup (vinfo->full_name);
 	vinfo->url = g_strdup_printf ("%s:%s", url_base, uri);
 	if (!unread_count)
 		vinfo->unread_message_count = -1;
-	vinfo->path = g_strdup_printf("/%s", vinfo->name);
+	vinfo->path = g_strdup_printf ("/%s", vinfo->name);
 	g_free (uri);
 }
 
@@ -772,23 +776,23 @@ camel_store_get_folder_info (CamelStore *store, const char *top,
 			     guint32 flags, CamelException *ex)
 {
 	CamelFolderInfo *info;
-
+	
 	g_return_val_if_fail (CAMEL_IS_STORE (store), NULL);
 	g_return_val_if_fail ((store->flags & CAMEL_STORE_SUBSCRIPTIONS) ||
 			      !(flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED),
 			      NULL);
-
+	
 	CAMEL_STORE_LOCK(store, folder_lock);
 	info = CS_CLASS (store)->get_folder_info (store, top, flags, ex);
 	CAMEL_STORE_UNLOCK(store, folder_lock);
-
-	if (info) {
+	
+	if (info && (top == NULL || *top == '\0')) {
 		if (info->url && (store->flags & CAMEL_STORE_VTRASH))
 			add_special_info (store, info, CAMEL_VTRASH_NAME, _("Trash"), "vtrash", FALSE);
 		if (info->url && (store->flags & CAMEL_STORE_VJUNK))
 			add_special_info (store, info, CAMEL_VJUNK_NAME, _("Junk"), "vjunk", TRUE);
 	}
-
+	
 	return info;
 }
 

@@ -1,3 +1,12 @@
+2003-12-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-store.c (camel_store_get_folder_info): Only add
+	vTrash/vJunk info's if we've requested the toplevel folder tree,
+	otherwise we get vTrash/vJunk folders in odd places in the folder
+	tree.
+	(add_special_info): Use the provider->url_flags to determine if
+	the url uses the fragment or not for the path.
+
 2003-12-02  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #51478.
