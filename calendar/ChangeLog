@@ -1,3 +1,18 @@
+2002-04-30  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm_notify_add_calendar): only
+	call add_uri_to_load for URIs that are actually successfully
+	opened.
+	(retry_idle_cb): idle function to keep trying opening the calendar
+	folders that failed.
+	(cal_opened_cb): add/remove URIs from configuration as they are
+	loaded successfully/with errors. And retry opening calendars that
+	fail (temporary fix for #21240).
+
+	* gui/alarm-notify/notify-main.c (load_calendars): converted this
+	function into a GSourceFunc.
+	(main): installed load_calendars with g_idle_add.
+	
 2002-04-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal.c (impl_Cal_get_alarms_in_range): raise an exception if the

@@ -349,6 +349,52 @@ alarm_notify_new (void)
 	return an;
 }
 
+typedef struct {
+	CalClient *client;
+	char *str_uri;
+} RetryData;
+
+static gboolean
+retry_timeout_cb (gpointer data)
+{
+	RetryData *retry_data = data;
+
+	if (cal_client_get_load_state (retry_data->client) != CAL_CLIENT_LOAD_LOADED) {
+		cal_client_open_calendar (retry_data->client, retry_data->str_uri, FALSE);
+	}
+
+	g_free (retry_data->str_uri);
+	g_free (retry_data);
+
+	return FALSE;
+}
+
+static void
+cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
+{
+	EUri *uri = (EUri *) data;
+
+	if (status == CAL_CLIENT_OPEN_SUCCESS) {
+		add_uri_to_load (uri);
+		alarm_queue_add_client (client);
+
+		e_uri_free (uri);
+	}
+	else {
+		RetryData *retry_data;
+
+		remove_uri_to_load (uri);
+
+		/* retry opening this calendar */
+		retry_data = g_new0 (RetryData, 1);
+		retry_data->client = client;
+		retry_data->str_uri = e_uri_to_string (uri, FALSE);
+
+		/* we set a timeout of 5 mins before retrying */
+		g_timeout_add (300000, (GSourceFunc) retry_timeout_cb, retry_data);
+	}
+}
+
 /**
  * alarm_notify_add_calendar:
  * @an: An alarm notification service.
@@ -385,12 +431,11 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 		return;
 	}
 
-	if (load_afterwards)
-		add_uri_to_load (uri);
-
 	lc = g_hash_table_lookup (priv->uri_client_hash, str_uri);
 
 	if (lc) {
+		if (load_afterwards)
+			add_uri_to_load (uri);
 		e_uri_free (uri);
 		g_assert (lc->refcount > 0);
 		lc->refcount++;
@@ -400,6 +445,12 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 	client = cal_client_new ();
 
 	if (client) {
+		/* we only add the URI to load_afterwards if we open it
+		   correctly */
+		gtk_signal_connect (GTK_OBJECT (client), "cal_opened",
+				    GTK_SIGNAL_FUNC (cal_opened_cb),
+				    e_uri_copy (uri));
+
 		if (cal_client_open_calendar (client, str_uri, FALSE)) {
 			lc = g_new (LoadedClient, 1);
 			lc->client = client;
@@ -408,7 +459,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), lc);
 
-			alarm_queue_add_client (client);
 		} else {
 			gtk_object_unref (GTK_OBJECT (client));
 			client = NULL;
@@ -423,4 +473,6 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 				     NULL);
 		return;
 	}
+
+	e_uri_free (uri);
 }
