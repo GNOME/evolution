@@ -39,7 +39,6 @@
 
 #include <gtk/gtkmain.h>
 #include <gtk/gtkinvisible.h>
-#include <libgnome/gnome-i18n.h>
 
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-gui-utils.h>
@@ -1679,46 +1678,32 @@ ml_drop_action(struct _drop_msg *m)
 }
 
 static void
-ml_drop_popup_copy(EPopup *ep, EPopupItem *item, void *data)
+ml_drop_popup_copy(GtkWidget *item, struct _drop_msg *m)
 {
-	struct _drop_msg *m = data;
-
 	m->action = GDK_ACTION_COPY;
 	ml_drop_action(m);
 }
 
 static void
-ml_drop_popup_move(EPopup *ep, EPopupItem *item, void *data)
+ml_drop_popup_move(GtkWidget *item, struct _drop_msg *m)
 {
-	struct _drop_msg *m = data;
-
 	m->action = GDK_ACTION_MOVE;
 	ml_drop_action(m);
 }
 
 static void
-ml_drop_popup_cancel(EPopup *ep, EPopupItem *item, void *data)
+ml_drop_popup_cancel(GtkWidget *item, struct _drop_msg *m)
 {
-	struct _drop_msg *m = data;
-
 	m->aborted = TRUE;
 	mail_msg_free(&m->msg);
 }
 
-static EPopupItem ml_drop_popup_menu[] = {
-	{ E_POPUP_ITEM, "00.emc.02", N_("_Copy"), ml_drop_popup_copy, NULL, "stock_folder-copy", 0 },
-	{ E_POPUP_ITEM, "00.emc.03", N_("_Move"), ml_drop_popup_move, NULL, "stock_folder-move", 0 },
-	{ E_POPUP_BAR, "10.emc" },
-	{ E_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), ml_drop_popup_cancel, NULL, NULL, 0 },
+static EMPopupItem ml_drop_popup_menu[] = {
+	{ EM_POPUP_ITEM, "00.emc.02", N_("_Copy"), G_CALLBACK(ml_drop_popup_copy), NULL, "stock_folder-copy", 0 },
+	{ EM_POPUP_ITEM, "00.emc.03", N_("_Move"), G_CALLBACK(ml_drop_popup_move), NULL, "stock_folder-move", 0 },
+	{ EM_POPUP_BAR, "10.emc" },
+	{ EM_POPUP_ITEM, "99.emc.00", N_("Cancel _Drag"), G_CALLBACK(ml_drop_popup_cancel), NULL, NULL, 0 },
 };
-
-static void
-ml_drop_popup_free(EPopup *ep, GSList *items, void *data)
-{
-	g_slist_free(items);
-
-	/* FIXME: free data if no item was selected? */
-}
 
 static void
 ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
@@ -1753,11 +1738,14 @@ ml_tree_drag_data_received (ETree *tree, int row, ETreePath path, int col,
 		int i;
 
 		emp = em_popup_new("com.ximian.mail.messagelist.popup.drop");
-		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++)
-			menus = g_slist_append(menus, &ml_drop_popup_menu[i]);
+		for (i=0;i<sizeof(ml_drop_popup_menu)/sizeof(ml_drop_popup_menu[0]);i++) {
+			EMPopupItem *item = &ml_drop_popup_menu[i];
 
-		e_popup_add_items((EPopup *)emp, menus, ml_drop_popup_free, m);
-		menu = e_popup_create_menu_once((EPopup *)emp, NULL, 0, 0);
+			item->activate_data = m;
+			menus = g_slist_append(menus, item);
+		}
+		em_popup_add_items(emp, menus, (GDestroyNotify)g_slist_free);
+		menu = em_popup_create_menu_once(emp, NULL, 0, 0);
 		gtk_menu_popup(menu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time());
 	} else {
 		ml_drop_action(m);
@@ -1860,7 +1848,7 @@ message_list_destroy(GtkObject *object)
 		mail_async_event_destroy(message_list->async_event);
 		message_list->async_event = NULL;
 	}
-
+	
 	if (message_list->folder) {
 		/* need to do this before removing folder, folderinfo's might not exist after */
 		save_tree_state(message_list);
@@ -2750,7 +2738,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	CamelFolderChangeInfo *changes;
 	MessageList *ml = MESSAGE_LIST (user_data);
-
+	
 	if (event_data) {
 		changes = camel_folder_change_info_new();
 		camel_folder_change_info_cat(changes, (CamelFolderChangeInfo *)event_data);

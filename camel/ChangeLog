@@ -46,12 +46,6 @@
 
 	* camel-http-stream.c: turn off debug.
 
-2004-09-08  Hannah & Fazlu <hannah_lins@yahoo.co.in>
-
-        Fixes Bug#61088
-
-	* camel/camel-smime-context.c: Change of strings.
-
 2004-09-15  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #0xffff.
@@ -371,60 +365,6 @@
 	* providers/groupwise/Makefile.am (INCLUDES): use
 	CAMEL_GROUPWISE_CFLAGS.
 	(libcamelgroupwise_la_LIBADD): use CAMEL_GROUPWISE_LIBS.
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* providers/groupwise/camel-groupwise-provider.c: put the options
-	in their own section.
-
-2004-09-06  Not Zed  <NotZed@Ximian.com>
-
-	* camel-search-private.c (utf8_get): remove this, and make the
-	code use camel_utf8_getc instead.  Quite a bit faster esp if
-	optimising with inlines.
-
-	* camel-object.c (check_magic_fail): change the check_magic code
-	to mostly run from a macro, its worth it.
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-mbox-summary.c (message_info_new): fix
-	cast issue.
-
-	* providers/pop3/camel-pop3-engine.c (get_capabilities): remove
-	some unused variables.
-
-	* camel-object.h: remove camel-i18n.h, fixed all c files where
-	appropriate.
-
-2004-08-25  Not Zed  <NotZed@Ximian.com>
-
-	* camel-list-utils.[ch]: Copied e_dlist* stuff to here, part of
-	removing e-util dependency on camel.
-
-2004-08-05  Not Zed  <NotZed@Ximian.com>
-
-	* providers/local/camel-local-provider.c: same.
-
-	* providers/imap/camel-imap-provider.c: put the extra stuff into a
-	'general' section.
-
-	* providers/imapp/camel-imapp-provider.c: same.
-
-	* providers/pop3/camel-pop3-provider.c: make sure each section
-	start has a name.
-
-2004-08-03  Not Zed  <NotZed@Ximian.com>
-
-	* camel-url.c (camel_url_set_param): when clearing a param, use
-	remove_data instead of set_data_full.  craptatious glib at it
-	again.
-
-	* providers/nntp/camel-nntp-provider.c: turn on ssl option.
-
-2004-07-07  Not Zed  <NotZed@Ximian.com>
-
-	* camel-folder.c: removed filter-rule.h  ugh.
 
 2004-07-02  Christian Neumair  <chris@gnome-de.org>
 

@@ -47,27 +47,6 @@ Click &quot;Forward&quot; to begin. </property>
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkLabel" id="identity_help">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Please enter your name and email address below. The &quot;optional&quot; fields below do not need to be filled in, unless you wish to include this information in email you send.</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-
-	      <child>
 		<placeholder/>
 	      </child>
 	    </widget>
@@ -88,25 +67,24 @@ Click &quot;Forward&quot; to begin. </property>
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkLabel" id="extra_help">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Please select among the following options</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">True</property>
-		</packing>
+		<placeholder/>
 	      </child>
+	    </widget>
+	  </child>
+	</widget>
+      </child>
+
+      <child>
+	<widget class="GnomeDruidPageStandard" id="extra_page">
+	  <property name="visible">True</property>
+	  <property name="title" translatable="yes">Receiving Email</property>
+
+	  <child internal-child="vbox">
+	    <widget class="GtkVBox" id="druid_extra_vbox">
+	      <property name="border_width">16</property>
+	      <property name="visible">True</property>
+	      <property name="homogeneous">False</property>
+	      <property name="spacing">0</property>
 
 	      <child>
 		<placeholder/>
@@ -129,27 +107,6 @@ Click &quot;Forward&quot; to begin. </property>
 	      <property name="spacing">0</property>
 
 	      <child>
-		<widget class="GtkLabel" id="transport_help">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Please enter information about the way you will send mail. If you are not sure, ask your system administrator or Internet Service Provider.</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
-
-	      <child>
 		<placeholder/>
 	      </child>
 	    </widget>
@@ -168,27 +125,6 @@ Click &quot;Forward&quot; to begin. </property>
 	      <property name="visible">True</property>
 	      <property name="homogeneous">False</property>
 	      <property name="spacing">0</property>
-
-	      <child>
-		<widget class="GtkLabel" id="management_help">
-		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">You are almost done with the mail configuration process. The identity, incoming mail server and outgoing mail transport method which you provided will be grouped together to make an Evolution mail account. Please enter a name for this account in the space below. This name will be used for display purposes only.</property>
-		  <property name="use_underline">False</property>
-		  <property name="use_markup">False</property>
-		  <property name="justify">GTK_JUSTIFY_FILL</property>
-		  <property name="wrap">True</property>
-		  <property name="selectable">False</property>
-		  <property name="xalign">0.5</property>
-		  <property name="yalign">0.5</property>
-		  <property name="xpad">0</property>
-		  <property name="ypad">0</property>
-		</widget>
-		<packing>
-		  <property name="padding">0</property>
-		  <property name="expand">False</property>
-		  <property name="fill">True</property>
-		</packing>
-	      </child>
 
 	      <child>
 		<placeholder/>
@@ -690,7 +626,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="yalign">0.5</property>
 			  <property name="xpad">0</property>
 			  <property name="ypad">0</property>
-			  <property name="mnemonic_widget">signature_dropdown</property>
+			  <property name="mnemonic_widget">sigOption</property>
 			</widget>
 			<packing>
 			  <property name="left_attach">0</property>
@@ -709,12 +645,24 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			  <property name="spacing">6</property>
 
 			  <child>
-			    <widget class="Custom" id="signature_dropdown">
+			    <widget class="GtkOptionMenu" id="sigOption">
 			      <property name="visible">True</property>
-			      <property name="creation_function">em_account_editor_dropdown_new</property>
-			      <property name="int1">0</property>
-			      <property name="int2">0</property>
-			      <property name="last_modification_time">Mon, 06 Sep 2004 01:00:22 GMT</property>
+			      <property name="can_focus">True</property>
+			      <property name="history">0</property>
+
+			      <child internal-child="menu">
+				<widget class="GtkMenu" id="convertwidget1">
+				  <property name="visible">True</property>
+
+				  <child>
+				    <widget class="GtkMenuItem" id="convertwidget2">
+				      <property name="visible">True</property>
+				      <property name="label" translatable="yes">Default</property>
+				      <property name="use_underline">True</property>
+				    </widget>
+				  </child>
+				</widget>
+			      </child>
 			    </widget>
 			    <packing>
 			      <property name="padding">0</property>
@@ -946,7 +894,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="yalign">0.5</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">source_type_dropdown</property>
+		      <property name="mnemonic_widget">source_type_omenu</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -1007,12 +955,56 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="Custom" id="source_type_dropdown">
+		    <widget class="GtkOptionMenu" id="source_type_omenu">
 		      <property name="visible">True</property>
-		      <property name="creation_function">em_account_editor_dropdown_new</property>
-		      <property name="int1">0</property>
-		      <property name="int2">0</property>
-		      <property name="last_modification_time">Thu, 29 Jul 2004 05:31:24 GMT</property>
+		      <property name="can_focus">True</property>
+		      <property name="history">0</property>
+
+		      <child internal-child="menu">
+			<widget class="GtkMenu" id="convertwidget3">
+			  <property name="visible">True</property>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget4">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">POP</property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget5">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">IMAPv4 </property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget6">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Standard Unix mbox</property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget7">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Qmail maildir </property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget8">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">None</property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -1381,12 +1373,40 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      </child>
 
 			      <child>
-				<widget class="Custom" id="source_use_ssl">
+				<widget class="GtkOptionMenu" id="source_use_ssl">
 				  <property name="visible">True</property>
-				  <property name="creation_function">em_account_editor_ssl_selector_new</property>
-				  <property name="int1">0</property>
-				  <property name="int2">0</property>
-				  <property name="last_modification_time">Tue, 03 Aug 2004 07:22:52 GMT</property>
+				  <property name="can_focus">True</property>
+				  <property name="history">0</property>
+
+				  <child internal-child="menu">
+				    <widget class="GtkMenu" id="convertwidget9">
+				      <property name="visible">True</property>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget10">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Always</property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget11">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Whenever Possible</property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget12">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Never</property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1541,12 +1561,32 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 			      <property name="spacing">6</property>
 
 			      <child>
-				<widget class="Custom" id="source_auth_dropdown">
+				<widget class="GtkOptionMenu" id="source_auth_omenu">
 				  <property name="visible">True</property>
-				  <property name="creation_function">em_account_editor_dropdown_new</property>
-				  <property name="int1">0</property>
-				  <property name="int2">0</property>
-				  <property name="last_modification_time">Thu, 29 Jul 2004 08:38:30 GMT</property>
+				  <property name="can_focus">True</property>
+				  <property name="history">0</property>
+
+				  <child internal-child="menu">
+				    <widget class="GtkMenu" id="convertwidget13">
+				      <property name="visible">True</property>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget14">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Password</property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+
+				      <child>
+					<widget class="GtkMenuItem" id="convertwidget15">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">Kerberos </property>
+					  <property name="use_underline">True</property>
+					</widget>
+				      </child>
+				    </widget>
+				  </child>
 				</widget>
 				<packing>
 				  <property name="padding">0</property>
@@ -1633,9 +1673,229 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
       </child>
 
       <child>
+	<widget class="GtkLabel" id="label32">
+	  <property name="visible">True</property>
+	  <property name="label" translatable="yes">Receiving Mail</property>
+	  <property name="use_underline">True</property>
+	  <property name="use_markup">False</property>
+	  <property name="justify">GTK_JUSTIFY_CENTER</property>
+	  <property name="wrap">False</property>
+	  <property name="selectable">False</property>
+	  <property name="xalign">0.5</property>
+	  <property name="yalign">0.5</property>
+	  <property name="xpad">0</property>
+	  <property name="ypad">0</property>
+	</widget>
+	<packing>
+	  <property name="type">tab</property>
+	</packing>
+      </child>
+
+      <child>
+	<widget class="GtkVBox" id="vboxExtraTableBorder">
+	  <property name="border_width">12</property>
+	  <property name="visible">True</property>
+	  <property name="homogeneous">False</property>
+	  <property name="spacing">12</property>
+
+	  <child>
+	    <widget class="GtkTable" id="extra_table">
+	      <property name="visible">True</property>
+	      <property name="n_rows">1</property>
+	      <property name="n_columns">2</property>
+	      <property name="homogeneous">False</property>
+	      <property name="row_spacing">18</property>
+	      <property name="column_spacing">6</property>
+
+	      <child>
+		<widget class="GtkVBox" id="extra_mailcheck_frame">
+		  <property name="visible">True</property>
+		  <property name="homogeneous">False</property>
+		  <property name="spacing">6</property>
+
+		  <child>
+		    <widget class="GtkTable" id="extra_mailcheck_table">
+		      <property name="visible">True</property>
+		      <property name="n_rows">1</property>
+		      <property name="n_columns">2</property>
+		      <property name="homogeneous">False</property>
+		      <property name="row_spacing">6</property>
+		      <property name="column_spacing">6</property>
+
+		      <child>
+			<widget class="GtkTable" id="extra_table">
+			  <property name="visible">True</property>
+			  <property name="n_rows">1</property>
+			  <property name="n_columns">2</property>
+			  <property name="homogeneous">False</property>
+			  <property name="row_spacing">6</property>
+			  <property name="column_spacing">0</property>
+
+			  <child>
+			    <widget class="GtkVBox" id="extra_mailcheck_frame">
+			      <property name="visible">True</property>
+			      <property name="homogeneous">False</property>
+			      <property name="spacing">0</property>
+
+			      <child>
+				<widget class="GtkLabel" id="lblMailCheck">
+				  <property name="visible">True</property>
+				  <property name="label" translatable="yes">&lt;span weight=&quot;bold&quot;&gt;Checking for New Mail&lt;/span&gt;</property>
+				  <property name="use_underline">False</property>
+				  <property name="use_markup">True</property>
+				  <property name="justify">GTK_JUSTIFY_LEFT</property>
+				  <property name="wrap">False</property>
+				  <property name="selectable">False</property>
+				  <property name="xalign">0</property>
+				  <property name="yalign">0.5</property>
+				  <property name="xpad">0</property>
+				  <property name="ypad">0</property>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">False</property>
+				  <property name="fill">False</property>
+				</packing>
+			      </child>
+
+			      <child>
+				<widget class="GtkTable" id="extra_mailcheck_table">
+				  <property name="border_width">12</property>
+				  <property name="visible">True</property>
+				  <property name="n_rows">1</property>
+				  <property name="n_columns">2</property>
+				  <property name="homogeneous">False</property>
+				  <property name="row_spacing">0</property>
+				  <property name="column_spacing">0</property>
+
+				  <child>
+				    <widget class="GtkHBox" id="extra_mailcheck_hbox">
+				      <property name="visible">True</property>
+				      <property name="homogeneous">False</property>
+				      <property name="spacing">4</property>
+
+				      <child>
+					<widget class="GtkCheckButton" id="extra_auto_check">
+					  <property name="visible">True</property>
+					  <property name="can_focus">True</property>
+					  <property name="label" translatable="yes">Automatically check for _new mail every</property>
+					  <property name="use_underline">True</property>
+					  <property name="relief">GTK_RELIEF_NORMAL</property>
+					  <property name="focus_on_click">True</property>
+					  <property name="active">False</property>
+					  <property name="inconsistent">False</property>
+					  <property name="draw_indicator">True</property>
+					</widget>
+					<packing>
+					  <property name="padding">0</property>
+					  <property name="expand">False</property>
+					  <property name="fill">False</property>
+					</packing>
+				      </child>
+
+				      <child>
+					<widget class="GtkSpinButton" id="extra_auto_check_min">
+					  <property name="visible">True</property>
+					  <property name="can_focus">True</property>
+					  <property name="climb_rate">1</property>
+					  <property name="digits">0</property>
+					  <property name="numeric">True</property>
+					  <property name="update_policy">GTK_UPDATE_ALWAYS</property>
+					  <property name="snap_to_ticks">False</property>
+					  <property name="wrap">False</property>
+					  <property name="adjustment">10 1 1440 1 10 10</property>
+					</widget>
+					<packing>
+					  <property name="padding">0</property>
+					  <property name="expand">False</property>
+					  <property name="fill">True</property>
+					</packing>
+				      </child>
+
+				      <child>
+					<widget class="GtkLabel" id="lblMinutes">
+					  <property name="visible">True</property>
+					  <property name="label" translatable="yes">minutes</property>
+					  <property name="use_underline">False</property>
+					  <property name="use_markup">False</property>
+					  <property name="justify">GTK_JUSTIFY_LEFT</property>
+					  <property name="wrap">False</property>
+					  <property name="selectable">False</property>
+					  <property name="xalign">0.5</property>
+					  <property name="yalign">0.5</property>
+					  <property name="xpad">0</property>
+					  <property name="ypad">0</property>
+					</widget>
+					<packing>
+					  <property name="padding">0</property>
+					  <property name="expand">False</property>
+					  <property name="fill">False</property>
+					</packing>
+				      </child>
+				    </widget>
+				    <packing>
+				      <property name="left_attach">0</property>
+				      <property name="right_attach">2</property>
+				      <property name="top_attach">0</property>
+				      <property name="bottom_attach">1</property>
+				    </packing>
+				  </child>
+				</widget>
+				<packing>
+				  <property name="padding">0</property>
+				  <property name="expand">True</property>
+				  <property name="fill">True</property>
+				</packing>
+			      </child>
+			    </widget>
+			    <packing>
+			      <property name="left_attach">0</property>
+			      <property name="right_attach">2</property>
+			      <property name="top_attach">0</property>
+			      <property name="bottom_attach">1</property>
+			    </packing>
+			  </child>
+			</widget>
+			<packing>
+			  <property name="left_attach">0</property>
+			  <property name="right_attach">2</property>
+			  <property name="top_attach">0</property>
+			  <property name="bottom_attach">1</property>
+			</packing>
+		      </child>
+		    </widget>
+		    <packing>
+		      <property name="padding">0</property>
+		      <property name="expand">False</property>
+		      <property name="fill">False</property>
+		    </packing>
+		  </child>
+		</widget>
+		<packing>
+		  <property name="left_attach">0</property>
+		  <property name="right_attach">2</property>
+		  <property name="top_attach">0</property>
+		  <property name="bottom_attach">1</property>
+		</packing>
+	      </child>
+	    </widget>
+	    <packing>
+	      <property name="padding">0</property>
+	      <property name="expand">False</property>
+	      <property name="fill">True</property>
+	    </packing>
+	  </child>
+	</widget>
+	<packing>
+	  <property name="tab_expand">False</property>
+	  <property name="tab_fill">True</property>
+	</packing>
+      </child>
+
+      <child>
 	<widget class="GtkLabel" id="label33">
 	  <property name="visible">True</property>
-	  <property name="label" translatable="yes">Receiving Email</property>
+	  <property name="label" translatable="yes">Receiving Options</property>
 	  <property name="use_underline">True</property>
 	  <property name="use_markup">False</property>
 	  <property name="justify">GTK_JUSTIFY_CENTER</property>
@@ -1686,7 +1946,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		      <property name="yalign">0</property>
 		      <property name="xpad">0</property>
 		      <property name="ypad">0</property>
-		      <property name="mnemonic_widget">transport_type_dropdown</property>
+		      <property name="mnemonic_widget">transport_type_omenu</property>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">0</property>
@@ -1722,12 +1982,32 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 		  </child>
 
 		  <child>
-		    <widget class="Custom" id="transport_type_dropdown">
+		    <widget class="GtkOptionMenu" id="transport_type_omenu">
 		      <property name="visible">True</property>
-		      <property name="creation_function">em_account_editor_dropdown_new</property>
-		      <property name="int1">0</property>
-		      <property name="int2">0</property>
-		      <property name="last_modification_time">Thu, 29 Jul 2004 05:42:00 GMT</property>
+		      <property name="can_focus">True</property>
+		      <property name="history">0</property>
+
+		      <child internal-child="menu">
+			<widget class="GtkMenu" id="convertwidget16">
+			  <property name="visible">True</property>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget17">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">SMTP</property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+
+			  <child>
+			    <widget class="GtkMenuItem" id="convertwidget18">
+			      <property name="visible">True</property>
+			      <property name="label" translatable="yes">Sendmail</property>
+			      <property name="use_underline">True</property>
+			    </widget>
+			  </child>
+			</widget>
+		      </child>
 		    </widget>
 		    <packing>
 		      <property name="left_attach">1</property>
@@ -2055,12 +2335,40 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 				  </child>
 
 				  <child>
-				    <widget class="Custom" id="transport_use_ssl">
+				    <widget class="GtkOptionMenu" id="transport_use_ssl">
 				      <property name="visible">True</property>
-				      <property name="creation_function">em_account_editor_ssl_selector_new</property>
-				      <property name="int1">0</property>
-				      <property name="int2">0</property>
-				      <property name="last_modification_time">Tue, 03 Aug 2004 07:23:50 GMT</property>
+				      <property name="can_focus">True</property>
+				      <property name="history">0</property>
+
+				      <child internal-child="menu">
+					<widget class="GtkMenu" id="convertwidget19">
+					  <property name="visible">True</property>
+
+					  <child>
+					    <widget class="GtkMenuItem" id="convertwidget20">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">Always</property>
+					      <property name="use_underline">True</property>
+					    </widget>
+					  </child>
+
+					  <child>
+					    <widget class="GtkMenuItem" id="convertwidget21">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">Whenever Possible</property>
+					      <property name="use_underline">True</property>
+					    </widget>
+					  </child>
+
+					  <child>
+					    <widget class="GtkMenuItem" id="convertwidget22">
+					      <property name="visible">True</property>
+					      <property name="label" translatable="yes">Never</property>
+					      <property name="use_underline">True</property>
+					    </widget>
+					  </child>
+					</widget>
+				      </child>
 				    </widget>
 				    <packing>
 				      <property name="padding">0</property>
@@ -2239,7 +2547,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="yalign">0.5</property>
 					  <property name="xpad">0</property>
 					  <property name="ypad">0</property>
-					  <property name="mnemonic_widget">transport_auth_dropdown</property>
+					  <property name="mnemonic_widget">transport_auth_omenu</property>
 					</widget>
 					<packing>
 					  <property name="left_attach">0</property>
@@ -2304,12 +2612,32 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
 					  <property name="spacing">6</property>
 
 					  <child>
-					    <widget class="Custom" id="transport_auth_dropdown">
+					    <widget class="GtkOptionMenu" id="transport_auth_omenu">
 					      <property name="visible">True</property>
-					      <property name="creation_function">em_account_editor_dropdown_new</property>
-					      <property name="int1">0</property>
-					      <property name="int2">0</property>
-					      <property name="last_modification_time">Thu, 29 Jul 2004 08:37:13 GMT</property>
+					      <property name="can_focus">True</property>
+					      <property name="history">0</property>
+
+					      <child internal-child="menu">
+						<widget class="GtkMenu" id="convertwidget23">
+						  <property name="visible">True</property>
+
+						  <child>
+						    <widget class="GtkMenuItem" id="convertwidget24">
+						      <property name="visible">True</property>
+						      <property name="label" translatable="yes">Password</property>
+						      <property name="use_underline">True</property>
+						    </widget>
+						  </child>
+
+						  <child>
+						    <widget class="GtkMenuItem" id="convertwidget25">
+						      <property name="visible">True</property>
+						      <property name="label" translatable="yes">Kerberos </property>
+						      <property name="use_underline">True</property>
+						    </widget>
+						  </child>
+						</widget>
+					      </child>
 					    </widget>
 					    <packing>
 					      <property name="padding">0</property>
@@ -4024,7 +4352,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
-    <widget class="GtkNotebook" id="preferences_toplevel">
+    <widget class="GtkNotebook" id="toplevel">
       <property name="visible">True</property>
       <property name="can_focus">True</property>
       <property name="show_tabs">True</property>
@@ -6122,7 +6450,7 @@ For example: &quot;Work&quot; or &quot;Personal&quot;</property>
   <property name="gravity">GDK_GRAVITY_NORTH_WEST</property>
 
   <child>
-    <widget class="GtkNotebook" id="composer_toplevel">
+    <widget class="GtkNotebook" id="toplevel">
       <property name="visible">True</property>
       <property name="can_focus">True</property>
       <property name="show_tabs">True</property>

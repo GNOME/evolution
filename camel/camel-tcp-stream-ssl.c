@@ -61,7 +61,6 @@
 #include "camel-session.h"
 #include "camel-certdb.h"
 #include "camel-operation.h"
-#include "camel-i18n.h"
 
 /* from md5-utils.h */
 void md5_get_digest (const char *buffer, int buffer_size, unsigned char digest[16]);

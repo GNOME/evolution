@@ -51,17 +51,6 @@
 
 	* e-msg-composer-attachment.c: include config.h.  See #61395.
 
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-*.c: include gnome-i18n.h if required.
-
-2004-08-30  Not Zed  <NotZed@Ximian.com>
-
-	* e-msg-composer-attachment-bar.c (emcab_popup): em-popup based
-	popup menu to replace the gnome one.
-	(popup_menu_event): use new func above.
-	(button_press_event): ", some cleanup.
-
 2004-06-18  Not Zed  <NotZed@Ximian.com>
 
 	** Fix for #60387.

@@ -48,6 +48,65 @@
 	emfv->mark_seen for deciding whether or not to mark the message as
 	seen. Fixes bug #65448.
 
+2004-09-08  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #60515.
+
+	* mail-account-gui.c (sig_fill_menu): connect to the activate
+	signal for the none item.
+
+2004-09-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fix for bug #63377 and prevention of similar cases.
+
+	* em-format.c (emf_finalise): Free the default_charset.
+	(emf_format_clone): Clone the default_charset - this prevents the
+	particular crash described in bug #63377.
+
+	* em-utils.c (em_utils_message_to_html): If source is NULL, set
+	our own default charset (from the user's gconf key) on the
+	formatter to make sure there's always a source charset for
+	conversion to UTF-8.
+
+2004-08-30  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-folder-tree.c (emft_popup_delete_folder): Set the store and
+	full_name info on the dialog.
+	(emft_popup_delete_response): Use the requisite data stored on the
+	dialog object rather than examining the selection again. Fixes bug
+	#62665.
+
+2004-08-30  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64377.
+
+	* em-folder-selector.c (emfs_response): only set the uri if we
+	have one to set.
+
+	* em-folder-tree.c (em_folder_tree_finalize): Removed
+	cose using selected_path and selected_uri strings.
+	(emft_popup_new_folder): "
+	(emft_popup_copy_folder_selected): "
+	(emft_tree_selection_changed): 
+	(emft_tree_row_activated): ", free paths after use.
+
+	* em-folder-selector.c (emfs_create_name_changed): free
+	get_selected_uri return.
+	(emfs_create_name_activate): "
+	(em_folder_selector_get_selected_path): handle api change, store
+	the selected_path too.
+
+	* em-folder-tree.c (em_folder_tree_get_selected_uri):
+	de-constify,and get the selection directly from the tree.
+	(em_folder_tree_get_selected_path): same.
+
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #63456.
+
+	* message-list.c (main_folder_changed): noop if the async_event
+	pointer is NULL which can happen during destroy.
+
 2004-09-09  Jeffrey Stedfast  <fejj@novell.com>
 
 	* mail-account-gui.c (mail_account_gui_new): If built with
@@ -454,216 +513,6 @@
 2004-07-02  JP Rosevaer  <jpr@novell.com>
 
 	* Makefile.am (SUBDIRS): Revert previous error change
-
-2004-09-10  Not Zed  <NotZed@Ximian.com>
-
-	* em-*: various doco updates.
-
-	* em-format-quote.c (emfq_builtin_init): instead of removing the
-	type, just add an override noop.  Changed api's.
-
-2004-09-09  Not Zed  <NotZed@Ximian.com>
-
-	* em-format.c (em_format_class_remove_handler): Change this to use
-	the original structure only, not by type.
-
-	* em-format-hook.c (emfh_enable): implement hook enablation.
-
-2004-09-07  Not Zed  <NotZed@Ximian.com>
-
-	* em-account-editor.c (emae_setup_providers): set the provider
-	shown selected on the store as well.
-
-	* mail-config.glade: moved the druid 'help text' directly into the
-	glade file.
-
-	* em-account-editor.c (emae_check_complete): add pre-load for
-	management page options.
-
-	* em-utils.c (em_utils_configure_account): remove use of
-	mail-config-druid.
-
-	* em-account-editor.c (emae_remove_childen): removed.
-	(*): removed service->url, always get it from/set it to the
-	e-account so it doesn't have side-effects with plugins.
-
-	* mail-dialogs.glade: fix up the names of the various license
-	dialog fields.
-
-2004-09-06  Not Zed  <NotZed@Ximian.com>
-
-	* em-account-editor.c (emae_receive_options_extra_item): store the
-	config widgets in the item entry itself.
-	(emae_auto_detect): wasted a whole lot of time on this crap.
-
-	* em-account-prefs.c (account_able_clicked): removed some redundant logic.
-
-	* mail-send-recv.c (mail_autoreceive_setup): renamed to
-	mail_autoreceive_init and rewrote all the callbacks.  now it
-	listens to events on the accountlist directly and doesn't need
-	invoking manually.  It also runs relative to the account always,
-	rather than copying the uri.  Removed all callers except the mail
-	component one.
-
-	* em-account-editor.c (em_account_editor_provider_selector_new):
-	removed becaus eof below.
-	(em_account_editor_construct): copy the account to a working
-	object if supplied, else create a new one.
-
-	* mail-config.glade: make the provider selectors just use
-	em_account_editor_dropdown new for the dropdown menu.
-
-	* em-account-editor.c (prepare_signatures): removed, merged into
-	the identity page code.
-	(sig_fill_menu): removed.
-	(emae_setup_signatures): new function to setup signatures on a
-	gtkcombobox.
-	(clear_menu): removed.
-	(signature_changed): removed.
-	(emae_signature_changed): new function for changed.
-	(signature_removed): removed.
-	(emae_signature_removed): new function for removed.
-	(emae_signature_get_iter): helper for finding the right row for
-	this signature.
-	(signature_added): removed.
-	(emae_signature_added): new function for added.
-	(sig_activate): removed.
-	(emae_signaturetype_changed): new function to update the account
-	info immediately.
-	(sig_add_new_signature): renamed to emae_signature_new.
-	(select_account_signature): no longer needed, this happens in the
-	setup.
-
-	* mail-config.glade: changed the signature thing to a custom
-	widget (gtkcombobox).
-
-	* em-account-editor.c (em_account_editor_construct): updates for
-	api change, table sections require table items.
-	(emae_setup_service): handle host:port hostname syntax.
-	(emae_hostname_changed): and here too.
-	(emae_commit): fill this out, and implement it.
-
-2004-09-04  Not Zed  <NotZed@Ximian.com>
-
-	* *.c: include gnome i18.h if needed since camel-object.h was
-	fixed.
-
-	* em-format.c (em_format_class_add_handler): if a handler is
-	already set for type, link it in.
-
-	* em-format.h: added a link pointer to EMFormatHanlder, so that
-	overrides can also fallback.  remove applications member - not
-	used anymore.
-
-2004-09-01  Not Zed  <NotZed@Ximian.com>
-
-	* em-popup.h: added some docs.
-
-	* em-popup.c (emp_standard_menu_factory): 
-	* em-folder-tree.c (tree_drag_data_received): popup api changes.
-
-2004-08-31  Not Zed  <NotZed@Ximian.com>
-
-	* em-format-html-display.c (efhd_attachment_button_show): use a
-	wrapper for the button event since the popup event has changed
-	signature.
-
-2004-08-30  Not Zed  <NotZed@Ximian.com>
-
-	* em-popup.c (emp_standard_menu_factory): changed args.
-	(struct _open_in_item): removed, use user data instead.
-	(*): fix callbacks for new apis.
-	(emp_popup_open): Removed some dead popup callbacks never invoked.
-	(em_popup_target_new_attachments): new target type for attachment
-	bar in composer.
-
-	* em-folder-tree.c (emft_popup*): convert to new e-popup apis.
-
-	* em-folder-view.c: emfv_popup_*: convert to new e-poup callback
-	signatures.
-	(EMFV_MAP_CALLBACK): fix for e-popup callback change.
-	(EMFV_POPUP_AUTO_TYPE): same.
-	(emfv_popup): dont bother setting item callback data.
-	(emfv_popup_labels_free): api changes.
-	(emfv_popup_items_free): new free method.
-	(EMFVPopupItem): No longer needed.
-	(emfv_uri_popup_free): api changes.
-	(emfv_format_popup_event): new api's == simpler code.
-
-	* em-account-editor.c (emae_receive_options_extra_item): add a
-	hack for the label item, which is only used by connector to
-	override the hostname and username labels.
-
-2004-08-24  Not Zed  <NotZed@Ximian.com>
-
-	* em-account-editor.c (em_account_editor_construct): create the
-	window rather than the widget here.
-
-	* mail-config.glade: remove the extra_page from the druid, it is
-	autogenerated now.  renamed the "Receiving options" notebook page
-	to "Receiving Email" since it isn't hte options page.
-
-	* em-account-editor.c (emae_receive_options_page): no longer
-	needed, autogenerated.
-	(emae_receive_options_item): setup the auto-receive time values.
-	(emae_receive_page): don't setup the auto check time values here.
-
-	* mail-config.glade: Remove the Receiving Mail tab, it is now
-	completely auto-generated.
-
-2004-08-17  Not Zed  <NotZed@Ximian.com>
-
-	* em-event.[ch]: mail event dispatcher.
-
-	* mail-component.c (mc_startup): hook into events.
-
-	* mail-folder-cache.c (update_1folder): always set the uri field.
-	(real_flush_updates): emit a folder.changed:new event if we have new
-	mail.
-
-2004-08-13  Not Zed  <NotZed@Ximian.com>
-
-	* mail-config.glade: replaced ssl selector with custom widget
-	(gtkcombobox).  Giv the preferences, composer toplevel unique
-	names.
-
-2004-07-29  Not Zed  <NotZed@Ximian.com>
-
-	* mail-config.glade: replaced source and transport selector with
-	custom widget (gtkcombobox).
-
-	* em-account-editor.[ch]: copy over mail-account-gui.[ch] and
-	rename stuff.  Make a gobject.  Move most internals, internal.
-
-2004-07-28  Not Zed  <NotZed@Ximian.com>
-
-	* em-composer-prefs.c (em_composer_prefs_construct): get the
-	toplevel tab as the root.
-	(em_composer_prefs_construct): setup plugin metadata for composer
-	prefs.
-
-	* em-mailer-prefs.c (em_mailer_prefs_construct): setup plugin
-	metadata for mail preferences.
-
-	* em-config.c (em_config_target_new_prefs): new target for 'prefs'
-	mode, everything global via gconf.
-
-	* em-mailer-prefs.c (em_mailer_prefs_construct): get the gui from
-	the preferences_toplevel not the preferences_tab window which we
-	don't need.
-
-	* mail-config.glade: rename the preferences 'toplevel' to
-	preferences_toplevel so we can get it unparented.  And the
-	composer toplevel to composer_toplevel.
-
-	* em-folder-properties.c (em_folder_properties_show): remove test
-	code.
-
-	* em-format.h (struct _EMFormatPURI): add a free function
-	callback.
-
-	* em-format.c (emf_clear_puri_node): if the free function is set,
-	call it.
 
 2004-07-01  Rodney Dawes  <dobey@novell.com>
 

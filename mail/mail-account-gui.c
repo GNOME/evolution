@@ -45,7 +45,6 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkdialog.h>
-#include <libgnome/gnome-i18n.h>
 #ifdef USE_GTKFILECHOOSER
 #include <gtk/gtkfilechooser.h>
 #include <gtk/gtkradiobutton.h>
@@ -2442,6 +2441,8 @@ mail_account_gui_save (MailAccountGui *gui)
 		mail_config_set_default_account (account);
 	
 	mail_config_save_accounts ();
+	
+	mail_autoreceive_setup ();
 	
 	return TRUE;
 }

@@ -21,6 +21,7 @@
  * USA
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
@@ -51,7 +52,6 @@
 #include "camel-nntp-folder.h"
 #include "camel-nntp-private.h"
 #include "camel-nntp-resp-codes.h"
-#include "camel-i18n.h"
 
 #define w(x)
 extern int camel_verbose_debug;
