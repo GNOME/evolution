@@ -1,5 +1,12 @@
 2003-02-06  Not Zed  <NotZed@Ximian.com>
 
+	* e-shell-marshal.list: Added NONE,STRING,STRING,STRING
+
+	* evolution-shell-component.c
+	(evolution_shell_component_class_init): Change the
+	user_create_new_item marshaller to STRING_STRING_STRING to match
+	the rest of the call.  The 'new' button should work now.
+
 	* e-setup.c (copy_default_stuff): We want to copy whats in the
 	default user dir, not the default user dir.
 

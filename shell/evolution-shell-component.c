@@ -942,7 +942,7 @@ evolution_shell_component_class_init (EvolutionShellComponentClass *klass)
 				G_SIGNAL_RUN_FIRST,
 				G_STRUCT_OFFSET (EvolutionShellComponentClass, user_create_new_item),
 				NULL, NULL,
-				e_shell_marshal_NONE__POINTER_POINTER_POINTER,
+				e_shell_marshal_VOID__STRING_STRING_STRING,
 				G_TYPE_NONE, 3,
 				G_TYPE_STRING,
 				G_TYPE_STRING,
