@@ -1,3 +1,9 @@
+2004-04-22  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (view_changed_cb): display selected count
+	instead of unread if we have >1 selected.  Also don't do special
+	case drafts/sent/outbox stuff if folders are inbox or re-used.
+
 2004-04-21  Not Zed  <NotZed@Ximian.com>
 
 	* em-inline-filter.c (emif_scan): use a better test for non-full

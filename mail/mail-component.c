@@ -475,19 +475,43 @@ view_changed_cb(EMFolderView *emfv, EInfoLabel *el)
 			else
 				g_string_append_printf(tmp, _("%d junk"), junked);
 		} else {
+			int bits = 0;
+			GPtrArray *selected;
+
+			/* This is so that if any of these are
+			 * shared/reused, we fallback to the standard
+			 * display behaviour */
+
+			selected = message_list_get_selected(emfv->list);
+
 			if (em_utils_folder_is_drafts(emfv->folder, emfv->folder_uri))
+				bits |= 1;
+			if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
+				bits |= 2;
+			if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri))
+				bits |= 4;
+			/* HACK: hardcoded inbox or maildir '.' folder */
+			if (g_ascii_strcasecmp(emfv->folder->full_name, "inbox") == 0
+			    || g_ascii_strcasecmp(emfv->folder->full_name, ".") == 0)
+				bits |= 8;
+
+			if (bits == 1)
 				g_string_append_printf(tmp, _("%d drafts"), visible);
-			else if (em_utils_folder_is_sent(emfv->folder, emfv->folder_uri))
+			else if (bits == 2)
 				g_string_append_printf(tmp, _("%d sent"), visible);
-			else if (em_utils_folder_is_outbox(emfv->folder, emfv->folder_uri))
+			else if (bits == 4)
 				g_string_append_printf(tmp, _("%d unsent"), visible);
 			else {
 				if (!emfv->hide_deleted)
 					visible += deleted;
 				g_string_append_printf(tmp, _("%d total"), visible);
-				if (unread)
+				if (unread && selected->len <=1)
 					g_string_append_printf(tmp, _(", %d unread"), unread);
 			}
+
+			if (selected->len > 1)
+				g_string_append_printf(tmp, _(", %d selected"), selected->len);
+			message_list_free_uids(emfv->list, selected);
 		}
 
 		e_info_label_set_info(el, name, tmp->str);
