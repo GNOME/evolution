@@ -396,11 +396,8 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 	if (!GTK_WIDGET_REALIZED (an->dialog))
 		gtk_widget_realize (an->dialog);
 
-#if 0
-	gnome_win_hints_set_state (an->dialog, WIN_STATE_STICKY);
-	gnome_win_hints_set_layer (an->dialog, WIN_LAYER_ONTOP);
-	gnome_window_icon_set_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png");
-#endif
+	gtk_window_stick (GTK_WINDOW (an->dialog));
+	gtk_window_set_icon_from_file (GTK_WINDOW (an->dialog), EVOLUTION_IMAGESDIR "/alarm.png", NULL);
 
 	gtk_widget_show (an->dialog);
 	return an;
