@@ -537,12 +537,14 @@ static CamelFolder *
 get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
 	CamelFolder *new_folder;
-	char *folder_path;
+	char *folder_path, *dir_sep;
 
 	g_return_val_if_fail (store != NULL, NULL);
 	g_return_val_if_fail (folder_name != NULL, NULL);
 
-	if (!strcmp (folder_name, "/"))
+	dir_sep = CAMEL_IMAP_STORE (store)->dir_sep;
+	
+	if (!strcmp (folder_name, dir_sep))
 		folder_path = g_strdup ("INBOX");
 	else
 		folder_path = g_strdup (folder_name);
@@ -785,7 +787,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 
 	while (1) {
 		respbuf = camel_stream_buffer_read_line (stream);
-		if (!respbuf || !strncmp (respbuf, cmdid, strlen (cmdid))) {	
+		if (!respbuf || !strncmp (respbuf, cmdid, strlen (cmdid))) {
 			/* IMAP's last response starts with our command id */
 			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 			break;

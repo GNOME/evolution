@@ -1,3 +1,16 @@
+2000-07-18  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_class_init): Added
+	in imap_[g,s]et_message_user_flag() methods
+
+	* providers/imap/camel-imap-store.c (get_folder): Oops, this should not be 
+	checking against "/", it should be checking against dir_sep.
+
+	* providers/imap/camel-imap-folder.c (imap_parse_subfolder_line): Updated
+	to trim out the leading namespace.
+	(imap_get_subfolder_names): Let the subfolder parser trim the namespace
+	off the folder name.
+
 2000-07-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-store.c (imap_disconnect): Send a "LOGOUT"

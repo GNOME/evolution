@@ -64,22 +64,22 @@ static void imap_init (CamelFolder *folder, CamelStore *parent_store,
 		       CamelException *ex);
 
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
+static void imap_expunge (CamelFolder *folder, CamelException *ex);
 static gint imap_get_message_count (CamelFolder *folder, CamelException *ex);
 static gint imap_get_unread_message_count (CamelFolder *folder, CamelException *ex);
 static void imap_append_message (CamelFolder *folder, CamelMimeMessage *message, guint32 flags, CamelException *ex);
 static void imap_copy_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static void imap_move_message_to (CamelFolder *source, const char *uid, CamelFolder *destination, CamelException *ex);
 static GPtrArray *imap_get_uids (CamelFolder *folder, CamelException *ex);
-static gboolean imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folder);
+static gboolean imap_parse_subfolder_line (gchar *buf, gchar *namespace, gchar **flags, gchar **sep, gchar **folder);
 static GPtrArray *imap_get_subfolder_names (CamelFolder *folder, CamelException *ex);
 static GPtrArray *imap_get_summary (CamelFolder *folder, CamelException *ex);
+static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const char *uid);
+static void imap_set_message_user_flag (CamelFolder *folder, const char *uid, const char *name,
+					gboolean value, CamelException *ex);
+static gboolean imap_get_message_user_flag (CamelFolder *folder, const char *uid, const char *name, CamelException *ex);
 static CamelMimeMessage *imap_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
 static void imap_delete_message (CamelFolder *folder, const gchar *uid, CamelException *ex);
-
-static void imap_expunge (CamelFolder *folder, CamelException *ex);
-
-static const CamelMessageInfo *imap_get_message_info (CamelFolder *folder, const char *uid);
-
 static GPtrArray *imap_search_by_expression (CamelFolder *folder, const char *expression, CamelException *ex);
 
 static void imap_finalize (GtkObject *object);
@@ -131,8 +131,8 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	camel_folder_class->get_permanent_flags = imap_get_permanent_flags;
 	camel_folder_class->get_message_flags = imap_get_message_flags;
 	camel_folder_class->set_message_flags = imap_set_message_flags;
-	/*camel_folder_class->get_message_user_flags = imap_get_message_user_flags;*/
-	/*camel_folder_class->set_message_user_flags = imap_set_message_user_flags;*/
+	camel_folder_class->get_message_user_flag = imap_get_message_user_flag;
+	camel_folder_class->set_message_user_flag = imap_set_message_user_flag;
 
 	gtk_object_class->finalize = imap_finalize;	
 }
@@ -664,9 +664,9 @@ imap_get_uids (CamelFolder *folder, CamelException *ex)
 }
 
 static gboolean
-imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folder)
+imap_parse_subfolder_line (gchar *buf, gchar *namespace, gchar **flags, gchar **sep, gchar **folder)
 {
-	gchar *ptr, *eptr;
+	gchar *ptr, *eptr, *f;
 
 	*flags = NULL;
 	*sep = NULL;
@@ -700,6 +700,13 @@ imap_parse_subfolder_line (gchar *buf, gchar **flags, gchar **sep, gchar **folde
 	ptr = eptr + 1;
 	*folder = g_strdup (ptr);
 	g_strstrip (*folder);
+
+	/* chop out the folder prefix */
+	if (*namespace && !strncmp (*folder, namespace, strlen (namespace))) {
+		f = *folder + strlen (namespace) + strlen (*sep);
+		memmove (*folder, f, strlen (f) + 1);
+	}
+	
 	string_unquote (*folder);  /* unquote the mailbox if it's quoted */
 
 	return TRUE;
@@ -713,7 +720,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 	CamelURL *url = CAMEL_SERVICE (store)->url;
 	GPtrArray *listing;
 	gint status;
-	gchar *result, *folder_path, *dir_sep;
+	gchar *result, *namespace, *dir_sep;
 	
 	g_return_val_if_fail (folder != NULL, g_ptr_array_new ());
 	
@@ -724,16 +731,16 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 
 	if (url && url->path) {
 		if (!strcmp (folder->full_name, "INBOX"))
-			folder_path = g_strdup (url->path + 1);
+			namespace = g_strdup (url->path + 1);
 		else
-			folder_path = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
+			namespace = g_strdup_printf ("%s%s%s", url->path + 1, dir_sep, folder->full_name);
 	} else {
-		folder_path = g_strdup (folder->full_name);
+		namespace = g_strdup (folder->full_name);
 	}
 	
 	status = camel_imap_command_extended (CAMEL_IMAP_STORE (folder->parent_store), folder,
-					      &result, "LIST \"\" \"%s%s*\"", folder_path,
-					      *folder_path ? dir_sep : "");
+					      &result, "LIST \"\" \"%s%s*\"", namespace,
+					      *namespace ? dir_sep : "");
 	
 	if (status != CAMEL_IMAP_OK) {
 		CamelService *service = CAMEL_SERVICE (folder->parent_store);
@@ -743,7 +750,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 				      status != CAMEL_IMAP_FAIL && result ? result :
 				      "Unknown error");
 		g_free (result);
-		g_free (folder_path);
+		g_free (namespace);
 		return g_ptr_array_new ();
 	}
 	
@@ -753,14 +760,14 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 		char *ptr = result;
 		
 		while (ptr && *ptr == '*') {
-			gchar *flags, *sep, *folder, *buf, *end, *f;
+			gchar *flags, *sep, *folder, *buf, *end;
 			gboolean ret;
 			
 			for (end = ptr; *end && *end != '\n'; end++);
 			buf = g_strndup (ptr, (gint)(end - ptr));
 			ptr = end;
 			
-			ret = imap_parse_subfolder_line (buf, &flags, &sep, &folder);
+			ret = imap_parse_subfolder_line (buf, namespace, &flags, &sep, &folder);
 			g_free (buf);
 			
 			if (!ret || (flags && strstr (flags, "NoSelect"))) {
@@ -775,11 +782,6 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 			}
 			g_free (flags);
 
-			/* chop out the folder prefix */
-			if (*folder_path && !strncmp (folder, folder_path, strlen (folder_path))) {
-				f = folder + strlen (folder_path) + strlen (sep);
-				memmove (folder, f, strlen (f) + 1);
-			}
 			d(fprintf (stderr, "adding folder: %s\n", folder));
 			
 			g_ptr_array_add (listing, folder);
@@ -791,7 +793,7 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 		}
 	}
 	g_free (result);
-	g_free (folder_path);
+	g_free (namespace);
 
 	return listing;
 }
