@@ -258,7 +258,7 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 
 
 guint32 
-e_pilot_map_lookup_pid (EPilotMap *map, const char *uid) 
+e_pilot_map_lookup_pid (EPilotMap *map, const char *uid, gboolean touch) 
 {
 	EPilotMapUidNode *unode = NULL;
 
@@ -270,11 +270,20 @@ e_pilot_map_lookup_pid (EPilotMap *map, const char *uid)
 	if (unode == NULL)
 		return 0;
 	
+	if (touch) {
+		EPilotMapPidNode *pnode = NULL;
+		
+		pnode = g_hash_table_lookup (map->pid_map, &unode->pid);
+		if (pnode != NULL)
+			pnode->touched = TRUE;
+		unode->touched = TRUE;	
+	}
+	
 	return unode->pid;
 }
 
 const char *
-e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
+e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid, gboolean touch)
 {
 	EPilotMapPidNode *pnode = NULL;
 
@@ -284,6 +293,16 @@ e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid)
 
 	if (pnode == NULL)
 		return NULL;
+	
+	if (touch) {
+		EPilotMapUidNode *unode = NULL;
+		
+		unode = g_hash_table_lookup (map->uid_map, pnode->uid);
+		g_assert (unode != NULL);
+		
+		unode->touched = TRUE;
+		pnode->touched = TRUE;
+	}
 	
 	return pnode->uid;
 }

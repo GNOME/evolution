@@ -1,3 +1,11 @@
+2001-10-27  JP Rosevear  <jpr@ximian.com>
+
+	* e-pilot-map.h: update proto
+
+	* e-pilot-map.c (e_pilot_map_lookup_pid): touch the nodes if
+	indicated and found
+	(e_pilot_map_lookup_uid): ditto
+
 2001-10-26  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-map.c (real_e_pilot_map_insert): take an extra param on

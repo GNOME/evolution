@@ -45,8 +45,8 @@ void e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean 
 void e_pilot_map_remove_by_pid (EPilotMap *map, guint32 pid);
 void e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid);
 
-guint32 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid);
-const char * e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid);
+guint32 e_pilot_map_lookup_pid (EPilotMap *map, const char *uid, gboolean touch);
+const char * e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid, gboolean touch);
 
 int e_pilot_map_read (const char *filename, EPilotMap **map);
 int e_pilot_map_write (const char *filename, EPilotMap *map);
