@@ -474,7 +474,7 @@ row_deleted_check_cb (EWeekView *week_view, gint event_num, gpointer data)
 	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
 
 	if (!e_cal_model_get_component_for_uid (model, uid))
-		g_hash_table_insert (uids, (char *)uid, GINT_TO_POINTER (1));
+		g_hash_table_insert (uids, g_strdup(uid), GINT_TO_POINTER (1));
 
 	return TRUE;
 }
@@ -483,9 +483,10 @@ static void
 remove_uid_cb (gpointer key, gpointer value, gpointer data)
 {
 	EWeekView *week_view = data;
-	const char *uid = key;
-	
+	char *uid = key;
+
 	e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_remove_event_cb, NULL);
+	g_free(uid);
 }
 
 static void

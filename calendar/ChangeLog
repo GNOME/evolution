@@ -1,5 +1,15 @@
 2004-05-13  Not Zed  <NotZed@Ximian.com>
 
+	Fixes #57644.
+
+	* gui/e-day-view.c (row_deleted_check_cb): strdup the uid, as
+	below.
+	(remove_uid_cb): and free it.
+
+	* gui/e-week-view.c (row_deleted_check_cb): strdup the uid, 'cause
+	otherwise it can go away later as we delete stuff.
+	(remove_uid_cb): free the uid.
+
 	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): add
 	some array bounds checking as an attempt to isolate the crash in
 	#57644.
