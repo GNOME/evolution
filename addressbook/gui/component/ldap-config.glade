@@ -5,7 +5,7 @@
 <requires lib="gnome"/>
 
 <widget class="GtkWindow" id="account-editor-window">
-  <property name="title" translatable="yes">Addressbook Properties</property>
+  <property name="title" translatable="yes">Address Book Properties</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -284,7 +284,7 @@
 </widget>
 
 <widget class="GtkWindow" id="account-druid-window">
-  <property name="title" translatable="yes">New Addressbook</property>
+  <property name="title" translatable="yes">New Address Book</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -301,10 +301,11 @@
 	<widget class="GnomeDruidPageEdge" id="druidpagestart1">
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_START</property>
-	  <property name="title" translatable="yes">Addressbook Creation Assistant</property>
-	  <property name="text" translatable="yes">This assistant will help you create a new addressbook. 
+	  <property name="title" translatable="yes">Address Book Creation Assistant</property>
+	  <property name="text" translatable="yes">This assistant will help you
+	      create a new address book. 
 
-Depending on the type of addressbook you create, additional
+Depending on the type of address book you create, additional
 parameters may be required. Please contact your system
 administrator if you need help finding this information.</property>
 	</widget>
@@ -332,7 +333,9 @@ administrator if you need help finding this information.</property>
 		  <child>
 		    <widget class="GtkLabel" id="label198">
 		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Specifying a display name and group is the first step in setting up an addressbook.</property>
+		      <property name="label" translatable="yes">Specifying a
+			  display name and group is the first step in setting
+			  up an address book.</property>
 		      <property name="use_underline">False</property>
 		      <property name="use_markup">False</property>
 		      <property name="justify">GTK_JUSTIFY_LEFT</property>
@@ -768,7 +771,8 @@ need to change these options.</property>
 	  <property name="visible">True</property>
 	  <property name="position">GNOME_EDGE_FINISH</property>
 	  <property name="title" translatable="yes">Finished</property>
-	  <property name="text" translatable="yes">Congratulations, you are finished setting up this addressbook.
+	  <property name="text" translatable="yes">Congratulations, you are
+	      finished setting up this address book.
 
 Please click the &quot;Apply&quot; button to save the settings you have entered here.</property>
 	</widget>
@@ -778,7 +782,7 @@ Please click the &quot;Apply&quot; button to save the settings you have entered 
 </widget>
 
 <widget class="GtkDialog" id="addressbook-sources-window">
-  <property name="title" translatable="yes">Addressbook Sources</property>
+  <property name="title" translatable="yes">Address Book Sources</property>
   <property name="type">GTK_WINDOW_TOPLEVEL</property>
   <property name="window_position">GTK_WIN_POS_NONE</property>
   <property name="modal">False</property>
@@ -2600,7 +2604,7 @@ A search scope of &quot;one&quot; will only include the entries one level beneat
 	    <widget class="GtkLabel" id="label470">
 	      <property name="visible">True</property>
 	      <property name="label" translatable="yes">This is the maximum number of entries to download. Setting this number to be 
-too large will slow down your addressbook.</property>
+too large will slow down your address book.</property>
 	      <property name="use_underline">False</property>
 	      <property name="use_markup">False</property>
 	      <property name="justify">GTK_JUSTIFY_LEFT</property>

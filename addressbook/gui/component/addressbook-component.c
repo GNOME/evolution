@@ -209,7 +209,7 @@ delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
 		GTK_DIALOG_MODAL,
 		GTK_MESSAGE_QUESTION,
 		GTK_BUTTONS_YES_NO,
-		_("Address Book '%s' will be removed. Are you sure you want to continue?"),
+		_("Address book '%s' will be removed. Are you sure you want to continue?"),
 		e_source_peek_name (selected_source));
 	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
 	if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES) {
