@@ -1,3 +1,8 @@
+2003-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* e-setup.c (copy_default_stuff): We want to copy whats in the
+	default user dir, not the default user dir.
+
 2003-02-05  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Define EVOLUTION_IMAGES using

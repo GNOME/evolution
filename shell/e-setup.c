@@ -171,7 +171,7 @@ copy_default_stuff (const char *evolution_directory)
 		return FALSE;
 	}
 
-	command = g_strconcat ("cp -r " DEFAULT_USER_PATH " ", evolution_directory, NULL);
+	command = g_strconcat ("cp -r " DEFAULT_USER_PATH "/* ", evolution_directory, NULL);
 
 	if (system (command) != 0) {
 		/* FIXME: Give more help.  */
