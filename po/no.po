@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-10 23:21+0200\n"
-"PO-Revision-Date: 2000-04-10 00:00+02:00\n"
+"POT-Creation-Date: 2000-04-18 15:48+0200\n"
+"PO-Revision-Date: 2000-04-18 15:53+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -140,6 +140,7 @@ msgid "Save the message in a specified folder"
 msgstr "Lagre meldingen i en spesifisert mappe"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
+#: mail/folder-browser-factory.c:145
 msgid "Send"
 msgstr "Send"
 
@@ -190,24 +191,88 @@ msgstr "Legg ved en fil"
 #: mail/folder-browser-factory.c:83
 msgid ""
 "This is a development version of Evolution.\n"
-" Using the mail component on your mail files\n"
-" is extremely hazardous.\n"
-"Please backup all your mails before trying\n"
-" this program. \n"
-"     You have been warned\n"
+"Using the mail component on your mail files\n"
+"is extremely hazardous.\n"
+"\n"
+"Do not run this program on your real mail\n"
+" and do not give it access to your real mail server.\n"
+"\n"
+"You have been warned\n"
 msgstr ""
 "Dette er en utviklingsversjon av Evolution.\n"
-" Bruk av e-post klienten på dine e-post filer\n"
-" er ekstremt farefullt.\n"
-"Vennligst ta sikkerhetskopier av alle meldiner før\n"
-" du prøver dette programmet.\n"
-"     Du er herved advart\n"
+"Bruk av e-post klienten på dine e-post filer\n"
+"er ekstremt farefullt.\n"
+"\n"
+"Ikke kjør dette programmet for å lese din e-post,\n"
+" og ikke gi det tilgang til din e-post tjener.\n"
+"\n"
+"Du er herved advart\n"
 
-#: mail/folder-browser-factory.c:152
+#: mail/folder-browser-factory.c:144
+msgid "New mail"
+msgstr "Nye e-post"
+
+#: mail/folder-browser-factory.c:144
+msgid "Check for new mail"
+msgstr "Sjekk etter ny e-post"
+
+#: mail/folder-browser-factory.c:145
+msgid "Send a new message"
+msgstr "Send en ny melding"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find"
+msgstr "Finn"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find messages"
+msgstr "Finn meldinger"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply"
+msgstr "Svar"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply to the sender of this message"
+msgstr "Svar til avsender av denne meldingen"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to All"
+msgstr "Svar til alle"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to all recipients of this message"
+msgstr "Svar til alle mottakere av denne meldingen"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward"
+msgstr "Videresend"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward this message"
+msgstr "Videresend denne meldingen"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print"
+msgstr "Skriv ut"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print the selected message"
+msgstr "Skriv ut den valgte meldingen"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete"
+msgstr "Slett"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete this message"
+msgstr "Slett denne meldingen"
+
+#: mail/folder-browser-factory.c:174
 msgid "_Mail"
 msgstr "_E-post"
 
-#: mail/folder-browser-factory.c:306
+#: mail/folder-browser-factory.c:301
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
 
@@ -223,7 +288,7 @@ msgstr "Om forhåndsvisning av meldinger skal brukes"
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
 
-#: mail/mail-display.c:98
+#: mail/mail-display.c:97
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
@@ -231,36 +296,36 @@ msgstr ""
 "Et unntak oppstod under forsøk på å laste data inn i komponenten med "
 "PersistStream"
 
-#: mail/mail-display.c:234
+#: mail/mail-display.c:233
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "%s komponenten støtter ikke PersistStream!\n"
 
-#: mail/message-list.c:404
+#: mail/message-list.c:401
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:415
 msgid "From"
 msgstr "Fra"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:422
 msgid "Subject"
 msgstr "Emne"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:429
 msgid "Sent"
 msgstr "Sendt"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:436
 msgid "Receive"
 msgstr "Motta"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:443
 msgid "To"
 msgstr "Til"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:450
 msgid "Size"
 msgstr "Størrelse"
 
