@@ -640,7 +640,7 @@ init_email_record_location (EContactEditor *editor, gint record)
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (common_location [i].pretty_name);
+		item = gtk_menu_item_new_with_label (_(common_location [i].pretty_name));
 		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
 	}
 
@@ -1314,7 +1314,7 @@ init_im_record_location (EContactEditor *editor, gint record)
 	for (i = 0; i < G_N_ELEMENTS (common_location); i++) {
 		GtkWidget *item;
 
-		item = gtk_menu_item_new_with_label (common_location [i].pretty_name);
+		item = gtk_menu_item_new_with_label (_(common_location [i].pretty_name));
 		gtk_menu_shell_append (GTK_MENU_SHELL (location_menu), item);
 	}
 
