@@ -224,11 +224,12 @@ prompt_for_password (char *title, char *prompt, SECItem *pwd)
 	if (passwd) {
 		size_t len = strlen (passwd);
 		const char *inptr = passwd;
-		char *outptr = pwd->data;
+		char *outptr;
 		gunichar2 c;
 		
 		SECITEM_AllocItem(NULL, pwd, sizeof (gunichar2) * (len + 1));
 		
+		outptr =  pwd->data;
 		while (inptr && (c = (gunichar2) (g_utf8_get_char (inptr) & 0xffff))) {
 			inptr = g_utf8_next_char (inptr);
 			c = GUINT16_TO_BE (c);
