@@ -169,11 +169,15 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 	CamelImapMessageInfo *iinfo;
 
 	info = camel_imap_summary_parent->message_info_load (s, in);
-	if (!info)
+	if (!info) {
+		g_warning ("eek! encountered a NULL message info!");
 		return NULL;
+	}
 	iinfo = (CamelImapMessageInfo *)info;
 
 	if (camel_folder_summary_decode_uint32 (in, &iinfo->server_flags) == -1) {
+		/* wouldn't it just be better to default to certain server flags here? */
+		g_warning ("eek! problems decoding server flags!");
 		camel_folder_summary_info_free (s, info);
 		return NULL;
 	}

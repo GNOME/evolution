@@ -1,5 +1,16 @@
 2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-summary.c (message_info_load): Add
+	some g_warnings() to help debug later if I ever get the segfaults
+	I was getting earlier. Can't seem to reproduce them after my
+	previous "fix".
+
+	* camel-folder-summary.c (camel_folder_summary_load): Undid my
+	change here, NotZed said it was wrong and that if it gets a NULL
+	mi then it should abort and not continue.
+
+2001-01-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-folder-summary.c (camel_folder_summary_load): Make sure
 	that the message-info is non-null before we go accessing inner
 	parts of it and/or adding it to the summary array. I may not have
