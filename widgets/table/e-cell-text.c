@@ -1093,6 +1093,50 @@ ect_leave_edit (ECellView *ecell_view, int model_col, int view_col, int row, voi
 	}
 }
 
+/*
+ * ECellView::save_state method
+ */
+static void *
+ect_save_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CellEdit *edit = text_view->edit;
+
+	int *save_state = g_new (int, 2);
+
+	save_state[0] = edit->selection_start;
+	save_state[1] = edit->selection_end;
+	return save_state;
+}
+
+/*
+ * ECellView::load_state method
+ */
+static void
+ect_load_state (ECellView *ecell_view, int model_col, int view_col, int row, void *edit_context, void *save_state)
+{
+	ECellTextView *text_view = (ECellTextView *) ecell_view;
+	CellEdit *edit = text_view->edit;
+	int length;
+	int *selection = save_state;
+
+	length = strlen (edit->cell.text);
+
+	edit->selection_start = MIN (selection[0], length);
+	edit->selection_end = MIN (selection[1], length);
+
+	ect_queue_redraw (text_view, view_col, row);
+}
+
+/*
+ * ECellView::free_state method
+ */
+static void
+ect_free_state (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state)
+{
+	g_free (save_state);
+}
+
 static void
 ect_print (ECellView *ecell_view, GnomePrintContext *context, 
 	   int model_col, int view_col, int row,
@@ -1455,6 +1499,9 @@ e_cell_text_class_init (GtkObjectClass *object_class)
 	ecc->height     = ect_height;
 	ecc->enter_edit = ect_enter_edit;
 	ecc->leave_edit = ect_leave_edit;
+	ecc->save_state = ect_save_state;
+ 	ecc->load_state = ect_load_state;
+	ecc->free_state = ect_free_state;
 	ecc->print      = ect_print;
 	ecc->print_height = ect_print_height;
 	ecc->max_width = ect_max_width;

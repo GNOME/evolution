@@ -153,6 +153,9 @@ typedef struct {
 	int              editing_col, editing_row;
 	void            *edit_ctx;
 
+	int              save_col, save_row;
+	void            *save_state;
+
 	int grabbed_col, grabbed_row;
 	int grabbed_count;
 

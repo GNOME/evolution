@@ -97,6 +97,9 @@ typedef struct {
 				   
 	void      *(*enter_edit)   (ECellView *ecell_view, int model_col, int view_col, int row);
 	void       (*leave_edit)   (ECellView *ecell_view, int model_col, int view_col, int row, void *context);
+	void      *(*save_state)   (ECellView *ecell_view, int model_col, int view_col, int row, void *context);
+	void       (*load_state)   (ECellView *ecell_view, int model_col, int view_col, int row, void *context, void *save_state);
+	void       (*free_state)   (ECellView *ecell_view, int model_col, int view_col, int row, void *save_state);
 	void       (*print)        (ECellView *ecell_view, GnomePrintContext *context,
 				    int model_col, int view_col, int row,
 				    gdouble width, gdouble height);
@@ -184,6 +187,26 @@ void       e_cell_leave_edit    (ECellView         *ecell_view,
 				 int                view_col,
 				 int                row,
 				 void              *edit_context);
+
+void      *e_cell_save_state    (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 void              *edit_context);
+
+void       e_cell_load_state    (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 void              *edit_context,
+				 void              *state);
+
+void       e_cell_free_state    (ECellView         *ecell_view,
+				 int                model_col,
+				 int                view_col,
+				 int                row,
+				 void              *state);
+
 
 END_GNOME_DECLS
 
