@@ -437,7 +437,7 @@ repeat_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	}
 
 	cal_component_alarm_set_repeat (alarm, repeat);
-		
+
 }
 
 /* Fills the audio alarm data with the values from the widgets */
@@ -461,6 +461,8 @@ dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 {
 	char *str;
 	CalComponentText description;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 
 	str = e_dialog_editable_get (dialog->dalarm_description);
 	description.value = str;
@@ -468,6 +470,22 @@ dalarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 
 	cal_component_alarm_set_description (alarm, &description);
 	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalcomp) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
 }
 
 /* Fills the mail alarm data with the values from the widgets */
@@ -485,6 +503,8 @@ palarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 	icalattach *attach;
 	char *str;
 	CalComponentText description;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 
 	program = e_dialog_editable_get (dialog->palarm_program);
 	attach = icalattach_new_from_url (program ? program : "");
@@ -499,6 +519,22 @@ palarm_widgets_to_alarm (Dialog *dialog, CalComponentAlarm *alarm)
 
 	cal_component_alarm_set_description (alarm, &description);
 	g_free (str);
+
+	/* remove the X-EVOLUTION-NEEDS-DESCRIPTION property, so that
+	 * we don't re-set the alarm's description */
+	icalcomp = cal_component_alarm_get_icalcomponent (alarm);
+	icalprop = icalcomponent_get_first_property (icalcomp, ICAL_X_PROPERTY);
+	while (icalcomp) {
+		const char *x_name;
+
+		x_name = icalproperty_get_x_name (icalprop);
+		if (!strcmp (x_name, "X-EVOLUTION-NEEDS-DESCRIPTION")) {
+			icalcomponent_remove_property (icalcomp, icalprop);
+			break;
+		}
+
+		icalprop = icalcomponent_get_next_property (icalcomp, ICAL_X_PROPERTY);
+	}
 }
 
 /* Fills the alarm data with the values from the widgets */

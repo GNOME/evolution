@@ -188,6 +188,8 @@ static void
 alarm_page_init (AlarmPage *apage)
 {
 	AlarmPagePrivate *priv;
+	icalcomponent *icalcomp;
+	icalproperty *icalprop;
 
 	priv = g_new0 (AlarmPagePrivate, 1);
 	apage->priv = priv;
@@ -207,7 +209,15 @@ alarm_page_init (AlarmPage *apage)
 	priv->time = NULL;
 	priv->button_options = NULL;
 
+	/* create the default alarm, which will contain the
+	 * X-EVOLUTION-NEEDS-DESCRIPTION property, so that we
+	 * set a correct description if none is ser */
 	priv->alarm = cal_component_alarm_new ();
+
+	icalcomp = cal_component_alarm_get_icalcomponent (priv->alarm);
+	icalprop = icalproperty_new_x ("1");
+	icalproperty_set_x_name (icalprop, "X-EVOLUTION-NEEDS-DESCRIPTION");
+        icalcomponent_add_property (icalcomp, icalprop);
 
 	priv->updating = FALSE;
 }

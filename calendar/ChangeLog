@@ -1,5 +1,18 @@
 2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
 
+	Fixes #15710
+
+	* gui/dialogs/alarm-page.c (alarm_page_init): added a
+	X-EVOLUTION-NEEDS-DESCRIPTION property, so that we later set it
+	correctly if it hasn't been set in the meanwhile (editing options for
+	the alarm).
+
+	* gui/dialogs/alarm-options.c (dalarm_widgets_to_alarm,
+	palarm_widgets_to_alarm): removed X-EVOLUTION-NEEDS-DESCRIPTION
+	property from alarms every time we set the description of the alarm.
+
+2002-10-01  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #30290
 
 	* importers/icalendar-importer.c (process_item_fn): return a status of
