@@ -1483,7 +1483,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		e_tree_model_node_set_expanded(etm, ml->tree_root, TRUE);
 	}
 
-#define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
+/*#define BROKEN_ETREE*/	/* avoid some broken code in etree(?) by not using the incremental update */
 
 	top = e_tree_model_node_get_first_child(etm, ml->tree_root);
 #ifndef BROKEN_ETREE
@@ -2518,8 +2518,8 @@ mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, Camel
 
 	/* see if we need to goto the child thread at all anyway */
 	/* currently the only case is the flat view with updates and no search */
-	if (hideexpr == NULL && search == NULL && changes != NULL && !list->threaded) {
-		build_flat_diff(list, changes);
+	if (hideexpr == NULL && search == NULL && changes != NULL && !ml->threaded) {
+		build_flat_diff(ml, changes);
 		camel_folder_change_info_free(changes);
 		return;
 	}

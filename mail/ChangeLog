@@ -1,3 +1,9 @@
+2001-01-23  Not Zed  <NotZed@Ximian.com>
+
+	* message-list.c (build_tree): Try turning off the BROKEN_ETREE
+	thing.  It seems to work ok (better?) now, but if its still broken
+	i'll remove it again for the next release.
+
 2001-01-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (set_defaults): Automagically fill in the
