@@ -137,3 +137,48 @@ e_table_spec_to_full_header (ETableSpecification *spec,
 
 	return nh;
 }
+
+static gboolean
+check_col (ETableCol *col, gpointer user_data)
+{
+	return col->search ? TRUE : FALSE;
+}
+
+ETableCol *
+e_table_util_calculate_current_search_col (ETableHeader *header, ETableHeader *full_header, ETableSortInfo *sort_info, gboolean always_search)
+{
+	int i;
+	int count;
+	ETableCol *col = NULL;
+	count = e_table_sort_info_grouping_get_count (sort_info);
+	for (i = 0; i < count; i++) {
+		ETableSortColumn column = e_table_sort_info_grouping_get_nth(sort_info, i);
+
+		col = e_table_header_get_column (full_header, column.column);
+
+		if (col && col->search)
+			break;
+
+		col = NULL;
+	}
+
+	if (col == NULL) {
+		count = e_table_sort_info_sorting_get_count (sort_info);
+		for (i = 0; i < count; i++) {
+			ETableSortColumn column = e_table_sort_info_sorting_get_nth(sort_info, i);
+
+			col = e_table_header_get_column (full_header, column.column);
+
+			if (col && col->search)
+				break;
+
+			col = NULL;
+		}
+	}
+
+	if (col == NULL && always_search) {
+		col = e_table_header_prioritized_column_selected (header, check_col, NULL);
+	}
+
+	return col;
+}

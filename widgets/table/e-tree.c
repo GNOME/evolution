@@ -99,7 +99,8 @@ enum {
 	ARG_VERTICAL_DRAW_GRID,
 	ARG_DRAW_FOCUS,
 	ARG_ETTA,
-	ARG_UNIFORM_ROW_HEIGHT
+	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_ALWAYS_SEARCH
 };
 
 enum {
@@ -128,8 +129,7 @@ struct ETreePriv {
 
 	ETableSearch     *search;
 
-	ETableSearchFunc  current_search;
-	int               current_search_col;
+	ETableCol        *current_search_col;
 
 	guint   	  search_search_id;
 	guint   	  search_accept_id;
@@ -169,6 +169,9 @@ struct ETreePriv {
 	guint do_drag : 1;
 
 	guint uniform_row_height : 1;
+
+	guint search_col_set : 1;
+	guint always_search : 1;
 
 	ECursorMode cursor_mode;
 
@@ -272,6 +275,27 @@ et_disconnect_from_etta (ETree *et)
 }
 
 static void
+clear_current_search_col (ETree *et)
+{
+	et->priv->search_col_set = FALSE;
+}
+
+static ETableCol *
+current_search_col (ETree *et)
+{
+	if (!et->priv->search_col_set) {
+		et->priv->current_search_col = 
+			e_table_util_calculate_current_search_col (et->priv->header,
+								   et->priv->full_header,
+								   et->priv->sort_info,
+								   et->priv->always_search);
+		et->priv->search_col_set = TRUE;
+	}
+
+	return et->priv->current_search_col;
+}
+
+static void
 e_tree_state_change (ETree *et)
 {
 	gtk_signal_emit (GTK_OBJECT (et),
@@ -281,6 +305,13 @@ e_tree_state_change (ETree *et)
 static void
 change_trigger (GtkObject *object, ETree *et)
 {
+	e_tree_state_change (et);
+}
+
+static void
+search_col_change_trigger (GtkObject *object, ETree *et)
+{
+	clear_current_search_col (et);
 	e_tree_state_change (et);
 }
 
@@ -321,7 +352,7 @@ connect_header (ETree *e_tree, ETableState *state)
 
 	e_tree->priv->structure_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "structure_change",
-				    change_trigger, e_tree);
+				    search_col_change_trigger, e_tree);
 	e_tree->priv->expansion_change_id =
 		gtk_signal_connect (GTK_OBJECT (e_tree->priv->header), "expansion_change",
 				    change_trigger, e_tree);
@@ -331,10 +362,10 @@ connect_header (ETree *e_tree, ETableState *state)
 		e_table_sort_info_set_can_group (e_tree->priv->sort_info, FALSE);
 		e_tree->priv->sort_info_change_id =
 			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "sort_info_changed",
-					    change_trigger, e_tree);
+					    search_col_change_trigger, e_tree);
 		e_tree->priv->group_info_change_id =
 			gtk_signal_connect (GTK_OBJECT (e_tree->priv->sort_info), "group_info_changed",
-					    change_trigger, e_tree);
+					    search_col_change_trigger, e_tree);
 	} else
 		e_tree->priv->sort_info = NULL;
 
@@ -414,10 +445,11 @@ search_search_callback (ETreeModel *model, ETreePath path, gpointer data)
 {
 	SearchSearchStruct *cb_data = data;
 	const void *value;
+	ETableCol *col = current_search_col (cb_data->et);
 
-	value = e_tree_model_value_at (model, path, cb_data->et->priv->current_search_col);
+	value = e_tree_model_value_at (model, path, col->col_idx);
 
-	return cb_data->et->priv->current_search (value, cb_data->string);
+	return col->search (value, cb_data->string);
 }
 
 static gboolean
@@ -426,10 +458,9 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	ETreePath cursor;
 	ETreePath found;
 	SearchSearchStruct cb_data;
-	int col;
+	ETableCol *col = current_search_col (et);
 
-	col = et->priv->current_search_col;
-	if (col == -1)
+	if (col == NULL)
 		return FALSE;
 
 	cb_data.et = et;
@@ -441,9 +472,9 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	if (flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) {
 		const void *value;
 
-		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, et->priv->current_search_col);
+		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, col->col_idx);
 
-		if (et->priv->current_search (value, string)) {
+		if (col->search (value, string)) {
 			return TRUE;
 		}
 	}
@@ -460,14 +491,14 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 
 		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
 
-		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col, GDK_CONTROL_MASK);
+		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 		return TRUE;
 	} else if (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST)) {
 		const void *value;
 
-		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, et->priv->current_search_col);
+		value = e_tree_model_value_at (E_TREE_MODEL (et->priv->sorted), cursor, col->col_idx);
 
-		return et->priv->current_search (value, string);
+		return col->search (value, string);
 	} else
 		return FALSE;
 }
@@ -475,16 +506,16 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 static void
 et_search_accept (ETableSearch *search, ETree *et)
 {
-	int col, cursor;
+	ETableCol *col = current_search_col (et);
+	int cursor;
 
-	col = et->priv->current_search_col;
-	if (col == -1)
+	if (col == NULL)
 		return;
 
 	gtk_object_get(GTK_OBJECT(et->priv->selection),
 		       "cursor_row", &cursor,
 		       NULL);
-	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), cursor, col, 0);
+	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), cursor, col->col_idx, 0);
 }
 
 static void
@@ -575,8 +606,9 @@ e_tree_init (GtkObject *object)
 		gtk_signal_connect (GTK_OBJECT (e_tree->priv->search), "accept",
 				    GTK_SIGNAL_FUNC (et_search_accept), e_tree);
 
-	e_tree->priv->current_search         = NULL;
-	e_tree->priv->current_search_col     = -1;
+	e_tree->priv->current_search_col     = NULL;
+	e_tree->priv->search_col_set         = FALSE;
+	e_tree->priv->always_search          = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
 }
 
 /* Grab_focus handler for the ETree */
@@ -1301,7 +1333,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
-	int i, col_count;
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
@@ -1314,16 +1345,6 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->draw_focus = specification->draw_focus;
 	e_tree->priv->cursor_mode = specification->cursor_mode;
 	e_tree->priv->full_header = e_table_spec_to_full_header(specification, ete);
-
-	col_count = e_table_header_count (e_tree->priv->full_header);
-	for (i = 0; i < col_count; i++) {
-		ETableCol *col = e_table_header_get_column(e_tree->priv->full_header, i);
-		if (col && col->search) {
-			e_tree->priv->current_search_col = col->col_idx;
-			e_tree->priv->current_search = col->search;
-			break;
-		}
-	}
 
 	connect_header (e_tree, state);
 	e_tree->priv->horizontal_scrolling = specification->horizontal_scrolling;
@@ -1724,6 +1745,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_UNIFORM_ROW_HEIGHT:
 		GTK_VALUE_BOOL (*arg) = etree->priv->uniform_row_height;
 		break;
+	case ARG_ALWAYS_SEARCH:
+		GTK_VALUE_BOOL (*arg) = etree->priv->always_search;
+		break;
 
 	default:
 		break;
@@ -1784,6 +1808,13 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
 					       NULL);
 		}
+		break;
+
+	case ARG_ALWAYS_SEARCH:
+		if (etree->priv->always_search == GTK_VALUE_BOOL (*arg))
+			return;
+		etree->priv->always_search = GTK_VALUE_BOOL (*arg);
+		clear_current_search_col (etree);
 		break;
 	}
 }
@@ -3212,6 +3243,8 @@ e_tree_class_init (ETreeClass *class)
 				 GTK_ARG_READABLE, ARG_ETTA);
 	gtk_object_add_arg_type ("ETree::uniform_row_height", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
+	gtk_object_add_arg_type ("ETree::always_search", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_ALWAYS_SEARCH);
 }
 
 E_MAKE_TYPE(e_tree, "ETree", ETree, e_tree_class_init, e_tree_init, PARENT_TYPE)

@@ -929,3 +929,26 @@ e_table_header_prioritized_column (ETableHeader *eth)
 	}
 	return best_model_col;
 }
+
+ETableCol *
+e_table_header_prioritized_column_selected (ETableHeader *eth, ETableColCheckFunc check_func, gpointer user_data)
+{
+	ETableCol *best_col = NULL;
+	int best_priority = G_MININT;
+	int i;
+	int count;
+
+	count = e_table_header_count (eth);
+	if (count == 0)
+		return NULL;
+	for (i = 1; i < count; i++) {
+		ETableCol *col = e_table_header_get_column (eth, i);
+		if (col) {
+			if ((best_col == NULL || col->priority > best_priority) && check_func (col, user_data)) {
+				best_priority = col->priority;
+				best_col = col;
+			}
+		}
+	}
+	return best_col;
+}

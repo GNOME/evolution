@@ -95,7 +95,8 @@ enum {
 	ARG_0,
 	ARG_LENGTH_THRESHOLD,
 	ARG_MODEL,
-	ARG_UNIFORM_ROW_HEIGHT
+	ARG_UNIFORM_ROW_HEIGHT,
+	ARG_ALWAYS_SEARCH
 };
 
 enum {
@@ -197,6 +198,27 @@ e_table_state_change (ETable *et)
 #define CHECK_HORIZONTAL(et) if ((et)->horizontal_scrolling || (et)->horizontal_resize) e_table_header_update_horizontal (et->header);
 
 static void
+clear_current_search_col (ETable *et)
+{
+	et->search_col_set = FALSE;
+}
+
+static ETableCol *
+current_search_col (ETable *et)
+{
+	if (!et->search_col_set) {
+		et->current_search_col = 
+			e_table_util_calculate_current_search_col (et->header,
+								   et->full_header,
+								   et->sort_info,
+								   et->always_search);
+		et->search_col_set = TRUE;
+	}
+
+	return et->current_search_col;
+}
+
+static void
 et_size_request (GtkWidget *widget, GtkRequisition *request)
 {
 	ETable *et = E_TABLE (widget);
@@ -220,6 +242,7 @@ structure_changed (ETableHeader *header, ETable *et)
 {
 	e_table_state_change (et);
 	set_header_width (et);
+	clear_current_search_col (et);
 }
 
 static void
@@ -361,38 +384,34 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	int cursor;
 	int rows;
 	int i;
-	int col;
-	ETableSearchFunc search_func;
+	ETableCol *col = current_search_col (et);
 
-	col = et->current_search_col;
-	if (col == -1)
+	if (col == NULL)
 		return FALSE;
 
 	rows = e_table_model_row_count (et->model);
-
-	search_func = et->current_search;
 
 	gtk_object_get(GTK_OBJECT(et->selection),
 		       "cursor_row", &cursor,
 		       NULL);
 
-	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string))
+	if ((flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col->col_idx, col->search, string))
 		return TRUE;
 
 	cursor = e_sorter_model_to_sorted (E_SORTER (et->sorter), cursor);
 
 	for (i = cursor + 1; i < rows; i++) {
 		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
-		if (check_row (et, model_row, col, search_func, string)) {
-			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col, GDK_CONTROL_MASK);
+		if (check_row (et, model_row, col->col_idx, col->search, string)) {
+			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
 
 	for (i = 0; i < cursor; i++) {
 		int model_row = e_sorter_sorted_to_model (E_SORTER (et->sorter), i);
-		if (check_row (et, model_row, col, search_func, string)) {
-			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col, GDK_CONTROL_MASK);
+		if (check_row (et, model_row, col->col_idx, col->search, string)) {
+			e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), model_row, col->col_idx, GDK_CONTROL_MASK);
 			return TRUE;
 		}
 	}
@@ -400,22 +419,38 @@ et_search_search (ETableSearch *search, char *string, ETableSearchFlags flags, E
 	cursor = e_sorter_sorted_to_model (E_SORTER (et->sorter), cursor);
 
 	/* Check if the cursor row is the only matching row. */
-	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col, search_func, string));
+	return (!(flags & E_TABLE_SEARCH_FLAGS_CHECK_CURSOR_FIRST) && cursor < rows && cursor >= 0 && check_row (et, cursor, col->col_idx, col->search, string));
 }
 
 static void
 et_search_accept (ETableSearch *search, ETable *et)
 {
-	int col, cursor;
+	int cursor;
+	ETableCol *col = current_search_col (et);
 
-	col = et->current_search_col;
-	if (col == -1)
+	if (col == NULL)
 		return;
 
 	gtk_object_get(GTK_OBJECT(et->selection),
 		       "cursor_row", &cursor,
 		       NULL);
-	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), cursor, col, 0);
+	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->selection), cursor, col->col_idx, 0);
+}
+
+static void
+init_search (ETable *e_table)
+{
+	if (e_table->search != NULL)
+		return;
+
+	e_table->search           = e_table_search_new();
+
+	e_table->search_search_id = 
+		gtk_signal_connect (GTK_OBJECT (e_table->search), "search",
+				    GTK_SIGNAL_FUNC (et_search_search), e_table);
+	e_table->search_accept_id = 
+		gtk_signal_connect (GTK_OBJECT (e_table->search), "accept",
+				    GTK_SIGNAL_FUNC (et_search_accept), e_table);
 }
 
 static void
@@ -467,17 +502,13 @@ e_table_init (GtkObject *object)
 	e_table->cursor_loc             = E_TABLE_CURSOR_LOC_NONE;
 	e_table->spec                   = NULL;
 
-	e_table->search                 = e_table_search_new();
+	e_table->always_search          = g_getenv ("GAL_ALWAYS_SEARCH") ? TRUE : FALSE;
 
-	e_table->search_search_id       = 
-		gtk_signal_connect (GTK_OBJECT (e_table->search), "search",
-				    GTK_SIGNAL_FUNC (et_search_search), e_table);
-	e_table->search_accept_id       = 
-		gtk_signal_connect (GTK_OBJECT (e_table->search), "accept",
-				    GTK_SIGNAL_FUNC (et_search_accept), e_table);
+	e_table->search                 = NULL;
+	e_table->search_search_id       = 0;
+	e_table->search_accept_id       = 0;
 
-	e_table->current_search         = NULL;
-	e_table->current_search_col     = -1;
+	e_table->current_search_col     = NULL;
 
 	e_table->header_width           = 0;
 }
@@ -550,6 +581,7 @@ static void
 group_info_changed (ETableSortInfo *info, ETable *et)
 {
 	gboolean will_be_grouped = e_table_sort_info_grouping_get_count(info) > 0;
+	clear_current_search_col (et);
 	if (et->is_grouped || will_be_grouped) {
 		et->need_rebuild = TRUE;
 		if (!et->rebuild_idle_id) {
@@ -564,6 +596,7 @@ group_info_changed (ETableSortInfo *info, ETable *et)
 static void
 sort_info_changed (ETableSortInfo *info, ETable *et)
 {
+	clear_current_search_col (et);
 	e_table_state_change (et);
 }
 
@@ -761,16 +794,17 @@ group_key_press (ETableGroup *etg, int row, int col, GdkEvent *event, ETable *et
 		return_val = 1;
 		break;
 	case GDK_BackSpace:
+		init_search (et);
 		if (e_table_search_backspace (et->search))
 			return TRUE;
 		/* Fall through */
 	default:
+		init_search (et);
 		if ((key->state & ~(GDK_SHIFT_MASK | GDK_LOCK_MASK)) == 0
 		    && ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
 			(key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
-			(key->keyval >= GDK_0 && key->keyval <= GDK_9))) {
+			(key->keyval >= GDK_0 && key->keyval <= GDK_9)))
 			e_table_search_input_character (et->search, key->keyval);
-		}
 		gtk_signal_emit (GTK_OBJECT (et),
 				 et_signals [KEY_PRESS],
 				 row, col, event, &return_val);
@@ -1357,7 +1391,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
-	int col_count, i;
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
@@ -1375,16 +1408,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->draw_focus = specification->draw_focus;
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
-
-	col_count = e_table_header_count (e_table->full_header);
-	for (i = 0; i < col_count; i++) {
-		ETableCol *col = e_table_header_get_column(e_table->full_header, i);
-		if (col && col->search) {
-			e_table->current_search_col = col->col_idx;
-			e_table->current_search = col->search;
-			break;
-		}
-	}
 
 	gtk_object_set(GTK_OBJECT(e_table->selection),
 		       "selection_mode", specification->selection_mode,
@@ -1964,6 +1987,9 @@ et_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_UNIFORM_ROW_HEIGHT:
 		GTK_VALUE_BOOL (*arg) = etable->uniform_row_height;
 		break;
+	case ARG_ALWAYS_SEARCH:
+		GTK_VALUE_BOOL (*arg) = etable->always_search;
+		break;
 	default:
 		break;
 	}
@@ -1995,6 +2021,13 @@ et_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 					       "uniform_row_height", GTK_VALUE_BOOL (*arg),
 					       NULL);
 		}
+		break;
+	case ARG_ALWAYS_SEARCH:
+		if (etable->always_search == GTK_VALUE_BOOL (*arg))
+			return;
+
+		etable->always_search = GTK_VALUE_BOOL (*arg);
+		clear_current_search_col (etable);
 		break;
 	}
 }
@@ -3134,6 +3167,8 @@ e_table_class_init (ETableClass *class)
 				 GTK_ARG_WRITABLE, ARG_LENGTH_THRESHOLD);
 	gtk_object_add_arg_type ("ETable::uniform_row_height", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_UNIFORM_ROW_HEIGHT);
+	gtk_object_add_arg_type ("ETable::always_search", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_ALWAYS_SEARCH);
 	gtk_object_add_arg_type ("ETable::model", E_TABLE_MODEL_TYPE,
 				 GTK_ARG_READABLE, ARG_MODEL);
 }

@@ -77,8 +77,7 @@ typedef struct {
 
 	ETableSearch     *search;
 
-	ETableSearchFunc  current_search;
-	int               current_search_col;
+	ETableCol        *current_search_col;
 
 	guint   	  search_search_id;
 	guint   	  search_accept_id;
@@ -131,6 +130,9 @@ typedef struct {
 	guint uniform_row_height : 1;
 	guint allow_grouping : 1;
 	
+	guint always_search : 1;
+	guint search_col_set : 1;
+
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;
 	gboolean use_click_to_add;
