@@ -377,7 +377,7 @@ command_rename_folder (BonoboUIComponent *uih,
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	e_shell_command_rename_folder (e_shell_view_get_shell (shell_view), shell_view);
+/*	e_shell_command_rename_folder (e_shell_view_get_shell (shell_view), shell_view); */
 }
 
 static void
@@ -562,7 +562,7 @@ new_shortcut_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_sele
 	evolution_uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 
 	/* FIXME: I shouldn't have to set the type here.  Maybe.  */
-	e_shortcuts_add_shortcut (shortcuts, group_num, -1, evolution_uri, NULL, e_folder_get_type_string (folder));
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, evolution_uri, NULL, e_folder_get_unread_count (folder), e_folder_get_type_string (folder));
 
 	g_free (evolution_uri);
 
@@ -651,6 +651,19 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/File/Folder/Folder",	"folder.xpm"),
 	E_PIXMAP ("/menu/File/FileImporter",	"import.xpm"),
 	E_PIXMAP ("/menu/File/ToggleOffline",	"work_offline.xpm"),
+
+	E_PIXMAP_END
+};
+
+static EPixmap offline_pixmaps [] = {
+	E_PIXMAP ("/menu/File/ToggleOffline", "work_offline.xpm"),
+
+	E_PIXMAP_END
+};
+
+static EPixmap online_pixmaps [] = {
+	E_PIXMAP ("/menu/File/ToggleOffline", "work_online-16.png"),
+	
 	E_PIXMAP_END
 };
 
@@ -691,8 +704,9 @@ update_offline_menu_item (EShellView *shell_view,
 					      "/menu/File/ToggleOffline",
 					      "verb", "WorkOnline", NULL);
 		bonobo_ui_component_set_prop (ui_component,
-					      "/commands/WorkOnline",
+					      "/commands/ToggleOffline",
 					      "sensitive", "1", NULL);
+		e_pixmaps_update (ui_component, online_pixmaps);
 		break;
 
 	case E_SHELL_LINE_STATUS_ONLINE:
@@ -705,6 +719,7 @@ update_offline_menu_item (EShellView *shell_view,
 		bonobo_ui_component_set_prop (ui_component,
 					      "/commands/ToggleOffline",
 					      "sensitive", "1", NULL);
+		e_pixmaps_update (ui_component, offline_pixmaps);
 		break;
 
 	case E_SHELL_LINE_STATUS_GOING_OFFLINE:
@@ -717,6 +732,7 @@ update_offline_menu_item (EShellView *shell_view,
 		bonobo_ui_component_set_prop (ui_component,
 					      "/commands/ToggleOffline",
 					      "sensitive", "0", NULL);
+		e_pixmaps_update (ui_component, offline_pixmaps);
 		break;
 
 	default:

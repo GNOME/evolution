@@ -21,6 +21,10 @@
  * Author: Ettore Perazzoli
  */
 
+/* FIXME: The EFolderTree is kept both in the EStorage and the
+ * EvolutionStorage.  Bad design.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif

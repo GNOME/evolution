@@ -97,7 +97,7 @@ struct _EShellViewPrivate {
 	GtkWidget *appbar;
 	GtkWidget *hpaned;
 	GtkWidget *view_vbox;
-	GtkWidget *view_title_bar;
+	GtkWidget *folder_title_bar;
 	GtkWidget *view_hpaned;
 	GtkWidget *contents;
 	GtkWidget *notebook;
@@ -255,7 +255,7 @@ popdown_transient_folder_bar (EShellView *shell_view)
 
 	disconnect_popup_signals (shell_view);
 
-	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
+	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), FALSE);
 }
 
 static int
@@ -342,7 +342,7 @@ popup_storage_set_view_button_clicked (ETitleBar *title_bar,
 	disconnect_popup_signals (shell_view);
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_STICKY);
-	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), FALSE);
+	e_shell_folder_title_bar_set_toggle_state (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), FALSE);
 }
 
 static void
@@ -631,15 +631,19 @@ setup_storage_set_subwindow (EShellView *shell_view)
 
 	priv = shell_view->priv;
 
-	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell), priv->ui_container);
+	storage_set_view = e_storage_set_view_new (e_shell_get_storage_set (priv->shell),
+						   priv->ui_container);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "folder_selected",
 			    GTK_SIGNAL_FUNC (folder_selected_cb), shell_view);
 	gtk_signal_connect (GTK_OBJECT (storage_set_view), "storage_selected",
 			    GTK_SIGNAL_FUNC (storage_selected_cb), shell_view);
 
 	scroll_frame = e_scroll_frame_new (NULL, NULL);
-	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame), GTK_SHADOW_IN);
+	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll_frame),
+				   GTK_POLICY_AUTOMATIC,
+				   GTK_POLICY_AUTOMATIC);
+	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll_frame),
+					GTK_SHADOW_IN);
 
 	gtk_container_add (GTK_CONTAINER (scroll_frame), storage_set_view);
 
@@ -827,16 +831,16 @@ setup_widgets (EShellView *shell_view)
 
 	priv->view_vbox = gtk_vbox_new (FALSE, 0);
 
-	priv->view_title_bar = e_shell_folder_title_bar_new ();
-	gtk_signal_connect (GTK_OBJECT (priv->view_title_bar), "title_toggled",
+	priv->folder_title_bar = e_shell_folder_title_bar_new ();
+	gtk_signal_connect (GTK_OBJECT (priv->folder_title_bar), "title_toggled",
 			    GTK_SIGNAL_FUNC (title_bar_toggled_cb), shell_view);
 
 	priv->view_hpaned = e_hpaned_new ();
-	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, FALSE);
+	e_paned_pack1 (E_PANED (priv->view_hpaned), priv->storage_set_view_box, FALSE, TRUE);
 	e_paned_pack2 (E_PANED (priv->view_hpaned), priv->notebook, TRUE, FALSE);
 	e_paned_set_position (E_PANED (priv->view_hpaned), DEFAULT_TREE_WIDTH);
 
-	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_title_bar,
+	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->folder_title_bar,
 			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned,
 			    TRUE, TRUE, 0);
@@ -871,7 +875,7 @@ setup_widgets (EShellView *shell_view)
 	gtk_widget_show (priv->hpaned);
 	gtk_widget_show (priv->view_hpaned);
 	gtk_widget_show (priv->view_vbox);
-	gtk_widget_show (priv->view_title_bar);
+	gtk_widget_show (priv->folder_title_bar);
 	gtk_widget_show (priv->status_bar);
 
 	/* By default, both the folder bar and shortcut bar are visible.  */
@@ -940,18 +944,6 @@ destroy (GtkObject *object)
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
-}
-
-static  int
-delete_event (GtkWidget *widget,
-	      GdkEventAny *event)
-{
-	EShell *shell;
-
-	shell = e_shell_view_get_shell (E_SHELL_VIEW (widget));
-
-	/* FIXME: Is this right, or should it be FALSE? */
-	return FALSE;
 }
 
 
@@ -1102,7 +1094,7 @@ corba_interface_set_folder_bar_label (EvolutionShellView *evolution_shell_view,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-	e_shell_folder_title_bar_set_folder_bar_label (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+	e_shell_folder_title_bar_set_folder_bar_label (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 						       text);
 }
 
@@ -1131,14 +1123,6 @@ updated_folder_cb (EStorageSet *storage_set,
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
 
-#if 0
-	char *uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-
-	/* Update the shortcut bar */
-	e_shortcuts_update_shortcut_by_uri (e_shell_get_shortcuts (priv->shell), uri);
-	g_free (uri);
-#endif
-
 	view_path = get_storage_set_path_from_uri (priv->uri);
 	if (view_path && strcmp (path, view_path) != 0)
 		return;
@@ -1161,14 +1145,21 @@ shell_line_status_changed_cb (EShell *shell,
 	update_offline_toggle_status (shell_view);
 }
 
-
+static int
+delete_event_cb (GtkWidget *widget,
+		 GdkEventAny *ev,
+		 void *data)
+{
+	return FALSE;
+}
+
+
 EShellView *
 e_shell_view_construct (EShellView *shell_view,
 			EShell     *shell)
 {
 	EShellViewPrivate *priv;
 	EShellView *view;
-	GtkObject *window;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (shell_view != NULL, NULL);
@@ -1184,19 +1175,18 @@ e_shell_view_construct (EShellView *shell_view,
 		return NULL;
 	}		
 
-	window = GTK_OBJECT (view);
-
-	gtk_signal_connect (window, "delete_event", GTK_SIGNAL_FUNC (delete_event), NULL);
-
+	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
+			    GTK_SIGNAL_FUNC (delete_event_cb), NULL);
 	priv->shell = shell;
 
-	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)), "updated_folder",
-					updated_folder_cb, shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
+					"updated_folder", updated_folder_cb, shell_view,
+					GTK_OBJECT (shell_view));
 
 	priv->ui_container = bonobo_ui_container_new ();
 	bonobo_ui_container_set_win (priv->ui_container, BONOBO_WINDOW (shell_view));
-	gtk_signal_connect (GTK_OBJECT (priv->ui_container),
-			    "system_exception", GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
+	gtk_signal_connect (GTK_OBJECT (priv->ui_container), "system_exception",
+			    GTK_SIGNAL_FUNC (unmerge_on_error), NULL);
 
 	priv->ui_component = bonobo_ui_component_new ("evolution");
 	bonobo_ui_component_set_container (priv->ui_component,
@@ -1346,11 +1336,11 @@ update_folder_title_bar (EShellView *shell_view,
 	}
 
 	if (folder_icon)
-		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), folder_icon);
+		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), folder_icon);
 	if (folder_name) {
 		gchar * utf;
-		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->view_title_bar), folder_name);
-		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar), utf);
+		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->folder_title_bar), folder_name);
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), utf);
 		g_free (utf);
 	}
 }
@@ -1689,7 +1679,6 @@ get_control_for_uri (EShellView *shell_view,
 		return NULL;
 
 	/* FIXME: This code needs to be made more robust.  */
-		
 	slash = strchr (path + 1, G_DIR_SEPARATOR);
 	if (slash == NULL || slash[1] == '\0')
 		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
@@ -1984,7 +1973,7 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_CLOSE);
 
-		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 							FALSE);
 	} else {
 		if (GTK_WIDGET_VISIBLE (priv->storage_set_view_box)) {
@@ -1997,7 +1986,7 @@ e_shell_view_set_folder_bar_mode (EShellView *shell_view,
 		e_title_bar_set_button_mode (E_TITLE_BAR (priv->storage_set_title_bar),
 					     E_TITLE_BAR_BUTTON_MODE_PIN);
 
-		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->view_title_bar),
+		e_shell_folder_title_bar_set_clickable (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar),
 							TRUE);
 	}
 

@@ -93,10 +93,10 @@ impl_StorageListener_destroy (PortableServer_Servant servant,
 #endif
 
 static void
-impl_StorageListener_new_folder (PortableServer_Servant servant,
-				 const CORBA_char *path,
-				 const GNOME_Evolution_Folder *folder,
-				 CORBA_Environment *ev)
+impl_StorageListener_notifyFolderCreated (PortableServer_Servant servant,
+					  const CORBA_char *path,
+					  const GNOME_Evolution_Folder *folder,
+					  CORBA_Environment *ev)
 {
 	StorageListenerServant *storage_listener_servant;
 	EStorage *storage;
@@ -110,7 +110,6 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 				 folder->description);
 
 	e_folder_set_physical_uri (e_folder, folder->physical_uri);
-	e_folder_set_highlighted (e_folder, folder->highlighted);
 
 	if (! e_storage_new_folder (storage, path, e_folder)) {
 		g_print ("Cannot register folder -- %s %s\n", path, folder->display_name);
@@ -126,11 +125,11 @@ impl_StorageListener_new_folder (PortableServer_Servant servant,
 }
 
 static void
-impl_StorageListener_update_folder (PortableServer_Servant servant,
-				    const CORBA_char *path,
-				    const CORBA_char *display_name,
-				    CORBA_boolean highlighted,
-				    CORBA_Environment *ev)
+impl_StorageListener_notifyFolderUpdated (PortableServer_Servant servant,
+					  const CORBA_char *path,
+					  const CORBA_char *display_name,
+					  CORBA_long unread_count,
+					  CORBA_Environment *ev)
 {
 	StorageListenerServant *storage_listener_servant;
 	EStorage *storage;
@@ -149,13 +148,13 @@ impl_StorageListener_update_folder (PortableServer_Servant servant,
 	}
 
 	e_folder_set_name (e_folder, display_name);
-	e_folder_set_highlighted (e_folder, highlighted);
+	e_folder_set_unread_count (e_folder, unread_count);
 }
 
 static void
-impl_StorageListener_removed_folder (PortableServer_Servant servant,
-				     const CORBA_char *path,
-				     CORBA_Environment *ev)
+impl_StorageListener_notifyFolderRemoved (PortableServer_Servant servant,
+					  const CORBA_char *path,
+					  CORBA_Environment *ev)
 {
 	StorageListenerServant *storage_listener_servant;
 	EStorage *storage;
@@ -266,7 +265,6 @@ get_name (EStorage *storage)
 
 	return priv->name;
 }
-
 static const char *
 get_display_name (EStorage *storage)
 {
@@ -434,9 +432,9 @@ corba_class_init (void)
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_GNOME_Evolution_StorageListener__epv, 1);
-	epv->notifyFolderCreated = impl_StorageListener_new_folder;
-	epv->notifyFolderUpdated = impl_StorageListener_update_folder;
-	epv->notifyFolderRemoved = impl_StorageListener_removed_folder;
+	epv->notifyFolderCreated = impl_StorageListener_notifyFolderCreated;
+	epv->notifyFolderUpdated = impl_StorageListener_notifyFolderUpdated;
+	epv->notifyFolderRemoved = impl_StorageListener_notifyFolderRemoved;
 
 	vepv = &storage_listener_vepv;
 	vepv->_base_epv                     = base_epv;

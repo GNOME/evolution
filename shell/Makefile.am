@@ -20,7 +20,6 @@ INCLUDES = -O								\
 IDLS = \
 	Evolution-Activity.idl			\
 	Evolution-Icon.idl			\
-	Evolution-LocalStorage.idl		\
 	Evolution-Offline.idl			\
 	Evolution-Session.idl			\
 	Evolution-Shell.idl			\
@@ -60,7 +59,6 @@ eshellinclude_HEADERS = 			\
 	Evolution.h				\
 	e-folder-tree.h				\
 	evolution-activity-client.h		\
-	evolution-local-storage.h		\
 	evolution-session.h			\
 	evolution-shell-client.h		\
 	evolution-shell-component-client.h	\
@@ -76,7 +74,6 @@ libeshell_la_SOURCES = 				\
 	$(IDL_GENERATED)			\
 	e-folder-tree.c				\
 	evolution-activity-client.c		\
-	evolution-local-storage.c		\
 	evolution-session.c			\
 	evolution-shell-client.c		\
 	evolution-shell-component-client.c	\

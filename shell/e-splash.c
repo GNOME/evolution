@@ -416,7 +416,7 @@ e_splash_set_icon_highlight  (ESplash *splash,
 	
 	priv = splash->priv;
 
-	icon = (Icon *) g_list_nth (priv->icons, num)->data;
+	icon = (Icon *) g_list_nth_data (priv->icons, num);
 
 	gtk_object_set (GTK_OBJECT (icon->canvas_item),
 			"pixbuf", highlight ? icon->light_pixbuf : icon->dark_pixbuf,

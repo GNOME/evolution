@@ -356,12 +356,12 @@ impl_Shell_selectUserFolder (PortableServer_Servant servant,
 	gtk_widget_show (folder_selection_dialog);
 }
 
-static GNOME_Evolution_LocalStorage
+static GNOME_Evolution_Storage
 impl_Shell_getLocalStorage (PortableServer_Servant servant,
 			    CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
-	GNOME_Evolution_LocalStorage local_storage_interface;
+	GNOME_Evolution_Storage local_storage_interface;
 	EShell *shell;
 	EShellPrivate *priv;
 
@@ -509,6 +509,9 @@ setup_components (EShell *shell,
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_error ("Eeek!  Cannot perform OAF query for Evolution components.");
 
+	if (info_list->_length == 0)
+		g_warning ("No Evolution components installed.");
+
 	for (i = 0; i < info_list->_length; i++) {
 		const OAF_ServerInfo *info;
 		GdkPixbuf *icon_pixbuf;
@@ -548,9 +551,6 @@ setup_components (EShell *shell,
 			gtk_main_iteration ();
 	}
 
-	if (info_list->_length == 0)
-		g_warning ("No Evolution components installed.");
-
 	CORBA_free (info_list);
 
 	CORBA_exception_free (&ev);
@@ -589,13 +589,13 @@ set_owner_on_components (EShell *shell)
 /* EShellView destruction callback.  */
 
 static int
-view_deleted_cb (GtkObject *object,
-		 GdkEvent *ev,
-		 gpointer data)
+view_delete_event_cb (GtkWidget *widget,
+		      GdkEventAny *ev,
+		      void *data)
 {
 	EShell *shell;
 
-	g_assert (E_IS_SHELL_VIEW (object));
+	g_assert (E_IS_SHELL_VIEW (widget));
 
 	shell = E_SHELL (data);
 	e_shell_save_settings (shell);
@@ -606,21 +606,21 @@ view_deleted_cb (GtkObject *object,
 
 static void
 view_destroy_cb (GtkObject *object,
-		 gpointer data)
+		 void *data)
 {
 	EShell *shell;
-	int nviews;
+	int num_views;
 
 	g_assert (E_IS_SHELL_VIEW (object));
 
 	shell = E_SHELL (data);
 
-	nviews = g_list_length (shell->priv->views);
+	num_views = g_list_length (shell->priv->views);
 
 	/* If this is our last view, save settings now because in the
 	   callback for no_views_left shell->priv->views will be NULL
 	   and settings won't be saved because of that */
-	if (nviews - 1 == 0)
+	if (num_views - 1 == 0)
 		e_shell_save_settings (shell);
 
 	shell->priv->views = g_list_remove (shell->priv->views, object);
@@ -676,11 +676,11 @@ destroy (GtkObject *object)
 
 		view = E_SHELL_VIEW (p->data);
 
-		gtk_signal_disconnect_by_func (
-			GTK_OBJECT (view),
-			GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
-					       GTK_SIGNAL_FUNC (view_deleted_cb),
+					       GTK_SIGNAL_FUNC (view_delete_event_cb),
+					       shell);
+		gtk_signal_disconnect_by_func (GTK_OBJECT (view),
+					       GTK_SIGNAL_FUNC (view_destroy_cb),
 					       shell);
 
 		gtk_object_destroy (GTK_OBJECT (view));
@@ -800,7 +800,6 @@ e_shell_construct (EShell *shell,
 	CORBA_Object corba_object;
 	CORBA_Environment ev;
 	gchar *shortcut_path;
-
 	g_return_val_if_fail (shell != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (E_IS_SHELL (shell), E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
 	g_return_val_if_fail (local_directory != NULL, E_SHELL_CONSTRUCT_RESULT_INVALIDARG);
@@ -966,13 +965,16 @@ e_shell_create_view (EShell *shell,
 	view = e_shell_view_new (shell);
 
 	gtk_widget_show (GTK_WIDGET (view));
-	gtk_signal_connect (GTK_OBJECT (view), "delete-event",
-			    GTK_SIGNAL_FUNC (view_deleted_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (view), "delete_event",
+			    GTK_SIGNAL_FUNC (view_delete_event_cb), shell);
 	gtk_signal_connect (GTK_OBJECT (view), "destroy",
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
 	if (uri != NULL)
 		if (!e_shell_view_display_uri (E_SHELL_VIEW (view), uri))
+			/* FIXME: Consider popping a dialog box up
+			   about how the provided URI does not
+			   exist/could not be displayed */
 			e_shell_view_display_uri (E_SHELL_VIEW (view), DEFAULT_URI);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);

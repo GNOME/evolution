@@ -69,6 +69,8 @@ struct _EStorageSetViewClass {
 
 
 GtkType     e_storage_set_view_get_type            (void);
+GtkWidget  *e_storage_set_view_new_partial_view            (EStorageSet *storage_set,
+							    GList *visible_types);
 GtkWidget  *e_storage_set_view_new                 (EStorageSet     *storage_set,
 						    BonoboUIContainer *container);
 void        e_storage_set_view_construct           (EStorageSetView *storage_set_view,

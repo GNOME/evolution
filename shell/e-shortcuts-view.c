@@ -103,7 +103,6 @@ icon_callback (EShortcutBar *shortcut_bar,
 
 	storage_set = e_shortcuts_get_storage_set (shortcuts);
 	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
-
 	folder = e_storage_set_get_folder (storage_set,
 					   get_storage_set_path_from_uri (uri));
 
@@ -461,8 +460,9 @@ rename_shortcut_cb (GtkWidget *widget,
 	if (new_name == NULL)
 		return;
 
+
 	e_shortcuts_update_shortcut (shortcuts, menu_data->group_num, menu_data->item_num,
-				     shortcut_item->uri, new_name, shortcut_item->type);
+				     shortcut_item->uri, new_name, shortcut_item->unread_count, shortcut_item->type);
 	g_free (new_name);
 }
 
@@ -560,6 +560,24 @@ item_selected (EShortcutBar *shortcut_bar,
 			 shortcuts, shortcut_item->uri, FALSE);
 }
 
+static EFolder *
+get_efolder_from_shortcut (EShortcuts *shortcuts,
+			   char *item_url)
+{
+	EFolderTypeRegistry *folder_type_registry;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	char *path;
+
+	path = strchr (item_url, G_DIR_SEPARATOR);
+	storage_set = e_shortcuts_get_storage_set (shortcuts);
+	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+
+	folder = e_storage_set_get_folder (storage_set, path);
+
+	return folder;
+}
+
 static void
 impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 		       int group_num,
@@ -569,11 +587,35 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 {
 	EShortcutsView *shortcuts_view;
 	EShortcutsViewPrivate *priv;
+	EFolder *folder;
+	int unread_count;
+	const char *type;
+	char *tmp;
+	char *tp;
+	char *name_without_unread;
 
 	shortcuts_view = E_SHORTCUTS_VIEW (shortcut_bar);
 	priv = shortcuts_view->priv;
 
-	e_shortcuts_add_shortcut (priv->shortcuts, group_num, position, item_url, NULL, NULL);
+	folder = get_efolder_from_shortcut (priv->shortcuts, item_url);
+
+	unread_count = e_folder_get_unread_count (folder);
+	type = e_folder_get_type_string (folder);
+
+	/* Looks funny, but keeps it from adding the unread count
+           repeatedly when dragging folders around */
+	tmp = g_strdup_printf (" (%d)", unread_count);
+	if ((tp = strstr (item_name, tmp)) != NULL)
+		name_without_unread = g_strndup (item_name, strlen (item_name) - strlen (tp));
+	else
+		name_without_unread = g_strdup (item_name);
+
+	e_shortcuts_add_shortcut (priv->shortcuts,
+				  group_num, position,
+				  item_url, name_without_unread, unread_count, type);
+
+	g_free (tmp);
+	g_free (name_without_unread);
 }
 
 static void

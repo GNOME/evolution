@@ -91,6 +91,11 @@ struct _EvolutionStorageClass {
 	int (*remove_folder) (EvolutionStorage *storage,
 			      const char *path,
 			      const char *physical_uri);
+
+	void (*update_folder) (EvolutionStorage *storage,
+			       const char *path,
+			       const char *display_name,
+			       int unread_count);
 };
 
 
@@ -106,6 +111,9 @@ EvolutionStorage *evolution_storage_new        (const char              *name,
 						const char              *toplevel_node_uri,
 						const char              *toplevel_node_type);
 
+void                    evolution_storage_rename (EvolutionStorage *storage,
+						  const char *new_name);
+
 EvolutionStorageResult  evolution_storage_register             (EvolutionStorage                *storage,
 								GNOME_Evolution_StorageRegistry  corba_registry);
 EvolutionStorageResult  evolution_storage_register_on_shell    (EvolutionStorage                *evolution_storage,
@@ -118,15 +126,15 @@ EvolutionStorageResult  evolution_storage_new_folder           (EvolutionStorage
 								const char                      *type,
 								const char                      *physical_uri,
 								const char                      *description,
-								gboolean                         highlighted);
+								int                              unread_count);
 EvolutionStorageResult  evolution_storage_update_folder        (EvolutionStorage                *evolution_storage,
 								const char                      *path,
 								const char                      *display_name,
-								gboolean                         highlighted);
+								int                              unread_count);
 EvolutionStorageResult  evolution_storage_update_folder_by_uri (EvolutionStorage                *evolution_storage,
 								const char                      *physical_uri,
 								const char                      *display_name,
-								gboolean                         highlighted);
+								int                              unread_count);
 EvolutionStorageResult  evolution_storage_removed_folder       (EvolutionStorage                *evolution_storage,
 								const char                      *path);
 gboolean                evolution_storage_folder_exists        (EvolutionStorage                *evolution_storage,

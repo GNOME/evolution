@@ -47,6 +47,15 @@ struct _EShortcutsViewModelPrivate {
 
 /* View initialization.  */
 
+static char *
+get_name_with_unread (const EShortcutItem *item)
+{
+	if (item->unread_count > 0)
+		return g_strdup_printf ("%s (%d)", item->name, item->unread_count);
+	else
+		return g_strdup (item->name);
+}
+
 static void
 load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 		       int group_num)
@@ -67,9 +76,12 @@ load_group_into_model (EShortcutsViewModel *shortcuts_view_model,
 
 	for (p = shortcut_list; p != NULL; p = p->next) {
 		const EShortcutItem *item;
+		char *name_with_unread;
 
 		item = (const EShortcutItem *) p->data;
-		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, item->uri, item->name);
+		name_with_unread = get_name_with_unread (item);
+		e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model), group_num, -1, item->uri, name_with_unread);
+		g_free (name_with_unread);
 	}
 }
 
@@ -153,6 +165,7 @@ shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
 	const EShortcutItem *shortcut_item;
+	char *name_with_unread;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
@@ -160,10 +173,12 @@ shortcuts_new_shortcut_cb (EShortcuts *shortcuts,
 	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
 	g_assert (shortcut_item != NULL);
 
+	name_with_unread = get_name_with_unread (shortcut_item);
 	e_shortcut_model_add_item (E_SHORTCUT_MODEL (shortcuts_view_model),
 				   group_num, item_num,
 				   shortcut_item->uri,
-				   shortcut_item->name);
+				   name_with_unread);
+	g_free (name_with_unread);
 }
 
 static void
@@ -187,6 +202,7 @@ shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
 	EShortcutsViewModel *shortcuts_view_model;
 	EShortcutsViewModelPrivate *priv;
 	const EShortcutItem *shortcut_item;
+	char *name_with_unread;
 
 	shortcuts_view_model = E_SHORTCUTS_VIEW_MODEL (data);
 	priv = shortcuts_view_model->priv;
@@ -194,10 +210,12 @@ shortcuts_update_shortcut_cb (EShortcuts *shortcuts,
 	shortcut_item = e_shortcuts_get_shortcut (priv->shortcuts, group_num, item_num);
 	g_assert (shortcut_item != NULL);
 
+	name_with_unread = get_name_with_unread (shortcut_item);
 	e_shortcut_model_update_item (E_SHORTCUT_MODEL (shortcuts_view_model),
 				      group_num, item_num,
 				      shortcut_item->uri,
-				      shortcut_item->name);
+				      name_with_unread);
+	g_free (name_with_unread);
 }
 
 

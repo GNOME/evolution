@@ -17,7 +17,7 @@ module Evolution {
 		string description;
 		string display_name;
 		string physical_uri;
-		boolean highlighted;
+		long unread_count;
 	};
 
 	interface Storage;
@@ -62,6 +62,10 @@ module Evolution {
 				      in boolean remove_source,
 				      in Bonobo::Listener listener);
 
+		void updateFolder (in string path,
+				   in string display_name,
+				   in long unread_count);
+
 		void addListener       (in StorageListener listener)
 			raises (AlreadyListening);
 
@@ -83,7 +87,7 @@ module Evolution {
 		
 		void notifyFolderUpdated (in string  path,
 					  in string  display_name,
-					  in boolean highlighted)
+					  in long    unread_count)
 			raises (NotFound);
 
 		void notifyFolderRemoved (in string  path)

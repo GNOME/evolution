@@ -580,8 +580,8 @@ e_shell_folder_title_bar_set_clickable (EShellFolderTitleBar *folder_title_bar,
 		return;
 
 	if (clickable) {
-		gtk_widget_show (priv->button);
 		gtk_widget_hide (priv->label);
+		gtk_widget_show (priv->button);
 	} else {
 		gtk_widget_hide (priv->button);
 		gtk_widget_show (priv->label);

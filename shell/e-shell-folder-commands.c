@@ -37,6 +37,7 @@
 
 #include <gtk/gtklabel.h>
 #include <gtk/gtksignal.h>
+#include <gtk/gtkentry.h>
 
 #include "e-shell-constants.h"
 #include "e-shell-folder-creation-dialog.h"
@@ -56,6 +57,19 @@ get_folder_name (EShell *shell,
 	folder = e_storage_set_get_folder (storage_set, path);
 
 	return e_folder_get_name (folder);
+}
+
+static int
+get_folder_unread (EShell *shell,
+		   const char *path)
+{
+	EStorageSet *storage_set;
+	EFolder *folder;
+
+	storage_set = e_shell_get_storage_set (shell);
+	folder = e_storage_set_get_folder (storage_set, path);
+
+	return e_folder_get_unread_count (folder);
 }
 
 
@@ -348,7 +362,6 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
 
 	/* Popup a dialog asking if they are sure they want to delete
            the folder */
-
 	folder_name = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), 
 					    (char *)utf8_folder);
 	title = g_strdup_printf (_("Delete folder '%s'"), folder_name);
@@ -360,6 +373,7 @@ delete_dialog (EShellView *shell_view, const char *utf8_folder)
 	g_free (title);
 	gnome_dialog_set_parent (dialog, GTK_WINDOW (shell_view));
 
+	/* "Are you sure..." label */
 	question = g_strdup_printf (_("Are you sure you want to remove the '%s' folder?"),
 				    folder_name);
 	question_label = gtk_label_new (question);	
@@ -407,6 +421,16 @@ e_shell_command_delete_folder (EShell *shell,
 	g_free (path);
 }
 
+static void
+rename_clicked (GtkWidget *dialog, gint button_num, void *data)
+{
+	char **retval = data;
+	GtkWidget *entry;
+
+	entry = gtk_object_get_data (GTK_OBJECT (dialog), "entry");
+	*retval = g_strdup (gtk_entry_get_text (GTK_ENTRY (entry)));
+}
+
 #if 0
 static char *
 rename_dialog (char *folder_name)
@@ -414,35 +438,113 @@ rename_dialog (char *folder_name)
 	GnomeDialog *dialog;
 	int result;
 	char *title;
-	GtkWidget *question_label;
+	GtkWidget *hbox;
+	char *label;
+	GtkWidget *prompt_label;
 	GtkWidget *entry;
 	char *question;
+	char *retval;
 
-
+	/* Popup a dialog asking what the user would like to rename
+           the folder to */
 	title = g_strdup_printf (_("Rename folder '%s'"),
 				 folder_name);
 
 	dialog = GNOME_DIALOG (gnome_dialog_new (title,
-						 GNOME_STOCK_BUTTON_OK,
+						 _("Rename"),
 						 GNOME_STOCK_BUTTON_CANCEL,
 						 NULL));
 	g_free (title);
 
-	/* FIXME: Finish then make command_rename_folder use it */
+	hbox = gtk_hbox_new (FALSE, 2);
+
+	/* Make, pack the label */
+	label = g_strdup_printf (_("Folder name:"));
+	prompt_label = gtk_label_new (label);
+	gtk_box_pack_start (GTK_BOX (hbox), prompt_label, FALSE, TRUE, 2);
+
+	/* Make, setup, pack the entry */
+	entry = gtk_entry_new ();
+	gtk_entry_set_text (GTK_ENTRY (entry), folder_name);
+	gtk_box_pack_start (GTK_BOX (hbox), entry, FALSE, TRUE, 2);
+
+	gtk_widget_show (GTK_WIDGET (prompt_label));
+	gtk_widget_show (GTK_WIDGET (entry));
+	gtk_widget_show (GTK_WIDGET (hbox));
+
+	gtk_box_pack_start (GTK_BOX (dialog->vbox), hbox, FALSE, TRUE, 2);
+
+	gtk_object_set_data (GTK_OBJECT (dialog), "entry", entry);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    rename_clicked, &retval);
+
+	gnome_dialog_set_default (dialog, 1);
+
+	result = gnome_dialog_run_and_close (dialog);
+       
+	return retval;
 }
 #endif
 
 
+
+static void
+rename_cb (EStorageSet *storage_set,
+	   EStorageResult result,
+	   void *data)
+{
+	/* FIXME: Do something? */
+}
+
 void
 e_shell_command_rename_folder (EShell *shell,
 			       EShellView *shell_view)
 {
+	EStorageSet *storage_set;
+	char *oldname;
+	char *newname;
+
+	char *path;
+	char *newpath;
+
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
 	g_return_if_fail (shell_view != NULL);
 	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
 
-	g_warning ("To be implemented");
+	storage_set = e_shell_get_storage_set (shell);
+	path = g_strdup (e_shell_view_get_current_path (shell_view));
+
+	oldname = get_folder_name (shell, path);
+	newname = rename_dialog (oldname);
+
+	if (strcmp (oldname, newname)) {
+		/* FIXME: Doing strstr isn't robust enough, will fail
+                   when path is /blah/blah, do looped strchr for '/' */
+		char *tmp = strstr (path, oldname);
+		char *tmp2;
+
+		tmp2 = g_strndup (path, strlen (path) - strlen (tmp));
+
+		newpath = g_strconcat (tmp2, newname, NULL);
+
+		printf ("newpath: %s\n", newpath);
+
+		g_free (tmp2);
+		g_free (tmp);
+
+/* FIXME: newpath needs to be correct
+		e_storage_set_async_xfer_folder (storage_set,
+						 oldpath,
+						 newpath,
+						 TRUE,
+						 rename_cb,
+						 NULL);
+*/
+	}
+
+	g_free (path);
 }
 
 
@@ -453,6 +555,7 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	EShortcuts *shortcuts;
 	int group_num;
 	const char *uri;
+	int unread_count;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -463,5 +566,7 @@ e_shell_command_add_to_shortcut_bar (EShell *shell,
 	group_num = e_shell_view_get_current_shortcuts_group_num (shell_view);
 	uri = e_shell_view_get_current_uri (shell_view);
 
-	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, NULL);
+	unread_count = get_folder_unread (shell, e_shell_view_get_current_path (shell_view));
+
+	e_shortcuts_add_shortcut (shortcuts, group_num, -1, uri, NULL, unread_count, NULL);
 }

@@ -394,11 +394,11 @@ evolution_shell_client_get_activity_interface (EvolutionShellClient *shell_clien
  * Return value: a pointer to the CORBA object implementing the local storage
  * in the shell associated with @shell_client.
  **/
-GNOME_Evolution_LocalStorage
+GNOME_Evolution_Storage
 evolution_shell_client_get_local_storage (EvolutionShellClient *shell_client)
 {
 	GNOME_Evolution_Shell corba_shell;
-	GNOME_Evolution_LocalStorage corba_local_storage;
+	GNOME_Evolution_Storage corba_local_storage;
 	CORBA_Environment ev;
 
 	g_return_val_if_fail (shell_client != NULL, CORBA_OBJECT_NIL);

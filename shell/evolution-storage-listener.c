@@ -96,7 +96,7 @@ static void
 impl_GNOME_Evolution_StorageListener_notifyFolderUpdated (PortableServer_Servant servant,
 							  const CORBA_char *path,
 							  const CORBA_char *display_name,
-							  CORBA_boolean highlighted,
+							  CORBA_long unread_count,
 							  CORBA_Environment *ev)
 {
 	EvolutionStorageListener *listener;
@@ -106,7 +106,7 @@ impl_GNOME_Evolution_StorageListener_notifyFolderUpdated (PortableServer_Servant
 	priv = listener->priv;
 
 	gtk_signal_emit (GTK_OBJECT (listener), signals[UPDATE_FOLDER], path,
-			 display_name, highlighted);
+			 display_name);
 }
 
 static void
@@ -262,11 +262,10 @@ class_init (EvolutionStorageListenerClass *klass)
 						  GTK_RUN_FIRST,
 						  object_class->type,
 						  GTK_SIGNAL_OFFSET (EvolutionStorageListenerClass, update_folder),
-						  e_marshal_NONE__POINTER_POINTER_INT,
-						  GTK_TYPE_NONE, 3,
+						  gtk_marshal_NONE__POINTER_POINTER,
+						  GTK_TYPE_NONE, 2,
 						  GTK_TYPE_STRING,
-						  GTK_TYPE_STRING,
-						  GTK_TYPE_BOOL);
+						  GTK_TYPE_STRING);
 
 	signals[REMOVED_FOLDER] = gtk_signal_new ("removed_folder",
 						  GTK_RUN_FIRST,

@@ -1423,6 +1423,21 @@ etree_get_node_by_id (ETreeModel *etm, gchar *save_id, void *model_data)
 	return g_hash_table_lookup (storage_set_view->priv->path_to_etree_node, save_id);
 }
 
+GHashTable *folders_with_unread = NULL;
+
+static void
+update_folder_with_unread_hash (char *folder_name, int unread_count)
+{
+	if (!folders_with_unread)
+	        folders_with_unread = g_hash_table_new (g_str_hash, g_str_equal);
+
+	g_hash_table_insert (folders_with_unread,
+			     g_strdup (folder_name),
+			     g_strdup_printf ("%s (%d)",
+					      folder_name,
+					      unread_count));
+}
+
 static void *
 etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_data)
 {
@@ -1439,8 +1454,18 @@ etree_value_at (ETreeModel *etree, ETreePath tree_path, int col, void *model_dat
 
 	folder = e_storage_set_get_folder (storage_set, path);
 	if (folder != NULL) {
+		char *folder_name = e_folder_get_name (folder);
+		int unread_count = e_folder_get_unread_count (folder);
+
+		update_folder_with_unread_hash (folder_name, unread_count);
+
 		if (col == 0)
-			return (void *) e_folder_get_name (folder);
+			if (unread_count > 0)
+				return (void *) g_hash_table_lookup (folders_with_unread,
+								     folder_name);
+			else
+				return (void *) folder_name;
+		
 		else
 			return (void *) e_folder_get_highlighted (folder);
 	}
@@ -1988,7 +2013,7 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 		return;
 	}
 
-	e_tree_show_node (E_TREE(storage_set_view), node);
+	e_tree_show_node (E_TREE (storage_set_view), node);
 	e_tree_set_cursor (E_TREE (storage_set_view), node);
 
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);

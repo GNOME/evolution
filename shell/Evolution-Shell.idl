@@ -87,7 +87,7 @@ module Evolution {
 		 *
 		 * Return value: the `Evolution::LocalStorage' interface for
 		 * the local storage.  */
-		LocalStorage getLocalStorage ();
+		Storage getLocalStorage ();
 
 		/**
 		 * createStorageSetView:

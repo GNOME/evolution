@@ -43,6 +43,7 @@ struct _EFolderPrivate {
 	char *physical_uri;
 	gboolean self_highlight;
 	int child_highlight;
+	int unread_count;
 };
 
 #define EF_CLASS(obj) \
@@ -149,6 +150,7 @@ init (EFolder *folder)
 	priv->physical_uri    = NULL;
 	priv->self_highlight  = FALSE;
 	priv->child_highlight = 0;
+	priv->unread_count    = 0;
 
 	folder->priv = priv;
 }
@@ -231,13 +233,22 @@ e_folder_get_physical_uri (EFolder *folder)
 	return folder->priv->physical_uri;
 }
 
+int
+e_folder_get_unread_count (EFolder *folder)
+{
+	g_return_val_if_fail (folder != NULL, FALSE);
+	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
+
+	return folder->priv->unread_count;
+}
+
 gboolean
 e_folder_get_highlighted (EFolder *folder)
 {
 	g_return_val_if_fail (folder != NULL, FALSE);
 	g_return_val_if_fail (E_IS_FOLDER (folder), FALSE);
 
-	return folder->priv->self_highlight || folder->priv->child_highlight;
+	return folder->priv->child_highlight || folder->priv->unread_count;
 }
 
 
@@ -298,13 +309,13 @@ e_folder_set_physical_uri (EFolder *folder,
 }
 
 void
-e_folder_set_highlighted (EFolder *folder,
-			  gboolean highlighted)
+e_folder_set_unread_count (EFolder *folder,
+			   gint unread_count)
 {
 	g_return_if_fail (folder != NULL);
 	g_return_if_fail (E_IS_FOLDER (folder));
 
-	folder->priv->self_highlight = highlighted;
+	folder->priv->unread_count = unread_count;
 
 	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
@@ -320,8 +331,6 @@ e_folder_set_child_highlight (EFolder *folder,
 		folder->priv->child_highlight++;
 	else
 		folder->priv->child_highlight--;
-
-	gtk_signal_emit (GTK_OBJECT (folder), signals[CHANGED]);
 }
 
 

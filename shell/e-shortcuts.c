@@ -126,6 +126,7 @@ static void make_dirty (EShortcuts *shortcuts);
 static EShortcutItem *
 shortcut_item_new (const char *uri,
 		   const char *name,
+		   int unread_count,
 		   const char *type)
 {
 	EShortcutItem *new;
@@ -137,6 +138,7 @@ shortcut_item_new (const char *uri,
 	new->uri  = g_strdup (uri);
 	new->name = g_strdup (name);
 	new->type = g_strdup (type);
+	new->unread_count = unread_count;
 
 	return new;
 }
@@ -145,6 +147,7 @@ static gboolean
 shortcut_item_update (EShortcutItem *shortcut_item,
 		      const char *uri,
 		      const char *name,
+		      int unread_count,
 		      const char *type)
 {
 	gboolean changed = FALSE;
@@ -164,6 +167,11 @@ shortcut_item_update (EShortcutItem *shortcut_item,
 		g_free (shortcut_item->name);
 		shortcut_item->name  = g_strdup (name);
 		changed = TRUE;
+	}
+
+	if (shortcut_item->unread_count != unread_count) {
+		shortcut_item->unread_count = unread_count;
+		changed = FALSE;
 	}
 
 	if (shortcut_item->type == NULL || type == NULL ||
@@ -222,12 +230,24 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 				 int num,
 				 const char *uri,
 				 const char *name,
+				 int unread_count,
 				 const char *type)
 {
-	if (shortcut_item_update (shortcut_item, uri, name, type)) {
+	/* Only thing that changed was the unread count */
+	if (shortcut_item->unread_count != unread_count
+	    && !shortcut_item_update (shortcut_item, uri, name, unread_count, type)) {
+		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
+		return FALSE;
+	}
+
+	/* Unread count is the same, but other stuff changed */
+	else if (shortcut_item_update (shortcut_item, uri, name, unread_count, type)) {
 		gtk_signal_emit (GTK_OBJECT (shortcuts), signals[UPDATE_SHORTCUT], group_num, num);
 		return TRUE;
-	} else
+	}
+
+	/* Nothing at all changed, return false only */
+	else
 		return FALSE;
 }
 
@@ -311,7 +331,7 @@ load_shortcuts (EShortcuts *shortcuts,
 			name = xmlGetProp (q, "name");
 			type = xmlGetProp (q, "type");
 			
-			shortcut_item = shortcut_item_new (uri, name, type);
+			shortcut_item = shortcut_item_new (uri, name, 0, type);
 
 			shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
 								     shortcut_item);
@@ -376,8 +396,10 @@ save_shortcuts (EShortcuts *shortcuts,
 
 			if (shortcut->name != NULL)
 				xmlSetProp (shortcut_node, (xmlChar *) "name", shortcut->name);
+
 			if (shortcut->type != NULL)
 				xmlSetProp (shortcut_node, (xmlChar *) "type", shortcut->type);
+
 		}
 	}
 
@@ -466,14 +488,16 @@ update_shortcuts_by_path (EShortcuts *shortcuts,
 
 			shortcut_item = (EShortcutItem *) q->data;
 
-			if (strcmp (shortcut_item->uri, evolution_uri) == 0)
+			if (strcmp (shortcut_item->uri, evolution_uri) == 0) {
 				changed = update_shortcut_and_emit_signal (shortcuts,
 									   shortcut_item,
 									   group_num,
 									   num,
 									   evolution_uri,
 									   shortcut_item->name,
+									   e_folder_get_unread_count (folder),
 									   e_folder_get_type_string (folder));
+			}
 		}
 	}
 
@@ -923,6 +947,7 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 			  int num,
 			  const char *uri,
 			  const char *name,
+			  int unread_count,
 			  const char *type)
 {
 	EShortcutsPrivate *priv;
@@ -943,7 +968,7 @@ e_shortcuts_add_shortcut (EShortcuts *shortcuts,
 	if (num == -1)
 		num = g_slist_length (group->shortcuts);
 
-	item = shortcut_item_new (uri, name, type);
+	item = shortcut_item_new (uri, name, unread_count, type);
 
 	group->shortcuts = g_slist_insert (group->shortcuts, item, num);
 
@@ -958,6 +983,7 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 			     int         num,
 			     const char *uri,
 			     const char *name,
+			     int unread_count,
 			     const char *type)
 {
 	EShortcutItem *shortcut_item;
@@ -967,7 +993,7 @@ e_shortcuts_update_shortcut (EShortcuts *shortcuts,
 
 	shortcut_item = get_item (shortcuts, group_num, num);
 
-	update_shortcut_and_emit_signal (shortcuts, shortcut_item, group_num, num, uri, name, type);
+	update_shortcut_and_emit_signal (shortcuts, shortcut_item, group_num, num, uri, name, unread_count, type);
 
 	make_dirty (shortcuts);
 }
@@ -981,10 +1007,12 @@ e_shortcuts_add_default_group (EShortcuts *shortcuts)
 
 	e_shortcuts_add_group (shortcuts, -1, _("Shortcuts"));
 
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", _("Inbox"), "mail");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", _("Calendar"), "calendar");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", _("Tasks"), "tasks");
-	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Contacts", _("Contacts"), "contacts");
+	/* FIXME: Inbox shortcut should point to something else for
+           people who won't care about using /Local Folders/Inbox */
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Inbox", _("Inbox"), 0, "mail");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Calendar", _("Calendar"), 0, "calendar");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Tasks", _("Tasks"), 0, "tasks");
+	e_shortcuts_add_shortcut (shortcuts, 0, -1, "evolution:/local/Contacts", _("Contacts"), 0, "contacts");
 }
 
 void

@@ -45,6 +45,9 @@ struct _EvolutionStoragePrivate {
 	/* Name of the storage.  */
 	char *name;
 
+	/* What we will display as the name of the storage. */
+	char *display_name;
+
 	/* URI for the toplevel node of the storage.  */
 	char *toplevel_node_uri;
 
@@ -65,6 +68,7 @@ struct _EvolutionStoragePrivate {
 enum {
 	CREATE_FOLDER,
 	REMOVE_FOLDER,
+	UPDATE_FOLDER,
 
 	LAST_SIGNAL
 };
@@ -360,6 +364,53 @@ impl_Storage_async_xfer_folder (PortableServer_Servant servant,
 }
 
 static void
+impl_Storage_updateFolder (PortableServer_Servant servant,
+			   const CORBA_char *path,
+			   const CORBA_char *display_name,
+			   CORBA_long unread_count,
+			   CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStoragePrivate *priv;
+	EvolutionStorage *storage;
+	GList *p;
+	CORBA_Environment ev;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+
+	gtk_signal_emit (GTK_OBJECT (storage), signals[UPDATE_FOLDER],
+			 path, display_name, unread_count);
+
+	priv = storage->priv;
+
+	if (priv->corba_storage_listeners == NULL)
+		return;
+
+	CORBA_exception_init (&ev);
+
+	for (p = priv->corba_storage_listeners; p != NULL; p = p->next) {
+		GNOME_Evolution_StorageListener listener;
+
+		listener = p->data;
+		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener,
+								     path,
+								     display_name,
+								     unread_count,
+								     &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION)
+			continue;
+
+		/* FIXME: Handle errors */
+
+		break;
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+static void
 impl_Storage_add_listener (PortableServer_Servant servant,
 			   const GNOME_Evolution_StorageListener listener,
 			   CORBA_Environment *ev)
@@ -492,6 +543,17 @@ class_init (EvolutionStorageClass *klass)
 						 GTK_TYPE_INT, 2,
 						 GTK_TYPE_STRING,
 						 GTK_TYPE_STRING);
+	
+	signals[UPDATE_FOLDER] = gtk_signal_new ("update_folder",
+						 GTK_RUN_FIRST,
+						 object_class->type,
+						 GTK_SIGNAL_OFFSET (EvolutionStorageClass,
+								    update_folder),
+						 e_marshal_NONE__POINTER_POINTER_INT,
+						 GTK_TYPE_NONE, 3,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_STRING,
+						 GTK_TYPE_INT);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
@@ -525,6 +587,7 @@ evolution_storage_get_epv (void)
 	epv->asyncCreateFolder = impl_Storage_async_create_folder;
 	epv->asyncRemoveFolder = impl_Storage_async_remove_folder;
 	epv->asyncXferFolder   = impl_Storage_async_xfer_folder;
+	epv->updateFolder      = impl_Storage_updateFolder;
 	epv->addListener       = impl_Storage_add_listener;
 	epv->removeListener    = impl_Storage_remove_listener;
 
@@ -581,6 +644,13 @@ evolution_storage_new (const char *name,
 	evolution_storage_construct (new, corba_object, name, toplevel_node_uri, toplevel_node_type);
 
 	return new;
+}
+
+void
+evolution_storage_rename (EvolutionStorage *evolution_storage,
+			  const char *new_name)
+{
+	/* FIXME: Implement me */
 }
 
 EvolutionStorageResult
@@ -728,7 +798,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 			      const char *type,
 			      const char *physical_uri,
 			      const char *description,
-			      gboolean highlighted)
+			      int         unread_count)
 {
 	EvolutionStorageResult   result;
 	EvolutionStoragePrivate *priv;
@@ -757,7 +827,7 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 	corba_folder->description  = CORBA_string_dup (description);
 	corba_folder->type         = CORBA_string_dup (type);
 	corba_folder->physical_uri = CORBA_string_dup (physical_uri);
-	corba_folder->highlighted  = highlighted;
+	corba_folder->unread_count = 0;
 
 	if (! e_folder_tree_add (priv->folder_tree, path, corba_folder)) {
 		CORBA_free (corba_folder);
@@ -793,8 +863,9 @@ evolution_storage_new_folder (EvolutionStorage *evolution_storage,
 
 EvolutionStorageResult
 evolution_storage_update_folder (EvolutionStorage *evolution_storage,
-				 const char *path, const char *display_name,
-				 gboolean highlighted)
+				 const char       *path,
+				 const char       *display_name,
+				 int               unread_count)
 {
 	EvolutionStorageResult result;
 	EvolutionStoragePrivate *priv;
@@ -811,6 +882,9 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 
 	priv = evolution_storage->priv;
 
+	gtk_signal_emit (GTK_OBJECT (evolution_storage), signals[UPDATE_FOLDER],
+			 path, display_name, unread_count);
+
 	if (priv->corba_storage_listeners == NULL)
 		return EVOLUTION_STORAGE_ERROR_NOTREGISTERED;
 
@@ -822,7 +896,7 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 		GNOME_Evolution_StorageListener listener;
 
 		listener = p->data;
-		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, display_name, highlighted, &ev);
+		GNOME_Evolution_StorageListener_notifyFolderUpdated (listener, path, display_name, unread_count, &ev);
 
 		if (ev._major != CORBA_NO_EXCEPTION)
 			continue;
@@ -844,7 +918,7 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 		if (corba_folder != NULL) {
 			CORBA_free (corba_folder->display_name);
 			corba_folder->display_name = CORBA_string_dup (display_name);
-			corba_folder->highlighted = highlighted;
+			corba_folder->unread_count = unread_count;
 		} else
 			result = EVOLUTION_STORAGE_ERROR_NOTFOUND;
 	}
@@ -854,9 +928,9 @@ evolution_storage_update_folder (EvolutionStorage *evolution_storage,
 
 EvolutionStorageResult
 evolution_storage_update_folder_by_uri (EvolutionStorage *evolution_storage,
-					const char *physical_uri,
-					const char *display_name,
-					gboolean highlighted)
+					const char       *physical_uri,
+					const char       *display_name,
+					int               unread_count)
 {
 	EvolutionStoragePrivate *priv;
 	char *path;
@@ -870,7 +944,7 @@ evolution_storage_update_folder_by_uri (EvolutionStorage *evolution_storage,
 	priv = evolution_storage->priv;
 
 	path = g_hash_table_lookup (priv->uri_to_path, physical_uri);
-	return evolution_storage_update_folder (evolution_storage, path, display_name, highlighted);
+	return evolution_storage_update_folder (evolution_storage, path, display_name, unread_count);
 }
 
 EvolutionStorageResult

@@ -49,6 +49,7 @@ struct _EShortcutItem {
 	char *uri;
 	char *name;
 	char *type;
+	int unread_count;
 };
 typedef struct _EShortcutItem EShortcutItem;
 
@@ -112,12 +113,14 @@ void  e_shortcuts_add_shortcut       (EShortcuts *shortcuts,
 				      int         num,
 				      const char *uri,
 				      const char *name,
+				      int unread_count,
 				      const char *type);
 void  e_shortcuts_update_shortcut    (EShortcuts *shortcuts,
 				      int         group_num,
 				      int         num,
 				      const char *uri,
 				      const char *name,
+				      int unread_count,
 				      const char *type);
 
 void  e_shortcuts_remove_group  (EShortcuts *shortcuts,

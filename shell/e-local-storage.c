@@ -28,9 +28,6 @@
  *   - If the LocalStorage is destroyed and an async operation on a shell component is
  *     pending, we get a callback on a bogus object.  We need support for cancelling
  *     operations on the shell component.
- *
- *   - The tree is kept both in the EStorage and the EvolutionStorage.  Very
- *     bad design.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -53,7 +50,7 @@
 #include "e-util/e-path.h"
 #include "e-local-folder.h"
 
-#include "evolution-local-storage.h"
+#include "evolution-storage.h"
 
 #include "e-local-storage.h"
 
@@ -64,7 +61,7 @@ static EStorageClass *parent_class = NULL;
 struct _ELocalStoragePrivate {
 	EFolderTypeRegistry *folder_type_registry;
 	char *base_path;
-	EvolutionLocalStorage *bonobo_interface;
+	EvolutionStorage *bonobo_interface;
 };
 
 
@@ -146,7 +143,7 @@ new_folder (ELocalStorage *local_storage,
 				      e_folder_get_type_string (folder),
 				      e_folder_get_physical_uri (folder),
 				      e_folder_get_description (folder),
-				      e_folder_get_highlighted (folder));
+				      e_folder_get_unread_count (folder));
 }
 
 static gboolean
@@ -842,7 +839,7 @@ impl_async_xfer_folder (EStorage *storage,
 }
 
 
-/* Callbacks for the `Evolution::LocalStorage' interface we are exposing to the outside world.  */
+/* Callbacks for the `Evolution::Storage' interface we are exposing to the outside world.  */
 static int
 bonobo_interface_create_folder_cb (EvolutionStorage *storage,
 				   const char *path,
@@ -872,10 +869,10 @@ bonobo_interface_remove_folder_cb (EvolutionStorage *storage,
 }
 
 static void
-bonobo_interface_update_folder_cb (EvolutionLocalStorage *bonobo_local_storage,
+bonobo_interface_update_folder_cb (EvolutionStorage *storage,
 				   const char *path,
 				   const char *display_name,
-				   gboolean highlighted,
+				   int unread_count,
 				   void *data)
 {
 	ELocalStorage *local_storage;
@@ -888,7 +885,7 @@ bonobo_interface_update_folder_cb (EvolutionLocalStorage *bonobo_local_storage,
 		return;
 
 	e_folder_set_name (folder, display_name);
-	e_folder_set_highlighted (folder, highlighted);
+	e_folder_set_unread_count (folder, unread_count);
 
 	return;
 }
@@ -956,7 +953,8 @@ construct (ELocalStorage *local_storage,
 	priv->base_path = g_strndup (base_path, base_path_len);
 
 	g_assert (priv->bonobo_interface == NULL);
-	priv->bonobo_interface = evolution_local_storage_new (E_LOCAL_STORAGE_NAME);
+	priv->bonobo_interface = evolution_storage_new (E_LOCAL_STORAGE_NAME,
+							NULL, NULL);
 
 	gtk_signal_connect (GTK_OBJECT (priv->bonobo_interface), "create_folder",
 			    GTK_SIGNAL_FUNC (bonobo_interface_create_folder_cb), 
@@ -1001,11 +999,11 @@ e_local_storage_get_base_path (ELocalStorage *local_storage)
 }
 
 
-const GNOME_Evolution_LocalStorage
+const GNOME_Evolution_Storage
 e_local_storage_get_corba_interface (ELocalStorage *local_storage)
 {
 	ELocalStoragePrivate *priv;
-	GNOME_Evolution_LocalStorage corba_interface;
+	GNOME_Evolution_Storage corba_interface;
 
 	g_return_val_if_fail (local_storage != NULL, NULL);
 	g_return_val_if_fail (E_IS_LOCAL_STORAGE (local_storage), NULL);

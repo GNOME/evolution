@@ -1,3 +1,75 @@
+2001-08-03  Jason Leach  <jleach@ximian.com>
+
+	[Removing Evolution::LocalStorage interface, abstracting the
+	unread counts from a folder's name, also abstract unread counts
+	from a shortcut's name.  Fixes #4489 and #5497]
+
+	* e-shortcuts.c (shortcut_item_new): Take an unread_count argument
+	now.
+	(shortcut_item_update): Ditto.
+	
+	* e-shortcuts-view-model.c (get_name_with_unread): Get a string
+	containing a shortcut name and it's unread, because these are
+	abstracted now.
+	(load_group_into_model): Use the above function to make shortcuts
+	that have unread counts.
+
+	* e-storage-set-view.c (update_folder_with_unread_hash): Keep a
+	hash of folder names with unread counts, because the folder name
+	and it's unread count are to be separated, only the ETree is
+	supposed to present it as one string.
+
+	* e-shell-view.c: Renamed EShellView::view_title_bar to
+	folder_title_bar, to closer match the 
+
+	* e-shell-view-menu.c (new_shortcut_dialog_folder_selected_cb):
+	Make a shortcut with the unread count.
+
+	* e-shell-folder-commands.c (e_shell_command_add_to_shortcut_bar):
+	Make a shortcut with the unread count.
+
+	* e-local-storage.c: Updated for API changes.
+
+	* e-folder.c (e_folder_get_unread_count): New function, does what
+	it says.
+	(e_folder_set_unread_count): Ditto.
+
+	* e-corba-storage.c (impl_StorageListener_new_folder): Renamed to
+	match the IDL function name.
+	(impl_StorageListener_update_folder): Ditto.
+	(impl_StorageListener_removed_folder): Ditto.
+
+	* Evolution-Storage.idl (struct Folder): Replace the boolean
+	highlighted with a long unread_count.
+	(updateFolder): Brought in from the now dead
+	Evolution::LocalStorage.
+
+	* Evolution-Shell.idl (getLocalStorage): Return a Storage instead
+	of a LocalStorage.
+
+	* Evolution-LocalStorage.idl: Removed, no longer needed, only used
+	function, updateFolder, has been moved into Evolution::Storage
+	interface.
+	
+	* evolution-local-storage.[ch]: Ditto.
+
+	* evolution-storage.c (impl_Storage_updateFolder): Implementation
+	of the updateFolder taken from ::LocalStorage.
+	(class_init): New "update_folder" signal, taken from
+	evolution-local-storage.c too.
+	(evolution_storage_update_folder): Take an @unread_count int
+	instead of a @highlighted boolean.
+	(evolution_storage_new_folder): Same for here.
+	(evolution_storage_update_folder_by_uri): And here.
+
+	* evolution-storage-listener.h: "update_folder" signal no longer
+	sends a @highlighted boolean.
+
+2001-08-03  Jason Leach  <jleach@ximian.com>
+
+	* e-shell-view-menu.c (update_offline_menu_item): Use Jakub's new
+	"Work Online" icon and fix a typo.
+
 2001-08-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #6232, the thirty-four-splash-screens-at-startup bug.]
