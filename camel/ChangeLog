@@ -3,6 +3,8 @@
 	* providers/pop3/camel-pop3-store.c (connect_to_server): Moved the
 	last tcp_stream unref to afetr the last fail-check so that we
 	won't ever get a double-unref on something we only own one ref on.
+	(connect_to_server): Unref the tcp_stream if we fail to create an
+	engine object before returning fail.
 
 	* providers/imap4/camel-imap4-stream.c (camel_imap4_stream_line):
 	Fix bug #69408 by filling our input buffer if inptr == inend.

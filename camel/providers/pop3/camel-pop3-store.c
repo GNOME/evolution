@@ -200,7 +200,7 @@ connect_to_server (CamelService *service, struct addrinfo *ai, int ssl_mode, Cam
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      _("Failed to read a valid greeting from POP server %s"),
 				      service->url->host);
-		
+		camel_object_unref (tcp_stream);
 		return FALSE;
 	}
 	
