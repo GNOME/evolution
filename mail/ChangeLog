@@ -1,3 +1,7 @@
+2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-composer-prefs.c (sig_edit): Correctly spell Advanced.
+
 2002-11-15  Not Zed  <NotZed@Ximian.com>
 
 	* mail-summary.c (create_summary_view): weak notify -> ref.
@@ -73,6 +77,7 @@
 	(mail_add_storage): "
 	(mail_remove_storage): "
 
+>>>>>>> 1.2462
 2002-11-13  Joe Shaw  <joe@ximian.com>
 
 	* Makefile.am: Remove a couple backslashes that were causing
