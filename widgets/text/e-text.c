@@ -3118,42 +3118,45 @@ capitalize (EText *text, int start, int end, ETextEventProcessorCaps type)
 	const char *p = g_utf8_offset_to_pointer (text->text, start);
 	const char *text_end = g_utf8_offset_to_pointer (text->text, end);
 	int utf8len = text_end - p;
-	char *new_text = g_new0 (char, utf8len * 6);
-	char *output = new_text;
 
-	while (p && *p && p < text_end) {
-		gunichar unival = g_utf8_get_char (p);
-		gunichar newval = unival;
+	if (utf8len > 0) {
+		char *new_text = g_new0 (char, utf8len * 6);
+		char *output = new_text;
 
-		switch (type) {
-		case E_TEP_CAPS_UPPER:
-			newval = g_unichar_toupper (unival);
-			break;
-		case E_TEP_CAPS_LOWER:
-			newval = g_unichar_tolower (unival);
-			break;
-		case E_TEP_CAPS_TITLE:
-			if (g_unichar_isalpha (unival)) {
-				if (first)
-					newval = g_unichar_totitle (unival);
-				else
-					newval = g_unichar_tolower (unival);
-				first = FALSE;
-			} else {
-				first = TRUE;
+		while (p && *p && p < text_end) {
+			gunichar unival = g_utf8_get_char (p);
+			gunichar newval = unival;
+
+			switch (type) {
+			case E_TEP_CAPS_UPPER:
+				newval = g_unichar_toupper (unival);
+				break;
+			case E_TEP_CAPS_LOWER:
+				newval = g_unichar_tolower (unival);
+				break;
+			case E_TEP_CAPS_TITLE:
+				if (g_unichar_isalpha (unival)) {
+					if (first)
+						newval = g_unichar_totitle (unival);
+					else
+						newval = g_unichar_tolower (unival);
+					first = FALSE;
+				} else {
+					first = TRUE;
+				}
+				break;
 			}
-			break;
+			g_unichar_to_utf8 (newval, output);
+			output = g_utf8_next_char (output);
+
+			p = g_utf8_next_char (p);
 		}
-		g_unichar_to_utf8 (newval, output);
-		output = g_utf8_next_char (output);
+		*output = 0;
 
-		p = g_utf8_next_char (p);
+		e_text_model_delete (text->model, start, utf8len);
+		e_text_model_insert_length (text->model, start, new_text, utf8len);
+		g_free (new_text);
 	}
-	*output = 0;
-
-	e_text_model_delete (text->model, start, utf8len);
-	e_text_model_insert_length (text->model, start, new_text, utf8len);
-	g_free (new_text);
 }
 
 static void
