@@ -1,3 +1,8 @@
+1998-10-20  Andrew Veliath  <andrewtv@usa.net>
+
+	* gnome-orbit-check.m4 (GNOME_ORBIT_HOOK): Add ORBIT_IDL
+	detection; fix failure flag.
+
 1998-10-12  Martin Baulig  <martin@home-of-linux.org>
 
 	* compiler-flags.m4 (warnCFLAGS): Added `-Wno-unused'.
