@@ -70,7 +70,7 @@ typedef struct {
 	ECellClass parent_class;
 
 	/* Virtual function for subclasses to override. */
-	gint   	   (*popup)        (ECellPopup *ecp, GdkEvent *event);
+	gint   	   (*popup)        (ECellPopup *ecp, GdkEvent *event, int row, int view_col);
 } ECellPopupClass;
 
 

@@ -1711,6 +1711,7 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			ETableCol *ecol = e_table_header_get_column (eti->header, col);
 			ECellView *ecell_view = eti->cell_views [col];
 			gboolean col_selected = selected;
+			gboolean cursor = FALSE;
 			ECellFlags flags;
 			gboolean free_background;
 			GdkColor *background;
@@ -1718,8 +1719,10 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 			switch (eti->cursor_mode) {
 			case E_CURSOR_SIMPLE:
 			case E_CURSOR_SPREADSHEET:
-				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row))
+				if (cursor_col == ecol->col_idx && cursor_row == view_to_model_row(eti, row)) {
 					col_selected = !col_selected;
+					cursor = TRUE;
+				}
 				break;
 			case E_CURSOR_LINE:
 				/* Nothing */
@@ -1737,6 +1740,8 @@ eti_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width,
 
 			flags = col_selected ? E_CELL_SELECTED : 0;
 			flags |= GTK_WIDGET_HAS_FOCUS(canvas) ? E_CELL_FOCUSED : 0;
+			flags |= cursor ? E_CELL_CURSOR : 0;
+
 			switch (ecol->justification) {
 			case GTK_JUSTIFY_LEFT:
 				flags |= E_CELL_JUSTIFY_LEFT;
@@ -2035,6 +2040,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 		int col, row;
 		gint cursor_row, cursor_col;
 		gint new_cursor_row, new_cursor_col;
+		ECellFlags flags = 0;
 
 		d(g_print("%s: GDK_BUTTON_PRESS received, button %d\n", __FUNCTION__, e->button.button));
 
@@ -2063,7 +2069,18 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			button.x = x1;
 			button.y = y1;
 
-			return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, view_to_model_col(eti, col), col, row, 0);
+			gtk_object_get(GTK_OBJECT(eti->selection),
+				       "cursor_row", &cursor_row,
+				       "cursor_col", &cursor_col,
+				       NULL);
+
+			if (cursor_col == view_to_model_col (eti, col) && cursor_row == view_to_model_row(eti, row)) {
+				flags = E_CELL_CURSOR;
+			} else {
+				flags = 0;
+			}
+
+			return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, view_to_model_col(eti, col), col, row, flags);
 			if (return_val)
 				return TRUE;
 
@@ -2104,7 +2121,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 
 				if (eti_editing (eti)) {
 					return_val = eti_e_cell_event (eti, ecell_view, (GdkEvent *) &button, button.time, 
-								       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+								       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 					if (return_val)
 						return TRUE;
 				}
@@ -2216,7 +2233,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				e->button.y = y1;
 
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->button.time,
-							       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+							       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 			}
 			break;
 		case 3:
@@ -2332,7 +2349,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			e->motion.y = y1;
 
 			return_val = eti_e_cell_event (eti, ecell_view, e, e->motion.time,
-						       view_to_model_col(eti, col), col, row, E_CELL_EDITING);
+						       view_to_model_col(eti, col), col, row, E_CELL_EDITING | E_CELL_CURSOR);
 		}
 		break;
 	}
@@ -2456,7 +2473,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 				ecell_view = eti->cell_views [eti->editing_col];
 				return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 							       view_to_model_col(eti, eti->editing_col),
-							       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+							       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 #endif
 			}
 			gtk_signal_emit (GTK_OBJECT (eti), eti_signals [KEY_PRESS],
@@ -2509,7 +2526,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 					ecell_view = eti->cell_views [eti->editing_col];
 					return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 								       view_to_model_col(eti, eti->editing_col),
-								       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+								       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 					if (!return_val)
 						e_selection_model_key_press(E_SELECTION_MODEL (eti->selection), (GdkEventKey *) e);
 				}
@@ -2537,7 +2554,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			ecell_view = eti->cell_views [eti->editing_col];
 			return_val = eti_e_cell_event (eti, ecell_view, e, e->key.time,
 						       view_to_model_col(eti, eti->editing_col),
-						       eti->editing_col, eti->editing_row, E_CELL_EDITING);
+						       eti->editing_col, eti->editing_row, E_CELL_EDITING | E_CELL_CURSOR);
 		}
 		break;
 	}

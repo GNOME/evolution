@@ -53,6 +53,8 @@ typedef enum {
 	E_CELL_FOCUSED        = 1 << 3,
 
 	E_CELL_EDITING        = 1 << 4,
+
+	E_CELL_CURSOR         = 1 << 5,
 } ECellFlags;
 
 typedef enum {

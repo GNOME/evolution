@@ -61,6 +61,8 @@
 #include "e-cell-combo.h"
 #include "e-cell-text.h"
 
+#define d(x)
+
 
 /* The height to make the popup list if there aren't any items in it. */
 #define	E_CELL_COMBO_LIST_EMPTY_HEIGHT	15
@@ -74,10 +76,16 @@ static void e_cell_combo_init		(ECellCombo	*ecc);
 static void e_cell_combo_destroy	(GtkObject	*object);
 
 static gint e_cell_combo_do_popup	(ECellPopup	*ecp,
-					 GdkEvent	*event);
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col);
 static void e_cell_combo_select_matching_item	(ECellCombo	*ecc);
-static void e_cell_combo_show_popup	(ECellCombo	*ecc);
+static void e_cell_combo_show_popup	(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col);
 static void e_cell_combo_get_popup_pos	(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -239,13 +247,15 @@ e_cell_combo_set_popdown_strings	(ECellCombo	*ecc,
 
 static gint
 e_cell_combo_do_popup			(ECellPopup	*ecp,
-					 GdkEvent	*event)
+					 GdkEvent	*event,
+					 int             row,
+					 int             view_col)
 {
 	ECellCombo *ecc = E_CELL_COMBO (ecp);
 	guint32 time;
 	gint error_code;
 
-	e_cell_combo_show_popup (ecc);
+	e_cell_combo_show_popup (ecc, row, view_col);
 	e_cell_combo_select_matching_item (ecc);
 
 	if (event->type == GDK_BUTTON_PRESS) {
@@ -318,7 +328,7 @@ e_cell_combo_select_matching_item	(ECellCombo	*ecc)
 
 
 static void
-e_cell_combo_show_popup			(ECellCombo	*ecc)
+e_cell_combo_show_popup			(ECellCombo	*ecc, int row, int view_col)
 {
 	gint x, y, width, height, old_width, old_height;
 
@@ -326,7 +336,7 @@ e_cell_combo_show_popup			(ECellCombo	*ecc)
 	old_width = ecc->popup_window->allocation.width;
 	old_height  = ecc->popup_window->allocation.height;
 
-	e_cell_combo_get_popup_pos (ecc, &x, &y, &height, &width);
+	e_cell_combo_get_popup_pos (ecc, row, view_col, &x, &y, &height, &width);
 
 	/* workaround for gtk_scrolled_window_size_allocate bug */
 	if (old_width != width || old_height != height) {
@@ -341,12 +351,15 @@ e_cell_combo_show_popup			(ECellCombo	*ecc)
 	gtk_widget_show (ecc->popup_window);
 
 	E_CELL_POPUP (ecc)->popup_shown = TRUE;
+	d(g_print("%s: popup_shown = TRUE\n", __FUNCTION__));
 }
 
 
 /* Calculates the size and position of the popup window (like GtkCombo). */
 static void
 e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
+					 int             row,
+					 int             view_col,
 					 gint		*x,
 					 gint		*y,
 					 gint		*height,
@@ -370,12 +383,12 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
   
 	gdk_window_get_origin (canvas->window, x, y);
 
-	x1 = e_table_header_col_diff (eti->header, 0, eti->editing_col + 1);
-	y1 = e_table_item_row_diff (eti, 0, eti->editing_row + 1);
-	column_width = e_table_header_col_diff (eti->header, eti->editing_col,
-						eti->editing_col + 1);
-	row_height = e_table_item_row_diff (eti, eti->editing_row,
-					    eti->editing_row + 1);
+	x1 = e_table_header_col_diff (eti->header, 0, view_col + 1);
+	y1 = e_table_item_row_diff (eti, 0, row + 1);
+	column_width = e_table_header_col_diff (eti->header, view_col,
+						view_col + 1);
+	row_height = e_table_item_row_diff (eti, row,
+					    row + 1);
 	gnome_canvas_item_i2w (GNOME_CANVAS_ITEM (eti), &x1, &y1);
 
 	gnome_canvas_world_to_window (GNOME_CANVAS (canvas),
@@ -477,8 +490,6 @@ e_cell_combo_get_popup_pos		(ECellCombo	*ecc,
 
 
 
-
-
 /* This handles button press events in the popup window.
    Note that since we have a pointer grab on this window, we also get button
    press events for windows outside the application here, so we hide the popup
@@ -510,6 +521,7 @@ e_cell_combo_button_press		(GtkWidget	*popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	/* We don't want to update the cell here. Since the list is in browse
 	   mode there will always be one item selected, so when we popup the
@@ -550,6 +562,7 @@ e_cell_combo_button_release		(GtkWidget	*popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	e_cell_combo_update_cell (ecc);
 	e_cell_combo_restart_edit (ecc);
@@ -578,6 +591,7 @@ e_cell_combo_key_press			(GtkWidget	*popup_window,
 	gtk_widget_hide (ecc->popup_window);
 
 	E_CELL_POPUP (ecc)->popup_shown = FALSE;
+	d(g_print("%s: popup_shown = FALSE\n", __FUNCTION__));
 
 	if (event->keyval != GDK_Escape)
 		e_cell_combo_update_cell (ecc);
