@@ -1,3 +1,8 @@
+2003-06-23  Larry Ewing  <lewing@ximian.com>
+
+	* folder-browser.c (do_message_selected): make sure not to strcmp
+	a possibly NULL string.
+
 2003-06-19  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #45063
@@ -55,6 +60,9 @@
 	those other textual types).
 
 2003-06-11  Larry Ewing  <lewing@ximian.com>
+
+	* mail-format.c (mail_lookup_handler): free the application list
+	if we are bailing.
 
 	* mail-send-recv.c (free_folder_info): free the info structure as
 	well.

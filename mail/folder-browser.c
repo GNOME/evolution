@@ -2473,7 +2473,7 @@ do_message_selected (FolderBrowser *fb)
 	
 	/* if we are loading, then set a pending, but leave the loading, coudl cancel here (?) */
 	if (fb->loading_uid) {
-		if (fb->new_uid == NULL || strcmp(fb->pending_uid, fb->new_uid) != 0) {
+		if (fb->new_uid == NULL || fb->pending_uid == NULL || strcmp(fb->pending_uid, fb->new_uid) != 0) {
 			g_free (fb->pending_uid);
 			fb->pending_uid = g_strdup (fb->new_uid);
 		}
