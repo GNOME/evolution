@@ -466,7 +466,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://barrapunto.com/gnome.rdf", "Barrapunto GNOME", FALSE,},
 	{"http://www.bsdtoday.com/backend/bt.rdf", "BSD Today", FALSE},
 	{"http://beyond2000.com/b2k.rdf", "Beyond 2000", FALSE},
-	{"http://www.cnn.com/cnn.rss", "CNN", FALSE},
+  	{"http://www.cnn.com/cnn.rss", "CNN", FALSE},
         {"http://www.debianplanet.org/debianplanet/backend.php", "Debian Planet", FALSE},
 	{"http://www.dictionary.com/wordoftheday/wotd.rss", N_("Dictionary.com Word of the Day"), FALSE},
 	{"http://www.dvdreview.com/rss/newschannel.rss", "DVD Review", FALSE},
@@ -599,10 +599,15 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->name = g_strdup (rdfs[i].name);
 		entry->showable = TRUE;
 
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, rdfs[i].url) == TRUE) {
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, NULL);
+			entry = g_new (ESummaryShownModelEntry, 1);
+			entry->location = g_strdup (rdfs[i].url);
+			entry->name = g_strdup (rdfs[i].name);
+			entry->showable = TRUE;
+			
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
 
 		pd->rdf->known = g_list_append (pd->rdf->known, &rdfs[i]);
@@ -658,10 +663,15 @@ fill_rdf_etable (GtkWidget *widget,
 		entry->name = g_strdup (info->name);
 		entry->showable = TRUE;
 
-		e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+		e_summary_shown_add_node (ess, TRUE, entry, NULL, TRUE, NULL);
 
 		if (rdf_is_shown (pd, tokens[0]) == TRUE) {
-			e_summary_shown_add_node (ess, FALSE, entry, NULL, NULL);
+			entry = g_new (ESummaryShownModelEntry, 1);
+			entry->location = g_strdup (info->url);
+			entry->name = g_strdup (info->name);
+			entry->showable = TRUE;
+			
+			e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
 		}
 
 		g_strfreev (tokens);

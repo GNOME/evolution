@@ -646,15 +646,14 @@ e_summary_weather_code_to_name (const char *code)
 }
 
 static gboolean
-is_weather_shown (ESummaryWeather *weather,
-		  const char *code)
+is_weather_shown (const char *code)
 {
 	GList *p;
+	ESummaryPrefs *global_preferences;
 
-	for (p = weather->weathers; p; p = p->next) {
-		Weather *w = p->data;
-
-		if (strcmp (w->location, code) == 0) {
+	global_preferences = e_summary_preferences_get_global ();
+	for (p = global_preferences->stations; p; p = p->next) {
+		if (strcmp (p->data, code) == 0) {
 			return TRUE;
 		}
 	}
@@ -697,7 +696,7 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 		entry->name = g_strdup (region_name);
 		entry->showable = FALSE;
 		
-		region = e_summary_shown_add_node (ess, TRUE, entry, NULL, NULL);
+		region = e_summary_shown_add_node (ess, TRUE, entry, NULL, FALSE, NULL);
 
 		gnome_config_get_vector (states_key, &nstates, &states);
 
@@ -716,7 +715,7 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 			entry->name = g_strdup (state_name);
 			entry->showable = FALSE;
 
-			state = e_summary_shown_add_node (ess, TRUE, entry, region, NULL);
+			state = e_summary_shown_add_node (ess, TRUE, entry, region, FALSE, NULL);
 
 			location = NULL;
 			iter = gnome_config_init_iterator (state_path);
@@ -736,8 +735,14 @@ e_summary_weather_fill_etable (ESummaryShown *ess)
 					entry->name = g_strdup (locdata[0]);
 					entry->showable = TRUE;
 
-					location = e_summary_shown_add_node (ess, TRUE, entry, state, NULL);
-					
+					location = e_summary_shown_add_node (ess, TRUE, entry, state, TRUE, NULL);
+					/* FIXME: Show the showns here */
+					if (is_weather_shown (locdata[1]) == TRUE) {
+						entry = g_new (ESummaryShownModelEntry, 1);
+						entry->location = g_strdup (locdata[1]);
+						entry->name = g_strdup (locdata[0]);
+						location = e_summary_shown_add_node (ess, FALSE, entry, NULL, TRUE, NULL);
+					}
 					g_strfreev (locdata);
 				}
 

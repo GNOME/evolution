@@ -56,7 +56,7 @@
 
 /* Needs to be filled in before use */
 #define SPEC "<ETableSpecification cursor-mode=\"line\" draw-focus=\"true\"> \
-<ETableColumn model_col=\"0\" _title=\"   \" resizable=\"true\" cell=\"tree-string\" compare=\"string\"/> \
+<ETableColumn model_col=\"0\" _title=\"%s\" resizable=\"true\" cell=\"tree-string\" compare=\"string\"/> \
 <ETableState> \
 <column source=\"0\"/> \
 <grouping></grouping> \
@@ -348,7 +348,7 @@ maybe_move_to_shown (ETreePath path,
 	new_entry->showable = entry->showable;
 	new_entry->ref_count = 0;
 
-	e_summary_shown_add_node (shown, FALSE, new_entry, NULL, NULL);
+	e_summary_shown_add_node (shown, FALSE, new_entry, NULL, TRUE, NULL);
 	gtk_signal_emit (GTK_OBJECT (shown), shown_signals[ITEM_CHANGED]);
 	g_print ("Added %s\n", entry->name);
 }
@@ -397,12 +397,14 @@ remove_clicked (GtkWidget *button,
 
 static TableData *
 make_table (GHashTable *data_model,
+	    const char *title,
 	    GtkSignalFunc callback,
 	    gpointer closure)
 {
 	TableData *td;
 	ETreeMemory *etmm;
 	ETree *tree;
+	char *real_spec;
 
 	td = g_new (TableData, 1);
 	td->etm = e_tree_memory_callbacks_new (icon_at,
@@ -432,8 +434,10 @@ make_table (GHashTable *data_model,
 	e_tree_memory_set_expanded_default (etmm, TRUE);
 
 	td->root = e_tree_memory_node_insert (etmm, NULL, 0, NULL);
-	
-	td->etable = e_tree_scrolled_new (td->etm, NULL, SPEC, NULL);
+
+	real_spec = g_strdup_printf (SPEC, title);
+	td->etable = e_tree_scrolled_new (td->etm, NULL, real_spec, NULL);
+	g_free (real_spec);
 
 	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (td->etable));
 	e_tree_root_node_set_visible (tree, FALSE);
@@ -456,7 +460,7 @@ e_summary_shown_init (ESummaryShown *shown)
 	priv = g_new (ESummaryShownPrivate, 1);
 	shown->priv = priv;
 
-	priv->all = make_table (shown->all_model, GTK_SIGNAL_FUNC (all_selection_changed), shown);
+	priv->all = make_table (shown->all_model, _("All"), GTK_SIGNAL_FUNC (all_selection_changed), shown);
 	
 	gtk_box_pack_start (GTK_BOX (shown), priv->all->etable, TRUE, TRUE, 0);
 	gtk_widget_show (priv->all->etable);
@@ -464,13 +468,15 @@ e_summary_shown_init (ESummaryShown *shown)
 	vbox = gtk_vbox_new (TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (shown), vbox, FALSE, FALSE, 0);
 
-	priv->add = gtk_button_new_with_label (_("Add->"));
+	/* Fixme: nice GFX version */
+	priv->add = gtk_button_new_with_label (_("Add ->"));
 	gtk_widget_set_sensitive (priv->add, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->add, TRUE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (priv->add), "clicked",
 			    GTK_SIGNAL_FUNC (add_clicked), shown);
-	
-	priv->remove = gtk_button_new_with_label (_("<-Remove"));
+
+	/* Fixme: Ditto */
+	priv->remove = gtk_button_new_with_label (_("<- Remove"));
 	gtk_widget_set_sensitive (priv->remove, FALSE);
 	gtk_box_pack_start (GTK_BOX (vbox), priv->remove, TRUE, FALSE, 0);
 	gtk_signal_connect (GTK_OBJECT (priv->remove), "clicked",
@@ -478,7 +484,7 @@ e_summary_shown_init (ESummaryShown *shown)
 
 	gtk_widget_show_all (vbox);
 
-	priv->shown = make_table (shown->shown_model, GTK_SIGNAL_FUNC (shown_selection_changed), shown);
+	priv->shown = make_table (shown->shown_model, _("Shown"), GTK_SIGNAL_FUNC (shown_selection_changed), shown);
 
 	gtk_box_pack_start (GTK_BOX (shown), priv->shown->etable, TRUE, TRUE, 0);
 	gtk_widget_show (priv->shown->etable);
@@ -503,11 +509,16 @@ e_tree_model_node_append (ETreeModel *etm,
 {
 	ETreeMemory *etmm;
 	int position;
-
+	ETreePath path;
+	
 	position = e_tree_model_node_get_children (etm, parent, NULL);
 
 	etmm = E_TREE_MEMORY (etm);
-	return e_tree_memory_node_insert (etmm, parent, position, data);
+	e_tree_memory_freeze (etmm);
+	path = e_tree_memory_node_insert (etmm, parent, position, data);
+	e_tree_memory_thaw (etmm);
+
+	return path;
 }
 
 ETreePath
@@ -515,11 +526,13 @@ e_summary_shown_add_node (ESummaryShown *shown,
 			  gboolean all,
 			  ESummaryShownModelEntry *entry,
 			  ETreePath parent,
+			  gboolean expanded,
 			  gpointer data)
 {
 	TableData *td;
 	ETreePath path;
 	ETreeMemory *etmm;
+	ETree *tree;
 	GHashTable *model;
 	
 	g_return_val_if_fail (IS_E_SUMMARY_SHOWN (shown), NULL);
@@ -538,6 +551,9 @@ e_summary_shown_add_node (ESummaryShown *shown,
 
 	etmm = E_TREE_MEMORY (td->etm);
 	path = e_tree_model_node_append (td->etm, parent, data);
+
+	tree = e_tree_scrolled_get_tree (E_TREE_SCROLLED (td->etable));
+	e_tree_node_set_expanded (tree, path, expanded);
 
 	entry->path = path;
 	

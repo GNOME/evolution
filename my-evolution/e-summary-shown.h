@@ -66,6 +66,7 @@ ETreePath e_summary_shown_add_node (ESummaryShown *shown,
 				    gboolean all,
 				    ESummaryShownModelEntry *entry,
 				    ETreePath parent,
+				    gboolean expanded,
 				    gpointer data);
 void e_summary_shown_remove_node (ESummaryShown *shown,
 				  gboolean all,

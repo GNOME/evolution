@@ -61,8 +61,8 @@ char *headers[COLS] = {
 #endif
 
 #define SPEC "<ETableSpecification cursor-mode=\"line\" draw-focus=\"true\"> \
-<ETableColumn model_col=\"0\" _title=\"Shown\" resizable=\"true\" cell=\"tricell\" compare=\"integer\"/> \
-<ETableColumn model_col=\"1\" _title=\"Name\" minimum_width=\"20\" resizable=\"true\" cell=\"render-name\" compare=\"string\"/> \
+<ETableColumn model_col=\"0\" _title=\"Shown\" minimum_width=\"20\" resizable=\"false\" cell=\"tricell\" compare=\"integer\"/> \
+<ETableColumn model_col=\"1\" _title=\"Name\" resizable=\"true\" minimum-width=\"32\" cell=\"render-name\" compare=\"string\"/> \
 <ETableState> \
 <column source=\"0\"/> \
 <column source=\"1\"/> \
@@ -421,7 +421,9 @@ e_summary_table_add_node (ESummaryTable *table,
 	}
 
 	etmm = E_TREE_MEMORY (table->priv->etm);
+	e_tree_memory_freeze (etmm);
 	p = e_tree_memory_node_insert (etmm, path, position, node_data);
+	e_tree_memory_thaw (etmm);
 
 	return p;
 }

@@ -57,7 +57,7 @@
     <oaf_attribute name="evolution:config_item:icon_name" type="string"
 		   value="evolution-today.png"/>
 
-    <oaf_attribute name="evolution:config_item:type" type="stringv">
+    <oaf_attribute name="evolution:config_item:priority" type="stringv">
 	<item value="summary"/>
     </oaf_attribute>
 

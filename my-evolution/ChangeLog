@@ -1,3 +1,39 @@
+2002-04-22  Iain Holmes <iain@ximian.com>
+
+	* e-summary-mail.c: Remove the shown and mode bits from the 
+	ESummaryMail structure.
+	(e_summary_mail_generate_html): USe the folder_store list instead
+	of the blank one in mail->
+	(new_folder_cb): Allow all mail folders now.
+	(update_folder_cb): Get the uri correctly.
+	(mail_change_notify): Remove debugging spew.
+	(e_summary_mail_reconfigure): Comment out the part that adds a 
+	protocol to the front of a uri.
+	(insert_path_recur): If there is no toplevel, guess if from the
+	folder path. Not sure if it works for everything.
+	(add_storage_to_table): Store the whole of the sorted list,
+	and resort it every time.
+	(make_toplevel): I18n the titles, and remove the debugging.
+	(e_summary_mail_fill_list): Store the sortewd list.
+
+	* e-summary_preferences.c (fill_rdf_etable): Create a new entry
+	to add to the shown list.
+
+	* e-summary-shown.c (make_table): take a title for the table. 
+	Generate the spec from that table.
+	(e_tree_model_node_append): Freeze the tree before adding the
+	node.
+	(e_summary_shown_add_node): Take an expanded boolean.
+	
+	* e-summary-table.c: Make the SPEC set the width correctly.
+	(e_summary_table_add_node): Freeze the table.
+
+	* e-summary-weather.c (is_weather_shown): Search the global_prefs
+	to see if the node is shown.
+	(e_summary_weather_fill_etable): Set the expanded state on all to
+	FALSE except for leaf nodes.. 
+	Create a new entry for shown rows.
+	
 2002-04-08  Dan Winship  <danw@ximian.com>
 
 	* component-factory.c (create_view): Add view_info arg but don't
