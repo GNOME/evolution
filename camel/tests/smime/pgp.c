@@ -22,7 +22,7 @@ int main (int argc, char **argv)
 	CamelSession *session;
 	CamelPgpContext *ctx;
 	CamelException *ex;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	CamelStream *stream1, *stream2, *stream3;
 	GPtrArray *recipients;
 	GByteArray *buf;
@@ -49,7 +49,7 @@ int main (int argc, char **argv)
 	stream2 = camel_stream_mem_new ();
 	
 	camel_test_push ("PGP signing");
-	camel_pgp_sign (ctx, "pgp-mime@xtorshun.org", CAMEL_PGP_HASH_TYPE_SHA1,
+	camel_pgp_sign (ctx, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1,
 			stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	camel_test_pull ();
@@ -61,8 +61,8 @@ int main (int argc, char **argv)
 	camel_stream_reset (stream2);
 	valid = camel_pgp_verify (ctx, stream1, stream2, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
-	check_msg (camel_pgp_validity_get_valid (valid), "%s", camel_pgp_validity_get_description (valid));
-	camel_pgp_validity_free (valid);
+	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
+	camel_cipher_validity_free (valid);
 	camel_test_pull ();
 	
 	camel_object_unref (CAMEL_OBJECT (stream1));

@@ -26,7 +26,7 @@ int main (int argc, char **argv)
 	CamelSession *session;
 	CamelPgpContext *ctx;
 	CamelException *ex;
-	CamelPgpValidity *valid;
+	CamelCipherValidity *valid;
 	CamelMimePart *mime_part, *part;
 	GPtrArray *recipients;
 	
@@ -49,7 +49,7 @@ int main (int argc, char **argv)
 	camel_mime_part_set_description (mime_part, "Test of PGP/MIME multipart/signed stuff");
 	
 	camel_test_push ("PGP/MIME signing");
-	camel_pgp_mime_part_sign (ctx, &mime_part, "pgp-mime@xtorshun.org", CAMEL_PGP_HASH_TYPE_SHA1, ex);
+	camel_pgp_mime_part_sign (ctx, &mime_part, "pgp-mime@xtorshun.org", CAMEL_CIPHER_HASH_SHA1, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
 	check_msg (camel_pgp_mime_is_rfc2015_signed (mime_part),
 		   "Huh, the MIME part does not seem to be a valid multipart/signed part");
@@ -60,8 +60,8 @@ int main (int argc, char **argv)
 	camel_test_push ("PGP/MIME verify");
 	valid = camel_pgp_mime_part_verify (ctx, mime_part, ex);
 	check_msg (!camel_exception_is_set (ex), "%s", camel_exception_get_description (ex));
-	check_msg (camel_pgp_validity_get_valid (valid), "%s", camel_pgp_validity_get_description (valid));
-	camel_pgp_validity_free (valid);
+	check_msg (camel_cipher_validity_get_valid (valid), "%s", camel_cipher_validity_get_description (valid));
+	camel_cipher_validity_free (valid);
 	camel_test_pull ();
 	
 	camel_object_unref (CAMEL_OBJECT (mime_part));

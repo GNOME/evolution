@@ -110,7 +110,7 @@ camel_pgp_context_get_type (void)
 	static CamelType type = CAMEL_INVALID_TYPE;
 	
 	if (type == CAMEL_INVALID_TYPE) {
-		type = camel_type_register (camel_pgp_context_get_type (),
+		type = camel_type_register (camel_cipher_context_get_type (),
 					    "CamelPgpContext",
 					    sizeof (CamelPgpContext),
 					    sizeof (CamelPgpContextClass),

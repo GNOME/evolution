@@ -41,7 +41,7 @@
 
 #define d(x)
 
-#define CCCC(k) CAMEL_CIPHER_CONTEXT_CLASS (k)
+#define CCC_CLASS(o) CAMEL_CIPHER_CONTEXT_CLASS(CAMEL_OBJECT_GET_CLASS(o))
 
 struct _CamelCipherContextPrivate {
 #ifdef ENABLE_THREADS
@@ -191,7 +191,7 @@ camel_cipher_sign (CamelCipherContext *context, const char *userid, CamelCipherH
 	
 	CIPHER_LOCK(context);
 	
-	retval = CCCC (context)->sign (context, userid, hash, istream, ostream, ex);
+	retval = CCC_CLASS (context)->sign (context, userid, hash, istream, ostream, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -229,7 +229,7 @@ camel_cipher_clearsign (CamelCipherContext *context, const char *userid, CamelCi
 	
 	CIPHER_LOCK(context);
 	
-	retval = CCCC (context)->clearsign (context, userid, hash, istream, ostream, ex);
+	retval = CCC_CLASS (context)->clearsign (context, userid, hash, istream, ostream, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -270,7 +270,7 @@ camel_cipher_verify (CamelCipherContext *context, CamelStream *istream,
 	
 	CIPHER_LOCK(context);
 	
-	valid = CCCC (context)->verify (context, istream, sigstream, ex);
+	valid = CCC_CLASS (context)->verify (context, istream, sigstream, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -310,7 +310,7 @@ camel_cipher_encrypt (CamelCipherContext *context, gboolean sign, const char *us
 	
 	CIPHER_LOCK(context);
 	
-	retval = CCCC (context)->encrypt (context, sign, userid, recipients, istream, ostream, ex);
+	retval = CCC_CLASS (context)->encrypt (context, sign, userid, recipients, istream, ostream, ex);
 	
 	CIPHER_UNLOCK(context);
 	
@@ -347,7 +347,7 @@ camel_cipher_decrypt (CamelCipherContext *context, CamelStream *istream,
 	
 	CIPHER_LOCK(context);
 	
-	retval = CCCC (context)->decrypt (context, istream, ostream, ex);
+	retval = CCC_CLASS (context)->decrypt (context, istream, ostream, ex);
 	
 	CIPHER_UNLOCK(context);
 	

@@ -1,5 +1,14 @@
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-pgp-context.c (camel_pgp_context_get_type): Oops, lets not
+	get into a recursive call here ;-)
+
+	* tests/smime/pgp.c: Updated to reflect changes to the PGP code.
+
+	* tests/smime/pgp-mime.c: Same.
+
+2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* camel-pgp-mime.c: Updated to reflect the few changes made to the
 	CamelPgpContext class.
 
