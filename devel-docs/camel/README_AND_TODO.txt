@@ -1,4 +1,4 @@
-Camel is currently (conceptually) separated in four parts:
+Camel is currently (conceptualy) separated in four parts:
 
 * the session handling 
 * the storage mechanism.
@@ -15,13 +15,13 @@ CamelSession is an object used to store some parameters on a user
 basis. This can be a permanent (fs based) or volatile 
 (ram only) storage depending on user preferences. 
 The session object is, for example, responsible for 
-remmbering authentication datas during application lifetime.
+remembering authentication datas during application lifetime.
 It is also responsible for selecting and loading providers 
 corresponding to protocols. In the case where only one 
-provider exists for a given protocols, the task is trivial, 
+provider exists for a given protocol, the task is trivial, 
 but when multiple providers exist for a given protocol, the
-user can choose its prefered one. Given its relationship
-with providers, the session objects is also used to instanciate
+user can choose their prefered one. Given its relationship
+with providers, the session object is also used to instanciate
 a store given an URL.
 
 Associated Classes:
