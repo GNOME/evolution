@@ -1,3 +1,9 @@
+2000-12-12  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-hdrs.c (set_entry): Don't convert the utf-8
+	string to a gtkstring because the widget expects to get a utf-8
+	string.
+
 2000-12-12  Dan Winship  <danw@helixcode.com>
 
 	* Makefile.am (EXTRA_DIST): Add $(IDLS). (From campd.)

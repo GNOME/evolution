@@ -217,6 +217,7 @@ add_inlined_image (gpointer key, gpointer value, gpointer data)
 	id = g_strconcat ("<", cid, ">", NULL);
 	camel_mime_part_set_content_id (part, id);
 	g_free (id);
+	/* FIXME: should this use g_basename (file_name)? */
 	camel_mime_part_set_filename (part, strchr (file_name, '/') ? strrchr (file_name, '/') + 1 : file_name);
 	camel_mime_part_set_encoding (part, CAMEL_MIME_PART_ENCODING_BASE64);
 
@@ -1339,7 +1340,7 @@ e_msg_composer_construct (EMsgComposer *composer)
 				     DEFAULT_WIDTH, DEFAULT_HEIGHT);
 	
 	bonobo_window_construct (BONOBO_WINDOW (composer), "e-msg-composer",
-			     _("Compose a message"));
+				 _("Compose a message"));
 	
 	/* DND support */
 	gtk_drag_dest_set (GTK_WIDGET (composer), GTK_DEST_DEFAULT_ALL,

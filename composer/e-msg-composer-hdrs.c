@@ -492,20 +492,16 @@ set_entry (BonoboWidget *bonobo_widget,
 {
 	GString *string;
 	const GList *p;
-	char *s;
-
-	string = g_string_new (NULL);
+	
+	string = g_string_new ("");
 	for (p = list; p != NULL; p = p->next) {
 		if (string->str[0] != '\0')
 			g_string_append (string, ", ");
 		g_string_append (string, p->data);
 	}
-
-	/* FIXME: This is just a temporary workaround, the widget should grok it */
-	s = e_utf8_to_gtk_string((GtkWidget *)bonobo_widget, string->str);
-	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", s, NULL);
-
-	g_free(s);
+	
+	bonobo_widget_set_property (BONOBO_WIDGET (bonobo_widget), "text", string->str, NULL);
+	
 	g_string_free (string, TRUE);
 }
 
