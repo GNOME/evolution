@@ -49,6 +49,7 @@
 #include "dialogs/send-comp.h"
 #include "dialogs/cancel-comp.h"
 #include "dialogs/recur-comp.h"
+#include "dialogs/select-source-dialog.h"
 #include "print.h"
 #include "goto.h"
 #include "ea-calendar.h"
@@ -384,6 +385,7 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	e_cal_component_set_icalcomponent (
 		comp, icalcomponent_new_clone (icalcomp));
 	e_cal_component_set_uid (comp, uid);
+	g_free (uid);
 
 	/* set the timezone properly */
 	dt.value = &itime;
@@ -396,7 +398,13 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 	e_cal_component_commit_sequence (comp);
 
 	/* FIXME Error handling */
-	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), NULL, NULL)) {
+	uid = NULL;
+	if (e_cal_create_object (client, e_cal_component_get_icalcomponent (comp), &uid, NULL)) {
+		if (uid) {
+			e_cal_component_set_uid (comp, uid);
+			g_free (uid);
+		}
+
 		if (itip_organizer_is_user (comp, client) &&
 		    send_component_dialog ((GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (cal_view)),
 				   client, comp, TRUE)) {
@@ -407,7 +415,6 @@ e_calendar_view_add_event (ECalendarView *cal_view, ECal *client, time_t dtstart
 		g_message (G_STRLOC ": Could not create the object!");
 	}
 
-	free (uid);
 	g_object_unref (comp);
 }
 
@@ -1091,6 +1098,62 @@ on_print_event (GtkWidget *widget, gpointer user_data)
 	print_comp (comp, event->comp_data->client, FALSE);
 
 	g_object_unref (comp);
+	g_list_free (selected);
+}
+
+static void
+transfer_item_to (ECalendarViewEvent *event, ESource *destination_source, gboolean remove_item)
+{
+}
+
+static void
+on_copy_to (GtkWidget *widget, gpointer user_data)
+{
+	GList *selected, *l;
+	ESource *destination_source;
+	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	/* prompt the user for destination source */
+	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (widget), E_CAL_SOURCE_TYPE_EVENT);
+	if (!destination_source)
+		return;
+
+	/* process all selected events */
+	for (l = selected; l != NULL; l = l->next)
+		transfer_item_to ((ECalendarViewEvent *) l->data, destination_source, FALSE);
+
+	/* free memory */
+	g_object_unref (destination_source);
+	g_list_free (selected);
+}
+
+static void
+on_move_to (GtkWidget *widget, gpointer user_data)
+{
+	GList *selected, *l;
+	ESource *destination_source;
+	ECalendarView *cal_view = E_CALENDAR_VIEW (user_data);
+
+	selected = e_calendar_view_get_selected_events (cal_view);
+	if (!selected)
+		return;
+
+	/* prompt the user for destination source */
+	destination_source = select_source_dialog ((GtkWindow *) gtk_widget_get_toplevel (widget), E_CAL_SOURCE_TYPE_EVENT);
+	if (!destination_source)
+		return;
+
+	/* process all selected events */
+	for (l = selected; l != NULL; l = l->next)
+		transfer_item_to ((ECalendarViewEvent *) l->data, destination_source, FALSE);
+
+	/* free memory */
+	g_object_unref (destination_source);
+	g_list_free (selected);
 }
 
 static void
@@ -1259,6 +1322,8 @@ static EPopupMenu child_items [] = {
 
 	E_POPUP_SEPARATOR,
 
+	E_POPUP_ITEM (N_("Cop_y to Calendar..."), GTK_SIGNAL_FUNC (on_copy_to), MASK_EDITING),
+	E_POPUP_ITEM (N_("Mo_ve to Calendar..."), GTK_SIGNAL_FUNC (on_move_to), MASK_EDITING | MASK_EDITABLE),
 	E_POPUP_ITEM (N_("_Schedule Meeting..."), GTK_SIGNAL_FUNC (on_meeting), MASK_EDITABLE | MASK_EDITING | MASK_MEETING),
 	E_POPUP_ITEM (N_("_Forward as iCalendar..."), GTK_SIGNAL_FUNC (on_forward), MASK_EDITING),
 

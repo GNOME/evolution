@@ -1,3 +1,15 @@
+2004-03-22  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-view.c (e_calendar_view_add_event): get the UID
+	from the server on newly created events and set the ECalComponent's
+	UID to that, for further operations.
+
+2004-03-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-calendar-view.c: added 'Copy/Move to Calendar' menu entries.
+	(on_copy_to, on_move_to): callbacks for new menu items.
+	(on_print_event): don't leak selection list.
+
 2004-03-19  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #55716
