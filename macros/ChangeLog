@@ -1,3 +1,9 @@
+1998-11-30  Jeff Garzik  <jgarzik@pobox.com>
+
+	* gnome.m4: Re-arranged tests such that "--without-gnome" is
+	fully supported.  Not only is the logic now correct, programs
+	can test "want_gnome=yes/no" for the results of this arg.
+
 1998-11-27  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4: All parts of GNOME will now require
