@@ -1,3 +1,7 @@
+2004-04-23  Sarfraaz Ahmed <asarfraaz@novell.com>
+
+	* mail/mail-license.glade: Glade file for displaying the license.
+
 2004-04-23  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html.c (em_format_html_load_http): fix the check to
