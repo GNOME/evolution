@@ -1,5 +1,12 @@
 2004-01-21  Not Zed  <NotZed@Ximian.com>
 
+	* em-migrate.c (cp_r): use camel_mkdir(0777) rather than 0777 &
+	st.st_mode which isn't set anyway.
+	(cp): use simple 0666 for the mode open, and then chmod after.
+	(cp): check the return code of close, not just fsync.
+	(cp): dont use fd[0] and fd[1] when we really just want simple
+	variables, rename to readfd and writefd.
+
 	** See bug #53159.
 
 	* em-format.c (emf_message_rfc822): removed incorrect comment,

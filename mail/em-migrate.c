@@ -30,6 +30,7 @@
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <utime.h>
 #include <unistd.h>
 #include <dirent.h>
 #include <regex.h>
@@ -1240,31 +1241,39 @@ cp (const char *src, const char *dest, gboolean show_progress)
 {
 	unsigned char readbuf[4096];
 	ssize_t nread, nwritten;
-	int errnosav, fd[2];
+	int errnosav, readfd, writefd;
 	size_t total = 0;
 	struct stat st;
-	
+	struct utimbuf ut;
+
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat (dest, &st) == 0 && st.st_size > 0)
-		return -1;
-	
-	if (stat (src, &st) == -1)
-		return -1;
-	
-	if ((fd[0] = open (src, O_RDONLY)) == -1)
-		return -1;
-	
-	if ((fd[1] = open (dest, O_WRONLY | O_CREAT | O_TRUNC, st.st_mode & 0666)) == -1) {
-		errnosav = errno;
-		close (fd[0]);
-		errno = errnosav;
+	if (stat(dest, &st) == 0 && st.st_size > 0) {
+		printf("destination exists, not copying '%s' to '%s'\n", src, dest);
 		return -1;
 	}
 	
+	if (stat(src, &st) == -1) {
+		printf("source doesn't exist '%s'\n", src);
+		return -1;
+	}
+	
+	if ((readfd = open(src, O_RDONLY)) == -1) {
+		printf("source cannot be opened '%s'\n", src);
+		return -1;
+	}
+	
+	if ((writefd = open(dest, O_WRONLY | O_CREAT | O_TRUNC, 0666)) == -1) {
+		printf("cannot open dest '%s' '%s'\n", dest, strerror(errno));
+		errnosav = errno;
+		close(readfd);
+		errno = errnosav;
+		return -1;
+	}
+
 	do {
 		do {
-			nread = read (fd[0], readbuf, sizeof (readbuf));
+			nread = read(readfd, readbuf, sizeof(readbuf));
 		} while (nread == -1 && errno == EINTR);
 		
 		if (nread == 0)
@@ -1273,7 +1282,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 			goto exception;
 		
 		do {
-			nwritten = write (fd[1], readbuf, nread);
+			nwritten = write(writefd, readbuf, nread);
 		} while (nwritten == -1 && errno == EINTR);
 		
 		if (nwritten < nread)
@@ -1282,24 +1291,35 @@ cp (const char *src, const char *dest, gboolean show_progress)
 		total += nwritten;
 		
 		if (show_progress)
-			em_migrate_set_progress (((double) total) / ((double) st.st_size));
+			em_migrate_set_progress(((double) total) / ((double) st.st_size));
 	} while (total < st.st_size);
 	
-	if (fsync (fd[1]) == -1)
+	if (fsync(writefd) == -1)
 		goto exception;
 	
-	close (fd[0]);
-	close (fd[1]);
-	
+	close(readfd);
+	if (close(writefd) == -1)
+		goto failwrite;
+
+	ut.actime = st.st_atime;
+	ut.modtime = st.st_mtime;
+	utime(dest, &ut);
+	chmod(dest, st.st_mode);
+
 	return 0;
 	
  exception:
 	
 	errnosav = errno;
 	
-	close (fd[0]);
-	close (fd[1]);
-	unlink (dest);
+	close(readfd);
+	close(writefd);
+
+	errno = errnosav;
+failwrite:
+	errnosav = errno;
+
+	unlink(dest);
 	
 	errno = errnosav;
 	
@@ -1315,7 +1335,7 @@ cp_r (const char *src, const char *dest)
 	struct stat st;
 	DIR *dir;
 	
-	if (camel_mkdir (dest, st.st_mode & 0777) == -1)
+	if (camel_mkdir (dest, 0777) == -1)
 		return -1;
 	
 	if (!(dir = opendir (src)))
