@@ -1,3 +1,11 @@
+2002-09-03  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes #29699 ]
+	* gui/component/addressbook-config.c
+	(addressbook_add_server_druid): call _set_source with a NULL
+	source to fill in dialog settings that are set from the option
+	menus (like the SSL setting).
+
 2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook.c (delete_contact_cb): Fix typo

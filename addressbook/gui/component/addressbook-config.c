@@ -1062,6 +1062,9 @@ addressbook_add_server_druid (AddressbookDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT(sdialog->window), "destroy",
 			    GTK_SIGNAL_FUNC(addressbook_source_dialog_destroy), sdialog);
 
+	/* make sure we fill in the default values */
+	addressbook_source_dialog_set_source (sdialog, NULL);
+
 	gtk_window_set_modal (GTK_WINDOW (sdialog->window), TRUE);
 
 	gtk_widget_show (sdialog->window);
