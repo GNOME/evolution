@@ -10,6 +10,7 @@
  */
 #include <config.h>
 #include <stdlib.h>
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkobject.h>
 #include <gnome-xml/parser.h>

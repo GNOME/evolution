@@ -13,6 +13,7 @@
 #include "e-table-specification.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <gtk/gtksignal.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
