@@ -1,3 +1,10 @@
+2005-02-25  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/calendar-component.c (ensure_sources) :
+	Make sure the base uri is same as the one
+	migration code uses. Avoids two "On This Computer"
+	groups when both migration and this code runs.
+	
 2005-02-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* common/authentication.c:

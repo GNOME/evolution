@@ -152,7 +152,7 @@ ensure_sources (CalendarComponent *component)
 	}
 
 	base_uri = g_build_filename (calendar_component_peek_base_directory (component),
-				     "calendar", "local",
+				     "/calendar/local/",
 				     NULL);
 
 	base_uri_proto = g_strconcat ("file://", base_uri, NULL);
