@@ -231,6 +231,8 @@ impl_destroy (GtkObject *object)
 		gtk_idle_remove (priv->layout_idle_id);
 
 	g_free (priv);
+
+	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 
