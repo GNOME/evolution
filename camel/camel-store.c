@@ -132,7 +132,7 @@ static void
 camel_store_finalize (CamelObject *object)
 {
 	CamelStore *store = CAMEL_STORE (object);
-	
+
 	if (store->folders) {
 		if (g_hash_table_size (store->folders) != 0) {
 			g_warning ("Folder cache for store %p contains "

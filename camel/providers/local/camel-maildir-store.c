@@ -35,6 +35,7 @@
 #include "camel-maildir-folder.h"
 #include "camel-exception.h"
 #include "camel-url.h"
+#include "camel-private.h"
 
 #define d(x)
 
@@ -141,11 +142,10 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, guin
 	return folder;
 }
 
-/* fixes bug #1138 */
 static CamelFolder *
 get_inbox (CamelStore *store, CamelException *ex)
 {
-	return get_folder (store, "", 0, ex);
+	return get_folder (store, ".", 0, ex);
 }
 
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)
@@ -226,6 +226,8 @@ static CamelFolderInfo *camel_folder_info_new(const char *url, const char *full,
 	fi->unread_message_count = unread;
 	camel_folder_info_build_path(fi, '/');
 
+	d(printf("Adding maildir info: '%s' '%s' '%s'\n", fi->path, fi->name, fi->full_name));
+
 	return fi;
 }
 
@@ -236,7 +238,7 @@ struct _inode {
 };
 
 /* returns number of records found at or below this level */
-static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
+static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const char *path, guint32 flags, CamelFolderInfo *parent, CamelFolderInfo **fip, CamelException *ex)
 {
 	DIR *dir;
 	struct dirent *d;
@@ -244,6 +246,8 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 	const char *base;
 	CamelFolderInfo *fi = NULL;
 	struct stat st;
+	CamelFolder *folder;
+	int unread;
 
 	/* look for folders matching the right structure, recursively */
 	name = g_strdup_printf("%s/%s", root, path);
@@ -256,17 +260,27 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 
 	if (stat(tmp, &st) == 0 && S_ISDIR(st.st_mode)
 	    && stat(cur, &st) == 0 && S_ISDIR(st.st_mode)
-	    && stat(new, &st) == 0 && S_ISDIR(st.st_mode))
-		uri = g_strdup_printf("maildir://%s#%s", root, path);
-	else
-		uri = g_strdup_printf("maildir://%s;noselect=yes#%s", root, path);
+	    && stat(new, &st) == 0 && S_ISDIR(st.st_mode)) {
+		uri = g_strdup_printf("maildir:%s#%s", root, path);
+	} else
+		uri = g_strdup_printf("maildir:%s;noselect=yes#%s", root, path);
 
 	base = strrchr(path, '/');
 	if (base)
 		base++;
 	else
 		base = path;
-	fi = camel_folder_info_new(uri, path, base, -1);
+
+	/* if we have this folder open, get the real unread count */
+	CAMEL_STORE_LOCK(store, cache_lock);
+	folder = g_hash_table_lookup(store->folders, path);
+	if (folder)
+		unread = camel_folder_get_message_count(folder);
+	else
+		unread = 0;
+	CAMEL_STORE_UNLOCK(store, cache_lock);
+	
+	fi = camel_folder_info_new(uri, path, base, unread);
 	
 	d(printf("found! uri = %s\n", fi->url));
 	d(printf("  full_name = %s\n  name = '%s'\n", fi->full_name, fi->name));
@@ -310,7 +324,7 @@ static int scan_dir(GHashTable *visited, char *root, const char *path, guint32 f
 					*inew = in;
 					g_hash_table_insert(visited, inew, inew);
 					new = g_strdup_printf("%s/%s", path, d->d_name);
-					if (scan_dir(visited, root, new, flags, fi, &fi->child, ex) == -1) {
+					if (scan_dir(store, visited, root, new, flags, fi, &fi->child, ex) == -1) {
 						g_free(tmp);
 						g_free(new);
 						closedir(dir);
@@ -357,7 +371,7 @@ get_folder_info (CamelStore *store, const char *top, guint32 flags, CamelExcepti
 
 	visited = g_hash_table_new(inode_hash, inode_equal);
 
-	if (scan_dir(visited, service->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
+	if (scan_dir(store, visited, service->url->path, top?top:".", flags, NULL, &fi, ex) == -1 && fi != NULL) {
 		camel_store_free_folder_info_full(store, fi);
 		fi = NULL;
 	}

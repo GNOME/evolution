@@ -1,7 +1,14 @@
 2001-09-20    <NotZed@Ximian.com>
 
+	* providers/local/camel-local-folder.c
+	(camel_local_folder_construct): Setup unread count properly, and
+	also setup the url properly.
+
 	* providers/local/camel-maildir-store.c (camel_folder_info_new):
 	Build the path on the folderinfo.
+	(scan_dir): Dont include empty host part in url for folder.
+	(scan_dir): Lookup folder counts for any folders we currenty have
+	open.
 
 	* providers/local/camel-spool-store.c (get_folder_info): If we
 	have this folder open, then set unread from the folder itself.
