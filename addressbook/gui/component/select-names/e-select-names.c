@@ -177,6 +177,7 @@ e_select_names_clicked(ESelectNames *dialog, gint button, ESelectNames *data)
 	case 1:
 		break;
 	}
+	gnome_dialog_close(GNOME_DIALOG(dialog));
 }
 
 static void

@@ -1,5 +1,11 @@
 2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_clicked): Hitting OK or Cancel at least closes the
+	dialog now.
+
+2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/component/select-names/e-select-names-manager.c
 	(e_select_names_manager_create_entry): Set the returned entry to
 	use the ellipsis.
