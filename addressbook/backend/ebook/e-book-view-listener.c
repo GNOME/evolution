@@ -72,6 +72,7 @@ e_book_view_listener_queue_empty_event (EBookViewListener          *listener,
 	resp->op        = op;
 	resp->id        = NULL;
 	resp->cards     = NULL;
+	resp->message   = NULL;
 
 	e_book_view_listener_queue_response (listener, resp);
 }
@@ -89,6 +90,7 @@ e_book_view_listener_queue_id_event (EBookViewListener          *listener,
 	resp->op        = op;
 	resp->id        = g_strdup (id);
 	resp->cards     = NULL;
+	resp->message   = NULL;
 
 	e_book_view_listener_queue_response (listener, resp);
 }
@@ -107,10 +109,29 @@ e_book_view_listener_queue_sequence_event (EBookViewListener          *listener,
 	resp->op        = op;
 	resp->id        = NULL;
 	resp->cards     = NULL;
+	resp->message   = NULL;
 	
 	for ( i = 0; i < cards->_length; i++ ) {
 		resp->cards = g_list_append(resp->cards, e_card_new(cards->_buffer[i]));
 	}
+
+	e_book_view_listener_queue_response (listener, resp);
+}
+
+/* Status Message */
+static void
+e_book_view_listener_queue_message_event (EBookViewListener          *listener,
+					  EBookViewListenerOperation  op,
+					  const char                 *message)
+{
+	EBookViewListenerResponse *resp;
+
+	resp = g_new0 (EBookViewListenerResponse, 1);
+
+	resp->op        = op;
+	resp->id        = NULL;
+	resp->cards     = NULL;
+	resp->message   = g_strdup(message);
 
 	e_book_view_listener_queue_response (listener, resp);
 }
@@ -155,6 +176,16 @@ impl_BookViewListener_signal_sequence_complete (PortableServer_Servant servant,
 	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
 
 	e_book_view_listener_queue_empty_event (listener, SequenceCompleteEvent);
+}
+
+static void
+impl_BookViewListener_signal_status_message (PortableServer_Servant  servant,
+					     const char             *message,
+					     CORBA_Environment      *ev)
+{
+	EBookViewListener *listener = E_BOOK_VIEW_LISTENER (bonobo_object_from_servant (servant));
+
+	e_book_view_listener_queue_message_event (listener, StatusMessageEvent, message);
 }
 
 /**
@@ -288,12 +319,14 @@ e_book_view_listener_destroy (GtkObject *object)
 
 	for (l = listener->priv->response_queue; l != NULL; l = l->next) {
 		EBookViewListenerResponse *resp = l->data;
-		if (resp->id)
-			g_free(resp->id);
-		if (resp->cards) {
-			g_list_foreach(resp->cards, (GFunc) gtk_object_unref, NULL);
-			g_list_free(resp->cards);
-		}
+
+		g_free(resp->id);
+
+		g_list_foreach(resp->cards, (GFunc) gtk_object_unref, NULL);
+		g_list_free(resp->cards);
+
+		g_free (resp->message);
+
 		g_free (resp);
 	}
 	g_list_free (listener->priv->response_queue);
@@ -314,6 +347,7 @@ e_book_view_listener_get_epv (void)
 	epv->signal_card_removed       = impl_BookViewListener_signal_card_removed;
 	epv->signal_card_added         = impl_BookViewListener_signal_card_added;
 	epv->signal_sequence_complete  = impl_BookViewListener_signal_sequence_complete;
+	epv->signal_status_message     = impl_BookViewListener_signal_status_message;
 
 	return epv;
 }

@@ -142,6 +142,24 @@ pas_book_view_notify_complete (PASBookView *book_view)
 	CORBA_exception_free (&ev);
 }
 
+void
+pas_book_view_notify_status_message (PASBookView *book_view,
+				     const char  *message)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	Evolution_BookViewListener_signal_status_message (
+		book_view->priv->listener, message, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_view_notify_complete: Exception signaling BookViewListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
 static gboolean
 pas_book_view_construct (PASBookView                *book_view,
 			 Evolution_BookViewListener  listener)

@@ -42,6 +42,7 @@ typedef enum {
 	CardRemovedEvent,
 	CardModifiedEvent,
 	SequenceCompleteEvent,
+	StatusMessageEvent,
 } EBookViewListenerOperation;
 
 typedef struct {
@@ -52,6 +53,9 @@ typedef struct {
 
 	/* For Card[Added|Modified]Event */
 	GList                  *cards; /* Of type ECard. */
+
+	/* For StatusMessageEvent */
+	char                   *message;
 	
 } EBookViewListenerResponse;
 

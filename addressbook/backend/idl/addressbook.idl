@@ -33,6 +33,7 @@ module Evolution {
 		void signal_card_removed (in CardId id);
 		void signal_card_changed (in VCardList cards);
 		void signal_sequence_complete ();
+		void signal_status_message (in string message);
 	};
 	
 	interface BookView : Bonobo::Unknown {

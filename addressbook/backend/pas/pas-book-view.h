@@ -28,22 +28,23 @@ struct _PASBookView {
 struct _PASBookViewClass {
 	BonoboObjectClass parent_class;
 };
+PASBookView *pas_book_view_new                    (Evolution_BookViewListener  listener);
 
-PASBookView                *pas_book_view_new                (Evolution_BookViewListener             listener);
+void         pas_book_view_notify_change          (PASBookView                *book_view,
+						   const GList                *cards);
+void         pas_book_view_notify_change_1        (PASBookView                *book_view,
+						   const char                 *card);
+void         pas_book_view_notify_remove          (PASBookView                *book_view,
+						   const char                 *id);
+void         pas_book_view_notify_add             (PASBookView                *book_view,
+						   const GList                *cards);
+void         pas_book_view_notify_add_1           (PASBookView                *book_view,
+						   const char                 *card);
+void         pas_book_view_notify_complete        (PASBookView                *book_view);
+void         pas_book_view_notify_status_message  (PASBookView                *book_view,
+						   const char                 *message);
 
-void                        pas_book_view_notify_change      (PASBookView                           *book_view,
-							      const GList                           *cards);
-void                        pas_book_view_notify_change_1    (PASBookView                           *book_view,
-							      const char                            *card);
-void                        pas_book_view_notify_remove      (PASBookView                           *book_view,
-							      const char                            *id);
-void                        pas_book_view_notify_add         (PASBookView                           *book_view,
-							      const GList                           *cards);
-void                        pas_book_view_notify_add_1       (PASBookView                           *book_view,
-							      const char                            *card);
-void                        pas_book_view_notify_complete    (PASBookView                           *book_view);
-
-GtkType                     pas_book_view_get_type           (void);
+GtkType      pas_book_view_get_type               (void);
 
 #define PAS_BOOK_VIEW_TYPE        (pas_book_view_get_type ())
 #define PAS_BOOK_VIEW(o)          (GTK_CHECK_CAST ((o), PAS_BOOK_VIEW_TYPE, PASBookView))

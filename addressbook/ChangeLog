@@ -1,5 +1,14 @@
 2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/ebook/e-book-view-listener.c,
+	backend/ebook/e-book-view-listener.h, backend/ebook/e-book-view.c,
+	backend/ebook/e-book-view.h, backend/idl/addressbook.idl,
+	backend/pas/pas-book-view.c, backend/pas/pas-book-view.h: Added a
+	function to set the status message associated with a given view.
+	This is not yet implemented in the gui.
+
+2000-09-22  Christopher James Lahey  <clahey@helixcode.com>
+
 	* backend/ebook/e-book.c, backend/ebook/e-book.h,
 	backend/idl/addressbook.idl, backend/pas/pas-backend-file.c,
 	backend/pas/pas-backend-ldap.c, backend/pas-backend.c,
