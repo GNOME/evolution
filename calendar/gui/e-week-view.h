@@ -489,7 +489,7 @@ gboolean   e_week_view_get_span_position	(EWeekView	*week_view,
 						 gint		*span_w);
 gboolean   e_week_view_is_one_day_event		(EWeekView	*week_view,
 						 gint		 event_num);
-void	   e_week_view_start_editing_event	(EWeekView	*week_view,
+gboolean   e_week_view_start_editing_event	(EWeekView	*week_view,
 						 gint		 event_num,
 						 gint		 span_num,
 						 gchar		*initial_text);
