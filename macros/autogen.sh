@@ -90,7 +90,9 @@ do
 	  : do nothing -- we still have an old unmodified configure.in
 	else
 	  echo "Running gettextize...  Ignore non-fatal messages."
-	  echo "no" | gettextize --force
+	  echo "no" | gettextize --force --copy
+	  echo "Making $dr/aclocal.m4 writable ..."
+	  chmod u+w $dr/aclocal.m4
         fi
       fi
       if grep "^AM_PROG_LIBTOOL" configure.in >/dev/null; then
