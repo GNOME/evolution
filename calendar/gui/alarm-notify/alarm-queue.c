@@ -649,15 +649,17 @@ edit_component (ECal *client, ECalComponent *comp)
 {
 	const char *uid;
 	const char *uri;
+	ECalSourceType source_type;
 	CORBA_Environment ev;
 	GNOME_Evolution_Calendar_CompEditorFactory factory;
+	GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode corba_type;
 
 	e_cal_component_get_uid (comp, &uid);
 
 	uri = e_cal_get_uri (client);
+	source_type = e_cal_get_source_type (client);
 
 	/* Get the factory */
-
 	CORBA_exception_init (&ev);
 	factory = bonobo_activation_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory:" BASE_VERSION,
 						      0, NULL, &ev);
@@ -669,7 +671,15 @@ edit_component (ECal *client, ECalComponent *comp)
 	}
 
 	/* Edit the component */
-	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, &ev);
+	switch (source_type) {
+	case E_CAL_SOURCE_TYPE_TODO:
+		corba_type = GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO;
+		break;
+	default:
+		corba_type = GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_EVENT;		
+	}
+	
+	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, corba_type, &ev);
 
 	if (BONOBO_EX (&ev))
 		g_message (G_STRLOC ": Exception while editing the component");

@@ -97,6 +97,7 @@ static void comp_editor_factory_finalize (GObject *object);
 static void impl_editExisting (PortableServer_Servant servant,
 			       const CORBA_char *str_uri,
 			       const CORBA_char *uid,
+			       const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode corba_type,
 			       CORBA_Environment *ev);
 static void impl_editNew (PortableServer_Servant servant,
 			  const CORBA_char *str_uri,
@@ -442,7 +443,7 @@ cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
  * open request.
  */
 static OpenClient *
-open_client (CompEditorFactory *factory, const char *uristr)
+open_client (CompEditorFactory *factory, ECalSourceType source_type, const char *uristr)
 {
 	CompEditorFactoryPrivate *priv;
 	ECal *client;
@@ -451,8 +452,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
 
 	priv = factory->priv;
 
-	/* FIXME get the type here, breaks if its a task alarm */
-	client = auth_new_cal_from_uri (uristr, E_CAL_SOURCE_TYPE_EVENT);
+	client = auth_new_cal_from_uri (uristr, source_type);
 	if (!client)
 		return NULL;
 
@@ -487,7 +487,7 @@ open_client (CompEditorFactory *factory, const char *uristr)
  * NULL on failure; in the latter case it sets the ev exception.
  */
 static OpenClient *
-lookup_open_client (CompEditorFactory *factory, const char *str_uri, CORBA_Environment *ev)
+lookup_open_client (CompEditorFactory *factory, ECalSourceType source_type, const char *str_uri, CORBA_Environment *ev)
 {
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
@@ -506,7 +506,7 @@ lookup_open_client (CompEditorFactory *factory, const char *str_uri, CORBA_Envir
 
 	oc = g_hash_table_lookup (priv->uri_client_hash, str_uri);
 	if (!oc) {
-		oc = open_client (factory, str_uri);
+		oc = open_client (factory, source_type, str_uri);
 		if (!oc) {
 			bonobo_exception_set (ev, ex_GNOME_Evolution_Calendar_CompEditorFactory_BackendContactError);
 			return NULL;
@@ -536,17 +536,27 @@ static void
 impl_editExisting (PortableServer_Servant servant,
 		   const CORBA_char *str_uri,
 		   const CORBA_char *uid,
+		   const GNOME_Evolution_Calendar_CompEditorFactory_CompEditorMode corba_type,
 		   CORBA_Environment *ev)
 {
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
 	CompEditor *editor;
-
+	ECalSourceType source_type;
+	
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
-	oc = lookup_open_client (factory, str_uri, ev);
+	switch (corba_type) {
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
+		source_type = E_CAL_SOURCE_TYPE_TODO;
+		break;
+	default:
+		source_type = E_CAL_SOURCE_TYPE_EVENT;
+	}
+	
+	oc = lookup_open_client (factory, source_type, str_uri, ev);
 	if (!oc)
 		return;
 
@@ -556,7 +566,7 @@ impl_editExisting (PortableServer_Servant servant,
 	}
 
 	/* Look up the component */
-	editor = e_comp_editor_registry_find (comp_editor_registry, uid);	
+	editor = e_comp_editor_registry_find (comp_editor_registry, uid);
 	if (editor == NULL) {
 		edit_existing (oc, uid);
 	} else {
@@ -589,11 +599,20 @@ impl_editNew (PortableServer_Servant servant,
 	CompEditorFactory *factory;
 	CompEditorFactoryPrivate *priv;
 	OpenClient *oc;
- 
+	ECalSourceType source_type;
+	
 	factory = COMP_EDITOR_FACTORY (bonobo_object_from_servant (servant));
 	priv = factory->priv;
 
-	oc = lookup_open_client (factory, str_uri, ev);
+	switch (corba_type) {
+	case GNOME_Evolution_Calendar_CompEditorFactory_EDITOR_MODE_TODO:
+		source_type = E_CAL_SOURCE_TYPE_TODO;
+		break;
+	default:
+		source_type = E_CAL_SOURCE_TYPE_EVENT;
+	}
+
+	oc = lookup_open_client (factory, source_type, str_uri, ev);
 	if (!oc)
 		return;
 

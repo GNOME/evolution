@@ -33,7 +33,10 @@ module Calendar {
 		const CompEditorMode EDITOR_MODE_TODO         = 1 << 3;
 
 		/* Loads a calendar and opens an editor for the specified object */
-		void editExisting (in string uri, in CalObjUID uid)
+		/* FIXME Its nasty to use CompEditorMode to pass event/todo source type
+		   but it saves adding yet another corba type - only MODE_EVENT or 
+		   MODE_TODO should be passed here */
+		void editExisting (in string uri, in CalObjUID uid, in CompEditorMode mode)
 			raises (InvalidURI, BackendContactError);
 
 		/* Loads a calendar and creates a new component of the specified type */

@@ -1,5 +1,20 @@
 2004-05-18  JP Rosevear  <jpr@novell.com>
 
+	* idl/evolution-calendar.idl: add arg
+
+	* gui/alarm-notify/alarm-queue.c (edit_component): send a mode
+	type
+
+	* gui/alarm-notify/alarm-notify.c: add fixme note
+
+	* gui/comp-editor-factory.c (impl_editExisting): take a editor
+	mode and twist it into a source type
+	(impl_editNew): ditto
+	(open_client): take a source type for creating the client
+	(lookup_open_client): ditto
+
+2004-05-18  JP Rosevear  <jpr@novell.com>
+
 	* gui/alarm-notify/notify-main.c (init_alarm_service): just set up
 	the alarm notify object
 
@@ -89,7 +104,7 @@
 	* gui/calendar-component.c (add_popup_menu_item): Use
 	E_ICON_SIZE_MENU rather than hard-coding the pixel size.
 
-2004-05-17    <jpr@ximian.com>
+2004-05-17  JP Rosevear  <jpr@novell.com>
 
 	Fixes #56373
 	

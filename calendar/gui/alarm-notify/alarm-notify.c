@@ -36,6 +36,8 @@
 /* Private part of the AlarmNotify structure */
 struct _AlarmNotifyPrivate {
 	/* Mapping from EUri's to LoadedClient structures */
+	/* FIXME do we need per source type uri hashes? or perhaps we
+	   just need to hash based on source */
 	GHashTable *uri_client_hash;
 
 	ESourceList *source_lists [E_CAL_SOURCE_TYPE_LAST];	
