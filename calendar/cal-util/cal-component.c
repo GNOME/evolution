@@ -2459,7 +2459,6 @@ cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list)
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (IS_CAL_COMPONENT (comp));
-	g_return_if_fail (recur_list != NULL);
 
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);

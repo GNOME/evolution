@@ -2418,6 +2418,8 @@ e_day_view_on_new_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_dtend (comp, &date);
 	g_free (date.value);
 
+	cal_component_commit_sequence (comp);
+
 	gnome_calendar_edit_object (day_view->calendar, comp);
 	gtk_object_unref (GTK_OBJECT (comp));
 }
