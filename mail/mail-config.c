@@ -1991,13 +1991,17 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	/* Copy source */
 	source = account->source;
 	mail_service = g_new0 (MailConfigService, 1);
-	mail_service->url = g_strdup (source.url);
+	if (source.url == NULL || strcmp (source.url, "none://") == 0) {
+		mail_service->url = NULL;
+	} else {
+		mail_service->url = g_strdup (source.url);
+	}
 	mail_service->keep_on_server = source.keep_on_server;
 	mail_service->auto_check = source.auto_check;
 	mail_service->auto_check_time = source.auto_check_time;
 	mail_service->save_passwd = source.save_passwd;
 	mail_service->enabled = source.enabled;
-
+	
 	mail_account->source = mail_service;
 
 	/* Copy transport */

@@ -1,3 +1,8 @@
+2001-09-10  Iain Holmes  <iain@ximian.com>
+
+	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Add a
+	none account if the url is empty.
+
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (mail_generate_reply): Don't use
