@@ -1,3 +1,12 @@
+2005-04-04  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #68423
+
+	* gui/migration.c (migrate_ical):
+	* gui/e-tasks,c (e_tasks_expunge):
+	* gui/gnome-cal.c (gnome_calendar_purge): fixed huge (in some cases)
+	memory leaks.
+
 2005-03-28  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #44719

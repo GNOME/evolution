@@ -3269,6 +3269,9 @@ gnome_calendar_purge (GnomeCalendar *gcal, time_t older_than)
 			if (remove)
 				e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
 		}
+
+		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
+		g_list_free (objects);
 	}
 
 	e_calendar_view_set_status_message (E_CALENDAR_VIEW (priv->week_view), NULL);

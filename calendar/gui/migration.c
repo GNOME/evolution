@@ -299,6 +299,9 @@ migrate_ical (ECal *old_ecal, ECal *new_ecal)
 		dialog_set_progress ((double)num_added / num_objects);
 	}
 
+	g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
+	g_list_free (objects);
+
 	return retval;
 }
 

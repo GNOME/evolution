@@ -1159,6 +1159,9 @@ e_tasks_delete_completed (ETasks *tasks)
 			/* FIXME Better error handling */
 			e_cal_remove_object (client, icalcomponent_get_uid (m->data), NULL);
 		}
+
+		g_list_foreach (objects, (GFunc) icalcomponent_free, NULL);
+		g_list_free (objects);
 	}
 
 	set_status_message (tasks, NULL);
