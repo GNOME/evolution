@@ -1,3 +1,10 @@
+2002-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-session.c (get_service): Don't register the noop timeout
+	here anymore, we're gonna handle all this in the mailer now.
+	(camel_session_register_timeout): Removed.
+	(camel_session_remove_timeout): Removed.
+
 2002-08-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): Override the

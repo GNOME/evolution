@@ -398,30 +398,6 @@ service_cache_remove (CamelService *service, gpointer event_data, gpointer user_
 	CAMEL_SESSION_UNLOCK(session, lock);
 }
 
-static gboolean
-noop_cb (gpointer user_data)
-{
-	CamelStore *store = (CamelStore *) user_data;
-	CamelException ex;
-	
-	camel_exception_init (&ex);
-	camel_store_noop (store, &ex);
-	camel_exception_clear (&ex);
-	
-	return TRUE;
-}
-
-static void
-unregister_noop (CamelObject *object, gpointer event_data, gpointer user_data)
-{
-	CamelService *service = (CamelService *) object;
-	guint id;
-	
-	id = GPOINTER_TO_INT (user_data);
-	
-	camel_session_remove_timeout (service->session, id);
-}
-
 static CamelService *
 get_service (CamelSession *session, const char *url_string,
 	     CamelProviderType type, CamelException *ex)
@@ -472,21 +448,12 @@ get_service (CamelSession *session, const char *url_string,
 		camel_object_unref (CAMEL_OBJECT (service));
 		service = NULL;
 	} else {
-		if (type == CAMEL_PROVIDER_STORE) {
-			guint id;
-			
-			id = camel_session_register_timeout (session, 600000, noop_cb, service);
-			camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
-						 (CamelObjectEventHookFunc) unregister_noop,
-						 GINT_TO_POINTER (id));
-		}
-		
 		g_hash_table_insert (provider->service_cache[type], url, service);
 		camel_object_hook_event (CAMEL_OBJECT (service), "finalize",
 					 (CamelObjectEventHookFunc) service_cache_remove,
 					 GINT_TO_POINTER (type));
 	}
-
+	
 	return service;
 }
 
@@ -647,6 +614,7 @@ camel_session_get_password (CamelSession *session, const char *prompt,
 	return CS_CLASS (session)->get_password (session, prompt, secret, service, item, ex);
 }
 
+
 /**
  * camel_session_forget_password:
  * @session: session object
@@ -673,6 +641,7 @@ camel_session_forget_password (CamelSession *session, CamelService *service,
 	CS_CLASS (session)->forget_password (session, service, item, ex);
 }
 
+
 /**
  * camel_session_alert_user:
  * @session: session object
@@ -697,48 +666,6 @@ camel_session_alert_user (CamelSession *session, CamelSessionAlertType type,
 	return CS_CLASS (session)->alert_user (session, type, prompt, cancel);
 }
 
-/**
- * camel_session_register_timeout:
- * @session: the CamelSession
- * @interval: the number of milliseconds interval between calls
- * @callback: the function to call
- * @user_data: extra data to be passed to the callback
- *
- * Registers the given timeout. @callback will be called every
- * @interval milliseconds with one argument, @user_data, until it
- * returns %FALSE.
- *
- * Return value: On success, a non-zero handle that can be used with
- * camel_session_remove_timeout(). On failure, 0.
- **/
-guint
-camel_session_register_timeout (CamelSession *session,
-				guint32 interval,
-				CamelTimeoutCallback callback,
-				gpointer user_data)
-{
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), 0);
-
-	return CS_CLASS (session)->register_timeout (session, interval, callback, user_data);
-}
-
-/**
- * camel_session_remove_timeout:
- * @session: the CamelSession
- * @handle: a value returned from camel_session_register_timeout()
- *
- * Removes the indicated timeout.
- *
- * Return value: %TRUE on success, %FALSE on failure.
- **/
-gboolean
-camel_session_remove_timeout (CamelSession *session, guint handle)
-{
-	g_return_val_if_fail (CAMEL_IS_SESSION (session), FALSE);
-
-	return CS_CLASS (session)->remove_timeout (session, handle);
-}
-
 
 /**
  * camel_session_is_online:
@@ -751,6 +678,7 @@ camel_session_is_online (CamelSession *session)
 {
 	return session->online;
 }
+
 
 /**
  * camel_session_set_online:

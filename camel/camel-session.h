@@ -100,13 +100,6 @@ typedef struct {
 					      const char *prompt,
 					      gboolean cancel);
 
-	guint           (*register_timeout)  (CamelSession *session,
-					      guint32 interval,
-					      CamelTimeoutCallback callback,
-					      gpointer user_data);
-	gboolean        (*remove_timeout)    (CamelSession *session,
-					      guint handle);
-
 	CamelFilterDriver * (*get_filter_driver) (CamelSession *session,
 						  const char *type,
 						  CamelException *ex);
@@ -171,15 +164,6 @@ gboolean           camel_session_alert_user         (CamelSession *session,
 						     CamelSessionAlertType type,
 						     const char *prompt,
 						     gboolean cancel);
-
-guint              camel_session_register_timeout   (CamelSession *session,
-						     guint32 interval,
-						     CamelTimeoutCallback callback,
-						     gpointer user_data);
-
-gboolean           camel_session_remove_timeout     (CamelSession *session,
-						     guint handle);
-
 
 gboolean           camel_session_is_online          (CamelSession *session);
 void               camel_session_set_online         (CamelSession *session,

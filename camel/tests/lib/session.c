@@ -4,28 +4,11 @@
 
 #include "session.h"
 
-static guint
-register_timeout (CamelSession *session, guint32 interval, CamelTimeoutCallback callback, gpointer user_data)
-{
-	return 1;
-}
-
-static gboolean
-unregister_timeout (CamelSession *session, guint handle)
-{
-	return TRUE;
-}
-
-
 static void
 class_init (CamelTestSessionClass *camel_test_session_class)
 {
 	CamelSessionClass *camel_session_class =
 		CAMEL_SESSION_CLASS (camel_test_session_class);
-	
-	/* virtual method override */
-	camel_session_class->register_timeout = register_timeout;
-	camel_session_class->remove_timeout = unregister_timeout;
 }
 
 CamelType
