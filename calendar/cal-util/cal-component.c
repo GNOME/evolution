@@ -1166,7 +1166,7 @@ cal_component_set_categories (CalComponent *comp, const char *categories)
 	priv = comp->priv;
 	g_return_if_fail (priv->icalcomp != NULL);
 
-	if (!categories) {
+	if (!categories || !(*categories)) {
 		if (priv->categories) {
 			icalcomponent_remove_property (priv->icalcomp, priv->categories);
 			icalproperty_free (priv->categories);
@@ -1991,7 +1991,7 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
 /* Builds a list of CalComponentPeriod structures based on a list of icalproperties */
 static void
 get_period_list (GSList *period_list,
-		 struct icalperiodtype (* get_prop_func) (icalproperty *prop),
+		 struct icaldatetimeperiodtype (* get_prop_func) (icalproperty *prop),
 		 GSList **list)
 {
 	GSList *l;
@@ -2004,7 +2004,7 @@ get_period_list (GSList *period_list,
 	for (l = period_list; l; l = l->next) {
 		struct period *period;
 		CalComponentPeriod *p;
-		struct icalperiodtype ip;
+		struct icaldatetimeperiodtype ip;
 
 		period = l->data;
 		g_assert (period->prop != NULL);
@@ -2034,12 +2034,12 @@ get_period_list (GSList *period_list,
 
 		ip = (* get_prop_func) (period->prop);
 
-		p->start = ip.start;
+		p->start = ip.period.start;
 
 		if (p->type == CAL_COMPONENT_PERIOD_DATETIME)
-			p->u.end = ip.end;
+			p->u.end = ip.period.end;
 		else if (p->type == CAL_COMPONENT_PERIOD_DURATION)
-			p->u.duration = ip.duration;
+			p->u.duration = ip.period.duration;
 		else
 			g_assert_not_reached ();
 
@@ -2054,7 +2054,7 @@ get_period_list (GSList *period_list,
 /* Sets a period list value */
 static void
 set_period_list (CalComponent *comp,
-		 icalproperty *(* new_prop_func) (struct icalperiodtype period),
+		 icalproperty *(* new_prop_func) (struct icaldatetimeperiodtype period),
 		 GSList **period_list,
 		 GSList *pl)
 {
@@ -2084,7 +2084,7 @@ set_period_list (CalComponent *comp,
 	for (l = pl; l; l = l->next) {
 		CalComponentPeriod *p;
 		struct period *period;
-		struct icalperiodtype ip;
+		struct icaldatetimeperiodtype ip;
 		icalparameter_value value_type;
 
 		g_assert (l->data != NULL);
@@ -2092,14 +2092,14 @@ set_period_list (CalComponent *comp,
 
 		/* Create libical value */
 
-		ip.start = p->start;
+		ip.period.start = p->start;
 
 		if (p->type == CAL_COMPONENT_PERIOD_DATETIME) {
 			value_type = ICAL_VALUE_DATETIME;
-			ip.end = p->u.end;
+			ip.period.end = p->u.end;
 		} else if (p->type == CAL_COMPONENT_PERIOD_DURATION) {
 			value_type = ICAL_VALUE_DURATION;
-			ip.duration = p->u.duration;
+			ip.period.duration = p->u.duration;
 		} else {
 			g_assert_not_reached ();
 			return;
