@@ -155,7 +155,7 @@ get_month (gchar *str)
 gchar *
 parse_broken_date (const gchar *datestr)
 {
-	GList *tokens;
+	GList *tokens, *t;
 	date_t date;
 	gchar *token, *ptr, *newdatestr;
 	guint len, i, retval;
@@ -198,7 +198,10 @@ parse_broken_date (const gchar *datestr)
 			tz = atoi (token) / 100.0;
 		}
 	}
-	
+
+	for (t = tokens; t; t = t->next)
+		g_free (t->data);
+
 	g_list_free (tokens);
 	
 	/* adjust times based on time zones */
