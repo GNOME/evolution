@@ -1,3 +1,8 @@
+2001-03-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Make sure we never define `NSPR_CFLAGS' or
+	`NSS_CFLAGS' as just "-I".
+
 2001-03-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* NEWS: pulled from the 0.9 release.

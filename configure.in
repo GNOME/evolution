@@ -609,7 +609,7 @@ if test "x${with_nspr_includes}" != "xno"; then
 	HEADERS="$with_nspr_includes/nspr.h $with_nspr_includes/prio.h"
 	AC_CHECK_FILES($HEADERS, [ moz_nspr_includes="yes" ])
 		
-	if test "x{$moz_nspr_includes}" != "xno"; then
+	if test "x{$moz_nspr_includes}" != "xno" -a test "x{$moz_nspr_includes}" != "x" ; then
 		have_nspr_includes="yes"
 		NSPR_CFLAGS="-I$with_nspr_includes"
 	fi
@@ -656,12 +656,12 @@ if test "x${with_nss_includes}" != "xno" -a "x${have_nspr_libs}" != "xno"; then
 	HEADERS="$with_nss_includes/nss.h $with_nss_includes/ssl.h $with_nss_includes/smime.h"
 	AC_CHECK_FILES($HEADERS, [ moz_nspr_includes="yes" ])
 	
-	if test "x{$moz_nss_includes}" != "xno"; then
+	if test "x{$moz_nss_includes}" != "xno" -a test "x{$moz_nss_includes}" != "x"; then
 		have_nss_includes="yes"
 		NSS_CFLAGS="-I$with_nss_includes"
 	else
-		NSPR_CLFAGS=""
-		NSPR_LDFLAGS=""
+		NSS_CFLAGS=""
+		NSS_LDFLAGS=""
 	fi
 else
 	AC_MSG_CHECKING(for Mozilla nss3 includes)
