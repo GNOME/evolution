@@ -487,7 +487,7 @@ process_header(CamelMedium *medium, const char *header_name, const char *header_
 		break;
 	case HEADER_SUBJECT:
 		g_free(message->subject);
-		message->subject = header_decode_string(header_value);
+		message->subject = g_strstrip (header_decode_string(header_value));
 		break;
 	case HEADER_TO:
 	case HEADER_CC:

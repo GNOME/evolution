@@ -1,3 +1,8 @@
+2000-08-08  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-message.c (process_header): Add another subject
+	g_strstrip that fejj's earlier commit missed.
+
 2000-08-07  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/mh/camel-mh-folder.c (mh_append_message): Only retry
