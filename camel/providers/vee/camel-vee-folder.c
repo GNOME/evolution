@@ -107,8 +107,6 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 
 	camel_vee_folder_parent = gtk_type_class (camel_folder_get_type ());
 
-	printf("vfolder class init\n");
-	
 	folder_class->init = vee_init;
 	folder_class->sync = vee_sync;
 
@@ -137,8 +135,6 @@ static void
 camel_vee_folder_init (CamelVeeFolder *obj)
 {
 	struct _CamelVeeFolderPrivate *p;
-
-	printf("vfolder init\n");
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
 }
@@ -179,8 +175,6 @@ folder_changed(CamelFolder *sub, int type, CamelVeeFolder *vf)
 {
 	CamelException *ex;
 
-	printf("subfolder changed!!, re-searching\n");
-
 	ex = camel_exception_new();
 	vee_folder_build_folder(vf, sub, ex);
 	camel_exception_free(ex);
@@ -197,7 +191,6 @@ message_changed(CamelFolder *f, const char *uid, CamelVeeFolder *mf)
 	CamelFlag *flag;
 	char *vuid;
 
-	printf("VMessage changed: %s\n", uid);
 	info = camel_folder_get_message_info(f, uid);
 
 	vuid = g_strdup_printf("%p:%s", f, uid);
@@ -273,9 +266,6 @@ static void vee_init (CamelFolder *folder, CamelStore *parent_store,
 
 	vf->expression = g_strdup_printf("(or\n (match-all (user-flag \"%s\"))\n %s\n)", namepart, searchpart);
 	vf->vname = g_strdup(namepart);
-
-	printf("VFolder expression is %s\n", vf->expression);
-	printf("VFolder full name = %s\n", camel_folder_get_full_name(folder));
 
 	g_free(namepart);
 
@@ -486,8 +476,6 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		}
 	}
 
-	printf("building folder expression: %s\n", vf->expression);
-
 	messages = g_ptr_array_new();
 	messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
 
@@ -497,12 +485,7 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		CamelFolder *f = node->data;
 		CamelVeeMessageInfo *mi;
 		const CamelMessageInfo *info;
-		CamelFlag *flag;
 		int i;
-
-		printf("searching folder: (%s)%s\n",
-		       gtk_type_name(((GtkObject *)f)->klass->type),
-		       camel_folder_get_full_name(f));
 
 		matches = camel_folder_search_by_expression(f, vf->expression, ex);
 		for (i = 0; i < matches->len; i++) {
@@ -522,8 +505,6 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 		node = g_list_next(node);
 	}
 
-	printf("search complete\n");
-
 	g_ptr_array_free(vf->messages, TRUE);
 	vf->messages = messages;
 	g_hash_table_destroy(vf->messages_uid);
@@ -539,7 +520,6 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 	CamelFolder *f = source;
 	CamelVeeMessageInfo *mi;
 	const CamelMessageInfo *info;
-	CamelFlag *flag;
 
 	GPtrArray *messages;
 	GHashTable *messages_uid;
