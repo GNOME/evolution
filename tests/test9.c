@@ -1,6 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
-
+#include "camel.h"
 #include "camel-mbox-folder.h"
 #include "camel-mbox-parser.h"
 #include "camel-mbox-utils.h"
