@@ -45,11 +45,13 @@
 #include "mail-folder-cache.h"
 #include "mail-ops.h"
 #include "mail-session.h"
+#include "mail-component.h"
 
 /* For notifications of changes */
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
 #include "mail-config.h"
+#include "em-folder-tree-model.h"
 
 #define w(x) 
 #define d(x) /*(printf("%s(%d):%s: ",  __FILE__, __LINE__, __PRETTY_FUNCTION__), (x))*/
@@ -182,10 +184,15 @@ notify_type_changed (GConfClient *client, guint cnxn_id,
 static void
 real_flush_updates(void *o, void *event_data, void *data)
 {
+	struct _MailComponent *component;
+	struct _EMFolderTreeModel *model;
 	struct _folder_update *up;
 	struct _store_info *si;
 	time_t now;
-
+	
+	component = mail_component_peek ();
+	model = mail_component_peek_tree_model (component);
+	
 	LOCK(info_lock);
 	while ((up = (struct _folder_update *)e_dlist_remhead(&updates))) {
 		si = g_hash_table_lookup(stores, up->store);
@@ -213,6 +220,9 @@ real_flush_updates(void *o, void *event_data, void *data)
 			if (!up->olduri && up->add)
 				mail_vfolder_add_uri(up->store, up->uri, FALSE);
 		}
+		
+		/* update unread counts */
+		em_folder_tree_model_set_unread_count (model, up->store, up->path, up->unread);
 		
 		/* new mail notification */
 		if (notify_type == -1) {

@@ -698,9 +698,8 @@ mail_component_remove_folder (MailComponent *component, CamelStore *store, const
 
 
 EMFolderTreeModel *
-mail_component_get_tree_model (MailComponent *component)
+mail_component_peek_tree_model (MailComponent *component)
 {
-	g_object_ref (component->priv->model);
 	return component->priv->model;
 }
 

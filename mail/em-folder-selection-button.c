@@ -211,7 +211,7 @@ em_folder_selection_button_clicked (GtkButton *button)
 	if (GTK_BUTTON_CLASS (parent_class)->clicked != NULL)
 		(* GTK_BUTTON_CLASS (parent_class)->clicked) (button);
 	
-	model = mail_component_get_tree_model (mail_component_peek ());
+	model = mail_component_peek_tree_model (mail_component_peek ());
 	emft = (EMFolderTree *) em_folder_tree_new_with_model (model);
 	
 	dialog = em_folder_selector_new (emft, EM_FOLDER_SELECTOR_CAN_CREATE, priv->title, priv->caption);

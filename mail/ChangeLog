@@ -1,3 +1,19 @@
+2003-12-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-folder-cache.c (real_flush_updates): Update the unread
+	count in the model if the folder got new mail.
+
+	* em-folder-selection.c (em_select_folder): Updated.
+
+	* em-folder-selection-button.c
+	(em_folder_selection_button_clicked): Updated.
+
+	* em-folder-tree-model.c (em_folder_tree_model_set_unread_count):
+	New function to update the unread count for a folder.
+
+	* mail-component.c (mail_component_peek_tree_model): Don't ref the
+	model. Also renamed s/get/peek/
+
 2003-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* em-format-html-display.c (efhd_multipart_signed):

@@ -114,6 +114,8 @@ gboolean em_folder_tree_model_get_expanded (EMFolderTreeModel *model, const char
 void em_folder_tree_model_set_expanded (EMFolderTreeModel *model, const char *key, gboolean expanded);
 void em_folder_tree_model_save_expanded (EMFolderTreeModel *model);
 
+void em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

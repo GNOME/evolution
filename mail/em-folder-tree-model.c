@@ -1197,3 +1197,36 @@ em_folder_tree_model_save_expanded (EMFolderTreeModel *model)
 	unlink (tmpname);
 	g_free (tmpname);
 }
+
+
+void
+em_folder_tree_model_set_unread_count (EMFolderTreeModel *model, CamelStore *store, const char *path, int unread)
+{
+	struct _EMFolderTreeModelStoreInfo *si;
+	GtkTreeRowReference *row;
+	GtkTreePath *tree_path;
+	GtkTreeIter iter;
+	
+	g_return_if_fail (EM_IS_FOLDER_TREE_MODEL (model));
+	g_return_if_fail (CAMEL_IS_STORE (store));
+	g_return_if_fail (path != NULL);
+	
+	if (unread < 0)
+		unread = 0;
+	
+	if (!(si = g_hash_table_lookup (model->store_hash, store)))
+		return;
+	
+	if (!(row = g_hash_table_lookup (si->path_hash, path)))
+		return;
+	
+	tree_path = gtk_tree_row_reference_get_path (row);
+	if (!gtk_tree_model_get_iter ((GtkTreeModel *) model, &iter, tree_path)) {
+		gtk_tree_path_free (tree_path);
+		return;
+	}
+	
+	gtk_tree_path_free (tree_path);
+	
+	gtk_tree_store_set ((GtkTreeStore *) model, &iter, COL_UINT_UNREAD, unread, -1);
+}

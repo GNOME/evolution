@@ -83,7 +83,8 @@ void         mail_component_stores_foreach   (MailComponent *component,
 
 void mail_component_remove_folder (MailComponent *component, CamelStore *store, const char *path);
 
-struct _EMFolderTreeModel *mail_component_get_tree_model (MailComponent *component);
+struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
+
 struct _CamelFolder *mail_component_get_local_inbox(MailComponent *mc, struct _CamelException *ex);
 
 char *em_uri_from_camel (const char *curi);
