@@ -1,3 +1,11 @@
+2003-01-07  Dan Winship  <danw@ximian.com>
+
+	* camel-provider.h (CamelProvider): add a "translation_domain"
+	field. (NULL for all providers in the camel source tree itself).
+
+	* camel-session.c (register_provider): Translate provider strings
+	in the correct domain
+
 2003-01-06  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (store_sync): init local exception before doing

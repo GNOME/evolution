@@ -176,6 +176,11 @@ typedef struct {
 	
 	GHashFunc url_hash;
 	GCompareFunc url_equal;
+
+	/* gettext translation domain (NULL for providers in the
+	 * evolution source tree).
+	 */
+	char *translation_domain;
 } CamelProvider;
 
 GHashTable *camel_provider_init (void);

@@ -207,21 +207,24 @@ register_provider (CamelSession *session, CamelProvider *provider)
 	}
 
 	/* Translate all strings here */
-	provider->name = _(provider->name);
-	provider->description = _(provider->description);
+
+#define P_(string) dgettext (provider->translation_domain, string)
+
+	provider->name = P_(provider->name);
+	provider->description = P_(provider->description);
 	conf = provider->extra_conf;
 	if (conf) {
 		for (i=0;conf[i].type != CAMEL_PROVIDER_CONF_END;i++) {
 			if (conf[i].text)
-				conf[i].text = _(conf[i].text);
+				conf[i].text = P_(conf[i].text);
 		}
 	}
 	l = provider->authtypes;
 	while (l) {
 		CamelServiceAuthType *auth = l->data;
 
-		auth->name = _(auth->name);
-		auth->description = _(auth->description);
+		auth->name = P_(auth->name);
+		auth->description = P_(auth->description);
 		l = l->next;
 	}
 
