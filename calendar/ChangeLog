@@ -1,3 +1,14 @@
+2004-03-19  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-day-view.c (process_component): compare ecalcomponents,
+	not icalcomponents (the compare func is borked), check recurrence
+	changes better
+	(e_day_view_init): just use the model the parent creates
+
+	* gui/e-week-view.c (process_component): create the temporary item
+	from the correct icalcomp
+	(e_week_view_init): just use the model the parent creates
+
 2004-03-18  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/select-source-dialog.c (select_source_dialog): create

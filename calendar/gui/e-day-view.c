@@ -525,12 +525,22 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 	if (day_view->lower == 0 && day_view->upper == 0)
 		return;
 
+	comp = e_cal_component_new ();
+	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
+		g_object_unref (comp);
+
+		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
+		return;
+	}
+
+	e_cal_component_get_uid (comp, &uid);
+
 	/* If the event already exists and the dates didn't change, we can
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
-	uid = icalcomponent_get_uid (comp_data->icalcomp);
-
 	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
+		ECalComponent *tmp_comp;
+		
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent, event_num);
@@ -538,8 +548,11 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 			event = &g_array_index (day_view->events[day],
 						EDayViewEvent, event_num);
 
+		tmp_comp = e_cal_component_new ();
+		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		if (!e_cal_util_component_has_recurrences (comp_data->icalcomp)
-		    && e_cal_util_event_dates_match (event->comp_data->icalcomp, comp_data->icalcomp)) {
+		    && !e_cal_component_has_recurrences (tmp_comp)
+		    && e_cal_component_event_dates_match (comp, tmp_comp)) {
 #if 0
 			g_print ("updated object's dates unchanged\n");
 #endif
@@ -557,12 +570,11 @@ process_component (EDayView *day_view, ECalModelComponent *comp_data)
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb,
 						   NULL);
+
+		g_object_unref (tmp_comp);
 	}
 
 	/* Add the occurrences of the event */
-	comp = e_cal_component_new ();
-	e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp));
-
 	add_event_data.day_view = day_view;
 	add_event_data.comp_data = comp_data;
 	e_cal_recur_generate_instances (comp, day_view->lower,
@@ -1033,9 +1045,8 @@ e_day_view_init (EDayView *day_view)
 			   target_table, n_targets,
 			   GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_ASK);
 
-	/* Set the default model */
-	model = E_CAL_MODEL (e_cal_model_calendar_new ());
-	e_calendar_view_set_model (E_CALENDAR_VIEW (day_view), model);
+	/* Get the model */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (day_view));
 
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",

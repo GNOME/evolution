@@ -345,7 +345,7 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 	if (!e_cal_component_set_icalcomponent (comp, icalcomponent_new_clone (comp_data->icalcomp))) {
 		g_object_unref (comp);
 
-		g_message ("process_component(): Could not set icalcomponent on ECalComponent");
+		g_message (G_STRLOC ": Could not set icalcomponent on ECalComponent");
 		return;
 	}
 
@@ -361,7 +361,7 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 					event_num);
 
 		tmp_comp = e_cal_component_new ();
-		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (comp_data->icalcomp));
+		e_cal_component_set_icalcomponent (tmp_comp, icalcomponent_new_clone (event->comp_data->icalcomp));
 		if (!e_cal_component_has_recurrences (comp)
 		    && !e_cal_component_has_recurrences (tmp_comp)
 		    && e_cal_component_event_dates_match (comp, tmp_comp)) {
@@ -400,8 +400,6 @@ process_component (EWeekView *week_view, ECalModelComponent *comp_data)
 				      e_calendar_view_get_timezone (E_CALENDAR_VIEW (week_view)));
 
 	g_object_unref (comp);
-
-	e_week_view_queue_layout (week_view);
 }
 
 static void
@@ -676,10 +674,9 @@ e_week_view_init (EWeekView *week_view)
 	week_view->resize_width_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
 	week_view->last_cursor_set = NULL;
 
-	/* Set the default model */
-	model = E_CAL_MODEL (e_cal_model_calendar_new ());
-	e_calendar_view_set_model (E_CALENDAR_VIEW (week_view), model);
-
+	/* Get the model */
+	model = e_calendar_view_get_model (E_CALENDAR_VIEW (week_view));
+	
 	/* connect to ECalModel's signals */
 	g_signal_connect (G_OBJECT (model), "time_range_changed",
 			  G_CALLBACK (time_range_changed_cb), week_view);
