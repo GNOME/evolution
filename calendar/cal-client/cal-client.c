@@ -825,6 +825,65 @@ cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end)
 }
 
 /**
+ * cal_client_get_alarms_for_object:
+ * @client: A calendar client.
+ * @uid: Unique identifier for a calendar object.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * @alarms: Return value for the list of alarm instances.
+ * 
+ * Queries a calendar for the alarms of a particular object that trigger in the
+ * specified range of time.
+ * 
+ * Return value: TRUE on success, FALSE if the object was not found.
+ **/
+gboolean
+cal_client_get_alarms_for_object (CalClient *client, const char *uid,
+				  time_t start, time_t end,
+				  GList **alarms)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	gboolean retval;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	priv = client->priv;
+	if (priv->load_state != LOAD_STATE_LOADED)
+		return FALSE;
+
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (start != -1 && end != -1, FALSE);
+	g_return_val_if_fail (start <= end, FALSE);
+	g_return_val_if_fail (alarms != NULL, FALSE);
+
+	*alarms = NULL;
+	retval = FALSE;
+
+	CORBA_exception_init (&ev);
+
+	seq = Evolution_Calendar_Cal_get_alarms_for_object (priv->cal, uid, start, end, &ev);
+	if (ev._major == CORBA_USER_EXCEPTION
+	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
+		goto out;
+	else if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_alarms_for_object(): could not get the alarm range");
+		goto out;
+	}
+
+	retval = TRUE;
+	*alarms = build_alarm_instance_list (seq);
+	CORBA_free (seq);
+
+ out:
+	CORBA_exception_free (&ev);
+	return retval;
+
+}
+
+/**
  * cal_client_update_object:
  * @client: A calendar client.
  * @uid: Unique identifier of object to update.

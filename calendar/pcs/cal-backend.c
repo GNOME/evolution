@@ -267,6 +267,35 @@ cal_backend_get_alarms_in_range (CalBackend *backend, time_t start, time_t end)
 }
 
 /**
+ * cal_backend_get_alarms_for_object:
+ * @backend: A calendar backend.
+ * @uid: Unique identifier for a calendar object.
+ * @start: Start time for query.
+ * @end: End time for query.
+ * @alarms: Return value for the list of alarm instances.
+ * 
+ * Builds a sorted list of the alarms of the specified event that trigger in a
+ * particular time range.
+ * 
+ * Return value: TRUE on success, FALSE if the object was not found.
+ **/
+gboolean
+cal_backend_get_alarms_for_object (CalBackend *backend, const char *uid,
+				   time_t start, time_t end,
+				   GList **alarms)
+{
+	g_return_val_if_fail (backend != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_BACKEND (backend), FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (start != -1 && end != -1, FALSE);
+	g_return_val_if_fail (start <= end, FALSE);
+	g_return_val_if_fail (alarms != NULL, FALSE);
+
+	g_assert (CLASS (backend)->get_alarms_for_object != NULL);
+	return (* CLASS (backend)->get_alarms_for_object) (backend, uid, start, end, alarms);
+}
+
+/**
  * cal_backend_update_object:
  * @backend: A calendar backend.
  * @uid: Unique identifier of the object to update.

@@ -1,3 +1,23 @@
+2000-05-11  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/gnome-cal.c (add_alarms_for_object): New function to add
+	today's alarms for a single object.
+	(gnome_calendar_object_updated_cb): Update the object's alarms.
+
+	* idl/evolution-calendar.idl (Cal): Added a
+	get_alarms_for_object() method.
+
+	* pcs/cal.c (Cal_get_alarms_for_object): Implemented method.
+
+	* pcs/cal-backend.c (cal_backend_get_alarms_for_object): New
+	function.
+
+	* pcs/cal-backend-imc.c (cal_backend_imc_get_alarms_for_object):
+	Implemented.
+
+	* cal-client/cal-client.c (cal_client_get_alarms_for_object): New
+	function.
+
 2000-05-11  Dan Winship  <danw@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): Now that we
@@ -181,7 +201,7 @@
 
 2000-05-08  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-week-view.c (e_week_view_remove_event_cb): 
+	* gui/e-week-view.c (e_week_view_remove_event_cb):
 	* gui/e-day-view.c (e_day_view_remove_event_cb): don't set the ico->uid
 	to NULL or we won't find any other occurrences of the event. Set the
 	editing_event_day/num to -1 instead.
@@ -194,7 +214,7 @@
 
 2000-05-07  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received): 
+	* gui/e-day-view.c (e_day_view_on_main_canvas_drag_data_received):
 	(e_day_view_on_top_canvas_drag_data_received): show the EText item,
 	just in case it hasn't moved, otherwise it won't appear.
 
@@ -211,7 +231,7 @@
 
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
-	* cal-util/timeutil.c (time_day_begin): 
+	* cal-util/timeutil.c (time_day_begin):
 	(time_day_end): changed these so they just do a simple localtime(),
 	update the struct tm, then do a mktime(). I don't know why it used to
 	look at the tm_isdst flags etc. From a little test program I wrote
@@ -227,7 +247,7 @@
 
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
-	* gui/e-day-view.c: 
+	* gui/e-day-view.c:
 	* gui/e-week-view.c: finish editing event when user hits Return key.
 	(e_week_view_on_text_item_event): stop event signals after doing any
 	other calls, since otherwise it will also stop any other resulting
@@ -258,7 +278,7 @@
 	* gui/gncal-week-view.[hc]:
 	* gui/layout.[hc]:
 	* gui/view-utils.[hc]: removed old calendar view files.
-	
+
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
 	* cal-util/calobj.[hc]: added guint ref_count to iCalObject struct,
@@ -266,14 +286,14 @@
 	stuff to use ref_counts but I haven't touched the pcs/ stuff. Maybe
 	just using ical_object_destroy() is OK there.
 
-	* gui/gncal-todo.c: 
-	* gui/calendar-commands.c: 
-	* gui/eventedit.c: 
-	* gui/e-week-view.c: 
+	* gui/gncal-todo.c:
+	* gui/calendar-commands.c:
+	* gui/eventedit.c:
+	* gui/e-week-view.c:
 	* gui/e-day-view.c: use refcounting for iCalObjects.
 
-	* gui/e-day-view-main-item.c: 
-	* gui/e-day-view-top-item.c: 
+	* gui/e-day-view-main-item.c:
+	* gui/e-day-view-top-item.c:
 	* gui/e-day-view.c: try not to ever draw outside the event, even when
 	the event is very small.
 
@@ -284,7 +304,7 @@
 	better to let the user do the resize/drag and then ask them what they
 	want to do - change the single occurrence or the entire series.
 
-	* gui/e-day-view-time-item.c (e_day_view_time_item_show_popup_menu): 
+	* gui/e-day-view-time-item.c (e_day_view_time_item_show_popup_menu):
 	use e_auto_kill_popup_menu_on_hide() to destroy the popup menu.
 
 	* gui/popup-menu.c: include e-gui-utils.h
@@ -296,7 +316,7 @@
 
 	* gui/calendar-commands.c: when we switch views, grab the focus.
 
-	* gui/gnome-cal.c (gnome_calendar_tag_calendar): 
+	* gui/gnome-cal.c (gnome_calendar_tag_calendar):
 	(gnome_calendar_mark_gtk_calendar_day): changed this so it uses
 	cal_client_get_events_in_range(), and doesn't load any objects.
 	Also just return if it isn't visible.
@@ -315,10 +335,10 @@
 	* pcs/cal-backend.c (save): output the '... saved' message before
 	freeing the string!
 
-	* gui/gncal-todo.c (gncal_todo_update): 
-	* gui/e-week-view.c (e_week_view_update_event): 
-	* gui/e-day-view.c (e_day_view_update_event): 
-	* gui/calendar-commands.c (calendar_get_events_in_range): 
+	* gui/gncal-todo.c (gncal_todo_update):
+	* gui/e-week-view.c (e_week_view_update_event):
+	* gui/e-day-view.c (e_day_view_update_event):
+	* gui/calendar-commands.c (calendar_get_events_in_range):
 	(calendar_iterate): free obj_string after it is parsed.
 
 2000-05-02  Damon Chaplin  <damon@helixcode.com>
@@ -329,7 +349,7 @@
 	* gui/popup-menu.c (popup_menu): added call to
 	e_auto_kill_popup_menu_on_hide() to destroy the menu.
 
-	* gui/e-week-view.c (e_week_view_show_popup_menu): 
+	* gui/e-week-view.c (e_week_view_show_popup_menu):
 	* gui/e-day-view.c (e_day_view_on_event_right_click): ico->user_data
 	isn't useful any more, since the event editor keeps its own iCalObject.
 	So for now we make the menu commands available even when the event is
@@ -339,18 +359,18 @@
 	* gui/eventedit.c (event_editor_destroy): destroy the iCalObject.
 	The event editor now uses its own independent iCalObject.
 
-	* gui/e-week-view.c (e_week_view_on_unrecur_appointment): 
+	* gui/e-week-view.c (e_week_view_on_unrecur_appointment):
 	* gui/e-day-view.c (e_day_view_on_unrecur_appointment): create a new
 	uid for the new single instance. I'm not sure what we should do about
 	the creation/last modification times of the objects.
-	
-	* gui/e-week-view.c (e_week_view_on_edit_appointment): 
+
+	* gui/e-week-view.c (e_week_view_on_edit_appointment):
 	* gui/e-day-view.c (e_day_view_on_edit_appointment): duplicate the
 	iCalObject before passing it to the event editor, since it will change
 	the fields. If we don't duplicate it we won't know what has changed
 	when we get the "update_event" callback.
 
-	* gui/e-week-view.c (e_week_view_key_press): 
+	* gui/e-week-view.c (e_week_view_key_press):
 	* gui/e-day-view.c (e_day_view_key_press): set the created and last_mod
 	times of the new iCalObject. We may want to set the default alarm as
 	well.
@@ -366,7 +386,7 @@
 	* gui/calendar-commands.c (display_objedit): use the above function
 	to get the time for the new appointment.
 
-	* gui/e-week-view.c: 
+	* gui/e-week-view.c:
 	* gui/e-day-view.c: use a shallow copy of the ico when we update the
 	times (when resizing/dragging). Otherwise we won't detect that the
 	time has changed in the "update_event" callback.
@@ -390,7 +410,7 @@
 	It is used for optimization when we get the "object_changed" signal.
 	We have to do far less work if the dates are unchanged.
 
-	* gui/e-week-view.c: 
+	* gui/e-week-view.c:
 	* gui/e-day-view.c: only draw the selection when we have the keyboard
 	focus, since the user expects to be able to type in a new event when
 	the selection is shown. Also keep the selection when we lose focus,
@@ -399,9 +419,9 @@
 	Also quite a few changes to cope with the new client/server
 	architecture.
 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw): 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw): 
-	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day): 
+	* gui/e-day-view-top-item.c (e_day_view_top_item_draw):
+	* gui/e-day-view-main-item.c (e_day_view_main_item_draw):
+	* gui/e-week-view-main-item.c (e_week_view_main_item_draw_day):
 	only draw the selection if the widget has the keyboard focus.
 
 	* gui/gnome-cal.c (mark_gtk_calendar_day): fixed so it works with
@@ -511,15 +531,15 @@
 	* gui/Makefile.am: added new source files and pixmaps, and removed
 	old source files, which can be deleted.
 
-	* gui/e-week-view-titles-item.[hc]: 
-	* gui/e-week-view-main-item.[hc]: 
-	* gui/e-week-view-event-item.[hc]: 
+	* gui/e-week-view-titles-item.[hc]:
+	* gui/e-week-view-main-item.[hc]:
+	* gui/e-week-view-event-item.[hc]:
 	* gui/e-week-view.[hc]: new files implementing the week/month views.
 
-	* gui/yearview.xpm: 
-	* gui/monthview.xpm: 
-	* gui/weekview.xpm: 
-	* gui/workweekview.xpm: 
+	* gui/yearview.xpm:
+	* gui/monthview.xpm:
+	* gui/weekview.xpm:
+	* gui/workweekview.xpm:
 	* gui/dayview.xpm: new pixmaps for the toolbar buttons. These aren't
 	intended to be the final pixmaps.
 
@@ -714,11 +734,11 @@
 
 	* gui/gncal-todo.c (simple_todo_editor): calendar is a frame instead
 	of a window, now.
-	
+
 	* gui/gnome-cal.c (gnome_calendar_new): same
-	
+
 	* gui/goto.c (goto_dialog): same
-	
+
 2000-04-06  Seth Alves  <alves@hungry.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): removed
@@ -905,13 +925,13 @@
 	in the GnomeCalendar struct.
 
 	* gui/*.c: tracked change from Calendar * to CalClient
-	
+
 	* gui/main.c: moved alarm_defaults from here to cal-util/calobj.c
 	(calendar_get_events_in_range): pulled this out of calendar.c and
 	fixed it up to use cal-client stuff.  i'm not sure where to put it yet.
 
 	* gui/main.c (calendar_iterate): pulled this one out of calendar.c also
-	
+
 2000-03-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client/Makefile.am: Removed cal-client-alarm.[ch] from the
@@ -967,7 +987,7 @@
 
 2000-03-01  Federico Mena Quintero  <federico@helixcode.com>
 
-	* Makefile.am: Use the gnome-config flags for orbit-idl.  
+	* Makefile.am: Use the gnome-config flags for orbit-idl.
 	Create a libcal-client library with the calendar client object.
 
 2000-02-29  Federico Mena Quintero  <federico@helixcode.com>

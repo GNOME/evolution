@@ -683,7 +683,7 @@ midnight_refresh_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 /* Loads and queues the alarms from the current time up to midnight. */
 static void
-load_alarms (GnomeCalendar *cal)
+load_alarms (GnomeCalendar *gcal)
 {
 	time_t now;
 	time_t end_of_day;
@@ -694,17 +694,17 @@ load_alarms (GnomeCalendar *cal)
 
 	/* Queue alarms */
 
-	alarms = cal_client_get_alarms_in_range (cal->client, now, end_of_day);
+	alarms = cal_client_get_alarms_in_range (gcal->client, now, end_of_day);
 
 	for (l = alarms; l; l = l->next)
-		setup_alarm (cal, l->data);
+		setup_alarm (gcal, l->data);
 
 	cal_alarm_instance_list_free (alarms);
 
 	/* Queue the midnight alarm refresh */
 
-	cal->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, cal, NULL);
-	if (!cal->midnight_alarm_refresh_id) {
+	gcal->midnight_alarm_refresh_id = alarm_add (end_of_day, midnight_refresh_cb, gcal, NULL);
+	if (!gcal->midnight_alarm_refresh_id) {
 		g_message ("load_alarms(): Could not set up the midnight refresh alarm!");
 		/* FIXME: what to do? */
 	}
@@ -754,6 +754,32 @@ remove_alarms_for_object (GnomeCalendar *gcal, const char *uid)
 	g_free (oa);
 }
 
+/* Adds today's alarms for the specified object */
+static void
+add_alarms_for_object (GnomeCalendar *gcal, const char *uid)
+{
+	GList *alarms;
+	gboolean result;
+	time_t now, end_of_day;
+	GList *l;
+
+	now = time (NULL);
+	end_of_day = time_day_end (now);
+
+	result = cal_client_get_alarms_for_object (gcal->client, uid, now, end_of_day, &alarms);
+	if (!result) {
+		/* FIXME: should we warn here, or is it OK if the object
+		 * disappeared in the meantime?
+		 */
+		return;
+	}
+
+	for (l = alarms; l; l = l->next)
+		setup_alarm (gcal, l->data);
+
+	cal_alarm_instance_list_free (alarms);
+}
+
 static void
 gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 				  const char *uid,
@@ -763,7 +789,7 @@ gnome_calendar_object_updated_cb (GtkWidget *cal_client,
 		   uid?uid:"<NULL>");
 
 	remove_alarms_for_object (gcal, uid);
-	/* FIXME: put in new alarms */
+	add_alarms_for_object (gcal, uid);
 
 	/* FIXME: do we really want each view to reload the event itself?
 	   Maybe we should keep track of events globally, maybe with ref
@@ -818,8 +844,7 @@ gnome_calendar_new (char *title)
 	gcal = GNOME_CALENDAR (retval);
 
 	gcal->selection_start_time = time_day_begin (time (NULL));
-	gcal->selection_end_time = time_add_day (gcal->selection_start_time,
-						 1);
+	gcal->selection_end_time = time_add_day (gcal->selection_start_time, 1);
 	gcal->client = cal_client_new ();
 
 	setup_widgets (gcal);

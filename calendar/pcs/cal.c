@@ -201,7 +201,7 @@ Cal_get_object (PortableServer_Servant servant,
 /* Cal::get_uids method */
 static Evolution_Calendar_CalObjUIDSeq *
 Cal_get_uids (PortableServer_Servant servant,
-	      const Evolution_Calendar_CalObjType type,
+	      Evolution_Calendar_CalObjType type,
 	      CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -287,8 +287,8 @@ build_object_instance_seq (GList *list)
 /* Cal::get_events_in_range method */
 static Evolution_Calendar_CalObjInstanceSeq *
 Cal_get_events_in_range (PortableServer_Servant servant,
-			 const Evolution_Calendar_Time_t start,
-			 const Evolution_Calendar_Time_t end,
+			 Evolution_Calendar_Time_t start,
+			 Evolution_Calendar_Time_t end,
 			 CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -378,8 +378,8 @@ build_alarm_instance_seq (GList *alarms)
 /* Cal::get_alarms_in_range method */
 static Evolution_Calendar_CalAlarmInstanceSeq *
 Cal_get_alarms_in_range (PortableServer_Servant servant,
-			 const Evolution_Calendar_Time_t start,
-			 const Evolution_Calendar_Time_t end,
+			 Evolution_Calendar_Time_t start,
+			 Evolution_Calendar_Time_t end,
 			 CORBA_Environment *ev)
 {
 	Cal *cal;
@@ -404,6 +404,48 @@ Cal_get_alarms_in_range (PortableServer_Servant servant,
 	/* Figure out the list and allocate the sequence */
 
 	alarms = cal_backend_get_alarms_in_range (priv->backend, t_start, t_end);
+	seq = build_alarm_instance_seq (alarms);
+	cal_alarm_instance_list_free (alarms);
+
+	return seq;
+}
+
+/* Cal::get_alarms_for_object method */
+static Evolution_Calendar_CalAlarmInstanceSeq *
+Cal_get_alarms_for_object (PortableServer_Servant servant,
+			   const Evolution_Calendar_CalObjUID uid,
+			   Evolution_Calendar_Time_t start,
+			   Evolution_Calendar_Time_t end,
+			   CORBA_Environment *ev)
+{
+	Cal *cal;
+	CalPrivate *priv;
+	time_t t_start, t_end;
+	Evolution_Calendar_CalAlarmInstanceSeq *seq;
+	GList *alarms;
+	gboolean result;
+
+	cal = CAL (bonobo_object_from_servant (servant));
+	priv = cal->priv;
+
+	t_start = (time_t) start;
+	t_end = (time_t) end;
+
+	if (t_start > t_end || t_start == -1 || t_end == -1) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_InvalidRange,
+				     NULL);
+		return NULL;
+	}
+
+	result = cal_backend_get_alarms_for_object (priv->backend, uid, t_start, t_end, &alarms);
+	if (!result) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
+				     ex_Evolution_Calendar_Cal_NotFound,
+				     NULL);
+		return NULL;
+	}
+
 	seq = build_alarm_instance_seq (alarms);
 	cal_alarm_instance_list_free (alarms);
 
@@ -466,6 +508,7 @@ cal_get_epv (void)
 	epv->get_uids = Cal_get_uids;
 	epv->get_events_in_range = Cal_get_events_in_range;
 	epv->get_alarms_in_range = Cal_get_alarms_in_range;
+	epv->get_alarms_for_object = Cal_get_alarms_for_object;
 	epv->update_object = Cal_update_object;
 	epv->remove_object = Cal_remove_object;
 

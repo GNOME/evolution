@@ -82,6 +82,10 @@ GList *cal_client_get_events_in_range (CalClient *client, time_t start, time_t e
 
 GList *cal_client_get_alarms_in_range (CalClient *client, time_t start, time_t end);
 
+gboolean cal_client_get_alarms_for_object (CalClient *client, const char *uid,
+					   time_t start, time_t end,
+					   GList **alarms);
+
 gboolean cal_client_update_object (CalClient *client, const char *uid, const char *calobj);
 
 gboolean cal_client_remove_object (CalClient *client, const char *uid);

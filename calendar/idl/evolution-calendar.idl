@@ -92,10 +92,17 @@ module Calendar {
 			raises (InvalidRange);
 
 		/* Gets the objects whose alarms trigger in the specified time
-		 * range. 
+		 * range.
 		 */
 		CalAlarmInstanceSeq get_alarms_in_range (in Time_t start, in Time_t end)
 			raises (InvalidRange);
+
+		/* Gets the alarms for the specified object that trigger in the
+		 * specified time range.
+		 */
+		CalAlarmInstanceSeq get_alarms_for_object (in CalObjUID uid,
+							   in Time_t start, in Time_t end)
+			raises (NotFound, InvalidRange);
 
 		/* Updates an object by adding it if it does not exist or by
 		 * changing an existing one.

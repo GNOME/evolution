@@ -78,6 +78,9 @@ static char *cal_backend_imc_get_object (CalBackend *backend, const char *uid);
 static GList *cal_backend_imc_get_uids (CalBackend *backend, CalObjType type);
 static GList *cal_backend_imc_get_events_in_range (CalBackend *backend, time_t start, time_t end);
 static GList *cal_backend_imc_get_alarms_in_range (CalBackend *backend, time_t start, time_t end);
+static gboolean cal_backend_imc_get_alarms_for_object (CalBackend *backend, const char *uid,
+						       time_t start, time_t end,
+						       GList **alarms);
 static gboolean cal_backend_imc_update_object (CalBackend *backend, const char *uid,
 					       const char *calobj);
 static gboolean cal_backend_imc_remove_object (CalBackend *backend, const char *uid);
@@ -138,6 +141,7 @@ cal_backend_imc_class_init (CalBackendIMCClass *class)
 	backend_class->get_uids = cal_backend_imc_get_uids;
 	backend_class->get_events_in_range = cal_backend_imc_get_events_in_range;
 	backend_class->get_alarms_in_range = cal_backend_imc_get_alarms_in_range;
+	backend_class->get_alarms_for_object = cal_backend_imc_get_alarms_for_object;
 	backend_class->update_object = cal_backend_imc_update_object;
 	backend_class->remove_object = cal_backend_imc_remove_object;
 
@@ -1145,6 +1149,42 @@ cal_backend_imc_get_alarms_in_range (CalBackend *backend, time_t start, time_t e
 
 	alarms = g_list_sort (alarms, compare_instance_func);
 	return alarms;
+}
+
+/* Get_alarms_for_object handler for the IMC backend */
+static gboolean
+cal_backend_imc_get_alarms_for_object (CalBackend *backend, const char *uid,
+				       time_t start, time_t end,
+				       GList **alarms)
+{
+	CalBackendIMC *cbimc;
+	IMCPrivate *priv;
+	iCalObject *ico;
+
+	cbimc = CAL_BACKEND_IMC (backend);
+	priv = cbimc->priv;
+
+	g_return_val_if_fail (priv->loaded, FALSE);
+	g_return_val_if_fail (uid != NULL, FALSE);
+	g_return_val_if_fail (start != -1 && end != -1, FALSE);
+	g_return_val_if_fail (start <= end, FALSE);
+	g_return_val_if_fail (alarms != NULL, FALSE);
+
+	*alarms = NULL;
+
+	ico = lookup_object (cbimc, uid);
+	if (!ico)
+		return FALSE;
+
+	/* Only VEVENT and VTODO components can have alarms */
+
+	if (ico->type != ICAL_EVENT && ico->type != ICAL_TODO)
+		return TRUE;
+
+	*alarms = add_alarms_for_object (*alarms, ico, start, end);
+	*alarms = g_list_sort (*alarms, compare_instance_func);
+
+	return TRUE;
 }
 
 /* Notifies a backend's clients that an object was updated */
