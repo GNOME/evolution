@@ -2045,7 +2045,11 @@ on_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event, Mess
 	if (info == NULL) {
 		return FALSE;
 	}
-	
+
+	/* If a message was marked as deleted and the user flags it as important, undelete it */
+	if (col == COL_FLAGGED && (info->flags & CAMEL_MESSAGE_DELETED))
+		flag |= CAMEL_MESSAGE_DELETED;
+
 	camel_folder_set_message_flags(list->folder, camel_message_info_uid(info), flag, ~info->flags);
 
 	if (flag == CAMEL_MESSAGE_SEEN && list->seen_id) {

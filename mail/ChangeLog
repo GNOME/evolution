@@ -1,5 +1,11 @@
 2001-06-05  Jason Leach  <jleach@ximian.com>
 
+	(Fix bug #3211: Should undelete when flagging a delete message as
+	 important)
+	
+	* message-list.c (on_click): When flagging a message as important,
+	check to see if it's flagged as deleted, if so, undelete it.
+
 	(Fix bug #314: Display URLs in statusbar on mouseover)
 	
 	* mail-display.c (html_on_url): New function, callback for
