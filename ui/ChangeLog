@@ -1,3 +1,8 @@
+2001-07-31  Peter Williams  <peterw@ximian.com>
+
+	* evolution-message-composer.xml: Add "Customize Toolbars" menu item
+	and command.
+
 2001-07-31  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail-message.xml: Added Next/Previous menu items under

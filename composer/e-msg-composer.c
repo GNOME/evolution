@@ -1706,6 +1706,10 @@ setup_ui (EMsgComposer *composer)
 	
 	bonobo_ui_component_add_verb_list_with_data (
 		composer->uic, verbs, composer);
+
+        /* Customize Toolbar thingie */
+	bonobo_ui_engine_config_set_path (bonobo_window_get_ui_engine (BONOBO_WINDOW (composer)),
+                                          "/evolution/UIConf/composer");
 	
 	bonobo_ui_component_freeze (composer->uic, NULL);
 	

@@ -1,3 +1,8 @@
+2001-07-31  Peter Williams  <peterw@ximian.com>
+
+	* e-msg-composer.c (setup_ui): Set the config path for the composer so
+	that the customize toolbar command works.
+
 2001-07-31  Jason Leach  <jleach@ximian.com>
 
 	* e-msg-composer.c: Use Tuomas' and Jakub's new (and beautiful)
