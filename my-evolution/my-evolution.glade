@@ -836,7 +836,7 @@
 	    <class>GtkButton</class>
 	    <name>button11</name>
 	    <can_focus>True</can_focus>
-	    <label>Add n_ew feed</label>
+	    <label>Add n_ews feed</label>
 	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <left_attach>3</left_attach>

@@ -1,3 +1,7 @@
+2001-10-22  Anna Marie Dirks  <anna@ximian.com>
+
+	* my-evolution.glade: Changed "Add new feed" to "Add news feed".
+
 2001-10-22  Damon Chaplin  <damon@ximian.com>
 
 	* e-summary-tasks.c (generate_html): set the default timezone on the
@@ -20,6 +24,7 @@
 	NULL after freeing it.
 	(mail_change_notify): Return if mail == NULL.
 	
+
 2001-10-18  Iain Holmes  <iain@ximian.com>
 
 	* e-summary.c (e_summary_reload): Only reload the views, don't do an
