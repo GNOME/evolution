@@ -1461,18 +1461,22 @@ char *em_uri_from_camel(const char *curi)
 	const char *uid, *path;
 	char *euri, *tmp;
 	CamelProvider *provider;
+	CamelException ex;
 
 	/* Easiest solution to code that shouldnt be calling us */
 	if (!strncmp(curi, "email:", 6))
 		return g_strdup(curi);
 
-	provider = camel_provider_get(curi, NULL);
+	camel_exception_init(&ex);
+	provider = camel_provider_get(curi, &ex);
 	if (provider == NULL) {
+		camel_exception_clear(&ex);
 		d(printf("em uri from camel failed '%s'\n", curi));
 		return g_strdup(curi);
 	}
 
-	curl = camel_url_new(curi, NULL);
+	curl = camel_url_new(curi, &ex);
+	camel_exception_clear(&ex);
 	if (curl == NULL)
 		return g_strdup(curi);
 

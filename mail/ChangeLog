@@ -1,3 +1,47 @@
+2004-05-12  Not Zed  <NotZed@Ximian.com>
+
+	* mail-errors.xml.h: add for translators.
+
+	* Makefile.am (%.xml.h): fix for xml i18n stuff.
+
+	* mail-errors.xml: moved from the .xml.in file.
+
+2004-05-11  Not Zed  <NotZed@Ximian.com>
+
+	* em-utils.c (em_uri_from_camel): pass an exception to
+	provider_get, it relies on one.
+
+	* em-migrate.c (em_migrate_1_4): fix some error messages, and fail
+	with fatal errors properly.
+	(em_migrate_local_folders_1_4): EEP!  Who cares if this fails!
+	Well I do.  Setup exceptions and return codes.
+	(em_migrate_dir): and here too.  Sloppy!
+	(em_migrate_dir): change the code slightly, 1.4 would recurse all
+	folders, even if the parent folder doesn't have a
+	folder-metadata.xml.  Make sure we copy that mode.
+	(get_local_store_uri): Make it copy the 1.4 behaviour properly.
+	Any error -> use defaults.
+	(em_migrate_dir): lots of changes.
+	(mbox_build_filename): take the output string as an arg.
+	(cp): add an argument to overwrite/append or require a unique
+	empty file.
+	(cp_r): add mode arg here too.
+	(em_migrate_folder): split the folder copy stuff from em_migrate
+	dir entirely.  blah.
+	(em_upgrade_accounts_1_4): can't fail, remove return code, etc.
+	(em_upgrade_xml_1_4): removed this rather redundant odd api.
+	(upgrade_xml_uris): this can't fail, remove return codes etc.
+	(em_upgrade_xml_1_0): another oddly redundant function.
+	(em_migrate_pop_uid_caches_1_4): error messages, blah blah.
+	(em_migrate_folder_expand_state_1_4): no fatal states here.
+	(em_migrate_folder_view_settings_1_4): nor here.
+	(emm_setup_initial): do i18n 'better', using
+	gnome_i18n_get_language_list, rather than hacky code.
+
+2004-05-10  Not Zed  <NotZed@Ximian.com>
+
+	* mail-tools.c: remove e-meta.h, not used anymore.
+
 2004-05-11  Dan Winship  <danw@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Remove the mail folder

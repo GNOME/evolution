@@ -184,10 +184,11 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 
 # Misc data to install
 
-error_in_files = mail-errors.xml.in
-error_DATA = $(error_in_files:.xml.in=.xml)
+error_DATA = mail-errors.xml
+error_i18n = $(error_DATA:.xml=.xml.h)
 errordir = $(privdatadir)/errors
-@INTLTOOL_XML_RULE@
+%.xml.h: %.xml
+	$(top_builddir)/e-util/e-error-tool $^
 
 glade_DATA = mail-config.glade  subscribe-dialog.glade message-tags.glade mail-search.glade mail-security.glade
 MARSHAL_GENERATED = em-marshal.c em-marshal.h
@@ -199,7 +200,7 @@ EXTRA_DIST = 				\
 	ChangeLog.pre-1-4		\
 	em-marshal.list			\
 	$(SPELL_IDL)			\
-	$(error_in_files)		\
+	$(error_DATA) $(error_i18n)	\
 	$(glade_DATA)			\
 	$(schema_DATA)			\
 	$(server_in_files)		\
@@ -243,6 +244,6 @@ install-data-local:
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_DATA)
+BUILT_SOURCES = $(SPELL_IDL_GENERATED) $(MARSHAL_GENERATED) $(server_DATA) $(error_i18n)
 
 CLEANFILES = $(BUILT_SOURCES)

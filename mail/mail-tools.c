@@ -46,8 +46,6 @@
 #include <filter/filter-option.h>
 #include <filter/filter-input.h>
 
-#include "e-util/e-meta.h"
-
 #include "mail-component.h"
 #include "mail-session.h"
 #include "mail-config.h"

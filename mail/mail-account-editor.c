@@ -109,7 +109,7 @@ apply_changes (MailAccountEditor *editor)
 	if (page != -1) {
 		gtk_notebook_set_current_page (editor->notebook, page);
 		gtk_widget_grab_focus (incomplete);
-		e_error_run(editor, "mail:account-incomplete", NULL);
+		e_error_run((GtkWindow *)editor, "mail:account-incomplete", NULL);
 		return FALSE;
 	}
 	

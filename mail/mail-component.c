@@ -742,22 +742,25 @@ impl_sendAndReceive (PortableServer_Servant servant, CORBA_Environment *ev)
 	mail_send_receive ();
 }
 
-static CORBA_boolean
+static void
 impl_upgradeFromVersion (PortableServer_Servant servant, const short major, const short minor, const short revision, CORBA_Environment *ev)
 {
 	MailComponent *component;
 	CamelException ex;
-	int ok;
 
 	component = mail_component_peek ();
 	
 	camel_exception_init (&ex);
-	ok = em_migrate (component->priv->base_directory, major, minor, revision, &ex) != -1;
+	if (em_migrate (component->priv->base_directory, major, minor, revision, &ex) == -1) {
+		GNOME_Evolution_Component_UpgradeFailed *failedex;
 
-	/* FIXME: report errors? */
+		failedex = GNOME_Evolution_Component_UpgradeFailed__alloc();
+		failedex->what = CORBA_string_dup(_("Failed upgrading Mail settings or folders."));
+		failedex->why = CORBA_string_dup(ex.desc);
+		CORBA_exception_set(ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Component_UpgradeFailed, failedex);
+	}
+
 	camel_exception_clear (&ex);
-
-	return ok;
 }
 
 /* Initialization.  */
