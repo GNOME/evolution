@@ -22,6 +22,7 @@ eutilinclude_HEADERS = 				\
 	e-bonobo-factory-util.h			\
 	e-categories-master-list-wombat.h	\
 	e-categories-config.h			\
+	e-component-listener.h			\
 	e-corba-utils.h				\
 	e-dialog-utils.h			\
 	e-dialog-widgets.h			\
@@ -49,6 +50,7 @@ libeutil_la_SOURCES =				\
 	e-bonobo-factory-util.c			\
 	e-categories-master-list-wombat.c	\
 	e-categories-config.c			\
+	e-component-listener.c			\
 	e-corba-utils.c				\
 	e-dialog-utils.c			\
 	e-dialog-widgets.c			\
