@@ -60,9 +60,11 @@ HTMLTokenizer *e_searching_tokenizer_new (void);
 /* For now, just a simple API */
 
 void e_searching_tokenizer_set_primary_search_string    (ESearchingTokenizer *, const gchar *);
+void e_searching_tokenizer_add_primary_search_string    (ESearchingTokenizer *, const gchar *);
 void e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
 
 void e_searching_tokenizer_set_secondary_search_string    (ESearchingTokenizer *, const gchar *);
+void e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str);
 void e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *, gboolean is_case_sensitive);
 
 

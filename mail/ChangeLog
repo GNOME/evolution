@@ -1,3 +1,15 @@
+2002-05-18  Not Zed  <NotZed@Ximian.com>
+
+	* e-searching-tokenizer.c
+	(e_searching_tokenizer_add_primary_search_string):
+	(e_searching_tokenizer_add_secondary_search_string): New functions
+	to add additional search strings one at a time.  Maybe it should
+	just split the word itself?
+	(all): Basically, entirely rewritten.  Now implements the
+	Aho-Corasick multiple pattern search algorithm and handles
+	multiple search strings and only ever has to decode any utf8
+	character once, etc etc.
+
 2002-05-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (mail_get_message_body): Only get the contents of

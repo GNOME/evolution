@@ -72,6 +72,9 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-stream-mem.h>
 
+/* maybe this shooudlnt be private ... */
+#include "camel/camel-search-private.h"
+
 #define d(x) 
 
 #define PARENT_TYPE (gtk_table_get_type ())
@@ -1116,6 +1119,8 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 	FolderBrowser *fb = FOLDER_BROWSER (data);
 	ESearchingTokenizer *st;
 	GList *partl;
+	struct _camel_search_words *words;
+	int i;
 
 	st = E_SEARCHING_TOKENIZER (fb->mail_display->html->engine->ht); 
 
@@ -1134,7 +1139,12 @@ folder_browser_config_search (EFilterBar *efb, FilterRule *rule, int id, const c
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "word");
 			if (input)
 				filter_input_set_value(input, query);
-			e_searching_tokenizer_set_secondary_search_string (st, query);
+
+			words = camel_search_words_split(query);
+			for (i=0;i<words->len;i++)
+				e_searching_tokenizer_add_secondary_search_string (st, words->words[i]->word);
+			camel_search_words_free(words);
+
 		} else if(!strcmp(part->name, "sender")) {
 			FilterInput *input = (FilterInput *)filter_part_find_element(part, "sender");
 			if (input)

@@ -3,9 +3,11 @@
 /*
  * e-searching-tokenizer.c
  *
- * Copyright (C) 2001 Ximian, Inc.
+ * Copyright (C) 2002 Ximian, Inc.
  *
  * Developed by Jon Trowbridge <trow@ximian.com>
+ * Rewritten significantly to handle multiple strings and improve performance
+ *  by Michael Zucchi <notzed@ximian.com>
  */
 
 /*
@@ -30,14 +32,16 @@
 #include <gal/unicode/gunicode.h>
 #include "e-searching-tokenizer.h"
 
+#include "e-util/e-memory.h"
+#include "e-util/e-msgport.h"
+
+#define d(x) 
+
 enum {
 	EST_MATCH_SIGNAL,
 	EST_LAST_SIGNAL
 };
 guint e_searching_tokenizer_signals[EST_LAST_SIGNAL] = { 0 };
-
-#define START_MAGIC "<\n>S<\n>"
-#define END_MAGIC   "<\n>E<\n>"
 
 static void     e_searching_tokenizer_begin      (HTMLTokenizer *, gchar *);
 static void     e_searching_tokenizer_end        (HTMLTokenizer *);
@@ -47,34 +51,14 @@ static gboolean e_searching_tokenizer_has_more   (HTMLTokenizer *);
 
 static HTMLTokenizer *e_searching_tokenizer_clone (HTMLTokenizer *);
 
-static const gchar *ignored_tags[] = { "b", "i", NULL };
-static const gchar *space_tags[] = { "br", NULL };
+/*
+  static const gchar *space_tags[] = { "br", NULL };*/
 
 GtkObjectClass *parent_class = NULL;
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
-typedef enum {
-	MATCH_FAILED = 0,
-	MATCH_COMPLETE,
-	MATCH_START,
-	MATCH_CONTINUES,
-	MATCH_END
-} MatchInfo;
-
-typedef struct _SearchInfo SearchInfo;
-struct _SearchInfo {
-	gchar *search;
-	gchar *current;
-
-	gboolean case_sensitive;
-	gboolean allow_space_tags_to_match_whitespace;
-
-	gint match_size_incr;
-	gchar *match_color;
-	gboolean match_bold;
-};
-
+/* ???
 typedef struct _SharedState SharedState;
 struct _SharedState {
 	gint refs;
@@ -83,17 +67,12 @@ struct _SharedState {
 	gboolean case_sensitive_primary;
 	gboolean case_sensitive_secondary;
 };
+*/
 
-struct _ESearchingTokenizerPrivate {
-	gint match_count;
-	SearchInfo *search;
-	GList *pending;
-	GList *trash;
-	SharedState *shared;
-};
+/* ********************************************************************** */
 
-/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
+#if 0
 static SharedState *
 shared_state_new (void)
 {
@@ -123,353 +102,878 @@ shared_state_unref (SharedState *shared)
 		}
 	}
 }
+#endif
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
-static SearchInfo *
-search_info_new (void)
+/* ********************************************************************** */
+
+/* Utility functions */
+
+/* This is faster and safer than glib2's utf8 abomination, but isn't exported from camel as yet */
+static __inline__ guint32
+camel_utf8_getc(const unsigned char **ptr)
 {
-	SearchInfo *si;
+	register unsigned char *p = (unsigned char *)*ptr;
+	register unsigned char c, r;
+	register guint32 v, m;
 
-	si = g_new0 (SearchInfo, 1);
-	si->case_sensitive = FALSE;
+again:
+	r = *p++;
+loop:
+	if (r < 0x80) {
+		*ptr = p;
+		v = r;
+	} else if (r < 0xfe) { /* valid start char? */
+		v = r;
+		m = 0x7f80;	/* used to mask out the length bits */
+		do {
+			c = *p++;
+			if ((c & 0xc0) != 0x80) {
+				r = c;
+				goto loop;
+			}
+			v = (v<<6) | (c & 0x3f);
+			r<<=1;
+			m<<=5;
+		} while (r & 0x40);
+		
+		*ptr = p;
 
-	si->match_size_incr = 1;
-	si->match_color = g_strdup ("red");
-	si->match_bold = FALSE;
+		v &= ~m;
+	} else {
+		goto again;
+	}
 
-	si->allow_space_tags_to_match_whitespace = TRUE;
-
-	return si;
+	return v;
 }
 
-static void
-search_info_free (SearchInfo *si)
+
+/* note: our tags of interest are 7 bit ascii, only, no need to do any fancy utf8 stuff */
+/* tags should be upper case
+   if this list gets longer than 10 entries, consider binary search */
+static char *ignored_tags[] = { "B", "I", "FONT", "TT", "EM", /* and more? */};
+
+static int
+ignore_tag(const char *tag)
 {
-	if (si) {
-		g_free (si->search);
-		g_free (si->match_color);
-		g_free (si);
+	char *t = alloca(strlen(tag)+1), c, *out;
+	const char *in;
+	int i;
+
+	/* we could use a aho-corasick matcher here too ... but we wont */
+
+	/* normalise tag into 't'.
+	   Note we use the property that the only tags we're interested in
+	   are 7 bit ascii to shortcut and simplify case insensitivity */
+	in = tag+2;		/* skip: TAG_ESCAPE '<' */
+	if (*in == '/')
+		in++;
+	out = t;
+	while ((c = *in++)) {
+		if (c >= 'A' && c <= 'Z')
+			*out++ = c;
+		else if (c >= 'a' && c <= 'z')
+			*out++ = c & 0xdf; /* convert ASCII to upper case */
+		else
+			/* maybe should check for > or ' ' etc? */
+			break;
+	}
+	*out = 0;
+
+	for (i=0;i<sizeof(ignored_tags)/sizeof(ignored_tags[0]);i++) {
+		if (strcmp(t, ignored_tags[i]) == 0)
+			return 1;
+	}
+
+	return 0;
+}
+
+/* ********************************************************************** */
+
+/* Aho-Corasick search tree implmeentation */
+
+/* next state if we match a character */
+struct _match {
+	struct _match *next;
+	guint32 ch;
+	struct _state *match;
+};
+
+/* tree state node */
+struct _state {
+	struct _match *matches;
+	unsigned int final;		/* max no of chars we just matched */
+	struct _state *fail;		/* where to try next if we fail */
+	struct _state *next;		/* next on this level? */
+};
+
+/* base tree structure */
+struct _trie {
+	struct _state root;
+	int max_depth;
+
+	EMemChunk *state_chunks;
+	EMemChunk *match_chunks;
+};
+
+static void 
+dump_trie(struct _state *s, int d)
+{
+	char *p = alloca(d*2+1);
+	struct _match *m;
+
+	memset(p, ' ', d*2);
+	p[d*2]=0;
+	
+	printf("%s[state] %p: %d  fail->%p\n", p, s, s->final, s->fail);
+	m = s->matches;
+	while (m) {
+		printf(" %s'%c' -> %p\n", p, m->ch, m->match);
+		if (m->match)
+			dump_trie(m->match, d+1);
+		m = m->next;
 	}
 }
 
-static SearchInfo *
-search_info_clone (SearchInfo *si)
-{
-	SearchInfo *new_si = NULL;
+/* This builds an Aho-Corasick search trie for a set of utf8 words */
+/* See
+    http://www-sr.informatik.uni-tuebingen.de/~buehler/AC/AC.html
+   for a neat demo */
 
-	if (si) {
-		new_si                 = search_info_new ();
-		new_si->search         = g_strdup (si->search);
-		new_si->case_sensitive = si->case_sensitive;
+static __inline__ struct _match *
+g(struct _state *q, guint32 c)
+{
+	struct _match *m = q->matches;
+
+	while (m && m->ch != c)
+		m = m->next;
+
+	return m;
+}
+
+static struct _trie *
+build_trie(int nocase, int len, char **words)
+{
+	struct _state *q, *qt, *r;
+	char *word;
+	struct _match *m, *n;
+	int i, depth;
+	guint32 c;
+	struct _trie *trie;
+	int state_depth_max, state_depth_size;
+	struct _state **state_depth;
+
+	trie = g_malloc(sizeof(*trie));
+	trie->root.matches = 0;
+	trie->root.final = 0;
+	trie->root.fail = 0;
+	trie->root.next = 0;
+
+	trie->state_chunks = e_memchunk_new(8, sizeof(struct _state));
+	trie->match_chunks = e_memchunk_new(8, sizeof(struct _match));
+
+	/* This will correspond to the length of the longest pattern */
+	state_depth_size = 0;
+	state_depth_max = 64;
+	state_depth = g_malloc(sizeof(*state_depth[0])*64);
+	state_depth[0] = NULL;
+
+	/* Step 1: Build trie */
+
+	/* This just builds a tree that merges all common prefixes into the same branch */
+
+	for (i=0;i<len;i++) {
+		word = words[i];
+		q = &trie->root;
+		depth = 0;
+		while ((c = camel_utf8_getc((const unsigned char **)&word))) {
+			if (nocase)
+				c = g_unichar_tolower(c);
+			m = g(q, c);
+			if (m == 0) {
+				m = e_memchunk_alloc(trie->match_chunks);
+				m->ch = c;
+				m->next = q->matches;
+				q->matches = m;
+				q = m->match = e_memchunk_alloc(trie->state_chunks);
+				q->matches = 0;
+				q->fail = &trie->root;
+				q->final = 0;
+				if (state_depth_max < depth) {
+					state_depth_max += 64;
+					state_depth = g_realloc(state_depth, sizeof(*state_depth[0])*state_depth_max);
+				}
+				if (state_depth_size < depth) {
+					state_depth[depth] = 0;
+					state_depth_size = depth;
+				}
+				q->next = state_depth[depth];
+				state_depth[depth] = q;
+			} else {
+				q = m->match;
+			}
+			depth++;
+		}
+		q->final = depth;
 	}
 
-	return new_si;
+	d(printf("Dumping trie:\n"));
+	d(dump_trie(&trie->root, 0));
+
+	/* Step 2: Build failure graph */
+
+	/* This searches for the longest substring which is a prefix of another string and
+	   builds a graph of failure links so you can find multiple substrings concurrently,
+	   using aho-corasick's algorithm */
+
+	for (i=0;i<state_depth_size;i++) {
+		q = state_depth[i];
+		while (q) {
+			m = q->matches;
+			while (m) {
+				c = m->ch;
+				qt = m->match;
+				r = q->fail;
+				while (r != 0 && (n = g(r, c)) == NULL)
+					r = r->fail;
+				if (r != 0) {
+					qt->fail = n->match;
+					if (qt->fail->final > qt->final)
+						qt->final = qt->fail->final;
+				} else {
+					if ((n = g(&trie->root, c)))
+						qt->fail = n->match;
+					else
+						qt->fail = &trie->root;
+				}
+				m = m->next;
+			}
+			q = q->next;
+		}
+	}
+	
+	d(printf("After failure analysis\n"));
+	d(dump_trie(&trie->root, 0));
+
+	g_free(state_depth);
+
+	trie->max_depth = state_depth_size;
+
+	return trie;
 }
 
 static void
-search_info_set_string (SearchInfo *si, const gchar *str)
+free_trie(struct _trie *t)
 {
-	g_return_if_fail (si);
-	g_return_if_fail (str);
+	e_memchunk_destroy(t->match_chunks);
+	e_memchunk_destroy(t->state_chunks);
 
-	g_free (si->search);
-	si->search = g_strdup (str);
-	si->current = NULL;
+	g_free(t);
+}
+
+/* ********************************************************************** */
+
+/* html token searcher */
+
+struct _token {
+	struct _token *next;
+	struct _token *prev;
+	unsigned int offset;
+	/* we need to copy the token for memory management, so why not copy it whole */
+	char tok[1];
+};
+
+/* stack of submatches currently being scanned, used for merging */
+struct _submatch {
+	unsigned int offstart, offend; /* in bytes */
+};
+
+/* flags for new func */
+#define SEARCH_CASE (1)
+#define SEARCH_BOLD (2)
+
+struct _searcher {
+	struct _trie *t;
+
+	char *(*next_token)();	/* callbacks for more tokens */
+	void *next_data;
+
+	int words;		/* how many words */
+	char *tags, *tage;	/* the tag we used to highlight */
+
+	int flags;		/* case sensitive or not */
+
+	struct _state *state;	/* state is the current trie state */
+
+	int matchcount;
+
+	EDList input;		/* pending 'input' tokens, processed but might match */
+	EDList output;		/* output tokens ready for source */
+
+	struct _token *current;	/* for token output memory management */
+
+	guint32 offset;		/* current offset through searchable stream? */
+	guint32 offout;		/* last output position */
+
+	unsigned int lastp;	/* current position in rotating last buffer */
+	guint32 *last;		/* buffer that goes back last 'n' positions */
+	guint32 last_mask;	/* bitmask for efficient rotation calculation */
+
+	unsigned int submatchp;	/* submatch stack */
+	struct _submatch *submatches;
+};
+
+static void
+searcher_set_tokenfunc(struct _searcher *s, char *(*next)(), void *data)
+{
+	s->next_token = next;
+	s->next_data = data;
+}
+
+static struct _searcher *
+searcher_new(int flags, int argc, char **argv, const char *tags, const char *tage)
+{
+	int i, m;
+	struct _searcher *s;
+
+	s = g_malloc(sizeof(*s));
+
+	s->t = build_trie((flags&SEARCH_CASE) == 0, argc, argv);
+	s->words = argc;
+	s->tags = g_strdup(tags);
+	s->tage = g_strdup(tage);
+	s->flags = flags;
+	s->state = &s->t->root;
+	s->matchcount = 0;
+
+	e_dlist_init(&s->input);
+	e_dlist_init(&s->output);
+	s->current = 0;
+
+	s->offset = 0;
+	s->offout = 0;
+
+	/* rotating queue of previous character positions */
+	m = s->t->max_depth+1;
+	i = 2;
+	while (i<m)
+		i<<=2;
+	s->last = g_malloc(sizeof(s->last[0])*i);
+	s->last_mask = i-1;
+	s->lastp = 0;
+
+	/* a stack of possible submatches */
+	s->submatchp = 0;
+	s->submatches = g_malloc(sizeof(s->submatches[0])*argc+1);
+
+	return s;
 }
 
 static void
-search_info_set_case_sensitivity (SearchInfo *si, gboolean flag)
+searcher_free(struct _searcher *s)
 {
-	g_return_if_fail (si);
+	struct _token *t;
 
-	si->case_sensitive = flag;
+	while ((t = (struct _token *)e_dlist_remhead(&s->input)))
+		g_free(t);
+	while ((t = (struct _token *)e_dlist_remhead(&s->output)))
+		g_free(t);
+	g_free(s->tags);
+	g_free(s->tage);
+	g_free(s->last);
+	g_free(s->submatches);
+	free_trie(s->t);
+	g_free(s);
+}
+static struct _token *
+append_token(EDList *list, const char *tok, int len)
+{
+	struct _token *token;
+
+	if (len == -1)
+		len = strlen(tok);
+	token = g_malloc(sizeof(*token) + len+1);
+	token->offset = 0;	/* set by caller when required */
+	memcpy(token->tok, tok, len);
+	token->tok[len] = 0;
+	e_dlist_addtail(list, (EDListNode *)token);
+
+	return token;
 }
 
-#if 0
-static void
-search_info_set_match_size_increase (SearchInfo *si, gint incr)
-{
-	g_return_if_fail (si);
-	g_return_if_fail (incr >= 0);
+#define free_token(x) (g_free(x))
 
-	si->match_size_incr = incr;
+static void
+output_token(struct _searcher *s, struct _token *token)
+{
+	int offend;
+	int left, pre;
+
+	if (token->tok[0] == TAG_ESCAPE) {
+		if (token->offset >= s->offout) {
+			d(printf("moving tag token '%s' from input to output\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+			e_dlist_addtail(&s->output, (EDListNode *)token);
+		} else {
+			d(printf("discarding tag token '%s' from input\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+			free_token(token);
+		}
+	} else {
+		offend = token->offset + strlen(token->tok);
+		left = offend-s->offout;
+		if (left > 0) {
+			pre = s->offout - token->offset;
+			if (pre>0)
+				memmove(token->tok, token->tok+pre, left+1);
+			d(printf("adding partial remaining/failed '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+			s->offout = offend;
+			e_dlist_addtail(&s->output, (EDListNode *)token);
+		} else {
+			d(printf("discarding whole token '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+			free_token(token);
+		}
+	}
 }
-#endif
 
-static void
-search_info_set_match_color (SearchInfo *si, const gchar *color)
+static struct _token *
+find_token(struct _searcher *s, int start)
 {
-	g_return_if_fail (si);
+	register struct _token *token;
 
-	g_free (si->match_color);
-	si->match_color = g_strdup (color);
+	/* find token which is start token, from end of list back */
+	token = (struct _token *)s->input.tailpred;
+	while (token->prev) {
+		if (token->offset <= start)
+			return token;
+		token = token->prev;
+	}
+
+	return NULL;
 }
 
 static void
-search_info_set_match_bold (SearchInfo *si, gboolean flag)
+output_match(struct _searcher *s, unsigned int start, unsigned int end)
 {
-	g_return_if_fail (si);
+	register struct _token *token;
+	struct _token *starttoken, *endtoken;
+	char b[8];
 
-	si->match_bold = flag;
-}
+	d(printf("output match: %d-%d  at %d\n", start, end, s->offout));
 
-static void
-search_info_reset (SearchInfo *si)
-{
-	if (si == NULL)
+	starttoken = find_token(s, start);
+	endtoken = find_token(s, end);
+
+	if (starttoken == NULL || endtoken == NULL) {
+		printf("Cannot find match history for match %d-%d\n", start, end);
 		return;
-	si->current = NULL;
+	}
+
+	d(printf("start in token '%s'\n", starttoken->tok[0]==TAG_ESCAPE?starttoken->tok+1:starttoken->tok));
+	d(printf("end in token   '%s'\n", endtoken->tok[0]==TAG_ESCAPE?endtoken->tok+1:endtoken->tok));
+
+	/* output pending stuff that didn't match afterall */
+	while ((struct _token *)s->input.head != starttoken) {
+		token = (struct _token *)e_dlist_remhead(&s->input);
+		d(printf("appending failed match '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+		output_token(s, token);
+	}
+
+	/* output any pre-match text */
+	if (s->offout < start) {
+		token = append_token(&s->output, starttoken->tok + (s->offout-starttoken->offset), start-s->offout);
+		d(printf("adding pre-match text '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+		s->offout = start;
+	}
+
+	/* output highlight/bold */
+	if (s->flags & SEARCH_BOLD) {
+		sprintf(b, "%c<b>", (char)TAG_ESCAPE);
+		append_token(&s->output, b, -1);
+	}
+	if (s->tags)
+		append_token(&s->output, s->tags, -1);
+
+	/* output match node(s) */
+	if (starttoken != endtoken) {
+		while ((struct _token *)s->input.head != endtoken) {
+			token = (struct _token *)e_dlist_remhead(&s->input);
+			d(printf("appending (partial) match node (head) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+			output_token(s, token);
+		}
+	}
+
+	/* any remaining partial content */
+	if (s->offout < end) {
+		token = append_token(&s->output, endtoken->tok+(s->offout-endtoken->offset), end-s->offout);
+		d(printf("appending (partial) match node (tail) '%s'\n", token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+		s->offout = end;
+	}
+
+	/* end highlight */
+	if (s->tage)
+		append_token(&s->output, s->tage, -1);
+
+	/* and close bold if we need to */
+	if (s->flags & SEARCH_BOLD) {
+		sprintf(b, "%c</b>", (char)TAG_ESCAPE);
+		append_token(&s->output, b, -1);
+	}
 }
 
-/* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
-
-static const gchar *
-find_whole (SearchInfo *si, const gchar *haystack, const gchar *needle)
+/* output any sub-pending blocks */
+static void
+output_subpending(struct _searcher *s)
 {
-	const gchar *h, *n;
+	int i;
 
-	g_return_val_if_fail (si, NULL);
-	g_return_val_if_fail (haystack && needle, NULL);
-	g_return_val_if_fail (g_utf8_validate (haystack, -1, NULL), NULL);
-	g_return_val_if_fail (g_utf8_validate (needle, -1, NULL), NULL);
+	for (i=s->submatchp-1;i>=0;i--)
+		output_match(s, s->submatches[i].offstart, s->submatches[i].offend);
+	s->submatchp = 0;
+}
 
-	while (*haystack) {
-		h = haystack;
-		n = needle;
-		while (*h && *n) {
-			gunichar c1 = g_utf8_get_char (h);
-			gunichar c2 = g_utf8_get_char (n);
+/* returns true if a merge took place */
+static int
+merge_subpending(struct _searcher *s, int offstart, int offend)
+{
+	int i;
 
-			if (!si->case_sensitive) {
-				c1 = g_unichar_tolower (c1);
-				c2 = g_unichar_tolower (c2);
+	/* merges overlapping or abutting match strings */
+	if (s->submatchp &&
+	    s->submatches[s->submatchp-1].offend >= offstart) {
+
+		/* go from end, any that match 'invalidate' follow-on ones too */
+		for (i=s->submatchp-1;i>=0;i--) {
+			if (s->submatches[i].offend >= offstart) {
+				if (offstart < s->submatches[i].offstart)
+					s->submatches[i].offstart = offstart;
+				s->submatches[i].offend = offend;
+				if (s->submatchp > i)
+					s->submatchp = i+1;
+			}
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+static void
+push_subpending(struct _searcher *s, int offstart, int offend)
+{
+	/* This is really an assertion, we just ignore the last pending match instead of crashing though */
+	if (s->submatchp >= s->words) {
+		printf("ERROR: submatch pending stack overflow\n");
+		s->submatchp = s->words-1;
+	}
+
+	s->submatches[s->submatchp].offstart = offstart;
+	s->submatches[s->submatchp].offend = offend;
+	s->submatchp++;
+}
+
+/* move any (partial) tokens from input to output if they are beyond the current output position */
+static void
+output_pending(struct _searcher *s)
+{
+	struct _token *token;
+
+	while ( (token = (struct _token *)e_dlist_remhead(&s->input)) )
+		output_token(s, token);
+}
+
+/* flushes any nodes we cannot possibly match anymore */
+static void
+flush_extra(struct _searcher *s)
+{
+	unsigned int start;
+	int i;
+	struct _token *starttoken, *token;
+
+	/* find earliest char that can be in contention */
+	start = s->offset - s->t->max_depth;
+	for (i=0;i<s->submatchp;i++)
+		if (s->submatches[i].offstart < start)
+			start = s->submatches[i].offstart;
+
+	/* now, flush out any tokens which are before this point */
+	starttoken = find_token(s, start);
+	if (starttoken == NULL)
+		return;
+
+	while ((struct _token *)s->input.head != starttoken) {
+		token = (struct _token *)e_dlist_remhead(&s->input);
+		output_token(s, token);
+	}
+}
+
+static char *
+searcher_next_token(struct _searcher *s)
+{
+	struct _token *token;
+	char *tok, *stok;
+	struct _trie *t = s->t;
+	struct _state *q = s->state;
+	struct _match *m;
+	int offstart, offend;
+	guint32 c;
+
+	while (e_dlist_empty(&s->output)) {
+		/* get next token */
+		tok = s->next_token(s->next_data);
+		if (tok == NULL) {
+			output_subpending(s);
+			output_pending(s);
+			break;
+		}
+
+		/* we dont always have to copy each token, e.g. if we dont match anything */
+		token = append_token(&s->input, tok, -1);
+		token->offset = s->offset;
+		tok = token->tok;
+
+		d(printf("new token %d '%s'\n", token->offset, token->tok[0]==TAG_ESCAPE?token->tok+1:token->tok));
+
+		/* tag test, reset state on unknown tags */
+		if (tok[0] == TAG_ESCAPE) {
+			if (!ignore_tag(tok)) {
+				/* force reset */
+				output_subpending(s);
+				output_pending(s);
+				q = &t->root;
 			}
 
-			if (c1 != c2)
-				break;
-			
-			h = g_utf8_next_char (h);
-			n = g_utf8_next_char (n);
-		}
-		if (*n == '\0')
-			return haystack;
-		if (*h == '\0')
-			return NULL;
-		haystack = g_utf8_next_char (haystack);
-	}
-
-	return NULL;
-}
-
-/* This is a really stupid implementation of this function. */
-static const gchar *
-find_head (SearchInfo *si, const gchar *haystack, const gchar *needle)
-{
-	const gchar *h, *n;
-
-	g_return_val_if_fail (si, NULL);
-	g_return_val_if_fail (haystack && needle, NULL);
-	g_return_val_if_fail (g_utf8_validate (haystack, -1, NULL), NULL);
-	g_return_val_if_fail (g_utf8_validate (needle, -1, NULL), NULL);
-
-	while (*haystack) {
-		h = haystack;
-		n = needle;
-		while (*h && *n) {
-			gunichar c1 = g_utf8_get_char (h);
-			gunichar c2 = g_utf8_get_char (n);
-
-			if (!si->case_sensitive) {
-				c1 = g_unichar_tolower (c1);
-				c2 = g_unichar_tolower (c2);
-			}
-
-			if (c1 != c2)
-				break;
-
-			h = g_utf8_next_char (h);
-			n = g_utf8_next_char (n);
-		}
-		if (*h == '\0')
-			return haystack;
-		haystack = g_utf8_next_char (haystack);
-	}
-
-	return NULL;
-}
-
-static const gchar *
-find_partial (SearchInfo *si, const gchar *haystack, const gchar *needle)
-{
-	g_return_val_if_fail (si, NULL);
-	g_return_val_if_fail (haystack && needle, NULL);
-	g_return_val_if_fail (g_utf8_validate (haystack, -1, NULL), NULL);
-	g_return_val_if_fail (g_utf8_validate (needle, -1, NULL), NULL);
-	
-	while (*needle) {
-		gunichar c1 = g_utf8_get_char (haystack);
-		gunichar c2 = g_utf8_get_char (needle);
-
-		if (!si->case_sensitive) {
-			c1 = g_unichar_tolower (c1);
-			c2 = g_unichar_tolower (c2);
+			continue;
 		}
 
-		if (c1 != c2)
-			return NULL;
+		/* process whole token */
+		stok = tok;
+		while ((c = camel_utf8_getc((const unsigned char **)&tok))) {
+			if ((s->flags & SEARCH_CASE) == 0)
+				c = g_unichar_tolower(c);
+			while (q && (m = g(q, c)) == NULL)
+				q = q->fail;
+			if (q == 0) {
+				/* mismatch ... reset state */
+				output_subpending(s);
+				q = &t->root;
+			} else {
+				/* keep track of previous offsets of utf8 chars, rotating buffer */
+				s->last[s->lastp] = s->offset + (tok-stok)-1;
+				s->lastp = (s->lastp+1)&s->last_mask;
 
-		needle = g_utf8_next_char (needle);
-		haystack = g_utf8_next_char (haystack);
-	}
-	return haystack;
-}
+				q = m->match;
+				/* we have a match of q->final characters for a matching word */
+				if (q->final) {
+					s->matchcount++;
 
-static gboolean
-tag_match (const gchar *token, const gchar *tag)
-{
-	token += 2; /* Skip past TAG_ESCAPE and < */
-	if (*token == '/')
-		++token;
-	while (*token && *tag) {
-		gunichar c1 = g_unichar_tolower (g_utf8_get_char (token));
-		gunichar c2 = g_unichar_tolower (g_utf8_get_char (tag));
-		if (c1 != c2)
-			return FALSE;
-		token = g_utf8_next_char (token);
-		tag = g_utf8_next_char (tag);
-	}
-	return (*tag == '\0' && *token == '>');
-}
+					/* use the last buffer to find the real offset of this char */
+					offstart = s->last[(s->lastp - q->final)&s->last_mask];
+					offend = s->offset + (tok - stok);
 
-static MatchInfo
-search_info_compare (SearchInfo *si, const gchar *token, gint *start_pos, gint *end_pos)
-{
-	gboolean token_is_tag;
-	const gchar *s;
-	gint i;
-	
-	g_return_val_if_fail (si != NULL, MATCH_FAILED);
-	g_return_val_if_fail (token != NULL, MATCH_FAILED);
-	g_return_val_if_fail (start_pos != NULL, MATCH_FAILED);
-	g_return_val_if_fail (end_pos != NULL, MATCH_FAILED);
-
-	token_is_tag = (*token == TAG_ESCAPE);
-
-	/* Try to start a new match. */
-	if (si->current == NULL) {
-
-		/* A match can never start on a token. */
-		if (token_is_tag)
-			return MATCH_FAILED;
-		
-		/* Check to see if the search string is entirely embedded within the token. */
-		s = find_whole (si, token, si->search);
-		if (s) {
-			const gchar *pos = s;
-			i = g_utf8_strlen (si->search, -1);
-			while (i > 0) {
-				pos = g_utf8_next_char (pos);
-				--i;
-			}
-			*start_pos = s - token;
-			*end_pos = pos - token;
-
-			return MATCH_COMPLETE;
-		}
-
-		/* Check to see if the beginning of the search string lies in this token. */
-		s = find_head (si, token, si->search);
-		if (s) {
-			*start_pos = s - token;
-			si->current = si->search;
-			while (*s) {
-				s = g_utf8_next_char (s);
-				si->current = g_utf8_next_char (si->current);
-			}
-
-			return MATCH_START;
-		}
-		
-		return MATCH_FAILED;
-	}
-
-	/* Try to continue a previously-started match. */
-	
-	/* Deal with tags that we encounter mid-match. */
-	if (token_is_tag) {
-
-		/* "Ignored tags" will never mess up a match. */
-		for (i=0; ignored_tags[i]; ++i) {
-			if (tag_match (token, ignored_tags[i]))
-				return MATCH_CONTINUES;
-		}
-		
-		/* "Space tags" only match whitespace in our ongoing match. */
-		if (si->allow_space_tags_to_match_whitespace
-		    && g_unichar_isspace (g_utf8_get_char (si->current))) {
-			for (i=0; space_tags[i]; ++i) {
-				if (tag_match (token, space_tags[i])) {
-					si->current = g_utf8_next_char (si->current);
-					return MATCH_CONTINUES;
+					if (q->matches == NULL) {
+						if (s->submatchp == 0) {
+							/* nothing pending, always put something in so we can try merge */
+							push_subpending(s, offstart, offend);
+						} else if (!merge_subpending(s, offstart, offend)) {
+							/* can't merge, output what we have, and start againt */
+							output_subpending(s);
+							push_subpending(s, offstart, offend);
+							/*output_match(s, offstart, offend);*/
+						} else if (e_dlist_length(&s->input) > 8) {
+							/* we're continuing to match and merge, but we have a lot of stuff
+							   waiting, so flush it out now since this is a safe point to do it */
+							output_subpending(s);
+						}
+					} else {
+						/* merge/add subpending */
+						if (!merge_subpending(s, offstart, offend))
+							push_subpending(s, offstart, offend);
+					}
 				}
 			}
 		}
 
-		/* All other tags derail our match. */
-		return MATCH_FAILED;
+		s->offset += (tok-stok)-1;
+
+		flush_extra(s);
 	}
 
-	s = find_partial (si, token, si->current);
-	if (s) {
-		if (start_pos)
-			*start_pos = 0;
-		if (end_pos)
-			*end_pos = s - token;
-		return MATCH_END;
-	}
+	s->state = q;
 
-	s = find_partial (si, si->current, token);
-	if (s) {
-		si->current = (gchar *) s;
-		return MATCH_CONTINUES;
-	}
-	
-	return MATCH_FAILED;
+	if (s->current)
+		free_token(s->current);
+
+	s->current = token = (struct _token *)e_dlist_remhead(&s->output);
+
+	return token?token->tok:NULL;
 }
+
+static char *
+searcher_peek_token(struct _searcher *s)
+{
+	char *tok;
+
+	/* we just get it and then put it back, it's fast enuf */
+	tok = searcher_next_token(s);
+	if (tok) {
+		/* need to clear this so we dont free it while its still active */
+		e_dlist_addhead(&s->output, (EDListNode *)s->current);
+		s->current = NULL;
+	}
+
+	return tok;
+}
+
+static int
+searcher_pending(struct _searcher *s)
+{
+	return !(e_dlist_empty(&s->input) && e_dlist_empty(&s->output));
+}
+
+/* ********************************************************************** */
+
+struct _search_info {
+	GPtrArray *strv;
+	char *colour;
+	unsigned int size:8;
+	unsigned int flags:8;
+};
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
-static void
-e_searching_tokenizer_cleanup (ESearchingTokenizer *st)
+static struct _search_info *
+search_info_new(void)
 {
-	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
+	struct _search_info *s;
 
-	if (st->priv->trash) {
-		g_list_foreach (st->priv->trash, (GFunc) g_free, NULL);
-		g_list_free (st->priv->trash);
-		st->priv->trash = NULL;
-	}
+	s = g_malloc0(sizeof(struct _search_info));
+	s->strv = g_ptr_array_new();
 
-	if (st->priv->pending) {
-		g_list_foreach (st->priv->pending, (GFunc) g_free, NULL);
-		g_list_free (st->priv->pending);
-		st->priv->pending = NULL;
+	return s;
+}
+
+static void
+search_info_set_flags(struct _search_info *si, unsigned int flags, unsigned int mask)
+{
+	si->flags = (si->flags & ~mask) | (flags & mask);
+}
+
+static void
+search_info_set_colour(struct _search_info *si, const char *colour)
+{
+	g_free(si->colour);
+	si->colour = g_strdup(colour);
+}
+
+static void
+search_info_add_string(struct _search_info *si, const char *s)
+{
+	const char *start;
+	guint32 c;
+
+	if (s && s[0]) {
+		/* strip leading whitespace */
+		start = s;
+		while ((c = camel_utf8_getc((const unsigned char **)&s))) {
+			if (!g_unichar_isspace(c)) {
+				break;
+			}
+			start = s;
+		}
+		/* should probably also strip trailing, but i'm lazy today */
+		if (start[0])
+			g_ptr_array_add(si->strv, g_strdup(start));
 	}
 }
 
+static void
+search_info_clear(struct _search_info *si)
+{
+	int i;
+
+	for (i=0;i<si->strv->len;i++)
+		g_free(si->strv->pdata[i]);
+
+	g_ptr_array_set_size(si->strv, 0);
+}
+
+static void
+search_info_free(struct _search_info *si)
+{
+	int i;
+
+	for (i=0;i<si->strv->len;i++)
+		g_free(si->strv->pdata[i]);
+
+	g_ptr_array_free(si->strv, TRUE);
+	g_free(si->colour);
+	g_free(si);
+}
+
+static struct _search_info *
+search_info_clone(struct _search_info *si)
+{
+	struct _search_info *out;
+	int i;
+
+	out = search_info_new();
+	for (i=0;i<si->strv->len;i++)
+		g_ptr_array_add(out->strv, g_strdup(si->strv->pdata[i]));
+	out->colour = g_strdup(si->colour);
+	out->flags = si->flags;
+	out->size = si->size;
+
+	return out;
+}
+
+static struct _searcher *
+search_info_to_searcher(struct _search_info *si)
+{
+	char *tags, *tage;
+	char *col;
+
+	if (si->strv->len == 0)
+		return NULL;
+
+	if (si->colour == NULL)
+		col = "red";
+	else
+		col = si->colour;
+
+	tags = alloca(20+strlen(col));
+	sprintf(tags, "%c<font color=\"%s\">", TAG_ESCAPE, col);
+	tage = alloca(20);
+	sprintf(tage, "%c</font>", TAG_ESCAPE);
+
+	return searcher_new(si->flags, si->strv->len, (char **)si->strv->pdata, tags, tage);
+}
+
+/* ********************************************************************** */
+
+struct _ESearchingTokenizerPrivate {
+	struct _search_info *primary, *secondary;
+	struct _searcher *engine;
+};
+
+/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
+
+/* shoudlnt' this be finalise? */
 static void
 e_searching_tokenizer_destroy (GtkObject *obj)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (obj);
+	struct _ESearchingTokenizerPrivate *p = st->priv;
 
-	e_searching_tokenizer_cleanup (st);
+	search_info_free (p->primary);
+	search_info_free (p->secondary);
+	if (p->engine)
+		searcher_free(p->engine);
 
-	search_info_free (st->priv->search);
+	/* again wtf? 
 	shared_state_unref (st->priv->shared);
+	*/
 
-	g_free (st->priv);
-	st->priv = NULL;
+	g_free(p);
 
 	if (parent_class->destroy)
 		parent_class->destroy (obj);
@@ -507,14 +1011,24 @@ e_searching_tokenizer_class_init (ESearchingTokenizerClass *klass)
 static void
 e_searching_tokenizer_init (ESearchingTokenizer *st)
 {
-	st->priv = g_new0 (struct _ESearchingTokenizerPrivate, 1);
-	st->priv->shared = shared_state_new ();
+	struct _ESearchingTokenizerPrivate *p;
+
+	p = st->priv = g_new0 (struct _ESearchingTokenizerPrivate, 1);
+
+	p->primary = search_info_new();
+	search_info_set_flags(p->primary, SEARCH_BOLD, SEARCH_CASE|SEARCH_BOLD);
+	search_info_set_colour(p->primary, "red");
+	
+	p->secondary = search_info_new();
+	search_info_set_flags(p->secondary, SEARCH_BOLD, SEARCH_CASE|SEARCH_BOLD);
+	search_info_set_colour(p->secondary, "purple");
 }
 
 GtkType
 e_searching_tokenizer_get_type (void)
 {
 	static GtkType e_searching_tokenizer_type = 0;
+
 	if (! e_searching_tokenizer_type) {
 		static GtkTypeInfo e_searching_tokenizer_info = {
 			"ESearchingTokenizer",
@@ -539,353 +1053,35 @@ e_searching_tokenizer_new (void)
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
-static GList *
-g_list_remove_head (GList *x)
+/* blah blah the htmltokeniser doesn't like being asked
+   for a token if it doens't hvae any! */
+static char *get_token(HTMLTokenizer *t)
 {
-	GList *repl = NULL;
-	if (x) {
-		repl = g_list_remove_link (x, x);
-		g_list_free_1 (x);
-	}
-	return repl;
-}
-
-/* I can't believe that there isn't a better way to do this. */
-static GList *
-g_list_insert_before (GList *list, GList *llink, gpointer data)
-{
-	gint pos = g_list_position (list, llink);
-	return g_list_insert (list, data, pos);
-}
-
-static gchar *
-pop_pending (ESearchingTokenizer *st)
-{
-	gchar *token = NULL;
-	if (st->priv->pending) {
-		token = (gchar *) st->priv->pending->data;
-		st->priv->trash = g_list_prepend (st->priv->trash, token);
-		st->priv->pending = g_list_remove_head (st->priv->pending);
-	}
-	return token;
-}
-
-static inline void
-add_pending (ESearchingTokenizer *st, gchar *tok)
-{
-	st->priv->pending = g_list_append (st->priv->pending, tok);
-}
-
-static void
-add_pending_match_begin (ESearchingTokenizer *st, SearchInfo *si)
-{
-	gchar *size_str = NULL;
-	gchar *color_str= NULL;
-
-	if (si->match_size_incr > 0)
-		size_str = g_strdup_printf (" size=+%d", si->match_size_incr);
-	if (si->match_color)
-		color_str = g_strdup_printf (" color=%s", si->match_color);
-
-	if (size_str || color_str)
-		add_pending (st, g_strdup_printf ("%c<font%s%s>",
-						  TAG_ESCAPE,
-						  size_str ? size_str : "",
-						  color_str ? color_str : ""));
-
-	g_free (size_str);
-	g_free (color_str);
-
-	if (si->match_bold)
-		add_pending (st, g_strdup_printf ("%c<b>", TAG_ESCAPE));
-}
-
-static void
-add_pending_match_end (ESearchingTokenizer *st, SearchInfo *si)
-{
-	if (si->match_bold)
-		add_pending (st, g_strdup_printf ("%c</b>", TAG_ESCAPE));
-
-	if (si->match_size_incr > 0 || si->match_color)
-		add_pending (st, g_strdup_printf ("%c</font>", TAG_ESCAPE));
-}
-
-static void
-add_to_trash (ESearchingTokenizer *st, gchar *txt)
-{
-	st->priv->trash = g_list_prepend (st->priv->trash, txt);
-}
-
-static gchar *
-get_next_token (ESearchingTokenizer *st)
-{
-	HTMLTokenizer *ht = HTML_TOKENIZER (st);
 	HTMLTokenizerClass *klass = HTML_TOKENIZER_CLASS (parent_class);
-	
-	return klass->has_more (ht) ? klass->next_token (ht) : NULL;
+
+	return klass->has_more(t) ? klass->next_token(t) : NULL;
 }
-
-/*
- * Move the matched part of the queue into pending, replacing the start and end placeholders by
- * the appropriate tokens.
- */
-static GList *
-queue_matched (ESearchingTokenizer *st, SearchInfo *si, GList *q)
-{
-	GList *qh = q;
-	gboolean post_start = FALSE;
-
-	while (q != NULL) {
-		GList *q_next = g_list_next (q);
-		if (!strcmp ((gchar *) q->data, START_MAGIC)) {
-			add_pending_match_begin (st, si);
-			post_start = TRUE;
-		} else if (!strcmp ((gchar *) q->data, END_MAGIC)) {
-			add_pending_match_end (st, si);
-			q_next = NULL;
-		} else {
-			gboolean is_tag = *((gchar *)q->data) == TAG_ESCAPE;
-			if (is_tag && post_start)
-				add_pending_match_end (st, si);
-			add_pending (st, g_strdup ((gchar *) q->data));
-			if (is_tag && post_start)
-				add_pending_match_begin (st, si);
-		}
-		qh = g_list_remove_link (qh, q);
-		g_list_free_1 (q);
-		q = q_next;
-	}
-
-	return qh;
-}
-
-/*
- * Strip the start and end placeholders out of the queue.
- */
-static GList *
-queue_match_failed (ESearchingTokenizer *st, GList *q)
-{
-	GList *qh = q;
-
-	/* If we do find the START_MAGIC token in the queue, we want
-	   to drop everything up to and including the token immediately
-	   following START_MAGIC. */
-	while (q != NULL && strcmp ((gchar *) q->data, START_MAGIC))
-		q = g_list_next (q);
-	if (q) {
-		q = g_list_next (q);
-		/* If there is no token following START_MAGIC, something is
-		   very wrong. */
-		if (q == NULL) {
-			g_assert_not_reached ();
-		}
-	}
-
-	/* Otherwise we just want to just drop the the first token. */
-	if (q == NULL)
-		q = qh;
-
-	/* Now move everything up to and including q to pending. */
-	while (qh && qh != q) {
-		if (strcmp ((gchar *) qh->data, START_MAGIC))
-			add_pending (st, g_strdup (qh->data));
-		qh = g_list_remove_head (qh);
-	}
-	if (qh == q) {
-		if (strcmp ((gchar *) qh->data, START_MAGIC))
-			add_pending (st, g_strdup (qh->data));
-		qh = g_list_remove_head (qh);
-	}
-
-	return qh;
-}
-
-static void
-matched (ESearchingTokenizer *st)
-{
-	++st->priv->match_count;
-	gtk_signal_emit (GTK_OBJECT (st), e_searching_tokenizer_signals[EST_MATCH_SIGNAL]);
-}
-
-static void
-get_pending_tokens (ESearchingTokenizer *st)
-{
-	GList *queue = NULL;
-	gchar *token = NULL;
-	MatchInfo result;
-	gint start_pos, end_pos;
-	GList *start_after = NULL;
-
-	/* Get an initial token into the queue. */
-	token = get_next_token (st);
-	if (token) {
-		queue = g_list_append (queue, token);
-	}
-
-	while (queue) {
-		GList *q;
-		gboolean finished = FALSE;
-		search_info_reset (st->priv->search);
-
-		if (start_after) {
-			q = g_list_next (start_after);
-			start_after = NULL;
-		} else {
-			q = queue;
-		}
-		
-		while (q) {
-			GList *q_next = g_list_next (q);
-			token = (gchar *) q->data;
-			
-			result = search_info_compare (st->priv->search, token, &start_pos, &end_pos);
-
-			switch (result) {
-
-			case MATCH_FAILED:
-
-				queue = queue_match_failed (st, queue);
-
-				finished = TRUE;
-				break;
-
-			case MATCH_COMPLETE:
-
-				if (start_pos != 0)
-					add_pending (st, g_strndup (token, start_pos));
-				add_pending_match_begin (st, st->priv->search);
-				add_pending (st, g_strndup (token+start_pos, end_pos-start_pos));
-				add_pending_match_end (st, st->priv->search);
-				if (*(token+end_pos)) {
-					queue->data = g_strdup (token+end_pos);
-					add_to_trash (st, (gchar *) queue->data);
-				} else {
-					queue = g_list_remove_head (queue);
-				}
-
-				matched (st);
-
-				finished = TRUE;
-				break;
-
-			case MATCH_START: {
-				
-				gchar *s1 = g_strndup (token, start_pos);
-				gchar *s2 = g_strdup (START_MAGIC);
-				gchar *s3 = g_strdup (token+start_pos);
-				
-				queue = g_list_insert_before (queue, q, s1);
-				queue = g_list_insert_before (queue, q, s2);
-				queue = g_list_insert_before (queue, q, s3);
-
-				add_to_trash (st, s1);
-				add_to_trash (st, s2);
-				add_to_trash (st, s3);
-
-				queue = g_list_remove_link (queue, q);
-
-				finished = FALSE;
-				break;
-			}
-
-			case MATCH_CONTINUES:
-				/* Do nothing... */
-				finished = FALSE;
-				break;
-				
-			case MATCH_END: {
-				gchar *s1 = g_strndup (token, end_pos);
-				gchar *s2 = g_strdup (END_MAGIC);
-				gchar *s3 = g_strdup (token+end_pos);
-
-				queue = g_list_insert_before (queue, q, s1);
-				queue = g_list_insert_before (queue, q, s2);
-				queue = g_list_insert_before (queue, q, s3);
-
-				add_to_trash (st, s1);
-				add_to_trash (st, s2);
-				add_to_trash (st, s3);
-
-				queue = g_list_remove_link (queue, q);
-				queue = queue_matched (st, st->priv->search, queue);
-
-				matched (st);
-
-				finished = TRUE;
-				break;
-			}
-				
-			default:
-				g_assert_not_reached ();
-			}
-
-			/* If we reach the end of the queue but we aren't finished, try to pull in another
-			   token and stick it onto the end. */
-			if (q_next == NULL && !finished) {
-				gchar *next_token = get_next_token (st);
-				if (next_token) {
-					queue = g_list_append (queue, next_token);
-					q_next = g_list_last (queue);
-				}
-			}
-			q = finished ? NULL : q_next;
-		
-		} /* while (q) */
-
-		if (!finished && queue) { /* ...we add the token at the head of the queue to pending and try again. */
-			add_pending (st, g_strdup ((gchar *) queue->data));
-			queue = g_list_remove_head (queue);
-		}
-		
-	} /* while (queue) */
-}
-
-/** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 static void
 e_searching_tokenizer_begin (HTMLTokenizer *t, gchar *content_type)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
-	SearchInfo *si;
+	struct _ESearchingTokenizerPrivate *p = st->priv;
 
-	/* Reset our search */
-	search_info_free (st->priv->search);
-	st->priv->search = NULL;
-
-	if (st->priv->shared && (st->priv->shared->str_primary || st->priv->shared->str_secondary)) {
-		st->priv->search = search_info_new ();
+	/* reset search */
+	if (p->engine) {
+		searcher_free(p->engine);
+		p->engine = NULL;
 	}
-	si = st->priv->search;
 
-	if (st->priv->shared && si) {
-		if (st->priv->shared->str_primary) {
+	if ((p->engine = search_info_to_searcher(p->primary))
+	    || (p->engine = search_info_to_searcher(p->secondary))) {
+		/*HTMLTokenizerClass *klass = HTML_TOKENIZER_CLASS (parent_class);*/
 
-			search_info_set_string (si, st->priv->shared->str_primary);
-			search_info_set_case_sensitivity (si, st->priv->shared->case_sensitive_primary);
-
-			search_info_set_match_color (si, "red");
-			search_info_set_match_bold (si, TRUE);
-
-		} else if (st->priv->shared->str_secondary) {
-			
-			search_info_set_string (si, st->priv->shared->str_secondary);
-			search_info_set_case_sensitivity (si, st->priv->shared->case_sensitive_secondary);
-			
-			search_info_set_match_color (si, "purple");
-			search_info_set_match_bold (si, TRUE);
-		}
-
-	} else {
-		
-		search_info_free (st->priv->search);
-		st->priv->search = NULL;
-
+		/*searcher_set_tokenfunc(p->engine, klass->next_token, st);*/
+		searcher_set_tokenfunc(p->engine, get_token, st);
 	}
-	
-	e_searching_tokenizer_cleanup (st);
-	search_info_reset (st->priv->search);
-
-	st->priv->match_count = 0;
+	/* else - no engine, no search active */
 
 	HTML_TOKENIZER_CLASS (parent_class)->begin (t, content_type);
 }
@@ -894,7 +1090,17 @@ static void
 e_searching_tokenizer_end (HTMLTokenizer *t)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (t);
-	e_searching_tokenizer_cleanup (st);
+	struct _ESearchingTokenizerPrivate *p = st->priv;
+
+	/* so end gets called before any get/next tokens.
+	   I dont get it.  */
+#if 0
+	/* not sure if we should reset search every time ... *shrug* */
+	if (p->engine) {
+		searcher_free(p->engine);
+		p->engine = NULL;
+	}
+#endif
 
 	HTML_TOKENIZER_CLASS (parent_class)->end (t);
 }
@@ -905,26 +1111,32 @@ e_searching_tokenizer_peek_token (HTMLTokenizer *tok)
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
 
 	/* If no search is active, just use the default method. */
-	if (st->priv->search == NULL)
+	if (st->priv->engine == NULL)
 		return HTML_TOKENIZER_CLASS (parent_class)->peek_token (tok);
 
-	if (st->priv->pending == NULL)
-		get_pending_tokens (st);
-	return st->priv->pending ? (gchar *) st->priv->pending->data : NULL;
+	return searcher_peek_token(st->priv->engine);
 }
 
 static gchar *
 e_searching_tokenizer_next_token (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
+	int oldmatched;
+	char *token;
 
 	/* If no search is active, just use the default method. */
-	if (st->priv->search == NULL)
+	if (st->priv->engine == NULL)
 		return HTML_TOKENIZER_CLASS (parent_class)->next_token (tok);
 
-	if (st->priv->pending == NULL)
-		get_pending_tokens (st);
-	return pop_pending (st);
+	oldmatched = st->priv->engine->matchcount;
+
+	token = searcher_next_token(st->priv->engine);
+
+	/* not sure if this has to be accurate or just say we had some matches */
+	if (oldmatched != st->priv->engine->matchcount)
+		gtk_signal_emit (GTK_OBJECT (st), e_searching_tokenizer_signals[EST_MATCH_SIGNAL]);
+
+	return token;
 }
 
 static gboolean
@@ -932,10 +1144,16 @@ e_searching_tokenizer_has_more (HTMLTokenizer *tok)
 {
 	ESearchingTokenizer *st = E_SEARCHING_TOKENIZER (tok);
 
-	/* If no search is active, pending will always be NULL and thus
-	   we'll always fall back to using the default method. */
+	return (st->priv->engine != NULL && searcher_pending(st->priv->engine))
+		|| HTML_TOKENIZER_CLASS (parent_class)->has_more (tok);
+}
 
-	return st->priv->pending || HTML_TOKENIZER_CLASS (parent_class)->has_more (tok);
+/* proxy matched event, not sure what its for otherwise */
+static void
+matched (ESearchingTokenizer *st)
+{
+	/*++st->priv->match_count;*/
+	gtk_signal_emit (GTK_OBJECT (st), e_searching_tokenizer_signals[EST_MATCH_SIGNAL]);
 }
 
 static HTMLTokenizer *
@@ -944,15 +1162,20 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 	ESearchingTokenizer *orig_st = E_SEARCHING_TOKENIZER (tok);
 	ESearchingTokenizer *new_st = E_SEARCHING_TOKENIZER (e_searching_tokenizer_new ());
 
-	if (new_st->priv->search) {
-		search_info_free (new_st->priv->search);
-	}
+	search_info_free(new_st->priv->primary);
+	search_info_free(new_st->priv->secondary);
 
-	new_st->priv->search = search_info_clone (orig_st->priv->search);
+	new_st->priv->primary = search_info_clone(orig_st->priv->primary);
+	new_st->priv->secondary = search_info_clone(orig_st->priv->secondary);
 
+	printf("cloinging shit\n");
+
+	/* what the fucking what???? */
+#if 0
 	shared_state_ref (orig_st->priv->shared);
 	shared_state_unref (new_st->priv->shared);
 	new_st->priv->shared = orig_st->priv->shared;
+#endif
 
 	gtk_signal_connect_object (GTK_OBJECT (new_st),
 				   "match",
@@ -963,42 +1186,29 @@ e_searching_tokenizer_clone (HTMLTokenizer *tok)
 }
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */
 
-static gboolean
-only_whitespace (const gchar *p)
-{
-	gunichar c;
-	g_return_val_if_fail (p, FALSE);
-
-	while (*p && g_unichar_validate (c = g_utf8_get_char (p))) {
-		if (!g_unichar_isspace (c))
-			return FALSE;
-		p = g_utf8_next_char (p);
-	}
-	return TRUE;
-}
-
 void
 e_searching_tokenizer_set_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	g_free (st->priv->shared->str_primary);
-	st->priv->shared->str_primary = NULL;
-
-	if (search_str != NULL
-	    && g_utf8_validate (search_str, -1, NULL)
-	    && !only_whitespace (search_str)) {
-
-		st->priv->shared->str_primary = g_strdup (search_str);
-	}
+	search_info_clear(st->priv->primary);
+	search_info_add_string(st->priv->primary, search_str);
 }
 
 void
-e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gboolean is_case_sensitive)
+e_searching_tokenizer_add_primary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	st->priv->shared->case_sensitive_primary = is_case_sensitive;
+	search_info_add_string(st->priv->primary, search_str);
+}
+
+void
+e_searching_tokenizer_set_primary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
+{
+	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
+
+	search_info_set_flags(st->priv->primary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
 void
@@ -1006,23 +1216,24 @@ e_searching_tokenizer_set_secondary_search_string (ESearchingTokenizer *st, cons
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	g_free (st->priv->shared->str_secondary);
-	st->priv->shared->str_secondary = NULL;
-
-	if (search_str != NULL
-	    && g_utf8_validate (search_str, -1, NULL)
-	    && !only_whitespace (search_str)) {
-		
-		st->priv->shared->str_secondary = g_strdup (search_str);
-	}
+	search_info_clear(st->priv->secondary);
+	search_info_add_string(st->priv->secondary, search_str);
 }
 
 void
-e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, gboolean is_case_sensitive)
+e_searching_tokenizer_add_secondary_search_string (ESearchingTokenizer *st, const gchar *search_str)
 {
 	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
 
-	st->priv->shared->case_sensitive_secondary = is_case_sensitive;
+	search_info_add_string(st->priv->secondary, search_str);
+}
+
+void
+e_searching_tokenizer_set_secondary_case_sensitivity (ESearchingTokenizer *st, gboolean iscase)
+{
+	g_return_if_fail (st && E_IS_SEARCHING_TOKENIZER (st));
+
+	search_info_set_flags(st->priv->secondary, iscase?SEARCH_CASE:0, SEARCH_CASE);
 }
 
 gint
@@ -1030,8 +1241,8 @@ e_searching_tokenizer_match_count (ESearchingTokenizer *st)
 {
 	g_return_val_if_fail (st && E_IS_SEARCHING_TOKENIZER (st), -1);
 
-	return st->priv->match_count;
+	if (st->priv->engine)
+		return st->priv->engine->matchcount;
+
+	return 0;
 }
-
-
-
