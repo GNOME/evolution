@@ -1,3 +1,11 @@
+2000-09-12  JP Rosevear  <jpr@helixcode.com>
+
+	* test-data/stresstest.ics: Merge missing file for distcheck
+
+	* src/libicalss/icalcstp.h: ditto
+
+	* src/libicalss/icalcsdb.h: ditto
+
 2000-09-08  JP Rosevear  <jpr@helixcode.com>
 
 	* src/libical/icaltime.c (icaltime_compare_date_only): New
