@@ -1263,6 +1263,11 @@ eti_unrealize (GnomeCanvasItem *item)
 {
 	ETableItem *eti = E_TABLE_ITEM (item);
 	
+	if (eti->grabbed) {
+		gtk_grab_remove (GTK_WIDGET (GNOME_CANVAS_ITEM (eti)->canvas));
+		eti->grabbed = FALSE;
+	}
+
 	if (eti_editing (eti))
 		e_table_item_leave_edit (eti);
 
