@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the calendar iTip view control"/>
+                       _value="Factory for the calendar iTip view control"/>
 
 </oaf_server>
 
@@ -28,9 +28,9 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="name" type="string"
-		       value="Evolution calendar iTip/iMip viewer"/>
+		       _value="Evolution calendar iTip/iMip viewer"/>
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the calendar iTip view control"/>
+                       _value="Factory for the calendar iTip view control"/>
 
 </oaf_server>
 
@@ -43,7 +43,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Factory for the Evolution calendar component."/>
+	               _value="Factory for the Evolution calendar component."/>
 
 </oaf_server>
 
@@ -56,7 +56,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Evolution component for handling the calendar."/>
+	               _value="Evolution component for handling the calendar."/>
 
 	<oaf_attribute name="evolution:shell-component-icon" type="string"
 		       value="evolution-calendar.png"/>
@@ -71,7 +71,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-			value="Factory for the Calendar Summary component."/>
+			_value="Factory for the Calendar Summary component."/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Summary_Component"
@@ -83,7 +83,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-		       value="Evolution calendar executive summary component."/>
+		       _value="Evolution calendar executive summary component."/>
 </oaf_server>
 
 </oaf_info>

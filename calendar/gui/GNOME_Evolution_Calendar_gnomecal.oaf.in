@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Calendar Repository"/>
+                       _value="Calendar Repository"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:IDL:GNOME:Calendar:RepositoryLocator:1.0:83b25bb0-b68b-4c6b-86e7-c303e9897c21"
@@ -21,7 +21,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Calendar Server"/>
+                       _value="Calendar Server"/>
 </oaf_server>
 
 </oaf_info>

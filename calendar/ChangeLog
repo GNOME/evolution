@@ -1,3 +1,8 @@
+2001-02-12  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* gui/Makefile.am: Hook up the xml-i18n-tools + .oaf.in stuff.
+	* gui/GNOME_Evolution_Calendar*.oaf.in: Marked strings for translation.
+	
 2001-02-11  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-db.[ch]: added the new DB3-based backend. This is just

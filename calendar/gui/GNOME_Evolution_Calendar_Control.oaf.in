@@ -9,7 +9,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-                       value="Factory for the sample Calendar control"/>
+                       _value="Factory for the sample Calendar control"/>
 </oaf_server>
 
 <oaf_server iid="OAFIID:GNOME_Evolution_Calendar_Control"
@@ -22,7 +22,7 @@
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="A sample Bonobo control which displays an calendar."/>
+	               _value="A sample Bonobo control which displays an calendar."/>
 </oaf_server>
 
 </oaf_info>
