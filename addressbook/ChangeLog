@@ -1,5 +1,17 @@
 2004-03-10  Chris Toshok  <toshok@ximian.com>
 
+	* gui/widgets/eab-contact-display.c (render_address): #if 0 this,
+	since nothing uses it anymore.
+	(accum_address): new function, build up a GString.
+	(accum_name_value): same.
+	(accum_attribute): same.
+	(render_contact): don't just blindly render the work/personal
+	blocks, since if they're empty it looks stupid.  instead,
+	accumulate each block into a GString and only output the entire
+	block if the string is non-empty.
+
+2004-03-10  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c (phone_entry_changed):
 	phone_choice is an index into the phones array.
 	(_phone_arrow_pressed): same.

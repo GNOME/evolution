@@ -104,6 +104,7 @@ on_link_clicked (GtkHTML *html, const char *url, EABContactDisplay *display)
 	}
 }
 
+#if 0
 static void
 render_address (GtkHTMLStream *html_stream, EContact *contact, const char *html_label, EContactField adr_field, EContactField label_field)
 {
@@ -139,6 +140,7 @@ render_address (GtkHTMLStream *html_stream, EContact *contact, const char *html_
 	if (adr)
 		e_contact_address_free (adr);
 }
+#endif
 
 static void
 render_name_value (GtkHTMLStream *html_stream, const char *label, const char *str, const char *icon, unsigned int html_flags)
@@ -164,6 +166,69 @@ render_attribute (GtkHTMLStream *html_stream, EContact *contact, const char *htm
 		render_name_value (html_stream, html_label, str, icon, html_flags);
 	}
 }
+
+static void
+accum_address (GString *gstr, EContact *contact, const char *html_label, EContactField adr_field, EContactField label_field)
+{
+	EContactAddress *adr;
+	const char *label;
+
+	label = e_contact_get_const (contact, label_field);
+	if (label) {
+		char *html = e_text_to_html (label, E_TEXT_TO_HTML_CONVERT_NL);
+
+		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
+
+		g_free (html);
+		return;
+	}
+
+	adr = e_contact_get (contact, adr_field);
+	if (adr &&
+	    (adr->po || adr->ext || adr->street || adr->locality || adr->region || adr->code || adr->country)) {
+
+		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">", html_label, _("map"));
+
+		if (adr->po && *adr->po) g_string_append_printf (gstr, "%s<br>", adr->po);
+		if (adr->ext && *adr->ext) g_string_append_printf (gstr, "%s<br>", adr->ext);
+		if (adr->street && *adr->street) g_string_append_printf (gstr, "%s<br>", adr->street);
+		if (adr->locality && *adr->locality) g_string_append_printf (gstr, "%s<br>", adr->locality);
+		if (adr->region && *adr->region) g_string_append_printf (gstr, "%s<br>", adr->region);
+		if (adr->code && *adr->code) g_string_append_printf (gstr, "%s<br>", adr->code);
+		if (adr->country && *adr->country) g_string_append_printf (gstr, "%s<br>", adr->country);
+
+		g_string_append_printf (gstr, "</td></tr>");
+	}
+	if (adr)
+		e_contact_address_free (adr);
+}
+
+static void
+accum_name_value (GString *gstr, const char *label, const char *str, const char *icon, unsigned int html_flags)
+{
+	char *value = e_text_to_html (str, html_flags);
+
+	g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\">");
+	if (icon)
+		g_string_append_printf (gstr, "<img width=\"16\" height=\"16\" src=\"evo-icon:%s\">", icon);
+	g_string_append_printf (gstr, "</td><td valign=\"top\" width=\"100\" nowrap><font color=" HEADER_COLOR ">%s:</font></td> <td valign=\"top\">%s</td></tr>", label, value);
+
+	g_free (value);
+}
+
+
+static void
+accum_attribute (GString *gstr, EContact *contact, const char *html_label, EContactField field, const char *icon, unsigned int html_flags)
+{
+	const char *str;
+
+	str = e_contact_get_const (contact, field);
+
+	if (str && *str) {
+		accum_name_value (gstr, html_label, str, icon, html_flags);
+	}
+}
+
 
 static void
 render_contact_list (GtkHTMLStream *html_stream, EContact *contact)
@@ -205,72 +270,80 @@ end_block (GtkHTMLStream *html_stream)
 static void
 render_contact (GtkHTMLStream *html_stream, EContact *contact)
 {
-	GString *emails;
+	GString *accum;
 	const char *e;
 	char *nl;
 
 	gtk_html_stream_printf (html_stream, "<table border=\"0\">");
 
-	start_block (html_stream, "");
-
-	emails = g_string_new ("");
+	accum = g_string_new ("");
 	nl = "";
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_1);
 	if (e) {
-		g_string_append_printf (emails, "%s", e);
+		g_string_append_printf (accum, "%s", e);
 		nl = "\n";
 	}
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_2);
 	if (e) {
-		g_string_append_printf (emails, "%s%s", nl, e);
+		g_string_append_printf (accum, "%s%s", nl, e);
 		nl = "\n";
 	}
 	e = e_contact_get_const (contact, E_CONTACT_EMAIL_3);
 	if (e) {
-		g_string_append_printf (emails, "%s%s", nl, e);
+		g_string_append_printf (accum, "%s%s", nl, e);
 	}
 
-	render_name_value (html_stream, _("E-mail"), emails->str, NULL, E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
-	g_string_free (emails, TRUE);
+	if (accum->len) {
+		start_block (html_stream, "");
+		render_name_value (html_stream, _("E-mail"), accum->str, NULL,
+				   E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_NL);
+		end_block (html_stream);
+	}
 
-	end_block (html_stream);
+	g_string_assign (accum, "");
 
-	start_block (html_stream, _("work"));
+	accum_attribute (accum, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
+	accum_attribute (accum, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
+	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_WORK_1, AIM_ICON, 0);
+	accum_attribute (accum, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_WORK_1, GROUPWISE_ICON, 0);
+	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_WORK_1, ICQ_ICON, 0);
+	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_WORK_1, JABBER_ICON, 0);
+	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_WORK_1, MSN_ICON, 0);
+	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_WORK_1, YAHOO_ICON, 0);
+	accum_attribute (accum, contact, _("Video Conferencing"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
+	accum_attribute (accum, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
+	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
 
-	render_attribute (html_stream, contact, _("Organization"), E_CONTACT_ORG, NULL, 0);
-	render_attribute (html_stream, contact, _("Position"), E_CONTACT_TITLE, NULL, 0);
-	render_attribute (html_stream, contact, _("AIM"), E_CONTACT_IM_AIM_WORK_1, AIM_ICON, 0);
-	render_attribute (html_stream, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_WORK_1, GROUPWISE_ICON, 0);
-	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_WORK_1, ICQ_ICON, 0);
-	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_WORK_1, JABBER_ICON, 0);
-	render_attribute (html_stream, contact, _("MSN"), E_CONTACT_IM_MSN_WORK_1, MSN_ICON, 0);
-	render_attribute (html_stream, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_WORK_1, YAHOO_ICON, 0);
-	render_attribute (html_stream, contact, _("Video Conferencing"), E_CONTACT_VIDEO_URL, VIDEOCONF_ICON, E_TEXT_TO_HTML_CONVERT_URLS);
-	render_attribute (html_stream, contact, _("Phone"), E_CONTACT_PHONE_BUSINESS, NULL, 0);
-	render_attribute (html_stream, contact, _("Fax"), E_CONTACT_PHONE_BUSINESS_FAX, NULL, 0);
-	render_address   (html_stream, contact, _("Address"), E_CONTACT_ADDRESS_WORK, E_CONTACT_ADDRESS_LABEL_WORK);
+	if (accum->len > 0) {
+		start_block (html_stream, _("work"));
+		gtk_html_stream_printf (html_stream, accum->str);
+		end_block (html_stream);
+	}
 
-	end_block (html_stream);
+	g_string_assign (accum, "");
 
-	start_block (html_stream, _("personal"));
+	accum_attribute (accum, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
+	accum_attribute (accum, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
+	accum_attribute (accum, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
+	accum_attribute (accum, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
+	accum_attribute (accum, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
+	accum_attribute (accum, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
+	accum_attribute (accum, contact, _("WWW"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
+	accum_attribute (accum, contact, _("Blog"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
 
-	render_attribute (html_stream, contact, _("AIM"), E_CONTACT_IM_AIM_HOME_1, AIM_ICON, 0);
-	render_attribute (html_stream, contact, _("Groupwise"), E_CONTACT_IM_GROUPWISE_HOME_1, GROUPWISE_ICON, 0);
-	render_attribute (html_stream, contact, _("ICQ"), E_CONTACT_IM_ICQ_HOME_1, ICQ_ICON, 0);
-	render_attribute (html_stream, contact, _("Jabber"), E_CONTACT_IM_JABBER_HOME_1, JABBER_ICON, 0);
-	render_attribute (html_stream, contact, _("MSN"), E_CONTACT_IM_MSN_HOME_1, MSN_ICON, 0);
-	render_attribute (html_stream, contact, _("Yahoo"), E_CONTACT_IM_YAHOO_HOME_1, YAHOO_ICON, 0);
+	accum_address   (accum, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
 
-	render_attribute (html_stream, contact, _("WWW"), E_CONTACT_HOMEPAGE_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-	render_attribute (html_stream, contact, _("Blog"), E_CONTACT_BLOG_URL, NULL, E_TEXT_TO_HTML_CONVERT_URLS);
-
-	render_address   (html_stream, contact, _("Address"), E_CONTACT_ADDRESS_HOME, E_CONTACT_ADDRESS_LABEL_HOME);
-
-	end_block (html_stream);
+	if (accum->len > 0) {
+		start_block (html_stream, _("personal"));
+		gtk_html_stream_printf (html_stream, accum->str);
+		end_block (html_stream);
+	}
 
 	start_block (html_stream, "");
 
-	render_attribute (html_stream, contact, _("Note"), E_CONTACT_NOTE, NULL, E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_NL);
+	render_attribute (html_stream, contact, _("Note"), E_CONTACT_NOTE, NULL,
+			  E_TEXT_TO_HTML_CONVERT_ADDRESSES | E_TEXT_TO_HTML_CONVERT_URLS | E_TEXT_TO_HTML_CONVERT_NL);
 	end_block (html_stream);
 
 	gtk_html_stream_printf (html_stream, "</table>");
