@@ -1,3 +1,21 @@
+2001-07-11  Jason Leach  <jleach@ximian.com>
+
+	[Fix bug #4389: ETableSpecification still in .c file]
+	
+	* gui/e-calendar-table.etspec: New file containing the spec that
+	was in e-calendar-table.c as a big string.
+	
+	* gui/e-calendar-table.c (e_calendar_table_init): Use the spec
+	file instead of a string.
+	(e_calendar_table_get_spec): Removed this function, we don't need
+	it anymore.
+
+	* gui/e-tasks.c (e_tasks_setup_menus): Don't load from string,
+	from file instead.
+	
+	* gui/Makefile.am: Necessary changes to get the new .etspec file
+	installed.
+
 2001-07-10  Jason Leach  <jleach@ximian.com>
 
 	[Fix bug #4388: ETableSpecification still in .c file]

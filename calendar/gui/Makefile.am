@@ -51,13 +51,16 @@ INCLUDES = 						\
 	$(BONOBO_CONF_CFLAGS)				\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
+        -DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"        \
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
 
 gladedir   = $(datadir)/evolution/glade
-
 glade_DATA = 					\
 	e-itip-control.glade			\
 	goto-dialog.glade
+
+etspecdir = $(datadir)/evolution/etspec/
+etspec_DATA = e-calendar-table.etspec
 
 evolution_calendar_SOURCES =			\
 	$(IDL_GENERATED)			\

@@ -614,7 +614,8 @@ e_tasks_setup_menus (ETasks            *tasks,
 	g_free (dir);
 
 	spec = e_table_specification_new ();
-	e_table_specification_load_from_string (spec, e_calendar_table_get_spec());
+	e_table_specification_load_from_file (spec, 
+					      EVOLUTION_ETSPECDIR "/e-calendar-table.etspec");
 
 	factory = gal_view_factory_etable_new (spec);
 	gal_view_collection_add_factory (collection, factory);

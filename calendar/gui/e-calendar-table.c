@@ -243,87 +243,6 @@ task_compare_cb (gconstpointer a, gconstpointer b)
 	return retval;
 }
 
-#ifdef JUST_FOR_TRANSLATORS
-static char *list [] = {
-	N_("Categories"),
-	N_("Classification"),
-	N_("Completion Date"),
-	N_("End Date"),
-	N_("Start Date"),
-	N_("Due Date"),
-	N_("Geographical Position"),
-	N_("Percent complete"),
-	N_("Priority"),
-	N_("Summary"),
-	N_("Transparency"),
-	N_("URL"),
-	N_("Alarms"),
-	N_("Click here to add a task")
-};
-#endif
-
-#define E_CALENDAR_TABLE_SPEC						\
-	"<ETableSpecification click-to-add=\"true\" "			\
-	" _click-to-add-message=\"Click here to add a task\" "		\
-	" draw-grid=\"true\">"						\
-        "  <ETableColumn model_col= \"0\" _title=\"Categories\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"1\" _title=\"Classification\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"classification\"   compare=\"string\"/>"		\
-        "  <ETableColumn model_col= \"2\" _title=\"Completion Date\" "	\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"dateedit\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"3\" _title=\"End Date\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"dateedit\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"4\" _title=\"Start Date\" "	\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"dateedit\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"5\" _title=\"Due Date\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"dateedit\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"6\" _title=\"Geographical Position\" " \
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"7\" _title=\"% Complete\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"percent\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"8\" _title=\"Priority\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"priority\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"9\" _title=\"Summary\" "		\
-	"   expansion=\"3.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"  compare=\"string\"/>"			\
-        "  <ETableColumn model_col=\"10\" _title=\"Transparency\" "	\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"transparency\"   compare=\"string\"/>"		\
-        "  <ETableColumn model_col=\"11\" _title=\"URL\" "		\
-	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstring\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" _title=\"Type\" "\
-	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
-	"   cell=\"icon\"     compare=\"integer\"/>"			\
-        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" _title=\"Complete\" " \
-	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
-	"   cell=\"checkbox\" compare=\"integer\"/>"			\
-        "  <ETableColumn model_col=\"18\" _title=\"Status\" "		\
-	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
-	"   cell=\"calstatus\"   compare=\"string\"/>"			\
-	"  <ETableColumn model_col=\"19\" _title=\"Task sort\" "	\
-	"   cell=\"task-sort\" compare=\"task-sort\"/>"			\
-	"  <ETableState>"						\
-	"    <column source=\"13\"/>"					\
-	"    <column source=\"14\"/>"					\
-	"    <column source= \"9\"/>"					\
-	"    <grouping></grouping>"					\
-	"  </ETableState>"						\
-	"</ETableSpecification>"
-
 static void
 e_calendar_table_init (ECalendarTable *cal_table)
 {
@@ -553,8 +472,10 @@ e_calendar_table_init (ECalendarTable *cal_table)
 
 	/* Create the table */
 
-	table = e_table_scrolled_new (cal_table->subset_model, extras,
-				      E_CALENDAR_TABLE_SPEC, NULL);
+	table = e_table_scrolled_new_from_spec_file (cal_table->subset_model,
+						     extras,
+						     EVOLUTION_ETSPECDIR "/e-calendar-table.etspec",
+						     NULL);
 	gtk_object_unref (GTK_OBJECT (extras));
 
 	cal_table->etable = table;
@@ -1216,12 +1137,6 @@ e_calendar_table_on_rows_deleted	(ETableModel	*model,
 	/* We just reapply the filter since we aren't too bothered about
 	   being efficient. It doesn't happen often. */
 	e_calendar_table_apply_filter (cal_table);
-}
-
-const gchar *
-e_calendar_table_get_spec (void)
-{
-	return E_CALENDAR_TABLE_SPEC;
 }
 
 static void
