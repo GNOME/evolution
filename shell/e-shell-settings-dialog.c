@@ -29,10 +29,11 @@
 
 #include "e-corba-config-page.h"
 
+#include "e-util/e-lang-utils.h"
+
 #include <gal/util/e-util.h>
 
 #include <bonobo/bonobo-widget.h>
-
 #include <liboaf/liboaf.h>
 
 #include <string.h>
@@ -42,26 +43,6 @@
 static EMultiConfigDialogClass *parent_class = NULL;
 
 
-static GSList *
-get_language_list (void)
-{
-	const char *env;
-	const char *p;
-
-	env = g_getenv ("LANGUAGE");
-	if (env == NULL) {
-		env = g_getenv ("LANG");
-		if (env == NULL)
-			return NULL;
-	}
-
-	p = strchr (env, '=');
-	if (p != NULL)
-		return g_slist_prepend (NULL, (void *) (p + 1));
-	else
-		return g_slist_prepend (NULL, (void *) env);
-}
-
 static void
 load_pages (EShellSettingsDialog *dialog)
 {
@@ -79,7 +60,7 @@ load_pages (EShellSettingsDialog *dialog)
 		return;
 	}
 
-	language_list = get_language_list ();
+	language_list = e_get_language_list ();
 
 	for (i = 0; i < control_list->_length; i ++) {
 		CORBA_Object corba_object;
@@ -121,7 +102,7 @@ load_pages (EShellSettingsDialog *dialog)
 
 	CORBA_free (control_list);
 
-	g_slist_free (language_list);
+	e_free_language_list (language_list);
 
 	CORBA_exception_free (&ev);
 }
