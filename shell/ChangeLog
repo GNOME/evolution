@@ -1,3 +1,10 @@
+2003-05-19  Anna Marie Dirks  <anna@ximian.com>
+
+	* e-corba-config-page.c: Remove some padding which I incorrectly
+	added to the wrong vbox. This shoulda been fixed in 
+	widgets/misc/e-multi-config-dialog.c . (And it is, now.) 
+	
+
 2003-05-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-storage-set-view.c (e_storage_set_view_set_show_checkboxes):
