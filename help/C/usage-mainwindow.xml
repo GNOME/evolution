@@ -20,14 +20,13 @@
         a tool to help you get your work done.
       </para>
       <para>
-        <application>Ximian Evolution</application> is Free Software.  The
-        program and its source code are released under the terms of
-        the GNU <ulink type="help"
-        url="ghelp:gpl"><citetitle>General Public License
-        (GPL)</citetitle></ulink>, and the documentation falls under
-        the <ulink type="help" url="ghelp:fdl"><citetitle>Free
-        Documentation License</citetitle></ulink> (FDL). For more
-        information about the GPL and the FDL, visit the Free Software
+        <application>Ximian Evolution</application> is Free Software.
+        The program and its source code are released under the terms
+        of the <citetitle>GNU General Public License</citetitle> (GPL,
+        see <xref linkend="apx-gpl" />), and the documentation falls
+        under the <citetitle>Free Documentation License</citetitle>
+        (FDL, see <xref linkend="apx-fdl" />). For more information
+        about the GPL and the FDL, visit the Free Software
         Foundation's website at <ulink
         url="http://www.fsf.org">http://www.fsf.org</ulink>.
       </para>
