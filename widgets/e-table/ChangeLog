@@ -1,3 +1,18 @@
+2000-03-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table.c: Changed the destroy function to disconnect from
+	signals before unrefing the objects the sinnals are on.  Changed
+	the destroy function to match the objects and signal ids properly
+	in its disconnect section.
+	
+	* e-table-item.c, e-table-item.h: Changed this to do follow the
+	canvas rules better.
+
+	* e-table-header-item.c, e-table-header-item.h: Made
+	ETableHeaderItem connect to the "sort_info_changed" on its
+	ETableSortInfo instead of just manually redrawing itself.  Fixed
+	the update function a bit to follow the canvas rules a bit better.
+
 2000-03-06  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-table-item.c: Made rows get unselected when switching from one

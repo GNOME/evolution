@@ -134,22 +134,6 @@ eti_detach_cell_views (ETableItem *eti)
 static void
 eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y2)
 {
-	double i2c [6];
-	ArtPoint c1, c2, i1, i2;
-	ETableItem *eti = E_TABLE_ITEM (item);
-
-	gnome_canvas_item_i2c_affine (item, i2c);
-	i1.x = eti->x1;
-	i1.y = eti->y1;
-	i2.x = eti->x1 + eti->width;
-	i2.y = eti->y1 + eti->height;
-	art_affine_point (&c1, &i1, i2c);
-	art_affine_point (&c2, &i2, i2c);
-
-	item->x1 = c1.x;
-	item->y1 = c1.y;
-	item->x2 = c2.x;
-	item->y2 = c2.y;
 }
 
 
@@ -159,11 +143,39 @@ eti_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double *y
 static void
 eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
+	double i2c [6];
+	ArtPoint c1, c2, i1, i2;
+	ETableItem *eti = E_TABLE_ITEM (item);
+
 	if (GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (eti_parent_class)->update)(item, affine, clip_path, flags);
+	
+	gnome_canvas_item_i2c_affine (item, i2c);
+
+	i1.x = eti->x1;
+	i1.y = eti->y1;
+	i2.x = eti->x1 + eti->width;
+	i2.y = eti->y1 + eti->height;
+	art_affine_point (&c1, &i1, i2c);
+	art_affine_point (&c2, &i2, i2c);
 
 	eti_bounds (item, &item->x1, &item->y1, &item->x2, &item->y2);
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+	if ( item->x1 != c1.x ||
+	     item->y1 != c1.y ||
+	     item->x2 != c2.x ||
+	     item->y2 != c2.y )
+		{
+			gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+			item->x1 = c1.x;
+			item->y1 = c1.y;
+			item->x2 = c2.x;
+			item->y2 = c2.y;
+			eti->needs_redraw = 1;
+		}
+	if ( eti->needs_redraw ) {
+		gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+		eti->needs_redraw = 0;
+	}
 }
 
 /*
@@ -338,6 +350,8 @@ eti_table_model_changed (ETableModel *table_model, ETableItem *eti)
 	eti_item_region_redraw (eti, 0, 0, eti->width, eti->height);
 }
 
+/* Unused. */
+#if 0
 /*
  * eti_request_redraw:
  *
@@ -348,6 +362,7 @@ eti_request_redraw (ETableItem *eti)
 {
 	eti_item_region_redraw (eti, eti->x1, eti->y1, eti->x1 + eti->width + 1, eti->y1 + eti->height + 1);
 }
+#endif
 
 /*
  * Computes the distance between @start_row and @end_row in pixels
@@ -452,19 +467,13 @@ eti_add_table_model (ETableItem *eti, ETableModel *table_model)
 static void
 eti_header_dim_changed (ETableHeader *eth, int col, ETableItem *eti)
 {
-	eti_request_redraw (eti);
-
-	eti->width = e_table_header_total_width (eti->header);
-	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
-
-	eti_request_redraw (eti);
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 static void
 eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 {
-	eti_request_redraw (eti);
-
 	eti->cols = e_table_header_count (eti->header);
 	eti->width = e_table_header_total_width (eti->header);
 
@@ -484,10 +493,8 @@ eti_header_structure_changed (ETableHeader *eth, ETableItem *eti)
 			eti_attach_cell_views (eti);
 		}
 	}
-	
-	eti_update (GNOME_CANVAS_ITEM (eti), NULL, NULL, 0);
-
-	eti_request_redraw (eti);
+	eti->needs_redraw = 1;
+	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(eti));
 }
 
 static void
@@ -601,6 +608,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->renderers_can_change_size = 1;
 	
 	eti->selection_mode = GTK_SELECTION_SINGLE;
+
+	eti->needs_redraw = 0;
 }
 
 #define gray50_width 2
@@ -1125,7 +1134,6 @@ eti_class_init (GtkObjectClass *object_class)
 	item_class->draw        = eti_draw;
 	item_class->point       = eti_point;
 	item_class->event       = eti_event;
-	item_class->bounds      = eti_bounds;
 	
 	eti_class->row_selection = eti_row_selection;
 

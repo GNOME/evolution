@@ -75,8 +75,12 @@ ethi_destroy (GtkObject *object){
 	ETableHeaderItem *ethi = E_TABLE_HEADER_ITEM (object);
 	
 	ethi_drop_table_header (ethi);
-	if ( ethi->sort_info )
+
+	if ( ethi->sort_info ) {
+		if ( ethi->sort_info_changed_id )
+			gtk_signal_disconnect(GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
 		gtk_object_unref(GTK_OBJECT(ethi->sort_info));
+	}
 	
 	if (GTK_OBJECT_CLASS (ethi_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (ethi_parent_class)->destroy) (object);
@@ -90,12 +94,20 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)(item, affine, clip_path, flags);
 
-	item->x1 = ethi->x1;
-	item->y1 = ethi->y1;
-	item->x2 = ethi->x1 + ethi->width;
-	item->y2 = ethi->y1 + ethi->height;
+	if ( item->x1 != ethi->x1 ||
+	     item->y1 != ethi->y1 ||
+	     item->x2 != ethi->x1 + ethi->width ||
+	     item->y2 != ethi->y1 + ethi->height )
+		{
+			gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
+			item->x1 = ethi->x1;
+			item->y1 = ethi->y1;
+			item->x2 = ethi->x1 + ethi->width;
+			item->y2 = ethi->y1 + ethi->height;
 
-	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+			gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+		}
+	gnome_canvas_request_redraw(item->canvas, item->x1, item->y1, item->x2, item->y2);
 }
 
 static void
@@ -162,6 +174,12 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 }
 
 static void
+ethi_sort_info_changed (ETableSortInfo *sort_info, ETableHeaderItem *ethi)
+{
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
+}
+
+static void
 ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
@@ -189,8 +207,15 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_SORT_INFO:
+		if ( ethi->sort_info ) {
+			if ( ethi->sort_info_changed_id )
+				gtk_signal_disconnect(GTK_OBJECT(ethi->sort_info), ethi->sort_info_changed_id);
+			gtk_object_unref(GTK_OBJECT(ethi->sort_info));
+		}
 		ethi->sort_info = GTK_VALUE_POINTER (*arg);
 		gtk_object_ref(GTK_OBJECT(ethi->sort_info));
+		ethi->sort_info_changed_id = gtk_signal_connect(GTK_OBJECT(ethi->sort_info), "sort_info_changed",
+								GTK_SIGNAL_FUNC(ethi_sort_info_changed), ethi);
 		break;
 		
 	}
@@ -934,7 +959,6 @@ ethi_event (GnomeCanvasItem *item, GdkEvent *e)
 				}
 			}
 			e_table_sort_info_changed(ethi->sort_info);
-			ethi_request_redraw (ethi);
 		}
 		if (needs_ungrab)
 			gnome_canvas_item_ungrab (item, e->button.time);
@@ -1006,6 +1030,8 @@ ethi_init (GnomeCanvasItem *item)
 	ethi->drag_mark = -1;
 	
 	ethi->sort_info = NULL;
+
+	ethi->sort_info_changed_id = 0;
 
 	ethi->group_indent_width = 0;
 }

@@ -62,6 +62,8 @@ typedef struct {
 	 */
 	int              editing_col, editing_row;
 	void            *edit_ctx;
+
+  guint needs_redraw : 1;
 } ETableItem;
 
 typedef struct {

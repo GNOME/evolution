@@ -49,12 +49,6 @@ et_destroy (GtkObject *object)
 {
 	ETable *et = E_TABLE (object);
 	
-	gtk_object_unref (GTK_OBJECT (et->model));
-	gtk_object_unref (GTK_OBJECT (et->full_header));
-	gtk_object_unref (GTK_OBJECT (et->header));
-	gtk_object_unref (GTK_OBJECT (et->sort_info));
-	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
-	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_model_change_id);
@@ -63,8 +57,15 @@ et_destroy (GtkObject *object)
 	gtk_signal_disconnect (GTK_OBJECT (et->model),
 			       et->table_cell_change_id);
 	if (et->sort_info_change_id)
-		gtk_signal_disconnect (GTK_OBJECT (et->model),
+		gtk_signal_disconnect (GTK_OBJECT (et->sort_info),
 				       et->sort_info_change_id);
+
+	gtk_object_unref (GTK_OBJECT (et->model));
+	gtk_object_unref (GTK_OBJECT (et->full_header));
+	gtk_object_unref (GTK_OBJECT (et->header));
+	gtk_object_unref (GTK_OBJECT (et->sort_info));
+	gtk_widget_destroy (GTK_WIDGET (et->header_canvas));
+	gtk_widget_destroy (GTK_WIDGET (et->table_canvas));
 
 	if (et->rebuild_idle_id) {
 		g_source_remove(et->rebuild_idle_id);
