@@ -1,5 +1,14 @@
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (update_sensitivity): New halper function to
+	update the sensitivity of the commands.
+	(entry_changed_cb): New callback to make the activate_button and
+	the "Find Now" verb sensitive only if the entry has some contents.
+	(activate_by_subitems): Connect the callback here.
+	(setup_standard_verbs): Call update_sensitivity() here.
+
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (init): Init clear_button to NULL.
 	(add_button): New helper function to add a button to the search
 	bar with the right spacing etc.

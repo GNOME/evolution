@@ -96,6 +96,31 @@ emit_menu_activated (ESearchBar *esb, int item)
 			 item);
 }
 
+
+/* Utility functions.  */
+
+static void
+update_sensitivity (ESearchBar *search_bar)
+{
+	const char *text;
+
+	text = gtk_entry_get_text (GTK_ENTRY (search_bar->entry));
+
+	if (text != NULL && text[0] != '\0') {
+		if (search_bar->ui_component != NULL)
+			bonobo_ui_component_set_prop (search_bar->ui_component,
+						      "/commands/ESearchBar:SearchNow",
+						      "sensitive", "1", NULL);
+		gtk_widget_set_sensitive (search_bar->activate_button, TRUE);
+	} else {
+		if (search_bar->ui_component != NULL)
+			bonobo_ui_component_set_prop (search_bar->ui_component,
+						      "/commands/ESearchBar:SearchNow",
+						      "sensitive", "0", NULL);
+		gtk_widget_set_sensitive (search_bar->activate_button, FALSE);
+	}
+}
+
 /* This implements the "clear" action, i.e. clears the text and then emits
  * ::search_activated.  */
 
@@ -138,6 +163,9 @@ setup_standard_verbs (ESearchBar *search_bar)
 				      clear_verb_cb, search_bar);
 	bonobo_ui_component_add_verb (search_bar->ui_component, "ESearchBar:SearchNow",
 				      search_now_verb_cb, search_bar);
+
+	/* Make sure the entries are created with the correct sensitivity.  */
+	update_sensitivity (search_bar);
 }
 
 /* Callbacks -- The verbs for all the definable items.  */
@@ -165,6 +193,13 @@ entry_activated_cb (GtkWidget *widget,
 		     ESearchBar *esb)
 {
 	emit_search_activated (esb);
+}
+
+static void
+entry_changed_cb (GtkWidget *widget,
+		  ESearchBar *esb)
+{
+	update_sensitivity (esb);
 }
 
 static void
@@ -199,6 +234,8 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 			esb->entry = gtk_entry_new();
 			gtk_widget_set_usize (esb->entry, 4, -1);
 			gtk_object_ref (GTK_OBJECT (esb->entry));
+			gtk_signal_connect (GTK_OBJECT (esb->entry), "changed",
+					    GTK_SIGNAL_FUNC (entry_changed_cb), esb);
 			gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
 					    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
 			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
