@@ -55,7 +55,7 @@
 #include "camel-multipart-signed.h"
 #include "camel-multipart-encrypted.h"
 
-#define d(x)
+#define d(x) 
 
 static CamelCipherContextClass *parent_class = NULL;
 
@@ -805,15 +805,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 		return -1;
 	} else if (!strncmp (status, "NODATA", 6)) {
 		/* this is an error */
-		const char *diagnostics;
-		
-		diagnostics = gpg_ctx_get_diagnostics (gpg);
-		if (diagnostics && *diagnostics)
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM, diagnostics);
-		else
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
-					     _("No data provided"));
-		return -1;
+		/* But we ignore it anyway, we should get other response codes to say why */
 	} else {
 		/* check to see if we are complete */
 		switch (gpg->mode) {
