@@ -1,3 +1,10 @@
+2000-04-06  Seth Alves  <alves@hungry.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): removed
+	uih from the argument list, added cal.  use cal as user_data
+	in callbacks rather than the control.
+	(calendar_control_deactivate): removed uih from argument list
+
 2000-04-05  Seth Alves  <alves@hungry.com>
 
 	* gui/calendar-commands.c (setup_menu): removed
