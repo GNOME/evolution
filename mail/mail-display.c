@@ -13,6 +13,7 @@
 #include "e-util/e-util.h"
 #include "mail-display.h"
 #include "mail-format.h"
+#include "mail-ops.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
 
@@ -37,7 +38,13 @@ cid_stream (const char *cid, CamelMimeMessage *message)
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
-	gnome_url_show (url);
+	if (!strncasecmp (url, "news:", 5) ||
+	    !strncasecmp (url, "nntp:", 5))
+		g_warning ("Can't handle news URLs yet.");
+	else if (!strncasecmp (url, "mailto:", 7))
+		send_to_url (url);
+	else
+		gnome_url_show (url);
 }
 
 static void

@@ -258,16 +258,32 @@ static void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
 	CamelMimeMessage *message;
-	CamelStream *stream;
-	int stdout_dup;
+	CamelTransport *transport;
+	CamelException *ex;
+	static gboolean loaded = FALSE;
 
 	message = e_msg_composer_get_message (composer);
+	camel_mime_message_set_from (message,
+				     "Dan Winship <danw@helixcode.com>");
+	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer",
+				 "Evolution 0.0.0.0.0.0.0.0.0.1");
+	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 
-	stdout_dup = dup (1);
-	stream = camel_stream_fs_new_with_fd (stdout_dup);
-	camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message),
-					    stream);
-	camel_stream_close (stream);
+	if (!loaded) {
+		camel_provider_register_as_module ("/usr/local/lib/evolution/camel-providers/0.0.1/libcamelsendmail.so");
+		loaded = TRUE;
+	}
+	ex = camel_exception_new ();
+	transport = camel_session_get_transport_for_protocol (
+		default_session->session, "sendmail", ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+		g_warning (camel_exception_get_description (ex));
+	else {
+		camel_transport_send (transport, CAMEL_MEDIUM (message), ex);
+		if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+			g_warning (camel_exception_get_description (ex));
+		gtk_object_destroy (GTK_OBJECT (transport));
+	}
 
 	gtk_object_unref (GTK_OBJECT (message));
 	gtk_object_destroy (GTK_OBJECT (composer));
@@ -286,6 +302,18 @@ send_msg (GtkWidget *widget, gpointer user_data)
 	gtk_widget_show (composer);
 }
 
+/* Send according to a mailto (RFC 2368) URL. */
+void
+send_to_url (const char *url)
+{
+	GtkWidget *composer;
+
+	composer = e_msg_composer_new_from_url (url);
+
+	gtk_signal_connect (GTK_OBJECT (composer), "send",
+			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_widget_show (composer);
+}	
 
 static void
 reply (FolderBrowser *fb, gboolean to_all)

@@ -1,6 +1,15 @@
 2000-04-27  Dan Winship  <danw@helixcode.com>
 
-	* mail-format.c (text_to_html): Improve URL converstion code.
+	* mail-format.c: Move text_to_html to e-util.
+
+	* mail-ops.c (send_to_url): New routine. Thin wrapper for
+	e_msg_composer_new_from_url.
+
+	* mail-display.c (on_link_clicked): print a warning for news or
+	nntp URLs (which we'll deal with some day), and call send_to_url
+	for mailto URLs.
+
+	* mail-format.c (text_to_html): Improve URL conversion code.
 	Recognize https, recognize "www\..*" without a prefixed "http://".
 	Properly escape &, <, >, etc in URL strings. Don't be fooled by
 	"mailto:", "http://", etc with no following data.
