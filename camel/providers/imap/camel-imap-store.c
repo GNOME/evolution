@@ -2269,6 +2269,7 @@ camel_imap_store_readline (CamelImapStore *store, char **dest, CamelException *e
 					      g_strerror (errno));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
+		g_byte_array_free (ba, TRUE);
 		return -1;
 	}
 	

@@ -1,5 +1,8 @@
 2002-05-30  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-store.c (camel_imap_store_readline):
+	On error, don't leak the GByteArray buffer.
+
 	* providers/imap/camel-imap-folder.c (imap_rescan): Free the
 	response before checking for errors. I'm not sure this'll actually
 	fix the memory leak here, but it might? Certainly can't hurt.
