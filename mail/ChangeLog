@@ -1,10 +1,20 @@
+2003-12-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-tree.c: Shorten the namespace of some internal
+	functions to just emft.
+
+	* em-mailer-prefs.c (em_mailer_prefs_construct): Use newv() here
+	and pass an array of GTypes - makes it simpler to change the order
+	of columns later and/or add new columns if we need to. Also makes
+	the line shorter :-)
+
 2003-12-11  Grahame Bowland  <grahame@angrygoats.net>
 
 	* em-format-html.c (efh_format_header): display 
 	x-evolution-mailer pseudo header irrespective of 
 	xmailer_mask. This is now handled by a header 
 	configuration dialog.
-	
+
 	* mail-config.glade: add tab to mail configuration 
 	dialog to allow custom headers to be specified for 
 	display.
@@ -43,7 +53,7 @@
 	the add button to FALSE if the entry box is empty, contains 
 	a duplicate header, or contains an invalid header. Otherwise, 
 	set it to TRUE.
-	
+
 	* evolution-mail.schemas.in.in: add mail/display/headers 
 
 2003-12-10  Larry Ewing  <lewing@ximian.com>
