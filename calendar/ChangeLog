@@ -1,5 +1,9 @@
 2002-10-17  JP Rosevear  <jpr@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_construct): fix c/p type
+
+2002-10-17  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/dialogs/recurrence-page.c (fill_ending_date): if the value
 	is a datetime, convert it to a date
 

@@ -1826,7 +1826,7 @@ gnome_calendar_construct (GnomeCalendar *gcal)
 
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "cal_opened",
 			    GTK_SIGNAL_FUNC (client_cal_opened_cb), gcal);	
-	gtk_signal_connect (GTK_OBJECT (priv->client), "backend_error",
+	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "backend_error",
 			    GTK_SIGNAL_FUNC (backend_error_cb), gcal);
 	gtk_signal_connect (GTK_OBJECT (priv->task_pad_client), "categories_changed",
 			    GTK_SIGNAL_FUNC (client_categories_changed_cb), gcal);
