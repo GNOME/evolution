@@ -1,3 +1,10 @@
+2002-10-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-weather.c (e_summary_weather_reconfigure): NULL the
+	->weathers member before freeing the list items.  Otherwise
+	soup_message_cancel() might invoke the refresh function while we
+	are freeing things on the list, and crash.  [#31639]
+
 2002-09-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-summary-mail.c (e_summary_mail_generate_html): Generate HTML

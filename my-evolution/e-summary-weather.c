@@ -759,6 +759,7 @@ e_summary_weather_reconfigure (ESummary *summary)
 {
 	ESummaryWeather *weather;
 	GList *old, *p;
+	GList *weather_list;
 
 	g_return_if_fail (summary != NULL);
 	g_return_if_fail (IS_E_SUMMARY (summary));
@@ -768,14 +769,20 @@ e_summary_weather_reconfigure (ESummary *summary)
 	/* Stop timeout so it doesn't occur while we're changing stuff*/
 	gtk_timeout_remove (weather->timeout);
 
-	for (old = weather->weathers; old; old = old->next) {
+	/* Clear the weather list before doing weather_free() on each of them
+	   because otherwise soup_message_cancel() could invoke the refresh
+	   function just while we are freeing things.  [#31639]  */
+	weather_list = weather->weathers;
+	weather->weathers = NULL;
+
+	for (old = weather_list; old != NULL; old = old->next) {
 		Weather *w;
 
 		w = old->data;
 		weather_free (w);
 	}
-	g_list_free (weather->weathers);
-	weather->weathers = NULL;
+	g_list_free (weather_list);
+
 	for (p = summary->preferences->stations; p; p = p->next) {
 		e_summary_weather_add_location (summary, p->data);
 	}
