@@ -156,6 +156,8 @@ e_text_to_html (const char *input, unsigned int flags)
 				g_free (dispurl);
 			}
 
+			if (!*cur)
+				break;
 			unicode_get_utf8 (cur, &u);
 		}
 		if (u == (unicode_char_t)-1) {
