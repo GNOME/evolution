@@ -1,5 +1,10 @@
 2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-shell-component.c (owner_ping_callback): Slightly
+	change the debugigng message for when the shell has disappeared.
+
+2001-10-29  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-shell-component.c (owner_ping_callback): Remove
 	ping debugging messages.
 

@@ -194,7 +194,7 @@ owner_ping_callback (void *data)
 	if (alive)
 		return TRUE;
 
-	g_print ("\t*** Shell is dead\n");
+	g_print ("\t*** The shell has disappeared\n");
 	gtk_signal_emit (GTK_OBJECT (shell_component), signals[OWNER_DIED]);
 
 	priv->ping_timeout_id = -1;
