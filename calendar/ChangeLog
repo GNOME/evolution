@@ -1,3 +1,19 @@
+2001-09-11  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-queue.c (display_notification): Added an
+	use_description argument so that other alarms can fall back to
+	this type.
+	(audio_notification): Implemented.
+	(remove_comp): Call remove_queued_alarm() here; there is no longer
+	a destroy notification function for alarms so must we do this
+	manually.
+	(alarm_trigger_cb): Do not pass the alarm to the notification
+	functions so that we can free it ourselves before all the alarms
+	in the component get freed.
+	(display_notification): Get the alarm here instead of getting it
+	as an argument.
+	(procedure_notification): Implemented.
+
 2001-09-11  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/meeting-page.c (invite_entry_changed): free the

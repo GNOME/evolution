@@ -29,6 +29,8 @@
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
+#include <libgnome/gnome-exec.h>
+#include <libgnome/gnome-sound.h>
 #include <bonobo/bonobo-object.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
@@ -90,7 +92,9 @@ typedef struct {
 static gpointer midnight_refresh_id = NULL;
 
 static void display_notification (time_t trigger, CompQueuedAlarms *cqa,
-				  gpointer alarm_id, CalComponentAlarm *alarm);
+				  gpointer alarm_id, gboolean use_description);
+static void audio_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
+static void procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id);
 
 
 
@@ -235,15 +239,15 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 	g_assert (alarm != NULL);
 
 	cal_component_alarm_get_action (alarm, &action);
+	cal_component_alarm_free (alarm);
 
 	switch (action) {
 	case CAL_ALARM_AUDIO:
-		/* FIXME: audio_notification (); */
-		remove_queued_alarm (cqa, alarm_id);
+		audio_notification (trigger, cqa, alarm_id);
 		break;
 
 	case CAL_ALARM_DISPLAY:
-		display_notification (trigger, cqa, alarm_id, alarm);
+		display_notification (trigger, cqa, alarm_id, TRUE);
 		break;
 
 	case CAL_ALARM_EMAIL:
@@ -252,16 +256,13 @@ alarm_trigger_cb (gpointer alarm_id, time_t trigger, gpointer data)
 		break;
 
 	case CAL_ALARM_PROCEDURE:
-		/* FIXME: procedure_notification (); */
-		remove_queued_alarm (cqa, alarm_id);
+		procedure_notification (trigger, cqa, alarm_id);
 		break;
 
 	default:
 		g_assert_not_reached ();
 		break;
 	}
-
-	cal_component_alarm_free (alarm);
 }
 
 /* Adds the alarms in a CalComponentAlarms structure to the alarms queued for a
@@ -397,12 +398,13 @@ remove_comp (ClientAlarms *ca, const char *uid)
 		qa = l->data;
 
 		/* Get the next element here because the list element will go
-		 * away.  Also, we do not free the qa here because it will be
-		 * freed by the destroy notification function.
+		 * away in remove_queued_alarm().  The qa will be freed there as
+		 * well.
 		 */
 		l = l->next;
 
 		alarm_remove (qa->alarm_id);
+		remove_queued_alarm (cqa, qa->alarm_id);
 	}
 
 	/* The list should be empty now, and thus the queued component alarms
@@ -578,7 +580,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 /* Performs notification of a display alarm */
 static void
 display_notification (time_t trigger, CompQueuedAlarms *cqa,
-		      gpointer alarm_id, CalComponentAlarm *alarm)
+		      gpointer alarm_id, gboolean use_description)
 {
 	CalComponent *comp;
 	CalComponentVType vtype;
@@ -586,8 +588,11 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	QueuedAlarm *qa;
 	const char *message;
 	struct notify_dialog_closure *c;
+	gboolean use_summary;
 
 	comp = cqa->alarms->comp;
+	qa = lookup_queued_alarm (cqa, alarm_id);
+	g_assert (qa != NULL);
 
 	vtype = cal_component_get_vtype (comp);
 
@@ -595,10 +600,25 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	 * from the alarm, then the SUMMARY of the component.
 	 */
 
-	cal_component_alarm_get_description (alarm, &text);
-	if (text.value)
-		message = text.value;
-	else {
+	use_summary = TRUE;
+	message = NULL;
+
+	if (use_description) {
+		CalComponentAlarm *alarm;
+
+		alarm = cal_component_get_alarm (comp, qa->instance->auid);
+		g_assert (alarm != NULL);
+
+		cal_component_alarm_get_description (alarm, &text);
+		cal_component_alarm_free (alarm);
+
+		if (text.value) {
+			message = text.value;
+			use_summary = FALSE;
+		}
+	}
+
+	if (use_summary) {
 		cal_component_get_summary (comp, &text);
 		if (text.value)
 			message = text.value;
@@ -610,13 +630,117 @@ display_notification (time_t trigger, CompQueuedAlarms *cqa,
 	c->cqa = cqa;
 	c->alarm_id = alarm_id;
 
-	qa = lookup_queued_alarm (cqa, alarm_id);
-
 	if (!alarm_notify_dialog (trigger,
 				  qa->instance->occur_start, qa->instance->occur_end,
 				  vtype, message,
 				  notify_dialog_cb, c))
 		g_message ("display_notification(): Could not create the alarm notify dialog");
+}
+
+/* Performs notification of an audio alarm */
+static void
+audio_notification (time_t trigger, CompQueuedAlarms *cqa,
+		    gpointer alarm_id)
+{
+	QueuedAlarm *qa;
+	CalComponent *comp;
+	CalComponentAlarm *alarm;
+	icalattach *attach;
+	const char *url;
+
+	comp = cqa->alarms->comp;
+	qa = lookup_queued_alarm (cqa, alarm_id);
+	g_assert (qa != NULL);
+
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
+
+	cal_component_alarm_get_attach (alarm, &attach);
+	cal_component_alarm_free (alarm);
+
+	/* If the alarm has no attachment, simply display a notification dialog. */
+	if (!attach)
+		goto fallback;
+
+	if (!icalattach_get_is_url (attach)) {
+		icalattach_unref (attach);
+		goto fallback;
+	}
+
+	url = icalattach_get_url (attach);
+	g_assert (url != NULL);
+
+	gnome_sound_play (url); /* this sucks */
+	icalattach_unref (attach);
+
+	remove_queued_alarm (cqa, alarm_id);
+	return;
+
+ fallback:
+
+	display_notification (trigger, cqa, alarm_id, FALSE);
+}
+
+/* Performs notification of a procedure alarm */
+static void
+procedure_notification (time_t trigger, CompQueuedAlarms *cqa, gpointer alarm_id)
+{
+	QueuedAlarm *qa;
+	CalComponent *comp;
+	CalComponentAlarm *alarm;
+	CalComponentText description;
+	icalattach *attach;
+	const char *url;
+	int result;
+
+	comp = cqa->alarms->comp;
+	qa = lookup_queued_alarm (cqa, alarm_id);
+	g_assert (qa != NULL);
+
+	alarm = cal_component_get_alarm (comp, qa->instance->auid);
+	g_assert (alarm != NULL);
+
+	cal_component_alarm_get_attach (alarm, &attach);
+	cal_component_alarm_get_description (alarm, &description);
+	cal_component_alarm_free (alarm);
+
+	/* If the alarm has no attachment, simply display a notification dialog. */
+	if (!attach)
+		goto fallback;
+
+	if (!icalattach_get_is_url (attach)) {
+		icalattach_unref (attach);
+		goto fallback;
+	}
+
+	url = icalattach_get_url (attach);
+	g_assert (url != NULL);
+
+	if (description.value) {
+		char *argv[2];
+
+		argv[0] = (char *) url;
+		argv[1] = (char *) description.value;
+		result = gnome_execute_async (NULL, 2, argv);
+	} else {
+		char *argv[1];
+
+		argv[0] = (char *) url;
+		result = gnome_execute_async (NULL, 1, argv);
+	}
+
+	icalattach_unref (attach);
+
+	/* Fall back to display notification if we got an error */
+	if (result < 0)
+		goto fallback;
+
+	remove_queued_alarm (cqa, alarm_id);
+	return;
+
+ fallback:
+
+	display_notification (trigger, cqa, alarm_id, FALSE);
 }
 
 
