@@ -176,18 +176,7 @@ decode_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 	CamelStream *fstream;
 	ssize_t ret;
 	
-	if (data_wrapper->stream == NULL) {
-		g_warning("data_wrapper->stream is NULL in decode_to_stream()");
-		return -1;
-	}
-	
-	CAMEL_DATA_WRAPPER_LOCK (data_wrapper, stream_lock);
-	if (camel_stream_reset (data_wrapper->stream) == -1) {
-		CAMEL_DATA_WRAPPER_UNLOCK (data_wrapper, stream_lock);
-		return -1;
-	}
-	
-	fstream = (CamelStream *) camel_stream_filter_new_with_stream (data_wrapper->stream);
+	fstream = (CamelStream *) camel_stream_filter_new_with_stream (stream);
 	
 	switch (data_wrapper->encoding) {
 	case CAMEL_MIME_PART_ENCODING_BASE64:
@@ -216,10 +205,9 @@ decode_to_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 		camel_object_unref (filter);
 	}
 	
-	ret = camel_stream_write_to_stream (fstream, stream);
+	ret = camel_data_wrapper_write_to_stream (data_wrapper, fstream);
+	camel_stream_flush (fstream);
 	camel_object_unref (fstream);
-	
-	CAMEL_DATA_WRAPPER_UNLOCK (data_wrapper, stream_lock);
 	
 	return ret;
 }

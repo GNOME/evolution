@@ -1,3 +1,13 @@
+2003-08-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-data-wrapper.c (decode_to_stream): Don't poke
+	wrapper->stream directly, use camel_data_wrapper_write_to_stream()
+	instead as this simplifies things and makes the imap data wrapper
+	implementation Just Work (tm).
+
+	* providers/imap/camel-imap-wrapper.c: changed prototype of
+	write_to_stream() to return ssize_t.
+
 2003-08-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-wrapper.c (imap_wrapper_hydrate): Make

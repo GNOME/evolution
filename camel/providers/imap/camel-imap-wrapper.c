@@ -43,7 +43,7 @@ static CamelDataWrapperClass *parent_class = NULL;
 /* Returns the class for a CamelDataWrapper */
 #define CDW_CLASS(so) CAMEL_DATA_WRAPPER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static int write_to_stream (CamelDataWrapper *imap_wrapper, CamelStream *stream);
+static ssize_t write_to_stream (CamelDataWrapper *imap_wrapper, CamelStream *stream);
 
 static void
 camel_imap_wrapper_class_init (CamelImapWrapperClass *camel_imap_wrapper_class)
