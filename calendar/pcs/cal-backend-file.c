@@ -1157,7 +1157,11 @@ compute_alarm_range (CalComponent *comp, GList *alarm_uids, time_t start, time_t
   			dur_time = icaldurationtype_as_int (*dur);
 
 			if (dur->is_neg)
-				*alarm_end = MAX (*alarm_end, end + dur_time);
+				/* If the duration is negative then dur_time
+				 * will be negative as well; that is why we
+				 * subtract to expand the range.
+				 */
+				*alarm_end = MAX (*alarm_end, end - dur_time);
 			else
 				*alarm_start = MIN (*alarm_start, start - dur_time);
 
@@ -1222,10 +1226,13 @@ add_alarm_occurrences_cb (CalComponent *comp, time_t start, time_t end, gpointer
 		else
 			occur_time = end;
 
-		if (dur->is_neg)
-			trigger_time = occur_time - dur_time;
-		else
-			trigger_time = occur_time + dur_time;
+		/* If dur->is_neg is true then dur_time will already be
+		 * negative.  So we do not need to test for dur->is_neg here; we
+		 * can simply add the dur_time value to the occur_time and get
+		 * the correct result.
+		 */
+
+		trigger_time = occur_time + dur_time;
 
 		if (trigger_time < aod->start || trigger_time >= aod->end)
 			continue;

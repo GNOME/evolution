@@ -29,6 +29,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-init.h>
 #include <libgnomevfs/gnome-vfs-init.h>
+#include <glade/glade.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <liboaf/liboaf.h>
@@ -100,6 +101,8 @@ main (int argc, char **argv)
 
 	if (!gnome_vfs_init ())
 		g_error (_("Could not initialize gnome-vfs"));
+
+	glade_gnome_init ();
 
 	alarm_init ();
 	alarm_queue_init ();

@@ -1,5 +1,18 @@
 2001-06-24  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/alarm-notify/notify-main.c (main): Initialize libglade.
+
+	* pcs/cal-backend-file.c (compute_alarm_range):
+	icaldurationtype_as_int() will now return a negative value if
+	dur->is_neg is true, so we need to flip the sign of some
+	operations here.
+	(add_alarm_occurrences_cb): Likewise.
+
+	* pcs/cal-backend-db.c (compute_alarm_range): Likewise.
+	(add_alarm_occurrences_cb): Likewise.
+
+2001-06-24  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/alarm-notify/alarm-notify.c: Converted to use BonoboXObject.
 
 	* gui/gnome-cal.c (gnome_calendar_open): Ask the alarm
