@@ -197,11 +197,15 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	mi = ((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_load(s, in);
 	if (mi) {
 		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
-
-		camel_folder_summary_decode_off_t(in, &mbi->frompos);
+		
+		if (camel_folder_summary_decode_off_t(in, &mbi->frompos) == -1)
+			goto error;
 	}
 	
 	return mi;
+error:
+	camel_folder_summary_info_free(s, mi);
+	return NULL;
 }
 
 static int
@@ -211,9 +215,11 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 
 	io(printf("saving mbox message info\n"));
 
-	((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_save(s, out, mi);
+	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_save(s, out, mi) == -1
+	    || camel_folder_summary_encode_off_t(out, mbi->frompos) == -1)
+		return -1;
 
-	return camel_folder_summary_encode_off_t(out, mbi->frompos);
+	return 0;
 }
 
 static int

@@ -498,7 +498,14 @@ perform_content_info_load(CamelFolderSummary *s, FILE *in)
 	CamelMessageContentInfo *ci, *part;
 
 	ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_load(s, in);
-	camel_folder_summary_decode_uint32(in, &count);
+	if (ci == NULL)
+		return NULL;
+
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500) {
+		camel_folder_summary_content_info_free(s, ci);
+		return NULL;
+	}
+
 	for (i=0;i<count;i++) {
 		part = perform_content_info_load(s, in);
 		if (part) {
@@ -506,6 +513,8 @@ perform_content_info_load(CamelFolderSummary *s, FILE *in)
 			part->parent = ci;
 		} else {
 			g_warning("Summary file format messed up?");
+			camel_folder_summary_content_info_free(s, ci);
+			return NULL;
 		}
 	}
 	return ci;
@@ -521,24 +530,26 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	g_assert(s->summary_path);
 
 	in = fopen(s->summary_path, "r");
-	if ( in == NULL ) {
+	if (in == NULL)
 		return -1;
-	}
 
 	CAMEL_SUMMARY_LOCK(s, io_lock);
-	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_load(s, in) == -1) {
-		fclose(in);
-		CAMEL_SUMMARY_UNLOCK(s, io_lock);
-		return -1;
-	}
+	if ( ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_load(s, in) == -1)
+		goto error;
 
 	/* now read in each message ... */
-	/* FIXME: check returns */
 	for (i=0;i<s->saved_count;i++) {
 		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_load(s, in);
-		
+
+		if (mi == NULL)
+			goto error;
+
 		if (s->build_content) {
 			mi->content = perform_content_info_load(s, in);
+			if (mi->content == NULL) {
+				camel_folder_summary_info_free(s, mi);
+				goto error;
+			}
 		}
 
 		camel_folder_summary_add(s, mi);
@@ -552,6 +563,14 @@ camel_folder_summary_load(CamelFolderSummary *s)
 	s->flags &= ~CAMEL_SUMMARY_DIRTY;
 
 	return 0;
+
+error:
+	g_warning("Cannot load summary file: %s", strerror(ferror(in)));
+	CAMEL_SUMMARY_UNLOCK(s, io_lock);
+	fclose(in);
+	s->flags |= ~CAMEL_SUMMARY_DIRTY;
+
+	return -1;
 }
 
 /* saves the content descriptions, recursively */
@@ -1790,7 +1809,9 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_fixed_int32(in, &mi->message_id.id.part.hi);
 	camel_folder_summary_decode_fixed_int32(in, &mi->message_id.id.part.lo);
 
-	camel_folder_summary_decode_uint32(in, &count);
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
+		goto error;
+
 	if (count > 0) {
 		mi->references = g_malloc(sizeof(*mi->references) + ((count-1) * sizeof(mi->references->references[0])));
 		mi->references->size = count;
@@ -1800,7 +1821,9 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 		}
 	}
 
-	camel_folder_summary_decode_uint32(in, &count);
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
+		goto error;
+
 	for (i=0;i<count;i++) {
 		char *name;
 		camel_folder_summary_decode_string(in, &name);
@@ -1808,7 +1831,9 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 		g_free(name);
 	}
 
-	camel_folder_summary_decode_uint32(in, &count);
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
+		goto error;
+
 	for (i=0;i<count;i++) {
 		char *name, *value;
 		camel_folder_summary_decode_string(in, &name);
@@ -1818,7 +1843,13 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 		g_free(value);
 	}
 
-	return mi;
+	if (!ferror(in))
+		return mi;
+
+error:
+	camel_folder_summary_info_free(s, mi);
+
+	return NULL;
 }
 
 static int
@@ -1923,7 +1954,9 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	ct = header_content_type_new(type, subtype);
 	g_free(type);		/* can this be removed? */
 	g_free(subtype);
-	camel_folder_summary_decode_uint32(in, &count);
+	if (camel_folder_summary_decode_uint32(in, &count) == -1 || count > 500)
+		goto error;
+	    
 	for (i=0;i<count;i++) {
 		char *name, *value;
 		camel_folder_summary_decode_token(in, &name);
@@ -1942,7 +1975,13 @@ content_info_load(CamelFolderSummary *s, FILE *in)
 	camel_folder_summary_decode_uint32(in, &ci->size);
 
 	ci->childs = NULL;
-	return ci;
+
+	if (!ferror(in))
+		return ci;
+
+error:
+	camel_folder_summary_content_info_free(s, ci);
+	return NULL;
 }
 
 static int

@@ -1,5 +1,20 @@
 2001-01-23  Not Zed  <NotZed@Ximian.com>
 
+	* providers/imap/camel-imap-summary.c (message_info_load): Removed
+	some debug 'warnings', as they should now be displayed at the
+	toplevel loader, and just made the code match similar code
+	elsewhere.
+
+	* providers/local/camel-mbox-summary.c (message_info_load): Error
+	handling.
+	(message_info_save): more error handling.
+
+	* camel-folder-summary.c (message_info_load): Add error handling
+	and sanity checking.
+	(camel_folder_summary_load): Add error checks.
+	(perform_content_info_load): Error + sanity checks.
+	(content_info_load): error + sanity checks.
+
 	* camel-filter-driver.c (close_folder): avoid /0 by updating after
 	we've done the sync.
 	(close_folders): Setup the first progress report to start it off.
