@@ -1,3 +1,9 @@
+2000-11-08   Jesse Pavel   <jpavel@helixcode.com>
+	
+	* gui/e-itip-control.c, gui/e-itip-control.glade: updated the GUI
+	to allow the user to add PUBLISHed events to his calendar, and created
+	unworking buttons for meeting requests.
+	
 2000-11-08  Federico Mena Quintero  <federico@helixcode.com>
 
 	These changes fix bugzilla bugs #874 and #875.

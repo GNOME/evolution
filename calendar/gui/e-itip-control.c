@@ -21,8 +21,8 @@
 #include <cal-client/cal-client.h>
 
 
-#define DEFAULT_WIDTH 450
-#define DEFAULT_HEIGHT 350
+#define DEFAULT_WIDTH 400
+#define DEFAULT_HEIGHT 300
 
 extern gchar *evolution_dir;
 
@@ -33,6 +33,7 @@ struct _EItipControlPrivate {
 	GtkWidget *main_frame;
 	GtkWidget *organizer_entry, *dtstart_label, *dtend_label;
 	GtkWidget *summary_entry, *description_box, *message_text;
+	GtkWidget *button_box;
 	GtkWidget *address_entry;
 	GtkWidget *add_button;
 	GtkWidget *loading_window;
@@ -64,7 +65,7 @@ get_icalparam_by_type (icalproperty *prop, icalparameter_kind kind)
 
 /********
  * find_attendee() searches through the attendee properties of `comp'
- * and returns the one whose value is the same as `address' if such
+ * and returns the one the value of which is the same as `address' if such
  * a property exists. Otherwise, it will return NULL.
  ********/
 static icalproperty *
@@ -132,8 +133,18 @@ itip_control_destroy_cb (GtkObject *object,
 static void
 itip_control_size_request_cb (GtkWidget *widget, GtkRequisition *requisition)
 {
+
+	/* gtk_widget_set (GTK_WIDGET (widget), "width", DEFAULT_WIDTH, NULL); */
+	/* gtk_widget_set (GTK_WIDGET (widget), "height", DEFAULT_HEIGHT, NULL); */
 	requisition->width = DEFAULT_WIDTH;
 	requisition->height = DEFAULT_HEIGHT;
+}
+
+static void
+itip_control_size_allocation_cb (GtkWidget *widget, GtkRequisition *requisition)
+{
+	widget->requisition.height = requisition->height;
+	widget->requisition.width = requisition->width;
 }
 
 static void
@@ -155,7 +166,7 @@ cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
 			/* We have success. */
 			GtkWidget *dialog;
 	
-			dialog = gnome_ok_dialog("Component successfully added.");
+			dialog = gnome_ok_dialog("Component successfully updated.");
 			gnome_dialog_run (GNOME_DIALOG(dialog));
 		}
 	}
@@ -287,6 +298,26 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 
 	priv->comp = icalcomponent_get_first_component (priv->main_comp,
 							ICAL_ANY_COMPONENT);
+
+#if 0
+	{   
+		FILE *fp;
+
+		fp = fopen ("evo.debug", "w");
+
+		fputs ("The raw vCalendar data:\n\n", fp);
+		fputs (priv->vcalendar, fp);
+
+		fputs ("The main component:\n\n", fp);
+		fputs (icalcomponent_as_ical_string (priv->main_comp), fp);
+
+		fputs ("The child component:\n\n", fp);
+		fputs (icalcomponent_as_ical_string (priv->comp), fp);
+
+		fclose (fp);
+	}
+#endif
+
 	if (priv->comp == NULL) {
 		g_printerr ("e-itip-control.c: I could not extract a proper component from\n"
 			    "     the vCalendar data.\n");
@@ -392,11 +423,23 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		prop = icalcomponent_get_first_property (priv->main_comp, ICAL_METHOD_PROPERTY);
 		switch (icalproperty_get_method (prop)) {
 		case ICAL_METHOD_PUBLISH:
+			{
+			GtkWidget *button;
+
 			sprintf (message, "%s has published calendar information, "
-				 	  "which you can add to your own calendar."
+				 	  "which you can add to your own calendar. "
 				 	  "No reply is necessary.", 
 				 priv->from_address);
+			
+			button =  gtk_button_new_with_label ("Add to Calendar");
+			gtk_box_pack_start (GTK_BOX (priv->button_box), button, FALSE, FALSE, 3);
+			gtk_widget_show (button);
+
+			gtk_signal_connect (GTK_OBJECT (button), "clicked",
+					    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
+			
 			break;
+			}
 		case ICAL_METHOD_REQUEST:
 			{
 			/* I'll check if I have to rsvp. */
@@ -418,6 +461,22 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 					  "who indicated that you %s RSVP.",
 				 (priv->organizer ? priv->organizer : "an unknown person"), 
 				 (rsvp ? "should" : "don't have to") );
+
+			if (rsvp) {
+				GtkWidget *accept_button, *decline_button, *tentative_button;
+
+				accept_button = gtk_button_new_with_label ("Accept");
+				decline_button = gtk_button_new_with_label ("Decline");
+				tentative_button = gtk_button_new_with_label ("Tentative");
+
+				gtk_box_pack_start (GTK_BOX (priv->button_box), accept_button, FALSE, FALSE, 3);
+				gtk_box_pack_start (GTK_BOX (priv->button_box), decline_button, FALSE, FALSE, 3);
+				gtk_box_pack_start (GTK_BOX (priv->button_box), tentative_button, FALSE, FALSE, 3);
+
+				gtk_widget_show (accept_button);
+				gtk_widget_show (decline_button);
+				gtk_widget_show (tentative_button);
+			}
 
 			}
 			break;
@@ -540,6 +599,7 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	priv->summary_entry = glade_xml_get_widget (priv->xml, "summary_entry");
 	priv->description_box = glade_xml_get_widget (priv->xml, "description_box");
 	/* priv->add_button = glade_xml_get_widget (priv->xml, "add_button"); */
+	priv->button_box = glade_xml_get_widget (priv->xml, "button_box");
 	priv->address_entry = glade_xml_get_widget (priv->xml, "address_entry");
 	priv->message_text = glade_xml_get_widget (priv->xml, "message_text");
 
