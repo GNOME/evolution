@@ -35,6 +35,7 @@
 #include "camel/camel-mime-message.h"
 #include "camel/camel-stream-null.h"
 
+#define w(x)
 #define io(x)
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
@@ -147,7 +148,7 @@ camel_local_summary_load(CamelLocalSummary *cls, int forceindex, CamelException 
 	if (forceindex
 	    || stat(s->summary_path, &st) == -1
 	    || ((CamelLocalSummaryClass *)(CAMEL_OBJECT_GET_CLASS(cls)))->load(cls, forceindex, ex) == -1) {
-		g_warning("Could not load summary: flags may be reset");
+		w(g_warning("Could not load summary: flags may be reset"));
 		camel_folder_summary_clear((CamelFolderSummary *)cls);
 		return -1;
 	}

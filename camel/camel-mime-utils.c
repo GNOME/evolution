@@ -71,7 +71,7 @@ int free_count = 0;
 #define g_free(x) (free_count++, g_free(x))
 #endif
 
-/* for all warnings ... */
+/* for all non-essential warnings ... */
 #define w(x) 
 
 #define d(x)
@@ -2363,7 +2363,7 @@ header_decode_mailbox(const char **in)
 				/* Fix for stupidly-broken-mailers that like to put '.''s in names unquoted */
 				/* see bug #8147 */
 				if (*inptr && *inptr != '<') {
-					g_warning("Working around stupid mailer bug #5: unescaped characters in names");
+					w(g_warning("Working around stupid mailer bug #5: unescaped characters in names"));
 					name = g_string_append_c(name, *inptr++);
 					pre = header_decode_word(&inptr);
 				}
@@ -2434,8 +2434,8 @@ header_decode_mailbox(const char **in)
 		if (*inptr && *inptr != ',') {
 			char *text;
 
-			g_warning("We didn't get an '@' where we expected in '%s', trying again", *in);
-			g_warning("Name is '%s', Addr is '%s' we're at '%s'\n", name?name->str:"<UNSET>", addr->str, inptr);
+			w(g_warning("We didn't get an '@' where we expected in '%s', trying again", *in));
+			w(g_warning("Name is '%s', Addr is '%s' we're at '%s'\n", name?name->str:"<UNSET>", addr->str, inptr));
 
 			/* need to keep *inptr, as try_address_again will drop the current character */
 			if (*inptr == '<')
