@@ -458,6 +458,7 @@ impl_dispose (GObject *object)
 
 	for (l = priv->notifications; l; l = l->next)
 		calendar_config_remove_notification (GPOINTER_TO_UINT (l->data));
+	g_list_free (priv->notifications);
 	priv->notifications = NULL;
 
 	(* G_OBJECT_CLASS (parent_class)->dispose) (object);

@@ -1,5 +1,14 @@
 2003-12-03  JP Rosevear <jpr@ximian.com>
 
+	* gui/gnome-cal.c (gnome_calendar_destroy): free the notification
+	list
+	
+	* gui/tasks-component.c (impl_dispose): ditto
+
+	* gui/calendar-component.c (impl_dispose): ditto
+
+2003-12-03  JP Rosevear <jpr@ximian.com>
+
 	* gui/tasks-component.c (impl_dispose): free up the notifications
 	and the ecal
 	(config_create_ecal_changed_cb): clear the create_ecal if the
