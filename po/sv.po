@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.5\n"
-"POT-Creation-Date: 2000-09-27 01:36+0200\n"
-"PO-Revision-Date: 2000-09-27 02:08+0200\n"
+"POT-Creation-Date: 2000-09-28 14:59+0200\n"
+"PO-Revision-Date: 2000-09-28 15:00+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -192,7 +192,7 @@ msgstr "Företagsfax"
 
 #: addressbook/contact-editor/e-contact-editor.c:1222
 msgid "Callback"
-msgstr "Senareuppringning"
+msgstr "Tillbakaringning"
 
 #: addressbook/contact-editor/e-contact-editor.c:1223
 msgid "Car"
@@ -293,7 +293,7 @@ msgid "_Add"
 msgstr "_Lägg till"
 
 #: addressbook/contact-editor/e-contact-editor-strings.h:8
-#: calendar/gui/dialogs/task-editor.c:459 calendar/gui/event-editor.c:1185
+#: calendar/gui/dialogs/task-editor.c:459 calendar/gui/event-editor.c:1200
 msgid "_Delete"
 msgstr "_Ta bort"
 
@@ -1206,7 +1206,7 @@ msgstr "Ingen sammanfattning finns tillgänglig."
 #. * DO NOT compile it as part of your application.
 #.
 #: calendar/gui/dialogs/alarm-notify.glade.h:7
-#: calendar/gui/event-editor.c:1355
+#: calendar/gui/event-editor.c:1369
 msgid "Close"
 msgstr "Stäng"
 
@@ -1223,98 +1223,98 @@ msgid "Snooze time (minutes)"
 msgstr "Slumringstid (minuter)"
 
 #: calendar/gui/dialogs/task-editor.c:427
-#: calendar/gui/dialogs/task-editor.c:434 calendar/gui/event-editor.c:1160
+#: calendar/gui/dialogs/task-editor.c:434 calendar/gui/event-editor.c:1175
 msgid "FIXME: _Task"
 msgstr "FIXME: _Uppgift"
 
 #: calendar/gui/dialogs/task-editor.c:428
-#: calendar/gui/dialogs/task-editor.c:435 calendar/gui/event-editor.c:1161
+#: calendar/gui/dialogs/task-editor.c:435 calendar/gui/event-editor.c:1176
 msgid "FIXME: Task _Request"
 msgstr "FIXME: Uppgiftsbegä_ran"
 
-#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1158
+#: calendar/gui/dialogs/task-editor.c:430 calendar/gui/event-editor.c:1173
 msgid "FIXME: _Mail Message"
 msgstr "FIXME: _Posta meddelande"
 
-#: calendar/gui/dialogs/task-editor.c:431 calendar/gui/event-editor.c:1155
+#: calendar/gui/dialogs/task-editor.c:431
 msgid "FIXME: _Appointment"
 msgstr "FIXME: _Möte"
 
-#: calendar/gui/dialogs/task-editor.c:432 calendar/gui/event-editor.c:1156
+#: calendar/gui/dialogs/task-editor.c:432
 msgid "FIXME: Meeting Re_quest"
 msgstr "FIXME: Mötesbe_gäran"
 
-#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1159
+#: calendar/gui/dialogs/task-editor.c:433 calendar/gui/event-editor.c:1174
 msgid "FIXME: _Contact"
 msgstr "FIXME: _Kontakt"
 
-#: calendar/gui/dialogs/task-editor.c:436 calendar/gui/event-editor.c:1162
+#: calendar/gui/dialogs/task-editor.c:436 calendar/gui/event-editor.c:1177
 msgid "FIXME: _Journal Entry"
 msgstr "FIXME: _Dagbokspost"
 
-#: calendar/gui/dialogs/task-editor.c:437 calendar/gui/event-editor.c:1163
+#: calendar/gui/dialogs/task-editor.c:437 calendar/gui/event-editor.c:1178
 msgid "FIXME: _Note"
 msgstr "FIXME: _Notering"
 
 #: calendar/gui/dialogs/task-editor.c:439
-#: calendar/gui/dialogs/task-editor.c:547 calendar/gui/event-editor.c:1165
-#: calendar/gui/event-editor.c:1273
+#: calendar/gui/dialogs/task-editor.c:547 calendar/gui/event-editor.c:1180
+#: calendar/gui/event-editor.c:1288
 msgid "FIXME: Ch_oose Form..."
 msgstr "FIXME: V_älj formulär..."
 
-#: calendar/gui/dialogs/task-editor.c:444 calendar/gui/event-editor.c:1170
+#: calendar/gui/dialogs/task-editor.c:444 calendar/gui/event-editor.c:1185
 msgid "FIXME: _Memo Style"
 msgstr "FIXME: _Minnesanteckningsstil"
 
-#: calendar/gui/dialogs/task-editor.c:446 calendar/gui/event-editor.c:1172
+#: calendar/gui/dialogs/task-editor.c:446 calendar/gui/event-editor.c:1187
 msgid "FIXME: Define Print _Styles..."
 msgstr "FIXME: Ange utskrifts_stilar..."
 
-#: calendar/gui/dialogs/task-editor.c:453 calendar/gui/event-editor.c:1179
+#: calendar/gui/dialogs/task-editor.c:453 calendar/gui/event-editor.c:1194
 msgid "FIXME: S_end"
 msgstr "FIXME: S_kicka"
 
-#: calendar/gui/dialogs/task-editor.c:457 calendar/gui/event-editor.c:1183
+#: calendar/gui/dialogs/task-editor.c:457 calendar/gui/event-editor.c:1198
 msgid "FIXME: Save Attac_hments..."
 msgstr "FIXME: Spara _bilagor..."
 
-#: calendar/gui/dialogs/task-editor.c:461 calendar/gui/event-editor.c:1187
+#: calendar/gui/dialogs/task-editor.c:461 calendar/gui/event-editor.c:1202
 msgid "FIXME: _Move to Folder..."
 msgstr "FIXME: _Flytta till mapp..."
 
-#: calendar/gui/dialogs/task-editor.c:462 calendar/gui/event-editor.c:1188
+#: calendar/gui/dialogs/task-editor.c:462 calendar/gui/event-editor.c:1203
 msgid "FIXME: Cop_y to Folder..."
 msgstr "FIXME: _Kopiera till mapp..."
 
-#: calendar/gui/dialogs/task-editor.c:464 calendar/gui/event-editor.c:1190
+#: calendar/gui/dialogs/task-editor.c:464 calendar/gui/event-editor.c:1205
 msgid "Page Set_up"
 msgstr "S_idinställningar"
 
-#: calendar/gui/dialogs/task-editor.c:465 calendar/gui/event-editor.c:1191
+#: calendar/gui/dialogs/task-editor.c:465 calendar/gui/event-editor.c:1206
 msgid "FIXME: Print Pre_view"
 msgstr "FIXME: Förhandsgranska"
 
-#: calendar/gui/dialogs/task-editor.c:486 calendar/gui/event-editor.c:1212
+#: calendar/gui/dialogs/task-editor.c:486 calendar/gui/event-editor.c:1227
 msgid "FIXME: Paste _Special..."
 msgstr "FIXME: Klistra in _special..."
 
-#: calendar/gui/dialogs/task-editor.c:491 calendar/gui/event-editor.c:1217
+#: calendar/gui/dialogs/task-editor.c:491 calendar/gui/event-editor.c:1232
 msgid "FIXME: Mark as U_nread"
 msgstr "FIXME: Markera som _oläst"
 
-#: calendar/gui/dialogs/task-editor.c:495 calendar/gui/event-editor.c:1221
+#: calendar/gui/dialogs/task-editor.c:495 calendar/gui/event-editor.c:1236
 msgid "_Object"
 msgstr "_Objekt"
 
 #: calendar/gui/dialogs/task-editor.c:500
-#: calendar/gui/dialogs/task-editor.c:508 calendar/gui/event-editor.c:1226
-#: calendar/gui/event-editor.c:1233
+#: calendar/gui/dialogs/task-editor.c:508 calendar/gui/event-editor.c:1241
+#: calendar/gui/event-editor.c:1248
 msgid "FIXME: _Item"
 msgstr "FIXME: _Element"
 
 #: calendar/gui/dialogs/task-editor.c:501
-#: calendar/gui/dialogs/task-editor.c:509 calendar/gui/event-editor.c:1227
-#: calendar/gui/event-editor.c:1234
+#: calendar/gui/dialogs/task-editor.c:509 calendar/gui/event-editor.c:1242
+#: calendar/gui/event-editor.c:1249
 msgid "FIXME: _Unread Item"
 msgstr "FIXME: _Oläst element"
 
@@ -1323,15 +1323,15 @@ msgstr "FIXME: _Oläst element"
 msgid "FIXME: In_complete Task"
 msgstr "FIXME: In_komplett uppgift"
 
-#: calendar/gui/dialogs/task-editor.c:503 calendar/gui/event-editor.c:1228
+#: calendar/gui/dialogs/task-editor.c:503 calendar/gui/event-editor.c:1243
 msgid "FIXME: Fi_rst Item in Folder"
 msgstr "FIXME: Fö_rsta elementet i mappen"
 
-#: calendar/gui/dialogs/task-editor.c:511 calendar/gui/event-editor.c:1235
+#: calendar/gui/dialogs/task-editor.c:511 calendar/gui/event-editor.c:1250
 msgid "FIXME: _Last Item in Folder"
 msgstr "FIXME: S_ista elementet i mappen"
 
-#: calendar/gui/dialogs/task-editor.c:516 calendar/gui/event-editor.c:1240
+#: calendar/gui/dialogs/task-editor.c:516 calendar/gui/event-editor.c:1255
 msgid "FIXME: _Standard"
 msgstr "FIXME: _Standard"
 
@@ -1339,75 +1339,75 @@ msgstr "FIXME: _Standard"
 msgid "FIXME: __Formatting"
 msgstr "FIXME: _Formatering"
 
-#: calendar/gui/dialogs/task-editor.c:521 calendar/gui/event-editor.c:1245
+#: calendar/gui/dialogs/task-editor.c:521 calendar/gui/event-editor.c:1260
 msgid "FIXME: _Customize..."
 msgstr "FIXME: _Anpassa..."
 
-#: calendar/gui/dialogs/task-editor.c:526 calendar/gui/event-editor.c:1250
+#: calendar/gui/dialogs/task-editor.c:526 calendar/gui/event-editor.c:1265
 msgid "Pre_vious"
 msgstr "Föreg_ående"
 
-#: calendar/gui/dialogs/task-editor.c:527 calendar/gui/event-editor.c:1251
+#: calendar/gui/dialogs/task-editor.c:527 calendar/gui/event-editor.c:1266
 msgid "Ne_xt"
 msgstr "Nä_sta"
 
-#: calendar/gui/dialogs/task-editor.c:529 calendar/gui/event-editor.c:1255
+#: calendar/gui/dialogs/task-editor.c:529 calendar/gui/event-editor.c:1270
 msgid "_Toolbars"
 msgstr "_Verktygsrader"
 
-#: calendar/gui/dialogs/task-editor.c:534 calendar/gui/event-editor.c:1260
+#: calendar/gui/dialogs/task-editor.c:534 calendar/gui/event-editor.c:1275
 msgid "FIXME: _File..."
 msgstr "FIXME: _Fil..."
 
-#: calendar/gui/dialogs/task-editor.c:535 calendar/gui/event-editor.c:1261
+#: calendar/gui/dialogs/task-editor.c:535 calendar/gui/event-editor.c:1276
 msgid "FIXME: It_em..."
 msgstr "FIXME: _Element..."
 
-#: calendar/gui/dialogs/task-editor.c:536 calendar/gui/event-editor.c:1262
+#: calendar/gui/dialogs/task-editor.c:536 calendar/gui/event-editor.c:1277
 msgid "FIXME: _Object..."
 msgstr "FIXME: _Objekt..."
 
-#: calendar/gui/dialogs/task-editor.c:541 calendar/gui/event-editor.c:1267
+#: calendar/gui/dialogs/task-editor.c:541 calendar/gui/event-editor.c:1282
 msgid "FIXME: _Font..."
 msgstr "FIXME: _Typsnitt..."
 
-#: calendar/gui/dialogs/task-editor.c:542 calendar/gui/event-editor.c:1268
+#: calendar/gui/dialogs/task-editor.c:542 calendar/gui/event-editor.c:1283
 msgid "FIXME: _Paragraph..."
 msgstr "FIXME: _Stycke..."
 
-#: calendar/gui/dialogs/task-editor.c:549 calendar/gui/event-editor.c:1275
+#: calendar/gui/dialogs/task-editor.c:549 calendar/gui/event-editor.c:1290
 msgid "FIXME: Desi_gn This Form"
 msgstr "FIXME: _Utforma det här formuläret"
 
-#: calendar/gui/dialogs/task-editor.c:550 calendar/gui/event-editor.c:1276
+#: calendar/gui/dialogs/task-editor.c:550 calendar/gui/event-editor.c:1291
 msgid "FIXME: D_esign a Form..."
 msgstr "FIXME: Utf_orma ett formulär..."
 
-#: calendar/gui/dialogs/task-editor.c:552 calendar/gui/event-editor.c:1278
+#: calendar/gui/dialogs/task-editor.c:552 calendar/gui/event-editor.c:1293
 msgid "FIXME: Publish _Form..."
 msgstr "FIXME: Publicera _formulär..."
 
-#: calendar/gui/dialogs/task-editor.c:553 calendar/gui/event-editor.c:1279
+#: calendar/gui/dialogs/task-editor.c:553 calendar/gui/event-editor.c:1294
 msgid "FIXME: Pu_blish Form As..."
 msgstr "FIXME: Pu_blicera formulär som..."
 
-#: calendar/gui/dialogs/task-editor.c:555 calendar/gui/event-editor.c:1281
+#: calendar/gui/dialogs/task-editor.c:555 calendar/gui/event-editor.c:1296
 msgid "FIXME: Script _Debugger"
 msgstr "FIXME: Skriptfe_lsökare"
 
-#: calendar/gui/dialogs/task-editor.c:560 calendar/gui/event-editor.c:1286
+#: calendar/gui/dialogs/task-editor.c:560 calendar/gui/event-editor.c:1301
 msgid "FIXME: _Spelling..."
 msgstr "FIXME: _Stavning..."
 
-#: calendar/gui/dialogs/task-editor.c:562 calendar/gui/event-editor.c:1288
+#: calendar/gui/dialogs/task-editor.c:562 calendar/gui/event-editor.c:1303
 msgid "FIXME: Chec_k Names"
 msgstr "FIXME: _Kontrollera namn"
 
-#: calendar/gui/dialogs/task-editor.c:563 calendar/gui/event-editor.c:1289
+#: calendar/gui/dialogs/task-editor.c:563 calendar/gui/event-editor.c:1304
 msgid "FIXME: Address _Book..."
 msgstr "FIXME: Adress_bok..."
 
-#: calendar/gui/dialogs/task-editor.c:565 calendar/gui/event-editor.c:1291
+#: calendar/gui/dialogs/task-editor.c:565 calendar/gui/event-editor.c:1306
 msgid "_Forms"
 msgstr "_Formulär"
 
@@ -1423,7 +1423,7 @@ msgstr "FIXME: Skick_a statusrapport"
 msgid "FIXME: _Mark Complete"
 msgstr "FIXME: _Markera som utförd"
 
-#: calendar/gui/dialogs/task-editor.c:575 calendar/gui/event-editor.c:1298
+#: calendar/gui/dialogs/task-editor.c:575 calendar/gui/event-editor.c:1313
 msgid "FIXME: Rec_urrence..."
 msgstr "FIXME: _Återkommande..."
 
@@ -1443,28 +1443,28 @@ msgstr "FIXME: Svara"
 msgid "FIXME: Reply to A_ll"
 msgstr "FIXME: Svara till alla"
 
-#: calendar/gui/dialogs/task-editor.c:582 calendar/gui/event-editor.c:1304
+#: calendar/gui/dialogs/task-editor.c:582 calendar/gui/event-editor.c:1318
 msgid "FIXME: For_ward"
 msgstr "FIXME: _Vidarebefordra"
 
-#: calendar/gui/dialogs/task-editor.c:595 calendar/gui/event-editor.c:1317
+#: calendar/gui/dialogs/task-editor.c:595 calendar/gui/event-editor.c:1331
 msgid "_Insert"
 msgstr "_Infoga"
 
-#: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1318
+#: calendar/gui/dialogs/task-editor.c:596 calendar/gui/event-editor.c:1332
 #: composer/e-msg-composer.c:992
 msgid "F_ormat"
 msgstr "F_ormatera"
 
-#: calendar/gui/dialogs/task-editor.c:597 calendar/gui/event-editor.c:1319
+#: calendar/gui/dialogs/task-editor.c:597 calendar/gui/event-editor.c:1333
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: calendar/gui/dialogs/task-editor.c:598 calendar/gui/event-editor.c:1320
+#: calendar/gui/dialogs/task-editor.c:598 calendar/gui/event-editor.c:1334
 msgid "Actio_ns"
 msgstr "_Åtgärder"
 
-#: calendar/gui/dialogs/task-editor.c:624 calendar/gui/event-editor.c:1345
+#: calendar/gui/dialogs/task-editor.c:624 calendar/gui/event-editor.c:1359
 msgid "Save and Close"
 msgstr "Spara och stäng"
 
@@ -1472,19 +1472,19 @@ msgstr "Spara och stäng"
 msgid "Save the task and close the dialog box"
 msgstr "Spara uppgiften och stäng dialogrutan"
 
-#: calendar/gui/dialogs/task-editor.c:629 calendar/gui/event-editor.c:1362
+#: calendar/gui/dialogs/task-editor.c:629 calendar/gui/event-editor.c:1376
 msgid "FIXME: Print..."
 msgstr "FIXME: Skriv ut..."
 
-#: calendar/gui/dialogs/task-editor.c:630 calendar/gui/event-editor.c:1363
+#: calendar/gui/dialogs/task-editor.c:630 calendar/gui/event-editor.c:1377
 msgid "Print this item"
 msgstr "Skriv ut detta objekt"
 
-#: calendar/gui/dialogs/task-editor.c:633 calendar/gui/event-editor.c:1368
+#: calendar/gui/dialogs/task-editor.c:633 calendar/gui/event-editor.c:1382
 msgid "FIXME: Insert File..."
 msgstr "FIXME: Infoga fil..."
 
-#: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1369
+#: calendar/gui/dialogs/task-editor.c:634 calendar/gui/event-editor.c:1383
 msgid "Insert a file as an attachment"
 msgstr "Infoga en fil som bilaga"
 
@@ -1498,7 +1498,7 @@ msgstr "Tilldela uppgiften till någon"
 
 #: calendar/gui/dialogs/task-editor.c:644 calendar/gui/e-calendar-table.c:324
 #: calendar/gui/event-editor-dialog.glade.h:92
-#: calendar/gui/event-editor.c:1350 mail/mail-config.glade.h:13
+#: calendar/gui/event-editor.c:1364 mail/mail-config.glade.h:13
 #: mail/mail-config.glade.h:18 mail/mail-config.glade.h:24
 #: mail/mail-view.c:163
 msgid "Delete"
@@ -1508,27 +1508,27 @@ msgstr "Ta bort"
 msgid "Delete this task"
 msgstr "Ta bort uppgiften"
 
-#: calendar/gui/dialogs/task-editor.c:649 calendar/gui/event-editor.c:1379
+#: calendar/gui/dialogs/task-editor.c:649 calendar/gui/event-editor.c:1393
 msgid "FIXME: Previous"
 msgstr "FIXME: Föregående"
 
-#: calendar/gui/dialogs/task-editor.c:650 calendar/gui/event-editor.c:1380
+#: calendar/gui/dialogs/task-editor.c:650 calendar/gui/event-editor.c:1394
 msgid "Go to the previous item"
 msgstr "Gå till det föregående objektet"
 
-#: calendar/gui/dialogs/task-editor.c:653 calendar/gui/event-editor.c:1382
+#: calendar/gui/dialogs/task-editor.c:653 calendar/gui/event-editor.c:1396
 msgid "FIXME: Next"
 msgstr "FIXME: Nästa"
 
-#: calendar/gui/dialogs/task-editor.c:654 calendar/gui/event-editor.c:1383
+#: calendar/gui/dialogs/task-editor.c:654 calendar/gui/event-editor.c:1397
 msgid "Go to the next item"
 msgstr "Gå till nästa objekt"
 
-#: calendar/gui/dialogs/task-editor.c:657 calendar/gui/event-editor.c:1385
+#: calendar/gui/dialogs/task-editor.c:657 calendar/gui/event-editor.c:1399
 msgid "FIXME: Help"
 msgstr "FIXME: Hjälp"
 
-#: calendar/gui/dialogs/task-editor.c:658 calendar/gui/event-editor.c:1386
+#: calendar/gui/dialogs/task-editor.c:658 calendar/gui/event-editor.c:1400
 msgid "See online help"
 msgstr "Läs onlinehjälp"
 
@@ -1536,21 +1536,21 @@ msgstr "Läs onlinehjälp"
 msgid "Edit Task"
 msgstr "Redigera uppgift"
 
-#: calendar/gui/dialogs/task-editor.c:919 calendar/gui/event-editor.c:284
+#: calendar/gui/dialogs/task-editor.c:919 calendar/gui/event-editor.c:285
 msgid "No summary"
 msgstr "Ingen sammanfattning"
 
-#: calendar/gui/dialogs/task-editor.c:925 calendar/gui/event-editor.c:290
+#: calendar/gui/dialogs/task-editor.c:925 calendar/gui/event-editor.c:291
 #, c-format
 msgid "Appointment - %s"
 msgstr "Möte - %s"
 
-#: calendar/gui/dialogs/task-editor.c:928 calendar/gui/event-editor.c:293
+#: calendar/gui/dialogs/task-editor.c:928 calendar/gui/event-editor.c:294
 #, c-format
 msgid "Task - %s"
 msgstr "Uppgift - %s"
 
-#: calendar/gui/dialogs/task-editor.c:931 calendar/gui/event-editor.c:296
+#: calendar/gui/dialogs/task-editor.c:931 calendar/gui/event-editor.c:297
 #, c-format
 msgid "Journal entry - %s"
 msgstr "Dagbokspost - %s"
@@ -1574,7 +1574,7 @@ msgstr "Sta_rtdatum:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:10
 msgid "_Due Date:"
-msgstr "_Datum för senaste utförande:"
+msgstr "Förfallo_datum:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:11
 msgid "% Comp_lete:"
@@ -1637,7 +1637,7 @@ msgstr "Uppgift"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:29
 msgid "Date Completed:"
-msgstr "Datum för utförande:"
+msgstr "Datum utfört:"
 
 #: calendar/gui/dialogs/task-editor-dialog.glade.h:30
 msgid "URL:"
@@ -1667,7 +1667,7 @@ msgstr "Startdatum"
 
 #: calendar/gui/e-calendar-table.c:201
 msgid "Due date"
-msgstr "Datum för senaste utförande"
+msgstr "Förfallodatum"
 
 #: calendar/gui/e-calendar-table.c:202
 msgid "Geographical position"
@@ -1734,7 +1734,7 @@ msgid "Edit this appointment..."
 msgstr "Redigera detta möte..."
 
 #: calendar/gui/e-day-view.c:2513 calendar/gui/e-week-view.c:2963
-#: calendar/gui/event-editor.c:1351
+#: calendar/gui/event-editor.c:1365
 msgid "Delete this appointment"
 msgstr "Ta bort detta möte"
 
@@ -1750,51 +1750,47 @@ msgstr "Ta bort denna förekomst"
 msgid "Delete all occurrences"
 msgstr "Ta bort alla förekomster"
 
-#: calendar/gui/event-editor.c:278
+#: calendar/gui/event-editor.c:279
 msgid "Edit Appointment"
 msgstr "Redigera möte"
 
-#: calendar/gui/event-editor.c:1242
+#: calendar/gui/event-editor.c:1257
 msgid "FIXME: _Formatting"
 msgstr "FIXME: _Formatering"
 
-#: calendar/gui/event-editor.c:1253
+#: calendar/gui/event-editor.c:1268
 msgid "FIXME: Ca_lendar..."
 msgstr "FIXME: Ka_lender..."
 
-#: calendar/gui/event-editor.c:1296
+#: calendar/gui/event-editor.c:1311
 msgid "FIXME: _New Appointment"
 msgstr "FIXME: _Nytt möte"
 
-#: calendar/gui/event-editor.c:1300
-msgid "FIXME: Invite _Attendees..."
-msgstr "FIXME: Bjud in delt_agare..."
+#: calendar/gui/event-editor.c:1315
+msgid "Schedule _Meeting..."
+msgstr "Boka _möte..."
 
-#: calendar/gui/event-editor.c:1301
-msgid "FIXME: C_ancel Invitation..."
-msgstr "FIXME: _Avbryt inbjudning..."
-
-#: calendar/gui/event-editor.c:1303
+#: calendar/gui/event-editor.c:1317
 msgid "FIXME: Forward as v_Calendar"
 msgstr "FIXME: Vidarebefordra som v_Calendar"
 
-#: calendar/gui/event-editor.c:1346
+#: calendar/gui/event-editor.c:1360
 msgid "Save and close this appointment"
 msgstr "Spara och stäng detta möte"
 
-#: calendar/gui/event-editor.c:1356
+#: calendar/gui/event-editor.c:1370
 msgid "Close this appointment"
 msgstr "Ta bort detta möte"
 
-#: calendar/gui/event-editor.c:1372
+#: calendar/gui/event-editor.c:1386
 msgid "FIXME: Invite Attendees..."
 msgstr "FIXME: Bjud in deltagare"
 
-#: calendar/gui/event-editor.c:1373
+#: calendar/gui/event-editor.c:1387
 msgid "Invite attendees to a meeting"
 msgstr "Bjud in deltagare till ett möte"
 
-#: calendar/gui/event-editor.c:1930
+#: calendar/gui/event-editor.c:1944
 msgid "%a %b %d %Y"
 msgstr "%a %d %b %Y"
 
@@ -2294,7 +2290,7 @@ msgstr "Sammanfattning:"
 
 #: calendar/gui/gncal-todo.c:186
 msgid "Due Date:"
-msgstr "Datum för senaste utförande:"
+msgstr "Förfallodatum:"
 
 #: calendar/gui/gncal-todo.c:201
 msgid "Priority:"
@@ -2625,11 +2621,11 @@ msgstr "Visa på ATT GÖRA-listan:"
 
 #: calendar/gui/prop.c:610
 msgid "Due Date"
-msgstr "Datum för senaste utförande"
+msgstr "Förfallodatum"
 
 #: calendar/gui/prop.c:612
 msgid "Time Until Due"
-msgstr "Tid till senaste"
+msgstr "Tid till förfallodatum"
 
 #: calendar/gui/prop.c:643
 msgid "To Do List style options:"
@@ -2873,11 +2869,11 @@ msgstr ""
 
 #: composer/e-msg-composer-hdrs.c:319
 msgid "Subject:"
-msgstr "Ämne:"
+msgstr "Ärende:"
 
 #: composer/e-msg-composer-hdrs.c:320
 msgid "Enter the subject of the mail"
-msgstr "Ange brevets ämne"
+msgstr "Ange brevets ärende"
 
 #: composer/e-msg-composer.c:438
 msgid "Save as..."
@@ -3061,7 +3057,7 @@ msgstr "Skriv ett meddelande"
 
 #: composer/e-msg-composer.c:1321
 msgid "Could not create composer window."
-msgstr "Kunde inte skapa meddelanderedigerarfönster."
+msgstr "Kunde inte skapa fönster för meddelanderedigering."
 
 #: filter/filter-datespec.c:61
 msgid "years"
@@ -3288,18 +3284,18 @@ msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
-"Detta meddelandet har inget ämne.\n"
+"Detta meddelande har inget ärende.\n"
 "Vill du verkligen skicka?"
 
-#: mail/mail-callbacks.c:492
+#: mail/mail-callbacks.c:502
 msgid "Move message(s) to"
 msgstr "Flytta meddelande(n) till"
 
-#: mail/mail-callbacks.c:494
+#: mail/mail-callbacks.c:504
 msgid "Copy message(s) to"
 msgstr "Kopiera meddelande(n) till"
 
-#: mail/mail-callbacks.c:595
+#: mail/mail-callbacks.c:605
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -3307,7 +3303,7 @@ msgstr ""
 "Du kan bara redigera meddelanden\n"
 "som du sparat i mappen Drafts."
 
-#: mail/mail-callbacks.c:686
+#: mail/mail-callbacks.c:696
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -3606,259 +3602,259 @@ msgstr "Byt format på mappen \"%s\" till \"%s\""
 msgid " (XXX unread)"
 msgstr " (XXX olästa)"
 
-#: mail/mail-ops.c:67
+#: mail/mail-ops.c:68
 #, c-format
 msgid "Fetching email from %s"
 msgstr "Hämtar e-post från %s"
 
-#: mail/mail-ops.c:69
+#: mail/mail-ops.c:70
 #, c-format
 msgid "Fetch email from %s"
 msgstr "Hämta e-post från %s"
 
-#: mail/mail-ops.c:243
+#: mail/mail-ops.c:258
 #, c-format
 msgid "There is no new mail at %s."
 msgstr "Det finns ingen ny e-post på %s."
 
-#: mail/mail-ops.c:297
+#: mail/mail-ops.c:312
 msgid "Filtering email on demand"
 msgstr "Filtrerar e-post vid behov"
 
-#: mail/mail-ops.c:299
+#: mail/mail-ops.c:314
 msgid "Filter email on demand"
 msgstr "Filtrera e-post vid behov"
 
-#: mail/mail-ops.c:445
+#: mail/mail-ops.c:481
 #, c-format
 msgid "Sending \"%s\""
 msgstr "Skickar \"%s\""
 
-#: mail/mail-ops.c:450
+#: mail/mail-ops.c:486
 msgid "Sending a message without a subject"
-msgstr "Skickar ett meddelande utan ämnesbeskrivning"
+msgstr "Skickar ett meddelande utan ett ärende"
 
-#: mail/mail-ops.c:453
+#: mail/mail-ops.c:489
 #, c-format
 msgid "Send \"%s\""
 msgstr "Skicka \"%s\""
 
-#: mail/mail-ops.c:456
+#: mail/mail-ops.c:492
 msgid "Send a message without a subject"
-msgstr "Skicka ett meddelande utan ämnesbeskrivning"
+msgstr "Skicka ett meddelande utan ett ärende"
 
-#: mail/mail-ops.c:600
+#: mail/mail-ops.c:636
 msgid "Sending queue"
 msgstr "Skickar kö"
 
-#: mail/mail-ops.c:602
+#: mail/mail-ops.c:638
 msgid "Send queue"
 msgstr "Skicka kö"
 
-#: mail/mail-ops.c:738 mail/mail-ops.c:745
+#: mail/mail-ops.c:774 mail/mail-ops.c:781
 #, c-format
 msgid "Appending \"%s\""
 msgstr "Tillägger \"%s\""
 
-#: mail/mail-ops.c:742 mail/mail-ops.c:748
+#: mail/mail-ops.c:778 mail/mail-ops.c:784
 msgid "Appending a message without a subject"
-msgstr "Tillägger ett meddelande utan ämnesbeskrivning"
+msgstr "Tillägger ett meddelande utan ett ärende"
 
-#: mail/mail-ops.c:820
+#: mail/mail-ops.c:856
 #, c-format
 msgid "Expunging \"%s\""
 msgstr "Tömmer \"%s\""
 
-#: mail/mail-ops.c:822
+#: mail/mail-ops.c:858
 #, c-format
 msgid "Expunge \"%s\""
 msgstr "Töm \"%s\""
 
-#: mail/mail-ops.c:881
+#: mail/mail-ops.c:917
 #, c-format
 msgid "Moving messages from \"%s\" into \"%s\""
 msgstr "Flyttar meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:883
+#: mail/mail-ops.c:919
 #, c-format
 msgid "Copying messages from \"%s\" into \"%s\""
 msgstr "Kopierar meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:886
+#: mail/mail-ops.c:922
 #, c-format
 msgid "Move messages from \"%s\" into \"%s\""
 msgstr "Flytta meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:888
+#: mail/mail-ops.c:924
 #, c-format
 msgid "Copy messages from \"%s\" into \"%s\""
 msgstr "Kopiera meddelanden från \"%s\" till \"%s\""
 
-#: mail/mail-ops.c:918
+#: mail/mail-ops.c:954
 msgid "Moving"
 msgstr "Flyttar"
 
-#: mail/mail-ops.c:921
+#: mail/mail-ops.c:957
 msgid "Copying"
 msgstr "Kopierar"
 
-#: mail/mail-ops.c:933
+#: mail/mail-ops.c:969
 #, c-format
 msgid "%s message %d of %d (uid \"%s\")"
 msgstr "%s meddelande %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1010
+#: mail/mail-ops.c:1046
 #, c-format
 msgid "Marking messages in folder \"%s\""
 msgstr "Märker meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1013
+#: mail/mail-ops.c:1049
 #, c-format
 msgid "Mark messages in folder \"%s\""
 msgstr "Märk meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1156
+#: mail/mail-ops.c:1192
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr "Skannar mappar i \"%s\""
 
-#: mail/mail-ops.c:1159
+#: mail/mail-ops.c:1195
 #, c-format
 msgid "Scan folders in \"%s\""
 msgstr "Skanna mappar i \"%s\""
 
-#: mail/mail-ops.c:1203
+#: mail/mail-ops.c:1239
 #, c-format
 msgid "Found subfolder \"%s\""
 msgstr "Hittade undermapp \"%s\""
 
-#: mail/mail-ops.c:1237
+#: mail/mail-ops.c:1273
 msgid "(No description)"
 msgstr "(Ingen beskrivning)"
 
-#: mail/mail-ops.c:1295
+#: mail/mail-ops.c:1331
 #, c-format
 msgid "Attaching messages from folder \"%s\""
 msgstr "Bifogar meddelanden i mappen \"%s\""
 
-#: mail/mail-ops.c:1298
+#: mail/mail-ops.c:1334
 #, c-format
 msgid "Attach messages from \"%s\""
 msgstr "Bifoga meddelanden i \"%s\""
 
-#: mail/mail-ops.c:1401
+#: mail/mail-ops.c:1437
 #, c-format
 msgid "Forwarding messages \"%s\""
 msgstr "Vidarebefordra meddelanden \"%s\""
 
-#: mail/mail-ops.c:1406
+#: mail/mail-ops.c:1442
 msgid "Forwarding a message without a subject"
-msgstr "Vidarebefordrar meddelande utan ämnesbeskrivning"
+msgstr "Vidarebefordrar meddelande utan ett ärende"
 
-#: mail/mail-ops.c:1409
+#: mail/mail-ops.c:1445
 #, c-format
 msgid "Forward message \"%s\""
 msgstr "Vidarebefordra meddelande \"%s\""
 
-#: mail/mail-ops.c:1414
+#: mail/mail-ops.c:1450
 msgid "Forward a message without a subject"
-msgstr "Vidarebefordra ett meddelande utan ämnesbeskrivning"
+msgstr "Vidarebefordra ett meddelande utan ett ärende"
 
-#: mail/mail-ops.c:1443
+#: mail/mail-ops.c:1479
 #, c-format
 msgid "Retrieving message number %d of %d (uid \"%s\")"
 msgstr "Hämtar meddelande nummer %d av %d (uid \"%s\")"
 
-#: mail/mail-ops.c:1456
+#: mail/mail-ops.c:1492
 msgid ""
 "Failed to generate mime part from message while generating forwarded message."
 msgstr ""
 "Misslyckades med att generera mime-del från meddelande när ett "
 "vidarebefordrat meddelande skulle genereras."
 
-#: mail/mail-ops.c:1542
+#: mail/mail-ops.c:1578
 #, c-format
 msgid "Loading \"%s\""
 msgstr "Laddar \"%s\""
 
-#: mail/mail-ops.c:1544
+#: mail/mail-ops.c:1580
 #, c-format
 msgid "Load \"%s\""
 msgstr "Ladda \"%s\""
 
-#: mail/mail-ops.c:1646
+#: mail/mail-ops.c:1682
 #, c-format
 msgid "Creating \"%s\""
 msgstr "Skapar \"%s\""
 
-#: mail/mail-ops.c:1648
+#: mail/mail-ops.c:1684
 #, c-format
 msgid "Create \"%s\""
 msgstr "Skapa \"%s\""
 
-#: mail/mail-ops.c:1694
+#: mail/mail-ops.c:1730
 msgid "Exception while reporting result to shell component listener."
 msgstr "Undantag vid rapportering av resultat till skalkomponentslyssnaren."
 
-#: mail/mail-ops.c:1740
+#: mail/mail-ops.c:1776
 #, c-format
 msgid "Synchronizing \"%s\""
 msgstr "Synkroniserar \"%s\""
 
-#: mail/mail-ops.c:1742
+#: mail/mail-ops.c:1778
 #, c-format
 msgid "Synchronize \"%s\""
 msgstr "Synkronisera \"%s\""
 
-#: mail/mail-ops.c:1805
+#: mail/mail-ops.c:1841
 #, c-format
 msgid "Displaying message UID \"%s\""
 msgstr "Visar meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:1808
+#: mail/mail-ops.c:1844
 msgid "Clearing message display"
 msgstr "Tömmer meddelandevisningen"
 
-#: mail/mail-ops.c:1811
+#: mail/mail-ops.c:1847
 #, c-format
 msgid "Display message UID \"%s\""
 msgstr "Visa meddelande-UID \"%s\""
 
-#: mail/mail-ops.c:1814
+#: mail/mail-ops.c:1850
 msgid "Clear message display"
 msgstr "Töm meddelandevisning"
 
-#: mail/mail-ops.c:1923
+#: mail/mail-ops.c:1959
 #, c-format
 msgid "Opening messages from folder \"%s\""
 msgstr "Öppnar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:1926
+#: mail/mail-ops.c:1962
 #, c-format
 msgid "Open messages from \"%s\""
 msgstr "Öppnar meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2030
+#: mail/mail-ops.c:2066
 #, c-format
 msgid "Loading %s Folder"
 msgstr "Laddar mappen %s"
 
-#: mail/mail-ops.c:2032
+#: mail/mail-ops.c:2068
 #, c-format
 msgid "Load %s Folder"
 msgstr "Ladda mappen %s"
 
-#: mail/mail-ops.c:2097
+#: mail/mail-ops.c:2133
 #, c-format
 msgid "Viewing messages from folder \"%s\""
 msgstr "Visar meddelanden från mappen \"%s\""
 
-#: mail/mail-ops.c:2100
+#: mail/mail-ops.c:2136
 #, c-format
 msgid "View messages from \"%s\""
 msgstr "Visa meddelanden från \"%s\""
 
-#: mail/mail-ops.c:2126
+#: mail/mail-ops.c:2162
 #, c-format
 msgid "Retrieving message %d of %d (uid \"%s\")"
 msgstr "Hämtar meddelande %d av %d (uid \"%s\")"
@@ -3926,7 +3922,7 @@ msgstr "[%s] (vidarebefordrat meddelande)"
 
 #: mail/mail-tools.c:398
 msgid "Fwd: (no subject)"
-msgstr "Fwd: (inget ämne)"
+msgstr "Fwd: (inget ärende)"
 
 #: mail/mail-tools.c:435
 #, c-format
@@ -3935,7 +3931,7 @@ msgstr "Vidarebefordrat meddelande - %s"
 
 #: mail/mail-tools.c:437
 msgid "Forwarded message (no subject)"
-msgstr "Vidarebefordrat meddelande (inget ämne)"
+msgstr "Vidarebefordrat meddelande (inget ärende)"
 
 #: mail/mail-tools.c:545
 #, c-format
@@ -3999,7 +3995,7 @@ msgstr "Från"
 
 #: mail/message-list.c:979
 msgid "Subject"
-msgstr "Ämne"
+msgstr "Ärende"
 
 #: mail/message-list.c:986
 msgid "Date"
@@ -4051,7 +4047,7 @@ msgstr "Kopiera meddelande"
 
 #: mail/message-list.c:1654
 msgid "VFolder on Subject"
-msgstr "Virtuell mapp på ämne"
+msgstr "Virtuell mapp på ärende"
 
 #: mail/message-list.c:1655
 msgid "VFolder on Sender"
@@ -4063,7 +4059,7 @@ msgstr "Virtuell mapp på mottagare"
 
 #: mail/message-list.c:1658
 msgid "Filter on Subject"
-msgstr "Filtrera på ämne"
+msgstr "Filtrera på ärende"
 
 #: mail/message-list.c:1659
 msgid "Filter on Sender"
@@ -4514,6 +4510,12 @@ msgstr "%Y-%m-%d"
 #, c-format
 msgid "Group %i"
 msgstr "Grupp %i"
+
+#~ msgid "FIXME: Invite _Attendees..."
+#~ msgstr "FIXME: Bjud in delt_agare..."
+
+#~ msgid "FIXME: C_ancel Invitation..."
+#~ msgstr "FIXME: _Avbryt inbjudning..."
 
 #~ msgid ""
 #~ "Not Started\n"
