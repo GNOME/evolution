@@ -1,3 +1,8 @@
+2004-10-19  JP Rosevear  <jpr@novell.com>
+
+	* e-msg-composer.c, e-msg-composer-attachment-bar.c: convert to
+	org.gnome hook names
+
 2004-10-08  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer.c (build_message): g_strdup() the gpg/smime keys
