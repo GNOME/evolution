@@ -7,7 +7,7 @@
     <subject>
       <category>GNOME|Applications</category>
     </subject>
-    <format mime="text/html"/>
+    <format mime="text/html" />
     <identifier url="index.html"/>
     <language code="C"/>
   </resource>

@@ -1,3 +1,13 @@
+2002-03-12  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Replaced "png" with "PNG".  This shouldn't break the SGML build and it's a slow start to the XML porting process.
+	Included information about how to create an HTML signature.
+
+2002-03-11  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-mail.sgml: Redid wording on a title, minute change.
+	Fix indenting.
+
 2002-02-10  Kevin Breit  <mrproper@ximian.com>
 
 	* C/evolution-C.omf: Removed "The" from title.
