@@ -139,8 +139,8 @@ camel_mime_message_init (gpointer object, gpointer klass)
 {
 	CamelMimeMessage *camel_mime_message = CAMEL_MIME_MESSAGE (object);
 
-	camel_mime_message->recipients =  g_hash_table_new(g_str_hash, g_str_equal);
-	camel_mime_message->flags = g_hash_table_new(g_str_hash, g_str_equal);
+	camel_mime_message->recipients =  g_hash_table_new (g_str_hash, g_str_equal);
+	camel_mime_message->flags = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
 GtkType

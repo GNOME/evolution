@@ -36,6 +36,7 @@ extern "C" {
 typedef struct _CamelFolder CamelFolder;
 
 #include "camel-store.h"
+#include "camel-mime-message.h"
 
 #define CAMEL_FOLDER_TYPE     (camel_folder_get_type ())
 #define CAMEL_FOLDER(obj)     (GTK_CHECK_CAST((obj), CAMEL_FOLDER_TYPE, CamelFolder))
@@ -97,6 +98,7 @@ typedef struct {
 	CamelFolderOpenMode (*get_mode) (CamelFolder *folder);
 	GList *  (*list_subfolders) (CamelFolder *folder);
 	GList *  (*expunge) (CamelFolder *folder);
+	CamelMimeMessage * (*get_message) (CamelFolder *folder, gint number);
 } CamelFolderClass;
 
 
@@ -119,6 +121,9 @@ void camel_folder_set_name (CamelFolder *folder, const gchar *name);
 const gchar *camel_folder_get_name (CamelFolder *folder);
 /*  void camel_folder_set_full_name (CamelFolder *folder, const gchar *name); */
 const gchar *camel_folder_get_full_name (CamelFolder *folder);
+CamelMimeMessage *camel_folder_get_message (CamelFolder *folder, gint number);
+
+
 
 
 #ifdef __cplusplus

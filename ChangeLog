@@ -1,6 +1,14 @@
+1999-08-05  root  <guiheneu@linoleum.inria.fr>
+
+
 1999-08-05  bertrand  <Bertrand.Guiheneuf@aful.org>
 
-	* camel/README.HACKING: 
+	* camel/camel-folder.c (_get_message): 
+	new method. 
+	(camel_folder_get_message): 
+	corresponding public call
+	
+* camel/README.HACKING: 
 	Some notes.
 
 	* camel/CODING.STYLE: 

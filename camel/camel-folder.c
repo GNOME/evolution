@@ -49,6 +49,7 @@ static CamelStore *_get_parent_store (CamelFolder *folder);
 static CamelFolderOpenMode _get_mode (CamelFolder *folder);
 static GList *_list_subfolders (CamelFolder *folder);
 static GList *_expunge (CamelFolder *folder);
+static CamelMimeMessage *_get_message (CamelFolder *folder, gint number);
 
 static void
 camel_folder_class_init (CamelFolderClass *camel_folder_class)
@@ -74,6 +75,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->get_mode = _get_mode;
 	camel_folder_class->list_subfolders = _list_subfolders;
 	camel_folder_class->expunge = _expunge;
+	camel_folder_class->get_message = _get_message;
 	/* virtual method overload */
 }
 
@@ -722,3 +724,29 @@ camel_folder_expunge (CamelFolder *folder)
     return CF_CLASS (folder)->expunge (folder);
 }
 
+
+
+
+static CamelMimeMessage *
+_get_message (CamelFolder *folder, gint number)
+{
+	return NULL;
+}
+
+
+
+
+/**
+ * _get_message: return the message corresponding to that number in the folder
+ * @folder: a CamelFolder object
+ * @number: the number of the message within the folder.
+ * 
+ * Return the message corresponding to that number within the folder.
+ * 
+ * Return value: A pointer on the corresponding message or NULL if no corresponding message exists
+ **/
+CamelMimeMessage *
+camel_folder_get_message (CamelFolder *folder, gint number)
+{
+	return CF_CLASS (folder)->get_message (folder, number);
+}

@@ -31,6 +31,8 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+typedef struct _CamelMimeMessage CamelMimeMessage;
+
 #include <gtk/gtk.h>
 #include "camel-mime-part.h"
 #include "camel-folder.h"
@@ -49,7 +51,7 @@ extern "C" {
 
 
 
-typedef struct 
+struct _CamelMimeMessage
 {
 	CamelMimePart parent_object;
 
@@ -73,7 +75,7 @@ typedef struct
 	CamelFolder *folder;
 	CamelSession *session;
 	
-} CamelMimeMessage;
+} ;
 
 
 
