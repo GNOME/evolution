@@ -3,37 +3,22 @@
 #include <libgnomeui/gnome-init.h>
 #include "e-card.h"
 
-#define TEST_VCARD                   \
-"BEGIN:VCARD
-"                      \
-"FN:Nat
-"                           \
-"N:Friedman;Nat;D;Mr.
-"             \
-"ORG:Ximian, Inc.
-"             \
-"TITLE:Head Geek
-"                  \
-"ROLE:Programmer/Executive
-"        \
-"BDAY:1977-08-06
-"                  \
-"TEL;WORK:617 679 1984
-"            \
-"TEL;CELL:123 456 7890
-"            \
-"EMAIL;INTERNET:nat@nat.org
-"       \
-"EMAIL;INTERNET:nat@ximian.com
-" \
-"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
-" \
-"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA
-" \
-"END:VCARD
-"                        \
-"
-"
+#define TEST_VCARD                     \
+"BEGIN:VCARD\r\n"                      \
+"FN:Nat\r\n"                           \
+"N:Friedman;Nat;D;Mr.\r\n"             \
+"ORG:Ximian, Inc.\r\n"                 \
+"TITLE:Head Geek\r\n"                  \
+"ROLE:Programmer/Executive\r\n"        \
+"BDAY:1977-08-06\r\n"                  \
+"TEL;WORK:617 679 1984\r\n"            \
+"TEL;CELL:123 456 7890\r\n"            \
+"EMAIL;INTERNET:nat@nat.org\r\n"       \
+"EMAIL;INTERNET:nat@ximian.com\r\n"    \
+"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;\r\n" \
+"ADR;HOME;POSTAL;INTL:P.O. Box 202;;;Any Town 2;MI;12344-4321;USA\r\n" \
+"END:VCARD\r\n"                        \
+"\r\n"
 
 static char *
 read_file (char *name)
