@@ -46,6 +46,7 @@
 
 #include <bonobo/bonobo-ui-component.h>
 
+#include <string.h>
 
 /* Utility functions.  */
 
@@ -608,6 +609,21 @@ shell_line_status_changed_cb (EShell *shell,
 	update_offline_menu_item (shell_window, new_status);
 }
 
+static void
+view_toolbar_item_toggled_handler (BonoboUIComponent           *ui_component,
+				   const char                  *path,
+				   Bonobo_UIComponent_EventType type,
+				   const char                  *state,
+				   EShellWindow                *shell_window)
+{
+	gboolean is_visible;
+
+	is_visible = state[0] == '1';
+
+	bonobo_ui_component_set_prop (ui_component, "/Toolbar",
+				      "hidden", is_visible ? "0" : "1", NULL);
+}
+
 
 /* Public API.  */
 
@@ -628,6 +644,9 @@ e_shell_window_commands_setup (EShellWindow *shell_window)
 	bonobo_ui_component_add_verb_list_with_data (uic, actions_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, tools_verbs, shell_window);
 	bonobo_ui_component_add_verb_list_with_data (uic, help_verbs, shell_window);
+	bonobo_ui_component_add_listener (uic, "ViewToolbar",
+					  (BonoboUIListenerFn)view_toolbar_item_toggled_handler,
+					  (gpointer)shell_window);
 
 	e_pixmaps_update (uic, pixmaps);
 

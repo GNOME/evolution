@@ -574,6 +574,7 @@ setup_widgets (EShellWindow *window)
 	GSList *p;
 	GString *xml;
 	int button_id;
+	gboolean toolbar_visible;
 
 	priv->paned = gtk_hpaned_new ();
 
@@ -594,6 +595,20 @@ setup_widgets (EShellWindow *window)
 
 	gtk_paned_set_position (GTK_PANED (priv->paned),
 				gconf_client_get_int (gconf_client, "/apps/evolution/shell/view_defaults/folder_bar/width", NULL));
+
+	toolbar_visible = gconf_client_get_bool (gconf_client,
+						 "/apps/evolution/shell/view_defaults/toolbar_visible",
+						 NULL);
+	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+				      "/commands/ViewToolbar",
+				      "state",
+				      toolbar_visible ? "1" : "0",
+				      NULL);
+	bonobo_ui_component_set_prop (e_shell_window_peek_bonobo_ui_component (window),
+				      "/Toolbar",
+				      "hidden",
+				      toolbar_visible ? "0" : "1",
+				      NULL);
 
 	button_id = 0;
 	xml = g_string_new("");
@@ -862,6 +877,8 @@ void
 e_shell_window_save_defaults (EShellWindow *window)
 {
 	GConfClient *client = gconf_client_get_default ();
+	char *prop;
+	gboolean toolbar_visible;
 
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/width",
 			      GTK_WIDGET (window)->allocation.width, NULL);
@@ -870,6 +887,19 @@ e_shell_window_save_defaults (EShellWindow *window)
 
 	gconf_client_set_int (client, "/apps/evolution/shell/view_defaults/folder_bar/width",
 			      gtk_paned_get_position (GTK_PANED (window->priv->paned)), NULL);
+
+	prop = bonobo_ui_component_get_prop (e_shell_window_peek_bonobo_ui_component (window),
+					     "/commands/ViewToolbar",
+					     "state",
+					     NULL);
+	if (prop) {
+		toolbar_visible = prop[0] == '1';
+		gconf_client_set_bool (client,
+				       "/apps/evolution/shell/view_defaults/toolbar_visible",
+				       toolbar_visible,
+				       NULL);
+		g_free (prop);
+	}
 
 	g_object_unref (client);
 }
