@@ -3993,8 +3993,6 @@ e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
 {
 	gint *row;
 
-	g_print ("In e_day_view_cursor_key_up_shifted\n");
-
 	if (day_view->selection_in_top_canvas)
 		return;
 
@@ -4024,8 +4022,6 @@ static void
 e_day_view_cursor_key_down_shifted (EDayView *day_view, GdkEventKey *event)
 {
 	gint *row;
-
-	g_print ("In e_day_view_cursor_key_down_shifted\n");
 
 	if (day_view->selection_in_top_canvas)
 		return;
@@ -4057,8 +4053,6 @@ e_day_view_cursor_key_left_shifted (EDayView *day_view, GdkEventKey *event)
 {
 	gint *day;
 
-	g_print ("In e_day_view_cursor_key_left_shifted\n");
-
 	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
 		day = &day_view->selection_start_day;
 	else
@@ -4084,8 +4078,6 @@ e_day_view_cursor_key_right_shifted (EDayView *day_view, GdkEventKey *event)
 {
 	gint *day;
 
-	g_print ("In e_day_view_cursor_key_right_shifted\n");
-
 	if (day_view->selection_drag_pos == E_DAY_VIEW_DRAG_START)
 		day = &day_view->selection_start_day;
 	else
@@ -4109,8 +4101,6 @@ e_day_view_cursor_key_right_shifted (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
 {
-	g_print ("In e_day_view_cursor_key_up\n");
-
 	if (day_view->selection_start_day == -1) {
 		day_view->selection_start_day = 0;
 		day_view->selection_start_row = 0;
@@ -4143,8 +4133,6 @@ e_day_view_cursor_key_up (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 {
-	g_print ("In e_day_view_cursor_key_down\n");
-
 	if (day_view->selection_start_day == -1) {
 		day_view->selection_start_day = 0;
 		day_view->selection_start_row = 0;
@@ -4177,8 +4165,6 @@ e_day_view_cursor_key_down (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 {
-	g_print ("In e_day_view_cursor_key_left\n");
-
 	if (day_view->selection_start_day == 0) {
 		gnome_calendar_previous (day_view->calendar);
 	} else {
@@ -4197,8 +4183,6 @@ e_day_view_cursor_key_left (EDayView *day_view, GdkEventKey *event)
 static void
 e_day_view_cursor_key_right (EDayView *day_view, GdkEventKey *event)
 {
-	g_print ("In e_day_view_cursor_key_right\n");
-
 	if (day_view->selection_end_day == day_view->days_shown - 1) {
 		gnome_calendar_next (day_view->calendar);
 	} else {
@@ -5503,8 +5487,6 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 				end_offset = event->end_minute % day_view->mins_per_row;
 				if (end_offset != 0)
 					end_offset = day_view->mins_per_row - end_offset;
-				g_print ("Start offset: %i End offset: %i\n",
-					 start_offset, end_offset);
 			}
 
 			event_uid = data->data;
