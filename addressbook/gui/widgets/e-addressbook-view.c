@@ -554,9 +554,9 @@ create_table_view (EAddressbookView *view)
 	view->object = GTK_OBJECT(model);
 	view->widget = table;
 
-	gtk_signal_connect(GTK_OBJECT(table), "double_click",
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "double_click",
 			   GTK_SIGNAL_FUNC(table_double_click), view);
-	gtk_signal_connect(GTK_OBJECT(table), "right_click",
+	gtk_signal_connect(GTK_OBJECT(e_table_scrolled_get_table(E_TABLE_SCROLLED(table))), "right_click",
 			   GTK_SIGNAL_FUNC(table_right_click), view);
 
 	gtk_table_attach(GTK_TABLE(view), table,

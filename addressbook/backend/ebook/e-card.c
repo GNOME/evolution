@@ -1577,15 +1577,15 @@ e_card_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	case ARG_PHONE:
 		if (!card->phone)
 			card->phone = e_list_new((EListCopyFunc) e_card_phone_copy, 
-						      (EListFreeFunc) e_card_phone_free,
-						      NULL);
+						 (EListFreeFunc) e_card_phone_free,
+						 NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->phone);
 		break;
 	case ARG_EMAIL:
 		if (!card->email)
 			card->email = e_list_new((EListCopyFunc) g_strdup, 
-						      (EListFreeFunc) g_free,
-						      NULL);
+						 (EListFreeFunc) g_free,
+						 NULL);
 		GTK_VALUE_OBJECT(*arg) = GTK_OBJECT(card->email);
 		break;
 	case ARG_CATEGORIES:

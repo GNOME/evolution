@@ -23,7 +23,6 @@
 
 #include <gnome.h>
 #include <glade/glade.h>
-#include <ebook/e-card.h>
 #include <gal/e-table/e-table-model.h>
 
 #ifdef __cplusplus
@@ -37,7 +36,6 @@ extern "C" {
  *
  * name		type		read/write	description
  * --------------------------------------------------------------------------------
- * name         ECardName *     RW              The card currently being edited. Returns a copy.
  */
 
 #define E_CONTACT_EDITOR_CATEGORIES_TYPE			(e_contact_editor_categories_get_type ())
