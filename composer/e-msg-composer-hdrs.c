@@ -617,7 +617,7 @@ e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)));
+	return gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (hdrs->priv->from_entry)->entry));
 }
 
 /* FIXME this is currently unused and broken.  */

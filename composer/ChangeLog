@@ -1,3 +1,8 @@
+2000-08-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_from): Return the
+	text in GtkCombo->entry
+
 2000-08-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-hdrs.c (create_dropdown_entry): Fixed the GList
