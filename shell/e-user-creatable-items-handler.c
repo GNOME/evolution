@@ -784,6 +784,8 @@ impl_finalize (GObject *object)
 	free_menu_items (priv->objects);
 	free_menu_items (priv->folders);
 
+	g_free (priv->menu_xml);
+
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
