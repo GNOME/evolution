@@ -1,3 +1,42 @@
+2004-03-25  JP Rosevear <jpr@ximian.com>
+
+	Fixes #53499
+	
+	* gui/gnome-cal.c (setup_widgets): don't give the state file to
+	the list view
+	(set_view): ensure that if the list view was in custom mode it
+	stays that way
+	(display_view_cb): attach to the etable of the list view
+	(gnome_calendar_setup_view_menus): use an etable gal view for the
+	list view and don't set the view twice
+
+	* gui/e-tasks.c (e_tasks_setup_view_menus): the instance should no
+	longer be per task uri since all the uris are shown together
+
+	* gui/e-cal-list-view.h: update/add protos
+
+	* gui/e-cal-list-view.etspec: limit the available columns to what
+	product design agreed on
+
+	* gui/e-calendar-table.etspec: ditto
+
+	* gui/e-cal-list-view.c (e_cal_list_view_class_init): ignore
+	update query calls
+	(e_cal_list_view_load_state): make public
+	(e_cal_list_view_save_state): ditto
+	(setup_e_table): don't handle state saving ourselves
+	(e_cal_list_view_construct): ditto
+	(e_cal_list_view_new): ditto
+	(e_cal_list_view_destroy): ditto
+
+	* gui/calendar-view.c (calendar_view_get_type_code): we don't
+	handle the list view here
+
+	* gui/calendar-view-factory.c
+	(calendar_view_factory_get_type_code): we don't handle the list
+	view here
+	(calendar_view_factory_get_title): ditto
+
 2004-03-24  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (update_query): don't create queries for the clients

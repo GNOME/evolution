@@ -31,9 +31,7 @@
 #include "e-calendar-view.h"
 #include "gnome-cal.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif /* __cplusplus */
+G_BEGIN_DECLS
 
 /*
  * ECalListView - displays calendar events in an ETable.
@@ -53,9 +51,6 @@ struct _ECalListView
 
 	/* The main display table */
 	ETableScrolled *table_scrolled;
-
-	/* The path to the table's state file */
-	gchar *table_state_path;
 
 	/* S-expression for query and the query object */
 	ECalView *query;
@@ -80,18 +75,16 @@ struct _ECalListViewClass
 
 
 GtkType	   e_cal_list_view_get_type		(void);
-GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view, const gchar *table_state_path);
+GtkWidget *e_cal_list_view_construct            (ECalListView *cal_list_view);
 
-GtkWidget *e_cal_list_view_new			(const gchar *table_state_path);
+GtkWidget *e_cal_list_view_new			(void);
+void e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename);
+void e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename);
 
-void       e_cal_list_view_set_query		(ECalListView *cal_list_view, const gchar *sexp);
-void       e_cal_list_view_set_default_category	(ECalListView *cal_list_view, const gchar *category);
 gboolean   e_cal_list_view_get_range_shown      (ECalListView *cal_list_view, GDate *start_date,
 						 gint *days_shown);
 
 
-#ifdef __cplusplus
-}
-#endif /* __cplusplus */
+G_END_DECLS
 
 #endif /* _E_CAL_LIST_VIEW_H_ */

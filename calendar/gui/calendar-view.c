@@ -191,9 +191,6 @@ calendar_view_get_type_code (GalView *view)
 	case GNOME_CAL_MONTH_VIEW:
 		return "month_view";
 
-	case GNOME_CAL_LIST_VIEW :
-		return "list_view";
-
 	default:
 		g_assert_not_reached ();
 		return NULL;

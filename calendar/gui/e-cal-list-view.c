@@ -73,7 +73,6 @@
 static void      e_cal_list_view_class_init             (ECalListViewClass *class);
 static void      e_cal_list_view_init                   (ECalListView *cal_list_view);
 static void      e_cal_list_view_destroy                (GtkObject *object);
-static void      e_cal_list_view_update_query           (ECalendarView *cal_view);
 
 static GList    *e_cal_list_view_get_selected_events    (ECalendarView *cal_view);
 static gboolean  e_cal_list_view_get_selected_time_range (ECalendarView *cal_view, time_t *start_time, time_t *end_time);
@@ -112,8 +111,6 @@ e_cal_list_view_class_init (ECalListViewClass *class)
 	view_class->get_selected_events = e_cal_list_view_get_selected_events;
 	view_class->get_selected_time_range = e_cal_list_view_get_selected_time_range;
 	view_class->get_visible_time_range = e_cal_list_view_get_visible_time_range;
-
-	view_class->update_query        = e_cal_list_view_update_query;
 }
 
 static gint
@@ -177,28 +174,27 @@ get_current_time_cb (ECellDateEdit *ecde, gpointer data)
 	return tmp_tm;
 }
 
-static void
-load_table_state (ECalListView *cal_list_view)
+void
+e_cal_list_view_load_state (ECalListView *cal_list_view, gchar *filename)
 {
 	struct stat st;
 
-	if (!cal_list_view->table_state_path)
-		return;
+	g_return_if_fail (cal_list_view != NULL);
+	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
+	g_return_if_fail (filename != NULL);
 
-	if (stat (cal_list_view->table_state_path, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode)) {
-		e_table_load_state (e_table_scrolled_get_table (cal_list_view->table_scrolled),
-				    cal_list_view->table_state_path);
-	}
+	if (stat (filename, &st) == 0 && st.st_size > 0 && S_ISREG (st.st_mode))
+		e_table_load_state (e_table_scrolled_get_table (cal_list_view->table_scrolled), filename);
 }
 
-static void
-save_table_state (ECalListView *cal_list_view)
+void
+e_cal_list_view_save_state (ECalListView *cal_list_view, gchar *filename)
 {
-	if (!cal_list_view->table_state_path)
-		return;
+	g_return_if_fail (cal_list_view != NULL);
+	g_return_if_fail (E_IS_CAL_LIST_VIEW (cal_list_view));
+	g_return_if_fail (filename != NULL);
 
-	e_table_save_state (e_table_scrolled_get_table (cal_list_view->table_scrolled),
-			    cal_list_view->table_state_path);
+	e_table_save_state (e_table_scrolled_get_table (cal_list_view->table_scrolled), filename);
 }
 
 static void
@@ -212,11 +208,6 @@ setup_e_table (ECalListView *cal_list_view)
 	GtkStyle          *style;
 
 	model = E_CAL_MODEL_CALENDAR (e_calendar_view_get_model (E_CALENDAR_VIEW (cal_list_view)));
-
-	if (cal_list_view->table_scrolled) {
-		save_table_state (cal_list_view);
-		gtk_widget_destroy (GTK_WIDGET (cal_list_view->table_scrolled));
-	}
 
 	/* Create the header columns */
 
@@ -291,12 +282,7 @@ setup_e_table (ECalListView *cal_list_view)
 	style->fg [GTK_STATE_ACTIVE]   = style->text [GTK_STATE_NORMAL];
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 
-	/* Load state, if possible */
-
-	load_table_state (cal_list_view);
-
 	/* Connect signals */
-
 	g_signal_connect (e_table_scrolled_get_table (cal_list_view->table_scrolled),
 			  "right-click", G_CALLBACK (e_cal_list_view_on_table_right_click), cal_list_view);
 
@@ -308,13 +294,8 @@ setup_e_table (ECalListView *cal_list_view)
 }
 
 GtkWidget *
-e_cal_list_view_construct (ECalListView *cal_list_view, const gchar *table_state_path)
+e_cal_list_view_construct (ECalListView *cal_list_view)
 {
-	if (table_state_path)
-		cal_list_view->table_state_path = g_strdup (table_state_path);
-	else
-		cal_list_view->table_state_path = NULL;
-
 	setup_e_table (cal_list_view);
 
 	return GTK_WIDGET (cal_list_view);
@@ -327,7 +308,7 @@ e_cal_list_view_construct (ECalListView *cal_list_view, const gchar *table_state
  * Creates a new #ECalListView.
  **/
 GtkWidget *
-e_cal_list_view_new (const gchar *table_state_path)
+e_cal_list_view_new (void)
 {
 	ECalListView *cal_list_view;
 	ECalModel *model;
@@ -335,7 +316,7 @@ e_cal_list_view_new (const gchar *table_state_path)
 	model = E_CAL_MODEL (e_cal_model_calendar_new ());
 
 	cal_list_view = g_object_new (e_cal_list_view_get_type (), "model", model, NULL);
-	if (!e_cal_list_view_construct (cal_list_view, table_state_path)) {
+	if (!e_cal_list_view_construct (cal_list_view)) {
 		g_message (G_STRLOC ": Could not construct the calendar list GUI");
 		g_object_unref (cal_list_view);
 		return NULL;
@@ -365,12 +346,6 @@ e_cal_list_view_destroy (GtkObject *object)
 		cal_list_view->set_table_id = 0;
 	}
 
-	if (cal_list_view->table_state_path) {
-		save_table_state (cal_list_view);
-		g_free (cal_list_view->table_state_path);
-		cal_list_view->table_state_path = NULL;
-	}
-
 	if (cal_list_view->cursor_event) {
 		g_free (cal_list_view->cursor_event);
 		cal_list_view->cursor_event = NULL;
@@ -382,22 +357,6 @@ e_cal_list_view_destroy (GtkObject *object)
 	}
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
-}
-
-static gboolean
-setup_e_table_cb (gpointer data)
-{
-	setup_e_table (E_CAL_LIST_VIEW (data));
-	E_CAL_LIST_VIEW (data)->set_table_id = 0;
-	return FALSE;
-}
-
-static void
-e_cal_list_view_update_query (ECalendarView *cal_list_view)
-{
-	if (!E_CAL_LIST_VIEW (cal_list_view)->set_table_id)
-		E_CAL_LIST_VIEW (cal_list_view)->set_table_id =
-			g_idle_add (setup_e_table_cb, cal_list_view);
 }
 
 static void

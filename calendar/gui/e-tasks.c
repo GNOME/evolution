@@ -1161,7 +1161,7 @@ e_tasks_setup_view_menus (ETasks *tasks, BonoboUIComponent *uic)
 		gal_view_collection_load (collection);
 	}
 
-	priv->view_instance = gal_view_instance_new (collection, e_cal_get_uri (e_tasks_get_default_client (tasks)));
+	priv->view_instance = gal_view_instance_new (collection, NULL);
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);

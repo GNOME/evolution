@@ -43,6 +43,8 @@
 #include <bonobo/bonobo-exception.h>
 #include "e-util/e-url.h"
 #include <libecal/e-cal-time-util.h>
+#include <gal/menus/gal-view-factory-etable.h>
+#include <gal/menus/gal-view-etable.h>
 #include "widgets/menus/gal-view-menus.h"
 #include "e-comp-editor-registry.h"
 #include "dialogs/delete-error.h"
@@ -1043,10 +1045,7 @@ setup_widgets (GnomeCalendar *gcal)
 	connect_week_view_focus (gcal, E_WEEK_VIEW (priv->month_view));
 
 	/* The List View. */
-	filename = g_build_filename (calendar_component_peek_config_directory (calendar_component_peek ()),
-				     "CalListView", NULL);
-	priv->list_view = e_cal_list_view_new (filename);
-	g_free (filename);
+	priv->list_view = e_cal_list_view_new ();
 
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->list_view), gcal);
 
@@ -1493,8 +1492,17 @@ set_view (GnomeCalendar	*gcal, GnomeCalendarViewType view_type,
 
 	updating = TRUE;
 	gtk_notebook_set_page (GTK_NOTEBOOK (priv->notebook), (int) view_type);
-	if (priv->view_instance)
-		gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+	if (priv->view_instance) {
+		char *current_id;
+
+		/* If the list view is actually in "custom" mode, preserve that */
+		current_id = gal_view_instance_get_current_view_id (priv->view_instance);
+		
+		if (current_id || view_type != GNOME_CAL_LIST_VIEW)
+			gal_view_instance_set_current_view_id (priv->view_instance, view_id);
+
+		g_free (current_id);
+	}
 	updating = FALSE;
 
 	if (grab_focus)
@@ -1540,16 +1548,30 @@ static void
 display_view_cb (GalViewInstance *view_instance, GalView *view, gpointer data)
 {
 	GnomeCalendar *gcal;
+	GnomeCalendarPrivate *priv;
 	CalendarView *cal_view;
-
+	GnomeCalendarViewType view_type;
+	
 	gcal = GNOME_CALENDAR (data);
-
-	if (!IS_CALENDAR_VIEW (view))
+	priv = gcal->priv;
+	
+	if (GAL_IS_VIEW_ETABLE(view)) {
+		ETable *table;
+		
+		view_type = GNOME_CAL_LIST_VIEW;
+		
+		table = e_table_scrolled_get_table (E_CAL_LIST_VIEW (priv->list_view)->table_scrolled);
+		gal_view_etable_attach_table (GAL_VIEW_ETABLE (view), table);
+	} else if (IS_CALENDAR_VIEW (view)) {
+		cal_view = CALENDAR_VIEW (view);
+		
+		view_type = calendar_view_get_view_type (cal_view);
+	} else {
 		g_error (G_STRLOC ": Unknown type of view for GnomeCalendar");
-
-	cal_view = CALENDAR_VIEW (view);
-
-	gnome_calendar_set_view (gcal, calendar_view_get_view_type (cal_view), FALSE, TRUE);
+		return;
+	}
+	
+	gnome_calendar_set_view (gcal, view_type, FALSE, TRUE);
 }
 
 /**
@@ -1567,6 +1589,7 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 	GnomeCalendarPrivate *priv;
 	char *path;
 	CalendarViewFactory *factory;
+	GalViewFactory *gal_factory;
 	static GalViewCollection *collection = NULL;
 
 	g_return_if_fail (gcal != NULL);
@@ -1576,14 +1599,13 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 	priv = gcal->priv;
 
-	g_return_if_fail (priv->view_instance == NULL);
-
 	g_assert (priv->view_instance == NULL);
 	g_assert (priv->view_menus == NULL);
 
 	/* Create the view instance */
-
 	if (collection == NULL) {
+		ETableSpecification *spec;
+
 		collection = gal_view_collection_new ();
 
 		gal_view_collection_set_title (collection, _("Calendar"));
@@ -1613,25 +1635,24 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
 		g_object_unref (factory);
 
-		factory = calendar_view_factory_new (GNOME_CAL_LIST_VIEW);
-		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (factory));
-		g_object_unref (factory);
+		spec = e_table_specification_new ();
+		e_table_specification_load_from_file (spec, EVOLUTION_ETSPECDIR "/e-cal-list-view.etspec");
+		gal_factory = gal_view_factory_etable_new (spec);
+		g_object_unref (spec);
+		gal_view_collection_add_factory (collection, GAL_VIEW_FACTORY (gal_factory));
+		g_object_unref (gal_factory);
 
 		/* Load the collection and create the menus */
 
 		gal_view_collection_load (collection);
+
 	}
 
-	priv->view_instance = gal_view_instance_new (collection,
-						     e_cal_get_uri (gnome_calendar_get_default_client (gcal)));
-
+	priv->view_instance = gal_view_instance_new (collection, NULL);
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
-	gal_view_menus_set_show_define_views (priv->view_menus, FALSE);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
-	gnome_calendar_set_view (gcal, priv->current_view_type, TRUE, FALSE);
 
-	g_signal_connect (priv->view_instance, "display_view",
-			  G_CALLBACK (display_view_cb), gcal);
+	g_signal_connect (priv->view_instance, "display_view", G_CALLBACK (display_view_cb), gcal);
 	display_view_cb (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), gcal);
 }
 
@@ -1651,8 +1672,6 @@ gnome_calendar_discard_view_menus (GnomeCalendar *gcal)
 	g_return_if_fail (gcal != NULL);
 
 	priv = gcal->priv;
-
-	g_return_if_fail (priv->view_instance != NULL);
 
 	g_assert (priv->view_instance != NULL);
 	g_assert (priv->view_menus != NULL);
