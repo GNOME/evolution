@@ -1,5 +1,10 @@
 2001-08-07  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-storage.c (remove_ldap_folder): ifdef
+	this HAVE_LDAP.
+
+2001-08-07  Chris Toshok  <toshok@ximian.com>
+
 	* gui/search/e-addressbook-search-dialog.c
 	(e_addressbook_search_dialog_init): set the title of the window to
 	"Advanced Search".

@@ -109,6 +109,7 @@ addressbook_storage_setup (EvolutionShellComponent *shell_component,
 		deregister_storage ();
 }
 
+#ifdef HAVE_LDAP
 static void
 remove_ldap_folder (EvolutionStorage *storage,
 		    const CORBA_char *path, const CORBA_char *physical_uri,
@@ -118,6 +119,7 @@ remove_ldap_folder (EvolutionStorage *storage,
 	addressbook_storage_write_sources();
 	*result = GNOME_Evolution_Storage_OK;
 }
+#endif
 
 static void 
 register_storage (void) 
