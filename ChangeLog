@@ -1,3 +1,8 @@
+2002-11-05  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add wombat and addressbook compile flags, and add
+	wombat and some addressbook dirs to AC_OUTPUT.
+
 2002-11-05  Dan Winship  <danw@ximian.com>
 
 	* configure.in: change the commented-out soup check to refer to

@@ -1085,11 +1085,11 @@ AC_SUBST(SHELL_LIBS)
 
 dnl --- evolution-addressbook flags
 
-dnl EVOLUTION_ADDRESSBOOK_DEPS="bonobo_conf bonobox_print gal gdk_pixbuf gnomecanvaspixbuf gnomeui libglade oaf vfs"
+EVOLUTION_ADDRESSBOOK_DEPS="gconf-2.0 libbonoboui-2.0 libglade-2.0 gal-2.0 libgnomeui-2.0 libgnome-2.0 libgnomecanvas-2.0 gnome-vfs-2.0 libgnomeprintui-2.0"
 
-dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS, ${GTKHTML_CFLAGS}, ${GTKHTML_LIBS})
-dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
-dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
+EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK, $EVOLUTION_ADDRESSBOOK_DEPS)
+AC_SUBST(EVOLUTION_ADDRESSBOOK_CFLAGS)
+AC_SUBST(EVOLUTION_ADDRESSBOOK_LIBS)
 
 dnl EVO_SET_COMPILE_FLAGS(EVOLUTION_ADDRESSBOOK_CONDUIT, gpilot $EVOLUTION_ADDRESSBOOK_DEPS, $PISOCK_CFLAGS)
 dnl AC_SUBST(EVOLUTION_ADDRESSBOOK_CONDUIT_CFLAGS)
@@ -1130,7 +1130,7 @@ dnl AC_SUBST(EVOLUTION_MAIL_LIBS)
 
 dnl -- wombat flags
 
-EVO_SET_COMPILE_FLAGS(WOMBAT, libbonobo-2.0 gnome-vfs-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
+EVO_SET_COMPILE_FLAGS(WOMBAT, libgnome-2.0, $LDAP_CFLAGS, $LDAP_LIBS)
 AC_SUBST(WOMBAT_CFLAGS)
 AC_SUBST(WOMBAT_LIBS)
 
@@ -1236,6 +1236,13 @@ AC_SUBST(EVOLUTION_DIR)
 
 AC_OUTPUT([ po/Makefile.in
 Makefile
+addressbook/Makefile
+addressbook/gui/Makefile
+addressbook/gui/component/Makefile
+addressbook/gui/component/select-names/Makefile
+addressbook/backend/Makefile
+addressbook/backend/ebook/Makefile
+addressbook/backend/pas/Makefile
 art/Makefile
 data/Makefile
 data/cde_app_root/Makefile
@@ -1276,6 +1283,7 @@ widgets/Makefile
 widgets/e-timezone-dialog/Makefile
 widgets/menus/Makefile
 widgets/misc/Makefile
+wombat/Makefile
 libwombat/Makefile
 calendar/Makefile
 calendar/idl/Makefile
