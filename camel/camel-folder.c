@@ -33,7 +33,7 @@
 static GtkObjectClass *parent_class=NULL;
 
 /* Returns the class for a CamelFolder */
-#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
+#define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT (so)->klass)
 
 
 
@@ -73,29 +73,34 @@ static void _set_name (CamelFolder *folder,
 static const gchar *_get_name (CamelFolder *folder, 
 			       CamelException *ex);
 static const gchar *_get_full_name (CamelFolder *folder, CamelException *ex);
-/*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
 
 
-static gboolean _can_hold_folders  (CamelFolder *folder, CamelException *ex);
-static gboolean _can_hold_messages (CamelFolder *folder, CamelException *ex);
+static gboolean _can_hold_folders  (CamelFolder *folder);
+static gboolean _can_hold_messages (CamelFolder *folder);
 static gboolean _exists  (CamelFolder  *folder, CamelException *ex);
-static gboolean _is_open (CamelFolder *folder, CamelException *ex);
-static const GList *_list_permanent_flags (CamelFolder *folder, CamelException *ex);
-static CamelFolderOpenMode _get_mode      (CamelFolder *folder, CamelException *ex);
+static gboolean _is_open (CamelFolder *folder);
+static const GList *_list_permanent_flags (CamelFolder *folder,
+					   CamelException *ex);
+static CamelFolderOpenMode _get_mode      (CamelFolder *folder,
+					   CamelException *ex);
 
 
 static gboolean _create (CamelFolder *folder, CamelException *ex);
-static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
+static gboolean _delete (CamelFolder *folder, gboolean recurse,
+			 CamelException *ex);
 
 
 static GList *_list_subfolders  (CamelFolder *folder, CamelException *ex);
 static CamelFolder *_get_subfolder (CamelFolder *folder, 
-				 const gchar *folder_name, CamelException *ex);
-static CamelFolder *_get_parent_folder (CamelFolder *folder, CamelException *ex);
-static CamelStore * _get_parent_store  (CamelFolder *folder, CamelException *ex);
+				    const gchar *folder_name,
+				    CamelException *ex);
+static CamelFolder *_get_parent_folder (CamelFolder *folder,
+					CamelException *ex);
+static CamelStore * _get_parent_store  (CamelFolder *folder,
+					CamelException *ex);
 
 
-static gboolean _has_message_number_capability (CamelFolder *folder, CamelException *ex);
+static gboolean _has_message_number_capability (CamelFolder *folder);
 static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, 
 						 gint number, 
 						 CamelException *ex);
@@ -116,7 +121,8 @@ static void _copy_message_to (CamelFolder *folder,
 			      CamelException *ex);
 
 
-static GList            *_get_uid_list       (CamelFolder *folder, CamelException *ex);
+static GList            *_get_uid_list       (CamelFolder *folder,
+					      CamelException *ex);
 static const gchar      *_get_message_uid    (CamelFolder *folder, 
 					      CamelMimeMessage *message, 
 					      CamelException *ex);
@@ -216,6 +222,9 @@ _finalize (GtkObject *object)
 	g_free (camel_folder->full_name);
 	g_free (camel_folder->permanent_flags);
 
+	if (camel_folder->parent_store)
+		gtk_object_unref (GTK_OBJECT (camel_folder->parent_store));
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
@@ -232,26 +241,9 @@ static void
 _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
 	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
-	if (!parent_store) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_PARAM,
-				     "parent_store parameter is NULL");
-		return;
-	}
-	
-	if (folder->parent_store) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "folder already has a parent store");
-		return;
-	}
+	g_assert (folder != NULL);
+	g_assert (parent_store != NULL);
+	g_assert (folder->parent_store == NULL);
 	
 	folder->parent_store = parent_store;
 	gtk_object_ref (GTK_OBJECT (parent_store));
@@ -271,13 +263,6 @@ _open (CamelFolder *folder,
        CamelFolderOpenMode mode, 
        CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
   	folder->open_state = FOLDER_OPEN;
   	folder->open_mode = mode;
 }
@@ -299,13 +284,8 @@ camel_folder_open (CamelFolder *folder,
 		   CamelFolderOpenMode mode, 
 		   CamelException *ex)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-	CF_CLASS(folder)->open (folder, mode, ex);
+	g_assert (folder != NULL);
+	CF_CLASS (folder)->open (folder, mode, ex);
 }
 
 
@@ -347,13 +327,8 @@ camel_folder_open_async (CamelFolder *folder,
 			 gpointer user_data, 
 			 CamelException *ex)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-	CF_CLASS(folder)->open_async (folder, mode, callback, user_data, ex);
+	g_assert (folder != NULL);
+	CF_CLASS (folder)->open_async (folder, mode, callback, user_data, ex);
 }
 
 
@@ -366,12 +341,6 @@ _close (CamelFolder *folder,
 	gboolean expunge, 
 	CamelException *ex)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
 	folder->open_state = FOLDER_CLOSE;
 }
 
@@ -390,13 +359,8 @@ camel_folder_close (CamelFolder *folder,
 		    gboolean expunge, 
 		    CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-	CF_CLASS(folder)->close (folder, expunge, ex);
+	g_assert (folder != NULL);
+	CF_CLASS (folder)->close (folder, expunge, ex);
 }
 
 
@@ -412,12 +376,6 @@ _close_async (CamelFolder *folder,
 	      gpointer user_data, 
 	      CamelException *ex)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
 	CAMEL_LOG_WARNING ("Calling CamelFolder::close_async directly. "
 			   "Should be overloaded\n");
 }
@@ -443,13 +401,9 @@ camel_folder_close_async (CamelFolder *folder,
 			  gpointer user_data, 
 			  CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-	CF_CLASS(folder)->close_async (folder, expunge, callback, user_data, ex);
+	g_assert (folder != NULL);
+	CF_CLASS (folder)->close_async (folder, expunge, callback,
+					user_data, ex);
 }
 
 
@@ -465,13 +419,10 @@ _set_name (CamelFolder *folder,
 	gchar *full_name;
 	const gchar *parent_full_name;
 	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
+	g_assert (folder->parent_store != NULL);
+	g_assert (name != NULL);
+	g_assert (!camel_folder_is_open (folder));
+			
 	/* if the folder already has a name, free it */	
 	g_free (folder->name);
 	g_free (folder->full_name);
@@ -481,48 +432,25 @@ _set_name (CamelFolder *folder,
 	folder->name = NULL;
 	folder->full_name = NULL;
 
-	if (!name) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_PARAM,
-				     "name parameter is NULL");
-		return;
-	}	
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder name is %s\n",
+			      name);
 
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder name is %s\n", name);
-
-	
-	if (!folder->parent_store) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "folder has no parent store");
-		return;
-	}
-
-	/* the set_name method is valid only on 
-	   close folders */
-
-	if (camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::set_name is valid only on closed folders");
-		return;		
-	}
-			
 	separator = camel_store_get_separator (folder->parent_store, ex);
 	if (camel_exception_get_id (ex)) return;
 
-	camel_exception_clear (ex);
 	if (folder->parent_folder) {
-		parent_full_name = camel_folder_get_full_name (folder->parent_folder, ex);
+		parent_full_name =
+			camel_folder_get_full_name (folder->parent_folder, ex);
 		if (camel_exception_get_id (ex)) return;
 		
-		full_name = g_strdup_printf ("%s%c%s", parent_full_name, separator, name);		
+		full_name = g_strdup_printf ("%s%c%s", parent_full_name,
+					     separator, name);		
 	} else {
 		full_name = g_strdup_printf ("%c%s", separator, name);
 	}
 
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder full name set to %s\n", full_name);
+	CAMEL_LOG_FULL_DEBUG ("CamelFolder::set_name, folder full name "
+			      "set to %s\n", full_name);
 	folder->name = g_strdup (name);
 	folder->full_name = full_name;
 	
@@ -536,72 +464,18 @@ _set_name (CamelFolder *folder,
  * @ex: exception object
  **/
 void
-camel_folder_set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
+camel_folder_set_name (CamelFolder *folder, const gchar *name,
+		       CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-	}
-
-	CF_CLASS(folder)->set_name (folder, name, ex);
+	g_assert (folder != NULL);
+	CF_CLASS (folder)->set_name (folder, name, ex);
 }
-
-
-
-
-
-/* not used for the moment, I don't know if it it is
-   a good idea or not to use it */
-#if 0
-static void
-_set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
-{
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-	g_free(folder->full_name);
-	folder->full_name = g_strdup (name);
-}
-
-
-/**
- * camel_folder_set_full_name:set the (full) name of the folder
- * @folder: folder
- * @name: new name of the folder
- * 
- * set the name of the folder. 
- * 
- **/
-void 
-camel_folder_set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
-{
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
-	CF_CLASS(folder)->set_full_name (folder, name, ex);
-}
-#endif
-
 
 
 
 static const gchar *
 _get_name (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
 	return folder->name;
 }
 
@@ -618,14 +492,8 @@ _get_name (CamelFolder *folder, CamelException *ex)
 const gchar *
 camel_folder_get_name (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	return CF_CLASS(folder)->get_name (folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_name (folder, ex);
 }
 
 
@@ -633,13 +501,6 @@ camel_folder_get_name (CamelFolder *folder, CamelException *ex)
 static const gchar *
 _get_full_name (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	return folder->full_name;
 }
 
@@ -654,14 +515,8 @@ _get_full_name (CamelFolder *folder, CamelException *ex)
 const gchar *
 camel_folder_get_full_name (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	return CF_CLASS(folder)->get_full_name (folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_full_name (folder, ex);
 }
 
 
@@ -675,15 +530,8 @@ camel_folder_get_full_name (CamelFolder *folder, CamelException *ex)
  * Return value: 
  **/
 static gboolean
-_can_hold_folders (CamelFolder *folder, CamelException *ex)
+_can_hold_folders (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
 	return folder->can_hold_folders;
 }
 
@@ -701,15 +549,8 @@ _can_hold_folders (CamelFolder *folder, CamelException *ex)
  * Return value: true if it can contain messages false otherwise
  **/
 static gboolean
-_can_hold_messages (CamelFolder *folder, CamelException *ex)
+_can_hold_messages (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
 	return folder->can_hold_messages;
 }
 
@@ -718,13 +559,6 @@ _can_hold_messages (CamelFolder *folder, CamelException *ex)
 static gboolean
 _exists (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
 	return FALSE;
 }
 
@@ -742,14 +576,8 @@ _exists (CamelFolder *folder, CamelException *ex)
 gboolean
 camel_folder_exists (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-	
-	return (CF_CLASS(folder)->exists (folder, ex));
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->exists (folder, ex);
 }
 
 
@@ -764,16 +592,9 @@ camel_folder_exists (CamelFolder *folder, CamelException *ex)
  * Return value: true if the folder exists, false otherwise
  **/
 static gboolean
-_is_open (CamelFolder *folder, CamelException *ex)
+_is_open (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-	return (folder->open_state == FOLDER_OPEN);
+	return folder->open_state == FOLDER_OPEN;
 } 
 
 
@@ -787,20 +608,11 @@ _is_open (CamelFolder *folder, CamelException *ex)
  * Return value: true if the folder exists, false otherwise
  **/
 gboolean
-camel_folder_is_open (CamelFolder *folder, CamelException *ex)
+camel_folder_is_open (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-	return (CF_CLASS(folder)->is_open (folder, ex));
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->is_open (folder);
 } 
-
-
-
 
 
 static CamelFolder *
@@ -813,27 +625,7 @@ _get_subfolder (CamelFolder *folder,
 	const gchar *current_folder_full_name;
 	gchar separator;
 	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	
-	if (!folder_name) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_INVALID_PARAM,
-				     "folder_name parameter is NULL");
-		return NULL;
-	}	
-	
-	if (!folder->parent_store) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "folder has no parent store");
-		return NULL;
-	}
+	g_assert (folder->parent_store != NULL);
 	
 	current_folder_full_name = camel_folder_get_full_name (folder, ex);
 	if (camel_exception_get_id (ex)) return NULL;
@@ -863,23 +655,11 @@ _get_subfolder (CamelFolder *folder,
 CamelFolder *
 camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-	
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_subfolder is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (folder_name != NULL);
+	g_assert (camel_folder_is_open (folder));
 
-	return (CF_CLASS(folder)->get_subfolder(folder,folder_name, ex));
+	return CF_CLASS (folder)->get_subfolder (folder, folder_name, ex);
 }
 
 
@@ -907,35 +687,12 @@ _create (CamelFolder *folder, CamelException *ex)
 	CamelFolder *parent;
 	gchar sep;
 	
-	g_assert (folder);
-	g_assert (folder->parent_store);
-	g_assert (folder->name);
+	g_assert (folder->parent_store != NULL);
+	g_assert (folder->name != NULL);
 	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-	
-	if (!folder->name) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "folder has no name");
-		return FALSE;
-	}	
-	
-	if (!folder->parent_store) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "folder has no parent store");
-		return FALSE;
-	}
-
 	/* if the folder already exists on the 
 	   store, do nothing and return true */
-	if (CF_CLASS(folder)->exists (folder, ex))
+	if (CF_CLASS (folder)->exists (folder, ex))
 		return TRUE;
 	
 	
@@ -982,23 +739,10 @@ _create (CamelFolder *folder, CamelException *ex)
 gboolean
 camel_folder_create (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
+	g_assert (folder != NULL);
+	g_assert (!camel_folder_is_open (folder));
 
-	/* check if the folder is closed */
-	if (camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return FALSE;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::create is valid only on close folders");
-		return FALSE;		
-	}
-
-	return (CF_CLASS(folder)->create(folder, ex));
+	return CF_CLASS (folder)->create (folder, ex);
 }
 
 
@@ -1035,20 +779,11 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 	GList *sf;
 	gboolean ok;
 	
-	g_assert(folder);
-	
-	/* method valid only on closed folders */
-	if (folder->open_state != FOLDER_CLOSE) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "Delete operation invalid on opened folders");
-		return FALSE;
-	}
-	
 	/* delete all messages in the folder */
-	CF_CLASS(folder)->delete_messages(folder, ex);
+	CF_CLASS (folder)->delete_messages (folder, ex);
 	if (camel_exception_get_id (ex)) return FALSE;
 
-	subfolders = CF_CLASS(folder)->list_subfolders(folder, ex); 
+	subfolders = CF_CLASS (folder)->list_subfolders (folder, ex); 
 	if (camel_exception_get_id (ex)) {
 		if (subfolders) g_list_free (subfolders);
 		return FALSE;
@@ -1059,7 +794,7 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 		if (subfolders) {
 			sf = subfolders;
 			do {
-				CF_CLASS(sf->data)->delete(CAMEL_FOLDER(sf->data), TRUE, ex);
+				CF_CLASS (sf->data)->delete (CAMEL_FOLDER (sf->data), TRUE, ex);
 				if (camel_exception_get_id (ex)) ok = FALSE;
 			} while (ok && (sf = sf->next));
 		}
@@ -1093,23 +828,10 @@ _delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 gboolean 
 camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
+	g_assert (folder != NULL);
+	g_assert (!camel_folder_is_open (folder));
 
-	/* check if the folder is closed */
-	if (camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return FALSE;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::delete is valid only on closed folders");
-		return FALSE;		
-	}
-
-	return CF_CLASS(folder)->delete(folder, recurse, ex);
+	return CF_CLASS (folder)->delete (folder, recurse, ex);
 }
 
 
@@ -1127,13 +849,6 @@ camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex)
 static gboolean 
 _delete_messages (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
 	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_messages directly. "
 			   "Should be overloaded\n");
 	return FALSE;
@@ -1151,23 +866,10 @@ _delete_messages (CamelFolder *folder, CamelException *ex)
 gboolean
 camel_folder_delete_messages (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
+	g_assert (folder != NULL);
+	g_assert (!camel_folder_is_open (folder));
 
-	/* check if the folder is closed */
-	if (camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return FALSE;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::delete_messages is valid only on closed folders");
-		return FALSE;		
-	}
-
-	return CF_CLASS(folder)->delete_messages(folder, ex);
+	return CF_CLASS (folder)->delete_messages (folder, ex);
 }
 
 
@@ -1186,13 +888,6 @@ camel_folder_delete_messages (CamelFolder *folder, CamelException *ex)
 static CamelFolder *
 _get_parent_folder (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	return folder->parent_folder;
 }
 
@@ -1208,14 +903,8 @@ _get_parent_folder (CamelFolder *folder, CamelException *ex)
 CamelFolder *
 camel_folder_get_parent_folder (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	return CF_CLASS(folder)->get_parent_folder(folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_parent_folder (folder, ex);
 }
 
 
@@ -1230,13 +919,6 @@ camel_folder_get_parent_folder (CamelFolder *folder, CamelException *ex)
 static CamelStore *
 _get_parent_store (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	return folder->parent_store;
 }
 
@@ -1252,14 +934,8 @@ _get_parent_store (CamelFolder *folder, CamelException *ex)
 CamelStore *
 camel_folder_get_parent_store (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	return CF_CLASS(folder)->get_parent_store(folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_parent_store (folder, ex);
 }
 
 
@@ -1268,13 +944,6 @@ camel_folder_get_parent_store (CamelFolder *folder, CamelException *ex)
 static CamelFolderOpenMode
 _get_mode (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FOLDER_OPEN_UNKNOWN;
-	}
-
 	return folder->open_mode;
 }
 
@@ -1290,14 +959,8 @@ _get_mode (CamelFolder *folder, CamelException *ex)
 CamelFolderOpenMode
 camel_folder_get_mode (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FOLDER_OPEN_UNKNOWN;
-	}
-
-	return CF_CLASS(folder)->get_mode(folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->get_mode (folder, ex);
 }
 
 
@@ -1306,13 +969,6 @@ camel_folder_get_mode (CamelFolder *folder, CamelException *ex)
 static GList *
 _list_subfolders (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	CAMEL_LOG_WARNING ("Calling CamelFolder::list_subfolders directly. "
 			   "Should be overloaded\n");
 	return NULL;
@@ -1330,23 +986,10 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 GList *
 camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-	
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::list_subfolder is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
-	return CF_CLASS(folder)->list_subfolders(folder, ex);
+	return CF_CLASS (folder)->list_subfolders (folder, ex);
 }
 
 
@@ -1355,13 +998,6 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 static GList *
 _expunge (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	CAMEL_LOG_WARNING ("Calling CamelFolder::expunge directly. "
 			   "Should be overloaded\n");
 	return NULL;
@@ -1377,39 +1013,19 @@ _expunge (CamelFolder *folder, CamelException *ex)
  * Return value: list of expunged messages 
  **/
 GList *
-camel_folder_expunge (CamelFolder *folder,  CamelException *ex)
+camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-	
-	/* check if the folder is closed */
-	if (camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::expunge is valid only on closed folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (!camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->expunge (folder, ex);
 }
 
 
 static gboolean 
-_has_message_number_capability (CamelFolder *folder, CamelException *ex)
+_has_message_number_capability (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-	CAMEL_LOG_WARNING ("Calling CamelFolder::has_message_number_capability directly. "
+	CAMEL_LOG_WARNING ("Calling CamelFolder::has_message_number_capability  directly. "
 			   "Should be overloaded\n");
 	return FALSE;
 
@@ -1430,16 +1046,10 @@ _has_message_number_capability (CamelFolder *folder, CamelException *ex)
  * Return value: TRUE if the folder supports message numbering, FALSE otherwise.
  **/
 gboolean 
-camel_folder_has_message_number_capability (CamelFolder *folder, CamelException *ex)
+camel_folder_has_message_number_capability (CamelFolder *folder)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
-	return CF_CLASS(folder)->has_message_number_capability (folder, ex);
+	g_assert (folder != NULL);
+	return CF_CLASS (folder)->has_message_number_capability (folder);
 }
 
 
@@ -1448,15 +1058,8 @@ camel_folder_has_message_number_capability (CamelFolder *folder, CamelException 
 static CamelMimeMessage *
 _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_number directly. "
-			   "Should be overloaded\n");
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_by_number "
+			   "directly. Should be overloaded\n");
 	return NULL;
 }
 
@@ -1475,21 +1078,8 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 CamelMimeMessage *
 camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_message_by_number is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_message_by_number (folder, number, ex);
 }
@@ -1516,36 +1106,17 @@ _get_message_count (CamelFolder *folder, CamelException *ex)
 gint
 camel_folder_get_message_count (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return -1;
-	}
-	
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return -1;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_message_count is valid only on open folders");
-		return -1;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_message_count (folder, ex);
 }
 
 
 static void
-_append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
+_append_message (CamelFolder *folder, CamelMimeMessage *message,
+		 CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
 	CAMEL_LOG_WARNING ("Calling CamelFolder::append_message directly. "
 			   "Should be overloaded\n");
 	return;
@@ -1567,21 +1138,8 @@ camel_folder_append_message (CamelFolder *folder,
 			     CamelMimeMessage *message, 
 			     CamelException *ex)
 {	
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::append_message is valid only on open folders");
-		return;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
 	CF_CLASS (folder)->append_message (folder, message, ex);
 }
@@ -1590,13 +1148,6 @@ camel_folder_append_message (CamelFolder *folder,
 static const GList *
 _list_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
 	return folder->permanent_flags;
 }
 
@@ -1604,13 +1155,7 @@ _list_permanent_flags (CamelFolder *folder, CamelException *ex)
 const GList *
 camel_folder_list_permanent_flags (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
+	g_assert (folder != NULL);
 	return CF_CLASS (folder)->list_permanent_flags (folder, ex);
 }
 
@@ -1620,13 +1165,6 @@ camel_folder_list_permanent_flags (CamelFolder *folder, CamelException *ex)
 static void
 _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
 	camel_folder_append_message (dest_folder, message, ex);
 }
 
@@ -1637,21 +1175,8 @@ camel_folder_copy_message_to (CamelFolder *folder,
 			      CamelFolder *dest_folder, 
 			      CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::copy_message_to is valid only on open folders");
-		return;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
 	CF_CLASS (folder)->copy_message_to (folder, message, dest_folder, ex);;
 }
@@ -1663,16 +1188,9 @@ camel_folder_copy_message_to (CamelFolder *folder,
 /* summary stuff */
 
 gboolean
-camel_folder_has_summary_capability (CamelFolder *folder, 
-				     CamelException *ex)
+camel_folder_has_summary_capability (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
+	g_assert (folder != NULL);
 	return folder->has_summary_capability;
 }
 
@@ -1692,21 +1210,8 @@ CamelFolderSummary *
 camel_folder_get_summary (CamelFolder *folder, 
 			  CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_summary is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
 
 	return folder->summary;
 }
@@ -1727,15 +1232,9 @@ camel_folder_get_summary (CamelFolder *folder,
  * Return value: TRUE if the folder supports UIDs 
  **/
 gboolean
-camel_folder_has_uid_capability (CamelFolder *folder, CamelException *ex)
+camel_folder_has_uid_capability (CamelFolder *folder)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return FALSE;
-	}
-
+	g_assert (folder != NULL);
 	return folder->has_uid_capability;
 }
 
@@ -1764,28 +1263,9 @@ _get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException
 const gchar * 
 camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	if (!folder->has_uid_capability) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NON_UID,
-				     "folder is not UID capable");
-		return NULL;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_message_uid is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (folder->has_uid_capability);
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_message_uid (folder, message, ex);
 }
@@ -1793,18 +1273,13 @@ camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, Ca
 
 
 /* the next two func are left there temporarily */
+#if 0
+
 static const gchar *
 _get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid_by_number directly. "
-			   "Should be overloaded\n");
+	CAMEL_LOG_WARNING ("Calling CamelFolder::get_message_uid_by_number "
+			   "directly. Should be overloaded\n");
 	return NULL;
 }
 
@@ -1827,19 +1302,14 @@ camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number
 const gchar * 
 camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
+	g_assert (folder != NULL);
 
 	/*  if (!folder->has_uid_capability) return NULL; */
 	/*  return CF_CLASS (folder)->get_message_uid_by_number (folder, message_number, ex); */
 	
 	return NULL;
 }
-
+#endif /* 0 */
 
 static CamelMimeMessage *
 _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
@@ -1864,29 +1334,9 @@ _get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex)
 CamelMimeMessage *
 camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	if (!folder->has_uid_capability) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NON_UID,
-				     "folder is not UID capable");
-		return NULL;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_message_by_uid is valid only on open folders");
-		return NULL;		
-	}
-
+	g_assert (folder != NULL);
+	g_assert (folder->has_uid_capability);
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_message_by_uid (folder, uid, ex);
 }
@@ -1894,20 +1344,6 @@ camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelEx
 static GList *
 _get_uid_list  (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	if (!folder->has_uid_capability) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NON_UID,
-				     "folder is not UID capable");
-		return NULL;
-	}
-
 	CAMEL_LOG_WARNING ("Calling CamelFolder::get_uid_list directly. "
 			   "Should be overloaded\n");
 	return NULL;
@@ -1928,28 +1364,9 @@ _get_uid_list  (CamelFolder *folder, CamelException *ex)
 GList *
 camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex)
 {
-	if (!folder) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NULL,
-				     "folder object is NULL");
-		return NULL;
-	}
-
-	if (!folder->has_uid_capability) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_NON_UID,
-				     "folder is not UID capable");
-		return NULL;
-	}
-
-	/* check if the folder is open */
-	if (!camel_folder_is_open (folder, ex)) {
-		if (camel_exception_get_id (ex)) return NULL;
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID_STATE,
-				     "CamelFolder::get_uid_list is valid only on open folders");
-		return NULL;		
-	}
+	g_assert (folder != NULL);
+	g_assert (folder->has_uid_capability);
+	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_uid_list (folder, ex);
 }
@@ -1963,15 +1380,9 @@ camel_folder_get_uid_list  (CamelFolder *folder, CamelException *ex)
  * Return value: TRUE if the folder supports UIDs 
  **/
 gboolean
-camel_folder_has_search_capability (CamelFolder *folder, CamelException *ex)
+camel_folder_has_search_capability (CamelFolder *folder)
 {
-	if (!CAMEL_IS_FOLDER(folder)) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "Invalid folder");
-		return FALSE;
-	}
-
+	g_assert (folder != NULL);
 	return folder->has_search_capability;
 }
 
@@ -1979,12 +1390,8 @@ GList *camel_folder_search_by_expression  (CamelFolder *folder,
 					   const char *expression,
 					   CamelException *ex)
 {
-	if (!CAMEL_IS_FOLDER(folder)) {
-		camel_exception_set (ex, 
-				     CAMEL_EXCEPTION_FOLDER_INVALID,
-				     "Invalid folder");
-		return NULL;
-	}
+	g_assert (folder != NULL);
+	g_assert (folder->has_search_capability);
 
 	return CF_CLASS (folder)->search_by_expression (folder, expression, ex);
 }

@@ -114,25 +114,20 @@ typedef struct {
 			     const gchar *name, 
 			     CamelException *ex);
 
-	/*  	void   (*set_full_name) (CamelFolder *folder, const gchar *name); */
-	
 	const gchar *  (*get_name)  (CamelFolder *folder, 
 				     CamelException *ex);
 
 	const gchar *  (*get_full_name)  (CamelFolder *folder, 
 					  CamelException *ex);
 
-	gboolean   (*can_hold_folders)   (CamelFolder *folder, 
-					  CamelException *ex);
+	gboolean   (*can_hold_folders)   (CamelFolder *folder);
 
-	gboolean   (*can_hold_messages)  (CamelFolder *folder, 
-					  CamelException *ex);
+	gboolean   (*can_hold_messages)  (CamelFolder *folder);
 
 	gboolean   (*exists)  (CamelFolder *folder, 
 			       CamelException *ex);
 
-	gboolean   (*is_open) (CamelFolder *folder, 
-			       CamelException *ex);
+	gboolean   (*is_open) (CamelFolder *folder);
 
 	CamelFolder *  (*get_subfolder)  (CamelFolder *folder, 
 					  const gchar *folder_name, 
@@ -163,7 +158,7 @@ typedef struct {
 	GList *  (*expunge)  (CamelFolder *folder, 
 			   CamelException *ex);
 
-	gboolean (*has_message_number_capability) (CamelFolder *folder, CamelException *ex);
+	gboolean (*has_message_number_capability) (CamelFolder *folder);
 
 	CamelMimeMessage * (*get_message_by_number) (CamelFolder *folder, 
 						     gint number, 
@@ -197,7 +192,8 @@ typedef struct {
 	GList * (*get_uid_list)  (CamelFolder *folder, 
 				  CamelException *ex);
 
-	gboolean (*has_search_capability) (CamelFolder *folder, CamelException *ex);
+	gboolean (*has_search_capability) (CamelFolder *folder);
+
 	GList *(*search_by_expression) (CamelFolder *folder, const char *expression, CamelException *ex);
 
 } CamelFolderClass;
@@ -262,8 +258,7 @@ const GList *      camel_folder_list_permanent_flags   (CamelFolder *folder,
 							CamelException *ex);
 CamelFolderOpenMode camel_folder_get_mode              (CamelFolder *folder, 
 							CamelException *ex);
-gboolean           camel_folder_is_open                (CamelFolder *folder, 
-							CamelException *ex);
+gboolean           camel_folder_is_open                (CamelFolder *folder);
 
 
 
@@ -278,15 +273,13 @@ void               camel_folder_copy_message_to        (CamelFolder *folder,
 
 
 /* summary related operations */
-gboolean           camel_folder_has_summary_capability (CamelFolder *folder, 
-							CamelException *ex);
+gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
 CamelFolderSummary *camel_folder_get_summary           (CamelFolder *folder, 
 							CamelException *ex);
 
 
 /* number based access operations */
-gboolean           camel_folder_has_message_number_capability (CamelFolder *folder, 
-							       CamelException *ex);
+gboolean           camel_folder_has_message_number_capability (CamelFolder *folder);
 CamelMimeMessage * camel_folder_get_message_by_number (CamelFolder *folder, 
 						       gint number, 
 						       CamelException *ex);
@@ -295,8 +288,7 @@ gint               camel_folder_get_message_count     (CamelFolder *folder,
 
 
 /* uid based access operations */
-gboolean           camel_folder_has_uid_capability    (CamelFolder *folder, 
-						       CamelException *ex);
+gboolean           camel_folder_has_uid_capability    (CamelFolder *folder);
 const gchar *      camel_folder_get_message_uid       (CamelFolder *folder, 
 						       CamelMimeMessage *message, 
 						       CamelException *ex);
@@ -307,8 +299,7 @@ GList *            camel_folder_get_uid_list          (CamelFolder *folder,
 						       CamelException *ex);
 
 /* search api */
-gboolean           camel_folder_has_search_capability (CamelFolder *folder,
-						       CamelException *ex);
+gboolean           camel_folder_has_search_capability (CamelFolder *folder);
 GList *            camel_folder_search_by_expression  (CamelFolder *folder,
 						       const char *expression,
 						       CamelException *ex);
