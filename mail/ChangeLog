@@ -1,3 +1,8 @@
+2002-11-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-accounts.c (mail_accounts_load): Specify which account is
+	the default account.
+
 2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-composer-prefs.c (sig_edit): Correctly spell Advanced.

@@ -455,14 +455,21 @@ mail_accounts_load (MailAccountsTab *prefs)
 		e_table_memory_set_data (E_TABLE_MEMORY (prefs->model), row, (gpointer) account);
 #else
 		{
-			char *text[3];
+			const MailConfigAccount *default_account;
+			char *str, *text[3];
+			
+			default_account = mail_config_get_default_account ();
+			
+			str = e_utf8_to_gtk_string (GTK_WIDGET (prefs->table), account->name);
 			
 			text[0] = NULL;
-			text[1] = e_utf8_to_gtk_string (GTK_WIDGET (prefs->table), account->name);
+			text[1] = g_strdup_printf ("%s%s%s", str, account == default_account ? " " : "",
+						   account == default_account ? _("[Default]") : "");
 			text[2] = url && url->protocol ? url->protocol : (char *) _("None");
 			
 			gtk_clist_insert (prefs->table, row, text);
 			
+			g_free (str);
 			g_free (text[1]);
 			
 			if (account->source->enabled)
