@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.0\n"
-"POT-Creation-Date: 2002-12-05 17:57-0500\n"
-"PO-Revision-Date: 2002-12-06 00:59+0100\n"
+"POT-Creation-Date: 2003-01-03 15:38+0100\n"
+"PO-Revision-Date: 2003-01-03 15:42+0100\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "Lagre som"
 
 #: addressbook/backend/ebook/e-card-simple.c:61
 #: addressbook/gui/component/select-names/e-select-names.etspec.h:1
-#: mail/mail-config.glade.h:74 my-evolution/e-summary-table.c:59
+#: mail/mail-config.glade.h:76 my-evolution/e-summary-table.c:59
 msgid "Name"
 msgstr "Navn"
 
@@ -345,6 +345,7 @@ msgstr "VCard for %s"
 #: tools/evolution-addressbook-abuse.c:132
 #: tools/evolution-addressbook-export.c:60
 #: tools/evolution-addressbook-import.c:86
+#: tools/evolution-launch-composer.c:344
 msgid "Could not initialize Bonobo"
 msgstr "Kunne ikke initiere Bonobo"
 
@@ -748,79 +749,85 @@ msgid "Enable Queries (Dangerous!)"
 msgstr "Aktiver spørringer (Farlig!)"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: mail/mail-config.glade.h:1 mail/subscribe-dialog.glade.h:1
+msgid "\n"
+msgstr "\n"
+
+#: addressbook/gui/component/ldap-config.glade.h:3
 msgid "  S_how Supported Bases "
 msgstr " V_is støttede baser "
 
-#: addressbook/gui/component/ldap-config.glade.h:2
+#: addressbook/gui/component/ldap-config.glade.h:4
 msgid "1234"
 msgstr "1234"
 
-#: addressbook/gui/component/ldap-config.glade.h:3
+#: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1:00"
 msgstr "1:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:4
+#: addressbook/gui/component/ldap-config.glade.h:6
 msgid "2:30"
 msgstr "2:30"
 
-#: addressbook/gui/component/ldap-config.glade.h:5
+#: addressbook/gui/component/ldap-config.glade.h:7
 msgid "3268"
 msgstr "3268"
 
-#: addressbook/gui/component/ldap-config.glade.h:6
+#: addressbook/gui/component/ldap-config.glade.h:8
 msgid "380"
 msgstr "380"
 
-#: addressbook/gui/component/ldap-config.glade.h:7
+#: addressbook/gui/component/ldap-config.glade.h:9
 msgid "389"
 msgstr "389"
 
-#: addressbook/gui/component/ldap-config.glade.h:8
+#: addressbook/gui/component/ldap-config.glade.h:10
 msgid "5:00"
 msgstr "5:00"
 
-#: addressbook/gui/component/ldap-config.glade.h:9
+#: addressbook/gui/component/ldap-config.glade.h:11
 msgid "636"
 msgstr "636"
 
-#: addressbook/gui/component/ldap-config.glade.h:10
+#: addressbook/gui/component/ldap-config.glade.h:12
 msgid "666"
 msgstr "666"
 
-#: addressbook/gui/component/ldap-config.glade.h:11
+#: addressbook/gui/component/ldap-config.glade.h:13
 msgid "<- _Remove"
 msgstr "<- Fje_rn"
 
-#: addressbook/gui/component/ldap-config.glade.h:12
+#: addressbook/gui/component/ldap-config.glade.h:14
 msgid "<< Fewer Options"
 msgstr "<< Færre alternativer"
 
-#: addressbook/gui/component/ldap-config.glade.h:13
+#: addressbook/gui/component/ldap-config.glade.h:15
 msgid "Add (or Edit) Attribute Mappings"
 msgstr "Legg til (eller rediger) mapping av attributter"
 
-#: addressbook/gui/component/ldap-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:16
 msgid "Addressbook Sources"
 msgstr "Adressebok-kilder"
 
-#: addressbook/gui/component/ldap-config.glade.h:15 mail/mail-account-gui.c:58
-#: mail/mail-config.glade.h:14
+#: addressbook/gui/component/ldap-config.glade.h:17 mail/mail-account-gui.c:58
+#: mail/mail-config.glade.h:16
 msgid "Always"
 msgstr "Alltid"
 
-#: addressbook/gui/component/ldap-config.glade.h:16
+#: addressbook/gui/component/ldap-config.glade.h:18
 msgid "Anonymously"
 msgstr "Anonym"
 
-#: addressbook/gui/component/ldap-config.glade.h:17
+#: addressbook/gui/component/ldap-config.glade.h:19
 msgid "Associated LDAP Attribute"
 msgstr "Assosiert LDAP-attributt"
 
-#: addressbook/gui/component/ldap-config.glade.h:18
+#: addressbook/gui/component/ldap-config.glade.h:20
 msgid "Attribute"
 msgstr "Attributt"
 
-#: addressbook/gui/component/ldap-config.glade.h:19
+#: addressbook/gui/component/ldap-config.glade.h:21
 msgid ""
 "Congratulations, you are finished setting up this LDAP server. You\n"
 "are now ready to access this directory.\n"
@@ -834,71 +841,71 @@ msgstr ""
 "Vennligst klikk på «Fullfør»-knappen for å lagre innstillingenene du har "
 "oppgitt her."
 
-#: addressbook/gui/component/ldap-config.glade.h:23
+#: addressbook/gui/component/ldap-config.glade.h:25
 msgid "Connecting"
 msgstr "Tilkobling"
 
-#: addressbook/gui/component/ldap-config.glade.h:24
+#: addressbook/gui/component/ldap-config.glade.h:26
 msgid "Corresponding Evolution Attribute"
 msgstr "Korresponderende Evolution-attributt"
 
-#: addressbook/gui/component/ldap-config.glade.h:25
+#: addressbook/gui/component/ldap-config.glade.h:27
 msgid "DN Customization"
 msgstr "DN-tilpasning"
 
-#: addressbook/gui/component/ldap-config.glade.h:26
+#: addressbook/gui/component/ldap-config.glade.h:28
 msgid "De_lete"
 msgstr "S_lett"
 
-#: addressbook/gui/component/ldap-config.glade.h:27
+#: addressbook/gui/component/ldap-config.glade.h:29
 msgid "Distinguished _name:"
 msgstr "Distinguished _name:"
 
-#: addressbook/gui/component/ldap-config.glade.h:28
+#: addressbook/gui/component/ldap-config.glade.h:30
 msgid "Email Address:"
 msgstr "E-post adresse:"
 
-#: addressbook/gui/component/ldap-config.glade.h:29
+#: addressbook/gui/component/ldap-config.glade.h:31
 msgid "Evolution Attribute"
 msgstr "Evolution-attributt"
 
-#: addressbook/gui/component/ldap-config.glade.h:30
+#: addressbook/gui/component/ldap-config.glade.h:32
 msgid "Evolution will use this DN to authenticate you with the server"
 msgstr "Evolution vil bruke DN til å autentisere deg mot tjeneren"
 
-#: addressbook/gui/component/ldap-config.glade.h:31
+#: addressbook/gui/component/ldap-config.glade.h:33
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
 msgstr ""
 "Evolution vil bruke denne e-post adressen til å autentisere deg mot tjeneren"
 
-#: addressbook/gui/component/ldap-config.glade.h:32
+#: addressbook/gui/component/ldap-config.glade.h:34
 msgid "Finished"
 msgstr "Fullført"
 
-#: addressbook/gui/component/ldap-config.glade.h:33
+#: addressbook/gui/component/ldap-config.glade.h:35
 #: addressbook/gui/contact-editor/contact-editor.glade.h:16
 msgid "General"
 msgstr "Generelt"
 
-#: addressbook/gui/component/ldap-config.glade.h:34
+#: addressbook/gui/component/ldap-config.glade.h:36
 msgid "LDAP Attribute"
 msgstr "LDAP-attributt"
 
-#: addressbook/gui/component/ldap-config.glade.h:35
+#: addressbook/gui/component/ldap-config.glade.h:37
 msgid "LDAP Configuration Assistant"
 msgstr "Konfigurasjonsassistent for LDAP"
 
-#: addressbook/gui/component/ldap-config.glade.h:36
+#: addressbook/gui/component/ldap-config.glade.h:38
 msgid "Mappings"
 msgstr "Mappinger"
 
-#: addressbook/gui/component/ldap-config.glade.h:37 mail/mail-account-gui.c:60
-#: mail/mail-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:39 mail/mail-account-gui.c:60
+#: mail/mail-config.glade.h:77
 msgid "Never"
 msgstr "Aldri"
 
-#: addressbook/gui/component/ldap-config.glade.h:38
+#: addressbook/gui/component/ldap-config.glade.h:40
 msgid ""
 "Now, you must specify how you want to connect to the LDAP server. The SSL "
 "(Secure Sockets Layer)\n"
@@ -908,33 +915,25 @@ msgid ""
 "these protocols."
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:41
+#: addressbook/gui/component/ldap-config.glade.h:43
 msgid "Objectclasses"
 msgstr "Objektklasser"
 
-#: addressbook/gui/component/ldap-config.glade.h:42
+#: addressbook/gui/component/ldap-config.glade.h:44
 msgid "Objectclasses Used in Evolution:"
 msgstr "Objektklasser som brukes i Evolution:"
 
-#: addressbook/gui/component/ldap-config.glade.h:43
+#: addressbook/gui/component/ldap-config.glade.h:45
 msgid "Objectclasses Used on Server:"
 msgstr "Objektklasser som brukes på tjener:"
 
-#: addressbook/gui/component/ldap-config.glade.h:44
+#: addressbook/gui/component/ldap-config.glade.h:46
 msgid "One"
 msgstr "En"
 
-#: addressbook/gui/component/ldap-config.glade.h:45
-msgid ""
-"Please select an Evolution attribute and an\n"
-"LDAP attribute to associate with it."
-msgstr ""
-"Vennligst velg en Evolution-attributt og en\n"
-"LDAP-attributt du vil assosiere med denne."
-
 #: addressbook/gui/component/ldap-config.glade.h:47
 msgid ""
-"Please select and Evolution attribute and an\n"
+"Please select an Evolution attribute and an\n"
 "LDAP attribute to associate with it."
 msgstr ""
 "Vennligst velg en Evolution-attributt og en\n"
@@ -1019,47 +1018,37 @@ msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:66
 msgid ""
-"Selecting this option will let you change Evolution's default settings for "
-"LDAP\n"
-"searches, and for creating and editting contacts. "
-msgstr ""
-"Hvis du aktiverer dette alternativet lar det deg endre Evolutions forvalgte "
-"innstillinger\n"
-"for LDAP-søk, og for oppretting og redigering av kontakter. "
-
-#: addressbook/gui/component/ldap-config.glade.h:68
-msgid ""
 "Specifying a display name is the last required step in configuring an LDAP "
 "server."
 msgstr ""
 "Spesifisering av visningsnavn er det siste steget i konfigurasjon av en LDAP-"
 "tjener."
 
-#: addressbook/gui/component/ldap-config.glade.h:69
+#: addressbook/gui/component/ldap-config.glade.h:67
 msgid "Step 1: Server Information"
 msgstr "Steg 1: Tjenerinformasjon"
 
-#: addressbook/gui/component/ldap-config.glade.h:70
+#: addressbook/gui/component/ldap-config.glade.h:68
 msgid "Step 2: Connecting to Server"
 msgstr "Steg 2: Kobler til tjener"
 
-#: addressbook/gui/component/ldap-config.glade.h:71
+#: addressbook/gui/component/ldap-config.glade.h:69
 msgid "Step 3: Searching the Directory"
 msgstr "Steg 3: Søker i katalogen"
 
-#: addressbook/gui/component/ldap-config.glade.h:72
+#: addressbook/gui/component/ldap-config.glade.h:70
 msgid "Step 4: Display Name"
 msgstr "Steg 4: Vis navn"
 
-#: addressbook/gui/component/ldap-config.glade.h:73
+#: addressbook/gui/component/ldap-config.glade.h:71
 msgid "Sub"
 msgstr "Under"
 
-#: addressbook/gui/component/ldap-config.glade.h:74
+#: addressbook/gui/component/ldap-config.glade.h:72
 msgid "Supported Search Bases"
 msgstr "Støttede søkebaser"
 
-#: addressbook/gui/component/ldap-config.glade.h:75
+#: addressbook/gui/component/ldap-config.glade.h:73
 msgid ""
 "The first step in configuring an LDAP server is to provide its name, and "
 "your log in\n"
@@ -1071,7 +1060,7 @@ msgstr ""
 "Vennligst spør din systemadministrator hvis du ikke er sikker på hva dette "
 "er."
 
-#: addressbook/gui/component/ldap-config.glade.h:77
+#: addressbook/gui/component/ldap-config.glade.h:75
 msgid ""
 "The options on this page control how many entries should be included in "
 "your\n"
@@ -1085,7 +1074,7 @@ msgstr ""
 "trenger\n"
 "å endre disse alternativene."
 
-#: addressbook/gui/component/ldap-config.glade.h:80
+#: addressbook/gui/component/ldap-config.glade.h:78
 msgid ""
 "The search base is the distinguished name (DN)  of the entry where your "
 "searches will \n"
@@ -1096,21 +1085,22 @@ msgstr ""
 "starte.\n"
 "Hvis du lar denne stå tom vil søk starte ved roten av katalogtreet."
 
-#: addressbook/gui/component/ldap-config.glade.h:82
+#: addressbook/gui/component/ldap-config.glade.h:80
+#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
 "directory tree. A search scope of \"sub\" will include all entries below "
 "your search base.\n"
 "A search scope of \"one\" will only include the entries one level beneath "
-"your base."
+"your base.\n"
 msgstr ""
 "Søkeområdet definerer hvor dypt du ønsker at søket skal gå ned i "
 "katalogtreet.\n"
 "Et søkeområde som «sub» vil ta med alle oppføringer under din søkebase.\n"
 "Et søkeområde som «one» vil kun ta med oppføringer ett nivå under basen."
 
-#: addressbook/gui/component/ldap-config.glade.h:85
+#: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
 "This assistant will help you to access online directory services\n"
 "using LDAP (Lightweight Directory Access Protocol) servers. \n"
@@ -1126,14 +1116,14 @@ msgstr ""
 "om tjeneren. Vennligst kontakt din systemadministrator hvis du trenger\n"
 "hjelp med å finne denne informasjonen."
 
-#: addressbook/gui/component/ldap-config.glade.h:91
+#: addressbook/gui/component/ldap-config.glade.h:90
 msgid ""
 "This is the full name of your ldap server. For example, \"ldap.mycompany.com"
 "\"."
 msgstr ""
 "Dette er fullt navn på din LDAP-tjener. For eksempel «ldap.mittfirma.no»."
 
-#: addressbook/gui/component/ldap-config.glade.h:92
+#: addressbook/gui/component/ldap-config.glade.h:91
 msgid ""
 "This is the maximum number of entries to download. Setting this number to "
 "be \n"
@@ -1143,7 +1133,7 @@ msgstr ""
 "dette tallet \n"
 "for høyt vil adresseboken bli treg."
 
-#: addressbook/gui/component/ldap-config.glade.h:94
+#: addressbook/gui/component/ldap-config.glade.h:93
 msgid ""
 "This is the method evolution will use to authenticate you.  Note that "
 "setting this to \"Email Address\" requires anonymous access to your ldap "
@@ -1152,7 +1142,7 @@ msgstr ""
 "Dette er metoden Evolution bruker for å autentisere deg. Merk at hvis du "
 "setter denne til «e-post-adresse» krever anonym tilgang til din LDAP-tjener."
 
-#: addressbook/gui/component/ldap-config.glade.h:95
+#: addressbook/gui/component/ldap-config.glade.h:94
 msgid ""
 "This is the name for this server that will appear in your Evolution folder "
 "list.\n"
@@ -1161,7 +1151,7 @@ msgstr ""
 "Dette er navnet på denne tjeneren som vises i mappelisten i Evolution. \n"
 "Det brukes kun for visning på skjermen."
 
-#: addressbook/gui/component/ldap-config.glade.h:97
+#: addressbook/gui/component/ldap-config.glade.h:96
 msgid ""
 "This is the port on the LDAP server that Evolution will try to connect to. "
 "A \n"
@@ -1172,11 +1162,11 @@ msgstr ""
 "liste med standardporter er gitt. Spør din systemadministrator hvilken\n"
 "port du skal bruke."
 
-#: addressbook/gui/component/ldap-config.glade.h:100
+#: addressbook/gui/component/ldap-config.glade.h:99
 msgid "This option controls how long a search will be run."
 msgstr "Dette alternativet kontrollerer hvor lenge et søk vil kjøre."
 
-#: addressbook/gui/component/ldap-config.glade.h:101
+#: addressbook/gui/component/ldap-config.glade.h:100
 msgid ""
 "To add an attribute to the DN, select it from the list and click the \"Add "
 "Attribute\" button.\n"
@@ -1185,69 +1175,69 @@ msgid ""
 "that you add to the directory on the LDAP server. "
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:104
+#: addressbook/gui/component/ldap-config.glade.h:103
 msgid "U_se SSL/TLS:"
 msgstr "B_ruk SSL/TLS:"
 
-#: addressbook/gui/component/ldap-config.glade.h:105
+#: addressbook/gui/component/ldap-config.glade.h:104
 msgid "Using distinguished name (DN)"
 msgstr "Bruker distinguished name (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:106
+#: addressbook/gui/component/ldap-config.glade.h:105
 msgid "Using email address"
 msgstr "Bruker e-post adresse"
 
-#: addressbook/gui/component/ldap-config.glade.h:107
-#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:106
+#: mail/mail-account-gui.c:59 mail/mail-config.glade.h:134
 msgid "Whenever Possible"
 msgstr "Når mulig"
 
-#: addressbook/gui/component/ldap-config.glade.h:108
+#: addressbook/gui/component/ldap-config.glade.h:107
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
 #: calendar/gui/dialogs/alarm-page.glade.h:8 filter/filter.glade.h:14
-#: mail/mail-config.glade.h:135 shell/glade/e-folder-list.glade.h:1
+#: mail/mail-config.glade.h:137 shell/glade/e-folder-list.glade.h:1
 msgid "_Add"
 msgstr "_Legg til"
 
-#: addressbook/gui/component/ldap-config.glade.h:109
+#: addressbook/gui/component/ldap-config.glade.h:108
 msgid "_Add ->"
 msgstr "_Legg til ->"
 
-#: addressbook/gui/component/ldap-config.glade.h:110
+#: addressbook/gui/component/ldap-config.glade.h:109
 msgid "_Add Mapping"
 msgstr "_Legg til mapping"
 
-#: addressbook/gui/component/ldap-config.glade.h:111
+#: addressbook/gui/component/ldap-config.glade.h:110
 msgid "_Add to DN"
 msgstr "_Legg til i DN"
 
-#: addressbook/gui/component/ldap-config.glade.h:112
+#: addressbook/gui/component/ldap-config.glade.h:111
 msgid "_Always"
 msgstr "_Alltid"
 
-#: addressbook/gui/component/ldap-config.glade.h:113
+#: addressbook/gui/component/ldap-config.glade.h:112
 msgid "_Delete Mapping"
 msgstr "_Slett mapping"
 
-#: addressbook/gui/component/ldap-config.glade.h:114
+#: addressbook/gui/component/ldap-config.glade.h:113
 msgid "_Display name:"
 msgstr "_Vis navn:"
 
-#: addressbook/gui/component/ldap-config.glade.h:115
+#: addressbook/gui/component/ldap-config.glade.h:114
 msgid "_Distinguished Name (DN):"
 msgstr "_Distinguished name (DN)"
 
-#: addressbook/gui/component/ldap-config.glade.h:116
+#: addressbook/gui/component/ldap-config.glade.h:115
 msgid "_Don't use SSL/TLS"
 msgstr "_Ikke bruk SSL/TLS"
 
-#: addressbook/gui/component/ldap-config.glade.h:117
+#: addressbook/gui/component/ldap-config.glade.h:116
 msgid "_Download limit:"
 msgstr "Grense for ne_dlasting:"
 
-#: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
-#: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
+#: addressbook/gui/component/ldap-config.glade.h:117 filter/filter.glade.h:16
+#: mail/mail-config.glade.h:152 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
 #: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
@@ -1256,91 +1246,91 @@ msgstr "Grense for ne_dlasting:"
 msgid "_Edit"
 msgstr "R_ediger"
 
-#: addressbook/gui/component/ldap-config.glade.h:119
+#: addressbook/gui/component/ldap-config.glade.h:118
 msgid "_Edit Mapping"
 msgstr "R_ediger mapping"
 
-#: addressbook/gui/component/ldap-config.glade.h:120
+#: addressbook/gui/component/ldap-config.glade.h:119
 msgid "_Evolution attribute:"
 msgstr "_Evolution-attributt:"
 
-#: addressbook/gui/component/ldap-config.glade.h:121
+#: addressbook/gui/component/ldap-config.glade.h:120
 msgid "_If necessary "
 msgstr "_Om nødvendig"
 
-#: addressbook/gui/component/ldap-config.glade.h:122
+#: addressbook/gui/component/ldap-config.glade.h:121
 msgid "_LDAP attribute:"
 msgstr "_LDAP-attributt:"
 
-#: addressbook/gui/component/ldap-config.glade.h:123
+#: addressbook/gui/component/ldap-config.glade.h:122
 msgid "_LDAP attributes:"
 msgstr "_LDAP-attributter:"
 
-#: addressbook/gui/component/ldap-config.glade.h:124
+#: addressbook/gui/component/ldap-config.glade.h:123
 msgid "_Log in method:"
 msgstr "Metode for på_logging:"
 
-#: addressbook/gui/component/ldap-config.glade.h:125
+#: addressbook/gui/component/ldap-config.glade.h:124
 msgid "_More Options >>"
 msgstr "_Flere alternativer >>"
 
-#: addressbook/gui/component/ldap-config.glade.h:126
+#: addressbook/gui/component/ldap-config.glade.h:125
 msgid "_Port number:"
 msgstr "_Portnummer:"
 
-#: addressbook/gui/component/ldap-config.glade.h:127
+#: addressbook/gui/component/ldap-config.glade.h:126
 msgid "_Restore Defaults"
 msgstr " Gjenopp_rett forvalg"
 
-#: addressbook/gui/component/ldap-config.glade.h:128
+#: addressbook/gui/component/ldap-config.glade.h:127
 msgid "_Search base:"
 msgstr "_Søkebase:"
 
-#: addressbook/gui/component/ldap-config.glade.h:129
+#: addressbook/gui/component/ldap-config.glade.h:128
 msgid "_Server name:"
 msgstr "_Tjenernavn:"
 
-#: addressbook/gui/component/ldap-config.glade.h:130
+#: addressbook/gui/component/ldap-config.glade.h:129
 msgid "_Timeout (minutes):"
 msgstr "_Tidsavbrudd (minutter):"
 
-#: addressbook/gui/component/ldap-config.glade.h:131
+#: addressbook/gui/component/ldap-config.glade.h:130
 msgid "account-druid"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:132
+#: addressbook/gui/component/ldap-config.glade.h:131
 msgid "account-editor"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:133
+#: addressbook/gui/component/ldap-config.glade.h:132
 msgid "cards"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:134
+#: addressbook/gui/component/ldap-config.glade.h:133
 msgid "connecting-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:135
+#: addressbook/gui/component/ldap-config.glade.h:134
 msgid "dn-customization-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:136
+#: addressbook/gui/component/ldap-config.glade.h:135
 msgid "edit_server_window_simple"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:137
+#: addressbook/gui/component/ldap-config.glade.h:136
 msgid "general-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:138
+#: addressbook/gui/component/ldap-config.glade.h:137
 msgid "mappings-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:139
+#: addressbook/gui/component/ldap-config.glade.h:138
 msgid "objectclasses-tab"
 msgstr ""
 
-#: addressbook/gui/component/ldap-config.glade.h:140
+#: addressbook/gui/component/ldap-config.glade.h:139
 msgid "searching-tab"
 msgstr ""
 
@@ -1531,7 +1521,7 @@ msgstr "Vil motta _HTML e-post"
 #: calendar/gui/dialogs/meeting-page.c:674
 #: calendar/gui/e-calendar-table.c:1006 calendar/gui/e-day-view.c:3766
 #: calendar/gui/e-week-view.c:3563 filter/filter.glade.h:15
-#: mail/folder-browser.c:1756 mail/mail-config.glade.h:148
+#: mail/folder-browser.c:1756 mail/mail-config.glade.h:150
 #: shell/glade/e-folder-list.glade.h:2 ui/evolution-addressbook.xml.h:32
 #: ui/evolution-calendar.xml.h:27 ui/evolution-mail-message.xml.h:97
 #: ui/evolution-tasks.xml.h:16 ui/evolution.xml.h:48
@@ -2763,28 +2753,28 @@ msgstr "_Suffiks:"
 msgid "_Title:"
 msgstr "_Tittel:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 msgid "List _name:"
 msgstr "Listenavn:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 msgid "Members"
 msgstr "Medlemmer"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
 msgid "Type an email address or drag a contact into the list below:"
 msgstr "Skriv en e-post adresse eller dra en kontakt inn i feltet under:"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
 msgid "_Hide addresses when sending mail to this list"
 msgstr "_Skjul adresser når du sender e-post til listen"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:8
 #: calendar/gui/dialogs/recurrence-page.glade.h:12 filter/filter.glade.h:17
 msgid "_Remove"
 msgstr "Fje_rn"
 
-#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:9
 msgid "contact-list-editor"
 msgstr "kontakt-liste-redigering"
 
@@ -3125,6 +3115,9 @@ msgid ""
 "%s\n"
 "has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Adressebokbakenden for\n"
+"%s\n"
+"har krasjet. Du vil måtte starte Evolution på nytt for å bruke den igjen"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:1
 msgid "* Click here to add a contact *"
@@ -3330,7 +3323,7 @@ msgstr "Marger"
 msgid "Number of columns:"
 msgstr "Antall kolonner:"
 
-#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:81
+#: addressbook/printing/e-contact-print.glade.h:23 mail/mail-config.glade.h:83
 msgid "Options"
 msgstr "Alternativer"
 
@@ -3739,7 +3732,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:79
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -3781,7 +3774,7 @@ msgstr "Ukevisning"
 msgid "Month View"
 msgstr "Månedsvisning"
 
-#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1371
+#: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
 #: shell/e-local-storage.c:176 shell/e-shortcuts.c:1059
 msgid "Calendar"
@@ -3799,7 +3792,7 @@ msgstr "Offentlig kalender"
 msgid "Public folder containing appointments and events"
 msgstr "Offentlig mappe som inneholder avtaler og hendelser"
 
-#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:722
+#: calendar/gui/component-factory.c:81 calendar/gui/e-tasks.c:738
 #: calendar/gui/print.c:1777 calendar/gui/tasks-control.c:508
 #: calendar/importers/icalendar-importer.c:704
 #: importers/netscape-importer.c:1875 my-evolution/e-summary-tasks.c:327
@@ -4105,7 +4098,7 @@ msgstr "slutt på avtale"
 msgid "hour(s)"
 msgstr "time(r)"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:180
+#: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 msgid "minute(s)"
 msgstr "minutt(er)"
 
@@ -4133,7 +4126,7 @@ msgstr "30 minutter"
 msgid "60 minutes"
 msgstr "60 minutter"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6 mail/mail-config.glade.h:14
 msgid "Alerts"
 msgstr "Advarsler"
 
@@ -4285,7 +4278,7 @@ msgid "_Fri"
 msgstr "_Fr."
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#: mail/mail-config.glade.h:155
+#: mail/mail-config.glade.h:157
 msgid "_General"
 msgstr "_Generell"
 
@@ -4975,7 +4968,7 @@ msgstr "Ferdigdato er feil"
 
 #: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
+#: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:44
 msgid "Description:"
 msgstr "Beskrivelse:"
 
@@ -5914,28 +5907,28 @@ msgstr "Tid for møtets _start:"
 msgid "Meeting _end time:"
 msgstr "Tid for møtets slutt:"
 
-#: calendar/gui/e-tasks.c:355 calendar/gui/gnome-cal.c:2013
-#: calendar/gui/gnome-cal.c:2024
+#: calendar/gui/e-tasks.c:358 calendar/gui/gnome-cal.c:2036
+#: calendar/gui/gnome-cal.c:2047
 #, c-format
 msgid "Opening tasks at %s"
 msgstr "Åpner oppgaver på %s"
 
-#: calendar/gui/e-tasks.c:381 calendar/gui/tasks-control.c:196
+#: calendar/gui/e-tasks.c:387 calendar/gui/tasks-control.c:196
 #, c-format
 msgid "Could not load the tasks in `%s'"
 msgstr "Kunne ikke laste oppgavene i «%s»"
 
-#: calendar/gui/e-tasks.c:393
+#: calendar/gui/e-tasks.c:402
 #, c-format
 msgid "The method required to load `%s' is not supported"
 msgstr "Metoden som er nødvendig for å laste «%s» er ikke støttet"
 
-#: calendar/gui/e-tasks.c:404 calendar/gui/gnome-cal.c:1552
+#: calendar/gui/e-tasks.c:416 calendar/gui/gnome-cal.c:1561
 #, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "Du har ikke rettigheter til å åpne mappen i «%s»"
 
-#: calendar/gui/e-tasks.c:469 calendar/gui/gnome-cal.c:1750
+#: calendar/gui/e-tasks.c:484 calendar/gui/gnome-cal.c:1765
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -5944,15 +5937,15 @@ msgstr ""
 "Feil på «%s»:\n"
 " %s"
 
-#: calendar/gui/e-tasks.c:540
+#: calendar/gui/e-tasks.c:556
 msgid "Completing tasks..."
 msgstr "Fullfører oppgaver..."
 
-#: calendar/gui/e-tasks.c:563
+#: calendar/gui/e-tasks.c:579
 msgid "Deleting selected objects..."
 msgstr "Sletter valgte objekter..."
 
-#: calendar/gui/e-tasks.c:656
+#: calendar/gui/e-tasks.c:672
 msgid "Expunging"
 msgstr "Tømmer"
 
@@ -5960,44 +5953,49 @@ msgstr "Tømmer"
 msgid "New _Appointment..."
 msgstr "Ny _avtale..."
 
-#: calendar/gui/gnome-cal.c:1530
+#: calendar/gui/gnome-cal.c:1533
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "Kunne ikke åpne mappen i «%s»"
 
-#: calendar/gui/gnome-cal.c:1541
+#: calendar/gui/gnome-cal.c:1547
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr "Metoden som er nødvendig for å åpne «%s» er ikke støttet"
 
-#. add the alarms for this client
-#: calendar/gui/gnome-cal.c:1581
+#: calendar/gui/gnome-cal.c:1593
 #, c-format
 msgid "Adding alarms for %s"
 msgstr "Legger til alarmer for %s"
 
-#: calendar/gui/gnome-cal.c:1767
+#: calendar/gui/gnome-cal.c:1786
 #, c-format
 msgid ""
 "The calendar backend for\n"
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Kalenderbakenden for\n"
+"%s\n"
+"har krasjet. Du vil måtte starte Evolution på nytt for å bruke den igjen"
 
-#: calendar/gui/gnome-cal.c:1772
+#: calendar/gui/gnome-cal.c:1791
 #, c-format
 msgid ""
 "The task backend for\n"
 "%s\n"
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
+"Oppgavebakenden forr\n"
+"%s\n"
+" har krasjet. Du vil måtte starte Evolution på nytt for å bruke den igjen"
 
-#: calendar/gui/gnome-cal.c:1996
+#: calendar/gui/gnome-cal.c:2018
 #, c-format
 msgid "Opening calendar at %s"
 msgstr "Åpner kalender på %s"
 
-#: calendar/gui/gnome-cal.c:2035
+#: calendar/gui/gnome-cal.c:2058
 msgid "Opening default tasks folder"
 msgstr "Åpner forvalgt oppgavemappe"
 
@@ -8489,11 +8487,11 @@ msgstr "Klarte ikke å dekryptere MIME-del: ugyldig struktur"
 msgid "Failed to decrypt MIME part: parse error"
 msgstr "Klarte ikke å dekryptere MIME-del: tolkefeil"
 
-#: camel/camel-multipart-signed.c:624
+#: camel/camel-multipart-signed.c:625
 msgid "This is a digitally signed message part"
 msgstr "Dette er en digitalt signert meldingsdel"
 
-#: camel/camel-multipart-signed.c:678
+#: camel/camel-multipart-signed.c:679
 msgid "parse error"
 msgstr "lesefeil"
 
@@ -8859,9 +8857,8 @@ msgid "Unable to get issuer's certificate locally"
 msgstr "Kan ikke finne utsteders sertifikat lokalt"
 
 #: camel/camel-tcp-stream-openssl.c:601
-#, fuzzy
 msgid "Unable to verify leaf signature"
-msgstr "Feil under verifisering av sertifikater."
+msgstr "Kan ikke verifisere undersertifikat"
 
 #: camel/camel-tcp-stream-openssl.c:603
 msgid "Certificate chain too long"
@@ -9206,7 +9203,7 @@ msgstr "For lesing og lagring av e-post på IMAP-tjenere."
 
 #: camel/providers/imap/camel-imap-provider.c:80
 #: camel/providers/nntp/camel-nntp-store.c:267
-#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:85
+#: camel/providers/pop3/camel-pop3-provider.c:69 mail/mail-config.glade.h:87
 msgid "Password"
 msgstr "Passord"
 
@@ -9887,7 +9884,7 @@ msgstr "Behold meldinger på tjeneren"
 msgid "Delete after %s day(s)"
 msgstr "Slett etter %s dag(er)"
 
-#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:84
+#: camel/providers/pop3/camel-pop3-provider.c:52 mail/mail-config.glade.h:86
 msgid "POP"
 msgstr "POP"
 
@@ -9977,7 +9974,7 @@ msgid "No such folder `%s'."
 msgstr "Ingen slik mappe «%s»."
 
 #: camel/providers/sendmail/camel-sendmail-provider.c:36
-#: mail/mail-config.glade.h:109
+#: mail/mail-config.glade.h:111
 msgid "Sendmail"
 msgstr "Sendmail"
 
@@ -10031,7 +10028,7 @@ msgstr "sendmail"
 msgid "Mail delivery via the sendmail program"
 msgstr "Levering av e-post via sendmail programmet"
 
-#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:101
+#: camel/providers/smtp/camel-smtp-provider.c:37 mail/mail-config.glade.h:103
 msgid "SMTP"
 msgstr "SMTP"
 
@@ -10639,12 +10636,12 @@ msgstr "Emne inneholder"
 msgid "Subject does not contain"
 msgstr "Emne inneholder ikke"
 
-#: e-util/e-component-listener.c:131
+#: e-util/e-component-listener.c:135
 msgid ""
 "ping_timeout_callback: could not determine if the CORBA object is nil or not"
-msgstr ""
+msgstr "ping_timeout_callback: kunne ikke bestemme om CORBA-objectet er null eller ikke"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
+#: e-util/e-dialog-utils.c:241 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -10755,7 +10752,7 @@ msgid "%I %p"
 msgstr "%I %p"
 
 #: filter/filter-datespec.c:70 filter/filter.glade.h:24
-#: mail/mail-config.glade.h:181
+#: mail/mail-config.glade.h:183
 msgid "seconds"
 msgstr " sekunder"
 
@@ -10863,29 +10860,29 @@ msgstr ""
 "%s"
 
 #: filter/filter-label.c:136 filter/libfilter-i18n.h:26 mail/mail-config.c:68
-#: mail/mail-config.glade.h:62
+#: mail/mail-config.glade.h:64
 msgid "Important"
 msgstr "Viktig"
 
 #. red
 #: filter/filter-label.c:137 mail/mail-config.c:69
-#: mail/mail-config.glade.h:133
+#: mail/mail-config.glade.h:135
 msgid "Work"
 msgstr "Arbeid"
 
 #. orange
-#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:86
+#: filter/filter-label.c:138 mail/mail-config.c:70 mail/mail-config.glade.h:88
 msgid "Personal"
 msgstr "Personlig"
 
 #. forest green
 #: filter/filter-label.c:139 mail/mail-config.c:71
-#: mail/mail-config.glade.h:124
+#: mail/mail-config.glade.h:126
 msgid "To Do"
 msgstr "Oppgaver"
 
 #. blue
-#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:66
+#: filter/filter-label.c:140 mail/mail-config.c:72 mail/mail-config.glade.h:68
 msgid "Later"
 msgstr "Senere"
 
@@ -11494,7 +11491,7 @@ msgstr "Brukervalg for skrift"
 msgid "Mail Accounts"
 msgstr "E-post-konti"
 
-#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:69
+#: mail/GNOME_Evolution_Mail.oaf.in.h:19 mail/mail-config.glade.h:71
 msgid "Mail Preferences"
 msgstr "Brukervalg for e-post"
 
@@ -11779,7 +11776,7 @@ msgstr "Filtrer _på e-postliste (%s)"
 msgid "VFolder on M_ailing List (%s)"
 msgstr "VFolder _på e-postliste (%s)"
 
-#: mail/folder-browser.h:26 mail/mail-config.glade.h:38
+#: mail/folder-browser.h:26 mail/mail-config.glade.h:40
 msgid "Default"
 msgstr "Forvalgt"
 
@@ -11846,15 +11843,15 @@ msgstr "Du har ikke fylt ut all nødvendig informasjon."
 msgid "Evolution Account Editor"
 msgstr "Kontoredigering for Evolution"
 
-#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:157
+#: mail/mail-account-gui.c:743 mail/mail-config.glade.h:159
 msgid "_Host:"
 msgstr "_Vert:"
 
-#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:127
+#: mail/mail-account-gui.c:747 mail/mail-config.glade.h:129
 msgid "User_name:"
 msgstr "Bruker_navn:"
 
-#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:164
+#: mail/mail-account-gui.c:751 mail/mail-config.glade.h:166
 msgid "_Path:"
 msgstr "S_ti:"
 
@@ -11891,7 +11888,7 @@ msgid "[Default]"
 msgstr "[Forvalg]"
 
 #: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
-#: mail/mail-config.glade.h:53
+#: mail/mail-config.glade.h:55
 msgid "Enabled"
 msgstr "Aktivert"
 
@@ -12234,119 +12231,119 @@ msgstr "Sjekker tjeneste"
 msgid "Connecting to server..."
 msgstr "Kobler til tjener..."
 
-#: mail/mail-config.glade.h:1
+#: mail/mail-config.glade.h:3
 msgid " _Check for supported types "
 msgstr "_Søk etter støttede typer"
 
-#: mail/mail-config.glade.h:2
+#: mail/mail-config.glade.h:4
 msgid "(SSL is not supported in this build of Evolution)"
 msgstr "(SSL er ikke støttet i denne versjonen av Evolution)"
 
-#: mail/mail-config.glade.h:3
+#: mail/mail-config.glade.h:5
 msgid "(SSL is not supported in this build of evolution)"
 msgstr "(SSL er ikke støttet i denne versjonen av evolution)"
 
-#: mail/mail-config.glade.h:4
+#: mail/mail-config.glade.h:6
 msgid "A_lways encrypt to myself when sending encrypted mail"
 msgstr "A_lltid krypter til meg selv ved sending av kryptert e-post"
 
-#: mail/mail-config.glade.h:5
+#: mail/mail-config.glade.h:7
 msgid "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz"
 msgstr "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZzÆæØøÅå"
 
-#: mail/mail-config.glade.h:6
+#: mail/mail-config.glade.h:8
 msgid "Account Editor"
 msgstr "Kontoredigering"
 
-#: mail/mail-config.glade.h:7
+#: mail/mail-config.glade.h:9
 msgid "Account Information"
 msgstr "Kontoinformasjon"
 
-#: mail/mail-config.glade.h:8 shell/glade/evolution-startup-wizard.glade.h:1
+#: mail/mail-config.glade.h:10 shell/glade/evolution-startup-wizard.glade.h:1
 msgid "Account Management"
 msgstr "Håndtering av konti"
 
-#: mail/mail-config.glade.h:9
+#: mail/mail-config.glade.h:11
 msgid "Add Sc_ript"
 msgstr "Legg til sk_ript"
 
-#: mail/mail-config.glade.h:10
+#: mail/mail-config.glade.h:12
 msgid "Add new signature..."
 msgstr "Legg til ny signatur..."
 
-#: mail/mail-config.glade.h:11
+#: mail/mail-config.glade.h:13
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr "A_lltid krypter til meg selv ved sending av kryptert e-post"
 
-#: mail/mail-config.glade.h:13
+#: mail/mail-config.glade.h:15
 msgid "Alwa_ys sign outgoing messages when using this account"
 msgstr "Alltid signer _utgående meldinger når denne kontoen brukes"
 
-#: mail/mail-config.glade.h:15
+#: mail/mail-config.glade.h:17
 msgid "Always _blind carbon-copy (Bcc) to:"
 msgstr "Alltid _blind karbonkopi (Bcc) til:"
 
-#: mail/mail-config.glade.h:16
+#: mail/mail-config.glade.h:18
 msgid "Always _carbon-copy (Cc) to:"
 msgstr "Alltid _karbonkopi (Cc) til:"
 
-#: mail/mail-config.glade.h:17
+#: mail/mail-config.glade.h:19
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr "Alltid s_tol på nøkler i min nøkkelring ved kryptering"
 
-#: mail/mail-config.glade.h:18
+#: mail/mail-config.glade.h:20
 msgid "Attach original message"
 msgstr "Legg ved opprinnelig melding"
 
-#: mail/mail-config.glade.h:19 mail/message-list.etspec.h:1
+#: mail/mail-config.glade.h:21 mail/message-list.etspec.h:1
 msgid "Attachment"
 msgstr "Vedlegg"
 
-#: mail/mail-config.glade.h:20
+#: mail/mail-config.glade.h:22
 msgid "Authentication"
 msgstr "Autentisering"
 
-#: mail/mail-config.glade.h:21
+#: mail/mail-config.glade.h:23
 msgid "Automatically _detect links"
 msgstr "Finn _lenker automatisk"
 
-#: mail/mail-config.glade.h:22
+#: mail/mail-config.glade.h:24
 msgid "Baltic (ISO-8859-13)"
 msgstr "Baltisk (ISO-8859-13)"
 
-#: mail/mail-config.glade.h:23
+#: mail/mail-config.glade.h:25
 msgid "Baltic (ISO-8859-4)"
 msgstr "Baltisk (ISO-8859-4)"
 
-#: mail/mail-config.glade.h:24
+#: mail/mail-config.glade.h:26
 msgid "C_haracter set:"
 msgstr "Te_gnsett:"
 
-#: mail/mail-config.glade.h:25
+#: mail/mail-config.glade.h:27
 msgid "C_olors"
 msgstr "F_arger"
 
-#: mail/mail-config.glade.h:26
+#: mail/mail-config.glade.h:28
 msgid "Check spelling while I _type"
 msgstr "Sjekk s_taving mens jeg skriver"
 
-#: mail/mail-config.glade.h:27
+#: mail/mail-config.glade.h:29
 msgid "Checking for New Mail"
 msgstr "Ser etter nye meldinger"
 
-#: mail/mail-config.glade.h:28
+#: mail/mail-config.glade.h:30
 msgid "Color for _misspelled words:"
 msgstr "_Farge for feilstavede ord:"
 
-#: mail/mail-config.glade.h:29
+#: mail/mail-config.glade.h:31
 msgid "Composing Messages"
 msgstr "Skriver meldinger"
 
-#: mail/mail-config.glade.h:30
+#: mail/mail-config.glade.h:32
 msgid "Configuration"
 msgstr "Konfigurasjon"
 
-#: mail/mail-config.glade.h:31
+#: mail/mail-config.glade.h:33
 msgid ""
 "Congratulations, your mail configuration is complete.\n"
 "\n"
@@ -12362,282 +12359,282 @@ msgstr ""
 "\n"
 "Klikk «Fullfør» for å lagre dine innstillinger"
 
-#: mail/mail-config.glade.h:37
+#: mail/mail-config.glade.h:39
 msgid "De_fault"
 msgstr "_Forvalgt"
 
-#: mail/mail-config.glade.h:39
+#: mail/mail-config.glade.h:41
 msgid "Default Behavior"
 msgstr "Forvalgt oppførsel"
 
-#: mail/mail-config.glade.h:40
+#: mail/mail-config.glade.h:42
 msgid "Default character _encoding:"
 msgstr "Forvalgt t_egnkoding:"
 
-#: mail/mail-config.glade.h:41
+#: mail/mail-config.glade.h:43
 msgid "Deleting Mail"
 msgstr "Sletter meldinger"
 
-#: mail/mail-config.glade.h:43
+#: mail/mail-config.glade.h:45
 msgid "Digital IDs..."
 msgstr "Digitale IDer..."
 
-#: mail/mail-config.glade.h:44
+#: mail/mail-config.glade.h:46
 msgid "Do not quote original message"
 msgstr "Ikke siter opprinnelig melding"
 
-#: mail/mail-config.glade.h:45
+#: mail/mail-config.glade.h:47
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
 msgstr "Ikke signer _møteforespørsler (for kompatibilitet med Outlook)"
 
-#: mail/mail-config.glade.h:46 shell/glade/evolution-startup-wizard.glade.h:2
+#: mail/mail-config.glade.h:48 shell/glade/evolution-startup-wizard.glade.h:2
 msgid "Done"
 msgstr "Ferdig"
 
-#: mail/mail-config.glade.h:47
+#: mail/mail-config.glade.h:49
 msgid "Drafts _folder:"
 msgstr "Mappe _for skisser:"
 
-#: mail/mail-config.glade.h:48
+#: mail/mail-config.glade.h:50
 msgid "E_nable"
 msgstr "A_ktiver"
 
-#: mail/mail-config.glade.h:49
+#: mail/mail-config.glade.h:51
 msgid "Emacs"
 msgstr "Emacs"
 
-#: mail/mail-config.glade.h:50
+#: mail/mail-config.glade.h:52
 msgid "Email Accounts"
 msgstr "E-post kontoer"
 
-#: mail/mail-config.glade.h:51
+#: mail/mail-config.glade.h:53
 msgid "Email _address:"
 msgstr "E-post _adresse:"
 
-#: mail/mail-config.glade.h:52
+#: mail/mail-config.glade.h:54
 msgid "Empty _trash folders on exit"
 msgstr "_Tøm søppelkurven ved slutt"
 
-#: mail/mail-config.glade.h:54
+#: mail/mail-config.glade.h:56
 msgid "Execute Command..."
 msgstr "Kjør kommando..."
 
-#: mail/mail-config.glade.h:55
+#: mail/mail-config.glade.h:57
 msgid "Fi_xed -width:"
 msgstr "Fast _bredde:"
 
-#: mail/mail-config.glade.h:56
+#: mail/mail-config.glade.h:58
 msgid "Font Properties"
 msgstr "Egenskaper for skrift"
 
-#: mail/mail-config.glade.h:57
+#: mail/mail-config.glade.h:59
 msgid "Format messages in _HTML"
 msgstr "Formater meldinger med _HTML"
 
-#: mail/mail-config.glade.h:58
+#: mail/mail-config.glade.h:60
 msgid "Get Digital ID..."
 msgstr "Hent digital ID..."
 
-#: mail/mail-config.glade.h:59
+#: mail/mail-config.glade.h:61
 msgid "Highlight _quotations with"
 msgstr "_Merk sitering med"
 
-#: mail/mail-config.glade.h:60
+#: mail/mail-config.glade.h:62
 msgid "IMAPv4 "
 msgstr "IMAPv4"
 
-#: mail/mail-config.glade.h:61 shell/glade/evolution-startup-wizard.glade.h:4
+#: mail/mail-config.glade.h:63 shell/glade/evolution-startup-wizard.glade.h:4
 msgid "Identity"
 msgstr "Identitet"
 
-#: mail/mail-config.glade.h:63
+#: mail/mail-config.glade.h:65
 msgid "Inline"
 msgstr "Inline"
 
-#: mail/mail-config.glade.h:64
+#: mail/mail-config.glade.h:66
 msgid "Kerberos "
 msgstr "Kerberos "
 
-#: mail/mail-config.glade.h:65
+#: mail/mail-config.glade.h:67
 msgid "Labels and Colors"
 msgstr "Etiketter og farger"
 
-#: mail/mail-config.glade.h:67
+#: mail/mail-config.glade.h:69
 msgid "Loading Images"
 msgstr "Laster bilder"
 
-#: mail/mail-config.glade.h:68
+#: mail/mail-config.glade.h:70
 msgid "Mail Configuration"
 msgstr "E-post-konfigurasjon"
 
-#: mail/mail-config.glade.h:70
+#: mail/mail-config.glade.h:72
 msgid "Mailbox location"
 msgstr "Plassering av postboks"
 
-#: mail/mail-config.glade.h:71
+#: mail/mail-config.glade.h:73
 msgid "Message Composer"
 msgstr "Meldingsredigering"
 
-#: mail/mail-config.glade.h:72
+#: mail/mail-config.glade.h:74
 msgid "Message Display"
 msgstr "Meldingsvisning"
 
-#: mail/mail-config.glade.h:73
+#: mail/mail-config.glade.h:75
 msgid "Microsoft"
 msgstr "Microsoft"
 
-#: mail/mail-config.glade.h:76
+#: mail/mail-config.glade.h:78
 msgid "New Mail Notification"
 msgstr "Melding om ny e-post"
 
-#: mail/mail-config.glade.h:78
+#: mail/mail-config.glade.h:80
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
 "Merk: du vil ikke bli spurt etter et passord før du kobler til første gang"
 
-#: mail/mail-config.glade.h:79
+#: mail/mail-config.glade.h:81
 msgid "On Screen fonts"
 msgstr "Skrifter på skjermen"
 
-#: mail/mail-config.glade.h:80
+#: mail/mail-config.glade.h:82
 msgid "Optional Information"
 msgstr "Tilleggsinformasjon"
 
-#: mail/mail-config.glade.h:82
+#: mail/mail-config.glade.h:84
 msgid "Or_ganization:"
 msgstr "Or_ganisasjon:"
 
-#: mail/mail-config.glade.h:83
+#: mail/mail-config.glade.h:85
 msgid "PGP/GPG _Key ID:"
 msgstr "PGP/GPG-nø_kkel ID:"
 
-#: mail/mail-config.glade.h:87
+#: mail/mail-config.glade.h:89
 msgid "Pick a color"
 msgstr "Velg en farge"
 
-#: mail/mail-config.glade.h:88
+#: mail/mail-config.glade.h:90
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
 msgstr "Spø_r ved sending av meldinger med kun Bcc-mottakere definert"
 
-#: mail/mail-config.glade.h:89
+#: mail/mail-config.glade.h:91
 msgid "Pretty Good Privacy (PGP/GPG)"
 msgstr "Pretty Good Privacy (PGP/GPG)"
 
-#: mail/mail-config.glade.h:90
+#: mail/mail-config.glade.h:92
 msgid "Printed Fonts"
 msgstr "Skrifter ved utskrift"
 
-#: mail/mail-config.glade.h:91
+#: mail/mail-config.glade.h:93
 msgid "Qmail maildir "
 msgstr "Qmail maildir"
 
-#: mail/mail-config.glade.h:92
+#: mail/mail-config.glade.h:94
 msgid "Quote original message"
 msgstr "Siter opprinnelig melding"
 
-#: mail/mail-config.glade.h:93
+#: mail/mail-config.glade.h:95
 msgid "Quoted"
 msgstr "Sitert"
 
-#: mail/mail-config.glade.h:94
+#: mail/mail-config.glade.h:96
 msgid "Re_member this password"
 msgstr "H_usk dette passordet"
 
-#: mail/mail-config.glade.h:95
+#: mail/mail-config.glade.h:97
 msgid "Re_ply-To:"
 msgstr "S_var-til:"
 
-#: mail/mail-config.glade.h:96 shell/glade/evolution-startup-wizard.glade.h:6
+#: mail/mail-config.glade.h:98 shell/glade/evolution-startup-wizard.glade.h:6
 msgid "Receiving Email"
 msgstr "Innkommende e-post"
 
-#: mail/mail-config.glade.h:97
+#: mail/mail-config.glade.h:99
 msgid "Receiving _Options"
 msgstr "Alternativer for m_ottak"
 
-#: mail/mail-config.glade.h:98
+#: mail/mail-config.glade.h:100
 msgid "Remember this _password"
 msgstr "Husk dette _passordet"
 
-#: mail/mail-config.glade.h:99
+#: mail/mail-config.glade.h:101
 msgid "Required Information"
 msgstr "Nødvendig informasjon"
 
-#: mail/mail-config.glade.h:100
+#: mail/mail-config.glade.h:102
 msgid "Restore Defaults"
 msgstr "Gjenopprett forvalg"
 
-#: mail/mail-config.glade.h:102
+#: mail/mail-config.glade.h:104
 msgid "S_ecurity"
 msgstr "Sikk_erhet"
 
-#: mail/mail-config.glade.h:103
+#: mail/mail-config.glade.h:105
 msgid "Secure MIME (S/MIME)"
 msgstr "Sikker MIME (S/MIME)"
 
-#: mail/mail-config.glade.h:104
+#: mail/mail-config.glade.h:106
 msgid "Select HTML fixed width font"
 msgstr "Velg skrift med fast bredde for HTML"
 
-#: mail/mail-config.glade.h:105
+#: mail/mail-config.glade.h:107
 msgid "Select HTML fixed width font for printing"
 msgstr "Velg skrift med fast bredde for bruk ved utskrift av HTML"
 
-#: mail/mail-config.glade.h:106
+#: mail/mail-config.glade.h:108
 msgid "Select HTML variable width font"
 msgstr "Velg skrift med variabel bredde for HTML"
 
-#: mail/mail-config.glade.h:107
+#: mail/mail-config.glade.h:109
 msgid "Select HTML variable width font for printing"
 msgstr "Velg skrift med variabel bredde for bruk ved utskrift av HTML"
 
-#: mail/mail-config.glade.h:108 shell/glade/evolution-startup-wizard.glade.h:7
+#: mail/mail-config.glade.h:110 shell/glade/evolution-startup-wizard.glade.h:7
 msgid "Sending Email"
 msgstr "Utgående e-post"
 
-#: mail/mail-config.glade.h:110
+#: mail/mail-config.glade.h:112
 msgid "Sent _messages folder:"
 msgstr "Mappe for sendte _meldinger:"
 
-#: mail/mail-config.glade.h:111
+#: mail/mail-config.glade.h:113
 msgid "Sent and Draft Messages"
 msgstr "Sendte meldinger og skisser"
 
-#: mail/mail-config.glade.h:112
+#: mail/mail-config.glade.h:114
 msgid "Ser_ver requires authentication"
 msgstr "Tjener kre_ver autentisering"
 
-#: mail/mail-config.glade.h:113
+#: mail/mail-config.glade.h:115
 msgid "Server Configuration"
 msgstr "Tjenerkonfigurasjon"
 
-#: mail/mail-config.glade.h:114
+#: mail/mail-config.glade.h:116
 msgid "Server _Type: "
 msgstr "Tjener_type: "
 
-#: mail/mail-config.glade.h:115
+#: mail/mail-config.glade.h:117
 msgid "Shortcuts _type:"
 msgstr "Snarvei_type:"
 
-#: mail/mail-config.glade.h:116
+#: mail/mail-config.glade.h:118
 msgid "Specify _filename:"
 msgstr "Spesifiser _filnavn:"
 
-#: mail/mail-config.glade.h:117
+#: mail/mail-config.glade.h:119
 msgid "Spell Checking Language"
 msgstr "Språk for stavekontroll"
 
-#: mail/mail-config.glade.h:118
+#: mail/mail-config.glade.h:120
 msgid "Spell _Checking"
 msgstr "Stave_kontroll"
 
-#: mail/mail-config.glade.h:119
+#: mail/mail-config.glade.h:121
 msgid "Standard Unix mbox"
 msgstr "Standard Unix mbox"
 
-#: mail/mail-config.glade.h:120
+#: mail/mail-config.glade.h:122
 msgid ""
 "The output of this script will be used as your\n"
 "signature. The name you specify will be used\n"
@@ -12647,7 +12644,7 @@ msgstr ""
 "signatur. Navnet du oppgir vil kun brukes for\n"
 "visning på skjermen."
 
-#: mail/mail-config.glade.h:123
+#: mail/mail-config.glade.h:125
 msgid ""
 "This page allows you to configure spell checking behavior and language. The "
 "list of languages here reflects only the languages for which you have a "
@@ -12656,7 +12653,7 @@ msgstr ""
 "Denne siden lar deg konfigurere oppførsel for stavekontroll og språk. "
 "Språklisten her reflekterer kun de språkene du har installert en ordbok for."
 
-#: mail/mail-config.glade.h:125
+#: mail/mail-config.glade.h:127
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
@@ -12664,11 +12661,11 @@ msgstr ""
 "Skriv navnet du vil referere til denne kontoen.\n"
 "For eksempel «Arbeid» eller «Personlig»"
 
-#: mail/mail-config.glade.h:128
+#: mail/mail-config.glade.h:130
 msgid "V_ariable-width:"
 msgstr "V_ariabel bredde:"
 
-#: mail/mail-config.glade.h:129
+#: mail/mail-config.glade.h:131
 msgid ""
 "Welcome to the Evolution Mail Configuration Assistant.\n"
 "\n"
@@ -12678,163 +12675,163 @@ msgstr ""
 "\n"
 "Klikk «Neste» for å begynne. "
 
-#: mail/mail-config.glade.h:134
+#: mail/mail-config.glade.h:136
 msgid "XEmacs"
 msgstr "XEmacs"
 
-#: mail/mail-config.glade.h:136
+#: mail/mail-config.glade.h:138
 msgid "_Add Signature"
 msgstr "_Legg til signatur"
 
-#: mail/mail-config.glade.h:137
+#: mail/mail-config.glade.h:139
 msgid "_Always load images off the net"
 msgstr "_Alltid last bilder fra nettet"
 
-#: mail/mail-config.glade.h:138
+#: mail/mail-config.glade.h:140
 msgid "_Always sign outgoing messages when using this account"
 msgstr "_Alltid signer utgående meldinger når denne kontoen brukes"
 
-#: mail/mail-config.glade.h:139
+#: mail/mail-config.glade.h:141
 msgid "_Authentication Type: "
 msgstr "_Autentiseringstype: "
 
-#: mail/mail-config.glade.h:140
+#: mail/mail-config.glade.h:142
 msgid "_Authentication type: "
 msgstr "_Autentiseringstype: "
 
-#: mail/mail-config.glade.h:141
+#: mail/mail-config.glade.h:143
 msgid "_Automatically check for new mail"
 msgstr "Sjekk etter meldinger _automatisk"
 
-#: mail/mail-config.glade.h:142
+#: mail/mail-config.glade.h:144
 msgid "_Automatically insert smiley images"
 msgstr "Sett inn emotikoner _automatisk"
 
-#: mail/mail-config.glade.h:143
+#: mail/mail-config.glade.h:145
 msgid "_Beep when new mail arrives"
 msgstr "_Pip når nye meldinger ankommer"
 
-#: mail/mail-config.glade.h:144
+#: mail/mail-config.glade.h:146
 msgid "_Certificate ID:"
 msgstr "_Sertifikat-ID:"
 
-#: mail/mail-config.glade.h:145
+#: mail/mail-config.glade.h:147
 msgid "_Confirm when expunging a folder"
 msgstr "_Bekreft ved tømming av mappe"
 
-#: mail/mail-config.glade.h:146
+#: mail/mail-config.glade.h:148
 msgid "_Default signature:"
 msgstr "_Forvalgt signatur:"
 
-#: mail/mail-config.glade.h:147
+#: mail/mail-config.glade.h:149
 msgid "_Defaults"
 msgstr "_Forvalg"
 
-#: mail/mail-config.glade.h:149
+#: mail/mail-config.glade.h:151
 msgid "_Do not notify me when new mail arrives"
 msgstr "Ikke gi beskjed når nye meldinger ankommer"
 
-#: mail/mail-config.glade.h:151
+#: mail/mail-config.glade.h:153
 msgid "_Enable"
 msgstr "_Aktiver"
 
-#: mail/mail-config.glade.h:152
+#: mail/mail-config.glade.h:154
 msgid "_Fixed-width:"
 msgstr "_Fast bredde:"
 
-#: mail/mail-config.glade.h:153
+#: mail/mail-config.glade.h:155
 msgid "_Forward style:"
 msgstr "_Videresendingsstil:"
 
-#: mail/mail-config.glade.h:154
+#: mail/mail-config.glade.h:156
 msgid "_Full name:"
 msgstr "_Fullt navn:"
 
-#: mail/mail-config.glade.h:156
+#: mail/mail-config.glade.h:158
 msgid "_HTML Mail"
 msgstr "_HTML e-post"
 
-#: mail/mail-config.glade.h:158
+#: mail/mail-config.glade.h:160
 msgid "_Identity"
 msgstr "_Identitet"
 
-#: mail/mail-config.glade.h:159
+#: mail/mail-config.glade.h:161
 msgid "_Load images if sender is in addressbook"
 msgstr "_Last bilder hvis avsender er i adresseboken"
 
-#: mail/mail-config.glade.h:160
+#: mail/mail-config.glade.h:162
 msgid "_Make this my default account"
 msgstr "_Bruk denne som forvalgt konto"
 
-#: mail/mail-config.glade.h:161
+#: mail/mail-config.glade.h:163
 msgid "_Mark messages as read after"
 msgstr "_Merk meldinger som lest etter"
 
-#: mail/mail-config.glade.h:162
+#: mail/mail-config.glade.h:164
 msgid "_Name:"
 msgstr "_Navn:"
 
-#: mail/mail-config.glade.h:163
+#: mail/mail-config.glade.h:165
 msgid "_Never load images off the net"
 msgstr "Aldri last bilder fra _nettet"
 
-#: mail/mail-config.glade.h:165
+#: mail/mail-config.glade.h:167
 msgid "_Play sound file when new mail arrives"
 msgstr "S_pill en lydfil når nye meldinger ankommer"
 
-#: mail/mail-config.glade.h:166
+#: mail/mail-config.glade.h:168
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr "S_pør ved sending av HTML-meldinger til kontakter som ikke ønsker dem"
 
-#: mail/mail-config.glade.h:167
+#: mail/mail-config.glade.h:169
 msgid "_Prompt when sending messages with an empty subject line"
 msgstr "S_pør ved sending av meldinger med tomt emnefelt"
 
-#: mail/mail-config.glade.h:168
+#: mail/mail-config.glade.h:170
 msgid "_Receiving Mail"
 msgstr "_Mottak av e-post"
 
-#: mail/mail-config.glade.h:169
+#: mail/mail-config.glade.h:171
 msgid "_Reply style:"
 msgstr "Sva_rstil:"
 
-#: mail/mail-config.glade.h:170
+#: mail/mail-config.glade.h:172
 msgid "_Restore defaults"
 msgstr "Gjenopp_rett forvalg"
 
-#: mail/mail-config.glade.h:171
+#: mail/mail-config.glade.h:173
 msgid "_Script:"
 msgstr "_Skript:"
 
-#: mail/mail-config.glade.h:172
+#: mail/mail-config.glade.h:174
 msgid "_Sending Mail"
 msgstr "Ut_sending av e-post"
 
-#: mail/mail-config.glade.h:173
+#: mail/mail-config.glade.h:175
 msgid "_Show animated images"
 msgstr "Vi_s animerte bilder"
 
-#: mail/mail-config.glade.h:174
+#: mail/mail-config.glade.h:176
 msgid "_Signatures"
 msgstr "_Signaturer"
 
-#: mail/mail-config.glade.h:175
+#: mail/mail-config.glade.h:177
 msgid "_Use secure connection (SSL):"
 msgstr "Br_uk sikker forbindelse (SSL):"
 
-#: mail/mail-config.glade.h:176
+#: mail/mail-config.glade.h:178
 msgid "_Variable-width:"
 msgstr "_Variabel bredde:"
 
-#: mail/mail-config.glade.h:177
+#: mail/mail-config.glade.h:179
 msgid "_every"
 msgstr "hv_er(t)"
 
-#: mail/mail-config.glade.h:178
+#: mail/mail-config.glade.h:180
 msgid "color"
 msgstr "farge"
 
-#: mail/mail-config.glade.h:179
+#: mail/mail-config.glade.h:181
 msgid "description"
 msgstr "beskrivelse"
 
@@ -13626,15 +13623,15 @@ msgstr "Ingen tjener er valgt"
 msgid "Please select a server."
 msgstr "Vennligst velg en tjener."
 
-#: mail/subscribe-dialog.glade.h:1
+#: mail/subscribe-dialog.glade.h:3
 msgid "All folders"
 msgstr "Alle mapper"
 
-#: mail/subscribe-dialog.glade.h:2
+#: mail/subscribe-dialog.glade.h:4
 msgid "Apri file"
 msgstr ""
 
-#: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
+#: mail/subscribe-dialog.glade.h:5 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
 #: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
@@ -13643,35 +13640,35 @@ msgstr ""
 msgid "Close"
 msgstr "Lukk"
 
-#: mail/subscribe-dialog.glade.h:4
+#: mail/subscribe-dialog.glade.h:6
 msgid "Display Options"
 msgstr "Alternativer for visning"
 
-#: mail/subscribe-dialog.glade.h:5
+#: mail/subscribe-dialog.glade.h:7
 msgid "Folders whose names begin with:"
 msgstr "Vis mapper med navn som begynner på:"
 
-#: mail/subscribe-dialog.glade.h:6
+#: mail/subscribe-dialog.glade.h:8
 msgid "Manage Subscriptions"
 msgstr "Håndter abonnement"
 
-#: mail/subscribe-dialog.glade.h:7 ui/evolution-subscribe.xml.h:3
+#: mail/subscribe-dialog.glade.h:9 ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
 msgstr "Les listen på nytt"
 
-#: mail/subscribe-dialog.glade.h:8
+#: mail/subscribe-dialog.glade.h:10
 msgid "S_elect server: "
 msgstr "V_elg tjener: "
 
-#: mail/subscribe-dialog.glade.h:9
+#: mail/subscribe-dialog.glade.h:11
 msgid "Salve file"
 msgstr "Redd fil"
 
-#: mail/subscribe-dialog.glade.h:10
+#: mail/subscribe-dialog.glade.h:12
 msgid "_Subscribe"
 msgstr "_Abonner"
 
-#: mail/subscribe-dialog.glade.h:11
+#: mail/subscribe-dialog.glade.h:13
 msgid "_Unsubscribe"
 msgstr "_Fjern abonnement"
 
@@ -25326,26 +25323,26 @@ msgstr "Synkroniserer «%s» (%d av %d) ..."
 msgid "Evolution Settings"
 msgstr "Innstillinger for Evolution"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:357
+#: shell/e-shell-shared-folder-picker-dialog.c:362
 msgid "Opening Folder"
 msgstr "Åpner mappe"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:364
+#: shell/e-shell-shared-folder-picker-dialog.c:369
 #, c-format
 msgid "Opening Folder \"%s\""
 msgstr "Åpner mappe «%s»"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:369
+#: shell/e-shell-shared-folder-picker-dialog.c:374
 #, c-format
 msgid "in \"%s\" ..."
 msgstr "i «%s» ..."
 
-#: shell/e-shell-shared-folder-picker-dialog.c:455
+#: shell/e-shell-shared-folder-picker-dialog.c:460
 #, c-format
 msgid "Could not open shared folder: %s."
 msgstr "Kunne ikke åpne delt mappe: %s"
 
-#: shell/e-shell-shared-folder-picker-dialog.c:513
+#: shell/e-shell-shared-folder-picker-dialog.c:518
 msgid "Cannot find the specified shared folder."
 msgstr "Kan ikke finne spesifisert delt mappe."
 
@@ -26032,6 +26029,30 @@ msgstr "Utfil"
 #: tools/evolution-addressbook-import.c:80
 msgid "No filename provided."
 msgstr "Ingen filnavn spesifisert."
+
+#: tools/evolution-launch-composer.c:322
+msgid "An attachment to add."
+msgstr "Et vedlegg som skal legges til."
+
+#: tools/evolution-launch-composer.c:323
+msgid "Content type of the attachment."
+msgstr "Innholdstype for vedlegget."
+
+#: tools/evolution-launch-composer.c:324
+msgid "The filename to display in the mail."
+msgstr "Filnavnet som skal vises i meldingen."
+
+#: tools/evolution-launch-composer.c:325
+msgid "Description of the attachment."
+msgstr "Beskrivelse av vedlegget."
+
+#: tools/evolution-launch-composer.c:326
+msgid "Mark attachment to be shown inline by default."
+msgstr "Marker vedlegget for visning i meldingen som forvalg."
+
+#: tools/evolution-launch-composer.c:327
+msgid "Default subject for the message."
+msgstr "Forvalgt emne for meldingen."
 
 #.
 #. *  This file is autogenerated from evolution-addressbook.xml, do not edit
@@ -27826,6 +27847,22 @@ msgstr "init_corba(): kunne ikke initiere GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): kunne ikke initiere Bonobo"
+
+#~ msgid ""
+#~ "Please select and Evolution attribute and an\n"
+#~ "LDAP attribute to associate with it."
+#~ msgstr ""
+#~ "Vennligst velg en Evolution-attributt og en\n"
+#~ "LDAP-attributt du vil assosiere med denne."
+
+#~ msgid ""
+#~ "Selecting this option will let you change Evolution's default settings "
+#~ "for LDAP\n"
+#~ "searches, and for creating and editting contacts. "
+#~ msgstr ""
+#~ "Hvis du aktiverer dette alternativet lar det deg endre Evolutions "
+#~ "forvalgte innstillinger\n"
+#~ "for LDAP-søk, og for oppretting og redigering av kontakter. "
 
 #~ msgid "Configuration control for the Evolution Summary."
 #~ msgstr "Konfigurasjonskontroll for Evolution sammendrag."
@@ -30937,9 +30974,6 @@ msgstr "init_bonobo(): kunne ikke initiere Bonobo"
 
 #~ msgid "Forward this message"
 #~ msgstr "Videresend denne meldingen"
-
-#~ msgid "Delete this message"
-#~ msgstr "Slett denne meldingen"
 
 #~ msgid "Select everything"
 #~ msgstr "Velg alt"
