@@ -1,3 +1,7 @@
+2000-10-27    <jpr@helixcode.com>
+
+	* tools/killev: Kill executive summary components
+
 2000-10-25  Iain Holmes  <iain@helixcode.com>
 
 	* configure.in: Added executive-summary stuff

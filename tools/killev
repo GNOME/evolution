@@ -13,4 +13,7 @@ killall -9 lt-gnomecal 2>/dev/null
 killall -9 evolution-mail 2>/dev/null
 killall -9 lt-evolution-mail 2>/dev/null
 killall -9 lt-evolution-mai 2>/dev/null
+killall -9 evolution-executive-summary 2>/dev/null
+killall -9 lt-evolution-executive-summary 2>/dev/null
+killall -9 lt-evolution-executive-summar 2>/dev/null
 killall -9 evolution 2>/dev/null
