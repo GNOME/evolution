@@ -377,10 +377,10 @@ config_read (void)
 		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
 		id->signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_html_signature_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
 		id->html_signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_has_html_signature_%d", i);
+		path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
 		id->has_html_signature = bonobo_config_get_boolean_with_default (
 			config->db, path, FALSE, NULL);
 		g_free (path);

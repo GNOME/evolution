@@ -1,3 +1,10 @@
+2001-07-12  Jason Leach  <jleach@ximian.com>
+
+	* mail-config.c (config_read): Should be saving the
+	'identity_html_signature' and 'identity_has_html_signature" keys
+	in the /Mail/Accounts prefix (with the rest of the per-account
+	stuff, not on it's own)
+
 2001-07-11  JP Rosevear  <jpr@ximian.com>
 
 	* mail-display.c (get_embedded_for_component): no longer need to
