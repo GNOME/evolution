@@ -69,7 +69,7 @@ main (int argc, char **argv)
 	camel_test_start ("RFC1808 relative URL parsing");
 
 	camel_test_push ("base URL parsing");
-	camel_exception_clear (&ex);
+	camel_exception_init (&ex);
 	base_url = camel_url_new (base, &ex);
 	if (!base_url) {
 		camel_test_fail ("Could not parse %s: %s\n", base,

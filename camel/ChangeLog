@@ -1,3 +1,8 @@
+2001-07-02  Dan Winship  <danw@ximian.com>
+
+	* tests/misc/url.c (main): Change a camel_exception_clear to
+	camel_exception_init to fix a sometimes-crash
+
 2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.c: Added Originator: header as a header to look
