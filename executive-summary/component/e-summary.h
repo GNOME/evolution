@@ -28,6 +28,7 @@
 #include <gtkhtml/gtkhtml.h>
 #include <gtk/gtkvbox.h>
 #include <executive-summary.h>
+#include <executive-summary-component-client.h>
 
 #include "shell/Evolution.h"
 
@@ -53,13 +54,15 @@ struct _ESummaryClass {
 
 GtkType e_summary_get_type (void);
 GtkWidget *e_summary_new (const Evolution_Shell shell);
-void e_summary_rebuild_page (ESummary *esummary);
+int e_summary_rebuild_page (ESummary *esummary);
 void e_summary_add_html_service (ESummary *esummary,
 				 ExecutiveSummary *summary,
+				 ExecutiveSummaryComponentClient *client,
 				 const char *html,
 				 const char *title);
 void e_summary_add_bonobo_service (ESummary *esummary,
 				   ExecutiveSummary *summary,
+				   ExecutiveSummaryComponentClient *client,
 				   GtkWidget *control,
 				   const char *title);
 void e_summary_update_window (ESummary *esummary,

@@ -38,6 +38,7 @@
 #include "gal/widgets/e-cursors.h"
 #include "gal/widgets/e-unicode.h"
 
+#include <libgnomevfs/gnome-vfs.h>
 #include "component-factory.h"
 
 int
@@ -74,6 +75,7 @@ main (int argc,
   signal (SIGSEGV, SIG_DFL);
   signal (SIGBUS, SIG_DFL);
 
+  gnome_vfs_init ();
   bonobo_main ();
 
   return 0;

@@ -208,7 +208,7 @@ embed_service (GtkWidget *widget,
 
 	/* Create view */
 	html = executive_summary_component_client_create_html_view (client, &title);
-	e_summary_add_html_service (esummary, summary, html, title);
+	e_summary_add_html_service (esummary, summary, client, html, title);
 	g_free (html);
 
 	e_summary_rebuild_page (esummary);

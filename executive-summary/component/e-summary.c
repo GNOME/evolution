@@ -34,9 +34,10 @@
 #include <gal/util/e-util.h>
 #include <e-summary-subwindow.h>
 
-#include <widgets/misc/e-title-bar.h>
 #include <executive-summary.h>
+#include <executive-summary-component-client.h>
 
+#include <libgnomevfs/gnome-vfs.h>
 #include "e-summary.h"
 
 #define PARENT_TYPE (gtk_vbox_get_type ())
@@ -50,6 +51,8 @@ struct _ESummaryPrivate {
 	GHashTable *summary_to_window;
 	GList *window_list;
 
+	guint idle;
+
 	GtkHTMLStream *stream;
 };
 
@@ -60,10 +63,11 @@ typedef enum {
 
 typedef struct _ESummaryWindow {
 	ExecutiveSummary *summary;
+	ExecutiveSummaryComponentClient *client;
 	char *title;
 	
 	ESummaryWindowType type;
-	
+
 	char *html;
 	GtkWidget *control;
 } ESummaryWindow;
@@ -81,8 +85,8 @@ s2w_foreach (gpointer *key,
 	     gpointer *value,
 	     ESummaryPrivate *priv)
 {
-	bonobo_object_unref (BONOBO_OBJECT (key));
 	e_summary_window_free ((ESummaryWindow *) value, priv);
+	g_free (value);
 }
 
 static void
@@ -119,6 +123,12 @@ e_pixmap_file (const char *filename)
 	char *ret;
 	char *edir;
 
+	if (g_file_exists (filename)) {
+		ret = g_strdup (filename);
+
+		return ret;
+	}
+
 	/* Try the evolution images dir */
 	edir = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution",
 				      filename);
@@ -151,50 +161,56 @@ request_cb (GtkHTML *html,
 	    GtkHTMLStream *stream)
 {
 	char *filename;
-	FILE *handle;
+	GnomeVFSHandle *handle = NULL;
+	GnomeVFSResult result;
 
-	filename = e_pixmap_file (url);
+	if (strncasecmp (url, "file:", 5) == 0) {
+		url += 5;
+		filename = e_pixmap_file (url);
+	} else if (strchr (url, ':') >= strchr (url, '/')) {
+		filename = e_pixmap_file (url);
+	} else
+		filename = g_strdup (url);
 
 	if (filename == NULL) {
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
 		return;
 	}
 
-	handle = fopen (filename, "r");
-	g_free (filename);
+	result = gnome_vfs_open (&handle, filename, GNOME_VFS_OPEN_READ);
 
-	if (handle == NULL) {
+	if (result != GNOME_VFS_OK) {
+		g_warning ("%s: %s", filename, 
+			   gnome_vfs_result_to_string (result));
+		g_free (filename);
 		gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
 		return;
 	}
 
-	while (!feof (handle)) {
+	g_free (filename);
+	while (1) {
 		char buffer[4096];
-		int size;
+		GnomeVFSFileSize size;
 
 		/* Clear buffer */
 		memset (buffer, 0x00, 4096);
 
-		size = fread (buffer, 1, 4096, handle);
-		if (size != 4096) {
-			/* Under run */
-			if (feof (handle)) {
-				gtk_html_stream_write (stream, buffer, size);
-				gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-				fclose (handle);
-				return;
-			} else {
-				/* Error occurred */
-				gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
-				fclose (handle);
-				return;
-			}
+		result = gnome_vfs_read (handle, buffer, 4096, &size);
+		if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
+			g_warning ("Error reading data: %s", 
+				   gnome_vfs_result_to_string (result));
+			gnome_vfs_close (handle);
+			gtk_html_stream_close (stream, GTK_HTML_STREAM_ERROR);
 		}
-		gtk_html_stream_write (stream, buffer, 4096);
-	}
 
+		if (size == 0)
+			break; /* EOF */
+
+		gtk_html_stream_write (stream, buffer, size);
+	}
+	
 	gtk_html_stream_close (stream, GTK_HTML_STREAM_OK);
-	fclose (handle);
+	gnome_vfs_close (handle);
 }
 
 static void
@@ -247,9 +263,9 @@ e_summary_init (ESummary *esummary)
 
 	esummary->private = g_new0 (ESummaryPrivate, 1);
 	priv = esummary->private;
-	g_print ("priv: %p\n", priv);
 
 	priv->window_list = NULL;
+	priv->idle = 0;
 	/* HTML widget */
 	priv->html_scroller = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (priv->html_scroller),
@@ -327,15 +343,33 @@ on_object_requested (GtkHTML *html,
 
 static void
 e_summary_display_window (ESummary *esummary,
-			  ESummaryWindow *window)
+			  ESummaryWindow *window,
+			  int col)
 {
 	ESummaryPrivate *priv;
 	char *footer = "</td></tr></table>";
 	char *title_cid, *body_cid;
+	char *colour[2] = {"e6e8e4", 
+			   "edeeeb"};
+	char *title_colour[2] = {"bac1b6", 
+				 "cdd1c7"};
 
 	priv = esummary->private;
 
-	title_cid = g_strdup_printf ("<table height=\"100%%\" width=\"100%%\"><tr><td bgcolor=\"#ff0000\" align=\"left\"><b>%s</b></td></tr><tr><td>", window->title);
+	/** FIXME: Make this faster by caching it? */
+	title_cid = g_strdup_printf ("<table cellspacing=\"0\" "
+				     "cellpadding=\"0\" border=\"0\" "
+				     "height=\"100%%\" width=\"100%%\">"
+				     "<tr><td bgcolor=\"#%s\">"
+				     "<table><tr><td>"
+				     "<img src=\"envelope.png\"></td>"
+                                     "<td nowrap align=\"center\">"
+				     "<b>%s</b></td></tr></table></td></tr><tr>"
+				     "<td bgcolor=\"#%s\" width=\"100%%\" height=\"100%%\">", 
+				     title_colour[col % 2],
+				     window->title,
+				     colour[col % 2]);
+
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_cid,
 			strlen (title_cid));
 	g_free (title_cid);
@@ -360,16 +394,16 @@ e_summary_display_window (ESummary *esummary,
 			footer, strlen (footer));
 }
 
-void 
+int
 e_summary_rebuild_page (ESummary *esummary)
 {
 	ESummaryPrivate *priv;
 	GList *windows;
-	char *service_table = "<table numcols=\"2\" width=\"100%\">";
+	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\">";
 	int loc;
 
-	g_return_if_fail (esummary != NULL);
-	g_return_if_fail (IS_E_SUMMARY (esummary));
+	g_return_val_if_fail (esummary != NULL, FALSE);
+	g_return_val_if_fail (IS_E_SUMMARY (esummary), FALSE);
 
 	priv = esummary->private;
 
@@ -384,11 +418,11 @@ e_summary_rebuild_page (ESummary *esummary)
 	loc = 0;
 	for (windows = priv->window_list; windows; windows = windows->next) {
 		ESummaryWindow *window;
+		char *td = "<td height=\"100%%\" width=\"33%%\" valign=\"top\">";
 		
 		window = windows->data;
 
-		if (loc % 2 == 0) {
-			g_print ("new line:%d\n", loc);
+		if (loc % 3 == 0) {
 			if (loc != 0) {
 				gtk_html_write (GTK_HTML (priv->html),
 						priv->stream, "</tr>", 5);
@@ -398,9 +432,9 @@ e_summary_rebuild_page (ESummary *esummary)
 		}
 
 		gtk_html_write (GTK_HTML (priv->html), priv->stream,
-				"<td>", 4);
+				td, strlen (td));
 
-		e_summary_display_window (esummary, window);
+		e_summary_display_window (esummary, window, (loc % 3));
 
 		gtk_html_write (GTK_HTML (priv->html), priv->stream, "</td>", 5);
 		loc++;
@@ -410,11 +444,15 @@ e_summary_rebuild_page (ESummary *esummary)
 			13);
 	e_summary_end_load (esummary);
 	gtk_layout_thaw (GTK_LAYOUT (priv->html));
+
+	priv->idle = 0;
+	return FALSE;
 }
 
 void
 e_summary_add_html_service (ESummary *esummary,
 			    ExecutiveSummary *summary,
+			    ExecutiveSummaryComponentClient *client,
 			    const char *html,
 			    const char *title)
 {
@@ -436,6 +474,7 @@ e_summary_add_html_service (ESummary *esummary,
 void
 e_summary_add_bonobo_service (ESummary *esummary,
 			      ExecutiveSummary *summary,
+			      ExecutiveSummaryComponentClient *client,
 			      GtkWidget *control,
 			      const char *title)
 {
@@ -445,6 +484,8 @@ e_summary_add_bonobo_service (ESummary *esummary,
 	window = g_new0 (ESummaryWindow, 1);
 	window->type = E_SUMMARY_WINDOW_BONOBO;
 	window->control = control;
+
+	window->client = client;
 
 	window->title = g_strdup (title);
 	window->summary = summary;
@@ -467,8 +508,17 @@ e_summary_window_free (ESummaryWindow *window,
 
 	priv->window_list = g_list_remove (priv->window_list, window);
 
+	bonobo_object_unref (BONOBO_OBJECT (window->summary));
+	bonobo_object_unref (BONOBO_OBJECT (window->client));
+}
+
+/* Call this before e_summary_window_free, execpt when you are freeing
+   the hash table */
+static void
+e_summary_window_remove_from_ht (ESummaryWindow *window,
+				 ESummaryPrivate *priv)
+{
 	g_hash_table_remove (priv->summary_to_window, window->summary);
-	g_free (window);
 }
 
 void
@@ -484,6 +534,7 @@ e_summary_update_window (ESummary *esummary,
 	g_return_if_fail (summary != NULL);
 
 	priv = esummary->private;
+
 	window = g_hash_table_lookup (priv->summary_to_window, summary);
 
 	g_return_if_fail (window != NULL);
@@ -491,6 +542,9 @@ e_summary_update_window (ESummary *esummary,
 	g_free (window->html);
 	window->html = g_strdup (html);
 
-	e_summary_rebuild_page (esummary);
+	if (priv->idle != 0)
+		return;
+
+	priv->idle = g_idle_add (e_summary_rebuild_page, esummary);
 }
      
