@@ -2859,7 +2859,7 @@ footer_info_new (GtkHTML *html, GnomePrintContext *pc, gdouble *line)
 	struct footer_info *info;
 	
 	info = g_new (struct footer_info, 1);
-	info->local_font = gnome_font_find_closest ("Helvetica", 10.0);
+	info->local_font = gnome_font_find_closest ("Sans Regular", 10.0);
 	
 	if (info->local_font)
 		*line = gnome_font_get_ascender (info->local_font) - gnome_font_get_descender (info->local_font);
