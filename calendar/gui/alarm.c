@@ -186,7 +186,8 @@ alarm_init (void)
 	sigaction (SIGALRM, &sa, NULL);
 }
 
-void debug_alarm (AlarmRecord* ar, int add)
+void 
+debug_alarm (AlarmRecord* ar, int add)
 {
 	time_t now = time (NULL);
 	iCalObject *ico = ar->closure;
