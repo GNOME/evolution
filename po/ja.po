@@ -8,14 +8,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution evolution-1-4-branch\n"
-"POT-Creation-Date: 2003-07-28 12:10-0400\n"
-"PO-Revision-Date: 2003-07-15 00:53+0900\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-08-02 10:51+0900\n"
+"PO-Revision-Date: 2003-08-02 10:49+0900\n"
 "Last-Translator: Takeshi AIHANA <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
 msgid "Evolution LDIF importer"
@@ -448,7 +448,7 @@ msgstr "スコアを使用する"
 
 #: addressbook/backend/ebook/test-client-list.c:15
 #: addressbook/backend/ebook/test-client.c:33
-#: calendar/gui/alarm-notify/notify-main.c:171
+#: calendar/gui/alarm-notify/notify-main.c:172
 msgid "Could not initialize Bonobo"
 msgstr "Bonobo を初期化できませんでした"
 
@@ -1270,7 +1270,7 @@ msgstr "全て削除"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:211
 #: addressbook/gui/component/select-names/e-select-names.c:694
-#: composer/e-msg-composer-attachment-bar.c:507
+#: composer/e-msg-composer-attachment-bar.c:450
 msgid "Remove"
 msgstr "削除"
 
@@ -2841,7 +2841,7 @@ msgid "Error modifying card"
 msgstr "カードの修正中にエラーが発生しました"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:36
-#: shell/evolution-shell-component.c:1180
+#: shell/evolution-shell-component.c:1183
 msgid "Success"
 msgstr "ソース"
 
@@ -2850,7 +2850,7 @@ msgstr "ソース"
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:526
 #: camel/providers/pop3/camel-pop3-store.c:533 shell/e-shell.c:2077
-#: shell/e-storage.c:598 shell/evolution-shell-component.c:1219
+#: shell/e-storage.c:598 shell/evolution-shell-component.c:1222
 msgid "Unknown error"
 msgstr "未知のエラー"
 
@@ -2859,7 +2859,7 @@ msgid "Repository offline"
 msgstr "オフライン・リポジトリ"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:39 shell/e-storage.c:584
-#: shell/evolution-shell-component.c:1210
+#: shell/evolution-shell-component.c:1213
 msgid "Permission denied"
 msgstr "権限がありません"
 
@@ -3734,11 +3734,11 @@ msgstr ""
 msgid "Do not ask me about this program again."
 msgstr "このメッセージを二度と表示しない"
 
-#: calendar/gui/alarm-notify/notify-main.c:174
+#: calendar/gui/alarm-notify/notify-main.c:175
 msgid "Could not initialize gnome-vfs"
 msgstr "gnome-vfs を初期化できませんでした"
 
-#: calendar/gui/alarm-notify/notify-main.c:183
+#: calendar/gui/alarm-notify/notify-main.c:184
 msgid "Could not create the alarm notify service factory"
 msgstr "アラーム通知サービスファクトリを作成できませんでした"
 
@@ -3919,7 +3919,7 @@ msgstr "予定なし"
 
 #: calendar/gui/calendar-model.c:592 calendar/gui/e-calendar-table.c:454
 #: calendar/gui/e-meeting-time-sel.c:406
-#: shell/evolution-shell-component.c:1204
+#: shell/evolution-shell-component.c:1207
 msgid "Busy"
 msgstr "予定あり"
 
@@ -4106,11 +4106,11 @@ msgstr "基本"
 msgid "Date/Time:"
 msgstr "日付/時刻:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:462
 msgid "Display a message"
 msgstr "メッセージを表示する"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:458
 msgid "Play a sound"
 msgstr "音楽を再生する"
 
@@ -4118,7 +4118,7 @@ msgstr "音楽を再生する"
 msgid "Reminders"
 msgstr "催促状"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:470
 msgid "Run a program"
 msgstr "プログラムを実行する"
 
@@ -4663,7 +4663,7 @@ msgstr "スケジュール"
 msgid "Meeting"
 msgstr "会議"
 
-#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:507
+#: calendar/gui/dialogs/event-page.c:603 calendar/gui/dialogs/task-page.c:509
 msgid "Start date is wrong"
 msgstr "開始日が間違っています"
 
@@ -5037,9 +5037,13 @@ msgstr "基本"
 msgid "Assignment"
 msgstr "割当て"
 
-#: calendar/gui/dialogs/task-page.c:480
+#: calendar/gui/dialogs/task-page.c:482
 msgid "Due date is wrong"
 msgstr "期日が間違っています"
+
+#: calendar/gui/dialogs/task-page.c:542
+msgid "Due date is before start date!"
+msgstr "期日が開始日の前にあります！"
 
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1107
 #: calendar/gui/e-itip-control.glade.h:6
@@ -5055,95 +5059,95 @@ msgstr "開始日(_R):"
 msgid "_Due Date:"
 msgstr "期日(_D):"
 
-#: calendar/gui/e-alarm-list.c:393
+#: calendar/gui/e-alarm-list.c:394
 #, c-format
 msgid "%d days"
 msgstr "%d 日"
 
-#: calendar/gui/e-alarm-list.c:396
+#: calendar/gui/e-alarm-list.c:397
 msgid "1 day"
 msgstr "1 日"
 
-#: calendar/gui/e-alarm-list.c:401
+#: calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d weeks"
 msgstr "%d 週間"
 
-#: calendar/gui/e-alarm-list.c:404
+#: calendar/gui/e-alarm-list.c:405
 msgid "1 week"
 msgstr "1 週間"
 
-#: calendar/gui/e-alarm-list.c:409
+#: calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d hours"
 msgstr "%d 時間"
 
-#: calendar/gui/e-alarm-list.c:412
+#: calendar/gui/e-alarm-list.c:413
 msgid "1 hour"
 msgstr "1 時間"
 
-#: calendar/gui/e-alarm-list.c:417
+#: calendar/gui/e-alarm-list.c:418
 #, c-format
 msgid "%d minutes"
 msgstr "%d 分"
 
-#: calendar/gui/e-alarm-list.c:420
+#: calendar/gui/e-alarm-list.c:421
 msgid "1 minute"
 msgstr "1 分"
 
-#: calendar/gui/e-alarm-list.c:425
+#: calendar/gui/e-alarm-list.c:426
 #, c-format
 msgid "%d seconds"
 msgstr "%d 秒"
 
-#: calendar/gui/e-alarm-list.c:428
+#: calendar/gui/e-alarm-list.c:429
 msgid "1 second"
 msgstr "1 秒"
 
-#: calendar/gui/e-alarm-list.c:465
+#: calendar/gui/e-alarm-list.c:466
 msgid "Send an email"
 msgstr "E-メールを送信する"
 
-#: calendar/gui/e-alarm-list.c:475
+#: calendar/gui/e-alarm-list.c:476
 msgid "Unknown action to be performed"
 msgstr "実行するアクションが不明です"
 
-#: calendar/gui/e-alarm-list.c:487
+#: calendar/gui/e-alarm-list.c:488
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s は約束が開始する前に %s"
 
-#: calendar/gui/e-alarm-list.c:490
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s は約束が開始した後に %s"
 
-#: calendar/gui/e-alarm-list.c:495
+#: calendar/gui/e-alarm-list.c:496
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "約束が開始した時点に %s"
 
-#: calendar/gui/e-alarm-list.c:504
+#: calendar/gui/e-alarm-list.c:505
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s は約束が終了する前に %s"
 
-#: calendar/gui/e-alarm-list.c:507
+#: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s は約束が終了した後に %s"
 
-#: calendar/gui/e-alarm-list.c:512
+#: calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "約束が終了した時点で %s"
 
-#: calendar/gui/e-alarm-list.c:536
+#: calendar/gui/e-alarm-list.c:537
 #, c-format
 msgid "%s at %s"
 msgstr "%s (%s の時点で)"
 
-#: calendar/gui/e-alarm-list.c:542
+#: calendar/gui/e-alarm-list.c:543
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "トリガーの種類が不明な %s"
@@ -5573,7 +5577,7 @@ msgstr "辞退済"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:984 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:928 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "未知"
 
@@ -5620,7 +5624,7 @@ msgstr "最新情報の送信"
 
 #: calendar/gui/e-itip-control.c:1241 calendar/gui/itip-utils.c:439
 #: mail/mail-send-recv.c:387 mail/mail-send-recv.c:444
-#: shell/evolution-shell-component.c:1182 ui/evolution-mail-global.xml.h:1
+#: shell/evolution-shell-component.c:1185 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "キャンセル"
 
@@ -10376,35 +10380,35 @@ msgstr "QUIT 要求のタイムアウト: %s"
 msgid "QUIT response error"
 msgstr "QUIT 応答エラー"
 
-#: composer/e-msg-composer-attachment-bar.c:102
+#: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
-#: composer/e-msg-composer-attachment-bar.c:105
+#: composer/e-msg-composer-attachment-bar.c:106
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
-#: composer/e-msg-composer-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:109
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:370 mail/mail-display.c:228
+#: composer/e-msg-composer-attachment-bar.c:313 mail/mail-display.c:226
 msgid "attachment"
 msgstr "添付物"
 
-#: composer/e-msg-composer-attachment-bar.c:508
+#: composer/e-msg-composer-attachment-bar.c:451
 msgid "Remove selected items from the attachment list"
 msgstr "添付物リストから選択したアイテムを削除します"
 
-#: composer/e-msg-composer-attachment-bar.c:538
+#: composer/e-msg-composer-attachment-bar.c:481
 msgid "Add attachment..."
 msgstr "添付物の追加..."
 
-#: composer/e-msg-composer-attachment-bar.c:539
+#: composer/e-msg-composer-attachment-bar.c:482
 msgid "Attach a file to the message"
 msgstr "メッセージへファイルを添付します"
 
@@ -10827,7 +10831,7 @@ msgstr ""
 "その名前のファイルは既に存在します。\n"
 "上書きしますか？"
 
-#: e-util/e-dialog-utils.c:249 mail/mail-display.c:201
+#: e-util/e-dialog-utils.c:249 mail/mail-display.c:199
 msgid "Overwrite file?"
 msgstr "ファイルを上書きしますか？"
 
@@ -11809,7 +11813,7 @@ msgstr "\"%s\" のプロパティ"
 msgid "Properties"
 msgstr "プロパティ"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:395 mail/mail-display.c:973
+#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:917
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "作業ディレクトリを作成できませんでした: %s"
@@ -13048,7 +13052,7 @@ msgstr "S/MIME エンベロープ・コンテキストを作成できません�
 msgid "Could not create a S/MIME decode context."
 msgstr "S/MIME デコード・コンテキストを作成できませんでした"
 
-#: mail/mail-display.c:198
+#: mail/mail-display.c:196
 #, c-format
 msgid ""
 "File `%s' already exists.\n"
@@ -13057,70 +13061,70 @@ msgstr ""
 "既にファイル '%s' は既に存在します。\n"
 "上書きしますか？"
 
-#: mail/mail-display.c:337
+#: mail/mail-display.c:335
 msgid "Save Attachment"
 msgstr "添付の保存"
 
-#: mail/mail-display.c:410
+#: mail/mail-display.c:408
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "作業ファイル '%s' を作成できませんでした: %s"
 
-#: mail/mail-display.c:478
+#: mail/mail-display.c:476
 msgid "Save Attachment..."
 msgstr "添付の保存..."
 
-#: mail/mail-display.c:479
+#: mail/mail-display.c:477
 msgid "View Inline"
 msgstr "インライン表示"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:478
 #, c-format
 msgid "Open in %s..."
 msgstr "%s に開く..."
 
-#: mail/mail-display.c:540
+#: mail/mail-display.c:538
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "インライン表示 (%s経由)"
 
-#: mail/mail-display.c:544
+#: mail/mail-display.c:542
 msgid "Hide"
 msgstr "隠す"
 
-#: mail/mail-display.c:564
+#: mail/mail-display.c:562
 msgid "External Viewer"
 msgstr "外部ビューア"
 
-#: mail/mail-display.c:1404
+#: mail/mail-display.c:1348
 msgid "Downloading images"
 msgstr "画像のダウンロード中"
 
-#: mail/mail-display.c:1581
+#: mail/mail-display.c:1525
 msgid "Loading message content"
 msgstr "メッセージの内容を読み込み中"
 
-#: mail/mail-display.c:1923
+#: mail/mail-display.c:1867
 msgid "Overdue:"
 msgstr "期限切れ:"
 
-#: mail/mail-display.c:1927
+#: mail/mail-display.c:1871
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%m月 %d日 %p %l時%M分"
 
-#: mail/mail-display.c:2291
+#: mail/mail-display.c:2235
 msgid "Open Link in Browser"
 msgstr "ブラウザでリンクを開く"
 
-#: mail/mail-display.c:2292
+#: mail/mail-display.c:2236
 msgid "Copy Link Location"
 msgstr "リンクの場所のコピー"
 
-#: mail/mail-display.c:2294
+#: mail/mail-display.c:2238
 msgid "Save Link as (FIXME)"
 msgstr "リンクに名前を付けて保存 (FIXME)"
 
-#: mail/mail-display.c:2296
+#: mail/mail-display.c:2240
 msgid "Save Image as..."
 msgstr "画像に名前を付けて保存..."
 
@@ -13338,64 +13342,64 @@ msgstr "%s へメッセージをコピー中"
 msgid "Scanning folders in \"%s\""
 msgstr "\"%s\" の中のフォルダを走査中"
 
-#: mail/mail-ops.c:1225
+#: mail/mail-ops.c:1230
 msgid "Forwarded messages"
 msgstr "メッセージを転送"
 
-#: mail/mail-ops.c:1268
+#: mail/mail-ops.c:1273
 #, c-format
 msgid "Opening folder %s"
 msgstr "フォルダ %s をオープンする"
 
-#: mail/mail-ops.c:1340
+#: mail/mail-ops.c:1345
 #, c-format
 msgid "Opening store %s"
 msgstr "保存された %s をオープンする"
 
-#: mail/mail-ops.c:1413
+#: mail/mail-ops.c:1423
 #, c-format
 msgid "Removing folder %s"
 msgstr "フォルダ %s を削除"
 
-#: mail/mail-ops.c:1507
+#: mail/mail-ops.c:1517
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "フォルダ '%s' の格納"
 
-#: mail/mail-ops.c:1558
+#: mail/mail-ops.c:1568
 msgid "Refreshing folder"
 msgstr "フォルダを更新中"
 
-#: mail/mail-ops.c:1594 mail/mail-ops.c:1645
+#: mail/mail-ops.c:1604 mail/mail-ops.c:1655
 msgid "Expunging folder"
 msgstr "フォルダを抹消中"
 
-#: mail/mail-ops.c:1642
+#: mail/mail-ops.c:1652
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "'%s' の中にあるゴミ箱を空にする"
 
-#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:483
+#: mail/mail-ops.c:1653 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "ローカル・フォルダ"
 
-#: mail/mail-ops.c:1718
+#: mail/mail-ops.c:1728
 #, c-format
 msgid "Retrieving message %s"
 msgstr "メッセージ %s を取得中"
 
-#: mail/mail-ops.c:1790
+#: mail/mail-ops.c:1800
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "メッセージ %d 通の受信中"
 
-#: mail/mail-ops.c:1876
+#: mail/mail-ops.c:1886
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "メッセージ %d 通の保存中"
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1934
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13404,7 +13408,7 @@ msgstr ""
 "出力ファイルを生成できません: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1952
+#: mail/mail-ops.c:1962
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13413,11 +13417,11 @@ msgstr ""
 "ファイルの保存中にエラー: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2026
+#: mail/mail-ops.c:2036
 msgid "Saving attachment"
 msgstr "添付物の保存中"
 
-#: mail/mail-ops.c:2043
+#: mail/mail-ops.c:2053
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13426,17 +13430,17 @@ msgstr ""
 "出力ファイルを生成できません: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2073
+#: mail/mail-ops.c:2083
 #, c-format
 msgid "Could not write data: %s"
 msgstr "データを書き出せませんでした: %s"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "%s からの接続はありません"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "%s へ再接続"
@@ -25280,6 +25284,11 @@ msgid ""
 "that could be imported where found. If you would like to\n"
 "try again, please click the \"Back\" button.\n"
 msgstr ""
+"Evolution がアプリケーションからインポートできる設定を\n"
+"チェックしました: Pine, Netscape, Elm, iCalendar\n"
+"インポートできる設定は見つかりませんでした。\n"
+"再度チェックを実行する場合は、\n"
+"\"戻る\" ボタンをクリックして下さい。\n"
 
 #: shell/e-shell-importer.c:219 shell/e-shell-importer.c:250
 #, c-format
@@ -25455,8 +25464,8 @@ msgstr "共有フォルダが開けませんでした: %s"
 msgid "Cannot find the specified shared folder."
 msgstr "指定した共有フォルダが見つかりません。"
 
-#: shell/e-shell-user-creatable-items-handler.c:586
-#: shell/e-shell-user-creatable-items-handler.c:642
+#: shell/e-shell-user-creatable-items-handler.c:587
+#: shell/e-shell-user-creatable-items-handler.c:643
 #: widgets/misc/e-charset-picker.c:109
 msgid "New"
 msgstr "新規"
@@ -25839,63 +25848,63 @@ msgstr ""
 "活性化システムからのエラー:\n"
 "%s"
 
-#: shell/evolution-shell-component.c:1184
+#: shell/evolution-shell-component.c:1187
 msgid "CORBA error"
 msgstr "CORBA エラー"
 
-#: shell/evolution-shell-component.c:1186
+#: shell/evolution-shell-component.c:1189
 msgid "Interrupted"
 msgstr "割り込みました"
 
-#: shell/evolution-shell-component.c:1188
+#: shell/evolution-shell-component.c:1191
 msgid "Invalid argument"
 msgstr "不正な引数"
 
-#: shell/evolution-shell-component.c:1190
+#: shell/evolution-shell-component.c:1193
 msgid "Already has an owner"
 msgstr "既に所有者がいます"
 
-#: shell/evolution-shell-component.c:1192
+#: shell/evolution-shell-component.c:1195
 msgid "No owner"
 msgstr "所有者なし"
 
-#: shell/evolution-shell-component.c:1194
+#: shell/evolution-shell-component.c:1197
 msgid "Not found"
 msgstr "見つかりません"
 
-#: shell/evolution-shell-component.c:1196
+#: shell/evolution-shell-component.c:1199
 msgid "Unsupported type"
 msgstr "サポートしない種類"
 
-#: shell/evolution-shell-component.c:1198
+#: shell/evolution-shell-component.c:1201
 msgid "Unsupported schema"
 msgstr "サポートしないスキーマ"
 
-#: shell/evolution-shell-component.c:1200
+#: shell/evolution-shell-component.c:1203
 msgid "Unsupported operation"
 msgstr "サポートしない操作"
 
-#: shell/evolution-shell-component.c:1202
+#: shell/evolution-shell-component.c:1205
 msgid "Internal error"
 msgstr "内部エラー"
 
-#: shell/evolution-shell-component.c:1206
+#: shell/evolution-shell-component.c:1209
 msgid "Exists"
 msgstr "が存在する"
 
-#: shell/evolution-shell-component.c:1208
+#: shell/evolution-shell-component.c:1211
 msgid "Invalid URI"
 msgstr "不正な URI"
 
-#: shell/evolution-shell-component.c:1212
+#: shell/evolution-shell-component.c:1215
 msgid "Has subfolders"
 msgstr "サブフォルダ有り"
 
-#: shell/evolution-shell-component.c:1214
+#: shell/evolution-shell-component.c:1217
 msgid "No space left"
 msgstr "有効な領域なし"
 
-#: shell/evolution-shell-component.c:1216
+#: shell/evolution-shell-component.c:1219
 msgid "Old owner has died"
 msgstr "前の所有者が終了しました"
 
