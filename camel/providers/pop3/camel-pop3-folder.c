@@ -197,7 +197,7 @@ pop3_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 	for (i = 0; i < pop3_folder->uids->len; i++) {
 		if (pop3_folder->flags[i] & CAMEL_MESSAGE_DELETED) {
 			status = camel_pop3_command (pop3_store, &resp,
-						     "DELE %d", i);
+						     "DELE %d", i + 1);
 			if (status != CAMEL_POP3_OK) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      "Unable to sync folder"
@@ -320,7 +320,7 @@ pop3_set_message_flags (CamelFolder *folder, const char *uid,
 	if (num == -1)
 		return;
 
-	pop3_folder->flags[num] =
+	pop3_folder->flags[num - 1] =
 		(pop3_folder->flags[num] & ~flags) | (set & flags);
 }
 
