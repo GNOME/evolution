@@ -30,6 +30,29 @@ GtkType l##_get_type(void)\
 	return type;\
 }
 
+
+#define E_MAKE_X_TYPE(l,str,t,ci,i,parent,poa_init,offset) \
+GtkType l##_get_type(void)\
+{\
+	static GtkType type = 0;\
+	if (!type){\
+		GtkTypeInfo info = {\
+			str,\
+			sizeof (t),\
+			sizeof (t##Class),\
+			(GtkClassInitFunc) ci,\
+			(GtkObjectInitFunc) i,\
+			NULL, /* reserved 1 */\
+			NULL, /* reserved 2 */\
+			(GtkClassInitFunc) NULL\
+		};\
+                type = bonobo_x_type_unique (\
+			parent, poa_init, NULL,\
+			offset, &info);\
+	}\
+	return type;\
+}
+
 typedef enum {
 	E_FOCUS_NONE,
 	E_FOCUS_CURRENT,
