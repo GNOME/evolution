@@ -147,7 +147,7 @@ md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
  * copy the final md5 hash to a bufer
  **/
 void 
-md5_final (guchar digest[16], MD5Context *ctx)
+md5_final (MD5Context *ctx, guchar digest[16])
 {
 	guint32 count;
 	guchar *p;
@@ -313,7 +313,7 @@ md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
 
 	md5_init (&ctx);
 	md5_update (&ctx, buffer, buffer_size);
-	md5_final (digest, &ctx);
+	md5_final (&ctx, digest);
 	
 }
 
@@ -341,7 +341,7 @@ md5_get_digest_from_stream (CamelStream *stream, guchar digest[16])
 		nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
 	}
 	
-	md5_final (digest, &ctx);
+	md5_final (&ctx, digest);
 	
 }
 
@@ -381,7 +381,7 @@ md5_get_digest_from_file (const gchar *filename, guchar digest[16])
 	}
 
 	
-	md5_final (digest, &ctx);
+	md5_final (&ctx, digest);
 	
 	printf("checksum done\n");
 }

@@ -48,7 +48,7 @@ void md5_get_digest_from_file (const gchar *filename, guchar digest[16]);
 /* raw routines */
 void md5_init (MD5Context *ctx);
 void md5_update (MD5Context *ctx, const guchar *buf, guint32 len);
-void md5_final (guchar digest[16], MD5Context *ctx);
+void md5_final (MD5Context *ctx, guchar digest[16]);
 
 
 #endif	/* MD5_UTILS_H */

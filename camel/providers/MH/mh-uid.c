@@ -74,7 +74,7 @@ mh_uid_get_for_file (gchar *filename, guchar uid[16])
 	
 	g_array_free (header_array, TRUE);
 	
-	md5_final (uid, &ctx);
+	md5_final (&ctx, uid);
 }
 
 
