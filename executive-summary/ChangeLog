@@ -1,3 +1,7 @@
+2000-11-29  Dan Winship  <danw@helixcode.com>
+
+	* component/main.c (main): Remove no-longer-needed e_unicode_init.
+
 2000-17-10  Iain Holmes  <iain@helixcode.com>
 
 	 * component/e-summary.c (make_control_html): Set the configure button

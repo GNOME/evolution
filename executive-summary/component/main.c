@@ -68,8 +68,6 @@ main (int argc,
   gconf_init (argc, argv, NULL);
 #endif
 
-  e_unicode_init ();
-
   e_cursors_init ();
 
   component_factory_init ();
