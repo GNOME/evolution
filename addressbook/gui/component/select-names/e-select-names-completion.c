@@ -39,7 +39,7 @@
 #include <addressbook/util/e-destination.h>
 #include <addressbook/gui/merging/eab-contact-compare.h>
 
-#include <e-util/e-sexp.h>
+#include <libedataserver/e-sexp.h>
 
 typedef struct {
 	EBook *book;

@@ -47,7 +47,7 @@
 #include "addressbook/gui/widgets/eab-menu.h"
 
 #include "e-util/e-categories-master-list-wombat.h"
-#include "e-util/e-sexp.h"
+#include "libedataserver/e-sexp.h"
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
 #include <gal/widgets/e-treeview-selection-model.h>

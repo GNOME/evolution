@@ -20,7 +20,6 @@ libeaddress_conduit_la_LIBADD = 					\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/e-util/libeconduit.la		 		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la		 	\
-	$(top_builddir)/camel/libcamel.la	 			\
 	$(EVOLUTION_ADDRESSBOOK_CONDUIT_LIBS)
 
 e-address-$(BASE_VERSION).conduit: e-address.conduit.in
