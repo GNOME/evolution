@@ -1,3 +1,10 @@
+2005-03-14  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #73550
+
+	* em-format-hook.c (emfh_format_format): if we are disabled, don't
+	invoke handler, try to invoke old handler if there was one.
+
 2005-03-10  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #73293
