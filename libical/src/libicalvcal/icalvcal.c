@@ -20,6 +20,23 @@
 
   The original code is icalvcal.c
 
+
+
+  The icalvcal_convert routine calls icalvcal_traverse_objects to do
+  its work.s his routine steps through through all of the properties
+  and components of a VObject. For each name of a property or a
+  component, icalvcal_traverse_objects looks up the name in
+  conversion_table[]. This table indicates wether the name is of a
+  component or a property, lists a routine to handle conversion, and
+  has extra data for the conversion.
+
+  The conversion routine will create new iCal components or properties
+  and add them to the iCal component structure. 
+
+  The most common conversion routine is dc_prop. This routine converts
+  properties for which the text representation of the vCal component
+  is identical the iCal representation.
+
   ======================================================================*/
 
 #include "icalvcal.h"
@@ -43,7 +60,7 @@ struct conversion_table_struct {
 struct conversion_table_struct conversion_table[];
 void* dc_prop(int icaltype, VObject *object);
 
-static void traverse_objects(VObject *object,icalcomponent* last_comp,
+static void icalvcal_traverse_objects(VObject *object,icalcomponent* last_comp,
 			     icalproperty* last_prop)
 {
     VObjectIterator iterator;
@@ -66,6 +83,8 @@ static void traverse_objects(VObject *object,icalcomponent* last_comp,
 	}
     }
     
+    /* Did not find the object. It may be an X-property, or an unknown
+       property */
     if (conversion_table[i].vcalname == 0){
 
 	/* Handle X properties */
@@ -158,10 +177,10 @@ static void traverse_objects(VObject *object,icalcomponent* last_comp,
            should use it as the 'last_comp' */
 
 	if(subc!=0){
-	    traverse_objects(eachProp,subc,last_prop);
+	    icalvcal_traverse_objects(eachProp,subc,last_prop);
 	
 	} else {
-	    traverse_objects(eachProp,last_comp,last_prop);
+	    icalvcal_traverse_objects(eachProp,last_comp,last_prop);
 	}
     }
 }
@@ -180,7 +199,7 @@ icalcomponent* icalvcal_convert(VObject *object){
    }
 
 
-   traverse_objects(object,container,0);
+   icalvcal_traverse_objects(object,container,0);
    
    /* HACK. I am using the extra 'container' component because I am
       lazy. I know there is a way to get rid of it, but I did not care

@@ -40,10 +40,10 @@ typedef void icalfileset;
 */
 
 
-icalfileset* icalfileset_new(char* path);
+icalfileset* icalfileset_new(const char* path);
 void icalfileset_free(icalfileset* cluster);
 
-char* icalfileset_path(icalfileset* cluster);
+const char* icalfileset_path(icalfileset* cluster);
 
 /* Mark the cluster as changed, so it will be written to disk when it
    is freed. Commit writes to disk immediately. */
@@ -65,19 +65,22 @@ icalerrorenum icalfileset_select(icalfileset* store, icalcomponent* gauge);
 void icalfileset_clear(icalfileset* store);
 
 /* Get and search for a component by uid */
-icalcomponent* icalfileset_fetch(icalfileset* cluster, char* uid);
-int icalfileset_has_uid(icalfileset* cluster, char* uid);
+icalcomponent* icalfileset_fetch(icalfileset* cluster, const char* uid);
+int icalfileset_has_uid(icalfileset* cluster, const char* uid);
+icalcomponent* icalfileset_fetch_match(icalfileset* set, icalcomponent *c);
 
+
+/* Modify components according to the MODIFY method of CAP. Works on
+   the currently selected components. */
+icalerrorenum icalfileset_modify(icalfileset* store, icalcomponent *oldcomp,
+			       icalcomponent *newcomp);
 
 /* Iterate through components. If a guage has been defined, these
    will skip over components that do not pass the gauge */
 
 icalcomponent* icalfileset_get_current_component (icalfileset* cluster);
-icalcomponent* icalfileset_get_first_component(icalfileset* cluster,
-					       icalcomponent_kind kind);
-icalcomponent* icalfileset_get_next_component(icalfileset* cluster,
-					      icalcomponent_kind kind);
-
+icalcomponent* icalfileset_get_first_component(icalfileset* cluster);
+icalcomponent* icalfileset_get_next_component(icalfileset* cluster);
 /* Return a reference to the internal component. You probably should
    not be using this. */
 

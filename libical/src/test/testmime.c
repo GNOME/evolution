@@ -86,6 +86,7 @@ char* read_stream(char *s, size_t size, void *d)
 
 }
 
+
 int main(int argc, char* argv[]) {
 
     FILE *f;
@@ -135,7 +136,7 @@ int main(int argc, char* argv[]) {
 		opt.stress = 1;
 		break;
 	    }
-	    case 'b':{ /* test base64 encoding*/
+	    case 'b':{ /* test base64 decoding*/
 		if(opt.stress+opt.normal+opt.qp != 0){
 		    fprintf(stderr,
 			    "%s: Use only one of  n,s,b and q\n",
@@ -144,7 +145,7 @@ int main(int argc, char* argv[]) {
 		opt.base64 = 1;
 		break;
 	    }
-	    case 'q':{ /* test quoted-printable encoding*/
+	    case 'q':{ /* test quoted-printable decoding*/
 		if(opt.stress+opt.base64+opt.normal != 0){
 		    fprintf(stderr,
 			    "%s: Use only one of  n,s,b and q\n",

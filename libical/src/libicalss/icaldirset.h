@@ -30,7 +30,6 @@
 #define ICALDIRSET_H
 
 #include "ical.h"
-#include "icalerror.h"
 
 /* icaldirset Routines for storing, fetching, and searching for ical
  * objects in a database */
@@ -38,11 +37,11 @@
 typedef void icaldirset;
 
 
-icaldirset* icaldirset_new(char* path);
+icaldirset* icaldirset_new(const char* path);
 
 void icaldirset_free(icaldirset* store);
 
-char* icaldirset_path(icaldirset* store);
+const char* icaldirset_path(icaldirset* store);
 
 /* Mark the cluster as changed, so it will be written to disk when it
    is freed. Commit writes to disk immediately*/
@@ -61,22 +60,21 @@ icalerrorenum icaldirset_select(icaldirset* store, icalcomponent* gauge);
 void icaldirset_clear(icaldirset* store);
 
 /* Get a component by uid */
-icalcomponent* icaldirset_fetch(icaldirset* store, char* uid);
-int icaldirset_has_uid(icaldirset* store, char* uid);
+icalcomponent* icaldirset_fetch(icaldirset* store, const char* uid);
+int icaldirset_has_uid(icaldirset* store, const char* uid);
+icalcomponent* icaldirset_fetch_match(icaldirset* set, icalcomponent *c);
 
 /* Modify components according to the MODIFY method of CAP. Works on
    the currently selected components. */
-icalerrorenum icaldirset_modify(icaldirset* store, icalcomponent *old,
-			       icalcomponent *new);
+icalerrorenum icaldirset_modify(icaldirset* store, icalcomponent *oldc,
+			       icalcomponent *newc);
 
 /* Iterate through the components. If a guage has been defined, these
    will skip over components that do not pass the gauge */
 
 icalcomponent* icaldirset_get_current_component(icaldirset* store);
-icalcomponent* icaldirset_get_first_component(icaldirset* store,
-					       icalcomponent_kind kind);
-icalcomponent* icaldirset_get_next_component(icaldirset* store,
-					      icalcomponent_kind kind);
+icalcomponent* icaldirset_get_first_component(icaldirset* store);
+icalcomponent* icaldirset_get_next_component(icaldirset* store);
 
 #endif /* !ICALDIRSET_H */
 

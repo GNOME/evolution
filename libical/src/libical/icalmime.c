@@ -27,8 +27,11 @@
 ======================================================================*/
 
 #include "icalmime.h"
+#include "icalerror.h"
+#include "icalmemory.h"
 #include "sspm.h"
 #include "stdlib.h"
+#include <string.h> /* For strdup */
 
 #ifdef DMALLOC
 #include "dmalloc.h"
@@ -99,6 +102,7 @@ void* icalmime_text_end_part(void* part)
 
 void icalmime_text_free_part(void *part)
 {
+    part = part;
 }
 
 
@@ -111,6 +115,10 @@ void* icalmime_attachment_new_part()
 void icalmime_attachment_add_line(void *part, struct sspm_header *header, 
 				  char* line, size_t size)
 {
+    part = part;
+    header = header;
+    line = line;
+    size = size;
 }
 
 void* icalmime_attachment_end_part(void* part)
@@ -129,6 +137,7 @@ struct sspm_action_map icalmime_local_action_map[] =
 {
     {SSPM_TEXT_MAJOR_TYPE,SSPM_CALENDAR_MINOR_TYPE,icalmime_text_new_part,icalmime_text_add_line,icalmime_textcalendar_end_part,icalmime_text_free_part},
     {SSPM_TEXT_MAJOR_TYPE,SSPM_ANY_MINOR_TYPE,icalmime_text_new_part,icalmime_text_add_line,icalmime_text_end_part,icalmime_text_free_part},
+    {SSPM_TEXT_MAJOR_TYPE,SSPM_PLAIN_MINOR_TYPE,icalmime_text_new_part,icalmime_text_add_line,icalmime_text_end_part,icalmime_text_free_part},
     {SSPM_APPLICATION_MAJOR_TYPE,SSPM_CALENDAR_MINOR_TYPE,icalmime_attachment_new_part,icalmime_attachment_add_line,icalmime_attachment_end_part,icalmime_attachment_free_part},
     {SSPM_IMAGE_MAJOR_TYPE,SSPM_CALENDAR_MINOR_TYPE,icalmime_attachment_new_part,icalmime_attachment_add_line,icalmime_attachment_end_part,icalmime_attachment_free_part},
     {SSPM_AUDIO_MAJOR_TYPE,SSPM_CALENDAR_MINOR_TYPE,icalmime_attachment_new_part,icalmime_attachment_add_line,icalmime_attachment_end_part,icalmime_attachment_free_part},
@@ -136,14 +145,22 @@ struct sspm_action_map icalmime_local_action_map[] =
    {SSPM_UNKNOWN_MAJOR_TYPE,SSPM_UNKNOWN_MINOR_TYPE,0,0,0,0}
 };
 
+#define NUM_PARTS 100 /* HACK. Hard Limit */
+
+
+
+struct sspm_part* icalmime_make_part(icalcomponent* comp)
+{
+    comp = comp;
+    return 0;
+}
+
+char* icalmime_as_mime_string(char* icalcomponent);
 
 icalcomponent* icalmime_parse(char* (*get_string)(char *s, size_t size, 
 						       void *d),
 				void *data)
 {
-
-#define NUM_PARTS 100 /* HACK. Hard Limit */
-
     struct sspm_part *parts;
     int i, last_level=0;
     icalcomponent *root=0, *parent=0, *comp=0, *last = 0;
@@ -179,8 +196,6 @@ icalcomponent* icalmime_parse(char* (*get_string)(char *s, size_t size,
 	
 	sprintf(mimetype,"%s/%s",major,minor);
 
-	printf("%d: %-10s %p\n",parts[i].level,mimetype,data);
-
 	comp = icalcomponent_new(ICAL_XLICMIMEPART_COMPONENT);
 
 	if(comp == 0){
@@ -205,8 +220,8 @@ icalcomponent* icalmime_parse(char* (*get_string)(char *s, size_t size,
 	    }
 
 	    if(parts[i].header.error==SSPM_NO_HEADER_ERROR){
-		str = "Did not get a header for the part. Is there a blank
-line between the header and the previous boundary?";
+		str = "Did not get a header for the part. Is there a blank\
+line between the header and the previous boundary\?";
 
 	    }
 
@@ -226,15 +241,21 @@ line between the header and the previous boundary?";
 		     0));  
 	}
 
-#if 0
-	icalcomponent_add_property(comp,
-	   icalproperty_new_xlicmimecontenttype((char*)icalmemory_strdup(mimetype)));
+	if(parts[i].header.major != SSPM_NO_MAJOR_TYPE &&
+	   parts[i].header.major != SSPM_UNKNOWN_MAJOR_TYPE){
 
-	if (parts[i].header.encoding != 0){
 	    icalcomponent_add_property(comp,
-	       icalproperty_new_xlicmimeencoding(parts[i].header.encoding));
+		icalproperty_new_xlicmimecontenttype((char*)
+				icalmemory_strdup(mimetype)));
+
 	}
-#endif 
+
+	if (parts[i].header.encoding != SSPM_NO_ENCODING){
+
+	    icalcomponent_add_property(comp,
+	       icalproperty_new_xlicmimeencoding(
+		   sspm_encoding_string(parts[i].header.encoding)));
+	}
 
 	if (parts[i].header.filename != 0){
 	    icalcomponent_add_property(comp,
@@ -321,5 +342,44 @@ line between the header and the previous boundary?";
     return root;
 }
 
+
+
+int icalmime_test(char* (*get_string)(char *s, size_t size, void *d),
+		  void *data)
+{
+    char *out;
+    struct sspm_part *parts;
+    int i;
+
+    if ( (parts = (struct sspm_part *)
+	  malloc(NUM_PARTS*sizeof(struct sspm_part)))==0) {
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
+    }
+
+    memset(parts,0,sizeof(parts));
+
+    sspm_parse_mime(parts, 
+		    NUM_PARTS, /* Max parts */
+		    icalmime_local_action_map, /* Actions */ 
+		    get_string,
+		    data, /* data for get_string*/
+		    0 /* First header */);
+
+   for(i = 0; i <NUM_PARTS && parts[i].header.major != SSPM_NO_MAJOR_TYPE ; 
+       i++){
+       if(parts[i].header.minor == SSPM_CALENDAR_MINOR_TYPE){
+	   parts[i].data = strdup(
+	       icalcomponent_as_ical_string((icalcomponent*)parts[i].data));
+       }
+   }
+
+    sspm_write_mime(parts,NUM_PARTS,&out,"To: bob@bob.org");
+
+    printf("%s\n",out);
+
+    return 0;
+
+}
 
 

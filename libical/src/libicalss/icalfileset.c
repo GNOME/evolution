@@ -30,7 +30,6 @@
 #include "config.h"
 #endif
 
-
 #include "icalfileset.h"
 #include <errno.h>
 #include <limits.h> /* For PATH_MAX */
@@ -46,21 +45,22 @@
 int icalfileset_lock(icalfileset *cluster);
 int icalfileset_unlock(icalfileset *cluster);
 
-
-icalerrorenum icalfileset_create_cluster(char *path);
+icalerrorenum icalfileset_create_cluster(const char *path);
 
 icalfileset* icalfileset_new_impl()
 {
-    struct icalfileset_impl* comp;
+    struct icalfileset_impl* impl;
 
-    if ( ( comp = (struct icalfileset_impl*)
+    if ( ( impl = (struct icalfileset_impl*)
 	   malloc(sizeof(struct icalfileset_impl))) == 0) {
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	errno = ENOMEM;
 	return 0;
     }
 
-    return comp;
+    strcpy(impl->id,ICALFILESET_ID);
+
+    return impl;
 }
 
 char* read_from_file(char *s, size_t size, void *d)
@@ -69,7 +69,7 @@ char* read_from_file(char *s, size_t size, void *d)
     return c;
 }
 
-icalfileset* icalfileset_new(char* path)
+icalfileset* icalfileset_new(const char* path)
 {
     struct icalfileset_impl *impl = icalfileset_new_impl(); 
     struct stat sbuf;
@@ -205,7 +205,7 @@ void icalfileset_free(icalfileset* cluster)
     free(impl);
 }
 
-char* icalfileset_path(icalfileset* cluster)
+const char* icalfileset_path(icalfileset* cluster)
 {
     struct icalfileset_impl *impl = (struct icalfileset_impl*)cluster;
     icalerror_check_arg_rz((cluster!=0),"cluster");
@@ -250,7 +250,7 @@ int icalfileset_unlock(icalfileset *cluster)
 
 }
 
-icalerrorenum icalfileset_create_cluster(char *path)
+icalerrorenum icalfileset_create_cluster(const char *path)
 {
 
     FILE* f;
@@ -387,11 +387,158 @@ int icalfileset_count_components(icalfileset *cluster,
     return icalcomponent_count_components(impl->cluster,kind);
 }
 
-icalerrorenum icalfileset_select(icalfileset* cluster, icalcomponent* gauge);
-void icalfileset_clear(icalfileset* cluster);
+icalerrorenum icalfileset_select(icalfileset* cluster, icalcomponent* gauge)
+{
+    assert(0); /* HACK, not implemented */
+    return ICAL_NO_ERROR;
+}
 
-icalcomponent* icalfileset_fetch(icalfileset* store, char* uid);
-int icalfileset_has_uid(icalfileset* store, char* uid);
+void icalfileset_clear(icalfileset* cluster)
+{
+   assert(0); /* HACK, not implemented */
+}
+
+icalcomponent* icalfileset_fetch(icalfileset* store,const char* uid)
+{
+    icalcompiter i;    
+    struct icalfileset_impl* impl = (struct icalfileset_impl*)store;
+    
+    for(i = icalcomponent_begin_component(impl->cluster,ICAL_ANY_COMPONENT);
+	icalcompiter_deref(&i)!= 0; icalcompiter_next(&i)){
+	
+	icalcomponent *this = icalcompiter_deref(&i);
+	icalcomponent *inner = icalcomponent_get_first_real_component(this);
+	icalcomponent *p;
+	const char *this_uid;
+
+	if(inner != 0){
+	    p = icalcomponent_get_first_property(inner,ICAL_UID_PROPERTY);
+	    this_uid = icalproperty_get_uid(p);
+
+	    if(this_uid==0){
+		icalerror_warn("icalfileset_fetch found a component with no UID");
+		continue;
+	    }
+
+	    if (strcmp(uid,this_uid)==0){
+		return this;
+	    }
+	}
+    }
+
+    return 0;
+}
+
+int icalfileset_has_uid(icalfileset* store,const char* uid)
+{
+    assert(0); /* HACK, not implemented */
+    return 0;
+}
+
+/******* support routines for icalfileset_fetch_match *********/
+
+struct icalfileset_id{
+    char* uid;
+    char* recurrence_id;
+    int sequence;
+};
+
+void icalfileset_id_free(struct icalfileset_id *id)
+{
+    if(id->recurrence_id != 0){
+	free(id->recurrence_id);
+    }
+
+    if(id->uid != 0){
+	free(id->uid);
+    }
+
+}
+
+struct icalfileset_id icalfileset_get_id(icalcomponent* comp)
+{
+
+    icalcomponent *inner;
+    struct icalfileset_id id;
+    icalproperty *p;
+
+    inner = icalcomponent_get_first_real_component(comp);
+    
+    p = icalcomponent_get_first_property(inner, ICAL_UID_PROPERTY);
+
+    assert(p!= 0);
+
+    id.uid = strdup(icalproperty_get_uid(p));
+
+    p = icalcomponent_get_first_property(inner, ICAL_SEQUENCE_PROPERTY);
+
+    if(p == 0) {
+	id.sequence = 0;
+    } else { 
+	id.sequence = icalproperty_get_sequence(p);
+    }
+
+    p = icalcomponent_get_first_property(inner, ICAL_RECURRENCEID_PROPERTY);
+
+    if (p == 0){
+	id.recurrence_id = 0;
+    } else {
+	icalvalue *v;
+	v = icalproperty_get_value(p);
+	id.recurrence_id = strdup(icalvalue_as_ical_string(v));
+
+	assert(id.recurrence_id != 0);
+    }
+
+    return id;
+}
+
+/* Find the component that is related to the given
+   component. Currently, it just matches based on UID and
+   RECURRENCE-ID */
+icalcomponent* icalfileset_fetch_match(icalfileset* set, icalcomponent *comp)
+{
+    struct icalfileset_impl* impl = (struct icalfileset_impl*)set;
+    icalcompiter i;    
+
+    struct icalfileset_id comp_id, match_id;
+    
+    comp_id = icalfileset_get_id(comp);
+
+    for(i = icalcomponent_begin_component(impl->cluster,ICAL_ANY_COMPONENT);
+	icalcompiter_deref(&i)!= 0; icalcompiter_next(&i)){
+	
+	icalcomponent *match = icalcompiter_deref(&i);
+
+	match_id = icalfileset_get_id(match);
+
+	if(strcmp(comp_id.uid, match_id.uid) == 0 &&
+	   ( comp_id.recurrence_id ==0 || 
+	     strcmp(comp_id.recurrence_id, match_id.recurrence_id) ==0 )){
+
+	    /* HACK. What to do with SEQUENCE? */
+
+	    icalfileset_id_free(&match_id);
+	    icalfileset_id_free(&comp_id);
+	    return match;
+	    
+	}
+	
+	icalfileset_id_free(&match_id);
+    }
+
+    icalfileset_id_free(&comp_id);
+    return 0;
+
+}
+
+
+icalerrorenum icalfileset_modify(icalfileset* store, icalcomponent *old,
+			       icalcomponent *new)
+{
+    assert(0); /* HACK, not implemented */
+    return ICAL_NO_ERROR;
+}
 
 
 /* Iterate through components */
@@ -405,23 +552,21 @@ icalcomponent* icalfileset_get_current_component (icalfileset* cluster)
 }
 
 
-icalcomponent* icalfileset_get_first_component(icalfileset* cluster,
-					       icalcomponent_kind kind)
+icalcomponent* icalfileset_get_first_component(icalfileset* cluster)
 {
     struct icalfileset_impl* impl = (struct icalfileset_impl*)cluster;
 
     icalerror_check_arg_rz((cluster!=0),"cluster");
 
-    return icalcomponent_get_first_component(impl->cluster,kind);
+    return icalcomponent_get_first_component(impl->cluster,ICAL_ANY_COMPONENT);
 }
 
-icalcomponent* icalfileset_get_next_component(icalfileset* cluster,
-					      icalcomponent_kind kind)
+icalcomponent* icalfileset_get_next_component(icalfileset* cluster)
 {
     struct icalfileset_impl* impl = (struct icalfileset_impl*)cluster;
 
     icalerror_check_arg_rz((cluster!=0),"cluster");
 
-    return icalcomponent_get_next_component(impl->cluster,kind);
+    return icalcomponent_get_next_component(impl->cluster,ICAL_ANY_COMPONENT);
 }
 
