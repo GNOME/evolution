@@ -1,3 +1,28 @@
+2005-03-03  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66592
+
+	* e-msg-composer.c (e_msg_composer_get_message_draft): set the uid
+	for the x-evolution-account, not the account name, which can
+	change.
+	(e_msg_composer_new_with_message): find the account by uid first,
+	fallback to name search.
+
+2005-03-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #66592
+
+	* e-msg-composer.c (e_msg_composer_new_with_message): scan all
+	x-evolution-postto headers.  This makes post-to drafts work
+	properly.
+	(e_msg_composer_new_with_message): change for XEvolution removal.
+
+	* e-msg-composer-hdrs.c (set_pair_visibility): track visibility
+	ourselves.
+	(e_msg_composer_hdrs_to_message_internal): dont use the visibility
+	mask to determine what headers to add, use the actually shown
+	list.  Add back the x-evolution-postto headers.
+
 2005-02-15  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-msg-composer-select-file.c (select_attach_response): Fix

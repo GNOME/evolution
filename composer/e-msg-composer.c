@@ -3992,8 +3992,8 @@ EMsgComposer *
 e_msg_composer_new_with_message (CamelMimeMessage *message)
 {
 	const CamelInternetAddress *to, *cc, *bcc;
-	GList *To = NULL, *Cc = NULL, *Bcc = NULL;
-	const char *format, *subject, *postto;
+	GList *To = NULL, *Cc = NULL, *Bcc = NULL, *postto = NULL;
+	const char *format, *subject;
 	EDestination **Tov, **Ccv, **Bccv;
 	GHashTable *auto_cc, *auto_bcc;
 	CamelContentType *content_type;
@@ -4002,17 +4002,27 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	EAccount *account = NULL;
 	char *account_name;
 	EMsgComposer *new;
-	XEvolution *xev;
+	struct _camel_header_raw *xev;
 	int len, i;
 	
-	postto = camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-PostTo");
-	
+	for (headers = CAMEL_MIME_PART (message)->headers;headers;headers = headers->next) {
+		if (!strcmp(headers->name, "X-Evolution-PostTo"))
+			postto = g_list_append(postto, g_strstrip(g_strdup(headers->value)));
+	}
+
 	new = create_composer (postto ? E_MSG_COMPOSER_VISIBLE_MASK_POST : E_MSG_COMPOSER_VISIBLE_MASK_MAIL);
-	if (!new)
+	if (!new) {
+		g_list_foreach(postto, (GFunc)g_free, NULL);
+		g_list_free(postto);
 		return NULL;
+	}
 	
-	if (postto)
-		e_msg_composer_hdrs_set_post_to (E_MSG_COMPOSER_HDRS (new->hdrs), postto);
+	if (postto) {
+		e_msg_composer_hdrs_set_post_to_list(E_MSG_COMPOSER_HDRS (new->hdrs), postto);
+		g_list_foreach(postto, (GFunc)g_free, NULL);
+		g_list_free(postto);
+		postto = NULL;
+	}
 	
 	/* Restore the Account preference */
 	account_name = (char *) camel_medium_get_header (CAMEL_MEDIUM (message), "X-Evolution-Account");
@@ -4020,7 +4030,9 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 		account_name = g_strdup (account_name);
 		g_strstrip (account_name);
 		
-		account = mail_config_get_account_by_name (account_name);
+		if ((account = mail_config_get_account_by_uid(account_name)) == NULL)
+			/* 'old' setting */
+			account = mail_config_get_account_by_name(account_name);
 	}
 	
 	if (postto == NULL) {
@@ -4167,7 +4179,7 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	
 	/* Remove any other X-Evolution-* headers that may have been set */
 	xev = mail_tool_remove_xevolution_headers (message);
-	mail_tool_destroy_xevolution (xev);
+	camel_header_raw_clear(&xev);
 	
 	/* set extra headers */
 	headers = CAMEL_MIME_PART (message)->headers;
@@ -4742,7 +4754,7 @@ e_msg_composer_get_message_draft (EMsgComposer *composer)
 	/* Attach account info to the draft. */
 	account = e_msg_composer_get_preferred_account (composer);
 	if (account && account->name)
-		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->name);
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "X-Evolution-Account", account->uid);
 	
 	/* build_message() set this to text/html since we set composer->send_html to
 	   TRUE before calling e_msg_composer_get_message() */
