@@ -63,15 +63,23 @@ dnl AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-dnl AM_PATH_BONOBO(0.1.0, [
-dnl 	AC_DEFINE(HAVE_BONOBO)
-dnl 	have_bonobo=true
-dnl ],[
-dnl 	have_bonobo=false
-dnl ])
-dnl AM_CONDITIONAL(BONOBO, $have_bonobo)
+AC_MSG_CHECKING(for Bonobo > 0.4)
+if gnome-config --libs bonobo > /dev/null 2>&1; then
+	vers=`gnome-config --modversion bonobo`
+	case $vers
+	in
+	    bonobo-0.[[01234]]) bonobo_ok=false ;;
+	    *) bonobo_ok=true ;;
+	esac
+else
+	bonobo_ok=false
+fi
 
-
+if $bonobo_ok; then
+	AC_MSG_RESULT(found)
+else
+	AC_MSG_ERROR(Bonobo 0.5 is required to compile Evolution)
+fi
 
 
 dnl ******************************
@@ -88,6 +96,11 @@ EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade `"
 EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade `"
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)
+
+BONOBO_GNOME_LIBS="`gnome-config --libs gnomeui bonobo libglade `"
+BONOBO_GNOME_CFLAGS="`gnome-config --cflags gnomeui bonobo libglade `"
+AC_SUBST(BONOBO_GNOME_LIBS)
+AC_SUBST(BONOBO_GNOME_CFLAGS)
 
 EXTRA_GNOME_LIBS_THREADS="`gnome-config --libs gnomeui libglade ` `glib-config --libs gthread`"
 EXTRA_GNOME_CFLAGS_THREADS="`gnome-config --cflags gnomeui libglade ` `glib-config --cflags gthread`"

@@ -1,0 +1,19 @@
+/*
+ * CORBA interface for the Evolution shell
+ *
+ * Authors:
+ *   Miguel de Icaza (miguel@kernel.org)
+ *
+ * (C) 2000 Helix Code, Inc.
+ */
+#include <bonobo.idl>
+
+module GNOME {
+
+	module Evolution {
+
+		interface Shell : GNOME::Unknown {
+
+		};
+	};
+};

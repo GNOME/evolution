@@ -7,13 +7,19 @@ INCLUDES = \
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
 	-I$(srcdir)/../widgets				\
-	$(EXTRA_GNOME_CFLAGS)
+	$(BONOBO_GNOME_CFLAGS)
 
 evolution_SOURCES =		\
-	main.c
+	main.c			\
+	e-init.c		\
+	e-init.h		\
+	e-shell.c		\
+	e-shell.h
+
 
 evolution_LDADD = 					\
-	-L../widgets/shortcut-bar/libshortcut-bar.a	\
-	$(EXTRA_GNOME_LIBS)				
+	../widgets/shortcut-bar/libshortcut-bar.a	\
+	../e-util/libeutil.a				\
+	$(BONOBO_GNOME_LIBS)				
 
 
