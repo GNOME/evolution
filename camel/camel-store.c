@@ -383,8 +383,17 @@ struct _get_info {
 static void
 get_subfolders(char *key, CamelFolder *folder, struct _get_info *info)
 {
-	/* If this is a subfolder of the one to be renamed, we need to get it, AND lock it */
-	if (strncmp(folder->full_name, info->old, strlen(info->old)) == 0) {
+	int oldlen, namelen;
+
+	namelen = strlen(folder->full_name);
+	oldlen = strlen(info->old);
+
+	if ((namelen == oldlen &&
+	     strcmp(folder->full_name, info->old) == 0)
+	    || ((namelen > oldlen)
+		&& strncmp(folder->full_name, info->old, oldlen) == 0
+		&& folder->full_name[oldlen] == info->store->dir_sep)) {
+
 		d(printf("Found subfolder of '%s' == '%s'\n", info->old, folder->full_name));
 		camel_object_ref((CamelObject *)folder);
 		g_ptr_array_add(info->folders, folder);

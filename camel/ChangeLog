@@ -1,3 +1,12 @@
+2001-10-29    <NotZed@Ximian.com>
+
+	* camel-vee-store.c (build_info): Fix the 'is this a matching
+	subfolder or subfolder'' logic to match camel-store
+	get_subfolders'.
+
+	* camel-store.c (get_subfolders): Fix the 'is this a matching
+	folder or subfolder' logic.
+
 2001-10-28    <NotZed@Ximian.com>
 
 	* providers/local/camel-local-store.c (rename_folder): Changed to

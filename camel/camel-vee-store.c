@@ -167,11 +167,19 @@ static void
 build_info(char *name, CamelVeeFolder *folder, struct _build_info *data)
 {
 	CamelFolderInfo *info;
+	int toplen, namelen;
+
+	namelen = strlen(name);
+	toplen = strlen(data->top);
 
 	/* check we have to include this one */
 	if (data->top) {
 		if (data->flags & CAMEL_STORE_FOLDER_INFO_RECURSIVE) {
-			if (strncmp(name, data->top, strlen(data->top) != 0))
+			if (!((namelen == toplen &&
+			       strcmp(name, data->top) == 0)
+			      || ((namelen > toplen)
+				  && strncmp(name, data->top, toplen) == 0
+				  && name[toplen] == '/')))
 				return;
 		} else {
 			if (strcmp(name, data->top))
