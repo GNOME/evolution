@@ -637,19 +637,12 @@ timeout_changed (GtkEntry *entry, gpointer data)
 static void
 pgp_path_changed (GtkEntry *entry, gpointer data)
 {
-	const char *path, *bin;
-	CamelPgpType type = CAMEL_PGP_TYPE_NONE;
+	CamelPgpType type;
+	const char *path;
 	
 	path = gtk_entry_get_text (entry);
-	bin = g_basename (path);
 	
-	/* FIXME: This detection should be better */
-	if (!strcmp (bin, "pgp"))
-		type = CAMEL_PGP_TYPE_PGP2;
-	else if (!strcmp (bin, "pgpv") || !strcmp (bin, "pgpe") || !strcmp (bin, "pgpk") || !strcmp (bin, "pgps"))
-		type = CAMEL_PGP_TYPE_PGP5;
-	else if (!strncmp (bin, "gpg", 3))
-		type = CAMEL_PGP_TYPE_GPG;
+	type = mail_config_pgp_type_detect_from_path (path);
 	
 	mail_config_set_pgp_path (path && *path ? path : NULL);
 	mail_config_set_pgp_type (type);

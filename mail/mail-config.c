@@ -24,6 +24,16 @@
 #include <config.h>
 #endif
 
+/* this group of headers is for pgp detection */
+#include <signal.h>
+#include <sys/ioctl.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <termios.h>
+#include <unistd.h>
+#include <errno.h>
+
 #include <pwd.h>
 #include <ctype.h>
 
@@ -1243,17 +1253,198 @@ mail_config_set_confirm_expunge (gboolean value)
 
 struct {
 	char *bin;
+	char *version;
 	CamelPgpType type;
 } binaries[] = {
-	{ "gpg", CAMEL_PGP_TYPE_GPG },
-	{ "pgpv", CAMEL_PGP_TYPE_PGP5 },
-	{ "pgp", CAMEL_PGP_TYPE_PGP2 },
-	{ NULL, CAMEL_PGP_TYPE_NONE }
+	{ "gpg", NULL, CAMEL_PGP_TYPE_GPG },
+	{ "pgp", "6.5.8", CAMEL_PGP_TYPE_PGP6 },
+	{ "pgp", "5.0", CAMEL_PGP_TYPE_PGP5 },
+	{ "pgp", "2.6", CAMEL_PGP_TYPE_PGP2 },
+	{ NULL, NULL, CAMEL_PGP_TYPE_NONE }
 };
 
-/* FIXME: what about PGP 6.x? And I assume we want to "prefer" GnuPG
-   over the other, which is done now, but after that do we have a
-   order-of-preference for the rest? */
+
+typedef struct _PGPFILE {
+	FILE *fp;
+	pid_t pid;
+} PGPFILE;
+
+static PGPFILE *
+pgpopen (const char *command, const char *mode)
+{
+	int in_fds[2], out_fds[2];
+	PGPFILE *pgp = NULL;
+	char **argv = NULL;
+	pid_t child;
+	int fd;
+	
+	g_return_val_if_fail (command != NULL, NULL);
+	
+	if (*mode != 'r' || *mode != 'w')
+		return NULL;
+	
+	argv = g_strsplit (command, " ", 0);
+	if (!argv)
+		return NULL;
+	
+	if (pipe (in_fds) == -1)
+		goto error;
+	
+	if (pipe (out_fds) == -1) {
+		close (in_fds[0]);
+		close (in_fds[1]);
+		goto error;
+	}
+	
+	if ((child = fork ()) == 0) {
+		/* In child */
+		int maxfd;
+		
+		if ((dup2 (in_fds[0], STDIN_FILENO) < 0 ) ||
+		    (dup2 (out_fds[1], STDOUT_FILENO) < 0 ) ||
+		    (dup2 (out_fds[1], STDERR_FILENO) < 0 )) {
+			_exit (255);
+		}
+		
+		/* Dissociate from evolution-mail's controlling
+		 * terminal so that pgp/gpg won't be able to read from
+		 * it: PGP 2 will fall back to asking for the password
+		 * on /dev/tty if the passed-in password is incorrect.
+		 * This will make that fail rather than hanging.
+		 */
+		setsid ();
+		
+		/* close all open fds that we aren't using */
+		maxfd = sysconf (_SC_OPEN_MAX);
+		for (fd = 0; fd < maxfd; fd++) {
+			if (fd != STDIN_FILENO && fd != STDOUT_FILENO && fd != STDERR_FILENO)
+				close (fd);
+		}
+		
+		execvp (argv[0], argv);
+		fprintf (stderr, "Could not execute %s: %s\n", argv[0],
+			 g_strerror (errno));
+		_exit (255);
+	} else if (child < 0) {
+		close (in_fds[0]);
+		close (in_fds[1]);
+		close (out_fds[0]);
+		close (out_fds[1]);
+		goto error;
+	}
+	
+	/* Parent */
+	g_strfreev (argv);
+	
+	close (in_fds[0]);   /* pgp's stdin */
+	close (out_fds[1]);  /* pgp's stdout */
+	
+	if (mode[0] == 'r') {
+		/* opening in read-mode */
+		fd = out_fds[0];
+		close (in_fds[1]);
+	} else {
+		/* opening in write-mode */
+		fd = in_fds[1];
+		close (out_fds[0]);
+	}
+	
+	pgp = g_new (PGPFILE, 1);
+	pgp->fp = fdopen (fd, mode);
+	pgp->pid = child;
+	
+	return pgp;
+ error:
+	g_strfreev (argv);
+	
+	return NULL;
+}
+
+static int
+pgpclose (PGPFILE *pgp)
+{
+	sigset_t mask, omask;
+	pid_t wait_result;
+	int status;
+	
+	if (pgp->fp) {
+		fclose (pgp->fp);
+		pgp->fp = NULL;
+	}
+	
+	/* PGP5 closes fds before exiting, meaning this might be called
+	 * too early. So wait a bit for the result.
+	 */
+	sigemptyset (&mask);
+	sigaddset (&mask, SIGALRM);
+	sigprocmask (SIG_BLOCK, &mask, &omask);
+	alarm (1);
+	wait_result = waitpid (pgp->pid, &status, 0);
+	alarm (0);
+	sigprocmask (SIG_SETMASK, &omask, NULL);
+	
+	if (wait_result == -1 && errno == EINTR) {
+		/* PGP is hanging: send a friendly reminder. */
+		kill (pgp->pid, SIGTERM);
+		sleep (1);
+		wait_result = waitpid (pgp->pid, &status, WNOHANG);
+		if (wait_result == 0) {
+			/* Still hanging; use brute force. */
+			kill (pgp->pid, SIGKILL);
+			sleep (1);
+			wait_result = waitpid (pgp->pid, &status, WNOHANG);
+		}
+	}
+	
+	if (wait_result != -1 && WIFEXITED (status)) {
+		g_free (pgp);
+		return 0;
+	} else
+		return -1;
+}
+
+CamelPgpType
+mail_config_pgp_type_detect_from_path (const char *pgp)
+{
+	const char *bin = g_basename (pgp);
+	struct stat st;
+	int i;
+	
+	/* make sure the file exists *and* is executable? */
+	if (stat (pgp, &st) == -1 || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
+		return CAMEL_PGP_TYPE_NONE;
+	
+	for (i = 0; binaries[i].bin; i++) {
+		if (binaries[i].version) {
+			/* compare version strings */
+			char buffer[256], *command;
+			gboolean found = FALSE;
+			PGPFILE *fp;
+			
+			command = g_strdup_printf ("%s --version", pgp);
+			fp = pgpopen (command, "r");
+			g_free (command);
+			if (fp) {
+				while (!feof (fp->fp) && !found) {
+					memset (buffer, 0, sizeof (buffer));
+					fgets (buffer, sizeof (buffer), fp->fp);
+					found = strstr (buffer, binaries[i].version) != NULL;
+				}
+				
+				pgpclose (fp);
+				
+				if (found)
+					return binaries[i].type;
+			}
+		} else if (!strcmp (binaries[i].bin, bin)) {
+			/* no version string to compare against... */
+			return binaries[i].type;
+		}
+	}
+	
+	return CAMEL_PGP_TYPE_NONE;
+}
+
 static void
 auto_detect_pgp_variables (void)
 {
@@ -1266,6 +1457,7 @@ auto_detect_pgp_variables (void)
 	path = PATH;
 	while (path && *path && !type) {
 		const char *pend = strchr (path, ':');
+		gboolean found = FALSE;
 		char *dirname;
 		int i;
 		
@@ -1293,8 +1485,32 @@ auto_detect_pgp_variables (void)
 			pgp = g_strdup_printf ("%s/%s", dirname, binaries[i].bin);
 			/* make sure the file exists *and* is executable? */
 			if (stat (pgp, &st) != -1 && st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)) {
-				type = binaries[i].type;
-				break;
+				if (binaries[i].version) {
+					/* compare version strings */
+					char buffer[256], *command;
+					PGPFILE *fp;
+					
+					command = g_strdup_printf ("%s --version", pgp);
+					fp = pgpopen (command, "r");
+					g_free (command);
+					if (fp) {
+						while (!feof (fp->fp) && !found) {
+							memset (buffer, 0, sizeof (buffer));
+							fgets (buffer, sizeof (buffer), fp->fp);
+							found = strstr (buffer, binaries[i].version) != NULL;
+						}
+						
+						pgpclose (fp);
+					}
+				} else {
+					/* no version string to compare against... */
+					found = TRUE;
+				}
+				
+				if (found) {
+					type = binaries[i].type;
+					break;
+				}
 			}
 			
 			g_free (pgp);
