@@ -1,3 +1,8 @@
+2004-06-10  JP Rosevear  <jpr@novell.com>
+
+	* gui/gnome-cal.c (setup_widgets): set 6 weeks shown
+	(display_view): ditto
+
 2004-06-10  Rodrigo Moya <rodrigo@novell.com>
 
 	Fixes #58748
@@ -21,6 +26,8 @@
 
 2004-06-09  JP Rosevear  <jpr@novell.com>
 
+	Fixes #59242, #57404, ##55394
+	
 	* gui/gnome-cal.c (get_times_for_views): calculate the work week,
 	week, and month views more exactly
 	(update_adjustment): update the view based on week view scrolling

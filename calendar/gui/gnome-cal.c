@@ -1235,7 +1235,7 @@ setup_widgets (GnomeCalendar *gcal)
 	e_calendar_view_set_calendar (E_CALENDAR_VIEW (priv->month_view), gcal);
 	e_calendar_view_set_timezone (E_CALENDAR_VIEW (priv->month_view), priv->zone);
 	e_week_view_set_multi_week_view (E_WEEK_VIEW (priv->month_view), TRUE);
-	e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 5);
+	e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 6);
 	g_signal_connect (priv->month_view, "selection_changed",
 			  G_CALLBACK (view_selection_changed_cb), gcal);
 
@@ -1725,7 +1725,7 @@ display_view (GnomeCalendar *gcal, GnomeCalendarViewType view_type, gboolean gra
 
 	case GNOME_CAL_MONTH_VIEW:
 		if (!priv->range_selected)
-			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 5);
+			e_week_view_set_weeks_shown (E_WEEK_VIEW (priv->month_view), 6);
 
 		preserve_day = TRUE;
 		break;
