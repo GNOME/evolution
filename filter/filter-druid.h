@@ -32,8 +32,16 @@
 typedef struct _FilterDruid      FilterDruid;
 typedef struct _FilterDruidClass FilterDruidClass;
 
+enum FilterDruidPage {
+	FILTER_DRUID_SELECT_RULE,
+	FILTER_DRUID_SELECT_MATCH,
+	FILTER_DRUID_SELECT_NOMATCH,
+	FILTER_DRUID_SELECT_ACTION,
+	FILTER_DRUID_SELECT_FINISH
+};
+
 struct _FilterDruid {
-	GnomeDialog parent;
+	GtkNotebook parent;
 
 	GList *options;		/* all options */
 	GList *rules;		/* all rules */
@@ -45,7 +53,10 @@ struct _FilterDruid {
 };
 
 struct _FilterDruidClass {
-	GnomeDialogClass parent_class;
+	GtkNotebookClass parent_class;
+
+	/* signals */
+	void (*option_selected)(FilterDruid *f, struct filter_option *option);
 };
 
 guint		filter_druid_get_type	(void);
@@ -53,5 +64,13 @@ FilterDruid      *filter_druid_new	(void);
 
 /* Hmm, glists suck, no typesafety */
 void		filter_druid_set_rules(FilterDruid *f, GList *options, GList *rules, struct filter_option *userrule);
+void		filter_druid_set_default_html(FilterDruid *f, const char *text);
+
+/* set the page of display */
+void		filter_druid_set_page(FilterDruid *f, enum FilterDruidPage page);
+enum FilterDruidPage filter_druid_get_page(FilterDruid *f);
+
+/* check if the druid is allowed to finish at this point */
+gboolean	filter_druid_can_finish(FilterDruid *f);
 
 #endif /* ! _FILTER_DRUID_H */

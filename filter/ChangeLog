@@ -1,3 +1,11 @@
+2000-02-24  NotZed  <NotZed@HelixCode.com>
+
+	* filter-editor.c: New widget, a dialogue which uses filter-druid
+	to present the various editing views.
+
+	* filter-druid.c: Changed to just being a notebook with no tabs,
+	rather than a full druid (no next/prev/etc buttons).
+
 2000-02-22  NotZed  <NotZed@HelixCode.com>
 
 	* filter-xml.c (filter_clone_optionrule):

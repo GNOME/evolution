@@ -44,6 +44,8 @@ struct _FilterDruidPrivate {
 	GtkWidget *notebook;
 	int page;
 
+	char *default_html;
+
 	/* page 0 */
 	GtkWidget *list0;
 	GtkWidget *html0;
@@ -62,9 +64,10 @@ static void build_druid(FilterDruid *d);
 static void update_display(FilterDruid *f, int initial);
 
 /* globals */
-static GnomeDialogClass *filter_druid_parent;
+static GtkNotebookClass *filter_druid_parent;
 
 enum SIGNALS {
+	OPTION_SELECTED,
 	LAST_SIGNAL
 };
 
@@ -86,10 +89,22 @@ filter_druid_get_type (void)
 			(GtkArgGetFunc) NULL
 		};
 		
-		type = gtk_type_unique (gnome_dialog_get_type (), &type_info);
+		type = gtk_type_unique (gtk_notebook_get_type (), &type_info);
 	}
 	
 	return type;
+}
+
+static void
+object_finalize(FilterDruid *obj)
+{
+	struct _FilterDruidPrivate *p = _PRIVATE(obj);
+
+	g_free(p->default_html);
+
+	/* FIXME: free lists? */
+
+	GTK_OBJECT_CLASS(filter_druid_parent)->finalize(obj);
 }
 
 static void
@@ -97,7 +112,18 @@ filter_druid_class_init (FilterDruidClass *klass)
 {
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	
-	filter_druid_parent = gtk_type_class (gnome_dialog_get_type ());
+	filter_druid_parent = gtk_type_class (gtk_notebook_get_type ());
+
+	object_class->finalize = object_finalize;
+
+	signals[OPTION_SELECTED] =
+		gtk_signal_new ("option_selected",
+				GTK_RUN_FIRST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (FilterDruidClass, option_selected),
+				gtk_marshal_NONE__POINTER,
+				GTK_TYPE_NONE, 1,
+				GTK_TYPE_POINTER);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
@@ -152,8 +178,6 @@ find_optionrule(struct filter_option *option, char *name)
 	return NULL;
 }
 
-static char nooption[] = "<h2>Select option</h2><p>Select an option type from the list above.</p>"
-"<p>This will set the basic rule options for your new filtering rule.</p>";
 static int display_order[] = {
 	FILTER_XML_MATCH,
 	FILTER_XML_EXCEPT,
@@ -171,7 +195,7 @@ static char *display_posttext[] = {
 };
 
 void
-html_write_options(GtkHTML *html, struct filter_option *option)
+html_write_options(GtkHTML *html, struct filter_option *option, char *def)
 {
 	GtkHTMLStreamHandle *stream;
 	GList *optionrulel;
@@ -211,7 +235,9 @@ html_write_options(GtkHTML *html, struct filter_option *option)
 			}
 		}
 	} else {
-		gtk_html_write(html, stream, nooption, strlen(nooption));
+		if (def == NULL)
+			def = "Select options.";
+		gtk_html_write(html, stream, def, strlen(def));
 	}
 	gtk_html_end(html, stream, GTK_HTML_STREAM_OK);
 }
@@ -282,9 +308,6 @@ fill_options(GList *options)
 	return items;
 }
 
-GtkWidget *list_global, *html_global;
-struct filter_option *option_current;
-
 static void
 select_rule_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 {
@@ -337,6 +360,7 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 	}
 
 	if (f->option_current) {
+		printf("freeing current option\n");
 		/* free option_current copy */
 		optionsl = f->option_current->options;
 		while (optionsl) {
@@ -351,6 +375,8 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 
 	if (child) {
 		op = gtk_object_get_data(GTK_OBJECT(child), "option");
+
+		printf("option = %p\n", op);
 		
 		/* clone the option */
 		new = g_malloc(sizeof(*new));
@@ -366,6 +392,8 @@ select_option_child(GtkList *list, GtkWidget *child, FilterDruid *f)
 			optionsl = g_list_next(optionsl);
 		}
 		f->option_current = new;
+
+		gtk_signal_emit(GTK_OBJECT(f), signals[OPTION_SELECTED], op);
 	}
 
 	update_display(f, 0);
@@ -440,8 +468,6 @@ update_display(FilterDruid *f, int initial)
 	switch (p->page) {
 	case 0:
 		printf("option_current = %p  <###################\n", f->option_current);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 0, FALSE);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 1, f->option_current != NULL);
 
 		if (initial) {
 			printf("adding options\n");
@@ -453,15 +479,11 @@ update_display(FilterDruid *f, int initial)
 			gtk_frame_set_label(p->listframe0, "Select rule type");
 		}
 
-		html_write_options((GtkHTML *)p->html0, f->option_current);
+		html_write_options((GtkHTML *)p->html0, f->option_current, p->default_html);
 		break;
 	case 1:
 	case 2:
 	case 3:
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 1, TRUE);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 0, TRUE);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 2, FALSE);
-
 		if (initial) {
 			printf("adding rules\n");
 			gtk_signal_handler_block_by_data((GtkObject *)p->list0, f);
@@ -473,13 +495,9 @@ update_display(FilterDruid *f, int initial)
 			gtk_notebook_set_page(GTK_NOTEBOOK(p->notebook), 0);
 		}
 
-		html_write_options((GtkHTML *)p->html0, f->option_current);
+		html_write_options((GtkHTML *)p->html0, f->option_current, p->default_html);
 		break;
 	case 4:
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 1, FALSE);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 0, TRUE);
-		gnome_dialog_set_sensitive((GnomeDialog *)f, 2, TRUE);
-
 		if (initial) {
 			char *text;
 			text = filter_description_text(f->option_current->description, NULL);
@@ -489,7 +507,7 @@ update_display(FilterDruid *f, int initial)
 				if (f->option_current->type == FILTER_XML_SEND) {
 					text = "Filter messages sent";
 				} else {
-					text = "	Filter messages received";
+					text = "Filter messages received";
 				}
 				gtk_entry_set_text(GTK_ENTRY(p->name1), text);
 			} else {
@@ -499,7 +517,7 @@ update_display(FilterDruid *f, int initial)
 			gtk_notebook_set_page(GTK_NOTEBOOK(p->notebook), 1);
 		}
 
-		html_write_options((GtkHTML *)p->html1, f->option_current);
+		html_write_options((GtkHTML *)p->html1, f->option_current, p->default_html);
 		break;
 
 	}
@@ -508,12 +526,32 @@ update_display(FilterDruid *f, int initial)
 void
 filter_druid_set_rules(FilterDruid *f, GList *options, GList *rules, struct filter_option *current)
 {
+	struct filter_option *new;
+	GList *optionsl;
+
 	f->options = options;
 	f->rules = rules;
 	f->user = NULL;
 
-	/* FIXME: free this list if it isn't empty ... */
-	f->option_current = current;
+	if (current) {
+		/* FIXME: free this list if it isn't empty ... */
+		/* clone	 the 'current' option */
+		new = g_malloc(sizeof(*new));
+		new->type = current->type;
+		new->description = current->description;
+		new->options = NULL;
+		optionsl = current->options;
+		while (optionsl) {
+			struct filter_optionrule *ornew,
+				*or = optionsl->data;
+			ornew = filter_clone_optionrule(or);
+			new->options = g_list_append(new->options, ornew);
+			optionsl = g_list_next(optionsl);
+		}
+		f->option_current = new;
+	} else {
+		f->option_current = NULL;
+	}
 
 	update_display(f, 1);
 }
@@ -524,14 +562,16 @@ build_druid(FilterDruid *d)
 	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *hbox, *label, *vbox1;
 	struct _FilterDruidPrivate *p = _PRIVATE(d);
 
+#if 0
 	gnome_dialog_append_buttons((GnomeDialog *)d, "Prev", "Next", "Finish", "Cancel", 0);
 	gnome_dialog_set_close((GnomeDialog *)d, FALSE);
 	gnome_dialog_set_sensitive((GnomeDialog *)d, 0, FALSE);
 	gnome_dialog_set_sensitive((GnomeDialog *)d, 1, FALSE);
 	gnome_dialog_set_sensitive((GnomeDialog *)d, 2, FALSE);
 	gnome_dialog_set_default((GnomeDialog *)d, 1);
+#endif
 
-	p->notebook = gtk_notebook_new();
+	p->notebook = d;
 	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(p->notebook), FALSE);
 	
 	/* page0, initial setup page */
@@ -570,7 +610,7 @@ build_druid(FilterDruid *d)
 	gtk_signal_connect(GTK_OBJECT(list), "select_child", select_option_child, d);
 	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", select_option_child, d);
 /*	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", unselect_option_child, d); */
-	gtk_signal_connect(GTK_OBJECT(d), "clicked", dialogue_clicked, d);
+/*	gtk_signal_connect(GTK_OBJECT(d), "clicked", dialogue_clicked, d);*/
 
 	gtk_signal_connect(GTK_OBJECT(html), "link_clicked", arg_link_clicked, d);
 
@@ -617,232 +657,33 @@ build_druid(FilterDruid *d)
 	gtk_signal_connect(GTK_OBJECT(html), "link_clicked", arg_link_clicked, d);
 
 	gtk_widget_show_all(p->notebook);
-
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), p->notebook, TRUE, TRUE, 0);
 }
 
-#if 0
-/* crappo */
-static void
-build_first(FilterDruid *d)
+void
+filter_druid_set_page(FilterDruid *f, enum FilterDruidPage page)
 {
-	GtkWidget *vbox, *frame, *scrolled_window, *list, *html, *hbox;
-	struct _FilterDruidPrivate *p = _PRIVATE(d);
+	struct _FilterDruidPrivate *p = _PRIVATE(f);
+	int initial = p->page != page;
 
-	gnome_dialog_append_buttons((GnomeDialog *)d, "Prev", "Next", "Finish", "Cancel", 0);
-	gnome_dialog_set_close((GnomeDialog *)d, FALSE);
-
-	p->notebook = gtk_notebook_new();
-	gtk_notebook_set_show_tabs(GTK_NOTEBOOK(p->notebook), FALSE);
-	
-	/* page0, initial setup page */
-	hbox = gtk_hbox_new(FALSE, 0);
-
-	vbox = gtk_vbox_new(FALSE, 0);
-	frame = gtk_frame_new("Filters");
-	list = gtk_list_new();
-	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), list);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_set_focus_vadjustment
-		(GTK_CONTAINER (list),
-		 gtk_scrolled_window_get_vadjustment
-		 (GTK_SCROLLED_WINDOW (scrolled_window)));
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
-
-	frame = gtk_frame_new("Filter Description");
-	html = gtk_html_new();
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scrolled_window), html);
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start((GtkBox *)vbox, frame, TRUE, TRUE, 0);
-
-	p->html0 = html;
-	p->list0 = list;
-
-	gtk_widget_set_usize(html, 300, 200);
-	gtk_widget_set_usize(list, 300, 200);
-
-	gtk_box_pack_start((GtkBox *)hbox, vbox, TRUE, TRUE, 0);
-
-	/* buttons */
-	vbox = gtk_vbox_new(FALSE, 0);
-	
-	p->add0 = gtk_button_new_with_label ("Add");
-	p->remove0 = gtk_button_new_with_label ("Remove");
-	p->up0 = gtk_button_new_with_label ("Up");
-	p->down0 = gtk_button_new_with_label ("Down");
-
-	gtk_box_pack_start((GtkBox *)vbox, p->add0, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, p->remove0, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, p->up0, FALSE, TRUE, 0);
-	gtk_box_pack_start((GtkBox *)vbox, p->down0, FALSE, TRUE, 0);
-
-	gtk_box_pack_start((GtkBox *)hbox, vbox, FALSE, FALSE, 0);
-
-	gtk_notebook_append_page(GTK_NOTEBOOK(p->notebook), hbox, NULL);
-
-	gtk_widget_show_all(p->notebook);
-
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(d)->vbox), p->notebook, TRUE, TRUE, 0);
+	p->page = page;
+	update_display(f, initial);
 }
-#endif
 
-void create_dialogue(void)
+
+void
+filter_druid_set_default_html(FilterDruid *f, const char *html)
 {
-	GtkWidget *dialogue,
-		*scrolled_window,
-		*list,
-		*html,
-		*frame;
+	struct _FilterDruidPrivate *p = _PRIVATE(f);
 
-	dialogue = gnome_dialog_new("Filter Rules",
-				    GNOME_STOCK_BUTTON_PREV , GNOME_STOCK_BUTTON_NEXT, 
-				    "Finish", GNOME_STOCK_BUTTON_CANCEL, 0);
-
-	list = gtk_list_new();
-	frame = gtk_frame_new("Filter Type");
-	scrolled_window = gtk_scrolled_window_new(NULL, NULL);
-
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(scrolled_window), list);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_set_focus_vadjustment
-		(GTK_CONTAINER (list),
-		 gtk_scrolled_window_get_vadjustment
-		 (GTK_SCROLLED_WINDOW (scrolled_window)));
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialogue)->vbox), frame, TRUE, TRUE, GNOME_PAD);
-
-#if 0
-	gtk_signal_connect(GTK_OBJECT(list), "select_child", select_rule_child, NULL);
-	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", select_rule_child, NULL);
-#else
-	gtk_signal_connect(GTK_OBJECT(list), "select_child", select_option_child, NULL);
-	gtk_signal_connect(GTK_OBJECT(list), "unselect_child", select_option_child, NULL);
-#endif
-
-	frame = gtk_frame_new("Filter Description");
-	html = gtk_html_new();
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC,
-					GTK_POLICY_AUTOMATIC);
-	gtk_container_add(GTK_CONTAINER(scrolled_window), html);
-	gtk_container_add(GTK_CONTAINER(frame), scrolled_window);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(dialogue)->vbox), frame, TRUE, TRUE, GNOME_PAD);
-
-	gtk_signal_connect(GTK_OBJECT(html), "link_clicked", arg_link_clicked, NULL);
-	gtk_signal_connect(GTK_OBJECT(dialogue), "clicked", dialogue_clicked, NULL);
-
-	list_global = list;
-	html_global = html;
-
-	gtk_widget_show_all(dialogue);
+	g_free(p->default_html);
+	p->default_html = g_strdup(html);
 }
 
-int main(int argc, char **argv)
+enum FilterDruidPage
+filter_druid_get_page(FilterDruid *f)
 {
-	FilterSEXP *f;
-	FilterSEXPResult *r;
-	GList *rules, *options, *options2;
-	xmlDocPtr doc, out, optionset, filteroptions;
-	GString *s;
+	struct _FilterDruidPrivate *p = _PRIVATE(f);
 
-	gnome_init("Test", "0.0", argc, argv);
-	gdk_rgb_init ();
-	gtk_widget_set_default_colormap (gdk_rgb_get_cmap ());
-	gtk_widget_set_default_visual (gdk_rgb_get_visual ());
-
-	{
-		GtkWidget *d = (GtkWidget *)filter_druid_new();
-
-		doc = xmlParseFile("filterdescription.xml");
-		rules = filter_load_ruleset(doc);
-		options = filter_load_optionset(doc, rules);
-		options2 = options;
-		out = xmlParseFile("saveoptions.xml");
-		options = filter_load_optionset(out, rules);
-
-		filter_druid_set_rules((FilterDruid *)d, options2, rules, options->data);
-/*		filter_druid_set_rules((FilterDruid *)d, options2, rules, NULL);*/
-
-		gtk_widget_show(d);
-		gtk_main();
-	}
-#if 0
-
-	create_dialogue();
-
-	doc = xmlParseFile("filterdescription.xml");
-	rules = filter_load_ruleset(doc);
-	options = filter_load_optionset(doc, rules);
-	options2 = options;
-	out = xmlParseFile("saveoptions.xml");
-	options = filter_load_optionset(out, rules);
-
-#if 0
-	option_current = options->data;
-	fill_rules(list_global, rules, options->data, FILTER_XML_MATCH);
-#else
-	option_current = NULL;
-	fill_options(list_global, options2);
-#endif
-	gtk_main();
-
-	while (options) {
-		struct filter_option *fo = options->data;
-		GList *optionrulel;
-
-		optionrulel = fo->options;
-		while (optionrulel) {
-			struct filter_optionrule *or = optionrulel->data;
-
-			printf("formatting rule: %s\n", or->rule->name);
-
-			/*filter_description_text(or->rule->description, or->args);*/
-			filter_description_html_write(or->rule->description, or->args, NULL, NULL);
-
-			optionrulel = g_list_next(optionrulel);
-		}
-		options = g_list_next(options);
-	}
-
-	return 0;
-
-	s = g_string_new("");
-	g_string_append(s, "");
-
-	printf("total rule = '%s'\n", s->str);
-
-	f = filter_sexp_new();
-	filter_sexp_add_variable(f, 0, "sender", NULL);
-	filter_sexp_add_variable(f, 0, "receipient", NULL);
-	filter_sexp_add_variable(f, 0, "folder", NULL);
-
-	/* simple functions */
-	filter_sexp_add_function(f, 0, "header-get", NULL, NULL);
-	filter_sexp_add_function(f, 0, "header-contains", NULL, NULL);
-	filter_sexp_add_function(f, 0, "copy-to", NULL, NULL);
-
-	filter_sexp_add_ifunction(f, 0, "set", NULL, NULL);
-
-	/* control functions */
-	filter_sexp_add_ifunction(f, 0, "match-all", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "match", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "action", NULL, NULL);
-	filter_sexp_add_ifunction(f, 0, "except", NULL, NULL);
-
-	filter_sexp_input_text(f, s->str, strlen(s->str));
-	filter_sexp_parse(f);
-#endif
-	
+	return p->page;
 }
+

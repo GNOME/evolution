@@ -5,6 +5,8 @@
 #include <glib.h>
 #include <gnome-xml/tree.h>
 
+#include "filter-arg.h"
+
 enum filter_xml_token {
 	FILTER_XML_TEXT=0,
 	FILTER_XML_RULE,
