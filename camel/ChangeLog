@@ -1,3 +1,7 @@
+2004-05-25 Sivaiah nallagatla <snallagatla@novell.com>
+	* providers/groupwise/came;-gw-listener.c (add_addressbook_sources):
+	set port property on  e-source 
+
 2004-05-25 Sivaiah Nallagatla <snallagatla@novell.com>
 
 	* providers/groupwise/camel-gw-listener.c (lookup_account_info):

@@ -418,6 +418,7 @@ add_addressbook_sources (EAccount *account)
 	if (! books_list) {
 		source = e_source_new ("Frequent Contacts", g_strconcat (";", "Frequent Contacts", NULL));
 		e_source_set_property (source, "auth", "plain/password");
+		e_source_set_property (source, "port", soap_port);
 		e_source_set_property(source, "user", url->user);
 		e_source_set_property (source, "auth-domain", "Groupwise");
 		e_source_set_property (source, "completion", "true");
@@ -431,6 +432,7 @@ add_addressbook_sources (EAccount *account)
 			source = e_source_new (book_name, g_strconcat (";",book_name, NULL));
 			e_source_set_property (source, "auth", "plain/password");
 			e_source_set_property (source, "auth-domain", "Groupwise");
+			e_source_set_property (source, "port", soap_port);
 			e_source_set_property(source, "user", url->user);
 			printf ("%s %d\n",  e_gw_container_get_name (E_GW_CONTAINER(temp_list->data)), e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data))); 
 		        if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
