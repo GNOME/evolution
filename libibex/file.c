@@ -81,7 +81,6 @@ ibex_open (char *file, int flags, int mode)
 
 	fd = open(file, flags, mode);
 	if (fd == -1) {
-		printf("open failed :(\n");
 		return NULL;
 	}
 
@@ -113,7 +112,6 @@ ibex_open (char *file, int flags, int mode)
 
 	f = fdopen(fd, modestr);
 	if (f == NULL) {
-		printf("fdopen failed, modestr = '%s'\n", modestr);
 		if (errno == 0)
 			errno = ENOMEM;
 		return NULL;
@@ -147,8 +145,9 @@ ibex_open (char *file, int flags, int mode)
 	for (i = 0; i < nfiles; i++) {
 		ibfs[i] = g_malloc (sizeof (ibex_file));
 		ibfs[i]->name = get_compressed_word (f, &lastword);
-		if (!ibfs[i]->name)
+		if (!ibfs[i]->name) {
 			goto errout;
+		}
 		ibfs[i]->index = 0;
 		g_tree_insert (ib->files, ibfs[i]->name, ibfs[i]);
 	}
@@ -158,16 +157,18 @@ ibex_open (char *file, int flags, int mode)
 	lastword = NULL;
 	for (i = 0; i < nwords; i++) {
 		word = get_compressed_word (f, &lastword);
-		if (!word)
+		if (!word) {
 			goto errout;
+		}
 
 		nrefs = read_number (f);
 		refs = g_ptr_array_new ();
 		g_ptr_array_set_size (refs, nrefs);
 		while (nrefs--) {
 			ref = read_number (f);
-			if (ref >= nfiles)
+			if (ref >= nfiles) {
 				goto errout;
+			}
 			refs->pdata[nrefs] = ibfs[ref];
 		}
 
@@ -230,43 +231,49 @@ write_file (gpointer key, gpointer value, gpointer data)
 	return FALSE;
 }
 
+/* scans for words which still exist in the index (after
+   index removals), and adds them to the ordered tree for
+   writing out in order */
 static void
 store_word (gpointer key, gpointer value, gpointer data)
 {
 	GTree *wtree = data;
+	GPtrArray *refs = value;
+	int i;
+	ibex_file *ibf;
 
-	g_tree_insert (wtree, key, value);
+	for (i = 0; i < refs->len; i++) {
+		ibf = g_ptr_array_index (refs, i);
+		if (ibf->index == -1) {
+			g_ptr_array_remove_index_fast (refs, i);
+			i--;
+		}
+	}
+
+	if (refs->len > 0) {
+		g_tree_insert (wtree, key, value);
+	}
 }
 
+/* writes a word out, in order */
 static gint
 write_word (gpointer key, gpointer value, gpointer data)
 {
 	char *word = key;
 	GPtrArray *refs = value;
 	struct ibex_write_data *iwd = data;
+	int i, prefix;
 	ibex_file *ibf;
-	int i, ind, prefix;
 
-	for (i = ind = 0; i < refs->len; i++) {
+	prefix = get_prefix (iwd, word);
+	fprintf (iwd->f, "%c%s", prefix, word + prefix);
+	fputc (0, iwd->f);
+
+	write_number (iwd->f, refs->len);
+
+	for (i = 0; i < refs->len; i++) {
 		ibf = g_ptr_array_index (refs, i);
-		if (ibf->index == -1) {
-			g_ptr_array_remove_index_fast (refs, i);
-			i--;
-		} else
-			ind++;
-	}
-
-	if (ind != 0) {
-		prefix = get_prefix (iwd, word);
-		fprintf (iwd->f, "%c%s", prefix, word + prefix);
-		fputc (0, iwd->f);
-
-		write_number (iwd->f, ind);
-
-		for (i = 0; i < refs->len; i++) {
-			ibf = g_ptr_array_index (refs, i);
-			write_number (iwd->f, ibf->index);
-		}
+		write_number (iwd->f, ibf->index);
 	}
 	return FALSE;
 }
@@ -310,11 +317,11 @@ ibex_write (ibex *ib)
 		goto lose;
 
 	iwd.lastname = NULL;
-	write_number (iwd.f, g_hash_table_size (ib->words));
-	if (ferror (iwd.f))
-		goto lose;
 	wtree = g_tree_new (strcmp);
 	g_hash_table_foreach (ib->words, store_word, wtree);
+	write_number (iwd.f, g_tree_nnodes(wtree));
+	if (ferror (iwd.f))
+		goto lose;
 	g_tree_traverse (wtree, write_word, G_IN_ORDER, &iwd);
 	g_tree_destroy (wtree);
 	if (ferror (iwd.f))

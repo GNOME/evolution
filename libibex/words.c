@@ -159,7 +159,7 @@ get_ibex_file (ibex *ib, char *name)
 	ibf = g_tree_lookup (ib->files, name);
 	if (!ibf) {
 		ibf = g_malloc (sizeof (ibex_file));
-		ibf->name = strdup (name);
+		ibf->name = g_strdup (name);
 		ibf->index = 0;
 		g_tree_insert (ib->files, ibf->name, ibf);
 		ib->dirty = TRUE;
@@ -213,6 +213,9 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer,
 	ibex_file *ibf = get_ibex_file (ib, name);
 	int wordsiz, cat;
 
+	if (unread)
+		*unread = 0;
+
 	end = buffer + len;
 	wordsiz = 20;
 	word = g_malloc (wordsiz);
@@ -261,8 +264,6 @@ ibex_index_buffer (ibex *ib, char *name, char *buffer,
 		p = q;
 	}
 
-	if (unread)
-		*unread = 0;
 	g_free (word);
 	return 0;
 }

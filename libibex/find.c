@@ -160,3 +160,23 @@ ibex_find_all (ibex *ib, GPtrArray *words)
 	g_tree_destroy (work);
 	return ret;
 }
+
+static void
+ibex_dump_foo(char *key, GPtrArray *refs, void *data)
+{
+	int i;
+
+	printf("%s: ", key);
+	for (i=0;i<refs->len;i++) {
+		ibex_file *ibf = g_ptr_array_index (refs, i);
+		printf("%c%s", ibf->index==-1?'-':' ', ibf->name);
+	}
+	printf("\n");
+}
+
+/* debug function to dump the tree, in key order */
+void
+ibex_dump_all (ibex *ib)
+{
+	g_hash_table_foreach(ib->words, ibex_dump_foo, 0);
+}

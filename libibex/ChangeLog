@@ -1,3 +1,23 @@
+2000-04-12  NotZed  <NotZed@HelixCode.com>
+
+	* find.c (ibex_dump_all): Debug function to dump the whole index
+	to stdout.
+
+	* words.c (get_ibex_file): Use g_strdup(), not strdup().
+
+2000-04-11  NotZed  <NotZed@HelixCode.com>
+
+	* file.c (write_word): Always write out all words we have (even if
+	its 0 ... the file expects it).  No longer check for removed files.	
+	(store_word): Check for removed files here, and only add to the
+	ordered tree if we have references left to this word.
+	(ibex_write): First insert into the tree, to determine the
+	wordcount to be saved in the output file, and then write that.
+	(ibex_open): Remove some debug.
+
+	* words.c (ibex_index_buffer): Always set 'unread', if it is a
+	valid pointer (dont rely on caller to initialise it).
+
 2000-03-26  NotZed  <NotZed@HelixCode.com>
 
 	* lookup.c (main): Fixed call to ibex_open.

@@ -92,5 +92,8 @@ gboolean ibex_find_name (ibex *ib, char *name, char *word);
  */
 GPtrArray *ibex_find_all (ibex *ib, GPtrArray *words);
 
+/* Debug function, dumps the whole index tree, showing removed files as well */
+void ibex_dump_all (ibex *ib);
+
 #endif /* ! IBEX_H */
 
