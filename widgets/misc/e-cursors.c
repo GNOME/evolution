@@ -13,6 +13,11 @@ typedef struct {
 #define GNUMERIC_CURSOR_MOVE       3
 #define GNUMERIC_CURSOR_ZOOM_IN    4
 #define GNUMERIC_CURSOR_ZOOM_OUT   5
+#define GNUMERIC_CURSOR_SIZE_X     6
+#define GNUMERIC_CURSOR_SIZE_Y     7
+#define GNUMERIC_CURSOR_SIZE_TL    8
+#define GNUMERIC_CURSOR_SIZE_TR    9
+#define GNUMERIC_CURSOR_PRESS     10
 
 extern GnumericCursorDef  gnumeric_cursors [];
 
