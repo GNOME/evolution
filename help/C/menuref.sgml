@@ -5,10 +5,11 @@
 <chapter id="menuref">
   <title>Menu Reference</title>
   <para>
-    This section will serve as a reference for every capability that
-    <application>Evolution</application> has.  When menu items are
-    repeated in <application>Evolution</application>, they're repeated
-    here too.
+    This section will serve as a reference for every menu that
+    <application>Evolution</application> has. If you've ever wondered
+    what some obscure menu item does, this is the chapter for
+    you. When menu items are repeated in
+    <application>Evolution</application>, they're repeated here too.
   </para>
   <para>
     From left to right, the menus available to you when you are
@@ -158,7 +159,9 @@
   <sect1 id="menuref-mail">
     <title>Mail Menus</title>
     <para>
-       All the menus for mail. FIXME: this paragraph needs content.
+       <application>Evolution</application> Mail has more specialized
+       menus, and more specialized menu items, than any other part of
+       the application.
     </para>
    
     <sect2 id="menuref-mail-edit">
@@ -169,7 +172,7 @@
     </sect2>
 
     <sect2 id="menuref-mail-view">
-      <title>The View Menu</title>
+      <title>The Mail View Menu</title>
       <para>
         This menu lets you control the way
         <application>Evolution</application> displays your information
@@ -205,7 +208,7 @@
     </sect2>
 
     <sect2 id="menuref-mail-tools">
-      <title>The Tools Menu</title>
+      <title>The Mail Settings Menu</title>
       <para>
       <variablelist>
 	  <varlistentry>
@@ -218,9 +221,10 @@
 	  </varlistentry>
 	  
 	  <varlistentry>
-	    <term><guimenuitem>vFolder Editor</guimenuitem></term>
+	    <term><guimenuitem>Virtual Folder Editor</guimenuitem></term>
 	    <listitem><para>
-              Create, edit, and delete vFolders with this tool. 
+              Create, edit, and delete Virtual Folders (<glossterm>vFolders</glossterm>)
+               with this tool. 
               To learn about using vFolders with mail, see 
               <xref linkend="usage-mail-organize-vfolders">.
            </para></listitem>
@@ -237,66 +241,207 @@
 	  <varlistentry>
 	    <term><guimenuitem>Forget Passwords</guimenuitem></term>
 	    <listitem><para>
-             Although it's really an Action (FIXME), this item will cause 
-             <application>Evolution</application> to forget what your
-             password is.
-           </para></listitem>
+              This item will cause <application>Evolution</application>
+	      to forget what your password is.
+            </para></listitem>
 	  </varlistentry>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Configure Folder</guimenuitem></term>
-	    <listitem><para>
-              Another FIXME item, this allows you to set the file format
-              in which <application>Evolution</application> stores mail.
-           </para></listitem>
-	  </varlistentry>
 	</variablelist>
        </para>
     </sect2>
 
-    <sect2 id="menuref-mail-actions">
-      <title>The Actions Menu</title>
+    <sect2 id="menuref-mail-folder">
+      <title>The Mail Folder Menu</title>
       <para>
-          When you select one of the actions from this menu,
-          <application>Evolution</application> will do your bidding,
-          usually to the item you have selected.
+          The items in this menu relate to 
+          <application>Evolution</application> mail folders.
       </para>
       <para>
-          The actions you can perform are:
+          You can:
           <variablelist>
+
 	  <varlistentry>
-	    <term><guimenuitem>Edit Message</guimenuitem></term>
+	    <term><guimenuitem>Mark all as Read</guimenuitem></term>
 	    <listitem><para>
-	      Select a message in the drafts folder before you select this 
-	      item.  You can only edit a message you have written. FIXME: POOR
-	      description of BROKEN behavior. 
-	   </para></listitem>
+	      <application>Evolution</application> keeps track of which messages 
+	      you've seen;  to mark everything in a folder as read, choose this item.
+	      You can mark a single message as read by right-clicking it in the message bar.
+	    </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term><guimenuitem>View Message</guimenuitem></term>
+	    <term><guimenuitem>Delete All</guimenuitem></term>
+	    <listitem><para>
+	      This is a favorite item of everyone with too much junk-mail: one click, and it 
+	      deletes every message in the current folder. 
+	    </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Expunge</guimenuitem></term>
+	    <listitem><para>
+                 Empties the trash folder, erasing messages permanently. 
+                 Once you've done this, they're gone for good.
+	       </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Configure Folder</guimenuitem></term>
+	    <listitem><para>
+              Use this item to set the file format in which
+              <application>Evolution</application> stores mail. You
+              can choose from standard UNIX-style
+              <systemitem><filename>mbox</filename></systemitem>
+              files, or the
+              <systemitem><filename>mh</filename></systemitem> format.
+              Converting large mailboxes may take a long time, and
+              it's a good idea to have a backup copy beforehand.
+           </para></listitem>
+	  </varlistentry>
+
+	</variablelist>
+       </para>
+    </sect2>
+
+  <sect2 id="menuref-mail-message">
+      <title>The Mail Message Menu</title>
+      <para>
+          The items in this menu relate to
+          <application>Evolution</application> mail messages. Most of
+          them require you to have a message selected, and are also
+          available by right-clicking on a message in the message
+          list.
+      </para>
+      <para>
+          <variablelist>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>Open in New Window</guimenuitem></term>
 	    <listitem><para>
 	       Displays the selected message in a new window.
 	   </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term><guimenuitem>Mark all Messages Read</guimenuitem></term>
+	    <term><guimenuitem>Edit Message</guimenuitem></term>
 	    <listitem><para>
-	      <application>Evolution</application> keeps track of which messages 
-	      you've seen;  When you don't need to read all those messages, select this item.
-	      You can mark a single message as read by right-clicking it in the message bar.
-	    </para></listitem>
+	      Open the selected message in the message composer.  You
+              can only edit a message you have written: drafts and messages in 
+              the <guilabel>Sent</guilabel> box. 
+	   </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term><guimenuitem>Expunge</guimenuitem></term>
+	    <term><guimenuitem>Print Message</guimenuitem></term>
 	    <listitem><para>
-                   Emtpies the trash folder, erasing messages permanently. 
-                   Once you've done this, don't come crying to me if you
-                   want a message back.
-	       </para></listitem>
+	       Displays the <interface>Print Preview</interface> window, 
+               ready for printing.
+	   </para></listitem>
 	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Reply to Sender</guimenuitem></term>
+	    <listitem><para>
+	       Opens a message composition window addressed to the
+               author of the  message.  Covered in detail in 
+               <xref linkend="usage-mail-getnsend-send-reply">.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Reply to All</guimenuitem></term>
+	    <listitem><para>
+	        Opens a message composition window addressed to the
+                author of the  message and all known recipients.
+                Covered in detail in <xref linkend="usage-mail-getnsend-send-reply">.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Forward</guimenuitem></term>
+	    <listitem><para>
+	       Appends the body of the selected message to a new message.
+               Covered in detail in  <xref linkend="usage-mail-getnsend-fwd">.               
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Delete Message</guimenuitem></term>
+	    <listitem><para>
+	       Marks a message for deletion.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Move Message</guimenuitem></term>
+	    <listitem><para>
+	       Choose a folder in which to place this message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Copy Message</guimenuitem></term>
+	    <listitem><para>
+	       Copy the selected  message to another folder.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Subject</guimenuitem></term>
+	    <listitem><para>
+	       This item, and the three that follow it, will create vFolders 
+               which you may customize further or save as-is. This one will
+               create a vFolder which will display all messages that contain the 
+               subject line of the selected message.                
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Sender</guimenuitem></term>
+	    <listitem><para>
+	       Creates a vFolder to hold all messages from the sender of
+               the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+
+	  <varlistentry>
+	    <term><guimenuitem>VFolder on Recipients</guimenuitem></term>
+	    <listitem><para>
+	       Creates a VFolder to hold all messages addressed to the 
+               recipient of the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Subject</guimenuitem></term>
+	    <listitem><para>
+	       This item, and the three that follow it, will create Filters 
+               for which you must select actions.  You may keep the criteria as 
+               they are, or alter them as you wish. This one will
+               create a filter which will affect all messages that contain the 
+               subject line of the selected message.                
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Sender</guimenuitem></term>
+	    <listitem><para>
+	       Creates a filter which affects all messages from the sender of
+               the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
+	  <varlistentry>
+	    <term><guimenuitem>Filter on Recipients</guimenuitem></term>
+	    <listitem><para>
+	       Creates a filter which will affect all messages addressed to the 
+               recipient of the selected message.
+	      </para></listitem>
+	  </varlistentry>
+
 	</variablelist>
        </para>
     </sect2>
@@ -343,8 +488,7 @@
 	      <term><guimenu>Save in Folder</guimenu></term>
 	      <listitem><para>
 		 Save a message as a draft, rather than 
-		 as a seperate text file. (FIXME: should be removed, and 
-		 functionality subsumed under "Save As").
+		 as a separate text file.
 	      </para></listitem>
 	    </varlistentry>
 
@@ -357,9 +501,16 @@
 	    </varlistentry>
 	  
 	    <varlistentry>
-	      <term><guimenu>Send</guimenu></term>
+	      <term><guimenu>Send Now</guimenu></term>
 	      <listitem><para>
 		  Sends the message immediately.
+	      </para></listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term><guimenu>Send Later</guimenu></term>
+	      <listitem><para>
+		  Queue 
 	      </para></listitem>
 	    </varlistentry>
 
@@ -430,18 +581,16 @@
                As with <guimenuitem>Find Regex</guimenuitem>, 
                <guimenuitem>Find Again</guimenuitem>, and
                <guimenuitem>Replace</guimenuitem>, <application>Evolution</application>
-                will offer you the option to search forwards or backwards, and.
-
+                will offer you the option to search forwards or backwards.
 	    </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
 	    <term><guimenuitem>Find Regex</guimenuitem></term>
 	    <listitem><para>
-               If you are familiar with regular expressions, often called 
-               "regexes," you can search for something more complicated, 
-               using wildcards and boolean logic. If you're not familiar with 
-               them, there are numerous resources for you on the web.
+               If you are familiar with <glossterm>regular expressions</glossterm>,
+                often called "regexes," you can search for something more complicated, 
+               using wildcards and boolean logic.
 	    </para></listitem>
 	  </varlistentry>
 
@@ -503,7 +652,7 @@
 	    <term><guimenuitem>Show Attachments</guimenuitem></term>
 	    <listitem><para> 
               Toggles the display of attachments.  When this item is selected,
-              <application>Evolution</application> will create a seperate pane
+              <application>Evolution</application> will create a separate pane
               of the composition window to show what attachments you are appending
               to the message. 
 	    </para></listitem>
@@ -559,142 +708,8 @@
       </para>
     </sect2>
   </sect1>
-  <sect1 id="menuref-mail-context">
-    <title>Contextual Menus in Evolution Mail</title>
-    <para>
-      The following menus appear when you right-click on something:
-    </para>
 
-    <sect2 id="menuref-mail-context-message">
-      <title>Right-click menu for messages in the message list</title>
-      <para>
-        <variablelist>
-
-	  <varlistentry>
-	    <term><guimenuitem>Open in New Window</guimenuitem></term>
-	    <listitem><para>
-	       Open a new window to read this message.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Edit this Message</guimenuitem></term>
-	    <listitem><para>
-              Available only for messages you have
-	      written and saved to the <guilabel>Drafts</guilabel>
-              or <guilabel>Outbox</guilabel> folders, this opens the
-              message in a message composition window, so you can alter it.
-	    </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Print</guimenuitem></term>
-	    <listitem><para>
-	       Opens the Print Preview window in preparation
-               for printing the message.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Reply to Sender</guimenuitem></term>
-	    <listitem><para>
-	       Opens a message composition window addressed to the
-               author of the  message.  Covered in detail in 
-               <xref linkend="usage-mail-getnsend-send-reply">.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Reply to All</guimenuitem></term>
-	    <listitem><para>
-	        Opens a message composition window addressed to the
-                author of the  message and all known recipients.
-                Covered in detail in <xref linkend="usage-mail-getnsend-send-reply">.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Forward</guimenuitem></term>
-	    <listitem><para>
-	       Appends the body of the selected message to a new message.
-               Covered in detail in  <xref linkend="usage-mail-getnsend-fwd">.               
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Delete Message</guimenuitem></term>
-	    <listitem><para>
-	       Marks a message for deletion.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Move Message</guimenuitem></term>
-	    <listitem><para>
-	       Choose a folder in which to place this message.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>VFolder on Subject</guimenuitem></term>
-	    <listitem><para>
-	       This item, and the three that follow it, will create vFolders 
-               which you may customize further or save as-is. This one will
-               create a vFolder which will display all messages that contain the 
-               subject line of the selected message.                
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>VFolder on Sender</guimenuitem></term>
-	    <listitem><para>
-	       Creates a vFolder to hold all messages from the sender of
-               the selected message.
-	      </para></listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term><guimenuitem>VFolder on Recipients</guimenuitem></term>
-	    <listitem><para>
-	       Creates a VFolder to hold all messages addressed to the 
-               recipient of the selected message.
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Filter on Subject</guimenuitem></term>
-	    <listitem><para>
-	       This item, and the three that follow it, will create Filters 
-               for which you must select actions.  You may keep the criteria as 
-               they are, or alter them as you wish. This one will
-               create a filter which will affect all messages that contain the 
-               subject line of the selected message.                
-	      </para></listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term><guimenuitem>Filter on Sender</guimenuitem></term>
-	    <listitem><para>
-	       Creates a Filter which affects all messages from the sender of
-               the selected message.
-	      </para></listitem>
-	  </varlistentry>
-
-
-	  <varlistentry>
-	    <term><guimenuitem>Filter on Recipients</guimenuitem></term>
-	    <listitem><para>
-	       Creates a filter which will affect all messages addressed to the 
-               recipient of the selected message.
-	      </para></listitem>
-	  </varlistentry>
-	</variablelist>
-      </para>
-    </sect2>
-  </sect1>
-  
-  <sect1 id="menuref-cal">
+    <sect1 id="menuref-cal">
     <title>The Calendar Menus</title>
     <para>
       The Main window of the calendar has the same menus as the main
@@ -784,31 +799,26 @@
       </para>
     </sect2>
 
-    <sect2 id="menuref-cal-tools">
-      <title>The Calendar Tools Menu</title>
+    <sect2 id="menuref-cal-settings">
+      <title>The Calendar Settings Menu</title>
       <para>
          This menu is empty.
       </para>
     </sect2>
 
-    <sect2 id="menuref-cal-actions">
-      <title>The Calendar Actions Menu</title>
-      <para>
-         This menu is empty.
-      </para>
-    </sect2>
   </sect1>
 
   <sect1 id="menuref-cal-editor">
     <title>The Appointment Editor Menus</title>
     <para>
-    FIXME: Insert Content Here.
+    The appointment editor has its own menus, to help you use its
+    wide-ranging abilities.
     </para>
     
     <sect2 id="menuref-cal-editor-file">
-      <title>The Appintment Editor's File Menu</title>
+      <title>The Appointment Editor's File Menu</title>
       <para>
-         This menu contains several items, including a <guisubmenu>New</guisubmenu> 
+         This menu contains several items, including a <guisubmenu>New</guisubmenu> submenu
          that is identical to that in the 
          <link linkend="menuref-universal-file">main window's file menu</link>.
          Its other contents are:
@@ -914,7 +924,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-edit">
-      <title>The Appintment Editor's Edit Menu</title>
+      <title>The Appointment Editor's Edit Menu</title>
       <para>
          FIXME: this menu is copied and pasted entirely from somewhere
          else.
@@ -922,7 +932,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-view">
-      <title>The Appintment Editor's View Menu</title>
+      <title>The Appointment Editor's View Menu</title>
       <para>
          This menu allows you to look at different appointments, and
          set the way you look at them, without having to move back to
@@ -982,7 +992,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-insert">
-      <title>The Appintment Editor's Insert Menu</title>
+      <title>The Appointment Editor's Insert Menu</title>
       <para>
         This menu contains: (FIXME: Insert Content Here)
         <variablelist>
@@ -1013,7 +1023,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-format">
-      <title>The Appintment Editor's Format Menu</title>
+      <title>The Appointment Editor's Format Menu</title>
       <para>
          This menu contains two items, neither of which
          have any functionality yet:
@@ -1037,7 +1047,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-tools">
-      <title>The Appintment Editor's Tools Menu</title>
+      <title>The Appointment Editor's Tools Menu</title>
       <para>
          
          This menu contains four items, none of which
@@ -1061,7 +1071,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-actions">
-      <title>The Appintment Editor's Actions Menu</title>
+      <title>The Appointment Editor's Actions Menu</title>
       <para>
         This menu contains:
 
@@ -1101,7 +1111,7 @@
     </sect2>
 
     <sect2 id="menuref-cal-editor-help">
-      <title>The Appintment Editor's File Menu</title>
+      <title>The Appointment Editor's File Menu</title>
       <para>
          This menu is empty.
       </para>
@@ -1124,7 +1134,7 @@
 
 
     <sect2 id="menuref-contact-view">
-      <title>Contact Manager Edit Menu</title>
+      <title>Contact Manager View Menu</title>
       <para>
         This menu contains the following items:
 
@@ -1146,7 +1156,7 @@
 	  </varlistentry>
 		  
 	  <varlistentry>
-	  <term><guimenuitem>As Table</guimenuitem></term>
+	  <term><guimenuitem>As Table</guimenuitem> / <guimenuitem>As Minicards</guimenuitem></term>
 	  <listitem><para>
              View your contacts as a table.  
              When in table-view mode, this menu item reads 

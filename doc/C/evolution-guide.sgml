@@ -5,7 +5,6 @@
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
-<!ENTITY USAGE-NOTES SYSTEM "usage-notes.sgml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
@@ -20,7 +19,11 @@
 ]>
 
 
-<!-- Almost every chapter is an entity.  Files, Chapter id's, and entity names correspond.  APX is for appendix.  -->
+<!-- Almost every chapter is an entity.  Files, Chapter id's, and
+entity names correspond.  APX is for appendix. Note that there is no
+entity for apx-notes.sgml, which is still included in the file
+set. Reinstate the entity if and when the Notes feature is
+implemented. -->
 
 <book id="index">
   <bookinfo>
@@ -92,7 +95,7 @@
     &USAGE-MAIL;
     &USAGE-CONTACT;
     &USAGE-CALENDAR;
-    &USAGE-NOTES;
+<!--   &USAGE-NOTES; -->
     &USAGE-SYNC;
 
   </part>

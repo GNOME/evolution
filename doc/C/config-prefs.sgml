@@ -22,12 +22,11 @@
         preferences are separated into several categories:
         <variablelist>
 	<varlistentry>
-          <term><guilabel>Identies</guilabel></term>
+          <term><guilabel>Identities</guilabel></term>
           <listitem>
 	    <para>
                This allows you to create and alter one or more
-               identities for your email: your name, address, and so
-               forth.
+               identities for your email.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -58,7 +57,7 @@
 	    <para>
               If you would like to use
               <application>Evolution</application> to read newsgroups,
-              you can secify your news server preferences here.
+              you can specify your news server preferences here.
            </para>
 	  </listitem>
 	</varlistentry>
@@ -99,7 +98,8 @@
          one address, you will only need to configure one identity. If
          you want, however, you can have multiple identities.  This
          can be useful if you want to keep personal and professional
-         email seperate.
+         email separate, or if you wear several hats at work.
+         
        </para>
        <para>
          To add a new identity, simply click
@@ -175,8 +175,10 @@
 	      <term><guilabel>Mail source type:</guilabel></term>
 	      <listitem>
 		<para>
-                  Select from IMAP, POP or Unix-style
-                  <filename>mbox</filename> files.
+                  Select from IMAP or POP servers, or Unix-style
+                  <systemitem><filename>mbox</filename></systemitem>
+                  or <systemitem><filename>mh</filename></systemitem>
+                  files.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -184,9 +186,9 @@
 	      <term> <guilabel>Server:</guilabel></term>
 	      <listitem>
 		<para>
-                  Enter the name of your mail server in this field.
-                  For example:
-                  <userinput>mail.mycompany.com</userinput>
+                  Enter the name of the mail source server in this
+                  field. If you use an  may or may not be the same as your
+                  <glossterm>SMTP</glossterm> server.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -194,10 +196,13 @@
 	      <term><guilabel>Username:</guilabel></term>
 	      <listitem>
 		<para>
-                  Enter your user name here.  This is often related to
-                  your real name, but not always. Examples include
-                  <guilabel>eltester</guilabel> and
-                  <guilabel>rupert</guilabel>.
+                  Enter the user name for the account you have on the
+                  server-- this should the part of your email address
+                  before the @.  If you use
+                  <systemitem><filename>mbox</filename></systemitem>
+                  or <systemitem><filename>mh</filename></systemitem>
+                  files as your mail source, you do not need to enter
+                  a username.
                 </para>
 	      </listitem>
 	    </varlistentry>
@@ -229,11 +234,13 @@
           </para>
           <para>
             If you have several mail sources, clicking <guibutton>Get
-            Mail</guibutton> will refresh any IMAP or
-            <filename>mbox</filename> listings and check and download
-            all POP servers.  In other words, <guibutton>Get
-            Mail</guibutton> gets your mail, no matter how many
-            sources you have, or what types they are.
+            Mail</guibutton> will refresh any IMAP,
+            <systemitem><filename>mh</filename></systemitem>, or
+            <systemitem><filename>mbox</filename></systemitem>
+            listings and check and download mail from all POP servers.
+            In other words, <guibutton>Get Mail</guibutton> gets your
+            mail, no matter how many sources you have, or what types
+            they are.
           </para>
       </sect3>
 
@@ -252,8 +259,8 @@
         </para>
 	<para>
             To use <guilabel>SMTP</guilabel>, you'll need to enter the
-            name of your SMTP server, which should look like:
-            <userinput>smtp.isp.net</userinput>.
+            name of your SMTP server.  It may have the same name as
+            your mail source server.
          </para>
          <para>
             <application>Evolution</application> can attempt to
@@ -345,9 +352,11 @@
        <para>
           To set your calendar preferences, select
           <menuchoice><guimenu>Settings</guimenu>
-          <guimenuitem>Calendar Configuration</guimenuitem></menuchoice>.  This
-          will open up the <interface>Preferences</interface> window.
-          It contains four tabs: <guilabel>Time display</guilabel>,
+          <guimenuitem>Calendar
+          Configuration</guimenuitem></menuchoice> from the Calendar
+          view.  This will open up the
+          <interface>Preferences</interface> window.  It contains four
+          tabs: <guilabel>Time display</guilabel>,
           <guilabel>Colors</guilabel>, <guilabel>To Do List</guilabel>
           and <guilabel>Alarms</guilabel>.  The <interface>calendar
           preferences window</interface> is illustrated in <xref
@@ -553,7 +562,7 @@
 	    at you for any alarms you have set.  If you leave this box
 	    unchecked, <application>Evolution</application> will only
 	    alert you to events by opening a dialog box. These beeps
-	    are distict from full-fledged audio alarms.
+	    are distinct from full-fledged audio alarms.
            </para>
 	  </listitem>
 	  <listitem>
@@ -573,11 +582,9 @@
       </para>
     </sect2>
 
+   </sect1>
 
-  </sect1>
-
-
-    <sect1 id="config-prefs-contact">
+   <sect1 id="config-prefs-contact">
       <title>Managing the Contact Manager</title>
 	<para>
           To set the behavior of your Contact Manager, click on the

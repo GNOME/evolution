@@ -8,19 +8,19 @@
       storage.  These scraps of paper were called notes.  Now, notes
       are an almost necessary part of our lives, albeit in electronic
       form.  It only makes sense, then, that
-      <application>Evolution</application> has a Notes feature.
-      <application>Evolution</application> can help you take notes in
-      the following ways:
+      <application>Evolution</application> will eventually have a
+      Notes feature.  <application>Evolution</application> can help
+      you take notes in the following ways:
      <itemizedlist>
        <listitem>
          <para>
-           You can take down phone numbers, take school notes, take phone
+           Take down phone numbers, take school notes, take phone
 	   messages, or even write poetry.
          </para>
        </listitem>
        <listitem>
          <para>
-           You can color code notes to organize them, or just to
+           Color code notes to organize them, or just to
            make them look good.
          </para>
        </listitem>
@@ -31,14 +31,16 @@
        </listitem>
        <listitem>
          <para>
-           Something
+           Write <glossterm>Haiku</glossterm>
          </para>
        </listitem>
      </itemizedlist>
    </para>
    <para>
-     You can start writing notes by clicking <guibutton>Notes</guibutton> in the
-     shortcut bar.
+     You can start writing notes by clicking
+     <guibutton>Notes</guibutton> in the shortcut bar.  Of course,
+     it's not there yet. But when it is, it'll take you to the
+     notepad.
    </para>
   </abstract>
 </chapter>

@@ -166,12 +166,12 @@
       </variablelist>
     </para>
     <para>
-      If you don't like the shortcut bar, you can use keyboard
-      shortcuts, or <glossterm>hot keys</glossterm>.  They're shown
-      next to their equivalent menu items in the menu bar. You can
-      also set your own hot keys for functions that don't have any;
-      this is covered in <xref linkend="config">.  If you're using the
-      keyboard shortcuts you may also want to hide the
+      If you don't like the shortcut bar, you can use the menu bar, or
+      keyboard shortcuts, also called <glossterm>hot keys</glossterm>.
+      They're shown next to their equivalent menu items in the menu
+      bar. You can also set your own hot keys for functions that don't
+      have any; this is covered in <xref linkend="config">.  If you're
+      using the keyboard shortcuts you may also want to hide the
       <interface>shortcut bar</interface> by selecting <menuchoice>
       <guimenu>View</guimenu> <guimenuitem>Show Shortcut
       Bar</guimenuitem> </menuchoice>.
@@ -350,30 +350,25 @@
           </para></listitem>
         </varlistentry>
 
-        <varlistentry>
-          <term> <guimenu>Tools</guimenu> Menu </term>
-          <listitem><para> All of your assistants and configuration
-          tools go here.  For the <interface>Inbox</interface>, that
-          means things like <guimenuitem>Mail
-          Configuration</guimenuitem> and the <guimenuitem>vFolder
-          Editor</guimenuitem>.  For the
-          <interface>Calendar</interface> and the <interface>Contact
-          Manager</interface>, it's color, network, and layout
-          configuration. </para></listitem>
+       <varlistentry>
+          <term> <guimenu>View</guimenu> Menu </term>
+          <listitem><para>
+            This menu lets you decide how <application>Evolution</application> 
+            should look. Some of the features control the appearance of 
+            <application>Evolution</application> as a whole, and others 
+            the way a particular kind of information appears.
+          </para></listitem>
         </varlistentry>
 
         <varlistentry>
-          <term> <guimenu>Actions</guimenu> Menu </term>
-          <listitem><para>
-            This menu contains a list of actions you can perform on
-            the information you've stored with
-            <application>Evolution</application>.  The contents vary
-            depending on the view, but for the
-            <interface>Inbox</interface>, it contains items like
-            <guimenuitem>Mark All Messages Read</guimenuitem> and
-            <guimenuitem>Expunge</guimenuitem>, to erase all the 
-            messages you've marked for deletion.    
-          </para></listitem>
+          <term> <guimenu>Settings</guimenu> Menu </term>
+          <listitem><para> Tools for configuring, changing, and
+          setting up go here.  For mail, that means things like
+          <guimenuitem>Mail Configuration</guimenuitem> and the
+          <guimenuitem>vFolder Editor</guimenuitem>.  For the
+          <interface>Calendar</interface> and the <interface>Contact
+          Manager</interface>, it's color, network, and layout
+          configuration. </para></listitem>
         </varlistentry>
 
        <varlistentry>
@@ -385,6 +380,14 @@
           </para></listitem>
         </varlistentry>
       </variablelist>
+   </para>
+   <para>
+     Other menus, like <guilabel>Folder</guilabel>,
+     <guilabel>Message</guilabel>, and <guilabel>Actions</guilabel>,
+     appear only occasionally.  <guilabel>Message</guilabel> and
+     <guilabel>Folder</guilabel>, for example, have commands that only
+     relate to email, so they're only available when you're looking at
+     email.
    </para>
    <para>
       Once you've familiarized yourself with the <interface>main

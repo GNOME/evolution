@@ -90,7 +90,7 @@
 	  <listitem>
 	    <para>
                Data must be safe: <application>Evolution</application>
-               must not not lose mail, corrupt mailbox files or other
+               must not lose mail, corrupt mailbox files or other
                data, execute arbitrary scripts, or delete files from
                your hard disk.
             </para>
@@ -270,7 +270,6 @@
 	    </listitem>
 	  </varlistentry>
 
-
 	  <varlistentry>
 	    <term>Enter a new Contact</term>
 	    <listitem>
@@ -286,8 +285,6 @@
                 </para>
 	    </listitem>
 	  </varlistentry>
-
-
 	</variablelist>
       </para>
     </sect2> 

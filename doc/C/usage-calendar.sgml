@@ -71,9 +71,9 @@ lack of time, resources, and interest.
        multiple days, and events that have a date but no specific
        time.  Of course, you can also set event reminders and alarms
        so that you don't forget about everything you've just put into
-       your calendar. From managing a busy office to managing a busy
-       family (or both!), <application>Evolution</application> can
-       handle the schedule.
+       your calendar. From office or family to office
+       <emphasis>and</emphasis> family,
+       <application>Evolution</application> can handle the schedule.
     </para>
     <sect2 id="usage-calendar-apts-basic">
       <title>Creating events</title>
@@ -103,24 +103,23 @@ lack of time, resources, and interest.
         Your event must have a starting and ending date &mdash; by
         default, today &mdash; but you can choose whether to give it
         starting and ending times or to mark it as an <guilabel>All
-        day event</guilabel>.  For the purposes of the calendar, an
-        <guilabel>All day event</guilabel> begins at ten in the
-        morning, runs until eleven at night, and is displayed at the
-        top of a day's event list rather than inside it.  That makes
-        it easy to have events that overlap and fit inside each other.
-        For example, a conference might be an all day event, and the
-        meetings at the conference would be timed events.  Events with
-        starting and ending times can also overlap, however, and when
-        they do they're displayed as multiple columns in the day view
-        of the calendar.
+        day event</guilabel>. An <guilabel>All day event</guilabel>
+        appears at the top of a day's event list rather than inside
+        it.  That makes it easy to have events that overlap and fit
+        inside each other.  For example, a conference might be an all
+        day event, and the meetings at the conference would be timed
+        events.  Of course, events with specific starting and ending
+        times can also overlap.  When they do they're displayed as
+        multiple columns in the day view of the calendar.
       </para>
       <note>
        <title>Doing Two Things At Once</title>
          <para>
-           If you create two calendar events that overlap,
-           <application>Evolution</application> will display them as
-           multiple columns in the calendar window.  If you manage to
-           do both things at once, I'd like to meet you.
+           If you create calendar events that overlap,
+           <application>Evolution</application> will display them side
+           by side in your calendar.  However,
+           <application>Evolution</application> cannot help you do
+           multiple things at once.
          </para>
       </note>
       <para>
@@ -177,7 +176,7 @@ lack of time, resources, and interest.
          and a public event can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
          level of security, and <guilabel>Confidential</guilabel> a
-         higer level.  <!-- FIXME --> Exact determinations and implementations of
+         higher level.  <!-- FIXME --> Exact determinations and implementations of
          this feature have yet to be determined. <!-- FIXME -->
       </para>
       <para>
@@ -235,7 +234,7 @@ lack of time, resources, and interest.
 	it, and then choose <guimenuitem>Event
 	Properties</guimenuitem> from the <guimenu>Settings</guimenu>
 	menu.  In the <interface>Event Properties</interface> dialog
-	window, click the "tentative" button to deselect the
+	window, click the "tentative" button to De-select the
 	event.
       </para>
     </sect2>
@@ -334,8 +333,9 @@ lack of time, resources, and interest.
     <example>
       <title>Keeping Multiple Calendars</title>
       <para>
-        Keelyn has one calendar for her own schedule.  On the network,
-        she maintains one for the conference room, so people know when
+        Keelyn. the office manager for a small company, has one
+        calendar for her own schedule.  On the local network, she
+        maintains one for the conference room, so people know when
         they can schedule meetings.  Next to that, she maintains a
         calendar that reflects when consultants are going to be on
         site, and another that keeps track of when the Red Sox are
@@ -351,7 +351,7 @@ lack of time, resources, and interest.
 
        You can place the calendar in any calendar folder and access it
        from the folder view.  Alarms, configuration, and display for
-       each calendar are seperate from each other.
+       each calendar are separate from each other.
     </para>
     
   </sect1>

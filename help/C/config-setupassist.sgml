@@ -21,7 +21,8 @@
       </para>
       <para>
          The setup assistant (sometimes called a
-	 <glossterm>Druid</glossterm>) will guide you through the
+	 <glossterm>Druid</glossterm>, by analogy with the "Wizards"
+	 that some other programs use) will guide you through the
 	 network configuration process.  It will ask you for some
 	 basic information; your system administrator or ISP should
 	 have the answers you'll need.  The mail setup assistant is
@@ -46,15 +47,14 @@
         <variablelist>
 
           <varlistentry>
-               <term> <guilabel>Name:</guilabel> </term>
-	  <listitem> <para>Your
-            full name: eg. Eva Lucianne Tester </para></listitem>
+               <term> <guilabel>Name:</guilabel> </term> <listitem>
+	  <para>Your full name. </para></listitem>
          </varlistentry>
 
        <varlistentry>
           <term><guilabel>Email address:</guilabel></term>
 	  <listitem><para>
-                 Your email address: eg. eltester@helixcode.com
+                 Your complete email address.
                  </para></listitem>
        </varlistentry>
 
@@ -62,10 +62,9 @@
           <term> <guilabel>Organization:</guilabel></term>
 	  <listitem>
 	    <para>
-              Any organization you represent; often, the company where
-              you work.  Leave this blank if you wish.  One person I
-              know always puts "My own bad self" in this box, so
-              people know his opinions are his alone.
+              Any organization you represent, or the company where you
+              work.  Leave this blank if you wish, or type "My own bad
+              self" so people know your opinions are yours alone.
             </para>
 	  </listitem>
       </varlistentry>
@@ -77,7 +76,7 @@
              A text file appended to any email you send.  A signature
              file typically consists of your name and email address,
              or a quotation you like.  It's good form to keep your
-             "sig" on the short side: four lines is plenty. Remeber,
+             "sig" on the short side: four lines is plenty. Remember,
              this is attached to every email you send.
             </para>
          </listitem>
@@ -87,23 +86,32 @@
            <term> <guilabel>Mail source type:</guilabel></term>
 	  <listitem>
 	    <para>
-              <application>Evolution</application> supports three mail
-              sources: <glossterm>POP</glossterm> servers,
+              <application>Evolution</application> supports several
+              mail sources: <glossterm>POP</glossterm> and
               <glossterm>IMAP</glossterm> servers, and UNIX-style
-              <filename>mbox</filename> files.  POP servers retrieve
-              your mail and store it on your local system so you can
-              refer to it even when not connected to a network;
-              <glossterm>IMAP</glossterm> servers store the mail on
-              the server so you can access it from multiple locations;
-              UNIX-style <filename>mbox</filename> files are used by
-              your computer for internal mail, and may be useful if
-              you want to switch from another email client such as
-              <application>spruce</application> or
-              <application>mutt</application>.  Ask your system
-              administrator which you should use, or keep guessing
-              until one works.  You may use multiple servers if you
-              wish; see <xref linkend="config-prefs-mail-network"> for
-              more information.
+              <systemitem><filename>mbox</filename></systemitem> and
+              <systemitem><filename>mh</filename></systemitem> files.
+              POP servers retrieve your mail and store it on your
+              local system so you can refer to it even when not
+              connected to a network; <glossterm>IMAP</glossterm>
+              servers store the mail on the server so you can access
+              it from multiple locations;
+              <systemitem><filename>mbox</filename>></systemitem>
+              files are used by your computer for internal mail, and
+              may be useful if you want to switch from another email
+              client such as <application>Spruce</application> or
+              <application>Netscape Communicator</application>.  Ask
+              your system administrator which you should use, or keep
+              guessing until one works.  You may use multiple sources
+              if you wish; see <xref
+              linkend="config-prefs-mail-network"> for more
+              information.
+            </para>
+            <para>
+              If you decide not to have
+              <application>Evolution</application> use any servers,
+              the remaining items are not relevant; you only need to
+              point to the location of the files you wish to access.
             </para>
 	  </listitem>
 	  </varlistentry>
@@ -112,9 +120,10 @@
           <term> <guilabel>Server:</guilabel></term>
 	  <listitem>
 	    <para>
-              This should be the name of your mail server: it should
-              look something like:
-              <userinput>mailserver.organization.org</userinput>.
+              This should be the name of the server where you check
+              your mail, if you use one.  It may be the same as the
+              server where you send your outgoing mail, if you use
+              one.
             </para>
 	  </listitem>
 	</varlistentry>
@@ -123,8 +132,9 @@
 	  <term><guilabel>Username:</guilabel></term>
 	<listitem>
              <para>
-              Normally, this is the part of your email address before
-              the @ character, and
+              Enter the username for your mail server account, if you
+              have one. Normally, this is the part of your email
+              address before the @ character, and
               <application>Evolution</application> has selected that
               value as the default.  If you have a different username,
               you can enter it here.

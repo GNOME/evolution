@@ -47,7 +47,7 @@
        shows all your cards in alphabetical order, in a
        <glossterm>minicard</glossterm> format.  You can select other
        views from the <guimenu>View</guimenu> menu, and adjust the
-       width of the colums by clicking and dragging the grey column
+       width of the columns by clicking and dragging the grey column
        dividers.
     </para>
 
@@ -78,6 +78,15 @@
         <listitem><para>
            <guibutton>Delete</guibutton> deletes a selected card.
         </para></listitem>
+
+        <listitem><para>
+           <guibutton>Show All</guibutton> Shows all cards.
+        </para></listitem>
+
+        <listitem><para>
+           <guibutton>Stop</guibutton> Stop loading card data from the network.
+        </para></listitem>
+
       </itemizedlist>
     </para>
     <para>
@@ -88,10 +97,9 @@
        the cards to find one that matches.
     </para>
     <para>
-       If there are no matches, the card display will be blank.  To
-       display <emphasis>all</emphasis> of your contacts, you can
-       leave the <guilabel>Quick Search</guilabel> field blank, and
-       press enter.
+       If there are no matches, the card display will be blank. When
+       you'd like to see all the cards again, press <guilabel>Show
+       All</guilabel>.
     </para>
     <para>
        The rest of the contact manager is taken up by the display of
@@ -107,7 +115,7 @@
     <para>
        To delete a card, click on it once to select it, then press the
        <guibutton>Delete Card</guibutton> button.  If you have
-       multiple cards selected, you'll delete mutliple cards.
+       multiple cards selected, you'll delete multiple cards.
     </para>
     <para>
        Adding or changing cards is slightly more complicated.  Any
@@ -217,7 +225,7 @@
                     <userinput>Eva Lucianne Tester</userinput>.
                     You'll notice that the <guilabel>File
                     As</guilabel> field also fills up, but in reverse:
-                    <computeroutput>Tester, Lucianne</computeroutput>.
+                    <computeroutput>Tester, Eva</computeroutput>.
                     You can pick <computeroutput>Eva
                     Tester</computeroutput> from the drop-down, or
                     type in your own, such as <userinput>Lucianne
@@ -230,7 +238,7 @@
                       Don't enter something entirely different from
                       the actual name, since you might forget that
                       you've filed Eva's information under "F" for
-                      "Fictitious Helix Code Employees"
+                      "Fictitious Helix Code Employee."
                     </para>
 		  </tip>
 		</listitem>
@@ -300,13 +308,12 @@
 
 <!--
     <para>
-      Another useful UNIMPLEMENTED
-      <application>Evolution</application> feature is its ability to
-      recognize when people live or work together.  If several people
-      in your contact manager share an address, and you change the
-      address for one of them, <application>Evolution</application>
-      will ask you if you wish to change the address for all of them,
-      or just for one.
+      Another useful <application>Evolution</application> feature is
+      its ability to recognize when people live or work together.  If
+      several people in your contact manager share an address, and you
+      change the address for one of them,
+      <application>Evolution</application> will ask you if you wish to
+      change the address for all of them, or just for one.
     </para>
 -->
 
@@ -333,10 +340,11 @@
 	   <guisubmenu>New</guisubmenu>
 	   <guimenuitem>Folder</guimenuitem>
            </menuchoice>
-           and that you can put new folders anywhere you like.  Each
-	   card must be in a folder, and no card can be in two places
-	   at once.  If you want more flexibility, try <xref
-	   linkend="usage-contact-organize-group-category">
+           and that you can put new folders anywhere you like. Just
+	   like with mail, cards must be in a card folder, and no card
+	   can be in two places at once.  If you want more
+	   flexibility, try <xref
+	   linkend="usage-contact-organize-group-category">.
 	 </para>
 	<para>
           To put a card into a folder, just drag it there from the
@@ -371,13 +379,18 @@
            <!-- FIXME --> Waiting for Evolution to support the
            operation.
          </para>
+
+       <!-- FIXME: Feature Not Implemented
 	<para>
+
            If the master list of categories doesn't suit you, you can
            add your own.  Just enter the new category's name in the
            text box, then click <guibutton>Categories</guibutton> and
            choose <guilabel>Add to Master List</guilabel> in the
            window that appears. 
          </para>
+       -->
+
       </sect3>
     </sect2>
   </sect1>
@@ -392,7 +405,7 @@
        the sort of feature you'll want to use if your company has a
        list of vendors and clients that needs constant updating.  If
        you also share your calendars, people can avoid duplicating
-       work and keep up to date on developments within their workgroup
+       work and keep up to date on developments within their work-group
        or across the entire company.
     </para>
 
@@ -424,19 +437,29 @@
        the folder bar, and will work exactly like a local folder of
        cards, with the following exceptions:
        <itemizedlist>
+
           <listitem><para>
               They are only available when you are connected to the network.  If 
               you use a laptop or have a modem connection, you may wish to copy or cache
               the network directory and then synchronize your copy with the networked version
               periodically.
           </para></listitem>
-
+          <listitem><para>
+              To prevent excess network traffic,
+              <application>Evolution</application> will not normally
+              load the contents of LDAP folders immediately upon
+              opening.  You must click <guilabel>Display
+              All</guilabel> before LDAP folder cards will be loaded
+              from the network. You can change this behavior in the
+              <interface>Contact Preferences</interface> window.
+          </para></listitem>
 	  <listitem><para>
-              Your ability to view, change, add or delete contacts 
-              depends on the settings of the LDAP server.  For example, you may 
-              read all the entries in the public Netcenter directory (available by default in the 
-              <guilabel>External Directories</guilabel> folder), but you may not change or delete 
-              any of them.
+              Your ability to view, change, add or delete
+              contacts depends on the settings of the LDAP server.
+              For example, you may read all the entries in the public
+              Netcenter directory (available by default in the
+              <guilabel>External Directories</guilabel> folder), but
+              you may not change or delete any of them.
            </para></listitem>
        </itemizedlist>
      </para>
