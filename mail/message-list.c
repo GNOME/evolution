@@ -87,12 +87,14 @@
 
 #define PARENT_TYPE (e_table_scrolled_get_type ())
 
+#ifdef SMART_ADDRESS_COMPARE
 struct _EMailAddress {
 	ENameWestern *wname;
 	gchar *address;
 };
 
 typedef struct _EMailAddress EMailAddress;
+#endif /* SMART_ADDRESS_COMPARE */
 
 static ETableScrolledClass *message_list_parent_class;
 
@@ -158,6 +160,7 @@ static GtkTargetEntry drag_types[] = {
 };
 static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
 
+#ifdef SMART_ADDRESS_SORT
 static EMailAddress *
 e_mail_address_new (const char *address)
 {
@@ -251,21 +254,28 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 	
 	return retval;
 }
+#endif /* SMART_ADDRESS_COMPARE */
 
 static gint
 address_compare (gconstpointer address1, gconstpointer address2)
 {
+#ifdef SMART_ADDRESS_COMPARE
 	EMailAddress *addr1, *addr2;
+#endif /* SMART_ADDRESS_COMPARE */
 	gint retval;
 	
 	g_return_val_if_fail (address1 != NULL, 1);
 	g_return_val_if_fail (address2 != NULL, -1);
 	
+#ifdef SMART_ADDRESS_COMPARE
 	addr1 = e_mail_address_new (address1);
 	addr2 = e_mail_address_new (address2);
 	retval = e_mail_address_compare (addr1, addr2);
 	e_mail_address_free (addr1);
 	e_mail_address_free (addr2);
+#else
+	retval = g_strcasecmp ((const char *) address1, (const char *) address2);
+#endif /* SMART_ADDRESS_COMPARE */
 	
 	return retval;
 }
