@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #include <config.h>
 #include <bonobo.h>
 #include <gnome.h>
@@ -48,17 +49,22 @@ list_uids (gpointer data)
 
 		for (l = uids; l; l = l->next) {
 			char *uid;
-			char *calobj;
+			iCalObject *ico;
+			CalClientGetStatus status;
 
 			uid = l->data;
-			calobj = cal_client_get_object (client, uid);
+			status = cal_client_get_object (client, uid, &ico);
 
-			printf ("------------------------------\n%s", calobj);
-			printf ("------------------------------\n");
+			if (status == CAL_CLIENT_GET_SUCCESS) {
+				printf ("------------------------------\n");
+				dump_icalobject (ico);
+				printf ("------------------------------\n");
+			} else {
+				printf ("FAILED: %d\n", status);
+			}
 
-			cal_client_update_object (client, uid, calobj);
-
-			g_free (calobj);
+			// cal_client_update_object (client, uid, calobj);
+			// g_free (calobj);
 		}
 	}
 

@@ -1085,9 +1085,8 @@ e_day_view_update_event		(EDayView	*day_view,
 				 const gchar	*uid)
 {
 	EDayViewEvent *event;
-	gchar *obj_string;
 	iCalObject *ico;
-	CalObjFindStatus status;
+	CalClientGetStatus status;
 	gint day, event_num;
 
 	g_return_if_fail (E_IS_DAY_VIEW (day_view));
@@ -1107,18 +1106,16 @@ e_day_view_update_event		(EDayView	*day_view,
 		return;
 
 	/* Get the event from the server. */
-	obj_string = cal_client_get_object (day_view->calendar->client, uid);
-	status = ical_object_find_in_string (uid, obj_string, &ico);
-	g_free (obj_string);
+	status = cal_client_get_object (day_view->calendar->client, uid, &ico);
 
 	switch (status) {
-	case CAL_OBJ_FIND_SUCCESS:
+	case CAL_CLIENT_GET_SUCCESS:
 		/* Do nothing. */
 		break;
-	case CAL_OBJ_FIND_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
 		g_warning ("syntax error uid=%s\n", uid);
 		return;
-	case CAL_OBJ_FIND_NOT_FOUND:
+	case CAL_CLIENT_GET_NOT_FOUND:
 		g_warning ("obj not found uid=%s\n", uid);
 		return;
 	}

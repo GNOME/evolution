@@ -966,9 +966,8 @@ e_week_view_update_event		(EWeekView	*week_view,
 {
 	EWeekViewEvent *event;
 	gint event_num, num_days;
-	gchar *obj_string;
 	iCalObject *ico;
-	CalObjFindStatus status;
+	CalClientGetStatus status;
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
@@ -982,18 +981,16 @@ e_week_view_update_event		(EWeekView	*week_view,
 		return;
 
 	/* Get the event from the server. */
-	obj_string = cal_client_get_object (week_view->calendar->client, uid);
-	status = ical_object_find_in_string (uid, obj_string, &ico);
-	g_free (obj_string);
+	status = cal_client_get_object (week_view->calendar->client, uid, &ico);
 
 	switch (status) {
-	case CAL_OBJ_FIND_SUCCESS:
+	case CAL_CLIENT_GET_SUCCESS:
 		/* Do nothing. */
 		break;
-	case CAL_OBJ_FIND_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
 		g_warning ("syntax error uid=%s\n", uid);
 		return;
-	case CAL_OBJ_FIND_NOT_FOUND:
+	case CAL_CLIENT_GET_NOT_FOUND:
 		g_warning ("obj not found uid=%s\n", uid);
 		return;
 	}

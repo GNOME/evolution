@@ -567,32 +567,19 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	for (i = 0, l = events; l != NULL; l = l->next, i++) {
 		CalObjInstance *coi;
-		char *str_ico;
 		iCalObject *ico;
-		CalObjFindStatus status;
+		CalClientGetStatus status;
 
 		coi = l->data;
-		str_ico = cal_client_get_object (gcal->client, coi->uid);
-
-		if (!str_ico) {
-			/* The object could have disappeared from the server */
-			continue;
-		}
-
-		status = ical_object_find_in_string (coi->uid, str_ico, &ico);
-		g_free (str_ico);
+		status = cal_client_get_object (gcal->client, coi->uid, &ico);
 
 		switch (status) {
-		case CAL_OBJ_FIND_SUCCESS:
+		case CAL_CLIENT_GET_SUCCESS:
 			/* Go on */
 			break;
-
-		case CAL_OBJ_FIND_SYNTAX_ERROR:
+		case CAL_CLIENT_GET_SYNTAX_ERROR:
+		case CAL_CLIENT_GET_NOT_FOUND:
 			g_message ("print_day_details(): syntax error in fetched object");
-			continue;
-
-		case CAL_OBJ_FIND_NOT_FOUND:
-			g_message ("print_day_details(): could not find fetched object");
 			continue;
 		}
 
@@ -676,32 +663,19 @@ print_day_summary (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 
 	for (i=0, l = events; l != NULL; l = l->next, i++) {
 		CalObjInstance *coi;
-		char *str_ico;
 		iCalObject *ico;
-		CalObjFindStatus status;
+		CalClientGetStatus status;
 
 		coi = l->data;
-		str_ico = cal_client_get_object (gcal->client, coi->uid);
-
-		if (!str_ico) {
-			/* The object could have disappeared from the server */
-			continue;
-		}
-
-		status = ical_object_find_in_string (coi->uid, str_ico, &ico);
-		g_free (str_ico);
+		status = cal_client_get_object (gcal->client, coi->uid, &ico);
 
 		switch (status) {
-		case CAL_OBJ_FIND_SUCCESS:
+		case CAL_CLIENT_GET_SUCCESS:
 			/* Go on */
 			break;
-
-		case CAL_OBJ_FIND_SYNTAX_ERROR:
+		case CAL_CLIENT_GET_SYNTAX_ERROR:
+		case CAL_CLIENT_GET_NOT_FOUND:
 			g_message ("print_day_summary(): syntax error in fetched object");
-			continue;
-
-		case CAL_OBJ_FIND_NOT_FOUND:
-			g_message ("print_day_summary(): could not find fetched object");
 			continue;
 		}
 
@@ -898,31 +872,18 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t start, ti
 	yend = bottom - 2;
 
 	for (i = 0, l = todos; l != NULL; l = l->next, i++) {
-		char *str_ico;
 		iCalObject *ico;
-		CalObjFindStatus status;
+		CalClientGetStatus status;
 
-		str_ico = cal_client_get_object (gcal->client, l->data);
-
-		if (!str_ico) {
-			/* The object could have disappeared from the server */
-			continue;
-		}
-
-		status = ical_object_find_in_string (l->data, str_ico, &ico);
-		g_free (str_ico);
+		status = cal_client_get_object (gcal->client, l->data, &ico);
 
 		switch (status) {
-		case CAL_OBJ_FIND_SUCCESS:
+		case CAL_CLIENT_GET_SUCCESS:
 			/* Go on */
 			break;
-
-		case CAL_OBJ_FIND_SYNTAX_ERROR:
+		case CAL_CLIENT_GET_NOT_FOUND:
+		case CAL_CLIENT_GET_SYNTAX_ERROR:
 			g_message ("print_todo_details(): syntax error in fetched object");
-			continue;
-
-		case CAL_OBJ_FIND_NOT_FOUND:
-			g_message ("print_todo_details(): could not find fetched object");
 			continue;
 		}
 

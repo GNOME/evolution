@@ -619,9 +619,8 @@ static void
 trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 {
 	struct trigger_alarm_closure *c;
-	char *str_ico;
 	iCalObject *ico;
-	CalObjFindStatus status;
+	CalClientGetStatus status;
 	ObjectAlarms *oa;
 	GList *l;
 
@@ -629,26 +628,15 @@ trigger_alarm_cb (gpointer alarm_id, time_t trigger, gpointer data)
 
 	/* Fetch the object */
 
-	str_ico = cal_client_get_object (c->gcal->client, c->uid);
-	if (!str_ico) {
-		g_message ("trigger_alarm_cb(): could not fetch object `%s'", c->uid);
-		return;
-	}
-
-	status = ical_object_find_in_string (c->uid, str_ico, &ico);
-	g_free (str_ico);
+	status = cal_client_get_object (c->gcal->client, c->uid, &ico);
 
 	switch (status) {
-	case CAL_OBJ_FIND_SUCCESS:
+	case CAL_CLIENT_GET_SUCCESS:
 		/* Go on */
 		break;
-
-	case CAL_OBJ_FIND_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_SYNTAX_ERROR:
+	case CAL_CLIENT_GET_NOT_FOUND:
 		g_message ("trigger_alarm_cb(): syntax error in fetched object");
-		return;
-
-	case CAL_OBJ_FIND_NOT_FOUND:
-		g_message ("trigger_alarm_cb(): could not find fetched object");
 		return;
 	}
 

@@ -47,6 +47,13 @@ typedef enum {
 	CAL_CLIENT_LOAD_METHOD_NOT_SUPPORTED
 } CalClientLoadStatus;
 
+typedef enum {
+	CAL_CLIENT_GET_SUCCESS,
+	CAL_CLIENT_GET_NOT_FOUND,
+	CAL_CLIENT_GET_SYNTAX_ERROR
+} CalClientGetStatus;
+
+
 struct _CalClient {
 	GtkObject object;
 
@@ -74,7 +81,9 @@ CalClient *cal_client_new (void);
 gboolean cal_client_load_calendar (CalClient *client, const char *str_uri);
 gboolean cal_client_create_calendar (CalClient *client, const char *str_uri);
 
-char *cal_client_get_object (CalClient *client, const char *uid);
+CalClientGetStatus cal_client_get_object (CalClient *client,
+					  const char *uid,
+					  iCalObject **ico);
 
 GList *cal_client_get_uids (CalClient *client, CalObjType type);
 

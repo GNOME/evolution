@@ -32,6 +32,9 @@
 #include "cal-client.h"
 #include "cal-listener.h"
 
+#include "cal-util/icalendar-save.h"
+#include "cal-util/icalendar.h"
+
 
 
 /* Loading state for the calendar client */
@@ -559,41 +562,73 @@ cal_client_create_calendar (CalClient *client, const char *str_uri)
  * sought object, or NULL if no object had the specified UID.  A complete
  * calendar is returned because you also need the timezone data.
  **/
-char *
-cal_client_get_object (CalClient *client, const char *uid)
+CalClientGetStatus cal_client_get_object (CalClient *client,
+					  const char *uid,
+					  iCalObject **ico)
 {
 	CalClientPrivate *priv;
 	CORBA_Environment ev;
 	Evolution_Calendar_CalObj calobj;
-	char *retval;
+	char *obj_str = NULL;
 
-	g_return_val_if_fail (client != NULL, NULL);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+	icalcomponent* comp = NULL;
+	icalcomponent *subcomp;
+	iCalObject    *ical;
+
+	g_return_val_if_fail (client != NULL, CAL_CLIENT_GET_SYNTAX_ERROR);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), CAL_CLIENT_GET_SYNTAX_ERROR);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, CAL_CLIENT_GET_SYNTAX_ERROR);
 
-	g_return_val_if_fail (uid != NULL, NULL);
+	g_return_val_if_fail (uid != NULL, CAL_CLIENT_GET_SYNTAX_ERROR);
 
-	retval = NULL;
+	obj_str = NULL;
 
 	CORBA_exception_init (&ev);
 	calobj = Evolution_Calendar_Cal_get_object (priv->cal, uid, &ev);
 
 	if (ev._major == CORBA_USER_EXCEPTION
 	    && strcmp (CORBA_exception_id (&ev), ex_Evolution_Calendar_Cal_NotFound) == 0)
-		goto out;
+		goto decode;
 	else if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_get_object(): could not get the object");
-		goto out;
+		goto decode;
 	}
 
-	retval = g_strdup (calobj);
+	obj_str = g_strdup (calobj);
 	CORBA_free (calobj);
 
- out:
+ decode:
 	CORBA_exception_free (&ev);
-	return retval;
+
+	/* convert the string into an iCalObject */
+	(*ico) = NULL;
+	if (obj_str == NULL) return CAL_CLIENT_GET_SYNTAX_ERROR;
+	comp = icalparser_parse_string (obj_str);
+	free (obj_str);
+	if (!comp) return CAL_CLIENT_GET_SYNTAX_ERROR;
+	subcomp = icalcomponent_get_first_component (comp, ICAL_ANY_COMPONENT);
+	if (!subcomp) return CAL_CLIENT_GET_SYNTAX_ERROR;
+
+	while (subcomp) {
+		ical = ical_object_create_from_icalcomponent (subcomp);
+		if (ical->type != ICAL_EVENT && 
+		    ical->type != ICAL_TODO  &&
+		    ical->type != ICAL_JOURNAL) {
+			g_warning ("Skipping unsupported iCalendar component");
+		} else {
+			if (strcasecmp (ical->uid, uid) == 0) {
+				(*ico) = ical;
+				(*ico)->ref_count = 1;
+				return CAL_CLIENT_GET_SUCCESS;
+			}
+		}
+		subcomp = icalcomponent_get_next_component (comp,
+							   ICAL_ANY_COMPONENT);
+	}
+
+	return CAL_CLIENT_GET_NOT_FOUND;
 }
 
 /**

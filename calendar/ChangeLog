@@ -1,3 +1,23 @@
+2000-06-07  Seth Alves  <alves@hungry.com>
+
+	* cal-client/cal-client.c (cal_client_get_object): instead of
+	returning a text representation, decode the text and return an
+	iCalObject.  Also added CalClientGetStatus which indicates
+	success or type of failure.
+
+	* cal-util/calobj.c (ical_object_find_in_string): #ifed out
+	ical_object_find_in_string since it is unused now.
+
+	* cal-client/client-test.c (list_uids): track get_object change
+	* gui/calendar-commands.c (calendar_iterate): same
+	* gui/e-day-view.c (e_day_view_update_event): same
+	* gui/e-week-view.c (e_week_view_update_event): same
+	* gui/print.c (print_day_details): same
+	(print_day_summary): same
+	(print_todo_details): same
+	* gui/gnome-cal.c (trigger_alarm_cb): same
+	* gui/gncal-todo.c (gncal_todo_update): same
+
 2000-06-06  Seth Alves  <alves@hungry.com>
 
 	* cal-util/icalendar.c, icalendar-save.c: fixed a bunch of problems

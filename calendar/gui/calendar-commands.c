@@ -383,15 +383,15 @@ show_month_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path
 	gtk_widget_grab_focus (gcal->month_view);
 }
 
+#if 0
 static void
 show_year_view_clicked (BonoboUIHandler *uih, void *user_data, const char *path)
 {
-#if 0
 	GnomeCalendar *gcal = GNOME_CALENDAR (user_data);
 	gnome_calendar_set_view (gcal, "yearview");
 	gtk_widget_grab_focus (gcal->year_view);
-#endif
 }
+#endif
 
 static void
 new_calendar_cmd (BonoboUIHandler *uih, void *user_data, const char *path)
@@ -893,9 +893,9 @@ calendar_iterate (GnomeCalendar *cal,
 {
 	GList *l, *cois;
 	GHashTable *cache;
-	CalObjFindStatus status;
+	CalClientGetStatus status;
 	CalObjInstance *coi;
-	char *uid, *obj_string;
+	char *uid;
 	iCalObject *ico;
 
 	cois = cal_client_get_events_in_range (cal->client, start, end);
@@ -910,26 +910,17 @@ calendar_iterate (GnomeCalendar *cal,
 
 		ico = g_hash_table_lookup (cache, uid);
 		if (!ico) {
-			obj_string = cal_client_get_object (cal->client, uid);
-
-			status = ical_object_find_in_string (uid, obj_string,
-							     &ico);
-			g_free (obj_string);
+			status = cal_client_get_object (cal->client, uid, &ico);
 
 			switch (status) {
-			case CAL_OBJ_FIND_SUCCESS:
+			case CAL_CLIENT_GET_SUCCESS:
 				g_hash_table_insert (cache, ico->uid, ico);
-
 				break;
-			case CAL_OBJ_FIND_SYNTAX_ERROR:
-				printf ("calendar_iterate: syntax error uid=%s\n",
-					uid);
-				ico = NULL;
+			case CAL_CLIENT_GET_SYNTAX_ERROR:
+				printf ("calendar_iterate: syntax error uid=%s\n", uid);
 				break;
-			case CAL_OBJ_FIND_NOT_FOUND:
-				printf ("calendar_iterate: obj not found uid=%s\n",
-					uid);
-				ico = NULL;
+			case CAL_CLIENT_GET_NOT_FOUND:
+				printf ("calendar_iterate: obj not found uid=%s\n", uid);
 				break;
 			}
 		}

@@ -26,6 +26,7 @@
 
 static gint compare_exdates (gconstpointer a, gconstpointer b);
 static void ical_object_normalize_summary (iCalObject *ico);
+static void list_free (GList *list);
 
 
 
@@ -1552,6 +1553,8 @@ alarm_compute_offset (CalendarAlarm *a)
 	return a->offset;
 }
 
+
+#if 0
 /**
  * ical_object_find_in_string:
  * @uid: Unique identifier of the sought object.
@@ -1674,7 +1677,9 @@ ical_object_find_in_string (const char *uid, const char *vcalobj, iCalObject **i
 	return status;
 #endif /* 0 */
 }
+#endif /* 0 */
 
+#if 0
 /* Creates a VObject with the base information of a calendar */
 static VObject *
 get_calendar_base_vobject (void)
@@ -1703,6 +1708,7 @@ get_calendar_base_vobject (void)
 
 	return vobj;
 }
+#endif /* 0 */
 
 /**
  * ical_object_to_string:

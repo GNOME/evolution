@@ -800,8 +800,7 @@ void
 gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 {
 	GSList *current_list;
-
-	CalObjFindStatus st;
+	CalClientGetStatus status;
 	GList *l, *uids;
 
 	g_return_if_fail (todo != NULL);
@@ -864,15 +863,16 @@ gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)
 				    CALOBJ_TYPE_TODO);
 	for (l = uids; l; l = l->next){
 		char *uid = l->data;
-		char *obj_string =
-			cal_client_get_object (todo->calendar->client, uid);
-		iCalObject *obj = NULL;
-			
-		st = ical_object_find_in_string (uid, obj_string, &obj);
-		g_free (obj_string);
+		iCalObject *obj;
 
-		insert_in_clist (todo, obj);
-		ical_object_unref (obj);
+		status = cal_client_get_object (todo->calendar->client, uid, &ico);
+
+		if (status == CAL_CLIENT_GET_SUCCESS) {
+			insert_in_clist (todo, obj);
+			ical_object_unref (obj);
+		}
+#warning "FIX ME"
+		/* else? */
 		g_free (uid);
 	}
 	g_list_free (uids);
