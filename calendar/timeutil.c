@@ -34,7 +34,12 @@ time_from_isodate (char *str)
 	t = mktime (&my_tm);
 
 	if (str [15] == 'Z')
-		t -= timezone;
+#if defined(HAVE_TM_GMTOFF)
+		t -= my_tm.tm_gmtoff
+#elsif defined(HAVE_TIMEZONE)
+		t -= timezone
+#endif
+		;
 	    
 	return t;
 }
@@ -86,11 +91,11 @@ format_simple_hour (int hour, int use_am_pm)
 	 */
 
 	if (use_am_pm)
-		sprintf (buf, "%d%s",
+		g_snprintf (buf, sizeof(buf), "%d%s",
 			 (hour == 0) ? 12 : (hour > 12) ? (hour - 12) : hour,
 			 (hour < 12) ? _("am") : _("pm"));
 	else
-		sprintf (buf, "%02d%s", hour, _("h"));
+		g_snprintf (buf, sizeof(buf), "%02d%s", hour, _("h"));
 
 	return buf;
 

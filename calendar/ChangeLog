@@ -1,3 +1,9 @@
+1999-09-27  Timur Bakeyev  <mc@bat.ru>
+
+	* timeutil.c (time_from_isodate): Use tm.gmtoff or timezone to get
+	correct offset from UTC, according to HAVE_TM_GMTOFF or HAVE_TIMEZONE.
+	See also 1999-07-19  Matt Martin <matt@abacusnet.net>
+
 1999-09-27  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* month-view.c (add_event): ditto
@@ -23,6 +29,7 @@
 	values returned from localtime, as it uses a static buffer.
 
 1999-09-26  Eskil Olsen <deity@eskil.dk>
+
 	* corba-cal.c: the g_free that was commented out since glib said
 	was a duplicate free, was supposed to be a free.
 		
