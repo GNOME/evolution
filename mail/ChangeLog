@@ -1,3 +1,14 @@
+2001-02-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (list_add_addresses): Check the full list of
+	IDs instead of just the default id and if we find an address
+	matching one of the user's ids, then save it.
+	(mail_generate_reply): Try to guess which account to use based
+	upon the list of To and Cc addresses and pass that as the 'From'
+	address to e_msg_composer_set_headers().
+	(forward_get_composer): Updated to reflect changes to
+	e-msg-composer.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt> 
 
 	* mail-config.glade.h: removed, xml-i18n-extract's the strings itself.

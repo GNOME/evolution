@@ -441,11 +441,13 @@ send_to_url (const char *url)
 }	
 
 static GList *
-list_add_addresses (GList *list, const CamelInternetAddress *cia, const char *notme)
+list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts, const MailConfigAccount **me)
 {
-	int i;
 	const char *name, *addr;
+	const GSList *l;
+	gboolean notme;
 	char *full;
+	int i;
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
 		/* now, we format this, as if for display, but does the composer
@@ -457,14 +459,74 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const char *no
 		/* Here I'll check to see if the cc:'d address is the address
 		   of the sender, and if so, don't add it to the cc: list; this
 		   is to fix Bugzilla bug #455. */
+		notme = TRUE;
+		l = accounts;
+		while (l) {
+			const MailConfigAccount *acnt = l->data;
+			
+			if (!strcmp (acnt->id->address, addr)) {
+				notme = FALSE;
+				if (me && !*me)
+					*me = acnt;
+				break;
+			}
+			
+			l = l->next;
+		}
 		
-		if (notme && strcmp (addr, notme) == 0)
-			g_free (full);
-		else
+		if (notme)
 			list = g_list_append (list, full);
+		else
+			g_free (full);
 	}
 	
 	return list;
+}
+
+static const MailConfigAccount *
+guess_me (const CamelInternetAddress *to, const CamelInternetAddress *cc, const GSList *accounts)
+{
+	const char *name, *addr;
+	const GSList *l;
+	gboolean notme;
+	char *full;
+	int i;
+	
+	if (to) {
+		for (i = 0; camel_internet_address_get (to, i, &name, &addr); i++) {
+			full = camel_internet_address_format_address (name, addr);
+			l = accounts;
+			while (l) {
+				const MailConfigAccount *acnt = l->data;
+				
+				if (!strcmp (acnt->id->address, addr)) {
+					notme = FALSE;
+					return acnt;
+				}
+				
+				l = l->next;
+			}
+		}
+	}
+	
+	if (cc) {
+		for (i = 0; camel_internet_address_get (cc, i, &name, &addr); i++) {
+			full = camel_internet_address_format_address (name, addr);
+			l = accounts;
+			while (l) {
+				const MailConfigAccount *acnt = l->data;
+				
+				if (!strcmp (acnt->id->address, addr)) {
+					notme = FALSE;
+					return acnt;
+				}
+				
+				l = l->next;
+			}
+		}
+	}
+	
+	return NULL;
 }
 
 static void
@@ -480,14 +542,16 @@ free_recipients (GList *list)
 static EMsgComposer *
 mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
-	char *text, *subject, *date_str;
-	EMsgComposer *composer;
-	const char *message_id, *references;
+	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL;
-	GList *to = NULL, *cc = NULL;
+	const char *message_id, *references;
+	char *text, *subject, *date_str;
+	const MailConfigAccount *me = NULL;
 	const MailConfigIdentity *id;
+	const GSList *accounts = NULL;
+	GList *to = NULL, *cc = NULL;
+	EMsgComposer *composer;
 	gchar *sig_file = NULL;
-	const CamelInternetAddress *reply_to, *sender;
 	time_t date;
 	int offset;
 	
@@ -514,20 +578,22 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	}
 	
 	/* Set the recipients */
+	accounts = mail_config_get_accounts ();
+	
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (!reply_to)
 		reply_to = camel_mime_message_get_from (message);
 	if (reply_to)
 		to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
 	
+	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+	
 	if (to_all) {
-		cc = list_add_addresses (cc,
-					 camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO),
-					 id->address);
-		cc = list_add_addresses (cc,
-					 camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC),
-					 id->address);
-		
+		cc = list_add_addresses (cc, to_addrs, accounts, &me);
+		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me);
+	} else {
+		me = guess_me (to_addrs, cc_addrs, accounts);
 	}
 	
 	/* Set the subject of the new message. */
@@ -541,7 +607,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 			subject = g_strdup_printf ("Re: %s", subject);
 	}
 	
-	e_msg_composer_set_headers (composer, to, cc, NULL, subject);
+	e_msg_composer_set_headers (composer, me ? me->name : NULL, to, cc, NULL, subject);
 	free_recipients (to);
 	free_recipients (cc);
 	g_free (subject);
@@ -642,7 +708,7 @@ forward_get_composer (const char *subject)
 				    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 		gtk_signal_connect (GTK_OBJECT (composer), "postpone",
 				    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
-		e_msg_composer_set_headers(composer, NULL, NULL, NULL, subject);
+		e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, subject);
 	} else {
 		g_warning("Could not create composer");
 	}
