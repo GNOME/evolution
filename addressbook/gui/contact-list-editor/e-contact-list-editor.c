@@ -33,6 +33,8 @@
 #include <libgnomevfs/gnome-vfs-ops.h>
 #include "shell/evolution-shell-component-utils.h"
 
+#include "widgets/misc/e-image-chooser.h"
+
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "addressbook/util/eab-book-util.h"
 
@@ -65,6 +67,7 @@ static void fill_in_info(EContactListEditor *editor);
 static void add_email_cb (GtkWidget *w, EContactListEditor *editor);
 static void remove_entry_cb (GtkWidget *w, EContactListEditor *editor);
 static void list_name_changed_cb (GtkWidget *w, EContactListEditor *editor);
+static void list_image_changed_cb (GtkWidget *w, EContactListEditor *editor);
 static void visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor);
 
 static gint app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data);
@@ -77,17 +80,6 @@ static void table_drag_data_received_cb (ETable *table, int row, int col,
 					 gint x, gint y,
 					 GtkSelectionData *selection_data, guint info, guint time,
 					 EContactListEditor *editor);
-static gboolean image_drag_motion_cb (GtkWidget *widget,
-				      GdkDragContext *context,
-				      gint x, gint y, guint time, EContactListEditor *editor);
-static gboolean image_drag_drop_cb (GtkWidget *widget,
-				    GdkDragContext *context,
-				    gint x, gint y, guint time, EContactListEditor *editor);
-static void image_drag_data_received_cb (GtkWidget *widget,
-					 GdkDragContext *context,
-					 gint x, gint y,
-					 GtkSelectionData *selection_data,
-					 guint info, guint time, EContactListEditor *editor);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -95,20 +87,13 @@ static guint contact_list_editor_signals[LAST_SIGNAL];
 
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD,
-	DND_TARGET_TYPE_URI_LIST
 };
 #define VCARD_TYPE "text/x-vcard"
-#define URI_LIST_TYPE "text/uri-list"
 
 static GtkTargetEntry list_drag_types[] = {
 	{ VCARD_TYPE, 0, DND_TARGET_TYPE_VCARD },
 };
 static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
-
-static GtkTargetEntry image_drag_types[] = {
-	{ URI_LIST_TYPE, 0, DND_TARGET_TYPE_URI_LIST },
-};
-static const int num_image_drag_types = sizeof (image_drag_types) / sizeof (image_drag_types[0]);
 
 /* The arguments we take */
 enum {
@@ -232,9 +217,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	GtkWidget *bonobo_win;
 	BonoboUIContainer *container;
 	char *icon_path;
-	GdkPixbuf *pixbuf;
 
-	editor->image_buf = NULL;
 	editor->contact = NULL;
 	editor->changed = FALSE;
 	editor->editable = TRUE;
@@ -258,15 +241,7 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	editor->email_entry = glade_xml_get_widget (gui, "email-entry");
 	editor->list_name_entry = glade_xml_get_widget (gui, "list-name-entry");
 	editor->list_image = glade_xml_get_widget (gui, "list-image");
-	if (GTK_IS_ALIGNMENT (editor->list_image)) {
-		/* deal with the e_create_image_widget code, that wraps the image in an alignment */
-		editor->list_image = GTK_BIN (editor->list_image)->child;
-	}
 	editor->visible_addrs_checkbutton = glade_xml_get_widget (gui, "visible-addrs-checkbutton");
-
-	pixbuf = gtk_image_get_pixbuf (GTK_IMAGE (editor->list_image));
-	editor->list_image_width = gdk_pixbuf_get_width (pixbuf);
-	editor->list_image_height = gdk_pixbuf_get_height (pixbuf);
 
 	/* Construct the app */
 	bonobo_win = bonobo_window_new ("contact-list-editor", _("Contact List Editor"));
@@ -325,13 +300,8 @@ e_contact_list_editor_init (EContactListEditor *editor)
 	g_signal_connect (e_table_scrolled_get_table (E_TABLE_SCROLLED (editor->table)),
 			  "table_drag_data_received", G_CALLBACK(table_drag_data_received_cb), editor);
 
-	gtk_drag_dest_set (editor->list_image, 0, image_drag_types, num_image_drag_types, GDK_ACTION_COPY);
 	g_signal_connect (editor->list_image,
-			  "drag_motion", G_CALLBACK (image_drag_motion_cb), editor);
-	g_signal_connect (editor->list_image,
-			  "drag_drop", G_CALLBACK (image_drag_drop_cb), editor);
-	g_signal_connect (editor->list_image,
-			  "drag_data_received", G_CALLBACK (image_drag_data_received_cb), editor);
+			  "changed", G_CALLBACK(list_image_changed_cb), editor);
 
 	command_state_changed (editor);
 
@@ -349,13 +319,6 @@ e_contact_list_editor_init (EContactListEditor *editor)
 static void
 e_contact_list_editor_dispose (GObject *object)
 {
-	EContactListEditor *cle = E_CONTACT_LIST_EDITOR (object);
-
-	if (cle->image_buf) {
-		g_free (cle->image_buf);
-		cle->image_buf = NULL;
-	}
-
 	if (G_OBJECT_CLASS (parent_class)->dispose)
 		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
@@ -810,6 +773,13 @@ list_name_changed_cb (GtkWidget *w, EContactListEditor *editor)
 }
 
 static void
+list_image_changed_cb (GtkWidget *w, EContactListEditor *editor)
+{
+	editor->changed = TRUE;
+	command_state_changed (editor);
+}
+
+static void
 visible_addrs_toggled_cb (GtkWidget *w, EContactListEditor *editor)
 {
 	editor->changed = TRUE;
@@ -943,219 +913,6 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 	gtk_drag_finish (context, handled, FALSE, time);
 }
 
-static gboolean
-set_image_from_data (EContactListEditor *editor,
-		     char *data, int length)
-{
-	gboolean rv = FALSE;
-	GdkPixbufLoader *loader = gdk_pixbuf_loader_new ();
-	GdkPixbuf *pixbuf;
-
-	gdk_pixbuf_loader_write (loader, data, length, NULL);
-
-	pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
-	if (pixbuf)
-		gdk_pixbuf_ref (pixbuf);
-	gdk_pixbuf_loader_close (loader, NULL);
-	g_object_unref (loader);
-
-	if (pixbuf) {
-		GdkPixbuf *scaled;
-		GdkPixbuf *composite;
-
-		float scale;
-		int new_height, new_width;
-
-		new_height = gdk_pixbuf_get_height (pixbuf);
-		new_width = gdk_pixbuf_get_width (pixbuf);
-
-		printf ("new dimensions = (%d,%d)\n", new_width, new_height);
-
-		if (editor->list_image_height < new_height
-		    || editor->list_image_width < new_width) {
-			/* we need to scale down */
-			printf ("we need to scale down\n");
-			if (new_height > new_width)
-				scale = (float)editor->list_image_height / new_height;
-			else
-				scale = (float)editor->list_image_width / new_width;
-		}
-		else {
-			/* we need to scale up */
-			printf ("we need to scale up\n");
-			if (new_height > new_width)
-				scale = (float)new_height / editor->list_image_height;
-			else
-				scale = (float)new_width / editor->list_image_width;
-		}
-
-		printf ("scale = %g\n", scale);
-
-		new_width *= scale;
-		new_height *= scale;
-		new_width = MIN (new_width, editor->list_image_width);
-		new_height = MIN (new_height, editor->list_image_height);
-
-		printf ("new scaled dimensions = (%d,%d)\n", new_width, new_height);
-
-		scaled = gdk_pixbuf_scale_simple (pixbuf,
-						  new_width, new_height,
-						  GDK_INTERP_BILINEAR);
-
-		composite = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, gdk_pixbuf_get_bits_per_sample (pixbuf),
-					    editor->list_image_width, editor->list_image_height);
-
-		gdk_pixbuf_fill (composite, 0x00000000);
-
-		gdk_pixbuf_copy_area (scaled, 0, 0, new_width, new_height,
-				      composite,
-				      editor->list_image_width / 2 - new_width / 2,
-				      editor->list_image_height / 2 - new_height / 2);
-
-		gtk_image_set_from_pixbuf (GTK_IMAGE (editor->list_image), composite);
-		gdk_pixbuf_unref (pixbuf);
-		gdk_pixbuf_unref (scaled);
-		gdk_pixbuf_unref (composite);
-
-		rv = TRUE;
-	}
-
-	return rv;
-}
-
-static gboolean
-image_drag_motion_cb (GtkWidget *widget,
-		      GdkDragContext *context,
-		      gint x, gint y, guint time, EContactListEditor *editor)
-{
-	GList *p;
-
-	for (p = context->targets; p != NULL; p = p->next) {
-		char *possible_type;
-
-		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
-		if (!strcmp (possible_type, URI_LIST_TYPE)) {
-			g_free (possible_type);
-			gdk_drag_status (context, GDK_ACTION_COPY, time);
-			return TRUE;
-		}
-
-		g_free (possible_type);
-	}
-
-	return FALSE;
-}
-
-static gboolean
-image_drag_drop_cb (GtkWidget *widget,
-		    GdkDragContext *context,
-		    gint x, gint y, guint time, EContactListEditor *editor)
-{
-	GList *p;
-
-	if (context->targets == NULL)
-		return FALSE;
-
-
-	for (p = context->targets; p != NULL; p = p->next) {
-		char *possible_type;
-
-		possible_type = gdk_atom_name (GDK_POINTER_TO_ATOM (p->data));
-		if (!strcmp (possible_type, URI_LIST_TYPE)) {
-			g_free (possible_type);
-			gtk_drag_get_data (widget, context,
-					   GDK_POINTER_TO_ATOM (p->data),
-					   time);
-			return TRUE;
-		}
-
-		g_free (possible_type);
-	}
-
-	return FALSE;
-}
-
-static void
-image_drag_data_received_cb (GtkWidget *widget,
-			     GdkDragContext *context,
-			     gint x, gint y,
-			     GtkSelectionData *selection_data,
-			     guint info, guint time, EContactListEditor *editor)
-{
-	char *target_type;
-	gboolean changed = FALSE;
-	gboolean handled = FALSE;
-
-	target_type = gdk_atom_name (selection_data->target);
-
-	printf ("target_type == %s\n", target_type);
-
-	if (!strcmp (target_type, URI_LIST_TYPE)) {
-		GnomeVFSResult result;
-		GnomeVFSHandle *handle;
-		char *uri;
-		char *nl = strstr (selection_data->data, "\r\n");
-		char *buf = NULL;
-		GnomeVFSFileInfo info;
-
-		if (nl)
-			uri = g_strndup (selection_data->data, nl - (char*)selection_data->data);
-		else
-			uri = g_strdup (selection_data->data);
-
-		printf ("uri == %s\n", uri);
-
-		result = gnome_vfs_open (&handle, uri, GNOME_VFS_OPEN_READ);
-		if (result == GNOME_VFS_OK) {
-			result = gnome_vfs_get_file_info_from_handle (handle, &info, GNOME_VFS_FILE_INFO_DEFAULT);
-			if (result == GNOME_VFS_OK) {
-				GnomeVFSFileSize num_left;
-				GnomeVFSFileSize num_read;
-				GnomeVFSFileSize total_read;
-
-				printf ("file size = %d\n", (int)info.size);
-				buf = g_malloc (info.size);
-
-				num_left = info.size;
-				total_read = 0;
-
-				while ((result = gnome_vfs_read (handle, buf + total_read, num_left, &num_read)) == GNOME_VFS_OK) {
-					num_left -= num_read;
-					total_read += num_read;
-				}
-
-				printf ("read %d bytes\n", (int)total_read);
-				if (set_image_from_data (editor, buf, total_read)) {
-					changed = TRUE;
-					handled = TRUE;
-					g_free (editor->image_buf);
-					editor->image_buf = buf;
-					editor->image_buf_size = total_read;
-				}
-				else {
-					/* XXX we should pop up a
-					   warning dialog here */
-					g_free (buf);
-				}
-			}
-
-			gnome_vfs_close (handle);
-		}
-		else {
-			printf ("gnome_vfs_open failed (%s)\n", gnome_vfs_result_to_string (result));
-		}
-
-		g_free (uri);
-
-		if (changed) {
-			editor->changed = TRUE;
-			command_state_changed (editor);
-		}
-	}
-
-	gtk_drag_finish (context, handled, FALSE, time);
-}
-
 static void
 command_state_changed (EContactListEditor *editor)
 {
@@ -1184,6 +941,8 @@ extract_info(EContactListEditor *editor)
 	if (contact) {
 		int i;
 		GList *email_list;
+		char *image_data;
+		gsize image_data_len;
 		char *string = gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
 
 		if (string && *string) {
@@ -1211,13 +970,19 @@ extract_info(EContactListEditor *editor)
 		g_list_foreach (email_list, (GFunc) g_free, NULL);
 		g_list_free (email_list);
 
-		if (editor->image_buf) {
+		if (e_image_chooser_get_image_data (E_IMAGE_CHOOSER (editor->list_image),
+						    &image_data,
+						    &image_data_len)) {
 			EContactPhoto photo;
 
-			photo.data = editor->image_buf;
-			photo.length = editor->image_buf_size;
+			photo.data = image_data;
+			photo.length = image_data_len;
 
 			e_contact_set (contact, E_CONTACT_LOGO, &photo);
+			g_free (image_data);
+		}
+		else {
+			e_contact_set (contact, E_CONTACT_LOGO, NULL);
 		}
 	}
 }
@@ -1266,7 +1031,7 @@ fill_in_info(EContactListEditor *editor)
 
 		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);
 		if (photo) {
-			set_image_from_data (editor, photo->data, photo->length);
+			e_image_chooser_set_image_data (E_IMAGE_CHOOSER (editor->list_image), photo->data, photo->length);
 			e_contact_photo_free (photo);
 		}
 	}

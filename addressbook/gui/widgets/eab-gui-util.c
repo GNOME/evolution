@@ -30,6 +30,7 @@
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
 #include "util/eab-destination.h"
+#include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-source-selector.h"
 
 #include <gnome.h>
@@ -858,4 +859,27 @@ eab_send_contact (EContact *contact, EABDisposition disposition)
 	list = g_list_prepend (NULL, contact);
 	eab_send_contact_list (list, disposition);
 	g_list_free (list);
+}
+
+GtkWidget *
+eab_create_image_chooser_widget(gchar *name,
+				gchar *string1, gchar *string2,
+				gint int1, gint int2)
+{
+	char *filename;
+	GtkWidget *w = NULL;
+	if (string1) {
+		if (*string1 == '/')
+			filename = g_strdup(string1);
+		else
+			filename = g_build_filename (EVOLUTION_IMAGESDIR, string1, NULL);
+
+		w = e_image_chooser_new ();
+		e_image_chooser_set_from_file (E_IMAGE_CHOOSER (w), filename);
+
+		gtk_widget_show_all (w);
+		g_free (filename);
+	}
+
+	return w;
 }

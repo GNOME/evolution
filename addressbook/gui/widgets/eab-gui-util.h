@@ -65,6 +65,9 @@ void                eab_send_contact              (EContact       *contact,
 void                eab_send_contact_list         (GList          *contacts,
 						   EABDisposition  disposition);
 
+GtkWidget *eab_create_image_chooser_widget (gchar *name, gchar *string1, gchar *string2, gint int1, gint int2);
+
+
 ESource            *eab_select_source             (const gchar *title, const gchar *message,
 						   const gchar *select_uid, GtkWindow *parent);
 

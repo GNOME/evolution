@@ -1,3 +1,23 @@
+2004-01-30  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: enable d&d drop photos.
+
+	* gui/contact-editor/contact-editor.glade: use
+	eab_create_image_chooser_widget for the d&d'able image.
+
+	* gui/contact-list-editor/e-contact-list-editor.c: abstract out
+	all the d&d image support (it's now in
+	widgets/misc/e-image-chooser.[ch]).
+
+	* gui/contact-list-editor/contact-list-editor.glade: use
+	eab_create_image_chooser_widget for the d&d'able image.
+
+	* gui/widgets/eab-gui-util.c (eab_create_image_chooser_widget):
+	new function.
+
+	* gui/widgets/eab-gui-util.h: add prototype for
+	eab_create_image_chooser_widget.
+
 2004-01-29  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/widgets/eab-gui-util.c (source_selection_changed_cb): Implement.

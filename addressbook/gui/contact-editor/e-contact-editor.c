@@ -58,6 +58,7 @@
 #include "addressbook/gui/widgets/eab-gui-util.h"
 #include "e-util/e-gui-utils.h"
 #include "widgets/misc/e-dateedit.h"
+#include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-url-entry.h"
 #include "widgets/misc/e-source-option-menu.h"
 #include "shell/evolution-shell-component-utils.h"
@@ -1326,6 +1327,12 @@ set_entry_changed_signals(EContactEditor *editor)
 	}
 	widget = glade_xml_get_widget(editor->gui, "dateedit-anniversary");
 	if (widget && E_IS_DATE_EDIT(widget)) {
+		g_signal_connect (widget, "changed",
+				  G_CALLBACK (widget_changed), editor);
+	}
+
+	widget = glade_xml_get_widget (editor->gui, "image-chooser");
+	if (widget && E_IS_IMAGE_CHOOSER (widget)) {
 		g_signal_connect (widget, "changed",
 				  G_CALLBACK (widget_changed), editor);
 	}
@@ -3179,6 +3186,10 @@ set_editable (EContactEditor *editor)
 	entry = "text-address";
 	enable_widget (glade_xml_get_widget(editor->gui, entry),
 		       editor->target_editable);
+
+	entry = "image-chooser";
+	enable_widget (glade_xml_get_widget(editor->gui, entry),
+		       editor->target_editable);
 }
 
 static void
@@ -3190,6 +3201,7 @@ fill_in_info(EContactEditor *editor)
 		EContactName *name;
 		EContactDate *anniversary;
 		EContactDate *bday;
+		EContactPhoto *photo;
 		int i;
 		GtkWidget *widget;
 		gboolean wants_html;
@@ -3200,6 +3212,7 @@ fill_in_info(EContactEditor *editor)
 			      "anniversary",      &anniversary,
 			      "birth_date",       &bday,
 			      "wants_html",       &wants_html,
+			      "photo",            &photo,
 			      NULL);
 
 		for (i = 0; i < sizeof(field_mapping) / sizeof(field_mapping[0]); i++) {
@@ -3253,8 +3266,15 @@ fill_in_info(EContactEditor *editor)
 				e_date_edit_set_time (dateedit, -1);
 		}
 
+		if (photo) {
+			widget = glade_xml_get_widget(editor->gui, "image-chooser");
+			if (widget && E_IS_IMAGE_CHOOSER(widget))
+				e_image_chooser_set_image_data (E_IMAGE_CHOOSER (widget), photo->data, photo->length);
+		}
+
 		e_contact_date_free (anniversary);
 		e_contact_date_free (bday);
+		e_contact_photo_free (photo);
 
 		set_fields(editor);
 
@@ -3345,6 +3365,27 @@ extract_info(EContactEditor *editor)
 				e_contact_set (contact, E_CONTACT_BIRTH_DATE, &bday);
 			} else
 				e_contact_set (contact, E_CONTACT_BIRTH_DATE, NULL);
+		}
+
+		widget = glade_xml_get_widget (editor->gui, "image-chooser");
+		if (widget && E_IS_IMAGE_CHOOSER (widget)) {
+			char *image_data;
+			gsize image_data_len;
+
+			if (e_image_chooser_get_image_data (E_IMAGE_CHOOSER (widget),
+							    &image_data,
+							    &image_data_len)) {
+				EContactPhoto photo;
+
+				photo.data = image_data;
+				photo.length = image_data_len;
+
+				e_contact_set (contact, E_CONTACT_PHOTO, &photo);
+				g_free (image_data);
+			}
+			else {
+				e_contact_set (contact, E_CONTACT_PHOTO, NULL);
+			}
 		}
 	}
 }
@@ -3453,6 +3494,9 @@ enable_widget (GtkWidget *widget, gboolean enabled)
 	}
 	else if (E_IS_DATE_EDIT (widget)) {
 		e_date_edit_set_editable (E_DATE_EDIT (widget), enabled);
+	}
+	else if (E_IS_IMAGE_CHOOSER (widget)) {
+		e_image_chooser_set_editable (E_IMAGE_CHOOSER (widget), enabled);
 	}
 	else
 		gtk_widget_set_sensitive (widget, enabled);

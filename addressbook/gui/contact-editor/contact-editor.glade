@@ -1503,14 +1503,14 @@
 	      </child>
 
 	      <child>
-		<widget class="Custom" id="custom1">
+		<widget class="Custom" id="image-chooser">
 		  <property name="visible">True</property>
-		  <property name="creation_function">e_create_image_widget</property>
+		  <property name="creation_function">eab_create_image_chooser_widget</property>
 		  <property name="string1">malehead.png</property>
 		  <property name="string2"></property>
 		  <property name="int1">0</property>
 		  <property name="int2">0</property>
-		  <property name="last_modification_time">Thu, 18 May 2000 12:19:47 GMT</property>
+		  <property name="last_modification_time">Sat, 24 Jan 2004 19:28:18 GMT</property>
 		</widget>
 		<packing>
 		  <property name="left_attach">0</property>

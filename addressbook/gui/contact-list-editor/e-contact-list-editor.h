@@ -64,11 +64,6 @@ struct _EContactListEditor
 	GtkWidget *list_image_button;
 	GtkWidget *visible_addrs_checkbutton;
 	GtkWidget *list_image;
-	int list_image_width;
-	int list_image_height;
-
-	char *image_buf;
-	int   image_buf_size;
 
 	/* Whether we are editing a new contact or an existing one */
 	guint is_new_list : 1;
