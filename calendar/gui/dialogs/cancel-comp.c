@@ -54,28 +54,27 @@ cancel_component_dialog (GtkWindow *parent, ECal *client, ECalComponent *comp, g
 	switch (vtype) {
 	case E_CAL_COMPONENT_EVENT:
 		if (deleting)
-			id = "calendar:prompt-delete-meeting";
-		else
 			id = "calendar:prompt-cancel-meeting";
+		else
+			id = "calendar:prompt-delete-meeting";
 		break;
 
 	case E_CAL_COMPONENT_TODO:
 		if (deleting)
-			id = "calendar:prompt-delete-task";
-		else
 			id = "calendar:prompt-cancel-task";
+		else
+			id = "calendar:prompt-delete-task";
 		break;
 
 	case E_CAL_COMPONENT_JOURNAL:
 		if (deleting)
-			id = "calendar:prompt-delete-journal";
-		else
 			id = "calendar:prompt-cancel-journal";
+		else
+			id = "calendar:prompt-delete-journal";
 		break;
 
 	default:
-		g_message ("cancel_component_dialog(): "
-			   "Cannot handle object of type %d", vtype);
+		g_message (G_STRLOC ": Cannot handle object of type %d", vtype);
 		return FALSE;
 	}
 	
