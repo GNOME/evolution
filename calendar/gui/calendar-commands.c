@@ -560,18 +560,12 @@ new_calendar (char *full_name)
 
 void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
 {
-	gboolean    success;
-
 	g_return_if_fail (gcal);
 	g_return_if_fail (calendar_file);
 
-	printf ("calendar_set_uri: calendar_file is '%s'\n", calendar_file);
-
-	success = gnome_calendar_open (gcal,
-				       calendar_file,
-				       CALENDAR_OPEN_OR_CREATE);
-
-	printf ("    load or create returned %d\n", success);
+	gnome_calendar_open (gcal,
+			     calendar_file,
+			     CALENDAR_OPEN_OR_CREATE);
 }
 
 

@@ -1,5 +1,12 @@
 2000-12-01  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/control-factory.c (set_prop): Removed debugging message.
+	(control_factory_init): Ditto.
+
+	* gui/calendar-commands.c (calendar_set_uri): Ditto.
+
+	* gui/main.c (main): Ditto.
+
 	* gui/event-editor.c (set_title_from_comp): New function to
 	generate a title and convert it from UTF8 before setting it on the
 	window.

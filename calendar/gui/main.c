@@ -83,7 +83,5 @@ main (int argc, char **argv)
 
 	calendar_config_write_on_exit ();
 
-	fprintf (stderr, "main(): Out of bonobo_main(), we are dying cleanly.  Have a nice day.\n");
-
 	return 0;
 }

@@ -97,7 +97,6 @@ set_prop (BonoboPropertyBag *bag,
 	switch (arg_id) {
 
 	case PROPERTY_CALENDAR_URI_IDX:
-		printf ("set_prop: '%s'\n", BONOBO_ARG_GET_STRING (arg));
 		filename = g_strdup_printf ("%s/calendar.ics",
 					    BONOBO_ARG_GET_STRING (arg));
 		calendar_set_uri (gcal, filename);
@@ -151,8 +150,6 @@ control_factory_init (void)
 
 	if (factory != NULL)
 		return;
-
-	puts ("XXXXXX - initializing calendar factory!!!");
 
 	factory = bonobo_generic_factory_new (CONTROL_FACTORY_ID, control_factory_fn, NULL);
 
