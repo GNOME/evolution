@@ -1,3 +1,8 @@
+2003-09-19  Gilbert Fang  <gilbert.fang@sun.com>
+
+       * addressbook/gui/component/addressbook-component.c (xfer_folder):
+         remove the "addressbook.db.summary" correctly. #48538
+
 2003-09-11  Dan Winship  <danw@ximian.com>
 
 	* backend/ebook/Makefile.am (privlib_LTLIBRARIES): Remove
