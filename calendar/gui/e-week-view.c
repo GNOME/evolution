@@ -647,8 +647,6 @@ e_week_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	g_print ("In e_week_view_focus_in\n");
-
 	week_view = E_WEEK_VIEW (widget);
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
@@ -667,8 +665,6 @@ e_week_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
-
-	g_print ("In e_week_view_focus_out\n");
 
 	week_view = E_WEEK_VIEW (widget);
 
@@ -974,7 +970,7 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 	g_return_if_fail (E_IS_WEEK_VIEW (week_view));
 
-#if 1
+#if 0
 	g_print ("In e_week_view_update_event\n");
 #endif
 
@@ -1010,12 +1006,10 @@ e_week_view_update_event		(EWeekView	*week_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_week_view_find_event_from_uid (week_view, uid, &event_num)) {
-		g_print ("  updating existing event\n");
 		event = &g_array_index (week_view->events, EWeekViewEvent,
 					event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
-			g_print ("  dates unchanged\n");
 			e_week_view_foreach_event_with_uid (week_view, uid, e_week_view_update_event_cb, ico);
 			ical_object_unref (ico);
 			gtk_widget_queue_draw (week_view->main_canvas);
@@ -1024,7 +1018,6 @@ e_week_view_update_event		(EWeekView	*week_view,
 
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
-		g_print ("  dates changed\n");
 		e_week_view_foreach_event_with_uid (week_view, uid,
 						    e_week_view_remove_event_cb,
 						    NULL);
@@ -2149,8 +2142,6 @@ e_week_view_start_editing_event (EWeekView *week_view,
 	ETextEventProcessor *event_processor = NULL;
 	ETextEventProcessorCommand command;
 
-	g_print ("In e_week_view_start_editing_event\n");
-
 	/* If we are already editing the event, just return. */
 	if (event_num == week_view->editing_event_num
 	    && span_num == week_view->editing_span_num)
@@ -2182,8 +2173,6 @@ e_week_view_start_editing_event (EWeekView *week_view,
 		gtk_signal_emit_by_name (GTK_OBJECT (event_processor),
 					 "command", &command);
 	}
-
-	g_print ("Out e_week_view_start_editing_event\n");
 }
 
 
@@ -2217,8 +2206,20 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 #endif
 
 	switch (event->type) {
+	case GDK_KEY_PRESS:
+		if (event && event->key.keyval == GDK_Return) {
+			/* We set the keyboard focus to the EDayView, so the
+			   EText item loses it and stops the edit. */
+			gtk_widget_grab_focus (GTK_WIDGET (week_view));
+
+			/* Stop the signal last or we will also stop any
+			   other events getting to the EText item. */
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
+		}
+		break;
 	case GDK_BUTTON_PRESS:
-		g_print ("  button press\n");
 		if (!e_week_view_find_event_from_item (week_view, item,
 						       &event_num, &span_num))
 			return FALSE;
@@ -2237,7 +2238,6 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 
 		/* Only let the EText handle the event while editing. */
 		if (!E_TEXT (item)->editing) {
-			g_print ("  stopping signal\n");
 			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
 						      "event");
 
@@ -2254,13 +2254,8 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 		}
 		break;
 	case GDK_BUTTON_RELEASE:
-		g_print ("  button release\n");
 		if (!E_TEXT (item)->editing) {
-			g_print ("  stopping signal\n");
-
-			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
-						      "event");
-
+			/* This shouldn't ever happen. */
 			if (!e_week_view_find_event_from_item (week_view,
 							       item,
 							       &event_num,
@@ -2275,19 +2270,20 @@ e_week_view_on_text_item_event (GnomeCanvasItem *item,
 								 span_num,
 								 NULL);
 				week_view->pressed_event_num = -1;
-				return TRUE;
 			}
-		} else {
-			g_print ("  EText may get button release event\n");
+
+			/* Stop the signal last or we will also stop any
+			   other events getting to the EText item. */
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
 		}
 		week_view->pressed_event_num = -1;
 		break;
 	case GDK_FOCUS_CHANGE:
 		if (event->focus_change.in) {
-			g_print ("Item got keyboard focus\n");
 			e_week_view_on_editing_started (week_view, item);
 		} else {
-			g_print ("Item lost keyboard focus\n");
 			e_week_view_on_editing_stopped (week_view, item);
 		}
 
@@ -2310,7 +2306,9 @@ e_week_view_on_editing_started (EWeekView *week_view,
 					       &event_num, &span_num))
 		return;
 
+#if 0
 	g_print ("In e_week_view_on_editing_started event_num:%i span_num:%i\n", event_num, span_num);
+#endif
 
 	week_view->editing_event_num = event_num;
 	week_view->editing_span_num = span_num;
@@ -2321,8 +2319,6 @@ e_week_view_on_editing_started (EWeekView *week_view,
 		e_week_view_reshape_event_span (week_view, event_num,
 						span_num);
 	}
-
-	g_print ("Out e_week_view_on_editing_started\n");
 }
 
 
@@ -2334,11 +2330,6 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 	EWeekViewEvent *event;
 	EWeekViewEventSpan *span;
 	gchar *text = NULL;
-
-	if (e_week_view_find_event_from_item (week_view, item,
-					      &event_num, &span_num)) {
-		g_print ("In e_week_view_on_editing_stopped event_num:%i span_num:%i\n", event_num, span_num);
-	}
 
 	/* Note: the item we are passed here isn't reliable, so we just stop
 	   the edit of whatever item was being edited. We also receive this

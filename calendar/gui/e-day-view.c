@@ -1034,8 +1034,6 @@ e_day_view_focus_in (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
 
-	g_print ("In e_day_view_focus_in\n");
-
 	day_view = E_DAY_VIEW (widget);
 
 	GTK_WIDGET_SET_FLAGS (widget, GTK_HAS_FOCUS);
@@ -1055,8 +1053,6 @@ e_day_view_focus_out (GtkWidget *widget, GdkEventFocus *event)
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
 	g_return_val_if_fail (event != NULL, FALSE);
-
-	g_print ("In e_day_view_focus_out\n");
 
 	day_view = E_DAY_VIEW (widget);
 
@@ -1142,7 +1138,6 @@ e_day_view_update_event		(EDayView	*day_view,
 	   update the event fairly easily without changing the events arrays
 	   or computing a new layout. */
 	if (e_day_view_find_event_from_uid (day_view, uid, &day, &event_num)) {
-		g_print ("  updating existing event\n");
 		if (day == E_DAY_VIEW_LONG_EVENT)
 			event = &g_array_index (day_view->long_events,
 						EDayViewEvent, event_num);
@@ -1151,7 +1146,6 @@ e_day_view_update_event		(EDayView	*day_view,
 						EDayViewEvent, event_num);
 
 		if (ical_object_compare_dates (event->ico, ico)) {
-			g_print ("  unchanged dates\n");
 			e_day_view_foreach_event_with_uid (day_view, uid, e_day_view_update_event_cb, ico);
 			ical_object_unref (ico);
 			gtk_widget_queue_draw (day_view->top_canvas);
@@ -1161,14 +1155,12 @@ e_day_view_update_event		(EDayView	*day_view,
 
 		/* The dates have changed, so we need to remove the
 		   old occurrrences before adding the new ones. */
-		g_print ("  changed dates\n");
 		e_day_view_foreach_event_with_uid (day_view, uid,
 						   e_day_view_remove_event_cb,
 						   NULL);
 	}
 
 	/* Add the occurrences of the event. */
-	g_print ("  generating events\n");
 	ical_object_generate_events (ico, day_view->lower, day_view->upper,
 				     e_day_view_add_event, day_view);
 	ical_object_unref (ico);
@@ -1190,10 +1182,10 @@ e_day_view_update_event_cb (EDayView *day_view,
 	iCalObject *ico;
 
 	ico = data;
-
+#if 0
 	g_print ("In e_day_view_update_event_cb day:%i event_num:%i\n",
 		 day, event_num);
-
+#endif
 	if (day == E_DAY_VIEW_LONG_EVENT) {
 		event = &g_array_index (day_view->long_events, EDayViewEvent,
 					event_num);
@@ -3940,6 +3932,19 @@ e_day_view_on_text_item_event (GnomeCanvasItem *item,
 			       EDayView *day_view)
 {
 	switch (event->type) {
+	case GDK_KEY_PRESS:
+		if (event && event->key.keyval == GDK_Return) {
+			/* We set the keyboard focus to the EDayView, so the
+			   EText item loses it and stops the edit. */
+			gtk_widget_grab_focus (GTK_WIDGET (day_view));
+
+			/* Stop the signal last or we will also stop any
+			   other events getting to the EText item. */
+			gtk_signal_emit_stop_by_name (GTK_OBJECT (item),
+						      "event");
+			return TRUE;
+		}
+		break;
 	case GDK_BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
 		/* Only let the EText handle the event while editing. */

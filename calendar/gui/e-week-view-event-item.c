@@ -241,7 +241,7 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 	gint x1, y1, x2, y2, time_x, time_y, time_y_small_min;
 	gint icon_x, icon_y, time_width, min_end_time_x;
 	gint rect_x, rect_w, rect_x2;
-	gboolean one_day_event;
+	gboolean one_day_event, editing_span = FALSE;
 	gint start_minute, end_minute;
 	gchar buffer[128];
 	gboolean draw_start_triangle = FALSE, draw_end_triangle = FALSE;
@@ -394,12 +394,15 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			gdk_draw_line (drawable, gc, rect_x2, y1, rect_x2, y2);
 		}
 
+		if (span->text_item && E_TEXT (span->text_item)->editing)
+			editing_span = TRUE;
 
 		/* Draw the start & end times, if necessary. */
 		min_end_time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD
 			+ E_WEEK_VIEW_EVENT_BORDER_WIDTH
 			+ E_WEEK_VIEW_EVENT_TEXT_X_PAD;
-		if (event->start > week_view->day_starts[span->start_day]) {
+		if (!editing_span
+		    && event->start > week_view->day_starts[span->start_day]) {
 			sprintf (buffer, "%02i:%02i",
 				 start_minute / 60, start_minute % 60);
 			time_x = x1 + E_WEEK_VIEW_EVENT_L_PAD
@@ -432,8 +435,9 @@ e_week_view_event_item_draw (GnomeCanvasItem  *canvas_item,
 			min_end_time_x += time_width + 2;
 		}
 
-		if (event->end < week_view->day_starts[span->start_day
-						      + span->num_days]) {
+		if (!editing_span
+		    && event->end < week_view->day_starts[span->start_day
+							 + span->num_days]) {
 			sprintf (buffer, "%02i:%02i",
 				 end_minute / 60, end_minute % 60);
 			time_x = x2 - E_WEEK_VIEW_EVENT_R_PAD
@@ -637,7 +641,7 @@ e_week_view_event_item_button_press (EWeekViewEventItem *wveitem,
 	span = &g_array_index (week_view->spans, EWeekViewEventSpan,
 			       event->spans_index + wveitem->span_num);
 
-#if 1
+#if 0
 	g_print ("In e_week_view_event_item_button_press\n");
 #endif
 
@@ -685,7 +689,7 @@ e_week_view_event_item_button_release (EWeekViewEventItem *wveitem,
 	week_view = E_WEEK_VIEW (GTK_WIDGET (item->canvas)->parent);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
-#if 1
+#if 0
 	g_print ("In e_week_view_event_item_button_release\n");
 #endif
 

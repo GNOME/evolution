@@ -22,6 +22,7 @@
 #define PRODID "-//Helix Code//NONSGML Evolution Calendar//EN"
 
 static gint compare_exdates (gconstpointer a, gconstpointer b);
+static void ical_object_normalize_summary (iCalObject *ico);
 
 
 
@@ -89,6 +90,8 @@ ical_new (char *comment, char *organizer, char *summary)
 	ico->palarm.type = ALARM_PROGRAM;
 	ico->malarm.type = ALARM_MAIL;
 	ico->aalarm.type = ALARM_AUDIO;
+
+	ical_object_normalize_summary (ico);
 
 	return ico;
 }
@@ -680,7 +683,11 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCSummaryProp)){
 		ical->summary = g_strdup (str_val (vo));
 		free (the_str);
-	} else
+
+		/* Convert any CR/LF/CRLF sequences in the summary field to
+		   spaces so we just have a one-line field. */
+		ical_object_normalize_summary (ical);
+	} else 
 		ical->summary = g_strdup ("");
 
 	/* status */
@@ -1761,4 +1768,29 @@ compare_exdates (gconstpointer a, gconstpointer b)
 	const time_t *ca = a, *cb = b;
 	time_t diff = *ca - *cb;
 	return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
+}
+
+
+/* Converts any CR/LF sequences in the summary field to spaces so we just
+   have a one-line field. The iCalObjects summary field is changed. */
+static void
+ical_object_normalize_summary (iCalObject *ico)
+{
+	gchar *src, *dest, ch;
+	gboolean just_output_space = FALSE;
+
+	src = dest = ico->summary;
+	while ((ch = *src++)) {
+		if (ch == '\n' || ch == '\r') {
+			/* We only output 1 space for each sequence of CR & LF
+			   characters. */
+			if (!just_output_space) {
+				*dest++ = ' ';
+				just_output_space = TRUE;
+			}
+		} else {
+			*dest++ = ch;
+			just_output_space = FALSE;
+		}
+	}
 }

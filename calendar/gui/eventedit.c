@@ -779,22 +779,8 @@ ee_create_buttons (EventEditor *ee)
 	return;
 }
 
-/*
- * Load the contents in a delayed fashion, as the GtkText widget needs it
- */
-static void
-ee_fill_summary (GtkWidget *widget, EventEditor *ee)
-{
-	int pos = 0;
-
-	gtk_editable_insert_text (GTK_EDITABLE (ee->general_summary), ee->ical->summary,
-				  strlen (ee->ical->summary), &pos);
-	gtk_text_thaw (GTK_TEXT (ee->general_summary));
-}
-
 enum {
 	OWNER_LINE,
-	DESC_LINE,
 	SUMMARY_LINE,
 	TIME_LINE,
 	ALARM_LINE,
@@ -830,25 +816,23 @@ ee_init_general_page (EventEditor *ee)
 	gtk_misc_set_alignment (GTK_MISC (ee->general_owner), 0.0, 0.5);
 	gtk_box_pack_start (GTK_BOX (hbox), ee->general_owner, TRUE, TRUE, 4);
 
+	hbox = gtk_hbox_new (FALSE, 0);
+	gtk_table_attach (GTK_TABLE (ee->general_table), hbox,
+			  0, 1, SUMMARY_LINE, SUMMARY_LINE + 1,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_FILL | GTK_SHRINK,
+			  0, 4);
+
 	l = gtk_label_new (_("Summary:"));
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach (GTK_TABLE (ee->general_table), l,
-			  0, 1, DESC_LINE, DESC_LINE + 1,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
-	
-	ee->general_summary = gtk_text_new (NULL, NULL);
-	gtk_text_freeze (GTK_TEXT (ee->general_summary));
-	gtk_signal_connect (GTK_OBJECT (ee->general_summary), "realize",
-			    GTK_SIGNAL_FUNC (ee_fill_summary), ee);
-	gtk_widget_set_usize (ee->general_summary, 0, 60);
-	gtk_text_set_editable (GTK_TEXT (ee->general_summary), 1);
-	gtk_table_attach (GTK_TABLE (ee->general_table), ee->general_summary,
-			  0, 1, SUMMARY_LINE, SUMMARY_LINE+1,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), l, FALSE, FALSE, 0);
+
+	ee->general_summary = gtk_entry_new ();
+	gtk_entry_set_editable (GTK_ENTRY (ee->general_summary), 1);
+	gtk_entry_set_text (GTK_ENTRY (ee->general_summary),
+			    ee->ical->summary ? ee->ical->summary : "");
+	gtk_box_pack_start (GTK_BOX (hbox), ee->general_summary,
+			    TRUE, TRUE, 4);
 
 	l = ee_alarm_widgets (ee);
 	gtk_table_attach (GTK_TABLE (ee->general_table), l,

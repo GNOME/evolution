@@ -1,5 +1,26 @@
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/e-day-view.c: 
+	* gui/e-week-view.c: finish editing event when user hits Return key.
+	(e_week_view_on_text_item_event): stop event signals after doing any
+	other calls, since otherwise it will also stop any other resulting
+	event signals.
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw): don't
+	draw the start/end times while editing.
+
+	* gui/eventedit.c: changed the Summary field to a GtkEntry, since we
+	now only want a single line of text.
+
+	* cal-util/calobj.c (ical_object_normalize_summary): new function to
+	convert the summary field to a single line of text, by converting any
+	sequence of CR & LF characters to a single space.
+	(ical_object_create_from_vobject): call the above function. I think
+	all functions that load iCalObjects go through this.
+	(ical_new): called it here as well just in case.
+
+2000-05-06  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/week-view.[hc]: removed.
 
 2000-05-06  Damon Chaplin  <damon@helixcode.com>
