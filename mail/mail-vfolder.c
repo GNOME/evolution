@@ -878,6 +878,8 @@ vfolder_edit_rule(const char *uri)
 							      GTK_STOCK_CANCEL,
 							      GTK_RESPONSE_CANCEL,
 							      NULL);
+		gtk_container_set_border_width ((GtkWindow *) gd, 6);
+		gtk_box_set_spacing ((GtkBox *) gd->vbox, 6);
 		gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
 		g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 		gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
@@ -970,6 +972,8 @@ vfolder_gui_add_rule(VfolderRule *rule)
 						      GTK_RESPONSE_OK,
 						      NULL);
 	gtk_dialog_set_default_response(gd, GTK_RESPONSE_OK);
+	gtk_container_set_border_width ((GtkWindow *) gd, 6);
+	gtk_box_set_spacing ((GtkBox *) gd->vbox, 6);
 	g_object_set(gd, "allow_shrink", FALSE, "allow_grow", TRUE, NULL);
 	gtk_window_set_default_size (GTK_WINDOW (gd), 500, 500);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, TRUE, TRUE, 0);

@@ -1,3 +1,12 @@
+2003-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-vfolder.c (vfolder_gui_add_rule): Set the correct border
+	width and vbox spacing to be HIG compliant. Fixes bug #41209.
+	(vfolder_edit_rule): Same here.
+
+	* local-config.glade: Updated to comply with the HIG. Fixes bug
+	#41244.
+
 2003-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* mail-send-recv.c (build_dialogue): create a stock cancel button
