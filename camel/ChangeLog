@@ -1,3 +1,8 @@
+2004-01-30  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel.c (camel_init): Protect against multiple camel_init()
+	calls. Remember if we've already been called.
+
 2004-01-30  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_rename_folder): copy the old_name

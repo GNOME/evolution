@@ -41,10 +41,15 @@
 
 gboolean camel_verbose_debug = FALSE;
 
+static int initialised = FALSE;
+
 static void
 camel_shutdown (void)
 {
 	CamelCertDB *certdb;
+	
+	if (!initialised)
+		return;
 	
 #ifdef HAVE_NSS
 	NSS_Shutdown ();
@@ -57,6 +62,8 @@ camel_shutdown (void)
 		camel_certdb_save (certdb);
 		camel_object_unref (certdb);
 	}
+	
+	initialised = FALSE;
 }
 
 int
@@ -65,6 +72,9 @@ camel_init (const char *configdir, gboolean nss_init)
 	CamelCertDB *certdb;
 	char *path;
 	void camel_operation_init(void);
+	
+	if (initialised)
+		return;
 	
 	if (getenv ("CAMEL_VERBOSE_DEBUG"))
 		camel_verbose_debug = TRUE;
@@ -110,6 +120,8 @@ camel_init (const char *configdir, gboolean nss_init)
 	camel_object_unref (certdb);
 	
 	g_atexit (camel_shutdown);
+	
+	initialised = TRUE;
 	
 	return 0;
 }
