@@ -943,3 +943,117 @@ e_tree_model_node_traverse_preorder (ETreeModel *model, ETreePath path, ETreePat
 	}
 }
 
+/**
+ * e_tree_model_node_traverse_preorder:
+ * @model: 
+ * @path: 
+ * @func: 
+ * @data: 
+ * 
+ * 
+ **/
+static ETreePath
+e_tree_model_node_real_traverse (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)
+{
+	ETreePath child;
+
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (model), NULL);
+	g_return_val_if_fail (path != NULL, NULL);
+
+	if (forward_direction)
+		child = e_tree_model_node_get_first_child (model, path);
+	else
+		child = e_tree_model_node_get_last_child (model, path);
+
+	while (child) {
+		ETreePath next_child;
+		ETreePath result;
+
+		if (child == end_path || func (model, child, data))
+			return child;
+
+		if (forward_direction)
+			next_child = e_tree_model_node_get_next (model, child);
+		else
+			next_child = e_tree_model_node_get_prev (model, child);
+			
+		if ((result = e_tree_model_node_real_traverse (model, child, end_path, forward_direction, func, data)))
+			return result;
+
+		child = next_child;
+	}
+	return NULL;
+}
+
+/**
+ * e_tree_model_node_traverse_preorder:
+ * @model: 
+ * @path: 
+ * @func: 
+ * @data: 
+ * 
+ * 
+ **/
+ETreePath
+e_tree_model_node_find (ETreeModel *model, ETreePath path, ETreePath end_path, gboolean forward_direction, ETreePathFunc func, gpointer data)
+{
+	ETreePath result;
+	ETreePath next;
+
+	g_return_val_if_fail (model != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (model), NULL);
+
+	/* Just search the whole tree in this case. */
+	if (path == NULL) {
+		ETreePath root;
+		root = e_tree_model_get_root (model);
+
+		if (forward_direction && (end_path == root || func (model, root, data)))
+			return root;
+
+		if ((result = e_tree_model_node_real_traverse (model, root, end_path, forward_direction, func, data)))
+			return result;
+
+		if (!forward_direction && (end_path == root || func (model, root, data)))
+			return root;
+
+		return NULL;
+	}
+
+ start:
+
+	if (forward_direction) {
+		if ((result = e_tree_model_node_real_traverse (model, path, end_path, forward_direction, func, data)))
+			return result;
+		next = e_tree_model_node_get_next (model, path);
+	} else {
+		next = e_tree_model_node_get_prev (model, path);
+		if (next && (result = e_tree_model_node_real_traverse (model, next, end_path, forward_direction, func, data)))
+			return result;
+	}
+
+	if (next) {
+		if (end_path == next || func (model, next, data))
+			return next;
+
+		/* return e_tree_model_node_find (model, next, end_path, forward_direction, func, data) */
+		path = next;
+		goto start;
+	}
+
+	path = e_tree_model_node_get_parent (model, path);
+
+	if (path && forward_direction)
+		path = e_tree_model_node_get_next (model, path);
+
+	if (path) {
+		if (end_path == path || func (model, path, data))
+			return path;
+
+		/* return e_tree_model_node_find (model, path, end_path, forward_direction, func, data) */
+		goto start; 
+	}
+	return NULL;
+}
+
