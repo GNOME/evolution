@@ -27,8 +27,16 @@ GNOMECAL_CORBA_GENERATED =	\
 	GnomeCal-skels.c	\
 	GnomeCal-stubs.c
 
-$(GNOMECAL_CORBA_GENERATED): GnomeCal.idl
-	orbit-idl GnomeCal.idl
+$(GNOMECAL_CORBA_GENERATED): my_gnomecal_idl
+
+my_gnomecal_idl: GnomeCal.idl
+	orbit-idl $(srcdir)/GnomeCal.idl
+	touch my_gnomecal_idl
+
+corba-cal.c		\
+corba-cal.h		\
+corba-cal-factory.c	\
+corba-cal-factory.h: GnomeCal.h
 
 gnomecal_SOURCES = \
 	GnomeCal-common.c	\
@@ -113,6 +121,8 @@ calendar_conduitsdir=$(libdir)/gnome-pilot/conduits
 calendar_conduits_LTLIBRARIES = @CALCONDUITLIB@
 
 EXTRA_LTLIBRARIES = libcalendar_conduit.la
+
+GNOME_CONDUIT_LIBS=
 
 libcalendar_conduit_la_LIBADD = \
 	$(GNOME_CONDUIT_LIBS) \
