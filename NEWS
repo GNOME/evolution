@@ -1,4 +1,4 @@
-Evolution 1.2.1, ????-??-??
+Evolution 1.2.1, 2002-12-05
 ---------------------------
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -14,7 +14,7 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
               restrictive ACL's.  (Toshok)
     #33097 -- Fix crash when changing autocomplete folder list.  Also
               fixes #30323, #33930, and #33332.  (Toshok)
-    #34254 -- fix case sensitive nature of vCard importer.  (Sean Gao)
+    #34254 -- Fix case sensitive nature of vCard importer.  (Sean Gao)
 
   * Calendar
 
@@ -81,6 +81,14 @@ New features:
 
     - Fixed SSL streams to have cancellable reads and writes.
     - Auto-subscribe the user to his/her IMAP INBOX
+
+Updated translations:
+
+    - de (Christian Neumair)
+    - et (Tõivo Leedjärv)
+    - fr (Joaquim Fellmann)
+    - pt_BR (Gustavo Maciel Dias Vieira)
+
 
 Evolution 1.2.0, 2002-11-06
 ---------------------------

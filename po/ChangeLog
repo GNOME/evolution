@@ -5,7 +5,7 @@
 
 2002-11-27  Joaquim Fellmann  <joaquim@altern.org>
 
-	*fr.po: Updated French translation.
+	* fr.po: Updated French translation.
 
 2002-11-27  Joaquim Fellmann  <joaquim@altern.org>
 
@@ -32,10 +32,6 @@
 
 	* pt_BR.po: Updated Brazilian Portuguese translation done by
 	Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>.
-
-2002-11-07  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.40.
 
 2002-11-06  Andras Timar <timar@gnome.hu>
 

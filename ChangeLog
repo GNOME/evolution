@@ -1,3 +1,10 @@
+== Version 1.2.1 ==
+
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Bump version to 1.2.1, require GAL 0.22 and
+	GtkHTML 1.1.7.
+
 2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* tools/evolution-launch-composer.c: New.

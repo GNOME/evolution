@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: locales 0.01\n"
-"POT-Creation-Date: 2002-11-06 16:04-0500\n"
+"POT-Creation-Date: 2002-12-05 17:57-0500\n"
 "PO-Revision-Date: 2002-01-25 14:00-0000\n"
 "Last-Translator: Alastair McKinstry <mckinstry@computer.org>\n"
 "Language-Team: Irish <ga@li.org>\n"
@@ -47,7 +47,7 @@ msgid "Email"
 msgstr "Rpost"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1756
+#: addressbook/gui/contact-editor/e-contact-editor.c:1759
 msgid "Primary"
 msgstr "TosaÌocht"
 
@@ -57,7 +57,7 @@ msgstr "Tos."
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
-#: addressbook/gui/contact-editor/e-contact-editor.c:1741
+#: addressbook/gui/contact-editor/e-contact-editor.c:1744
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
 msgstr ""
@@ -65,8 +65,8 @@ msgstr ""
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-#: addressbook/gui/contact-editor/e-contact-editor.c:1742
-#: addressbook/gui/contact-editor/e-contact-editor.c:1809
+#: addressbook/gui/contact-editor/e-contact-editor.c:1745
+#: addressbook/gui/contact-editor/e-contact-editor.c:1812
 msgid "Business"
 msgstr "GnÛ"
 
@@ -76,12 +76,12 @@ msgid "Bus"
 msgstr "GN"
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1745
+#: addressbook/gui/contact-editor/e-contact-editor.c:1748
 msgid "Callback"
 msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1747
+#: addressbook/gui/contact-editor/e-contact-editor.c:1750
 msgid "Company"
 msgstr "Teoranta"
 
@@ -92,8 +92,8 @@ msgstr "Teor."
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1748
-#: addressbook/gui/contact-editor/e-contact-editor.c:1810
+#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1813
 msgid "Home"
 msgstr "Baile"
 
@@ -108,18 +108,18 @@ msgstr "Eag."
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: addressbook/gui/contact-editor/e-contact-editor.c:1752
+#: addressbook/gui/contact-editor/e-contact-editor.c:1755
 msgid "Mobile"
 msgstr "G˙than PÛca"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1746
+#: addressbook/gui/contact-editor/e-contact-editor.c:1749
 msgid "Car"
 msgstr "Car"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1744
+#: addressbook/gui/contact-editor/e-contact-editor.c:1747
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Fax"
 msgstr "Facs GhnÛ"
@@ -129,13 +129,13 @@ msgid "Bus Fax"
 msgstr "Facs GhnÛ"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1750
+#: addressbook/gui/contact-editor/e-contact-editor.c:1753
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Fax"
 msgstr "Facs Bhaile"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1743
+#: addressbook/gui/contact-editor/e-contact-editor.c:1746
 msgid "Business 2"
 msgstr "GnÛ 2"
 
@@ -144,43 +144,43 @@ msgid "Bus 2"
 msgstr "GnÛ 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1749
+#: addressbook/gui/contact-editor/e-contact-editor.c:1752
 msgid "Home 2"
 msgstr "Baile 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1754
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1753
-#: addressbook/gui/contact-editor/e-contact-editor.c:1811
+#: addressbook/gui/contact-editor/e-contact-editor.c:1756
+#: addressbook/gui/contact-editor/e-contact-editor.c:1814
 msgid "Other"
 msgstr "Eile"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1754
+#: addressbook/gui/contact-editor/e-contact-editor.c:1757
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Other Fax"
 msgstr "Facs Eile"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1755
+#: addressbook/gui/contact-editor/e-contact-editor.c:1758
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
 msgstr "Pager"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1757
+#: addressbook/gui/contact-editor/e-contact-editor.c:1760
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Radio"
 msgstr "Raidio"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1758
+#: addressbook/gui/contact-editor/e-contact-editor.c:1761
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Telex"
 msgstr "Telex"
@@ -192,14 +192,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
-#: addressbook/gui/contact-editor/e-contact-editor.c:1784
+#: addressbook/gui/contact-editor/e-contact-editor.c:1787
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 2"
 msgstr "Rphost 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
-#: addressbook/gui/contact-editor/e-contact-editor.c:1785
+#: addressbook/gui/contact-editor/e-contact-editor.c:1788
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Email 3"
 msgstr "Rphost 3"
@@ -351,7 +351,7 @@ msgid "Could not initialize Bonobo"
 msgstr ""
 
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:2978
+#: addressbook/backend/pas/pas-backend-ldap.c:3010
 msgid "Searching..."
 msgstr "Ag Cuardaigh..."
 
@@ -359,29 +359,29 @@ msgstr "Ag Cuardaigh..."
 msgid "Loading..."
 msgstr "Ag LÅÛdÅ·il..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:687
+#: addressbook/backend/pas/pas-backend-ldap.c:719
 #, fuzzy
 msgid "Reconnecting to LDAP server..."
 msgstr "Cumraigh do %s"
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1230
+#: addressbook/backend/pas/pas-backend-ldap.c:1262
 msgid "Adding card to LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1336
+#: addressbook/backend/pas/pas-backend-ldap.c:1368
 msgid "Removing card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1572
-#: addressbook/backend/pas/pas-backend-ldap.c:1575
+#: addressbook/backend/pas/pas-backend-ldap.c:1604
+#: addressbook/backend/pas/pas-backend-ldap.c:1607
 msgid "Modifying card from LDAP server..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2889
+#: addressbook/backend/pas/pas-backend-ldap.c:2921
 msgid "Receiving LDAP search results..."
 msgstr ""
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2998
+#: addressbook/backend/pas/pas-backend-ldap.c:3030
 msgid "Error performing search"
 msgstr ""
 
@@ -510,6 +510,7 @@ msgid "_Contact"
 msgstr "_Tadhall"
 
 #: addressbook/gui/component/addressbook-component.c:568
+#: ui/evolution-addressbook.h:15
 #, fuzzy
 msgid "Create a new contact"
 msgstr "ScrÌos an sceal seo"
@@ -699,7 +700,7 @@ msgstr "(gan ainm)"
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#: addressbook/gui/contact-editor/e-contact-editor.c:1783
+#: addressbook/gui/contact-editor/e-contact-editor.c:1786
 msgid "Primary Email"
 msgstr ""
 
@@ -1220,7 +1221,7 @@ msgstr ""
 #: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
-#: ui/evolution-mail-messagedisplay.xml.h:6
+#: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
@@ -1336,7 +1337,7 @@ msgstr ""
 
 #. Fixme: Ditto
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:699
+#: addressbook/gui/component/select-names/e-select-names.c:707
 #: composer/e-msg-composer-attachment-bar.c:519 filter/filter-filter.c:462
 #: filter/filter-rule.c:681 my-evolution/e-summary-shown.c:538
 #: shell/e-shortcuts-view.c:178
@@ -1368,40 +1369,46 @@ msgstr ""
 msgid "Unnamed Contact"
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:503
+#: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
 msgstr "TÛg TadhallaÌ o Leabhar Seoladh"
 
-#: addressbook/gui/component/select-names/e-select-names.c:564
+#: addressbook/gui/component/select-names/e-select-names.c:572
 msgid "Find contact in"
 msgstr ""
 
-# FIXME SP?
 #: addressbook/gui/component/select-names/select-names.glade.h:1
+#: ui/evolution-addressbook.h:16
+#, fuzzy
+msgid "Find"
+msgstr "Cuardaigh:"
+
+# FIXME SP?
+#: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Select Names"
 msgstr "TÛg AinmhÌ:"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:2
+#: addressbook/gui/component/select-names/select-names.glade.h:3
 #, fuzzy
 msgid "Selected Contacts:"
 msgstr "Dealaigh Tadhall?"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:3
+#: addressbook/gui/component/select-names/select-names.glade.h:4
 #, fuzzy
 msgid "Show Contacts"
 msgstr "TadhallaÌ"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:4
+#: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
 msgstr ""
 
-#: addressbook/gui/component/select-names/select-names.glade.h:6
+#: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Category:"
 msgstr "_Saghas:"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:7
+#: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Folder:"
 msgstr "_FillteaÌn:"
 
@@ -2802,11 +2809,11 @@ msgstr ""
 msgid "Save Contact as VCard"
 msgstr "S·bh·il mar VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1759
+#: addressbook/gui/contact-editor/e-contact-editor.c:1762
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2440
+#: addressbook/gui/contact-editor/e-contact-editor.c:2455
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr ""
@@ -3262,9 +3269,9 @@ msgstr ""
 
 # fa 
 #: addressbook/gui/widgets/e-addressbook-view.c:816
-#: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
-#: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
-#: ui/my-evolution.xml.h:1
+#: ui/evolution-addressbook.h:18 ui/evolution-addressbook.xml.h:16
+#: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:4
+#: ui/evolution-mail-message.xml.h:67 ui/my-evolution.xml.h:1
 msgid "Print"
 msgstr "Priont·il"
 
@@ -3300,8 +3307,8 @@ msgstr "Greamaigh"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:829 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:227 shell/e-shell-folder-commands.c:411
-#: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
-#: ui/evolution-contact-editor.xml.h:2
+#: ui/evolution-addressbook.h:20 ui/evolution-addressbook.xml.h:8
+#: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
 msgid "Delete"
 msgstr "Dealaigh"
@@ -3786,7 +3793,7 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-queue.c:759
-#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2898
+#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Rabhadh"
@@ -3936,7 +3943,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:462 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -3952,13 +3959,13 @@ msgid "Assigned"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:302
-#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:568
-#: calendar/gui/e-meeting-model.c:862
+#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:569
+#: calendar/gui/e-meeting-model.c:863
 msgid "Yes"
 msgstr "T·"
 
 #: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:314
-#: calendar/gui/e-meeting-model.c:863
+#: calendar/gui/e-meeting-model.c:864
 msgid "No"
 msgstr "NÌl"
 
@@ -4287,7 +4294,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:834 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1027 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Coimri˙:"
 
@@ -4372,6 +4379,7 @@ msgstr "Lae"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1135
+#: calendar/gui/e-itip-control.c:655
 msgid "Friday"
 msgstr "Aoine"
 
@@ -4385,6 +4393,7 @@ msgstr "NoimeaÌd"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1131
+#: calendar/gui/e-itip-control.c:651
 msgid "Monday"
 msgstr "Luain"
 
@@ -4395,6 +4404,7 @@ msgstr "_Dom"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1136
+#: calendar/gui/e-itip-control.c:656
 msgid "Saturday"
 msgstr "Sathairn"
 
@@ -4408,6 +4418,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1137
+#: calendar/gui/e-itip-control.c:650
 msgid "Sunday"
 msgstr "Domhnaigh"
 
@@ -4426,6 +4437,7 @@ msgstr "LÌosta _Teasc"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1134
+#: calendar/gui/e-itip-control.c:654
 msgid "Thursday"
 msgstr "Deardaoin"
 
@@ -4443,6 +4455,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1132
+#: calendar/gui/e-itip-control.c:652
 msgid "Tuesday"
 msgstr "Mairt"
 
@@ -4452,6 +4465,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1133
+#: calendar/gui/e-itip-control.c:653
 msgid "Wednesday"
 msgstr "Ce·daoin"
 
@@ -4610,6 +4624,11 @@ msgstr ""
 msgid "%s  You have made no changes, update the editor?"
 msgstr ""
 
+#: calendar/gui/dialogs/comp-editor-page.c:414
+#, fuzzy, c-format
+msgid "Validation error: %s"
+msgstr "Earraidh gan aithne: %s"
+
 #: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2208
 msgid " to "
 msgstr ""
@@ -4756,14 +4775,30 @@ msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:232
 #: calendar/gui/dialogs/event-editor.c:299
-#: calendar/gui/dialogs/event-editor.c:433
+#: calendar/gui/dialogs/event-editor.c:435
 msgid "Scheduling"
 msgstr ""
 
 #: calendar/gui/dialogs/event-editor.c:237
 #: calendar/gui/dialogs/event-editor.c:302
-#: calendar/gui/dialogs/event-editor.c:436 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:438 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+msgid "Start date is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:666
+msgid "End date is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:689
+msgid "Start time is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:696
+msgid "End time is wrong"
 msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:1
@@ -4884,7 +4919,7 @@ msgid "Member"
 msgstr "Ball"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:1151
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "RSVP"
@@ -4925,18 +4960,22 @@ msgstr ""
 #: calendar/gui/dialogs/recurrence-page.c:126
 #: calendar/gui/dialogs/recurrence-page.c:146
 #: calendar/gui/dialogs/recurrence-page.c:156
+#: calendar/gui/e-itip-control.c:603 calendar/gui/e-itip-control.c:623
+#: calendar/gui/e-itip-control.c:633
 #, fuzzy
 msgid "st"
 msgstr "lÌosta"
 
 #: calendar/gui/dialogs/recurrence-page.c:127
 #: calendar/gui/dialogs/recurrence-page.c:147
+#: calendar/gui/e-itip-control.c:604 calendar/gui/e-itip-control.c:624
 #, fuzzy
 msgid "nd"
 msgstr "Post"
 
 #: calendar/gui/dialogs/recurrence-page.c:128
 #: calendar/gui/dialogs/recurrence-page.c:148
+#: calendar/gui/e-itip-control.c:605 calendar/gui/e-itip-control.c:625
 #, fuzzy
 msgid "rd"
 msgstr "r"
@@ -4965,6 +5004,18 @@ msgstr "r"
 #: calendar/gui/dialogs/recurrence-page.c:153
 #: calendar/gui/dialogs/recurrence-page.c:154
 #: calendar/gui/dialogs/recurrence-page.c:155
+#: calendar/gui/e-itip-control.c:606 calendar/gui/e-itip-control.c:607
+#: calendar/gui/e-itip-control.c:608 calendar/gui/e-itip-control.c:609
+#: calendar/gui/e-itip-control.c:610 calendar/gui/e-itip-control.c:611
+#: calendar/gui/e-itip-control.c:612 calendar/gui/e-itip-control.c:613
+#: calendar/gui/e-itip-control.c:614 calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:616 calendar/gui/e-itip-control.c:617
+#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:619
+#: calendar/gui/e-itip-control.c:620 calendar/gui/e-itip-control.c:621
+#: calendar/gui/e-itip-control.c:622 calendar/gui/e-itip-control.c:626
+#: calendar/gui/e-itip-control.c:627 calendar/gui/e-itip-control.c:628
+#: calendar/gui/e-itip-control.c:629 calendar/gui/e-itip-control.c:630
+#: calendar/gui/e-itip-control.c:631 calendar/gui/e-itip-control.c:632
 msgid "th"
 msgstr ""
 
@@ -5099,6 +5150,11 @@ msgstr ""
 msgid "The task information has changed. Send an updated version?"
 msgstr ""
 
+#: calendar/gui/dialogs/task-details-page.c:420
+#, fuzzy
+msgid "Completed date is wrong"
+msgstr "CrÌochnaithe "
+
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -5111,7 +5167,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
-#: calendar/gui/e-meeting-model.c:574 calendar/gui/e-meeting-model.c:875
+#: calendar/gui/e-meeting-model.c:575 calendar/gui/e-meeting-model.c:876
 msgid "Needs Action"
 msgstr "Freagra"
 
@@ -5142,7 +5198,11 @@ msgstr "Gn·th"
 msgid "Assignment"
 msgstr "Coinne"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:888
+#: calendar/gui/dialogs/task-page.c:540
+msgid "Due date is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
 msgid "Description:"
@@ -5283,12 +5343,12 @@ msgstr "% Rinneadh:"
 msgid "_Delete Selected Tasks"
 msgstr "ScrÌos an sceal seo"
 
-#: calendar/gui/e-calendar-table.c:1277 calendar/gui/e-day-view.c:7585
-#: calendar/gui/e-week-view.c:4240
+#: calendar/gui/e-calendar-table.c:1278 calendar/gui/e-day-view.c:7586
+#: calendar/gui/e-week-view.c:4241
 msgid "Updating objects"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.c:1360
+#: calendar/gui/e-calendar-table.c:1361
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr ""
@@ -5465,402 +5525,478 @@ msgstr ""
 msgid "Delete _All Occurrences"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:684
+msgid "Yes. (Complex Recurrence)"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:696
+#, fuzzy
+msgid "Every day"
+msgstr "Gach"
+
+#: calendar/gui/e-itip-control.c:698
+#, fuzzy, c-format
+msgid "Every %d days"
+msgstr "%d la(e)"
+
+#: calendar/gui/e-itip-control.c:704
+#, fuzzy
+msgid "Every week"
+msgstr "Gach"
+
+#: calendar/gui/e-itip-control.c:706
+#, fuzzy, c-format
+msgid "Every %d weeks"
+msgstr " %d seachtain"
+
+#: calendar/gui/e-itip-control.c:709
+msgid "Every week on "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:711
+#, fuzzy, c-format
+msgid "Every %d weeks on "
+msgstr " %d seachtain"
+
+#: calendar/gui/e-itip-control.c:719
+msgid " and "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:726
+#, c-format
+msgid "The %s day of "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:739
+#, c-format
+msgid "The %s %s of "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:744
+#, fuzzy
+msgid "every month"
+msgstr "Aon _mhÌ"
+
+#: calendar/gui/e-itip-control.c:749
+#, c-format
+msgid "every %d months"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:755
+#, fuzzy
+msgid "Every year"
+msgstr "Gach"
+
+#: calendar/gui/e-itip-control.c:757
+#, c-format
+msgid "Every %d years"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:769
+#, c-format
+msgid " a total of %d times"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:777
+msgid ", ending on "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:801
 msgid "<b>Starts:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:625
+#: calendar/gui/e-itip-control.c:811
 #, fuzzy
 msgid "<b>Ends:</b> "
 msgstr "Eolas"
 
-#: calendar/gui/e-itip-control.c:638
+#: calendar/gui/e-itip-control.c:831
 #, fuzzy
 msgid "<b>Completed:</b> "
 msgstr "CrÌochnaithe "
 
-#: calendar/gui/e-itip-control.c:648
+#: calendar/gui/e-itip-control.c:841
 msgid "<b>Due:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:685 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:928
 #, fuzzy
 msgid "iCalendar Information"
 msgstr "eolas fheilire"
 
 #. Title
-#: calendar/gui/e-itip-control.c:700
+#: calendar/gui/e-itip-control.c:893
 #, fuzzy
 msgid "iCalendar Error"
 msgstr "Feilire"
 
-#: calendar/gui/e-itip-control.c:766 calendar/gui/e-itip-control.c:782
-#: calendar/gui/e-itip-control.c:793 calendar/gui/e-itip-control.c:810
+#: calendar/gui/e-itip-control.c:959 calendar/gui/e-itip-control.c:975
+#: calendar/gui/e-itip-control.c:986 calendar/gui/e-itip-control.c:1003
 #, fuzzy
 msgid "An unknown person"
 msgstr "iEarraidh gan Aithne"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:817
+#: calendar/gui/e-itip-control.c:1010
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:832
+#: calendar/gui/e-itip-control.c:1025
 msgid "<i>None</i>"
 msgstr "<i>Ar bith</i>"
 
-#: calendar/gui/e-itip-control.c:842
+#: calendar/gui/e-itip-control.c:1035
 #, fuzzy
 msgid "Location:"
 msgstr "Fillte·n _Nua"
 
-#: calendar/gui/e-itip-control.c:856
+#: calendar/gui/e-itip-control.c:1049
 #, fuzzy
 msgid "Status:"
 msgstr "_St·das:"
 
-#: calendar/gui/e-itip-control.c:861 calendar/gui/e-meeting-model.c:322
-#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:876
+#: calendar/gui/e-itip-control.c:1054 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:877
 #: calendar/gui/itip-utils.c:490
 msgid "Accepted"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:865 calendar/gui/itip-utils.c:493
+#: calendar/gui/e-itip-control.c:1058 calendar/gui/itip-utils.c:493
 msgid "Tentatively Accepted"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:869 calendar/gui/e-meeting-model.c:324
-#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:877
+#: calendar/gui/e-itip-control.c:1062 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:878
 #: calendar/gui/itip-utils.c:496 calendar/gui/itip-utils.c:522
 msgid "Declined"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:873 calendar/gui/e-itip-control.c:1079
+#: calendar/gui/e-itip-control.c:1066 calendar/gui/e-itip-control.c:1272
 #: calendar/gui/e-meeting-model.c:258 calendar/gui/e-meeting-model.c:293
-#: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:834
-#: calendar/gui/e-meeting-model.c:850 camel/camel-tcp-stream-openssl.c:629
+#: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:835
+#: calendar/gui/e-meeting-model.c:851 camel/camel-tcp-stream-openssl.c:629
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/folder-browser.c:327
-#: mail/mail-display.c:896 widgets/misc/e-charset-picker.c:58
+#: mail/mail-display.c:901 widgets/misc/e-charset-picker.c:58
 #: widgets/misc/e-charset-picker.c:444
 msgid "Unknown"
 msgstr "Gan Aithne"
 
-#: calendar/gui/e-itip-control.c:926 calendar/gui/e-itip-control.c:954
-#: calendar/gui/e-itip-control.c:980 calendar/gui/e-itip-control.c:993
-#: calendar/gui/e-itip-control.c:1006 calendar/gui/e-itip-control.c:1019
+#: calendar/gui/e-itip-control.c:1119 calendar/gui/e-itip-control.c:1147
+#: calendar/gui/e-itip-control.c:1173 calendar/gui/e-itip-control.c:1186
+#: calendar/gui/e-itip-control.c:1199 calendar/gui/e-itip-control.c:1212
 #, fuzzy
 msgid "Choose an action:"
 msgstr "Fillte·n _Nua"
 
-#: calendar/gui/e-itip-control.c:927
+#: calendar/gui/e-itip-control.c:1120
 #, fuzzy
 msgid "Update"
 msgstr "Data"
 
-#: calendar/gui/e-itip-control.c:928 calendar/gui/e-itip-control.c:959
-#: calendar/gui/e-itip-control.c:982 calendar/gui/e-itip-control.c:995
-#: calendar/gui/e-itip-control.c:1008 calendar/gui/e-itip-control.c:1021
+#: calendar/gui/e-itip-control.c:1121 calendar/gui/e-itip-control.c:1152
+#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1188
+#: calendar/gui/e-itip-control.c:1201 calendar/gui/e-itip-control.c:1214
 #: shell/e-shell.c:2176 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "Ceart go Leor"
 
-#: calendar/gui/e-itip-control.c:955
+#: calendar/gui/e-itip-control.c:1148
 #, fuzzy
 msgid "Accept"
 msgstr "Cuntas"
 
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:1149
 msgid "Tentatively accept"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:957
+#: calendar/gui/e-itip-control.c:1150
 #, fuzzy
 msgid "Decline"
 msgstr "Dealaigh"
 
-#: calendar/gui/e-itip-control.c:981
+#: calendar/gui/e-itip-control.c:1174
 #, fuzzy
 msgid "Send Free/Busy Information"
 msgstr "Eolas"
 
-#: calendar/gui/e-itip-control.c:994
+#: calendar/gui/e-itip-control.c:1187
 msgid "Update respondent status"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1007
+#: calendar/gui/e-itip-control.c:1200
 #, fuzzy
 msgid "Send Latest Information"
 msgstr "Eolas Theasc"
 
 # FR
-#: calendar/gui/e-itip-control.c:1020 calendar/gui/itip-utils.c:510
+#: calendar/gui/e-itip-control.c:1213 calendar/gui/itip-utils.c:510
 #: shell/evolution-shell-component.c:1143 ui/evolution-mail-global.xml.h:1
 #, fuzzy
 msgid "Cancel"
 msgstr "An Fhrainc"
 
-#: calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1294
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1102
+#: calendar/gui/e-itip-control.c:1295
 #, fuzzy
 msgid "Meeting Information"
 msgstr "eolas fheilire"
 
-#: calendar/gui/e-itip-control.c:1107
+#: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1302
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1110
+#: calendar/gui/e-itip-control.c:1303
 #, fuzzy
 msgid "Meeting Proposal"
 msgstr "_Dealaigh gach rud"
 
-#: calendar/gui/e-itip-control.c:1114
+#: calendar/gui/e-itip-control.c:1307
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1115
+#: calendar/gui/e-itip-control.c:1308
 #, fuzzy
 msgid "Meeting Update"
 msgstr "¡lbachtaÌ"
 
-#: calendar/gui/e-itip-control.c:1119
+#: calendar/gui/e-itip-control.c:1312
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1313
 msgid "Meeting Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1127
+#: calendar/gui/e-itip-control.c:1320
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1128
+#: calendar/gui/e-itip-control.c:1321
 #, fuzzy
 msgid "Meeting Reply"
 msgstr "Freagrair"
 
-#: calendar/gui/e-itip-control.c:1135
+#: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1136
+#: calendar/gui/e-itip-control.c:1329
 msgid "Meeting Cancellation"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1143 calendar/gui/e-itip-control.c:1210
-#: calendar/gui/e-itip-control.c:1245
+#: calendar/gui/e-itip-control.c:1336 calendar/gui/e-itip-control.c:1403
+#: calendar/gui/e-itip-control.c:1438
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1144
+#: calendar/gui/e-itip-control.c:1337
 #, fuzzy
 msgid "Bad Meeting Message"
 msgstr "Post an sce·l seo"
 
-#: calendar/gui/e-itip-control.c:1168
+#: calendar/gui/e-itip-control.c:1361
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1169
+#: calendar/gui/e-itip-control.c:1362
 msgid "Task Information"
 msgstr "Eolas Theasc"
 
-#: calendar/gui/e-itip-control.c:1174
+#: calendar/gui/e-itip-control.c:1367
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1176
+#: calendar/gui/e-itip-control.c:1369
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1177
+#: calendar/gui/e-itip-control.c:1370
 msgid "Task Proposal"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1181
+#: calendar/gui/e-itip-control.c:1374
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1375
 #, fuzzy
 msgid "Task Update"
 msgstr "Data"
 
-#: calendar/gui/e-itip-control.c:1186
+#: calendar/gui/e-itip-control.c:1379
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1187
+#: calendar/gui/e-itip-control.c:1380
 msgid "Task Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1194
+#: calendar/gui/e-itip-control.c:1387
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1195
+#: calendar/gui/e-itip-control.c:1388
 #, fuzzy
 msgid "Task Reply"
 msgstr "Freagrair"
 
-#: calendar/gui/e-itip-control.c:1202
+#: calendar/gui/e-itip-control.c:1395
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1203
+#: calendar/gui/e-itip-control.c:1396
 #, fuzzy
 msgid "Task Cancellation"
 msgstr "Eolas Theasc"
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1404
 #, fuzzy
 msgid "Bad Task Message"
 msgstr "Teachtaireacht Feilire"
 
-#: calendar/gui/e-itip-control.c:1230
+#: calendar/gui/e-itip-control.c:1423
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1231
+#: calendar/gui/e-itip-control.c:1424
 #, fuzzy
 msgid "Free/Busy Information"
 msgstr "Eolas"
 
-#: calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1428
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1236
+#: calendar/gui/e-itip-control.c:1429
 msgid "Free/Busy Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1240
+#: calendar/gui/e-itip-control.c:1433
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1241
+#: calendar/gui/e-itip-control.c:1434
 #, fuzzy
 msgid "Free/Busy Reply"
 msgstr "Freagrair"
 
-#: calendar/gui/e-itip-control.c:1246
+#: calendar/gui/e-itip-control.c:1439
 #, fuzzy
 msgid "Bad Free/Busy Message"
 msgstr "Post an sce·l seo"
 
-#: calendar/gui/e-itip-control.c:1320
+#: calendar/gui/e-itip-control.c:1513
 msgid "The message does not appear to be properly formed"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1382
+#: calendar/gui/e-itip-control.c:1575
 msgid "The message contains only unsupported requests."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1410 calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1603 calendar/gui/e-itip-control.c:1609
 msgid "The attachment does not contain a valid calendar message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1441
+#: calendar/gui/e-itip-control.c:1634
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1662 calendar/gui/e-itip-control.c:1754
+#: calendar/gui/e-itip-control.c:1856 calendar/gui/e-itip-control.c:1948
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1665 calendar/gui/e-itip-control.c:1757
+#: calendar/gui/e-itip-control.c:1859 calendar/gui/e-itip-control.c:1951
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1668 calendar/gui/e-itip-control.c:1760
+#: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
 msgid "Object could not be found\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1671
+#: calendar/gui/e-itip-control.c:1865
 #, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr "TeÌp ag fork: %s"
 
-#: calendar/gui/e-itip-control.c:1674
+#: calendar/gui/e-itip-control.c:1868
 msgid "Update complete\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1677
+#: calendar/gui/e-itip-control.c:1871
 msgid "Calendar file could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1706 calendar/gui/e-itip-control.c:1772
+#: calendar/gui/e-itip-control.c:1900 calendar/gui/e-itip-control.c:1966
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1727
+#: calendar/gui/e-itip-control.c:1921
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1739
+#: calendar/gui/e-itip-control.c:1933
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1763
+#: calendar/gui/e-itip-control.c:1957
 #, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "TeÌp ag fork: %s"
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1960
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1769
+#: calendar/gui/e-itip-control.c:1963
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1804
+#: calendar/gui/e-itip-control.c:1998
 msgid "Removal Complete"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1834 calendar/gui/e-itip-control.c:1884
+#: calendar/gui/e-itip-control.c:2028 calendar/gui/e-itip-control.c:2078
 msgid "Item sent!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1836 calendar/gui/e-itip-control.c:1888
+#: calendar/gui/e-itip-control.c:2030 calendar/gui/e-itip-control.c:2082
 msgid "The item could not be sent!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1961
+#: calendar/gui/e-itip-control.c:2155
 #, fuzzy
 msgid "Select Calendar Folder"
 msgstr "Fillte·n _Nua"
 
-#: calendar/gui/e-itip-control.c:1968
+#: calendar/gui/e-itip-control.c:2162
 #, fuzzy
 msgid "Select Tasks Folder"
 msgstr "Fillte·n _Nua"
@@ -5909,7 +6045,7 @@ msgstr ""
 msgid "Chair Persons"
 msgstr "Cathlaoirlaig"
 
-#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1763
+#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1764
 msgid "Required Participants"
 msgstr ""
 
@@ -5924,54 +6060,54 @@ msgstr "Goireas"
 
 # IN 
 #: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:564 calendar/gui/e-meeting-model.c:830
+#: calendar/gui/e-meeting-model.c:565 calendar/gui/e-meeting-model.c:831
 msgid "Individual"
 msgstr "Pearsanta"
 
 #: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:831
+#: calendar/gui/e-meeting-model.c:832
 msgid "Group"
 msgstr "Grupa"
 
 #: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:832
+#: calendar/gui/e-meeting-model.c:833
 msgid "Resource"
 msgstr "Goireas"
 
 #: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
-#: calendar/gui/e-meeting-model.c:833
+#: calendar/gui/e-meeting-model.c:834
 msgid "Room"
 msgstr "Seomra"
 
 # th
 #: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:846
+#: calendar/gui/e-meeting-model.c:847
 #, fuzzy
 msgid "Chair"
 msgstr "TÈalainnis"
 
 #: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:566 calendar/gui/e-meeting-model.c:847
+#: calendar/gui/e-meeting-model.c:567 calendar/gui/e-meeting-model.c:848
 msgid "Required Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:848
+#: calendar/gui/e-meeting-model.c:849
 msgid "Optional Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
-#: calendar/gui/e-meeting-model.c:849
+#: calendar/gui/e-meeting-model.c:850
 msgid "Non-Participant"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
-#: calendar/gui/e-meeting-model.c:878 calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-model.c:879 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr ""
 
 #: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
-#: calendar/gui/e-meeting-model.c:879
+#: calendar/gui/e-meeting-model.c:880
 msgid "Delegated"
 msgstr ""
 
@@ -6243,7 +6379,7 @@ msgstr "Eolas Theasc"
 msgid "Journal information"
 msgstr "Eolas Cuntais"
 
-#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:592
+#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:595
 #, fuzzy
 msgid "Free/Busy information"
 msgstr "Eolas"
@@ -6267,17 +6403,17 @@ msgstr "Freagrair"
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:586
+#: calendar/gui/itip-utils.c:589
 #, fuzzy, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Eolas"
 
-#: calendar/gui/itip-utils.c:598
+#: calendar/gui/itip-utils.c:601
 #, fuzzy
 msgid "iCalendar information"
 msgstr "eolas fheilire"
 
-#: calendar/gui/itip-utils.c:756
+#: calendar/gui/itip-utils.c:759
 msgid "You must be an attendee of the event."
 msgstr ""
 
@@ -6522,7 +6658,7 @@ msgid "Print Calendar"
 msgstr "Priont·il Feilire"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3190
+#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3216
 #: my-evolution/e-summary.c:633
 msgid "Print Preview"
 msgstr "Priont·il Reamhtaispe·ntais"
@@ -6552,8 +6688,8 @@ msgid ""
 "Really erase these tasks?"
 msgstr ""
 
-#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2670
-#: mail/mail-callbacks.c:2912
+#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2696
+#: mail/mail-callbacks.c:2938
 msgid "Do not ask me again."
 msgstr ""
 
@@ -9111,7 +9247,7 @@ msgstr ""
 msgid "Error in application verification"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:680
+#: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:805
 #, c-format
 msgid ""
 "Issuer:            %s\n"
@@ -9120,11 +9256,11 @@ msgid ""
 "Signature:         %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:686
+#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:811
 msgid "GOOD"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:686
+#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:811
 msgid "BAD"
 msgstr ""
 
@@ -9141,7 +9277,7 @@ msgid ""
 msgstr ""
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:690
+#: camel/camel-tcp-stream-ssl.c:815
 #, c-format
 msgid ""
 "SSL Certificate check for %s:\n"
@@ -9151,28 +9287,28 @@ msgid ""
 "Do you wish to accept?"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:734
+#: camel/camel-tcp-stream-ssl.c:859
 #, c-format
 msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:786
+#: camel/camel-tcp-stream-ssl.c:911
 #, c-format
 msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:804
+#: camel/camel-tcp-stream-ssl.c:929
 #, c-format
 msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:821
+#: camel/camel-tcp-stream-ssl.c:946
 #, c-format
 msgid ""
 "Certificate revocation list expired: %s\n"
@@ -9224,12 +9360,12 @@ msgstr "TeÌp ag fork: %s"
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:451
-#: camel/providers/imap/camel-imap-store.c:2611
+#: camel/providers/imap/camel-imap-store.c:2656
 msgid "Operation cancelled"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-command.c:308
-#: camel/providers/imap/camel-imap-store.c:2614
+#: camel/providers/imap/camel-imap-store.c:2659
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr ""
@@ -9461,24 +9597,24 @@ msgid ""
 "\n"
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1462
-#: camel/providers/imap/camel-imap-store.c:1604
+#: camel/providers/imap/camel-imap-store.c:1505
+#: camel/providers/imap/camel-imap-store.c:1647
 #, fuzzy, c-format
 msgid "No such folder %s"
 msgstr "Post an sce·l seo"
 
-#: camel/providers/imap/camel-imap-store.c:1805
+#: camel/providers/imap/camel-imap-store.c:1848
 #, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr ""
 
-#: camel/providers/imap/camel-imap-store.c:1817
+#: camel/providers/imap/camel-imap-store.c:1860
 #, fuzzy, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Earraidh gan aithne: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1853
+#: camel/providers/imap/camel-imap-store.c:1896
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr ""
 
@@ -10466,7 +10602,7 @@ msgid "%.0fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:222
+#: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:227
 msgid "attachment"
 msgstr "iat·n"
 
@@ -10582,7 +10718,7 @@ msgid "Posting destination"
 msgstr "(Gan Tuarascail)"
 
 #: composer/e-msg-composer-select-file.c:275
-#: ui/evolution-message-composer.xml.h:2
+#: ui/evolution-message-composer.h:26 ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
 msgstr ""
 
@@ -10704,19 +10840,19 @@ msgid ""
 "Unable to activate HTML editor component."
 msgstr ""
 
-#: composer/e-msg-composer.c:3858
+#: composer/e-msg-composer.c:3860
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
 
-#: composer/evolution-composer.c:393
+#: composer/evolution-composer.c:394
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
 msgstr ""
 
-#: composer/evolution-composer.c:408
+#: composer/evolution-composer.c:413
 #, fuzzy
 msgid "Cannot initialize the Evolution composer."
 msgstr ""
@@ -10772,8 +10908,12 @@ msgstr ""
 msgid "Subject does not contain"
 msgstr ""
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2537
-#: mail/mail-display.c:192
+#: e-util/e-component-listener.c:131
+msgid ""
+"ping_timeout_callback: could not determine if the CORBA object is nil or not"
+msgstr ""
+
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11359,7 +11499,7 @@ msgstr ""
 msgid "Score"
 msgstr "ScÛr"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1831
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1857
 msgid "Sender"
 msgstr ""
 
@@ -11692,73 +11832,73 @@ msgstr "¡lbachtaÌ..."
 msgid "Change this folder's properties"
 msgstr ""
 
-#: mail/component-factory.c:805
+#: mail/component-factory.c:811
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
 msgstr ""
 
-#: mail/component-factory.c:970
+#: mail/component-factory.c:976
 msgid "You have not set a mail transport method"
 msgstr ""
 
-#: mail/component-factory.c:992
+#: mail/component-factory.c:998
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 
-#: mail/component-factory.c:998
+#: mail/component-factory.c:1004
 #, fuzzy
 msgid "Warning: Unsent Messages"
 msgstr "Ag S·bh·il scealta"
 
-#: mail/component-factory.c:1040
+#: mail/component-factory.c:1046
 msgid "New Mail Message"
 msgstr "Teachaireacht Post Nua"
 
 # mt
-#: mail/component-factory.c:1040
+#: mail/component-factory.c:1046
 msgid "_Mail Message"
 msgstr "_ScÈal RÌomhphost"
 
-#: mail/component-factory.c:1041
+#: mail/component-factory.c:1047
 #, fuzzy
 msgid "Compose a new mail message"
 msgstr "Cruthaigh ScÈal _Nua"
 
-#: mail/component-factory.c:1049
+#: mail/component-factory.c:1055
 #, fuzzy
 msgid "New Message Post"
 msgstr "Sce·l Nua"
 
-#: mail/component-factory.c:1049
+#: mail/component-factory.c:1055
 #, fuzzy
 msgid "_Post Message"
 msgstr "Post an sce·l seo"
 
-#: mail/component-factory.c:1050
+#: mail/component-factory.c:1056
 #, fuzzy
 msgid "Post a new mail message"
 msgstr "Teachaireacht Post Nua"
 
-#: mail/component-factory.c:1078
+#: mail/component-factory.c:1084
 #, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Alairm Evolution"
 
-#: mail/component-factory.c:1087
+#: mail/component-factory.c:1093
 msgid "Cannot initialize Evolution's mail config component."
 msgstr ""
 
-#: mail/component-factory.c:1093
+#: mail/component-factory.c:1099
 msgid "Cannot initialize Evolution's folder info component."
 msgstr ""
 
-#: mail/component-factory.c:1334 mail/component-factory.c:1364
+#: mail/component-factory.c:1340 mail/component-factory.c:1370
 #, fuzzy
 msgid "Connecting..."
 msgstr "Ag Cealaigh..."
 
-#: mail/component-factory.c:1375
+#: mail/component-factory.c:1381
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -11771,7 +11911,7 @@ msgstr "AlbachtaÌ do \"%s\""
 msgid "Properties"
 msgstr "¡lbactaÌ"
 
-#: mail/folder-browser.c:309 mail/mail-display.c:376 mail/mail-display.c:888
+#: mail/folder-browser.c:309 mail/mail-display.c:381 mail/mail-display.c:893
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr ""
@@ -12059,17 +12199,22 @@ msgstr "MÌchumasach"
 msgid "Enable"
 msgstr "Chumasach"
 
-#: mail/mail-accounts.c:531 mail/mail-accounts.etspec.h:2
+#: mail/mail-accounts.c:467
+#, fuzzy
+msgid "[Default]"
+msgstr "Gn·th"
+
+#: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
 #: mail/mail-config.glade.h:53
 msgid "Enabled"
 msgstr ""
 
-#: mail/mail-accounts.c:532 mail/mail-accounts.etspec.h:1
+#: mail/mail-accounts.c:539 mail/mail-accounts.etspec.h:1
 #, fuzzy
 msgid "Account name"
 msgstr "Ainm _Chuntas:"
 
-#: mail/mail-accounts.c:533 mail/mail-accounts.etspec.h:3
+#: mail/mail-accounts.c:540 mail/mail-accounts.etspec.h:3
 #, fuzzy
 msgid "Protocol"
 msgstr "Portr·id"
@@ -12174,72 +12319,72 @@ msgid ""
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1207
+#: mail/mail-callbacks.c:1233
 msgid "an unknown sender"
 msgstr ""
 
-#: mail/mail-callbacks.c:1211
+#: mail/mail-callbacks.c:1237
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "Am %a, %Y-%m-%d ag %H:%M, scrÌobh %%s:"
 
-#: mail/mail-callbacks.c:1712 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1738 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1714 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1740 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:2381
+#: mail/mail-callbacks.c:2407
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2406
+#: mail/mail-callbacks.c:2432
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2445
+#: mail/mail-callbacks.c:2471
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:2459
+#: mail/mail-callbacks.c:2485
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2485
+#: mail/mail-callbacks.c:2511
 msgid "No Message Selected"
 msgstr ""
 
-#: mail/mail-callbacks.c:2530 mail/mail-display.c:188
+#: mail/mail-callbacks.c:2556 mail/mail-display.c:189
 msgid "Overwrite file?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2584
+#: mail/mail-callbacks.c:2610
 msgid "Save Message As..."
 msgstr "S·bh·il ScÈal Mar..."
 
-#: mail/mail-callbacks.c:2586
+#: mail/mail-callbacks.c:2612
 msgid "Save Messages As..."
 msgstr "S·bh·il ScÈala Mar..."
 
-#: mail/mail-callbacks.c:2655
+#: mail/mail-callbacks.c:2681
 #, fuzzy
 msgid "Go to next folder with unread messages?"
 msgstr "ScrÌos an sceal seo"
 
-#: mail/mail-callbacks.c:2662
+#: mail/mail-callbacks.c:2688
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2905
+#: mail/mail-callbacks.c:2931
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -12247,36 +12392,36 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:3018
+#: mail/mail-callbacks.c:3044
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:3030
+#: mail/mail-callbacks.c:3056
 msgid "Filters"
 msgstr ""
 
-#: mail/mail-callbacks.c:3074
+#: mail/mail-callbacks.c:3100
 #, fuzzy, c-format
 msgid "Page %d of %d"
 msgstr "Post an sce·l seo"
 
-#: mail/mail-callbacks.c:3129
+#: mail/mail-callbacks.c:3155
 #, fuzzy
 msgid "Print Message"
 msgstr "Post an sce·l seo"
 
-#: mail/mail-callbacks.c:3156
+#: mail/mail-callbacks.c:3182
 msgid "US-Letter"
 msgstr ""
 
-#: mail/mail-callbacks.c:3197
+#: mail/mail-callbacks.c:3223
 msgid "Printing of message failed"
 msgstr ""
 
-#: mail/mail-callbacks.c:3387
+#: mail/mail-callbacks.c:3413
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -12284,7 +12429,7 @@ msgstr ""
 #: mail/mail-composer-prefs.c:223
 msgid ""
 "Please specify signature filename\n"
-"in Andvanced section of signature settings."
+"in Advanced section of signature settings."
 msgstr ""
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
@@ -12301,12 +12446,12 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: mail/mail-composer-prefs.c:875
+#: mail/mail-composer-prefs.c:880
 msgid "Add script signature"
 msgstr ""
 
 # SG
-#: mail/mail-composer-prefs.c:876
+#: mail/mail-composer-prefs.c:881
 #, fuzzy
 msgid "Add Signature"
 msgstr "SingeapÛr"
@@ -13013,73 +13158,80 @@ msgstr ""
 msgid "Could not create a S/MIME decode context."
 msgstr ""
 
-#: mail/mail-display.c:321
+#: mail/mail-display.c:194
+#, c-format
+msgid ""
+"File `%s' already exists.\n"
+"Overwrite it?"
+msgstr ""
+
+#: mail/mail-display.c:326
 msgid "Save Attachment"
 msgstr ""
 
-#: mail/mail-display.c:386
+#: mail/mail-display.c:391
 #, fuzzy, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "TeÌp ag fork: %s"
 
-#: mail/mail-display.c:432
+#: mail/mail-display.c:437
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "_Iat·n"
 
-#: mail/mail-display.c:433
+#: mail/mail-display.c:438
 msgid "View Inline"
 msgstr ""
 
-#: mail/mail-display.c:434
+#: mail/mail-display.c:439
 #, c-format
 msgid "Open in %s..."
 msgstr "Osc·il san %s..."
 
-#: mail/mail-display.c:494
+#: mail/mail-display.c:499
 #, c-format
 msgid "View Inline (via %s)"
 msgstr ""
 
-#: mail/mail-display.c:498
+#: mail/mail-display.c:503
 msgid "Hide"
 msgstr ""
 
-#: mail/mail-display.c:519
+#: mail/mail-display.c:524
 msgid "External Viewer"
 msgstr ""
 
-#: mail/mail-display.c:1319
+#: mail/mail-display.c:1320
 #, fuzzy
 msgid "Downloading images"
 msgstr "Post an sce·l seo"
 
-#: mail/mail-display.c:1496
+#: mail/mail-display.c:1497
 msgid "Loading message content"
 msgstr ""
 
-#: mail/mail-display.c:1783
+#: mail/mail-display.c:1784
 msgid "Overdue:"
 msgstr ""
 
-#: mail/mail-display.c:1787
+#: mail/mail-display.c:1788
 #, fuzzy
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%b %d %l:%M %p"
 
-#: mail/mail-display.c:2114
+#: mail/mail-display.c:2115
 msgid "Open Link in Browser"
 msgstr ""
 
-#: mail/mail-display.c:2115
+#: mail/mail-display.c:2116
 msgid "Copy Link Location"
 msgstr ""
 
-#: mail/mail-display.c:2117
+#: mail/mail-display.c:2118
 msgid "Save Link as (FIXME)"
 msgstr ""
 
-#: mail/mail-display.c:2119
+#: mail/mail-display.c:2120
 msgid "Save Image as..."
 msgstr "S·bh·il Iomha le..."
 
@@ -13787,7 +13939,7 @@ msgstr "Aibre·in"
 #: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-mail-messagedisplay.xml.h:1
+#: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
 #: ui/evolution.xml.h:5
 msgid "Close"
@@ -13827,32 +13979,6 @@ msgstr ""
 #: mail/subscribe-dialog.glade.h:11
 msgid "_Unsubscribe"
 msgstr ""
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
-msgid "Configuration control for the Evolution Summary."
-msgstr ""
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:2
-msgid "Configure the appearance of the Evolution Summary here"
-msgstr ""
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:3
-#, fuzzy
-msgid "Evolution Summary component."
-msgstr "Alairm Evolution"
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:4
-msgid "Factory for Evolution Summary's configuration control."
-msgstr ""
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:5
-msgid "Factory for the Evolution Summary component."
-msgstr ""
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:6
-#, fuzzy
-msgid "Summary Preferences"
-msgstr "Roghanna Feilire"
 
 # ##
 # ## Languages (ISO 639 code in brackets)
@@ -26514,7 +26640,7 @@ msgstr "Fillte·n _Nua"
 msgid "New..."
 msgstr "Nua..."
 
-#: shell/e-shell-folder-title-bar.c:635 shell/e-shell-folder-title-bar.c:636
+#: shell/e-shell-folder-title-bar.c:637 shell/e-shell-folder-title-bar.c:638
 msgid "(Untitled)"
 msgstr "(gan tide·l)"
 
@@ -26668,7 +26794,7 @@ msgstr "ag sioncronaich filtean"
 msgid "Synchronizing \"%s\" (%d of %d) ..."
 msgstr ""
 
-#: shell/e-shell-settings-dialog.c:326
+#: shell/e-shell-settings-dialog.c:327
 #, fuzzy
 msgid "Evolution Settings"
 msgstr "Evolution"
@@ -26708,9 +26834,9 @@ msgstr ""
 msgid "Could not start the Evolution Mailer Assistant interface\n"
 msgstr ""
 
-#: shell/e-shell-user-creatable-items-handler.c:579
-#: shell/e-shell-user-creatable-items-handler.c:633
-#: widgets/misc/e-charset-picker.c:104
+#: shell/e-shell-user-creatable-items-handler.c:583
+#: shell/e-shell-user-creatable-items-handler.c:637
+#: ui/evolution-addressbook.h:14 widgets/misc/e-charset-picker.c:104
 msgid "New"
 msgstr "_Nua"
 
@@ -27296,54 +27422,54 @@ msgstr ""
 msgid "Evolution can import data from the following files:"
 msgstr ""
 
-#: shell/main.c:96
+#: shell/main.c:98
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:102
+#: shell/main.c:104
 msgid "Evolution is now exiting ..."
 msgstr ""
 
-#: shell/main.c:277
+#: shell/main.c:330
 #, fuzzy
 msgid "Cannot access the Ximian Evolution shell."
 msgstr ""
 "Go raibh maith agat\n"
 "An Fhoireann Evolution\n"
 
-#: shell/main.c:286
+#: shell/main.c:339
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr ""
 
-#: shell/main.c:368
+#: shell/main.c:421
 msgid "Disable splash screen"
 msgstr ""
 
-#: shell/main.c:370
+#: shell/main.c:423
 msgid "Start in offline mode"
 msgstr ""
 
-#: shell/main.c:372
+#: shell/main.c:425
 msgid "Start in online mode"
 msgstr ""
 
-#: shell/main.c:374
+#: shell/main.c:427
 msgid "Send the debugging output of all components to a file."
 msgstr ""
 
-#: shell/main.c:376
+#: shell/main.c:429
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:394
+#: shell/main.c:447
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:425
+#: shell/main.c:478
 msgid "Cannot initialize the Bonobo component system."
 msgstr ""
 
@@ -27365,6 +27491,71 @@ msgstr "Comhad Aschur"
 
 #: tools/evolution-addressbook-import.c:80
 msgid "No filename provided."
+msgstr ""
+
+#.
+#. *  This file is autogenerated from evolution-addressbook.xml, do not edit
+#. *
+#. *  This file contains translatable strings generated by
+#. * bonobo-ui-extract. Add this file to your project's
+#. * POTFILES.in. DO NOT compile it as part of your application.
+#.
+#: ui/evolution-addressbook.h:9
+#, fuzzy
+msgid "_Print Contacts..."
+msgstr "_TadhallaÌ..."
+
+#: ui/evolution-addressbook.h:10
+#, fuzzy
+msgid "As _Table"
+msgstr "MÌchumasach"
+
+#: ui/evolution-addressbook.h:11
+#, fuzzy
+msgid "_New Contact"
+msgstr "Tadhall Nua"
+
+#: ui/evolution-addressbook.h:12 ui/evolution-mail-message.xml.h:113
+#: ui/evolution.xml.h:65
+msgid "_Tools"
+msgstr "_UirlisÌ"
+
+#: ui/evolution-addressbook.h:13
+#, fuzzy
+msgid "_Search for contacts"
+msgstr "_Post sce·l do Tadhall..."
+
+#: ui/evolution-addressbook.h:17
+#, fuzzy
+msgid "Find a contact"
+msgstr "Post sce·l do tadhall"
+
+#: ui/evolution-addressbook.h:19
+#, fuzzy
+msgid "Print contacts"
+msgstr "Priont·il an tadhallaÌ seo"
+
+#: ui/evolution-addressbook.h:21
+#, fuzzy
+msgid "Delete a contact"
+msgstr "Dealaigh Tadhall?"
+
+#: ui/evolution-addressbook.h:22
+msgid "View All"
+msgstr "Taidpe·in Gach Rud"
+
+#: ui/evolution-addressbook.h:23
+#, fuzzy
+msgid "View all contacts"
+msgstr "TÛg Gach tadhallaÌ"
+
+# st
+#: ui/evolution-addressbook.h:24 ui/evolution-addressbook.xml.h:26
+msgid "Stop"
+msgstr "Stad"
+
+#: ui/evolution-addressbook.h:25 ui/evolution-addressbook.xml.h:27
+msgid "Stop Loading"
 msgstr ""
 
 #: ui/evolution-addressbook.xml.h:3
@@ -27443,15 +27634,6 @@ msgstr "Post sce·l do tadhall"
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
 msgstr "Post tadhallaÌ seo do perseanta eile."
-
-# st
-#: ui/evolution-addressbook.xml.h:26
-msgid "Stop"
-msgstr "Stad"
-
-#: ui/evolution-addressbook.xml.h:27
-msgid "Stop Loading"
-msgstr ""
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "View the current contact"
@@ -27583,7 +27765,8 @@ msgstr ""
 msgid "Print this item"
 msgstr ""
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.h:11
+#: ui/evolution-message-composer.xml.h:16
 #: ui/evolution-signature-editor.xml.h:5 widgets/misc/e-filter-bar.c:155
 msgid "Save"
 msgstr "S·bh·il"
@@ -27608,7 +27791,7 @@ msgstr ""
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
-#: ui/evolution-mail-messagedisplay.xml.h:7
+#: ui/evolution-mail-messagedisplay.xml.h:7 ui/evolution-message-composer.h:31
 #: ui/evolution-message-composer.xml.h:42
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:49
@@ -27620,7 +27803,7 @@ msgid "Print En_velope..."
 msgstr ""
 
 #: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-contact-list-editor.xml.h:5 ui/evolution-message-composer.h:34
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
 msgstr "S·bh·il _Mar..."
@@ -27636,7 +27819,7 @@ msgstr "_Post sce·l do Tadhall..."
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-message-composer.h:33 ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "_S·bh·il"
@@ -28317,10 +28500,6 @@ msgstr "Sheoladh Chuig duine"
 msgid "_Resend..."
 msgstr "_Osc·il..."
 
-#: ui/evolution-mail-message.xml.h:113 ui/evolution.xml.h:65
-msgid "_Tools"
-msgstr "_UirlisÌ"
-
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Undelete"
 msgstr "_Athdealaigh"
@@ -28329,24 +28508,164 @@ msgstr "_Athdealaigh"
 msgid "Close this window"
 msgstr "D˙n an fhuinneog seo"
 
-#: ui/evolution-mail-messagedisplay.xml.h:5
+#: ui/evolution-mail-messagedisplay.xml.h:5 ui/evolution-message-composer.h:39
 #: ui/evolution-message-composer.xml.h:39
 #: ui/evolution-signature-editor.xml.h:10 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:46
 msgid "_Close"
 msgstr "_D˙n"
 
-#: ui/evolution-mail-messagedisplay.xml.h:8
+#: ui/evolution-mail-messagedisplay.xml.h:8 ui/evolution-message-composer.h:42
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:66
 msgid "_View"
 msgstr "_Radharc"
 
-#: ui/evolution-message-composer.xml.h:1
+#.
+#. *  This file is autogenerated from evolution-message-composer.xml, do not edit
+#. *
+#. *  This file contains translatable strings generated by
+#. * bonobo-ui-extract. Add this file to your project's
+#. * POTFILES.in. DO NOT compile it as part of your application.
+#.
+#: ui/evolution-message-composer.h:9 ui/evolution-message-composer.xml.h:10
+msgid "Open"
+msgstr "Osc·il"
+
+#: ui/evolution-message-composer.h:10 ui/evolution-message-composer.xml.h:11
+msgid "Open a file"
+msgstr ""
+
+#: ui/evolution-message-composer.h:12 ui/evolution-message-composer.xml.h:21
+#: ui/evolution-signature-editor.xml.h:7
+msgid "Save the current file"
+msgstr ""
+
+#: ui/evolution-message-composer.h:13 ui/evolution-message-composer.xml.h:17
+msgid "Save As"
+msgstr "S·bh·il Mar"
+
+#: ui/evolution-message-composer.h:14 ui/evolution-message-composer.xml.h:22
+msgid "Save the current file with a different name"
+msgstr ""
+
+#: ui/evolution-message-composer.h:16 ui/evolution-message-composer.xml.h:4
+#: ui/evolution-signature-editor.xml.h:2
+msgid "Close the current file"
+msgstr ""
+
+#: ui/evolution-message-composer.h:17 ui/evolution-message-composer.xml.h:20
+#, fuzzy
+msgid "Save in folder..."
+msgstr "S·bh·il 'san _fillte·n"
+
+#: ui/evolution-message-composer.h:18 ui/evolution-message-composer.xml.h:23
+msgid "Save the message in a specified folder"
+msgstr ""
+
+#: ui/evolution-message-composer.h:19
+msgid "Insert text file..."
+msgstr ""
+
+#: ui/evolution-message-composer.h:20
+msgid "Insert a file as text into the message"
+msgstr ""
+
+#: ui/evolution-message-composer.h:21 ui/evolution-message-composer.h:37
+#: ui/evolution-message-composer.xml.h:24
+msgid "Send"
+msgstr "Post"
+
+#: ui/evolution-message-composer.h:22
+#, fuzzy
+msgid "Send the message now"
+msgstr "Post an sce·l seo"
+
+#: ui/evolution-message-composer.h:23
+#, fuzzy
+msgid "Send _later"
+msgstr "Post an sce·l seo"
+
+#: ui/evolution-message-composer.h:24
+#, fuzzy
+msgid "Send the message later"
+msgstr "Post an sce·l seo"
+
+#: ui/evolution-message-composer.h:25 ui/evolution-message-composer.xml.h:1
 msgid "Attach"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
-msgid "Close the current file"
+#: ui/evolution-message-composer.h:27
+#, fuzzy
+msgid "HTML"
+msgstr "H_TML"
+
+#: ui/evolution-message-composer.h:28 ui/evolution-message-composer.xml.h:25
+#: ui/evolution-signature-editor.xml.h:9
+msgid "Send the mail in HTML format"
+msgstr "Post an sce·l seo i HTML"
+
+#: ui/evolution-message-composer.h:29 ui/evolution-message-composer.xml.h:29
+msgid "Show attachments"
+msgstr "Taispe·n iat·ni"
+
+#: ui/evolution-message-composer.h:30 ui/evolution-message-composer.xml.h:27
+#, fuzzy
+msgid "Show / hide attachments"
+msgstr "_Coinne"
+
+#: ui/evolution-message-composer.h:32 ui/evolution-message-composer.xml.h:45
+msgid "_Open..."
+msgstr "_Osc·il..."
+
+#: ui/evolution-message-composer.h:35
+msgid "Save in _folder... (FIXME)"
+msgstr "S·bh·il 'san _fillte·n..."
+
+#: ui/evolution-message-composer.h:36
+#, fuzzy
+msgid "_Insert text file... (FIXME)"
+msgstr "S·bh·il 'san _fillte·n"
+
+#: ui/evolution-message-composer.h:38
+#, fuzzy
+msgid "Send _Later"
+msgstr "Bainisteoir"
+
+#: ui/evolution-message-composer.h:41
+#, fuzzy
+msgid "F_ormat"
+msgstr "_Form·id"
+
+#: ui/evolution-message-composer.h:43 ui/evolution-message-composer.xml.h:28
+msgid "Show _attachments"
+msgstr ""
+
+#: ui/evolution-message-composer.h:44 ui/evolution-signature-editor.xml.h:13
+#: ui/evolution.xml.h:54
+msgid "_Help"
+msgstr "C_˙idi˙"
+
+#: ui/evolution-message-composer.h:45
+#, fuzzy
+msgid "_About..."
+msgstr "Faoi..."
+
+#: ui/evolution-message-composer.h:46
+msgid "_Debug"
+msgstr ""
+
+#: ui/evolution-message-composer.h:47
+#, fuzzy
+msgid "Send this message now"
+msgstr "Post an sce·l seo"
+
+#: ui/evolution-message-composer.h:48
+#, fuzzy
+msgid "Bold"
+msgstr "G˙than PÛca"
+
+#: ui/evolution-message-composer.h:49
+msgid "Sets something as bold"
 msgstr ""
 
 #: ui/evolution-message-composer.xml.h:5
@@ -28370,14 +28689,6 @@ msgstr "_Form·id"
 msgid "HT_ML"
 msgstr "H_TML"
 
-#: ui/evolution-message-composer.xml.h:10
-msgid "Open"
-msgstr "Osc·il"
-
-#: ui/evolution-message-composer.xml.h:11
-msgid "Open a file"
-msgstr ""
-
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
 msgstr ""
@@ -28394,58 +28705,14 @@ msgstr ""
 msgid "S/MIME Sign"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:17
-msgid "Save As"
-msgstr "S·bh·il Mar"
-
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
 msgstr ""
-
-#: ui/evolution-message-composer.xml.h:20
-#, fuzzy
-msgid "Save in folder..."
-msgstr "S·bh·il 'san _fillte·n"
-
-#: ui/evolution-message-composer.xml.h:21
-#: ui/evolution-signature-editor.xml.h:7
-msgid "Save the current file"
-msgstr ""
-
-#: ui/evolution-message-composer.xml.h:22
-msgid "Save the current file with a different name"
-msgstr ""
-
-#: ui/evolution-message-composer.xml.h:23
-msgid "Save the message in a specified folder"
-msgstr ""
-
-#: ui/evolution-message-composer.xml.h:24
-msgid "Send"
-msgstr "Post"
-
-#: ui/evolution-message-composer.xml.h:25
-#: ui/evolution-signature-editor.xml.h:9
-msgid "Send the mail in HTML format"
-msgstr "Post an sce·l seo i HTML"
 
 #: ui/evolution-message-composer.xml.h:26
 #, fuzzy
 msgid "Send this message"
 msgstr "Post an sce·l seo"
-
-#: ui/evolution-message-composer.xml.h:27
-#, fuzzy
-msgid "Show / hide attachments"
-msgstr "_Coinne"
-
-#: ui/evolution-message-composer.xml.h:28
-msgid "Show _attachments"
-msgstr ""
-
-#: ui/evolution-message-composer.xml.h:29
-msgid "Show attachments"
-msgstr "Taispe·n iat·ni"
 
 #: ui/evolution-message-composer.xml.h:30
 #, fuzzy
@@ -28498,10 +28765,6 @@ msgstr ""
 msgid "_Insert"
 msgstr ""
 
-#: ui/evolution-message-composer.xml.h:45
-msgid "_Open..."
-msgstr "_Osc·il..."
-
 #: ui/evolution-message-composer.xml.h:46
 msgid "_Reply-To Field"
 msgstr ""
@@ -28517,10 +28780,6 @@ msgstr "H_TML"
 #: ui/evolution-signature-editor.xml.h:8
 msgid "Save the current file and close the window"
 msgstr ""
-
-#: ui/evolution-signature-editor.xml.h:13 ui/evolution.xml.h:54
-msgid "_Help"
-msgstr "C_˙idi˙"
 
 # SG
 #: ui/evolution-signature-editor.xml.h:16
@@ -29167,6 +29426,14 @@ msgstr ""
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr ""
 
+#, fuzzy
+#~ msgid "Evolution Summary component."
+#~ msgstr "Alairm Evolution"
+
+#, fuzzy
+#~ msgid "Summary Preferences"
+#~ msgstr "Roghanna Feilire"
+
 #~ msgid ""
 #~ "Thanks\n"
 #~ "The Ximian Evolution Team\n"
@@ -29304,10 +29571,6 @@ msgstr ""
 
 #~ msgid "Evolution - Create new folder"
 #~ msgstr "Evolution - Cruthaigh fillte·n nua"
-
-#, fuzzy
-#~ msgid "Send the message later"
-#~ msgstr "Post an sce·l seo"
 
 #, fuzzy
 #~ msgid "_Pilot Settings..."
@@ -29799,17 +30062,11 @@ msgstr ""
 #~ msgid "Background:"
 #~ msgstr "D˙lra:"
 
-#~ msgid "View All"
-#~ msgstr "Taidpe·in Gach Rud"
-
 #~ msgid "_Day"
 #~ msgstr "_L·"
 
 #~ msgid "_Open Calendar"
 #~ msgstr "_Osc·il Feilire"
-
-#~ msgid "About..."
-#~ msgstr "Faoi..."
 
 #~ msgid "Address _Book... (FIXME)"
 #~ msgstr "Leabhair Sheolaidh"
@@ -29830,9 +30087,6 @@ msgstr ""
 #~ msgid "_Mail Message (FIXME)"
 #~ msgstr "_Post sce·l"
 
-#~ msgid "_Move to Folder... (FIXME)"
-#~ msgstr "S·bh·il 'san _fillte·n"
-
 #~ msgid "_Note (FIXME)"
 #~ msgstr "_Nota"
 
@@ -29844,9 +30098,6 @@ msgstr ""
 
 #~ msgid "_Reply"
 #~ msgstr "_Freagrair"
-
-#~ msgid "Save in _folder... (FIXME)"
-#~ msgstr "S·bh·il 'san _fillte·n..."
 
 #~ msgid "_Appointment (FIXME)"
 #~ msgstr "_Coinne"

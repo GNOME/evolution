@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
-"POT-Creation-Date: 2002-11-06 16:04-0500\n"
+"POT-Creation-Date: 2002-12-05 17:57-0500\n"
 "PO-Revision-Date: 2002-01-30 02:21+03:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team:  <ru@li.org>\n"
@@ -47,7 +47,7 @@ msgid "Email"
 msgstr "Эл.адрес"
 
 #: addressbook/backend/ebook/e-card-simple.c:63
-#: addressbook/gui/contact-editor/e-contact-editor.c:1756
+#: addressbook/gui/contact-editor/e-contact-editor.c:1759
 msgid "Primary"
 msgstr "Основной"
 
@@ -57,7 +57,7 @@ msgstr "Осн."
 
 #: addressbook/backend/ebook/e-card-simple.c:64
 #: addressbook/backend/ebook/e-card-simple.c:94
-#: addressbook/gui/contact-editor/e-contact-editor.c:1741
+#: addressbook/gui/contact-editor/e-contact-editor.c:1744
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:2
 msgid "Assistant"
 msgstr "Помощник"
@@ -65,8 +65,8 @@ msgstr "Помощник"
 #: addressbook/backend/ebook/e-card-simple.c:65
 #: addressbook/backend/ebook/e-card-simple.c:70
 #: addressbook/gui/contact-editor/contact-editor.glade.h:5
-#: addressbook/gui/contact-editor/e-contact-editor.c:1742
-#: addressbook/gui/contact-editor/e-contact-editor.c:1809
+#: addressbook/gui/contact-editor/e-contact-editor.c:1745
+#: addressbook/gui/contact-editor/e-contact-editor.c:1812
 msgid "Business"
 msgstr "Рабочий"
 
@@ -76,12 +76,12 @@ msgid "Bus"
 msgstr "Раб."
 
 #: addressbook/backend/ebook/e-card-simple.c:66
-#: addressbook/gui/contact-editor/e-contact-editor.c:1745
+#: addressbook/gui/contact-editor/e-contact-editor.c:1748
 msgid "Callback"
 msgstr "Обратный звонок"
 
 #: addressbook/backend/ebook/e-card-simple.c:67
-#: addressbook/gui/contact-editor/e-contact-editor.c:1747
+#: addressbook/gui/contact-editor/e-contact-editor.c:1750
 msgid "Company"
 msgstr "Компания"
 
@@ -92,8 +92,8 @@ msgstr "Комп."
 #: addressbook/backend/ebook/e-card-simple.c:68
 #: addressbook/backend/ebook/e-card-simple.c:71
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
-#: addressbook/gui/contact-editor/e-contact-editor.c:1748
-#: addressbook/gui/contact-editor/e-contact-editor.c:1810
+#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1813
 msgid "Home"
 msgstr "Домашний"
 
@@ -108,18 +108,18 @@ msgstr "Орг."
 
 #: addressbook/backend/ebook/e-card-simple.c:72
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
-#: addressbook/gui/contact-editor/e-contact-editor.c:1752
+#: addressbook/gui/contact-editor/e-contact-editor.c:1755
 msgid "Mobile"
 msgstr "Мобильный"
 
 #: addressbook/backend/ebook/e-card-simple.c:73
-#: addressbook/gui/contact-editor/e-contact-editor.c:1746
+#: addressbook/gui/contact-editor/e-contact-editor.c:1749
 msgid "Car"
 msgstr "Автомобиль"
 
 #: addressbook/backend/ebook/e-card-simple.c:74
 #: addressbook/gui/contact-editor/contact-editor.glade.h:6
-#: addressbook/gui/contact-editor/e-contact-editor.c:1744
+#: addressbook/gui/contact-editor/e-contact-editor.c:1747
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:5
 msgid "Business Fax"
 msgstr "Рабочий факс"
@@ -129,13 +129,13 @@ msgid "Bus Fax"
 msgstr "Раб. факс"
 
 #: addressbook/backend/ebook/e-card-simple.c:75
-#: addressbook/gui/contact-editor/e-contact-editor.c:1750
+#: addressbook/gui/contact-editor/e-contact-editor.c:1753
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:19
 msgid "Home Fax"
 msgstr "Домашний Факс"
 
 #: addressbook/backend/ebook/e-card-simple.c:76
-#: addressbook/gui/contact-editor/e-contact-editor.c:1743
+#: addressbook/gui/contact-editor/e-contact-editor.c:1746
 msgid "Business 2"
 msgstr "Рабочий 2"
 
@@ -144,43 +144,43 @@ msgid "Bus 2"
 msgstr "Раб. 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:77
-#: addressbook/gui/contact-editor/e-contact-editor.c:1749
+#: addressbook/gui/contact-editor/e-contact-editor.c:1752
 msgid "Home 2"
 msgstr "Домашний 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:78
-#: addressbook/gui/contact-editor/e-contact-editor.c:1751
+#: addressbook/gui/contact-editor/e-contact-editor.c:1754
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:22
 msgid "ISDN"
 msgstr "ISDN"
 
 #: addressbook/backend/ebook/e-card-simple.c:79
 #: addressbook/backend/ebook/e-card-simple.c:85
-#: addressbook/gui/contact-editor/e-contact-editor.c:1753
-#: addressbook/gui/contact-editor/e-contact-editor.c:1811
+#: addressbook/gui/contact-editor/e-contact-editor.c:1756
+#: addressbook/gui/contact-editor/e-contact-editor.c:1814
 msgid "Other"
 msgstr "Другие"
 
 #: addressbook/backend/ebook/e-card-simple.c:80
-#: addressbook/gui/contact-editor/e-contact-editor.c:1754
+#: addressbook/gui/contact-editor/e-contact-editor.c:1757
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:30
 msgid "Other Fax"
 msgstr "Другой факс"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
-#: addressbook/gui/contact-editor/e-contact-editor.c:1755
+#: addressbook/gui/contact-editor/e-contact-editor.c:1758
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:32
 msgid "Pager"
 msgstr "Пэйджер"
 
 #: addressbook/backend/ebook/e-card-simple.c:82
-#: addressbook/gui/contact-editor/e-contact-editor.c:1757
+#: addressbook/gui/contact-editor/e-contact-editor.c:1760
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:35
 msgid "Radio"
 msgstr "Радио"
 
 #: addressbook/backend/ebook/e-card-simple.c:83
-#: addressbook/gui/contact-editor/e-contact-editor.c:1758
+#: addressbook/gui/contact-editor/e-contact-editor.c:1761
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:38
 msgid "Telex"
 msgstr "Телекс"
@@ -192,14 +192,14 @@ msgstr "TTY"
 
 #: addressbook/backend/ebook/e-card-simple.c:86
 #: addressbook/gui/component/e-address-popup.c:484
-#: addressbook/gui/contact-editor/e-contact-editor.c:1784
+#: addressbook/gui/contact-editor/e-contact-editor.c:1787
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:13
 msgid "Email 2"
 msgstr "Эл.адрес 2"
 
 #: addressbook/backend/ebook/e-card-simple.c:87
 #: addressbook/gui/component/e-address-popup.c:494
-#: addressbook/gui/contact-editor/e-contact-editor.c:1785
+#: addressbook/gui/contact-editor/e-contact-editor.c:1788
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:14
 msgid "Email 3"
 msgstr "Эл.адрес 3"
@@ -351,7 +351,7 @@ msgid "Could not initialize Bonobo"
 msgstr "Не удалось инициализировать Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:364
-#: addressbook/backend/pas/pas-backend-ldap.c:2978
+#: addressbook/backend/pas/pas-backend-ldap.c:3010
 msgid "Searching..."
 msgstr "Поиск..."
 
@@ -359,29 +359,29 @@ msgstr "Поиск..."
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:687
+#: addressbook/backend/pas/pas-backend-ldap.c:719
 #, fuzzy
 msgid "Reconnecting to LDAP server..."
 msgstr "Подключение к серверу LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1230
+#: addressbook/backend/pas/pas-backend-ldap.c:1262
 msgid "Adding card to LDAP server..."
 msgstr "Создание карточки на сервере LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1336
+#: addressbook/backend/pas/pas-backend-ldap.c:1368
 msgid "Removing card from LDAP server..."
 msgstr "Удаление карточки с сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:1572
-#: addressbook/backend/pas/pas-backend-ldap.c:1575
+#: addressbook/backend/pas/pas-backend-ldap.c:1604
+#: addressbook/backend/pas/pas-backend-ldap.c:1607
 msgid "Modifying card from LDAP server..."
 msgstr "Изменение карточки на сервере LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2889
+#: addressbook/backend/pas/pas-backend-ldap.c:2921
 msgid "Receiving LDAP search results..."
 msgstr "Получение результатов поиска с сервера LDAP..."
 
-#: addressbook/backend/pas/pas-backend-ldap.c:2998
+#: addressbook/backend/pas/pas-backend-ldap.c:3030
 msgid "Error performing search"
 msgstr "Ошибка при выполнении поиска"
 
@@ -513,6 +513,7 @@ msgid "_Contact"
 msgstr "Контакт"
 
 #: addressbook/gui/component/addressbook-component.c:568
+#: ui/evolution-addressbook.h:15
 #, fuzzy
 msgid "Create a new contact"
 msgstr "Создать новый контакт"
@@ -730,7 +731,7 @@ msgstr "(нет)"
 
 #: addressbook/gui/component/e-address-popup.c:474
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
-#: addressbook/gui/contact-editor/e-contact-editor.c:1783
+#: addressbook/gui/contact-editor/e-contact-editor.c:1786
 msgid "Primary Email"
 msgstr "Основной эл.адрес"
 
@@ -1241,7 +1242,7 @@ msgstr ""
 #: addressbook/gui/component/ldap-config.glade.h:118 filter/filter.glade.h:16
 #: mail/mail-config.glade.h:150 ui/evolution-addressbook.xml.h:33
 #: ui/evolution-calendar.xml.h:28 ui/evolution-mail-list.xml.h:25
-#: ui/evolution-mail-messagedisplay.xml.h:6
+#: ui/evolution-mail-messagedisplay.xml.h:6 ui/evolution-message-composer.h:40
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:11 ui/evolution-subscribe.xml.h:10
 #: ui/evolution-tasks.xml.h:17
@@ -1358,7 +1359,7 @@ msgstr "Фабрика для интерфейса выбора имени в адресной книге."
 
 #. Fixme: Ditto
 #: addressbook/gui/component/select-names/e-select-names-popup.c:163
-#: addressbook/gui/component/select-names/e-select-names.c:699
+#: addressbook/gui/component/select-names/e-select-names.c:707
 #: composer/e-msg-composer-attachment-bar.c:519 filter/filter-filter.c:462
 #: filter/filter-rule.c:681 my-evolution/e-summary-shown.c:538
 #: shell/e-shortcuts-view.c:178
@@ -1390,40 +1391,46 @@ msgstr "(%d не показано)"
 msgid "Unnamed Contact"
 msgstr "Безымянный контакт"
 
-#: addressbook/gui/component/select-names/e-select-names.c:503
+#: addressbook/gui/component/select-names/e-select-names.c:509
 msgid "Select Contacts from Addressbook"
 msgstr "Выбрать контакты из адресной книги"
 
-#: addressbook/gui/component/select-names/e-select-names.c:564
+#: addressbook/gui/component/select-names/e-select-names.c:572
 #, fuzzy
 msgid "Find contact in"
 msgstr "\"Отправитель\" содержит"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:1
+#: ui/evolution-addressbook.h:16
+#, fuzzy
+msgid "Find"
+msgstr "Поиск:"
+
+#: addressbook/gui/component/select-names/select-names.glade.h:2
 msgid "Select Names"
 msgstr "Выбрать имена"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:2
+#: addressbook/gui/component/select-names/select-names.glade.h:3
 #, fuzzy
 msgid "Selected Contacts:"
 msgstr "Удалить контакт?"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:3
+#: addressbook/gui/component/select-names/select-names.glade.h:4
 #, fuzzy
 msgid "Show Contacts"
 msgstr "Контакты"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:4
+#: addressbook/gui/component/select-names/select-names.glade.h:5
 msgid ""
 "Type a name into the entry, or\n"
 "select one from the list below:"
 msgstr ""
 
-#: addressbook/gui/component/select-names/select-names.glade.h:6
+#: addressbook/gui/component/select-names/select-names.glade.h:7
 msgid "_Category:"
 msgstr "Категория:"
 
-#: addressbook/gui/component/select-names/select-names.glade.h:7
+#: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Folder:"
 msgstr "Папка:"
 
@@ -2606,11 +2613,11 @@ msgstr "Этот контакт принадлежит следующим категориям:"
 msgid "Save Contact as VCard"
 msgstr "Сохранить как VCard"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:1759
+#: addressbook/gui/contact-editor/e-contact-editor.c:1762
 msgid "TTY/TDD"
 msgstr "TTY/TDD"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2440
+#: addressbook/gui/contact-editor/e-contact-editor.c:2455
 #, c-format
 msgid "Could not find widget for a field: `%s'"
 msgstr "Не удалось удалить найти элемент управления для поля: \"%s\""
@@ -3059,9 +3066,9 @@ msgid "Send Message to Contact"
 msgstr "Отправить сообщение к контакту"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:816
-#: ui/evolution-addressbook.xml.h:16 ui/evolution-comp-editor.xml.h:8
-#: ui/evolution-contact-editor.xml.h:4 ui/evolution-mail-message.xml.h:67
-#: ui/my-evolution.xml.h:1
+#: ui/evolution-addressbook.h:18 ui/evolution-addressbook.xml.h:16
+#: ui/evolution-comp-editor.xml.h:8 ui/evolution-contact-editor.xml.h:4
+#: ui/evolution-mail-message.xml.h:67 ui/my-evolution.xml.h:1
 msgid "Print"
 msgstr "Напечатать"
 
@@ -3095,8 +3102,8 @@ msgstr "Вставить"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:829 filter/libfilter-i18n.h:11
 #: mail/mail-accounts.c:227 shell/e-shell-folder-commands.c:411
-#: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
-#: ui/evolution-contact-editor.xml.h:2
+#: ui/evolution-addressbook.h:20 ui/evolution-addressbook.xml.h:8
+#: ui/evolution-comp-editor.xml.h:4 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2 ui/evolution-mail-message.xml.h:20
 msgid "Delete"
 msgstr "Удалить"
@@ -3593,7 +3600,7 @@ msgstr ""
 "напоминания."
 
 #: calendar/gui/alarm-notify/alarm-queue.c:759
-#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2898
+#: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr "Предупреждение"
@@ -3754,7 +3761,7 @@ msgstr ""
 #: calendar/gui/dialogs/meeting-page.glade.h:1 composer/e-msg-composer.c:1967
 #: mail/folder-browser.c:1718 mail/mail-account-gui.c:1230
 #: mail/mail-account-gui.c:1650 mail/mail-accounts.c:453
-#: mail/mail-accounts.c:462 mail/mail-config.glade.h:77
+#: mail/mail-accounts.c:468 mail/mail-config.glade.h:77
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:204
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
@@ -3770,13 +3777,13 @@ msgid "Assigned"
 msgstr "Назначено"
 
 #: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:302
-#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:568
-#: calendar/gui/e-meeting-model.c:862
+#: calendar/gui/e-meeting-model.c:312 calendar/gui/e-meeting-model.c:569
+#: calendar/gui/e-meeting-model.c:863
 msgid "Yes"
 msgstr "Да"
 
 #: calendar/gui/calendar-model.c:1731 calendar/gui/e-meeting-model.c:314
-#: calendar/gui/e-meeting-model.c:863
+#: calendar/gui/e-meeting-model.c:864
 msgid "No"
 msgstr "Нет"
 
@@ -4102,7 +4109,7 @@ msgstr "Напоминания"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:7
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
-#: calendar/gui/e-itip-control.c:834 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:1027 calendar/gui/e-itip-control.glade.h:11
 msgid "Summary:"
 msgstr "Коротко:"
 
@@ -4185,6 +4192,7 @@ msgstr "Дни"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 #: calendar/gui/dialogs/recurrence-page.c:1135
+#: calendar/gui/e-itip-control.c:655
 msgid "Friday"
 msgstr "Пятница"
 
@@ -4198,6 +4206,7 @@ msgstr "Минуты"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #: calendar/gui/dialogs/recurrence-page.c:1131
+#: calendar/gui/e-itip-control.c:651
 msgid "Monday"
 msgstr "Понедельник"
 
@@ -4208,6 +4217,7 @@ msgstr "Вск"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: calendar/gui/dialogs/recurrence-page.c:1136
+#: calendar/gui/e-itip-control.c:656
 msgid "Saturday"
 msgstr "Суббота"
 
@@ -4221,6 +4231,7 @@ msgstr "Показывать номера недель в навигаторе по датам"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 #: calendar/gui/dialogs/recurrence-page.c:1137
+#: calendar/gui/e-itip-control.c:650
 msgid "Sunday"
 msgstr "Воскресенье"
 
@@ -4238,6 +4249,7 @@ msgstr "Список задач"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1134
+#: calendar/gui/e-itip-control.c:654
 msgid "Thursday"
 msgstr "Четверг"
 
@@ -4255,6 +4267,7 @@ msgstr "Формат времени:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1132
+#: calendar/gui/e-itip-control.c:652
 msgid "Tuesday"
 msgstr "Вторник"
 
@@ -4264,6 +4277,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1133
+#: calendar/gui/e-itip-control.c:653
 msgid "Wednesday"
 msgstr "Среда"
 
@@ -4422,6 +4436,11 @@ msgstr "%s Вы сделали изменения. Отменить их?"
 msgid "%s  You have made no changes, update the editor?"
 msgstr "%s Вы ничего не изменили. Обновить редактор?"
 
+#: calendar/gui/dialogs/comp-editor-page.c:414
+#, fuzzy, c-format
+msgid "Validation error: %s"
+msgstr "Неизвестная ошибка: %s"
+
 #: calendar/gui/dialogs/comp-editor-util.c:188 calendar/gui/print.c:2208
 msgid " to "
 msgstr " к "
@@ -4568,15 +4587,33 @@ msgstr "Повторение"
 
 #: calendar/gui/dialogs/event-editor.c:232
 #: calendar/gui/dialogs/event-editor.c:299
-#: calendar/gui/dialogs/event-editor.c:433
+#: calendar/gui/dialogs/event-editor.c:435
 msgid "Scheduling"
 msgstr "Планировка"
 
 #: calendar/gui/dialogs/event-editor.c:237
 #: calendar/gui/dialogs/event-editor.c:302
-#: calendar/gui/dialogs/event-editor.c:436 ui/evolution-event-editor.xml.h:6
+#: calendar/gui/dialogs/event-editor.c:438 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
 msgstr "Совещание"
+
+#: calendar/gui/dialogs/event-page.c:656 calendar/gui/dialogs/task-page.c:567
+#, fuzzy
+msgid "Start date is wrong"
+msgstr "Дата начала"
+
+#: calendar/gui/dialogs/event-page.c:666
+msgid "End date is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/event-page.c:689
+#, fuzzy
+msgid "Start time is wrong"
+msgstr "Время начала:"
+
+#: calendar/gui/dialogs/event-page.c:696
+msgid "End time is wrong"
+msgstr ""
 
 #: calendar/gui/dialogs/event-page.glade.h:1
 msgid "A_ll day event"
@@ -4700,7 +4737,7 @@ msgid "Member"
 msgstr "Член"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:958
+#: calendar/gui/e-itip-control.c:1151
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr ""
@@ -4741,16 +4778,20 @@ msgstr "Пригласить других..."
 #: calendar/gui/dialogs/recurrence-page.c:126
 #: calendar/gui/dialogs/recurrence-page.c:146
 #: calendar/gui/dialogs/recurrence-page.c:156
+#: calendar/gui/e-itip-control.c:603 calendar/gui/e-itip-control.c:623
+#: calendar/gui/e-itip-control.c:633
 msgid "st"
 msgstr "-ое"
 
 #: calendar/gui/dialogs/recurrence-page.c:127
 #: calendar/gui/dialogs/recurrence-page.c:147
+#: calendar/gui/e-itip-control.c:604 calendar/gui/e-itip-control.c:624
 msgid "nd"
 msgstr "-ое"
 
 #: calendar/gui/dialogs/recurrence-page.c:128
 #: calendar/gui/dialogs/recurrence-page.c:148
+#: calendar/gui/e-itip-control.c:605 calendar/gui/e-itip-control.c:625
 msgid "rd"
 msgstr "-ье"
 
@@ -4778,6 +4819,18 @@ msgstr "-ье"
 #: calendar/gui/dialogs/recurrence-page.c:153
 #: calendar/gui/dialogs/recurrence-page.c:154
 #: calendar/gui/dialogs/recurrence-page.c:155
+#: calendar/gui/e-itip-control.c:606 calendar/gui/e-itip-control.c:607
+#: calendar/gui/e-itip-control.c:608 calendar/gui/e-itip-control.c:609
+#: calendar/gui/e-itip-control.c:610 calendar/gui/e-itip-control.c:611
+#: calendar/gui/e-itip-control.c:612 calendar/gui/e-itip-control.c:613
+#: calendar/gui/e-itip-control.c:614 calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:616 calendar/gui/e-itip-control.c:617
+#: calendar/gui/e-itip-control.c:618 calendar/gui/e-itip-control.c:619
+#: calendar/gui/e-itip-control.c:620 calendar/gui/e-itip-control.c:621
+#: calendar/gui/e-itip-control.c:622 calendar/gui/e-itip-control.c:626
+#: calendar/gui/e-itip-control.c:627 calendar/gui/e-itip-control.c:628
+#: calendar/gui/e-itip-control.c:629 calendar/gui/e-itip-control.c:630
+#: calendar/gui/e-itip-control.c:631 calendar/gui/e-itip-control.c:632
 msgid "th"
 msgstr "ый"
 
@@ -4907,6 +4960,11 @@ msgstr ""
 msgid "The task information has changed. Send an updated version?"
 msgstr "Информация о задаче была изменена. Отправить обновлённую версию?"
 
+#: calendar/gui/dialogs/task-details-page.c:420
+#, fuzzy
+msgid "Completed date is wrong"
+msgstr "Выполнено "
+
 #: calendar/gui/dialogs/task-details-page.glade.h:2
 #: calendar/gui/e-calendar-table.etspec.h:2
 #, no-c-format
@@ -4919,7 +4977,7 @@ msgstr "Дата выполнения:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
-#: calendar/gui/e-meeting-model.c:574 calendar/gui/e-meeting-model.c:875
+#: calendar/gui/e-meeting-model.c:575 calendar/gui/e-meeting-model.c:876
 msgid "Needs Action"
 msgstr "Необходимое действие"
 
@@ -4950,7 +5008,11 @@ msgstr "Основные"
 msgid "Assignment"
 msgstr "Назначение"
 
-#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:888
+#: calendar/gui/dialogs/task-page.c:540
+msgid "Due date is wrong"
+msgstr ""
+
+#: calendar/gui/dialogs/task-page.glade.h:5 calendar/gui/e-itip-control.c:1081
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:2 mail/mail-config.glade.h:42
 msgid "Description:"
@@ -5083,12 +5145,12 @@ msgstr "Пометить выбранные задачи как выполненные"
 msgid "_Delete Selected Tasks"
 msgstr "Удалить выбранные задачи"
 
-#: calendar/gui/e-calendar-table.c:1277 calendar/gui/e-day-view.c:7585
-#: calendar/gui/e-week-view.c:4240
+#: calendar/gui/e-calendar-table.c:1278 calendar/gui/e-day-view.c:7586
+#: calendar/gui/e-week-view.c:4241
 msgid "Updating objects"
 msgstr "Обновление объектов"
 
-#: calendar/gui/e-calendar-table.c:1360
+#: calendar/gui/e-calendar-table.c:1361
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Щёлкните здесь чтобы добавить задачу"
@@ -5261,409 +5323,486 @@ msgstr "Удалить это вхождение"
 msgid "Delete _All Occurrences"
 msgstr "Удалить все вхождения"
 
-#: calendar/gui/e-itip-control.c:615
+#: calendar/gui/e-itip-control.c:684
+#, fuzzy
+msgid "Yes. (Complex Recurrence)"
+msgstr "Простое повторение"
+
+#: calendar/gui/e-itip-control.c:696
+#, fuzzy
+msgid "Every day"
+msgstr "Каждый"
+
+#: calendar/gui/e-itip-control.c:698
+#, fuzzy, c-format
+msgid "Every %d days"
+msgstr "%d дней"
+
+#: calendar/gui/e-itip-control.c:704
+#, fuzzy
+msgid "Every week"
+msgstr "Каждый"
+
+#: calendar/gui/e-itip-control.c:706
+#, fuzzy, c-format
+msgid "Every %d weeks"
+msgstr "%d недель"
+
+#: calendar/gui/e-itip-control.c:709
+msgid "Every week on "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:711
+#, fuzzy, c-format
+msgid "Every %d weeks on "
+msgstr "%d недель"
+
+#: calendar/gui/e-itip-control.c:719
+msgid " and "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:726
+#, c-format
+msgid "The %s day of "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:739
+#, c-format
+msgid "The %s %s of "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:744
+#, fuzzy
+msgid "every month"
+msgstr "Один месяц"
+
+#: calendar/gui/e-itip-control.c:749
+#, c-format
+msgid "every %d months"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:755
+#, fuzzy
+msgid "Every year"
+msgstr "Каждый"
+
+#: calendar/gui/e-itip-control.c:757
+#, c-format
+msgid "Every %d years"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:769
+#, c-format
+msgid " a total of %d times"
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:777
+msgid ", ending on "
+msgstr ""
+
+#: calendar/gui/e-itip-control.c:801
 msgid "<b>Starts:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:625
+#: calendar/gui/e-itip-control.c:811
 msgid "<b>Ends:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:638
+#: calendar/gui/e-itip-control.c:831
 #, fuzzy
 msgid "<b>Completed:</b> "
 msgstr "Выполнено "
 
-#: calendar/gui/e-itip-control.c:648
+#: calendar/gui/e-itip-control.c:841
 msgid "<b>Due:</b> "
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:685 calendar/gui/e-itip-control.c:735
+#: calendar/gui/e-itip-control.c:878 calendar/gui/e-itip-control.c:928
 #, fuzzy
 msgid "iCalendar Information"
 msgstr "информация календаря"
 
 #. Title
-#: calendar/gui/e-itip-control.c:700
+#: calendar/gui/e-itip-control.c:893
 #, fuzzy
 msgid "iCalendar Error"
 msgstr "Календарь"
 
-#: calendar/gui/e-itip-control.c:766 calendar/gui/e-itip-control.c:782
-#: calendar/gui/e-itip-control.c:793 calendar/gui/e-itip-control.c:810
+#: calendar/gui/e-itip-control.c:959 calendar/gui/e-itip-control.c:975
+#: calendar/gui/e-itip-control.c:986 calendar/gui/e-itip-control.c:1003
 #, fuzzy
 msgid "An unknown person"
 msgstr "Неизвестная причина"
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:817
+#: calendar/gui/e-itip-control.c:1010
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:832
+#: calendar/gui/e-itip-control.c:1025
 msgid "<i>None</i>"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:842
+#: calendar/gui/e-itip-control.c:1035
 #, fuzzy
 msgid "Location:"
 msgstr "Геогр.расположение: "
 
-#: calendar/gui/e-itip-control.c:856
+#: calendar/gui/e-itip-control.c:1049
 #, fuzzy
 msgid "Status:"
 msgstr "Состояние:"
 
-#: calendar/gui/e-itip-control.c:861 calendar/gui/e-meeting-model.c:322
-#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:876
+#: calendar/gui/e-itip-control.c:1054 calendar/gui/e-meeting-model.c:322
+#: calendar/gui/e-meeting-model.c:345 calendar/gui/e-meeting-model.c:877
 #: calendar/gui/itip-utils.c:490
 msgid "Accepted"
 msgstr "Принято"
 
-#: calendar/gui/e-itip-control.c:865 calendar/gui/itip-utils.c:493
+#: calendar/gui/e-itip-control.c:1058 calendar/gui/itip-utils.c:493
 #, fuzzy
 msgid "Tentatively Accepted"
 msgstr "Экспериментальный"
 
-#: calendar/gui/e-itip-control.c:869 calendar/gui/e-meeting-model.c:324
-#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:877
+#: calendar/gui/e-itip-control.c:1062 calendar/gui/e-meeting-model.c:324
+#: calendar/gui/e-meeting-model.c:347 calendar/gui/e-meeting-model.c:878
 #: calendar/gui/itip-utils.c:496 calendar/gui/itip-utils.c:522
 msgid "Declined"
 msgstr "Отклонено"
 
-#: calendar/gui/e-itip-control.c:873 calendar/gui/e-itip-control.c:1079
+#: calendar/gui/e-itip-control.c:1066 calendar/gui/e-itip-control.c:1272
 #: calendar/gui/e-meeting-model.c:258 calendar/gui/e-meeting-model.c:293
-#: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:834
-#: calendar/gui/e-meeting-model.c:850 camel/camel-tcp-stream-openssl.c:629
+#: calendar/gui/e-meeting-model.c:358 calendar/gui/e-meeting-model.c:835
+#: calendar/gui/e-meeting-model.c:851 camel/camel-tcp-stream-openssl.c:629
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/folder-browser.c:327
-#: mail/mail-display.c:896 widgets/misc/e-charset-picker.c:58
+#: mail/mail-display.c:901 widgets/misc/e-charset-picker.c:58
 #: widgets/misc/e-charset-picker.c:444
 msgid "Unknown"
 msgstr "Неизвестное"
 
-#: calendar/gui/e-itip-control.c:926 calendar/gui/e-itip-control.c:954
-#: calendar/gui/e-itip-control.c:980 calendar/gui/e-itip-control.c:993
-#: calendar/gui/e-itip-control.c:1006 calendar/gui/e-itip-control.c:1019
+#: calendar/gui/e-itip-control.c:1119 calendar/gui/e-itip-control.c:1147
+#: calendar/gui/e-itip-control.c:1173 calendar/gui/e-itip-control.c:1186
+#: calendar/gui/e-itip-control.c:1199 calendar/gui/e-itip-control.c:1212
 #, fuzzy
 msgid "Choose an action:"
 msgstr "Выбрать действие"
 
-#: calendar/gui/e-itip-control.c:927
+#: calendar/gui/e-itip-control.c:1120
 #, fuzzy
 msgid "Update"
 msgstr "Обновить сейчас"
 
-#: calendar/gui/e-itip-control.c:928 calendar/gui/e-itip-control.c:959
-#: calendar/gui/e-itip-control.c:982 calendar/gui/e-itip-control.c:995
-#: calendar/gui/e-itip-control.c:1008 calendar/gui/e-itip-control.c:1021
+#: calendar/gui/e-itip-control.c:1121 calendar/gui/e-itip-control.c:1152
+#: calendar/gui/e-itip-control.c:1175 calendar/gui/e-itip-control.c:1188
+#: calendar/gui/e-itip-control.c:1201 calendar/gui/e-itip-control.c:1214
 #: shell/e-shell.c:2176 widgets/misc/e-cell-date-edit.c:258
 msgid "OK"
 msgstr "Ок"
 
-#: calendar/gui/e-itip-control.c:955
+#: calendar/gui/e-itip-control.c:1148
 #, fuzzy
 msgid "Accept"
 msgstr "Принято"
 
-#: calendar/gui/e-itip-control.c:956
+#: calendar/gui/e-itip-control.c:1149
 #, fuzzy
 msgid "Tentatively accept"
 msgstr "Экспериментальный"
 
-#: calendar/gui/e-itip-control.c:957
+#: calendar/gui/e-itip-control.c:1150
 #, fuzzy
 msgid "Decline"
 msgstr "Отклонено"
 
-#: calendar/gui/e-itip-control.c:981
+#: calendar/gui/e-itip-control.c:1174
 #, fuzzy
 msgid "Send Free/Busy Information"
 msgstr "Опубликовать информацию о занятости"
 
-#: calendar/gui/e-itip-control.c:994
+#: calendar/gui/e-itip-control.c:1187
 msgid "Update respondent status"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1007
+#: calendar/gui/e-itip-control.c:1200
 #, fuzzy
 msgid "Send Latest Information"
 msgstr "информация календаря"
 
-#: calendar/gui/e-itip-control.c:1020 calendar/gui/itip-utils.c:510
+#: calendar/gui/e-itip-control.c:1213 calendar/gui/itip-utils.c:510
 #: shell/evolution-shell-component.c:1143 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "Отменить"
 
-#: calendar/gui/e-itip-control.c:1101
+#: calendar/gui/e-itip-control.c:1294
 #, fuzzy, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr "Получить последнюю информацию по совещанию"
 
-#: calendar/gui/e-itip-control.c:1102
+#: calendar/gui/e-itip-control.c:1295
 #, fuzzy
 msgid "Meeting Information"
 msgstr "Дополнительная информация"
 
-#: calendar/gui/e-itip-control.c:1107
+#: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1109
+#: calendar/gui/e-itip-control.c:1302
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1110
+#: calendar/gui/e-itip-control.c:1303
 #, fuzzy
 msgid "Meeting Proposal"
 msgstr "Получение эл.почты"
 
-#: calendar/gui/e-itip-control.c:1114
+#: calendar/gui/e-itip-control.c:1307
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1115
+#: calendar/gui/e-itip-control.c:1308
 #, fuzzy
 msgid "Meeting Update"
 msgstr "Время завершения собрания:"
 
-#: calendar/gui/e-itip-control.c:1119
+#: calendar/gui/e-itip-control.c:1312
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr "Получить последнюю информацию по совещанию"
 
-#: calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1313
 msgid "Meeting Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1127
+#: calendar/gui/e-itip-control.c:1320
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1128
+#: calendar/gui/e-itip-control.c:1321
 #, fuzzy
 msgid "Meeting Reply"
 msgstr "Пометить как требующее ответа"
 
-#: calendar/gui/e-itip-control.c:1135
+#: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1136
+#: calendar/gui/e-itip-control.c:1329
 #, fuzzy
 msgid "Meeting Cancellation"
 msgstr "Выбрать действие"
 
-#: calendar/gui/e-itip-control.c:1143 calendar/gui/e-itip-control.c:1210
-#: calendar/gui/e-itip-control.c:1245
+#: calendar/gui/e-itip-control.c:1336 calendar/gui/e-itip-control.c:1403
+#: calendar/gui/e-itip-control.c:1438
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1144
+#: calendar/gui/e-itip-control.c:1337
 #, fuzzy
 msgid "Bad Meeting Message"
 msgstr "Поиск в сообщении"
 
-#: calendar/gui/e-itip-control.c:1168
+#: calendar/gui/e-itip-control.c:1361
 #, fuzzy, c-format
 msgid "<b>%s</b> has published task information."
 msgstr "Получить последнюю информацию по задаче"
 
-#: calendar/gui/e-itip-control.c:1169
+#: calendar/gui/e-itip-control.c:1362
 #, fuzzy
 msgid "Task Information"
 msgstr "Информация"
 
-#: calendar/gui/e-itip-control.c:1174
+#: calendar/gui/e-itip-control.c:1367
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1176
+#: calendar/gui/e-itip-control.c:1369
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1177
+#: calendar/gui/e-itip-control.c:1370
 msgid "Task Proposal"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1181
+#: calendar/gui/e-itip-control.c:1374
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1182
+#: calendar/gui/e-itip-control.c:1375
 #, fuzzy
 msgid "Task Update"
 msgstr "Список задач"
 
-#: calendar/gui/e-itip-control.c:1186
+#: calendar/gui/e-itip-control.c:1379
 #, fuzzy, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr "Получить последнюю информацию по задаче"
 
-#: calendar/gui/e-itip-control.c:1187
+#: calendar/gui/e-itip-control.c:1380
 msgid "Task Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1194
+#: calendar/gui/e-itip-control.c:1387
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1195
+#: calendar/gui/e-itip-control.c:1388
 #, fuzzy
 msgid "Task Reply"
 msgstr "Требуется ответ"
 
-#: calendar/gui/e-itip-control.c:1202
+#: calendar/gui/e-itip-control.c:1395
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1203
+#: calendar/gui/e-itip-control.c:1396
 #, fuzzy
 msgid "Task Cancellation"
 msgstr "Отменить операцию"
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1404
 #, fuzzy
 msgid "Bad Task Message"
 msgstr "Сообщение календаря"
 
-#: calendar/gui/e-itip-control.c:1230
+#: calendar/gui/e-itip-control.c:1423
 #, fuzzy, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "Опубликовать информацию о занятости"
 
-#: calendar/gui/e-itip-control.c:1231
+#: calendar/gui/e-itip-control.c:1424
 #, fuzzy
 msgid "Free/Busy Information"
 msgstr "Опубликовать информацию о занятости"
 
-#: calendar/gui/e-itip-control.c:1235
+#: calendar/gui/e-itip-control.c:1428
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1236
+#: calendar/gui/e-itip-control.c:1429
 #, fuzzy
 msgid "Free/Busy Request"
 msgstr "URL \"свободен/занят\":"
 
-#: calendar/gui/e-itip-control.c:1240
+#: calendar/gui/e-itip-control.c:1433
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1241
+#: calendar/gui/e-itip-control.c:1434
 #, fuzzy
 msgid "Free/Busy Reply"
 msgstr "URL \"свободен/занят\":"
 
-#: calendar/gui/e-itip-control.c:1246
+#: calendar/gui/e-itip-control.c:1439
 #, fuzzy
 msgid "Bad Free/Busy Message"
 msgstr "Предыдущему сообщению"
 
-#: calendar/gui/e-itip-control.c:1320
+#: calendar/gui/e-itip-control.c:1513
 #, fuzzy
 msgid "The message does not appear to be properly formed"
 msgstr "Видимо, папка невостановимо испорчена."
 
-#: calendar/gui/e-itip-control.c:1382
+#: calendar/gui/e-itip-control.c:1575
 #, fuzzy
 msgid "The message contains only unsupported requests."
 msgstr "Это сообщение содержит только получателей скрытой копии."
 
-#: calendar/gui/e-itip-control.c:1410 calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1603 calendar/gui/e-itip-control.c:1609
 msgid "The attachment does not contain a valid calendar message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1441
+#: calendar/gui/e-itip-control.c:1634
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1662 calendar/gui/e-itip-control.c:1754
+#: calendar/gui/e-itip-control.c:1856 calendar/gui/e-itip-control.c:1948
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1665 calendar/gui/e-itip-control.c:1757
+#: calendar/gui/e-itip-control.c:1859 calendar/gui/e-itip-control.c:1951
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1668 calendar/gui/e-itip-control.c:1760
+#: calendar/gui/e-itip-control.c:1862 calendar/gui/e-itip-control.c:1954
 #, fuzzy
 msgid "Object could not be found\n"
 msgstr "Элемент не может быть послан!\n"
 
-#: calendar/gui/e-itip-control.c:1671
+#: calendar/gui/e-itip-control.c:1865
 #, fuzzy
 msgid "You do not have the right permissions to update the calendar\n"
 msgstr "Не удалось открыть папку \"%s\""
 
-#: calendar/gui/e-itip-control.c:1674
+#: calendar/gui/e-itip-control.c:1868
 msgid "Update complete\n"
 msgstr "Обновление закончено\n"
 
-#: calendar/gui/e-itip-control.c:1677
+#: calendar/gui/e-itip-control.c:1871
 msgid "Calendar file could not be updated!\n"
 msgstr "Файл календаря не может быть обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1706 calendar/gui/e-itip-control.c:1772
+#: calendar/gui/e-itip-control.c:1900 calendar/gui/e-itip-control.c:1966
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 "Статус участника не может быть обновлён, потому что элемент больше не "
 "существует"
 
-#: calendar/gui/e-itip-control.c:1727
+#: calendar/gui/e-itip-control.c:1921
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1739
+#: calendar/gui/e-itip-control.c:1933
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
-#: calendar/gui/e-itip-control.c:1763
+#: calendar/gui/e-itip-control.c:1957
 #, fuzzy
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "Не удалось открыть папку \"%s\""
 
-#: calendar/gui/e-itip-control.c:1766
+#: calendar/gui/e-itip-control.c:1960
 msgid "Attendee status updated\n"
 msgstr "Статус участника обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1769
+#: calendar/gui/e-itip-control.c:1963
 msgid "Attendee status could not be updated!\n"
 msgstr "Статус участника не может быть обновлён!\n"
 
-#: calendar/gui/e-itip-control.c:1804
+#: calendar/gui/e-itip-control.c:1998
 msgid "Removal Complete"
 msgstr "Удаление завершено"
 
-#: calendar/gui/e-itip-control.c:1834 calendar/gui/e-itip-control.c:1884
+#: calendar/gui/e-itip-control.c:2028 calendar/gui/e-itip-control.c:2078
 msgid "Item sent!\n"
 msgstr "Элемент отправлен!\n"
 
-#: calendar/gui/e-itip-control.c:1836 calendar/gui/e-itip-control.c:1888
+#: calendar/gui/e-itip-control.c:2030 calendar/gui/e-itip-control.c:2082
 msgid "The item could not be sent!\n"
 msgstr "Элемент не может быть послан!\n"
 
-#: calendar/gui/e-itip-control.c:1961
+#: calendar/gui/e-itip-control.c:2155
 msgid "Select Calendar Folder"
 msgstr "Выбрать папку календаря"
 
-#: calendar/gui/e-itip-control.c:1968
+#: calendar/gui/e-itip-control.c:2162
 msgid "Select Tasks Folder"
 msgstr "Выбрать папку заданий"
 
@@ -5708,7 +5847,7 @@ msgstr "дата-начала"
 msgid "Chair Persons"
 msgstr "Председатели"
 
-#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1763
+#: calendar/gui/e-meeting-model.c:85 calendar/gui/e-meeting-model.c:1764
 msgid "Required Participants"
 msgstr "Необходимые участники"
 
@@ -5722,52 +5861,52 @@ msgid "Resources"
 msgstr "Источник"
 
 #: calendar/gui/e-meeting-model.c:233 calendar/gui/e-meeting-model.c:250
-#: calendar/gui/e-meeting-model.c:564 calendar/gui/e-meeting-model.c:830
+#: calendar/gui/e-meeting-model.c:565 calendar/gui/e-meeting-model.c:831
 msgid "Individual"
 msgstr "Индивидуально"
 
 #: calendar/gui/e-meeting-model.c:235 calendar/gui/e-meeting-model.c:252
-#: calendar/gui/e-meeting-model.c:831
+#: calendar/gui/e-meeting-model.c:832
 msgid "Group"
 msgstr "Группа"
 
 #: calendar/gui/e-meeting-model.c:237 calendar/gui/e-meeting-model.c:254
-#: calendar/gui/e-meeting-model.c:832
+#: calendar/gui/e-meeting-model.c:833
 msgid "Resource"
 msgstr "Источник"
 
 #: calendar/gui/e-meeting-model.c:239 calendar/gui/e-meeting-model.c:256
-#: calendar/gui/e-meeting-model.c:833
+#: calendar/gui/e-meeting-model.c:834
 msgid "Room"
 msgstr "Комната"
 
 #: calendar/gui/e-meeting-model.c:268 calendar/gui/e-meeting-model.c:285
-#: calendar/gui/e-meeting-model.c:846
+#: calendar/gui/e-meeting-model.c:847
 msgid "Chair"
 msgstr "Председатель"
 
 #: calendar/gui/e-meeting-model.c:270 calendar/gui/e-meeting-model.c:287
-#: calendar/gui/e-meeting-model.c:566 calendar/gui/e-meeting-model.c:847
+#: calendar/gui/e-meeting-model.c:567 calendar/gui/e-meeting-model.c:848
 msgid "Required Participant"
 msgstr "Требуемые участники"
 
 #: calendar/gui/e-meeting-model.c:272 calendar/gui/e-meeting-model.c:289
-#: calendar/gui/e-meeting-model.c:848
+#: calendar/gui/e-meeting-model.c:849
 msgid "Optional Participant"
 msgstr "Дополнительные участники"
 
 #: calendar/gui/e-meeting-model.c:274 calendar/gui/e-meeting-model.c:291
-#: calendar/gui/e-meeting-model.c:849
+#: calendar/gui/e-meeting-model.c:850
 msgid "Non-Participant"
 msgstr "Не участвует"
 
 #: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:349
-#: calendar/gui/e-meeting-model.c:878 calendar/gui/e-meeting-time-sel.c:437
+#: calendar/gui/e-meeting-model.c:879 calendar/gui/e-meeting-time-sel.c:437
 msgid "Tentative"
 msgstr "Экспериментальный"
 
 #: calendar/gui/e-meeting-model.c:328 calendar/gui/e-meeting-model.c:351
-#: calendar/gui/e-meeting-model.c:879
+#: calendar/gui/e-meeting-model.c:880
 msgid "Delegated"
 msgstr "Передано"
 
@@ -6023,7 +6162,7 @@ msgstr "Информация"
 msgid "Journal information"
 msgstr "Дополнительная информация"
 
-#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:592
+#: calendar/gui/itip-utils.c:468 calendar/gui/itip-utils.c:595
 #, fuzzy
 msgid "Free/Busy information"
 msgstr "Информация о занятости (с %s до %s)"
@@ -6047,17 +6186,17 @@ msgstr "Обновить список"
 msgid "Counter-proposal"
 msgstr ""
 
-#: calendar/gui/itip-utils.c:586
+#: calendar/gui/itip-utils.c:589
 #, fuzzy, c-format
 msgid "Free/Busy information (%s to %s)"
 msgstr "Информация о занятости (с %s до %s)"
 
-#: calendar/gui/itip-utils.c:598
+#: calendar/gui/itip-utils.c:601
 #, fuzzy
 msgid "iCalendar information"
 msgstr "информация календаря"
 
-#: calendar/gui/itip-utils.c:756
+#: calendar/gui/itip-utils.c:759
 msgid "You must be an attendee of the event."
 msgstr "Вы должны быть участником события."
 
@@ -6297,7 +6436,7 @@ msgid "Print Calendar"
 msgstr "Напечатать календарь"
 
 #: calendar/gui/print.c:2521 calendar/gui/print.c:2613
-#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3190
+#: calendar/gui/tasks-control.c:589 mail/mail-callbacks.c:3216
 #: my-evolution/e-summary.c:633
 msgid "Print Preview"
 msgstr "Посмотреть вид на печати"
@@ -6332,8 +6471,8 @@ msgstr ""
 "\n"
 "Уничтожить эти задания?"
 
-#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2670
-#: mail/mail-callbacks.c:2912
+#: calendar/gui/tasks-control.c:469 mail/mail-callbacks.c:2696
+#: mail/mail-callbacks.c:2938
 msgid "Do not ask me again."
 msgstr "Не спрашивать снова."
 
@@ -8887,7 +9026,7 @@ msgstr ""
 msgid "Error in application verification"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:680
+#: camel/camel-tcp-stream-openssl.c:694 camel/camel-tcp-stream-ssl.c:805
 #, c-format
 msgid ""
 "Issuer:            %s\n"
@@ -8896,11 +9035,11 @@ msgid ""
 "Signature:         %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:686
+#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:811
 msgid "GOOD"
 msgstr ""
 
-#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:686
+#: camel/camel-tcp-stream-openssl.c:700 camel/camel-tcp-stream-ssl.c:811
 msgid "BAD"
 msgstr ""
 
@@ -8922,7 +9061,7 @@ msgstr ""
 "Всё равно принять?"
 
 #. construct our user prompt
-#: camel/camel-tcp-stream-ssl.c:690
+#: camel/camel-tcp-stream-ssl.c:815
 #, c-format
 msgid ""
 "SSL Certificate check for %s:\n"
@@ -8937,28 +9076,28 @@ msgstr ""
 "\n"
 "Принять?"
 
-#: camel/camel-tcp-stream-ssl.c:734
+#: camel/camel-tcp-stream-ssl.c:859
 #, c-format
 msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:786
+#: camel/camel-tcp-stream-ssl.c:911
 #, c-format
 msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
 
-#: camel/camel-tcp-stream-ssl.c:804
+#: camel/camel-tcp-stream-ssl.c:929
 #, fuzzy, c-format
 msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
 msgstr "Идентификатор сертификата:"
 
-#: camel/camel-tcp-stream-ssl.c:821
+#: camel/camel-tcp-stream-ssl.c:946
 #, fuzzy, c-format
 msgid ""
 "Certificate revocation list expired: %s\n"
@@ -9008,12 +9147,12 @@ msgstr "Не удалось переименовать папку: %s: нет такой папки"
 #: camel/providers/imap/camel-imap-command.c:224
 #: camel/providers/imap/camel-imap-command.c:263
 #: camel/providers/imap/camel-imap-command.c:451
-#: camel/providers/imap/camel-imap-store.c:2611
+#: camel/providers/imap/camel-imap-store.c:2656
 msgid "Operation cancelled"
 msgstr "Операция отменена"
 
 #: camel/providers/imap/camel-imap-command.c:308
-#: camel/providers/imap/camel-imap-store.c:2614
+#: camel/providers/imap/camel-imap-store.c:2659
 #, c-format
 msgid "Server unexpectedly disconnected: %s"
 msgstr "Сервер неожиданно отключился: %s"
@@ -9251,24 +9390,24 @@ msgstr ""
 "%s\n"
 "\n"
 
-#: camel/providers/imap/camel-imap-store.c:1462
-#: camel/providers/imap/camel-imap-store.c:1604
+#: camel/providers/imap/camel-imap-store.c:1505
+#: camel/providers/imap/camel-imap-store.c:1647
 #, c-format
 msgid "No such folder %s"
 msgstr "Нет такой папки %s"
 
-#: camel/providers/imap/camel-imap-store.c:1805
+#: camel/providers/imap/camel-imap-store.c:1848
 #, fuzzy, c-format
 msgid ""
 "The folder name \"%s\" is invalid because it containes the character \"%c\""
 msgstr "Название папки не может содержать символ возврата каретки."
 
-#: camel/providers/imap/camel-imap-store.c:1817
+#: camel/providers/imap/camel-imap-store.c:1860
 #, fuzzy, c-format
 msgid "Unknown parent folder: %s"
 msgstr "Неизвестная ошибка: %s"
 
-#: camel/providers/imap/camel-imap-store.c:1853
+#: camel/providers/imap/camel-imap-store.c:1896
 msgid "The parent folder is not allowed to contain subfolders"
 msgstr "Эта папка не может содержать подпапки"
 
@@ -10289,7 +10428,7 @@ msgid "%.0fG"
 msgstr "%.1fG"
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:222
+#: composer/e-msg-composer-attachment-bar.c:371 mail/mail-display.c:227
 msgid "attachment"
 msgstr "присоединённый файл"
 
@@ -10404,7 +10543,7 @@ msgid "Posting destination"
 msgstr "Нет описания"
 
 #: composer/e-msg-composer-select-file.c:275
-#: ui/evolution-message-composer.xml.h:2
+#: ui/evolution-message-composer.h:26 ui/evolution-message-composer.xml.h:2
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
@@ -10543,19 +10682,19 @@ msgstr ""
 "Не удалось создать окно редактора:\n"
 "Невозможно активировать компонент редактора HTML."
 
-#: composer/e-msg-composer.c:3858
+#: composer/e-msg-composer.c:3860
 msgid ""
 "<b>(The composer contains a non-text message body, which cannot be edited.)"
 "<b>"
 msgstr ""
 
-#: composer/evolution-composer.c:393
+#: composer/evolution-composer.c:394
 msgid ""
 "Could not create composer window, because you have not yet\n"
 "configured any identities in the mail component."
 msgstr "Не удалось создать окно редактора - не настроен почтовый компонент."
 
-#: composer/evolution-composer.c:408
+#: composer/evolution-composer.c:413
 #, fuzzy
 msgid "Cannot initialize the Evolution composer."
 msgstr "Невозможно инициализировать редактор почты Evolution."
@@ -10608,8 +10747,12 @@ msgstr "Тема содержит"
 msgid "Subject does not contain"
 msgstr "Тема не содержит"
 
-#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2537
-#: mail/mail-display.c:192
+#: e-util/e-component-listener.c:131
+msgid ""
+"ping_timeout_callback: could not determine if the CORBA object is nil or not"
+msgstr ""
+
+#: e-util/e-dialog-utils.c:237 mail/mail-callbacks.c:2563
 msgid ""
 "A file by that name already exists.\n"
 "Overwrite it?"
@@ -11188,7 +11331,7 @@ msgstr "меньше чем"
 msgid "Score"
 msgstr "Вес"
 
-#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1831
+#: filter/libfilter-i18n.h:50 mail/mail-callbacks.c:1857
 msgid "Sender"
 msgstr "Отправитель"
 
@@ -11528,7 +11671,7 @@ msgstr "Свойства..."
 msgid "Change this folder's properties"
 msgstr "Изменить свойства этой папки"
 
-#: mail/component-factory.c:805
+#: mail/component-factory.c:811
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
@@ -11536,65 +11679,65 @@ msgstr ""
 "Некоторые Ваши почтовые настройки выглядят испорченными, пожалуйста, "
 "проверьте, что всё в порядке."
 
-#: mail/component-factory.c:970
+#: mail/component-factory.c:976
 msgid "You have not set a mail transport method"
 msgstr "Вы не установили метод транспортировки почты"
 
-#: mail/component-factory.c:992
+#: mail/component-factory.c:998
 msgid "You have unsent messages, do you wish to quit anyway?"
 msgstr ""
 
-#: mail/component-factory.c:998
+#: mail/component-factory.c:1004
 #, fuzzy
 msgid "Warning: Unsent Messages"
 msgstr "Внимание: Изменённое сообщение"
 
-#: mail/component-factory.c:1040
+#: mail/component-factory.c:1046
 msgid "New Mail Message"
 msgstr "Новое почтовое сообщение"
 
-#: mail/component-factory.c:1040
+#: mail/component-factory.c:1046
 msgid "_Mail Message"
 msgstr "Почтовое сообщение..."
 
-#: mail/component-factory.c:1041
+#: mail/component-factory.c:1047
 #, fuzzy
 msgid "Compose a new mail message"
 msgstr "Создать сообщение"
 
-#: mail/component-factory.c:1049
+#: mail/component-factory.c:1055
 #, fuzzy
 msgid "New Message Post"
 msgstr "Создать сообщение"
 
-#: mail/component-factory.c:1049
+#: mail/component-factory.c:1055
 #, fuzzy
 msgid "_Post Message"
 msgstr "Предыдущему сообщению"
 
-#: mail/component-factory.c:1050
+#: mail/component-factory.c:1056
 #, fuzzy
 msgid "Post a new mail message"
 msgstr "Новое почтовое сообщение"
 
-#: mail/component-factory.c:1078
+#: mail/component-factory.c:1084
 #, fuzzy
 msgid "Cannot initialize the Evolution mail component."
 msgstr "Невозможно инициализировать почтовый компонент Evolution."
 
-#: mail/component-factory.c:1087
+#: mail/component-factory.c:1093
 msgid "Cannot initialize Evolution's mail config component."
 msgstr "Невозможно инициализировать компонент настройки почты Evolution."
 
-#: mail/component-factory.c:1093
+#: mail/component-factory.c:1099
 msgid "Cannot initialize Evolution's folder info component."
 msgstr "Невозможно инициализировать компонент информации о папке Evolution."
 
-#: mail/component-factory.c:1334 mail/component-factory.c:1364
+#: mail/component-factory.c:1340 mail/component-factory.c:1370
 msgid "Connecting..."
 msgstr "Подключение..."
 
-#: mail/component-factory.c:1375
+#: mail/component-factory.c:1381
 msgid "Cannot register storage with shell"
 msgstr "Не удалось зарегистрировать хранилище с помощью оболочки"
 
@@ -11607,7 +11750,7 @@ msgstr "Свойства для \"%s\""
 msgid "Properties"
 msgstr "Свойства"
 
-#: mail/folder-browser.c:309 mail/mail-display.c:376 mail/mail-display.c:888
+#: mail/folder-browser.c:309 mail/mail-display.c:381 mail/mail-display.c:893
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Не удалось создать временный каталог: %s"
@@ -11890,16 +12033,21 @@ msgstr "Отключить"
 msgid "Enable"
 msgstr "Включить"
 
-#: mail/mail-accounts.c:531 mail/mail-accounts.etspec.h:2
+#: mail/mail-accounts.c:467
+#, fuzzy
+msgid "[Default]"
+msgstr "Сделать основной"
+
+#: mail/mail-accounts.c:538 mail/mail-accounts.etspec.h:2
 #: mail/mail-config.glade.h:53
 msgid "Enabled"
 msgstr "Включено"
 
-#: mail/mail-accounts.c:532 mail/mail-accounts.etspec.h:1
+#: mail/mail-accounts.c:539 mail/mail-accounts.etspec.h:1
 msgid "Account name"
 msgstr "Название учётной записи"
 
-#: mail/mail-accounts.c:533 mail/mail-accounts.etspec.h:3
+#: mail/mail-accounts.c:540 mail/mail-accounts.etspec.h:3
 msgid "Protocol"
 msgstr "Протокол"
 
@@ -12027,28 +12175,28 @@ msgstr ""
 "Не удалось открыть папку черновиков для этой учетной записи.\n"
 "Хотите использовать папку черновиков по умолчанию?"
 
-#: mail/mail-callbacks.c:1207
+#: mail/mail-callbacks.c:1233
 msgid "an unknown sender"
 msgstr "неизвестный отправитель"
 
-#: mail/mail-callbacks.c:1211
+#: mail/mail-callbacks.c:1237
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr "В %a, %d.%m.%Y, в %H:%M, %%s написал:"
 
-#: mail/mail-callbacks.c:1712 mail/message-browser.c:132
+#: mail/mail-callbacks.c:1738 mail/message-browser.c:132
 msgid "Move message(s) to"
 msgstr "Переместить сообщение(я) в"
 
-#: mail/mail-callbacks.c:1714 mail/message-browser.c:134
+#: mail/mail-callbacks.c:1740 mail/message-browser.c:134
 msgid "Copy message(s) to"
 msgstr "Скопировать сообщение(я) в"
 
-#: mail/mail-callbacks.c:2381
+#: mail/mail-callbacks.c:2407
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr "Вы уверены, что хотите править все %d сообщений?"
 
-#: mail/mail-callbacks.c:2406
+#: mail/mail-callbacks.c:2432
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
@@ -12056,7 +12204,7 @@ msgstr ""
 "Вы можете править только сообщения,\n"
 "сохраненные в папке \"Черновики\"."
 
-#: mail/mail-callbacks.c:2445
+#: mail/mail-callbacks.c:2471
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
@@ -12064,38 +12212,38 @@ msgstr ""
 "Вы можете переотправить сообщения\n"
 "только из папки \"Отправленные\"."
 
-#: mail/mail-callbacks.c:2459
+#: mail/mail-callbacks.c:2485
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr "Вы уверены, что хотите переотправить все %d сообщений?"
 
-#: mail/mail-callbacks.c:2485
+#: mail/mail-callbacks.c:2511
 msgid "No Message Selected"
 msgstr "Нет выбранных сообщений"
 
-#: mail/mail-callbacks.c:2530 mail/mail-display.c:188
+#: mail/mail-callbacks.c:2556 mail/mail-display.c:189
 msgid "Overwrite file?"
 msgstr "Перезаписать файл?"
 
-#: mail/mail-callbacks.c:2584
+#: mail/mail-callbacks.c:2610
 msgid "Save Message As..."
 msgstr "Сохранить сообщение как..."
 
-#: mail/mail-callbacks.c:2586
+#: mail/mail-callbacks.c:2612
 msgid "Save Messages As..."
 msgstr "Сохранить сообщения как..."
 
-#: mail/mail-callbacks.c:2655
+#: mail/mail-callbacks.c:2681
 msgid "Go to next folder with unread messages?"
 msgstr "Перейти в следующую папку с непрочитанными сообщениями?"
 
-#: mail/mail-callbacks.c:2662
+#: mail/mail-callbacks.c:2688
 msgid ""
 "There are no more new messages in this folder.\n"
 "Would you like to go to the next folder?"
 msgstr ""
 
-#: mail/mail-callbacks.c:2905
+#: mail/mail-callbacks.c:2931
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -12107,7 +12255,7 @@ msgstr ""
 "\n"
 "Уничтожить эти сообщения?"
 
-#: mail/mail-callbacks.c:3018
+#: mail/mail-callbacks.c:3044
 #, c-format
 msgid ""
 "Error loading filter information:\n"
@@ -12116,28 +12264,28 @@ msgstr ""
 "Ошибка при загрузке информации фильтра:\n"
 "%s"
 
-#: mail/mail-callbacks.c:3030
+#: mail/mail-callbacks.c:3056
 msgid "Filters"
 msgstr "Настройки фильтров"
 
-#: mail/mail-callbacks.c:3074
+#: mail/mail-callbacks.c:3100
 #, c-format
 msgid "Page %d of %d"
 msgstr "Страница %d из %d"
 
-#: mail/mail-callbacks.c:3129
+#: mail/mail-callbacks.c:3155
 msgid "Print Message"
 msgstr "Напечатать сообщение"
 
-#: mail/mail-callbacks.c:3156
+#: mail/mail-callbacks.c:3182
 msgid "US-Letter"
 msgstr "US-Letter"
 
-#: mail/mail-callbacks.c:3197
+#: mail/mail-callbacks.c:3223
 msgid "Printing of message failed"
 msgstr "Сбой печати сообщения"
 
-#: mail/mail-callbacks.c:3387
+#: mail/mail-callbacks.c:3413
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
@@ -12145,7 +12293,7 @@ msgstr "Вы уверены что хотите открыть все %d сообщений в отдельных окнах?"
 #: mail/mail-composer-prefs.c:223
 msgid ""
 "Please specify signature filename\n"
-"in Andvanced section of signature settings."
+"in Advanced section of signature settings."
 msgstr ""
 
 #: mail/mail-composer-prefs.c:243 mail/mail-composer-prefs.c:368
@@ -12163,12 +12311,12 @@ msgstr ""
 msgid "Unnamed"
 msgstr "Безымянный контакт"
 
-#: mail/mail-composer-prefs.c:875
+#: mail/mail-composer-prefs.c:880
 #, fuzzy
 msgid "Add script signature"
 msgstr "Добавить критерий"
 
-#: mail/mail-composer-prefs.c:876
+#: mail/mail-composer-prefs.c:881
 #, fuzzy
 msgid "Add Signature"
 msgstr "Подпись"
@@ -12889,74 +13037,83 @@ msgstr "Не удалось создать контекст оболочки S/MIME"
 msgid "Could not create a S/MIME decode context."
 msgstr "Не удалось создать контекст декодирования S/MIME"
 
-#: mail/mail-display.c:321
+#: mail/mail-display.c:194
+#, fuzzy, c-format
+msgid ""
+"File `%s' already exists.\n"
+"Overwrite it?"
+msgstr ""
+"Файл с таким названием уже существует.\n"
+"Перезаписать его?"
+
+#: mail/mail-display.c:326
 msgid "Save Attachment"
 msgstr "Сохранить присоединённый файл"
 
-#: mail/mail-display.c:386
+#: mail/mail-display.c:391
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Не удалось создать временный файл '%s': %s"
 
-#: mail/mail-display.c:432
+#: mail/mail-display.c:437
 #, fuzzy
 msgid "Save Attachment..."
 msgstr "Сохранить присоединённый файл"
 
-#: mail/mail-display.c:433
+#: mail/mail-display.c:438
 msgid "View Inline"
 msgstr "Встроенный просмотр"
 
-#: mail/mail-display.c:434
+#: mail/mail-display.c:439
 #, c-format
 msgid "Open in %s..."
 msgstr "Открыть в %s..."
 
-#: mail/mail-display.c:494
+#: mail/mail-display.c:499
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Встроенный просмотр (через %s)"
 
-#: mail/mail-display.c:498
+#: mail/mail-display.c:503
 msgid "Hide"
 msgstr "Скрыть"
 
-#: mail/mail-display.c:519
+#: mail/mail-display.c:524
 msgid "External Viewer"
 msgstr "Внешняя программа просмотра"
 
-#: mail/mail-display.c:1319
+#: mail/mail-display.c:1320
 #, fuzzy
 msgid "Downloading images"
 msgstr "Загрузить изображения"
 
-#: mail/mail-display.c:1496
+#: mail/mail-display.c:1497
 msgid "Loading message content"
 msgstr "Загрузка содержимого сообщения"
 
-#: mail/mail-display.c:1783
+#: mail/mail-display.c:1784
 #, fuzzy
 msgid "Overdue:"
 msgstr "Просроченные задачи:"
 
-#: mail/mail-display.c:1787
+#: mail/mail-display.c:1788
 #, fuzzy
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "%b %d %l:%M %p"
 
-#: mail/mail-display.c:2114
+#: mail/mail-display.c:2115
 msgid "Open Link in Browser"
 msgstr "Открыть ссылку в браузере"
 
-#: mail/mail-display.c:2115
+#: mail/mail-display.c:2116
 msgid "Copy Link Location"
 msgstr "Скопировать ссылку"
 
-#: mail/mail-display.c:2117
+#: mail/mail-display.c:2118
 msgid "Save Link as (FIXME)"
 msgstr "Сохранить ссылку как"
 
-#: mail/mail-display.c:2119
+#: mail/mail-display.c:2120
 msgid "Save Image as..."
 msgstr "Сохранить изображение как..."
 
@@ -13676,7 +13833,7 @@ msgstr "Апрель"
 #: mail/subscribe-dialog.glade.h:3 ui/evolution-comp-editor.xml.h:2
 #: ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
-#: ui/evolution-mail-messagedisplay.xml.h:1
+#: ui/evolution-mail-messagedisplay.xml.h:1 ui/evolution-message-composer.h:15
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
 #: ui/evolution.xml.h:5
 msgid "Close"
@@ -13716,35 +13873,6 @@ msgstr "Подписаться"
 #: mail/subscribe-dialog.glade.h:11
 msgid "_Unsubscribe"
 msgstr "Отказаться от подписки"
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
-#, fuzzy
-msgid "Configuration control for the Evolution Summary."
-msgstr "Папка, содержащая Evolution Summary"
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:2
-#, fuzzy
-msgid "Configure the appearance of the Evolution Summary here"
-msgstr "Папка, содержащая Evolution Summary"
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:3
-#, fuzzy
-msgid "Evolution Summary component."
-msgstr "Компонент редактора писем Evolution."
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:4
-#, fuzzy
-msgid "Factory for Evolution Summary's configuration control."
-msgstr "Фабрика для управляющего элемента Evolution Задачи"
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:5
-#, fuzzy
-msgid "Factory for the Evolution Summary component."
-msgstr "Фабрика для компонента Mail Summary программы Evolution."
-
-#: my-evolution/GNOME_Evolution_Summary.oaf.in.h:6
-msgid "Summary Preferences"
-msgstr "Настройки Сводки"
 
 #: my-evolution/Locations.h:1
 msgid "Aarhus"
@@ -25239,7 +25367,7 @@ msgstr "Создать новую папку..."
 msgid "New..."
 msgstr "Новая..."
 
-#: shell/e-shell-folder-title-bar.c:635 shell/e-shell-folder-title-bar.c:636
+#: shell/e-shell-folder-title-bar.c:637 shell/e-shell-folder-title-bar.c:638
 msgid "(Untitled)"
 msgstr "(Без заголовка)"
 
@@ -25407,7 +25535,7 @@ msgstr "Синхронизация папки"
 msgid "Synchronizing \"%s\" (%d of %d) ..."
 msgstr ""
 
-#: shell/e-shell-settings-dialog.c:326
+#: shell/e-shell-settings-dialog.c:327
 #, fuzzy
 msgid "Evolution Settings"
 msgstr "Evolution "
@@ -25452,9 +25580,9 @@ msgstr ""
 msgid "Could not start the Evolution Mailer Assistant interface\n"
 msgstr "Не удалось запустить интерфейс почтового помощника Evolution\n"
 
-#: shell/e-shell-user-creatable-items-handler.c:579
-#: shell/e-shell-user-creatable-items-handler.c:633
-#: widgets/misc/e-charset-picker.c:104
+#: shell/e-shell-user-creatable-items-handler.c:583
+#: shell/e-shell-user-creatable-items-handler.c:637
+#: ui/evolution-addressbook.h:14 widgets/misc/e-charset-picker.c:104
 msgid "New"
 msgstr "Новая"
 
@@ -26068,53 +26196,53 @@ msgstr "Не спрашивать снова"
 msgid "Evolution can import data from the following files:"
 msgstr "Evolution может импортировать данные из следующих файлов:"
 
-#: shell/main.c:96
+#: shell/main.c:98
 msgid "Evolution"
 msgstr "Evolution"
 
-#: shell/main.c:102
+#: shell/main.c:104
 msgid "Evolution is now exiting ..."
 msgstr "Выход из Evolution..."
 
-#: shell/main.c:277
+#: shell/main.c:330
 msgid "Cannot access the Ximian Evolution shell."
 msgstr "Нет доступа к оболочке Ximian Evolution."
 
-#: shell/main.c:286
+#: shell/main.c:339
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
 msgstr "Невозможно инициализировать оболочку Evolution: %s"
 
-#: shell/main.c:368
+#: shell/main.c:421
 msgid "Disable splash screen"
 msgstr "Отключить заставку"
 
-#: shell/main.c:370
+#: shell/main.c:423
 #, fuzzy
 msgid "Start in offline mode"
 msgstr "Начало импортирования"
 
-#: shell/main.c:372
+#: shell/main.c:425
 #, fuzzy
 msgid "Start in online mode"
 msgstr "Запуск интеллектуального импортёра"
 
-#: shell/main.c:374
+#: shell/main.c:427
 msgid "Send the debugging output of all components to a file."
 msgstr "Записывать отладочный вывод всех компонентов в файл."
 
-#: shell/main.c:376
+#: shell/main.c:429
 msgid "Force upgrading of configuration files from Evolution 1.0.x"
 msgstr ""
 
-#: shell/main.c:394
+#: shell/main.c:447
 #, c-format
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
 msgstr ""
 
-#: shell/main.c:425
+#: shell/main.c:478
 msgid "Cannot initialize the Bonobo component system."
 msgstr "Невозможно инициализировать компонентную систему Bonobo."
 
@@ -26136,6 +26264,71 @@ msgstr "Файл вывода"
 #: tools/evolution-addressbook-import.c:80
 msgid "No filename provided."
 msgstr "Не указано имя файла."
+
+#.
+#. *  This file is autogenerated from evolution-addressbook.xml, do not edit
+#. *
+#. *  This file contains translatable strings generated by
+#. * bonobo-ui-extract. Add this file to your project's
+#. * POTFILES.in. DO NOT compile it as part of your application.
+#.
+#: ui/evolution-addressbook.h:9
+#, fuzzy
+msgid "_Print Contacts..."
+msgstr "Контакты..."
+
+#: ui/evolution-addressbook.h:10
+#, fuzzy
+msgid "As _Table"
+msgstr "Отключить"
+
+#: ui/evolution-addressbook.h:11
+#, fuzzy
+msgid "_New Contact"
+msgstr "Создать контакт"
+
+#: ui/evolution-addressbook.h:12 ui/evolution-mail-message.xml.h:113
+#: ui/evolution.xml.h:65
+msgid "_Tools"
+msgstr "Инструменты"
+
+#: ui/evolution-addressbook.h:13
+#, fuzzy
+msgid "_Search for contacts"
+msgstr "Найти контакты"
+
+#: ui/evolution-addressbook.h:17
+#, fuzzy
+msgid "Find a contact"
+msgstr "\"Отправитель\" содержит"
+
+#: ui/evolution-addressbook.h:19
+#, fuzzy
+msgid "Print contacts"
+msgstr "Напечатать выбранные контакты"
+
+#: ui/evolution-addressbook.h:21
+#, fuzzy
+msgid "Delete a contact"
+msgstr "Удалить контакт?"
+
+#: ui/evolution-addressbook.h:22
+#, fuzzy
+msgid "View All"
+msgstr "Встроенный просмотр"
+
+#: ui/evolution-addressbook.h:23
+#, fuzzy
+msgid "View all contacts"
+msgstr "Выбрать все контакты"
+
+#: ui/evolution-addressbook.h:24 ui/evolution-addressbook.xml.h:26
+msgid "Stop"
+msgstr "Стоп"
+
+#: ui/evolution-addressbook.h:25 ui/evolution-addressbook.xml.h:27
+msgid "Stop Loading"
+msgstr "Остановить загрузку"
 
 #: ui/evolution-addressbook.xml.h:3
 #, fuzzy
@@ -26208,14 +26401,6 @@ msgstr "Отправить сообщение к контакту"
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send selected contacts to another person."
 msgstr "Переслать выбранные контакты другому лицу"
-
-#: ui/evolution-addressbook.xml.h:26
-msgid "Stop"
-msgstr "Стоп"
-
-#: ui/evolution-addressbook.xml.h:27
-msgid "Stop Loading"
-msgstr "Остановить загрузку"
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "View the current contact"
@@ -26344,7 +26529,8 @@ msgstr "Посмотреть на вид элемента на печати"
 msgid "Print this item"
 msgstr "Напечатать этот элемент"
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.h:11
+#: ui/evolution-message-composer.xml.h:16
 #: ui/evolution-signature-editor.xml.h:5 widgets/misc/e-filter-bar.c:155
 msgid "Save"
 msgstr "Сохранить"
@@ -26369,7 +26555,7 @@ msgstr "Сохранить этот элемент на диске"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
-#: ui/evolution-mail-messagedisplay.xml.h:7
+#: ui/evolution-mail-messagedisplay.xml.h:7 ui/evolution-message-composer.h:31
 #: ui/evolution-message-composer.xml.h:42
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:49
@@ -26381,7 +26567,7 @@ msgid "Print En_velope..."
 msgstr "Напечатать конверт..."
 
 #: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-contact-list-editor.xml.h:5 ui/evolution-message-composer.h:34
 #: ui/evolution-message-composer.xml.h:18
 msgid "Save _As..."
 msgstr "Сохранить как..."
@@ -26396,7 +26582,7 @@ msgstr "Отправить сообщение к контакту..."
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-message-composer.h:33 ui/evolution-message-composer.xml.h:47
 #: ui/evolution-signature-editor.xml.h:15
 msgid "_Save"
 msgstr "Сохранить"
@@ -27037,10 +27223,6 @@ msgstr "Процитировано"
 msgid "_Resend..."
 msgstr "Переименовать..."
 
-#: ui/evolution-mail-message.xml.h:113 ui/evolution.xml.h:65
-msgid "_Tools"
-msgstr "Инструменты"
-
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Undelete"
 msgstr "Восстановить"
@@ -27049,25 +27231,161 @@ msgstr "Восстановить"
 msgid "Close this window"
 msgstr "Закрыть это окно"
 
-#: ui/evolution-mail-messagedisplay.xml.h:5
+#: ui/evolution-mail-messagedisplay.xml.h:5 ui/evolution-message-composer.h:39
 #: ui/evolution-message-composer.xml.h:39
 #: ui/evolution-signature-editor.xml.h:10 ui/evolution-subscribe.xml.h:9
 #: ui/evolution.xml.h:46
 msgid "_Close"
 msgstr "Закрыть"
 
-#: ui/evolution-mail-messagedisplay.xml.h:8
+#: ui/evolution-mail-messagedisplay.xml.h:8 ui/evolution-message-composer.h:42
 #: ui/evolution-message-composer.xml.h:49 ui/evolution.xml.h:66
 msgid "_View"
 msgstr "Вид"
 
-#: ui/evolution-message-composer.xml.h:1
+#.
+#. *  This file is autogenerated from evolution-message-composer.xml, do not edit
+#. *
+#. *  This file contains translatable strings generated by
+#. * bonobo-ui-extract. Add this file to your project's
+#. * POTFILES.in. DO NOT compile it as part of your application.
+#.
+#: ui/evolution-message-composer.h:9 ui/evolution-message-composer.xml.h:10
+msgid "Open"
+msgstr "Открыть"
+
+#: ui/evolution-message-composer.h:10 ui/evolution-message-composer.xml.h:11
+msgid "Open a file"
+msgstr "Открыть файл"
+
+#: ui/evolution-message-composer.h:12 ui/evolution-message-composer.xml.h:21
+#: ui/evolution-signature-editor.xml.h:7
+msgid "Save the current file"
+msgstr "Сохранить текущий файл"
+
+#: ui/evolution-message-composer.h:13 ui/evolution-message-composer.xml.h:17
+msgid "Save As"
+msgstr "Сохранить как"
+
+#: ui/evolution-message-composer.h:14 ui/evolution-message-composer.xml.h:22
+msgid "Save the current file with a different name"
+msgstr "Сохранить текущий файл под другим именем"
+
+#: ui/evolution-message-composer.h:16 ui/evolution-message-composer.xml.h:4
+#: ui/evolution-signature-editor.xml.h:2
+msgid "Close the current file"
+msgstr "Закрыть текущий файл"
+
+#: ui/evolution-message-composer.h:17 ui/evolution-message-composer.xml.h:20
+msgid "Save in folder..."
+msgstr "Сохранить в папке..."
+
+#: ui/evolution-message-composer.h:18 ui/evolution-message-composer.xml.h:23
+msgid "Save the message in a specified folder"
+msgstr "Сохранить сообщение в указанной папке"
+
+#: ui/evolution-message-composer.h:19
+msgid "Insert text file..."
+msgstr "Вложить текстовый файл..."
+
+#: ui/evolution-message-composer.h:20
+msgid "Insert a file as text into the message"
+msgstr "Вставить файл как текст в сообщение"
+
+#: ui/evolution-message-composer.h:21 ui/evolution-message-composer.h:37
+#: ui/evolution-message-composer.xml.h:24
+msgid "Send"
+msgstr "Отправить"
+
+#: ui/evolution-message-composer.h:22
+#, fuzzy
+msgid "Send the message now"
+msgstr "Отправить это сообщение сейчас"
+
+#: ui/evolution-message-composer.h:23
+msgid "Send _later"
+msgstr "Отправить позже"
+
+#: ui/evolution-message-composer.h:24
+msgid "Send the message later"
+msgstr "Отправить сообщение позже"
+
+#: ui/evolution-message-composer.h:25 ui/evolution-message-composer.xml.h:1
 msgid "Attach"
 msgstr "Присоединить"
 
-#: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
-msgid "Close the current file"
-msgstr "Закрыть текущий файл"
+#: ui/evolution-message-composer.h:27
+#, fuzzy
+msgid "HTML"
+msgstr "HTML"
+
+#: ui/evolution-message-composer.h:28 ui/evolution-message-composer.xml.h:25
+#: ui/evolution-signature-editor.xml.h:9
+msgid "Send the mail in HTML format"
+msgstr "Отправить почту в формате HTML"
+
+#: ui/evolution-message-composer.h:29 ui/evolution-message-composer.xml.h:29
+msgid "Show attachments"
+msgstr "Показать присоединённые файлы"
+
+#: ui/evolution-message-composer.h:30 ui/evolution-message-composer.xml.h:27
+msgid "Show / hide attachments"
+msgstr "Показать/Скрыть присоединённые файлы"
+
+#: ui/evolution-message-composer.h:32 ui/evolution-message-composer.xml.h:45
+msgid "_Open..."
+msgstr "Открыть..."
+
+#: ui/evolution-message-composer.h:35
+#, fuzzy
+msgid "Save in _folder... (FIXME)"
+msgstr "Сохранить в папке..."
+
+#: ui/evolution-message-composer.h:36
+#, fuzzy
+msgid "_Insert text file... (FIXME)"
+msgstr "Вложить текстовый файл..."
+
+#: ui/evolution-message-composer.h:38
+msgid "Send _Later"
+msgstr "Отправить позже"
+
+#: ui/evolution-message-composer.h:41
+#, fuzzy
+msgid "F_ormat"
+msgstr "Формат"
+
+#: ui/evolution-message-composer.h:43 ui/evolution-message-composer.xml.h:28
+msgid "Show _attachments"
+msgstr "Показать присоединённые файлы"
+
+#: ui/evolution-message-composer.h:44 ui/evolution-signature-editor.xml.h:13
+#: ui/evolution.xml.h:54
+msgid "_Help"
+msgstr "Справка"
+
+#: ui/evolution-message-composer.h:45
+#, fuzzy
+msgid "_About..."
+msgstr "Шрифт..."
+
+#: ui/evolution-message-composer.h:46
+msgid "_Debug"
+msgstr ""
+
+#: ui/evolution-message-composer.h:47
+#, fuzzy
+msgid "Send this message now"
+msgstr "Отправить это сообщение сейчас"
+
+#: ui/evolution-message-composer.h:48
+#, fuzzy
+msgid "Bold"
+msgstr "Тело"
+
+#: ui/evolution-message-composer.h:49
+msgid "Sets something as bold"
+msgstr ""
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -27090,14 +27408,6 @@ msgstr "Формат"
 msgid "HT_ML"
 msgstr "HTML"
 
-#: ui/evolution-message-composer.xml.h:10
-msgid "Open"
-msgstr "Открыть"
-
-#: ui/evolution-message-composer.xml.h:11
-msgid "Open a file"
-msgstr "Открыть файл"
-
 #: ui/evolution-message-composer.xml.h:12
 msgid "PGP Encrypt"
 msgstr "Зашифровать с помощью PGP"
@@ -27114,56 +27424,14 @@ msgstr "Зашифровать с помощью S/MIME"
 msgid "S/MIME Sign"
 msgstr "Подписать с помощью S/MIME"
 
-#: ui/evolution-message-composer.xml.h:17
-msgid "Save As"
-msgstr "Сохранить как"
-
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
 msgstr "Сохранить черновиком"
-
-#: ui/evolution-message-composer.xml.h:20
-msgid "Save in folder..."
-msgstr "Сохранить в папке..."
-
-#: ui/evolution-message-composer.xml.h:21
-#: ui/evolution-signature-editor.xml.h:7
-msgid "Save the current file"
-msgstr "Сохранить текущий файл"
-
-#: ui/evolution-message-composer.xml.h:22
-msgid "Save the current file with a different name"
-msgstr "Сохранить текущий файл под другим именем"
-
-#: ui/evolution-message-composer.xml.h:23
-msgid "Save the message in a specified folder"
-msgstr "Сохранить сообщение в указанной папке"
-
-#: ui/evolution-message-composer.xml.h:24
-msgid "Send"
-msgstr "Отправить"
-
-#: ui/evolution-message-composer.xml.h:25
-#: ui/evolution-signature-editor.xml.h:9
-msgid "Send the mail in HTML format"
-msgstr "Отправить почту в формате HTML"
 
 #: ui/evolution-message-composer.xml.h:26
 #, fuzzy
 msgid "Send this message"
 msgstr "Отправить это сообщение сейчас"
-
-#: ui/evolution-message-composer.xml.h:27
-msgid "Show / hide attachments"
-msgstr "Показать/Скрыть присоединённые файлы"
-
-#: ui/evolution-message-composer.xml.h:28
-msgid "Show _attachments"
-msgstr "Показать присоединённые файлы"
-
-#: ui/evolution-message-composer.xml.h:29
-msgid "Show attachments"
-msgstr "Показать присоединённые файлы"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Sign this message with your PGP key"
@@ -27214,10 +27482,6 @@ msgstr "Поле \"От\""
 msgid "_Insert"
 msgstr "Вставить"
 
-#: ui/evolution-message-composer.xml.h:45
-msgid "_Open..."
-msgstr "Открыть..."
-
 #: ui/evolution-message-composer.xml.h:46
 msgid "_Reply-To Field"
 msgstr "Поле \"Ответ\""
@@ -27234,10 +27498,6 @@ msgstr "HTML"
 #, fuzzy
 msgid "Save the current file and close the window"
 msgstr "Сохранить этот элемент и закрыть окно диалога"
-
-#: ui/evolution-signature-editor.xml.h:13 ui/evolution.xml.h:54
-msgid "_Help"
-msgstr "Справка"
 
 #: ui/evolution-signature-editor.xml.h:16
 #, fuzzy
@@ -27863,6 +28123,29 @@ msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
 #, fuzzy
+#~ msgid "Configuration control for the Evolution Summary."
+#~ msgstr "Папка, содержащая Evolution Summary"
+
+#, fuzzy
+#~ msgid "Configure the appearance of the Evolution Summary here"
+#~ msgstr "Папка, содержащая Evolution Summary"
+
+#, fuzzy
+#~ msgid "Evolution Summary component."
+#~ msgstr "Компонент редактора писем Evolution."
+
+#, fuzzy
+#~ msgid "Factory for Evolution Summary's configuration control."
+#~ msgstr "Фабрика для управляющего элемента Evolution Задачи"
+
+#, fuzzy
+#~ msgid "Factory for the Evolution Summary component."
+#~ msgstr "Фабрика для компонента Mail Summary программы Evolution."
+
+#~ msgid "Summary Preferences"
+#~ msgstr "Настройки Сводки"
+
+#, fuzzy
 #~ msgid ""
 #~ "Thanks\n"
 #~ "The Ximian Evolution Team\n"
@@ -28128,21 +28411,6 @@ msgstr "init_bonobo(): Не удалось инициализировать Bonobo"
 
 #~ msgid "Inline Text _File..."
 #~ msgstr "Вставить текстовый файл..."
-
-#~ msgid "Insert a file as text into the message"
-#~ msgstr "Вставить файл как текст в сообщение"
-
-#~ msgid "Insert text file..."
-#~ msgstr "Вложить текстовый файл..."
-
-#~ msgid "Send _Later"
-#~ msgstr "Отправить позже"
-
-#~ msgid "Send _later"
-#~ msgstr "Отправить позже"
-
-#~ msgid "Send the message later"
-#~ msgstr "Отправить сообщение позже"
 
 #~ msgid "_Pilot Settings..."
 #~ msgstr "Настроить Pilot..."
