@@ -26,6 +26,7 @@
 #include "md5-utils.h"
 #include <stdio.h>
 
+static void md5_transform (guint32 buf[4], const guint32 in[16]);
 
 static gint _ie = 0x44332211;
 static union _endian { gint i; gchar b[4]; } *_endian = (union _endian *)&_ie;
@@ -52,7 +53,8 @@ _byte_reverse (guchar *buf, guint32 longs)
  * Start MD5 accumulation.  Set bit count to 0 and buffer to mysterious
  * initialization constants.
  */
-void md5_init (MD5Context *ctx)
+static void 
+md5_init (MD5Context *ctx)
 {
 	ctx->buf[0] = 0x67452301;
 	ctx->buf[1] = 0xefcdab89;
@@ -73,7 +75,8 @@ void md5_init (MD5Context *ctx)
  * Update context to reflect the concatenation of another buffer full
  * of bytes.
  */
-void md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
+static void 
+md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
 {
 	guint32 t;
 	
@@ -127,7 +130,8 @@ void md5_update (MD5Context *ctx, const guchar *buf, guint32 len)
  * Final wrapup - pad to 64-byte boundary with the bit pattern 
  * 1 0* (64-bit count of bits processed, MSB-first)
  */
-void md5_final (guchar digest[16], MD5Context *ctx)
+static void 
+md5_final (guchar digest[16], MD5Context *ctx)
 {
 	guint32 count;
 	guchar *p;
@@ -191,7 +195,8 @@ void md5_final (guchar digest[16], MD5Context *ctx)
  * reflect the addition of 16 longwords of new data.  md5_Update blocks
  * the data and converts bytes into longwords for this routine.
  */
-void md5_transform (guint32 buf[4], const guint32 in[16])
+static void 
+md5_transform (guint32 buf[4], const guint32 in[16])
 {
 	register guint32 a, b, c, d;
 	
@@ -277,51 +282,35 @@ void md5_transform (guint32 buf[4], const guint32 in[16])
 
 
 
-
-static int md5_do (const gchar * fn, guchar * digest, gint asAscii) 
-{
-	guchar buf[1024];
-	guchar bindigest[16];
-	FILE * fp;
+void
+md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16])
+{	
 	MD5Context ctx;
-	gint n;
-	
-	fp = fopen (fn, "r");
-	if (!fp) {
-		return 1;
-	}
-	
+
 	md5_init (&ctx);
-	while  ((n = fread (buf, 1, sizeof (buf), fp)) > 0)
-		md5_update (&ctx, buf, n);
-	md5_final (bindigest, &ctx);
-	if (ferror (fp)) {
-		fclose (fp);
-		return 1;
-	}
+	md5_update (&ctx, buffer, buffer_size);
+	md5_final (digest, &ctx);
 	
-	if (!asAscii) {
-		memcpy (digest, bindigest, 16);
-	} else {
-		sprintf (digest, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
-			 "%02x%02x%02x%02x%02x",
-			 bindigest[0],  bindigest[1],  bindigest[2],  bindigest[3],
-			 bindigest[4],  bindigest[5],  bindigest[6],  bindigest[7],
-			 bindigest[8],  bindigest[9],  bindigest[10], bindigest[11],
-			 bindigest[12], bindigest[13], bindigest[14], bindigest[15]);
-		
-	}
-	fclose (fp);
-	
-	return 0;
 }
 
-int md5_bin_file (const gchar *fn, guchar *bindigest) {
-	return md5_do (fn, bindigest, 0);
-}
 
-int md5_file (const gchar *fn, guchar *digest) {
-	return md5_do (fn, digest, 1);
+void
+md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest[16])
+{	
+	MD5Context ctx;
+	guchar tmp_buf[1024];
+	gint nb_bytes_read;
+
+	md5_init (&ctx);
+	
+	nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
+	while (nb_bytes_read) {
+		md5_update (&ctx, tmp_buf, nb_bytes_read);
+		nb_bytes_read = camel_stream_read (stream, tmp_buf, 1024);
+	}
+	
+	md5_final (digest, &ctx);
+	
 }
 
 

@@ -3,7 +3,9 @@
 	* camel/md5-utils.h:
 	* camel/md5-utils.c:
 	changed names to follow camel style.
-	
+	(md5_get_digest_from_stream): 
+	new methods.
+
 	* camel/md5-utils.c: imported md5 coding 
 	routine from rpm. Compiles.
 	

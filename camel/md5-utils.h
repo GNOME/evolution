@@ -27,7 +27,7 @@
 #define MD5_UTILS_H
 
 #include <glib.h>
-
+#include "camel-stream.h"
 
 typedef struct {
 	guint32 buf[4];
@@ -38,8 +38,8 @@ typedef struct {
 } MD5Context ;
 
 
-int md5_file (const gchar *fn, guchar *digest);
-int md5_bin_file (const gchar *fn, guchar *bindigest);
+void md5_get_digest (const gchar *buffer, gint buffer_size, guchar digest[16]);
+void md5_get_digest_from_stream (CamelStream *stream, gint buffer_size, guchar digest[16]);
 
 
 #endif	/* MD5_UTILS_H */
