@@ -731,9 +731,9 @@ icaltimezone_convert_time		(struct icaltimetype *tt,
 {
     int utc_offset, is_daylight;
 
-    /* If the time is a DATE value or both timezones are the same, we don't
-       need to do anything. */
-    if (tt->is_date || from_zone == to_zone)
+    /* If the time is a DATE value or both timezones are the same, or we are
+       converting a floating time, we don't need to do anything. */
+    if (tt->is_date || from_zone == to_zone || from_zone == NULL)
 	return;
 
     /* Convert the time to UTC by getting the UTC offset and subtracting it. */
