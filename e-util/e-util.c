@@ -24,6 +24,7 @@
 #include <config.h>
 #include "e-util.h"
 
+#include <gal/widgets/e-unicode.h>
 #include <glib.h>
 #include <gtk/gtkobject.h>
 #include <errno.h>
@@ -53,8 +54,8 @@ g_str_compare(const void *x, const void *y)
 		else
 			return x ? -1 : 1;
 	} 
-		
-	return strcmp(x, y);
+
+	return g_utf8_collate (x, y);
 }
 
 int
