@@ -25,6 +25,7 @@
 #include <config.h>
 
 #include <string.h>
+#include <errno.h>
 #include <glib.h>
 
 #include "folder-browser-factory.h"

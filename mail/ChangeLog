@@ -1,3 +1,6 @@
+2000-10-10  Cody Russell  <bratsche@gnome.org>
+	* mail-threads.c: Added #include <errno.h>
+
 2000-10-09  Iain Holmes  <iain@helixcode.com>
 
 	* mail-summary.c: Removed the extra arguments to rule_context_load.
