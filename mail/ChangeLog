@@ -1,5 +1,13 @@
 2004-10-19  JP Rosevear  <jpr@novell.com>
 
+	* em-account-editor.c, em-composer-prefs.c, em-config.c,
+	em-event.c, em-folder-browser.c, em-folder-properties.c,
+	em-folder-tree.c, em-folder-view.c, em-format-hook.c,
+	em-format-html-display.c, em-mailer-prefs.c, em-menu.c,
+	em-message-browser.c, em-popup.c, message-list.c: convert to org.gnome hook names
+
+2004-10-19  JP Rosevear  <jpr@novell.com>
+	
 	* message-list.c: convert to G_DEFINE_TYPE
 
 2004-10-11  Not Zed  <NotZed@Ximian.com>
