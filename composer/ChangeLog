@@ -1,3 +1,11 @@
+2003-03-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer-attachment-bar.c: Use GnomeIconList instead of
+	EIconList so we don't have to maintain an exact copy/paste of
+	GnomeIconList ourselves. I don't udnerstand why we ever did.
+
+	* e-icon-list.[c,h]: Removed.
+
 2003-03-11  Not Zed  <NotZed@Ximian.com>
 
 	* evolution-composer.c (evolution_composer_new): add

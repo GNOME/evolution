@@ -84,8 +84,6 @@ libcomposer_la_SOURCES = 			\
 	e-msg-composer-select-file.h		\
 	e-msg-composer.c			\
 	e-msg-composer.h			\
-	e-icon-list.c				\
-	e-icon-list.h				\
 	evolution-composer.c			\
 	evolution-composer.h			\
 	listener.c				\
