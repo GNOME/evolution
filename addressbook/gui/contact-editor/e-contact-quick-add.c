@@ -27,15 +27,8 @@
 
 #include <config.h>
 #include <ctype.h>
-#include <glib.h>
-#include <gtk/gtkentry.h>
-#include <gtk/gtklabel.h>
-#include <gtk/gtktable.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-stock.h>
+#include <gnome.h>
+#include <gal/widgets/e-unicode.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/backend/ebook/e-card.h>
@@ -179,10 +172,19 @@ clicked_cb (GtkWidget *w, gint button, gpointer user_data)
 		name_entry = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-name-entry");
 		email_entry = gtk_object_get_data (GTK_OBJECT (card), "e-contact-quick-add-email-entry");
 		
-		if (name_entry)
-			name = gtk_editable_get_chars (GTK_EDITABLE (name_entry), 0, -1);
-		if (email_entry)
-			email = gtk_editable_get_chars (GTK_EDITABLE (email_entry), 0, -1);
+		if (name_entry) {
+			gchar *tmp;
+			tmp = gtk_editable_get_chars (GTK_EDITABLE (name_entry), 0, -1);
+			name = e_utf8_from_gtk_string (name_entry, tmp);
+			g_free (tmp);
+		}
+
+		if (email_entry) {
+			gchar *tmp;
+			tmp = gtk_editable_get_chars (GTK_EDITABLE (email_entry), 0, -1);
+			email = e_utf8_from_gtk_string (email_entry, tmp);
+			g_free (tmp);
+		}
 
 		e_card_quick_set_name (card, name);
 		e_card_quick_set_email (card, email);
@@ -235,8 +237,10 @@ build_quick_add_dialog (ECard *new_card, EContactQuickAddCallback cb, gpointer u
 
 	if (new_card->name) {
 		gchar *str = e_card_name_to_string (new_card->name);
-		gtk_entry_set_text (GTK_ENTRY (name_entry), str);
+		gchar *s2 = e_utf8_to_gtk_string (name_entry, str);
+		gtk_entry_set_text (GTK_ENTRY (name_entry), s2);
 		g_free (str);
+		g_free (s2);
 	}
 
 
@@ -248,7 +252,9 @@ build_quick_add_dialog (ECard *new_card, EContactQuickAddCallback cb, gpointer u
 			e_iterator_reset (iterator);
 			if (e_iterator_is_valid (iterator)) {
 				const gchar *str = e_iterator_get (iterator);
-				gtk_entry_set_text (GTK_ENTRY (email_entry), str);
+				gchar *s2 = e_utf8_to_gtk_string (email_entry, str);
+				gtk_entry_set_text (GTK_ENTRY (email_entry), s2);
+				g_free (s2);
 			}
 		}
 	}

@@ -1,3 +1,8 @@
+2001-04-21  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* contact-editor/e-contact-quick-add.c (build_quick_add_dialog):
+	Pull up utf8 conversion fixes from trow on HEAD. Fixes bug #2256.
+	
 2001-04-20  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* gui/component/e-address-popup.c: Pull up fix to
