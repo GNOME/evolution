@@ -29,16 +29,19 @@
 #include <dirent.h>
 
 /* This isn't as portable as, say, the stuff in GNU coreutils.  But I care not for OSF1. */
-#ifdef HAVE_STATFS
-# ifdef HAVE_SYS_VFS_H
-#  include <sys/vfs.h>		/* linux interface */
+#ifdef HAVE_STATVFS
+# ifdef HAVE_SYS_STATVFS_H
+#  include <sys/statvfs.h>
 # endif
+#else
+#ifdef HAVE_STATFS
 # ifdef HAVE_SYS_PARAM_H
 #  include <sys/param.h>	/* bsd interface */
 # endif
 # ifdef HAVE_SYS_MOUNT_H
 #  include <sys/mount.h>
 # endif
+#endif
 #endif
 
 #include <errno.h>
@@ -128,14 +131,24 @@ fail:
 long
 e_fsutils_avail(const char *path)
 {
-#ifdef HAVE_STATFS
+#if defined(HAVE_STATVFS)
+	struct statvfs stfs;
+
+	if (statvfs(path, &stfs) == -1)
+		return -1;
+
+	/* Assumes that frsize === power of 2 */
+	if (stfs.f_frsize >= 1024)
+		return stfs.f_bavail * (stfs.f_frsize / 1024);
+	else
+		return stfs.f_bavail / (1024 / stfs.f_frsize);
+#elif defined(HAVE_STATFS)
 	struct statfs stfs;
 
 	if (statfs(path, &stfs) == -1)
 		return -1;
 
-	/* On linux at least, bavail is in 512 byte blocks */
-	/* For BSD this isn't clear, it may be dependent on f_bsize, which on linux is rather, the page size! */
+	/* For BSD this isn't clear, it may be dependent on f_bsize */
 	return stfs.f_bavail / 2;
 #else
 	errno = ENOSYS;
