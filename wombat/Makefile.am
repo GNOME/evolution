@@ -36,7 +36,8 @@ wombat_LDADD =								\
 	$(top_builddir)/e-util/libedb3util.la				\
 	$(top_builddir)/e-util/libeutil.la				\
 	$(top_builddir)/libwombat/libwombat.la				\
-	$(WOMBAT_LIBS)
+	$(WOMBAT_LIBS)							\
+	$(DB3_LDADD)
 
 oafdir = $(datadir)/oaf
 
