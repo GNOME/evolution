@@ -209,7 +209,7 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 			
 			filter_driver_run (filter, message, info,
 					   input->destination, FILTER_SOURCE_INCOMING,
-					   TRUE, ex);
+					   FALSE, ex);
 			
 			if (free_info)
 				camel_message_info_free (info);
