@@ -1,3 +1,7 @@
+2000-02-28  Federico Mena Quintero  <federico@helixcode.com>
+
+	* calendar.sgml: Section for the personal calendar server.
+
 2000-02-25  Federico Mena Quintero  <federico@helixcode.com>
 
 	* calendar.sgml: New file for the Evolution calendaring white paper.
