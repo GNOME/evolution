@@ -1,3 +1,40 @@
+2004-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (do_popup_menu): convert to
+	using EABPopup.
+	(sources): remove dead code.
+	(has_email_address_1, get_has_email_address): removed now
+	redundant code.
+	(save_as, send_as, send_to, print, copy, paste, cut, delete) 
+	(copy_to_folder, move_to_folder, new_card, new_list): new api.
+	(free_popup_info): dead.
+	(print_envelope): not pining.
+	(get_contact_list): take a popup target instead, don't ref.
+	(get_contact_list_1): not required no more.
+	(contact_and_book_free): same.
+	(delete): call eab_view_delete_selection.
+	(eab_view_delete_selection): do the actual delete here.
+
+	* gui/widgets/eab-popup.c (eab_popup_target_new_select): implement.
+
+2004-10-01  Not Zed  <NotZed@Ximian.com>
+
+	* gui/widgets/eab-popup.[ch]: addressbook popup driver.
+
+	* gui/component/addressbook-view.c (delete_addressbook_cb): use
+	e-error for the message prompt.  don't bother keeping it around,
+	it can never be re-sensitised anyway.
+	(book_removed): no longer destroy the original dialogue.
+
+	* addressbook-errors.xml: add ask-delete for deleting
+	addressbooks.
+
+	* gui/component/addressbook-view.c (addressbook_view_init):
+	connect to popup_event rather than fill_popup_menu now.
+	(fill_popup_menu_callback): renamed to popup_event_callback,
+	changed to use epopup.
+	(add_popup_menu_item): remove, no longer needed.
+
 2004-09-29  Not Zed  <NotZed@Ximian.com>
 
 	Fixes bug #66520.

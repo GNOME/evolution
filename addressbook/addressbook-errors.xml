@@ -32,6 +32,13 @@
   <primary>Could not remove addressbook.</primary>
  </error>
 
+ <error id="ask-delete-addressbook" type="question" modal="true" default="GTK_RESPONSE_CANCEL">
+  <primary>Delete address book '{0}'?</primary>
+  <secondary>This address book will be removed permanently.</secondary>
+  <button stock="gtk-cancel" response="GTK_RESPONSE_CANCEL"/>
+  <button stock="gtk-delete" response="GTK_RESPONSE_YES"/>
+ </error>
+
  <error id="edit-categories" type="error">
   <primary>Category editor not available.</primary>
  </error>
