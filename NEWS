@@ -64,6 +64,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              times  (Rodrigo)
     #43029 - When running under valgrind Evolution crashed while
              exiting  (JP)
+    #41234 - button order of "Enter Delegate" dialog (Rodrigo)
 
   * Mail
 
