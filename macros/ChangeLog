@@ -1,51 +1,13 @@
 1998-08-29  Martin Baulig  <martin@home-of-linux.org>
 
-	* gnome-libgtop-check.m4: Added (AC_SUBST):
-	`LIBGTOP_INTERFACE_AGE' and `LIBGTOP_BINARY_AGE' for libtool.
-
-1998-08-27  Christopher Blizzard  <blizzard@appliedtheory.com>
-
-	* gnome-ghttp-check.m4: Umm...I think this works better.  Doesn't
- 	break anything anyway.
-	Oooo...it actually works now.  Forgot a ,
-
-1998-08-26  Martin Baulig  <martin@home-of-linux.org>
-
-	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Make it work
-	with a brain-dead /bin/sh and a brain-dead /bin/test.
-	
-	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): Use `AC_MSG_WARN'
-	if LibGTop cannot be found and the `fail' argument is not given.
+	* gnome-libgtop-check.m4: Make it require libgtop >= 0.25.1.
+	Added (AC_SUBST): `LIBGTOP_INTERFACE_AGE' and `LIBGTOP_BINARY_AGE'.
 
 1998-08-24  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-support.m4 (GCC_NEED_DECLARATIONS): Added `setreuid',
 	`setregid' and `getpagesize'.
 	(AC_TYPE_UID_T): New check.
-
-1998-08-24  Christopher Blizzard  <blizzard@appliedtheory.com>
-
-	* Makefile.am (MACROS): Add gnome-ghttp-check.m4 to the Makefile.
-
-1998-08-23  Martin Baulig  <martin@home-of-linux.org>
-
-	* gnome-libgtop-check.m4 (GNOME_INIT_LIBGTOP): You can give
-	this macro two parameters: the required version number and
-	an optional `fail' argument to make it fail if LibGTop is
-	not found.
-
-1998-08-22  Martin Baulig  <martin@home-of-linux.org>
-
-	* gnome-guile-checks.m4: Added check for `-lnsl' and `-lsocket'
-	if `build-guile' cannot be found.
-
-1998-08-20  Raja R Harinath  <harinath@cs.umn.edu>
-
-	* compiler-flags.m4: New file.  Defines the
-	GNOME_COMPILER_WARNINGS macro.
-	* autogen.sh (conf_flags): Add `--enable-compile-warnings' to list
-	of flags passed to `configure'.
-	* Makefile.am (MACROS): Add compiler-flags.m4.
 
 1998-08-18  Martin Baulig  <martin@home-of-linux.org>
 
