@@ -579,17 +579,19 @@ struct _send_mail_msg {
 static char *send_mail_desc(struct _mail_msg *mm, int done)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
-	const char *subject = NULL;
+	char *subject;
 	const char *subject_utf8;
 	
 	subject_utf8 = camel_mime_message_get_subject(m->message);
 	
-	if (subject_utf8 != NULL)
+	if (subject_utf8) {
+		char *desc;
+
 		subject = e_utf8_to_locale_string (subject_utf8);
-	
-	if (subject && subject[0])
-		return g_strdup_printf (_("Sending \"%s\""), subject);
-	else
+		desc = g_strdup_printf (_("Sending \"%s\""), subject);
+		g_free (subject);
+		return desc;
+	} else
 		return g_strdup(_("Sending message"));
 }
 
