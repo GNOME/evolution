@@ -1,3 +1,19 @@
+2002-07-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-folder.c (safe_corba_string_dup): New helper function.
+	(e_folder_to_corba): Use it here.
+
+	* Makefile.am (libeshell_la_SOURCES): Move e-folder.c here, from
+	evolution_SOURCES.
+	(eshellinclude_HEADERS): Likewise, move e-folder.h here.
+
+	* evolution-storage.c (impl_Storage_getFolderAtPath): New,
+	implementation for Evoluiton::Storage::getFolderAtPath.
+	(evolution_storage_get_epv): Install CORBA method here.
+
+	* Evolution-Storage.idl (getFolderAtPath): New method in
+	Evolution::Storage.
+
 2002-07-05  Ettore Perazzoli  <ettore@ximian.com>
 
  	[Fix #22047, Crash after running the start-up wizard.  The patch

@@ -520,9 +520,6 @@ component_async_remove_folder_callback (EvolutionShellComponentClient *shell_com
 	if (result == EVOLUTION_SHELL_COMPONENT_OK) {
 		result = remove_folder_directory (E_LOCAL_STORAGE (callback_data->storage), path);
 		e_storage_removed_folder (E_STORAGE (callback_data->storage), path);
-
-		g_print ("...Removed %s!\n", path);
-
 		evolution_storage_removed_folder (EVOLUTION_STORAGE (priv->bonobo_interface), path);
 	} else {
 		/* FIXME: Handle errors.  */

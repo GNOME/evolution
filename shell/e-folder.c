@@ -391,6 +391,15 @@ e_folder_get_can_sync_offline (EFolder *folder)
 
 /* Gotta love CORBA.  */
 
+static CORBA_char *
+safe_corba_string_dup (const char *s)
+{
+	if (s == NULL)
+		return CORBA_string_dup ("");
+
+	return CORBA_string_dup (s);
+}
+
 void
 e_folder_to_corba (EFolder *folder,
 		   const char *evolution_uri,
@@ -399,11 +408,11 @@ e_folder_to_corba (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (folder_return != NULL);
 
-	folder_return->type           = e_safe_corba_string_dup (e_folder_get_type_string (folder));
-	folder_return->description    = e_safe_corba_string_dup (e_folder_get_description (folder));
-	folder_return->displayName    = e_safe_corba_string_dup (e_folder_get_name (folder));
-	folder_return->physicalUri    = e_safe_corba_string_dup (e_folder_get_physical_uri (folder));
-	folder_return->evolutionUri   = e_safe_corba_string_dup (evolution_uri);
+	folder_return->type           = safe_corba_string_dup (e_folder_get_type_string (folder));
+	folder_return->description    = safe_corba_string_dup (e_folder_get_description (folder));
+	folder_return->displayName    = safe_corba_string_dup (e_folder_get_name (folder));
+	folder_return->physicalUri    = safe_corba_string_dup (e_folder_get_physical_uri (folder));
+	folder_return->evolutionUri   = safe_corba_string_dup (evolution_uri);
 	folder_return->unreadCount    = e_folder_get_unread_count (folder);
 	folder_return->canSyncOffline = e_folder_get_can_sync_offline (folder);
 }

@@ -33,6 +33,7 @@
 
 #include "Evolution.h"
 
+#include "e-folder.h"
 #include "e-folder-tree.h"
 
 #include "evolution-storage.h"
@@ -269,6 +270,33 @@ impl_Storage__get_hasSharedFolders (PortableServer_Servant servant,
 	priv = storage->priv;
 
 	return priv->has_shared_folders;
+}
+
+static GNOME_Evolution_Folder *
+impl_Storage_getFolderAtPath (PortableServer_Servant servant,
+			      const CORBA_char *path,
+			      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionStorage *storage;
+	EvolutionStoragePrivate *priv;
+	EFolder *folder;
+	GNOME_Evolution_Folder *corba_folder;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	storage = EVOLUTION_STORAGE (bonobo_object);
+	priv = storage->priv;
+
+        folder = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (folder == NULL) {
+		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Storage_NotFound, NULL);
+		return NULL;
+	}
+
+	corba_folder = GNOME_Evolution_Folder__alloc ();
+	e_folder_to_corba (folder, "", corba_folder);
+
+	return corba_folder;
 }
 
 static void
@@ -699,6 +727,7 @@ evolution_storage_get_epv (void)
 	epv = g_new0 (POA_GNOME_Evolution_Storage__epv, 1);
 	epv->_get_name                 = impl_Storage__get_name;
 	epv->_get_hasSharedFolders     = impl_Storage__get_hasSharedFolders;
+	epv->getFolderAtPath           = impl_Storage_getFolderAtPath;
 	epv->_get_folderList           = impl_Storage__get_folderList;
 	epv->asyncCreateFolder         = impl_Storage_asyncCreateFolder;
 	epv->asyncRemoveFolder         = impl_Storage_asyncRemoveFolder;

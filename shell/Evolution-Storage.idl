@@ -42,6 +42,12 @@ module Evolution {
 
 		/* Whether the storage has folders from other user's.  */
 		readonly attribute boolean hasSharedFolders;
+
+		/* Get informatino for a folder.  NOTE: evolutionUri in the
+		   returned Folder is going to be an empty string if you use
+		   this function.  */
+		Folder getFolderAtPath (in string path)
+			raises (NotFound);
 		
 		/* Flat list of the folders in the storage.  */
 		readonly attribute FolderList folderList;
