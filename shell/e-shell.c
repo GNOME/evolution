@@ -282,7 +282,6 @@ setup_components (EShell *shell)
 	priv = shell->priv;
 
 	priv->component_registry = e_component_registry_new (shell);
-	gtk_object_ref (GTK_OBJECT (priv->component_registry));
 
 	/* FIXME: Hardcoded for now.  */
 
@@ -711,7 +710,6 @@ e_shell_quit (EShell *shell)
 	gtk_object_unref (GTK_OBJECT (priv->shortcuts));
 	gtk_object_unref (GTK_OBJECT (priv->folder_type_registry));
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
-
 	priv->storage_set          = NULL;
 	priv->shortcuts            = NULL;
 	priv->folder_type_registry = NULL;

@@ -1,3 +1,7 @@
+2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (setup_components): Don't ref the component registry.
+
 2000-06-30  Dan Winship  <danw@helixcode.com>
 
 	* Evolution-Shell.idl: add "cancel" to FolderSelectionListener.
