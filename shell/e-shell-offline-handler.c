@@ -438,8 +438,6 @@ prepare_for_offline (EShellOfflineHandler *offline_handler)
 
 		g_assert (g_hash_table_lookup (priv->id_to_component_info, component_info->id) == NULL);
 		g_hash_table_insert (priv->id_to_component_info, component_info->id, component_info);
-
-		g_print ("Inserting -- %p %s\n", component_info, component_info->id);
 	}
 
 	/* If an error occurred while preparing, just put all the components
@@ -471,8 +469,6 @@ finalize_offline_hash_foreach (void *key,
 	component_info = (ComponentInfo *) value;
 
 	CORBA_exception_init (&ev);
-
-	g_print ("Offline -- %p\n", component_info);
 
 	GNOME_Evolution_Offline_goOffline (component_info->offline_interface,
 					   component_info->progress_listener_interface,
