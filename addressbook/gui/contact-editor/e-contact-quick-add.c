@@ -268,18 +268,25 @@ static GtkWidget *
 build_quick_add_dialog (QuickAdd *qa)
 {
 	GtkWidget *dialog;
+	GtkWidget *label;
 	GtkTable *table;
-	const gint xpad=6, ypad=6;
+	const gint xpad=0, ypad=0;
 
 	g_return_val_if_fail (qa != NULL, NULL);
 
 	dialog = gtk_dialog_new_with_buttons (_("Contact Quick-Add"),
 					      NULL, /* XXX */
-					      (GtkDialogFlags) 0,
+					      GTK_DIALOG_NO_SEPARATOR,
 					      _("_Edit Full"), QUICK_ADD_RESPONSE_EDIT_FULL,
-					        GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+					      GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
 					      GTK_STOCK_OK, GTK_RESPONSE_OK,
 					      NULL);
+
+	gtk_widget_ensure_style (dialog);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 
+					0);
+	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->action_area), 
+					12);
 
 	g_signal_connect (dialog, "response", G_CALLBACK (clicked_cb), qa);
 
@@ -293,27 +300,34 @@ build_quick_add_dialog (QuickAdd *qa)
 		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), qa->email);
 
 	table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
+	gtk_table_set_row_spacings (table, 6);
+	gtk_table_set_col_spacings (table, 12);
 
-	gtk_table_attach (table, gtk_label_new_with_mnemonic (_("_Full Name:")),
+	label = gtk_label_new_with_mnemonic (_("_Full name:"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+
+	gtk_table_attach (table, label,
 			  0, 1, 0, 1,
-			  0, 0, xpad, ypad);
+			  GTK_FILL, 0, xpad, ypad);
 	gtk_table_attach (table, qa->name_entry,
 			  1, 2, 0, 1,
-			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
-	gtk_table_attach (table, gtk_label_new_with_mnemonic (_("E-_mail:")),
+			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
+
+	label = gtk_label_new_with_mnemonic (_("E-_mail:"));
+	gtk_misc_set_alignment (GTK_MISC (label), 0.0, 0.5);
+
+	gtk_table_attach (table, label,
 			  0, 1, 1, 2,
-			  0, 0, xpad, ypad);
+			  GTK_FILL, 0, xpad, ypad);
 	gtk_table_attach (table, qa->email_entry,
 			  1, 2, 1, 2,
-			  GTK_EXPAND | GTK_FILL, GTK_EXPAND, xpad, ypad);
-	gtk_container_set_border_width (GTK_CONTAINER (GTK_DIALOG (dialog)->vbox), 
-					6);
+			  GTK_EXPAND | GTK_FILL, 0, xpad, ypad);
 
-	gtk_box_set_spacing (GTK_BOX (GTK_DIALOG (dialog)->vbox),6);
-
+	gtk_container_set_border_width (GTK_CONTAINER (table), 
+					12);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 			    GTK_WIDGET (table),
-			    TRUE, TRUE, 6);
+			    FALSE, FALSE, 0);
 	gtk_widget_show_all (GTK_WIDGET (table));
 			  
 	

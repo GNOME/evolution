@@ -924,14 +924,6 @@ contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 }
 
 static void
-edit_contact_info_cb (GtkWidget *button, EABPopupControl *pop)
-{
-	emit_event (pop, "Hide");
-
-	addressbook_load_default_book (contact_editor_cb, pop);
-}
-
-static void
 eab_popup_control_display_contact (EABPopupControl *pop, EContact *contact)
 {
 	GtkWidget *b;
@@ -943,23 +935,11 @@ eab_popup_control_display_contact (EABPopupControl *pop, EContact *contact)
 	pop->contact = contact;
 	g_object_ref (pop->contact);
 
-	eab_contact_display_render (EAB_CONTACT_DISPLAY (pop->contact_display),
-				    contact,
-				    EAB_CONTACT_DISPLAY_RENDER_COMPACT);
-	gtk_widget_show (pop->contact_display);
-	gtk_widget_hide (pop->generic_view);
-
-	b = gtk_button_new_with_label (_("Edit Contact Info"));
-	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
-	g_signal_connect (b,
-			  "clicked",
-			  G_CALLBACK (edit_contact_info_cb),
-			  pop);
-	gtk_widget_show (b);
+	addressbook_load_default_book (contact_editor_cb, pop);
 }
 
 static void
-add_contacts_cb (GtkWidget *button, EABPopupControl *pop)
+eab_popup_control_no_matches (EABPopupControl *pop)
 {
 	if (pop->email && *pop->email) {
 		if (pop->name && *pop->name)
@@ -970,23 +950,6 @@ add_contacts_cb (GtkWidget *button, EABPopupControl *pop)
 	}
 	eab_popup_control_cleanup (pop);
 	emit_event (pop, "Destroy");
-}
-
-static void
-eab_popup_control_no_matches (EABPopupControl *pop)
-{
-	GtkWidget *b;
-
-	g_return_if_fail (pop && EAB_IS_POPUP_CONTROL (pop));
-
-	b = e_button_new_with_stock_icon (_("Add to Contacts"), "gtk-add");
-
-	gtk_box_pack_start (GTK_BOX (pop->main_vbox), b, TRUE, TRUE, 0);
-	g_signal_connect (b,
-			  "clicked",
-			  G_CALLBACK (add_contacts_cb),
-			  pop);
-	gtk_widget_show (b);
 }
 
 static void

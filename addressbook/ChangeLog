@@ -1,5 +1,25 @@
 2005-01-21  Rodney Dawes  <dobey@novell.com>
 
+	* gui/contact-editor/e-contact-quick-add.c (build_quick_add_dialog):
+	Change the xpad and ypad to 0 here, we don't need the extra padding
+	Add the GTK_DIALOG_NO_SEPARATOR flag for creating the dialog
+	Set proper border widths on some dialog containers for the HIG
+	Set the row/column spacings for the table widget
+	Create the labels outside of the table packing calls and set the proper
+	alignment for them to be HIG compliant
+	Set the border width of the table widget to 12 for HIG compliance
+	
+	* gui/widgets/eab-popup-control.c (edit_contact_info_cb): Removed
+	(eab_popup_control_display_contact): Just go ahead and open the
+	editor, no need to have an intermittent window with a button for it
+	(add_contacts_cb): Remove this as we don't need it any more
+	(eab_popup_control_no_matches): Just go straight to the quick-add
+	dialog, and don't pop up an intermittent window with a button
+
+	Fixes #41210 #60852 
+
+2005-01-21  Rodney Dawes  <dobey@novell.com>
+
 	* gui/contact-editor/e-contact-editor.c (e_contact_editor_init):
 	Call gtk_widget_ensure_style to ensure that we set the border widths
 	of some dialog containers properly for HIG compliance
