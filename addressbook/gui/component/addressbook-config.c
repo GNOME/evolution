@@ -28,15 +28,14 @@ struct _AddressbookSourceDialog {
 
 	GtkWidget *name;
 	GtkWidget *host;
+	GtkWidget *email;
+	GtkWidget *email_label;
 
 	GtkWidget *port;
 	GtkWidget *rootdn;
 	GtkWidget *scope_optionmenu;
 	AddressbookLDAPScopeType ldap_scope;
 	GtkWidget *auth_checkbutton;
-#if the_ui_gods_smile_upon_me
-	GtkWidget *remember_checkbutton;
-#endif
 
 	gint id; /* button we closed the dialog with */
 
@@ -82,10 +81,10 @@ auth_checkbutton_changed (GtkWidget *item, AddressbookSourceDialog *dialog)
 	/* make sure the change is reflected by the state of the dialog's OK button */
 	addressbook_source_edit_changed (item, dialog);
 
-#if the_ui_gods_smile_upon_me
-	gtk_widget_set_sensitive (dialog->remember_checkbutton,
+	gtk_widget_set_sensitive (dialog->email_label,
 				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
-#endif
+	gtk_entry_set_editable (GTK_ENTRY(dialog->email),
+				gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
 }
 
 static void
@@ -129,6 +128,7 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 {
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->name), source ? source->name : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->host), source ? source->host : "");
+	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->email), source ? source->email_addr : "");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->port), source ? source->port : "389");
 	e_utf8_gtk_entry_set_text (GTK_ENTRY (dialog->rootdn), source ? source->rootdn : "");
 
@@ -136,9 +136,8 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	dialog->ldap_scope = source ? source->scope : ADDRESSBOOK_LDAP_SCOPE_ONELEVEL;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
-#if the_ui_gods_smile_upon_me
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(dialog->remember_checkbutton), source && source->remember_passwd);
-#endif
+	gtk_widget_set_sensitive (dialog->email_label, source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
+	gtk_entry_set_editable (GTK_ENTRY(dialog->email), source && source->auth == ADDRESSBOOK_LDAP_AUTH_SIMPLE);
 }
 
 static AddressbookSource *
@@ -146,15 +145,14 @@ addressbook_source_dialog_get_source (AddressbookSourceDialog *dialog)
 {
 	AddressbookSource *source = g_new0 (AddressbookSource, 1);
 
-	source->name   = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->name));
-	source->host   = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
-	source->port   = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
-	source->rootdn = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
-	source->scope  = dialog->ldap_scope;
-	source->auth   = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->auth_checkbutton)) ? ADDRESSBOOK_LDAP_AUTH_SIMPLE : ADDRESSBOOK_LDAP_AUTH_NONE;
-#if the_ui_gods_smile_upon_me
-	source->remember_passwd   = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->remember_checkbutton));
-#endif
+	source->name       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->name));
+	source->host       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->host));
+	source->email_addr = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->email));
+	source->port       = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->port));
+	source->rootdn     = e_utf8_gtk_entry_get_text (GTK_ENTRY (dialog->rootdn));
+	source->scope      = dialog->ldap_scope;
+	source->auth       = (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (dialog->auth_checkbutton))
+			      ? ADDRESSBOOK_LDAP_AUTH_SIMPLE : ADDRESSBOOK_LDAP_AUTH_NONE);
 
 	addressbook_storage_init_source_uri (source);
 
@@ -209,19 +207,17 @@ addressbook_source_dialog (GladeXML *gui, AddressbookSource *source, GtkWidget *
 			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
 	add_focus_handler (dialog->host, dialog->basic_notebook, 1);
 
+	dialog->email = glade_xml_get_widget (gui, "email-address-entry");
+	gtk_signal_connect (GTK_OBJECT (dialog->email), "changed",
+			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
+	add_focus_handler (dialog->email, dialog->basic_notebook, 2);
+
+	dialog->email_label = glade_xml_get_widget (gui, "email-address-label");
+
 	dialog->auth_checkbutton = glade_xml_get_widget (gui, "auth-checkbutton");
 	add_focus_handler (dialog->auth_checkbutton, dialog->basic_notebook, 2);
 	gtk_signal_connect (GTK_OBJECT (dialog->auth_checkbutton), "toggled",
 			    GTK_SIGNAL_FUNC (auth_checkbutton_changed), dialog);
-
-#if the_ui_gods_smile_upon_me
-	dialog->remember_checkbutton = glade_xml_get_widget (gui, "remember-checkbutton");
-	add_focus_handler (dialog->auth_checkbutton, dialog->basic_notebook, 3);
-	gtk_signal_connect (GTK_OBJECT (dialog->remember_checkbutton), "toggled",
-			    GTK_SIGNAL_FUNC (addressbook_source_edit_changed), dialog);
-	gtk_widget_set_sensitive (dialog->remember_checkbutton,
-				  gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(dialog->auth_checkbutton)));
-#endif
 
 	/* ADVANCED STUFF */
 	dialog->port = glade_xml_get_widget (gui, "port-entry");

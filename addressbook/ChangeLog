@@ -1,3 +1,21 @@
+2001-10-06  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-config.glade: add an Email Address
+	field/label/help text.
+
+	* gui/component/addressbook-config.c
+	(addressbook_source_dialog_set_source): fill in the email entry
+	from the source.  also, set the initial state of the email
+	label/entry.
+	(auth_checkbutton_changed): set the email label/entry
+	sensitive/editable if auth is turned on, and
+	insensitive/uneditable if it's off.
+	(addressbook_source_dialog_get_source): get the email address from
+	the email entry.
+	(addressbook_source_dialog): hook up the email entry to the
+	changed signal foo, as well as the focus handler for displaying
+	help text.
+
 2001-10-06  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c
