@@ -57,7 +57,7 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 	if(etsm->row_count >= 0) {
 		/* Add another word if needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
-			etsm->selection = g_renew(etsm->selection, gint, (etsm->row_count >> 5) + 1);
+			etsm->selection = g_renew(gint, etsm->selection, (etsm->row_count >> 5) + 1);
 			etsm->selection[etsm->row_count >> 5] = 0;
 		}
 
@@ -102,7 +102,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		etsm->row_count --;
 		/* Remove the last word if not needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
-			etsm->selection = g_renew(etsm->selection, gint, etsm->row_count >> 5);
+			etsm->selection = g_renew(gint, etsm->selection, etsm->row_count >> 5);
 		}
 	}
 }
