@@ -119,6 +119,8 @@ static char * internet_encode		(CamelAddress *a)
 		if (name) {
 			if (*name)
 				g_string_sprintfa(out, "%s <%s>", name, addr->address);
+			else if (addr->address)
+				g_string_sprintfa (out, "%s", addr->address);
 			g_free(name);
 		} else
 			g_string_sprintfa(out, "%s", addr->address);

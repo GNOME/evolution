@@ -1,3 +1,8 @@
+2000-08-18  Peter Williams  <peterw@helixcode.com>
+
+	* camel-internet-address.c (internet_encode): If the name is "" we
+	weren't outputting anything; output the address at least.
+
 2000-08-16  Peter Williams  <peterw@helixcode.com>
 
 	* camel-internet-address.c (internet_encode): Fix a leak when
