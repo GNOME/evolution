@@ -557,7 +557,7 @@ mail_tool_quote_message (CamelMimeMessage *message, const char *fmt, ...)
 	gboolean want_plain, is_html;
 	gchar *text;
 	
-	want_plain = !mail_config_send_html ();
+	want_plain = !mail_config_get_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = mail_get_message_body (contents, want_plain, &is_html);
 	

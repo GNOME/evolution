@@ -165,7 +165,7 @@ Click &quot;Next&quot; to begin. </text>
 
 	      <widget>
 		<class>GtkEntry</class>
-		<name>txtEMail</name>
+		<name>txtAddress</name>
 		<can_focus>True</can_focus>
 		<editable>True</editable>
 		<text_visible>True</text_visible>
@@ -1192,7 +1192,7 @@ Click &quot;Next&quot; to begin. </text>
 
 		  <widget>
 		    <class>GtkEntry</class>
-		    <name>omenuTransportHostname</name>
+		    <name>txtTransportHostname</name>
 		    <can_focus>True</can_focus>
 		    <editable>True</editable>
 		    <text_visible>True</text_visible>
@@ -1750,7 +1750,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	    <name>fileSignature</name>
 	    <max_saved>10</max_saved>
 	    <title>Select signature file</title>
-	    <directory>True</directory>
+	    <directory>False</directory>
 	    <modal>True</modal>
 	    <child>
 	      <left_attach>4</left_attach>
@@ -1800,7 +1800,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -1826,7 +1826,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -1852,7 +1852,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -1878,7 +1878,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -1904,7 +1904,7 @@ Click &quot;Finish&quot; to save your settings.</text>
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -2017,30 +2017,6 @@ Click &quot;Finish&quot; to save your settings.</text>
 	  </widget>
 
 	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>chkSourceSSL</name>
-	    <sensitive>False</sensitive>
-	    <can_focus>True</can_focus>
-	    <label>This server requires a secure connection (SSL)</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>7</top_attach>
-	      <bottom_attach>8</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkOptionMenu</class>
 	    <name>omenuSourceAuth</name>
 	    <can_focus>True</can_focus>
@@ -2055,110 +2031,6 @@ DIGEST-MD5
 	      <right_attach>10</right_attach>
 	      <top_attach>6</top_attach>
 	      <bottom_attach>7</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblIncomingServerType</name>
-	    <label>Type:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblIncomingServer</name>
-	    <label>Hostname:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblUsername</name>
-	    <label>Username:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblPassword</name>
-	    <label>Password:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>4</top_attach>
-	      <bottom_attach>5</bottom_attach>
 	      <xpad>0</xpad>
 	      <ypad>0</ypad>
 	      <xexpand>False</xexpand>
@@ -2247,7 +2119,7 @@ DIGEST-MD5
 	    <name>txtSourcePasswd</name>
 	    <can_focus>True</can_focus>
 	    <editable>True</editable>
-	    <text_visible>True</text_visible>
+	    <text_visible>False</text_visible>
 	    <text_max_length>0</text_max_length>
 	    <text></text>
 	    <child>
@@ -2262,6 +2134,110 @@ DIGEST-MD5
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblIncomingServerType</name>
+	    <label>Type:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblIncomingServer</name>
+	    <label>Hostname:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblUsername</name>
+	    <label>Username:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblPassword</name>
+	    <label>Password:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>4</top_attach>
+	      <bottom_attach>5</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -2287,7 +2263,31 @@ DIGEST-MD5
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>chkSourceSSL</name>
+	    <sensitive>False</sensitive>
+	    <can_focus>True</can_focus>
+	    <label>This server requires a secure connection (SSL)</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>7</top_attach>
+	      <bottom_attach>8</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -2356,30 +2356,6 @@ DIGEST-MD5
 	  </widget>
 
 	  <widget>
-	    <class>GtkCheckButton</class>
-	    <name>chkTransportSSL</name>
-	    <sensitive>False</sensitive>
-	    <can_focus>True</can_focus>
-	    <label>This server requires a secure connection (SSL)</label>
-	    <active>False</active>
-	    <draw_indicator>True</draw_indicator>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>10</right_attach>
-	      <top_attach>4</top_attach>
-	      <bottom_attach>5</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
 	    <class>GtkOptionMenu</class>
 	    <name>omenuTransportAuth</name>
 	    <can_focus>True</can_focus>
@@ -2390,84 +2366,6 @@ CRAM-MD5
 	    <child>
 	      <left_attach>4</left_attach>
 	      <right_attach>10</right_attach>
-	      <top_attach>3</top_attach>
-	      <bottom_attach>4</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblOutgoingServerType</name>
-	    <label>Type:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>1</top_attach>
-	      <bottom_attach>2</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblOutgoingServer</name>
-	    <label>Hostname:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>3</right_attach>
-	      <top_attach>2</top_attach>
-	      <bottom_attach>3</bottom_attach>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
-	      <xexpand>False</xexpand>
-	      <yexpand>False</yexpand>
-	      <xshrink>False</xshrink>
-	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
-	      <yfill>False</yfill>
-	    </child>
-	  </widget>
-
-	  <widget>
-	    <class>GtkLabel</class>
-	    <name>lblOutgoingAuth</name>
-	    <label>Authentication:</label>
-	    <justify>GTK_JUSTIFY_LEFT</justify>
-	    <wrap>False</wrap>
-	    <xalign>0</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <child>
-	      <left_attach>1</left_attach>
-	      <right_attach>4</right_attach>
 	      <top_attach>3</top_attach>
 	      <bottom_attach>4</bottom_attach>
 	      <xpad>0</xpad>
@@ -2525,6 +2423,108 @@ SMTP
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
 	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblOutgoingServerType</name>
+	    <label>Type:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblOutgoingServer</name>
+	    <label>Hostname:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>lblOutgoingAuth</name>
+	    <label>Authentication:</label>
+	    <justify>GTK_JUSTIFY_LEFT</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>4</right_attach>
+	      <top_attach>3</top_attach>
+	      <bottom_attach>4</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkCheckButton</class>
+	    <name>chkTransportSSL</name>
+	    <sensitive>False</sensitive>
+	    <can_focus>True</can_focus>
+	    <label>This server requires a secure connection (SSL)</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>10</right_attach>
+	      <top_attach>4</top_attach>
+	      <bottom_attach>5</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>
@@ -2631,7 +2631,7 @@ SMTP
 	      <yexpand>False</yexpand>
 	      <xshrink>False</xshrink>
 	      <yshrink>False</yshrink>
-	      <xfill>True</xfill>
+	      <xfill>False</xfill>
 	      <yfill>False</yfill>
 	    </child>
 	  </widget>

@@ -224,6 +224,7 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	account->transport = transport;
 	
 	mail_config_add_account (account);
+	mail_config_write ();
 	
 	mini = g_slist_append (NULL, account->source);
 	mail_load_storages (druid->shell, mini);
@@ -335,7 +336,7 @@ incoming_next (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 	/* If we can't connect, don't let them continue. */
 	if (!mail_config_check_service (url, CAMEL_PROVIDER_STORE, &authtypes)) {
 		camel_url_free (url);
-		return FALSE;
+		return TRUE;
 	}
 	camel_url_free (url);
 	
@@ -399,11 +400,16 @@ incoming_type_changed (GtkWidget *widget, gpointer user_data)
 static void
 authentication_check (MailConfigDruid *druid)
 {
-	if (mail_config_druid_get_save_password (druid) &&
-	    gtk_entry_get_text (druid->password) != NULL)
+	if (mail_config_druid_get_save_password (druid)) {
+		char *passwd = gtk_entry_get_text (druid->password);
+		
+		if (passwd && *passwd)
+			gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
+		else
+			gnome_druid_set_buttons_sensitive (druid->druid, TRUE, FALSE, TRUE);
+	} else {
 		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
-	else
-		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, FALSE, TRUE);
+	}
 }
 
 static void
@@ -472,6 +478,8 @@ construct_auth_menu (MailConfigDruid *druid, GList *authtypes)
 		
 		gtk_menu_append (GTK_MENU (menu), item);
 		
+		gtk_widget_show (item);
+		
 		if (!first)
 			first = item;
 		
@@ -481,6 +489,7 @@ construct_auth_menu (MailConfigDruid *druid, GList *authtypes)
 	if (first)
 		gtk_signal_emit_by_name (GTK_OBJECT (first), "activate", druid);
 	
+	gtk_option_menu_remove_menu (druid->auth_type);
 	gtk_option_menu_set_menu (druid->auth_type, menu);
 }
 
@@ -621,8 +630,8 @@ set_defaults (MailConfigDruid *druid)
 		memset (domain, 0, sizeof (domain));
 		getdomainname (domain, 1023);
 		
-		address = g_strdup_printf ("%s@%s%s%s", user, hostname, domain ? "." : "",
-					   domain ? domain : "");
+		address = g_strdup_printf ("%s@%s%s%s", user, hostname, domain && *domain ? "." : "",
+					   domain && *domain ? domain : "");
 		
 		gtk_entry_set_text (druid->email_address, address);
 		g_free (address);
@@ -652,6 +661,8 @@ set_defaults (MailConfigDruid *druid)
 			
 			gtk_menu_append (GTK_MENU (stores), item);
 			
+			gtk_widget_show (item);
+			
 			if (!fstore)
 				fstore = item;
 		}
@@ -667,6 +678,8 @@ set_defaults (MailConfigDruid *druid)
 			
 			gtk_menu_append (GTK_MENU (transports), item);
 			
+			gtk_widget_show (item);
+			
 			if (!ftransport)
 				ftransport = item;
 		}
@@ -674,7 +687,10 @@ set_defaults (MailConfigDruid *druid)
 		l = l->next;
 	}
 	
+	gtk_option_menu_remove_menu (druid->incoming_type);
 	gtk_option_menu_set_menu (druid->incoming_type, stores);
+	
+	gtk_option_menu_remove_menu (druid->outgoing_type);
 	gtk_option_menu_set_menu (druid->outgoing_type, transports);
 	
 	if (fstore)
@@ -790,12 +806,13 @@ construct (MailConfigDruid *druid)
 	/* get our cared-about widgets */
 	druid->account_text = glade_xml_get_widget (gui, "htmlAccountInfo");
 	druid->account_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtAccountName"));
+	gtk_signal_connect (GTK_OBJECT (druid->account_name), "changed", management_changed, druid);
 	druid->default_account = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAccountDefault"));
 	
 	druid->identity_text = glade_xml_get_widget (gui, "htmlIdentity");
 	druid->full_name = GTK_ENTRY (glade_xml_get_widget (gui, "txtFullName"));
 	gtk_signal_connect (GTK_OBJECT (druid->full_name), "changed", identity_changed, druid);
-	druid->email_address = GTK_ENTRY (glade_xml_get_widget (gui, "txtEMail"));
+	druid->email_address = GTK_ENTRY (glade_xml_get_widget (gui, "txtAddress"));
 	gtk_signal_connect (GTK_OBJECT (druid->email_address), "changed", identity_changed, druid);
 	druid->reply_to = GTK_ENTRY (glade_xml_get_widget (gui, "txtReplyTo"));
 	druid->organization = GTK_ENTRY (glade_xml_get_widget (gui, "txtOrganization"));
@@ -816,6 +833,7 @@ construct (MailConfigDruid *druid)
 	druid->password = GTK_ENTRY (glade_xml_get_widget (gui, "txtAuthPasswd"));
 	gtk_signal_connect (GTK_OBJECT (druid->password), "changed", authentication_changed, druid);
 	druid->save_password = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAuthSavePasswd"));
+	gtk_signal_connect (GTK_OBJECT (druid->save_password), "toggled", authentication_changed, druid);
 	
 	druid->outgoing_text = glade_xml_get_widget (gui, "htmlTransport");
 	druid->outgoing_type = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuTransportType"));

@@ -1,3 +1,20 @@
+2001-01-08  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* Makefile.am: 
+	* component-factory.c: 
+	* folder-browser-factory.c:
+	* folder-browser.c: 
+	* mail-accounts.[c,h]:
+	* mail-account-editor.[c,h]:
+	* mail-callbacks.c: 
+	* mail-config.[c,h]: 
+	* mail-config-druid.[c,h]:
+	* mail-config-druid.glade:
+	* mail-display.c: 
+	* mail-format.c: 
+	* mail-tools.c: Brand spankin' new config druid, editor, 
+	and manager.
+
 2001-01-08  Dan Winship  <danw@helixcode.com>
 
 	* mail-ops.c: Add an #include <errno.h>
