@@ -149,6 +149,8 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 		}
 	}
 
+	gdk_gc_set_clip_rectangle (gc, NULL);
+
 	/*
 	 * Free resources.
 	 */

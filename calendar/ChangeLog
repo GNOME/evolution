@@ -1,3 +1,12 @@
+1999-01-31  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* gncal-day-view.c (gncal_day_view_expose): Do not remove the
+	clipping rectangle here.
+
+	* view-utils.c (view_utils_draw_events): Remove the clipping
+	rectangle here, since the user of this function should not know
+	about it.
+
 1999-01-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* view-utils.c (view_utils_draw_events): Improve this draw

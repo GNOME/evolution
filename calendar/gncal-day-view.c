@@ -343,7 +343,6 @@ gncal_day_view_expose (GtkWidget *widget, GdkEventExpose *event)
 				dview->upper);
 	}
 
-	gdk_gc_set_clip_rectangle (gc, NULL);
 	return FALSE;
 }
 
