@@ -1,3 +1,15 @@
+2003-02-28  Dan Winship  <danw@ximian.com>
+
+	* gui/dialogs/Makefile.am: build libcal-dialogs as an uninstalled
+	shared library
+	($(IDL_GENERATED_H), etc): Only generate
+	Evolution-Addressbook-SelectNames.h, not the corresponding .c
+	files, or we'll get duplicate symbol errors trying to link this
+	into libevolution_calendar.la
+
+	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Update for
+	that (and eliminate libtool portability warnings)
+
 2003-02-28  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am (SUBDIRS): Add importers/.

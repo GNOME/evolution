@@ -2,16 +2,12 @@ IDLS = $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressboo
 
 IDL_GENERATED_H =                 			\
 	Evolution-Addressbook-SelectNames.h
-IDL_GENERATED_C =                 			\
-	Evolution-Addressbook-SelectNames-common.c	\
-	Evolution-Addressbook-SelectNames-skels.c	\
-	Evolution-Addressbook-SelectNames-stubs.c
-IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
+IDL_GENERATED = $(IDL_GENERATED_H)
 
 $(IDL_GENERATED_H): $(IDLS)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)   \
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES)	\
+		--nostubs --noskels --nocommon		\
                 $(top_srcdir)/addressbook/gui/component/select-names/Evolution-Addressbook-SelectNames.idl
-$(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 BUILT_SOURCES = $(IDL_GENERATED)
 
@@ -34,9 +30,9 @@ INCLUDES = 								\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)"\"			\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-noinst_LIBRARIES = libcal-dialogs.a
+noinst_LTLIBRARIES = libcal-dialogs.la
 
-libcal_dialogs_a_SOURCES =	\
+libcal_dialogs_la_SOURCES =	\
 	$(IDL_GENERATED)	\
 	alarm-options.c		\
 	alarm-options.h		\

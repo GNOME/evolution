@@ -186,7 +186,7 @@ libevolution_calendar_la_LIBADD =					\
 	$(top_builddir)/shell/libeshell.la				\
 	$(top_builddir)/calendar/cal-client/libcal-client.la		\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la		\
-	dialogs/libcal-dialogs.a					\
+	$(top_builddir)/calendar/gui/dialogs/libcal-dialogs.la		\
 	$(top_builddir)/widgets/e-timezone-dialog/libetimezonedialog.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la			\
 	$(EVOLUTION_CALENDAR_LIBS)
