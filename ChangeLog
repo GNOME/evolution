@@ -1,6 +1,12 @@
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* configure.in: Ooops.  We want GAL >= 0.10.0 and GtkHTML >=
+	0.11.0.
+
+2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* configure.in: Remove `$EVOLUTION_MICRO_VERSION' from `VERSION'.
+	(EVO_CHECK_LIB): 
 
 2001-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
