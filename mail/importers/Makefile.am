@@ -4,7 +4,9 @@ importers_LTLIBRARIES = liboutlook.la libmbox.la libiinetscape.la
 
 INCLUDES = -I.. \
 	-I$(srcdir)/..				\
+	-I$(top_srcdir)				\
 	-I$(top_srcdir)/shell			\
+	-I$(top_builddir)/shell			\
 	-I$(includedir)				\
 	$(GNOME_INCLUDEDIR)			\
 	-DG_LOG_DOMAIN=\"evolution-mail-importer\"

@@ -1,3 +1,9 @@
+2001-03-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importer/Makefile.am (INCLUDES): Remove `-g Wall' and friends.
+	Use `$(EXTRA_GNOME_CFLAGS)' instead of `$(GNOME_INCLUDEDIR)'.  Add
+	`-I$(top_builddir)/shell'.
+
 2001-03-13  Iain Holmes  <iain@ximian.com>
 
 	* importer/intelligent.c (start_importer): Add a "Don't ask me again"

@@ -1,7 +1,10 @@
-INCLUDES = -I$(top_srcdir) -I$(top_srcdir)/shell	\
-	-I$(includedir) $(GNOME_INCLUDEDIR) 		\
-	-DG_LOG_DOMAIN=\"Evolution-Importer\" -g -Wall 	\
-	-Wmissing-prototypes -Wmissing-declarations	\
+INCLUDES =					\
+	-I$(top_srcdir)				\
+	-I$(top_srcdir)/shell			\
+	-I$(top_builddir)/shell			\
+	-I$(includedir)				\
+	$(EXTRA_GNOME_CFLAGS)			\
+	-DG_LOG_DOMAIN=\"Evolution-Importer\" 	\
 	-DEVOLUTION_GLADEDIR=\"$(datadir)/evolution/glade\"
 
 lib_LTLIBRARIES = libevolution-importer.la
