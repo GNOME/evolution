@@ -1,5 +1,10 @@
 2001-08-22  Peter Williams  <peterw@ximian.com>
 
+	* mail-send-recv.c (set_send_status): We don't need to escape this
+	for printf'ing.
+
+2001-08-22  Peter Williams  <peterw@ximian.com>
+
 	Prevent the user from creating two accounts with the same name.
 	
 	* mail-config.c (impl_GNOME_Evolution_MailConfig_addAccount): Abort

@@ -412,22 +412,9 @@ update_folders(char *uri, struct _folder_info *info, void *data)
 
 static void set_send_status(struct _send_info *info, const char *desc, int pc)
 {
-	const char *p;
-	char *out, *o, c;
-
-	out = alloca(strlen(desc)*2+1);
-	o = out;
-	p = desc;
-	while ((c = *p++)) {
-		if (c=='%')
-			*o++ = '%';
-		*o++ = c;
-	}
-	*o = 0;
-	
 	/* FIXME: LOCK */
 	g_free(info->what);
-	info->what = g_strdup(out);
+	info->what = g_strdup(desc);
 	info->pc = pc;
 }
 
