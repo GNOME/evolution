@@ -192,12 +192,16 @@ _op_exec_or_plan_for_exec (CamelFolderPtProxy *proxy_folder, CamelOp *op)
 	
 	op_queue = proxy_folder->op_queue;
 
-	if (op_queue->service_available) {
-		op_queue->service_available = FALSE;
+	if (camel_op_queue_get_service_availability (op_queue)) {
+		camel_op_queue_set_service_availability (op_queue, FALSE);
 		pthread_create (&thread, NULL , (thread_call_func)(op->func), op->param);
+		camel_op_free (op);
+	} else {
+		camel_op_queue_push_op (op_queue, op);
 	}
 
 }
+
 
 
 /* folder->init_with_store implementation */
@@ -258,7 +262,7 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store)
 	param->folder = folder;
 	param->parent_store = parent_store;
 	
-	op->func = async_init_with_store;
+	op->func = _async_init_with_store;
 	op->param =  param;
 	
 	

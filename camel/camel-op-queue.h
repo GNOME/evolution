@@ -55,7 +55,7 @@ void camel_op_queue_push_op (CamelOpQueue *queue, CamelOp *op);
 CamelOp *camel_op_queue_pop_op (CamelOpQueue *queue);
 gboolean camel_op_queue_run_next_op (CamelOpQueue *queue);
 gboolean camel_op_queue_get_service_availability (CamelOpQueue *queue);
-CamelOp *camel_op_new ();
+void camel_op_queue_set_service_availability (CamelOpQueue *queue, gboolean available);
 
 CamelOp *camel_op_new ();
 void camel_op_free (CamelOp *op);
