@@ -1088,6 +1088,7 @@ static void
 real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
 {
 	struct view_msg_data *data = user_data;
+	FolderBrowser *fb;
 	CamelMimeMessage *msg;
 	GtkWidget *view;
 	
@@ -1095,9 +1096,14 @@ real_view_msg (MessageList *ml, const char *uid, gpointer user_data)
 		return;
 	
 	msg = camel_folder_get_message (ml->folder, uid, data->ex);
-
-	data->fb->message_list->cursor_uid = uid;
-	view = mail_view_create (msg, data->fb);
+	
+	fb = FOLDER_BROWSER (folder_browser_new ());
+	folder_browser_set_uri (fb, data->fb->uri);
+	
+	fb->message_list->cursor_uid = uid;
+	fb->mail_display->current_message = msg;
+	
+	view = mail_view_create (msg, fb);
 	
 	gtk_widget_show (view);
 }
@@ -1113,10 +1119,7 @@ view_msg (GtkWidget *widget, gpointer user_data)
 	
 	camel_exception_init (&ex);
 	
-	folder_browser = FOLDER_BROWSER (folder_browser_new ());
-	folder_browser_set_uri (folder_browser, fb->uri);
-	
-	data.fb = folder_browser;
+	data.fb = fb;
 	data.ex = &ex;
 	
 	ml = fb->message_list;
