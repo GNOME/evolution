@@ -357,6 +357,38 @@ eab_view_dispose (GObject *object)
 		G_OBJECT_CLASS(parent_class)->dispose(object);
 }
 
+static void
+set_paned_position (EABView *eav)
+{
+	GConfClient *gconf_client;
+	gint         pos;
+
+	g_print (G_STRLOC "\n");
+
+	gconf_client = gconf_client_get_default ();
+	pos = gconf_client_get_int (gconf_client, "/apps/evolution/addressbook/display/vpane_position", NULL);
+	if (pos < 1)
+		pos = 144;
+
+	gtk_paned_set_position (GTK_PANED (eav->paned), pos);
+}
+
+static gboolean
+get_paned_position (EABView *eav)
+{
+	GConfClient *gconf_client;
+	gint pos;
+
+	g_print (G_STRLOC "\n");
+
+	gconf_client = gconf_client_get_default ();
+
+	pos = gtk_paned_get_position (GTK_PANED (eav->paned));
+	gconf_client_set_int (gconf_client, "/apps/evolution/addressbook/display/vpane_position", pos, NULL);
+
+	return FALSE;
+}
+
 GtkWidget*
 eab_view_new (void)
 {
@@ -397,6 +429,8 @@ eab_view_new (void)
 	/* create the paned window and contact display */
 	eav->paned = gtk_vpaned_new ();
 	gtk_box_pack_start (GTK_BOX (eav), eav->paned, TRUE, TRUE, 0);
+	g_signal_connect_swapped (eav->paned, "button_release_event",
+				  G_CALLBACK (get_paned_position), eav);
 
 	eav->widget = gtk_label_new ("empty label here");
 	gtk_container_add (GTK_CONTAINER (eav->paned), eav->widget);
@@ -413,9 +447,6 @@ eab_view_new (void)
 	gtk_container_add (GTK_CONTAINER (eav->paned), eav->scrolled);
 	gtk_widget_show (eav->scrolled);
 	gtk_widget_show (eav->paned);
-
-	/* XXX hack */
-	gtk_paned_set_position (GTK_PANED (eav->paned), 144);
 
 	/* gtk selection crap */
 	eav->invisible = gtk_invisible_new ();
@@ -508,6 +539,8 @@ display_view(GalViewInstance *instance,
 	}
 #endif
 	address_view->current_view = view;
+
+	set_paned_position (address_view);
 }
 
 static void

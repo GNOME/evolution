@@ -1,3 +1,11 @@
+2004-01-15  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (set_paned_position): Implement.
+	(get_paned_position): Implement.
+	(eab_view_new): Connect signal to get paned position changes.
+	Remove old hack.
+	(display_view): Set paned position properly.
+
 2004-01-12  JP Rosevear <jpr@ximian.com>
 
 	* gui/component/addressbook-component.c (impl_upgradeFromVersion):
