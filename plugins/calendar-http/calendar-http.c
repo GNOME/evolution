@@ -1,5 +1,5 @@
 /*
- * 
+ *
  *
  * Copyright (C) 2004 David Trowbridge
  *
@@ -218,6 +218,7 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	EUri *uri;
+        char* uri_text;
 	static GtkWidget *hidden = NULL;
 
 	if (!hidden)
@@ -226,13 +227,16 @@ e_calendar_http_refresh (EPlugin *epl, EConfigHookItemFactoryData *data)
 	if (data->old)
 		gtk_widget_destroy (label);
 
-	uri = e_uri_new (e_source_get_uri (t->source));
+        uri_text = e_source_get_uri (t->source);
+	uri = e_uri_new (uri_text);
 	if ((strcmp (uri->protocol, "http") &&
 	     strcmp (uri->protocol, "webcal"))) {
 		e_uri_free (uri);
+                g_free (uri_text);
 		return hidden;
 	}
 	e_uri_free (uri);
+        g_free (uri_text);
 
 	parent = data->parent;
 
@@ -285,12 +289,24 @@ e_calendar_http_check (EPlugin *epl, EConfigHookPageCheckData *data)
 	EUri *uri;
 	gboolean ok = FALSE;
 	ESourceGroup *group = e_source_peek_group (t->source);
+        char *uri_text;
 
 	if (strcmp (e_source_group_peek_base_uri (group), "webcal"))
 		return TRUE;
 
-	uri = e_uri_new (e_source_get_uri (t->source));
-	ok = ((!strcmp (uri->protocol, "webcal")) || (!strcmp (uri->protocol, "http")));
+        uri_text = e_source_get_uri (t->source);
+        if (!strncmp (uri_text, "file:", 5))
+        {
+                g_free (uri_text);
+                return FALSE;
+        }
+        
+	uri = e_uri_new (uri_text);
+	ok = ((!strcmp (uri->protocol, "webcal")) ||
+              (!strcmp (uri->protocol, "http")) ||
+              (!strcmp (uri->protocol, "file")) );
 	e_uri_free (uri);
+        g_free (uri_text);
+        
 	return ok;
 }
