@@ -198,8 +198,10 @@ eti_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 	if (item->x1 != o1.x ||
 	    item->y1 != o1.y ||
 	    item->x2 != o2.x ||
-	    item->y2 != o2.y)
+	    item->y2 != o2.y) {
+		gnome_canvas_request_redraw (item->canvas, o1.x, o1.y, o2.x, o2.y);
 		eti->needs_redraw = 1;
+	}
 
 	if (eti->needs_redraw) {
 		gnome_canvas_request_redraw (item->canvas, item->x1, item->y1,

@@ -32,6 +32,7 @@ static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
 static void e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
 static void e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
+static void e_minicard_destroy (GtkObject *object);
 static gboolean e_minicard_event (GnomeCanvasItem *item, GdkEvent *event);
 static void e_minicard_realize (GnomeCanvasItem *item);
 static void e_minicard_unrealize (GnomeCanvasItem *item);
@@ -104,7 +105,7 @@ e_minicard_class_init (EMinicardClass *klass)
  
   object_class->set_arg = e_minicard_set_arg;
   object_class->get_arg = e_minicard_get_arg;
-  /*  object_class->destroy = e_minicard_destroy; */
+  object_class->destroy = e_minicard_destroy;
   
   /* GnomeCanvasItem method overrides */
   item_class->realize     = e_minicard_realize;
@@ -168,7 +169,11 @@ e_minicard_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	  gnome_canvas_item_request_update (item);*/
 	  break;
 	case ARG_MODEL:
+		if (e_minicard->model)
+			gtk_object_unref (e_minicard->model);
 		e_minicard->model = E_TABLE_MODEL(GTK_VALUE_OBJECT (*arg));
+		if (e_minicard->model)
+			gtk_object_ref (e_minicard->model);
 		remodel(e_minicard);
 		e_canvas_item_request_reflow(item);
 		break;
@@ -210,6 +215,23 @@ e_minicard_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	  arg->type = GTK_TYPE_INVALID;
 	  break;
 	}
+}
+
+static void
+e_minicard_destroy (GtkObject *object)
+{
+	EMinicard *e_minicard;
+
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (E_IS_MINICARD (object));
+
+	e_minicard = E_MINICARD (object);
+
+	if (e_minicard->model)
+		gtk_object_unref (e_minicard->model);
+
+	if (GTK_OBJECT_CLASS (parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
 }
 
 static void
