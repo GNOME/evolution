@@ -225,7 +225,7 @@ setup_changes (DialogData *dialog_data,
 
 	connect_changed (dialog_data->tasks_hide_completed_checkbutton, "toggled", config_control);
 	connect_changed (dialog_data->tasks_hide_completed_spinbutton, "changed", config_control);
-	connect_changed (GTK_OPTION_MENU (dialog_data->tasks_hide_completed_spinbutton)->menu, "selection_done", config_control);
+	connect_changed (GTK_OPTION_MENU (dialog_data->tasks_hide_completed_optionmenu)->menu, "selection_done", config_control);
 
 	connect_changed (dialog_data->confirm_delete, "toggled", config_control);
 	connect_changed (dialog_data->default_reminder, "toggled", config_control);
