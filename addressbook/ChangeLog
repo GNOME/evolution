@@ -1,3 +1,20 @@
+2001-10-02  Chris Toshok  <toshok@ximian.com>
+
+        * backend/ebook/e-book.c (e_book_construct): remove most of the
+	oaf stuff from here.  we do it in load_uri, where we'll have more
+	information (namely, the protocol we're using.)
+	(activate_factories_for_uri): do an oaf query to get a list of all
+	objects implementing our BookFactory interface and also supporting
+	the protocol used in the uri.
+        (e_book_load_uri): try activating book factories to handle this
+	uri, and start the iteration over the list.
+        (e_book_load_uri_from_factory): try and load the uri.
+        (e_book_load_uri_open_cb): callback function for the
+	BookFactory_openBook call - if it succeeds, call the user's
+	callback.  otherwise step to the next factory.
+        (e_book_load_uri_step): go to the next factory in our list, and
+	error out if there are no more.
+	
 2001-10-02  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names-model.c

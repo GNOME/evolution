@@ -30,7 +30,9 @@ typedef enum {
 } EBookLoadState;
 
 struct _EBookPrivate {
-	GNOME_Evolution_Addressbook_BookFactory  book_factory;
+	GList *book_factories;
+	GList *iter;
+
 	EBookListener	      *listener;
 
 	GNOME_Evolution_Addressbook_Book         corba_book;
@@ -530,13 +532,149 @@ e_book_check_listener_queue (EBookListener *listener, EBook *book)
  * e_book_load_uri:
  */
 
+typedef struct {
+	char                      *uri;
+	EBookCallback              open_response;
+	gpointer                   closure;
+} EBookLoadURIData;
+
+static void e_book_load_uri_from_factory (EBook *book,
+					  GNOME_Evolution_Addressbook_BookFactory factory,
+					  EBookLoadURIData *load_uri_data);
+
+static void
+e_book_load_uri_step (EBook *book, EBookStatus status, EBookLoadURIData *data)
+{
+	/* iterate to the next possible CardFactory, or fail
+	   if it's the last one */
+	book->priv->iter = book->priv->book_factories->next;
+	if (book->priv->iter) {
+		GNOME_Evolution_Addressbook_BookFactory factory = book->priv->iter->data;
+		e_book_load_uri_from_factory (book, factory, data);
+	}
+	else {
+		EBookCallback cb = data->open_response;
+		gpointer closure = data->closure;
+
+		g_free (data);
+
+		cb (book, status, closure);
+	}
+}
+
+static void
+e_book_load_uri_open_cb (EBook *book, EBookStatus status, EBookLoadURIData *data)
+{
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		EBookCallback cb = data->open_response;
+		gpointer closure = data->closure;
+
+		g_free (data);
+
+		cb (book, status, closure);
+	}
+	else {
+		e_book_load_uri_step (book, status, data);
+	}
+}
+
+static void
+e_book_load_uri_from_factory (EBook *book,
+			      GNOME_Evolution_Addressbook_BookFactory factory,
+			      EBookLoadURIData *load_uri_data)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+
+	e_book_queue_op (book, e_book_load_uri_open_cb, load_uri_data, NULL);
+
+	GNOME_Evolution_Addressbook_BookFactory_openBook (
+		factory, book->priv->uri,
+		bonobo_object_corba_objref (BONOBO_OBJECT (book->priv->listener)),
+		&ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_load_uri: CORBA exception while opening addressbook!\n");
+		e_book_unqueue_op (book);
+		CORBA_exception_free (&ev);
+		e_book_load_uri_step (book, E_BOOK_STATUS_OTHER_ERROR, load_uri_data);
+	}
+
+	CORBA_exception_free (&ev);
+
+}
+
+static gboolean
+activate_factories_for_uri (EBook *book, const char *uri)
+{
+	CORBA_Environment ev;
+	OAF_ServerInfoList *info_list;
+	int i;
+	char *protocol, *query, *colon;
+
+	colon = strchr (uri, ':');
+	if (!colon) {
+		g_warning ("e_book_load_uri: Unable to determine protocol in the URI\n");
+		return FALSE;
+	}
+
+	protocol = g_strndup (uri, colon-uri);
+	query = g_strdup_printf ("repo_ids.has ('IDL:GNOME/Evolution/BookFactory:1.0') AND "
+				 "addressbook:supported_protocols.has ('%s')", protocol);
+
+	CORBA_exception_init (&ev);
+	
+	info_list = oaf_query (query, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Eeek!  Cannot perform OAF query for book factories.");
+		return FALSE;
+	}
+
+	if (info_list->_length == 0) {
+		g_warning ("Can't find installed BookFactory that handles protocol '%s'.", protocol);
+		g_free (protocol);
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+
+	g_free (protocol);
+	g_free (query);
+	CORBA_exception_free (&ev);
+
+	for (i = 0; i < info_list->_length; i ++) {
+		const OAF_ServerInfo *info;
+		GNOME_Evolution_Addressbook_BookFactory factory;
+
+		info = info_list->_buffer + i;
+
+		factory = oaf_activate_from_id (info->iid, 0, NULL, NULL);
+
+		if (factory == CORBA_OBJECT_NIL)
+			g_warning ("e_book_construct: Could not obtain a handle "
+				   "to the Personal Addressbook Server with IID `%s'\n", info->iid);
+		else
+			book->priv->book_factories = g_list_append (book->priv->book_factories,
+								    factory);
+	}
+
+	if (!book->priv->book_factories) {
+		g_warning ("Couldn't activate any book factories.");
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 gboolean
 e_book_load_uri (EBook                     *book,
 		 const char                *uri,
 		 EBookCallback              open_response,
 		 gpointer                   closure)
 {
-	CORBA_Environment ev;
+	EBookLoadURIData *load_uri_data;
+	GNOME_Evolution_Addressbook_BookFactory factory;
 
 	g_return_val_if_fail (book != NULL,          FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
@@ -549,6 +687,12 @@ e_book_load_uri (EBook                     *book,
 		return FALSE;
 	}
 
+	/* try to find a list of factories that can handle the protocol */
+	if (!activate_factories_for_uri (book, uri)) {
+		open_response (NULL, E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED, closure);
+		return FALSE;
+	}
+		
 	g_free (book->priv->uri);
 	book->priv->uri = g_strdup (uri);
 
@@ -563,27 +707,17 @@ e_book_load_uri (EBook                     *book,
 
 	gtk_signal_connect (GTK_OBJECT (book->priv->listener), "responses_queued",
 			    e_book_check_listener_queue, book);
-	
-	/*
-	 * Load the addressbook into the PAS.
-	 */
-	CORBA_exception_init (&ev);
 
-	e_book_queue_op (book, open_response, closure, NULL);
+	load_uri_data = g_new (EBookLoadURIData, 1);
+	load_uri_data->open_response = open_response;
+	load_uri_data->closure = closure;
 
-	GNOME_Evolution_Addressbook_BookFactory_openBook (
-		book->priv->book_factory, uri,
-		bonobo_object_corba_objref (BONOBO_OBJECT (book->priv->listener)),
-		&ev);
+	/* initialize the iterator, and load from the first one*/
+	book->priv->iter = book->priv->book_factories;
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_load_uri: CORBA exception while opening addressbook!\n");
-		CORBA_exception_free (&ev);
-		e_book_unqueue_op (book);
-		return FALSE;
-	}
+	factory = book->priv->iter->data;
 
-	CORBA_exception_free (&ev);
+	e_book_load_uri_from_factory (book, factory, load_uri_data);
 
 	book->priv->load_state = URILoading;
 
@@ -710,17 +844,7 @@ e_book_construct (EBook *book)
 	g_return_val_if_fail (book != NULL,     FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
 
-	/*
-	 * Connect to the Personal Addressbook Server.
-	 */
-
-	book->priv->book_factory = (GNOME_Evolution_Addressbook_BookFactory)
-		oaf_activate_from_id (CARDSERVER_OAF_ID, 0, NULL, NULL);
-	if (book->priv->book_factory == CORBA_OBJECT_NIL) {
-		g_warning ("e_book_construct: Could not obtain a handle "
-			   "to the Personal Addressbook Server!\n");
-		return FALSE;
-	}
+	book->priv->book_factories = NULL;
 
 	return TRUE;
 }
@@ -1279,18 +1403,21 @@ e_book_destroy (GtkObject *object)
 {
 	EBook             *book = E_BOOK (object);
 	CORBA_Environment  ev;
+	GList *l;
 
 	if (book->priv->load_state == URILoaded)
 		e_book_unload_uri (book);
 
 	CORBA_exception_init (&ev);
 
-	CORBA_Object_release (book->priv->book_factory, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("EBook: Exception while releasing BookFactory\n");
+	for (l = book->priv->book_factories; l; l = l->next) {
+		CORBA_Object_release ((CORBA_Object)l->data, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("EBook: Exception while releasing BookFactory\n");
 
-		CORBA_exception_free (&ev);
-		CORBA_exception_init (&ev);
+			CORBA_exception_free (&ev);
+			CORBA_exception_init (&ev);
+		}
 	}
 
 	g_free (book->priv->uri);
