@@ -5,8 +5,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-05-13 09:29+0200\n"
-"PO-Revision-Date: 2000-05-13 17:26+02:00\n"
+"POT-Creation-Date: 2000-05-13 19:57+0200\n"
+"PO-Revision-Date: 2000-05-13 20:00+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -235,11 +235,11 @@ msgstr "Sideoppsett:"
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Style name:"
-msgstr ""
+msgstr "Stilnavn:"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Preview:"
-msgstr ""
+msgstr "Forhåndsvisning:"
 
 #: addressbook/printing/e-contact-print.glade.h:10
 msgid "Options"
@@ -259,11 +259,11 @@ msgstr "Rett etter hverandre"
 
 #: addressbook/printing/e-contact-print.glade.h:14
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "Bokstavfaner på siden"
 
 #: addressbook/printing/e-contact-print.glade.h:15
 msgid "Headings for each letter"
-msgstr ""
+msgstr "Topptekst for hver bokstav"
 
 #: addressbook/printing/e-contact-print.glade.h:16
 msgid "Start on a new page"
@@ -294,7 +294,7 @@ msgstr "Topptekster"
 
 #: addressbook/printing/e-contact-print.glade.h:23
 msgid "10 pt. Tahoma"
-msgstr ""
+msgstr "10 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:24
 msgid "Body"
@@ -302,7 +302,7 @@ msgstr "Kropp"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 msgid "8 pt. Tahoma"
-msgstr ""
+msgstr "8 pt. Tahoma"
 
 #: addressbook/printing/e-contact-print.glade.h:26
 msgid "Shading"
@@ -310,7 +310,7 @@ msgstr "Skygger"
 
 #: addressbook/printing/e-contact-print.glade.h:27
 msgid "Print using gray shading"
-msgstr ""
+msgstr "Skriv ut med grå skygge"
 
 #: addressbook/printing/e-contact-print.glade.h:28
 msgid "Format"
@@ -399,11 +399,11 @@ msgstr "Bunntekst:"
 
 #: addressbook/printing/e-contact-print.glade.h:55
 msgid "Reverse on even pages"
-msgstr ""
+msgstr "Motsatt på like sider"
 
 #: addressbook/printing/e-contact-print.glade.h:56
 msgid "Header/Footer"
-msgstr ""
+msgstr "Topp-/bunntekst"
 
 #: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:466
 msgid "Cut"
@@ -442,27 +442,27 @@ msgstr "Velg mottakerenes adresser"
 #.
 #: composer/e-msg-composer-address-dialog.glade.h:7
 msgid "Recipient list:"
-msgstr ""
+msgstr "Mottakerliste:"
 
 #: composer/e-msg-composer-address-dialog.glade.h:8
 msgid "Name:"
-msgstr ""
+msgstr "Navn:"
 
 #: composer/e-msg-composer-address-dialog.glade.h:9
 msgid "Search..."
-msgstr ""
+msgstr "Søk..."
 
 #: composer/e-msg-composer-address-dialog.glade.h:10
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: composer/e-msg-composer-address-dialog.glade.h:11
 msgid "Address"
-msgstr ""
+msgstr "Adresse"
 
 #: composer/e-msg-composer-address-dialog.glade.h:12
 msgid "Properties..."
-msgstr ""
+msgstr "Egenskaper..."
 
 #: composer/e-msg-composer-address-dialog.glade.h:13
 msgid "Add..."
@@ -547,19 +547,19 @@ msgstr "Velg vedlegg"
 #.
 #: composer/e-msg-composer-attachment.glade.h:7
 msgid "Attachment properties"
-msgstr ""
+msgstr "Egenskaper for vedlegg"
 
 #: composer/e-msg-composer-attachment.glade.h:9
 msgid "MIME type:"
-msgstr ""
+msgstr "MIME-type:"
 
 #: composer/e-msg-composer-attachment.glade.h:10
 msgid "File name:"
-msgstr ""
+msgstr "Filnavn:"
 
 #: composer/e-msg-composer-attachment.glade.h:11
 msgid "Browse..."
-msgstr ""
+msgstr "Bla gjennom..."
 
 #: composer/e-msg-composer-hdrs.c:89
 msgid "Click here for the address book"
@@ -986,23 +986,23 @@ msgstr "Filter"
 #.
 #: widgets/e-table/e-table-group.glade.h:7
 msgid "window1"
-msgstr ""
+msgstr "vindu1"
 
 #: widgets/e-table/e-table-group.glade.h:8
 msgid "Available fields"
-msgstr ""
+msgstr "Tilgjengelige felter"
 
 #: widgets/e-table/e-table-group.glade.h:9
 msgid "label1"
-msgstr ""
+msgstr "etikett1"
 
 #: widgets/e-table/e-table-group.glade.h:10
 msgid "Show in this order"
-msgstr ""
+msgstr "Vis i denne rekkefølge"
 
 #: widgets/e-table/e-table-group.glade.h:11
 msgid "label2"
-msgstr ""
+msgstr "etikett2"
 
 #: widgets/e-table/e-table-group.glade.h:12
 msgid "Add >>"
