@@ -1,3 +1,8 @@
+2000-05-16  Chris Toshok  <toshok@helixcode.com>
+
+	* configure.in: add --with-purify-options support, and default it
+	to what we at helix need
+
 Tue May 16 06:11:40 2000  Tuomas Kuosmanen  <tigert@gimp.org>
 
 	* art/evolution-calendar-mini.png art/evolution-inbox-mini.png
