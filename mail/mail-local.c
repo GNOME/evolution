@@ -217,7 +217,7 @@ save_metainfo (struct _local_meta *meta)
 	xmlSetProp(node, "name", meta->name);
 	xmlSetProp(node, "index", meta->indexed?"1":"0");
 	
-	ret = e_xml_save_file (path, doc);
+	ret = e_xml_save_file (meta->path, doc);
 	
 	xmlFreeDoc (doc);
 	
