@@ -10,6 +10,7 @@ typedef struct {
 #define GNUMERIC_CURSOR_FAT_CROSS  0
 #define GNUMERIC_CURSOR_THIN_CROSS 1
 #define GNUMERIC_CURSOR_ARROW      2
+#define GNUMERIC_CURSOR_MOVE       3
 
 extern GnumericCursorDef  gnumeric_cursors [];
 
