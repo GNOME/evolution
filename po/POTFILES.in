@@ -161,7 +161,6 @@ mail/mail-ops.c
 mail/mail-search-dialogue.c
 mail/mail-send-recv.c
 mail/mail-summary.c
-mail/mail-threads.c
 mail/mail-tools.c
 mail/mail-vfolder.c
 mail/mail-view.c
