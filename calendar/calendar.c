@@ -12,6 +12,8 @@
  *
  */
 
+#include <gnome.h>
+#include <stdio.h>
 #include <config.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -396,8 +398,11 @@ void
 calendar_save (Calendar *cal, char *fname)
 {
 	VObject *vcal;
+	FILE *fp;
+	GtkWidget *dlg;
 	struct  stat s;
-
+	int status;
+	
 	if (fname == NULL)
 		fname = cal->filename;
 
@@ -412,11 +417,23 @@ calendar_save (Calendar *cal, char *fname)
 		g_free (backup_name);
 	}
 
-	writeVObjectToFile (fname, vcal);
+    fp = fopen(fname,"w");
+    if (fp) {
+		writeVObject(fp, vcal);
+		fclose(fp);
+		if (strcmp(cal->filename, fname)) {
+			if (cal->filename)
+				g_free (cal->filename);
+			cal->filename = g_strdup (fname);
+		}
+		status = stat (fname, &s);
+		cal->file_time = s.st_mtime;
+	} else {
+		dlg = gnome_message_box_new(_("Failed to save calendar!"), 
+											GNOME_MESSAGE_BOX_ERROR, "Ok", NULL);
+		gtk_widget_show(dlg);
+	}
 
-	stat (fname, &s);
-	cal->file_time = s.st_mtime;
-	
 	cleanVObject (vcal);
 	cleanStrTbl ();
 }

@@ -367,15 +367,14 @@ static void
 save_ok (GtkWidget *widget, GtkFileSelection *fs)
 {
 	GnomeCalendar *gcal;
+	gchar *fname;
 
 	gcal = GNOME_CALENDAR (gtk_object_get_user_data (GTK_OBJECT (fs)));
 	gtk_window_set_wmclass (GTK_WINDOW (gcal), "gnomecal", "gnomecal");
 
-	if (gcal->cal->filename)
-		g_free (gcal->cal->filename);
-
-	gcal->cal->filename = g_strdup (gtk_file_selection_get_filename (fs));
-	calendar_save (gcal->cal, gcal->cal->filename);
+	fname = g_strdup (gtk_file_selection_get_filename (fs));
+	calendar_save (gcal->cal, fname);
+	g_free(fname);
 	gtk_main_quit ();
 }
 
