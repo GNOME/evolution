@@ -1,5 +1,14 @@
 2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
 
+	[This should fix #3873, Bizzarre crash after deleting a few
+	folders.]
+
+	* e-local-storage.c (remove_folder): Don't free the
+	`physical_path' on error, as it gets freed when freeing the
+	callback data.
+
+2001-07-06  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #3959, copying a folder over itself crashes Evolution.]
 
 	* e-shell-folder-commands.c

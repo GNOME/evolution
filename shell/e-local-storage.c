@@ -504,11 +504,6 @@ remove_folder (ELocalStorage *local_storage,
 
 	result = remove_folder_directory (E_LOCAL_STORAGE (local_storage), path);
 
-	if (result != E_STORAGE_OK) {
-		g_free (physical_path);
-		return result;
-	}
-
 	return result;
 }
 
