@@ -107,7 +107,7 @@ e_task_bar_prepend_task (ETaskBar *task_bar,
 
 	box = GTK_BOX (task_bar);
 
-	box->children = g_list_append (box->children, child_info);
+	box->children = g_list_prepend (box->children, child_info);
 
 	gtk_widget_set_parent (GTK_WIDGET (task_widget), GTK_WIDGET (task_bar));
 
