@@ -546,7 +546,7 @@ setup_calendar (ESummary *summary)
 	calendar->wants24hr = gconf_client_get_bool (calendar->gconf_client,
 						     "/apps/evolution/calendar/display/use_24h_format", NULL);
 	calendar->default_uri = gconf_client_get_string (calendar->gconf_client,
-							 "/apps/evolution/shell/default_folders/celendar_path",
+							 "/apps/evolution/shell/default_folders/calendar_path",
 							 NULL);
 }
 
