@@ -3915,7 +3915,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 					}
 				}
 			} else if (!strcasecmp (header, "attach")) {
-				/*Change file url to absolute path*/
+				/* Change file url to absolute path */
 				if (!strncasecmp (content, "file:", 5)) {
 					url = camel_url_new (content, NULL);
 					e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
