@@ -127,7 +127,6 @@ struct _EMSubscribeNode {
 
 static void sub_editor_busy(EMSubscribeEditor *se, int dir);
 static int sub_queue_fill_level(EMSubscribe *sub, EMSubscribeNode *node);
-static void sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub);
 
 static void
 sub_node_free(char *key, EMSubscribeNode *node, EMSubscribe *sub)
@@ -195,7 +194,7 @@ sub_folder_subscribe (struct _mail_msg *mm)
 		camel_store_unsubscribe_folder (m->sub->store, m->node->info->full_name, &mm->ex);
 }
 
-static void 
+static void
 sub_folder_subscribed (struct _mail_msg *mm)
 {
 	struct _zsubscribe_msg *m = (struct _zsubscribe_msg *)mm, *next;
@@ -503,6 +502,29 @@ sub_selection_changed(GtkTreeSelection *selection, EMSubscribe *sub)
 	gtk_widget_set_sensitive(sub->editor->unsubscribe_button, dounsub);
 }
 
+/* double-clicking causes a node item to be evaluated directly */
+static void sub_row_activated(GtkTreeView *tree, GtkTreePath *path, GtkTreeViewColumn *col, EMSubscribe *sub) {
+	EMSubscribeNode *node;
+	GtkTreeIter iter;
+	GtkTreeModel *model = gtk_tree_view_get_model(tree);
+
+	if (gtk_tree_model_get_iter(model, &iter, path) != TRUE) return;
+
+	gtk_tree_model_get(model, &iter, 2, &node, -1);
+
+	/* check whether the item is already processed */
+	if (node->path == NULL)
+		return;
+
+	/* remove it from wherever in the list it is, and place it in front instead */
+	e_dlist_remove((EDListNode *)node);
+	e_dlist_addhead(&sub->pending, (EDListNode *)node);
+
+	if (sub->pending_id == -1
+	    && (node = (EMSubscribeNode *)e_dlist_remtail(&sub->pending)))
+		sub_queue_fill_level(sub, node);
+}
+
 static void
 sub_row_expanded(GtkTreeView *tree, GtkTreeIter *iter, GtkTreePath *path, EMSubscribe *sub)
 {
@@ -621,6 +643,7 @@ subscribe_set_store(EMSubscribe *sub, CamelStore *store)
 		gtk_tree_view_set_headers_visible (sub->tree, FALSE);
 
 		g_signal_connect(sub->tree, "row-expanded", G_CALLBACK(sub_row_expanded), sub);
+		g_signal_connect(sub->tree, "row-activated", G_CALLBACK(sub_row_activated), sub);
 		g_signal_connect(sub->tree, "destroy", G_CALLBACK(sub_destroy), sub);
 
 		sub_selection_changed(selection, sub);

@@ -75,9 +75,13 @@ GtkWidget *em_folder_selector_new (struct _EMFolderTree *emft, guint32 flags, co
 GtkWidget *em_folder_selector_create_new (struct _EMFolderTree *emft, guint32 flags, const char *title, const char *text);
 
 void em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri);
+void em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list);
 
 const char *em_folder_selector_get_selected_uri (EMFolderSelector *emfs);
 const char *em_folder_selector_get_selected_path (EMFolderSelector *emfs);
+
+GList *em_folder_selector_get_selected_uris (EMFolderSelector *emfs);
+GList *em_folder_selector_get_selected_paths (EMFolderSelector *emfs);
 
 #ifdef cplusplus
 }

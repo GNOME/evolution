@@ -618,11 +618,7 @@ static void
 emfb_mail_post(BonoboUIComponent *uid, void *data, const char *path)
 {
 	EMFolderView *emfv = data;
-	char *url;
-	
-	url = mail_tools_folder_to_url (emfv->folder);
-	em_utils_post_to_url (url);
-	g_free (url);
+	em_utils_post_to_folder (emfv->folder);
 }
 
 static void

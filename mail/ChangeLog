@@ -1,3 +1,24 @@
+2004-01-12  Meilof Veeningen  <meilof@wanadoo.nl>
+
+	* em-composer-utils.c: support for posting both to mail and to
+	(multiple) folders
+
+	* em-folder-browser.c: use em_utils_post_to_folder (works with NNTP)
+
+	* em-folder-selection-button.[ch]: added multiple selection mode
+
+	* em-folder-selector.[ch]: idem
+
+	* em-folder-tree.[ch]: added multiple selection mode, no longer show
+	disabled accounts
+
+	* em-utils.c: various changes to allow posting to (multiple) folders
+
+	* em-subscribe-editor.c: double-clicking a node in the editor updates
+	it directly
+
+	* mail-ops.c: for appending messages, set the "X-Mailer" header
+
 2004-01-12  Radek Doulik  <rodo@ximian.com>
 
 	* em-junk-filter.c (em_junk_sa_check_junk): use

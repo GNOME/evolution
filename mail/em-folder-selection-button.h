@@ -62,6 +62,12 @@ GtkWidget *em_folder_selection_button_new (const char *title, const char *captio
 void        em_folder_selection_button_set_selection (EMFolderSelectionButton *button, const char *uri);
 const char *em_folder_selection_button_get_selection (EMFolderSelectionButton *button);
 
+void   em_folder_selection_button_set_selection_mult (EMFolderSelectionButton *button, GList *uris);
+GList *em_folder_selection_button_get_selection_mult (EMFolderSelectionButton *button);
+
+void     em_folder_selection_button_set_multiselect (EMFolderSelectionButton *button, gboolean value);
+gboolean em_folder_selection_button_get_multiselect (EMFolderSelectionButton *button);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

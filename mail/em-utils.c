@@ -52,7 +52,7 @@
 #include "em-composer-utils.h"
 #include "em-format-quote.h"
 
-static EAccount *guess_account (CamelMimeMessage *message);
+static EAccount *guess_account (CamelMimeMessage *message, CamelFolder *folder);
 static void emu_save_part_done (CamelMimePart *part, char *name, int done, void *data);
 
 /**
@@ -343,6 +343,44 @@ em_utils_compose_new_message_with_mailto (const char *url)
 }
 
 /**
+ * em_utils_post_to_folder:
+ * @folder: folder
+ *
+ * Opens a new composer window as a child window of @parent's toplevel
+ * window. If @folder is non-NULL, the composer will default to posting
+ * mail to the folder specified by @folder.
+ **/
+void
+em_utils_post_to_folder (CamelFolder *folder)
+{
+	EMsgComposer *composer;
+	EAccount *account;
+	
+	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
+	
+	if (folder != NULL) {
+		char *url = mail_tools_folder_to_url (folder);
+		
+		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
+		g_free (url);
+		
+		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+		account = mail_config_get_account_by_source_url (url);
+		g_free (url);
+		
+		if (account)
+			e_msg_composer_set_headers (composer, account->name, NULL, NULL, NULL, "");
+	}
+	
+	em_composer_utils_setup_default_callbacks (composer);
+	
+	e_msg_composer_unset_changed (composer);
+	e_msg_composer_drop_editor_undo (composer);
+	
+	gtk_widget_show ((GtkWidget *) composer);
+}
+
+/**
  * em_utils_post_to_url:
  * @url: mailto url
  *
@@ -355,7 +393,7 @@ em_utils_post_to_url (const char *url)
 {
 	EMsgComposer *composer;
 	
-	composer = e_msg_composer_new_post ();
+	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
 	
 	if (url != NULL)
 		e_msg_composer_hdrs_set_post_to ((EMsgComposerHdrs *) ((EMsgComposer *) composer)->hdrs, url);
@@ -647,7 +685,7 @@ redirect_get_composer (CamelMimeMessage *message)
 	while (camel_medium_get_header (CAMEL_MEDIUM (message), "Delivered-To"))
 		camel_medium_remove_header (CAMEL_MEDIUM (message), "Delivered-To");
 	
-	account = guess_account (message);
+	account = guess_account (message, NULL);
 	
 	composer = e_msg_composer_new_redirect (message, account ? account->name : NULL);
 	
@@ -795,7 +833,8 @@ em_utils_camel_address_to_destination (CamelInternetAddress *iaddr)
 
 static EMsgComposer *
 reply_get_composer (CamelMimeMessage *message, EAccount *account,
-		    CamelInternetAddress *to, CamelInternetAddress *cc)
+		    CamelInternetAddress *to, CamelInternetAddress *cc,
+		    CamelFolder *folder, const char *postto)
 {
 	const char *message_id, *references;
 	EABDestination **tov, **ccv;
@@ -805,13 +844,19 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
 	g_return_val_if_fail (to == NULL || CAMEL_IS_INTERNET_ADDRESS (to), NULL);
 	g_return_val_if_fail (cc == NULL || CAMEL_IS_INTERNET_ADDRESS (cc), NULL);
-	
-	composer = e_msg_composer_new ();
-	
+
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
 	ccv = em_utils_camel_address_to_destination (cc);
-	
+
+	if (tov || ccv) {
+		if (postto)
+			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
+		else
+			composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL);
+	} else
+		composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_POST);
+
 	/* Set the subject of the new message. */
 	if ((subject = (char *) camel_mime_message_get_subject (message))) {
 		if (strncasecmp (subject, "Re: ", 4) != 0)
@@ -821,10 +866,24 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 	} else {
 		subject = g_strdup ("");
 	}
-	
+
 	e_msg_composer_set_headers (composer, account ? account->name : NULL, tov, ccv, NULL, subject);
 	
 	g_free (subject);
+	
+	/* add post-to, if nessecary */
+	if (postto) {
+		char *store_url = NULL;
+		
+		if (folder) {
+			store_url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+			if (store_url[strlen (store_url) - 1] == '/')
+				store_url[strlen (store_url)-1] = '\0';
+		}
+		
+		e_msg_composer_hdrs_set_post_to_base (E_MSG_COMPOSER_HDRS (composer->hdrs), store_url ? store_url : "", postto);
+		g_free (store_url);
+	}
 	
 	/* Add In-Reply-To and References. */
 	message_id = camel_medium_get_header (CAMEL_MEDIUM (message), "Message-Id");
@@ -851,13 +910,26 @@ reply_get_composer (CamelMimeMessage *message, EAccount *account,
 }
 
 static EAccount *
-guess_account (CamelMimeMessage *message)
+guess_account (CamelMimeMessage *message, CamelFolder *folder)
 {
 	const CamelInternetAddress *to, *cc;
-	GHashTable *account_hash;
+	GHashTable *account_hash = NULL;
 	EAccount *account = NULL;
 	const char *addr;
 	int i;
+	const char *posthdr, *tmp;
+
+	/* check for newsgroup header */
+	posthdr = camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups");
+	
+	if (posthdr && folder) {
+		/* this was posted at a newsgroup! */
+		tmp = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, CAMEL_URL_HIDE_ALL);
+		account = mail_config_get_account_by_source_url (tmp);
+		g_free (tmp);
+		if (account)
+			goto found;
+	}
 	
 	to = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
@@ -885,17 +957,27 @@ guess_account (CamelMimeMessage *message)
 	
  found:
 	
-	g_hash_table_destroy (account_hash);
+	if (account_hash)
+		g_hash_table_destroy (account_hash);
 	
 	return account;
 }
 
 static void
-get_reply_sender (CamelMimeMessage *message, CamelInternetAddress **to)
+get_reply_sender (CamelMimeMessage *message, CamelInternetAddress **to, const char **postto)
 {
 	const CamelInternetAddress *reply_to;
-	const char *name, *addr;
+	const char *name, *addr, *posthdr;
 	int i;
+	
+	/* check whether there is a 'Newsgroups: ' header in there */
+	posthdr = camel_medium_get_header (CAMEL_MEDIUM (message), "Newsgroups");
+	if (posthdr && postto) {
+		*postto = posthdr;
+		while (**postto == ' ')
+			(*postto)++;
+		return;
+	}
 	
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (!reply_to)
@@ -967,12 +1049,20 @@ concat_unique_addrs (CamelInternetAddress *dest, const CamelInternetAddress *src
 }
 
 static void
-get_reply_all (CamelMimeMessage *message, CamelInternetAddress **to, CamelInternetAddress **cc)
+get_reply_all (CamelMimeMessage *message, CamelInternetAddress **to, CamelInternetAddress **cc, const char **postto)
 {
 	const CamelInternetAddress *reply_to, *to_addrs, *cc_addrs;
-	const char *name, *addr;
+	const char *name, *addr, *posthdr;
 	GHashTable *rcpt_hash;
 	int i;
+	
+	/* check whether there is a 'Newsgroups: ' header in there */
+	posthdr = camel_medium_get_header (CAMEL_MEDIUM(message), "Newsgroups");
+	if (posthdr && postto) {
+		*postto = posthdr;
+		while (**postto == ' ')
+			(*postto)++;
+	}
 	
 	rcpt_hash = generate_account_hash ();
 	
@@ -1079,21 +1169,21 @@ em_utils_reply_to_message (CamelMimeMessage *message, int mode)
 	EMsgComposer *composer;
 	EAccount *account;
 	
-	account = guess_account (message);
+	account = guess_account (message, NULL);
 	
 	switch (mode) {
 	case REPLY_MODE_SENDER:
-		get_reply_sender (message, &to);
+		get_reply_sender (message, &to, NULL);
 		break;
 	case REPLY_MODE_LIST:
 		if (get_reply_list (message, &to))
 			break;
 	case REPLY_MODE_ALL:
-		get_reply_all (message, &to, &cc);
+		get_reply_all (message, &to, &cc, NULL);
 		break;
 	}
 	
-	composer = reply_get_composer (message, account, to, cc);
+	composer = reply_get_composer (message, account, to, cc, NULL, NULL);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 	
 	if (to != NULL)
@@ -1114,19 +1204,20 @@ static void
 reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *message, void *user_data)
 {
 	CamelInternetAddress *to = NULL, *cc = NULL;
+	const char *postto = NULL;
 	EMsgComposer *composer;
 	EAccount *account;
 	guint32 flags;
 	int mode;
 	
 	mode = GPOINTER_TO_INT (user_data);
-	
-	account = guess_account (message);
+
+	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
 	switch (mode) {
 	case REPLY_MODE_SENDER:
-		get_reply_sender (message, &to);
+		get_reply_sender (message, &to, &postto);
 		break;
 	case REPLY_MODE_LIST:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
@@ -1134,11 +1225,11 @@ reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *messag
 			break;
 	case REPLY_MODE_ALL:
 		flags |= CAMEL_MESSAGE_ANSWERED_ALL;
-		get_reply_all (message, &to, &cc);
+		get_reply_all (message, &to, &cc, &postto);
 		break;
 	}
 	
-	composer = reply_get_composer (message, account, to, cc);
+	composer = reply_get_composer (message, account, to, cc, folder, postto);
 	e_msg_composer_add_message_attachments (composer, message, TRUE);
 	
 	if (to != NULL)
@@ -1187,12 +1278,12 @@ post_reply_to_message (CamelFolder *folder, const char *uid, CamelMimeMessage *m
 	EAccount *account;
 	guint32 flags;
 	
-	account = guess_account (message);
+	account = guess_account (message, folder);
 	flags = CAMEL_MESSAGE_ANSWERED | CAMEL_MESSAGE_SEEN;
 	
-	get_reply_sender (message, &to);
+	get_reply_sender (message, &to, NULL);
 	
-	composer = e_msg_composer_new_post ();
+	composer = e_msg_composer_new_with_type (E_MSG_COMPOSER_MAIL_POST);
 	
 	/* construct the tov/ccv */
 	tov = em_utils_camel_address_to_destination (to);
@@ -2373,4 +2464,26 @@ em_utils_empty_trash (GtkWidget *parent)
 	
 	/* Now empty the local trash folder */
 	mail_empty_trash (NULL, NULL, NULL);
+}
+
+char *
+em_utils_folder_name_from_uri (const char *uri)
+{
+	CamelURL *url;
+	char *folder_name;
+	
+	if (uri == NULL || (url = camel_url_new (uri, NULL)) == NULL)
+	    return NULL;
+	
+	folder_name = url->fragment ? url->fragment : url->path + 1;
+	
+	if (folder_name == NULL) {
+		camel_url_free (url);
+		return NULL;
+	}
+	
+	folder_name = g_strdup (folder_name);
+	camel_url_free (url);
+	
+	return folder_name;
 }

@@ -280,6 +280,11 @@ em_folder_selector_set_selected (EMFolderSelector *emfs, const char *uri)
 	em_folder_tree_set_selected (emfs->emft, uri);
 }
 
+void
+em_folder_selector_set_selected_list (EMFolderSelector *emfs, GList *list)
+{
+	em_folder_tree_set_selected_list (emfs->emft, list);
+}
 
 const char *
 em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
@@ -329,6 +334,17 @@ em_folder_selector_get_selected_uri (EMFolderSelector *emfs)
 	return uri;
 }
 
+GList *
+em_folder_selector_get_selected_uris (EMFolderSelector *emfs)
+{
+	return em_folder_tree_get_selected_uris (emfs->emft);
+}
+
+GList *
+em_folder_selector_get_selected_paths (EMFolderSelector *emfs)
+{
+	return em_folder_tree_get_selected_paths (emfs->emft);
+}
 
 const char *
 em_folder_selector_get_selected_path (EMFolderSelector *emfs)

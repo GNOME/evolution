@@ -59,6 +59,7 @@ void em_utils_compose_new_message (void);
 
 /* FIXME: mailto?  url?  should make up its mind what its called.  imho use 'uri' */
 void em_utils_compose_new_message_with_mailto (const char *url);
+void em_utils_post_to_folder (struct _CamelFolder *folder);
 void em_utils_post_to_url (const char *url);
 
 void em_utils_edit_message (struct _CamelMimeMessage *message);
@@ -120,6 +121,10 @@ char *em_utils_message_to_html(struct _CamelMimeMessage *msg, const char *credit
 
 void em_utils_expunge_folder (struct _GtkWidget *parent, struct _CamelFolder *folder);
 void em_utils_empty_trash (struct _GtkWidget *parent);
+
+/* returns the folder name portion of an URI */
+char *em_utils_folder_name_from_uri (const char *uri);
+
 
 #ifdef __cplusplus
 }

@@ -887,6 +887,10 @@ mail_append_mail (CamelFolder *folder, CamelMimeMessage *message, CamelMessageIn
 	g_assert(CAMEL_IS_FOLDER (folder));
 	g_assert(CAMEL_IS_MIME_MESSAGE (message));
 	
+	if (!camel_medium_get_header (CAMEL_MEDIUM (message), "X-Mailer"))
+		camel_medium_set_header (CAMEL_MEDIUM (message), "X-Mailer",
+					 "Ximian Evolution " VERSION SUB_VERSION " " VERSION_COMMENT);
+
 	m = mail_msg_new (&append_mail_op, NULL, sizeof (*m));
 	m->folder = folder;
 	camel_object_ref(folder);

@@ -65,6 +65,12 @@ GtkWidget *em_folder_tree_new_with_model (EMFolderTreeModel *model);
 
 void em_folder_tree_enable_drag_and_drop (EMFolderTree *emft);
 
+void em_folder_tree_set_multiselect (EMFolderTree *emft, gboolean mode);
+
+void em_folder_tree_set_selected_list (EMFolderTree *emft, GList *list);
+GList *em_folder_tree_get_selected_uris (EMFolderTree *emft);
+GList *em_folder_tree_get_selected_paths (EMFolderTree *emft);
+
 void em_folder_tree_set_selected (EMFolderTree *emft, const char *uri);
 const char *em_folder_tree_get_selected_uri (EMFolderTree *emft);
 const char *em_folder_tree_get_selected_path (EMFolderTree *emft);
