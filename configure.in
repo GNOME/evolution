@@ -569,7 +569,8 @@ dnl AC_SUBST(GTKHTML_LIBS)
 dnl GTKHTML_DATADIR=`$PKG_CONFIG --variable gtkhtml_datadir gtkhtml-1.1`
 dnl AC_SUBST(GTKHTML_DATADIR)
 
-dnl EVO_CHECK_LIB(Libsoup, soup, 0.7)
+dnl PKG_CHECK_MODULES(SOUP, soup-2.0)
+dnl (from the libsoup module in GNOME CVS)
 
 dnl AM_PATH_GCONF(1.0,,,gconf gconf-gtk)
 dnl if test "x$GCONF_CFLAGS" = "x" ; then

@@ -1,3 +1,8 @@
+2002-11-05  Dan Winship  <danw@ximian.com>
+
+	* configure.in: change the commented-out soup check to refer to
+	the new soup 2.0 in the libsoup module
+
 2002-11-05  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: use correct libgtkhtml-3.0 for calendar and added
