@@ -1,5 +1,8 @@
 # List of source files containing translatable strings.
 # Please keep this list in alphabetic order.
+a11y/addressbook/ea-addressbook-view.c
+a11y/addressbook/ea-minicard-view.c
+a11y/addressbook/ea-minicard.c
 addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
 addressbook/gui/component/addressbook-component.c
@@ -17,12 +20,12 @@ addressbook/gui/component/select-names/e-select-names.c
 addressbook/gui/component/select-names/e-select-names.etspec
 addressbook/gui/component/select-names/select-names.glade
 addressbook/gui/contact-editor/contact-editor.glade
-addressbook/gui/contact-editor/eab-editor.c
 addressbook/gui/contact-editor/e-contact-editor-address.c
 addressbook/gui/contact-editor/e-contact-editor-fullname.c
 addressbook/gui/contact-editor/e-contact-editor-im.c
 addressbook/gui/contact-editor/e-contact-editor.c
 addressbook/gui/contact-editor/e-contact-quick-add.c
+addressbook/gui/contact-editor/eab-editor.c
 addressbook/gui/contact-editor/fulladdr.glade
 addressbook/gui/contact-editor/fullname.glade
 addressbook/gui/contact-editor/im.glade
@@ -110,6 +113,7 @@ calendar/gui/dialogs/recurrence-page.glade
 calendar/gui/dialogs/save-comp.c
 calendar/gui/dialogs/schedule-page.c
 calendar/gui/dialogs/schedule-page.glade
+calendar/gui/dialogs/select-source-dialog.c
 calendar/gui/dialogs/send-comp.c
 calendar/gui/dialogs/task-details-page.c
 calendar/gui/dialogs/task-details-page.glade
@@ -123,9 +127,9 @@ calendar/gui/e-cal-list-view.etspec
 calendar/gui/e-cal-model-calendar.c
 calendar/gui/e-cal-model-tasks.c
 calendar/gui/e-cal-model.c
-calendar/gui/e-calendar-view.c
 calendar/gui/e-calendar-table.c
 calendar/gui/e-calendar-table.etspec
+calendar/gui/e-calendar-view.c
 calendar/gui/e-cell-date-edit-text.c
 calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
@@ -197,6 +201,10 @@ camel/providers/imap/camel-imap-folder.c
 camel/providers/imap/camel-imap-message-cache.c
 camel/providers/imap/camel-imap-provider.c
 camel/providers/imap/camel-imap-store.c
+camel/providers/imap4/camel-imap-command.c
+camel/providers/imap4/camel-imap-engine.c
+camel/providers/imap4/camel-imap-store.c
+camel/providers/imap4/camel-imap-utils.c
 camel/providers/imapp/camel-imapp-provider.c
 camel/providers/imapp/camel-imapp-store.c
 camel/providers/local/camel-local-folder.c
