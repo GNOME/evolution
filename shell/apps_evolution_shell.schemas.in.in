@@ -89,8 +89,8 @@
       <applyto>/apps/evolution/shell/view_defaults/height</applyto>
       <owner>evolution</owner>
       <type>int</type>
+      <default>480</default>
       <locale name="C">
-        <default>480</default>
         <short>Default window height</short>
       </locale>
     </schema>

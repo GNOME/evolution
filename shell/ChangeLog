@@ -1,3 +1,8 @@
+2004-08-26  Rodney Dawes  <dobey@novell.com>
+
+	* apps_evolution_shell.schemas.in.in: Don't translate the default
+	value for the window height
+
 2004-08-25  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
 	* e-shell-startup-wizard.c: (prepare_importer_page):
