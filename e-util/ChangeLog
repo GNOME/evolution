@@ -1,3 +1,9 @@
+2004-01-05  Not Zed  <NotZed@Ximian.com>
+
+	* e-memory.c (e_mempool_destroy): Fix from Zan Lynx
+	<zlynx@acm.org> to lock the memchunk before freeing the pool
+	header.
+
 2003-12-06  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: Remove hard coded disable deprecated flags

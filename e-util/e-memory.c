@@ -536,7 +536,13 @@ void e_mempool_destroy(MemPool *pool)
 {
 	if (pool) {
 		e_mempool_flush(pool, 1);
+#ifdef G_THREADS_ENABLED
+		g_static_mutex_lock(&mempool_mutex);
+#endif
 		e_memchunk_free(mempool_memchunk, pool);
+#ifdef G_THREADS_ENABLED
+		g_static_mutex_unlock(&mempool_mutex);
+#endif
 	}
 }
 
