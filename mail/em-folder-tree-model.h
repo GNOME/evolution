@@ -92,21 +92,6 @@ struct _EMFolderTreeModelClass {
 	void     (* loading_row)        (EMFolderTreeModel *model,
 					 GtkTreePath *path,
 					 GtkTreeIter *iter);
-	
-	gboolean (* drag_data_received) (EMFolderTreeModel *model,
-					 GtkTreePath *dest_path,
-					 GtkSelectionData *selection_data);
-	gboolean (* row_drop_possible)  (EMFolderTreeModel *model,
-					 GtkTreePath *dest_path,
-					 GtkSelectionData *selection_data);
-	
-	gboolean (* row_draggable)      (EMFolderTreeModel *model,
-					 GtkTreePath *src_path);
-	gboolean (* drag_data_get)      (EMFolderTreeModel *model,
-					 GtkTreePath *src_path,
-					 GtkSelectionData *selection_data);
-	gboolean (* drag_data_delete)   (EMFolderTreeModel *model,
-					 GtkTreePath *src_path);
 };
 
 

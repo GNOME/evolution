@@ -1,9 +1,44 @@
 2003-12-02  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* em-folder-tree-model.c (drop_uid_list): Moved here.
+	(drop_folder): Moved here.
+	(import_message_rfc822): Moved here.
+	(drop_message_rfc822): Moved here.
+	(drop_text_uri_list): Moved here.
+	(model_drag_data_received): Moved the logic from em-folder-tree.c
+	into here.
+	(model_row_drop_possible): Same.
+	(model_row_draggable): Same.
+	(drag_text_uri_list): Moved here.
+	(model_drag_data_get): Moved logic here.
+	(model_drag_data_delete): Moved logic here.
+
+	* em-folder-tree.c (drag_data_get_cb): Pass the full_name to
+	camel_store_get_folder() rather than the path.
+	(drag_data_received_cb): Same.
+	(drop_uid_list): Removed.
+	(drop_folder): Removed.
+	(import_message_rfc822): Removed.
+	(drop_message_rfc822): Removed.
+	(drop_text_uri_list): Removed.
+	(drag_data_received_cb): Removed.
+	(row_drop_possible_cb): Removed.
+	(row_draggable_cb): Removed.
+	(drag_text_uri_list): Removed.
+	(drag_data_get_cb): Removed.
+	(drag_data_delete_cb): Removed.
+	(em_folder_tree_enable_drag_and_drop): Don't connect to any of the
+	drag & drop signals, they don't exist anymore.
+
+	* mail-component.c (impl_createControls): Enable drag-and-drop.
+
 	* em-folder-tree.c (em_folder_tree_new_with_model): Connect to the
 	loading row signal.
 	(loading_row_cb): Expand the path if needed.
 	(em_folder_tree_destroy): Disconnect from the loading-row signal.
+	(em_folder_tree_enable_drag_and_drop): New function to enable
+	drag-and-drop.
+	(em_folder_tree_new): Remove drag-and-drop setup code.
 
 	* em-folder-tree-model.c (em_folder_tree_model_class_init): Define
 	the loading-row signal.
