@@ -10,8 +10,11 @@ CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 idls =							\
 	$(srcdir)/../idl/addressbook.idl
 
-$(CORBA_SOURCE): $(idls)
+$(CORBA_SOURCE_H): $(idls)
 	$(ORBIT_IDL)  $(IDL_INCLUDES) -I $(srcdir) $(srcdir)/../idl/addressbook.idl
+
+$(CORBA_SOURCE_C): $(CORBA_SOURCE_H)
+
 
 INCLUDES =						\
 	$(DB3_CFLAGS)					\

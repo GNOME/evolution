@@ -3,17 +3,18 @@
 idl_DATA = \
 	Evolution-Addressbook-SelectNames.idl
 
-IDL_GENERATED = \
-	Evolution-Addressbook-SelectNames.h		\
+IDL_GENERATED_H = 					\
+	Evolution-Addressbook-SelectNames.h
+IDL_GENERATED_C = 					\
 	Evolution-Addressbook-SelectNames-common.c	\
 	Evolution-Addressbook-SelectNames-skels.c	\
 	Evolution-Addressbook-SelectNames-stubs.c
+IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
 
-Evolution-Addressbook-SelectNames-impl.o: Evolution-Addressbook-SelectNames.h
-
-$(IDL_GENERATED): $(idl_DATA)
+$(IDL_GENERATED_H): $(idl_DATA)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) \
 		$(srcdir)/Evolution-Addressbook-SelectNames.idl
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 

@@ -5,22 +5,41 @@ bin_PROGRAMS =	evolution-vcard-importer 	\
 		load-pine-addressbook		\
 		load-gnomecard-addressbook
 
-CORBA_SOURCE =				\
-	addressbook.h			\
-	addressbook-common.c		\
-	addressbook-stubs.c		\
-	addressbook-skels.c		\
-        Evolution-Composer.h            \
+# CORBA stuff
+
+CORBA_ADDRESSBOOK_SOURCE_H =			\
+	addressbook.h
+CORBA_ADDRESSBOOK_SOURCE_C =			\
+	addressbook-common.c			\
+	addressbook-stubs.c			\
+	addressbook-skels.c
+CORBA_ADDRESSBOOK_IDL = $(srcdir)/../idl/addressbook.idl
+
+$(CORBA_ADDRESSBOOK_SOURCE_H): $(CORBA_ADDRESSBOOK_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(CORBA_ADDRESSBOOK_IDL)
+
+$(CORBA_ADDRESSBOOK_SOURCE_C): $(CORBA_ADDRESSBOOK_SOURCE_H)
+
+
+CORBA_COMPOSER_SOURCE_H	=		\
+        Evolution-Composer.h
+CORBA_COMPOSER_SOURCE_C = 		\
         Evolution-Composer-common.c     \
         Evolution-Composer-skels.c      \
         Evolution-Composer-stubs.c
+CORBA_COMPOSER_IDL = $(srcdir)/../../../composer/Evolution-Composer.idl
 
-idls =								\
-	$(srcdir)/../idl/addressbook.idl			\
-	$(srcdir)/../../../composer/Evolution-Composer.idl
+CORBA_SOURCE_H = $(CORBA_COMPOSER_SOURCE_H) $(CORBA_ADDRESSBOOK_SOURCE_H)
+CORBA_SOURCE_C = $(CORBA_COMPOSER_SOURCE_C) $(CORBA_ADDRESSBOOK_SOURCE_C)
+CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 
-$(CORBA_SOURCE): $(idls)
-	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(idls)
+$(CORBA_COMPOSER_SOURCE_H): $(CORBA_COMPOSER_IDL)
+	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(CORBA_COMPOSER_IDL)
+
+$(CORBA_COMPOSER_SOURCE_C): $(CORBA_COMPOSER_SOURCE_H)
+
+
+# The component 
 
 INCLUDES =						\
 	-DPREFIX=\"$(prefix)\"				\
@@ -41,6 +60,10 @@ INCLUDES =						\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 privlib_LTLIBRARIES = libebook.la libebook-static.la
+
+# Make sure the libraries are not built in parallel when using a parallel make;
+# libtool can't handle that.
+libebook_static_la_DEPENDENCIES = libebook.la
 
 libebook_la_SOURCES =					\
 	$(CORBA_SOURCE)					\
@@ -84,14 +107,14 @@ libebook_static_la_LDFLAGS = -all-static
 # GLib marshalling cruft
 
 e-book-marshal.h: e-book-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --header > e-book-marshal.tmp \
-	&& mv e-book-marshal.tmp e-book-marshal.h ) \
-	|| ( rm -f e-book-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --header > e-book-marshal.h.tmp \
+	&& mv e-book-marshal.h.tmp e-book-marshal.h ) \
+	|| ( rm -f e-book-marshal.h.tmp && exit 1 )
 
 e-book-marshal.c: e-book-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --body > e-book-marshal.tmp \
-	&& mv e-book-marshal.tmp e-book-marshal.c ) \
-	|| ( rm -f e-book-marshal.tmp && exit 1 )
+	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --body > e-book-marshal.c.tmp \
+	&& mv e-book-marshal.c.tmp e-book-marshal.c ) \
+	|| ( rm -f e-book-marshal.c.tmp && exit 1 )
 
 MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
 
@@ -181,7 +204,7 @@ BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)
 
 dist-hook:
-	cd $(distdir); rm -f $(BUILT_SOURCES)
+	cd $(distdir); rm -f $(BUILT_SOURCES) $(CORBA_SOURCE_C)
 
 server_in_files = GNOME_Evolution_Addressbook_VCard_Importer.server.in \
 		  GNOME_Evolution_Addressbook_LDIF_Importer.server.in

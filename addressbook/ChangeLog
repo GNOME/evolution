@@ -1,3 +1,16 @@
+2003-02-06  Ettore Perazzoli  <ettore@ximian.com>
+
+	* backend/ebook/Makefile.am (e-book-marshal.c, e-book-marshal.h):
+	Use different tmp file names so these rules can be executed in
+	parallel without interfering with each otehr.
+
+	* backend/pas/Makefile.am: Make the ORBit compilation work
+	properly with parallel makes (i.e. make sure it does not spawn
+	multiple orbit-idl processes on the same IDL file at the same
+	time).
+	* gui/component/select-names/Makefile.am: Likewise.
+	* backend/ebook/Makefile.am: Likewise.
+
 2003-02-06  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook-config.c (main):
