@@ -224,6 +224,17 @@ static void
 etcta_realize (GnomeCanvasItem *item)
 {
 	ETableClickToAdd *etcta = E_TABLE_CLICK_TO_ADD (item);
+
+	etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
+					    gnome_canvas_rect_get_type(),
+					    "x1", (double) 0,
+					    "y1", (double) 0,
+					    "x2", (double) etcta->width - 1,
+					    "y2", (double) etcta->height - 1,
+					    "outline_color", "black", 
+					    "fill_color", "white",
+					    NULL);
+
 	etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
 					    e_text_get_type(),
 					    "text", etcta->message ? etcta->message : "",
@@ -232,15 +243,6 @@ etcta_realize (GnomeCanvasItem *item)
 					    "draw_background", FALSE,
 					    NULL);
 	e_canvas_item_move_absolute (etcta->text, 2, 2);
-	etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(item),
-					    gnome_canvas_rect_get_type(),
-					    "x1", (double) 0,
-					    "y1", (double) 0,
-					    "x2", (double) etcta->width - 1,
-					    "y2", (double) etcta->height - 1,
-					    "outline_color", "black", 
-					    "fill_color", NULL,
-					    NULL);
 
 	if (GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (etcta_parent_class)->realize)(item);
@@ -370,7 +372,7 @@ etcta_reflow (GnomeCanvasItem *item, int flags)
 		gtk_object_get(GTK_OBJECT(etcta->text),
 			       "height", &etcta->height,
 			       NULL);
-		etcta->height += 4;
+		etcta->height += 6;
 	}
 	if (etcta->row) {
 		gtk_object_get(GTK_OBJECT(etcta->row),
@@ -473,6 +475,8 @@ e_table_click_to_add_get_type (void)
 	return type;
 }
 
+
+/* The colors in this need to be themefied. */
 void
 e_table_click_to_add_commit (ETableClickToAdd *etcta)
 {
@@ -482,6 +486,17 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 		gtk_object_destroy(GTK_OBJECT(etcta->row));
 		etcta->row = NULL;
 	}
+	if (!etcta->rect) {
+		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
+						    gnome_canvas_rect_get_type(),
+						    "x1", (double) 0,
+						    "y1", (double) 0,
+						    "x2", (double) etcta->width - 1,
+						    "y2", (double) etcta->height - 1,
+						    "outline_color", "black",
+						    "fill_color", "white",
+						    NULL);
+	}
 	if (!etcta->text) {
 		etcta->text = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
 						    e_text_get_type(),
@@ -490,17 +505,6 @@ e_table_click_to_add_commit (ETableClickToAdd *etcta)
 						    "width", etcta->width - 4,
 						    "draw_background", FALSE,
 						    NULL);
-		e_canvas_item_move_absolute (etcta->text, 2, 2);
-	}
-	if (!etcta->rect) {
-		etcta->rect = gnome_canvas_item_new(GNOME_CANVAS_GROUP(etcta),
-						    gnome_canvas_rect_get_type(),
-						    "x1", (double) 0,
-						    "y1", (double) 0,
-						    "x2", (double) etcta->width - 1,
-						    "y2", (double) etcta->height - 1,
-						    "outline_color", "black", 
-						    "fill_color", NULL,
-						    NULL);
+		e_canvas_item_move_absolute (etcta->text, 3, 3);
 	}
 }
