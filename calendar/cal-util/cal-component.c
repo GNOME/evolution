@@ -3728,7 +3728,7 @@ cal_component_alarm_get_uid (CalComponentAlarm *alarm)
 void
 cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action)
 {
-	const char *str;
+	enum icalproperty_action ipa;
 
 	g_return_if_fail (alarm != NULL);
 	g_return_if_fail (action != NULL);
@@ -3740,18 +3740,32 @@ cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action
 		return;
 	}
 
-	str = icalproperty_get_action (alarm->action);
+	ipa = icalproperty_get_action (alarm->action);
 
-	if (strcasecmp (str, "AUDIO") == 0)
+	switch (ipa) {
+	case ICAL_ACTION_AUDIO:
 		*action = CAL_ALARM_AUDIO;
-	else if (strcasecmp (str, "DISPLAY") == 0)
+		break;
+
+	case ICAL_ACTION_DISPLAY:
 		*action = CAL_ALARM_DISPLAY;
-	else if (strcasecmp (str, "EMAIL") == 0)
+		break;
+
+	case ICAL_ACTION_EMAIL:
 		*action = CAL_ALARM_EMAIL;
-	else if (strcasecmp (str, "PROCEDURE") == 0)
+		break;
+
+	case ICAL_ACTION_PROCEDURE:
 		*action = CAL_ALARM_PROCEDURE;
-	else
+		break;
+
+	case ICAL_ACTION_NONE:
+		*action = CAL_ALARM_NONE;
+		break;
+
+	default:
 		*action = CAL_ALARM_UNKNOWN;
+	}
 }
 
 /**
@@ -3764,7 +3778,7 @@ cal_component_alarm_get_action (CalComponentAlarm *alarm, CalAlarmAction *action
 void
 cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action)
 {
-	char *str;
+	enum icalproperty_action ipa;
 
 	g_return_if_fail (alarm != NULL);
 	g_return_if_fail (action != CAL_ALARM_NONE);
@@ -3774,30 +3788,30 @@ cal_component_alarm_set_action (CalComponentAlarm *alarm, CalAlarmAction action)
 
 	switch (action) {
 	case CAL_ALARM_AUDIO:
-		str = "AUDIO";
+		ipa = ICAL_ACTION_AUDIO;
 		break;
 
 	case CAL_ALARM_DISPLAY:
-		str = "DISPLAY";
+		ipa = ICAL_ACTION_DISPLAY;
 		break;
 
 	case CAL_ALARM_EMAIL:
-		str = "EMAIL";
+		ipa = ICAL_ACTION_EMAIL;
 		break;
 
 	case CAL_ALARM_PROCEDURE:
-		str = "PROCEDURE";
+		ipa = ICAL_ACTION_PROCEDURE;
 		break;
 
 	default:
 		g_assert_not_reached ();
-		str = NULL;
+		ipa = ICAL_ACTION_NONE;
 	}
 
 	if (alarm->action)
-		icalproperty_set_action (alarm->action, str);
+		icalproperty_set_action (alarm->action, ipa);
 	else {
-		alarm->action = icalproperty_new_action (str);
+		alarm->action = icalproperty_new_action (ipa);
 		icalcomponent_add_property (alarm->icalcomp, alarm->action);
 	}
 }

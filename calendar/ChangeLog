@@ -1,3 +1,10 @@
+2001-04-17  JP Rosevear  <jpr@ximian.com>
+
+	* cal-util/cal-component.c (cal_component_alarm_set_action): the
+	libical action stuff uses enums rather than strings to enumerate
+	the various actions now
+	(cal_component_alarm_get_action): ditto
+
 2001-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/alarm-notify/Makefile.am (evolution_alarm_notify_SOURCES):
