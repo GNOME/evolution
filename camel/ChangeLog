@@ -1,3 +1,15 @@
+2001-09-12    <NotZed@Ximian.com>
+
+	* camel-folder-search.h: Change the 'not' virtual method from an
+	immediate e-sexp function to a non-immediate one, which is what it
+	should be.
+
+	* camel-folder-search.c (search_not): Implement a 'not' function
+	ourselves.  If 'not' on a vector value, then not over all items
+	in the summary.
+	(builtings[]): Change the 'not' builtin to be a non-immediate
+	function.
+
 2001-09-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-filter-driver.c (camel_filter_driver_filter_mbox): Unref

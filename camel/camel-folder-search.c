@@ -56,6 +56,8 @@ struct _CamelFolderSearchPrivate {
 
 #define _PRIVATE(o) (((CamelFolderSearch *)(o))->priv)
 
+static ESExpResult *search_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
+
 static ESExpResult *search_header_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 static ESExpResult *search_header_matches(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
 static ESExpResult *search_header_starts_with(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
@@ -83,6 +85,8 @@ static void
 camel_folder_search_class_init (CamelFolderSearchClass *klass)
 {
 	camel_folder_search_parent = camel_type_get_global_classfuncs (camel_object_get_type ());
+
+	klass->not = search_not;
 
 	klass->match_all = search_match_all;
 	klass->body_contains = search_body_contains;
@@ -175,13 +179,14 @@ struct {
 	/* these have default implementations in e-sexp */
 	{ "and", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, and), 2 },
 	{ "or", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, or), 2 },
-	{ "not", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, not), 2 },
+	/* we need to override this one though to implement an 'array not' */
+	{ "not", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, not), 0 },
 	{ "<", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, lt), 2 },
 	{ ">", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, gt), 2 },
 	{ "=", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, eq), 2 },
 
 	/* these we have to use our own default if there is none */
-	/* they should all be defined in the language? so it poarses, or should they not?? */
+	/* they should all be defined in the language? so it parses, or should they not?? */
 	{ "match-all", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, match_all), 3 },
 	{ "body-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, body_contains), 1 },
 	{ "header-contains", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, header_contains), 1 },
@@ -452,6 +457,73 @@ search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolder
 	} else {
 		r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
 		r->value.ptrarray = g_ptr_array_new();
+	}
+
+	return r;
+}
+
+/* impelemnt an 'array not', i.e. everything in the summary, not in the supplied array */
+static ESExpResult *
+search_not(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search)
+{
+	ESExpResult *r;
+	int i;
+
+	if (argc>0) {
+		if (argv[0]->type == ESEXP_RES_ARRAY_PTR) {
+			GPtrArray *v = argv[0]->value.ptrarray;
+			const char *uid;
+
+			r = e_sexp_result_new(f, ESEXP_RES_ARRAY_PTR);
+			r->value.ptrarray = g_ptr_array_new();
+
+			/* not against a single message?*/
+			if (search->match1 || search->current) {
+				int found = FALSE;
+
+				if (search->match1)
+					uid = camel_message_info_uid(search->match1);
+				else
+					uid = camel_message_info_uid(search->current);
+
+				for (i=0;!found && i<v->len;i++) {
+					if (strcmp(uid, v->pdata[i]) == 0)
+						found = TRUE;
+				}
+
+				if (!found)
+					g_ptr_array_add(r->value.ptrarray, (char *)uid);
+			} else if (search->summary == NULL) {
+				g_warning("No summary set, 'not' against an array requires a summary");
+			} else {
+				/* 'not' against the whole summary */
+				GHashTable *have = g_hash_table_new(g_str_hash, g_str_equal);
+				char **s;
+
+				s = (char **)v->pdata;
+				for (i=0;i<v->len;i++)
+					g_hash_table_insert(have, s[i], s[i]);
+
+				v = search->summary;
+				s = (char **)v->pdata;
+				for (i=0;i<v->len;i++) {
+					if (g_hash_table_lookup(have, s[i]) == NULL)
+						g_ptr_array_add(r->value.ptrarray, s[i]);
+				}
+				g_hash_table_destroy(have);
+			}
+		} else {
+			int res = TRUE;
+
+			if (argv[0]->type == ESEXP_RES_BOOL)
+				res = ! argv[0]->value.bool;
+
+			r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+			r->value.bool = res;
+		}
+	} else {
+		r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+		r->value.bool = TRUE;
 	}
 
 	return r;

@@ -57,7 +57,7 @@ struct _CamelFolderSearchClass {
 	/* general bool/comparison options, usually these wont need to be set, unless it is compiling into another language */
 	ESExpResult * (*and)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
 	ESExpResult * (*or)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
-	ESExpResult * (*not)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
+	ESExpResult * (*not)(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 	ESExpResult * (*lt)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
 	ESExpResult * (*gt)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
 	ESExpResult * (*eq)(struct _ESExp *f, int argc, struct _ESExpTerm **argv, CamelFolderSearch *s);
