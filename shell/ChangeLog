@@ -1,3 +1,11 @@
+2002-04-17  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shortcuts-view.c (impl_shortcut_drag_motion): New, override
+	for EShortcutBar::shortcut_drag_motion.
+	(impl_shortcut_drag_data_received): New, override for
+	EShortcutBar::shortcut_drag_data_received.
+	(class_init): Install the method overrides.
+
 2002-04-17  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-activity-handler.c: Updated this to match the new EPopupMenu.
