@@ -47,7 +47,9 @@ typedef struct {
 	CamelStore parent_object;
 
 	CamelStream *istream, *ostream;
-	char *apop_timestamp;
+	char *apop_timestamp, *implementation;
+	gboolean supports_top, supports_uidl, expires;
+	int login_delay;
 
 } CamelPop3Store;
 

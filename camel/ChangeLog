@@ -1,5 +1,12 @@
 2000-06-15  Dan Winship  <danw@helixcode.com>
 
+	* providers/pop3/camel-pop3-store.c (connect_to_server): Check
+	server for various interesting extensions.
+
+	* providers/pop3/camel-pop3-folder.c (get_uids): If the server
+	supports UIDL, use real UIDs rather than fake ones.
+	(etc): Map uids back to numbers appropriately
+
 	* providers/mbox/camel-mbox-folder.c (mbox_append_message): Fix to
 	previous change: make sure the "seek" variable ends up with the
 	value it should.

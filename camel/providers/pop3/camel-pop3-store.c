@@ -136,11 +136,15 @@ camel_pop3_store_get_type (void)
 static void
 finalize (GtkObject *object)
 {
+	CamelPop3Store *pop3_store = CAMEL_POP3_STORE (object);
 	CamelException ex;
 
 	camel_exception_init (&ex);
 	pop3_disconnect (CAMEL_SERVICE (object), &ex);
 	camel_exception_clear (&ex);
+
+	if (pop3_store->apop_timestamp)
+		g_free (pop3_store->apop_timestamp);
 }
 
 
@@ -183,7 +187,7 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	CamelPop3Store *store = CAMEL_POP3_STORE (service);
 	struct hostent *h;
 	struct sockaddr_in sin;
-	int fd;
+	int fd, status;
 	char *buf, *apoptime, *apopend;
 #ifdef HAVE_KRB4
 	gboolean kpop = (service->url->port == KPOP_PORT);
@@ -263,11 +267,52 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	}
 	apoptime = strchr (buf, '<');
 	apopend = apoptime ? strchr (apoptime, '>') : NULL;
-	if (apoptime && apopend) {
+	if (apopend) {
 		store->apop_timestamp = g_strndup (apoptime,
 						   apopend - apoptime + 1);
+		memmove (apoptime, apopend + 1, strlen (apopend + 1));
 	}
-	g_free (buf);
+	store->implementation = buf;
+
+	/* Check extensions */
+	store->login_delay = -1;
+	store->supports_top = -1;
+	store->supports_uidl = -1;
+	store->expires = -1;
+
+	status = camel_pop3_command (store, NULL, "CAPA");
+	if (status == CAMEL_POP3_OK) {
+		char *p;
+		int len;
+
+		buf = camel_pop3_command_get_additional_data (store, ex);
+		if (camel_exception_is_set (ex)) {
+			pop3_disconnect (service, ex);
+			return FALSE;
+		}
+
+		p = buf;
+		while (*p) {
+			len = strcspn (p, "\n");
+			if (!strncmp (p, "IMPLEMENTATION ", 15)) {
+				store->implementation =
+					g_strndup (p + 15, len - 15);
+			} else if (!strncmp (p, "TOP", len))
+				store->supports_top = TRUE;
+			else if (!strncmp (p, "UIDL", len))
+				store->supports_uidl = TRUE;
+			else if (!strncmp (p, "LOGIN-DELAY ", 12))
+				store->login_delay = atoi (p + 12);
+			else if (!strncmp (p, "EXPIRE NEVER", 12))
+				store->expires = FALSE;
+			else if (!strncmp (p, "EXPIRE ", 7))
+				store->expires = TRUE;
+
+			p += len;
+		}
+
+		g_free (buf);
+	}
 
 	return TRUE;
 }
