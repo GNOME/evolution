@@ -6,5 +6,3 @@ xgettext --default-domain=evolution --directory=.. \
 && test ! -f evolution.po \
    || ( rm -f ./evolution.pot \
     && mv evolution.po ./evolution.pot )
-
-msgmerge no.po evolution.pot >no-new.po
