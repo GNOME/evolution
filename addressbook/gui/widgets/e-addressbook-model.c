@@ -75,8 +75,9 @@ remove_book_view(EAddressbookModel *model)
 
 	model->search_in_progress = FALSE;
 
-	if (model->book_view)
+	if (model->book_view) {
 		gtk_object_unref(GTK_OBJECT(model->book_view));
+	}
 
 	model->book_view = NULL;
 }
@@ -87,8 +88,10 @@ addressbook_destroy(GtkObject *object)
 	EAddressbookModel *model = E_ADDRESSBOOK_MODEL(object);
 	int i;
 
-	if (model->get_view_idle)
+	if (model->get_view_idle) {
 		g_source_remove(model->get_view_idle);
+		model->get_view_idle = 0;
+	}
 
 	remove_book_view(model);
 
@@ -100,12 +103,15 @@ addressbook_destroy(GtkObject *object)
 		model->writable_status_id = 0;
 
 		gtk_object_unref(GTK_OBJECT(model->book));
+		model->book = NULL;
 	}
 
 	for ( i = 0; i < model->data_count; i++ ) {
 		gtk_object_unref(GTK_OBJECT(model->data[i]));
 	}
+
 	g_free(model->data);
+	model->data = NULL;
 }
 
 static void

@@ -1,3 +1,59 @@
+2001-10-11  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/addressbook.c (new_contact_cb): Check that
+	view->view != NULL.
+	(save_contact_cb): Check that view->view != NULL.
+	(search_cb): Check that view->view != NULL.
+	(delete_contact_cb): Check that view->view != NULL.
+	(print_cb): Check that view->view != NULL.
+	(print_preview_cb): Check that view->view != NULL.
+	(stop_loading_cb): Check that view->view != NULL.
+	(cut_contacts_cb): Check that view->view != NULL.
+	(copy_contacts_cb): Check that view->view != NULL.
+	(paste_contacts_cb): Check that view->view != NULL.
+	(select_all_contacts_cb): Check that view->view != NULL.
+	(send_contact_cb): Check that view->view != NULL.
+	(send_contact_to_cb): Check that view->view != NULL.
+	(update_command_state): Check that view->view != NULL.  Hold a
+	reference to the AddressbookView for the duration of the function,
+	in case we exit during bonobo-reentrancy.
+	(addressbook_view_ref): Added.
+	(addressbook_view_unref): Added.  Simple ref counting for
+	AddressbookView objects.
+	(addressbook_view_clear): Zero out an AddressbookView.  This is
+	now separated from the deallocation of the AddressbookView object,
+	so that we don't leave a dangling pointer if we exit during
+	bonobo-reentrancy in update_command_state. (Which often seems to
+	happen if we exit while addressbook operations are going on.)
+	(destroy_callback): Replace previous call to addressbook_view_free
+	with addressbook_view_clear/addressbook_view_unref calls.
+	(addressbook_factory_new_control): Initialize the reference count
+	in the AddressbookView object.
+
+	* gui/widgets/e-addressbook-view.c (e_addressbook_view_destroy):
+	Carefully zero out our destroyed object.
+	(command_state_change): Hold a reference to ourselves during the
+	signal emission.
+	(get_selected_cards): Ref cards as we add them to the list.
+	(e_addressbook_view_stop): Check for view != NULL.
+	(e_addressbook_view_can_create): Check for view != NULL.
+	(e_addressbook_view_can_print): Check for view != NULL.
+	(e_addressbook_view_can_save_as): Check for view != NULL.
+	(e_addressbook_view_can_send): Check for view != NULL.
+	(e_addressbook_view_can_send_to): Check for view != NULL.
+	(e_addressbook_view_can_delete): Check for view != NULL.
+	(e_addressbook_view_can_cut): Check for view != NULL.
+	(e_addressbook_view_can_copy): Check for view != NULL.
+	(e_addressbook_view_can_paste): Check for view != NULL.
+	(e_addressbook_view_can_select_all): Check for view != NULL.
+	(e_addressbook_view_can_stop): Check for view != NULL.
+
+	* gui/widgets/e-addressbook-model.c (addressbook_destroy): Be
+	careful about zeroing out our destroyed object.
+	
+	* backend/ebook/e-book-view.c (e_book_view_stop): Added.  Stops
+	event processing in the underlying listener.
+
 2001-10-10  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/component/select-names/e-select-names-manager.c

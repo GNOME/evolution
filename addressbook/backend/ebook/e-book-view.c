@@ -207,6 +207,14 @@ e_book_view_set_book (EBookView *book_view, EBook *book)
 	gtk_object_ref (GTK_OBJECT (book));
 }
 
+void
+e_book_view_stop (EBookView *book_view)
+{
+	g_return_if_fail (book_view && E_IS_BOOK_VIEW (book_view));
+	if (book_view->priv->listener)
+		e_book_view_listener_stop (book_view->priv->listener);
+}
+
 static void
 e_book_view_init (EBookView *book_view)
 {

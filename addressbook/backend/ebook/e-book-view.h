@@ -49,6 +49,8 @@ GtkType            e_book_view_get_type               (void);
 
 void               e_book_view_set_book               (EBookView *book_view, struct _EBook *book);
 
+void               e_book_view_stop                   (EBookView *book_view);
+
 #define E_BOOK_VIEW_TYPE        (e_book_view_get_type ())
 #define E_BOOK_VIEW(o)          (GTK_CHECK_CAST ((o), E_BOOK_VIEW_TYPE, EBookView))
 #define E_BOOK_VIEW_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_BOOK_VIEW_TYPE, EBookViewClass))

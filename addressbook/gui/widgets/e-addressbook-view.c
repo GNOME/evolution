@@ -257,12 +257,18 @@ e_addressbook_view_destroy (GtkObject *object)
 {
 	EAddressbookView *eav = E_ADDRESSBOOK_VIEW(object);
 
-	if (eav->model)
+	if (eav->model) {
 		gtk_object_unref(GTK_OBJECT(eav->model));
+		eav->model = NULL;
+	}
 
-	if (eav->book)
+	if (eav->book) {
 		gtk_object_unref(GTK_OBJECT(eav->book));
+		eav->book = NULL;
+	}
+
 	g_free(eav->query);
+	eav->query = NULL;
 
 	if (eav->view_collection) {
 		gtk_object_unref (GTK_OBJECT (eav->view_collection));
@@ -280,8 +286,10 @@ e_addressbook_view_destroy (GtkObject *object)
 		eav->clipboard_cards = NULL;
 	}
 		
-	if (eav->invisible)
+	if (eav->invisible) {
 		gtk_widget_destroy (eav->invisible);
+		eav->invisible = NULL;
+	}
 
 	if (GTK_OBJECT_CLASS(parent_class)->destroy)
 		GTK_OBJECT_CLASS(parent_class)->destroy(object);
@@ -858,8 +866,9 @@ writable_status (GtkObject *object, gboolean writable, EAddressbookView *eav)
 static void
 command_state_change (EAddressbookView *eav)
 {
-	gtk_signal_emit (GTK_OBJECT (eav),
-			 e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
+	gtk_object_ref (GTK_OBJECT (eav)); /* who knows what might happen during this emission? */
+	gtk_signal_emit (GTK_OBJECT (eav), e_addressbook_view_signals [COMMAND_STATE_CHANGE]);
+	gtk_object_unref (GTK_OBJECT (eav));
 }
 
 #ifdef JUST_FOR_TRANSLATORS
@@ -1409,6 +1418,8 @@ get_selected_cards (EAddressbookView *view)
 
 	for (iterator = list; iterator; iterator = iterator->next) {
 		iterator->data = e_addressbook_model_card_at (view->model, GPOINTER_TO_INT (iterator->data));
+		if (iterator->data)
+			gtk_object_ref (iterator->data);
 	}
 	list = g_list_reverse (list);
 	return list;
@@ -1485,7 +1496,8 @@ e_addressbook_view_show_all(EAddressbookView *view)
 void
 e_addressbook_view_stop(EAddressbookView *view)
 {
-	e_addressbook_model_stop (view->model);
+	if (view)
+		e_addressbook_model_stop (view->model);
 }
 
 static gboolean
@@ -1503,64 +1515,66 @@ e_addressbook_view_selection_nonempty (EAddressbookView  *view)
 gboolean
 e_addressbook_view_can_create (EAddressbookView  *view)
 {
-	return e_addressbook_model_editable (view->model);
+	return view ? e_addressbook_model_editable (view->model) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_print (EAddressbookView  *view)
 {
-	return e_addressbook_view_selection_nonempty (view);
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_save_as (EAddressbookView  *view)
 {
-	return e_addressbook_view_selection_nonempty (view);
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
 
-gboolean   e_addressbook_view_can_send (EAddressbookView  *view)
+gboolean 
+e_addressbook_view_can_send (EAddressbookView  *view)
 {
-	return e_addressbook_view_selection_nonempty (view);
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
 
-gboolean   e_addressbook_view_can_send_to (EAddressbookView  *view)
+gboolean   
+e_addressbook_view_can_send_to (EAddressbookView  *view)
 {
-	return e_addressbook_view_selection_nonempty (view);
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_delete (EAddressbookView  *view)
 {
-	return e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model);
+	return view ? e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_cut (EAddressbookView *view)
 {
-	return e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model);
+	return view ? e_addressbook_view_selection_nonempty (view) && e_addressbook_model_editable (view->model) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_copy (EAddressbookView *view)
 {
-	return e_addressbook_view_selection_nonempty (view);
+	return view ? e_addressbook_view_selection_nonempty (view) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_paste (EAddressbookView *view)
 {
-	return e_addressbook_model_editable (view->model);
+	return view ? e_addressbook_model_editable (view->model) : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_select_all (EAddressbookView *view)
 {
-	return e_addressbook_model_card_count (view->model) != 0;
+	return view ? e_addressbook_model_card_count (view->model) != 0 : FALSE;
 }
 
 gboolean
 e_addressbook_view_can_stop (EAddressbookView  *view)
 {
-	return e_addressbook_model_can_stop (view->model);
+	return view ? e_addressbook_model_can_stop (view->model) : FALSE;
 }
 
