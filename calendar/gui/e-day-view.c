@@ -146,6 +146,21 @@ static gint e_day_view_focus_out (GtkWidget *widget,
 				  GdkEventFocus *event);
 static gboolean e_day_view_key_press (GtkWidget *widget,
 				      GdkEventKey *event);
+static gboolean e_day_view_focus (GtkWidget *widget,
+ 				  GtkDirectionType direction);
+static gboolean e_day_view_get_next_tab_event (EDayView *day_view,
+					       GtkDirectionType direction,
+					       gint *day, gint *event_num);
+static gboolean e_day_view_get_extreme_long_event (EDayView *day_view,
+						   gboolean first,
+						   gint *day_out,
+						   gint *event_num_out);
+static gboolean e_day_view_get_extreme_event (EDayView *day_view,
+					      gint start_day,
+					      gint end_day,
+					      gboolean first,
+					      gint *day_out,
+					      gint *event_num_out);
 static gboolean e_day_view_do_key_press (GtkWidget *widget,
 					 GdkEventKey *event);
 static gboolean e_day_view_popup_menu (GtkWidget *widget);
@@ -514,6 +529,7 @@ e_day_view_class_init (EDayViewClass *class)
 	widget_class->focus_in_event	= e_day_view_focus_in;
 	widget_class->focus_out_event	= e_day_view_focus_out;
 	widget_class->key_press_event	= e_day_view_key_press;
+ 	widget_class->focus             = e_day_view_focus;
 	widget_class->popup_menu        = e_day_view_popup_menu;
 
 	class->selection_changed = NULL;
@@ -5808,6 +5824,196 @@ e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
 
+static gboolean
+e_day_view_focus (GtkWidget *widget, GtkDirectionType direction)
+{
+	EDayView *day_view;
+	gint new_day;
+	gint new_event_num;
+	gint start_row, end_row;
+
+	g_return_val_if_fail (widget != NULL, FALSE);
+	g_return_val_if_fail (E_IS_DAY_VIEW (widget), FALSE);
+	day_view = E_DAY_VIEW (widget);
+
+	if (!e_day_view_get_next_tab_event (day_view, direction,
+					    &new_day, &new_event_num))
+		return FALSE;
+
+	if (new_day != E_DAY_VIEW_LONG_EVENT && new_day != -1) {
+		if (e_day_view_get_event_rows (day_view, new_day, new_event_num,
+					       &start_row, &end_row))
+			/* ajust the scrollbar to ensure the event to be seen */
+			e_day_view_ensure_rows_visible (day_view,
+							start_row, end_row);
+	}
+	e_day_view_start_editing_event (day_view, new_day,
+					new_event_num, NULL);
+
+	return TRUE;
+}
+
+static gboolean
+e_day_view_get_extreme_event (EDayView *day_view, gint start_day,
+			      gint end_day, gboolean first,
+			      gint *day_out, gint *event_num_out)
+{
+	gint loop_day;
+
+	g_return_val_if_fail (day_view != NULL, FALSE);
+	g_return_val_if_fail (start_day >= 0, FALSE);
+	g_return_val_if_fail (end_day <= E_DAY_VIEW_LONG_EVENT, FALSE);
+	g_return_val_if_fail (day_out && event_num_out, FALSE);
+
+	if (start_day > end_day)
+		return FALSE;
+	if (first) {
+		for (loop_day = start_day; loop_day <= end_day; ++loop_day)
+			if (day_view->events[loop_day]->len > 0) {
+				*day_out = loop_day;
+				*event_num_out = 0;
+				return TRUE;
+			}
+	}
+	else {
+		for (loop_day = end_day; loop_day >= start_day; --loop_day)
+			if (day_view->events[loop_day]->len > 0) {
+				*day_out = loop_day;
+				*event_num_out =
+					day_view->events[loop_day]->len - 1;
+				return TRUE;
+			}
+	}
+	*day_out = -1;
+	*event_num_out = -1;
+	return FALSE;
+}
+
+static gboolean
+e_day_view_get_extreme_long_event (EDayView *day_view, gboolean first,
+				   gint *day_out, gint *event_num_out)
+{
+	g_return_val_if_fail (day_view != NULL, FALSE);
+	g_return_val_if_fail (day_out && event_num_out, FALSE);
+
+	if (first && (day_view->long_events->len > 0)) {
+		*day_out = E_DAY_VIEW_LONG_EVENT;
+		*event_num_out = 0;
+		return TRUE;
+	}
+	if ((!first) && (day_view->long_events->len > 0)) {
+		*day_out = E_DAY_VIEW_LONG_EVENT;
+		*event_num_out = day_view->long_events->len - 1;
+		return TRUE;
+	}
+	*day_out = -1;
+	*event_num_out = -1;
+	return FALSE;
+}
+
+static gboolean
+e_day_view_get_next_tab_event (EDayView *day_view, GtkDirectionType direction,
+			       gint *day_out, gint *event_num_out)
+{
+	gint new_day;
+	gint new_event_num;
+	gint days_shown;
+
+	g_return_val_if_fail (day_view != NULL, FALSE);
+	g_return_val_if_fail (day_out != NULL, FALSE);
+	g_return_val_if_fail (event_num_out != NULL, FALSE);
+
+	days_shown = e_day_view_get_days_shown(day_view);
+	*day_out = -1;
+	*event_num_out = -1;
+
+	g_return_val_if_fail (days_shown > 0, FALSE);
+
+	switch (direction) {
+	case GTK_DIR_TAB_BACKWARD:
+		new_event_num = day_view->editing_event_num - 1;
+		break;
+	case GTK_DIR_TAB_FORWARD:
+		new_event_num = day_view->editing_event_num + 1;
+		break;
+	default:
+		return FALSE;
+	}
+
+	new_day = day_view->editing_event_day;
+
+	/* not current editing event, set to first long event if there is one
+	 */
+	if (new_day == -1) {
+		if (e_day_view_get_extreme_long_event (day_view, TRUE,
+						       day_out, event_num_out))
+			return TRUE;
+
+		/* no long event, set to first normal event if there is one
+		 */
+		return e_day_view_get_extreme_event (day_view, 0,
+						     days_shown - 1, TRUE,
+						     day_out, event_num_out);
+	}
+	/* go backward from the first long event */
+	else if ((new_day == E_DAY_VIEW_LONG_EVENT) && (new_event_num < 0)) {
+		if (e_day_view_get_extreme_event (day_view, 0,
+						  days_shown - 1, FALSE,
+						  day_out, event_num_out))
+			return TRUE;
+		return e_day_view_get_extreme_long_event (day_view, FALSE,
+							  day_out,
+							  event_num_out);
+	}
+	/* go forward from the last long event */
+	else if ((new_day == E_DAY_VIEW_LONG_EVENT) &&
+		 (new_event_num >= day_view->long_events->len)) {
+		if (e_day_view_get_extreme_event (day_view, 0,
+						  days_shown - 1, TRUE,
+						  day_out, event_num_out))
+			return TRUE;
+		return e_day_view_get_extreme_long_event (day_view, TRUE,
+							  day_out,
+							  event_num_out);
+	}
+
+	/* go backward from the first event in current editting day */
+	else if ((new_day < E_DAY_VIEW_LONG_EVENT) && (new_event_num < 0)) {
+		/* try to find a event from the previous day in days shown
+		 */
+		if (e_day_view_get_extreme_event (day_view, 0,
+						  new_day - 1, FALSE,
+						  day_out, event_num_out))
+			return TRUE;
+		else if (e_day_view_get_extreme_long_event (day_view, FALSE,
+							    day_out,
+							    event_num_out))
+			return TRUE;
+		return e_day_view_get_extreme_event (day_view, new_day,
+						     days_shown - 1, FALSE,
+						     day_out, event_num_out);
+	}
+	/* go forward from the last event in current editting day */
+	else if ((new_day < E_DAY_VIEW_LONG_EVENT) &&
+		 (new_event_num >= day_view->events[new_day]->len)) {
+		/* try to find a event from the next day in days shown
+		 */
+		if (e_day_view_get_extreme_event (day_view, (new_day + 1),
+						  days_shown - 1, TRUE,
+						  day_out, event_num_out))
+			return TRUE;
+		else if (e_day_view_get_extreme_long_event (day_view, TRUE,
+							    day_out,
+							    event_num_out))
+			return TRUE;
+		return e_day_view_get_extreme_event (day_view, 0,
+						     new_day, TRUE,
+						     day_out, event_num_out);
+	}
+	*day_out = new_day;
+	*event_num_out = new_event_num;
+	return TRUE;
+}
 
 static void
 e_day_view_cursor_key_down_shifted (EDayView *day_view, GdkEventKey *event)
@@ -6571,6 +6777,31 @@ e_day_view_auto_scroll_handler (gpointer data)
 	return TRUE;
 }
 
+gboolean
+e_day_view_get_event_rows (EDayView *day_view,
+			   gint day,
+			   gint event_num,
+			   gint *start_row_out,
+			   gint *end_row_out)
+{
+	gint start_row, end_row;
+	EDayViewEvent *event;
+
+	g_return_val_if_fail (day >= 0, FALSE);
+	g_return_val_if_fail (day < E_DAY_VIEW_LONG_EVENT, FALSE);
+	g_return_val_if_fail (event_num >= 0, FALSE);
+
+	event = &g_array_index (day_view->events[day], EDayViewEvent,
+				event_num);
+	start_row = event->start_minute / day_view->mins_per_row;
+	end_row = (event->end_minute - 1) / day_view->mins_per_row;
+	if (end_row < start_row)
+		end_row = start_row;
+
+	*start_row_out = start_row;
+	*end_row_out = end_row;
+	return TRUE;
+}
 
 gboolean
 e_day_view_get_event_position (EDayView *day_view,
@@ -6591,10 +6822,7 @@ e_day_view_get_event_position (EDayView *day_view,
 	if (event->num_columns == 0)
 		return FALSE;
 
-	start_row = event->start_minute / day_view->mins_per_row;
-	end_row = (event->end_minute - 1) / day_view->mins_per_row;
-	if (end_row < start_row)
-		end_row = start_row;
+	e_day_view_get_event_rows(day_view, day, event_num, &start_row, &end_row);
 
 	cols_in_row = day_view->cols_per_row[day][start_row];
 	start_col = event->start_row_or_col;

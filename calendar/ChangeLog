@@ -1,3 +1,9 @@
+2003-06-25  Bolian Yin <bolian.yin@sun.com
+
+	Fixes #45273
+
+	* gui/e-day-view.c: implemented tabbing though events in day view.
+	
 2003-06-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/dialogs/comp-editor.c (make_title_from_string, set_title_from_string):
