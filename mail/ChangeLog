@@ -1,23 +1,19 @@
 2003-10-03  Frederic Crozat  <fcrozat@mandrakesoft.com>
 
-	* mail-config-druid.c: (identity_prepare), (config_wizard_new):
+	* mail-config-druid.c (identity_prepare), (config_wizard_new):
 	Convert real name to UTF-8 if needed.
 
-
 2003-10-02  Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
-                                                                                
-        * mail-config-druid.c: Fix for 40917 "Backspace shouldn't highlight
-        the whole remaining string in Setup Assistant".
-                                                                                
-        Removed repeated focussing per keystroke for the following functions
-                                                                                
-        (identity_changed)
-        (source_changed)
-        (transport_changed)
-        (management_changed)
-                                                                                
-        (identity_prepare): Removed the initial highlighting for Full Name,
-        also the unneeded intial grab_focus.
+
+	* mail-config-druid.c: Fix for 40917 "Backspace shouldn't
+	highlight the whole remaining string in Setup Assistant".
+	(identity_changed): Removed repeated focussing per keystroke.
+	functions
+	(source_changed): Same.
+	(transport_changed): Here too.
+	(management_changed): And here.
+	(identity_prepare): Removed the initial highlighting for Full
+	Name, also the unneeded intial grab_focus.
 
 2003-09-30  Rodney Dawes  <dobey@ximian.com>
 
