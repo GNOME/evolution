@@ -69,7 +69,7 @@ calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
 calendar/gui/calendar-view-factory.c
 calendar/gui/cal-search-bar.c
-calendar/gui/component-factory.c
+calendar/gui/calendar-component.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-options.c
 calendar/gui/dialogs/alarm-options.glade
@@ -123,7 +123,6 @@ calendar/gui/itip-utils.c
 calendar/gui/main.c
 calendar/gui/print.c
 calendar/gui/tasks-control.c
-calendar/gui/tasks-control-factory.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
 calendar/importers/GNOME_Evolution_Calendar_Importer.server.in
