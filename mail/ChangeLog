@@ -1,3 +1,10 @@
+2001-01-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-format.c (mail_part_is_inline): 
+	(find_preferred_alternative): 
+	* mail-display.c (launch_cb): Use header_content_type_simple, not
+	header_content_type_format.
+
 2000-12-26  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-crypto.c (mail_crypto_openpgp_verify): Implemented.

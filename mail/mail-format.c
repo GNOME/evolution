@@ -477,7 +477,7 @@ mail_part_is_inline (CamelMimePart *part)
 	/* Otherwise, display it inline if it's "anonymous", and
 	 * as an attachment otherwise.
 	 */
-	return is_anonymous (part, header_content_type_format (content_type));
+	return is_anonymous (part, header_content_type_simple (content_type));
 }
 
 static void
@@ -1327,7 +1327,7 @@ find_preferred_alternative (CamelMultipart *multipart, gboolean want_plain)
 	for (i = 0; i < nparts; i++) {
 		CamelMimePart *part = camel_multipart_get_part (multipart, i);
 		CamelContentType *type = camel_mime_part_get_content_type (part);
-		char *mime_type = header_content_type_format (type);
+		char *mime_type = header_content_type_simple (type);
 
 		g_strdown (mime_type);
 		if (want_plain && !strcmp (mime_type, "text/plain"))

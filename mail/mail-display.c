@@ -249,7 +249,7 @@ launch_cb (GtkWidget *widget, gpointer user_data)
 	char *mime_type, *tmpl, *tmpdir, *filename, *argv[2];
 
 	content_type = camel_mime_part_get_content_type (part);
-	mime_type = header_content_type_format (content_type);
+	mime_type = header_content_type_simple (content_type);
 	app = gnome_vfs_mime_get_default_application (mime_type);
 	g_free (mime_type);
 
