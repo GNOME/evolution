@@ -112,27 +112,31 @@ vtrash_copy_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest
 static void
 vtrash_move_messages_to (CamelFolder *source, GPtrArray *uids, CamelFolder *dest, CamelException *ex)
 {
-	CamelFolder *original;
+	CamelVeeMessageInfo *mi;
 	int i;
 	
 	for (i = 0; i < uids->len; i++) {
-		original = camel_vee_folder_get_message_folder (CAMEL_VEE_FOLDER (source), uids->pdata[i]);
-		
-		if (dest == original) {
+		mi = (CamelVeeMessageInfo *)camel_folder_get_message_info(source, uids->pdata[i]);
+		if (mi == NULL) {
+			g_warning("Cannot find uid %s in source folder during move_to", (char *)uids->pdata[i]);
+			continue;
+		}
+
+		if (dest == mi->folder) {
 			/* Just undelete the original message */
 			CAMEL_FOLDER_CLASS (dest)->set_message_flags (dest, uids->pdata[i], CAMEL_MESSAGE_DELETED, 0);
-		} else if (original) {
+		} else {
 			/* This means that the user is trying to move the message
 			   from the vTrash to a folder other than the original. */
 			GPtrArray *tuids;
 			
 			tuids = g_ptr_array_new ();
 			g_ptr_array_add (tuids, uids->pdata[i]);
-			CAMEL_FOLDER_CLASS (original)->move_messages_to (original, tuids, dest, ex);
+			/*CAMEL_FOLDER_CLASS (mi->folder)->move_messages_to (mi->folder, tuids, dest, ex);*/
+			camel_folder_move_messages_to(mi->folder, tuids, dest, ex);
 			g_ptr_array_free (tuids, TRUE);
 		}
-		
-		if (original)
-			camel_object_unref (CAMEL_OBJECT (original));
+
+		camel_folder_free_message_info(source, (CamelMessageInfo *)mi);
 	}
 }

@@ -31,6 +31,12 @@
 typedef struct _CamelVeeFolder      CamelVeeFolder;
 typedef struct _CamelVeeFolderClass CamelVeeFolderClass;
 
+/* our message info includes the parent folder */
+typedef struct _CamelVeeMessageInfo {
+	CamelMessageInfo info;
+	CamelFolder *folder;
+} CamelVeeMessageInfo;
+
 struct _CamelVeeFolder {
 	CamelFolder parent;
 
@@ -53,10 +59,10 @@ guint	      camel_vee_folder_get_type		(void);
 CamelFolder  *camel_vee_folder_new		(CamelStore *parent_store, const char *name, guint32 flags);
 void         camel_vee_folder_construct		(CamelVeeFolder *vf, CamelStore *parent_store, const char *name, guint32 flags);
 
-void         camel_vee_folder_add_folder         (CamelVeeFolder *vf, CamelFolder *sub);
-void         camel_vee_folder_remove_folder      (CamelVeeFolder *vf, CamelFolder *sub);
-void	     camel_vee_folder_set_expression	 (CamelVeeFolder *vf, const char *expr);
+void         camel_vee_folder_add_folder        (CamelVeeFolder *vf, CamelFolder *sub);
+void         camel_vee_folder_remove_folder     (CamelVeeFolder *vf, CamelFolder *sub);
+void	     camel_vee_folder_set_expression	(CamelVeeFolder *vf, const char *expr);
 
-CamelFolder *camel_vee_folder_get_message_folder (CamelVeeFolder *vf, const char *uid);
+void	     camel_vee_folder_hash_folder	(CamelFolder *folder, char buffer[8]);
 
 #endif /* ! _CAMEL_VEE_FOLDER_H */

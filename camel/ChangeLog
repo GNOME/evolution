@@ -1,3 +1,24 @@
+2001-03-29  Not Zed  <NotZed@Ximian.com>
+
+	* camel-vtrash-folder.c (vtrash_move_messages_to): Access the
+	folder directly from the message info.
+	(vtrash_move_messages_to): I think we also need to call the real
+	move_messages_to, and not try and bypass the lock, since we dont
+	have the lock for that folder.
+
+	* camel-vee-folder.h: Move CamelVeeMessageInfo to public, so
+	subclasses can get to it.
+
+	* camel-vee-folder.c (camel_vee_folder_add_folder): Dont let you
+	add a vfolder to itself.
+	(folder_changed): 
+	(vee_folder_remove_folder): 
+	(vee_folder_build_folder): Copy changes before triggering changed
+	events, so we can do them outside of locks.
+	(camel_vee_folder_get_message_folder): Removed function.
+	(camel_vee_folder_hash_folder): Made public (renamed from
+	hash_folder), simply for subclasses (probably not needed).
+
 2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-service.c (get_path): Add the port (if user defined) to
