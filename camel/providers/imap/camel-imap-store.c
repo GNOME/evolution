@@ -961,6 +961,10 @@ delete_folder (CamelStore *store, const char *folder_name, CamelException *ex)
 	response = camel_imap_command (imap_store, NULL, ex, "SELECT INBOX");
 	if (response) {
 		camel_imap_response_free (imap_store, response);
+
+		if (imap_store->current_folder)
+			camel_object_unref (CAMEL_OBJECT (imap_store->current_folder));
+		/* no need to actually create a CamelFolder for INBOX */
 		imap_store->current_folder = NULL;
 	} else
 		return;

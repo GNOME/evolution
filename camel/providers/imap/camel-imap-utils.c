@@ -773,11 +773,20 @@ imap_concat (CamelImapStore *imap_store, const char *prefix, const char *suffix)
 char *
 imap_namespace_concat (CamelImapStore *store, const char *name)
 {
-	if (!name || *name == '\0')
-		return g_strdup (store->namespace);
-	
+	if (!name || *name == '\0') {
+		if (store->namespace)
+			return g_strdup (store->namespace);
+		else
+			return g_strdup ("");
+	}
+
 	if (!g_strcasecmp (name, "INBOX"))
 		return g_strdup ("INBOX");
 	
+	if (store->namespace == NULL) {
+		g_warning ("Trying to concat NULL namespace to \"%s\"!", name);
+		return g_strdup (name);
+	}
+
 	return imap_concat (store, store->namespace, name);
 }

@@ -663,8 +663,14 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'F':
 			string = va_arg (ap, char *);
 			arglen = strlen (string);
-			if (*p == 'F')
-				arglen += strlen (store->namespace) + 1;
+			if (*p == 'F') {
+				if (store->namespace == NULL) {
+					if (*string != '\0') /*ok if foldername is "" */
+						g_warning ("trying to list folder \"%s\" but no namespace. Hope for the best", string);
+					arglen += 2;
+				} else
+					arglen += strlen (store->namespace) + 1;
+			}
 			g_ptr_array_add (args, string);
 			if (store->capabilities & IMAP_CAPABILITY_LITERALPLUS)
 				len += arglen + 15;
