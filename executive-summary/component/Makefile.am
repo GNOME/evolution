@@ -81,7 +81,7 @@ evolution-executive-summary.pure: evolution-executive-summary
 endif
 
 EXTRA_DIST = $(glade_DATA)
-CLEANFILES += $(COMPOSER_GENERATED)
+CLEANFILES = $(COMPOSER_GENERATED)
 BUILT_SOURCES = $(COMPOSER_GENERATED)
 
 dist-hook:
