@@ -28,6 +28,7 @@
 #include <config.h>
 
 #include <errno.h>
+#include <gal/util/e-util.h>
 #include <camel/camel-mime-filter-from.h>
 #include <camel/camel-operation.h>
 #include "mail.h"
@@ -249,6 +250,25 @@ void mail_filter_on_demand(CamelFolder *folder, GPtrArray *uids)
 
 /* ********************************************************************** */
 
+/* Temporary workaround for various issues. Gone before 0.11 */
+static char *
+uid_cachename_hack (CamelStore *store)
+{
+	CamelURL *url = CAMEL_SERVICE (store)->url;
+	char *encoded_url, *filename;
+
+	encoded_url = g_strdup_printf ("pop://%s%s%s@%s/", url->user,
+				       url->authmech ? ";auth=" : "",
+				       url->authmech ? url->authmech : "",
+				       url->host);
+	e_filename_make_safe (encoded_url);
+
+	filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, encoded_url);
+	g_free (encoded_url);
+
+	return filename;
+}
+
 static void
 fetch_mail_fetch(struct _mail_msg *mm)
 {
@@ -289,7 +309,7 @@ fetch_mail_fetch(struct _mail_msg *mm)
 			CamelUIDCache *cache = NULL;
 			char *cachename;
 			
-			cachename = mail_config_folder_to_cachename (folder, "cache-");
+			cachename = uid_cachename_hack (folder->parent_store);
 			cache = camel_uid_cache_new (cachename);
 			g_free (cachename);
 			
@@ -973,7 +993,7 @@ static void get_folderinfo_get(struct _mail_msg *mm)
 	struct _get_folderinfo_msg *m = (struct _get_folderinfo_msg *)mm;
 	
 	camel_operation_register(mm->cancel);
-	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, TRUE, &mm->ex);
+	m->info = camel_store_get_folder_info(m->store, NULL, FALSE, TRUE, camel_store_supports_subscriptions(m->store), &mm->ex);
 	if (m->info && m->info->url)
 		add_vtrash_info (m->info);
 	camel_operation_unregister(mm->cancel);
