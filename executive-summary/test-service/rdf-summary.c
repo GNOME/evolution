@@ -414,7 +414,7 @@ summary_to_string (RdfSummary *summary)
 	char *tmp_str;
 	
 	doc = xmlNewDoc ("1.0");
-	ns = xmlNewGlobalNs (doc, "http://www.ximian.com", "rdf");
+	ns = xmlNewGlobalNs (doc, "www.ximian.com", "rdf");
 	
 	doc->root = xmlNewDocNode (doc, ns, "rdf-summary", NULL);
 

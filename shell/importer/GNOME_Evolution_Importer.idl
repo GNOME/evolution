@@ -3,9 +3,9 @@
  * Interfaces for the importer framework.
  *
  * Authors:
- *   Iain Holmes  <iain@helixcode.com>
+ *   Iain Holmes  <iain@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  */
 
 #include <Bonobo.idl>

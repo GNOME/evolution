@@ -3,9 +3,9 @@
 
 /* 
  * Authors :
- *   Chris Toshok <toshok@helixcode.com>
+ *   Chris Toshok <toshok@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
+ * Copyright (C) 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

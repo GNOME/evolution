@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* tasks-control.c
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Authors: Damon Chaplin <damon@helixcode.com>
+ * Authors: Damon Chaplin <damon@ximian.com>
  *	    Ettore Perazzoli
  */
 

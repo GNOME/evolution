@@ -3,10 +3,10 @@
  * GUI utility functions
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Miguel de Icaza (miguel@ximian.com)
  *
  * (C) 1999 Miguel de Icaza
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 #include <config.h>
 

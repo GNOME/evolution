@@ -2,7 +2,7 @@
 /* camel-nntp-newsrc.c - .newsrc parsing/regurgitating code */
 /* 
  *
- * Copyright (C) 2000 Helix Code, Inc. <toshok@helixcode.com>
+ * Copyright (C) 2000 Ximian, Inc. <toshok@ximian.com>
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

@@ -2,9 +2,9 @@
 /* camel-remote-store.h : class for a remote store */
 
 /* 
- * Authors: Peter Williams <peterw@helixcode.com>
+ * Authors: Peter Williams <peterw@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

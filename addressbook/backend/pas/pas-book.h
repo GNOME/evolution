@@ -4,9 +4,9 @@
  * and which maintains a request queue.
  *
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #ifndef __PAS_BOOK_H__

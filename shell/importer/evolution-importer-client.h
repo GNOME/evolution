@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* evolution-importer-client.h
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Iain Holmes  <iain@helixcode.com>
+ * Author: Iain Holmes  <iain@ximian.com>
  */
 
 #ifndef EVOLUTION_IMPORTER_CLIENT_H

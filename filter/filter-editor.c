@@ -2,7 +2,7 @@
  *  Copyright (C) 2000, 2001 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
- *           Jeffrey Stedfast <fejj@helixcode.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License

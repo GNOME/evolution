@@ -2,10 +2,10 @@
 
 /* 
  * Authors: 
- *  Peter Williams <peterw@helixcode.com>
+ *  Peter Williams <peterw@ximian.com>
  *  Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 2000, 2001 Ximian, Inc. (http://www.ximian.com)
+ * Copyright 2000, 2001 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

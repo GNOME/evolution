@@ -3,9 +3,9 @@
  * Evolution-Composer.idl: Mail composer interfaces for Evolution
  *
  * Author:
- *   Dan Winship <danw@helixcode.com>
+ *   Dan Winship <danw@ximian.com>
  * 
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #include <Bonobo.idl>

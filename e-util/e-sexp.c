@@ -1,10 +1,10 @@
 /* 
- * Copyright 2000 HelixCode (http://www.helixcode.com).
+ * Copyright 2000 Ximian (www.ximian.com).
  *
  * A simple, extensible s-exp evaluation engine.
  *
  * Author : 
- *  Michael Zucchi <notzed@helixcode.com>
+ *  Michael Zucchi <notzed@ximian.com>
 
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

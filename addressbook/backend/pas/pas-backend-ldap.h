@@ -1,5 +1,5 @@
 /*
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #ifndef __PAS_BACKEND_LDAP_H__

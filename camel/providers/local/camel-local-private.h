@@ -1,9 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *  camel-local-private.h: Private info for local provider.
  *
- * Authors: Michael Zucchi <notzed@helixcode.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

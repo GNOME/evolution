@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*  This file is part of gnome-spell bonobo component
 
-    Copyright (C) 2000 Helix Code, Inc.
-    Authors:           Radek Doulik <rodo@helixcode.com>
+    Copyright (C) 2000 Ximian, Inc.
+    Authors:           Radek Doulik <rodo@ximian.com>
 
     This library is free software; you can redistribute it and/or
     modify it under the terms of the GNU Library General Public

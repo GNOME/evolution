@@ -2,9 +2,9 @@
 
 /* camel-stream-buffer.c : Buffer any other other stream
  *
- * Authors: Michael Zucchi <notzed@helixcode.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 1999, 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

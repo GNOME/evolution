@@ -3,9 +3,9 @@
  An address parser, yielding fields as per RFC 2426.
 
  Author:
-   Jesse Pavel (jpavel@helixcode.com)
+   Jesse Pavel (jpavel@ximian.com)
 
- Copyright 2000, Helix Code, Inc.
+ Copyright 2000, Ximian, Inc.
    -------------------------------------------------- 
 */
 

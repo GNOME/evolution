@@ -4,7 +4,7 @@
  * Author : 
  *  Damon Chaplin <damon@gtk.org>
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

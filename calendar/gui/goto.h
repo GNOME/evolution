@@ -1,7 +1,7 @@
 /* Evolution calendar - Go To Date dialog
  *
  * Copyright (C) 1998 Red Hat, Inc.
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2001 Ximian, Inc.
  *
  * Authors: Federico Mena <federico@ximian.com>

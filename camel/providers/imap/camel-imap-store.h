@@ -2,9 +2,9 @@
 /* camel-imap-store.h : class for an imap store */
 
 /* 
- * Authors: Jeffrey Stedfast <fejj@helixcode.com>
+ * Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

@@ -1,6 +1,6 @@
 /* Evolution calendar - Widget utilities
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Author: JP Rosevear <jpr@ximian.com>
  *

@@ -4,11 +4,11 @@
  *                 Implements CORBA's Evolution::MessageList
  *
  * Author:
- *     Miguel de Icaza (miguel@helixcode.com)
+ *     Miguel de Icaza (miguel@ximian.com)
  *     Bertrand Guiheneuf (bg@aful.org)
  *     And just about everyone else in evolution ...
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #ifdef HAVE_CONFIG_H

@@ -1,7 +1,7 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*--------------------------------*-C-*---------------------------------*
  *
- *  Copyright 2000, Matt Loper <matt@helixcode.com>.
+ *  Copyright 2000, Matt Loper <matt@ximian.com>.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

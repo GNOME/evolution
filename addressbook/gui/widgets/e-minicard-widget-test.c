@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* test-minicard.c
  *
- * Copyright (C) 2000 Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright (C) 2000 Ximian, Inc.
+ * Author: Chris Lahey <clahey@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
 "                           \
 "N:Friedman;Nat;D;Mr.
 "             \
-"ORG:Helix Code, Inc.
+"ORG:Ximian, Inc.
 "             \
 "TITLE:Head Geek
 "                  \
@@ -36,7 +36,7 @@
 "            \
 "EMAIL;INTERNET:nat@nat.org
 "       \
-"EMAIL;INTERNET:nat@helixcode.com
+"EMAIL;INTERNET:nat@ximian.com
 " \
 "ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
 " \
@@ -72,7 +72,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 
   GtkWidget *about =
     gnome_about_new ( _( "Minicard Widget Test" ), VERSION,
-		      _( "Copyright (C) 2000, Helix Code, Inc." ),
+		      _( "Copyright (C) 2000, Ximian, Inc." ),
 		      authors,
 		      _( "This should test the minicard widget" ),
 		      NULL);

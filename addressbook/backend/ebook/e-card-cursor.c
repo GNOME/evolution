@@ -3,7 +3,7 @@
  * e-card-cursor.c: Implements card cursors.
  *
  * Author:
- *   Christopher James Lahey <clahey@helixcode.com.
+ *   Christopher James Lahey <clahey@ximian.com.
  */
 
 #include <config.h>

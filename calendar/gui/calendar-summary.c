@@ -3,7 +3,7 @@
  *
  * Authors: Iain Holmes <iain@ximian.com>
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
@@ -560,7 +560,7 @@ summary_to_string (CalSummary *summary)
 	xmlNsPtr ns;
 
 	doc = xmlNewDoc ("1.0");
-	ns = xmlNewGlobalNs (doc, "http://www.ximian.com", "calendar-summary");
+	ns = xmlNewGlobalNs (doc, "www.ximian.com", "calendar-summary");
 	doc->root = xmlNewDocNode (doc, ns, "calendar-summary", NULL);
 
 	xmlNewChild (doc->root, ns, "showappointments", 

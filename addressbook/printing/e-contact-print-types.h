@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * e-contact-print-types.h
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright (C) 2000  Ximian, Inc.
+ * Author: Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

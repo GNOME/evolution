@@ -2,9 +2,9 @@
 /* camel-nntp-utils.c : utilities used by the nntp code. */
 
 /* 
- * Author : Chris Toshok <toshok@helixcode.com> 
+ * Author : Chris Toshok <toshok@ximian.com> 
  *
- * Copyright (C) 2000 Helix Code .
+ * Copyright (C) 2000 Ximian .
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

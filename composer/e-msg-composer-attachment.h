@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-msg-composer-attachment.h
  *
- * Copyright (C) 1999  Helix Code, Inc.
+ * Copyright (C) 1999  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

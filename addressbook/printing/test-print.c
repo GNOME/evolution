@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
  * test-print.c
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Chris Lahey <clahey@helixcode.com>
+ * Copyright (C) 2000  Ximian, Inc.
+ * Author: Chris Lahey <clahey@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -52,7 +52,7 @@ static void about_callback( GtkWidget *widget, gpointer data )
 
   GtkWidget *about =
     gnome_about_new ( _( "Contact Print Test" ), VERSION,
-		      _( "Copyright (C) 2000, Helix Code, Inc." ),
+		      _( "Copyright (C) 2000, Ximian, Inc." ),
 		      authors,
 		      _( "This should test the contact print code" ),
 		      NULL);

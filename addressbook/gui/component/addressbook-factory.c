@@ -1,7 +1,7 @@
 /**
  * sample-control-factory.c
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  * 
  * Author:
  *   Nat Friedman (nat@nat.org)

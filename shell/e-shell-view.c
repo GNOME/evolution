@@ -19,9 +19,9 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authors:
- *   Ettore Perazzoli <ettore@helixcode.com>
- *   Miguel de Icaza <miguel@helixcode.com>
- *   Matt Loper <matt@helixcode.com>
+ *   Ettore Perazzoli <ettore@ximian.com>
+ *   Miguel de Icaza <miguel@ximian.com>
+ *   Matt Loper <matt@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H

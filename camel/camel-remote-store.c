@@ -2,10 +2,10 @@
 /* camel-remote-store.c : class for an remote store */
 
 /*
- *  Authors: Peter Williams <peterw@helixcode.com>
+ *  Authors: Peter Williams <peterw@ximian.com>
  *           based on camel-imap-provider.c
  *
- *  Copyright 2000 Helix Code, Inc. (www.helixcode.com)
+ *  Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

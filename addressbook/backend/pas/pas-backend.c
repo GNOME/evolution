@@ -1,9 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #include <config.h>

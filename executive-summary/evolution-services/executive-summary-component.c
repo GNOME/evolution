@@ -2,9 +2,9 @@
 /* executive-summary-component.c - Bonobo implementation of 
  *                                 SummaryComponent.idl
  *
- * Authors: Iain Holmes <iain@helixcode.com>
+ * Authors: Iain Holmes <iain@ximian.com>
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

@@ -10,7 +10,7 @@
 "                           \
 "N:Friedman;Nat;D;Mr.
 "             \
-"ORG:Helix Code, Inc.
+"ORG:Ximian, Inc.
 "             \
 "TITLE:Head Geek
 "                  \
@@ -24,7 +24,7 @@
 "            \
 "EMAIL;INTERNET:nat@nat.org
 "       \
-"EMAIL;INTERNET:nat@helixcode.com
+"EMAIL;INTERNET:nat@ximian.com
 " \
 "ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
 " \

@@ -1,8 +1,8 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* e-corba-utils.h
  * 
- * Copyright (C) 2000  Helix Code, Inc.
- * Author: Ettore Perazzoli <ettore@helixcode.com>
+ * Copyright (C) 2000  Ximian, Inc.
+ * Author: Ettore Perazzoli <ettore@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

@@ -2,7 +2,7 @@
 /* Evolution calendar - Commands for the calendar GUI control
  *
  * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Miguel de Icaza <miguel@ximian.com>

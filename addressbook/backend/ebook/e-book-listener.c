@@ -4,9 +4,9 @@
  * which come in on the interface.
  *
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #include <config.h>

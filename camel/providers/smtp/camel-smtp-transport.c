@@ -2,9 +2,9 @@
 /* camel-smtp-transport.c : class for a smtp transport */
 
 /* 
- * Authors: Jeffrey Stedfast <fejj@helixcode.com>
+ * Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright (C) 2000 Helix Code, Inc. (www.helixcode.com)
+ * Copyright (C) 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

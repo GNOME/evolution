@@ -3,9 +3,9 @@
  * folder-browser-factory.c: A Bonobo Control factory for Folder Browsers
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Miguel de Icaza (miguel@ximian.com)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #ifndef _FOLDER_BROWSER_FACTORY_H

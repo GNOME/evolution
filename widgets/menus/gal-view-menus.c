@@ -3,7 +3,7 @@
  * gal-view-menus.c: Deploy a GalViewCollection in the menus.
  *
  * Author:
- *   Chris Lahey <clahey@helixcode.com>
+ *   Chris Lahey <clahey@ximian.com>
  *
  * (C) 2000, 2001 Ximian, Inc.
  */

@@ -1,5 +1,5 @@
 /*
- *  Copyright (C) 2001 Ximian Inc. (http://www.ximian.com)
+ *  Copyright (C) 2001 Ximian Inc. (www.ximian.com)
  *
  *  Authors: Michael Zucchi <notzed@ximian.com>
  *

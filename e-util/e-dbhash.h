@@ -3,9 +3,9 @@
  * Writes hashes that go to/from disk in db form. Hash keys are strings
  *
  * Author:
- *   JP Rosevear (jpr@helixcode.com)
+ *   JP Rosevear (jpr@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #ifndef __E_DBHASH_H__

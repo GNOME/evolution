@@ -6,7 +6,7 @@
  *   Miguel de Icaza
  *   Bertrand Guiheneuf (bg@aful.org)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #ifdef HAVE_CONFIG_H

@@ -2,9 +2,9 @@
 /* camel-imap-wrapper.c: data wrapper for offline IMAP data */
 
 /*
- * Author: Dan Winship <danw@helixcode.com>
+ * Author: Dan Winship <danw@ximian.com>
  *
- * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
+ * Copyright 2000 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as

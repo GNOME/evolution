@@ -1,8 +1,8 @@
 /* Wombat personal information server - main file
  *
- * Author: Nat Friedman <nat@helixcode.com>
+ * Author: Nat Friedman <nat@ximian.com>
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #ifdef HAVE_CONFIG_H

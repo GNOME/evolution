@@ -3,9 +3,9 @@
  * addressbook.c: 
  *
  * Author:
- *   Chris Lahey (clahey@helixcode.com)
+ *   Chris Lahey (clahey@ximian.com)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #include <config.h>

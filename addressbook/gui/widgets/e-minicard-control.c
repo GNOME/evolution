@@ -3,9 +3,9 @@
  * e-minicard-control.c
  *
  * Authors:
- *    Chris Lahey <clahey@helixcode.com>
+ *    Chris Lahey <clahey@ximian.com>
  *
- * Copyright 1999, 2000, Helix Code, Inc.
+ * Copyright 1999, 2000, Ximian, Inc.
  */
 
 #include <config.h>

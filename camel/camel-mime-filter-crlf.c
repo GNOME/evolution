@@ -1,9 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Helix Code, Inc.
+ *  Copyright (C) 2000 Ximian, Inc.
  *
- *  Authors: Dan Winship <danw@helixcode.com>
- *           Jeffrey Stedfast <fejj@helixcode.com>
+ *  Authors: Dan Winship <danw@ximian.com>
+ *           Jeffrey Stedfast <fejj@ximian.com>
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Library General Public License

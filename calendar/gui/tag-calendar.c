@@ -1,9 +1,9 @@
 /* Evolution calendar - Utilities for tagging ECalendar widgets
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Damon Chaplin <damon@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Damon Chaplin <damon@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

@@ -1,6 +1,6 @@
 /* Evolution internal utilities - Glade dialog widget utilities
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
  * Author: Federico Mena-Quintero <federico@ximian.com>

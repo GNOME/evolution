@@ -2,9 +2,9 @@
 /*
  * Authors:
  *   Arturo Espinosa
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 1999 The Free Software Foundation
  */
 

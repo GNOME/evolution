@@ -1,11 +1,11 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Authors: 
- *   Chris Lahey     <clahey@helixcode.com>
+ *   Chris Lahey     <clahey@ximian.com>
  *   Arturo Espinosa (arturo@nuclecu.unam.mx)
- *   Nat Friedman    (nat@helixcode.com)
+ *   Nat Friedman    (nat@ximian.com)
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 1999 The Free Software Foundation
  */
 

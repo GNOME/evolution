@@ -2,9 +2,9 @@
 /*
  *
  * Author:
- *   Christopher James Lahey <clahey@helixcode.com>
+ *   Christopher James Lahey <clahey@ximian.com>
  *
- * (C) 1999 Helix Code, Inc.
+ * (C) 1999 Ximian, Inc.
  */
 
 #include <config.h>

@@ -1,6 +1,6 @@
 /* Evolution calendar - Task editor dialog
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2001 Ximian, Inc.
  *
  * Authors: Miguel de Icaza <miguel@ximian.com>

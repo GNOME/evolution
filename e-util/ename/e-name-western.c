@@ -5,9 +5,9 @@
  * <jwz> Are you going down that rat hole?  Bring a flashlight.
  *
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  */
 
 #include <ctype.h>

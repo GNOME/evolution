@@ -3,9 +3,9 @@
  * The Evolution addressbook client object.
  *
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 1999, 2000, Helix Code, Inc.
+ * Copyright 1999, 2000, Ximian, Inc.
  */
 
 #ifndef __E_BOOK_VIEW_H__

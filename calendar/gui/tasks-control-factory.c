@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* tasks-control-factory.c
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -19,7 +19,7 @@
  * Boston, MA 02111-1307, USA.
  *
  * Authors: Ettore Perazzoli
- *	    Damon Chaplin <damon@helixcode.com>
+ *	    Damon Chaplin <damon@ximian.com>
  */
 
 #include <config.h>

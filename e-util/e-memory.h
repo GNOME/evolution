@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2001, Helix Code Inc.
+ * Copyright (C) 2001, Ximian Inc.
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *	    Jacob Berkman <jacob@ximian.com>

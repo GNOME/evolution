@@ -1,7 +1,7 @@
 /* Miscellaneous time-related utilities
  *
  * Copyright (C) 1998 The Free Software Foundation
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Federico Mena <federico@ximian.com>

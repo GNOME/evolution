@@ -5,7 +5,7 @@
  *  Damon Chaplin <damon@ximian.com>
  *  Rodrigo Moya <rodrigo@ximian.com>
  *
- * Copyright 1999, Helix Code, Inc.
+ * Copyright 1999, Ximian, Inc.
  * Copyright 2001, Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or

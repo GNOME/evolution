@@ -2,9 +2,9 @@
  * main.c: The core of the mail component
  *
  * Author:
- *   Miguel de Icaza (miguel@helixcode.com)
+ *   Miguel de Icaza (miguel@ximian.com)
  *
- * (C) 2000 Helix Code, Inc.
+ * (C) 2000 Ximian, Inc.
  */
 
 #ifdef HAVE_CONFIG_H

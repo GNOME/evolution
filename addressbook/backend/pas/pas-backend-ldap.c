@@ -1,9 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Author:
- *   Chris Toshok (toshok@helixcode.com)
+ *   Chris Toshok (toshok@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #define DEBUG

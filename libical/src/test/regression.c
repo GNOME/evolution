@@ -1315,7 +1315,7 @@ void icalrecurrencetype_test()
  
 }
 
-/* From Federico Mena Quintero <federico@helixcode.com>    */
+/* From Federico Mena Quintero <federico@ximian.com>    */
 void test_recur_parameter_bug(){
 
 #ifdef HAVE_CONFIG_H

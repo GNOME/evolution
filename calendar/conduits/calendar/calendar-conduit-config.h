@@ -2,10 +2,10 @@
 /* Evolution calendar - Calendar Conduit Configuration
  *
  * Copyright (C) 1998 Free Software Foundation
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
  * Authors: Eskil Heyn Olsen <deity@eskil.dk> 
- *          JP Rosevear <jpr@helixcode.com>
+ *          JP Rosevear <jpr@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

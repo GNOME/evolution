@@ -22,7 +22,7 @@
 
 
 /* VCalendar product ID */
-#define PRODID "-//Helix Code//NONSGML Evolution Calendar//EN"
+#define PRODID "-//Ximian//NONSGML Evolution Calendar//EN"
 
 static gint compare_exdates (gconstpointer a, gconstpointer b);
 static void ical_object_normalize_summary (iCalObject *ico);

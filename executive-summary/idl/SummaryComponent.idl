@@ -3,9 +3,9 @@
  * CORBA interface for the Evolution Executive Summary Components.
  *
  * Authors:
- *   Iain Holmes  <iain@helixcode.com> 
+ *   Iain Holmes  <iain@ximian.com> 
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  */
 
 /* TODO: Needs Exceptions */

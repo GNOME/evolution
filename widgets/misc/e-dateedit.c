@@ -2,9 +2,9 @@
 
 /*
  * Author :
- *  Damon Chaplin <damon@helixcode.com>
+ *  Damon Chaplin <damon@ximian.com>
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  *
  * Based on the GnomeDateEdit, part of the Gnome Library.
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation

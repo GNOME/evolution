@@ -1,7 +1,7 @@
 /*
-  Copyright 2000, 2001 Helix Code Inc.
+  Copyright 2000, 2001 Ximian Inc.
 
-  Author: Michael Zucchi <notzed@helixcode.com>
+  Author: Michael Zucchi <notzed@ximian.com>
 
   code for managing vfolders
 

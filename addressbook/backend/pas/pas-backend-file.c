@@ -1,9 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Author:
- *   Nat Friedman (nat@helixcode.com)
+ *   Nat Friedman (nat@ximian.com)
  *
- * Copyright 2000, Helix Code, Inc.
+ * Copyright 2000, Ximian, Inc.
  */
 
 #include "config.h"  
@@ -1396,7 +1396,7 @@ LABEL;WORK;QUOTED-PRINTABLE:401 Park Drive  3 West=0ABoston, MA 02215=0AUSA\n\
 TEL;WORK;VOICE:(617) 236-0442\n\
 TEL;WORK;FAX:(617) 236-8630\n\
 EMAIL;INTERNET:hello@ximian.com\n\
-URL:http://www.ximian.com/\n\
+URL:www.ximian.com/\n\
 ORG:Ximian, Inc.;\n\
 NOTE:Welcome to the Ximian Addressbook.\n\
 END:VCARD"

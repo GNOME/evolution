@@ -1,7 +1,7 @@
 /* 
  * main.c: The core of the executive summary component.
  *
- * Copyright (C) 2000 Helix Code, Inc
+ * Copyright (C) 2000 Ximian, Inc
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -18,7 +18,7 @@
  * Free Software Foundation, Inc., 59 Temple Place - Suite 330,
  * Boston, MA 02111-1307, USA.
  *
- * Author: Iain Holmes  <iain@helixcode.com>
+ * Author: Iain Holmes  <iain@ximian.com>
  */
 
 #ifdef HAVE_CONFIG_H

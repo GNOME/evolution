@@ -7,7 +7,7 @@
  *  Tiago Antào <tiagoantao@bigfoot.com>
  *  Jeffrey Stedfast <fejj@ximian.com>
  *
- * Copyright 1999-2001 Ximian, Inc. (http://www.ximian.com)
+ * Copyright 1999-2001 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

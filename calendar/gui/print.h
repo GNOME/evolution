@@ -1,9 +1,9 @@
 /* Evolution calendar - Print support
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Copyright (C) 2000 Ximian, Inc.
  *
- * Authors: Michael Zucchi <notzed@helixcode.com>
- *          Federico Mena-Quintero <federico@helixcode.com>
+ * Authors: Michael Zucchi <notzed@ximian.com>
+ *          Federico Mena-Quintero <federico@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
