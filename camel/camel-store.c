@@ -728,12 +728,12 @@ add_special_info (CamelStore *store, CamelFolderInfo *info, gchar *name, gchar *
 
 		g_assert(parent != NULL);
 
+		vinfo->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_SUBSCRIBED;
+
 		/* link it into the right spot */
 		vinfo->sibling = parent->sibling;
 		parent->sibling = vinfo;
 	}
-	
-	vinfo->flags |= CAMEL_FOLDER_NOINFERIORS | CAMEL_FOLDER_SUBSCRIBED;
 
 	/* Fill in the new fields */
 	vinfo->full_name = g_strdup (full_name);
