@@ -1,3 +1,10 @@
+2004-03-31  Not Zed  <NotZed@Ximian.com>
+
+	* e-account-list.h: similar to below.
+
+	* e-account.h: define struct _EAccount* so you can properly forward
+	declare it.
+
 2004-03-18  Not Zed  <NotZed@Ximian.com>
 
 	* e-account.c: Added options for transport_url and source_url

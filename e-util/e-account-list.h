@@ -40,7 +40,7 @@ typedef enum _e_account_find_t {
 	E_ACCOUNT_FIND_ID_ADDRESS,
 } e_account_find_t;
 
-typedef struct {
+typedef struct _EAccountList {
 	EList parent_object;
 
 	EAccountListPrivate *priv;

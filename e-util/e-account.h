@@ -73,7 +73,7 @@ typedef enum _e_account_access_t {
 	E_ACCOUNT_ACCESS_WRITE = 1<<0,
 } e_account_access_t;
 
-typedef struct {
+typedef struct _EAccountIdentity {
 	char *name;
 	char *address;
 	char *reply_to;
@@ -83,7 +83,7 @@ typedef struct {
 	gboolean auto_signature;
 } EAccountIdentity;
 
-typedef struct {
+typedef struct _EAccountService {
 	char *url;
 	gboolean keep_on_server;
 	gboolean auto_check;
@@ -91,7 +91,7 @@ typedef struct {
 	gboolean save_passwd;
 } EAccountService;
 
-typedef struct {
+typedef struct _EAccount {
 	GObject parent_object;
 
 	char *name;
