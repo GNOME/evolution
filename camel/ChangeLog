@@ -1,5 +1,7 @@
 2001-04-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel.h: Add camel-vee-folder.h and camel-digest-folder.h
+
 	* camel-digest-folder.[c,h]: New class that can be used to browse
 	a multipart/digest message as if it were a CamelFolder.
 
