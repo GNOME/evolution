@@ -1411,8 +1411,9 @@ e_shell_view_construct (EShellView *shell_view,
 					GTK_SIGNAL_FUNC (shell_line_status_changed_cb), shell_view,
 					GTK_OBJECT (shell_view));
 
-	gtk_signal_connect (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
-			    GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view);
+	gtk_signal_connect_while_alive (GTK_OBJECT (e_shell_get_storage_set (shell)), "removed_folder",
+					GTK_SIGNAL_FUNC (storage_set_removed_folder_callback), shell_view,
+					GTK_OBJECT (shell_view));
 
 	e_shell_user_creatable_items_handler_setup_menus (e_shell_get_user_creatable_items_handler (priv->shell),
 							  shell_view);
