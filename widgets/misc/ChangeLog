@@ -1,3 +1,8 @@
+2002-04-26  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-multi-config-dialog.c (fill_in_pixbufs): Don't print out the
+	colors here unless debugging is turned on.
+
 2002-04-22  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-multi-config-dialog.c (e_multi_config_dialog_add_page):

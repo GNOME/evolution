@@ -36,6 +36,8 @@
 
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
+#define d(x)
+
 
 #define PARENT_TYPE gnome_dialog_get_type ()
 static GnomeDialogClass *parent_class = NULL;
@@ -286,7 +288,7 @@ fill_in_pixbufs (EMultiConfigDialog *dialog, int row)
 	colors[1] = RGB_COLOR (canvas->style->bg [GTK_STATE_ACTIVE]);
 	colors[2] = RGB_COLOR (canvas->style->base [GTK_STATE_NORMAL]);
 
-	g_print ("%x %x", colors[1], canvas->style->bg [GTK_STATE_ACTIVE].green);
+	d(g_print ("%x %x", colors[1], canvas->style->bg [GTK_STATE_ACTIVE].green));
 
 	for (i = 0; i < 3; i++) {
 		GdkPixbuf *pixbuf = gdk_pixbuf_composite_color_simple (original,
