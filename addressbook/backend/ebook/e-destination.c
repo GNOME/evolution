@@ -821,7 +821,7 @@ e_destination_get_textrep (const EDestination *dest)
 		CamelInternetAddress *addr = camel_internet_address_new ();
 		camel_internet_address_add (addr, name, email);
 		g_free (dest->priv->textrep);
-		dest->priv->textrep = camel_address_encode (CAMEL_ADDRESS (addr));
+		dest->priv->textrep = camel_address_format (CAMEL_ADDRESS (addr));
 		camel_object_unref (CAMEL_OBJECT (addr));
 	}
 

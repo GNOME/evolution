@@ -1,3 +1,8 @@
+2001-09-26  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-destination.c (e_destination_get_textrep): Use
+	camel_address_format, not camel_address_encode.
+
 2001-09-26  Anna Marie Dirks  <anna@ximian.com>
 
 	* gui/contact-editor/contact-editor.glade: Added help text (thanks 
