@@ -229,52 +229,6 @@ e_shell_rm_dir (const char *path)
 }
 
 
-/* FIXME: This is a workaround for bonobo-conf breakage.  */
-static gboolean
-setup_bonobo_conf_private_directory (const char *evolution_directory)
-{
-	char *name;
-	struct stat buf;
-
-	name = g_build_filename (evolution_directory, "private", NULL);
-	if (stat (name, &buf) == -1) {
-		if (mkdir (name, 0700) != 0) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
-				  _("Evolution could not create directory\n"
-				    "%s:\n%s"),
-				  name, strerror (errno));
-			g_free (name);
-			return FALSE;
-		}
-
-		g_free (name);
-		return TRUE;
-	}
-
-	if (S_ISDIR (buf.st_mode) && access (name, R_OK | W_OK | X_OK) == 0) {
-		g_free (name);
-		return TRUE;
-	}
-
-	if (S_ISDIR (buf.st_mode)) {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("Directory %s\n"
-			    "does not have the right permissions. Please make it\n"
-			    "readable and executable and restart Evolution."),
-			  name);
-	} else {
-		e_notice (NULL, GTK_MESSAGE_ERROR,
-			  _("File %s\n"
-			    "should be removed to allow Evolution to work correctly.\n"
-			    "Please remove this file and restart Evolution."),
-			  name, strerror (errno));
-	}
-
-	g_free (name);
-	return FALSE;
-}
-
-
 gboolean
 e_setup (const char *evolution_directory)
 {
@@ -304,44 +258,6 @@ e_setup (const char *evolution_directory)
 		return FALSE;
 	}
 	g_free (file);
-
-	/* If the user has an old-style config file, replace it with
-	 * the new-style config directory. FIXME: This should be
-	 * temporary.
-	 */
-	file = g_strdup_printf ("%s/config", evolution_directory);
-	if (stat (file, &statinfo) == 0 && ! S_ISDIR (statinfo.st_mode)) {
-		char *old = g_strdup_printf ("%s.old", file);
-
-		rename (file, old);
-		mkdir (file, 0700);
-		g_free (old);
-	}
-	g_free (file);
-
-	/* If the user has an old style trash folder, remove it so it gets
-	 * replaced by the new vfolder-based trash folder.  FIXME: This should
-	 * go away at some point.  */
-	file = g_strdup_printf ("%s/local/Trash", evolution_directory);
-	if (stat (file, &statinfo) == 0 && S_ISDIR (statinfo.st_mode)) {
-		EFolder *local_folder;
-
-		local_folder = e_local_folder_new_from_path (file);
-		if (local_folder != NULL
-		    && strcmp (e_folder_get_type_string (local_folder), "mail") == 0) {
-			char *old = g_strdup_printf ("%s.old", file);
-
-			rename (file, old);
-			g_free (old);
-		}
-
-		if (local_folder != NULL)
-			g_object_unref (local_folder);
-	}
-	g_free (file);
-
-	if (! setup_bonobo_conf_private_directory (evolution_directory))
-		return FALSE;
 
 	/* User has evolution directory...
 	   Check if it is up to date. */

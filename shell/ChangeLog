@@ -1,3 +1,9 @@
+2003-04-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-setup.c (setup_bonobo_conf_private_directory): Removed.
+	(e_setup): Do not call here.  Also, removed hacks for
+	~/evolution/config and ~/evolution/local/Trash.
+
 2003-04-08  Dan Winship  <danw@ximian.com>
 
 	* glade/evolution-startup-wizard.glade: Remove the color specs so
