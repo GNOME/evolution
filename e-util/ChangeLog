@@ -1,3 +1,9 @@
+2001-11-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (libeutil_la_LIBADD): Remove `-lc'.  It makes the
+	mailer do strange things when it calls `fork()', thus breaking
+	e.g. mail sending through sendmail.
+
 2001-11-13  JP Rosevear  <jpr@ximian.com>
  
  	* e-pilot-map.c (real_e_pilot_map_insert): only insert non-0 pids
