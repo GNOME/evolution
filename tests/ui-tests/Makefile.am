@@ -31,7 +31,7 @@ filter_LDADD = \
 	$(PTHREAD_LIB) 					\
 	$(EXTRA_GNOME_LIBS) 				\
 	$(top_builddir)/filter/libfilter.la		\
-	-lgtkhtml
+	-lgtkhtml -lgnomeprint
 
 noinst_PROGRAMS =  	\
 	message-browser	\
