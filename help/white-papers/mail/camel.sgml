@@ -18,6 +18,16 @@
 	  </address>
 	</affiliation>
       </author>
+
+      <author>
+	<firstname>Bertrand</firstname>
+	<surname>Guiheneuf</surname>
+	<affiliation>
+	  <address>
+	    <email>bertrand@helixcode.com</email>
+	  </address>
+	</affiliation>
+      </author>
     </authorgroup>
 
     <copyright>
@@ -48,50 +58,51 @@
     </para>
   </sect1>
 
+  <sect1 id="features">
+    <title>Features</title>
+
+    <para>
+      &Camel; sees all message repositories as stores containing
+      folders. These folders in turn contain the messages the client
+      actually accesses. The use of such a unified interface allows
+      the client applications to be very extensible. &Camel; includes
+      an external provider mechanism which allows applications to
+      dynamically load and use protocols which were not available when
+      the application was initially written.
+    </para>
+
+    <para>
+      The abstract store/folder mechanism is a powerful and versatile
+      way of accessing messages. No particular asumptions are made on
+      the client side, thus allowing new ways of managing the
+      messages. For example, the messages stored in the folders don't
+      necessarily have to share some common physical location. The
+      folder can be a purely virtual folder, containing only
+      references to the actual messages. This is used by the "vFolder"
+      provider, which allows you select messages meeting particular
+      criteria and deal with them as a group.
+    </para>
+
+    <para>
+      In addition to these possibilities, &Camel; has full MIME
+      support. &Camel; MIME messages are lightweight objects
+      representing the MIME skeleton of the actual message. The data
+      contained in the subparts are never stored in memory except when
+      they are actually needed. The application, when accessing the
+      various MIME objects contained in the message (text parts,
+      attachments, embedded binary objects ...) asks &Camel; for a
+      stream that it can read data from. This scheme is particularly
+      useful with the IMAP provider. IMAP has strong MIME support
+      built-in, which allows &Camel; to download only the parts of
+      messages that it actually needs: attachments need not be
+      downloaded until they are viewed, and unnecessary
+      "multipart/alternative" parts will never be read off the server.
+    </para>
+  </sect1>
+
   <sect1 id="overview">
     <title>Overview</title>
 
-    <para>
-      Camel sees all mail repositories as stores containing 
-      folders. These folders in turn contain the messages
-      the client actually accesses. The use of such a unified
-      interface allows the client applications to be very
-      extensible. Camel includes a provider mechnism which
-      allows the application to be written once, and access
-      the various mail protocols when camel supports them.
-    </para>
-    <para>
-      The store/folder mechanism is a powerful and versatile
-      way of accessing mail messages. No particular asumption 
-      is made on the client side, thus allowing a new way of 
-      managing the mails. For example, the mails stored in the
-      folders don't necessarily have to be physically located
-      in the folder. The folder can be a pure virtual folder
-      containing only references to the actual mails. 
-    </para>
-    <para>
-      The folder may support a index/searching mechanism
-      which allows the application to create virtual 
-      folders as the result of requests. These requests 
-      can be persistently associated to the virtual folders
-      so that each new mail corresponding to the request 
-      is added dynamically to the virtual folder. 
-    </para>
-    <para>
-      In addition to these possibilities, Camel has full Mime
-      supports. Camel Mime  messages are lightwheight objects 
-      representing the Mime skeleton of the actual mail. 
-      The data contained in the Mime parts are never stored
-      in memory. The application, when accessing the various
-      mime objects contained in the message (text parts, 
-      attachments, embedded binary objects ...) ask camel 
-      for a stream that it can read data from. 
-      These scheme allows a light and  non blocking handling
-      of mime messages. It is fully compatible with IMAP and
-      obviously takes full advantage of the "load on demand"
-      feature of this popular yet rarely properly supported
-      protocol.      
-    </para>
     <para>
       To begin using &Camel;, an application first creates a
       <classname>CamelSession</classname> object. This object is used
