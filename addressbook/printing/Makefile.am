@@ -18,10 +18,10 @@ INCLUDES =					\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LIBRARIES =				\
-	libecontactprint.a
+noinst_LTLIBRARIES =				\
+	libecontactprint.la
 
-libecontactprint_a_SOURCES = 			\
+libecontactprint_la_SOURCES = 			\
 	e-contact-print-envelope.c		\
 	e-contact-print-envelope.h		\
 	e-contact-print-style-editor.c		\
@@ -39,7 +39,7 @@ contact_print_test_SOURCES = 	\
 
 contact_print_test_LDADD =	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	libecontactprint.a					\
+	libecontactprint.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 contact_print_style_editor_test_SOURCES = 	\
@@ -47,7 +47,7 @@ contact_print_style_editor_test_SOURCES = 	\
 
 contact_print_style_editor_test_LDADD =	\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la	\
-	libecontactprint.a					\
+	libecontactprint.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 
 

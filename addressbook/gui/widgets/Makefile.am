@@ -34,10 +34,10 @@ CORBA_SOURCE_H = $(CORBA_COMPOSER_SOURCE_H)
 CORBA_SOURCE_C = $(CORBA_COMPOSER_SOURCE_C)
 CORBA_SOURCE = $(CORBA_SOURCE_H) $(CORBA_SOURCE_C)
 
-noinst_LIBRARIES =				\
-	libeminicard.a
+noinst_LTLIBRARIES =				\
+	libeminicard.la
 
-libeminicard_a_SOURCES =			\
+libeminicard_la_SOURCES =			\
 	$(CORBA_SOURCE)				\
 	e-addressbook-marshal.c			\
 	e-addressbook-reflow-adapter.c		\

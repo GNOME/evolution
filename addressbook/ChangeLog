@@ -1,5 +1,25 @@
 2003-02-28  Dan Winship  <danw@ximian.com>
 
+	* gui/contact-editor/Makefile.am: Build libecontacteditor as an
+	uninstalled shared library.
+
+	* gui/contact-list-editor/Makefile.am: Likewise for
+	libecontactlisteditor
+
+	* gui/merging/Makefile.am: and libecardmerging
+
+	* gui/search/Makefile.am: and libeaddressbooksearch
+
+	* gui/widgets/Makefile.am: and libeminicard
+
+	* printing/Makefile.am: and libecontactprint
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_LIBADD):
+	Update for new library names (and get rid of libtool portability
+	warnings).
+
+2003-02-28  Dan Winship  <danw@ximian.com>
+
 	* backend/ebook/e-card.c (e_card_list_send, e_card_send): Remove
 	these from here; talking to the mailer doesn't really belong at
 	the libebook level anyway.

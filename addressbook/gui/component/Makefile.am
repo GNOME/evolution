@@ -48,15 +48,15 @@ libevolution_addressbook_la_SOURCES = 	\
 libevolution_addressbook_la_LIBADD =							\
 	select-names/libeselectnames.la							\
 	$(top_builddir)/shell/libeshell.la						\
-	$(top_builddir)/addressbook/gui/widgets/libeminicard.a				\
-	$(top_builddir)/addressbook/printing/libecontactprint.a				\
-	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.a			\
+	$(top_builddir)/addressbook/gui/widgets/libeminicard.la				\
+	$(top_builddir)/addressbook/printing/libecontactprint.la			\
+	$(top_builddir)/addressbook/gui/search/libeaddressbooksearch.la			\
 	$(top_builddir)/filter/libfilter.la						\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
-	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
-	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
+	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
+	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.la		\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
-	$(top_builddir)/addressbook/gui/merging/libecardmerging.a			\
+	$(top_builddir)/addressbook/gui/merging/libecardmerging.la			\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 

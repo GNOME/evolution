@@ -10,10 +10,10 @@ INCLUDES =						\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-noinst_LIBRARIES =				\
-	libecardmerging.a
+noinst_LTLIBRARIES =				\
+	libecardmerging.la
 
-libecardmerging_a_SOURCES =			\
+libecardmerging_la_SOURCES =			\
 	e-card-merging.c			\
 	e-card-merging.h
 
