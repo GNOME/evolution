@@ -2413,29 +2413,40 @@ providers_config (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 }
 
-#define HEADER_HEIGHT 1.1
-#define FOOTER_HEIGHT 1.1
-
 static void
 header_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 		 double x, double y, double width, double height, gpointer user_data)
 {
-#if 0
-	gnome_print_setlinewidth (print_context, 12);
-	gnome_print_setrgbcolor (print_context, 1.0, 0.0, 0.0);
+	/* printf ("header_print_cb %f,%f x %f,%f\n", x, y, width, height);
 
 	gnome_print_newpath (print_context);
+	gnome_print_setlinewidth (print_context, 12.0);
+	gnome_print_setrgbcolor (print_context, 1.0, 0.0, 0.0);
 	gnome_print_moveto (print_context, x, y);
-	gnome_print_lineto (print_context, x+width, y+height);
-	gnome_print_strokepath (print_context);
-#endif
+	gnome_print_lineto (print_context, x+width, y-height);
+	gnome_print_strokepath (print_context); */
 }
+
+static GnomeFont *local_font;
+static gint page_num, pages;
 
 static void
 footer_print_cb (GtkHTML *html, GnomePrintContext *print_context,
 		 double x, double y, double width, double height, gpointer user_data)
 {
+	if (local_font) {
+		gchar *text = g_strdup_printf (_("Page %d of %d"), page_num, pages);
+		gdouble tw = gnome_font_get_width_string (local_font, text);
 
+		gnome_print_newpath     (print_context);
+		gnome_print_setrgbcolor (print_context, .0, .0, .0);
+		gnome_print_moveto      (print_context, x + width - tw, y - gnome_font_get_ascender (local_font));
+		gnome_print_setfont     (print_context, local_font);
+		gnome_print_show        (print_context, text);
+
+		g_free (text);
+		page_num++;
+	}
 }
 
 static void
@@ -2446,6 +2457,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	GnomePrintMaster *print_master;
 	GnomePrintDialog *dialog;
 	GnomePrinter *printer = NULL;
+	gdouble line;
 	int copies = 1;
 	int collate = FALSE;
 
@@ -2492,13 +2504,15 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	mail_display_render (fb->mail_display, html);
 	gtk_html_print_set_master (html, print_master);
 
-#if 0
-	gtk_html_print_with_header_footer (html, print_context,
-					   HEADER_HEIGHT, FOOTER_HEIGHT,
-					   header_print_cb, footer_print_cb,
-					   NULL);
-#endif
-	gtk_html_print (html, print_context);
+	if (!local_font) {
+		local_font = gnome_font_new_closest ("Helvetica", GNOME_FONT_BOOK, FALSE, 10);
+	}
+	if (local_font) {
+		line = gnome_font_get_ascender (local_font) + gnome_font_get_descender (local_font);
+	}
+	page_num = 1;
+	pages = gtk_html_print_get_pages_num (html, print_context, 0.0, line);
+	gtk_html_print_with_header_footer (html, print_context, 0.0, line, NULL, footer_print_cb, NULL);
 
 	fb->mail_display->printing = FALSE;
 

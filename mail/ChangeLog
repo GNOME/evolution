@@ -1,3 +1,8 @@
+2002-01-28  Radek Doulik  <rodo@ximian.com>
+
+	* mail-callbacks.c (do_mail_print): print footer
+	(footer_print_cb): print page number and number of pages
+
 2002-01-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* importers/Makefile.am: Use IMPORTERS_CFLAGS. 
