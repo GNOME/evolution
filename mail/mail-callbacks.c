@@ -2278,14 +2278,11 @@ zoom_reset (BonoboUIComponent *uih, void *user_data, const char *path)
 static void
 do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, void *data)
 {
-	/*FolderBrowser *fb = data;*/
+	FolderBrowser *fb = (FolderBrowser *) data;
 	int i;
 	
 	if (messages == NULL)
 		return;
-	
-	/* Note: this folder is supposed to be a real Drafts folder,
-           if it isn't then the user will lose these messages */
 	
 	for (i = 0; i < messages->len; i++) {
 		struct _composer_callback_data *ccd;
@@ -2297,9 +2294,14 @@ do_edit_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, voi
 		
 		if (composer) {
 			ccd = g_new (struct _composer_callback_data, 1);
-			camel_object_ref (folder);
-			ccd->drafts_folder = folder;
-			ccd->drafts_uid = g_strdup (uids->pdata[i]);
+			if (folder_browser_is_drafts (fb)) {
+				camel_object_ref (folder);
+				ccd->drafts_folder = folder;
+				ccd->drafts_uid = g_strdup (uids->pdata[i]);
+			} else {
+				ccd->drafts_folder = NULL;
+				ccd->drafts_uid = NULL;
+			}
 			ccd->folder = NULL;
 			ccd->uid = NULL;
 			ccd->flags = 0;
