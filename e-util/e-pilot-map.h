@@ -51,6 +51,8 @@ const char * e_pilot_map_lookup_uid (EPilotMap *map, guint32 pid, gboolean touch
 int e_pilot_map_read (const char *filename, EPilotMap **map);
 int e_pilot_map_write (const char *filename, EPilotMap *map);
 
+void e_pilot_map_clear (EPilotMap *map);
+
 void e_pilot_map_destroy (EPilotMap *map);
 
 #endif /* E_PILOT_MAP_H */

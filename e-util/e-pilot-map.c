@@ -275,7 +275,6 @@ e_pilot_map_remove_by_uid (EPilotMap *map, const char *uid)
 	EPilotMapPidNode *pnode = NULL;
 	EPilotMapUidNode *unode = NULL;
 	gpointer pkey, ukey;
-	gboolean found;
 	
 	g_return_if_fail (map != NULL);
 	g_return_if_fail (uid != NULL);
@@ -423,6 +422,18 @@ foreach_remove (gpointer key, gpointer value, gpointer data)
 	g_free (value);
 
 	return TRUE;
+}
+
+void
+e_pilot_map_clear (EPilotMap *map)
+{
+	g_return_if_fail (map != NULL);
+
+	g_hash_table_foreach_remove (map->pid_map, foreach_remove, NULL);
+	g_hash_table_foreach_remove (map->uid_map, foreach_remove, NULL);
+
+	map->since = 0;
+	map->write_touched_only = FALSE;
 }
 
 void 
