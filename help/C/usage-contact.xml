@@ -18,62 +18,13 @@
       </para>
 
     <para>
-       The toolbar for the contacts tool has the following items:
-       <itemizedlist>
-	<listitem><para>
-	  Click <guilabel>New Contact</guilabel> to create a new card, or double-click 
-	  in a blank space in the contact list. 
-	</para></listitem>
-
-	<listitem><para>
-           Click <guilabel>New List</guilabel> to create a new
-        contacts list, which is a convenient handle for a group of
-        other contact cards.
-	</para></listitem>
-
-	<listitem><para> The <guiicon>printer</guiicon> icon sends one
-	    or more of your cards to the printer.  </para></listitem>
-
-        <listitem><para> The <guiicon>stop sign</guiicon> icon stops loading
-           contact data from the network.  This button is only
-           relevant if you are looking at contact information on a
-           network.  </para></listitem>
-      </itemizedlist>
-    </para>
-
-    <para>
-       Your contact information fills the rest of the display.  Move
-       through the cards alphabetically with the buttons and the
-       scrollbar to the right of the window. Of course, if you have
-       more than a few people listed, you'll want some way of finding
-       them more quickly, which is why there's a search feature.
-    </para>
-
-    <para>
-      When you click on a card, the bottom portion of the page will
-      show more detailed information about the contact. There is also
-      a <guilabel>Map</guilabel> button, which you can click to bring
-      up a web page with a map of the contact's main postal address.
+     Double-click on a card to display all its details.
     </para>
 
 
   <sect1 id="usage-contact-cards">
     <title>The Contact Editor</title>
-    <para>
-      To delete a contact:
-      <orderedlist numeration="arabic">
-	<listitem>
-	  <para>
-	    Click once on the contact.
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    Press the <guilabel>Delete</guilabel> button.
-	  </para>
-	</listitem>
-      </orderedlist>
-    </para>
+
     <para>
        If you want to add or change cards, you'll use the contact
        editor.  To change a card that already exists, double click on
@@ -85,22 +36,21 @@
     
     <para>
       The contact editor window has three tabs,
-      <guilabel>General</guilabel>, for basic contact information,
-      <guilabel>Details</guilabel>, for a more specific description of
-      the person, and <guilabel>Collaboration</guilabel> for
-      information about scheduling and working closely with them.  In
-      addition, it contains a <guimenu>File</guimenu> menu and an
-      <guimenu>Actions</guimenu> menu. Under
-      <guimenu>Actions</guimenu> you will find <guimenuitem>Forward
+      <guilabel>Contact</guilabel>, for basic contact information,
+      <guilabel>Personal Information</guilabel>, for a more specific description of
+      the person, including URLs for their calendar and free/busy information, 
+      and <guilabel>Mailing Address</guilabel>.
+      In the 
+      <guimenu>Actions</guimenu> menu you will find <guimenuitem>Forward
       Contact</guimenuitem>, which opens a new message with the card
       already attached, and <guimenuitem>Send Message to
       Contact</guimenuitem>, which will open a new message to the
-      contact.
+      contact's email address.
       </para>
       <para>
-      The toolbar is relatively simple: <guilabel>Save and
+        From the contact editor toolbar, you can <guilabel>Save and
       Close</guilabel>, <guilabel>Print</guilabel>,
-      <guilabel>Close</guilabel>, and <guilabel>Delete</guilabel>.
+      <guilabel>Close</guilabel>, or <guilabel>Delete</guilabel> the contact.
       </para>
    
     
@@ -114,128 +64,7 @@
 	</imageobject></mediaobject>
       </screenshot>
     </figure>
-    
-    <para> The <guilabel>General</guilabel> tab has seven sections,
-      each with an icon: a face, for name and company; a telephone
-      for phone numbers; an envelope for email address; a globe for
-      web page address; a house for postal address; a file folder
-      for contacts, and a briefcase for categories. 
-    </para>
-    <para>
-     <variablelist>
-	
-	<varlistentry>
-	  <term>Full Name</term>
-	  <listitem>
-	    <para>
-              The <guilabel>Full Name</guilabel> field has two
-              major features:
-              <itemizedlist>
-		<listitem>
-		  <para>
-                    You can enter a name into the <guilabel>Full
-                    Name</guilabel> field, but you can also click the
-                    <guilabel>Full Name</guilabel> button to bring
-                    up a small dialog box with a few text boxes
-                    <variablelist>
-		      <varlistentry>
-			<term><guilabel>Title: </guilabel></term>
-			<listitem> <para>
-	                  Enter an honorific or select one from the menu.
-	                </para></listitem>
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>First: </guilabel></term>
-			<listitem> <para>
-		            Enter the first, or given, name.
-			 </para></listitem> 
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Middle: </guilabel></term>
-			<listitem> <para>
-			  Enter the middle name or initial, if any.
-			</para></listitem>
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Last: </guilabel></term>
-			<listitem> <para>
-			   Enter the last name (surname).
-			 </para></listitem>
-		      </varlistentry>
-		      <varlistentry>
-			<term><guilabel>Suffix: </guilabel></term>
-			<listitem> <para>
-			   Enter suffixes such as "Jr." or "III."
-			</para></listitem>
-		      </varlistentry>
-		    </variablelist>
-                   </para>
-		</listitem>
-	      </itemizedlist>
-	      </para>
-		<para>
-		  The <guilabel>Full Name</guilabel> field also
-		  interacts with the <guilabel>File As</guilabel>
-		  box to help you organize your contacts.
-		</para>
-	    <para>
-		  To see how it works, type a name in the
-		  <guilabel>Full Name</guilabel> field. As an example,
-		  we'll use <userinput>John
-		  T. Doe</userinput>.  You'll notice that the
-		  <guilabel>File As</guilabel> field also fills in,
-		  but in reverse: <computeroutput>Doe,
-		  John</computeroutput>.  You can pick
-		  <computeroutput>John Doe</computeroutput> from
-		  the drop-down, or type in your own, such as
-		  <userinput>T. Doe, John</userinput>.
-		</para>
-	  </listitem>
-	</varlistentry>
-	<varlistentry>
-	  <term>Multiple Values for Fields:</term>
-            <listitem>
-	      <para>
-                If you click on the downward pointing triangle buttons
-                next to the <guilabel>Primary Email</guilabel> field,
-                you can also choose <guilabel>Email 2</guilabel> and
-                <guilabel>Email 3</guilabel>.  Although the contact
-                editor will only display one of those at any given
-                time, Evolution will store
-                them all.  Entries that have information in them have
-                a check mark next to them.  The buttons next to the
-                telephone and postal address fields work in the same
-                way.
-              </para>
-          </listitem>
-	</varlistentry>
-      </variablelist>
-     </para>
-     <para>
-      The last item in the <guilabel>General</guilabel> tab is the
-       <guilabel>Categories</guilabel> organization tool; for
-       information on that, read <xref
-       linkend="usage-contact-organize"/>.
-     </para>
-     <para>
-       The <guilabel>Details</guilabel> tab is much simpler:
-      <itemizedlist>
-	<listitem>
-	  <para>
-	    The briefcase - Describes the person's professional life
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    The face - Describes the person's personal life
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    The globe - Miscellaneous notes
-	  </para>
-	</listitem>
-      </itemizedlist>
+
 
       <tip>
 	<title>Contact Shortcuts</title>
@@ -248,21 +77,110 @@
 	  from the menu.
 	</para>
       </tip>
+
+
+    
+    <para>
+      Most of the items in the contact editor simply display the
+      information you enter, but some of them have additional
+      features:
     </para>
+
+
+
+    <para>
+     <variablelist>
+	
+	<varlistentry>
+	  <term>Full Name</term>
+	  <listitem>
+	    <para>
+              Enter the name of your contact here.  You can enter a
+              name into the <guilabel>Full Name</guilabel> field, but
+            you can also click the <guilabel>Full Name</guilabel>
+            button to bring up a small dialog box with a few text
+            boxes for first and last names, titles like "Mr." or "Her
+            Excellency," and suffixes like "Jr."
+          </para>
+
+          <para>
+            The <guilabel>Full Name</guilabel> field also
+          interacts with the <guilabel>File Under</guilabel>
+          box to help you organize your contacts and to handle
+          multi-word surnames.
+        </para>
+        <para>
+          To see how it works, type a name in the
+          <guilabel>Full Name</guilabel> field. As an example,
+          we'll use <userinput>Miguel de Icaza</userinput>.  You'll notice that the
+          <guilabel>File Under</guilabel> field also fills in,
+          but in reverse: <computeroutput>Icaza, Miguel de
+        </computeroutput>.  If you had entered <userinput>John Q.
+        Doe</userinput>, the contacts editor would have
+        correctly guessed that the entry should be filed under
+        "Doe, John Q." However, Miguel's surname, "de Icaza,"
+        has two words, and so to get proper sorting you must enter
+        <userinput>de Icaza, Miguel</userinput> in the
+        <guilabel>File As</guilabel> entry.
+      </para>
+	  </listitem>
+        </varlistentry>
+        
+
+        <varlistentry>
+          <term>Where</term>
+          <listitem>
+            <para>
+              Select one of your address books as the location for
+              this contact. You may not be able to write to all
+              available address books, especially those on a network.
+          </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Categories</term>
+          <listitem>
+            <para>
+              Click the <guilabel>Categories</guilabel> button to
+            select categories for this card. If you assign contact
+            categories, you can then search for contacts using those
+            categories. For more information on contact categories,
+            read <xref linkend="usage-contact-organize"/>.
+          </para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Free/Busy and Calendar URLs</term>
+          <listitem>
+            <para>
+              Click the <guilabel>Personal Information</guilabel> tab
+            to enter web addresses for the contact. If the contact
+            publishes Free/Busy or calendar data online, using a
+            server other than Exchange or GroupWise, you can enter the
+            address for those servers here. Once you do so, you will
+            be able to check their schedule when creating appointments
+            in the calendar.
+          </para>
+          </listitem>
+        </varlistentry>
+
+      </variablelist>
+    </para>
+
+
   </sect1>
 
   <sect1 id="contact-search">
     <title>Searching for Contacts</title>
-    <para>
-      Evolution allows searching through contacts
-      quickly and easily.
-    </para>
+    
     <para>
       To search through contacts:
       <orderedlist numeration="arabic">
 	<listitem>
 	  <para>
-	    Select your search focus in the search bar.
+	    Select your search type in the search bar.
 	  </para>
 	</listitem>
 	<listitem>
@@ -278,25 +196,21 @@
       </orderedlist>
     </para>
     <para>
-      To perform a complex search through your contacts:
-      <orderedlist numeration="arabic">
-	<listitem>
-	  <para>
-	    Open
-	    <menuchoice>
-	      <guimenu>Tools</guimenu>
-	      <guimenuitem>Search for contacts</guimenuitem>
-	    </menuchoice>
-	  </para>
-	</listitem>
-	<listitem>
+      For a more complex search, select
+      <menuchoice>
+        <guimenu>Search</guimenu>
+        <guimenuitem>Advanced</guimenuitem>
+      </menuchoice> and select criteria that describe your desired contact:
+    </para>
+    <orderedlist>
+        <listitem>
 	  <para>
 	    Name the rule in the <guilabel>Rule Name</guilabel> field.
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Setup your criteria information in the <guilabel>If</guilabel> section.
+	    Setup your criteria  in the <guilabel>If</guilabel> section.
 	  </para>
 	</listitem>
 	<listitem>
@@ -311,10 +225,12 @@
 	  </para>
 	</listitem>
       </orderedlist>
-    </para>
+
     <para>
-      To show all your contacts, select <guilabel>Show All</guilabel> in the
-      <guilabel>Search Bar</guilabel> or search with an empty query.
+      To show all your contacts, Click <guilabel>Clear</guilabel> in the
+    search bar, press
+    <keycombo><keycap>Shift</keycap><keycap>Ctrl</keycap><keycap>B</keycap></keycombo>
+    or search with an empty query.
     </para>
 
   </sect1>
@@ -322,14 +238,10 @@
   <sect1 id="usage-contact-organize">
     <title>Organizing your Contacts</title>
     <para>
-      Just as you can search mail, you can search contacts, although the
-      contacts tool does not use folders or virtual folders. You can,
-      however, create several contact groups, which are basically
-      the same thing as folders or or individual address books.
-      Contact groups may be on your own computer or on the
-      network. Within a given contact group, you can have several
-      categories of contacts. To learn about categories, read <xref
-      linkend="usage-contact-organize-group-category" />.
+      Just as you can search mail, you can search contacts. You can
+      also create several individual address books, or contact groups.
+      Within a given contact group, you can have several
+      categories of contacts. 
     </para>
 
 <!-- UNIMPLEMENTED FEATURE
@@ -344,56 +256,35 @@
 -->
 
     <sect2 id="usage-contact-organize-group">
- 	<title>Contact Groups</title>
+ 	<title>Contacts Groups</title>
 	<para>
            The simplest way to organize contacts is to create
-          additional groups of contacts.  If you've read <xref
-	   linkend="usage-mainwindow"/> then you already know that you
-	   can create a new folder by right-clicking in the shortcut
-        bar and choosing <guilabel>New Contact Group</guilabel>. For
-        contact groups on your computer, you only need a name. For
-        contacts on the network, you will need to provide more
-        information about the contacts server you are trying to access.
+          additional groups of contacts. You can create a new one by
+          selecting <menuchoice><guimenu>New</guimenu>
+        <guimenuitem>Contacts Group</guimenuitem></menuchoice> For
+        contacts groups on your computer, you only need to provide a
+        name. For contacts on the network, you will need to provide
+        more information about the contacts server you are trying to
+        access.
 	 </para>
 	<para>
           To move a card from one group to another, just drag it there
           from the main display of contacts. Note that you will not be
           able to change the contents of most network contact groups.
          </para>
+
+         <tip id="lists-vs-groups">
+           <title>Contact Lists and Contact Groups</title>
+         <para>
+           Contacts groups are not the same as contact lists. A
+           contact group is like a folder or address book full of contacts.  A
+           contact list is a single contact which contains other
+           contacts, and is most often used to email several people at once.
+         </para>
+       </tip>
+
       </sect2>
       
-      <sect2 id="usage-contact-organize-group-category">
-	<title>Grouping with Categories</title>
-	<para>
-           The other way to group cards is to mark them as belonging
-           to different categories.  
-           That means that you
-           can mark a card as being in several categories or no
-           category at all.  For example, I put my friend Matthew's
-           card in the "Business" category, because he works with me,
-           the "Friends" category, because he's also my friend, and
-           the "Frequent" category, because I call him all the time
-           and can never remember his phone number.  
-        </para>
-	<para>
-           To mark a card as belonging to a category, click the
-           <guilabel>Categories</guilabel> button at the lower
-           right.  From the dialog box that appears, you can check as
-           many or as few categories as you like.
-        </para>
-
-       <!-- Feature Not Implemented
-	<para>
-
-           If the master list of categories doesn't suit you, you can
-           add your own.  Just enter the new category's name in the
-           text box, then click <guilabel>Categories</guilabel> and
-           choose <guilabel>Add to Master List</guilabel> in the
-           window that appears. 
-         </para>
-       -->
-
-      </sect2>
 
       <sect2 id="usage-contact-organize-group-list">
 	<title>Creating a List of Contacts</title>
@@ -403,8 +294,18 @@
           every member of the list. This differs from a network
           mailing list in that it exists only on your computer as a
           convenience to you, rather than as an actual email address
-          managed by a mailing list application on a server. To
-          create a list of contacts:
+          managed by a mailing list application on a server.
+        </para>
+        <para>
+          For example, you could create one card for each family
+          member, then add
+           those cards to a contact list called "Family." Then,
+           instead of entering each person's email address
+           individually, you could send email to "Family" and the
+           message would go to all of them.
+        </para>
+        <para> 
+        To create a list of contacts:
 
          <orderedlist numeration="arabic">
 	    <listitem>
@@ -464,10 +365,41 @@
            and select <guimenuitem>Send Message to List</guimenuitem>.
         </para>
         <para>
-           Novell Evolution cannot store contact lists on Exchange
+           Evolution cannot store contact lists on Microsoft Exchange
            servers.
         </para>
-    </sect2>
+      </sect2>
+
+      <sect2 id="usage-contact-organize-group-category">
+	<title>Grouping with Categories</title>
+	<para>
+           The other way to group cards is to mark them as belonging
+           to different categories.  That means that you
+           can mark a card as being in several categories or no
+           category at all.  For example, you put a friend's
+           card in the "Business" category, because he works with you,
+           the "Friends" category, because he's a friend, and
+          the "Frequent" category, because you call him often, but can
+          never remember the number.
+        </para>
+	<para>
+           To mark a card as belonging to a category, click the
+           <guilabel>Categories</guilabel> button at the lower
+           right.  From the dialog box that appears, you can check as
+           many or as few categories as you like.
+        </para>
+
+	<para>
+
+           If the master list of categories doesn't suit you, you can
+           add your own.  Just enter the new category's name in the
+           text box, then click <guilabel>Categories</guilabel> and
+           choose <guilabel>Edit Master Category List</guilabel> in the
+           window that appears. 
+         </para>
+
+      </sect2>
+
   </sect1>
   
   <sect1 id="usage-contact-sharing">
@@ -485,9 +417,8 @@
     <para>
        To learn how to add a remote directory to your available
        contact folders, see <xref linkend="config-prefs-contact"/>.
-       Once you have a LDAP connection, the network contacts folder or
-       folders will appear inside the <guilabel>External
-       Directories</guilabel> folder in the folder bar.  It will work
+      Remote groups of contacts appear under the <guilabel>On LDAP
+    Servers</guilabel> item in the shortcut bar.  They work
        exactly like a local folder of cards, with the following
        exceptions:
        <itemizedlist>
@@ -496,7 +427,7 @@
 	    <para>
               Network folders are only available when you are
               connected to the network.  If you use a laptop or have a
-              modem connection, you may wish to copy or cache the
+              modem connection, you may wish to copy or cache some of the
               network directory.  You do this by dragging and dropping
               your desired contacts into the local contacts list.
 	    </para>

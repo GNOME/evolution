@@ -676,19 +676,18 @@ folders, you
 
       <sect2 id="fourth-step">
         <title>Importing Mail (Optional)</title>
-        <para>
-          If Novell Evolution finds mail or
+        <para>If Novell Evolution finds mail or
           address files from another application, it will offer to
-          import them. You should be aware of a few caveats before you
-          begin:
-        </para>
+          import them. For a full description of the import feature, see <xref
+	  linkend="importing-mail" />.
+      </para>
 
         <para>
           <application>Microsoft Outlook</application>, and versions of
           <application>Outlook Express</application> after
           version 4, use proprietary formats that Novell
           Evolution cannot read or import.  To import information, you
-          may wish to use the <application>Outport</application> under
+          may wish to use the <application>Outport</application> tool under
           Windows. See the instructions in <xref
           linkend="outlook-migration-mail" />.
         </para>
@@ -725,109 +724,6 @@ folders, you
     </sect2>
 
 
-    <sect2 id="importing-mail-from-clients">
-      <title>Importing Data from Other Mail Clients</title>
-      <para>
-        If you have mail in another mail client that was not detected by
-        the automatic import tool, you can still keep your old
-        mail by using the <guilabel>Import</guilabel> tool after you
-      have finished setting up your account. Mail import is only
-      relevant for POP mail accounts and for some local contact and
-      calendar information; if you used IMAP, Exchange, or GroupWise
-      before you switched to Evolution, you can skip this step entirely.
-    </para>
-    <para>
-      You will need to know what kind of file your old mail client uses,
-      and you will need to have access to those files. Evolution can
-      import the following types of files:
-          <variablelist>
-           <varlistentry>
-	    <term>VCard (.vcf, .gcrd):</term>
-	    <listitem>
-	      <para>The contact format used by the GNOME, KDE, and
-	         many other contact management applications. You
-	         should be able to export to VCard format from any
-                 address book or contact application. Failing that, export to CSV
-                format and use the <command>csv2vcard</command>
-              utility before importing.</para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>Microsoft Outlook Express 4 (.mbx):</term>
-	    <listitem>
-	      <para>
-                Email file format used by Microsoft
-                <application>Outlook Express 4</application>. For
-                other versions of Microsoft Outlook and Outlook
-                Express, see the workaround described in the note
-                below.
-	      </para>
-	    </listitem>
-	  </varlistentry>
-
-	  <varlistentry>
-	    <term>MBox (mbox):</term>
-	    <listitem>
-	      <para>
-	       The email box format used by Mozilla, Netscape,
-	       Novell Evolution, Eudora, and many other email clients.
-  	     </para>
-	    </listitem>
-	  </varlistentry>
-       </variablelist>
-     </para>
-     <para>
-     To import data from another application:
-	<orderedlist numeration="arabic">
-          <listitem>
-	    <para>
-              Open the mail importer tool by selecting
-	      <menuchoice>
-		<guimenu>File</guimenu>
-		<guimenuitem>Import</guimenuitem>
-	      </menuchoice>
-	      or pressing
-	      <keycombo action="simul">
-		<keycap>Ctrl</keycap>
-		<keycap>I</keycap>
-	      </keycombo>. 
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guilabel>Next</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Select <guilabel>Import a Single File</guilabel>
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guilabel>Browse</guilabel> and select the file
-              you would like to import. Many mail clients store mail
-            in
-            <filename>~/mbox</filename> or <filename
-            class="directory">~/Maildir</filename>. <application>KMail</application>
-            uses the <filename>~/Mail</filename> directory.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      When prompted for an import destination, choose
-	      a folder.  You can also create a new folder and
-              import to that.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-      <para>
-      You will need to repeat this process for each mail folder
-      you wish to import, so it can be slightly tedious.
-      </para>
-    </sect2>
   </sect1>
   
   <sect1 id="ui-intro">

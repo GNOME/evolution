@@ -6,7 +6,7 @@
   <title>Evolution Calendar</title>
 
      <para>
-      This chapter will show you how to use the Novell Evolution
+      This chapter will show you how to use the Evolution
       Calendar to manage your schedule alone or in conjunction with
       peers. To learn about importing calendar data, see <xref
       linkend="importing-mail" />, which covers the Import tool.
@@ -15,7 +15,23 @@
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
     <para>
-       The toolbar offers you four different views of your calendar:
+      In Evolution, you can keep multiple calendars and overlay them
+      one over the next. For example, you might have a schedule of
+      events for work, one for home, and one for your favorite sports
+      team. The shortcut bar lists those calendars, and you can check
+      or uncheck the boxes next to them to show and hide the
+      appointments in your calendar view. By hiding and showing
+      different sets of appointments, you can be sure to avoid
+      conflicts, while keeping a minimum of clutter in your view at
+      any one time.
+    </para>
+    <para>
+      Appointments for each calendar appear as a different color.
+    </para>
+
+    <para>
+      The toolbar offers you four different buttons that can show you
+      different views of your calendar:
        <itemizedlist>
 	<listitem>
 	  <para>
@@ -38,12 +54,9 @@
 	  </para>
 	</listitem>
       </itemizedlist>
-</para>
-<para>
-      Press the calendar-shaped buttons on the right side of the toolbar to
-      switch between views. 
-</para>
-<para>
+    </para>
+
+    <para>
       You can also select an arbitrary range of days in the small
       calendar at the upper right.  To do this, click and drag on the
       days that you wish to view in your calendar.
@@ -58,7 +71,7 @@
         <guilabel>Today</guilabel> button in the toolbar.
     </para>
     <para>
-       To visit a specific date's calendar entries, click
+       To visit calendar entries for a specific date, click
        <guilabel>Go To</guilabel> and select the date in the dialog
        box that appears.
     </para>
@@ -66,19 +79,10 @@
   </sect1>
   <sect1 id="usage-calendar-apts">
     <title>Scheduling With the Evolution Calendar</title>
-    <para>
-      Of course, you'll want to use the calendar to do more than find
-      out what day it is. This section will tell you how to schedule
-      appointments, set alarms, and determine appointment
-      recurrence. If you have installed the Evolution Connector for
-      Microsoft Exchange, you can also read <xref
-      linkend="full-advantage"/> to learn about how to take full
-      advantage of the collaborative group scheduling functions
-      available on the Microsoft Exchange Server.
-    </para>
+
 
     <sect2 id="usage-calendar-apts-basic">
-      <title>Creating appointments</title>
+      <title>Creating Appointments</title>
       <para>
 	To create a new appointment, select
         <menuchoice>
@@ -86,20 +90,9 @@
 	  <guisubmenu>New</guisubmenu> 
 	  <guimenuitem>Appointment</guimenuitem>
 	</menuchoice>
-	or click the <guilabel>New Appointment</guilabel> button on the left end
-	of the toolbar. The <interface>New Appointment</interface>
-	dialog will pop up with the menu bar, tool bar, and
-	window full of choices for you.
+        click the <guilabel>New</guilabel> button on the left end
+        of the toolbar, or double-click in a blank space in the calendar.
       </para>
-      <tip id="new-appointment-shortcut">
-        <title>Shortcut</title>
-        <para>
-           If you don't need to enter more information than the date
-           and time of the appointment, you just click in any blank
-           space in the calendar and start typing. You can enter other
-           information later with the appointment editor.
-        </para>
-      </tip>
 
       <para>
         Your appointment must have a starting and ending date (by
@@ -115,10 +108,14 @@
         multiple columns in the day view of the calendar.
       </para>
       <para>
+        If you have more than one calendar, be sure to select the
+        calendar in which you want to save the appointment. 
+      </para>
+      <para>
 	Evolution supports the use of
-	timezones.  If you share calendar files with friends or
+	time zones.  If you share calendar files with friends or
 	co-workers, it is quite possible you will need to configure
-	your timezone.  To configure your timezone:
+	your tim ezone.  To configure your time zone:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -145,10 +142,10 @@
 	</orderedlist>
       </para>
       <para>
-	You can also configure timezone information specific to the
+	You can also configure time zone information specific to the
 	Start and End time in each appointment.  To do that, simply
 	create a new appointment and click on a globe to customize the
-	timezone that the time exists in. For example, if you live in
+	time zone that the time exists in. For example, if you live in
 	New York but have a telephone meeting set for noon with
 	someone in California, you need to make sure that you're not
 	calling each other a few hours off.  Setting time-zones on a
@@ -215,32 +212,34 @@
         </note>
 
       <para>
-         <guilabel>Classification</guilabel> 
-         only applies to calendars on a
-         network. <guilabel>Public</guilabel> is the default category,
-         and a public appointment can be viewed by anyone on the calendar
+         If you are using a a calendar on a GroupWise or
+        Exchange server, select a <guilabel>Classification</guilabel>
+      for the appointment, to determine who can view it.
+      <guilabel>Public</guilabel> is the default category, and a
+      public appointment can be viewed by      anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
          level of security, and <guilabel>Confidential</guilabel> an even 
-         higher level.
+         higher level. The different levels vary depending on your
+      server settings; check with your system administrator or adjust
+      your delegation settings.
       </para>
+     
       <para>
-	Evolution can handle free/busy
-	scheduling Using the Evolution Connector on a Microsoft Exchange
-	2000 server. For more information about Evolution Connector, see
-	<xref linkend="usage-exchange"/>.
-      </para>
+	If you are using a GroupWise or Exchange server, other people
+        on the server can check your schedule to see if you are
+        available at any given time. If you have an appointment that
+        is flexible or that you wish to designate as "Free" rather
+        than "Busy" time, check the <guilabel>Free</guilabel> box in
+      the<guilabel>Show Time As</guilabel> section.  Normally,
+      appointments display as "Busy."
+       </para>
       <para>
-	To set your appointment to be free or busy, simply click the
-	box in the <guilabel>Show Time As</guilabel> section in the
-	<guilabel>Appointment Editor</guilabel>.
-      </para>
-      <para>
-        Evolution lets you categorize your
-	appointments, which can help if you lead a busy life.  The bottom
-	section of the <guilabel>Appointment</guilabel> tab is where your
-	categorization is done.
-      </para>
-      
+        You can categorize appointments in the same way you can
+        categorize contacts. Click the <guilabel>Categories</guilabel>
+      button opens up a checklist. Check the box next to each category
+      that matches the appointment you are creating. 
+    </para> 
+
       <tip>
       <title>Adding a New Appointment Category</title>
 	<para>
@@ -250,24 +249,22 @@
 	</para>
       </tip>
 
-      <para> 
-     The purpose of categories is to let you view all appointments
-	 which have similar activities.  To do this, in the calendar view,
-	 change <guilabel>Any field contains</guilabel> to <guilabel>Has
-	 category</guilabel> and enter your category at right.
-      </para>
-
-      <para>
-	Clicking on the <guilabel>Categories</guilabel> button opens up the category
-	list.  To associate a category to an appointment, simply click the check box. 
-      </para>
       <para>
 	Once you've selected your categories, click <guilabel>OK</guilabel> to
 	assign these categories to the appointment.  The categories you selected are now
 	listed in the text box to the right of the <guilabel>Categories...</guilabel>
 	button.
       </para>
-
+ 
+   <para>
+      Appointments with categories will appear
+      with icons in the calendar display, and you can also search
+      for appointments by category. To display only the appointments
+      in a particular category, select <guilabel>Category
+    Is</guilabel> in the search bar at the top of the calendar, and
+    select a category.
+      </para>
+      
       <para>
         The <guilabel>Recurrence</guilabel> tab lets you describe
         repetition in appointments ranging from once every day up to once
@@ -276,7 +273,7 @@
         <guilabel>Exceptions</guilabel>, pick individual days when the
         appointment will <emphasis>not</emphasis> recur. Make your
         selections from left to right, and you'll form a sentence:
-        "Every two weeks on Monday and Friday until January 3, 2003"
+        "Every two weeks on Monday and Friday until January 3, 2008"
         or "Every month on the first Friday for 12 occurrences."
       </para>
 
@@ -286,15 +283,15 @@
 	If you want, you can alter an appointment
 	summary in the calendar view by clicking on it and typing. You
 	can change other settings by right-clicking on the appointment then
-	choosing <guimenuitem>Open</guimenuitem>.
+	choosing <guimenuitem>Open</guimenuitem>, or double-clicking
+        the appointment.
       </para>
     </sect2>
     <sect2 id="usage-calendar-rsvp">
-      <title>Sending an RSVP with the Calendar</title>
+      <title>Sending a Meeting Invitation</title>
       <para>
-	Evolution can be used to schedule
-	group meetings and help you manage responses to meeting
-	requests.
+	Evolution can be used to schedule group meetings and help you
+        manage responses to meeting requests.
       </para>
       <para>
 	When you create a meeting or group appointment, you can
@@ -387,7 +384,7 @@
 	to your calendar if you accept.
       </para>
 
- <para>
+      <para>
         Note, however, that if you add a meeting to your calendar,
         there are some limitations: only the organizer of a meeting
         can add participants in a meeting. Your only options, as a
@@ -480,6 +477,7 @@
       </para>
     </sect2>
  ########## END UNIMPLEMENTED FEATURESET ############ -->
+
     <sect2 id="usage-calendar-freebusy">
       <title>Scheduling Meetings and The Free/Busy View</title>
       <para>
@@ -548,10 +546,15 @@
 	<guilabel>Schedule Grid</guilabel>
       </para>
       <para>
-	The <guilabel>Schedule Grid</guilabel> shows the invitee's
-	published Free/Busy information.  This is where you compare
-	people's schedules to find free time to schedule the
-	appointment.
+	The <guilabel>Schedule Grid</guilabel> shows the published
+      Free/Busy information for the people you have invited.  This is
+      where you compare people's schedules to find free time to
+      schedule the appointment. Individuals will only have visible
+      scheduling information if they use the same GroupWise or
+      Exchange server you do (that is, if they are in the same
+      organization as you), or if they publish free/busy information
+      at a URL you can reach and you have entered that URL into their
+      contact card using the contact editor.
       </para>
       <para>
 	<inlinemediaobject>
@@ -601,6 +604,34 @@
     </sect2>
 
   </sect1>
+
+  <sect1 id="usage-calendar-multiple">
+    <title>Multiple Calendars and Web Calendars</title>
+
+    <para>
+      To create a new calendar, select 
+      <menuchoice>
+	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
+	<guimenuitem>Calendar</guimenuitem>
+      </menuchoice>. If the calendar is one you plan to store locally,
+      you need only provide a name and color. If it is a remote
+      calendar, enter the name, color, URL, and a refresh
+      frequency. The refresh frequency determines how often Evolution
+      will check to see if the calendar has changed. If you are
+      working with someone who publishes an online calendar, you may
+      want to check for updates every thirty minutes. On the other
+      hand, if you have displayed a sports team schedule in your
+      calendar, you may not need to refresh it more than once a week,
+      if at all.
+    </para>
+    <para>
+      The website <ulink
+      url="http://icalshare.com">icalshare.com</ulink> has an extensive list
+    of shared online calendars, including national and religious
+    holidays, phases of the moon, sports, and local and regional events.
+    </para>
+  </sect1>
+
 
   <sect1 id="usage-calendar-todo">
    <title>The Task Pad</title>
@@ -683,78 +714,22 @@
       remove columns from the display.
     </para>
     <sect2 id="task-folders">
-      <title>Folders for Your Tasks</title>
+      <title>Task Groups</title>
       <para>
-	Like any other component in
-	Evolution, you can create a folder
-	to help organize your tasks.  To do this:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Open the <guilabel>Folders Bar</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guilabel>Tasks</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Right click on <guilabel>Tasks</guilabel>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <menuchoice><guimenuitem>Create New Folder</guimenuitem></menuchoice>.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Enter the folder name.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click <guilabel>OK</guilabel>
-	    </para>
-	  </listitem>
-	</orderedlist>
+        As with calendars, you can create multiple task groups. Task
+        groups are more easily organized in the dedicated
+        <guilabel>Tasks</guilabel> tool. Each task group is assigned a
+        color, and in the <guilabel>Tasks</guilabel> tool shortcut bar
+        you can hide and show task groups just like calendars. In the
+        calendar display task pad, tasks from all visible task groups
+        will appear, color coded by group.  To create a new task
+        group, select <menuchoice><guimenu>New</guimenu>
+        <guimenuitem>Task Group</guimenuitem></menuchoice>. You will
+        be prompted for a name, color, and location for the task
+        group. If the task group is online, you will need to provide
+        the URL for it.
       </para>
     </sect2>
   </sect1>
 
-  <sect1 id="usage-calendar-multiple">
-    <title>Multiple Calendars</title>
-    <para>
-       Evolution permits you to have and
-       maintain multiple calendars.  This is useful if you maintain
-       schedules for other people, if you are responsible for resource
-       or room allocation, or if you have multiple personalities.
-    </para>
-   
-    <example>
-      <title>Keeping Multiple Calendars</title>
-      <para>
-        Lucy, the office manager for a small company, has one calendar
-        for her own schedule. She maintains one for the conference
-        room, to schedule meetings.  Next to that, she maintains a
-        calendar that reflects when consultants are going to be on
-        site, and another that keeps track of when the Cubs are
-        playing.
-      </para>
-    </example>
-    <para>
-      To create a new calendar, select 
-      <menuchoice>
-	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
-	<guimenuitem>Folder</guimenuitem>
-      </menuchoice>.
-       You'll need to tell the <guilabel>New Folder</guilabel> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
-       from the folder view.
-    </para>
-    <para>
-       Each calendar folder can hold only one calendar.
-    </para>
-  </sect1>
 </chapter>

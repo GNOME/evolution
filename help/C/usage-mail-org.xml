@@ -23,7 +23,7 @@
         following types of files:
         <variablelist>
           <varlistentry>
-            <term>VCard (.vcf, gcrd):</term>
+            <term>VCard (.vcf, .gcrd):</term>
             <listitem>
               <para>
                 The address book format used by the GNOME, KDE, and
@@ -39,8 +39,7 @@
 	    <listitem>
 	      <para>
 		A format for storing calendar files.  iCalendar is used by 
-		PalmOS based handhelds, Novell
-                Evolution, and 
+		PalmOS based handhelds, Evolution, and 
 		<application>Microsoft Outlook</application>.
 	      </para>
 	    </listitem>
@@ -58,7 +57,7 @@
           </varlistentry>
 
           <varlistentry>
-            <term>LDAP Data Interchange Format (LDIF):</term>
+            <term>LDAP Data Interchange Format (.LDIF):</term>
             <listitem>
               <para>
                 A standard data format for contact cards.
@@ -67,7 +66,7 @@
           </varlistentry>
 
           <varlistentry>
-            <term>MBox (mbox):</term>
+            <term>MBox (.mbox or null extension):</term>
             <listitem>
               <para>
                 The email box format used by Mozilla, Netscape,
@@ -103,7 +102,7 @@
           </listitem>
           <listitem>
             <para>
-              Click <guilabel>Import</guilabel>
+              Click <guilabel>Import</guilabel>.
             </para>
           </listitem>
         </orderedlist>
@@ -150,9 +149,12 @@
 	  <para>
 	    Microsoft Outlook, and versions of Outlook Express after
 	    version 4, use proprietary formats that Novell
-	      Evolution cannot read or import.  For contacts,
-	    you may have to email them to yourself and import them that
-	    way.  For email, there is a simpler workaround:
+            Evolution cannot read or import. One migration method that
+            works well is to use the
+            <application>Outport</application> application (see <ulink
+            url="http://outport.sourceforge.net">outport.sourceforge.net</ulink>
+            for information) under Winodws. YOu can also import data
+            into another Windows mail client such as Mozilla:
 	    <orderedlist numeration="arabic">
 	      
 	      <listitem>
@@ -172,9 +174,7 @@
 	      
 	      <listitem>
 		<para>
-		  Use the Novell Evolution import
-		  tool to import the files.  There's more information about
-		  why this works, and how, at the Novell support website.
+		  Use the Evolution import tool to import the files.
 		</para>
 	      </listitem>
 	    </orderedlist>
@@ -186,10 +186,10 @@
 	  <para>
             Mozilla and Netscape users will need to choose
 	    <menuchoice><guimenu>File</guimenu><guimenuitem>Compact All
-		Folders</guimenuitem></menuchoice> from within
-            Netscape or Mozilla. Otherwise,
+		Folders</guimenuitem></menuchoice> from within the
+            Netscape or Mozilla mail tool. Otherwise,
 	    Novell Evolution will import and undelete
-	    the messages in Trash folders.
+	    the messages in your Trash folders.
 	  </para>
 	</note>     
 	
@@ -212,27 +212,14 @@
 	<varlistentry>
 	  <term><guimenuitem>Sort Ascending</guimenuitem>:</term>
 	  <listitem><para>
-	      Sorts the messages top to bottom.
+          Sorts the messages top to bottom. Similarly,
+          <guimenuitem>Sort Descending</guimenuitem> reverses the
+          order, and <guilabel>Unsort</guilabel> removes sorting from
+          this column, reverting to the order of messages as they were
+          added to the folder.
 	    </para></listitem>
 	</varlistentry>
 	  
-	  <varlistentry>
-	    <term><guimenuitem>Sort Descending</guimenuitem>:</term>
-	    <listitem><para>
-		Sorts the messages bottom to top.
-	      </para></listitem>
-	  </varlistentry>
-	  
-	  <varlistentry>
-	    <term><guimenuitem>Unsort</guimenuitem>:</term>
-	    <listitem><para>
-            Removes sorting from the message list. <!-- displaying
-            messages in the order they exist on disk. This is
-            typically the order in which the messages
-            were added to the mailbox file, and is therefore similar
-            to, but not exactly the same as, sorting by date. -->
-	      </para></listitem>
-	  </varlistentry>
 	<varlistentry>
 	  <term><guimenuitem>Remove this
 	      Column</guimenuitem>:</term> 
@@ -272,7 +259,7 @@
           View</guimenuitem>:</term> <listitem><para> Choose this
           item to pick a more complex sort order for messages, or
           to choose which columns of information about your
-          messages you wish to display
+          messages you wish to display.
         </para></listitem>
       </varlistentry>
 
@@ -293,8 +280,8 @@
         want to remind yourself about. Several are provided for you, such as
         <guilabel>Call</guilabel>, <guilabel>Forward</guilabel>, and
         <guilabel>Reply</guilabel>, but you can enter your own note or
-        action if you wish. You may set a deadline date for the flag
-        as well, if you wish.
+        action if you wish. You may set a deadline for the flag
+        as well.
       </para>
       <para>
         Once you have added a flag, you can mark it as complete or
@@ -305,8 +292,9 @@
 
       <para>
          When you read a flagged message, its flag status will be
-         displayed right at the top, before the message headers. An
-        overdue message might tell you <guilabel>Overdue: Call by April 07, 2003, 5:00 PM</guilabel>
+         displayed at the top, before the message headers. An
+        overdue message might tell you <guilabel>Overdue: Call by
+      April 07, 2003, 5:00 PM</guilabel>
       </para>
 
       <para>
@@ -321,7 +309,7 @@
       <para>
 	If you prefer a simpler way to remind yourself about messages, you can
 	mark them as "Important" by right-clicking on them and selecting
-	<guilabel>Mark Important</guilabel>
+	<guilabel>Mark Important</guilabel>.
       </para>
 
       </sect2>
@@ -337,9 +325,7 @@
 	<guilabel>Outbox</guilabel>, and <guilabel>Drafts</guilabel>,
 	but you can create as many as you like.  Create new folders by
         right clicking on the folder list and selecting 
-        <guimenuitem>New Folder</guimenuitem>. Evolution will
-        ask you for the name and the type of the folder, and will
-        provide you with a folder tree so you can pick where it goes.
+        <guimenuitem>New Folder</guimenuitem>.
       </para>
       <para>
         When you click <guilabel>OK</guilabel>, your new folder will
@@ -403,8 +389,7 @@
 	  <term><guilabel>Sender contains:</guilabel></term>
 	  <listitem>
 	    <para>
-              Finds messages that do not contain the search text in
-              the subject.
+              Finds messages whose From: header contains a match for your search text.
 	    </para>
 	  </listitem>
 	</varlistentry>
@@ -518,7 +503,7 @@
 
   <variablelist>
     <varlistentry>
-      <term>Check Incoming Mail</term>
+      <term>Check incoming mail for junk</term>
       <listitem>
       <para>
         This option turns automatic junk mail filtering on or off.
@@ -527,31 +512,19 @@
   </varlistentry>
 
   <varlistentry>
-      <term>Do Not Check Incoming Mail for IMAP Accounts</term>
-      <listitem>
-      <para>
-        Evolution must download mail to determine whether it is junk
-        mail, so junk mail filtering can slow IMAP performance as it
-        downloads every message in its entirity. To turn filtering off
-        for IMAP mail, but leave it on for other mail accounts, select
-        this box.
-      </para>
-    </listitem>
-  </varlistentry> 
-
-  <varlistentry>
-    <term>Local Tests Only</term>
+    <term>Include remote tests</term>
     <listitem>
       <para>
-        This option skips tests that require a network connection,
+        This option uses tests that require a network connection,
         such as checking to see if a message is in a list of known
         junk messages, or if the sender or gateway are blacklisted by
-        anti-spam organizations. Selecting this option will increase
-        the speed of operation, but may decrease accuracy.
+        anti-spam organizations. Remote tests add to the amount of
+        time it takes to check for junk mail, but increase accuracy.
       </para>
     </listitem>
   </varlistentry>
-  
+
+<!-- This is apparently gone _____________________________
   <varlistentry>
     <term>Use Daemon</term>
     <listitem>
@@ -575,7 +548,9 @@
       </para>
     </listitem>
   </varlistentry>
-     
+__________________________     -->
+
+
 </variablelist>
 </sect1>
 
@@ -603,22 +578,24 @@
                 creation. Right-click on the message in the message
                 list, and select one of the items under the
                 <guimenuitem>Create Rule from Message</guimenuitem>
-                submenu.
+                submenu. Creating a rule based on a message opens the filter 
+                creation tool with some of the information about the
+                message already filled in for your convenience.
 	      </para>
 	    </tip>
 
     <sect2 id="usage-mail-org-filters-new">
-      <title>Making New Filters</title>
+      <title>Creating New Filter Rules</title>
       <para>
-	To create a new filter:
+	To create a new filter rule:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
               Select
 	      <menuchoice>
 		<guimenu>Tools</guimenu>
-		<guimenuitem>Filters</guimenuitem>
-	      </menuchoice>
+		<guimenuitem>Filters...</guimenuitem>
+	      </menuchoice>.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -711,14 +688,6 @@
 		    with the dates you specify.
 		  </para></listitem>
 		
-		<listitem><para>
-        Score - Set the message score to any whole number greater than
-        0.  To use filters with scoring, use one filter to score a
-        message, and then apply other filters only to messages with
-        the scores you seek.
-		  </para></listitem>
-		
-
 		<listitem>
 		  <para>
                     Label - Messages may have labels of
@@ -729,6 +698,17 @@
                     can set these labels with other filters or by hand.
 		  </para>
 		</listitem>
+
+		<listitem><para>
+                Score - Set the message score to any whole number greater than
+                0.  You can have one filter set or change a message
+                score, and then set up another filter to move the
+                messages you have scored. A message score is not based
+                on anything in particular: it is simply a number you
+                can assign to messages so other filters can process them.
+              </para></listitem>
+		
+
 
 		<listitem>
 		  <para>
@@ -749,36 +729,35 @@
 		
 		<listitem>
 		  <para>
-		    Flagged - Check whether the message is flagged for follow-up or not.
+		    Flagged - Check whether the message is flagged for follow-up.
 		  </para>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Attachments - Create a filter based on whether or not you 
+		    Attachments - Create a filter based on whether you 
 		    have an attachment in the email.
 		  </para>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Mailing List - Filter based on the mailing list it came from.
-		  </para>
-		  <note>
-		    <title>How Does Filtering on Mailing Lists Work?</title>
-		    <para>
-		      Filtering on mailing list actually looks for a
-		      specific mailing-list header called the
-		      <computeroutput>X-BeenThere</computeroutput>
+		    Mailing List - Filter based on the mailing list
+                    the message came from. This filter may miss
+                    messages from some list servers, because Filtering
+                    it checks for the
+                    <computeroutput>X-BeenThere</computeroutput>
 		      header, used to identify mailing lists or other
-		      redistributors of mail.
+                    redistributors of mail. Mail from list servers
+                    which do not set
+                    <computeroutput>X-BeenThere</computeroutput>
+                    properly will not be caught by these filters.
 		    </para>
-		  </note>
 		</listitem>
 		
 		<listitem>
 		  <para>
-		    Regex Match  - If you know your way around a
+		    Regex Match: If you know your way around a
 		    <link
 		    linkend="regular-expression">regex</link>, or
 		    regular expression, put your knowledge to use
@@ -836,23 +815,21 @@
 	      section.  You can select any of the following options.
 	      <itemizedlist>
 		<listitem><para>
-		    Move to Folder - If you select this item, Novell Evolution
-		    will put the messages into a folder you specify.  Click the 
+		    Move to Folder - Move the message into a folder you specify.  Click the 
 		    <guilabel>&lt;click here to select a folder&gt;</guilabel> button
-		    to select a folder. 
+		    to select the destination folder. 
 		  </para></listitem>
 
 		<listitem><para>
-		    Copy to Folder - If you select this item, Novell Evolution
-		    will put the messages into a folder you specify.  Click the 
+		    Copy to Folder - Put a copy of the message into a folder you specify.  Click the 
 		    <guilabel>&lt;click here to select a folder&gt;</guilabel> button
-		    to select a folder. 
+		    to select the destination folder. 
 		  </para></listitem>
 		
 		<listitem><para>
-		    Delete - Marks the message for deletion.  You can still get the message
-		    back, at least until you <guimenuitem>Expunge</guimenuitem> your
-		    mail yourself.
+		    Delete - Marks the message for deletion.  The
+                message can be undeleted until you manually
+                <guimenuitem>Expunge</guimenuitem> or <guimenuitem>Empty Trash</guimenuitem>.
 		  </para></listitem>
 		
 		<listitem><para>
@@ -862,8 +839,7 @@
 		  </para></listitem>
 		
 		<listitem><para>
-		    Assign Color - Select this item, and Novell Evolution
-		    will mark the message with whatever color you please.
+		    Assign Color - Mark the message with a color of your choice.
 		  </para></listitem>
 		
 		<listitem><para> 
@@ -873,7 +849,6 @@
 		<listitem><para> 
 		    Adjust Score - Change the numeric score by the amount you set here.
 		  </para></listitem>
-
 
 		<listitem><para> 
 		    Set Status - Set the status of the message.  Status may be <guilabel>Replied
@@ -885,8 +860,8 @@
 
 		<listitem><para> 
 		    Unset Status - If the message has a status value,
-                set it to the opposite. If that status value is not
-                set, do nothing.
+                unset it. If a status value is not set, do
+                nothing. 
 		  </para></listitem>
 
 		<listitem><para> 
@@ -895,6 +870,10 @@
 
 		<listitem><para> 
                 Play Sound - Select a sound file, and Evolution will play it.
+		  </para></listitem>
+
+		<listitem><para> 
+                Run Program - Evolution will run an application.
 		  </para></listitem>
 
 		<listitem><para> 
@@ -909,19 +888,19 @@
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Set Status - If you want to add multiple actions for this filter, press
+	      Add Action - If you want to add multiple actions for this filter, press
 	      <guilabel>Add action</guilabel> and repeat the previous step.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guilabel>OK</guilabel> in the filter editor dialog.
+              Click <guilabel>OK</guilabel> in the <guilabel>Add a Rule</guilabel> dialog.
 	    </para>
 	  </listitem>
 
 	  <listitem>
 	    <para>
-              Click <guilabel>OK</guilabel> in the filter manager
+              Click <guilabel>OK</guilabel> in the <guilabel>Filters</guilabel>
             window.
 	    </para>
 	  </listitem>
@@ -964,7 +943,7 @@
 
          <para>
             If you have several filters that match a single message,
-            they will all be applied to the message, in order, unless
+            they will all be applied to the message in order, unless
             one of the filters has the action <guilabel>Stop
             Processing</guilabel>. If you use that action in a
             filter, the messages that it affects will not be touched
@@ -1004,16 +983,19 @@
 	      Change the desired settings.
 	    </para>
 	  </listitem>
+
 	  <listitem>
 	    <para>
-	      Press <guilabel>OK</guilabel> in the filter editor window.
+              Click <guilabel>OK</guilabel> in the <guilabel>Add a Rule</guilabel> dialog.
 	    </para>
 	  </listitem>
+
 	  <listitem>
 	    <para>
-	      Press <guilabel>OK</guilabel> in the filter manager window.
+              Click <guilabel>OK</guilabel> in the <guilabel>Filters</guilabel>
+            window.
 	    </para>
-	  </listitem>
+	  </listitem>	 
 	</orderedlist>
       </para>
     </sect2>
@@ -1113,7 +1095,7 @@
       <title>The "Unmatched" vFolder</title>
       <para>
         The Unmatched vFolder is the opposite of the others: it
-        displays whatever messages are not matched by other vFolders.
+        displays whatever messages do not appear in other vFolders.
       </para>
       <para>
         If you use remote email storage like IMAP or Microsoft
@@ -1131,7 +1113,7 @@
       <para>
 	To organize his mailbox, Jim sets up a virtual folder for emails from
 	his friend and co-worker Anna.  He has another one for messages that
-	have ximian.com in the address and Novell Evolution in the subject line, so he
+	have novell.com in the address and Novell Evolution in the subject line, so he
 	can keep a record of what people from work send him about
 	Evolution.  If Anna sends him a message about
 	anything other than Novell Evolution, it only shows up in the "Anna" folder.
@@ -1172,7 +1154,8 @@
 	    <para>
 	      Select your search criteria. For each criterion, you
 	      must first select which of the following parts of the
-	      message you want the search to examine:
+	      message you want the search to examine. The criteria are
+              similar to those for filters:
 
       <figure id="usage-mail-vfolder-fig-createrule">
 	<title>Selecting a vFolder Rule</title>
@@ -1210,8 +1193,7 @@
 		<listitem>
 		  <para>
 		    Expression - For programmers only: match a message according to an
-		    expression you write in the Scheme language, used to
-		    define vFolders in Novell Evolution.
+		    expression you write in Scheme. 
 		  </para>
 		</listitem>
 		
@@ -1310,6 +1292,12 @@
 	      </itemizedlist>
 	    </para>
 	  </listitem>
+          <listitem>
+            <para>
+              Click <guilabel>OK</guilabel> in the vFolder editing tool and in the vFolder list dialog boxes.
+            </para>
+          </listitem>
+
 	</orderedlist>
       </para>
     </sect2>

@@ -22,7 +22,7 @@
     <title>Reading Mail</title>    
     <para>
       If you are not already viewing mail, switch to the mail tool by clicking the
-      <guilabel>Email</guilabel> button in the shortcut bar.  To read a message,
+      <guilabel>Mail</guilabel> button in the shortcut bar.  To read a message,
       select it in the message list; if you'd like to see it in its
       own window, double-click on it, or press <keycap>Return</keycap> or 
       <keycombo action="simul">
@@ -35,8 +35,8 @@
       <tip id="spaceandbs">
 	<title>Reading Mail with the Keyboard</title>
 	<para>
-	  You can click the space bar to page down while you're reading
-	  an email, and press backspace to page up in an email. 
+          You can click the space bar to page down while you're reading
+          an email, and press <keycap>Backspace</keycap> to page up in an email. 
 	</para>
     
         <para>
@@ -75,11 +75,11 @@
       <tip id="view-headers">
 	<title>Email Headers</title>
 	<para>
-	  To look at the complete headers for email messages, select
+	  To look at the complete headers for a message, select
           <menuchoice><guimenu>View</guimenu><guisubmenu>Message
 	  Display</guisubmenu><guimenuitem>Show Full
 	  Headers</guimenuitem></menuchoice>. To see absolutely every
-	  bit, choose
+	  bit of the message data, choose
 	  <menuchoice><guimenu>View</guimenu><guisubmenu>Message
 	  Display</guisubmenu><guimenuitem>Show Email Source
 	  </guimenuitem></menuchoice>.
@@ -110,24 +110,16 @@
     </sect2>
     
     <sect2 id="usage-mail-getnsend-delete">
-        <title>Deleting Mail</title>
-        <para>
-          Once you've read your mail, you may want to get rid of
-          it. 
-	To delete a message:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Click the message to select it
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Press delete button or right click on the message and
-	      choose <guilabel>Delete</guilabel>.
-	    </para>
+      <title>Deleting Mail</title>
+      <para>
+        Once you've read your mail, you may want to get rid of
+        it.  To delete a message, select it and press the
+        <keycap>Delete</keycap> key, click the trash button, 
+        or right click on the message and choose
+        <guilabel>Delete</guilabel>.
+      </para>
 	    <note>
-	      <title>Why do I still see deleted mail?</title>
+              <title>Hide and Show Deleted Messages</title>
 	      <para>
 		When you press <guilabel>Delete</guilabel> or click
 		the trash button, your mail isn't actually deleted,
@@ -137,17 +129,16 @@
 		for deletion.
 	      </para>
               <para>
-                 If you don't like this behavior, select
+                 To show deleted messages, select the
                  <menuchoice><guimenu>View</guimenu><guimenuitem>Hide
-                 Deleted Messages</guimenuitem></menuchoice>. Then,
-                 you will only see deleted messages when you look in
-                 your <guilabel>Trash</guilabel> folder.
+                 Deleted Messages</guimenuitem></menuchoice> toggle. You can also find 
+                 deleted messages in the your
+                 <guilabel>Trash</guilabel> folder. 
               </para>
 	    </note>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click
+            <para>
+	      To permanently erase all the deleted messages in a
+              folder, select
 	      <menuchoice>
 		<guimenu>Actions</guimenu>
 		<guimenuitem>Expunge</guimenuitem>
@@ -156,12 +147,12 @@
 	      <keycombo action="simul">
 		<keycap>Ctrl</keycap>
 		<keycap>E</keycap>
-	      </keycombo>
+	      </keycombo>.  To expunge all folders at once, select     <menuchoice>
+		<guimenu>Actions</guimenu>
+		<guimenuitem>Empty Trash</guimenuitem>
+	      </menuchoice>
 	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-      <note>
+          <note>
 	<title>Trash is Actually a vFolder?</title>
 	<para>
 	  Both local and IMAP Trash folders are actually vFolders that
@@ -185,37 +176,22 @@
     <sect2 id="usage-mail-getnsend-undelete">
       <title>Undeleting Messages</title>
       <para>
-	To undelete a message:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Select a message you have marked for deletion.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Press <keycombo
-	      action="simul"><keycap>Ctrl</keycap><keycap>U</keycap>
-	      </keycombo>
-	      or choose
-	      <menuchoice>
+        You can undelete a message that has been deleted but not expunged. To undelete a message, select it and 
+        press <keycombo action="simul"><keycap>Ctrl</keycap><keycap>U</keycap></keycombo>
+      or choose <menuchoice>
 		<guimenu>Edit</guimenu>
 		<guimenuitem>Undelete</guimenuitem>
 	      </menuchoice>
-
-	    </para>
+            </para>
 	    <note>
 	      <title>What does Undelete actually do?</title>
 	      <para>
                 If you have marked a message for deletion, undeleting
 		it will unmark it, and the message will be removed
-		from the Trash folder. However, it can't bring back
+		from the Trash folder. However, you cannot undelete
 		messages that have been expunged.
 	      </para>
 	    </note>
-	  </listitem>
-	</orderedlist>
-      </para>
     </sect2>
   </sect1>
 
@@ -229,45 +205,10 @@
       <interface>setup assistant</interface> will ask you for the
       information it needs to check your email.
     </para>
-    <para>
-      The assistant will give you several dialog boxes where you configure:
-      <itemizedlist>
-	<listitem>
-	  <para>
-	    your personal information
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    your outgoing email server information
-	  </para>
-	</listitem>
-	<listitem>
-	  <para>
-	    your mail account identity name
-	  </para>
-	</listitem>
-      </itemizedlist>
-    </para>
-
-
-   <figure id="usage-mail-druid-pic">
-	<title>Mail Setup Assistant</title>
-	<screenshot>
-	  <screeninfo>Mail Setup Assistant</screeninfo>
-	    <mediaobject>
-	      <imageobject>
-		<imagedata fileref="figures/mail-druid-pic" format="PNG"
-			   srccredit="Aaron Weber"/>
-	      </imageobject>
-	    </mediaobject>
-	  </screenshot>
-	</figure>
-
+ 
 
     <para>
-      To check your email, press the <guilabel>Send/Receive</guilabel>
-      button.  If this is your first time checking mail, or you
+      If this is your first time checking mail, or you
       haven't asked Evolution to store your
       password, you'll be prompted for the password.  Enter your
       password and your email will be downloaded.
@@ -302,7 +243,7 @@
                    <para>
                       In Evolution, select
                       <menuchoice><guimenu>Tools</guimenu><guimenuitem>
-                      Settings</guimenuitem></menuchoice>, go to the
+                      Settings</guimenuitem></menuchoice>. Go to the
                       Mail Accounts configuration tool, and pick the account
                       you'd like to use to share mail. You may want to
                       create a new account just for this source of
@@ -331,10 +272,10 @@
        <sect2 id="usage-mail-getnsend-get-news">
 	  <title>Using Evolution for News</title>
 	<para>
-	  Newsgroups are so similar to email that there's no reason not
-	  to read them side by side.  If you want to do that, add a
-	  news source to your configuration the same way you would add a mail
-	account, selecting <guilabel>NNTP</guilabel> as the source type. 
+	  USENET newsgroups are so similar to mail that it's often convenient to read 
+          news and mail side by side. You can add a news source, called an
+          NNTP server, the same way you would a new email account, selecting
+	<guilabel>USENET News</guilabel> as the source type. 
 	The news server will appear as a remote mail server, and each news
 	group works like an IMAP folder.  When you click 
 	<guilabel>Send/Receive</guilabel>, Evolution will 
@@ -368,7 +309,7 @@
      <title>Saving or Opening Attachments</title>
      <para>
         If you get an attachment with an email message,
-        Ximian Evolution can help you save
+         Evolution can help you save
         it or open it with the appropriate applications.
      </para>
      <para>
@@ -394,13 +335,8 @@
       </para>
 
       <para>
-	To Open an Attachment in a Program:
+	To open an attachment using another application:
 	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Open the mail message with the attachment you want to read.
-	    </para>
-	  </listitem>
 	  <listitem>
 	    <para>
 	      Click the arrow next the attachment icon.
@@ -416,8 +352,9 @@
       </para>
       <para>
           The options available for an attachment will vary depending
-        on the type of attachment. For example, attached email
-        messages can be replied to or forwarded, while attached
+        on the type of attachment and the applications your system has
+        installed. For example, attached word processor files can be
+        opened in OpenOffice.org or another word processor, while
         compressed archive files can be opened in the File Roller
         application.
       </para>
@@ -432,22 +369,18 @@
          will display the image inside the message.  You can create
          messages like this by using the
          <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
-         tool in the message composer (you must have HTML mail enabled
-         to do this-- select
-         <menuchoice><guimenu>Format</guimenu><guimenuitem>HTML</guimenuitem></menuchoice>
-         to turn HTML composition on and off). Alternately, just drag
+         tool in the message composer. Alternately, just drag
          an image into the message composition area.
       </para>
 
       <para>
-         If the image isn't included in the message, but is, instead,
-         a link to an image, Evolution can 
-         download the image from the Internet for you.  However,
-         Evolution will not display the
-         image unless you ask it to. This is because remotely hosted
-         images can be slow to load and display, and can even be used
-         by spammers to track who reads their email.  Having images
-         not load automatically helps protect your privacy.
+        Some images are linked in to messages, rather than being part
+        of them.  Evolution can download those images from the
+        Internet, but will not do so unless you request it
+        specifically. This is because remotely hosted
+        images can be slow to load and display, and can even be used
+        by spammers to track who reads their email.  Having images
+        not load automatically helps protect your privacy.
       </para>
       <para>
 	 If you want the images to load for one message, select 
@@ -457,7 +390,7 @@
 	   <guimenuitem>Load Images</guimenuitem>
          </menuchoice>.  
 
-         If you want Ximian Evolution to
+         If you want Evolution to
          load remotely hosted images more often, select
          <menuchoice>
 	   <guimenu>Tools</guimenu>
@@ -474,23 +407,23 @@
            If you use an HTTP proxy (as in many large organizations),
           Evolution must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
-           before it can load images from the Internet.  This is also
-           the case if you wish to access weather and news information
-           through the Summary tool. 
+           before it can load images from the Internet. 
          </para>
          <para>
-           If you are using GNOME 1.4, you will need to configure this
-           in the Nautilus <guilabel>Preferences</guilabel>
-         dialog. However, in GNOME 2.0 and later, you can use the
-         GNOME Control Center. Select
+           
+           To set up your proxy, go to the GNOME Control Center by  selecting
          <menuchoice><guimenu>System</guimenu><guimenuitem>Settings</guimenuitem></menuchoice>
          from your menu panel or from the GNOME menu, and then click
-         the <guilabel>Network Proxies</guilabel> button in the
-         <guilabel>System Settings</guilabel> category. Select the
+         the <guilabel>Network Proxies</guilabel> button. Select the
          <guilabel>Use an HTTP network proxy</guilabel> check box and
          then enter information about your proxy. If you are not sure,
-         check with your ISP or system administrator.
+         check with your ISP or system administrator. If you are not
+         using GNOME, or are not sure how to access the control
+         center, you can run the command
+         <command>gnome-network-preferences</command> to start the
+         proxy settings tool.
        </para>
+
       </note>
      </sect3>
     </sect2>
@@ -502,11 +435,11 @@
          You can start writing a new email message by selecting
          <menuchoice> <guimenu>File</guimenu>
          <guisubmenu>New</guisubmenu> <guimenuitem>
-         Mail Message</guimenuitem></menuchoice>, or by pressing the
-         <guilabel>New</guilabel> button in the Inbox toolbar.
-         When you do so, the <interface>New Message</interface> window
-         will open, as shown in <xref
-         linkend="usage-mail-newmsg-fig"/>.
+         Mail Message</guimenuitem></menuchoice>, or, while you are in
+         the Mail tool,
+         pressing<keycombo><keycap>Ctrl</keycap><keycap>N</keycap></keycombo>
+         or clicking the <guilabel>New</guilabel> button in the
+         toolbar.
       </para>
 
 <!--   ==============Figure=================================== -->
@@ -534,7 +467,7 @@
 
       <para>
         If you want to write in a non-Latin alphabet while using a
-        Latin keyboard, try selecting a different an input method in
+        Latin keyboard, try selecting a different input method in
         the message composer. Right-click on the message composition
         area and select from the <guimenu>Input Methods</guimenu>
       menu, then begin typing. The actual keys vary by language and
@@ -546,29 +479,31 @@
     </para>
 
       <para>
-        For greater language display capabilities, check your
-        character settings. In both the mail composer and mail reader
-        settings dialogs, you can select from dozens of character
-        sets. If you aren't sure which one to choose, go ahead and
-        choose UTF-8, which offers the greatest range of character
-        displays for the greatest range of languages.
+        For greater language display capabilities, select
+        <menuchoice><guimenu>Tools</guimenu><guimenuitem>Settings</guimenuitem></menuchoice> and check 
+        the character set choices in the <guilabel>Mail
+        Preferences</guilabel> and <guilabel>Composer
+        Preferences</guilabel> sections.  If you aren't sure which one
+        to choose, go ahead and choose UTF-8, which offers the
+        greatest range of character displays for the greatest range of
+        languages.
       </para>
 
+      <note><title>What is a character set?</title>
+    
       <para>
-        To delve a little deeper into the issue, a character set is a
-        computer's version of an alphabet. One of the most popular
-        early character sets was called ASCII. It consisted of 128
-        numbers, letters, and assorted symbols used by computers for
-        almost everything. It was convenient, and didn't take up much
-        space, but it didn't handle Cyrillic, Kanjii, or other
-        non-Latin alphabets. Programmers developed a
-        variety of mostly incompatible ways to work around their
-        language display problems, and today, many human languages
-        have their own specific character sets, and items written in
-        other character sets will display incorrectly.  Eventually,
-        standards organizations developed the Unicode character sets
-        (UTF-7 and UTF-8) to provide a single compatible set of codes
-        for everyone.
+        A character set is a computer's version of an alphabet. In the
+        past, the ASCII character set was used almost
+        universally. However, it contained only 128 characters,
+        meaning it was unable to display characters in Cyrillic,
+        Kanjii, or other non-Latin alphabets. To get around language
+        display problems, programmers developed a variety of mostly
+        incompatible ways to work around their language display
+        problems, and today, many human languages have their own
+        specific character sets, and items written in other character
+        sets will display incorrectly.  Eventually, standards
+        organizations developed the Unicode character set UTF-8 to
+        provide a single compatible set of codes for everyone.
       </para>
 
       <para>
@@ -585,6 +520,8 @@
         offers the widest range of characters for the widest range of
         languages.
       </para>
+    </note>
+
 
     </sect2>
 
@@ -600,9 +537,9 @@
        <itemizedlist>
           <listitem>
              <para>
-                If you are offline,
+               If you are offline when you click <guilabel>Send</guilabel>, 
                 Evolution will add your
-                messages to the <guilabel>Outbox</guilabel> queue. The
+                message to the <guilabel>Outbox</guilabel> queue. The
                 next time you connect to the Internet and send or
                 receive mail, that message will be sent.
             </para>
@@ -620,7 +557,11 @@
 
         <listitem><para> 
          If you prefer to save your message as a text file,
-         choose <guimenuitem>Save As</guimenuitem> and then choose a
+         choose 	
+        <menuchoice>
+          <guimenu>File</guimenu>
+          <guimenuitem>Save As...</guimenuitem>
+        </menuchoice> and then choose a
          file name.
            </para>
 	  </listitem>
@@ -636,7 +577,7 @@
         storage systems like GroupWise, IMAP or Exchange,
         in situations where you will not be connected to
         the network at all times. It will keep a local copy of one or
-        more folders, and allow you to compose messages, storing them
+        more folders and allow you to compose messages, storing them
         in your Outbox to be sent the next time you connect.
       </para>
      
@@ -649,13 +590,10 @@
       </para>
 
       <para>
-        To mark a folder for offline use, select <menuchoice>
-        <guimenu>Tools</guimenu>
-        <guimenuitem>Settings</guimenuitem> </menuchoice> and then
-        click the <guilabel>Folder Settings</guilabel> icon. In the
-        <guilabel>Offline Folders</guilabel> tab, click the check-box
-        next to the folders that you would like to use while you are
-        offline. 
+        To mark a folder for offline use, right click on the folder and 
+        select <guilabel>Properties</guilabel>, then check the box
+      marked <guilabel>Copy folder content locally for offline
+      operation.</guilabel>
       </para>
 
       <para>
@@ -678,31 +616,23 @@
            
        </sect2>
     <sect2 id="usage-mail-getnsend-send-compose">
-      <title>More About Mail Composition</title>
-      <para>
-        In the next few sections, you'll see how
-	Evolution handles advanced email
-	features, including large recipient lists, attachments, and
-	forwarding.
-      </para>
-      <sect3 id="usage-mail-getnsend-send-attach">
         <title>Attachments</title>
         <para>
 	  To attach a file to your email:
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
-		Push the attach button in the composer toolbar
+		Push the attach button in the composer toolbar.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the file you want to attach
+		Select the file you want to attach.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Press <guilabel>OK</guilabel>
+		Press <guilabel>OK</guilabel>.
 	      </para>
 	    </listitem>
 	  </orderedlist>
@@ -725,22 +655,18 @@
             will go with it.  Be aware that big attachments may take a
           long time to send and receive.
         </para>
-       </sect3>
-
-      <sect3 id="usage-mail-getnsend-send-to-types">
-	<title>Specifying Recipients for Email</title>
+       </sect2>
+       <sect2 id="usage-mail-getnsend-send-to-types">
+	<title>Specifying Extra Recipients for Email</title>
         <para>
 	  Evolution, like most email
 	   programs, recognizes three types of addressee: primary
 	   recipients, secondary recipients, and hidden ("blind")
-	   recipients.
-         </para>
-         <para>
-            The simplest way to direct a message is to put the email
-            address or addresses in the <guilabel>To:</guilabel>
-            field, which denotes primary recipients.  To send mail to
-            more than one or two people, you can use the
-            <guilabel>Cc:</guilabel> field.
+	   recipients.  The simplest way to direct a message is to put
+          the email address or addresses in the
+          <guilabel>To:</guilabel> field, which denotes primary
+          recipients.  To send mail to more than one or two people,
+          you can use the <guilabel>Cc:</guilabel> field.
           </para>
           <para>
             Hearkening back to the dark ages when people used
@@ -779,7 +705,7 @@
 	    <orderedlist numeration="arabic">
 	      <listitem>
                 <para>
-		  Open a composer window
+		  Open a composer window.
 			 </para>
 			 </listitem>
 			 <listitem>
@@ -788,7 +714,7 @@
 			 <menuchoice>
 			 <guimenu>View</guimenu>
 			 <guimenuitem>Reply To</guimenuitem>
-			 </menuchoice>
+			 </menuchoice>.
 			 </para>
 			 </listitem>
 			 <listitem>
@@ -800,9 +726,9 @@
 			 </orderedlist>			 
 	  </para>
 	</tip>
-        </sect3>
+        </sect2>
 			 
-        <sect3 id="usage-mail-getnsend-send-to">
+        <sect2 id="usage-mail-getnsend-send-to">
 	      <title>Choosing Recipients Quickly</title>
 	      <para>
 		If you have created address cards in the contacts tool,
@@ -838,7 +764,6 @@
             linkend="contact-automation-basic"/> and <xref
             linkend="usage-calendar-apts"/>.
           </para>
-        </sect3>
       </sect2>
 
       <sect2 id="usage-mail-getnsend-send-reply">
@@ -931,8 +856,8 @@
         <title>Searching and Replacing with the Composer</title>
         <para>
            You are probably familiar with search and replace features
-           in any sort of text-editing software, and if you come from
-           a Linux or Unix background, you may know what
+           in any sort of text-editing software, and if you're familiar with
+	regular expressions, you may already know what
            <guimenuitem>Find Regex</guimenuitem> does.  If you aren't
            among the lucky who already know, here's a quick rundown of
            the automated text searching features that the message
@@ -952,9 +877,11 @@
               <term><guimenuitem>Find Regex</guimenuitem></term>
               <listitem>
                 <para>
-                  Find a regex, also called a
+                  Find a complex pattern of characters, called a
                   <link linkend="regular-expression">regular
-                  expression</link>, in your composer window.
+                  expression</link> or "regex" in your composer
+                  window. If you're not sure what a regular expression
+                  is, you're probably better off ignoring this feature.
                </para>
              </listitem>
             </varlistentry>
@@ -962,7 +889,8 @@
             <varlistentry>
               <term><guimenuitem>Find Again</guimenuitem></term>
               <listitem><para>
-                   Select this item to repeat the last search you performed.
+                   Select this item to repeat the last search you
+              performed.
               </para></listitem>
             </varlistentry>
 
@@ -978,7 +906,7 @@
         </para>
 
         <para>
-            For all of these menu items, you can choose whether or not
+            For all of these menu items, you can choose whether 
             to <guilabel>Search Backwards</guilabel> in the document
             from the point where your cursor is.  For all but the
             regular expression search (which doesn't need it), you are
@@ -1025,9 +953,9 @@
       </para>
       <para>
 	HTML formatting tools are located in the toolbar just above
-	the space where you'll actually compose the message, and
-	they also appear in the <guimenu>Insert</guimenu> and
-	<guimenu>Format</guimenu> menus.
+	the space where you'll actually compose the message. They also
+        appear in the <guimenu>Insert</guimenu> and
+      <guimenu>Format</guimenu> menus.
       </para>
       <para>
 	The icons in the toolbar are explained in <link
@@ -1072,6 +1000,7 @@
 		selected, the style will apply to whatever you type
 		next.  The buttons are:
 		<itemizedlist mark="none">
+<listitem><para>Push <guiicon>TT</guiicon> for "typewriter text," which is approximately the same as the Courier monospaced serif font.</para></listitem>
 		  <listitem><para>Push <guiicon>bold A</guiicon> for bold text</para></listitem>
 		  <listitem><para>Push <guiicon>italic A</guiicon> for italics</para></listitem>
 		  <listitem><para>Push <guiicon>underlined A</guiicon> to underline</para></listitem>
@@ -1088,8 +1017,8 @@
 		paragraph icons should be familiar to users of most
 		word processing software.  The leftmost button will
 		make your text aligned to the left, the center
-		button, centered, and the right hand button,
-		aligned on the right side.
+		button will center, and the right button will
+		align the text on the right side.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -1098,7 +1027,7 @@
               <term>Indentation rules</term>
               <listitem>
                 <para>
-                  The button with the arrow pointing left will reduce
+                  The button with the arrow pointing left will decrease
                   a paragraph's indentation, and the right arrow will
                   increase its indentation.
                </para>
@@ -1109,8 +1038,8 @@
               <term>Color Selection</term>
               <listitem>
                 <para>
-                  At the far right is the color section tool.  The
-                  colored box displays the current text color; to
+                  At the far right is the color section tool, where a 
+                  colored box displays the current text color. To
                   choose a new one, click the arrow button just to the
                   right. If you have text selected, the color will
                   apply to the selected text.  If you do not have text
@@ -1126,8 +1055,12 @@
           </variablelist>
         </para>
         <para>
-	The <guimenu>Insert</guimenu> gives you opinions which let you
-           spruce up your email to make it more interesting:
+          Under the <guilabel>Insert</guilabel> menu, there are
+        several more items you can use to style your email. To use
+        these and other HTML formatting tools, first make sure you have
+        enabled HTML mode with <menuchoice>
+        <guimenu>Format</guimenu> <guimenuitem>
+                    HTML</guimenuitem></menuchoice>.
 	<variablelist>
 	  <varlistentry>
 	    <term><guimenuitem>Insert Link</guimenuitem></term>
@@ -1136,9 +1069,7 @@
 		Lets you link some text to a website.  Use this tool to put hyperlinks in your HTML
                   messages.  If you don't want special link text, you can just enter the address
                   directly, and Evolution
-                  will recognize it as a link.  To add a link, first make sure you have enabled
-                  HTML mode by selecting <menuchoice> <guimenu>Format</guimenu> <guimenuitem>
-                    HTML</guimenuitem></menuchoice>.
+                  will recognize it as a link. 
 		<orderedlist numeration="arabic">
 		  <listitem>
 		    <para>
@@ -1178,16 +1109,7 @@
 	      <para>
 		To insert an image into your email:
 		<orderedlist numeration="arabic">
-		  <listitem>
-		    <para>
-		      Make sure that you have the
-		      <menuchoice>
-			<guimenu>Format</guimenu>
-			<guimenuitem>HTML</guimenuitem>
-		      </menuchoice>
-                      selector checked.
-		    </para>
-		  </listitem>
+	
 		  <listitem>
 		    <para>
 		      Click the <guilabel>Insert Image</guilabel> button in the toolbar, or select		   
@@ -1221,16 +1143,7 @@
 	      <para>
 		To insert a rule:
 		<orderedlist numeration="arabic">
-       		  <listitem>
-		    <para>
-		      Make sure that you have the
-		      <menuchoice>
-			<guimenu>Format</guimenu>
-			<guimenuitem>HTML</guimenuitem>
-		      </menuchoice>
-                      selector checked.
-		    </para>
-		  </listitem>
+
 		  <listitem>
 		    <para>
 		      Click the <guilabel>Rule</guilabel> button in the <guilabel>Toolbar</guilabel>.
@@ -1276,16 +1189,7 @@
 	      <para>
 		To insert a table:
 		<orderedlist numeration="arabic">
-		  <listitem>
-		    <para>
-		      Make sure that you have the
-		      <menuchoice>
-			<guimenu>Format</guimenu>
-			<guimenuitem>HTML</guimenuitem>
-		      </menuchoice>
-                      selector checked.
-		    </para>
-		  </listitem>
+
 		  <listitem>
 		    <para>
 		      Click the <guilabel>Table</guilabel> button in the <guilabel>Toolbar</guilabel>.
@@ -1293,15 +1197,18 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Select the table <guilabel>Template</guilabel>
-                    you wish to use.  Each has a slightly different feel and
-                    layout.
+		      Select the number of rows and columns for the
+                      table, and the width and height of the
+                      table. You may also choose padding and spacing
+                      for table cells, as with a standard HTML
+                      table. If you are not familiar with HTML
+                      table options, the default values are probably fine.
 		    </para>
 		  </listitem>
+
 		  <listitem>
 		    <para>
-                      If you so desire, you may change the number of
-                      rows, columns, spacing of each cell, and so forth.
+                      Choose a background image or color, if you like.
 		    </para>
 		  </listitem>
 		  <listitem>
@@ -1311,12 +1218,9 @@
 		  </listitem>
 		</orderedlist>
 	      </para>
-
                 <para>
                   Once the table is in place, you can right-click on
-                  it and get a list of ways to alter it, such as
-                  changing its background color, expanding it, or
-                  deleting a row or cell.
+                  it and get a list of ways to alter it.
                 </para>
 	    </listitem>
 	  </varlistentry>
@@ -1333,24 +1237,11 @@
               <para>
                 To include a template into your HTML based email:
                 <orderedlist numeration="arabic">
-                  <listitem>
-                    <para>
-                      Make sure that the
-		<menuchoice>
-		  <guimenu>
-		    Format
-		  </guimenu>
-		  <guimenuitem>
-		    HTML
-		  </guimenuitem>
-		</menuchoice>
-		selector is checked.
-	      </para>
-	    </listitem>
+ 
 	    <listitem>
 	      <para>
-		Click the <guilabel>HTML Template</guilabel> button in the 
-		<guilabel>Toolbar</guilabel> or select 		
+		Click the <guilabel>Template</guilabel> button in the 
+		toolbar or select 		
 		<menuchoice>
 		  <guimenu>
 		  Insert
@@ -1427,7 +1318,7 @@
           <menuchoice> <guimenu>Actions</guimenu>
           <guimenuitem>Forward</guimenuitem> </menuchoice>, or press
           <keycombo
-action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
+action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo>.  If
           you prefer to forward the message <link
           linkend="inline">inline</link>
           instead of attached, select <menuchoice>
@@ -1506,21 +1397,14 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
     </sect2>
   </sect1>
   <sect1 id="rsvp-stuff">
-    <title>RSVPs in Mail</title>
+    <title>Meetings Invitations by Mail</title>
     <para>
       If you create an event in the calendar component, you can then
       send invitations to the attendee list through the
-      Ximian Evolution email tool.  The
+      Evolution email tool.  The
       invitation card is sent as an attachment in iCal format.
     </para>
-    <para>
-      If you click on the attachment button and click the
-      <guimenuitem>View Inline</guimenuitem>, Ximian
-      Evolution will show you information about the
-      meeting, and let you respond to the meeting in several ways.
-      Select the response that you would like, and then click the
-      <guilabel>OK</guilabel> button.
-   </para>
+   
    <para>
   Your options are:
       <variablelist>
@@ -1574,7 +1458,7 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
   </sect1>
 
   <sect1 id="usage-mail-subscriptions">
-    <title>Subscription Management</title>
+    <title>IMAP Subscriptions Manager</title>
     <para>
       Since IMAP folders exist on the server, and opening them or
       checking them takes time, you need fine-grained control over the
@@ -1634,12 +1518,11 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 
   <sect1 id="encryption">
     <title>Encryption</title>
-    <sect2 id="encryption-whatis">
-      <title>What is Encryption?</title>
+   
       <para>
 	Encryption is an ancient method of keeping information safe
 	from prying eyes. Evolution helps
-	you you protect your privacy by using
+	you protect your privacy by using
 	gpg, an implementation of strong
 	<link linkend="public-key-encryption">Public Key
 	Encryption.</link>
@@ -1731,9 +1614,6 @@ action="simul"><keycap>Ctrl</keycap><keycap>J</keycap></keycombo>.  If
 	  </orderedlist>
 	</para>
       </tip>
-    </sect2>
-
-
 
     <sect2 id="encryption-keygen">
       <title>Making Encryption Keys</title>
@@ -1871,10 +1751,10 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
     <sect2 id="encrypt-getting-key">
       <title>Getting and Using Public Keys</title>
       <para>
-	To encrypt a message to your someone else you'll need to use
-	their public key in combination with your private key.
-	Evolution does that for you, but
-	you still need to get their key and add it to your keyring.
+	To send an encrypted message, you'll need to use
+	the recipient's public key in combination with your private key.
+	Evolution handles the encryption, but you need to get their public
+        key and add it to your keyring.
      </para>
      <para>
         To get public keys from a public key server, enter the
@@ -1904,8 +1784,7 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
 	</menuchoice>
 	and select the <guilabel>Mail Accounts</guilabel> button, then
 	select the account you want to use securely, and click the
-	<guilabel>Edit</guilabel> button. Then, select the
-	<guilabel>Security</guilabel> tab in the account dialog.   In the
+	<guilabel>Edit</guilabel> button. In the
 	<guilabel>Security</guilabel> tab is a section labeled
 	<guilabel>Pretty Good Privacy</guilabel>.  Enter your key ID
 	and click <guilabel>OK</guilabel>.  Your key is now
@@ -1915,22 +1794,14 @@ wwwkeys.pgp.net 32j38dk2</command>.  Substitute your key ID for
       <note>
 	<title>What is my Key ID again?</title>
 	<para>
-	  Evolution requires that you know your key ID.  If you don't remember it, you can find it by typing <command>gpg --list-keys</command> in a console window.  Your key ID will be an eight character string with random numbers and letters.
+          Evolution requires that you know your key ID.  If you don't
+          remember it, you can find it by typing <command>gpg
+        --list-keys</command> in a console window.  Your key ID will be an
+        eight character string with random numbers and letters.
 	</para>
       </note>
     </sect2>
 
-    <sect2 id="encrypt-sending">
-      <title>Sending Encrypted Messages</title>
-      <para>
-	As you know, you can use encryption to hide the entire
-	message, or just to verify your signature. Once you've
-	generated your public and private keys, and have the public
-	keys of the people to whom you want to send mail, here's what
-	to do:
-      </para>
-    </sect2>
-    
     <sect2 id="sign-msg">
       <title>Signing a Message</title>
       <para>
