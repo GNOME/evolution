@@ -1,3 +1,8 @@
+2000-12-13  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Sigh.
+	`-I$(top_builddir)/libical/src/libical'.
+
 2000-12-11  Federico Mena Quintero  <federico@helixcode.com>
 
 	* Makefile.am (wombat_LDADD): Link to the libical shared library.
