@@ -838,6 +838,7 @@ insert_storages (EStorageSetView *storage_set_view)
 		parent = e_tree_model_node_insert_id (priv->etree_model, priv->root_node,
 						   -1, path, path);
 		e_tree_model_node_set_expanded (priv->etree_model, parent, TRUE);
+		e_tree_model_node_set_compare_function (priv->etree_model, parent, treepath_compare);
 
 		g_hash_table_insert (priv->path_to_etree_node, path, parent);
 

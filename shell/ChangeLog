@@ -1,3 +1,8 @@
+2000-10-06  Chris Toshok  <toshok@helixcode.com>
+
+	* e-storage-set-view.c (insert_storages): call
+	_set_compare_function after inserting the storage.
+
 2000-10-06  Michael Meeks  <michael@helixcode.com>
 
 	* e-shell-view.c (e_shell_view_display_uri): add a freeze / thaw
