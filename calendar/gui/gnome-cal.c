@@ -54,6 +54,7 @@
 #include "calendar-view.h"
 #include "calendar-view-factory.h"
 #include "tag-calendar.h"
+#include "misc.h"
 
 extern ECompEditorRegistry *comp_editor_registry;
 
@@ -1493,10 +1494,13 @@ static void
 open_error (GnomeCalendar *gcal, const char *uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("Could not open the folder in `%s'"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("Could not open the folder in `%s'"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Displays an error to indicate that the specified URI method is not supported */
@@ -1504,10 +1508,13 @@ static void
 method_error (GnomeCalendar *gcal, const char *uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("The method required to open `%s' is not supported"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("The method required to open `%s' is not supported"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Displays an error to indicate permission problems */
@@ -1515,10 +1522,13 @@ static void
 permission_error (GnomeCalendar *gcal, const char *uri)
 {
 	char *msg;
+	char *urinopwd;
 
-	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), uri);
+	urinopwd = get_uri_without_password (uri);
+	msg = g_strdup_printf (_("You don't have permission to open the folder in `%s'"), urinopwd);
 	gnome_error_dialog_parented (msg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (msg);
+	g_free (urinopwd);
 }
 
 /* Callback from the calendar client when a calendar is loaded */
@@ -1528,6 +1538,7 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	char *msg;
+	char *uristr;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
@@ -1545,7 +1556,9 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 		}
 
 		/* add the alarms for this client */
-		msg = g_strdup_printf (_("Adding alarms for %s"), cal_client_get_uri (client));
+		uristr = get_uri_without_password (cal_client_get_uri (client));
+		msg = g_strdup_printf (_("Adding alarms for %s"), uristr);
+		g_free (uristr);
 		if (client == priv->client) {
 			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), msg);
 		}
@@ -1710,13 +1723,16 @@ backend_error_cb (CalClient *client, const char *message, gpointer data)
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	char *errmsg;
+	char *uristr;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	errmsg = g_strdup_printf (_("Error on %s:\n %s"), cal_client_get_uri (client), message);
+	uristr = get_uri_without_password (cal_client_get_uri (client));
+	errmsg = g_strdup_printf (_("Error on %s:\n %s"), uristr, message);
 	gnome_error_dialog_parented (errmsg, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (errmsg);
+	g_free (uristr);
 }
 
 /* Callback when the backend dies */
@@ -1726,15 +1742,17 @@ backend_died_cb (CalClient *client, gpointer data)
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
 	char *message;
+	char *uristr;
 
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
+	uristr = get_uri_without_password (cal_client_get_uri (priv->client));
 	if (client == priv->client) {
 		message = g_strdup_printf (_("The calendar backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
-					   cal_client_get_uri (priv->client));
+					   uristr);
 		e_day_view_set_status_message (E_DAY_VIEW (priv->day_view), NULL);
 		e_day_view_set_status_message (E_DAY_VIEW (priv->work_week_view), NULL);
 		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
@@ -1743,7 +1761,7 @@ backend_died_cb (CalClient *client, gpointer data)
 		message = g_strdup_printf (_("The task backend for\n%s\n has crashed. "
 					     "You will have to restart Evolution in order "
 					     "to use it again"),
-					   cal_client_get_uri (priv->task_pad_client));
+					   uristr);
 		calendar_model_set_status_message (
 			e_calendar_table_get_model (E_CALENDAR_TABLE (priv->todo)), NULL);
 	} else
@@ -1751,6 +1769,7 @@ backend_died_cb (CalClient *client, gpointer data)
 
 	gnome_error_dialog_parented (message, GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))));
 	g_free (message);
+	g_free (uristr);
 }
 
 GtkWidget *
@@ -1945,6 +1964,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	EUri *uri;
 	char *message;
 	char *real_uri;
+	char *urinopwd;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -1966,7 +1986,9 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 	else
 		real_uri = g_strdup (str_uri);
 
-	message = g_strdup_printf (_("Opening calendar at %s"), real_uri);
+	urinopwd = get_uri_without_password (real_uri);
+	message = g_strdup_printf (_("Opening calendar at %s"), urinopwd);
+	g_free (urinopwd);
 	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), message);
 	g_free (message);
 

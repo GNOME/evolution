@@ -24,6 +24,7 @@
 #endif
 
 #include <ctype.h>
+#include <e-util/e-url.h>
 #include "misc.h"
 
 
@@ -58,3 +59,22 @@ string_is_empty (const char *value)
 	return empty;
 
 }
+
+/**
+ * get_uri_without_password
+ */
+char *
+get_uri_without_password (const char *full_uri)
+{
+	EUri *uri;
+	char *uristr;
+
+	uri = e_uri_new (full_uri);
+	if (!uri)
+		return NULL;
+
+	uristr = e_uri_to_string (uri, FALSE);
+	e_uri_free (uri);
+
+	return uristr;
+ }
