@@ -700,7 +700,7 @@ receive_update_got_store (char *uri, CamelStore *store, void *data)
 	struct _send_info *info = data;
 	
 	if (store) {
-		mail_get_folderinfo (store, info->cancel, receive_update_got_folderinfo, info);
+		mail_note_store(store, info->cancel, receive_update_got_folderinfo, info);
 	} else {
 		receive_done ("", info);
 	}
