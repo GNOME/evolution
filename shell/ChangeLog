@@ -1,3 +1,10 @@
+2002-07-14  Rodrigo Moya <rodrigo@ximian.com>
+
+	* evolution-storage.c (impl_Storage_getFolderAtPath): no need to
+	convert the value returned by e_folder_tree_get_folder to a
+	GNOME_Evolution_Folder, since it already is, and duplicate it before
+	returning.
+
 2002-07-14  Chris Toshok  <toshok@ximian.com>
 
 	* e-shell.c (folder_selection_dialog_folder_selected_cb): set

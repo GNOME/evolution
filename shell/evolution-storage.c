@@ -280,23 +280,32 @@ impl_Storage_getFolderAtPath (PortableServer_Servant servant,
 	BonoboObject *bonobo_object;
 	EvolutionStorage *storage;
 	EvolutionStoragePrivate *priv;
-	EFolder *folder;
 	GNOME_Evolution_Folder *corba_folder;
+	GNOME_Evolution_Folder *return_value;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	storage = EVOLUTION_STORAGE (bonobo_object);
 	priv = storage->priv;
 
-        folder = e_folder_tree_get_folder (priv->folder_tree, path);
-	if (folder == NULL) {
+        corba_folder = e_folder_tree_get_folder (priv->folder_tree, path);
+	if (corba_folder == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Evolution_Storage_NotFound, NULL);
 		return NULL;
 	}
 
-	corba_folder = GNOME_Evolution_Folder__alloc ();
-	e_folder_to_corba (folder, "", corba_folder);
+	/* duplicate CORBA structure */
+	return_value = GNOME_Evolution_Folder__alloc ();
+	return_value->type = CORBA_string_dup (corba_folder->type);
+	return_value->description = CORBA_string_dup (corba_folder->description);
+	return_value->displayName = CORBA_string_dup (corba_folder->displayName);
+	return_value->physicalUri = CORBA_string_dup (corba_folder->physicalUri);
+	return_value->evolutionUri = CORBA_string_dup (corba_folder->evolutionUri);
+	return_value->customIconName = CORBA_string_dup (corba_folder->customIconName);
+	return_value->unreadCount = corba_folder->unreadCount;
+	return_value->canSyncOffline = corba_folder->canSyncOffline;
+	return_value->sortingPriority = corba_folder->sortingPriority;
 
-	return corba_folder;
+	return return_value;
 }
 
 static void
