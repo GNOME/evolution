@@ -1000,7 +1000,7 @@ send_item (EItipControl *itip)
 		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
-		dialog = gnome_warning_dialog (_("The item could not be send!\n"));
+		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
 	}
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }
@@ -1028,7 +1028,7 @@ send_freebusy (EItipControl *itip)
 		itip_send_comp (CAL_COMPONENT_METHOD_REPLY, comp);
 		dialog = gnome_ok_dialog (_("Item sent!\n"));
 	} else {
-		dialog = gnome_warning_dialog (_("The item could not be send!\n"));
+		dialog = gnome_warning_dialog (_("The item could not be sent!\n"));
 	}
 	gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 }

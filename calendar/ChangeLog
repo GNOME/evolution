@@ -1,3 +1,7 @@
+2001-08-19  Damon Chaplin  <damon@ximian.com>
+
+	* gui/e-itip-control.c: fixed typo, 'send' -> 'sent'. Bug #7621.
+
 2001-08-18  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade: added option to hide completed
