@@ -83,6 +83,42 @@ view_to_model_col(ETableItem *eti, int col)
 	return ecol ? ecol->col_idx : -1;
 }
 
+inline static gint
+model_to_view_row(ETableItem *eti, int row)
+{
+	int i;
+	if (row == -1)
+		return -1;
+	if (eti->uses_source_model) {
+		ETableSubset *etss = E_TABLE_SUBSET(eti->table_model);
+		if (eti->row_guess >= 0 && eti->row_guess < etss->n_map) {
+			if (etss->map_table[eti->row_guess] == row) {
+				return eti->row_guess;
+			}
+		}
+		for (i = 0; i < etss->n_map; i++) {
+			if (etss->map_table[i] == row)
+				return i;
+		}
+		return -1;
+	} else
+		return row;
+}
+
+inline static gint
+model_to_view_col(ETableItem *eti, int col)
+{
+	int i;
+	if (col == -1)
+		return -1;
+	for (i = 0; i < eti->cols; i++) {
+		ETableCol *ecol = e_table_header_get_column (eti->header, i);
+		if (ecol->col_idx == col)
+			return i;
+	}
+	return -1;
+}
+
 inline static GObject *
 eti_a11y_get_gobject (AtkObject *accessible)
 {
@@ -306,11 +342,13 @@ eti_ref_at (AtkTable *table, gint row, gint column)
 							    column,
 							    row);
 			cell_data[row*item->cols + column] = ret;
-			if (ATK_IS_OBJECT (ret))
+			if (ATK_IS_OBJECT (ret)) {
+				gal_a11y_e_cell_add_state(ret, ATK_STATE_SHOWING, FALSE);
+				gal_a11y_e_cell_add_state(ret, ATK_STATE_VISIBLE, FALSE);
 				g_object_weak_ref (G_OBJECT (ret),
 						   (GWeakNotify) cell_destroyed,
 						   ret);
-			else
+			} else
 				ret = NULL;
 		} else {
 			ret = (AtkObject *) cell_data[row*item->cols + column];
@@ -1276,11 +1314,21 @@ eti_a11y_cursor_changed_cb (ESelectionModel *selection,
 			    int row, int col,  GalA11yETableItem *a11y)
 {
 	AtkObject * cell;
+	int view_row, view_col;
+	ETableItem *item;
+
 	g_return_if_fail (GAL_A11Y_IS_E_TABLE_ITEM (a11y));
 
 	g_signal_emit_by_name (a11y, "selection_changed");
 
-        cell = atk_table_ref_at (ATK_TABLE (a11y), row, col);
+	item = E_TABLE_ITEM (eti_a11y_get_gobject (ATK_OBJECT (a11y)));
+
+	g_return_if_fail (item);
+
+	view_row = model_to_view_row (item, row);
+	view_col = model_to_view_col (item, col);
+
+	cell = atk_table_ref_at (ATK_TABLE (a11y), view_row, view_col);
 	if (cell != NULL) {
 		gal_a11y_e_cell_add_state (GAL_A11Y_E_CELL (cell), ATK_STATE_FOCUSED, FALSE);
 
