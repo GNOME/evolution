@@ -1,5 +1,8 @@
 2001-03-06  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (construct): Disable the NNTP code if NNTP is
+	not enabled. This prevents some runtime warnings...
+
 	* mail-config-druid.c: Updated to have a transport auth page.
 
 2001-03-01  Miguel de Icaza  <miguel@ximian.com>
