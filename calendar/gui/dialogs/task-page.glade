@@ -489,6 +489,9 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Mon, 14 Jun 2004 18:16:07 GMT</property>
+		      <accessibility>
+			<atkrelation target="due-date-label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -504,9 +507,6 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Tue, 19 Jun 2001 04:43:54 GMT</property>
-		      <accessibility>
-			<atkrelation target="due-date-label" type="labelled-by"/>
-		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -538,6 +538,9 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Mon, 14 Jun 2004 18:16:13 GMT</property>
+		      <accessibility>
+			<atkrelation target="start-date-label" type="labelled-by"/>
+		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>
@@ -553,9 +556,6 @@
 		      <property name="int1">0</property>
 		      <property name="int2">0</property>
 		      <property name="last_modification_time">Tue, 19 Jun 2001 04:43:46 GMT</property>
-		      <accessibility>
-			<atkrelation target="start-date-label" type="labelled-by"/>
-		      </accessibility>
 		    </widget>
 		    <packing>
 		      <property name="padding">0</property>

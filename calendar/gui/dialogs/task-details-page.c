@@ -519,6 +519,7 @@ get_widgets (TaskDetailsPage *tdpage)
 	priv->url_entry = GW ("url_entry");
 	gtk_widget_show (priv->url_entry);
 	priv->url = e_url_entry_get_entry (E_URL_ENTRY (priv->url_entry));
+	atk_object_set_name (gtk_widget_get_accessible (priv->url), _("Web Page"));
 	
 #undef GW
 

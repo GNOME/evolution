@@ -1,3 +1,12 @@
+2005-02-03  Li Yuan  <li.yuan@sun.com>
+
+	* gui/dialogs/task-details-page.c: (get_widgets):
+	add a11y name to url.
+	* gui/dialogs/task-details-page.glade:
+	add a11y name to date completed.
+	* gui/dialogs/task-page.glade:
+	add a11y names to due date and start date.
+
 2005-02-03  Vivek Jain <jvivek@novell.com>
 	
 	* calendar-errors.xml : added a warning message for invalid server
