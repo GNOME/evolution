@@ -446,6 +446,8 @@ focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
 	ESelectNamesModel *model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (entry), "select_names_model"));
 	ESelectNamesManager *manager = E_SELECT_NAMES_MANAGER (gtk_object_get_data (GTK_OBJECT (entry), "select_names_manager"));
 
+	e_select_names_model_clean (model);
+
 	if (!e_entry_completion_popup_is_visible (entry))
 		e_select_names_model_cardify_all (model, manager->completion_book, 100);
 
