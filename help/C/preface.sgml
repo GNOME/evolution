@@ -154,21 +154,10 @@ Lastly, we'll have warnings, in cases where you should be careful:
 	  <varlistentry>
 	    <term>Keyboard Navigation Overhaul</term>
 	    <listitem>
-	      <para>
-                Pressing an unmodified letter key in the Folder Bar
-                now takes you to the next folder that starts with that
-                letter; if there are several, you can press the key
-                again and it will go to the next folder that starts
-                with that letter.  Similarly, you can press a letter
-                key in the message list and the message selection will
-                move to the next message whose sender or subject
-                begins with that letter, depending on which column you
-                sort by.
               </para>
 	      <para>
-                That means that unmodified letter shortcuts from
-                Evolution 1.0 won't work any more. The displaced
-                shortcuts are:
+               Some keyboard shortcuts from Evolution 1.0 have been
+                changed. The new shortcuts are:
                 <simplelist>
 		  <member>
                     <keycap>,</keycap> (comma) and <keycap>.</keycap>
@@ -183,15 +172,7 @@ Lastly, we'll have warnings, in cases where you should be careful:
                  </member>
 		</simplelist>
                 Shortcuts that used the <keycap>Control</keycap> key
-                are not affected.
-             </para>
-             <para>
-               The shortcuts
-               <keycombo><keycap>Alt</keycap><keycap>l</keycap></keycombo>
-               <keycombo><keycap>Alt</keycap><keycap>c</keycap></keycombo>
-               <keycombo><keycap>Alt</keycap><keycap>u</keycap></keycombo> will
-               change the selection or current word to lowercase,
-               title case, or uppercase, respectively.
+                have not changed.
              </para>
 	    </listitem>
 	  </varlistentry>
