@@ -26,7 +26,6 @@
 
 #include <stdlib.h>
 #include <gtk/gtk.h>
-#include <gal/util/e-util.h>
 #include "e-meeting-attendee.h"
 
 struct _EMeetingAttendeePrivate {
@@ -68,23 +67,16 @@ enum {
 };
 static guint signals[LAST_SIGNAL];
 
-static void class_init	(EMeetingAttendeeClass *klass);
-static void init	(EMeetingAttendee *ia);
-static void finalize	(GObject *obj);
+static void e_meeting_attendee_finalize	(GObject *obj);
 
-
-static GObjectClass *parent_class = NULL;
-
-E_MAKE_TYPE (e_meeting_attendee, "EMeetingAttendee", EMeetingAttendee,
-	     class_init, init, G_TYPE_OBJECT);
+G_DEFINE_TYPE (EMeetingAttendee, e_meeting_attendee, G_TYPE_OBJECT);
 
 static void
-class_init (EMeetingAttendeeClass *klass)
+e_meeting_attendee_class_init (EMeetingAttendeeClass *klass)
 {
 	GObjectClass *object_class;
 
 	object_class = G_OBJECT_CLASS (klass);
-	parent_class = g_type_class_peek_parent (klass);
 
 	signals[CHANGED] =
 		g_signal_new ("changed",
@@ -95,7 +87,7 @@ class_init (EMeetingAttendeeClass *klass)
 			      g_cclosure_marshal_VOID__VOID,
 			      G_TYPE_NONE, 0);
 
-	object_class->finalize = finalize;
+	object_class->finalize = e_meeting_attendee_finalize;
 }
 
 static gchar *
@@ -120,7 +112,7 @@ notify_changed (EMeetingAttendee *ia)
 }
 
 static void
-init (EMeetingAttendee *ia)
+e_meeting_attendee_init (EMeetingAttendee *ia)
 {
 	EMeetingAttendeePrivate *priv;
 
@@ -167,7 +159,7 @@ init (EMeetingAttendee *ia)
 
 
 static void
-finalize (GObject *obj)
+e_meeting_attendee_finalize (GObject *obj)
 {
 	EMeetingAttendee *ia = E_MEETING_ATTENDEE (obj);
 	EMeetingAttendeePrivate *priv;
@@ -188,8 +180,8 @@ finalize (GObject *obj)
 	
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	if (G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize)
+		(* G_OBJECT_CLASS (e_meeting_attendee_parent_class)->finalize) (obj);
 }
 
 GObject *

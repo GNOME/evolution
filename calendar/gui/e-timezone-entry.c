@@ -34,7 +34,6 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtksignal.h>
 #include <gnome.h>
-#include <gal/util/e-util.h>
 #include <widgets/e-timezone-dialog/e-timezone-dialog.h>
 #include <libgnome/gnome-i18n.h>
 #include "e-timezone-entry.h"
@@ -62,9 +61,6 @@ enum {
   LAST_SIGNAL
 };
 
-
-static void e_timezone_entry_class_init	(ETimezoneEntryClass	*class);
-static void e_timezone_entry_init	(ETimezoneEntry	*tentry);
 static void e_timezone_entry_destroy	(GtkObject	*object);
 
 static gboolean e_timezone_entry_mnemonic_activate (GtkWidget *widget,
@@ -79,11 +75,9 @@ static void on_button_clicked		(GtkWidget	*widget,
 static void e_timezone_entry_set_entry  (ETimezoneEntry *tentry);
 
 
-static GtkHBoxClass *parent_class;
 static guint timezone_entry_signals[LAST_SIGNAL] = { 0 };
 
-E_MAKE_TYPE (e_timezone_entry, "ETimezoneEntry", ETimezoneEntry,
-	     e_timezone_entry_class_init, e_timezone_entry_init, GTK_TYPE_HBOX);
+G_DEFINE_TYPE (ETimezoneEntry, e_timezone_entry, GTK_TYPE_HBOX);
 
 static void
 e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
@@ -92,8 +86,6 @@ e_timezone_entry_class_init		(ETimezoneEntryClass	*class)
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (class) ;
  
 	object_class = (GtkObjectClass*) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	widget_class->mnemonic_activate = e_timezone_entry_mnemonic_activate;
 	widget_class->focus = e_timezone_entry_focus;
@@ -186,8 +178,8 @@ e_timezone_entry_destroy		(GtkObject	*object)
 	g_free (tentry->priv);
 	tentry->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (e_timezone_entry_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_timezone_entry_parent_class)->destroy) (object);
 }
 
 

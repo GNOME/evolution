@@ -1,5 +1,25 @@
 2004-10-14  JP Rosevear  <jpr@novell.com>
 
+	* gui/e-meeting-attendee.c: convert to G_DEFINE_TYPE
+
+	* gui/e-meeting-list-view.c: ditto
+
+	* gui/e-meeting-time-sel.c: ditto
+
+	* gui/e-meeting-time-sel-item.c: ditto
+
+	* gui/e-select-names-renderer.c: ditto
+
+	* gui/e-timezone-entry.c: ditto
+
+	* gui/e-tasks.c: ditto
+
+	* gui/gnome-cal.c: ditto
+
+	* gui/weekday-picker.c: ditto
+
+2004-10-14  JP Rosevear  <jpr@novell.com>
+	
 	* gui/e-cell-date-edit-config.c: convert to G_DEFINE_TYPE
 
 	* gui/e-cell-date-edit-text.c: ditto

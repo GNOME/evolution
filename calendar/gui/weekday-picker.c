@@ -28,7 +28,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-text.h>
-#include <gal/util/e-util.h>
 #include "weekday-picker.h"
 
 
@@ -77,14 +76,9 @@ static void weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_styl
 static gboolean weekday_picker_focus (GtkWidget *widget, GtkDirectionType direction);
 static void colorize_items (WeekdayPicker *wp);
 
-static GnomeCanvasClass *parent_class;
-
 static guint wp_signals[LAST_SIGNAL];
 
-
-
-E_MAKE_TYPE (weekday_picker, "WeekdayPicker", WeekdayPicker,
-	     weekday_picker_class_init, weekday_picker_init, GNOME_TYPE_CANVAS);
+G_DEFINE_TYPE (WeekdayPicker, weekday_picker, GNOME_TYPE_CANVAS);
 
 /* Class initialization function for the weekday picker */
 static void
@@ -95,8 +89,6 @@ weekday_picker_class_init (WeekdayPickerClass *class)
 
 	object_class = (GtkObjectClass *) class;
 	widget_class = (GtkWidgetClass *) class;
-
-	parent_class = g_type_class_peek_parent (class);
 
 	wp_signals[CHANGED] =
 		gtk_signal_new ("changed",
@@ -263,8 +255,8 @@ weekday_picker_destroy (GtkObject *object)
 	g_free (priv);
 	wp->priv = NULL;
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (weekday_picker_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (weekday_picker_parent_class)->destroy) (object);
 }
 
 static void
@@ -393,8 +385,8 @@ weekday_picker_realize (GtkWidget *widget)
 
 	wp = WEEKDAY_PICKER (widget);
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(* GTK_WIDGET_CLASS (parent_class)->realize) (widget);
+	if (GTK_WIDGET_CLASS (weekday_picker_parent_class)->realize)
+		(* GTK_WIDGET_CLASS (weekday_picker_parent_class)->realize) (widget);
 
 	configure_items (wp);
 }
@@ -421,8 +413,8 @@ weekday_picker_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	wp = WEEKDAY_PICKER (widget);
 
-	if (GTK_WIDGET_CLASS (parent_class)->size_allocate)
-		(* GTK_WIDGET_CLASS (parent_class)->size_allocate) (widget, allocation);
+	if (GTK_WIDGET_CLASS (weekday_picker_parent_class)->size_allocate)
+		(* GTK_WIDGET_CLASS (weekday_picker_parent_class)->size_allocate) (widget, allocation);
 
 	gnome_canvas_set_scroll_region (GNOME_CANVAS (wp),
 					0, 0, allocation->width, allocation->height);
@@ -477,8 +469,8 @@ weekday_picker_style_set (GtkWidget *widget, GtkStyle *previous_style)
 	g_object_unref (layout);
 	pango_font_metrics_unref (font_metrics);
 
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		(* GTK_WIDGET_CLASS (parent_class)->style_set) (widget, previous_style);
+	if (GTK_WIDGET_CLASS (weekday_picker_parent_class)->style_set)
+		(* GTK_WIDGET_CLASS (weekday_picker_parent_class)->style_set) (widget, previous_style);
 }
 
 

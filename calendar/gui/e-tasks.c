@@ -28,7 +28,6 @@
 
 #include <gnome.h>
 #include <libgnomevfs/gnome-vfs-ops.h>
-#include <gal/util/e-util.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/menus/gal-view-instance.h>
 #include <gal/menus/gal-view-factory-etable.h>
@@ -89,8 +88,6 @@ struct _ETasksPrivate {
 	GList *notifications;
 };
 
-static void e_tasks_class_init (ETasksClass *class);
-static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 static void update_view (ETasks *tasks);
@@ -115,13 +112,9 @@ static GtkTargetEntry list_drag_types[] = {
 };
 static const int num_list_drag_types = sizeof (list_drag_types) / sizeof (list_drag_types[0]);
 
-static GtkTableClass *parent_class;
 static guint e_tasks_signals[LAST_SIGNAL] = { 0 };
 
-
-E_MAKE_TYPE (e_tasks, "ETasks", ETasks,
-	     e_tasks_class_init, e_tasks_init,
-	     GTK_TYPE_TABLE)
+G_DEFINE_TYPE (ETasks, e_tasks, GTK_TYPE_TABLE)
 
 /* Callback used when the cursor changes in the table */
 static void
@@ -373,11 +366,10 @@ table_drag_data_get (ETable             *table,
 	priv = tasks->priv;
 
 	if (priv->current_uid) {
-		ETableModel *model;
+		ECalModel *model;
 
 		model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-
-		comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+		comp_data = e_cal_model_get_component_at (model, row);
 
 		if (info == TARGET_VCALENDAR) {
 			/* we will pass an icalcalendar component for both types */
@@ -432,13 +424,13 @@ table_drag_data_delete (ETable         *table,
 {
 	ETasksPrivate *priv;
 	ECalModelComponent *comp_data;
-	ETableModel *model;
+	ECalModel *model;
 	gboolean read_only = TRUE;
 	
 	priv = tasks->priv;
 	
 	model = e_calendar_table_get_model (E_CALENDAR_TABLE (priv->tasks_view));
-	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), row);
+	comp_data = e_cal_model_get_component_at (model, row);
 
 	e_cal_is_read_only (comp_data->client, &read_only, NULL);
 	if (read_only)
@@ -550,8 +542,6 @@ e_tasks_class_init (ETasksClass *class)
 	GtkObjectClass *object_class;
 
 	object_class = (GtkObjectClass *) class;
-
-	parent_class = gtk_type_class (GTK_TYPE_TABLE);
 
 	e_tasks_signals[SELECTION_CHANGED] =
 		gtk_signal_new ("selection_changed",
@@ -705,8 +695,8 @@ e_tasks_destroy (GtkObject *object)
 		tasks->priv = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (GTK_OBJECT_CLASS (e_tasks_parent_class)->destroy)
+		(* GTK_OBJECT_CLASS (e_tasks_parent_class)->destroy) (object);
 }
 
 static void

@@ -103,8 +103,6 @@ enum {
 
 static gint mts_signals [LAST_SIGNAL] = { 0 };
 
-static void e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass);
-static void e_meeting_time_selector_init (EMeetingTimeSelector * mts);
 static void e_meeting_time_selector_destroy (GtkObject *object);
 static void e_meeting_time_selector_alloc_named_color (EMeetingTimeSelector * mts,
 						       const char *name, GdkColor *c);
@@ -209,11 +207,7 @@ static void row_inserted_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter
 static void row_changed_cb (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter, gpointer data);
 static void row_deleted_cb (GtkTreeModel *model, GtkTreePath *path, gpointer data);
 
-static GtkTableClass *parent_class;
-
-E_MAKE_TYPE (e_meeting_time_selector, "EMeetingTimeSelector", EMeetingTimeSelector,
-	     e_meeting_time_selector_class_init, e_meeting_time_selector_init,
-	     GTK_TYPE_TABLE);
+G_DEFINE_TYPE (EMeetingTimeSelector, e_meeting_time_selector, GTK_TYPE_TABLE);
 
 static void
 e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
@@ -221,7 +215,6 @@ e_meeting_time_selector_class_init (EMeetingTimeSelectorClass * klass)
 	GtkObjectClass *object_class;
 	GtkWidgetClass *widget_class;
 
-	parent_class = g_type_class_peek_parent (klass);
 	object_class = (GtkObjectClass *) klass;
 	widget_class = (GtkWidgetClass *) klass;
 
@@ -833,8 +826,8 @@ e_meeting_time_selector_destroy (GtkObject *object)
 	mts->display_top = NULL;
 	mts->display_main = NULL;
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);
+	if (GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (e_meeting_time_selector_parent_class)->destroy)(object);
 }
 
 
@@ -843,8 +836,8 @@ e_meeting_time_selector_realize (GtkWidget *widget)
 {
 	EMeetingTimeSelector *mts;
 
-	if (GTK_WIDGET_CLASS (parent_class)->realize)
-		(*GTK_WIDGET_CLASS (parent_class)->realize)(widget);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->realize)(widget);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
@@ -862,8 +855,8 @@ e_meeting_time_selector_unrealize (GtkWidget *widget)
 	gdk_gc_unref (mts->color_key_gc);
 	mts->color_key_gc = NULL;
 
-	if (GTK_WIDGET_CLASS (parent_class)->unrealize)
-		(*GTK_WIDGET_CLASS (parent_class)->unrealize)(widget);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->unrealize)(widget);
 }
 
 static int
@@ -895,8 +888,8 @@ e_meeting_time_selector_style_set (GtkWidget *widget,
 	GtkTreePath *path;
 	GdkRectangle cell_area;
 
-	if (GTK_WIDGET_CLASS (parent_class)->style_set)
-		(*GTK_WIDGET_CLASS (parent_class)->style_set)(widget, previous_style);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->style_set)(widget, previous_style);
 
 	mts = E_MEETING_TIME_SELECTOR (widget);
 
@@ -960,8 +953,8 @@ e_meeting_time_selector_expose_event (GtkWidget *widget,
 
 	e_meeting_time_selector_draw_shadow (mts);
 
-	if (GTK_WIDGET_CLASS (parent_class)->expose_event)
-		(*GTK_WIDGET_CLASS (parent_class)->expose_event)(widget, event);
+	if (GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)
+		(*GTK_WIDGET_CLASS (e_meeting_time_selector_parent_class)->expose_event)(widget, event);
 
 	return FALSE;
 }

@@ -45,8 +45,6 @@
    lines across the top of cells. */
 #define E_MEETING_TIME_SELECTOR_DRAW_GRID_LINES_AT_BOTTOM 0
 
-static void e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item_class);
-static void e_meeting_time_selector_item_init (EMeetingTimeSelectorItem *mts_item);
 static void e_meeting_time_selector_item_destroy (GtkObject *object);
 
 static void e_meeting_time_selector_item_set_arg (GtkObject *o, GtkArg *arg,
@@ -96,25 +94,19 @@ static gboolean e_meeting_time_selector_item_calculate_busy_range (EMeetingTimeS
 								   gint *start_x,
 								   gint *end_x);
 
-static GnomeCanvasItemClass *parent_class;
-
 /* The arguments we take */
 enum {
 	ARG_0,
 	ARG_MEETING_TIME_SELECTOR
 };
 
-E_MAKE_TYPE (e_meeting_time_selector_item, "EMeetingTimeSelectorItem", EMeetingTimeSelectorItem,
-	     e_meeting_time_selector_item_class_init, e_meeting_time_selector_item_init,
-	     GNOME_TYPE_CANVAS_ITEM);
+G_DEFINE_TYPE (EMeetingTimeSelectorItem, e_meeting_time_selector_item, GNOME_TYPE_CANVAS_ITEM);
 
 static void
 e_meeting_time_selector_item_class_init (EMeetingTimeSelectorItemClass *mts_item_class)
 {
 	GtkObjectClass  *object_class;
 	GnomeCanvasItemClass *item_class;
-
-	parent_class = g_type_class_peek_parent (mts_item_class);
 
 	object_class = (GtkObjectClass *) mts_item_class;
 	item_class = (GnomeCanvasItemClass *) mts_item_class;
@@ -174,8 +166,8 @@ e_meeting_time_selector_item_destroy (GtkObject *object)
 		mts_item->resize_cursor = NULL;
 	}
 	
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(*GTK_OBJECT_CLASS (parent_class)->destroy)(object);
+	if (GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)
+		(*GTK_OBJECT_CLASS (e_meeting_time_selector_item_parent_class)->destroy)(object);
 }
 
 
@@ -203,8 +195,8 @@ e_meeting_time_selector_item_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	EMeetingTimeSelectorItem *mts_item;
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)
-		(*GNOME_CANVAS_ITEM_CLASS (parent_class)->realize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->realize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->realize)(item);
 
 	mts_item = E_MEETING_TIME_SELECTOR_ITEM (item);
 
@@ -228,16 +220,16 @@ e_meeting_time_selector_item_unrealize (GnomeCanvasItem *item)
 	gdk_gc_unref (mts_item->stipple_gc);
 	mts_item->stipple_gc = NULL;
 
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)
-		(*GNOME_CANVAS_ITEM_CLASS (parent_class)->unrealize)(item);
+	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)
+		(*GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->unrealize)(item);
 }
 
 
 static void
 e_meeting_time_selector_item_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
-	if (GNOME_CANVAS_ITEM_CLASS (parent_class)->update)
-		(* GNOME_CANVAS_ITEM_CLASS (parent_class)->update) (item, affine, clip_path, flags);
+	if (GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update)
+		(* GNOME_CANVAS_ITEM_CLASS (e_meeting_time_selector_item_parent_class)->update) (item, affine, clip_path, flags);
 
 	/* The grid covers the entire canvas area. */
 	item->x1 = 0;

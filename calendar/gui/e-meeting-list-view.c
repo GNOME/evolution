@@ -67,10 +67,10 @@ static icalparameter_role roles[] = {ICAL_ROLE_CHAIR,
 				     ICAL_ROLE_NONPARTICIPANT,
 				     ICAL_ROLE_NONE};
 
-static GtkTreeViewClass *parent_class = NULL;
+G_DEFINE_TYPE (EMeetingListView, e_meeting_list_view, GTK_TYPE_TREE_VIEW);
 
 static void
-emlv_finalize (GObject *obj)
+e_meeting_list_view_finalize (GObject *obj)
 {
 	EMeetingListView *view = E_MEETING_LIST_VIEW (obj);
 	EMeetingListViewPrivate *priv = view->priv;
@@ -84,21 +84,23 @@ emlv_finalize (GObject *obj)
 
 	g_free (priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
- 		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
+	if (G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize)
+ 		(* G_OBJECT_CLASS (e_meeting_list_view_parent_class)->finalize) (obj);
 }
 
 static void
-emlv_class_init (GObjectClass *klass)
+e_meeting_list_view_class_init (EMeetingListViewClass *klass)
 {
-	parent_class = g_type_class_peek_parent (klass);
+	GObjectClass *object_class;
 
-	klass->finalize = emlv_finalize;
+	object_class = G_OBJECT_CLASS (klass);
+
+	object_class->finalize = e_meeting_list_view_finalize;
 }
 
 
 static void
-emlv_init (EMeetingListView *view)
+e_meeting_list_view_init (EMeetingListView *view)
 {
 	EMeetingListViewPrivate *priv;
 
@@ -109,7 +111,6 @@ emlv_init (EMeetingListView *view)
 	priv->corba_select_names = CORBA_OBJECT_NIL;
 }
 
-E_MAKE_TYPE (e_meeting_list_view, "EMeetingListView", EMeetingListView, emlv_class_init, emlv_init, GTK_TYPE_TREE_VIEW);
 static GList *
 get_type_strings ()
 {

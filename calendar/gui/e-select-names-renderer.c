@@ -22,7 +22,6 @@
 
 #include <config.h>
 #include <gtk/gtkcellrenderertext.h>
-#include <gal/util/e-util.h>
 
 #include "e-calendar-marshal.h"
 
@@ -46,11 +45,12 @@ enum {
 	LAST_SIGNAL
 };
 
-static GtkCellRendererTextClass *parent_class;
 static gint signals [LAST_SIGNAL];
 
+G_DEFINE_TYPE (ESelectNamesRenderer, e_select_names_renderer, GTK_TYPE_CELL_RENDERER_TEXT)
+
 static void
-esnr_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
+e_select_names_renderer_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 {
 	gchar *new_address, *new_name;
 	BonoboControlFrame *cf;
@@ -70,14 +70,14 @@ esnr_editing_done (GtkCellEditable *editable, ESelectNamesRenderer *cell)
 }
 
 static void
-esnr_activated (BonoboControlFrame *cf, gboolean activated, ESelectNamesRenderer *cell)
+e_select_names_renderer_activated (BonoboControlFrame *cf, gboolean activated, ESelectNamesRenderer *cell)
 {
 	if (!activated)
-		esnr_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
+		e_select_names_renderer_editing_done (GTK_CELL_EDITABLE (cell->priv->editable), cell);
 }
 
 static GtkCellEditable *
-esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
+e_select_names_renderer_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, const gchar *path,
 		    GdkRectangle *bg_area, GdkRectangle *cell_area, GtkCellRendererState flags)
 {
 	ESelectNamesRenderer *sn_cell = E_SELECT_NAMES_RENDERER (cell);
@@ -92,13 +92,13 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 	e_select_names_editable_set_address (editable, sn_cell->priv->address);
 	gtk_widget_show (GTK_WIDGET (editable));
 
-	g_signal_connect (editable, "editing_done", G_CALLBACK (esnr_editing_done), sn_cell);
+	g_signal_connect (editable, "editing_done", G_CALLBACK (e_select_names_renderer_editing_done), sn_cell);
 
 	/* Listen for de-activation/loss of focus */
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (editable));
 	bonobo_control_frame_set_autoactivate (cf, TRUE);
 
-	g_signal_connect (cf, "activated", G_CALLBACK (esnr_activated), sn_cell);
+	g_signal_connect (cf, "activated", G_CALLBACK (e_select_names_renderer_activated), sn_cell);
 
 	sn_cell->priv->editable = g_object_ref (editable);
 	sn_cell->priv->path = g_strdup (path);
@@ -107,7 +107,7 @@ esnr_start_editing (GtkCellRenderer *cell, GdkEvent *event, GtkWidget *widget, c
 }
 
 static void
-esnr_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
+e_select_names_renderer_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
@@ -121,7 +121,7 @@ esnr_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 }
 
 static void
-esnr_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
+e_select_names_renderer_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
 	ESelectNamesRenderer *esnr = E_SELECT_NAMES_RENDERER (object);
 
@@ -136,7 +136,7 @@ esnr_set_property (GObject *object, guint prop_id, const GValue *value, GParamSp
 }
 
 static void
-esnr_finalize (GObject *obj)
+e_select_names_renderer_finalize (GObject *obj)
 {
 	ESelectNamesRenderer *cell = (ESelectNamesRenderer *) obj;
 
@@ -148,29 +148,27 @@ esnr_finalize (GObject *obj)
 	g_free (cell->priv->address);
 	g_free (cell->priv);
 
-	if (G_OBJECT_CLASS (parent_class)->finalize)
-		G_OBJECT_CLASS (parent_class)->finalize (obj);
+	if (G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize)
+		G_OBJECT_CLASS (e_select_names_renderer_parent_class)->finalize (obj);
 }
 
 static void
-esnr_init (ESelectNamesRenderer *cell)
+e_select_names_renderer_init (ESelectNamesRenderer *cell)
 {
 	cell->priv = g_new0 (ESelectNamesRendererPriv, 1);
 }
 
 static void
-esnr_class_init (ESelectNamesRendererClass *class)
+e_select_names_renderer_class_init (ESelectNamesRendererClass *class)
 {
 	GtkCellRendererClass *cell_class = GTK_CELL_RENDERER_CLASS (class);
 	GObjectClass *obj_class = G_OBJECT_CLASS (class);
 	
-	parent_class = GTK_CELL_RENDERER_TEXT_CLASS (g_type_class_peek_parent (class));
-	
-	obj_class->finalize = esnr_finalize;
-	obj_class->get_property = esnr_get_property;
-	obj_class->set_property = esnr_set_property;
+	obj_class->finalize = e_select_names_renderer_finalize;
+	obj_class->get_property = e_select_names_renderer_get_property;
+	obj_class->set_property = e_select_names_renderer_set_property;
 
-	cell_class->start_editing = esnr_start_editing;
+	cell_class->start_editing = e_select_names_renderer_start_editing;
 
 	g_object_class_install_property (obj_class, PROP_ADDRESS,
 					 g_param_spec_string ("address", "Address", "Email address.", NULL, G_PARAM_READWRITE));
@@ -184,8 +182,6 @@ esnr_class_init (ESelectNamesRendererClass *class)
 					      G_TYPE_NONE, 3,
 					      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
 }
-
-E_MAKE_TYPE (e_select_names_renderer, "ESelectNamesRenderer", ESelectNamesRenderer, esnr_class_init, esnr_init, GTK_TYPE_CELL_RENDERER_TEXT)
 
 GtkCellRenderer *
 e_select_names_renderer_new (void)
