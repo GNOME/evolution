@@ -292,6 +292,10 @@ show_dialog (EShell *shell,
 
 /* Discovery process.  */
 
+static void shell_weak_notify (void *data, GObject *where_the_object_was);
+static void shell_view_weak_notify (void *data, GObject *where_the_object_was);
+static void storage_weak_notify (void *data, GObject *where_the_object_was);
+
 struct _DiscoveryData {
 	EShell *shell;
 	EShellView *parent;
@@ -307,6 +311,15 @@ cleanup_discovery (DiscoveryData *discovery_data)
 {
 	if (discovery_data->dialog != NULL)
 		gtk_widget_destroy (discovery_data->dialog);
+
+	if (discovery_data->shell != NULL)
+		g_object_weak_unref (G_OBJECT (discovery_data->shell), shell_weak_notify, discovery_data);
+
+	if (discovery_data->parent != NULL)
+		g_object_weak_unref (G_OBJECT (discovery_data->parent), shell_view_weak_notify, discovery_data);
+
+	if (discovery_data->storage != NULL)
+		g_object_weak_unref (G_OBJECT (discovery_data->storage), storage_weak_notify, discovery_data);
 
 	g_free (discovery_data->user_email_address);
 	g_free (discovery_data->folder_name);
@@ -406,6 +419,8 @@ shell_weak_notify (void *data,
 	DiscoveryData *discovery_data;
 
 	discovery_data = (DiscoveryData *) data;
+	discovery_data->shell = NULL;
+
 	cleanup_discovery (discovery_data);
 }
 
@@ -426,6 +441,8 @@ storage_weak_notify (void *data,
 	DiscoveryData *discovery_data;
 
 	discovery_data = (DiscoveryData *) data;
+	discovery_data->storage = NULL;
+
 	cleanup_discovery (discovery_data);
 
 	/* FIXME: Should we signal the user when this happens?  I.e. when the

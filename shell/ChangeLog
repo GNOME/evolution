@@ -1,3 +1,13 @@
+2003-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	[#43322]
+
+	* e-shell-shared-folder-picker-dialog.c (storage_weak_notify): Set
+	the storage member to NULL.
+	(shell_weak_notify): Set the shell member to NULL.
+	(cleanup_discovery): g_object_weak_unref() shell, parent and
+	storage.
+
 2003-05-19  Ettore Perazzoli  <ettore@ximian.com>
 
 	* main.c: Removed "forced_upgrade" unused variable.
