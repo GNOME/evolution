@@ -446,7 +446,6 @@ void
 e_shell_view_menu_setup (EShellView *shell_view)
 {
 	BonoboUIHandler *uih;
-	Bonobo_UIContainer container;
 	BonoboUIComponent *component;
 
 	g_return_if_fail (shell_view != NULL);
@@ -465,15 +464,6 @@ e_shell_view_menu_setup (EShellView *shell_view)
 	bonobo_ui_component_add_verb_list_with_data (
 		component, help_verbs, shell_view);
 
-	container = bonobo_ui_compat_get_container (uih);
-	g_return_if_fail (container != CORBA_OBJECT_NIL);
-
-	bonobo_ui_container_freeze (container, NULL);
-
-	bonobo_ui_util_set_ui (component, container, 
-			       EVOLUTION_DATADIR, "evolution.xml",
-			       "evolution");
-
 	menu_do_misc (component, shell_view);
 
 	gtk_signal_connect (GTK_OBJECT (shell_view), "shortcut_bar_mode_changed",
@@ -488,6 +478,4 @@ e_shell_view_menu_setup (EShellView *shell_view)
 				      FOLDER_BAR_TOGGLE_PATH);
 	shortcut_bar_mode_changed_cb (shell_view, e_shell_view_get_shortcut_bar_mode (shell_view),
 				      SHORTCUT_BAR_TOGGLE_PATH);
-
-	bonobo_ui_container_thaw (container, NULL);
 }

@@ -1,3 +1,7 @@
+2000-09-22  Michael Meeks  <michael@helixcode.com>
+
+	* gui/calendar-commands.c (calendar_control_activate): upd.
+
 2000-09-29  Jesse Pavel   <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: added code that makes changes to the underlying

@@ -1,3 +1,24 @@
+2000-10-03  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view.c (setup_bonobo_ui_handler): kill.
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): strip
+	out the XML UI merge; move it to
+
+	* e-shell-view.c (e_shell_view_construct): here, +
+	freeze / thaw pair.
+
+	* e-shell-view.c (setup_progress_bar): impl.
+	(setup_widgets): hook in.
+	(progress_bar_timeout_cb): fix.
+	(start_progress_bar): fix.
+	(stop_progress_bar): fix.
+	(e_shell_view_construct): setup ui handler first.
+
+2000-09-22  Michael Meeks  <michael@helixcode.com>
+
+	* e-shell-view-menu.c (e_shell_view_menu_setup): upd.
+
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
 	* e-storage-set-view.c (new_folder_cb): set the new node's compare function.

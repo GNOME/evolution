@@ -1,3 +1,8 @@
+2000-09-22  Michael Meeks  <michael@helixcode.com>
+
+	* folder-browser-factory.c (set_pixmap): upd.
+	(control_activate): upd.
+
 2000-10-02  Dan Winship  <danw@helixcode.com>
 
 	* mail-config-gui.c: Remove "Port" entry from source dialog. We'll

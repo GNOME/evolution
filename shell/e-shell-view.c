@@ -82,6 +82,7 @@ struct _EShellViewPrivate {
 	GtkWidget *storage_set_title_bar;
 	GtkWidget *storage_set_view;
 	GtkWidget *storage_set_view_box;
+	GtkWidget *progress_bar;
 
 	/* The view we have already open.  */
 	GHashTable *uri_to_control;
@@ -423,28 +424,42 @@ setup_storage_set_subwindow (EShellView *shell_view)
 }
 
 static void
+setup_progress_bar (EShellViewPrivate *priv)
+{
+	GtkProgressBar *progress_bar;
+	BonoboControl  *control;
+
+	progress_bar = (GTK_PROGRESS_BAR (gtk_progress_bar_new ()));
+
+	gtk_progress_bar_set_orientation (
+		progress_bar, GTK_PROGRESS_LEFT_TO_RIGHT);
+	gtk_progress_bar_set_bar_style (
+		progress_bar, GTK_PROGRESS_CONTINUOUS);
+	
+	priv->progress_bar = GTK_WIDGET (progress_bar);
+	gtk_widget_set_usize (priv->progress_bar, 200, 10);
+	gtk_widget_show (priv->progress_bar);
+
+	control = bonobo_control_new (priv->progress_bar);
+	g_return_if_fail (control != NULL);
+
+	bonobo_ui_container_object_set (
+		bonobo_ui_compat_get_container (priv->uih),
+		"/status/Progress",
+		bonobo_object_corba_objref (BONOBO_OBJECT (control)),
+		NULL);
+}
+
+static void
 setup_widgets (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
-#if 0
-	GtkWidget *progress_bar;
-#endif
 
 	priv = shell_view->priv;
 
-#if 0
-	/* The application bar.  */
-
-	priv->appbar = gnome_appbar_new (TRUE, TRUE, GNOME_PREFERENCES_NEVER);
-	gnome_app_set_statusbar (GNOME_APP (shell_view), priv->appbar);
-
 	/* The progress bar.  */
 
-	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
-
-	gtk_progress_bar_set_orientation (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_LEFT_TO_RIGHT);
-	gtk_progress_bar_set_bar_style   (GTK_PROGRESS_BAR (progress_bar), GTK_PROGRESS_CONTINUOUS);
-#endif
+	setup_progress_bar (priv);
 
 	/* The shortcut bar.  */
 
@@ -511,27 +526,6 @@ setup_widgets (EShellView *shell_view)
 	gtk_window_set_default_size (
 		GTK_WINDOW (shell_view),
 		DEFAULT_WIDTH, DEFAULT_HEIGHT);
-}
-
-
-/* BonoboUIHandler setup.  */
-
-static void
-setup_bonobo_ui_handler (EShellView *shell_view)
-{
-	BonoboUIHandler *uih;
-	EShellViewPrivate *priv;
-
-	priv = shell_view->priv;
-
-	uih = bonobo_ui_handler_new ();
-
-	bonobo_ui_handler_set_app (uih, BONOBO_WIN (shell_view));
-	bonobo_ui_handler_create_menubar (uih);
-	bonobo_ui_handler_create_toolbar (uih, "Toolbar");
-/*	bonobo_ui_handler_set_statusbar (uih, priv->appbar);*/
-
-	priv->uih = uih;
 }
 
 
@@ -680,19 +674,16 @@ init (EShellView *shell_view)
 static int
 progress_bar_timeout_cb (void *data)
 {
-#if 0
 	EShellView *shell_view;
 	EShellViewPrivate *priv;
 	GtkWidget *progress_bar;
 
-#warning FIXME: I broke it
 	shell_view = E_SHELL_VIEW (data);
 	priv = shell_view->priv;
-	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+	progress_bar = priv->progress_bar;
 
 	priv->progress_bar_value = ! priv->progress_bar_value;
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
-#endif
 
 	return TRUE;
 }
@@ -700,36 +691,32 @@ progress_bar_timeout_cb (void *data)
 static void
 start_progress_bar (EShellView *shell_view)
 {
-#if 0
 	EShellViewPrivate *priv;
-	GtkWidget *progress_bar;
+	GtkProgress *progress;
 
-#warning FIXME: I broke it
 	priv = shell_view->priv;
-	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+
+	progress = GTK_PROGRESS (priv->progress_bar);
 
 	if (priv->progress_bar_timeout_id != 0)
 		return;
 
-	priv->progress_bar_timeout_id = gtk_timeout_add (PROGRESS_BAR_TIMEOUT,
-							 progress_bar_timeout_cb,
-							 shell_view);
+	priv->progress_bar_timeout_id = gtk_timeout_add (
+		PROGRESS_BAR_TIMEOUT, progress_bar_timeout_cb,
+		shell_view);
 
-	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), TRUE);
-	gtk_progress_set_value (GTK_PROGRESS (progress_bar), priv->progress_bar_value);
-#endif
+	gtk_progress_set_activity_mode (progress, TRUE);
+	gtk_progress_set_value (progress, priv->progress_bar_value);
 }
 
 static void
 stop_progress_bar (EShellView *shell_view)
 {
-#if 0
 	EShellViewPrivate *priv;
 	GtkWidget *progress_bar;
 
-#warning FIXME: I broke it
 	priv = shell_view->priv;
-	progress_bar = GNOME_APPBAR (GNOME_APP (shell_view)->statusbar)->progress;
+	progress_bar = priv->progress_bar;
 
 	if (priv->progress_bar_timeout_id != 0) {
 		gtk_timeout_remove (priv->progress_bar_timeout_id);
@@ -738,7 +725,6 @@ stop_progress_bar (EShellView *shell_view)
 
 	gtk_progress_set_activity_mode (GTK_PROGRESS (progress_bar), FALSE);
 	gtk_progress_set_value (GTK_PROGRESS (progress_bar), 0);
-#endif
 }
 
 
@@ -806,6 +792,8 @@ e_shell_view_construct (EShellView *shell_view,
 	EShellViewPrivate *priv;
 	EShellView *view;
 	GtkObject *window;
+	Bonobo_UIContainer container;
+	BonoboUIComponent *component;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (shell_view != NULL, NULL);
@@ -831,12 +819,26 @@ e_shell_view_construct (EShellView *shell_view,
 
 	priv->shell = shell;
 
+	priv->uih = bonobo_ui_handler_new ();
+	bonobo_ui_handler_set_app (priv->uih, BONOBO_WIN (shell_view));
+
+	component = bonobo_ui_compat_get_component (priv->uih);
+	container = bonobo_ui_compat_get_container (priv->uih);
+	g_return_val_if_fail (container != CORBA_OBJECT_NIL, NULL);
+
+	bonobo_ui_container_freeze (container, NULL);
+
+	bonobo_ui_util_set_ui (component, container, 
+			       EVOLUTION_DATADIR, "evolution.xml",
+			       "evolution");
+
 	setup_widgets (shell_view);
-	setup_bonobo_ui_handler (shell_view);
 
 	e_shell_view_menu_setup (shell_view);
 
 	e_shell_view_set_folder_bar_mode (shell_view, E_SHELL_VIEW_SUBWINDOW_HIDDEN);
+
+	bonobo_ui_container_thaw (container, NULL);
 
 	return view;
 }
