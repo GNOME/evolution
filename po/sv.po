@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.1\n"
-"POT-Creation-Date: 2000-04-22 23:33+0200\n"
+"POT-Creation-Date: 2000-05-02 17:25+0200\n"
 "PO-Revision-Date: 2000-04-04 19:23+0200\n"
 "Last-Translator: Andreas Hyden <a.hyden@cyberpoint.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:448
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:452
 msgid "Cut"
 msgstr "Klipp ut"
 
@@ -21,7 +21,7 @@ msgstr "Klipp ut"
 msgid "Cut selected item into clipboard"
 msgstr "Klipp ut markerat objekt till urklipp"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:449
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:453
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -30,7 +30,7 @@ msgid "Copy selected item into clipboard"
 msgstr "Kopiera markerat objekt till urklipp"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:450
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:454
 msgid "Paste"
 msgstr "Klistra in"
 
@@ -43,47 +43,47 @@ msgstr "Klistra in objekt från urklipp"
 msgid "Select recipients' addresses"
 msgstr "Välj mottagaradresser"
 
-#: composer/e-msg-composer-attachment-bar.c:73
+#: composer/e-msg-composer-attachment-bar.c:76
 msgid "1 byte"
 msgstr "1 byte"
 
-#: composer/e-msg-composer-attachment-bar.c:75
+#: composer/e-msg-composer-attachment-bar.c:78
 #, c-format
 msgid "%u bytes"
 msgstr "%u byte"
 
-#: composer/e-msg-composer-attachment-bar.c:82
+#: composer/e-msg-composer-attachment-bar.c:85
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fK"
 
-#: composer/e-msg-composer-attachment-bar.c:86
+#: composer/e-msg-composer-attachment-bar.c:89
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:90
+#: composer/e-msg-composer-attachment-bar.c:93
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:304
+#: composer/e-msg-composer-attachment-bar.c:307
 msgid "Add attachment"
 msgstr "Lägg till bilaga"
 
-#: composer/e-msg-composer-attachment-bar.c:361
+#: composer/e-msg-composer-attachment-bar.c:364
 msgid "Remove"
 msgstr "Ta bort"
 
-#: composer/e-msg-composer-attachment-bar.c:362
+#: composer/e-msg-composer-attachment-bar.c:365
 msgid "Remove selected items from the attachment list"
 msgstr "Ta bort markerade objekt från bifogningslistan"
 
-#: composer/e-msg-composer-attachment-bar.c:393
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment..."
 msgstr "Lägg till bilaga..."
 
-#: composer/e-msg-composer-attachment-bar.c:394
+#: composer/e-msg-composer-attachment-bar.c:397
 msgid "Attach a file to the message"
 msgstr "Bifoga en fil till meddelandet"
 
@@ -131,64 +131,64 @@ msgstr "Ämne:"
 msgid "Enter the subject of the mail"
 msgstr "Ange brevets ämne"
 
-#: composer/e-msg-composer.c:406
+#: composer/e-msg-composer.c:410
 msgid "Save in _folder..."
 msgstr "Spara i _mapp..."
 
-#: composer/e-msg-composer.c:406
+#: composer/e-msg-composer.c:410
 msgid "Save the message in a specified folder"
 msgstr "Spara meddelandet i en viss mapp"
 
-#: composer/e-msg-composer.c:409 composer/e-msg-composer.c:446
-#: mail/folder-browser-factory.c:110
+#: composer/e-msg-composer.c:413 composer/e-msg-composer.c:450
+#: mail/folder-browser-factory.c:115
 msgid "Send"
 msgstr "Skicka"
 
-#: composer/e-msg-composer.c:409
+#: composer/e-msg-composer.c:413
 msgid "Send the message"
 msgstr "Skicka meddelandet"
 
-#: composer/e-msg-composer.c:417
+#: composer/e-msg-composer.c:421
 msgid "View _attachments"
 msgstr "Visa _bilagor"
 
-#: composer/e-msg-composer.c:417
+#: composer/e-msg-composer.c:421
 msgid "View/hide attachments"
 msgstr "Visa/göm bilagor"
 
-#: composer/e-msg-composer.c:446
+#: composer/e-msg-composer.c:450
 msgid "Send this message"
 msgstr "Skicka detta meddelandet"
 
-#: composer/e-msg-composer.c:448
+#: composer/e-msg-composer.c:452
 msgid "Cut selected region into the clipboard"
 msgstr "Klipp ut markerat område till urklipp"
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:453
 msgid "Copy selected region into the clipboard"
 msgstr "Kopiera markerat område till urklipp"
 
-#: composer/e-msg-composer.c:450
+#: composer/e-msg-composer.c:454
 msgid "Paste selected region into the clipboard"
 msgstr "Klistra in markerat område till urklipp"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:455
 msgid "Undo"
 msgstr "Ångra"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:455
 msgid "Undo last operation"
 msgstr "Ångra senaste ändringen"
 
-#: composer/e-msg-composer.c:453
+#: composer/e-msg-composer.c:457
 msgid "Attach"
 msgstr "Bifoga"
 
-#: composer/e-msg-composer.c:453
+#: composer/e-msg-composer.c:457
 msgid "Attach a file"
 msgstr "Bifoga en fil"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:88
 msgid ""
 "This is a development version of Evolution.\n"
 "Using the mail component on your mail files\n"
@@ -208,71 +208,75 @@ msgstr ""
 "\n"
 "Du har blivit varnad\n"
 
-#: mail/folder-browser-factory.c:109
+#: mail/folder-browser-factory.c:114
 msgid "New mail"
 msgstr "Ny post"
 
-#: mail/folder-browser-factory.c:109
+#: mail/folder-browser-factory.c:114
 msgid "Check for new mail"
 msgstr "Kolla efter ny post"
 
-#: mail/folder-browser-factory.c:110
+#: mail/folder-browser-factory.c:115
 msgid "Send a new message"
 msgstr "Skicka ett nytt meddelande"
 
-#: mail/folder-browser-factory.c:111
+#: mail/folder-browser-factory.c:116
 msgid "Find"
 msgstr "Hitta"
 
-#: mail/folder-browser-factory.c:111
+#: mail/folder-browser-factory.c:116
 msgid "Find messages"
 msgstr "Hitta meddelanden"
 
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:120
 msgid "Reply"
 msgstr "Svara"
 
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:120
 msgid "Reply to the sender of this message"
 msgstr "Svara till sändaren av det här meddelandet"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:121
 msgid "Reply to All"
 msgstr "Svara till alla"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:121
 msgid "Reply to all recipients of this message"
 msgstr "Svara till alla mottagare av det här meddelandet"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:123
 msgid "Forward"
 msgstr "Skicka vidare"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:123
 msgid "Forward this message"
 msgstr "Skicka detta meddelandet vidare"
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:127
 msgid "Print"
 msgstr "Skriv ut"
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:127
 msgid "Print the selected message"
 msgstr "Skriv ut markerat meddelande"
 
-#: mail/folder-browser-factory.c:124
+#: mail/folder-browser-factory.c:129
 msgid "Delete"
 msgstr "Ta bort"
 
-#: mail/folder-browser-factory.c:124
+#: mail/folder-browser-factory.c:129
 msgid "Delete this message"
 msgstr "Ta bort detta meddelandet"
 
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:146
 msgid "_Mail"
 msgstr "_Epost"
 
-#: mail/folder-browser-factory.c:266
+#: mail/folder-browser-factory.c:151
+msgid "_Expunge"
+msgstr "Rad_era"
+
+#: mail/folder-browser-factory.c:275
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "Tyvärr, Evolutions mappbläddrare kan inte initialiseras."
 
@@ -284,47 +288,35 @@ msgstr "URL:en som mappbläddraden kommer att visa"
 msgid "Whether a message preview should be shown"
 msgstr "Huruvida meddelanden ska förhandsgranskas"
 
-#: mail/mail-component.c:30 mail/main.c:36
+#: mail/mail-component.c:30 mail/main.c:55
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Postkomponent: Jag kunde inte initialisera Bonobo"
 
-#: mail/mail-display.c:56
-msgid ""
-"An exception occured while trying to load data into the component with "
-"PersistStream"
-msgstr ""
-"Ett undantag uppstod vid laddning av data till komponenten med PersistStream"
-
-#: mail/mail-display.c:192
-#, c-format
-msgid "The %s component doesn't support PersistStream!\n"
-msgstr "Komponenten %s stöder inte PersistStream!\n"
-
-#: mail/message-list.c:404
+#: mail/message-list.c:431
 msgid "Priority"
 msgstr "Prioritet"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:445
 msgid "From"
 msgstr "Från"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:452
 msgid "Subject"
 msgstr "Ämne"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:459
 msgid "Sent"
 msgstr "Skickat"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:466
 msgid "Receive"
 msgstr "Mottag"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:473
 msgid "To"
 msgstr "Till"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:480
 msgid "Size"
 msgstr "Storlek"
 
@@ -412,80 +404,96 @@ msgstr "Byt namn på genväg"
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: shell/e-shell-view-menu.c:105 shell/e-shell-view-menu.c:171
+#: shell/e-shell-view-menu.c:118 shell/e-shell-view-menu.c:184
 msgid "_Folder"
 msgstr "_Mapp"
 
-#: shell/e-shell-view-menu.c:109
+#: shell/e-shell-view-menu.c:122
 msgid "Evolution _Bar Shortcut"
 msgstr "Evolution genvägsrad"
 
-#: shell/e-shell-view-menu.c:115
+#: shell/e-shell-view-menu.c:128
 msgid "_Mail message"
 msgstr "_Posta meddelande"
 
-#: shell/e-shell-view-menu.c:116 shell/e-shell-view-menu.c:119
+#: shell/e-shell-view-menu.c:129 shell/e-shell-view-menu.c:132
 msgid "Composes a new mail message"
 msgstr "Skriv ett nytt brev"
 
-#: shell/e-shell-view-menu.c:118
+#: shell/e-shell-view-menu.c:131
 msgid "_Appointment"
 msgstr "_Möte"
 
-#: shell/e-shell-view-menu.c:121
+#: shell/e-shell-view-menu.c:134
 msgid "Meeting Re_quest"
 msgstr "Begäran om möte"
 
-#: shell/e-shell-view-menu.c:124
+#: shell/e-shell-view-menu.c:137
 msgid "_Contact"
 msgstr "_Kontakt"
 
-#: shell/e-shell-view-menu.c:127
+#: shell/e-shell-view-menu.c:140
 msgid "_Task"
 msgstr "Uppgif_t"
 
-#: shell/e-shell-view-menu.c:130
+#: shell/e-shell-view-menu.c:143
 msgid "Task _Request"
 msgstr "Uppgiftsbegä_ran"
 
-#: shell/e-shell-view-menu.c:133
+#: shell/e-shell-view-menu.c:146
 msgid "_Journal Entry"
 msgstr "_Dagbokpost"
 
-#: shell/e-shell-view-menu.c:136
+#: shell/e-shell-view-menu.c:149
 msgid "_Note"
 msgstr "_Anteckning"
 
-#: shell/e-shell-view-menu.c:146
+#: shell/e-shell-view-menu.c:159
 msgid "_Selected Items"
 msgstr "_Markerade objekt"
 
-#: shell/e-shell-view-menu.c:154
+#: shell/e-shell-view-menu.c:167
 msgid "_New Folder"
 msgstr "_Ny mapp"
 
-#: shell/e-shell-view-menu.c:162
+#: shell/e-shell-view-menu.c:175
 msgid "_New"
 msgstr "_Ny"
 
-#: shell/e-shell-view-menu.c:163
+#: shell/e-shell-view-menu.c:176
 msgid "_Open"
 msgstr "_Öppna"
 
-#: shell/e-shell-view-menu.c:164
+#: shell/e-shell-view-menu.c:177
 msgid "Clos_e All Items"
 msgstr "Stäng _alla objekt"
 
-#: shell/e-shell-view-menu.c:164
+#: shell/e-shell-view-menu.c:177
 msgid "Closes all the open items"
 msgstr "Stänger alla öppna objekt"
 
+#: shell/e-shell-view-menu.c:198
+msgid "_Toggle Shortcut Bar"
+msgstr "_Växla genvägsrad"
+
+#: shell/e-shell-view-menu.c:199
+msgid "Toggles the shortcut bar"
+msgstr "Växlar genvägsraden"
+
+#: shell/e-shell-view-menu.c:201
+msgid "_Toggle Treeview"
+msgstr "_Växla trädvy"
+
+#: shell/e-shell-view-menu.c:202
+msgid "Toggles the tree view"
+msgstr "Växlar trädvyn"
+
 #. FIXME: add Favorites here
-#: shell/e-shell-view-menu.c:203
+#: shell/e-shell-view-menu.c:222
 msgid "_Tools"
 msgstr "_Verktyg"
 
-#: shell/e-shell-view-menu.c:204
+#: shell/e-shell-view-menu.c:223
 msgid "_Actions"
 msgstr "_Händelser"
 
@@ -557,25 +565,34 @@ msgstr "Andra genvägar"
 msgid "New group"
 msgstr "Ny grupp"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "Enables some debugging functions"
 msgstr "Aktiverar felsökningsfunktioner"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: shell/main.c:45
+#: shell/main.c:74
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Misslyckades att initiera Bonobo-komponentsystemet"
 
-#: shell/main.c:75
+#: shell/main.c:104
 msgid ""
 "It was not possible to setup the Evolution startup files.  Please\n"
 "fix the problem, and restart Evolution"
 msgstr ""
 "Det gick ej att ställa in Evolutions uppstartsfiler. Var vänlig\n"
 "och fixa problemet, och starta om Evolution"
+
+#~ msgid ""
+#~ "An exception occured while trying to load data into the component with "
+#~ "PersistStream"
+#~ msgstr ""
+#~ "Ett undantag uppstod vid laddning av data till komponenten med PersistStream"
+
+#~ msgid "The %s component doesn't support PersistStream!\n"
+#~ msgstr "Komponenten %s stöder inte PersistStream!\n"
 
 #~ msgid ""
 #~ "Evolution detected that the file `%s' is a not a directory.\n"
