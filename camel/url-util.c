@@ -37,13 +37,16 @@
 
 #include "url-util.h"
 
-
+/* general item finder */
+/* it begins the search at position @position in @url,
+   returns true when the item is found, amd set position after the item */
 typedef gboolean find_item_func(GString *url, GString **item, guint *position, gboolean *error);
 
+/* used to find one item (protocol, then user .... */
 typedef struct {
-	char *item_name;
-	GString **item_value;
-	find_item_func *find_func;
+	char *item_name;           /* item name : for debug only */
+	GString **item_value;      /* where the item value will go */
+	find_item_func *find_func; /* item finder */
 } FindStepStruct;
 
 static gboolean find_protocol(GString *url, GString **item, guint *position, gboolean *error);

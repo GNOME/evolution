@@ -1,3 +1,13 @@
+1999-05-01  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/url-util.c (g_url_new): some
+	more comments 
+
+1999-04-27  bertrand <Bertrand.Guiheneuf@inria.fr>
+
+	* camel/camel-folder.c (camel_folder_create): 
+	new public function.
+
 1999-04-25  bertrand <Bertrand.Guiheneuf@inria.fr>
 
 	* camel/camel-session.c (camel_session_get_store_from_provider): 
