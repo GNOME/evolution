@@ -82,16 +82,16 @@ expire_dir_rec(const char *base, time_t now)
 		    && st.st_atime + TEMP_EXPIRE < now) {
 			if (S_ISDIR(st.st_mode)) {
 				if (expire_dir_rec(path->str, now) == 0) {
-					printf("Removing dir '%s'\n", path->str);
+					d(printf("Removing dir '%s'\n", path->str));
 					rmdir(path->str);
 				} else {
 					count++;
 				}
 			} else if (unlink(path->str) == -1) {
-				printf("expiry failed: %s\n", strerror(errno));
+				d(printf("expiry failed: %s\n", strerror(errno)));
 				count++;
 			} else {
-				printf("expired %s\n", path->str);
+				d(printf("expired %s\n", path->str));
 			}
 		} else {
 			count++;
