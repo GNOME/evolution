@@ -1,3 +1,15 @@
+2004-10-05  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-service.c (camel_getaddrinfo): Check msg->result for error
+	and set an exception if appropriate.
+	(camel_getnameinfo): Same.
+
+2004-10-04  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-service.c (camel_getaddrinfo): Add a non-const cast for
+	hints when changing the ai_family member in the IPv6-disabled
+	case. Fixes bug #67028.
+
 2004-10-05  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #67527.
@@ -11,6 +23,12 @@
 	* providers/imap4/camel-imap4-provider.c: include camel-i18n.h
 
 2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* providers/imap4/camel-imap4-folder.c (imap4_sync): If we aren't
+	online, we're done. nothing to do.
+	(imap4_refresh_info): Same.
+	(imap4_append_message): Same but set an exception.
+	(imap4_transfer_messages_to): Same.
 
 	* camel-service.c (camel_getaddrinfo): Avoid assigning a value to
 	the member of a const struct (which newer gcc's apparently break
