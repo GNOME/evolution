@@ -40,61 +40,30 @@
 #include <bonobo.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
+#include <camel/camel-file-utils.h>
 
 struct _storeinfo {
 	char *base_url;
 	char *namespace;
 	char dir_sep;
-	GByteArray *junk;
+	GPtrArray *folders;
 };
 
 
-static void *
-e_memmem (const void *haystack, size_t haystacklen, const void *needle, size_t needlelen)
-{
-	register unsigned char *h, *n, *hc, *nc;
-	unsigned char *he, *ne;
-	
-	if (haystacklen < needlelen) {
-		return NULL;
-	} else if (needlelen == 0) {
-		return (void *) haystack;
-	}
-	
-	h = (unsigned char *) haystack;
-	he = (unsigned char *) haystack + haystacklen - needlelen;
-	n = (unsigned char *) needle;
-	ne = (unsigned char *) needle + needlelen;
-	
-	while (h < he) {
-		if (*h == *n) {
-			for (hc = h + 1, nc = n + 1; nc < ne; hc++, nc++)
-				if (*hc != *nc)
-					break;
-			
-			if (nc == ne)
-				return (void *) h;
-		}
-		
-		h++;
-	}
-	
-	return NULL;
-}
-
 
 static char
-find_dir_sep (GByteArray *buf)
+find_dir_sep (const char *lsub_response)
 {
-	register unsigned char *inptr;
-	unsigned char *inend;
+	register const unsigned char *inptr;
+	const unsigned char *inend;
 	
-	inend = buf->data + buf->len;
+	inptr = (const unsigned char *) lsub_response;
+	inend = inptr + strlen (inptr);
 	
-	if (!(inptr = e_memmem (buf->data, buf->len, "* LSUB (", 8)))
+	if (strncmp (inptr, "* LSUB (", 8))
 		return '\0';
 	
-	inptr += 9;
+	inptr += 8;
 	while (inptr < inend && *inptr != ')')
 		inptr++;
 	
@@ -118,11 +87,15 @@ static void
 si_free (gpointer key, gpointer val, gpointer user_data)
 {
 	struct _storeinfo *si = val;
+	int i;
 	
 	g_free (si->base_url);
 	g_free (si->namespace);
-	if (si->junk)
-		g_byte_array_free (si->junk, TRUE);
+	if (si->folders) {
+		for (i = 0; i < si->folders->len; i++)
+			g_free (si->folders->pdata[i]);
+		g_ptr_array_free (si->folders, TRUE);
+	}
 	g_free (si);
 }
 
@@ -137,7 +110,7 @@ get_base_url (const char *protocol, const char *uri)
 	
 	base_url = p;
 	p = strchr (p, '/');
-	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? (int) (p - base_url) : strlen (base_url), base_url);
+	base_url = g_strdup_printf ("%s://%.*s", protocol, p ? (int) (p - base_url) : (int) strlen (base_url), base_url);
 	
 	return base_url;
 }
@@ -158,13 +131,135 @@ imap_namespace (const char *uri)
 	return g_strndup (name, p - name);
 }
 
+static unsigned char tohex[16] = {
+	'0', '1', '2', '3', '4', '5', '6', '7',
+	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+};
+
+static char *
+hex_encode (const char *in, size_t len)
+{
+	const unsigned char *inend = in + len;
+	unsigned char *inptr, *outptr;
+	char *outbuf;
+	
+	outptr = outbuf = g_malloc ((len * 3) + 1);
+	
+	inptr = (unsigned char *) in;
+	while (inptr < inend) {
+		if (*inptr > 127 || isspace ((int) *inptr)) {
+			*outptr++ = '%';
+			*outptr++ = tohex[(*inptr >> 4) & 0xf];
+			*outptr++ = tohex[*inptr & 0xf];
+		} else
+			*outptr++ = *inptr++;
+	}
+	
+	*outptr = '\0';
+	
+	return outbuf;
+}
+
+#define HEXVAL(c) (isdigit (c) ? (c) - '0' : tolower (c) - 'a' + 10)
+
+static char *
+hex_decode (const char *in, size_t len)
+{
+	const unsigned char *inend = in + len;
+	unsigned char *inptr, *outptr;
+	char *outbuf;
+	
+	outptr = outbuf = g_malloc (len + 1);
+	
+	inptr = (unsigned char *) in;
+	while (inptr < inend) {
+		if (*inptr == '%') {
+			if (isxdigit ((int) inptr[1]) && isxdigit ((int) inptr[2])) {
+				*outptr++ = HEXVAL (inptr[1]) * 16 + HEXVAL (inptr[2]);
+				inptr += 3;
+			} else
+				*outptr++ = *inptr++;
+		} else
+			*outptr++ = *inptr++;
+	}
+	
+	*outptr = '\0';
+	
+	return outbuf;
+}
+
+static char *
+find_folder (GPtrArray *folders, const char *folder, char *dir_sep)
+{
+	const unsigned char *inptr, *inend;
+	int inlen, len, diff, i;
+	int quoted;
+	
+	len = strlen (folder);
+	
+	for (i = 0; i < folders->len; i++) {
+		inptr = folders->pdata[i];
+		inend = inptr + strlen (inptr);
+		if (strncmp (inptr, "* LSUB (", 8))
+			continue;
+		
+		inptr += 8;
+		while (inptr < inend && *inptr != ')')
+			inptr++;
+		
+		if (inptr >= inend)
+			continue;
+		
+		inptr++;
+		while (inptr < inend && isspace ((int) *inptr))
+			inptr++;
+		
+		if (inptr >= inend)
+			continue;
+		
+		/* skip over the dir sep */
+		if (*inptr == '\"')
+			inptr++;
+		
+		*dir_sep = *inptr++;
+		if (*inptr == '\"')
+			inptr++;
+		
+		if (inptr >= inend)
+			continue;
+		
+		while (inptr < inend && isspace ((int) *inptr))
+			inptr++;
+		
+		if (inptr >= inend)
+			continue;
+		
+		if (*inptr == '\"') {
+			inptr++;
+			quoted = 1;
+		} else
+			quoted = 0;
+		
+		inlen = strlen (inptr) - quoted;
+		if (len > inlen)
+			continue;
+		
+		diff = inlen - len;
+		if (!strncmp (inptr + diff, folder, len))
+			return hex_encode (inptr, inlen);
+	}
+	
+	*dir_sep = '\0';
+	
+	return NULL;
+}
+
 static char *
 imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 {
 	struct _storeinfo *si;
 	unsigned char *base_url, *folder, *p, *new = NULL;
-	unsigned char dir_sep;
-	int len;
+	char dir_sep;
 	
 	base_url = get_base_url ("imap", uri);
 	
@@ -184,13 +279,12 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 		return new;
 	}
 	
-	folder = g_strdup_printf ("%s\"", p);
-	len = strlen (folder);
+	p = hex_decode (p, strlen (p));
 	
 	fprintf (stderr, "checking for folder %s on %s... ", p, base_url);
-	p = e_memmem (si->junk->data, si->junk->len, folder, len);
-	g_free (folder);
-	if (p == NULL) {
+	folder = find_folder (si->folders, p, &dir_sep);
+	g_free (p);
+	if (folder == NULL) {
 		fprintf (stderr, "not found.\n");
 		if (si->namespace) {
 			if (!si->dir_sep) {
@@ -203,17 +297,19 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 					while (*p && !ispunct ((int) *p))
 						p++;
 					
-					dir_sep = *p;
+					dir_sep = (char) *p;
 				}
 			} else
 				dir_sep = si->dir_sep;
 			
 			if (dir_sep) {
 				fprintf (stderr, "found: '%c'\n", dir_sep);
+				folder = hex_encode (folder, strlen (folder));
 				if (si->namespace[strlen (si->namespace) - 1] == dir_sep)
 					new = g_strdup_printf ("%s/%s%s", base_url, si->namespace, folder);
 				else
 					new = g_strdup_printf ("%s/%s%c%s", base_url, si->namespace, dir_sep, folder);
+				g_free (folder);
 				
 				p = new + strlen (base_url) + 1;
 				while (*p) {
@@ -233,18 +329,16 @@ imap_url_upgrade (GHashTable *imap_sources, const char *uri)
 	}
 	
 	fprintf (stderr, "found.\n");
-	len--;
-	folder = p;
-	while (*folder != '\"') {
-		folder--;
-		len++;
-	}
+	new = g_strdup_printf ("%s/%s", base_url, folder);
+	g_free (folder);
 	
-	new = g_strdup_printf ("%s/%.*s", base_url, len - 1, folder + 1);
-	if (si->dir_sep) {
+	if (!si->dir_sep)
+		si->dir_sep = dir_sep;
+	
+	if (dir_sep) {
 		p = new + strlen (base_url) + 1;
 		while (*p) {
-			if (*p == si->dir_sep)
+			if (*p == dir_sep)
 				*p = '/';
 			p++;
 		}
@@ -359,9 +453,9 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 	inptr = buffer;
 	url_need_upgrade = FALSE;
 	do {
-		inptr = strstr (inptr, "<folder uri=\"");
+		inptr = strstr (inptr, "uri=\"");
 		if (inptr) {
-			inptr += 13;
+			inptr += 5;
 			url_need_upgrade = !strncmp (inptr, "imap:", 5) || !strncmp (inptr, "exchange:", 9);
 		}
 	} while (inptr && !url_need_upgrade);
@@ -443,9 +537,9 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 		inptr = start;
 		url_need_upgrade = FALSE;
 		do {
-			inptr = strstr (inptr, "<folder uri=\"");
+			inptr = strstr (inptr, "uri=\"");
 			if (inptr) {
-				inptr += 13;
+				inptr += 5;
 				url_need_upgrade = !strncmp (inptr, "imap:", 5) || !strncmp (inptr, "exchange:", 9);
 			}
 		} while (inptr && !url_need_upgrade);
@@ -471,7 +565,7 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 	close (fd);
 	g_free (buffer);
 	
-	fprintf (stdout, "\nSuccessfully upgraded %s\nPrevious settings saved in %s\n", filename, bak);
+	fprintf (stdout, "\nSuccessfully upgraded %s\nPrevious settings saved in %s\n\n", filename, bak);
 	
 	g_free (bak);
 	
@@ -479,7 +573,7 @@ mailer_upgrade_xml_file (GHashTable *imap_sources, const char *filename)
 	
  exception:
 	
-	fprintf (stderr, "\nFailed to save updated settings to %s: %s\n", filename, strerror (errno));
+	fprintf (stderr, "\nFailed to save updated settings to %s: %s\n\n", filename, strerror (errno));
 	
 	close (fd);
 	g_free (buffer);
@@ -689,7 +783,7 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 	close (fd);
 	g_free (buffer);
 	
-	fprintf (stdout, "\nSuccessfully upgraded %s\nPrevious settings saved in %s\n", filename, bak);
+	fprintf (stdout, "\nSuccessfully upgraded %s\nPrevious settings saved in %s\n\n", filename, bak);
 	
 	g_free (bak);
 	
@@ -697,7 +791,7 @@ shortcuts_upgrade_xml_file (GHashTable *accounts, GHashTable *imap_sources, cons
 	
  exception:
 	
-	fprintf (stderr, "\nFailed to save updated settings to %s: %s\n", filename, strerror (errno));
+	fprintf (stderr, "\nFailed to save updated settings to %s: %s\n\n", filename, strerror (errno));
 	
 	close (fd);
 	g_free (buffer);
@@ -726,7 +820,10 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 	for (i = 0; i < num; i++) {
 		struct _storeinfo *si;
 		struct stat st;
-		int fd;
+		char *string;
+		guint32 tmp;
+		FILE *fp;
+		int j;
 		
 		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
 		uri = bonobo_config_get_string (db, path, NULL);
@@ -740,31 +837,37 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 			si->base_url = get_base_url ("imap", uri);
 			si->namespace = imap_namespace (uri);
 			si->dir_sep = '\0';
-			si->junk = NULL;
+			si->folders = NULL;
 			
 			path = si->base_url + 7;
 			
 			path = g_strdup_printf ("%s/evolution/mail/imap/%s/storeinfo", getenv ("HOME"), path);
-			if (stat (path, &st) != -1 && (fd = open (path, O_RDONLY)) != -1) {
-				ssize_t nread = 0, n;
+			if (stat (path, &st) != -1 && (fp = fopen (path, "r")) != NULL) {
+				camel_file_util_decode_uint32 (fp, &tmp);
+				camel_file_util_decode_uint32 (fp, &tmp);
 				
-				si->junk = g_byte_array_new ();
-				g_byte_array_set_size (si->junk, st.st_size);
-				do {
-					do {
-						n = read (fd, si->junk->data + nread, st.st_size - nread);
-					} while (n == -1 && errno == EINTR);
-					
-					if (n > 0)
-						nread += n;
-				} while (n != -1 && nread < st.st_size);
+				j = 0;
+				si->folders = g_ptr_array_new ();
+				while (camel_file_util_decode_string (fp, &string) != -1) {
+					if (j++ > 0) {
+						g_ptr_array_add (si->folders, string);
+					} else {
+						if (!si->namespace)
+							si->namespace = string;
+						else
+							g_free (string);
+						
+						camel_file_util_decode_uint32 (fp, &tmp);
+						si->dir_sep = (char) tmp & 0xff;
+					}
+				}
 				
-				close (fd);
+				fclose (fp);
 			}
 			g_free (path);
 			
-			if (si->junk)
-				si->dir_sep = find_dir_sep (si->junk);
+			if (si->folders && si->folders->len > 0)
+				si->dir_sep = find_dir_sep (si->folders->pdata[0]);
 			
 			g_hash_table_insert (imap_sources, si->base_url, si);
 			

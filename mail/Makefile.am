@@ -156,7 +156,10 @@ evolution_mail_LDFLAGS =				\
 	-export-dynamic
 
 evolution_mail_upgrade_SOURCES = upgrade-mailer.c
-evolution_mail_upgrade_LDADD = $(EVOLUTION_MAIL_LIBS)
+evolution_mail_upgrade_LDADD = 				\
+	$(top_builddir)/camel/libcamel.la 		\
+	$(top_builddir)/e-util/libeutil.la 		\
+	$(EVOLUTION_MAIL_LIBS)
 
 oafdir = $(datadir)/oaf
 oaf_in_files = GNOME_Evolution_Mail.oaf.in

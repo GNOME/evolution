@@ -1,3 +1,11 @@
+2002-09-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* upgrade-mailer.c (imap_url_upgrade): Hex decode the folder names
+	when searching for them in the memory buffer, and re-hex encode
+	them when combining them with the rst of the URL.
+	(mailer_upgrade): Instead of reading in the storeinfo file as raw
+	binary data, use the camel-file-utils to correctly parse it.
+
 2002-09-05  Anna Marie Dirks  <anna@ximian.com>
 
 	* GNOME_Evolution_Mail.oaf.in: Changed the descriptions of the 
