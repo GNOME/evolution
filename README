@@ -97,7 +97,8 @@ the Ximian GNOME evolution preview mirror.
 If installing from packages, remember that you need both the runtime
 and -devel packages for each library.
 
- - xml-i18n-tools - 0.8.1
+ - xml-i18n-tools - lates from xml-i18n-tools-stable-1-x branch in
+   GNOME CVS (0.8.2 is too old)
 
  - gnome-xml - 1.8.10 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_X".)

@@ -1,3 +1,7 @@
+2001-03-22  Dan Winship  <danw@ximian.com>
+
+	* README: Update xml-i18n-tools version
+
 2001-03-22  Jakub Steiner <jimmac@ximian.com>
 
 	* art/new-message.xpm: file->new->mail message
