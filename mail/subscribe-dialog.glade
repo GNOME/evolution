@@ -278,17 +278,6 @@
 	      <property name="visible">True</property>
 	      <property name="layout_style">GTK_BUTTONBOX_DEFAULT_STYLE</property>
 	      <property name="spacing">0</property>
-
-	      <child>
-		<widget class="GtkButton" id="button5">
-		  <property name="visible">True</property>
-		  <property name="can_default">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="label">gtk-help</property>
-		  <property name="use_stock">True</property>
-		  <property name="relief">GTK_RELIEF_NORMAL</property>
-		</widget>
-	      </child>
 	    </widget>
 	    <packing>
 	      <property name="padding">0</property>
