@@ -204,7 +204,7 @@ add_esource (const char *conf_key, const char *group_name,  const char *source_n
 	e_source_set_property (source, "port", camel_url_get_param (url, "soap_port"));
 	e_source_set_property (source, "auth-domain", "Groupwise");
 	e_source_set_property (source, "use_ssl", use_ssl);
-	e_source_set_property (source, "offline_sync", offline_sync);
+	e_source_set_property (source, "offline_sync", offline_sync ? "1" : "0" );
 	e_source_group_add_source (group, source, -1);
 	e_source_list_sync (source_list, NULL);
 
@@ -353,7 +353,7 @@ modify_esource (const char* conf_key, GwAccountInfo *old_account_info, const cha
 					e_source_set_property (source, "username", new_url->user);
 					e_source_set_property (source, "port", camel_url_get_param (new_url,"soap_port"));
 					e_source_set_property (source, "use_ssl",  camel_url_get_param (url, "use_ssl"));
-					e_source_set_property (source, "offline_sync",  camel_url_get_param (url, "offline_sync"));
+					e_source_set_property (source, "offline_sync",  camel_url_get_param (url, "offline_sync") ? "1" : "0");
 					e_source_list_sync (list, NULL);
 					found_group = TRUE;
 					g_free (new_relative_uri);
@@ -533,7 +533,7 @@ add_addressbook_sources (EAccount *account)
 		e_source_set_property (source, "auth-domain", "Groupwise");
 		e_source_set_property (source, "port", soap_port);
 		e_source_set_property(source, "user", url->user);
-		e_source_set_property (source, "offline_sync", camel_url_get_param (url, "offline_sync"));
+		e_source_set_property (source, "offline_sync", camel_url_get_param (url, "offline_sync") ? "1" : "0");
 		if (!e_gw_container_get_is_writable (E_GW_CONTAINER(temp_list->data)))
 			e_source_set_property (source, "completion", "true");
 		if (e_gw_container_get_is_frequent_contacts (E_GW_CONTAINER(temp_list->data)))
