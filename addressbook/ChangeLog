@@ -1,3 +1,16 @@
+2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * util/eab-book-util.c (strstrcase) :
+       case insesitive version of strstr. Used
+       from camel
+
+       (eab_contact_list_from_string) : do case in sensitive
+       search for "BEGIN:VCARD" and "END:VCARD" to
+       take care of broken vcards
+
+       Fixes #70339
+
+
 2005-01-21  JP Rosevear  <jpr@novell.com>
 
 	Fixes #70622
