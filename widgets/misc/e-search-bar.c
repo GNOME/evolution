@@ -556,6 +556,7 @@ setup_bonobo_menus (ESearchBar *esb)
 	g_string_append (xml, "</placeholder>");
 	g_string_append (xml, "</submenu>");
 	
+	remove_bonobo_menus (esb);
 	bonobo_ui_component_set (esb->ui_component, "/menu/SearchPlaceholder", xml->str, NULL);
 
 	g_string_free (xml, TRUE);

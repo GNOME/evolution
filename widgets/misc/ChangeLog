@@ -1,3 +1,10 @@
+2004-02-26  Bill Zhu <bill.zhu@sun.com>
+
+	* e-search-bar.c (setup_bonobo_menus): Before Update the bonobo ui
+	component, remove it first.
+
+	Fixes #54788
+
 2004-02-11  Rodney Dawes  <dobey@ximian.com>
 
 	* e-multi-config-dialog.c (impl_response): Change the filename and
