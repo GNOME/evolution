@@ -1,5 +1,10 @@
 2000-07-12  Chris Toshok  <toshok@helixcode.com>
 
+	* mail-format.c (setup_function_table): add "message/news" to the
+	mime_function_table using the same handler as message/rfc822.
+
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
 	* mail-config.glade*: add news server tab to dialog.
 
 	* mail-config.c (on_NewsServerConfigDialogButton_clicked): new function.

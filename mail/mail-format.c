@@ -201,6 +201,8 @@ setup_function_table (void)
 
 	g_hash_table_insert (mime_function_table, "message/rfc822",
 			     handle_message_rfc822);
+	g_hash_table_insert (mime_function_table, "message/news",
+			     handle_message_rfc822);
 	g_hash_table_insert (mime_function_table, "message/external-body",
 			     handle_message_external_body);
 
