@@ -1,3 +1,8 @@
+2003-01-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in (FULL_GNOME_DEPS): Doh. Use the
+	MANUAL_[NSPR,NSS]_[CFLAGS,LIBS] variables where appropriate.
+
 2003-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in (idldir): Define componentdir instead of
