@@ -2034,7 +2034,7 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 }
 
 
-#define CAMEL_MESSAGE_INFO_HEADERS "DATE FROM TO CC SUBJECT REFERENCES IN-REPLY-TO MESSAGE-ID"
+#define CAMEL_MESSAGE_INFO_HEADERS "DATE FROM TO CC SUBJECT REFERENCES IN-REPLY-TO MESSAGE-ID MIME-VERSION CONTENT-TYPE"
 
 /* FIXME: this needs to be kept in sync with camel-mime-utils.c's list
    of mailing-list headers and so might be best if this were

@@ -1,3 +1,8 @@
+2002-09-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (CAMEL_MESSAGE_INFO_HEADERS):
+	Include MIME-VERSION and CONTENT-TYPE.
+
 2002-09-18  Not Zed  <NotZed@Ximian.com>
 
 	* providers/imap/camel-imap-command.c
