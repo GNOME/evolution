@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution 1.4.5\n"
 "POT-Creation-Date: 2004-02-27 03:15+0100\n"
-"PO-Revision-Date: 2004-03-06 01:14+0300\n"
+"PO-Revision-Date: 2004-03-27 13:22+0300\n"
 "Last-Translator: Priit Laes <amd@tt.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
 "MIME-Version: 1.0\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
-msgstr ""
+msgstr "Vaikimisi sünkroniseerimisaadress:"
 
 #: addressbook/conduit/address-conduit.c:1150
 #: addressbook/conduit/address-conduit.c:1151
@@ -350,7 +350,7 @@ msgstr ""
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 #: mail/mail-config.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 msgid "  S_how Supported Bases "
@@ -378,7 +378,7 @@ msgstr ""
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: addressbook/gui/component/ldap-config.glade.h:5
 msgid "1:00"
@@ -496,7 +496,7 @@ msgstr ""
 # !PARANDA! - LDAP serveri kehtivuspiirkond
 #: addressbook/gui/component/ldap-config.glade.h:33
 msgid "One"
-msgstr ""
+msgstr "Üks"
 
 #: addressbook/gui/component/ldap-config.glade.h:34
 msgid "S_earch scope: "
@@ -568,7 +568,7 @@ msgstr "Samm 3: kataloogist otsimine"
 # !PARANDA! - LDAP serveri kehtivuspiirkond
 #: addressbook/gui/component/ldap-config.glade.h:55
 msgid "Sub"
-msgstr ""
+msgstr "Alam"
 
 #: addressbook/gui/component/ldap-config.glade.h:56
 msgid "Supported Search Bases"
@@ -1172,7 +1172,7 @@ msgstr "Brasiilia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "British Indian Ocean Territory"
-msgstr "Briti India ookeani ala"
+msgstr "Briti India ookeani territoorium"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Brunei Darussalam"
@@ -2030,7 +2030,7 @@ msgstr "Eelmisele sõnumile"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:63
 msgid "Novell Groupwise"
-msgstr ""
+msgstr "Novell Groupwise"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:64
 #: addressbook/gui/contact-editor/e-contact-editor.c:2908
@@ -2042,7 +2042,7 @@ msgstr "Nimetu kontaktide nimekiri"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:65
 msgid "Yahoo Messenger"
-msgstr ""
+msgstr "Yahoo Messenger"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:66
 #, fuzzy
@@ -2054,7 +2054,7 @@ msgstr "_Saada sõnum"
 #: addressbook/gui/widgets/eab-contact-display.c:244
 #: addressbook/gui/widgets/eab-contact-display.c:259
 msgid "ICQ"
-msgstr ""
+msgstr "ICQ"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:118
 #: addressbook/gui/contact-editor/e-contact-editor.c:735
@@ -2169,7 +2169,7 @@ msgstr "Äri"
 #: addressbook/gui/widgets/eab-contact-display.c:242
 #: addressbook/gui/widgets/eab-contact-display.c:257
 msgid "AIM"
-msgstr ""
+msgstr "AIM"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2909
 #: addressbook/gui/widgets/eab-contact-display.c:247
@@ -2182,7 +2182,7 @@ msgstr "Yoro"
 #: addressbook/gui/widgets/eab-contact-display.c:246
 #: addressbook/gui/widgets/eab-contact-display.c:261
 msgid "MSN"
-msgstr ""
+msgstr "MSN"
 
 #: addressbook/gui/contact-editor/e-contact-editor.c:2912
 #, fuzzy
@@ -2538,7 +2538,7 @@ msgstr "Pilot pihuarvuti sätted..."
 #: addressbook/gui/widgets/e-addressbook-view.c:1058
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
-msgstr "Saada kontakt edasi"
+msgstr "Edasta kontakt"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1059
 msgid "Send Message to Contact"
@@ -2914,7 +2914,7 @@ msgstr "Pownal"
 
 #: addressbook/gui/widgets/eab-contact-display.c:264
 msgid "WWW"
-msgstr ""
+msgstr "WWW"
 
 #: addressbook/gui/widgets/eab-contact-display.c:265
 #: addressbook/gui/widgets/eab-contact-display.c:476
@@ -3180,9 +3180,8 @@ msgid "Card View"
 msgstr "Kaardi vaade"
 
 #: addressbook/gui/widgets/gal-view-factory-treeview.c:25
-#, fuzzy
 msgid "GTK Tree View"
-msgstr "Nädala vaade"
+msgstr "GTK Puuvaade"
 
 #: addressbook/gui/widgets/test-reflow.c:119
 msgid "Reflow Test"
@@ -3191,9 +3190,8 @@ msgstr ""
 #: addressbook/gui/widgets/test-reflow.c:120
 #: addressbook/printing/test-contact-print-style-editor.c:54
 #: addressbook/printing/test-print.c:53
-#, fuzzy
 msgid "Copyright (C) 2000, Ximian, Inc."
-msgstr "Copyright 1999, 2000, 2001 Ximian, Inc."
+msgstr "Autoriõigus (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
@@ -3209,15 +3207,15 @@ msgstr ""
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
 msgid "Evolution VCard Importer"
-msgstr ""
+msgstr "Evolutioni VKaardi importija"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
 msgid "Evolution VCard importer"
-msgstr ""
+msgstr "Evolutioni VKaardi importija"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VKaart (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
@@ -3440,7 +3438,7 @@ msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "VÄLJUNDFAIL"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
 #, fuzzy
@@ -3466,7 +3464,7 @@ msgstr ""
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMBER"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
@@ -3653,11 +3651,11 @@ msgstr "A_va"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:905
 msgid "Dismiss"
-msgstr ""
+msgstr "Tühista"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:907
 msgid "Dismiss All"
-msgstr ""
+msgstr "Tühista kõik"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:972
 msgid "No description available."
@@ -3747,7 +3745,7 @@ msgstr "Täna lõppevate ülesannete värvus"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "Päevad, mis on tööpäevad"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
@@ -5229,9 +5227,8 @@ msgid "This and Future Instances"
 msgstr "Wallis ja Futuna"
 
 #: calendar/gui/dialogs/recur-comp.c:87
-#, fuzzy
 msgid "All Instances"
-msgstr "_Kõik ilmajaamad:"
+msgstr "Kõik juhtumid"
 
 #: calendar/gui/dialogs/recurrence-page.c:542
 msgid "This appointment contains recurrences that Evolution cannot edit."
@@ -5282,9 +5279,8 @@ msgid "occurrences"
 msgstr "kord(a)"
 
 #: calendar/gui/dialogs/recurrence-page.c:2334
-#, fuzzy
 msgid "Date/Time"
-msgstr "Kuupäev ja kell:"
+msgstr "Kuupäev/kellaaeg"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
@@ -5365,7 +5361,7 @@ msgstr ""
 
 #: calendar/gui/dialogs/save-comp.c:62
 msgid "Save Event"
-msgstr ""
+msgstr "Salvesta sündmus"
 
 #: calendar/gui/dialogs/send-comp.c:57
 msgid "The meeting information has been created. Send it?"
@@ -5388,9 +5384,9 @@ msgid "Completed date is wrong"
 msgstr ""
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "% _Complete"
-msgstr "(%) valmis"
+msgstr "(%) _valmis"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-model-tasks.c:323
@@ -5454,9 +5450,8 @@ msgid "Undefined"
 msgstr "Määramata"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#, fuzzy
 msgid "_Date Completed:"
-msgstr "Lõpetamise päev:"
+msgstr "_Lõpetamise päev:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
@@ -5467,9 +5462,8 @@ msgid "_Status:"
 msgstr "_Olek:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
-#, fuzzy
 msgid "_Web Page:"
-msgstr "Kodulehe aad_ress"
+msgstr "_Kodulehekülg:"
 
 #: calendar/gui/dialogs/task-editor.c:193
 msgid "Basic"
@@ -5510,9 +5504,8 @@ msgid "Description:"
 msgstr "Kirjeldus:"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
-#, fuzzy
 msgid "Folder:"
-msgstr "_Kaust:"
+msgstr "Kaust:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "Sta_rt Date:"
@@ -5532,38 +5525,32 @@ msgid "Calendars selected for publishing"
 msgstr ""
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "Daily"
-msgstr "Täpsustused"
+msgstr "Igapäevane"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "Free/Busy Editor"
-msgstr "Vaba/Hõivatud informatsioon"
+msgstr "Vaba/Hõivatud info redigeerija"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-#, fuzzy
 msgid "Free/Busy Publishing Location"
-msgstr "Vaba/Hõivatud informatsioon"
+msgstr "Avaliku Vaba/Hõivatud info asukoht"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "Login name:"
-msgstr "Loendi _nimi:"
+msgstr "Sisselogimisnimi:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-#, fuzzy
 msgid "Password:"
-msgstr "Parool"
+msgstr "Parool:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "Publishing Frequency"
 msgstr ""
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-#, fuzzy
 msgid "Remember password"
-msgstr "Jäta see parool meelde"
+msgstr "Parooli meeldejätmine"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
 msgid "URL:"
@@ -5574,9 +5561,8 @@ msgid "User Publishes"
 msgstr ""
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:13
-#, fuzzy
 msgid "Weekly"
-msgstr "Nädal"
+msgstr "Iganädalane"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -5692,9 +5678,8 @@ msgstr "Salajane"
 
 #: calendar/gui/e-cal-list-view.etspec.h:3
 #: calendar/gui/e-calendar-table.etspec.h:9
-#, fuzzy
 msgid "Description"
-msgstr "Kirjeldus:"
+msgstr "Kirjeldus"
 
 #: calendar/gui/e-cal-list-view.etspec.h:4
 #: calendar/gui/e-calendar-table.etspec.h:13
@@ -5709,9 +5694,8 @@ msgstr "Kokkuvõte"
 
 #: calendar/gui/e-cal-list-view.etspec.h:6
 #: mail/mail-config.glade.h:182
-#, fuzzy
 msgid "color"
-msgstr " värvusega"
+msgstr "värv"
 
 #: calendar/gui/e-cal-list-view.etspec.h:7
 #, fuzzy
@@ -5985,9 +5969,8 @@ msgid "100%"
 msgstr "100%"
 
 #: calendar/gui/e-calendar-table.c:1038
-#, fuzzy
 msgid "Open _Web Page"
-msgstr "_Ava sõnum"
+msgstr "_Ava veebilehekülg"
 
 #: calendar/gui/e-calendar-table.c:1050
 msgid "_Assign Task"
@@ -6795,26 +6778,22 @@ msgid "Meeting _end time:"
 msgstr "Koosoleku l_õpp:"
 
 #: calendar/gui/e-tasks.c:177
-#, fuzzy
 msgid "Start Date:"
-msgstr "_Alguskuupäev:"
+msgstr "Alguskuupäev:"
 
 #: calendar/gui/e-tasks.c:193
-#, fuzzy
 msgid "Due Date:"
-msgstr "_Tähtaeg:"
+msgstr "Tähtaeg:"
 
-#. write priority
+#  write priority
 #: calendar/gui/e-tasks.c:221
-#, fuzzy
 msgid "Priority:"
-msgstr "Tä_htsus:"
+msgstr "Tähtsus:"
 
-#. URL
+#  URL
 #: calendar/gui/e-tasks.c:277
-#, fuzzy
 msgid "Web Page:"
-msgstr "Lehekülg"
+msgstr "Veebilehekülg:"
 
 #: calendar/gui/e-tasks.c:310
 #: mail/em-folder-view.c:2176
@@ -6832,7 +6811,7 @@ msgstr ""
 "Viga tegevusel %s:\n"
 " %s"
 
-#. FIXME: this doesn't remove the task list from the list or anything
+#  FIXME: this doesn't remove the task list from the list or anything
 #: calendar/gui/e-tasks.c:755
 #: calendar/gui/gnome-cal.c:1941
 #, c-format
@@ -6884,9 +6863,9 @@ msgid "Loading appointments at %s"
 msgstr "Uus kokkusaamine"
 
 #: calendar/gui/gnome-cal.c:1800
-#, fuzzy, c-format
+#, c-format
 msgid "Opening %s"
-msgstr "Avan %s ülesanded"
+msgstr "%s avamine"
 
 #: calendar/gui/gnome-cal.c:1949
 #, c-format
@@ -6897,9 +6876,8 @@ msgid ""
 msgstr ""
 
 #: calendar/gui/gnome-cal.c:2803
-#, fuzzy
 msgid "Purging"
-msgstr "Trüki"
+msgstr "Puhastamine"
 
 #: calendar/gui/goto-dialog.glade.h:1
 msgid "April"
@@ -6954,9 +6932,8 @@ msgid "September"
 msgstr "September"
 
 #: calendar/gui/goto-dialog.glade.h:14
-#, fuzzy
 msgid "_Go To Today"
-msgstr "Mine tänasele"
+msgstr "_Mine tänasele"
 
 #: calendar/gui/itip-utils.c:271
 #: calendar/gui/itip-utils.c:319
@@ -7018,9 +6995,9 @@ msgid "You must be an attendee of the event."
 msgstr "Sa pead ise olema sündmusest osavõtja."
 
 #: calendar/gui/itip-utils.c:1155
-#, fuzzy, c-format
+#, c-format
 msgid "Enter the password for %s"
-msgstr "%sPalun sisesta %s parool (kasutaja %s)"
+msgstr "Sisesta sisesta parool %s jaoks"
 
 #: calendar/gui/migration.c:137
 msgid ""
@@ -7298,19 +7275,16 @@ msgid "Create a new task"
 msgstr "Lisab uue ülesande"
 
 #: calendar/gui/tasks-component.c:565
-#, fuzzy
 msgid "New task list"
-msgstr "Uus ülesanne"
+msgstr "Uus ülesannete nimekiri"
 
 #: calendar/gui/tasks-component.c:566
-#, fuzzy
 msgid "_Task List"
-msgstr "Ülesannete nimekiri"
+msgstr "Ü_lesannete nimekiri"
 
 #: calendar/gui/tasks-component.c:567
-#, fuzzy
 msgid "Create a new task list"
-msgstr "Lisab uue ülesande"
+msgstr "Loo uus ülesannete nimekiri"
 
 #: calendar/gui/tasks-component.c:634
 #, c-format
@@ -7351,21 +7325,18 @@ msgstr "PETKNRL"
 
 # !PARANDA!
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution Calendar intelligent importer"
-msgstr "Evolution'i kalendri iTip/iMip vaataja"
+msgstr "Evolution'i intelligentne kalendriimportija"
 
 # !PARANDA!
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Evolution iCalendar importer"
-msgstr "Evolution'i kalendri iTip/iMip vaataja"
+msgstr "Evolution'i iKalendri imoportija"
 
 # !PARANDA!
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:3
-#, fuzzy
 msgid "Evolution vCalendar importer"
-msgstr "Evolution'i kalendri iTip/iMip vaataja"
+msgstr "Evolution'i vKalendri importija"
 
 #: calendar/importers/GNOME_Evolution_Calendar_Importer.server.in.in.h:4
 msgid "iCalendar files (.ics)"
@@ -7376,9 +7347,8 @@ msgid "vCalendar files (.vcf)"
 msgstr "vKalendri failid (.vcf)"
 
 #: calendar/importers/icalendar-importer.c:78
-#, fuzzy
 msgid "Appointments and Meetings"
-msgstr "Kohtumisi ja sündmusi sisaldav avalik kaust"
+msgstr "Kohtumised ja koosolekud"
 
 #: calendar/importers/icalendar-importer.c:494
 msgid "Reminder!!"
@@ -7615,11 +7585,11 @@ msgstr "Aafrika/Windhoek"
 
 #: calendar/zones.h:59
 msgid "America/Adak"
-msgstr ""
+msgstr "Ameerika/Adak"
 
 #: calendar/zones.h:60
 msgid "America/Anchorage"
-msgstr ""
+msgstr "Ameerika/Anchorage"
 
 #: calendar/zones.h:61
 msgid "America/Anguilla"
@@ -7627,19 +7597,19 @@ msgstr "Ameerika/Anguilla"
 
 #: calendar/zones.h:62
 msgid "America/Antigua"
-msgstr ""
+msgstr "Ameerika/Antigua"
 
 #: calendar/zones.h:63
 msgid "America/Araguaina"
-msgstr ""
+msgstr "Ameerika/Araguaina"
 
 #: calendar/zones.h:64
 msgid "America/Aruba"
-msgstr ""
+msgstr "Ameerika/Aruba"
 
 #: calendar/zones.h:65
 msgid "America/Asuncion"
-msgstr ""
+msgstr "Ameerika/Asuncion"
 
 #: calendar/zones.h:66
 msgid "America/Barbados"
@@ -7647,7 +7617,7 @@ msgstr "Ameerika/Barbados"
 
 #: calendar/zones.h:67
 msgid "America/Belem"
-msgstr ""
+msgstr "Ameerika/Belem"
 
 #: calendar/zones.h:68
 msgid "America/Belize"
@@ -7655,15 +7625,15 @@ msgstr "Ameerika/Belize"
 
 #: calendar/zones.h:69
 msgid "America/Boa_Vista"
-msgstr ""
+msgstr "Ameerika/Boa_Vista"
 
 #: calendar/zones.h:70
 msgid "America/Bogota"
-msgstr ""
+msgstr "Ameerika/Bogota"
 
 #: calendar/zones.h:71
 msgid "America/Boise"
-msgstr ""
+msgstr "Ameerika/Boise"
 
 #: calendar/zones.h:72
 msgid "America/Buenos_Aires"
@@ -7671,27 +7641,27 @@ msgstr "Ameerika/Buenos_Aires"
 
 #: calendar/zones.h:73
 msgid "America/Cambridge_Bay"
-msgstr ""
+msgstr "Ameerika/Cambridge_Bay"
 
 #: calendar/zones.h:74
 msgid "America/Cancun"
-msgstr ""
+msgstr "Ameerika/Cancun"
 
 #: calendar/zones.h:75
 msgid "America/Caracas"
-msgstr ""
+msgstr "Ameerika/Caracas"
 
 #: calendar/zones.h:76
 msgid "America/Catamarca"
-msgstr ""
+msgstr "Ameerika/Catamarca"
 
 #: calendar/zones.h:77
 msgid "America/Cayenne"
-msgstr ""
+msgstr "Ameerika/Cayenne"
 
 #: calendar/zones.h:78
 msgid "America/Cayman"
-msgstr ""
+msgstr "Ameerika/Cayman"
 
 #: calendar/zones.h:79
 msgid "America/Chicago"
@@ -7699,11 +7669,11 @@ msgstr "Ameerika/Chicago"
 
 #: calendar/zones.h:80
 msgid "America/Chihuahua"
-msgstr ""
+msgstr "Ameerika/Chihuahua"
 
 #: calendar/zones.h:81
 msgid "America/Cordoba"
-msgstr ""
+msgstr "Ameerika/Cordoba"
 
 #: calendar/zones.h:82
 msgid "America/Costa_Rica"
@@ -7711,23 +7681,23 @@ msgstr "Ameerika/Costa_Rica"
 
 #: calendar/zones.h:83
 msgid "America/Cuiaba"
-msgstr ""
+msgstr "Ameerika/Cuiaba"
 
 #: calendar/zones.h:84
 msgid "America/Curacao"
-msgstr ""
+msgstr "Ameerika/Curacao"
 
 #: calendar/zones.h:85
 msgid "America/Danmarkshavn"
-msgstr ""
+msgstr "Ameerika/Damnarkshavn"
 
 #: calendar/zones.h:86
 msgid "America/Dawson"
-msgstr ""
+msgstr "Ameerika/Dawson"
 
 #: calendar/zones.h:87
 msgid "America/Dawson_Creek"
-msgstr ""
+msgstr "Ameerika/Dawson_Creek"
 
 #: calendar/zones.h:88
 msgid "America/Denver"
@@ -7747,7 +7717,7 @@ msgstr "Ameerika/Edmonton"
 
 #: calendar/zones.h:92
 msgid "America/Eirunepe"
-msgstr ""
+msgstr "Ameerika/Eirunepe"
 
 #: calendar/zones.h:93
 msgid "America/El_Salvador"
@@ -7755,23 +7725,23 @@ msgstr "Ameerika/El_Salvador"
 
 #: calendar/zones.h:94
 msgid "America/Fortaleza"
-msgstr ""
+msgstr "Ameerika/Fortaleza"
 
 #: calendar/zones.h:95
 msgid "America/Glace_Bay"
-msgstr ""
+msgstr "Ameerika/Glace_Bay"
 
 #: calendar/zones.h:96
 msgid "America/Godthab"
-msgstr ""
+msgstr "Ameerika/Godthab"
 
 #: calendar/zones.h:97
 msgid "America/Goose_Bay"
-msgstr ""
+msgstr "Ameerika/Goose_Bay"
 
 #: calendar/zones.h:98
 msgid "America/Grand_Turk"
-msgstr ""
+msgstr "Ameerika/Grand_Turk"
 
 #: calendar/zones.h:99
 msgid "America/Grenada"
@@ -7787,11 +7757,11 @@ msgstr "Ameerika/Guatemala"
 
 #: calendar/zones.h:102
 msgid "America/Guayaquil"
-msgstr ""
+msgstr "Ameerika/Guayaquil"
 
 #: calendar/zones.h:103
 msgid "America/Guyana"
-msgstr ""
+msgstr "Ameerika/Guyana"
 
 #: calendar/zones.h:104
 msgid "America/Halifax"
@@ -7807,19 +7777,19 @@ msgstr "Ameerika/Hermosillo"
 
 #: calendar/zones.h:107
 msgid "America/Indiana/Indianapolis"
-msgstr ""
+msgstr "Ameerika/Indiana/Indianapolis"
 
 #: calendar/zones.h:108
 msgid "America/Indiana/Knox"
-msgstr ""
+msgstr "Ameerika/Indiana/Knox"
 
 #: calendar/zones.h:109
 msgid "America/Indiana/Marengo"
-msgstr ""
+msgstr "Ameerika/Indiana/Marengo"
 
 #: calendar/zones.h:110
 msgid "America/Indiana/Vevay"
-msgstr ""
+msgstr "Ameerika/Indiana/Vevay"
 
 #: calendar/zones.h:111
 msgid "America/Indianapolis"
@@ -7827,11 +7797,11 @@ msgstr "Ameerika/Indianapolis"
 
 #: calendar/zones.h:112
 msgid "America/Inuvik"
-msgstr ""
+msgstr "Ameerika/Inuvik"
 
 #: calendar/zones.h:113
 msgid "America/Iqaluit"
-msgstr ""
+msgstr "Ameerika/Iqaluit"
 
 #: calendar/zones.h:114
 msgid "America/Jamaica"
@@ -7839,7 +7809,7 @@ msgstr "Ameerika/Jamaika"
 
 #: calendar/zones.h:115
 msgid "America/Jujuy"
-msgstr ""
+msgstr "Ameerika/Jujuy"
 
 #: calendar/zones.h:116
 msgid "America/Juneau"
@@ -7851,7 +7821,7 @@ msgstr "Ameerika/Kentucky/Louisville"
 
 #: calendar/zones.h:118
 msgid "America/Kentucky/Monticello"
-msgstr ""
+msgstr "Ameerika/Kentucky/Monticello"
 
 #: calendar/zones.h:119
 msgid "America/La_Paz"
@@ -7871,7 +7841,7 @@ msgstr "Ameerika/Louisville"
 
 #: calendar/zones.h:123
 msgid "America/Maceio"
-msgstr ""
+msgstr "Ameerika/Maceio"
 
 #: calendar/zones.h:124
 msgid "America/Managua"
@@ -7895,23 +7865,23 @@ msgstr "Ameerika/Mendoza"
 
 #: calendar/zones.h:129
 msgid "America/Menominee"
-msgstr ""
+msgstr "Ameerika/Menominee"
 
 #: calendar/zones.h:130
 msgid "America/Merida"
-msgstr ""
+msgstr "Ameerika/Merida"
 
 #: calendar/zones.h:131
 msgid "America/Mexico_City"
-msgstr ""
+msgstr "Ameerika/Mexico_City"
 
 #: calendar/zones.h:132
 msgid "America/Miquelon"
-msgstr ""
+msgstr "Ameerika/Miquelon"
 
 #: calendar/zones.h:133
 msgid "America/Monterrey"
-msgstr ""
+msgstr "Ameerika/Monterrey"
 
 #: calendar/zones.h:134
 msgid "America/Montevideo"
@@ -7923,11 +7893,11 @@ msgstr "Ameerika/Montreal"
 
 #: calendar/zones.h:136
 msgid "America/Montserrat"
-msgstr ""
+msgstr "Ameerika/Montserrat"
 
 #: calendar/zones.h:137
 msgid "America/Nassau"
-msgstr ""
+msgstr "Ameerika/Nassau"
 
 #: calendar/zones.h:138
 msgid "America/New_York"
@@ -7935,19 +7905,19 @@ msgstr "Ameerika/New_York"
 
 #: calendar/zones.h:139
 msgid "America/Nipigon"
-msgstr ""
+msgstr "Ameerika/Nipigon"
 
 #: calendar/zones.h:140
 msgid "America/Nome"
-msgstr ""
+msgstr "Ameerika/Nome"
 
 #: calendar/zones.h:141
 msgid "America/Noronha"
-msgstr ""
+msgstr "Ameerika/Noronha"
 
 #: calendar/zones.h:142
 msgid "America/North_Dakota/Center"
-msgstr ""
+msgstr "Ameerika/Põhja_Dakota/Center"
 
 #: calendar/zones.h:143
 msgid "America/Panama"
@@ -7955,55 +7925,55 @@ msgstr "Ameerika/Panama"
 
 #: calendar/zones.h:144
 msgid "America/Pangnirtung"
-msgstr ""
+msgstr "Ameerika/Pangnirtung"
 
 #: calendar/zones.h:145
 msgid "America/Paramaribo"
-msgstr ""
+msgstr "Ameerika/Paramaribo"
 
 #: calendar/zones.h:146
 msgid "America/Phoenix"
-msgstr ""
+msgstr "Ameerika/Phoenix"
 
 #: calendar/zones.h:147
 msgid "America/Port-au-Prince"
-msgstr ""
+msgstr "Ameerika/Port-au-Prince"
 
 #: calendar/zones.h:148
 msgid "America/Port_of_Spain"
-msgstr ""
+msgstr "Ameerika/Port_of_Spain"
 
 #: calendar/zones.h:149
 msgid "America/Porto_Velho"
-msgstr ""
+msgstr "Ameerika/Porto_Velho"
 
 #: calendar/zones.h:150
 msgid "America/Puerto_Rico"
-msgstr ""
+msgstr "Ameerika/Puerto_Rico"
 
 #: calendar/zones.h:151
 msgid "America/Rainy_River"
-msgstr ""
+msgstr "Ameerika/Rainy_River"
 
 #: calendar/zones.h:152
 msgid "America/Rankin_Inlet"
-msgstr ""
+msgstr "Ameerika/Rankin_Inlet"
 
 #: calendar/zones.h:153
 msgid "America/Recife"
-msgstr ""
+msgstr "Ameerika/Recife"
 
 #: calendar/zones.h:154
 msgid "America/Regina"
-msgstr ""
+msgstr "Ameerika/Regina"
 
 #: calendar/zones.h:155
 msgid "America/Rio_Branco"
-msgstr ""
+msgstr "Ameerika/Rio_Branco"
 
 #: calendar/zones.h:156
 msgid "America/Rosario"
-msgstr ""
+msgstr "Ameerika/Rosario"
 
 #: calendar/zones.h:157
 msgid "America/Santiago"
@@ -8011,63 +7981,63 @@ msgstr "Ameerika/Santiago"
 
 #: calendar/zones.h:158
 msgid "America/Santo_Domingo"
-msgstr ""
+msgstr "Ameerika/Santo_Domingo"
 
 #: calendar/zones.h:159
 msgid "America/Sao_Paulo"
-msgstr ""
+msgstr "Ameerika/Sao_Paulo"
 
 #: calendar/zones.h:160
 msgid "America/Scoresbysund"
-msgstr ""
+msgstr "Ameerika/Scoresbysund"
 
 #: calendar/zones.h:161
 msgid "America/Shiprock"
-msgstr ""
+msgstr "Ameerika/Shiprocks"
 
 #: calendar/zones.h:162
 msgid "America/St_Johns"
-msgstr ""
+msgstr "Ameerika/St_Johns"
 
 #: calendar/zones.h:163
 msgid "America/St_Kitts"
-msgstr ""
+msgstr "Ameerika/St_Kitts"
 
 #: calendar/zones.h:164
 msgid "America/St_Lucia"
-msgstr ""
+msgstr "Ameerika/St_Lucia"
 
 #: calendar/zones.h:165
 msgid "America/St_Thomas"
-msgstr ""
+msgstr "Ameerika/St_Thomas"
 
 #: calendar/zones.h:166
 msgid "America/St_Vincent"
-msgstr ""
+msgstr "Ameerika/St_Vincent"
 
 #: calendar/zones.h:167
 msgid "America/Swift_Current"
-msgstr ""
+msgstr "Ameerika/Swift_Current"
 
 #: calendar/zones.h:168
 msgid "America/Tegucigalpa"
-msgstr ""
+msgstr "Ameerika/Tegucigalpa"
 
 #: calendar/zones.h:169
 msgid "America/Thule"
-msgstr ""
+msgstr "Ameerika/Thule"
 
 #: calendar/zones.h:170
 msgid "America/Thunder_Bay"
-msgstr ""
+msgstr "Ameerika/Thunder_Bay"
 
 #: calendar/zones.h:171
 msgid "America/Tijuana"
-msgstr ""
+msgstr "Ameerika/Tijuana"
 
 #: calendar/zones.h:172
 msgid "America/Tortola"
-msgstr ""
+msgstr "Ameerika/Tortola"
 
 #: calendar/zones.h:173
 msgid "America/Vancouver"
@@ -8075,7 +8045,7 @@ msgstr "Ameerika/Vancouver"
 
 #: calendar/zones.h:174
 msgid "America/Whitehorse"
-msgstr ""
+msgstr "Ameerika/Whitehorse"
 
 #: calendar/zones.h:175
 msgid "America/Winnipeg"
@@ -8083,79 +8053,79 @@ msgstr "Ameerika/Winnipeg"
 
 #: calendar/zones.h:176
 msgid "America/Yakutat"
-msgstr ""
+msgstr "Ameerika/Yakutat"
 
 #: calendar/zones.h:177
 msgid "America/Yellowknife"
-msgstr ""
+msgstr "Ameerika/Yelloknife"
 
 #: calendar/zones.h:178
 msgid "Antarctica/Casey"
-msgstr ""
+msgstr "Antarktika/Casey"
 
 #: calendar/zones.h:179
 msgid "Antarctica/Davis"
-msgstr ""
+msgstr "Antarktika/Davis"
 
 #: calendar/zones.h:180
 msgid "Antarctica/DumontDUrville"
-msgstr ""
+msgstr "Antarktika/DumontDurville"
 
 #: calendar/zones.h:181
 msgid "Antarctica/Mawson"
-msgstr ""
+msgstr "Antarktika/Mawson"
 
 #: calendar/zones.h:182
 msgid "Antarctica/McMurdo"
-msgstr ""
+msgstr "Antarktika/McMurdo"
 
 #: calendar/zones.h:183
 msgid "Antarctica/Palmer"
-msgstr ""
+msgstr "Antarktika/Palmer"
 
 #: calendar/zones.h:184
 msgid "Antarctica/South_Pole"
-msgstr ""
+msgstr "Antarktika/South_Pole"
 
 #: calendar/zones.h:185
 msgid "Antarctica/Syowa"
-msgstr ""
+msgstr "Antarktika/Syowa"
 
 #: calendar/zones.h:186
 msgid "Antarctica/Vostok"
-msgstr ""
+msgstr "Antarktika/Vostok"
 
 #: calendar/zones.h:187
 msgid "Arctic/Longyearbyen"
-msgstr ""
+msgstr "Arktika/Longyearbyen"
 
 #: calendar/zones.h:188
 msgid "Asia/Aden"
-msgstr ""
+msgstr "Aasia/Aden"
 
 #: calendar/zones.h:189
 msgid "Asia/Almaty"
-msgstr ""
+msgstr "Aasia/Almaty"
 
 #: calendar/zones.h:190
 msgid "Asia/Amman"
-msgstr ""
+msgstr "Aasia/Amman"
 
 #: calendar/zones.h:191
 msgid "Asia/Anadyr"
-msgstr ""
+msgstr "Aasia/Anadyr"
 
 #: calendar/zones.h:192
 msgid "Asia/Aqtau"
-msgstr ""
+msgstr "Aasia/Aqtau"
 
 #: calendar/zones.h:193
 msgid "Asia/Aqtobe"
-msgstr ""
+msgstr "Aasia/Aqtobe"
 
 #: calendar/zones.h:194
 msgid "Asia/Ashgabat"
-msgstr ""
+msgstr "Aasia/Ashgabat"
 
 #: calendar/zones.h:195
 msgid "Asia/Baghdad"
@@ -8179,7 +8149,7 @@ msgstr "Aasia/Beirut"
 
 #: calendar/zones.h:200
 msgid "Asia/Bishkek"
-msgstr ""
+msgstr "Aasia/Bishkek"
 
 #: calendar/zones.h:201
 msgid "Asia/Brunei"
@@ -8187,31 +8157,31 @@ msgstr "Aasia/Brunei"
 
 #: calendar/zones.h:202
 msgid "Asia/Calcutta"
-msgstr ""
+msgstr "Aasia/Calcutta"
 
 #: calendar/zones.h:203
 msgid "Asia/Choibalsan"
-msgstr ""
+msgstr "Aasia/Choibalsan"
 
 #: calendar/zones.h:204
 msgid "Asia/Chongqing"
-msgstr ""
+msgstr "Aasia/Chongqing"
 
 #: calendar/zones.h:205
 msgid "Asia/Colombo"
-msgstr ""
+msgstr "Aasia/Colombo"
 
 #: calendar/zones.h:206
 msgid "Asia/Damascus"
-msgstr ""
+msgstr "Aasia/Damascus"
 
 #: calendar/zones.h:207
 msgid "Asia/Dhaka"
-msgstr ""
+msgstr "Aasia/Dhaka"
 
 #: calendar/zones.h:208
 msgid "Asia/Dili"
-msgstr ""
+msgstr "Aasia/Dili"
 
 #: calendar/zones.h:209
 msgid "Asia/Dubai"
@@ -8219,7 +8189,7 @@ msgstr "Aasia/Dubai"
 
 #: calendar/zones.h:210
 msgid "Asia/Dushanbe"
-msgstr ""
+msgstr "Aasia/Dushanbe"
 
 #: calendar/zones.h:211
 msgid "Asia/Gaza"
@@ -8227,7 +8197,7 @@ msgstr "Aasia/Gaza"
 
 #: calendar/zones.h:212
 msgid "Asia/Harbin"
-msgstr ""
+msgstr "Aasia/Harbin"
 
 #: calendar/zones.h:213
 msgid "Asia/Hong_Kong"
@@ -8235,7 +8205,7 @@ msgstr "Aasia/Hong_Kong"
 
 #: calendar/zones.h:214
 msgid "Asia/Hovd"
-msgstr ""
+msgstr "Aasia/Hovd"
 
 #: calendar/zones.h:215
 msgid "Asia/Irkutsk"
@@ -8251,7 +8221,7 @@ msgstr "Aasia/Jakarta"
 
 #: calendar/zones.h:218
 msgid "Asia/Jayapura"
-msgstr ""
+msgstr "Aasia/Jayapura"
 
 #: calendar/zones.h:219
 msgid "Asia/Jerusalem"
@@ -8263,19 +8233,19 @@ msgstr "Aasia/Kabul"
 
 #: calendar/zones.h:221
 msgid "Asia/Kamchatka"
-msgstr ""
+msgstr "Aasia/Kamchatka"
 
 #: calendar/zones.h:222
 msgid "Asia/Karachi"
-msgstr ""
+msgstr "Aasia/Karachi"
 
 #: calendar/zones.h:223
 msgid "Asia/Kashgar"
-msgstr ""
+msgstr "Aasia/Kashgar"
 
 #: calendar/zones.h:224
 msgid "Asia/Katmandu"
-msgstr ""
+msgstr "Aasia/Katmandu"
 
 #: calendar/zones.h:225
 msgid "Asia/Krasnoyarsk"
@@ -8287,7 +8257,7 @@ msgstr "Aasia/Kuala_Lumpur"
 
 #: calendar/zones.h:227
 msgid "Asia/Kuching"
-msgstr ""
+msgstr "Aasia/Kuching"
 
 #: calendar/zones.h:228
 msgid "Asia/Kuwait"
@@ -8295,19 +8265,19 @@ msgstr "Aasia/Kuveit"
 
 #: calendar/zones.h:229
 msgid "Asia/Macao"
-msgstr ""
+msgstr "Aasia/Macao"
 
 #: calendar/zones.h:230
 msgid "Asia/Macau"
-msgstr ""
+msgstr "Aasia/Macau"
 
 #: calendar/zones.h:231
 msgid "Asia/Magadan"
-msgstr ""
+msgstr "Aasia/Magadan"
 
 #: calendar/zones.h:232
 msgid "Asia/Makassar"
-msgstr ""
+msgstr "Aasia/Makassar"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -8315,11 +8285,11 @@ msgstr "Aasia/Manila"
 
 #: calendar/zones.h:234
 msgid "Asia/Muscat"
-msgstr ""
+msgstr "Aasia/Muscat"
 
 #: calendar/zones.h:235
 msgid "Asia/Nicosia"
-msgstr ""
+msgstr "Aasia/Nicosia"
 
 #: calendar/zones.h:236
 msgid "Asia/Novosibirsk"
@@ -8331,43 +8301,43 @@ msgstr "Aasia/Omsk"
 
 #: calendar/zones.h:238
 msgid "Asia/Oral"
-msgstr ""
+msgstr "Aasia/Oral"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
-msgstr ""
+msgstr "Aasia/Phnom_Penh"
 
 #: calendar/zones.h:240
 msgid "Asia/Pontianak"
-msgstr ""
+msgstr "Aasia/Pontianak"
 
 #: calendar/zones.h:241
 msgid "Asia/Pyongyang"
-msgstr ""
+msgstr "Aasia/Pyongyang"
 
 #: calendar/zones.h:242
 msgid "Asia/Qatar"
-msgstr ""
+msgstr "Aasia/Qatar"
 
 #: calendar/zones.h:243
 msgid "Asia/Qyzylorda"
-msgstr ""
+msgstr "Aasia/Qyzylorda"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
-msgstr ""
+msgstr "Aasia/Rangoon"
 
 #: calendar/zones.h:245
 msgid "Asia/Riyadh"
-msgstr ""
+msgstr "Aasia/Riyadh"
 
 #: calendar/zones.h:246
 msgid "Asia/Saigon"
-msgstr ""
+msgstr "Aasia/Saigon"
 
 #: calendar/zones.h:247
 msgid "Asia/Sakhalin"
-msgstr ""
+msgstr "Aasia/Sakhalin"
 
 #: calendar/zones.h:248
 msgid "Asia/Samarkand"
@@ -8375,7 +8345,7 @@ msgstr "Aasia/Samarkand"
 
 #: calendar/zones.h:249
 msgid "Asia/Seoul"
-msgstr ""
+msgstr "Aasia/Seoul"
 
 #: calendar/zones.h:250
 msgid "Asia/Shanghai"
@@ -8391,7 +8361,7 @@ msgstr "Aasia/Taipei"
 
 #: calendar/zones.h:253
 msgid "Asia/Tashkent"
-msgstr ""
+msgstr "Aasia/Tashkent"
 
 #: calendar/zones.h:254
 msgid "Asia/Tbilisi"
@@ -8403,7 +8373,7 @@ msgstr "Aasia/Tehran"
 
 #: calendar/zones.h:256
 msgid "Asia/Thimphu"
-msgstr ""
+msgstr "Aasia/Thimphu"
 
 #: calendar/zones.h:257
 msgid "Asia/Tokyo"
@@ -8411,7 +8381,7 @@ msgstr "Aasia/Tokio"
 
 #: calendar/zones.h:258
 msgid "Asia/Ujung_Pandang"
-msgstr ""
+msgstr "Aasia/Ujung_Pandang"
 
 #: calendar/zones.h:259
 msgid "Asia/Ulaanbaatar"
@@ -8419,11 +8389,11 @@ msgstr "Aasia/Ulaanbaator"
 
 #: calendar/zones.h:260
 msgid "Asia/Urumqi"
-msgstr ""
+msgstr "Aasia/Urumqi"
 
 #: calendar/zones.h:261
 msgid "Asia/Vientiane"
-msgstr ""
+msgstr "Aasia/Vientiane"
 
 #: calendar/zones.h:262
 msgid "Asia/Vladivostok"
@@ -8443,83 +8413,83 @@ msgstr "Aasia/Jerevan"
 
 #: calendar/zones.h:266
 msgid "Atlantic/Azores"
-msgstr ""
+msgstr "Atlantic/Azores"
 
 #: calendar/zones.h:267
 msgid "Atlantic/Bermuda"
-msgstr ""
+msgstr "Atlandi_ookean/Bermuda"
 
 #: calendar/zones.h:268
 msgid "Atlantic/Canary"
-msgstr ""
+msgstr "Atlandi_ookean/Canary"
 
 #: calendar/zones.h:269
 msgid "Atlantic/Cape_Verde"
-msgstr ""
+msgstr "Atlandi_ookean/Cape_Verde"
 
 #: calendar/zones.h:270
 msgid "Atlantic/Faeroe"
-msgstr ""
+msgstr "Atlandi_ookean/Fääri_saared"
 
 #: calendar/zones.h:271
 msgid "Atlantic/Jan_Mayen"
-msgstr ""
+msgstr "Atlandi_ookean/Jan_Mayen"
 
 #: calendar/zones.h:272
 msgid "Atlantic/Madeira"
-msgstr ""
+msgstr "Atlandi_ookean/Madeira"
 
 #: calendar/zones.h:273
 msgid "Atlantic/Reykjavik"
-msgstr ""
+msgstr "Atlandi_ookean/Reykjavik"
 
 #: calendar/zones.h:274
 msgid "Atlantic/South_Georgia"
-msgstr ""
+msgstr "Atlandi_ookean/South_Georgia"
 
 #: calendar/zones.h:275
 msgid "Atlantic/St_Helena"
-msgstr ""
+msgstr "Atlandi_ookean/St_Helena"
 
 #: calendar/zones.h:276
 msgid "Atlantic/Stanley"
-msgstr ""
+msgstr "Atlandi_ookean/Stanley"
 
 #: calendar/zones.h:277
 msgid "Australia/Adelaide"
-msgstr ""
+msgstr "Austraalia/Adelaide"
 
 #: calendar/zones.h:278
 msgid "Australia/Brisbane"
-msgstr ""
+msgstr "Austraalia/Brisbane"
 
 #: calendar/zones.h:279
 msgid "Australia/Broken_Hill"
-msgstr ""
+msgstr "Austraalia/Broken_Hill"
 
 #: calendar/zones.h:280
 msgid "Australia/Darwin"
-msgstr ""
+msgstr "Austraalia/Darwin"
 
 #: calendar/zones.h:281
 msgid "Australia/Hobart"
-msgstr ""
+msgstr "Austraalia/Hobart"
 
 #: calendar/zones.h:282
 msgid "Australia/Lindeman"
-msgstr ""
+msgstr "Austraalia/Lindeman"
 
 #: calendar/zones.h:283
 msgid "Australia/Lord_Howe"
-msgstr ""
+msgstr "Austraalia/Lord_Howe"
 
 #: calendar/zones.h:284
 msgid "Australia/Melbourne"
-msgstr ""
+msgstr "Austraalia/Melbourne"
 
 #: calendar/zones.h:285
 msgid "Australia/Perth"
-msgstr ""
+msgstr "Austraalia/Perth"
 
 #: calendar/zones.h:286
 msgid "Australia/Sydney"
@@ -8567,7 +8537,7 @@ msgstr "Euroopa/Budapest"
 
 #: calendar/zones.h:297
 msgid "Europe/Chisinau"
-msgstr ""
+msgstr "Euroopa/Chisinau"
 
 #: calendar/zones.h:298
 msgid "Europe/Copenhagen"
@@ -8611,7 +8581,7 @@ msgstr "Euroopa/London"
 
 #: calendar/zones.h:308
 msgid "Europe/Luxembourg"
-msgstr ""
+msgstr "Euroopa/Luxembourg"
 
 #: calendar/zones.h:309
 msgid "Europe/Madrid"
@@ -8635,7 +8605,7 @@ msgstr "Euroopa/Moskva"
 
 #: calendar/zones.h:314
 msgid "Europe/Nicosia"
-msgstr ""
+msgstr "Euroopa/Nicosia"
 
 #: calendar/zones.h:315
 msgid "Europe/Oslo"
@@ -8699,7 +8669,7 @@ msgstr "Euroopa/Uzhgorod"
 
 #: calendar/zones.h:330
 msgid "Europe/Vaduz"
-msgstr ""
+msgstr "Euroopa/Vaduz"
 
 #: calendar/zones.h:331
 msgid "Europe/Vatican"
@@ -8731,203 +8701,203 @@ msgstr "Euroopa/Zürich"
 
 #: calendar/zones.h:338
 msgid "Indian/Antananarivo"
-msgstr ""
+msgstr "India_ookean/Antananarivo"
 
 #: calendar/zones.h:339
 msgid "Indian/Chagos"
-msgstr ""
+msgstr "India_ookean/Chagos"
 
 #: calendar/zones.h:340
 msgid "Indian/Christmas"
-msgstr ""
+msgstr "India_ookean/Christmas"
 
 #: calendar/zones.h:341
 msgid "Indian/Cocos"
-msgstr ""
+msgstr "India_ookean/Cocos"
 
 #: calendar/zones.h:342
 msgid "Indian/Comoro"
-msgstr ""
+msgstr "India_ookean/Comoro"
 
 #: calendar/zones.h:343
 msgid "Indian/Kerguelen"
-msgstr ""
+msgstr "India_ookean/Kerguelen"
 
 #: calendar/zones.h:344
 msgid "Indian/Mahe"
-msgstr ""
+msgstr "India_ookean/Mahe"
 
 #: calendar/zones.h:345
 msgid "Indian/Maldives"
-msgstr ""
+msgstr "India_ookean/Maldives"
 
 #: calendar/zones.h:346
 msgid "Indian/Mauritius"
-msgstr ""
+msgstr "India_ookean/Mauritius"
 
 #: calendar/zones.h:347
 msgid "Indian/Mayotte"
-msgstr ""
+msgstr "India_ookean/Mayotte"
 
 #: calendar/zones.h:348
 msgid "Indian/Reunion"
-msgstr ""
+msgstr "India_ookean/Reunion"
 
 #: calendar/zones.h:349
 msgid "Pacific/Apia"
-msgstr ""
+msgstr "Vaikne_ookean/Apia"
 
 #: calendar/zones.h:350
 msgid "Pacific/Auckland"
-msgstr ""
+msgstr "Vaikne_ookean/Auckland"
 
 #: calendar/zones.h:351
 msgid "Pacific/Chatham"
-msgstr ""
+msgstr "Vaikne_ookean/Chatham"
 
 #: calendar/zones.h:352
 msgid "Pacific/Easter"
-msgstr ""
+msgstr "Vaikne_ookean/Easter"
 
 #: calendar/zones.h:353
 msgid "Pacific/Efate"
-msgstr ""
+msgstr "Vaikne_ookean/Efate"
 
 #: calendar/zones.h:354
 msgid "Pacific/Enderbury"
-msgstr ""
+msgstr "Vaikne_ookean/Enderbury"
 
 #: calendar/zones.h:355
 msgid "Pacific/Fakaofo"
-msgstr ""
+msgstr "Vaikne_ookean/Fakaofo"
 
 #: calendar/zones.h:356
 msgid "Pacific/Fiji"
-msgstr ""
+msgstr "Vaikne_ookean/Fiji"
 
 #: calendar/zones.h:357
 msgid "Pacific/Funafuti"
-msgstr ""
+msgstr "Vaikne_ookean/Funafuti"
 
 #: calendar/zones.h:358
 msgid "Pacific/Galapagos"
-msgstr ""
+msgstr "Vaikne_ookean/Galapagos"
 
 #: calendar/zones.h:359
 msgid "Pacific/Gambier"
-msgstr ""
+msgstr "Vaikne_ookean/Gambier"
 
 #: calendar/zones.h:360
 msgid "Pacific/Guadalcanal"
-msgstr ""
+msgstr "Vaikne_ookean/Guadalcanal"
 
 #: calendar/zones.h:361
 msgid "Pacific/Guam"
-msgstr ""
+msgstr "Vaikne_ookean/Guam"
 
 #: calendar/zones.h:362
 msgid "Pacific/Honolulu"
-msgstr ""
+msgstr "Vaikne_ookean/Honolulu"
 
 #: calendar/zones.h:363
 msgid "Pacific/Johnston"
-msgstr ""
+msgstr "Vaikne_ookean/Johnston"
 
 #: calendar/zones.h:364
 msgid "Pacific/Kiritimati"
-msgstr ""
+msgstr "Vaikne_ookean/Kiritimati"
 
 #: calendar/zones.h:365
 msgid "Pacific/Kosrae"
-msgstr ""
+msgstr "Vaikne_ookean/Kosrae"
 
 #: calendar/zones.h:366
 msgid "Pacific/Kwajalein"
-msgstr ""
+msgstr "Vaikne_ookean/Kwajalein"
 
 #: calendar/zones.h:367
 msgid "Pacific/Majuro"
-msgstr ""
+msgstr "Vaikne_ookean/Majuro"
 
 #: calendar/zones.h:368
 msgid "Pacific/Marquesas"
-msgstr ""
+msgstr "Vaikne_ookean/Marquesas"
 
 #: calendar/zones.h:369
 msgid "Pacific/Midway"
-msgstr ""
+msgstr "Vaikne_ookean/Midway"
 
 #: calendar/zones.h:370
 msgid "Pacific/Nauru"
-msgstr ""
+msgstr "Vaikne_ookean/Nauru"
 
 #: calendar/zones.h:371
 msgid "Pacific/Niue"
-msgstr ""
+msgstr "Vaikne_ookean/Niue"
 
 #: calendar/zones.h:372
 msgid "Pacific/Norfolk"
-msgstr ""
+msgstr "Vaikne_ookean/Norfolk"
 
 #: calendar/zones.h:373
 msgid "Pacific/Noumea"
-msgstr ""
+msgstr "Vaikne_ookean/Noumea"
 
 #: calendar/zones.h:374
 msgid "Pacific/Pago_Pago"
-msgstr ""
+msgstr "Vaikne_ookean/Pago_Pago"
 
 #: calendar/zones.h:375
 msgid "Pacific/Palau"
-msgstr ""
+msgstr "Vaikne_ookean/Palau"
 
 #: calendar/zones.h:376
 msgid "Pacific/Pitcairn"
-msgstr ""
+msgstr "Vaikne_ookean/Pitcairn"
 
 #: calendar/zones.h:377
 msgid "Pacific/Ponape"
-msgstr ""
+msgstr "Vaikne_ookean/Ponape"
 
 #: calendar/zones.h:378
 msgid "Pacific/Port_Moresby"
-msgstr ""
+msgstr "Vaikne_ookean/Port_Moresby"
 
 #: calendar/zones.h:379
 msgid "Pacific/Rarotonga"
-msgstr ""
+msgstr "Vaikne_ookean/Rarotonga"
 
 #: calendar/zones.h:380
 msgid "Pacific/Saipan"
-msgstr ""
+msgstr "Vaikne_ookean/Saipan"
 
 #: calendar/zones.h:381
 msgid "Pacific/Tahiti"
-msgstr ""
+msgstr "Vaikne_ookean/Tahiti"
 
 #: calendar/zones.h:382
 msgid "Pacific/Tarawa"
-msgstr ""
+msgstr "Vaikne_ookean/Tarawa"
 
 #: calendar/zones.h:383
 msgid "Pacific/Tongatapu"
-msgstr ""
+msgstr "Vaikne_ookean/Tongatapu"
 
 #: calendar/zones.h:384
 msgid "Pacific/Truk"
-msgstr ""
+msgstr "Vaikne_ookean/Truk"
 
 #: calendar/zones.h:385
 msgid "Pacific/Wake"
-msgstr ""
+msgstr "Vaikne_ookean/Wake"
 
 #: calendar/zones.h:386
 msgid "Pacific/Wallis"
-msgstr ""
+msgstr "Vaikne_ookean/Wallis"
 
 #: calendar/zones.h:387
 msgid "Pacific/Yap"
-msgstr ""
+msgstr "Vaikne_ookean/Yap"
 
 #: camel/camel-cipher-context.c:101
 msgid "Signing is not supported by this cipher"
@@ -9143,19 +9113,16 @@ msgid "Unsupported operation: search by uids: for %s"
 msgstr "Toetamata operatsioon: otsing UID järgi: %s"
 
 #: camel/camel-folder.c:1322
-#, fuzzy
 msgid "Moving messages"
-msgstr "Vigane koosoleku sõnum"
+msgstr "Sõnumite liigutamine"
 
 #: camel/camel-folder.c:1322
-#, fuzzy
 msgid "Copying messages"
-msgstr "Sõnumi avamine ebaõnnestus"
+msgstr "Sõnumite kopeerimine"
 
 #: camel/camel-folder.c:1571
-#, fuzzy
 msgid "Filtering new message(s)"
-msgstr "Sõnumi vastuvõtmine nurjus"
+msgstr "Uute sõnumite filtreerimine"
 
 #: camel/camel-gpg-context.c:710
 #, c-format
@@ -9186,9 +9153,8 @@ msgstr ""
 #: camel/camel-gpg-context.c:1516
 #: camel/camel-gpg-context.c:1623
 #: mail/mail-send-recv.c:576
-#, fuzzy
 msgid "Cancelled."
-msgstr "Katkestatud"
+msgstr "Loobutud."
 
 #: camel/camel-gpg-context.c:797
 msgid "Failed to unlock secret key: 3 bad passphrases given."
@@ -10085,15 +10051,14 @@ msgstr "Parool"
 msgid "This option will connect to the IMAP server using a plaintext password."
 msgstr ""
 
-#. default charset used in mail view
+#  default charset used in mail view
 #: camel/providers/groupwise/camel-gw-listener.c:299
 #: camel/providers/groupwise/camel-gw-listener.c:300
 #: mail/em-folder-view.c:1586
 #: mail/em-folder-view.c:1624
 #: mail/mail-config.glade.h:42
-#, fuzzy
 msgid "Default"
-msgstr "Kustuta"
+msgstr "UTF-8"
 
 #: camel/providers/imap/camel-imap-command.c:218
 #: camel/providers/imap/camel-imap-command.c:257
@@ -12051,10 +12016,10 @@ msgstr ""
 msgid "Sync Categories:"
 msgstr "Kategooriad"
 
-#. strptime format of a weekday, a date and a time,
-#. in 12-hour format, without seconds.
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
+#  strptime format of a weekday, a date and a time,
+#  in 12-hour format, without seconds.
+#  strftime format of a weekday, a date and a
+#  time, in 12-hour format, without seconds.
 #: e-util/e-time-utils.c:185
 #: e-util/e-time-utils.c:398
 #, fuzzy
@@ -13243,9 +13208,8 @@ msgid "_Edit as New Message..."
 msgstr "Vigane ülesande sõnum"
 
 #: mail/em-folder-view.c:753
-#, fuzzy
 msgid "_Print"
-msgstr "Trüki"
+msgstr "_Trüki"
 
 #: mail/em-folder-view.c:756
 #: ui/evolution-mail-message.xml.h:124
@@ -13268,9 +13232,8 @@ msgstr "Eemalda kõik"
 #: mail/em-folder-view.c:759
 #: mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:111
-#, fuzzy
 msgid "_Forward"
-msgstr "Saada kontakt edasi"
+msgstr "_Edasta"
 
 #: mail/em-folder-view.c:762
 msgid "Follo_w Up..."
@@ -13620,7 +13583,7 @@ msgstr "Pimekoopia"
 msgid "Mailer"
 msgstr "Postiprogramm:"
 
-#. translators: strftime format for local time equivalent in Date header display, with day
+#  translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1517
 msgid "<I> (%a, %R %Z)</I>"
 msgstr ""
@@ -13703,9 +13666,8 @@ msgid "Failed to open store for `%s': %s"
 msgstr "Ei saa avada '%s' kausta"
 
 #: mail/em-popup.c:698
-#, fuzzy
 msgid "Save As..."
-msgstr "_Salvesta kui..."
+msgstr "Salvesta kui..."
 
 #: mail/em-popup.c:716
 #, fuzzy, c-format
@@ -13785,9 +13747,8 @@ msgid "Filters"
 msgstr "Kataloogi kui"
 
 #: mail/em-utils.c:533
-#, fuzzy
 msgid "-------- Forwarded Message --------"
-msgstr "Edasi saadetud sõnum"
+msgstr "-------- Edastatud sõnum --------"
 
 #: mail/em-utils.c:1139
 #, fuzzy
@@ -13923,9 +13884,8 @@ msgid "Default charset in which to display messages."
 msgstr "Otsib teksti kuvatud sõnumi sisust"
 
 #: mail/evolution-mail.schemas.in.in.h:13
-#, fuzzy
 msgid "Default forward style"
-msgstr "Vaikimisi tähtsus:"
+msgstr "Vaikimisi edastamisstiil"
 
 #: mail/evolution-mail.schemas.in.in.h:14
 #, fuzzy
@@ -14130,11 +14090,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "S3kr3t 0pt10n"
-msgstr ""
+msgstr "S414j4n3 5uv4nd"
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "S3kr3t 0pt10n."
-msgstr ""
+msgstr "S414j4n3 5uv4nd."
 
 #: mail/evolution-mail.schemas.in.in.h:62
 #, fuzzy
@@ -14240,11 +14200,11 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Use custom fonts"
-msgstr ""
+msgstr "Kohandatud kirjatüüpide kasutamine"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Use custom fonts for displaying mail"
-msgstr ""
+msgstr "Kohandatud kirjatüüpide kasutamine meili näitamisel"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Use only local spam tests."
@@ -14344,7 +14304,7 @@ msgstr "Evolution'i kalendri iTip/iMip vaataja"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:6
 msgid "MBox (mbox)"
-msgstr ""
+msgstr "MBox (mbox)"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:7
 msgid "Outlook Express 4 (.mbx)"
@@ -15264,9 +15224,8 @@ msgid "_Encrypt outgoing messages (by default)"
 msgstr ""
 
 #: mail/mail-config.glade.h:153
-#, fuzzy
 msgid "_Forward style:"
-msgstr "_Edasta iKalendrina"
+msgstr "_Edastamise stiil:"
 
 #: mail/mail-config.glade.h:154
 #, fuzzy
@@ -15485,9 +15444,8 @@ msgid "Scanning folders in \"%s\""
 msgstr "Kaustade sünkroniseerimine"
 
 #: mail/mail-ops.c:1239
-#, fuzzy
 msgid "Forwarded messages"
-msgstr "Nurjumine teate %d juures"
+msgstr "Edastatud sõnum"
 
 #: mail/mail-ops.c:1282
 #, fuzzy, c-format
@@ -15746,14 +15704,13 @@ msgid "Trying to movemail a non-mbox source `%s'"
 msgstr ""
 
 #: mail/mail-tools.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "Forwarded message - %s"
-msgstr "Nurjumine teate %d juures"
+msgstr "Edastatud sõnum - %s"
 
 #: mail/mail-tools.c:278
-#, fuzzy
 msgid "Forwarded message"
-msgstr "Nurjumine teate %d juures"
+msgstr "Edastatud sõnum"
 
 #: mail/mail-tools.c:319
 #, fuzzy, c-format
@@ -15912,9 +15869,8 @@ msgid "Call"
 msgstr "Tagasihelistamine"
 
 #: mail/message-tag-followup.c:63
-#, fuzzy
 msgid "Do Not Forward"
-msgstr "Liigub edasi"
+msgstr "Ära edasta"
 
 #: mail/message-tag-followup.c:64
 msgid "Follow-Up"
@@ -15927,9 +15883,8 @@ msgstr "Info puudub"
 
 #: mail/message-tag-followup.c:66
 #: ui/evolution-mail-message.xml.h:40
-#, fuzzy
 msgid "Forward"
-msgstr "Saada kontakt edasi"
+msgstr "Edasta"
 
 #: mail/message-tag-followup.c:67
 msgid "No Response Necessary"
@@ -15943,9 +15898,8 @@ msgstr "Ülesande vastus"
 
 #: mail/message-tag-followup.c:70
 #: ui/evolution-mail-message.xml.h:84
-#, fuzzy
 msgid "Reply to All"
-msgstr "Eemalda kõik"
+msgstr "Vasta kõigile"
 
 #: mail/message-tag-followup.c:71
 #, fuzzy
@@ -17427,9 +17381,8 @@ msgstr "_Häälestus"
 
 #: ui/evolution-addressbook.xml.h:35
 #: ui/evolution-contact-editor.xml.h:16
-#, fuzzy
 msgid "_Forward Contact..."
-msgstr "Saada kontakt edasi"
+msgstr "_Edasta kontakt..."
 
 #: ui/evolution-addressbook.xml.h:36
 #, fuzzy
@@ -17627,7 +17580,6 @@ msgstr "Trüki kirje"
 #: ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:18
-#, fuzzy
 msgid "Save _As..."
 msgstr "_Salvesta kui..."
 
@@ -17757,7 +17709,6 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:3
 #: ui/evolution-task-editor.xml.h:5
-#, fuzzy
 msgid "Forward as i_Calendar"
 msgstr "_Edasta iKalendrina"
 
@@ -18503,9 +18454,8 @@ msgid "Save"
 msgstr "L"
 
 #: ui/evolution-message-composer.xml.h:17
-#, fuzzy
 msgid "Save As"
-msgstr "_Salvesta kui..."
+msgstr "Salvesta kui"
 
 #: ui/evolution-message-composer.xml.h:19
 msgid "Save _Draft"
