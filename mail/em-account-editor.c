@@ -1664,8 +1664,11 @@ emae_option_toggle(EMAccountEditorService *service, CamelURL *url, const char *t
 	GtkWidget *w;
 
 	/* FIXME: how do we get the default value ever? */
-	w = gtk_check_button_new_with_mnemonic (text);
-	g_object_set_data ((GObject *)w, "active", camel_url_get_param (url, name) != NULL);
+	w = g_object_new(gtk_check_button_get_type(),
+			 "label", text,
+			 "use_underline", TRUE,
+			 "active", camel_url_get_param(url, name) != NULL,
+			 NULL);
 	g_object_set_data((GObject *)w, "option-name", (void *)name);
 	g_signal_connect(w, "toggled", G_CALLBACK(emae_option_toggle_changed), service);
 	gtk_widget_show(w);
