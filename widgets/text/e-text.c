@@ -1716,6 +1716,8 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		     (text->clip_height != -1 ? text->clip_height : text->height) > text->yofs_edit)
 			text->yofs_edit = e_font_height (text->font) * (i + 1) -
 				(text->clip_height != -1 ? text->clip_height : text->height);
+
+		gnome_canvas_item_request_update (item);
 	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);

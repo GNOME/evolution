@@ -201,7 +201,7 @@ canvas_focus_in_event (GtkWidget *widget, GdkEventFocus *focus, EEntry *entry)
 	if (entry->canvas->focused_item != GNOME_CANVAS_ITEM(entry->item))
 		gnome_canvas_item_grab_focus(GNOME_CANVAS_ITEM(entry->item));
 
-	return 0;
+	return FALSE;
 }
 
 static void
