@@ -1,5 +1,9 @@
 2003-10-30  Chris Toshok  <toshok@ximian.com>
 
+	* configure.in: (AC_OUTPUT): remove smime/tests for now.
+
+2003-10-30  Chris Toshok  <toshok@ximian.com>
+
 	* configure.in: set enable_smime=yes wherever nss would be
 	enabled..  fixes manually specifying the nss libs and enabling the
 	smime ui.  Also, add a section for generating the correct SMIME UI

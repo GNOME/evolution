@@ -1449,7 +1449,6 @@ mail/Makefile
 smime/Makefile
 smime/lib/Makefile
 smime/gui/Makefile
-smime/tests/Makefile
 tools/Makefile
 evolution-shell.pc
 evolution-addressbook.pc
