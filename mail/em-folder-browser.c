@@ -44,6 +44,7 @@
 #include "mail-config.h"
 
 #include <e-util/e-dialog-utils.h>
+#include <e-util/e-icon-factory.h>
 
 /*#include <camel/camel-mime-message.h>*/
 #include <camel/camel-stream.h>
