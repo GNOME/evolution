@@ -23,7 +23,10 @@
 #ifndef E_CONTACT_PRINT_H
 #define E_CONTACT_PRINT_H
 
+#include <glib.h>
+#include <gtk/gtkwidget.h>
 #include <addressbook/backend/ebook/e-book.h>
+#include <addressbook/backend/ebook/e-card.h>
 #include "e-contact-print-types.h"
 
 GtkWidget *e_contact_print_dialog_new(EBook *book, char *query);

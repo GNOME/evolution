@@ -1,5 +1,6 @@
 2001-08-11  Kjartan Maraas  <kmaraas@gnome.org>
 
+	* printing/e-contact-print.h: Add headers to make it stand on itw own.
 	* printing/e-contact-print.c: Marked some strings for translation.
 	* printing/e-contact-print-envelope.c: Same here.
 	

@@ -20,6 +20,8 @@
  * Boston, MA 02111-1307, USA.
  */
 
+#include <config.h>
+#include "e-contact-print.h"
 
 #include <ctype.h>
 #include <sys/types.h>
@@ -28,8 +30,9 @@
 #include <gnome-xml/tree.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/xmlmemory.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-dialog.h>
@@ -40,7 +43,6 @@
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-card.h>
 #include <addressbook/backend/ebook/e-card-simple.h>
-#include "e-contact-print.h"
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
