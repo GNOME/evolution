@@ -336,7 +336,6 @@ mark_gtk_calendar_day (iCalObject *obj, time_t start, time_t end, void *c)
 {
 	GtkCalendar *gtk_cal = c;
 	struct tm tm_s;
-	int days, day;
 	time_t t, day_end;
 
 	tm_s = *localtime (&start);

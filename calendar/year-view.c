@@ -169,7 +169,6 @@ year_view_mark_day (iCalObject *ical, time_t start, time_t end, void *closure)
 {
 	GncalYearView *yview = (GncalYearView *) closure;
 	struct tm tm_s;
-	int days, day;
 	time_t t, day_end;
 
 	tm_s = *localtime (&start);

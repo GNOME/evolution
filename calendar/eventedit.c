@@ -228,7 +228,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 		ee->ical->dtstart = time (NULL);
 		ee->ical->dtend   = time_add_minutes (ee->ical->dtstart, 30);
 	}
-	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart, TRUE);
+	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart, TRUE, !am_pm_flag);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) start_time, day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);
@@ -244,7 +244,7 @@ event_editor_setup_time_frame (EventEditor *ee)
 			  0, 0);
 
 	/* 2. End time */
-	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend, TRUE);
+	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend, TRUE, !am_pm_flag);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) end_time,   day_begin, day_end);
 	gtk_signal_connect (GTK_OBJECT (end_time), "date_changed",
 			    GTK_SIGNAL_FUNC (check_dates), ee);
@@ -1201,7 +1201,7 @@ ee_rp_init_ending_date (EventEditor *ee)
 	else
 		enddate = ee->ical->dtend;
 
-	ee->recur_ed_end_on = widget = gnome_date_edit_new (enddate, FALSE);
+	ee->recur_ed_end_on = widget = gnome_date_edit_new (enddate, FALSE, !am_pm_flag);
 	gtk_box_pack_start (GTK_BOX (ihbox), widget, FALSE, FALSE, 0);
 
 	gtk_signal_connect (GTK_OBJECT (radio1), "toggled",
@@ -1356,7 +1356,7 @@ ee_rp_init_exceptions (EventEditor *ee)
 	vbox = gtk_vbox_new (FALSE, 4);
 	gtk_box_pack_start (GTK_BOX (hbox), vbox, FALSE, FALSE, 0);
 
-	ee->recur_ex_date = widget = gnome_date_edit_new (time (NULL), FALSE);
+	ee->recur_ex_date = widget = gnome_date_edit_new (time (NULL), FALSE, !am_pm_flag);
 	gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, FALSE, 0);
 
 	widget = gtk_button_new_with_label (_("Add exception"));
