@@ -217,7 +217,7 @@ get_todays_uids (ESummary *summary,
 			icaltimezone_convert_time (due.value, zone, summary->tz);
 			endt = icaltime_as_timet (*due.value);
 
-			if (endt >= todays_start && endt <= todays_end) {
+			if (endt <= todays_end) {
 				today = g_list_append (today, g_strdup (uid));
 			}
 		}
