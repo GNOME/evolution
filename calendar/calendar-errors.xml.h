@@ -135,4 +135,4 @@ char *s = N_("Server Version");
 /* calendar:server-version primary */
 char *s = N_("Your server needs to be updated");
 /* calendar:server-version secondary */
-char *s = N_(" Some features may not work properly with the current server version");
+char *s = N_(" Some features may not work correctly with your current server version");
