@@ -55,7 +55,7 @@ folder_browser_factory_init (void)
 
 	bonobo_folder_browser_factory =
 		bonobo_generic_factory_new (
-			"Evolution:FolderBrowser:1.0",
+			"GOADID:Evolution:FolderBrowserFactory:1.0",
 			folder_browser_factory, NULL);
 
 	if (bonobo_folder_browser_factory == NULL){

@@ -1,4 +1,4 @@
-bin_PROGRAMS =	evolution-mail
+bin_PROGRAMS =	evolution-mail test-mail
 
 INCLUDES = \
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
@@ -34,7 +34,16 @@ evolution_mail_LDADD = 					\
 	../e-util/libeutil.a				\
 	$(BONOBO_HTML_GNOME_LIBS)				
 
+test_mail_SOURCES = \
+	test-mail.c
+
+test_mail_LDADD = \
+	$(BONOBO_HTML_GNOME_LIBS)
+
+gnorbadir = $(sysconfdir)/CORBA/servers
+gnorba_DATA = evolution-mail.gnorba
+
 $(EVOLUTION_MAIL_CORBA_GENERATED): Mail.idl 
 	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Mail.idl
 
-EXTRA_DIST = Mail.idl
+EXTRA_DIST = Mail.idl evolution-mail.gnorba

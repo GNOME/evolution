@@ -4,6 +4,11 @@
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-object.h>
 #include "camel/camel-folder.h"
+#include "e-table/e-table.h"
+#include "e-table/e-table-simple.h"
+#include "e-table/e-cell-text.h"
+#include "e-table/e-cell-toggle.h"
+#include "e-table/e-cell-checkbox.h"
 
 #define MESSAGE_LIST_TYPE        (message_list_get_type ())
 #define MESSAGE_LIST(o)          (GTK_CHECK_CAST ((o), MESSAGE_LIST_TYPE, MessageList))

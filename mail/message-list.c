@@ -10,12 +10,6 @@
 #include <config.h>
 #include <gnome.h>
 #include <bonobo/bonobo-main.h>
-#include "camel/camel-folder.h"
-#include "e-table/e-table.h"
-#include "e-table/e-table-simple.h"
-#include "e-table/e-cell-text.h"
-#include "e-table/e-cell-toggle.h"
-#include "e-table/e-cell-checkbox.h"
 #include "e-util/e-util.h"
 #include "message-list.h"
 #include "Mail.h"
@@ -62,6 +56,9 @@ ml_row_count (ETableModel *etm, void *data)
 {
 	MessageList *message_list = data;
 	CamelException ex;
+
+	if (!message_list->folder)
+		return 0;
 	
 	return camel_folder_get_message_count (message_list->folder, &ex);
 }
@@ -208,6 +205,77 @@ message_list_init_header (MessageList *message_list)
 				 g_str_equal, TRUE);
 }
 
+static void
+set_header_size (GnomeCanvas *canvas, GtkAllocation *alloc)
+{
+	printf ("Here\n");
+	gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
+}
+
+static void
+set_content_size (GnomeCanvas *canvas, GtkAllocation *alloc)
+{
+	printf ("Here2\n");
+        gnome_canvas_set_scroll_region (canvas, 0, 0, alloc->width, alloc->height);
+}
+
+static GtkWidget *
+make_etable (MessageList *message_list)
+{
+	GtkTable *t;
+	GtkWidget *header, *content;
+	
+	t = (GtkTable *) gtk_table_new (0, 0, 0);
+	gtk_widget_show (GTK_WIDGET (t));
+
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
+
+	header = gnome_canvas_new ();
+	gtk_signal_connect (GTK_OBJECT (header), "size_allocate",
+                            GTK_SIGNAL_FUNC (set_header_size), NULL);
+	gtk_widget_set_usize (header, 300, 20);
+	gtk_widget_show (header);
+	content = gnome_canvas_new ();
+	gtk_widget_set_usize (content, 300, 20);
+        gtk_signal_connect (GTK_OBJECT (content), "size_allocate",
+                            GTK_SIGNAL_FUNC (set_content_size), NULL);
+	gtk_widget_show (content);
+
+	gtk_widget_pop_colormap ();
+	gtk_widget_pop_visual ();
+	
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (header)),
+		e_table_header_item_get_type (),
+		"ETableHeader", message_list->header_model,
+		"x",  0,
+		"y",  0,
+		NULL);
+
+	gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (content)),
+		e_table_item_get_type (),
+		"ETableHeader", message_list->header_model,
+		"ETableModel", message_list->table_model,
+		"x",  (double) 0,
+		"y",  (double) 0,
+		"drawgrid", TRUE,
+		"drawfocus", TRUE,
+		"spreadsheet", TRUE,
+		NULL);
+
+	gtk_table_attach (t, header,
+			  0, 1, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+
+	gtk_table_attach (t, content,
+			  0, 1, 1, 2,
+			  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+
+
+	return t;
+}
+
 /*
  * GtkObject::init
  */
@@ -226,11 +294,8 @@ message_list_init (GtkObject *object)
 	/*
 	 * The etable
 	 */
-	
-	message_list->etable = e_table_new (
-		message_list->header_model,
-		message_list->table_model,
-		"1,2,3,4,5,6,7", NULL);
+
+	message_list->etable = make_etable (message_list);
 
 	/*
 	 * We do own the Etable, not some widget container
