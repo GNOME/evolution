@@ -114,7 +114,7 @@ GType em_composer_prefs_get_type (void);
 
 struct _GtkWidget *em_composer_prefs_new (void);
 
-void em_composer_prefs_new_signature (struct _GtkWindow *parent, gboolean html, const char *script);
+void em_composer_prefs_new_signature (struct _GtkWindow *parent, gboolean html);
 
 /* needed by global config */
 #define EM_COMPOSER_PREFS_CONTROL_ID "OAFIID:GNOME_Evolution_Mail_ComposerPrefs_ConfigControl:" BASE_VERSION

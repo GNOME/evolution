@@ -1,3 +1,20 @@
+2004-05-20  Jeffrey Stedfast  <fejj@novell.com>
+
+	Fixes for bug #57305.
+
+	* mail-account-gui.c (sig_add_new_signature): Updated for changes
+	below.
+
+	* em-composer-prefs.c (em_composer_prefs_new_signature): No longer
+	takes a script argument (makes no sense to edit a script with an
+	HTML editor if we require that the script already exist before we
+	let the user add it anyway).
+	(sig_add_cb): Updated for above change.
+	(sig_add_script_response): Don't pop up an editor window for the
+	newly added script, the script has already been created! Instead
+	simply create a new ESignature object, set the sig->name, and add
+	it to the signature list.
+
 2004-05-20  Radek Doulik  <rodo@ximian.com>
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): remove "use

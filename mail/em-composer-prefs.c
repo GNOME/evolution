@@ -326,11 +326,11 @@ sig_edit_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 }
 
 void
-em_composer_prefs_new_signature (GtkWindow *parent, gboolean html, const char *script)
+em_composer_prefs_new_signature (GtkWindow *parent, gboolean html)
 {
 	ESignature *sig;
 	
-	sig = mail_config_signature_new (script, script ? TRUE : FALSE, html);
+	sig = mail_config_signature_new (NULL, FALSE, html);
 	mail_signature_editor (sig, parent, TRUE);
 }
 
@@ -362,7 +362,7 @@ sig_add_cb (GtkWidget *widget, EMComposerPrefs *prefs)
 	parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 	
-	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
+	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html);
 }
 
 static void
@@ -383,11 +383,7 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 			struct stat st;
 			
 			if (stat (argv[0], &st) == 0 && S_ISREG (st.st_mode) && access (argv[0], X_OK) == 0) {
-				GtkWidget *parent;
 				ESignature *sig;
-				
-				parent = gtk_widget_get_toplevel ((GtkWidget *) prefs);
-				parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 				
 				if ((sig = g_object_get_data ((GObject *) entry, "sig"))) {
 					/* we're just editing an existing signature script */
@@ -395,7 +391,11 @@ sig_add_script_response (GtkWidget *widget, int button, EMComposerPrefs *prefs)
 					sig->name = g_strdup (name);
 					e_signature_list_change (mail_config_get_signatures (), sig);
 				} else {
-					em_composer_prefs_new_signature ((GtkWindow *) parent, TRUE, script);
+					sig = mail_config_signature_new (script, TRUE, TRUE);
+					sig->name = g_strdup (name);
+					
+					e_signature_list_add (mail_config_get_signatures (), sig);
+					g_object_unref (sig);
 				}
 				
 				gtk_widget_hide (prefs->sig_script_dialog);

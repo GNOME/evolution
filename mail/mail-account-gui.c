@@ -1606,7 +1606,7 @@ sig_add_new_signature (GtkWidget *w, MailAccountGui *gui)
 	parent = gtk_widget_get_toplevel (w);
 	parent = GTK_WIDGET_TOPLEVEL (parent) ? parent : NULL;
 	
-	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html, NULL);
+	em_composer_prefs_new_signature ((GtkWindow *) parent, send_html);
 }
 
 static void
