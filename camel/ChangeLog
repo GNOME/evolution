@@ -1,3 +1,15 @@
+2002-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (add_message_from_data):
+	Decode the INTERNALDATE if we've got one.
+	(imap_update_summary): Instead of requesting a list of specific
+	headers, request HEADER.FIELDS.NOT (RECEIVED) to reduce bandwidth
+	usage even more.
+	(parse_fetch_response): Change slightly to allow HEADER.FIELDS or
+	HEADER.FIELDS.NOT so that we can make changes in
+	imap_update_summary and not need to keep changing this function to
+	match. Also parse an INTERNALDATE response.
+
 2002-09-22  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-parser.c (folder_scan_drop_step): fix non-ANSI switch

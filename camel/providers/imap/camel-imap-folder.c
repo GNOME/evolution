@@ -2009,6 +2009,7 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	CamelMimeMessage *msg;
 	CamelStream *stream;
 	CamelMessageInfo *mi;
+	const char *idate;
 	int seq;
 	
 	seq = GPOINTER_TO_INT (g_datalist_get_data (&data, "SEQUENCE"));
@@ -2020,7 +2021,7 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	
 	if (seq - first >= messages->len)
 		g_ptr_array_set_size (messages, seq - first + 1);
-
+	
 	msg = camel_mime_message_new ();
 	if (camel_data_wrapper_construct_from_stream (CAMEL_DATA_WRAPPER (msg), stream) == -1) {
 		camel_object_unref (CAMEL_OBJECT (msg));
@@ -2029,6 +2030,11 @@ add_message_from_data (CamelFolder *folder, GPtrArray *messages,
 	
 	mi = camel_folder_summary_info_new_from_message (folder->summary, msg);
 	camel_object_unref (CAMEL_OBJECT (msg));
+	
+	if ((idate = g_datalist_get_data (&data, "INTERNALDATE")))
+		mi->date_received = parse_broken_date (idate, NULL);
+	else
+		mi->date_received = mi->date_sent;
 	
 	messages->pdata[seq - first] = mi;
 }
@@ -2060,7 +2066,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 	
 	CAMEL_SERVICE_ASSERT_LOCKED (store, connect_lock);
 	if (store->server_level >= IMAP_LEVEL_IMAP4REV1)
-		header_spec = "HEADER.FIELDS (" CAMEL_MESSAGE_INFO_HEADERS " " MAILING_LIST_HEADERS ")";
+		header_spec = "HEADER.FIELDS.NOT (RECEIVED)";
 	else
 		header_spec = "0";
 	
@@ -2086,7 +2092,7 @@ imap_update_summary (CamelFolder *folder, int exists,
 		/* None of the new messages are cached */
 		size += (exists - seq) * IMAP_PRETEND_SIZEOF_HEADERS;
 		if (!camel_imap_command_start (store, folder, ex,
-					       "UID FETCH %d:* (FLAGS RFC822.SIZE BODY.PEEK[%s])",
+					       "UID FETCH %d:* (FLAGS RFC822.SIZE INTERNALDATE BODY.PEEK[%s])",
 					       maxuid + 1, header_spec))
 			return;
 		camel_operation_start (NULL, _("Fetching summary information for new messages"));
@@ -2483,7 +2489,7 @@ static GData *
 parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 {
 	GData *data = NULL;
-	char *start, *part_spec = NULL, *body = NULL, *uid = NULL;
+	char *start, *part_spec = NULL, *body = NULL, *uid = NULL, *idate = NULL;
 	gboolean cache_header = TRUE, header = FALSE;
 	int body_len = 0;
 	
@@ -2530,7 +2536,7 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 				/* HEADER], HEADER.FIELDS (...)], or 0] */
 				if (!g_strncasecmp (response, "HEADER", 6)) {
 					header = TRUE;
-					if (!g_strncasecmp (response + 6, ".FIELDS ", 8))
+					if (!g_strncasecmp (response + 6, ".FIELDS", 7))
 						cache_header = FALSE;
 				} else if (!g_strncasecmp (response, "0]", 2))
 					header = TRUE;
@@ -2577,6 +2583,17 @@ parse_fetch_response (CamelImapFolder *imap_folder, char *response)
 			uid = g_strndup (response + 4, len);
 			g_datalist_set_data_full (&data, "UID", uid, g_free);
 			response += 4 + len;
+		} else if (!g_strncasecmp (response, "INTERNALDATE ", 13)) {
+			int len;
+			
+			response += 13;
+			if (*response == '"') {
+				response++;
+				len = strcspn (response, "\"");
+				idate = g_strndup (response, len);
+				g_datalist_set_data_full (&data, "INTERNALDATE", idate, g_free);
+				response += len + 1;
+			}
 		} else {
 			g_warning ("Unexpected FETCH response from server: (%s", response);
 			break;
