@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-28 23:59+0200\n"
-"PO-Revision-Date: 2005-01-29 00:22+0200\n"
+"POT-Creation-Date: 2005-01-30 15:00+0200\n"
+"PO-Revision-Date: 2005-01-30 15:05+0200\n"
 "Last-Translator: Žygimantas Beručka <uid0@akl.lt>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr "Naujas kontaktų sąrašas"
 #: a11y/addressbook/ea-minicard-view.c:149
 #, c-format
 msgid "current addressbook folder has %d card"
-msgid_plural "current addressbook folder have %d cards"
+msgid_plural "current addressbook folder has %d cards"
 msgstr[0] "esamame adresų knygos aplanke yra %d kortelė"
 msgstr[1] "esamame adresų knygos aplanke yra %d kortelės"
 msgstr[2] "esamame adresų knygos aplanke yra %d kortelių"
@@ -12575,7 +12575,7 @@ msgstr "Įke_lti paveikslėlius, jei siuntėjas yra adresų knygoje"
 
 #: mail/mail-config.glade.h:158
 msgid "_Make this my default account"
-msgstr "_Padaryti šį abonementą įprastine"
+msgstr "_Padaryti šį abonementą įprastu"
 
 #: mail/mail-config.glade.h:159
 msgid "_Mark messages as read after"
@@ -12597,7 +12597,7 @@ msgstr ""
 
 #: mail/mail-config.glade.h:164
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr "Paklausti prieš siunčiant laiškus nenurodžius _temos"
+msgstr "Siunčiant laiškus su nenurodyta _tema, paklausti patvirtinimo"
 
 #: mail/mail-config.glade.h:165
 msgid "_Reply style:"
@@ -14131,9 +14131,8 @@ msgstr "Rytoj %H:%M:%S"
 #. strftime format of a time,
 #. in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:217
-#, fuzzy
 msgid "Tomorrow %l:%M %p"
-msgstr "Šiandien %H:%M"
+msgstr "Rytoj %H:%M"
 
 #. strftime format of a time,
 #. in 12-hour format.
@@ -14543,7 +14542,7 @@ msgstr "Išssaugoti visus priedus"
 
 #: plugins/save-attachments/save-attachments.c:331
 msgid "Select save base name"
-msgstr ""
+msgstr "Pasirinkite bazinį saugojimo pavadinimą"
 
 #: plugins/save-attachments/save-attachments.c:351
 msgid "MIME Type"
@@ -14621,6 +14620,34 @@ msgstr ""
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%sĮveskite %s slaptažodį (naudotojas %s)"
+
+#. org.gnome.evolution.mail_shared_folder:invalid-user primary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:2
+msgid "Invalid user"
+msgstr "Netinkamas naudotojas"
+
+#. org.gnome.evolution.mail_shared_folder:invalid-user secondary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:4
+msgid ""
+"\n"
+"You cannot share folder with specified user \"{0}\" \n"
+msgstr ""
+"\n"
+"Jūs negalite dalintis aplanku su nurodytu naudotoju „{0}“ \n"
+
+#. org.gnome.evolution.mail_shared_folder:no-user primary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:8
+msgid "Specify User"
+msgstr "Nurodykite naudotoją"
+
+#. org.gnome.evolution.mail_shared_folder:no-user secondary
+#: plugins/shared-folder/org-gnome-shared-folder-errors.xml.h:10
+msgid ""
+"\n"
+"\tYou have to specify a user name whom you want to add to the list \n"
+msgstr ""
+"\n"
+"\tJūs turite nurodyti naudotojo, kurį norite įtraukti į sąrašą, vardą \n"
 
 #: plugins/shared-folder/properties.glade.h:2
 msgid "<b>Users :</b>"
