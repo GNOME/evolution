@@ -304,7 +304,7 @@ getNextLDIFEntry( FILE *f )
 	while (!feof (f)) {
 		if (!fgets (line, sizeof(line), f))
 			break;
-		if (line[0] == '\n')
+		if (line[0] == '\n' || (line[0] == '\r' && line[1] == '\n'))
 			break;
 		str = g_string_append (str, line);
 	}

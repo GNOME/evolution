@@ -1,5 +1,12 @@
 2002-11-22  Chris Toshok  <toshok@ximian.com>
 
+	[ roll forward Sean.Gao@sun.com's fix for #16870 from the 1.2
+	branch ] 
+	* backend/ebook/evolution-ldif-importer.c (getNextLDIFEntry):
+	check for both LR and CRLF as empty line markers.
+
+2002-11-22  Chris Toshok  <toshok@ximian.com>
+
 	[ rolling forward fix for #34254 from 1.2 branch ]
 	* backend/ebook/evolution-vcard-importer.c (check_file_is_vcard):
 	use g-ascii_strncasecmp instead of strncmp.
