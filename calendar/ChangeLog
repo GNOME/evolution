@@ -1,3 +1,9 @@
+2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fixes #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/main.c (main): Push GdkRGB visual and colormap.
+
 2001-12-19  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
