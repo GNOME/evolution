@@ -1,5 +1,8 @@
 2000-04-17  Dan Winship  <danw@helixcode.com>
 
+	* camel-session.c (get_store_for_protocol_with_url): Set the
+	exception if no provider is found.
+
 	* camel-url.c: Add code to encode and decode %-escapes in URLs,
 	and do some additional correctness-checking on URL syntax. From
 	Tiago Antào with modifications by me.

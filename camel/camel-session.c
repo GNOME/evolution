@@ -185,8 +185,12 @@ get_store_for_protocol_with_url (CamelSession *session, const char *protocol,
 		 */
 		provider = camel_provider_get_for_protocol (protocol, PROVIDER_STORE);
 	}
-	if (!provider)
+	if (!provider) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_URL_INVALID,
+				      "No provider available for protocol "
+				      "`%s'", protocol);
 		return NULL;
+	}
 
 	return CAMEL_STORE (camel_service_new (provider->object_type,
 					       session, url, ex));
