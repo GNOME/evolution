@@ -6,7 +6,7 @@
   <program_name>evolution-startup-wizard</program_name>
   <directory></directory>
   <source_directory>src</source_directory>
-  <pixmaps_directory>../../art/</pixmaps_directory>
+  <pixmaps_directory>/opt/gnome/share/images/evolution</pixmaps_directory>
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>

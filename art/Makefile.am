@@ -169,7 +169,20 @@ buttons_DATA = 				\
 	send-24.png		\
 	weekview.xpm  			\
 	workweekview.xpm		\
-	yearview.xpm	
+	yearview.xpm
+
+gladedir = $(datadir)/evolution/glade
+glade_DATA = 					\
+	evolution.png				\
+	import.png				\
+	mail-config-druid-account-name.png	\
+	mail-config-druid-identity.png		\
+	mail-config-druid.png			\
+	mail-config-druid-receive.png		\
+	mail-config-druid-send.png		\
+	meeting_widget.png			\
+	thankyou.png				\
+	timezone-48.png
 
 conduitsdir = $(datadir)/images/evolution/conduits
 conduits_DATA =				\

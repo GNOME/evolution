@@ -1,3 +1,8 @@
+2001-11-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* glade/evolution-startup-wizard.glade: `timezone-48.png', not
+	`timezone.png'.
+
 2001-11-01  Anna Marie Dirks  <anna@ximian.com>
 
 	* glade/evolution-startup-wizard.glade: Changed the welcome

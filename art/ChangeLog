@@ -1,3 +1,9 @@
+2001-11-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	* Makefile.am (gladedir): New.
+	(glade_DATA): Pixmap files required to be installed by the glade
+	files.
+
 2001-10-31  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am: Install `evolution.png', not `evolution-icon.png'.
