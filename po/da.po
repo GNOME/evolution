@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnome-applets 1.4.1\n"
 "POT-Creation-Date: 2001-10-07 22:06-0400\n"
-"PO-Revision-Date: 2001-10-08 09:15+0200\n"
+"PO-Revision-Date: 2001-10-09 09:15+0200\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -1340,11 +1340,11 @@ msgstr "Afghanistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:3
 msgid "Albania"
-msgstr "Albania"
+msgstr "Albanien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:4
 msgid "Algeria"
-msgstr "Algerie"
+msgstr "Algeriet"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:5
 msgid "American Samoa"
@@ -1367,7 +1367,7 @@ msgid "Antarctica"
 msgstr "Antarktis"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:10
-msgid "Antigua And Barbuda"
+msgid "Antigua og Barbuda"
 msgstr "Antigua og Barbuda"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:11
@@ -1376,7 +1376,7 @@ msgstr "Argentina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:12
 msgid "Armenia"
-msgstr "Armenia"
+msgstr "Armenien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:13
 msgid "Aruba"
@@ -1384,15 +1384,15 @@ msgstr "Aruba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:14
 msgid "Australia"
-msgstr "Australia"
+msgstr "Australien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:15
 msgid "Austria"
-msgstr "Østerrike"
+msgstr "Østrig"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:16
 msgid "Azerbaijan"
-msgstr "Asserbadsjan"
+msgstr "Asserbadjan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:17
 msgid "Bahamas"
@@ -1412,11 +1412,11 @@ msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:21
 msgid "Belarus"
-msgstr "Hviterussland"
+msgstr "Hviderusland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:22
 msgid "Belgium"
-msgstr "Belgia"
+msgstr "Belgien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:23
 msgid "Belize"
@@ -1440,7 +1440,7 @@ msgstr "Bolivia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:28
 msgid "Bosnia And Herzegowina"
-msgstr "Bosnia og Herzegovina"
+msgstr "Bosnien og Herzegovina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:29
 msgid "Botswana"
@@ -1448,11 +1448,11 @@ msgstr "Botswana"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:30
 msgid "Bouvet Island"
-msgstr "Bouvetøja"
+msgstr "Bouvetøen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:31
 msgid "Brazil"
-msgstr "Brasil"
+msgstr "Brasilien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:32
 msgid "British Indian Ocean Territory"
@@ -1460,7 +1460,7 @@ msgstr "Britisk-Indisk havområde"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:33
 msgid "British Virgin Islands"
-msgstr "Jomfruøjene (britisk)"
+msgstr "Jomfruøerne (britisk)"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:34
 msgid "Brunei Darussalam"
@@ -1468,7 +1468,7 @@ msgstr "Brunei Dar-es-salam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:35
 msgid "Bulgaria"
-msgstr "Bulgaria"
+msgstr "Bulgarien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:36
 msgid "Burkina Faso"
@@ -1480,7 +1480,7 @@ msgstr "Burundi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:38
 msgid "Cambodia"
-msgstr "Kambodsja"
+msgstr "Cambodja"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:39
 msgid "Cameroon"
@@ -1488,27 +1488,27 @@ msgstr "Kamerun"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:40
 msgid "Canada"
-msgstr "Kanada"
+msgstr "Canada"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:41
 msgid "Cape Verde"
-msgstr "Kapp Verde"
+msgstr "Kap Verde"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:42
 msgid "Cayman Islands"
-msgstr "Kaymanøjene"
+msgstr "Cayman-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:43
 msgid "Central African Republic"
-msgstr "Sentralafrikanske republikk"
+msgstr "Centralafrikanske republik"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:44
 msgid "Chad"
-msgstr "Tsjad"
+msgstr "Tchad"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:45
 msgid "Check Address"
-msgstr "Sjek adresse"
+msgstr "Tjek adresse"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:46
 msgid "Chile"
@@ -1520,15 +1520,15 @@ msgstr "Kina"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:48
 msgid "Christmas Island"
-msgstr "Christmas Island"
+msgstr "Juleøen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:49
 msgid "Cocos (Keeling) Islands"
-msgstr "Cocos (Keeling)-øjene"
+msgstr "Cocos (Keeling)-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:50
 msgid "Colombia"
-msgstr "Colombia"
+msgstr "Columbia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:51
 msgid "Comoros"
@@ -1536,11 +1536,11 @@ msgstr "Komorene"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:52
 msgid "Congo"
-msgstr "Kongo"
+msgstr "Congo"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:53
 msgid "Cook Islands"
-msgstr "Cook-øjene"
+msgstr "Cook-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:54
 msgid "Costa Rica"
@@ -1548,7 +1548,7 @@ msgstr "Costa Rica"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:55
 msgid "Cote d'Ivoire"
-msgstr "Cote d'Ivoire"
+msgstr "Elfenbenskysten"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:56
 msgid "Countr_y:"
@@ -1556,15 +1556,15 @@ msgstr "Lan_d:"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:57
 msgid "Croatia"
-msgstr "Kroatia"
+msgstr "Kroatien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:58
 msgid "Cuba"
-msgstr "Kuba"
+msgstr "Cuba"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:59
 msgid "Cyprus"
-msgstr "Kypros"
+msgstr "Cypern"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:60
 msgid "Czech Republic"
@@ -1592,11 +1592,11 @@ msgstr "Øst-Timor"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:66
 msgid "Ecuador"
-msgstr "Ekvador"
+msgstr "Ækvador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:67
 msgid "Egypt"
-msgstr "Egypt"
+msgstr "Egypten"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:68
 msgid "El Salvador"
@@ -1604,7 +1604,7 @@ msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:69
 msgid "Equatorial Guinea"
-msgstr "Ekvatorial Guinea"
+msgstr "Ækvatorial Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:70
 msgid "Eritrea"
@@ -1616,15 +1616,15 @@ msgstr "Estland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:72
 msgid "Ethiopia"
-msgstr "Etiopia"
+msgstr "Etiopien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:73
 msgid "Falkland Islands"
-msgstr "Falklandsøjene"
+msgstr "Falklandsøerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:74
 msgid "Faroe Islands"
-msgstr "Færøjene"
+msgstr "Færøerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:75
 msgid "Fiji"
@@ -1636,7 +1636,7 @@ msgstr "Finland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:77
 msgid "France"
-msgstr "Frankrike"
+msgstr "Frankrig"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:78
 msgid "French Guiana"
@@ -1644,7 +1644,7 @@ msgstr "Fransk Guinea"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:79
 msgid "French Polynesia"
-msgstr "Fransk polynesia"
+msgstr "Fransk polynesien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:80
 msgid "French Southern Territories"
@@ -1676,11 +1676,11 @@ msgstr "Gibraltar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:87
 msgid "Greece"
-msgstr "Hellas"
+msgstr "Grækenland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:88
 msgid "Greenland"
-msgstr "Grønnland"
+msgstr "Grønland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:89
 msgid "Grenada"
@@ -1716,7 +1716,7 @@ msgstr "Haiti"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:97
 msgid "Heard And McDonald Islands"
-msgstr "Heard og McDonald-øjene"
+msgstr "Heard og McDonald-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:98
 msgid "Holy See"
@@ -1740,11 +1740,11 @@ msgstr "Island"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:103
 msgid "India"
-msgstr "India"
+msgstr "Indien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:104
 msgid "Indonesia"
-msgstr "Indonesia"
+msgstr "Indonesien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:105
 msgid "Ireland"
@@ -1756,7 +1756,7 @@ msgstr "Israel"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:107
 msgid "Italy"
-msgstr "Italia"
+msgstr "Italien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:108
 msgid "Jamaica"
@@ -1796,7 +1796,7 @@ msgstr "Laos"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:117
 msgid "Latvia"
-msgstr "Latvia"
+msgstr "Letland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:118
 msgid "Lebanon"
@@ -1828,7 +1828,7 @@ msgstr "Macau"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:125
 msgid "Macedonia"
-msgstr "Makedonia"
+msgstr "Makedonien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:126
 msgid "Madagascar"
@@ -1844,7 +1844,7 @@ msgstr "Malaysia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:129
 msgid "Maldives"
-msgstr "Maldivene"
+msgstr "Maldiverne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:130
 msgid "Mali"
@@ -1856,7 +1856,7 @@ msgstr "Malta"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:132
 msgid "Marshall Islands"
-msgstr "Marshalløjene"
+msgstr "Marshalløerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:133
 msgid "Martinique"
@@ -1864,7 +1864,7 @@ msgstr "Martinique"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:134
 msgid "Mauritania"
-msgstr "Mauretania"
+msgstr "Mauretanien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:135
 msgid "Mauritius"
@@ -1880,7 +1880,7 @@ msgstr "Mexico"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:138
 msgid "Micronesia"
-msgstr "Mikronesia"
+msgstr "Mikronesien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:139
 msgid "Monaco"
@@ -1888,7 +1888,7 @@ msgstr "Monaco"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:140
 msgid "Mongolia"
-msgstr "Mongolia"
+msgstr "Mongoliet"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:141
 msgid "Montserrat"
@@ -1900,7 +1900,7 @@ msgstr "Marokko"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:143
 msgid "Mozambique"
-msgstr "Mosambik"
+msgstr "Mozambique"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:144
 msgid "Myanmar"
@@ -1908,7 +1908,7 @@ msgstr "Myanmar"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:145
 msgid "Namibia"
-msgstr "Namibia"
+msgstr "Namibien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:146
 msgid "Nauru"
@@ -1920,11 +1920,11 @@ msgstr "Nepal"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:148
 msgid "Netherlands"
-msgstr "Nederland"
+msgstr "Holland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:149
 msgid "Netherlands Antilles"
-msgstr "Nederlandske Antiller"
+msgstr "Hollandske Antiller"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:150
 msgid "New Caledonia"
@@ -1952,11 +1952,11 @@ msgstr "Niue"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:156
 msgid "Norfolk Island"
-msgstr "Norfolk-øja"
+msgstr "Norfolk-øen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:157
 msgid "Northern Mariana Islands"
-msgstr "Nordre Mariana-øjer"
+msgstr "Nordre Mariana-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:158
 msgid "Norway"
@@ -1992,7 +1992,7 @@ msgstr "Peru"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:166
 msgid "Philippines"
-msgstr "Fillipinene"
+msgstr "Filippinerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:167
 msgid "Pitcairn"
@@ -2024,15 +2024,15 @@ msgstr "Republikken Moldova"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:174
 msgid "Reunion"
-msgstr "Genforening"
+msgstr "Réunion"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:175
 msgid "Romania"
-msgstr "Romania"
+msgstr "Rumænien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:176
 msgid "Russian Federation"
-msgstr "Den russiske federation"
+msgstr "Rusland"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:177
 msgid "Rwanda"
@@ -2048,7 +2048,7 @@ msgstr "Saint Lucia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:180
 msgid "Saint Vincent And The Grena-dines"
-msgstr "Saint Vincent og grenadinene"
+msgstr "Saint Vincent og grenadinerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:181
 msgid "Samoa"
@@ -2064,7 +2064,7 @@ msgstr "Sao Tome og Principe"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:184
 msgid "Saudi Arabia"
-msgstr "Saudi arabia"
+msgstr "Saudi Arabien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:185
 msgid "Senegal"
@@ -2084,15 +2084,15 @@ msgstr "Singapore"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:189
 msgid "Slovakia"
-msgstr "Slovakia"
+msgstr "Slovakiet"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:190
 msgid "Slovenia"
-msgstr "Slovenia"
+msgstr "Slovenien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:191
 msgid "Solomon Islands"
-msgstr "Solomonøjene"
+msgstr "Solomonøerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:192
 msgid "Somalia"
@@ -2100,15 +2100,15 @@ msgstr "Somalia"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:193
 msgid "South Africa"
-msgstr "Sør Afrika"
+msgstr "Sydafrika"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:194
 msgid "South Georgia And The South Sandwich Islands"
-msgstr "Syd Georgia og de sydlige sandwich-øjene"
+msgstr "Syd Georgia og de sydlige sandwich-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:195
 msgid "Spain"
-msgstr "Spania"
+msgstr "Spanien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:196
 msgid "Sri Lanka"
@@ -2176,11 +2176,11 @@ msgstr "Trinidad og Tobago"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:212
 msgid "Tunisia"
-msgstr "Tunisia"
+msgstr "Tunesien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:213
 msgid "Turkey"
-msgstr "Tyrkia"
+msgstr "Tyrkiet"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:214
 msgid "Turkmenistan"
@@ -2188,7 +2188,7 @@ msgstr "Turkmenistan"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:215
 msgid "Turks And Caicos Islands"
-msgstr "Turks og Caicos-øjene"
+msgstr "Turks og Caicos-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:216
 msgid "Tuvalu"
@@ -2196,7 +2196,7 @@ msgstr "Tuvalu"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:217
 msgid "U.S. Virgin Islands"
-msgstr "U.S. Jomfruøjene"
+msgstr "U.S. Jomfruøerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:218
 msgid "Uganda"
@@ -2208,11 +2208,11 @@ msgstr "Ukraine"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:220
 msgid "United Arab Emirates"
-msgstr "De forente arabiske emirater"
+msgstr "De forenede arabiske emirater"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:221
 msgid "United Kingdom"
-msgstr "England"
+msgstr "Storbritannien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:222
 msgid "United Republic Of Tanzania"
@@ -2220,11 +2220,11 @@ msgstr "Republikken Tanzania"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:223
 msgid "United States"
-msgstr "De forente stater"
+msgstr "U.S.A."
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:224
 msgid "United States Minor Outlying Islands"
-msgstr "USA, mindre omliggende øjer"
+msgstr "USA, mindre omliggende øer"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:225
 msgid "Uruguay"
@@ -2248,11 +2248,11 @@ msgstr "Vietnam"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:230
 msgid "Wallis And Futuna Islands"
-msgstr "Wallis- og Futuna-øjene"
+msgstr "Wallis- og Futuna-øerne"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:231
 msgid "Western Sahara"
-msgstr "Vestre Sahara"
+msgstr "Vestlige Sahara"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:232
 msgid "Yemen"
@@ -2260,7 +2260,7 @@ msgstr "Yemen"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:233
 msgid "Yugoslavia"
-msgstr "Jugoslavia"
+msgstr "Jugoslavien"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:234
 msgid "Zambia"
@@ -10872,49 +10872,50 @@ msgid "Freezing haze"
 msgstr "Frysende dis"
 
 #. SPRAY
+#. Skum?
 #: my-evolution/metar.c:115
 msgid "Sprays"
-msgstr "Yr"
+msgstr "Byger"
 
 #: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
-msgstr "Yr i området"
+msgstr "Byger i området"
 
 #: my-evolution/metar.c:115
 msgid "Light sprays"
-msgstr "Let yr"
+msgstr "Lette byger"
 
 #: my-evolution/metar.c:115
 msgid "Moderate sprays"
-msgstr "Moderat yr"
+msgstr "Moderate byger"
 
 #: my-evolution/metar.c:115
 msgid "Heavy sprays"
-msgstr "Kraftig yr"
+msgstr "Kraftige byger"
 
 #: my-evolution/metar.c:115
 msgid "Shallow sprays"
-msgstr "Tyndt yr"
+msgstr "Tynde byger"
 
 #: my-evolution/metar.c:115
 msgid "Patches of sprays"
-msgstr "Områder med yr"
+msgstr "Områder med byger"
 
 #: my-evolution/metar.c:115
 msgid "Partial sprays"
-msgstr "Delvis yr"
+msgstr "Delvise byger"
 
 #: my-evolution/metar.c:115
 msgid "Blowing sprays"
-msgstr "Blæsende yr"
+msgstr "Blæsende byger"
 
 #: my-evolution/metar.c:115
 msgid "Drifting sprays"
-msgstr "Drivende yr"
+msgstr "Drivende byger"
 
 #: my-evolution/metar.c:115
 msgid "Freezing sprays"
-msgstr "Frysende yr"
+msgstr "Frysende byger"
 
 #. DUST
 #: my-evolution/metar.c:116
@@ -11293,7 +11294,7 @@ msgstr "_Fem dage"
 
 #: my-evolution/my-evolution.glade.h:26
 msgid "_Imperial"
-msgstr "_Imperiel"
+msgstr "_Imperisk"
 
 #: my-evolution/my-evolution.glade.h:27
 msgid "_Mail"
