@@ -94,7 +94,7 @@ e-select-names-marshal.c: e-select-names-marshal.h
 MARSHAL_GENERATED = e-select-names-marshal.c e-select-names-marshal.h
 
 glade_DATA = select-names.glade
-etspec_DATA = e-select-names.etspec
+etspec_DATA = e-select-names.etspec e-select-names-section.etspec
 
 EXTRA_DIST = 			\
 	$(glade_DATA)		\

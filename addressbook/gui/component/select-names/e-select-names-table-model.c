@@ -154,8 +154,9 @@ clear_info (ESelectNamesTableModel *model)
 		}
 		g_free(model->data);
 		model->data = NULL;
-		model->count = -1;
 	}
+
+	model->count = -1;
 }
 
 /*

@@ -42,7 +42,7 @@
 
 #include "e-select-names.h"
 #include <addressbook/backend/ebook/e-card-simple.h>
-#include "e-select-names-text-model.h"
+#include "e-select-names-table-model.h"
 #include <gal/widgets/e-categories-master-list-option-menu.h>
 #include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
@@ -63,12 +63,13 @@ enum {
 };
 
 typedef struct {
-	char                  *title;
-	ESelectNamesModel     *source;
-	ESelectNamesTextModel *text_model;
-	ESelectNames          *names;
-	GtkWidget             *label;
-	GtkWidget             *button;
+	char                   *title;
+	ESelectNamesModel      *source;
+	ESelectNamesTableModel *table_model;
+	ESelectNames           *names;
+	GtkWidget              *label;
+	GtkWidget              *button;
+	GtkWidget              *recipient_table;
 } ESelectNamesChild;
 
 GType
@@ -492,10 +493,10 @@ e_select_names_init (ESelectNames *e_select_names)
 	gtk_dialog_set_default_response (GTK_DIALOG (e_select_names),
 					 GTK_RESPONSE_OK);
 
-	gtk_window_set_modal (GTK_DIALOG (e_select_names), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (e_select_names), TRUE);
 
 	gtk_window_set_title(GTK_WINDOW(e_select_names), _("Select Contacts from Addressbook")); 
-	gtk_window_set_policy(GTK_WINDOW(e_select_names), FALSE, TRUE, FALSE);
+	gtk_window_set_resizable(GTK_WINDOW(e_select_names), TRUE);
 
 	e_select_names->table = E_TABLE_SCROLLED(glade_xml_get_widget(gui, "table-source"));
 	e_select_names->model = g_object_get_data(G_OBJECT(e_select_names->table), "model");
@@ -580,7 +581,7 @@ static void e_select_names_child_free(char *key, ESelectNamesChild *child, ESele
 					      0, 0, NULL,
 					      G_CALLBACK (sync_table_and_models), e_select_names);
 	g_free(child->title);
-	g_object_unref(child->text_model);
+	g_object_unref(child->table_model);
 	g_object_unref(child->source);
 	g_free(key);
 	g_free(child);
@@ -637,70 +638,42 @@ button_clicked(GtkWidget *button, ESelectNamesChild *child)
 	real_add_address(child->names, child);
 }
 
-#if 0
 static void
 remove_address(ETable *table, int row, int col, GdkEvent *event, ESelectNamesChild *child)
 {
 	e_select_names_model_delete (child->source, row);
 }
-#endif
 
 struct _RightClickData {
 	ESelectNamesChild *child;
-	int index;
+	int row;
 };
 typedef struct _RightClickData RightClickData;
-
-#if 0
-static GSList *selected_rows = NULL;
-
-static void
-etable_selection_foreach_cb (int row, void *data)
-{
-	/* Build a list of rows in reverse order, then remove them,
-           necessary because otherwise it'll start trying to delete
-           rows out of index in ETableModel */
-	selected_rows = g_slist_prepend (selected_rows, GINT_TO_POINTER (row));
-}
-
-static void
-selected_rows_foreach_cb (void *row, void *data)
-{
-	ESelectNamesChild *child = data;
-
-	remove_address (NULL, GPOINTER_TO_INT (row), 0, NULL, child);
-}
-#endif
 
 static void
 remove_cb (GtkWidget *widget, void *data)
 {
 	RightClickData *rcdata = (RightClickData *)data;
 
-	e_select_names_model_delete (rcdata->child->source, rcdata->index);
+	e_select_names_model_delete (rcdata->child->source, rcdata->row);
 
 	/* Free everything we've created */
 	g_free (rcdata);
 }
 
 static void
-section_right_click_cb (EText *text, GdkEventButton *ev, gint pos, ESelectNamesChild *child)
+section_right_click_cb (ETable *et, int row, int col, GdkEvent *ev, ESelectNamesChild *child)
 {
-	EPopupMenu right_click_menu[] = {
+	static EPopupMenu right_click_menu[] = {
 		E_POPUP_ITEM (N_("Remove"), G_CALLBACK (remove_cb), 0),
 		E_POPUP_TERMINATOR
 	};
-	gint index;
+	RightClickData *rcdata = g_new0 (RightClickData, 1);
 
-	e_select_names_model_text_pos (child->source, child->text_model->seplen, pos, &index, NULL, NULL);
+	rcdata->row = row;
+	rcdata->child = child;
 
-	if (index != -1) {
-		RightClickData *rcdata = g_new0 (RightClickData, 1);
-		rcdata->index = index;
-		rcdata->child = child;
-
-		e_popup_menu_run (right_click_menu, (GdkEvent *)ev, 0, 0, rcdata);
-	}
+	e_popup_menu_run (right_click_menu, (GdkEvent *)ev, 0, 0, rcdata);
 }
 
 void
@@ -715,7 +688,6 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	ETable *etable;
 
 	GtkWidget *sw;
-	GtkWidget *recipient_table;
 
 	if (g_hash_table_lookup(e_select_names->children, id)) {
 		return;
@@ -728,8 +700,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	child->names = e_select_names;
 	child->title = g_strdup (_(name));
 
-	child->text_model = (ESelectNamesTextModel *) e_select_names_text_model_new (source);
-	e_select_names_text_model_set_separator (child->text_model, "\n");
+	child->table_model = (ESelectNamesTableModel*)e_select_names_table_model_new (source);
 
 	child->source = source;
 	g_object_ref(child->source);
@@ -765,27 +736,23 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	etable = e_table_scrolled_get_table (e_select_names->table);
 	gtk_widget_set_sensitive (button, e_table_selected_count (etable) > 0);
 
-	sw = gtk_scrolled_window_new (NULL, NULL);
-	recipient_table = e_entry_new ();
-	g_object_set (recipient_table,
-		      "model", child->text_model,
-		      "allow_newlines", TRUE,
-		      NULL);
+	sw = e_table_scrolled_new_from_spec_file (E_TABLE_MODEL (child->table_model),
+						  NULL,
+						  EVOLUTION_ETSPECDIR "/e-select-names-section.etspec",
+						  NULL);
+	child->recipient_table = GTK_WIDGET (e_table_scrolled_get_table (E_TABLE_SCROLLED (sw)));
 
-	g_signal_connect (recipient_table,
-			  "popup",
+	g_signal_connect (child->recipient_table,
+			  "right_click",
 			  G_CALLBACK (section_right_click_cb),
 			  child);
 
-	gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (sw), recipient_table);
+	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+					GTK_POLICY_AUTOMATIC,
+					GTK_POLICY_AUTOMATIC);
 	
-#if 0
-	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable)), "right_click",
-			 G_CALLBACK(section_right_click_cb), child);
-	g_signal_connect(e_table_scrolled_get_table(E_TABLE_SCROLLED(etable)), "double_click",
+	g_signal_connect(child->recipient_table, "double_click",
 			 G_CALLBACK(remove_address), child);
-#endif
-
 
 	g_signal_connect (child->source,
 			  "changed",

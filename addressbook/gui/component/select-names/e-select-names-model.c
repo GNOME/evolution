@@ -38,17 +38,6 @@ enum {
 	ARG_CARD,
 };
 
-enum {
-	NAME_DATA_BLANK,
-	NAME_DATA_CARD,
-	NAME_DATA_STRING
-};
-
-enum {
-	NAME_FORMAT_GIVEN_FIRST,
-	NAME_FORMAT_FAMILY_FIRST
-};
-
 struct _ESelectNamesModelPrivate {
 	gchar *id;
 	gchar *title;
