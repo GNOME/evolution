@@ -1,3 +1,8 @@
+2000-05-28  Christopher James Lahey  <clahey@helixcode.com>
+
+	* message-list.c, message-list.h: Added a COL_DELETED and made it
+	the strikeout column for both text renderers.
+
 2000-05-27  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c: Various improvements:

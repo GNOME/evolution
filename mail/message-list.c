@@ -66,7 +66,7 @@ static CamelMessageInfo *get_message_info(MessageList *message_list, gint row)
 				char *uid = g_list_nth_data(message_list->matches, row);
 				if (uid) {
 					info = message_list->summary_search_cache->pdata[row] =
-						camel_folder_summary_get_by_uid(message_list->folder, uid);
+						(CamelMessageInfo *) camel_folder_summary_get_by_uid(message_list->folder, uid);
 				}
 			}
 		}
@@ -227,6 +227,10 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		retval = buffer;
 		break;
 			
+	case COL_DELETED:
+		retval = GINT_TO_POINTER(!!(msg_info->flags & CAMEL_MESSAGE_DELETED));
+		break;
+
 	default:
 		g_assert_not_reached ();
 	}
@@ -264,6 +268,7 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
+	case COL_DELETED:
 		return (void *) value;
 
 	case COL_FROM:
@@ -287,6 +292,7 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
+	case COL_DELETED:
 		break;
 
 	case COL_FROM:
@@ -310,6 +316,7 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
+	case COL_DELETED:
 		return NULL;
 
 	case COL_FROM:
@@ -334,6 +341,7 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	case COL_MESSAGE_STATUS:
 	case COL_PRIORITY:
 	case COL_ATTACHMENT:
+	case COL_DELETED:
 		return value == NULL;
 
 	case COL_FROM:
@@ -396,6 +404,10 @@ message_list_init_renderers (MessageList *message_list)
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
 		NULL, GTK_JUSTIFY_LEFT);
+
+	gtk_object_set(GTK_OBJECT(message_list->render_text),
+		       "strikeout_column", COL_DELETED,
+		       NULL);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
 
@@ -521,9 +533,11 @@ message_list_init_header (MessageList *message_list)
 	 * of this.
 	 */
 	for (i = 0; i < COL_LAST; i++) {
-		gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
-		e_table_header_add_column (message_list->header_model,
-					   message_list->table_cols [i], i);
+		if (i != COL_DELETED) {
+			gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
+			e_table_header_add_column (message_list->header_model,
+						   message_list->table_cols [i], i);
+		}
 	}
 }
 

@@ -34,6 +34,7 @@ enum {
 	COL_RECEIVE,
 	COL_TO,
 	COL_SIZE,
+	COL_DELETED,
 
 	COL_LAST
 };
