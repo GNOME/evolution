@@ -957,7 +957,7 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 {
 	GHashTable *imap_sources, *accounts;
 	char *path, *uri;
-	char *account;
+	char *account, *transport;
 	int num, i;
 	
 	if ((num = bonobo_config_get_long_with_default (db, "/Mail/Accounts/num", 0, NULL)) == 0) {
@@ -1024,6 +1024,14 @@ mailer_upgrade (Bonobo_ConfigDatabase db)
 			if (account)
 				g_hash_table_insert (accounts, account, si);
 		} else if (uri && !strncmp (uri, "exchange:", 9)) {
+			/* Upgrade transport uri */
+			path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
+			transport = bonobo_config_get_string (db, path, NULL);
+			if (transport && !strncmp (transport, "exchanget:", 10))
+				bonobo_config_set_string (db, path, uri, NULL);
+			g_free (transport);
+			g_free (path);
+
 			path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
 			account = bonobo_config_get_string (db, path, NULL);
 			g_free (path);

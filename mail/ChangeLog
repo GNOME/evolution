@@ -1,3 +1,9 @@
+2002-10-21  Dan Winship  <danw@ximian.com>
+
+	* upgrade-mailer.c (mailer_upgrade): Fix the transport URL on any
+	Exchange accounts. Fixes #30209, which is to say that it fixes
+	#28490 correctly.
+
 2002-10-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-tools.c (mail_tool_quote_message): Strip the signature from
