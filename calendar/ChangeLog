@@ -1,3 +1,14 @@
+2003-04-10  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #41127
+	
+	* gui/e-meeting-time-sel.c (e_meeting_time_selector_refresh_cb):
+	unref here, when the callback is done
+	(e_meeting_time_selector_refresh_free_busy): don't unref here
+
+	* gui/e-meeting-model.c (process_free_busy): if the type is
+	unexpected, make sure we cleanup properly
+
 2003-04-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): only remove

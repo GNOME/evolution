@@ -1307,8 +1307,6 @@ process_free_busy (EMeetingModelQueueData *qdata, char *text)
 		icalcomponent_free (tz_top_level);
 	} else if (kind == ICAL_VFREEBUSY_COMPONENT) {
 		process_free_busy_comp (ia, main_comp, priv->zone, NULL);
-	} else {
-		return;
 	}
 	
 	icalcomponent_free (main_comp);

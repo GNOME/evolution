@@ -1227,6 +1227,8 @@ e_meeting_time_selector_refresh_cb (gpointer data)
 		gtk_widget_queue_draw (mts->display_top);
 	if (mts->display_main != NULL)
 		gtk_widget_queue_draw (mts->display_main);
+
+	gtk_object_unref (GTK_OBJECT (mts));
 }
 
 static void
@@ -1243,7 +1245,9 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, g
 	end.hour = 0;
 	end.minute = 0;	
 
-	/* Ref ourselves in case we are called back after destruction */
+	/* Ref ourselves in case we are called back after destruction,
+	 * we can do this because we will get a call back even after
+	 * an error */
 	gtk_object_ref (GTK_OBJECT (mts));
 	
 	if (all)
@@ -1252,8 +1256,6 @@ e_meeting_time_selector_refresh_free_busy (EMeetingTimeSelector *mts, int row, g
 	else
 		e_meeting_model_refresh_busy_periods (mts->model, row, &start, &end, 
 						      e_meeting_time_selector_refresh_cb, mts);
-
-	gtk_object_unref (GTK_OBJECT (mts));
 }
 
 EMeetingTimeSelectorAutopickOption
