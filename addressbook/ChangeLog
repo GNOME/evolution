@@ -1,5 +1,10 @@
 2002-04-18  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/ldap-config.glade: change order of scope option
+	menu to match how it's stored.
+
+2002-04-18  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/GNOME_Evolution_Addressbook.oaf.in: change ldap
 	config control text so it fits in the config dialog.
 

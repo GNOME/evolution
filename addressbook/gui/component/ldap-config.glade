@@ -4435,8 +4435,8 @@ exploits. </label>
 	  <class>GtkOptionMenu</class>
 	  <name>scope-optionmenu</name>
 	  <can_focus>True</can_focus>
-	  <items>Sub
-One
+	  <items>One
+Sub
 </items>
 	  <initial_choice>0</initial_choice>
 	</widget>
