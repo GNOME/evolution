@@ -1,5 +1,10 @@
 2001-02-05  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (create_card_handler): err,
+	allocate 2 char*s when i assign 2 char*s.
+
+2001-02-05  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/pas-backend-ldap.c (modify_card_handler): switch to
 	ldap_modify_ext_s if OPENLDAP2, as ldap_modify_s is deprecated.
 	(build_mods_from_ecards): don't include the mod if the value is ""
@@ -9,7 +14,6 @@
 	(homephone_compare): new function.
 	(create_card_handler): add spew when adding cards so I can see
 	what's going on.
-
 2001-02-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/addressbook-config.c (table_add_elem): Save the

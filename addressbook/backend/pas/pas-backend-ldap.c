@@ -562,7 +562,7 @@ create_card_handler (PASBackend *backend, LDAPOp *op)
 	objectclass_mod = g_new (LDAPMod, 1);
 	objectclass_mod->mod_op = LDAP_MOD_ADD;
 	objectclass_mod->mod_type = g_strdup ("objectClass");
-	objectclass_mod->mod_values = g_new (char*, 1);
+	objectclass_mod->mod_values = g_new (char*, 2);
 	objectclass_mod->mod_values[0] = g_strdup (OBJECT_CLASS);
 	objectclass_mod->mod_values[1] = NULL;
 	g_ptr_array_add (mod_array, objectclass_mod);
