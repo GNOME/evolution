@@ -165,6 +165,12 @@ destroy (GtkObject *object)
 	}
 	if (summary->tasks) {
 		e_summary_tasks_free (summary);
+
+	}
+
+	if (summary->priv->control) {
+		g_object_remove_weak_pointer (G_OBJECT (summary->priv->control), (void **) &summary->priv->control);
+		summary->priv->control = NULL;
 	}
 
 	if (priv->tomorrow_timeout_id != 0)

@@ -1,5 +1,9 @@
 2003-05-16  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-summary.c (destroy): Remove the weak pointer on priv->control.
+
+2003-05-16  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-summary-calendar.c (setup_calendar): Fix typo, celendar_path
 	-> calendar_path.
 
