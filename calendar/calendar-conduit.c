@@ -81,7 +81,7 @@ local_from_ical(CalLocalRecord **local,iCalObject *obj) {
   g_message("(*local)->Id = %ld",(*local)->ID);
   switch((*local)->ical->pilot_status) {
   case ICAL_PILOT_SYNC_NONE: (*local)->local.attr = RecordNothing; break;
-  case ICAL_PILOT_SYNC_MOD: (*local)->local.attr = RecordNew; break;
+  case ICAL_PILOT_SYNC_MOD: (*local)->local.attr = RecordNew|RecordModified; break;
   case ICAL_PILOT_SYNC_DEL: (*local)->local.attr = RecordDeleted; break;
   }
   
@@ -180,11 +180,13 @@ update_record (PilotRecord *remote)
 		obj = ical_object_new_from_string (vcal_string);
 	}
 
+	/*
 	if (obj->pilot_status == ICAL_PILOT_SYNC_MOD){
 		printf (_("\tObject has been modified on desktop and on the pilot, desktop takes precedence\n"));
 		ical_object_destroy (obj);
 		return;
 	}
+	*/
 
 	/*
 	 * Begin and end
@@ -500,7 +502,7 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
     gnome_pilot_conduit_standard_abs_iterate(conduit,(LocalRecord**)local);
     if((*local)==NULL) break;
     if(archived && ((*local)->local.archived==archived)) break;
-    if((*local)->local.attr == flag) break;
+    if((*local)->local.attr |= flag) break;
   } while((*local)!=NULL);
 
   return 1;
@@ -510,8 +512,11 @@ static gint
 purge (GnomePilotConduitStandardAbs *conduit,
        gpointer data)
 {
-	g_print ("entering purge\n");
-        return 1;
+  g_print ("entering purge\n");
+
+  /* HEST, gem posterne her */
+
+  return 1;
 }
 
 static gint
@@ -521,6 +526,23 @@ set_status (GnomePilotConduitStandardAbs *conduit,
 	    gpointer data)
 {
 	g_print ("entering set_status\n");
+	g_return_val_if_fail(local!=NULL,0);
+	g_assert(local->ical!=NULL);
+	
+	local->local.attr = status;
+	switch(status) {
+	case RecordPending:
+	case RecordNothing:
+	  local->ical->pilot_status = ICAL_PILOT_SYNC_NONE;
+	  break;
+	case RecordDeleted:
+	  local->ical->pilot_status = ICAL_PILOT_SYNC_DEL;
+	  break;
+	case RecordNew:
+	case RecordModified:
+	  local->ical->pilot_status = ICAL_PILOT_SYNC_MOD;
+	  break;	  
+	}
         return 0;
 }
 
@@ -531,6 +553,13 @@ set_archived (GnomePilotConduitStandardAbs *conduit,
 	      gpointer data)
 {
 	g_print ("entering set_archived\n");
+	g_return_val_if_fail(local!=NULL,0);
+	g_assert(local->ical!=NULL);
+
+	local->local.archived = archived;
+	/* FIXME: This should move the entry into a speciel
+	   calendar file, eg. Archive, or (by config option), simply
+	   delete it */
         return 1;
 }
 
@@ -541,6 +570,11 @@ set_pilot_id (GnomePilotConduitStandardAbs *conduit,
 	      gpointer data)
 {
 	g_print ("entering set_pilot_id\n");
+	g_return_val_if_fail(local!=NULL,0);
+	g_assert(local->ical!=NULL);
+
+	local->ID = ID;
+	local->ical->pilot_id = ID;
         return 1;
 }
 

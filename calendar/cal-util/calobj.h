@@ -181,7 +181,7 @@ typedef struct {
 
 	/* Pilot */
 	iCalPilotState pilot_status;    /* Status information */
-	int            pilot_id;        /* Pilot ID */
+	guint32            pilot_id;        /* Pilot ID */
 } iCalObject;
 
 /* The callback for the recurrence generator */
