@@ -206,28 +206,32 @@ e_book_do_response_get_cursor (EBook                 *book,
 
 	cursor = e_card_cursor_new(resp->cursor);
 
-	if (op->cb) {
-		if (op->active)
-			((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
-		else
-			((EBookCursorCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+	if (cursor != NULL) {
+		if (op->cb) {
+			if (op->active)
+				((EBookCursorCallback) op->cb) (book, resp->status, cursor, op->closure);
+			else
+				((EBookCursorCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+		}
+
+		/*
+		 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
+		 */
+		CORBA_exception_init (&ev);
+
+		bonobo_object_release_unref (resp->cursor, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_do_response_get_cursor: Exception releasing "
+				   "remote GNOME_Evolution_Addressbook_CardCursor interface!\n");
+		}
+
+		CORBA_exception_free (&ev);
+
+		gtk_object_unref(GTK_OBJECT(cursor));
+	} else {
+		((EBookCursorCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
-
-	/*
-	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
-	 */
-	CORBA_exception_init (&ev);
-
-	bonobo_object_release_unref (resp->cursor, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_cursor: Exception releasing "
-			   "remote GNOME_Evolution_Addressbook_CardCursor interface!\n");
-	}
-
-	CORBA_exception_free (&ev);
-
-	gtk_object_unref(GTK_OBJECT(cursor));
 	
 	g_free (op);
 }
@@ -251,35 +255,41 @@ e_book_do_response_get_view (EBook                 *book,
 	}
 	
 	book_view = e_book_view_new(resp->book_view, op->listener);
-	e_book_view_set_book (book_view, book);
 
-	/* Only execute the callback if the operation is still flagged as active (i.e. hasn't
-	   been cancelled.  This is mildly wasteful since we unnecessaryily create the
-	   book_view, etc... but I'm leery of tinkering with the CORBA magic. */
-	if (op->cb) {
-		if (op->active)
-			((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
-		else
-			((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
-	}
+	if (book_view != NULL) {
+		e_book_view_set_book (book_view, book);
+
+		/* Only execute the callback if the operation is still flagged as active (i.e. hasn't
+		   been cancelled.  This is mildly wasteful since we unnecessaryily create the
+		   book_view, etc... but I'm leery of tinkering with the CORBA magic. */
+		if (op->cb) {
+			if (op->active)
+				((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+			else
+				((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+		}
 	
-	/*
-	 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
-	 */
-	CORBA_exception_init (&ev);
+		/*
+		 * Release the remote GNOME_Evolution_Addressbook_Book in the PAS.
+		 */
+		CORBA_exception_init (&ev);
 
-	bonobo_object_release_unref  (resp->book_view, &ev);
+		bonobo_object_release_unref  (resp->book_view, &ev);
 
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_view: Exception releasing "
-			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_do_response_get_view: Exception releasing "
+				   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
+		}
+
+		CORBA_exception_free (&ev);
+
+		gtk_object_unref(GTK_OBJECT(book_view));
+	} else {
+		e_book_view_listener_stop (op->listener);
+		((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	CORBA_exception_free (&ev);
-
-	gtk_object_unref(GTK_OBJECT(book_view));
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
-	
 	g_free (op);
 }
 
@@ -300,32 +310,38 @@ e_book_do_response_get_changes (EBook                 *book,
 	}
 
 	book_view = e_book_view_new (resp->book_view, op->listener);
-	e_book_view_set_book (book_view, book);
+
+	if (book_view != NULL) {
+		e_book_view_set_book (book_view, book);
 	
-	if (op->cb) {
-		if (op->active)
-			((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
-		else
-			((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+		if (op->cb) {
+			if (op->active)
+				((EBookBookViewCallback) op->cb) (book, resp->status, book_view, op->closure);
+			else
+				((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
+		}
+
+		/*
+		 * Release the remote GNOME_Evolution_Addressbook_BookView in the PAS.
+		 */
+		CORBA_exception_init (&ev);
+
+		bonobo_object_release_unref  (resp->book_view, &ev);
+
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("e_book_do_response_get_changes: Exception releasing "
+				   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
+		}
+
+		CORBA_exception_free (&ev);
+
+		gtk_object_unref(GTK_OBJECT(book_view));
+	} else {
+		e_book_view_listener_stop (op->listener);
+		((EBookBookViewCallback) op->cb) (book, E_BOOK_STATUS_CANCELLED, NULL, op->closure);
 	}
 
-	/*
-	 * Release the remote GNOME_Evolution_Addressbook_BookView in the PAS.
-	 */
-	CORBA_exception_init (&ev);
-
-	bonobo_object_release_unref  (resp->book_view, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("e_book_do_response_get_changes: Exception releasing "
-			   "remote GNOME_Evolution_Addressbook_BookView interface!\n");
-	}
-
-	CORBA_exception_free (&ev);
-
-	gtk_object_unref(GTK_OBJECT(book_view));
 	bonobo_object_unref(BONOBO_OBJECT(op->listener));
-	
 	g_free (op);
 }
 
