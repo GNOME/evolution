@@ -1,3 +1,9 @@
+2001-02-13  JP Rosevear  <jpr@ximian.com>
+
+	* art/Makefile.am: install new files
+
+	* art/*view.xpm: add files from calendar/gui
+
 2001-02-11  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: rework ldap check logic so it'll work to

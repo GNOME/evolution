@@ -45,27 +45,12 @@
 #include "print.h"
 #include "dialogs/cal-prefs-dialog.h"
 
-#include "dayview.xpm"
-#include "workweekview.xpm"
-#include "weekview.xpm"
-#include "monthview.xpm"
-#if 0
-#include "yearview.xpm"
-#endif
-
 
 /* A list of all of the calendars started */
 static GList *all_calendars = NULL;
 
 /* We have one global preferences dialog. */
 static CalPrefsDialog *preferences_dialog = NULL;
-
-
-static void update_pixmaps	(BonoboUIComponent *uic);
-static void set_pixmap		(BonoboUIComponent *uic,
-				 const char        *xml_path,
-				 char		  **xpm_data);
-
 
 /* Callback for the new appointment command */
 static void
@@ -360,6 +345,41 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
+static void
+set_pixmap (BonoboUIComponent *uic,
+	    const char        *xml_path,
+	    const char        *icon)
+{
+	char *path;
+	GdkPixbuf *pixbuf;
+
+	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution", icon);
+
+	pixbuf = gdk_pixbuf_new_from_file (path);
+	if (pixbuf == NULL) {
+		g_warning ("Cannot load image -- %s", path);
+		g_free (path);
+		return;
+	}
+
+	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
+
+	gdk_pixbuf_unref (pixbuf);
+
+	g_free (path);
+}
+
+static void
+update_pixmaps (BonoboUIComponent *uic)
+{
+	set_pixmap (uic, "/Toolbar/New",	  "buttons/new_appointment.png");
+
+	set_pixmap (uic, "/Toolbar/DayView",	  "buttons/dayview.xpm");
+	set_pixmap (uic, "/Toolbar/WorkWeekView", "buttons/workweekview.xpm");
+	set_pixmap (uic, "/Toolbar/WeekView",	  "buttons/weekview.xpm");
+	set_pixmap (uic, "/Toolbar/MonthView",	  "buttons/monthview.xpm");
+}
+
 void
 calendar_control_activate (BonoboControl *control,
 			   GnomeCalendar *cal)
@@ -403,33 +423,6 @@ calendar_control_activate (BonoboControl *control,
 
 	bonobo_ui_component_thaw (uic, NULL);
 }
-
-
-static void
-update_pixmaps (BonoboUIComponent *uic)
-{
-	set_pixmap (uic, "/Toolbar/DayView",	  dayview_xpm);
-	set_pixmap (uic, "/Toolbar/WorkWeekView", workweekview_xpm);
-	set_pixmap (uic, "/Toolbar/WeekView",	  weekview_xpm);
-	set_pixmap (uic, "/Toolbar/MonthView",	  monthview_xpm);
-}
-
-
-static void
-set_pixmap (BonoboUIComponent *uic,
-	    const char        *xml_path,
-	    char	     **xpm_data)
-{
-	GdkPixbuf *pixbuf;
-
-	pixbuf = gdk_pixbuf_new_from_xpm_data ((const char **) xpm_data);
-	g_return_if_fail (pixbuf != NULL);
-
-	bonobo_ui_util_set_pixbuf (uic, xml_path, pixbuf);
-
-	gdk_pixbuf_unref (pixbuf);
-}
-
 
 void
 calendar_control_deactivate (BonoboControl *control)

@@ -37,6 +37,7 @@ images_DATA = \
 	globe.png           		\
 	house.png           		\
 	malehead.png			\
+	new_contact.xpm			\
 	service-close.png		\
 	service-configure.png		\
 	service-down.png		\
@@ -54,11 +55,18 @@ buttons_DATA = 				\
 	add-service.png			\
 	compose-message.png		\
 	copy-message.png		\
+	dayview.xpm			\
 	fetch-mail.png			\
 	forward.png			\
+	monthview.xpm  			\
 	move-message.png		\
+	new_appointment.png		\
 	reply-to-all.png		\
-	reply.png
+	reply.png			\
+	weekview.xpm  			\
+	workweekview.xpm		\
+	yearview.xpm	
+
 
 EXTRA_DIST = \
 	add-service.png	\

@@ -1,9 +1,19 @@
+2001-02-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-commands.c (update_pixmaps): Set toolbar new
+	appointment icon
+	(set_pixmap): load files rather than create from xpm file
+
+	* gui/*view.xpm: move to the art directory
+
 2001-02-13  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-db.c (cal_backend_db_get_alarms_for_object):
 	implemented
 
 2001-02-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-commands.c (update_pixmaps): Set toolbar new command
 
 	* gui/e-calendar-table.c: Add titles to pixbuf column for grouping
 
