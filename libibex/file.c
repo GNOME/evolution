@@ -52,6 +52,16 @@ static void free_word (gpointer key, gpointer value, gpointer data);
  * line has in common with the line before it, followed by the rest of
  * the string. Obviously this only really works if the lists are sorted.
  */
+
+/**
+ * ibex_open: open (or possibly create) an ibex index
+ * @file: the name of the file
+ * @create: whether or not to create the file if it doesn't exist.
+ *
+ * Open and/or create the named ibex file and return a handle to it.
+ *
+ * Return value: an ibex handle, or NULL if an error occurred.
+ **/
 ibex *
 ibex_open (char *file, gboolean create)
 {
@@ -151,6 +161,9 @@ struct ibex_write_data {
 	char *lastname;
 };
 
+/* This is an internal function to find the longest common initial
+ * prefix between the last-written word and the current word.
+ */
 static int
 get_prefix (struct ibex_write_data *iwd, char *name)
 {
@@ -219,6 +232,15 @@ write_word (gpointer key, gpointer value, gpointer data)
 	return FALSE;
 }
 
+/**
+ * ibex_write: Write an ibex out to disk.
+ * @ib: the ibex
+ *
+ * This writes an ibex to disk.
+ *
+ * Return value: 0 for success, -1 for failure (in which case errno
+ * is set).
+ **/
 int
 ibex_write (ibex *ib)
 {
@@ -271,6 +293,19 @@ lose:
 	return -1;
 }
 
+/**
+ * ibex_close: Write out the ibex file (if it has changed) and free
+ * the data associated with it.
+ * @ib: the ibex
+ *
+ * If this ibex file has been modified since it was opened, this will
+ * call ibex_write() to write it out to disk. It will then free all data
+ * associated with the ibex. After calling ibex_close(), @ib will no
+ * longer be a valid ibex.
+ *
+ * Return value: 0 on success, -1 on an ibex_write() failure (in which
+ * case @ib will not be destroyed).
+ **/
 int
 ibex_close (ibex *ib)
 {

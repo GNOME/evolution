@@ -28,9 +28,17 @@
 
 #include "ibex_internal.h"
 
-/* Index a file, given its name. (Replace any previously indexed contents
- * of this file with the new contents.)
- */
+/**
+ * ibex_index_file: Index a file by name
+ * @ib: an ibex
+ * @filename: name of the file to index
+ *
+ * This indexes the given file into @ib. If @filename is already in
+ * the ibex, the existing index entries for it are discarded and the
+ * file is indexed anew.
+ *
+ * Return value: 0 on success, -1 on failure.
+ **/
 int
 ibex_index_file (ibex *ib, char *filename)
 {
@@ -58,9 +66,27 @@ ibex_index_file (ibex *ib, char *filename)
 	return status;
 }
 
-/* Given a file descriptor and a name to refer to it by, index LEN
- * bytes of data from it.
- */
+/**
+ * ibex_index_fd: Index a file given a file descriptor
+ * @ib: an ibex
+ * @name: the name of the file being indexed
+ * @fd: a file descriptor, open for reading
+ * @len: the number of bytes to read from the file
+ *
+ * This indexes a file, or a part of a file, given an open file
+ * descriptor and a size. There is no requirement that @name
+ * actually correspond to @fd in any particular way.
+ *
+ * If the function returns successfully, the file descriptor offset of
+ * @fd will be exactly @len bytes beyond where it was when the
+ * function was called. The indexer assumes that this point is a word
+ * boundary.
+ *
+ * The behavior of this function is not defined if it is not
+ * possible to read @len bytes off @fd.
+ *
+ * Return value: 0 on success, -1 on failure.
+ **/
 int
 ibex_index_fd (ibex *ib, char *name, int fd, size_t len)
 {
@@ -83,6 +109,14 @@ ibex_index_fd (ibex *ib, char *name, int fd, size_t len)
 	return status;
 }
 
+/**
+ * ibex_unindex: Remove a file from the ibex
+ * @ib: an ibex
+ * @name: name of the file to remove
+ *
+ * This removes all references to @name from @ib. No memory is freed
+ * right away, but further searches on @ib will never return @name.
+ **/
 void
 ibex_unindex (ibex *ib, char *name)
 {
@@ -96,6 +130,14 @@ ibex_unindex (ibex *ib, char *name)
 	}
 }
 
+/**
+ * ibex_rename: Rename a file in the ibex
+ * @ib: an ibex
+ * @oldname: the old name of the file
+ * @newname: the new name of the file
+ *
+ * This renames a file in the ibex.
+ **/
 void
 ibex_rename (ibex *ib, char *oldname, char *newname)
 {

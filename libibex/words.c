@@ -184,6 +184,27 @@ ref_word (ibex *ib, ibex_file *ibf, char *word)
 	}
 }
 
+/**
+ * ibex_index_buffer: the lowest-level ibex indexing interface
+ * @ib: an ibex
+ * @name: the name of the file being indexed
+ * @buffer: a buffer containing data from the file
+ * @len: the length of @buffer
+ * @unread: an output argument containing the number of unread bytes
+ *
+ * This routine indexes up to @len bytes from @buffer into @ib.
+ * If @unread is NULL, the indexer assumes that the buffer ends on a
+ * word boundary, and will index all the way to the end of the
+ * buffer. If @unread is not NULL, and the buffer ends with an
+ * alphabetic character, the indexer will assume that the buffer has
+ * been cut off in the middle of a word, and return the number of
+ * un-indexed bytes at the end of the buffer in *@unread. The caller
+ * should then read in more data through whatever means it has
+ * and pass in the unread bytes from the original buffer, followed
+ * by the new data, on its next call.
+ *
+ * Return value: 0 on success, -1 on failure.
+ **/
 int
 ibex_index_buffer (ibex *ib, char *name, char *buffer,
 		   size_t len, size_t *unread)

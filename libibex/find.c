@@ -24,6 +24,19 @@
 
 #include "ibex_internal.h"
 
+/**
+ * ibex_find: search an ibex for a word
+ * @ib: an ibex
+ * @word: the word
+ *
+ * This routine searches an ibex for a word and returns a GPtrArray
+ * containing the names of the files in the ibex that contain the word.
+ * If no matches are found, it will return an empty array (not NULL).
+ * The caller must free the array, but MUST NOT free or alter its
+ * elements.
+ *
+ * Return value: the array of filenames containing @word
+ **/
 GPtrArray *
 ibex_find (ibex *ib, char *word)
 {
@@ -42,6 +55,16 @@ ibex_find (ibex *ib, char *word)
 	return ret;
 }
 
+/**
+ * ibex_find_name: Check if a word occurs in a given file
+ * @ib: an ibex
+ * @name: a filename
+ * @word: a word
+ *
+ * This checks if the given word occurs in the given file.
+ *
+ * Return value: TRUE or FALSE
+ **/
 gboolean
 ibex_find_name (ibex *ib, char *name, char *word)
 {
@@ -72,6 +95,16 @@ build_array (gpointer key, gpointer value, gpointer data)
 	return FALSE;
 }
 
+/**
+ * ibex_find_all: Find files containing multiple words
+ * @ib: an ibex
+ * @words: a GPtrArray of words
+ *
+ * This works like ibex_find(), but returns an array of filenames
+ * which contain all of the words in @words.
+ *
+ * Return value: an array of matches
+ **/
 GPtrArray *
 ibex_find_all (ibex *ib, GPtrArray *words)
 {
