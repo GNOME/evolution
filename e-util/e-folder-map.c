@@ -38,7 +38,7 @@
 
 #include "e-folder-map.h"
 
-#define d(x) x
+#define d(x)
 
 static gboolean
 is_type_folder (const char *metadata, const char *search_type)

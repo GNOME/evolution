@@ -1,3 +1,7 @@
+2004-01-24  JP Rosevear <jpr@ximian.com>
+
+	* e-folder-map.c: turn off debugging
+
 2004-01-24  Chris Toshok  <toshok@ximian.com>
 
 	* e-folder-map.c (e_folder_map_dir): use GDir/g_build_filename,
