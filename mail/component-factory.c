@@ -940,16 +940,17 @@ storage_remove_folder (EvolutionStorage *storage,
 		camel_url_free (url);
 	if (camel_exception_is_set (&ex))
 		goto exception;
-
+	
 	camel_store_delete_folder (store, fi->full_name, &ex);
-#endif	
-	camel_store_delete_folder (store, path+1, &ex);
-	if (camel_exception_is_set (&ex))
-		goto exception;
+#endif
 	
 	if (camel_store_supports_subscriptions (store))
 		/*camel_store_unsubscribe_folder (store, fi->full_name, NULL);*/
 		camel_store_unsubscribe_folder (store, path+1, NULL);
+	
+	camel_store_delete_folder (store, path+1, &ex);
+	if (camel_exception_is_set (&ex))
+		goto exception;
 	
 	evolution_storage_removed_folder (storage, path);
 	

@@ -1427,34 +1427,31 @@ remove_folder_get (struct _mail_msg *mm)
 	CamelStore *store;
 	CamelFolder *folder;
 	GPtrArray *uids;
-	gchar *full_name;
 	int i;
 	
 	m->removed = FALSE;
 	
 	folder = mail_tool_uri_to_folder (m->uri, &mm->ex);
-	
-	store = camel_folder_get_parent_store (folder);
-	if (!store)
+	if (!folder)
 		return;
-	camel_object_ref (CAMEL_OBJECT (store));
-
+	
+	store = folder->parent_store;
+	
 	/* Delete every message in this folder, then expunge it */
 	uids = camel_folder_get_uids (folder);
 	for (i = 0; i < uids->len; i++)
 		camel_folder_delete_message (folder, uids->pdata[i]);
-	camel_folder_sync (folder, TRUE, &mm->ex);
+	camel_folder_sync (folder, TRUE, NULL);
 	camel_folder_free_uids (folder, uids);
-
-	/* close the folder */
-	full_name = g_strdup (camel_folder_get_full_name (folder));
-	camel_object_unref (CAMEL_OBJECT (folder));
-
+	
+	/* if the store supports subscriptions, unsubscribe from this folder... */
+	if (camel_store_supports_subscriptions (store))
+		camel_store_unsubscribe_folder (store, folder->full_name, NULL);
+	
 	/* Then delete the folder from the store */
-	camel_store_delete_folder (store, full_name, &mm->ex);
-	g_free (full_name);
+	camel_store_delete_folder (store, folder->full_name, &mm->ex);
 	m->removed = !camel_exception_is_set (&mm->ex);
-	camel_object_unref (CAMEL_OBJECT (store));
+	camel_object_unref (CAMEL_OBJECT (folder));
 }
 
 static void
