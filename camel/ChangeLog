@@ -1,3 +1,9 @@
+2003-11-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_ctx_parse_status): We might need to
+	convert the passwd from UTF-8 into the locale charset. Fixes bug
+	#50485.
+
 2003-10-31  Not Zed  <NotZed@Ximian.com>
 
 	* camel-cms-context.[ch]: removed, now redundant.
