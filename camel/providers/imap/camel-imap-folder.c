@@ -1180,6 +1180,8 @@ imap_get_summary (CamelFolder *folder, CamelException *ex)
 		g_ptr_array_add (summary, info);
 	}
 
+	g_ptr_array_free (headers, TRUE);
+
 	imap_folder->summary = summary;
 	
 	return summary;
