@@ -297,7 +297,7 @@ popup_menu_card (PopupInfo *info)
 	++i;
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = N_("Edit Contact Info");
+	uiinfo[i].label = N_("View Contact Info");
 	uiinfo[i].moreinfo = edit_contact_info_cb;
 	++i;
 
@@ -396,7 +396,7 @@ popup_menu_list (PopupInfo *info)
 	}
 
 	uiinfo[i].type = GNOME_APP_UI_ITEM;
-	uiinfo[i].label = N_("Edit Contact List");
+	uiinfo[i].label = N_("View Contact List");
 	uiinfo[i].moreinfo = edit_contact_info_cb;
 	++i;
 

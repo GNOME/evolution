@@ -1,3 +1,12 @@
+2003-03-12  Chris Toshok  <toshok@ximian.com>
+
+	[ fixes bug #20210 ]
+	* gui/component/select-names/e-select-names-popup.c
+	(popup_menu_card): change "Edit Contact Info" to "View Contact
+	Info", as you can't always edit the contact (if the book is read
+	only).
+	(popup_menu_list): same, but for a contact list.
+
 2003-03-11  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #39507 ]
