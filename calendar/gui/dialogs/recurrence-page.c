@@ -540,7 +540,7 @@ sensitize_buttons (RecurrencePage *rpage)
 				if (list && g_list_length (list) > 1)
 					read_only = TRUE;
 
-				g_list_foreach (list, (GFunc) icalcomponent_free, NULL);
+				g_list_foreach (list, (GFunc) g_object_unref, NULL);
 				g_list_free (list);
 			}
 		}

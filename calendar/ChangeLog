@@ -1,3 +1,9 @@
+2005-01-26  Rodrigo Moya <rodrigo@novell.com>
+
+	* gui/dialogs/recurrence-page.c (sensitize_buttons): objects returned
+	from e_cal_get_objects_for_uid are ECalComponent's, so use
+	g_object_unref to free them, not icalcomponent_free.
+
 2005-01-26  Li Yuan  <li.yuan@sun.com>
 
 	* gui/dialogs/cal-prefs-dialog.glade:
