@@ -1,3 +1,7 @@
+2005-01-04  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: remove dead files
+
 2004-12-16  Rodney Dawes  <dobey@novell.com>
 
 	* evolution.xml: Move Tools->Settings... to Edit->Preferences
