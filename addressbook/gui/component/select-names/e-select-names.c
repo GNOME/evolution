@@ -139,6 +139,15 @@ static void
 addressbook_model_set_uri(EAddressbookModel *model, char *uri)
 {
 	EBook *book;
+
+	/* If uri == the current uri, then we don't have to do anything */
+	book = e_addressbook_model_get_ebook (model);
+	if (book) {
+		const gchar *current_uri = e_book_get_uri (book);
+		if (uri && current_uri && !strcmp (uri, current_uri))
+			return;
+	}
+
 	book = e_book_new();
 	gtk_object_ref(GTK_OBJECT(model));
 	addressbook_load_uri(book, uri, (EBookCallback) set_book, model);

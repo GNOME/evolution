@@ -1,3 +1,10 @@
+2001-10-12  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/e-select-names.c
+	(addressbook_model_set_uri): Check to see if the uri we are
+	setting is the same as the current uri.  If so, do nothing.
+	(Bug #11324)
+
 2001-10-11  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c
