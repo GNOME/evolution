@@ -506,6 +506,8 @@ e_canvas_item_set_cursor (GnomeCanvasItem *item, gpointer id)
 	g_list_free(canvas->selection);
 
 	canvas->selection = NULL;
+
+	gnome_canvas_item_grab_focus(item);
 	
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;
@@ -586,4 +588,14 @@ e_canvas_item_remove_selection (GnomeCanvasItem *item, gpointer id)
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
 
