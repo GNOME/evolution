@@ -1310,7 +1310,7 @@ mail_account_gui_new (MailConfigAccount *account)
 			    GTK_SIGNAL_FUNC (service_changed), &gui->transport);
 	gui->transport.username = GTK_ENTRY (glade_xml_get_widget (gui->xml, "transport_user"));
 	gtk_signal_connect (GTK_OBJECT (gui->transport.username), "changed",
-			    GTK_SIGNAL_FUNC (service_changed), &gui->source);
+			    GTK_SIGNAL_FUNC (service_changed), &gui->transport);
 	gui->transport.use_ssl = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_use_ssl"));
 	gui->transport.no_ssl = glade_xml_get_widget (gui->xml, "transport_ssl_disabled");
 	gui->transport_needs_auth = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui->xml, "transport_needs_auth"));

@@ -1,3 +1,9 @@
+2002-01-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-gui.c (mail_account_gui_new): When connecting to
+	the transport username changed event, pass the gui->transport not
+	the gui->source.
+
 2002-01-08  Iain Holmes  <iain@ximian.com>
 
 	* importers/evolution-mbox-importer.c (string_to_int): Takes a hex

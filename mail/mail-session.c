@@ -811,6 +811,8 @@ get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *e
 static void
 session_play_sound (CamelFilterDriver *driver, const char *filename, gpointer user_data)
 {
+	printf ("playing sound file: %s\n", filename);
+	
 	if (!filename || !*filename)
 		gdk_beep ();
 	else
