@@ -1,12 +1,11 @@
-# SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Free Software Foundation, Inc.
 # Wang Li <charlesw1234@163.com>, 2001
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.13\n"
-"POT-Creation-Date: 2001-10-17 20:09+0800\n"
-"PO-Revision-Date: 2001-10-17 22:50+0800\n"
+"POT-Creation-Date: 2001-10-19 10:07+0800\n"
+"PO-Revision-Date: 2001-10-21 14:39+0800\n"
 "Last-Translator: Wang Li <charlesw1234@163.com>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +18,7 @@ msgstr ""
 
 #: addressbook/backend/ebook/GNOME_Evolution_Addressbook_VCard_Importer.oaf.in.h:2
 msgid "Imports VCard files into Evolution."
-msgstr "将 VCard 文件导入 Evolution。"
+msgstr "将 VCard 文件导入 Evolution"
 
 #: addressbook/backend/ebook/e-card-simple.c:59
 #: addressbook/gui/widgets/e-addressbook-view.c:877
@@ -157,7 +156,7 @@ msgstr "其他传真"
 #: addressbook/gui/contact-editor/e-contact-editor.c:1601
 #: addressbook/gui/widgets/e-addressbook-view.c:898
 msgid "Pager"
-msgstr "寻呼机"
+msgstr "传呼机"
 
 #: addressbook/backend/ebook/e-card-simple.c:81
 #: addressbook/gui/contact-editor/e-contact-editor.c:1603
@@ -261,7 +260,7 @@ msgstr "配偶"
 #: addressbook/backend/ebook/e-card-simple.c:96
 #: addressbook/gui/widgets/e-addressbook-view.c:914
 msgid "Note"
-msgstr "注释"
+msgstr ""
 
 #: addressbook/backend/ebook/e-card-simple.c:97
 msgid "Calendar URI"
@@ -367,15 +366,13 @@ msgid ""
 "  Postal Box:  "
 msgstr ""
 "\n"
-"  邮政信箱：   "
+"  油箱：   "
 
 #: addressbook/backend/ebook/e-card.c:3748
 msgid ""
 "\n"
 "  Ext:         "
 msgstr ""
-"\n"
-"  分机：       "
 
 #: addressbook/backend/ebook/e-card.c:3749
 msgid ""
@@ -383,7 +380,7 @@ msgid ""
 "  Street:      "
 msgstr ""
 "\n"
-"  街道：       "
+"  街道：      "
 
 #: addressbook/backend/ebook/e-card.c:3750
 msgid ""
@@ -391,7 +388,7 @@ msgid ""
 "  City:        "
 msgstr ""
 "\n"
-"  城市：       "
+"  城市：        "
 
 #: addressbook/backend/ebook/e-card.c:3751
 msgid ""
@@ -399,7 +396,7 @@ msgid ""
 "  Region:      "
 msgstr ""
 "\n"
-"  区：         "
+"  区：      "
 
 #: addressbook/backend/ebook/e-card.c:3752
 msgid ""
@@ -407,7 +404,7 @@ msgid ""
 "  Postal Code: "
 msgstr ""
 "\n"
-"  邮政编码：   "
+"  邮政编码： "
 
 #: addressbook/backend/ebook/e-card.c:3753
 msgid ""
@@ -415,7 +412,7 @@ msgid ""
 "  Country:     "
 msgstr ""
 "\n"
-"  国家：       "
+"  国家：     "
 
 #: addressbook/backend/ebook/e-card.c:3766
 msgid ""
@@ -570,22 +567,22 @@ msgstr "%s 的 VCard"
 #: addressbook/backend/ebook/load-pine-addressbook.c:22
 #: addressbook/backend/ebook/test-client-list.c:23
 #: addressbook/backend/ebook/test-client.c:33
-#: addressbook/conduit/address-conduit.c:1182
+#: addressbook/conduit/address-conduit.c:1433
 #: addressbook/gui/component/addressbook-factory.c:49
 #: calendar/conduits/calendar/calendar-conduit.c:1384
-#: calendar/conduits/todo/todo-conduit.c:1034
-#: calendar/gui/alarm-notify/notify-main.c:78 calendar/gui/main.c:63
+#: calendar/conduits/todo/todo-conduit.c:1064
+#: calendar/gui/alarm-notify/notify-main.c:169 calendar/gui/main.c:63
 msgid "Could not initialize Bonobo"
 msgstr "无法初始化 Bonobo"
 
 #: addressbook/backend/pas/pas-backend-file.c:259
 #: addressbook/backend/pas/pas-backend-ldap.c:2059
 msgid "Searching..."
-msgstr "正在搜索..."
+msgstr "搜索..."
 
 #: addressbook/backend/pas/pas-backend-file.c:261
 msgid "Loading..."
-msgstr "正在装入..."
+msgstr "装入..."
 
 #. need a different error message here.
 #: addressbook/backend/pas/pas-backend-file.c:270
@@ -602,7 +599,7 @@ msgstr "无法连接 LDAP 服务器。"
 
 #: addressbook/backend/pas/pas-backend-ldap.c:493
 msgid "Waiting for connection to LDAP server..."
-msgstr "正在等待与 LDAP 服务器连接..."
+msgstr "正在等待与 LDAP 服务器的连接..."
 
 #: addressbook/backend/pas/pas-backend-ldap.c:862
 msgid "Adding card to LDAP server..."
@@ -624,28 +621,28 @@ msgstr "正在接收 LDAP 的搜索结果..."
 msgid "Restarting search."
 msgstr "开始搜索，"
 
-#: addressbook/conduit/address-conduit.c:204
+#: addressbook/conduit/address-conduit.c:241
 msgid "Cursor could not be loaded\n"
 msgstr "无法装入光标\n"
 
-#: addressbook/conduit/address-conduit.c:217
+#: addressbook/conduit/address-conduit.c:254
 msgid "EBook not loaded\n"
 msgstr "没有装入 EBook\n"
 
-#: addressbook/conduit/address-conduit.c:746
+#: addressbook/conduit/address-conduit.c:997
 #: calendar/conduits/calendar/calendar-conduit.c:940
-#: calendar/conduits/todo/todo-conduit.c:609
+#: calendar/conduits/todo/todo-conduit.c:639
 msgid "Could not start wombat server"
 msgstr "无法启动 wombat 服务器"
 
-#: addressbook/conduit/address-conduit.c:747
+#: addressbook/conduit/address-conduit.c:998
 #: calendar/conduits/calendar/calendar-conduit.c:941
-#: calendar/conduits/todo/todo-conduit.c:610
+#: calendar/conduits/todo/todo-conduit.c:640
 msgid "Could not start wombat"
 msgstr "无法启动 wombat"
 
-#: addressbook/conduit/address-conduit.c:777
-#: addressbook/conduit/address-conduit.c:780
+#: addressbook/conduit/address-conduit.c:1028
+#: addressbook/conduit/address-conduit.c:1031
 msgid "Could not read pilot's Address application block"
 msgstr "无法读入操作员的地址应用程序块"
 
@@ -697,7 +694,7 @@ msgstr "联系人"
 
 #: addressbook/gui/component/addressbook-component.c:66
 msgid "Folder containing contact information"
-msgstr ""
+msgstr "含有联系人信息的文件夹"
 
 #: addressbook/gui/component/addressbook-component.c:68
 msgid "LDAP Server"
@@ -705,7 +702,7 @@ msgstr "LDAP 服务器"
 
 #: addressbook/gui/component/addressbook-component.c:68
 msgid "LDAP server containing contact information"
-msgstr ""
+msgstr "含有联系人信息的 LDAP 服务器"
 
 #: addressbook/gui/component/addressbook-component.c:411
 #: ui/evolution-addressbook.xml.h:11
@@ -768,8 +765,7 @@ msgstr "电子邮件地址："
 #: addressbook/gui/component/addressbook-config.glade.h:10
 msgid ""
 "Evolution will use this email address to authenticate you with the server"
-msgstr ""
-"Evolution 将使用该电子邮件地址"
+msgstr "Evolution 将使用该电子邮件地址"
 
 #: addressbook/gui/component/addressbook-config.glade.h:11
 msgid "One"
@@ -804,16 +800,15 @@ msgid ""
 "This information is used by your ldap server to specify which nodes are used "
 "in a search. Contact your server administrator for more information."
 msgstr ""
-"您的 LDAP 服务器用该信息来确定在搜索中使用那个节点。"
-"详情请咨询您的服务器管理员。"
+"您的 LDAP "
+"服务器用该信息来确定在搜索中使用那个节点。详情请咨询您的服务器管理员。"
 
 #: addressbook/gui/component/addressbook-config.glade.h:19
 msgid ""
 "This is the base node for all your searches on the ldap server. Contact your "
 "server administrator for more information."
 msgstr ""
-"这是您在 LDAP 服务器上进行的所有搜索的基本节点。"
-"详情请咨询您的服务器管理员。"
+"这是您在 LDAP 服务器上进行的所有搜索的基本节点。详情请咨询您的服务器管理员。"
 
 #: addressbook/gui/component/addressbook-config.glade.h:20
 msgid "This is the name of the server where your addressbook is located."
@@ -827,8 +822,7 @@ msgstr "这是您的 LDAP 服务器所使用的端口。"
 msgid ""
 "This name will be used to identify your account. It is for display purposes "
 "only."
-msgstr ""
-"这一名称将用于识别您的账号。它只用于显示。"
+msgstr "这一名称将用于识别您的账号。它只用于显示。"
 
 #: addressbook/gui/component/addressbook-config.glade.h:23
 msgid "_Account name:"
@@ -906,15 +900,15 @@ msgstr "为 %s (用户 %s)输入口令"
 #: addressbook/gui/component/addressbook.c:720
 #: calendar/gui/cal-search-bar.c:55
 msgid "Any field contains"
-msgstr ""
+msgstr "任何域含有"
 
 #: addressbook/gui/component/addressbook.c:721
 msgid "Name contains"
-msgstr ""
+msgstr "名称含有"
 
 #: addressbook/gui/component/addressbook.c:722
 msgid "Email contains"
-msgstr ""
+msgstr "电子邮件含有"
 
 #: addressbook/gui/component/addressbook.c:723
 #: calendar/gui/cal-search-bar.c:59
@@ -934,7 +928,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook.c:995
 msgid "The URI that the Folder Browser will display"
-msgstr ""
+msgstr "文件夹浏览器将显示的 URI"
 
 #: addressbook/gui/component/e-address-popup.c:466
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
@@ -949,32 +943,32 @@ msgstr ""
 #: addressbook/gui/component/e-address-popup.c:585
 #, c-format
 msgid "Create a new contact \"%s\""
-msgstr ""
+msgstr "创建新联系人“%s”"
 
 #: addressbook/gui/component/e-address-popup.c:597
 #, c-format
 msgid "Add address to existing contact \"%s\""
-msgstr ""
+msgstr "为现有的联系人“%s”添加地址"
 
 #: addressbook/gui/component/e-address-popup.c:859
 msgid "Querying Addressbook..."
-msgstr ""
+msgstr "查询地址本..."
 
 #: addressbook/gui/component/e-address-popup.c:934
 #: addressbook/gui/component/e-address-widget.c:388
 #: addressbook/gui/component/select-names/e-select-names-popup.c:307
 msgid "Edit Contact Info"
-msgstr ""
+msgstr "编辑联系人信息"
 
 #: addressbook/gui/component/e-address-popup.c:963
 #: addressbook/gui/component/e-address-widget.c:424
 #: addressbook/gui/component/select-names/e-select-names-popup.c:486
 msgid "Add to Contacts"
-msgstr ""
+msgstr "添加到联系人"
 
 #: addressbook/gui/component/e-address-popup.c:1006
 msgid "Merge E-Mail Address"
-msgstr ""
+msgstr "合并电子邮件地址"
 
 #: addressbook/gui/component/e-address-widget.c:365
 msgid "Disable Queries"
@@ -993,8 +987,8 @@ msgid "Factory for the Addressbook's name selection interface"
 msgstr ""
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:164
-#: addressbook/gui/component/select-names/e-select-names.c:758
-#: composer/e-msg-composer-attachment-bar.c:497 filter/filter-filter.c:436
+#: addressbook/gui/component/select-names/e-select-names.c:759
+#: composer/e-msg-composer-attachment-bar.c:499 filter/filter-filter.c:436
 #: filter/filter-rule.c:613 shell/e-shortcuts-view.c:181
 msgid "Remove"
 msgstr "删除"
@@ -1018,13 +1012,13 @@ msgstr "未命名的联系人列表"
 #: addressbook/gui/component/select-names/e-select-names-popup.c:441
 #, c-format
 msgid "(%d not shown)"
-msgstr ""
+msgstr "(%d 未显示)"
 
 #: addressbook/gui/component/select-names/e-select-names-popup.c:507
 msgid "Unnamed Contact"
 msgstr "未命名的联系人"
 
-#: addressbook/gui/component/select-names/e-select-names.c:516
+#: addressbook/gui/component/select-names/e-select-names.c:517
 msgid ""
 "Evolution is unable to get the addressbook local storage.\n"
 "This may have been caused by the evolution-addressbook component crashing.\n"
@@ -1034,7 +1028,7 @@ msgid ""
 "occurred.  Thank you."
 msgstr ""
 
-#: addressbook/gui/component/select-names/e-select-names.c:594
+#: addressbook/gui/component/select-names/e-select-names.c:595
 msgid "Select Contacts from Addressbook"
 msgstr "从地址本中选择联系人"
 
@@ -1068,7 +1062,7 @@ msgstr "(_f)文件夹："
 
 #: addressbook/gui/component/select-names/select-names.glade.h:8
 msgid "_Message Recipients:"
-msgstr "(_m)消息接收者："
+msgstr "(_m)邮件接收者："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:1
 msgid "Anni_versary:"
@@ -1120,8 +1114,7 @@ msgid ""
 "If this person publishes free/busy or other calendar information on the "
 "Internet, enter the address\n"
 "of that information here."
-msgstr ""
-"如果此人把忙闲信息或其他日历信息发布到互联网上，就在这里输入发布地址。"
+msgstr "如果此人把忙闲信息或其他日历信息发布到互联网上，就在这里输入发布地址。"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "New phone type"
@@ -1141,11 +1134,11 @@ msgstr "电话类型"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:18
 msgid "Wants to receive _HTML mail"
-msgstr ""
+msgstr "(_h)愿意接收 HTML 邮件"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:20
 msgid "_Address..."
-msgstr ""
+msgstr "(_a)地址..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:21
 msgid "_Assistant's name:"
@@ -1163,11 +1156,11 @@ msgstr "(_b)商业"
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:10
 msgid "_Contacts..."
-msgstr ""
+msgstr "(_c)联系人..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:25
 #: calendar/gui/dialogs/alarm-page.glade.h:9
-#: calendar/gui/dialogs/meeting-page.c:843 filter/filter.glade.h:8
+#: calendar/gui/dialogs/meeting-page.c:698 filter/filter.glade.h:8
 #: mail/folder-browser.c:1451 mail/mail-config.glade.h:95
 #: ui/evolution-calendar.xml.h:38 ui/evolution-mail-message.xml.h:88
 #: ui/evolution-tasks.xml.h:15 ui/evolution.xml.h:35
@@ -1176,7 +1169,7 @@ msgstr "(_d)删除"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:26
 msgid "_Department:"
-msgstr ""
+msgstr "(_d)部门："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:27
 msgid "_Full Name..."
@@ -2458,12 +2451,13 @@ msgid "Error modifying card"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:34
+#: shell/evolution-shell-component.c:944
 msgid "Success"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:35
-#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1732
-#: shell/e-storage.c:529
+#: camel/providers/imap/camel-imap-command.c:340 shell/e-shell.c:1785
+#: shell/e-storage.c:529 shell/evolution-shell-component.c:981
 msgid "Unknown error"
 msgstr ""
 
@@ -2472,6 +2466,7 @@ msgid "Repository offline"
 msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-util.c:37 shell/e-storage.c:517
+#: shell/evolution-shell-component.c:972
 msgid "Permission denied"
 msgstr ""
 
@@ -2541,63 +2536,63 @@ msgstr ""
 
 #: addressbook/gui/widgets/e-addressbook-view.c:880
 msgid "Primary Phone"
-msgstr ""
+msgstr "主要电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:881
 msgid "Assistant Phone"
-msgstr ""
+msgstr "辅助电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:882
 msgid "Business Phone"
-msgstr ""
+msgstr "商务电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:883
 msgid "Callback Phone"
-msgstr ""
+msgstr "反馈电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:884
 msgid "Company Phone"
-msgstr ""
+msgstr "公司电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:885
 msgid "Home Phone"
-msgstr ""
+msgstr "家庭电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:887
 msgid "Business Address"
-msgstr ""
+msgstr "商务地址"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:888
 msgid "Home Address"
-msgstr ""
+msgstr "家庭地址"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:889
 msgid "Mobile Phone"
-msgstr ""
+msgstr "手机"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:890
 msgid "Car Phone"
-msgstr ""
+msgstr "汽车电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:893
 msgid "Business Phone 2"
-msgstr ""
+msgstr "商务电话 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:894
 msgid "Home Phone 2"
-msgstr ""
+msgstr "家庭电话 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:896
 msgid "Other Phone"
-msgstr ""
+msgstr "其他电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:902
 msgid "Other Address"
-msgstr ""
+msgstr "其他地址"
 
 #: addressbook/gui/widgets/e-minicard-control.c:283
 msgid "Save in addressbook"
-msgstr ""
+msgstr "保存在地址本中"
 
 #: addressbook/gui/widgets/e-minicard-view.c:151
 msgid ""
@@ -2642,7 +2637,7 @@ msgstr ""
 
 #: addressbook/printing/e-contact-print.glade.h:8
 msgid "Fonts"
-msgstr ""
+msgstr "字体"
 
 #: addressbook/printing/e-contact-print.glade.h:9
 msgid "Footer:"
@@ -2798,46 +2793,46 @@ msgstr ""
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:385 mail/message-list.c:651
 msgid "High"
-msgstr ""
+msgstr "高"
 
 #: calendar/cal-util/cal-util.c:420 calendar/cal-util/cal-util.c:442
 #: calendar/gui/calendar-model.c:1673
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:386 mail/message-list.c:650
 msgid "Normal"
-msgstr ""
+msgstr "中"
 
 #: calendar/cal-util/cal-util.c:422 calendar/cal-util/cal-util.c:444
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:387 mail/message-list.c:649
 msgid "Low"
-msgstr ""
+msgstr "低"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:438
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 #: calendar/gui/e-calendar-table.c:388
 msgid "Undefined"
-msgstr ""
+msgstr "未定义"
 
 #: calendar/conduits/calendar/calendar-conduit.c:896
-#: calendar/conduits/todo/todo-conduit.c:564
+#: calendar/conduits/todo/todo-conduit.c:594
 msgid "Error while communicating with calendar server"
-msgstr ""
+msgstr "在与日历服务器通讯时发生错误"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1018
 #: calendar/conduits/calendar/calendar-conduit.c:1021
 msgid "Could not read pilot's Calendar application block"
 msgstr ""
 
-#: calendar/conduits/todo/todo-conduit.c:668
-#: calendar/conduits/todo/todo-conduit.c:671
+#: calendar/conduits/todo/todo-conduit.c:698
+#: calendar/conduits/todo/todo-conduit.c:701
 msgid "Could not read pilot's ToDo application block"
 msgstr ""
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:1
 msgid "A sample Bonobo control which displays an calendar."
-msgstr ""
+msgstr "显示日历的示例 Bonobo 控制。"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:2
 msgid "Evolution calendar executive summary component."
@@ -2879,52 +2874,14 @@ msgstr ""
 msgid "Factory for the alarm notification service"
 msgstr ""
 
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:152
-#, c-format
-msgid "Notification about your appointment starting on %s and ending on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:156
-#, c-format
-msgid "Notification about your appointment starting on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:161
-#, c-format
-msgid "Notification about your appointment ending on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:165
-msgid "Notification about your appointment"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:172
-#, c-format
-msgid "Notification about your task starting on %s and ending on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:176
-#, c-format
-msgid "Notification about your task starting on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:181
-#, c-format
-msgid "Notification about your task ending on %s"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:185
-msgid "Notification about your task"
-msgstr ""
-
-#: calendar/gui/alarm-notify/alarm-notify-dialog.c:267
+#: calendar/gui/alarm-notify/alarm-notify-dialog.c:350
 msgid "Alarm on %A %b %d %Y %H:%M"
 msgstr ""
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
 msgid "C_lose"
-msgstr ""
+msgstr "(_l)关闭"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "Snoo_ze"
@@ -2961,15 +2918,20 @@ msgid ""
 "Are you sure you want to run this program?"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:73 calendar/gui/main.c:58
+#: calendar/gui/alarm-notify/notify-main.c:164 calendar/gui/main.c:58
 msgid "Could not initialize GNOME"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:81 calendar/gui/main.c:106
+#: calendar/gui/alarm-notify/notify-main.c:172 calendar/gui/main.c:106
 msgid "Could not initialize gnome-vfs"
 msgstr ""
 
-#: calendar/gui/alarm-notify/notify-main.c:90
+#: calendar/gui/alarm-notify/notify-main.c:179
+#, fuzzy
+msgid "Could not create the alarm notify service"
+msgstr "无法启动 wombat 服务器"
+
+#: calendar/gui/alarm-notify/notify-main.c:184
 msgid "Could not create the alarm notify service factory"
 msgstr ""
 
@@ -3043,7 +3005,7 @@ msgid "Free"
 msgstr ""
 
 #: calendar/gui/calendar-model.c:568 calendar/gui/e-calendar-table.c:438
-#: calendar/gui/e-meeting-time-sel.c:393
+#: calendar/gui/e-meeting-time-sel.c:401 shell/evolution-shell-component.c:966
 msgid "Busy"
 msgstr ""
 
@@ -3061,8 +3023,8 @@ msgstr ""
 
 #: calendar/gui/calendar-model.c:723 calendar/gui/calendar-model.c:1245
 #: calendar/gui/dialogs/task-details-page.glade.h:4
-#: calendar/gui/e-calendar-table.c:460 calendar/gui/e-meeting-model.c:298
-#: calendar/gui/e-meeting-model.c:321
+#: calendar/gui/e-calendar-table.c:460 calendar/gui/e-meeting-model.c:313
+#: calendar/gui/e-meeting-model.c:336
 msgid "Completed"
 msgstr ""
 
@@ -3098,8 +3060,8 @@ msgid "The percent value must be between 0 and 100, inclusive"
 msgstr ""
 
 #. An empty string is the same as 'None'.
-#: calendar/gui/calendar-model.c:1239 calendar/gui/dialogs/meeting-page.c:331
-#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1446
+#: calendar/gui/calendar-model.c:1239 calendar/gui/dialogs/meeting-page.c:321
+#: calendar/gui/dialogs/meeting-page.glade.h:1 mail/mail-account-gui.c:1448
 #: mail/mail-accounts.c:143 mail/mail-accounts.c:390
 #: mail/mail-config.glade.h:49
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:203
@@ -3116,14 +3078,14 @@ msgstr ""
 msgid "Assigned"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1683 calendar/gui/e-meeting-model.c:270
-#: calendar/gui/e-meeting-model.c:280 calendar/gui/e-meeting-model.c:506
-#: calendar/gui/e-meeting-model.c:702
+#: calendar/gui/calendar-model.c:1683 calendar/gui/e-meeting-model.c:285
+#: calendar/gui/e-meeting-model.c:295 calendar/gui/e-meeting-model.c:521
+#: calendar/gui/e-meeting-model.c:717
 msgid "Yes"
 msgstr ""
 
-#: calendar/gui/calendar-model.c:1683 calendar/gui/e-meeting-model.c:282
-#: calendar/gui/e-meeting-model.c:703
+#: calendar/gui/calendar-model.c:1683 calendar/gui/e-meeting-model.c:297
+#: calendar/gui/e-meeting-model.c:718
 msgid "No"
 msgstr ""
 
@@ -3178,20 +3140,20 @@ msgstr ""
 msgid "Folder containing to-do items"
 msgstr ""
 
-#: calendar/gui/component-factory.c:581 ui/evolution-calendar.xml.h:7
+#: calendar/gui/component-factory.c:639 ui/evolution-calendar.xml.h:7
 msgid "Create a new appointment"
 msgstr ""
 
-#: calendar/gui/component-factory.c:582 calendar/gui/e-day-view.c:3423
+#: calendar/gui/component-factory.c:640 calendar/gui/e-day-view.c:3423
 msgid "New _Appointment"
 msgstr ""
 
-#: calendar/gui/component-factory.c:587 ui/evolution-calendar.xml.h:8
+#: calendar/gui/component-factory.c:645 ui/evolution-calendar.xml.h:8
 #: ui/evolution-tasks.xml.h:5
 msgid "Create a new task"
 msgstr ""
 
-#: calendar/gui/component-factory.c:588
+#: calendar/gui/component-factory.c:646
 msgid "New _Task"
 msgstr ""
 
@@ -3735,12 +3697,12 @@ msgstr ""
 msgid "No summary"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1006 mail/mail-callbacks.c:1764
+#: calendar/gui/dialogs/comp-editor.c:1006 mail/mail-callbacks.c:1771
 #: mail/mail-display.c:101
 msgid "Overwrite file?"
 msgstr ""
 
-#: calendar/gui/dialogs/comp-editor.c:1010 mail/mail-callbacks.c:1771
+#: calendar/gui/dialogs/comp-editor.c:1010 mail/mail-callbacks.c:1778
 #: mail/mail-display.c:105
 msgid ""
 "A file by that name already exists.\n"
@@ -3887,36 +3849,15 @@ msgstr ""
 msgid "_Start time:"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:442
+#: calendar/gui/dialogs/meeting-page.c:432
 msgid "An organizer is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:555
-#: calendar/gui/dialogs/meeting-page.c:590
-msgid "Chair Persons"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.c:557
-#: calendar/gui/dialogs/meeting-page.c:590
-#: calendar/gui/dialogs/meeting-page.c:711
-msgid "Required Participants"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.c:559
-#: calendar/gui/dialogs/meeting-page.c:590
-msgid "Optional Participants"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.c:561
-#: calendar/gui/dialogs/meeting-page.c:590
-msgid "Non-Participants"
-msgstr ""
-
-#: calendar/gui/dialogs/meeting-page.c:765
+#: calendar/gui/dialogs/meeting-page.c:620
 msgid "That person is already attending the meeting!"
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:838
+#: calendar/gui/dialogs/meeting-page.c:693
 msgid "_Delegate To..."
 msgstr ""
 
@@ -4247,8 +4188,8 @@ msgstr ""
 msgid "Alarms"
 msgstr ""
 
-#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:718
-#: camel/camel-filter-driver.c:834
+#: calendar/gui/e-calendar-table.etspec.h:6 camel/camel-filter-driver.c:721
+#: camel/camel-filter-driver.c:837
 msgid "Complete"
 msgstr ""
 
@@ -4431,166 +4372,183 @@ msgstr ""
 msgid "date-start"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:201 calendar/gui/e-meeting-model.c:218
-#: calendar/gui/e-meeting-model.c:502 calendar/gui/e-meeting-model.c:670
+#: calendar/gui/e-meeting-model.c:216 calendar/gui/e-meeting-model.c:233
+#: calendar/gui/e-meeting-model.c:517 calendar/gui/e-meeting-model.c:685
 msgid "Individual"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:203 calendar/gui/e-meeting-model.c:220
-#: calendar/gui/e-meeting-model.c:671
+#: calendar/gui/e-meeting-model.c:218 calendar/gui/e-meeting-model.c:235
+#: calendar/gui/e-meeting-model.c:686
 msgid "Group"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:205 calendar/gui/e-meeting-model.c:222
-#: calendar/gui/e-meeting-model.c:672
+#: calendar/gui/e-meeting-model.c:220 calendar/gui/e-meeting-model.c:237
+#: calendar/gui/e-meeting-model.c:687
 msgid "Resource"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:207 calendar/gui/e-meeting-model.c:224
-#: calendar/gui/e-meeting-model.c:673
+#: calendar/gui/e-meeting-model.c:222 calendar/gui/e-meeting-model.c:239
+#: calendar/gui/e-meeting-model.c:688
 msgid "Room"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:226 calendar/gui/e-meeting-model.c:261
-#: calendar/gui/e-meeting-model.c:326 calendar/gui/e-meeting-model.c:674
-#: calendar/gui/e-meeting-model.c:690
+#: calendar/gui/e-meeting-model.c:241 calendar/gui/e-meeting-model.c:276
+#: calendar/gui/e-meeting-model.c:341 calendar/gui/e-meeting-model.c:689
+#: calendar/gui/e-meeting-model.c:705
 #: camel/providers/smtp/camel-smtp-transport.c:223
 #: widgets/misc/e-charset-picker.c:58 widgets/misc/e-charset-picker.c:440
 msgid "Unknown"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:236 calendar/gui/e-meeting-model.c:253
-#: calendar/gui/e-meeting-model.c:686
+#: calendar/gui/e-meeting-model.c:251 calendar/gui/e-meeting-model.c:268
+#: calendar/gui/e-meeting-model.c:701
 msgid "Chair"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:238 calendar/gui/e-meeting-model.c:255
-#: calendar/gui/e-meeting-model.c:504 calendar/gui/e-meeting-model.c:687
+#: calendar/gui/e-meeting-model.c:253 calendar/gui/e-meeting-model.c:270
+#: calendar/gui/e-meeting-model.c:519 calendar/gui/e-meeting-model.c:702
 msgid "Required Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:240 calendar/gui/e-meeting-model.c:257
-#: calendar/gui/e-meeting-model.c:688
+#: calendar/gui/e-meeting-model.c:255 calendar/gui/e-meeting-model.c:272
+#: calendar/gui/e-meeting-model.c:703
 msgid "Optional Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:242 calendar/gui/e-meeting-model.c:259
-#: calendar/gui/e-meeting-model.c:689
+#: calendar/gui/e-meeting-model.c:257 calendar/gui/e-meeting-model.c:274
+#: calendar/gui/e-meeting-model.c:704
 msgid "Non-Participant"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:288 calendar/gui/e-meeting-model.c:311
-#: calendar/gui/e-meeting-model.c:512 calendar/gui/e-meeting-model.c:715
+#: calendar/gui/e-meeting-model.c:303 calendar/gui/e-meeting-model.c:326
+#: calendar/gui/e-meeting-model.c:527 calendar/gui/e-meeting-model.c:730
 msgid "Needs Action"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:290 calendar/gui/e-meeting-model.c:313
-#: calendar/gui/e-meeting-model.c:716
+#: calendar/gui/e-meeting-model.c:305 calendar/gui/e-meeting-model.c:328
+#: calendar/gui/e-meeting-model.c:731
 msgid "Accepted"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:292 calendar/gui/e-meeting-model.c:315
-#: calendar/gui/e-meeting-model.c:717
+#: calendar/gui/e-meeting-model.c:307 calendar/gui/e-meeting-model.c:330
+#: calendar/gui/e-meeting-model.c:732
 msgid "Declined"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:294 calendar/gui/e-meeting-model.c:317
-#: calendar/gui/e-meeting-model.c:718 calendar/gui/e-meeting-time-sel.c:392
+#: calendar/gui/e-meeting-model.c:309 calendar/gui/e-meeting-model.c:332
+#: calendar/gui/e-meeting-model.c:733 calendar/gui/e-meeting-time-sel.c:400
 msgid "Tentative"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:296 calendar/gui/e-meeting-model.c:319
-#: calendar/gui/e-meeting-model.c:719
+#: calendar/gui/e-meeting-model.c:311 calendar/gui/e-meeting-model.c:334
+#: calendar/gui/e-meeting-model.c:734
 msgid "Delegated"
 msgstr ""
 
-#: calendar/gui/e-meeting-model.c:300 calendar/gui/e-meeting-model.c:323
+#: calendar/gui/e-meeting-model.c:315 calendar/gui/e-meeting-model.c:338
 msgid "In Process"
+msgstr ""
+
+#: calendar/gui/e-meeting-model.c:1349 calendar/gui/e-meeting-model.c:1462
+msgid "Chair Persons"
+msgstr ""
+
+#: calendar/gui/e-meeting-model.c:1350 calendar/gui/e-meeting-model.c:1417
+#: calendar/gui/e-meeting-model.c:1464
+msgid "Required Participants"
+msgstr ""
+
+#: calendar/gui/e-meeting-model.c:1351 calendar/gui/e-meeting-model.c:1466
+msgid "Optional Participants"
+msgstr ""
+
+#: calendar/gui/e-meeting-model.c:1352 calendar/gui/e-meeting-model.c:1468
+msgid "Non-Participants"
 msgstr ""
 
 #. This is a strftime() format string %A = full weekday name,
 #. %B = full month name, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:472
-#: calendar/gui/e-meeting-time-sel.c:1937
+#: calendar/gui/e-meeting-time-sel-item.c:473
+#: calendar/gui/e-meeting-time-sel.c:1944
 msgid "%A, %B %d, %Y"
 msgstr ""
 
 #. This is a strftime() format string %a = abbreviated weekday
 #. name, %m = month number, %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:476
-#: calendar/gui/e-meeting-time-sel.c:1965 e-util/e-time-utils.c:186
+#: calendar/gui/e-meeting-time-sel-item.c:477
+#: calendar/gui/e-meeting-time-sel.c:1972 e-util/e-time-utils.c:186
 #: e-util/e-time-utils.c:345
 msgid "%a %m/%d/%Y"
 msgstr ""
 
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
-#: calendar/gui/e-meeting-time-sel-item.c:480 e-util/e-time-utils.c:221
+#: calendar/gui/e-meeting-time-sel-item.c:481 e-util/e-time-utils.c:221
 #: e-util/e-time-utils.c:276 widgets/misc/e-dateedit.c:1577
 msgid "%m/%d/%Y"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:394
+#: calendar/gui/e-meeting-time-sel.c:402
 msgid "Out of Office"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:395
+#: calendar/gui/e-meeting-time-sel.c:403
 msgid "No Information"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:411
+#: calendar/gui/e-meeting-time-sel.c:419
 msgid "_Invite Others..."
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:431
+#: calendar/gui/e-meeting-time-sel.c:439
 msgid "_Options"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:448
+#: calendar/gui/e-meeting-time-sel.c:456
 msgid "Show _Only Working Hours"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:461
+#: calendar/gui/e-meeting-time-sel.c:469
 msgid "Show _Zoomed Out"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:479
+#: calendar/gui/e-meeting-time-sel.c:487
 msgid "_Update Free/Busy"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:497
+#: calendar/gui/e-meeting-time-sel.c:505
 msgid "_<<"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:514
+#: calendar/gui/e-meeting-time-sel.c:522
 msgid "_Autopick"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:528
+#: calendar/gui/e-meeting-time-sel.c:536
 msgid ">_>"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:545
+#: calendar/gui/e-meeting-time-sel.c:553
 msgid "_All People and Resources"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:558
+#: calendar/gui/e-meeting-time-sel.c:566
 msgid "All _People and One Resource"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:571
+#: calendar/gui/e-meeting-time-sel.c:579
 msgid "_Required People"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:584
+#: calendar/gui/e-meeting-time-sel.c:592
 msgid "Required People and _One Resource"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:607
+#: calendar/gui/e-meeting-time-sel.c:615
 msgid "Meeting _start time:"
 msgstr ""
 
-#: calendar/gui/e-meeting-time-sel.c:626
+#: calendar/gui/e-meeting-time-sel.c:634
 msgid "Meeting _end time:"
 msgstr ""
 
@@ -4880,7 +4838,7 @@ msgid "Print Calendar"
 msgstr ""
 
 #: calendar/gui/print.c:2312 calendar/gui/print.c:2404
-#: mail/mail-callbacks.c:2180 my-evolution/e-summary.c:607
+#: mail/mail-callbacks.c:2199 my-evolution/e-summary.c:607
 #: ui/evolution-addressbook.xml.h:17 ui/evolution-mail-message.xml.h:64
 msgid "Print Preview"
 msgstr ""
@@ -5077,51 +5035,51 @@ msgstr ""
 msgid "You must be working online to complete this operation"
 msgstr ""
 
-#: camel/camel-filter-driver.c:549 camel/camel-filter-driver.c:558
+#: camel/camel-filter-driver.c:552 camel/camel-filter-driver.c:561
 msgid "Syncing folders"
 msgstr ""
 
-#: camel/camel-filter-driver.c:659
+#: camel/camel-filter-driver.c:662
 msgid "Unable to open spool folder"
 msgstr ""
 
-#: camel/camel-filter-driver.c:668
+#: camel/camel-filter-driver.c:671
 msgid "Unable to process spool folder"
 msgstr ""
 
-#: camel/camel-filter-driver.c:683
+#: camel/camel-filter-driver.c:686
 msgid "Getting message %d (%d%%)"
 msgstr ""
 
-#: camel/camel-filter-driver.c:687 camel/camel-filter-driver.c:700
+#: camel/camel-filter-driver.c:690 camel/camel-filter-driver.c:703
 #, c-format
 msgid "Failed on message %d"
 msgstr ""
 
-#: camel/camel-filter-driver.c:688
+#: camel/camel-filter-driver.c:691
 msgid "Cannot open message"
 msgstr ""
 
-#: camel/camel-filter-driver.c:714 camel/camel-filter-driver.c:829
+#: camel/camel-filter-driver.c:717 camel/camel-filter-driver.c:832
 msgid "Syncing folder"
 msgstr ""
 
-#: camel/camel-filter-driver.c:786
+#: camel/camel-filter-driver.c:789
 #, c-format
 msgid "Getting message %d of %d"
 msgstr ""
 
-#: camel/camel-filter-driver.c:791 camel/camel-filter-driver.c:809
+#: camel/camel-filter-driver.c:794 camel/camel-filter-driver.c:812
 #, c-format
 msgid "Failed at message %d of %d"
 msgstr ""
 
-#: camel/camel-filter-driver.c:918
+#: camel/camel-filter-driver.c:921
 #, c-format
 msgid "Error parsing filter: %s: %s"
 msgstr ""
 
-#: camel/camel-filter-driver.c:924
+#: camel/camel-filter-driver.c:927
 #, c-format
 msgid "Error executing filter: %s: %s"
 msgstr ""
@@ -5272,73 +5230,73 @@ msgstr ""
 msgid "Error copying mail temp file: %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:192
+#: camel/camel-pgp-context.c:194
 #, c-format
 msgid "Please enter your %s passphrase for %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:195
+#: camel/camel-pgp-context.c:197
 #, c-format
 msgid "Please enter your %s passphrase"
 msgstr ""
 
-#: camel/camel-pgp-context.c:526
+#: camel/camel-pgp-context.c:554
 msgid "Cannot sign this message: no plaintext to sign"
 msgstr ""
 
-#: camel/camel-pgp-context.c:533 camel/camel-pgp-context.c:707
+#: camel/camel-pgp-context.c:561 camel/camel-pgp-context.c:735
 msgid "Cannot sign this message: no password provided"
 msgstr ""
 
-#: camel/camel-pgp-context.c:539 camel/camel-pgp-context.c:713
+#: camel/camel-pgp-context.c:567 camel/camel-pgp-context.c:741
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:700
+#: camel/camel-pgp-context.c:728
 msgid "Cannot sign this message: no plaintext to clearsign"
 msgstr ""
 
-#: camel/camel-pgp-context.c:892
+#: camel/camel-pgp-context.c:920
 msgid "Cannot verify this message: no plaintext to verify"
 msgstr ""
 
-#: camel/camel-pgp-context.c:898
+#: camel/camel-pgp-context.c:926
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:909
+#: camel/camel-pgp-context.c:937
 #, c-format
 msgid "Cannot verify this message: couldn't create temp file: %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1076
+#: camel/camel-pgp-context.c:1104
 msgid "Cannot encrypt this message: no plaintext to encrypt"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1086
+#: camel/camel-pgp-context.c:1114
 msgid "Cannot encrypt this message: no password provided"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1093
+#: camel/camel-pgp-context.c:1121
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1102
+#: camel/camel-pgp-context.c:1130
 msgid "Cannot encrypt this message: no recipients specified"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1264
+#: camel/camel-pgp-context.c:1292
 msgid "Cannot decrypt this message: no ciphertext to decrypt"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1272
+#: camel/camel-pgp-context.c:1300
 msgid "Cannot decrypt this message: no password provided"
 msgstr ""
 
-#: camel/camel-pgp-context.c:1279
+#: camel/camel-pgp-context.c:1307
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
 msgstr ""
@@ -5769,9 +5727,9 @@ msgid "Could not open cache directory: %s"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-message-cache.c:243
-#: camel/providers/imap/camel-imap-message-cache.c:299
-#: camel/providers/imap/camel-imap-message-cache.c:330
-#: camel/providers/imap/camel-imap-message-cache.c:362
+#: camel/providers/imap/camel-imap-message-cache.c:300
+#: camel/providers/imap/camel-imap-message-cache.c:331
+#: camel/providers/imap/camel-imap-message-cache.c:363
 #, c-format
 msgid "Failed to cache message %s: %s"
 msgstr ""
@@ -5875,11 +5833,11 @@ msgid "Apply filters to new messages in INBOX"
 msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:69
-msgid "Qmail maildir-format mail files"
+msgid "Maildir-format mail directories"
 msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:70
-msgid "For storing local mail in qmail maildir directories."
+msgid "For storing local mail in maildir directories."
 msgstr ""
 
 #: camel/providers/local/camel-local-provider.c:81
@@ -5941,18 +5899,22 @@ msgstr ""
 msgid "Unable to add message to summary: unknown reason"
 msgstr ""
 
-#: camel/providers/local/camel-maildir-folder.c:181
+#: camel/providers/local/camel-maildir-folder.c:182
+msgid "Maildir append message cancelled"
+msgstr ""
+
+#: camel/providers/local/camel-maildir-folder.c:185
 #, c-format
 msgid "Cannot append message to maildir folder: %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-maildir-folder.c:206
-#: camel/providers/local/camel-maildir-folder.c:218
-#: camel/providers/local/camel-maildir-folder.c:226
-#: camel/providers/local/camel-mbox-folder.c:328
-#: camel/providers/local/camel-mh-folder.c:195
-#: camel/providers/local/camel-mh-folder.c:204
-#: camel/providers/local/camel-mh-folder.c:212
+#: camel/providers/local/camel-maildir-folder.c:210
+#: camel/providers/local/camel-maildir-folder.c:222
+#: camel/providers/local/camel-maildir-folder.c:230
+#: camel/providers/local/camel-mbox-folder.c:332
+#: camel/providers/local/camel-mh-folder.c:199
+#: camel/providers/local/camel-mh-folder.c:208
+#: camel/providers/local/camel-mh-folder.c:216
 #: camel/providers/local/camel-spool-folder.c:580
 #, c-format
 msgid ""
@@ -5960,15 +5922,15 @@ msgid ""
 "  %s"
 msgstr ""
 
-#: camel/providers/local/camel-maildir-folder.c:206
-#: camel/providers/local/camel-mbox-folder.c:328
-#: camel/providers/local/camel-mh-folder.c:195
+#: camel/providers/local/camel-maildir-folder.c:210
+#: camel/providers/local/camel-mbox-folder.c:332
+#: camel/providers/local/camel-mh-folder.c:199
 #: camel/providers/local/camel-spool-folder.c:580
 msgid "No such message"
 msgstr ""
 
-#: camel/providers/local/camel-maildir-folder.c:227
-#: camel/providers/local/camel-mh-folder.c:213
+#: camel/providers/local/camel-maildir-folder.c:231
+#: camel/providers/local/camel-mh-folder.c:217
 msgid "Invalid message contents"
 msgstr ""
 
@@ -6034,14 +5996,18 @@ msgstr ""
 msgid "Cannot open mailbox: %s: %s\n"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-folder.c:265
+#: camel/providers/local/camel-mbox-folder.c:266
+msgid "Mail append cancelled"
+msgstr ""
+
+#: camel/providers/local/camel-mbox-folder.c:269
 #, c-format
 msgid "Cannot append message to mbox file: %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-folder.c:344
-#: camel/providers/local/camel-mbox-folder.c:376
-#: camel/providers/local/camel-mbox-folder.c:389
+#: camel/providers/local/camel-mbox-folder.c:348
+#: camel/providers/local/camel-mbox-folder.c:380
+#: camel/providers/local/camel-mbox-folder.c:393
 #: camel/providers/local/camel-spool-folder.c:596
 #: camel/providers/local/camel-spool-folder.c:628
 #: camel/providers/local/camel-spool-folder.c:641
@@ -6051,12 +6017,12 @@ msgid ""
 "  %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-folder.c:377
+#: camel/providers/local/camel-mbox-folder.c:381
 #: camel/providers/local/camel-spool-folder.c:629
 msgid "The folder appears to be irrecoverably corrupted."
 msgstr ""
 
-#: camel/providers/local/camel-mbox-folder.c:390
+#: camel/providers/local/camel-mbox-folder.c:394
 #: camel/providers/local/camel-spool-folder.c:642
 msgid "Message construction failed: Corrupt mailbox?"
 msgstr ""
@@ -6097,8 +6063,8 @@ msgstr ""
 #. FIXME: If there is a failure, it shouldn't clear the summary and restart,
 #. it should try and merge the summary info's.  This is a bit tricky.
 #: camel/providers/local/camel-mbox-summary.c:249
-#: camel/providers/local/camel-mbox-summary.c:499
-#: camel/providers/local/camel-mbox-summary.c:700
+#: camel/providers/local/camel-mbox-summary.c:498
+#: camel/providers/local/camel-mbox-summary.c:699
 #: camel/providers/local/camel-spool-summary.c:644
 #: camel/providers/local/camel-spool-summary.c:936
 msgid "Storing folder"
@@ -6107,7 +6073,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:254
 #, c-format
 msgid "Could not open folder: %s: %s"
-msgstr ""
+msgstr "无法打开文件夹： %s： %s"
 
 #: camel/providers/local/camel-mbox-summary.c:296
 #: camel/providers/local/camel-spool-summary.c:426
@@ -6118,25 +6084,25 @@ msgstr ""
 #: camel/providers/local/camel-mbox-summary.c:371
 #, c-format
 msgid "Cannot check folder: %s: %s"
-msgstr ""
+msgstr "无法检查文件夹： %s： %s"
 
-#: camel/providers/local/camel-mbox-summary.c:504
-#: camel/providers/local/camel-mbox-summary.c:705
+#: camel/providers/local/camel-mbox-summary.c:503
+#: camel/providers/local/camel-mbox-summary.c:704
 #: camel/providers/local/camel-spool-summary.c:649
 #, c-format
 msgid "Could not open file: %s: %s"
-msgstr ""
+msgstr "无法打开文件： %s： %s"
 
-#: camel/providers/local/camel-mbox-summary.c:521
+#: camel/providers/local/camel-mbox-summary.c:520
 #: camel/providers/local/camel-spool-summary.c:673
 #, c-format
 msgid "Cannot open temporary mailbox: %s"
-msgstr ""
+msgstr "无法打开临时邮件箱： %s"
 
-#: camel/providers/local/camel-mbox-summary.c:546
-#: camel/providers/local/camel-mbox-summary.c:554
-#: camel/providers/local/camel-mbox-summary.c:743
-#: camel/providers/local/camel-mbox-summary.c:751
+#: camel/providers/local/camel-mbox-summary.c:545
+#: camel/providers/local/camel-mbox-summary.c:553
+#: camel/providers/local/camel-mbox-summary.c:742
+#: camel/providers/local/camel-mbox-summary.c:750
 #: camel/providers/local/camel-spool-summary.c:698
 #: camel/providers/local/camel-spool-summary.c:706
 #: camel/providers/local/camel-spool-summary.c:979
@@ -6144,43 +6110,48 @@ msgstr ""
 msgid "Summary and folder mismatch, even after a sync"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:597
+#: camel/providers/local/camel-mbox-summary.c:596
 #: camel/providers/local/camel-spool-summary.c:750
 #, c-format
 msgid "Error writing to temp mailbox: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:614
+#: camel/providers/local/camel-mbox-summary.c:613
 #: camel/providers/local/camel-spool-summary.c:772
 #, c-format
 msgid "Writing to tmp mailbox failed: %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:632
-#: camel/providers/local/camel-mbox-summary.c:801
+#: camel/providers/local/camel-mbox-summary.c:631
+#: camel/providers/local/camel-mbox-summary.c:800
 #: camel/providers/local/camel-spool-summary.c:1037
 #, c-format
 msgid "Could not close source folder %s: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:641
+#: camel/providers/local/camel-mbox-summary.c:640
 #, c-format
 msgid "Could not close temp folder: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:652
+#: camel/providers/local/camel-mbox-summary.c:651
 #, c-format
 msgid "Could not rename folder: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mbox-summary.c:875
+#: camel/providers/local/camel-mbox-summary.c:874
 #: camel/providers/local/camel-spool-summary.c:545
 #: camel/providers/local/camel-spool-summary.c:1111
 #, c-format
 msgid "Unknown error: %s"
 msgstr ""
 
-#: camel/providers/local/camel-mh-folder.c:172
+#: camel/providers/local/camel-mh-folder.c:173
+#, fuzzy
+msgid "MH append message cancelled"
+msgstr "给联系人发邮件"
+
+#: camel/providers/local/camel-mh-folder.c:176
 #, c-format
 msgid "Cannot append message to mh folder: %s: %s"
 msgstr ""
@@ -6665,7 +6636,7 @@ msgstr ""
 msgid "Cannot send message: sender address not valid."
 msgstr ""
 
-#: camel/providers/smtp/camel-smtp-transport.c:594 mail/mail-ops.c:566
+#: camel/providers/smtp/camel-smtp-transport.c:594 mail/mail-ops.c:560
 msgid "Sending message"
 msgstr ""
 
@@ -6770,44 +6741,44 @@ msgstr ""
 msgid "QUIT response error: %s: non-fatal"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:99
+#: composer/e-msg-composer-attachment-bar.c:101
 msgid "1 byte"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:101
+#: composer/e-msg-composer-attachment-bar.c:103
 #, c-format
 msgid "%u bytes"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:110
 #, c-format
 msgid "%.1fK"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:112
+#: composer/e-msg-composer-attachment-bar.c:114
 #, c-format
 msgid "%.1fM"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:116
+#: composer/e-msg-composer-attachment-bar.c:118
 #, c-format
 msgid "%.1fG"
 msgstr ""
 
 #. This is a filename. Translators take note.
-#: composer/e-msg-composer-attachment-bar.c:357 mail/mail-display.c:135
+#: composer/e-msg-composer-attachment-bar.c:359 mail/mail-display.c:135
 msgid "attachment"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:498
+#: composer/e-msg-composer-attachment-bar.c:500
 msgid "Remove selected items from the attachment list"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:529
+#: composer/e-msg-composer-attachment-bar.c:531
 msgid "Add attachment..."
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:530
+#: composer/e-msg-composer-attachment-bar.c:532
 msgid "Attach a file to the message"
 msgstr ""
 
@@ -6895,107 +6866,107 @@ msgstr ""
 msgid "Attach a file"
 msgstr ""
 
-#: composer/e-msg-composer.c:676
+#: composer/e-msg-composer.c:677
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:859
+#: composer/e-msg-composer.c:860
 msgid "Save as..."
 msgstr ""
 
-#: composer/e-msg-composer.c:868
+#: composer/e-msg-composer.c:869
 msgid "Warning!"
 msgstr ""
 
-#: composer/e-msg-composer.c:872
+#: composer/e-msg-composer.c:873
 msgid "File exists, overwrite?"
 msgstr ""
 
-#: composer/e-msg-composer.c:894
+#: composer/e-msg-composer.c:895
 #, c-format
 msgid "Error saving file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:913
+#: composer/e-msg-composer.c:914
 #, c-format
 msgid "Error loading file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:984
+#: composer/e-msg-composer.c:985
 msgid ""
 "Unable to open the drafts folder for this account.\n"
 "Would you like to use the default drafts folder?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1037
+#: composer/e-msg-composer.c:1038
 #, c-format
 msgid "Error accessing file: %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1045
+#: composer/e-msg-composer.c:1046
 msgid "Unable to retrieve message from editor"
 msgstr ""
 
-#: composer/e-msg-composer.c:1052
+#: composer/e-msg-composer.c:1053
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1059
+#: composer/e-msg-composer.c:1060
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
 "%s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1068
+#: composer/e-msg-composer.c:1069
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
 " %s"
 msgstr ""
 
-#: composer/e-msg-composer.c:1170
+#: composer/e-msg-composer.c:1171
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1321
+#: composer/e-msg-composer.c:1322
 msgid ""
 "This message has not been sent.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
 
-#: composer/e-msg-composer.c:1328
+#: composer/e-msg-composer.c:1329
 msgid "Warning: Modified Message"
 msgstr ""
 
-#: composer/e-msg-composer.c:1351
+#: composer/e-msg-composer.c:1352
 msgid "Open file"
 msgstr ""
 
-#: composer/e-msg-composer.c:1500
+#: composer/e-msg-composer.c:1501
 msgid "Insert File"
 msgstr ""
 
-#: composer/e-msg-composer.c:1875 composer/e-msg-composer.c:2313
+#: composer/e-msg-composer.c:1876 composer/e-msg-composer.c:2314
 msgid "Compose a message"
 msgstr ""
 
-#: composer/e-msg-composer.c:2330
+#: composer/e-msg-composer.c:2331
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate address selector control."
 msgstr ""
 
-#: composer/e-msg-composer.c:2353
+#: composer/e-msg-composer.c:2354
 msgid ""
 "Could not create composer window:\n"
 "Unable to activate HTML editor component."
@@ -7275,16 +7246,16 @@ msgid ""
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
 
-#: filter/filter-folder.c:232 filter/vfolder-rule.c:356
-#: mail/mail-account-gui.c:822
+#: filter/filter-folder.c:233 filter/vfolder-rule.c:357
+#: mail/mail-account-gui.c:824
 msgid "Select Folder"
 msgstr ""
 
-#: filter/filter-folder.c:257
+#: filter/filter-folder.c:258
 msgid "Enter folder URI"
 msgstr ""
 
-#: filter/filter-folder.c:304
+#: filter/filter-folder.c:305
 msgid "<click here to select a folder>"
 msgstr ""
 
@@ -7524,7 +7495,7 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1333
+#: filter/libfilter-i18n.h:42 mail/mail-callbacks.c:1340
 msgid "Sender"
 msgstr ""
 
@@ -7733,45 +7704,45 @@ msgstr ""
 msgid "Cannot connect to store: %s"
 msgstr ""
 
-#: mail/component-factory.c:146
+#: mail/component-factory.c:143
 msgid "This folder cannot contain messages."
 msgstr ""
 
-#: mail/component-factory.c:378
+#: mail/component-factory.c:375
 msgid "Properties..."
 msgstr ""
 
-#: mail/component-factory.c:378
+#: mail/component-factory.c:375
 msgid "Change this folder's properties"
 msgstr ""
 
-#: mail/component-factory.c:729
+#: mail/component-factory.c:726
 msgid ""
 "Some of your mail settings seem corrupt, please check that everything is in "
 "order."
 msgstr ""
 
-#: mail/component-factory.c:871
+#: mail/component-factory.c:868
 msgid "New Mail Message"
 msgstr ""
 
-#: mail/component-factory.c:871
+#: mail/component-factory.c:868
 msgid "New _Mail Message"
 msgstr ""
 
-#: mail/component-factory.c:895
+#: mail/component-factory.c:892
 msgid "Cannot initialize Evolution's mail component."
 msgstr ""
 
-#: mail/component-factory.c:904
+#: mail/component-factory.c:901
 msgid "Cannot initialize Evolution's mail config component."
 msgstr ""
 
-#: mail/component-factory.c:910
+#: mail/component-factory.c:907
 msgid "Cannot initialize Evolution's folder info component."
 msgstr ""
 
-#: mail/component-factory.c:1075
+#: mail/component-factory.c:1072
 msgid "Cannot register storage with shell"
 msgstr ""
 
@@ -8019,22 +7990,22 @@ msgstr ""
 msgid "Evolution Account Editor"
 msgstr ""
 
-#: mail/mail-account-gui.c:947
+#: mail/mail-account-gui.c:949
 msgid "Could not save signature file."
 msgstr ""
 
-#: mail/mail-account-gui.c:1024
+#: mail/mail-account-gui.c:1026
 msgid "Save signature"
 msgstr ""
 
-#: mail/mail-account-gui.c:1030
+#: mail/mail-account-gui.c:1032
 msgid ""
 "This signature has been changed, but hasn't been saved.\n"
 "\n"
 "Do you wish to save your changes?"
 msgstr ""
 
-#: mail/mail-account-gui.c:1615
+#: mail/mail-account-gui.c:1617
 msgid "You may not create two accounts with the same name."
 msgstr ""
 
@@ -8109,117 +8080,117 @@ msgid ""
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:204
+#: mail/mail-callbacks.c:207
 msgid ""
 "You need to configure a mail transport\n"
 "before you can compose mail."
 msgstr ""
 
-#: mail/mail-callbacks.c:230
+#: mail/mail-callbacks.c:236
 msgid "You have not set a mail transport method"
 msgstr ""
 
 #. FIXME: this wording sucks
-#: mail/mail-callbacks.c:264
+#: mail/mail-callbacks.c:270
 msgid ""
 "You are sending an HTML-formatted message, but the following recipients do "
 "not want HTML-formatted mail:\n"
 msgstr ""
 
-#: mail/mail-callbacks.c:279
+#: mail/mail-callbacks.c:285
 msgid "Send anyway?"
 msgstr ""
 
-#: mail/mail-callbacks.c:321
+#: mail/mail-callbacks.c:327
 msgid ""
 "This message has no subject.\n"
 "Really send?"
 msgstr ""
 
-#: mail/mail-callbacks.c:365
+#: mail/mail-callbacks.c:371
 msgid ""
 "Since the contact list you are sending to is configured to hide the list's "
 "addresses, this message will contain only Bcc recipients."
 msgstr ""
 
-#: mail/mail-callbacks.c:369
+#: mail/mail-callbacks.c:375
 msgid "This message contains only Bcc recipients."
 msgstr ""
 
-#: mail/mail-callbacks.c:373
+#: mail/mail-callbacks.c:379
 msgid ""
 "It is possible that the mail server may reveal the recipients by adding an "
 "Apparently-To header.\n"
 "Send anyway?"
 msgstr ""
 
-#: mail/mail-callbacks.c:467
+#: mail/mail-callbacks.c:473
 msgid "This message contains invalid recipients:"
 msgstr ""
 
-#: mail/mail-callbacks.c:502
+#: mail/mail-callbacks.c:508
 msgid "You must specify recipients in order to send this message."
 msgstr ""
 
-#: mail/mail-callbacks.c:598
+#: mail/mail-callbacks.c:604
 msgid "You must configure an account before you can send this email."
 msgstr ""
 
-#: mail/mail-callbacks.c:834
+#: mail/mail-callbacks.c:840
 msgid "an unknown sender"
 msgstr ""
 
-#: mail/mail-callbacks.c:839
+#: mail/mail-callbacks.c:845
 msgid "On %a, %Y-%m-%d at %H:%M, %%s wrote:"
 msgstr ""
 
-#: mail/mail-callbacks.c:1235
+#: mail/mail-callbacks.c:1240
 msgid "Move message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1237
+#: mail/mail-callbacks.c:1242
 msgid "Copy message(s) to"
 msgstr ""
 
-#: mail/mail-callbacks.c:1632
+#: mail/mail-callbacks.c:1639
 #, c-format
 msgid "Are you sure you want to edit all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1654
+#: mail/mail-callbacks.c:1661
 msgid ""
 "You may only edit messages saved\n"
 "in the Drafts folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1690
+#: mail/mail-callbacks.c:1697
 msgid ""
 "You may only resend messages\n"
 "in the Sent folder."
 msgstr ""
 
-#: mail/mail-callbacks.c:1704
+#: mail/mail-callbacks.c:1711
 #, c-format
 msgid "Are you sure you want to resend all %d messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1727
+#: mail/mail-callbacks.c:1734
 msgid "No Message Selected"
 msgstr ""
 
-#: mail/mail-callbacks.c:1815
+#: mail/mail-callbacks.c:1822
 msgid "Save Message As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:1817
+#: mail/mail-callbacks.c:1824
 msgid "Save Messages As..."
 msgstr ""
 
-#: mail/mail-callbacks.c:1962 widgets/misc/e-messagebox.c:159
+#: mail/mail-callbacks.c:1969 widgets/misc/e-messagebox.c:159
 msgid "Warning"
 msgstr ""
 
-#: mail/mail-callbacks.c:1969
+#: mail/mail-callbacks.c:1976
 msgid ""
 "This operation will permanently erase all messages marked as deleted. If you "
 "continue, you will not be able to recover these messages.\n"
@@ -8227,30 +8198,30 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/mail-callbacks.c:1976
+#: mail/mail-callbacks.c:1983
 msgid "Do not ask me again."
 msgstr ""
 
-#: mail/mail-callbacks.c:2081
+#: mail/mail-callbacks.c:2088
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/mail-callbacks.c:2093
+#: mail/mail-callbacks.c:2100
 msgid "Filters"
 msgstr ""
 
-#: mail/mail-callbacks.c:2141
+#: mail/mail-callbacks.c:2160
 msgid "Print Message"
 msgstr ""
 
-#: mail/mail-callbacks.c:2187
+#: mail/mail-callbacks.c:2206
 msgid "Printing of message failed"
 msgstr ""
 
-#: mail/mail-callbacks.c:2276
+#: mail/mail-callbacks.c:2297
 #, c-format
 msgid "Are you sure you want to open all %d messages in separate windows?"
 msgstr ""
@@ -8967,7 +8938,7 @@ msgstr ""
 msgid "Enter Password"
 msgstr ""
 
-#: mail/mail-mt.c:1062
+#: mail/mail-mt.c:1064
 msgid "Working"
 msgstr ""
 
@@ -8979,144 +8950,144 @@ msgstr ""
 msgid "Fetching Mail"
 msgstr ""
 
-#: mail/mail-ops.c:493 mail/mail-ops.c:525
+#: mail/mail-ops.c:491 mail/mail-ops.c:520
 msgid "However, the message was successfully sent."
 msgstr ""
 
-#: mail/mail-ops.c:562
+#: mail/mail-ops.c:556
 #, c-format
 msgid "Sending \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:681
+#: mail/mail-ops.c:675
 #, c-format
 msgid "Sending message %d of %d"
 msgstr ""
 
-#: mail/mail-ops.c:700
+#: mail/mail-ops.c:694
 #, c-format
 msgid "Failed on message %d of %d"
 msgstr ""
 
-#: mail/mail-ops.c:702 mail/mail-send-recv.c:522
+#: mail/mail-ops.c:696 mail/mail-send-recv.c:525
 msgid "Complete."
 msgstr ""
 
-#: mail/mail-ops.c:795
+#: mail/mail-ops.c:789
 msgid "Saving message to folder"
 msgstr ""
 
-#: mail/mail-ops.c:875
+#: mail/mail-ops.c:869
 #, c-format
 msgid "Moving messages to %s"
 msgstr ""
 
-#: mail/mail-ops.c:875
+#: mail/mail-ops.c:869
 #, c-format
 msgid "Copying messages to %s"
 msgstr ""
 
-#: mail/mail-ops.c:897
+#: mail/mail-ops.c:891
 #, c-format
 msgid "Cannot copy a folder `%s' to itself"
 msgstr ""
 
-#: mail/mail-ops.c:904
+#: mail/mail-ops.c:898
 msgid "Moving"
 msgstr ""
 
-#: mail/mail-ops.c:907
+#: mail/mail-ops.c:901
 msgid "Copying"
 msgstr ""
 
-#: mail/mail-ops.c:1017
+#: mail/mail-ops.c:1011
 #, c-format
 msgid "Scanning folders in \"%s\""
 msgstr ""
 
-#: mail/mail-ops.c:1200
+#: mail/mail-ops.c:1194
 msgid "Forwarded messages"
 msgstr ""
 
-#: mail/mail-ops.c:1243
+#: mail/mail-ops.c:1237
 #, c-format
 msgid "Opening folder %s"
 msgstr ""
 
-#: mail/mail-ops.c:1315
+#: mail/mail-ops.c:1309
 #, c-format
 msgid "Opening store %s"
 msgstr ""
 
-#: mail/mail-ops.c:1384
+#: mail/mail-ops.c:1378
 #, c-format
 msgid "Removing folder %s"
 msgstr ""
 
-#: mail/mail-ops.c:1478
+#: mail/mail-ops.c:1472
 #, c-format
 msgid "Storing folder '%s'"
 msgstr ""
 
-#: mail/mail-ops.c:1529
+#: mail/mail-ops.c:1523
 msgid "Refreshing folder"
 msgstr ""
 
-#: mail/mail-ops.c:1565
+#: mail/mail-ops.c:1559
 msgid "Expunging folder"
 msgstr ""
 
-#: mail/mail-ops.c:1614
+#: mail/mail-ops.c:1608
 #, c-format
 msgid "Retrieving message %s"
 msgstr ""
 
-#: mail/mail-ops.c:1681
+#: mail/mail-ops.c:1675
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr ""
 
-#: mail/mail-ops.c:1767
+#: mail/mail-ops.c:1761
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr ""
 
-#: mail/mail-ops.c:1879
+#: mail/mail-ops.c:1873
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:1907
+#: mail/mail-ops.c:1901
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:1981
+#: mail/mail-ops.c:1975
 msgid "Saving attachment"
 msgstr ""
 
-#: mail/mail-ops.c:1997
+#: mail/mail-ops.c:1991
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
 " %s"
 msgstr ""
 
-#: mail/mail-ops.c:2028
+#: mail/mail-ops.c:2022
 #, c-format
 msgid "Could not write data: %s"
 msgstr ""
 
-#: mail/mail-ops.c:2097
+#: mail/mail-ops.c:2091
 #, c-format
 msgid "Disconnecting from %s"
 msgstr ""
 
-#: mail/mail-ops.c:2098
+#: mail/mail-ops.c:2092
 #, c-format
 msgid "Reconnecting to %s"
 msgstr ""
@@ -9157,26 +9128,26 @@ msgstr ""
 msgid "Matches:"
 msgstr ""
 
-#: mail/mail-send-recv.c:139
+#: mail/mail-send-recv.c:140
 msgid "Cancelling..."
 msgstr ""
 
-#: mail/mail-send-recv.c:243
+#: mail/mail-send-recv.c:244
 #, c-format
 msgid "Server: %s, Type: %s"
 msgstr ""
 
-#: mail/mail-send-recv.c:245
+#: mail/mail-send-recv.c:246
 #, c-format
 msgid "Path: %s, Type: %s"
 msgstr ""
 
-#: mail/mail-send-recv.c:247
+#: mail/mail-send-recv.c:248
 #, c-format
 msgid "Type: %s"
 msgstr ""
 
-#: mail/mail-send-recv.c:283
+#: mail/mail-send-recv.c:282
 msgid "Send & Receive Mail"
 msgstr ""
 
@@ -9184,15 +9155,15 @@ msgstr ""
 msgid "Cancel All"
 msgstr ""
 
-#: mail/mail-send-recv.c:333
+#: mail/mail-send-recv.c:336
 msgid "Updating..."
 msgstr ""
 
-#: mail/mail-send-recv.c:334 mail/mail-send-recv.c:387
+#: mail/mail-send-recv.c:337 mail/mail-send-recv.c:390
 msgid "Waiting..."
 msgstr ""
 
-#: mail/mail-send-recv.c:518
+#: mail/mail-send-recv.c:521
 msgid "Cancelled."
 msgstr ""
 
@@ -9218,12 +9189,12 @@ msgstr ""
 msgid "Setting up vfolder: %s"
 msgstr ""
 
-#: mail/mail-vfolder.c:203
+#: mail/mail-vfolder.c:204
 #, c-format
 msgid "Updating vfolders for uri: %s"
 msgstr ""
 
-#: mail/mail-vfolder.c:416
+#: mail/mail-vfolder.c:434
 #, c-format
 msgid ""
 "The following vFolder(s):\n"
@@ -9232,16 +9203,16 @@ msgid ""
 "And have been updated."
 msgstr ""
 
-#: mail/mail-vfolder.c:736
+#: mail/mail-vfolder.c:754
 msgid "Edit VFolder"
 msgstr ""
 
-#: mail/mail-vfolder.c:751
+#: mail/mail-vfolder.c:769
 #, c-format
 msgid "Trying to edit a vfolder '%s' which doesn't exist."
 msgstr ""
 
-#: mail/mail-vfolder.c:805
+#: mail/mail-vfolder.c:823
 msgid "New VFolder"
 msgstr ""
 
@@ -9385,11 +9356,11 @@ msgstr ""
 
 #: mail/subscribe-dialog.glade.h:7
 msgid "_Subscribe"
-msgstr ""
+msgstr "(_s)订阅"
 
 #: mail/subscribe-dialog.glade.h:8
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "(_u)退订"
 
 #: my-evolution/GNOME_Evolution_Summary.oaf.in.h:1
 msgid "Evolution component for the executive summary."
@@ -9405,11 +9376,11 @@ msgstr ""
 
 #: my-evolution/e-summary-calendar.c:326 my-evolution/e-summary-calendar.c:344
 msgid "Appointments"
-msgstr ""
+msgstr "约会"
 
 #: my-evolution/e-summary-calendar.c:327
 msgid "No appointments"
-msgstr ""
+msgstr "没有约会"
 
 #: my-evolution/e-summary-calendar.c:363
 msgid "%k:%M %d %B"
@@ -9460,7 +9431,7 @@ msgstr ""
 msgid "Error downloading RDF"
 msgstr ""
 
-#: my-evolution/e-summary-rdf.c:512
+#: my-evolution/e-summary-rdf.c:527
 msgid "News Feed"
 msgstr ""
 
@@ -9480,7 +9451,7 @@ msgstr ""
 msgid "<dd><b>The weather server could not be contacted</b></dd>"
 msgstr ""
 
-#: my-evolution/e-summary-weather.c:546
+#: my-evolution/e-summary-weather.c:559
 msgid "Weather"
 msgstr ""
 
@@ -9488,11 +9459,11 @@ msgstr ""
 #. see in My Evolution by default. You can find the list of all
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
-#: my-evolution/e-summary-weather.c:637
+#: my-evolution/e-summary-weather.c:650
 msgid "KBOS:EGAA:RJTT"
 msgstr ""
 
-#: my-evolution/e-summary-weather.c:698
+#: my-evolution/e-summary-weather.c:711
 msgid "Regions"
 msgstr ""
 
@@ -10661,7 +10632,7 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:1
 msgid " _Remove"
-msgstr ""
+msgstr "(_r)删除"
 
 #: my-evolution/my-evolution.glade.h:2
 msgid "Add n_ew feed"
@@ -10673,7 +10644,7 @@ msgstr ""
 
 #: my-evolution/my-evolution.glade.h:4
 msgid "All _folders:"
-msgstr ""
+msgstr "(_f)所有文件夹"
 
 #: my-evolution/my-evolution.glade.h:5
 msgid "All news _feeds:"
@@ -10992,11 +10963,11 @@ msgstr ""
 #: shell/e-shell-importer.c:396
 #, c-format
 msgid "File %s does not exist"
-msgstr ""
+msgstr "文件 %s 不存在"
 
 #: shell/e-shell-importer.c:408
 msgid "You may only import to local folders"
-msgstr ""
+msgstr "您只能导入到本地文件夹"
 
 #: shell/e-shell-importer.c:423
 #, c-format
@@ -11007,7 +10978,7 @@ msgstr ""
 
 #: shell/e-shell-importer.c:433
 msgid "Importing"
-msgstr ""
+msgstr "导入中"
 
 #: shell/e-shell-importer.c:441
 #, c-format
@@ -11039,54 +11010,56 @@ msgstr ""
 
 #: shell/e-shell-importer.c:611
 msgid "Filename:"
-msgstr ""
+msgstr "文件名："
 
 #: shell/e-shell-importer.c:616
 msgid "Select a file"
-msgstr ""
+msgstr "选择一个文件"
 
 #: shell/e-shell-importer.c:626
 msgid "File type:"
-msgstr ""
+msgstr "文件类型："
 
 #: shell/e-shell-importer.c:651
 msgid "Import data and settings from older programs"
-msgstr ""
+msgstr "从老版程序中导入数据和设置"
 
 #: shell/e-shell-importer.c:655
 msgid "Import a single file"
-msgstr ""
+msgstr "导入单个文件"
 
 #: shell/e-shell-importer.c:720 shell/e-shell-startup-wizard.c:576
 msgid ""
 "Please wait...\n"
 "Scanning for existing setups"
 msgstr ""
+"请等待...\n"
+"正在扫描现有设置"
 
 #: shell/e-shell-importer.c:723 shell/e-shell-startup-wizard.c:579
 msgid "Starting Intelligent Importers"
-msgstr ""
+msgstr "启动只能导入器"
 
 #: shell/e-shell-importer.c:846 shell/e-shell-startup-wizard.c:700
 #, c-format
 msgid "From %s:"
-msgstr ""
+msgstr "从 %s："
 
 #: shell/e-shell-importer.c:1009
 msgid "Select folder"
-msgstr ""
+msgstr "选择文件夹"
 
 #: shell/e-shell-importer.c:1010
 msgid "Select a destination folder for importing this data"
-msgstr ""
+msgstr "为导入的数据选择目标文件夹"
 
 #: shell/e-shell-importer.c:1122 shell/importer/intelligent.c:194
 msgid "Import"
-msgstr ""
+msgstr "导入"
 
 #: shell/e-shell-offline-handler.c:560
 msgid "Closing connections..."
-msgstr ""
+msgstr "关闭联接..."
 
 #: shell/e-shell-startup-wizard.c:160 shell/e-shell-startup-wizard.c:169
 #, c-format
@@ -11094,28 +11067,32 @@ msgid ""
 "(%s:%d)Could not start the Evolution Mailer Assistant interface\n"
 "%s"
 msgstr ""
+"(%s:%d)无法启动 Evolution 邮件助手界面\n"
+"%s"
 
 #: shell/e-shell-startup-wizard.c:742
 msgid ""
 "Please select the information\n"
 "that you would like to import"
 msgstr ""
+"请选择您希望\n"
+"导入的信息"
 
 #: shell/e-shell-view-menu.c:201
 msgid "Bug buddy was not found in your $PATH."
-msgstr ""
+msgstr "在您的 $PATH 中找不到 Bug buddy。"
 
 #: shell/e-shell-view-menu.c:209
 msgid "Bug buddy could not be run."
-msgstr ""
+msgstr "无法运行 Bug buddy。"
 
 #: shell/e-shell-view-menu.c:235
 msgid "Ximian Evolution"
-msgstr ""
+msgstr "Ximian Evolution"
 
 #: shell/e-shell-view-menu.c:237
 msgid "Copyright 1999, 2000, 2001 Ximian, Inc."
-msgstr ""
+msgstr "版权所有 1999, 2000, 2001 Ximian, 公司。"
 
 #: shell/e-shell-view-menu.c:239
 msgid ""
@@ -11134,11 +11111,11 @@ msgstr ""
 
 #: shell/e-shell-view-menu.c:563
 msgid "Create a new shortcut"
-msgstr ""
+msgstr "创建新快捷方式"
 
 #: shell/e-shell-view-menu.c:564
 msgid "Select the folder you want the shortcut to point to:"
-msgstr ""
+msgstr "选择您希望快捷方式指向的文件夹："
 
 #: shell/e-shell-view-menu.c:595
 msgid "The GNOME Pilot tools do not appear to be installed on this system."
@@ -11195,12 +11172,12 @@ msgid ""
 "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 
-#: shell/e-shell.c:563
+#: shell/e-shell.c:608
 #, c-format
 msgid "Cannot set up local storage -- %s"
 msgstr ""
 
-#: shell/e-shell.c:1499
+#: shell/e-shell.c:1552
 #, c-format
 msgid ""
 "The Evolution component that handles folders of type \"%s\"\n"
@@ -11208,33 +11185,33 @@ msgid ""
 "in order to access that data again."
 msgstr ""
 
-#: shell/e-shell.c:1722 widgets/misc/e-cell-date-edit.c:248
+#: shell/e-shell.c:1775 widgets/misc/e-cell-date-edit.c:248
 msgid "OK"
-msgstr ""
+msgstr "确定"
 
-#: shell/e-shell.c:1724
+#: shell/e-shell.c:1777
 msgid "Invalid arguments"
-msgstr ""
+msgstr "非法参数"
 
-#: shell/e-shell.c:1726
+#: shell/e-shell.c:1779
 msgid "Cannot register on OAF"
-msgstr ""
+msgstr "无法注册到 OAF"
 
-#: shell/e-shell.c:1728
+#: shell/e-shell.c:1781
 msgid "Configuration Database not found"
-msgstr ""
+msgstr "找不到配置数据库"
 
-#: shell/e-shell.c:1730 shell/e-storage.c:501
+#: shell/e-shell.c:1783 shell/e-storage.c:501
 msgid "Generic error"
-msgstr ""
+msgstr "通用错误"
 
 #: shell/e-shortcuts-view.c:75
 msgid "Create new shortcut group"
-msgstr ""
+msgstr "创建新快捷方式组"
 
 #: shell/e-shortcuts-view.c:76
 msgid "Group name:"
-msgstr ""
+msgstr "组名："
 
 #: shell/e-shortcuts-view.c:176
 #, c-format
@@ -11242,114 +11219,116 @@ msgid ""
 "Do you really want to remove group\n"
 "`%s' from the shortcut bar?"
 msgstr ""
+"您真的希望从快捷方式条\n"
+"上删除‘%s’组吗？"
 
 #: shell/e-shortcuts-view.c:181
 msgid "Don't remove"
-msgstr ""
+msgstr "不要删除"
 
 #: shell/e-shortcuts-view.c:210
 msgid "Rename Shortcut Group"
-msgstr ""
+msgstr "重命名快捷方式组"
 
 #: shell/e-shortcuts-view.c:211
 msgid "Rename selected shortcut group to:"
-msgstr ""
+msgstr "把选中的快捷方式组重命名为："
 
 #: shell/e-shortcuts-view.c:225
 msgid "_Small Icons"
-msgstr ""
+msgstr "(_s)小图标"
 
 #: shell/e-shortcuts-view.c:226
 msgid "Show the shortcuts as small icons"
-msgstr ""
+msgstr "用小图标显示快捷方式"
 
 #: shell/e-shortcuts-view.c:228
 msgid "_Large Icons"
-msgstr ""
+msgstr "(_l)大图标"
 
 #: shell/e-shortcuts-view.c:229
 msgid "Show the shortcuts as large icons"
-msgstr ""
+msgstr "用大图标显示快捷方式"
 
 #: shell/e-shortcuts-view.c:240
 msgid "_New Group..."
-msgstr ""
+msgstr "(_n)新组..."
 
 #: shell/e-shortcuts-view.c:241
 msgid "Create a new shortcut group"
-msgstr ""
+msgstr "创建新快捷方式组"
 
 #: shell/e-shortcuts-view.c:243
 msgid "_Remove this Group..."
-msgstr ""
+msgstr "(_r)删除该组..."
 
 #: shell/e-shortcuts-view.c:244
 msgid "Remove this shortcut group"
-msgstr ""
+msgstr "删除该快捷方式组"
 
 #: shell/e-shortcuts-view.c:246
 msgid "Re_name this Group..."
-msgstr ""
+msgstr "(_n)重命名该组..."
 
 #: shell/e-shortcuts-view.c:247
 msgid "Rename this shortcut group"
-msgstr ""
+msgstr "重命名该快捷方式组"
 
 #: shell/e-shortcuts-view.c:252
 msgid "_Hide the Shortcut Bar"
-msgstr ""
+msgstr "(_h)隐藏快捷方式条"
 
 #: shell/e-shortcuts-view.c:253
 msgid "Hide the shortcut bar"
-msgstr ""
+msgstr "营长快捷方式条"
 
 #: shell/e-shortcuts-view.c:372
 msgid "Rename shortcut"
-msgstr ""
+msgstr "重命名快捷方式"
 
 #: shell/e-shortcuts-view.c:373
 msgid "Rename selected shortcut to:"
-msgstr ""
+msgstr "把快捷方式重命名为："
 
 #: shell/e-shortcuts-view.c:385
 msgid "Open the folder linked to this shortcut"
-msgstr ""
+msgstr "打开连接到该快捷方式的文件夹"
 
 #: shell/e-shortcuts-view.c:387 ui/evolution.xml.h:19
 msgid "Open in New _Window"
-msgstr ""
+msgstr "(_w)在新窗口中打开"
 
 #: shell/e-shortcuts-view.c:387
 msgid "Open the folder linked to this shortcut in a new window"
-msgstr ""
+msgstr "在新窗口中打开连接到该快捷方式的文件夹"
 
 #: shell/e-shortcuts-view.c:390
 msgid "_Rename"
-msgstr ""
+msgstr "(_r)重命名"
 
 #: shell/e-shortcuts-view.c:390
 msgid "Rename this shortcut"
-msgstr ""
+msgstr "重命名该快捷方式"
 
 #: shell/e-shortcuts-view.c:392
 msgid "Re_move"
-msgstr ""
+msgstr "(_m)删除"
 
 #: shell/e-shortcuts-view.c:392
 msgid "Remove this shortcut from the shortcut bar"
-msgstr ""
+msgstr "从快捷方式条上删除该快捷方式"
 
 #: shell/e-shortcuts.c:641
 msgid "Error saving shortcuts."
-msgstr ""
+msgstr "保存快捷方式错误。"
 
 #: shell/e-shortcuts.c:1044
 msgid "Shortcuts"
-msgstr ""
+msgstr "快捷方式"
 
 #: shell/e-shortcuts.c:1053
 msgid "Inbox"
-msgstr ""
+msgstr "收件箱"
 
 #: shell/e-storage-set-view.c:645
 #, c-format
@@ -11357,38 +11336,40 @@ msgid ""
 "Cannot transfer folder:\n"
 "%s"
 msgstr ""
+"无法转移文件夹：\n"
+"%s"
 
 #: shell/e-storage.c:182 shell/e-storage.c:188
 msgid "(No name)"
-msgstr ""
+msgstr "(未命名)"
 
 #: shell/e-storage.c:499
 msgid "No error"
-msgstr ""
+msgstr "无错误"
 
 #: shell/e-storage.c:503
 msgid "A folder with the same name already exists"
-msgstr ""
+msgstr "已经有一个同名文件夹存在"
 
 #: shell/e-storage.c:505
 msgid "The specified folder type is not valid"
-msgstr ""
+msgstr "指定的文件夹类型非法"
 
 #: shell/e-storage.c:507
 msgid "I/O error"
-msgstr ""
+msgstr "输入输出错误"
 
 #: shell/e-storage.c:509
 msgid "Not enough space to create the folder"
-msgstr ""
+msgstr "没有足够的空间创建文件夹"
 
 #: shell/e-storage.c:511
 msgid "The folder is not empty"
-msgstr ""
+msgstr "文件夹不为空"
 
 #: shell/e-storage.c:513
 msgid "The specified folder was not found"
-msgstr ""
+msgstr "找不到指定的文件夹"
 
 #: shell/e-storage.c:515
 msgid "Function not implemented in this storage"
@@ -11396,7 +11377,7 @@ msgstr ""
 
 #: shell/e-storage.c:519
 msgid "Operation not supported"
-msgstr ""
+msgstr "不支持的操作"
 
 #: shell/e-storage.c:521
 msgid "The specified type is not supported in this storage"
@@ -11404,7 +11385,7 @@ msgstr ""
 
 #: shell/e-storage.c:523
 msgid "The specified folder cannot be modified or removed"
-msgstr ""
+msgstr "无法修改或删除指定的文件夹"
 
 #: shell/e-storage.c:525
 msgid "Cannot make a folder a child of one of its descendants"
@@ -11412,16 +11393,78 @@ msgstr ""
 
 #: shell/e-storage.c:527
 msgid "Cannot create a folder with that name"
-msgstr ""
+msgstr "无法以那个名字创建文件夹"
 
 #: shell/e-task-widget.c:192
 #, c-format
 msgid "%s (...)"
-msgstr ""
+msgstr "%s (...)"
 
 #: shell/e-task-widget.c:197
 msgid "%s (%d%% complete)"
-msgstr ""
+msgstr "%s (%d%% 完成)"
+
+#: shell/evolution-shell-component.c:946
+msgid "CORBA error"
+msgstr "CORBA 错误"
+
+#: shell/evolution-shell-component.c:948
+msgid "Interrupted"
+msgstr "被中断"
+
+#: shell/evolution-shell-component.c:950
+msgid "Invalid argument"
+msgstr "非法参数"
+
+#: shell/evolution-shell-component.c:952
+msgid "Already has an owner"
+msgstr "已经有所有者了"
+
+#: shell/evolution-shell-component.c:954
+msgid "No owner"
+msgstr "无所有者"
+
+#: shell/evolution-shell-component.c:956
+msgid "Not found"
+msgstr "没找到"
+
+#: shell/evolution-shell-component.c:958
+msgid "Unsupported type"
+msgstr "不支持的类型"
+
+#: shell/evolution-shell-component.c:960
+msgid "Unsupported schema"
+msgstr "不支持的方案"
+
+#: shell/evolution-shell-component.c:962
+msgid "Unsupported operation"
+msgstr "不支持的操作"
+
+#: shell/evolution-shell-component.c:964
+msgid "Internal error"
+msgstr "内部错误"
+
+#: shell/evolution-shell-component.c:968
+#, fuzzy
+msgid "Exists"
+msgstr "(_x)退出"
+
+#: shell/evolution-shell-component.c:970
+#, fuzzy
+msgid "Invalid URI"
+msgstr "日历 URI"
+
+#: shell/evolution-shell-component.c:974
+msgid "Has subfolders"
+msgstr "含有子文件夹"
+
+#: shell/evolution-shell-component.c:976
+msgid "No space left"
+msgstr "没有剩余空间"
+
+#: shell/evolution-shell-component.c:978
+msgid "Old owner has died"
+msgstr "原所有者已死"
 
 #: shell/evolution-shell-component-utils.c:125
 #, c-format
@@ -11451,47 +11494,47 @@ msgstr ""
 
 #: shell/glade/e-active-connection-dialog.glade.h:1
 msgid "Active connections"
-msgstr ""
+msgstr "活跃连接"
 
 #: shell/glade/e-active-connection-dialog.glade.h:2
 msgid "Click OK to close these connections and go offline"
-msgstr ""
+msgstr "点击确定以关闭这些连接并下线"
 
 #: shell/glade/e-active-connection-dialog.glade.h:3
 msgid "Host"
-msgstr ""
+msgstr "主机"
 
 #: shell/glade/e-active-connection-dialog.glade.h:4
 msgid "The following connections are currently active:"
-msgstr ""
+msgstr "下列连接正处于活跃状态："
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:1
 msgid "Folder name:"
-msgstr ""
+msgstr "文件夹名称："
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:2
 msgid "Folder type:"
-msgstr ""
+msgstr "文件夹类型："
 
 #: shell/glade/e-shell-folder-creation-dialog.glade.h:3
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "指定在那里创建文件夹："
 
 #: shell/glade/evolution-startup-wizard.glade.h:3
 msgid "First Run Setup Assistant"
-msgstr ""
+msgstr "首次运行设置助手"
 
 #: shell/glade/evolution-startup-wizard.glade.h:5
 msgid "Importing Data"
-msgstr ""
+msgstr "导入数据"
 
 #: shell/glade/evolution-startup-wizard.glade.h:8
 msgid "Setup Assistant"
-msgstr ""
+msgstr "设置助手"
 
 #: shell/glade/evolution-startup-wizard.glade.h:9
 msgid "Timezone "
-msgstr ""
+msgstr "时区"
 
 #: shell/glade/evolution-startup-wizard.glade.h:10
 msgid ""
@@ -11502,35 +11545,35 @@ msgstr ""
 
 #: shell/glade/evolution-startup-wizard.glade.h:13
 msgid "Your configuration is complete."
-msgstr ""
+msgstr "您的配置已经完成"
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
+msgstr "点击“导入”以便开始将文件导入到 Evolution。"
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
-msgstr ""
+msgstr "Evolution 导入助手"
 
 #: shell/importer/import.glade.h:3
 msgid "Evolution Importer Assistant"
-msgstr ""
+msgstr "Evolution 导入器助手"
 
 #: shell/importer/import.glade.h:4
 msgid "Import File (step 3 of 3)"
-msgstr ""
+msgstr "导入文件 (3 之 3 步)"
 
 #: shell/importer/import.glade.h:5
 msgid "Importer Type (step 1 of 3)"
-msgstr ""
+msgstr "导入类型 (3 之 1 步)"
 
 #: shell/importer/import.glade.h:6
 msgid "Select Importers (step 2 of 3)"
-msgstr ""
+msgstr "选择导入器 (3 之 2 步)"
 
 #: shell/importer/import.glade.h:7
 msgid "Select a File (step 2 of 3)"
-msgstr ""
+msgstr "选择文件 (3 之 2 步)"
 
 #: shell/importer/import.glade.h:8
 msgid ""
@@ -11538,26 +11581,29 @@ msgid ""
 "With this assistant you will be guided through the process of\n"
 "importing external files into Evolution."
 msgstr ""
+"欢迎使用 Evolution 导入助手。\n"
+"使用本助手，您将在把外部文件导入到\n"
+" Evolution 的全过程得到指导。"
 
 #: shell/importer/intelligent.c:191
 msgid "Importers"
-msgstr ""
+msgstr "导入器"
 
 #: shell/importer/intelligent.c:197
 msgid "Don't import"
-msgstr ""
+msgstr "不要导入"
 
 #: shell/importer/intelligent.c:199
 msgid "Don't ask me again"
-msgstr ""
+msgstr "不要再问我"
 
 #: shell/importer/intelligent.c:209
 msgid "Evolution can import data from the following files:"
-msgstr ""
+msgstr "Evolution 可以从下列文件中导入数据："
 
 #: shell/main.c:86
 msgid "Evolution is now exiting ..."
-msgstr ""
+msgstr "Evolution 正在退出 ..."
 
 #: shell/main.c:190
 #, no-c-format
@@ -11581,112 +11627,114 @@ msgid ""
 "Thanks\n"
 "The Ximian Evolution Team\n"
 msgstr ""
+"谢谢\n"
+"Ximian Evolution 团队\n"
 
 #: shell/main.c:265
 msgid "Cannot access the Ximian Evolution shell."
-msgstr ""
+msgstr "无法访问 Ximian Evolution shell。"
 
 #: shell/main.c:274
 #, c-format
 msgid "Cannot initialize the Ximian Evolution shell: %s"
-msgstr ""
+msgstr "无法初始化 Ximian Evolution shell： %s"
 
-#: shell/main.c:346
+#: shell/main.c:344
 msgid "Disable splash screen"
 msgstr ""
 
-#: shell/main.c:347
+#: shell/main.c:345
 msgid "Send the debugging output of all components to a file."
-msgstr ""
+msgstr "把所有成员的调试输出发送到一个文件中。"
 
-#: shell/main.c:389
+#: shell/main.c:387
 msgid "Cannot initialize the Bonobo component system."
-msgstr ""
+msgstr "无法初始化 Bonobo 成员系统。"
 
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:5
 #: ui/evolution-tasks.xml.h:3
 msgid "Copy"
-msgstr ""
+msgstr "复制"
 
 #: ui/evolution-addressbook.xml.h:3 ui/evolution-calendar.xml.h:3
 msgid "Copy the selection"
-msgstr ""
+msgstr "复制选中内容"
 
 #: ui/evolution-addressbook.xml.h:4
 msgid "Create new contact"
-msgstr ""
+msgstr "创建新的联系人"
 
 #: ui/evolution-addressbook.xml.h:5
 msgid "Create new contact list"
-msgstr ""
+msgstr "创建新的联系人列表"
 
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:6
 msgid "Cut"
-msgstr ""
+msgstr "剪切"
 
 #: ui/evolution-addressbook.xml.h:7 ui/evolution-calendar.xml.h:10
 msgid "Cut the selection"
-msgstr ""
+msgstr "剪切选中内容"
 
 #: ui/evolution-addressbook.xml.h:9
 msgid "Delete selected contacts"
-msgstr ""
+msgstr "删除选中的联系人"
 
 #: ui/evolution-addressbook.xml.h:12
 msgid "New List"
-msgstr ""
+msgstr "新列表"
 
 #: ui/evolution-addressbook.xml.h:13 ui/evolution-tasks.xml.h:11
 msgid "Paste"
-msgstr ""
+msgstr "粘贴"
 
 #: ui/evolution-addressbook.xml.h:14 ui/evolution-calendar.xml.h:23
 msgid "Paste the clipboard"
-msgstr ""
+msgstr "粘贴剪贴板"
 
 #: ui/evolution-addressbook.xml.h:15
 msgid "Previews the contacts to be printed"
-msgstr ""
+msgstr "预览将要打印的联系人"
 
 #: ui/evolution-addressbook.xml.h:18
 msgid "Print selected contacts"
-msgstr ""
+msgstr "打印选中的联系人"
 
 #: ui/evolution-addressbook.xml.h:20
 msgid "Save selected contacts as a VCard."
-msgstr ""
+msgstr "把选中的联系人保存为 VCard。"
 
 #: ui/evolution-addressbook.xml.h:21
 msgid "Select All"
-msgstr ""
+msgstr "全选"
 
 #: ui/evolution-addressbook.xml.h:22
 msgid "Select all contacts"
-msgstr ""
+msgstr "选中所有的联系人"
 
 #: ui/evolution-addressbook.xml.h:23 ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
-msgstr ""
+msgstr "(_m)给联系人发邮件..."
 
 #: ui/evolution-addressbook.xml.h:24
 msgid "Send a mess to the selected contacts."
-msgstr ""
+msgstr "给选定的联系人发邮件。"
 
 #: ui/evolution-addressbook.xml.h:25
 msgid "Send message to contact"
-msgstr ""
+msgstr "给联系人发邮件"
 
 #: ui/evolution-addressbook.xml.h:26
 msgid "Send selected contacts to another person."
-msgstr ""
+msgstr "把选中的联系人发送给其他人。"
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
-msgstr ""
+msgstr "停止"
 
 #: ui/evolution-addressbook.xml.h:28
 msgid "Stop Loading"
-msgstr ""
+msgstr "停止载入"
 
 #: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:34
 #: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
@@ -11699,41 +11747,41 @@ msgstr ""
 
 #: ui/evolution-addressbook.xml.h:30
 msgid "_Addressbook Sources..."
-msgstr ""
+msgstr "(_a)地址本来源..."
 
 #: ui/evolution-addressbook.xml.h:31
 msgid "_Contact"
-msgstr ""
+msgstr "(_c)联系人"
 
 #: ui/evolution-addressbook.xml.h:32
 msgid "_Contact List"
-msgstr ""
+msgstr "(_c)联系人列表"
 
 #: ui/evolution-addressbook.xml.h:35 ui/evolution-contact-editor.xml.h:13
 msgid "_Forward Contact..."
-msgstr ""
+msgstr "(_f)转发联系人..."
 
 #: ui/evolution-addressbook.xml.h:37 ui/evolution-calendar.xml.h:41
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:95
 #: ui/my-evolution.xml.h:7
 msgid "_Print..."
-msgstr ""
+msgstr "(_p)打印..."
 
 #: ui/evolution-addressbook.xml.h:38
 msgid "_Save as VCard"
-msgstr ""
+msgstr "(_s)另存为 VCard"
 
 #: ui/evolution-addressbook.xml.h:39
 msgid "_Search for Contacts"
-msgstr ""
+msgstr "(_s)搜索联系人"
 
 #: ui/evolution-addressbook.xml.h:40
 msgid "_Select All"
-msgstr ""
+msgstr "(_s)全选"
 
 #: ui/evolution-calendar.xml.h:2
 msgid "Configure the calendar's settings"
-msgstr ""
+msgstr "配置日历的设置"
 
 #: ui/evolution-calendar.xml.h:4
 msgid "Create a New All Day _Event"
@@ -11741,23 +11789,23 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:5
 msgid "Create a New _Task"
-msgstr ""
+msgstr "(_t)创建新任务"
 
 #: ui/evolution-calendar.xml.h:6
 msgid "Create a _New Appointment"
-msgstr ""
+msgstr "(_n)创建新约会"
 
 #: ui/evolution-calendar.xml.h:9
 msgid "Create an event for the whole day"
-msgstr ""
+msgstr "为一整天创建一个事件"
 
 #: ui/evolution-calendar.xml.h:11
 msgid "Day"
-msgstr ""
+msgstr "天"
 
 #: ui/evolution-calendar.xml.h:12
 msgid "Delete the appointment"
-msgstr ""
+msgstr "删除约会"
 
 #: ui/evolution-calendar.xml.h:13 ui/evolution-mail-message.xml.h:38
 msgid "Go To"
@@ -11785,27 +11833,27 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:20
 msgid "Month"
-msgstr ""
+msgstr "月"
 
 #: ui/evolution-calendar.xml.h:21
 msgid "New Appointment"
-msgstr ""
+msgstr "新约会"
 
 #: ui/evolution-calendar.xml.h:22 ui/evolution-tasks.xml.h:10
 msgid "New Task"
-msgstr ""
+msgstr "新任务"
 
 #: ui/evolution-calendar.xml.h:24
 msgid "Previews the calendar to be printed"
-msgstr ""
+msgstr "预览将要打印的日历"
 
 #: ui/evolution-calendar.xml.h:25 ui/evolution-comp-editor.xml.h:9
 msgid "Print Pre_view"
-msgstr ""
+msgstr "(_v)打印预览"
 
 #: ui/evolution-calendar.xml.h:26
 msgid "Print this calendar"
-msgstr ""
+msgstr "打印该日历"
 
 #: ui/evolution-calendar.xml.h:27
 msgid "Publish Free/Busy information for this calendar"
@@ -11813,15 +11861,15 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:28
 msgid "Show one day"
-msgstr ""
+msgstr "显示一天"
 
 #: ui/evolution-calendar.xml.h:29
 msgid "Show one month"
-msgstr ""
+msgstr "显示一个月"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one week"
-msgstr ""
+msgstr "显示一周"
 
 #: ui/evolution-calendar.xml.h:31
 msgid "Show the working week"
@@ -11829,23 +11877,23 @@ msgstr ""
 
 #: ui/evolution-calendar.xml.h:32
 msgid "Week"
-msgstr ""
+msgstr "周"
 
 #: ui/evolution-calendar.xml.h:35
 msgid "_Appointment..."
-msgstr ""
+msgstr "(_a)约会..."
 
 #: ui/evolution-calendar.xml.h:36
 msgid "_Calendar Settings..."
-msgstr ""
+msgstr "(_c)日历设置..."
 
 #: ui/evolution-calendar.xml.h:42
 msgid "_Publish Free/Busy Information"
-msgstr ""
+msgstr "(_p)发布忙/闲信息"
 
 #: ui/evolution-calendar.xml.h:43
 msgid "_Task..."
-msgstr ""
+msgstr "(_t)任务..."
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:1
 #: ui/evolution-contact-list-editor.xml.h:1
@@ -11853,50 +11901,50 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:3 ui/evolution-signature-editor.xml.h:1
 #: ui/evolution.xml.h:4
 msgid "Close"
-msgstr ""
+msgstr "关闭"
 
 #: ui/evolution-comp-editor.xml.h:3
 msgid "Close this item"
-msgstr ""
+msgstr "关闭这一项"
 
 #: ui/evolution-comp-editor.xml.h:5 ui/evolution-contact-editor.xml.h:3
 msgid "Delete this item"
-msgstr ""
+msgstr "删除这一项"
 
 #: ui/evolution-comp-editor.xml.h:6 ui/evolution-mail-messagedisplay.xml.h:3
 #: ui/evolution.xml.h:16
 msgid "Main toolbar"
-msgstr ""
+msgstr "主工具条"
 
 #: ui/evolution-comp-editor.xml.h:7
 msgid "Preview the printed item"
-msgstr ""
+msgstr "预览被打印项"
 
 #: ui/evolution-comp-editor.xml.h:10 ui/evolution-contact-editor.xml.h:6
 msgid "Print this item"
-msgstr ""
+msgstr "打印该项"
 
 #: ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
-msgstr ""
+msgstr "打印..."
 
 #: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-list-editor.xml.h:5
 #: ui/evolution-message-composer.xml.h:19
 #: ui/evolution-signature-editor.xml.h:3 widgets/misc/e-filter-bar.c:245
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
 msgid "Save and Close"
-msgstr ""
+msgstr "保存并关闭"
 
 #: ui/evolution-comp-editor.xml.h:15
 msgid "Save the item and close the dialog box"
-msgstr ""
+msgstr "保存项并关闭对话框"
 
 #: ui/evolution-comp-editor.xml.h:16
 msgid "Save this item to disk"
-msgstr ""
+msgstr "把该项保存到磁盘"
 
 #: ui/evolution-comp-editor.xml.h:18 ui/evolution-contact-editor.xml.h:12
 #: ui/evolution-contact-list-editor.xml.h:11
@@ -11905,56 +11953,56 @@ msgstr ""
 #: ui/evolution-signature-editor.xml.h:7 ui/evolution-subscribe.xml.h:11
 #: ui/evolution.xml.h:36
 msgid "_File"
-msgstr ""
+msgstr "(_f)文件"
 
 #: ui/evolution-contact-editor.xml.h:5
 msgid "Print En_velope..."
-msgstr ""
+msgstr "(_v)打印信封..."
 
 #: ui/evolution-contact-editor.xml.h:7
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-message-composer.xml.h:21
 msgid "Save _As..."
-msgstr ""
+msgstr "(_a)另存为..."
 
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
-msgstr ""
+msgstr "保存联系人并关闭对话框"
 
 #: ui/evolution-contact-editor.xml.h:15
 #: ui/evolution-contact-list-editor.xml.h:12
 #: ui/evolution-message-composer.xml.h:53
 #: ui/evolution-signature-editor.xml.h:10
 msgid "_Save"
-msgstr ""
+msgstr "(_s)保存"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
-msgstr ""
+msgstr "删除该列表"
 
 #: ui/evolution-contact-list-editor.xml.h:4
 msgid "Delete..."
-msgstr ""
+msgstr "删除..."
 
 #: ui/evolution-contact-list-editor.xml.h:7
 msgid "Save the list and close the dialog box"
-msgstr ""
+msgstr "保存列表并关闭对话框"
 
 #: ui/evolution-contact-list-editor.xml.h:8
 msgid "Se_nd list to other..."
-msgstr ""
+msgstr "(_n)把列表发送给别人..."
 
 #: ui/evolution-contact-list-editor.xml.h:9
 msgid "Send _message to list..."
-msgstr ""
+msgstr "(_m)把邮件发送到列表..."
 
 #: ui/evolution-event-editor.xml.h:1
 msgid "Cancel Mee_ting"
-msgstr ""
+msgstr "(_t)取消会议"
 
 #: ui/evolution-event-editor.xml.h:2
 msgid "Cancel the meeting for this item"
-msgstr ""
+msgstr "取消该项的会议"
 
 #: ui/evolution-event-editor.xml.h:3 ui/evolution-task-editor.xml.h:5
 msgid "Forward as i_Calendar"
@@ -11962,51 +12010,51 @@ msgstr ""
 
 #: ui/evolution-event-editor.xml.h:4 ui/evolution-task-editor.xml.h:6
 msgid "Forward this item via email"
-msgstr ""
+msgstr "通过电子邮件转发该项"
 
 #: ui/evolution-event-editor.xml.h:5
 msgid "Obtain the latest meeting information"
-msgstr ""
+msgstr "获取最新的会议信息"
 
 #: ui/evolution-event-editor.xml.h:6
 msgid "Re_fresh Meeting"
-msgstr ""
+msgstr "(_f)刷新会议"
 
 #: ui/evolution-event-editor.xml.h:7
 msgid "Schedule _Meeting"
-msgstr ""
+msgstr "(_m)调度会议"
 
 #: ui/evolution-event-editor.xml.h:8
 msgid "Schedule a meeting for this item"
-msgstr ""
+msgstr "为此项调度会议"
 
 #: ui/evolution-executive-summary.xml.h:1
 msgid "Customise My Evolution"
-msgstr ""
+msgstr "定制我的 Evolution"
 
 #: ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: ui/evolution-mail-global.xml.h:2
 msgid "Cancel the current mail operation"
-msgstr ""
+msgstr "取消当前邮件操作"
 
 #: ui/evolution-mail-global.xml.h:3
 msgid "Compose _New Message"
-msgstr ""
+msgstr "(_n)撰写新邮件"
 
 #: ui/evolution-mail-global.xml.h:4
 msgid "Create or edit mail accounts and other preferences"
-msgstr ""
+msgstr "创建或编辑邮件帐号和其他属性"
 
 #: ui/evolution-mail-global.xml.h:5
 msgid "Create or edit rules for filtering new mail"
-msgstr ""
+msgstr "创建或编辑过滤新邮件的规则"
 
 #: ui/evolution-mail-global.xml.h:6
 msgid "Create or edit virtual folder definitions"
-msgstr ""
+msgstr "创建或编辑虚拟文件夹定义"
 
 #: ui/evolution-mail-global.xml.h:7
 msgid "Empty _Trash"
@@ -12014,7 +12062,7 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:8
 msgid "Forget _Passwords"
-msgstr ""
+msgstr "(_p)忘记密码"
 
 #: ui/evolution-mail-global.xml.h:9
 msgid "Forget remembered passwords so you will be prompted for them again"
@@ -12022,112 +12070,112 @@ msgstr ""
 
 #: ui/evolution-mail-global.xml.h:10
 msgid "New Message"
-msgstr ""
+msgstr "新邮件"
 
 #: ui/evolution-mail-global.xml.h:11
 msgid "Open a window for composing a mail message"
-msgstr ""
+msgstr "打开窗口以书写邮件"
 
 #: ui/evolution-mail-global.xml.h:12
 msgid "Permanently remove all deleted messages from all folders"
-msgstr ""
+msgstr "永久删除所有文件夹中的所有已删除的邮件"
 
 #: ui/evolution-mail-global.xml.h:13
 msgid "Send / Receive"
-msgstr ""
+msgstr "发送 / 接收"
 
 #: ui/evolution-mail-global.xml.h:14
 msgid "Send queued mail and retrieve new mail"
-msgstr ""
+msgstr "发送编队的邮件并检索新邮件"
 
 #: ui/evolution-mail-global.xml.h:15
 msgid "Show message preview window"
-msgstr ""
+msgstr "显示邮件预览窗口"
 
 #: ui/evolution-mail-global.xml.h:16
 msgid "Subscribe or unsubscribe to folders on remote servers"
-msgstr ""
+msgstr "订阅 或 取消订阅远程服务器上的文件夹"
 
 #: ui/evolution-mail-global.xml.h:17
 msgid "Virtual Folder _Editor..."
-msgstr ""
+msgstr "(_e)虚拟文件夹编辑器..."
 
 #: ui/evolution-mail-global.xml.h:19
 msgid "_Filters..."
-msgstr ""
+msgstr "(_f)过滤器..."
 
 #: ui/evolution-mail-global.xml.h:20
 msgid "_Mail Message"
-msgstr ""
+msgstr "(_m)邮件消息"
 
 #: ui/evolution-mail-global.xml.h:21
 msgid "_Mail Settings..."
-msgstr ""
+msgstr "(_m)邮件设置..."
 
 #: ui/evolution-mail-global.xml.h:22
 msgid "_Preview Pane"
-msgstr ""
+msgstr "(_p)预览窗口"
 
 #: ui/evolution-mail-global.xml.h:23
 msgid "_Send / Receive"
-msgstr ""
+msgstr "(_s)发送 / 接收"
 
 #: ui/evolution-mail-global.xml.h:24
 msgid "_Subscribe to Folders..."
-msgstr ""
+msgstr "(_s)订阅到文件夹..."
 
 #: ui/evolution-mail-list.xml.h:1
 msgid "Change the properties of this folder"
-msgstr ""
+msgstr "改变该文件夹的属性"
 
 #: ui/evolution-mail-list.xml.h:2
 msgid "Copy selected messages"
-msgstr ""
+msgstr "复制选中的邮件"
 
 #: ui/evolution-mail-list.xml.h:3
 msgid "Cu_t"
-msgstr ""
+msgstr "(_t)剪切"
 
 #: ui/evolution-mail-list.xml.h:4
 msgid "Cut selected messages"
-msgstr ""
+msgstr "剪切选中的邮件"
 
 #: ui/evolution-mail-list.xml.h:5
 msgid "Hide S_elected Messages"
-msgstr ""
+msgstr "(_e)隐藏选中的邮件"
 
 #: ui/evolution-mail-list.xml.h:6
 msgid "Hide _Deleted Messages"
-msgstr ""
+msgstr "(_d)隐藏已删除的邮件"
 
 #: ui/evolution-mail-list.xml.h:7
 msgid "Hide _Read Messages"
-msgstr ""
+msgstr "(_r)隐藏已读邮件"
 
 #: ui/evolution-mail-list.xml.h:8
 msgid ""
 "Hide deleted messages rather than displaying them with a line through them"
-msgstr ""
+msgstr "隐藏已删除的邮件而不是在上面显示一条线"
 
 #: ui/evolution-mail-list.xml.h:9
 msgid "Mark All as R_ead"
-msgstr ""
+msgstr "(_e)标记为已读"
 
 #: ui/evolution-mail-list.xml.h:10
 msgid "Mark all visible messages as read"
-msgstr ""
+msgstr "把所由可见的邮件标记为已读"
 
 #: ui/evolution-mail-list.xml.h:11
 msgid "Paste message in the clipboard"
-msgstr ""
+msgstr "粘贴剪贴板中的邮件"
 
 #: ui/evolution-mail-list.xml.h:12
 msgid "Permanently remove all deleted messages from this folder"
-msgstr ""
+msgstr "从该文件夹永久删除所有已删除的邮件"
 
 #: ui/evolution-mail-list.xml.h:13 ui/evolution-subscribe.xml.h:6
 msgid "Select _All"
-msgstr ""
+msgstr "(_a)全选"
 
 #: ui/evolution-mail-list.xml.h:14
 msgid "Select _Thread"
@@ -12143,23 +12191,23 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:17
 msgid "Select all visible messages"
-msgstr ""
+msgstr "选定所有可见的邮件"
 
 #: ui/evolution-mail-list.xml.h:18
 msgid "Sh_ow Hidden Messages"
-msgstr ""
+msgstr "(_o)显示隐藏邮件"
 
 #: ui/evolution-mail-list.xml.h:19
 msgid "Show messages that have been temporarily hidden"
-msgstr ""
+msgstr "显示暂时被隐藏的邮件"
 
 #: ui/evolution-mail-list.xml.h:20
 msgid "Temporarily hide all messages that have already been read"
-msgstr ""
+msgstr "暂时隐藏所有已读邮件"
 
 #: ui/evolution-mail-list.xml.h:21
 msgid "Temporarily hide the selected messages"
-msgstr ""
+msgstr "暂时隐藏选中邮件"
 
 #: ui/evolution-mail-list.xml.h:22
 msgid "Threaded Message list"
@@ -12171,15 +12219,15 @@ msgstr ""
 
 #: ui/evolution-mail-list.xml.h:27 ui/evolution.xml.h:37
 msgid "_Folder"
-msgstr ""
+msgstr "(_f)文件夹"
 
 #: ui/evolution-mail-list.xml.h:28 ui/evolution-subscribe.xml.h:12
 msgid "_Invert Selection"
-msgstr ""
+msgstr "(_i)反转选择"
 
 #: ui/evolution-mail-list.xml.h:30
 msgid "_Properties..."
-msgstr ""
+msgstr "(_p)属性"
 
 #: ui/evolution-mail-list.xml.h:31
 msgid "_Threaded Message List"
@@ -12187,71 +12235,71 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:1
 msgid "Apply filter rules to the selected messages"
-msgstr ""
+msgstr "将过滤器规则应用于选中的邮件"
 
 #: ui/evolution-mail-message.xml.h:2
 msgid "Compose a reply to all of the recipients of the selected message"
-msgstr ""
+msgstr "为选中邮件的所有接收者撰写回复"
 
 #: ui/evolution-mail-message.xml.h:3
 msgid "Compose a reply to the mailing list of the selected message"
-msgstr ""
+msgstr "为选中邮件的邮件列表撰写回复"
 
 #: ui/evolution-mail-message.xml.h:4
 msgid "Compose a reply to the sender of the selected message"
-msgstr ""
+msgstr "为选中邮件的发送者撰写回复"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Copy selected messages to another folder"
-msgstr ""
+msgstr "把选中的消息复制到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:7
 msgid "Create _Virtual Folder From Message"
-msgstr ""
+msgstr "(_v)从邮件创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:8
 msgid "Create a rule to filter messages from this sender"
-msgstr ""
+msgstr "为来自该发送者的邮件创建邮件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:9
 msgid "Create a rule to filter messages to these recipients"
-msgstr ""
+msgstr "为发送给这些接收者的邮件创建邮件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:10
 msgid "Create a rule to filter messages to this mailing list"
-msgstr ""
+msgstr "为该邮件列表创建邮件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:11
 msgid "Create a rule to filter messages with this subject"
-msgstr ""
+msgstr "为该标题创建邮件过滤规则"
 
 #: ui/evolution-mail-message.xml.h:12
 msgid "Create a virtual folder for these recipients"
-msgstr ""
+msgstr "为这些接收者创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a virtual folder for this mailing list"
-msgstr ""
+msgstr "为该邮件列表创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:14
 msgid "Create a virtual folder for this sender"
-msgstr ""
+msgstr "为该发送者创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:15
 msgid "Create a virtual folder for this subject"
-msgstr ""
+msgstr "为该主题创建虚拟文件夹"
 
 #: ui/evolution-mail-message.xml.h:17
 msgid "Display the next important message"
-msgstr ""
+msgstr "显示下一个重要邮件"
 
 #: ui/evolution-mail-message.xml.h:18
 msgid "Display the next message"
-msgstr ""
+msgstr "显示下一个邮件"
 
 #: ui/evolution-mail-message.xml.h:19
 msgid "Display the next unread message"
-msgstr ""
+msgstr "显示下一个未读文件"
 
 #: ui/evolution-mail-message.xml.h:20
 msgid "Display the next unread thread"
@@ -12259,123 +12307,123 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:21
 msgid "Display the previous important message"
-msgstr ""
+msgstr "显示上一个重要邮件"
 
 #: ui/evolution-mail-message.xml.h:22
 msgid "Display the previous message"
-msgstr ""
+msgstr "显示上一个邮件"
 
 #: ui/evolution-mail-message.xml.h:23
 msgid "Display the previous unread message"
-msgstr ""
+msgstr "显示上一个未读邮件"
 
 #: ui/evolution-mail-message.xml.h:24
 msgid "Filter on Mailing _List..."
-msgstr ""
+msgstr "(_l)关于邮件列表的过滤器..."
 
 #: ui/evolution-mail-message.xml.h:25
 msgid "Filter on Se_nder..."
-msgstr ""
+msgstr "(_n)关于发送者的过滤器..."
 
 #: ui/evolution-mail-message.xml.h:26
 msgid "Filter on _Recipients..."
-msgstr ""
+msgstr "(_r)关于接收者的过滤器..."
 
 #: ui/evolution-mail-message.xml.h:27
 msgid "Filter on _Subject..."
-msgstr ""
+msgstr "(_s)关于主题的过滤器..."
 
 #: ui/evolution-mail-message.xml.h:28
 msgid "Force images in HTML mail to be loaded"
-msgstr ""
+msgstr "强制装入 HTML 邮件中的图像"
 
 #: ui/evolution-mail-message.xml.h:29
 msgid "Forward"
-msgstr ""
+msgstr "转发"
 
 #: ui/evolution-mail-message.xml.h:30
 msgid "Forward As"
-msgstr ""
+msgstr "转发为"
 
 #: ui/evolution-mail-message.xml.h:31
 msgid "Forward _Attached"
-msgstr ""
+msgstr "(_a)以附件方式转发"
 
 #: ui/evolution-mail-message.xml.h:32
 msgid "Forward _Inline"
-msgstr ""
+msgstr "(_i)以导入方式转发"
 
 #: ui/evolution-mail-message.xml.h:33
 msgid "Forward _Quoted"
-msgstr ""
+msgstr "(_q)以引用方式转发"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Forward the selected message in the body of a new message"
-msgstr ""
+msgstr "在新邮件体中转发选定的邮件"
 
 #: ui/evolution-mail-message.xml.h:35
 msgid "Forward the selected message quoted like a reply"
-msgstr ""
+msgstr "以类似于回复的引用方式转发选定的邮件"
 
 #: ui/evolution-mail-message.xml.h:36
 msgid "Forward the selected message to someone"
-msgstr ""
+msgstr "把选定的邮件转发给某人"
 
 #: ui/evolution-mail-message.xml.h:37
 msgid "Forward the selected message to someone as an attachment"
-msgstr ""
+msgstr "把选定的邮件作为附件转发给某人"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Load _Images"
-msgstr ""
+msgstr "(_i)装入图像"
 
 #: ui/evolution-mail-message.xml.h:41
 msgid "Mark as I_mportant"
-msgstr ""
+msgstr "(_m)标记为重要"
 
 #: ui/evolution-mail-message.xml.h:43
 msgid "Mark as Unimp_ortant"
-msgstr ""
+msgstr "(_o)标记为不重要"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark the selected messages as having been read"
-msgstr ""
+msgstr "把选定的邮件标记为已读"
 
 #: ui/evolution-mail-message.xml.h:45
 msgid "Mark the selected messages as important"
-msgstr ""
+msgstr "报选定的邮件标记为重要邮件"
 
 #: ui/evolution-mail-message.xml.h:46
 msgid "Mark the selected messages as not having been read"
-msgstr ""
+msgstr "把选定的邮件标记为未读"
 
 #: ui/evolution-mail-message.xml.h:47
 msgid "Mark the selected messages as unimportant"
-msgstr ""
+msgstr "把选定的邮件标记为不重要邮件"
 
 #: ui/evolution-mail-message.xml.h:48
 msgid "Mark the selected messages for deletion"
-msgstr ""
+msgstr "为选定的邮件做删除标记"
 
 #: ui/evolution-mail-message.xml.h:49
 msgid "Move"
-msgstr ""
+msgstr "移动"
 
 #: ui/evolution-mail-message.xml.h:50
 msgid "Move selected messages to another folder"
-msgstr ""
+msgstr "把选中的邮件移动到其它文件夹"
 
 #: ui/evolution-mail-message.xml.h:51
 msgid "Next"
-msgstr ""
+msgstr "下一个"
 
 #: ui/evolution-mail-message.xml.h:52
 msgid "Next Important Message"
-msgstr ""
+msgstr "下一个重要邮件"
 
 #: ui/evolution-mail-message.xml.h:53
 msgid "Next Message"
-msgstr ""
+msgstr "下一个邮件"
 
 #: ui/evolution-mail-message.xml.h:54
 msgid "Next Thread"
@@ -12383,87 +12431,87 @@ msgstr ""
 
 #: ui/evolution-mail-message.xml.h:55
 msgid "Next Unread Message"
-msgstr ""
+msgstr "下一个未读邮件"
 
 #: ui/evolution-mail-message.xml.h:56
 msgid "Open the selected message in a new window"
-msgstr ""
+msgstr "在新窗口中打开选中的邮件"
 
 #: ui/evolution-mail-message.xml.h:57
 msgid "Open the selected message in the composer to re-send it"
-msgstr ""
+msgstr "在邮件撰写器中打开选中的邮件以便重发"
 
 #: ui/evolution-mail-message.xml.h:58
 msgid "Preview the message to be printed"
-msgstr ""
+msgstr "预览需打印的邮件"
 
 #: ui/evolution-mail-message.xml.h:59
 msgid "Previous"
-msgstr ""
+msgstr "上一个"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Previous Important Message"
-msgstr ""
+msgstr "上一个重要邮件"
 
 #: ui/evolution-mail-message.xml.h:61
 msgid "Previous Message"
-msgstr ""
+msgstr "上一个邮件"
 
 #: ui/evolution-mail-message.xml.h:62
 msgid "Previous Unread Message"
-msgstr ""
+msgstr "上一个未读邮件"
 
 #: ui/evolution-mail-message.xml.h:65
 msgid "Print this message"
-msgstr ""
+msgstr "打印该邮件"
 
 #: ui/evolution-mail-message.xml.h:66
 msgid "Reply"
-msgstr ""
+msgstr "回复"
 
 #: ui/evolution-mail-message.xml.h:67
 msgid "Reply to All"
-msgstr ""
+msgstr "全部回复"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "S_earch Message..."
-msgstr ""
+msgstr "(_e)搜索邮件"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Save the message as a text file"
-msgstr ""
+msgstr "把邮件存为文本文件"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Search for text in the body of the displayed message"
-msgstr ""
+msgstr "在显示的邮件中搜索文本"
 
 #: ui/evolution-mail-message.xml.h:73
 msgid "Setup the page settings for your current printer"
-msgstr ""
+msgstr "设定您当前打印机的页面设置"
 
 #: ui/evolution-mail-message.xml.h:74
 msgid "Show Email _Source"
-msgstr ""
+msgstr "(_s)显示电子邮件源代码"
 
 #: ui/evolution-mail-message.xml.h:75
 msgid "Show Full _Headers"
-msgstr ""
+msgstr "(_h)显示完整的邮件头"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Show message in the normal style"
-msgstr ""
+msgstr "以常用方式显示邮件"
 
 #: ui/evolution-mail-message.xml.h:77
 msgid "Show message with all email headers"
-msgstr ""
+msgstr "显示邮件时显示所有邮件头"
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "Show the raw email source of the message"
-msgstr ""
+msgstr "显示邮件的原始邮件源代码"
 
 #: ui/evolution-mail-message.xml.h:79
 msgid "Un-delete the selected messages"
-msgstr ""
+msgstr "反删除选中的邮件"
 
 #: ui/evolution-mail-message.xml.h:80
 msgid "VFolder on Mailing _List..."
@@ -12540,7 +12588,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:4 ui/evolution-signature-editor.xml.h:2
 msgid "Close the current file"
-msgstr ""
+msgstr "关闭当前文件"
 
 #: ui/evolution-message-composer.xml.h:5
 msgid "Delete all but signature"
@@ -12548,120 +12596,120 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:6
 msgid "Encrypt this message with PGP"
-msgstr ""
+msgstr "用 PGP 加密该邮件"
 
 #: ui/evolution-message-composer.xml.h:7
 msgid "Encrypt this message with your S/MIME Encryption Cetificate"
-msgstr ""
+msgstr "用您的 S/MIME 加密证书加密该邮件"
 
 #: ui/evolution-message-composer.xml.h:8
 msgid "F_ormat"
-msgstr ""
+msgstr "(_o)格式"
 
 #: ui/evolution-message-composer.xml.h:9
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: ui/evolution-message-composer.xml.h:10
 msgid "Inline Text _File..."
-msgstr ""
+msgstr "(_f)内联文本文件..."
 
 #: ui/evolution-message-composer.xml.h:11
 msgid "Insert a file as text into the message"
-msgstr ""
+msgstr "把文件作为文本插入邮件"
 
 #: ui/evolution-message-composer.xml.h:12
 msgid "Insert text file..."
-msgstr ""
+msgstr "插入文本文件..."
 
 #: ui/evolution-message-composer.xml.h:14
 msgid "Open a file"
-msgstr ""
+msgstr "打开文件"
 
 #: ui/evolution-message-composer.xml.h:15
 msgid "PGP Encrypt"
-msgstr ""
+msgstr "PGP 加密"
 
 #: ui/evolution-message-composer.xml.h:16
 msgid "PGP Sign"
-msgstr ""
+msgstr "PGP 签名"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "S/MIME Encrypt"
-msgstr ""
+msgstr "S/MIME 加密"
 
 #: ui/evolution-message-composer.xml.h:18
 msgid "S/MIME Sign"
-msgstr ""
+msgstr "S/MIME 签名"
 
 #: ui/evolution-message-composer.xml.h:20
 msgid "Save As"
-msgstr ""
+msgstr "另存为"
 
 #: ui/evolution-message-composer.xml.h:22
 msgid "Save _Draft"
-msgstr ""
+msgstr "(_d)保存草稿"
 
 #: ui/evolution-message-composer.xml.h:23
 msgid "Save in folder..."
-msgstr ""
+msgstr "保存到文件夹..."
 
 #: ui/evolution-message-composer.xml.h:24
 #: ui/evolution-signature-editor.xml.h:4
 msgid "Save the current file"
-msgstr ""
+msgstr "保存当前文件"
 
 #: ui/evolution-message-composer.xml.h:25
 msgid "Save the current file with a different name"
-msgstr ""
+msgstr "用不同的文件名保存当前文件"
 
 #: ui/evolution-message-composer.xml.h:26
 msgid "Save the message in a specified folder"
-msgstr ""
+msgstr "在指定的文件夹中保存邮件"
 
 #: ui/evolution-message-composer.xml.h:27
 msgid "Send"
-msgstr ""
+msgstr "发送"
 
 #: ui/evolution-message-composer.xml.h:28
 msgid "Send _Later"
-msgstr ""
+msgstr "(_l)以后发送"
 
 #: ui/evolution-message-composer.xml.h:29
 msgid "Send _later"
-msgstr ""
+msgstr "(_l)以后发送"
 
 #: ui/evolution-message-composer.xml.h:30
 msgid "Send the mail in HTML format"
-msgstr ""
+msgstr "以 HTML 格式发送邮件"
 
 #: ui/evolution-message-composer.xml.h:31
 msgid "Send the message later"
-msgstr ""
+msgstr "以后再发送邮件"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Send this message now"
-msgstr ""
+msgstr "现在发送邮件"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Show / hide attachments"
-msgstr ""
+msgstr "显示 / 隐藏附件"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Show _attachments"
-msgstr ""
+msgstr "(_a)显示附件"
 
 #: ui/evolution-message-composer.xml.h:35
 msgid "Show attachments"
-msgstr ""
+msgstr "显示附件"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Sign this message with your PGP key"
-msgstr ""
+msgstr "用您的 PGP 密钥签名该邮件"
 
 #: ui/evolution-message-composer.xml.h:37
 msgid "Sign this message with your S/MIME Signature Certificate"
-msgstr ""
+msgstr "用您的 S/MIME 签名认证签名该邮件"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "Toggles whether the BCC field is displayed"
@@ -12681,7 +12729,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:42
 msgid "_Attachment..."
-msgstr ""
+msgstr "(_a)附件..."
 
 #: ui/evolution-message-composer.xml.h:43
 msgid "_Bcc Field"
@@ -12693,7 +12741,7 @@ msgstr ""
 
 #: ui/evolution-message-composer.xml.h:46
 msgid "_Delete all"
-msgstr ""
+msgstr "(_d)全部删除"
 
 #: ui/evolution-message-composer.xml.h:49
 msgid "_From Field"
@@ -12702,107 +12750,107 @@ msgstr ""
 #: ui/evolution-message-composer.xml.h:50
 #: ui/evolution-signature-editor.xml.h:9
 msgid "_Insert"
-msgstr ""
+msgstr "(_i)插入"
 
 #: ui/evolution-message-composer.xml.h:51
 msgid "_Open..."
-msgstr ""
+msgstr "(_o)打开..."
 
 #: ui/evolution-message-composer.xml.h:52
 msgid "_Reply-To Field"
-msgstr ""
+msgstr "（_r)回复域"
 
 #: ui/evolution-message-composer.xml.h:54
 msgid "_Security"
-msgstr ""
+msgstr "(_s)安全"
 
 #: ui/evolution-signature-editor.xml.h:8 ui/evolution.xml.h:40
 msgid "_Help"
-msgstr ""
+msgstr "(_h)求助"
 
 #: ui/evolution-subscribe.xml.h:1
 msgid "Add folder to your list of subscribed folders"
-msgstr ""
+msgstr "把文件夹添加到您的订阅文件夹列表中去"
 
 #: ui/evolution-subscribe.xml.h:2
 msgid "F_older"
-msgstr ""
+msgstr "(_o)文件夹"
 
 #: ui/evolution-subscribe.xml.h:3
 msgid "Refresh List"
-msgstr ""
+msgstr "刷新列表"
 
 #: ui/evolution-subscribe.xml.h:4
 msgid "Refresh List of Folders"
-msgstr ""
+msgstr "刷新文件夹列表"
 
 #: ui/evolution-subscribe.xml.h:5
 msgid "Remove folder from your list of subscribed folders"
-msgstr ""
+msgstr "从您的订阅文件夹列表中删除文件夹"
 
 #: ui/evolution-subscribe.xml.h:7
 msgid "Subscribe"
-msgstr ""
+msgstr "订阅"
 
 #: ui/evolution-subscribe.xml.h:8
 msgid "Unsubscribe"
-msgstr ""
+msgstr "取消订阅"
 
 #: ui/evolution-task-editor.xml.h:1
 msgid "Assign Task"
-msgstr ""
+msgstr "委派任务"
 
 #: ui/evolution-task-editor.xml.h:2
 msgid "Assign this task to others"
-msgstr ""
+msgstr "把该任务委派给别人"
 
 #: ui/evolution-task-editor.xml.h:3
 msgid "Cancel Task"
-msgstr ""
+msgstr "取消任务"
 
 #: ui/evolution-task-editor.xml.h:4
 msgid "Cancel this task"
-msgstr ""
+msgstr "取消该任务"
 
 #: ui/evolution-task-editor.xml.h:7
 msgid "Obtain the latest task information"
-msgstr ""
+msgstr "获取最新的任务信息"
 
 #: ui/evolution-task-editor.xml.h:8
 msgid "Re_fresh Task"
-msgstr ""
+msgstr "(_f)刷新任务"
 
 #: ui/evolution-tasks.xml.h:2
 msgid "Configure the task view's settings"
-msgstr ""
+msgstr "配置任务试图的设置"
 
 #: ui/evolution-tasks.xml.h:4
 msgid "Copy selected task"
-msgstr ""
+msgstr "复制选中的任务"
 
 #: ui/evolution-tasks.xml.h:7
 msgid "Cut selected task"
-msgstr ""
+msgstr "剪切选中的任务"
 
 #: ui/evolution-tasks.xml.h:9
 msgid "Delete selected tasks"
-msgstr ""
+msgstr "删除选中的任务"
 
 #: ui/evolution-tasks.xml.h:12
 msgid "Paste task from the clipboard"
-msgstr ""
+msgstr "从剪贴板中粘贴任务"
 
 #: ui/evolution-tasks.xml.h:13
 msgid "Tasks Settings..."
-msgstr ""
+msgstr "任务设置..."
 
 #: ui/evolution-tasks.xml.h:18
 msgid "_Task"
-msgstr ""
+msgstr "(_t)任务"
 
 #: ui/evolution.xml.h:1
 msgid "About Ximian Evolution..."
-msgstr ""
+msgstr "关于 Ximian Evolution..."
 
 #: ui/evolution.xml.h:2
 msgid "Add to _Shortcut Bar"
@@ -12810,15 +12858,15 @@ msgstr ""
 
 #: ui/evolution.xml.h:3
 msgid "Change the name of this folder"
-msgstr ""
+msgstr "改变该文件夹的名称"
 
 #: ui/evolution.xml.h:6
 msgid "Copy this folder"
-msgstr ""
+msgstr "复制该文件夹"
 
 #: ui/evolution.xml.h:7
 msgid "Create _New Folder..."
-msgstr ""
+msgstr "(_n)创建新文件夹..."
 
 #: ui/evolution.xml.h:8
 msgid "Create a link to this folder in the shortcut bar"
@@ -12826,59 +12874,59 @@ msgstr ""
 
 #: ui/evolution.xml.h:9
 msgid "Create a new folder"
-msgstr ""
+msgstr "创建新文件夹"
 
 #: ui/evolution.xml.h:10
 msgid "Delete this folder"
-msgstr ""
+msgstr "删除该文件夹"
 
 #: ui/evolution.xml.h:11
 msgid "Display a different folder"
-msgstr ""
+msgstr "显示另一个文件夹"
 
 #: ui/evolution.xml.h:12
 msgid "E_xit"
-msgstr ""
+msgstr "(_x)退出"
 
 #: ui/evolution.xml.h:13
 msgid "Evolution _Window"
-msgstr ""
+msgstr "(_w)Evolution 窗口"
 
 #: ui/evolution.xml.h:14
 msgid "Exit the program"
-msgstr ""
+msgstr "退出程序"
 
 #: ui/evolution.xml.h:15
 msgid "Import data from other programs"
-msgstr ""
+msgstr "从其他程序导入数据"
 
 #: ui/evolution.xml.h:17
 msgid "Move this folder to another place"
-msgstr ""
+msgstr "把该文件夹移到其他位置"
 
 #: ui/evolution.xml.h:18
 msgid "Open in New Window"
-msgstr ""
+msgstr "在新窗口中打开"
 
 #: ui/evolution.xml.h:20
 msgid "Open this folder in an other window"
-msgstr ""
+msgstr "在另一个窗口中打开该文件夹"
 
 #: ui/evolution.xml.h:21
 msgid "Show information about Ximian Evolution"
-msgstr ""
+msgstr "显示关于 Ximian Evolution 的信息"
 
 #: ui/evolution.xml.h:22
 msgid "Submit Bug Report"
-msgstr ""
+msgstr "提交错误报告"
 
 #: ui/evolution.xml.h:23
 msgid "Submit _Bug Report"
-msgstr ""
+msgstr "(_b)提交错误报告"
 
 #: ui/evolution.xml.h:24
 msgid "Submit a bug report using Bug Buddy"
-msgstr ""
+msgstr "用 Bug Buddy 提交错误报告"
 
 #: ui/evolution.xml.h:25
 msgid "Toggle"
@@ -12978,27 +13026,27 @@ msgstr ""
 
 #: views/addressbook/galview.xml.h:1
 msgid "Address Cards"
-msgstr ""
+msgstr "地址卡片"
 
 #: views/addressbook/galview.xml.h:2
 msgid "By Company"
-msgstr ""
+msgstr "按公司"
 
 #: views/addressbook/galview.xml.h:3
 msgid "Phone List"
-msgstr ""
+msgstr "电话列表"
 
 #: views/mail/galview.xml.h:1
 msgid "By Sender"
-msgstr ""
+msgstr "按发送者"
 
 #: views/mail/galview.xml.h:2
 msgid "By Status"
-msgstr ""
+msgstr "按状态"
 
 #: views/mail/galview.xml.h:3
 msgid "By Subject"
-msgstr ""
+msgstr "按主题"
 
 #: views/mail/galview.xml.h:4
 msgid "Messages"
@@ -13010,15 +13058,15 @@ msgstr ""
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
 msgid "Select a Time Zone"
-msgstr ""
+msgstr "选择一个时区"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:2
 msgid "Selection:"
-msgstr ""
+msgstr "选择："
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:3
 msgid "Time Zones"
-msgstr ""
+msgstr "时区"
 
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:4
 msgid ""
@@ -13027,11 +13075,11 @@ msgid ""
 " Use the right mouse button to zoom out."
 msgstr ""
 
-#: widgets/menus/gal-view-menus.c:218
+#: widgets/menus/gal-view-menus.c:219
 msgid "_Current View"
 msgstr ""
 
-#: widgets/menus/gal-view-menus.c:260
+#: widgets/menus/gal-view-menus.c:261
 msgid "Define Views"
 msgstr ""
 
@@ -13048,11 +13096,11 @@ msgstr ""
 
 #: widgets/misc/e-cell-date-edit.c:224 widgets/misc/e-dateedit.c:439
 msgid "Now"
-msgstr ""
+msgstr "现在"
 
 #: widgets/misc/e-cell-date-edit.c:232 widgets/misc/e-dateedit.c:445
 msgid "Today"
-msgstr ""
+msgstr "今天"
 
 #: widgets/misc/e-cell-date-edit.c:738
 #, c-format
@@ -13065,11 +13113,11 @@ msgstr ""
 
 #: widgets/misc/e-charset-picker.c:60
 msgid "Central European"
-msgstr ""
+msgstr "中欧"
 
 #: widgets/misc/e-charset-picker.c:61
 msgid "Chinese"
-msgstr ""
+msgstr "中文"
 
 #: widgets/misc/e-charset-picker.c:62
 msgid "Cyrillic"
@@ -13081,11 +13129,11 @@ msgstr ""
 
 #: widgets/misc/e-charset-picker.c:64
 msgid "Japanese"
-msgstr ""
+msgstr "日文"
 
 #: widgets/misc/e-charset-picker.c:65
 msgid "Korean"
-msgstr ""
+msgstr "韩语"
 
 #: widgets/misc/e-charset-picker.c:66
 msgid "Turkish"
@@ -13093,19 +13141,19 @@ msgstr ""
 
 #: widgets/misc/e-charset-picker.c:67
 msgid "Unicode"
-msgstr ""
+msgstr "Unicode"
 
 #: widgets/misc/e-charset-picker.c:68
 msgid "Western European"
-msgstr ""
+msgstr "西欧"
 
 #: widgets/misc/e-charset-picker.c:85
 msgid "Traditional"
-msgstr ""
+msgstr "繁体"
 
 #: widgets/misc/e-charset-picker.c:86 widgets/misc/e-charset-picker.c:87
 msgid "Simplified"
-msgstr ""
+msgstr "简体"
 
 #: widgets/misc/e-charset-picker.c:91
 msgid "Ukrainian"
@@ -13118,83 +13166,83 @@ msgstr ""
 #: widgets/misc/e-charset-picker.c:160
 #, c-format
 msgid "Unknown character set: %s"
-msgstr ""
+msgstr "未知的字符集： %s"
 
 #: widgets/misc/e-charset-picker.c:202
 msgid "Enter the character set to use"
-msgstr ""
+msgstr "输入要使用的字符集"
 
 #: widgets/misc/e-charset-picker.c:277
 msgid "Other..."
-msgstr ""
+msgstr "其他..."
 
 #: widgets/misc/e-charset-picker.c:396
 msgid "Character Encoding"
-msgstr ""
+msgstr "字符编码"
 
 #: widgets/misc/e-clipped-label.c:112
 msgid "..."
-msgstr ""
+msgstr "..."
 
 #: widgets/misc/e-filter-bar.c:158
 msgid "Search Editor"
-msgstr ""
+msgstr "搜索编辑器"
 
 #: widgets/misc/e-filter-bar.c:174
 msgid "Save Search"
-msgstr ""
+msgstr "保存搜索"
 
 #: widgets/misc/e-filter-bar.h:102
 msgid "Show All"
-msgstr ""
+msgstr "全部显示"
 
 #: widgets/misc/e-messagebox.c:152
 msgid "Information"
-msgstr ""
+msgstr "信息"
 
 #: widgets/misc/e-messagebox.c:166
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: widgets/misc/e-messagebox.c:173
 msgid "Question"
-msgstr ""
+msgstr "问题"
 
 #: widgets/misc/e-messagebox.c:180
 msgid "Message"
-msgstr ""
+msgstr "邮件"
 
 #. Add the "Don't show this message again." checkbox
 #: widgets/misc/e-messagebox.c:224
 msgid "Don't show this message again."
-msgstr ""
+msgstr "不再显示该邮件。"
 
 #: widgets/misc/e-search-bar.c:334
 msgid "Sear_ch"
-msgstr ""
+msgstr "(_c)搜索"
 
 #: widgets/misc/e-search-bar.c:460
 msgid "Find Now"
-msgstr ""
+msgstr "立即查找"
 
 #: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:1
 #: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:1
 msgid "The Personal Addressbook Server"
-msgstr ""
+msgstr "个人地址本服务器"
 
 #: wombat/GNOME_Evolution_WombatLDAP.oaf.in.h:2
 #: wombat/GNOME_Evolution_WombatNOLDAP.oaf.in.h:2
 msgid "The Personal Calendar Server; calendar factory"
-msgstr ""
+msgstr "个人日历服务器；日历工厂"
 
 #: wombat/wombat.c:193
 msgid "setup_vfs(): could not initialize GNOME-VFS"
-msgstr ""
+msgstr "setup_vfs()： 无法初始化 GNOME-VFS"
 
 #: wombat/wombat.c:205
 msgid "init_corba(): could not initialize GNOME"
-msgstr ""
+msgstr "init_corba()： 无法初始化 GNOME"
 
 #: wombat/wombat.c:218
 msgid "init_bonobo(): could not initialize Bonobo"
-msgstr ""
+msgstr "init_bonobo()： 无法初始化 Bonobo"
