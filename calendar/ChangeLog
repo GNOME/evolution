@@ -1,3 +1,7 @@
+2001-02-23  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-db.c (add_history): fixed generation of history records
+
 2001-02-16  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal-factory.c (CalFactoryPrivate): Added a `registered'

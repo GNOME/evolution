@@ -542,7 +542,7 @@ open_database_file (CalBackendDB *cbdb, const gchar *str_uri, gboolean only_if_e
 		                                   str_uri,
 		                                   "calendar_history",
 		                                   DB_BTREE,
-		                                   DB_CREATE,
+		                                   DB_CREATE | DB_THREAD,
 		                                   0644);
 		if (ret == 0) return TRUE;
 
@@ -1368,6 +1368,39 @@ do_notify (CalBackendDB *cbdb, void (*notify_fn)(Cal *, gchar *), const gchar *u
 	}
 }
 
+/* adds a record to the history database */
+static gboolean
+add_history (CalBackendDB *cbdb, DB_TXN *tid, const gchar *uid, const gchar *calobj)
+{
+	DBT key;
+	DBT new_data;
+	gint ret;
+
+	g_return_val_if_fail(IS_CAL_BACKEND_DB(cbdb), FALSE);
+	g_return_val_if_fail(uid != NULL, FALSE);
+	g_return_val_if_fail(calobj != NULL, FALSE);
+
+	/* fill in DBT structures */
+	memset(&key, 0, sizeof(key));
+	key.data = (void *) uid;
+	key.size = strlen(uid); // + 1
+
+	memset(&new_data, 0, sizeof(new_data));
+	new_data.data = (void *) calobj;
+	new_data.size = strlen(calobj); // + 1
+
+	/* add the new record to the database */
+	if ((ret = cbdb->priv->history_db->put(cbdb->priv->objects_db,
+	                                       tid,
+	                                       &key,
+	                                       &new_data,
+	                                       0)) != 0) {
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
 /* update_object handler for the DB backend */
 static gboolean
 cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *calobj)
@@ -1407,7 +1440,10 @@ cal_backend_db_update_object (CalBackend *backend, const char *uid, const char *
 		return FALSE;
 	}
 			
-	/* TODO: update history database */
+	if (!add_history(cbdb, tid, uid, calobj)) {
+		rollback_transaction(tid);
+		return FALSE;
+	}
 	commit_transaction(tid);
 	
 	do_notify(cbdb, cal_notify_update, uid);
