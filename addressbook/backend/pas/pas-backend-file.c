@@ -22,6 +22,7 @@
 #include "pas-card-cursor.h"
 #include <ebook/e-card.h>
 #include <e-util/e-sexp.h>
+#include <e-util/e-util.h>
 
 #define PAS_BACKEND_FILE_VERSION_NAME "PAS-DB-VERSION"
 #define PAS_BACKEND_FILE_VERSION "0.1"
@@ -311,7 +312,7 @@ func_contains(struct _ESExp *f, int argc, struct _ESExpResult **argv, void *data
 {
 	PASBackendFileSearchContext *ctx = data;
 
-	return entry_compare (ctx, f, argc, argv, strstr);
+	return entry_compare (ctx, f, argc, argv, e_strstrcase);
 }
 
 static char *

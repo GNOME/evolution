@@ -333,7 +333,7 @@ imap_connect (CamelService *service, CamelException *ex)
 				      "Unknown error");
 	}
 	
-	if (strstrcase (result, "SEARCH"))
+	if (e_strstrcase (result, "SEARCH"))
 		store->has_search_capability = TRUE;
 	else
 		store->has_search_capability = FALSE;
@@ -559,13 +559,13 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 			}
 
 			if (p) {
-				if (strstrcase (p, "READ-WRITE"))
+				if (e_strstrcase (p, "READ-WRITE"))
 					mode = 
 			}
 #endif
 		}
 #if 0
-		if ((recent = strstrcase (r, "RECENT"))) {
+		if ((recent = e_strstrcase (r, "RECENT"))) {
 			char *p;
 			
 			for (p = recent; p > r && *p != '*'; p--);
@@ -678,7 +678,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 			return s;
 		}
 #if 0
-		if ((recent = strstrcase (r, "RECENT"))) {
+		if ((recent = e_strstrcase (r, "RECENT"))) {
 			char *p;
 			
 			for (p = recent; p > r && *p != '*'; p--);

@@ -56,8 +56,6 @@ void     string_trim            (gchar *string, const gchar *chars,
 
 gchar   *string_prefix (const gchar *s, const gchar *suffix, gboolean *suffix_found);
 
-gchar   *strstrcase (const gchar *haystack, const gchar *needle);
-
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
