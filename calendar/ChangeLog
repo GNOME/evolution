@@ -1,5 +1,13 @@
 2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/alarm-notify.c (add_component_alarms): If the component has
+	no alarms, do not try to queue them.
+	(remove_client_alarms): New function to remove all the queued
+	alarms for a calendar client.
+	(alarm_notify_remove_client): Remove the client's alarms.
+
+2001-01-02  Federico Mena Quintero  <federico@helixcode.com>
+
 	* gui/dialogs/delete-comp.c (delete_component_dialog): Do not
 	compose strings so that they can be localized correctly.  Also,
 	convert from UTF8 into the font's encoding.  Fixes bug #1030.

@@ -204,6 +204,12 @@ add_component_alarms (ClientAlarms *ca, CalComponentAlarms *alarms)
 	CompQueuedAlarms *cqa;
 	GSList *l;
 
+	/* No alarms? */
+	if (alarms->alarms == NULL) {
+		cal_component_alarms_free (alarms);
+		return;
+	}
+
 	cqa = g_new (CompQueuedAlarms, 1);
 	cqa->parent_client = ca;
 	cqa->alarms = alarms;
@@ -469,6 +475,46 @@ alarm_notify_add_client (CalClient *client)
 		load_alarms (ca);
 }
 
+/* Called from g_hash_table_foreach(); adds a component UID to a list */
+static void
+add_uid_cb (gpointer key, gpointer value, gpointer data)
+{
+	GSList **uids;
+	const char *uid;
+
+	uids = data;
+	uid = key;
+
+	*uids = g_slist_prepend (*uids, (char *) uid);
+}
+
+/* Removes all the alarms queued for a particular calendar client */
+static void
+remove_client_alarms (ClientAlarms *ca)
+{
+	GSList *uids;
+	GSList *l;
+
+	/* First we build a list of UIDs so that we can remove them one by one */
+
+	uids = NULL;
+	g_hash_table_foreach (ca->uid_alarms_hash, add_uid_cb, &uids);
+
+	for (l = uids; l; l = l->next) {
+		const char *uid;
+
+		uid = l->data;
+
+		remove_comp (ca, uid);
+	}
+
+	g_slist_free (uids);
+
+	/* The hash table should be empty now */
+
+	g_assert (g_hash_table_size (ca->uid_alarms_hash) == 0);
+}
+
 /**
  * alarm_notify_remove_client:
  * @client: A calendar client.
@@ -493,7 +539,7 @@ alarm_notify_remove_client (CalClient *client)
 	if (ca->refcount > 0)
 		return;
 
-	/* FIXME: remove alarms */
+	remove_client_alarms (ca);
 
 	/* Clean up */
 

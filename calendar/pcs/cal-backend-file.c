@@ -1293,9 +1293,8 @@ cal_backend_file_get_alarms_for_object (CalBackend *backend, const char *uid,
 	if (alarms) {
 		fill_alarm_instances_seq (&corba_alarms->alarms, alarms->alarms);
 		cal_component_alarms_free (alarms);
-	} else {
+	} else
 		fill_alarm_instances_seq (&corba_alarms->alarms, NULL);
-	}
 
 	return corba_alarms;
 }
