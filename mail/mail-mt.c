@@ -247,7 +247,8 @@ void mail_msg_check_error(void *msg)
 		return;
 	
 	if (!camel_exception_is_set(&m->ex)
-	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
+	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL
+	    || m->ex.id == CAMEL_EXCEPTION_FOLDER_INVALID_UID)
 		return;
 
 	if (active_errors == NULL)

@@ -1,5 +1,11 @@
 2004-05-20  Not Zed  <NotZed@Ximian.com>
 
+	** See #58388.
+
+	* mail-mt.c (mail_msg_check_error): surpress any errors about
+	messages not found because of invalid uid's.  They're really just
+	internal errors.
+
 	** See #57583.
 
 	* message-list.c (build_tree): save/restore the selection when we
