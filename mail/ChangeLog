@@ -1,3 +1,9 @@
+2004-04-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-format.c: Don't complain about message errors ("Internal
+	Error: ..."), instead silently fall back to display the message as
+	source. Fixes bug #56876.
+
 2004-04-14  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-view.c (emfv_set_folder_uri): ugh, use the queued

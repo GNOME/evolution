@@ -1082,7 +1082,6 @@ emf_multipart_appledouble(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 	int len;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_error(emf, stream, _("Internal error: expecting CamelMultipart, got \"%s\""), ((CamelObject *)mp)->klass->name);
 		em_format_format_source(emf, stream, part);
 		return;
 	}
@@ -1102,7 +1101,6 @@ emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 	int i, nparts, len;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_error(emf, stream, _("Internal error: expecting CamelMultipart, got \"%s\""), ((CamelObject *)mp)->klass->name);
 		em_format_format_source(emf, stream, part);
 		return;
 	}
@@ -1126,7 +1124,6 @@ emf_multipart_alternative(EMFormat *emf, CamelStream *stream, CamelMimePart *par
 	CamelMimePart *best = NULL;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_error(emf, stream, _("Internal error: expecting CamelMultipart, got \"%s\""), ((CamelObject *)mp)->klass->name);
 		em_format_format_source(emf, stream, part);
 		return;
 	}
@@ -1219,7 +1216,6 @@ emf_multipart_related(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 	EMFormatPURI *puri, *purin;
 
 	if (!CAMEL_IS_MULTIPART(mp)) {
-		em_format_format_error(emf, stream, _("Internal error: expecting CamelMultipart, got \"%s\""), ((CamelObject *)mp)->klass->name);
 		em_format_format_source(emf, stream, part);
 		return;
 	}
@@ -1368,7 +1364,6 @@ emf_message_rfc822(EMFormat *emf, CamelStream *stream, CamelMimePart *part, cons
 	int len;
 
 	if (!CAMEL_IS_MIME_MESSAGE(dw)) {
-		em_format_format_error(emf, stream, _("Internal error: expecting CamelMimeMessage, got \"%s\""), ((CamelObject *)dw)->klass->name);
 		em_format_format_source(emf, stream, part);
 		return;
 	}
