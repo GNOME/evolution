@@ -745,9 +745,6 @@ migration_context_new (AddressbookComponent *component)
 
 	context->source_list = addressbook_component_peek_source_list (component);
 
-	/* initialize our dialog */
-	setup_progress_dialog (context);
-
 	context->component = component;
 
 	return context;
@@ -786,6 +783,8 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 		    ||
 		    /* we're 0.x */
 		    (major == 0)) {
+			/* initialize our dialog */
+			setup_progress_dialog (context);
 
 			if (on_this_computer) {
 				migrate_local_folders (context, on_this_computer, personal_source);
