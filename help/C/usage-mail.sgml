@@ -120,15 +120,15 @@
 		When you press <guibutton>Delete</guibutton> or click
 		the trash button, your mail isn't actually deleted,
 		but is marked for deletion.  Your email is not gone
-		until you have expunged it. When you "Expunge" a
+		until you have <glossterm linkend="expunge">expunged</glossterm> it. When you "Expunge" a
 		folder, you remove all the mail that you have marked
 		for deletion.
 	      </para>
               <para>
                  If you don't like this behavior, select
                  <menuchoice><guimenu>View</guimenu><guimenuitem>Hide
-                 Deleted Messages</guimenuitem></menuchoice>. Then,
-                 you will only see deleted messages when you look in
+                 Deleted Messages</guimenuitem></menuchoice>.
+                 You will only see deleted messages when you look in
                  your <guilabel>Trash</guilabel> folder.
               </para>
 	    </note>
@@ -188,7 +188,7 @@
 	      <title>What does Undelete actually do?</title>
 	      <para>
                 If you have marked a message for deletion, undeleting
-		it will unmark it, and the message will be removed
+		it will unmark it and the message will be removed
 		from the Trash folder. However, it can't bring back
 		messages that have been expunged.
 	      </para>
@@ -214,17 +214,17 @@
       <itemizedlist>
 	<listitem>
 	  <para>
-	    your personal information
+	    Your personal information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    your outgoing email server information
+	    Your outgoing email server information
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    your mail account identity name
+	    Your mail account identity name
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -240,54 +240,52 @@
       <title>Can't Check Mail?</title>
       <para>
 	If you get an error message instead of mail, you probably need
-	to check your network settings.  To learn how to do that, have
-	a look at <xref linkend="config-prefs-mail">, or ask your
-	system administrator.
+	to check your network settings.  For more information on your
+	network seeings, refer to <xref linkend="config-prefs-mail">,
+	or ask your system administrator.
        </para>
      </note>
 
-
-
-          <tip>
-            <title>Sharing Mailboxes with Other Mail Programs</title>
-            <para>
-              If you want to use <application>Evolution</application>
-              and another email client, such as
-              <application>Mutt</application>, at the same time,
-              here's how:
-              <orderedlist numeration="arabic">
-                <listitem>
-                   <para>
-                      Download your mail in the other application as
-                      you would normally.
-                   </para>
-                  </listitem>
-                <listitem>
-                   <para>
-                      In <application>Evolution</application>
-                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
-                      Settings</guimenuitem></menuchoice>, and pick the account
-                      you'd like to use to share mail. You may want to
-                      create a new account just for this source of
-                      mail.
-                   </para>
-               </listitem>                     
-               <listitem>
-                   <para>
-                      Under the <guilabel>Receiving Mail</guilabel>
-                      tab, select the type of mail file that your
-                      other mail application uses, and then enter the
-                      full path to that file.
-                   </para>
-                  </listitem>
-                <listitem>
-                   <para>
-                      Click the <guibutton>OK</guibutton> button.
-                   </para>
-                  </listitem>
-                </orderedlist>
-               </para>
-            </tip>
+    <tip>
+      <title>Sharing Mailboxes with Other Mail Programs</title>
+      <para>
+	If you want to use <application>Evolution</application>
+	and another email client, such as
+	<application>Mutt</application>, at the same time,
+	here's how:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Download your mail in the other application as
+	      you would normally.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      In <application>Evolution</application>
+	      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
+		  Settings</guimenuitem></menuchoice>, and pick the account
+	      you'd like to use to share mail. You may want to
+	      create a new account just for this source of
+	      mail.
+	    </para>
+	  </listitem>                     
+	  <listitem>
+	    <para>
+	      Under the <guilabel>Receiving Mail</guilabel>
+	      tab, select the type of mail file that your
+	      other mail application uses, and then enter the
+	      full path to that file.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the <guibutton>OK</guibutton> button.
+	    </para>
+	  </listitem>
+	</orderedlist>
+      </para>
+    </tip>
 
 
 <!-- NOT FOR 1.0
@@ -307,90 +305,93 @@
 -->
 
      <sect2 id="usage-mail-getnsend-get-attach">
-	 <title>Working with Attachments and HTML Mail</title>
-	 <para>
-	   If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
-	   a file attached to an email,
-	   <application>Evolution</application> will display the file
-	   at the bottom of the message to which it's attached.  Text,
-	   including HTML formatting and embedded images, will appear
-	   as part of the message, rather than at the end of the
-	   message as an attachment.
-     </para>
+      <title>Working with Attachments and HTML Mail</title>
+      <para>
+	If someone sends you an <glossterm linkend="attachment">attachment</glossterm>,
+	a file attached to an email,
+	<application>Evolution</application> will display the file
+	at the bottom of the message to which it's attached.  Text,
+	including HTML formatting and embedded images, will appear
+	as part of the message, rather than at the end of the
+	message as an attachment.
+      </para>
 
      <sect3 id="usage-mail-getnsend-get-attach-actions">
-     <title>Saving or Opening Attachments</title>
-     <para>
-        If you get an attachment with an email message,
-        <application>Ximian Evolution</application> can help you save
-        it or open it with the appropriate applications.
-     </para>
-     <para>
-       To save an attachment to disk:
-       <orderedlist numeration="arabic">
-	 <listitem>
-	   <para>
-	     Click the downward pointing arrow on the attachment icon
-	     and select <guimenuitem>Save to Disk</guimenuitem>.
-	   </para>
-	 </listitem>
-	 <listitem>
-	   <para>
-	     Choose a location and name for the file.
-	   </para>
-	 </listitem>
-	 <listitem>
-	   <para>
-	     Click <guibutton>OK</guibutton>.
-	   </para>
-	 </listitem>
-       </orderedlist>
-      </para>
-
-      <para>
-	To Open an Attachment in a Program:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Open the mail message with the attachment you want to read.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click the arrow next the attachment icon.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Select the program you'd like to use. It will start up
-	      and open the document.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
-      <para>
-      </para>
+	<title>Saving or Opening Attachments</title>
+	<para>
+	  If you get an attachment with an email message,
+	  <application>Ximian Evolution</application> can help you save
+	  it or open it with the appropriate applications.
+	</para>
+	<para>
+	  To save an attachment to disk:
+	  <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+		Click the downward pointing arrow on the attachment icon
+		and select <guimenuitem>Save to Disk</guimenuitem>.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Choose a location and name for the file.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click <guibutton>OK</guibutton>.
+	      </para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+	
+	<para>
+	  To Open an Attachment in a Program:
+	  <orderedlist numeration="arabic">
+	    <listitem>
+	      <para>
+		Open the mail message with the attachment you want to read.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Click the arrow next the attachment icon.
+	      </para>
+	    </listitem>
+	    <listitem>
+	      <para>
+		Select the program you'd like to use. It will start up
+		and open the document.
+	      </para>
+	    </listitem>
+	  </orderedlist>
+	</para>
+	<para>
+	</para>
       </sect3>
-
+      
       <sect3 id="usage-mail-getnsend-get-attach-html">
-      <title>Inline Images in HTML Mail</title>
-      <para>
-         When someone sends you HTML mail that includes an image in
-         the body of the message (for example, the welcome message in your
-         Inbox when you first start <application>Ximian
-         Evolution</application>) <application>Evolution</application>
-         will display the image inside the message.  You can create
-         messages like this by using the
-         <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
-         tool in the message composer.
-      </para>
+	<title>Inline Images in HTML Mail</title>
+	<para>
+	  When someone sends you HTML mail that includes an image in
+	  the body of the message (for example, the welcome message in your
+	  Inbox when you first start <application>Ximian
+	   Evolution</application>) <application>Evolution</application>
+	  will display the image inside the message.  You can create
+	  messages like this by using the
+	  <menuchoice>
+	    <guimenu>Insert</guimenu>
+	    <guimenuitem>Image</guimenuitem>
+	  </menuchoice>
+	  tool in the message composer.
+	</para>
 
       <para>
-         If the image isn't included in the message, but is, instead,
+         If the image isn't included in the message, but is
          a link to an image, <application>Evolution</application> can
-         download the image from the Internet for you.  However,
-         <application>Evolution</application> will not display the
-         image unless you ask it to. This is because remotely hosted
+         download the image from the Internet for you.  By default,
+         <application>Evolution</application> will not display the image.
+         This is because remotely hosted
          images can be slow to load and display, and can even be used
          by spammers to track who reads their email.  Having images
          not load automatically helps protect your privacy.
@@ -422,14 +423,14 @@
            through the Summary tool. You can tell the GNOME Virtual
            File System about your HTTP proxy in one of two ways:
             <variablelist>
-	    <varlistentry>
+	      <varlistentry>
 	      <term>Configure it with Nautilus</term>
 	      <listitem>
 		<para>
                  <orderedlist numeration="arabic">
 		    <listitem>
 		      <para>
-			Open a Nautilus window
+			Open a Nautilus window.
 	               </para>
 		    </listitem>
       		    <listitem>
@@ -505,18 +506,21 @@
     </sect2>
   </sect1>
 
-    <sect1 id="usage-mail-getnsend-send">
-      <title>Composing New Email Messages</title>
-      <para>
-         You can start writing a new email message by selecting
-         <menuchoice> <guimenu>File</guimenu>
-         <guisubmenu>New</guisubmenu> <guimenuitem>
-         Mail Message</guimenuitem></menuchoice>, or by pressing the
-         <guibutton>Compose</guibutton> button in the Inbox toolbar.
-         When you do so, the <interface>New Message</interface> window
-         will open, as shown in <xref
-         linkend="usage-mail-newmsg-fig">.
-      </para>
+  <sect1 id="usage-mail-getnsend-send">
+    <title>Composing New Email Messages</title>
+    <para>
+      You can start writing a new email message by selecting
+      <menuchoice>
+	<guimenu>File</guimenu>
+	<guisubmenu>New</guisubmenu> 
+	<guimenuitem> Mail Message</guimenuitem>
+      </menuchoice>
+      , or by pressing the
+      <guibutton>Compose</guibutton> button in the Inbox toolbar.
+      When you do so, the <interface>New Message</interface> window
+      will open, as shown in <xref
+				   linkend="usage-mail-newmsg-fig">.
+    </para>
 
 <!--   ==============Figure=================================== -->
       <figure id="usage-mail-newmsg-fig">
@@ -616,12 +620,12 @@
 	  <orderedlist numeration="arabic">
 	    <listitem>
 	      <para>
-		Push the attach button in the composer toolbar
+		Push the attach button in the composer toolbar.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the file you want to attach
+		Select the file you want to attach.
 	      </para>
 	    </listitem>
 	    <listitem>
@@ -636,19 +640,19 @@
 	  attach it as well.
         </para>
         <para>
-            To hide the display of files you've attached to the
-            message, select <menuchoice>
+	  To hide the display of files you've attached to the
+	  message, select <menuchoice>
             <guimenu>View</guimenu> <guimenuitem>Hide
-            Attachments</guimenuitem> </menuchoice>; to show them
-            again, choose <guimenuitem>Show Attachments</guimenuitem>.
+	      Attachments</guimenuitem> </menuchoice>; to show them
+	  again, choose <guimenuitem>Show Attachments</guimenuitem>.
         </para>
         <para>
-            When you send the message, a copy of the attached file
-            will go with it.  Be aware that big attachments can take a
-            long time to download.
+	  When you send the message, a copy of the attached file
+	  will go with it.  Be aware that big attachments can take a
+	  long time to download.
         </para>
-       </sect3>
-
+      </sect3>
+      
       <sect3 id="usage-mail-getnsend-send-to-types">
 	<title>Specifying Recipients for Email</title>
         <para>

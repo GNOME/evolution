@@ -1,5 +1,14 @@
 2002-03-14  Kevin Breit  <mrproper@ximian.com>
 
+	* C/usage-mail.sgml: Linked "expunge" to the glossary.
+	Made some basic grammar changes.
+	Reindented a whole lot of things.
+
+	* C/apx-gloss.sgml: Added Postscript as a glossary definition.
+
+	* C/usage-print.sgml: Changed the introduction of this.  Do users really care about gnome-print?
+	Linked the Postscript line to the glossary.
+
 	* C/usage-mail.sgml: Pulled warning about the HTML mail stuff.
 
 2002-03-12  Kevin Breit  <mrproper@ximian.com>
