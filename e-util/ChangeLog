@@ -1,3 +1,8 @@
+2003-07-24  Rodrigo Moya <rodrigo@ximian.com>
+
+	* e-config-listener.c (add_key): just preload one level of GConf keys,
+	since preloading all makes the calendar startup slow.
+
 2003-07-23  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am: Use EVO_MARSHAL_RULE
