@@ -20,7 +20,7 @@
 #ifndef __E_CONTACT_EDITOR_FULLNAME_H__
 #define __E_CONTACT_EDITOR_FULLNAME_H__
 
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <glade/glade.h>
 #include <ebook/e-card.h>
 
@@ -50,7 +50,7 @@ typedef struct _EContactEditorFullnameClass  EContactEditorFullnameClass;
 
 struct _EContactEditorFullname
 {
-	GnomeDialog parent;
+	GtkDialog parent;
 	
 	/* item specific fields */
 	ECardName *name;
@@ -62,7 +62,7 @@ struct _EContactEditorFullname
 
 struct _EContactEditorFullnameClass
 {
-	GnomeDialogClass parent_class;
+	GtkDialogClass parent_class;
 };
 
 

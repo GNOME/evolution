@@ -30,9 +30,9 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtktable.h>
+#include <gtk/gtkdialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
-#include <libgnomeui/gnome-dialog.h>
 #include <gal/widgets/e-unicode.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/backend/ebook/e-book.h>
@@ -83,7 +83,7 @@ quick_add_unref (QuickAdd *qa)
 		if (qa->refs == 0) {
 			g_free (qa->name);
 			g_free (qa->email);
-			gtk_object_unref (GTK_OBJECT (qa->card));
+			g_object_unref (qa->card);
 			g_free (qa);
 		}
 	}
@@ -102,7 +102,7 @@ quick_add_set_name (QuickAdd *qa, const gchar *name)
 	card_name = e_card_name_from_string (name);
 	qa->name = e_card_name_to_string (card_name);
 
-	gtk_object_set (GTK_OBJECT (qa->card),
+	g_object_set (qa->card,
 			"full_name", qa->name,
 			NULL);
 
@@ -123,7 +123,7 @@ quick_add_set_email (QuickAdd *qa, const gchar *email)
 	simple = e_card_simple_new (qa->card);
 	e_card_simple_set (simple, E_CARD_SIMPLE_FIELD_EMAIL, email);
 	e_card_simple_sync_card (simple);
-	gtk_object_unref (GTK_OBJECT (simple));
+	g_object_unref (simple);
 }
 
 static void
@@ -135,7 +135,7 @@ merge_cb (EBook *book, EBookStatus status, gpointer closure)
 		e_card_merging_book_add_card (book, qa->card, NULL, NULL);
 		if (qa->cb)
 			qa->cb (qa->card, qa->closure);
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 	} else {
 		/* Something went wrong. */
 		if (qa->cb)
@@ -154,7 +154,7 @@ quick_add_merge_card (QuickAdd *qa)
 
 	book = e_book_new ();
 	if (!addressbook_load_default_book (book, merge_cb, qa)) {
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 		merge_cb (book, E_BOOK_STATUS_OTHER_ERROR, qa);
 	}
 }
@@ -167,7 +167,7 @@ quick_add_merge_card (QuickAdd *qa)
 static void
 card_added_cb (EContactEditor *ce, EBookStatus status, ECard *card, gpointer closure)
 {
-	QuickAdd *qa = (QuickAdd *) gtk_object_get_data (GTK_OBJECT (ce), "quick_add");
+	QuickAdd *qa = (QuickAdd *) g_object_get_data (G_OBJECT (ce), "quick_add");
 
 	if (qa) {
 
@@ -175,20 +175,20 @@ card_added_cb (EContactEditor *ce, EBookStatus status, ECard *card, gpointer clo
 			qa->cb (qa->card, qa->closure);
 	
 		/* We don't need to unref qa because we set_data_full below */
-		gtk_object_set_data (GTK_OBJECT (ce), "quick_add", NULL);
+		g_object_set_data (G_OBJECT (ce), "quick_add", NULL);
 	}
 }
 
 static void
 editor_closed_cb (GtkWidget *w, gpointer closure)
 {
-	QuickAdd *qa = (QuickAdd *) gtk_object_get_data (GTK_OBJECT (w), "quick_add");
+	QuickAdd *qa = (QuickAdd *) g_object_get_data (G_OBJECT (w), "quick_add");
 
 	if (qa)
 		/* We don't need to unref qa because we set_data_full below */
-		gtk_object_set_data (GTK_OBJECT (w), "quick_add", NULL);
+		g_object_set_data (G_OBJECT (w), "quick_add", NULL);
 
-	gtk_object_unref (GTK_OBJECT (w));
+	g_object_unref (w);
 }
 
 static void
@@ -203,26 +203,26 @@ ce_have_book (EBook *book, EBookStatus status, gpointer closure)
 		EContactEditor *contact_editor = e_contact_editor_new (book, qa->card, TRUE, TRUE /* XXX */);
 
 		/* mark it as changed so the Save buttons are enabled when we bring up the dialog. */
-		gtk_object_set (GTK_OBJECT(contact_editor),
+		g_object_set (contact_editor,
 				"changed", TRUE,
 				NULL);
 
 		/* We pass this via object data, so that we don't get a dangling pointer referenced if both
 		   the "card_added" and "editor_closed" get emitted.  (Which, based on a backtrace in bugzilla,
 		   I think can happen and cause a crash. */
-		gtk_object_set_data_full (GTK_OBJECT (contact_editor), "quick_add", qa,
-					  (GtkDestroyNotify) quick_add_unref);
+		g_object_set_data_full (G_OBJECT (contact_editor), "quick_add", qa,
+					(GDestroyNotify) quick_add_unref);
 
-		gtk_signal_connect (GTK_OBJECT (contact_editor),
-				    "card_added",
-				    GTK_SIGNAL_FUNC (card_added_cb),
-				    NULL);
-		gtk_signal_connect (GTK_OBJECT (contact_editor),
-				    "editor_closed",
-				    GTK_SIGNAL_FUNC (editor_closed_cb),
-				    NULL);
+		g_signal_connect (contact_editor,
+				  "card_added",
+				  G_CALLBACK (card_added_cb),
+				  NULL);
+		g_signal_connect (contact_editor,
+				  "editor_closed",
+				  G_CALLBACK (editor_closed_cb),
+				  NULL);
 
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 	}
 }
 
@@ -232,7 +232,7 @@ edit_card (QuickAdd *qa)
 	EBook *book;
 	book = e_book_new ();
 	if (!addressbook_load_default_book (book, ce_have_book, qa)) {
-		gtk_object_unref (GTK_OBJECT (book));
+		g_object_unref (book);
 		ce_have_book (book, E_BOOK_STATUS_OTHER_ERROR, qa);
 	}
 }

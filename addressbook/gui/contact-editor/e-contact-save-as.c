@@ -26,8 +26,7 @@
 #include <fcntl.h>
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtksignal.h>
-#include <gtk/gtk.h>
-#include <libgnomeui/gnome-dialog.h>
+#include <gtk/gtkdialog.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
@@ -130,9 +129,9 @@ e_contact_save_as(char *title, ECard *card, GtkWindow *parent_window)
 
 	filesel = GTK_FILE_SELECTION(gtk_file_selection_new(title));
 
-	gtk_object_get (GTK_OBJECT (card),
-			"file_as", &name,
-			NULL);
+	g_object_get (card,
+		      "file_as", &name,
+		      NULL);
 	locale_name = e_utf8_to_locale_string (name);
 	file = make_safe_filename (g_get_home_dir(), locale_name);
 	gtk_file_selection_set_filename (filesel, file);
@@ -169,9 +168,9 @@ e_contact_list_save_as(char *title, GList *list, GtkWindow *parent_window)
 	/* This is a filename. Translators take note. */
 	if (list && list->data && list->next == NULL) {
 		char *name, *locale_name, *file;
-		gtk_object_get (GTK_OBJECT (list->data),
-				"file_as", &name,
-				NULL);
+		g_object_get (list->data,
+			      "file_as", &name,
+			      NULL);
 		locale_name = e_utf8_to_locale_string (name);
 		file = make_safe_filename (g_get_home_dir(), locale_name);
 		gtk_file_selection_set_filename (filesel, file);

@@ -85,7 +85,7 @@ editor_closed_cb (EContactEditor *ce, gpointer data)
 	static int count = 2;
 
 	count--;
-	gtk_object_unref (GTK_OBJECT (ce));
+	g_object_unref (ce);
 
 	if (count == 0)
 		exit (0);

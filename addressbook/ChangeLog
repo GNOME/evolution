@@ -1,3 +1,21 @@
+2002-11-08  Chris Toshok  <toshok@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c: more porting work.
+
+	* e-contact-editor-fullname.[ch]: more porting work.
+
+	* e-contact-editor.c: more porting work.
+
+	* e-contact-quick-add.c: more porting work.
+
+	* e-contact-save-as.c: more porting work.
+
+	* test-editor.c: more porting work.
+	
+	* e-contact-editor-confirm-delete.glade, file-exists.glade,
+	fulladdr.glade, fullname.glade: run these through
+	libglade-convert.
+
 2002-11-07  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/Makefile.am (evolution_addressbook_LDADD): add

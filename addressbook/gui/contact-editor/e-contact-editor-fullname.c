@@ -24,24 +24,25 @@
 #include "e-contact-editor-fullname.h"
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
+#include <libgnome/gnome-i18n.h>
 #include <gtk/gtkcombo.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
 static void e_contact_editor_fullname_class_init	(EContactEditorFullnameClass	 *klass);
-static void e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id);
-static void e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id);
-static void e_contact_editor_fullname_destroy (GtkObject *object);
+static void e_contact_editor_fullname_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec);
+static void e_contact_editor_fullname_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec);
+static void e_contact_editor_fullname_dispose (GObject *object);
 
 static void fill_in_info(EContactEditorFullname *editor);
 static void extract_info(EContactEditorFullname *editor);
 
-static GnomeDialogClass *parent_class = NULL;
+static GtkDialogClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
-	ARG_0,
-	ARG_NAME,
-	ARG_IS_READ_ONLY
+	PROP_0,
+	PROP_NAME,
+	PROP_IS_READ_ONLY
 };
 
 GtkType
@@ -72,23 +73,29 @@ e_contact_editor_fullname_get_type (void)
 static void
 e_contact_editor_fullname_class_init (EContactEditorFullnameClass *klass)
 {
-	GtkObjectClass *object_class;
-	GnomeDialogClass *dialog_class;
+	GObjectClass *object_class;
 
-	object_class = (GtkObjectClass*) klass;
-	dialog_class = (GnomeDialogClass *) klass;
+	object_class = G_OBJECT_CLASS (klass);
 
 	parent_class = gtk_type_class (gnome_dialog_get_type ());
 
-	gtk_object_add_arg_type ("EContactEditorFullname::name", GTK_TYPE_POINTER, 
-				 GTK_ARG_READWRITE, ARG_NAME);
 
-	gtk_object_add_arg_type ("EContactEditorFullname::editable", GTK_TYPE_BOOL, 
-				 GTK_ARG_READWRITE, ARG_IS_READ_ONLY);
- 
-	object_class->set_arg = e_contact_editor_fullname_set_arg;
-	object_class->get_arg = e_contact_editor_fullname_get_arg;
-	object_class->destroy = e_contact_editor_fullname_destroy;
+	object_class->set_property = e_contact_editor_fullname_set_property;
+	object_class->get_property = e_contact_editor_fullname_get_property;
+	object_class->dispose = e_contact_editor_fullname_dispose;
+
+	g_object_class_install_property (object_class, PROP_NAME, 
+					 g_param_spec_pointer ("name",
+							       _("Name"),
+							       /*_( */"XXX blurb" /*)*/,
+							       G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_IS_READ_ONLY, 
+					 g_param_spec_boolean ("editable",
+							       _("Editable"),
+							       /*_( */"XXX blurb" /*)*/,
+							       FALSE,
+							       G_PARAM_READWRITE));
 }
 
 static void
@@ -98,11 +105,13 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 	GtkWidget *widget;
 	char *icon_path;
 
+#if 0
 	gnome_dialog_append_button ( GNOME_DIALOG(e_contact_editor_fullname),
 				     GNOME_STOCK_BUTTON_OK);
 	
 	gnome_dialog_append_button ( GNOME_DIALOG(e_contact_editor_fullname),
 				     GNOME_STOCK_BUTTON_CANCEL);
+#endif
 
 	gtk_window_set_policy(GTK_WINDOW(e_contact_editor_fullname), TRUE, TRUE, FALSE);
 
@@ -115,10 +124,10 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 			      GTK_WINDOW (widget)->title);
 
 	widget = glade_xml_get_widget(gui, "table-checkfullname");
-	gtk_widget_ref(widget);
+	g_object_ref(widget);
 	gtk_container_remove(GTK_CONTAINER(widget->parent), widget);
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
-	gtk_widget_unref(widget);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (e_contact_editor_fullname)->vbox), widget, TRUE, TRUE, 0);
+	g_object_unref(widget);
 
 	icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, "evolution-contacts-mini.png");
 	gnome_window_icon_set_from_file (GTK_WINDOW (e_contact_editor_fullname), icon_path);
@@ -126,12 +135,12 @@ e_contact_editor_fullname_init (EContactEditorFullname *e_contact_editor_fullnam
 }
 
 void
-e_contact_editor_fullname_destroy (GtkObject *object)
+e_contact_editor_fullname_dispose (GObject *object)
 {
 	EContactEditorFullname *e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME(object);
 
 	if (e_contact_editor_fullname->gui)
-		gtk_object_unref(GTK_OBJECT(e_contact_editor_fullname->gui));
+		g_object_unref(e_contact_editor_fullname->gui);
 	e_card_name_unref(e_contact_editor_fullname->name);
 }
 
@@ -139,26 +148,27 @@ GtkWidget*
 e_contact_editor_fullname_new (const ECardName *name)
 {
 	GtkWidget *widget = GTK_WIDGET (gtk_type_new (e_contact_editor_fullname_get_type ()));
-	gtk_object_set (GTK_OBJECT(widget),
+	g_object_set (widget,
 			"name", name,
 			NULL);
 	return widget;
 }
 
 static void
-e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+e_contact_editor_fullname_set_property (GObject *object, guint prop_id,
+					const GValue *value, GParamSpec *pspec)
 {
 	EContactEditorFullname *e_contact_editor_fullname;
 
-	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (o);
+	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
 	
-	switch (arg_id){
-	case ARG_NAME:
+	switch (prop_id){
+	case PROP_NAME:
 		e_card_name_unref(e_contact_editor_fullname->name);
-		e_contact_editor_fullname->name = e_card_name_copy(GTK_VALUE_POINTER (*arg));
+		e_contact_editor_fullname->name = e_card_name_copy(g_value_get_pointer (value));
 		fill_in_info(e_contact_editor_fullname);
 		break;
-	case ARG_IS_READ_ONLY: {
+	case PROP_IS_READ_ONLY: {
 		int i;
 		char *entry_names[] = {
 			"combo-title",
@@ -168,7 +178,7 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			"entry-last",
 			NULL
 		};
-		e_contact_editor_fullname->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
+		e_contact_editor_fullname->editable = g_value_get_boolean (value) ? TRUE : FALSE;
 		for (i = 0; entry_names[i] != NULL; i ++) {
 			GtkWidget *w = glade_xml_get_widget(e_contact_editor_fullname->gui, entry_names[i]);
 			if (GTK_IS_ENTRY (w)) {
@@ -183,26 +193,30 @@ e_contact_editor_fullname_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 	}
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
+		break;
 	}
 }
 
 static void
-e_contact_editor_fullname_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
+e_contact_editor_fullname_get_property (GObject *object, guint prop_id,
+					GValue *value, GParamSpec *pspec)
 {
 	EContactEditorFullname *e_contact_editor_fullname;
 
 	e_contact_editor_fullname = E_CONTACT_EDITOR_FULLNAME (object);
 
-	switch (arg_id) {
-	case ARG_NAME:
+	switch (prop_id) {
+	case PROP_NAME:
 		extract_info(e_contact_editor_fullname);
-		GTK_VALUE_POINTER (*arg) = e_card_name_ref(e_contact_editor_fullname->name);
+		g_value_set_pointer (value, e_card_name_ref(e_contact_editor_fullname->name));
 		break;
-	case ARG_IS_READ_ONLY:
-		GTK_VALUE_BOOL (*arg) = e_contact_editor_fullname->editable ? TRUE : FALSE;
+	case PROP_IS_READ_ONLY:
+		g_value_set_boolean (value, e_contact_editor_fullname->editable ? TRUE : FALSE);
 		break;
 	default:
-		arg->type = GTK_TYPE_INVALID;
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, prop_id, pspec);
 		break;
 	}
 }
