@@ -1506,7 +1506,7 @@ format_sender (GString *str, const char *attr, CamelMimeMessage *message)
 		g_string_append (str, name);
 	} else if (addr && !strcmp (attr, "{SenderEMail}")) {
 		g_string_append (str, addr);
-	} else if (name) {
+	} else if (name && *name) {
 		g_string_append (str, name);
 	} else if (addr) {
 		g_string_append (str, addr);

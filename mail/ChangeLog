@@ -1,3 +1,8 @@
+2004-08-03  Jeffrey Stedfast  <fejj@novell.com>
+
+	* em-composer-utils.c (format_sender): If type="{Sender}" and name
+	is an empty string, use the addr. Fixes bug #62377
+
 2004-08-01  JP Rosevear  <jpr@novell.com>
 
 	* default/C/Inbox: Update to just call us "Evolution" and be more
