@@ -252,7 +252,6 @@ show_development_warning (GtkWindow *parent)
 	GConfClient *client;
 	char *text;
 
-	puts (__FUNCTION__);
 	client = gconf_client_get_default ();
 
 	if (gconf_client_get_bool (client, "/apps/evolution/shell/skip_warning_dialog", NULL)) {
@@ -323,7 +322,6 @@ static void
 window_map_callback (GtkWidget *widget,
 		     void *data)
 {
-	puts (__FUNCTION__);
 	g_signal_handlers_disconnect_by_func (widget, G_CALLBACK (window_map_callback), data);
 
 	show_development_warning (GTK_WINDOW (widget));
@@ -334,7 +332,6 @@ new_window_created_callback (EShell *shell,
 			     EShellWindow *window,
 			     void *data)
 {
-	puts (__FUNCTION__);
 	g_signal_handlers_disconnect_by_func (shell, G_CALLBACK (new_window_created_callback), data);
 
 	g_signal_connect (window, "map", G_CALLBACK (window_map_callback), NULL);
