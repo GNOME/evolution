@@ -34,10 +34,15 @@
 #include <libgnomeui/gnome-druid-page-start.h>
 #include <libgnomeui/gnome-file-entry.h>
 #include <libgnomeui/gnome-stock.h>
+#include <libgnomeui/gnome-dialog.h>
 
 #include <liboaf/liboaf.h>
 
-#include <evolution-importer-client.h>
+#include "e-shell.h"
+#include "e-shell-view.h"
+#include "e-shell-folder-selection-dialog.h"
+
+#include "importer/evolution-importer-client.h"
 
 #include <glade/glade.h>
 #include <gtkhtml/gtkhtml.h>
@@ -46,8 +51,8 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
-#include "importer.h"
-#include "GNOME_Evolution_Importer.h"
+#include "e-shell-importer.h"
+#include "importer/GNOME_Evolution_Importer.h"
 
 typedef struct _ImportDialogFilePage {
 	GtkWidget *vbox;
@@ -59,6 +64,9 @@ typedef struct _ImportDialogFilePage {
 } ImportDialogFilePage;
 
 typedef struct _ImportData {
+	EShell *shell;
+	EShellView *view;
+	
 	GladeXML *wizard;
 	GtkWidget *dialog;
 	GtkWidget *druid;
@@ -69,7 +77,9 @@ typedef struct _ImportData {
 	char *choosen_iid;
 } ImportData;
 
-#define IMPORTER_DEBUG
+/*
+  #define IMPORTER_DEBUG
+*/
 #ifdef IMPORTER_DEBUG
 #define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
 #define OUT g_print ("<==== %s (%d)\n", __FUNCTION__, __LINE__)
@@ -84,10 +94,10 @@ static struct {
 	char *text;
 } info[] = {
 	{ "file_html",
-		N_("Choose the file that you want to import into Evolution, "
-		"and select what type of file it is from the list.\n\n"
-		"You can select \"Automatic\" if you do not know, and "
-		"Evolution will attempt to work it out.")
+	  N_("Choose the file that you want to import into Evolution, "
+	     "and select what type of file it is from the list.\n\n"
+	     "You can select \"Automatic\" if you do not know, and "
+	     "Evolution will attempt to work it out.")
 	}
 };
 static int num_info = (sizeof (info) / sizeof (info[0]));
@@ -319,12 +329,14 @@ get_iid_for_filetype (const char *filename)
 }
 		    
 static void
-start_import (const char *filename,
+start_import (const char *folderpath,
+	      const char *filename,
 	      const char *iid)
 {
 	ImporterComponentData *icd;
 	char *label;
 	char *real_iid;
+	char *real_folderpath;
 	
 	if (iid == NULL || strcmp (iid, "Automatic") == 0) {
 		/* Work out the component to use */
@@ -383,7 +395,12 @@ start_import (const char *filename,
 	g_free (real_iid);
 
 	/* NULL for folderpath means use Inbox */
-	if (evolution_importer_client_load_file (icd->client, filename, "/Inbox") == FALSE) {
+	g_warning ("Folderpath: %s", folderpath);
+	if (*folderpath == '/') {
+		real_folderpath = strchr (folderpath + 1, '/');
+	}
+
+	if (evolution_importer_client_load_file (icd->client, filename, real_folderpath) == FALSE) {
 		label = g_strdup_printf (_("Error loading %s"), filename);
 		gtk_label_set_text (GTK_LABEL (icd->contents), label);
 		g_free (label);
@@ -572,14 +589,34 @@ import_druid_finish (GnomeDruidPage *page,
 		     GnomeDruid *druid,
 		     ImportData *data)
 {
+	GtkWidget *folder;
 	char *filename;
 	char *iid;
+	char *foldername;
 
 	filename = g_strdup (gtk_entry_get_text (GTK_ENTRY (gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (data->filepage->filename)))));
 	iid = g_strdup (data->choosen_iid);
 
+	folder = e_shell_folder_selection_dialog_new (data->shell, 
+						      _("Select folder"),
+						      e_shell_view_get_current_uri (data->view),
+						      NULL);
 	gtk_widget_destroy (data->dialog);
-	start_import (filename, iid);
+
+	gnome_dialog_close_hides (GNOME_DIALOG (folder), TRUE);
+	switch (gnome_dialog_run (GNOME_DIALOG (folder))) {
+	case 0:
+		foldername = e_shell_folder_selection_dialog_get_selected_path (E_SHELL_FOLDER_SELECTION_DIALOG (folder));
+		foldername = g_strdup (foldername);
+
+		start_import (foldername, filename, iid);
+		g_free (foldername);
+		break;
+
+	default:
+		gtk_widget_destroy (folder);
+		break;
+	}
 
 	g_free (filename);
 	g_free (iid);
@@ -590,7 +627,6 @@ prepare_file_page (GnomeDruidPage *page,
 		   GnomeDruid *druid,
 		   ImportData *data)
 {
-	g_print ("Prepare thyself\n");
 	gnome_druid_set_buttons_sensitive (druid, TRUE, 
 					   !data->filepage->need_filename, 
 					   TRUE);
@@ -629,6 +665,9 @@ show_import_wizard (BonoboUIComponent *component,
 	GnomeDruidPageFinish *finish;
 	GtkWidget *html;
 
+	data->view = E_SHELL_VIEW (user_data);
+	data->shell = e_shell_view_get_shell (data->view);
+
 	data->wizard = glade_xml_new (EVOLUTION_GLADEDIR "/import.glade", NULL);
 	data->dialog = glade_xml_get_widget (data->wizard, "importwizard");
 	gtk_window_set_wmclass (GTK_WINDOW (data->dialog), "importdruid",
@@ -644,7 +683,7 @@ show_import_wizard (BonoboUIComponent *component,
 	gtk_signal_connect (GTK_OBJECT (data->filedialog), "prepare",
 			    GTK_SIGNAL_FUNC (prepare_file_page), data);
 
-	finish = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (data->wizard, "page3"));
+	finish = GNOME_DRUID_PAGE_FINISH (glade_xml_get_widget (data->wizard, "page4"));
 
 	data->filepage = importer_file_page_new (data);
 	data->vbox = data->filepage->vbox;

@@ -45,7 +45,7 @@
 #include "e-shell-constants.h"
 
 #include "e-shell-view-menu.h"
-#include "importer/importer.h"
+#include "e-shell-importer.h"
 
 #include "e-util/e-gui-utils.h"
 

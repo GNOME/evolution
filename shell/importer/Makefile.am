@@ -35,9 +35,7 @@ libevolution_importer_la_SOURCES = 	\
 	evolution-importer-listener.c	\
 	evolution-importer.c		\
 	intelligent.c			\
-	intelligent.h			\
-	importer.c			\
-	importer.h
+	intelligent.h
 
 libevolution_importerinclude_HEADERS = 	\
 	GNOME_Evolution_Importer.h	\

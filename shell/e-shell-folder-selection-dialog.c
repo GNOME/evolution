@@ -162,7 +162,7 @@ dbl_click_cb (EStorageSetView *essv,
 				 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
 	}
 
-	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
+	gnome_dialog_close (GNOME_DIALOG (folder_selection_dialog));
 }
 
 
@@ -185,12 +185,12 @@ impl_clicked (GnomeDialog *dialog,
 		if (check_folder_type (folder_selection_dialog)) {
 			gtk_signal_emit (GTK_OBJECT (folder_selection_dialog), signals[FOLDER_SELECTED],
 					 e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog));
-			gtk_widget_destroy (GTK_WIDGET (dialog));
+			gnome_dialog_close (GNOME_DIALOG (dialog));
 		}
 		break;
 	case 1:			/* Cancel */
 		gtk_signal_emit (GTK_OBJECT (folder_selection_dialog), signals[CANCELLED]);
-		gtk_widget_destroy (GTK_WIDGET (dialog));
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 		break;
 	case 2:			/* Add */
 		storage_set_view = E_STORAGE_SET_VIEW (priv->storage_set_view);

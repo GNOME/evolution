@@ -1,3 +1,19 @@
+2001-05-11  Iain Holmes  <iain@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (dbl_click_cb): Use gnome_dialog_close
+	instead of gtk_widget_destroy.
+	(impl_clicked): Use gnome_dialog_close instead of gtk_widget_destroy.
+
+	* e-shell-view-menu.c: #include e-shell-importer.h instead of importer/importer.h
+
+	* importer/Makefile.am: Remove importer.c and importer.h.
+
+	* importer/importer.[ch]: Moved these to e-shell-importer.[ch]
+
+	* e-shell-importer.c (start_import): Take a folderpath to import into.
+	(importer_druid_finish): Show the EShellFolderSelectionDialog to get a folder to
+	import into.
+
 2001-05-11  JP Rosevear  <jpr@ximian.com>
 
 	* e-component-registry.c (register_component): component_new refs
