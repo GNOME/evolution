@@ -1,3 +1,7 @@
+2000-11-27  JP Rosevear  <jpr@helixcode.com>
+
+	* providers/local/.cvsignore: shush
+
 2000-11-27  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/Makefile.am: Removed mh, mbox, added local, to the default.

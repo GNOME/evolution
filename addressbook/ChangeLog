@@ -1,3 +1,23 @@
+2000-11-27  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.h: Remove "complete" field
+
+	* conduit/address-conduit.c (print_local): Make it print useful debug
+	info
+	(print_remote): ditto
+	(local_record_from_ecard): Make sure phone numbers get out to the pilot
+	(ecard_from_remote_record): Set phone strings to "" if they are null
+	(sequence_complete): unref the book view
+	(view_cb): ref the book view
+	(free_prepare): do nothing
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_book_view_free): 
+	Destroy the card lists with the rest of the view.
+	(pas_backend_file_changes): Don't destroy the card lists here
+	(pas_backend_file_book_view_free): Free the card/id lists in the
+	change context here, the correct place.
+	(pas_backend_file_changes): instead of here...
+
 2000-11-22  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-backend-file.c: Set view.change_context to NULL

@@ -269,7 +269,7 @@ local_record_to_pilot_record (EToDoLocalRecord *local,
 	g_assert (local->comp != NULL);
 	g_assert (local->todo != NULL );
 	
-	LOG ("local_record_to_remote_record\n");
+	LOG ("local_record_to_pilot_record\n");
 
 	p = g_new0 (GnomePilotRecord, 1);
 
@@ -920,17 +920,12 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 
 static gint
 free_prepare (GnomePilotConduitSyncAbs *conduit,
-	      EToDoLocalRecord *local,
-	      GnomePilotRecord **remote,
+	      GnomePilotRecord *remote,
 	      EToDoConduitContext *ctxt)
 {
 	LOG ("free_prepare: freeing\n");
 
-	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
-
-	g_free (*remote);
-	*remote = NULL;
 
         return 0;
 }

@@ -119,8 +119,24 @@ pas_backend_file_book_view_free(PASBackendFileBookView *book_view, void *closure
 	if (book_view->search_sexp)
 		gtk_object_unref(GTK_OBJECT(book_view->search_sexp));
 	g_free(book_view->search_context);
+
 	g_free(book_view->change_id);
+	if (book_view->change_context) {
+		g_list_foreach (book_view->change_context->add_cards, (GFunc)g_free, NULL);
+		g_list_foreach (book_view->change_context->add_ids, (GFunc)g_free, NULL);
+		g_list_foreach (book_view->change_context->mod_cards, (GFunc)g_free, NULL);
+		g_list_foreach (book_view->change_context->mod_ids, (GFunc)g_free, NULL);
+		g_list_foreach (book_view->change_context->del_cards, (GFunc)g_free, NULL);
+		g_list_foreach (book_view->change_context->del_ids, (GFunc)g_free, NULL);
+		g_list_free (book_view->change_context->add_cards);
+		g_list_free (book_view->change_context->add_ids);
+		g_list_free (book_view->change_context->mod_cards);
+		g_list_free (book_view->change_context->mod_ids);
+		g_list_free (book_view->change_context->del_cards);
+		g_list_free (book_view->change_context->del_ids);
+	}
 	g_free(book_view->change_context);
+
 	g_free(book_view);
 }
 
@@ -546,11 +562,11 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 			  const PASBackendFileBookView *cnstview)
 {
 	int     db_error = 0;
-	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
 	char    *filename;
 	EDbHash *ehash;
 	GList *i, *v;
+	DB      *db = bf->priv->file_db;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 	PASBackendFileChangeContext *ctx = cnstview->change_context;
 
@@ -628,20 +644,6 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		
 		pas_book_view_notify_complete (view->book_view);
 	}
-
-	/* It's fine to do this now since the data has been handed off. */
-	g_list_foreach (ctx->add_cards, (GFunc)g_free, NULL);
-	g_list_foreach (ctx->add_ids, (GFunc)g_free, NULL);
-	g_list_foreach (ctx->mod_cards, (GFunc)g_free, NULL);
-	g_list_foreach (ctx->mod_ids, (GFunc)g_free, NULL);
-	g_list_foreach (ctx->del_cards, (GFunc)g_free, NULL);
-	g_list_foreach (ctx->del_ids, (GFunc)g_free, NULL);
-	g_list_free (ctx->add_cards);
-	g_list_free (ctx->add_ids);
-	g_list_free (ctx->mod_cards);
-	g_list_free (ctx->mod_ids);
-	g_list_free (ctx->del_cards);
-	g_list_free (ctx->del_ids);
 }
 
 static char *

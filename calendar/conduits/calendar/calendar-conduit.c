@@ -1046,17 +1046,12 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 
 static gint
 free_prepare (GnomePilotConduitSyncAbs *conduit,
-	      ECalLocalRecord *local,
-	      GnomePilotRecord **remote,
+	      GnomePilotRecord *remote,
 	      ECalConduitContext *ctxt)
 {
 	LOG ("free_prepare: freeing\n");
 
-	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
-
-	g_free (*remote);
-	*remote = NULL;
 
         return 0;
 }

@@ -1,3 +1,12 @@
+2000-11-27  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.c (free_prepare): Ditto
+
+	* conduits/calendar/calendar-conduit.c (free_prepare): Adjust 
+	free_prepare to the correct signal parameters.  Don't actually
+	do anything - there is a semantic discrepancy that needs to be
+	resolved.
+
 2000-11-26  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/e-day-view.c (e_day_view_set_days_shown): == instead of =.

@@ -89,7 +89,7 @@ typedef struct
 	CardObjectChangeType type;
 } CardObjectChange;
 
-/* debug spew DELETE ME */
+/* Debug routines */
 static char *
 print_local (EAddrLocalRecord *local)
 {
@@ -100,22 +100,17 @@ print_local (EAddrLocalRecord *local)
 		return buff;
 	}
 
-/*  	if (local->addr && local->addr->description) { */
-/*  		sprintf (buff, "[%d %ld %d %d '%s' '%s']", */
-/*  			 local->todo->indefinite, */
-/*  			 mktime (& local->todo->due), */
-/*  			 local->todo->priority, */
-/*  			 local->todo->complete, */
-/*  			 local->todo->description, */
-/*  			 local->todo->note); */
-/*  		return buff; */
-/*  	} */
+	if (local->addr) {
+		sprintf (buff, "['%s' '%s' '%s']",
+			 local->addr->entry[entryLastname],
+			 local->addr->entry[entryFirstname],
+			 local->addr->entry[entryCompany]);
+		return buff;
+	}
 
 	return "";
 }
 
-
-/* debug spew DELETE ME */
 static char *print_remote (GnomePilotRecord *remote)
 {
 	static char buff[ 4096 ];
@@ -129,14 +124,10 @@ static char *print_remote (GnomePilotRecord *remote)
 	memset (&addr, 0, sizeof (struct Address));
 	unpack_Address (&addr, remote->record, remote->length);
 
-	sprintf (buff, "Hi");
-/*  	sprintf (buff, "[%d %ld %d %d '%s' '%s']", */
-/*  		 todo.indefinite, */
-/*  		 mktime (& todo.due), */
-/*  		 todo.priority, */
-/*  		 todo.complete, */
-/*  		 todo.description, */
-/*  		 todo.note); */
+	sprintf (buff, "['%s' '%s' '%s']",
+		 addr.entry[entryLastname],
+		 addr.entry[entryFirstname],
+		 addr.entry[entryCompany]);
 
 	return buff;
 }
@@ -148,8 +139,6 @@ e_addr_context_new (EAddrConduitContext **ctxt, guint32 pilot_id)
 	*ctxt = g_new0 (EAddrConduitContext,1);
 	g_assert (ctxt!=NULL);
 
-	(*ctxt)->complete = FALSE;
-	
 	addrconduit_load_configuration (&(*ctxt)->cfg, pilot_id);
 }
 
@@ -278,7 +267,7 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 	g_return_val_if_fail (local != NULL, NULL);
 	g_assert (local->addr != NULL );
 	
-	LOG ("local_record_to_remote_record\n");
+	LOG ("local_record_to_pilot_record\n");
 
 	p = g_new0 (GnomePilotRecord, 1);
 
@@ -300,7 +289,9 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 {
 	ECardSimple *simple;
 	const ECardDeliveryAddress *delivery;
-
+	int phone = entryPhone1;
+	int i;
+	
 	g_return_if_fail (local != NULL);
 	g_return_if_fail (ecard != NULL);
 
@@ -331,7 +322,34 @@ local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitCont
 		local->addr->entry[entryCountry] = strdup (delivery->country);
 	}
 	
-	/* FIX ME Phone numbers */
+	for (i = 0; i <= 7; i++) {
+		const char *phone_str = NULL;
+		char *phonelabel = ctxt->ai.phoneLabels[i];
+		
+		if (!strcmp (phonelabel, "E-mail"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_EMAIL);
+		else if (!strcmp (phonelabel, "Home"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_HOME);
+		else if (!strcmp (phonelabel, "Work"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS);
+		else if (!strcmp (phonelabel, "Fax"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX);
+		else if (!strcmp (phonelabel, "Other"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER);
+		else if (!strcmp (phonelabel, "Main"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY);
+		else if (!strcmp (phonelabel, "Pager"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER);
+		else if (!strcmp (phonelabel, "Mobile"))
+			phone_str = e_card_simple_get_const (simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE);
+		
+		if (phone_str) {
+			local->addr->entry[phone] = strdup (phone_str);
+			local->addr->phoneLabel[phone - entryPhone1] = i;
+			phone++;
+		}
+		
+	}
 
 	gtk_object_unref (GTK_OBJECT (simple));
 }
@@ -433,33 +451,33 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	if (check (entryCompany))
 		e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_ORG, get (entryCompany));
 
-	for (i = entryPhone1; i <= entryPhone5; i ++) {
-		if (address.entry [i] && *(address.entry [i])) {
-			char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
-			if (!strcmp (phonelabel, "E-mail"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, address.entry[i]);
-			else if (!strcmp (phonelabel, "Home"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME, address.entry[i]);
-			else if (!strcmp (phonelabel, "Work"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, address.entry[i]);
-			else if (!strcmp (phonelabel, "Fax"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, address.entry[i]);
-			else if (!strcmp (phonelabel, "Other"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, address.entry[i]);
-			else if (!strcmp (phonelabel, "Main"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, address.entry[i]);
-			else if (!strcmp (phonelabel, "Pager"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, address.entry[i]);
-			else if (!strcmp (phonelabel, "Mobile"))
-				e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, address.entry[i]);
-		}
+	for (i = entryPhone1; i <= entryPhone5; i++) {
+		char *phonelabel = ctxt->ai.phoneLabels[address.phoneLabel[i - entryPhone1]];
+
+		if (!strcmp (phonelabel, "E-mail"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_EMAIL, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Home"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_HOME,address.entry[i] ? address.entry[i] : "" );
+		else if (!strcmp (phonelabel, "Work"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Fax"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_BUSINESS_FAX, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Other"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_OTHER, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Main"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PRIMARY, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Pager"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_PAGER, address.entry[i] ? address.entry[i] : "");
+		else if (!strcmp (phonelabel, "Mobile"))
+			e_card_simple_set(simple, E_CARD_SIMPLE_FIELD_PHONE_MOBILE, address.entry[i] ? address.entry[i] : "");
 	}
 #undef get
-#undef set
+#undef check
+
+	e_card_simple_sync_card (simple);
+	gtk_object_unref(GTK_OBJECT(simple));
 
 	free_Address(&address);
-
-	gtk_object_unref(GTK_OBJECT(simple));
 
 	return ecard;
 }
@@ -535,13 +553,15 @@ card_removed (EBookView *book_view, const char *id, EAddrConduitContext *ctxt)
 static void
 sequence_complete (EBookView *book_view, EAddrConduitContext *ctxt)
 {
-	ctxt->complete = TRUE;
-	gtk_main_quit ();
+	gtk_object_unref (GTK_OBJECT (book_view));
+  	gtk_main_quit ();
 }
 
 static void
 view_cb (EBook *book, EBookStatus status, EBookView *book_view, EAddrConduitContext *ctxt)
 {
+	gtk_object_ref (GTK_OBJECT (book_view));
+	
   	gtk_signal_connect (GTK_OBJECT (book_view), "card_added", 
 			    (GtkSignalFunc) card_added, ctxt);
 	gtk_signal_connect (GTK_OBJECT (book_view), "card_changed", 
@@ -593,7 +613,6 @@ pre_sync (GnomePilotConduit *conduit,
 
 	/* Force the view loading to be synchronous */
 	gtk_main ();
-
 	g_free (change_id);
 	
 	/* Set the count information */
@@ -966,17 +985,12 @@ prepare (GnomePilotConduitSyncAbs *conduit,
 
 static gint
 free_prepare (GnomePilotConduitSyncAbs *conduit,
-	      EAddrLocalRecord *local,
-	      GnomePilotRecord **remote,
+	      GnomePilotRecord *remote,
 	      EAddrConduitContext *ctxt)
 {
 	LOG ("free_prepare: freeing\n");
 
-	g_return_val_if_fail (local != NULL, -1);
 	g_return_val_if_fail (remote != NULL, -1);
-
-	g_free (*remote);
-	*remote = NULL;
 
         return 0;
 }
