@@ -1556,12 +1556,11 @@ client_cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer da
 	gcal = GNOME_CALENDAR (data);
 	priv = gcal->priv;
 
-	e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
-
 	switch (status) {
 	case CAL_CLIENT_OPEN_SUCCESS:
 		/* If this is the main CalClient, update the Date Navigator. */
 		if (client == priv->client) {
+			e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
 			update_query (gcal);
 		}
 
@@ -1923,6 +1922,7 @@ gnome_calendar_open (GnomeCalendar *gcal, const char *str_uri)
 		g_message ("gnome_calendar_open(): Could not issue the request");
 		g_free (real_uri);
 		e_uri_free (uri);
+		e_week_view_set_status_message (E_WEEK_VIEW (priv->week_view), NULL);
 
 		return FALSE;
 	}
