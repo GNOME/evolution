@@ -1,3 +1,13 @@
+2001-01-24  Not Zed  <NotZed@Ximian.com>
+
+	* e-sexp.c: Removed some redundant debug printfs.
+	(e_sexp_term_eval): Dont allocate result till we have it. so we
+	can have a fatal error, and not leak it.
+	(term_eval_plus): If we have to abort, free our arguments.
+	(term_eval_sub): Same.
+	(parse_new_term): Renamed to parse_term_new for consistency.
+	Fixed callers.
+
 2001-01-23  Not Zed  <NotZed@Ximian.com>
 
 	* e-sexp.c (e_sexp_parse): Setup error return and return error on

@@ -123,25 +123,30 @@ void		e_sexp_add_function  	(ESExp *f, int scope, char *name, ESExpFunc *func, v
 void		e_sexp_add_ifunction  	(ESExp *f, int scope, char *name, ESExpIFunc *func, void *data);
 void		e_sexp_add_variable  	(ESExp *f, int scope, char *name, ESExpTerm *value);
 void		e_sexp_remove_symbol	(ESExp *f, int scope, char *name);
-int		e_sexp_set_scope		(ESExp *f, int scope);
+int		e_sexp_set_scope	(ESExp *f, int scope);
 
-void		e_sexp_input_text		(ESExp *f, const char *text, int len);
-void		e_sexp_input_file		(ESExp *f, int fd);
+void		e_sexp_input_text	(ESExp *f, const char *text, int len);
+void		e_sexp_input_file	(ESExp *f, int fd);
 
 
 int		e_sexp_parse		(ESExp *f);
 ESExpResult    *e_sexp_eval		(ESExp *f);
 
-ESExpResult    *e_sexp_term_eval		(struct _ESExp *f, struct _ESExpTerm *t);
+ESExpResult    *e_sexp_term_eval	(struct _ESExp *f, struct _ESExpTerm *t);
 ESExpResult    *e_sexp_result_new	(int type);
-void		e_sexp_result_free		(struct _ESExpResult *t);
+void		e_sexp_result_free	(struct _ESExpResult *t);
+
+/* used in normal functions if they have to abort, to free their arguments */
+void		e_sexp_resultv_free	(struct _ESExp *f, int argc, struct _ESExpResult **argv);
 
 /* utility functions for creating s-exp strings. */
-void		e_sexp_encode_bool(GString *s, gboolean state);
-void		e_sexp_encode_string(GString *s, const char *string);
+void		e_sexp_encode_bool	(GString *s, gboolean state);
+void		e_sexp_encode_string	(GString *s, const char *string);
 
 /* only to be called from inside a callback to signal a fatal execution error */
-void		e_sexp_fatal_error(struct _ESExp *f, char *why, ...);
-const char     *e_sexp_error(struct _ESExp *f);
+void		e_sexp_fatal_error	(struct _ESExp *f, char *why, ...);
+
+/* return the error string */
+const char     *e_sexp_error		(struct _ESExp *f);
 
 #endif /* _E_SEXP_H */
