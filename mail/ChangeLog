@@ -1,3 +1,8 @@
+2001-09-24  Christopher James Lahey  <clahey@ximian.com>
+
+	* message-list.c (filter_date): Use e_strftime_fix_am_pm instead
+	of strftime.
+
 2001-09-24    <NotZed@Ximian.com>
 
 	* mail-local.c (mls_get_folder): Removed unused variables.
