@@ -1,5 +1,11 @@
 2000-03-30  Dan Winship  <danw@helixcode.com>
 
+	* shell/e-shell-view.c (e_shell_view_set_view): Hold off on
+	deactivating the "outgoing" control until after setting up the
+	"incoming" control. That way if the new control takes a few
+	seconds to load, there won't be an ugly empty spot where the
+	toolbar used to be while the new control loads.
+
 	* configure.in:
 	* Makefile.am:
 	* art/Makefile.am: install new shortcut bar pixmaps.

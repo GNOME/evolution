@@ -131,11 +131,6 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 		Evolution_ServiceRepository corba_sr;
 		BonoboObjectClient *server =
 			bonobo_widget_get_server (BONOBO_WIDGET (w));
-		BonoboControlFrame *control_frame =
-			bonobo_widget_get_control_frame (BONOBO_WIDGET (w));
-
-		bonobo_control_frame_set_autoactivate (control_frame, FALSE);
-		bonobo_control_frame_control_activate (control_frame);
 
 		/* Does this control have the "ServiceRepository" interface? */
 		corba_sr = (Evolution_ServiceRepository) 
@@ -173,52 +168,64 @@ get_view (EShellView *eshell_view, EFolder *efolder, Bonobo_UIHandler uih)
 void
 e_shell_view_set_view (EShellView *eshell_view, EFolder *efolder)
 {
-	GtkNotebook *notebook = GTK_NOTEBOOK (eshell_view->priv->notebook);
-	GtkWidget *folder_view = g_hash_table_lookup (
-		eshell_view->priv->folder_views, efolder);
-	int current_page = gtk_notebook_get_current_page (notebook);
+	GtkNotebook *notebook;
+	GtkWidget *folder_view;
+	int current_page;
+	BonoboControlFrame *control_frame;
 
 	g_assert (eshell_view);
 	g_assert (efolder);
+
+	notebook = GTK_NOTEBOOK (eshell_view->priv->notebook);
+	current_page = gtk_notebook_get_current_page (notebook);
 
 	if (current_page != -1) {
 		GtkWidget *current;
 
 		current = gtk_notebook_get_nth_page (notebook, current_page);
-		bonobo_control_frame_control_deactivate (bonobo_widget_get_control_frame (BONOBO_WIDGET (current)));
-	}
+		control_frame = bonobo_widget_get_control_frame (
+			BONOBO_WIDGET (current));
+	} else
+		control_frame = NULL;
 
-	/* if we found a notebook page in our hash, that represents
-	   this efolder, switch to it */
+	/* If there's a notebook page in our hash that represents this
+	 * efolder, switch to it.
+	 */
+	folder_view = g_hash_table_lookup (eshell_view->priv->folder_views,
+					   efolder);
 	if (folder_view) {
 		int notebook_page = gtk_notebook_page_num (notebook,
 							   folder_view);
 		g_assert (notebook_page != -1);
 
 		gtk_notebook_set_page (notebook, notebook_page);
-		bonobo_control_frame_control_activate (bonobo_widget_get_control_frame (BONOBO_WIDGET (folder_view)));
-	}
-	else {
-		/* get a new control that represents this efolder,
-		 * append it to our notebook, and put it in our hash */
+	} else {
+		/* Get a new control that represents this efolder,
+		 * append it to our notebook, and put it in our hash.
+		 */
 		Bonobo_UIHandler uih =
 			bonobo_object_corba_objref (
 				BONOBO_OBJECT (eshell_view->uih));
-
-		GtkWidget *w = get_view (eshell_view, efolder, uih);
 		int new_page_index;
 
-		if (!w) return;
-		
-		gtk_notebook_append_page (notebook, w, NULL);
+		folder_view = get_view (eshell_view, efolder, uih);
+		if (!folder_view)
+			return;
 
+		gtk_notebook_append_page (notebook, folder_view, NULL);
 		new_page_index = gtk_notebook_page_num (notebook,
 							folder_view);
-
 		g_hash_table_insert (eshell_view->priv->folder_views,
-				     efolder, w);
+				     efolder, folder_view);
 		gtk_notebook_set_page (notebook, new_page_index);
 	}
+
+	if (control_frame)
+		bonobo_control_frame_control_deactivate (control_frame);
+
+	control_frame =
+		bonobo_widget_get_control_frame (BONOBO_WIDGET (folder_view));
+	bonobo_control_frame_control_activate (control_frame);
 }
 
 GtkWidget *
