@@ -95,6 +95,8 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 {
 	GncalDayPanel *dpanel;
 	GtkWidget *w;
+	GtkWidget *hpane, *vpane;
+	gint start_pos = 265;
 	struct tm tm;
 
 	g_return_val_if_fail (calendar != NULL, NULL);
@@ -118,6 +120,15 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 			  0, 0);
 	gtk_widget_show (w);
 
+	/* Create horizontal pane */
+	
+	hpane = gtk_hpaned_new ();
+	gtk_table_attach (GTK_TABLE (dpanel), hpane,
+			  0, 1, 2, 4,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
+			  0, 0);
+	
 	/* Full day */
 
 	w = gtk_scrolled_window_new (NULL, NULL);
@@ -125,11 +136,8 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 	gtk_scrolled_window_set_policy (dpanel->fullday_sw,
 					GTK_POLICY_AUTOMATIC,
 					GTK_POLICY_AUTOMATIC);
-	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  0, 1, 1, 4,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_paned_pack1 (GTK_PANED (hpane), w, FALSE, TRUE);
+	/*gtk_paned_add1 (GTK_PANED (hpane), w);*/
 	gtk_widget_show (w);
 
 	w = gncal_full_day_new (calendar, time_day_begin (start_of_day), time_day_end (start_of_day));
@@ -146,6 +154,12 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 			    (GtkSignalFunc) full_day_size_allocated,
 			    dpanel);
 
+	/* Create vertical pane */
+	
+	vpane = gtk_vpaned_new ();
+	gtk_paned_pack2 (GTK_PANED (hpane), GTK_WIDGET (vpane), TRUE, TRUE);
+	/*gtk_paned_add2 (GTK_PANED (hpane), GTK_WIDGET (vpane));*/
+		
 	/* Gtk calendar */
 
 	tm = *localtime (&start_of_day);
@@ -165,37 +179,21 @@ gncal_day_panel_new (GnomeCalendar *calendar, time_t start_of_day)
 						      dpanel);
 	gtk_signal_connect (GTK_OBJECT (dpanel->gtk_calendar), "month_changed",
 			    GTK_SIGNAL_FUNC (retag_calendar), dpanel);
-	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  1, 2, 1, 2,
-			  GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
-	gtk_widget_show (w);
-
-	/* Separator */
-
-	w = gtk_hseparator_new ();
-	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  1, 2, 2, 3,
-			  GTK_FILL | GTK_SHRINK,
-			  GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_paned_add1 (GTK_PANED (vpane), w);
 	gtk_widget_show (w);
 
 	/* To-do */
 
 	w = gncal_todo_new (calendar);
 	dpanel->todo = GNCAL_TODO (w);
-	gtk_table_attach (GTK_TABLE (dpanel), w,
-			  1, 2, 3, 4,
-			  GTK_FILL | GTK_SHRINK,
-			  GTK_EXPAND | GTK_FILL | GTK_SHRINK,
-			  0, 0);
+	gtk_paned_add2 (GTK_PANED (vpane), w);
 	gtk_widget_show (w);
 
 	/* Done */
 
 	gncal_day_panel_set (dpanel, start_of_day);
+
+	gtk_paned_set_position (GTK_PANED (hpane), start_pos);
 
 	return GTK_WIDGET (dpanel);
 }
