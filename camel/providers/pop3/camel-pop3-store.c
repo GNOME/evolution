@@ -180,7 +180,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 					     _("Connection cancelled"));
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-					      _("Could not connect to %s (port %d): %s"),
+					      _("Could not connect to POP server %s (port %d): %s"),
 					      service->url->host, port, g_strerror (errno));
 		
 		camel_object_unref (CAMEL_OBJECT (tcp_stream));
@@ -348,7 +348,7 @@ query_auth_types (CamelService *service, CamelException *ex)
 		pop3_disconnect (service, TRUE, NULL);
 	} else {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      _("Could not connect to POP server on %s"),
+				      _("Could not connect to POP server %s"),
 				      service->url->host);
 	}
 
@@ -388,10 +388,10 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 
 	sasl = camel_sasl_new("pop3", mech, (CamelService *)store);
 	if (sasl == NULL) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     _("Unable to connect to POP server.\n"
-				       "No support for requested "
-				       "authentication mechanism."));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				      _("Unable to connect to POP server %s: "
+					"No support for requested authentication mechanism."),
+				      CAMEL_SERVICE (store)->url->host);
 		return -1;
 	}
 
@@ -404,8 +404,9 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 		if (strncmp(line, "+OK", 3) == 0)
 			break;
 		if (strncmp(line, "-ERR", 4) == 0) {
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					     _("SASL `%s' Login failed: %s"), mech, line);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      _("SASL `%s' Login failed for POP server %s: %s"),
+					      mech, CAMEL_SERVICE (store)->url->host, line);
 			goto done;
 		}
 		/* If we dont get continuation, or the sasl object's run out of work, or we dont get a challenge,
@@ -415,8 +416,9 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 		    || (resp = camel_sasl_challenge_base64(sasl, line+2, ex)) == NULL) {
 			camel_stream_printf((CamelStream *)stream, "*\r\n");
 			camel_pop3_stream_line(stream, &line, &len);
-			camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					     _("SASL Protocol error"));
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+					      _("Cannot login to POP server %s: SASL Protocol error"),
+					      CAMEL_SERVICE (store)->url->host);
 			goto done;
 		}
 
@@ -429,10 +431,11 @@ try_sasl(CamelPOP3Store *store, const char *mech, CamelException *ex)
 	camel_object_unref((CamelObject *)sasl);
 	return 0;
 
-ioerror:
-	camel_exception_setv(ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-			     _("I/O Error: %s"), strerror(errno));
-done:
+ ioerror:
+	camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+			      _("Failed to authenticate on POP server %s: %s"),
+			      CAMEL_SERVICE (store)->url->host, g_strerror (errno));
+ done:
 	camel_object_unref((CamelObject *)sasl);
 	return -1;
 }
@@ -491,10 +494,10 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 			l = l->next;
 		}
 
-		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-				     _("Unable to connect to POP server.\n"
-				       "No support for requested "
-				       "authentication mechanism."));
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
+				      _("Unable to connect to POP server %s: "
+					"No support for requested authentication mechanism."),
+				      CAMEL_SERVICE (store)->url->host);
 		return FALSE;
 	}
 	
@@ -504,12 +507,13 @@ pop3_try_authenticate (CamelService *service, const char *errmsg,
 	if (pcp->state != CAMEL_POP3_COMMAND_OK) {
 		if (status == -1)
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Unable to connect to POP server.\nError sending password: %s"),
+					      _("Unable to connect to POP server %s.\nError sending password: %s"),
+					      CAMEL_SERVICE (store)->url->host,
 					      errno ? g_strerror (errno) : _("Unknown error"));
 		else
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_CANT_AUTHENTICATE,
-					      _("Unable to connect to POP server.\nError sending password: %s"),
-					      store->engine->line);
+					      _("Unable to connect to POP server %s.\nError sending password: %s"),
+					      CAMEL_SERVICE (store)->url->host, store->engine->line);
 	}
 	camel_pop3_engine_command_free(store->engine, pcp);
 
