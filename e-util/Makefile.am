@@ -23,6 +23,12 @@ libeutil_la_SOURCES =			\
 	e-gui-utils.h			\
 	e-html-utils.c			\
 	e-html-utils.h			\
+	e-iterator.c			\
+	e-iterator.h			\
+	e-list.c			\
+	e-list.h			\
+	e-list-iterator.c		\
+	e-list-iterator.h		\
 	e-popup-menu.c			\
 	e-popup-menu.h			\
 	e-printable.c			\

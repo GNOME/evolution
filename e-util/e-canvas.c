@@ -583,6 +583,7 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	ECanvas *canvas;
 	ECanvasSelectionInfo *info;
 	ECanvasItemSelectionFunc func;
+	GList *list;
 
 	g_return_if_fail(item != NULL);
 	g_return_if_fail(GNOME_IS_CANVAS_ITEM(item));
@@ -601,6 +602,24 @@ e_canvas_item_add_selection (GnomeCanvasItem *item, gpointer id)
 	gnome_canvas_item_grab_focus(item);
 
 	flags = E_CANVAS_ITEM_SELECTION_SELECT | E_CANVAS_ITEM_SELECTION_CURSOR;
+
+	for (list = canvas->selection; list; list = g_list_next(list)) {
+		ECanvasSelectionInfo *search;
+		search = list->data;
+
+		if (search->item == item) {
+			ECanvasItemSelectionCompareFunc compare_func;
+			compare_func = gtk_object_get_data(GTK_OBJECT(search->item), "ECanvasItem::selection_compare_callback");
+
+			if (compare_func(search->item, search->id, id, 0) == 0) {
+				canvas->cursor = search;
+				func = gtk_object_get_data(GTK_OBJECT(item), "ECanvasItem::selection_callback");
+				if (func)
+					func(item, flags, search->id);
+				return;
+			}
+		}
+	}
 
 	info = g_new(ECanvasSelectionInfo, 1);
 	info->item = item;

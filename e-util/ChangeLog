@@ -1,3 +1,12 @@
+2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-iterator.c, e-iterator.h, e-list-iterator.c,
+	e-list-iterator.h, e-list.c, e-list.h: New list class with
+	iterators.
+
+	* e-canvas.c: Made it so that you don't get the same selection in
+	the selection list more than once.
+
 2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-gui-utils.h: #include <libgnomeui/gnome-messagebox.h>.  It's
