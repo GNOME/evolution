@@ -94,7 +94,7 @@ create_view (EvolutionShellComponent *shell_component,
 		}
 
 		if (!gtk_object_get_data (GTK_OBJECT (storage), "connected"))
-			mail_do_scan_subfolders (CAMEL_STORE(store), storage);
+			mail_scan_subfolders (CAMEL_STORE(store), storage);
 		camel_object_unref (CAMEL_OBJECT (store));
 
 		control = folder_browser_factory_new_control ("", corba_shell);
@@ -109,13 +109,41 @@ create_view (EvolutionShellComponent *shell_component,
 }
 
 static void
+do_create_folder(char *uri, CamelFolder *folder, void *data)
+{
+	GNOME_Evolution_ShellComponentListener listener = data;
+	CORBA_Environment ev;
+	GNOME_Evolution_ShellComponentListener_Result result;
+
+	if (folder)
+		result = GNOME_Evolution_ShellComponentListener_OK;
+	else
+		result = GNOME_Evolution_ShellComponentListener_INVALID_URI;
+
+	CORBA_exception_init(&ev);
+	GNOME_Evolution_ShellComponentListener_notifyResult(listener, result, &ev);
+	CORBA_Object_release(listener, &ev);
+	CORBA_exception_free(&ev);
+}
+
+static void
 create_folder (EvolutionShellComponent *shell_component,
 	       const char *physical_uri,
 	       const char *type,
 	       const GNOME_Evolution_ShellComponentListener listener,
 	       void *closure)
 {
-	mail_do_create_folder (listener, physical_uri, type);
+	char *uri;
+	CORBA_Environment ev;
+
+	CORBA_exception_init(&ev);
+	if (!strcmp(type, "mail")) {
+		uri = g_strdup_printf ("mbox://%s", physical_uri);
+		mail_create_folder(uri, do_create_folder, CORBA_Object_duplicate(listener, &ev));
+	} else {
+		GNOME_Evolution_ShellComponentListener_notifyResult(listener, GNOME_Evolution_ShellComponentListener_UNSUPPORTED_TYPE, &ev);
+	}
+	CORBA_exception_free(&ev);
 }
 
 static struct {
@@ -126,6 +154,16 @@ static struct {
 	{ "Outbox", &outbox_folder },
 	{ "Sent", &sent_folder },
 };
+
+static void got_folder(char *uri, CamelFolder *folder, void *data)
+{
+	CamelFolder **fp = data;
+
+	if (folder) {
+		*fp = folder;
+		camel_object_ref((CamelObject *)folder);
+	}
+}
 
 static void
 owner_set_cb (EvolutionShellComponent *shell_component,
@@ -158,7 +196,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	for (i=0;i<sizeof(standard_folders)/sizeof(standard_folders[0]);i++) {
 		char *uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-		*standard_folders[i].folder = mail_tool_uri_to_folder_noex(uri);
+		mail_msg_wait(mail_get_folder(uri, got_folder, standard_folders[i].folder));
 		g_free(uri);
 	}
 
@@ -268,7 +306,7 @@ add_storage (const char *uri, CamelService *store,
 	case EVOLUTION_STORAGE_OK:
 		g_hash_table_insert (storages_hash, store, storage);
 		camel_object_ref (CAMEL_OBJECT (store));
-		mail_do_scan_subfolders (CAMEL_STORE (store), storage);
+		mail_scan_subfolders (CAMEL_STORE (store), storage);
 		/* falllll */
 	case EVOLUTION_STORAGE_ERROR_ALREADYREGISTERED:
 	case EVOLUTION_STORAGE_ERROR_EXISTS:

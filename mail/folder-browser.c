@@ -961,8 +961,12 @@ do_message_selected(FolderBrowser *fb)
 		g_free(fb->pending_uid);
 		fb->pending_uid = g_strdup(fb->new_uid);
 	} else {
-		fb->loading_uid = g_strdup(fb->new_uid);
-		mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+		if (fb->new_uid) {
+			fb->loading_uid = g_strdup(fb->new_uid);
+			mail_get_message(fb->folder, fb->loading_uid, done_message_selected, fb, mail_thread_new);
+		} else {
+			mail_display_set_message(fb->mail_display, NULL);
+		}
 	}
 
 	return FALSE;
@@ -973,11 +977,12 @@ static void
 on_message_selected (MessageList *ml, const char *uid, FolderBrowser *fb)
 {
 	d(printf ("selecting uid %s (direct)\n", uid));
-	g_free(fb->new_uid);
-	fb->new_uid = g_strdup(uid);
+
 	if (fb->loading_id != 0)
 		gtk_timeout_remove(fb->loading_id);
 
+	g_free(fb->new_uid);
+	fb->new_uid = g_strdup(uid);
 	fb->loading_id = gtk_timeout_add(100, (GtkFunction)do_message_selected, fb);
 }
 

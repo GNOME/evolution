@@ -25,6 +25,7 @@
 
 #include "camel/camel-exception.h"
 #include "e-util/e-msgport.h"
+#include "camel/camel-object.h"
 
 typedef struct _mail_msg {
 	EMsg msg;		/* parent type */
@@ -49,6 +50,7 @@ void mail_msg_init(void);
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size);
 void mail_msg_free(void *msg);
 void mail_msg_check_error(void *msg);
+void mail_msg_wait(unsigned int msgid);
 
 /* set the status-bar message */
 /* start/end a new op */
@@ -60,6 +62,9 @@ void mail_status(const char *msg);
 
 /* request a string/password */
 char *mail_get_password(char *prompt, gboolean secret);
+
+/* forward a camel event (or other call) to the gui thread */
+int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
 
 /* a message port that receives messages in the gui thread, used for sending port */
 extern EMsgPort *mail_gui_port;

@@ -20,17 +20,31 @@
 
 static void set_view_data(const char *current_message, int busy);
 
-static unsigned int mail_msg_seq;
+#define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
+#define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
+
+static unsigned int mail_msg_seq; /* sequence number of each message */
+static GHashTable *mail_msg_active; /* table of active messages, must hold mail_msg_lock to access */
+static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
+static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
+
+static pthread_t mail_gui_thread; /* so we can tell when we're in the main thread, or not */
 
 void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 {
 	struct _mail_msg *msg;
-	
+
+	MAIL_MT_LOCK(mail_msg_lock);
+
 	msg = g_malloc0(size);
 	msg->ops = ops;
 	msg->seq = mail_msg_seq++;
 	msg->msg.reply_port = reply_port;
 	camel_exception_init(&msg->ex);
+
+	g_hash_table_insert(mail_msg_active, (void *)msg->seq, msg);
+
+	MAIL_MT_UNLOCK(mail_msg_lock);
 
 	return msg;
 }
@@ -41,6 +55,14 @@ void mail_msg_free(void *msg)
 
 	if (m->ops->destroy_msg)
 		m->ops->destroy_msg(m);
+
+	MAIL_MT_LOCK(mail_msg_lock);
+
+	g_hash_table_remove(mail_msg_active, (void *)m->seq);
+	pthread_cond_broadcast(&mail_msg_cond);
+
+	MAIL_MT_UNLOCK(mail_msg_lock);
+
 	camel_exception_clear(&m->ex);
 	g_free(m);
 }
@@ -52,7 +74,8 @@ void mail_msg_check_error(void *msg)
 	char *text;
 	GnomeDialog *gd;
 
-	if (!camel_exception_is_set(&m->ex))
+	if (!camel_exception_is_set(&m->ex)
+	    || m->ex.id == CAMEL_EXCEPTION_USER_CANCEL)
 		return;
 
 	if (m->ops->describe_msg)
@@ -66,6 +89,34 @@ void mail_msg_check_error(void *msg)
 	gd = (GnomeDialog *)gnome_error_dialog(text);
 	gnome_dialog_run_and_close(gd);
 	g_free(text);
+}
+
+/* waits for a message to be finished processing (freed)
+   the messageid is from struct _mail_msg->seq */
+void mail_msg_wait(unsigned int msgid)
+{
+	struct _mail_msg *m;
+	int ismain = pthread_self() == mail_gui_thread;
+
+	if (ismain) {
+		MAIL_MT_LOCK(mail_msg_lock);
+		m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		while (m) {
+			MAIL_MT_UNLOCK(mail_msg_lock);
+			gtk_main_iteration();
+			MAIL_MT_LOCK(mail_msg_lock);
+			m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		}
+		MAIL_MT_UNLOCK(mail_msg_lock);
+	} else {
+		MAIL_MT_LOCK(mail_msg_lock);
+		m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		while (m) {
+			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
+			m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		}
+		MAIL_MT_UNLOCK(mail_msg_lock);
+	}
 }
 
 EMsgPort		*mail_gui_port;
@@ -168,6 +219,9 @@ void mail_msg_init(void)
 	e_thread_set_msg_destroy(mail_thread_new, mail_msg_destroy, 0);
 	e_thread_set_msg_received(mail_thread_new, mail_msg_received, 0);
 	e_thread_set_reply_port(mail_thread_new, mail_gui_reply_port);
+
+	mail_msg_active = g_hash_table_new(NULL, NULL);
+	mail_gui_thread = pthread_self();
 }
 
 /* ********************************************************************** */
@@ -181,9 +235,6 @@ struct _set_msg {
 static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
 #define STATUS_BUSY_PENDING (2)
 
-#define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
-#define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
-
 /* blah blah */
 
 #define STATUS_DELAY (5)
@@ -194,7 +245,7 @@ static int status_shown;
 static char *status_message_next;
 static int status_message_clear;
 static int status_timeout_id;
-static int status_busy;
+/*static int status_busy;*/
 
 struct _status_msg {
 	struct _mail_msg msg;
@@ -439,7 +490,54 @@ mail_get_password(char *prompt, gboolean secret)
 	return ret;
 }
 
+/* ******************** */
 
+struct _proxy_msg {
+	struct _mail_msg msg;
+	CamelObjectEventHookFunc func;
+	CamelObject *o;
+	void *event_data;
+	void *data;
+};
+
+static void
+do_proxy_event(struct _mail_msg *mm)
+{
+	struct _proxy_msg *m = (struct _proxy_msg *)mm;
+
+	m->func(m->o, m->event_data, m->data);
+}
+
+struct _mail_msg_op proxy_event_op = {
+	NULL,
+	do_proxy_event,
+	NULL,
+	NULL,
+};
+
+int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data)
+{
+	struct _proxy_msg *m;
+	int id;
+	int ismain = pthread_self() == mail_gui_thread;
+
+	if (ismain) {
+		func(o, event_data, data);
+		/* id of -1 is 'always finished' */
+		return -1;
+	} else {
+		/* we dont have a reply port for this, we dont care when/if it gets executed, just queue it */
+		m = mail_msg_new(&proxy_event_op, NULL, sizeof(*m));
+		m->func = func;
+		m->o = o;
+		m->event_data = event_data;
+		m->data = data;
+		
+		id = m->msg.seq;
+		e_msgport_put(mail_gui_port, (EMsg *)m);
+		return id;
+	}
+}
 
 /* ******************** */
 

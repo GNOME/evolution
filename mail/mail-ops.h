@@ -58,7 +58,6 @@ void mail_do_scan_subfolders (CamelStore *store, EvolutionStorage *storage);
 void mail_do_create_folder (const GNOME_Evolution_ShellComponentListener listener,
 			    const char *uri, const char *type);
 void mail_do_setup_trash (const char *name, const char *store_uri, CamelFolder **folder);
-void mail_do_save_messages (CamelFolder *folder, GPtrArray *uids, gchar *path);
 
 /* get a single message, asynchronously */
 void mail_get_message(CamelFolder *folder, const char *uid,
@@ -70,8 +69,8 @@ void mail_get_messages(CamelFolder *folder, GPtrArray *uids,
 		       void (*done) (CamelFolder *folder, GPtrArray *uids, GPtrArray *msgs, void *data), void *data);
 
 /* same for a folder */
-void mail_get_folder(const char *uri,
-		     void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
+int mail_get_folder(const char *uri,
+		    void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
 
 /* build an attachment */
 void mail_build_attachment(CamelFolder *folder, GPtrArray *uids,
@@ -81,4 +80,23 @@ void mail_sync_folder(CamelFolder *folder,
 		      void (*done) (CamelFolder *folder, void *data), void *data);
 void mail_expunge_folder(CamelFolder *folder,
 			 void (*done) (CamelFolder *folder, void *data), void *data);
+
+/* get folder info asynchronously */
+int mail_get_folderinfo(CamelStore *store,
+			void (*done)(CamelStore *store, CamelFolderInfo *info, void *data), void *data);
+
+/* create a new mail folder */
+void mail_create_folder(const char *uri,
+			void (*done) (char *uri, CamelFolder *folder, void *data), void *data);
+
+/* save messages */
+int mail_save_messages(CamelFolder *folder, GPtrArray *uids, const char *path,
+		       void (*done) (CamelFolder *folder, GPtrArray *uids, char *path, void *data), void *data);
+
+int mail_send_mail(const char *uri, CamelMimeMessage *message,
+		   void (*done) (char *uri, CamelMimeMessage *message, gboolean sent, void *data), void *data);
+
+/* scan subfolders and add them to the storage, synchronous */
+/* FIXME: Move this to component-factory.c */
+void mail_scan_subfolders(CamelStore *store, EvolutionStorage *storage);
 

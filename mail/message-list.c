@@ -12,7 +12,6 @@
  */
 
 #include <config.h>
-#include <gnome.h>
 #include <camel/camel-exception.h>
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
@@ -48,7 +47,7 @@
 #include "art/score-higher.xpm"
 #include "art/score-highest.xpm"
 
-#define TIMEIT
+/*#define TIMEIT */
 
 #ifdef TIMEIT
 #include <sys/time.h>
@@ -105,7 +104,8 @@ static void hide_save_state(MessageList *ml);
 static void hide_load_state(MessageList *ml);
 
 /* note: @changes is owned/freed by the caller */
-static void mail_do_regenerate_messagelist (MessageList *list, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);
+/*static void mail_do_regenerate_messagelist (MessageList *list, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);*/
+static void mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes);
 
 /* macros for working with id's (stored in the tree nodes) */
 #define id_is_uid(id) (id[0] == 'u')/* is this a uid id? */
@@ -457,7 +457,7 @@ message_list_drag_data_get (ETable             *table,
 		uids = g_ptr_array_new ();
 		message_list_foreach (mlist, add_uid, uids);
 		
-		mail_do_save_messages (mlist->folder, uids, filename);
+		mail_msg_wait(mail_save_messages(mlist->folder, uids, filename, NULL, NULL));
 		
 		gtk_selection_data_set (selection_data, selection_data->target, 8,
 					(guchar *) filename, strlen (filename));
@@ -1770,7 +1770,9 @@ build_subtree_diff(MessageList *ml, ETreePath *parent, ETreePath *path, CamelFol
 	}
 }
 
+#ifndef BROKEN_ETREE
 static void build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes);
+#endif
 
 static void
 build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
@@ -1813,6 +1815,8 @@ build_flat (MessageList *ml, GPtrArray *uids, CamelFolderChangeInfo *changes)
 #endif
 
 }
+
+#ifndef BROKEN_ETREE
 
 /* used to sort the rows to match list order */
 struct _uidsort {
@@ -1936,6 +1940,7 @@ build_flat_diff(MessageList *ml, CamelFolderChangeInfo *changes)
 #endif
 
 }
+#endif /* ! BROKEN_ETREE */
 
 static void
 main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
@@ -1962,7 +1967,7 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	}
 
 	
-	mail_do_regenerate_messagelist(ml, ml->search, NULL, changes);
+	mail_regen_list(ml, ml->search, NULL, changes);
 }
 
 static void
@@ -1978,7 +1983,7 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	} else {
 		changes = NULL;
 	}
-	mail_op_forward_event (main_folder_changed, o, changes, user_data);
+	mail_proxy_event (main_folder_changed, o, changes, user_data);
 }
 
 static void
@@ -2002,7 +2007,7 @@ message_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 	 * The other thread would be passed a uid parameter that pointed to freed data.
 	 * We copy it and free it in the handler. 
 	 */
-	mail_op_forward_event (main_message_changed, o, g_strdup ((gchar *)event_data), user_data);
+	mail_proxy_event (main_message_changed, o, g_strdup ((gchar *)event_data), user_data);
 }
 
 void
@@ -2045,7 +2050,7 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 	hide_load_state(message_list);
 
 	clear_tree(message_list);
-	mail_do_regenerate_messagelist (message_list, message_list->search, NULL, NULL);
+	mail_regen_list(message_list, message_list->search, NULL, NULL);
 }
 
 E_MAKE_TYPE (message_list, "MessageList", MessageList, message_list_class_init, message_list_init, PARENT_TYPE);
@@ -2149,7 +2154,7 @@ message_list_set_threaded(MessageList *ml, gboolean threaded)
 	if (ml->threaded ^ threaded) {
 		ml->threaded = threaded;
 
-		mail_do_regenerate_messagelist(ml, ml->search, NULL, NULL);
+		mail_regen_list(ml, ml->search, NULL, NULL);
 	}
 }
 
@@ -2163,7 +2168,7 @@ message_list_set_search(MessageList *ml, const char *search)
 	if (search != NULL && ml->search !=NULL && strcmp(search, ml->search)==0)
 		return;
 
-	mail_do_regenerate_messagelist(ml, search, NULL, NULL);
+	mail_regen_list(ml, search, NULL, NULL);
 }
 
 /* returns the number of messages displayable *after* expression hiding has taken place */
@@ -2196,7 +2201,7 @@ void	       message_list_hide_add(MessageList *ml, const char *expr, unsigned in
 
 	MESSAGE_LIST_UNLOCK(ml, hide_lock);
 
-	mail_do_regenerate_messagelist(ml, ml->search, expr, NULL);
+	mail_regen_list(ml, ml->search, expr, NULL);
 }
 
 /* hide specific uid's */
@@ -2223,7 +2228,7 @@ void	       message_list_hide_uids(MessageList *ml, GPtrArray *uids)
 				}
 			}
 			MESSAGE_LIST_UNLOCK(ml, hide_lock);
-			mail_do_regenerate_messagelist(ml, ml->search, NULL, NULL);
+			mail_regen_list(ml, ml->search, NULL, NULL);
 			break;
 		}
 	}
@@ -2243,7 +2248,7 @@ void	       message_list_hide_clear(MessageList *ml)
 	ml->hide_after = ML_HIDE_NONE_END;
 	MESSAGE_LIST_UNLOCK(ml, hide_lock);
 
-	mail_do_regenerate_messagelist(ml, ml->search, NULL, NULL);
+	mail_regen_list(ml, ml->search, NULL, NULL);
 }
 
 #define HIDE_STATE_VERSION (1)
@@ -2320,125 +2325,95 @@ static void hide_save_state(MessageList *ml)
 }
 
 /* ** REGENERATE MESSAGELIST ********************************************** */
-typedef struct regenerate_messagelist_input_s {
+struct _regen_list_msg {
+	struct _mail_msg msg;
+
 	MessageList *ml;
-	CamelFolder *folder;
 	char *search;
 	char *hideexpr;
 	CamelFolderChangeInfo *changes;
 	gboolean dotree;	/* we are building a tree */
-} regenerate_messagelist_input_t;
 
-typedef struct regenerate_messagelist_data_s {
 	GPtrArray *uids,	/* list of uid's to use, if realuids is NULL, this is the actual uid's from search, else a simple ptrarray */
 		*realuids;	/* actual uid's from search/get_uid's, or NULL */
 	CamelFolderThread *tree;
-	CamelFolderChangeInfo *changes;
-} regenerate_messagelist_data_t;
+};
 
-static gchar *describe_regenerate_messagelist (gpointer in_data, gboolean gerund);
-static void setup_regenerate_messagelist   (gpointer in_data, gpointer op_data, CamelException *ex);
-static void do_regenerate_messagelist      (gpointer in_data, gpointer op_data, CamelException *ex);
-static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, CamelException *ex);
-
-static gchar *describe_regenerate_messagelist (gpointer in_data, gboolean gerund)
+static void regen_list_regen(struct _mail_msg *mm)
 {
-	if (gerund)
-		return g_strdup (_("Rebuilding message view"));
-	else
-		return g_strdup (_("Rebuild message view"));
-}
-
-static void setup_regenerate_messagelist (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	regenerate_messagelist_input_t *input = (regenerate_messagelist_input_t *) in_data;
-
-	if (!IS_MESSAGE_LIST (input->ml)) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
-				     "No messagelist specified to regenerate");
-		return;
-	}
-
-	gtk_object_ref (GTK_OBJECT (input->ml));
-}
-
-static void do_regenerate_messagelist (gpointer in_data, gpointer op_data, CamelException *ex)
-{
-	regenerate_messagelist_input_t *input = (regenerate_messagelist_input_t *) in_data;
-	regenerate_messagelist_data_t *data = (regenerate_messagelist_data_t *) op_data;
+	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	int i;
 	GPtrArray *uids, *uidnew;
 
-	if (input->search) {
-		data->uids = camel_folder_search_by_expression(input->ml->folder, input->search, ex);
+	if (m->search) {
+		m->uids = camel_folder_search_by_expression(m->ml->folder, m->search, &mm->ex);
 	} else {
-		data->uids = camel_folder_get_uids (input->ml->folder);
+		m->uids = camel_folder_get_uids(m->ml->folder);
 	}
 
-	if (camel_exception_is_set (ex)) {
+	if (camel_exception_is_set(&mm->ex))
 		return;
-	}
 
 	/* see if we have a new expression to hide on */
-	if (input->hideexpr) {
-		uidnew = camel_folder_search_by_expression(input->ml->folder, input->hideexpr, ex);
+	if (m->hideexpr) {
+		uidnew = camel_folder_search_by_expression(m->ml->folder, m->hideexpr, &mm->ex);
 		/* well, lets not abort just because this faileld ... */
-		camel_exception_clear(ex);
+		camel_exception_clear(&mm->ex);
 
 		if (uidnew) {
-			MESSAGE_LIST_LOCK(input->ml, hide_lock);
+			MESSAGE_LIST_LOCK(m->ml, hide_lock);
 
-			if (input->ml->hidden == NULL) {
-				input->ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
-				input->ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
+			if (m->ml->hidden == NULL) {
+				m->ml->hidden = g_hash_table_new(g_str_hash, g_str_equal);
+				m->ml->hidden_pool = e_mempool_new(512, 256, E_MEMPOOL_ALIGN_BYTE);
 			}
 			
 			for (i=0;i<uidnew->len;i++) {
-				if (g_hash_table_lookup(input->ml->hidden, uidnew->pdata[i]) == 0) {
-					char *uid = e_mempool_strdup(input->ml->hidden_pool, uidnew->pdata[i]);
-					g_hash_table_insert(input->ml->hidden, uid, uid);
+				if (g_hash_table_lookup(m->ml->hidden, uidnew->pdata[i]) == 0) {
+					char *uid = e_mempool_strdup(m->ml->hidden_pool, uidnew->pdata[i]);
+					g_hash_table_insert(m->ml->hidden, uid, uid);
 				}
 			}
 
-			MESSAGE_LIST_UNLOCK(input->ml, hide_lock);
+			MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
 
-			camel_folder_search_free(input->ml->folder, uidnew);
+			camel_folder_search_free(m->ml->folder, uidnew);
 		}
 	}
 
-	MESSAGE_LIST_LOCK(input->ml, hide_lock);
+	MESSAGE_LIST_LOCK(m->ml, hide_lock);
 
-	input->ml->hide_unhidden = data->uids->len;
+	m->ml->hide_unhidden = m->uids->len;
 
 	/* what semantics do we want from hide_before, hide_after?
 	   probably <0 means measure from the end of the list */
 
 	/* perform uid hiding */
-	if (input->ml->hidden || input->ml->hide_before != ML_HIDE_NONE_START || input->ml->hide_after != ML_HIDE_NONE_END) {
+	if (m->ml->hidden || m->ml->hide_before != ML_HIDE_NONE_START || m->ml->hide_after != ML_HIDE_NONE_END) {
 		int start, end;
 		uidnew = g_ptr_array_new();
-		uids = data->uids;
+		uids = m->uids;
 
 		/* first, hide matches */
-		if (input->ml->hidden) {
+		if (m->ml->hidden) {
 			for (i=0;i<uids->len;i++) {
-				if (g_hash_table_lookup(input->ml->hidden, uids->pdata[i]) == 0)
+				if (g_hash_table_lookup(m->ml->hidden, uids->pdata[i]) == 0)
 					g_ptr_array_add(uidnew, uids->pdata[i]);
 			}
 		}
 
 		/* then calculate the subrange visible and chop it out */
-		input->ml->hide_unhidden = uidnew->len;
+		m->ml->hide_unhidden = uidnew->len;
 
-		if (input->ml->hide_before != ML_HIDE_NONE_START || input->ml->hide_after != ML_HIDE_NONE_END) {
+		if (m->ml->hide_before != ML_HIDE_NONE_START || m->ml->hide_after != ML_HIDE_NONE_END) {
 			GPtrArray *uid2 = g_ptr_array_new();
 
-			start = input->ml->hide_before;
+			start = m->ml->hide_before;
 			if (start < 0)
-				start += input->ml->hide_unhidden;
-			end = input->ml->hide_after;
+				start += m->ml->hide_unhidden;
+			end = m->ml->hide_after;
 			if (end < 0)
-				end += input->ml->hide_unhidden;
+				end += m->ml->hide_unhidden;
 
 			start = MAX(start, 0);
 			end = MIN(end, uidnew->len);
@@ -2449,84 +2424,86 @@ static void do_regenerate_messagelist (gpointer in_data, gpointer op_data, Camel
 			g_ptr_array_free(uidnew, TRUE);
 			uidnew = uid2;
 		}
-		data->realuids = uids;
-		data->uids = uidnew;
+		m->realuids = uids;
+		m->uids = uidnew;
 	} else {
-		data->realuids = NULL;
+		m->realuids = NULL;
 	}
 
-	MESSAGE_LIST_UNLOCK(input->ml, hide_lock);
+	MESSAGE_LIST_UNLOCK(m->ml, hide_lock);
 
-	if (input->dotree && data->uids)
-		data->tree = camel_folder_thread_messages_new(input->ml->folder, data->uids);
+	if (m->dotree && m->uids)
+		m->tree = camel_folder_thread_messages_new(m->ml->folder, m->uids);
 	else
-		data->tree = NULL;
+		m->tree = NULL;
 }
 
-static void cleanup_regenerate_messagelist (gpointer in_data, gpointer op_data, CamelException *ex)
+static void regen_list_regened(struct _mail_msg *mm)
 {
-	regenerate_messagelist_input_t *input = (regenerate_messagelist_input_t *) in_data;
-	regenerate_messagelist_data_t *data = (regenerate_messagelist_data_t *) op_data;
+	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
+
+	if (m->uids == NULL)
+		return;
+
+	if (m->dotree)
+		build_tree(m->ml, m->tree, m->changes);
+	else
+		build_flat(m->ml, m->uids, m->changes);
+}
+
+static void regen_list_free(struct _mail_msg *mm)
+{
+	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 	GPtrArray *uids;
 
-	if (data->uids == NULL) { /*exception*/
-		gtk_object_unref (GTK_OBJECT (input->ml));
-		return;
+	/* work out if we have aux uid's to free, otherwise free the real ones */
+	uids = m->realuids;
+	if (uids) {
+		if (m->uids)
+			g_ptr_array_free(m->uids, TRUE);
+	} else
+		uids = m->uids;
+
+	if (uids) {
+		if (m->search)
+			camel_folder_search_free(m->ml->folder, uids);
+		else
+			camel_folder_free_uids(m->ml->folder, uids);
 	}
 
-	if (input->dotree)
-		build_tree(input->ml, data->tree, input->changes);
-	else
-		build_flat(input->ml, data->uids, input->changes);
-
-	/* work out if we have aux uid's to free, otherwise free the real ones */
-	uids = data->realuids;
-	if (uids)
-		g_ptr_array_free(data->uids, TRUE);
-	else
-		uids = data->uids;
-
-	if (input->search)
-		camel_folder_search_free (input->ml->folder, uids);
-	else
-		camel_folder_free_uids (input->ml->folder, uids);
-
 	/* update what we have as our search string */
-        if (input->ml->search && input->ml->search != input->search)
-                g_free(input->ml->search);
-	input->ml->search = input->search;
+        if (m->ml->search && m->ml->search != m->search)
+                g_free(m->ml->search);
+	m->ml->search = m->search;
 
-	if (data->tree)
-		camel_folder_thread_messages_destroy(data->tree);
+	if (m->tree)
+		camel_folder_thread_messages_destroy(m->tree);
 
-	g_free(input->hideexpr);
+	g_free(m->hideexpr);
 
-	if (input->changes)
-		camel_folder_change_info_free(input->changes);
+	if (m->changes)
+		camel_folder_change_info_free(m->changes);
 
-	gtk_object_unref (GTK_OBJECT (input->ml));
+	gtk_object_unref((GtkObject *)m->ml);
 }
 
-static const mail_operation_spec op_regenerate_messagelist =
-{
-	describe_regenerate_messagelist,
-	sizeof (regenerate_messagelist_data_t),
-	setup_regenerate_messagelist,
-	do_regenerate_messagelist,
-	cleanup_regenerate_messagelist
+static struct _mail_msg_op regen_list_op = {
+	NULL,
+	regen_list_regen,
+	regen_list_regened,
+	regen_list_free,
 };
 
-/* if changes == NULL, then update the whole list, otherwise just update the changes */
 static void
-mail_do_regenerate_messagelist (MessageList *list, const gchar *search, const char *hideexpr, CamelFolderChangeInfo *changes)
+mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, CamelFolderChangeInfo *changes)
 {
-	regenerate_messagelist_input_t *input;
+	struct _regen_list_msg *m;
 
-	/* This may get called on empty folder-browsers by the bonobo ui
-	 * callback for threaded view.
-	 */
-	if (!list->folder)
+	if (ml->folder == NULL)
 		return;
+
+#ifndef BROKEN_ETREE
+	/* this can sometimes crash,so ... */
 
 	/* see if we need to goto the child thread at all anyway */
 	/* currently the only case is the flat view with updates and no search */
@@ -2535,15 +2512,15 @@ mail_do_regenerate_messagelist (MessageList *list, const gchar *search, const ch
 		camel_folder_change_info_free(changes);
 		return;
 	}
+#endif
 
-	input = g_new (regenerate_messagelist_input_t, 1);
-	input->ml = list;
-	input->search = g_strdup (search);
-	input->hideexpr = g_strdup(hideexpr);
-	input->changes = changes;
-	input->dotree = list->threaded;
+	m = mail_msg_new(&regen_list_op, NULL, sizeof(*m));
+	m->ml = ml;
+	m->search = g_strdup(search);
+	m->hideexpr = g_strdup(hideexpr);
+	m->changes = changes;
+	m->dotree = ml->threaded;
+	gtk_object_ref((GtkObject *)ml);
 
-	/* just a quick hack, so dont unwarn yet, or die */
-	mail_operation_run (&op_regenerate_messagelist, input, TRUE);
-	/*mail_operation_queue (&op_regenerate_messagelist, input, TRUE);*/
+	e_thread_put(mail_thread_new, (EMsg *)m);
 }

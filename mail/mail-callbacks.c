@@ -266,6 +266,28 @@ free_psd (GtkWidget *composer, gpointer user_data)
 	g_free (psd);
 }
 
+struct _send_data {
+	EMsgComposer *composer;
+	struct post_send_data *psd;
+};
+
+static void
+composer_sent_cb(char *uri, CamelMimeMessage *message, gboolean sent, void *data)
+{
+	struct _send_data *send = data;
+
+	if (sent) {
+		if (send->psd) {
+			camel_folder_set_message_flags(send->psd->folder, send->psd->uid, send->psd->flags, send->psd->flags);
+		}
+		gtk_widget_destroy((GtkWidget *)send->composer);
+	} else {
+		gtk_widget_show((GtkWidget *)send->composer);
+		gtk_object_unref((GtkObject *)send->composer);
+	}
+	g_free(send);
+}
+
 void
 composer_send_cb (EMsgComposer *composer, gpointer data)
 {
@@ -274,7 +296,8 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	const CamelInternetAddress *iaddr;
 	const char *subject;
 	struct post_send_data *psd = data;
-	
+	struct _send_data *send;
+
 	/* Config info */
 	xport = mail_config_get_transport ();
 	
@@ -305,15 +328,13 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 			return;
 		}
 	}
-	
-	if (psd) {
-		mail_do_send_mail (xport->url, message, 
-				   psd->folder, psd->uid, psd->flags, 
-				   GTK_WIDGET (composer));
-	} else {
-		mail_do_send_mail (xport->url, message, NULL, NULL, 0,
-				   GTK_WIDGET (composer));
-	}
+
+	send = g_malloc(sizeof(*send));
+	send->psd = psd;
+	send->composer = composer;
+	gtk_object_ref((GtkObject *)composer);
+	gtk_widget_hide((GtkWidget *)composer);
+	mail_send_mail(xport->url, message, composer_sent_cb, send);
 }
 
 void
@@ -773,7 +794,7 @@ save_msg_ok (GtkWidget *widget, gpointer user_data)
 		folder = gtk_object_get_data (GTK_OBJECT (user_data), "folder");
 		uids = gtk_object_get_data (GTK_OBJECT (user_data), "uids");
 		gtk_object_remove_no_notify (GTK_OBJECT (user_data), "uids");
-		mail_do_save_messages (folder, uids, path);
+		mail_save_messages (folder, uids, path, NULL, NULL);
 	}
 	
 	gtk_widget_destroy (GTK_WIDGET (user_data));

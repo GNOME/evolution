@@ -1,3 +1,73 @@
+2001-01-04  Not Zed  <NotZed@HelixCode.com>
+
+	* mail-ops.c (mail_do_send_mail): Removed old implementation.
+
+	* folder-browser.c (do_message_selected): If we haven't got a real
+	uid, then clear the display instead.
+
+	* message-list.c (message_list_drag_data_get): Use new save
+	message function, and also wait for it to finish before
+	continuing.
+	(folder_changed): 
+	(message_changed): Use mail_proxy_event instead of
+	mail_do_forward.
+	(mail_regen_list): New iplementation to replace the old.
+	: remove <gnome.h> from headers.  Dont define timeit by default.
+	(main_folder_changed): 
+	(message_list_set_folder): 
+	(message_list_set_threaded): 
+	(message_list_set_search): 
+	(message_list_hide_add): 
+	(message_list_hide_uids): 
+	(message_list_hide_clear): Use mail_regen_list instead of
+	mail_do_regenerate_messagelist.
+	(mail_do_regenerate_messagelist): Removed the old stuff.  No
+	functionality changed yet, just using different thread stuff.
+
+	* mail-callbacks.c (save_msg_ok): Use new save message function.
+
+	* component-factory.c (create_view):
+	(add_storage): Use mail_scan_subfolders to build the folder info.
+	(create_folder): Use new implementation with our own callback.
+	(owner_set_cb): Changed b ack to use mail_get_folder, but now wait
+	for it to finish.  This will let any gui still run, but also gives
+	us the required synchronous operation.
+	(got_folder): Callback for when the folder has been opened.
+
+	* mail-ops.c (mail_get_folderinfo): New function to just get the
+	folder info in another thread.
+	(mail_scan_subfolders): New scan subfolder implementation that
+	uses mail_get_folderinfo.
+	(mail_do_scan_subfolders): Removed old implementation.
+	(mail_create_folder): Nerw implementation to create a folder, only.
+	(mail_do_create_folder): Removed old implementation.
+	(mail_save_messages): New implementation, fixes a couple of minor
+	problems, and now provides a return so it can be waited on.  Also
+	check that the writes worked, etc.
+	(mail_do_save_messages): Remove previous implementation.
+	(mail_do_flag_messages): Removed, nothing uses it.
+	(mail_do_flag_messages): Removed, nothing uses it anymore.
+	(mail_get_folder): REturn the operation id, so callers can wait
+	for it.
+	(sync_folder_desc): 
+	(expunge_folder_desc): Add describe functions so we know what its
+	doing.
+	(mail_send_mail): More generic implementation of sending mail.
+
+	* mail-mt.c (mail_msg_new): Lock around seq increment.  And insert
+	each new message into a hash table of active messages.
+	(mail_msg_init): Init the active message table.
+	(mail_msg_free): Remove the message from the active message table.
+	(mail_msg_wait): New function, waits for a message to be
+	processed, by id.
+	(mail_msg_check_error): Dont display the error if it is a
+	user-cancelled operation.
+	(mail_proxy_event): new implementation of mail_op_forward_event.
+	Only real difference is it uses the new	thread stuff, and you can
+	wait for it to finish if you want.
+	(mail_proxy_event): If we're already in the main thread, just call
+	the function.
+
 2001-01-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* mail-config-druid.c: New source file that implements
