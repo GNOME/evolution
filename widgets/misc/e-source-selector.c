@@ -411,7 +411,7 @@ pixbuf_cell_data_func (GtkTreeViewColumn *column,
 		ESource *source;
 		guint32 color;
 		gboolean has_color;
-		GdkPixbuf *pixbuf;
+		GdkPixbuf *pixbuf = NULL;
 
 		g_assert (E_IS_SOURCE (data));
 		source = E_SOURCE (data);
