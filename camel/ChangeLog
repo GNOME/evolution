@@ -9,6 +9,13 @@
 
 2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap/camel-imap-store.c (get_folders): Check for an
+	exception from get_folders_online() here so that we don't send
+	commands to an IMAP server after a disconnect for example. See bug
+	#63504 for an example.
+
+2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
+
 	* camel-tcp-stream-openssl.c (open_ssl_connection): Call
 	SSL_CTX_set_default_verify_paths() to initialise the certificate
 	database paths. Thanks to Anton Altaparmakov for this fix.

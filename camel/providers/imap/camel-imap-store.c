@@ -2814,7 +2814,7 @@ static GPtrArray *
 get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	GSList *p = NULL;
+	GSList *q, *p = NULL;
 	GHashTable *infos;
 	int i;
 	GPtrArray *folders, *folders_out;
@@ -2885,7 +2885,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 
 	/* p is a reversed list of pending folders for the next level, q is the list of folders for this */
 	while (p) {
-		GSList *q = g_slist_reverse(p);
+		q = g_slist_reverse(p);
 
 		p = NULL;
 		while (q) {
@@ -2913,7 +2913,10 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 				get_folders_online(imap_store, n, folders, flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
 				g_free(n);
 				g_free(real);
-
+				
+				if (camel_exception_is_set (ex))
+					goto fail;
+				
 				if (folders->len > 0)
 					fi->flags |= CAMEL_FOLDER_CHILDREN;
 
@@ -2933,6 +2936,7 @@ fail:
 	g_ptr_array_free(folders, TRUE);
 	g_ptr_array_free(folders_out, TRUE);
 	g_hash_table_destroy(infos);
+	g_slist_free (p);
 	g_free(name);
 
 	return NULL;
