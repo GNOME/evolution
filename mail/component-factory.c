@@ -668,8 +668,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 
 	storages_hash = g_hash_table_new (NULL, NULL);
 	
-	/*vfolder_create_storage (shell_component);*/
-	
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 	
 	vfolder_load_storage(corba_shell);

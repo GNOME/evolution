@@ -1,5 +1,8 @@
 2001-09-28    <NotZed@Ximian.com>
 
+	* component-factory.c (owner_set_cb): Setup vfolder storage before
+	all others.
+
 	* mail-local.c (mail_local_store_remove_folder): Emit
 	folder_deleted event.
 	(remove_find_path): Fix, compare against path, not full_name.
