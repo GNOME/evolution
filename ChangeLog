@@ -1,3 +1,7 @@
+2001-10-30  Radek Doulik  <rodo@ximian.com>
+
+	* configure.in (THREADS_CFLAGS): require gtkhtml version 0.15.99.1
+
 2001-10-29  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: added calendar/importers/Makefile
