@@ -1,3 +1,10 @@
+2001-05-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (list_add_addresses): Take another argument to
+	ignore a certain address.
+	(mail_generate_reply): Ignore references to the reply-to address
+	when constructing the Cc list.
+
 2001-05-29  Jason Leach  <jleach@ximian.com>
 
 	* message-browser.c (message_browser_new): one-line fix for bug

@@ -340,11 +340,11 @@ management_prepare (GnomeDruidPage *page, GnomeDruid *druid, gpointer data)
 {
 	MailConfigDruid *config = data;
 	char *name;
-
+	
 	name = gtk_entry_get_text (config->gui->email_address);
 	if (name && *name)
 		gtk_entry_set_text (config->gui->account_name, name);
-
+	
 	management_check (config);
 }
 

@@ -466,7 +466,8 @@ send_to_url (const char *url)
 }	
 
 static GList *
-list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts, const MailConfigAccount **me)
+list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *accounts,
+		    const MailConfigAccount **me, const char *ignore_addr)
 {
 	const char *name, *addr;
 	const GSList *l;
@@ -475,34 +476,37 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 	int i;
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
-		/* now, we format this, as if for display, but does the composer
-		   then use it as a real address?  If so, very broken. */
-		/* we should probably pass around CamelAddresse's if thats what
-		   we mean */
-		full = camel_internet_address_format_address (name, addr);
-		
-		/* Here I'll check to see if the cc:'d address is the address
-		   of the sender, and if so, don't add it to the cc: list; this
-		   is to fix Bugzilla bug #455. */
-		notme = TRUE;
-		l = accounts;
-		while (l) {
-			const MailConfigAccount *acnt = l->data;
+		/* Make sure we don't want to ignore this address */
+		if (!ignore || g_strcasecmp (ignore, addr)) {
+			/* now, we format this, as if for display, but does the composer
+			   then use it as a real address?  If so, very broken. */
+			/* we should probably pass around CamelAddresse's if thats what
+			   we mean */
+			full = camel_internet_address_format_address (name, addr);
 			
-			if (!strcmp (acnt->id->address, addr)) {
-				notme = FALSE;
-				if (me && !*me)
-					*me = acnt;
-				break;
+			/* Here I'll check to see if the cc:'d address is the address
+			   of the sender, and if so, don't add it to the cc: list; this
+			   is to fix Bugzilla bug #455. */
+			notme = TRUE;
+			l = accounts;
+			while (l) {
+				const MailConfigAccount *acnt = l->data;
+				
+				if (!strcmp (acnt->id->address, addr)) {
+					notme = FALSE;
+					if (me && !*me)
+						*me = acnt;
+					break;
+				}
+				
+				l = l->next;
 			}
 			
-			l = l->next;
+			if (notme)
+				list = g_list_append (list, full);
+			else
+				g_free (full);
 		}
-		
-		if (notme)
-			list = g_list_append (list, full);
-		else
-			g_free (full);
 	}
 	
 	return list;
@@ -569,7 +573,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 {
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL, *source = NULL;
-	const char *message_id, *references;
+	const char *message_id, *references, *reply_addr = NULL;
 	char *text, *subject, *date_str;
 	const MailConfigAccount *me = NULL;
 	const MailConfigIdentity *id;
@@ -610,15 +614,19 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	reply_to = camel_mime_message_get_reply_to (message);
 	if (!reply_to)
 		reply_to = camel_mime_message_get_from (message);
-	if (reply_to)
+	if (reply_to) {
+		/* Get the Reply-To address so we can ignore references to it in the Cc: list */
+		camel_internet_address_get (reply_to, 0, NULL, &reply_addr);
+		
 		to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
+	}
 	
 	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
 	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
 	
 	if (to_all) {
-		cc = list_add_addresses (cc, to_addrs, accounts, &me);
-		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me);
+		cc = list_add_addresses (cc, to_addrs, accounts, &me, NULL);
+		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me, reply_addr);
 	} else if (me == NULL) {
 		me = guess_me (to_addrs, cc_addrs, accounts);
 	}
