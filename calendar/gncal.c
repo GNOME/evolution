@@ -202,7 +202,7 @@ void update_calendar()
 	gtk_calendar_mark_day(GTK_CALENDAR(calendar), curr_day);
 	printf("Date changed (nothing happens much\n");
 /*	gtk_calendar_select_day(GTK_CALENDAR(calendar), curr_day); */
-#ifdef 0
+#if 0
 	/* Only update the whole calendar if the year or month has changed */
 	tmpday=1;
 	month_changed = FALSE;

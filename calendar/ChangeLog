@@ -1,3 +1,7 @@
+1998-04-08  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gncal.c (update_calendar): Say `#if 0', not `#ifdef 0'.
+
 1998-04-07  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* eventedit.c: Removed unused global variable parent_class.
