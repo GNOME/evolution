@@ -45,6 +45,8 @@ etsi_destroy (GtkObject *object)
 static void
 e_table_sort_info_init (ETableSortInfo *info)
 {
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (info), GTK_FLOATING);
+
 	info->group_count = 0;
 	info->groupings = NULL;
 	info->sort_count = 0;
