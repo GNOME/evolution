@@ -1209,9 +1209,13 @@ sig_fill_options (MailAccountGui *gui)
 	
 	if (menu_text)
 		clear_menu (menu_text);
+	else
+		menu_text = gtk_menu_new ();
 	
 	if (menu_html)
 		clear_menu (menu_html);
+	else
+		menu_html = gtk_menu_new ();
 	
 	gtk_menu_append (GTK_MENU (menu_text), gtk_menu_item_new_with_label (_("None")));
 	gtk_menu_append (GTK_MENU (menu_html), gtk_menu_item_new_with_label (_("None")));
