@@ -232,30 +232,6 @@ update_shortcut_and_emit_signal (EShortcuts *shortcuts,
 }
 
 static void
-override_shortcut_name_and_type_from_storage_set (EShortcuts *shortcuts,
-						  EShortcutItem *shortcut_item)
-{
-	EShortcutsPrivate *priv;
-	EFolder *folder;
-
-	priv = shortcuts->priv;
-
-	/* If it is not an evolution: link, there is not much we can do.  */
-	if (strncmp (shortcut_item->uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0)
-		return;
-
-	folder = e_storage_set_get_folder (priv->storage_set,
-					   shortcut_item->uri + E_SHELL_URI_PREFIX_LEN);
-	if (folder == NULL)
-		return;
-
-	shortcut_item_update (shortcut_item,
-			      shortcut_item->uri,
-			      NULL,
-			      e_folder_get_type_string (folder));
-}
-
-static void
 unload_shortcuts (EShortcuts *shortcuts)
 {
 	EShortcutsPrivate *priv;
@@ -336,11 +312,6 @@ load_shortcuts (EShortcuts *shortcuts,
 			type = xmlGetProp (q, "type");
 			
 			shortcut_item = shortcut_item_new (uri, name, type);
-
-			/* The name and type are the ones we saved from the
-			   last session.  If the folder is in the storage, we
-			   have to get the type and name from this storage.  */
-			override_shortcut_name_and_type_from_storage_set (shortcuts, shortcut_item);
 
 			shortcut_group->shortcuts = g_slist_prepend (shortcut_group->shortcuts,
 								     shortcut_item);
