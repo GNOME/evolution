@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution 0.8\n"
-"POT-Creation-Date: 2000-12-14 13:04+0100\n"
-"PO-Revision-Date: 2000-12-14 13:04+01:00\n"
+"POT-Creation-Date: 2000-12-14 21:23+0100\n"
+"PO-Revision-Date: 2000-12-14 21:24+01:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
 "Language-Team: Norwegian <no@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3605,7 +3605,7 @@ msgstr "Filnavn:"
 msgid "MIME type:"
 msgstr "MIME-type:"
 
-#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:290
+#: composer/e-msg-composer-hdrs.c:137 composer/e-msg-composer-hdrs.c:291
 #: mail/mail-format.c:621
 msgid "From:"
 msgstr "Fra:"
@@ -3614,31 +3614,31 @@ msgstr "Fra:"
 msgid "Click here for the address book"
 msgstr "Klikk her for å få opp adresseboken"
 
-#: composer/e-msg-composer-hdrs.c:291
+#: composer/e-msg-composer-hdrs.c:292
 msgid "Enter the identity you wish to send this message from"
 msgstr "Skriv inn identiteten du ønsker å bruke ved sending av denne meldingen"
 
-#: composer/e-msg-composer-hdrs.c:295 mail/mail-format.c:625
+#: composer/e-msg-composer-hdrs.c:296 mail/mail-format.c:625
 msgid "To:"
 msgstr "Til:"
 
-#: composer/e-msg-composer-hdrs.c:296
+#: composer/e-msg-composer-hdrs.c:297
 msgid "Enter the recipients of the message"
 msgstr "Skriv inn mottakerene for meldingen"
 
-#: composer/e-msg-composer-hdrs.c:300 mail/mail-format.c:627
+#: composer/e-msg-composer-hdrs.c:301 mail/mail-format.c:627
 msgid "Cc:"
 msgstr "Cc:"
 
-#: composer/e-msg-composer-hdrs.c:301
+#: composer/e-msg-composer-hdrs.c:302
 msgid "Enter the addresses that will receive a carbon copy of the message"
 msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
 
-#: composer/e-msg-composer-hdrs.c:306
+#: composer/e-msg-composer-hdrs.c:307
 msgid "Bcc:"
 msgstr "Bcc:"
 
-#: composer/e-msg-composer-hdrs.c:307
+#: composer/e-msg-composer-hdrs.c:308
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
@@ -3646,11 +3646,11 @@ msgstr ""
 "Skriv inn adressene som skal motta en kopi av meldingen uten å komme til "
 "syne i mottakerlisten for meldingen."
 
-#: composer/e-msg-composer-hdrs.c:313 mail/mail-format.c:629
+#: composer/e-msg-composer-hdrs.c:314 mail/mail-format.c:629
 msgid "Subject:"
 msgstr "Emne:"
 
-#: composer/e-msg-composer-hdrs.c:314
+#: composer/e-msg-composer-hdrs.c:315
 msgid "Enter the subject of the mail"
 msgstr "Skriv inn emnet for meldingen"
 
@@ -5102,11 +5102,11 @@ msgstr "Lagrer melding %d av %d (uid \"%s\")"
 msgid "Cancel"
 msgstr "Avbryt"
 
-#: mail/mail-summary.c:105 mail/mail-threads.c:728
+#: mail/mail-summary.c:105 mail/mail-threads.c:729
 msgid "Incomplete message written on pipe!"
 msgstr "Uferdig melding skrevet på rør!"
 
-#: mail/mail-threads.c:301
+#: mail/mail-threads.c:302
 #, c-format
 msgid ""
 "Error while preparing to %s:\n"
@@ -5115,7 +5115,7 @@ msgstr ""
 "Feil under forberedelser til %s:\n"
 "%s"
 
-#: mail/mail-threads.c:675
+#: mail/mail-threads.c:676
 #, c-format
 msgid ""
 "Error while `%s':\n"
@@ -5124,19 +5124,19 @@ msgstr ""
 "Feil under `%s':\n"
 "%s"
 
-#: mail/mail-threads.c:732
+#: mail/mail-threads.c:733
 msgid "Error reading commands from dispatching thread."
 msgstr "Feil under lesing av kommandoer fra utsender-tråd."
 
-#: mail/mail-threads.c:797
+#: mail/mail-threads.c:798
 msgid "Corrupted message from dispatching thread?"
 msgstr "Korrupt melding fra utsender-tråd?"
 
-#: mail/mail-threads.c:916
+#: mail/mail-threads.c:917
 msgid "Could not create dialog box."
 msgstr "Kan ikke opprette dialogboks."
 
-#: mail/mail-threads.c:927
+#: mail/mail-threads.c:928
 msgid "User cancelled query."
 msgstr "Spørring avbrutt av bruker."
 
@@ -5406,7 +5406,7 @@ msgstr ""
 "Typen for valgt mappe er ikke gyldig for den\n"
 "forespurte operasjonen."
 
-#: shell/e-shell-folder-selection-dialog.c:291
+#: shell/e-shell-folder-selection-dialog.c:297
 msgid "New..."
 msgstr "Ny..."
 
@@ -5603,8 +5603,8 @@ msgid ""
 "Hi.  Thanks for taking the time to download this preview release\n"
 "of the Evolution groupware suite.\n"
 "\n"
-"Over the last month and a half, our focus has been on making\n"
-"Evolution usable. Many of the Evolution developers are now using\n"
+"Over the time since the past release, our focus has been on making\n"
+"Evolution usable.  Many of the Evolution developers are now using\n"
 "Evolution to read their mail full time. You could too. (Just\n"
 "be sure to keep a backup.)\n"
 "\n"
@@ -5622,7 +5622,7 @@ msgstr ""
 "Hei. Takk for at du har tatt deg tid til å laste ned denne prøveversjonen\n"
 "av Evolution gruppevare-suiten.\n"
 "\n"
-"Den siste halvannen måneden har vi fokusert på å gjøre Evolution klar\n"
+"Siden forrige versjon har vi fokusert på å gjøre Evolution klar\n"
 "for generell bruk. Mange av utviklerene bruker nå Evolution som sin\n"
 "eneste e-postløsning. Det kan du også gjøre. (Bare sørg for å ha en \n"
 "sikkerhetskopi.)\n"
