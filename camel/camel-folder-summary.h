@@ -203,6 +203,9 @@ int camel_folder_summary_decode_fixed_int32(FILE *, gint32 *);
 int camel_folder_summary_encode_uint32(FILE *, guint32);
 int camel_folder_summary_decode_uint32(FILE *, guint32 *);
 
+int camel_folder_summary_encode_time_t(FILE *out, time_t value);
+int camel_folder_summary_decode_time_t(FILE *in, time_t *dest);
+
 int camel_folder_summary_encode_string(FILE *, char *);
 int camel_folder_summary_decode_string(FILE *, char **);
 

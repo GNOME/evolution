@@ -1537,7 +1537,7 @@ int
 header_content_type_is(struct _header_content_type *ct, const char *type, const char *subtype)
 {
 	/* no type == text/plain or text/"*" */
-	if (ct==NULL) {
+	if (ct==NULL || (ct->type == NULL && ct->subtype == NULL)) {
 		return (!strcasecmp(type, "text")
 			&& (!strcasecmp(subtype, "plain")
 			    || !strcasecmp(subtype, "*")));
@@ -1738,12 +1738,12 @@ header_decode_mailbox(const char **in)
 		while (pre) {
 			char *text;
 
+			/* perform internationalised decoding, and appent */
 			text = header_decode_string(pre);
 			name = g_string_append(name, text);
 			g_free(pre);
 			g_free(text);
 
-			/* rfc_decode(pre) */
 			pre = header_decode_word(&inptr);
 			if (pre)
 				name = g_string_append_c(name, ' ');

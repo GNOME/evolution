@@ -48,7 +48,7 @@
 extern int strdup_count, malloc_count, free_count;
 #endif
 
-#define CAMEL_FOLDER_SUMMARY_VERSION (7)
+#define CAMEL_FOLDER_SUMMARY_VERSION (8)
 
 struct _CamelFolderSummaryPrivate {
 	GHashTable *filter_charset;	/* CamelMimeFilterCharset's indexed by source charset */
@@ -541,7 +541,7 @@ camel_folder_summary_encode_uint32(FILE *out, guint32 value)
 int
 camel_folder_summary_decode_uint32(FILE *in, guint32 *dest)
 {
-        gint32 value=0, v;
+        guint32 value=0, v;
 
         /* until we get the last byte, keep decoding 7 bits at a time */
         while ( ((v = fgetc(in)) & 0x80) == 0 && v!=EOF) {
@@ -581,6 +581,33 @@ camel_folder_summary_decode_fixed_int32(FILE *in, gint32 *dest)
 	} else {
 		return -1;
 	}
+}
+
+int
+camel_folder_summary_encode_time_t(FILE *out, time_t value)
+{
+	int i;
+
+	for (i=sizeof(time_t)-1;i>=0;i--) {
+		if (fputc((value >> (i*8)) & 0xff, out) == -1)
+			return -1;
+	}
+	return 0;
+}
+
+int
+camel_folder_summary_decode_time_t(FILE *in, time_t *dest)
+{
+	time_t save = 0;
+	unsigned int v;
+	int i = sizeof(time_t) - 1;
+
+        while ( i>=0 && (v = fgetc(in)) != EOF) {
+		save |= v << (i*8);
+		i--;
+	}
+	*dest = save;
+	return 0;
 }
 
 /* should be sorted, for binary search */
@@ -961,7 +988,6 @@ static CamelMessageInfo *
 message_info_load(CamelFolderSummary *s, FILE *in)
 {
 	CamelMessageInfo *mi;
-	guint32 udate_sent, udate_received;
 	guint count;
 	int i;
 
@@ -971,17 +997,14 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 
 	camel_folder_summary_decode_string(in, &mi->uid);
 	camel_folder_summary_decode_uint32(in, &mi->flags);
-	camel_folder_summary_decode_uint32(in, &udate_sent);	/* warnings, leave them here */
-	camel_folder_summary_decode_uint32(in, &udate_received);
-/*	ms->xev_offset = camel_folder_summary_decode_uint32(in);*/
+	camel_folder_summary_decode_uint32(in, &mi->size);
+	camel_folder_summary_decode_time_t(in, &mi->date_sent);
+	camel_folder_summary_decode_time_t(in, &mi->date_received);
 	camel_folder_summary_decode_string(in, &mi->subject);
 	camel_folder_summary_decode_string(in, &mi->from);
 	camel_folder_summary_decode_string(in, &mi->to);
 	camel_folder_summary_decode_string(in, &mi->cc);
 	mi->content = NULL;
-
-	mi->date_sent = (time_t) udate_sent;
-	mi->date_received = (time_t) udate_received;
 
 	camel_folder_summary_decode_string(in, &mi->message_id);
 
@@ -1025,9 +1048,9 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 
 	camel_folder_summary_encode_string(out, mi->uid);
 	camel_folder_summary_encode_uint32(out, mi->flags);
-	camel_folder_summary_encode_uint32(out, mi->date_sent);
-	camel_folder_summary_encode_uint32(out, mi->date_received);
-/*	camel_folder_summary_encode_uint32(out, ms->xev_offset);*/
+	camel_folder_summary_encode_uint32(out, mi->size);
+	camel_folder_summary_encode_time_t(out, mi->date_sent);
+	camel_folder_summary_encode_time_t(out, mi->date_received);
 	camel_folder_summary_encode_string(out, mi->subject);
 	camel_folder_summary_encode_string(out, mi->from);
 	camel_folder_summary_encode_string(out, mi->to);

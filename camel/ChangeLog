@@ -1,3 +1,21 @@
+2000-10-04  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (header_content_type_is): Handle the case
+	where ct != NULL, but type and subtype are, and also match that
+	against text/plain.
+
+	* camel-folder-summary.c: Bump summary file version.
+	(message_info_save): Save the size from the messageinfo.
+	(message_info_load): Load the size from the summary file.
+	(message_info_load): Fixed up the time_t saving/loading.  There
+	was a reason the warning was left there ... obviously nobody could
+	read the comment "/* warnings, leave them here */", why do i even
+	bother.
+	(camel_folder_summary_decode_time_t): Decode a time_t value from
+	the summary file.
+	(camel_folder_summary_encode_time_t): Encode a time_t value to the
+	summary file.
+
 2000-10-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-command.c (camel_imap_command): Quote
@@ -132,6 +150,7 @@
 	
 	* providers/imap/camel-imap-stream.c (stream_read): Same.
 
+>>>>>>> 1.503
 2000-09-28  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (header_fold): New function to fold headers.
