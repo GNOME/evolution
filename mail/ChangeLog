@@ -1,5 +1,11 @@
 2001-07-19  Jason Leach  <jleach@ximian.com>
 
+	* mail-summary.c (generate_html_summary): Update this
+	evolution:/local/ URI to evolution:/Local Folders/ to go along
+	with today's shell changes.
+
+2001-07-19  Jason Leach  <jleach@ximian.com>
+
 	* mail-display.c: Fix #4605: "Save Image as" should be "Save Image
 	as...".
 
