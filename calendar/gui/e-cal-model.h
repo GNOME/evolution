@@ -37,6 +37,8 @@ G_BEGIN_DECLS
 typedef struct _ECalModelPrivate ECalModelPrivate;
 
 typedef enum {
+	/* If you add new items here or reorder them, you have to update the
+	   .etspec files for the tables using this model */
 	E_CAL_MODEL_FIELD_CATEGORIES,
 	E_CAL_MODEL_FIELD_CLASSIFICATION,
 	E_CAL_MODEL_FIELD_COLOR,            /* not a real field */
@@ -57,6 +59,8 @@ typedef struct {
 	/* private data */
 	ECellDateEditValue *dtstart;
 	ECellDateEditValue *dtend;
+	ECellDateEditValue *due;
+	ECellDateEditValue *completed;
 } ECalModelComponent;
 
 typedef struct {
@@ -69,6 +73,8 @@ typedef struct {
 
 	/* virtual methods */
 	const gchar * (* get_color_for_component) (ECalModel *model, ECalModelComponent *comp_data);
+	void          (* fill_component_from_model) (ECalModel *model, ECalModelComponent *comp_data,
+						     ECalModel *source_model, gint row);
 } ECalModelClass;
 
 GType               e_cal_model_get_type (void);
@@ -78,6 +84,10 @@ void                e_cal_model_set_component_kind (ECalModel *model, icalcompon
 icaltimezone       *e_cal_model_get_timezone (ECalModel *model);
 void                e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone);
 
+void                e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat);
+void                e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24);
+
+CalClient          *e_cal_model_get_default_client (ECalModel *model);
 void                e_cal_model_add_client (ECalModel *model, CalClient *client);
 void                e_cal_model_remove_client (ECalModel *model, CalClient *client);
 void                e_cal_model_remove_all_clients (ECalModel *model);

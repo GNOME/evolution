@@ -23,9 +23,11 @@
 #include <glib/garray.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#include <e-util/e-config-listener.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>
 #include "calendar-config.h"
+#include "comp-util.h"
 #include "e-cal-model.h"
 #include "itip-utils.h"
 #include "misc.h"
@@ -53,6 +55,9 @@ struct _ECalModelPrivate {
 
 	/* Addresses for determining icons */
 	EAccountList *accounts;
+
+	/* Whether we display dates in 24-hour format. */
+        gboolean use_24_hour_format;
 };
 
 static void e_cal_model_class_init (ECalModelClass *klass);
@@ -101,6 +106,7 @@ e_cal_model_class_init (ECalModelClass *klass)
 	etm_class->value_to_string = ecm_value_to_string;
 
 	klass->get_color_for_component = ecm_get_color_for_component;
+	klass->fill_component_from_model = NULL;
 }
 
 static void
@@ -117,6 +123,8 @@ e_cal_model_init (ECalModel *model, ECalModelClass *klass)
 	priv->kind = ICAL_NO_COMPONENT;
 
 	priv->accounts = itip_addresses_get ();
+
+	priv->use_24_hour_format = TRUE;
 }
 
 static void
@@ -139,6 +147,16 @@ free_comp_data (ECalModelComponent *comp_data)
 	if (comp_data->dtend) {
 		g_free (comp_data->dtend);
 		comp_data->dtend = NULL;
+	}
+
+	if (comp_data->due) {
+		g_free (comp_data->due);
+		comp_data->due = NULL;
+	}
+
+	if (comp_data->completed) {
+		g_free (comp_data->completed);
+		comp_data->completed = NULL;
 	}
 
 	g_free (comp_data);
@@ -172,7 +190,20 @@ e_cal_model_finalize (GObject *object)
 	priv = model->priv;
 	if (priv) {
 		if (priv->clients) {
-			e_cal_model_remove_all_clients (model);
+			while (priv->clients != NULL) {
+				ECalModelClient *client_data = (ECalModelClient *) priv->clients->data;
+
+				g_signal_handlers_disconnect_matched (client_data->client, G_SIGNAL_MATCH_DATA,
+								      0, 0, NULL, NULL, model);
+				g_signal_handlers_disconnect_matched (client_data->query, G_SIGNAL_MATCH_DATA,
+								      0, 0, NULL, NULL, model);
+
+				priv->clients = g_list_remove (priv->clients, client_data);
+				g_object_unref (client_data->client);
+				g_object_unref (client_data->query);
+				g_free (client_data);
+			}
+
 			priv->clients = NULL;
 		}
 
@@ -291,8 +322,13 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 
 	if (!comp_data->dtstart) {
 		icaltimezone *zone;
+		icalproperty *prop;
 
-		tt_start = icalcomponent_get_dtstart (comp_data->icalcomp);
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DTSTART_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_start = icalproperty_get_dtstart (prop);
 		if (!icaltime_is_valid_time (tt_start))
 			return NULL;
 
@@ -350,13 +386,13 @@ ecm_value_at (ETableModel *etm, int col, int row)
 	case E_CAL_MODEL_FIELD_CLASSIFICATION :
 		return get_classification (comp_data);
 	case E_CAL_MODEL_FIELD_COLOR :
-		return GINT_TO_POINTER (get_color (model, comp_data));
+		return (void *) get_color (model, comp_data);
 	case E_CAL_MODEL_FIELD_COMPONENT :
 		return comp_data->icalcomp;
 	case E_CAL_MODEL_FIELD_DESCRIPTION :
 		return get_description (comp_data);
 	case E_CAL_MODEL_FIELD_DTSTART :
-		return get_dtstart (model, comp_data);
+		return (void *) get_dtstart (model, comp_data);
 	case E_CAL_MODEL_FIELD_HAS_ALARMS :
 		return GINT_TO_POINTER ((icalcomponent_get_first_component (comp_data->icalcomp,
 									    ICAL_VALARM_COMPONENT) != NULL));
@@ -410,58 +446,58 @@ ecm_value_at (ETableModel *etm, int col, int row)
 }
 
 static void
-set_categories (icalcomponent *icalcomp, const char *value)
+set_categories (ECalModelComponent *comp_data, const char *value)
 {
 	icalproperty *prop;
 
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_CATEGORIES_PROPERTY);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CATEGORIES_PROPERTY);
 	if (!value || !(*value)) {
 		if (prop) {
-			icalcomponent_remove_property (icalcomp, prop);
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
 			icalproperty_free (prop);
 		}
 	} else {
 		if (!prop) {
 			prop = icalproperty_new_categories (value);
-			icalcomponent_add_property (icalcomp, prop);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
 		} else
 			icalproperty_set_categories (prop, value);
 	}
 }
 
 static void
-set_classification (icalcomponent *icalcomp, const char *value)
+set_classification (ECalModelComponent *comp_data, const char *value)
 {
 	icalproperty *prop;
 
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_CLASS_PROPERTY);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_CLASS_PROPERTY);
 	if (!value || !(*value)) {
 		if (prop) {
-			icalcomponent_remove_property (icalcomp, prop);
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
 			icalproperty_free (prop);
 		}
 	} else {
 		if (!prop) {
 			prop = icalproperty_new_class (value);
-			icalcomponent_add_property (icalcomp, prop);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
 		} else
 			icalproperty_set_class (prop, value);
 	}
 }
 
 static void
-set_description (icalcomponent *icalcomp, const char *value)
+set_description (ECalModelComponent *comp_data, const char *value)
 {
 	icalproperty *prop;
 
 	/* remove old description(s) */
-	prop = icalcomponent_get_first_property (icalcomp, ICAL_DESCRIPTION_PROPERTY);
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
 	while (prop) {
 		icalproperty *next;
 
-		next = icalcomponent_get_next_property (icalcomp, ICAL_DESCRIPTION_PROPERTY);
+		next = icalcomponent_get_next_property (comp_data->icalcomp, ICAL_DESCRIPTION_PROPERTY);
 
-		icalcomponent_remove_property (icalcomp, prop);
+		icalcomponent_remove_property (comp_data->icalcomp, prop);
 		icalproperty_free (prop);
 
 		prop = next;
@@ -472,7 +508,7 @@ set_description (icalcomponent *icalcomp, const char *value)
 		return;
 
 	prop = icalproperty_new_description (value);
-	icalcomponent_add_property (icalcomp, prop);
+	icalcomponent_add_property (comp_data->icalcomp, prop);
 }
 
 static void
@@ -492,9 +528,25 @@ set_dtstart (ECalModel *model, ECalModelComponent *comp_data, const void *value)
 }
 
 static void
-set_summary (icalcomponent *icalcomp, const char *value)
+set_summary (ECalModelComponent *comp_data, const char *value)
 {
-	icalcomponent_set_summary (icalcomp, value);
+	icalproperty *prop;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_SUMMARY_PROPERTY);
+
+	if (string_is_empty (value)) {
+		if (prop) {
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+		if (prop)
+			icalproperty_set_summary (prop, value);
+		else {
+			prop = icalproperty_new_summary (value);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
+		}
+	}
 }
 
 static void
@@ -561,7 +613,8 @@ ecm_is_cell_editable (ETableModel *etm, int col, int row)
 static void
 ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 {
-	ECalModelComponent *comp_data;
+	ECalModelClass *model_class;
+	ECalModelComponent comp_data;
 	icalcomponent *icalcomp;
 	ECalModel *source_model = (ECalModel *) source;
 	ECalModel *model = (ECalModel *) etm;
@@ -569,21 +622,29 @@ ecm_append_row (ETableModel *etm, ETableModel *source, int row)
 	g_return_if_fail (E_IS_CAL_MODEL (model));
 	g_return_if_fail (E_IS_CAL_MODEL (source_model));
 
-	comp_data = g_ptr_array_index (source_model->priv->objects, row);
-	g_assert (comp_data != NULL);
+	memset (&comp_data, 0, sizeof (comp_data));
+	comp_data.client = e_cal_model_get_default_client (model);
 
 	/* guard against saving before the calendar is open */
-	if (!(comp_data->client && cal_client_get_load_state (comp_data->client) == CAL_CLIENT_LOAD_LOADED))
+	if (!(comp_data.client && cal_client_get_load_state (comp_data.client) == CAL_CLIENT_LOAD_LOADED))
 		return;
 
-	icalcomp = e_cal_model_create_component_with_defaults (model);
+	comp_data.icalcomp = e_cal_model_create_component_with_defaults (model);
 
-	set_categories (icalcomp, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
-	set_classification (icalcomp, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
-	set_description (icalcomp, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
-	set_summary (icalcomp, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
+	/* set values for our fields */
+	set_categories (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CATEGORIES, row));
+	set_classification (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_CLASSIFICATION, row));
+	set_description (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DESCRIPTION, row));
+	set_dtstart (model, &comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_DTSTART, row));
+	set_summary (&comp_data, e_table_model_value_at (source, E_CAL_MODEL_FIELD_SUMMARY, row));
 
-	if (cal_client_update_objects (comp_data->client, icalcomp) != CAL_CLIENT_RESULT_SUCCESS) {
+	/* call the class' method for filling the component */
+	model_class = (ECalModelClass *) G_OBJECT_GET_CLASS (model);
+	if (model_class->fill_component_from_model != NULL) {
+		model_class->fill_component_from_model (model, &comp_data, source_model, row);
+	}
+
+	if (cal_client_update_objects (comp_data.client, icalcomp) != CAL_CLIENT_RESULT_SUCCESS) {
 		/* FIXME: show error dialog */
 	}
 
@@ -696,7 +757,7 @@ ecm_value_is_empty (ETableModel *etm, int col, const void *value)
 		 * contains the default category, then it possibly means that
 		 * the user has not entered anything at all in the click-to-add;
 		 * the category is in the value because we put it there in
-		 * calendar_model_initialize_value().
+		 * ecm_initialize_value().
 		 */
 		if (priv->default_category && value && strcmp (priv->default_category, value) == 0)
 			return TRUE;
@@ -756,7 +817,20 @@ ecm_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	ECalModelPrivate *priv;
 	gint i, pos;
 	GList *l;
-	gchar *colors[] = { "gray", "green", "darkblue" };
+	gchar *colors[] = {
+		"#718DA9", /* 113 141 169 */
+		"#C6E2E2", /* 198 226 226 */
+		"#8DC671", /* 141 198 113 */
+		"#C6E2A9", /* 198 226 169 */
+		"#C6A971", /* 198 169 113 */
+		"#FFE271", /* 255 226 113 */
+		"#E27171", /* 226 113 113 */
+		"#FFA9A9", /* 255 169 169 */
+		"#C68DC6", /* 198 141 198 */
+		"#E2C6E2", /* 226 198 226 */
+		"#D6D684", /* 214 214 132 */
+		"#5B5B84"  /* 91 91 132 */
+	};
 
 	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
 	g_return_val_if_fail (comp_data != NULL, NULL);
@@ -834,6 +908,85 @@ e_cal_model_set_timezone (ECalModel *model, icaltimezone *zone)
 	}
 }
 
+/**
+ * e_cal_model_set_default_category
+ */
+void
+e_cal_model_set_default_category (ECalModel *model, const gchar *default_cat)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->default_category)
+		g_free (model->priv->default_category);
+
+	model->priv->default_category = g_strdup (default_cat);
+}
+
+/**
+ * e_cal_model_set_use_24_hour_format
+ */
+void
+e_cal_model_set_use_24_hour_format (ECalModel *model, gboolean use24)
+{
+	g_return_if_fail (E_IS_CAL_MODEL (model));
+
+	if (model->priv->use_24_hour_format != use24) {
+                e_table_model_pre_change (E_TABLE_MODEL (model));
+                model->priv->use_24_hour_format = use24;
+                /* Get the views to redraw themselves. */
+                e_table_model_changed (E_TABLE_MODEL (model));
+        }
+}
+
+/**
+ * e_cal_model_get_default_client
+ */
+CalClient *
+e_cal_model_get_default_client (ECalModel *model)
+{
+	ECalModelPrivate *priv;
+	GList *l;
+	gchar *default_uri = NULL;
+	EConfigListener *db;
+	ECalModelClient *client_data;
+
+	g_return_val_if_fail (E_IS_CAL_MODEL (model), NULL);
+
+	priv = model->priv;
+
+	if (!priv->clients)
+		return NULL;
+
+	db = e_config_listener_new ();
+
+	/* look at the configuration and return the real default calendar if we've got it loaded */
+	if (priv->kind == ICAL_VEVENT_COMPONENT)
+		default_uri = e_config_listener_get_string (db, "/apps/evolution/shell/default_folders/calendar_uri");
+	else if (priv->kind == ICAL_VTODO_COMPONENT)
+		default_uri = e_config_listener_get_string (db, "/apps/evolution/shell/default_folders/tasks_uri");
+
+	g_object_unref (db);
+
+	if (!default_uri) {
+		client_data = (ECalModelClient *) priv->clients->data;
+		return client_data->client;
+	}
+
+	for (l = priv->clients; l != NULL; l = l->next) {
+		client_data = (ECalModelClient *) l->data;
+
+		if (!strcmp (default_uri, cal_client_get_uri (client_data->client))) {
+			g_free (default_uri);
+			return client_data->client;
+		}
+	}
+
+	g_free (default_uri);
+
+	client_data = (ECalModelClient *) priv->clients->data;
+	return client_data->client;
+}
+
 static ECalModelComponent *
 search_by_uid_and_client (ECalModelPrivate *priv, CalClient *client, const char *uid)
 {
@@ -895,6 +1048,23 @@ query_obj_updated_cb (CalQuery *query, const char *uid,
 		if (comp_data) {
 			if (comp_data->icalcomp)
 				icalcomponent_free (comp_data->icalcomp);
+			if (comp_data->dtstart) {
+				g_free (comp_data->dtstart);
+				comp_data->dtstart = NULL;
+			}
+			if (comp_data->dtend) {
+				g_free (comp_data->dtend);
+				comp_data->dtend = NULL;
+			}
+			if (comp_data->due) {
+				g_free (comp_data->due);
+				comp_data->due = NULL;
+			}
+			if (comp_data->completed) {
+				g_free (comp_data->completed);
+				comp_data->completed = NULL;
+			}
+
 			comp_data->icalcomp = new_icalcomp;
 
 			e_table_model_row_changed (E_TABLE_MODEL (model), get_position_in_array (priv->objects, comp_data));
@@ -1060,10 +1230,8 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer user_data
 {
 	ECalModel *model = (ECalModel *) user_data;
 
-	if (status != CAL_CLIENT_OPEN_SUCCESS) {
-		e_cal_model_remove_client (model, client);
+	if (status != CAL_CLIENT_OPEN_SUCCESS)
 		return;
-	}
 
 	add_new_client (model, client);
 }
@@ -1296,7 +1464,8 @@ e_cal_model_date_value_to_string (ECalModel *model, const void *value)
 
 	tmp_tm.tm_wday = time_day_of_week (tt.day, tt.month - 1, tt.year);
 
-	e_time_format_date_and_time (&tmp_tm, calendar_config_get_24_hour_format (),
+	memset (buffer, 0, sizeof (buffer));
+	e_time_format_date_and_time (&tmp_tm, priv->use_24_hour_format,
 				     TRUE, FALSE,
 				     buffer, sizeof (buffer));
 	return g_strdup (buffer);

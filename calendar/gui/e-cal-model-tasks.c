@@ -24,6 +24,7 @@
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
+#include "calendar-config.h"
 #include "e-cal-model-tasks.h"
 #include "e-cell-date-edit-text.h"
 #include "misc.h"
@@ -39,13 +40,15 @@ static int ecmt_column_count (ETableModel *etm);
 static void *ecmt_value_at (ETableModel *etm, int col, int row);
 static void ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value);
 static gboolean ecmt_is_cell_editable (ETableModel *etm, int col, int row);
-static void ecmt_append_row (ETableModel *etm, ETableModel *source, int row);
 static void *ecmt_duplicate_value (ETableModel *etm, int col, const void *value);
 static void ecmt_free_value (ETableModel *etm, int col, void *value);
 static void *ecmt_initialize_value (ETableModel *etm, int col);
 static gboolean ecmt_value_is_empty (ETableModel *etm, int col, const void *value);
 static char *ecmt_value_to_string (ETableModel *etm, int col, const void *value);
+
 static const char *ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data);
+static void ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
+					    ECalModel *source_model, gint row);
 
 static GObjectClass *parent_class = NULL;
 
@@ -57,6 +60,7 @@ ecmt_class_init (ECalModelTasksClass *klass)
 {
 	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	ETableModelClass *etm_class = E_TABLE_MODEL_CLASS (klass);
+	ECalModelClass *model_class = E_CAL_MODEL_CLASS (klass);
 
 	parent_class = g_type_class_peek_parent (klass);
 
@@ -66,12 +70,14 @@ ecmt_class_init (ECalModelTasksClass *klass)
 	etm_class->value_at = ecmt_value_at;
 	etm_class->set_value_at = ecmt_set_value_at;
 	etm_class->is_cell_editable = ecmt_is_cell_editable;
-	etm_class->append_row = ecmt_append_row;
 	etm_class->duplicate_value = ecmt_duplicate_value;
 	etm_class->free_value = ecmt_free_value;
 	etm_class->initialize_value = ecmt_initialize_value;
 	etm_class->value_is_empty = ecmt_value_is_empty;
 	etm_class->value_to_string = ecmt_value_to_string;
+
+	model_class->get_color_for_component = ecmt_get_color_for_component;
+	model_class->fill_component_from_model = ecmt_fill_component_from_model;
 }
 
 static void
@@ -197,9 +203,61 @@ ensure_task_not_complete (ECalModelComponent *comp_data)
 static ECellDateEditValue *
 get_completed (ECalModelComponent *comp_data)
 {
-	/* FIXME */
+	struct icaltimetype tt_completed;
 
-	return NULL;
+	if (!comp_data->completed) {
+		icaltimezone *zone;
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_COMPLETED_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_completed = icalproperty_get_completed (prop);
+		if (!icaltime_is_valid_time (tt_completed))
+			return NULL;
+
+		comp_data->completed = g_new0 (ECellDateEditValue, 1);
+		comp_data->completed->tt = tt_completed;
+
+		/* FIXME: handle errors */
+		cal_client_get_timezone (comp_data->client,
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_completed.zone)),
+					 &zone);
+		comp_data->completed->zone = zone;
+	}
+
+	return comp_data->completed;
+}
+
+static ECellDateEditValue *
+get_due (ECalModelComponent *comp_data)
+{
+	struct icaltimetype tt_due;
+
+	if (!comp_data->due) {
+		icaltimezone *zone;
+		icalproperty *prop;
+
+		prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
+		if (!prop)
+			return NULL;
+
+		tt_due = icalproperty_get_due (prop);
+		if (!icaltime_is_valid_time (tt_due))
+			return NULL;
+
+		comp_data->due = g_new0 (ECellDateEditValue, 1);
+		comp_data->due->tt = tt_due;
+
+		/* FIXME: handle errors */
+		cal_client_get_timezone (comp_data->client,
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_due.zone)),
+					 &zone);
+		comp_data->due->zone = zone;
+	}
+
+	return comp_data->due;
 }
 
 static char *
@@ -403,8 +461,7 @@ ecmt_value_at (ETableModel *etm, int col, int row)
 	case E_CAL_MODEL_TASKS_FIELD_COMPLETE :
 		return GINT_TO_POINTER (is_complete (comp_data));
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		/* FIXME */
-		break;
+		return get_due (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 		return get_geo (comp_data);
 	case E_CAL_MODEL_TASKS_FIELD_OVERDUE :
@@ -456,6 +513,29 @@ set_complete (ECalModelComponent *comp_data, const void *value)
 		ensure_task_complete (comp_data, -1);
 	else
 		ensure_task_not_complete (comp_data);
+}
+
+static void
+set_due (ECalModelComponent *comp_data, const void *value)
+{
+	icalproperty *prop;
+	ECellDateEditValue *dv = (ECellDateEditValue *) value;
+
+	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_DUE_PROPERTY);
+
+	if (!dv) {
+		if (prop) {
+			icalcomponent_remove_property (comp_data->icalcomp, prop);
+			icalproperty_free (prop);
+		}
+	} else {
+		if (prop)
+			icalproperty_set_due (prop, dv->tt);
+		else {
+			prop = icalproperty_new_due (dv->tt);
+			icalcomponent_add_property (comp_data->icalcomp, prop);
+		}
+	}
 }
 
 /* FIXME: We need to set the "transient_for" property for the dialog, but the
@@ -660,7 +740,7 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		set_complete (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_DUE :
-		/* FIXME */
+		set_due (comp_data, value);
 		break;
 	case E_CAL_MODEL_TASKS_FIELD_GEO :
 		set_geo (comp_data, value);
@@ -710,19 +790,6 @@ ecmt_is_cell_editable (ETableModel *etm, int col, int row)
 	}
 
 	return FALSE;
-}
-
-static void
-ecmt_append_row (ETableModel *etm, ETableModel *source, gint row)
-{
-	ECalModelTasksPrivate *priv;
-	ECalModelTasks *model = (ECalModelTasks *) etm;
-
-	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
-
-	priv = model->priv;
-
-	/* FIXME: how to chain to ecm_append_row? */
 }
 
 static void *
@@ -874,6 +941,8 @@ ecmt_value_to_string (ETableModel *etm, int col, const void *value)
 	return NULL;
 }
 
+/* ECalModel class methods */
+
 static const char *
 ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 {
@@ -881,17 +950,40 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 	g_return_val_if_fail (comp_data != NULL, NULL);
 
 	switch (get_due_status ((ECalModelTasks *) model, comp_data)) {
-	case E_CAL_MODEL_TASKS_DUE_NEVER:
-	case E_CAL_MODEL_TASKS_DUE_FUTURE:
-	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
-		return NULL;
 	case E_CAL_MODEL_TASKS_DUE_TODAY:
 		return calendar_config_get_tasks_due_today_color ();
 	case E_CAL_MODEL_TASKS_DUE_OVERDUE:
 		return calendar_config_get_tasks_overdue_color ();
+	case E_CAL_MODEL_TASKS_DUE_NEVER:
+	case E_CAL_MODEL_TASKS_DUE_FUTURE:
+	case E_CAL_MODEL_TASKS_DUE_COMPLETE:
 	}
 
-	return NULL;
+	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
+}
+
+static void
+ecmt_fill_component_from_model (ECalModel *model, ECalModelComponent *comp_data,
+				ECalModel *source_model, gint row)
+{
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+	g_return_if_fail (comp_data != NULL);
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (source_model));
+
+	set_completed ((ECalModelTasks *) model, comp_data,
+		       e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_COMPLETED, row));
+	set_due (comp_data,
+		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_DUE, row));
+	set_geo (comp_data,
+		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_GEO, row));
+	set_percent (comp_data,
+		     e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_PERCENT, row));
+	set_priority (comp_data,
+		      e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_PRIORITY, row));
+	set_status (comp_data,
+		    e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_STATUS, row));
+	set_url (comp_data,
+		 e_table_model_value_at (E_TABLE_MODEL (source_model), E_CAL_MODEL_TASKS_FIELD_URL, row));
 }
 
 /**
@@ -901,4 +993,23 @@ ECalModelTasks *
 e_cal_model_tasks_new (void)
 {
 	return g_object_new (E_TYPE_CAL_MODEL_TASKS, NULL);
+}
+
+/**
+ * e_cal_model_tasks_mark_task_complete
+ */
+void
+e_cal_model_tasks_mark_task_complete (ECalModelTasks *model, gint model_row)
+{
+	ECalModelTasksPrivate *priv;
+	ECalModelComponent *comp_data;
+
+	g_return_if_fail (E_IS_CAL_MODEL_TASKS (model));
+	g_return_if_fail (model_row >= 0 && model_row < e_table_model_row_count (E_TABLE_MODEL (model)));
+
+	priv = model->priv;
+
+	comp_data = e_cal_model_get_component_at (E_CAL_MODEL (model), model_row);
+	if (comp_data)
+		ensure_task_complete (comp_data, -1);
 }
