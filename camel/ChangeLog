@@ -1,5 +1,10 @@
 2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/smtp/camel-smtp-transport.c (smtp_rcpt): Don't check
+	errno as it's not being set. Fixes bug #1150.
+
+2001-01-16  Jeffrey Stedfast  <fejj@ximian.com>
+
 	Ugh, this design is ugly like my butt.
 
 	* camel-session.c (camel_session_query_cert_authenticator): New

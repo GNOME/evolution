@@ -571,8 +571,7 @@ smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException 
 		if (!respbuf || strncmp (respbuf, "250", 3)) {
 			g_free (respbuf);
 			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("RCPT TO response error: %s: mail not sent"),
-					      g_strerror (errno));
+					      _("RCPT TO response error: mail not sent"));
 			return FALSE;
 		}
 	} while (*(respbuf+3) == '-'); /* if we got "250-" then loop again */
