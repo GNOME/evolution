@@ -1,3 +1,11 @@
+2003-10-28  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/e-cal-view.c: no need to keep the timezone here, it is
+	already stored in the model.
+	(e_cal_view_get_timezone): call e_cal_model_get_timezone().
+	(e_cal_view_set_timezone): call e_cal_model_set_timezone().
+	(e_cal_view_new_appointment_for): use the model's timezone.
+
 2003-10-27  Dan Winship  <danw@ximian.com>
 
 	* pcs/cal-backend.c (cal_backend_notify_object_created,

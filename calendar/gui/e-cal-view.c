@@ -70,9 +70,6 @@ struct _ECalViewPrivate {
 	/* The popup menu */
 	EPopupMenu *view_menu;
 
-	/* The timezone. */
-	icaltimezone *zone;
-
 	/* The default category */
 	char *default_category;
 };
@@ -551,7 +548,7 @@ icaltimezone *
 e_cal_view_get_timezone (ECalView *cal_view)
 {
 	g_return_val_if_fail (E_IS_CAL_VIEW (cal_view), NULL);
-	return cal_view->priv->zone;
+	return e_cal_model_get_timezone (cal_view->priv->model);
 }
 
 void
@@ -561,13 +558,13 @@ e_cal_view_set_timezone (ECalView *cal_view, icaltimezone *zone)
 
 	g_return_if_fail (E_IS_CAL_VIEW (cal_view));
 
-	if (zone == cal_view->priv->zone)
+	old_zone = e_cal_model_get_timezone (cal_view->priv->model);
+	if (old_zone == zone)
 		return;
 
-	old_zone = cal_view->priv->zone;
-	cal_view->priv->zone = zone;
+	e_cal_model_set_timezone (cal_view->priv->model, zone);
 	g_signal_emit (G_OBJECT (cal_view), e_cal_view_signals[TIMEZONE_CHANGED], 0,
-		       old_zone, cal_view->priv->zone);
+		       old_zone, zone);
 }
 
 const char *
@@ -1417,21 +1414,21 @@ e_cal_view_new_appointment_for (ECalView *cal_view,
 	if (all_day)
 		dt.tzid = NULL;
 	else
-		dt.tzid = icaltimezone_get_tzid (priv->zone);
+		dt.tzid = icaltimezone_get_tzid (e_cal_model_get_timezone (cal_view->priv->model));
 
 	icalcomp = e_cal_model_create_component_with_defaults (priv->model);
 	comp = cal_component_new ();
 	cal_component_set_icalcomponent (comp, icalcomp);
 
 	/* DTSTART, DTEND */
-	itt = icaltime_from_timet_with_zone (dtstart, FALSE, priv->zone);
+	itt = icaltime_from_timet_with_zone (dtstart, FALSE, e_cal_model_get_timezone (cal_view->priv->model));
 	if (all_day) {
 		itt.hour = itt.minute = itt.second = 0;
 		itt.is_date = TRUE;
 	}
 	cal_component_set_dtstart (comp, &dt);
 
-	itt = icaltime_from_timet_with_zone (dtend, FALSE, priv->zone);
+	itt = icaltime_from_timet_with_zone (dtend, FALSE, e_cal_model_get_timezone (cal_view->priv->model));
 	if (all_day) {
 		/* We round it up to the end of the day, unless it is
 		   already set to midnight */
