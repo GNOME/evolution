@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-10-27 13:17+0100\n"
-"PO-Revision-Date: 2003-10-27 13:29+0100\n"
+"PO-Revision-Date: 2003-10-28 11:42+0100\n"
 "Last-Translator: Åsmund Skjæveland <aasmunds@fys.uio.no>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -13545,9 +13545,8 @@ msgid "External Viewer"
 msgstr "Ekstern visar"
 
 #: mail/mail-display.c:1363
-#, fuzzy
 msgid "Downloading images"
-msgstr "Last b_ileter"
+msgstr "Lastar ned bilete"
 
 #: mail/mail-display.c:1540
 #, fuzzy
@@ -27665,7 +27664,7 @@ msgstr "Auk tekststorleik"
 
 #: ui/evolution-mail-message.xml.h:42
 msgid "Load _Images"
-msgstr "Last b_ileter"
+msgstr "Last b_ilete"
 
 #: ui/evolution-mail-message.xml.h:44
 msgid "Mark as I_mportant"
@@ -27682,7 +27681,7 @@ msgstr "Markér som _uviktig"
 #: ui/evolution-mail-message.xml.h:47
 #, fuzzy
 msgid "Mark the selected message(s) as having been read"
-msgstr "Send valte meldingar vidare som MIME-oversikt?"
+msgstr ""
 
 #: ui/evolution-mail-message.xml.h:48
 #, fuzzy
