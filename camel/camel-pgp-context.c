@@ -92,7 +92,7 @@ camel_pgp_context_init (CamelPgpContext *context)
 
 	context->priv = g_new0 (struct _CamelPgpContextPrivate, 1);
 
-	ciph->protocol = "application/pgp-encrypted";
+	ciph->protocol = "application/pgp-signature";
 }
 
 static void
