@@ -1546,7 +1546,6 @@ static void
 e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	EText *text;
-	GdkColor *color;
 
 	text = E_TEXT (object);
 
@@ -1609,9 +1608,7 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_FILL_COLOR_GDK:
-		color = g_new (GdkColor, 1);
-		*color = text->color;
-		GTK_VALUE_BOXED (*arg) = color;
+		GTK_VALUE_BOXED (*arg) = gdk_color_copy (&text->color);
 		break;
 
 	case ARG_FILL_COLOR_RGBA:

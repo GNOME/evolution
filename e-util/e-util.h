@@ -2,7 +2,7 @@
 #define _E_UTIL_H_
 
 #include <sys/types.h>
-#include <gtk/gtktypeutils.h>
+#include <glib-object.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -12,23 +12,27 @@ extern "C" {
 #include <gal/util/e-marshal.h>
 
 #define E_MAKE_TYPE(l,str,t,ci,i,parent) \
-GtkType l##_get_type(void)\
+GType l##_get_type(void)\
 {\
-	static GtkType type = 0;\
-	if (!type){\
-		GtkTypeInfo info = {\
-			str,\
-			sizeof (t),\
-			sizeof (t##Class),\
-			(GtkClassInitFunc) ci,\
-			(GtkObjectInitFunc) i,\
-			NULL, /* reserved 1 */\
-			NULL, /* reserved 2 */\
-			(GtkClassInitFunc) NULL\
-		};\
-                type = gtk_type_unique (parent, &info);\
-	}\
-	return type;\
+	static GType type = 0;				\
+	if (!type){					\
+		static GTypeInfo const object_info = {	\
+			sizeof (t##Class),		\
+							\
+			(GBaseInitFunc) NULL,		\
+			(GBaseFinalizeFunc) NULL,	\
+							\
+			(GClassInitFunc) ci,		\
+			(GClassFinalizeFunc) NULL,	\
+			NULL,	/* class_data */	\
+							\
+			sizeof (t),			\
+			0,	/* n_preallocs */	\
+			(GInstanceInitFunc) i,		\
+		};					\
+		type = g_type_register_static (parent, str, &object_info, 0);	\
+	}						\
+	return type;					\
 }
 
 

@@ -43,8 +43,6 @@ static gint e_canvas_focus_in       (GtkWidget        *widget,
 static gint e_canvas_focus_out      (GtkWidget        *widget,
 				     GdkEventFocus    *event);
 
-static int emit_event (GnomeCanvas *canvas, GdkEvent *event);
-
 static GnomeCanvasClass *parent_class = NULL;
 
 enum {
