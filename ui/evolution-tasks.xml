@@ -5,8 +5,8 @@
     <cmd name="TasksCut" _tip="Cut selected task" accel="*Control*x"/>
     <cmd name="TasksCopy" _tip="Copy selected task" accel="*Control*c"/>
     <cmd name="TasksPaste" _tip="Paste task from the clipboard" accel="*Control*v"/>
-    <cmd name="TasksDelete" _label="Delete" _tip="Delete selected tasks" 
-         accel="*Control*d" sensitive="0"/>
+    <cmd name="TasksDelete" _tip="Delete selected tasks" accel="*Control*d" sensitive="0"/>
+    <cmd name="TasksMarkComplete" _tip="Delete selected tasks" accel="*Control*k" sensitive="0"/>
 
     <cmd name="TasksExpunge" _label="_Expunge" _tip="Delete completed tasks" 
          accel="*Control*e"/>
@@ -34,6 +34,10 @@
 	<separator/>
 
 	<menuitem name="TasksDelete" verb="" _label="_Delete" pixtype="pixbuf"/>
+
+	<separator/>
+
+	<menuitem name="TasksMarkComplete" verb="" _label="Mar_k as Complete"/>
       </submenu>
     </placeholder>
 
