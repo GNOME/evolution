@@ -1694,23 +1694,29 @@ header_references_decode(const char *in)
 {
 	const char *inptr = in, *intmp;
 	struct _header_references *head = NULL, *node;
-	char *id, *last;
+	char *id, *word;
 
 	if (in == NULL)
 		return NULL;
 
-	header_decode_lwsp(&inptr);
-	while (*inptr == '<') {
-		last = inptr;
-		id = header_msgid_decode_internal(&inptr);
-		if (id) {
-			node = g_malloc(sizeof(*node));
-			node->next = head;
-			head = node;
-			node->id = id;
-		}
+	while (*inptr) {
 		header_decode_lwsp(&inptr);
-	} while (*inptr == '<' && last != inptr);
+		if (*inptr == '<') {
+			id = header_msgid_decode_internal(&inptr);
+			if (id) {
+				node = g_malloc(sizeof(*node));
+				node->next = head;
+				head = node;
+				node->id = id;
+			}
+		} else {
+			word = header_decode_word(&inptr);
+			if (word)
+				g_free (word);
+			else
+				break;
+		}
+	}
 
 	return head;
 }
