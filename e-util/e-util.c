@@ -1402,3 +1402,56 @@ e_ascii_dtostr (gchar       *buffer,
 
 	return buffer;
 }
+
+gchar *
+e_strdup_append_strings (gchar *first_string, ...)
+{
+	gchar *buffer;
+	gchar *current;
+	gint length;
+	va_list args1;
+	va_list args2;
+	char *v_string;
+	int v_int;
+
+	va_start (args1, first_string);
+	G_VA_COPY (args2, args1);
+
+	length = 0;
+
+	v_string = first_string;
+	while (v_string) {
+		v_int = va_arg (args1, int);
+		if (v_int >= 0)
+			length += v_int;
+		else
+			length += strlen (v_string);
+		v_string = va_arg (args1, char *);
+	}
+
+	buffer  = g_new (char, length + 1);
+	current = buffer;
+
+	v_string = first_string;
+	while (v_string) {
+		v_int = va_arg (args2, int);
+		if (v_int < 0) {
+			int i;
+			for (i = 0; v_string[i]; i++) {
+				*(current++) = v_string[i];
+			}
+		} else {
+			int i;
+			for (i = 0; v_string[i] && i < v_int; i++) {
+				*(current++) = v_string[i];
+			}
+		}
+		v_string = va_arg (args2, char *);
+	}
+	*(current++) = 0;
+
+	va_end (args1);
+	va_end (args2);
+
+	return buffer;
+}

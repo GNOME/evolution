@@ -19,6 +19,7 @@
 #include <config.h>
 #include <ctype.h>
 #include <gtk/gtksignal.h>
+#include <gal/util/e-util.h>
 #include "e-table-text-model.h"
 
 static void e_table_text_model_class_init (ETableTextModelClass *class);
@@ -151,7 +152,12 @@ e_table_text_model_insert (ETextModel *text_model, gint position, const gchar *t
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%s%s", position, temp, text, temp + position);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						text, -1,
+						temp + position, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}
@@ -163,7 +169,12 @@ e_table_text_model_insert_length (ETextModel *text_model, gint position, const g
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%.*s%s", position, temp, length, text, temp + position);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						text, length,
+						temp + position, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}
@@ -175,7 +186,11 @@ e_table_text_model_delete (ETextModel *text_model, gint position, gint length)
 	ETableTextModel *model = E_TABLE_TEXT_MODEL(text_model);
 	if (model->model){
 		gchar *temp = (gchar *)e_table_model_value_at (model->model, model->model_col, model->row);
-		temp = g_strdup_printf ("%.*s%s", position, temp, temp + position + length);
+		/* Can't use g_strdup_printf here because on some
+		   systems printf ("%.*s"); is locale dependent. */
+		temp = e_strdup_append_strings (temp, position,
+						temp + position + length, -1,
+						NULL);
 		e_table_model_set_value_at (model->model, model->model_col, model->row, temp);
 		g_free (temp);
 	}

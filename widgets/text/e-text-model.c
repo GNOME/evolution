@@ -268,7 +268,12 @@ e_text_model_real_insert (ETextModel *model, gint position, const gchar *text)
 	if (length <= 0)
 		return;
 
-	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	/* Can't use g_strdup_printf here because on some systems
+           printf ("%.*s"); is locale dependent. */
+	new_text = e_strdup_append_strings (model->priv->text, position,
+					    text, length,
+					    model->priv->text + position, -1,
+					    NULL);
 
 	if (model->priv->text)
 		g_free (model->priv->text);
@@ -301,7 +306,12 @@ e_text_model_real_insert_length (ETextModel *model, gint position, const gchar *
 	if (length <= 0)
 		return;
 
-	new_text = g_strdup_printf ("%.*s%.*s%s", position, model->priv->text, length, text, model->priv->text + position);
+	/* Can't use g_strdup_printf here because on some systems
+           printf ("%.*s"); is locale dependent. */
+	new_text = e_strdup_append_strings (model->priv->text, position,
+					    text, length,
+					    model->priv->text + position, -1,
+					    NULL);
 
 	if (model->priv->text)
 		g_free (model->priv->text);

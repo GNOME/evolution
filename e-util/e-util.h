@@ -129,6 +129,10 @@ gchar    *e_ascii_dtostr                                                   (gcha
 									    const gchar       *format,
 									    gdouble            d);
 
+/* Alternating char * and int arguments with a NULL char * to end.
+   Less than 0 for the int means copy the whole string. */
+gchar    *e_strdup_append_strings                                          (gchar             *first_string,
+									    ...);
 
 /* Marshallers */
 void      e_marshal_INT__INT_INT_POINTER                                   (GtkObject         *object,
