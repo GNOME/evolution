@@ -729,12 +729,14 @@ et_canvas_root_event (GnomeCanvasItem *root, GdkEvent *event, ETable *e_table)
 	case GDK_BUTTON_PRESS:
 	case GDK_2BUTTON_PRESS:
 	case GDK_BUTTON_RELEASE:
-		if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
-			GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
+		if (event->button.button != 4 && event->button.button != 5) {
+			if (GTK_WIDGET_HAS_FOCUS(root->canvas)) {
+				GnomeCanvasItem *item = GNOME_CANVAS(root->canvas)->focused_item;
 
-			if (E_IS_TABLE_ITEM(item)) {
-				e_table_item_leave_edit_(E_TABLE_ITEM(item));
-				return TRUE;
+				if (E_IS_TABLE_ITEM(item)) {
+					e_table_item_leave_edit_(E_TABLE_ITEM(item));
+					return TRUE;
+				}
 			}
 		}
 		break;
