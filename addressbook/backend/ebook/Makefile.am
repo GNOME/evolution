@@ -112,6 +112,7 @@ evolution_vcard_importer_SOURCES =			\
 	evolution-vcard-importer.c
 evolution_vcard_importer_LDADD =				\
 	libebook.la						\
+	$(BONOBO_CONF_LIBS)					\
 	$(BONOBO_GNOME_LIBS)					\
 	$(EXTRA_GNOME_LIBS)					\
 	$(top_builddir)/shell/importer/libevolution-importer.la \
