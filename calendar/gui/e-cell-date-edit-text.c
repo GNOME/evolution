@@ -73,7 +73,6 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 {
 	ECellDateEditText *ecd = E_CELL_DATE_EDIT_TEXT (cell);
 	ECellDateEditValue *dv = e_table_model_value_at (model, col, row);
-	struct icaltimetype tt;
 	struct tm tmp_tm;
 	char buffer[64];
 
@@ -87,7 +86,7 @@ ecd_get_text (ECellText *cell, ETableModel *model, int col, int row)
 	tmp_tm = icaltimetype_to_tm_with_zone (&dv->tt, dv->zone, ecd->zone);
 
 	e_time_format_date_and_time (&tmp_tm, ecd->use_24_hour_format,
-				     TRUE, FALSE,
+				     !dv->tt.is_date, FALSE,
 				     buffer, sizeof (buffer));
 	return g_strdup (buffer);
 }
@@ -142,13 +141,22 @@ ecd_set_value (ECellText *cell, ETableModel *model, int col, int row,
 	ETimeParseStatus status;
 	struct tm tmp_tm;
 	ECellDateEditValue *value;
+	gboolean is_date = TRUE;
 
-	status = e_time_parse_date_and_time (text, &tmp_tm);
-
+	/* Try to parse just a date first. If the value is only a date, we
+	   use a DATE value. */
+	status = e_time_parse_date (text, &tmp_tm);
 	if (status == E_TIME_PARSE_INVALID) {
-		show_date_warning (ecd);
-		return;
-	} else if (status == E_TIME_PARSE_NONE) {
+		is_date = FALSE;
+		status = e_time_parse_date_and_time (text, &tmp_tm);
+
+		if (status == E_TIME_PARSE_INVALID) {
+			show_date_warning (ecd);
+			return;
+		}
+	}
+
+	if (status == E_TIME_PARSE_NONE) {
 		value = NULL;
 	} else {
 		ECellDateEditValue dv;
@@ -161,10 +169,15 @@ ecd_set_value (ECellText *cell, ETableModel *model, int col, int row,
 		dv.tt.hour   = tmp_tm.tm_hour;
 		dv.tt.minute = tmp_tm.tm_min;
 		dv.tt.second = tmp_tm.tm_sec;
+		dv.tt.is_date = is_date;
 
 		/* FIXME: We assume it is being set to the current timezone.
 		   Is that OK? */
-		dv.zone	     = ecd->zone;
+		if (is_date) {
+			dv.zone = NULL;
+		} else {
+			dv.zone = ecd->zone;
+		}
 
 		value = &dv;
 	}

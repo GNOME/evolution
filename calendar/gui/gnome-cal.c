@@ -2027,10 +2027,10 @@ gnome_calendar_new_appointment_for (GnomeCalendar *cal,
 
 	itt = icaltime_from_timet_with_zone (dtend, FALSE, priv->zone);
 	if (all_day) {
-		/* We round it down to the start of the day, or the start of
-		   the previous day if it is midnight. */
-		if (itt.hour == 0 && itt.minute == 0 && itt.second == 0) {
-			icaltime_adjust (&itt, -1, 0, 0, 0);
+		/* We round it up to the end of the day, unless it is already
+		   set to midnight. */
+		if (itt.hour != 0 || itt.minute != 0 || itt.second != 0) {
+			icaltime_adjust (&itt, 1, 0, 0, 0);
 		}
 		itt.hour = itt.minute = itt.second = 0;
 		itt.is_date = TRUE;

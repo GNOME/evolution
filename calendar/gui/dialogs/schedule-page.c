@@ -268,7 +268,14 @@ update_time (SchedulePage *spage, CalComponentDateTime *start_date, CalComponent
 
 	all_day = (start_tt.is_date && end_tt.is_date) ? TRUE : FALSE;
 
-	/* For All-Day events, we set the time field to empty. */
+	/* For All Day Events, if DTEND is after DTSTART, we subtract 1 day
+	   from it. */
+	if (all_day) {
+		if (icaltime_compare_date_only (end_tt, start_tt) > 0) {
+			icaltime_adjust (&end_tt, -1, 0, 0, 0);
+		}
+	}
+
 	e_date_edit_set_date (E_DATE_EDIT (priv->sel->start_date_edit), start_tt.year,
 			      start_tt.month, start_tt.day);
 	e_date_edit_set_time_of_day (E_DATE_EDIT (priv->sel->start_date_edit),
@@ -484,7 +491,6 @@ time_changed_cb (GtkWidget *widget, gpointer data)
 	CalComponentDateTime start_dt, end_dt;
 	struct icaltimetype start_tt = icaltime_null_time ();
 	struct icaltimetype end_tt = icaltime_null_time ();
-	gboolean start_time_set, end_time_set;
 	
 	priv = spage->priv;
 
@@ -514,10 +520,12 @@ time_changed_cb (GtkWidget *widget, gpointer data)
 		start_dt.tzid = icaltimezone_get_tzid (priv->zone);
 		end_dt.tzid = start_dt.tzid;
 	} else {
-		/* For All-Day Events, we set the timezone to NULL. */
+		/* For All-Day Events, we set the timezone to NULL, and add
+		   1 day to DTEND. */
 		start_dt.value->is_date = TRUE;
 		start_dt.tzid = NULL;
 		end_dt.value->is_date = TRUE;
+		icaltime_adjust (&end_tt, 1, 0, 0, 0);
 		end_dt.tzid = NULL;
 	}
 

@@ -495,6 +495,13 @@ get_date_edit_value (CalendarModel *model, CalComponent *comp,
 			CalClientGetStatus status;
 			icaltimezone *zone;
 
+			/* For a DTEND with a DATE value, we subtract 1 from
+			   the day to display it. */
+			if (col == CAL_COMPONENT_FIELD_DTEND
+			    && dt.value->is_date) {
+				icaltime_adjust (dt.value, -1, 0, 0, 0);
+			}
+
 			*value = g_new (ECellDateEditValue, 1);
 			(*value)->tt = *dt.value;
 
@@ -1008,7 +1015,8 @@ set_completed (CalendarModel *model, CalComponent *comp, const void *value)
 /* Sets a CalComponentDateTime value */
 static void
 set_datetime (CalendarModel *model, CalComponent *comp, const void *value,
-	      void (* set_func) (CalComponent *comp, CalComponentDateTime *dt))
+	      void (* set_func) (CalComponent *comp, CalComponentDateTime *dt),
+	      gboolean is_dtend)
 {
 	ECellDateEditValue *dv = (ECellDateEditValue*) value;
 
@@ -1019,6 +1027,11 @@ set_datetime (CalendarModel *model, CalComponent *comp, const void *value,
 
 		dt.value = &dv->tt;
 		dt.tzid = icaltimezone_get_tzid (dv->zone);
+
+		/* For a DTEND with a DATE value, we add 1 day to it. */
+		if (is_dtend && dt.value->is_date) {
+			icaltime_adjust (dt.value, 1, 0, 0, 0);
+		}
 
 		(* set_func) (comp, &dt);
 	}
@@ -1242,16 +1255,19 @@ calendar_model_set_value_at (ETableModel *etm, int col, int row, const void *val
 
 	case CAL_COMPONENT_FIELD_DTEND:
 		/* FIXME: Need to reset dtstart if dtend happens before it */
-		set_datetime (model, comp, value, cal_component_set_dtend);
+		set_datetime (model, comp, value, cal_component_set_dtend,
+			      TRUE);
 		break;
 
 	case CAL_COMPONENT_FIELD_DTSTART:
 		/* FIXME: Need to reset dtend if dtstart happens after it */
-		set_datetime (model, comp, value, cal_component_set_dtstart);
+		set_datetime (model, comp, value, cal_component_set_dtstart,
+			      FALSE);
 		break;
 
 	case CAL_COMPONENT_FIELD_DUE:
-		set_datetime (model, comp, value, cal_component_set_due);
+		set_datetime (model, comp, value, cal_component_set_due,
+			      FALSE);
 		break;
 
 	case CAL_COMPONENT_FIELD_GEO:
@@ -1362,10 +1378,10 @@ calendar_model_append_row (ETableModel *etm, ETableModel *source, gint row)
 	set_classification (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_CLASSIFICATION, row));
 	set_completed (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_COMPLETED, row));
 	/* FIXME: Need to reset dtstart if dtend happens before it */
-	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTEND, row), cal_component_set_dtend);
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTEND, row), cal_component_set_dtend, TRUE);
 	/* FIXME: Need to reset dtend if dtstart happens after it */
-	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTSTART, row), cal_component_set_dtstart);
-	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DUE, row), cal_component_set_due);
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DTSTART, row), cal_component_set_dtstart, FALSE);
+	set_datetime (model, comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_DUE, row), cal_component_set_due, FALSE);
 	set_geo (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_GEO, row));
 	set_percent (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_PERCENT, row));
 	set_priority (comp, e_table_model_value_at(source, CAL_COMPONENT_FIELD_PRIORITY, row));

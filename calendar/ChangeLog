@@ -1,3 +1,29 @@
+2001-10-30  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/schedule-page.c: 
+	* gui/dialogs/event-page.c: 
+	* gui/dialogs/comp-editor-util.c: updated code to handle DATE values.
+
+	* gui/gnome-cal.c (gnome_calendar_new_appointment_for): 
+	* gui/e-day-view.c (e_day_view_key_press): updated DATE code.
+
+	* gui/e-cell-date-edit-text.c: 
+	* gui/calendar-model.c: updated to support DATE values.
+
+	* cal-util/cal-recur.c (cal_recur_generate_instances_of_rule): updated
+	to use DATE values in same way as Outlook - i.e. the DTEND date is
+	not included entirely. Though I did make it so that if the DTSTART
+	and DTEND used the same DATE value, it includes the entire day.
+	So 1-day events should be the same. Long All-Day events will be
+	1 day shorter.
+
+	* cal-util/cal-component.c (cal_component_get_start_plus_duration): 
+	don't subtract a day from the end date.
+
+	* gui/tasks-control.c: updated the EPixmap paths for Cut/Copy etc.
+	Removed Print & Print Preview paths, since we don't have menu commands
+	for these any more.
+
 2001-10-30  Federico Mena Quintero  <federico@ximian.com>
 
 	Fix bug #10016.

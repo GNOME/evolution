@@ -707,11 +707,28 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 	if (start == -1)
 		start = dtstart_time;
 
-	/* If there is no DTEND, then use the same as the DTSTART. For
-	   DATE-TIME values that means we will just have a single point in
-	   time. For DATE values it means we end up with the entire day. */
-	if (!dtend.value)
+	if (dtend.value) {
+		/* If both DTSTART and DTEND are DATE values, and they are the
+		   same day, we add 1 day to DTEND. This means that most
+		   events created with the old Evolution behavior will still
+		   work OK. I'm not sure what Outlook does in this case. */
+		if (dtstart.value->is_date && dtend.value->is_date) {
+			if (icaltime_compare_date_only (*dtstart.value,
+							*dtend.value) == 0) {
+				icaltime_adjust (dtend.value, 1, 0, 0, 0);
+			}
+		}
+	} else {
+		/* If there is no DTEND, then if DTSTART is a DATE-TIME value
+		   we use the same time (so we have a single point in time).
+		   If DTSTART is a DATE value we add 1 day. */
+		dtend.value = g_new (struct icaltimetype, 1);
 		*dtend.value = *dtstart.value;
+
+		if (dtstart.value->is_date) {
+			icaltime_adjust (dtend.value, 1, 0, 0, 0);
+		}
+	}
 
 	if (dtend.tzid && !dtend.value->is_date) {
 		end_zone = (*tz_cb) (dtend.tzid, tz_cb_data);
@@ -719,6 +736,9 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		end_zone = default_timezone;
 	}
 
+	/* We don't do this any more, since Outlook assumes that the DTEND
+	   date is not included. */
+#if 0
 	/* If DTEND is a DATE value, we add 1 day to it so that it includes
 	   the entire day. */
 	if (dtend.value->is_date) {
@@ -727,6 +747,7 @@ cal_recur_generate_instances_of_rule (CalComponent	 *comp,
 		dtend.value->second = 0;
 		icaltime_adjust (dtend.value, 1, 0, 0, 0);
 	}
+#endif
 	dtend_time = icaltime_as_timet_with_zone (*dtend.value, end_zone);
 
 	/* If there is no recurrence, just call the callback if the event

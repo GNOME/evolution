@@ -332,15 +332,15 @@ update_time (EventPage *epage, CalComponentDateTime *start_date, CalComponentDat
 	}
 
 	/* If both times are DATE values, we set the 'All Day Event' checkbox.
-	   If not, if the end time is a DATE we convert it to the end of the
-	   day. */
+	   Also, if DTEND is after DTSTART, we subtract 1 day from it. */
 	all_day_event = FALSE;
 	start_tt = start_date->value;
 	end_tt = end_date->value;
 	if (start_tt->is_date && end_tt->is_date) {
 		all_day_event = TRUE;
-	} else if (end_tt->is_date) {
-		icaltime_adjust (end_tt, 1, 0, 0, 0);
+		if (icaltime_compare_date_only (*end_tt, *start_tt) > 0) {
+			icaltime_adjust (end_tt, -1, 0, 0, 0);
+		}
 	}
 
 	set_all_day (epage, all_day_event);
@@ -647,6 +647,9 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	if (all_day_event) {
 		start_tt.is_date = TRUE;
 		end_tt.is_date = TRUE;
+
+		/* We have to add 1 day to DTEND, as it is not inclusive. */
+		icaltime_adjust (&end_tt, 1, 0, 0, 0);
 	} else {
 		icaltimezone *start_zone, *end_zone;
 
@@ -805,6 +808,9 @@ summary_changed_cb (GtkEditable *editable, gpointer data)
 }
 
 
+/* Note that this assumes that the start_tt and end_tt passed to it are the
+   dates visible to the user. For DATE values, we have to add 1 day to the
+   end_tt before emitting the signal. */
 static void
 notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 		      struct icaltimetype *end_tt)
@@ -822,7 +828,11 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 	start_dt.value = start_tt;
 	end_dt.value = end_tt;
 
-	if (!all_day_event) {
+	if (all_day_event) {
+		/* The actual DTEND is 1 day after the displayed date for
+		   DATE values. */
+		icaltime_adjust (end_tt, 1, 0, 0, 0);
+	} else {
 		start_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->start_timezone));
 		end_zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->end_timezone));
 	}
@@ -835,6 +845,7 @@ notify_dates_changed (EventPage *epage, struct icaltimetype *start_tt,
 
 	dates.due = NULL;
 	dates.complete = NULL;
+
 	comp_editor_page_notify_dates_changed (COMP_EDITOR_PAGE (epage),
 					       &dates);
 }

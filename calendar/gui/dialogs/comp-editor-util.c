@@ -112,11 +112,13 @@ comp_editor_free_dates (CompEditorPageDates *dates)
 }
 
 
+/* dtstart is only passed in if tt is the dtend. */
 static void
 write_label_piece (struct icaltimetype *tt, char *buffer, int size,
-		   char *stext, char *etext)
+		   char *stext, char *etext, struct icaltimetype *dtstart)
 {
 	struct tm tmp_tm = { 0 };
+	struct icaltimetype tt_copy = *tt;
 	int len;
 	
 	/* FIXME: May want to convert the time to an appropriate zone. */
@@ -124,20 +126,28 @@ write_label_piece (struct icaltimetype *tt, char *buffer, int size,
 	if (stext != NULL)
 		strcat (buffer, stext);
 
-	tmp_tm.tm_year = tt->year - 1900;
-	tmp_tm.tm_mon = tt->month - 1;
-	tmp_tm.tm_mday = tt->day;
-	tmp_tm.tm_hour = tt->hour;
-	tmp_tm.tm_min = tt->minute;
-	tmp_tm.tm_sec = tt->second;
+	/* If we are writing the DTEND (i.e. DTSTART is set), and
+	   DTEND > DTSTART, subtract 1 day. The DTEND date is not inclusive. */
+	if (tt_copy.is_date && dtstart
+	    && icaltime_compare_date_only (tt_copy, *dtstart) > 0) {
+		icaltime_adjust (&tt_copy, -1, 0, 0, 0);
+	}
+
+	tmp_tm.tm_year = tt_copy.year - 1900;
+	tmp_tm.tm_mon = tt_copy.month - 1;
+	tmp_tm.tm_mday = tt_copy.day;
+	tmp_tm.tm_hour = tt_copy.hour;
+	tmp_tm.tm_min = tt_copy.minute;
+	tmp_tm.tm_sec = tt_copy.second;
 	tmp_tm.tm_isdst = -1;
 
-	tmp_tm.tm_wday = time_day_of_week (tt->day, tt->month - 1, tt->year);
+	tmp_tm.tm_wday = time_day_of_week (tt_copy.day, tt_copy.month - 1,
+					   tt_copy.year);
 
 	len = strlen (buffer);
 	e_time_format_date_and_time (&tmp_tm,
 				     calendar_config_get_24_hour_format (), 
-				     FALSE, FALSE,
+				     !tt_copy.is_date, FALSE,
 				     &buffer[len], size - len);
 	if (etext != NULL)
 		strcat (buffer, etext);
@@ -171,24 +181,24 @@ comp_editor_date_label (CompEditorPageDates *dates, GtkWidget *label)
 
 	if (start_set)
 		write_label_piece (dates->start->value, buffer, 1024,
-				   NULL, NULL);
+				   NULL, NULL, NULL);
 
 	if (start_set && end_set)
 		write_label_piece (dates->end->value, buffer, 1024,
-				   _(" to "), NULL);
+				   _(" to "), NULL, dates->start->value);
 
 	if (complete_set) {
 		if (start_set)
-			write_label_piece (dates->complete, buffer, 1024, _(" (Completed "), ")");
+			write_label_piece (dates->complete, buffer, 1024, _(" (Completed "), ")", NULL);
 		else
-			write_label_piece (dates->complete, buffer, 1024, _("Completed "), NULL);
+			write_label_piece (dates->complete, buffer, 1024, _("Completed "), NULL, NULL);
 	}
 	
 	if (due_set && dates->complete == NULL) {
 		if (start_set)
-			write_label_piece (dates->due->value, buffer, 1024, _(" (Due "), ")");
+			write_label_piece (dates->due->value, buffer, 1024, _(" (Due "), ")", NULL);
 		else
-			write_label_piece (dates->due->value, buffer, 1024, _("Due "), NULL);
+			write_label_piece (dates->due->value, buffer, 1024, _("Due "), NULL, NULL);
 	}
 
 	gtk_label_set_text (GTK_LABEL (label), buffer);

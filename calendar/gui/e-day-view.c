@@ -5126,8 +5126,6 @@ e_day_view_key_press (GtkWidget *widget, GdkEventKey *event)
 		start_dt.tzid = NULL;
 		start_tt.is_date = 1;
 		end_tt.is_date = 1;
-		/* We have to take a day off the end time as it is a DATE. */
-		icaltime_adjust (&end_tt, -1, 0, 0, 0);
 	} else {
 		start_dt.tzid = icaltimezone_get_tzid (day_view->zone);
 	}

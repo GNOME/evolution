@@ -2078,15 +2078,12 @@ cal_component_get_start_plus_duration (CalComponent *comp,
 
 	/* If DTSTART is a DATE value, then we need to check if the DURATION
 	   includes any hours, minutes or seconds. If it does, we need to
-	   make the DTEND/DUE a DATE-TIME value. If not, we need to subtract
-	   one from the days, since the end date will be inclusive. */
+	   make the DTEND/DUE a DATE-TIME value. */
 	duration.days += duration.weeks * 7;
 	if (dt->value->is_date) {
 		if (duration.hours != 0 || duration.minutes != 0
 		    || duration.seconds != 0) {
 			dt->value->is_date = 0;
-		} else {
-			duration.days--;
 		}
 	}
 
