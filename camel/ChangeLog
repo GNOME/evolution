@@ -1,5 +1,13 @@
 2001-08-15  Peter Williams  <peterw@ximian.com>
 
+	* camel-tcp-stream-openssl.c (ssl_error_to_errno): New function. Try
+	to approximate the SSL error into errno.
+	(errlib_error_to_errno): New function, try to approximate OpenSSl's
+	error library's error (ERR_*) into errno.
+	(stream_read): Try to set errno using ssl_error_to_errno.
+	(stream_write): Same.
+	(open_ssl_connection): Same.
+
 	* providers/imap/camel-imap-store.c (imap_connect_online): Oh crap,
 	huge killer typo.
 

@@ -166,6 +166,48 @@ camel_tcp_stream_openssl_new (CamelService *service, const char *expected_host)
 	return CAMEL_STREAM (stream);
 }
 
+static void
+errlib_error_to_errno (int ret)
+{
+	long error;
+
+	error = ERR_get_error();
+	if (error == 0) {
+		if (ret == 0)
+			errno = EINVAL; /* unexpected EOF */
+		/* otherwise errno should be set */
+	} else
+		/* ok, we get the shaft now. */
+		errno = EIO;
+}	
+
+static void
+ssl_error_to_errno (CamelTcpStreamOpenSSL *stream, int ret)
+{
+	/* hm, a CamelException might be useful right about now! */
+
+	switch (SSL_get_error (stream->priv->ssl, ret)) {
+	case SSL_ERROR_NONE:
+		errno = 0;
+		return;
+	case SSL_ERROR_ZERO_RETURN:
+		/* this one does not map well at all */
+		errno = EINVAL;
+		return;
+	case SSL_ERROR_WANT_READ: /* non-fatal; retry */
+	case SSL_ERROR_WANT_WRITE:  /* non-fatal; retry */
+	case SSL_ERROR_WANT_X509_LOOKUP: /* non-fatal; retry */
+		errno = EAGAIN;
+		return;
+	case SSL_ERROR_SYSCALL:
+		errlib_error_to_errno (ret);
+		return;
+	case SSL_ERROR_SSL:
+		errlib_error_to_errno (-1);
+		return;
+	}
+}
+
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
@@ -213,7 +255,10 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 	}
-	
+
+	if (nread == -1)
+		ssl_error_to_errno (tcp_stream_openssl, -1);
+
 	return nread;
 }
 
@@ -263,6 +308,9 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 	}
 	
+	if (written == -1)
+		ssl_error_to_errno (tcp_stream_openssl, -1);
+
 	return written;
 }
 
@@ -450,6 +498,7 @@ open_ssl_connection (CamelService *service, int sockfd, CamelTcpStreamOpenSSL *o
 
 	n = SSL_connect (ssl);
 	if (n != 1) {
+		ssl_error_to_errno (openssl, n);
 
 		SSL_shutdown (ssl);
 		
