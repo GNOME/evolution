@@ -1363,6 +1363,30 @@ free_tree_state(GHashTable *expanded_nodes)
 	g_hash_table_destroy(expanded_nodes);
 }
 
+/* we try and find something that isn't deleted in our tree
+   there is actually no assurance that we'll find somethign that will
+   still be there next time, but its probably going to work most of the time */
+static const char *find_next_undeleted(MessageList *ml, ETreePath *node)
+{
+	ETreePath *child;
+	
+	child = e_tree_model_node_get_first_child(ml->model, node);
+	if (child) {
+		const char *ret = find_next_undeleted(ml, child);
+		if (ret)
+			return ret;
+	}
+	while (node) {
+		CamelMessageInfo *info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
+		if ((info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+			return camel_message_info_uid(info);
+		}
+		node = e_tree_model_node_get_next(ml->model, node);
+	}
+
+	return NULL;
+}
+
 /* only call if we have a tree model */
 /* builds the tree structure */
 static void build_subtree (MessageList *ml, ETreePath parent, CamelFolderThreadNode *c, int *row, GHashTable *);
@@ -1398,8 +1422,14 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 		ml->tree_root =	e_tree_memory_node_insert(E_TREE_MEMORY(etm), NULL, 0, NULL);
 	}
 
-	if (ml->cursor_uid)
-		saveuid = g_strdup(ml->cursor_uid);
+	if (ml->cursor_uid) {
+		if (ml->hidedeleted) {
+			ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
+			saveuid = g_strdup(find_next_undeleted(ml, node));
+		} else {
+			saveuid = g_strdup(ml->cursor_uid);
+		}
+	}
 
 #define BROKEN_ETREE	/* avoid some broken code in etree(?) by not using the incremental update */
 
@@ -1433,6 +1463,10 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 			e_tree_set_cursor(ml->tree, node);
 		}
 		g_free(saveuid);
+	} else if (ml->cursor_uid) {
+		g_free(ml->cursor_uid);
+		ml->cursor_uid = NULL;
+		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 
 	free_tree_state(expanded_nodes);
@@ -1711,8 +1745,14 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 	gettimeofday(&start, NULL);
 #endif
 
-	if (ml->cursor_uid)
-		saveuid = g_strdup(ml->cursor_uid);
+	if (ml->cursor_uid) {
+		if (ml->hidedeleted) {
+			ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
+			saveuid = g_strdup(find_next_undeleted(ml, node));
+		} else {
+			saveuid = g_strdup(ml->cursor_uid);
+		}
+	}
 
 #ifndef BROKEN_ETREE
 	if (changes) {
@@ -1735,7 +1775,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 #endif
 
 	if (saveuid) {
-		node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
+		ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, saveuid);
 		if (node == NULL) {
 			g_free(ml->cursor_uid);
 			ml->cursor_uid = NULL;
@@ -1744,6 +1784,10 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 			e_tree_set_cursor(ml->tree, node);
 		}
 		g_free(saveuid);
+	} else if (ml->cursor_uid) {
+		g_free(ml->cursor_uid);
+		ml->cursor_uid = NULL;
+		gtk_signal_emit((GtkObject *)ml, message_list_signals[MESSAGE_SELECTED], NULL);
 	}
 
 #ifdef TIMEIT
@@ -1846,8 +1890,11 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 				camel_folder_free_message_info(folder, info);
 			}
 			
-			if (newchanges->uid_added->len != changes->uid_added->len
-			    || newchanges->uid_removed->len != changes->uid_removed->len) {
+			if (newchanges->uid_added->len > 0 || newchanges->uid_removed->len > 0) {
+				for (i=0;i<changes->uid_added->len;i++)
+					camel_folder_change_info_add_uid(newchanges, changes->uid_added->pdata[i]);
+				for (i=0;i<changes->uid_removed->len;i++)
+					camel_folder_change_info_remove_uid(newchanges, changes->uid_removed->pdata[i]);
 				camel_folder_change_info_free(changes);
 				changes = newchanges;
 			} else {
@@ -2066,6 +2113,9 @@ message_list_set_threaded(MessageList *ml, gboolean threaded)
 void
 message_list_set_hidedeleted(MessageList *ml, gboolean hidedeleted)
 {
+	if (ml->folder && CAMEL_IS_VTRASH_FOLDER(ml->folder))
+		hidedeleted = FALSE;
+
 	if (ml->hidedeleted ^ hidedeleted) {
 		ml->hidedeleted = hidedeleted;
 

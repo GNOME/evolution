@@ -41,6 +41,9 @@
 #include "mail-local.h"
 #include "mail-config.h"
 
+#include <gal/widgets/e-popup-menu.h>
+#include <camel/camel-vtrash-folder.h>
+
 #define d(x) x
 
 #define PARENT_TYPE (gtk_table_get_type ())
@@ -305,6 +308,23 @@ folder_browser_toggle_threads (BonoboUIComponent           *component,
 	
 	mail_config_set_thread_list (atoi (state));
 	message_list_set_threaded (fb->message_list, atoi (state));
+}
+
+void
+folder_browser_toggle_hide_deleted (BonoboUIComponent           *component,
+				    const char                  *path,
+				    Bonobo_UIComponent_EventType type,
+				    const char                  *state,
+				    gpointer                     user_data)
+{
+	FolderBrowser *fb = user_data;
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	if (!(fb->folder && CAMEL_IS_VTRASH_FOLDER(fb->folder)))
+		mail_config_set_hide_deleted (atoi (state));
+	message_list_set_hidedeleted (fb->message_list, atoi (state));
 }
 
 void

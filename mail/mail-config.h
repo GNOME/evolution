@@ -88,6 +88,9 @@ void     mail_config_set_thread_list          (gboolean value);
 gboolean mail_config_get_view_source          (void);
 void     mail_config_set_view_source          (gboolean value);
 
+gboolean mail_config_get_hide_deleted          (void);
+void     mail_config_set_hide_deleted          (gboolean value);
+
 gint     mail_config_get_paned_size           (void);
 void     mail_config_set_paned_size           (gint size);
 

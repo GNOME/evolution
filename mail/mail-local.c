@@ -357,7 +357,7 @@ trash_finalize (CamelObject *trash, gpointer event_data, gpointer user_data)
 	
 	store->vtrash = NULL;
 }
-
+						  
 static void
 init_trash (CamelStore *store)
 {

@@ -1,3 +1,7 @@
+2001-04-05  Not Zed  <NotZed@Ximian.com>
+
+	* Merge from evolution-0-10 to evolution-0-10-merge-0 into head.
+
 2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* mail-account-gui.c: Add prototype for service_changed().
@@ -131,6 +135,120 @@
 	fine grained headers where needed. Also marked a bunch of
 	strings for translations and added some missing prototypes.
 	
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* mail-account-editor.c (switch_page): Fix this so the "Receiving
+	Options" page gets filled in again.
+
+	* mail-send-recv.c (receive_get_folder): Doh! This was storing
+	"struct _folder_info"s in the cache and then trying to read them
+	back as CamelFolders. Fixicate. Fixes the "crash with 2 POP
+	accounts" bug.
+
+	* session.c (auth_callback): Update call to camel_url_to_string.
+	(Don't include the params in the password hash table key.)
+
+	* mail-config.c (mail_config_folder_to_cachename): Call
+	camel_url_to_string with HIDE_PASSWORD and HIDE_PARAMS so that
+	changing URL params doesn't change the cachename.
+
+	* mail-ops.c (add_vtrash_info): 
+	* mail-local.c (reconfigure_folder_reconfigure):
+	* mail-account-gui.c (save_service): Update calls to
+	camel_url_to_string.
+
+2001-04-03  Dan Winship  <danw@ximian.com>
+	
+	* folder-browser-factory.c (control_activate): Sync the folder on
+	activate.
+
+	* session.c (mail_session_remember_password): Use the same
+	URL-transforming rules we use when hashing the password so this
+	actually works.
+
+2001-04-03  Not Zed  <NotZed@Ximian.com>
+
+	* mail-ops.c (mail_send_message): Strip header content before using it.
+
+2001-04-02  Iain Holmes  <iain@ximian.com>
+
+	* importers/elm-importer.c (elm_can_import): Calls is_kmail to check for
+	kmail files.
+	(is_kmail): Checks if the given directory is a KMail directory.
+
+2001-04-02  Dan Winship  <danw@ximian.com>
+
+	* mail-account-gui.c: Add a "provider_type" arg to
+	MailAccountGuiService.
+	(transport_needs_auth_toggled): Call service_changed if enabling
+	the auth pane so the status of the "Check supported types" button
+	will be correct.
+	(service_check_supported): Use gsvc->provider_type, not
+	CAMEL_PROVIDER_STORE.
+	(mail_account_gui_new): Pass the transport as the user_data to the
+	"changed" signal on transport.hostname, not the store.
+	(mail_account_gui_setup): Set up provider_type fields
+
+2001-04-02  Iain Holmes  <iain@ximian.com>
+
+	* importers/elm-importer.c (elm_can_import): Check for some MH files
+	to make sure that the dir really is an Elm dir.
+
+2001-03-30  Not Zed  <NotZed@Ximian.com>
+
+	* folder-browser.c (folder_browser_toggle_hide_deleted): New
+	function to listen for hide_deleted changes.
+	(folder_browser_toggle_hide_deleted): Only svae the hide-deleted
+	state if we are not setting a trash folder.
+
+	* folder-browser-factory.c (control_activate): Set the
+	hide_deleted flag appropriately/setup the menu's appropriately.
+	(control_activate): Workaround to Force setting of options by
+	bypassing bonobo notification, since it doesn't properly handle
+	changed components.
+
+	* mail-config.c (mail_config_get_hide_deleted): 
+	(mail_config_set_hide_deleted): New functions for
+	accessing/setting the hide deleted state.
+	(mail_config_write_on_exit): 
+	(config_read): Save/load the hide_deleted flag.
+
+	* message-list.c (main_folder_changed): Oops, remember to copy
+	over all the rest of the changes too if we removed some.
+	(find_next_undeleted): Find the first undeleted message below us.
+	This of course does not follow sorting conventions, but thats
+	etree.  Have to ask chris if there is a way to make it work like
+	that.
+	(message_list_set_hidedeleted): Check we dont set hide_delete on a
+	vtrash.
+	(build_tree): If the message has vanished, try and get the next
+	undeleted message set, etc, if it still exists.  The set_cursor()
+	function seems very broken but i'm sure e-lahey will get to it
+	soon.
+	(build_flat): Similarly for above.
+
+2001-03-30  Dan Winship  <danw@ximian.com>
+
+	* mail-config.c (check_service_check): Register for cancellation.
+	(mail_config_check_service): Pop up a modal dialog with a message
+	and a "Cancel" button for the duration of the check.
+
+	* component-factory.c (debug_cb): If the EvolutionShellComponent
+	emits a "debug" signal, turn on camel_verbose_debug.
+
+2001-03-30  Radek Doulik  <rodo@ximian.com>
+
+	* mail-display.c (mail_display_redisplay): reset last_active
+
+2001-03-29  Dan Winship  <danw@ximian.com>
+
+	* mail-format.c (call_handler_function): if called with a
+	multipart that's really a 0-part, spew an error and display as
+	source.
+
+	* mail-display.c (pixmap_press): Ignore "funky" button clicks
+	(like scroll wheel scrolls)
+
 2001-03-29  Dan Winship  <danw@ximian.com>
 
 	* mail-account-editor.c (switch_page): Fix this so the "Receiving

@@ -46,6 +46,7 @@
 typedef struct {
 	gboolean thread_list;
 	gboolean view_source;
+	gboolean hide_deleted;
 	gint paned_size;
 	gboolean send_html;
 	gboolean citation_highlight;
@@ -390,6 +391,14 @@ config_read (void)
 		config->thread_list = FALSE;
 	g_free (str);
 	
+	/* Hide deleted automatically */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
+			       evolution_dir);
+	config->hide_deleted = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->hide_deleted = FALSE;
+	g_free (str);
+	
 	/* Size of vpaned in mail view */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
 			       evolution_dir);
@@ -543,6 +552,12 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_bool (str, config->thread_list);
 	g_free (str);
+
+	/* Hide deleted automatically */
+	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->hide_deleted);
+	g_free (str);
 	
 	/* Size of vpaned in mail view */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
@@ -630,6 +645,18 @@ void
 mail_config_set_view_source (gboolean value)
 {
 	config->view_source = value;
+}
+
+gboolean
+mail_config_get_hide_deleted (void)
+{
+	return config->hide_deleted;
+}
+
+void
+mail_config_set_hide_deleted (gboolean value)
+{
+	config->hide_deleted = value;
 }
 
 gint
