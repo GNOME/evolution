@@ -156,7 +156,6 @@ mail_uri_to_folder (const char *name)
 		msg = g_strdup_printf ("Unable to get folder %s: %s\n", name,
 				       camel_exception_get_description (ex));
 		gnome_error_dialog (msg);
-		camel_exception_free (ex);
 		if (folder) {
 			gtk_object_unref (GTK_OBJECT (folder));
 			folder = NULL;
