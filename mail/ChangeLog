@@ -4,6 +4,7 @@
 	as this is a Sources clist we are dealing with and not an identity clist
 	(on_cmdSourcesEdit_clicked): same
 	(on_cmdSourcesDelete_clicked): again, same
+	(on_cmdSourcesEdit_clicked): Source editor now fills in data from the clist
 
 2000-06-01  Dan Winship  <danw@helixcode.com>
 

@@ -1595,6 +1595,10 @@ static void
 on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *dialog;
+	GtkWidget *vbox;
+	GtkWidget *interior_notebook;
+	GtkWidget *table;
+	int page;
 	char *sourcep;
 	
 	if (source_row == -1)
@@ -1607,6 +1611,14 @@ on_cmdSourcesEdit_clicked (GtkWidget *widget, gpointer user_data)
 
 	/* now create the editing dialog */
 	dialog = create_source_config_dialog (TRUE, &sourcep, GTK_WIDGET (user_data));
+
+        /* Set the data in the transports page */
+	vbox = gtk_object_get_data (GTK_OBJECT (dialog), "vbox");
+	interior_notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
+	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
+	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
+	set_service_url (GTK_OBJECT (table), source);
+
 	gtk_widget_show (dialog);
 }
 
