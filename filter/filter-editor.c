@@ -147,7 +147,7 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 	d(printf ("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
 	rule = filter_filter_new ();
-	filter_rule_set_source((FilterRule *)rule, data->current_source);
+	filter_rule_set_source ((FilterRule *)rule, data->current_source);
 	
 	part = rule_context_next_part (data->f, NULL);
 	filter_rule_add_part ((FilterRule *)rule, filter_part_clone (part));
@@ -363,7 +363,7 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 
 static char *source_names[] = {
 	"incoming",
-	"demand",
+	/*"demand",*/
 	"outgoing"
 };
 
@@ -401,7 +401,7 @@ filter_editor_construct (struct _FilterContext *f)
 			firstitem = b;
 		
 		/* make sure that the glade is in sync with the source list! */
-		if (i < sizeof(source_names)/sizeof(source_names[0])) {
+		if (i < sizeof (source_names) / sizeof (source_names[0])) {
 			gtk_object_set_data (GTK_OBJECT (b), "source", source_names[i]);
 		} else {
 			g_warning("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
