@@ -81,7 +81,7 @@ alarm_ready_cb (gpointer data)
 	now = time (NULL);
 
 	while (alarms) {
-		AlarmRecord *ar;
+		AlarmRecord *notify_id, *ar;
 		AlarmRecord ar_copy;
 
 		ar = alarms->data;
@@ -89,15 +89,17 @@ alarm_ready_cb (gpointer data)
 		if (ar->trigger > now)
 			break;
 
+		notify_id = ar;
+
 		ar_copy = *ar;
 		ar = &ar_copy;
 
 		pop_alarm (); /* This will free the original AlarmRecord; that's why we copy it */
 
-		(* ar->alarm_fn) (ar, ar->trigger, ar->data);
+		(* ar->alarm_fn) (notify_id, ar->trigger, ar->data);
 
 		if (ar->destroy_notify_fn)
-			(* ar->destroy_notify_fn) (ar, ar->data);
+			(* ar->destroy_notify_fn) (notify_id, ar->data);
 	}
 
 	if (alarms)
@@ -165,8 +167,10 @@ queue_alarm (AlarmRecord *ar)
 
 	/* Set the timer for removal upon activation */
 
-	now = time (NULL);
-	setup_timeout (now);
+	if (!old_head) {
+		now = time (NULL);
+		setup_timeout (now);
+	}
 }
 
 
@@ -201,6 +205,8 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 
 	queue_alarm (ar);
 
+	g_print ("alarm_add(): Adding alarm %p for %s\n", ar, ctime (&trigger));
+
 	return ar;
 }
 
@@ -213,7 +219,7 @@ alarm_add (time_t trigger, AlarmFunction alarm_fn, gpointer data,
 void
 alarm_remove (gpointer alarm)
 {
-	AlarmRecord *ar;
+	AlarmRecord *notify_id, *ar;
 	AlarmRecord ar_copy;
 	AlarmRecord *old_head;
 	GList *l;
@@ -229,6 +235,8 @@ alarm_remove (gpointer alarm)
 	}
 
 	old_head = alarms->data;
+
+	notify_id = ar;
 
 	if (old_head == ar) {
 		ar_copy = *ar;
@@ -251,7 +259,7 @@ alarm_remove (gpointer alarm)
 	/* Notify about destructiono of the alarm */
 
 	if (ar->destroy_notify_fn)
-		(* ar->destroy_notify_fn) (ar, ar->data);
+		(* ar->destroy_notify_fn) (notify_id, ar->data);
 
 }
 

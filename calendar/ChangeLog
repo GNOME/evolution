@@ -1,5 +1,12 @@
 2001-09-17  Federico Mena Quintero  <federico@ximian.com>
 
+	* gui/alarm-notify/alarm.c (queue_alarm): Duh, only setup the
+	timeout if the list was empty.
+	(alarm_ready_cb): Notify with the ID of the original alarm.
+	(alarm_remove): Likewise.
+
+2001-09-17  Federico Mena Quintero  <federico@ximian.com>
+
 	Switch the alarm system from using SIGALRM to normal glib timers.
 	Also, use a more robust de-queueing mechanism.
 
