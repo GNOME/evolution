@@ -2580,7 +2580,7 @@ contact_added_cb (EBook *book, EBookStatus status, const char *id, EditorCloseSt
 	EContactEditor *ce = ecs->ce;
 	gboolean should_close = ecs->should_close;
 
-	if (ce->source_book != ce->target_book && ce->source_editable &&
+	if (ce->source_book != ce->target_book && e_book_is_writable (ce->source_book) &&
 	    status == E_BOOK_ERROR_OK && ce->is_new_contact == FALSE) {
 		ecs->new_id = g_strdup (id);
 		e_book_async_remove_contact (ce->source_book, ce->contact,
@@ -2675,7 +2675,7 @@ save_contact (EContactEditor *ce, gboolean should_close)
 	if (!e_contact_editor_is_valid (EAB_EDITOR (ce)))
 		return;
 
-	if (ce->target_editable && !ce->source_editable) {
+	if (ce->target_editable && !e_book_is_writable (ce->source_book)) {
 		if (e_error_run (GTK_WINDOW (ce->app), "addressbook:prompt-move", NULL) == GTK_RESPONSE_NO)
 			return;
 	}
@@ -2811,7 +2811,7 @@ app_delete_event_cb (GtkWidget *widget, GdkEvent *event, gpointer data)
 		if (response != GTK_RESPONSE_YES)
 			return TRUE;
 	}
-	else if (!ce->source_editable) {
+	else if (!e_book_is_writable (ce->source_book)) {
 		GtkWidget *dialog;
 		gint       response;
 
@@ -2922,7 +2922,6 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 	e_contact_editor->changed = FALSE;
 	e_contact_editor->image_set = FALSE;
 	e_contact_editor->in_async_call = FALSE;
-	e_contact_editor->source_editable = TRUE;
 	e_contact_editor->target_editable = TRUE;
 
 	e_contact_editor->load_source_id = 0;
@@ -2999,7 +2998,6 @@ e_contact_editor_dispose (GObject *object)
 	}
 	
 	if (e_contact_editor->source_book) {
-		g_signal_handler_disconnect (e_contact_editor->source_book, e_contact_editor->source_editable_id);
 		g_object_unref(e_contact_editor->source_book);
 		e_contact_editor->source_book = NULL;
 	}
@@ -3083,19 +3081,14 @@ e_contact_editor_new (EBook *book,
 static void
 writable_changed (EBook *book, gboolean writable, EContactEditor *ce)
 {
-	int new_source_editable, new_target_editable;
+	int new_target_editable;
 	gboolean changed = FALSE;
 
-	new_source_editable = e_book_is_writable (ce->source_book);
 	new_target_editable = e_book_is_writable (ce->target_book);
-
-	if (ce->source_editable != new_source_editable)
-		changed = TRUE;
 
 	if (ce->target_editable != new_target_editable)
 		changed = TRUE;
 
-	ce->source_editable = new_source_editable;
 	ce->target_editable = new_target_editable;
 
 	if (changed)
@@ -3111,30 +3104,30 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	
 	switch (prop_id){
 	case PROP_SOURCE_BOOK: {
-		gboolean writable;
-		gboolean changed = FALSE;
+		gboolean  writable;
+		gboolean  changed = FALSE;
+		EBook    *source_book;
 
-		if (editor->source_book) {
-			g_signal_handler_disconnect (editor->source_book, editor->source_editable_id);
+		source_book = E_BOOK (g_value_get_object (value));
+
+		if (source_book == editor->source_book)
+			break;
+
+		if (editor->source_book)
 			g_object_unref(editor->source_book);
-		}
-		editor->source_book = E_BOOK (g_value_get_object (value));
+
+		editor->source_book = source_book;
 		g_object_ref (editor->source_book);
-		editor->source_editable_id = g_signal_connect (editor->source_book, "writable_status",
-							       G_CALLBACK (writable_changed), editor);
  
 		if (!editor->target_book) {
 			editor->target_book = editor->source_book;
 			g_object_ref (editor->target_book);
 
+			editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
+								       G_CALLBACK (writable_changed), editor);
+
 			e_book_async_get_supported_fields (editor->target_book,
 							   (EBookEListCallback) supported_fields_cb, editor);
-		}
-
-		writable = e_book_is_writable (editor->source_book);
-		if (writable != editor->source_editable) {
-			editor->source_editable = writable;
-			changed = TRUE;
 		}
 
 		writable = e_book_is_writable (editor->target_book);
@@ -3143,30 +3136,48 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 			changed = TRUE;
 		}
 
-		if (changed) {
+		if (changed)
 			sensitize_all (editor);
-		}
+
 		break;
 	}
 
 	case PROP_TARGET_BOOK: {
+		gboolean  writable;
+		gboolean  changed = FALSE;
+		EBook    *target_book;
+
+		target_book = E_BOOK (g_value_get_object (value));
+
+		if (target_book == editor->target_book)
+			break;
+
 		if (editor->target_book) {
 			g_signal_handler_disconnect (editor->target_book, editor->target_editable_id);
 			g_object_unref(editor->target_book);
 		}
-		editor->target_book = E_BOOK (g_value_get_object (value));
+
+		editor->target_book = target_book;
 		g_object_ref (editor->target_book);
+
 		editor->target_editable_id = g_signal_connect (editor->target_book, "writable_status",
 							       G_CALLBACK (writable_changed), editor);
 
 		e_book_async_get_supported_fields (editor->target_book,
 						   (EBookEListCallback) supported_fields_cb, editor);
 
-		if (!editor->changed && !editor->is_new_contact)
+		if (!editor->is_new_contact)
 			editor->changed = TRUE;
 
-		editor->target_editable = e_book_is_writable (editor->target_book);
-		sensitize_all (editor);
+		writable = e_book_is_writable (editor->target_book);
+
+		if (writable != editor->target_editable) {
+			editor->target_editable = writable;
+			changed = TRUE;
+		}
+
+		if (changed)
+			sensitize_all (editor);
 
 		/* If we're trying to load a new target book, cancel that here. */
 		cancel_load (editor);
@@ -3209,11 +3220,13 @@ e_contact_editor_set_property (GObject *object, guint prop_id, const GValue *val
 	case PROP_WRITABLE_FIELDS:
 		if (editor->writable_fields)
 			g_object_unref(editor->writable_fields);
+
 		editor->writable_fields = g_value_get_object (value);
 		if (editor->writable_fields)
 			g_object_ref (editor->writable_fields);
 		else
 			editor->writable_fields = e_list_new(NULL, NULL, NULL);
+
 		sensitize_all (editor);
 		break;
 	default:

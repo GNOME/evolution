@@ -1,3 +1,23 @@
+2004-07-16  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (contact_added_cb)
+	(save_contact)
+	(app_delete_event_cb): Check source book writeability directly instead
+	of relying on stored state.
+	(e_contact_editor_init): Don't init source_editable.
+	(e_contact_editor_dispose): We don't listen for source writeability
+	anymore.
+	(writable_changed): Source writeability doesn't affect widget
+	status; remove code to check for it.
+	(e_contact_editor_set_property): Do nothing if book being set is
+	the same as currently set book; previously we would end up
+	unreffing then reffing it. Don't watch for source writeability, but
+	do so for target; fixes a warning. Only call sensitize_all() if
+	writeability on target changed.
+
+	* gui/contact-editor/e-contact-editor.h (EContactEditor): We don't
+	need the source_editable and source_editable_id vars anymore.
+
 2004-07-14  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #60873, and possibly other crashes ]

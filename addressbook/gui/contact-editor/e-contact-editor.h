@@ -82,9 +82,6 @@ struct _EContactEditor
 	/* Whether the contact has been changed since bringing up the contact editor */
 	guint changed : 1;
 
-	/* Whether the contact editor will accept delete */
-	guint source_editable : 1;
-
 	/* Whether the contact editor will accept modifications, save */
 	guint target_editable : 1;
 
@@ -98,7 +95,6 @@ struct _EContactEditor
 	EBook *load_book;
 
 	/* signal ids for "writable_status" */
-	int source_editable_id;
 	int target_editable_id;
 };
 
