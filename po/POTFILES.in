@@ -23,6 +23,8 @@ addressbook/gui/component/GNOME_Evolution_Addressbook.oaf.in
 addressbook/gui/component/select-names/e-select-names-popup.c
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.oaf.in
 addressbook/gui/component/select-names/select-names.glade
+addressbook/gui/merging/e-card-duplicate-detected.glade
+addressbook/gui/merging/e-card-merging-book-commit-duplicate-detected.glade
 addressbook/gui/search/e-addressbook-search-dialog.c
 addressbook/gui/widgets/alphabet.glade
 addressbook/gui/widgets/e-addressbook-view.c
