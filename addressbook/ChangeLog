@@ -1,3 +1,8 @@
+2001-10-04  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook-component.c: use ldap.png for ldap
+	contacts.
+
 2001-10-03  Iain Holmes  <iain@ximian.com>
 
 	* addressbook/gui/component/addressbook-storage.c 

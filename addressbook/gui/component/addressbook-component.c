@@ -65,7 +65,7 @@ static char *accepted_dnd_types[] = {
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "contacts", "evolution-contacts.png", N_("Contacts"), N_("Folder containing contact information"),
 	  TRUE, accepted_dnd_types, NULL },
-	{ "ldap-contacts", "ldap-16.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
+	{ "ldap-contacts", "ldap.png", N_("LDAP Server"), N_("LDAP server containing contact information"),
 	  TRUE, accepted_dnd_types, NULL },
 	{ NULL }
 };
