@@ -92,12 +92,18 @@ ecal_event (ECalendarItem *calitem, gpointer user_data)
 static void
 create_ecal (GoToDialog *dlg)
 {
+	ECalendarItem *calitem;
+	
 	dlg->ecal = E_CALENDAR (e_calendar_new ());
-	e_calendar_item_set_display_popup (dlg->ecal->calitem, FALSE);
+	calitem = dlg->ecal->calitem;
+	
+	e_calendar_item_set_display_popup (calitem, FALSE);
 	gtk_widget_show (GTK_WIDGET (dlg->ecal));
 	gtk_box_pack_start (GTK_BOX (dlg->vbox), GTK_WIDGET (dlg->ecal), TRUE, TRUE, 0);
 
-	ecal_date_range_changed (dlg->ecal->calitem, dlg);
+	e_calendar_item_set_first_month (calitem, dlg->year_val, dlg->month_val);
+	
+	ecal_date_range_changed (calitem, dlg);
 }
 
 static void

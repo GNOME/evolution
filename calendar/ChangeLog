@@ -1,5 +1,12 @@
 2000-12-22  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/goto.c (create_ecal): Make sure the current month is shown
+	when the dialog pops up.
+
+	* gui/goto-dialog.glade: Remove flicker
+
+2000-12-22  JP Rosevear  <jpr@helixcode.com>
+
 	* pcs/cal-backend-file.c (cal_backend_file_get_alarms_for_object): 
 	account for the case where there are no alarms, fixes crash
 	

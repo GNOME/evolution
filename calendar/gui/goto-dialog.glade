@@ -17,6 +17,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>goto-dialog</name>
+  <visible>False</visible>
   <title>Go To Date</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
