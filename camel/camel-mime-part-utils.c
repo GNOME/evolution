@@ -66,7 +66,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	
 	/* read in the entire content */
 	buffer = g_byte_array_new ();
-	while (camel_mime_parser_step (mp, &buf, &len) != HSCAN_BODY_END) {
+	while (camel_mime_parser_step (mp, &buf, &len) != CAMEL_MIME_PARSER_STATE_BODY_END) {
 		d(printf("appending o/p data: %d: %.*s\n", len, len, buf));
 		g_byte_array_append (buffer, buf, len);
 	}
@@ -91,7 +91,7 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 	encoding = camel_header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
 	
 	switch (camel_mime_parser_state (mp)) {
-	case HSCAN_HEADER:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
 		d(printf("Creating body part\n"));
 		/* multipart/signed is some fucked up type that we must treat as binary data, fun huh, idiots. */
 		if (camel_content_type_is (ct, "multipart", "signed")) {
@@ -102,12 +102,12 @@ camel_mime_part_construct_content_from_parser (CamelMimePart *dw, CamelMimeParse
 			simple_data_wrapper_construct_from_parser (content, mp);
 		}
 		break;
-	case HSCAN_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
 		d(printf("Creating message part\n"));
 		content = (CamelDataWrapper *) camel_mime_message_new ();
 		camel_mime_part_construct_from_parser ((CamelMimePart *)content, mp);
 		break;
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		d(printf("Creating multi-part\n"));
 		if (camel_content_type_is (ct, "multipart", "encrypted"))
 			content = (CamelDataWrapper *) camel_multipart_encrypted_new ();

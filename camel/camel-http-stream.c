@@ -286,8 +286,8 @@ http_get_headers (CamelHttpStream *http)
 	camel_mime_parser_init_with_stream (http->parser, http->read);
 	
 	switch (camel_mime_parser_step (http->parser, &buf, &len)) {
-	case HSCAN_MESSAGE:
-	case HSCAN_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
 		headers = camel_mime_parser_headers_raw (http->parser);
 		if (http->content_type)
 			camel_content_type_unref (http->content_type);

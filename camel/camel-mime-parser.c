@@ -203,7 +203,7 @@ struct _header_scan_state {
 
     /* global state */
 
-	enum _header_state state;
+	enum _camel_mime_parser_state state;
 
 	/* for building headers during scanning */
 	char *outbuf;
@@ -248,7 +248,7 @@ struct _header_scan_state {
 struct _header_scan_stack {
 	struct _header_scan_stack *parent;
 
-	enum _header_state savestate; /* state at invocation of this part */
+	enum _camel_mime_parser_state savestate; /* state at invocation of this part */
 
 #ifdef MEMPOOL
 	MemPool *pool;		/* memory pool to keep track of headers/etc at this level */
@@ -297,23 +297,23 @@ static void camel_mime_parser_init       (CamelMimeParser *obj);
 
 #if d(!)0
 static char *states[] = {
-	"HSCAN_INITIAL",
-	"HSCAN_PRE_FROM",	/* pre-from data */
-	"HSCAN_FROM",		/* got 'From' line */
-	"HSCAN_HEADER",		/* toplevel header */
-	"HSCAN_BODY",		/* scanning body of message */
-	"HSCAN_MULTIPART",	/* got multipart header */
-	"HSCAN_MESSAGE",	/* rfc822/news message */
+	"CAMEL_MIME_PARSER_STATE_INITIAL",
+	"CAMEL_MIME_PARSER_STATE_PRE_FROM",	/* pre-from data */
+	"CAMEL_MIME_PARSER_STATE_FROM",		/* got 'From' line */
+	"CAMEL_MIME_PARSER_STATE_HEADER",		/* toplevel header */
+	"CAMEL_MIME_PARSER_STATE_BODY",		/* scanning body of message */
+	"CAMEL_MIME_PARSER_STATE_MULTIPART",	/* got multipart header */
+	"CAMEL_MIME_PARSER_STATE_MESSAGE",	/* rfc822/news message */
 
-	"HSCAN_PART",		/* part of a multipart */
+	"CAMEL_MIME_PARSER_STATE_PART",		/* part of a multipart */
 
-	"HSCAN_EOF",		/* end of file */
-	"HSCAN_PRE_FROM_END",
-	"HSCAN_FROM_END",
-	"HSCAN_HEAER_END",
-	"HSCAN_BODY_END",
-	"HSCAN_MULTIPART_END",
-	"HSCAN_MESSAGE_END",
+	"CAMEL_MIME_PARSER_STATE_EOF",		/* end of file */
+	"CAMEL_MIME_PARSER_STATE_PRE_FROM_END",
+	"CAMEL_MIME_PARSER_STATE_FROM_END",
+	"CAMEL_MIME_PARSER_STATE_HEAER_END",
+	"CAMEL_MIME_PARSER_STATE_BODY_END",
+	"CAMEL_MIME_PARSER_STATE_MULTIPART_END",
+	"CAMEL_MIME_PARSER_STATE_MESSAGE_END",
 };
 #endif
 
@@ -388,7 +388,7 @@ camel_mime_parser_new (void)
  *
  * Note that filters are only applied to the body content of messages, and once
  * a filter has been set, all content returned by a filter_step() with a state
- * of HSCAN_BODY will have passed through the filter.
+ * of CAMEL_MIME_PARSER_STATE_BODY will have passed through the filter.
  * 
  * Return value: An id that may be passed to filter_remove() to remove
  * the filter, or -1 if the operation failed.
@@ -505,7 +505,7 @@ byte_array_to_string(GByteArray *array)
  * @m: 
  * 
  * Retrieve the preface text for the current multipart.
- * Can only be used when the state is HSCAN_MULTIPART_END.
+ * Can only be used when the state is CAMEL_MIME_PARSER_STATE_MULTIPART_END.
  * 
  * Return value: The preface text, or NULL if there wasn't any.
  **/
@@ -526,7 +526,7 @@ camel_mime_parser_preface(CamelMimeParser *m)
  * 
  * Retrieve the postface text for the current multipart.
  * Only returns valid data when the current state if
- * HSCAN_MULTIPART_END.
+ * CAMEL_MIME_PARSER_STATE_MULTIPART_END.
  * 
  * Return value: The postface text, or NULL if there wasn't any.
  **/
@@ -546,10 +546,10 @@ camel_mime_parser_postface(CamelMimeParser *m)
  * @m: 
  * 
  * Get the last scanned "From " line, from a recently scanned from.
- * This should only be called in the HSCAN_FROM state.  The
+ * This should only be called in the CAMEL_MIME_PARSER_STATE_FROM state.  The
  * from line will include the closing \n found (if there was one).
  *
- * The return value will remain valid while in the HSCAN_FROM
+ * The return value will remain valid while in the CAMEL_MIME_PARSER_STATE_FROM
  * state, or any deeper state.
  * 
  * Return value: The From line, or NULL if called out of context.
@@ -613,11 +613,11 @@ camel_mime_parser_init_with_stream(CamelMimeParser *m, CamelStream *stream)
  * Tell the scanner if it should scan "^From " lines or not.
  *
  * If the scanner is scanning from lines, two additional
- * states HSCAN_FROM and HSCAN_FROM_END will be returned
+ * states CAMEL_MIME_PARSER_STATE_FROM and CAMEL_MIME_PARSER_STATE_FROM_END will be returned
  * to the caller during parsing.
  *
  * This may also be preceeded by an optional
- * HSCAN_PRE_FROM state which contains the scanned data
+ * CAMEL_MIME_PARSER_STATE_PRE_FROM state which contains the scanned data
  * found before the From line is encountered.  See also
  * scan_pre_from().
  **/
@@ -636,7 +636,7 @@ camel_mime_parser_scan_from (CamelMimeParser *parser, gboolean scan_from)
  * 
  * Tell the scanner whether we want to know abou the pre-from
  * data during a scan.  If we do, then we may get an additional
- * state HSCAN_PRE_FROM which returns the specified data.
+ * state CAMEL_MIME_PARSER_STATE_PRE_FROM which returns the specified data.
  **/
 void
 camel_mime_parser_scan_pre_from (CamelMimeParser *parser, gboolean scan_pre_from)
@@ -721,7 +721,7 @@ camel_mime_parser_drop_step (CamelMimeParser *parser)
  * has been called, then continue to return the same state
  * for that many calls.
  *
- * If the step is HSCAN_BODY then the databuffer and datalength
+ * If the step is CAMEL_MIME_PARSER_STATE_BODY then the databuffer and datalength
  * pointers will be setup to point to the internal data buffer
  * of the scanner and may be processed as required.  Any
  * filters will have already been applied to this data.
@@ -733,7 +733,7 @@ camel_mime_parser_drop_step (CamelMimeParser *parser)
  * Return value: The current new state of the parser
  * is returned.
  **/
-enum _header_state
+enum _camel_mime_parser_state
 camel_mime_parser_step (CamelMimeParser *parser, char **databuffer, size_t *datalength)
 {
 	struct _header_scan_state *s = _PRIVATE (parser);
@@ -818,12 +818,12 @@ camel_mime_parser_read (CamelMimeParser *parser, const char **databuffer, int le
  *
  * An incomplete listing of the states:
  *
- * HSCAN_INITIAL, The start of the current message.
- * HSCAN_HEADER, HSCAN_MESSAGE, HSCAN_MULTIPART, the character
+ * CAMEL_MIME_PARSER_STATE_INITIAL, The start of the current message.
+ * CAMEL_MIME_PARSER_STATE_HEADER, CAMEL_MIME_PARSER_STATE_MESSAGE, CAMEL_MIME_PARSER_STATE_MULTIPART, the character
  * position immediately after the end of the header.
- * HSCAN_BODY, Position within the message of the start
+ * CAMEL_MIME_PARSER_STATE_BODY, Position within the message of the start
  * of the current data block.
- * HSCAN_*_END, The position of the character starting
+ * CAMEL_MIME_PARSER_STATE_*_END, The position of the character starting
  * the next section of the scan (the last position + 1 of
  * the respective current state).
  * 
@@ -907,7 +907,7 @@ camel_mime_parser_seek(CamelMimeParser *parser, off_t offset, int whence)
  * 
  * Return value: The current parser state.
  **/
-enum _header_state
+enum _camel_mime_parser_state
 camel_mime_parser_state (CamelMimeParser *parser)
 {
 	struct _header_scan_state *s = _PRIVATE (parser);
@@ -1536,7 +1536,7 @@ folder_scan_init(void)
 
 	s->parts = NULL;
 
-	s->state = HSCAN_INITIAL;
+	s->state = CAMEL_MIME_PARSER_STATE_INITIAL;
 	return s;
 }
 
@@ -1547,7 +1547,7 @@ drop_states(struct _header_scan_state *s)
 		folder_scan_drop_step(s);
 	}
 	s->unstep = 0;
-	s->state = HSCAN_INITIAL;
+	s->state = CAMEL_MIME_PARSER_STATE_INITIAL;
 }
 
 static void
@@ -1625,7 +1625,7 @@ tail_recurse:
 	switch (s->state) {
 
 #ifdef USE_FROM
-	case HSCAN_INITIAL:
+	case CAMEL_MIME_PARSER_STATE_INITIAL:
 		if (s->scan_from) {
 			h = g_malloc0(sizeof(*h));
 			h->boundary = g_strdup("From ");
@@ -1633,13 +1633,13 @@ tail_recurse:
 			h->boundarylenfinal = h->boundarylen;
 			h->from_line = g_byte_array_new();
 			folder_push_part(s, h);
-			s->state = HSCAN_PRE_FROM;
+			s->state = CAMEL_MIME_PARSER_STATE_PRE_FROM;
 		} else {
 			s->start_of_from = -1;
 			goto scan_header;
 		}
 
-	case HSCAN_PRE_FROM:
+	case CAMEL_MIME_PARSER_STATE_PRE_FROM:
 
 		h = s->parts;
 		do {
@@ -1654,32 +1654,32 @@ tail_recurse:
 			d(printf("found 'From '\n"));
 			s->start_of_from = folder_tell(s);
 			folder_scan_skip_line(s, h->from_line);
-			h->savestate = HSCAN_INITIAL;
-			s->state = HSCAN_FROM;
+			h->savestate = CAMEL_MIME_PARSER_STATE_INITIAL;
+			s->state = CAMEL_MIME_PARSER_STATE_FROM;
 		} else {
 			folder_pull_part(s);
-			s->state = HSCAN_EOF;
+			s->state = CAMEL_MIME_PARSER_STATE_EOF;
 		}
 		return;
 #else
-	case HSCAN_INITIAL:
-	case HSCAN_PRE_FROM:
+	case CAMEL_MIME_PARSER_STATE_INITIAL:
+	case CAMEL_MIME_PARSER_STATE_PRE_FROM:
 #endif /* !USE_FROM */
 
 	scan_header:
-	case HSCAN_FROM:
+	case CAMEL_MIME_PARSER_STATE_FROM:
 		s->start_of_headers = folder_tell(s);
 		h = folder_scan_header(s, &state);
 #ifdef USE_FROM
 		if (s->scan_from)
-			h->savestate = HSCAN_FROM_END;
+			h->savestate = CAMEL_MIME_PARSER_STATE_FROM_END;
 		else
 #endif
-			h->savestate = HSCAN_EOF;
+			h->savestate = CAMEL_MIME_PARSER_STATE_EOF;
 
 		/* FIXME: should this check for MIME-Version: 1.0 as well? */
 
-		type = HSCAN_HEADER;
+		type = CAMEL_MIME_PARSER_STATE_HEADER;
 		if ( (content = camel_header_raw_find(&h->headers, "Content-Type", NULL))
 		     && (ct = camel_content_type_decode(content))) {
 			if (!strcasecmp(ct->type, "multipart")) {
@@ -1690,7 +1690,7 @@ tail_recurse:
 					h->boundarylenfinal = h->boundarylen+2;
 					h->boundary = g_malloc(h->boundarylen+3);
 					sprintf(h->boundary, "--%s--", bound);
-					type = HSCAN_MULTIPART;
+					type = CAMEL_MIME_PARSER_STATE_MULTIPART;
 				} else {
 					/*camel_content_type_unref(ct);
 					  ct = camel_content_type_decode("text/plain");*/
@@ -1702,7 +1702,7 @@ tail_recurse:
 				if (!strcasecmp(ct->subtype, "rfc822")
 				    || !strcasecmp(ct->subtype, "news")
 				    /*|| !strcasecmp(ct->subtype, "partial")*/) {
-					type = HSCAN_MESSAGE;
+					type = CAMEL_MIME_PARSER_STATE_MESSAGE;
 				}
 			}
 		} else {
@@ -1710,7 +1710,7 @@ tail_recurse:
 			if ((s->parts
 			     && camel_content_type_is(s->parts->content_type, "multipart", "digest"))) {
 				ct = camel_content_type_decode("message/rfc822");
-				type = HSCAN_MESSAGE;
+				type = CAMEL_MIME_PARSER_STATE_MESSAGE;
 				d(printf("parent was multipart/digest, autoupgrading to message/rfc822?\n"));
 				/* maybe we should do this too?
 				   header_raw_append_parse(&h->headers, "Content-Type: message/rfc822", -1);*/
@@ -1723,10 +1723,10 @@ tail_recurse:
 		s->state = type;
 		return;
 		
-	case HSCAN_HEADER:
-		s->state = HSCAN_BODY;
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+		s->state = CAMEL_MIME_PARSER_STATE_BODY;
 		
-	case HSCAN_BODY:
+	case CAMEL_MIME_PARSER_STATE_BODY:
 		h = s->parts;
 		*datalength = 0;
 		presize = SCAN_HEAD;
@@ -1762,10 +1762,10 @@ tail_recurse:
 		if (*datalength > 0)
 			return;
 		
-		s->state = HSCAN_BODY_END;
+		s->state = CAMEL_MIME_PARSER_STATE_BODY_END;
 		break;
 		
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		h = s->parts;
 		do {
 			do {
@@ -1791,9 +1791,9 @@ tail_recurse:
 				d(printf("got boundary: %s\n", hb->boundary));
 				folder_scan_skip_line(s, NULL);
 				if (!state) {
-					s->state = HSCAN_FROM;
+					s->state = CAMEL_MIME_PARSER_STATE_FROM;
 					folder_scan_step(s, databuffer, datalength);
-					s->parts->savestate = HSCAN_MULTIPART; /* set return state for the new head part */
+					s->parts->savestate = CAMEL_MIME_PARSER_STATE_MULTIPART; /* set return state for the new head part */
 					return;
 				}
 			} else {
@@ -1801,26 +1801,26 @@ tail_recurse:
 			}
 		} while (1);
 
-		s->state = HSCAN_MULTIPART_END;
+		s->state = CAMEL_MIME_PARSER_STATE_MULTIPART_END;
 		break;
 
-	case HSCAN_MESSAGE:
-		s->state = HSCAN_FROM;
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+		s->state = CAMEL_MIME_PARSER_STATE_FROM;
 		folder_scan_step(s, databuffer, datalength);
-		s->parts->savestate = HSCAN_MESSAGE_END;
+		s->parts->savestate = CAMEL_MIME_PARSER_STATE_MESSAGE_END;
 		break;
 
-	case HSCAN_FROM_END:
-	case HSCAN_BODY_END:
-	case HSCAN_MULTIPART_END:
-	case HSCAN_MESSAGE_END:
+	case CAMEL_MIME_PARSER_STATE_FROM_END:
+	case CAMEL_MIME_PARSER_STATE_BODY_END:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART_END:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE_END:
 		s->state = s->parts->savestate;
 		folder_pull_part(s);
-		if (s->state & HSCAN_END)
+		if (s->state & CAMEL_MIME_PARSER_STATE_END)
 			return;
 		goto tail_recurse;
 
-	case HSCAN_EOF:
+	case CAMEL_MIME_PARSER_STATE_EOF:
 		return;
 
 	default:
@@ -1836,30 +1836,30 @@ static void
 folder_scan_drop_step(struct _header_scan_state *s)
 {
 	switch (s->state) {
-	case HSCAN_EOF:
-		s->state = HSCAN_INITIAL;
-	case HSCAN_INITIAL:
+	case CAMEL_MIME_PARSER_STATE_EOF:
+		s->state = CAMEL_MIME_PARSER_STATE_INITIAL;
+	case CAMEL_MIME_PARSER_STATE_INITIAL:
 		return;
 
-	case HSCAN_FROM:
-	case HSCAN_PRE_FROM:
-		s->state = HSCAN_INITIAL;
+	case CAMEL_MIME_PARSER_STATE_FROM:
+	case CAMEL_MIME_PARSER_STATE_PRE_FROM:
+		s->state = CAMEL_MIME_PARSER_STATE_INITIAL;
 		folder_pull_part(s);
 		return;
 
-	case HSCAN_MESSAGE:
-	case HSCAN_HEADER:
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 
-	case HSCAN_FROM_END:
-	case HSCAN_BODY_END:
-	case HSCAN_MULTIPART_END:
-	case HSCAN_MESSAGE_END:
+	case CAMEL_MIME_PARSER_STATE_FROM_END:
+	case CAMEL_MIME_PARSER_STATE_BODY_END:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART_END:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE_END:
 
 		s->state = s->parts->savestate;
 		folder_pull_part(s);
-		if (s->state & HSCAN_END) {
-			s->state &= ~HSCAN_END;
+		if (s->state & CAMEL_MIME_PARSER_STATE_END) {
+			s->state &= ~CAMEL_MIME_PARSER_STATE_END;
 		}
 		return;
 	default:
@@ -1903,14 +1903,14 @@ int main(int argc, char **argv)
 		s->scan_from = FALSE;
 #if 0
 		h = g_malloc0(sizeof(*h));
-		h->savestate = HSCAN_EOF;
+		h->savestate = CAMEL_MIME_PARSER_STATE_EOF;
 		folder_push_part(s, h);
 #endif	
-		while (s->state != HSCAN_EOF) {
+		while (s->state != CAMEL_MIME_PARSER_STATE_EOF) {
 			folder_scan_step(s, &data, &len);
 			printf("\n -- PARSER STEP RETURN -- %d '%s'\n\n", s->state, states[s->state]);
 			switch (s->state) {
-			case HSCAN_HEADER:
+			case CAMEL_MIME_PARSER_STATE_HEADER:
 				if (s->parts->content_type
 				    && (charset = camel_content_type_param(s->parts->content_type, "charset"))) {
 					if (strcasecmp(charset, "us-ascii")) {
@@ -1950,10 +1950,10 @@ int main(int argc, char **argv)
 				}
 
 				break;
-			case HSCAN_BODY:
+			case CAMEL_MIME_PARSER_STATE_BODY:
 				printf("got body %d '%.*s'\n",  len, len, data);
 				break;
-			case HSCAN_BODY_END:
+			case CAMEL_MIME_PARSER_STATE_BODY_END:
 				printf("end body %d '%.*s'\n",  len, len, data);
 				if (encoding && !strncasecmp(encoding, " base64", 7)) {
 					printf("removing filters\n");

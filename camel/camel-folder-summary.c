@@ -907,7 +907,7 @@ CamelMessageInfo *camel_folder_summary_info_new_from_parser(CamelFolderSummary *
 	/* should this check the parser is in the right state, or assume it is?? */
 
 	start = camel_mime_parser_tell(mp);
-	if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_EOF) {
+	if (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_EOF) {
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new_from_parser(s, mp);
 
 		camel_mime_parser_unstep(mp);
@@ -1452,9 +1452,9 @@ static CamelMessageInfo * message_info_new_from_parser(CamelFolderSummary *s, Ca
 
 	state = camel_mime_parser_state(mp);
 	switch (state) {
-	case HSCAN_HEADER:
-	case HSCAN_MESSAGE:
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		mi = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->message_info_new(s, camel_mime_parser_headers_raw(mp));
 		break;
 	default:
@@ -1469,9 +1469,9 @@ static CamelMessageContentInfo * content_info_new_from_parser(CamelFolderSummary
 	CamelMessageContentInfo *ci = NULL;
 
 	switch (camel_mime_parser_state(mp)) {
-	case HSCAN_HEADER:
-	case HSCAN_MESSAGE:
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		ci = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new(s, camel_mime_parser_headers_raw(mp));
 		if (ci) {
 			ci->type = camel_mime_parser_content_type(mp);
@@ -2009,7 +2009,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		info = ((CamelFolderSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->content_info_new_from_parser(s, mp);
 
 	switch(state) {
-	case HSCAN_HEADER:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
 		/* check content type for indexing, then read body */
 		ct = camel_mime_parser_content_type(mp);
 		/* update attachments flag as we go */
@@ -2085,7 +2085,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			idx_id = camel_mime_parser_filter_add(mp, (CamelMimeFilter *)p->filter_index);
 		}
 		/* and scan/index everything */
-		while (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_BODY_END)
+		while (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_BODY_END)
 			;
 		/* and remove the filters */
 		camel_mime_parser_filter_remove(mp, enc_id);
@@ -2093,14 +2093,14 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 		camel_mime_parser_filter_remove(mp, html_id);
 		camel_mime_parser_filter_remove(mp, idx_id);
 		break;
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		d(printf("Summarising multipart\n"));
 		/* update attachments flag as we go */
 		ct = camel_mime_parser_content_type(mp);
 		if (camel_content_type_is(ct, "multipart", "mixed"))
 			msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
 
-		while (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_MULTIPART_END) {
+		while (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_MULTIPART_END) {
 			camel_mime_parser_unstep(mp);
 			part = summary_build_content_info(s, msginfo, mp);
 			if (part) {
@@ -2109,7 +2109,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			}
 		}
 		break;
-	case HSCAN_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
 		d(printf("Summarising message\n"));
 		/* update attachments flag as we go */
 		msginfo->flags |= CAMEL_MESSAGE_ATTACHMENTS;
@@ -2120,7 +2120,7 @@ summary_build_content_info(CamelFolderSummary *s, CamelMessageInfo *msginfo, Cam
 			my_list_append((struct _node **)&info->childs, (struct _node *)part);
 		}
 		state = camel_mime_parser_step(mp, &buffer, &len);
-		if (state != HSCAN_MESSAGE_END) {
+		if (state != CAMEL_MIME_PARSER_STATE_MESSAGE_END) {
 			g_error("Bad parser state: Expecing MESSAGE_END or MESSAGE_EOF, got: %d", state);
 			camel_mime_parser_unstep(mp);
 		}

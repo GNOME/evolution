@@ -1,3 +1,36 @@
+2003-08-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-parser.[c,h]: s/HSCAN_/CAMEL_MIME_PARSER_STATE_/g and
+	s/_header_state/_camel_mime_parser_state/g
+
+	* camel-filter-driver.c: Same.
+
+	* camel-folder-summary.c: Here too.
+
+	* camel-http-stream.c: And here.
+
+	* camel-mime-message.c: ...
+
+	* camel-mime-part-utils.c: ...
+
+	* camel-mime-part.c: ...
+
+	* camel-movemail.c: ...
+
+	* camel-multipart-signed.c: ...
+
+	* camel-multipart.c: ...
+
+	* providers/local/camel-mbox-folder.c: ...
+
+	* providers/local/camel-mbox-summary.c: ...
+
+	* providers/local/camel-mh-summary.c: ...
+
+	* providers/nntp/camel-nntp-summary.c: ...
+
+	* providers/pop3/camel-pop3-folder.c: ...
+
 2003-08-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-utils.[c,h]: Namespaced.
@@ -17,8 +50,8 @@
 	* camel-folder-search.c: updated for namespace changed made to
 	camel-mime-utils.[c,h]
 
-	* camel-folder-summary.[c,h]: updated for namespace changed made to
-	camel-mime-utils.[c,h]
+	* camel-folder-summary.[c,h]: updated for namespace changed made
+	to camel-mime-utils.[c,h]
 
 	* camel-http-stream.c: updated for namespace changed made to
 	camel-mime-utils.[c,h]
@@ -56,8 +89,8 @@
 	* camel-multipart.c: updated for namespace changed made to
 	camel-mime-utils.[c,h]
 
-	* camel-search-private.[c,h]: updated for namespace changed made to
-	camel-mime-utils.[c,h]
+	* camel-search-private.[c,h]: updated for namespace changed made
+	to camel-mime-utils.[c,h]
 
 	* camel-types.h: updated for namespace changed made to
 	camel-mime-utils.[c,h]

@@ -536,7 +536,7 @@ add_range_head(CamelNNTPSummary *cns, unsigned int high, unsigned int low, Camel
 				if (camel_mime_parser_init_with_stream(mp, (CamelStream *)store->stream) == -1)
 					goto error;
 				mi = camel_folder_summary_add_from_parser(s, mp);
-				while (camel_mime_parser_step(mp, NULL, NULL) != HSCAN_EOF)
+				while (camel_mime_parser_step(mp, NULL, NULL) != CAMEL_MIME_PARSER_STATE_EOF)
 					;
 				if (mi == NULL) {
 					goto error;

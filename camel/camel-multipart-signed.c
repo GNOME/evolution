@@ -159,7 +159,7 @@ camel_multipart_signed_get_type (void)
  * set the mime_type appropriately to match the data uses, so
  * that the multiple parts my be extracted.
  *
- * Use construct_from_parser.  The parser MUST be in the HSCAN_HEADER
+ * Use construct_from_parser.  The parser MUST be in the CAMEL_MIME_PARSER_STATE_HEADER
  * state, and the current content_type MUST be "multipart/signed" with
  * the appropriate boundary and it SHOULD include the appropriate protocol
  * and hash specifiers.
@@ -440,14 +440,14 @@ signed_construct_from_parser(CamelMultipart *multipart, struct _CamelMimeParser 
 
 	/* we *must not* be in multipart state, otherwise the mime parser will
 	   parse the headers which is a no no @#$@# stupid multipart/signed spec */
-	g_assert(camel_mime_parser_state(mp) == HSCAN_HEADER);
+	g_assert(camel_mime_parser_state(mp) == CAMEL_MIME_PARSER_STATE_HEADER);
 
 	/* All we do is copy it to a memstream */
 	content_type = camel_mime_parser_content_type(mp);
 	camel_multipart_set_boundary(multipart, camel_content_type_param(content_type, "boundary"));
 
 	mem = camel_stream_mem_new();
-	while (camel_mime_parser_step(mp, &buf, &len) != HSCAN_BODY_END)
+	while (camel_mime_parser_step(mp, &buf, &len) != CAMEL_MIME_PARSER_STATE_BODY_END)
 		camel_stream_write(mem, buf, len);
 
 	set_stream(mps, mem);

@@ -473,10 +473,10 @@ camel_movemail_solaris (int oldsfd, int dfd, CamelException *ex)
 
 	ffrom = camel_mime_filter_from_new();
 
-	while (camel_mime_parser_step(mp, &buffer, &len) == HSCAN_FROM) {
+	while (camel_mime_parser_step(mp, &buffer, &len) == CAMEL_MIME_PARSER_STATE_FROM) {
 		g_assert(camel_mime_parser_from_line(mp));
 		from = g_strdup(camel_mime_parser_from_line(mp));
-		if (camel_mime_parser_step(mp, &buffer, &len) != HSCAN_FROM_END) {
+		if (camel_mime_parser_step(mp, &buffer, &len) != CAMEL_MIME_PARSER_STATE_FROM_END) {
 			const char *cl;
 			int length;
 			int start, body;

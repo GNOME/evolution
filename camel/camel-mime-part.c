@@ -786,13 +786,13 @@ construct_from_parser (CamelMimePart *mime_part, CamelMimeParser *mp)
 	d(printf("mime_part::construct_from_parser()\n"));
 	
 	switch (camel_mime_parser_step(mp, &buf, &len)) {
-	case HSCAN_MESSAGE:
+	case CAMEL_MIME_PARSER_STATE_MESSAGE:
 		/* set the default type of a message always */
 		if (dw->mime_type)
 			camel_content_type_unref (dw->mime_type);
 		dw->mime_type = camel_content_type_decode ("message/rfc822");
-	case HSCAN_HEADER:
-	case HSCAN_MULTIPART:
+	case CAMEL_MIME_PARSER_STATE_HEADER:
+	case CAMEL_MIME_PARSER_STATE_MULTIPART:
 		/* we have the headers, build them into 'us' */
 		headers = camel_mime_parser_headers_raw(mp);
 
