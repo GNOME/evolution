@@ -1,3 +1,9 @@
+2001-08-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (folder_browser_copy): Do the Right Thing (tm)
+	if the message list is not the widget in focus (which is to copy
+	the text selected in the html viewer instead). Fixes bug #5868.
+
 2001-08-01  Jason Leach  <jleach@ximian.com>
 
 	* folder-browser-ui.c: Use the new Save As and Message Search

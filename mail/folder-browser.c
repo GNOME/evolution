@@ -27,6 +27,7 @@
 #include <libgnomeui/gnome-dialog-util.h>
 
 #include <gtkhtml/htmlengine.h>
+#include <gtkhtml/htmlengine-edit-cut-and-paste.h>
 
 #include "filter/vfolder-rule.h"
 #include "filter/vfolder-context.h"
@@ -620,6 +621,12 @@ folder_browser_copy (GtkWidget *menuitem, FolderBrowser *fb)
 	int i;
 	
 	cut = menuitem == NULL;
+	
+	if (!GTK_WIDGET_HAS_FOCUS (fb->message_list)) {
+		/* Copy text from the HTML Engine */
+		html_engine_copy (fb->mail_display->html->engine);
+		return;
+	}
 	
 	if (fb->clipboard_selection) {
 		g_byte_array_free (fb->clipboard_selection, TRUE);
