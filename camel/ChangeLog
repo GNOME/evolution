@@ -1,3 +1,15 @@
+2001-01-14  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-tcp-stream-ssl.[c,h]: New CamelTcpStream class that
+	implements nspr sockets and eventually will use nss for
+	SSL/TLS. Currently doesn't do any SSL/TLS but it should still
+	work. It's functionally equivalent to CamelTcpStreamRaw at the
+	moment only it uses nspr i/o.
+
+	* camel-tcp-stream-raw.[c,h]: New CamelTcpStream class that
+	implements native sockets. Should be usable but may have some bugs
+	yet.
+
 2001-01-13  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream.[c,h]: New abstract class for TCP streams. The

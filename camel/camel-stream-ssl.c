@@ -49,7 +49,7 @@ camel_stream_ssl_class_init (CamelStreamSSLClass *camel_stream_ssl_class)
 	CamelStreamClass *camel_stream_class =
 		CAMEL_STREAM_CLASS (camel_stream_ssl_class);
 	
-	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_seekable_stream_get_type ()));
+	parent_class = CAMEL_STREAM_CLASS (camel_type_get_global_classfuncs (camel_stream_get_type ()));
 	
 	/* virtual method overload */
 	camel_stream_class->read = stream_read;
@@ -70,7 +70,7 @@ camel_stream_ssl_init (gpointer object, gpointer klass)
 static void
 camel_stream_ssl_finalize (CamelObject *object)
 {
-	CamelStreamSSL *stream = CAMEL_STREAM_FS (object);
+	CamelStreamSSL *stream = CAMEL_STREAM_SSL (object);
 	
 	if (stream->ssl) {
 		SSL_shutdown (stream->ssl);
@@ -89,20 +89,20 @@ camel_stream_ssl_finalize (CamelObject *object)
 CamelType
 camel_stream_ssl_get_type (void)
 {
-	static CamelType camel_stream_ssl_type = CAMEL_INVALID_TYPE;
+	static CamelType type = CAMEL_INVALID_TYPE;
 	
-	if (camel_stream_ssl_type == CAMEL_INVALID_TYPE) {
-		camel_stream_ssl_type =
-			camel_type_register (camel_stream_get_type (), "CamelStreamSSL",
-					     sizeof (CamelStreamSSL),
-					     sizeof (CamelStreamSSLClass),
-					     (CamelObjectClassInitFunc) camel_stream_ssl_class_init,
-					     NULL,
-					     (CamelObjectInitFunc) camel_stream_ssl_init,
-					     (CamelObjectFinalizeFunc) camel_stream_ssl_finalize);
+	if (type == CAMEL_INVALID_TYPE) {
+		type = camel_type_register (camel_stream_get_type (),
+					    "CamelStreamSSL",
+					    sizeof (CamelStreamSSL),
+					    sizeof (CamelStreamSSLClass),
+					    (CamelObjectClassInitFunc) camel_stream_ssl_class_init,
+					    NULL,
+					    (CamelObjectInitFunc) camel_stream_ssl_init,
+					    (CamelObjectFinalizeFunc) camel_stream_ssl_finalize);
 	}
 	
-	return camel_stream_ssl_type;
+	return type;
 }
 
 static int
