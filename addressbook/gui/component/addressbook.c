@@ -397,7 +397,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrintPreview", print_preview_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsSaveAsVCard", save_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsView", view_contact_cb),
-	BONOBO_UI_UNSAFE_VERB ("ToolSearch", search_cb),
 
 	BONOBO_UI_UNSAFE_VERB ("ContactDelete", delete_contact_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactStop", stop_loading_cb),
@@ -426,8 +425,6 @@ static EPixmap pixmaps [] = {
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsCopy", "16_copy.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactsPaste", "16_paste.png"),
 	E_PIXMAP ("/menu/EditPlaceholder/Edit/ContactDelete", "evolution-trash-mini.png"),
-
-	E_PIXMAP ("/menu/Tools/ComponentPlaceholder/ToolSearch", "search-16.png"),
 
 	E_PIXMAP ("/Toolbar/ContactsPrint", "buttons/print.png"),
 	E_PIXMAP ("/Toolbar/ContactDelete", "buttons/delete-message.png"),

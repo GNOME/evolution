@@ -110,6 +110,7 @@ static void invisible_destroyed (gpointer data, GObject *where_object_was);
 static void make_suboptions             (EABView *view);
 static void query_changed               (ESearchBar *esb, EABView *view);
 static void search_activated            (ESearchBar *esb, EABView *view);
+static void search_menu_activated       (ESearchBar *esb, int id, EABView *view);
 static void connect_master_list_changed (EABView *view);
 static ECategoriesMasterList *get_master_list (void);
 
@@ -163,6 +164,11 @@ static ESearchBarItem addressbook_search_option_items[] = {
 	{ N_("Any field contains"), ESB_ANY, NULL },
 	{ N_("Advanced..."), ESB_ADVANCED, NULL },
 	{ NULL, -1, NULL }
+};
+
+static ESearchBarItem addressbook_search_items[] = {
+	{ N_("Advanced..."), ESB_ADVANCED, NULL },
+	{ NULL, -1, NULL },
 };
 
 GType
@@ -429,12 +435,15 @@ eab_view_new (void)
 
 	/* create our search bar */
 	eav->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
+	e_search_bar_set_menu (eav->search, addressbook_search_items);
 	make_suboptions (eav);
 	connect_master_list_changed (eav);
 	g_signal_connect (eav->search, "query_changed",
 			  G_CALLBACK (query_changed), eav);
 	g_signal_connect (eav->search, "search_activated",
 			  G_CALLBACK (search_activated), eav);
+	g_signal_connect (eav->search, "menu_activated",
+			  G_CALLBACK (search_menu_activated), eav);
 	gtk_box_pack_start (GTK_BOX (eav), GTK_WIDGET (eav->search), FALSE, FALSE, 0);
 	gtk_widget_show (GTK_WIDGET (eav->search));
 	gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
@@ -1573,17 +1582,20 @@ search_activated (ESearchBar *esb, EABView *v)
 }
 
 static void
+search_menu_activated (ESearchBar *esb, int id, EABView *view)
+{
+	if (id == ESB_ADVANCED)
+		gtk_widget_show(eab_search_dialog_new(view));
+}
+
+static void
 query_changed (ESearchBar *esb, EABView *view)
 {
 	int search_type;
 
-	g_object_get(esb,
-		     "item_id", &search_type,
-		     NULL);
-
-	if (search_type == ESB_ADVANCED) {
+	search_type = e_search_bar_get_item_id(esb);
+	if (search_type == ESB_ADVANCED)
 		gtk_widget_show(eab_search_dialog_new(view));
-	}
 }
 
 static int

@@ -1,5 +1,20 @@
 2004-03-30  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #53634 ]
+	
+	* gui/widgets/e-addressbook-view.c (eab_view_new): call
+	e_search_bar_set_menu to add the Advanced... menu item to the
+	search menu, and connect to "menu_activated".
+	(search_menu_activated): new function, pop up the advanced dialog
+	if id == ESB_ADVANCED.
+	(query_changed): use e_search_bar_get_item_id instead of
+	g_object_get.
+
+	* gui/component/addressbook.c (verbs): remove ToolSearch.
+	(pixmaps): remove the ToolSearch pixmap.
+
+2004-03-30  Chris Toshok  <toshok@ximian.com>
+
 	[ gui part of the fix required for #48665 ]
 	
 	* gui/widgets/e-addressbook-model.c (get_view): pass the source's
