@@ -535,11 +535,12 @@ static char *meta_data_key(const char *uri, char **pathp)
 	if (key == NULL)
 		key = uri;
 
+	p = g_strdup(key);
 	camel_url_free(url);
 	*pathp = path->str;
 	g_string_free(path, FALSE);
 
-	return g_strdup(key);
+	return p;
 }
 
 EMeta *

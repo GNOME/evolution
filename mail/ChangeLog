@@ -1,5 +1,10 @@
 2003-03-25  Not Zed  <NotZed@Ximian.com>
 
+	* mail-tools.c (meta_data_key): strdup the key before freeing the
+	url as it is probably pointing there.
+
+2003-03-25  Not Zed  <NotZed@Ximian.com>
+
 	* component-factory.c (got_folder): remove a debug printf that
 	made it in a commit.
 
