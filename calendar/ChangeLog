@@ -1,3 +1,10 @@
+2004-02-09  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): don't add the clients to the
+	internal hash/list here, just remove it if opening the calendar fails.
+	(gnome_calendar_add_event_source): add the client to the internal
+	hash/list here.
+
 2004-02-09  Kidd Wang  <kidd.wang@sun.com>
 
 	* gui/e-cal-model-tasks.c: (ecmt_set_value_at): refuse to update
