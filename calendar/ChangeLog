@@ -1,3 +1,8 @@
+2004-01-21  JP Rosevear <jpr@ximian.com>
+
+	* gui/dialogs/calendar-setup.c (source_to_dialog): only block
+	widgets that exist
+
 2004-01-19  JP Rosevear <jpr@ximian.com>
 
 	* gui/e-cal-model-tasks.c (ensure_task_not_complete): correct

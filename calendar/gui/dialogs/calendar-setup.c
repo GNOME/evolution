@@ -281,10 +281,14 @@ source_to_dialog (SourceDialog *source_dialog)
 
 	g_signal_handlers_block_matched (source_dialog->name_entry, G_SIGNAL_MATCH_DATA,
 					 0, 0, NULL, NULL, source_dialog);
-	g_signal_handlers_block_matched (source_dialog->uri_entry, G_SIGNAL_MATCH_DATA,
-					 0, 0, NULL, NULL, source_dialog);
-	g_signal_handlers_block_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
-					 0, 0, NULL, NULL, source_dialog);
+
+	/* These are calendar specific so make sure we have them */
+	if (source_dialog->uri_entry)
+		g_signal_handlers_block_matched (source_dialog->uri_entry, G_SIGNAL_MATCH_DATA,
+						 0, 0, NULL, NULL, source_dialog);
+	if (source_dialog->refresh_spin)
+		g_signal_handlers_block_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
+						 0, 0, NULL, NULL, source_dialog);
 
 	gtk_entry_set_text (GTK_ENTRY (source_dialog->name_entry), source ? e_source_peek_name (source) : "");
 	if (source && source_is_remote (source)) {
@@ -307,10 +311,12 @@ source_to_dialog (SourceDialog *source_dialog)
 
 	g_signal_handlers_unblock_matched (source_dialog->name_entry, G_SIGNAL_MATCH_DATA,
 					   0, 0, NULL, NULL, source_dialog);
-	g_signal_handlers_unblock_matched (source_dialog->uri_entry, G_SIGNAL_MATCH_DATA,
-					   0, 0, NULL, NULL, source_dialog);
-	g_signal_handlers_unblock_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
-					   0, 0, NULL, NULL, source_dialog);
+	if (source_dialog->uri_entry)
+		g_signal_handlers_unblock_matched (source_dialog->uri_entry, G_SIGNAL_MATCH_DATA,
+						   0, 0, NULL, NULL, source_dialog);
+	if (source_dialog->refresh_spin)
+		g_signal_handlers_unblock_matched (source_dialog->refresh_spin, G_SIGNAL_MATCH_DATA,
+						   0, 0, NULL, NULL, source_dialog);
 }
 
 static void
