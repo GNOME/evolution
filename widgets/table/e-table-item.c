@@ -1169,13 +1169,9 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 		return;
 	}
 
-	g_assert (eti->rows == -1 || row + count <= eti->rows);
-
 	eti->rows = e_table_model_row_count (eti->table_model);
 
-	g_assert (row <= eti->rows);
-
-	if (eti->height_cache) {
+	if (eti->height_cache && (eti->rows > row)) {
 		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
 	}
 
