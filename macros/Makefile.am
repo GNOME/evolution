@@ -9,6 +9,8 @@ MACROS=						\
   gnome-objc-checks.m4				\
   gnome-pthread-check.m4			\
   gnome-support.m4				\
+  gnome-undelfs.m4				\
+  gnome-vfs.m4					\
   gnome-x-checks.m4				\
   gnome.m4					\
   need-declaration.m4

@@ -1,3 +1,9 @@
+Thu Jul 23 22:41:23 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* Makefile.am (MACROS): Added gnome-undelfs.m4, gnome-vfs.m4.
+	* gnome-undelfs.m4: New file.
+	* gnome-vfs.m4: New file.
+
 1998-07-22  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-fileutils.m4: Added some reasonable defaults to allow
