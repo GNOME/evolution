@@ -1,3 +1,16 @@
+2004-08-01  JP Rosevear  <jpr@novell.com>
+
+	* e-pilot-settings.c (e_pilot_settings_get_source): accessor
+	(e_pilot_settings_set_source): ditto
+	(build_ui): show the source option menu
+	(e_pilot_settings_new): use above
+
+	* e-pilot-settings.h: add prototypes
+
+2004-07-20  JP Rosevear  <jpr@novell.com>
+
+	* Makefile.am: build pilot setting
+
 2004-07-26  JP Rosevear  <jpr@novell.com>
  
  	* e-search-bar.c (setup_bonobo_menus): use ctrl-shift-q to clear

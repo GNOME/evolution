@@ -11,7 +11,16 @@ privlib_LTLIBRARIES =	\
 
 widgetsincludedir = $(privincludedir)/widgets
 
+if ENABLE_PILOT_CONDUITS
+pilot_sources = e-pilot-settings.c
+pilot_headers = e-pilot-settings.h
+else
+pilot_sources =
+pilot_headers =
+endif
+
 widgetsinclude_HEADERS =			\
+	$(pilot_headers)			\
 	e-activity-handler.h			\
 	e-calendar.h				\
 	e-calendar-item.h			\
@@ -42,6 +51,7 @@ widgetsinclude_HEADERS =			\
 libemiscwidgets_la_SOURCES =			\
 	$(MARSHAL_GENERATED)			\
 	$(widgetsinclude_HEADERS)		\
+	$(pilot_sources)			\
 	e-activity-handler.c			\
 	e-calendar.c				\
 	e-calendar-item.c			\
