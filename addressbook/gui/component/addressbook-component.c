@@ -57,8 +57,6 @@ addressbook_component_get_shell_client  (void)
 	return global_shell_client;
 }
 
-static BonoboGenericFactory *factory = NULL;
-
 static char *accepted_dnd_types[] = {
 	"text/x-vcard",
 	NULL

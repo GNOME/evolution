@@ -1,3 +1,8 @@
+2001-09-07  Christopher James Lahey  <clahey@ximian.com>
+
+	* gui/component/addressbook-component.c: Removed unused factory
+	variable.
+
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-storage.c (notify_listener): new
