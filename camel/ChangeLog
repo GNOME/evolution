@@ -1,3 +1,9 @@
+2000-10-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (imap_move_message_to): Quote
+	the mailbox name as it may contain spaces.
+	(imap_copy_message_to): Same.
+
 2000-10-10  Chris Toshok  <toshok@helixcode.com>
 
 	* providers/nntp/camel-nntp-store.c

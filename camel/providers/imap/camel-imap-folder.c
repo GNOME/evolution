@@ -442,7 +442,7 @@ imap_copy_message_to (CamelFolder *source, const char *uid,
 	char *folder_path;
 	
 	folder_path = camel_imap_store_folder_path (store, destination->full_name);
-	response = camel_imap_command (store, source, ex, "UID COPY %s %s",
+	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
 				       uid, folder_path);
 	camel_imap_response_free (response);
 	g_free (folder_path);
@@ -458,7 +458,7 @@ imap_move_message_to (CamelFolder *source, const char *uid,
 	char *folder_path;
 
 	folder_path = camel_imap_store_folder_path (store, destination->full_name);	
-	response = camel_imap_command (store, source, ex, "UID COPY %s %s",
+	response = camel_imap_command (store, source, ex, "UID COPY %s \"%s\"",
 				       uid, folder_path);
 	camel_imap_response_free (response);
 	g_free (folder_path);
