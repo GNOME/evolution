@@ -3,7 +3,6 @@ SUBDIRS =					\
 	Contacts				\
 	Drafts					\
 	Inbox					\
-	Junk					\
 	Outbox					\
 	Sent					\
 	Tasks					\
