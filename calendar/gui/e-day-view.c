@@ -5051,7 +5051,6 @@ e_day_view_get_event_position (EDayView *day_view,
 {
 	EDayViewEvent *event;
 	gint start_row, end_row, cols_in_row, start_col, num_columns;
-	gfloat width;
 
 	event = &g_array_index (day_view->events[day], EDayViewEvent,
 				event_num);
