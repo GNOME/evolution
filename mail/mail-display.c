@@ -557,24 +557,29 @@ get_embedded_for_component (const char *iid, MailDisplay *md)
 	BonoboControlFrame *control_frame;
 	Bonobo_PropertyBag prop_bag;
 	
-	embedded = bonobo_widget_new_subdoc (iid, NULL);
-	if (embedded) {
-		/* FIXME: as of bonobo 0.18, there's an extra
-		 * client_site dereference in the BonoboWidget
-		 * destruction path that we have to balance out to
-		 * prevent problems.
-		 */
-		bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
-			BONOBO_WIDGET (embedded))));
-
-		return embedded;
-	} 
-
 	/*
-	 * Try a control now
+	 * First try a control.
 	 */
 	embedded = bonobo_widget_new_control (iid, NULL);
-	if (!embedded)
+	if (embedded == NULL) {
+		/*
+		 * No control, try an embeddable instead.
+		 */
+		embedded = bonobo_widget_new_subdoc (iid, NULL);
+		if (embedded != NULL) {
+			/* FIXME: as of bonobo 0.18, there's an extra
+			 * client_site dereference in the BonoboWidget
+			 * destruction path that we have to balance out to
+			 * prevent problems.
+			 */
+			bonobo_object_ref (BONOBO_OBJECT(bonobo_widget_get_client_site (
+				BONOBO_WIDGET (embedded))));
+
+			return embedded;
+		}
+	}
+
+	if (embedded == NULL)
 		return NULL;
 
 	control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (embedded));

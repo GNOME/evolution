@@ -1,3 +1,8 @@
+2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
+
+	* mail-display.c (get_embedded_for_component): Try a control
+	first, instead of an embeddable.
+
 2001-01-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* subscribe-dialog.c (populate_store_foreach): Check for a NULL
