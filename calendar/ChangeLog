@@ -1,3 +1,16 @@
+2003-12-14  JP Rosevear <jpr@ximian.com>
+
+	* gui/calendar-component.c (impl_requestCreateItem): set a proper
+	exception if we fail
+
+2003-12-14  JP Rosevear <jpr@ximian.com>
+	
+	* gui/calendar-config.c
+	(calendar_config_get_hide_completed_tasks_units): make sure the
+	string is non-null before strcmp'ing it
+
+	Fixes #52033
+	
 2003-12-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/gnome-cal.c (gnome_calendar_add_event_uri): remove the client

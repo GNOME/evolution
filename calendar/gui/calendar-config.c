@@ -622,9 +622,9 @@ calendar_config_get_hide_completed_tasks_units	(void)
 
 	units = gconf_client_get_string (config, CALENDAR_CONFIG_TASKS_HIDE_COMPLETED_UNITS, NULL);
 
-	if (!strcmp (units, "minutes"))
+	if (units && !strcmp (units, "minutes"))
 		cu = CAL_MINUTES;
-	else if (!strcmp (units, "hours"))
+	else if (units && !strcmp (units, "hours"))
 		cu = CAL_HOURS;
 	else
 		cu = CAL_DAYS;

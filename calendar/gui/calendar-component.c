@@ -755,9 +755,11 @@ impl_requestCreateItem (PortableServer_Servant servant,
 	
 	priv = calendar_component->priv;
 
-	if (!setup_create_ecal (calendar_component))
+	if (!setup_create_ecal (calendar_component)) {
+		bonobo_exception_set (ev, ex_GNOME_Evolution_Component_Failed);
 		return;
-		
+	}
+	
 	editor = event_editor_new (priv->create_ecal);
 	
 	if (strcmp (item_type_name, CREATE_EVENT_ID) == 0) {
