@@ -1,3 +1,44 @@
+2002-03-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary-factory.c (e_summary_factory_new_control): Call
+	`e_summary_preferences_register_config_control_factory()'.
+
+	* e-summary-preferences.c: Remove member `box' from struct
+	PropertyData.  Added member `config_control'.
+	(e_summary_configure): Removed.
+	(property_box_destroy_cb): Removed.
+	(property_box_clicked_cb): Removed.
+	(property_box_apply_cb): New.
+	(config_control_destroy_cb): New.
+	(factory_fn): New, factory function for the
+	EvolutionConfigControl.
+	(e_summary_preferences_register_config_control_factory): New.
+	(mail_show_full_path_toggled_cb): Invoke ::changed on
+	pd->config_control.
+	(add_dialog_clicked_cb): Likewise.
+	(rdf_refresh_value_changed_cb): Likewise.
+	(rdf_limit_value_changed_cb): Likewise.
+	(mail_etable_item_changed_cb): Likewise.
+	(rdf_etable_item_changed_cb): Likewise.
+	(weather_etable_item_changed_cb): Likewise.
+	(weather_refresh_value_changed_cb): Likewise.
+	(weather_metric_toggled_cb): Likewise.
+	(weather_imperial_toggled_cb): Likewise.
+	(calendar_one_toggled_cb): Likewise.
+	(calendar_five_toggled_cb): Likewise.
+	(calendar_week_toggled_cb): Likewise.
+	(calendar_month_toggled_cb): Likewise.
+	(calendar_all_toggled_cb): Likewise.
+	(calendar_today_toggled_cb): Likewise.
+	(config_control_destroy_cb): Don't set ->prefs_window to NULL.
+
+	* my-evolution.glade: Renamed "notebook2" to "notebook".  Also
+	change its parent into a GtkWindow as libglade seems to have some
+	kind of problem with the GnomePropertyBox [glade_xml_get_widget()
+	for "notebook" always returned NULL].
+
+	* e-summary.h: Remove member `prefs_window' from `ESummary'.
+
 2002-02-14  Radek Doulik  <rodo@ximian.com>
 
 	* e-summary-tasks.c (sort_uids): fix case when priority is

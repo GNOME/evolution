@@ -495,7 +495,6 @@ e_summary_init (ESummary *summary)
 	priv->protocol_hash = NULL;
 	priv->connections = NULL;
 
-	summary->prefs_window = NULL;
 	e_summary_preferences_init (summary);
 
 	CORBA_exception_init (&ev);

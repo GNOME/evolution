@@ -38,12 +38,19 @@
 #include <stdio.h>
 
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-moniker-util.h>
 #include <bonobo-conf/bonobo-config-database.h>
 
 #include "e-summary.h"
 #include "e-summary-preferences.h"
 #include "e-summary-table.h"
+
+#include "evolution-config-control.h"
+
+
+#define FACTORY_ID "OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
+
 
 static void
 make_initial_mail_list (ESummaryPrefs *prefs)
@@ -424,8 +431,9 @@ struct _CalendarPage {
 };
 
 typedef struct _PropertyData {
+	EvolutionConfigControl *config_control;
+
 	ESummary *summary;
-	GnomePropertyBox *box;
 	GtkWidget *new_url_entry, *new_name_entry;
 	GladeXML *xml;
 
@@ -673,7 +681,8 @@ mail_show_full_path_toggled_cb (GtkToggleButton *tb,
 				PropertyData *pd)
 {
 	pd->summary->preferences->show_full_path = gtk_toggle_button_get_active (tb);
-	gnome_property_box_changed (pd->box);
+
+	evolution_config_control_changed (pd->config_control);
 }
 
 #if 0
@@ -714,8 +723,7 @@ add_dialog_clicked_cb (GnomeDialog *dialog,
 	gtk_clist_set_row_data (GTK_CLIST (pd->rdf->shown), row,
 				pd->summary->preferences->rdf_urls);
 
-
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 	gnome_dialog_close (dialog);
 }
 
@@ -767,7 +775,7 @@ rdf_refresh_value_changed_cb (GtkAdjustment *adj,
 			      PropertyData *pd)
 {
 	pd->summary->preferences->rdf_refresh_time = (int) adj->value;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -775,7 +783,7 @@ rdf_limit_value_changed_cb (GtkAdjustment *adj,
 			    PropertyData *pd)
 {
 	pd->summary->preferences->limit = (int) adj->value;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -783,7 +791,7 @@ mail_etable_item_changed_cb (ESummaryTable *est,
 			     ETreePath path,
 			     PropertyData *pd)
 {
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -791,7 +799,7 @@ rdf_etable_item_changed_cb (ESummaryTable *est,
 			    ETreePath path,
 			    PropertyData *pd)
 {
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -799,7 +807,7 @@ weather_etable_item_changed_cb (ESummaryTable *est,
 				ETreePath path,
 				PropertyData *pd)
 {
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -807,7 +815,7 @@ weather_refresh_value_changed_cb (GtkAdjustment *adj,
 				  PropertyData *pd)
 {
 	pd->summary->preferences->weather_refresh_time = (int) adj->value;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -819,7 +827,7 @@ weather_metric_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->units = UNITS_METRIC;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -831,7 +839,7 @@ weather_imperial_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->units = UNITS_IMPERIAL;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 
@@ -844,7 +852,7 @@ calendar_one_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_DAY;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -856,7 +864,7 @@ calendar_five_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->days = E_SUMMARY_CALENDAR_FIVE_DAYS;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -868,7 +876,7 @@ calendar_week_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_WEEK;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -880,7 +888,7 @@ calendar_month_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->days = E_SUMMARY_CALENDAR_ONE_MONTH;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -892,7 +900,7 @@ calendar_all_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_ALL_TASKS;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static void
@@ -904,7 +912,7 @@ calendar_today_toggled_cb (GtkToggleButton *tb,
 	}
 
 	pd->summary->preferences->show_tasks = E_SUMMARY_CALENDAR_TODAYS_TASKS;
-	gnome_property_box_changed (pd->box);
+	evolution_config_control_changed (pd->config_control);
 }
 
 static gboolean
@@ -1097,76 +1105,6 @@ maybe_add_to_shown (gpointer key,
 	}
 }
 
-static void
-property_box_clicked_cb (GnomeDialog *dialog,
-			 int page_num,
-			 PropertyData *pd)
-{
-	if (page_num == -1) {
-
-		/* RDFs */
-		if (pd->rdf->tmp_list) {
-			free_str_list (pd->rdf->tmp_list);
-			g_list_free (pd->rdf->tmp_list);
-			pd->rdf->tmp_list = NULL;
-		}
-
-		/* Take each news feed which is on and add it
-		   to the shown list */
-		g_hash_table_foreach (pd->rdf->model, maybe_add_to_shown, &pd->rdf->tmp_list);
-
-		if (pd->summary->preferences->rdf_urls) {
-			free_str_list (pd->summary->preferences->rdf_urls);
-			g_list_free (pd->summary->preferences->rdf_urls);
-		}
-
-		pd->summary->preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
-
-		/* Weather */
-		if (pd->weather->tmp_list) {
-			free_str_list (pd->weather->tmp_list);
-			g_list_free (pd->weather->tmp_list);
-			pd->weather->tmp_list = NULL;
-		}
-		g_hash_table_foreach (pd->weather->model, maybe_add_to_shown, &pd->weather->tmp_list);
-		
-		if (pd->summary->preferences->stations) {
-			free_str_list (pd->summary->preferences->stations);
-			g_list_free (pd->summary->preferences->stations);
-		}
-		pd->summary->preferences->stations = copy_str_list (pd->weather->tmp_list);
-		
-		/* Folders */
-		if (pd->mail->tmp_list) {
-			free_str_list (pd->mail->tmp_list);
-			g_list_free (pd->mail->tmp_list);
-			pd->mail->tmp_list = NULL;
-		}
-		g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
-
-		if (pd->summary->preferences->display_folders) {
-			free_str_list (pd->summary->preferences->display_folders);
-			g_list_free (pd->summary->preferences->display_folders);
-		}
-		pd->summary->preferences->display_folders = copy_str_list (pd->mail->tmp_list);
-		
-		e_summary_reconfigure (pd->summary);
-	}
-}
-
-static void
-property_box_destroy_cb (GtkObject *object,
-			 PropertyData *pd)
-{
-	if (pd->summary->old_prefs != NULL) {
-		e_summary_preferences_free (pd->summary->old_prefs);
-		pd->summary->old_prefs = NULL;
-	}
-
-	e_summary_preferences_save (pd->summary->preferences);
-	pd->summary->prefs_window = NULL;
-	free_property_dialog (pd);
-}
 
 /* Prototypes to shut gcc up */
 GtkWidget *e_summary_preferences_make_mail_table (PropertyData *pd);
@@ -1189,50 +1127,135 @@ e_summary_preferences_make_weather_table (PropertyData *pd)
 {
 	return e_summary_table_new (g_hash_table_new (NULL, NULL));
 }
-	
-void
-e_summary_configure (BonoboUIComponent *component,
-		     gpointer userdata,
-		     const char *cname)
+
+
+/* The factory for the ConfigControl.  */
+
+static void
+config_control_apply_cb (EvolutionConfigControl *control,
+			 void *data)
 {
-	ESummary *summary = userdata;
 	PropertyData *pd;
 
-	if (summary->prefs_window != NULL) {
-		gdk_window_raise (summary->prefs_window->window);
-		gdk_window_show (summary->prefs_window->window);
-		return;
+	pd = (PropertyData *) data;
+
+	/* RDFs */
+	if (pd->rdf->tmp_list) {
+		free_str_list (pd->rdf->tmp_list);
+		g_list_free (pd->rdf->tmp_list);
+		pd->rdf->tmp_list = NULL;
 	}
+
+	/* Take each news feed which is on and add it
+	   to the shown list */
+	g_hash_table_foreach (pd->rdf->model, maybe_add_to_shown, &pd->rdf->tmp_list);
+
+	if (pd->summary->preferences->rdf_urls) {
+		free_str_list (pd->summary->preferences->rdf_urls);
+		g_list_free (pd->summary->preferences->rdf_urls);
+	}
+
+	pd->summary->preferences->rdf_urls = copy_str_list (pd->rdf->tmp_list);
+
+	/* Weather */
+	if (pd->weather->tmp_list) {
+		free_str_list (pd->weather->tmp_list);
+		g_list_free (pd->weather->tmp_list);
+		pd->weather->tmp_list = NULL;
+	}
+	g_hash_table_foreach (pd->weather->model, maybe_add_to_shown, &pd->weather->tmp_list);
+		
+	if (pd->summary->preferences->stations) {
+		free_str_list (pd->summary->preferences->stations);
+		g_list_free (pd->summary->preferences->stations);
+	}
+	pd->summary->preferences->stations = copy_str_list (pd->weather->tmp_list);
+		
+	/* Folders */
+	if (pd->mail->tmp_list) {
+		free_str_list (pd->mail->tmp_list);
+		g_list_free (pd->mail->tmp_list);
+		pd->mail->tmp_list = NULL;
+	}
+	g_hash_table_foreach (pd->mail->model, maybe_add_to_shown, &pd->mail->tmp_list);
+
+	if (pd->summary->preferences->display_folders) {
+		free_str_list (pd->summary->preferences->display_folders);
+		g_list_free (pd->summary->preferences->display_folders);
+	}
+	pd->summary->preferences->display_folders = copy_str_list (pd->mail->tmp_list);
+		
+	e_summary_reconfigure (pd->summary);
+}
+
+static void
+config_control_destroy_cb (EvolutionConfigControl *config_control,
+			   void *data)
+{
+	PropertyData *pd;
+
+	pd = (PropertyData *) data;
+
+	if (pd->summary->old_prefs != NULL) {
+		e_summary_preferences_free (pd->summary->old_prefs);
+		pd->summary->old_prefs = NULL;
+	}
+
+	e_summary_preferences_save (pd->summary->preferences);
+	free_property_dialog (pd);
+}
+
+static BonoboObject *
+factory_fn (BonoboGenericFactory *generic_factory,
+	    void *data)
+{
+	ESummary *summary;
+	PropertyData *pd;
+	GtkWidget *widget;
+
+	summary = E_SUMMARY (data);
 
 	pd = g_new0 (PropertyData, 1);
 
 	gtk_object_ref (GTK_OBJECT (summary));
 	pd->summary = summary;
 
-	if (summary->old_prefs != NULL) {
+	if (summary->old_prefs != NULL)
 		e_summary_preferences_free (summary->old_prefs);
-	}
 
 	summary->old_prefs = e_summary_preferences_copy (summary->preferences);
 
 	pd->xml = glade_xml_new (EVOLUTION_GLADEDIR "/my-evolution.glade", NULL);
-	g_return_if_fail (pd->xml != NULL);
+	g_return_val_if_fail (pd->xml != NULL, NULL);
 
-	pd->box = GNOME_PROPERTY_BOX (glade_xml_get_widget (pd->xml, "dialog1"));
-	gtk_widget_hide (pd->box->help_button);
-	summary->prefs_window = GTK_WIDGET (pd->box);
-
-	gtk_window_set_title (GTK_WINDOW (pd->box), _("Summary Settings"));
-	if (make_property_dialog (pd) == FALSE) {
+	widget = glade_xml_get_widget (pd->xml, "notebook");
+	if (widget == NULL || ! make_property_dialog (pd)) {
 		g_warning ("Missing some part of XML file");
 		free_property_dialog (pd);
-		return;
+		return NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (pd->box), "apply",
-			    GTK_SIGNAL_FUNC (property_box_clicked_cb), pd);
-	gtk_signal_connect (GTK_OBJECT (pd->box), "destroy",
-			    GTK_SIGNAL_FUNC (property_box_destroy_cb), pd);
-	gtk_widget_show (GTK_WIDGET (pd->box));
+	gtk_widget_ref (widget);
+	gtk_container_remove (GTK_CONTAINER (widget->parent), widget);
+
+	gtk_widget_show (widget);
+	pd->config_control = evolution_config_control_new (widget);
+
+	gtk_widget_unref (widget);
+
+	gtk_signal_connect (GTK_OBJECT (pd->config_control), "apply",
+			    GTK_SIGNAL_FUNC (config_control_apply_cb), pd);
+	gtk_signal_connect (GTK_OBJECT (pd->config_control), "destroy",
+			    GTK_SIGNAL_FUNC (config_control_destroy_cb), pd);
+
+	return BONOBO_OBJECT (pd->config_control);
 }
 
+gboolean
+e_summary_preferences_register_config_control_factory (ESummary *summary)
+{
+	if (bonobo_generic_factory_new (FACTORY_ID, factory_fn, summary) == NULL)
+		return FALSE;
+
+	return TRUE;
+}

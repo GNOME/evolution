@@ -13,19 +13,20 @@
 </project>
 
 <widget>
-  <class>GnomePropertyBox</class>
-  <name>dialog1</name>
-  <width>592</width>
+  <class>GtkWindow</class>
+  <name>window1</name>
+  <visible>False</visible>
+  <title>window2</title>
+  <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
   <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
+  <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
 
   <widget>
     <class>GtkNotebook</class>
-    <child_name>GnomePropertyBox:notebook</child_name>
-    <name>notebook2</name>
+    <name>notebook</name>
     <can_focus>True</can_focus>
     <show_tabs>True</show_tabs>
     <show_border>True</show_border>
@@ -34,11 +35,6 @@
     <tab_hborder>2</tab_hborder>
     <tab_vborder>2</tab_vborder>
     <popup_enable>False</popup_enable>
-    <child>
-      <padding>0</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
 
     <widget>
       <class>GtkVBox</class>

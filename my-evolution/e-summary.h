@@ -114,7 +114,6 @@ struct _ESummary {
 
 	GNOME_Evolution_ShellView shell_view_interface;
 
-	GtkWidget *prefs_window;
 	gboolean online;
 
 	char *timezone;
