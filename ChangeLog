@@ -1,3 +1,8 @@
+2001-11-09  JP Rosevear  <jpr@ximian.com>
+
+	* configure.in: Check to make sure pilot-link has the charset
+	conversion stuff enabled
+
 2001-11-09  Ettore Perazzoli  <ettore@ximian.com>
 
 	* tools/killev: Chop the output from `uname -s'.  Thanks to
