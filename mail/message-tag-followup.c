@@ -187,18 +187,22 @@ message_tag_followup_decode (const char *value)
 {
 	struct _FollowUpTag *tag;
 	const char *inptr;
-	int i;
+	int len, i;
 	
 	tag = g_new (struct _FollowUpTag, 1);
 	
+	inptr = strchr (value, ':');
+	if (!inptr)
+		inptr = value + strlen (value);
+	
+	len = inptr - value;
+	
 	for (i = 0; i < FOLLOWUP_FLAG_NONE; i++) {
-		if (!strcmp (value, available_flags[i].name))
+		if (!strncmp (value, available_flags[i].name, len))
 			break;
 	}
 	
 	tag->type = i;
-	
-	inptr = value + strlen (available_flags[i].name);
 	
 	if (*inptr == ':') {
 		inptr++;
