@@ -756,7 +756,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
 	EFolder *folder;
-	GtkWidget *menu;
+	GtkWidget *menu, *window;
 	FolderPropertyItemsData *folder_property_items_data;
 
 	priv = storage_set_view->priv;
@@ -771,10 +771,10 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 							       e_folder_get_type_string (folder));
 	menu = gtk_menu_new ();
 
-#if 0
-	bonobo_window_add_popup (bonobo_ui_container_get_win (priv->ui_container),
+	window = gtk_widget_get_ancestor (GTK_WIDGET (storage_set_view),
+					  BONOBO_TYPE_WINDOW);
+	bonobo_window_add_popup (BONOBO_WINDOW (window),
 				 GTK_MENU (menu), "/popups/FolderPopup");
-#endif
 
 	bonobo_ui_component_set (priv->ui_component,
 				 "/popups/FolderPopup/ComponentPlaceholder",
