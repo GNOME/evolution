@@ -1,3 +1,10 @@
+2004-07-23  JP Rosevear  <jpr@novell.com>
+ 
+ 	Fixes #61760
+ 	
+ 	* gui/e-cal-model.c (add_new_client): don't check against the URI,
+ 	just against the client
+ 
 2004-07-23 pchenthill <pchenthill@novell.com>
 
 	* Retracting the commit made below for #59983 as it has
@@ -11,7 +18,7 @@
         status of the attendee and display the menu for selecting the
         calendar.
 
-2004-07-16  Larry Ewing  <lewing@ximian.com>
+2004-07-22  Larry Ewing  <lewing@ximian.com>
 
 	* gui/e-meeting-time-sel.c (e_meeting_time_selector_style_set):
 	fix the row heights and tweek the offsets so that things come out

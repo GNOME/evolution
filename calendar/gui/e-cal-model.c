@@ -1464,12 +1464,9 @@ add_new_client (ECalModel *model, ECal *client, gboolean do_query)
 	
 	priv = model->priv;
 
-	/* Look for an existing client with the same URI */
-	existing_client = e_cal_model_get_client_for_uri (model, e_cal_get_uri (client));
-	if (existing_client) {
-		client_data = find_client_data (model, client);
-		g_assert (client_data);
-
+	/* Look to see if we already have this client */
+	client_data = find_client_data (model, client);	
+	if (client_data) {
 		if (!client_data->do_query)
 			client_data->do_query = do_query;
 		
