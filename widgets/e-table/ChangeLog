@@ -1,6 +1,16 @@
 2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
 
-	* e-table-selection-model.c: Added comments to the bit data.
+	* Makefile.am: Added e-table-selection-model.c and
+	e-table-selection-model.h.
+
+	* e-table-selection-model.c: Added the get_selection_list and
+	is_row_selected functions.  Removed some unused code.
+
+	* e-table-selection-model.h: Removed some unused code.
+
+2000-07-25  Christopher James Lahey  <clahey@helixcode.com>
+
+	* e-table-selection-model.c: Added comments to the bit field code.
 
 	* e-table-selection-model.h: Made the selection data guint32s.
 

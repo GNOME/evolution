@@ -47,7 +47,7 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 
 		/* Add another word if needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
-			etsm->selection = e_realloc(etsm->selection, (etsm->row_count >> 5) + 1);
+			etsm->selection = g_realloc(etsm->selection, (etsm->row_count >> 5) + 1);
 			etsm->selection[etsm->row_count >> 5] = 0;
 		}
 
@@ -55,7 +55,7 @@ model_row_inserted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		box = row >> 5;
 		/* Shift all words to the right of our box right one bit. */
 		for (i = etsm->row_count >> 5; i > box; i--) {
-			etsm->selection[i] = (etsm->selection[i] >> 1) | (etsm->selection[i - 1] << 31)
+			etsm->selection[i] = (etsm->selection[i] >> 1) | (etsm->selection[i - 1] << 31);
 		}
 
 		/* Build bitmasks for the left and right half of the box */
@@ -73,6 +73,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 {
 	int box;
 	int i;
+	int last;
 	int offset;
 	if(etsm->row_count >= 0) {
 		guint32 bitmask1 = 0xffff;
@@ -99,7 +100,7 @@ model_row_deleted(ETableModel *etm, int row, ETableSelectionModel *etsm)
 		etsm->row_count --;
 		/* Remove the last word if not needed. */
 		if ((etsm->row_count & 0x1f) == 0) {
-			etsm->selection = e_realloc(etsm->selection, etsm->row_count >> 5);
+			etsm->selection = g_realloc(etsm->selection, etsm->row_count >> 5);
 		}
 	}
 }
@@ -122,8 +123,15 @@ add_model(ETableSelectionModel *etsm, ETableModel *model)
 inline static void
 drop_model(ETableSelectionModel *etsm)
 {
-	if (etsm->model)
+	if (etsm->model) {
+		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
+				      etsm->model_changed_id);
+		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
+				      etsm->model_row_inserted_id);
+		gtk_signal_disconnect(GTK_OBJECT(etsm->model),
+				      etsm->model_row_deleted_id);
 		gtk_object_unref(GTK_OBJECT(etsm->model));
+	}
 	etsm->model = NULL;
 }
 
@@ -134,7 +142,7 @@ etsm_destroy (GtkObject *object)
 
 	etsm = E_TABLE_SELECTION_MODEL (object);
 	
-	g_free(etsm->selction);
+	g_free(etsm->selection);
 }
 
 static void
@@ -154,7 +162,7 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 	object_class = GTK_OBJECT_CLASS(klass);
 	
 	object_class->destroy = etsm_destroy;
-
+#if 0
 	e_table_selection_model_signals [SELECTION_MODEL_CHANGED] =
 		gtk_signal_new ("selection_model_changed",
 				GTK_RUN_LAST,
@@ -173,158 +181,48 @@ e_table_selection_model_class_init (ETableSelectionModelClass *klass)
 
 	klass->selection_model_changed = NULL;
 	klass->group_selection_changed = NULL;
-
+#endif
 	gtk_object_class_add_signals (object_class, e_table_selection_model_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE(e_table_selection_model, "ETableSelectionModel", ETableSelectionModel,
 	    e_table_selection_model_class_init, e_table_selection_model_init, PARENT_TYPE);
 
-static void
-e_table_selection_model_selection_model_changed (ETableSelectionModel *selection)
-{
-	g_return_if_fail (selection != NULL);
-	g_return_if_fail (E_IS_TABLE_SELECTION_MODEL (selection));
-	
-	if (selection->frozen) {
-		selection->selection_model_changed = 1;
-	} else {
-		gtk_signal_emit (GTK_OBJECT (selection),
-				 e_table_selection_model_signals [SELECTION_MODEL_CHANGED]);
-	}
-}
-
-static void
-e_table_selection_model_group_selection_changed (ETableSelectionModel *selection)
-{
-	g_return_if_fail (selection != NULL);
-	g_return_if_fail (E_IS_TABLE_SELECTION_MODEL (selection));
-	
-	if (selection->frozen) {
-		selection->group_selection_changed = 1;
-	} else {
-		gtk_signal_emit (GTK_OBJECT (selection),
-				 e_table_selection_model_signals [GROUP_SELECTION_CHANGED]);
-	}
-}
-
-void 
-e_table_selection_model_freeze             (ETableSelectionModel *selection)
-{
-	selection->frozen = 1;
-}
-
-void
-e_table_selection_model_thaw               (ETableSelectionModel *selection)
-{
-	selection->frozen = 0;
-	if (selection->selection_model_changed) {
-		selection->selection_model_changed = 0;
-		e_table_selection_model_selection_model_changed(selection);
-	}
-	if (selection->group_selection_changed) {
-		selection->group_selection_changed = 0;
-		e_table_selection_model_group_selection_changed(selection);
-	}
-}
-
-
-guint
-e_table_selection_model_grouping_get_count (ETableSelectionModel *selection)
-{
-	return selection->group_count;
-}
-
-static void
-e_table_selection_model_grouping_real_truncate  (ETableSelectionModel *selection, int length)
-{
-	if (length < selection->group_count) {
-		selection->group_count = length;
-	}
-	if (length > selection->group_count) {
-		selection->groupings = g_realloc(selection->groupings, length * sizeof(ETableSortColumn));
-		selection->group_count = length;
-	}
-}
-
-void
-e_table_selection_model_grouping_truncate  (ETableSelectionModel *selection, int length)
-{
-	e_table_selection_model_grouping_real_truncate(selection, length);
-	e_table_selection_model_group_selection_changed(selection);
-}
-
-ETableSortColumn
-e_table_selection_model_grouping_get_nth   (ETableSelectionModel *selection, int n)
-{
-	if (n < selection->group_count) {
-		return selection->groupings[n];
-	} else {
-		ETableSortColumn fake = {0, 0};
-		return fake;
-	}
-}
-
-void
-e_table_selection_model_grouping_set_nth   (ETableSelectionModel *selection, int n, ETableSortColumn column)
-{
-	if (n >= selection->group_count) {
-		e_table_selection_model_grouping_real_truncate(selection, n + 1);
-	}
-	selection->groupings[n] = column;
-	e_table_selection_model_group_selection_changed(selection);
-}
-
-
-guint
-e_table_selection_model_sorting_get_count (ETableSelectionModel *selection)
-{
-	return selection->sort_count;
-}
-
-static void
-e_table_selection_model_sorting_real_truncate  (ETableSelectionModel *selection, int length)
-{
-	if (length < selection->sort_count) {
-		selection->sort_count = length;
-	}
-	if (length > selection->sort_count) {
-		selection->sortings = g_realloc(selection->sortings, length * sizeof(ETableSortColumn));
-		selection->sort_count = length;
-	}
-}
-
-void
-e_table_selection_model_sorting_truncate  (ETableSelectionModel *selection, int length)
-{
-	e_table_selection_model_sorting_real_truncate  (selection, length);
-	e_table_selection_model_selection_model_changed(selection);
-}
-
-ETableSortColumn
-e_table_selection_model_sorting_get_nth   (ETableSelectionModel *selection, int n)
-{
-	if (n < selection->sort_count) {
-		return selection->sortings[n];
-	} else {
-		ETableSortColumn fake = {0, 0};
-		return fake;
-	}
-}
-
-void
-e_table_selection_model_sorting_set_nth   (ETableSelectionModel *selection, int n, ETableSortColumn column)
-{
-	if (n >= selection->sort_count) {
-		e_table_selection_model_sorting_real_truncate(selection, n + 1);
-	}
-	selection->sortings[n] = column;
-	e_table_selection_model_selection_model_changed(selection);
-}
-
-
 ETableSelectionModel *
 e_table_selection_model_new (void)
 {
 	return gtk_type_new (e_table_selection_model_get_type ());
+}
+
+gboolean
+e_table_selection_model_is_row_selected (ETableSelectionModel *selection,
+					 int                   n)
+{
+	if (selection->row_count < n)
+		return 0;
+	else
+		return ((selection->selection[n / 32]) >> (31 - (n % 32))) & 0x1;
+}
+
+GList *
+e_table_selection_model_get_selection_list (ETableSelectionModel *selection)
+{
+	int i;
+	GList *list = NULL;
+	if (selection->row_count < 0)
+		return NULL;
+	for (i = selection->row_count / 32; i >= 0; i--) {
+		if (selection->selection[i]) {
+			int j;
+			guint32 value = selection->selection[i];
+			for (j = 31; j >= 0; j--) {
+				if (value & 0x1) {
+					list = g_list_prepend(list, (void *) (i * 32 + j));
+				}
+				value >>= 1;
+			}
+		}
+	}
+
+	return NULL;
 }
