@@ -1272,28 +1272,71 @@ imap_connect_online (CamelService *service, CamelException *ex)
 		g_free (store->namespace);
 		store->namespace = tmp;
 	}
-
+	
 	ns = camel_imap_store_summary_namespace_new(store->summary, store->namespace, store->dir_sep);
 	camel_imap_store_summary_namespace_set(store->summary, ns);
 	
 	if (CAMEL_STORE (store)->flags & CAMEL_STORE_SUBSCRIPTIONS) {
+		gboolean haveinbox = FALSE;
 		GPtrArray *folders;
 		char *pattern;
-
+		
 		/* this pre-fills the summary, and checks that lsub is useful */
-		folders = g_ptr_array_new();
-		pattern = g_strdup_printf("%s*", store->namespace);
-		get_folders_online(store, pattern, folders, TRUE, ex);
-		g_free(pattern);
-
-		for (i=0;i<folders->len;i++) {
+		folders = g_ptr_array_new ();
+		pattern = g_strdup_printf ("%s*", store->namespace);
+		get_folders_online (store, pattern, folders, TRUE, ex);
+		g_free (pattern);
+		
+		for (i = 0; i < folders->len; i++) {
 			CamelFolderInfo *fi = folders->pdata[i];
-
+			
+			haveinbox = haveinbox || !strcasecmp (fi->full_name, "INBOX");
+			
 			if (fi->flags & (CAMEL_IMAP_FOLDER_MARKED | CAMEL_IMAP_FOLDER_UNMARKED))
 				store->capabilities |= IMAP_CAPABILITY_useful_lsub;
-			camel_folder_info_free(fi);
+			camel_folder_info_free (fi);
 		}
-		g_ptr_array_free(folders, TRUE);
+		
+		/* if the namespace is under INBOX, check INBOX explicitly */
+		if (!strncasecmp (store->namespace, "INBOX", 5) && !camel_exception_is_set (ex)) {
+			gboolean just_subscribed = FALSE;
+			gboolean need_subscribe = FALSE;
+			
+		recheck:
+			g_ptr_array_set_size (folders, 0);
+			get_folders_online (store, "INBOX", folders, TRUE, ex);
+			
+			for (i = 0; i < folders->len; i++) {
+				CamelFolderInfo *fi = folders->pdata[i];
+				
+				/* this should always be TRUE if folders->len > 0 */
+				if (!strcasecmp (fi->full_name, "INBOX")) {
+					haveinbox = TRUE;
+					
+					/* if INBOX is marked as \NoSelect then it is probably
+					   because it has not been subscribed to */
+					if (!need_subscribe)
+						need_subscribe = fi->flags & CAMEL_FOLDER_NOSELECT;
+				}
+				
+				camel_folder_info_free (fi);
+			}
+			
+			need_subscribe = !haveinbox || need_subscribe;
+			if (need_subscribe && !just_subscribed && !camel_exception_is_set (ex)) {
+				/* in order to avoid user complaints, force a subscription to INBOX */
+				response = camel_imap_command (store, NULL, ex, "SUBSCRIBE INBOX");
+				if (response != NULL) {
+					/* force a re-check which will pre-fill the summary and
+					   also get any folder flags present on the INBOX */
+					camel_imap_response_free (store, response);
+					just_subscribed = TRUE;
+					goto recheck;
+				}
+			}
+		}
+		
+		g_ptr_array_free (folders, TRUE);
 	}
 	
 	path = g_strdup_printf ("%s/journal", store->storage_path);
@@ -1977,10 +2020,10 @@ get_subscribed_folders (CamelImapStore *imap_store, const char *top, CamelExcept
 		}
 		camel_store_summary_info_free((CamelStoreSummary *)imap_store->summary, si);
 	}
-
+	
 	if (!haveinbox)
 		g_ptr_array_add (names, "INBOX");
-
+	
 	for (i = 0; i < names->len; i++) {
 		response = camel_imap_command (imap_store, NULL, ex,
 					       "LIST \"\" %S",
@@ -2274,8 +2317,10 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 	}
 
 	if (!haveinbox && top == imap_store->namespace) {
-		get_folders_online(imap_store, "INBOX", folders, flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
-		if (camel_exception_is_set(ex))
+		get_folders_online (imap_store, "INBOX", folders,
+				    flags & CAMEL_STORE_FOLDER_INFO_SUBSCRIBED, ex);
+		
+		if (camel_exception_is_set (ex))
 			goto fail;
 	}
 
@@ -2354,9 +2399,9 @@ static CamelFolderInfo *
 get_folder_info_online (CamelStore *store, const char *top, guint32 flags, CamelException *ex)
 {
 	CamelImapStore *imap_store = CAMEL_IMAP_STORE (store);
-	GPtrArray *folders;
 	CamelFolderInfo *tree;
-
+	GPtrArray *folders;
+	
 	if (top == NULL)
 		top = "";
 
@@ -2369,10 +2414,10 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 
 	if (folders == NULL)
 		return NULL;
-
+	
 	tree = camel_folder_info_build(folders, top, '/', TRUE);
 	g_ptr_array_free(folders, TRUE);
-
+	
 	if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST))
 		get_folder_counts(imap_store, tree, ex);
 
@@ -2407,7 +2452,7 @@ get_one_folder_offline (const char *physical_path, const char *path, gpointer da
 			fi->flags = si->flags;
 			if (si->flags & CAMEL_FOLDER_NOSELECT) {
 				CamelURL *url = camel_url_new(fi->url, NULL);
-
+				
 				camel_url_set_param (url, "noselect", "yes");
 				g_free(fi->url);
 				fi->url = camel_url_to_string (url, 0);
