@@ -1,10 +1,16 @@
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (add_creatable_item): New helper
+	function.
+	(create_object): Add icons for the various user creatable items.
+
 2002-02-19  JP Rosevear  <jpr@ximian.com>
  
  	* gui/e-itip-control.c (send_item): pass extra itip_send_comp
- 	params
+	params
  	(send_freebusy): ditto
  	(ok_clicked_cb): ditto, including the timezones culled from the
- 	component
+	component
  
  	* gui/e-week-view.c: pass extra itip_send_comp params
  

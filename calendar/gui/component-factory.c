@@ -620,6 +620,37 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 
 /* The factory function.  */
 
+static void
+add_creatable_item (EvolutionShellComponent *shell_component,
+		    const char *id,
+		    const char *description,
+		    const char *menu_description,
+		    char menu_shortcut,
+		    const char *icon_name)
+{
+	char *icon_path;
+	GdkPixbuf *icon;
+
+	if (icon_name == NULL) {
+		icon_path = NULL;
+		icon = NULL;
+	} else {
+		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
+		icon = gdk_pixbuf_new_from_file (icon_path);
+	}
+
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   id,
+							   description,
+							   menu_description,
+							   menu_shortcut,
+							   icon);
+
+	if (icon != NULL)
+		gdk_pixbuf_unref (icon);
+	g_free (icon_path);
+}
+
 static BonoboObject *
 create_object (void)
 {
@@ -648,23 +679,17 @@ create_object (void)
 
 	/* User creatable items */
 
-	evolution_shell_component_add_user_creatable_item (shell_component,
-							   CREATE_EVENT_ID,
-							   _("New appointment"),
-							   _("_Appointment"), 'a',
-							   NULL);
+	add_creatable_item (shell_component, CREATE_MEETING_ID,
+			    _("New meeting"), _("_Meeting"),
+			    's', "meeting-request.png");
 
-	evolution_shell_component_add_user_creatable_item (shell_component,
-							   CREATE_MEETING_ID,
-							   _("New meeting"),
-							   _("_Meeting"), 's',
-							   NULL);
+	add_creatable_item (shell_component, CREATE_TASK_ID,
+			    _("New task"), _("_Task"),
+			    't', "new_task-16.png");
 
-	evolution_shell_component_add_user_creatable_item (shell_component,
-							   CREATE_TASK_ID,
-							   _("New task"),
-							   _("_Task"), 't',
-							   NULL);
+	add_creatable_item (shell_component, CREATE_EVENT_ID,
+			    _("New appointment"), _("_Appointment"),
+			    'a', "new_appointment.xpm");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
