@@ -421,7 +421,7 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 
 size_t e_iconv(iconv_t cd, const char **inbuf, size_t *inbytesleft, char ** outbuf, size_t *outbytesleft)
 {
-	return iconv(cd, inbuf, inbytesleft, outbuf, outbytesleft);
+	return iconv(cd, (char **) inbuf, inbytesleft, outbuf, outbytesleft);
 }
 
 void

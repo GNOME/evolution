@@ -216,7 +216,7 @@ gchar *
 e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -233,7 +233,7 @@ e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
@@ -274,7 +274,7 @@ gchar *
 e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 {
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -296,7 +296,7 @@ e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
@@ -382,7 +382,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 {
 	iconv_t ic;
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	g_return_val_if_fail (widget != NULL, NULL);
@@ -422,7 +422,7 @@ e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes
 		}
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 6 + 1);
 	obl = ibl * 6 + 1;
@@ -466,7 +466,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
 	iconv_t ic;
 	char *new, *ob;
-	gchar * ib;
+	const char *ib;
 	size_t ibl, obl;
 
 	if (!string) return NULL;
@@ -500,7 +500,7 @@ e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 		return new;
 	}
 
-	ib = (char *) string;
+	ib = string;
 	ibl = bytes;
 	new = ob = g_new (gchar, ibl * 4 + 1);
 	obl = ibl * 4 + 1;
