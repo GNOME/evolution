@@ -21,6 +21,16 @@
  */
 
 #include <config.h>
+#include <gtk/gtkclist.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkwidget.h>
+#include <gtk/gtkwindow.h>
+#include <Imlib.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-object-client.h>
 #include <glade/glade.h>

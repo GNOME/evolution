@@ -29,8 +29,15 @@
 
 #include <config.h>
 #include <math.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkrange.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkvscrollbar.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gdk-pixbuf/gnome-canvas-pixbuf.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+
 #include "dialogs/delete-comp.h"
 #include "calendar-commands.h"
 #include "comp-util.h"

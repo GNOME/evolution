@@ -29,6 +29,11 @@
 #include <signal.h>
 #include <sys/wait.h>
 #include <fcntl.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-dialog-util.h>
 #include <gal/e-paned/e-hpaned.h>
 #include <gal/e-paned/e-vpaned.h>
 #include <cal-util/timeutil.h>

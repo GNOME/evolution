@@ -41,6 +41,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-util/e-time-utils.h>
 #include <cal-util/timeutil.h>

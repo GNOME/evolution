@@ -25,8 +25,12 @@
 #include <sys/time.h>
 #include <math.h>
 #include <time.h>
+#include <glib.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-paper.h>
 #include <libgnomeui/gnome-dialog.h>
+#include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeprint/gnome-print.h>
 #include <libgnomeprint/gnome-print-copies.h>
 #include <libgnomeprint/gnome-print-master.h>

@@ -34,9 +34,13 @@
 #include <errno.h>
 #include <glib.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gtk/gtkfilesel.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-messagebox.h>
+#include <libgnomeui/gnome-stock.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <cal-util/timeutil.h>
 #include "calendar-commands.h"

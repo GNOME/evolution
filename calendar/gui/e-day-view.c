@@ -30,6 +30,15 @@
 #include <math.h>
 #include <time.h>
 #include <gdk/gdkx.h>
+#include <gdk/gdkkeysyms.h>
+#include <gtk/gtkdnd.h>
+#include <gtk/gtkmain.h>
+#include <gtk/gtkselection.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkvscrollbar.h>
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-canvas-rect-ellipse.h>
 #include <cal-util/timeutil.h>
 #include "dialogs/delete-comp.h"
 #include "comp-util.h"
