@@ -57,14 +57,6 @@ libcal_clientinclude_HEADERS =		\
 	cal-query.h
 
 #
-# make a static library for use by calendar conduit's shared library
-#
-noinst_LTLIBRARIES = libcal-client-static.la
-libcal_client_static_la_SOURCES = $(libcal_client_la_SOURCES)
-libcal_client_static_la_LDFLAGS = --all-static
-
-
-#
 # client-test program
 #
 

@@ -15,7 +15,7 @@ INCLUDES =						\
 # cal util library
 #
 
-privlib_LTLIBRARIES = libcal-util-static.la libcal-util.la
+privlib_LTLIBRARIES = libcal-util.la
 
 libcal_util_la_SOURCES = 	\
 	cal-util-marshal.c	\
@@ -41,13 +41,6 @@ MARSHAL_GENERATED = cal-util-marshal.c cal-util-marshal.h
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
-
-#
-# static library for use in conduits' shared libraries
-#
-#lib_LTLIBRARIES = libcal-util-static.la
-libcal_util_static_la_SOURCES = $(libcal_util_la_SOURCES)
-libcal_util_static_la_LDFLAGS = -all-static
 
 test_recur_SOURCES = 	\
 	 test-recur.c
