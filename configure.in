@@ -1232,11 +1232,6 @@ else
 	AC_MSG_ERROR(no)
 fi
 
-dnl -- e-d-s weather datadir
-dataserver_datadir=`pkg-config --variable=privdatadir evolution-data-server-1.2`
-weatherdatadir="$dataserver_datadir/weather"
-AC_SUBST(weatherdatadir)
-
 dnl --- evolution-test flags
 
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
