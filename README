@@ -1,6 +1,43 @@
-
 Evolution is the integrated mail, calendar and address book
 distributed suite from Helix Code, Inc.
 
-http://www.helixcode.com for more information.
+See http://www.helixcode.com/apps/evolution.php3 for more information.
 
+Note that Evolution is still pre-alpha. This means even if you manage
+to compile and run it, you might not be able to figure out how to tell
+it to accidentally delete all of your mail.
+
+If you are interested in hacking on Evolution, you should subscribe to
+the Evolution mailing list. Send mail to
+"evolution-request@helixcode.com" with the word "subscribe" in the
+body of the message.
+
+Some hints on compiling Evolution can be found in the mailing list
+archive:
+
+http://lists.helixcode.com/archives/public/evolution/2000-March/000018.html
+
+
+
+The layout of the source tree is:
+
+addressbook:	the Address Book UI
+calendar:	the Calendar UI
+camel:		libcamel, a messaging library used by the mailer
+compose:	the message composer UI
+data:		the .desktop file for Evolution
+devel-docs:	entirely inadequate documentation
+doc:		more inadequate documentation, and some nice white
+		papers
+e-util:		utility code used by various parts of Evolution
+ebook:		the Address Book / Calendar backend CORBA server
+filter:		libfilter, a mail filtering library
+libibex:	an indexing library used by the mailer
+libical:	a library for the iCalendar protocol
+libversit:	a library for the vCalendar protocol
+mail:		the mail display UI
+shell:		the Evolution shell (the main program that launches
+		the other components)
+tests:		some test programs
+widgets:	widgets used by Evolution, including the shortcut bar,
+		ETable, and EText
