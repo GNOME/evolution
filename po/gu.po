@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-14 03:30+0200\n"
-"PO-Revision-Date: 2004-08-03 16:52+0530\n"
+"PO-Revision-Date: 2004-08-05 20:10+0530\n"
 "Last-Translator: Ankit Patel <ankit@redhat.com>\n"
 "Language-Team: Gujarati\n"
 "MIME-Version: 1.0\n"
@@ -12634,273 +12634,279 @@ msgstr "ફાઈલ \"{0}\" અસ્તિત્વમાં નથી અથ�
 #. filter:bad-regexp primary
 #: filter/filter-errors.xml.h:14
 msgid "Bad regular expression \"{0}\"."
-msgstr ""
+msgstr "ખરાબ નિયમિત સમીકરણ \"{0}\"."
 
 #. filter:bad-regexp secondary
 #: filter/filter-errors.xml.h:16
 msgid "Could not compile regular expression \"{1}\"."
-msgstr ""
+msgstr "નિયમિત સમીકરણ કમ્પાઈલ કરી શક્યા નહિં \"{1}\"."
 
 #. filter:no-name primary
 #. mail:no-name-vfolder primary
 #: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 msgid "Missing name."
-msgstr ""
+msgstr "નામ ખોવાયું છે."
 
 #. filter:no-name secondary
 #: filter/filter-errors.xml.h:20
 msgid "You must name this filter."
-msgstr ""
+msgstr "તમારે આ ગાળકનું નામ આપવું જ પડે."
 
 #. filter:bad-name-notunique primary
 #: filter/filter-errors.xml.h:22
 msgid "Name \"{0}\" already used."
-msgstr ""
+msgstr "નામ \"{0}\" પહેલાથી જ વપરાયેલ છે."
 
 #. filter:bad-name-notunique secondary
 #: filter/filter-errors.xml.h:24
 msgid "Please choose another name."
-msgstr ""
+msgstr "મહેરબાની કરીને બીજું નામ પસંદ કરો."
 
 #: filter/filter-file.c:288
 msgid "Choose a file"
-msgstr ""
+msgstr "ફાઈલ પસંદ કરો"
 
 #: filter/filter-label.c:121 mail/em-filter-i18n.h:26 mail/em-migrate.c:1011
 #: mail/mail-config.c:76 mail/mail-config.glade.h:93
 msgid "Important"
-msgstr ""
+msgstr "મહત્વનું"
 
 #. forest green
 #: filter/filter-label.c:124 mail/em-migrate.c:1014 mail/mail-config.c:79
 #: mail/mail-config.glade.h:148
 msgid "To Do"
-msgstr ""
+msgstr "કરવાનું"
 
 #. blue
 #: filter/filter-label.c:125 mail/em-migrate.c:1015 mail/mail-config.c:80
 #: mail/mail-config.glade.h:97
 msgid "Later"
-msgstr ""
+msgstr "પછી"
 
 #: filter/filter-part.c:532 shell/GNOME_Evolution_Test.server.in.in.h:3
 msgid "Test"
-msgstr ""
+msgstr "ચકાસણી"
 
 #: filter/filter-rule.c:790
 msgid "Rule name:"
-msgstr ""
+msgstr "નિયમનું નામ:"
 
 #: filter/filter-rule.c:817
 msgid "<b>If</b>"
-msgstr ""
+msgstr "<b>જો</b>"
 
 #: filter/filter-rule.c:854
 msgid "if all criteria are met"
-msgstr ""
+msgstr "જો બધી પરિસ્થિતિઓ મળી જાય"
 
 #: filter/filter-rule.c:854
 msgid "if any criteria are met"
-msgstr ""
+msgstr "જો કોઈ પરિસ્થિતિ મળી જાય"
 
 #: filter/filter-rule.c:856
 msgid "Execute actions"
-msgstr ""
+msgstr "ક્રિયાઓ ચલાવો"
 
 #: filter/filter-rule.c:877
 msgid "All related"
-msgstr ""
+msgstr "બધું સંબંધિત"
 
 #: filter/filter-rule.c:877
 msgid "Replies"
-msgstr ""
+msgstr "વળતા જવાબો"
 
 #: filter/filter-rule.c:877
 msgid "Replies and parents"
-msgstr ""
+msgstr "વળતા જવાબો અને પિતૃઓ"
 
 #: filter/filter-rule.c:879
 msgid "Include threads"
-msgstr ""
+msgstr "થ્રેડો સમાવે છે"
 
 #: filter/filter-rule.c:974
 msgid "incoming"
-msgstr ""
+msgstr "આવતા"
 
 #: filter/filter-rule.c:974
 msgid "outgoing"
-msgstr ""
+msgstr "જતા"
 
 #: filter/filter.glade.h:1
 msgid "<b>_Filter Rules</b>"
-msgstr ""
+msgstr "<b>ગાળક નિયમો (_F)</b>"
 
 #: filter/filter.glade.h:2
 msgid "Compare against"
-msgstr ""
+msgstr "ની સાથે સરખાવો"
 
 #: filter/filter.glade.h:3
 msgid "Incoming"
-msgstr ""
+msgstr "આવતા"
 
 #: filter/filter.glade.h:4
 msgid ""
 "The message's date will be compared against\n"
 "12:00am of the date specified."
 msgstr ""
+"સંદેશાની તારીખ સ્પષ્ટ કરેલ તારીખના ૧૨:૦૦ વાગ્યે\n"
+"સવાર સાથે સરખાવે છે."
 
 #: filter/filter.glade.h:6
 msgid ""
 "The message's date will be compared against\n"
 "a time relative to when filtering occurs."
 msgstr ""
+"સંદેશાની તારીખ જ્યારે ગાળકો ઉદ્ભવે તેને અનુલક્ષિને\n"
+"સમય સાથે સરખાવે છે."
 
 #: filter/filter.glade.h:8
 msgid ""
 "The message's date will be compared against\n"
 "the current time when filtering occurs."
 msgstr ""
+"સંદેશાની તારીખ જ્યારે ગાળકો ઉદ્ભવે ત્યારના\n"
+"વર્તમાન સમય સાથે સરખાવે છે."
 
 #: filter/filter.glade.h:11
 msgid "a time relative to the current time"
-msgstr ""
+msgstr "વર્તમાન સમયને અનુલક્ષિને સમય"
 
 #: filter/filter.glade.h:12
 msgid "ago"
-msgstr ""
+msgstr "પહેલાં"
 
 #: filter/filter.glade.h:16
 msgid "months"
-msgstr ""
+msgstr "મહિનાઓ"
 
 #: filter/filter.glade.h:17 mail/mail-config.glade.h:184
 msgid "seconds"
-msgstr ""
+msgstr "સેકન્ડો"
 
 #: filter/filter.glade.h:18
 msgid "the current time"
-msgstr ""
+msgstr "વર્તમાન સમય"
 
 #: filter/filter.glade.h:19
 msgid "the time you specify"
-msgstr ""
+msgstr "તમે સ્પષ્ટ કરો એ સમય"
 
 #: filter/filter.glade.h:21
 msgid "years"
-msgstr ""
+msgstr "વર્ષો"
 
 #: filter/rule-editor.c:285
 msgid "Add Rule"
-msgstr ""
+msgstr "નિયમ ઉમેરો"
 
 #: filter/rule-editor.c:361
 msgid "Edit Rule"
-msgstr ""
+msgstr "નિયમમાં ફેરફાર કરો"
 
 #: filter/rule-editor.c:685
 msgid "Rule name"
-msgstr ""
+msgstr "નિયમનું નામ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "*Control*F1"
-msgstr ""
+msgstr "*Control*F1"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid "Composer Preferences"
-msgstr ""
+msgstr "કમ્પોઝર પસંદગીઓ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
 msgid "Configure mail preferences, including security and message display, here"
-msgstr ""
+msgstr "મેઈલની પસંદગીઓ રુપરેખાંકિત કરો, સુરક્ષા અને સંદેશા પ્રદર્શનને સમાવીને, અંહિ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
 msgid "Configure spell-checking, signatures, and the message composer here"
-msgstr ""
+msgstr "અંહિ જોડણી-ચકાસણી, સહીઓ, અને સંદેશા કમ્પોઝર રુપરેખાંકિત કરો"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:5
 msgid "Configure your email accounts here"
-msgstr ""
+msgstr "તમારા ઈ-મેઈલ ખાતાઓ અંહિ રુપરેખાંકિત કરો"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:6
 msgid "Evolution Mail"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:7
 msgid "Evolution Mail accounts configuration control"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ ખાતાઓ રુપરેખાંકન નિયંત્રણ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:8
 msgid "Evolution Mail component"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ કમ્પોનન્ટ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:9
 msgid "Evolution Mail composer"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:10
 msgid "Evolution Mail composer configuration control"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ કમ્પોઝર રુપરેખાંકન નિયંત્રણ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:11
 msgid "Evolution Mail preferences control"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલ પસંદગીઓ નિયંત્રણ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:12 mail/em-folder-view.c:418
 #: mail/importers/elm-importer.c:418 mail/importers/netscape-importer.c:1902
 #: mail/importers/pine-importer.c:474 mail/mail-component.c:506
 #: mail/mail-component.c:559
 msgid "Mail"
-msgstr ""
+msgstr "મેઈલ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:13
 msgid "Mail Accounts"
-msgstr ""
+msgstr "મેઈલ ખાતાઓ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:14 mail/mail-config.glade.h:99
 msgid "Mail Preferences"
-msgstr ""
+msgstr "મેઈલ પસંદગીઓ"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:15
 msgid "_Mail"
-msgstr ""
+msgstr "મેઈલ (_M)"
 
 #. translators: default account indicator
 #: mail/em-account-prefs.c:418
 msgid "[Default]"
-msgstr ""
+msgstr "[મૂળભુત]"
 
 #: mail/em-account-prefs.c:472
 msgid "Account name"
-msgstr ""
+msgstr "ખાતા નામ"
 
 #: mail/em-account-prefs.c:474
 msgid "Protocol"
-msgstr ""
+msgstr "પ્રોટોકોલ"
 
 #: mail/em-composer-prefs.c:305 mail/em-composer-prefs.c:424
 #: mail/mail-config.c:1045
 msgid "Unnamed"
-msgstr ""
+msgstr "નામ વિનાનું"
 
 #: mail/em-composer-prefs.c:909
 msgid "Language(s)"
-msgstr ""
+msgstr "ભાષાઓ"
 
 #: mail/em-composer-prefs.c:955
 msgid "Add signature script"
-msgstr ""
+msgstr "સહી સ્ક્રિપ્ટ ઉમેરો"
 
 #: mail/em-composer-prefs.c:975
 msgid "Signature(s)"
-msgstr ""
+msgstr "સહીઓ"
 
 #: mail/em-composer-utils.c:887
 msgid "-------- Forwarded Message --------"
-msgstr ""
+msgstr "-------- સંદેશો આગળ ધપાવો --------"
 
 #: mail/em-composer-utils.c:1500
 msgid "an unknown sender"
-msgstr ""
+msgstr "એક અજ્ઞાત મોકલનાર"
 
 #. Note to translators: this is the attribution string used when quoting messages.
 #. * each ${Variable} gets replaced with a value. To see a full list of available
@@ -12910,626 +12916,634 @@ msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
 msgstr ""
+"${AbbrevWeekdayName}, ${Year}-${Month}-${Day} પર ${24Hour}:${Minute} "
+"${TimeZone}, ${Sender} જગ્યાએ આ લખાયેલ હતું:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
-msgstr ""
+msgstr "ગાળક નિયમો (_F)"
 
 #: mail/em-filter-folder-element.c:237 mail/em-vfolder-rule.c:494
 #: mail/mail-account-gui.c:1347
 msgid "Select Folder"
-msgstr ""
+msgstr "ફોલ્ડર પસંદ કરો"
 
 #. Automatically generated. Do not edit.
 #: mail/em-filter-i18n.h:2
 msgid "Adjust Score"
-msgstr ""
+msgstr "સ્કોર સંતુલિત કરો"
 
 #: mail/em-filter-i18n.h:3
 msgid "Assign Color"
-msgstr ""
+msgstr "રંગ નક્કી કરો"
 
 #: mail/em-filter-i18n.h:4
 msgid "Assign Score"
-msgstr ""
+msgstr "સ્કોર નક્કી કરો"
 
 #: mail/em-filter-i18n.h:5
 msgid "Attachments"
-msgstr ""
+msgstr "જોડાણો"
 
 #: mail/em-filter-i18n.h:6
 msgid "Beep"
-msgstr ""
+msgstr "બીપ"
 
 #: mail/em-filter-i18n.h:7
 msgid "contains"
-msgstr ""
+msgstr "સમાવે છે"
 
 #: mail/em-filter-i18n.h:8
 msgid "Copy to Folder"
-msgstr ""
+msgstr "આ ફોલ્ડરમાં નકલ કરો"
 
 #: mail/em-filter-i18n.h:9
 msgid "Date received"
-msgstr ""
+msgstr "મેળવેલ તારીખ"
 
 #: mail/em-filter-i18n.h:10
 msgid "Date sent"
-msgstr ""
+msgstr "મોકલ્યાની તારીખ"
 
 #: mail/em-filter-i18n.h:12
 msgid "Deleted"
-msgstr ""
+msgstr "કાઢી નંખાયેલ છે"
 
 #: mail/em-filter-i18n.h:13
 msgid "does not contain"
-msgstr ""
+msgstr "સમાવતું નથી"
 
 #: mail/em-filter-i18n.h:14
 msgid "does not end with"
-msgstr ""
+msgstr "આની સાથે અંત થતો નથી"
 
 #: mail/em-filter-i18n.h:15
 msgid "does not exist"
-msgstr ""
+msgstr "અસ્તિત્વમાં નથી"
 
 #: mail/em-filter-i18n.h:16
 msgid "does not return"
-msgstr ""
+msgstr "પાછુ મળતું નથી"
 
 #: mail/em-filter-i18n.h:17
 msgid "does not sound like"
-msgstr ""
+msgstr "આના જેવું સંભળાતું નથી"
 
 #: mail/em-filter-i18n.h:18
 msgid "does not start with"
-msgstr ""
+msgstr "ની સાથે શરુ થતું નથી"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
-msgstr ""
+msgstr "અસ્તિત્વમાં નથી"
 
 #: mail/em-filter-i18n.h:20
 msgid "Draft"
-msgstr ""
+msgstr "ડ્રાફ્ટ"
 
 #: mail/em-filter-i18n.h:21
 msgid "ends with"
-msgstr ""
+msgstr "ની સાથે અંત થાય છે"
 
 #: mail/em-filter-i18n.h:22
 msgid "Exist"
-msgstr ""
+msgstr "હાજર છે"
 
 #: mail/em-filter-i18n.h:23
 msgid "exists"
-msgstr ""
+msgstr "હાજર છે"
 
 #: mail/em-filter-i18n.h:24
 msgid "Expression"
-msgstr ""
+msgstr "સમીકરણ"
 
 #: mail/em-filter-i18n.h:25
 msgid "Follow Up"
-msgstr ""
+msgstr "ને અનુસરો"
 
 #: mail/em-filter-i18n.h:27
 msgid "is"
-msgstr ""
+msgstr "છે"
 
 #: mail/em-filter-i18n.h:28
 msgid "is after"
-msgstr ""
+msgstr "એ પછી"
 
 #: mail/em-filter-i18n.h:29
 msgid "is before"
-msgstr ""
+msgstr "એ પહેલા"
 
 #: mail/em-filter-i18n.h:30
 msgid "is Flagged"
-msgstr ""
+msgstr "એ નિશાનિત છે"
 
 #: mail/em-filter-i18n.h:31
 msgid "is greater than"
-msgstr ""
+msgstr "ના કરતાં મોટું છે"
 
 #: mail/em-filter-i18n.h:32
 msgid "is less than"
-msgstr ""
+msgstr "ના કરતાં નાનું છે"
 
 #: mail/em-filter-i18n.h:33
 msgid "is not"
-msgstr ""
+msgstr "એ નથી"
 
 #: mail/em-filter-i18n.h:34
 msgid "is not Flagged"
-msgstr ""
+msgstr "એ નિશાનિત નથી"
 
 #: mail/em-filter-i18n.h:36
 msgid "Junk Test"
-msgstr ""
+msgstr "બગડેલ ચકાસણી"
 
 #: mail/em-filter-i18n.h:37 mail/em-folder-view.c:931
 #: widgets/misc/e-expander.c:189
 msgid "Label"
-msgstr ""
+msgstr "લેબલ"
 
 #: mail/em-filter-i18n.h:38
 msgid "Mailing list"
-msgstr ""
+msgstr "મેઈલીંગ યાદી"
 
 #: mail/em-filter-i18n.h:39
 msgid "Message Body"
-msgstr ""
+msgstr "સંદેશા ભાગ"
 
 #: mail/em-filter-i18n.h:40
 msgid "Message Header"
-msgstr ""
+msgstr "સંદેશા હેડર"
 
 #: mail/em-filter-i18n.h:41
 msgid "Message is Junk"
-msgstr ""
+msgstr "સંદેશો બગડેલો છે"
 
 #: mail/em-filter-i18n.h:42
 msgid "Message is not Junk"
-msgstr ""
+msgstr "સંદેશો બગડેલ નથી"
 
 #: mail/em-filter-i18n.h:43
 msgid "Move to Folder"
-msgstr ""
+msgstr "ફોલ્ડરમાં ખસો"
 
 #: mail/em-filter-i18n.h:44
 msgid "Pipe to Program"
-msgstr ""
+msgstr "કાર્યક્રમમાં પાઈપ કરો"
 
 #: mail/em-filter-i18n.h:45
 msgid "Play Sound"
-msgstr ""
+msgstr "ધ્વનિ વગાડો"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
-msgstr ""
+msgstr "વાંચો"
 
 #: mail/em-filter-i18n.h:47
 msgid "Recipients"
-msgstr ""
+msgstr "મેળવનારાઓ"
 
 #: mail/em-filter-i18n.h:48
 msgid "Regex Match"
-msgstr ""
+msgstr "Regex સરખામણી"
 
 #: mail/em-filter-i18n.h:49
 msgid "Replied to"
-msgstr ""
+msgstr "ને વળતો જવાબ અપાયેલ છે"
 
 #: mail/em-filter-i18n.h:50
 msgid "returns"
-msgstr ""
+msgstr "આપે છે"
 
 #: mail/em-filter-i18n.h:51
 msgid "returns greater than"
-msgstr ""
+msgstr "ના કરતાં મોટું આપે છે"
 
 #: mail/em-filter-i18n.h:52
 msgid "returns less than"
-msgstr ""
+msgstr "ના કરતાં નાનું આપે છે"
 
 #: mail/em-filter-i18n.h:53
 msgid "Run Program"
-msgstr ""
+msgstr "કાર્યક્રમ ચલાવો"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
-msgstr ""
+msgstr "સ્કોર"
 
 #: mail/em-filter-i18n.h:55
 msgid "Sender"
-msgstr ""
+msgstr "મોકલનાર"
 
 #: mail/em-filter-i18n.h:56
 msgid "Set Status"
-msgstr ""
+msgstr "સ્થિતિ સુયોજિત કરો"
 
 #: mail/em-filter-i18n.h:57
 msgid "Size (kB)"
-msgstr ""
+msgstr "માપ (kB)"
 
 #: mail/em-filter-i18n.h:58
 msgid "sounds like"
-msgstr ""
+msgstr "ના જેવું સંભળાય છે"
 
 #: mail/em-filter-i18n.h:59
 msgid "Source Account"
-msgstr ""
+msgstr "સ્રોત ખાતુ"
 
 #: mail/em-filter-i18n.h:60
 msgid "Specific header"
-msgstr ""
+msgstr "સ્પષ્ટ કરેલ હેડર"
 
 #: mail/em-filter-i18n.h:61
 msgid "starts with"
-msgstr ""
+msgstr "ની સાથે શરુ થાય છે"
 
 #: mail/em-filter-i18n.h:63
 msgid "Stop Processing"
-msgstr ""
+msgstr "પ્રક્રિયા કરવાનું બંધ કરો"
 
 #: mail/em-filter-i18n.h:64 mail/em-format-html.c:1550
 #: mail/em-format-quote.c:305 mail/em-format.c:805 mail/em-mailer-prefs.c:87
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:329
 #: smime/lib/e-cert.c:1131
 msgid "Subject"
-msgstr ""
+msgstr "વિષય"
 
 #: mail/em-filter-i18n.h:65
 msgid "Unset Status"
-msgstr ""
+msgstr "સ્થિતિ અસુયોજિત કરો"
 
 #. and now for the action area
 #: mail/em-filter-rule.c:488
 msgid "<b>Then</b>"
-msgstr ""
+msgstr "<b>ત્યારે</b>"
 
 #: mail/em-folder-browser.c:129
 msgid "Create _Virtual Folder From Search..."
-msgstr ""
+msgstr "શોધમાંથી વર્ચ્યુઅલ ફોલ્ડર બનાવો (_V)..."
 
 #: mail/em-folder-properties.c:122
 msgid "Folder Properties"
-msgstr ""
+msgstr "ફોલ્ડરના ગુણધર્મો"
 
 #. TODO: can this be done in a loop?
 #: mail/em-folder-properties.c:161
 msgid "Total message:"
 msgid_plural "Total messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "કુલ સંદેશો:"
+msgstr[1] "કુલ સંદેશાઓ:"
 
 #: mail/em-folder-properties.c:173
 msgid "Unread message:"
 msgid_plural "Unread messages:"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "નહિં વાંચેલ સંદેશો:"
+msgstr[1] "નહિં વાંચેલ સંદેશાઓ:"
 
 #: mail/em-folder-selection-button.c:120
 msgid "<click here to select a folder>"
-msgstr ""
+msgstr "<ફોલ્ડર પસંદ કરવા માટે અંહિ ક્લિક કરો>"
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
-msgstr ""
+msgstr "નવું ફોલ્ડર બનાવો"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2330
 #: mail/mail-component.c:709
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "સ્પષ્ટ કરો કે ક્યાં ફોલ્ડર બનાવવું છે:"
 
 #: mail/em-folder-selector.c:300
 msgid "Create"
-msgstr ""
+msgstr "બનાવો"
 
 #: mail/em-folder-selector.c:304
 msgid "Folder _name:"
-msgstr ""
+msgstr "ફોલ્ડર નામ (_n):"
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
 #: mail/mail-vfolder.c:872
 msgid "VFolders"
-msgstr ""
+msgstr "Vફોલ્ડરો"
 
 #. UNMATCHED is always last
 #: mail/em-folder-tree-model.c:206 mail/em-folder-tree-model.c:208
 msgid "UNMATCHED"
-msgstr ""
+msgstr "નહિં બંધબેસેલા"
 
 #: mail/em-folder-tree-model.c:476 mail/em-folder-tree-model.c:780
 msgid "Loading..."
-msgstr ""
+msgstr "લાવી રહ્યા છીએ..."
 
 #: mail/em-folder-tree.c:846
 #, c-format
 msgid "Moving folder %s"
-msgstr ""
+msgstr "ફોલ્ડર %s ખસેડી રહ્યા છીએ"
 
 #: mail/em-folder-tree.c:848
 #, c-format
 msgid "Copying folder %s"
-msgstr ""
+msgstr "ફોલ્ડર %s નકલ કરી રહ્યા છીએ"
 
 #: mail/em-folder-tree.c:855 mail/message-list.c:1561
 #, c-format
 msgid "Moving messages into folder %s"
-msgstr ""
+msgstr "સંદેશાઓ ફોલ્ડર %s માં ખસેડી રહ્યા છીએ"
 
 #: mail/em-folder-tree.c:857 mail/message-list.c:1563
 #, c-format
 msgid "Copying messages into folder %s"
-msgstr ""
+msgstr "સંદેશાઓ ફોલ્ડર %s માં નકલ કરી રહ્યા છીએ"
 
 #: mail/em-folder-tree.c:873
 msgid "Cannot drop message(s) into toplevel store"
-msgstr ""
+msgstr "ઉચ્ચ સ્તરના સંગ્રહસ્થાનમાં સંદેશાઓ મૂકી શકતા નથી"
 
 #: mail/em-folder-tree.c:963 ui/evolution-mail-message.xml.h:110
 msgid "_Copy to Folder"
-msgstr ""
+msgstr "આ ફોલ્ડરમાં નકલ કરો (_C)"
 
 #: mail/em-folder-tree.c:964 ui/evolution-mail-message.xml.h:119
 msgid "_Move to Folder"
-msgstr ""
+msgstr "આ ફોલ્ડરમાં ખસેડો (_M)"
 
 #: mail/em-folder-tree.c:966 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:802 mail/message-list.c:1651
 msgid "_Move"
-msgstr ""
+msgstr "ખસેડો (_M)"
 
 #: mail/em-folder-tree.c:968 mail/message-list.c:1653
 msgid "Cancel _Drag"
-msgstr ""
+msgstr "ખેંચવાનું રદ કરો (_D)"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-tree.c:2117
 #: mail/em-folder-view.c:802 mail/em-folder-view.c:816
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder"
-msgstr ""
+msgstr "ફોલ્ડર પસંદ કરો"
 
 #: mail/em-folder-tree.c:2104 mail/em-folder-view.c:816
 msgid "C_opy"
-msgstr ""
+msgstr "નકલ કરો (_o)"
 
 #: mail/em-folder-tree.c:2144
 #, c-format
 msgid "Creating folder `%s'"
-msgstr ""
+msgstr "ફોલ્ડર `%s' બનાવી રહ્યા છીએ"
 
 #: mail/em-folder-tree.c:2330 mail/mail-component.c:709
 msgid "Create folder"
-msgstr ""
+msgstr "ફોલ્ડર બનાવો"
 
 #: mail/em-folder-tree.c:2526
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "\"%s\" ફોલ્ડરને આમાં નામ બદલો:"
 
 #: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
-msgstr ""
+msgstr "ફોલ્ડરનું નામ બદલો"
 
 #: mail/em-folder-tree.c:2603 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
 #: ui/evolution-message-composer.xml.h:53 ui/evolution.xml.h:37
 msgid "_View"
-msgstr ""
+msgstr "દેખાવ (_V)"
 
 #: mail/em-folder-tree.c:2604
 msgid "Open in _New Window"
-msgstr ""
+msgstr "નવી વિન્ડોમાં ખોલો (_N)"
 
 #: mail/em-folder-tree.c:2608
 msgid "_Copy..."
-msgstr ""
+msgstr "નકલ કરો (_C)..."
 
 #: mail/em-folder-tree.c:2609
 msgid "_Move..."
-msgstr ""
+msgstr "ખસેડો (_M)..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2613
 msgid "_New Folder..."
-msgstr ""
+msgstr "નવું ફોલ્ડર (_N)..."
 
 #: mail/em-folder-tree.c:2616
 msgid "_Rename..."
-msgstr ""
+msgstr "નામ બદલો (_R)..."
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
 msgid "_Properties"
-msgstr ""
+msgstr "ગુણધર્મો (_P)"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:899 mail/em-popup.c:690
 #: ui/evolution-mail-message.xml.h:113
 msgid "_Edit as New Message..."
-msgstr ""
+msgstr "નવા સંદેશાઓમાં ફેરફાર કરો (_E)..."
 
 #: mail/em-folder-view.c:901
 msgid "_Print"
-msgstr ""
+msgstr "છાપો (_P)"
 
 #: mail/em-folder-view.c:904 ui/evolution-mail-message.xml.h:127
 msgid "_Reply to Sender"
-msgstr ""
+msgstr "મોકલનારને વળતો જવાબ આપો (_R)"
 
 #: mail/em-folder-view.c:905 mail/em-popup.c:811
 #: ui/evolution-mail-message.xml.h:88
 msgid "Reply to _List"
-msgstr ""
+msgstr "યાદીને જવાબ આપો (_L)"
 
 #: mail/em-folder-view.c:906 mail/em-popup.c:812
 #: ui/evolution-mail-message.xml.h:87
 msgid "Reply to _All"
-msgstr ""
+msgstr "બધાને વળતો જવાબ આપો (_A)"
 
 #: mail/em-folder-view.c:907 mail/em-popup.c:814
 #: ui/evolution-mail-message.xml.h:114
 msgid "_Forward"
-msgstr ""
+msgstr "આગળ ધપાવો (_F)"
 
 #: mail/em-folder-view.c:910
 msgid "Follo_w Up..."
-msgstr ""
+msgstr "ને અનુસરો (_w)..."
 
 #: mail/em-folder-view.c:911
 msgid "Fla_g Completed"
-msgstr ""
+msgstr "નિશાની પૂર્ણ થયેલ છે (_g)"
 
 #: mail/em-folder-view.c:912
 msgid "Cl_ear Flag"
-msgstr ""
+msgstr "નિશાની સાફ કરો (_e)"
 
 #: mail/em-folder-view.c:915 ui/evolution-mail-message.xml.h:50
 msgid "Mar_k as Read"
-msgstr ""
+msgstr "વાંચ્યુ હોય એમ નિશાનિત કરો (_k)"
 
 #: mail/em-folder-view.c:916
 msgid "Mark as _Unread"
-msgstr ""
+msgstr "નહિં વાંચેલ હોય એમ નિશાનિત કરો (_U)"
 
 #: mail/em-folder-view.c:917
 msgid "Mark as _Important"
-msgstr ""
+msgstr "મહત્વનું એમ નિશાનિત કરો (_I)"
 
 #: mail/em-folder-view.c:918
 msgid "_Mark as Unimportant"
-msgstr ""
+msgstr "મહત્વનું નથી એમ નિશાનિત કરો (_M)"
 
 #: mail/em-folder-view.c:919 ui/evolution-mail-message.xml.h:54
 msgid "Mark as _Junk"
-msgstr ""
+msgstr "બગડેલ છે એમ નિશાનિત કરો (_J)"
 
 #: mail/em-folder-view.c:920 ui/evolution-mail-message.xml.h:55
 msgid "Mark as _Not Junk"
-msgstr ""
+msgstr "બગડેલ નથી એમ નિશાનિત કરો (_N)"
 
 #: mail/em-folder-view.c:924
 msgid "U_ndelete"
-msgstr ""
+msgstr "કાઢી નંહિ (_n)"
 
 #: mail/em-folder-view.c:927
 msgid "Mo_ve to Folder..."
-msgstr ""
+msgstr "આ ફોલ્ડરમાં ખસેડો (_v)..."
 
 #: mail/em-folder-view.c:928 ui/evolution-addressbook.xml.h:32
 msgid "_Copy to Folder..."
-msgstr ""
+msgstr "આ ફોલ્ડરમાં નકલ કરો (_C)..."
 
 #: mail/em-folder-view.c:936
 msgid "Add Sender to Address_book"
-msgstr ""
+msgstr "મોકલનારને સરનામાપોથીમાં ઉમેરો (_b)"
 
 #: mail/em-folder-view.c:939
 msgid "Appl_y Filters"
-msgstr ""
+msgstr "ગાળકો અમલમાં મૂકો (_y)"
 
 #: mail/em-folder-view.c:940
 msgid "F_ilter Junk"
-msgstr ""
+msgstr "ગાળકમાં બગાડ (_i)"
 
 #: mail/em-folder-view.c:943
 msgid "Crea_te Rule From Message"
-msgstr ""
+msgstr "સંદેશામાંથી નિયમ બનાવો (_t)"
 
 #: mail/em-folder-view.c:944
 msgid "VFolder on _Subject"
-msgstr ""
+msgstr "વિષય પર Vફોલ્ડર (_S)"
 
 #: mail/em-folder-view.c:945
 msgid "VFolder on Se_nder"
-msgstr ""
+msgstr "મોકલનાર પર Vફોલ્ડર (_n)"
 
 #: mail/em-folder-view.c:946
 msgid "VFolder on _Recipients"
-msgstr ""
+msgstr "મેળવનારા પર Vફોલ્ડર (_R)"
 
 #: mail/em-folder-view.c:947
 msgid "VFolder on Mailing _List"
-msgstr ""
+msgstr "Vફોલ્ડર મેઈલીંગ યાદી (_L)"
 
 #: mail/em-folder-view.c:951
 msgid "Filter on Sub_ject"
-msgstr ""
+msgstr "વિષય પર ગાળો (_j)"
 
 #: mail/em-folder-view.c:952
 msgid "Filter on Sen_der"
-msgstr ""
+msgstr "મોકલનાર પર ગાળો (_d)"
 
 #: mail/em-folder-view.c:953
 msgid "Filter on Re_cipients"
-msgstr ""
+msgstr "મેળવનારા પર ગાળો (_c)"
 
 #: mail/em-folder-view.c:954
 msgid "Filter on _Mailing List"
-msgstr ""
+msgstr "મેઈલીંગ યાદી પર ગાળો (_M)"
 
 #. default charset used in mail view
 #: mail/em-folder-view.c:1714 mail/em-folder-view.c:1754
 #: mail/mail-config.glade.h:68
 msgid "Default"
-msgstr ""
+msgstr "મૂળભુત"
 
 #: mail/em-folder-view.c:1851
 msgid "Print Message"
-msgstr ""
+msgstr "સંદેશો છાપો"
 
 #: mail/em-folder-view.c:2112
 msgid "_Copy Link Location"
-msgstr ""
+msgstr "કડીની જગ્યાની નકલ કરો (_C)"
 
 #: mail/em-folder-view.c:2377
 #, c-format
 msgid "Click to mail %s"
-msgstr ""
+msgstr "મેઈલ %s કરવા માટે ક્લિક કરો"
 
 #. message-search popup match count string
 #: mail/em-format-html-display.c:410
 #, c-format
 msgid "Matches: %d"
-msgstr ""
+msgstr "બંધબેસતા: %d"
 
 #: mail/em-format-html-display.c:641 mail/em-format-html.c:582
 msgid "Unsigned"
-msgstr ""
+msgstr "સહી કરેલ નથી"
 
 #: mail/em-format-html-display.c:641
 msgid ""
 "This message is not signed. There is no guarantee that this message is "
 "authentic."
-msgstr ""
+msgstr "સંદેશો સહી કરેલ નથી. સંદેશો યોગ્ય હોય એની કોઈ ગેરંટી નથી."
 
 #: mail/em-format-html-display.c:642 mail/em-format-html.c:583
 msgid "Valid signature"
-msgstr ""
+msgstr "માન્ય સહી"
 
 #: mail/em-format-html-display.c:642
 msgid ""
 "This message is signed and is valid meaning that it is very likely that this "
 "message is authentic."
 msgstr ""
+"આ સંદેશો સહી થયેલ છે અને એ માન્ય છે એટલે કે એ ખૂબ જરુરી છે કે "
+"આ સંદેશો વ્યવસ્થિત છે."
 
 #: mail/em-format-html-display.c:643 mail/em-format-html.c:584
 msgid "Invalid signature"
-msgstr ""
+msgstr "અયોગ્ય સહી"
 
 #: mail/em-format-html-display.c:643
 msgid ""
 "The signature of this message cannot be verified, it may have been altered "
 "in transit."
-msgstr ""
+msgstr "આ સંદેશાની આ સહી ચકાસાયેલ નથી, તે પરિવહન દરમ્યાન બદલી દેવાયેલ છે."
 
 #: mail/em-format-html-display.c:644
 msgid "Valid signature, cannot verify sender"
-msgstr ""
+msgstr "માન્ય સહી, મોકલનારને ચકાસી શકતા નથી"
 
 #: mail/em-format-html-display.c:644
 msgid ""
 "This message is signed with a valid signature, but the sender of the message "
 "cannot be verified."
 msgstr ""
+"આ સંદેશો માન્ય સહી સાથે સહી કરાયેલ છે, પરંતુ સંદેશાનો મોકલનાર "
+"ચકાસી શકાતો નથી."
 
 #: mail/em-format-html-display.c:650 mail/em-format-html.c:591
 msgid "Unencrypted"
-msgstr ""
+msgstr "એનક્રિપ્ટ થયેલ નથી"
 
 #: mail/em-format-html-display.c:650
 msgid ""
 "This message is not encrypted.  Its content may be viewed in transit across "
 "The Internet."
 msgstr ""
+"સંદેશો એનક્રિપ્ટ થયેલ નથી. તેના સમાવિષ્ટો ઈન્ટરનેટ પર પરિવહન થઈ "
+"શકે છે."
 
 #: mail/em-format-html-display.c:651 mail/em-format-html.c:592
 msgid "Encrypted, weak"
-msgstr ""
+msgstr "એનક્રિપ્ટ થયેલ, નબળુ"
 
 #: mail/em-format-html-display.c:651
 msgid ""
@@ -13537,20 +13551,25 @@ msgid ""
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
 msgstr ""
+"આ સંદેશો એનક્રિપ્ટ થયેલ છે, પરંતુ નબળા એનક્રિપ્શન અલગોરિધમ સાથે. "
+"તે મુશ્કેલ છે, પરંતુ એ બહારના વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન સંદેશાના "
+"સમાવિષ્ટો જોવાનું અશક્ય નથી."
 
 #: mail/em-format-html-display.c:652 mail/em-format-html.c:593
 msgid "Encrypted"
-msgstr ""
+msgstr "એનક્રિપ્ટ થયેલ છે"
 
 #: mail/em-format-html-display.c:652
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
 msgstr ""
+"સંદેશો એનક્રિપ્ટ થયેલ છે. બહારની વ્યક્તિ માટે આ સંદેશાના સમાવિષ્ટોને "
+"જોવાનું મુશ્કેલ થઈ જશે."
 
 #: mail/em-format-html-display.c:653 mail/em-format-html.c:594
 msgid "Encrypted, strong"
-msgstr ""
+msgstr "એનક્રિપ્ટ થયેલ, મજબૂત"
 
 #: mail/em-format-html-display.c:653
 msgid ""
@@ -13558,181 +13577,184 @@ msgid ""
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
 msgstr ""
+"આ સંદેશો એનક્રિપ્ટ થયેલ છે, મજબૂત એનક્રિપ્શન અલગોરિધમ સાથે. "
+"બહારની વ્યક્તિ માટે પ્રાયોગિક સમય દરમ્યાન આ સંદેશાના સમાવિષ્ટોને "
+"જોવાનું મુશ્કેલ થઈ જશે."
 
 #: mail/em-format-html-display.c:754 smime/gui/smime-ui.glade.h:47
 msgid "_View Certificate"
-msgstr ""
+msgstr "પ્રમાણપત્ર જુઓ (_V)"
 
 #: mail/em-format-html-display.c:769
 msgid "This certificate is not viewable"
-msgstr ""
+msgstr "આ પ્રમાણપત્ર જોઈ શકાય એમ નથી"
 
 #: mail/em-format-html-display.c:1004
 msgid "Completed on %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "%B %d, %Y, %l:%M %p પૂર્ણ થઈ જશે"
 
 #: mail/em-format-html-display.c:1012
 msgid "Overdue:"
-msgstr ""
+msgstr "ઈચ્છિત સમયે નહિં થયેલ કાર્ય:"
 
 #: mail/em-format-html-display.c:1015
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr ""
+msgstr "%B %d, %Y, %l:%M %p દ્વારા"
 
 #: mail/em-format-html-display.c:1054
 msgid "_View Inline"
-msgstr ""
+msgstr "લીટીમાં જુઓ (_V)"
 
 #: mail/em-format-html-display.c:1055
 msgid "_Hide"
-msgstr ""
+msgstr "છુપાવો (_H)"
 
 #: mail/em-format-html-print.c:130
 #, c-format
 msgid "Page %d of %d"
-msgstr ""
+msgstr "પાનુ %d %d નું"
 
 #: mail/em-format-html.c:475 mail/em-format-html.c:477
 #, c-format
 msgid "Retrieving `%s'"
-msgstr ""
+msgstr "`%s' મેળવી રહ્યા છીએ"
 
 #: mail/em-format-html.c:585
 msgid "Valid signature but cannot verify sender"
-msgstr ""
+msgstr "માન્ય સહી પરંતુ મોકલનારને ચકાસી શકતા નથી"
 
 #: mail/em-format-html.c:848
 msgid "Malformed external-body part."
-msgstr ""
+msgstr "બાહ્ય ભાગનો કદરુપો ભાગ"
 
 #: mail/em-format-html.c:878
 #, c-format
 msgid "Pointer to FTP site (%s)"
-msgstr ""
+msgstr "FTP સાઈટ (%s) નો નિર્દેશક"
 
 #: mail/em-format-html.c:889
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
-msgstr ""
+msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક સાઈટ \"%s\" માન્ય છે"
 
 #: mail/em-format-html.c:891
 #, c-format
 msgid "Pointer to local file (%s)"
-msgstr ""
+msgstr "સ્થાનિક ફાઈલ (%s) નો નિર્દેશક"
 
 #: mail/em-format-html.c:912
 #, c-format
 msgid "Pointer to remote data (%s)"
-msgstr ""
+msgstr "દૂરસ્થા માહિતી (%s) નો નિર્દેશક"
 
 #: mail/em-format-html.c:923
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
-msgstr ""
+msgstr "અજ્ઞાત બાહ્ય માહિતી (\"%s\" પ્રકારની) નો નિર્દેશક"
 
 #: mail/em-format-html.c:1165
 msgid "Formatting message"
-msgstr ""
+msgstr "સંદેસાનું બંધારણ ઘડી રહ્યા છીએ"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:800
 #: mail/em-mailer-prefs.c:82 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:325
 msgid "From"
-msgstr ""
+msgstr "તરફથી"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:801
 #: mail/em-mailer-prefs.c:83
 msgid "Reply-To"
-msgstr ""
+msgstr "ને જવાબ આપો"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:802
 #: mail/em-mailer-prefs.c:84 mail/message-list.etspec.h:14
 msgid "To"
-msgstr ""
+msgstr "પ્રતિ"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:803
 #: mail/em-mailer-prefs.c:85
 msgid "Cc"
-msgstr ""
+msgstr "ને પણ"
 
 #: mail/em-format-html.c:1441 mail/em-format-quote.c:192 mail/em-format.c:804
 #: mail/em-mailer-prefs.c:86
 msgid "Bcc"
-msgstr ""
+msgstr "આને પણ ખબર વિના"
 
 #. pseudo-header
 #: mail/em-format-html.c:1554 mail/em-format-quote.c:312
 #: mail/em-mailer-prefs.c:939
 msgid "Mailer"
-msgstr ""
+msgstr "મેઈલ મોકલનાર"
 
 #. translators: strftime format for local time equivalent in Date header display, with day
 #: mail/em-format-html.c:1581
 msgid "<I> (%a, %R %Z)</I>"
-msgstr ""
+msgstr "<I> (%a, %R %Z)</I>"
 
 #. translators: strftime format for local time equivalent in Date header display, without day
 #: mail/em-format-html.c:1584
 msgid "<I> (%R %Z)</I>"
-msgstr ""
+msgstr "<I> (%R %Z)</I>"
 
 #: mail/em-format-html.c:1594 mail/em-format-quote.c:319 mail/em-format.c:806
 #: mail/em-mailer-prefs.c:88 mail/message-list.etspec.h:2
 msgid "Date"
-msgstr ""
+msgstr "તારીખ"
 
 #: mail/em-format-html.c:1617 mail/em-format.c:807 mail/em-mailer-prefs.c:89
 msgid "Newsgroups"
-msgstr ""
+msgstr "સમાચાર જૂથો"
 
 #: mail/em-format.c:1056
 #, c-format
 msgid "%s attachment"
-msgstr ""
+msgstr "%s જોડાણ"
 
 #: mail/em-format.c:1095 mail/em-format.c:1228
 msgid "Could not parse S/MIME message: Unknown error"
-msgstr ""
+msgstr "S/MIME સંદેશાનું પદચ્છેદ કરી શક્યા નહિં: અજ્ઞાત ભૂલ"
 
 #: mail/em-format.c:1218
 msgid "Unsupported encryption type for multipart/encrypted"
-msgstr ""
+msgstr "multipart/encrypted માટે આધારભૂત નહિં એવો એનક્રિપ્શન પ્રકાર"
 
 #: mail/em-format.c:1379
 msgid "Could not parse MIME message. Displaying as source."
-msgstr ""
+msgstr "MIME સંદેસાનું પદચ્છેદ કરી શક્યા નહિં. સ્રોત તરીકે બતાવી રહ્યા છીએ."
 
 #: mail/em-format.c:1398
 msgid "Unsupported signature format"
-msgstr ""
+msgstr "સહીનું બંધારણ આધારભૂત નથી"
 
 #: mail/em-format.c:1406
 msgid "Error verifying signature"
-msgstr ""
+msgstr "સહી ચકાસણીમાં ભૂલ"
 
 #: mail/em-format.c:1406
 msgid "Unknown error verifying signature"
-msgstr ""
+msgstr "સહી ચકાસણી કરતી વખતે અજ્ઞાત ભૂલ"
 
 #: mail/em-junk-filter.c:86
 msgid "Spamassassin (built-in)"
-msgstr ""
+msgstr "Spamassassin (built-in)"
 
 #: mail/em-mailer-prefs.c:100
 msgid "Every time"
-msgstr ""
+msgstr "દર વખતે"
 
 #: mail/em-mailer-prefs.c:101
 msgid "Once per day"
-msgstr ""
+msgstr "દિવસમાં એક વાર"
 
 #: mail/em-mailer-prefs.c:102
 msgid "Once per week"
-msgstr ""
+msgstr "અઠવાડિયામાં એક વાર"
 
 #: mail/em-mailer-prefs.c:103
 msgid "Once per month"
-msgstr ""
+msgstr "મહિનામાં એક વાર"
 
 #: mail/em-migrate.c:1168
 msgid ""
@@ -13741,249 +13763,255 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
+"ઈવોલ્યુશન 1.x આવ્યું ત્યારથી ઈવોલ્યુશન મેઈલબોક્સ ફોલ્ડરોની જગ્યા "
+"અને વંશવેલો બદલાઈ ગયો.\n"
+"\n"
+"મહેરબાની કરીને ઈવોલ્યુશન તમારા ફોલ્ડરોને ફેરવે ત્યાં સુધી શાંતિ દાખવો..."
 
 #: mail/em-migrate.c:1602
 #, c-format
 msgid "Unable to create new folder `%s': %s"
-msgstr ""
+msgstr "નવું ફોલ્ડર `%s' બનાવવામાં સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:1628
 #, c-format
 msgid "Unable to copy folder `%s' to `%s': %s"
-msgstr ""
+msgstr "ફોલ્ડર `%s' ને `%s' માં નકલ કરવા સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:1811
 #, c-format
 msgid "Unable to scan for existing mailboxes at `%s': %s"
-msgstr ""
+msgstr "વર્તમાન મેઈલબોક્સને `%s' આગળ ચકાસવા માટે સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:2015
 #, c-format
 msgid "Unable to open old POP keep-on-server data `%s': %s"
-msgstr ""
+msgstr "જૂની POP keep-on-server માહિતી `%s' ખોલવા સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:2029
 #, c-format
 msgid "Unable to create POP3 keep-on-server data directory `%s': %s"
-msgstr ""
+msgstr "POP3 keep-on-server માહિતી ડિરેક્ટરી `%s' બનાવવા સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:2058
 #, c-format
 msgid "Unable to copy POP3 keep-on-server data `%s': %s"
-msgstr ""
+msgstr "POP3 keep-on-server માહિતી `%s' નકલ કરવા સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:2413 mail/em-migrate.c:2425
 #, c-format
 msgid "Failed to create local mail storage `%s': %s"
-msgstr ""
+msgstr "સ્થાનિક મેઈલ સંગ્રહસ્થાન `%s' બનાવવામાં નિષ્ફળ: %s"
 
 #: mail/em-migrate.c:2576
 #, c-format
 msgid "Unable to create local mail folders at `%s': %s"
-msgstr ""
+msgstr "`%s' જગ્યાએ સ્થાનિક મેઈલ ફોલ્ડરો બનાવવા સમર્થ નથી: %s"
 
 #: mail/em-migrate.c:2594
 msgid ""
 "Unable to read settings from previous Evolution install, `evolution/config."
 "xmldb' does not exist or is corrupt."
 msgstr ""
+"પહેલાના ઈવોલ્યુશનના સ્થાપનમાંથી સુયોજનો વાંચવા સમર્થ નથી, "
+"`evolution/config.xmldb' અસ્તિત્વમાં નથી અથવા બગડેલ છે."
 
 #: mail/em-popup.c:700
 msgid "Save As..."
-msgstr ""
+msgstr "આ રીતે સંગ્રહો..."
 
 #: mail/em-popup.c:718
 #, c-format
 msgid "untitled_image.%s"
-msgstr ""
+msgstr "untitled_image.%s"
 
 #: mail/em-popup.c:808
 msgid "Set as _Background"
-msgstr ""
+msgstr "પાશ્વ ભાગ તરીકે સુયોજિત કરો (_B)"
 
 #: mail/em-popup.c:810
 msgid "_Reply to sender"
-msgstr ""
+msgstr "મોકલનારને જવાબ આપો (_R)"
 
 #: mail/em-popup.c:859
 msgid "_Open Link in Browser"
-msgstr ""
+msgstr "કડીને બ્રાઉઝરમાં ખોલો (_O)"
 
 #: mail/em-popup.c:860
 msgid "Se_nd message to..."
-msgstr ""
+msgstr "ને સંદેશો મોકલો (_n)..."
 
 #: mail/em-popup.c:861
 msgid "_Add to Addressbook"
-msgstr ""
+msgstr "સરનામાપોથીમાં ઉમેરો (_A)"
 
 #: mail/em-popup.c:985
 #, c-format
 msgid "Open in %s..."
-msgstr ""
+msgstr "%s માં ખોલો..."
 
 #: mail/em-subscribe-editor.c:606
 msgid "This store does not support subscriptions, or they are not enabled."
-msgstr ""
+msgstr "આ સ્ટોર ઉમેદવારીને આધાર આપતી નથી, અથવા તેઓ સક્રિય નથી."
 
 #: mail/em-subscribe-editor.c:635
 msgid "Subscribed"
-msgstr ""
+msgstr "ઉમેદવારી"
 
 #: mail/em-subscribe-editor.c:639
 msgid "Folder"
-msgstr ""
+msgstr "ફોલ્ડર"
 
 #. FIXME: This is just to get the shadow, is there a better way?
 #: mail/em-subscribe-editor.c:852
 msgid "Please select a server."
-msgstr ""
+msgstr "મહેરબાની કરીને સર્વર પસંદ કરો."
 
 #: mail/em-subscribe-editor.c:873
 msgid "No server has been selected"
-msgstr ""
+msgstr "કોઈ સર્વર પસંદ થયેલ નથી"
 
 #: mail/em-utils.c:102
 msgid "Don't show this message again."
-msgstr ""
+msgstr "આ સંદેશો ફરીથી બતાવો નહિં."
 
 #: mail/em-utils.c:292
 msgid "Filters"
-msgstr ""
+msgstr "ગાળકો"
 
 #: mail/em-utils.c:406
 msgid "message"
-msgstr ""
+msgstr "સંદેશો"
 
 #: mail/em-utils.c:509
 msgid "Save Message..."
-msgstr ""
+msgstr "સંદેશો સંગ્રહો..."
 
 #: mail/em-utils.c:558
 msgid "Add address"
-msgstr ""
+msgstr "સરનામુ ઉમેરો"
 
 #. Drop filename for messages from a mailbox
 #: mail/em-utils.c:1019
 #, c-format
 msgid "Messages from %s"
-msgstr ""
+msgstr "%s માંથી સંદેશાઓ"
 
 #: mail/em-vfolder-editor.c:104
 msgid "Virtual _Folders"
-msgstr ""
+msgstr "વર્ચ્યુઅલ ફોલ્ડરો (_F)"
 
 #: mail/em-vfolder-rule.c:494
 msgid "_Add"
-msgstr ""
+msgstr "ઉમેરો (_A)"
 
 #: mail/em-vfolder-rule.c:574
 msgid "VFolder source"
-msgstr ""
+msgstr "Vફોલ્ડર સ્રોત"
 
 #: mail/evolution-mail.schemas.in.in.h:1
 msgid "Automatic link recognition"
-msgstr ""
+msgstr "આપોઆપ કડી ઓળખો"
 
 #: mail/evolution-mail.schemas.in.in.h:2
 msgid "Automatic smiley recognition"
-msgstr ""
+msgstr "આપોઆપ હસતા મોં ઓળખો"
 
 #: mail/evolution-mail.schemas.in.in.h:3
 msgid "Check incoming mail being junk"
-msgstr ""
+msgstr "આવતા મેઈલોને બગડેલા છે કે નહિં તે ચકાસો"
 
 #: mail/evolution-mail.schemas.in.in.h:4
 msgid "Citation highlight color"
-msgstr ""
+msgstr "સાઈટનો પ્રકાશક રંગ"
 
 #: mail/evolution-mail.schemas.in.in.h:5
 msgid "Citation highlight color."
-msgstr ""
+msgstr "સાઈટનો પ્રકાશક રંગ."
 
 #: mail/evolution-mail.schemas.in.in.h:6
 msgid "Composer Window default height"
-msgstr ""
+msgstr "કમ્પોઝર વિન્ડોની મૂળભુત ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:7
 msgid "Composer Window default width"
-msgstr ""
+msgstr "કમ્પોઝર વિન્ડોની મૂળભુત પહોળાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:8
 msgid "Default charset in which to compose messages"
-msgstr ""
+msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે"
 
 #: mail/evolution-mail.schemas.in.in.h:9
 msgid "Default charset in which to compose messages."
-msgstr ""
+msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બનાવવાના છે."
 
 #: mail/evolution-mail.schemas.in.in.h:10
 msgid "Default charset in which to display messages"
-msgstr ""
+msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે"
 
 #: mail/evolution-mail.schemas.in.in.h:11
 msgid "Default charset in which to display messages."
-msgstr ""
+msgstr "અક્ષરોનો મૂળભુત સમૂહ કે જેમાં સંદેશાઓ બતાવવાના છે."
 
 #: mail/evolution-mail.schemas.in.in.h:12
 msgid "Default forward style"
-msgstr ""
+msgstr "મૂળભુત આગળ ધપાવવાની શૈલી"
 
 #: mail/evolution-mail.schemas.in.in.h:13
 msgid "Default height of the Composer Window"
-msgstr ""
+msgstr "કમ્પોઝર વિન્ડોની મૂળભુત ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:14
 msgid "Default height of the Message Window"
-msgstr ""
+msgstr "સંદેશા વિન્ડોની મૂળભુત ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:15
 msgid "Default height of the Subscribe dialog"
-msgstr ""
+msgstr "ઉમેદવારી સંવાદની મૂળભુત ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:16
 msgid "Default reply style"
-msgstr ""
+msgstr "વળતા જવાબની મૂળભુત શૈલી"
 
 #: mail/evolution-mail.schemas.in.in.h:17
 msgid "Default width of the Composer Window"
-msgstr ""
+msgstr "કમ્પોઝર વિન્ડોની મૂળભુત પહોળાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:18
 msgid "Default width of the Message Window"
-msgstr ""
+msgstr "સંદેશા વિન્ડોની મૂળભુત પહોળાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:19
 msgid "Default width of the Subscribe dialog"
-msgstr ""
+msgstr "ઉમેદવારી સંવાદની મૂળભુત પહોળાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:20
 msgid "Draw spelling error indicators on words as you type."
-msgstr ""
+msgstr "તમે ટાઈપ કરો તે શબ્દ પર જોડણઈ ભૂલ સૂચવનારાઓ દોરો."
 
 #: mail/evolution-mail.schemas.in.in.h:21
 msgid "Empty Trash folders on exit"
-msgstr ""
+msgstr "ખાલી કચરાપેટી ફોલ્ડરો અસ્તિત્વમાં નથી"
 
 #: mail/evolution-mail.schemas.in.in.h:22
 msgid "Empty all Trash folders when exiting Evolution."
-msgstr ""
+msgstr "ઈવોલ્યુશનમાંથી બહાર નીકળો ત્યારે બધા કચરાપેટી ફોલ્ડરો ખાલી કરો."
 
 #: mail/evolution-mail.schemas.in.in.h:23
 msgid "Enable caret mode, so that you can see a cursor when reading mail."
-msgstr ""
+msgstr "કેરેટ સ્થિતિ સક્રિય કરો, કે જેથી તમે મેઈલ વાંચતી વખતે કર્સર જોઈ શકો."
 
 #: mail/evolution-mail.schemas.in.in.h:24
 msgid "Enable/disable caret mode"
-msgstr ""
+msgstr "કેરેટ સ્થિતિ સક્રિય/નિષ્ક્રિય કરો"
 
 #: mail/evolution-mail.schemas.in.in.h:25
 msgid "Height of the message-list pane"
-msgstr ""
+msgstr "સંદેશા યાદી તકતીની ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:26
 msgid "Height of the message-list pane."
-msgstr ""
+msgstr "સંદેશા-યાદી તકતીની ઊંચાઈ."
 
 #: mail/evolution-mail.schemas.in.in.h:27
 msgid ""
@@ -13994,47 +14022,52 @@ msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid "Last time empty trash was run"
-msgstr ""
+msgstr "છેલ્લી વખતે ખાલી કચરાપેટી ચાલી હતી"
 
 #: mail/evolution-mail.schemas.in.in.h:29
 msgid "List of Labels and their associated colors"
-msgstr ""
+msgstr "લેબલો અને તેની સાથે સંકળાયેલ રંગોની યાદી"
 
 #: mail/evolution-mail.schemas.in.in.h:30
 msgid "List of accepted licenses"
-msgstr ""
+msgstr "સ્વીકાર્ય લાઈસન્સોની યાદી"
 
 #: mail/evolution-mail.schemas.in.in.h:31
 msgid "List of accounts"
-msgstr ""
+msgstr "ખાતાઓની યાદી"
 
 #: mail/evolution-mail.schemas.in.in.h:32
 msgid ""
 "List of accounts known to the mail component of Evolution. The list contains "
 "strings naming subdirectories relative to /apps/evolution/mail/accounts."
 msgstr ""
+"ઈવોલ્યુશનના મેઈલ કમ્પોનન્ટ માટે જાણીતા ખાતાઓની યાદી. યાદી "
+"શબ્દમાળા ધરાવે છે જે /apps/evolution/mail/accounts ની ઉપડિરેક્ટરીને "
+"અનુલક્ષે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:33
 msgid "List of custom headers and whether they are enabled."
-msgstr ""
+msgstr "કસ્ટમ હેડરોની યાદી અને શું તેઓ સક્રિય છે."
 
 #: mail/evolution-mail.schemas.in.in.h:34
 msgid ""
 "List of labels known to the mail component of Evolution. The list contains "
 "strings containing name:color where color uses the HTML hex encoding."
 msgstr ""
+"ઈવોલ્યુશનના મેઈલ ભાગને જાણતા લેબલોની યાદી. યાદી શબ્દમાળાઓ ધરાવે "
+"છે જે નામ:રંગ ધરાવે છે કે જ્યાં રંગો HTML હેક્ઝ સંગ્રહપદ્ધતિ વાપરે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:35
 msgid "List of mime types to check for bonobo component viewers"
-msgstr ""
+msgstr "બોનોબો કમ્પોનન્ટ દર્શકોની ચકાસણી માટે mime પ્રકારોની યાદી"
 
 #: mail/evolution-mail.schemas.in.in.h:36
 msgid "List of protocol names whose license has been accepted."
-msgstr ""
+msgstr "પ્રોટોકોલ નામોની યાદી કે જેઓનું લાઈસન્સ સ્વીકારાયેલ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:37
 msgid "Load images for HTML messages over http"
-msgstr ""
+msgstr "HTML સંદેશાઓ માટે http ની ઉપર ચિત્રો લાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:38
 msgid ""
@@ -14042,180 +14075,197 @@ msgid ""
 "load images off the net 1 - Load images if sender is in the addressbook 2 - "
 "Always load images off the net"
 msgstr ""
+"HTML સંદેશાઓ માટે http ની ઉપર ચિત્રો લાવો. શક્ય કિંમતો છે: ૦ - ક્યારેય "
+"નેટ પરથી ચિત્રો લાવો નહિં ૧ - જો મોકલનાર સરનામાપોથીમાં "
+"હોય તો ચિત્રો લાવો ૨ - હંમેશા નેટ પરથી ચિત્રો લાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:39
 msgid "Log filter actions"
-msgstr ""
+msgstr "ગાળકની ક્રિયાઓનો લોગ"
 
 #: mail/evolution-mail.schemas.in.in.h:40
 msgid "Log filter actions to the specified log file."
-msgstr ""
+msgstr "ગાળકની ક્રિયાઓનો લોગ કોઈ સ્પષ્ટ કરેલ લોગ ફાઈલમાં કરો."
 
 #: mail/evolution-mail.schemas.in.in.h:41
 msgid "Logfile to log filter actions"
-msgstr ""
+msgstr "ગાળકની ક્રિયાઓનો લોગ માટેની લોગ ફાઈલ"
 
 #: mail/evolution-mail.schemas.in.in.h:42
 msgid "Logfile to log filter actions."
-msgstr ""
+msgstr "ગાળકની ક્રિયાઓનો લોગ માટેની લોગ ફાઈલ."
 
 #: mail/evolution-mail.schemas.in.in.h:43
 msgid "Mark as Seen after specified timeout"
-msgstr ""
+msgstr "સ્પષ્ટ કરેલ સમય સમાપ્ત થાય પછી જોયું છે એમ ચિહ્નિત કરો"
 
 #: mail/evolution-mail.schemas.in.in.h:44
 msgid "Mark as Seen after specified timeout."
-msgstr ""
+msgstr "સ્પષ્ટ કરેલ સમય પછી જોયું હોય એમ ચિહ્નિત કરો."
 
 #: mail/evolution-mail.schemas.in.in.h:45
 msgid "Mark citations in the message \"Preview\""
-msgstr ""
+msgstr "સંદેશા \"પૂર્વદર્શન\" માં સાઈટ બનાવવાનું ચિહ્નિત કરો"
 
 #: mail/evolution-mail.schemas.in.in.h:46
 msgid "Mark citations in the message \"Preview\"."
-msgstr ""
+msgstr "સંદેશા \"પૂર્વદર્શન\" માં સાઈટ બનાવવાનું ચિહ્નિત કરો."
 
 #: mail/evolution-mail.schemas.in.in.h:47
 msgid "Message Window default height"
-msgstr ""
+msgstr "સંદેશા વિન્ડોની મૂળભુત ઊંચાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:48
 msgid "Message Window default width"
-msgstr ""
+msgstr "સંદેશા વિન્ડોની મૂળભુત પહોળાઈ"
 
 #: mail/evolution-mail.schemas.in.in.h:49
 msgid "Message-display style (normal, full headers, source)"
-msgstr ""
+msgstr "સંદેશા-પ્રદર્શન શૈલી (સામાન્ય, આખી હેડરો, સ્રોત)"
 
 #: mail/evolution-mail.schemas.in.in.h:50
 msgid "Minimum days between emptying the trash on exit"
-msgstr ""
+msgstr "બહાર નીકળવા પર કચરાપેટીને ખાલી કરતી વખતે લાગતા ન્યુનતમ દિવસો"
 
 #: mail/evolution-mail.schemas.in.in.h:51
 msgid "Minimum time between emptying the trash on exit, in days."
 msgstr ""
+"બહાર નીકળવા પર કચરાપેટીને ખાલી કરતી વખતે લાગતા ન્યુનતમ દિવસો, "
+"દિવસોમાં."
 
 #: mail/evolution-mail.schemas.in.in.h:52
 msgid "New Mail Notify sound file"
-msgstr ""
+msgstr "નવો મેઈલ ધ્વનિ ફાઈલ સૂચવે છે"
 
 #: mail/evolution-mail.schemas.in.in.h:53
 msgid "New Mail Notify type"
-msgstr ""
+msgstr "નવા મેઈલનો સૂચક પ્રકાર"
 
 #: mail/evolution-mail.schemas.in.in.h:54
 msgid "Prompt on empty subject"
-msgstr ""
+msgstr "ખાલી વિષય પર પ્રોમ્પ્ટ"
 
 #: mail/evolution-mail.schemas.in.in.h:55
 msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
+"જ્યારે તે અથવા તેણી ફોલ્ડરને સંપૂર્ણ રીતે દૂર કરવા માંગો ત્યારે વપરાશકર્તાને "
+"પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:56
 msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
+"જ્યારે તે અથવા તેણી વિષય વગર સંદેશો મોકલવાનો પ્રયત્ન કરે છે "
+"ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:57
 msgid "Prompt when user expunges"
-msgstr ""
+msgstr "જ્યારે વપરાશકર્તા સંપૂર્ણપણે દૂર કરે છે ત્યારે પૂછે છે"
 
 #: mail/evolution-mail.schemas.in.in.h:58
 msgid "Prompt when user only fills Bcc"
-msgstr ""
+msgstr "જ્યારે વપરાશકર્તા માત્ર આને પણ ખબર વિના મોકલો ભરે છે ત્યારે પૂછે છે"
 
 #: mail/evolution-mail.schemas.in.in.h:59
 msgid ""
 "Prompt when user tries to send HTML mail to recipients that may not want to "
 "receive HTML mail."
 msgstr ""
+"જ્યારે વપરાશકર્તા HTML મેઈલ મેળવનારાઓને મોકલે છે કે જેઓ HTML "
+"મેઈલ મેળવવા માંગતા ના હોય ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:60
 msgid "Prompt when user tries to send a message with no To or Cc recipients."
 msgstr ""
+"જ્યારે વપરાશકર્તા સંદેશો પ્રતિ અને આને પણ ભર્યા વગર મોકલવાનો "
+"પ્રયત્ન કરે છે ત્યારે વપરાશકર્તાને પૂછે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:61
 msgid "Prompt when user tries to send unwanted HTML"
 msgstr ""
+"જ્યારે વપરાશકર્તા બિનજરુરી HTML મોકલવાનો પ્રયત્ન કરે છે ત્યારે તે "
+"વપરાશકર્તાને પૂછે છે"
 
 #: mail/evolution-mail.schemas.in.in.h:62
 msgid "Recognize links in text and replace them."
-msgstr ""
+msgstr "લખાણમાં કડીઓ ઓળખે છે અને તેઓને બદલે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:63
 msgid "Recognize smileys in text and replace them with images."
-msgstr ""
+msgstr "લખાણમાં હસતા મોં ઓળખે છે અને તેમને ચિત્રો સાથે બદલે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:64
 msgid "Run junk test on incoming mail"
-msgstr ""
+msgstr "આવતા મેઈલ પર સામાન્ય ચકાસણી ચલાવ"
 
 #: mail/evolution-mail.schemas.in.in.h:65
 msgid "Send HTML mail by default"
-msgstr ""
+msgstr "મૂળભુત રીતે HTML મેઈલ મોકલો"
 
 #: mail/evolution-mail.schemas.in.in.h:66
 msgid "Send HTML mail by default."
-msgstr ""
+msgstr "મૂળભુત રીતે HTML મેઈલ મોકલો."
 
 #: mail/evolution-mail.schemas.in.in.h:67
 msgid "Show Animations"
-msgstr ""
+msgstr "એનિમેશન બતાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:68
 msgid "Show animated images as animations."
-msgstr ""
+msgstr "હાલતાં ચાલતાં ચિત્રો એનિમેશન તરીકે બતાવો."
 
 #: mail/evolution-mail.schemas.in.in.h:69
 msgid "Show deleted messages (with a strike-through) in the message-list."
-msgstr ""
+msgstr "કાઢી નંખાયેલ સંદેશાઓ સંદેશા યાદીમાં બતાવો (ચેકી નંખાયેલ રીતે)."
 
 #: mail/evolution-mail.schemas.in.in.h:70
 msgid "Show deleted messages in the message-list"
-msgstr ""
+msgstr "કાઢી નંખાયેલ સંદેશાઓ સંદેશા યાદીમાં બતાવો."
 
 #: mail/evolution-mail.schemas.in.in.h:71
 msgid "Show the \"Preview\" pane"
-msgstr ""
+msgstr "\"પૂર્વદર્શન\" તકતી બતાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:72
 msgid "Show the \"Preview\" pane."
-msgstr ""
+msgstr "\"પૂર્વદર્શન\" તકતી બતાવો."
 
 #: mail/evolution-mail.schemas.in.in.h:73
 msgid "Sound file to play when new mail arrives."
-msgstr ""
+msgstr "જ્યારે નવા મેઈલ આવે ત્યારે વગાડવાની ધ્વનિ ફાઈલ."
 
 #: mail/evolution-mail.schemas.in.in.h:74
 msgid "Specifies the type of New Mail Notification the user wishes to use."
 msgstr ""
+"નવા મેઈલનું સૂચનનો પ્રકાર સ્પષ્ટ કરે છે જ્યારે વપરાશકર્તા તેને વાપરવાની "
+"ઈચ્છા ધરાવે છે."
 
 #: mail/evolution-mail.schemas.in.in.h:75
 msgid "Spell check inline"
-msgstr ""
+msgstr "લીટીમાં જોડણી ચકાસો"
 
 #: mail/evolution-mail.schemas.in.in.h:76
 msgid "Subscribe dialog default height"
-msgstr ""
+msgstr "સંવાદની મૂળભુત ઊંચાઈ નોંધાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:77
 msgid "Subscribe dialog default width"
-msgstr ""
+msgstr "સંવાદની મૂળભુત પહોળાઈ નોંધાવો"
 
 #: mail/evolution-mail.schemas.in.in.h:78
 msgid "Terminal font"
-msgstr ""
+msgstr "ટર્મિનલ ફોન્ટ"
 
 #: mail/evolution-mail.schemas.in.in.h:79
 msgid "The last time empty trash was run, in days since the epoch."
-msgstr ""
+msgstr "છેલ્લે વખતે ખાલી કચરાપેટી ચાલી હતી, દિવસોમાં ઈપોકથી."
 
 #: mail/evolution-mail.schemas.in.in.h:80
 msgid "The terminal font for mail display"
-msgstr ""
+msgstr "મેઈલ પ્રદર્શિત કરવા માટેના ટર્મિનલ ફોન્ટ"
 
 #: mail/evolution-mail.schemas.in.in.h:81
 msgid "The variable width font for mail display"
-msgstr ""
+msgstr "મેઈલ પ્રદર્શિત કરવા માટે ચલિત પહોળાઈના ફોન્ટ"
 
 #: mail/evolution-mail.schemas.in.in.h:82
 msgid ""
@@ -14224,204 +14274,211 @@ msgid ""
 "header enabled&gt; - set enabled if the header is to be displayed in the "
 "mail view."
 msgstr ""
+"કી XML સંરચનાઓની કસ્ટમ હેડરો સ્પષ્ટ કરતી યાદી સમાવતી હોવી "
+"જોઈએ,,અને શું તેઓ પ્રદર્શિત થશેd. XMLસંરચનાનું બંધારણs &lt હેડર સક્રિય;d&gt હોય છે; -સક્રિય સુયોજિત કરો જો હેડર એ મેઈલ દેખાવમાં "
+"પ્રદર્શિત થાય.."
 
 #: mail/evolution-mail.schemas.in.in.h:83
 msgid "Thread the message list."
-msgstr ""
+msgstr "સંદેશાની યાદીને થ્રેડ કરો."
 
 #: mail/evolution-mail.schemas.in.in.h:84
 msgid "Thread the message-list"
-msgstr ""
+msgstr "સંદેશા-યાદીને થ્રેડ કરો"
 
 #: mail/evolution-mail.schemas.in.in.h:85
 msgid "Thread the message-list based on Subject"
-msgstr ""
+msgstr "વિષયને આધારિત સંદેશા-યાદીને થ્રેડ કરો"
 
 #: mail/evolution-mail.schemas.in.in.h:86
 msgid "Timeout for marking message as Seen"
-msgstr ""
+msgstr "સંદેશાને જોયેલો છે એમ ચિહ્નિત કરવા માટેનો સમયસમાપ્તિ"
 
 #: mail/evolution-mail.schemas.in.in.h:87
 msgid "Timeout for marking message as Seen."
-msgstr ""
+msgstr "સંદેશાને જોયેલો છે એમ ચિહ્નિત કરવા માટેનો સમયસમાપ્તિ."
 
 #: mail/evolution-mail.schemas.in.in.h:88
 msgid "UID string of the default account."
-msgstr ""
+msgstr "મૂળભુત ખાતાની UID શબ્દમાળા."
 
 #: mail/evolution-mail.schemas.in.in.h:89
 msgid "Use Spamasssassin daemon and client"
-msgstr ""
+msgstr "Spamasssassin ડિમન અને ક્લાઈન્ટ વાપરો"
 
 #: mail/evolution-mail.schemas.in.in.h:90
 msgid "Use Spamasssassin daemon and client (spamc/spamd)"
-msgstr ""
+msgstr "Spamasssassin ડિમન અને ક્લાઈન્ટ વાપરો (spamc/spamd)"
 
 #: mail/evolution-mail.schemas.in.in.h:91
 msgid "Use custom fonts"
-msgstr ""
+msgstr "કસ્ટમ ફોન્ટ વાપરો"
 
 #: mail/evolution-mail.schemas.in.in.h:92
 msgid "Use custom fonts for displaying mail"
-msgstr ""
+msgstr "મેઈલ પ્રદર્શિત કરવા માટે કસ્ટમ ફોન્ટ વાપરો"
 
 #: mail/evolution-mail.schemas.in.in.h:93
 msgid "Use only local spam tests."
-msgstr ""
+msgstr "માત્ર સ્થાનિક ચકાસણીઓ વાપરો."
 
 #: mail/evolution-mail.schemas.in.in.h:94
 msgid "Use only the local spam tests (no DNS)."
-msgstr ""
+msgstr "માત્ર સ્થાનિક ચકાસણીઓ વાપરો (DNS નહિં)."
 
 #: mail/evolution-mail.schemas.in.in.h:95
 msgid "Variable width font"
-msgstr ""
+msgstr "ચલિત પહોળાઈના ફોન્ટ"
 
 #: mail/evolution-mail.schemas.in.in.h:96
 msgid "View/Bcc menu item is checked"
-msgstr ""
+msgstr "દેખાવ/આને પણ ખબર વિના મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:97
 msgid "View/Bcc menu item is checked."
-msgstr ""
+msgstr "દેખાવ/આને પણ ખબર વિના મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:98
 msgid "View/Cc menu item is checked"
-msgstr ""
+msgstr "દેખાવ/આને પણ મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:99
 msgid "View/Cc menu item is checked."
-msgstr ""
+msgstr "દેખાવ/આને પણ મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:100
 msgid "View/From menu item is checked"
-msgstr ""
+msgstr "દેખાવ/તરફથી મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:101
 msgid "View/From menu item is checked."
-msgstr ""
+msgstr "દેખાવ/તરફથી મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:102
 msgid "View/PostTo menu item is checked"
-msgstr ""
+msgstr "દેખાવ/ને મોકલો મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:103
 msgid "View/PostTo menu item is checked."
-msgstr ""
+msgstr "દેખાવ/ને મોકલો મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:104
 msgid "View/ReplyTo menu item is checked"
-msgstr ""
+msgstr "દેખાવ/ને જવાબ આપો મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:105
 msgid "View/ReplyTo menu item is checked."
-msgstr ""
+msgstr "દેખાવ/ને જવાબ આપો મેનુ વસ્તુઓ ચકાસાઈ ગઈ છે."
 
 #: mail/evolution-mail.schemas.in.in.h:106
 msgid ""
 "Whether or not to fall back on threading by subjects when the messages do "
 "not contain In-Reply-To or References headers."
 msgstr ""
+"શું થ્રેડિંગને વિષયો દ્વારા પાછા જોવું કે નહિં જ્યારે સંદેશાઓ ના વળતા "
+"જવાબમાં અથવા સંદર્ભો નામની હેડરો સમાવે નહિં ત્યારે."
 
 #: mail/evolution-mail.schemas.in.in.h:107
 msgid "port for starting user runned spamd"
-msgstr ""
+msgstr "વપરાશકર્તાને શરુ કરવા માટેનો પોર્ટ spamd ચલાવાયેલ છે"
 
 #: mail/evolution-mail.schemas.in.in.h:108
 msgid "spamd port"
-msgstr ""
+msgstr "spamd પોર્ટ"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:1
 msgid "Evolution Elm importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન Elm આયાત કરનાર"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:2
 msgid "Evolution Netscape Mail importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન નેટસ્કેપ મેઈલ આયાત કરનાર"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:3
 msgid "Evolution Outlook Express 4 importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન આઉટલુક એક્સપ્રેસ ૪ આયાત કરનાર"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:4
 msgid "Evolution Pine importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન પાઈન આયાત કરનાર"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:5
 msgid "Evolution mbox importer"
-msgstr ""
+msgstr "ઈવોલ્યુશન મેઈલબોક્સ આયાત કરનાર"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:6
 msgid "MBox (mbox)"
-msgstr ""
+msgstr "મેઈલબોક્સ (mbox)"
 
 #: mail/importers/GNOME_Evolution_Mail_Importers.server.in.in.h:7
 msgid "Outlook Express 4 (.mbx)"
-msgstr ""
+msgstr "આઉટલુક એક્સપ્રેસ ૪ (.mbx)"
 
 #: mail/importers/elm-importer.c:88
 msgid "Evolution is importing your old Elm mail"
-msgstr ""
+msgstr "ઈવોલ્યુશન તમારા જૂના Elm મેઈલ સુધારી રહ્યું છે"
 
 #: mail/importers/elm-importer.c:89
 #: mail/importers/evolution-mbox-importer.c:221
 #: mail/importers/evolution-outlook-importer.c:255
 #: mail/importers/netscape-importer.c:1251 mail/importers/pine-importer.c:117
 msgid "Importing..."
-msgstr ""
+msgstr "આયાત કરી રહ્યા છીએ..."
 
 #: mail/importers/elm-importer.c:91
 #: mail/importers/evolution-mbox-importer.c:223
 #: mail/importers/evolution-outlook-importer.c:257
 #: mail/importers/netscape-importer.c:1253 mail/importers/pine-importer.c:119
 msgid "Please wait"
-msgstr ""
+msgstr "મહેરબાની કરીને રાહ જુઓ"
 
 #: mail/importers/elm-importer.c:244
 msgid "Importing Elm data"
-msgstr ""
+msgstr "Elm માહિતી આયાત કરી રહ્યા છીએ"
 
 #: mail/importers/elm-importer.c:436
 msgid ""
 "Evolution has found Elm mail files\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"ઈવોલ્યુશને Elm મેઈલ ફાઈલો શોધી કાઢી\n"
+"શું તમે એમને ઈવોલ્યુશનમાં આયાત કરવા માંગો છો?"
 
 #: mail/importers/elm-importer.c:444
 msgid "Elm"
-msgstr ""
+msgstr "Elm"
 
 #: mail/importers/evolution-mbox-importer.c:116
 #: mail/importers/evolution-outlook-importer.c:130
 msgid "Destination folder:"
-msgstr ""
+msgstr "અંતિમ મુકામનું ફોલ્ડર:"
 
 #: mail/importers/evolution-mbox-importer.c:119
 #: mail/importers/evolution-outlook-importer.c:133
 msgid "Select folder to import into"
-msgstr ""
+msgstr "માં આયાત કરવા માટેનું ફોલ્ડર પસંદ કરો"
 
 #: mail/importers/evolution-mbox-importer.c:220
 #: mail/importers/evolution-outlook-importer.c:254
 #: mail/importers/mail-importer.c:226
 #, c-format
 msgid "Importing `%s'"
-msgstr ""
+msgstr "`%s' આયાત કરી રહ્યા છીએ"
 
 #: mail/importers/evolution-outlook-importer.c:301
 #: mail/importers/mail-importer.c:140
 msgid "Importing mailbox"
-msgstr ""
+msgstr "મેઈલબોક્સ આયાત કરી રહ્યા છીએ"
 
 #: mail/importers/mail-importer.c:360
 #, c-format
 msgid "Scanning %s"
-msgstr ""
+msgstr "%s સ્કેન કરી રહ્યા છીએ"
 
 #: mail/importers/netscape-importer.c:73
 #, c-format
 msgid "Priority Filter \"%s\""
-msgstr ""
+msgstr "પ્રાધાન્ય ગાળક \"%s\""
 
 #: mail/importers/netscape-importer.c:662
 msgid ""
@@ -14445,6 +14502,10 @@ msgid ""
 "feature, which is not supported in Evolution.\n"
 "These filters will be dropped."
 msgstr ""
+"તમારા અમુક નેટસ્કેપ ઈ-મેઈલ ગાળકો\n"
+"\"થ્રેડ અવગણો\" અથવા \"થ્રેડ જુઓ\" લક્ષણો\n"
+"વાપરે છે, કે જેને ઈવોલ્યુશનમાં આધાર નથી.\n"
+"આ ગાળકો છોડી દેવાશે."
 
 #: mail/importers/netscape-importer.c:703
 msgid ""
@@ -14454,55 +14515,64 @@ msgid ""
 "were modified to test whether that string is or is not\n"
 "contained in the message body."
 msgstr ""
+"તમારા અમુક નેટસ્કેપ ઈમેઈલ ગાળકો આપેલ શબ્દમાળા\n"
+"ઈમેઈલની સાથે સરખામણી ચકાસે છે,\n"
+"કે જે ઈવોલ્યુશનમાં આધાર નથી. તે ગાળકો\n"
+"શું આ શબ્દમાળા સંદેશાના ભાગમાં છે કે નહિં\n"
+"તે ચકાસવા માટે સુધારાયેલ છે."
 
 #: mail/importers/netscape-importer.c:1250
 msgid "Evolution is importing your old Netscape data"
-msgstr ""
+msgstr "ઈવોલ્યુશન તમારી જૂની નેટસ્કેપ માહિતી આયાત કરી રહ્યું છે"
 
 #: mail/importers/netscape-importer.c:1707
 msgid "Importing Netscape data"
-msgstr ""
+msgstr "નેટસ્કેપ માહિતી આયાત કરી રહ્યું છે"
 
 #: mail/importers/netscape-importer.c:1907
 msgid "Settings"
-msgstr ""
+msgstr "સુયોજનો"
 
 #: mail/importers/netscape-importer.c:1912
 msgid "Mail Filters"
-msgstr ""
+msgstr "મેઈલ ગાળકો"
 
 #: mail/importers/netscape-importer.c:1933
 msgid ""
 "Evolution has found Netscape mail files.\n"
 "Would you like them to be imported into Evolution?"
 msgstr ""
+"ઈવોલ્યુશને નેટસ્કેપ ફાઈલો શોધી કાઢી.\n"
+"શું તમે તેમને ઈમને ઈવોલ્યુશનમાં આયાત થયેલી જોવા માંગો છો?"
 
 #: mail/importers/pine-importer.c:116
 msgid "Evolution is importing your old Pine data"
-msgstr ""
+msgstr "ઈવોલ્યુશન તમારી જૂની ખોવાયેલ માહિતી આયાત કરી રહ્યું છે"
 
 #: mail/importers/pine-importer.c:314
 msgid "Importing Pine data"
-msgstr ""
+msgstr "ખોવાયેલ માહિતી આયાત કરી રહ્યું છે"
 
 #: mail/importers/pine-importer.c:479
 msgid "Addressbook"
-msgstr ""
+msgstr "સરનામાપોથી"
 
 #: mail/importers/pine-importer.c:498
 msgid ""
 "Evolution has found Pine mail files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
+"ઈવોલ્યુશને ખોવાયેલ મેઈલ ફાઈલો શોધી કાઢી છે.\n"
+"શું તમે તેને ઈવોલ્યુશનમાં આયાત કરવા માંગો છો?"
 
 #: mail/importers/pine-importer.c:506
 msgid "Pine"
-msgstr ""
+msgstr "ખોવાયેલ"
 
 #. give our dialog an OK button and title
 #: mail/mail-account-editor.c:155
 msgid "Evolution Account Editor"
-msgstr ""
+msgstr "ઈવોલ્યુશન ખાતા સંપાદક"
 
 #: mail/mail-account-gui.c:246
 #, c-format
@@ -14512,128 +14582,132 @@ msgid ""
 "for %s displayed below\n"
 "and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+"મહેરબાની કરીને લાઈસન્સનું મંજૂરીપત્ર કાળજીપૂર્વક\n"
+"%s માટે વાંચો કે જે નીચે પ્રદર્શિત છે\n"
+"અને તેને સ્વીકારવા માટે ચકાસણી બોક્સ ચિહ્નિત કરો\n"
 
 #: mail/mail-account-gui.c:252
 #, c-format
 msgid "%s License Agreement"
-msgstr ""
+msgstr "%s લાઈસન્સ મંજૂરીપત્ર"
 
 #: mail/mail-account-gui.c:957 mail/mail-config.glade.h:167
 msgid "_Host:"
-msgstr ""
+msgstr "યજમાન (_H):"
 
 #: mail/mail-account-gui.c:961 mail/mail-config.glade.h:151
 msgid "User_name:"
-msgstr ""
+msgstr "વપરાશકર્તા નામ (_n):"
 
 #: mail/mail-account-gui.c:965 mail/mail-config.glade.h:173
 msgid "_Path:"
-msgstr ""
+msgstr "પથ (_P):"
 
 #: mail/mail-autofilter.c:74
 #, c-format
 msgid "Mail to %s"
-msgstr ""
+msgstr "%s ને મેઈલ મોકલો"
 
 #: mail/mail-autofilter.c:238
 #, c-format
 msgid "Subject is %s"
-msgstr ""
+msgstr "વિષય %s છે"
 
 #: mail/mail-autofilter.c:254
 #, c-format
 msgid "Mail from %s"
-msgstr ""
+msgstr "%s માંથી મેઈલ મોકલો"
 
 #: mail/mail-autofilter.c:271
 #, c-format
 msgid "%s mailing list"
-msgstr ""
+msgstr "%s મેઈલીંગ યાદી"
 
 #: mail/mail-autofilter.c:326
 msgid "Add Filter Rule"
-msgstr ""
+msgstr "ગાળક નિયમ ઉમેરો"
 
 #: mail/mail-component.c:459
 #, c-format
 msgid "%d deleted"
 msgid_plural "%d deleted"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d કાઢી નંખાયેલ છે"
+msgstr[1] "%d કાઢી નંખાયેલ છે"
 
 #: mail/mail-component.c:461
 #, c-format
 msgid "%d junk"
 msgid_plural "%d junk"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d બગડેલ છે"
+msgstr[1] "%d બગડેલા છે"
 
 #: mail/mail-component.c:484
 #, c-format
 msgid "%d draft"
 msgid_plural "%d drafts"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d ડ્રાફ્ટ"
+msgstr[1] "%d ડ્રાફ્ટો"
 
 #: mail/mail-component.c:486
 #, c-format
 msgid "%d sent"
 msgid_plural "%d sent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d મોકલાયેલ છે"
+msgstr[1] "%d મોકલાયેલા છે"
 
 #: mail/mail-component.c:488
 #, c-format
 msgid "%d unsent"
 msgid_plural "%d unsent"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d અસુયોજિત છે"
+msgstr[1] "%d અસુયોજિત છે"
 
 #: mail/mail-component.c:492
 #, c-format
 msgid "%d total"
 msgid_plural "%d total"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d કુલ"
+msgstr[1] "%d કુલ"
 
 #: mail/mail-component.c:494
 #, c-format
 msgid ", %d unread"
 msgid_plural ", %d unread"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] ", %d વાંચેલ નથી"
+msgstr[1] ", %d વાંચેલ નથી"
 
 #: mail/mail-component.c:661
 msgid "New Mail Message"
-msgstr ""
+msgstr "નવો મેઈલ સંદેશો"
 
 #: mail/mail-component.c:662
 msgid "_Mail Message"
-msgstr ""
+msgstr "મેઈલ સંદેશો (_M)"
 
 #: mail/mail-component.c:663
 msgid "Compose a new mail message"
-msgstr ""
+msgstr "નવો મેઈલ સંદેશો કમ્પોઝ કરો"
 
 #: mail/mail-component.c:669
 msgid "New Mail Folder"
-msgstr ""
+msgstr "નવું મેઈલ ફોલ્ડર"
 
 #: mail/mail-component.c:670
 msgid "Mail _Folder"
-msgstr ""
+msgstr "મેઈલ ફોલ્ડર (_F)"
 
 #: mail/mail-component.c:671
 msgid "Create a new mail folder"
-msgstr ""
+msgstr "નવું મેઈલ ફોલ્ડર બનાવો"
 
 #: mail/mail-component.c:803
 msgid "Failed upgrading Mail settings or folders."
-msgstr ""
+msgstr "મેઈલ સુયોજનો અથવા ફોલ્ડરો સુધારવામાં નિષ્ફળ."
 
 #: mail/mail-config-druid.c:362 mail/mail-config.glade.h:92
 msgid "Identity"
-msgstr ""
+msgstr "ઓળખ"
 
 #: mail/mail-config-druid.c:364
 msgid ""
@@ -14641,35 +14715,44 @@ msgid ""
 "below do not need to be filled in, unless you wish to include this "
 "information in email you send."
 msgstr ""
+"મહેરબાની કરીને નીચે તમારું નામ અને ઈ-મેઈલ સરનામું દાખલ કરો. "
+"નીચેના \"વૈકલ્પિક\" ક્ષેત્રો ભરવાની જરુર નથી, જ્યાં સુધી તમે આ જાણકારી "
+"તમે મોકલેલા ઈ-મેઈલમાં સમાવવા માંગો નહિં."
 
 #: mail/mail-config-druid.c:370 mail/mail-config-druid.c:377
 #: mail/mail-config.glade.h:119
 msgid "Receiving Mail"
-msgstr ""
+msgstr "મેઈલ મેળવી રહ્યા છીએ"
 
 #: mail/mail-config-druid.c:372
 msgid ""
 "Please enter information about your incoming mail server below. If you are "
 "not sure, ask your system administrator or Internet Service Provider."
 msgstr ""
+"મહેરબાની કરીને નીચે આવતા મેઈલ વિશે જાણકારી દાખલ કરો. જો તમે "
+"ચોક્કસ નહિં હોય, તો તમારા સિસ્ટમ સંચાલકને અથવા ઈન્ટરનેટ સેવા "
+"પૂરી પાડનારને પૂછો."
 
 #: mail/mail-config-druid.c:379
 msgid "Please select among the following options"
-msgstr ""
+msgstr "મહેરબાની કરીને નીચેના વિકલ્પોમાંથી પસંદ કરો"
 
 #: mail/mail-config-druid.c:382 mail/mail-config.glade.h:131
 msgid "Sending Mail"
-msgstr ""
+msgstr "મેઈલ મોકલી રહ્યા છીએ"
 
 #: mail/mail-config-druid.c:384
 msgid ""
 "Please enter information about the way you will send mail. If you are not "
 "sure, ask your system administrator or Internet Service Provider."
 msgstr ""
+"મહેરબાની કરીને તમે કઈ રીતે મેઈલ મોકલો તે વિશે જાણકારી દાખલ કરો. જો તમે "
+"ચોક્કસ નહિં હોય, તો તમારા સિસ્ટમ સંચાલક અથવા ઈન્ટરનેટ સેવા પૂરી "
+"પાડનારને પૂછો."
 
 #: mail/mail-config-druid.c:389 mail/mail-config.glade.h:37
 msgid "Account Management"
-msgstr ""
+msgstr "ખાતા વ્યવસ્થા"
 
 #: mail/mail-config-druid.c:391
 msgid ""
@@ -14679,238 +14762,249 @@ msgid ""
 "name for this account in the space below. This name will be used for display "
 "purposes only."
 msgstr ""
+"તમે મોટે ભાગે મેઈલ રુપરેખાંકન પ્રક્રિયા કરી દીધી છે. ઓળખ,"
+"આવતા મેઈલ સર્વર અને જતા મેઈલની પરિવહન પદ્ધતિ કે જે તમને પૂરી "
+"પાડવામાં આવેલ છે તે ઈવોલ્યુશન મેઈલ ખાતુ બનાવવા માટે ભેગી થયેલ છે. "
+"મહેરબાની કરીને આ ખાતા માટેની નીચેની જગ્યામાં નામ દાખલ કરો. "
+"આ નામ માત્ર પ્રદર્શનના હેતુ માટે જ વપરાશે."
 
 #: mail/mail-config.c:895
 msgid "Checking Service"
-msgstr ""
+msgstr "સેવા ચકાસી રહ્યા છીએ"
 
 #: mail/mail-config.c:973 mail/mail-config.c:977
 msgid "Connecting to server..."
-msgstr ""
+msgstr "સર્વર સાથે જોડાઈ રહ્યા છીએ..."
 
 #: mail/mail-config.glade.h:1 mail/mail-dialogs.glade.h:5
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: mail/mail-config.glade.h:2
 msgid " Ch_eck for Supported Types "
-msgstr ""
+msgstr " આધારભૂત સેવાઓ માટે ચકાસો (_e) "
 
 #: mail/mail-config.glade.h:5
 msgid "<b>SSL is not supported in this build of evolution</b>"
-msgstr ""
+msgstr "<b>SSL એ આ ઈવોલ્યુશનમાં આધારભૂત નથી</b>"
 
 #: mail/mail-config.glade.h:6
 msgid "<b>S_ignatures</b>"
-msgstr ""
+msgstr "<b>સહીઓ (_i)</b>"
 
 #: mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
-msgstr ""
+msgstr "<b>ભાષાઓ (_L)</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr ""
+msgstr "<small>આ ગાળકને વધુ રાહતદાયક બનાવે છે, પરંતુ ધીમુ પાડે છે</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ખાતાની જાણકારી</span>"
 
 #: mail/mail-config.glade.h:10
 msgid "<span weight=\"bold\">Alerts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ચેતવણીઓ</span>"
 
 #: mail/mail-config.glade.h:11
 msgid "<span weight=\"bold\">Authentication Type</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સત્તાધિકરણ પ્રકાર</span>"
 
 #: mail/mail-config.glade.h:12
 msgid "<span weight=\"bold\">Authentication</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સત્તાધિકરણ</span>"
 
 #: mail/mail-config.glade.h:13
 msgid "<span weight=\"bold\">Checking for New Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">નવા મેઈલ માટે ચકાસી રહ્યા છીએ</span>"
 
 #: mail/mail-config.glade.h:14
 msgid "<span weight=\"bold\">Composing Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સંદેશાઓ કમ્પોઝ કરી રહ્યા છીએ</span>"
 
 #: mail/mail-config.glade.h:15
 msgid "<span weight=\"bold\">Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">રુપરેખાંકન</span>"
 
 #: mail/mail-config.glade.h:16
 msgid "<span weight=\"bold\">Default Behavior</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">મૂળભુત વર્તણૂક</span>"
 
 #: mail/mail-config.glade.h:17
 msgid "<span weight=\"bold\">Delete Mail</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">મેઈલ કાઢી નાંખો</span>"
 
 #: mail/mail-config.glade.h:18
 msgid "<span weight=\"bold\">Displayed Mail _Headers</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">પ્રદર્શિત મેઈલ હેડરો (_H)</span>"
 
 #: mail/mail-config.glade.h:19
 msgid "<span weight=\"bold\">Filter Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ગાળક વિકલ્પો</span>"
 
 #: mail/mail-config.glade.h:20
 msgid "<span weight=\"bold\">General</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સામાન્ય</span>"
 
 #: mail/mail-config.glade.h:21
 msgid "<span weight=\"bold\">Labels and Colors</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">લેબલો અને રંગો</span>"
 
 #: mail/mail-config.glade.h:22
 msgid "<span weight=\"bold\">Loading Images</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ચિત્રો લાવી રહ્યા છીએ</span>"
 
 #: mail/mail-config.glade.h:23
 msgid "<span weight=\"bold\">Message Display</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સંદેશા ડિસ્પ્લે</span>"
 
 #: mail/mail-config.glade.h:24
 msgid "<span weight=\"bold\">Message Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સંદેશા ફોન્ટ</span>"
 
 #: mail/mail-config.glade.h:25
 msgid "<span weight=\"bold\">New Mail Notification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">નવા મેઈલના સૂચનો</span>"
 
 #: mail/mail-config.glade.h:26
 msgid "<span weight=\"bold\">Optional Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">વૈકલ્પિક જાણકારી</span>"
 
 #: mail/mail-config.glade.h:27
 msgid "<span weight=\"bold\">Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">વિકલ્પો</span>"
 
 #: mail/mail-config.glade.h:28
 msgid "<span weight=\"bold\">Pretty Good Privacy (PGP/GPG)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ખૂબ સારુ ખાનગીપણુ (PGP/GPG)</span>"
 
 #: mail/mail-config.glade.h:29
 msgid "<span weight=\"bold\">Printed Fonts</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">છપાયેલ ફોન્ટ</span>"
 
 #: mail/mail-config.glade.h:30
 msgid "<span weight=\"bold\">Required Information</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">જરુરી જાણકારી</span>"
 
 #: mail/mail-config.glade.h:31
 msgid "<span weight=\"bold\">Secure MIME (S/MIME)</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સુરક્ષિત MIME (S/MIME)</span>"
 
 #: mail/mail-config.glade.h:32
 msgid "<span weight=\"bold\">Security</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સુરક્ષા</span>"
 
 #: mail/mail-config.glade.h:33
 msgid "<span weight=\"bold\">Sent and Draft Messages</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">મોકલાયેલ અને ડ્રાફ્ટ સંદેશાઓ</span>"
 
 #: mail/mail-config.glade.h:34
 msgid "<span weight=\"bold\">Server Configuration</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">સર્વર રુપરેખાંકન</span>"
 
 #: mail/mail-config.glade.h:35
 msgid "A_lso encrypt to self when sending encrypted mail"
-msgstr ""
+msgstr "જ્યારે એનક્રિપ્ટેડ મેઈલ મોકલી રહ્યા હોય ત્યારે તેને પણ એનક્રિપ્ટ કરો (_l)"
 
 #: mail/mail-config.glade.h:36
 msgid "Account Editor"
-msgstr ""
+msgstr "ખાતા સંપાદક"
 
 #: mail/mail-config.glade.h:38
 msgid "Add Ne_w Signature..."
-msgstr ""
+msgstr "નવી સહી ઉમેરો (_w)..."
 
 #: mail/mail-config.glade.h:39
 msgid "Add _Script"
-msgstr ""
+msgstr "લિપી ઉમેરો (_S)"
 
 #: mail/mail-config.glade.h:40
 msgid "Al_ways encrypt to myself when sending encrypted mail"
 msgstr ""
+"જ્યારે એનક્રિપ્ટેડ મેઈલ મોકલી રહ્યા હોય ત્યારે હંમેશા પોતાને "
+"એનક્રિપ્ટેડ કરો (_w)"
 
 #: mail/mail-config.glade.h:41
 msgid "Alway_s carbon-copy (cc) to:"
-msgstr ""
+msgstr "હંમેશા કાર્બન કોપી (આને પણ) (_s):"
 
 #: mail/mail-config.glade.h:43
 msgid "Always _blind carbon-copy (bcc) to:"
-msgstr ""
+msgstr "હંમેશા અંધ કાર્બન કોપી મોકલો (bcc) (_b):"
 
 #: mail/mail-config.glade.h:44
 msgid "Always _sign outgoing messages when using this account"
 msgstr ""
+"જ્યારે આ ખાતુ વાપરી રહ્યા હોય ત્યારે હંમેશા જતા સંદેશાઓને સહી "
+"કરો (_s)"
 
 #: mail/mail-config.glade.h:45
 msgid "Always _trust keys in my keyring when encrypting"
 msgstr ""
+"જ્યારે એનક્રિપ્ટ કરી રહ્યા હોય ત્યારે હંમેશા મારી કીરીંગમાં કી પર વિશ્વાસ "
+"કરો (_t)"
 
 #: mail/mail-config.glade.h:46
 msgid "Attach original message"
-msgstr ""
+msgstr "મૂળ સંદેશો જોડો"
 
 #: mail/mail-config.glade.h:47 mail/message-list.etspec.h:1
 msgid "Attachment"
-msgstr ""
+msgstr "જોડાણ"
 
 #: mail/mail-config.glade.h:48
 msgid "Automatically _insert smiley images"
-msgstr ""
+msgstr "આપોઆપ હસતા મોંના ચિત્રો દાખલ કરો (_i)"
 
 #: mail/mail-config.glade.h:49
 msgid "Automatically check for _new mail every"
-msgstr ""
+msgstr "દરેક નવા મેઈલ માટે આપોઆપ ચકાસો (_n)"
 
 #: mail/mail-config.glade.h:50
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "બાલ્ટીક (ISO-8859-13)"
 
 #: mail/mail-config.glade.h:51
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "બાલ્ટીક (ISO-8859-4)"
 
 #: mail/mail-config.glade.h:52
 msgid "Beep w_hen new mail arrives"
-msgstr ""
+msgstr "જ્યારે નવા મેઈલ આવે ત્યારે બીપ વગાડો (_h)"
 
 #: mail/mail-config.glade.h:53
 msgid "C_haracter set:"
-msgstr ""
+msgstr "અક્ષરોનો સમૂહ (_h):"
 
 #: mail/mail-config.glade.h:54
 msgid "Ch_eck for Supported Types "
-msgstr ""
+msgstr "આધારભૂત પ્રકારો માટે ચકાસો (_e)"
 
 #: mail/mail-config.glade.h:55
 msgid "Check _incoming mail for junk"
-msgstr ""
+msgstr "બગાડ માટે આવતા મેઈલો ચકાસો (_i)"
 
 #: mail/mail-config.glade.h:56
 msgid "Check spelling while I _type"
-msgstr ""
+msgstr "જ્યારે I પ્રકાર હોય ત્યારે જોડણી ચકાસો (_t)"
 
 #: mail/mail-config.glade.h:57
 msgid "Checks incoming mail messages to be Junk"
-msgstr ""
+msgstr "આવતા સંદેશાઓ ખરાબ નહિં હોય તે માટે ચકાસે છે"
 
 #: mail/mail-config.glade.h:58
 msgid "Color for _misspelled words:"
-msgstr ""
+msgstr "ખોટી જોડણીવાળા શબ્દો માટેનો રંગ (_m):"
 
 #: mail/mail-config.glade.h:59
 msgid "Colors"
-msgstr ""
+msgstr "રંગો"
 
 #: mail/mail-config.glade.h:60
 msgid "Confirm _when expunging a folder"
-msgstr ""
+msgstr "ફોલ્ડરને સંપૂર્ણપણે દૂર કરતી વખતે ખાતરી કરો (_w)"
 
 #: mail/mail-config.glade.h:61
 msgid ""
@@ -14921,240 +15015,248 @@ msgid ""
 "\n"
 "Click \"Apply\" to save your settings."
 msgstr ""
+"અભિનંદન, તમારુ મેઈલ રુપરેખાંકન પૂર્ણ થયું.\n"
+"\n"
+"તમે હવે ઈવોલ્યુશન દ્વારા મેઈલ મોકલવા અને \n"
+"મેળવવા માટે તૈયાર છો. \n"
+"\n"
+"તમારા સુયોજનો સંગ્રહવા માટે \"અમલમાં મૂકો\" પર ક્લિક કરો."
 
 #: mail/mail-config.glade.h:67
 msgid "De_fault"
-msgstr ""
+msgstr "મૂળભુત (_f)"
 
 #: mail/mail-config.glade.h:69
 msgid "Default character e_ncoding:"
-msgstr ""
+msgstr "અક્ષરોની મૂળભુત સંગ્રહપદ્ધતિ (_n):"
 
 #: mail/mail-config.glade.h:70
 msgid "Defaults"
-msgstr ""
+msgstr "મૂળભુતો"
 
 #: mail/mail-config.glade.h:72
 msgid "Do not quote original message"
-msgstr ""
+msgstr "મૂળ સંદેશાને અવતરિત કરો નહિં"
 
 #: mail/mail-config.glade.h:73
 msgid "Don't sign _meeting requests (for Outlook compatibility)"
-msgstr ""
+msgstr "મંત્રણાની માંગણીઓની સહી કરો નહિં (આઉટલુકની સાથે સુસંગતતા માટે) (_m)"
 
 #: mail/mail-config.glade.h:74 shell/evolution-startup-wizard.glade.h:1
 msgid "Done"
-msgstr ""
+msgstr "થઈ ગયું"
 
 #: mail/mail-config.glade.h:75
 msgid "Drafts _Folder:"
-msgstr ""
+msgstr "ડ્રાફ્ટનું ફોલ્ડર (_F):"
 
 #: mail/mail-config.glade.h:77
 msgid "Email Accounts"
-msgstr ""
+msgstr "ઈમેઈલ ખાતાઓ"
 
 #: mail/mail-config.glade.h:78
 msgid "Email _Address:"
-msgstr ""
+msgstr "ઈમેઈલ સરનામુ (_A):"
 
 #: mail/mail-config.glade.h:79
 msgid "Empty trash folders on e_xit"
-msgstr ""
+msgstr "બહાર નીકળવા પર કચરાપેટી ફોલ્ડરો ખાલી કરો (_x)"
 
 #: mail/mail-config.glade.h:80
 msgid "Encry_ption certificate:"
-msgstr ""
+msgstr "એનક્રિપ્શન પ્રમાણપત્ર (_p):"
 
 #: mail/mail-config.glade.h:81
 msgid "Evolution Account Assistant"
-msgstr ""
+msgstr "ઈવોલ્યુશન ખાતા મદદનીશ"
 
 #: mail/mail-config.glade.h:82
 msgid "Execute Command..."
-msgstr ""
+msgstr "આદેશ ચલાવો..."
 
 #: mail/mail-config.glade.h:83
 msgid "Fi_xed-width:"
-msgstr ""
+msgstr "ચોક્કસ-પહોળાઈ (_x):"
 
 #: mail/mail-config.glade.h:84
 msgid "Font Properties"
-msgstr ""
+msgstr "ફોન્ટના ગુણધર્મો"
 
 #: mail/mail-config.glade.h:85
 msgid "Format messages in _HTML"
-msgstr ""
+msgstr "સંદેશાઓને _HTML બંધારણમાં ઘડો"
 
 #: mail/mail-config.glade.h:87
 msgid "HTML Mail"
-msgstr ""
+msgstr "HTML મેઈલ"
 
 #: mail/mail-config.glade.h:88
 msgid "Headers"
-msgstr ""
+msgstr "હેડરો"
 
 #: mail/mail-config.glade.h:89
 msgid "Highlight _quotations with"
-msgstr ""
+msgstr "અવતરણોને આની સાથે પ્રકાશિત કરો (_q)"
 
 #: mail/mail-config.glade.h:90
 msgid "IMAPv4 "
-msgstr ""
+msgstr "IMAPv4 "
 
 #: mail/mail-config.glade.h:91
 msgid "I_nclude remote tests"
-msgstr ""
+msgstr "દૂરસ્થ ચકાસણીઓ સમાવો (_n)"
 
 #: mail/mail-config.glade.h:94
 msgid "Inline"
-msgstr ""
+msgstr "લીટીની અંદર"
 
 #: mail/mail-config.glade.h:96
 msgid "Kerberos "
-msgstr ""
+msgstr "કર્બરોઝ "
 
 #: mail/mail-config.glade.h:98
 msgid "Mail Configuration"
-msgstr ""
+msgstr "મેઈલ રુપરેખાંકન"
 
 #: mail/mail-config.glade.h:100
 msgid "Mailbox location"
-msgstr ""
+msgstr "મેઈલબોક્સ જગ્યા"
 
 #: mail/mail-config.glade.h:101
 msgid "Message Composer"
-msgstr ""
+msgstr "સંદેશા કમ્પોઝર"
 
 #: mail/mail-config.glade.h:104
 msgid ""
 "Note: you will not be prompted for a password until you connect for the "
 "first time"
 msgstr ""
+"નોંધ: જ્યાં સુધી તમે પહેલી વખત જોડાવો નહિં ત્યાં સુધી તે તમને પાસવર્ડ "
+"માટે પૂછશે નહિં"
 
 #: mail/mail-config.glade.h:105
 msgid "Or_ganization:"
-msgstr ""
+msgstr "સંસ્થા (_g):"
 
 #: mail/mail-config.glade.h:106
 msgid "PGP/GPG _Key ID:"
-msgstr ""
+msgstr "PGP/GPG _Key ID:"
 
 #: mail/mail-config.glade.h:111
 msgid "Play sound file when new mail arri_ves"
-msgstr ""
+msgstr "જ્યારે નવા મેઈલ આવે ત્યારે ધ્વનિ ફાઈલ વગાડો (_v)"
 
 #: mail/mail-config.glade.h:112
 msgid "Pr_ompt when sending messages with only Bcc recipients defined"
-msgstr ""
+msgstr "જ્યારે સંદેશાઓ આને પણ ખબર વિના દ્વારા મોકલો ત્યારે પૂછો"
 
 #: mail/mail-config.glade.h:113
 msgid "Qmail maildir "
-msgstr ""
+msgstr "Qmail મેઈલ ડિરેક્ટરી "
 
 #: mail/mail-config.glade.h:114
 msgid "Quote original message"
-msgstr ""
+msgstr "મૂળ સંદેશાને અવતરિત કરો"
 
 #: mail/mail-config.glade.h:115
 msgid "Quoted"
-msgstr ""
+msgstr "અવતરિત"
 
 #: mail/mail-config.glade.h:116
 msgid "Re_member password"
-msgstr ""
+msgstr "પાસવર્ડ યાદ રાખો (_m)"
 
 #: mail/mail-config.glade.h:117
 msgid "Re_ply-To:"
-msgstr ""
+msgstr "ને જવાબ આપો (_p):"
 
 #: mail/mail-config.glade.h:118
 msgid "Receiving Email"
-msgstr ""
+msgstr "ઈ-મેઈલ મેળવી રહ્યા છીએ"
 
 #: mail/mail-config.glade.h:120
 msgid "Receiving Options"
-msgstr ""
+msgstr "વિકલ્પો મેળવી રહ્યા છીએ"
 
 #: mail/mail-config.glade.h:121
 msgid "Remember _password"
-msgstr ""
+msgstr "પાસવર્ડ યાદ રાખો (_p)"
 
 #: mail/mail-config.glade.h:123
 msgid "S_tandard Font:"
-msgstr ""
+msgstr "પ્રમાણભૂત ફોન્ટ (_t):"
 
 #: mail/mail-config.glade.h:124
 msgid "Security"
-msgstr ""
+msgstr "સુરક્ષા"
 
 #: mail/mail-config.glade.h:125
 msgid "Select HTML fixed width font"
-msgstr ""
+msgstr "HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
 #: mail/mail-config.glade.h:126
 msgid "Select HTML fixed width font for printing"
-msgstr ""
+msgstr "છાપવા માટે HTML ચોક્કસ પહોળાઈ ફોન્ટ પસંદ કરો"
 
 #: mail/mail-config.glade.h:127
 msgid "Select HTML variable width font"
-msgstr ""
+msgstr "HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
 #: mail/mail-config.glade.h:128
 msgid "Select HTML variable width font for printing"
-msgstr ""
+msgstr "છાપન માટે HTML ચલિત પહોળાઈ ફોન્ટ પસંદ કરો"
 
 #: mail/mail-config.glade.h:129
 msgid "Select..."
-msgstr ""
+msgstr "પસંદ કરો..."
 
 #: mail/mail-config.glade.h:130
 msgid "Sending Email"
-msgstr ""
+msgstr "ઈ-મેઈલ મોકલી રહ્યા છીએ"
 
 #: mail/mail-config.glade.h:133
 msgid "Sent _Messages Folder:"
-msgstr ""
+msgstr "મોકલાયેલ સંદેશાઓનું ફોલ્ડર (_M):"
 
 #: mail/mail-config.glade.h:134
 msgid "Ser_ver requires authentication"
-msgstr ""
+msgstr "સર્વરને સત્તાધિકરણ જરુરી છે (_v)"
 
 #: mail/mail-config.glade.h:135
 msgid "Server _Type: "
-msgstr ""
+msgstr "સર્વરનો પ્રકાર (_T): "
 
 #: mail/mail-config.glade.h:136
 msgid "Si_gning certificate:"
-msgstr ""
+msgstr "સહી કરવાના પ્રમાણપત્રો (_g):"
 
 #: mail/mail-config.glade.h:137
 msgid "Signat_ure:"
-msgstr ""
+msgstr "સહી (_u):"
 
 #: mail/mail-config.glade.h:138
 msgid "Signatures"
-msgstr ""
+msgstr "સહીઓ"
 
 #: mail/mail-config.glade.h:139
 msgid "Specify _filename:"
-msgstr ""
+msgstr "ફાઈલ નામ સ્પષ્ટ કરો (_f):"
 
 #: mail/mail-config.glade.h:140
 msgid "Spell Checking"
-msgstr ""
+msgstr "જોડણી ચકાસી રહ્યા છીએ"
 
 #: mail/mail-config.glade.h:141
 msgid "Standard Unix mbox"
-msgstr ""
+msgstr "પ્રમાણભૂત યુનિક્સ મેઈલ બોક્સ"
 
 #: mail/mail-config.glade.h:142
 msgid "T_erminal Font:"
-msgstr ""
+msgstr "ટર્મિનલ ફોન્ટ (_e):"
 
 #: mail/mail-config.glade.h:143
 msgid "T_ype: "
-msgstr ""
+msgstr "પ્રકાર (_y): "
 
 #: mail/mail-config.glade.h:144
 msgid ""
@@ -15162,6 +15264,9 @@ msgid ""
 "signature. The name you specify will be used\n"
 "for display purposes only. "
 msgstr ""
+"આ સ્ક્રિપ્ટનું આઉટપુટ તમારી સહી તરીકે કામ કરશે.\n"
+"તમે સ્પષ્ટ કરેલ નામ માત્ર ડિસ્પ્લેના હેતુ માટે\n"
+"વપરાશે. "
 
 #: mail/mail-config.glade.h:147
 msgid ""
@@ -15169,16 +15274,21 @@ msgid ""
 "list of languages here reflects only the languages for which you have a "
 "dictionary installed."
 msgstr ""
+"આ પાનું તમને જોડણી ચકસણીની વર્તણૂક અને ભાષા રુપરેખાંકિત "
+"કરવાની પરવાનગી આપે છે. અંહિ માત્ર એ જ ભાષાઓની યાદી અસર "
+"કરશે કે જેના માટે તમે શબ્દકોષ સ્થાપિત કરેલ હોય."
 
 #: mail/mail-config.glade.h:149
 msgid ""
 "Type the name by which you would like to refer to this account.\n"
 "For example: \"Work\" or \"Personal\""
 msgstr ""
+"નામ છાપો કે જેના દ્વારા તમે આ ખાતાને વાપરવા માંગો છો.\n"
+"ઉદાહરણ તરીકે: \"કામ\" અથવા \"ખાનગી\""
 
 #: mail/mail-config.glade.h:152
 msgid "V_ariable-width:"
-msgstr ""
+msgstr "ચલિત-પહોળાઈ (_a):"
 
 #: mail/mail-config.glade.h:153
 msgid ""
@@ -15186,86 +15296,91 @@ msgid ""
 "\n"
 "Click \"Forward\" to begin. "
 msgstr ""
+"ઈવોલ્યુશન મેઈલ રુપરેખાંકન મદદનીશમાં તમારું સ્વાગત છે.\n"
+"\n"
+"શરુઆત કરવા માટે \"આગળ ધપાવો\" પર ક્લિક કરો. "
 
 #: mail/mail-config.glade.h:158
 msgid "_Add Signature"
-msgstr ""
+msgstr "સહી ઉમેરો (_A)"
 
 #: mail/mail-config.glade.h:159
 msgid "_Always load images from the Internet"
-msgstr ""
+msgstr "હંમેશા ઈન્ટરનેટમાંથી ચિત્રો લાવો (_A)"
 
 #: mail/mail-config.glade.h:160
 msgid "_Digitally sign outgoing messages (by default)"
-msgstr ""
+msgstr "ડિજીટલ રીતે જતા સંદેશાઓને સહી કરો (_D) (મૂળભુત રીતે)"
 
 #: mail/mail-config.glade.h:161
 msgid "_Do not notify me when new mail arrives"
-msgstr ""
+msgstr "જ્યારે નવા મેઈલ આવે ત્યારે મને સૂચવો નહિં (_D)"
 
 #: mail/mail-config.glade.h:163
 msgid "_Enable"
-msgstr ""
+msgstr "સક્રિય કરો (_E)"
 
 #: mail/mail-config.glade.h:164
 msgid "_Encrypt outgoing messages (by default)"
-msgstr ""
+msgstr "જતા સંદેશાઓ એનક્રિપ્ટ કરો (_E) (મૂળભુત રીતે)"
 
 #: mail/mail-config.glade.h:165
 msgid "_Forward style:"
-msgstr ""
+msgstr "આગળ ધપાવવાની શૈલી (_F):"
 
 #: mail/mail-config.glade.h:168
 msgid "_Load images if sender is in address book"
-msgstr ""
+msgstr "જો મોકલનાર સરનામાપોથીમાં હોય તો ચિત્રો લાવો (_L)"
 
 #: mail/mail-config.glade.h:169
 msgid "_Make this my default account"
-msgstr ""
+msgstr "આને મારુ મૂળભુત ખાતું બનાવો (_M)"
 
 #: mail/mail-config.glade.h:170
 msgid "_Mark messages as read after"
-msgstr ""
+msgstr "પછી વંચાયેલ સંદેશાઓને ચિહ્નિત કરો (_M)"
 
 #: mail/mail-config.glade.h:172
 msgid "_Never load images from the Internet"
-msgstr ""
+msgstr "ઈન્ટરનેટમાંથી ક્યારેય ચિત્રો લાવો નહિં (_N)"
 
 #: mail/mail-config.glade.h:174
 msgid "_Prompt when sending HTML messages to contacts that don't want them"
 msgstr ""
+"સંપર્કો કે જેઓને જરુર ના હોય તોપણ HTML સંદેશાઓ મોકલી રહ્યા "
+"હોય ત્યારે તેમને પૂછો (_P)"
 
 #: mail/mail-config.glade.h:175
 msgid "_Prompt when sending messages with an empty subject line"
-msgstr ""
+msgstr "જ્યારે સંદેશો ખાલી વાક્ય સાથે મોકલી રહ્યા હોય ત્યારે પૂછો (_P)"
 
 #: mail/mail-config.glade.h:176
 msgid "_Reply style:"
-msgstr ""
+msgstr "જવાબની શૈલી (_R):"
 
 #: mail/mail-config.glade.h:177
 msgid "_Script:"
-msgstr ""
+msgstr "લિપી (_S):"
 
 #: mail/mail-config.glade.h:178
 msgid "_Show animated images"
-msgstr ""
+msgstr "એનિમેટ થયેલ ચિત્રો બતાવો (_S)"
 
 #: mail/mail-config.glade.h:179
 msgid "_Use Secure Connection (SSL):"
-msgstr ""
+msgstr "સુરક્ષિત જોડાણ વાપરો (_U) (SSL):"
 
 #: mail/mail-config.glade.h:180
 msgid "_Use the same fonts as other applications"
-msgstr ""
+msgstr "બીજા કાર્યક્રમોનની જેમ સરખા ફોન્ટ વાપરો (_U)"
 
 #: mail/mail-config.glade.h:181
 msgid "color"
-msgstr ""
+msgstr "રંગ"
 
 #: mail/mail-config.glade.h:182
 msgid "description"
-msgstr ""
+msgstr "વર્ણન"
 
 #: mail/mail-dialogs.glade.h:1
 msgid ""
@@ -15273,69 +15388,74 @@ msgid ""
 " Please read carefully the license agreement displayed\n"
 " below and tick the check box for accepting it\n"
 msgstr ""
+"\n"
+" મહેરબાની કરીને નીચે પ્રદર્શિત થયેલ લાઈસન્સ મંજૂરીપત્ર\n"
+" કાળજીપૂર્વક વાંચો અને તેને સ્વીકારવા માટે ચકાસણીબોક્સ ચિહ્નિત કરો\n"
 
 #: mail/mail-dialogs.glade.h:7
 msgid "<b>vFolder Sources</b>"
-msgstr ""
+msgstr "<b>vફોલ્ડર સ્રોતો</b>"
 
 #: mail/mail-dialogs.glade.h:8
 msgid "<span weight=\"bold\">Digital Signature</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ડીજીટલ સહી</span>"
 
 #: mail/mail-dialogs.glade.h:9
 msgid "<span weight=\"bold\">Encryption</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">એનક્રિપ્શન</span>"
 
 #: mail/mail-dialogs.glade.h:10
 msgid "Accept License"
-msgstr ""
+msgstr "લાઈસન્સ સ્વીકારો"
 
 #: mail/mail-dialogs.glade.h:11 mail/message-tags.glade.h:2
 msgid "C_ompleted"
-msgstr ""
+msgstr "પૂર્ણ થયેલ છે (_o)"
 
 #: mail/mail-dialogs.glade.h:12
 msgid "Case Sensitive"
-msgstr ""
+msgstr "કેસ પ્રત્યે સંવેદનશીલ"
 
 #: mail/mail-dialogs.glade.h:14
 msgid "Find in Message"
-msgstr ""
+msgstr "સંદેશામાં શોધો"
 
 #: mail/mail-dialogs.glade.h:15
 msgid "Find:"
-msgstr ""
+msgstr "શોધો:"
 
 #: mail/mail-dialogs.glade.h:16 mail/message-tag-followup.c:294
 #: mail/message-tags.glade.h:3
 msgid "Flag to Follow Up"
-msgstr ""
+msgstr "અનુસરવા માટેની નિશાની"
 
 #: mail/mail-dialogs.glade.h:17
 msgid "Folder Subscriptions"
-msgstr ""
+msgstr "ફોલ્ડરની ઉમેદવારી"
 
 #: mail/mail-dialogs.glade.h:18
 msgid "License Agreement"
-msgstr ""
+msgstr "લાઈસન્સ મંજૂરીપત્ર"
 
 #: mail/mail-dialogs.glade.h:19
 msgid "None Selected"
-msgstr ""
+msgstr "કંઈ પસંદ થયેલ નથી"
 
 #: mail/mail-dialogs.glade.h:20
 msgid "S_erver:"
-msgstr ""
+msgstr "સર્વર (_e):"
 
 #: mail/mail-dialogs.glade.h:21
 msgid "Security Information"
-msgstr ""
+msgstr "સુરક્ષા જાણકારી"
 
 #: mail/mail-dialogs.glade.h:23 mail/message-tags.glade.h:4
 msgid ""
 "The messages you have selected for follow up are listed below.\n"
 "Please select a follow up action from the \"Flag\" menu."
 msgstr ""
+"તમે અનુસરવા માટે પસંદ કરેલ દરેક સંદેશાઓ નીચે યાદીત કરેલ છે.\n"
+"મહેરબાની કરીને નીચેની ક્રિયા માટે \"નિશાની\" મેનુ પસંદ કરો."
 
 #: mail/mail-dialogs.glade.h:25
 msgid "Tick this to accept the license agreement"
