@@ -168,35 +168,34 @@ e_passwords_clear_component_passwords ()
 void
 e_passwords_remember_password (const char *key)
 {
-	char *okey, *value;
+	gpointer okey, value;
+	char *path, *key64, *pass64;
+	int len, state, save;
 
-	if (g_hash_table_lookup_extended (passwords, key,
-					  (gpointer*)&okey, (gpointer*)&value)) {
-		char *path, *key64, *pass64;
-		int len, state, save;
+	if (!g_hash_table_lookup_extended (passwords, key, &okey, &value))
+		return;
 
-		/* add it to the on-disk cache of passwords */
-		len = strlen (okey);
-		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-		state = save = 0;
-		base64_encode_close (okey, len, FALSE, key64, &state, &save);
-		path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
-		g_free (key64);
-	
-		len = strlen (value);
-		pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-		state = save = 0;
-		base64_encode_close (value, len, FALSE, pass64, &state, &save);
-	
-		bonobo_config_set_string (db, path, pass64, NULL);
-		g_free (path);
-		g_free (pass64);
+	/* add it to the on-disk cache of passwords */
+	len = strlen (okey);
+	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close (okey, len, FALSE, key64, &state, &save);
+	path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
+	g_free (key64);
 
-		/* now remove it from our session hash */
-		g_hash_table_remove (passwords, key);
-		g_free (okey);
-		g_free (value);
-	}
+	len = strlen (value);
+	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close (value, len, FALSE, pass64, &state, &save);
+
+	bonobo_config_set_string (db, path, pass64, NULL);
+	g_free (path);
+	g_free (pass64);
+
+	/* now remove it from our session hash */
+	g_hash_table_remove (passwords, key);
+	g_free (okey);
+	g_free (value);
 }
 
 /**
@@ -230,29 +229,34 @@ char *
 e_passwords_get_password (const char *key)
 {
 	char *passwd = g_hash_table_lookup (passwords, key);
-	if (!passwd) {
-		char *path, *key64;
-		int len, state, save;
+	char *path, *key64;
+	int len, state, save;
+	CORBA_Environment ev;
 
-		/* not part of the session hash, look it up in the on disk db */
-		len = strlen (key);
-		key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-		state = save = 0;
-		base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
-		path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
-		g_free (key64);
-
-		passwd = bonobo_config_get_string (db, path, NULL);
-
-		g_free (path);
-
-		if (passwd)
-			return decode_base64 (passwd);
-		else
-			return NULL;
-	}
-	else
+	if (passwd)
 		return g_strdup (passwd);
+
+	/* not part of the session hash, look it up in the on disk db */
+	len = strlen (key);
+	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close ((char*)key, len, FALSE, key64, &state, &save);
+	path = g_strdup_printf ("/Passwords/%s/%s", component_name, key64);
+	g_free (key64);
+
+	/* We need to pass an ev to bonobo-conf, or it will emit a
+	 * g_warning if the data isn't found.
+	 */
+	CORBA_exception_init (&ev);
+	passwd = bonobo_config_get_string (db, path, &ev);
+	CORBA_exception_free (&ev);
+
+	g_free (path);
+
+	if (passwd)
+		return decode_base64 (passwd);
+	else
+		return NULL;
 }
 
 /**
@@ -266,17 +270,19 @@ e_passwords_get_password (const char *key)
 void
 e_passwords_add_password (const char *key, const char *passwd)
 {
-	if (key && passwd) {
-		gpointer okey, value;
-	
-		if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
-			g_hash_table_remove (passwords, key);
-			g_free (okey);
-			g_free (value);
-		}
+	gpointer okey, value;
 
-		g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
+	/* FIXME: shouldn't this be g_return_if_fail? */
+	if (!key || !passwd)
+		return;
+
+	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
+		g_hash_table_remove (passwords, key);
+		g_free (okey);
+		g_free (value);
 	}
+
+	g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
 }
 
 

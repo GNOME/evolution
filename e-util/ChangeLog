@@ -1,3 +1,16 @@
+2001-10-22  Dan Winship  <danw@ximian.com>
+
+	* e-passwords.c (e_passwords_get_password): Pass a
+	CORBA_Environment to bonobo_config_get_string so it doesn't g_warn
+	on error. (Since the "error" is most likely just that the password
+	isn't cached.)
+	(e_passwords_remember_password, e_passwords_get_password,
+	e_passwords_add_password): Change "if (foo) { entire function; }"
+	to "if (!foo) return;"
+
+	* e-html-utils.c (special_chars): Don't allow single quote or
+	backtick in email addresses, or pipes following URLs.
+
 2001-10-22  JP Rosevear  <jpr@ximian.com>
 
 	* e-dbhash.c (e_dbhash_foreach_key): null out DBT memory prior to

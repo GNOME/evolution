@@ -40,21 +40,20 @@ check_size (char **buffer, int *buffer_size, char *out, int len)
 	return out;
 }
 
-/* 1 = non-email-address chars: ()<>@,;:\"[]    */
-/* 2 = trailing garbage:        ,.!?;:>)]}`'-_  */
+/* 1 = non-email-address chars: ()<>@,;:\"[]`'|  */
+/* 2 = trailing url garbage:    ,.!?;:>)]}`'-_|  */
 static int special_chars[] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*  nul - 0x0f */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /* 0x10 - 0x1f */
-	1, 2, 1, 0, 0, 0, 0, 2, 1, 3, 0, 0, 3, 2, 2, 0,    /*   sp - /    */
+	1, 2, 1, 0, 0, 0, 0, 3, 1, 3, 0, 0, 3, 2, 2, 0,    /*   sp - /    */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 1, 0, 3, 2,    /*    0 - ?    */
 	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    @ - O    */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 3, 0, 2,    /*    P - _    */
-	2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    ` - o    */
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0     /*    p - del  */
+	3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,    /*    ` - o    */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 2, 0, 0     /*    p - del  */
 };
 
 #define is_addr_char(c) (isprint (c) && !(special_chars[c] & 1))
-#define is_addr_char_no_pipes(c) (is_addr_char(c) && (c) != '|')
 #define is_trailing_garbage(c) (!isprint(c) || (special_chars[c] & 2))
 
 static char *
@@ -89,13 +88,13 @@ email_address_extract (const unsigned char **cur, char **out, const unsigned cha
 	char *addr;
 
 	/* *cur points to the '@'. Look backward for a valid local-part */
-	for (start = *cur; start - 1 >= linestart && is_addr_char_no_pipes (*(start - 1)); start--)
+	for (start = *cur; start - 1 >= linestart && is_addr_char (*(start - 1)); start--)
 		;
 	if (start == *cur)
 		return NULL;
 
 	/* Now look forward for a valid domain part */
-	for (end = *cur + 1, dot = NULL; is_addr_char_no_pipes (*end); end++) {
+	for (end = *cur + 1, dot = NULL; is_addr_char (*end); end++) {
 		if (*end == '.' && !dot)
 			dot = end;
 	}
