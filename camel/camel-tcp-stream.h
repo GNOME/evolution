@@ -88,18 +88,6 @@ typedef struct _CamelSockOptData {
 	} value;
 } CamelSockOptData;
 
-typedef enum {
-	CAMEL_TCP_ADDRESS_IPv4,
-	CAMEL_TCP_ADDRESS_IPv6
-} CamelTcpAddressFamily;
-
-typedef struct {
-	CamelTcpAddressFamily family;
-	gushort port, length;
-	guint8 address[1];
-} CamelTcpAddress;
-
-
 struct _CamelTcpStream {
 	CamelStream parent_object;
 	
@@ -109,29 +97,24 @@ typedef struct {
 	CamelStreamClass parent_class;
 
 	/* Virtual methods */
-	int (*connect)    (CamelTcpStream *stream, struct hostent *host, int port);
+	int (*connect)    (CamelTcpStream *stream, struct addrinfo *host);
 	int (*getsockopt) (CamelTcpStream *stream, CamelSockOptData *data);
 	int (*setsockopt) (CamelTcpStream *stream, const CamelSockOptData *data);
 	
-	CamelTcpAddress * (*get_local_address)  (CamelTcpStream *stream);
-	CamelTcpAddress * (*get_remote_address) (CamelTcpStream *stream);
+	struct sockaddr * (*get_local_address)  (CamelTcpStream *stream, socklen_t *len);
+	struct sockaddr * (*get_remote_address) (CamelTcpStream *stream, socklen_t *len);
 } CamelTcpStreamClass;
 
 /* Standard Camel function */
 CamelType camel_tcp_stream_get_type (void);
 
 /* public methods */
-int         camel_tcp_stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
+int         camel_tcp_stream_connect    (CamelTcpStream *stream, struct addrinfo *host);
 int         camel_tcp_stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 int         camel_tcp_stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
 
-CamelTcpAddress *camel_tcp_stream_get_local_address  (CamelTcpStream *stream);
-CamelTcpAddress *camel_tcp_stream_get_remote_address (CamelTcpStream *stream);
-
-CamelTcpAddress *camel_tcp_address_new  (CamelTcpAddressFamily family,
-					 gushort port, gushort length,
-					 gpointer address);
-void             camel_tcp_address_free (CamelTcpAddress *address);
+struct sockaddr *camel_tcp_stream_get_local_address  (CamelTcpStream *stream, socklen_t *len);
+struct sockaddr *camel_tcp_stream_get_remote_address (CamelTcpStream *stream, socklen_t *len);
 
 #ifdef __cplusplus
 }

@@ -209,18 +209,18 @@ gssapi_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	gss_qop_t qop;
 	gss_OID mech;
 	char *str;
+	struct addrinfo *ai, hints;
 	
 	switch (priv->state) {
 	case GSSAPI_STATE_INIT:
-		if (!(h = camel_service_gethost (sasl->service, ex))) {
-			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Failed to resolve host `%s': %s"),
-					      sasl->service->url->host, g_strerror (errno));
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_flags = AI_CANONNAME;
+		ai = camel_getaddrinfo(sasl->service->url->host?sasl->service->url->host:"localhost", NULL, &hints, ex);
+		if (ai == NULL)
 			return NULL;
-		}
 		
-		str = g_strdup_printf ("%s@%s", sasl->service_name, h->h_name);
-		camel_free_host (h);
+		str = g_strdup_printf("%s@%s", sasl->service_name, ai->ai_canonname);
+		camel_freeaddrinfo(ai);
 		
 		inbuf.value = str;
 		inbuf.length = strlen (str);

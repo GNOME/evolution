@@ -623,7 +623,7 @@ compute_response (struct _DigestResponse *resp, const char *passwd, gboolean cli
 }
 
 static struct _DigestResponse *
-generate_response (struct _DigestChallenge *challenge, struct hostent *host,
+generate_response (struct _DigestChallenge *challenge, const char *host,
 		   const char *protocol, const char *user, const char *passwd)
 {
 	struct _DigestResponse *resp;
@@ -659,7 +659,7 @@ generate_response (struct _DigestChallenge *challenge, struct hostent *host,
 	/* create the URI */
 	uri = g_new0 (struct _DigestURI, 1);
 	uri->type = g_strdup (protocol);
-	uri->host = g_strdup (host->h_name);
+	uri->host = g_strdup (host);
 	uri->name = NULL;
 	resp->uri = uri;
 	
@@ -795,10 +795,10 @@ digest_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 	struct _param *rspauth;
 	GByteArray *ret = NULL;
 	gboolean abort = FALSE;
-	struct hostent *h;
 	const char *ptr;
 	guchar out[33];
 	char *tokens;
+	struct addrinfo *ai, hints;
 	
 	/* Need to wait for the server */
 	if (!token)
@@ -829,12 +829,20 @@ digest_md5_challenge (CamelSasl *sasl, GByteArray *token, CamelException *ex)
 						"\"Quality of Protection\" token\n"));
 			return NULL;
 		}
-		
-		h = camel_service_gethost (sasl->service, ex);
-		priv->response = generate_response (priv->challenge, h, sasl->service_name,
+
+		memset(&hints, 0, sizeof(hints));
+		hints.ai_flags = AI_CANONNAME;
+		ai = camel_getaddrinfo(sasl->service->url->host?sasl->service->url->host:"localhost", NULL, &hints, NULL);
+		if (ai && ai->ai_canonname)
+			ptr = ai->ai_canonname;
+		else
+			ptr = "localhost.localdomain";
+
+		priv->response = generate_response (priv->challenge, ptr, sasl->service_name,
 						    sasl->service->url->user,
 						    sasl->service->url->passwd);
-		camel_free_host(h);
+		if (ai)
+			camel_freeaddrinfo(ai);
 		ret = digest_response (priv->response);
 		
 		break;

@@ -22,16 +22,13 @@
  * USA
  */
 
-
 #ifndef CAMEL_SMTP_TRANSPORT_H
 #define CAMEL_SMTP_TRANSPORT_H 1
-
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif /* __cplusplus */
-
 
 #include "camel-transport.h"
 #include "camel-tcp-stream.h"
@@ -40,7 +37,6 @@ extern "C" {
 #define CAMEL_SMTP_TRANSPORT(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransport))
 #define CAMEL_SMTP_TRANSPORT_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_SMTP_TRANSPORT_TYPE, CamelSmtpTransportClass))
 #define CAMEL_IS_SMTP_TRANSPORT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SMTP_TRANSPORT_TYPE))
-
 
 #define CAMEL_SMTP_TRANSPORT_IS_ESMTP               (1 << 0)
 #define CAMEL_SMTP_TRANSPORT_8BITMIME               (1 << 1)
@@ -63,19 +59,16 @@ typedef struct {
 	guint32 flags;
 	
 	gboolean connected;
-	CamelTcpAddress *localaddr;
+	struct sockaddr *localaddr;
+	socklen_t localaddrlen;
 	
 	GHashTable *authtypes;
-	
 } CamelSmtpTransport;
-
-
 
 typedef struct {
 	CamelTransportClass parent_class;
 
 } CamelSmtpTransportClass;
-
 
 /* Standard Camel function */
 CamelType camel_smtp_transport_get_type (void);
@@ -85,5 +78,3 @@ CamelType camel_smtp_transport_get_type (void);
 #endif /* __cplusplus */
 
 #endif /* CAMEL_SMTP_TRANSPORT_H */
-
-

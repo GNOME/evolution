@@ -172,9 +172,12 @@ static CamelStream *
 http_connect (CamelHttpStream *http, CamelURL *url)
 {
 	CamelStream *stream = NULL;
-	struct hostent *host;
+	struct addrinfo *ai, hints = { 0 };
 	int errsave;
-	
+	char *serv;
+
+	d(printf("connecting to http stream @ '%s'\n", url->host));
+
 	if (!strcasecmp (url->protocol, "https")) {
 #ifdef HAVE_SSL
 		stream = camel_tcp_stream_ssl_new (http->session, url->host, SSL_FLAGS);
@@ -187,24 +190,30 @@ http_connect (CamelHttpStream *http, CamelURL *url)
 		errno = EINVAL;
 		return NULL;
 	}
-	
-	printf("connecting to http stream @ '%s'\n", url->host);
 
-	host = camel_gethostbyname (url->host, NULL);
-	if (!host) {
-		errno = EHOSTUNREACH;
+	if (url->port) {
+		serv = g_alloca(16);
+		sprintf(serv, "%d", url->port);
+	} else {
+		serv = url->protocol;
+	}
+	hints.ai_socktype = SOCK_STREAM;
+
+	ai = camel_getaddrinfo(url->host, serv, &hints, NULL);
+	if (ai == NULL) {
+		camel_object_unref (stream);
 		return NULL;
 	}
 	
-	if (camel_tcp_stream_connect (CAMEL_TCP_STREAM (stream), host, url->port ? url->port : 80) == -1) {
+	if (camel_tcp_stream_connect (CAMEL_TCP_STREAM (stream), ai) == -1) {
 		errsave = errno;
 		camel_object_unref (stream);
-		camel_free_host (host);
+		camel_freeaddrinfo(ai);
 		errno = errsave;
 		return NULL;
 	}
 	
-	camel_free_host (host);
+	camel_freeaddrinfo(ai);
 
 	http->raw = stream;
 	http->read = camel_stream_buffer_new (stream, CAMEL_STREAM_BUFFER_READ);

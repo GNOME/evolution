@@ -34,6 +34,8 @@
 #include <pthread.h>
 #include <errno.h>
 
+#include <sys/poll.h>
+
 #include "e-util/e-msgport.h"
 
 #include "e-util/e-host-utils.h"
@@ -642,67 +644,226 @@ camel_service_query_auth_types (CamelService *service, CamelException *ex)
 	return ret;
 }
 
-/* URL utility routines */
-
-/**
- * camel_service_gethost:
- * @service: a CamelService
- * @ex: a CamelException
- *
- * This is a convenience function to do a gethostbyname on the host
- * for the service's URL.
- *
- * Return value: a (statically-allocated) hostent.
- **/
-struct hostent *
-camel_service_gethost (CamelService *service, CamelException *ex)
-{
-	char *hostname;
-	
-	if (service->url->host)
-		hostname = service->url->host;
-	else
-		hostname = "localhost";
-	
-	return camel_gethostbyname (hostname, ex);
-}
-
-#ifdef offsetof
-#define STRUCT_OFFSET(type, field)        ((gint) offsetof (type, field))
-#else
-#define STRUCT_OFFSET(type, field)        ((gint) ((gchar*) &((type *) 0)->field))
-#endif
-
-struct _lookup_msg {
+/* ********************************************************************** */
+struct _addrinfo_msg {
 	EMsg msg;
 	unsigned int cancelled:1;
+
+	/* for host lookup */
 	const char *name;
-	int len;
-	int type;
+	const char *service;
 	int result;
-	int herr;
+	const struct addrinfo *hints;
+	struct addrinfo **res;
+
+	/* for host lookup emulation */
+#ifdef NEED_ADDRINFO
 	struct hostent hostbuf;
 	int hostbuflen;
 	char *hostbufmem;
+#endif
+
+	/* for name lookup */
+	const struct sockaddr *addr;
+	socklen_t addrlen;
+	char *host;
+	int hostlen;
+	char *serv;
+	int servlen;
+	int flags;
 };
 
-static void *
-get_hostbyname(void *data)
+static void
+cs_freeinfo(struct _addrinfo_msg *msg)
 {
-	struct _lookup_msg *info = data;
+	g_free(msg->host);
+	g_free(msg->serv);
+#ifdef NEED_ADDRINFO
+	g_free(msg->hostbufmem);
+#endif
+	g_free(msg);
+}
 
-	while ((info->result = e_gethostbyname_r(info->name, &info->hostbuf, info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
-		d(printf("gethostbyname fialed?\n"));
-		pthread_testcancel();
-                info->hostbuflen *= 2;
-                info->hostbufmem = g_realloc(info->hostbufmem, info->hostbuflen);
+/* returns -1 if cancelled */
+static int
+cs_waitinfo(void *(worker)(void *), struct _addrinfo_msg *msg, const char *error, CamelException *ex)
+{
+	EMsgPort *reply_port;
+	pthread_t id;
+	int err, cancel_fd, cancel = 0, fd;
+
+	cancel_fd = camel_operation_cancel_fd(NULL);
+	if (cancel_fd == -1) {
+		worker(msg);
+		return 0;
 	}
+	
+	reply_port = msg->msg.reply_port = e_msgport_new();
+	fd = e_msgport_fd(msg->msg.reply_port);
+	if ((err = pthread_create(&id, NULL, worker, msg)) == 0) {
+		struct pollfd polls[2];
+		int status;
 
-	d(printf("gethostbyname ok?\n"));
+		polls[0].fd = fd;
+		polls[0].events = POLLIN;
+		polls[1].fd = cancel_fd;
+		polls[1].events = POLLIN;
+
+		d(printf("waiting for name return/cancellation in main process\n"));
+		do {
+			polls[0].revents = 0;
+			polls[1].revents = 0;
+			status = poll(polls, 2, -1);
+		} while (status == -1 && errno == EINTR);
+
+		if (status == -1 || (polls[1].revents & POLLIN)) {
+			if (status == -1)
+				camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s", error, g_strerror(errno));
+			else
+				camel_exception_setv(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+			
+			/* We cancel so if the thread impl is decent it causes immediate exit.
+			   We detach so we dont need to wait for it to exit if it isn't.
+			   We check the reply port incase we had a reply in the mean time, which we free later */
+			d(printf("Cancelling lookup thread and leaving it\n"));
+			msg->cancelled = 1;
+			pthread_detach(id);
+			pthread_cancel(id);
+			cancel = 1;
+		} else {
+			struct _addrinfo_msg *reply = (struct _addrinfo_msg *)e_msgport_get(reply_port);
+
+			g_assert(reply == msg);
+			d(printf("waiting for child to exit\n"));
+			pthread_join(id, NULL);
+			d(printf("child done\n"));
+		}
+	} else {
+		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, "%s: %s: %s", _("cannot create thread"), g_strerror(err));
+	}
+	e_msgport_destroy(reply_port);
+
+	return cancel;
+}
+
+#ifdef NEED_ADDRINFO
+static void *
+cs_getaddrinfo(void *data)
+{
+	struct _addrinfo_msg *msg = data;
+	int herr;
+	struct hostent h;
+	struct addrinfo *res, *last = NULL;
+	struct sockaddr_in *sin;
+	in_port_t port = 0;
+	int i;
+
+	/* This is a pretty simplistic emulation of getaddrinfo */
+
+	while ((msg->result = e_gethostbyname_r(msg->name, &h, msg->hostbufmem, msg->hostbuflen, &herr)) == ERANGE) {
+		pthread_testcancel();
+                msg->hostbuflen *= 2;
+                msg->hostbufmem = g_realloc(msg->hostbufmem, msg->hostbuflen);
+	}
 	
 	/* If we got cancelled, dont reply, just free it */
+	if (msg->cancelled)
+		goto cancel;
+
+	/* FIXME: map error numbers across */
+	if (msg->result != 0)
+		goto reply;
+
+	/* check hints matched */
+	if (msg->hints && msg->hints->ai_family && msg->hints->ai_family != h.h_addrtype) {
+		msg->result = EAI_FAMILY;
+		goto reply;
+	}
+
+	/* we only support ipv4 for this interface, even if it could supply ipv6 */
+	if (h.h_addrtype != AF_INET) {
+		msg->result = EAI_FAMILY;
+		goto reply;
+	}
+
+	/* check service mapping */
+	if (msg->service) {
+		const char *p = msg->service;
+
+		while (*p) {
+			if (*p < '0' || *p > '9')
+				break;
+			p++;
+		}
+
+		if (*p) {
+			const char *socktype = NULL;
+			struct servent *serv;
+
+			if (msg->hints && msg->hints->ai_socktype) {
+				if (msg->hints->ai_socktype == SOCK_STREAM)
+					socktype = "tcp";
+				else if (msg->hints->ai_socktype == SOCK_DGRAM)
+					socktype = "udp";
+			}
+
+			serv = getservbyname(msg->service, socktype);
+			if (serv == NULL) {
+				msg->result = EAI_NONAME;
+				goto reply;
+			}
+			port = serv->s_port;
+		} else {
+			port = htons(strtoul(msg->service, NULL, 10));
+		}
+	}
+
+	for (i=0;h.h_addr_list[i];i++) {
+		res = g_malloc0(sizeof(*res));
+		if (msg->hints) {
+			res->ai_flags = msg->hints->ai_flags;
+			if (msg->hints->ai_flags & AI_CANONNAME)
+				res->ai_canonname = g_strdup(h.h_name);
+			res->ai_socktype = msg->hints->ai_socktype;
+			res->ai_protocol = msg->hints->ai_protocol;
+		} else {
+			res->ai_flags = 0;
+			res->ai_socktype = SOCK_STREAM;	/* fudge */
+			res->ai_protocol = 0;	/* fudge */
+		}
+		res->ai_family = AF_INET;
+		res->ai_addrlen = sizeof(*sin);
+		res->ai_addr = g_malloc(sizeof(*sin));
+		sin = (struct sockaddr_in *)res->ai_addr;
+		sin->sin_family = AF_INET;
+		sin->sin_port = port;
+		memcpy(&sin->sin_addr, h.h_addr_list[i], sizeof(sin->sin_addr));
+
+		if (last == NULL) {
+			*msg->res = last = res;
+		} else {
+			last->ai_next = res;
+			last = res;
+		}
+	}
+reply:
+	e_msgport_reply((EMsg *)msg);
+	return NULL;
+cancel:
+	cs_freeinfo(msg);
+	return NULL;
+}
+#else
+static void *
+cs_getaddrinfo(void *data)
+{
+	struct _addrinfo_msg *info = data;
+
+	do {
+		info->result = getaddrinfo(info->name, info->service, info->hints, info->res);
+	} while (info->result == EAI_AGAIN);
+	
 	if (info->cancelled) {
-		g_free(info->hostbufmem);
 		g_free(info);
 	} else {
 		e_msgport_reply((EMsg *)info);
@@ -710,239 +871,186 @@ get_hostbyname(void *data)
 	
 	return NULL;
 }
+#endif /* NEED_ADDRINFO */
 
-struct hostent *
-camel_gethostbyname (const char *name, CamelException *exout)
+struct addrinfo *
+camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *hints, CamelException *ex)
 {
-	int fdmax, status, fd, cancel_fd;
-	struct _lookup_msg *msg;
-	CamelException ex;
-	
+	struct _addrinfo_msg *msg;
+	struct addrinfo *res = NULL;
+#ifndef ENABLE_IPv6
+	struct addrinfo *myhints;
+#endif
 	g_return_val_if_fail(name != NULL, NULL);
 	
 	if (camel_operation_cancel_check(NULL)) {
-		camel_exception_set (exout, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		camel_exception_set(ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
 		return NULL;
 	}
 
-	camel_exception_init(&ex);
 	camel_operation_start_transient(NULL, _("Resolving: %s"), name);
 
+	/* force ipv4 addresses only */
+#ifndef ENABLE_IPv6
+	if (hints == NULL) {
+		memset(&myhints, 0, sizeof(myhints));
+		hints = &myhints;
+	}
+
+	hints->ai_family = AF_INET;
+#endif
+
 	msg = g_malloc0(sizeof(*msg));
+	msg->name = name;
+	msg->service = service;
+	msg->hints = hints;
+	msg->res = &res;
+#ifdef NEED_ADDRINFO
 	msg->hostbuflen = 1024;
 	msg->hostbufmem = g_malloc(msg->hostbuflen);
-	msg->name = name;
-	msg->result = -1;
-	
-	cancel_fd = camel_operation_cancel_fd(NULL);
-	if (cancel_fd == -1) {
-		get_hostbyname(msg);
-	} else {
-		EMsgPort *reply_port;
-		pthread_t id;
-		fd_set rdset;
-		int err;
+#endif	
+	if (cs_waitinfo(cs_getaddrinfo, msg, _("Host lookup failed"), ex) == 0)
+		cs_freeinfo(msg);
+	else
+		res = NULL;
 
-		reply_port = msg->msg.reply_port = e_msgport_new();
-		fd = e_msgport_fd(msg->msg.reply_port);
-		if ((err = pthread_create(&id, NULL, get_hostbyname, msg)) == 0) {
-			d(printf("waiting for name return/cancellation in main process\n"));
-			do {
-				FD_ZERO(&rdset);
-				FD_SET(cancel_fd, &rdset);
-				FD_SET(fd, &rdset);
-				fdmax = MAX(fd, cancel_fd) + 1;
-				status = select(fdmax, &rdset, NULL, 0, NULL);
-			} while (status == -1 && errno == EINTR);
-
-			if (status == -1 || FD_ISSET(cancel_fd, &rdset)) {
-				if (status == -1)
-					camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
-				else
-					camel_exception_setv(&ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
-
-				/* We cancel so if the thread impl is decent it causes immediate exit.
-				   We detach so we dont need to wait for it to exit if it isn't.
-				   We check the reply port incase we had a reply in the mean time, which we free later */
-				d(printf("Cancelling lookup thread and leaving it\n"));
-				msg->cancelled = 1;
-				pthread_detach(id);
-				pthread_cancel(id);
-				msg = (struct _lookup_msg *)e_msgport_get(reply_port);
-			} else {
-				struct _lookup_msg *reply = (struct _lookup_msg *)e_msgport_get(reply_port);
-
-				g_assert(reply == msg);
-				d(printf("waiting for child to exit\n"));
-				pthread_join(id, NULL);
-				d(printf("child done\n"));
-			}
-		} else {
-			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(err));
-		}
-		e_msgport_destroy(reply_port);
-	}
-	
 	camel_operation_end(NULL);
 
-	if (!camel_exception_is_set(&ex)) {
-		if (msg->result == 0)
-			return &msg->hostbuf;
-
-		if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Host lookup failed: %s: host not found"), name);
-		else
-			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Host lookup failed: %s: unknown reason"), name);
-	}
-
-	if (msg) {
-		g_free(msg->hostbufmem);
-		g_free(msg);
-	}
-
-	camel_exception_xfer(exout, &ex);
-
-	return NULL;
+	return res;
 }
 
+void
+camel_freeaddrinfo(struct addrinfo *host)
+{
+#ifdef NEED_ADDRINFO
+	while (host) {
+		struct addrinfo *next = host->ai_next;
+
+		g_free(host->ai_canonname);
+		g_free(host->ai_addr);
+		g_free(host);
+		host = next;
+	}
+#else
+	freeaddrinfo(host);
+#endif
+}
+
+#ifdef NEED_ADDRINFO
 static void *
-get_hostbyaddr (void *data)
+cs_getnameinfo(void *data)
 {
-	struct _lookup_msg *info = data;
-	
-	while ((info->result = e_gethostbyaddr_r (info->name, info->len, info->type, &info->hostbuf,
-						  info->hostbufmem, info->hostbuflen, &info->herr)) == ERANGE) {
-		d(printf ("gethostbyaddr fialed?\n"));
-		pthread_testcancel ();
-                info->hostbuflen *= 2;
-                info->hostbufmem = g_realloc (info->hostbufmem, info->hostbuflen);
-	}
-	
-	d(printf ("gethostbyaddr ok?\n"));
-	
-	if (info->cancelled) {
-		g_free(info->hostbufmem);
-		g_free(info);
-	} else {
-		e_msgport_reply((EMsg *)info);
-	}
-	
-	return NULL;
-}
+	struct _addrinfo_msg *msg = data;
+	int herr;
+	struct hostent h;
+	struct sockaddr_in *sin = (struct sockaddr_in *)msg->addr;
 
-
-struct hostent *
-camel_gethostbyaddr (const char *addr, int len, int type, CamelException *exout)
-{
-	int fdmax, status, fd, cancel_fd;
-	struct _lookup_msg *msg;
-	CamelException ex;
-
-	g_return_val_if_fail (addr != NULL, NULL);
-	
-	if (camel_operation_cancel_check (NULL)) {
-		camel_exception_set (exout, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+	/* FIXME: error code */
+	if (msg->addr->sa_family != AF_INET) {
+		msg->result = -1;
 		return NULL;
 	}
 
-	camel_exception_init(&ex);
-	camel_operation_start_transient (NULL, _("Resolving address"));
+	/* FIXME: honour getnameinfo flags: do we care, not really */
+
+	while ((msg->result = e_gethostbyaddr_r((const char *)&sin->sin_addr, sizeof(sin->sin_addr), AF_INET, &h,
+						msg->hostbufmem, msg->hostbuflen, &herr)) == ERANGE) {
+		pthread_testcancel ();
+                msg->hostbuflen *= 2;
+                msg->hostbufmem = g_realloc(msg->hostbufmem, msg->hostbuflen);
+	}
 	
-	msg = g_malloc0 (sizeof (struct _lookup_msg));
-	msg->hostbuflen = 1024;
-	msg->hostbufmem = g_malloc (msg->hostbuflen);
-	msg->name = addr;
-	msg->len = len;
-	msg->type = type;
-	msg->result = -1;
-	
-	cancel_fd = camel_operation_cancel_fd (NULL);
-	if (cancel_fd == -1) {
-		get_hostbyaddr (msg);
-	} else {
-		EMsgPort *reply_port;
-		pthread_t id;
-		fd_set rdset;
-		int err;
+	if (msg->cancelled)
+		goto cancel;
 
-		reply_port = msg->msg.reply_port = e_msgport_new ();
-		fd = e_msgport_fd (msg->msg.reply_port);
-		if ((err = pthread_create (&id, NULL, get_hostbyaddr, msg)) == 0) {
-			d(printf("waiting for name return/cancellation in main process\n"));
-			do {
-				FD_ZERO(&rdset);
-				FD_SET(cancel_fd, &rdset);
-				FD_SET(fd, &rdset);
-				fdmax = MAX(fd, cancel_fd) + 1;
-				status = select (fdmax, &rdset, NULL, 0, NULL);
-			} while (status == -1 && errno == EINTR);
-			
-			if (status == -1 || FD_ISSET(cancel_fd, &rdset)) {
-				if (status == -1)
-					camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Failure in name lookup: %s"), g_strerror(errno));
-				else
-					camel_exception_setv(&ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
-
-				/* We cancel so if the thread impl is decent it causes immediate exit.
-				   We detach so we dont need to wait for it to exit if it isn't.
-				   We check the reply port incase we had a reply in the mean time, which we free later */
-				d(printf("Cancelling lookup thread and leaving it\n"));
-				msg->cancelled = 1;
-				pthread_detach(id);
-				pthread_cancel(id);
-				msg = (struct _lookup_msg *)e_msgport_get(reply_port);
-			} else {
-				struct _lookup_msg *reply = (struct _lookup_msg *)e_msgport_get(reply_port);
-
-				g_assert(reply == msg);
-				d(printf("waiting for child to exit\n"));
-				pthread_join(id, NULL);
-				d(printf("child done\n"));
-			}
+	if (msg->host) {
+		g_free(msg->host);
+		if (msg->result == 0 && h.h_name && h.h_name[0]) {
+			msg->host = g_strdup(h.h_name);
 		} else {
-			camel_exception_setv(&ex, CAMEL_EXCEPTION_SYSTEM, _("Host lookup failed: cannot create thread: %s"), g_strerror(err));
+			unsigned char *in = (unsigned char *)&sin->sin_addr;
+			
+			/* sin_addr is always network order which is big-endian */
+			msg->host = g_strdup_printf("%u.%u.%u.%u", in[0], in[1], in[2], in[3]);
 		}
-
-		
-		e_msgport_destroy (reply_port);
 	}
+
+	/* we never actually use this anyway */
+	if (msg->serv)
+		sprintf(msg->serv, "%d", sin->sin_port);
+
+	e_msgport_reply((EMsg *)msg);
+	return NULL;
+cancel:
+	cs_freeinfo(msg);
+	return NULL;
+}
+#else
+static void *
+cs_getnameinfo(void *data)
+{
+	struct _addrinfo_msg *msg = data;
+
+	/* there doens't appear to be a return code which says host or serv buffers are too short, lengthen them */
+	do {
+		msg->result = getnameinfo(msg->addr, msg->addrlen, msg->host, msg->hostlen, msg->serv, msg->servlen, msg->flags);
+	} while (msg->result == EAI_AGAIN);
 	
-	camel_operation_end (NULL);
-	
-	if (!camel_exception_is_set(&ex)) {
-		if (msg->result == 0)
-			return &msg->hostbuf;
-
-		if (msg->herr == HOST_NOT_FOUND || msg->herr == NO_DATA)
-			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Host lookup failed: host not found"));
-		else
-			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM,
-					      _("Host lookup failed: unknown reason"));
-	}
-
-	if (msg) {
-		g_free(msg->hostbufmem);
-		g_free(msg);
-	}
-
-	camel_exception_xfer(exout, &ex);
+	if (msg->cancelled)
+		cs_freeinfo(msg);
+	else
+		e_msgport_reply((EMsg *)msg);
 
 	return NULL;
 }
+#endif
 
-void camel_free_host(struct hostent *h)
+int
+camel_getnameinfo(const struct sockaddr *sa, socklen_t salen, char **host, char **serv, int flags, CamelException *ex)
 {
-	struct _lookup_msg *msg;
+	struct _addrinfo_msg *msg;
+	int result;
 
-	g_return_if_fail(h != NULL);
+	if (camel_operation_cancel_check(NULL)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL, _("Cancelled"));
+		return -1;
+	}
 
-	/* yeah this looks ugly but it is safe.  we passed out a reference to inside our structure, this maps it
-	   to the base structure, so we can free everything right without having to keep track of it separately */
-	msg = (struct _lookup_msg *)(((char *)h) - STRUCT_OFFSET(struct _lookup_msg, hostbuf));
+	camel_operation_start_transient(NULL, _("Resolving address"));
 
-	g_free(msg->hostbufmem);
+	msg = g_malloc0(sizeof(*msg));
+	msg->addr = sa;
+	msg->addrlen = salen;
+	if (host) {
+		msg->hostlen = NI_MAXHOST;
+		msg->host = g_malloc(msg->hostlen);
+		msg->host[0] = 0;
+	}
+	if (serv) {
+		msg->servlen = NI_MAXSERV;
+		msg->serv = g_malloc(msg->servlen);
+		msg->serv[0] = 0;
+	}
+	msg->flags = flags;
+#ifdef NEED_ADDRINFO
+	msg->hostbuflen = 1024;
+	msg->hostbufmem = g_malloc(msg->hostbuflen);
+#endif
+	cs_waitinfo(cs_getnameinfo, msg, _("Name lookup failed"), ex);
+
+	result = msg->result;
+
+	if (host)
+		*host = g_strdup(msg->host);
+	if (serv)
+		*serv = g_strdup(msg->serv);
+
+	g_free(msg->host);
+	g_free(msg->serv);
 	g_free(msg);
+
+	camel_operation_end(NULL);
+
+	return result;
 }
+

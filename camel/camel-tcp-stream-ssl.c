@@ -80,11 +80,11 @@ static int stream_close  (CamelStream *stream);
 
 static PRFileDesc *enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd);
 
-static int stream_connect    (CamelTcpStream *stream, struct hostent *host, int port);
+static int stream_connect    (CamelTcpStream *stream, struct addrinfo *host);
 static int stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data);
 static int stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data);
-static CamelTcpAddress *stream_get_local_address (CamelTcpStream *stream);
-static CamelTcpAddress *stream_get_remote_address (CamelTcpStream *stream);
+static struct sockaddr *stream_get_local_address (CamelTcpStream *stream, socklen_t *len);
+static struct sockaddr *stream_get_remote_address (CamelTcpStream *stream, socklen_t *len);
 
 struct _CamelTcpStreamSSLPrivate {
 	PRFileDesc *sockfd;
@@ -1024,30 +1024,58 @@ enable_ssl (CamelTcpStreamSSL *ssl, PRFileDesc *fd)
 }
 
 static int
-stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
+sockaddr_to_praddr(struct sockaddr *s, int len, PRNetAddr *addr)
+{
+	/* We assume the ip addresses are the same size - they have to be anyway.
+	   We could probably just use memcpy *shrug* */
+
+	memset(addr, 0, sizeof(*addr));
+
+	if (s->sa_family == AF_INET) {
+		struct sockaddr_in *sin = (struct sockaddr_in *)s;
+
+		if (len < sizeof(*sin))
+			return -1;
+
+		addr->inet.family = PR_AF_INET;
+		addr->inet.port = sin->sin_port;
+		memcpy(&addr->inet.ip, &sin->sin_addr, sizeof(addr->inet.ip));
+
+		return 0;
+	}
+#ifdef ENABLE_IPv6
+	else if (s->sa_family == PR_AF_INET6) {
+		struct sockaddr_in6 *sin = (struct sockaddr_in6 *)s;
+
+		if (len < sizeof(*sin))
+			return -1;
+
+		addr->ipv6.family = PR_AF_INET6;
+		addr->ipv6.port = sin->sin6_port;
+		addr->ipv6.flowinfo = sin->sin6_flowinfo;
+		memcpy(&addr->ipv6.ip, &sin->sin6_addr, sizeof(addr->ipv6.ip));
+		addr->ipv6.scope_id = sin->sin6_scope_id;
+
+		return 0;
+	}
+#endif
+
+	return -1;
+}
+
+static int
+socket_connect(CamelTcpStream *stream, struct addrinfo *host)
 {
 	CamelTcpStreamSSL *ssl = CAMEL_TCP_STREAM_SSL (stream);
 	PRNetAddr netaddr;
 	PRFileDesc *fd, *cancel_fd;
-	
-	g_return_val_if_fail (host != NULL, -1);
-	
-	memset ((void *) &netaddr, 0, sizeof (PRNetAddr));
-#ifdef ENABLE_IPv6
-	if (host->h_addrtype == AF_INET6)
-		memcpy (&netaddr.ipv6.ip, host->h_addr, sizeof (netaddr.ipv6.ip));
-	else
-		memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
-#else
-	memcpy (&netaddr.inet.ip, host->h_addr, sizeof (netaddr.inet.ip));
-#endif
-	
-	if (PR_InitializeNetAddr (PR_IpAddrNull, port, &netaddr) == PR_FAILURE) {
-		set_errno (PR_GetError ());
+
+	if (sockaddr_to_praddr(host->ai_addr, host->ai_addrlen, &netaddr) != 0) {
+		errno = EINVAL;
 		return -1;
 	}
 	
-	fd = PR_OpenTCPSocket (host->h_addrtype);
+	fd = PR_OpenTCPSocket(netaddr.raw.family);
 	if (fd == NULL) {
 		set_errno (PR_GetError ());
 		return -1;
@@ -1126,6 +1154,17 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 	return 0;
 }
 
+static int
+stream_connect(CamelTcpStream *stream, struct addrinfo *host)
+{
+	while (host) {
+		if (socket_connect(stream, host) == 0)
+			return 0;
+		host = host->ai_next;
+	}
+
+	return -1;
+}
 
 static int
 stream_getsockopt (CamelTcpStream *stream, CamelSockOptData *data)
@@ -1157,56 +1196,61 @@ stream_setsockopt (CamelTcpStream *stream, const CamelSockOptData *data)
 	return 0;
 }
 
-static CamelTcpAddress *
-stream_get_local_address (CamelTcpStream *stream)
+static struct sockaddr *
+sockaddr_from_praddr(PRNetAddr *addr, socklen_t *len)
 {
-	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
-	int family, length;
-	gpointer address;
-	PRNetAddr addr;
-	
-	PR_GetSockName (sockfd, &addr);
-	
-	if (addr.inet.family == PR_AF_INET) {
-		family = CAMEL_TCP_ADDRESS_IPv4;
-		address = &addr.inet.ip;
-		length = 4;
+	/* We assume the ip addresses are the same size - they have to be anyway */
+
+	if (addr->raw.family == PR_AF_INET) {
+		struct sockaddr_in *sin = g_malloc0(sizeof(*sin));
+
+		sin->sin_family = AF_INET;
+		sin->sin_port = addr->inet.port;
+		memcpy(&sin->sin_addr, &addr->inet.ip, sizeof(sin->sin_addr));
+		*len = sizeof(*sin);
+
+		return (struct sockaddr *)sin;
+	}
 #ifdef ENABLE_IPv6
-	} else if (addr.inet.family == PR_AF_INET6) {
-		family = CAMEL_TCP_ADDRESS_IPv6;
-		address = &addr.ipv6.ip;
-		length = 16;
+	else if (addr->raw.family == PR_AF_INET6) {
+		struct sockaddr_in6 *sin = g_malloc0(sizeof(*sin));
+
+		sin->sin6_family = AF_INET6;
+		sin->sin6_port = addr->ipv6.port;
+		sin->sin6_flowinfo = addr->ipv6.flowinfo;
+		memcpy(&sin->sin6_addr, &addr->ipv6.ip, sizeof(sin->sin6_addr));
+		sin->sin6_scope_id = addr->ipv6.scope_id;
+		*len = sizeof(*sin);
+
+		return (struct sockaddr *)sin;		
+	}
 #endif
-	} else
-		return NULL;
-	
-	return camel_tcp_address_new (family, addr.inet.port, length, address);
+
+	return NULL;
 }
 
-static CamelTcpAddress *
-stream_get_remote_address (CamelTcpStream *stream)
+static struct sockaddr *
+stream_get_local_address(CamelTcpStream *stream, socklen_t *len)
 {
 	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
-	int family, length;
-	gpointer address;
 	PRNetAddr addr;
 	
-	PR_GetPeerName (sockfd, &addr);
-	
-	if (addr.inet.family == PR_AF_INET) {
-		family = CAMEL_TCP_ADDRESS_IPv4;
-		address = &addr.inet.ip;
-		length = sizeof (addr.inet.ip);
-#ifdef ENABLE_IPv6
-	} else if (addr.inet.family == PR_AF_INET6) {
-		family = CAMEL_TCP_ADDRESS_IPv6;
-		address = &addr.ipv6.ip;
-		length = sizeof (addr.ipv6.ip);
-#endif
-	} else
+	if (PR_GetSockName(sockfd, &addr) != PR_SUCCESS)
 		return NULL;
+
+	return sockaddr_from_praddr(&addr, len);
+}
+
+static struct sockaddr *
+stream_get_remote_address (CamelTcpStream *stream, socklen_t *len)
+{
+	PRFileDesc *sockfd = CAMEL_TCP_STREAM_SSL (stream)->priv->sockfd;
+	PRNetAddr addr;
 	
-	return camel_tcp_address_new (family, addr.inet.port, length, address);
+	if (PR_GetPeerName(sockfd, &addr) != PR_SUCCESS)
+		return NULL;
+
+	return sockaddr_from_praddr(&addr, len);
 }
 
 #endif /* HAVE_NSS */
