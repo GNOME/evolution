@@ -546,6 +546,14 @@ cursor_changed (GtkTreeView *treeview, RuleEditor *re)
 static void
 double_click (GtkTreeView *treeview, GtkTreePath *path, GtkTreeViewColumn *column, RuleEditor *re)
 {
+	GtkTreeSelection *selection;
+	GtkTreeModel *model;
+	GtkTreeIter iter;
+	
+	selection = gtk_tree_view_get_selection (re->list);
+	if (gtk_tree_selection_get_selected (selection, &model, &iter)) 
+		gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &re->current, -1);
+
 	if (re->current)
 		rule_edit ((GtkWidget *) treeview, re);
 }

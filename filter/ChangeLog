@@ -1,3 +1,10 @@
+2005-02-17  Harry Lu  <harry.lu@sun.com>
+
+	Fix for 72676.
+
+	* rule-editor.c: (double_click): call gtk_tree_selection_get_selected
+	to see if there is a row selected.
+
 2005-02-09  Hans Petter Jansson  <hpj@novell.com>
 
 	* Makefile.am: Install shared libraries in privlibdir.
