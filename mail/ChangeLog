@@ -1,3 +1,8 @@
+2001-08-10  Peter Williams  <peterw@ximian.com>
+
+	* mail-accounts.c (mail_delete): Don't remove the account from the
+	tree if it's not enabled.
+
 2001-08-10  Jason Leach  <jleach@ximian.com>
 
 	* mail-ops.c (remove_folder_get): Remove all the messages from a

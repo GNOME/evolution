@@ -280,7 +280,7 @@ mail_delete (GtkButton *button, gpointer data)
 		account = gtk_clist_get_row_data (dialog->mail_accounts, sel);
 		
 		/* remove it from the folder-tree in the shell */
-		if (account->source && account->source->url)
+		if (account->source && account->source->url && account->source->enabled)
 			mail_remove_storage_by_uri (account->source->url);
 		
 		/* remove it from the config file */
