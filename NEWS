@@ -1,7 +1,13 @@
-Version 0.11.0 "No code name yet", 2001-07-12
+Version 0.11 "No code name yet", 2001-07-12
 ---------------------------------------------
 
 Shell:
+
+  - Drag and drop handling (Chris T.)
+
+  - Online/Offline operation (Ettore)
+
+  - Numerous code cleanups and bug fixes (Ettore & Jason)
 
 Mail:
 
@@ -57,20 +63,41 @@ Mail:
 
   - Let you show and hide attached message/rfc822's (Peter)
 
-  - Implemented Create/Remove/Move Folder. (JAson, Jeff)
+  - Implemented Create/Remove/Move Folder. (Jason, Jeff)
 
   - Many bug fixes all around.  (Michael, Jeff, Danw, Peter, Trow and others)
 
 Addressbook:
 
-Calendar:
+  - Cut/Copy/Paste (Chris T.)
 
-Tasks:
+  - Improvements to address completion, matching and merging (Jon, Chris L.)
+
+  - LDAP improvements (Chris T.)
+
+  - Numerous bug fixing (Jon, Chris L., Chris T.)
+
+Calendar & Tasks:
+
+  - Timezone support (Damon)
+
+  - Cut/Copy/Paste (Rodrigo)
+
+  - Event/Task editor rewrite (Federico & JP)
+
+  - Improved Printing (Damon)
+
+  - Itip/Imip improvements (JP)
 
 Importers: 
-	Fixes, bug fixes and more fixes. (Iain & Jason)
+
+  - Fixes, bug fixes and more fixes. (Iain & Jason)
 
 General:
+
+  - New graphics/icons (Jakub & Tuomas)
+
+  - UI Improvements (Anna & Taylor)
 
   - 'make distcheck' should hopefully be working again (Peter)
 
@@ -78,15 +105,24 @@ General:
     with a large and important warning message (Peter)
 
 My Evolution:
-	Completely new and prettier My Evolution (nee Executive Summary). 
-	Pretty graphics, Mail, Calendar and Task summaries to tell you what
-	you need to do today. Weather forecasts so you don't need to look out
-	the window (I dunno, hackers seem to dislike looking out the window
-	or something...), and news feeds so you don't need to go to websites
-	to see what news articles you don't want to read. 
-	And just for kicks, you can print it out and make it look like you've
-	got lots of stuff to do, when really you're just trying to pass the 
-	time by playing Aisleriot or GLine all day (Iain & Jakub's GFX)
+
+  - Completely new and prettier My Evolution (nee Executive Summary) 
+
+  - Pretty graphics (Jakub)
+
+  - Mail, Calendar and Task summaries to tell you what you need to do
+    today.
+
+  - Weather forecasts so you don't need to look out the window (I
+    dunno, hackers seem to dislike looking out the window or
+    something...)
+
+  - News feeds so you don't need to go to websites to see what news
+    articles you don't want to read.
+	
+  - Printing, you can print it out and make it look like you've got
+    lots of stuff to do when really you're just trying to pass the 
+    time by playing Aisleriot or GLine all day (Iain)
 
 Version 0.10 "Tasmanian Devil", 2001-04-26
 ------------------------------------------
