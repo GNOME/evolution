@@ -1,3 +1,10 @@
+2003-01-26  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: in the --enable-pilot-conduits stanza, use
+	PKG_CHECK_MODULES to get the gnome-pilot-2.0 (and therefore
+	pilot-link) cflags/libs before doing our utf-8 check.  also,
+	enable the addressbook/calendar CONDUIT_{CFLAGS/LIBS} variables.
+
 2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in (evolutionuidir): Define iconsdir.
