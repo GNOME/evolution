@@ -29,6 +29,7 @@ enum {
 	ARG_0,
 	ARG_BOOK,
 	ARG_QUERY,
+	ARG_EDITABLE,
 };
 
 static void
@@ -93,24 +94,26 @@ addressbook_set_value_at (ETableModel *etc, int col, int row, const void *val)
 {
 	EAddressbookModel *addressbook = E_ADDRESSBOOK_MODEL(etc);
 	ECard *card;
-	if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
-		return;
-	e_card_simple_set(addressbook->data[row],
-			  col + 1,
-			  val);
-	gtk_object_get(GTK_OBJECT(addressbook->data[row]),
-		       "card", &card,
-		       NULL);
-	e_book_commit_card(addressbook->book, card, NULL, NULL);
-
-	e_table_model_cell_changed(etc, col, row);
+	if (addressbook->editable) {
+		if ( col >= E_CARD_SIMPLE_FIELD_LAST - 1|| row >= addressbook->data_count )
+			return;
+		e_card_simple_set(addressbook->data[row],
+				  col + 1,
+				  val);
+		gtk_object_get(GTK_OBJECT(addressbook->data[row]),
+			       "card", &card,
+			       NULL);
+		e_book_commit_card(addressbook->book, card, NULL, NULL);
+		
+		e_table_model_cell_changed(etc, col, row);
+	}
 }
 
 /* This function returns whether a particular cell is editable. */
 static gboolean
 addressbook_is_cell_editable (ETableModel *etc, int col, int row)
 {
-	return TRUE;
+	return E_ADDRESSBOOK_MODEL(etc)->editable;
 }
 
 static gint
@@ -219,6 +222,8 @@ e_addressbook_model_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_BOOK);
 	gtk_object_add_arg_type ("EAddressbookModel::query", GTK_TYPE_STRING,
 				 GTK_ARG_READWRITE, ARG_QUERY);
+	gtk_object_add_arg_type ("EAddressbookModel::editable", GTK_TYPE_BOOL,
+				 GTK_ARG_READWRITE, ARG_EDITABLE);
 	
 	model_class->column_count = addressbook_col_count;
 	model_class->row_count = addressbook_row_count;
@@ -246,6 +251,7 @@ e_addressbook_model_init (GtkObject *object)
 	model->modify_card_id = 0;
 	model->data = NULL;
 	model->data_count = 0;
+	model->editable = TRUE;
 }
 
 static void
@@ -339,6 +345,9 @@ e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (model->get_view_idle == 0)
 			model->get_view_idle = g_idle_add((GSourceFunc)get_view, model);
 		break;
+	case ARG_EDITABLE:
+		model->editable = GTK_VALUE_BOOL (*arg);
+		break;
 	}
 }
 
@@ -355,6 +364,9 @@ e_addressbook_model_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_QUERY:
 		GTK_VALUE_STRING (*arg) = g_strdup(e_addressbook_model->query);
+		break;
+	case ARG_EDITABLE:
+		GTK_VALUE_BOOL (*arg) = e_addressbook_model->editable;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;

@@ -34,6 +34,8 @@ typedef struct {
 	int data_count;
 
 	int create_card_id, remove_card_id, modify_card_id;
+
+	guint editable : 1;
 } EAddressbookModel;
 
 

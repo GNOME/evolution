@@ -135,6 +135,9 @@ e_addressbook_create_ebook_table(char *name, char *string1, char *string2, int n
 	char *uri;
 
 	model = e_addressbook_model_new();
+	gtk_object_set(GTK_OBJECT(model),
+		       "editable", FALSE,
+		       NULL);
 	cell_left_just = e_cell_text_new (model, NULL, GTK_JUSTIFY_LEFT);
 
 	header = e_table_header_new ();

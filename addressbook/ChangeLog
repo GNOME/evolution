@@ -1,3 +1,11 @@
+2000-07-08  Christopher James Lahey  <clahey@helixcode.com>
+
+	* gui/component/e-addressbook-model.c,
+	gui/component/e-addressbook-model.h: Added an "editable" argument.
+
+	* gui/component/select-names/e-select-names.c: Set our
+	EAddressModel to not be editable.
+
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* gui/component/select-names/e-select-names.c: Changed to line
