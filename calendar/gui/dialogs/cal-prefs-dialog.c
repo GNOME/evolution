@@ -682,7 +682,6 @@ update_config (DialogData *dialog_data)
 
 	/* Done */
 
-	calendar_config_write ();
 	update_all_config_settings ();
 	e_tasks_update_all_config_settings ();
 }

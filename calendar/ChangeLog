@@ -1,3 +1,19 @@
+2002-08-27  Rodrigo Moya <rodrigo@ximian.com>
+
+	* gui/calendar-config.c: use EConfigListener instead of direct access
+	to the bonobo-conf database.
+	(calendar_config_init): create the EConfigListener here, and install
+	an atexit function to unref the config listener object.
+	(config_read, property_change_cb, calendar_config_write,
+	 calendar_config_write_on_exit): removed unneeded functions.
+	(calendar_config_get_*, calendar_config_set_*): changed to make use of
+	EConfigListener directly.
+
+	* gui/main.c (main): removed call to calendar_config_write_on_exit.
+
+	* gui/dialogs/cal-prefs-dialog.c (update_config): removed call to
+	calendar_config_write.
+
 2002-08-26  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #12326

@@ -1891,7 +1891,8 @@ add_alarms (const char *uri)
 	an = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify", 0, NULL, &ev);
 
 	if (BONOBO_EX (&ev)) {
-		g_message ("add_alarms(): Could not activate the alarm notification service");
+		g_warning ("add_alarms(): Could not activate the alarm notification service: %s",
+			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);
 		return;
 	}

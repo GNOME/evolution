@@ -169,7 +169,6 @@ main (int argc, char **argv)
 	bonobo_main ();
 
 	alarm_done ();
-	calendar_config_write_on_exit ();
 
 	gnome_vfs_shutdown ();
 
