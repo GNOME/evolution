@@ -1,3 +1,8 @@
+2002-10-16  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer-select-file.c (select_file_internal): Mark the
+	file selector modal.  Quick fix for bug #32256.
+
 2002-10-04  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (attach_to_multipart): Set

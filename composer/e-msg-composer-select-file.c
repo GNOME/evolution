@@ -213,6 +213,7 @@ select_file_internal (EMsgComposer *composer,
 		gtk_object_set_data_full (GTK_OBJECT (composer),
 					  "e-msg-composer-file-selection-info", info,
 					  file_selection_info_destroy_notify);
+		gtk_window_set_modal((GtkWindow *)info->widget, TRUE);
 	}
 	
 	if (GTK_WIDGET_VISIBLE (info->widget))
