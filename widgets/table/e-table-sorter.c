@@ -14,6 +14,8 @@
 #include "gal/util/e-util.h"
 #include "e-table-sorter.h"
 
+#define d(x)
+
 /* The arguments we take */
 enum {
 	ARG_0,
@@ -175,6 +177,7 @@ ets_model_cell_changed (ETableModel *etm, int col, int row, ETableSorter *ets)
 static void
 ets_sort_info_changed (ETableSortInfo *info, ETableSorter *ets)
 {
+	printf ("sort info changed\n");
 	ets_clean(ets);
 }
 
@@ -222,6 +225,204 @@ ets_clean(ETableSorter *ets)
 	ets->backsorted = NULL;
 
 	ets->needs_sorting = -1;
+}
+
+struct _group_info {
+	char *group;
+	int row;
+};
+
+struct _rowinfo {
+	int row;
+	struct _subinfo *subinfo;
+	struct _group_info *groupinfo;
+};
+
+struct _subinfo {
+	int start;
+	GArray *rowsort;	/* an array of row info's */
+};
+
+static int
+qsort_callback_complex(const void *data1, const void *data2)
+{
+	gint row1 = ((struct _rowinfo *)data1)->row;
+	gint row2 = ((struct _rowinfo *)data2)->row;
+	int j;
+	int sort_count = e_table_sort_info_sorting_get_count(ets_closure->sort_info);
+	int comp_val = 0;
+	int ascending = 1;
+	for (j = 0; j < sort_count; j++) {
+		comp_val = (*(compare_closure[j]))(vals_closure[cols_closure * row1 + j], vals_closure[cols_closure * row2 + j]);
+		ascending = ascending_closure[j];
+		if (comp_val != 0)
+			break;
+	}
+	if (comp_val == 0) {
+		if (row1 < row2)
+			comp_val = -1;
+		if (row1 > row2)
+			comp_val = 1;
+	}
+	if (!ascending)
+		comp_val = -comp_val;
+	return comp_val;
+}
+
+/* builds the info needed to sort everything */
+static struct _subinfo *
+ets_sort_build_subset(ETableSorter *ets, struct _group_info *groupinfo, int start, int *end)
+{
+	int rows = e_table_model_row_count (ets->source);
+	int i, lastinsert;
+	GArray *rowsort = g_array_new(0, 0, sizeof(struct _rowinfo));
+	struct _subinfo *subinfo, *newsub;
+	char *id, *newid;
+	int idlen, newidlen;
+	int cmp;
+	int cmplen;
+
+	subinfo = g_malloc0(sizeof(*subinfo));
+	subinfo->rowsort = rowsort;
+	subinfo->start = start;
+	lastinsert = -1;
+	id = groupinfo[start].group;
+	newid = strrchr(id, '/');
+	idlen = strlen(id);
+	if (newid)
+		cmplen = newid-id;
+	else
+		cmplen = idlen;
+	d(printf("%d scanning level %s\n", start, id));
+	for (i=start;i<rows;i++) {
+		newid = groupinfo[i].group;
+		newidlen = strlen(newid);
+		d(printf("%d checking group %s\n", start, newid));
+		cmp = strncmp(id, newid, cmplen);
+		/* check for common parent */
+		if (idlen == newidlen && cmp == 0) {
+			struct _rowinfo rowinfo;
+
+			d(printf("%d Same parent\n", start));
+			rowinfo.row = groupinfo[i].row;
+			rowinfo.subinfo = NULL;
+			rowinfo.groupinfo = &groupinfo[i];
+			lastinsert = rowsort->len;
+			g_array_append_val(rowsort, rowinfo);
+#ifdef DEBUG
+			total++;
+#endif
+		} else if (newidlen > idlen) {
+			/* must be a new subtree */
+			d(printf("%d checking subtree instead\n", start));
+			newsub = ets_sort_build_subset(ets, groupinfo, i, &i);
+			d(printf("found %d nodes in subtree\n", newsub->rowsort->len));
+			g_array_index(rowsort, struct _rowinfo, lastinsert).subinfo = newsub;
+		} else {
+			i--;
+			break;
+		}
+	}
+	if (end)
+		*end = i;
+	d(printf("finished level %s start was %d end was %d\n", id, start, i));
+	return subinfo;
+}
+
+/* sort each level, and then sort each level below that level (once we know
+   where the sublevel will fit in the overall list) */
+static int
+ets_sort_subset(ETableSorter *ets, struct _subinfo *subinfo, int startoffset)
+{
+	GArray *rowsort = subinfo->rowsort;
+	int offset, i;
+
+	d(printf("sorting subset start %d rows %d\n", startoffset, rowsort->len));
+
+	/* first, sort the actual data */
+	qsort(rowsort->data, rowsort->len, sizeof(struct _rowinfo), qsort_callback_complex);
+
+	/* then put it back in the map table, where appropriate */
+	offset = startoffset;
+	for (i=0;i<rowsort->len;i++) {
+		struct _rowinfo *rowinfo;
+
+		d(printf("setting offset %d\n", offset));
+
+		rowinfo = &g_array_index(rowsort, struct _rowinfo, i);
+		ets->sorted[offset] = rowinfo->row;
+		if (rowinfo->subinfo) {
+			offset = ets_sort_subset(ets, rowinfo->subinfo, offset+1);
+		} else
+			offset += 1;
+	}
+	d(printf("end sort subset start %d\n", startoffset));
+
+	return offset;
+}
+
+static void
+ets_sort_free_subset(ETableSorter *ets, struct _subinfo *subinfo)
+{
+	int i;
+
+	for (i=0;i<subinfo->rowsort->len;i++) {
+		struct _rowinfo *rowinfo;
+
+		rowinfo = &g_array_index(subinfo->rowsort, struct _rowinfo, i);
+		if (rowinfo->subinfo)
+			ets_sort_free_subset(ets, rowinfo->subinfo);
+	}
+	g_array_free(subinfo->rowsort, TRUE);
+	g_free(subinfo);
+}
+
+static int
+sort_groups_compare(const void *ap, const void *bp)
+{
+	struct _group_info *a = (struct _group_info *)ap;
+	struct _group_info *b = (struct _group_info *)bp;
+
+	return strcmp(a->group, b->group);
+}
+
+/* use the sort group to select subsorts */
+static void
+ets_sort_by_group (ETableSorter *ets)
+{
+	int rows = e_table_model_row_count (ets->source);
+	struct _group_info *groups;
+	struct _subinfo *subinfo;
+	int i;
+
+	d(printf("sorting %d rows\n", rows));
+
+	if (rows == 0)
+		return;
+
+	/* get all the rows' sort groups */
+	groups = g_malloc(sizeof(struct _group_info) * rows);
+	for (i=0;i<rows;i++) {
+		groups[i].row = i;
+		groups[i].group = g_strdup(e_table_model_row_sort_group(ets->source, groups[i].row));
+	}
+
+	/* sort the group info */
+	qsort(groups, rows, sizeof(struct _group_info), sort_groups_compare);
+
+	d(printf("sorted groups:\n");
+	for (i=0;i<rows;i++) {
+		printf(" %s\n", groups[i].group);
+	});
+	
+	/* now sort based on the group info */
+	subinfo = ets_sort_build_subset(ets, groups, 0, NULL);
+	for (i=0;i<rows;i++) {
+		g_free(groups[i].group);
+	}
+	g_free(groups);
+	ets_sort_subset(ets, subinfo, 0);
+	ets_sort_free_subset(ets, subinfo);
 }
 
 static void
@@ -274,7 +475,13 @@ ets_sort(ETableSorter *ets)
 		compare_closure[j] = col->compare;
 		ascending_closure[j] = column.ascending;
 	}
-	qsort(ets->sorted, rows, sizeof(int), qsort_callback);
+
+	if (e_table_model_has_sort_group (ets->source)) {
+		ets_sort_by_group (ets);
+	}
+	else {
+		qsort(ets->sorted, rows, sizeof(int), qsort_callback);
+	}
 
 	g_free(vals_closure);
 	g_free(ascending_closure);
