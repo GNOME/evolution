@@ -38,6 +38,17 @@
 #include <camel/camel-exception.h>
 #include <camel/camel-mime-parser.h>
 #include <camel/camel-mime-part.h>
+#include <camel/camel-mime-message.h>
+#include "mail-tools.h"
+
+#define IMPORTER_DEBUG
+#ifdef IMPORTER_DEBUG
+#define IN g_print ("=====> %s (%d)\n", __FUNCTION__, __LINE__)
+#define OUT g_print ("<==== %s (%d)\n", __FUNCTION__, __LINE__)
+#else
+#define IN
+#define OUT
+#endif
 
 #define MBOX_FACTORY_IID "OAFIID:GNOME_Evolution_Mail_Mbox_ImporterFactory"
 
@@ -49,6 +60,7 @@ typedef struct {
 	CamelMimeParser *mp;
 } MboxImporter;
 
+void mail_importer_module_init (void);
 
 /* EvolutionImporter methods */
 
@@ -69,6 +81,7 @@ process_item_fn (EvolutionImporter *eimporter,
 		CamelMimeMessage *msg;
 		CamelMessageInfo *info;
 
+		IN;
 		msg = camel_mime_message_new ();
 		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg),
 							   mbi->mp) == -1) {
@@ -86,12 +99,19 @@ process_item_fn (EvolutionImporter *eimporter,
 			g_warning ("Failed message %d", mbi->num);
 			done = TRUE;
 		}
+		OUT;
 	} else {
+		IN;
 		/* all messages have now been imported */
 		camel_folder_sync (importer->folder, FALSE, ex);
 		camel_folder_thaw (importer->folder);
 		importer->frozen = FALSE;
 		done = TRUE;
+		OUT;
+	}
+
+	if (!done) {
+		camel_mime_parser_step (mbi->mp, 0, 0);
 	}
 
 	camel_exception_free (ex);
