@@ -60,7 +60,29 @@ Addressbook:
 
 Calendar & Tasks:
 
-  - Show icons for categories.  (Rodrigo)
+  - Show icons for categories (Rodrigo).
+
+  - Multiple selections for cut/copy/paste in task list (Rodrigo).
+
+  - Added missing underlined shortcuts for dialogs (Taylor).
+
+  - Many timezone-related fixes (Damon, Federico).
+
+  - Alarm notification dialogs (Federico).
+
+  - iTIP and iMIP ongoing work (JP).
+
+  - Consistency & cosmetic fixes for dialogs and menus (Damon, Federico).
+
+  - You can now create new calendar/tasks folders in the shell (Ettore).
+
+  - Printing fixes (Damon).
+
+  - Added a search bar for tasks folders (Federico).
+
+  - The task pad in the day view is now filtered as well (Federico).
+
+  - Timezone support for conduits (JP).
 
   - General bug fixes.  (Federico, JP, Damon, Rodrigo)
 
