@@ -23,8 +23,6 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
-struct _MailComponent *mc;
-
 typedef struct _MailImporter MailImporter;
 struct _MailImporter {
 	struct _CamelFolder *folder;

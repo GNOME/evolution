@@ -1,3 +1,7 @@
+2005-01-31  Hans Petter Jansson  <hpj@novell.com>
+
+	* importers/mail-importer.h (mc): Remove unused global symbol.
+
 2005-01-28  Jeffrey Stedfast  <fejj@novell.com>
 
 	* message-list.c (message_list_set_folder): Reset the normalised
