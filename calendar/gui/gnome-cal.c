@@ -225,6 +225,28 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 }
 
 
+static void
+gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
+{
+	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view),
+				object, flags);
+	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view),
+				object, flags);
+	month_view_update (MONTH_VIEW (cal->month_view), object, flags);
+	year_view_update (YEAR_VIEW (cal->year_view), object, flags);
+}
+
+
+static void
+gnome_calendar_changed_cb (GtkWidget *cal_client,
+			   const char *uid,
+			   GnomeCalendar  *gcal)
+{
+	printf ("gnome-cal: got changed_cb, uid='%s'\n", uid?uid:"<NULL>");
+	gnome_calendar_update_all (gcal, NULL, CHANGE_ALL);
+}
+
+
 GtkWidget *
 gnome_calendar_new (char *title)
 {
@@ -239,20 +261,13 @@ gnome_calendar_new (char *title)
 
 	setup_widgets (gcal);
 
+	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_updated",
+			    gnome_calendar_changed_cb, gcal);
+	gtk_signal_connect (GTK_OBJECT (gcal->client), "obj_removed",
+			    gnome_calendar_changed_cb, gcal);
+
 	return retval;
 }
-
-static void
-gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
-{
-	gncal_day_panel_update (GNCAL_DAY_PANEL (cal->day_view),
-				object, flags);
-	gncal_week_view_update (GNCAL_WEEK_VIEW (cal->week_view),
-				object, flags);
-	month_view_update (MONTH_VIEW (cal->month_view), object, flags);
-	year_view_update (YEAR_VIEW (cal->year_view), object, flags);
-}
-
 
 typedef struct
 {
@@ -265,7 +280,6 @@ typedef struct
 
 static void
 gnome_calendar_load_cb (GtkWidget *cal_client,
-			/*gpointer something,*/
 			CalClientLoadStatus success,
 			load_or_create_data *locd)
 {
