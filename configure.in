@@ -600,6 +600,13 @@ else
     esac
 fi
 
+
+AC_ARG_WITH(x-mailer, [  --with-x-mailer=VERSION    Version string for X-Mailer header])
+if test "${with_x_mailer:-no}" = "no"; then
+	with_x_mailer="$VERSION"
+fi
+AC_DEFINE_UNQUOTED(XMAILER_VERSION, "$with_x_mailer")
+
 dnl ******************************
 dnl Makefiles
 dnl ******************************
@@ -699,7 +706,7 @@ doc/devel/calendar/cal-util/Makefile
 ])
 
 echo "
-	Evolution has been configured as follows:
+	Evolution ($with_x_mailer) has been configured as follows:
 
 	Mail Directory:   $system_mail_dir
 	LDAP support:     $msg_ldap

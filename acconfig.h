@@ -6,6 +6,7 @@
 #undef HAVE_LIBSM
 #undef PACKAGE
 #undef VERSION
+#undef XMAILER_VERSION
 #undef ENABLE_THREADS
 #undef SENDMAIL_PATH
 #undef SYSTEM_MAIL_DIR

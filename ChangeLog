@@ -1,3 +1,8 @@
+2001-01-16  Dan Winship  <danw@ximian.com>
+
+	* configure.in, acconfig.h: Add --with-x-mailer to set the version
+	string that appears in the X-Mailer header.
+
 2001-01-15  Christopher James Lahey  <clahey@ximian.com>
 
 	* configure.in: Changed the required version of gal.
