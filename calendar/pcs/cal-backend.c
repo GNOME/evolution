@@ -134,7 +134,7 @@ cal_backend_add_cal (CalBackend *backend, Cal *cal)
 	g_return_if_fail (IS_CAL_BACKEND (backend));
 
 	g_assert (CLASS (backend)->add_cal != NULL);
-	return (* CLASS (backend)->add_cal) (backend, cal);
+	(* CLASS (backend)->add_cal) (backend, cal);
 }
 
 /**

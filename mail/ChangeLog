@@ -1,5 +1,8 @@
 2000-05-09  Matt Loper  <matt@helixcode.com>
 
+	* folder-browser-factory.c (control_activate): Remove "File->mail"
+	menuitem.
+
 	* mail-config.c (mail_config_druid): Fill in "blah blah blah".
 
 2000-05-09  Dan Winship  <danw@helixcode.com>

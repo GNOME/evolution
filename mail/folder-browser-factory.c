@@ -141,14 +141,10 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih)
 
 	folder_browser = bonobo_control_get_widget (control);
 
-	bonobo_ui_handler_menu_new_item (uih, "/File/Mail", N_("_Mail"),
-					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
-					 0, 0, send_msg, NULL);
-
 	bonobo_ui_handler_menu_new_item (uih, "/Tools/Expunge", N_("_Expunge"),
 					 NULL, -1,
-					 BONOBO_UI_HANDLER_PIXMAP_STOCK, GNOME_STOCK_PIXMAP_TRASH,
+					 BONOBO_UI_HANDLER_PIXMAP_STOCK,
+					 GNOME_STOCK_PIXMAP_TRASH,
 					 0, 0, expunge_folder, folder_browser);
 
 	toolbar = gtk_toolbar_new (GTK_ORIENTATION_HORIZONTAL,

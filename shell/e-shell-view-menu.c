@@ -43,8 +43,18 @@ command_quit (GtkWidget *widget,
 	e_shell_quit (shell);
 }
 
+static void
+command_run_bugbuddy (GtkWidget *widget, gpointer data)
+{
+
+	
+}
+
+
 
 /* Unimplemented commands.  */
+
+
 
 #define DEFINE_UNIMPLEMENTED(func)					\
 static void								\
@@ -173,6 +183,13 @@ static GnomeUIInfo menu_tools [] = {
 };
 
 static GnomeUIInfo menu_actions [] = {
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo menu_help [] = {
+	{ GNOME_APP_UI_ITEM, N_("_Submit bug"),
+	  N_("Submit bug-report via bug-buddy"), command_run_bugbuddy, NULL,
+	  NULL, 0, 0, 'n', GDK_CONTROL_MASK | GDK_SHIFT_MASK },
 	GNOMEUIINFO_END
 };
 
