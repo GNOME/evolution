@@ -738,10 +738,10 @@ alphabet_state_changed (EAddressbookView *eav, gunichar letter, AddressbookView 
 {
 	view->ignore_search_changes = TRUE;
 	if (letter == 0) {
-		e_search_bar_set_item_id (view->search, ESB_ANY);
+		e_search_bar_set_item_id (view->search, ESB_FULL_NAME);
 		e_search_bar_set_text (view->search, "");
 	} else {
-		e_search_bar_set_item_id (view->search, ESB_ADVANCED);
+		e_search_bar_set_item_id (view->search, ESB_FULL_NAME);
 	}
 	view->ignore_search_changes = FALSE;
 }

@@ -1,5 +1,13 @@
 2002-08-01  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #25958 ]
+	* gui/component/addressbook.c (alphabet_state_changed): use
+	FULL_NAME in the case where we're untoggling a letter, and... well
+	use FULL_NAME in the other case too - we should never pop up the
+	advanced dialog.
+
+2002-08-01  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/select-names/e-select-names.h (struct
 	_ESelectNames): no more search_entry.
 
