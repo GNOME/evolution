@@ -1,5 +1,10 @@
 2003-12-02  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/copy-source-dialog.c (copy_source_dialog): added
+	a label to the dialog to make it look less ugly.
+
+2003-12-02  Rodrigo Moya <rodrigo@ximian.com>
+
 	* gui/dialogs/copy-source-dialog.c: converted to use an
 	ESourceOptionMenu instead of the ESourceSelector.
 	(primary_selection_changed_cb): removed.

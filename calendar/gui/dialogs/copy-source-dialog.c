@@ -20,6 +20,7 @@
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkdialog.h>
+#include <gtk/gtklabel.h>
 #include <gtk/gtkstock.h>
 #include <bonobo/bonobo-i18n.h>
 #include <widgets/misc/e-source-option-menu.h>
@@ -115,6 +116,7 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 	CopySourceDialogData csdd;
 	gboolean result = FALSE;
 	const char *gconf_key;
+	GtkWidget *label;
 
 	g_return_val_if_fail (E_IS_SOURCE (source), FALSE);
 
@@ -136,13 +138,16 @@ copy_source_dialog (GtkWindow *parent, ESource *source, CalObjType obj_type)
 						   NULL);
 	gtk_dialog_set_response_sensitive (GTK_DIALOG (csdd.dialog), GTK_RESPONSE_OK, FALSE);
 
+	label = gtk_label_new (_("Select destination source"));
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), label, FALSE, FALSE, 6);
+
 	csdd.conf_client = gconf_client_get_default ();
 	csdd.source_list = e_source_list_new_for_gconf (csdd.conf_client, gconf_key);
 	csdd.selector = e_source_option_menu_new (csdd.source_list);
 	g_signal_connect (G_OBJECT (csdd.selector), "source_selected",
 			  G_CALLBACK (source_selected_cb), &csdd);
 	gtk_widget_show (csdd.selector);
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), csdd.selector, TRUE, TRUE, 6);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (csdd.dialog)->vbox), csdd.selector, FALSE, FALSE, 6);
 
 	if (gtk_dialog_run (GTK_DIALOG (csdd.dialog)) == GTK_RESPONSE_OK) {
 		result = copy_source (&csdd);
