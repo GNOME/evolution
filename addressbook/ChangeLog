@@ -1,3 +1,8 @@
+2003-01-21  Radek Doulik  <rodo@ximian.com>
+
+	* printing/e-contact-print.c (e_contact_print_button): don't use
+	gnome_print_multipage_new_from_sizes and add warning
+
 2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/widgets/e-addressbook-util.c

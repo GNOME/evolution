@@ -1042,11 +1042,15 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
 		ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
 	
+		ctxt->pc = pc;
+#warning FIXME gnome_print_multipage_new_from_sizes
+#if 0
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
 										   72 * style->paper_width, 
 										   72 * style->paper_height,
 										   72 * style->page_width,
 										   72 * style->page_height));
+#endif
 		
 		ctxt->book = book;
 		ctxt->query = query;
@@ -1078,12 +1082,15 @@ e_contact_print_button(GnomeDialog *dialog, gint button, gpointer data)
 		ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
 		ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
 		
+		ctxt->pc = pc;
+#warning FIXME gnome_print_multipage_new_from_sizes
+#if 0
 		ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
 										   72 * style->paper_width, 
 										   72 * style->paper_height,
 										   72 * style->page_width,
 										   72 * style->page_height));
-		
+#endif
 		ctxt->book = book;
 		ctxt->query = g_strdup(query);
 		if (uses_book) {
@@ -1159,12 +1166,15 @@ e_contact_print_preview(EBook *book, char *query)
 	ctxt->letter_heading_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), gnome_font_get_size (ctxt->style->headings_font) * 1.5);
 	ctxt->letter_tab_font = gnome_font_find (gnome_font_get_name(ctxt->style->headings_font), font_size);
 
+		ctxt->pc = pc;
+#warning FIXME gnome_print_multipage_new_from_sizes
+#if 0
 	ctxt->pc = GNOME_PRINT_CONTEXT(gnome_print_multipage_new_from_sizes(pc, 
 									    72 * style->paper_width, 
 									    72 * style->paper_height,
 									    72 * style->page_width,
 									    72 * style->page_height));
-
+#endif
 	ctxt->book = book;
 	ctxt->query = g_strdup(query);
 	ctxt->cards = NULL;
