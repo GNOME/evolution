@@ -147,11 +147,8 @@ update_folder_bar_message (EABModel *model)
 	case 0:
 		message = g_strdup (_("No contacts"));
 		break;
-	case 1:
-		message = g_strdup (_("1 contact"));
-		break;
 	default:
-		message = g_strdup_printf (_("%d contacts"), count);
+		message = g_strdup_printf (ngettext("%d contact", "%d contacts", count), count);
 		break;
 	}
 

@@ -1,3 +1,8 @@
+2004-03-24  Danilo Šegan  <dsegan@gmx.net>
+
+	* mail-ops.c (get_messages_desc): Use ngettext for handling plural
+	forms (fixes bug #53464).
+
 2004-03-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-format-html.c (emfh_gethttp): Use sizeof() to decide how big

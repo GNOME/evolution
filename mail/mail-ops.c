@@ -1835,7 +1835,9 @@ static char * get_messages_desc(struct _mail_msg *mm, int done)
 {
 	struct _get_messages_msg *m = (struct _get_messages_msg *)mm;
 
-	return g_strdup_printf(_("Retrieving %d message(s)"), m->uids->len);
+	return g_strdup_printf(ngettext("Retrieving %d message",
+					"Retrieving %d messages", m->uids->len), 
+			       m->uids->len);
 }
 
 static void get_messages_get(struct _mail_msg *mm)
@@ -1919,7 +1921,9 @@ static char *save_messages_desc(struct _mail_msg *mm, int done)
 {
 	struct _save_messages_msg *m = (struct _save_messages_msg *)mm;
 
-	return g_strdup_printf(_("Saving %d messsage(s)"), m->uids->len);
+	return g_strdup_printf(ngettext("Saving %d message", 
+					"Saving %d messsages", m->uids->len), 
+			       m->uids->len);
 }
 
 static void

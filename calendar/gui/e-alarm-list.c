@@ -391,43 +391,28 @@ get_alarm_duration_string (struct icaldurationtype *duration)
 
 	have_something = FALSE;
 
-	if (duration->days > 1) {
-		g_string_sprintf (string, _("%d days"), duration->days);
-		have_something = TRUE;
-	} else if (duration->days == 1) {
-		g_string_append (string, _("1 day"));
+	if (duration->days >= 1) {
+		g_string_sprintf (string, ngettext("%d day", "%d days", duration->days), duration->days);
 		have_something = TRUE;
 	}
 
-	if (duration->weeks > 1) {
-		g_string_sprintf (string, _("%d weeks"), duration->weeks);
-		have_something = TRUE;
-	} else if (duration->weeks == 1) {
-		g_string_append (string, _("1 week"));
+	if (duration->weeks >= 1) {
+		g_string_sprintf (string, ngettext("%d week","%d weeks", duration->weeks), duration->weeks);
 		have_something = TRUE;
 	}
 
-	if (duration->hours > 1) {
-		g_string_sprintf (string, _("%d hours"), duration->hours);
-		have_something = TRUE;
-	} else if (duration->hours == 1) {
-		g_string_append (string, _("1 hour"));
+	if (duration->hours >= 1) {
+		g_string_sprintf (string, ngettext("%d hour", "%d hours", duration->hours), duration->hours);
 		have_something = TRUE;
 	}
 
-	if (duration->minutes > 1) {
-		g_string_sprintf (string, _("%d minutes"), duration->minutes);
-		have_something = TRUE;
-	} else if (duration->minutes == 1) {
-		g_string_append (string, _("1 minute"));
+	if (duration->minutes >= 1) {
+		g_string_sprintf (string, ngettext("%d minute", "%d minutes", duration->minutes), duration->minutes);
 		have_something = TRUE;
 	}
 
-	if (duration->seconds > 1) {
-		g_string_sprintf (string, _("%d seconds"), duration->seconds);
-		have_something = TRUE;
-	} else if (duration->seconds == 1) {
-		g_string_append (string, _("1 second"));
+	if (duration->seconds >= 1) {
+		g_string_sprintf (string, ngettext("%d second", "%d seconds", duration->seconds), duration->seconds);
 		have_something = TRUE;
 	}
 

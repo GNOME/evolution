@@ -599,23 +599,14 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 
 	switch (r->freq) {
 	case ICAL_DAILY_RECURRENCE:
-		if (r->interval == 1)
-			strcpy (buffer, _("Every day"));
-		else
-			sprintf (buffer, _("Every %d days"), r->interval);
+		sprintf (buffer, ngettext("Every day", "Every %d days", r->interval), r->interval);
 		break;
 
 	case ICAL_WEEKLY_RECURRENCE:
 		if (r->by_day[0] == ICAL_RECURRENCE_ARRAY_MAX) {
-			if (r->interval == 1)
-				strcpy (buffer, _("Every week"));
-			else
-				sprintf (buffer, _("Every %d weeks"), r->interval);
+			sprintf (buffer, ngettext("Every week", "Every %d weeks", r->interval), r->interval);
 		} else {
-			if (r->interval == 1)
-				strcpy (buffer, _("Every week on "));
-			else
-				sprintf (buffer, _("Every %d weeks on "), r->interval);
+			sprintf (buffer, ngettext("Every week on ", "Every %d weeks on ", r->interval), r->interval);
 
 			for (i = 1; i < 8 && r->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
 				if (i > 1)
@@ -647,22 +638,14 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 				 nth (pos), get_dayname (r, 0));
 		}
 
-		if (r->interval == 1)
-			strcat (buffer, _("every month"));
-		else {
-			len = strlen (buffer);
-			buffer += len;
-			size -= len;
-			sprintf (buffer, _("every %d months"), r->interval);
-		}
+		len = strlen (buffer);
+		buffer += len;
+		size -= len;
+		sprintf (buffer, ngettext("every month","every %d months", r->interval), r->interval);
 		break;
 
 	case ICAL_YEARLY_RECURRENCE:
-		if (r->interval == 1)
-			strcpy (buffer, _("Every year"));
-		else {
-			sprintf (buffer, _("Every %d years"), r->interval);
-		}
+		sprintf (buffer, ngettext("Every year", "Every %d years", r->interval), r->interval);
 		break;
 
 	default:
@@ -673,7 +656,7 @@ write_recurrence_piece (EItipControl *itip, ECalComponent *comp,
 	buffer += len;
 	size -= len;
 	if (r->count) {
-		sprintf (buffer, _(" a total of %d times"), r->count);
+		sprintf (buffer, ngettext("a total of %d time", " a total of %d times", r->count), r->count);
 	} else if (!icaltime_is_null_time (r->until)) {
 		ECalComponentDateTime dt;
 

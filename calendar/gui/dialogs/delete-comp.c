@@ -128,18 +128,24 @@ delete_component_dialog (ECalComponent *comp,
 	} else {
 		switch (vtype) {
 		case E_CAL_COMPONENT_EVENT:
-			str = g_strdup_printf (_("Are you sure you want to delete "
-						 "%d appointments?"), n_comps);
+			str = g_strdup_printf (ngettext("Are you sure you want to delete "
+							"%d appointment?",
+							"Are you sure you want to delete "
+							"%d appointments?", n_comps), n_comps);
 			break;
 
 		case E_CAL_COMPONENT_TODO:
-			str = g_strdup_printf (_("Are you sure you want to delete "
-						 "%d tasks?"), n_comps);
+			str = g_strdup_printf (ngettext("Are you sure you want to delete "
+							"%d task?",
+							"Are you sure you want to delete "
+							"%d tasks?", n_comps), n_comps);
 			break;
 
 		case E_CAL_COMPONENT_JOURNAL:
-			str = g_strdup_printf (_("Are you sure you want to delete "
-						 "%d journal entries?"), n_comps);
+			str = g_strdup_printf (ngettext("Are you sure you want to delete "
+							"%d journal entry?",
+							"Are you sure you want to delete "
+							"%d journal entries?", n_comps), n_comps);
 			break;
 
 		default:
