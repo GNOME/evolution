@@ -2,7 +2,7 @@
 
 	*  gui/e-alarm-list.c (get_alarm_string):
 	*  gui/dialogs/alarm-page.glade: Change dropdown list item 'Display
-	a message'for reminder types to 'Pop up an alert'
+	a message' for reminder types to 'Pop up an alert'
 
 2004-05-17  Rodrigo Moya <rodrigo@ximian.com>
 
