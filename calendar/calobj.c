@@ -25,9 +25,9 @@ ical_gen_uid (void)
 	if (!hostname){
 		char buffer [128];
 		
-		gethostname (buffer, sizeof (buffer)-1);
-		if (hostname)
-			hostname = g_strdup (hostname);
+		if ((gethostname (buffer, sizeof (buffer)-1) == 0) &&
+		    (buffer [0] != 0))
+			hostname = g_strdup (buffer);
 		else
 			hostname = g_strdup ("localhost");
 	}
