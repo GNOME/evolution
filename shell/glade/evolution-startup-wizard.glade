@@ -1,255 +1,255 @@
-<?xml version="1.0"?>
-<GTK-Interface>
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
 
-<project>
-  <name>Evolution-startup-wizard</name>
-  <program_name>evolution-startup-wizard</program_name>
-  <directory></directory>
-  <source_directory>src</source_directory>
-  <pixmaps_directory>/opt/gnome/share/images/evolution</pixmaps_directory>
-  <language>C</language>
-  <gnome_support>True</gnome_support>
-  <gettext_support>True</gettext_support>
-</project>
+<glade-interface>
+  <requires lib="gnome" />
 
-<widget>
-  <class>GtkWindow</class>
-  <name>startup-wizard</name>
-  <visible>False</visible>
-  <title>Evolution Setup Assistant</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+  <widget class="GtkWindow" id="startup-wizard">
+    <property name="visible">no</property>
+    <property name="title" translatable="yes">Evolution Setup Assistant</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-  <widget>
-    <class>GnomeDruid</class>
-    <name>startup-druid</name>
+    <child>
+      <widget class="GnomeDruid" id="startup-druid">
+        <property name="visible">yes</property>
 
-    <widget>
-      <class>GnomeDruidPageStart</class>
-      <name>start-page</name>
-      <title>Welcome</title>
-      <text>Welcome to Evolution. The next few screens will allow
+        <child>
+          <widget class="GnomeDruidPageEdge" id="start-page">
+            <property name="title" translatable="yes">Welcome</property>
+            <property name="text" translatable="yes">Welcome to Evolution. The next few screens will allow
 Evolution to connect to your email accounts, and to import
 files from other applications. 
 
-Please click the &quot;Next&quot; button to continue. </text>
-      <title_color>255,255,255</title_color>
-      <text_color>0,0,0</text_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <textbox_color>255,255,255</textbox_color>
-      <logo_image>evolution.png</logo_image>
-    </widget>
+Please click the &quot;Next&quot; button to continue. </property>
+            <property name="logo_image">evolution.png</property>
+            <property name="position">GNOME_EDGE_START</property>
+            <property name="visible">yes</property>
+            <property name="title_color">#ffffff</property>
+            <property name="text_color">#000000</property>
+            <property name="background_color">#000001</property>
+            <property name="logo_background_color">#010101</property>
+            <property name="textbox_color">#ffffff</property>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>identity-page</name>
-      <title>Identity</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>mail-config-druid-identity.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="identity-page">
+            <property name="title" translatable="yes">Identity</property>
+            <property name="logo">mail-config-druid-identity.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox2</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox2">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>receive-page</name>
-      <title>Receiving Email</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>mail-config-druid-receive.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="receive-page">
+            <property name="title" translatable="yes">Receiving Email</property>
+            <property name="logo">mail-config-druid-receive.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox3</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox3">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>extra-page</name>
-      <title>Receiving Email</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>mail-config-druid-receive.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="extra-page">
+            <property name="title" translatable="yes">Receiving Email</property>
+            <property name="logo">mail-config-druid-receive.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox8</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox8">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>send-page</name>
-      <title>Sending Email</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>mail-config-druid-send.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="send-page">
+            <property name="title" translatable="yes">Sending Email</property>
+            <property name="logo">mail-config-druid-send.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox5</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox5">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>management-page</name>
-      <title>Account Management</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>mail-config-druid-account-name.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="management-page">
+            <property name="title" translatable="yes">Account Management</property>
+            <property name="logo">mail-config-druid-account-name.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox9</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox9">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>timezone-page</name>
-      <title>Timezone </title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>timezone-48.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="timezone-page">
+            <property name="title" translatable="yes">Timezone </property>
+            <property name="logo">timezone-48.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox6</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox6">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageStandard</class>
-      <name>import-page</name>
-      <title>Importing Files</title>
-      <title_color>255,255,255</title_color>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <logo_image>import.png</logo_image>
+        <child>
+          <widget class="GnomeDruidPageStandard" id="import-page">
+            <property name="title" translatable="yes">Importing Files</property>
+            <property name="logo">import.png</property>
+            <property name="visible">yes</property>
+            <property name="title_foreground">#ffffff</property>
+            <property name="background">#000001</property>
+            <property name="logo_background">#010101</property>
 
-      <widget>
-	<class>GtkVBox</class>
-	<child_name>GnomeDruidPageStandard:vbox</child_name>
-	<name>druid-vbox7</name>
-	<homogeneous>False</homogeneous>
-	<spacing>0</spacing>
-	<child>
-	  <padding>0</padding>
-	  <expand>True</expand>
-	  <fill>True</fill>
-	</child>
+            <child internal-child="vbox">
+              <widget class="GtkVBox" id="druid-vbox7">
+                <property name="homogeneous">no</property>
+                <property name="spacing">0</property>
+                <property name="visible">yes</property>
 
-	<widget>
-	  <class>Placeholder</class>
-	</widget>
-      </widget>
-    </widget>
+                <child>
+                  <placeholder />
+                </child>
+              </widget>
+              <packing>
+                <property name="padding">0</property>
+                <property name="expand">yes</property>
+                <property name="fill">yes</property>
+              </packing>
+            </child>
+          </widget>
+        </child>
 
-    <widget>
-      <class>GnomeDruidPageFinish</class>
-      <name>done-page</name>
-      <title>Done</title>
-      <text>You have successfully entered all of the information
+        <child>
+          <widget class="GnomeDruidPageEdge" id="done-page">
+            <property name="title" translatable="yes">Done</property>
+            <property name="text" translatable="yes">You have successfully entered all of the information
 needed to set up Evolution. 
 
-Click the &quot;Finish&quot; button to save your settings. </text>
-      <background_color>0,0,1</background_color>
-      <logo_background_color>1,1,1</logo_background_color>
-      <textbox_color>255,255,255</textbox_color>
-      <text_color>0,0,0</text_color>
-      <title_color>255,255,255</title_color>
-      <logo_image>evolution.png</logo_image>
-    </widget>
+Click the &quot;Finish&quot; button to save your settings. </property>
+            <property name="logo_image">evolution.png</property>
+            <property name="position">GNOME_EDGE_FINISH</property>
+            <property name="visible">yes</property>
+            <property name="title_color">#ffffff</property>
+            <property name="text_color">#000000</property>
+            <property name="background_color">#000001</property>
+            <property name="logo_background_color">#010101</property>
+            <property name="textbox_color">#ffffff</property>
+          </widget>
+        </child>
+      </widget>
+    </child>
   </widget>
-</widget>
-
-</GTK-Interface>
+</glade-interface>

@@ -1,235 +1,202 @@
-<?xml version="1.0"?>
-<GTK-Interface>
+<?xml version="1.0" standalone="no"?> <!--*- mode: xml -*-->
+<!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd" >
 
-<project>
-  <name>Config</name>
-  <program_name>config</program_name>
-  <directory></directory>
-  <source_directory>src</source_directory>
-  <pixmaps_directory>../../../gnome/evolution/art</pixmaps_directory>
-  <language>C</language>
-  <gnome_support>True</gnome_support>
-  <gettext_support>True</gettext_support>
-</project>
+<glade-interface>
+  <widget class="GtkWindow" id="default folders">
+    <property name="visible">no</property>
+    <property name="title" translatable="yes">window1</property>
+    <property name="type">GTK_WINDOW_TOPLEVEL</property>
+    <property name="modal">no</property>
+    <property name="allow_shrink">no</property>
+    <property name="allow_grow">yes</property>
+    <property name="window-position">GTK_WIN_POS_NONE</property>
 
-<widget>
-  <class>GtkWindow</class>
-  <name>default folders</name>
-  <visible>False</visible>
-  <title>window1</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>True</allow_grow>
-  <auto_shrink>False</auto_shrink>
+    <child>
+      <widget class="GtkTable" id="default_folders_table">
+        <property name="border_width">4</property>
+        <property name="homogeneous">no</property>
+        <property name="row_spacing">4</property>
+        <property name="column_spacing">4</property>
+        <property name="n-rows">4</property>
+        <property name="n-columns">2</property>
+        <property name="visible">yes</property>
 
-  <widget>
-    <class>GtkTable</class>
-    <name>default_folders_table</name>
-    <border_width>4</border_width>
-    <rows>4</rows>
-    <columns>2</columns>
-    <homogeneous>False</homogeneous>
-    <row_spacing>4</row_spacing>
-    <column_spacing>4</column_spacing>
+        <child>
+          <widget class="GtkLabel" id="label1">
+            <property name="label" translatable="yes">_Mail:</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="wrap">no</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0.5</property>
+            <property name="xpad">0</property>
+            <property name="ypad">0</property>
+            <property name="visible">yes</property>
+            <property name="use_underline">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="right_attach">1</property>
+            <property name="top_attach">0</property>
+            <property name="bottom_attach">1</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>GtkLabel</class>
-      <name>label1</name>
-      <label>_Mail:</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<left_attach>0</left_attach>
-	<right_attach>1</right_attach>
-	<top_attach>0</top_attach>
-	<bottom_attach>1</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>False</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="GtkLabel" id="label4">
+            <property name="label" translatable="yes">_Tasks:</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="wrap">no</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0.5</property>
+            <property name="xpad">0</property>
+            <property name="ypad">0</property>
+            <property name="visible">yes</property>
+            <property name="use_underline">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="right_attach">1</property>
+            <property name="top_attach">3</property>
+            <property name="bottom_attach">4</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>GtkLabel</class>
-      <name>label4</name>
-      <label>_Tasks:</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<left_attach>0</left_attach>
-	<right_attach>1</right_attach>
-	<top_attach>3</top_attach>
-	<bottom_attach>4</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>False</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="GtkLabel" id="label3">
+            <property name="label" translatable="yes">_Contacts:</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="wrap">no</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0.5</property>
+            <property name="xpad">0</property>
+            <property name="ypad">0</property>
+            <property name="visible">yes</property>
+            <property name="use_underline">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="right_attach">1</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>GtkLabel</class>
-      <name>label3</name>
-      <label>_Contacts:</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<left_attach>0</left_attach>
-	<right_attach>1</right_attach>
-	<top_attach>1</top_attach>
-	<bottom_attach>2</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>False</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="GtkLabel" id="label2">
+            <property name="label" translatable="yes">C_alendar:</property>
+            <property name="justify">GTK_JUSTIFY_CENTER</property>
+            <property name="wrap">no</property>
+            <property name="xalign">0</property>
+            <property name="yalign">0.5</property>
+            <property name="xpad">0</property>
+            <property name="ypad">0</property>
+            <property name="visible">yes</property>
+            <property name="use_underline">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">0</property>
+            <property name="right_attach">1</property>
+            <property name="top_attach">2</property>
+            <property name="bottom_attach">3</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options"></property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>GtkLabel</class>
-      <name>label2</name>
-      <label>C_alendar:</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<left_attach>0</left_attach>
-	<right_attach>1</right_attach>
-	<top_attach>2</top_attach>
-	<bottom_attach>3</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>False</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="Custom" id="default_mail_button">
+            <property name="creation_function">e_shell_config_default_folder_selector_button_new</property>
+            <property name="int1">0</property>
+            <property name="int2">0</property>
+            <property name="last_modification_time">Wed, 10 Apr 2002 17:54:56 GMT</property>
+            <property name="visible">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">0</property>
+            <property name="bottom_attach">1</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">expand|fill</property>
+            <property name="y_options">fill</property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>Custom</class>
-      <name>default_mail_button</name>
-      <creation_function>e_shell_config_default_folder_selector_button_new</creation_function>
-      <int1>0</int1>
-      <int2>0</int2>
-      <last_modification_time>Wed, 10 Apr 2002 17:54:56 GMT</last_modification_time>
-      <child>
-	<left_attach>1</left_attach>
-	<right_attach>2</right_attach>
-	<top_attach>0</top_attach>
-	<bottom_attach>1</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>True</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>True</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="Custom" id="default_contacts_button">
+            <property name="creation_function">e_shell_config_default_folder_selector_button_new</property>
+            <property name="int1">0</property>
+            <property name="int2">0</property>
+            <property name="last_modification_time">Wed, 10 Apr 2002 17:55:01 GMT</property>
+            <property name="visible">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">1</property>
+            <property name="bottom_attach">2</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options">fill</property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>Custom</class>
-      <name>default_contacts_button</name>
-      <creation_function>e_shell_config_default_folder_selector_button_new</creation_function>
-      <int1>0</int1>
-      <int2>0</int2>
-      <last_modification_time>Wed, 10 Apr 2002 17:55:01 GMT</last_modification_time>
-      <child>
-	<left_attach>1</left_attach>
-	<right_attach>2</right_attach>
-	<top_attach>1</top_attach>
-	<bottom_attach>2</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>True</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="Custom" id="default_calendar_button">
+            <property name="creation_function">e_shell_config_default_folder_selector_button_new</property>
+            <property name="int1">0</property>
+            <property name="int2">0</property>
+            <property name="last_modification_time">Wed, 10 Apr 2002 17:55:06 GMT</property>
+            <property name="visible">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">2</property>
+            <property name="bottom_attach">3</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options">fill</property>
+          </packing>
+        </child>
 
-    <widget>
-      <class>Custom</class>
-      <name>default_calendar_button</name>
-      <creation_function>e_shell_config_default_folder_selector_button_new</creation_function>
-      <int1>0</int1>
-      <int2>0</int2>
-      <last_modification_time>Wed, 10 Apr 2002 17:55:06 GMT</last_modification_time>
-      <child>
-	<left_attach>1</left_attach>
-	<right_attach>2</right_attach>
-	<top_attach>2</top_attach>
-	<bottom_attach>3</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>True</yfill>
-      </child>
-    </widget>
-
-    <widget>
-      <class>Custom</class>
-      <name>default_tasks_button</name>
-      <creation_function>e_shell_config_default_folder_selector_button_new</creation_function>
-      <int1>0</int1>
-      <int2>0</int2>
-      <last_modification_time>Wed, 10 Apr 2002 17:55:12 GMT</last_modification_time>
-      <child>
-	<left_attach>1</left_attach>
-	<right_attach>2</right_attach>
-	<top_attach>3</top_attach>
-	<bottom_attach>4</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>True</yfill>
-      </child>
-    </widget>
+        <child>
+          <widget class="Custom" id="default_tasks_button">
+            <property name="creation_function">e_shell_config_default_folder_selector_button_new</property>
+            <property name="int1">0</property>
+            <property name="int2">0</property>
+            <property name="last_modification_time">Wed, 10 Apr 2002 17:55:12 GMT</property>
+            <property name="visible">yes</property>
+          </widget>
+          <packing>
+            <property name="left_attach">1</property>
+            <property name="right_attach">2</property>
+            <property name="top_attach">3</property>
+            <property name="bottom_attach">4</property>
+            <property name="x_padding">0</property>
+            <property name="y_padding">0</property>
+            <property name="x_options">fill</property>
+            <property name="y_options">fill</property>
+          </packing>
+        </child>
+      </widget>
+    </child>
   </widget>
-</widget>
-
-</GTK-Interface>
+</glade-interface>

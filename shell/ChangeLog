@@ -1,5 +1,15 @@
 2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
+	* glade/e-active-connection-dialog.glade: Converted to Glade2
+	format.
+	* glade/evolution-startup-wizard.glade: Likewise.
+	* glade/e-shell-shared-folder-picker-dialog.glade: Likewise.
+	* glade/e-shell-folder-creation-dialog.glade: Likewise.
+	* glade/e-shell-config-default-folders.glade: Likewise.
+	* glade/e-folder-list.glade: Likewise.
+
+2002-11-03  Ettore Perazzoli  <ettore@ximian.com>
+
 	* *.c, *.h: Changed all gtk_object_refs()/gtk_object_unrefs() into
 	g_object_refs()/g_object_unrefs() and all gtk_signal_connect_*()
 	into g_signal_connect_*().  [Except for some case where we have
