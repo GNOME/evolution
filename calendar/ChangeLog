@@ -1,5 +1,16 @@
 2000-08-30  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-day-view.c: Make sure the is_utc flag is always 
+	FALSE for icaltime_from_timet
+	(e_day_view_on_unrecur_appointment): Use icaltimetype struct
+	from the stack and make sure tzid is always NULL
+	(e_day_view_finish_long_event_resize): ditto
+	(e_day_view_finish_resize): ditto
+	(e_day_view_on_top_canvas_drag_data_received): ditto
+	(e_day_view_on_main_canvas_drag_data_received): ditto
+
+2000-08-30  JP Rosevear  <jpr@helixcode.com>
+
 	* cal-client/cal-client.c (add_instance): Actually add the
 	comp_instance struct to the instances list.  We now appear
 	to able to keep events and todos between sessions. Yay!

@@ -2517,7 +2517,7 @@ e_day_view_on_delete_occurrence (GtkWidget *widget, gpointer data)
 	list = g_slist_append (list, date);
 	date = g_new0 (CalComponentDateTime, 1);
 	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
+	*date->value = icaltime_from_timet (event->start, FALSE, FALSE);
 	cal_component_set_exdate_list (comp, list);
 	cal_component_free_exdate_list (list);
 
@@ -2556,7 +2556,8 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	EDayView *day_view;
 	EDayViewEvent *event;
 	CalComponent *comp, *new_comp;
-	CalComponentDateTime *date;
+	CalComponentDateTime date;
+	struct icaltimetype itt;
 	GSList *list;
 
 	day_view = E_DAY_VIEW (data);
@@ -2565,16 +2566,17 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	if (event == NULL)
 		return;
 
+	date.value = &itt;
+	date.tzid = NULL;
+
 	/* For the recurring object, we add a exception to get rid of the
 	   instance. */
 	comp = cal_component_clone (event->comp);
 	cal_component_get_exdate_list (comp, &list);
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-	*date->value = icaltime_from_timet (event->start, TRUE, TRUE);
-	list = g_slist_append (list, date);
+	*date.value = icaltime_from_timet (event->start, FALSE, FALSE);
+	list = g_slist_append (list, &date);
 	cal_component_set_exdate_list (comp, list);
-	cal_component_free_exdate_list (list);
+	g_slist_free (list);
 
 	/* For the unrecurred instance we duplicate the original object,
 	   create a new uid for it, get rid of the recurrence rules, and set
@@ -2584,15 +2586,10 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	cal_component_set_exdate_list (new_comp, NULL);
 	cal_component_set_exrule_list (new_comp, NULL);
 
-	date = g_new0 (CalComponentDateTime, 1);
-	date->value = g_new (struct icaltimetype, 1);
-
-	*date->value = icaltime_from_timet (event->start, FALSE, TRUE);
-	cal_component_set_dtstart (new_comp, date);
-	*date->value = icaltime_from_timet (event->end, FALSE, TRUE);
-	cal_component_set_dtend (new_comp, date);
-
-	cal_component_free_datetime (date);
+	*date.value = icaltime_from_timet (event->start, FALSE, FALSE);
+	cal_component_set_dtstart (new_comp, &date);
+	*date.value = icaltime_from_timet (event->end, FALSE, FALSE);
+	cal_component_set_dtend (new_comp, &date);
 
 	/* Now update both CalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
@@ -3095,28 +3092,30 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	gint event_num;
 	CalComponent *comp;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
 	time_t dt;
 
 	event_num = day_view->resize_event_num;
 	event = &g_array_index (day_view->long_events, EDayViewEvent,
 				event_num);
 
-	/* We use a temporary shallow copy of the ico since we don't want to
-	   change the original ico here. Otherwise we would not detect that
+	/* We use a temporary copy of the comp since we don't want to
+	   change the original comp here. Otherwise we would not detect that
 	   the event's time had changed in the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
 
-	date.value = g_new (struct icaltimetype, 1);
+	date.value = &itt;
+	date.tzid = NULL;
+
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_LEFT_EDGE) {
 		dt = day_view->day_starts[day_view->resize_start_row];
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = day_view->day_starts[day_view->resize_end_row + 1];
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 		cal_component_set_dtend (comp, &date);
 	}
-	g_free (date.value);
 
 	gnome_canvas_item_hide (day_view->resize_long_event_rect_item);
 
@@ -3138,6 +3137,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	gint day, event_num;
 	CalComponent *comp;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
 	time_t dt;
 
 	day = day_view->resize_event_day;
@@ -3150,17 +3150,18 @@ e_day_view_finish_resize (EDayView *day_view)
 	   the event's time had changed in the "update_event" callback. */
 	comp = cal_component_clone (event->comp);
 
-	date.value = g_new (struct icaltimetype, 1);
+	date.value = &itt;
+	date.tzid = NULL;
+
 	if (day_view->resize_drag_pos == E_DAY_VIEW_POS_TOP_EDGE) {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_start_row);
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 		cal_component_set_dtstart (comp, &date);
 	} else {
 		dt = e_day_view_convert_grid_position_to_time (day_view, day, day_view->resize_end_row + 1);
-		*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+		*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 		cal_component_set_dtend (comp, &date);
 	}
-	g_free (date.value);
 
 	gnome_canvas_item_hide (day_view->resize_rect_item);
 	gnome_canvas_item_hide (day_view->resize_bar_item);
@@ -5591,6 +5592,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 	gchar *event_uid;
 	CalComponent *comp;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
 	time_t dt;
 
 	if ((data->length >= 0) && (data->format == 8)) {
@@ -5639,17 +5641,18 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 
 			comp = cal_component_clone (event->comp);
 
-			date.value = g_new (struct icaltimetype, 1);
+			date.value = &itt;
+			date.tzid = NULL;
+
 			dt = day_view->day_starts[day] + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 			cal_component_set_dtstart (comp, &date);
 			if (end_offset == -1 || end_offset == 0)
 				dt = day_view->day_starts[day + num_days];
 			else
 				dt = day_view->day_starts[day + num_days - 1] + end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 			cal_component_set_dtend (comp, &date);
-			g_free (date.value);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
@@ -5692,6 +5695,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 	gchar *event_uid;
 	CalComponent *comp;
 	CalComponentDateTime date;
+	struct icaltimetype itt;
 	time_t dt;
 
 	gnome_canvas_get_scroll_offsets (GNOME_CANVAS (widget),
@@ -5741,14 +5745,15 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			   had changed in the "update_event" callback. */
 			comp = cal_component_clone (event->comp);
 
-			date.value = g_new (struct icaltimetype, 1);
+			date.value = &itt;
+			date.tzid = NULL;
+
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row) + start_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 			cal_component_set_dtstart (comp, &date);
 			dt = e_day_view_convert_grid_position_to_time (day_view, day, row + num_rows) - end_offset * 60;
-			*date.value = icaltime_from_timet (dt, FALSE, TRUE);
+			*date.value = icaltime_from_timet (dt, FALSE, FALSE);
 			cal_component_set_dtend (comp, &date);
-			g_free (date.value);
 
 			gtk_drag_finish (context, TRUE, TRUE, time);
 
