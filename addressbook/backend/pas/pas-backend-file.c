@@ -944,7 +944,8 @@ pas_backend_file_load_uri (PASBackend             *backend,
 		if (pas_backend_file_maybe_upgrade_db (bf))
 			bf->priv->loaded = TRUE;
 		/* XXX what if we fail to upgrade it? */
-
+		
+		g_free(bf->priv->uri);
 		bf->priv->uri = g_strdup (uri);
 	} else {
 		GList *l;
@@ -1096,10 +1097,7 @@ pas_backend_file_destroy (GtkObject *object)
 
 	bf = PAS_BACKEND_FILE (object);
 
-	if (bf->priv->uri) {
-		g_free (bf->priv->uri);
-		bf->priv->uri = NULL;
-	}
+	g_free (bf->priv->uri);
 
 	GTK_OBJECT_CLASS (pas_backend_file_parent_class)->destroy (object);	
 }
@@ -1132,6 +1130,7 @@ pas_backend_file_init (PASBackendFile *backend)
 	priv->loaded     = FALSE;
 	priv->clients    = NULL;
 	priv->book_views = NULL;
+	priv->uri        = NULL;
 
 	backend->priv = priv;
 }

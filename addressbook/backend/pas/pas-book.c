@@ -419,7 +419,7 @@ pas_book_respond_get_book_view (PASBook                           *book,
 		book->priv->listener, status, object, &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("pas_book_respond_get_cursor: Exception "
+		g_warning ("pas_book_respond_get_book_view: Exception "
 			   "responding to BookListener!\n");
 	}
 

@@ -1,5 +1,17 @@
 2000-05-01  Christopher James Lahey  <clahey@helixcode.com>
 
+	* backend/pas/pas-backend-file.c, backend/pas/pas-backend-ldap.c:
+	Made uri slightly better managed.
+	
+	* backend/pas/pas-book-factory.c
+	(pas_book_factory_process_request): Remove this
+	CORBA_Object_release that causes things not to work.  This is just
+	a temporary fix until we figure out what's actually wrong.
+
+	* backend/pas/pas-book.c: Fixed a copy and paste error in a warning.
+	
+2000-05-01  Christopher James Lahey  <clahey@helixcode.com>
+
 	* Makefile.am: Switched the subdirs order since backend depends on
 	ename.
 

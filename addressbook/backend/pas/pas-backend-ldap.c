@@ -885,6 +885,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 	ldap_error = ldap_url_parse ((char*)uri, &lud);
 	if (ldap_error == LDAP_SUCCESS) {
+		g_free(bl->priv->uri);
 		bl->priv->uri = g_strdup (uri);
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;
@@ -1040,10 +1041,7 @@ pas_backend_ldap_destroy (GtkObject *object)
 
 	bl = PAS_BACKEND_LDAP (object);
 
-	if (bl->priv->uri) {
-		g_free (bl->priv->uri);
-		bl->priv->uri = NULL;
-	}
+	g_free (bl->priv->uri);
 
 	GTK_OBJECT_CLASS (pas_backend_ldap_parent_class)->destroy (object);	
 }
@@ -1072,9 +1070,10 @@ pas_backend_ldap_init (PASBackendLDAP *backend)
 {
 	PASBackendLDAPPrivate *priv;
 
-	priv          = g_new0 (PASBackendLDAPPrivate, 1);
-	priv->connected  = FALSE;
-	priv->clients = NULL;
+	priv            = g_new0 (PASBackendLDAPPrivate, 1);
+	priv->connected = FALSE;
+	priv->clients   = NULL;
+	priv->uri       = NULL;
 
 	backend->priv = priv;
 }
