@@ -1,3 +1,16 @@
+2001-10-10  Larry Ewing  <lewing@ximian.com>
+
+	* e-msg-composer.h: add prototype.
+
+	* e-msg-composer.c (e_msg_composer_add_message_attachments): new
+	function to copy attachments from the a message to a composer.
+	(e_msg_composer_set_pending_body): make simple function to
+	abstract this.
+	(e_msg_composer_apply_pending_body): apply the pending body to
+	the composer.
+	(e_msg_composer_new_with_message): use
+	e_msg_composer_add_message_attachments to copy attachments.
+
 2001-10-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer-attachment-bar.c (add_from_file): If the

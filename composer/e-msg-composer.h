@@ -172,6 +172,9 @@ gboolean          e_msg_composer_get_smime_encrypt      (EMsgComposer     *compo
 gchar *           e_msg_composer_get_sig_file_content   (const char       *sigfile,
 							 gboolean          in_html);
 
+void              e_msg_composer_add_message_attachments (EMsgComposer *composer, 
+							  CamelMimeMessage *msg);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
