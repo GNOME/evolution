@@ -108,8 +108,6 @@
 
         <menuitem name="ToolsSubscriptions" verb="" _label="_Subscribe to Folders..."/>
 
-        <separator/>
-
       </submenu>
     </placeholder>
   </menu>

@@ -1,5 +1,10 @@
 2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
 
+	* evolution-mail-global.xml: Remove a separator after the
+	"Subscribe to Folders" item.
+
+2001-08-13  Ettore Perazzoli  <ettore@ximian.com>
+
 	* evolution-calendar.xml: Add labels for the ShowDayView,
 	ShowWorkWeekView, ShowWeekView, ShowMonthView buttons.
 
