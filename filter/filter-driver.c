@@ -466,11 +466,13 @@ filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessage
 	g_string_free (fsearch, TRUE);
 	g_string_free (faction, TRUE);
 	
-	if (!p->deleted && g_hash_table_size (p->folders) == 0 && inbox) {
-		/* copy it to the default inbox */
-		mail_tool_camel_lock_up ();
-		camel_folder_append_message (inbox, p->message, p->info, p->ex);
-		mail_tool_camel_lock_down ();
+	if (!p->deleted && g_hash_table_size (p->folders) == 0) {
+		if (inbox) {
+			/* copy it to the default inbox */
+			mail_tool_camel_lock_up ();
+			camel_folder_append_message (inbox, p->message, p->info, p->ex);
+			mail_tool_camel_lock_down ();
+		}
 	} else {
 		filtered = TRUE;
 	}

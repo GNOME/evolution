@@ -1,5 +1,11 @@
 2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filter-driver.c (filter_driver_run): Fixed a logic error. Only
+	mark filtered as TRUE if it was successfully copied to another
+	folder, this means don't mark true if the default inbox is NULL.
+
+2000-09-09  Jeffrey Stedfast  <fejj@helixcode.com>
+
 	* filter-driver.c (filter_driver_run): Erm, okay I misunderstood
 	what camel_folder_[un]hook_event() did - we don't even need this
 	crap in the filter driver so lets take it completely out and let
