@@ -1,3 +1,10 @@
+2001-02-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (camel_filter_driver_finalise): Thaw the
+	defaultfolder.
+	(camel_filter_driver_set_default_folder): Thaw the defaultfolder
+	we're about to replace, and freeze the new defaultfolder.
+
 2001-02-07  Iain Holmes  <iain@ximian.com>
 
 	* camel-object.c (camel_object_hook_event): Don't strdup the key,
