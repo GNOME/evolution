@@ -70,7 +70,7 @@ do_save_calendar_ical (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSourc
 		return;
 
 	/* open source client */
-	source_client = e_cal_new (primary_source, type);
+	source_client = auth_new_cal_from_source (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error->message);
 		g_object_unref (source_client);

@@ -36,6 +36,7 @@
 #include <libedataserver/e-source.h>
 #include <libedataserverui/e-source-selector.h>
 #include <libecal/e-cal.h>
+#include "calendar/common/authentication.h"
 #include <calendar/gui/e-cal-popup.h>
 #include <libgnomevfs/gnome-vfs.h>
 #include <string.h>
@@ -330,7 +331,7 @@ do_save_calendar_csv (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
 	/* open source client */
-	source_client = e_cal_new (primary_source, type);
+	source_client = auth_new_cal_from_source (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
 		g_object_unref (source_client);

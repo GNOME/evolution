@@ -46,6 +46,7 @@
 #include <string.h>
 
 #include "widgets/misc/e-error.h"
+#include "calendar/common/authentication.c"
 
 #include "format-handler.h"
 
@@ -205,7 +206,7 @@ do_save_calendar_rdf (FormatHandler *handler, EPlugin *ep, ECalPopupTargetSource
 	primary_source = e_source_selector_peek_primary_selection (target->selector);
 
 	/* open source client */
-	source_client = e_cal_new (primary_source, type);
+	source_client = auth_new_cal_from_source (primary_source, type);
 	if (!e_cal_open (source_client, TRUE, &error)) {
 		display_error_message (gtk_widget_get_toplevel (GTK_WIDGET (target->selector)), error);
 		g_object_unref (source_client);
