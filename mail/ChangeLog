@@ -1,5 +1,10 @@
 2002-07-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* folder-browser-ui.c: Modified to use a single list of UI node
+	elements with an enable-mask rather than split into groups. This
+	allows much more control and easier modification to get the
+	desired enable/disable effects.
+
 	* mail-display.c (mail_display_set_message): If we unref'd a
 	current_message, clear the datalist. Don't bother connecting to
 	the message's finalise signal because something else may own a ref
