@@ -46,17 +46,37 @@ struct _FilterDriverClass {
 	GtkObjectClass parent_class;
 };
 
+/* type of status for a status report */
+enum filter_status_t {
+	FILTER_STATUS_NONE,
+	FILTER_STATUS_START,	/* start of new message processed */
+	FILTER_STATUS_ACTION,	/* an action performed */
+	FILTER_STATUS_PROGRESS,	/* (an) extra update(s), if its taking longer to process */
+	FILTER_STATUS_END,	/* end of message */
+};
+
 typedef CamelFolder * (*FilterGetFolderFunc) (FilterDriver *, const char *uri, void *data);
+/* report status */
+typedef void (FDStatusFunc)(FilterDriver *driver, enum filter_status_t status, const char *desc, CamelMimeMessage *msg, void *data);
 
 guint         filter_driver_get_type (void);
 FilterDriver  *filter_driver_new     (FilterContext *ctx, FilterGetFolderFunc fetcher, void *data);
 
+/* modifiers */
+void	      filter_driver_set_status_func(FilterDriver *d, FDStatusFunc *func, void *data);
+void	      filter_driver_set_default_folder(FilterDriver *d, CamelFolder *def);
+
 /*void filter_driver_set_global(FilterDriver *, const char *name, const char *value);*/
 
 /* filter a message - returns TRUE if the message was filtered into some location other than inbox */
-gboolean filter_driver_run (FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
-			    CamelFolder *inbox, enum _filter_source_t sourcetype,
-			    FILE *logfile, CamelException *ex);
+gboolean filter_driver_filter_message	(FilterDriver *driver, CamelMimeMessage *message, CamelMessageInfo *info,
+					 const char *source, CamelException *ex);
+void	filter_driver_filter_mbox	(FilterDriver *driver, const char *mbox, const char *source, CamelException *ex);
+void	filter_driver_filter_folder	(FilterDriver *driver, CamelFolder *folder, const char *source,
+					 GPtrArray *uids, gboolean remove, CamelException *ex);
+
+/* convenience function to log the status, data should be the FILE * of the logfile */
+void filter_driver_status_log(FilterDriver *driver, enum filter_status_t status, const char *desc, CamelMimeMessage *msg, void *data);
 
 #if 0
 /* generate the search query/action string for a filter option */

@@ -26,12 +26,12 @@
 
 #define d(x)
 
-static int	load(RuleContext *f, const char *system, const char *user);
-static int	save(RuleContext *f, const char *user);
+static int load(RuleContext * f, const char *system, const char *user);
+static int save(RuleContext * f, const char *user);
 
-static void rule_context_class_init	(RuleContextClass *class);
-static void rule_context_init	(RuleContext *gspaper);
-static void rule_context_finalise	(GtkObject *obj);
+static void rule_context_class_init(RuleContextClass * class);
+static void rule_context_init(RuleContext * gspaper);
+static void rule_context_finalise(GtkObject * obj);
 
 #define _PRIVATE(x) (((RuleContext *)(x))->priv)
 
@@ -47,34 +47,34 @@ enum {
 static guint signals[LAST_SIGNAL] = { 0 };
 
 guint
-rule_context_get_type (void)
+rule_context_get_type(void)
 {
 	static guint type = 0;
-	
+
 	if (!type) {
 		GtkTypeInfo type_info = {
 			"RuleContext",
 			sizeof(RuleContext),
 			sizeof(RuleContextClass),
-			(GtkClassInitFunc)rule_context_class_init,
-			(GtkObjectInitFunc)rule_context_init,
-			(GtkArgSetFunc)NULL,
-			(GtkArgGetFunc)NULL
+			(GtkClassInitFunc) rule_context_class_init,
+			(GtkObjectInitFunc) rule_context_init,
+			(GtkArgSetFunc) NULL,
+			(GtkArgGetFunc) NULL
 		};
-		
-		type = gtk_type_unique(gtk_object_get_type (), &type_info);
+
+		type = gtk_type_unique(gtk_object_get_type(), &type_info);
 	}
-	
+
 	return type;
 }
 
 static void
-rule_context_class_init (RuleContextClass *class)
+rule_context_class_init(RuleContextClass * class)
 {
 	GtkObjectClass *object_class;
-	
-	object_class = (GtkObjectClass *)class;
-	parent_class = gtk_type_class(gtk_object_get_type ());
+
+	object_class = (GtkObjectClass *) class;
+	parent_class = gtk_type_class(gtk_object_get_type());
 
 	object_class->finalize = rule_context_finalise;
 
@@ -88,7 +88,7 @@ rule_context_class_init (RuleContextClass *class)
 }
 
 static void
-rule_context_init (RuleContext *o)
+rule_context_init(RuleContext * o)
 {
 	o->priv = g_malloc0(sizeof(*o->priv));
 
@@ -97,13 +97,13 @@ rule_context_init (RuleContext *o)
 }
 
 static void
-rule_context_finalise(GtkObject *obj)
+rule_context_finalise(GtkObject * obj)
 {
-	RuleContext *o = (RuleContext *)obj;
+	RuleContext *o = (RuleContext *) obj;
 
 	o = o;
 
-        ((GtkObjectClass *)(parent_class))->finalize(obj);
+	((GtkObjectClass *) (parent_class))->finalize(obj);
 }
 
 /**
@@ -116,11 +116,13 @@ rule_context_finalise(GtkObject *obj)
 RuleContext *
 rule_context_new(void)
 {
-	RuleContext *o = (RuleContext *)gtk_type_new(rule_context_get_type ());
+	RuleContext *o = (RuleContext *) gtk_type_new(rule_context_get_type());
+
 	return o;
 }
 
-void		rule_context_add_part_set(RuleContext *f, const char *setname, int part_type, RCPartFunc append, RCNextPartFunc next)
+void
+rule_context_add_part_set(RuleContext * f, const char *setname, int part_type, RCPartFunc append, RCNextPartFunc next)
 {
 	struct _part_set_map *map;
 
@@ -134,7 +136,8 @@ void		rule_context_add_part_set(RuleContext *f, const char *setname, int part_ty
 	d(printf("adding part set '%s'\n", setname));
 }
 
-void		rule_context_add_rule_set(RuleContext *f, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next)
+void
+rule_context_add_rule_set(RuleContext * f, const char *setname, int rule_type, RCRuleFunc append, RCNextRuleFunc next)
 {
 	struct _rule_set_map *map;
 
@@ -156,7 +159,7 @@ void		rule_context_add_rule_set(RuleContext *f, const char *setname, int rule_ty
  * Set the text error for the context, or NULL to clear it.
  **/
 static void
-rule_context_set_error(RuleContext *f, char *error)
+rule_context_set_error(RuleContext * f, char *error)
 {
 	g_free(f->error);
 	f->error = error;
@@ -172,14 +175,16 @@ rule_context_set_error(RuleContext *f, char *error)
  * 
  * Return value: 
  **/
-int		rule_context_load(RuleContext *f, const char *system, const char *user)
+int
+rule_context_load(RuleContext * f, const char *system, const char *user)
 {
 	d(printf("rule_context: loading %s %s\n", system, user));
 
-	return ((RuleContextClass *)((GtkObject *)f)->klass)->load(f, system, user);
+	return ((RuleContextClass *) ((GtkObject *) f)->klass)->load(f, system, user);
 }
 
-static int	load(RuleContext *f, const char *system, const char *user)
+static int
+load(RuleContext * f, const char *system, const char *user)
 {
 	xmlNodePtr set, rule;
 	struct _part_set_map *part_map;
@@ -216,10 +221,11 @@ static int	load(RuleContext *f, const char *system, const char *user)
 			while (rule) {
 				if (!strcmp(rule->name, "part")) {
 					FilterPart *part = FILTER_PART(gtk_type_new(part_map->type));
+
 					if (filter_part_xml_create(part, rule) == 0) {
 						part_map->append(f, part);
 					} else {
-						gtk_object_unref((GtkObject *)part);
+						gtk_object_unref((GtkObject *) part);
 						g_warning("Cannot load filter part");
 					}
 				}
@@ -242,10 +248,11 @@ static int	load(RuleContext *f, const char *system, const char *user)
 					d(printf("checking node: %s\n", rule->name));
 					if (!strcmp(rule->name, "rule")) {
 						FilterRule *part = FILTER_RULE(gtk_type_new(rule_map->type));
+
 						if (filter_rule_xml_decode(part, rule, f) == 0) {
 							rule_map->append(f, part);
 						} else {
-							gtk_object_unref((GtkObject *)part);
+							gtk_object_unref((GtkObject *) part);
 							g_warning("Cannot load filter part");
 						}
 					}
@@ -267,12 +274,14 @@ static int	load(RuleContext *f, const char *system, const char *user)
  * 
  * Return value: 
  **/
-int		rule_context_save(RuleContext *f, const char *user)
+int
+rule_context_save(RuleContext * f, const char *user)
 {
-	return ((RuleContextClass *)((GtkObject *)f)->klass)->save(f, user);
+	return ((RuleContextClass *) ((GtkObject *) f)->klass)->save(f, user);
 }
 
-static int	save(RuleContext *f, const char *user)
+static int
+save(RuleContext * f, const char *user)
 {
 	xmlDocPtr doc;
 	xmlNodePtr root, rules, work;
@@ -289,7 +298,7 @@ static int	save(RuleContext *f, const char *user)
 		rules = xmlNewDocNode(doc, NULL, map->name, NULL);
 		xmlAddChild(root, rules);
 		rule = NULL;
-		while ( (rule = map->next(f, rule)) ) {
+		while ((rule = map->next(f, rule, NULL))) {
 			d(printf("processing rule %s\n", rule->name));
 			work = filter_rule_xml_encode(rule);
 			xmlAddChild(rules, work);
@@ -301,13 +310,15 @@ static int	save(RuleContext *f, const char *user)
 	return 0;
 }
 
-FilterPart *rule_context_find_part(RuleContext *f, const char *name)
+FilterPart *
+rule_context_find_part(RuleContext * f, const char *name)
 {
 	d(printf("find part : "));
 	return filter_part_find_list(f->parts, name);
 }
 
-FilterPart 	*rule_context_create_part(RuleContext *f, const char *name)
+FilterPart *
+rule_context_create_part(RuleContext * f, const char *name)
 {
 	FilterPart *part;
 
@@ -317,100 +328,104 @@ FilterPart 	*rule_context_create_part(RuleContext *f, const char *name)
 	return part;
 }
 
-FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last)
+FilterPart *
+rule_context_next_part(RuleContext * f, FilterPart * last)
 {
 	return filter_part_next_list(f->parts, last);
 }
 
-FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last)
+FilterRule *
+rule_context_next_rule(RuleContext * f, FilterRule * last, const char *source)
 {
-	return filter_rule_next_list(f->rules, last);
+	return filter_rule_next_list(f->rules, last, source);
 }
 
-FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name)
+FilterRule *
+rule_context_find_rule(RuleContext * f, const char *name, const char *source)
 {
-	return filter_rule_find_list(f->rules, name);
+	return filter_rule_find_list(f->rules, name, source);
 }
 
-void		rule_context_add_part(RuleContext *f, FilterPart *part)
+void
+rule_context_add_part(RuleContext * f, FilterPart * part)
 {
 	f->parts = g_list_append(f->parts, part);
 }
 
-void		rule_context_add_rule(RuleContext *f, FilterRule *new)
+void
+rule_context_add_rule(RuleContext * f, FilterRule * new)
 {
 	f->rules = g_list_append(f->rules, new);
 }
 
 static void
-new_rule_clicked(GtkWidget *w, int button, RuleContext *context)
+new_rule_clicked(GtkWidget * w, int button, RuleContext * context)
 {
 #ifndef NO_WARNINGS
 #warning "Need a changed signal for this to work best"
 #endif
 	if (button == 0) {
-		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
-		char *user = gtk_object_get_data((GtkObject *)w, "path");
+		FilterRule *rule = gtk_object_get_data((GtkObject *) w, "rule");
+		char *user = gtk_object_get_data((GtkObject *) w, "path");
 
-		gtk_object_ref((GtkObject *)rule);
+		gtk_object_ref((GtkObject *) rule);
 		rule_context_add_rule(context, rule);
 		if (user) {
-			rule_context_save((RuleContext *)context, user);
+			rule_context_save((RuleContext *) context, user);
 		}
 	}
 	if (button != -1) {
-		gnome_dialog_close((GnomeDialog *)w);
+		gnome_dialog_close((GnomeDialog *) w);
 	}
 }
 
 /* add a rule, with a gui, asking for confirmation first ... optionally save to path */
-void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *title, const char *path)
+void
+rule_context_add_rule_gui(RuleContext * f, FilterRule * rule, const char *title, const char *path)
 {
 	GtkWidget *w;
 	GnomeDialog *gd;
 
 	w = filter_rule_get_widget(rule, f);
-	gd = (GnomeDialog *)gnome_dialog_new(title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
-	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
-	gtk_widget_show((GtkWidget *)gd);
-	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
+	gd = (GnomeDialog *) gnome_dialog_new(title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gtk_box_pack_start((GtkBox *) gd->vbox, w, FALSE, TRUE, 0);
+	gtk_widget_show((GtkWidget *) gd);
+	gtk_object_set_data_full((GtkObject *) gd, "rule", rule, (GtkDestroyNotify) gtk_object_unref);
 	if (path)
-		gtk_object_set_data_full((GtkObject *)gd, "path", g_strdup(path), (GtkDestroyNotify)g_free);
-	gtk_signal_connect((GtkObject *)gd, "clicked", new_rule_clicked, f);
-	gtk_object_ref((GtkObject *)f);
-	gtk_object_set_data_full((GtkObject *)gd, "context", f, (GtkDestroyNotify)gtk_object_unref);
-	gtk_widget_show((GtkWidget *)gd);
+		gtk_object_set_data_full((GtkObject *) gd, "path", g_strdup(path), (GtkDestroyNotify) g_free);
+	gtk_signal_connect((GtkObject *) gd, "clicked", new_rule_clicked, f);
+	gtk_object_ref((GtkObject *) f);
+	gtk_object_set_data_full((GtkObject *) gd, "context", f, (GtkDestroyNotify) gtk_object_unref);
+	gtk_widget_show((GtkWidget *) gd);
 }
 
-void		rule_context_remove_rule(RuleContext *f, FilterRule *rule)
+void
+rule_context_remove_rule(RuleContext * f, FilterRule * rule)
 {
 	f->rules = g_list_remove(f->rules, rule);
 }
 
-void		rule_context_rank_rule(RuleContext *f, FilterRule *rule, int rank)
+void
+rule_context_rank_rule(RuleContext * f, FilterRule * rule, int rank)
 {
 	f->rules = g_list_remove(f->rules, rule);
 	f->rules = g_list_insert(f->rules, rule, rank);
 }
 
-int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule)
+int
+rule_context_get_rank_rule(RuleContext * f, FilterRule * rule, const char *source)
 {
-	return g_list_index(f->rules, rule);
-}
+	GList *n = f->rules;
+	int i = 0;
 
-int 
-rule_context_get_rank_rule_with_source(RuleContext *f, FilterRule *rule, enum _filter_source_t source)
-{
-	int i;
-	GList *iter;
+	while (n) {
+		FilterRule *r = n->data;
 
-	i = 0;
-	for (iter = f->rules; iter; iter = iter->next) {
-		if (iter->data == rule)
+		if (r == rule)
 			return i;
-		if (((FilterRule *)iter->data)->source == source)
+		if (source == NULL || (r->source && strcmp(r->source, source) == 0))
 			i++;
+		n = g_list_next(n);
 	}
-
-	return -1;
+	return i;
 }

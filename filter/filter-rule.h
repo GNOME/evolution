@@ -39,21 +39,20 @@ enum _filter_grouping_t {
 	FILTER_GROUP_ANY	/* any rule must match */
 };
 
-enum _filter_source_t {
-	FILTER_SOURCE_INCOMING, /* performed on incoming email */
-	FILTER_SOURCE_DEMAND,   /* performed on the selected folder
-				 * when the user asks for it */
-	FILTER_SOURCE_OUTGOING  /* performed on outgoing mail */
-};
+
+#define FILTER_SOURCE_INCOMING "incoming" /* performed on incoming email */
+#define FILTER_SOURCE_DEMAND   "demand"   /* performed on the selected folder
+	 				   * when the user asks for it */
+#define	FILTER_SOURCE_OUTGOING  "outgoing"/* performed on outgoing mail */
 
 struct _FilterRule {
 	GtkObject parent;
 	struct _FilterRulePrivate *priv;
 	
 	char *name;
+	char *source;
 	
 	enum _filter_grouping_t grouping;
-	enum _filter_source_t source;
 	GList *parts;
 };
 
@@ -76,6 +75,7 @@ FilterRule	*filter_rule_new	(void);
 
 /* methods */
 void		filter_rule_set_name	(FilterRule *fr, const char *name);
+void		filter_rule_set_source	(FilterRule *fr, const char *source);
 
 xmlNodePtr	filter_rule_xml_encode	(FilterRule *fr);
 int		filter_rule_xml_decode	(FilterRule *fr, xmlNodePtr node, struct _RuleContext *f);
@@ -92,8 +92,8 @@ void		filter_rule_build_action(FilterRule *fr, GString *out);
 */
 
 /* static functions */
-FilterRule	*filter_rule_next_list		(GList *l, FilterRule *last);
-FilterRule	*filter_rule_find_list		(GList *l, const char *name);
+FilterRule	*filter_rule_next_list		(GList *l, FilterRule *last, const char *source);
+FilterRule	*filter_rule_find_list		(GList *l, const char *name, const char *source);
 
 #endif /* ! _FILTER_RULE_H */
 

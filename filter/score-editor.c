@@ -168,7 +168,7 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 	result = gnome_dialog_run_and_close(gd);
 
 	if (result == 0) {
-		pos = rule_context_get_rank_rule(data->f, data->current);
+		pos = rule_context_get_rank_rule(data->f, data->current, NULL);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data(data->list->children, pos);
 			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) data->list, data->current->name);
@@ -185,7 +185,7 @@ static void rule_delete(GtkWidget *widget, struct _editor_data *data)
 	GtkListItem *item;
 
 	d(printf("ddelete rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
 	if (pos != -1) {
 		rule_context_remove_rule(data->f, data->current);
 
@@ -221,7 +221,7 @@ static void rule_up(GtkWidget *widget, struct _editor_data *data)
 	int pos;
 
 	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
 	if (pos>0) {
 		rule_move(data, pos, pos-1);
 	}
@@ -232,7 +232,7 @@ static void rule_down(GtkWidget *widget, struct _editor_data *data)
 	int pos;
 
 	d(printf("down rule\n"));
-	pos = rule_context_get_rank_rule(data->f, data->current);
+	pos = rule_context_get_rank_rule(data->f, data->current, NULL);
 	rule_move(data, pos, pos+1);
 }
 
@@ -253,7 +253,7 @@ set_sensitive(struct _editor_data *data)
 	FilterRule *rule = NULL;
 	int index=-1, count=0;
 
-	while ((rule = rule_context_next_rule(data->f, rule))) {
+	while ((rule = rule_context_next_rule(data->f, rule, NULL))) {
 		if (rule == data->current)
 			index=count;
 		count++;
@@ -304,7 +304,7 @@ GtkWidget	*score_editor_construct	(struct _ScoreContext *f)
         w = glade_xml_get_widget (gui, "rule_list");
 	data->list = (GtkList *)w;
 	l = NULL;
-	while ((rule = rule_context_next_rule((RuleContext *)f, rule))) {
+	while ((rule = rule_context_next_rule((RuleContext *)f, rule, NULL))) {
 		GtkListItem *item;
 		gchar *s;
 

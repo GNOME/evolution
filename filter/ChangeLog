@@ -1,3 +1,90 @@
+2000-10-11  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (filter_driver_filter_mbox): Report the
+	percentage of file complete for the filter.
+
+2000-10-10  Not Zed  <NotZed@HelixCode.com>
+
+	* filter-driver.c (filter_driver_run): Why on earth does this code
+	ref all these objects for?  This is not right at all.
+	(filter_driver_run): Changed source type to a string.
+	(filter_driver_run): REmove the very weird exception copying
+	stuff - just ref it instead.
+	(do_score): 
+	(do_colour): 
+	(do_stop): 
+	(do_copy): 
+	(mark_forward): 
+	(do_delete): Removed bogus 'terminated' testing.  This is NOT
+	NEEDED HERE.  It is tested after every rule/action, and
+	termination only makes sense at that point.
+	(filter_driver_filter_message): new funciton (renamed), filter
+	only a message.
+	(filter_driver_filter_mbox): Filter a whole mbox.
+	(filter_driver_run): If we aren't given an info, create a simple
+	one based on the message headers.
+	(filter_driver_filter_message): Renamed from filter_driver_run().
+	(filter_driver_set_status_func): Set the status callback function.
+	(filter_driver_set_default_folder): Set the default folder for
+	filtering.
+	(report_status): Internal function to report the status of a given
+	event.
+	(do_copy): Removed a pointless cache lookup - duh, we do it in
+	open_folder anyway (infact, we do it in camel too!!).
+	(filter_driver_filter_message): Removed pointless re-refing of
+	arguments.  Why would anyone think this could be any use at all?
+	(filter_driver_filter_folder): New function to filter a whole
+	folder.
+
+	* filter-editor.c (rule_add): api fixes.
+	(rule_edit): 
+	(rule_up): 
+	(rule_down): 
+	(set_sensitive): This didn't take into account the source, now it
+	does.
+	(select_source): Fix for api changes.  Changed the rather generic
+	'number' argument to be 'source', and a string.
+	(filter_editor_construct): Changed the 'number' to 'source', and
+	set the string appropriately.  Added a warning for one case where
+	the glade file is out of sync.
+
+	* score-editor.c (score_editor_construct): 
+	(rule_edit): 
+	(rule_delete): 
+	(rule_up): 
+	(rule_down): 
+	(set_sensitive): api fixes.
+
+	* vfolder-editor.c (set_sensitive): Api fixes.
+	(vfolder_editor_construct): 
+	(rule_edit): 
+	(vfolder_editor_construct): 
+
+	* rule-context.h (RCNextRuleFunc): Added a source argument.
+
+	* rule-context.c (rule_context_next_rule): Added source argument.
+	(rule_context_find_rule): Added source argument.
+	(rule_context_get_rank_rule): Added source argument.
+	(rule_context_get_rank_rule_with_source): Removed.
+	(save): Fixed for changes to RCNextRuleFunc prototype.
+
+	* filter-rule.h: Changed the source to be a string, removed the
+	filter_source_t type.
+
+	* filter-rule.c (filter_rule_set_source): New function to set the
+	source of a rule.  What idiot ran this code through indent?
+	(filter_rule_find_list): Added a source argument.
+	(filter_rule_next_list): Added a source argument.
+	(get_widget): Fixed the wording.  You dont remove search parts,
+	you can only remove the last one.  Why you even need to mention
+	they are search 'criteria' is beyond me.  Whoever added the
+	scrolled window needs to be shot, its the single most awful GUI
+	feature ever invented (ranks with the close button next to
+	maximise).
+	(xml_encode): Save source as a string (if present).
+	(xml_decode): Likewise for loading & fixed a small memleak.
+	(filter_rule_finalise): Free source.
+
 2000-10-06  Not Zed  <NotZed@HelixCode.com>
 
 	* rule-context.c (load): Remove the stupid on-demand cb shit.

@@ -67,7 +67,7 @@ struct _RuleContextClass {
 typedef void (*RCPartFunc)(RuleContext *f, FilterPart *part);
 typedef void (*RCRuleFunc)(RuleContext *f, FilterRule *part);
 typedef FilterPart * (*RCNextPartFunc)(RuleContext *f, FilterPart *part);
-typedef FilterRule * (*RCNextRuleFunc)(RuleContext *f, FilterRule *rule);
+typedef FilterRule * (*RCNextRuleFunc)(RuleContext *f, FilterRule *rule, const char *source);
 
 struct _part_set_map {
 	char *name;
@@ -95,16 +95,15 @@ FilterPart 	*rule_context_find_part(RuleContext *f, const char *name);
 FilterPart 	*rule_context_create_part(RuleContext *f, const char *name);
 FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last);
 
-FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last);
-FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name);
+FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last, const char *source);
+FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name, const char *source);
 void		rule_context_add_rule(RuleContext *f, FilterRule *new);
 void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *title, const char *path);
 void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);
 
 /* get/set the rank (position) of a rule */
 void		rule_context_rank_rule(RuleContext *f, FilterRule *rule, int rank);
-int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule);
-int             rule_context_get_rank_rule_with_source(RuleContext *f, FilterRule *rule, enum _filter_source_t source);
+int		rule_context_get_rank_rule(RuleContext *f, FilterRule *rule, const char *source);
 
 void		rule_context_delete_rule(RuleContext *f, FilterRule *rule);
 

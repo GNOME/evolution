@@ -130,7 +130,7 @@ struct _editor_data {
 	FilterRule *current;
 	GtkList *list;
 	GtkButton *buttons[BUTTON_LAST];
-	enum _filter_source_t current_source;
+	char *current_source;
 };
 
 static void set_sensitive (struct _editor_data *data);
@@ -147,7 +147,7 @@ rule_add (GtkWidget *widget, struct _editor_data *data)
 	d(printf ("add rule\n"));
 	/* create a new rule with 1 match and 1 action */
 	rule = filter_filter_new ();
-	((FilterRule *)rule)->source = data->current_source;
+	filter_rule_set_source((FilterRule *)rule, data->current_source);
 	
 	part = rule_context_next_part (data->f, NULL);
 	filter_rule_add_part ((FilterRule *)rule, filter_part_clone (part));
@@ -196,15 +196,13 @@ rule_edit (GtkWidget *widget, struct _editor_data *data)
 	d(printf ("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget (rule, data->f);
-	gd = gnome_dialog_new (_("Edit Rule"),
-			       GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
-			       NULL);
+	gd = gnome_dialog_new(_("Edit Rule"), GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (gd)->vbox), w, FALSE, TRUE, 0);
 	gtk_widget_show (gd);
 	result = gnome_dialog_run_and_close (GNOME_DIALOG (gd));
 	
 	if (result == 0) {
-		pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
+		pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 		if (pos != -1) {
 			GtkListItem *item = g_list_nth_data (data->list->children, pos);
 			gchar *s = e_utf8_to_gtk_string ((GtkWidget *) item, data->current->name);
@@ -222,7 +220,7 @@ rule_delete (GtkWidget *widget, struct _editor_data *data)
 	GtkListItem *item;
 
 	d(printf("ddelete rule\n"));
-	pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
+	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	if (pos != -1) {
 		rule_context_remove_rule (data->f, data->current);
 		
@@ -260,7 +258,7 @@ rule_up (GtkWidget *widget, struct _editor_data *data)
 	int pos;
 	
 	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
+	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	if (pos > 0) {
 		rule_move (data, pos, pos-1);
 	}
@@ -272,7 +270,7 @@ rule_down (GtkWidget *widget, struct _editor_data *data)
 	int pos;
 	
 	d(printf ("down rule\n"));
-	pos = rule_context_get_rank_rule_with_source (data->f, data->current, data->current_source);
+	pos = rule_context_get_rank_rule(data->f, data->current, data->current_source);
 	rule_move (data, pos, pos+1);
 }
 
@@ -293,7 +291,7 @@ set_sensitive (struct _editor_data *data)
 	FilterRule *rule = NULL;
 	int index = -1, count = 0;
 	
-	while ((rule = rule_context_next_rule (data->f, rule))) {
+	while ((rule = rule_context_next_rule (data->f, rule, data->current_source))) {
 		if (rule == data->current)
 			index=count;
 		count++;
@@ -335,22 +333,16 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 {
 	FilterRule *rule = NULL;
 	GList *newitems = NULL;
-	enum _filter_source_t source;
+	char *source;
 	
-	source = (enum _filter_source_t) GPOINTER_TO_INT (
-		gtk_object_get_data (GTK_OBJECT (mi), "number"));
+	source = gtk_object_get_data (GTK_OBJECT (mi), "source");
 	
 	gtk_list_clear_items (GTK_LIST (data->list), 0, -1);
 	
 	d(printf ("Checking for rules that are of type %d\n", source));
-	while ((rule = rule_context_next_rule (data->f, rule)) != NULL) {
+	while ((rule = rule_context_next_rule (data->f, rule, source)) != NULL) {
 		GtkWidget *item;
-		gchar *s;
-		
-		if (rule->source != source) {
-			d(printf ("   skipping %s: %d != %d\n", rule->name, rule->source, source));
-			continue;
-		}
+		char *s;
 		
 		d(printf ("   hit %s (%d)\n", rule->name, source));
 		s = e_utf8_to_gtk_string (GTK_WIDGET (data->list), rule->name);
@@ -366,6 +358,12 @@ select_source (GtkMenuItem *mi, struct _editor_data *data)
 	data->current = NULL;
 	set_sensitive (data);
 }
+
+static char *source_names[] = {
+	"incoming",
+	"demand",
+	"outgoing"
+};
 
 GtkWidget *
 filter_editor_construct (struct _FilterContext *f)
@@ -400,8 +398,12 @@ filter_editor_construct (struct _FilterContext *f)
 		if (i == 0)
 			firstitem = b;
 		
-		/* make sure that the glade is in sync with enum _filter_source_t! */
-		gtk_object_set_data (GTK_OBJECT (b), "number", GINT_TO_POINTER (i));
+		/* make sure that the glade is in sync with the source list! */
+		if (i < sizeof(source_names)/sizeof(source_names[0])) {
+			gtk_object_set_data (GTK_OBJECT (b), "source", source_names[i]);
+		} else {
+			g_warning("Glade file " FILTER_GLADEDIR "/filter.glade out of sync with editor code");
+		}
 		gtk_signal_connect (GTK_OBJECT (b), "activate", select_source, data);
 		
 		i++;
