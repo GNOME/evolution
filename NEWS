@@ -1,7 +1,36 @@
-Version 0.14 (Beta 4)  "Nuclear Winter", 2001-09-20
-------------------------------------------------------
+Version 0.14 (Beta 4), 2001-09-20
+---------------------------------
 
-Shell:
+General:
+
+  - Lots of i18n fixes.  (Zbigniew Chyla and others)
+
+  - Made the splash screen use BackingStore.  (Ettore)
+
+  - Added a quit dialog box.  (Ettore)
+
+  - Fixed random shell crashes.  (Ettore)
+
+  - Fixed a shell crash that could happen when launching Evolution
+    before a previously launched instance was done initializing itself.
+    (Ettore)
+
+  - Got the shell to remember window geometries on exit.  (Ettore)
+
+  - Fixed some things for Automake 1.5 (unfinished).  (Richard
+    Boulton)
+
+  - Add nice highlighting to DnD operations in the folder tree.
+    (Ettore, Clahey)
+
+  - Fixed several leaks.  (Dan)
+
+  - Fixed some problems with folder creation and deletion.  (Toshok)
+
+  - Made the Summary the default folder.  (Ettore)
+
+  - Made the title bar display the unread message count again.
+    (Ettore)
 
 Mail:
 
@@ -13,9 +42,9 @@ Addressbook:
     Perazzoli, Iain Holmes, Zbigniew Chyla, Jacob Berkman)
 
   - Fixed race conditions associated with adding/removing contacts.
-    The addressbook should be much more stable now. (Trow)
+    The addressbook should be much more stable now.  (Trow)
 
-  - Fixed reference counting bugs in addressbook & wombat. (Trow)
+  - Fixed reference counting bugs in addressbook & wombat.  (Trow)
 
   - Made address lookup smarter; cut & paste of address now mostly works.
     (Trow)
@@ -25,9 +54,8 @@ Addressbook:
   - Name completion now works with one-word names, so it is now much
     easier to send mail to Cher. (Trow)
 
-  - Better handling of contact lists in the composer entries. (Trow, Chris Toshok)
-
-  - i18n fixes.  (Zbigniew, Trow, and probably everybody else too)
+  - Better handling of contact lists in the composer entries.  (Trow,
+    Toshok)
 
   - SelectNames dialog fixes. (Trow)
 
@@ -47,38 +75,37 @@ Addressbook:
 
 Calendar & Tasks:
 
-  - Free/Busy changes (JP, Rodrigo)
+  - Free/Busy changes.  (JP, Rodrigo)
 
 Summary:
 
-  - Fixed bugs (Iain)
+  - Fixed bugs and leaks (Iain)
 
-  - Leaks fixed (Larry)
+  - Fixed bug with handling of the Slashot RDF files. (Iain)
 
-  - /. bug fixed (Iain)
+  - Made the Addressbook and Tasks links open the editor for
+    them.  (Iain)
 
-  - i18n fixes (Zbigniew and probably others)
+  - Mail summary doesn't force all folders to be opened.  (Iain)
 
-  - Made the Addressbook and Tasks links open the editor for them. (Iain)
+  - Calendar summary shows if an alarm is set for an appointment.  (Iain)
 
-  - Mail summary doesn't force all folders to be opened. (Iain)
-
-  - Calendar summary shows if an alarm is set for an appointment. (Iain)
-
-  - Timezone stuff fixed (Iain with help from Damon)
+  - Timezone fixes.  (Iain, Damon)
 
 Importers:
 
-  - Fixed more bugs (Iain)
+  - Fixed more bugs.  (Iain)
 
-  - Netscape importer shouldn't crash on Movemail users
+  - Netscape importer shouldn't crash on Movemail users anymore.
+    (Iain)
 
-  - Pine importer should import addressbooks better.
+  - Pine importer should import addressbooks better.  (Iain)
 
-  - VCard importer will actually import things now.
+  - VCard importer will actually import things now.  (Iain)
 
-Version 0.13 (Beta 3)  "Radioactive Waste", 2001-08-21
-------------------------------------------------------
+
+Version 0.13 (Beta 3), 2001-08-21
+---------------------------------
 
 Global:
 
