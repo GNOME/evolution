@@ -28,3 +28,10 @@ libwombat_la_SOURCES = \
 	$(IDL_GENERATED) \
 	wombat-client.c \
 	$(wombatinclude_HEADERS)
+
+# Static lib for pilot conduits
+
+noinst_LTLIBRARIES = libwombat-static.la
+
+libwombat_static_la_SOURCES = $(libwombat_la_SOURCES)
+libwombat_static_la_LDFLAGS = --all-static

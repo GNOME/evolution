@@ -1,3 +1,10 @@
+2001-06-25  Peter Williams  <peterw@ximian.com>
+
+	* conduits/calendar/Makefile.am (INCLUDES): Fixes for
+	srcdir != builddir. Link to the static libwombat.
+
+	* conduits/todo/Makefile.am (INCLUDES): Here too.
+
 2001-06-24  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/notify-main.c (main): Initialize libglade.

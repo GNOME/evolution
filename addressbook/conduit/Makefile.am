@@ -2,6 +2,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/addressbook		\
 	-I$(top_srcdir)/addressbook/backend	\
+	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(BONOBO_GNOME_CFLAGS)			\
 	$(PISOCK_CFLAGS)			\

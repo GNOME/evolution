@@ -1,3 +1,7 @@
+2001-06-25  Peter Williams  <peterw@ximian.com>
+
+	* conduit/Makefile.am (INCLUDES): Fix for srcdir != builddir.
+
 2001-06-25  Chris Toshok  <toshok@ximian.com>
 
 	* gui/contact-list-editor/contact-list-editor.glade: change layout
