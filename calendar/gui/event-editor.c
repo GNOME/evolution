@@ -30,6 +30,7 @@
 #include <widgets/misc/e-dateedit.h>
 #include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
+#include "dialogs/delete-comp.h"
 #include "calendar-config.h"
 #include "event-editor.h"
 #include "e-meeting-edit.h"
@@ -2309,7 +2310,6 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
-	const char *uid;
 	
 	ee = EVENT_EDITOR (data);
 
@@ -2319,14 +2319,18 @@ file_delete_cb (GtkWidget *widget, gpointer data)
 	
 	g_return_if_fail (priv->comp);
 
-	cal_component_get_uid (priv->comp, &uid);
+	if (delete_component_dialog (priv->comp)) {
+		const char *uid;
 
-	/* We don't check the return value; FALSE can mean the object was not in
-	 * the server anyways.
-	 */
-	cal_client_remove_object (priv->client, uid);
+		cal_component_get_uid (priv->comp, &uid);
 
-	close_dialog (ee);
+		/* We don't check the return value; FALSE can mean the object
+		 * was not in the server anyways.
+		 */
+		cal_client_remove_object (priv->client, uid);
+
+		close_dialog (ee);
+	}
 }
 
 /* File/Close callback */

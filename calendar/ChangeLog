@@ -1,4 +1,9 @@
-2000-12-06    <purify@the-dot-in.helixcode.com>
+2000-12-06  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (file_delete_cb): Confirm before deleting the
+	event.
+
+2000-12-06  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/e-week-view.c (e_week_view_init): unref the pixbuf when
 	finished with it
