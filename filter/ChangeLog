@@ -1,3 +1,9 @@
+2002-05-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-file.[c,h]: New filter widgets for choosing files and/or
+	command-line's (?). Not yet hooked up or anything, just for future
+	use.
+
 2002-05-08  Not Zed  <NotZed@Ximian.com>
 
 	* rule-context.c (rule_context_delete_uri): Changed to return a
