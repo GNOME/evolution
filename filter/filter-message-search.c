@@ -546,19 +546,19 @@ handle_multipart (CamelMultipart *multipart, const char *match, gboolean regex, 
 	nparts = camel_multipart_get_number (multipart);
 	
 	for (i = 0; i < nparts && !matched; i++) {
-		GMimeContentField *content;
+		CamelContentType *content;
 		CamelMimePart *mime_part;
 		
 		mime_part = camel_multipart_get_part (multipart, i);
 		content = camel_mime_part_get_content_type (mime_part);
 		
-		if (gmime_content_field_is_type (content, "text", "*")) {
+		if (header_content_type_is (content, "text", "*")) {
 			/* we only want to match text parts */
 			matched = mime_part_matches (mime_part, match, regex, ex);
 			
 			if (camel_exception_is_set (ex))
 				break;
-		} else if (gmime_content_field_is_type (content, "multipart", "*")) {
+		} else if (header_content_type_is (content, "multipart", "*")) {
 			CamelDataWrapper *wrapper;
 			CamelMultipart *mpart;
 			
@@ -582,14 +582,14 @@ body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMes
 	ESExpResult *r;
 	
 	if (argc > 0) {
-		GMimeContentField *content;
+		CamelContentType *content;
 		char *match;
 		
 		match = (*argv)->value.string;
 		
 		content = camel_mime_part_get_content_type (CAMEL_MIME_PART (fms->message));
 		
-		if (gmime_content_field_is_type (content, "multipart", "*")) {
+		if (header_content_type_is (content, "multipart", "*")) {
 			CamelDataWrapper *wrapper;
 			CamelMultipart *multipart;
 			
@@ -616,14 +616,14 @@ body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessag
 	ESExpResult *r;
 	
 	if (argc > 0) {
-		GMimeContentField *content;
+		CamelContentType *content;
 		char *match;
 		
 		match = (*argv)->value.string;
 		
 		content = camel_mime_part_get_content_type (CAMEL_MIME_PART (fms->message));
 		
-		if (gmime_content_field_is_type (content, "multipart", "*")) {
+		if (header_content_type_is (content, "multipart", "*")) {
 			CamelDataWrapper *wrapper;
 			CamelMultipart *multipart;
 			

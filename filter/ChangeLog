@@ -1,3 +1,8 @@
+2000-12-28  Dan Winship  <danw@helixcode.com>
+
+	* filter-message-search.c (handle_multipart, body_contains,
+	body_regex): Use CamelContentType rather than GMimeContentField.
+
 2000-12-24  Not Zed  <NotZed@HelixCode.com>
 
 	* Merge from camel-mt-branch.
