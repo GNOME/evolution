@@ -97,7 +97,7 @@ weather_make_html (Weather *w)
 {
 	GString *string;
 	ESummaryWeatherLocation *location;
-	char *sky, *temp, *cond, *url, *s;
+	char *sky, *temp, *cond, *s;
 	const char *icon_name;
 
 	icon_name = icon_from_weather (w);
@@ -105,14 +105,23 @@ weather_make_html (Weather *w)
 	g_string_sprintf (string, "<dd><img align=\"middle\" "
 			  "src=\"%s\">&#160;<b>", icon_name);
 	location = g_hash_table_lookup (locations_hash, w->location);
+#if 0
 	if (location == NULL) {
 		url = make_anchor (w->location, w->location);
 	} else {
 		url = make_anchor (location->name, w->location);
 	}
+#endif
+	if (location == NULL) {
+		g_string_append (string, w->location);
+	} else {
+		g_string_append (string, location->name);
+	}
 
+#if 0
 	g_string_append (string, url);
 	g_free (url);
+#endif
 
 	g_string_append (string, "</b>:<blockquote><font size=\"-1\">");
 	sky = (char *) weather_sky_string (w);

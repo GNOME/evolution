@@ -1,6 +1,11 @@
 2001-09-17  Iain Holmes  <iain@ximian.com>
 
-	* e-summary-mail (mail_change_notify): Only redraw the display when
+	* e-summary-weather.c (weather_make_html): Don't make the confusing
+	url for the city name.
+
+2001-09-17  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-mail.c (mail_change_notify): Only redraw the display when
 	we receive a notify about a folder we are displaying
 
 2001-09-17  Iain Holmes  <iain@ximian.com>
