@@ -198,7 +198,9 @@ camel_imap_folder_new (CamelStore *parent, const char *folder_name,
 		return NULL;
 	}
 
+	CAMEL_IMAP_STORE_LOCK(imap_store, command_lock);
 	imap_rescan (folder, exists, ex);
+	CAMEL_IMAP_STORE_UNLOCK(imap_store, command_lock);
 	if (camel_exception_is_set (ex)) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;

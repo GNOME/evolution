@@ -1,3 +1,8 @@
+2001-01-15  Peter Williams  <peterw@ximian.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): Lock around the
+	imap_rescan, which needs it.
+
 2001-01-15  Not Zed  <NotZed@Ximian.com>
 
 	* camel-remote-store.c (socket_connect): A cancellable connection
