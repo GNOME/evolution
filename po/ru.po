@@ -4,8 +4,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: E-volution\n"
-"POT-Creation-Date: 2000-04-04 23:53+0200\n"
-"PO-Revision-Date: 2000-03-31 18:46+0400\n"
+"POT-Creation-Date: 2000-04-15 20:41+0400\n"
+"PO-Revision-Date: 2000-04-15 20:48+04:00\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -139,6 +139,7 @@ msgid "Save the message in a specified folder"
 msgstr "Сохранить сообщение в указанной папке"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
+#: mail/folder-browser-factory.c:145
 msgid "Send"
 msgstr "Отправить"
 
@@ -186,98 +187,143 @@ msgstr "Присоединить"
 msgid "Attach a file"
 msgstr "Присоединить файл"
 
-#: e-util/e-setup.c:38
-#, c-format
-msgid ""
-"Evolution detected that the file `%s' is a not a directory.\n"
-"\n"
-"Evolution can rename the file, delete the file or shutdown and\n"
-"let you fix the problem."
-msgstr ""
-"Программа Evolution обнаружила что файл '%s' не является каталогом.\n"
-"\n"
-"Можно переименовать файл, удалить файл или отключиться и\n"
-"позволить вам решить проблему."
-
-#: mail/folder-browser-factory.c:82
+#: mail/folder-browser-factory.c:83
 msgid ""
 "This is a development version of Evolution.\n"
-" Using the mail component on your mail files\n"
-" is extremely hazardous.\n"
-"Please backup all your mails before trying\n"
-" this program. \n"
-"     You have been warned\n"
+"Using the mail component on your mail files\n"
+"is extremely hazardous.\n"
+"\n"
+"Do not run this program on your real mail\n"
+" and do not give it access to your real mail server.\n"
+"\n"
+"You have been warned\n"
 msgstr ""
+"Это разрабатываемая версия программы \"Эволюция\".\n"
+"Использование почтового компонента с вашими\n"
+"почтовыми файлами исключительно опасно.\n"
+"\n"
+"Не запускайте эту программу с вашей реальной почтой\n"
+"и не давайте доступа к вашему реальному почтовому\n"
+"серверу.<\n"
+"Вы предупреждены\n"
+
+#: mail/folder-browser-factory.c:144
+msgid "New mail"
+msgstr "Новые почта"
+
+#: mail/folder-browser-factory.c:144
+msgid "Check for new mail"
+msgstr "Проверить почтовый ящик"
+
+#: mail/folder-browser-factory.c:145
+msgid "Send a new message"
+msgstr "Отправить новое сообщение"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find"
+msgstr "Найти"
+
+#: mail/folder-browser-factory.c:146
+msgid "Find messages"
+msgstr "Найти сообщения"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply"
+msgstr "Ответить"
+
+#: mail/folder-browser-factory.c:150
+msgid "Reply to the sender of this message"
+msgstr "Ответить отправителю этого сообщения"
 
 #: mail/folder-browser-factory.c:151
+msgid "Reply to All"
+msgstr "Ответить всем"
+
+#: mail/folder-browser-factory.c:151
+msgid "Reply to all recipients of this message"
+msgstr "Ответить всем получателям этого сообщения"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward"
+msgstr "Переслать"
+
+#: mail/folder-browser-factory.c:153
+msgid "Forward this message"
+msgstr "Переслать это сообщение"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print"
+msgstr "Печать"
+
+#: mail/folder-browser-factory.c:157
+msgid "Print the selected message"
+msgstr "Распечатать выделенное сообщение"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete"
+msgstr "Удалить"
+
+#: mail/folder-browser-factory.c:159
+msgid "Delete this message"
+msgstr "Удалить это сообщение"
+
+#: mail/folder-browser-factory.c:174
 msgid "_Mail"
 msgstr "Почта"
 
-#: mail/folder-browser-factory.c:295
+#: mail/folder-browser-factory.c:301
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr ""
+msgstr "Извините, программа просмотра папок \"Эволюции\" не может быть инициализирована."
 
-#: mail/folder-browser.c:181
+#: mail/folder-browser.c:189
 msgid "The URI that the Folder Browser will display"
-msgstr ""
+msgstr "URI, который будет показывать программа просмотра папок"
 
-#: mail/folder-browser.c:184
+#: mail/folder-browser.c:192
 msgid "Whether a message preview should be shown"
-msgstr ""
+msgstr "Будет ли показываться окно просмотра сообщения"
 
 #: mail/mail-component.c:30 mail/main.c:33
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
-#: mail/mail-display.c:98
+#: mail/mail-display.c:97
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
 msgstr ""
 "При попытке загрузить данные в компонент с PersistStream возникло исключение"
 
-#: mail/mail-display.c:235
+#: mail/mail-display.c:233
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
 msgstr "Компонент %s не поддерживает PersistStream!\n"
 
-#: mail/message-list.c:343
-msgid "Online status"
-msgstr "Состояние 'Online'"
-
-#: mail/message-list.c:349
-msgid "Message status"
-msgstr "Состояние сообщения"
-
-#: mail/message-list.c:355
+#: mail/message-list.c:404
 msgid "Priority"
 msgstr "Приоритет"
 
-#: mail/message-list.c:361
-msgid "Attachment"
-msgstr "Вложение"
-
-#: mail/message-list.c:367
+#: mail/message-list.c:418
 msgid "From"
 msgstr "От"
 
-#: mail/message-list.c:373
+#: mail/message-list.c:425
 msgid "Subject"
 msgstr "Тема"
 
-#: mail/message-list.c:379
+#: mail/message-list.c:432
 msgid "Sent"
 msgstr "Отправлено"
 
-#: mail/message-list.c:385
+#: mail/message-list.c:439
 msgid "Receive"
 msgstr "Получено"
 
-#: mail/message-list.c:390
+#: mail/message-list.c:446
 msgid "To"
 msgstr "Кому"
 
-#: mail/message-list.c:396
+#: mail/message-list.c:453
 msgid "Size"
 msgstr "Размер"
 
@@ -506,18 +552,26 @@ msgstr "Главные ярлыки"
 msgid "Other Shortcuts"
 msgstr "Другие ярлыки"
 
-#: shell/e-shortcut.c:466
+#: shell/e-shortcut.c:467
 msgid "New group"
 msgstr "Новая группа"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "Enables some debugging functions"
 msgstr "Разрешить некоторые отладочные функции"
 
-#: shell/main.c:27
+#: shell/main.c:28
 msgid "LEVEL"
 msgstr "УРОВЕНЬ"
 
-#: shell/main.c:44
+#: shell/main.c:45
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Не удалось инициализировать компонентную систему Bonobo"
+
+#: shell/main.c:75
+msgid ""
+"It was not possible to setup the Evolution startup files.  Please\n"
+"fix the problem, and restart Evolution"
+msgstr ""
+"Не удалось установить файлы запуска \"Эволюции\". Пожалуйста\n"
+"ликвидируйте проблему и перезапустите \"Эволюцию\"."
