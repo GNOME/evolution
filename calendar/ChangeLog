@@ -1,5 +1,10 @@
 2000-10-12  Damon Chaplin  <damon@helixcode.com>
 
+	* gui/e-calendar-table.c (E_CALENDAR_TABLE_SPEC): set the 2 icon
+	columns to a min width of 18 and resizable to FALSE.
+
+2000-10-12  Damon Chaplin  <damon@helixcode.com>
+
 	* gui/calendar-commands.c (calendar_control_activate): 
 	(update_pixmaps): 
 	(set_pixmap): set the pixmaps of the toolbar buttons for the views,

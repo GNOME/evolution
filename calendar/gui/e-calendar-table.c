@@ -148,8 +148,8 @@ e_calendar_table_class_init (ECalendarTableClass *class)
         "<ETableColumn model_col=\"10\" _title=\"Transparency\"          expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
         "<ETableColumn model_col=\"11\" _title=\"URL\"                   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
         "<ETableColumn model_col=\"12\" _title=\"Alarms\"                expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"string\"   compare=\"string\"/>"  \
-        "<ETableColumn model_col=\"13\" pixbuf=\"icon\"                  expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"icon\"     compare=\"integer\"/>" \
-        "<ETableColumn model_col=\"14\" pixbuf=\"complete\"              expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" cell=\"checkbox\" compare=\"integer\"/>" \
+        "<ETableColumn model_col=\"13\" pixbuf=\"icon\"                  expansion=\"1.0\" minimum_width=\"18\" resizable=\"false\" cell=\"icon\"     compare=\"integer\"/>" \
+        "<ETableColumn model_col=\"14\" pixbuf=\"complete\"              expansion=\"1.0\" minimum_width=\"18\" resizable=\"false\" cell=\"checkbox\" compare=\"integer\"/>" \
 	"<ETableState>" 				\
                 "<column source=\"13\"/>"               \
                 "<column source= \"9\"/>"               \
