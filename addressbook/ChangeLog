@@ -1,3 +1,13 @@
+2002-08-19  Dan Winship  <danw@ximian.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_get_property_fn): add an "addresses" property, to get the
+	"Dan Winship <danw@ximian.com>" form, as opposed to "text", which
+	gets you what's displayed, which might be just "Dan Winship".
+	(entry_set_property_fn): When setting, just reuse the "text" code,
+	since it should properly cardify everything for us anyway.
+	(impl_SelectNames_get_entry_for_section): Add the property.
+
 2002-08-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-config.c

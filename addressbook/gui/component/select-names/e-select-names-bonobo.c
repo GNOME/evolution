@@ -53,6 +53,7 @@ struct _ESelectNamesBonoboPrivate {
 
 enum _EntryPropertyID {
 	ENTRY_PROPERTY_ID_TEXT,
+	ENTRY_PROPERTY_ID_ADDRESSES,
 	ENTRY_PROPERTY_ID_DESTINATIONS,
 	ENTRY_PROPERTY_ID_SIMPLE_CARD_LIST,
 	ENTRY_PROPERTY_ID_ALLOW_CONTACT_LISTS,
@@ -84,6 +85,20 @@ entry_get_property_fn (BonoboPropertyBag *bag,
 			BONOBO_ARG_SET_STRING (arg, e_text_model_get_text (text_model));
 		break;
 		}
+
+	case ENTRY_PROPERTY_ID_ADDRESSES:
+		{
+			ESelectNamesModel *model;
+			char *text;
+
+			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
+			g_assert (model != NULL);
+
+			text = e_select_names_model_get_address_text (model, ", ");
+			BONOBO_ARG_SET_STRING (arg, text);
+			g_free (text);
+		}
+		break;
 
 	case ENTRY_PROPERTY_ID_DESTINATIONS:
 		{
@@ -165,6 +180,7 @@ entry_set_property_fn (BonoboPropertyBag *bag,
 	switch (arg_id) {
 
 	case ENTRY_PROPERTY_ID_TEXT:
+	case ENTRY_PROPERTY_ID_ADDRESSES:
 		{
 			ESelectNamesModel *model;
 			model = E_SELECT_NAMES_MODEL (gtk_object_get_data (GTK_OBJECT (w), "select_names_model"));
@@ -344,6 +360,9 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 
 	property_bag = bonobo_property_bag_new (entry_get_property_fn, entry_set_property_fn, entry_widget);
 	bonobo_property_bag_add (property_bag, "text", ENTRY_PROPERTY_ID_TEXT,
+				 BONOBO_ARG_STRING, NULL, NULL,
+				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
+	bonobo_property_bag_add (property_bag, "addresses", ENTRY_PROPERTY_ID_ADDRESSES,
 				 BONOBO_ARG_STRING, NULL, NULL,
 				 BONOBO_PROPERTY_READABLE | BONOBO_PROPERTY_WRITEABLE);
 	bonobo_property_bag_add (property_bag, "destinations", ENTRY_PROPERTY_ID_DESTINATIONS,
