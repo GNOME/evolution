@@ -48,7 +48,6 @@ typedef struct
 	
 	GHashTable *headers;
 	
-	GMimeContentField *content_type;
 	CamelDataWrapper *content; /* part real content */
 	
 } CamelMedium;
@@ -62,6 +61,9 @@ typedef struct {
 	void  (*add_header) (CamelMedium *medium, gchar *header_name, gchar *header_value);
 	void  (*remove_header) (CamelMedium *medium, const gchar *header_name);
 	const gchar * (*get_header) (CamelMedium *medium, const gchar *header_name);
+
+	CamelDataWrapper * (*get_content_object) (CamelMedium *medium);
+	void (*set_content_object) (CamelMedium *medium, CamelDataWrapper *content);
 
 } CamelMediumClass;
 
@@ -77,6 +79,8 @@ void camel_medium_remove_header (CamelMedium *medium, const gchar *header_name);
 const gchar *camel_medium_get_header (CamelMedium *medium, const gchar *header_name);
 
 
+CamelDataWrapper *camel_medium_get_content_object (CamelMedium *medium);
+void camel_medium_set_content_object (CamelMedium *medium, CamelDataWrapper *content);
 
 
 #ifdef __cplusplus

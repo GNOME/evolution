@@ -37,12 +37,14 @@
 static CamelDataWrapperClass *parent_class=NULL;
 
 /* Returns the class for a CamelMedium */
-#define CMP_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
+#define CM_CLASS(so) CAMEL_MEDIUM_CLASS (GTK_OBJECT(so)->klass)
 
 static void _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value);
 static void _remove_header (CamelMedium *medium, const gchar *header_name);
 static const gchar *_get_header (CamelMedium *medium, const gchar *header_name);
 
+static CamelDataWrapper *_get_content_object(CamelMedium *medium);
+static void _set_content_object(CamelMedium *medium, CamelDataWrapper *content);
 
 static void _finalize (GtkObject *object);
 
@@ -121,6 +123,9 @@ _finalize (GtkObject *object)
 }
 
 
+
+/* **** */
+
 static void
 _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 {
@@ -144,9 +149,11 @@ _add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 void
 camel_medium_add_header (CamelMedium *medium, gchar *header_name, gchar *header_value)
 {
-	CMP_CLASS(medium)->add_header(medium, header_name, header_value);
+	CM_CLASS(medium)->add_header(medium, header_name, header_value);
 }
 
+
+/* **** */
 
 
 static void
@@ -172,9 +179,11 @@ _remove_header (CamelMedium *medium, const gchar *header_name)
 void
 camel_medium_remove_header (CamelMedium *medium, const gchar *header_name)
 {
-	CMP_CLASS(medium)->remove_header(medium, header_name);
+	CM_CLASS(medium)->remove_header(medium, header_name);
 }
 
+
+/* **** */
 
 
 static const gchar *
@@ -192,6 +201,51 @@ _get_header (CamelMedium *medium, const gchar *header_name)
 const gchar *
 camel_medium_get_header (CamelMedium *medium, const gchar *header_name)
 {
-	return CMP_CLASS(medium)->get_header (medium, header_name);
+	return CM_CLASS(medium)->get_header (medium, header_name);
 }
 
+
+/* **** */
+
+
+static CamelDataWrapper *
+_get_content_object (CamelMedium *medium)
+{
+	return medium->content;
+	
+}
+
+
+CamelDataWrapper *
+camel_medium_get_content_object (CamelMedium *medium)
+{
+	return CM_CLASS(medium)->get_content_object (medium);
+}
+
+
+/* **** */
+
+
+static void
+_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
+{
+	GMimeContentField *object_content_field;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMedium::set_content_object\n");
+	if (medium->content) {
+		CAMEL_LOG_FULL_DEBUG ("CamelMedium::set_content_object unreferencing old content object\n");
+		gtk_object_unref (GTK_OBJECT (medium->content));
+	}
+	gtk_object_ref (GTK_OBJECT (content));
+	medium->content = content;
+	
+}
+
+void 
+camel_medium_set_content_object (CamelMedium *medium, CamelDataWrapper *content)
+{
+	CM_CLASS(medium)->set_content_object (medium, content);
+}
+
+
+/* **** */

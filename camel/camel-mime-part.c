@@ -572,11 +572,15 @@ _get_content_object(CamelMimePart *mime_part)
 	return mime_part->content;
 	
 }
+
+
 const CamelDataWrapper *
 camel_mime_part_get_content_object(CamelMimePart *mime_part)
 {
 	return CMP_CLASS(mime_part)->get_content_object (mime_part);
 }
+
+
 
 
 static void
