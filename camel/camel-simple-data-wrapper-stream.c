@@ -208,8 +208,23 @@ static void
 class_init (CamelSimpleDataWrapperStreamClass *klass)
 {
 	GtkObjectClass *object_class;
+	CamelStreamClass *stream_class;
+	CamelSeekableStreamClass *seek_class;
 
 	object_class = (GtkObjectClass*) klass;
+	stream_class = (CamelStreamClass *)klass;
+	seek_class = (CamelSeekableStreamClass *)klass;
+
+	stream_class->read = read;
+	stream_class->write = write;
+	stream_class->flush = flush;
+	stream_class->available = available;
+	stream_class->eos = eos;
+	stream_class->close = close;
+
+	seek_class->seek = seek;
+
+	object_class->destroy = destroy;
 
 	parent_class = gtk_type_class (camel_stream_get_type ());
 }
@@ -255,8 +270,10 @@ camel_simple_data_wrapper_stream_construct (CamelSimpleDataWrapperStream *stream
 
 	gtk_object_ref (GTK_OBJECT (wrapper));
 	stream->wrapper = wrapper;
+#if 0
 	gtk_signal_connect (GTK_OBJECT (wrapper), "destroy",
 			    wrapper_destroy_cb, stream);
+#endif
 }
 
 CamelStream *

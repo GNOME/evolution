@@ -1,3 +1,10 @@
+2000-02-09  NotZed  <notzed@zedzone.helixcode.com>
+
+	* camel/camel-simple-data-wrapper-stream.c (class_init): Actually
+	initialise the class.  It simple couldn't have worked before.
+	(camel_simple_data_wrapper_stream_construct): Commented out code
+	which crashes just to get something working, memory corruption??
+
 2000-02-09  Christopher James Lahey  <clahey@helixcode.com>
 
 	* configure.in: Add new Makefiles to Makefile list.
