@@ -1516,7 +1516,7 @@ msgstr "Значение процента должно быть между 0 и 100, включительно"
 
 #: calendar/gui/calendar-model.c:1063
 msgid "The priority must be between 1 and 9, inclusive"
-msgstr "Приоритет должен быть между 1 и 9, вкючительно"
+msgstr "Приоритет должен быть между 1 и 9, включительно"
 
 #: calendar/gui/control-factory.c:126
 msgid "The URI that the calendar will display"
@@ -2562,7 +2562,7 @@ msgstr "десятый"
 
 #: calendar/gui/getdate.y:452
 msgid "eleventh"
-msgstr "одинадцатый"
+msgstr "одиннадцатый"
 
 #: calendar/gui/getdate.y:453
 msgid "twelfth"
@@ -2943,7 +2943,7 @@ msgstr "Не удалось проверить почтовый файл %s: %s"
 #: camel/camel-movemail.c:133 camel/camel-movemail.c:180
 #, c-format
 msgid "Could not create lock file for %s: %s"
-msgstr "Не удалось создать фай блокировки для %s: %s"
+msgstr "Не удалось создать файл блокировки для %s: %s"
 
 #: camel/camel-movemail.c:143
 #, c-format
@@ -2964,7 +2964,7 @@ msgstr "Невозможно проверить файл блокировки для %s: %s"
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
 msgstr ""
-"Превышение времени при попытке заплокировать файл %s. Попробуйте еще раз "
+"Превышение времени при попытке заблокировать файл %s. Попробуйте еще раз "
 "позже."
 
 #: camel/camel-movemail.c:240
@@ -2975,7 +2975,7 @@ msgstr "Ошибка при чтении почтового файла: %s"
 #: camel/camel-movemail.c:251
 #, c-format
 msgid "Error writing mail temp file: %s"
-msgstr "Ошибка сохранения временного почтовог файла: %s"
+msgstr "Ошибка сохранения временного почтового файла: %s"
 
 #: camel/camel-movemail.c:269
 #, c-format
@@ -3426,7 +3426,7 @@ msgid ""
 "claim to support it."
 msgstr ""
 "Подключение к POP серверу будет производиться с использованием шифрованного "
-"пароля по протоколу APOP. Это может работать не для всех пользователея даже "
+"пароля по протоколу APOP. Это может работать не для всех пользователей даже "
 "на серверах, которые якобы поддерживают это."
 
 #: camel/providers/pop3/camel-pop3-store.c:172
@@ -3539,7 +3539,7 @@ msgstr "Доставка почты через программу sendmail"
 #: camel/providers/smtp/camel-smtp-provider.c:36
 msgid "For delivering mail by connecting to a remote mailhub using SMTP."
 msgstr ""
-"Для доставки почты с помощью подключеия к удаленному почтовому узлу по "
+"Для доставки почты с помощью подключения к удаленному почтовому узлу по "
 "протоколу SMTP."
 
 #: camel/providers/vee/camel-vee-provider.c:30
@@ -4552,7 +4552,7 @@ msgstr "Соединение было успешным!"
 #: mail/mail-config-gui.c:2325
 #, c-format
 msgid "Querying authorization capabilities of \"%s\""
-msgstr "Запрашивание возможностей авторизации от \"%s\""
+msgstr "Запрос возможностей авторизации от \"%s\""
 
 #: mail/mail-config-gui.c:2327
 #, c-format
@@ -4843,7 +4843,7 @@ msgstr "Не удалось создать канал к GPG/PGP: %s"
 
 #: mail/mail-crypto.c:599
 msgid "No GPG/PGP program available."
-msgstr "Не доступна программа GPG/PGP."
+msgstr "Недоступна программа GPG/PGP."
 
 #: mail/mail-display.c:66
 msgid "Overwrite file?"
@@ -5789,7 +5789,7 @@ msgstr ""
 "изощренного пользователя Интернет, насколько возможно. И мы устали.\n"
 "Но мы еще не готовы -- пока нет.\n"
 "\n"
-"Когда вы исследуюте \"Эволюцию\", пожалуйста учитывайте, что большая часть\n"
+"Когда вы исследуете \"Эволюцию\", пожалуйста учитывайте, что большая часть\n"
 "нашей работы была направлена на создание мощного движка, который будет\n"
 "управлять всей системой, а не пользовательского интерфейса. Предстоит еще\n"
 "много работы, мы с любовью и вниманием будем развивать пользовательский\n"
