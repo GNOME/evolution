@@ -1372,7 +1372,7 @@ get_control_for_uri (EShellView *shell_view,
 		folder_type = get_type_for_storage (shell_view, path + 1, &physical_uri);
 	else
 		folder_type = get_type_for_folder (shell_view, path, &physical_uri);
-	if (!folder_type)
+	if (folder_type == NULL)
 		return NULL;
 
 	folder_type_registry = e_shell_get_folder_type_registry (e_shell_view_get_shell (shell_view));
