@@ -1883,9 +1883,10 @@ mail_account_gui_save (MailAccountGui *gui)
 	
 	service_destroy (account->transport);
 	account->transport = g_new0 (MailConfigService, 1);
-	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider))
-		save_service (&gui->transport, gui->extra_config, account->transport);
-	else
+	if (CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT (gui->transport.provider)) {
+		/* The transport URI is the same as the source URI. */
+		save_service (&gui->source, gui->extra_config, account->transport);
+	} else
 		save_service (&gui->transport, NULL, account->transport);
 	
 	/* Check to make sure that the Drafts folder uri is "valid" before assigning it */

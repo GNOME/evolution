@@ -4,6 +4,9 @@
 	may try to change the transport optionmenu (incorrectly in this
 	case), so don't call gtk_option_menu_set_history on it until after
 	emitting "activate" on the source type menuitem.
+	(mail_account_gui_save): Fix the saving of STORE_AND_TRANSPORT
+	transports and add a comment so it doesn't get mistakenly unfixed
+	again.
 
 2002-08-09  Peter Williams  <peterw@ximian.com>
 
