@@ -647,7 +647,6 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 #if defined (HAVE_NSS) && defined (SMIME_SUPPORTED)
 	if (composer->smime_sign || composer->smime_encrypt) {
 		CamelInternetAddress *from = NULL;
-		const char *smime_userid;
 		CamelCipherContext *cipher;
 
 		part = camel_mime_part_new();
@@ -656,11 +655,16 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 			camel_mime_part_set_encoding(part, plain_encoding);
 		camel_object_unref(current);
 
-		if (hdrs->account && hdrs->account->smime_key && *hdrs->account->smime_key) {
-			smime_userid = hdrs->account->smime_key;
-		} else {
-			from = e_msg_composer_hdrs_get_from(hdrs);
-			camel_internet_address_get(from, 0, NULL, &smime_userid);
+		if (composer->smime_sign
+		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
+			camel_exception_setv(&ex, 1, _("Cannot sign outgoing message: No signing certificate set for from account"));
+			goto exception;
+		}
+
+		if (composer->smime_encrypt
+		    && (hdrs->account == NULL || hdrs->account->smime_sign_key == NULL || hdrs->account->smime_sign_key[0] == 0)) {
+			camel_exception_setv(&ex, 1, _("Cannot encrypt outgoing message: No encryption certificate set for from account"));
+			goto exception;
 		}
 
 		if (composer->smime_sign) {
@@ -685,8 +689,10 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 
 				cipher = camel_smime_context_new(session);
 				camel_smime_context_set_sign_mode((CamelSMIMEContext *)cipher, CAMEL_SMIME_SIGN_ENVELOPED);
+				camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
+
 				spart = camel_mime_part_new();
-				camel_cipher_sign(cipher, smime_userid, CAMEL_CIPHER_HASH_SHA1, mem, spart, &ex);
+				camel_cipher_sign(cipher, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, mem, spart, &ex);
 				camel_object_unref(mem);
 				camel_object_unref(cipher);
 				if (camel_exception_is_set(&ex)) {
@@ -697,11 +703,14 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 				part = spart;
 			} else {
 				CamelMultipartSigned *mps;
-			
-				/* FIXME: this should probably be part of the cipher::sign() api */
+
 				cipher = camel_smime_context_new(session);
+				if (hdrs->account && hdrs->account->smime_encrypt_key && *hdrs->account->smime_encrypt_key)
+					camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
+
+				/* FIXME: this should probably be part of the cipher::sign() api */
 				mps = camel_multipart_signed_new();
-				camel_multipart_signed_sign(mps, cipher, part, smime_userid, CAMEL_CIPHER_HASH_SHA1, &ex);
+				camel_multipart_signed_sign(mps, cipher, part, hdrs->account->smime_sign_key, CAMEL_CIPHER_HASH_SHA1, &ex);
 				camel_object_unref(cipher);
 
 				if (camel_exception_is_set(&ex)) {
@@ -720,17 +729,19 @@ build_message (EMsgComposer *composer, gboolean save_html_object_data)
 	
 		if (composer->smime_encrypt) {
 			/* check to see if we should encrypt to self, NB removed after use */
-			if (hdrs->account && hdrs->account->smime_encrypt_to_self && smime_userid)
-				g_ptr_array_add(recipients, (char *)smime_userid);
+			if (hdrs->account->smime_encrypt_to_self)
+				g_ptr_array_add(recipients, hdrs->account->smime_encrypt_key);
 
 			cipher = camel_smime_context_new(session);
-			camel_cipher_encrypt(cipher, smime_userid, recipients, part, (CamelMimePart *)new, &ex);
+			camel_smime_context_set_encrypt_key((CamelSMIMEContext *)cipher, TRUE, hdrs->account->smime_encrypt_key);
+
+			camel_cipher_encrypt(cipher, NULL, recipients, part, (CamelMimePart *)new, &ex);
 			camel_object_unref(cipher);
 
 			if (camel_exception_is_set(&ex))
 				goto exception;
 
-			if (hdrs->account && hdrs->account->smime_encrypt_to_self && smime_userid)
+			if (hdrs->account->smime_encrypt_to_self)
 				g_ptr_array_set_size(recipients, recipients->len - 1);
 		}
 
@@ -2384,7 +2395,8 @@ from_changed_cb (EMsgComposerHdrs *hdrs, void *data)
 					     account->pgp_always_sign &&
 					     (!account->pgp_no_imip_sign || !composer->mime_type ||
 					      strncasecmp (composer->mime_type, "text/calendar", 13) != 0));
-		e_msg_composer_set_smime_sign (composer, account->smime_always_sign);
+		e_msg_composer_set_smime_sign (composer, account->smime_sign_default);
+		e_msg_composer_set_smime_encrypt (composer, account->smime_encrypt_default);
 		update_auto_recipients (hdrs, UPDATE_AUTO_CC, account->always_cc ? account->cc_addrs : NULL);
 		update_auto_recipients (hdrs, UPDATE_AUTO_BCC, account->always_bcc ? account->bcc_addrs : NULL);
 	} else {
@@ -3000,7 +3012,9 @@ create_composer (int visible_mask)
 	
 	prepare_signatures_menu (composer);
 	setup_signatures_menu (composer);
-	
+
+	from_changed_cb(composer->hdrs, composer);
+
 	/* Editor component.  */
 	composer->editor = bonobo_widget_new_control (
 		GNOME_GTKHTML_EDITOR_CONTROL_ID,

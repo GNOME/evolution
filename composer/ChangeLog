@@ -1,3 +1,12 @@
+2003-10-31  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (build_message): fix for e-account smime info
+	changes.  Also enforce having a signing certificate set in
+	preferences before doing any signing.
+	(from_changed_cb): handle smime sign/encrypt default for account
+	(create_composer): force a from-changed when we start, to properly
+	setup signing options.
+
 2003-10-30  Not Zed  <NotZed@Ximian.com>
 
 	* e-msg-composer.c: Turn on SMIME_SUPPORTED.
