@@ -679,7 +679,8 @@ fetch_medium (CamelFolder *folder, const char *uid, const char *section_text,
 	CAMEL_IMAP_STORE_LOCK (store, command_lock);
 	if (store->server_level < IMAP_LEVEL_IMAP4REV1 && !*section_text) {
 		response = camel_imap_command (store, folder, ex,
-					       "UID FETCH %s RFC822.PEEK");
+					       "UID FETCH %s RFC822.PEEK",
+					       uid);
 	} else {
 		response = camel_imap_command (store, folder, ex,
 					       "UID FETCH %s BODY.PEEK[%s]",
@@ -694,7 +695,12 @@ fetch_medium (CamelFolder *folder, const char *uid, const char *section_text,
 	if (!result)
 		return NULL;
 
-	p = e_strstrcase (result, "BODY");
+	
+	if (store->server_level < IMAP_LEVEL_IMAP4REV1 && !*section_text)
+		p = e_strstrcase (result, "RFC822");
+	else
+		p = e_strstrcase (result, "BODY");
+
 	if (p)
 		medium = parse_headers (&p, type);
 	else {
