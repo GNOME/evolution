@@ -124,6 +124,14 @@ struct ETreePriv {
 	ESelectionModel *selection;
 	ETableSpecification *spec;
 
+	ETableSearch     *search;
+
+	ETableSearchFunc  current_search;
+	int               current_search_col;
+
+	guint   	  search_search_id;
+	guint   	  search_accept_id;
+
 	int reflow_idle_id;
 	int scroll_idle_id;
 	int hover_idle_id;
@@ -338,6 +346,16 @@ et_destroy (GtkObject *object)
 {
 	ETree *et = E_TREE (object);
 
+	if (et->priv->search) {
+		if (et->priv->search_search_id)
+			gtk_signal_disconnect (GTK_OBJECT (et->priv->search),
+					       et->priv->search_search_id);
+		if (et->priv->search_accept_id)
+			gtk_signal_disconnect (GTK_OBJECT (et->priv->search),
+					       et->priv->search_accept_id);
+		gtk_object_unref (GTK_OBJECT (et->priv->search));
+	}
+
 	if (et->priv->reflow_idle_id)
 		g_source_remove(et->priv->reflow_idle_id);
 	et->priv->reflow_idle_id = 0;
@@ -384,6 +402,74 @@ et_unrealize (GtkWidget *widget)
 		GTK_WIDGET_CLASS (parent_class)->unrealize (widget);
 }
 
+typedef struct {
+	ETree *et;
+	char *string;
+} SearchSearchStruct;
+
+static gboolean
+search_search_callback (ETreeModel *model, ETreePath path, gpointer data)
+{
+	SearchSearchStruct *cb_data = data;
+	const void *value;
+
+	value = e_tree_model_value_at (model, path, cb_data->et->priv->current_search_col);
+
+	return cb_data->et->priv->current_search (value, cb_data->string);
+}
+
+static gboolean
+et_search_search (ETableSearch *search, char *string, ETree *et)
+{
+	ETreePath cursor;
+	ETreePath found;
+	SearchSearchStruct cb_data;
+	int col;
+
+	col = et->priv->current_search_col;
+	if (col == -1)
+		return FALSE;
+
+	cb_data.et = et;
+	cb_data.string = string;
+
+	cursor = e_tree_get_cursor (et);
+	cursor = e_tree_sorted_model_to_view_path (et->priv->sorted, cursor);
+
+	found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), cursor, NULL, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
+	if (found == NULL)
+		found = e_tree_model_node_find (E_TREE_MODEL (et->priv->sorted), NULL, cursor, E_TREE_FIND_NEXT_FORWARD, search_search_callback, &cb_data);
+
+	if (found) {
+		int model_row;
+
+		e_tree_table_adapter_show_node (et->priv->etta, found);
+		model_row = e_tree_table_adapter_row_of_node (et->priv->etta, found);
+
+		cursor = e_tree_sorted_view_to_model_path (et->priv->sorted, found);
+
+		e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), model_row, col, GDK_CONTROL_MASK);
+		return TRUE;
+	} else {
+		return FALSE;
+	}
+}
+
+static void
+et_search_accept (ETableSearch *search, ETree *et)
+{
+	int col, cursor;
+
+	col = et->priv->current_search_col;
+	if (col == -1)
+		return;
+
+	gtk_object_get(GTK_OBJECT(et->priv->selection),
+		       "cursor_row", &cursor,
+		       NULL);
+	e_selection_model_select_as_key_press(E_SELECTION_MODEL (et->priv->selection), cursor, col, 0);
+}
+
 static void
 e_tree_init (GtkObject *object)
 {
@@ -392,76 +478,88 @@ e_tree_init (GtkObject *object)
 
 	GTK_WIDGET_SET_FLAGS (e_tree, GTK_CAN_FOCUS);
 
-	gtk_table->homogeneous                           = FALSE;
+	gtk_table->homogeneous               = FALSE;
 
-	e_tree->priv                                     = g_new(ETreePriv, 1);
+	e_tree->priv                         = g_new(ETreePriv, 1);
 
-	e_tree->priv->model                              = NULL;
-	e_tree->priv->sorted                             = NULL;
-	e_tree->priv->etta                               = NULL;
+	e_tree->priv->model                  = NULL;
+	e_tree->priv->sorted                 = NULL;
+	e_tree->priv->etta                   = NULL;
 
-	e_tree->priv->full_header                        = NULL;
-	e_tree->priv->header                             = NULL;
+	e_tree->priv->full_header            = NULL;
+	e_tree->priv->header                 = NULL;
 
-	e_tree->priv->structure_change_id                = 0;
-	e_tree->priv->expansion_change_id                = 0;
-	e_tree->priv->sort_info_change_id                = 0;
-	e_tree->priv->group_info_change_id               = 0;
+	e_tree->priv->structure_change_id    = 0;
+	e_tree->priv->expansion_change_id    = 0;
+	e_tree->priv->sort_info_change_id    = 0;
+	e_tree->priv->group_info_change_id   = 0;
 
-	e_tree->priv->sort_info                          = NULL;
-	e_tree->priv->sorter                             = NULL;
-	e_tree->priv->reflow_idle_id                     = 0;
-	e_tree->priv->scroll_idle_id                     = 0;
-	e_tree->priv->hover_idle_id                     = 0;
+	e_tree->priv->sort_info              = NULL;
+	e_tree->priv->sorter                 = NULL;
+	e_tree->priv->reflow_idle_id         = 0;
+	e_tree->priv->scroll_idle_id         = 0;
+	e_tree->priv->hover_idle_id          = 0;
 
-	e_tree->priv->alternating_row_colors             = 1;
-	e_tree->priv->horizontal_draw_grid               = 1;
-	e_tree->priv->vertical_draw_grid                 = 1;
-	e_tree->priv->draw_focus                         = 1;
-	e_tree->priv->cursor_mode                        = E_CURSOR_SIMPLE;
-	e_tree->priv->length_threshold                   = 200;
-	e_tree->priv->uniform_row_height                 = FALSE;
+	e_tree->priv->alternating_row_colors = 1;
+	e_tree->priv->horizontal_draw_grid   = 1;
+	e_tree->priv->vertical_draw_grid     = 1;
+	e_tree->priv->draw_focus             = 1;
+	e_tree->priv->cursor_mode            = E_CURSOR_SIMPLE;
+	e_tree->priv->length_threshold       = 200;
+	e_tree->priv->uniform_row_height     = FALSE;
 
-	e_tree->priv->row_selection_active               = FALSE;
-	e_tree->priv->horizontal_scrolling               = FALSE;
+	e_tree->priv->row_selection_active   = FALSE;
+	e_tree->priv->horizontal_scrolling   = FALSE;
 
-	e_tree->priv->drop_row                           = -1;
-	e_tree->priv->drop_path                          = NULL;
-	e_tree->priv->drop_col                           = -1;
-	e_tree->priv->drop_highlight                     = NULL;
+	e_tree->priv->drop_row               = -1;
+	e_tree->priv->drop_path              = NULL;
+	e_tree->priv->drop_col               = -1;
+	e_tree->priv->drop_highlight         = NULL;
 
-	e_tree->priv->last_drop_x                        = 0;
-	e_tree->priv->last_drop_y                        = 0;
-	e_tree->priv->last_drop_time                     = 0;
-	e_tree->priv->last_drop_context                  = NULL;
+	e_tree->priv->last_drop_x            = 0;
+	e_tree->priv->last_drop_y            = 0;
+	e_tree->priv->last_drop_time         = 0;
+	e_tree->priv->last_drop_context      = NULL;
 
-	e_tree->priv->hover_x                            = 0;
-	e_tree->priv->hover_y                            = 0;
+	e_tree->priv->hover_x                = 0;
+	e_tree->priv->hover_y                = 0;
 
-	e_tree->priv->drag_row                           = -1;
-	e_tree->priv->drag_path                          = NULL;
-	e_tree->priv->drag_col                           = -1;
+	e_tree->priv->drag_row               = -1;
+	e_tree->priv->drag_path              = NULL;
+	e_tree->priv->drag_col               = -1;
 
-	e_tree->priv->expanded_list                      = NULL;
+	e_tree->priv->expanded_list          = NULL;
 
-	e_tree->priv->site                               = NULL;
-	e_tree->priv->do_drag                            = FALSE;
+	e_tree->priv->site                   = NULL;
+	e_tree->priv->do_drag                = FALSE;
 
 #ifdef E_TREE_USE_TREE_SELECTION
-	e_tree->priv->selection                          = E_SELECTION_MODEL(e_tree_selection_model_new());
+	e_tree->priv->selection              = E_SELECTION_MODEL(e_tree_selection_model_new());
 #else
-	e_tree->priv->selection                          = E_SELECTION_MODEL(e_table_selection_model_new());
+	e_tree->priv->selection              = E_SELECTION_MODEL(e_table_selection_model_new());
 #endif
-	e_tree->priv->spec                               = NULL;
+	e_tree->priv->spec                   = NULL;
 
-	e_tree->priv->header_canvas                      = NULL;
-	e_tree->priv->table_canvas                       = NULL;
+	e_tree->priv->header_canvas          = NULL;
+	e_tree->priv->table_canvas           = NULL;
 
-	e_tree->priv->header_item                        = NULL;
-	e_tree->priv->root                               = NULL;
+	e_tree->priv->header_item            = NULL;
+	e_tree->priv->root                   = NULL;
 
-	e_tree->priv->white_item                         = NULL;
-	e_tree->priv->item                               = NULL;
+	e_tree->priv->white_item             = NULL;
+	e_tree->priv->item                   = NULL;
+
+	e_tree->priv->search                 = e_table_search_new();
+
+	e_tree->priv->search_search_id       = 
+		gtk_signal_connect (GTK_OBJECT (e_tree->priv->search), "search",
+				    GTK_SIGNAL_FUNC (et_search_search), e_tree);
+	e_tree->priv->search_accept_id       = 
+		gtk_signal_connect (GTK_OBJECT (e_tree->priv->search), "accept",
+				    GTK_SIGNAL_FUNC (et_search_accept), e_tree);
+
+	e_tree->priv->current_search         = NULL;
+	e_tree->priv->current_search_col     = -1;
 }
 
 /* Grab_focus handler for the ETree */
@@ -745,6 +843,11 @@ item_key_press (ETableItem *eti, int row, int col, GdkEvent *event, ETree *et)
 		return_val = 1;
 		break;
 	default:
+		if ((key->keyval >= GDK_a && key->keyval <= GDK_z) ||
+		    (key->keyval >= GDK_A && key->keyval <= GDK_Z) ||
+		    (key->keyval >= GDK_0 && key->keyval <= GDK_9)) {
+			e_table_search_input_character (et->priv->search, key->keyval);
+		}
 		path = e_tree_table_adapter_node_at_row(et->priv->etta, row);
 		path = e_tree_sorted_view_to_model_path(et->priv->sorted, path);
 		gtk_signal_emit (GTK_OBJECT (et),
@@ -1173,6 +1276,7 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 		   ETableSpecification *specification, ETableState *state)
 {
 	int row = 0;
+	int i, col_count;
 
 	if (ete)
 		gtk_object_ref(GTK_OBJECT(ete));
@@ -1185,6 +1289,16 @@ et_real_construct (ETree *e_tree, ETreeModel *etm, ETableExtras *ete,
 	e_tree->priv->draw_focus = specification->draw_focus;
 	e_tree->priv->cursor_mode = specification->cursor_mode;
 	e_tree->priv->full_header = e_table_spec_to_full_header(specification, ete);
+
+	col_count = e_table_header_count (e_tree->priv->full_header);
+	for (i = 0; i < col_count; i++) {
+		ETableCol *col = e_table_header_get_column(e_tree->priv->full_header, i);
+		if (col && col->search) {
+			e_tree->priv->current_search_col = col->col_idx;
+			e_tree->priv->current_search = col->search;
+			break;
+		}
+	}
 
 	connect_header (e_tree, state);
 	e_tree->priv->horizontal_scrolling = specification->horizontal_scrolling;
