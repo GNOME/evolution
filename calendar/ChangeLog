@@ -1,3 +1,11 @@
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Automake 1.5 fixes pointed out by Richard Boulton
+	<richard@tartarus.org>, as per #9258.]
+
+	* cal-client/Makefile.am: Set CLEANFILES directly instead of using
+	`+='.
+
 2001-09-14  Damon Chaplin  <damon@ximian.com>
 
 	* gui/e-itip-control.c (ok_clicked_cb): added space after 'identities'
