@@ -1,3 +1,8 @@
+2002-11-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Add NSPR CFLAGS and LDFLAGS to the E_UTIL build
+	flags.
+
 2002-11-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* configure.in: AC_OUTPUT(my-evoluton/Makefile).
