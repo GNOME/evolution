@@ -25,7 +25,7 @@ AC_DEFUN([PILOT_LINK_HOOK],[
 	else
 	    PISOCK_CFLAGS="-I$withval/include"
 	    incdir="$withval/include"
-	    PISOCK_LIBS="-L$withval/lib -lpisock"
+	    PISOCK_LIBS="-L$withval/lib -lpisock -lpisync"
 	    AC_MSG_CHECKING("for existance of $withval/lib/libpisock.so")
 	    if test -r $withval/lib/libpisock.so; then
 		AC_MSG_RESULT(yes)

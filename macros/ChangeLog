@@ -2,6 +2,10 @@
 
 	* autogen.sh: hardcode automake-1.4
 
+2002-08-21  JP Rosevear  <jpr@ximian.com>
+
+	* gnome-pilot.m4: add -lpisync to PISOCK_LIBS
+
 2002-05-15  JP Rosevear  <jpr@ximian.com>
 
 	* gnome-pilot.m4: Fix quoting for AC_MSG_*
