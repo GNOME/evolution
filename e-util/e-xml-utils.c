@@ -26,7 +26,7 @@
 #include <gnome-xml/xmlmemory.h>
 #include "e-xml-utils.h"
 
-xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name)
+xmlNode *e_xml_get_child_by_name(const xmlNode *parent, const xmlChar *child_name)
 {
 	xmlNode *child;
 
@@ -46,7 +46,7 @@ xmlNode *e_xml_get_child_by_name(xmlNode *parent, const xmlChar *child_name)
  * child with the name child_name and no "lang" attribute.
  */
 xmlNode *
-e_xml_get_child_by_name_by_lang(xmlNode *parent, const xmlChar *child_name, const char *lang)
+e_xml_get_child_by_name_by_lang(const xmlNode *parent, const xmlChar *child_name, const char *lang)
 {
 	xmlNode *child;
 	/* This is the default version of the string. */
@@ -72,7 +72,7 @@ e_xml_get_child_by_name_by_lang(xmlNode *parent, const xmlChar *child_name, cons
 }
 
 int
-e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_integer_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
 	int ret_val = 0;
@@ -80,7 +80,7 @@ e_xml_get_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp (parent, prop_name);
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
 	if (prop) {
 		ret_val = atoi (prop);
 		xmlFree (prop);
@@ -101,8 +101,38 @@ e_xml_set_integer_prop_by_name(xmlNode *parent, const xmlChar *prop_name, int va
 	g_free (valuestr);
 }
 
+gboolean
+e_xml_get_bool_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+{
+	xmlChar *prop;
+	gboolean ret_val = FALSE;
+
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
+
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
+	if (prop) {
+		if(!strcasecmp(prop, "true"))
+			ret_val = TRUE;
+		xmlFree(prop);
+	}
+	return ret_val;
+}
+
+void
+e_xml_set_bool_prop_by_name(xmlNode *parent, const xmlChar *prop_name, gboolean value)
+{
+	g_return_if_fail (parent != NULL);
+	g_return_if_fail (prop_name != NULL);
+
+	if (value)
+		xmlSetProp (parent, prop_name, "true");
+	else
+		xmlSetProp (parent, prop_name, "false");
+}
+
 double
-e_xml_get_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_double_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
 	double ret_val = 0;
@@ -110,7 +140,7 @@ e_xml_get_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp (parent, prop_name);
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
 	if (prop) {
 		sscanf (prop, "%lf", &ret_val);
 		xmlFree (prop);
@@ -135,7 +165,7 @@ e_xml_set_double_prop_by_name(xmlNode *parent, const xmlChar *prop_name, double 
 }
 
 char *
-e_xml_get_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
+e_xml_get_string_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
 {
 	xmlChar *prop;
 	char *ret_val = NULL;
@@ -143,7 +173,7 @@ e_xml_get_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 	g_return_val_if_fail (parent != NULL, 0);
 	g_return_val_if_fail (prop_name != NULL, 0);
 
-	prop = xmlGetProp (parent, prop_name);
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
 	if (prop) {
 		ret_val = g_strdup (prop);
 		xmlFree (prop);
@@ -154,17 +184,27 @@ e_xml_get_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name)
 void
 e_xml_set_string_prop_by_name(xmlNode *parent, const xmlChar *prop_name, char *value)
 {
-	xmlChar *valuestr;
-
 	g_return_if_fail (parent != NULL);
 	g_return_if_fail (prop_name != NULL);
 
-	valuestr = g_strdup (value);
-	xmlSetProp (parent, prop_name, valuestr);
-	g_free (valuestr);
+	if (value)
+		xmlSetProp (parent, prop_name, value);
 }
 
 
+char *
+e_xml_get_translated_string_prop_by_name(const xmlNode *parent, const xmlChar *prop_name)
+{
+	xmlChar *prop;
+	char *ret_val = NULL;
 
+	g_return_val_if_fail (parent != NULL, 0);
+	g_return_val_if_fail (prop_name != NULL, 0);
 
-
+	prop = xmlGetProp ((xmlNode *)parent, prop_name);
+	if (prop) {
+		ret_val = g_strdup (_(prop));
+		xmlFree (prop);
+	}
+	return ret_val;
+}
