@@ -1,3 +1,8 @@
+2004-06-21  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-mime-filter-enriched.c (enriched_to_html): Fixed a number
+	of issues described in bug #49497.
+
 2004-06-18  Jeffrey Stedfast  <fejj@novell.com>
 
 	* camel.c (camel_shutdown): Call camel_mime_utils_shutdown() and
