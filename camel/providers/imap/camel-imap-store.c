@@ -315,7 +315,7 @@ imap_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
 		tag = args->argv[i].tag;
 		
 		/* make sure this arg wasn't already handled */
-		if (tag & CAMEL_ARG_IGNORE)
+		if ((tag & CAMEL_ARG_TAG) == CAMEL_ARG_IGNORE)
 			continue;
 		
 		/* make sure this is an arg we're supposed to handle */

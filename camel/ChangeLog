@@ -1,3 +1,9 @@
+2004-06-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_setv): Only ignore if
+	(tag & CAMEL_ARG_TAG) == CAMEL_ARG_IGNORE, not if (tag &
+	CAMEL_ARG_IGNORE) is true.
+
 2004-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-folder.c (imap4_refresh_info): Only
