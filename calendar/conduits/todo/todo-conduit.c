@@ -214,20 +214,49 @@ map_name (EToDoConduitContext *ctxt)
 	return filename;
 }
 
+static GList *
+next_changed_item (EToDoConduitContext *ctxt, GList *changes) 
+{
+	CalObjChange *coc;
+	GList *l;
+	
+	for (l = changes; l != NULL; l = l->next) {
+		coc = l->data;
+		
+		if (g_hash_table_lookup (ctxt->changed_hash, coc->uid))
+			return l;
+	}
+	
+	return NULL;
+}
+
 static void
 compute_status (EToDoConduitContext *ctxt, EToDoLocalRecord *local, const char *uid)
 {
+	CalObjChange *coc;
+
 	local->local.archived = FALSE;
 	local->local.secret = FALSE;
+
+	coc = g_hash_table_lookup (ctxt->changed_hash, uid);
 	
-	if (g_hash_table_lookup (ctxt->added, uid))
-		local->local.attr = GnomePilotRecordNew;
-	else if (g_hash_table_lookup (ctxt->modified, uid))
-		local->local.attr = GnomePilotRecordModified;
-	else if (g_hash_table_lookup (ctxt->deleted, uid))
-		local->local.attr = GnomePilotRecordDeleted;
-	else
+	if (coc == NULL) {
 		local->local.attr = GnomePilotRecordNothing;
+		return;
+	}
+	
+	switch (coc->type) {
+	case CALOBJ_UPDATED:
+		if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
+			local->local.attr = GnomePilotRecordModified;
+		else
+			local->local.attr = GnomePilotRecordNew;
+		break;
+		
+	case CALOBJ_REMOVED:
+		local->local.attr = GnomePilotRecordDeleted;
+		break;
+	}
 }
 
 static GnomePilotRecord *
@@ -481,7 +510,7 @@ pre_sync (GnomePilotConduit *conduit,
 	int len;
 	unsigned char *buf;
 	char *filename;
-	gint num_records;
+	gint num_records, add_records = 0, mod_records = 0, del_records = 0;
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
 
@@ -505,39 +534,40 @@ pre_sync (GnomePilotConduit *conduit,
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
-	/* Find the added, modified and deleted items */
-	ctxt->added = g_hash_table_new (g_str_hash, g_str_equal);
-	ctxt->modified = g_hash_table_new (g_str_hash, g_str_equal);
-	ctxt->deleted = g_hash_table_new (g_str_hash, g_str_equal);
-
+	/* Count and hash the changes */
+	ctxt->changed_hash = g_hash_table_new (g_str_hash, g_str_equal);
 	ctxt->changed = cal_client_get_changed_uids (ctxt->client, 
 						     CALOBJ_TYPE_TODO,
 						     ctxt->map->since + 1);
+
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalObjChange *coc = l->data;
-		
-		switch (coc->type) {
-		case CALOBJ_UPDATED:
-			if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
-				g_hash_table_insert (ctxt->modified, coc->uid, coc);
-			else
-				g_hash_table_insert (ctxt->added, coc->uid, coc);
-			break;
-		case CALOBJ_REMOVED:
-			g_hash_table_insert (ctxt->deleted, coc->uid, coc);
-			break;
+
+		if (!e_pilot_map_uid_is_archived (ctxt->map, coc->uid)) {
+			
+			g_hash_table_insert (ctxt->changed_hash, coc->uid, coc);
+			
+			switch (coc->type) {
+			case CALOBJ_UPDATED:
+				if (e_pilot_map_lookup_pid (ctxt->map, coc->uid) > 0)
+					mod_records++;
+				else
+					add_records++;
+				break;
+				
+			case CALOBJ_REMOVED:
+				del_records++;
+				break;
+			}
 		}
 	}
 
 	/* Set the count information */
 	num_records = cal_client_get_n_objects (ctxt->client, CALOBJ_TYPE_TODO);
 	gnome_pilot_conduit_sync_abs_set_num_local_records(abs_conduit, num_records);
-	num_records = g_hash_table_size (ctxt->added);
-	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, num_records);
-	num_records = g_hash_table_size (ctxt->modified);
-	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, num_records);
-	num_records = g_hash_table_size (ctxt->deleted);
-	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, num_records);
+	gnome_pilot_conduit_sync_abs_set_num_new_local_records (abs_conduit, add_records);
+	gnome_pilot_conduit_sync_abs_set_num_updated_local_records (abs_conduit, mod_records);
+	gnome_pilot_conduit_sync_abs_set_num_deleted_local_records(abs_conduit, del_records);
 
 	gtk_object_set_data (GTK_OBJECT (conduit), "dbinfo", dbi);
 
@@ -595,6 +625,21 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 }
 
 static gint
+set_status_cleared (GnomePilotConduitSyncAbs *conduit,
+		    EToDoLocalRecord *local,
+		    EToDoConduitContext *ctxt)
+{
+	const char *uid;
+	
+	LOG ("set_status_cleared: clearing status\n");
+	
+	cal_component_get_uid (local->comp, &uid);
+	g_hash_table_remove (ctxt->changed_hash, uid);
+	
+        return 0;
+}
+
+static gint
 for_each (GnomePilotConduitSyncAbs *conduit,
 	  EToDoLocalRecord **local,
 	  EToDoConduitContext *ctxt)
@@ -647,7 +692,7 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 		   EToDoLocalRecord **local,
 		   EToDoConduitContext *ctxt)
 {
-	static GList *changes, *iterator;
+	static GList *iterator;
 	static int count;
 
 	g_return_val_if_fail (local != NULL, 0);
@@ -655,41 +700,41 @@ for_each_modified (GnomePilotConduitSyncAbs *conduit,
 	if (*local == NULL) {
 		LOG ("beginning for_each_modified: beginning\n");
 		
-		changes = ctxt->changed;
+		iterator = ctxt->changed;
 		
 		count = 0;
+	
+		LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
 		
-		if (changes != NULL) {
-			CalObjChange *coc = changes->data;
+		iterator = next_changed_item (ctxt, iterator);
+		if (iterator != NULL) {
+			CalObjChange *coc = NULL;
 			
-			LOG ("iterating over %d records", g_list_length (changes));
-			 
+			coc = iterator->data;
+		
+			LOG ("iterating over %d records", g_hash_table_size (ctxt->changed_hash));
+
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_uid (*local, coc->uid, ctxt);
-
-			iterator = changes;
 		} else {
 			LOG ("no events");
-			(*local) = NULL;
-			return 0;
+
+			*local = NULL;
 		}
 	} else {
 		count++;
-		if (g_list_next (iterator)) {
-			CalObjChange *coc;
+		if ((iterator = next_changed_item (ctxt, iterator))) {
+			CalObjChange *coc = NULL;
 
-			iterator = g_list_next (iterator);
 			coc = iterator->data;
-
+			
 			*local = g_new0 (EToDoLocalRecord, 1);
 			local_record_from_uid (*local, coc->uid, ctxt);
 		} else {
 			LOG ("for_each_modified ending");
 
-			/* Tell the pilot the iteration is over */
-			(*local) = NULL;
-
-			return 0;
+			/* Signal the iteration is over */
+			*local = NULL;
 		}
 	}
 
@@ -754,21 +799,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 }
 
 static gint
-add_archive_record (GnomePilotConduitSyncAbs *conduit,
-		    GnomePilotRecord *remote,
-		    EToDoConduitContext *ctxt)
-{
-	int retval = 0;
-	
-	g_return_val_if_fail (remote != NULL, -1); 
-
-	LOG ("add_archive_record: doing nothing with %s\n",
-	     print_remote (remote));
-
-	return retval;
-}
-
-static gint
 replace_record (GnomePilotConduitSyncAbs *conduit,
 		EToDoLocalRecord *local,
 		GnomePilotRecord *remote,
@@ -787,8 +817,6 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);
 
-	gtk_object_unref (GTK_OBJECT (new_comp));
-
 	return retval;
 }
 
@@ -800,7 +828,7 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 	const char *uid;
 
 	g_return_val_if_fail (local != NULL, -1);
-	g_assert (local->comp != NULL);
+	g_return_val_if_fail (local->comp != NULL, -1);
 
 	cal_component_get_uid (local->comp, &uid);
 
@@ -812,16 +840,21 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 }
 
 static gint
-delete_archive_record (GnomePilotConduitSyncAbs *conduit,
-		       EToDoLocalRecord *local,
-		       EToDoConduitContext *ctxt)
+archive_record (GnomePilotConduitSyncAbs *conduit,
+		EToDoLocalRecord *local,
+		gboolean archive,
+		EToDoConduitContext *ctxt)
 {
+	const char *uid;
 	int retval = 0;
 	
-	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
 
-	LOG ("delete_archive_record: doing nothing\n");
+	LOG ("archive_record: %s\n", archive ? "yes" : "no");
 
+	cal_component_get_uid (local->comp, &uid);
+	e_pilot_map_insert (ctxt->map, local->local.ID, uid, archive);
+	
         return retval;
 }
 
@@ -947,18 +980,16 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	gtk_signal_connect (retval, "post_sync", (GtkSignalFunc) post_sync, ctxt);
 
   	gtk_signal_connect (retval, "set_pilot_id", (GtkSignalFunc) set_pilot_id, ctxt);
+  	gtk_signal_connect (retval, "set_status_cleared", (GtkSignalFunc) set_status_cleared, ctxt);
 
   	gtk_signal_connect (retval, "for_each", (GtkSignalFunc) for_each, ctxt);
   	gtk_signal_connect (retval, "for_each_modified", (GtkSignalFunc) for_each_modified, ctxt);
   	gtk_signal_connect (retval, "compare", (GtkSignalFunc) compare, ctxt);
 
   	gtk_signal_connect (retval, "add_record", (GtkSignalFunc) add_record, ctxt);
-  	gtk_signal_connect (retval, "add_archive_record", (GtkSignalFunc) add_archive_record, ctxt); 
-
   	gtk_signal_connect (retval, "replace_record", (GtkSignalFunc) replace_record, ctxt);
-
   	gtk_signal_connect (retval, "delete_record", (GtkSignalFunc) delete_record, ctxt);
-  	gtk_signal_connect (retval, "delete_archive_record", (GtkSignalFunc) delete_archive_record, ctxt);
+  	gtk_signal_connect (retval, "archive_record", (GtkSignalFunc) archive_record, ctxt);
 
   	gtk_signal_connect (retval, "match", (GtkSignalFunc) match, ctxt);
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);

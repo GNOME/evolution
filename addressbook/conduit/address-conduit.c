@@ -180,7 +180,6 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 		long length;
 		int i;
 
-		// ctxt->cursor = cursor;
 		ctxt->address_load_success = TRUE;
 
 		length = e_card_cursor_get_length (cursor);
@@ -191,7 +190,7 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer closur
 		gtk_main_quit(); /* end the sub event loop */
 	}
 	else {
-		WARN (_("BLARG\n"));
+		WARN (_("Cursor could not be loaded\n"));
 		gtk_main_quit(); /* end the sub event loop */
 	}
 }
@@ -203,9 +202,8 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	if (status == E_BOOK_STATUS_SUCCESS) {
 		e_book_get_cursor (book, "(contains \"full_name\" \"\")", cursor_cb, ctxt);
-	}
-	else {
-		WARN (_("BLARG\n"));
+	} else {
+		WARN (_("EBook not loaded\n"));
 		gtk_main_quit(); /* end the sub event loop */
 	}
 }
@@ -250,32 +248,11 @@ map_name (EAddrConduitContext *ctxt)
 }
 
 static void
-compute_pid (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
-{
-/*  	guint32 *pid; */
-	
-/*  	pid = g_hash_table_lookup (ctxt->map->uid_map, uid); */
-	
-/*  	if (pid) */
-/*  		local->local.ID = *pid; */
-/*  	else */
-/*  		local->local.ID = 0; */
-}
-
-static void
 compute_status (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid)
 {
 	local->local.archived = FALSE;
 	local->local.secret = FALSE;
-	
-/*  	if (g_hash_table_lookup (ctxt->added, uid)) */
-/*  		local->local.attr = GnomePilotRecordNew; */
-/*  	else if (g_hash_table_lookup (ctxt->modified, uid)) */
-/*  		local->local.attr = GnomePilotRecordModified; */
-/*  	else if (g_hash_table_lookup (ctxt->deleted, uid)) */
-/*  		local->local.attr = GnomePilotRecordDeleted; */
-/*  	else */
-/*  		local->local.attr = GnomePilotRecordNothing; */
+	local->local.attr = GnomePilotRecordNothing;
 }
 
 static GnomePilotRecord *
@@ -304,108 +281,58 @@ local_record_to_pilot_record (EAddrLocalRecord *local,
 	return p;	
 }
 
-#if 0 
-/*
- * converts a CalComponent object to a EAddrLocalRecord
- */
 static void
-local_record_from_comp (EAddrLocalRecord *local, CalComponent *comp, EAddrConduitContext *ctxt) 
+local_record_from_ecard (EAddrLocalRecord *local, ECard *ecard, EAddrConduitContext *ctxt)
 {
-	const char *uid;
-	int *priority;
-	struct icaltimetype *completed;
-	CalComponentText summary;
-	GSList *d_list = NULL;
-	CalComponentText *description;
-	CalComponentDateTime due;
-	time_t due_time;
-	CalComponentClassification classif;
-
-	LOG ("local_record_from_comp\n");
+	ECardSimple *simple;
+	const ECardDeliveryAddress *delivery;
 
 	g_return_if_fail (local != NULL);
-	g_return_if_fail (comp != NULL);
+	g_return_if_fail (ecard != NULL);
 
-	local->comp = comp;
-
-	cal_component_get_uid (local->comp, &uid);
-	compute_pid (ctxt, local, uid);
-	compute_status (ctxt, local, uid);
-
-	local->todo = g_new0 (struct ToDo,1);
-
-	/* STOP: don't replace these with g_strdup, since free_ToDo
-	   uses free to deallocate */
-	cal_component_get_summary (comp, &summary);
-	if (summary.value) 
-		local->todo->description = strdup ((char *) summary.value);
-
-	cal_component_get_description_list (comp, &d_list);
-	if (d_list) {
-		description = (CalComponentText *) d_list->data;
-		if (description && description->value)
-			local->todo->note = strdup (description->value);
-		else
-			local->todo->note = NULL;
-	} else {
-		local->todo->note = NULL;
-	}
-
-	cal_component_get_due (comp, &due);	
-	if (due.value) {
-		due_time = icaltime_as_timet (*due.value);
-		
-		local->todo->due = *localtime (&due_time);
-		local->todo->indefinite = 0;
-	} else {
-		local->todo->indefinite = 1;
-	}
-
-	cal_component_get_completed (comp, &completed);
-	if (completed) {
-		local->todo->complete = 1;
-		cal_component_free_icaltimetype (completed);
-	}	
-
-	cal_component_get_priority (comp, &priority);
-	if (priority) {
-		local->todo->priority = *priority;
-		cal_component_free_priority (priority);
-	}
+	local->ecard = ecard;
+	simple = e_card_simple_new (ecard);
 	
-	cal_component_get_classification (comp, &classif);
+	local->local.ID = e_pilot_map_lookup_pid (ctxt->map, ecard->id);
 
-	if (classif == CAL_COMPONENT_CLASS_PRIVATE)
-		local->local.secret = 1;
-	else
-		local->local.secret = 0;
+	compute_status (ctxt, local, ecard->id);
 
-	local->local.archived = 0;
+	local->addr = g_new0 (struct Address, 1);
+
+	local->addr->entry[entryFirstname] = strdup (ecard->name->given);
+	local->addr->entry[entryLastname] = strdup (ecard->name->family);
+	local->addr->entry[entryCompany] = strdup (ecard->org);
+	local->addr->entry[entryTitle] = strdup (ecard->title);
+
+	delivery = e_card_simple_get_delivery_address (simple, E_CARD_SIMPLE_ADDRESS_ID_HOME);
+	local->addr->entry[entryAddress] = strdup (delivery->street);
+	local->addr->entry[entryCity] = strdup (delivery->city);
+	local->addr->entry[entryState] = strdup (delivery->region);
+	local->addr->entry[entryZip] = strdup (delivery->code);
+	local->addr->entry[entryCountry] = strdup (delivery->country);
+
+	/* FIX ME Phone numbers */
+
+	gtk_object_unref (GTK_OBJECT (simple));
 }
-#endif
 
 static void 
 local_record_from_uid (EAddrLocalRecord *local,
 		       char *uid,
 		       EAddrConduitContext *ctxt)
 {
-/*  	CalComponent *comp; */
-/*  	CalClientGetStatus status; */
+	ECard *ecard;
 
-/*  	g_assert(local!=NULL); */
+	g_assert(local!=NULL);
 
-/*  	status = cal_client_get_object (ctxt->client, uid, &comp); */
+	ecard = e_book_get_card (ctxt->ebook, uid);
 
-/*  	if (status == CAL_CLIENT_GET_SUCCESS) { */
-/*  		local_record_from_comp (local, comp, ctxt); */
-/*  	} else if (status == CAL_CLIENT_GET_NOT_FOUND) { */
-/*  		comp = cal_component_new (); */
-/*  		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO); */
-/*  		cal_component_set_uid (comp, uid); */
-/*  		local_record_from_comp (local, comp, ctxt); */
-/*  	} else { */
-/*  		INFO ("Object did not exist"); */
-/*  	}	 */
+	if (ecard != NULL) {
+		local_record_from_ecard (local, ecard, ctxt);
+	} else {
+		ecard = e_card_new (NULL);
+		local_record_from_ecard (local, ecard, ctxt);
+	}
 }
 
 static ECard *
@@ -429,11 +356,10 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 
 	if (in_card == NULL) {
 		ecard = e_card_new("");
-		simple = e_card_simple_new(ecard);
 	} else {
-		ecard = in_card;
-		simple = E_CARD_SIMPLE (ecard);
+		ecard = e_card_duplicate (in_card);
 	}
+	simple = e_card_simple_new (ecard);
 
 #define get(pilotprop) \
         (address.entry [(pilotprop)])
@@ -518,86 +444,12 @@ ecard_from_remote_record(EAddrConduitContext *ctxt,
 	return ecard;
 }
 
-#if 0
-static CalComponent *
-comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
-			 GnomePilotRecord *remote,
-			 CalComponent *in_comp)
-{
-	CalComponent *comp;
-	struct ToDo todo;
-	struct icaltimetype now = icaltime_from_timet (time (NULL), FALSE, FALSE);
-	CalComponentText summary = {NULL, NULL};
-	CalComponentText description = {NULL, NULL};
-	CalComponentDateTime dt = {NULL, NULL};
-	struct icaltimetype due;
- 	GSList *d_list;
-
-	g_return_val_if_fail (remote != NULL, NULL);
-
-	memset (&todo, 0, sizeof (struct ToDo));
-	unpack_ToDo (&todo, remote->record, remote->length);
-
-	if (in_comp == NULL) {
-		comp = cal_component_new ();
-		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
-		cal_component_set_created (comp, &now);
-	} else {
-		comp = cal_component_clone (in_comp);
-	}
-
- 	LOG ("        comp_from_remote_record: "
- 	     "creating from remote %s and comp %s\n", 
-  	     print_remote (remote), cal_component_get_as_string (comp));
-
-	cal_component_set_last_modified (comp, &now);
-
-	summary.value = todo.description;
-	cal_component_set_summary (comp, &summary);
-
-	description.value = todo.note;
-	d_list = g_slist_append (NULL, &description);
-	cal_component_set_comment_list (comp, d_list);
-	g_slist_free (d_list);
-
-	if (todo.complete) {
-		int percent = 100;
-		cal_component_set_completed (comp, &now);
-		cal_component_set_percent (comp, &percent);
-	}
-
-	/* FIX ME This is a bit hackish, how else can we tell if there is
-	 * no due date set?
-	 */
-	if (todo.due.tm_sec || todo.due.tm_min || todo.due.tm_hour 
-	    || todo.due.tm_mday || todo.due.tm_mon || todo.due.tm_year) {
-		due = icaltime_from_timet (mktime (&todo.due), FALSE, FALSE);
-		dt.value = &due;
-		cal_component_set_due (comp, &dt);
-	}
-	
-	cal_component_set_priority (comp, &todo.priority);
-	cal_component_set_transparency (comp, CAL_COMPONENT_TRANSP_NONE);
-
-	if (remote->attr & dlpRecAttrSecret)
-		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PRIVATE);
-	else
-		cal_component_set_classification (comp, CAL_COMPONENT_CLASS_PUBLIC);
-
-	cal_component_commit_sequence (comp);
-	
-	free_ToDo(&todo);
-
-	return comp;
-}
-#endif
-
 static void
 check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 {
 	int count, map_count;
 
-/*  	count = g_list_length (ctxt->uids); */
+  	count = g_list_length (ctxt->cards);
 	count = 0;
 
 	map_count = g_hash_table_size (ctxt->map->pid_map);
@@ -671,7 +523,7 @@ pre_sync (GnomePilotConduit *conduit,
 	unpack_AddressAppInfo (&(ctxt->ai), buf, len);
 	g_free (buf);
 
-/*  	check_for_slow_setting (conduit, ctxt); */
+  	check_for_slow_setting (conduit, ctxt);
 
 	return 0;
 }
@@ -703,6 +555,16 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	
 	e_pilot_map_insert (ctxt->map, ID, local->ecard->id, FALSE);
 
+        return 0;
+}
+
+static gint
+set_status_cleared (GnomePilotConduitSyncAbs *conduit,
+		    EAddrLocalRecord *local,
+		    EAddrConduitContext *ctxt)
+{
+	LOG ("set_status_cleared: clearing status\n");
+	
         return 0;
 }
 
@@ -877,23 +739,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 }
 
 static gint
-add_archive_record (GnomePilotConduitSyncAbs *conduit,
-		    EAddrLocalRecord *local,
-		    GnomePilotRecord *remote,
-		    EAddrConduitContext *ctxt)
-{
-	int retval = 0;
-	
-	g_return_val_if_fail (remote != NULL, -1); 
-	g_return_val_if_fail (local != NULL, -1);
-
-	LOG ("add_archive_record: doing nothing with %s\n",
-	     print_local (local));
-
-	return retval;
-}
-
-static gint
 replace_record (GnomePilotConduitSyncAbs *conduit,
 		EAddrLocalRecord *local,
 		GnomePilotRecord *remote,
@@ -944,16 +789,17 @@ delete_record (GnomePilotConduitSyncAbs *conduit,
 }
 
 static gint
-delete_archive_record (GnomePilotConduitSyncAbs *conduit,
-		       EAddrLocalRecord *local,
-		       EAddrConduitContext *ctxt)
+archive_record (GnomePilotConduitSyncAbs *conduit,
+		EAddrLocalRecord *local,
+		gboolean archive,
+		EAddrConduitContext *ctxt)
 {
 	int retval = 0;
 	
-	g_return_val_if_fail(local!=NULL,-1);
+	g_return_val_if_fail (local != NULL, -1);
 
-	LOG ("delete_archive_record: doing nothing\n");
-
+	LOG ("archive_record: %s\n", archive ? "yes" : "no");
+	
         return retval;
 }
 
@@ -1079,18 +925,16 @@ conduit_get_gpilot_conduit (guint32 pilot_id)
 	gtk_signal_connect (retval, "post_sync", (GtkSignalFunc) post_sync, ctxt);
 
   	gtk_signal_connect (retval, "set_pilot_id", (GtkSignalFunc) set_pilot_id, ctxt);
+  	gtk_signal_connect (retval, "set_status_cleared", (GtkSignalFunc) set_status_cleared, ctxt);
 
   	gtk_signal_connect (retval, "for_each", (GtkSignalFunc) for_each, ctxt);
   	gtk_signal_connect (retval, "for_each_modified", (GtkSignalFunc) for_each_modified, ctxt);
   	gtk_signal_connect (retval, "compare", (GtkSignalFunc) compare, ctxt);
 
   	gtk_signal_connect (retval, "add_record", (GtkSignalFunc) add_record, ctxt);
-  	gtk_signal_connect (retval, "add_archive_record", (GtkSignalFunc) add_archive_record, ctxt); 
-
   	gtk_signal_connect (retval, "replace_record", (GtkSignalFunc) replace_record, ctxt);
-
   	gtk_signal_connect (retval, "delete_record", (GtkSignalFunc) delete_record, ctxt);
-  	gtk_signal_connect (retval, "delete_archive_record", (GtkSignalFunc) delete_archive_record, ctxt);
+  	gtk_signal_connect (retval, "archive_record", (GtkSignalFunc) archive_record, ctxt);
 
   	gtk_signal_connect (retval, "match", (GtkSignalFunc) match, ctxt);
   	gtk_signal_connect (retval, "free_match", (GtkSignalFunc) free_match, ctxt);

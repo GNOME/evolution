@@ -909,6 +909,42 @@ gboolean e_book_get_book_view       (EBook                 *book,
 	return TRUE;
 }
 
+gboolean e_book_get_changes         (EBook                 *book,
+				     gchar                 *changeid,
+				     EBookBookViewCallback  cb,
+				     gpointer               closure)
+{
+	CORBA_Environment ev;
+	EBookViewListener *listener;
+  
+	g_return_val_if_fail (book != NULL,     FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book), FALSE);
+
+	if (book->priv->load_state != URILoaded) {
+		g_warning ("e_book_get_changes: No URI loaded!\n");
+		return FALSE;
+	}
+
+	listener = e_book_view_listener_new();
+	
+	CORBA_exception_init (&ev);
+	
+	Evolution_Book_get_changes (book->priv->corba_book, bonobo_object_corba_objref(BONOBO_OBJECT(listener)), changeid, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("e_book_changes: Exception "
+			   "getting changes!\n");
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
+	
+	CORBA_exception_free (&ev);
+
+	e_book_queue_op (book, cb, closure, listener);
+
+	return TRUE;
+}
+
 /**
  * e_book_get_name:
  */

@@ -107,6 +107,11 @@ gboolean  e_book_get_book_view            (EBook                 *book,
 					   EBookBookViewCallback  cb,
 					   gpointer               closure);
 
+gboolean  e_book_get_changes              (EBook                 *book,
+					   char                  *changeid,
+					   EBookBookViewCallback  cb,
+					   gpointer               closure);
+
 /* Getting the name of the repository. */
 char     *e_book_get_name                 (EBook                 *book);
 

@@ -1,3 +1,23 @@
+2000-10-31  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/todo-conduit.h: Remove add/del/mod hashes and
+	add changed_hash.
+
+	* conduits/calendar/calendar-conduit.h: ditto
+	
+	* conduits/todo/todo-conduit.c (next_changed_item): Utility function
+	to get the next "really" changed item (changed status can be cleared now)
+	(compute_status): Compute status based on changed_hash
+	(pre_sync): Fill changed_hash and counts adds/mods/dels
+	(set_status_cleared): New callback handler - avoid double syncing
+	(for_each_modified): Use next_changed_item to iterate
+	(add_archive_record): kill
+	(delete_archive_record): kill
+	(archive_record): New callback handler - mark/unmark archive status
+	(conduit_get_gpilot_conduit): Adjust signal connects
+
+	* conduits/calendar/calendar-conduit.c: ditto
+
 2000-10-30  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/event-editor.c (sensitize_recur_widgets): New function.  We

@@ -29,6 +29,7 @@ typedef enum {
 	ModifyCard,
 	GetCursor,
 	GetBookView,
+	GetChanges,
 	CheckConnection
 } PASOperation;
 
@@ -78,6 +79,9 @@ void                    pas_book_respond_get_cursor     (PASBook                
 							 Evolution_BookListener_CallStatus  status,
 							 PASCardCursor                     *cursor);
 void                    pas_book_respond_get_book_view  (PASBook                           *book,
+							 Evolution_BookListener_CallStatus  status,
+							 PASBookView                       *book_view);
+void                    pas_book_respond_get_changes    (PASBook                           *book,
 							 Evolution_BookListener_CallStatus  status,
 							 PASBookView                       *book_view);
 void                    pas_book_report_connection      (PASBook                           *book,

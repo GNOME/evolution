@@ -130,6 +130,30 @@ pas_book_queue_get_book_view (PASBook *book, const Evolution_BookViewListener li
 }
 
 static void
+pas_book_queue_get_changes (PASBook *book, const Evolution_BookViewListener listener, const char *search)
+{
+	PASRequest *req;
+	CORBA_Environment ev;
+
+	req           = g_new0 (PASRequest, 1);
+	req->op       = GetChanges;
+	req->search   = g_strdup(search);
+	
+	CORBA_exception_init (&ev);
+
+	req->listener = CORBA_Object_duplicate(listener, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_queue_get_changes: Exception "
+			   "duplicating BookViewListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+
+	pas_book_queue_request (book, req);
+}
+
+static void
 pas_book_queue_check_connection (PASBook *book)
 {
 	PASRequest *req;
@@ -230,6 +254,17 @@ impl_Evolution_Book_get_book_view (PortableServer_Servant servant,
 	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
 
 	pas_book_queue_get_book_view (book, listener, search);
+}
+
+static void
+impl_Evolution_Book_get_changes (PortableServer_Servant servant,
+				 const Evolution_BookViewListener listener,
+				 const CORBA_char *search,
+				 CORBA_Environment *ev)
+{
+	PASBook *book = PAS_BOOK (bonobo_object_from_servant (servant));
+
+	pas_book_queue_get_changes (book, listener, search);
 }
 
 static void
@@ -442,7 +477,7 @@ pas_book_respond_get_cursor (PASBook                           *book,
 }
 
 /**
- * pas_book_respond_get_cursor:
+ * pas_book_respond_get_book_view:
  */
 void
 pas_book_respond_get_book_view (PASBook                           *book,
@@ -461,6 +496,32 @@ pas_book_respond_get_book_view (PASBook                           *book,
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("pas_book_respond_get_book_view: Exception "
+			   "responding to BookListener!\n");
+	}
+
+	CORBA_exception_free (&ev);
+}
+
+/**
+ * pas_book_respond_get_changes:
+ */
+void
+pas_book_respond_get_changes (PASBook                           *book,
+			      Evolution_BookListener_CallStatus  status,
+			      PASBookView                       *book_view)
+{
+	CORBA_Environment ev;
+	CORBA_Object      object;
+
+	CORBA_exception_init (&ev);
+	
+	object = bonobo_object_corba_objref(BONOBO_OBJECT(book_view));
+
+	Evolution_BookListener_respond_get_changes (
+		book->priv->listener, status, object, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("pas_book_respond_get_changes: Exception "
 			   "responding to BookListener!\n");
 	}
 
@@ -622,6 +683,7 @@ pas_book_get_epv (void)
 	epv->get_static_capabilities = impl_Evolution_Book_get_static_capabilities;
 	epv->get_cursor              = impl_Evolution_Book_get_cursor;
 	epv->get_book_view           = impl_Evolution_Book_get_book_view;
+	epv->get_changes             = impl_Evolution_Book_get_changes;
 
 	return epv;
 	

@@ -66,12 +66,9 @@ struct _ECalConduitContext {
 	time_t since;
 	GList *uids;
 	GList *changed;
-
+	GHashTable *changed_hash;
+	
 	EPilotMap *map;
-
-	GHashTable *added;
-	GHashTable *modified;
-	GHashTable *deleted;
 };
 
 #endif __CALENDAR_CONDUIT_H__ 

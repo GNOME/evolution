@@ -65,12 +65,9 @@ struct _EToDoConduitContext {
 
 	GList *uids;
 	GList *changed;
-
-	EPilotMap *map;
+	GHashTable *changed_hash;
 	
-	GHashTable *added;
-	GHashTable *modified;
-	GHashTable *deleted;
+	EPilotMap *map;
 };
 
 #endif __TODO_CONDUIT_H__ 

@@ -83,6 +83,8 @@ module Evolution {
 		 */
 		void get_book_view(in BookViewListener listener, in string query);
 
+		void get_changes(in BookViewListener listener, in string changeid);
+
 		void check_connection ();
 
 		string get_static_capabilities ();
@@ -114,6 +116,8 @@ module Evolution {
 		void respond_get_cursor (in CallStatus status, in CardCursor cursor);
 
 		void respond_get_view (in CallStatus status, in BookView view);
+
+		void respond_get_changes (in CallStatus status, in BookView view);
 
 		/**
 		 * report_connection_status:

@@ -1,3 +1,41 @@
+2000-10-31  JP Rosevear  <jpr@helixcode.com>
+
+	* conduit/address-conduit.c (cursor_cb): Let the warning make sense
+	(compute_pid): remove
+	(local_record_from_ecard): Create local record from ecard - not finished
+	(local_record_from_uid): Obtain local_record from uid with the proper
+	e-book way
+	(set_status_cleared): Add empty callback
+	(add_archive_record): kill
+	(delete_archive_record): kill
+	(archive_record): Add empty callback
+	(conduit_get_gpilot_conduit): Update signal connects
+
+	* backend/pas/pas-backend-file.c (vcard_change_type): Function to determine
+	the type of change - not finished
+	(pas_backend_file_search_changes): Create a view and callback based on 
+	how the cards have changed
+	(pas_backend_file_process_get_changes): Implement the get changes operation
+	for files
+	(pas_backend_file_process_client_requests): Add GetChanges method for
+	processing
+
+	* backend/pas/pas-book.c (pas_book_queue_get_changes): Add changes to
+	the list
+	(impl_Evolution_Book_get_changes): implement object method
+	(pas_book_get_epv): Add get changes to epv
+	(pas_book_respond_get_changes): Respond to the get changes operation
+
+	* backend/pas/pas-book.h: Add GetChanges PASOperation
+
+	* backend/idl/addressbook.idl: add get_changes and respond_get_changes
+	methods
+
+	* backend/ebook/e-book.c (e_book_get_changes): Client function
+	to a view of the changed objects
+
+	* backend/ebook/e-book.h: New prototype
+
 2000-10-30  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* backend/e-book/e-card.c: Fixed marking of strings

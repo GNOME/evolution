@@ -485,6 +485,104 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	g_list_free (cards);
 }
 
+typedef enum {
+	VCardChangeNone,
+	VCardChangeAdded,
+	VCardChangeModified,
+	VCardChangeDeleted
+} VCardChangeType;
+
+static VCardChangeType
+vcard_change_type (const PASBackendFileBookView *view, char *vcard_string)
+{
+	ECard *card;
+
+	card = e_card_new (vcard_string);
+	view->search_context->card = e_card_simple_new (card);
+	gtk_object_unref(GTK_OBJECT(card));
+
+	/* if it's not a valid vcard why is it in our db? :) */
+	if (!view->search_context->card)
+		return VCardChangeNone;
+
+	/* FIX ME, actually need to implement this */
+
+	gtk_object_unref(GTK_OBJECT(view->search_context->card));
+
+	return VCardChangeNone;
+}
+
+static void
+pas_backend_file_search_changes (PASBackendFile  	      *bf,
+				 PASBook         	      *book,
+				 const PASBackendFileBookView *cnstview)
+{
+	int     db_error = 0;
+	GList   *add_cards = NULL;
+	GList   *mod_cards = NULL;
+	GList   *del_cards = NULL;
+	DB      *db = bf->priv->file_db;
+	DBT     id_dbt, vcard_dbt;
+	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
+
+	if (!bf->priv->loaded)
+		return;
+
+	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
+
+	while (db_error == 0) {
+
+		/* don't include the version in the list of cards */
+		if (id_dbt.size != strlen(PAS_BACKEND_FILE_VERSION_NAME) + 1
+		    || strcmp (id_dbt.data, PAS_BACKEND_FILE_VERSION_NAME)) {
+			char *vcard_string = vcard_dbt.data;
+
+			/* check what type of change has occurred, if any */
+			switch (vcard_change_type (view, vcard_string)) {
+			case VCardChangeNone:
+				break;
+			case VCardChangeAdded:
+				add_cards = g_list_append (add_cards, strdup(vcard_string));
+				break;
+			case VCardChangeModified:
+				mod_cards = g_list_append (mod_cards, strdup(vcard_string));
+				break;
+			case VCardChangeDeleted:
+				del_cards = g_list_append (del_cards, strdup(vcard_string));
+				break;
+			}
+		}
+		
+		db_error = db->seq(db, &id_dbt, &vcard_dbt, R_NEXT);
+	}
+
+	if (db_error == -1) {
+		g_warning ("pas_backend_file_search_changes: error building list\n");
+	} else {
+		GList *l;
+		
+		pas_book_view_notify_add (view->book_view, add_cards);
+		pas_book_view_notify_change (view->book_view, mod_cards);
+
+		for (l = del_cards; l != NULL; l = l->next){
+			char *card = l->data;
+			pas_book_view_notify_remove (view->book_view, card);
+		}
+		
+		pas_book_view_notify_complete (view->book_view);
+	}
+
+	/*
+	** It's fine to do this now since the data has been handed off.
+	*/
+	g_list_foreach (add_cards, (GFunc)g_free, NULL);
+	g_list_foreach (mod_cards, (GFunc)g_free, NULL);
+	g_list_foreach (del_cards, (GFunc)g_free, NULL);
+	g_list_free (add_cards);
+	g_list_free (mod_cards);
+	g_list_free (del_cards);
+}
+
 static char *
 do_create(PASBackend *backend,
 	  char       *vcard_req,
@@ -848,6 +946,61 @@ pas_backend_file_process_get_book_view (PASBackend *backend,
 }
 
 static void
+pas_backend_file_process_get_changes (PASBackend *backend,
+				      PASBook    *book,
+				      PASRequest *req)
+{
+	PASBackendFile *bf = PAS_BACKEND_FILE (backend);
+	CORBA_Environment ev;
+	PASBookView       *book_view;
+	Evolution_Book    corba_book;
+	PASBackendFileBookView view;
+	PASBackendFileSearchContext ctx;
+	EIterator *iterator;
+
+	g_return_if_fail (req->listener != NULL);
+
+	corba_book = bonobo_object_corba_objref(BONOBO_OBJECT(book));
+
+	CORBA_exception_init(&ev);
+
+	Evolution_Book_ref(corba_book, &ev);
+	
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning("pas_backend_file_process_get_book_view: Exception reffing "
+			  "corba book.\n");
+	}
+
+	CORBA_exception_free(&ev);
+
+	book_view = pas_book_view_new (req->listener);
+
+	gtk_signal_connect(GTK_OBJECT(book_view), "destroy",
+			   GTK_SIGNAL_FUNC(view_destroy), book);
+
+	pas_book_respond_get_changes (book,
+		   (book_view != NULL
+		    ? Evolution_BookListener_Success 
+		    : Evolution_BookListener_CardNotFound /* XXX */),
+		   book_view);
+
+	view.book_view = book_view;
+	view.search = req->search;
+	view.search_sexp = NULL;
+	view.search_context = &ctx;
+	ctx.card = NULL;
+
+	e_list_append(bf->priv->book_views, &view);
+
+	iterator = e_list_get_iterator(bf->priv->book_views);
+	e_iterator_last(iterator);
+	pas_backend_file_search_changes (bf, book, e_iterator_get(iterator));
+	gtk_object_unref(GTK_OBJECT(iterator));
+
+	g_free(req->search);
+}
+
+static void
 pas_backend_file_process_check_connection (PASBackend *backend,
 					   PASBook    *book,
 					   PASRequest *req)
@@ -931,6 +1084,10 @@ pas_backend_file_process_client_requests (PASBook *book)
 		
 	case GetBookView:
 		pas_backend_file_process_get_book_view (backend, book, req);
+		break;
+
+	case GetChanges:
+		pas_backend_file_process_get_changes (backend, book, req);
 		break;
 	}
 
