@@ -1,3 +1,8 @@
+2005-01-03  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: add itip-formatter to the "all" list, its not
+	ready to be in the base yet though
+
 2004-12-23  Hans Petter Jansson  <hpj@novell.com>
 
 	* configure.in: Remove select-names from Makefile output list.
