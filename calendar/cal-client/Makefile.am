@@ -28,6 +28,8 @@ INCLUDES =						\
 	-I$(top_builddir)				\
 	-I$(top_builddir)/libical/src/libical		\
 	-I$(top_srcdir)/libical/src/libical		\
+	-I$(top_builddir)/libwombat			\
+	-I$(top_srcdir)/libwombat			\
 	$(BONOBO_GNOME_CFLAGS)
 
 lib_LTLIBRARIES = libcal-client.la
@@ -77,6 +79,7 @@ client_test_LDADD =						\
 	$(top_builddir)/calendar/cal-util/libcal-util.la	\
 	$(top_builddir)/libversit/libversit.la			\
 	$(top_builddir)/libical/src/libical/libical.la		\
+	$(top_builddir)/libwombat/libwombat.la			\
 	libcal-client.la
 
 BUILT_SOURCES = $(CORBA_GENERATED)

@@ -1,3 +1,20 @@
+2001-06-21  Rodrigo Moya <rodrigo@ximian.com>
+
+	* cal-client/cal-client.[ch]:
+	(cal_client_init): create a WombatClient when creating a CalClient
+	object, so that we can receive authentication notifications from
+	the wombat
+	(cal_client_destroy): destroy the WombatClient object when dying
+	(cal_client_set_auth_func): new function to set the authentication
+	function to be called when a password is required by the calendar
+	server (through the WombatClient object)
+	(cal_client_get_free_busy): new function for calling the new IDL
+	method Cal::getFreeBusy
+
+	* gui/alarm-notify/Makefile.am: add libwombat to LDADD
+
+	* gui/Makefile.am: add libwombat to LDADD
+
 2001-06-20  Dave Camp  <dave@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): Changed attach_data

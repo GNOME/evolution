@@ -29,6 +29,7 @@
 #include "cal-client-types.h"
 #include "cal-client.h"
 #include "cal-listener.h"
+#include "wombat-client.h"
 
 
 
@@ -50,6 +51,13 @@ struct _CalClientPrivate {
 
 	/* The calendar client interface object we are contacting */
 	GNOME_Evolution_Calendar_Cal cal;
+
+	/* The authentication function */
+	CalClientAuthFunc auth_func;
+	gpointer auth_user_data;
+
+	/* The WombatClient */
+	WombatClient *w_client;
 };
 
 
@@ -59,12 +67,21 @@ enum {
 	CAL_OPENED,
 	OBJ_UPDATED,
 	OBJ_REMOVED,
+	FORGET_PASSWORD,
 	LAST_SIGNAL
 };
 
 static void cal_client_class_init (CalClientClass *class);
 static void cal_client_init (CalClient *client);
 static void cal_client_destroy (GtkObject *object);
+
+static char *client_get_password_cb (WombatClient *w_client,
+				     const gchar *prompt,
+				     const gchar *key,
+				     gpointer user_data);
+static void  client_forget_password_cb (WombatClient *w_client,
+					const gchar *key,
+					gpointer user_data);
 
 static guint cal_client_signals[LAST_SIGNAL];
 
@@ -137,6 +154,14 @@ cal_client_class_init (CalClientClass *class)
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1,
 				GTK_TYPE_STRING);
+	cal_client_signals[FORGET_PASSWORD] =
+		gtk_signal_new ("forget_password",
+				GTK_RUN_FIRST,
+                                object_class->type,
+                                GTK_SIGNAL_OFFSET (CalClientClass, forget_password),
+                                gtk_marshal_NONE__STRING,
+                                GTK_TYPE_NONE, 1,
+                                GTK_TYPE_STRING);
 
 	gtk_object_class_add_signals (object_class, cal_client_signals, LAST_SIGNAL);
 
@@ -155,6 +180,27 @@ cal_client_init (CalClient *client)
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
 	priv->uri = NULL;
 	priv->factory = CORBA_OBJECT_NIL;
+
+	/* create the WombatClient */
+	priv->w_client = wombat_client_new (
+		(WombatClientGetPasswordFn) client_get_password_cb,
+                (WombatClientForgetPasswordFn) client_forget_password_cb,
+                (gpointer) client);
+}
+
+/* Gets rid of the WombatClient that a client knows about */
+static void
+destroy_wombat_client (CalClient *client)
+{
+        CalClientPrivate *priv;
+
+        priv = client->priv;
+
+        if (!priv->w_client)
+                return;
+
+        bonobo_object_unref (BONOBO_OBJECT (priv->w_client));
+        priv->w_client = NULL;
 }
 
 /* Gets rid of the factory that a client knows about */
@@ -258,6 +304,7 @@ cal_client_destroy (GtkObject *object)
 	client = CAL_CLIENT (object);
 	priv = client->priv;
 
+	destroy_wombat_client (client);
 	destroy_factory (client);
 	destroy_listener (client);
 	destroy_cal (client);
@@ -389,6 +436,40 @@ obj_removed_cb (CalListener *listener, const GNOME_Evolution_Calendar_CalObjUID 
 	gtk_signal_emit (GTK_OBJECT (client), cal_client_signals[OBJ_REMOVED], uid);
 }
 
+/* Handle the get_password signal from the Wombatclient */
+static gchar *
+client_get_password_cb (WombatClient *w_client,
+                        const gchar *prompt,
+                        const gchar *key,
+                        gpointer user_data)
+{
+        CalClient *client;
+
+        client = CAL_CLIENT (user_data);
+        g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+        if (client->priv->auth_func)
+                return client->priv->auth_func (client, prompt, key, client->priv->auth_user_data);
+
+        return NULL;
+}
+
+/* Handle the forget_password signal from the WombatClient */
+static void
+client_forget_password_cb (WombatClient *w_client,
+                           const gchar *key,
+                           gpointer user_data)
+{
+        CalClient *client;
+
+        client = CAL_CLIENT (user_data);
+        g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+        gtk_signal_emit (GTK_OBJECT (client),
+                         cal_client_signals [FORGET_PASSWORD],
+                         key);
+}
+
 
 
 /**
@@ -462,6 +543,34 @@ cal_client_new (void)
 	}
 
 	return client;
+}
+
+/**
+ * cal_client_set_auth_func
+ * @client: A calendar client.
+ * @func: The authentication function
+ * @data: User data to be used when calling the authentication function
+ *
+ * Associates the given authentication function with a calendar client. This
+ * function will be called any time the calendar server needs a password
+ * from the client. So, calendar clients should provide such authentication
+ * function, which, when called, should act accordingly (by showing a dialog
+ * box, for example, to ask the user for the password).
+ *
+ * The authentication function must have the following form:
+ *	char * auth_func (CalClient *client,
+ *			  const gchar *prompt,
+ *			  const gchar *key,
+ *			  gpointer user_data)
+ */
+void
+cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	client->priv->auth_func = func;
+	client->priv->auth_user_data = data;
 }
 
 /**
@@ -890,6 +999,47 @@ cal_client_get_objects_in_range (CalClient *client, CalObjType type, time_t star
 	seq = GNOME_Evolution_Calendar_Cal_getObjectsInRange (priv->cal, t, start, end, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_message ("cal_client_get_objects_in_range(): could not get the objects");
+		CORBA_exception_free (&ev);
+		return NULL;
+	}
+	CORBA_exception_free (&ev);
+
+	uids = build_uid_list (seq);
+	CORBA_free (seq);
+
+	return uids;
+}
+
+/**
+ * cal_client_get_free_busy
+ * @client:: A calendar client.
+ * @start: Start time for query.
+ * @end: End time for query.
+ *
+ * Gets free/busy information from the calendar server
+ */
+GList *
+cal_client_get_free_busy (CalClient *client, time_t start, time_t end)
+{
+	CalClientPrivate *priv;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObjUIDSeq *seq;
+	GList *uids;
+
+	g_return_val_if_fail (client != NULL, NULL);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
+
+	priv = client->priv;
+	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_LOADED, NULL);
+
+	g_return_val_if_fail (start != -1 && end != -1, NULL);
+	g_return_val_if_fail (start <= end, NULL);
+
+	CORBA_exception_init (&ev);
+
+	seq = GNOME_Evolution_Calendar_Cal_getFreeBusy (priv->cal, start, end, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("cal_client_get_free_busy(): could not get the objects");
 		CORBA_exception_free (&ev);
 		return NULL;
 	}

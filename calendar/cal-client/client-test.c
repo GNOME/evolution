@@ -208,7 +208,7 @@ main (int argc, char **argv)
 		exit (1);
 	}
 
-	create_client (&client1, "/cvs/evolution/calendar/cal-client/test.ics", FALSE);
+	create_client (&client1, "/tmp/calendar.ics", FALSE);
 	create_client (&client2, "/cvs/evolution/calendar/cal-client/test.ics", TRUE);
 
 	bonobo_main ();

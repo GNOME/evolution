@@ -127,6 +127,7 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/e-util/libeutil.la						\
 	$(top_builddir)/libversit/libversit.la						\
 	$(top_builddir)/libical/src/libical/libical.la					\
+	$(top_builddir)/libwombat/libwombat.la						\
 	$(top_builddir)/widgets/meeting-time-sel/libevolutionmtsel.a			\
 	dialogs/libcal-dialogs.a							\
 	$(top_builddir)/widgets/misc/libemiscwidgets.a					\

@@ -81,13 +81,22 @@ struct _CalClientClass {
 
 	void (* obj_updated) (CalClient *client, const char *uid);
 	void (* obj_removed) (CalClient *client, const char *uid);
+
+	void (* forget_password) (CalClient *client, const char *key);
 };
+
+typedef gchar * (* CalClientAuthFunc) (CalClient *client,
+                                      const gchar *prompt,
+                                      const gchar *key,
+                                      gpointer user_data);
 
 GtkType cal_client_get_type (void);
 
 CalClient *cal_client_construct (CalClient *client);
 
 CalClient *cal_client_new (void);
+
+void cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer data);
 
 gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
 
@@ -106,6 +115,8 @@ GList *cal_client_get_changes (CalClient *client, CalObjType type, const char *c
 
 GList *cal_client_get_objects_in_range (CalClient *client, CalObjType type,
 					time_t start, time_t end);
+
+GList *cal_client_get_free_busy (CalClient *client, time_t start, time_t end);
 
 void cal_client_generate_instances (CalClient *client, CalObjType type,
 				    time_t start, time_t end,
