@@ -32,7 +32,6 @@
 #include "listener.h"
 
 static BonoboObjectClass *listener_parent_class;
-static POA_GNOME_GtkHTML_Editor_Listener__vepv listener_vepv;
 
 inline static EditorListener *
 listener_from_servant (PortableServer_Servant servant)

@@ -1,3 +1,12 @@
+2004-07-23  Radek Doulik  <rodo@ximian.com>
+
+	* listener.c: removed unused static variable listener_vepv
+
+	* added len parameter to set_editor_text,
+	e_msg_composer_set_body_text, e_msg_composer_set_pending_body. it
+	allows us to send whole buffer (even if it contains \0 in the
+	middle) to gtkhtml editor.
+
 2004-07-22  Radek Doulik  <rodo@ximian.com>
 
 	* e-msg-composer.c (set_editor_text): removed body content +

@@ -161,10 +161,10 @@ impl_Composer_set_body (PortableServer_Servant servant,
 	if (!g_ascii_strcasecmp (mime_type, "text/plain")) {
 		char *htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
 		
-		e_msg_composer_set_body_text (composer->composer, htmlbody);
+		e_msg_composer_set_body_text (composer->composer, htmlbody, -1);
 		g_free (htmlbody);
 	} else if (!g_ascii_strcasecmp (mime_type, "text/html"))
-		e_msg_composer_set_body_text (composer->composer, body);
+		e_msg_composer_set_body_text (composer->composer, body, -1);
 	else
 		e_msg_composer_set_body (composer->composer, body, mime_type);
 }

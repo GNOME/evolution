@@ -1119,7 +1119,7 @@ get_signature_html (EMsgComposer *composer)
 }
 
 static void
-set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int pad_signature)
+set_editor_text(EMsgComposer *composer, const char *text, ssize_t len, int set_signature, int pad_signature)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
@@ -1135,7 +1135,10 @@ set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int
 	
 	CORBA_exception_init (&ev);
 
-	stream = bonobo_stream_mem_create (text, strlen (text), TRUE, FALSE);
+	if (len == -1)
+		len = strlen (text);
+
+	stream = bonobo_stream_mem_create (text, len, TRUE, FALSE);
 	object = bonobo_object_corba_objref (BONOBO_OBJECT (stream));
 	Bonobo_PersistStream_load (persist, (Bonobo_Stream) object, "text/html", &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -3378,7 +3381,7 @@ e_msg_composer_new_with_type (int type)
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
 		set_editor_signature (new);
-		set_editor_text (new, "", TRUE, TRUE);
+		set_editor_text (new, "", 0, TRUE, TRUE);
 	}
 
 	return new;
@@ -3416,24 +3419,27 @@ is_special_header (const char *hdr_name)
 }
 
 static void
-e_msg_composer_set_pending_body (EMsgComposer *composer, char *text)
+e_msg_composer_set_pending_body (EMsgComposer *composer, char *text, ssize_t len)
 {
 	char *old;
 	
 	old = g_object_get_data ((GObject *) composer, "body:text");
         g_free (old);
 	g_object_set_data ((GObject *) composer, "body:text", text);
+	g_object_set_data ((GObject *) composer, "body:len", GSIZE_TO_POINTER (len));
 }
 
 static void
 e_msg_composer_flush_pending_body (EMsgComposer *composer, gboolean apply)
 {
         char *body;
+	ssize_t len;
 	
 	body = g_object_get_data ((GObject *) composer, "body:text");
+	len = GPOINTER_TO_SIZE (g_object_get_data ((GObject *) composer, "body:len"));
 	if (body) {
 		if (apply) 
-			set_editor_text (composer, body, FALSE, FALSE);
+			set_editor_text (composer, body, len, FALSE, FALSE);
 		
 		g_object_set_data ((GObject *) composer, "body:text", NULL);
 		g_free (body);
@@ -3559,7 +3565,11 @@ handle_multipart_signed (EMsgComposer *composer, CamelMultipart *multipart, int 
 			handle_multipart (composer, multipart, depth);
 		}
 	} else if (camel_content_type_is (content_type, "text", "*")) {
-		e_msg_composer_set_pending_body (composer, em_utils_part_to_html (mime_part));
+		ssize_t len;
+		char *html;
+
+		html = em_utils_part_to_html (mime_part, &len);
+		e_msg_composer_set_pending_body (composer, html, len);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -3613,7 +3623,11 @@ handle_multipart_encrypted (EMsgComposer *composer, CamelMultipart *multipart, i
 			handle_multipart (composer, multipart, depth);
 		}
 	} else if (camel_content_type_is (content_type, "text", "*")) {
-		e_msg_composer_set_pending_body (composer, em_utils_part_to_html (mime_part));
+		ssize_t len;
+		char *html;
+
+		html = em_utils_part_to_html (mime_part, &len);
+		e_msg_composer_set_pending_body (composer, html, len);
 	} else {
 		e_msg_composer_attach (composer, mime_part);
 	}
@@ -3668,8 +3682,13 @@ handle_multipart_alternative (EMsgComposer *composer, CamelMultipart *multipart,
 		}
 	}
 	
-	if (text_part)
-		e_msg_composer_set_pending_body(composer, em_utils_part_to_html(text_part));
+	if (text_part) {
+		ssize_t len;
+		char *html;
+
+		html = em_utils_part_to_html(text_part, &len);
+		e_msg_composer_set_pending_body(composer, html, len);
+	}
 }
 
 static void
@@ -3706,8 +3725,12 @@ handle_multipart (EMsgComposer *composer, CamelMultipart *multipart, int depth)
 				handle_multipart (composer, mp, depth + 1);
 			}
 		} else if (depth == 0 && i == 0) {
+			ssize_t len;
+			char *html;
+
 			/* Since the first part is not multipart/alternative, then this must be the body */
-			e_msg_composer_set_pending_body(composer, em_utils_part_to_html(mime_part));
+			html = em_utils_part_to_html(mime_part, &len);
+			e_msg_composer_set_pending_body(composer, html, len);
 		} else if (camel_mime_part_get_content_id (mime_part) ||
 			   camel_mime_part_get_content_location (mime_part)) {
 			/* special in-line attachment */
@@ -3981,7 +4004,11 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 			handle_multipart (new, multipart, 0);
 		}
 	} else {
-		e_msg_composer_set_pending_body(new, em_utils_part_to_html((CamelMimePart *)message));
+		ssize_t len;
+		char *html;
+
+		html = em_utils_part_to_html((CamelMimePart *)message, &len);
+		e_msg_composer_set_pending_body(new, html, len);
 	}
 	
 	/* We wait until now to set the body text because we need to ensure that
@@ -4200,7 +4227,7 @@ handle_mailto (EMsgComposer *composer, const char *mailto)
 		char *htmlbody;
 		
 		htmlbody = camel_text_to_html (body, CAMEL_MIME_FILTER_TOHTML_PRE, 0);
-		set_editor_text (composer, htmlbody, FALSE, FALSE);
+		set_editor_text (composer, htmlbody, -1, FALSE, FALSE);
 		g_free (htmlbody);
 	}
 }
@@ -4289,11 +4316,11 @@ e_msg_composer_set_headers (EMsgComposer *composer,
  * Loads the given HTML text into the editor.
  **/
 void
-e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
+e_msg_composer_set_body_text (EMsgComposer *composer, const char *text, ssize_t len)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, text, TRUE, text == "");
+	set_editor_text (composer, text, len, TRUE, text == "");
 }
 
 /**
@@ -4311,7 +4338,7 @@ e_msg_composer_set_body (EMsgComposer *composer, const char *body,
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), FALSE, FALSE);
+	set_editor_text (composer, _("<b>(The composer contains a non-text message body, which cannot be edited.)<b>"), -1, FALSE, FALSE);
 	e_msg_composer_set_send_html (composer, FALSE);
 	disable_editor (composer);
 	

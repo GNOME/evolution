@@ -151,7 +151,8 @@ void                     e_msg_composer_set_headers                      (EMsgCo
 									  EDestination     **bcc,
 									  const char        *subject);
 void                     e_msg_composer_set_body_text                    (EMsgComposer      *composer,
-									  const char        *text);
+									  const char        *text,
+									  ssize_t            len);
 void                     e_msg_composer_set_body                         (EMsgComposer      *composer,
 									  const char        *body,
 									  const char        *mime_type);
