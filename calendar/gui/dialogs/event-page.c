@@ -26,7 +26,7 @@
 #endif
 
 #include <gtk/gtksignal.h>
-#include <gtk/gtktext.h>
+#include <gtk/gtktextview.h>
 #include <gtk/gtktogglebutton.h>
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -388,7 +388,7 @@ clear_widgets (EventPage *epage)
 	/* Summary, description */
 	e_dialog_editable_set (priv->summary, NULL);
 	e_dialog_editable_set (priv->location, NULL);
-	e_dialog_editable_set (priv->description, NULL);
+	gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)), "", 0);
 
 	/* Start and end times */
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time),
@@ -476,7 +476,8 @@ event_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 	cal_component_get_description_list (comp, &l);
 	if (l) {
 		text = *(CalComponentText *)l->data;
-		e_dialog_editable_set (priv->description, text.value);
+		gtk_text_buffer_set_text (gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description)),
+					  text.value, -1);
 	}
 	cal_component_free_text_list (l);
 
@@ -570,9 +571,12 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 	char *cat, *str;
 	CalComponentClassification classif;
 	CalComponentTransparency transparency;
+	GtkTextBuffer *text_buffer;
+	GtkTextIter text_iter_start, text_iter_end;
 
 	epage = EVENT_PAGE (page);
 	priv = epage->priv;
+	text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (priv->description));
 
 	/* Summary */
 
@@ -604,7 +608,10 @@ event_page_fill_component (CompEditorPage *page, CalComponent *comp)
 
 	/* Description */
 
-	str = e_dialog_editable_get (priv->description);
+	gtk_text_buffer_get_start_iter (text_buffer, &text_iter_start);
+	gtk_text_buffer_get_end_iter   (text_buffer, &text_iter_end);
+	str = gtk_text_buffer_get_text (text_buffer, &text_iter_start, &text_iter_end, FALSE);
+
 	if (!str || strlen (str) == 0)
 		cal_component_set_description_list (comp, NULL);
 	else {
@@ -1259,6 +1266,7 @@ static gboolean
 init_widgets (EventPage *epage)
 {
 	EventPagePrivate *priv;
+	GtkTextBuffer *text_buffer;
 	char *location;
 	icaltimezone *zone;
 
@@ -1277,10 +1285,12 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (summary_changed_cb), epage);
 
-	/* Description - turn on word wrap. */
-#if 0
-	gtk_text_set_word_wrap (GTK_TEXT (priv->description), TRUE);
-#endif
+	/* Description */
+	text_buffer = gtk_text_buffer_new (NULL);
+	gtk_text_view_set_buffer (GTK_TEXT_VIEW (priv->description), text_buffer);
+	g_object_unref (text_buffer);
+
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (priv->description), GTK_WRAP_WORD);
 
 	/* Start and end times */
 	g_signal_connect((priv->start_time), "changed",
@@ -1308,6 +1318,10 @@ init_widgets (EventPage *epage)
 	 * upstream of changes to the widget values.
 	 */
 
+	/* Belongs to priv->description */
+	g_signal_connect((text_buffer), "changed",
+			    G_CALLBACK (field_changed_cb), epage);
+
 	g_signal_connect((priv->summary), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->location), "changed",
@@ -1321,8 +1335,6 @@ init_widgets (EventPage *epage)
 	g_signal_connect((priv->end_timezone), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->all_day_event), "toggled",
-			    G_CALLBACK (field_changed_cb), epage);
-	g_signal_connect((priv->description), "changed",
 			    G_CALLBACK (field_changed_cb), epage);
 	g_signal_connect((priv->classification_public),
 			    "toggled", G_CALLBACK (field_changed_cb),
