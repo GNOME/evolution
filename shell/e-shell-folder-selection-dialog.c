@@ -230,7 +230,7 @@ impl_clicked (GnomeDialog *dialog,
 
 		e_shell_show_folder_creation_dialog (priv->shell, GTK_WINDOW (dialog),
 						     default_parent_folder,
-						     (const char *) priv->allowed_types->data,
+						     default_type,
 						     folder_creation_dialog_result_cb,
 						     dialog);
 

@@ -1,3 +1,9 @@
+2002-06-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-folder-selection-dialog.c (impl_clicked): Pass
+	default_type to e_shell_show_folder_creation_dialog() properly.
+	[Patch by Christian Kreibich <christian@whoop.org>.]
+
 2002-06-19  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* e-corba-config-page.h: Remove #include <config.h>
