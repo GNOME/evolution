@@ -1,5 +1,19 @@
 2002-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-store-summary.c (camel_store_summary_load): Same as
+	below. Also save errno before closing the file so our caller can
+	figure out why we failed.
+	(camel_store_summary_save): Same here, but also flush the output
+	stream to disk.
+
+	* camel-folder-summary.c (camel_folder_summary_load): s/fclose(in)
+	== -1/fclose(in) != 0/ since fclose doesn't necessarily return -1
+	on fail, all we really know is that it returns 0 on success and
+	non-zero on fail.
+
+	* camel-certdb.c (camel_certdb_save): fsync() the stream after we
+	fflush it.
+
 	* camel-folder-summary.c (perform_content_info_save): Do proper
 	error checking and return -1 on fail.
 	(camel_folder_summary_save): Check the return of

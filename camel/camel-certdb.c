@@ -372,7 +372,7 @@ camel_certdb_save (CamelCertDB *certdb)
 	
 	CAMEL_CERTDB_UNLOCK (certdb, io_lock);
 	
-	if (fflush (out) != 0) {
+	if (fflush (out) != 0 || fsync (fileno (out)) == -1) {
 		i = errno;
 		fclose (out);
 		unlink (filename);

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Copyright (C) 2000 Ximian Inc.
  *
@@ -580,7 +581,7 @@ camel_folder_summary_load(CamelFolderSummary *s)
 
 	CAMEL_SUMMARY_UNLOCK(s, io_lock);
 	
-	if (fclose(in) == -1)
+	if (fclose (in) != 0)
 		return -1;
 
 	s->flags &= ~CAMEL_SUMMARY_DIRTY;

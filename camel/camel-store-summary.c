@@ -362,7 +362,7 @@ camel_store_summary_load(CamelStoreSummary *s)
 
 	CAMEL_STORE_SUMMARY_UNLOCK(s, io_lock);
 	
-	if (fclose(in) == -1)
+	if (fclose (in) != 0)
 		return -1;
 
 	s->flags &= ~CAMEL_STORE_SUMMARY_DIRTY;
@@ -370,11 +370,13 @@ camel_store_summary_load(CamelStoreSummary *s)
 	return 0;
 
 error:
+	i = ferror (in);
 	g_warning("Cannot load summary file: %s", strerror(ferror(in)));
 	CAMEL_STORE_SUMMARY_UNLOCK(s, io_lock);
 	fclose(in);
 	s->flags |= ~CAMEL_STORE_SUMMARY_DIRTY;
-
+	errno = i;
+	
 	return -1;
 }
 
@@ -412,8 +414,10 @@ camel_store_summary_save(CamelStoreSummary *s)
 	}
 	out = fdopen(fd, "w");
 	if ( out == NULL ) {
+		i = errno;
 		printf("**  fdopen error: %s\n", strerror(errno));
 		close(fd);
+		errno = i;
 		return -1;
 	}
 
@@ -422,8 +426,10 @@ camel_store_summary_save(CamelStoreSummary *s)
 	CAMEL_STORE_SUMMARY_LOCK(s, io_lock);
 
 	if ( ((CamelStoreSummaryClass *)(CAMEL_OBJECT_GET_CLASS(s)))->summary_header_save(s, out) == -1) {
+		i = errno;
 		fclose(out);
 		CAMEL_STORE_SUMMARY_UNLOCK(s, io_lock);
+		errno = i;
 		return -1;
 	}
 
@@ -438,8 +444,15 @@ camel_store_summary_save(CamelStoreSummary *s)
 	}
 
 	CAMEL_STORE_SUMMARY_UNLOCK(s, io_lock);
-
-	if (fclose(out) == -1)
+	
+	if (fflush (out) != 0 || fsync (fileno (out)) == -1) {
+		i = errno;
+		fclose (out);
+		errno = i;
+		return -1;
+	}
+	
+	if (fclose (out) != 0)
 		return -1;
 
 	s->flags &= ~CAMEL_STORE_SUMMARY_DIRTY;
