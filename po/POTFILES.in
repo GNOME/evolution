@@ -60,7 +60,6 @@ calendar/gui/e-week-view.c
 calendar/gui/event-editor-dialog.glade
 calendar/gui/event-editor.c
 calendar/gui/GNOME_Evolution_Calendar.oaf.in
-calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in
 calendar/gui/gnome-cal.c
 calendar/gui/goto.c
 calendar/gui/goto-dialog.glade
