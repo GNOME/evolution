@@ -8,7 +8,7 @@
 # Francesc Dorca <f.dorca@filnet.es>, 2004
 # Jordi Mas <jmas@softcatala.org>, 2004
 # Enric Balletbò i Serra <eballetbo@km103.com>, 2004
-# fitxer: altres.ca.po
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
@@ -17855,14 +17855,13 @@ msgstr "<b>Aquest muntatge de l'evolution no suporta SSL</b>"
 msgid "<b>S_ignatures</b>"
 msgstr "<b>S_ignatures</b>"
 
-# fitxer: designs.ca.po
 #: mail/mail-config.glade.h:7
 msgid "<b>_Languages</b>"
 msgstr "<b>_Idiomes</b>"
 
 #: mail/mail-config.glade.h:8
 msgid "<small>This will make the the filter more reliable, but slower</small>"
-msgstr "<smal>El filtre serà més segur, però més lent</small>"
+msgstr "<small>El filtre serà més segur, però més lent</small>"
 
 #: mail/mail-config.glade.h:9
 msgid "<span weight=\"bold\">Account Information</span>"
