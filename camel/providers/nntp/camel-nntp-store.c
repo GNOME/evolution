@@ -296,6 +296,12 @@ nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
 	return camel_nntp_folder_new (store, folder_name, ex);
 }
 
+static char *
+nntp_store_get_root_folder_name (CamelStore *store, CamelException *ex)
+{
+	return g_strdup ("");
+}
+
 static void
 finalize (CamelObject *object)
 {
@@ -325,6 +331,7 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	camel_service_class->get_name = nntp_store_get_name;
 
 	camel_store_class->get_folder = nntp_store_get_folder;
+	camel_store_class->get_root_folder_name = nntp_store_get_root_folder_name;
 }
 
 

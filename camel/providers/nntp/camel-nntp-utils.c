@@ -87,7 +87,7 @@ get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 
 				new_info->subject = g_strdup(subject);
 				new_info->from = g_strdup(from);
-				new_info->to = g_strdup(nntp_folder->group_name);
+				new_info->to = g_strdup(folder->name);
 				new_info->date_sent = header_decode_date(date, NULL);
 #if 0
 				/* XXX do we need to fill in both dates? */
@@ -98,7 +98,7 @@ get_OVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 				new_info->message_id = g_strdup(message_id);
 
 				if (camel_nntp_newsrc_article_is_read (nntp_store->newsrc,
-								       nntp_folder->group_name,
+								       folder->name,
 								       atoi (split_line[0])))
 				    new_info->flags |= CAMEL_MESSAGE_SEEN;
 
@@ -222,7 +222,7 @@ camel_nntp_get_headers (CamelStore *store,
 	int status;
 
 	status = camel_nntp_command (nntp_store, ex, &ret,
-				     "GROUP %s", CAMEL_NNTP_FOLDER (folder)->group_name);
+				     "GROUP %s", folder->name);
 
 	sscanf (ret, "%d %d %d", &nb_message, &first_message, &last_message);
 	g_free (ret);
@@ -232,7 +232,7 @@ camel_nntp_get_headers (CamelStore *store,
 		camel_exception_setv (ex, 
 				      CAMEL_EXCEPTION_FOLDER_INVALID,
 				      "group %s not found on server",
-				      CAMEL_NNTP_FOLDER (folder)->group_name);
+				      folder->name);
 		return;
 	}
 

@@ -29,6 +29,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include "camel-nntp-newsrc.h"
+#include <camel/camel-folder-summary.h>
 
 typedef struct {
 	guint low;

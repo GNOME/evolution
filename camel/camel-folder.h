@@ -49,15 +49,11 @@ struct _CamelFolder
 	gboolean folder_changed;
 	GList *messages_changed;
 
-	gchar *name;
-	gchar *full_name;
-	gchar *separator;
+	char *name;
+	char *full_name;
 	CamelStore *parent_store;
-	CamelFolder *parent_folder;
-	guint32 permanent_flags;
 
-	gboolean path_begins_with_sep;
-	
+	guint32 permanent_flags;
 	gboolean can_hold_folders:1;
 	gboolean can_hold_messages:1;
 	gboolean has_summary_capability:1;
@@ -67,47 +63,30 @@ struct _CamelFolder
 typedef struct {
 	CamelObjectClass parent_class;
 
-	/* signals */
-	/* Not anymore! bwahahahah!
-	 * void		(*folder_changed)	(CamelFolder *, int type);
-	 * void            (*message_changed)      (CamelFolder *,
-	 *					 const char *uid);
-	 */
-
 	/* Virtual methods */	
-	void   (*init) (CamelFolder *folder, CamelStore *parent_store,
-			CamelFolder *parent_folder, const gchar *name,
-			gchar *separator, gboolean path_begins_with_sep,
-			CamelException *ex);
-
 	void   (*refresh_info) (CamelFolder *folder, CamelException *ex);
 
 	void   (*sync) (CamelFolder *folder, gboolean expunge, 
 			CamelException *ex);
 
-	const gchar *  (*get_name)  (CamelFolder *folder);
-
-	const gchar *  (*get_full_name)  (CamelFolder *folder);
-
-	gboolean   (*can_hold_folders)   (CamelFolder *folder);
-
-	gboolean   (*can_hold_messages)  (CamelFolder *folder);
-
-	CamelFolder *  (*get_subfolder)  (CamelFolder *folder, 
-					  const gchar *folder_name, 
-					  gboolean create,
-					  CamelException *ex);
-
-	CamelFolder *  (*get_parent_folder)   (CamelFolder *folder);
+	const char *  (*get_name)  (CamelFolder *folder);
+	const char *  (*get_full_name)   (CamelFolder *folder);
 
 	CamelStore *  (*get_parent_store) (CamelFolder *folder);
+
+	gboolean   (*can_hold_folders)   (CamelFolder *folder);
+	gboolean   (*can_hold_messages)  (CamelFolder *folder);
+
+	GPtrArray * (*get_subfolder_info)(CamelFolder *folder);
+	void (*free_subfolder_info)      (CamelFolder *folder,
+					  GPtrArray *subfolders);
 
 	void (*expunge)  (CamelFolder *folder, 
 			  CamelException *ex);
 
-	gint   (*get_message_count)   (CamelFolder *folder);
+	int   (*get_message_count)   (CamelFolder *folder);
 
-	gint   (*get_unread_message_count) (CamelFolder *folder);
+	int   (*get_unread_message_count) (CamelFolder *folder);
 
 	void (*append_message)  (CamelFolder *folder, 
 				 CamelMimeMessage *message,
@@ -138,12 +117,8 @@ typedef struct {
 					  const char *value);
 
 	CamelMimeMessage * (*get_message)  (CamelFolder *folder, 
-					    const gchar *uid, 
+					    const char *uid, 
 					    CamelException *ex);
-
-	void (*delete_message)  (CamelFolder *folder, 
-				 const gchar *uid, 
-				 CamelException *ex);
 
 	GPtrArray * (*get_uids)       (CamelFolder *folder);
 	void (*free_uids)             (CamelFolder *folder,
@@ -152,10 +127,6 @@ typedef struct {
 	GPtrArray * (*get_summary)    (CamelFolder *folder);
 	void (*free_summary)          (CamelFolder *folder,
 				       GPtrArray *summary);
-
-	GPtrArray * (*get_subfolder_names) (CamelFolder *folder);
-	void (*free_subfolder_names)       (CamelFolder *folder,
-					    GPtrArray *subfolders);
 
 	gboolean (*has_search_capability) (CamelFolder *folder);
 
@@ -188,13 +159,14 @@ CamelType camel_folder_get_type (void);
 
 
 /* public methods */
+void               camel_folder_construct              (CamelFolder *folder,
+							CamelStore *parent_store,
+							const char *full_name,
+							const char *name);
 
-
-
-CamelFolder *      camel_folder_get_subfolder          (CamelFolder *folder, 
-							const gchar *folder_name, 
-							gboolean create,
-							CamelException *ex);
+GPtrArray *        camel_folder_get_subfolder_info     (CamelFolder *folder);
+void               camel_folder_free_subfolder_info    (CamelFolder *folder,
+						        GPtrArray *array);
 
 void               camel_folder_refresh_info           (CamelFolder * folder, 
 							CamelException * ex);
@@ -202,7 +174,6 @@ void               camel_folder_sync                   (CamelFolder *folder,
 							gboolean expunge, 
 							CamelException *ex);
 
-CamelFolder *      camel_folder_get_parent_folder      (CamelFolder *folder);
 CamelStore *       camel_folder_get_parent_store       (CamelFolder *folder);
 
 
@@ -212,8 +183,8 @@ void		   camel_folder_expunge                (CamelFolder *folder,
 
 
 /* folder name operations */
-const gchar *      camel_folder_get_name               (CamelFolder *folder);
-const gchar *      camel_folder_get_full_name          (CamelFolder *folder);
+const char *      camel_folder_get_name                (CamelFolder *folder);
+const char *      camel_folder_get_full_name           (CamelFolder *folder);
 
 
 /* various properties accessors */
@@ -257,22 +228,17 @@ void               camel_folder_append_message         (CamelFolder *folder,
 gboolean           camel_folder_has_summary_capability (CamelFolder *folder);
 
 
-gint               camel_folder_get_message_count     (CamelFolder *folder);
+int                camel_folder_get_message_count     (CamelFolder *folder);
 
-gint               camel_folder_get_unread_message_count (CamelFolder *folder);
+int                camel_folder_get_unread_message_count (CamelFolder *folder);
 
 GPtrArray *        camel_folder_get_summary           (CamelFolder *folder);
 void               camel_folder_free_summary          (CamelFolder *folder,
 						       GPtrArray *array);
 
-GPtrArray *        camel_folder_get_subfolder_names   (CamelFolder *folder);
-void               camel_folder_free_subfolder_names  (CamelFolder *folder,
-						       GPtrArray *array);
-
-
 /* uid based access operations */
 CamelMimeMessage * camel_folder_get_message           (CamelFolder *folder, 
-						       const gchar *uid, 
+						       const char *uid, 
 						       CamelException *ex);
 #define camel_folder_delete_message(folder, uid) \
 	camel_folder_set_message_flags (folder, uid, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED)

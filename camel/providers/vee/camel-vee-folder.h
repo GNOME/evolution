@@ -50,7 +50,9 @@ struct _CamelVeeFolderClass {
 };
 
 guint		camel_vee_folder_get_type	(void);
-CamelVeeFolder      *camel_vee_folder_new	(void);
+CamelFolder    *camel_vee_folder_new		(CamelStore *parent_store,
+						 const char *name,
+						 CamelException *ex);
 
 void camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub);
 

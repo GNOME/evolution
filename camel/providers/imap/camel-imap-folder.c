@@ -59,10 +59,6 @@
 
 static CamelFolderClass *parent_class = NULL;
 
-static void imap_init (CamelFolder *folder, CamelStore *parent_store,
-		       CamelFolder *parent_folder, const gchar *name,
-		       gchar *separator, gboolean path_begns_with_sep,
-		       CamelException *ex);
 static void imap_finalize (CamelObject *object);
 static void imap_refresh_info (CamelFolder *folder, CamelException *ex);
 static void imap_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
@@ -84,8 +80,8 @@ static void imap_move_message_to (CamelFolder *source, const char *uid,
 				  CamelFolder *destination, CamelException *ex);
 
 /* subfolder listing */
-static GPtrArray *imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex);
-static GPtrArray *imap_get_subfolder_names (CamelFolder *folder);
+static GPtrArray *imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex);
+static GPtrArray *imap_get_subfolder_info (CamelFolder *folder);
 
 /* summary info */
 static GPtrArray *imap_get_uids (CamelFolder *folder);
@@ -115,15 +111,14 @@ camel_imap_folder_class_init (CamelImapFolderClass *camel_imap_folder_class)
 	/* virtual method definition */
 	
 	/* virtual method overload */
-	camel_folder_class->init = imap_init;
 	camel_folder_class->refresh_info = imap_refresh_info;
 	camel_folder_class->sync = imap_sync;
 	camel_folder_class->expunge = imap_expunge;
 	
 	camel_folder_class->get_uids = imap_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_nop;
-	camel_folder_class->get_subfolder_names = imap_get_subfolder_names;
-	camel_folder_class->free_subfolder_names = camel_folder_free_nop;
+	camel_folder_class->get_subfolder_info = imap_get_subfolder_info;
+	camel_folder_class->free_subfolder_info = camel_folder_free_nop;
 	
 	camel_folder_class->get_message_count = imap_get_message_count;
 	camel_folder_class->get_unread_message_count = imap_get_unread_message_count;
@@ -159,6 +154,16 @@ camel_imap_folder_init (gpointer object, gpointer klass)
 	imap_folder->summary = NULL;
 	imap_folder->summary_hash = NULL;
 	imap_folder->lsub = NULL;
+
+        /* some IMAP daemons support user-flags              *
+	 * I would not, however, rely on this feature as     *
+	 * most IMAP daemons do not support all the features */
+	folder->permanent_flags = CAMEL_MESSAGE_SEEN |
+		CAMEL_MESSAGE_ANSWERED |
+		CAMEL_MESSAGE_FLAGGED |
+		CAMEL_MESSAGE_DELETED |
+		CAMEL_MESSAGE_DRAFT |
+		CAMEL_MESSAGE_USER;
 }
 
 CamelType
@@ -181,28 +186,22 @@ camel_imap_folder_get_type (void)
 }
 
 CamelFolder *
-camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex)
+camel_imap_folder_new (CamelStore *parent, char *folder_name)
 {
 	CamelFolder *folder = CAMEL_FOLDER (camel_object_new (camel_imap_folder_get_type ()));
 	CamelURL *url = CAMEL_SERVICE (parent)->url;
-	char *dir_sep;
+	char *dir_sep, *short_name;
 	
 	dir_sep = CAMEL_IMAP_STORE (parent)->dir_sep;
-	
-	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, dir_sep, FALSE, ex);
-	
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (folder));
-		return NULL;
-	}
+	short_name = strrchr (folder_name, *dir_sep);
+	if (short_name)
+		short_name++;
+	else
+		short_name = folder_name;
+	camel_folder_construct (folder, parent, folder_name, short_name);
 	
 	if (!strcmp (folder_name, url->path + 1))
 		folder->can_hold_messages = FALSE;
-	
-	if (camel_exception_is_set (ex)) {
-		camel_object_unref (CAMEL_OBJECT (folder));
-		return NULL;
-	}
 	
 	return folder;
 }
@@ -249,60 +248,22 @@ static void
 imap_finalize (CamelObject *object)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (object);
-	gint max, i;
+	gint i;
 	
 	imap_folder_summary_free (imap_folder);
 	
 	if (imap_folder->lsub) {
-		max = imap_folder->lsub->len;
-		
-		for (i = 0; i < max; i++) {
-			g_free (imap_folder->lsub->pdata[i]);
-			imap_folder->lsub->pdata[i] = NULL;
-		}
+		for (i = 0; i < imap_folder->lsub->len; i++)
+			camel_folder_info_free (imap_folder->lsub->pdata[i]);
 		
 		g_ptr_array_free (imap_folder->lsub, TRUE);
 	}
 }
 
-static void 
-imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_folder,
-	   const gchar *name, gchar *separator, gboolean path_begins_with_sep, CamelException *ex)
-{
-	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
-	
-	/* call parent method */
-	parent_class->init (folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
-	if (camel_exception_get_id (ex))
-		return;
-	
-	/* we assume that the parent init
-	   method checks for the existance of @folder */
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = TRUE;
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
-	
-        /* some IMAP daemons support user-flags              *
-	 * I would not, however, rely on this feature as     *
-	 * most IMAP daemons do not support all the features */
-	folder->permanent_flags = CAMEL_MESSAGE_SEEN |
-		CAMEL_MESSAGE_ANSWERED |
-		CAMEL_MESSAGE_FLAGGED |
-		CAMEL_MESSAGE_DELETED |
-		CAMEL_MESSAGE_DRAFT |
-		CAMEL_MESSAGE_USER;
-	
- 	imap_folder->search = NULL;
-	imap_folder->summary = NULL;
-	imap_folder->summary_hash = NULL;
-	imap_folder->lsub = NULL;
-}
-
 static void
 imap_refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	imap_get_subfolder_names_internal (folder, ex);
+	imap_get_subfolder_info_internal (folder, ex);
 	
 	if (folder->can_hold_messages)
 		imap_get_summary_internal (folder, ex);
@@ -613,7 +574,7 @@ imap_get_uids (CamelFolder *folder)
 }
 
 static GPtrArray *
-imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
+imap_get_subfolder_info_internal (CamelFolder *folder, CamelException *ex)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	CamelStore *store = CAMEL_STORE (folder->parent_store);
@@ -622,6 +583,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 	gboolean found_inbox = FALSE;
 	gint status;
 	gchar *result, *namespace, *dir_sep;
+	CamelFolderInfo *fi;
 	
 	g_return_val_if_fail (folder != NULL, g_ptr_array_new ());
 	
@@ -687,9 +649,18 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 			
 			if (*dir) {
 				d(fprintf (stderr, "adding folder: %s\n", dir));
+				fi = g_new0 (CamelFolderInfo, 1);
+				fi->full_name = dir;
+				fi->name = strrchr (dir, *sep);
+				if (fi->name)
+					fi->name = g_strdup (fi->name + 1);
+				else
+					fi->name = g_strdup (dir);
+				/* FIXME: read/unread msg count */
+
 				if (!g_strcasecmp (dir, "INBOX"))
 					found_inbox = TRUE;
-				g_ptr_array_add (listing, dir);
+				g_ptr_array_add (listing, fi);
 			}
 			
 			g_free (sep);
@@ -712,7 +683,7 @@ imap_get_subfolder_names_internal (CamelFolder *folder, CamelException *ex)
 }
 
 static GPtrArray *
-imap_get_subfolder_names (CamelFolder *folder)
+imap_get_subfolder_info (CamelFolder *folder)
 {
 	CamelImapFolder *imap_folder = CAMEL_IMAP_FOLDER (folder);
 	

@@ -91,12 +91,7 @@ camel_vee_store_new (void)
 static CamelFolder *
 vee_get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelException *ex)
 {
-	CamelFolder *folder;
-
-	folder =  CAMEL_FOLDER (camel_object_new (camel_vee_folder_get_type()));
-
-	((CamelFolderClass *)(CAMEL_OBJECT_GET_CLASS(folder)))->init (folder, store, NULL, folder_name, "/", TRUE, ex);
-	return folder;
+	return camel_vee_folder_new (store, folder_name, ex);
 }
 
 static char *

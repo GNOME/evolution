@@ -502,10 +502,7 @@ get_folder (CamelStore *store, const char *folder_name, gboolean create, CamelEx
 	else
 		folder_path = g_strdup (folder_name);
 	
-	new_folder = camel_imap_folder_new (store, folder_path, ex);
-	
-	if (camel_exception_is_set (ex))
-		return NULL;
+	new_folder = camel_imap_folder_new (store, folder_path);
 	
 	/* this is the top-level dir, we already know it exists - it has to! */
 	/* Yes, we use a hard-coded "/" here - this just means top-level directory */

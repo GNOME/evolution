@@ -98,7 +98,6 @@ const gchar *camel_mh_store_get_toplevel_dir(CamelMhStore * store)
 
 static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboolean create, CamelException * ex)
 {
-	CamelFolder *new_folder = NULL;
 	char *name;
 	struct stat st;
 
@@ -110,33 +109,33 @@ static CamelFolder *get_folder(CamelStore * store, const char *folder_name, gboo
 		if (errno != ENOENT) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     "Could not open folder `%s':" "\n%s", folder_name, g_strerror(errno));
-			goto done;
+			g_free (name);
+			return NULL;
 		}
 		if (!create) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER,
 					     "Folder `%s' does not exist.", folder_name);
-			goto done;
+			g_free (name);
+			return NULL;
 		}
 		printf("creating ...\n");
 
 		if (mkdir(name, 0700) != 0) {
 			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
 					     "Could not create folder `%s':" "\n%s", folder_name, g_strerror(errno));
-			goto done;
+			g_free (name);
+			return NULL;
 		}
 		printf("created ok?\n");
 
 	} else if (!S_ISDIR(st.st_mode)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_STORE_NO_FOLDER, "`%s' is not a directory.", name);
-		goto done;
+		g_free (name);
+		return NULL;
 	}
-
-	new_folder = CAMEL_FOLDER (camel_object_new(CAMEL_MH_FOLDER_TYPE));
-
-	CF_CLASS(new_folder)->init(new_folder, store, NULL, folder_name, "/", TRUE, ex);
-done:
 	g_free(name);
-	return new_folder;
+
+	return camel_mh_folder_new (store, folder_name, ex);
 }
 
 static void delete_folder(CamelStore * store, const char *folder_name, CamelException * ex)

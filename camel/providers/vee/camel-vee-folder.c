@@ -39,10 +39,6 @@ struct _CamelVeeFolderPrivate {
 
 #define _PRIVATE(o) (((CamelVeeFolder *)(o))->priv)
 
-static void vee_init (CamelFolder *folder, CamelStore *parent_store,
-		      CamelFolder *parent_folder, const gchar *name,
-		      gchar *separator, gboolean path_begins_with_sep,
-		      CamelException *ex);
 static void vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex);
 
 static GPtrArray *vee_get_uids  (CamelFolder *folder);
@@ -95,7 +91,6 @@ camel_vee_folder_class_init (CamelVeeFolderClass *klass)
 
 	camel_vee_folder_parent = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs (camel_folder_get_type ()));
 
-	folder_class->init = vee_init;
 	folder_class->sync = vee_sync;
 
 	folder_class->get_uids = vee_get_uids;
@@ -120,8 +115,21 @@ static void
 camel_vee_folder_init (CamelVeeFolder *obj)
 {
 	struct _CamelVeeFolderPrivate *p;
+	CamelFolder *folder = (CamelFolder *)obj;
 
 	p = _PRIVATE(obj) = g_malloc0(sizeof(*p));
+
+	folder->can_hold_messages = TRUE;
+	folder->can_hold_folders = FALSE;
+	folder->has_summary_capability = TRUE;
+	folder->has_search_capability = TRUE;
+
+	/* FIXME: what to do about user flags if the subfolder doesn't support them? */
+	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
+		CAMEL_MESSAGE_DELETED |
+		CAMEL_MESSAGE_DRAFT |
+		CAMEL_MESSAGE_FLAGGED |
+		CAMEL_MESSAGE_SEEN;
 }
 
 static void
@@ -141,16 +149,49 @@ camel_vee_folder_finalise (CamelObject *obj)
 
 /**
  * camel_vee_folder_new:
+ * @parent_store: the parent CamelVeeStore
+ * @name: the vfolder name
+ * @ex: a CamelException
  *
  * Create a new CamelVeeFolder object.
- * 
+ *
  * Return value: A new CamelVeeFolder widget.
  **/
-CamelVeeFolder *
-camel_vee_folder_new (void)
+CamelFolder *
+camel_vee_folder_new (CamelStore *parent_store, const char *name,
+		      CamelException *ex)
 {
-	CamelVeeFolder *new = CAMEL_VEE_FOLDER ( camel_object_new (camel_vee_folder_get_type ()));
-	return new;
+	CamelFolder *folder;
+	CamelVeeFolder *vf;
+	char *namepart, *searchpart;
+
+	folder =  CAMEL_FOLDER (camel_object_new (camel_vee_folder_get_type()));
+	vf = (CamelVeeFolder *)folder;
+
+	camel_folder_construct (folder, parent_store, name, name);
+
+	namepart = g_strdup(name);
+	searchpart = strchr(namepart, '?');
+	if (searchpart == NULL) {
+		/* no search, no result! */
+		searchpart = "(body-contains \"=some-invalid_string-sequence=xx\")";
+	} else {
+		*searchpart++ = 0;
+	}
+
+	vf->messages = g_ptr_array_new();
+	vf->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
+
+	vf->expression = g_strdup(searchpart);
+	vf->vname = namepart;
+
+	vee_folder_build(vf, ex);
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		return NULL;
+	}
+
+	return folder;
 }
 
 static void
@@ -210,50 +251,6 @@ camel_vee_folder_add_folder(CamelVeeFolder *vf, CamelFolder *sub)
 	camel_object_trigger_event( CAMEL_OBJECT(vf), "folder_changed", GINT_TO_POINTER(0));
 }
 
-
-static void vee_init (CamelFolder *folder, CamelStore *parent_store,
-		      CamelFolder *parent_folder, const gchar *name,
-		      gchar *separator, gboolean path_begins_with_sep,
-		      CamelException *ex)
-{
-	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
-	char *namepart, *searchpart;
-
-	namepart = g_strdup(name);
-	searchpart = strchr(namepart, '?');
-	if (searchpart == NULL) {
-		/* no search, no result! */
-		searchpart = "(body-contains \"=some-invalid_string-sequence=xx\")";
-	} else {
-		*searchpart++ = 0;
-	}
-
-	camel_vee_folder_parent->init (folder, parent_store, parent_folder, name, separator, TRUE, ex);
-	if (camel_exception_get_id (ex))
-		return;
-
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = FALSE;
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
-
-	/* FIXME: what to do about user flags if the subfolder doesn't support them? */
-	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
-		CAMEL_MESSAGE_DELETED |
-		CAMEL_MESSAGE_DRAFT |
-		CAMEL_MESSAGE_FLAGGED |
-		CAMEL_MESSAGE_SEEN;
-
-	vf->messages = g_ptr_array_new();
-	vf->messages_uid = g_hash_table_new(g_str_hash, g_str_equal);
-
-	vf->expression = g_strdup_printf("(or\n (match-all (user-flag \"%s\"))\n %s\n)", namepart, searchpart);
-	vf->vname = g_strdup(namepart);
-
-	g_free(namepart);
-
-	vee_folder_build(vf, ex);
-}
 
 static void
 vee_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)

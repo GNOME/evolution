@@ -76,11 +76,15 @@ static void
 camel_pop3_folder_init (gpointer object)
 {
 	CamelFolder *folder = CAMEL_FOLDER (object);
+	CamelPop3Folder *pop3_folder = CAMEL_POP3_FOLDER (object);
 
 	folder->can_hold_messages = TRUE;
 	folder->can_hold_folders = FALSE;
 	folder->has_summary_capability = FALSE;
 	folder->has_search_capability = FALSE;
+
+	pop3_folder->uids = NULL;
+	pop3_folder->flags = NULL;
 }
 
 CamelType
@@ -113,16 +117,18 @@ pop3_finalize (CamelObject *object)
 CamelFolder *
 camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 {
-	CamelPop3Folder *pop3_folder;
+	CamelFolder *folder;
 
-	pop3_folder = CAMEL_POP3_FOLDER(camel_object_new (CAMEL_POP3_FOLDER_TYPE));
-	CF_CLASS (pop3_folder)->init ((CamelFolder *)pop3_folder, parent,
-				      NULL, "inbox", "/", TRUE, ex);
-	pop3_folder->uids = NULL;
-	pop3_folder->flags = NULL;
-	CF_CLASS (pop3_folder)->refresh_info ((CamelFolder *)pop3_folder, ex);
+	folder = CAMEL_FOLDER (camel_object_new (CAMEL_POP3_FOLDER_TYPE));
+	camel_folder_construct (folder, parent, "inbox", "inbox");
 
-	return (CamelFolder *)pop3_folder;
+	camel_folder_refresh_info (folder, ex);
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		folder = NULL;
+	}
+
+	return folder;
 }
 
 static void 

@@ -1,3 +1,32 @@
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.c: (init): Removed
+	(camel_folder_init, camel_folder_construct): New object init
+	function and public object constructor to replace the old init
+	method in a more Gtk-like fashion.
+
+	(get_parent_folder, camel_folder_get_parent_folder): Removed. No
+	CamelFolder subclass was ever setting the parent_folder member, no
+	code has ever needed to look at it, and fixing it would actually
+	be pretty hard.
+
+	(get_subfolder_info, camel_folder_get_subfolder_info): Renamed
+	from ..._names. Deals in CamelFolderInfo now.
+	(free_subfolder_info, camel_folder_free_subfolder_info): Likewise.
+
+	(get_subfolder, camel_folder_get_subfolder): Removed.
+	CamelFolderInfo contains the subfolder's full name, so this is
+	unnecessary now, and removing it lets us get rid of the
+	CamelFolder separator member, which is needed for the default
+	implementation of this function, but not otherwise needed for most
+	providers.
+
+	Also, lots of code style fixes.
+
+	* providers/*: Update CamelFolder subclasses for changes, although
+	none of them fill in the message counts in the CamelFolderInfo
+	yet.
+
 2000-09-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* camel-folder-search.c, camel-folder-search.h,
@@ -7,7 +36,7 @@
 
 2000-09-17  Dan Winship  <danw@helixcode.com>
 
-	* camel-folder-summary.h: update CamelFolderInfo	
+	* camel-folder-summary.h: update CamelFolderInfo
 	* camel-folder-summary.c (camel_folder_info_free): New function to
 	free the contents of a CamelFolderInfo
 

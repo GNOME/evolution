@@ -1,4 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8; fill-column: 160 -*- */
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* camel-folder.c: Abstract class for an email folder */
 
 /*
@@ -36,12 +36,6 @@ static CamelObjectClass *parent_class = NULL;
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-
-static void init (CamelFolder *folder, CamelStore *parent_store,
-		  CamelFolder *parent_folder, const gchar *name,
-		  gchar *separator, gboolean path_begins_with_sep,
-		  CamelException *ex);
-
 static void camel_folder_finalize (CamelObject *object);
 
 static void refresh_info (CamelFolder *folder, CamelException *ex);
@@ -51,7 +45,7 @@ static void folder_sync (CamelFolder *folder, gboolean expunge,
 
 static const gchar *get_name (CamelFolder *folder);
 static const gchar *get_full_name (CamelFolder *folder);
-
+static CamelStore *get_parent_store   (CamelFolder *folder);
 
 static gboolean can_hold_folders (CamelFolder *folder);
 static gboolean can_hold_messages (CamelFolder *folder);
@@ -65,15 +59,9 @@ static void set_message_user_flag (CamelFolder *folder, const char *uid,
 static const char *get_message_user_tag(CamelFolder *folder, const char *uid, const char *name);
 static void set_message_user_tag(CamelFolder *folder, const char *uid, const char *name, const char *value);
 
-static GPtrArray *get_subfolder_names (CamelFolder *folder);
-static void      free_subfolder_names (CamelFolder *folder,
+static GPtrArray *get_subfolder_info  (CamelFolder *folder);
+static void      free_subfolder_info  (CamelFolder *folder,
 				       GPtrArray *array);
-static CamelFolder *get_subfolder     (CamelFolder *folder,
-				       const gchar *folder_name,
-				       gboolean create,
-				       CamelException *ex);
-static CamelFolder *get_parent_folder (CamelFolder *folder);
-static CamelStore *get_parent_store   (CamelFolder *folder);
 
 static gint get_message_count (CamelFolder *folder);
 static gint get_unread_message_count (CamelFolder *folder);
@@ -120,7 +108,7 @@ static void            freeze                (CamelFolder *folder);
 static void            thaw                  (CamelFolder *folder);
 
 static gboolean        folder_changed        (CamelObject *object,
-					      /*int type*/gpointer event_data);
+					      gpointer event_data);
 static gboolean        message_changed       (CamelObject *object,
 					      /*const char *uid*/gpointer event_data);
 
@@ -133,18 +121,15 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	parent_class = camel_type_get_global_classfuncs (camel_object_get_type ());
 
 	/* virtual method definition */
-	camel_folder_class->init = init;
 	camel_folder_class->sync = folder_sync;
 	camel_folder_class->refresh_info = refresh_info;
 	camel_folder_class->get_name = get_name;
 	camel_folder_class->get_full_name = get_full_name;
+	camel_folder_class->get_parent_store = get_parent_store;
 	camel_folder_class->can_hold_folders = can_hold_folders;
 	camel_folder_class->can_hold_messages = can_hold_messages;
-	camel_folder_class->get_subfolder = get_subfolder;
-	camel_folder_class->get_parent_folder = get_parent_folder;
-	camel_folder_class->get_parent_store = get_parent_store;
-	camel_folder_class->get_subfolder_names = get_subfolder_names;
-	camel_folder_class->free_subfolder_names = free_subfolder_names;
+	camel_folder_class->get_subfolder_info = get_subfolder_info;
+	camel_folder_class->free_subfolder_info = free_subfolder_info;
 	camel_folder_class->expunge = expunge;
 	camel_folder_class->get_message_count = get_message_count;
 	camel_folder_class->get_unread_message_count = get_unread_message_count;
@@ -170,30 +155,20 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->thaw = thaw;
 
 	/* virtual method overload */
-	camel_object_class_declare_event (camel_object_class, "folder_changed", folder_changed);
-	camel_object_class_declare_event (camel_object_class, "message_changed", message_changed);
+	camel_object_class_declare_event (camel_object_class,
+					  "folder_changed", folder_changed);
+	camel_object_class_declare_event (camel_object_class,
+					  "message_changed", message_changed);
+}
 
-	/*
-        signals[FOLDER_CHANGED] =
-                gt_k_signal_new ("folder_changed",
-                                GT_K_RUN_FIRST,
-                                camel_object_class->type,
-                                GT_K_SIGNAL_OFFSET (CamelFolderClass,
-				folder_changed),
-                                gt_k_marshal_NONE__INT,
-                                GT_K_TYPE_NONE, 1, GT_K_TYPE_INT);
+static void
+camel_folder_init (gpointer object, gpointer klass)
+{
+	CamelFolder *folder = object;
 
-        signals[MESSAGE_CHANGED] =
-                gt_k_signal_new ("message_changed",
-                                GT_K_RUN_FIRST,
-                                camel_object_class->type,
-                                GT_K_SIGNAL_OFFSET (CamelFolderClass,
-						   message_changed),
-                                gt_k_marshal_NONE__STRING,
-                                GT_K_TYPE_NONE, 1, GT_K_TYPE_STRING);
-
-        camel_object_class_add_signals (camel_object_class, signals, LAST_SIGNAL);
-	*/
+	folder->frozen = 0;
+	folder->folder_changed = FALSE;
+	folder->messages_changed = NULL;
 }
 
 static void
@@ -207,8 +182,6 @@ camel_folder_finalize (CamelObject *object)
 
 	if (camel_folder->parent_store)
 		camel_object_unref (CAMEL_OBJECT (camel_folder->parent_store));
-	if (camel_folder->parent_folder)
-		camel_object_unref (CAMEL_OBJECT (camel_folder->parent_folder));
 
 	for (m = camel_folder->messages_changed; m; m = m->next)
 		g_free (m->data);
@@ -226,7 +199,7 @@ camel_folder_get_type (void)
 							 sizeof (CamelFolderClass),
 							 (CamelObjectClassInitFunc) camel_folder_class_init,
 							 NULL,
-							 NULL,
+							 (CamelObjectInitFunc) camel_folder_init,
 							 (CamelObjectFinalizeFunc) camel_folder_finalize );
 	}
 
@@ -235,67 +208,28 @@ camel_folder_get_type (void)
 
 
 /**
- * init: init the folder
- * @folder: folder object to initialize
+ * camel_folder_construct:
+ * @folder: folder object to construct
  * @parent_store: parent store object of the folder
- * @parent_folder: parent folder of the folder (may be NULL)
- * @name: (short) name of the folder
- * @separator: separator between the parent folder name and this name
- * @ex: a CamelException
+ * @full_name: full name of the folder
+ * @name: short name of the folder
  *
- * Initalizes the folder by setting the parent store, parent folder,
- * and name.
+ * Initalizes the folder by setting the parent store and name.
  **/
-static void
-init (CamelFolder *folder, CamelStore *parent_store,
-      CamelFolder *parent_folder, const gchar *name,
-      gchar *separator, gboolean path_begins_with_sep,
-      CamelException *ex)
+void
+camel_folder_construct (CamelFolder *folder, CamelStore *parent_store,
+			const char *full_name, const char *name)
 {
-	gchar *full_name;
-	const gchar *parent_full_name;
-
 	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 	g_return_if_fail (CAMEL_IS_STORE (parent_store));
-	g_return_if_fail (parent_folder == NULL || CAMEL_IS_FOLDER (parent_folder));
 	g_return_if_fail (folder->parent_store == NULL);
+	g_return_if_fail (folder->name == NULL);
 
 	folder->parent_store = parent_store;
 	camel_object_ref (CAMEL_OBJECT (parent_store));
 
-	folder->parent_folder = parent_folder;
-	if (parent_folder)
-		camel_object_ref (CAMEL_OBJECT (parent_folder));
-
-	folder->separator = separator;
-	folder->path_begins_with_sep = path_begins_with_sep;
-
-	/* if the folder already has a name, free it */
-	g_free (folder->name);
-	g_free (folder->full_name);
-
-	/* set those fields to NULL now, so that if an
-	   exception occurs, they will be set anyway */
-	folder->name = NULL;
-	folder->full_name = NULL;
-
-	if (folder->parent_folder) {
-		parent_full_name = camel_folder_get_full_name(folder->parent_folder);
-
-		full_name = g_strdup_printf("%s%s%s", parent_full_name, folder->separator, name);
-	} else {
-		if (path_begins_with_sep)
-			full_name = g_strdup_printf("%s%s", folder->separator, name);
-		else
-			full_name = g_strdup(name);
-	}
-
-	folder->name = g_strdup(name);
-	folder->full_name = full_name;
-
-	folder->frozen = 0;
-	folder->folder_changed = FALSE;
-	folder->messages_changed = NULL;
+	folder->name = g_strdup (name);
+	folder->full_name = g_strdup (full_name);
 }
 
 
@@ -315,12 +249,14 @@ folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
  * Sync changes made to a folder to its backing store, possibly expunging
  * deleted messages as well.
  **/
-void camel_folder_sync(CamelFolder * folder, gboolean expunge, CamelException * ex)
+void
+camel_folder_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(folder));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS(folder)->sync(folder, expunge, ex);
+	CF_CLASS (folder)->sync (folder, expunge, ex);
 }
+
 
 static void
 refresh_info (CamelFolder *folder, CamelException *ex)
@@ -338,14 +274,17 @@ refresh_info (CamelFolder *folder, CamelException *ex)
  * (called upon creation and when the store's connection is lost
  * and then reestablished).
  **/
-void camel_folder_refresh_info (CamelFolder * folder, CamelException * ex)
+void
+camel_folder_refresh_info (CamelFolder *folder, CamelException *ex)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(folder));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS(folder)->refresh_info(folder, ex);
+	CF_CLASS (folder)->refresh_info (folder, ex);
 }
 
-static const gchar *get_name(CamelFolder * folder)
+
+static const char *
+get_name (CamelFolder *folder)
 {
 	return folder->name;
 }
@@ -359,14 +298,17 @@ static const gchar *get_name(CamelFolder * folder)
  *
  * Return value: name of the folder
  **/
-const gchar *camel_folder_get_name(CamelFolder * folder)
+const char *
+camel_folder_get_name (CamelFolder * folder)
 {
-	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), NULL);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS(folder)->get_name(folder);
+	return CF_CLASS (folder)->get_name (folder);
 }
 
-static const gchar *get_full_name(CamelFolder * folder)
+
+static const char *
+get_full_name (CamelFolder *folder)
 {
 	return folder->full_name;
 }
@@ -379,82 +321,78 @@ static const gchar *get_full_name(CamelFolder * folder)
  *
  * Return value: full name of the folder
  **/
-const gchar *camel_folder_get_full_name(CamelFolder * folder)
+const char *
+camel_folder_get_full_name (CamelFolder *folder)
 {
-	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), NULL);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS(folder)->get_full_name(folder);
+	return CF_CLASS (folder)->get_full_name (folder);
 }
 
-static gboolean can_hold_folders(CamelFolder * folder)
+
+static gboolean 
+can_hold_folders (CamelFolder * folder)
 {
 	return folder->can_hold_folders;
 }
 
-static gboolean can_hold_messages(CamelFolder * folder)
+static gboolean
+can_hold_messages (CamelFolder * folder)
 {
 	return folder->can_hold_messages;
 }
 
-static CamelFolder *get_subfolder(CamelFolder * folder, const gchar * folder_name, gboolean create, CamelException * ex)
+
+static GPtrArray *
+get_subfolder_info (CamelFolder *folder)
 {
-	CamelFolder *new_folder;
-	gchar *full_name;
-	const gchar *current_folder_full_name;
-
-	g_return_val_if_fail(CAMEL_IS_STORE(folder->parent_store), NULL);
-
-	current_folder_full_name = camel_folder_get_full_name(folder);
-
-	full_name = g_strdup_printf("%s%s%s", current_folder_full_name, folder->separator, folder_name);
-	new_folder = camel_store_get_folder(folder->parent_store, full_name, create, ex);
-	g_free(full_name);
-
-	return new_folder;
+	g_warning ("CamelFolder::get_subfolder_info not implemented for `%s'",
+		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
+	return NULL;
 }
 
 /**
- * camel_folder_get_subfolder:
- * @folder: a folder
- * @folder_name: subfolder path
- * @create: whether or not to create the folder if it doesn't exist
- * @ex: a CamelException
+ * camel_folder_get_subfolder_info:
+ * @folder: the folder
  *
- * This method returns a folder object. This folder is a subfolder of
- * the given folder. It is an error to ask for a folder whose name begins
- * with the folder separator character.
- *
- * Return value: the requested folder, or %NULL if the subfolder object
- * could not be obtained
+ * Return value: an array containing a CamelFolderInfo for each of
+ * @folder's subfolders. The array should not be modified and must be
+ * freed with camel_folder_free_subfolder_info().
  **/
-CamelFolder *camel_folder_get_subfolder(CamelFolder * folder, const gchar * folder_name,
-					gboolean create, CamelException * ex)
+GPtrArray *
+camel_folder_get_subfolder_info (CamelFolder *folder)
 {
-	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), NULL);
-	g_return_val_if_fail(folder_name != NULL, NULL);
+	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
-	return CF_CLASS(folder)->get_subfolder(folder, folder_name, create, ex);
+	return CF_CLASS (folder)->get_subfolder_info (folder);
 }
 
-static CamelFolder *get_parent_folder(CamelFolder * folder)
+
+static void
+free_subfolder_info (CamelFolder *folder, GPtrArray *array)
 {
-	return folder->parent_folder;
+       g_warning ("CamelFolder::free_subfolder_info not implemented "
+                  "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
 }
 
 /**
- * camel_folder_get_parent_folder:
- * @folder: folder to get the parent of
+ * camel_folder_free_subfolder_info:
+ * @folder: folder object
+ * @array: the array of subfolder info to free
  *
- * Return value: the folder's parent
+ * Frees the array of info returned by camel_folder_get_subfolder_info().
  **/
-CamelFolder *camel_folder_get_parent_folder(CamelFolder * folder)
+void
+camel_folder_free_subfolder_info (CamelFolder *folder, GPtrArray *array)
 {
-	g_return_val_if_fail(CAMEL_IS_FOLDER(folder), NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	return CF_CLASS(folder)->get_parent_folder(folder);
+	CF_CLASS (folder)->free_subfolder_info (folder, array);
 }
 
-static CamelStore *get_parent_store(CamelFolder * folder)
+
+static CamelStore *
+get_parent_store (CamelFolder * folder)
 {
 	return folder->parent_store;
 }
@@ -471,54 +409,6 @@ camel_folder_get_parent_store (CamelFolder *folder)
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
 
 	return CF_CLASS (folder)->get_parent_store (folder);
-}
-
-
-static GPtrArray *
-get_subfolder_names (CamelFolder *folder)
-{
-	g_warning ("CamelFolder::get_subfolder_names not implemented for `%s'",
-		   camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_get_subfolder_names:
- * @folder: the folder
- *
- * Return value: an array containing the names of the folder's
- * subfolders. The array should not be modified and must be freed with
- * camel_folder_free_subfolder_names().
- **/
-GPtrArray *
-camel_folder_get_subfolder_names (CamelFolder *folder)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-
-	return CF_CLASS (folder)->get_subfolder_names (folder);
-}
-
-
-static void
-free_subfolder_names (CamelFolder *folder, GPtrArray *array)
-{
-       g_warning ("CamelFolder::free_subfolder_names not implemented "
-                  "for `%s'", camel_type_to_name (CAMEL_OBJECT_GET_TYPE (folder)));
-}
-
-/**
- * camel_folder_free_subfolder_names:
- * @folder: folder object
- * @array: the array of subfolder names to free
- *
- * Frees the array of names returned by camel_folder_get_subfolder_names().
- **/
-void
-camel_folder_free_subfolder_names (CamelFolder *folder, GPtrArray *array)
-{
-	g_return_if_fail (CAMEL_IS_FOLDER (folder));
-
-	CF_CLASS (folder)->free_subfolder_names (folder, array);
 }
 
 
@@ -546,7 +436,7 @@ camel_folder_expunge (CamelFolder *folder, CamelException *ex)
 }
 
 
-static gint
+static int
 get_message_count (CamelFolder *folder)
 {
 	g_warning ("CamelFolder::get_message_count not implemented "
@@ -560,7 +450,7 @@ get_message_count (CamelFolder *folder)
  *
  * Return value: the number of messages in the folder, or -1 if unknown.
  **/
-gint
+int
 camel_folder_get_message_count (CamelFolder *folder)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
@@ -568,7 +458,8 @@ camel_folder_get_message_count (CamelFolder *folder)
 	return CF_CLASS (folder)->get_message_count (folder);
 }
 
-static gint
+
+static int
 get_unread_message_count (CamelFolder *folder)
 {
 	g_warning ("CamelFolder::get_unread_message_count not implemented "
@@ -582,7 +473,7 @@ get_unread_message_count (CamelFolder *folder)
  *
  * Return value: the number of unread messages in the folder, or -1 if unknown.
  **/
-gint
+int
 camel_folder_get_unread_message_count (CamelFolder *folder)
 {
 	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), -1);
@@ -605,19 +496,25 @@ append_message (CamelFolder *folder, CamelMimeMessage *message,
  * camel_folder_append_message: add a message to a folder
  * @folder: folder object to add the message to
  * @message: message object
- * @info: optional message info with additional flags/etc to set on new message.
+ * @info: message info with additional flags/etc to set on
+ * new message, or %NULL
  * @ex: exception object
  *
- * Add a message to a folder.
+ * Add a message to a folder. Only the flag and tag data from @info
+ * is used. If @info is %NULL, no flags or tags will be set.
  **/
-void camel_folder_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex)
+void
+camel_folder_append_message (CamelFolder *folder, CamelMimeMessage *message,
+			     const CamelMessageInfo *info, CamelException *ex)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(folder));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS(folder)->append_message(folder, message, info, ex);
+	CF_CLASS (folder)->append_message (folder, message, info, ex);
 }
 
-static guint32 get_permanent_flags(CamelFolder * folder)
+
+static guint32
+get_permanent_flags (CamelFolder *folder)
 {
 	return folder->permanent_flags;
 }
@@ -1013,13 +910,13 @@ camel_folder_search_by_expression (CamelFolder *folder, const char *expression,
 }
 
 static void
-search_free(CamelFolder * folder, GPtrArray * result)
+search_free (CamelFolder *folder, GPtrArray *result)
 {
 	int i;
 
 	for (i = 0; i < result->len; i++)
-		g_free(g_ptr_array_index(result, i));
-	g_ptr_array_free(result, TRUE);
+		g_free (g_ptr_array_index (result, i));
+	g_ptr_array_free (result, TRUE);
 }
 
 /**
@@ -1030,12 +927,12 @@ search_free(CamelFolder * folder, GPtrArray * result)
  * Free the result of a search.
  **/
 void 
-camel_folder_search_free(CamelFolder * folder, GPtrArray * result)
+camel_folder_search_free (CamelFolder *folder, GPtrArray *result)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(folder));
-	g_return_if_fail(folder->has_search_capability);
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
+	g_return_if_fail (folder->has_search_capability);
 
-	return CF_CLASS(folder)->search_free(folder, result);
+	return CF_CLASS (folder)->search_free (folder, result);
 }
 
 
@@ -1048,14 +945,12 @@ copy_message_to (CamelFolder *source, const char *uid, CamelFolder *dest,
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message(source, uid, ex);
+	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info(source, uid);
-	camel_folder_append_message(dest, msg, info, ex);
-	camel_object_unref(CAMEL_OBJECT (msg));
-	if (camel_exception_is_set(ex))
-		return;
+	info = camel_folder_get_message_info (source, uid);
+	camel_folder_append_message (dest, msg, info, ex);
+	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
 /**
@@ -1078,26 +973,28 @@ camel_folder_copy_message_to (CamelFolder *source, const char *uid,
 	g_return_if_fail (uid != NULL);
 
 	if (source->parent_store == dest->parent_store) {
-		return CF_CLASS (source)->copy_message_to(source, uid,dest, ex);
+		return CF_CLASS (source)->copy_message_to (source, uid,
+							   dest, ex);
 	} else
-		return copy_message_to(source, uid, dest, ex);
+		return copy_message_to (source, uid, dest, ex);
 }
 
 
 static void
-move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelException *ex)
+move_message_to (CamelFolder *source, const char *uid,
+		 CamelFolder *dest, CamelException *ex)
 {
 	CamelMimeMessage *msg;
 	const CamelMessageInfo *info;
 
 	/* Default implementation. */
 	
-	msg = camel_folder_get_message(source, uid, ex);
+	msg = camel_folder_get_message (source, uid, ex);
 	if (!msg)
 		return;
-	info = camel_folder_get_message_info(source, uid);
-	camel_folder_append_message(dest, msg, info, ex);
-	camel_object_unref(CAMEL_OBJECT(msg));
+	info = camel_folder_get_message_info (source, uid);
+	camel_folder_append_message (dest, msg, info, ex);
+	camel_object_unref (CAMEL_OBJECT (msg));
 	if (camel_exception_is_set(ex))
 		return;
 	camel_folder_delete_message (source, uid);
@@ -1115,19 +1012,23 @@ move_message_to (CamelFolder *source, const char *uid, CamelFolder *dest, CamelE
  * than a camel_folder_append_message() followed by
  * camel_folder_delete_message().
  **/
-void camel_folder_move_message_to(CamelFolder * source, const char *uid, CamelFolder * dest, CamelException * ex)
+void
+camel_folder_move_message_to (CamelFolder *source, const char *uid,
+			      CamelFolder *dest, CamelException *ex)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(source));
-	g_return_if_fail(CAMEL_IS_FOLDER(dest));
-	g_return_if_fail(uid != NULL);
+	g_return_if_fail (CAMEL_IS_FOLDER (source));
+	g_return_if_fail (CAMEL_IS_FOLDER (dest));
+	g_return_if_fail (uid != NULL);
 
 	if (source->parent_store == dest->parent_store) {
-		return CF_CLASS(source)->move_message_to(source, uid, dest, ex);
+		return CF_CLASS (source)->move_message_to (source, uid,
+							   dest, ex);
 	} else
-		return move_message_to(source, uid, dest, ex);
+		return move_message_to (source, uid, dest, ex);
 }
 
-static void freeze(CamelFolder * folder)
+static void
+freeze (CamelFolder *folder)
 {
 	folder->frozen++;
 }
@@ -1141,14 +1042,16 @@ static void freeze(CamelFolder * folder)
  * When the folder is later thawed with camel_folder_thaw(), the
  * suppressed signals will be emitted.
  **/
-void camel_folder_freeze(CamelFolder * folder)
+void
+camel_folder_freeze (CamelFolder * folder)
 {
-	g_return_if_fail(CAMEL_IS_FOLDER(folder));
+	g_return_if_fail (CAMEL_IS_FOLDER (folder));
 
-	CF_CLASS(folder)->freeze(folder);
+	CF_CLASS (folder)->freeze (folder);
 }
 
-static void thaw(CamelFolder * folder)
+static void
+thaw (CamelFolder * folder)
 {
 	GList *messages, *m;
 
@@ -1168,13 +1071,16 @@ static void thaw(CamelFolder * folder)
 	if (folder->folder_changed) {
 		folder->folder_changed = FALSE;
 
-		camel_object_trigger_event (CAMEL_OBJECT (folder), "folder_changed", GINT_TO_POINTER(0));
+		camel_object_trigger_event (CAMEL_OBJECT (folder),
+					    "folder_changed", NULL);
 	} else if (messages) {
 		/* FIXME: would be nice to not emit more than once for
 		 * a given message
 		 */
 		for (m = messages; m; m = m->next) {
-			camel_object_trigger_event (CAMEL_OBJECT (folder), "message_changed", m->data);
+			camel_object_trigger_event (CAMEL_OBJECT (folder),
+						    "message_changed",
+						    m->data);
 			g_free (m->data);
 		}
 		g_list_free (messages);
@@ -1206,7 +1112,8 @@ camel_folder_thaw (CamelFolder *folder)
 
 
 /* Event hooks that block emission when frozen */
-static gboolean folder_changed (CamelObject *obj, /*int type*/gpointer event_data)
+static gboolean
+folder_changed (CamelObject *obj, gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 
@@ -1218,15 +1125,14 @@ static gboolean folder_changed (CamelObject *obj, /*int type*/gpointer event_dat
 	return TRUE;
 }
 
-static gboolean message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
+static gboolean
+message_changed (CamelObject *obj, /*const char *uid*/gpointer event_data)
 {
 	CamelFolder *folder = CAMEL_FOLDER (obj);
 
 	if (folder->frozen) {
-		/*
-		 *   if g_tk_signal_handler_pending (CAMEL_OBJECT (folder),
-		 *				signals[MESSAGE_CHANGED],
-		 *				FALSE)) {
+		/* FIXME: if there are no hooks attached, we can just
+		 * return here.
 		 */
 
 		/* Only record the UID if it will be useful later. */
@@ -1246,14 +1152,15 @@ static gboolean message_changed (CamelObject *obj, /*const char *uid*/gpointer e
 /**
  * camel_folder_free_nop:
  * @folder: a folder
- * @array: an array of uids, subfolder names, or CamelMessageInfo
+ * @array: an array of uids, CamelFolderInfo, or CamelMessageInfo
  *
  * "Frees" the provided array by doing nothing. Used by CamelFolder
  * subclasses as an implementation for free_uids, free_summary,
- * or free_subfolder_names when the returned array is "static"
+ * or free_subfolder_info when the returned array is "static"
  * information and should not be freed.
  **/
-void camel_folder_free_nop(CamelFolder * folder, GPtrArray * array)
+void
+camel_folder_free_nop (CamelFolder *folder, GPtrArray *array)
 {
 	;
 }
@@ -1261,33 +1168,34 @@ void camel_folder_free_nop(CamelFolder * folder, GPtrArray * array)
 /**
  * camel_folder_free_shallow:
  * @folder: a folder
- * @array: an array of uids, subfolder names, or CamelMessageInfo
+ * @array: an array of uids, CamelFolderInfo, or CamelMessageInfo
  *
  * Frees the provided array but not its contents. Used by CamelFolder
  * subclasses as an implementation for free_uids, free_summary, or
- * free_subfolder_names when the returned array needs to be freed
+ * free_subfolder_info when the returned array needs to be freed
  * but its contents come from "static" information.
  **/
-void camel_folder_free_shallow(CamelFolder * folder, GPtrArray * array)
+void
+camel_folder_free_shallow (CamelFolder *folder, GPtrArray *array)
 {
-	g_ptr_array_free(array, TRUE);
+	g_ptr_array_free (array, TRUE);
 }
 
 /**
  * camel_folder_free_deep:
  * @folder: a folder
- * @array: an array of uids or subfolder names
+ * @array: an array of uids
  *
  * Frees the provided array and its contents. Used by CamelFolder
- * subclasses as an implementation for free_uids or
- * free_subfolder_names (but NOT free_summary) when the provided
+ * subclasses as an implementation for free_uids when the provided
  * information was created explicitly by the corresponding get_ call.
  **/
-void camel_folder_free_deep(CamelFolder * folder, GPtrArray * array)
+void
+camel_folder_free_deep (CamelFolder *folder, GPtrArray *array)
 {
 	int i;
 
 	for (i = 0; i < array->len; i++)
-		g_free(array->pdata[i]);
-	g_ptr_array_free(array, TRUE);
+		g_free (array->pdata[i]);
+	g_ptr_array_free (array, TRUE);
 }

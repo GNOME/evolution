@@ -53,16 +53,12 @@ static CamelFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CMHS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static void mh_init(CamelFolder * folder, CamelStore * parent_store,
-		      CamelFolder * parent_folder, const gchar * name,
-		      gchar * separator, gboolean path_begins_with_sep, CamelException * ex);
-
 static void mh_sync(CamelFolder * folder, gboolean expunge, CamelException * ex);
 static gint mh_get_message_count(CamelFolder * folder);
 static gint mh_get_unread_message_count(CamelFolder * folder);
 static void mh_append_message(CamelFolder * folder, CamelMimeMessage * message, const CamelMessageInfo *info, CamelException * ex);
 static GPtrArray *mh_get_uids(CamelFolder * folder);
-static GPtrArray *mh_get_subfolder_names(CamelFolder * folder);
+static GPtrArray *mh_get_subfolder_info(CamelFolder * folder);
 static GPtrArray *mh_get_summary(CamelFolder * folder);
 static CamelMimeMessage *mh_get_message(CamelFolder * folder, const gchar * uid, CamelException * ex);
 
@@ -91,15 +87,14 @@ static void camel_mh_folder_class_init(CamelObjectClass * camel_mh_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->init = mh_init;
 	camel_folder_class->sync = mh_sync;
 	camel_folder_class->get_message_count = mh_get_message_count;
 	camel_folder_class->get_unread_message_count = mh_get_unread_message_count;
 	camel_folder_class->append_message = mh_append_message;
 	camel_folder_class->get_uids = mh_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_deep;
-	camel_folder_class->get_subfolder_names = mh_get_subfolder_names;
-	camel_folder_class->free_subfolder_names = camel_folder_free_deep;
+	camel_folder_class->get_subfolder_info = mh_get_subfolder_info;
+	camel_folder_class->free_subfolder_info = camel_folder_free_deep;
 	camel_folder_class->get_summary = mh_get_summary;
 	camel_folder_class->free_summary = camel_folder_free_nop;
 	camel_folder_class->expunge = mh_expunge;
@@ -117,6 +112,24 @@ static void camel_mh_folder_class_init(CamelObjectClass * camel_mh_folder_class)
 	camel_folder_class->set_message_user_flag = mh_set_message_user_flag;
 	camel_folder_class->get_message_user_tag = mh_get_message_user_tag;
 	camel_folder_class->set_message_user_tag = mh_set_message_user_tag;
+}
+
+static void mh_init(gpointer object, gpointer klass)
+{
+	CamelFolder *folder = object;
+	CamelMhFolder *mh_folder = object;
+
+	folder->can_hold_messages = TRUE;
+	folder->can_hold_folders = TRUE;
+	folder->has_summary_capability = TRUE;
+	folder->has_search_capability = TRUE;
+
+	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
+	    CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_DRAFT |
+	    CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_USER;
+
+	mh_folder->summary = NULL;
+	mh_folder->search = NULL;
 }
 
 static void mh_finalize(CamelObject * object)
@@ -142,54 +155,38 @@ CamelType camel_mh_folder_get_type(void)
 							   sizeof(CamelMhFolderClass),
 							   (CamelObjectClassInitFunc) camel_mh_folder_class_init,
 							   NULL,
-							   (CamelObjectInitFunc) NULL,
+							   (CamelObjectInitFunc) mh_init,
 							   (CamelObjectFinalizeFunc) mh_finalize);
 	}
 
 	return camel_mh_folder_type;
 }
 
-static void
-mh_init(CamelFolder * folder, CamelStore * parent_store,
-	  CamelFolder * parent_folder, const gchar * name, gchar * separator,
-	  gboolean path_begins_with_sep, CamelException * ex)
+CamelFolder *
+camel_mh_folder_new(CamelStore *parent_store, const char *full_name, CamelException *ex)
 {
-	CamelMhFolder *mh_folder = (CamelMhFolder *) folder;
-	const gchar *root_dir_path;
-	gchar *real_name;
+	CamelFolder *folder;
+	CamelMhFolder *mh_folder;
+	const char *root_dir_path, *name;
 	int forceindex;
 	struct stat st;
 
-	/* call parent method */
-	parent_class->init(folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
-	if (camel_exception_get_id(ex))
-		return;
+	folder = CAMEL_FOLDER (camel_object_new(CAMEL_MH_FOLDER_TYPE));
+	mh_folder = (CamelMhFolder *)folder;
 
-	/* we assume that the parent init method checks for the existance of @folder */
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = TRUE;
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
-
-	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
-	    CAMEL_MESSAGE_DELETED |
-	    CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_USER;
-
-	mh_folder->summary = NULL;
-	mh_folder->search = NULL;
-
-	/* now set the name info */
-	g_free(mh_folder->folder_file_path);
-	g_free(mh_folder->folder_dir_path);
-	g_free(mh_folder->index_file_path);
+	name = strrchr(full_name, '/');
+	if (name)
+		name++;
+	else
+		name = full_name;
+	camel_folder_construct (folder, parent_store, full_name, name);
 
 	root_dir_path = camel_mh_store_get_toplevel_dir(CAMEL_MH_STORE(folder->parent_store));
 
-	real_name = g_basename(folder->full_name);
-	mh_folder->folder_file_path = g_strdup_printf("%s/%s", root_dir_path, real_name);
-	mh_folder->summary_file_path = g_strdup_printf("%s/%s/ev-summary", root_dir_path, real_name);
-	mh_folder->folder_dir_path = g_strdup_printf("%s/%s", root_dir_path, real_name);
-	mh_folder->index_file_path = g_strdup_printf("%s/%s/ev-index.ibex", root_dir_path, real_name);
+	mh_folder->folder_file_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
+	mh_folder->summary_file_path = g_strdup_printf("%s/%s/ev-summary", root_dir_path, full_name);
+	mh_folder->folder_dir_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
+	mh_folder->index_file_path = g_strdup_printf("%s/%s/ev-index.ibex", root_dir_path, full_name);
 
 	/* if we have no index file, force it */
 	forceindex = stat(mh_folder->index_file_path, &st) == -1;
@@ -208,8 +205,11 @@ mh_init(CamelFolder * folder, CamelStore * parent_store,
 	if (camel_mh_summary_load(mh_folder->summary, forceindex) == -1) {
 		camel_exception_set(ex, CAMEL_EXCEPTION_FOLDER_INVALID,	/* FIXME: right error code */
 				    "Could not load or create summary");
-		return;
+		camel_object_unref (CAMEL_OBJECT (folder));
+		return NULL;
 	}
+
+	return folder;
 }
 
 static void mh_sync(CamelFolder * folder, gboolean expunge, CamelException * ex)
@@ -356,7 +356,7 @@ static GPtrArray *mh_get_uids(CamelFolder * folder)
 	return array;
 }
 
-static GPtrArray *mh_get_subfolder_names(CamelFolder * folder)
+static GPtrArray *mh_get_subfolder_info(CamelFolder * folder)
 {
 	/* FIXME: scan for sub-folders */
 	/* No subfolders. */

@@ -56,9 +56,6 @@ static CamelFolderClass *parent_class = NULL;
 #define CMBOXS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
 
-static void mbox_init(CamelFolder *folder, CamelStore * parent_store,
-		      CamelFolder *parent_folder, const gchar * name,
-		      gchar * separator, gboolean path_begins_with_sep, CamelException *ex);
 static void mbox_refresh_info (CamelFolder *folder, CamelException *ex);
 static void mbox_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static gint mbox_get_message_count(CamelFolder *folder);
@@ -67,7 +64,7 @@ static void mbox_append_message(CamelFolder *folder, CamelMimeMessage * message,
 
 				CamelException *ex);
 static GPtrArray *mbox_get_uids(CamelFolder *folder);
-static GPtrArray *mbox_get_subfolder_names(CamelFolder *folder);
+static GPtrArray *mbox_get_subfolder_info(CamelFolder *folder);
 static GPtrArray *mbox_get_summary(CamelFolder *folder);
 static CamelMimeMessage *mbox_get_message(CamelFolder *folder, const gchar * uid, CamelException *ex);
 
@@ -98,7 +95,6 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	/* virtual method definition */
 
 	/* virtual method overload */
-	camel_folder_class->init = mbox_init;
 	camel_folder_class->refresh_info = mbox_refresh_info;
 	camel_folder_class->sync = mbox_sync;
 	camel_folder_class->get_message_count = mbox_get_message_count;
@@ -106,8 +102,8 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	camel_folder_class->append_message = mbox_append_message;
 	camel_folder_class->get_uids = mbox_get_uids;
 	camel_folder_class->free_uids = camel_folder_free_deep;
-	camel_folder_class->get_subfolder_names = mbox_get_subfolder_names;
-	camel_folder_class->free_subfolder_names = camel_folder_free_deep;
+	camel_folder_class->get_subfolder_info = mbox_get_subfolder_info;
+	camel_folder_class->free_subfolder_info = camel_folder_free_shallow;
 	camel_folder_class->get_summary = mbox_get_summary;
 	camel_folder_class->free_summary = camel_folder_free_nop;
 	camel_folder_class->expunge = mbox_expunge;
@@ -125,6 +121,26 @@ camel_mbox_folder_class_init(CamelMboxFolderClass * camel_mbox_folder_class)
 	camel_folder_class->set_message_user_flag = mbox_set_message_user_flag;
 	camel_folder_class->get_message_user_tag = mbox_get_message_user_tag;
 	camel_folder_class->set_message_user_tag = mbox_set_message_user_tag;
+}
+
+static void
+mbox_init(gpointer object, gpointer klass)
+{
+	CamelFolder *folder = object;
+	CamelMboxFolder *mbox_folder = object;
+
+	folder->can_hold_messages = TRUE;
+	folder->can_hold_folders = TRUE;
+	folder->has_summary_capability = TRUE;
+	folder->has_search_capability = TRUE;
+
+	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
+	    CAMEL_MESSAGE_DELETED | CAMEL_MESSAGE_DRAFT |
+	    CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_USER;
+	/* FIXME: we don't actually preserve user flags right now. */
+
+	mbox_folder->summary = NULL;
+	mbox_folder->search = NULL;
 }
 
 static void
@@ -152,54 +168,45 @@ CamelType camel_mbox_folder_get_type(void)
 							     sizeof(CamelMboxFolderClass),
 							     (CamelObjectClassInitFunc) camel_mbox_folder_class_init,
 							     NULL,
-							     (CamelObjectInitFunc) NULL,
+							     (CamelObjectInitFunc) mbox_init,
 							     (CamelObjectFinalizeFunc) mbox_finalize);
 	}
 
 	return camel_mbox_folder_type;
 }
 
-static void
-mbox_init(CamelFolder *folder, CamelStore * parent_store,
-	  CamelFolder *parent_folder, const gchar * name, gchar * separator,
-	  gboolean path_begins_with_sep, CamelException *ex)
+CamelFolder *
+camel_mbox_folder_new(CamelStore *parent_store, const char *full_name, CamelException *ex)
 {
-	CamelMboxFolder *mbox_folder = (CamelMboxFolder *) folder;
-	const gchar *root_dir_path;
-	gchar *real_name;
+	CamelFolder *folder;
+	CamelMboxFolder *mbox_folder;
+	const char *root_dir_path, *name;
 
-	/* call parent method */
-	parent_class->init(folder, parent_store, parent_folder, name, separator, path_begins_with_sep, ex);
-	if (camel_exception_get_id(ex))
-		return;
+	folder = CAMEL_FOLDER (camel_object_new (CAMEL_MBOX_FOLDER_TYPE));
+	mbox_folder = (CamelMboxFolder *)folder;
 
-	/* we assume that the parent init
-	   method checks for the existance of @folder */
-	folder->can_hold_messages = TRUE;
-	folder->can_hold_folders = TRUE;
-	folder->has_summary_capability = TRUE;
-	folder->has_search_capability = TRUE;
+	name = strrchr(full_name, '/');
+	if (name)
+		name++;
+	else
+		name = full_name;
 
-	folder->permanent_flags = CAMEL_MESSAGE_ANSWERED |
-	    CAMEL_MESSAGE_DELETED |
-	    CAMEL_MESSAGE_DRAFT | CAMEL_MESSAGE_FLAGGED | CAMEL_MESSAGE_SEEN | CAMEL_MESSAGE_USER;
-	/* FIXME: we don't actually preserve user flags right now. */
-
-	mbox_folder->summary = NULL;
-	mbox_folder->search = NULL;
-
-	/* now set the name info */
-	g_free(mbox_folder->folder_file_path);
-	g_free(mbox_folder->folder_dir_path);
-	g_free(mbox_folder->index_file_path);
+	camel_folder_construct(folder, parent_store, full_name, name);
 
 	root_dir_path = camel_mbox_store_get_toplevel_dir(CAMEL_MBOX_STORE(folder->parent_store));
 
-	real_name = g_basename(folder->full_name);
-	mbox_folder->folder_file_path = g_strdup_printf("%s/%s", root_dir_path, real_name);
-	mbox_folder->summary_file_path = g_strdup_printf("%s/%s-ev-summary", root_dir_path, real_name);
-	mbox_folder->folder_dir_path = g_strdup_printf("%s/%s.sdb", root_dir_path, real_name);
-	mbox_folder->index_file_path = g_strdup_printf("%s/%s.ibex", root_dir_path, real_name);
+	mbox_folder->folder_file_path = g_strdup_printf("%s/%s", root_dir_path, full_name);
+	mbox_folder->summary_file_path = g_strdup_printf("%s/%s-ev-summary", root_dir_path, full_name);
+	mbox_folder->folder_dir_path = g_strdup_printf("%s/%s.sdb", root_dir_path, full_name);
+	mbox_folder->index_file_path = g_strdup_printf("%s/%s.ibex", root_dir_path, full_name);
+
+	mbox_refresh_info (folder, ex);
+	if (camel_exception_is_set (ex)) {
+		camel_object_unref (CAMEL_OBJECT (folder));
+		folder = NULL;
+	}
+
+	return folder;
 }
 
 static void
@@ -432,7 +439,7 @@ mbox_get_uids(CamelFolder *folder)
 }
 
 static GPtrArray *
-mbox_get_subfolder_names(CamelFolder *folder)
+mbox_get_subfolder_info(CamelFolder *folder)
 {
 	/* No subfolders. */
 	return g_ptr_array_new();
