@@ -69,7 +69,6 @@
 
 static gboolean load_source_data (const char *file_path);
 static gboolean save_source_data (const char *file_path);
-static void register_storage (void);
 static void deregister_storage (void);
 
 static GList *sources;
@@ -128,8 +127,9 @@ create_ldap_folder (EvolutionStorage *storage,
 }
 #endif
 
-static void 
-register_storage (void) 
+
+EvolutionStorage *
+addressbook_get_other_contact_storage (void) 
 {
 #ifdef HAVE_LDAP
 	EvolutionStorageResult result;
@@ -164,6 +164,8 @@ register_storage (void)
 		}
 	}
 #endif
+
+	return storage;
 }
 
 static void 
@@ -274,7 +276,7 @@ load_source_data (const char *file_path)
 	xmlNode *root;
 	xmlNode *child;
 
-	register_storage ();
+	addressbook_get_other_contact_storage();
 
  tryagain:
 	doc = xmlParseFile (file_path);
@@ -437,7 +439,7 @@ addressbook_storage_add_source (AddressbookSource *source)
 	sources = g_list_append (sources, source);
 
 	/* And then to the ui */
-	register_storage ();
+	addressbook_get_other_contact_storage();
 	path = g_strdup_printf ("/%s", source->name);
 	evolution_storage_new_folder (storage, path, source->name, "contacts",
 				      source->uri, source->description, 0);

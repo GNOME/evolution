@@ -25,6 +25,7 @@
 #define __ADDRESSBOOK_STORAGE_H__
 
 #include "evolution-shell-component.h"
+#include "evolution-storage.h"
 
 typedef enum {
 	ADDRESSBOOK_SOURCE_LDAP,
@@ -62,6 +63,7 @@ typedef struct {
 void addressbook_storage_setup (EvolutionShellComponent *shell_component,
 				const char *evolution_homedir);
 
+EvolutionStorage  *addressbook_get_other_contact_storage (void);
 GList             *addressbook_storage_get_sources (void);
 AddressbookSource *addressbook_storage_get_source_by_uri (const char *uri);
 void               addressbook_storage_clear_sources (void);

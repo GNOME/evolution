@@ -1,5 +1,18 @@
 2001-08-17  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/addressbook-storage.h: add prototype for
+	addressbook_get_other_contact_storage.
+
+	* gui/component/addressbook-storage.c
+	(addressbook_get_other_contact_storage): rename register_storage
+	to this, and return the EvolutionStorage.
+	(load_source_data): register_storage =>
+	addressbook_get_other_contact_storage.
+	(addressbook_storage_add_source): register_storage =>
+	addressbook_get_other_contact_storage.
+
+2001-08-17  Chris Toshok  <toshok@ximian.com>
+
 	* gui/contact-editor/e-contact-editor.c
 	(set_entry_changed_signals): connect to the "changed" signal on
 	"entry-web" to update command state.
