@@ -1,5 +1,11 @@
 2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
 
+	* gui/component/select-names.glade,
+	gui/component/select-names.glade.h: Glade files for Select Names
+	dialog.
+
+2000-06-10  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/e-contact-editor.c: Do e_card_simple_sync and
 	extract_info more often.
 
