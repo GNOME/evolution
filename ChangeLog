@@ -1,3 +1,7 @@
+2005-02-01  JP Rosevear  <jpr@novell.com>
+
+	* MAINTAINERS: Update
+
 2005-02-01  Priit Laes <amd@store20.com>
 
 	* configure.in : Remove duplicate entry for calendar-file in
