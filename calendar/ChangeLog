@@ -1,3 +1,9 @@
+2005-01-10  Harish Krishnaswamy  <kharish@novell.com>
+
+	* gui/dialogs/cal-attachment-bar.c:
+	(cal_attachment_bar_set_attachment_list):
+	offset the file name to account for the 'hyphen'.
+
 2005-01-10  Chenthill Palanisamy <pchenthill@novell.com>
 
 	* gui/dialogs/event-page.glade
