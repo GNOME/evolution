@@ -1,8 +1,12 @@
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* evolution-composer.c (init): Don't call new_with_sig_file, it no
+	longer exists.
+
 	* e-msg-composer.c (setup_ui): Make sure that the session is
 	non-NULL.
 	(menu_file_send_cb): And here too.
+	(e_msg_composer_new_with_sig_file): Removed.
 
 2001-09-10  Jeffrey Stedfast  <fejj@ximian.com>
 

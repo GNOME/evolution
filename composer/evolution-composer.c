@@ -248,7 +248,7 @@ init (EvolutionComposer *composer)
 	const MailConfigAccount *account;
 
 	account            = mail_config_get_default_account ();
-	composer->composer = e_msg_composer_new_with_sig_file ();
+	composer->composer = e_msg_composer_new ();
 	
 	gtk_signal_connect (GTK_OBJECT (composer->composer), "send",
 			    GTK_SIGNAL_FUNC (send_cb), NULL);

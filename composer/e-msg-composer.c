@@ -2423,30 +2423,11 @@ e_msg_composer_new (void)
 	EMsgComposer *new;
 	
 	new = create_composer ();
-	if (new)
-		set_editor_text (new, "");
-	
-	return new;
-}
-
-/**
- * e_msg_composer_new_with_sig_file:
- *
- * Create a new message composer widget. Sets the signature file.
- * 
- * Return value: A pointer to the newly created widget
- **/
-EMsgComposer *
-e_msg_composer_new_with_sig_file ()
-{
-	EMsgComposer *new;
-
-	new = create_composer ();
 	if (new) {
 		e_msg_composer_set_send_html (new, mail_config_get_send_html ());
 		set_editor_text (new, "");
 	}
-
+	
 	return new;
 }
 
