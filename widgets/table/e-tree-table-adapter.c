@@ -553,14 +553,17 @@ etta_class_init (ETreeTableAdapterClass *klass)
 	object_class->destroy           = etta_destroy;
 
 	table_class->column_count       = etta_column_count;
-	table_class->has_save_id        = etta_has_save_id;
-	table_class->get_save_id        = etta_get_save_id;
-	table_class->has_change_pending = etta_has_change_pending;
 	table_class->row_count          = etta_row_count;
+	table_class->append_row         = etta_append_row;
+
 	table_class->value_at           = etta_value_at;
 	table_class->set_value_at       = etta_set_value_at;
 	table_class->is_cell_editable   = etta_is_cell_editable;
-	table_class->append_row         = etta_append_row;
+
+	table_class->has_save_id        = etta_has_save_id;
+	table_class->get_save_id        = etta_get_save_id;
+
+	table_class->has_change_pending = etta_has_change_pending;
 	table_class->duplicate_value    = etta_duplicate_value;
 	table_class->free_value         = etta_free_value;
 	table_class->initialize_value   = etta_initialize_value;

@@ -54,7 +54,7 @@ struct ETreeModelClass {
 	gchar     *(*get_save_id)          (ETreeModel *etm, ETreePath node);
 
 	gboolean   (*has_get_node_by_id)   (ETreeModel *etm);
-	ETreePath  (*get_node_by_id)       (ETreeModel *etm, gchar *save_id);
+	ETreePath  (*get_node_by_id)       (ETreeModel *etm, const char *save_id);
 
 	gboolean   (*has_change_pending)   (ETreeModel *etm);
 
@@ -119,7 +119,7 @@ gchar      *e_tree_model_get_save_id           (ETreeModel     *model,
 
 gboolean    e_tree_model_has_get_node_by_id    (ETreeModel     *model);
 ETreePath   e_tree_model_get_node_by_id        (ETreeModel     *model,
-						gchar          *save_id);
+						const char     *save_id);
 
 gboolean    e_tree_model_has_change_pending    (ETreeModel     *model);
 

@@ -24,7 +24,7 @@ typedef gboolean   (*ETreeMemoryCallbacksHasSaveIdFn)          (ETreeModel *etre
 typedef gchar     *(*ETreeMemoryCallbacksGetSaveIdFn)          (ETreeModel *etree, ETreePath path, void *model_data);
 
 typedef gboolean   (*ETreeMemoryCallbacksHasGetNodeByIdFn)     (ETreeModel *etree, void *model_data);
-typedef ETreePath  (*ETreeMemoryCallbacksGetNodeByIdFn)        (ETreeModel *etree, gchar *save_id, void *model_data);
+typedef ETreePath  (*ETreeMemoryCallbacksGetNodeByIdFn)        (ETreeModel *etree, const char *save_id, void *model_data);
 
 typedef void*      (*ETreeMemoryCallbacksValueAtFn)            (ETreeModel *etree, ETreePath path, int col, void *model_data);
 typedef void       (*ETreeMemoryCallbacksSetValueAtFn)         (ETreeModel *etree, ETreePath path, int col, const void *val, void *model_data);

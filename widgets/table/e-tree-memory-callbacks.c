@@ -69,7 +69,7 @@ etmc_has_get_node_by_id (ETreeModel *etm)
 }
 
 static ETreePath
-etmc_get_node_by_id (ETreeModel *etm, gchar *save_id)
+etmc_get_node_by_id (ETreeModel *etm, const char *save_id)
 {
 	ETreeMemoryCallbacks *etmc = E_TREE_MEMORY_CALLBACKS(etm);
 

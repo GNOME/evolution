@@ -37,7 +37,7 @@ typedef struct {
 	guint group_info_changed : 1;
 
 	GHashTable *hash;
-	gchar      *cursor_id;
+	char      *cursor_id;
 } ETableSelectionModel;
 
 typedef struct {

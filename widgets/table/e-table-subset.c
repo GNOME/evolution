@@ -25,6 +25,44 @@ static ETableModelClass *etss_parent_class;
 
 #define ETSS_CLASS(object) (E_TABLE_SUBSET_CLASS(GTK_OBJECT(object)->klass))
 
+static gint
+etss_get_view_row (ETableSubset *etss, int row)
+{
+	int limit;
+	const int n = etss->n_map;
+	const int * const map_table = etss->map_table;
+	int i;
+
+	limit = MIN(n, etss->last_access + 10);
+	for (i = etss->last_access; i < limit; i++) {
+		if (map_table [i] == row){
+			d(g_print("a) Found %d from %d\n", i, etss->last_access));
+			etss->last_access = i;
+			return i;
+		}
+	}
+
+	limit = MAX(0, etss->last_access - 10);
+	for (i = etss->last_access - 1; i >= limit; i--) {
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			d(g_print("b) Found %d from %d\n", i, etss->last_access));
+			etss->last_access = i;
+			return i;
+		}
+	}
+
+	for (i = 0; i < n; i++){
+		if (map_table [i] == row){
+			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
+			d(g_print("c) Found %d from %d\n", i, etss->last_access));
+			etss->last_access = i;
+			return i;
+		}
+	}
+	return -1;
+}
+
 static void
 etss_destroy (GtkObject *object)
 {
@@ -103,6 +141,22 @@ etss_is_cell_editable (ETableModel *etm, int col, int row)
 	return e_table_model_is_cell_editable (etss->source, col, etss->map_table [row]);
 }
 
+static gboolean
+etss_has_save_id (ETableModel *etm)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_has_save_id (etss->source);
+}
+
+static char *
+etss_get_save_id (ETableModel *etm, int row)
+{
+	ETableSubset *etss = (ETableSubset *)etm;
+
+	return e_table_model_get_save_id (etss->source, etss->map_table [row]);
+}
+
 static void
 etss_append_row (ETableModel *etm, ETableModel *source, int row)
 {
@@ -162,10 +216,15 @@ etss_class_init (GtkObjectClass *object_class)
 
 	table_class->column_count       = etss_column_count;
 	table_class->row_count          = etss_row_count;
+	table_class->append_row         = etss_append_row;
+
 	table_class->value_at           = etss_value_at;
 	table_class->set_value_at       = etss_set_value_at;
 	table_class->is_cell_editable   = etss_is_cell_editable;
-	table_class->append_row         = etss_append_row;
+
+	table_class->has_save_id        = etss_has_save_id;
+	table_class->get_save_id        = etss_get_save_id;
+
 	table_class->duplicate_value    = etss_duplicate_value;
 	table_class->free_value         = etss_free_value;
 	table_class->initialize_value   = etss_initialize_value;
@@ -203,77 +262,17 @@ etss_proxy_model_changed_real (ETableSubset *etss, ETableModel *etm)
 static void
 etss_proxy_model_row_changed_real (ETableSubset *etss, ETableModel *etm, int row)
 {
-	int limit;
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
-
-	limit = MIN(n, etss->last_access + 10);
-	for (i = etss->last_access; i < limit; i++) {
-		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
-			d(g_print("a) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
-
-	limit = MAX(0, etss->last_access - 10);
-	for (i = etss->last_access - 1; i >= limit; i--) {
-		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
-			d(g_print("b) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
-
-	for (i = 0; i < n; i++){
-		if (map_table [i] == row){
-			e_table_model_row_changed (E_TABLE_MODEL (etss), i);
-			d(g_print("c) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
+	int view_row = etss_get_view_row (etss, row);
+	if (view_row != -1)
+		e_table_model_row_changed (E_TABLE_MODEL (etss), view_row);
 }
 
 static void
 etss_proxy_model_cell_changed_real (ETableSubset *etss, ETableModel *etm, int col, int row)
 {
-	int limit;
-	const int n = etss->n_map;
-	const int * const map_table = etss->map_table;
-	int i;
-
-	limit = MIN(n, etss->last_access + 10);
-	for (i = etss->last_access; i < limit; i++) {
-		if (map_table [i] == row){
-			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
-			d(g_print("d) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
-
-	limit = MAX(0, etss->last_access - 10);
-	for (i = etss->last_access - 1; i >= limit; i--) {
-		if (map_table [i] == row){
-			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
-			d(g_print("e) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
-		
-	for (i = 0; i < n; i++){
-		if (map_table [i] == row){
-			e_table_model_cell_changed (E_TABLE_MODEL (etss), col, i);
-			d(g_print("f) Found %d from %d\n", i, etss->last_access));
-			etss->last_access = i;
-			return;
-		}
-	}
+	int view_row = etss_get_view_row (etss, row);
+	if (view_row != -1)
+		e_table_model_cell_changed (E_TABLE_MODEL (etss), col, view_row);
 }
 
 static void

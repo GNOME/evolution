@@ -847,7 +847,7 @@ ets_has_get_node_by_id (ETreeModel *etm)
 }
 
 static ETreePath
-ets_get_node_by_id (ETreeModel *etm, gchar *save_id)
+ets_get_node_by_id (ETreeModel *etm, const char *save_id)
 {
 	ETreeSorted *ets = E_TREE_SORTED(etm);
 	ETreePath node;

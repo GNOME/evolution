@@ -732,9 +732,14 @@ e_completion_view_construct (ECompletionView *cv, ECompletion *completion)
 
 	cv->model = e_table_simple_new (table_col_count,
 					table_row_count,
+					NULL,
+
 					table_value_at,
 					NULL,
 					table_is_cell_editable,
+
+					NULL, NULL,
+
 					NULL, NULL, NULL, NULL,
 					table_value_to_string,
 					cv);

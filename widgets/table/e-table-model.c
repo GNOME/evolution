@@ -171,20 +171,8 @@ e_table_model_free_value (ETableModel *e_table_model, int col, void *value)
 		ETM_CLASS (e_table_model)->free_value (e_table_model, col, value);
 }
 
-char *
-e_table_model_get_save_id(ETableModel *e_table_model, int row)
-{
-	g_return_val_if_fail (e_table_model != NULL, "/");
-	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
-
-	if (ETM_CLASS (e_table_model)->get_save_id)
-		return ETM_CLASS (e_table_model)->get_save_id (e_table_model, row);
-	else
-		return NULL;
-}
-
 gboolean
-e_table_model_has_save_id(ETableModel *e_table_model)
+e_table_model_has_save_id (ETableModel *e_table_model)
 {
 	g_return_val_if_fail (e_table_model != NULL, FALSE);
 	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), FALSE);
@@ -193,6 +181,18 @@ e_table_model_has_save_id(ETableModel *e_table_model)
 		return ETM_CLASS (e_table_model)->has_save_id (e_table_model);
 	else
 		return FALSE;
+}
+
+char *
+e_table_model_get_save_id (ETableModel *e_table_model, int row)
+{
+	g_return_val_if_fail (e_table_model != NULL, "/");
+	g_return_val_if_fail (E_IS_TABLE_MODEL (e_table_model), "/");
+
+	if (ETM_CLASS (e_table_model)->get_save_id)
+		return ETM_CLASS (e_table_model)->get_save_id (e_table_model, row);
+	else
+		return NULL;
 }
 
 gboolean
@@ -316,8 +316,8 @@ e_table_model_class_init (GtkObjectClass *object_class)
 	klass->set_value_at        = NULL;     
 	klass->is_cell_editable    = NULL; 
 
-	klass->get_save_id         = NULL;
 	klass->has_save_id         = NULL;
+	klass->get_save_id         = NULL;
 
 	klass->has_change_pending  = NULL;
 

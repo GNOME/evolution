@@ -32,8 +32,8 @@ typedef struct {
 	void        (*set_value_at)       (ETableModel *etm, int col, int row, const void *value);
 	gboolean    (*is_cell_editable)   (ETableModel *etm, int col, int row);
 
-	char       *(*get_save_id)        (ETableModel *etm, int row);
 	gboolean    (*has_save_id)        (ETableModel *etm);
+	char       *(*get_save_id)        (ETableModel *etm, int row);
 
 	gboolean    (*has_change_pending) (ETableModel *etm);
 
@@ -94,9 +94,9 @@ gboolean    e_table_model_is_cell_editable    (ETableModel *e_table_model,
 					       int          row);
 
 /**/
+gboolean    e_table_model_has_save_id         (ETableModel *etm);
 char       *e_table_model_get_save_id         (ETableModel *etm,
 					       int          row);
-gboolean    e_table_model_has_save_id         (ETableModel *etm);
 
 /**/
 gboolean    e_table_model_has_change_pending  (ETableModel *etm);

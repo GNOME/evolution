@@ -22,6 +22,9 @@ typedef	void       *(*ETableSimpleValueAtFn)         (ETableModel *etm, int col,
 typedef	void        (*ETableSimpleSetValueAtFn)      (ETableModel *etm, int col, int row, const void *val, void *data);
 typedef	gboolean    (*ETableSimpleIsCellEditableFn)  (ETableModel *etm, int col, int row, void *data);
 
+typedef gboolean    (*ETableSimpleHasSaveIdFn)       (ETableModel *etm, void *data);
+typedef char       *(*ETableSimpleGetSaveIdFn)       (ETableModel *etm, int row, void *data);
+
 typedef	void       *(*ETableSimpleDuplicateValueFn)  (ETableModel *etm, int col, const void *val, void *data);
 typedef	void        (*ETableSimpleFreeValueFn)       (ETableModel *etm, int col, void *val, void *data);
 typedef void       *(*ETableSimpleInitializeValueFn) (ETableModel *etm, int col, void *data);
@@ -39,6 +42,9 @@ typedef struct {
 	ETableSimpleSetValueAtFn      set_value_at;
 	ETableSimpleIsCellEditableFn  is_cell_editable;
 
+	ETableSimpleHasSaveIdFn       has_save_id;
+	ETableSimpleGetSaveIdFn       get_save_id;
+
 	ETableSimpleDuplicateValueFn  duplicate_value;
 	ETableSimpleFreeValueFn       free_value;
 	ETableSimpleInitializeValueFn initialize_value;
@@ -51,21 +57,25 @@ typedef struct {
 	ETableModelClass parent_class;
 } ETableSimpleClass;
 
-GtkType e_table_simple_get_type (void);
+GtkType      e_table_simple_get_type  (void);
 
-ETableModel *e_table_simple_new (ETableSimpleColumnCountFn col_count,
-				 ETableSimpleRowCountFn row_count,
+ETableModel *e_table_simple_new       (ETableSimpleColumnCountFn      col_count,
+				       ETableSimpleRowCountFn         row_count,
+				       ETableSimpleAppendRowFn        append_row,
 
-				 ETableSimpleValueAtFn value_at,
-				 ETableSimpleSetValueAtFn set_value_at,
-				 ETableSimpleIsCellEditableFn is_cell_editable,
+				       ETableSimpleValueAtFn          value_at,
+				       ETableSimpleSetValueAtFn       set_value_at,
+				       ETableSimpleIsCellEditableFn   is_cell_editable,
 
-				 ETableSimpleDuplicateValueFn duplicate_value,
-				 ETableSimpleFreeValueFn free_value,
-				 ETableSimpleInitializeValueFn initialize_value,
-				 ETableSimpleValueIsEmptyFn value_is_empty,
-				 ETableSimpleValueToStringFn value_to_string,
-				 void *data);
+				       ETableSimpleHasSaveIdFn        has_save_id,
+				       ETableSimpleGetSaveIdFn        get_save_id,
+
+				       ETableSimpleDuplicateValueFn   duplicate_value,
+				       ETableSimpleFreeValueFn        free_value,
+				       ETableSimpleInitializeValueFn  initialize_value,
+				       ETableSimpleValueIsEmptyFn     value_is_empty,
+				       ETableSimpleValueToStringFn    value_to_string,
+				       void                          *data);
 
 #ifdef __cplusplus
 }

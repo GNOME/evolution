@@ -620,7 +620,7 @@ e_tree_model_has_get_node_by_id (ETreeModel *etree)
  * return values: The path for this save id.
  */
 ETreePath
-e_tree_model_get_node_by_id (ETreeModel *etree, gchar *save_id)
+e_tree_model_get_node_by_id (ETreeModel *etree, const char *save_id)
 {
 	g_return_val_if_fail (etree != NULL, NULL);
 	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
