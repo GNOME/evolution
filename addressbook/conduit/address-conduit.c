@@ -414,21 +414,19 @@ update_record (GnomePilotConduitStandardAbs *conduit,
 			WARN ("update_record: failed to add card to ebook\n");
 	} else {
 #if 0
-		/* XXX toshok: need to figure out exactly what should
-                   be done here - default to the existing ecard and
-                   overwrite with information from the pilot? */
-		iCalObject *new_obj;
-		LOG ("Found");
-		printf ("Found\n");
-		new_obj = ecard_from_remote_record (conduit, remote, obj);
-		obj = new_obj;
+		EBookStatus commit_status;
+
+		ecard = merge_ecard_with_remote_record (ctxt, ecard, remote);
+
+		e_book_commit_card (ctxt->ebook, ecard, status_cb, &commit_status);
+
+		gtk_main (); /* enter sub mainloop */
+
+		if (commit_status != E_BOOK_STATUS_SUCCESS)
+			WARN ("update_record: failed to update card in ebook\n");
 #endif
 	}
 
-#if 0
-	/* update record on server */
-	update_ecard (conduit, ecard, ctxt);
-#endif
 	free_Address(&address);
 
 	return 0;
