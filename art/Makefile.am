@@ -126,6 +126,7 @@ buttons_DATA = 				\
 	dayview.xpm			\
 	fetch-mail.png			\
 	forward.png			\
+	goto-24.png  			\
 	monthview.xpm  			\
 	move-message.png		\
 	next-message.png		\
