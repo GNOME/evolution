@@ -33,6 +33,9 @@
 /* Sub-version identification string.  */
 #undef SUB_VERSION
 
+/* Prewview-release string */
+#undef PREVIEW_RELEASE
+
 /* Define if ctime_r takes three arguments */
 #undef CTIME_R_THREE_ARGS
 

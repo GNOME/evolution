@@ -1,3 +1,8 @@
+2001-12-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* configure.in: Add a AC_DEFINE for PREVIEW_RELEASE which is a
+	string that will be appended to the X-Mailer header.
+
 2001-12-05  Ettore Perazzoli  <ettore@ximian.com>
 
 	* HACKING: Put the patch review policy here.
