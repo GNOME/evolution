@@ -262,7 +262,7 @@ struct {
 	   charsets, but we have code that will parse and convert them
 	   to their cp#### equivalents if/when they show up in
 	   camel_charset_map_to_iconv() so I'm not going to bother
-	   putting them all in here... */
+	   putting them all in here either... */
 	{ "ks_c_5601-1987", "euc-kr"     },
 	{ NULL,             NULL         }
 };
@@ -326,9 +326,9 @@ camel_charset_map_init (void)
 		g_hash_table_insert (iconv_charsets, g_strdup (known_iconv_charsets[i].charset),
 				     g_strdup (known_iconv_charsets[i].iconv_name));
 	}
-
+	
 	e_dlist_init(&iconv_cache_list);
-
+	
 	locale = setlocale (LC_ALL, NULL);
 	
 	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
@@ -349,6 +349,9 @@ camel_charset_map_init (void)
 		int len;
 		
 		p = strchr (locale, '@');
+		if (p == NULL)
+			p = strchr (locale, '/');  /* This is a hack for Solaris systems */
+		
 		len = p ? (p - locale) : strlen (locale);
 		if ((p = strchr (locale, '.'))) {
 			locale_charset = g_strndup (p + 1, len - (p - locale) + 1);

@@ -1,3 +1,8 @@
+2001-10-10  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-charset-map.c (camel_charset_map_init): Added a hack for
+	Solaris systems.
+
 2001-10-10    <NotZed@Ximian.com>
 
 	* providers/local/camel-maildir-store.c (scan_dir): oops, we want
