@@ -508,6 +508,7 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/Tools/Component/CalendarPreferences",	"configure_16_calendar.xpm"),
 
 	E_PIXMAP ("/Toolbar/New",				"buttons/new_appointment.png"),
+	E_PIXMAP ("/Toolbar/Print",				"buttons/print.png"),
 	E_PIXMAP ("/Toolbar/DayView",				"buttons/dayview.xpm"),
 	E_PIXMAP ("/Toolbar/WorkWeekView",			"buttons/workweekview.xpm"),
 	E_PIXMAP ("/Toolbar/WeekView",				"buttons/weekview.xpm"),

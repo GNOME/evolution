@@ -1,3 +1,8 @@
+2001-07-19  Damon Chaplin  <damon@ximian.com>
+
+	* gui/dialogs/comp-editor.c (pixmaps): 
+	* gui/calendar-commands.c (pixmaps): updated to use new print icon.
+
 2001-07-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (init_widgets): don't show the time
