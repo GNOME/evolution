@@ -1,3 +1,8 @@
+2004-04-13  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_online):
+	Rearranged some error checking code to fix bug #56405.
+
 2004-04-13  Not Zed  <NotZed@Ximian.com>
 
 	* camel-folder.c (folder_getv): implement the new counts, and get

@@ -524,8 +524,7 @@ connect_to_server (CamelService *service, int ssl_mode, int try_starttls, CamelE
 	int port, ret;
 	char *buf;
 	
-	h = camel_service_gethost (service, ex);
-	if (!h)
+	if (!(h = camel_service_gethost (service, ex)))
 		return FALSE;
 	
 	port = service->url->port ? service->url->port : 143;
@@ -1791,7 +1790,14 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 			return NULL;
 		}
 		
-		c = folder_name;
+		if ((parent_name = strrchr (folder_name, '/'))) {
+			parent_name = g_strndup (folder_name, parent_name - folder_name);
+			parent_real = camel_imap_store_summary_path_to_full (imap_store->summary, parent_name, store->dir_sep);
+		} else {
+			parent_real = NULL;
+		}
+		
+		c = parent_name ? parent_name : folder_name;
 		while (*c && *c != imap_store->dir_sep && !strchr ("#%*", *c))
 			c++;
 		
@@ -1800,14 +1806,9 @@ get_folder_online (CamelStore *store, const char *folder_name, guint32 flags, Ca
 			camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_PATH,
 					      _("The folder name \"%s\" is invalid because it contains the character \"%c\""),
 					      folder_name, *c);
+			g_free (parent_name);
+			g_free (parent_real);
 			return NULL;
-		}
-		
-		if ((parent_name = strrchr (folder_name, '/'))) {
-			parent_name = g_strndup (folder_name, parent_name - folder_name);
-			parent_real = camel_imap_store_summary_path_to_full (imap_store->summary, parent_name, store->dir_sep);
-		} else {
-			parent_real = NULL;
 		}
 		
 		if (parent_real != NULL) {
