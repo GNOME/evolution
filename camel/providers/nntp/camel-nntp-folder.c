@@ -57,9 +57,6 @@ static CamelFolderClass *parent_class=NULL;
 #define CNNTPS_CLASS(so) CAMEL_STORE_CLASS (GTK_OBJECT(so)->klass)
 
 
-static void _check_get_or_maybe_generate_summary_file (CamelNNTPFolder *nntp_folder,
-						       CamelException *ex);
-
 static void 
 nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 		  CamelFolder *parent_folder, const gchar *name,
@@ -99,8 +96,30 @@ nntp_folder_init (CamelFolder *folder, CamelStore *parent_store,
 
 	root_dir_path = camel_nntp_store_get_toplevel_dir (CAMEL_NNTP_STORE(folder->parent_store));
 
-	nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
-							  root_dir_path, nntp_folder->group_name);
+
+	/* load the summary if we have that ability */
+	if (folder->has_summary_capability) {
+		nntp_folder->summary_file_path = g_strdup_printf ("%s/%s-ev-summary",
+							  root_dir_path,
+							  nntp_folder->group_name);
+
+		nntp_folder->summary = camel_folder_summary_new ();
+		camel_folder_summary_set_filename (nntp_folder->summary,
+						   nntp_folder->summary_file_path);
+
+		if (-1 == camel_folder_summary_load (nntp_folder->summary)) {
+			/* Bad or nonexistant summary file */
+			camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store,
+						nntp_folder, ex);
+			if (camel_exception_get_id (ex))
+				return;
+
+			/* XXX check return value */
+			camel_folder_summary_save (nntp_folder->summary);
+		}
+	}
+		
+
 }
 
 static void
@@ -108,6 +127,26 @@ nntp_folder_sync (CamelFolder *folder, gboolean expunge,
 		  CamelException *ex)
 {
 	camel_folder_summary_save (CAMEL_NNTP_FOLDER(folder)->summary);
+
+	/* XXX
+
+	   loop through the messages in the summary and store out the .newsrc,
+	   using something similar to this bit snipped from _set_message_flags:
+
+
+	if (set & CAMEL_MESSAGE_SEEN) {
+		CamelNNTPStore *store;
+		CamelException *ex;
+		
+		ex = camel_exception_new ();
+		store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
+		camel_exception_free (ex);
+		
+		camel_nntp_newsrc_mark_article_read (store->newsrc,
+						     nntp_folder->group_name,
+						     XXX);
+ 	}
+	*/
 }
 
 static const gchar *
@@ -164,18 +203,6 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 	info->flags = set;
 
 	camel_folder_summary_touch (nntp_folder->summary);
-	if (set & CAMEL_MESSAGE_SEEN) {
-		CamelNNTPStore *store;
-		CamelException *ex;
-		
-		ex = camel_exception_new ();
-		store = CAMEL_NNTP_STORE (camel_folder_get_parent_store (folder, ex));
-		camel_exception_free (ex);
-
-		camel_nntp_newsrc_mark_article_read (store->newsrc,
-						     nntp_folder->group_name,
-						     1 /* XXX */);
-	}
 }
 
 static const gchar*
@@ -290,17 +317,17 @@ nntp_folder_get_uids (CamelFolder *folder,
 		      CamelException *ex)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	GPtrArray *message_info_array, *out;
+	GPtrArray *infoarray, *out;
 	CamelMessageInfo *message_info;
 	int i;
 
-	message_info_array = nntp_folder->summary->messages;
+	infoarray = nntp_folder->summary->messages;
 
 	out = g_ptr_array_new ();
-	g_ptr_array_set_size (out, message_info_array->len);
+	g_ptr_array_set_size (out, infoarray->len);
 	
-	for (i=0; i<message_info_array->len; i++) {
-		message_info = (CamelMessageInfo *)(message_info_array->pdata) + i;
+	for (i=0; i<infoarray->len; i++) {
+		message_info = (CamelMessageInfo *) g_ptr_array_index (infoarray, i);
 		out->pdata[i] = g_strdup (message_info->uid);
 	}
 	
@@ -323,7 +350,6 @@ nntp_folder_get_summary (CamelFolder *folder,
 			 CamelException *ex)
 {
 	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
-	_check_get_or_maybe_generate_summary_file (nntp_folder, ex);
 
 	return nntp_folder->summary->messages;
 }
@@ -369,7 +395,16 @@ nntp_folder_search_by_expression (CamelFolder *folder, const char *expression, C
 static const CamelMessageInfo*
 nntp_folder_get_message_info (CamelFolder *folder, const char *uid)
 {
-	g_assert(0);
+	CamelNNTPFolder *nntp_folder = CAMEL_NNTP_FOLDER (folder);
+	CamelMessageInfo *info = NULL;
+	int i;
+
+	for (i = 0; i < nntp_folder->summary->messages->len; i++) {
+		info = g_ptr_array_index (nntp_folder->summary->messages, i);
+		if (!strcmp (info->uid, uid))
+			return info;
+	}
+
 	return NULL;
 }
 
@@ -440,30 +475,4 @@ camel_nntp_folder_get_type (void)
 	}
 	
 	return camel_nntp_folder_type;
-}
-
-
-/* internal method used to : 
-   - test for the existence of a summary file 
-   - test the sync between the summary and the newsgroup
-   - load the summary or create it if necessary 
-*/ 
-static void
-_check_get_or_maybe_generate_summary_file (CamelNNTPFolder *nntp_folder,
-					   CamelException *ex)
-{
-	CamelFolder *folder = CAMEL_FOLDER (nntp_folder);
-
-	nntp_folder->summary = camel_folder_summary_new ();
-	camel_folder_summary_set_filename (nntp_folder->summary, nntp_folder->summary_file_path);
-
-	if (-1 == camel_folder_summary_load (nntp_folder->summary)) {
-		/* Bad or nonexistant summary file */
-		camel_nntp_get_headers (CAMEL_FOLDER( folder )->parent_store, nntp_folder, ex);
-		if (camel_exception_get_id (ex))
-			return;
-
-		/* XXX check return value */
-		camel_folder_summary_save (nntp_folder->summary);
-	}
 }

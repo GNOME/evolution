@@ -1,3 +1,35 @@
+2000-07-12  Chris Toshok  <toshok@helixcode.com>
+
+	* providers/nntp/Makefile.am: don't add test-newsrc to the build
+	since it needs libcamel (which isn't built at the time test-newsrc
+	needs linking.)
+
+	* providers/nntp/camel-nntp-utils.c (get_HEAD_headers): fill in
+	MessageInfo->message_id.
+	(get_XOVER_headers): same.
+
+	* providers/nntp/camel-nntp-folder.c (nntp_folder_init): move
+	summary loading here.
+	(nntp_folder_sync): summary/newsrc changes should be stored here.
+	put a comment to that effect.
+	(nntp_folder_set_message_flags): don't save the newsrc here.
+	(nntp_folder_get_uids): use g_ptr_array_index instead of the
+	cast/addition.
+	(nntp_folder_get_summary): no need to check if we should generate
+	the summary here.  already done.
+	(nntp_folder_get_message_info): implement.
+
+	* providers/nntp/camel-nntp-store.c
+	(camel_nntp_store_get_toplevel_dir): use evolution_dir instead of
+	computing it ourselves.
+	(nntp_store_disconnect): call camel_nntp_newsrc_write.
+	(ensure_news_dir_exists): new function to create the news/<news
+	server> subdir.
+	(camel_nntp_store_class_init): hook up connect/disconnect and
+	finalize.
+	(nntp_store_connect): if ensure_news_dir_exists fails throw an
+	exception.
+
 2000-07-12  Peter Williams  <peterw@helixcode.com>
 
 	* camel-folder.c (camel_folder_set_message_flags): Emit a message_changed

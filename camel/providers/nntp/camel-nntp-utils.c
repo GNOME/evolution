@@ -70,6 +70,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 #endif
 				new_info->size = atoi(split_line[5]);
 				new_info->uid = g_strdup(split_line[4]);
+				new_info->message_id = g_strdup(split_line[4]);
 				g_strfreev (split_line);
 
 				camel_folder_summary_add (nntp_folder->summary, new_info);
@@ -151,8 +152,10 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 					new_info->to = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "Subject"))
 					new_info->subject = g_strdup(header->value);
-				else if (!g_strcasecmp(header->name, "Message-ID"))
+				else if (!g_strcasecmp(header->name, "Message-ID")) {
 					new_info->uid = g_strdup(header->value);
+					new_info->message_id = g_strdup(header->value);
+				}
 				else if (!g_strcasecmp(header->name, "Date")) {
 					new_info->date_sent = header_decode_date (header->value);
 #if 0

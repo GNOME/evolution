@@ -55,141 +55,23 @@ static CamelServiceClass *service_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static gboolean nntp_connect (CamelService *service, CamelException *ex);
-static gboolean nntp_disconnect (CamelService *service, CamelException *ex);
-
-static CamelFolder *
-nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
-		       gboolean get_folder, CamelException *ex)
-{
-	CamelNNTPFolder *new_nntp_folder;
-	CamelFolder *new_folder;
-	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
-
-	/* if we haven't already read our .newsrc, read it now */
-	if (!nntp_store->newsrc)
-		nntp_store->newsrc = camel_nntp_newsrc_read_for_server (CAMEL_SERVICE(store)->url->host);
-
-	/* check if folder has already been created */
-	/* call the standard routine for that when  */
-	/* it is done ... */
-
-	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
-	new_folder = CAMEL_FOLDER (new_nntp_folder);
-	
-	/* XXX We shouldn't be passing NULL here, but it's equivalent to
-	 * what was there before, and there's no
-	 * CamelNNTPFolder::get_subfolder yet anyway...
-	 */
-	CF_CLASS (new_folder)->init (new_folder, store, NULL,
-				     folder_name, ".", FALSE, ex);
-	
-	return new_folder;
-}
-
-
-static char *
-nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
-			    CamelException *ex)
-{
-	return g_strdup (folder_name);
-}
-
-static char *
-nntp_store_get_name (CamelService *service, gboolean brief)
-{
-	/* Same info for long and brief... */
-	return g_strdup_printf ("USENET news via %s", service->url->host);
-}
-
-
-static void
-camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
-{
-	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
-	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
-
-	service_class = gtk_type_class (camel_service_get_type ());
-	
-	/* virtual method overload */
-	camel_service_class->get_name = nntp_store_get_name;
-
-	camel_store_class->get_folder = nntp_store_get_folder;
-	camel_store_class->get_folder_name = nntp_store_get_folder_name;
-}
-
-
-
-static void
-camel_nntp_store_init (gpointer object, gpointer klass)
-{
-	CamelService *service = CAMEL_SERVICE (object);
-
-	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
-}
-
-GtkType
-camel_nntp_store_get_type (void)
-{
-	static GtkType camel_nntp_store_type = 0;
-	
-	if (!camel_nntp_store_type)	{
-		GtkTypeInfo camel_nntp_store_info =	
-		{
-			"CamelNNTPStore",
-			sizeof (CamelNNTPStore),
-			sizeof (CamelNNTPStoreClass),
-			(GtkClassInitFunc) camel_nntp_store_class_init,
-			(GtkObjectInitFunc) camel_nntp_store_init,
-				/* reserved_1 */ NULL,
-				/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		camel_nntp_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_nntp_store_info);
-	}
-	
-	return camel_nntp_store_type;
-}
-
-/**
- * camel_nntp_store_open: Connect to the server if we are currently
- * disconnected.
- * @store: the store
- * @ex: a CamelException
- *
- **/
-void
-camel_nntp_store_open (CamelNNTPStore *store, CamelException *ex)
-{
-	CamelService *service = CAMEL_SERVICE (store);
-	if (!camel_service_is_connected (service))
-		nntp_connect (service, ex);
-}
-
-/**
- * camel_nntp_store_close: Close the connection to the server
- * @store: the store
- * @ex: a CamelException
- *
- **/
-void
-camel_nntp_store_close (CamelNNTPStore *store, gboolean expunge,
-			CamelException *ex)
-{
-	camel_nntp_command (store, NULL, "QUIT");
-
-	nntp_disconnect (CAMEL_SERVICE (store), ex);
-}
+static gboolean ensure_news_dir_exists (CamelNNTPStore *store);
 
 static gboolean
-nntp_connect (CamelService *service, CamelException *ex)
+nntp_store_connect (CamelService *service, CamelException *ex)
 {
 	struct hostent *h;
 	struct sockaddr_in sin;
 	int fd;
 	char *buf;
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
+
+	if (!ensure_news_dir_exists(store)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Could not open directory for news server: %s",
+				      strerror (errno));
+		return FALSE;
+	}
 
 	if (!service_class->connect (service, ex))
 		return FALSE;
@@ -237,12 +119,17 @@ nntp_connect (CamelService *service, CamelException *ex)
 }
 
 static gboolean
-nntp_disconnect (CamelService *service, CamelException *ex)
+nntp_store_disconnect (CamelService *service, CamelException *ex)
 {
 	CamelNNTPStore *store = CAMEL_NNTP_STORE (service);
 
 	if (!service->connected)
 		return TRUE;
+
+	camel_nntp_command (store, NULL, "QUIT");
+
+	if (store->newsrc)
+		camel_nntp_newsrc_write (store->newsrc);
 
 	if (!service_class->disconnect (service, ex))
 		return FALSE;
@@ -253,6 +140,116 @@ nntp_disconnect (CamelService *service, CamelException *ex)
 	store->istream = NULL;
 	return TRUE;
 }
+
+static char *
+nntp_store_get_name (CamelService *service, gboolean brief)
+{
+	/* Same info for long and brief... */
+	return g_strdup_printf ("USENET news via %s", service->url->host);
+}
+
+static CamelFolder *
+nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
+		       gboolean get_folder, CamelException *ex)
+{
+	CamelNNTPFolder *new_nntp_folder;
+	CamelFolder *new_folder;
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	/* if we haven't already read our .newsrc, read it now */
+	if (!nntp_store->newsrc)
+		nntp_store->newsrc = 
+		camel_nntp_newsrc_read_for_server (CAMEL_SERVICE(store)->url->host);
+
+	/* check if folder has already been created */
+	/* call the standard routine for that when  */
+	/* it is done ... */
+
+	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
+	new_folder = CAMEL_FOLDER (new_nntp_folder);
+	
+	/* XXX We shouldn't be passing NULL here, but it's equivalent to
+	 * what was there before, and there's no
+	 * CamelNNTPFolder::get_subfolder yet anyway...
+	 */
+	CF_CLASS (new_folder)->init (new_folder, store, NULL,
+				     folder_name, ".", FALSE, ex);
+
+	return new_folder;
+}
+
+static char *
+nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
+			    CamelException *ex)
+{
+	return g_strdup (folder_name);
+}
+
+static void
+finalize (GtkObject *object)
+{
+	CamelException ex;
+
+	camel_exception_init (&ex);
+	nntp_store_disconnect (CAMEL_SERVICE (object), &ex);
+	camel_exception_clear (&ex);
+}
+
+static void
+camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
+{
+	GtkObjectClass *object_class =
+		GTK_OBJECT_CLASS (camel_nntp_store_class);
+	CamelStoreClass *camel_store_class = CAMEL_STORE_CLASS (camel_nntp_store_class);
+	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS (camel_nntp_store_class);
+
+	service_class = gtk_type_class (camel_service_get_type ());
+	
+	/* virtual method overload */
+	object_class->finalize = finalize;
+
+	camel_service_class->connect = nntp_store_connect;
+	camel_service_class->disconnect = nntp_store_disconnect;
+	camel_service_class->get_name = nntp_store_get_name;
+
+	camel_store_class->get_folder = nntp_store_get_folder;
+	camel_store_class->get_folder_name = nntp_store_get_folder_name;
+}
+
+
+
+static void
+camel_nntp_store_init (gpointer object, gpointer klass)
+{
+	CamelService *service = CAMEL_SERVICE (object);
+
+	service->url_flags = CAMEL_SERVICE_URL_NEED_HOST;
+}
+
+GtkType
+camel_nntp_store_get_type (void)
+{
+	static GtkType camel_nntp_store_type = 0;
+	
+	if (!camel_nntp_store_type)	{
+		GtkTypeInfo camel_nntp_store_info =	
+		{
+			"CamelNNTPStore",
+			sizeof (CamelNNTPStore),
+			sizeof (CamelNNTPStoreClass),
+			(GtkClassInitFunc) camel_nntp_store_class_init,
+			(GtkObjectInitFunc) camel_nntp_store_init,
+				/* reserved_1 */ NULL,
+				/* reserved_2 */ NULL,
+			(GtkClassInitFunc) NULL,
+		};
+		
+		camel_nntp_store_type = gtk_type_unique (CAMEL_STORE_TYPE, &camel_nntp_store_info);
+	}
+	
+	return camel_nntp_store_type;
+}
+
 
 /**
  * camel_nntp_command: Send a command to a NNTP server.
@@ -291,7 +288,7 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 
 	/* make sure we're connected */
 	if (store->ostream == NULL)
-		nntp_connect (CAMEL_SERVICE (store), ex);
+		nntp_store_connect (CAMEL_SERVICE (store), ex);
 
 	if (camel_exception_get_id (ex)) {
 		camel_exception_free (ex);
@@ -479,18 +476,42 @@ gchar *
 camel_nntp_store_get_toplevel_dir (CamelNNTPStore *store)
 {
 	CamelURL *url = CAMEL_SERVICE (store)->url;
-	char *news_dir;
 	char *top_dir;
+	extern char *evolution_dir;
 
 	g_assert(url != NULL);
 
-	news_dir = gnome_util_prepend_user_home ("evolution/news");
-
-	top_dir = g_strdup_printf( "%s/%s",
-				   news_dir,
+	top_dir = g_strdup_printf( "%s/news/%s",
+				   evolution_dir,
 				   url->host );
 
-	g_free (news_dir);
-
 	return top_dir;
+}
+
+static gboolean
+ensure_news_dir_exists (CamelNNTPStore *store)
+{
+	gchar *dir = camel_nntp_store_get_toplevel_dir (store);
+	struct stat sb;
+	int rv;
+
+	rv = stat (dir, &sb);
+	if (-1 == rv && errno != ENOENT) {
+		g_free (dir);
+		return FALSE;
+	}
+
+	if (S_ISDIR (sb.st_mode)) {
+		g_free (dir);
+		return TRUE;
+	}
+	else {
+		rv = mkdir (dir, 0777);
+		g_free (dir);
+
+		if (-1 == rv)
+			return FALSE;
+		else
+			return TRUE;
+	}
 }
