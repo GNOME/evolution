@@ -37,6 +37,7 @@ eutilinclude_HEADERS = 				\
 	e-mktemp.h				\
 	e-msgport.h				\
 	e-path.h				\
+	e-proxy.h				\
 	e-request.h				\
 	e-sexp.h				\
 	e-time-utils.h				\
@@ -64,6 +65,7 @@ libeutil_la_SOURCES =				\
 	e-mktemp.c				\
 	e-msgport.c				\
 	e-path.c				\
+	e-proxy.c				\
 	e-request.c				\
 	e-sexp.c				\
 	e-time-utils.c				\
@@ -88,7 +90,6 @@ MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 
 # FIXME TODO
 #	e-passwords.c
-#	e-proxy.c
 #       bonobo-factory-util.[ch]
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
