@@ -248,7 +248,6 @@ static CamelMessageInfo *
 local_summary_add(CamelLocalSummary *cls, CamelMimeMessage *msg, const CamelMessageInfo *info, CamelFolderChangeInfo *ci, CamelException *ex)
 {
 	CamelMessageInfo *mi;
-	CamelFolderSummary *s = (CamelFolderSummary *)cls;
 	char *xev;
 
 	d(printf("Adding message to summary\n"));
@@ -431,7 +430,7 @@ message_info_new(CamelFolderSummary *s, struct _header_raw *h)
 static CamelMessageInfo * message_info_new_from_message(CamelFolderSummary *s, CamelMimeMessage *msg)
 {
 	CamelMessageInfo *mi;
-	CamelLocalSummary *cls = (CamelLocalSummary *)s;
+	/*CamelLocalSummary *cls = (CamelLocalSummary *)s;*/
 
 	mi = ((CamelFolderSummaryClass *)camel_local_summary_parent)->message_info_new_from_message(s, msg);
 #if 0
@@ -461,7 +460,7 @@ static CamelMessageInfo *
 message_info_new_from_parser(CamelFolderSummary *s, CamelMimeParser *mp)
 {
 	CamelMessageInfo *mi;
-	CamelLocalSummary *mbs = CAMEL_LOCAL_SUMMARY(s);
+	/*CamelLocalSummary *mbs = CAMEL_LOCAL_SUMMARY(s);*/
 
 	mi = ((CamelFolderSummaryClass *)camel_local_summary_parent)->message_info_new_from_parser(s, mp);
 	if (mi) {

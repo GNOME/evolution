@@ -1,7 +1,4 @@
-/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/* camel-mh-folder.h : MH folder. */
-
-/* 
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
  * Authors:
  * 	Michael Zucchi <notzed@helixcode.com>

@@ -20,8 +20,8 @@
  * USA
  */
 
-#ifndef CAMEL_MH_STORE_H
-#define CAMEL_MH_STORE_H 1
+#ifndef CAMEL_MAILDIR_STORE_H
+#define CAMEL_MAILDIR_STORE_H 1
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,27 +30,27 @@ extern "C" {
 
 #include "camel-local-store.h"
 
-#define CAMEL_MH_STORE_TYPE     (camel_mh_store_get_type ())
-#define CAMEL_MH_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MH_STORE_TYPE, CamelMhStore))
-#define CAMEL_MH_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MH_STORE_TYPE, CamelMhStoreClass))
-#define IS_CAMEL_MH_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MH_STORE_TYPE))
+#define CAMEL_MAILDIR_STORE_TYPE     (camel_maildir_store_get_type ())
+#define CAMEL_MAILDIR_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MAILDIR_STORE_TYPE, CamelMaildirStore))
+#define CAMEL_MAILDIR_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MAILDIR_STORE_TYPE, CamelMaildirStoreClass))
+#define IS_CAMEL_MAILDIR_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MAILDIR_STORE_TYPE))
 
 typedef struct {
 	CamelLocalStore parent_object;
 	
-} CamelMhStore;
+} CamelMaildirStore;
 
 typedef struct {
 	CamelLocalStoreClass parent_class;
 	
-} CamelMhStoreClass;
+} CamelMaildirStoreClass;
 
 /* public methods */
 
 /* Standard Camel function */
-CamelType camel_mh_store_get_type(void);
+CamelType camel_maildir_store_get_type(void);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-#endif				/* CAMEL_MH_STORE_H */
+#endif				/* CAMEL_MAILDIR_STORE_H */

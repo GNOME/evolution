@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*-
  *
- * Copyright (C) 2000 Helix Code, Inc.
+ * Authors:
+ * 	Michael Zucchi <notzed@helixcode.com>
  *
- * Authors: Michael Zucchi <notzed@helixcode.com>
+ * Copyright (C) 1999 Helix Code Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 
@@ -20,37 +21,39 @@
  * USA
  */
 
-#ifndef CAMEL_MH_STORE_H
-#define CAMEL_MH_STORE_H 1
+#ifndef CAMEL_MAILDIR_FOLDER_H
+#define CAMEL_MAILDIR_FOLDER_H 1
 
 #ifdef __cplusplus
 extern "C" {
 #pragma }
 #endif				/* __cplusplus } */
+#include "camel-local-folder.h"
 
-#include "camel-local-store.h"
-
-#define CAMEL_MH_STORE_TYPE     (camel_mh_store_get_type ())
-#define CAMEL_MH_STORE(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MH_STORE_TYPE, CamelMhStore))
-#define CAMEL_MH_STORE_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MH_STORE_TYPE, CamelMhStoreClass))
-#define IS_CAMEL_MH_STORE(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MH_STORE_TYPE))
-
-typedef struct {
-	CamelLocalStore parent_object;
-	
-} CamelMhStore;
+#define CAMEL_MAILDIR_FOLDER_TYPE     (camel_maildir_folder_get_type ())
+#define CAMEL_MAILDIR_FOLDER(obj)     (CAMEL_CHECK_CAST((obj), CAMEL_MAILDIR_FOLDER_TYPE, CamelMaildirFolder))
+#define CAMEL_MAILDIR_FOLDER_CLASS(k) (CAMEL_CHECK_CLASS_CAST ((k), CAMEL_MAILDIR_FOLDER_TYPE, CamelMaildirFolderClass))
+#define IS_CAMEL_MAILDIR_FOLDER(o)    (CAMEL_CHECK_TYPE((o), CAMEL_MAILDIR_FOLDER_TYPE))
 
 typedef struct {
-	CamelLocalStoreClass parent_class;
+	CamelLocalFolder parent_object;
+
+} CamelMaildirFolder;
+
+typedef struct {
+	CamelLocalFolderClass parent_class;
 	
-} CamelMhStoreClass;
+	/* Virtual methods */
+	
+} CamelMaildirFolderClass;
 
 /* public methods */
+CamelFolder *camel_maildir_folder_new(CamelStore *parent_store, const char *full_name, guint32 flags, CamelException *ex);
 
 /* Standard Camel function */
-CamelType camel_mh_store_get_type(void);
+CamelType camel_maildir_folder_get_type(void);
 
 #ifdef __cplusplus
 }
 #endif				/* __cplusplus */
-#endif				/* CAMEL_MH_STORE_H */
+#endif				/* CAMEL_MAILDIR_FOLDER_H */

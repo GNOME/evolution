@@ -20,6 +20,8 @@
  * USA
  */
 
+#include <stdio.h>
+
 #include "config.h"
 #include "camel-provider.h"
 #include "camel-session.h"
@@ -27,6 +29,7 @@
 
 #include "camel-mh-store.h"
 #include "camel-mbox-store.h"
+#include "camel-maildir-store.h"
 
 static CamelProvider mh_provider = {
 	"mh",
@@ -42,7 +45,18 @@ static CamelProvider mh_provider = {
 static CamelProvider mbox_provider = {
 	"mbox",
 	N_("UNIX mbox-format mail files (CamelLocal version)"),
-	N_("For storing local mai in standard mbox format"),
+	N_("For storing local mail in standard mbox format"),
+	"mail",
+	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
+	CAMEL_URL_NEED_PATH,
+	{ 0, 0 },
+	NULL
+};
+
+static CamelProvider maildir_provider = {
+	"maildir",
+	N_("UNIX qmail maildir-format mail files (CamelLocal version)"),
+	N_("For storing local mail in qmail maildir directories"),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
 	CAMEL_URL_NEED_PATH,
@@ -59,6 +73,10 @@ void camel_provider_module_init(CamelSession * session)
 	camel_session_register_provider(session, &mh_provider);
 
 	mbox_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mbox_store_get_type();
-	mbox_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-	camel_session_register_provider (session, &mbox_provider);
+	mbox_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	camel_session_register_provider(session, &mbox_provider);
+
+	maildir_provider.object_types[CAMEL_PROVIDER_STORE] = camel_maildir_store_get_type();
+	maildir_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	camel_session_register_provider(session, &maildir_provider);
 }

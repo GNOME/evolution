@@ -28,7 +28,10 @@ libcamellocal_la_SOURCES = 			\
 	camel-mh-summary.c			\
 	camel-mbox-folder.c			\
 	camel-mbox-store.c			\
-	camel-mbox-summary.c
+	camel-mbox-summary.c			\
+	camel-maildir-folder.c			\
+	camel-maildir-store.c			\
+	camel-maildir-summary.c
 
 libcamellocalinclude_HEADERS =			\
 	camel-local-folder.h			\
@@ -39,7 +42,10 @@ libcamellocalinclude_HEADERS =			\
 	camel-mh-summary.h			\
 	camel-mbox-folder.h			\
 	camel-mbox-store.h			\
-	camel-mbox-summary.h
+	camel-mbox-summary.h			\
+	camel-maildir-folder.h			\
+	camel-maildir-store.h			\
+	camel-maildir-summary.h
 
 libcamellocal_la_LDFLAGS = -version-info 0:0:0
 
