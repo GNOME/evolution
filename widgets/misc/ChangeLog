@@ -1,3 +1,10 @@
+2003-05-08  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-combo-button.c (menu_deactivate_callback): Set in_button to
+	FALSE; this makes sure the button gets the right appearance after
+	the menu is popped down (the reason why this is necessary is that
+	the widget doesn't never gets to the leave_notify event).
+
 2003-05-07  JP Rosevear  <jpr@ximian.com>
 
 	* e-search-bar.c (e_search_bar_set_text): trash e_utf8_gtk function
