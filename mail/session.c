@@ -13,7 +13,9 @@
 #include "mail-threads.h"
 
 CamelSession *session;
-GHashTable *passwords;
+
+static GHashTable *passwords;
+static gboolean interaction_enabled;
 
 static void
 request_callback (gchar *string, gpointer data)
@@ -40,6 +42,9 @@ mail_session_request_dialog (const char *prompt, gboolean secret, const char *ke
 	ans = g_hash_table_lookup (passwords, key);
 	if (ans)
 		return g_strdup (ans);
+
+	if (!interaction_enabled)
+		return NULL;
 
 	if (!async) {
 		dialog = gnome_request_dialog (secret, prompt, NULL, 0,
@@ -258,6 +263,12 @@ mail_session_init (void)
 			g_free (value);
 		}
 	}
+}
+
+void
+mail_session_enable_interaction (gboolean enable)
+{
+	interaction_enabled = enable;
 }
 
 static gboolean

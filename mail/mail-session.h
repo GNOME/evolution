@@ -33,6 +33,7 @@ extern "C" {
 #endif /* __cplusplus }*/
 
 void mail_session_init (void);
+void mail_session_enable_interaction (gboolean enable);
 char *mail_session_request_dialog (const char *prompt, gboolean secret,
 				   const char *key, gboolean async);
 void mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,

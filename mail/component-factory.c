@@ -151,6 +151,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_do_setup_folder ("Sent", &sent_folder);
 	/* Don't proceed until those _folder variables are valid. */
 	mail_operation_wait_for_finish ();
+
+	mail_session_enable_interaction (TRUE);
 }
 
 static void

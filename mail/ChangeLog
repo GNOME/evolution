@@ -1,5 +1,18 @@
 2000-12-11  Dan Winship  <danw@helixcode.com>
 
+	* session.c (mail_session_enable_interaction): New function to
+	tell the code that it's ok (or not) to interact with the user when
+	trying to authenticate to a service. Starts out turned off.
+	(mail_session_request_dialog): If interaction is disabled, fail if
+	the password isn't in the cache.
+
+	* component-factory.c (owner_set_cb): Call
+	mail_session_enable_interaction() after everything else. (This
+	means that the IMAP password dialog will no longer pop up [under
+	the splash screen] at startup.)
+
+2000-12-11  Dan Winship  <danw@helixcode.com>
+
 	* component-factory.c (create_view): Deal with "mailstorage" type
 	views (top-level mail storages) by trying to fill the storage's
 	folder tree again if we failed before.
