@@ -96,7 +96,7 @@ emf_init(GObject *o)
 	gconf_client_add_dir (priv->gconf, "/apps/evolution/mail/format/charset", 			      
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	priv->charset_id = gconf_client_notify_add (priv->gconf, "/apps/evolution/mail/format/charset",
-						    gconf_charset_changed, NULL, NULL, emf);
+						    gconf_charset_changed, emf, NULL, NULL);
 	priv->gconf_charset = gconf_client_get_string (priv->gconf, "/apps/evolution/mail/format/charset", NULL);
 	
 	emf->inline_table = g_hash_table_new(NULL, NULL);
