@@ -11,7 +11,16 @@
 #define GAL_IS_VIEW_COLLECTION(o)       (GTK_CHECK_TYPE ((o), GAL_VIEW_COLLECTION_TYPE))
 #define GAL_IS_VIEW_COLLECTION_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GAL_VIEW_COLLECTION_TYPE))
 
-typedef struct _GalViewCollectionItem GalViewCollectionItem;
+typedef struct {
+	GalView *view;
+	char *id;
+	gboolean changed;
+	gboolean ever_changed;
+	gboolean built_in;
+	char *filename;
+	char *title;
+	char *type;
+} GalViewCollectionItem;
 
 typedef struct {
 	GtkObject base;
@@ -38,34 +47,35 @@ typedef struct {
 } GalViewCollectionClass;
 
 /* Standard functions */
-GtkType            gal_view_collection_get_type                 (void);
-GalViewCollection *gal_view_collection_new                      (void);
+GtkType                gal_view_collection_get_type                 (void);
+GalViewCollection     *gal_view_collection_new                      (void);
 
 /* Set up the view collection */
-void               gal_view_collection_set_storage_directories  (GalViewCollection *collection,
-								 const char        *system_dir,
-								 const char        *local_dir);
-void               gal_view_collection_add_factory              (GalViewCollection *collection,
-								 GalViewFactory    *factory);
+void                   gal_view_collection_set_storage_directories  (GalViewCollection *collection,
+								     const char        *system_dir,
+								     const char        *local_dir);
+void                   gal_view_collection_add_factory              (GalViewCollection *collection,
+								     GalViewFactory    *factory);
 
 /* Send the display view signal. */
-void               gal_view_collection_display_view             (GalViewCollection *collection,
-								 GalView           *view);
+void                   gal_view_collection_display_view             (GalViewCollection *collection,
+								     GalView           *view);
+gint                   gal_view_collection_get_count                (GalViewCollection *collection);
+GalView               *gal_view_collection_get_view                 (GalViewCollection *collection,
+								     int                n);
+GalViewCollectionItem *gal_view_collection_get_view_item            (GalViewCollection *collection,
+								     int                n);
 
-gint               gal_view_collection_get_count                (GalViewCollection *collection);
-GalView           *gal_view_collection_get_view                 (GalViewCollection *collection,
-								 int                n);
-
-void               gal_view_collection_append                   (GalViewCollection *collection,
-								 GalView           *view);
-void          	   gal_view_collection_delete_view              (GalViewCollection *collection,
-						                 int                i);
-void          	   gal_view_collection_copy_view                (GalViewCollection *collection,
-								 int                i);
+void                   gal_view_collection_append                   (GalViewCollection *collection,
+								     GalView           *view);
+void                   gal_view_collection_delete_view              (GalViewCollection *collection,
+								     int                i);
+void                   gal_view_collection_copy_view                (GalViewCollection *collection,
+								     int                i);
 /* Call set_storage_directories and add factories for anything that
  * might be found there before doing either of these. */
-void               gal_view_collection_load                     (GalViewCollection *collection);
-void               gal_view_collection_save                     (GalViewCollection *collection);
+void                   gal_view_collection_load                     (GalViewCollection *collection);
+void                   gal_view_collection_save                     (GalViewCollection *collection);
 
 
 #endif /* _GAL_VIEW_COLLECTION_H_ */

@@ -19,17 +19,6 @@
 
 #define PARENT_TYPE gtk_object_get_type ()
 
-struct _GalViewCollectionItem {
-	GalView *view;
-	char *id;
-	gboolean changed;
-	gboolean ever_changed;
-	gboolean built_in;
-	char *filename;
-	char *title;
-	char *type;
-};
-
 static GtkObjectClass *gal_view_collection_parent_class;
 
 enum {
@@ -226,12 +215,7 @@ load_single_file (GalViewCollection *collection,
 	item->type = e_xml_get_string_prop_by_name(node, "type");
 	if (item->filename) {
 		GalViewFactory *factory;
-		char *temp;
 		GList *factories;
-
-		temp = g_concat_dir_and_file(dir, item->filename);
-		g_free(item->filename);
-		item->filename = temp;
 
 		factory = NULL;
 		for (factories = collection->factory_list; factories; factories = factories->next) {
@@ -241,12 +225,17 @@ load_single_file (GalViewCollection *collection,
 			}
 		}
 		if (factory) {
-			item->view = gal_view_factory_new_view (factory, item->filename);
-			gal_view_load(item->view, item->filename);
+			char *filename;
+
+			filename = g_concat_dir_and_file(dir, item->filename);
+			item->view = gal_view_factory_new_view (factory, item->title);
+			gal_view_load(item->view, filename);
 			gal_view_set_title (item->view, item->title);
 			gtk_signal_connect(GTK_OBJECT(item->view), "changed",
 					   GTK_SIGNAL_FUNC(view_changed), item);
+			g_free(filename);
 		}
+
 	}
 	return item;
 }
