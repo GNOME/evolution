@@ -47,6 +47,11 @@ typedef struct {
 	guint card_added_tag;
 	guint seq_complete_tag;
 	gboolean sequence_complete_received;
+
+	gchar *cached_query_text;
+	GList *cached_cards;
+	gboolean cache_complete;
+
 } ESelectNamesCompletionBookData;
 
 struct _ESelectNamesCompletionPrivate {
@@ -61,14 +66,8 @@ struct _ESelectNamesCompletionPrivate {
 	gint waiting_pos, waiting_limit;
 	gchar *query_text;
 
-	gchar *cached_query_text;
-	GList *cached_cards;
-	gboolean cache_complete;
-
 	gboolean match_contact_lists;
 	gboolean primary_only;
-
-	gboolean can_fail_due_to_too_many_hits; /* like LDAP, for example... */
 
 	gint minimum_query_length;
 };
@@ -322,18 +321,6 @@ match_name (ESelectNamesCompletion *comp, EDestination *dest)
 		return NULL;
 
 	score = match_len * 3; /* three points per match character */
-
-#if 0
-	if (card->nickname) {
-		/* We massively boost the score if the nickname exists and is the same as one of the "real" names.  This keeps the
-		   nickname from matching ahead of the real name for this card. */
-		len = strlen (card->nickname);
-		if ((card->name->given && !utf8_casefold_collate_len (card->name->given, card->nickname, MIN (strlen (card->name->given), len)))
-		    || (card->name->family && !utf8_casefold_collate_len (card->name->family, card->nickname, MIN (strlen (card->name->family), len)))
-		    || (card->name->additional && !utf8_casefold_collate_len (card->name->additional, card->nickname, MIN (strlen (card->name->additional), len))))
-			score *= 100;
-	}
-#endif
 
 	have_given       = card->name->given && *card->name->given;
 	have_additional  = card->name->additional && *card->name->additional;
@@ -617,85 +604,6 @@ book_query_process_card_list (ESelectNamesCompletion *comp, const GList *cards)
 	}
 }
 
-#if 0
-static gchar *
-initials_query_match_cb (QueryInfo *qi, ECard *card, double *score)
-{
-	gint len;
-	gchar f='\0', m='\0', l='\0'; /* initials */
-	gchar cf, cm, cl;
-
-	len = strlen (qi->comp->priv->query_text);
-	
-	if (len == 2) {
-		
-		f = qi->comp->priv->query_text[0];
-		m = '\0';
-		l = qi->comp->priv->query_text[1];
-
-	} else if (len == 3) {
-
-		f = qi->comp->priv->query_text[0];
-		m = qi->comp->priv->query_text[1];
-		l = qi->comp->priv->query_text[2];
-
-	} else {
-		return NULL;
-	}
-
-	cf = card->name->given ? *card->name->given : '\0';
-	cm = card->name->additional ? *card->name->additional : '\0';
-	cl = card->name->family ? *card->name->family : '\0';
-
-	if (f && isupper ((gint) f))
-		f = tolower ((gint) f);
-	if (m && isupper ((gint) m))
-		m = tolower ((gint) m);
-	if (l && isupper ((gint) l))
-		l = tolower ((gint) l);
-
-	if (cf && isupper ((gint) cf))
-		cf = tolower ((gint) cf);
-	if (cm && isupper ((gint) cm))
-		cm = tolower ((gint) cm);
-	if (cl && isupper ((gint) cl))
-		cl = tolower ((gint) cl);
-
-	if ((f == '\0' || (f == cf)) && (m == '\0' || (m == cm)) && (l == '\0' || (l == cl))) {
-		if (score)
-			*score = 3;
-		if (m)
-			return g_strdup_printf ("%s %s %s", card->name->given, card->name->additional, card->name->family);
-		else
-			return g_strdup_printf ("%s %s", card->name->given, card->name->family);
-	}
-
-	return NULL;
-}
-
-static gboolean
-start_initials_query (ESelectNamesCompletion *comp)
-{
-	gint len;
-	gchar *query;
-
-	if (comp && comp->priv->query_text && *(comp->priv->query_text)) {
-		
-		len = strlen (comp->priv->query_text);
-		if (len < 2 || len > 3)
-			return FALSE;
-
-		query = g_strdup_printf ("(contains \"x-evolution-any-field\" \"%c\")", *(comp->priv->query_text));
-		query_info_start (comp, comp->priv->query_text, query, initials_query_match_cb);
-		g_free (query);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-#endif
-
-
 /*
  *
  * ESelectNamesCompletion code
@@ -779,6 +687,11 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 			g_object_unref (book_data->book_view);
 		}
 
+		g_free (book_data->cached_query_text);
+		g_list_foreach (book_data->cached_cards, (GFunc)g_object_unref, NULL);
+		g_list_free (book_data->cached_cards);
+
+
 		g_free (book_data);
 	}
 	g_list_free (comp->priv->book_data);
@@ -798,10 +711,6 @@ e_select_names_completion_dispose (GObject *object)
 
 		g_free (comp->priv->waiting_query);
 		g_free (comp->priv->query_text);
-
-		g_free (comp->priv->cached_query_text);
-		g_list_foreach (comp->priv->cached_cards, (GFunc)g_object_unref, NULL);
-		g_list_free (comp->priv->cached_cards);
 
 		g_free (comp->priv);
 		comp->priv = NULL;
@@ -839,14 +748,17 @@ clean_query_text (const gchar *s)
 }
 
 static void
-e_select_names_completion_clear_cache (ESelectNamesCompletion *comp)
+e_select_names_completion_clear_cache (ESelectNamesCompletionBookData *book_data)
 {
-	g_free (comp->priv->cached_query_text);
-	comp->priv->cached_query_text = NULL;
+	if (out)
+		fprintf (out, "** clearing cache on book %s\n", e_book_get_uri (book_data->book));
 
-	g_list_foreach (comp->priv->cached_cards, (GFunc)g_object_unref, NULL);
-	g_list_free (comp->priv->cached_cards);
-	comp->priv->cached_cards = NULL;
+	g_free (book_data->cached_query_text);
+	g_list_foreach (book_data->cached_cards, (GFunc)g_object_unref, NULL);
+	g_list_free (book_data->cached_cards);
+
+	book_data->cached_query_text = NULL;
+	book_data->cached_cards = NULL;
 }
 
 static void
@@ -881,15 +793,15 @@ e_select_names_completion_got_book_view_cb (EBook *book, EBookStatus status, EBo
 
 	book_data->card_added_tag = 
 		g_signal_connect (view,
-				    "card_added",
-				    G_CALLBACK (e_select_names_completion_card_added_cb),
-				    book_data);
+				  "card_added",
+				  G_CALLBACK (e_select_names_completion_card_added_cb),
+				  book_data);
 
 	book_data->seq_complete_tag =
 		g_signal_connect (view,
-				    "sequence_complete",
-				    G_CALLBACK (e_select_names_completion_seq_complete_cb),
-				    book_data);
+				  "sequence_complete",
+				  G_CALLBACK (e_select_names_completion_seq_complete_cb),
+				  book_data);
 	book_data->sequence_complete_received = FALSE;
 	comp->priv->pending_completion_seq++;
 }
@@ -905,7 +817,7 @@ e_select_names_completion_card_added_cb (EBookView *book_view, const GList *card
 
 		/* Save the list of matching cards. */
 		while (cards) {
-			comp->priv->cached_cards = g_list_prepend (comp->priv->cached_cards, cards->data);
+			book_data->cached_cards = g_list_prepend (book_data->cached_cards, cards->data);
 			g_object_ref (cards->data);
 			cards = g_list_next (cards);
 		}
@@ -916,34 +828,53 @@ static void
 e_select_names_completion_seq_complete_cb (EBookView *book_view, EBookViewStatus status, gpointer user_data)
 {
 	ESelectNamesCompletionBookData *book_data = user_data;
-	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION(book_data->comp);
+	ESelectNamesCompletion *comp = book_data->comp;
+
+	if (out)
+		fprintf (out, "** got sequence_complete (status = %d) on book %s\n", status, e_book_get_uri (book_data->book));
 
 	/*
 	 * We aren't searching, but the addressbook has changed -- clear our card cache so that
 	 * future completion requests will take the changes into account.
 	 */
 	if (! e_completion_searching (E_COMPLETION (comp))) {
-		e_select_names_completion_clear_cache (comp);
+		if (out)
+			fprintf (out, "\t we weren't searching, clearing the cache\n");
+		e_select_names_completion_clear_cache (book_data);
 		return;
 	}
 
+	if (book_data->cached_query_text
+	    && status == E_BOOK_STATUS_SUCCESS
+	    && !book_data->cache_complete
+	    && !strcmp (book_data->cached_query_text, comp->priv->query_text))
+		book_data->cache_complete = TRUE;
+
+	if (out)
+		fprintf (out, "\tending search, book_data->cache_complete == %d\n", book_data->cache_complete);
+
 	if (!book_data->sequence_complete_received) {
 		book_data->sequence_complete_received = TRUE;
+
+		if (book_data->card_added_tag) {
+			g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
+			book_data->card_added_tag = 0;
+		}
+		if (book_data->seq_complete_tag) {
+			g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
+			book_data->seq_complete_tag = 0;
+		}
+
+		if (out)
+			fprintf (out, "\t %d remaining book view's\n", comp->priv->pending_completion_seq - 1);
+
 		comp->priv->pending_completion_seq --;
 		if (comp->priv->pending_completion_seq > 0)
 			return;
 	}
 
-	if (comp->priv->cached_query_text
-	    && !comp->priv->cache_complete
-	    && !strcmp (comp->priv->cached_query_text, comp->priv->query_text))
-		comp->priv->cache_complete = TRUE;
-
 	g_free (comp->priv->query_text);
 	comp->priv->query_text = NULL;
-
-	if (out)
-		fprintf (out, "ending search\n");
 
 	e_completion_end_search (E_COMPLETION (comp)); /* That's all folks! */
 
@@ -979,15 +910,10 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
 		if (book_data->book_view_tag) {
-			if (out)
-				fprintf (out, "cancelled book view creation\n");
 			e_book_cancel (book_data->book, book_data->book_view_tag);
 			book_data->book_view_tag = 0;
 		}
 		if (book_data->book_view) {
-			if (out)
-				fprintf (out, "disconnecting book view signals\n");
-
 			if (book_data->card_added_tag) {
 				g_signal_handler_disconnect (book_data->book_view, book_data->card_added_tag);
 				book_data->card_added_tag = 0;
@@ -996,9 +922,6 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 				g_signal_handler_disconnect (book_data->book_view, book_data->seq_complete_tag);
 				book_data->seq_complete_tag = 0;
 			}
-	
-			if (out)
-				fprintf (out, "unrefed book view\n");
 
 			e_book_view_stop (book_data->book_view);
 			g_object_unref (book_data->book_view);
@@ -1006,9 +929,7 @@ e_select_names_completion_stop_query (ESelectNamesCompletion *comp)
 		}
 	}
 
-	/* Clear the cache, which may contain partial results. */
-	e_select_names_completion_clear_cache (comp);
-
+	comp->priv->pending_completion_seq = 0;
 }
 
 static void
@@ -1022,15 +943,13 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 	if (comp->priv->books_not_ready == 0) {
 		gchar *sexp;
 	
-		if (strlen (query_text) < comp->priv->minimum_query_length)
+		if (strlen (query_text) < comp->priv->minimum_query_length) {
+			e_completion_end_search (E_COMPLETION (comp));
 			return;
+		}
 
 		g_free (comp->priv->query_text);
 		comp->priv->query_text = g_strdup (query_text);
-
-		g_free (comp->priv->cached_query_text);
-		comp->priv->cached_query_text = g_strdup (query_text);
-		comp->priv->cache_complete = FALSE;
 
 		sexp = book_query_sexp (comp);
 		if (sexp && *sexp) {
@@ -1041,11 +960,49 @@ e_select_names_completion_start_query (ESelectNamesCompletion *comp, const gchar
 
 			for (l = comp->priv->book_data; l; l = l->next) {
 				ESelectNamesCompletionBookData *book_data = l->data;
-				book_data->book_view_tag = e_book_get_completion_view (book_data->book,
-										       sexp, 
-										       e_select_names_completion_got_book_view_cb, book_data);
-				if (! book_data->book_view_tag)
-					g_warning ("Exception calling e_book_get_completion_view");
+				gboolean can_reuse_cached_cards;
+
+				if (out) {
+					fprintf (out,
+						 "book == %s[\n"
+						 "\tbook_data->cached_query_text == `%s'\n"
+						 "\tbook_data->cache_complete == %d\n"
+						 "\tbook_data->cached_cards == %p\n",
+						 e_book_get_uri (book_data->book),
+						 book_data->cached_query_text,
+						 book_data->cache_complete,
+						 book_data->cached_cards);
+				}
+
+				can_reuse_cached_cards = (book_data->cached_query_text
+							  && book_data->cache_complete
+							  && book_data->cached_cards != NULL
+							  && (strlen (book_data->cached_query_text) <= strlen (query_text))
+							  && !utf8_casefold_collate_len (book_data->cached_query_text, query_text,
+											 strlen (book_data->cached_query_text)));
+
+				if (can_reuse_cached_cards) {
+
+					if (out)
+						fprintf (out, "\t*** can reuse cached cards (%d cards cached)!\n", g_list_length (book_data->cached_cards));
+
+					if (out)
+						fprintf (out, "\tusing existing query info: %s (vs %s)\n", query_text, book_data->cached_query_text);
+					book_query_process_card_list (comp, book_data->cached_cards);
+				}
+				else {
+					e_select_names_completion_clear_cache (book_data);
+					book_data->cached_query_text = g_strdup (query_text);
+
+					book_data->book_view_tag = e_book_get_completion_view (book_data->book,
+											       sexp, 
+											       e_select_names_completion_got_book_view_cb, book_data);
+					if (! book_data->book_view_tag)
+						g_warning ("Exception calling e_book_get_completion_view");
+				}
+
+				if (out)
+					fprintf (out, "]\n");
 			}
 
 		} else {
@@ -1065,8 +1022,6 @@ static void
 e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *query_text, gint pos, gint limit)
 {
 	gchar *clean;
-	gboolean query_is_still_running, can_reuse_cached_cards;
-	GList *l;
 
 	g_return_if_fail (comp != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
@@ -1078,53 +1033,9 @@ e_select_names_completion_do_query (ESelectNamesCompletion *comp, const gchar *q
 		return;
 	}
 
-	query_is_still_running = FALSE;
-	for (l = comp->priv->book_data; l; l = l->next) {
-		ESelectNamesCompletionBookData *book_data = l->data;
-		query_is_still_running = book_data->book_view_tag;
-		if (query_is_still_running)
-			break;
-	}
-
-	if (out) {
+	if (out)
 		fprintf (out, "do_query: %s => %s\n", query_text, clean);
-		if (query_is_still_running)
-			fprintf (out, "a query is still running!\n");
-	}
-	if (comp->priv->cached_query_text && out)
-		fprintf (out, "cached: %s\n", comp->priv->cached_query_text);
 
-	can_reuse_cached_cards = (comp->priv->cached_query_text
-				  && comp->priv->cache_complete
-				  && (!comp->priv->can_fail_due_to_too_many_hits || comp->priv->cached_cards != NULL)
-				  && (strlen (comp->priv->cached_query_text) <= strlen (clean))
-				  && !utf8_casefold_collate_len (comp->priv->cached_query_text, clean, strlen (comp->priv->cached_query_text)));
-
-
-	if (can_reuse_cached_cards) {
-
-		if (out)
-			fprintf (out, "can reuse cached card!\n");
-
-		if (query_is_still_running) {
-			g_free (comp->priv->waiting_query);
-			comp->priv->waiting_query = clean;
-			comp->priv->waiting_pos = pos;
-			comp->priv->waiting_limit = limit;
-			if (out)
-				fprintf (out, "waiting for running query to complete: %s\n", comp->priv->waiting_query);
-			return;
-		}
-
-		g_free (comp->priv->query_text);
-		comp->priv->query_text = clean;
-		if (out)
-			fprintf (out, "using existing query info: %s (vs %s)\n", comp->priv->query_text, comp->priv->cached_query_text);
-		book_query_process_card_list (comp, comp->priv->cached_cards);
-		e_completion_end_search (E_COMPLETION (comp));
-		return;
-	}
-	
 	e_select_names_completion_start_query (comp, clean);
 	g_free (clean);
 }
@@ -1229,41 +1140,6 @@ e_select_names_completion_end (ECompletion *comp)
 		fprintf (out, "completion ended\n");
 }
 
-static void
-check_capabilities (ESelectNamesCompletion *comp, EBook *book)
-{
-	gchar *cap = e_book_get_static_capabilities (book);
-	comp->priv->can_fail_due_to_too_many_hits = !strcmp (cap, "net");
-	if (comp->priv->can_fail_due_to_too_many_hits) {
-		g_message ("using LDAP source for completion!");
-	}
-	g_free (cap);
-}
-
-#if 0
-static void
-e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNamesCompletion *comp)
-{
-	comp->priv->books_not_ready--;
-
-	g_return_if_fail (E_IS_BOOK (book));
-	g_return_if_fail (E_IS_SELECT_NAMES_COMPLETION (comp));
-
-	check_capabilities (comp, book);
-
-	/* If waiting_query is non-NULL, someone tried to start a query before the book was ready.
-	   Now that it is, get started. */
-	if (comp->priv->books_not_ready == 0 && comp->priv->waiting_query) {
-		e_select_names_completion_start_query (comp, comp->priv->waiting_query);
-		g_free (comp->priv->waiting_query);
-		comp->priv->waiting_query = NULL;
-	}
-
-	g_object_unref (comp); /* post-async unref */
-}
-#endif
-
-
 /*
  *
  *  Our Pseudo-Constructor
@@ -1295,10 +1171,10 @@ e_select_names_completion_add_book (ESelectNamesCompletion *comp, EBook *book)
 	book_data = g_new0 (ESelectNamesCompletionBookData, 1);
 	book_data->book = book;
 	book_data->comp = comp;
-	check_capabilities (comp, book);
 	g_object_ref (book_data->book);
 	comp->priv->book_data = g_list_append (comp->priv->book_data, book_data);
 
+	/* XXX toshok - this doesn't work properly.  need to rethink this next bit. */
 	/* if the user is typing as we're adding books, restart the
 	   query after the new book has been added */
 	if (comp->priv->query_text && *comp->priv->query_text) {

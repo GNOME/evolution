@@ -1,3 +1,9 @@
+2003-02-09  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/select-names/e-select-names-completion.c: lots of
+	changes here.  should be a big performance gain.  god i hope this
+	is finally right.
+
 2003-02-08  Chris Toshok  <toshok@ximian.com>
 
 	[ huge change, all for 1 little performance problem :) fixes #18207 ]
