@@ -48,8 +48,10 @@ gchar **e_strsplit (const gchar *string,
 		    const gchar *delimiter,
 		    gint         max_tokens);
 
-gchar *e_strstrcase (const gchar *haystack,
-		     const gchar *needle);
+const gchar *e_strstrcase (const gchar *haystack,
+			   const gchar *needle);
+
+void e_str_make_safe (gchar *string);
 
 void e_marshal_INT__INT_INT_POINTER (GtkObject * object,
 				     GtkSignalFunc func,
