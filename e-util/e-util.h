@@ -60,26 +60,31 @@ GType l##_get_type(void)\
 }
 
 
-#define E_MAKE_X_TYPE(l,str,t,ci,i,parent,poa_init,offset) \
-GtkType l##_get_type(void)\
-{\
-	static GtkType type = 0;\
-	if (!type){\
-		GtkTypeInfo info = {\
-			str,\
-			sizeof (t),\
-			sizeof (t##Class),\
-			(GtkClassInitFunc) ci,\
-			(GtkObjectInitFunc) i,\
-			NULL, /* reserved 1 */\
-			NULL, /* reserved 2 */\
-			(GtkClassInitFunc) NULL\
-		};\
-                type = bonobo_x_type_unique (\
-			parent, poa_init, NULL,\
-			offset, &info);\
-	}\
-	return type;\
+#define E_MAKE_X_TYPE(l,str,t,ci,i,parent,poa_init,offset)	\
+GtkType l##_get_type(void)					\
+{								\
+	static GtkType type = 0;				\
+	if (!type){						\
+		GTypeInfo info = {				\
+			sizeof (t##Class),			\
+								\
+			(GBaseInitFunc) NULL,			\
+			(GBaseFinalizeFunc) NULL,		\
+								\
+			(GClassInitFunc) ci,			\
+			(GClassFinalizeFunc) NULL,		\
+								\
+                        NULL, 	/* class_data */		\
+								\
+			sizeof (t),				\
+			0, 	/* n_preallocs */		\
+			(GInstanceInitFunc) i,			\
+		};						\
+                type = bonobo_x_type_unique (			\
+			parent, poa_init, NULL,			\
+			offset, &info, str);			\
+	}							\
+	return type;						\
 }
 
 #define GET_STRING_ARRAY_FROM_ELLIPSIS(labels, first_string) \
