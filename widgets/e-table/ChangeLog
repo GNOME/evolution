@@ -1,6 +1,6 @@
 2000-08-20  Christopher James Lahey  <clahey@helixcode.com>
 
-	* e-table-selection-model.c: Added
+	* e-table-selection-model.c, e-table-selection-model.h: Added
 	e_table_selection_model_selected_count.
 
 2000-08-19  Lauris Kaplinski  <lauris@helixcode.com>
