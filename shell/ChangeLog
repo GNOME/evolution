@@ -1,5 +1,15 @@
 2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Hopefully really fix #8615 and friends.]
+
+	* main.c (no_views_left_cb): Invoke `e_shell_disconnect_db()'
+	before unreffing the shell.
+
+	* e-shell.c (e_shell_disconnect_db): New.
+	(destroy): Call it instead of unreffing the db manually here.
+
+2001-10-12  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-folder-commands.c
 	(folder_selection_dialog_folder_selected_callback): Don't free the
 	folder_command_data here.  It is supposed to be freed in the async

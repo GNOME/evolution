@@ -766,10 +766,7 @@ destroy (GtkObject *object)
 	shell = E_SHELL (object);
 	priv = shell->priv;
 
-	if (shell->priv->db != CORBA_OBJECT_NIL) {
-		bonobo_object_release_unref (shell->priv->db, NULL);
-		shell->priv->db = CORBA_OBJECT_NIL;
-	}
+	e_shell_disconnect_db (shell);
 
 	if (priv->iid != NULL)
 		oaf_active_server_unregister (priv->iid, bonobo_object_corba_objref (BONOBO_OBJECT (shell)));
@@ -1678,6 +1675,8 @@ e_shell_get_user_creatable_items_handler (EShell *shell)
 }
 
 
+/* FIXME: These are ugly hacks, they really should not be needed.  */
+
 void
 e_shell_unregister_all (EShell *shell)
 {
@@ -1691,6 +1690,22 @@ e_shell_unregister_all (EShell *shell)
 
 	gtk_object_unref (GTK_OBJECT (priv->component_registry));
 	priv->component_registry = NULL;
+}
+
+void
+e_shell_disconnect_db (EShell *shell)
+{
+	EShellPrivate *priv;
+
+	g_return_if_fail (E_IS_SHELL (shell));
+
+	priv = shell->priv;
+
+	if (priv->db == CORBA_OBJECT_NIL)
+		return;
+
+	bonobo_object_release_unref (priv->db, NULL);
+	priv->db = CORBA_OBJECT_NIL;
 }
 
 

@@ -127,6 +127,29 @@ no_views_left_cb (EShell *shell, gpointer data)
 
 	e_shell_unregister_all (shell);
 
+	/* FIXME: And this is another ugly hack.  We have a strange race
+	   condition that I cannot work around.  What happens is that the
+	   EShell object gets unreffed and its aggregate EActivityHandler gets
+	   destroyed too.  But for some reason, the EActivityHanlder GtkObject
+	   gets freed, while its CORBA object counterpart is still an active
+	   server.  So there is a slight chance that we receive CORBA
+	   invocation that act on an uninitialized object, and we crash.  (See
+	   #8615.) 
+
+	   The CORBA invocation on the dead object only happens because we
+	   ::unref the BonoboConf database server in the ::destroy method of
+	   the shell.  Since this is a CORBA call, it allows incoming CORBA
+	   calls to happen -- and these get invoked on the partially
+	   uninitialized object.
+
+	   Since I am not 100% sure what the reason for this half-stale object
+	   is, I am just going to make sure that no CORBA ops happen in
+	   ::destroy...  And this is achieved by placing this call here.  (If
+	   the DB is disconnected, there will be no ::unref of it in
+	   ::destroy.)  */
+
+	e_shell_disconnect_db (shell);
+
 	bonobo_object_unref (BONOBO_OBJECT (shell));
 
 	if (quit_box != NULL)
