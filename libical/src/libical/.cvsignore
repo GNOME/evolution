@@ -12,3 +12,11 @@ y.output
 .libs
 .deps
 icalversion.h
+icalproperty.h
+icalvalue.h
+icalvalue.c
+ical.h
+icalparameter.h
+icalparameter.c
+icalproperty.c
+icalrestriction.c
