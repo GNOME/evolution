@@ -46,8 +46,6 @@ typedef struct {
 	char *uri;
 } AddressbookView;
 
-static void change_view_type (AddressbookView *view, EAddressbookViewType view_type);
-
 static void
 card_added_cb (EBook* book, EBookStatus status, const char *id,
 	    gpointer user_data)
@@ -127,22 +125,6 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 			    GTK_SIGNAL_FUNC (editor_closed_cb), NULL);
 
 	gtk_object_sink(GTK_OBJECT(card));
-}
-
-static void
-toggle_view_as_cb (BonoboUIHandler *uih, void *user_data, const char *path)
-{
-	AddressbookView *view = user_data;
-	EAddressbookViewType view_type;
-
-	gtk_object_get(GTK_OBJECT(view),
-		       "type", &view_type,
-		       NULL);
-
-	if (view_type == E_ADDRESSBOOK_VIEW_TABLE)
-		change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
-	else
-		change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
 }
 
 #ifdef HAVE_LDAP
@@ -310,6 +292,57 @@ stop_loading_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	e_addressbook_view_stop(view->view);
 }
 
+static void
+update_view_type (AddressbookView *view)
+{
+	BonoboUIComponent *uic = bonobo_control_get_ui_component (view->control);
+	EAddressbookViewType view_type;
+
+	if (!uic || bonobo_ui_component_get_container (uic) == CORBA_OBJECT_NIL)
+		return;
+
+	gtk_object_get (GTK_OBJECT (view->view), "type", &view_type, NULL);
+
+	switch (view_type) {
+	case E_ADDRESSBOOK_VIEW_TABLE:
+		if (uic)
+			bonobo_ui_component_set_prop (uic, "/menu/View/AsTable",
+						      "label", N_("As _Minicards"), NULL);
+
+		break;
+	case E_ADDRESSBOOK_VIEW_MINICARD:
+		if (uic)
+			bonobo_ui_component_set_prop (uic, "/menu/View/AsTable",
+						      "label", N_("As _Table"), NULL);
+		break;
+	default:
+		g_warning ("view_type must be either TABLE or MINICARD\n");
+		return;
+	}	
+}
+
+static void
+change_view_type (AddressbookView *view, EAddressbookViewType view_type)
+{
+	gtk_object_set (GTK_OBJECT (view->view), "type", view_type, NULL);
+
+	update_view_type (view);
+}
+
+static void
+toggle_view_as_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = user_data;
+	EAddressbookViewType view_type;
+
+	gtk_object_get (GTK_OBJECT (view->view), "type", &view_type, NULL);
+
+	if (view_type == E_ADDRESSBOOK_VIEW_TABLE)
+		change_view_type (view, E_ADDRESSBOOK_VIEW_MINICARD);
+	else
+		change_view_type (view, E_ADDRESSBOOK_VIEW_TABLE);
+}
+
 BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsPrint", print_cb),
 	BONOBO_UI_UNSAFE_VERB ("ViewAsTable", toggle_view_as_cb),
@@ -365,6 +398,8 @@ control_activate (BonoboControl     *control,
 		uic, "/Toolbar/QuickSearch",
 		bonobo_object_corba_objref (BONOBO_OBJECT (search_control)),
 		NULL);
+
+	update_view_type (view);
 
 	bonobo_ui_component_thaw (uic, NULL);
 }
@@ -514,33 +549,6 @@ set_prop (BonoboPropertyBag *bag,
 		break;
 	}
 }
-
-static void
-change_view_type (AddressbookView *view, EAddressbookViewType view_type)
-{
-	BonoboUIHandler *uih = bonobo_control_get_ui_handler (view->control);
-
-	gtk_object_set(GTK_OBJECT(view->view),
-		       "type", view_type,
-		       NULL);
-
-	switch (view_type) {
-	case E_ADDRESSBOOK_VIEW_TABLE:
-		if (uih)
-			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
-							  N_("As _Minicards"));
-		break;
-	case E_ADDRESSBOOK_VIEW_MINICARD:
-		if (uih)
-			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
-							  N_("As _Table"));
-		break;
-	default:
-		g_warning ("view_type must be either TABLE or MINICARD\n");
-		return;
-	}
-}
-
 
 BonoboControl *
 addressbook_factory_new_control (void)

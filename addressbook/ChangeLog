@@ -1,3 +1,10 @@
+2000-10-19  Michael Meeks  <michael@helixcode.com>
+
+	* gui/component/addressbook.c (change_view_type): update to new
+	UI handler.
+	(update_view_type): split from (change_view_type).
+	(control_activate): add an update_view_type.
+
 2000-10-18  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-card-simple.c: Change NAME_OR_ORG to return the
