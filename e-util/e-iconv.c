@@ -26,15 +26,18 @@
 #include <config.h>
 #endif
 
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <errno.h>
 
 #include <glib.h>
 #include "e-iconv.h"
 
 #include <locale.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
 #ifdef HAVE_CODESET
 #include <langinfo.h>
@@ -94,7 +97,6 @@ static unsigned int iconv_cache_size = 0;
 
 static GHashTable *iconv_charsets = NULL;
 static char *locale_charset = NULL;
-static char *locale_lang = NULL;
 
 struct {
 	char *charset;
@@ -139,7 +141,6 @@ struct {
 	{ "big5hkscs-0",    "BIG5HKCS"   },
 	{ "gb2312-0",       "gb2312"     },
 	{ "gb2312.1980-0",  "gb2312"     },
-	{ "gb-2312",        "gb2312"     },
 	{ "gb18030-0",      "gb18030"    },
 	{ "gbk-0",          "GBK"        },
 
@@ -188,73 +189,21 @@ static EDListNode *e_dlist_remove(EDListNode *n)
         return n;
 }
 
-
-/* fucking glib... */
-static const char *
-e_strdown (char *str)
-{
-	register char *s = str;
-	
-	while (*s) {
-		if (*s >= 'A' && *s <= 'Z')
-			*s += 0x20;
-		s++;
-	}
-	
-	return str;
-}
-
-static const char *
-e_strup (char *str)
-{
-	register char *s = str;
-	
-	while (*s) {
-		if (*s >= 'a' && *s <= 'z')
-			*s -= 0x20;
-		s++;
-	}
-	
-	return str;
-}
-
-
+/*
+  we don't want to lower charset names in native locale (look what does in such case ISO-8859-9),
+  but rather lower them in "pure" C locale
+  this fixes bug #24179
+*/
 static void
-locale_parse_lang (const char *locale)
+C_g_strdown (gchar *string)
 {
-	char *codeset, *lang;
-	
-	if ((codeset = strchr (locale, '.')))
-		lang = g_strndup (locale, codeset - locale);
-	else
-		lang = g_strdup (locale);
-	
-	/* validate the language */
-	if (strlen (lang) >= 2) {
-		if (lang[2] == '-' || lang[2] == '_') {
-			/* canonicalise the lang */
-			e_strdown (lang);
-			
-			/* validate the country code */
-			if (strlen (lang + 3) > 2) {
-				/* invalid country code */
-				lang[2] = '\0';
-			} else {
-				lang[2] = '-';
-				e_strup (lang + 3);
-			}
-		} else if (lang[2] != '\0') {
-			/* invalid language */
-			g_free (lang);
-			lang = NULL;
-		}
-		
-		locale_lang = lang;
-	} else {
-		/* invalid language */
-		locale_lang = NULL;
-		g_free (lang);
-	}
+	gchar *old_locale;
+
+	old_locale = g_strdup (setlocale (LC_CTYPE, NULL));
+	setlocale (LC_CTYPE, "C");
+	g_strdown (string);
+	setlocale (LC_CTYPE, old_locale);
+	g_free (old_locale);
 }
 
 /* NOTE: Owns the lock on return if keep is TRUE ! */
@@ -277,7 +226,7 @@ e_iconv_init(int keep)
 	for (i = 0; known_iconv_charsets[i].charset != NULL; i++) {
 		from = g_strdup(known_iconv_charsets[i].charset);
 		to = g_strdup(known_iconv_charsets[i].iconv_name);
-		e_strdown (from);
+		C_g_strdown(from);
 		g_hash_table_insert(iconv_charsets, from, to);
 	}
 
@@ -286,7 +235,7 @@ e_iconv_init(int keep)
 	iconv_cache_open = g_hash_table_new(NULL, NULL);
 	
 	locale = setlocale (LC_ALL, NULL);
-	
+
 	if (!locale || !strcmp (locale, "C") || !strcmp (locale, "POSIX")) {
 		/* The locale "C"  or  "POSIX"  is  a  portable  locale;  its
 		 * LC_CTYPE  part  corresponds  to  the 7-bit ASCII character
@@ -294,11 +243,10 @@ e_iconv_init(int keep)
 		 */
 		
 		locale_charset = NULL;
-		locale_lang = NULL;
 	} else {
 #ifdef HAVE_CODESET
-		locale_charset = g_strdup (nl_langinfo (CODESET));
-		e_strdown (locale_charset);
+		locale_charset = g_strdup(nl_langinfo(CODESET));
+		C_g_strdown(locale_charset);
 #else
 		/* A locale name is typically of  the  form  language[_terri-
 		 * tory][.codeset][@modifier],  where  language is an ISO 639
@@ -315,16 +263,12 @@ e_iconv_init(int keep)
 			/* ; is a hack for debian systems and / is a hack for Solaris systems */
 			for (p = codeset; *p && !strchr ("@;/", *p); p++);
 			locale_charset = g_strndup (codeset, p - codeset);
-			e_strdown (locale_charset);
+			C_g_strdown (locale_charset);
 		} else {
 			/* charset unknown */
 			locale_charset = NULL;
 		}
-#endif		
-		
-		/* parse the locale lang */
-		locale_parse_lang (locale);
-
+#endif
 	}
 
 	if (!keep)
@@ -338,10 +282,10 @@ const char *e_iconv_charset_name(const char *charset)
 	if (charset == NULL)
 		return NULL;
 
-	name = g_alloca (strlen (charset) + 1);
-	strcpy (name, charset);
-	e_strdown (name);
-	
+	name = alloca(strlen(charset)+1);
+	strcpy(name, charset);
+	C_g_strdown(name);
+
 	e_iconv_init(TRUE);
 	ret = g_hash_table_lookup(iconv_charsets, name);
 	if (ret != NULL) {
@@ -434,17 +378,14 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 	char *tofrom;
 	struct _iconv_cache *ic;
 	struct _iconv_cache_node *in;
-	int errnosav;
 	iconv_t ip;
 
-	if (oto == NULL || ofrom == NULL) {
-		errno = EINVAL;
-		return (iconv_t) -1;
-	}
-	
+	if (oto == NULL || ofrom == NULL)
+		return (iconv_t)-1;
+
 	to = e_iconv_charset_name (oto);
 	from = e_iconv_charset_name (ofrom);
-	tofrom = g_alloca (strlen (to) + strlen (from) + 2);
+	tofrom = alloca(strlen(to) +strlen(from) + 2);
 	sprintf(tofrom, "%s%%%s", to, from);
 
 	LOCK();
@@ -491,7 +432,7 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 			 * that die if the length arguments are NULL 
 			 */
 			size_t buggy_iconv_len = 0;
-			char *buggy_iconv_buf = NULL;
+			gchar *buggy_iconv_buf = NULL;
 
 			/* resets the converter */
 			iconv(ip, &buggy_iconv_buf, &buggy_iconv_len, &buggy_iconv_buf, &buggy_iconv_len);
@@ -510,10 +451,8 @@ iconv_t e_iconv_open(const char *oto, const char *ofrom)
 			g_hash_table_insert(iconv_cache_open, ip, in);
 			in->busy = TRUE;
 		} else {
-			errnosav = errno;
 			g_warning("Could not open converter for '%s' to '%s' charset", from, to);
 			in->busy = FALSE;
-			errno = errnosav;
 		}
 	}
 
@@ -557,54 +496,3 @@ const char *e_iconv_locale_charset(void)
 	return locale_charset;
 }
 
-
-const char *
-e_iconv_locale_language (void)
-{
-	e_iconv_init (FALSE);
-	
-	return locale_lang;
-}
-
-/* map CJKR charsets to their language code */
-/* NOTE: only support charset names that will be returned by
- * e_iconv_charset_name() so that we don't have to keep track of all
- * the aliases too. */
-static struct {
-	char *charset;
-	char *lang;
-} cjkr_lang_map[] = {
-	{ "Big5",        "zh" },
-	{ "BIG5HKCS",    "zh" },
-	{ "gb2312",      "zh" },
-	{ "gb18030",     "zh" },
-	{ "gbk",         "zh" },
-	{ "euc-tw",      "zh" },
-	{ "iso-2022-jp", "ja" },
-	{ "sjis",        "ja" },
-	{ "ujis",        "ja" },
-	{ "eucJP",       "ja" },
-	{ "euc-jp",      "ja" },
-	{ "euc-kr",      "ko" },
-	{ "koi8-r",      "ru" },
-	{ "koi8-u",      "uk" }
-};
-
-#define NUM_CJKR_LANGS (sizeof (cjkr_lang_map) / sizeof (cjkr_lang_map[0]))
-
-const char *
-e_iconv_charset_language (const char *charset)
-{
-	int i;
-	
-	if (!charset)
-		return NULL;
-	
-	charset = e_iconv_charset_name (charset);
-	for (i = 0; i < NUM_CJKR_LANGS; i++) {
-		if (!strcasecmp (cjkr_lang_map[i].charset, charset))
-			return cjkr_lang_map[i].lang;
-	}
-	
-	return NULL;
-}

@@ -1,5 +1,5 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
-/*
+/* 
  * e-table-state.c
  * Copyright 2000, 2001, Ximian, Inc.
  *
@@ -21,39 +21,32 @@
  * 02111-1307, USA.
  */
 
+
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
 #include <stdlib.h>
 #include <string.h>
+#include <errno.h>
 
-#include <libxml/parser.h>
-#include <libxml/xmlmemory.h>
+#include <gtk/gtksignal.h>
+#include <gtk/gtkobject.h>
+#include <gnome-xml/parser.h>
+#include <gnome-xml/xmlmemory.h>
 #include "gal/util/e-util.h"
 #include "gal/util/e-xml-utils.h"
 #include "e-table-state.h"
 
 
+#define PARENT_TYPE (gtk_object_get_type())
+
 #define STATE_VERSION 0.1
 
-static GObjectClass *etst_parent_class;
+static GtkObjectClass *etst_parent_class;
 
 static void
-etst_dispose (GObject *object)
-{
-	ETableState *etst = E_TABLE_STATE (object);
-
-	if (etst->sort_info) {
-		g_object_unref (etst->sort_info);
-		etst->sort_info = NULL;
-	}
-
-	G_OBJECT_CLASS (etst_parent_class)->dispose (object);
-}
-	
-static void
-etst_finalize (GObject *object)
+etst_destroy (GtkObject *object)
 {
 	ETableState *etst = E_TABLE_STATE (object);
 
@@ -67,52 +60,40 @@ etst_finalize (GObject *object)
 		etst->expansions = NULL;
 	}
 	
-	G_OBJECT_CLASS (etst_parent_class)->finalize (object);
+	if (etst->sort_info) {
+		gtk_object_unref (GTK_OBJECT (etst->sort_info));
+		etst->sort_info = NULL;
+	}
+	
+	GTK_OBJECT_CLASS (etst_parent_class)->destroy (object);
 }
 
 static void
-etst_class_init (GObjectClass *klass)
+etst_class_init (GtkObjectClass *klass)
 {
-	etst_parent_class = g_type_class_peek_parent (klass);
+	etst_parent_class = gtk_type_class (PARENT_TYPE);
 	
-	klass->dispose = etst_dispose;
-	klass->finalize = etst_finalize;
+	klass->destroy = etst_destroy;
 }
 
 static void
 etst_init (ETableState *state)
 {
+	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (state), GTK_FLOATING);
+
 	state->columns = NULL;
 	state->expansions = NULL;
 	state->sort_info = e_table_sort_info_new();
 }
 
-E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, G_TYPE_OBJECT)
+E_MAKE_TYPE(e_table_state, "ETableState", ETableState, etst_class_init, etst_init, PARENT_TYPE)
 
 ETableState *
 e_table_state_new (void)
 {
-	return (ETableState *) g_object_new (E_TABLE_STATE_TYPE, NULL);
-}
+	ETableState *etst = gtk_type_new (E_TABLE_STATE_TYPE);
 
-ETableState *
-e_table_state_vanilla (int col_count)
-{
-	GString *str;
-	int i;
-	ETableState *res;
-
-	str = g_string_new ("<ETableState>\n");
-	for (i = 0; i < col_count; i++)
-		g_string_append_printf (str, "  <column source=\"%d\"/>\n", i);
-	g_string_append (str, "  <grouping></grouping>\n");
-	g_string_append (str, "</ETableState>\n");
-
-	res = e_table_state_new ();
-	e_table_state_load_from_string (res, str->str);
-
-	g_string_free (str, TRUE);
-	return res;
+	return (ETableState *) etst;
 }
 
 gboolean
@@ -161,7 +142,7 @@ e_table_state_load_from_node (ETableState *state,
 		node, "state-version", STATE_VERSION);
 
 	if (state->sort_info)
-		g_object_unref (state->sort_info);
+		gtk_object_unref (GTK_OBJECT(state->sort_info));
 
 	state->sort_info = NULL;
 	children = node->xmlChildrenNode;
@@ -211,7 +192,8 @@ e_table_state_save_to_file      (ETableState *state,
 	
 	xmlDocSetRootElement (doc, e_table_state_save_to_node (state, NULL));
 	
-	e_xml_save_file (filename, doc);
+	if (e_xml_save_file (filename, doc) == -1)
+		g_warning ("Unable to save %s - %s", filename, g_strerror (errno));
 	
 	xmlFreeDoc (doc);
 }
