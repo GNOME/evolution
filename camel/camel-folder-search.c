@@ -70,6 +70,7 @@ static ESExpResult *search_system_flag(struct _ESExp *f, int argc, struct _ESExp
 static ESExpResult *search_get_sent_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_get_received_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
+static ESExpResult *search_get_size(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 static ESExpResult *search_uid(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s);
 
 static ESExpResult *search_dummy(struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *search);
@@ -100,6 +101,7 @@ camel_folder_search_class_init (CamelFolderSearchClass *klass)
 	klass->get_sent_date = search_get_sent_date;
 	klass->get_received_date = search_get_received_date;
 	klass->get_current_date = search_get_current_date;
+	klass->get_size = search_get_size;
 	klass->uid = search_uid;
 }
 
@@ -199,6 +201,7 @@ struct {
 	{ "get-sent-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_sent_date), 1 },
 	{ "get-received-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_received_date), 1 },
 	{ "get-current-date", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_current_date), 1 },
+	{ "get-size", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, get_size), 1 },
 	{ "uid", CAMEL_STRUCT_OFFSET(CamelFolderSearchClass, uid), 1 },
 };
 
@@ -241,7 +244,7 @@ camel_folder_search_construct (CamelFolderSearch *search)
 CamelFolderSearch *
 camel_folder_search_new (void)
 {
-	CamelFolderSearch *new = CAMEL_FOLDER_SEARCH ( camel_object_new (camel_folder_search_get_type ()));
+	CamelFolderSearch *new = CAMEL_FOLDER_SEARCH (camel_object_new (camel_folder_search_get_type ()));
 
 	camel_folder_search_construct(new);
 	return new;
@@ -1120,6 +1123,25 @@ search_get_current_date(struct _ESExp *f, int argc, struct _ESExpResult **argv, 
 
 	r = e_sexp_result_new(f, ESEXP_RES_INT);
 	r->value.number = time (NULL);
+	return r;
+}
+
+static ESExpResult *
+search_get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFolderSearch *s)
+{
+	ESExpResult *r;
+	
+	r(printf("executing get-size\n"));
+	
+	/* are we inside a match-all? */
+	if (s->current) {
+		r = e_sexp_result_new (f, ESEXP_RES_INT);
+		r->value.number = s->current->size / 1024;
+	} else {
+		r = e_sexp_result_new (f, ESEXP_RES_ARRAY_PTR);
+		r->value.ptrarray = g_ptr_array_new ();
+	}
+	
 	return r;
 }
 

@@ -1,3 +1,9 @@
+2003-02-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-folder-search.c: Added a (get-size ) function to fix bug
+	#38073.
+	(search_get_size): Implemented.
+
 2003-01-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-canon.c (complete): Set the backbuflen to 0 so
