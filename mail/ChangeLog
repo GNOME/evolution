@@ -1,3 +1,13 @@
+2002-02-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (do_forward_non_attached): Show the signature.
+
+2002-02-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_inline_pgp_sig): Handle cases where there
+	isn't a hash header (apparently some PGP versions don't use them
+	and/or are configurable to not display them?). Fixes bug #18935.
+
 2002-01-23  Dan Winship  <danw@ximian.com>
 
 	* mail-folder-cache.c (mail_note_store): Allow this to be called

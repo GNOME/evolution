@@ -1151,6 +1151,7 @@ do_forward_non_attached (CamelFolder *folder, char *uid, CamelMimeMessage *messa
 			CamelDataWrapper *wrapper;
 			
 			e_msg_composer_set_body_text (composer, text);
+			e_msg_composer_show_sig_file (composer);
 			
 			wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 			if (CAMEL_IS_MULTIPART (wrapper))

@@ -1377,15 +1377,19 @@ try_inline_pgp_sig (char *start, CamelMimePart *mime_part,
 	
 	/* We know start points to "-----BEGIN PGP SIGNED MESSAGE-----\n" */
 	msg_start = start + sizeof ("-----BEGIN PGP SIGNED MESSAGE-----\n") - 1;
-	/* Skip 'One or more "Hash" Armor Headers' followed by
-	 * 'Exactly one empty line'.
-	 */
-	msg_start = strstr (msg_start, "\n\n");
-	if (!msg_start)
-		return start;
-	msg_start += 2;
+	
+	if (*msg_start != '\n') {
+		/* Skip 'One or more "Hash" Armor Headers' followed by
+		 * 'Exactly one empty line'.
+		 */
+		msg_start = strstr (msg_start, "\n\n");
+		if (!msg_start)
+			return start;
+		msg_start += 2;
+	}
+	
 	msg_end = strstr (msg_start, "\n-----BEGIN PGP SIGNATURE-----\n");
-	if (!msg_end)
+	if (!msg_end || msg_end == msg_start)
 		return start;
 	
 	sig_start = msg_end;
