@@ -37,6 +37,13 @@ typedef struct _ECert ECert;
 typedef struct _ECertClass ECertClass;
 typedef struct _ECertPrivate ECertPrivate;
 
+typedef enum {
+	E_CERT_CA,
+	E_CERT_CONTACT,
+	E_CERT_SITE,
+	E_CERT_USER
+} ECertType;
+
 struct _ECert {
 	GObject parent;
 
@@ -57,11 +64,20 @@ struct _ECertClass {
 GType                e_cert_get_type     (void);
 
 ECert*               e_cert_new          (CERTCertificate *cert);
+ECert*               e_cert_new_from_der (char *data, guint32 len);
 
-const char*          e_cert_get_nickname (ECert *cert);
-const char*          e_cert_get_email    (ECert *cert);
-const char*          e_cert_get_org      (ECert *cert);
-const char*          e_cert_get_cn       (ECert *cert);
+CERTCertificate*     e_cert_get_internal_cert (ECert *cert);
 
-gboolean             e_cert_is_ca_cert   (ECert *cert);
+gboolean             e_cert_get_raw_der       (ECert *cert, char **data, guint32 *len);
+const char*          e_cert_get_nickname      (ECert *cert);
+const char*          e_cert_get_email         (ECert *cert);
+const char*          e_cert_get_org           (ECert *cert);
+const char*          e_cert_get_cn            (ECert *cert);
+const char*          e_cert_get_subject_name  (ECert *cert);
+const char*          e_cert_get_issuer_name   (ECert *cert);
+
+gboolean             e_cert_mark_for_deletion (ECert *cert);
+
+ECertType            e_cert_get_cert_type (ECert *cert);
+
 #endif /* _E_CERT_H_ */

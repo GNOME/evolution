@@ -1,3 +1,60 @@
+2003-11-11  Chris Toshok  <toshok@ximian.com>
+
+	* tests/import-cert.c (main): don't init NSS here.  it's done in
+	e_cert_db_peek.
+
+	* lib/Makefile.am (libessmime_la_SOURCES): add e-cert-db.[ch]
+
+	* gui/smime-ui.glade: set the initial sensitivity of the buttons
+	here, and add the beginnings of the CA import dialog (where you
+	assign trust levels to it.)
+
+	* gui/certificate-manager.c (handle_selection_changed):
+	sensitize/desensitize all the various buttons correctly when the
+	GtkTreeView's selection changes.
+	(yourcerts_selection_changed): new, selection change handler for
+	the Your Certs tab.
+	(initialize_yourcerts_ui): hook up the tree selection, and add a
+	model column for the ECert.
+	(contactcerts_selection_changed): new, selection change handler
+	for the Contact Certs tab.
+	(initialize_contactcerts_ui): hook up the tree selection, and add
+	a model column for the ECert.
+	(import_ca): new function.
+	(delete_ca): new function.
+	(authoritycerts_selection_changed): new, selection change handler
+	for the Authority Certs tab.
+	(create_authoritycerts_treemodel): new function for creating the
+	authority cert tree model.  the other tabs will eventually use a
+	separate function for this too, as unload_certs gets fleshed out.
+	(initialize_authoritycerts_ui): hook up the tree selection, and
+	add import/delete buttons.
+	(destroy_key): dtor for the keys in our hashes.
+	(destroy_value): dtor for the values in our hashes.
+	(unload_certs): new function.  basically destroy/recreate the
+	model and hash for the particular cert type/tab.
+	(load_certs): use e_cert_get_cert_type.
+	(populate_ui): use unload_certs as well as load_certs.
+	(certificate_manager_config_control_new): call e_cert_db_peek
+	,which will initialize all of NSS.  hook up all the widgets from
+	libglade.
+
+	* lib/e-cert.h: add prototypes for all the new methods, and add
+	the ECertType enum.
+
+	* lib/e-cert.c (e_cert_dispose): handle deletion from the DB here.
+	(e_cert_new_from_der): new function.
+	(e_cert_get_internal_cert): new function.
+	(e_cert_get_raw_der): new function.
+	(e_cert_get_issuer_name): new
+	(e_cert_get_subject_name): new
+	(e_cert_mark_for_deletion): new
+	(e_cert_get_cert_type): new.
+	(e_cert_is_ca_cert): nuke.
+
+	* lib/e-cert-db.[ch]: new, partly implemented, derived from
+	mozilla's nsNSSCertificateDB code.
+
 2003-10-30  Chris Toshok  <toshok@ximian.com>
 
 	* gui/certificate-manager.h: add boilerplate.

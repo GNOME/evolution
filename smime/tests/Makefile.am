@@ -7,6 +7,7 @@ INCLUDES=						\
 
 TEST_LIBS= \
 	$(top_builddir)/smime/lib/libessmime.la	\
+	-L/home/toshok/src/mozilla/mozilla/dist/lib \
 	$(CERT_UI_LIBS)
 
 

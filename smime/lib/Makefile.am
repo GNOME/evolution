@@ -15,10 +15,12 @@ INCLUDES =						\
 	-DLIBGNOME_DISABLE_DEPRECATED			\
 	-DLIBGNOMEUI_DISABLE_DEPRECATED			\
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)			\
-	$(CAMEL_CFLAGS)
+	$(CERT_UI_CFLAGS)
 
 noinst_LTLIBRARIES = libessmime.la
 
 libessmime_la_SOURCES = 	\
 	e-cert.c		\
-	e-cert.h
+	e-cert.h		\
+	e-cert-db.c		\
+	e-cert-db.h
