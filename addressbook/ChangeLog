@@ -1,3 +1,8 @@
+2000-07-14  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/e-ldap-storage.c (ldap_server_foreach): duh.
+	don't save the port in the host slot either.
+
 2000-07-13  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor-confirm-delete.glade,

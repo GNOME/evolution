@@ -214,7 +214,7 @@ ldap_server_foreach(gpointer key, gpointer value, gpointer user_data)
 	xmlNewChild (server_root, NULL, (xmlChar *) "port",
 		     (xmlChar *) server->port);
 	xmlNewChild (server_root, NULL, (xmlChar *) "host",
-		     (xmlChar *) server->port);
+		     (xmlChar *) server->host);
 	xmlNewChild (server_root, NULL, (xmlChar *) "rootdn",
 		     (xmlChar *) server->rootdn);
 	xmlNewChild (server_root, NULL, (xmlChar *) "scope",
