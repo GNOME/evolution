@@ -1,3 +1,13 @@
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #7542, "Crash Afer Closing".]
+
+	* component-factory.c (owner_unset_cb): NULL the
+	global_shell_client as the first thing here.  Otherwise we might
+	get into a slight race that causes the shell to crash.  [Still, of
+	course the shell shouldn't crash, but I haven't been able to track
+	that down yet.]
+
 2001-09-04  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Fixes #7251
