@@ -1,7 +1,0 @@
-2000-01-19  Miguel de Icaza  <miguel@gnu.org>
-
-	* Started work on the mail display engine.
-
-	* html-stream.c, html-stream.h: New files, they are CamelStreams
-	used to write to the GtkHTML widget. 
-
