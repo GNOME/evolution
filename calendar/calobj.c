@@ -425,7 +425,7 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 {
 	time_t  now = time (NULL);
 	iCalObject *ical;
-	VObject *vo;
+	VObject *vo, *a;
 	VObjectIterator i;
 	char *the_str;
 
@@ -564,24 +564,57 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 		free (the_str);
 	}
 	
-	/* FIXME: dalarm */
+	/* dalarm */
 	if (has (o, VCDAlarmProp)){
-		
+		ical->dalarm.type = ALARM_DISPLAY;
+		if ((a = is_a_prop_of (o, VCRunTimeProp))){
+			ical->dalarm.enabled = 1;
+			ical->dalarm.time    = time_from_isodate (str_val (a));
+			free (the_str);
+		}
 	}
 	
-	/* FIXME: aalarm */
-	if (has (o, VCAAlarmProp))
-		;
+	/* aalarm */
+	if (has (o, VCAAlarmProp)){
+		ical->aalarm.type = ALARM_AUDIO;
+		if ((a = is_a_prop_of (o, VCRunTimeProp))){
+			ical->aalarm.enabled = 1;
+			ical->aalarm.time    = time_from_isodate (str_val (a));
+			free (the_str);
+		}
+	}
 
-	/* FIXME: palarm */
-	if (has (o, VCPAlarmProp))
-		;
+	/* palarm */
+	if (has (o, VCPAlarmProp)){
+		ical->palarm.type = ALARM_PROGRAM;
+		if ((a = is_a_prop_of (o, VCRunTimeProp))){
+			ical->palarm.enabled = 1;
+			ical->palarm.time    = time_from_isodate (str_val (a));
+			free (the_str);
 
-	/* FIXME: malarm */
-	if (has (o, VCMAlarmProp))
-		;
+			if ((a = is_a_prop_of (o, VCProcedureNameProp))){
+				ical->palarm.data = g_strdup (str_val (a));
+				free (the_str);
+			}
+		}
+	}
 
-	/* FIXME: rrule */
+	/* malarm */
+	if (has (o, VCMAlarmProp)){
+		ical->malarm.type = ALARM_MAIL;
+		if ((a = is_a_prop_of (o, VCRunTimeProp))){
+			ical->malarm.enabled = 1;
+			ical->malarm.time    = time_from_isodate (str_val (a));
+			free (the_str);
+			
+			if ((a = is_a_prop_of (o, VCProcedureNameProp))){
+				ical->malarm.data = g_strdup (str_val (a));
+				free (the_str);
+			}
+		}
+	}
+
+	/* rrule */
 	if (has (o, VCRRuleProp)){
 		if (!load_recurrence (ical, str_val (vo))) {
 			ical_object_destroy (ical);
@@ -897,7 +930,7 @@ ical_object_generate_events (iCalObject *ico, time_t start, time_t end, calendar
 		do {
 			struct tm tm;
 			time_t t;
-			int    p, week_day_start;
+			int    week_day_start;
 
 			tm = *localtime (&current);
 			tm.tm_mday = 1;
