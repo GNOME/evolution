@@ -1,3 +1,8 @@
+2001-01-10  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/local/camel-local-provider.c: Changed the descriptions
+	for mh, mbox, and maildir to be more "user-friendly".
+
 2001-01-10  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-types.h: New header to prevent

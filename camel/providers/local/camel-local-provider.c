@@ -33,7 +33,7 @@
 
 static CamelProvider mh_provider = {
 	"mh",
-	N_("UNIX MH-format mail directories (CamelLocal version)"),
+	N_("MH-format mail directories"),
 	N_("For storing local mail in MH-like mail directories"),
 	"mail",
 	CAMEL_PROVIDER_IS_STORAGE,
@@ -44,7 +44,7 @@ static CamelProvider mh_provider = {
 
 static CamelProvider mbox_provider = {
 	"mbox",
-	N_("UNIX mbox-format mail files (CamelLocal version)"),
+	N_("Standard Unix mailbox file"),
 	N_("For storing local mail in standard mbox format"),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
@@ -55,7 +55,7 @@ static CamelProvider mbox_provider = {
 
 static CamelProvider maildir_provider = {
 	"maildir",
-	N_("UNIX qmail maildir-format mail files (CamelLocal version)"),
+	N_("Qmail maildir-format mail files"),
 	N_("For storing local mail in qmail maildir directories"),
 	"mail",
 	CAMEL_PROVIDER_IS_SOURCE | CAMEL_PROVIDER_IS_STORAGE,
