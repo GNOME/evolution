@@ -1,3 +1,17 @@
+2004-01-15  Not Zed  <NotZed@Ximian.com>
+
+	** See bugs #51609 and #43515.
+
+	* em-format-html-display.c (efhd_format_prefix): output flag for
+	followup details above the message.
+	(efhd_write_image): added to output icon data.
+
+	* em-format-html.c (efh_format_do): call format_prefix before
+	outputting the message in normal display mode.
+
+	* em-format.c (emf_format_prefix): method called to format data
+	before the first message output.  Default impl == noop.
+
 2004-01-14  Jeremy Katz  <katzj@redhat.com>
 
 	* evolution-mail.schemas.in.in: Add a description for 

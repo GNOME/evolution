@@ -2047,7 +2047,7 @@ emfv_setting_notify(GConfClient *gconf, guint cnxn_id, GConfEntry *entry, EMFold
 			em_format_default_headers(emf);
 		/* force a redraw */
 		if (emf->message)
-			em_format_format_clone(emf, emf->folder, emf->uid, emf->message, emf);
+			em_format_redraw(emf);
 		break; }
 	}
 }

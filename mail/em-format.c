@@ -59,6 +59,7 @@ static const char *emf_snoop_part(CamelMimePart *part);
 
 static const EMFormatHandler *emf_find_handler(EMFormat *emf, const char *mime_type);
 static void emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *emfsource);
+static void emf_format_prefix(EMFormat *emf, CamelStream *stream);
 static gboolean emf_busy(EMFormat *emf);
 
 enum {
@@ -116,6 +117,7 @@ emf_class_init(GObjectClass *klass)
 	klass->finalize = emf_finalise;
 	((EMFormatClass *)klass)->find_handler = emf_find_handler;
 	((EMFormatClass *)klass)->format_clone = emf_format_clone;
+	((EMFormatClass *)klass)->format_prefix = emf_format_prefix;
 	((EMFormatClass *)klass)->busy = emf_busy;
 
 	emf_signals[EMF_COMPLETE] =
@@ -563,6 +565,12 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 		g_string_append_printf(emf->part_id, ".%p", folder);
 	if (uid != NULL)
 		g_string_append_printf(emf->part_id, ".%s", uid);
+}
+
+static void
+emf_format_prefix(EMFormat *emf, CamelStream *stream)
+{
+	/* NOOP */
 }
 
 static gboolean

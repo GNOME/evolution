@@ -138,6 +138,10 @@ struct _EMFormatClass {
 
 	/* start formatting a message */
 	void (*format_clone)(EMFormat *, struct _CamelFolder *, const char *uid, struct _CamelMimeMessage *, EMFormat *);
+
+	/* called to insert prefix material, after format_clone but before format_message */
+	void (*format_prefix)(EMFormat *, struct _CamelStream *);
+
 	/* some internel error/inconsistency */
 	void (*format_error)(EMFormat *, struct _CamelStream *, const char *msg);
 
@@ -196,6 +200,7 @@ void em_format_pull_level(EMFormat *emf);
 #define em_format_format_clone(emf, folder, uid, msg, src) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), (src))
 /* formats a new message */
 #define em_format_format(emf, folder, uid, msg) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf), (folder), (uid), (msg), NULL)
+#define em_format_format_prefix(emf, stream) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_prefix((emf), (stream))
 #define em_format_redraw(emf) ((EMFormatClass *)G_OBJECT_GET_CLASS(emf))->format_clone((emf),				\
 										       ((EMFormat *)(emf))->folder,	\
 										       ((EMFormat *)(emf))->uid,	\

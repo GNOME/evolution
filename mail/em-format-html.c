@@ -1194,10 +1194,12 @@ static void efh_format_do(struct _mail_msg *mm)
 
 	/* <insert top-header stuff here> */
 
-	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE)
+	if (((EMFormat *)m->format)->mode == EM_FORMAT_SOURCE) {
 		em_format_format_source((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMimePart *)m->message);
-	else
+	} else {
+		em_format_format_prefix((EMFormat *)m->format, (CamelStream *)m->estream);
 		em_format_format_message((EMFormat *)m->format, (CamelStream *)m->estream, (CamelMedium *)m->message);
+	}
 
 	camel_stream_write_string((CamelStream *)m->estream, "</body>\n</html>\n");
 	camel_stream_close((CamelStream *)m->estream);

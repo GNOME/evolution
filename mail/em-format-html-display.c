@@ -69,6 +69,9 @@
 #include <camel/camel-mime-message.h>
 #include <camel/camel-gpg-context.h>
 
+/* should this be in e-util rather than gal? */
+#include <gal/util/e-util.h>
+
 #include <e-util/e-msgport.h>
 #include <e-util/e-gui-utils.h>
 #include <e-util/e-dialog-utils.h>
@@ -127,6 +130,7 @@ static void efhd_iframe_created(GtkHTML *html, GtkHTML *iframe, EMFormatHTMLDisp
 
 static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_type);
 static void efhd_format_clone(EMFormat *, CamelFolder *folder, const char *, CamelMimeMessage *msg, EMFormat *);
+static void efhd_format_prefix(EMFormat *emf, CamelStream *stream);
 static void efhd_format_error(EMFormat *emf, CamelStream *stream, const char *txt);
 static void efhd_format_message(EMFormat *, CamelStream *, CamelMedium *);
 static void efhd_format_source(EMFormat *, CamelStream *, CamelMimePart *);
@@ -264,6 +268,7 @@ efhd_class_init(GObjectClass *klass)
 {
 	((EMFormatClass *)klass)->find_handler = efhd_find_handler;
 	((EMFormatClass *)klass)->format_clone = efhd_format_clone;
+	((EMFormatClass *)klass)->format_prefix = efhd_format_prefix;
 	((EMFormatClass *)klass)->format_error = efhd_format_error;
 	((EMFormatClass *)klass)->format_message = efhd_format_message;
 	((EMFormatClass *)klass)->format_source = efhd_format_source;
@@ -1009,6 +1014,71 @@ static const EMFormatHandler *efhd_find_handler(EMFormat *emf, const char *mime_
 static void efhd_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeMessage *msg, EMFormat *src)
 {
 	((EMFormatClass *)efhd_parent)->format_clone(emf, folder, uid, msg, src);
+}
+
+static void
+efhd_write_image(EMFormat *emf, CamelStream *stream, EMFormatPURI *puri)
+{
+	CamelDataWrapper *dw = camel_medium_get_content_object((CamelMedium *)puri->part);
+
+	/* TODO: identical to efh_write_image */
+	d(printf("writing image '%s'\n", puri->uri?puri->uri:puri->cid));
+	camel_data_wrapper_decode_to_stream(dw, stream);
+	camel_stream_close(stream);
+}
+
+static void efhd_format_prefix(EMFormat *emf, CamelStream *stream)
+{
+	const char *flag, *comp, *due;
+	CamelMimePart *iconpart;
+	time_t date;
+	char due_date[128];
+	struct tm due_tm;
+
+	if (emf->folder == NULL || emf->uid == NULL
+	    || (flag = camel_folder_get_message_user_tag(emf->folder, emf->uid, "follow-up")) == NULL
+	    || flag[0] == 0)
+		return;
+
+	/* header displayed for message-flags in mail display */
+	camel_stream_printf(stream, "<table border=1 width=\"100%%\" cellspacing=2 cellpadding=2><tr>");
+
+	comp = camel_folder_get_message_user_tag(emf->folder, emf->uid, "completed-on");
+	iconpart = em_format_html_file_part((EMFormatHTML *)emf, "image/png", EVOLUTION_ICONSDIR,
+					    comp&&comp[0]?"flag-for-followup-done-16.png":"flag-for-followup-16.png");
+	if (iconpart) {
+		char *classid;
+
+		classid = g_strdup_printf("icon:///em-format-html-display/%s/%s", emf->part_id->str, comp&&comp[0]?"comp":"uncomp");
+		camel_stream_printf(stream, "<td align=\"left\"><img src=\"%s\"></td>", classid);
+		(void)em_format_add_puri(emf, sizeof(EMFormatPURI), classid, iconpart, efhd_write_image);
+		g_free(classid);
+		camel_object_unref(iconpart);
+	}
+
+	camel_stream_printf(stream, "<td align=\"left\" width=\"100%%\">");
+
+	if (comp && comp[0]) {
+		date = camel_header_decode_date(comp, NULL);
+		localtime_r(&date, &due_tm);
+		e_utf8_strftime_fix_am_pm(due_date, sizeof (due_date), _("Completed on %B %d, %Y, %l:%M %p"), &due_tm);
+		camel_stream_printf(stream, "%s, %s", flag, due_date);
+	} else if ((due = camel_folder_get_message_user_tag(emf->folder, emf->uid, "due-by")) != NULL && due[0]) {
+		time_t now;
+
+		date = camel_header_decode_date(due, NULL);
+		now = time(NULL);
+		if (now > date)
+			camel_stream_printf(stream, "<b>%s</b>&nbsp;", _("Overdue:"));
+		
+		localtime_r(&date, &due_tm);
+		e_utf8_strftime_fix_am_pm(due_date, sizeof (due_date), _("by %B %d, %Y, %l:%M %p"), &due_tm);
+		camel_stream_printf(stream, "%s %s", flag, due_date);
+	} else {
+		camel_stream_printf(stream, "%s", flag);
+	}
+
+	camel_stream_printf(stream, "</td></tr></table>");
 }
 
 /* TODO: if these aren't going to do anything should remove */
