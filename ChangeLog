@@ -1,3 +1,8 @@
+2000-03-25  Chris Toshok  <toshok@laptoph.xtoph.org>
+
+	* addressbook/backend/ebook/test-client.c: create a card and then
+	look it up.
+
 2000-03-26  Chris Toshok  <toshok@laptoph.xtoph.org>
 
 	* addressbook/backend/pas/pas-backend-file.c

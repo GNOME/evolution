@@ -5,6 +5,30 @@
 
 #include <e-book.h>
 
+#define TEST_VCARD                   \
+"BEGIN:VCARD
+"                      \
+"FN:Nat
+"                           \
+"N:Friedman;Nat;D;Mr.
+"             \
+"BDAY:1977-08-06
+"                  \
+"TEL;WORK:617 679 1984
+"            \
+"TEL;CELL:123 456 7890
+"            \
+"EMAIL;INTERNET:nat@nat.org
+"       \
+"EMAIL;INTERNET:nat@helixcode.com
+" \
+"ADR;WORK;POSTAL:P.O. Box 101;;;Any Town;CA;91921-1234;
+" \
+"END:VCARD
+"                        \
+"
+"
+
 CORBA_Environment ev;
 CORBA_ORB orb;
 
@@ -24,7 +48,7 @@ init_bonobo (int argc, char **argv)
 }
 
 static void
-book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+add_card_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	char *vcard;
 	GTimer *timer;
@@ -38,6 +62,12 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 
 	printf ("%g\n", g_timer_elapsed (timer, NULL));
 	printf ("[%s]\n", vcard);
+}
+
+static void
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
+{
+  e_book_add_vcard(book, TEST_VCARD, add_card_cb, NULL);
 }
 
 static guint
