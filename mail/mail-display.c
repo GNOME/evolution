@@ -195,9 +195,10 @@ static gboolean
 idle_redisplay (gpointer data)
 {
 	MailDisplay *md = data;
-
+	
 	md->idle_id = 0;
 	mail_display_redisplay (md, FALSE);
+	
 	return FALSE;
 }
 
@@ -1762,6 +1763,9 @@ mail_display_class_init (GtkObjectClass *object_class)
 static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
 {
+	if (!mail_display->html->pointer_url)
+		return;
+	
 	on_link_clicked (mail_display->html, mail_display->html->pointer_url,
 			 mail_display);
 }
