@@ -1,3 +1,17 @@
+2001-11-07  JP Rosevear  <jpr@ximian.com>
+
+ 	* gui/e-meeting-time-sel.c
+ 	(e_meeting_time_selector_on_start_time_changed): emit changed
+ 	signal
+ 	(e_meeting_time_selector_on_end_time_changed): emit changed
+ 	signal, if end time is now before start time and all day event,
+ 	make sure a whole day is still selected
+ 	(e_meeting_time_selector_drag_meeting_time): calculate the first
+ 	and last_time's in whole days for all day events
+ 	(e_meeting_time_selector_timeout_handler): calculate the drag time
+ 	to be whole days for all day events and scroll the canvas even if
+ 	we don't update the time so the user can see where they're headed
+
 2001-11-06  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/event-editor.c (event_editor_edit_comp): make sure

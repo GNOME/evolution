@@ -2177,6 +2177,8 @@ e_meeting_time_selector_on_start_time_changed (GtkWidget *widget,
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
+
+	gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
 }
 
 
@@ -2212,10 +2214,12 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	mts->meeting_end_time = mtstime;
 
 	/* If the start time is after the end time, set it to the same time. */
-	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) < 0) {
+	if (e_meeting_time_selector_compare_times (&mtstime, &mts->meeting_start_time) <= 0) {
 		/* We set it first, before updating the widget, so the signal
 		   handler will just return. */
 		mts->meeting_start_time = mtstime;
+		if (mts->all_day)
+			g_date_subtract_days (&mts->meeting_start_time.date, 1);
 		e_meeting_time_selector_update_start_date_edit (mts);
 	}
 
@@ -2223,6 +2227,8 @@ e_meeting_time_selector_on_end_time_changed (GtkWidget *widget,
 	e_meeting_time_selector_ensure_meeting_time_shown (mts);
 	gtk_widget_queue_draw (mts->display_top);
 	gtk_widget_queue_draw (mts->display_main);
+
+	gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
 }
 
 
@@ -2322,15 +2328,24 @@ e_meeting_time_selector_drag_meeting_time (EMeetingTimeSelector *mts,
 	e_meeting_time_selector_calculate_time (mts, scroll_x, &first_time);
 	e_meeting_time_selector_calculate_time (mts, scroll_x + canvas_width - 1,
 						&last_time);
-	if (mts->zoomed_out) {
-		if (first_time.minute > 30)
-			first_time.hour++;
-		first_time.minute = 0;
-		last_time.minute = 0;
+	if (!mts->all_day) {
+		if (mts->zoomed_out) {
+			if (first_time.minute > 30)
+				first_time.hour++;
+			first_time.minute = 0;
+			last_time.minute = 0;
+		} else {
+			first_time.minute += 15;
+			first_time.minute -= first_time.minute % 30;
+			last_time.minute -= last_time.minute % 30;
+		}
 	} else {
-		first_time.minute += 15;
-		first_time.minute -= first_time.minute % 30;
-		last_time.minute -= last_time.minute % 30;
+		if (first_time.hour > 0 || first_time.minute > 0)
+			g_date_add_days (&first_time.date, 1);
+		first_time.hour = 0;
+		first_time.minute = 0;
+		last_time.hour = 0;
+		last_time.minute = 0;
 	}
 	e_meeting_time_selector_fix_time_overflows (&first_time);
 	e_meeting_time_selector_fix_time_overflows (&last_time);
@@ -2476,21 +2491,33 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 		e_meeting_time_selector_calculate_time (mts,
 						      scroll_x + canvas_width - 1,
 						      &drag_time);
-		if (mts->zoomed_out) {
-			drag_time.minute = 0;
+		if (!mts->all_day) {
+			if (mts->zoomed_out) {
+				drag_time.minute = 0;
+			} else {
+				drag_time.minute -= drag_time.minute % 30;
+			}
 		} else {
-			drag_time.minute -= drag_time.minute % 30;
+			drag_time.hour = 0;
+			drag_time.minute = 0;
 		}
 	} else {
 		e_meeting_time_selector_calculate_time (mts, scroll_x,
 							&drag_time);
-		if (mts->zoomed_out) {
-			if (drag_time.minute > 30)
-				drag_time.hour++;
-			drag_time.minute = 0;
+		if (!mts->all_day) {
+			if (mts->zoomed_out) {
+				if (drag_time.minute > 30)
+					drag_time.hour++;
+				drag_time.minute = 0;
+			} else {
+				drag_time.minute += 15;
+				drag_time.minute -= drag_time.minute % 30;
+			}
 		} else {
-			drag_time.minute += 15;
-			drag_time.minute -= drag_time.minute % 30;
+			if (drag_time.hour > 0 || drag_time.minute > 0)
+				g_date_add_days (&drag_time.date, 1);
+			drag_time.hour = 0;
+			drag_time.minute = 0;
 		}
 	}
 	e_meeting_time_selector_fix_time_overflows (&drag_time);
@@ -2504,7 +2531,7 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	/* If the time is unchanged, just return. */
 	if (e_meeting_time_selector_compare_times (time_to_set, &drag_time) == 0) {
 		GDK_THREADS_LEAVE ();
-		return TRUE;
+		goto scroll;
 	}
 
 	*time_to_set = drag_time;
@@ -2540,6 +2567,7 @@ e_meeting_time_selector_timeout_handler (gpointer data)
 	    || mts->dragging_position == E_MEETING_TIME_SELECTOR_POS_START)
 		gtk_signal_emit (GTK_OBJECT (mts), mts_signals [CHANGED]);
 
+ scroll:
 	/* Redraw the canvases. We freeze and thaw the layouts so that they
 	   get redrawn completely. Otherwise the pixels get scrolled left or
 	   right which is not good for us (since our vertical bars have been
