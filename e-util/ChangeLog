@@ -1,3 +1,8 @@
+2004-04-02  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-signature.c (e_signature_to_xml): Always set a format prop so
+	that 1.4 and older 1.5 versions won't strcmp() on a NULL value.
+
 2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-account.c: Reference signatures by their UID rather than by an

@@ -347,6 +347,9 @@ e_signature_to_xml (ESignature *signature)
 			if (signature->script)
 				xmlSetProp (node, "script", "true");
 		}
+	} else {
+		/* this is to make Evolution-1.4 and older 1.5 versions happy */
+		xmlSetProp (root, "format", "text/html");
 	}
 	
 	xmlDocDumpMemory (doc, (xmlChar **) &xmlbuf, &n);
