@@ -1,3 +1,11 @@
+2004-01-28  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (setup_send_data): ref folder from
+	mail_component_get_folder.
+
+	* mail-ops.c (fetch_mail_fetch): ref the folder we get from
+	mail_component_get_folder since it doesn't ref it.
+
 2004-01-27  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (cp): Removed unneeded debug printfs.

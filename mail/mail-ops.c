@@ -255,7 +255,8 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	
 	if ((fm->destination = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX)) == NULL)
 		goto fail;
-	
+	camel_object_ref(fm->destination);
+
 	/* FIXME: this should support keep_on_server too, which would then perform a spool
 	   access thingy, right?  problem is matching raw messages to uid's etc. */
 	if (!strncmp (m->source_uri, "mbox:", 5)) {

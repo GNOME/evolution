@@ -132,6 +132,7 @@ static struct _send_data *setup_send_data(void)
 		data->lock = g_mutex_new();
 		data->folders = g_hash_table_new(g_str_hash, g_str_equal);
 		data->inbox = mail_component_get_folder(NULL, MAIL_COMPONENT_FOLDER_LOCAL_INBOX);
+		camel_object_ref(data->inbox);
 		data->active = g_hash_table_new(g_str_hash, g_str_equal);
 	}
 	return send_data;
