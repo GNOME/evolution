@@ -454,6 +454,7 @@ static struct _RDFInfo rdfs[] = {
 	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register"},
 	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek"},
 	{"http://www.webreference.com/webreference.rdf", "Web Reference"},
+	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New"},
 	{"http://www.zope.org/SiteIndex/news.rss", "Zope"},
 	{NULL, NULL}
 };

@@ -1,3 +1,7 @@
+2001-09-20  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences: Add Red Carpet RDF
+
 2001-09-19  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-calendar.c (generate_html): If the appointment has an alarm
