@@ -1,3 +1,13 @@
+2004-12-21  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_needs_auth): if we're turned on, then
+	record the current authtype setting on the widgets, if we're
+	turned off, clear the authmech setting.
+	(emae_setup_service): setup the needs auth after the authtype, and
+	get setting from url->authmech.
+	(emae_service_provider_changed): only clear the url->authmech if
+	we don't have the current one in our list.
+
 2004-12-20  Takeshi AIHANA <aihana@gnome.gr.jp>
 
 	* default/Makefile.am: Added 'ja' and 'nl' to install.
