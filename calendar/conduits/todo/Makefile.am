@@ -2,8 +2,7 @@ INCLUDES = 					\
 	-I$(top_srcdir)				\
 	-I$(top_srcdir)/calendar		\
 	-I$(top_builddir)/calendar/cal-client	\
-	-I$(top_srcdir)/libical/src/libical	\
-	-I$(top_builddir)/libical/src/libical	\
+	-I$(top_srcdir)/libical/src		\
 	-I$(top_srcdir)/e-util			\
 	-I$(top_builddir)/e-util		\
 	$(EVOLUTION_CALENDAR_CONDUIT_CFLAGS)

@@ -2,6 +2,8 @@
 
 	* conduits/calendar/Makefile.am: Fixed for libical changes.
 
+	* conduits/todo/Makefile.am: Same.
+
 2003-10-10  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/Makefile.am (etspec_DATA): Add e-cal-list-view.etspec.
