@@ -1,3 +1,7 @@
+2001-07-11  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* importers/intelligent.c: Mark a string for translation.
+	
 2001-07-11  Jason Leach  <jleach@ximian.com>
 
 	* e-shell-view.c (e_shell_view_save_settings): Make sure to create
