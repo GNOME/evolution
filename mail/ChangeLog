@@ -1,3 +1,9 @@
+2005-01-25  Mengjie Yu  <meng-jie.yu@sun.com>
+
+	* em-mailer-prefs.c: (restore_labels_clicked),
+	(em_mailer_prefs_construct):
+	add a11y names for color pickers.
+
 2005-01-24  Hans Petter Jansson  <hpj@novell.com>
 
 	* Makefile.am (libevolution_mail_la_LIBADD): Pull in the contact
