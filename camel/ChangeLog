@@ -1,3 +1,9 @@
+2003-05-02  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-part-utils.c
+	(simple_data_wrapper_construct_from_parser): Don't call
+	g_utf8_validate on an empty message. Fixes a warning.
+
 2003-05-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Workaround for POS mailers like the one in bug #42045.

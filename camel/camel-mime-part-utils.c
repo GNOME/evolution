@@ -393,7 +393,7 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 			/* we're not even going to bother trying to convert, so set the
 			   rawtext bit to TRUE and let the mailer deal with it. */
 			dw->rawtext = TRUE;
-		} else if (!strcasecmp (charset, "utf-8")) {
+		} else if (!strcasecmp (charset, "utf-8") && buffer->len) {
 			/* check that it is valid utf8 */
 			dw->rawtext = !g_utf8_validate (buffer->data, buffer->len, NULL);
 		}
