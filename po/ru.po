@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-06-25 06:19+0400\n"
-"PO-Revision-Date: 2002-06-25 00:02GMT\n"
-"Last-Translator: Leon Kanter <leon@blackcatlinux.com>\n"
+"PO-Revision-Date: 2002-06-25 12:27+0300\n"
+"Last-Translator: Leon Kanter <leon@asplinux.ru>\n"
 "Language-Team:  <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -840,8 +840,7 @@ msgstr ""
 "на сервере"
 
 #: addressbook/gui/component/addressbook-config.glade.h:14
-msgid ""
-"Evolution will use this email address to authenticate you with the server"
+msgid "Evolution will use this email address to authenticate you with the server"
 msgstr "Будет использоваться этот эл.адрес для идентификации вас на сервере"
 
 #: addressbook/gui/component/addressbook-config.glade.h:15
@@ -2848,7 +2847,6 @@ msgid "Save in addressbook"
 msgstr "Сохранить в адресной книге"
 
 #: addressbook/gui/widgets/e-minicard-view.c:156
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -2858,12 +2856,11 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Нет элементов для отображения в этом окне\n"
+"Нет элементов для отображения в этом окне.\n"
 "\n"
 "Дважды щёлкните здесь, чтобы создать новый контакт."
 
 #: addressbook/gui/widgets/e-minicard-view.c:159
-#, fuzzy
 msgid ""
 "\n"
 "\n"
@@ -2871,9 +2868,7 @@ msgid ""
 msgstr ""
 "\n"
 "\n"
-"Нет элементов для отображения в этом окне\n"
-"\n"
-"Дважды щёлкните здесь, чтобы создать новый контакт."
+"Нет элементов для отображения в этом окне."
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
@@ -3960,7 +3955,6 @@ msgid "Asia/Macao"
 msgstr "Азия/Макао"
 
 #: calendar/zones.h:230
-#, fuzzy
 msgid "Asia/Macau"
 msgstr "Азия/Макао"
 
@@ -3969,9 +3963,8 @@ msgid "Asia/Magadan"
 msgstr "Азия/Магадан"
 
 #: calendar/zones.h:232
-#, fuzzy
 msgid "Asia/Makassar"
-msgstr "Азия/Магадан"
+msgstr "Азия/Макассар"
 
 #: calendar/zones.h:233
 msgid "Asia/Manila"
@@ -3994,9 +3987,8 @@ msgid "Asia/Omsk"
 msgstr "Азия/Омск"
 
 #: calendar/zones.h:238
-#, fuzzy
 msgid "Asia/Oral"
-msgstr "Азия/Кабул"
+msgstr "Азия/Орал"
 
 #: calendar/zones.h:239
 msgid "Asia/Phnom_Penh"
@@ -4015,9 +4007,8 @@ msgid "Asia/Qatar"
 msgstr "Азия/Катар"
 
 #: calendar/zones.h:243
-#, fuzzy
 msgid "Asia/Qyzylorda"
-msgstr "Азия/Газа"
+msgstr "Азия/Кызыл-Орда"
 
 #: calendar/zones.h:244
 msgid "Asia/Rangoon"
@@ -4805,8 +4796,7 @@ msgid "%d %B"
 msgstr "%d %B"
 
 #: calendar/gui/calendar-commands.c:820
-msgid ""
-"Could not create the calendar view.  Please check your ORBit and OAF setup."
+msgid "Could not create the calendar view.  Please check your ORBit and OAF setup."
 msgstr ""
 "Не удается создать окно календаря. Пожалуйста проверьте настройки ORBit и "
 "OAF."
@@ -5553,9 +5543,8 @@ msgstr "Сохранить как..."
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/dialogs/comp-editor.c:1316
 #: calendar/gui/dialogs/comp-editor.c:1340
-msgid ""
-"Changes made to this item may be discarded if an update arrives via email"
-msgstr ""
+msgid "Changes made to this item may be discarded if an update arrives via email"
+msgstr "Изменения этого элемента будут отвергнуты, если по эл. почте придет обновление."
 
 #: calendar/gui/dialogs/comp-editor.c:1367
 msgid "Unable to obtain current version!"
@@ -6494,8 +6483,7 @@ msgstr "Этот ответ не от текущего участника.  До
 
 #: calendar/gui/e-itip-control.c:1458
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr ""
-"Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
+msgstr "Статус участника не может быть обновлён из-за неверного текущего статуса!\n"
 
 #: calendar/gui/e-itip-control.c:1471
 msgid "Attendee status could not be updated!\n"
@@ -7096,10 +7084,8 @@ msgid "The URI of the tasks folder to display"
 msgstr "URI, который будет показан в папке задач "
 
 #: calendar/gui/tasks-control-factory.c:75
-msgid ""
-"Could not create the tasks view.  Please check your ORBit and OAF setup."
-msgstr ""
-"Не удается создать окно задач. Пожалуйста, проверьте настройки ORBit и OAF."
+msgid "Could not create the tasks view.  Please check your ORBit and OAF setup."
+msgstr "Не удается создать окно задач. Пожалуйста, проверьте настройки ORBit и OAF."
 
 #: calendar/gui/tasks-migrate.c:105
 msgid ""
@@ -7367,8 +7353,7 @@ msgstr "Неподдерживаемая операция: поиск выраж
 #: camel/camel-folder.c:1080
 #, c-format
 msgid "Unsupported operation: search by uids: for %s"
-msgstr ""
-"Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
+msgstr "Неподдерживаемая операция: поиск по идентификатору пользователя: для %s"
 
 #: camel/camel-folder.c:1262
 msgid "Moving messages"
@@ -7523,8 +7508,7 @@ msgstr "Не удается подписать это сообщение: не �
 #: camel/camel-pgp-context.c:588 camel/camel-pgp-context.c:768
 #, c-format
 msgid "Cannot sign this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Не удается подписать это сообщение: не удалось создать канал к GPG/PGP: %s"
+msgstr "Не удается подписать это сообщение: не удалось создать канал к GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:755
 msgid "Cannot sign this message: no plaintext to clearsign"
@@ -7537,14 +7521,12 @@ msgstr "Не удается проверить это сообщение: нет
 #: camel/camel-pgp-context.c:959
 #, c-format
 msgid "Cannot verify this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Не удается проверить это сообщение: не удалось создать канал к GPG/PGP: %s"
+msgstr "Не удается проверить это сообщение: не удалось создать канал к GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:970
 #, c-format
 msgid "Cannot verify this message: couldn't create temp file: %s"
-msgstr ""
-"Не удается проверить это сообщение: не удалось создать временный файл: %s"
+msgstr "Не удается проверить это сообщение: не удалось создать временный файл: %s"
 
 #: camel/camel-pgp-context.c:1143
 msgid "Cannot encrypt this message: no plaintext to encrypt"
@@ -7557,8 +7539,7 @@ msgstr "Не удается зашифровать это сообщение: н
 #: camel/camel-pgp-context.c:1160
 #, c-format
 msgid "Cannot encrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Не удается зашифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
+msgstr "Не удается зашифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
 
 #: camel/camel-pgp-context.c:1169
 msgid "Cannot encrypt this message: no recipients specified"
@@ -7577,8 +7558,7 @@ msgstr "Не удается расшифровать это сообщение: 
 #: camel/camel-pgp-context.c:1352
 #, c-format
 msgid "Cannot decrypt this message: couldn't create pipe to GPG/PGP: %s"
-msgstr ""
-"Не удается расшифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
+msgstr "Не удается расшифровать это сообщение: не удалось создать канал к GPG/PGP: %s"
 
 #: camel/camel-pgp-mime.c:310
 msgid "This is a digitally signed message part"
@@ -7591,8 +7571,7 @@ msgstr "Эта часть сообщения зашифрована"
 #: camel/camel-provider.c:130
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
-"Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
+msgstr "Не удается загрузить %s: Загрузка модулей не поддерживается в этой системе."
 
 #: camel/camel-provider.c:139
 #, c-format
@@ -8072,8 +8051,7 @@ msgstr "Пространство имен"
 
 #: camel/providers/imap/camel-imap-provider.c:57
 msgid "Apply filters to new messages in INBOX on this server"
-msgstr ""
-"Профильтровывать новые сообщения в папке \"Входящие\" (INBOX) на этом сервере"
+msgstr "Профильтровывать новые сообщения в папке \"Входящие\" (INBOX) на этом сервере"
 
 #: camel/providers/imap/camel-imap-provider.c:63
 msgid "IMAP"
@@ -8164,8 +8142,7 @@ msgstr "Стандартный спул Unix mbox"
 
 #: camel/providers/local/camel-local-provider.c:81
 msgid "For reading and storing local mail in standard mbox spool files."
-msgstr ""
-"Для чтения и хранения локальной почты в файлах стандартного спула mbox."
+msgstr "Для чтения и хранения локальной почты в файлах стандартного спула mbox."
 
 #: camel/providers/local/camel-local-store.c:138
 #: camel/providers/local/camel-local-store.c:227
@@ -8602,8 +8579,7 @@ msgstr "Новости USENET"
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
 msgid "This is a provider for reading from and posting toUSENET newsgroups."
-msgstr ""
-"Это провайдер для чтения и отправки сообщений в группы новостей USENET."
+msgstr "Это провайдер для чтения и отправки сообщений в группы новостей USENET."
 
 #: camel/providers/nntp/camel-nntp-store.c:230
 #, c-format
@@ -8707,8 +8683,7 @@ msgstr ""
 "на серверах, которые якобы поддерживают это."
 
 #: camel/providers/pop3/camel-pop3-provider.c:91
-msgid ""
-"This will connect to the POP server and use Kerberos 4 to authenticate to it."
+msgid "This will connect to the POP server and use Kerberos 4 to authenticate to it."
 msgstr ""
 "Подключение к серверу POP будет производиться с использованием "
 "аутентификации Kerberos 4."
@@ -8879,8 +8854,7 @@ msgstr "Запрошенное почтовое действие выполне�
 
 #: camel/providers/smtp/camel-smtp-transport.c:192
 msgid "User not local; will forward to <forward-path>"
-msgstr ""
-"Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
+msgstr "Не локальный пользователь; будет отправлено в соответствии с <forward-path>"
 
 #: camel/providers/smtp/camel-smtp-transport.c:194
 msgid "Requested mail action not taken: mailbox unavailable"
@@ -8900,8 +8874,7 @@ msgstr "Пользователь не локальный; установите <
 
 #: camel/providers/smtp/camel-smtp-transport.c:202
 msgid "Requested action not taken: insufficient system storage"
-msgstr ""
-"Запрошенное действие не выполнено: недостаточно места в системном хранилище"
+msgstr "Запрошенное действие не выполнено: недостаточно места в системном хранилище"
 
 #: camel/providers/smtp/camel-smtp-transport.c:204
 msgid "Requested mail action aborted: exceeded storage allocation"
@@ -9061,8 +9034,7 @@ msgstr "Ошибка при ответе на 'DATA': %s: почта не отп
 #: camel/providers/smtp/camel-smtp-transport.c:1048
 #, c-format
 msgid "DATA send timed out: message termination: %s: mail not sent"
-msgstr ""
-"Превышено время отправки DATA: сообщение прервано: %s: почта не отправлена"
+msgstr "Превышено время отправки DATA: сообщение прервано: %s: почта не отправлена"
 
 #: camel/providers/smtp/camel-smtp-transport.c:1067
 #, c-format
@@ -10574,8 +10546,7 @@ msgstr "Вы должны указать получателей, чтобы от
 
 #: mail/mail-callbacks.c:600
 msgid "You must configure an account before you can send this email."
-msgstr ""
-"Вы должны настроить учётную запись до того, как сможете отправлять почту."
+msgstr "Вы должны настроить учётную запись до того, как сможете отправлять почту."
 
 #: mail/mail-callbacks.c:838
 msgid "an unknown sender"
@@ -10806,8 +10777,7 @@ msgstr "Всегда шифровать для себя, когда посыла
 
 #: mail/mail-config.glade.h:10
 msgid "Always _sign outgoing messages when using this account"
-msgstr ""
-"Всегда подписывать исходящие сообщения, когда используется эта учётная запись"
+msgstr "Всегда подписывать исходящие сообщения, когда используется эта учётная запись"
 
 #: mail/mail-config.glade.h:11 mail/message-list.etspec.h:1
 msgid "Attachment"
@@ -10956,8 +10926,7 @@ msgstr "Pretty Good Privacy"
 
 #: mail/mail-config.glade.h:55
 msgid "Prompt when sending HTML messages to contacts that don't want them"
-msgstr ""
-"Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
+msgstr "Предупреждать при отправке сообщений в формате HTML тем, кто не желает этого"
 
 #: mail/mail-config.glade.h:56
 msgid "Prompt when sending messages with an _empty subject"
@@ -11328,8 +11297,7 @@ msgid "Bcc"
 msgstr "Скр.копия:"
 
 #: mail/mail-format.c:1818
-msgid ""
-"This message is digitally signed. Click the lock icon for more information."
+msgid "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Это сообщение подписано цифровой подписью. Для получения дополнительной "
 "информации нажмите на изображение замка."
@@ -11340,8 +11308,7 @@ msgstr "Evolution не может распознать этот тип подп�
 
 #: mail/mail-format.c:1849
 msgid "This message is digitally signed and has been found to be authentic."
-msgstr ""
-"Это сообщение подписано цифровой подписью и его аутентичность подтверждена."
+msgstr "Это сообщение подписано цифровой подписью и его аутентичность подтверждена."
 
 #: mail/mail-format.c:1857
 msgid "This message is digitally signed but can not be proven to be authentic."
@@ -11409,8 +11376,7 @@ msgstr "Изменение папки \"%s\" в формат \"%s\""
 #: mail/mail-local.c:1296
 #, c-format
 msgid "%s may not be reconfigured because it is not a local folder"
-msgstr ""
-"%s может не подлежать перенастройке, так как не является локальной папкой"
+msgstr "%s может не подлежать перенастройке, так как не является локальной папкой"
 
 #: mail/mail-local.c:1318
 msgid ""
@@ -23095,8 +23061,7 @@ msgstr ""
 
 #: shell/e-setup.c:129
 msgid "Please click \"OK\" to install the files, or \"Cancel\" to exit."
-msgstr ""
-"Пожалуйста, нажмите \"Ок\", чтобы установить файлы или \"Отмена\" для выхода."
+msgstr "Пожалуйста, нажмите \"Ок\", чтобы установить файлы или \"Отмена\" для выхода."
 
 #: shell/e-setup.c:169
 msgid "Could not update files correctly"
@@ -23565,8 +23530,7 @@ msgid "(None)"
 msgstr "(нет)"
 
 #: shell/e-shell-view.c:1765
-msgid ""
-"Ximian Evolution is currently online.  Click on this button to work offline."
+msgid "Ximian Evolution is currently online.  Click on this button to work offline."
 msgstr ""
 "Ximian Evolution сейчас в сетевом режиме работы. Нажмите на эту кнопку для "
 "перехода в режим работы вне сети."
@@ -23576,8 +23540,7 @@ msgid "Ximian Evolution is in the process of going offline."
 msgstr "Ximian Evolution в процессе перехода в режим работы вне сети."
 
 #: shell/e-shell-view.c:1778
-msgid ""
-"Ximian Evolution is currently offline.  Click on this button to work online."
+msgid "Ximian Evolution is currently offline.  Click on this button to work online."
 msgstr ""
 "Ximian Evolution сейчас в автономном режиме работы. Нажмите на эту кнопку "
 "для перехода в режим работы в сети."
@@ -23979,8 +23942,7 @@ msgstr ""
 
 #: shell/importer/import.glade.h:1
 msgid "Click \"Import\" to begin importing the file into Evolution. "
-msgstr ""
-"Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
+msgstr "Нажмите \"Импортировать\" для начала импортирования файлов в Evolution."
 
 #: shell/importer/import.glade.h:2
 msgid "Evolution Import Assistant"
@@ -24577,8 +24539,7 @@ msgid "Hide _Read Messages"
 msgstr "Скрыть прочитанные сообщения"
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr "Скрывать сообщения, помеченные как удалённые, вместо их перечёркивания"
 
 #: ui/evolution-mail-list.xml.h:9
@@ -25721,3 +25682,4 @@ msgstr "init_bonobo(): Не удается инициализировать Bono
 
 #~ msgid "Unable to find any of your identities in the attendees list!\n"
 #~ msgstr "Не удается идентифицировать вас в списке участников!\n"
+
