@@ -98,7 +98,7 @@ AC_DEFUN([GNOME_INIT_HOOK],[
 	if test -n "$3"; then
 	  n="$3"
 	  for i in $n; do
-	    AC_MSG_CHECKING(extra library $i)
+	    AC_MSG_CHECKING(extra library \"$i\")
 	    case $i in 
 	      applets)
 		AC_SUBST(GNOME_APPLETS_LIBS)

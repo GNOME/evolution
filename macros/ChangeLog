@@ -1,3 +1,7 @@
+1999-07-05  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome.m4: Make "extra library" message slightly easier to read.
+
 Sat Jun 26 01:47:53 1999  Tim Janik  <timj@gtk.org>
 
 	* compiler-flags.m4: give -Wunused to gcc instead of -Wno-unused.
