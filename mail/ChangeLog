@@ -1,3 +1,9 @@
+2005-02-22  Not Zed  <NotZed@Ximian.com>
+
+	* em-account-editor.c (emae_send_page): fix argument order to
+	memset.
+	(emae_security_page): fix the non-have_nss case.
+
 2005-02-22  Marco Pesenti Gritti  <marco@gnome.org>
 
 	* mail/em-popup.c: (emp_apps_open_in), (emp_standard_menu_factory):

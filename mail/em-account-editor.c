@@ -103,6 +103,7 @@ struct _receive_options_item {
 typedef struct _EMAccountEditorService {
 	EMAccountEditor *emae;	/* parent pointer, for callbacks */
 
+	/* NOTE: keep all widgets together, first frame last check_dialog */
 	struct _GtkWidget *frame;
 	struct _GtkWidget *container;
 
@@ -2016,14 +2017,9 @@ emae_send_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, struct
 
 	/* no transport options page at all for these types of providers */
 	if (gui->source.provider && CAMEL_PROVIDER_IS_STORE_AND_TRANSPORT(gui->source.provider)) {
-		memset(&gui->transport.frame, &gui->transport.check_dialog-&gui->transport.frame, 0);
+		memset(&gui->transport.frame, 0, ((char *)&gui->transport.check_dialog)-((char *)&gui->transport.frame));
 		return NULL;
 	}
-
-#if 0
-	if (old)
-		return old;
-#endif
 
 	xml = glade_xml_new(EVOLUTION_GLADEDIR "/mail-config.glade", item->label, NULL);
 
@@ -2138,8 +2134,8 @@ emae_security_page(EConfig *ec, EConfigItem *item, struct _GtkWidget *parent, st
 		/* Since we don't have NSS, hide the S/MIME config options */
 		GtkWidget *frame;
 		
-		frame = glade_xml_get_widget (xml, "smime_vbox");
-		gtk_widget_destroy (frame);
+		frame = glade_xml_get_widget(xml, "smime_vbox");
+		gtk_widget_destroy(frame);
 	}
 #endif /* HAVE_NSS */
 
