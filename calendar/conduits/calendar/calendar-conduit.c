@@ -701,6 +701,33 @@ compute_status (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *ui
 	}
 }
 
+static gboolean
+rrules_mostly_equal (struct icalrecurrencetype *a, struct icalrecurrencetype *b)
+{
+	struct icalrecurrencetype acopy, bcopy;
+	
+	acopy = *a;
+	bcopy = *b;
+	
+	acopy.until = bcopy.until = icaltime_null_time ();
+	acopy.count = bcopy.count = 0;
+	
+	if (!memcmp (&acopy, &bcopy, sizeof (struct icalrecurrencetype)))
+		return TRUE;
+	
+	return FALSE;
+}
+
+static gboolean
+find_last_cb (CalComponent *comp, time_t start, time_t end, gpointer data)
+{
+	time_t *last = data;
+	
+	*last = start;
+
+	return TRUE;
+}
+
 static GnomePilotRecord
 local_record_to_pilot_record (ECalLocalRecord *local,
 			      ECalConduitContext *ctxt)
@@ -879,14 +906,24 @@ local_record_from_comp (ECalLocalRecord *local, CalComponent *comp, ECalConduitC
 				local->appt->repeatFrequency = recur->interval;
 			}
 		
-			if (icaltime_is_null_time (recur->until)) {
-				local->appt->repeatForever = 1;
-			} else {
+			if (!icaltime_is_null_time (recur->until)) {
 				local->appt->repeatForever = 0;
-				icaltimezone_convert_time (&recur->until, 
-							   icaltimezone_get_utc_timezone (),
-							   default_tz);
-				local->appt->repeatEnd = icaltimetype_to_tm (&recur->until);
+				local->appt->repeatEnd = icaltimetype_to_tm_with_zone (&recur->until, 
+										       icaltimezone_get_utc_timezone (), 
+										       default_tz);
+			} else if (recur->count > 0) {
+				time_t last = -1;
+				struct icaltimetype itt;
+
+				/* The palm does not support count recurrences */
+				local->appt->repeatForever = 0;
+				cal_recur_generate_instances (comp, -1, -1, find_last_cb, &last, 
+							      cal_client_resolve_tzid_cb, ctxt->client, 
+							      default_tz);
+				itt = icaltime_from_timet_with_zone (last, TRUE, default_tz);
+				local->appt->repeatEnd = icaltimetype_to_tm (&itt);
+			} else {
+				local->appt->repeatForever = 1;
 			}
 		
 			cal_component_free_recur_list (list);
@@ -995,6 +1032,7 @@ static CalComponent *
 comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 			 GnomePilotRecord *remote,
 			 CalComponent *in_comp,
+			 CalClient *client,
 			 icaltimezone *timezone)
 {
 	CalComponent *comp;
@@ -1115,17 +1153,47 @@ comp_from_remote_record (GnomePilotConduitSyncAbs *conduit,
 	}
 
 	if (recur.freq != ICAL_NO_RECURRENCE) {
-		GSList *list = NULL;
+		GSList *list = NULL, *existing;
+		struct icalrecurrencetype *erecur;
 		
 		/* recurrence start of week */
 		recur.week_start = get_ical_day (appt.repeatWeekstart);
 
 		if (!appt.repeatForever) {
-			recur.until = tm_to_icaltimetype (&appt.repeatEnd, TRUE);
+			recur.until = tm_to_icaltimetype (&appt.repeatEnd, TRUE);	
 		}
 
 		list = g_slist_append (list, &recur);
 		cal_component_set_rrule_list (comp, list);
+
+		/* If the desktop uses count and rrules are
+		 * equivalent, use count still on the desktop */
+		if (!appt.repeatForever && cal_component_has_rrules (in_comp)) {
+			cal_component_get_rrule_list (in_comp, &existing);
+			erecur = existing->data;
+			
+			/* If the rules are otherwise the same and the existing uses count, 
+			   see if they end at the same point */
+			if (rrules_mostly_equal (&recur, erecur) && 
+			    icaltime_is_null_time (erecur->until) && erecur->count > 0) {
+				time_t last, elast;
+				
+				cal_recur_generate_instances (comp, -1, -1, find_last_cb, &last, 
+							      cal_client_resolve_tzid_cb, client,
+							      timezone);
+				cal_recur_generate_instances (in_comp, -1, -1, find_last_cb, &elast, 
+							      cal_client_resolve_tzid_cb, client, 
+							      timezone);
+
+				
+				if (last == elast) {
+					recur.until = icaltime_null_time ();
+					recur.count = erecur->count;
+					cal_component_set_rrule_list (comp, list);
+				}
+			}
+		}
+
 		g_slist_free (list);
 	} else {
 		cal_component_set_rrule_list (comp, NULL);		
@@ -1594,7 +1662,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 
 	LOG ("add_record: adding %s to desktop\n", print_remote (remote));
 
-	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->timezone);
+	comp = comp_from_remote_record (conduit, remote, ctxt->default_comp, ctxt->client, ctxt->timezone);
 
 	/* Give it a new UID otherwise it will be the uid of the default comp */
 	uid = cal_component_gen_uid ();
@@ -1624,7 +1692,7 @@ replace_record (GnomePilotConduitSyncAbs *conduit,
 	LOG ("replace_record: replace %s with %s\n",
 	     print_local (local), print_remote (remote));
 
-	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->timezone);
+	new_comp = comp_from_remote_record (conduit, remote, local->comp, ctxt->client, ctxt->timezone);
 	g_object_unref (local->comp);
 	local->comp = new_comp;
 	update_comp (conduit, local->comp, ctxt);

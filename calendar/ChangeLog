@@ -1,3 +1,12 @@
+2003-03-21  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (rrules_mostly_equal):
+	check if the rrules are equal other than until/count
+	(find_last_cb): update the data with the start timet
+	(local_record_from_comp): handle the case where the recurrence
+	rule ends after a certain number occurrences
+	(comp_from_remote_record): same
+
 2003-03-20  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c
