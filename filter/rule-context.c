@@ -381,7 +381,7 @@ void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *ti
 	GnomeDialog *gd;
 
 	w = filter_rule_get_widget(rule, f);
-	gd = (GnomeDialog *)gnome_dialog_new(title, "Ok", "Cancel", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(title, GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL, NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);

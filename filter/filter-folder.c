@@ -202,7 +202,9 @@ static void button_clicked(GtkButton *button, FilterFolder *ff)
 	GtkEntry *entry;
 	char *uri, *str;
 
-	gd = (GnomeDialog *)gnome_dialog_new("Enter folder URI", "Ok", "Cancel", 0);
+	gd = (GnomeDialog *)gnome_dialog_new(_("Enter folder URI"),
+					     GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
+					     NULL);
 	entry = (GtkEntry *)gtk_entry_new();
 	if (ff->uri) {
 		gtk_entry_set_text(entry, ff->uri);

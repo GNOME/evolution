@@ -531,10 +531,10 @@ static GtkWidget *get_widget(FilterRule *fr, struct _RuleContext *f)
 	gtk_box_pack_start((GtkBox *)inframe, (GtkWidget *)parts, FALSE, FALSE, 3);
 
 	hbox = (GtkHBox *)gtk_hbox_new(FALSE, 3);
-	w = gtk_button_new_with_label("Less");
+	w = gtk_button_new_with_label(_("Less"));
 	gtk_signal_connect((GtkObject *)w, "clicked", less_parts, data);
 	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)w, FALSE, FALSE, 3);
-	w = gtk_button_new_with_label("More");
+	w = gtk_button_new_with_label(_("More"));
 	gtk_signal_connect((GtkObject *)w, "clicked", more_parts, data);
 	gtk_box_pack_end((GtkBox *)hbox, (GtkWidget *)w, FALSE, FALSE, 3);
 	gtk_box_pack_start((GtkBox *)inframe, (GtkWidget *)hbox, FALSE, FALSE, 3);

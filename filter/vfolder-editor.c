@@ -149,7 +149,9 @@ static void rule_add(GtkWidget *widget, struct _editor_data *data)
 	filter_rule_add_part(rule, filter_part_clone(part));
 
 	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new("Add Rule", "Ok", "Cancel", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(_("Add Rule"),
+					     GNOME_STOCK_BUTTON_OK, GNOME_STOCK_BUTTON_CANCEL,
+					     NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);
@@ -181,7 +183,7 @@ static void rule_edit(GtkWidget *widget, struct _editor_data *data)
 	d(printf("edit rule\n"));
 	rule = data->current;
 	w = filter_rule_get_widget(rule, data->f);
-	gd = (GnomeDialog *)gnome_dialog_new("Edit VFolder Rule", "Ok", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(_("Edit VFolder Rule"), GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 	result = gnome_dialog_run_and_close(gd);

@@ -1,3 +1,31 @@
+2000-08-14  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* vfolder-editor.c (rule_add): Add translation marks and use stock
+	buttons.
+	(rule_edit): Likewise.
+
+	* score-editor.c (rule_add): Add translation marks and use stock
+	buttons.
+	(rule_edit): Likewise.
+
+	* rule-context.c (rule_context_add_rule_gui): Add translation
+	marks and use stock buttons.
+
+	* filter-part.c (main): Add translation marks and use
+	stock buttons.
+
+	* filter-folder.c (button_clicked): Add translation marks and use
+	stock buttons.
+
+	* filter-editor.c (rule_add): Add translation marks and use stock
+	buttons.
+	(rule_edit): Likewise.
+
+	* filter-rule.c (get_widget): Add translation marks.
+
+	* filter-filter.c (get_widget): Add translation marks.  Add
+	padding to make it look like the buttons in `filter-rule.c'.
+
 2000-08-17  Peter Williams  <peterw@helixcode.com>
 
 	Implement filtering on demand.

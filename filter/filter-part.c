@@ -417,7 +417,7 @@ int main(int argc, char **argv)
 
 	w = filter_part_get_widget(ff);
 
-	gd = (GnomeDialog *)gnome_dialog_new("Test", "Ok", NULL);
+	gd = (GnomeDialog *)gnome_dialog_new(_("Test"), GNOME_STOCK_BUTTON_OK, NULL);
 	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
 	gtk_widget_show((GtkWidget *)gd);
 
