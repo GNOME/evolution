@@ -103,18 +103,12 @@ filter(CamelMimeFilter *f, char *in, size_t len, size_t prespace, char **out, si
 			inptr++;
 			if (inptr < inend-4) {
 				if (strncmp(inptr, "rom ", 4) == 0) {
-					*o++ = '=';
-					*o++ = '4';
-					*o++ = '6';
+					strcpy(o, "=46rom ");
+					o+= 7;
 				} else
 					*o++ = 'F';
-				*o++ = *inptr++;
-				*o++ = *inptr++;
-				*o++ = *inptr++;
-				*o++ = *inptr++;
-			} else {
+			} else
 				break;
-			}
 		}
 
 		/* now scan for end of line */

@@ -1,3 +1,9 @@
+2004-07-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-mime-filter-canon.c (filter): only copy 5 chars after the
+	F if we actually have "From ", otherwise we might have F.{,4}\n
+	instead and break eol canonicalisation.  For #53355.
+
 2004-07-16  Not Zed  <NotZed@Ximian.com>
 
 	* camel-gpg-context.c: Added some debug stuff.
