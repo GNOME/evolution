@@ -1,3 +1,8 @@
+2000-07-08  Dan Winship  <danw@helixcode.com>
+
+	* e-msg-composer.c (create_menubar): Create an empty "Edit" menu
+	for the editor control to insert itself into.
+
 2000-07-08  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* .cvsignore: Ignore dynamically created source files

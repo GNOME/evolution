@@ -714,6 +714,10 @@ static GnomeUIInfo file_tree[] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo edit_tree[] = {
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo view_tree[] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("View _attachments"), N_("View/hide attachments"),
 				menu_view_attachments_activate_cb, GNOME_STOCK_MENU_ATTACH),
@@ -722,6 +726,7 @@ static GnomeUIInfo view_tree[] = {
 
 static GnomeUIInfo menubar_info[] = {
 	GNOMEUIINFO_MENU_FILE_TREE (file_tree),
+	GNOMEUIINFO_MENU_EDIT_TREE (edit_tree),
 	GNOMEUIINFO_MENU_VIEW_TREE (view_tree),
 	GNOMEUIINFO_END
 };
