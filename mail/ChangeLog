@@ -1,5 +1,11 @@
 2003-10-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-component.c (drag_text_uri_list, folder_dragged_cb)
+	(drop_uid_list, drop_folder, import_message_rfc822)
+	(drop_message_rfc822, drop_text_uri_list, folder_receive_drop_cb):
+	New functions to handle drag & drop to/from the folder tree.
+	(impl_createControls): Setup drag & drop support.
+
 	* em-format.c (emf_multipart_mixed): Put an <hr> between parts of
 	a multipart.
 

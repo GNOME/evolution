@@ -26,6 +26,11 @@
 #endif
 
 #include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
 
 #include "e-storage.h"
 #include "e-storage-set.h"
@@ -41,12 +46,16 @@
 #include "mail-vfolder.h"
 #include "mail-mt.h"
 #include "mail-ops.h"
+#include "mail-tools.h"
 #include "mail-send-recv.h"
 #include "mail-session.h"
 
 #include "em-popup.h"
+#include "em-utils.h"
 
 #include <gtk/gtklabel.h>
+
+#include <e-util/e-mktemp.h>
 
 #include <gal/e-table/e-tree.h>
 #include <gal/e-table/e-tree-memory.h>
@@ -55,6 +64,41 @@
 
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
+
+
+#define MESSAGE_RFC822_TYPE   "message/rfc822"
+#define TEXT_URI_LIST_TYPE    "text/uri-list"
+#define UID_LIST_TYPE         "x-uid-list"
+#define FOLDER_TYPE           "x-folder"
+
+/* Drag & Drop types */
+enum DndDragType {
+	DND_DRAG_TYPE_FOLDER,          /* drag an evo folder */
+	DND_DRAG_TYPE_TEXT_URI_LIST,   /* drag to an mbox file */
+};
+
+enum DndDropType {
+	DND_DROP_TYPE_UID_LIST,        /* drop a list of message uids */
+	DND_DROP_TYPE_FOLDER,          /* drop an evo folder */
+	DND_DROP_TYPE_MESSAGE_RFC822,  /* drop a message/rfc822 stream */
+	DND_DROP_TYPE_TEXT_URI_LIST,   /* drop an mbox file */
+};
+
+static GtkTargetEntry drag_types[] = {
+	{ UID_LIST_TYPE,       0, DND_DRAG_TYPE_FOLDER         },
+	{ TEXT_URI_LIST_TYPE,  0, DND_DRAG_TYPE_TEXT_URI_LIST  },
+};
+
+static const int num_drag_types = sizeof (drag_types) / sizeof (drag_types[0]);
+
+static GtkTargetEntry drop_types[] = {
+	{ UID_LIST_TYPE,       0, DND_DROP_TYPE_UID_LIST       },
+	{ FOLDER_TYPE,         0, DND_DROP_TYPE_FOLDER         },
+	{ MESSAGE_RFC822_TYPE, 0, DND_DROP_TYPE_MESSAGE_RFC822 },
+	{ TEXT_URI_LIST_TYPE,  0, DND_DROP_TYPE_TEXT_URI_LIST  },
+};
+
+static const int num_drop_types = sizeof (drop_types) / sizeof (drop_types[0]);
 
 
 #define PARENT_TYPE bonobo_object_get_type ()
@@ -383,6 +427,444 @@ browser_page_switched_callback (EStorageBrowser *browser,
 	}
 }
 
+static CamelFolder *
+foo_get_folder (EStorageSetView *view, const char *path, CamelException *ex)
+{
+	/* <NotZed> either do
+          mail_tool_uri_to_folder(ess_get_folder(path).physicaluri),
+          or split the path into 'path' and 'storage name' and do get
+          ess_get_storage() -> store -> open_folder
+	*/
+	CamelFolder *folder;
+	EStorageSet *set;
+	EFolder *efolder;
+	const char *uri;
+	
+	set = e_storage_set_view_get_storage_set (view);
+	efolder = e_storage_set_get_folder (set, path);
+	uri = e_folder_get_physical_uri (efolder);
+	
+	folder = mail_tool_uri_to_folder (uri, 0, ex);
+	
+	return folder;
+}
+
+static void
+drag_text_uri_list (EStorageSetView *view, const char *path, GtkSelectionData *selection, gpointer user_data)
+{
+	CamelFolder *src, *dest;
+	const char *tmpdir;
+	CamelStore *store;
+	CamelException ex;
+	GtkWidget *dialog;
+	GPtrArray *uids;
+	char *uri;
+	
+	camel_exception_init (&ex);
+	
+	if (!(src = foo_get_folder (view, path, &ex))) {
+		dialog = gtk_message_dialog_new ((GtkWindow *) view, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Could not open source folder: %s"),
+						 camel_exception_get_description (&ex));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
+		camel_exception_clear (&ex);
+		
+		return;
+	}
+	
+	if (!(tmpdir = e_mkdtemp ("drag-n-drop-XXXXXX"))) {
+		dialog = gtk_message_dialog_new ((GtkWindow *) view, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Could not create temporary directory: %s"),
+						 g_strerror (errno));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
+		camel_object_unref (src);
+		
+		return;
+	}
+	
+	uri = g_strdup_printf ("mbox:%s", tmpdir);
+	if (!(store = camel_session_get_store (session, uri, &ex))) {
+		dialog = gtk_message_dialog_new ((GtkWindow *) view, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Could not create temporary mbox store: %s"),
+						 camel_exception_get_description (&ex));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
+		camel_exception_clear (&ex);
+		camel_object_unref (src);
+		g_free (uri);
+		
+		return;
+	}
+	
+	if (!(dest = camel_store_get_folder (store, "mbox", CAMEL_STORE_FOLDER_CREATE, &ex))) {
+		dialog = gtk_message_dialog_new ((GtkWindow *) view, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Could not create temporary mbox folder: %s"),
+						 camel_exception_get_description (&ex));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
+		camel_exception_clear (&ex);
+		camel_object_unref (store);
+		camel_object_unref (src);
+		g_free (uri);
+		
+		return;
+	}
+	
+	camel_object_unref (store);
+	uids = camel_folder_get_uids (src);
+	
+	camel_folder_transfer_messages_to (src, uids, dest, NULL, FALSE, &ex);
+	if (camel_exception_is_set (&ex)) {
+		dialog = gtk_message_dialog_new ((GtkWindow *) view, GTK_DIALOG_DESTROY_WITH_PARENT,
+						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+						 _("Could not copy messages to temporary mbox folder: %s"),
+						 camel_exception_get_description (&ex));
+		
+		gtk_dialog_run ((GtkDialog *) dialog);
+		gtk_widget_destroy (dialog);
+		
+		camel_folder_free_uids (src, uids);
+		camel_exception_clear (&ex);
+		camel_object_unref (dest);
+		camel_object_unref (src);
+		g_free (uri);
+		
+		return;
+	}
+	
+	camel_folder_free_uids (src, uids);
+	camel_object_unref (dest);
+	camel_object_unref (src);
+	
+	memcpy (uri, "file", 4);
+	
+	gtk_selection_data_set (selection, selection->target, 8,
+				uri, strlen (uri));
+	
+	g_free (uri);
+}
+
+static void
+folder_dragged_cb (EStorageSetView *view, const char *path, GdkDragContext *context,
+		   GtkSelectionData *selection, guint info, guint time, gpointer user_data)
+{
+	printf ("dragging folder `%s'\n", path);
+	
+	switch (info) {
+	case DND_DRAG_TYPE_FOLDER:
+		/* dragging @path to a new location in the folder tree */
+		gtk_selection_data_set (selection, selection->target, 8, path, strlen (path) + 1);
+		break;
+	case DND_DRAG_TYPE_TEXT_URI_LIST:
+		/* dragging @path to some place external to evolution */
+		drag_text_uri_list (view, path, selection, user_data);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+static gboolean
+parse_uid_list (const char *in, int inlen, char **path, GPtrArray **uids)
+{
+	const char *inptr, *inend;
+	
+	inend = in + inlen;
+	
+	*path = g_strdup (in);
+	
+	*uids = g_ptr_array_new ();
+	
+	inptr = in + inlen + 1;
+	while (inptr < inend) {
+		g_ptr_array_add (*uids, g_strdup (inptr));
+		inptr += strlen (inptr) + 1;
+	}
+	
+	if ((*uids)->len == 0) {
+		g_ptr_array_free (*uids, TRUE);
+		g_free (*path);
+		
+		return FALSE;
+	}
+	
+	return TRUE;
+}
+
+static void
+drop_uid_list (EStorageSetView *view, const char *path, gboolean move, GtkSelectionData *selection, gpointer user_data)
+{
+	CamelFolder *src, *dest;
+	CamelException ex;
+	GPtrArray *uids;
+	char *src_path;
+	
+	if (!parse_uid_list (selection->data, selection->length, &src_path, &uids))
+		return;
+	
+	camel_exception_init (&ex);
+	
+	if (!(src = foo_get_folder (view, src_path, &ex))) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		em_utils_uids_free (uids);
+		g_free (src_path);
+		return;
+	}
+	
+	g_free (src_path);
+	
+	if (!(dest = foo_get_folder (view, path, &ex))) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		em_utils_uids_free (uids);
+		camel_object_unref (src);
+		return;
+	}
+	
+	camel_folder_transfer_messages_to (src, uids, dest, NULL, move, &ex);
+	if (camel_exception_is_set (&ex)) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		em_utils_uids_free (uids);
+		camel_object_unref (dest);
+		camel_object_unref (src);
+		return;
+	}
+	
+	em_utils_uids_free (uids);
+	camel_object_unref (dest);
+	camel_object_unref (src);
+}
+
+static void
+drop_folder (EStorageSetView *view, const char *path, gboolean move, GtkSelectionData *selection, gpointer user_data)
+{
+	CamelFolder *src, *dest;
+	CamelFolder *store;
+	CamelException ex;
+	
+	camel_exception_init (&ex);
+	
+	/* get the destination folder (where the user dropped). this
+	 * will become the parent folder of the folder that got
+	 * dragged */
+	if (!(dest = foo_get_folder (view, path, &ex))) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	/* get the folder being dragged */
+	if (!(src = foo_get_folder (view, selection->data, &ex))) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		camel_object_unref (dest);
+		return;
+	}
+	
+	if (src->parent_store == dest->parent_store && move) {
+		/* simple rename() action */
+		char *old_name, *new_name;
+		
+		old_name = g_strdup (src->full_name);
+		new_name = g_strdup_printf ("%s/%s", dest->full_name, src->name);
+		camel_object_unref (src);
+		
+		camel_store_rename_folder (dest->parent_store, old_name, new_name, &ex);
+		if (camel_exception_is_set (&ex)) {
+			/* FIXME: report error to user? */
+			camel_exception_clear (&ex);
+			camel_object_unref (dest);
+			g_free (old_name);
+			g_free (new_name);
+			return;
+		}
+		
+		camel_object_unref (dest);
+		g_free (old_name);
+		g_free (new_name);
+	} else {
+		/* copy the folder */
+		camel_object_unref (dest);
+		camel_object_unref (src);
+	}
+}
+
+static gboolean
+import_message_rfc822 (CamelFolder *dest, CamelStream *stream, gboolean scan_from, CamelException *ex)
+{
+	CamelMimeParser *mp;
+	
+	mp = camel_mime_parser_new ();
+	camel_mime_parser_scan_from (mp, scan_from);
+	camel_mime_parser_init_with_stream (mp, stream);
+	
+	while (camel_mime_parser_step (mp, 0, 0) == CAMEL_MIME_PARSER_STATE_FROM) {
+		CamelMessageInfo *info;
+		CamelMimeMessage *msg;
+		
+		msg = camel_mime_message_new ();
+		if (camel_mime_part_construct_from_parser (CAMEL_MIME_PART (msg), mp) == -1) {
+			camel_object_unref (msg);
+			camel_object_unref (mp);
+			return FALSE;
+		}
+		
+		/* append the message to the folder... */
+		info = g_new0 (CamelMessageInfo, 1);
+		camel_folder_append_message (dest, msg, info, NULL, ex);
+		camel_object_unref (msg);
+		
+		if (camel_exception_is_set (ex)) {
+			camel_object_unref (mp);
+			return FALSE;
+		}
+		
+		/* skip over the FROM_END state */
+		camel_mime_parser_step (mp, 0, 0);
+	}
+	
+	camel_object_unref (mp);
+	
+	return TRUE;
+}
+
+static void
+drop_message_rfc822 (EStorageSetView *view, const char *path, GtkSelectionData *selection, gpointer user_data)
+{
+	CamelFolder *folder;
+	CamelStream *stream;
+	CamelException ex;
+	gboolean scan_from;
+	
+	camel_exception_init (&ex);
+	
+	if (!(folder = foo_get_folder (view, path, &ex))) {
+		/* FIXME: report error to user? */
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	scan_from = selection->length > 5 && !strncmp (selection->data, "From ", 5);
+	stream = camel_stream_mem_new_with_buffer (selection->data, selection->length);
+	
+	if (!import_message_rfc822 (folder, stream, scan_from, &ex)) {
+		/* FIXME: report to user? */
+	}
+	
+	camel_exception_clear (&ex);
+	
+	camel_object_unref (stream);
+	camel_object_unref (folder);
+}
+
+static void
+drop_text_uri_list (EStorageSetView *view, const char *path, GtkSelectionData *selection, gpointer user_data)
+{
+	CamelFolder *folder;
+	CamelStream *stream;
+	CamelException ex;
+	char **urls, *tmp;
+	int i;
+	
+	camel_exception_init (&ex);
+	
+	if (!(folder = foo_get_folder (view, path, &ex))) {
+		/* FIXME: report to user? */
+		camel_exception_clear (&ex);
+		return;
+	}
+	
+	tmp = g_strndup (selection->data, selection->length);
+	urls = g_strsplit (tmp, "\n", 0);
+	g_free (tmp);
+	
+	for (i = 0; urls[i] != NULL; i++) {
+		CamelURL *uri;
+		char *url;
+		int fd;
+		
+		/* get the path component */
+		url = g_strstrip (urls[i]);
+		uri = camel_url_new (url, NULL);
+		g_free (url);
+		
+		if (!uri || strcmp (uri->protocol, "file") != 0) {
+			camel_url_free (uri);
+			continue;
+		}
+		
+		url = uri->path;
+		uri->path = NULL;
+		camel_url_free (uri);
+		
+		if ((fd = open (url, O_RDONLY)) == -1) {
+			g_free (url);
+			continue;
+		}
+		
+		stream = camel_stream_fs_new_with_fd (fd);
+		if (!import_message_rfc822 (folder, stream, TRUE, &ex)) {
+			/* FIXME: report to user? */
+		}
+		
+		camel_exception_clear (&ex);
+		camel_object_unref (stream);
+		g_free (url);
+	}
+	
+	camel_object_unref (folder);
+	g_free (urls);
+}
+
+static void
+folder_receive_drop_cb (EStorageSetView *view, const char *path, GdkDragContext *context,
+			GtkSelectionData *selection, guint info, guint time, gpointer user_data)
+{
+	gboolean move = context->action == GDK_ACTION_MOVE;
+	
+	/* this means we are receiving no data */
+	if (!selection->data || selection->length == -1)
+		return;
+	
+	switch (info) {
+	case DND_DROP_TYPE_UID_LIST:
+		/* import a list of uids from another evo folder */
+		drop_uid_list (view, path, move, selection, user_data);
+		break;
+	case DND_DROP_TYPE_FOLDER:
+		/* rename a folder */
+		drop_folder (view, path, move, selection, user_data);
+		break;
+	case DND_DROP_TYPE_MESSAGE_RFC822:
+		/* import a message/rfc822 stream */
+		drop_message_rfc822 (view, path, selection, user_data);
+		break;
+	case DND_DROP_TYPE_TEXT_URI_LIST:
+		/* import an mbox, maildir, or mh folder? */
+		drop_text_uri_list (view, path, selection, user_data);
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+}
+
+
 /* GObject methods.  */
 
 static void
@@ -456,6 +938,13 @@ impl_createControls (PortableServer_Servant servant,
 
 	tree_widget = e_storage_browser_peek_tree_widget (browser);
 	view_widget = e_storage_browser_peek_view_widget (browser);
+	
+	e_storage_set_view_set_drag_types ((EStorageSetView *) tree_widget, drag_types, num_drag_types);
+	e_storage_set_view_set_drop_types ((EStorageSetView *) tree_widget, drop_types, num_drop_types);
+	e_storage_set_view_set_allow_dnd ((EStorageSetView *) tree_widget, TRUE);
+	
+	g_signal_connect (tree_widget, "folder_dragged", G_CALLBACK (folder_dragged_cb), browser);
+	g_signal_connect (tree_widget, "folder_receive_drop", G_CALLBACK (folder_receive_drop_cb), browser);
 	
 	gtk_widget_show (tree_widget);
 	gtk_widget_show (view_widget);
