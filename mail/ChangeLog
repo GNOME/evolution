@@ -1,3 +1,17 @@
+2001-06-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-callbacks.c (ask_confirm_for_only_bcc): Throw up the
+	confirmation dialog.
+	(composer_get_message): If the user only specified Bcc recipients,
+	prompt him/her to make sure we should continue and risk the server
+	adding an Apparently-To header.
+
+	* mail-config.c (config_read): Read in config option for prompting
+	when only Bcc recipients are specified.
+	(mail_config_write_on_exit): Save the option.
+	(mail_config_get_prompt_only_bcc): New.
+	(mail_config_set_prompt_only_bcc): New.
+
 2001-06-29  Dan Winship  <danw@ximian.com>
 
 	* mail-account-gui.c (build_auth_menu): Take two authtypes lists,

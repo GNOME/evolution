@@ -59,6 +59,7 @@ typedef struct {
 	gboolean citation_highlight;
 	guint32  citation_color;
 	gboolean prompt_empty_subject;
+	gboolean prompt_only_bcc;
 	gint seen_timeout;
 	
 	GSList *accounts;
@@ -505,6 +506,14 @@ config_read (void)
 		config->prompt_empty_subject = TRUE;
 	g_free (str);
 	
+	/* Only Bcc */
+	str = g_strdup_printf ("=%s/config/Mail=/Prompts/only_bcc", 
+			       evolution_dir);
+	config->prompt_only_bcc = gnome_config_get_bool_with_default (str, &def);
+	if (def)
+		config->prompt_only_bcc = TRUE;
+	g_free (str);
+	
 	/* PGP/GPG */
 	str = g_strdup_printf ("=%s/config/Mail=/PGP/path", 
 			       evolution_dir);
@@ -757,6 +766,12 @@ mail_config_write_on_exit (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
 			       evolution_dir);
 	gnome_config_set_bool (str, config->prompt_empty_subject);
+	g_free (str);
+	
+	/* Only Bcc */
+	str = g_strdup_printf ("=%s/config/Mail=/Prompts/only_bcc", 
+			       evolution_dir);
+	gnome_config_set_bool (str, config->prompt_only_bcc);
 	g_free (str);
 	
 	/* PGP/GPG */
@@ -1019,6 +1034,18 @@ void
 mail_config_set_prompt_empty_subject (gboolean value)
 {
 	config->prompt_empty_subject = value;
+}
+
+gboolean
+mail_config_get_prompt_only_bcc (void)
+{
+	return config->prompt_only_bcc;
+}
+
+void
+mail_config_set_prompt_only_bcc (gboolean value)
+{
+	config->prompt_only_bcc = value;
 }
 
 

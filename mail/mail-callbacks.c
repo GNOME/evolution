@@ -207,7 +207,7 @@ send_receive_mail (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-empty_subject_destroyed (GtkWidget *widget, gpointer data)
+msgbox_destroyed (GtkWidget *widget, gpointer data)
 {
 	gboolean *show_again = data;
 	GtkWidget *checkbox;
@@ -239,11 +239,48 @@ ask_confirm_for_empty_subject (EMsgComposer *composer)
 				  NULL);
 	
 	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
-			    empty_subject_destroyed, &show_again);
+			    msgbox_destroyed, &show_again);
 	
 	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
 	
 	mail_config_set_prompt_empty_subject (show_again);
+	
+	if (button == 0)
+		return TRUE;
+	else
+		return FALSE;
+}
+
+static gboolean
+ask_confirm_for_only_bcc (EMsgComposer *composer)
+{
+	/* FIXME: EMessageBox should really handle this stuff
+           automagically. What Miguel thinks would be nice is to pass
+           in a message-id which could be used as a key in the config
+           file and the value would be an int. -1 for always show or
+           the button pressed otherwise. This probably means we'd have
+           to write e_messagebox_run () */
+	gboolean show_again = TRUE;
+	GtkWidget *mbox;
+	int button;
+	
+	if (!mail_config_get_prompt_only_bcc ())
+		return TRUE;
+	
+	mbox = e_message_box_new (_("This message contains only Bcc recipients.\nIt is "
+				    "possible that the mail server may reveal the recipients "
+				    "by adding an Apparently-To header.\nSend anyway?"),
+				  E_MESSAGE_BOX_QUESTION,
+				  GNOME_STOCK_BUTTON_YES,
+				  GNOME_STOCK_BUTTON_NO,
+				  NULL);
+	
+	gtk_signal_connect (GTK_OBJECT (mbox), "destroy",
+			    msgbox_destroyed, &show_again);
+	
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (mbox));
+	
+	mail_config_set_prompt_only_bcc (show_again);
 	
 	if (button == 0)
 		return TRUE;
@@ -310,6 +347,14 @@ composer_get_message (EMsgComposer *composer)
 	for (num_addrs = 0, i = 0; i < 3 && num_addrs == 0; i++) {
 		iaddr = camel_mime_message_get_recipients (message, recipient_type[i]);
 		num_addrs += iaddr ? camel_address_length (CAMEL_ADDRESS (iaddr)) : 0;
+	}
+	
+	if (num_addrs == camel_address_length (CAMEL_ADDRESS (iaddr))) {
+		/* this means that the only recipients are Bcc's */
+		if (!ask_confirm_for_only_bcc (composer)) {
+			camel_object_unref (CAMEL_OBJECT (message));
+			return NULL;
+		}
 	}
 	
 	/* I'm sensing a lack of love, er, I mean recipients. */

@@ -133,6 +133,9 @@ void     mail_config_set_mark_as_seen_timeout (gint timeout);
 gboolean mail_config_get_prompt_empty_subject (void);
 void     mail_config_set_prompt_empty_subject (gboolean value);
 
+gboolean mail_config_get_prompt_only_bcc (void);
+void     mail_config_set_prompt_only_bcc (gboolean value);
+
 CamelPgpType mail_config_get_pgp_type (void);
 void         mail_config_set_pgp_type (CamelPgpType pgp_type);
 
