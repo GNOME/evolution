@@ -1,3 +1,10 @@
+2000-06-29  Peter Williams  <peterw@helixcode.com>
+
+	* gui/Makefile.am (LINK_FLAGS): Make the calendar-pilot-sync
+	program conditional on HAVE_GNOME_PILOT, and add 
+	GNOME_PILOT_CFLAGS, GNOME_PILOT_LIBS, and PISOCK_LIBS in the
+	appropriate places.
+
 2000-06-29  Seth Alves  <alves@hungry.com>
 
 	* pcs/cal.c (Cal_get_uid_by_pilot_id): 

@@ -1,3 +1,7 @@
+2000-06-29  Peter Williams  <peterw@helixcode.com>
+
+	* configure.in:  Re-enable GNOME_PILOT_CHECK
+
 2000-06-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* configure.in: `AM_PATH_GCONF'.

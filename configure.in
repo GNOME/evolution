@@ -349,7 +349,7 @@ AC_SUBST(BONOBO_VFS_GNOME_CFLAGS)
 dnl ******************************
 dnl Pilot checking
 dnl ******************************
-dnl GNOME_PILOT_CHECK
+GNOME_PILOT_CHECK
 
 
 dnl ******
