@@ -1008,11 +1008,22 @@ camel_folder_get_summary (CamelFolder *folder)
 
 /* UIDs stuff */
 
+/**
+ * camel_folder_has_uid_capability: detect if the folder support UIDs
+ * @folder: Folder object
+ * 
+ * Detects if a folder supports UID operations, that is
+ * reference messages by a Unique IDentifier instead
+ * of by message number.  
+ * 
+ * Return value: TRUE if the folder supports UIDs 
+ **/
 gboolean
 camel_folder_has_uid_capability (CamelFolder *folder)
 {
 	return folder->has_uid_capability;
 }
+
 
 
 static gchar *
@@ -1021,6 +1032,18 @@ _get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
 	return NULL;
 }
 
+/**
+ * camel_folder_get_message_uid: get the UID of a message in a folder
+ * @folder: Folder in which the UID must refer to
+ * @message: Message object 
+ * 
+ * Return the UID of a message relatively to a folder.
+ * A message can have different UID, each one corresponding
+ * to a different folder, if the message is referenced in
+ * several folders. 
+ * 
+ * Return value: The UID of the message in the folder
+ **/
 gchar * 
 camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message)
 {
@@ -1035,6 +1058,18 @@ _get_message_uid_by_number (CamelFolder *folder, gint message_number)
 	return NULL;
 }
 
+/**
+ * camel_folder_get_message_uid_by_number: get the UID corresponding to a message number
+ * @folder: Folder object
+ * @message_number: Message number
+ * 
+ * get the UID corresponding to a message number. 
+ * Use of this routine should be avoiding, as on 
+ * folders supporting UIDs, message numbers should
+ * not been used.
+ * 
+ * Return value: 
+ **/
 gchar * 
 camel_folder_get_message_uid_by_number (CamelFolder *folder, gint message_number)
 {
@@ -1050,6 +1085,17 @@ _get_message_by_uid (CamelFolder *folder, gchar *uid)
 }
 
 
+/**
+ * camel_folder_get_message_by_uid: Get a message by its UID in a folder
+ * @folder: the folder object
+ * @uid: the UID
+ * 
+ * Get a message from its UID in the folder. Messages 
+ * are cached within a folder, that is, asking twice
+ * for the same UID returns the same message object.
+ * 
+ * Return value: Message corresponding to the UID
+ **/
 CamelMimeMessage *
 camel_folder_get_message_by_uid  (CamelFolder *folder, gchar *uid)
 {
@@ -1063,6 +1109,17 @@ _get_uid_list  (CamelFolder *folder)
 	return NULL;
 }
 
+/**
+ * camel_folder_get_uid_list: get the list of UID in a folder
+ * @folder: folder object
+ * 
+ * get the list of UID available in a folder. This
+ * routine is usefull to know what messages are
+ * available when the folder does not support
+ * summaries. 
+ * 
+ * Return value: Glist of UID correspondind to the messages available in the folder.
+ **/
 GList *
 camel_folder_get_uid_list  (CamelFolder *folder)
 {

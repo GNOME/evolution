@@ -1,5 +1,12 @@
 1999-09-08  bertrand  <Bertrand.Guiheneuf@aful.org>
 
+	* camel/camel-folder.c (camel_folder_has_uid_capability): 
+	(camel_folder_get_message_uid): 
+	(camel_folder_get_message_uid_by_number): 
+	(camel_folder_get_message_by_uid): 
+	(camel_folder_get_uid_list): 
+	Documented UID methods.
+
 	* tests/ui-tests/store_listing.c (close_all): 
 	close all open folders and stores. (necessary
 	for UID list saving ).
