@@ -472,7 +472,7 @@ etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data
 
 /* StorageSet signal handling.  */
 
-ETreeModel *sort_model;
+static ETreeModel *sort_model;
 
 static gint
 treepath_compare (ETreePath **node1,

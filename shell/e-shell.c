@@ -26,6 +26,7 @@
 #endif
 
 #include <gnome.h>
+#include <liboaf/liboaf.h>
 
 #include "Evolution.h"
 
@@ -69,10 +70,6 @@ struct _EShellPrivate {
 
 #define SHORTCUTS_FILE_NAME     "shortcuts.xml"
 #define LOCAL_STORAGE_DIRECTORY "local"
-
-#define MAIL_COMPONENT_ID	       "OAFIID:evolution-shell-component:evolution-mail:d3cb3ed6-a654-4337-8aa0-f443751d6d1b"
-#define CALENDAR_COMPONENT_ID          "OAFIID:evolution-shell-component:evolution-calendar:2eb9eb63-d305-4918-9c35-faae5db19e51"
-#define ADDRESSBOOK_COMPONENT_ID       "OAFIID:evolution-shell-component:addressbook:b7a26547-7014-4bb5-98ab-2bcac2bb55ca"
 
 
 enum {
@@ -312,21 +309,37 @@ static void
 setup_components (EShell *shell)
 {
 	EShellPrivate *priv;
+	OAF_ServerInfoList *info_list;
+	CORBA_Environment ev;
+	int i;
+
+	CORBA_exception_init (&ev);
 
 	priv = shell->priv;
-
 	priv->component_registry = e_component_registry_new (shell);
 
-	/* FIXME: Hardcoded for now.  */
+	info_list = oaf_query ("repo_ids.has ('IDL:Evolution/ShellComponent:1.0')", NULL, &ev);
 
-	if (! e_component_registry_register_component (priv->component_registry, MAIL_COMPONENT_ID))
-		g_warning ("Cannot activate mail component -- %s", MAIL_COMPONENT_ID);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_error ("Eeek!  Cannot perform OAF query for Evolution components.");
 
-	if (! e_component_registry_register_component (priv->component_registry, CALENDAR_COMPONENT_ID))
-		g_warning ("Cannot activate calendar component -- %s", CALENDAR_COMPONENT_ID);
+	for (i = 0; i < info_list->_length; i++) {
+		const OAF_ServerInfo *info;
 
-	if (! e_component_registry_register_component (priv->component_registry, ADDRESSBOOK_COMPONENT_ID))
-		g_warning ("Cannot activate addressbook component -- %s", ADDRESSBOOK_COMPONENT_ID);
+		info = info_list->_buffer + i;
+
+		if (! e_component_registry_register_component (priv->component_registry, info->iid))
+			g_warning ("Cannot activate Evolution component -- %s", info->iid);
+		else
+			g_print ("Evolution component activated successfully -- %s\n", info->iid);
+	}
+
+	if (info_list->_length == 0)
+		g_warning ("No Evolution components installed.");
+
+	CORBA_free (info_list);
+
+	CORBA_exception_free (&ev);
 }
 
 
@@ -465,6 +478,15 @@ init (EShell *shell)
 }
 
 
+/**
+ * e_shell_construct:
+ * @shell: An EShell object to construct
+ * @corba_object: A CORBA Object implementing the Evolution::Shell interface
+ * @local_directory: Local directory for storing local information and folders
+ * 
+ * Construct @shell so that it uses the specified @local_directory and
+ * @corba_object.
+ **/
 void
 e_shell_construct (EShell *shell,
 		   Evolution_Shell corba_object,
@@ -513,6 +535,14 @@ e_shell_construct (EShell *shell,
 	g_free (shortcut_path);
 }
 
+/**
+ * e_shell_new:
+ * @local_directory: Local directory for storing local information and folders.
+ * 
+ * Create a new EShell.
+ * 
+ * Return value: 
+ **/
 EShell *
 e_shell_new (const char *local_directory)
 {
@@ -544,6 +574,15 @@ e_shell_new (const char *local_directory)
 }
 
 
+/**
+ * e_shell_new_view:
+ * @shell: The shell for which to create a new view.
+ * @uri: URI for the new view.
+ * 
+ * Create a new view for @uri.
+ * 
+ * Return value: The widget for the new view.
+ **/
 GtkWidget *
 e_shell_new_view (EShell *shell,
 		  const char *uri)
@@ -568,6 +607,14 @@ e_shell_new_view (EShell *shell,
 }
 
 
+/**
+ * e_shell_get_local_directory:
+ * @shell: An EShell object.
+ * 
+ * Get the local directory associated with @shell.
+ * 
+ * Return value: A pointer to the path of the local directory.
+ **/
 const char *
 e_shell_get_local_directory (EShell *shell)
 {
@@ -577,6 +624,14 @@ e_shell_get_local_directory (EShell *shell)
 	return shell->priv->local_directory;
 }
 
+/**
+ * e_shell_get_shortcuts:
+ * @shell: An EShell object.
+ * 
+ * Get the shortcuts associated to @shell.
+ * 
+ * Return value: A pointer to the EShortcuts associated to @shell.
+ **/
 EShortcuts *
 e_shell_get_shortcuts (EShell *shell)
 {
@@ -586,6 +641,14 @@ e_shell_get_shortcuts (EShell *shell)
 	return shell->priv->shortcuts;
 }
 
+/**
+ * e_shell_get_storage_set:
+ * @shell: An EShell object.
+ * 
+ * Get the storage set associated to @shell.
+ * 
+ * Return value: A pointer to the EStorageSet associated to @shell.
+ **/
 EStorageSet *
 e_shell_get_storage_set (EShell *shell)
 {
@@ -595,6 +658,14 @@ e_shell_get_storage_set (EShell *shell)
 	return shell->priv->storage_set;
 }
 
+/**
+ * e_shell_get_folder_type_registry:
+ * @shell: An EShell object.
+ * 
+ * Get the folder type registry associated to @shell.
+ * 
+ * Return value: A pointer to the EFolderTypeRegistry associated to @shell.
+ **/
 EFolderTypeRegistry *
 e_shell_get_folder_type_registry (EShell *shell)
 {

@@ -1,3 +1,15 @@
+2000-08-28  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-shell.c (setup_components): Removed the hardcoding of the
+	shell component IDs.  Rather, do an OAF query looking for the
+	`Evolution::ShellComponent' interface and activate all the
+	components in the result.
+	(MAIL_COMPONENT_ID): Removed.
+	(CALENDAR_COMPONENT_ID): Removed.
+	(ADDRESSBOOK_COMPONENT_ID): Removed.
+
+	* e-storage-set-view.c: Make `sort_model' static.
+
 2000-08-25  Chris Toshok  <toshok@helixcode.com>
 
 	* e-storage-set-view.c: convert to use ETree instead of GtkCTree.
