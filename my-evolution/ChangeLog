@@ -1,5 +1,11 @@
 2001-07-18  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (make_property_dialog): Create the image 
+	buttons.
+	(construct_pixmap_button): Create a box with an image and text.
+
+2001-07-18  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-preferences.c (e_summary_configure): Set the title on the
 	window. Just do a g_return_if_fail if the XML file couldn't be loaded.
 

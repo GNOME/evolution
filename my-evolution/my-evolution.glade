@@ -147,13 +147,16 @@
 	      <name>button4</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Add -&gt;</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 
 	    <widget>
@@ -161,13 +164,16 @@
 	      <name>button5</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Remove &lt;-</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -433,13 +439,16 @@
 	      <name>button9</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Add -&gt;</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 
 	    <widget>
@@ -447,13 +456,16 @@
 	      <name>button10</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Remove &lt;-</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
@@ -890,13 +902,16 @@
 	      <name>button6</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Add -&gt;</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 
 	    <widget>
@@ -904,13 +919,16 @@
 	      <name>button7</name>
 	      <sensitive>False</sensitive>
 	      <can_focus>True</can_focus>
-	      <label>Remove &lt;-</label>
 	      <relief>GTK_RELIEF_NORMAL</relief>
 	      <child>
 		<padding>0</padding>
 		<expand>False</expand>
 		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>Placeholder</class>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>
