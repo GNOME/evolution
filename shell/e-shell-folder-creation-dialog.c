@@ -384,6 +384,7 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 	dialog_data->storage_set_view        = storage_set_view;
 	dialog_data->folder_type_option_menu = glade_xml_get_widget (gui, "folder_type_option_menu");
 	dialog_data->folder_types            = folder_types;
+	
 
 	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
 			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);

@@ -1,3 +1,7 @@
+2000-10-13  Anna Marie Dirks   <anna@helixcode.com> 
+	*e-shell-folder-creation-dialog.glade: Added focus to the folder-name 
+	text entry.
+
 2000-10-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* e-storage-set-view.c: Fixed the spec on this.
