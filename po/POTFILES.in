@@ -81,7 +81,6 @@ camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-pgp-context.c
 camel/camel-pgp-mime.c
-camel/camel-pkcs7-context.c
 camel/camel-provider.c
 camel/camel-remote-store.c
 camel/camel-sasl-anonymous.c
