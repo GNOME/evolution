@@ -40,6 +40,7 @@
 #include <e-util/e-dialog-widgets.h>
 #include <e-util/e-time-utils.h>
 #include <widgets/misc/e-dateedit.h>
+#include <cal-util/cal-recur.h>
 #include <cal-util/timeutil.h>
 #include "../calendar-config.h"
 #include "../tag-calendar.h"
@@ -126,40 +127,6 @@ static const int ending_types_map[] = {
 	ENDING_UNTIL,
 	ENDING_FOREVER,
 	-1
-};
-
-static const char *date_suffix[] = {
-	N_("st"),
-	N_("nd"),
-	N_("rd"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("st"),
-	N_("nd"),
-	N_("rd"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("th"),
-	N_("st")
 };
 
 /* Private part of the RecurrencePage structure */
@@ -1004,11 +971,7 @@ make_recur_month_num_submenu (const char *title, int start, int end)
 	
 	submenu = gtk_menu_new ();
 	for (i = start; i < end; i++) {
-		char *date;
-		
-		date = g_strdup_printf ("%d%s", i + 1, _(date_suffix[i]));
-		item = gtk_menu_item_new_with_label (date);
-		g_free (date);
+		item = gtk_menu_item_new_with_label (_(cal_recur_nth[i]));
 		gtk_menu_shell_append(GTK_MENU_SHELL(submenu), item);
 		gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (i + 1));
 		gtk_widget_show (item);
@@ -1034,7 +997,6 @@ make_recur_month_num_menu (int month_index)
 
 	GtkWidget *menu, *submenu, *item, *submenu_item;
 	GtkWidget *omenu;
-	char *date;
 	int i;
 
 	menu = gtk_menu_new ();
@@ -1047,9 +1009,7 @@ make_recur_month_num_menu (int month_index)
 	}
 
 	/* Current date */
-	date = g_strdup_printf ("%d%s", month_index, _(date_suffix[month_index - 1]));
-	item = gtk_menu_item_new_with_label (date);
-	g_free (date);
+	item = gtk_menu_item_new_with_label (_(cal_recur_nth[month_index - 1]));
 	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 	gtk_widget_show (item);
 
@@ -1131,7 +1091,6 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 
 	if (month_num == MONTH_NUM_OTHER) {
 		GtkWidget *label, *item;
-		char *date;
 
 		item = gtk_menu_get_active (GTK_MENU (menu_shell));
 		priv->month_index = GPOINTER_TO_INT (gtk_object_get_user_data (GTK_OBJECT (item)));
@@ -1140,9 +1099,7 @@ month_num_menu_selection_done_cb (GtkMenuShell *menu_shell, gpointer data)
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);
 
 		label = GTK_BIN (priv->month_num_menu)->child;
-		date = g_strdup_printf ("%d%s", priv->month_index, _(date_suffix[priv->month_index - 1]));
-		gtk_label_set_text (GTK_LABEL (label), date);
-		g_free (date);
+		gtk_label_set_text (GTK_LABEL (label), _(cal_recur_nth[priv->month_index - 1]));
 
 		e_dialog_option_menu_set (priv->month_num_menu, 0, month_num_options_map);
 		e_dialog_option_menu_set (priv->month_num_menu, month_num, month_num_options_map);

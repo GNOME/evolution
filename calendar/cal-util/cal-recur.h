@@ -63,6 +63,9 @@ void	cal_recur_generate_instances	(CalComponent		*comp,
 					 gpointer		   tz_cb_data,
 					 icaltimezone		*default_timezone);
 
+/* Localized nth-day-of-month strings. (Use with _() ) */
+extern const char *cal_recur_nth[31];
+
 G_END_DECLS
 
 #endif

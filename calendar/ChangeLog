@@ -1,3 +1,38 @@
+2003-02-05  Dan Winship  <danw@ximian.com>
+
+	* cal-util/cal-recur.c (cal_recur_nth): array of localized month
+	day names ("1st" - "31st")
+
+	* gui/dialogs/recurrence-page.c (make_recur_month_num_submenu,
+	make_recur_month_num_menu, month_num_menu_selection_done_cb): Use
+	the new cal_recur_nth[] array. The way this was done before didn't
+	localize properly.
+
+	* gui/alarm-notify/notify-main.c (main):
+	s/glade_gnome_init/glade_init/
+
+	From evolution-1-2-branch:
+
+	* gui/e-itip-control.c (write_recurrence_piece): Describe
+	recurrences, if we can. #30993
+	(set_date_label): If the meeting has recurrences, call
+	write_recurrence_piece after writing the start and end dates.
+	(write_label_piece): Wrap the timezone in <font size=-1> to
+	de-emphasize it a bit and try to keep the timestamp on a single
+	line even with big Outlook timezone names. Add an option to show
+	just the date, for describing the end of recurrences (since the
+	time in the UNTIL is the *beginning* of the last instance, which
+	would confuse people).
+	(update_item): Set the VCALENDAR's METHOD.
+	(ok_clicked_cb): Use update_item, not remove_item, to process a
+	cancelation. Part of #33875.
+
+	* pcs/cal-backend-file.c (cal_backend_file_cancel_object): New,
+	handle an ICAL_METHOD_CANCEL update.
+	(cal_backend_file_update_objects): Call
+	cal_backend_file_update_object or cal_backend_file_cancel_object
+	as appropriate.
+
 2003-02-04  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/e-meeting-time-sel.c

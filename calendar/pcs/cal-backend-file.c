@@ -1529,7 +1529,31 @@ cal_backend_file_update_object (CalBackendFile *cbfile,
 	return comp_uid;
 }
 
+static const char*
+cal_backend_file_cancel_object (CalBackendFile *cbfile,
+				icalcomponent *icalcomp)
+{
+	CalComponent *old_comp;
+	icalproperty *uid;
+	const char *comp_uid;
 
+	/* Get the UID, and check it isn't empty. */
+	uid = icalcomponent_get_first_property (icalcomp, ICAL_UID_PROPERTY);
+	if (!uid)
+		return NULL;
+	comp_uid = icalproperty_get_uid (uid);
+	if (!comp_uid || !comp_uid[0])
+		return NULL;
+
+	/* Find the old version of the component. */
+	old_comp = lookup_component (cbfile, comp_uid);
+	if (!old_comp)
+		return NULL;
+
+	/* And remove it */
+	remove_component (cbfile, old_comp);
+	return comp_uid;
+}
 
 /* Update_objects handler for the file backend. */
 static CalBackendResult
@@ -1539,9 +1563,10 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	CalBackendFilePrivate *priv;
 	icalcomponent *toplevel_comp, *icalcomp = NULL;
 	icalcomponent_kind kind;
+	icalproperty_method method;
 	icalcomponent *subcomp;
 	CalBackendResult retval = CAL_BACKEND_RESULT_SUCCESS;
-	GList *comp_uid_list = NULL, *elem;
+	GList *updated_uids = NULL, *removed_uids = NULL, *elem;
 
 	cbfile = CAL_BACKEND_FILE (backend);
 	priv = cbfile->priv;
@@ -1573,6 +1598,8 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		return CAL_BACKEND_RESULT_INVALID_OBJECT;
 	}
 
+	method = icalcomponent_get_method (toplevel_comp);
+
 	/* Step throught the VEVENT/VTODOs being added, create CalComponents
 	   for them, and add them to our cache. */
 	subcomp = icalcomponent_get_first_component (toplevel_comp,
@@ -1586,18 +1613,20 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 		    || child_kind == ICAL_VJOURNAL_COMPONENT) {
 			const char *comp_uid;
 
-			comp_uid = cal_backend_file_update_object (cbfile,
-								   subcomp);
-			if (comp_uid) {
-				/* We add a copy of the UID to a list, so we
-				   can emit notification signals later. We do
-				   a g_strdup() in case any of the components
-				   get removed while we are emitting
-				   notification signals. */
-				comp_uid_list = g_list_prepend (comp_uid_list,
-								g_strdup (comp_uid));
+			if (method == ICAL_METHOD_CANCEL) {
+				comp_uid = cal_backend_file_cancel_object (cbfile, subcomp);
+				if (comp_uid) {
+					removed_uids = g_list_prepend (removed_uids,
+								       g_strdup (comp_uid));
+				} else
+					retval = CAL_BACKEND_RESULT_NOT_FOUND;
 			} else {
-				retval = CAL_BACKEND_RESULT_INVALID_OBJECT;
+				comp_uid = cal_backend_file_update_object (cbfile, subcomp);
+				if (comp_uid) {
+					updated_uids = g_list_prepend (updated_uids,
+								       g_strdup (comp_uid));
+				} else
+					retval = CAL_BACKEND_RESULT_INVALID_OBJECT;
 			}
 		}
 		subcomp = icalcomponent_get_next_component (toplevel_comp,
@@ -1613,12 +1642,19 @@ cal_backend_file_update_objects (CalBackend *backend, const char *calobj)
 	/* Now emit notification signals for all of the added components.
 	   We do this after adding them all to make sure the calendar is in a
 	   stable state before emitting signals. */
-	for (elem = comp_uid_list; elem; elem = elem->next) {
+	for (elem = updated_uids; elem; elem = elem->next) {
 		char *comp_uid = elem->data;
 		cal_backend_notify_update (backend, comp_uid);
 		g_free (comp_uid);
 	}
-	g_list_free (comp_uid_list);
+	g_list_free (updated_uids);
+
+	for (elem = removed_uids; elem; elem = elem->next) {
+		char *comp_uid = elem->data;
+		cal_backend_notify_remove (backend, comp_uid);
+		g_free (comp_uid);
+	}
+	g_list_free (removed_uids);
 
 	return retval;
 }

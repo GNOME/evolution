@@ -90,7 +90,7 @@ struct _EItipControlPrivate {
 
 extern EvolutionShellClient *global_shell_client;	
 
-/* We intentionally use "calendar" instead of "calendar/*" here. We
+/* We intentionally use "calendar" instead of "calendar / *" here. We
  * don't want public calendars.
  */
 static const char *calendar_types[] = { "calendar", NULL };
@@ -502,7 +502,8 @@ find_attendee (icalcomponent *ical_comp, const char *address)
 static void
 write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 		   char *buffer, int size,
-		   const char *stext, const char *etext)
+		   const char *stext, const char *etext,
+		   gboolean just_date)
 {
 	EItipControlPrivate *priv;
 	struct tm tmp_tm;
@@ -522,6 +523,8 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 	}
 
 	tmp_tm = icaltimetype_to_tm (dt->value);
+	if (just_date)
+		tmp_tm.tm_hour = tmp_tm.tm_min = tmp_tm.tm_sec = 0;
 
 	if (stext != NULL)
 		strcat (buffer, stext);
@@ -540,28 +543,171 @@ write_label_piece (EItipControl *itip, CalComponentDateTime *dt,
 	}
 
 	/* Output timezone after time, e.g. " America/New_York". */
-	if (zone) {
+	if (zone && !just_date) {
 		/* Note that this returns UTF-8, since all iCalendar data is
 		   UTF-8. But it probably is not translated. */
 		display_name = icaltimezone_get_display_name (zone);
 		if (display_name && *display_name) {
-			strcat (buffer, " ");
+			strcat (buffer, " <font size=-1>[");
 
 			/* We check if it is one of our builtin timezone names,
-			   in which case we call gettext to translate it, and
-			   we need to convert to UTF-8. If it isn't a builtin
-			   timezone name, we use it as-is, as it is already
-			   UTF-8. */
+			   in which case we call gettext to translate it. */
 			if (icaltimezone_get_builtin_timezone (display_name)) {
 				strcat (buffer, _(display_name));
 			} else {
 				strcat (buffer, display_name);
 			}
+			strcat (buffer, "]</font>");
 		}
 	}
 
 	if (etext != NULL)
 		strcat (buffer, etext);
+}
+
+static const char *
+nth (int n)
+{
+	if (n == -1)
+		return "last";
+	else if (n < 1 || n > 31)
+		return "?";
+	else
+		return cal_recur_nth[n];
+}
+
+static const char *dayname[] = {
+	N_("Sunday"),
+	N_("Monday"),
+	N_("Tuesday"),
+	N_("Wednesday"),
+	N_("Thursday"),
+	N_("Friday"),
+	N_("Saturday")
+};
+
+static inline char *
+get_dayname (struct icalrecurrencetype *r, int i)
+{
+	enum icalrecurrencetype_weekday day;
+
+	day = icalrecurrencetype_day_day_of_week (r->by_day[i]);
+	g_return_val_if_fail (day > 0 && day < 8, "?");
+
+	return _(dayname[day - 1]);
+}
+
+static void
+write_recurrence_piece (EItipControl *itip, CalComponent *comp,
+			char *buffer, int size)
+{
+	GSList *rrules;
+	struct icalrecurrencetype *r;
+	int len, i;
+
+	strcpy (buffer, "<b>Recurring:</b> ");
+	len = strlen (buffer);
+	buffer += len;
+	size -= len;
+
+	if (!cal_component_has_simple_recurrence (comp)) {
+		strcpy (buffer, _("Yes. (Complex Recurrence)"));
+		return;
+	}
+
+	cal_component_get_rrule_list (comp, &rrules);
+	g_return_if_fail (rrules && !rrules->next);
+
+	r = rrules->data;
+
+	switch (r->freq) {
+	case ICAL_DAILY_RECURRENCE:
+		if (r->interval == 1)
+			strcpy (buffer, _("Every day"));
+		else
+			sprintf (buffer, _("Every %d days"), r->interval);
+		break;
+
+	case ICAL_WEEKLY_RECURRENCE:
+		if (r->by_day[0] == ICAL_RECURRENCE_ARRAY_MAX) {
+			if (r->interval == 1)
+				strcpy (buffer, _("Every week"));
+			else
+				sprintf (buffer, _("Every %d weeks"), r->interval);
+		} else {
+			if (r->interval == 1)
+				strcpy (buffer, _("Every week on "));
+			else
+				sprintf (buffer, _("Every %d weeks on "), r->interval);
+
+			for (i = 1; i < 8 && r->by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
+				if (i > 1)
+					strcat (buffer, ", ");
+				strcat (buffer, get_dayname (r, i - 1));
+			}
+			if (i > 1)
+				strcat (buffer, _(" and "));
+			strcat (buffer, get_dayname (r, i - 1));
+		}
+		break;
+
+	case ICAL_MONTHLY_RECURRENCE:
+		if (r->by_month_day[0] != ICAL_RECURRENCE_ARRAY_MAX) {
+			sprintf (buffer, _("The %s day of "),
+				 nth (r->by_month_day[0]));
+		} else {
+			int pos;
+
+			/* Outlook 2000 uses BYDAY=TU;BYSETPOS=2, and will not
+			   accept BYDAY=2TU. So we now use the same as Outlook
+			   by default. */
+
+			pos = icalrecurrencetype_day_position (r->by_day[0]);
+			if (pos == 0)
+				pos = r->by_set_pos[0];
+
+			sprintf (buffer, _("The %s %s of "),
+				 nth (pos), get_dayname (r, 0));
+		}
+
+		if (r->interval == 1)
+			strcat (buffer, _("every month"));
+		else {
+			len = strlen (buffer);
+			buffer += len;
+			size -= len;
+			sprintf (buffer, _("every %d months"), r->interval);
+		}
+		break;
+
+	case ICAL_YEARLY_RECURRENCE:
+		if (r->interval == 1)
+			strcpy (buffer, _("Every year"));
+		else {
+			sprintf (buffer, _("Every %d years"), r->interval);
+		}
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+
+	len = strlen (buffer);
+	buffer += len;
+	size -= len;
+	if (r->count) {
+		sprintf (buffer, _(" a total of %d times"), r->count);
+	} else if (!icaltime_is_null_time (r->until)) {
+		CalComponentDateTime dt;
+
+		dt.value = &r->until;
+		dt.tzid = r->until.zone;
+
+		write_label_piece (itip, &dt, buffer, size,
+				   _(", ending on "), NULL, TRUE);
+	}
+
+	strcat (buffer, "<br>");
 }
 
 static void
@@ -583,7 +729,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	if (datetime.value) {
 		write_label_piece (itip, &datetime, buffer, 1024,
 				   _("<b>Starts:</b> "),
-				   "<br>");
+				   "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
 	}
@@ -592,11 +738,18 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
-		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Ends:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Ends:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
 	cal_component_free_datetime (&datetime);
+
+	buffer[0] = '\0';
+	if (cal_component_has_recurrences (comp)) {
+		write_recurrence_piece (itip, comp, buffer, 1024);
+		gtk_html_write (html, html_stream, buffer, strlen (buffer));
+		wrote = TRUE;
+	}
 
 	buffer[0] = '\0';
 	datetime.tzid = NULL;
@@ -605,7 +758,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 		/* Pass TRUE as is_utc, so it gets converted to the current
 		   timezone. */
 		datetime.value->is_utc = TRUE;
-		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Completed:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Completed:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 		task_completed = TRUE;
@@ -615,7 +768,7 @@ set_date_label (EItipControl *itip, GtkHTML *html, GtkHTMLStream *html_stream,
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
 	if (type == CAL_COMPONENT_TODO && !task_completed && datetime.value) {
-		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Due:</b> "), "<br>");
+		write_label_piece (itip, &datetime, buffer, 1024, _("<b>Due:</b> "), "<br>", FALSE);
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -1625,6 +1778,7 @@ update_item (EItipControl *itip)
 
 	clone = icalcomponent_new_clone (priv->ical_comp);
 	icalcomponent_add_component (priv->top_level, clone);
+	icalcomponent_set_method (priv->top_level, priv->method);
 
 	result = cal_client_update_objects (client, priv->top_level);
 	switch (result) {
@@ -2011,7 +2165,7 @@ ok_clicked_cb (GtkHTML *html, const gchar *method, const gchar *url, const gchar
 				send_item (itip);
 				break;
 			case 'C':
-				remove_item (itip);
+				update_item (itip);
 				break;
 			}
 		}

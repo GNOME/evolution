@@ -172,7 +172,7 @@ main (int argc, char **argv)
 	if (!gnome_vfs_init ())
 		g_error (_("Could not initialize gnome-vfs"));
 
-	glade_gnome_init ();
+	glade_init ();
 
 	factory = bonobo_generic_factory_new ("OAFIID:GNOME_Evolution_Calendar_AlarmNotify_Factory",
 					      (BonoboFactoryCallback) alarm_notify_factory_fn, NULL);
