@@ -1,3 +1,15 @@
+2003-02-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importers/Makefile.am: Split the ORBit IDL compilation rules to
+	work properly with parallel makes.
+	(BUILT_SOURCES): Add this.
+	(CLEANFILES): Add this.
+
+	* Makefile.am: Split the ORBit IDL compilation rules to work
+	properly with parallel makes.
+	(BUILT_SOURCES): Add $(IDL_GENERATED) here.
+	(CLEANFILES): Remove from here.
+
 2003-02-10  Rodney Dawes  <dobey@ximian.com>
 
 	* importers/Makefile.am: Add LDFLAGS to ported libs

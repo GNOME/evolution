@@ -39,22 +39,27 @@ INCLUDES =						\
 
 component_LTLIBRARIES = libevolution-mail.la
 
-EVOLUTION_MAIL_CORBA_GENERATED = \
-	Mailer.h		\
-	Mailer-common.c		\
-	Mailer-skels.c		\
+EVOLUTION_MAIL_CORBA_GENERATED_H =		\
+	Mailer.h
+EVOLUTION_MAIL_CORBA_GENERATED_C =		\
+	Mailer-common.c				\
+	Mailer-skels.c				\
 	Mailer-stubs.c
+EVOLUTION_MAIL_CORBA_GENERATED = $(EVOLUTION_MAIL_CORBA_GENERATED_C) $(EVOLUTION_MAIL_CORBA_GENERATED_H)
 
 SPELL_IDL = Spell.idl
 
-IDL_GENERATED = 		\
-	Spell.h			\
+IDL_GENERATED_H = 		\
+	Spell.h
+IDL_GENERATED_C = 		\
 	Spell-common.c		\
 	Spell-skels.c		\
 	Spell-stubs.c
+IDL_GENERATED = $(IDL_GENERATED_C) $(IDL_GENERATED_H)
 
-$(IDL_GENERATED): $(SPELL_IDL)
+$(IDL_GENERATED_H): $(SPELL_IDL)
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Spell.idl
+$(IDL_GENERATED_C): $(IDL_GENERATED_H)
 
 Spell-impl.o: Spell.h
 
@@ -186,8 +191,9 @@ schema_DATA = evolution-mail.schemas
 
 idl_DATA = Mailer.idl
 
-$(EVOLUTION_MAIL_CORBA_GENERATED): Mailer.idl 
+$(EVOLUTION_MAIL_CORBA_GENERATED_H): Mailer.idl 
 	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl $(IDL_INCLUDES) $(srcdir)/Mailer.idl
+$(EVOLUTION_MAIL_CORBA_GENERATED_C): $(EVOLUTION_MAIL_CORBA_GENERATED_H)
 
 EXTRA_DIST = 				\
 	Mailer.idl 			\
@@ -219,5 +225,5 @@ endif
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
 
-BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
-CLEANFILES = $(BUILT_SOURCES) $(IDL_GENERATED)
+BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED) $(IDL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)

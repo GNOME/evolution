@@ -27,14 +27,17 @@ libmbox_la_LDFLAGS = -avoid-version -module
 IDLS = 			\
 	$(top_srcdir)/mail/Mailer.idl
 
-MAIL_GENERATED = 	\
-	Mailer.h	\
+MAIL_GENERATED_H = 	\
+	Mailer.h
+MAIL_GENERATED_C = 	\
 	Mailer-common.c	\
 	Mailer-skels.c	\
 	Mailer-stubs.c
+MAIL_GENERATED = $(MAIL_GENERATED_C) $(MAIL_GENERATED_H)
 
-$(MAIL_GENERATED): $(IDLS)
+$(MAIL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(top_srcdir)/mail/Mailer.idl
+$(MAIL_GENERATED_C): $(MAIL_GENERATED_H)
 
 libevolution_netscape_importer_la_SOURCES =	\
 	$(MAIL_GENERATED)		\
@@ -96,6 +99,11 @@ server_DATA = $(server_in_files:.server.in.in=.server)
 %.server.in: %.server.in.in
 	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
+
 EXTRA_DIST = $(server_in_files) $(server_DATA)
+
+BUILT_SOURCES = $(MAIL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
+
 
 @INTLTOOL_SERVER_RULE@
