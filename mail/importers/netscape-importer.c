@@ -1766,7 +1766,7 @@ netscape_import_file (NsImporter *importer,
 	if (!uri)
 		return FALSE;
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, &ev);
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, "", &ev);
 	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));

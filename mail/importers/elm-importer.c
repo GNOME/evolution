@@ -173,7 +173,7 @@ elm_import_file (ElmImporter *importer,
 
 	CORBA_exception_init(&ev);
 
-	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, &ev);
+	result = GNOME_Evolution_Importer_loadFile (importer->importer, path, uri, "", &ev);
 	g_free(uri);
 	if (ev._major != CORBA_NO_EXCEPTION || result == FALSE) {
 		g_warning ("Exception here: %s", CORBA_exception_id (&ev));

@@ -1,3 +1,14 @@
+2003-04-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* importers/evolution-mbox-importer.c (load_file_fn):
+	* importers/evolution-outlook-importer.c (load_file_fn): added
+        "folder_type" parameter to EvolutionImporterLoadFileFn.
+
+	* importers/elm-importer.c (elm_import_file): pass empty string for
+	"folder_type" argument to GNOME_Evolution_Importer_loadFile.
+	* importers/pine-importer.c (pine_import_file): ditto.
+	* importers/netscape-importer.c (netscape_import_file): ditto.
+
 2003-04-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (save_part): Don't allow the 'prefix' argument to
