@@ -1,3 +1,8 @@
+2002-06-27  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (comp_compliant): plug leak and actually use
+	the minimal comp we create
+
 2002-06-25  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #25410
