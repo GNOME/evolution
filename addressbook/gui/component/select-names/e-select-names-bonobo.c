@@ -176,7 +176,7 @@ impl_SelectNames_get_entry_for_section (PortableServer_Servant servant,
 
 	bonobo_control_set_properties (control, property_bag);
 
-	return bonobo_object_corba_objref (BONOBO_OBJECT (control));
+	return CORBA_Object_duplicate (bonobo_object_corba_objref (BONOBO_OBJECT (control)), ev);
 }
 
 static void

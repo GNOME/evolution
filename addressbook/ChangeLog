@@ -1,3 +1,9 @@
+2000-11-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_SelectNames_get_entry_for_section): Duplicate the object
+	reference before returning.
+
 2000-11-05  Christopher James Lahey  <clahey@helixcode.com>
 
 	* contact-editor/e-contact-editor.c,
