@@ -43,7 +43,7 @@ main (int argc, char**argv)
 	
 	multipart = camel_multipart_new ();
 	body_part = camel_mime_body_part_new ();
-	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), g_strdup ("This is a test.\nThis is only a test.\n"));
+	camel_mime_part_set_text (CAMEL_MIME_PART (body_part), "This is a test.\nThis is only a test.\n");
 	camel_multipart_add_part (multipart, body_part);
 	camel_medium_set_content_object (CAMEL_MEDIUM (message), CAMEL_DATA_WRAPPER (multipart));
 
@@ -62,5 +62,6 @@ main (int argc, char**argv)
 	gtk_object_unref (GTK_OBJECT (body_part));
 	
 	printf ("Test1 finished\n");
+	return 1;
 }
  

@@ -36,7 +36,7 @@ main (int argc, char**argv)
 	
 	printf ("\n------------- Listing root Mh folder subfolders --------\n");
 	while (mh_subfolders_name) {
-		printf ("\t\"%s\"\n", mh_subfolders_name->data);
+		printf ("\t\"%s\"\n", (gchar *)mh_subfolders_name->data);
 		mh_subfolders_name = mh_subfolders_name->next;
 	}
 	printf ("--------------------------------------------------------\n\n");
@@ -44,7 +44,7 @@ main (int argc, char**argv)
 	inbox_folder = camel_store_get_folder (store, "inbox");
 	if (!inbox_folder) {
 		printf ("** Error: could not get inbox folder from store\n");
-		return;
+		return 1;
 	}
 	
 	/* test existence */
@@ -53,7 +53,7 @@ main (int argc, char**argv)
 		printf ("MH folder inbox exists, continuing tests\n");
 	else {
 		printf ("MH folder inbox does not exist. Stopping \n");
-		return;
+		return 1;
 	}
 	
 	printf ("\n  Inbox folder contains %d messages\n", camel_folder_get_message_count (inbox_folder));
@@ -62,7 +62,7 @@ main (int argc, char**argv)
 	printf ("--------------------------------------------------------\n\n");
 
 
-
+	return 1;
 
 	
 }

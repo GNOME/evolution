@@ -125,7 +125,7 @@ const GList *camel_mime_part_get_header_lines (CamelMimePart *mime_part);
 GMimeContentField *camel_mime_part_get_content_type (CamelMimePart *mime_part);
 
 /* utility functions */
-void camel_mime_part_set_text (CamelMimePart *camel_mime_part, gchar *text);
+void camel_mime_part_set_text (CamelMimePart *camel_mime_part, const gchar *text);
 
 
 

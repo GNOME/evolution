@@ -46,6 +46,7 @@ static gint
 default_camel_seek (CamelStream *stream, gint offset, CamelStreamSeekPolicy policy)
 {
 	/* nothing */
+	return -1;
 }
 
 static void

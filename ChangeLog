@@ -1,3 +1,26 @@
+1999-08-28  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-mime-part.c (camel_mime_part_set_text): 
+	text parameter declared const
+
+	* camel/camel-mime-part-utils.c (camel_mime_part_store_stream_in_buffer): 
+	actually test correctly nb_bytes_read_chunk is >0
+
+	* camel/gstring-util.c: 
+	* camel/gmime-content-field.c: 
+	* camel/providers/MH/camel-mh-folder.c:
+	* camel/camel-stream-fs.c:
+	include string.h
+
+	* camel/camel-stream-mem.c (_write): return 
+	the numver of written bytes.
+
+	* camel/camel-stream-buffered-fs.c (_eos): 
+	return sthg
+
+	* camel/camel-stream.c (default_camel_seek): 
+	return something.
+
 1999-08-26  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-mime-part.c (_get_content_object): 

@@ -27,6 +27,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 #include "camel-log.h"
 
 static CamelStreamClass *parent_class=NULL;
@@ -295,6 +296,7 @@ static gint
 _available (CamelStream *stream)
 {
 	g_warning ("Not implemented yet");
+	return -1;
 }
 
 
@@ -310,6 +312,7 @@ static gboolean
 _eos (CamelStream *stream)
 {
 	g_warning ("Not implemented yet");
+	return FALSE;
 }
 
 

@@ -575,11 +575,12 @@ _get_content_object (CamelMedium *medium)
 	CamelMimePart *mime_part = CAMEL_MIME_PART (medium);
 	CamelStream *stream;
 
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object entering\n");
 	/* 
 	 * test if there is not pending content stored in the 
 	 * temporary buffer
 	 */
-	if ((!medium->content ) || (mime_part->temp_message_buffer)) {
+	if ((!medium->content ) && (mime_part->temp_message_buffer)) {
 		stream = camel_stream_mem_new_with_buffer (mime_part->temp_message_buffer,
 							   CAMEL_STREAM_MEM_READ);
 		camel_mime_part_construct_content_from_stream (mime_part, stream);
@@ -587,8 +588,13 @@ _get_content_object (CamelMedium *medium)
 		 * Beware : this will destroy the temp buffer as well
 		 */
 		gtk_object_unref (GTK_OBJECT (stream));
+	} else {
+		CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object part has a pointer "
+				      "to a content object as well as a temp buffer\n");
 	}
-	
+
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::get_content_object leaving\n");
+
 	return parent_class->get_content_object (medium);
 		
 }
@@ -758,10 +764,11 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
 
 	CamelMimePart *mime_part = CAMEL_MIME_PART (data_wrapper);
 	
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream entering\n");
 	camel_mime_part_construct_headers_from_stream (mime_part, stream);
 	
 	camel_mime_part_store_stream_in_buffer (mime_part, stream);
-	CAMEL_LOG_FULL_DEBUG ("CamelMimePart:: Leaving _construct_from_stream\n");
+	CAMEL_LOG_FULL_DEBUG ("CamelMimePart::construct_from_stream leaving\n");
 
 }
 
@@ -781,7 +788,7 @@ _construct_from_stream (CamelDataWrapper *data_wrapper, CamelStream *stream)
  * 
  **/
 void 
-camel_mime_part_set_text (CamelMimePart *camel_mime_part, gchar *text)
+camel_mime_part_set_text (CamelMimePart *camel_mime_part, const gchar *text)
 {
 	CamelSimpleDataWrapper *simple_data_wrapper;
 	CamelMedium *medium = CAMEL_MEDIUM (camel_mime_part);

@@ -25,7 +25,7 @@
 #include "gmime-content-field.h"
 #include "string-utils.h"
 #include "camel-log.h"
-
+#include <string.h>
 
 
 /**

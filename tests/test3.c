@@ -24,5 +24,6 @@ main (int argc, char**argv)
 	printf ("Type found %s\n", gtk_type_name (type) );
 	
 	printf ("Test3 finished\n");
+	return 1;
 }
  

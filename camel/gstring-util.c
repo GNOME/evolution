@@ -26,7 +26,7 @@
 #include <config.h>
 #include "gstring-util.h"
 #include "camel-log.h"
-
+#include <string.h>
 
 /**
  * g_string_equals : test if two string are equal

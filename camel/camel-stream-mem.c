@@ -188,7 +188,8 @@ _write (CamelStream *stream, const gchar *buffer, gint n)
 	g_return_val_if_fail (camel_stream_mem->position>=0, -1);
 	camel_stream_mem->buffer = g_byte_array_append (camel_stream_mem->buffer, (const guint8 *)buffer, n);
 	camel_stream_mem->position += n;
-
+	
+	return n;
 }
 
 
@@ -219,6 +220,7 @@ static gint
 _available (CamelStream *stream)
 {
 	g_warning ("Not implemented yet");
+	return -1;
 }
 
 
@@ -234,6 +236,7 @@ static gboolean
 _eos (CamelStream *stream)
 {
 	g_warning ("Not implemented yet");
+	return FALSE;
 }
 
 

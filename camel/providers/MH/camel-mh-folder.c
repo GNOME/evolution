@@ -28,6 +28,7 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <string.h>
 #include <errno.h>
 #include "camel-mh-folder.h"
 #include "camel-mh-store.h"

@@ -20,5 +20,5 @@ main (int argc, char**argv)
 	new_provider = camel_provider_register_as_module ("../camel/providers/MH/.libs/libcamelmh.so");
 
 	
-	
+	return 1;
 }
