@@ -181,190 +181,189 @@ create_rule(RuleEditor *re)
 }
 
 static void
-add_editor_clicked(GtkWidget *widget, int button, RuleEditor *re)
+add_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	GtkWidget *item;
 	GList *l = NULL;
-	char *s;
-
+	char *string;
+	
 	switch (button) {
 	case 0:
-		if (!filter_rule_validate(re->edit)) {
+		if (!filter_rule_validate (re->edit)) {
 			/* FIXME: popup an error or somelthing? */
 			return;
 		}
-
-		gtk_object_ref((GtkObject *)re->edit);
-		s = e_utf8_to_gtk_string(GTK_WIDGET(re->list), re->edit->name);
-		item = gtk_list_item_new_with_label(s);
-		g_free(s);
 		
-		gtk_object_set_data(GTK_OBJECT(item), "rule", re->edit);
-		gtk_widget_show(item);
+		gtk_object_ref (GTK_OBJECT (re->edit));
+		string = e_utf8_to_gtk_string (GTK_WIDGET (re->list), re->edit->name);
+		item = gtk_list_item_new_with_label (string);
+		g_free (string);
 		
-		l = g_list_append(l, GTK_LIST_ITEM(item));
+		gtk_object_set_data (GTK_OBJECT (item), "rule", re->edit);
+		gtk_widget_show (item);
 		
-		gtk_list_append_items(re->list, l);
-		gtk_list_select_child(re->list, item);
+		l = g_list_append (l, GTK_LIST_ITEM (item));
+		
+		gtk_list_append_items (re->list, l);
+		gtk_list_select_child (re->list, item);
 		
 		re->current = re->edit;
-		rule_context_add_rule(re->context, re->current);
-
-		rule_editor_set_sensitive(re);
+		rule_context_add_rule (re->context, re->current);
 	case 1:
 	default:
-		gnome_dialog_close((GnomeDialog *)widget);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	case -1:
-		gtk_object_unref((GtkObject *)re->edit);
-		re->edit = FALSE;
-		gtk_widget_set_sensitive((GtkWidget *)re, TRUE);
+		gtk_object_unref (GTK_OBJECT (re->edit));
+		re->edit = NULL;
+		
+		rule_editor_set_sensitive (re);
 	}
 }
 
 static void
-rule_add(GtkWidget *widget, RuleEditor *re)
+rule_add (GtkWidget *widget, RuleEditor *re)
 {
-	GtkWidget *gd;
-	GtkWidget *w;
+	GtkWidget *dialog;
+	GtkWidget *rules;
 	
-	d(printf("add rule\n"));
-
-	if (re->edit != NULL)
-		return;
-
-	re->edit = rule_editor_create_rule(re);
-	filter_rule_set_source(re->edit, re->source);
-	w = filter_rule_get_widget(re->edit, re->context);
-
-	gd = gnome_dialog_new(_("Add Rule"),
-			       GNOME_STOCK_BUTTON_OK,
-			       GNOME_STOCK_BUTTON_CANCEL,
-			       NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(gd)->vbox), w, TRUE, TRUE, 0);
-	gtk_signal_connect((GtkObject *)gd, "clicked", add_editor_clicked, re);
-
-	gtk_widget_set_sensitive((GtkWidget *)re, FALSE);
-
-	gtk_widget_show(gd);
+	d(printf ("add rule\n"));
+	
+	re->edit = rule_editor_create_rule (re);
+	filter_rule_set_source (re->edit, re->source);
+	rules = filter_rule_get_widget (re->edit, re->context);
+	
+	dialog = gnome_dialog_new (_("Add Rule"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", add_editor_clicked, re);
+	
+	gtk_widget_show (dialog);
 }
 
 static void
-edit_editor_clicked(GtkWidget *widget, int button, RuleEditor *re)
+edit_editor_clicked (GtkWidget *dialog, int button, RuleEditor *re)
 {
 	GtkWidget *item;
-	char *s;
+	char *string;
 	int pos;
-
+	
 	switch (button) {
 	case 0:
-		if (!filter_rule_validate(re->edit)) {
-			/* FIXME: popup an error or somelthing? */
+		if (!filter_rule_validate (re->edit)) {
+			/* FIXME: popup an error or something? */
 			return;
 		}
-
-		pos = rule_context_get_rank_rule(re->context, re->current, re->source);
-		if(pos != -1) {
-			item = g_list_nth_data(((GtkList *)re->list)->children, pos);
-			s = e_utf8_to_gtk_string(GTK_WIDGET(item), re->current->name);
-			gtk_label_set_text(GTK_LABEL(GTK_BIN(item)->child), s);
-			g_free(s);
+		
+		pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+		if (pos != -1) {
+			item = g_list_nth_data (((GtkList *)re->list)->children, pos);
+			string = e_utf8_to_gtk_string (GTK_WIDGET (item), re->current->name);
+			gtk_label_set_text (GTK_LABEL (GTK_BIN (item)->child), string);
+			g_free (string);
 		}
 	case 1:
 	default:
-		gnome_dialog_close((GnomeDialog *)widget);
+		gnome_dialog_close (GNOME_DIALOG (dialog));
 	case -1:
-		gtk_object_unref((GtkObject *)re->edit);
-		re->edit = FALSE;
-		gtk_widget_set_sensitive((GtkWidget *)re, TRUE);
+		gtk_object_unref (GTK_OBJECT (re->edit));
+		re->edit = NULL;
+		
+		rule_editor_set_sensitive (re);
 	}
 }
 
 static void
-rule_edit(GtkWidget *widget, RuleEditor *re)
+rule_edit (GtkWidget *widget, RuleEditor *re)
 {
-	GtkWidget *w;
-	GtkWidget *gd;
-
-	if (re->edit != NULL || re->current == NULL)
-		return;
-
-	re->edit = re->current;
-	w = filter_rule_get_widget(re->current, re->context);
-	gd = gnome_dialog_new(_("Edit Rule"),
-			       GNOME_STOCK_BUTTON_OK,
-			       GNOME_STOCK_BUTTON_CANCEL,
-			       NULL);
-	gtk_window_set_policy(GTK_WINDOW(gd), FALSE, TRUE, FALSE);
-	gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(gd)->vbox), w, TRUE, TRUE, 0);
-	gtk_signal_connect((GtkObject *)gd, "clicked", edit_editor_clicked, re);
-
-	gtk_widget_set_sensitive((GtkWidget *)re, FALSE);
+	GtkWidget *dialog;
+	GtkWidget *rules;
 	
-	gtk_widget_show(gd);
+	if (re->current == NULL)
+		return;
+	
+	re->edit = re->current;
+	gtk_object_ref (GTK_OBJECT (re->edit));
+	
+	rules = filter_rule_get_widget (re->current, re->context);
+	dialog = gnome_dialog_new (_("Edit Rule"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_CANCEL,
+				   NULL);
+	
+	gtk_window_set_policy (GTK_WINDOW (dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), rules, TRUE, TRUE, 0);
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked", edit_editor_clicked, re);
+	
+	gtk_widget_show (dialog);
 }
 
 static void
-rule_delete(GtkWidget *widget, RuleEditor *re)
+rule_delete (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
 	GList *l;
 	GtkListItem *item;
 	
-	d(printf("delete rule\n"));
-	pos = rule_context_get_rank_rule(re->context, re->current, re->source);
-	if(pos != -1) {
-		rule_context_remove_rule(re->context, re->current);
+	d(printf ("delete rule\n"));
+	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+	if (pos != -1) {
+		rule_context_remove_rule (re->context, re->current);
 		
-		item = g_list_nth_data(((GtkList *)re->list)->children, pos);
-		l = g_list_append(NULL, item);
-		gtk_list_remove_items(re->list, l);
-		g_list_free(l);
+		item = g_list_nth_data (((GtkList *)re->list)->children, pos);
+		l = g_list_append (NULL, item);
+		gtk_list_remove_items (re->list, l);
+		g_list_free (l);
 		
-		gtk_object_unref(GTK_OBJECT(re->current));
+		gtk_object_unref (GTK_OBJECT (re->current));
 		re->current = NULL;
 	}
 	
-	rule_editor_set_sensitive(re);
+	rule_editor_set_sensitive (re);
 }
 
 static void
-rule_move(RuleEditor *re, int from, int to)
+rule_move (RuleEditor *re, int from, int to)
 {
 	GList *l;
 	GtkListItem *item;
 	
-	d(printf("moving %d to %d\n", from, to));
-	rule_context_rank_rule(re->context, re->current, to);
+	d(printf ("moving %d to %d\n", from, to));
+	rule_context_rank_rule (re->context, re->current, to);
 	
-	item = g_list_nth_data(re->list->children, from);
-	l = g_list_append(NULL, item);
-	gtk_list_remove_items_no_unref(re->list, l);
-	gtk_list_insert_items(re->list, l, to);			      
-	gtk_list_select_child(re->list, GTK_WIDGET(item));
-
-	rule_editor_set_sensitive(re);
+	item = g_list_nth_data (re->list->children, from);
+	l = g_list_append (NULL, item);
+	gtk_list_remove_items_no_unref (re->list, l);
+	gtk_list_insert_items (re->list, l, to);			      
+	gtk_list_select_child (re->list, GTK_WIDGET (item));
+	
+	rule_editor_set_sensitive (re);
 }
 
 static void
-rule_up(GtkWidget *widget, RuleEditor *re)
+rule_up (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
 	
-	d(printf("up rule\n"));
-	pos = rule_context_get_rank_rule(re->context, re->current, re->source);
-	if(pos > 0)
-		rule_move(re, pos, pos - 1);
+	d(printf ("up rule\n"));
+	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+	if (pos > 0)
+		rule_move (re, pos, pos - 1);
 }
 
 static void
-rule_down(GtkWidget *widget, RuleEditor *re)
+rule_down (GtkWidget *widget, RuleEditor *re)
 {
 	int pos;
 	
-	d(printf("down rule\n"));
-	pos = rule_context_get_rank_rule(re->context, re->current, re->source);
-	rule_move(re, pos, pos + 1);
+	d(printf ("down rule\n"));
+	pos = rule_context_get_rank_rule (re->context, re->current, re->source);
+	rule_move (re, pos, pos + 1);
 }
 
 static struct {
@@ -379,13 +378,13 @@ static struct {
 };
 
 static void
-set_sensitive(RuleEditor *re)
+set_sensitive (RuleEditor *re)
 {
 	FilterRule *rule = NULL;
 	int index = -1, count = 0;
 	
 	while ((rule = rule_context_next_rule(re->context, rule, re->source))) {
-		if(rule == re->current)
+		if (rule == re->current)
 			index = count;
 		count++;
 	}
@@ -402,20 +401,20 @@ set_sensitive(RuleEditor *re)
 
 
 static void
-select_rule(GtkWidget *w, GtkWidget *child, RuleEditor *re)
+select_rule (GtkWidget *w, GtkWidget *child, RuleEditor *re)
 {
-	re->current = gtk_object_get_data(GTK_OBJECT(child), "rule");
-
-	g_assert(re->current);
+	re->current = gtk_object_get_data (GTK_OBJECT (child), "rule");
 	
-	rule_editor_set_sensitive(re);
+	g_assert (re->current);
+	
+	rule_editor_set_sensitive (re);
 }
 
 static void
-double_click(GtkWidget *widget, GdkEventButton *event, RuleEditor *re)
+double_click (GtkWidget *widget, GdkEventButton *event, RuleEditor *re)
 {
-	if(re->current && event->type == GDK_2BUTTON_PRESS)
-		rule_edit(widget, re);
+	if (re->current && event->type == GDK_2BUTTON_PRESS)
+		rule_edit (widget, re);
 }
 
 static void

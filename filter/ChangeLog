@@ -1,3 +1,16 @@
+2001-03-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (rule_edit): Set the editor dialog modal rather
+	than setting the filter dialog insensitive. Also ref re->edit
+	since we unref it when the editor closes. This should fix bug
+	#1905.
+	(edit_editor_clicked): No need to set the filter dialog sensitive
+	again.
+	(rule_add): Set the add-rule dialog modal and don't set the filter
+	dialog insensitive.
+	(add_editor_clicked): No need to set the filter dialog sensitive
+	again.
+
 2001-03-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* filter-option.c (build_code): Since we are now using
