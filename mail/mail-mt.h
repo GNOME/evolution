@@ -27,13 +27,13 @@
 #include "camel/camel-exception.h"
 #include "e-util/e-msgport.h"
 #include "camel/camel-object.h"
-#include "camel/camel-session.h"
+#include "camel/camel-operation.h"
 
 typedef struct _mail_msg {
 	EMsg msg;		/* parent type */
 	struct _mail_msg_op *ops; /* operation functions */
 	unsigned int seq;	/* seq number for synchronisation */
-	CamelCancel *cancel;	/* a cancellation handle */
+	CamelOperation *cancel;	/* a cancellation/status handle */
 	CamelException ex;	/* an initialised camel exception, upto the caller to use this */
 } mail_msg_t;
 

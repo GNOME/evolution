@@ -1,3 +1,25 @@
+2001-02-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (operation_status): Handle internal camel status return.
+	(receive_done): Remove active download when done.
+	(mail_receive_uri): Initiate download of a single source, with no gui.
+	(build_dialogue): Mark any new items as real active downloads.
+	(do_show_status): Make the progress bar optional.
+
+2001-02-06  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c: camel_cancel->camel_operation.
+
+	* mail-ops.old.c: camel_cancel->camel_operation.
+
+	* mail-ops.c: camel_cancel->camel_operation.
+
+	* mail-mt.c: camel_cancel->camel_operation. 
+
+	* mail-callbacks.c (stop_threads): camel_cancel->camel_operation.
+
+	* mail-mt.h: CamelCancel->CamelOperation.
+
 2001-02-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-mt.c (set_view_data): Check current_message for NULL - this

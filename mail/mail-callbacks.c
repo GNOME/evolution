@@ -1138,6 +1138,6 @@ edit_message (BonoboUIComponent *uih, void *user_data, const char *path)
 void
 stop_threads(BonoboUIComponent *uih, void *user_data, const char *path)
 {
-	camel_cancel_cancel(NULL);
+	camel_operation_cancel(NULL);
 }
 

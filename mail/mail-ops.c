@@ -30,6 +30,7 @@
 #include <ctype.h>
 #include <errno.h>
 #include <camel/camel-mime-filter-from.h>
+#include <camel/camel-operation.h>
 #include "mail.h"
 #include "mail-threads.h"
 #include "mail-tools.h"
@@ -119,7 +120,7 @@ struct _filter_mail_msg {
 
 	CamelFolder *source_folder; /* where they come from */
 	GPtrArray *source_uids;	/* uids to copy, or NULL == copy all */
-	CamelCancel *cancel;
+	CamelOperation *cancel;
 	CamelFilterDriver *driver;
 	int delete;		/* delete messages after filtering them? */
 	CamelFolder *destination; /* default destination for any messages, NULL for none */
@@ -129,7 +130,7 @@ struct _filter_mail_msg {
 struct _fetch_mail_msg {
 	struct _filter_mail_msg fmsg;
 
-	CamelCancel *cancel;	/* we have our own cancellation struct, the other should be empty */
+	CamelOperation *cancel;	/* we have our own cancellation struct, the other should be empty */
 	int keep;		/* keep on server? */
 
 	char *source_uri;
@@ -148,13 +149,13 @@ filter_folder_filter(struct _mail_msg *mm)
 	GPtrArray *uids, *folder_uids = NULL;
 
 	if (m->cancel)
-		camel_cancel_register(m->cancel);
+		camel_operation_register(m->cancel);
 
 	folder = m->source_folder;
 
 	if (folder == NULL || camel_folder_get_message_count (folder) == 0) {
 		if (m->cancel)
-			camel_cancel_unregister(m->cancel);
+			camel_operation_unregister(m->cancel);
 		return;
 	}
 
@@ -183,7 +184,7 @@ filter_folder_filter(struct _mail_msg *mm)
 		camel_folder_thaw(m->destination);
 
 	if (m->cancel)
-		camel_cancel_unregister(m->cancel);
+		camel_operation_unregister(m->cancel);
 }
 
 static void
@@ -205,7 +206,7 @@ filter_folder_free(struct _mail_msg *mm)
 		g_ptr_array_free(m->source_uids, TRUE);
 	}
 	if (m->cancel)
-		camel_cancel_unref(m->cancel);
+		camel_operation_unref(m->cancel);
 	if (m->destination)
 		camel_object_unref((CamelObject *)m->destination);
 	camel_object_unref((CamelObject *)m->driver);
@@ -221,7 +222,7 @@ static struct _mail_msg_op filter_folder_op = {
 void
 mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
 		   FilterContext *fc, const char *type,
-		   CamelCancel *cancel)
+		   CamelOperation *cancel)
 {
 	struct _filter_mail_msg *m;
 
@@ -232,7 +233,7 @@ mail_filter_folder(CamelFolder *source_folder, GPtrArray *uids,
 	m->delete = FALSE;
 	if (cancel) {
 		m->cancel = cancel;
-		camel_cancel_ref(cancel);
+		camel_operation_ref(cancel);
 	}
 
 	m->driver = camel_filter_driver_new(filter_get_folder, NULL);
@@ -261,11 +262,11 @@ fetch_mail_fetch(struct _mail_msg *mm)
 	int i;
 
 	if (m->cancel)
-		camel_cancel_register(m->cancel);
+		camel_operation_register(m->cancel);
 
 	if ( (fm->destination = mail_tool_get_local_inbox(&mm->ex)) == NULL) {
 		if (m->cancel)
-			camel_cancel_unregister(m->cancel);
+			camel_operation_unregister(m->cancel);
 		return;
 	}
 
@@ -324,7 +325,7 @@ fetch_mail_fetch(struct _mail_msg *mm)
 	}
 
 	if (m->cancel)
-		camel_cancel_unregister(m->cancel);
+		camel_operation_unregister(m->cancel);
 }
 
 static void
@@ -343,7 +344,7 @@ fetch_mail_free(struct _mail_msg *mm)
 
 	g_free(m->source_uri);
 	if (m->cancel)
-		camel_cancel_unref(m->cancel);
+		camel_operation_unref(m->cancel);
 
 	filter_folder_free(mm);
 }
@@ -358,7 +359,7 @@ static struct _mail_msg_op fetch_mail_op = {
 /* ouch, a 'do everything' interface ... */
 void mail_fetch_mail(const char *source, int keep,
 		     FilterContext *fc, const char *type,
-		     CamelCancel *cancel,
+		     CamelOperation *cancel,
 		     CamelFilterGetFolderFunc get_folder, void *get_data,
 		     CamelFilterStatusFunc *status, void *status_data,
 		     void (*done)(char *source, void *data), void *data)
@@ -372,7 +373,7 @@ void mail_fetch_mail(const char *source, int keep,
 	fm->delete = !keep;
 	if (cancel) {
 		m->cancel = cancel;
-		camel_cancel_ref(cancel);
+		camel_operation_ref(cancel);
 	}
 	m->done = done;
 	m->data = data;
@@ -516,9 +517,9 @@ static void send_mail_send(struct _mail_msg *mm)
 {
 	struct _send_mail_msg *m = (struct _send_mail_msg *)mm;
 
-	camel_cancel_register(mm->cancel);
+	camel_operation_register(mm->cancel);
 	mail_send_message(m->message, m->destination, m->driver, &mm->ex);
-	camel_cancel_unregister(mm->cancel);
+	camel_operation_unregister(mm->cancel);
 }
 
 static void send_mail_sent(struct _mail_msg *mm)
@@ -578,7 +579,7 @@ struct _send_queue_msg {
 	char *destination;
 
 	CamelFilterDriver *driver;
-	CamelCancel *cancel;
+	CamelOperation *cancel;
 
 	/* we use camelfilterstatusfunc, even though its not the filter doing it */
 	CamelFilterStatusFunc *status;
@@ -617,7 +618,7 @@ send_queue_send(struct _mail_msg *mm)
 		return;
 
 	if (m->cancel)
-		camel_cancel_register(m->cancel);
+		camel_operation_register(m->cancel);
 	
 	for (i=0; i<uids->len; i++) {
 		CamelMimeMessage *message;
@@ -660,7 +661,7 @@ send_queue_send(struct _mail_msg *mm)
 		camel_folder_sync(sent_folder, FALSE, &mm->ex);
 
 	if (m->cancel)
-		camel_cancel_unregister(m->cancel);
+		camel_operation_unregister(m->cancel);
 }
 
 static void
@@ -680,7 +681,7 @@ send_queue_free(struct _mail_msg *mm)
 	camel_object_unref((CamelObject *)m->queue);
 	g_free(m->destination);
 	if (m->cancel)
-		camel_cancel_unref(m->cancel);
+		camel_operation_unref(m->cancel);
 }
 
 static struct _mail_msg_op send_queue_op = {
@@ -694,7 +695,7 @@ static struct _mail_msg_op send_queue_op = {
 void
 mail_send_queue(CamelFolder *queue, const char *destination,
 		FilterContext *fc, const char *type,
-		CamelCancel *cancel,
+		CamelOperation *cancel,
 		CamelFilterGetFolderFunc get_folder, void *get_data,
 		CamelFilterStatusFunc *status, void *status_data,
 		void (*done)(char *destination, void *data), void *data)
@@ -707,7 +708,7 @@ mail_send_queue(CamelFolder *queue, const char *destination,
 	m->destination = g_strdup(destination);
 	if (cancel) {
 		m->cancel = cancel;
-		camel_cancel_ref(cancel);
+		camel_operation_ref(cancel);
 	}
 	m->status = status;
 	m->status_data = status_data;
@@ -1426,7 +1427,7 @@ struct _get_message_msg {
 	void (*done) (CamelFolder *folder, char *uid, CamelMimeMessage *msg, void *data);
 	void *data;
 	CamelMimeMessage *message;
-	CamelCancel *cancel;
+	CamelOperation *cancel;
 };
 
 static char *get_message_desc(struct _mail_msg *mm, int done)
@@ -1440,9 +1441,9 @@ static void get_message_get(struct _mail_msg *mm)
 {
 	struct _get_message_msg *m = (struct _get_message_msg *)mm;
 
-	camel_cancel_register(m->cancel);
+	camel_operation_register(m->cancel);
 	m->message = camel_folder_get_message(m->folder, m->uid, &mm->ex);
-	camel_cancel_unregister(m->cancel);
+	camel_operation_unregister(m->cancel);
 }
 
 static void get_message_got(struct _mail_msg *mm)
@@ -1459,7 +1460,7 @@ static void get_message_free(struct _mail_msg *mm)
 
 	g_free(m->uid);
 	camel_object_unref((CamelObject *)m->folder);
-	camel_cancel_unref(m->cancel);
+	camel_operation_unref(m->cancel);
 }
 
 static struct _mail_msg_op get_message_op = {
@@ -1480,7 +1481,7 @@ mail_get_message(CamelFolder *folder, const char *uid, void (*done) (CamelFolder
 	m->uid = g_strdup(uid);
 	m->data = data;
 	m->done = done;
-	m->cancel = camel_cancel_new();
+	m->cancel = camel_operation_new(NULL, NULL);
 
 	e_thread_put(thread, (EMsg *)m);
 }
