@@ -1,3 +1,14 @@
+2004-08-14  Sivaiah Nallagatla <snallagatla@novell.com>
+
+       * gui/e-tasks.c (e_tasks_init) : initialize priv->default_lcient
+        (default_client_cal_opened_cb) : unref priv->default_client
+        and make it NULL
+       (client_cal_opened_cb) : don't unref client
+       explicitly as removing from priv->clients already does that.
+        Remove client based on uid instead of uri
+      (backend_died_cb) : Remove client based on uid insted of uri
+        Fixes #62869
+
 2004-08-12  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/calendar-setup.glade: make the button say Add Task

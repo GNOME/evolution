@@ -610,7 +610,7 @@ e_tasks_init (ETasks *tasks)
 	priv->view_menus = NULL;
 	priv->current_uid = NULL;
 	priv->sexp = g_strdup ("#t");
-
+	priv->default_client = NULL;
 	update_view (tasks);
 }
 
@@ -761,7 +761,7 @@ backend_died_cb (ECal *client, gpointer data)
 	source = g_object_ref (e_cal_get_source (client));
 
 	priv->clients_list = g_list_remove (priv->clients_list, client);
-	g_hash_table_remove (priv->clients, e_cal_get_uri (client));
+	g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
 	gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
@@ -807,12 +807,11 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 						      0, 0, NULL, NULL, tasks);
 
 		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
+		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
 		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
 		set_status_message (tasks, NULL);
-		g_object_unref (ecal);
 		g_object_unref (source);
 
 		break;
@@ -849,12 +848,13 @@ default_client_cal_opened_cb (ECal *ecal, ECalendarStatus status, ETasks *tasks)
 						      0, 0, NULL, NULL, tasks);
 
 		/* Do this last because it unrefs the client */
-		g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
+		g_hash_table_remove (priv->clients,  e_source_peek_uid (source));
 
 		gtk_signal_emit (GTK_OBJECT (tasks), e_tasks_signals[SOURCE_REMOVED], source);
 
 		set_status_message (tasks, NULL);
-		g_object_unref (ecal);
+		g_object_unref (priv->default_client);
+		priv->default_client = NULL;
 		g_object_unref (source);
 
 		break;
