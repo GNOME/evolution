@@ -1,3 +1,25 @@
+2004-08-01  Not Zed  <NotZed@Ximian.com>
+ 
+ 	* apps_evolution_shell.schemas.in.in: added last_version item.
+ 
+ 	* shell-errors.xml: added upgrade-remove-1-4 and
+ 	upgrade-remove-1-4-confirm dialogues.
+ 
+ 	* e-shell.c (remove_dir): utility to recursively delete a tree of
+	files and folders.
+ 	(e_shell_attempt_upgrade): keep track of the last upgraded
+ 	version, if != current version, and < 1.5, and it exists, offer to
+ 	remove ~/evolution.  Confirm the offer before actually doing it.
+ 
+ 	* e-shell-window-commands.c: include gnome-about.
+ 	(command_help_faq): fix comment structure
+ 
+ 	* e-shell.c (attempt_upgrade): moved most of this into
+ 	e_shell_attempt_upgrade.
+ 	(e_shell_attempt_upgrade): moved most of this into
+	attempt_upgrade, removed rev args.  It makes sense, really!
+ 	(e_shell_construct): call e_shell_attempt_upgrade instead.
+
 2004-07-22  Not Zed  <NotZed@Ximian.com>
 
 	* e-shell.c (create_window): merged this into

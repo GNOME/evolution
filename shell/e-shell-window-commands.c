@@ -40,6 +40,7 @@
 #include <libgnome/gnome-exec.h>
 #include <libgnome/gnome-url.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-about.h>
 
 #include <libgnomevfs/gnome-vfs-mime-handlers.h>
 #include <libgnomevfs/gnome-vfs-mime-utils.h>
@@ -357,7 +358,7 @@ command_help_faq (BonoboUIComponent *uih,
 		  EShellWindow *window,
 		  const char *path)
 {
-	/* FIXME Show when we have a faq
+	/* FIXME Show when we have a faq */
 	/* FIXME use the error */
 	gnome_url_show ("http://gnome.org/projects/evolution/faq.shtml", NULL);	
 }

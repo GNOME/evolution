@@ -13,6 +13,18 @@
       </locale>
     </schema>
 
+    <!-- last upgraded-from version, if still present -->
+
+    <schema>
+      <key>/schemas/apps/evolution/last_version</key>
+      <applyto>/apps/evolution/last_version</applyto>
+      <owner>evolution</owner>
+      <type>string</type>
+      <locale name="C">
+        <short>Last upgraded Evolution configuration version</short>
+      </locale>
+    </schema>
+
     <!-- Development warning dialog -->
 
     <schema>
