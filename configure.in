@@ -157,10 +157,28 @@ if test x$enable_ldap = xyes; then
     AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS", ,-llber)
   fi
 fi
+
+
 if test x$ac_cv_lib_ldap_ldap_open = xyes; then
+dnl *
+dnl * check for openldap version 2.x, since 1.x doesn't have the schema stuff
+dnl *
+    AC_MSG_CHECKING(if openldap is version 2.x)
+    AC_EGREP_CPP(yes,
+    [#include "ldap.h"
+     #if LDAP_VENDOR_VERSION > 20000
+     yes
+     #endif
+     ], is_2x=yes, is_2x=no)
+
+    if test x$is_2x = xyes; then
+        AC_MSG_RESULT(yes)
 	AC_DEFINE(HAVE_LDAP)
 	AC_SUBST(LDAP_LIBS)
 	msg_ldap=Yes
+    else
+	AC_MSG_ERROR(evolution requires OpenLDAP version >= 2)
+    fi
 else
 	msg_ldap=No
         enable_ldap=no

@@ -1,3 +1,7 @@
+2001-03-02  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: add logic to make sure we're building against OpenLDAP >= 2
+
 2001-03-01  Christopher James Lahey  <clahey@ximian.com>
 
 	* Makefile.am (SUBDIRS), configure.in: Added views stuff.
