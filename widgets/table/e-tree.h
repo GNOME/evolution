@@ -9,6 +9,7 @@
 #include <gal/widgets/e-printable.h>
 
 #include <gal/e-table/e-table-extras.h>
+#include <gal/e-table/e-table-specification.h>
 #include <gal/e-table/e-table-state.h>
 #include <gal/e-table/e-tree-model.h>
 
@@ -138,6 +139,7 @@ gchar          *e_tree_get_state                  (ETree                *e_tree)
 void            e_tree_save_state                 (ETree                *e_tree,
 						   const gchar          *filename);
 ETableState    *e_tree_get_state_object           (ETree                *e_tree);
+ETableSpecification    *e_tree_get_spec           (ETree                *e_tree);
 
 /* note that it is more efficient to provide the state at creation time */
 void            e_tree_set_state                  (ETree                *e_tree,

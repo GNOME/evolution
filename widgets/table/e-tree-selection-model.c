@@ -196,7 +196,7 @@ etsm_find_node_unless_equals (ETreeSelectionModel *etsm,
 
 			return selection_node->children[position];
 		} else
-			  return NULL;
+			return NULL;
 	} else {
 		if (!etsm->priv->root)
 			etsm->priv->root = e_tree_selection_model_node_new();

@@ -36,7 +36,7 @@
 static ECellTextClass *parent_class;
 
 static char *
-ecn_get_text(ECellText *cell, ETableModel *model, int col, int row)
+ecf_get_text(ECellText *cell, ETableModel *model, int col, int row)
 {
 	gfloat   *fvalue;
 	
@@ -46,7 +46,7 @@ ecn_get_text(ECellText *cell, ETableModel *model, int col, int row)
 }
 
 static void
-ecn_free_text(ECellText *cell, char *text)
+ecf_free_text(ECellText *cell, char *text)
 {
 	g_free(text);
 }
@@ -58,8 +58,8 @@ e_cell_float_class_init (GtkObjectClass *object_class)
 
 	parent_class = gtk_type_class (PARENT_TYPE);
 
-	ectc->get_text  = ecn_get_text;
-	ectc->free_text = ecn_free_text;
+	ectc->get_text  = ecf_get_text;
+	ectc->free_text = ecf_free_text;
 }
 
 static void

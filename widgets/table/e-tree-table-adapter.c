@@ -605,21 +605,18 @@ etta_proxy_node_changed (ETreeModel *etm, ETreePath path, ETreeTableAdapter *ett
 		int row = find_row_num(etta, path);
 		int size;
 		int old_size;
+		ETreeTableAdapterNode *node;
 
 		if (row == -1)
 			return;
 
 		size = array_size_from_path(etta, path);
-		if (e_tree_model_node_is_expandable(etta->priv->source, path)) {
-			ETreeTableAdapterNode *node = find_or_create_node(etta, path);
+
+		node = find_node(etta, path);
+		if (node)
 			old_size = node->num_visible_children + 1;
-		} else {
-			ETreeTableAdapterNode *node = find_node(etta, path);
-			if (node)
-				old_size = node->num_visible_children + 1;
-			else
-				old_size = 1;
-		}
+		else
+			old_size = 1;
 
 		etta_expand_to(etta, etta->priv->n_map + size - old_size);
 
@@ -932,13 +929,13 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 		return;
 
 	node = find_or_create_node(etta, path);
-	row = find_row_num(etta, path);
 
 	if (expanded != node->expanded) {
 		e_table_model_pre_change (E_TABLE_MODEL(etta));
 
 		node->expanded = expanded;
 		
+		row = find_row_num(etta, path);
 		if (row != -1) {
 			if (etta->priv->root_visible)
 				e_table_model_row_changed(E_TABLE_MODEL(etta), row);
@@ -961,6 +958,7 @@ void         e_tree_table_adapter_node_set_expanded (ETreeTableAdapter *etta, ET
 				}
 			} else {
 				int num_children = node->num_visible_children;
+				g_assert (etta->priv->n_map >= row + 1 + num_children);
 				memmove(etta->priv->map_table + row + 1,
 					etta->priv->map_table + row + 1 + num_children,
 					(etta->priv->n_map - row - 1 - num_children) * sizeof (ETreePath));

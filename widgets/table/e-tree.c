@@ -418,7 +418,7 @@ e_tree_setup_header (ETree *e_tree)
 		"full_header", e_tree->priv->full_header,
 		"sort_info", e_tree->priv->sort_info,
 		"dnd_code", pointer,
-		/*		"table", e_tree, FIXME*/
+		"tree", e_tree,
 		NULL);
 
 	g_free(pointer);
@@ -912,6 +912,12 @@ e_tree_save_state (ETree      *e_tree,
 	state = e_tree_get_state_object(e_tree);
 	e_table_state_save_to_file(state, filename);
 	gtk_object_unref(GTK_OBJECT(state));
+}
+
+ETableSpecification *
+e_tree_get_spec (ETree *e_tree)
+{
+	return e_tree->priv->spec;
 }
 
 static void

@@ -81,6 +81,7 @@ enum {
 	ARG_TABLE_FONTSET,
 	ARG_SORT_INFO,
 	ARG_TABLE,
+	ARG_TREE,
 };
 
 static void
@@ -154,7 +155,6 @@ ethi_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags
 	
 	if (GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)
 		(*GNOME_CANVAS_ITEM_CLASS (ethi_parent_class)->update)(item, affine, clip_path, flags);
-
 
 	if (ethi->sort_info)
 		ethi->group_indent_width = e_table_sort_info_grouping_get_count(ethi->sort_info) * GROUP_INDENT;
@@ -325,6 +325,12 @@ ethi_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			ethi->table = E_TABLE(GTK_VALUE_OBJECT(*arg));
 		else
 			ethi->table = NULL;
+		break;
+	case ARG_TREE:
+		if (GTK_VALUE_OBJECT(*arg))
+			ethi->tree = E_TREE(GTK_VALUE_OBJECT(*arg));
+		else
+			ethi->tree = NULL;
 		break;
 	}
 	gnome_canvas_item_request_update(item);
@@ -1242,7 +1248,10 @@ apply_changes (ETableConfig *config, ETableHeaderItem *ethi)
 {
 	char *state = e_table_state_save_to_string (config->state);
 
-	e_table_set_state (ethi->table, state);
+	if (ethi->table)
+		e_table_set_state (ethi->table, state);
+	if (ethi->tree)
+		e_tree_set_state (ethi->tree, state);
 	g_free (state);
 }
 
@@ -1251,15 +1260,23 @@ ethi_popup_customize_view(GtkWidget *widget, EthiHeaderInfo *info)
 {
 	ETableHeaderItem *ethi = info->ethi;
 	ETableState *state;
+	ETableSpecification *spec;
 
 	if (ethi->config)
 		e_table_config_raise (E_TABLE_CONFIG (ethi->config));
 	else {
-		state = e_table_get_state_object(ethi->table);
+		if (ethi->table) {
+			state = e_table_get_state_object(ethi->table);
+			spec = ethi->table->spec;
+		} else if (ethi->tree) {
+			state = e_tree_get_state_object(ethi->tree);
+			spec = e_tree_get_spec (ethi->tree);
+		} else
+			return;
 
 		ethi->config = e_table_config_new (
-			_("Configuring view: FIXME"),
-			ethi->table->spec, state);
+				_("Configuring view: FIXME"),
+				spec, state);
 		gtk_signal_connect (
 			GTK_OBJECT (ethi->config), "destroy",
 			GTK_SIGNAL_FUNC (config_destroyed), ethi);
@@ -1302,7 +1319,7 @@ ethi_header_context_menu (ETableHeaderItem *ethi, GdkEventButton *event)
 	e_popup_menu_run (ethi_context_menu, (GdkEvent *) event,
 			  1 +
 			  (col->sortable ? 0 : 2) +
-			  (ethi->table ? 0 : 4) + 
+			  ((ethi->table || ethi->tree) ? 0 : 4) + 
 			  ((e_table_header_count (ethi->eth) > 1) ? 0 : 8),
 			  ((e_table_sort_info_get_can_group (ethi->sort_info)) ? 0 : 16) +
 			  128, info);
@@ -1543,6 +1560,8 @@ ethi_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_WRITABLE, ARG_SORT_INFO);
 	gtk_object_add_arg_type ("ETableHeaderItem::table", GTK_TYPE_OBJECT,
 				 GTK_ARG_WRITABLE, ARG_TABLE);
+	gtk_object_add_arg_type ("ETableHeaderItem::tree", E_TREE_TYPE,
+				 GTK_ARG_WRITABLE, ARG_TREE);
 
 	/*
 	 * Create our pixmaps for DnD
@@ -1589,6 +1608,7 @@ ethi_init (GnomeCanvasItem *item)
 
 	ethi->group_indent_width = 0;
 	ethi->table = NULL;
+	ethi->tree = NULL;
 }
 
 GtkType

@@ -818,10 +818,15 @@ eti_table_model_rows_deleted (ETableModel *table_model, int row, int count, ETab
 	if (!(GTK_OBJECT_FLAGS(eti) & GNOME_CANVAS_ITEM_REALIZED))
 		return;
 
+	g_assert (eti->rows == -1 || row + count <= eti->rows);
+
 	eti->rows = e_table_model_row_count (eti->table_model);
 
-	if (eti->height_cache)
+	g_assert (row <= eti->rows);
+
+	if (eti->height_cache) {
 		memmove(eti->height_cache + row, eti->height_cache + row + count, (eti->rows - row) * sizeof(int));
+	}
 
 	eti->needs_compute_height = 1;
 	e_canvas_item_request_reflow (GNOME_CANVAS_ITEM (eti));
@@ -1195,6 +1200,8 @@ eti_init (GnomeCanvasItem *item)
 	eti->in_drag                   = 0;
 	eti->maybe_in_drag             = 0;
 	eti->grabbed                   = 0;
+
+	eti->rows                      = -1;
 
 	e_canvas_item_set_reflow_callback (GNOME_CANVAS_ITEM (eti), eti_reflow);
 }

@@ -396,7 +396,7 @@ ect_height (ECellView *ecell_view, int model_col, int view_col, int row)
 {
 	ECellTreeView *tree_view = (ECellTreeView *) ecell_view;
 
-	return e_cell_height (tree_view->subcell_view, model_col, view_col, row);
+	return (((e_cell_height (tree_view->subcell_view, model_col, view_col, row)) + 1) / 2) * 2;
 }
 
 /*
