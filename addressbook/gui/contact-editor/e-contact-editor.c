@@ -24,6 +24,8 @@
 #include <gnome.h>
 #include "e-contact-editor.h"
 #include <e-contact-editor-fullname.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
+#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 
 static void e_contact_editor_init		(EContactEditor		 *card);
 static void e_contact_editor_class_init	(EContactEditorClass	 *klass);
@@ -103,22 +105,47 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 static void
 _add_image(GtkTable *table, gchar *image, int left, int right, int top, int bottom)
 {
-	GtkWidget *pixmap = gnome_pixmap_new_from_file(image);
-	GtkWidget *alignment = gtk_widget_new(gtk_alignment_get_type(),
-					      "child", pixmap,
-					      "xalign", (double) 0,
-					      "yalign", (double) 0,
-					      "xscale", (double) 0,
-					      "yscale", (double) 0,
-					      NULL);
+	GdkPixbuf *pixbuf;
+	double width, height;
+	GtkWidget *canvas, *alignment;
+
+	pixbuf = gdk_pixbuf_new_from_file(image);
+	width = gdk_pixbuf_get_width(pixbuf);
+	height = gdk_pixbuf_get_height(pixbuf);
+	canvas = gnome_canvas_new_aa();
+#if 0
+	gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(canvas)),
+			      gnome_canvas_rect_get_type(),
+			      "fill_color_gdk", &(gtk_widget_get_style(GTK_WIDGET(canvas))->bg[GTK_STATE_NORMAL]),
+			      "x1", 0.0,
+			      "y1", 0.0,
+			      "x2", width,
+			      "y2", height,
+			      NULL);
+#endif
+	gnome_canvas_item_new(gnome_canvas_root(GNOME_CANVAS(canvas)),
+			      gnome_canvas_pixbuf_get_type(),
+			      "pixbuf", pixbuf,
+			      NULL);
+	alignment = gtk_widget_new(gtk_alignment_get_type(),
+				   "child", canvas,
+				   "xalign", (double) 0,
+				   "yalign", (double) 0,
+				   "xscale", (double) 0,
+				   "yscale", (double) 0,
+				   NULL);
 	
+	gtk_widget_set_usize(canvas, width, height);
+
 	gtk_table_attach(table,
 			 alignment,
 			 left, right, top, bottom,
 			 GTK_FILL, GTK_FILL,
 			 0, 0);
 
-	gtk_widget_show(pixmap);
+	gdk_pixbuf_unref(pixbuf);
+
+	gtk_widget_show(canvas);
 	gtk_widget_show(alignment);
 }
 
@@ -136,9 +163,9 @@ _add_images(GtkTable *table)
 static void
 _add_details_images(GtkTable *table)
 {
-	_add_image(table, DATADIR "/evolution/briefcase.png", 0, 1, 0, 2);
-	_add_image(table, DATADIR "/evolution/head.png", 0, 1, 4, 6);
-	_add_image(table, DATADIR "/evolution/netfreebusy.png", 0, 1, 7, 9);
+	_add_image(table, EVOLUTION_IMAGES "/briefcase.png", 0, 1, 0, 2);
+	_add_image(table, EVOLUTION_IMAGES "/malehead.png", 0, 1, 4, 6);
+	_add_image(table, EVOLUTION_IMAGES "/globe.png", 0, 1, 7, 9);
 }
 
 static void

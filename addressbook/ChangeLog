@@ -1,5 +1,9 @@
 2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
 
+	* contact-editor/e-contact-editor.c: Use new art.
+
+2000-05-09  Christopher James Lahey  <clahey@helixcode.com>
+
 	* contact-editor/contact-editor.glade,
 	contact-editor/e-contact-editor-strings.h: Replaced the Address
 	button with a label and rearranged the address area a bit.

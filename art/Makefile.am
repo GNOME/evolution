@@ -7,6 +7,7 @@ images_DATA = \
 	evolution-notes.png \
 	evolution-tasks.png \
 	evolution-today.png \
+	briefcase.png       \
 	cellphone.png       \
 	globe.png           \
 	house.png           \
