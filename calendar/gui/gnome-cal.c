@@ -1782,21 +1782,13 @@ client_cal_opened_cb (ECal *ecal, ECalendarStatus status, GnomeCalendar *gcal)
 			e_calendar_view_set_status_message (E_CALENDAR_VIEW (gnome_calendar_get_current_view_widget (gcal)), NULL);
 		}
 	} else {
-		if (ecal == priv->task_pad_client)
+		if (ecal == priv->task_pad_client) {
+			g_object_unref (priv->task_pad_client);
 			priv->task_pad_client = NULL;
-		else {
-			gpointer orig_uid;
-			gpointer orig_client;
-
-			if (g_hash_table_lookup_extended (priv->clients, e_cal_get_uri (ecal), &orig_uid, &orig_client)) {
-				g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
-				g_free (orig_uid);
-			}
-
-			priv->clients_list = g_list_append (priv->clients_list, ecal);
+		} else {
+			priv->clients_list = g_list_remove (priv->clients_list, ecal);
+			g_hash_table_remove (priv->clients, e_cal_get_uri (ecal));
 		}
-
-		g_object_unref (ecal);
 	}
 }
 
@@ -1963,9 +1955,8 @@ backend_died_cb (ECal *client, gpointer data)
 			calendar_component_peek_source_selector (calendar_component_peek ()),
 			e_cal_get_source (client));
 
-		g_hash_table_remove (priv->clients, e_cal_get_uri (client));
 		priv->clients_list = g_list_remove (priv->clients_list, client);
-		g_object_unref (client);
+		g_hash_table_remove (priv->clients, e_cal_get_uri (client));
 	}
 
 	dialog = gtk_message_dialog_new (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (gcal))),

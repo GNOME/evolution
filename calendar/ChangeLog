@@ -1,3 +1,9 @@
+2004-02-26  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (client_cal_opened_cb): make sure we unref the
+	task pad client and the calendar clients are unreffed by the hash
+	table
+
 2004-02-24  JP Rosevear <jpr@ximian.com>
 
 	* gui/migration.c (migrate_calendars): fix float type pane
