@@ -1,61 +1,60 @@
-# Norwegian translation of evolution (bokmЕl dialect).
 # Copyright (C) 2000 Free Software Foundation, Inc.
-# Kjartan Maraas <kmaraas@online.no>, 2000.
+# Valek Filippov <frob@df.ru>, 2000.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 0.1\n"
+"Project-Id-Version: E-volution\n"
 "POT-Creation-Date: 2000-04-04 23:53+0200\n"
-"PO-Revision-Date: 2000-04-05 00:01+02:00\n"
-"Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
-"Language-Team: Norwegian <no@li.org>\n"
+"PO-Revision-Date: 2000-03-31 18:46+0400\n"
+"Last-Translator: Valek Filippov <frob@df.ru>\n"
+"Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
 #: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:349
 msgid "Cut"
-msgstr "Klipp ut"
+msgstr "Вырезать"
 
 #: composer/e-msg-composer-address-dialog.c:184
 msgid "Cut selected item into clipboard"
-msgstr "Klipp ut valgt oppfЬring til utklippstavlen"
+msgstr "Вырезает выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:350
 msgid "Copy"
-msgstr "KopiИr"
+msgstr "Скопировать"
 
 #: composer/e-msg-composer-address-dialog.c:188
 msgid "Copy selected item into clipboard"
-msgstr "KopiИr valgt oppfЬring til utklippstavlen"
+msgstr "Копирует выделенный элемент в буфер обмена"
 
 #: composer/e-msg-composer-address-dialog.c:191
 #: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:351
 msgid "Paste"
-msgstr "Lim inn"
+msgstr "Вставить"
 
 #: composer/e-msg-composer-address-dialog.c:192
 #: composer/e-msg-composer-address-dialog.c:200
 msgid "Paste item from clipboard"
-msgstr "Lim inn fra utklippstavlen"
+msgstr "Вставить элемент из буфера обмена"
 
 #: composer/e-msg-composer-address-dialog.c:528
 msgid "Select recipients' addresses"
-msgstr "Velg mottakerenes adresser"
+msgstr "Выбрать адреса получателей"
 
 #: composer/e-msg-composer-attachment-bar.c:73
 msgid "1 byte"
-msgstr "1 byte"
+msgstr "1 байт"
 
 #: composer/e-msg-composer-attachment-bar.c:75
 #, c-format
 msgid "%u bytes"
-msgstr "%u bytes"
+msgstr "%u байт"
 
 #: composer/e-msg-composer-attachment-bar.c:82
 #, c-format
 msgid "%.1fK"
-msgstr "%.1fK"
+msgstr "%.1fК"
 
 #: composer/e-msg-composer-attachment-bar.c:86
 #, c-format
@@ -69,123 +68,123 @@ msgstr "%.1fG"
 
 #: composer/e-msg-composer-attachment-bar.c:304
 msgid "Add attachment"
-msgstr "Legg til vedlegg"
+msgstr "Добавить вложение"
 
 #: composer/e-msg-composer-attachment-bar.c:361
 msgid "Remove"
-msgstr "Fjern"
+msgstr "Удалить"
 
 #: composer/e-msg-composer-attachment-bar.c:362
 msgid "Remove selected items from the attachment list"
-msgstr "Fjern valgte oppfЬringer fra vedleggslisten"
+msgstr "Удалить выбранные элементы из списка вложений"
 
 #: composer/e-msg-composer-attachment-bar.c:393
 msgid "Add attachment..."
-msgstr "Legg til vedlegg..."
+msgstr "Добавить вложение..."
 
 #: composer/e-msg-composer-attachment-bar.c:394
 msgid "Attach a file to the message"
-msgstr "Legg en fil ved meldingen"
+msgstr "Присоединить файл к сообщению"
 
 #: composer/e-msg-composer-attachment.c:259
 msgid "Select attachment"
-msgstr "Velg vedlegg"
+msgstr "Выбрать вложение"
 
 #: composer/e-msg-composer-hdrs.c:88
 msgid "Click here for the address book"
-msgstr "Klikk her for Е fЕ opp adresseboken"
+msgstr "Щелкните здесь для адресной книги"
 
 #: composer/e-msg-composer-hdrs.c:123
 msgid "To:"
-msgstr "Til:"
+msgstr "Кому:"
 
 #: composer/e-msg-composer-hdrs.c:124
 msgid "Enter the recipients of the message"
-msgstr "Skriv inn mottakerene for meldingen"
+msgstr "Введите получателей сообщения"
 
 #: composer/e-msg-composer-hdrs.c:128
 msgid "Cc:"
-msgstr "Cc:"
+msgstr "Копия:"
 
 #: composer/e-msg-composer-hdrs.c:129
 msgid "Enter the addresses that will receive a carbon copy of the message"
-msgstr "Skriv inn adressene som skal motta en kopi av meldingen"
+msgstr "Введите адресатов, которые получат копию сообщения"
 
 #: composer/e-msg-composer-hdrs.c:134
 msgid "Bcc:"
-msgstr "Bcc:"
+msgstr "Скр.копия:"
 
 #: composer/e-msg-composer-hdrs.c:135
 msgid ""
 "Enter the addresses that will receive a carbon copy of the message without "
 "appearing in the recipient list of the message."
 msgstr ""
-"Skriv inn adressene som skal motta en kopi av meldingen uten Е komme til "
-"syne i mottakerlisten for meldingen."
+"Введите адресатов, которые получат копию сообщения не попав в список "
+"получателей."
 
 #: composer/e-msg-composer-hdrs.c:141
 msgid "Subject:"
-msgstr "Emne:"
+msgstr "Тема:"
 
 #: composer/e-msg-composer-hdrs.c:142
 msgid "Enter the subject of the mail"
-msgstr "Skriv inn emnet for meldingen"
+msgstr "Введите тему письма"
 
 #: composer/e-msg-composer.c:307
 msgid "Save in _folder..."
-msgstr "Lagre i _mappe..."
+msgstr "Сохранить в папке..."
 
 #: composer/e-msg-composer.c:307
 msgid "Save the message in a specified folder"
-msgstr "Lagre meldingen i en spesifisert mappe"
+msgstr "Сохранить сообщение в указанной папке"
 
 #: composer/e-msg-composer.c:310 composer/e-msg-composer.c:347
 msgid "Send"
-msgstr "Send"
+msgstr "Отправить"
 
 #: composer/e-msg-composer.c:310
 msgid "Send the message"
-msgstr "Send meldingen"
+msgstr "Отправить сообщение"
 
 #: composer/e-msg-composer.c:318
 msgid "View _attachments"
-msgstr "Vis _vedlegg"
+msgstr "Просмотреть вложения"
 
 #: composer/e-msg-composer.c:318
 msgid "View/hide attachments"
-msgstr "Vis/skjul vedlegg"
+msgstr "Показать/скрыть вложения"
 
 #: composer/e-msg-composer.c:347
 msgid "Send this message"
-msgstr "Send denne meldingen"
+msgstr "Отправить это сообщение"
 
 #: composer/e-msg-composer.c:349
 msgid "Cut selected region into the clipboard"
-msgstr "Klipp ut valgt omrЕde til utklippstavlen"
+msgstr "Вырезать выделенную область в буфер обмена"
 
 #: composer/e-msg-composer.c:350
 msgid "Copy selected region into the clipboard"
-msgstr "KopiИr valgt omrЕde til utklippstavlen"
+msgstr "Скопировать выделенную область в буфер обмена"
 
 #: composer/e-msg-composer.c:351
 msgid "Paste selected region into the clipboard"
-msgstr "Lim inn valgt omrЕde til utklippstavlen"
+msgstr "Вставить выделенную область в буфер обмена"
 
 #: composer/e-msg-composer.c:352
 msgid "Undo"
-msgstr "Angre"
+msgstr "Откат"
 
 #: composer/e-msg-composer.c:352
 msgid "Undo last operation"
-msgstr "Angre siste operasjon"
+msgstr "Отменить последнюю операцию"
 
 #: composer/e-msg-composer.c:354
 msgid "Attach"
-msgstr "Legg ved"
+msgstr "Присоединить"
 
 #: composer/e-msg-composer.c:354
 msgid "Attach a file"
-msgstr "Legg ved en fil"
+msgstr "Присоединить файл"
 
 #: e-util/e-setup.c:38
 #, c-format
@@ -195,10 +194,10 @@ msgid ""
 "Evolution can rename the file, delete the file or shutdown and\n"
 "let you fix the problem."
 msgstr ""
-"Evolution ble oppmerksom pЕ at '%s' ikke er en katalog.\n"
+"Программа Evolution обнаружила что файл '%s' не является каталогом.\n"
 "\n"
-"Evolution kan gi nytt navn til filen, slette filen eller kjЬre\n"
-"ned for Е la deg ta deg av problemet."
+"Можно переименовать файл, удалить файл или отключиться и\n"
+"позволить вам решить проблему."
 
 #: mail/folder-browser-factory.c:82
 msgid ""
@@ -209,321 +208,316 @@ msgid ""
 " this program. \n"
 "     You have been warned\n"
 msgstr ""
-"Dette er en utviklingsversjon av Evolution.\n"
-" Bruk av e-post klienten pЕ dine e-post filer\n"
-" er ekstremt farefullt.\n"
-"Vennligst ta sikkerhetskopier av alle meldiner fЬr\n"
-" du prЬver dette programmet.\n"
-"     Du er herved advart\n"
 
 #: mail/folder-browser-factory.c:151
 msgid "_Mail"
-msgstr "_E-post"
+msgstr "Почта"
 
 #: mail/folder-browser-factory.c:295
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
-msgstr "Vi beklager, Evolution's mappeutforsker kan ikke initialiseres."
+msgstr ""
 
 #: mail/folder-browser.c:181
 msgid "The URI that the Folder Browser will display"
-msgstr "URIen som mappeutforskeren vil vise"
+msgstr ""
 
 #: mail/folder-browser.c:184
 msgid "Whether a message preview should be shown"
-msgstr "Om forhЕndsvisning av meldinger skal brukes"
+msgstr ""
 
 #: mail/mail-component.c:30 mail/main.c:33
 msgid "Mail Component: I could not initialize Bonobo"
-msgstr "E-post komponent: Kunne ikke initialisere Bonobo"
+msgstr "Почтовый компонент: не удалось инициализировать Bonobo"
 
 #: mail/mail-display.c:98
 msgid ""
 "An exception occured while trying to load data into the component with "
 "PersistStream"
-msgstr "Et unntak oppstod under forsЬk pЕ Е laste data inn i komponenten med PersistStream"
+msgstr ""
+"При попытке загрузить данные в компонент с PersistStream возникло исключение"
 
 #: mail/mail-display.c:235
 #, c-format
 msgid "The %s component doesn't support PersistStream!\n"
-msgstr "%s komponenten stЬtter ikke PersistStream!\n"
+msgstr "Компонент %s не поддерживает PersistStream!\n"
 
 #: mail/message-list.c:343
 msgid "Online status"
-msgstr "PЕlogget status"
+msgstr "Состояние 'Online'"
 
 #: mail/message-list.c:349
 msgid "Message status"
-msgstr "Meldingsstatus"
+msgstr "Состояние сообщения"
 
 #: mail/message-list.c:355
 msgid "Priority"
-msgstr "Prioritet"
+msgstr "Приоритет"
 
 #: mail/message-list.c:361
 msgid "Attachment"
-msgstr "Vedlegg"
+msgstr "Вложение"
 
 #: mail/message-list.c:367
 msgid "From"
-msgstr "Fra"
+msgstr "От"
 
 #: mail/message-list.c:373
 msgid "Subject"
-msgstr "Emne"
+msgstr "Тема"
 
 #: mail/message-list.c:379
 msgid "Sent"
-msgstr "Sendt"
+msgstr "Отправлено"
 
 #: mail/message-list.c:385
 msgid "Receive"
-msgstr "Motta"
+msgstr "Получено"
 
 #: mail/message-list.c:390
 msgid "To"
-msgstr "Til"
+msgstr "Кому"
 
 #: mail/message-list.c:396
 msgid "Size"
-msgstr "StЬrrelse"
+msgstr "Размер"
 
 #: shell/e-folder.c:150
 msgid "A folder containing mail items"
-msgstr "En mappe som inneholder e-post oppfЬringer"
+msgstr "Папка содержащая почту"
 
 #: shell/e-folder.c:153
 msgid "A folder containing contacts"
-msgstr "En mappe med kontakter"
+msgstr "Папка содержащая контакты"
 
 #: shell/e-folder.c:156
 msgid "A folder containing calendar entries"
-msgstr "En mappe med kalenderoppfЬringer"
+msgstr "Папка содержащая календарь"
 
 #: shell/e-folder.c:159
 msgid "A folder containing tasks"
-msgstr "En mappe med oppgaver"
+msgstr "Папка содержащая задания"
 
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
-msgstr "Evolution kan ikke opprette sine lokale mapper"
+msgstr "Программа Evolution не может создать эту локальную папку"
 
 #: shell/e-service.c:166
 msgid "A service containing mail items"
-msgstr "En tjeneste som inneholder e-post oppfЬringer"
+msgstr "Сервис содержащий почту"
 
 #: shell/e-service.c:169
 msgid "A service containing contacts"
-msgstr "En tjeneste som inneholder kontakter"
+msgstr "Сервис содержащий контакты"
 
 #: shell/e-service.c:172
 msgid "A service containing calendar entries"
-msgstr "En tjeneste som inneholder kalenderoppfЬringer"
+msgstr "Сервис содержащий календарь"
 
 #: shell/e-service.c:175
 msgid "A service containing tasks"
-msgstr "En tjeneste som inneholder oppgaver"
+msgstr "Сервис содержащий задания"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"
-msgstr "Store ikoner"
+msgstr "Большие пиктограммы"
 
 #: shell/e-shell-shortcut.c:100
 msgid "Small Icons"
-msgstr "SmЕ ikoner"
+msgstr "Маленькие пиктограммы"
 
 #: shell/e-shell-shortcut.c:102
 msgid "Add New Group"
-msgstr "Legg til ny gruppe"
+msgstr "Добавить новую группу"
 
 #: shell/e-shell-shortcut.c:103
 msgid "Remove Group"
-msgstr "Fjern gruppe"
+msgstr "Удалить группу"
 
 #: shell/e-shell-shortcut.c:104
 msgid "Rename Group"
-msgstr "Gi nytt navn til gruppe"
+msgstr "Переименовать группу"
 
 #: shell/e-shell-shortcut.c:106
 msgid "Add Shortcut"
-msgstr "Legg til snarvei"
+msgstr "Добавить ярлык"
 
 #: shell/e-shell-shortcut.c:208
 msgid "Open Folder"
-msgstr "еpne mappe"
+msgstr "Открыть папку"
 
 #: shell/e-shell-shortcut.c:209
 msgid "Open in New Window"
-msgstr "еpne i et nytt vindu"
+msgstr "Открыть в новом окне"
 
 #: shell/e-shell-shortcut.c:210
 msgid "Advanced Find"
-msgstr "Avansert sЬk"
+msgstr "Расширенный поиск"
 
 #: shell/e-shell-shortcut.c:212
 msgid "Remove From Shortcut Bar"
-msgstr "Fjern fra snarveilinjen"
+msgstr "Удалить из строки ярлыков"
 
 #: shell/e-shell-shortcut.c:213
 msgid "Rename Shortcut"
-msgstr "Gi nytt navn til snarvei"
+msgstr "Переименовать ярлык"
 
 #: shell/e-shell-shortcut.c:215
 msgid "Properties"
-msgstr "Egenskaper"
+msgstr "Свойства"
 
 #: shell/e-shell-view-menu.c:105 shell/e-shell-view-menu.c:171
 msgid "_Folder"
-msgstr "_Mappe"
+msgstr "Папка"
 
 #: shell/e-shell-view-menu.c:109
 msgid "Evolution _Bar Shortcut"
-msgstr "Evolution s_narveilinje"
+msgstr "Строка ярлыков Evolution"
 
 #: shell/e-shell-view-menu.c:115
 msgid "_Mail message"
-msgstr "E-post _melding"
+msgstr "Почтовое сообщение"
 
 #: shell/e-shell-view-menu.c:116 shell/e-shell-view-menu.c:119
 msgid "Composes a new mail message"
-msgstr "Lager en ny e-post melding"
+msgstr "Создать новое сообщение"
 
 #: shell/e-shell-view-menu.c:118
 msgid "_Appointment"
-msgstr "_Avtale"
+msgstr "Встреча"
 
 #: shell/e-shell-view-menu.c:121
 msgid "Meeting Re_quest"
-msgstr "MЬteforesp_Ьrsel"
+msgstr "Запрос встречи"
 
 #: shell/e-shell-view-menu.c:124
 msgid "_Contact"
-msgstr "_Kontakt"
+msgstr "Контакт"
 
 #: shell/e-shell-view-menu.c:127
 msgid "_Task"
-msgstr "_Oppgave"
+msgstr "Задание"
 
 #: shell/e-shell-view-menu.c:130
 msgid "Task _Request"
-msgstr "Oppgavefo_respЬrsel"
+msgstr "Запрос задания"
 
 #: shell/e-shell-view-menu.c:133
 msgid "_Journal Entry"
-msgstr "_JournaloppfЬring"
+msgstr "Журнальная строка"
 
 #: shell/e-shell-view-menu.c:136
 msgid "_Note"
-msgstr "_Notat"
+msgstr "Заметка"
 
 #: shell/e-shell-view-menu.c:146
 msgid "_Selected Items"
-msgstr "_Valgte oppfЬringer"
+msgstr "Выделенные элементы"
 
 #: shell/e-shell-view-menu.c:154
 msgid "_New Folder"
-msgstr "_Ny mappe"
+msgstr "Новая папка"
 
 #: shell/e-shell-view-menu.c:162
 msgid "_New"
-msgstr "_Ny"
+msgstr "Новое"
 
 #: shell/e-shell-view-menu.c:163
 msgid "_Open"
-msgstr "_еpne"
+msgstr "Открыть"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Clos_e All Items"
-msgstr "Lukk all_e oppfЬringer"
+msgstr "Закрыть все"
 
 #: shell/e-shell-view-menu.c:164
 msgid "Closes all the open items"
-msgstr "Lukker alle Еpne oppfЬringer"
+msgstr "Закрыть все что открыто"
 
 #. FIXME: add Favorites here
 #: shell/e-shell-view-menu.c:203
 msgid "_Tools"
-msgstr "_VerktЬy"
+msgstr "Инструменты"
 
 #: shell/e-shell-view-menu.c:204
 msgid "_Actions"
-msgstr "H_andlinger"
+msgstr "Действия"
 
 #: shell/e-shell.c:257
 msgid "Today"
-msgstr "I dag"
+msgstr "Сегодня"
 
 #: shell/e-shell.c:257
 msgid "Executive Summary"
-msgstr "Sammendrag"
+msgstr ""
 
 #: shell/e-shell.c:260
 msgid "Inbox"
-msgstr "Innboks"
+msgstr "Входящие"
 
 #: shell/e-shell.c:260
 msgid "New mail messages"
-msgstr "Nye e-post meldinger"
+msgstr "Новые почтовые сообщения"
 
 #: shell/e-shell.c:263
 msgid "Sent messages"
-msgstr "Sendte meldinger"
+msgstr "Отправить сообщения"
 
 #: shell/e-shell.c:263
 msgid "Sent mail messages"
-msgstr "Sendte e-post meldinger"
+msgstr "Отправить почтовые сообщения"
 
 #: shell/e-shell.c:266
 msgid "Drafts"
-msgstr "Skisser"
+msgstr "Черновики"
 
 #: shell/e-shell.c:266
 msgid "Draft mail messages"
-msgstr "Skisser av e-post meldinger"
+msgstr "Черновики почтовых сообщений"
 
 #: shell/e-shell.c:269
 msgid "Calendar"
-msgstr "Kalender"
+msgstr "Календарь"
 
 #: shell/e-shell.c:269
 msgid "Your calendar"
-msgstr "Din kalender"
+msgstr "Ваш календарь"
 
 #: shell/e-shell.c:272
 msgid "Contacts"
-msgstr "Kontakter"
+msgstr "Контакты"
 
 #: shell/e-shell.c:272
 msgid "Your contacts list"
-msgstr "Din kontaktliste"
+msgstr "Ваш список контактов"
 
 #: shell/e-shell.c:275
 msgid "Tasks"
-msgstr "Oppgaver"
+msgstr "Задания"
 
 #: shell/e-shell.c:275
 msgid "Tasks list"
-msgstr "Oppgaveliste"
+msgstr "Список заданий"
 
 #: shell/e-shell.c:284
 msgid "Main Shortcuts"
-msgstr "Hovedsnarveier"
+msgstr "Главные ярлыки"
 
 #: shell/e-shell.c:299
 msgid "Other Shortcuts"
-msgstr "Andre snarveier"
+msgstr "Другие ярлыки"
 
 #: shell/e-shortcut.c:466
 msgid "New group"
-msgstr "Ny gruppe"
+msgstr "Новая группа"
 
 #: shell/main.c:27
 msgid "Enables some debugging functions"
-msgstr "SlЕr pЕ noen feilsЬkingsfunksjoner"
+msgstr "Разрешить некоторые отладочные функции"
 
 #: shell/main.c:27
 msgid "LEVEL"
-msgstr "NIVе"
+msgstr "УРОВЕНЬ"
 
 #: shell/main.c:44
 msgid "Failed to initialize the Bonobo component system"
-msgstr "Kunne ikke initialisere Bonobo komponentsystemet"
+msgstr "Не удалось инициализировать компонентную систему Bonobo"
