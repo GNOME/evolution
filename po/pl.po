@@ -9,8 +9,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-10-03 11:23+0200\n"
-"PO-Revision-Date: 2001-10-03 11:30+0200\n"
+"POT-Creation-Date: 2001-10-07 18:29+0200\n"
+"PO-Revision-Date: 2001-10-07 18:37+0200\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -800,6 +800,16 @@ msgid "De_lete"
 msgstr "_Usuñ"
 
 #: addressbook/gui/component/addressbook-config.glade.h:1
+msgid "Email Address:"
+msgstr "Adres e-mail:"
+
+#: addressbook/gui/component/addressbook-config.glade.h:1
+msgid ""
+"Evolution will use this email address to authenticate you with the server"
+msgstr ""
+"Evolution wykorzysta ten adres e-mail przy uwierzytelnianiu na serwerze"
+
+#: addressbook/gui/component/addressbook-config.glade.h:1
 msgid "One"
 msgstr "Pojedyncze"
 
@@ -899,23 +909,6 @@ msgid "Other Contacts"
 msgstr "Inne kontakty"
 
 #: addressbook/gui/component/addressbook.c:1
-#, c-format
-msgid "Please enter your email address and password for access to %s"
-msgstr "Podaj swój adres email i has³a dostêpu do %s"
-
-#: addressbook/gui/component/addressbook.c:1
-msgid "LDAP Authentication"
-msgstr "Uwierzytelnianie LDAP"
-
-#: addressbook/gui/component/addressbook.c:1
-msgid "Email Address:"
-msgstr "Adres e-mail:"
-
-#: addressbook/gui/component/addressbook.c:1
-msgid "Password:"
-msgstr "Has³o:"
-
-#: addressbook/gui/component/addressbook.c:1
 msgid "Unable to open addressbook"
 msgstr "Nie mo¿na otworzyæ ksi±¿ki adresowej"
 
@@ -946,6 +939,11 @@ msgid ""
 msgstr ""
 "Nie mo¿na otworzyæ tej ksi±¿ki adresowej. Upewnij siê, ¿e ¶cie¿ka\n"
 "ustnieje oraz ¿e ma ustawione odpowiednie uprawnienia."
+
+#: addressbook/gui/component/addressbook.c:1
+#, c-format
+msgid "Enter password for %s (user %s)"
+msgstr "Wprowad¼ has³o dla %s (u¿ytkownik %s)"
 
 #: addressbook/gui/component/addressbook.c:1
 #: calendar/gui/cal-search-bar.c:1
@@ -5989,6 +5987,11 @@ msgid "Failed to verify certificates."
 msgstr "Nie mo¿na zweryfikowaæ certyfikatu."
 
 #: camel/camel-store.c:1
+msgid "Cannot get folder: Invalid operation on this store"
+msgstr ""
+"Nie mo¿na pobraæ folderu: Niepoprawna operacja na tym miejscu przechowywania"
+
+#: camel/camel-store.c:1
 msgid "Cannot create folder: Invalid operation on this store"
 msgstr ""
 "Nie mo¿na stworzyæ folderu: Niepoprawna operacja na tym miejscu "
@@ -6316,6 +6319,11 @@ msgstr "Nie mo¿na usun±æ pliku z zestawieniem folderu \"%s\": %s"
 #, c-format
 msgid "Could not delete folder index file `%s': %s"
 msgstr "Nie mo¿na usun±æ pliku \"%s\" z indeksem folderu: %s"
+
+#: camel/providers/local/camel-local-summary.c:1
+#, c-format
+msgid "Could not save summary: %s: %s"
+msgstr "Nie mo¿na zapisaæ zestawienia: %s: %s"
 
 #: camel/providers/local/camel-local-summary.c:1
 #: camel/providers/local/camel-spool-summary.c:1
@@ -7613,11 +7621,11 @@ msgid "seconds"
 msgstr "sekund"
 
 #: filter/filter-datespec.c:1
-msgid "Oops. You have forgotten to choose a date."
+msgid "You have forgotten to choose a date."
 msgstr "Nie zesta³a wybrana data."
 
 #: filter/filter-datespec.c:1
-msgid "Oops. You have chosen an invalid date."
+msgid "You have chosen an invalid date."
 msgstr "Zosta³a wybrana niepoprawna data."
 
 #: filter/filter-datespec.c:1
@@ -7705,7 +7713,7 @@ msgstr "Dodaj czynno¶æ"
 
 #: filter/filter-folder.c:1
 msgid ""
-"Oops, you forgot to choose a folder.\n"
+"You forgot to choose a folder.\n"
 "Please go back and specify a valid folder to deliver mail to."
 msgstr ""
 "Nie zosta³ wybrany folder.\n"
@@ -8024,7 +8032,7 @@ msgid "Score Rules"
 msgstr "Regu³y punktacji"
 
 #: filter/vfolder-rule.c:1
-msgid "Oops.  You need to to specify at least one folder as a source."
+msgid "You need to to specify at least one folder as a source."
 msgstr "Nale¿y podaæ jako ¼ród³o przynajmniej jeden folder."
 
 #: importers/elm-importer.c:1
@@ -8255,6 +8263,11 @@ msgstr "zaznaczonych: %d"
 #: mail/folder-browser.c:1
 #, c-format
 msgid "%d unsent"
+msgstr "niewys³anych: %d"
+
+#: mail/folder-browser.c:1
+#, c-format
+msgid "%d sent"
 msgstr "niewys³anych: %d"
 
 #: mail/folder-browser.c:1
@@ -9004,6 +9017,12 @@ msgstr "Wybór koloru"
 #: mail/mail-config.glade.h:1
 msgid "Pretty Good Privacy"
 msgstr "Pretty Good Privacy"
+
+#: mail/mail-config.glade.h:1
+msgid "Prompt when sending HTML messages to contacts that don't want them"
+msgstr ""
+"Potwierdzanie przy wysy³aniu listów w formacie HTML do osób, które ich nie "
+"chc±"
 
 #: mail/mail-config.glade.h:1
 msgid "Prompt when sending messages with an _empty subject"
@@ -9770,6 +9789,15 @@ msgid "VFolders"
 msgstr "VFoldery"
 
 #: mail/mail-vfolder.c:1
+msgid "Edit VFolder"
+msgstr "Modyfikacja VFoldera"
+
+#: mail/mail-vfolder.c:1
+#, c-format
+msgid "Trying to edit a vfolder '%s' which doesn't exist."
+msgstr "Próba zmodyfikowania vfoldera \"%s\", który nie istnieje"
+
+#: mail/mail-vfolder.c:1
 msgid "New VFolder"
 msgstr "Nowy VFolder"
 
@@ -9957,7 +9985,6 @@ msgstr "Zestawienie poczty"
 #. stations and their codes in Evolution sources
 #. (evolution/my-evolution/Locations)
 #: my-evolution/e-summary-preferences.c:1
-#: my-evolution/e-summary-weather.c:1
 msgid "KBOS:ZSAM:EGAA"
 msgstr "EPPO:EPGD:EPKK:EPWA"
 
@@ -10013,6 +10040,14 @@ msgstr "<dd><b>Nie mo¿na nawi±zaæ po³±czenia z serwerem pogodowym</b></dd>"
 #: my-evolution/e-summary-weather.c:1
 msgid "Weather"
 msgstr "Pogoda"
+
+#. translators: Put here a list of codes for locations you want to
+#. see in My Evolution by default. You can find the list of all
+#. stations and their codes in Evolution sources
+#. (evolution/my-evolution/Locations)
+#: my-evolution/e-summary-weather.c:1
+msgid "KBOS:EGAA:RJTT"
+msgstr "EPPO:EPGD:EPKK:EPWA"
 
 #: my-evolution/e-summary-weather.c:1
 msgid "Regions"
@@ -11242,6 +11277,10 @@ msgid "How many days should the calendar display at once?"
 msgstr "Liczba dni wy¶wietlanych jednocze¶nie w kalendarzu"
 
 #: my-evolution/my-evolution.glade.h:1
+msgid "M_etric"
+msgstr "_Metryczne"
+
+#: my-evolution/my-evolution.glade.h:1
 msgid "Ma_x number of items shown:"
 msgstr "_Maksymalna liczba wy¶wietlanych elementów:"
 
@@ -11306,6 +11345,10 @@ msgid "_Five days"
 msgstr "_Piêæ dni"
 
 #: my-evolution/my-evolution.glade.h:1
+msgid "_Imperial"
+msgstr "_Imperialne"
+
+#: my-evolution/my-evolution.glade.h:1
 msgid "_Mail"
 msgstr "Pocz_ta"
 
@@ -11324,14 +11367,6 @@ msgstr "P_lanowanie"
 #: my-evolution/my-evolution.glade.h:1
 msgid "_Weather"
 msgstr "Pogod_a"
-
-#: my-evolution/my-evolution.glade.h:1
-msgid "_imperial"
-msgstr "_imperialne"
-
-#: my-evolution/my-evolution.glade.h:1
-msgid "m_etric"
-msgstr "_metryczne"
 
 #: shell/GNOME_Evolution_Shell.oaf.in.h:1
 msgid "The Evolution shell."
