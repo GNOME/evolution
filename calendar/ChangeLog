@@ -1,8 +1,17 @@
 2002-08-20  JP Rosevear  <jpr@ximian.com>
 
+	* gui/itip-utils.c (comp_toplevel_with_zones): clone the ical
+	component before adding it
+
+	Fixes #29061
+	
+2002-08-20  JP Rosevear  <jpr@ximian.com>
+	
 	* gui/comp-editor-factory.c (get_default_event): make sure to get
 	the date in the current zone, not at UTC
 
+	Fixes #17692
+	
 2002-08-19  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-itip-control.c (set_date_label): stop adding redundant
@@ -12,6 +21,8 @@
 	line from bolded title to make it look nicer when there are line
 	breaks
 
+	Fixes #26964
+	
 2002-08-16  Rodrigo Moya <rodrigo@ximian.com>
 
 	* cal-client/cal-client.[ch]: added internal EComponentListener

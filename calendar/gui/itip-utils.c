@@ -310,7 +310,8 @@ comp_toplevel_with_zones (CalComponentItipMethod method, CalComponent *comp, Cal
 	icalcomponent_add_property (top_level, prop);
 
 	icomp = cal_component_get_icalcomponent (comp);
-
+	icomp = icalcomponent_new_clone (icomp);
+	
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
 	tz_data.icomp = top_level;
 	tz_data.client = client;
