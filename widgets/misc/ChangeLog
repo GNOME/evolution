@@ -1,3 +1,8 @@
+2002-05-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-search-bar.c (activate_by_subitems): Strip underscores from
+	the menu item labels.
+
 2002-04-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-multi-config-dialog.c (fill_in_pixbufs): Don't print out the

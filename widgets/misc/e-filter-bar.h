@@ -96,7 +96,7 @@ enum {
 const char * strings[] = {
 	N_("_Save Search..."),
 	N_("_Edit Saved Searches..."),
-	N_("Advanced...")
+	N_("_Advanced search...")
 };
 #endif
 

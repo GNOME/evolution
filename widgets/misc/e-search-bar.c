@@ -261,6 +261,32 @@ subitem_activated_cb (GtkWidget *widget, ESearchBar *esb)
 	emit_search_activated (esb);
 }
 
+static char *
+string_without_underscores (const char *s)
+{
+	char *new_string;
+	const char *sp;
+	char *dp;
+
+	new_string = g_malloc (strlen (s) + 1);
+
+	dp = new_string;
+	for (sp = s; *sp != '\0'; sp ++) {
+		if (*sp != '_') {
+			*dp = *sp;
+			dp ++;
+		} else if (sp[1] == '_') {
+			/* Translate "__" in "_".  */
+			*dp = '_';
+			dp ++;
+			sp ++;
+		}
+	}
+	*dp = 0;
+
+	return new_string;
+}
+
 static void
 activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems)
 {
@@ -339,11 +365,13 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 				char *str;
 
 				if (subitems[i].translate)
-					str = _(subitems[i].text);
+					str = string_without_underscores (_(subitems[i].text));
 				else
-					str = subitems[i].text;
+					str = string_without_underscores (subitems[i].text);
 
 				menu_item = gtk_menu_item_new_with_label (str);
+
+				g_free (str);
 			} else {
 				menu_item = gtk_menu_item_new ();
 				gtk_widget_set_sensitive (menu_item, FALSE);
@@ -564,12 +592,16 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 
 		if (items[i].text) {
 			char *str;
-			str = _(items[i].text);
-			if (str == items[i].text) {
+
+			str = string_without_underscores (_(items[i].text));
+			if (_(items[i].text) == items[i].text) {
 				/* It may be english string, or utf8 rule name */
 				item = e_utf8_gtk_menu_item_new_with_label (GTK_MENU (menu), str);
-			} else
+			} else {
 				item = gtk_menu_item_new_with_label (str);
+			}
+
+			g_free (str);
 		} else {
 			item = gtk_menu_item_new ();
 			gtk_widget_set_sensitive (item, FALSE);
