@@ -1,3 +1,7 @@
+2001-10-22  Jakub Steiner <jimmac@ximian.com>
+
+	* about-box.png: update the layout a bit
+
 2001-10-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* Makefile.am (images_DATA): Add `about-box.png'.
