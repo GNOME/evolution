@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-06-30 10:05+0200\n"
-"PO-Revision-Date: 2004-06-29 18:32+0200\n"
+"POT-Creation-Date: 2004-07-02 10:24+0200\n"
+"PO-Revision-Date: 2004-07-02 12:53+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -165,8 +165,7 @@ msgstr "Dëshiron të ruash ndryshimet e kryera?"
 msgid ""
 "You have made modifications to this contact. Do you want to save these "
 "changes?"
-msgstr ""
-"Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
+msgstr "Keni kryer ndryshime tek ky kontakt. Dëshironi t'i ruani këto ndryshime?"
 
 #: addressbook/addressbook-errors.xml.h:43
 #: addressbook/gui/contact-editor/e-contact-editor.c:2803
@@ -205,8 +204,7 @@ msgstr "Rubrika e Evolution përfundoi në menyrë të papritur."
 
 #. addressbook:backend-died secondary
 #: addressbook/addressbook-errors.xml.h:55
-msgid ""
-"Your contacts for {0} will not be available until Evolution is restarted."
+msgid "Your contacts for {0} will not be available until Evolution is restarted."
 msgstr ""
 "Kontektet tuaja për {0} do të jenë në dispozicion vetëm mbas rinisjes së "
 "Evolution."
@@ -470,8 +468,7 @@ msgstr ""
 
 #: addressbook/gui/component/apps_evolution_addressbook.schemas.in.in.h:4
 msgid "URI for the folder last used in the select names dialog"
-msgstr ""
-"URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
+msgstr "URI për kartelën e përdorur së fundmi në dritaren e zgjedhjes së emrave"
 
 #: addressbook/gui/component/ldap-config.glade.h:1
 #: addressbook/gui/component/select-names/select-names.glade.h:1
@@ -577,10 +574,8 @@ msgid "Email address"
 msgstr "Adresa Email"
 
 #: addressbook/gui/component/ldap-config.glade.h:22
-msgid ""
-"Evolution will use this email address to authenticate you with the server."
-msgstr ""
-"Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
+msgid "Evolution will use this email address to authenticate you with the server."
+msgstr "Evolution do të përdorë këtë adresë email për t'ju autentifikuar me serverin."
 
 #: addressbook/gui/component/ldap-config.glade.h:23
 msgid "Find Possible Search Bases"
@@ -1112,7 +1107,7 @@ msgstr "Samoa Amerikane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:141
 msgid "Andorra"
-msgstr "Andorra"
+msgstr "Andora"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:142
 msgid "Angola"
@@ -1124,7 +1119,7 @@ msgstr "Anguilla"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:144
 msgid "Antarctica"
-msgstr "Antartika"
+msgstr "Antarktida"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:145
 msgid "Antigua And Barbuda"
@@ -1132,7 +1127,7 @@ msgstr "Antigua dhe Barbuda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:146
 msgid "Argentina"
-msgstr "Argjentinë"
+msgstr "Argjentina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:147
 msgid "Armenia"
@@ -1152,7 +1147,7 @@ msgstr "Austria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:151
 msgid "Azerbaijan"
-msgstr "Azerbaixhan"
+msgstr "Azerbajxhan"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:152
 msgid "Bahamas"
@@ -1172,11 +1167,11 @@ msgstr "Barbados"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:156
 msgid "Belarus"
-msgstr "Bjellorusi"
+msgstr "Bjellorusia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:157
 msgid "Belgium"
-msgstr "Belgjikë"
+msgstr "Belgjika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:158
 msgid "Belize"
@@ -1216,7 +1211,7 @@ msgstr "Brazil"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:167
 msgid "British Indian Ocean Territory"
-msgstr "Territoret Britanikë të Oqeanit Indian"
+msgstr "Territoret Britanike të Oqeanit Indian"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:168
 msgid "Brunei Darussalam"
@@ -1240,7 +1235,7 @@ msgstr "Kamboxhia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:173
 msgid "Cameroon"
-msgstr "Kamerun"
+msgstr "Kameruni"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:174
 msgid "Canada"
@@ -1248,11 +1243,11 @@ msgstr "Kanada"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:175
 msgid "Cape Verde"
-msgstr "Cape Verde"
+msgstr "Kepi i Gjelbërt"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:176
 msgid "Cayman Islands"
-msgstr "Ishujt Cayman"
+msgstr "Ishujt Kajman"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:177
 msgid "Central African Republic"
@@ -1260,7 +1255,7 @@ msgstr "Republika e Afrikës Qendrore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:178
 msgid "Chad"
-msgstr "Chad"
+msgstr "Çad"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:179
 msgid "Chile"
@@ -1268,15 +1263,15 @@ msgstr "Kili"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:180
 msgid "China"
-msgstr "Kinë"
+msgstr "Kina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:181
 msgid "Christmas Island"
-msgstr "Ishulli Christmas"
+msgstr "Ishulli i Krishtlindjes"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:182
 msgid "Cocos (Keeling) Islands"
-msgstr "Ishujt Cocos (Keeling)"
+msgstr "Ishujt Kokos (Keeling)"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:183
 msgid "Colombia"
@@ -1300,7 +1295,7 @@ msgstr "Ishujt Cook"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:188
 msgid "Costa Rica"
-msgstr "Costa Rica"
+msgstr "Kosta Rika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:189
 msgid "Cote d'Ivoire"
@@ -1332,15 +1327,15 @@ msgstr "Xhibuti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:196
 msgid "Dominica"
-msgstr "Dominica"
+msgstr "Dominika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:197
 msgid "Dominican Republic"
-msgstr "Republika Domenikane"
+msgstr "Republika Dominikane"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:198
 msgid "Ecuador"
-msgstr "Ekuador"
+msgstr "Ekuadori"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:199
 msgid "Egypt"
@@ -1352,7 +1347,7 @@ msgstr "El Salvador"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:201
 msgid "Equatorial Guinea"
-msgstr "Guinea ekuatoriale"
+msgstr "Guinea Ekuatoriale"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:202
 msgid "Eritrea"
@@ -1376,7 +1371,7 @@ msgstr "Ishujt Faroe"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:207
 msgid "Fiji"
-msgstr "Fiji"
+msgstr "Fixhi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:208
 msgid "Finland"
@@ -1388,15 +1383,15 @@ msgstr "Franca"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:210
 msgid "French Guiana"
-msgstr "Guiana franceze"
+msgstr "Guiana Franceze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:211
 msgid "French Polynesia"
-msgstr "Polinezia franceze"
+msgstr "Polinezia Franceze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:212
 msgid "French Southern Territories"
-msgstr "French Southern Territories"
+msgstr "Territoret Jugore Franceze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:213
 msgid "Gabon"
@@ -1408,19 +1403,19 @@ msgstr "Gambia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:215
 msgid "Georgia"
-msgstr "Georgia"
+msgstr "Gjeorgjia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:216
 msgid "Germany"
-msgstr "Gjermani"
+msgstr "Gjermania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
-msgstr "Ghana"
+msgstr "Gana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:218
 msgid "Gibraltar"
-msgstr "Gjibraltar"
+msgstr "Gjibraltari"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:219
 msgid "Greece"
@@ -1428,7 +1423,7 @@ msgstr "Greqia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:220
 msgid "Greenland"
-msgstr "Groenlanda"
+msgstr "Greenland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:221
 msgid "Grenada"
@@ -1460,7 +1455,7 @@ msgstr "Guinea-bissau"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:228
 msgid "Guyana"
-msgstr "Guyana"
+msgstr "Guajana"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:229
 msgid "Haiti"
@@ -1516,7 +1511,7 @@ msgstr "Ishulli i Man"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:242
 msgid "Israel"
-msgstr "Israeli"
+msgstr "Izraeli"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:243
 msgid "Italy"
@@ -1524,7 +1519,7 @@ msgstr "Italia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:244
 msgid "Jamaica"
-msgstr "Jamaica"
+msgstr "Xhamajka"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:245
 msgid "Japan"
@@ -1564,7 +1559,7 @@ msgstr "Kuvajti"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:254
 msgid "Kyrgyzstan"
-msgstr "Kyrgyzstan"
+msgstr "Kirgistani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:255
 msgid "Laos"
@@ -1576,11 +1571,11 @@ msgstr "Letonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:257
 msgid "Lebanon"
-msgstr "Lebanon"
+msgstr "Libani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:258
 msgid "Lesotho"
-msgstr "Lesotho"
+msgstr "Lesoto"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:259
 msgid "Liberia"
@@ -1592,7 +1587,7 @@ msgstr "Libia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:261
 msgid "Liechtenstein"
-msgstr "Liechtenstein"
+msgstr "Lihtenshtejni"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:262
 msgid "Lithuania"
@@ -1600,11 +1595,11 @@ msgstr "Lituania"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:263
 msgid "Luxembourg"
-msgstr "Luksemburg"
+msgstr "Luksemburgu"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:264
 msgid "Macao"
-msgstr "Macao"
+msgstr "Makao"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:265
 msgid "Macedonia"
@@ -1612,7 +1607,7 @@ msgstr "Maqedonia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:266
 msgid "Madagascar"
-msgstr "Madagascar"
+msgstr "Madagaskar"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:267
 msgid "Malawi"
@@ -1620,11 +1615,11 @@ msgstr "Malawi"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:268
 msgid "Malaysia"
-msgstr "Malaysia"
+msgstr "Malajzia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:269
 msgid "Maldives"
-msgstr "Maldives"
+msgstr "Maldivet"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:270
 msgid "Mali"
@@ -1640,7 +1635,7 @@ msgstr "Ishujt Marshall"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:273
 msgid "Martinique"
-msgstr "Martinique"
+msgstr "Martinika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:274
 msgid "Mauritania"
@@ -1656,7 +1651,7 @@ msgstr "Mayotte"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:277
 msgid "Mexico"
-msgstr "Meksikë"
+msgstr "Meksika"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
@@ -1668,7 +1663,7 @@ msgstr "Moldovia, Republika e"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:280
 msgid "Monaco"
-msgstr "Mynih"
+msgstr "Monako"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:281
 msgid "Mongolia"
@@ -1700,7 +1695,7 @@ msgstr "Nauru"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:288
 msgid "Nepal"
-msgstr "Nepal"
+msgstr "Nepali"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:289
 msgid "Netherlands"
@@ -1708,11 +1703,11 @@ msgstr "Hollanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
-msgstr "Antiles Hollandeze"
+msgstr "Antillet Holandeze"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:291
 msgid "New Caledonia"
-msgstr "Caledonia e Re"
+msgstr "Kaledonia e Re"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:292
 msgid "New Zealand"
@@ -1724,7 +1719,7 @@ msgstr "Nikaragua"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
-msgstr "Niger"
+msgstr "Nigeri"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:295
 msgid "Nigeria"
@@ -1740,7 +1735,7 @@ msgstr "Ishulli Norfolk"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:298
 msgid "Northern Mariana Islands"
-msgstr "Northern Mariana Islands"
+msgstr "Ishujt e Marianës Veriore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:299
 msgid "Norway"
@@ -1748,7 +1743,7 @@ msgstr "Norvegjia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:300
 msgid "Oman"
-msgstr "Oman"
+msgstr "Omani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:301
 msgid "Pakistan"
@@ -1768,11 +1763,11 @@ msgstr "Panama"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:305
 msgid "Papua New Guinea"
-msgstr "Papua New Guinea"
+msgstr "Guinea e Re Papua"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:306
 msgid "Paraguay"
-msgstr "Paraguai"
+msgstr "Paraguaj"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:307
 msgid "Peru"
@@ -1796,11 +1791,11 @@ msgstr "Portugalia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:312
 msgid "Puerto Rico"
-msgstr "Puerto Rico"
+msgstr "Porto Rico"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:313
 msgid "Qatar"
-msgstr "Qatar"
+msgstr "Katari"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:314
 msgid "Reunion"
@@ -1848,7 +1843,7 @@ msgstr "Arabia Saudite"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:325
 msgid "Senegal"
-msgstr "Senegal"
+msgstr "Senegali"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:326
 msgid "Serbia And Montenegro"
@@ -1864,7 +1859,7 @@ msgstr "Sierra Leone"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:329
 msgid "Singapore"
-msgstr "Singapor"
+msgstr "Singapori"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:330
 msgid "Slovakia"
@@ -1920,7 +1915,7 @@ msgstr "Svalbard And Jan Mayen Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:343
 msgid "Swaziland"
-msgstr "Swaziland"
+msgstr "Svaziland"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:344
 msgid "Sweden"
@@ -1936,11 +1931,11 @@ msgstr "Siria"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:347
 msgid "Taiwan"
-msgstr "Taiwan"
+msgstr "Tajvani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:348
 msgid "Tajikistan"
-msgstr "Taxhikistan"
+msgstr "Taxhikistani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:349
 msgid "Tanzania, United Republic Of"
@@ -1948,7 +1943,7 @@ msgstr "Tanzania, Republika e Bashkuar e"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:350
 msgid "Thailand"
-msgstr "Tailanda"
+msgstr "Tajlanda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:351
 msgid "Timor-Leste"
@@ -1980,7 +1975,7 @@ msgstr "Turqia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:358
 msgid "Turkmenistan"
-msgstr "Turkmenistan"
+msgstr "Turkmenistani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:359
 msgid "Turks And Caicos Islands"
@@ -1996,7 +1991,7 @@ msgstr "Uganda"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
-msgstr "Ukrahina"
+msgstr "Ukraina"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:363
 msgid "United Arab Emirates"
@@ -2012,11 +2007,11 @@ msgstr "United States Minor Outlying Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:366
 msgid "Uruguay"
-msgstr "Uruguai"
+msgstr "Uruguaj"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:367
 msgid "Uzbekistan"
-msgstr "Uzbekistan"
+msgstr "Uzbekistani"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:368
 msgid "Vanuatu"
@@ -2028,15 +2023,15 @@ msgstr "Venezuela"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:370
 msgid "Viet Nam"
-msgstr "Vietnami"
+msgstr "Vjet Nam"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:371
 msgid "Virgin Islands, British"
-msgstr "Virgin Islands, British"
+msgstr "Ishujt Virgin, Britanikë"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:372
 msgid "Virgin Islands, U.S."
-msgstr "Virgin Islands, U.S."
+msgstr "Ishujt Virgin, U.S."
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:373
 msgid "Wallis And Futuna Islands"
@@ -2044,7 +2039,7 @@ msgstr "Wallis And Futuna Islands"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:374
 msgid "Western Sahara"
-msgstr "Western Sahara"
+msgstr "Saharaja Perëndimore"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:375
 msgid "Yemen"
@@ -2056,7 +2051,7 @@ msgstr "Zambia"
 
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:377
 msgid "Zimbabwe"
-msgstr "Zimbabwe"
+msgstr "Zimbabve"
 
 #: addressbook/gui/contact-editor/e-contact-editor-im.c:62
 msgid "AOL Instant Messenger"
@@ -2363,8 +2358,7 @@ msgstr "Emri i _listës:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:11
 msgid "_Type an email address or drag a contact into the list below:"
-msgstr ""
-"_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
+msgstr "_Shkruaj një adresë email ose zvarrit një kontakt nga lista e mëposhtme:"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:13
 #: smime/gui/smime-ui.glade.h:48
@@ -2922,7 +2916,7 @@ msgstr "Nuk është përcaktuar asnjë kontakt automatik"
 #. E_BOOK_ERROR_PERMISSION_DENIED
 #: addressbook/gui/widgets/eab-gui-util.c:57
 msgid "Permission denied"
-msgstr "Leja nuk u pranua"
+msgstr "Ndalohet hyrja"
 
 #. E_BOOK_ERROR_CONTACT_NOT_FOUND
 #: addressbook/gui/widgets/eab-gui-util.c:58
@@ -3223,30 +3217,27 @@ msgstr "Copyright (C) 2000, Ximian, Inc."
 
 #: addressbook/gui/widgets/test-reflow.c:122
 msgid "This should test the reflow canvas item"
-msgstr ""
+msgstr "Kjo duhet të kontrollojë rifreskimin e elementëve imazhe"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution LDIF importer"
-msgstr "Komponues i Evolution për kalendarin dhe aktivitetet"
+msgstr "Importuesi LDIF i Evolution"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_LDIF_Importer.server.in.in.h:2
 msgid "LDAP Data Interchange Format (.ldif)"
-msgstr ""
+msgstr "Format LDAP Data Interchange (.ldif)"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:1
-#, fuzzy
 msgid "Evolution VCard Importer"
-msgstr "Alarmi i Evolution"
+msgstr "Importuesi VCard i Evolution"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:2
-#, fuzzy
 msgid "Evolution VCard importer"
-msgstr "Shfaqësi i kalendarit të Evolution"
+msgstr "Importuesi VCard i Evolution"
 
 #: addressbook/importers/GNOME_Evolution_Addressbook_VCard_Importer.server.in.in.h:3
 msgid "VCard (.vcf, .gcrd)"
-msgstr ""
+msgstr "VCard (.vcf, .gcrd)"
 
 #: addressbook/printing/e-contact-print-envelope.c:212
 #: addressbook/printing/e-contact-print-envelope.c:233
@@ -3254,15 +3245,13 @@ msgid "Print envelope"
 msgstr "Printo zarfin"
 
 #: addressbook/printing/e-contact-print.c:1000
-#, fuzzy
 msgid "Print contacts"
-msgstr "Printo cards"
+msgstr "Printo kontaktet"
 
 #: addressbook/printing/e-contact-print.c:1066
 #: addressbook/printing/e-contact-print.c:1093
-#, fuzzy
 msgid "Print contact"
-msgstr "Gjej kontaktin në"
+msgstr "Printo kontaktin"
 
 #: addressbook/printing/e-contact-print.glade.h:1
 msgid "10 pt. Tahoma"
@@ -3342,7 +3331,7 @@ msgstr "Majtas:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr ""
+msgstr "Skedat e letrës në anë"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3433,108 +3422,102 @@ msgid "_Font..."
 msgstr "_Gërmat..."
 
 #: addressbook/printing/test-contact-print-style-editor.c:53
-#, fuzzy
 msgid "Contact Print Style Editor Test"
-msgstr "Editori i listës së kontakteve"
+msgstr "Provuesi i Editorit të stilit të printimit të kontakteve"
 
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr ""
+msgstr "Kjo duhet të kontrollojë instrumentin e edituesit të stilit të printimit të kontakteve"
 
 #: addressbook/printing/test-print.c:52
-#, fuzzy
 msgid "Contact Print Test"
-msgstr "_Lista e kontakteve"
+msgstr "Prova e printimit të kontakteve"
 
 #: addressbook/printing/test-print.c:55
 msgid "This should test the contact print code"
-msgstr ""
+msgstr "Kjo duhet të kontrollojë kodin e printimit të kontakteve"
 
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:657
 #: addressbook/tools/evolution-addressbook-export-list-cards.c:693
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:49
-#, fuzzy
 msgid "Can not open file"
-msgstr "Hap file"
+msgstr "E pamundur hapja e file"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:43
-#, fuzzy
 msgid "Couldn't get list of addressbooks"
-msgstr "I pamundur ngarkimi i librit të adresave"
+msgstr "E pamundur marrja e listës së rubrikave"
 
 #: addressbook/tools/evolution-addressbook-export-list-folders.c:71
-#, fuzzy
 msgid "failed to open book"
-msgstr "E pamundur hapja e librit të adresave"
+msgstr "hapja e librit dështoi"
 
 #: addressbook/tools/evolution-addressbook-export.c:56
 msgid "Specify the output file instead of standard output"
-msgstr ""
+msgstr "Specifiko file e daljes në vend të standard output"
 
 #: addressbook/tools/evolution-addressbook-export.c:57
 msgid "OUTPUTFILE"
-msgstr ""
+msgstr "FILENËDALJE"
 
 #: addressbook/tools/evolution-addressbook-export.c:58
-#, fuzzy
 msgid "List local addressbook folders"
-msgstr "Shikuesi i kartelave të librit të adresave të Evolution"
+msgstr "Lista e kartelave të rubrikave lokale"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
 msgid "Show cards as vcard or csv file"
-msgstr ""
+msgstr "Shfaq cards si vcard ose file cvs"
 
 #: addressbook/tools/evolution-addressbook-export.c:60
-#, fuzzy
 msgid "[vcard|csv]"
-msgstr "cards"
+msgstr "[vcard|csv]"
 
 #: addressbook/tools/evolution-addressbook-export.c:61
 msgid "Export in asynchronous mode "
-msgstr ""
+msgstr "Eksporto në modalitet asinkron"
 
 #: addressbook/tools/evolution-addressbook-export.c:63
-msgid ""
-"The number of cards in one output file in asychronous mode,default size 100."
+msgid "The number of cards in one output file in asychronous mode,default size 100."
 msgstr ""
+"Numri i card në një file dalje në modalitet asinkron, vlera e paracaktuar "
+"është 100."
 
 #: addressbook/tools/evolution-addressbook-export.c:63
 msgid "NUMBER"
-msgstr ""
+msgstr "NUMRI"
 
 #: addressbook/tools/evolution-addressbook-export.c:91
-msgid ""
-"Command line arguments error, please use --help option to see the usage."
+msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
+"Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për "
+"të shikuar përdorimin."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
-msgstr ""
+msgstr "Suporton vetëm formatin csv ose vcard."
 
 #: addressbook/tools/evolution-addressbook-export.c:114
 msgid "In async mode, output must be file."
-msgstr ""
+msgstr "Në modalitetin asinkron në dalje duhet të jetë një file."
 
 #: addressbook/tools/evolution-addressbook-export.c:122
 msgid "In normal mode, there should not need size option."
-msgstr ""
+msgstr "Në modalitetin normal nuk nevoitet opcioni i madhësisë."
 
 #: addressbook/tools/evolution-addressbook-export.c:153
-#, fuzzy
 msgid "Impossible internal error."
-msgstr "Gabim i brendshëm"
+msgstr "Gabim i brendshëm i pamundur."
 
 #: addressbook/tools/evolution-addressbook-import.c:46
 msgid "Error loading default addressbook."
-msgstr ""
+msgstr "Gabim gjatë ngarkimit të rubrikës së prezgjedhur."
 
 #: addressbook/tools/evolution-addressbook-import.c:67
 msgid "Input File"
-msgstr ""
+msgstr "File burim"
 
 #: addressbook/tools/evolution-addressbook-import.c:82
 msgid "No filename provided."
-msgstr ""
+msgstr "Nuk është dhënë një emër file."
 
 #: addressbook/util/e-destination.c:577
 msgid "Unnamed List"
@@ -3544,7 +3527,7 @@ msgstr "Listë pa emër"
 #. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr ""
+msgstr "Dëshironi t'u dërgoni të gjithë pjesmarrësve një njoftim anullimi?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3552,32 +3535,32 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
+"Nëse nuk dërgoni një njoftim anullimi, pjesmarrësit e tjerë ndoshta nuk e dinë "
+"që takimi është anulluar."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
 #: calendar/calendar-errors.xml.h:85 calendar/calendar-errors.xml.h:91
 #: calendar/calendar-errors.xml.h:97
-#, fuzzy
 msgid "Don't Send"
-msgstr "Hiq"
+msgstr "Mos dërgo"
 
 #: calendar/calendar-errors.xml.h:6 calendar/calendar-errors.xml.h:16
 #: calendar/calendar-errors.xml.h:26
-#, fuzzy
 msgid "Send Notice"
-msgstr "Dërgo tek:"
+msgstr "Dërgo një njoftim"
 
 #. calendar:prompt-delete-meeting primary
 #: calendar/calendar-errors.xml.h:8
-#, fuzzy
 msgid "Are you sure you want to delete this meeting?"
-msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë mbledhje?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë mbledhje?"
 
 #. calendar:prompt-delete-meeting secondary
 #: calendar/calendar-errors.xml.h:10
-msgid ""
-"All information on this meeting will be deleted and can not be restored."
+msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
+"Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të "
+"jenë më të rekuperueshme."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3585,12 +3568,13 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
+"Nëse nuk dërgoni një njoftim anullimi, pjesmarrësit e tjerë ndoshta nuk do "
+"të marrin vesh që aktiviteti është fshirë."
 
 #. calendar:prompt-delete-task primary
 #: calendar/calendar-errors.xml.h:18 calendar/calendar-errors.xml.h:44
-#, fuzzy
 msgid "Are you sure you want to delete this task?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni %d aktivitetet?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë aktivitet?"
 
 #. calendar:prompt-delete-task secondary
 #. calendar:prompt-delete-named-task secondary
@@ -3599,12 +3583,13 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni %d aktivitetet?"
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
+"Të gjitha informacionet mbi këtë aktivitet do të eleminohen dhe ai nuk "
+"mund të rekuperohet."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
-#, fuzzy
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Jeni i sigurt që dëshironi të anulloni dhe të fshini këtë zë?"
+msgstr "Jeni i sigurt që dëshironi të dërgoni një njoftim fshirje mbi këtë zë të ditarit?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3612,12 +3597,13 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
+"Nëse nuk dërgoni një njoftim fshirje, pjesmarrësit e tjerë nuk mund t'a marrin "
+"vesh që ditari është fshirë."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
-#, fuzzy
 msgid "Are you sure you want to delete this journal entry?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni %d zërat e ditarit?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë zë të ditarit?"
 
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:30
@@ -3625,50 +3611,49 @@ msgid ""
 "All information on this journal entry will be deleted and can not be "
 "restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këtë zë ditari do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-titled-appointment primary
 #: calendar/calendar-errors.xml.h:32
-#, fuzzy
 msgid "Are you sure you want to delete the appointment titled '{0}'?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni takimin `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni takimin me titull '{0}'?"
 
 #. calendar:prompt-delete-titled-appointment secondary
 #. calendar:prompt-delete-appointment secondary
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
-msgid ""
-"All information on this appointment will be deleted and can not be restored."
+msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
-#, fuzzy
 msgid "Are you sure you want to delete this appointment?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni %d takimet?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë takim?"
 
 #. calendar:prompt-delete-named-task primary
 #: calendar/calendar-errors.xml.h:40
-#, fuzzy
 msgid "Are you sure you want to delete the '{0}' task?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni aktivitetin `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni aktivitetin '{0}'?"
 
 #. calendar:prompt-delete-named-journal primary
 #: calendar/calendar-errors.xml.h:48
-#, fuzzy
 msgid "Are you sure you want to delete the journal entry '{0}'?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit '{0}'?"
 
 #. calendar:prompt-delete-named-journal secondary
 #. calendar:prompt-delete-journal secondary
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
-msgid ""
-"All information in this journal will be deleted and can not be restored."
+msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
-#, fuzzy
 msgid "Are you sure you want to delete these {0} appointments?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni takimin `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këto {0} takime?"
 
 #. calendar:prompt-delete-appointments secondary
 #: calendar/calendar-errors.xml.h:58
@@ -3676,23 +3661,25 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këto takime do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
-#, fuzzy
 msgid "Are you sure you want to delete these {0} tasks?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni aktivitetin `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këto {0} aktivitete?"
 
 #. calendar:prompt-delete-tasks secondary
 #: calendar/calendar-errors.xml.h:62
 msgid "All information on these tasks will be deleted and can not be restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këto aktivitete do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-journals primary
 #: calendar/calendar-errors.xml.h:64
-#, fuzzy
 msgid "Are you sure you want to delete these {0} journal entries?"
-msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit `%s'?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këto {0} zëra të ditarit?"
 
 #. calendar:prompt-delete-journals secondary
 #: calendar/calendar-errors.xml.h:66
@@ -3700,57 +3687,52 @@ msgid ""
 "All information in these journal entries will be deleted and can not be "
 "restored."
 msgstr ""
+"Të gjitha informacionet e përmbajtura në këta zëra ditari do të fshihen dhe "
+"nuk do të jenë më të rekuperueshme."
 
 #. calendar:prompt-save-appointment title
 #: calendar/calendar-errors.xml.h:68
-#, fuzzy
 msgid "Save Appointment"
-msgstr "_Takim"
+msgstr "Ruaj Takimin"
 
 #. calendar:prompt-save-appointment primary
 #: calendar/calendar-errors.xml.h:70
-#, fuzzy
 msgid "Would you like to save your changes to this appointment?"
-msgstr "Dëshiron të ruash ndryshimet e kryera?"
+msgstr "Dëshiron të ruash ndryshimet e kryera tek ky takim?"
 
 #. calendar:prompt-save-appointment secondary
 #: calendar/calendar-errors.xml.h:72
-#, fuzzy
 msgid "You have made changes to this appointment, but not yet saved them."
-msgstr ""
-"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të rifreskojmë "
-"editorin?"
+msgstr "Keni kryer ndryshime tek ky takim, por nuk i keni ruajtur akoma ato."
 
 #: calendar/calendar-errors.xml.h:73 composer/mail-composer-errors.xml.h:33
 msgid "Discard Changes"
 msgstr "Anullo ndryshimet"
 
 #: calendar/calendar-errors.xml.h:74
-#, fuzzy
 msgid "Save Changes"
-msgstr "_Kërko në mesazh..."
+msgstr "Ruaj Ndryshimet"
 
 #. calendar:prompt-meeting-invite primary
 #: calendar/calendar-errors.xml.h:76
 msgid "Would you like to send meeting invitations to participants?"
-msgstr ""
+msgstr "Dëshironi t'i dërgoni një ftesë mbledhjeje pjesmarrësve?"
 
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
-msgid ""
-"Email invitations will be sent to all participants and allow them to RSVP."
-msgstr ""
+msgid "Email invitations will be sent to all participants and allow them to RSVP."
+msgstr "Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata në RSVP."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
 #: ui/evolution-message-composer.xml.h:24
 msgid "Send"
-msgstr ""
+msgstr "Dërgo"
 
 #. calendar:prompt-send-updated-meeting-info primary
 #: calendar/calendar-errors.xml.h:82
 msgid "Would you like to send updated meeting information to participants?"
-msgstr ""
+msgstr "Dëshiron t'u dërgosh informacionit e rifreskuar të mbledhjes pjesmarrësve?"
 
 #. calendar:prompt-send-updated-meeting-info secondary
 #: calendar/calendar-errors.xml.h:84
@@ -3758,11 +3740,13 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
+"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë "
+"të rifreskuar kalendarët e tyre."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
 msgid "Would you like to send this task to participants?"
-msgstr ""
+msgstr "Dëshiron t'ua dërgosh këtë aktivitet pjesmarrësve?"
 
 #. calendar:prompt-send-task secondary
 #: calendar/calendar-errors.xml.h:90
@@ -3770,11 +3754,13 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
+"Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'ju japë mundësinë "
+"të pranojnë këtë aktivitet."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
 msgid "Would you like to send updated task information to participants?"
-msgstr ""
+msgstr "Dëshiron t'u dërgosh pjesmarrësve informacionet e rifreskuara të aktivitetit?"
 
 #. calendar:prompt-send-updated-task-info secondary
 #: calendar/calendar-errors.xml.h:96
@@ -3782,27 +3768,28 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
+"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë "
+"të rifreskuar listën e aktiviteteve të tyre."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
 msgid "The Evolution tasks have quit unexpectedly."
-msgstr ""
+msgstr "Aktivitetet e Evolution përfunduan në menyrë të papritur."
 
 #. calendar:tasks-crashed secondary
 #: calendar/calendar-errors.xml.h:102
 msgid "Your tasks will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #. calendar:calendar-crashed primary
 #: calendar/calendar-errors.xml.h:104
-#, fuzzy
 msgid "The Evolution calendar has quit unexpectedly."
-msgstr "Shfaqësi i kalendarit të Evolution"
+msgstr "Kalendari i Evolution përfundoi në menyrë të papritur."
 
 #. calendar:calendar-crashed secondary
 #: calendar/calendar-errors.xml.h:106
 msgid "Your calendars will not be available until Evolution is restarted."
-msgstr ""
+msgstr "Kalendarët tuaj do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
 
 #: calendar/common/authentication.c:44 calendar/gui/e-pub-utils.c:301
 #: smime/gui/component.c:48
@@ -3817,9 +3804,8 @@ msgstr "Veço ngjarjet shumë-ditëshe:"
 #: calendar/conduits/calendar/calendar-conduit.c:1331
 #: calendar/conduits/todo/todo-conduit.c:852
 #: calendar/conduits/todo/todo-conduit.c:853
-#, fuzzy
 msgid "Could not start evolution-data-server"
-msgstr "Nuk arrij të nis server-in wombat"
+msgstr "E pamundur nisja e evolution-data-server"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1439
 #: calendar/conduits/calendar/calendar-conduit.c:1442
@@ -3837,11 +3823,11 @@ msgstr "I pamundur leximi i aplikativëve që duhen bërë të Pilot"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:1
 msgid "*Control*F3"
-msgstr ""
+msgstr "*Control*F3"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "*Control*F4"
-msgstr ""
+msgstr "*Control*F4"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:3
 msgid "Calendar and Tasks"
@@ -3849,14 +3835,12 @@ msgstr "Kalendari dhe aktivitetet"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:4
 #: calendar/gui/calendar-component.c:1060
-#, fuzzy
 msgid "Calendars"
-msgstr "Kalendari"
+msgstr "Kalendarët"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr ""
-"Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
+msgstr "Konfiguro këtu zonën tënde të orës, kalendarin dhe listën e aktiviteteve"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:6
 msgid "Evolution Calendar and Tasks"
@@ -3875,14 +3859,12 @@ msgid "Evolution Calendar/Task editor"
 msgstr "Editori i kalendarit/aktiviteteve të Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:10
-#, fuzzy
 msgid "Evolution's Calendar component"
-msgstr "Komponues i Evolution për kalendarin dhe aktivitetet"
+msgstr "Komponuesi i Kalendarit për Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:11
-#, fuzzy
 msgid "Evolution's Tasks component"
-msgstr "Komponues i Evolution për kalendarin dhe aktivitetet"
+msgstr "Komponuesi i aktiviteteve për Evolution"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1088 calendar/gui/print.c:1819
@@ -3893,14 +3875,13 @@ msgid "Tasks"
 msgstr "Aktivitete"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:13
-#, fuzzy
 msgid "_Calendars"
-msgstr "Kalendari"
+msgstr "_Kalendarët"
 
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:14
 #: views/tasks/galview.xml.h:3
 msgid "_Tasks"
-msgstr ""
+msgstr "_Aktivitetet"
 
 #: calendar/gui/alarm-notify/GNOME_Evolution_Calendar_AlarmNotify.server.in.in.h:1
 msgid "Evolution Calendar alarm notification service"
@@ -3924,18 +3905,16 @@ msgid "Alarm on %s"
 msgstr "Alarm tek %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
-#, fuzzy
 msgid "Snooze _time (minutes):"
-msgstr "Zilja (në minuta)"
+msgstr "Kohëzgja_tja e ziles (në minuta):"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:2
 msgid "_Edit appointment"
 msgstr "_Ndrysho takimet"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#, fuzzy
 msgid "_Snooze"
-msgstr "Z_ilja"
+msgstr "_Zilja"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:881
 #: ui/evolution-message-composer.xml.h:10
@@ -3948,7 +3927,7 @@ msgstr "Braktis"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:885
 msgid "Dismiss All"
-msgstr ""
+msgstr "Braktis gjithçka"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:949
 msgid "No description available."
@@ -3962,6 +3941,10 @@ msgid ""
 "Starting at %s\n"
 "Ending at %s"
 msgstr ""
+"Alarmi tek %s\n"
+"%s\n"
+"Fillon nga %s\n"
+"Mbaron në %s"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:1069
 #: calendar/gui/alarm-notify/alarm-queue.c:1093
@@ -4017,138 +4000,131 @@ msgstr "orë e pavlefshme"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:1
 msgid "Allocate less space to weekend appointments"
-msgstr ""
+msgstr "Jepu më pak hapësirë takimeve të fundjavës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:2
 msgid "Calendars to run alarms for"
-msgstr ""
+msgstr "Kalendarët për të cilët përdoret alarmi"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:3
-#, fuzzy
 msgid "Color of tasks that are due today"
-msgstr "Ngjyra për aktivitetet e sotme"
+msgstr "Ngjyra për aktivitetet e ditës së sotme"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:4
-#, fuzzy
 msgid "Color of tasks that are overdue"
-msgstr "Ngjyra për aktivitetet e sotme"
+msgstr "Ngjyra për aktivitetet e skaduara të ditës së sotme"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:5
 msgid "Days that are work days"
-msgstr ""
+msgstr "Ditët e punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:6
 msgid "Default timezone for meetings"
-msgstr ""
+msgstr "Ora legale për mbledhjet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:7
 msgid "Hour the workday ends on"
-msgstr ""
+msgstr "Ora e përfundimit të ditës së punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:8
 msgid "Hour the workday starts on"
-msgstr ""
+msgstr "Ora e fillimit të ditës së punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:9
 msgid "Intervals shown in Day and Work Week views"
-msgstr ""
+msgstr "Intervalet e shfaqura në paraqitjet Dita dhe Java e Punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:10
 msgid "List of urls for free/busy publishing"
-msgstr ""
+msgstr "Lista e url për publikimin e informacioneve mbi disponibilitetin"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:11
 msgid "Minute the workday ends on"
-msgstr ""
+msgstr "Minutat e fundit të ditës së punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:12
 msgid "Minute the workday starts on"
-msgstr ""
+msgstr "Minutat e fillimit të ditës së punës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:13
 msgid "Number of units for default reminder"
-msgstr ""
+msgstr "Numri i njësive për përkujtuesen e prezgjedhur"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:14
 msgid "Number of units for determining when to hide tasks"
-msgstr ""
+msgstr "Numri i njësive për të përcaktuar se kur duhen fshehur aktivitetet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:15
 msgid "Position of the horizontal pane"
-msgstr ""
+msgstr "Pozicioni i panelit horizontal"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:16
 msgid "Position of the horizontal pane in the month view"
-msgstr ""
+msgstr "Pozicioni i panelit horizontal në paraqitjen mujore"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:17
 msgid "Position of the vertical pane"
-msgstr ""
+msgstr "Pozicioni i panelit vertikal"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:18
 msgid "Position of the vertical pane in the month view"
-msgstr ""
+msgstr "Pozicioni i panelit vertikal në paraqitjen mujore"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:19
 msgid "Position of the vertical pane in the task view"
-msgstr ""
+msgstr "Pozicioni i panelit vertikal në paraqitjen e aktiviteteve"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:20
 msgid "Programs that can run as part of alarms"
-msgstr ""
+msgstr "Programe që mund të zbatohen si pjesë të alarmeve"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:21
-#, fuzzy
 msgid "Show where events end in week and month views"
-msgstr "_Shfaq skadimet e takimeve tek paraqitjet javore dhe mujore"
+msgstr "Shfaq skadimet e ngjarjeve tek paraqitjet javore dhe mujore"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:22
 msgid "Time last alarm ran"
-msgstr ""
+msgstr "Ora e ekzekutimit të alarmit të fundit"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:23
 msgid "Units for determining when to hide tasks"
-msgstr ""
+msgstr "Njësitë për të përcaktuar kur duhen fshehur aktivitetet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:24
 msgid "Units of default reminder"
-msgstr ""
+msgstr "Njësitë për përkujtuesin e prezgjedhur"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:25
 msgid "Weekday the week starts on"
-msgstr ""
+msgstr "Dita e fillimit të javës"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:26
 msgid "Whether or not to use the notification tray for display alarms"
-msgstr ""
+msgstr "Nëse duhet përdorur apo jo sirtari i njoftimeve për të shfaqur alarmet"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:27
-#, fuzzy
 msgid "Whether to ask for confirmation on appointment deletion"
-msgstr "_Kërko konfermimin para se të eleminosh elementët"
+msgstr "Nëse duhet kërkuar konferma para se të eleminohet një takim"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:28
-#, fuzzy
 msgid "Whether to ask for confirmation when folder is expunged"
-msgstr "_Kërko konfermimin para se të eleminosh elementët"
+msgstr "Kërko konfermim para se të eleminosh një kartelë"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:29
-#, fuzzy
 msgid "Whether to hide completed tasks"
-msgstr "_Fshih aktivitetet e plotësuara mbas"
+msgstr "Nëse duhen fshehur aktivitetet e plotësuara"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:30
 msgid "Whether to set a default reminder for events"
-msgstr ""
+msgstr "Vendos një alarm të prezgjedhur për ndodhitë"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:31
 msgid "Whether to show times in 24h format instead of using am/pm"
-msgstr ""
+msgstr "Shfaq orën në formatin 24h ose duke përdorur am/pm"
 
 #: calendar/gui/apps_evolution_calendar.schemas.in.in.h:32
-#, fuzzy
 msgid "Whether to show week numbers in date navigator"
-msgstr "Shfaq _numrat e javëve"
+msgstr "Shfaq numrat e javëve tek lundruesi i datave"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
@@ -4163,9 +4139,8 @@ msgid "Comment contains"
 msgstr "Komenti përmban"
 
 #: calendar/gui/cal-search-bar.c:53
-#, fuzzy
 msgid "Location contains"
-msgstr "Përshkrimi përmban"
+msgstr "Vendodhja përmban"
 
 #: calendar/gui/cal-search-bar.c:362 camel/camel-vee-store.c:327
 msgid "Unmatched"
@@ -4185,10 +4160,13 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
+"Ky veprim eleminon përfundimisht të gjitha ngjarjet më të vjetra se "
+"periudha e kohës së përcaktuar. Nëse vazhdoni, nuk mund t'i rekuperoni "
+"më këto ngjarje."
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
-msgstr ""
+msgstr "Elemino ngjarjet më të vjetra se"
 
 #: calendar/gui/calendar-commands.c:363
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
@@ -4236,7 +4214,7 @@ msgstr "%d %B"
 #: calendar/gui/calendar-component.c:370
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
-msgstr ""
+msgstr "Kalendari '%s' do të hiqet. Je i sigurt që dëshiron të vazhdosh?"
 
 #: calendar/gui/calendar-component.c:426
 msgid "New Calendar"
@@ -4244,16 +4222,16 @@ msgstr "Kalendar i Ri"
 
 #: calendar/gui/calendar-component.c:623
 msgid "Failed upgrading calendars."
-msgstr ""
+msgstr "Rifreskimi i kalendarëve dështoi."
 
 #: calendar/gui/calendar-component.c:917
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
-msgstr ""
+msgstr "E pamundur hapja e kalendarit '%s' për të krijuar ngjarje dhe takime"
 
 #: calendar/gui/calendar-component.c:929
 msgid "There is no calendar available for creating events and meetings"
-msgstr ""
+msgstr "Asnjë kalendar në dispozicion për të krijuar ngjarje dhe takime"
 
 #: calendar/gui/calendar-component.c:1224
 msgid "New appointment"
@@ -4280,7 +4258,6 @@ msgid "Create a new meeting request"
 msgstr "Krijo një kërkesë të re për mbledhje"
 
 #: calendar/gui/calendar-component.c:1240
-#, fuzzy
 msgid "New all day appointment"
 msgstr "Takim i ri i përditshëm"
 
@@ -4293,14 +4270,12 @@ msgid "Create a new all-day appointment"
 msgstr "Krijo një takim të ri të përditshëm"
 
 #: calendar/gui/calendar-component.c:1248
-#, fuzzy
 msgid "New calendar"
-msgstr "New Caledonia"
+msgstr "Kalendar i ri"
 
 #: calendar/gui/calendar-component.c:1249
-#, fuzzy
 msgid "Cale_ndar"
-msgstr "Kalendari"
+msgstr "Kale_ndari"
 
 #: calendar/gui/calendar-component.c:1250
 msgid "Create a new calendar"
@@ -4309,12 +4284,12 @@ msgstr "Krijo një kalendar të ri"
 #: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
-msgstr ""
+msgstr "backend_go_offline(): %s"
 
 #: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
-msgstr ""
+msgstr "backend_go_online(): %s"
 
 #: calendar/gui/calendar-view-factory.c:118
 msgid "Day View"
@@ -4347,41 +4322,35 @@ msgstr "Nuk ke të drejtë të hapësh kalendarin"
 #: calendar/gui/comp-editor-factory.c:474
 #, c-format
 msgid "open_client(): %s"
-msgstr ""
+msgstr "open_client(): %s"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:2
-#, fuzzy
 msgid "<b>Alarm</b>\t"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Alarmi</b>\t"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:3
-#, fuzzy
 msgid "<b>Options</b>"
-msgstr "Përshkrimi:"
+msgstr "<b>Mundësi</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:4
-#, fuzzy
 msgid "<b>Repeat</b>"
-msgstr "<b>Të përgjithshme</b>"
+msgstr "<b>Përsërite</b>"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:5
-#, fuzzy
 msgid "Add Alarm"
-msgstr "New Caledonia"
+msgstr "Shto Alarm"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:6
-#, fuzzy
 msgid "Custom _message"
-msgstr "mesazh"
+msgstr "_Mesazhi i personalizuar"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:7
 msgid "Custom alarm sound"
-msgstr ""
+msgstr "Tingulli i personalizuar i alarmit"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:8
-#, fuzzy
 msgid "Mes_sage:"
-msgstr "Mesazhi"
+msgstr "Me_sazhi:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:9 calendar/gui/e-alarm-list.c:444
 msgid "Play a sound"
@@ -4390,7 +4359,7 @@ msgstr "Lësho një tingull"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:10
 #: calendar/gui/e-alarm-list.c:448
 msgid "Pop up an alert"
-msgstr ""
+msgstr "Shfaq një thirrje"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:11
 #: calendar/gui/e-alarm-list.c:456
@@ -4404,27 +4373,23 @@ msgstr "Dërgo tek:"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:13
 #: calendar/gui/e-alarm-list.c:452
 msgid "Send an email"
-msgstr ""
+msgstr "Dërgo një email"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:14
-#, fuzzy
 msgid "_Arguments:"
-msgstr "Emri i grupit:"
+msgstr "_Argumente:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:15
-#, fuzzy
 msgid "_Program:"
-msgstr "Ekzekuto programin:"
+msgstr "_Programi:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:16
-#, fuzzy
 msgid "_Repeat the alarm"
-msgstr "Përsërit alarmin"
+msgstr "_Përsërit alarmin"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:17
-#, fuzzy
 msgid "_Sound:"
-msgstr "_Dërgo"
+msgstr "_Tingulli:"
 
 #: calendar/gui/dialogs/alarm-dialog.glade.h:18
 msgid "after"
@@ -4466,16 +4431,15 @@ msgstr "fillimit të takimit"
 
 #: calendar/gui/dialogs/alarm-list-dialog.c:192
 msgid "Action/Trigger"
-msgstr ""
+msgstr "Veprimi"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:1
 msgid "A_dd"
-msgstr ""
+msgstr "Sh_to"
 
 #: calendar/gui/dialogs/alarm-list-dialog.glade.h:2
-#, fuzzy
 msgid "Alarms"
-msgstr "Alarm tek %s"
+msgstr "Alarme"
 
 #. FIXME: This routine should just be a "toggled" event handler on the checkbox cell renderer which
 #. has "activatable" set.
@@ -4485,16 +4449,12 @@ msgid "Enabled"
 msgstr "Aktiv"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:721
-#, fuzzy
 msgid "Are you sure you want to remove this URL?"
-msgstr ""
-"Jeni i sigurt që dëshiron\n"
-"të eleminosh këtë kontakt?"
+msgstr "Jeni i sigurt që dëshiron të eleminosh këtë URL?"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:729
-#, fuzzy
 msgid "Don't Remove"
-msgstr "Hiq"
+msgstr "Mos e hiq"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.c:778
 #: calendar/gui/dialogs/cal-prefs-dialog.c:811
@@ -4535,27 +4495,24 @@ msgid "60 minutes"
 msgstr "60 minuta"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
-#, fuzzy
 msgid "<b>Alerts</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Alarme</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>General</b>"
 msgstr "<b>Të përgjithshme</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
-#, fuzzy
 msgid "<b>Task List</b>"
-msgstr "Lista e aktiviteteve"
+msgstr "<b>Lista e aktiviteteve</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>Time</b>"
 msgstr "<b>Koha</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
-#, fuzzy
 msgid "<b>Work Week</b>"
-msgstr "Java punuese"
+msgstr "<b>Java punuese</b>"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "Calendar and Tasks Settings"
@@ -4578,19 +4535,17 @@ msgid "Days"
 msgstr "Ditë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
-#, fuzzy
 msgid "Display"
-msgstr "_Shfaq"
+msgstr "Shfaq"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 #: mail/mail-config.glade.h:76
 msgid "E_nable"
-msgstr ""
+msgstr "A_ktivo"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
-#, fuzzy
 msgid "Free/Busy Publishing"
-msgstr "URL i lirë/i zënë:"
+msgstr "Publikimi i disponibilitetit"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1038
@@ -4687,9 +4642,8 @@ msgid "_24 hour"
 msgstr "_24 orë"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
-#, fuzzy
 msgid "_Add URL"
-msgstr "_Shto"
+msgstr "_Shto URL"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "_Ask for confirmation when deleting items"
@@ -4756,22 +4710,22 @@ msgstr "para çdo takimi"
 
 #: calendar/gui/dialogs/calendar-setup.c:172
 msgid "You must specify a location to get the calendar from."
-msgstr ""
+msgstr "Ju duhet të jepni vendin nga duhet marrë kalendari."
 
 #: calendar/gui/dialogs/calendar-setup.c:180
 #, c-format
 msgid "The source location '%s' is not well-formed."
-msgstr ""
+msgstr "Pozicioni i burimit '%s' nuk është e formatuar si duhet."
 
 #: calendar/gui/dialogs/calendar-setup.c:195
 #, c-format
 msgid "The source location '%s' is not a webcal source."
-msgstr ""
+msgstr "Pozicioni i burimit '%s' nuk është një burim webcal."
 
 #: calendar/gui/dialogs/calendar-setup.c:275
 #, c-format
 msgid "Source with name '%s' already exists in the selected group"
-msgstr ""
+msgstr "Një burim me emrin '%s' ekziston tek grupi i zgjedhur"
 
 #: calendar/gui/dialogs/calendar-setup.c:288
 #, c-format
@@ -4779,16 +4733,16 @@ msgid ""
 "The group '%s' is remote. You must specify a location to get the calendar "
 "from"
 msgstr ""
+"Grupi '%s' është remot. Duhet të përcaktosh vendin nga ku duhet marrë "
+"kalendari"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:2
-#, fuzzy
 msgid "Add Calendar"
-msgstr "New Caledonia"
+msgstr "Shto një Kalendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:3
-#, fuzzy
 msgid "Add Tasks Group"
-msgstr "Lista e aktiviteteve"
+msgstr "Shto një grup aktivitetesh"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:4
 msgid "C_olor:"
@@ -4799,19 +4753,16 @@ msgid "Pick a color"
 msgstr "Zgjidh një ngjyrë"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:6
-#, fuzzy
 msgid "_Add Calendar"
-msgstr "New Caledonia"
+msgstr "_Shto një Kalendar"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:7
-#, fuzzy
 msgid "_Add Group"
-msgstr "_Shto një grup..."
+msgstr "_Shto një grup"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
-#, fuzzy
 msgid "_Refresh:"
-msgstr "Rifresko"
+msgstr "_Rifreskimi:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:10
 msgid "_Type:"
@@ -4823,7 +4774,7 @@ msgstr "_URL:"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:20
 msgid "weeks"
-msgstr ""
+msgstr "javë"
 
 #: calendar/gui/dialogs/changed-comp.c:60
 msgid "This event has been deleted."
@@ -4840,8 +4791,7 @@ msgstr "Ky zë u eleminua."
 #: calendar/gui/dialogs/changed-comp.c:77
 #, c-format
 msgid "%s  You have made changes. Forget those changes and close the editor?"
-msgstr ""
-"%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
+msgstr "%s  Keni kryer ndryshime. T'i harrojmë ndryshimet dhe të mbyll editorin?"
 
 #: calendar/gui/dialogs/changed-comp.c:79
 #, c-format
@@ -4938,23 +4888,20 @@ msgstr ""
 "rifreskim"
 
 #: calendar/gui/dialogs/comp-editor.c:1387
-#, fuzzy
 msgid "Unable to use current version!"
-msgstr "E pamundur marrja e versionit aktual!"
+msgstr "I pamundur përdorimi i versionit aktual!"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:57
-#, fuzzy
 msgid "Could not open source"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "E pamundur hapja e burimit"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:65
-#, fuzzy
 msgid "Could not open destination"
-msgstr "E pamundur hapja e kartelës tek '%s'"
+msgstr "E pamundur hapja e objektivit"
 
 #: calendar/gui/dialogs/copy-source-dialog.c:74
 msgid "Destination is read only"
-msgstr ""
+msgstr "Objektivi mund vetëm të lexohet"
 
 #: calendar/gui/dialogs/delete-error.c:54
 msgid "The event could not be deleted due to a corba error"
@@ -4989,161 +4936,147 @@ msgid "The item could not be deleted because permission was denied"
 msgstr "Elementi nuk do të fshihet pasi mungojnë të drejtat e nevojshme"
 
 #: calendar/gui/dialogs/delete-error.c:86
-#, fuzzy
 msgid "The event could not be deleted due to an error"
-msgstr "Ngjarja nuk mund të anullohet për shkak të një gabimi të corba"
+msgstr "Ngjarja nuk mund të anullohet për shkak të një gabimi"
 
 #: calendar/gui/dialogs/delete-error.c:89
-#, fuzzy
 msgid "The task could not be deleted due to an error"
-msgstr "Aktiviteti nuk mund të anullohet për shkak të një gabimi të corba"
+msgstr "Aktiviteti nuk mund të anullohet për shkak të një gabimi"
 
 #: calendar/gui/dialogs/delete-error.c:92
-#, fuzzy
 msgid "The journal entry could not be deleted due to an error"
-msgstr "Zëri i ditarit nuk mund të anullohet për shkak të një gabimi të corba"
+msgstr "Zëri i ditarit nuk mund të anullohet për shkak të një gabimi"
 
 #: calendar/gui/dialogs/delete-error.c:95
-#, fuzzy
 msgid "The item could not be deleted due to an error"
-msgstr "Elementi nuk mund të eleminohet për shkak të një gabimi të corba"
+msgstr "Elementi nuk mund të eleminohet për shkak të një gabimi"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:1
-#, fuzzy
 msgid "Contacts..."
-msgstr "Kontakte"
+msgstr "Kontakte..."
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:2
 msgid "Delegate To:"
-msgstr ""
+msgstr "Delegoje tek:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr ""
+msgstr "Shto delegatin"
 
 #: calendar/gui/dialogs/event-editor.c:153 calendar/gui/print.c:2295
 msgid "Appointment"
-msgstr ""
+msgstr "Takim"
 
 #: calendar/gui/dialogs/event-editor.c:162
 msgid "Recurrence"
-msgstr ""
+msgstr "Përvjetor"
 
 #: calendar/gui/dialogs/event-editor.c:169
 #: calendar/gui/dialogs/event-editor.c:239
 #: calendar/gui/dialogs/event-editor.c:381
 msgid "Scheduling"
-msgstr ""
+msgstr "Planifikim"
 
 #: calendar/gui/dialogs/event-editor.c:176
-#, fuzzy
 msgid "Invitations"
-msgstr "Orientimi"
+msgstr "Ftesa"
 
 #: calendar/gui/dialogs/event-editor.c:242
 #: calendar/gui/dialogs/event-editor.c:384 ui/evolution-event-editor.xml.h:6
 msgid "Meeting"
-msgstr ""
+msgstr "Takim"
 
 #: calendar/gui/dialogs/event-page.c:692
 msgid "Event with no start date"
-msgstr ""
+msgstr "Ngjarje pa datë fillimi"
 
 #: calendar/gui/dialogs/event-page.c:695
 msgid "Event with no end date"
-msgstr ""
+msgstr "Ngjarje pa datë përfundimi"
 
 #: calendar/gui/dialogs/event-page.c:855 calendar/gui/dialogs/task-page.c:523
 msgid "Start date is wrong"
-msgstr ""
+msgstr "Data e fillimit është e gabuar"
 
 #: calendar/gui/dialogs/event-page.c:865
 msgid "End date is wrong"
-msgstr ""
+msgstr "Data e përfundimit është e gabuar"
 
 #: calendar/gui/dialogs/event-page.c:888
 msgid "Start time is wrong"
-msgstr ""
+msgstr "Ora e fillimit është e gabuar"
 
 #: calendar/gui/dialogs/event-page.c:895
 msgid "End time is wrong"
-msgstr ""
+msgstr "Ora e përfundimit është e gabuar"
 
 #: calendar/gui/dialogs/event-page.c:1605
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open the calendar '%s'."
-msgstr "Nuk ke të drejtë të hapësh kalendarin"
+msgstr "E pamundur hapja e kalendarit '%s'."
 
 #: calendar/gui/dialogs/event-page.c:1799
-#, fuzzy, c-format
+#, c-format
 msgid "%d day before appointment"
 msgid_plural "%d days before appointment"
-msgstr[0] "para çdo takimi"
-msgstr[1] "para çdo takimi"
+msgstr[0] "%d ditë para takimit"
+msgstr[1] "%d ditë para takimit"
 
 #: calendar/gui/dialogs/event-page.c:1807
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour before appointment"
 msgid_plural "%d hours before appointment"
-msgstr[0] "fundit të takimit"
-msgstr[1] "fundit të takimit"
+msgstr[0] "%d orë para takimit"
+msgstr[1] "%d orë para takimit"
 
 #: calendar/gui/dialogs/event-page.c:1815
-#, fuzzy, c-format
+#, c-format
 msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
-msgstr[0] "para çdo takimi"
-msgstr[1] "para çdo takimi"
+msgstr[0] "%d minutë para takimit"
+msgstr[1] "%d minuta para takimit"
 
 #: calendar/gui/dialogs/event-page.glade.h:2
-#, fuzzy
 msgid "1 day before appointment"
-msgstr "para çdo takimi"
+msgstr "1 ditë para takimit"
 
 #: calendar/gui/dialogs/event-page.glade.h:3
-#, fuzzy
 msgid "1 hour before appointment"
-msgstr "para çdo takimi"
+msgstr "1 orë para takimit"
 
 #: calendar/gui/dialogs/event-page.glade.h:4
-#, fuzzy
 msgid "15 minutes before appointment"
-msgstr "para çdo takimi"
+msgstr "15 minuta para takimit"
 
 #: calendar/gui/dialogs/event-page.glade.h:5
-#, fuzzy
 msgid "<b>Basics</b>"
-msgstr "Lista e aktiviteteve"
+msgstr "<b>Të përgjithshme</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#, fuzzy
 msgid "<b>Date and Time</b>"
-msgstr "<b>Koha</b>"
+msgstr "<b>Data dhe Ora</b>"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "A_ll day event"
-msgstr ""
+msgstr "_Ngjarje të ditës"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
-#, fuzzy
 msgid "C_ustomize..."
-msgstr "Paraqitja e personalizuar"
+msgstr "P_ersonalizo..."
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Ca_tegories..."
-msgstr ""
+msgstr "Ka_tegori..."
 
 #: calendar/gui/dialogs/event-page.glade.h:10
-#, fuzzy
 msgid "Cale_ndar:"
-msgstr "K_alendari:"
+msgstr "Kale_ndari:"
 
 #: calendar/gui/dialogs/event-page.glade.h:11
 #: calendar/gui/dialogs/task-page.glade.h:5
-#, fuzzy
 msgid "Classi_fication:"
-msgstr "Klasifikimi"
+msgstr "Klasi_fikimi:"
 
 #: calendar/gui/dialogs/event-page.glade.h:12
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-cal-list-view.c:259
@@ -5170,37 +5103,34 @@ msgstr "Publik"
 
 #: calendar/gui/dialogs/event-page.glade.h:16
 msgid "Show time as _busy"
-msgstr ""
+msgstr "Shfaq kohën si i _zënë"
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
-#, fuzzy
 msgid "Su_mmary:"
-msgstr "Përmbledhja:"
+msgstr "Për_mbledhja:"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 msgid "This appointment has customized alarms"
-msgstr ""
+msgstr "Ky takim ka alarme të personalizuar"
 
 #: calendar/gui/dialogs/event-page.glade.h:19
-#, fuzzy
 msgid "_Alarm"
-msgstr "_Pastro"
+msgstr "_Alarmi"
 
 #: calendar/gui/dialogs/event-page.glade.h:20
-#, fuzzy
 msgid "_Description:"
-msgstr "Përshkrimi:"
+msgstr "_Përshkrimi:"
 
 #: calendar/gui/dialogs/event-page.glade.h:21
 #: calendar/gui/e-meeting-time-sel.c:613
 msgid "_End time:"
-msgstr ""
+msgstr "Ora _mbarimit:"
 
 #: calendar/gui/dialogs/event-page.glade.h:22
 #: calendar/gui/e-meeting-time-sel.c:594
 msgid "_Start time:"
-msgstr ""
+msgstr "Ora _fillimit:"
 
 #. an empty string is the same as 'None'
 #. add a "None" option to the stores menu
@@ -5223,19 +5153,19 @@ msgstr "Asnjë"
 
 #: calendar/gui/dialogs/meeting-page.c:443
 msgid "The organizer selected no longer has an account."
-msgstr ""
+msgstr "Organizuesi i zgjedhur nuk ka më një llogari."
 
 #: calendar/gui/dialogs/meeting-page.c:449
 msgid "An organizer is required."
-msgstr ""
+msgstr "Nevoitet një organizues."
 
 #: calendar/gui/dialogs/meeting-page.c:464
 msgid "At least one attendee is required."
-msgstr ""
+msgstr "Nevoitet të paktën një pjesmarrës."
 
 #: calendar/gui/dialogs/meeting-page.c:753
 msgid "_Delegate To..."
-msgstr ""
+msgstr "_Delegoja..."
 
 #: calendar/gui/dialogs/meeting-page.c:757
 #: composer/e-msg-composer-attachment-bar.c:453
@@ -5246,27 +5176,27 @@ msgstr "_Hiqe"
 #: calendar/gui/e-meeting-list-view.c:218
 #: calendar/gui/e-meeting-time-sel.etspec.h:1
 msgid "Attendee"
-msgstr ""
+msgstr "Pjesmarrës"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:2
 #: calendar/gui/e-meeting-time-sel.etspec.h:2
 msgid "Click here to add an attendee"
-msgstr ""
+msgstr "Kliko këtu për të shtuar një pjesmarrës֣"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:3
 #: calendar/gui/e-meeting-time-sel.etspec.h:3
 msgid "Common Name"
-msgstr ""
+msgstr "Emri i zakonshëm"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:4
 #: calendar/gui/e-meeting-time-sel.etspec.h:4
 msgid "Delegated From"
-msgstr ""
+msgstr "Deleguar nga"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr ""
+msgstr "Delegë për"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -5276,13 +5206,13 @@ msgstr "Gjuha"
 #: calendar/gui/dialogs/meeting-page.etspec.h:7
 #: calendar/gui/e-meeting-time-sel.etspec.h:7
 msgid "Member"
-msgstr ""
+msgstr "Anëtar"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
 #: calendar/gui/e-itip-control.c:1060 calendar/gui/e-meeting-list-view.c:241
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
-msgstr ""
+msgstr "RSVP"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:10
 #: calendar/gui/dialogs/task-editor.c:158
@@ -5294,109 +5224,97 @@ msgid "Status"
 msgstr "Gjendja"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:2
-#, fuzzy
 msgid "<b>Attendees</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Pjesmarrës</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
-#, fuzzy
 msgid "<b>Organizer</b>"
-msgstr "<b>Tjetër</b>"
+msgstr "<b>Organizues</b>"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 msgid "Change Or_ganizer"
-msgstr ""
+msgstr "Ndrysho Or_ganizuesin"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:5
 #: calendar/gui/e-meeting-time-sel.c:415
-#, fuzzy
 msgid "Con_tacts..."
-msgstr "Kontakte"
+msgstr "Kon_takte..."
 
 #: calendar/gui/dialogs/meeting-page.glade.h:7
-#, fuzzy
 msgid "_Organizer:"
-msgstr "Organi_zata:"
+msgstr "_Organizuesi:"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:2
 msgid "<b>Calendar options</b>"
-msgstr ""
+msgstr "<b>Opcione të Kalendarit</b>"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:3
-#, fuzzy
 msgid "Add New Calendar"
-msgstr "New Caledonia"
+msgstr "Shto një Kalendar të Ri"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:4
-#, fuzzy
 msgid "Calendar Group"
-msgstr "Kalendari"
+msgstr "Grupi i kalendarit"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:5
-#, fuzzy
 msgid "Calendar Location"
-msgstr "Kalendari"
+msgstr "Vendodhja e kalendarit"
 
 #: calendar/gui/dialogs/new-calendar.glade.h:6
-#, fuzzy
 msgid "Calendar Name"
-msgstr "Kalendari"
+msgstr "Emri i kalendarit"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:2
 msgid "<b>Task List Options</b>"
-msgstr ""
+msgstr "<b>Opcionet e listës së aktiviteteve</b>"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:3
-#, fuzzy
 msgid "Add New Task List"
-msgstr "Lista e aktiviteteve"
+msgstr "Shto një Listë të Re Aktivitetesh"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:4
-#, fuzzy
 msgid "Task List Group"
-msgstr "Lista e aktiviteteve"
+msgstr "Grupi i listës së aktiviteteve"
 
 #: calendar/gui/dialogs/new-task-list.glade.h:5
-#, fuzzy
 msgid "Task List Name"
-msgstr "Lista e aktiviteteve"
+msgstr "Emri i listës së aktiviteteve"
 
 #: calendar/gui/dialogs/recur-comp.c:50
 msgid "You are modifying a recurring event, what would you like to modify?"
-msgstr ""
+msgstr "Jeni duke ndryshuar një ngjarje përkujtimore, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:54
 msgid "You are modifying a recurring task, what would you like to modify?"
-msgstr ""
+msgstr "Jeni duke ndryshuar një aktivitet përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:58
-msgid ""
-"You are modifying a recurring journal entry, what would you like to modify?"
-msgstr ""
+msgid "You are modifying a recurring journal entry, what would you like to modify?"
+msgstr "Jeni duke ndryshuar një zë ditari përkujtimor, çfarë dëshironi të ndryshoni?"
 
 #: calendar/gui/dialogs/recur-comp.c:72
 msgid "This Instance Only"
-msgstr ""
+msgstr "Vetëm këtë instancë"
 
 #: calendar/gui/dialogs/recur-comp.c:76
 msgid "This and Prior Instances"
-msgstr ""
+msgstr "Këtë dhe instancat paraardhëse"
 
 #: calendar/gui/dialogs/recur-comp.c:82
 msgid "This and Future Instances"
-msgstr ""
+msgstr "Këtë dhe instancat e ardhëshme"
 
 #: calendar/gui/dialogs/recur-comp.c:87
 msgid "All Instances"
-msgstr ""
+msgstr "Të gjitha instancat"
 
 #: calendar/gui/dialogs/recurrence-page.c:511
 msgid "This appointment contains recurrences that Evolution cannot edit."
-msgstr ""
+msgstr "Ky takim përmban ngjarje që Evolutin nuk mund të ndryshojë."
 
 #: calendar/gui/dialogs/recurrence-page.c:806
 msgid "Recurrence date is invalid"
-msgstr ""
+msgstr "Data e përkujtimores është e gabuar"
 
 #: calendar/gui/dialogs/recurrence-page.c:917
 msgid "on"
@@ -5404,7 +5322,7 @@ msgstr "në"
 
 #: calendar/gui/dialogs/recurrence-page.c:978
 msgid "first"
-msgstr ""
+msgstr "e para"
 
 #: calendar/gui/dialogs/recurrence-page.c:979
 msgid "second"
@@ -5412,53 +5330,51 @@ msgstr "sekondë"
 
 #: calendar/gui/dialogs/recurrence-page.c:980
 msgid "third"
-msgstr ""
+msgstr "e treta"
 
 #: calendar/gui/dialogs/recurrence-page.c:981
 msgid "fourth"
-msgstr ""
+msgstr "e katërta"
 
 #: calendar/gui/dialogs/recurrence-page.c:982
 msgid "last"
-msgstr ""
+msgstr "e fundit"
 
 #: calendar/gui/dialogs/recurrence-page.c:1005
 msgid "Other Date"
-msgstr ""
+msgstr "Datë tjetër"
 
 #: calendar/gui/dialogs/recurrence-page.c:1033
 msgid "day"
-msgstr ""
+msgstr "ditë"
 
 #: calendar/gui/dialogs/recurrence-page.c:1170
 msgid "on the"
-msgstr ""
+msgstr "tek"
 
 #: calendar/gui/dialogs/recurrence-page.c:1356
 msgid "occurrences"
-msgstr ""
+msgstr "përkujtimore"
 
 #: calendar/gui/dialogs/recurrence-page.c:2309
 msgid "Date/Time"
 msgstr "Data/Ora"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:1
-#, fuzzy
 msgid "<b>Exceptions</b>"
-msgstr "Përshkrimi:"
+msgstr "<b>Përjashtime</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:2 mail/mail-config.glade.h:4
 msgid "<b>Preview</b>"
 msgstr "<b>Shikoje</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
-#, fuzzy
 msgid "<b>Recurrence</b>"
-msgstr "<b>Gjendja:</b>"
+msgstr "<b>Përkujtimore</b>"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:4
 msgid "Every"
-msgstr ""
+msgstr "Çdo"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:5
 #, fuzzy
@@ -5467,56 +5383,51 @@ msgstr "_Ndrysho takimet"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:8
 msgid "for"
-msgstr ""
+msgstr "për"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
 msgid "forever"
-msgstr ""
+msgstr "gjithmonë"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:10
 msgid "month(s)"
-msgstr ""
+msgstr "muaj"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "until"
-msgstr ""
+msgstr "deri më"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:12
 msgid "week(s)"
-msgstr ""
+msgstr "javë"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "year(s)"
-msgstr ""
+msgstr "vit(e)"
 
 #: calendar/gui/dialogs/select-source-dialog.c:84
-#, fuzzy
 msgid "Select destination"
-msgstr "Zgjidh një veprim"
+msgstr "Zgjidh destinimin"
 
 #: calendar/gui/dialogs/select-source-dialog.c:106
-#, fuzzy
 msgid "_Destination"
-msgstr "Lëvize tek kartela..."
+msgstr "_Destinimi"
 
 #: calendar/gui/dialogs/select-source-dialog.c:108
-#, fuzzy
 msgid "Task List"
-msgstr "Lista e aktiviteteve"
+msgstr "Lista e Aktiviteteve"
 
 #: calendar/gui/dialogs/task-details-page.c:427
 msgid "Completed date is wrong"
-msgstr ""
+msgstr "Data e plotësuar është e gabuar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:1
-#, fuzzy
 msgid "<span weight=\"bold\">Miscellaneous\t</span>"
-msgstr "<span weight=\"bold\">E përgjithshme</span>"
+msgstr "<span weight=\"bold\">Të ndryshme\t</span>"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Status</span>"
-msgstr "<span weight=\"bold\">E përgjithshme</span>"
+msgstr "<span weight=\"bold\">Gjendja</span>"
 
 #. Pass TRUE as is_utc, so it gets converted to the current
 #. timezone.
@@ -5563,9 +5474,8 @@ msgid "Not Started"
 msgstr "Për t'u filluar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:10
-#, fuzzy
 msgid "P_ercent complete:"
-msgstr "I përfunduar"
+msgstr "Pë_rqindja e plotësuar:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:377
@@ -5573,51 +5483,47 @@ msgid "Undefined"
 msgstr "E papërcaktuar"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
-#, fuzzy
 msgid "_Date completed:"
-msgstr "I përfunduar"
+msgstr "_Data e plotësimit:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
 msgid "_Priority:"
-msgstr ""
+msgstr "_Prioriteti:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:14
 msgid "_Status:"
-msgstr ""
+msgstr "_Gjendja:"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:15
-#, fuzzy
 msgid "_Web Page:"
-msgstr "Faqja"
+msgstr "Faqja _Web:"
 
 #: calendar/gui/dialogs/task-editor.c:149 calendar/gui/print.c:2297
 msgid "Task"
-msgstr ""
+msgstr "Aktiviteti"
 
 #: calendar/gui/dialogs/task-editor.c:165
 #: calendar/gui/dialogs/task-editor.c:225
 #: calendar/gui/dialogs/task-editor.c:361
 msgid "Assignment"
-msgstr ""
+msgstr "Caktuar"
 
 #: calendar/gui/dialogs/task-page.c:496
 msgid "Due date is wrong"
-msgstr ""
+msgstr "Data e duhur është e gabuar"
 
 #: calendar/gui/dialogs/task-page.c:831
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open tasks in '%s'."
-msgstr "E pamundur hapja e librit të adresave"
+msgstr "E pamundur hapja e aktiviteteve tek '%s'."
 
 #: calendar/gui/dialogs/task-page.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Basics</span>"
-msgstr "<span weight=\"bold\">E përgjithshme</span>"
+msgstr "<span weight=\"bold\">Të përgjithshme</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:3
-#, fuzzy
 msgid "<span weight=\"bold\">Date and Time</span>"
-msgstr "<span weight=\"bold\">E përgjithshme</span>"
+msgstr "<span weight=\"bold\">Data dhe Ora</span>"
 
 #: calendar/gui/dialogs/task-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:268
@@ -5627,46 +5533,40 @@ msgid "Description:"
 msgstr "Përshkrimi:"
 
 #: calendar/gui/dialogs/task-page.glade.h:10
-#, fuzzy
 msgid "Sta_rt date:"
-msgstr "Data e lindjes"
+msgstr "Data e _nisjes:"
 
 #: calendar/gui/dialogs/task-page.glade.h:12
-#, fuzzy
 msgid "_Due date:"
-msgstr "Data:"
+msgstr "Ska_dimi:"
 
 #: calendar/gui/dialogs/task-page.glade.h:13
-#, fuzzy
 msgid "_Group:"
-msgstr "Grupi:"
+msgstr "_Grupi:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "Authentication Credentials for HTTP Server"
-msgstr ""
+msgstr "Kreditë e autentifikimit për serverin HTTP"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
 msgid "Calendars selected for publishing"
-msgstr ""
+msgstr "Kalendarët e zgjedhur për publikim"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-#, fuzzy
 msgid "Daily"
-msgstr "Email"
+msgstr "Ditor"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
-#, fuzzy
 msgid "Free/Busy Editor"
-msgstr "URL i lirë/i zënë:"
+msgstr "Ndrysho disponibilitetin"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Publishing Location"
-msgstr ""
+msgstr "Vendi për publikimin e disponibilitetit"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-#, fuzzy
 msgid "Login name:"
-msgstr "Emri i _listës:"
+msgstr "Emri i login:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
 msgid "Password:"
@@ -5674,7 +5574,7 @@ msgstr "Fjalëkalimi:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
 msgid "Publishing Frequency"
-msgstr ""
+msgstr "Frekuenca e publikimit"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
 msgid "Remember password"
@@ -5686,32 +5586,32 @@ msgstr "URL:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
 msgid "User Publishes"
-msgstr ""
+msgstr "Përdoruesi publikon"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:13
 msgid "Weekly"
-msgstr ""
+msgstr "Çdo javë"
 
 #: calendar/gui/e-alarm-list.c:395
-#, fuzzy, c-format
+#, c-format
 msgid "%d day"
 msgid_plural "%d days"
-msgstr[0] "ditë"
-msgstr[1] "ditë"
+msgstr[0] "%d ditë"
+msgstr[1] "%d ditë"
 
 #: calendar/gui/e-alarm-list.c:400
 #, c-format
 msgid "%d week"
 msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d javë"
+msgstr[1] "%d javë"
 
 #: calendar/gui/e-alarm-list.c:405
-#, fuzzy, c-format
+#, c-format
 msgid "%d hour"
 msgid_plural "%d hours"
-msgstr[0] "_24 orë"
-msgstr[1] "_24 orë"
+msgstr[0] "%d orë"
+msgstr[1] "%d orë"
 
 #: calendar/gui/e-alarm-list.c:410
 #, c-format
@@ -5729,17 +5629,17 @@ msgstr[1] "sekonda"
 
 #: calendar/gui/e-alarm-list.c:462
 msgid "Unknown action to be performed"
-msgstr ""
+msgstr "Veprim i panjohur"
 
 #: calendar/gui/e-alarm-list.c:474
 #, c-format
 msgid "%s %s before the start of the appointment"
-msgstr ""
+msgstr "%s %s para fillimit të takimit"
 
 #: calendar/gui/e-alarm-list.c:477
 #, c-format
 msgid "%s %s after the start of the appointment"
-msgstr ""
+msgstr "%s %s nbas fillimit të takimit"
 
 #: calendar/gui/e-alarm-list.c:482
 #, c-format
@@ -6057,9 +5957,8 @@ msgid "Completion date"
 msgstr "U kompletua"
 
 #: calendar/gui/e-calendar-table.etspec.h:7
-#, fuzzy
 msgid "Due date"
-msgstr "Data:"
+msgstr "Data skadimit"
 
 #: calendar/gui/e-calendar-table.etspec.h:8
 msgid "Priority"
@@ -6282,9 +6181,8 @@ msgid ", ending on "
 msgstr ""
 
 #: calendar/gui/e-itip-control.c:686
-#, fuzzy
 msgid "Starts"
-msgstr "Gjendja"
+msgstr "Fillimi"
 
 #: calendar/gui/e-itip-control.c:699
 msgid "Ends"
@@ -6749,9 +6647,8 @@ msgid "No Information"
 msgstr ""
 
 #: calendar/gui/e-meeting-time-sel.c:432
-#, fuzzy
 msgid "O_ptions"
-msgstr "Mundësitë"
+msgstr "M_undësitë"
 
 #: calendar/gui/e-meeting-time-sel.c:449
 msgid "Show _only working hours"
@@ -9099,11 +8996,11 @@ msgstr ""
 
 #: camel/camel-folder.c:1416
 msgid "Moving messages"
-msgstr ""
+msgstr "Duke lëvizur mesazhet"
 
 #: camel/camel-folder.c:1416
 msgid "Copying messages"
-msgstr ""
+msgstr "Duke kopjuar mesazhet"
 
 #: camel/camel-folder.c:1665
 #, fuzzy
@@ -10240,12 +10137,12 @@ msgstr ""
 #: camel/providers/imap/camel-imap-folder.c:226
 #, c-format
 msgid "Could not create directory %s: %s"
-msgstr ""
+msgstr "I pamundur krijimi i directory %s: %s"
 
 #: camel/providers/imap/camel-imap-folder.c:245
 #, c-format
 msgid "Could not load summary for %s"
-msgstr ""
+msgstr "I pamundur leximi i përmbledhjes për %s"
 
 #: camel/providers/imap/camel-imap-folder.c:330
 msgid "Folder was destroyed and recreated on server."
@@ -10254,7 +10151,7 @@ msgstr ""
 #. Check UIDs and flags of all messages we already know of.
 #: camel/providers/imap/camel-imap-folder.c:573
 msgid "Scanning for changed messages"
-msgstr ""
+msgstr "Duke kërkuar për mesazhet e ndryshuara"
 
 #: camel/providers/imap/camel-imap-folder.c:1940
 #, c-format
@@ -10273,7 +10170,7 @@ msgstr ""
 #: camel/providers/local/camel-mbox-folder.c:418
 #: camel/providers/local/camel-mh-folder.c:202
 msgid "No such message"
-msgstr ""
+msgstr "Mesazhi nuk u gjet"
 
 #: camel/providers/imap/camel-imap-folder.c:2019
 #: camel/providers/imap/camel-imap-folder.c:2622
@@ -10298,8 +10195,7 @@ msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2484
 #, c-format
-msgid ""
-"Unexpected server response: Identical UIDs provided for messages %d and %d"
+msgid "Unexpected server response: Identical UIDs provided for messages %d and %d"
 msgstr ""
 
 #: camel/providers/imap/camel-imap-folder.c:2660
@@ -10487,8 +10383,7 @@ msgstr ""
 #: camel/providers/imap/camel-imap-store.c:2259
 #: camel/providers/imap4/camel-imap4-store.c:796
 #, fuzzy, c-format
-msgid ""
-"The folder name \"%s\" is invalid because it contains the character \"%c\""
+msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
 msgstr "Emri i kartelës nuk mund të përmbajë shenjën \"#\"."
 
 #: camel/providers/imap/camel-imap-store.c:1939
@@ -10617,8 +10512,7 @@ msgid "For reading and storing mail on IMAPv4rev1 servers. EXPERIMENTAL !!"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-provider.c:72
-msgid ""
-"This option will connect to the IMAPv4rev1 server using a plaintext password."
+msgid "This option will connect to the IMAPv4rev1 server using a plaintext password."
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:271
@@ -10630,8 +10524,7 @@ msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:383
 #, c-format
-msgid ""
-"Cannot authenticate to IMAP server %s using the %s authentication mechanism"
+msgid "Cannot authenticate to IMAP server %s using the %s authentication mechanism"
 msgstr ""
 
 #: camel/providers/imap4/camel-imap4-store.c:428
@@ -10900,7 +10793,7 @@ msgstr ""
 #: camel/providers/local/camel-maildir-store.c:248
 #: mail/em-folder-tree-model.c:212 mail/em-folder-tree-model.c:214
 msgid "Inbox"
-msgstr ""
+msgstr "Inbox"
 
 #: camel/providers/local/camel-maildir-folder.c:214
 msgid "Maildir append message cancelled"
@@ -11067,9 +10960,8 @@ msgid "Cannot create folder: %s: %s"
 msgstr "E pamundur hapja e kartelës tek '%s'"
 
 #: camel/providers/local/camel-mbox-store.c:390
-#, fuzzy
 msgid "Folder already exists"
-msgstr "ID e card ekziston"
+msgstr "Kartela ekziston"
 
 #: camel/providers/local/camel-mbox-store.c:472
 #, fuzzy
@@ -11346,8 +11238,7 @@ msgid "Unable to save grouplist file for %s: %s"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:43
-msgid ""
-"Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
+msgid "Show folders in short notation (e.g. c.o.linux rather than comp.os.linux)"
 msgstr ""
 
 #: camel/providers/nntp/camel-nntp-provider.c:45
@@ -11832,7 +11723,7 @@ msgstr ""
 
 #: camel/providers/smtp/camel-smtp-transport.c:713
 msgid "Cannot send message: one or more invalid recipients"
-msgstr ""
+msgstr "E pamundur nisja e mesazhit: një apo më shumë adresa të pasakta"
 
 #: camel/providers/smtp/camel-smtp-transport.c:885
 msgid "SMTP Greeting"
@@ -12059,8 +11950,7 @@ msgid "Attach file(s)"
 msgstr ""
 
 #: composer/e-msg-composer.c:704
-msgid ""
-"Cannot sign outgoing message: No signing certificate set for this account"
+msgid "Cannot sign outgoing message: No signing certificate set for this account"
 msgstr ""
 
 #: composer/e-msg-composer.c:711
@@ -12307,10 +12197,13 @@ msgid ""
 "\n"
 "Would you like to change your status to \"In the Office\"? "
 msgstr ""
+"<b>Aktualisht, gjendja juaj është \"Jashtë Zyre\".</b>\n"
+"\n"
+"Dëshironi të ndryshoni gjendjen tuaj në \"Në Zyrë\"? "
 
 #: designs/OOA/ooa.glade.h:4
 msgid "<b>Out of Office Message:</b>"
-msgstr ""
+msgstr "<b>Mesazhi i Jashtë Zyre:</b>"
 
 #: designs/OOA/ooa.glade.h:5
 msgid "<b>Status:</b>"
@@ -12322,26 +12215,29 @@ msgid ""
 "who sends\n"
 "mail to you while you are out of the office.</small>"
 msgstr ""
+"<small>Mesazhi i specifikuar në vazhdim do t'i dërgohet automatikisht çdo "
+"personi që ju\n"
+"dërgon mail kur ju jeni jashtë zyre.</small>"
 
 #: designs/OOA/ooa.glade.h:8
 msgid "I am currently in the office"
-msgstr ""
+msgstr "Aktualisht ndodhem në zyrë"
 
 #: designs/OOA/ooa.glade.h:9
 msgid "I am currently out of the office"
-msgstr ""
+msgstr "Për momentin jam jashtë zyre"
 
 #: designs/OOA/ooa.glade.h:10
 msgid "No, Don't Change Status"
-msgstr ""
+msgstr "Jo, mos e ndrysho gjendjen"
 
 #: designs/OOA/ooa.glade.h:12
 msgid "Out of Office Assistant"
-msgstr ""
+msgstr "Asistenti i \"Jashtë Zyre\""
 
 #: designs/OOA/ooa.glade.h:13
 msgid "Yes, Change Status"
-msgstr ""
+msgstr "Po, ndryshoje gjendjen"
 
 #: designs/read_receipts/read.glade.h:1
 msgid "      "
@@ -12406,7 +12302,7 @@ msgstr ""
 
 #: e-util/e-passwords.c:358
 msgid "Remember this password"
-msgstr ""
+msgstr "Kujtoje këtë fjalëkalim"
 
 #: e-util/e-passwords.c:360
 msgid "Remember this password for the remainder of this session"
@@ -12793,8 +12689,7 @@ msgid "Composer Preferences"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:3
-msgid ""
-"Configure mail preferences, including security and message display, here"
+msgid "Configure mail preferences, including security and message display, here"
 msgstr ""
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:4
@@ -12931,9 +12826,8 @@ msgid "Beep"
 msgstr "Belize"
 
 #: mail/em-filter-i18n.h:7
-#, fuzzy
 msgid "contains"
-msgstr "Përmbledhja përmban"
+msgstr "përmban"
 
 #: mail/em-filter-i18n.h:8
 #, fuzzy
@@ -12951,14 +12845,12 @@ msgid "Date sent"
 msgstr "sekondë"
 
 #: mail/em-filter-i18n.h:12
-#, fuzzy
 msgid "Deleted"
-msgstr "Elemino"
+msgstr "Eleminuar"
 
 #: mail/em-filter-i18n.h:13
-#, fuzzy
 msgid "does not contain"
-msgstr "Komenti përmban"
+msgstr "nuk përmban"
 
 #: mail/em-filter-i18n.h:14
 msgid "does not end with"
@@ -12980,9 +12872,8 @@ msgid "does not sound like"
 msgstr "Komenti përmban"
 
 #: mail/em-filter-i18n.h:18
-#, fuzzy
 msgid "does not start with"
-msgstr "Nuk arrij të nis wombat"
+msgstr "nuk fillon me"
 
 #: mail/em-filter-i18n.h:19
 msgid "Do Not Exist"
@@ -12993,9 +12884,8 @@ msgid "Draft"
 msgstr "Kopje e keqe"
 
 #: mail/em-filter-i18n.h:21
-#, fuzzy
 msgid "ends with"
-msgstr "Emri fillon me"
+msgstr "mbaron me"
 
 #: mail/em-filter-i18n.h:22
 #, fuzzy
@@ -13008,28 +12898,24 @@ msgid "exists"
 msgstr "Teksti"
 
 #: mail/em-filter-i18n.h:24
-#, fuzzy
 msgid "Expression"
-msgstr "Shtesat"
+msgstr "Shprehje"
 
 #: mail/em-filter-i18n.h:25
 msgid "Follow Up"
 msgstr ""
 
 #: mail/em-filter-i18n.h:27
-#, fuzzy
 msgid "is"
-msgstr "Lista"
+msgstr "është"
 
 #: mail/em-filter-i18n.h:28
-#, fuzzy
 msgid "is after"
-msgstr "mbas"
+msgstr "është mbas"
 
 #: mail/em-filter-i18n.h:29
-#, fuzzy
 msgid "is before"
-msgstr "përpara"
+msgstr "është përpara"
 
 #: mail/em-filter-i18n.h:30
 msgid "is Flagged"
@@ -13044,9 +12930,8 @@ msgid "is less than"
 msgstr ""
 
 #: mail/em-filter-i18n.h:33
-#, fuzzy
 msgid "is not"
-msgstr "Lista"
+msgstr "nuk është"
 
 #: mail/em-filter-i18n.h:34
 msgid "is not Flagged"
@@ -13133,9 +13018,8 @@ msgid "returns less than"
 msgstr ""
 
 #: mail/em-filter-i18n.h:53
-#, fuzzy
 msgid "Run Program"
-msgstr "Ekzekuto programin:"
+msgstr "Zbato programin"
 
 #: mail/em-filter-i18n.h:54 mail/message-list.etspec.h:10
 msgid "Score"
@@ -13170,9 +13054,8 @@ msgid "Specific header"
 msgstr ""
 
 #: mail/em-filter-i18n.h:61
-#, fuzzy
 msgid "starts with"
-msgstr "Aktivitet i ri"
+msgstr "fillon me"
 
 #: mail/em-filter-i18n.h:63
 #, fuzzy
@@ -13227,12 +13110,12 @@ msgstr ""
 
 #: mail/em-folder-selector.c:166
 msgid "Create New Folder"
-msgstr ""
+msgstr "Krijo një Kartelë të Re"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2330
 #: mail/mail-component.c:709
 msgid "Specify where to create the folder:"
-msgstr ""
+msgstr "Përcakto ku duhet krijuar kartela:"
 
 #: mail/em-folder-selector.c:300
 msgid "Create"
@@ -13240,7 +13123,7 @@ msgstr "Krijo"
 
 #: mail/em-folder-selector.c:304
 msgid "Folder _name:"
-msgstr ""
+msgstr "_Emri i kartelës:"
 
 #: mail/em-folder-tree-model.c:200 mail/em-folder-tree-model.c:202
 #: mail/mail-vfolder.c:872
@@ -13323,11 +13206,11 @@ msgstr "Lëvize tek kartela..."
 #: mail/em-folder-tree.c:2526
 #, c-format
 msgid "Rename the \"%s\" folder to:"
-msgstr ""
+msgstr "Riemërto kartelën \"%s\" në:"
 
 #: mail/em-folder-tree.c:2528
 msgid "Rename Folder"
-msgstr ""
+msgstr "Riemërto kartelën"
 
 #: mail/em-folder-tree.c:2603 ui/evolution-addressbook.xml.h:44
 #: ui/evolution-mail-global.xml.h:18 ui/evolution-mail-messagedisplay.xml.h:8
@@ -13341,29 +13224,25 @@ msgid "Open in _New Window"
 msgstr "Hape në një dritare të re"
 
 #: mail/em-folder-tree.c:2608
-#, fuzzy
 msgid "_Copy..."
-msgstr "_Kopjo"
+msgstr "_Kopjo..."
 
 #: mail/em-folder-tree.c:2609
-#, fuzzy
 msgid "_Move..."
-msgstr "_Lëvize"
+msgstr "_Lëvize..."
 
 #. FIXME: need to disable for nochildren folders
 #: mail/em-folder-tree.c:2613
 msgid "_New Folder..."
-msgstr ""
+msgstr "Kartelë e _Re..."
 
 #: mail/em-folder-tree.c:2616
-#, fuzzy
 msgid "_Rename..."
-msgstr "_Riemërto"
+msgstr "_Riemërto..."
 
 #: mail/em-folder-tree.c:2619 ui/evolution-mail-list.xml.h:27
-#, fuzzy
 msgid "_Properties"
-msgstr "Pronësitë"
+msgstr "_Pronësitë"
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
 #: mail/em-folder-view.c:899 mail/em-popup.c:690
@@ -14172,8 +14051,7 @@ msgid "Prompt the user when he or she tries to expunge a folder."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:56
-msgid ""
-"Prompt the user when he or she tries to send a message without a Subject."
+msgid "Prompt the user when he or she tries to send a message without a Subject."
 msgstr ""
 
 #: mail/evolution-mail.schemas.in.in.h:57
@@ -15978,8 +15856,7 @@ msgid ""
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:9
-msgid ""
-"List of paths for the folders to be synchronized to disk for offline usage"
+msgid "List of paths for the folders to be synchronized to disk for offline usage"
 msgstr ""
 
 #: shell/apps_evolution_shell.schemas.in.in.h:10
@@ -16694,8 +16571,7 @@ msgid "You have certificates from these organizations that identify you:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:43
-msgid ""
-"You have certificates on file that identify these certificate authorities:"
+msgid "You have certificates on file that identify these certificate authorities:"
 msgstr ""
 
 #: smime/gui/smime-ui.glade.h:44
@@ -17475,8 +17351,7 @@ msgid "Hide _Read Messages"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:8
-msgid ""
-"Hide deleted messages rather than displaying them with a line through them"
+msgid "Hide deleted messages rather than displaying them with a line through them"
 msgstr ""
 
 #: ui/evolution-mail-list.xml.h:9
@@ -18612,8 +18487,7 @@ msgstr "Alarmi i Evolution"
 #. setup a dummy error
 #: widgets/misc/e-error.c:417
 #, c-format
-msgid ""
-"<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
+msgid "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
 msgstr ""
 
 #: widgets/misc/e-expander.c:181
@@ -18772,3 +18646,4 @@ msgstr ""
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr ""
+
