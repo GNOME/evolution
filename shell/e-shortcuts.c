@@ -369,6 +369,7 @@ load_shortcuts (EShortcuts *shortcuts,
 					xmlFree (icon);
 			}
 
+			g_free (path);
 			xmlFree (uri);
 		}
 

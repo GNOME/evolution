@@ -1,3 +1,7 @@
+2003-02-17  Chris Toshok  <toshok@ximian.com>
+
+	* e-shortcuts.c (load_shortcuts): plug memory leak - free path.
+
 2003-02-13  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Ported SIGSEGV signal redirection hack from mail/.]
