@@ -9,6 +9,8 @@ noinst_LIBRARIES =				\
 libevolutionwidgets_a_SOURCES = 		\
 	e-cell.c				\
 	e-cell.h				\
+	e-cell-checkbox.c			\
+	e-cell-checkbox.h			\
 	e-cell-text.c				\
 	e-cell-text.h				\
 	e-cell-toggle.c				\
@@ -36,11 +38,18 @@ noinst_PROGRAMS =	\
 	table-test
 
 table_test_SOURCES = 	\
+	test-table.c	\
+	test-check.c	\
+	test-cols.c	\
 	table-test.c 
 
 table_test_LDADD =		\
 	$(EXTRA_GNOME_LIBS)	\
-	libevolutionwidgets.a
+	libevolutionwidgets.a	
 
-EXTRA_DIST =		\
-	sample.table
+table_test_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+EXTRA_DIST =			\
+	sample.table		\
+	check-empty.xpm		\
+	check-filled.xpm

@@ -1,3 +1,16 @@
+1999-11-30  Miguel de Icaza  <miguel@gnu.org>
+
+	* e-cell-checkbox.c (e_cell_checkbox_new): This one derives from
+	e-cell-toggle.   
+
+	* check-emtpy.xpm, check-filled.xpm: new files.
+
+	* e-cell-toggle.c (etog_draw): Paint in white.
+	If we have transparency enabled, do the nice alpha computation.
+	
+	* test-table.c, test-cols.c: new files;  They implement the split
+	tests. 
+
 1999-11-29  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-table-col.c (e_table_col_new): Set etc->resizeable.

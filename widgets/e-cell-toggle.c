@@ -48,6 +48,7 @@ etog_realize (ECell *ecell, void *view)
 	toggle_view->cell_view.ecell = ecell;
 	toggle_view->eti = eti;
 	toggle_view->canvas = canvas;
+	toggle_view->gc = gdk_gc_new (GTK_WIDGET (canvas)->window);
 
 	return (ECellView *) toggle_view;
 }
@@ -60,6 +61,9 @@ etog_unrealize (ECellView *ecv)
 {
 	ECellToggleView *toggle_view = (ECellToggleView *) ecv;
 
+	gdk_gc_unref (toggle_view->gc);
+	toggle_view->gc = NULL;
+	
 	g_free (toggle_view);
 }
 
@@ -76,6 +80,7 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 	GdkPixbuf *image;
 	ArtPixBuf *art;
 	int x, y, width, height;
+	gboolean free_image;
 	const int value = GPOINTER_TO_INT (
 		e_table_model_value_at (ecell_view->ecell->table_model, col, row));
 
@@ -85,6 +90,11 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		return;
 	}
 
+	/*
+	 * Paint the background
+	 */
+	gdk_draw_rectangle (drawable, GTK_WIDGET (toggle_view->canvas)->style->white_gc, TRUE, x1, y1, x2 - x1, y2 - y1);
+			    
 	image = toggle->images [value];
 	art = image->art_pixbuf;
 
@@ -104,13 +114,55 @@ etog_draw (ECellView *ecell_view, GdkDrawable *drawable,
 		height = art->height;
 	}
 
-	width = y2 - y1; 
-	gdk_pixbuf_render_to_drawable_alpha (
-		image, drawable, 0, 0, x, y,
-		width, height,
-		GDK_PIXBUF_ALPHA_FULL, 0,
-		GDK_RGB_DITHER_NORMAL,
-		0, 0);
+	width = y2 - y1;
+
+	if (image->art_pixbuf->has_alpha){
+		GdkColor background;
+		guchar *buffer;
+		int alpha, ix, iy;
+
+		buffer = g_malloc (art->rowstride * art->height * 3);
+
+		background.red = 255;
+		background.green = 255;
+		background.blue = 255;
+		
+		for (iy = 0; iy < art->height; iy++){
+			unsigned char *dest;
+			unsigned char *src;
+		
+			dest = buffer + (iy * art->rowstride);
+			src = art->pixels + (iy * art->rowstride);
+
+			for (ix = 0; ix < art->width; ix++){
+				alpha = src [3];
+				if (alpha == 0){
+					*dest++ = background.red;
+					*dest++ = background.green;
+					*dest++ = background.blue;
+					src += 3;
+				} else if (alpha == 255){
+					*dest++ = *src++;
+					*dest++ = *src++;
+					*dest++ = *src++;
+				} else {
+					*dest++ = (background.red +   ((*src++ - background.red) * alpha + 0x80)) >> 8;
+					*dest++ = (background.green + ((*src++ - background.green) * alpha + 0x80)) >> 8;
+					*dest++ = (background.blue +  ((*src++ - background.blue) * alpha + 0x80)) >> 8;
+				}
+				src++;
+			}
+		}
+		
+		gdk_draw_rgb_image_dithalign (
+			drawable, toggle_view->gc, x, y, width, height,
+			GDK_RGB_DITHER_NORMAL, buffer, art->rowstride, 0, 0);
+
+		g_free (buffer);
+	} else
+		gdk_draw_rgb_image_dithalign (
+			drawable, toggle_view->gc, x, y, width, height,
+			GDK_RGB_DITHER_NORMAL, art->pixels, art->rowstride, 0, 0);
 }
 
 static void
@@ -196,7 +248,7 @@ e_cell_toggle_class_init (GtkObjectClass *object_class)
 	parent_class = gtk_type_class (PARENT_TYPE);
 }
 
-E_MAKE_TYPE(e_cell_text, "ECellToggle", ECellToggle, e_cell_toggle_class_init, NULL, PARENT_TYPE);
+E_MAKE_TYPE(e_cell_toggle, "ECellToggle", ECellToggle, e_cell_toggle_class_init, NULL, PARENT_TYPE);
 
 void
 e_cell_toggle_construct (ECellToggle *etog, ETableModel *etm, int border, int n_states, GdkPixbuf **images)
