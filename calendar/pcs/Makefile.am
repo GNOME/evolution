@@ -46,7 +46,7 @@ libpcs_a_SOURCES =		\
 
 
 BUILT_SOURCES = $(CORBA_GENERATED)
-CLEANFILES += $(BUILT_SOURCES)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
