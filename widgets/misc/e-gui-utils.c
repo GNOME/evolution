@@ -33,40 +33,25 @@
 
 /* should probably just deprecate/remove this and have callers change
    to using gtk_message_dialog_new */
+/* This should probably be moved into evolution/e-util */
 void
-e_notice (GtkWindow *window, const char *type, const char *format, ...)
+e_notice (GtkWindow *parent, GtkMessageType type, const char *format, ...)
 {
-	GtkMessageType gtk_type;
-
 	GtkWidget *dialog;
 	va_list args;
 	char *str;
 
-	if (!strcmp (type, GNOME_MESSAGE_BOX_INFO)
-	    || !strcmp (type, GNOME_MESSAGE_BOX_GENERIC))
-		gtk_type = GTK_MESSAGE_INFO;
-	else if (!strcmp (type, GNOME_MESSAGE_BOX_WARNING))
-		gtk_type = GTK_MESSAGE_WARNING;
-	else if (!strcmp (type, GNOME_MESSAGE_BOX_ERROR))
-		gtk_type = GTK_MESSAGE_ERROR;
-	else if (!strcmp (type, GNOME_MESSAGE_BOX_QUESTION))
-		gtk_type = GTK_MESSAGE_QUESTION;
-	else {
-		g_warning ("invalid dialog type '%s'", type);
-		gtk_type = GTK_MESSAGE_INFO;
-	}
-
 	va_start (args, format);
 	str = g_strdup_vprintf (format, args);
-	dialog = gtk_message_dialog_new (window, 0, gtk_type,
-					 GTK_BUTTONS_OK,
-					 str,
-					 NULL);
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
+					 GTK_BUTTONS_CLOSE,
+					 "%s",
+					 str);
 	va_end (args);
 	g_free (str);
 	
-	gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy(dialog);
+	g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+	gtk_widget_show (dialog);
 }
 
 static void

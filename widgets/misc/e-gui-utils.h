@@ -27,7 +27,7 @@
 #include <gtk/gtkmenu.h>
 #include <gtk/gtkwindow.h>
 
-#include <libgnomeui/gnome-messagebox.h>
+#include <gtk/gtkmessagedialog.h>
 #include <glade/glade-xml.h>
 
 G_BEGIN_DECLS
@@ -36,7 +36,7 @@ void      e_popup_menu                    (GtkMenu       *menu,
 					   GdkEvent      *event);
 void      e_auto_kill_popup_menu_on_hide  (GtkMenu       *menu);
 void      e_notice                        (GtkWindow     *window,
-					   const char    *type,
+					   GtkMessageType type,
 					   const char    *format,
 					   ...);
 void      e_container_foreach_leaf        (GtkContainer  *container,
