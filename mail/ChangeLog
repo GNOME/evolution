@@ -1,3 +1,8 @@
+2002-05-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-window.c (folder_browser_window_new): Revert a
+	failed idea.
+
 2002-05-24  Radek Doulik  <rodo@ximian.com>
 
 	* mail-composer-prefs.c (mail_composer_prefs_construct): ops,
