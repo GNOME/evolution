@@ -1,3 +1,9 @@
+2001-10-01  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/alarm-notify/alarm-notify-dialog.c (alarm_notify_dialog):
+	Set the window state to sticky.  Thanks to Peter Teichman for the
+	suggestion.
+
 2001-10-01  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):

@@ -27,6 +27,7 @@
 #include <gtk/gtkwindow.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-winhints.h>
 #include <glade/glade.h>
 #include <gal/widgets/e-unicode.h>
 #include "alarm-notify-dialog.h"
@@ -300,6 +301,11 @@ alarm_notify_dialog (time_t trigger, time_t occur_start, time_t occur_end,
 			    an);
 
 	/* Run! */
+
+	if (!GTK_WIDGET_REALIZED (an->dialog))
+		gtk_widget_realize (an->dialog);
+
+	gnome_win_hints_set_state (an->dialog, WIN_STATE_STICKY);
 
 	gtk_widget_show (an->dialog);
 	return TRUE;
