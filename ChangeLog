@@ -1,3 +1,7 @@
+2004-07-02  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requirements
+
 2004-06-24  Pablo Saratxaga  <pablo@mandrakesoft.com>
 
 	* configure.in: Added Walloon (wa) to ALL_LINGUAS.
