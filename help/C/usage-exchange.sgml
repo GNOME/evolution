@@ -66,6 +66,173 @@
   </para>
   </warning>
 
+  <sect1 id="features">
+    <title>Connector Features</title>
+    <para>
+      <application>Ximian Connector</application> supports numerous
+      features of <application>Microsoft Exchange</application>:
+      <itemizedlist>
+	<listitem>
+	  <para>
+	    General
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Remote Exchagne Information Store</term>
+	      <listitem>
+		<para>
+		  Allows you to access mail, address 
+		  book, and calendars, and task folders on an <application>Exchange
+		    2000</application> server from <application>Evolution</application>. 
+		</para>
+	      </listitem>
+	    </varlistentry>
+
+	    <varlistentry>
+	      <term>Palm synchronization</term>
+	      <listitem>
+		<para>
+		  Supported for Contacts and Calendars on Exchange.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	</listitem>
+	<listitem>
+	  <para>
+	    Mail
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Viewing Mail in Exchange Folder</term>
+	      <listitem>
+		<para></para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Sending Email via Exchagne Protocols</term>
+	      <listitem>
+		<para>
+		  If your <application>Exchange</application> server
+		  does not support SMTP: Choose "Microsoft Exchange" as
+		  the transport when configuring the account.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	</listitem>
+	<listitem>
+	  <para>
+	    Calendar
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Meeting Request/Proposal</term>
+	      <listitem>
+		<para>
+		  Allows <application>Evolution</application> users to
+		  schedule meetings and view attendee availability for
+		  other users
+		  (<application>Evolution</application>/<application>Outlook</application>)
+		  on <application>Exchange</application>.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Adding iCalendar Meeting Requests to Calendar</term>
+	      <listitem>
+		<para>
+		  If you receive an iCalendar meeting request and add it
+		  to your calendar, it will be saved to your
+		  <application>Exchange</application> calendar.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	</listitem>
+	<listitem>
+	  <para>
+	    Contacts
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Address Completion</term>
+	      <listitem>
+		<para>
+		  Supported for your <application>Exchange</application>
+		  Contacts folder.  Not yet supported for the Global
+		  Address List.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>Adding vCards to Address Book</term>
+	      <listitem>
+		<para>
+		  If you receive a vCard attachment and click
+		  <guibutton>Save in Address Book</guibutton>, it will
+		  be saved to your Exchange address book.
+		</para>
+	      </listitem>
+	    </varlistentry>
+	    <varlistentry>
+	      <term>New Address Book entries can be created on
+		<application>Exchange</application> from received email
+		messages with a single click</term>
+	      <listitem>
+		<para>
+		</para>
+	      </listitem>
+	    </varlistentry>
+	  </variablelist>
+	</listitem>
+	<listitem>
+	  <para>
+	    Features Not Implemented for 1.0
+	  </para>
+	  <variablelist>
+	    <varlistentry>
+	      <term>Sharing Information under
+		<application>Exchange</application></term>
+	      <listitem>
+		<para>
+		  No support for public folders, delegate access, and
+		  shared folders for 1.0
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Journal and Notes folders</term>
+	    <listitem>
+	      <para>
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Offline or Disconnected Status</term>
+	    <listitem>
+	      <para>
+		Support for offline or disconnected status in mail and
+		calendar not supported
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	  <varlistentry>
+	    <term>Out-of-Office Replies, Recalling Messages, and other
+	    such features</term>
+	    <listitem>
+	      <para>
+		Such features which only
+		<application>Exchange</application> supports are not
+		yet supported.
+	      </para>
+	    </listitem>
+	  </varlistentry>
+	</variablelist>
+      </listitem>
+      </itemizedlist>
+    </para>
+  </sect1>
   <sect1 id="install">
     <title>Installing the Connector</title>
     <para>
@@ -119,16 +286,16 @@
            so unless your system administrator has specifically turned
            it off, no changes should be necessary.
          </para>
-	 </listitem>
-</itemizedlist>
-</para>
-<para>
-The Ximian website knowledge base, at <ulink type="http"
-url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your Exchange server will accept connections from Ximian Evolution.
-</para>
-</sect2>
-
-<sect2 id="config-client">
+		    </listitem>
+		  </itemizedlist>
+		</para>
+		<para>
+		  The Ximian website knowledge base, at <ulink type="http"
+							       url="http://support.ximian.com">support.ximian.com</ulink>, has additional information about checking to make sure that your Exchange server will accept connections from Ximian Evolution.
+		</para>
+	      </sect2>
+	      
+	      <sect2 id="config-client">
 <title>Evolution Settings for Connecting to an Exchange Server</title>
 <para>
 

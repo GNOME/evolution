@@ -1,3 +1,7 @@
+2001-12-20  Kevin Breit  <mrproper@ximian.com>
+
+	* C/usage-exchange.sgml: Added a <sect1> that discusses features of Connector
+
 2001-12-18  Aaron Weber  <aaron@ximian.com>
 
 	* C/usage-exchange.sgml: add notes about server requirements.
