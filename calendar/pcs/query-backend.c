@@ -148,12 +148,10 @@ query_backend_get_type (void)
 }
 
 static void
-backend_destroyed_cb (GObject *object, gpointer user_data)
+backend_destroyed_cb (gpointer user_data, GObject *where_backend_was)
 {
-	CalBackend *backend = (CalBackend *) object;
 	QueryBackend *qb = (QueryBackend *) user_data;
 
-	g_return_if_fail (IS_CAL_BACKEND (backend));
 	g_return_if_fail (IS_QUERY_BACKEND (qb));
 
 	g_object_unref (qb);
@@ -215,9 +213,9 @@ object_removed_cb (CalBackend *backend, const char *uid, gpointer user_data)
 }
 
 static void
-query_destroyed_cb (GObject *object, gpointer user_data)
+query_destroyed_cb (gpointer user_data, GObject *where_the_object_was)
 {
-	Query *query = (Query *) object;
+	Query *query = (Query *) where_the_object_was;
 	QueryBackend *qb = (QueryBackend *) user_data;
 
 	g_return_if_fail (IS_QUERY (query));
@@ -276,8 +274,7 @@ query_backend_new (Query *query, CalBackend *backend)
 		g_list_foreach (uidlist, foreach_uid_cb, qb);
 		cal_obj_uid_list_free (uidlist);
 
-		g_signal_connect (G_OBJECT (backend), "destroy",
-				  G_CALLBACK (backend_destroyed_cb), qb);
+		g_object_weak_ref (G_OBJECT (backend), backend_destroyed_cb, qb);
 		g_signal_connect (G_OBJECT (backend), "obj_updated",
 				  G_CALLBACK (object_updated_cb), qb);
 		g_signal_connect (G_OBJECT (backend), "obj_removed",
@@ -287,8 +284,7 @@ query_backend_new (Query *query, CalBackend *backend)
 	}
 
 	qb->priv->queries = g_list_append (qb->priv->queries, query);
-	g_signal_connect (G_OBJECT (query), "destroy",
-			  G_CALLBACK (query_destroyed_cb), qb);
+	g_object_weak_ref (G_OBJECT (query), query_destroyed_cb, qb);
 
 	return qb;
 }
