@@ -1,5 +1,10 @@
 2001-07-23  Iain Holmes  <iain@ximian.com>
 
+	* e-summary-preferences.c (add_dialog_clicked_cb): Add the new RDF to
+	the shown clist as well.
+
+2001-07-23  Iain Holmes  <iain@ximian.com>
+
 	* e-summary-mail.c (e_summary_mail_init): Move the storage register out
 	of here into a seperate function.
 	(e_summary_mail_register_storages): Register the local storage.

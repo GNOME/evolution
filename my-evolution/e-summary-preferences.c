@@ -857,6 +857,12 @@ add_dialog_clicked_cb (GnomeDialog *dialog,
 	pd->rdf->known = g_list_append (pd->rdf->known, info);
 
 	save_known_rdfs (pd->rdf->known);
+	pd->summary->preferences->rdf_urls = g_list_prepend (pd->summary->preferences->rdf_urls, g_strdup (info->url));
+	row = gtk_clist_prepend (GTK_CLIST (pd->rdf->shown), text);
+	gtk_clist_set_row_data (GTK_CLIST (pd->rdf->shown), row,
+				pd->summary->preferences->rdf_urls);
+
+
 	gnome_dialog_close (dialog);
 }
 
