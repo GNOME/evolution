@@ -72,8 +72,10 @@
 	<oaf_attribute name="description" type="string"
 	               _value="Evolution component for handling contacts."/>
 
-	<oaf_attribute name="evolution:shell-component-icon" type="string"
+	<oaf_attribute name="evolution:shell_component_icon" type="string"
 		       value="evolution-contacts.png"/>
+	<oaf_attribute name="evolution:shell_component_launch_order" type="number"
+		       value="2"/>
 
 </oaf_server>
 
