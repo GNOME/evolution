@@ -1,5 +1,11 @@
 2003-03-18  Rodrigo Moya <rodrigo@ximian.com>
 
+	* gui/dialogs/send-comp.c (send_component_dialog): use GtkMessageDialog
+	instead of gnome_question_dialog, and deal correctly with the dialog's
+	response.
+
+2003-03-18  Rodrigo Moya <rodrigo@ximian.com>
+
 	Fixes #34505
 
 	* gui/alarm-notify/alarm-queue.c (remove_queued_alarm): added removal
