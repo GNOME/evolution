@@ -93,9 +93,9 @@ evolution_mail_LDADD = 					\
 test_mail_SOURCES = \
 	test-mail.c
 
-#test_mail_LDADD = \
-#	$(BONOBO_HTML_GNOME_LIBS)
-#
+test_mail_LDADD = \
+	$(BONOBO_HTML_GNOME_LIBS)
+
 #test_thread_SOURCES =	\
 #	mail-threads.c	\
 #	mail-threads.h	\

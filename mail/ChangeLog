@@ -1,3 +1,7 @@
+2000-08-11  Peter Williams  <peterw@helixcode.com>
+
+	* Makefile.am: Make it so that test-mail links
+
 2000-08-11  JP Rosevear  <jpr@helixcode.com>
 
 	* folder-browser-factory.c (control_activate): Move menu items
