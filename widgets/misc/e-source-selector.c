@@ -44,7 +44,7 @@ struct _ESourceSelectorPrivate {
 	ESourceList *list;
 
 	GtkTreeStore *tree_store;
-
+	
 	GHashTable *selected_sources;
 	GtkTreeRowReference *saved_primary_selection;
 	
@@ -52,7 +52,6 @@ struct _ESourceSelectorPrivate {
 
 	gboolean toggled_last;
 	gboolean checkboxes_shown;
-	gboolean toggle_selection;
 	gboolean select_new;
 };
 
@@ -467,15 +466,6 @@ selection_func (GtkTreeSelection *selection,
 		return FALSE;
 	}
 
-	if (source_is_selected (selector, E_SOURCE (data))) {
-		clear_saved_primary_selection (selector);
-		g_object_unref (data);
-		
-		return TRUE;
-	}
-
-	e_source_selector_select_source (selector, E_SOURCE (data));
-
 	clear_saved_primary_selection (selector);
 	g_object_unref (data);
 
@@ -505,18 +495,15 @@ cell_toggled_callback (GtkCellRendererToggle *renderer,
 	if (!E_IS_SOURCE_GROUP (data)) {
 		source = E_SOURCE (data);
 
-		if (e_source_selector_peek_primary_selection (selector) != source
-		    || selector->priv->toggle_selection) {
-			if (source_is_selected (selector, source))
-				unselect_source (selector, source);
-			else
-				select_source (selector, source);
-			
-			selector->priv->toggled_last = TRUE;
-			
-			gtk_tree_model_row_changed (model, path, &iter);
-			g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
-		}
+		if (source_is_selected (selector, source))
+			unselect_source (selector, source);
+		else
+			select_source (selector, source);
+		
+		selector->priv->toggled_last = TRUE;
+		
+		gtk_tree_model_row_changed (model, path, &iter);
+		g_signal_emit (selector, signals[SELECTION_CHANGED], 0);
 	}
 
 	gtk_tree_path_free (path);
@@ -595,6 +582,8 @@ selector_button_press_event (GtkWidget *widget, GdkEventButton *event, ESourceSe
 	GtkWidget *menu;
 	GtkTreePath *path;
 	ESource *source = NULL;
+	
+	priv->toggled_last = FALSE;
 	
 	/* only process right-clicks */
 	if (event->button != 3 || event->type != GDK_BUTTON_PRESS)
@@ -742,6 +731,7 @@ init (ESourceSelector *selector)
 	gtk_tree_view_append_column (GTK_TREE_VIEW (selector), column);
 
 	cell_renderer = gtk_cell_renderer_pixbuf_new ();
+	g_object_set (G_OBJECT (cell_renderer), "mode", GTK_CELL_RENDERER_MODE_ACTIVATABLE, NULL);
 	gtk_tree_view_column_pack_start (column, cell_renderer, FALSE);
 	gtk_tree_view_column_set_cell_data_func (column, cell_renderer, (GtkTreeCellDataFunc) pixbuf_cell_data_func, selector, NULL);
 	cell_renderer = gtk_cell_renderer_toggle_new ();
@@ -890,22 +880,6 @@ e_source_selector_selection_shown (ESourceSelector *selector)
 	g_return_val_if_fail (E_IS_SOURCE_SELECTOR (selector), FALSE);
 
 	return selector->priv->checkboxes_shown;
-}
-
-/**
- * e_source_selector_set_toggle_selection:
- * @selector: 
- * @state: 
- * 
- * Set the source selector behaviour, whether you can toggle the
- * current selection or not.
- **/
-void
-e_source_selector_set_toggle_selection(ESourceSelector *selector, gboolean state)
-{
-	g_return_if_fail (E_IS_SOURCE_SELECTOR (selector));
-
-	selector->priv->toggle_selection = state;
 }
 
 /**

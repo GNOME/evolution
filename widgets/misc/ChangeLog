@@ -1,3 +1,14 @@
+2004-07-20  JP Rosevear  <jpr@novell.com>
+
+	* e-source-selector.h: remove proto
+
+	* e-source-selector.c (selection_func): don't force the item to be
+	checked
+	(cell_toggled_callback): allow the cell to be untoggled even if
+	its primary
+	(init): set the pixbuf renderable
+	(e_source_selector_set_toggle_selection): no longer necessary
+
 2004-07-16  Chris Toshok  <toshok@ximian.com>
 
 	* e-clipped-label.c (e_clipped_label_recalc_chars_displayed):
