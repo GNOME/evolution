@@ -1,3 +1,11 @@
+2000-09-19  Dan Winship  <danw@helixcode.com>
+
+	* mail-callbacks.c (create_msg_composer, compose_msg, send_to_url,
+	mail_reply, forward_msg):
+	* mail-format.c (mail_generate_reply):
+	* mail-ops.c (cleanup_edit_messages):
+	* mail-view.c (view_forward_msg): Deal with NULL composer.
+
 2000-09-18  Dan Winship  <danw@helixcode.com>
 
 	* main.c (main): Call gnome_vfs_init() since the composer now does

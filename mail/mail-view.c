@@ -102,10 +102,13 @@ view_forward_msg (GtkWidget *widget, gpointer user_data)
 	GPtrArray *uids;
 	EMsgComposer *composer;
 
+	composer = e_msg_composer_new ();
+	if (!composer)
+		return;
+
 	uids = g_ptr_array_new();
 	g_ptr_array_add (uids, g_strdup (data->uid));
 
-	composer = E_MSG_COMPOSER (e_msg_composer_new ());
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
 

@@ -2333,17 +2333,18 @@ cleanup_edit_messages (gpointer in_data, gpointer op_data,
 	int i;
 
 	for (i = 0; i < data->messages->len; i++) {
-		GtkWidget *composer;
+		EMsgComposer *composer;
 
 		composer = e_msg_composer_new_with_message (data->messages->pdata[i]);
+		camel_object_unref (CAMEL_OBJECT (data->messages->pdata[i]));
+		if (!composer)
+			continue;
 
 		if (input->signal)
 			gtk_signal_connect (GTK_OBJECT (composer), "send", 
 					    input->signal, NULL);
 
-		gtk_widget_show (composer);
-
-		camel_object_unref (CAMEL_OBJECT (data->messages->pdata[i]));
+		gtk_widget_show (GTK_WIDGET (composer));
 	}
 
 	g_ptr_array_free (input->uids, TRUE);

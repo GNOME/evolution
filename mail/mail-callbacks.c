@@ -325,7 +325,7 @@ create_msg_composer (const char *url)
        MailConfigIdentity *id;
        gboolean send_html;
        gchar *sig_file = NULL;
-       GtkWidget *composer_widget;
+       EMsgComposer *composer;
        
        id = mail_config_get_default_identity ();
        send_html = mail_config_send_html ();
@@ -334,14 +334,13 @@ create_msg_composer (const char *url)
                sig_file = id->sig;
        
        if (url != NULL)
-               composer_widget = e_msg_composer_new_from_url (url);
+               composer = e_msg_composer_new_from_url (url);
        else
-               composer_widget = e_msg_composer_new_with_sig_file (sig_file);
+               composer = e_msg_composer_new_with_sig_file (sig_file);
+       if (composer)
+	       e_msg_composer_set_send_html (composer, send_html);
        
-       e_msg_composer_set_send_html (E_MSG_COMPOSER (composer_widget), 
-                                     send_html);
-       
-       return composer_widget;
+       return (GtkWidget *)composer;
 }
 
 void
@@ -353,6 +352,8 @@ compose_msg (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	composer = create_msg_composer (NULL);
+	if (!composer)
+		return;
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
@@ -374,6 +375,8 @@ send_to_url (const char *url)
 		return;
 	
 	composer = create_msg_composer (url);
+	if (!composer)
+		return;
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
@@ -402,6 +405,8 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	psd->flags = CAMEL_MESSAGE_ANSWERED;
 	
 	composer = mail_generate_reply (msg, to_all);
+	if (!composer)
+		return;
 	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), psd);
@@ -450,7 +455,9 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 	if (!check_send_configuration (fb) || !cursor_msg)
 		return;
 	
-	composer = E_MSG_COMPOSER (e_msg_composer_new ());
+	composer = e_msg_composer_new ();
+	if (!composer)
+		return;
 	
 	uids = g_ptr_array_new();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);

@@ -1616,16 +1616,17 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	MailConfigIdentity *id;
 	gchar *sig_file = NULL;
 	
-	want_plain = !mail_config_send_html ();
+	composer = e_msg_composer_new_with_sig_file (sig_file);
+	if (!composer)
+		return NULL;
 	
+	want_plain = !mail_config_send_html ();
 	contents = camel_medium_get_content_object (CAMEL_MEDIUM (message));
 	text = mail_get_message_body (contents, want_plain, &is_html);
 	
 	id = mail_config_get_default_identity ();
 	if (id)
 	      sig_file = id->sig;
-	
-	composer = E_MSG_COMPOSER (e_msg_composer_new_with_sig_file (sig_file));
 	
 	/* Set the quoted reply text. */
 	if (text) {
