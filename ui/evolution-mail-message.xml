@@ -220,11 +220,6 @@
             <menuitem verb="MessageForwardAttached" _label="Forward _Attached"/>
             <menuitem verb="MessageForwardInline" _label="Forward _Inline"/>
             <menuitem verb="MessageForwardQuoted" _label="Forward _Quoted"/>
-
-            <separator/>
-
-            <menuitem name="Redirect" verb=""
-  	   _label="Redirect (FIXME: implement me)"/>
           </submenu>
 
           <separator/>

@@ -1,3 +1,8 @@
+2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* evolution-mail-message.xml: Removed the "Redirect" menu since
+	this is now a future feature.
+
 2001-07-19  Damon Chaplin  <damon@ximian.com>
 
 	* evolution-calendar.xml: 
