@@ -1,3 +1,10 @@
+2004-03-17  Bill Zhu  <bill.zhu@sun.com>
+
+	* e-msg_composer-attachment-bar.c: If we select multi-attachments, the
+	"properities" menu item in popup icon context menu will be disabled.
+
+	Fixes bug #55299
+	
 2004-03-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (do_exit): If the subject is empty, use

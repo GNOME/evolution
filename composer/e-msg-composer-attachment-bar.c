@@ -456,6 +456,8 @@ static GnomeUIInfo icon_context_menu_info[] = {
 	GNOMEUIINFO_END
 };
 
+#define ICON_CONTEXT_MENU_PROPERTIES (1)
+
 static GtkWidget *
 get_icon_context_menu (EMsgComposerAttachmentBar *bar)
 {
@@ -474,8 +476,15 @@ popup_icon_context_menu (EMsgComposerAttachmentBar *bar,
 			 GdkEventButton *event)
 {
 	GtkWidget *menu;
-	
+	GnomeIconList *icon_list;
+	GList *selection;
+
 	menu = get_icon_context_menu (bar);
+	icon_list = GNOME_ICON_LIST (bar);
+	selection = gnome_icon_list_get_selection (icon_list);
+
+	gtk_widget_set_sensitive (icon_context_menu_info[ICON_CONTEXT_MENU_PROPERTIES].widget, g_list_length (selection) == 1);
+
 	gnome_popup_menu_do_popup (menu, NULL, NULL, event, bar, NULL);
 }
 
