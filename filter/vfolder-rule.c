@@ -34,6 +34,7 @@
 #include "camel/camel-url.h"
 #include "vfolder-context.h"
 #include "vfolder-rule.h"
+#include "mail/em-utils.h"
 #include "mail/em-folder-tree.h"
 #include "mail/em-folder-selector.h"
 #include "mail/mail-component.h"
