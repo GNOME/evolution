@@ -41,6 +41,7 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-messagebox.h>
+#include <gal/widgets/e-unicode.h>
 #include <cal-util/timeutil.h>
 #include "calendar-model.h"
 #include "calendar-commands.h"
@@ -103,9 +104,7 @@ static void *calendar_model_duplicate_value (ETableModel *etm, int col, const vo
 static void calendar_model_free_value (ETableModel *etm, int col, void *value);
 static void *calendar_model_initialize_value (ETableModel *etm, int col);
 static gboolean calendar_model_value_is_empty (ETableModel *etm, int col, const void *value);
-#if 0
 static char * calendar_model_value_to_string (ETableModel *etm, int col, const void *value);
-#endif
 static void load_objects (CalendarModel *model);
 static int remove_object (CalendarModel *model, const char *uid);
 static void ensure_task_complete (CalComponent *comp,
@@ -186,9 +185,7 @@ calendar_model_class_init (CalendarModelClass *class)
 	etm_class->free_value = calendar_model_free_value;
 	etm_class->initialize_value = calendar_model_initialize_value;
 	etm_class->value_is_empty = calendar_model_value_is_empty;
-#if 0
 	etm_class->value_to_string = calendar_model_value_to_string;
-#endif
 
 	class->categories_changed = NULL;
 }
@@ -1523,6 +1520,49 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 	default:
 		g_message ("calendar_model_value_is_empty(): Requested invalid column %d", col);
 		return TRUE;
+	}
+}
+
+static char * 
+calendar_model_value_to_string (ETableModel *etm, int col, const void *value)
+{
+	g_return_val_if_fail (col >= 0 && col < CAL_COMPONENT_FIELD_NUM_FIELDS, NULL);
+
+	switch (col) {
+	case CAL_COMPONENT_FIELD_CATEGORIES:
+	case CAL_COMPONENT_FIELD_CLASSIFICATION:
+	case CAL_COMPONENT_FIELD_COMPLETED:
+	case CAL_COMPONENT_FIELD_DTEND:
+	case CAL_COMPONENT_FIELD_DTSTART:
+	case CAL_COMPONENT_FIELD_DUE:
+	case CAL_COMPONENT_FIELD_GEO:
+	case CAL_COMPONENT_FIELD_PERCENT:
+	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_SUMMARY:
+	case CAL_COMPONENT_FIELD_TRANSPARENCY:
+	case CAL_COMPONENT_FIELD_URL:
+		return e_utf8_from_locale_string (value);
+
+	case CAL_COMPONENT_FIELD_ICON:
+		if ((int)value == 0)
+			return e_utf8_from_locale_string (_("Normal"));
+		else if ((int)value == 1)
+			return e_utf8_from_locale_string (_("Recurring"));
+		else
+			return e_utf8_from_locale_string (_("Assigned"));
+
+	case CAL_COMPONENT_FIELD_HAS_ALARMS:
+	case CAL_COMPONENT_FIELD_COMPLETE:
+	case CAL_COMPONENT_FIELD_RECURRING:
+	case CAL_COMPONENT_FIELD_OVERDUE:
+		return e_utf8_from_locale_string (value ? _("Yes") : _("No"));
+
+	case CAL_COMPONENT_FIELD_COLOR:
+		return NULL;
+
+	default:
+		g_message ("calendar_model_value_as_string(): Requested invalid column %d", col);
+		return NULL;
 	}
 }
 

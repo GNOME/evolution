@@ -1,3 +1,10 @@
+2001-02-13  JP Rosevear  <jpr@ximian.com>
+
+	* gui/calendar-model.c (calendar_model_class_init): override value
+	to string virtual method
+	(calendar_model_value_to_string): implement value to string for
+	etable (necessary for group by)
+
 2001-02-12  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c:

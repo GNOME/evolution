@@ -211,10 +211,10 @@ static char *list [] = {
         "  <ETableColumn model_col=\"12\" _title=\"Alarms\" "		\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"calstring\"   compare=\"string\"/>"			\
-        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" "		\
+        "  <ETableColumn model_col=\"13\" pixbuf=\"icon\" _title=\"Type\" "\
 	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
 	"   cell=\"icon\"     compare=\"integer\"/>"			\
-        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" "		\
+        "  <ETableColumn model_col=\"14\" pixbuf=\"complete\" _title=\"Compelete\" " \
 	"   expansion=\"1.0\" minimum_width=\"16\" resizable=\"false\" "\
 	"   cell=\"checkbox\" compare=\"integer\"/>"			\
 	"  <ETableState>"						\
