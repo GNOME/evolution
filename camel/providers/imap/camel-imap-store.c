@@ -534,13 +534,12 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 	va_list ap;
 	gint status = CAMEL_IMAP_OK;
 
-	if (folder && store->current_folder != folder && strncmp (fmt, "STATUS", 6) &&
-	    strncmp (fmt, "CREATE", 5) && strcmp (fmt, "CAPABILITY")) {
+	if (folder && store->current_folder != folder && strncmp (fmt, "CREATE", 5)) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path, *recent;
+		char *r, *folder_path;
 		int s;
 
-		if (url && url->path && strcmp (folder->full_name, "INBOX"))
+		if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 		else
 			folder_path = g_strdup (folder->full_name);
@@ -549,37 +548,11 @@ camel_imap_command (CamelImapStore *store, CamelFolder *folder, char **ret, char
 		g_free (folder_path);
 		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
-			return s;
-		} else {
-			/* parse the read-write mode */
-#if 0
-			char *p;
-
-			p = strstr (r, "\n");
-			while (p) {
-				if (*(p + 1) == '*')
-					p = strstr (p, "\n");
-				else
-					break;
-			}
-
-			if (p) {
-				if (e_strstrcase (p, "READ-WRITE"))
-					mode = 
-			}
-#endif
-		}
-#if 0
-		if ((recent = e_strstrcase (r, "RECENT"))) {
-			char *p;
+			store->current_folder = NULL;
 			
-			for (p = recent; p > r && *p != '*'; p--);
-			for ( ; *p && (*p < '0' || *p > '9') && p < recent; p++);
-
-			if (atoi (p) > 0)
-				gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
+			return s;
 		}
-#endif
+		
 		g_free (r);
 
 		store->current_folder = folder;
@@ -665,13 +638,12 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 	gint len = 0, status = CAMEL_IMAP_OK;
 
 	if (folder && store->current_folder != folder && strncmp (fmt, "SELECT", 6) &&
-	    strncmp (fmt, "EXAMINE", 7) && strncmp (fmt, "STATUS", 6) &&
-	    strncmp (fmt, "CREATE", 6) && strcmp (fmt, "CAPABILITY")) {
+	    strncmp (fmt, "CREATE", 6)) {
 		/* We need to select the correct mailbox first */
-		char *r, *folder_path, *recent;
+		char *r, *folder_path;
 		int s;
 
-		if (url && url->path && strcmp (folder->full_name, "INBOX"))
+		if (url && url->path && *(url->path + 1) && strcmp (folder->full_name, "INBOX"))
 			folder_path = g_strdup_printf ("%s/%s", url->path + 1, folder->full_name);
 		else
 			folder_path = g_strdup (folder->full_name);
@@ -680,19 +652,11 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 		g_free (folder_path);
 		if (!r || s != CAMEL_IMAP_OK) {
 			*ret = r;
+			store->current_folder = NULL;
+			
 			return s;
 		}
-#if 0
-		if ((recent = e_strstrcase (r, "RECENT"))) {
-			char *p;
-			
-			for (p = recent; p > r && *p != '*'; p--);
-			for ( ; *p && (*p < '0' || *p > '9') && p < recent; p++);
 
-			if (atoi (p) > 0)
-				gtk_signal_emit_by_name (GTK_OBJECT (folder), "folder_changed");
-		}
-#endif	
 		g_free (r);
 
 		store->current_folder = folder;
@@ -720,7 +684,7 @@ camel_imap_command_extended (CamelImapStore *store, CamelFolder *folder, char **
 
 	while (1) {
 		respbuf = camel_stream_buffer_read_line (stream);
-		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid)) ) {	
+		if (!respbuf || !strncmp(respbuf, cmdid, strlen(cmdid))) {	
 			/* IMAP's last response starts with our command id */
 			d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
 			break;

@@ -1,9 +1,22 @@
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-folder.c: 
+	* providers/imap/camel-imap-store.c: If a SELECT fails, set
+	imap_store->current_folder to NULL so a SELECT is forced before
+	any message/folder operations are requested. Also, because some
+	users don't use a namespace, make sure that if the url->path is 
+	"/" we don't use it when creating the folder_path.
+	(camel_imap_command[_extended]): Since we allow the passing of
+	a NULL folder which we can use to bypass a forced SELECT, no need
+	to check for the individual commands that don't require a folder
+	to be selected.
+
+2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c: 
 	* providers/imap/camel-imap-store.c: Updated to use CAMEL_IMAP_OK, 
 	CAMEL_IMAP_NO, CAMEL_IMAP_BAD, and CAMEL_IMAP_FAIL rather than the 
-	ones copied from the POP3 provider.
+	ones copied from the POP3 provider. 
 
 2000-07-13  Jeffrey Stedfast  <fejj@helixcode.com>
 

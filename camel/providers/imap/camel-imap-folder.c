@@ -267,6 +267,8 @@ imap_init (CamelFolder *folder, CamelStore *parent_store, CamelFolder *parent_fo
 				      "Could not SELECT %s on IMAP server %s: %s.",
 				      folder->full_name, service->url->host, 
 				      result ? result : "Unknown error");
+		
+		CAMEL_IMAP_STORE (store)->current_folder = NULL;
 	} else {
 		/* parse the mode we opened it in and set as current mailbox */
 		CAMEL_IMAP_STORE (store)->current_folder = folder;
