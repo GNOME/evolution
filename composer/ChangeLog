@@ -1,3 +1,8 @@
+2001-12-17  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.c (read_file_content): Don't block forever if we
+	are reading a fifo with no data.
+
 2001-12-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (class_init): Setup the SAVE_DRAFT signal.

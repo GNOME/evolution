@@ -668,23 +668,44 @@ build_message (EMsgComposer *composer)
 }
 
 static char *
-read_file_content (gint fd)
+read_file_content (int fd)
 {
 	GByteArray *contents;
-	gchar buf[4096];
-	gint n;
-	gchar *body;
+	char *body, buf[4096];
+	struct timeval tv;
+	fd_set rdset;
+	ssize_t n;
+	int flags;
 	
 	g_return_val_if_fail (fd > 0, NULL);
 	
 	contents = g_byte_array_new ();
-	while ((n = read (fd, buf, 4096)) > 0) {
-		g_byte_array_append (contents, buf, n);
-	}
-	g_byte_array_append (contents, "\0", 1);
 	
-	body = (n < 0) ? NULL : (gchar *)contents->data;
-	g_byte_array_free (contents, (n < 0));
+	flags = fcntl (fd, F_GETFL);
+	fcntl (fd, F_SETFL, flags | O_NONBLOCK);
+	
+	FD_ZERO (&rdset);
+	FD_SET (fd, &rdset);
+	
+	do {
+		tv.tv_sec = 0;
+		tv.tv_usec = 10;
+		
+		n = -1;
+		select (fd + 1, &rdset, NULL, NULL, &tv);
+		if (FD_ISSET (fd, &rdset)) {
+			n = read (fd, buf, 4096);
+			if (n > 0)
+				g_byte_array_append (contents, buf, n);
+		}
+	} while (n != -1);
+	
+	fcntl (fd, F_SETFL, flags);
+	
+	g_byte_array_append (contents, "", 1);
+	
+	body = (contents->len == 1) ? NULL : (char *) contents->data;
+	g_byte_array_free (contents, body != NULL);
 	
 	return body;
 }
@@ -697,9 +718,9 @@ executed_file_output (const char *file_name)
 	char buf[4096];
 	int n;
 	char *body;
-
+	
 	g_return_val_if_fail (file_name && *file_name, NULL);
-
+	
 	in = popen (file_name, "r");
 	if (in == NULL)
 		return NULL;
@@ -709,38 +730,35 @@ executed_file_output (const char *file_name)
 		g_byte_array_append (contents, buf, n);
 	}
 	g_byte_array_append (contents, "\0", 1);
-
+	
 	body = (n < 0) ? NULL : (char *) contents->data;
 	g_byte_array_free (contents, (n < 0));
-
+	
 	pclose (in);
-
+	
 	return body;
 }
 
 static char *
 get_file_content (const char *file_name, gboolean convert, guint flags)
 {
+	char *raw, *html, *msg = NULL;
 	struct stat statbuf;
-	gint fd;
-	char *raw;
-	char *html;
-	char *msg = NULL;
-
+	int fd;
+	
 	if (stat (file_name, &statbuf) == -1)
 		return g_strdup ("");
-
+	
 	if ((statbuf.st_mode & S_IXUSR)
 	    && getenv ("EVOLUTION_PLEASE_EXECUTE_MY_SIGNATURE_FILE")) {
-
+		
 		raw = executed_file_output (file_name);
 		if (raw == NULL) {
 			msg = g_strdup_printf (_("Error while executing file %s:\n"
 						 "%s"), file_name, g_strerror (errno));
 		}
-	
-	} else {
 		
+	} else {		
 		fd = open (file_name, O_RDONLY | O_CREAT, 0775);
 		raw = read_file_content (fd);
 		if (raw == NULL) {
@@ -749,7 +767,7 @@ get_file_content (const char *file_name, gboolean convert, guint flags)
 		}
 		close (fd);
 	}
-		
+	
 	if (msg != NULL) {
 		gnome_error_dialog (msg);
 		g_free (msg);
