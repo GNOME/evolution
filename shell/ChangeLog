@@ -1,3 +1,8 @@
+2001-03-30  Iain Holmes  <iain@ximian.com>
+
+	* importer/importer.c (start_import): If the importer can't be started, then
+	don't continue.
+
 2001-03-29  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
