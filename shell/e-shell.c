@@ -1921,7 +1921,7 @@ e_shell_go_offline (EShell *shell,
 
 	g_assert (priv->offline_handler == NULL);
 
-	priv->offline_handler = e_shell_offline_handler_new (priv->component_registry);
+	priv->offline_handler = e_shell_offline_handler_new (shell);
 
 	gtk_signal_connect (GTK_OBJECT (priv->offline_handler), "offline_procedure_started",
 			    GTK_SIGNAL_FUNC (offline_procedure_started_cb), shell);

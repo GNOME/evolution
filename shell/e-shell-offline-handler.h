@@ -72,8 +72,8 @@ struct _EShellOfflineHandlerClass {
 
 GtkType               e_shell_offline_handler_get_type   (void);
 void                  e_shell_offline_handler_construct  (EShellOfflineHandler *offline_handler,
-							  EComponentRegistry   *component_registry);
-EShellOfflineHandler *e_shell_offline_handler_new        (EComponentRegistry   *component_registry);
+							  EShell               *shell);
+EShellOfflineHandler *e_shell_offline_handler_new        (EShell               *shell);
 
 void  e_shell_offline_handler_put_components_offline  (EShellOfflineHandler *offline_handler,
 						       EShellView           *parent_shell_view);

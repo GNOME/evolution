@@ -1,3 +1,15 @@
+2002-05-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell.c (e_shell_go_offline): Pass self to
+	e_shell_offline_handler_new() instead of the component registry.
+
+	* e-shell-offline-handler.c: Replace member `component_registry'
+	in EShellOfflineHandlerPrivate with a `shell' member.  Updated all
+	the code to retrieve the component registry from the shell instead
+	of directly.
+	(e_shell_offline_handler_construct): Get a @shell instead of a
+	@component_registry.
+
 2002-05-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* e-storage-set-view.c (e_storage_set_view_get_checkboxes_list):
