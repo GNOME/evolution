@@ -611,8 +611,6 @@ receive_get_folder(CamelFilterDriver *d, const char *uri, void *data, CamelExcep
 static void
 receive_update_got_folderinfo (CamelStore *store, CamelFolderInfo *info, void *data)
 {
-	if (info)
-		camel_store_free_folder_info (store, info);
 	receive_done ("", data);
 }
 

@@ -1,3 +1,10 @@
+2002-04-08  Not Zed  <NotZed@Ximian.com>
+
+	* mail-send-recv.c (receive_update_got_folderinfo): Argh!
+	get_folder_info owns and frees its *OWN* folder info, it shouldn't
+	be free'd here!  See mail-ops.c:get_folderinfo_free.
+	This should fix #17259 and friends.
+
 2002-04-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-signature-editor.c (menu_file_save_cb): Simplify a bit and
