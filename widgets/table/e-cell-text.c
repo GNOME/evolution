@@ -2231,8 +2231,6 @@ _get_tep (CellEdit *edit)
 {
 	if (!edit->tep) {
 		edit->tep = e_text_event_processor_emacs_like_new ();
-		g_object_ref (edit->tep);
-		gtk_object_sink (GTK_OBJECT (edit->tep));
 		g_signal_connect (edit->tep,
 				  "command",
 				  G_CALLBACK(e_cell_text_view_command),
