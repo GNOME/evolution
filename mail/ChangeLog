@@ -1,3 +1,8 @@
+2001-08-28  Peter Williams  <peterw@ximian.com>
+
+	* component-factory.c (owner_unset_cb): Disable interaction once
+	the shell has quit.
+
 2001-08-27  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-local.c: Match the studlyCapsification of
