@@ -1,3 +1,7 @@
+2004-02-18  Rodney Dawes  <dobey@ximian.com>
+
+	* configure.in: Require ORBit 2.9.8 or newer
+
 2004-02-12  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (%-$(BASE_VERSION).pc): cp the unversioned file
