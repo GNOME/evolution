@@ -1,5 +1,8 @@
 2002-01-10  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/local/camel-local-folder.c: If PATH_MAX doesn't exist,
+	use _POSIX_PATH_MAX.
+
 	* providers/imap/camel-imap-folder.c (imap_update_summary): If mi
 	is NULL, don't bother updating it. Should fix bug #17694.
 

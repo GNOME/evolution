@@ -33,6 +33,10 @@
 #include <string.h>
 #include <fcntl.h>
 
+#ifndef _POSIX_PATH_MAX
+#include <posix1_lim.h>
+#endif
+
 #include "camel-local-folder.h"
 #include "camel-local-store.h"
 #include "string-utils.h"
@@ -47,6 +51,10 @@
 #include "camel-local-private.h"
 
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
+
+#ifndef PATH_MAX
+#define PATH_MAX _POSIX_PATH_MAX
+#endif
 
 static CamelFolderClass *parent_class = NULL;
 
