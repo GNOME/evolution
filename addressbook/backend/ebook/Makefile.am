@@ -84,7 +84,6 @@ test_client_LDADD =					\
 	libebook.la					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)			\
 	$(top_builddir)/camel/libcamel.la		\
-	$(top_builddir)/libibex/libibex.la		\
 	$(top_builddir)/libversit/libversit.a		\
 	$(top_builddir)/e-util/ename/libename.la	\
 	$(top_builddir)/e-util/libeutil.la

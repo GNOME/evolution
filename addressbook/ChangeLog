@@ -4,6 +4,10 @@
 
 	* conduit/Makefile.am: Same.
 
+	* backend/ebook/Makefile.am: Again here.
+
+	* gui/component/Makefile.am: And finally here.
+
 2002-04-26  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/component/select-names/e-select-names.c

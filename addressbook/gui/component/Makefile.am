@@ -48,7 +48,6 @@ evolution_addressbook_LDADD =								\
 	$(top_builddir)/addressbook/gui/widgets/libeminicard.a				\
 	$(top_builddir)/addressbook/backend/ebook/libebook.la				\
 	$(top_builddir)/camel/libcamel.la						\
-	$(top_builddir)/libibex/libibex.la						\
 	$(top_builddir)/e-util/ename/libename.la					\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.a	\
 	$(top_builddir)/addressbook/gui/contact-editor/libecontacteditor.a		\
