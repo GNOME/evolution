@@ -5,6 +5,7 @@
 
 	* ibex_internal.h (IBEX_VERSION): Bumped version again.  This time
 	I did change the index format.
+	(IBEX_VERSION): moved into block.h
 
 	* hash.c (struct _hashroot): Add a linked list of keys to the table.
 	(struct _hashblock): Added a next pointer as a block number.

@@ -24,8 +24,6 @@
 #include "block.h"
 #include "wordindex.h"
 
-#define IBEX_VERSION "ibx6"
-
 struct ibex {
 	char *path;
 	struct _memcache *blocks;

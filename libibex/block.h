@@ -8,6 +8,9 @@
 
 #include <glib.h>
 
+/* version of file format */
+#define IBEX_VERSION "ibx6"
+
 typedef guint32 nameid_t;
 typedef guint32 blockid_t;
 
