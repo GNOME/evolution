@@ -13,7 +13,8 @@ Mailer:
 
   #2233  -- Don't show RTF attachments inline 
   #5547  -- Crash: Error closing a HTML-mail 
-  #12062 -- Can't use 'n' to skip to next unread if multiple messages are selected
+  #12062 -- Can't use 'n' to skip to next unread if multiple messages 
+            are selected
   #13898 -- Crash: Cannot create emails in evolution
   #14127 -- Wrong error message 
   #14348 -- Some things that need open messages... 
@@ -50,11 +51,14 @@ Mailer:
   #16416 -- X-Mailer says "Preview Release" 
   #16501 -- crash while creating new account
   #16520 -- evolution crash
+  #16559 -- race-condition in the Camel type system
   #16695 -- a few dialogs are missing sensible titles 
-  #16698 -- Crash: Can't empty trash; segfault when I try to exit 
+  #16698 -- Crash: Can't empty trash; segfault when I try to exit
+  #16722 -- attachment properties dialog crash
   #16903 -- Crash: segv retrieving mail
   #16924 -- Crash on a particular spam message
   #16936 -- Evolution mailer component crashes when opening this message 
+  #16947 -- Crash: Trouble Setting up a new mail account
 
 Shell:
   #7827  -- Switching desktops leaves the folder bar popped up
