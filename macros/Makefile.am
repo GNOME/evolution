@@ -17,7 +17,7 @@ MACROS=						\
   linger.m4					\
   need-declaration.m4
 
-EXTRA_DIST=$(MACROS) autogen.sh macros.dep
+EXTRA_DIST=$(MACROS) autogen.sh
 MAINTAINERCLEANFILES=macros.dep
 
 @MAINT@macros.dep: Makefile.am

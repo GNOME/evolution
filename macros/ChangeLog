@@ -1,3 +1,7 @@
+1998-08-01  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* Makefile.am (EXTRA_DIST): Remove `macros.dep'.
+
 1998-07-30  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-libgtop-check.m4 (GNOME_LIBGTOP_TYPES): New macro.
