@@ -251,6 +251,8 @@ cal_backend_finalize (GObject *object)
 	if (priv->category_idle_id)
 		g_source_remove (priv->category_idle_id);
 
+	g_free (priv);
+
 	G_OBJECT_CLASS (parent_class)->finalize (object);
 }
 

@@ -1,3 +1,8 @@
+2003-06-19  Dan Winship  <danw@ximian.com>
+
+	* pcs/cal-backend.c (cal_backend_finalize): don't leak the
+	CalBackendPrivate.
+
 2003-06-18  Dan Winship  <danw@ximian.com>
 
 	* gui/calendar-config.c (calendar_config_get_hpane_pos) 
