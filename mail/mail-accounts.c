@@ -44,6 +44,7 @@
 static void mail_accounts_tab_class_init (MailAccountsTabClass *class);
 static void mail_accounts_tab_init       (MailAccountsTab *prefs);
 static void mail_accounts_tab_finalise   (GObject *obj);
+static void mail_accounts_tab_destroy    (GtkObject *object);
 
 static void mail_accounts_load (MailAccountsTab *tab);
 
@@ -81,10 +82,12 @@ mail_accounts_tab_get_type (void)
 static void
 mail_accounts_tab_class_init (MailAccountsTabClass *klass)
 {
-	GObjectClass *object_class;
+	GtkObjectClass *gtk_object_class = (GtkObjectClass *) klass;
+	GObjectClass *object_class = (GObjectClass *) klass;
 	
-	object_class = (GObjectClass *) klass;
 	parent_class = g_type_class_ref (gtk_vbox_get_type ());
+	
+	gtk_object_class->destroy = mail_accounts_tab_destroy;
 	
 	object_class->finalize = mail_accounts_tab_finalise;
 	
@@ -100,6 +103,16 @@ mail_accounts_tab_init (MailAccountsTab *prefs)
 	prefs->editor = NULL;
 	
 	gdk_pixbuf_render_pixmap_and_mask (enabled_pixbuf, &prefs->mark_pixmap, &prefs->mark_bitmap, 128);
+}
+
+static void
+mail_accounts_tab_destroy (GtkObject *obj)
+{
+	MailAccountsTab *prefs = (MailAccountsTab *) obj;
+	
+	prefs->destroyed = TRUE;
+	
+	parent_class->destroy (obj);
 }
 
 static void
@@ -120,10 +133,7 @@ account_add_finished (MailAccountsTab *prefs, GObject *deadbeef)
 	/* Either Cancel or Finished was clicked in the druid so reload the accounts */
 	prefs->druid = NULL;
 	
-#warning "GTK_OBJECT_DESTROYED"
-#if 0	
-	if (!GTK_OBJECT_DESTROYED (prefs))
-#endif
+	if (!prefs->destroyed)
 		mail_accounts_load (prefs);
 	
 	g_object_unref (prefs);
@@ -151,10 +161,7 @@ account_edit_finished (MailAccountsTab *prefs, GObject *deadbeef)
 {
 	prefs->editor = NULL;
 	
-#warning "GTK_OBJECT_DESTROYED"
-#if 0
-	if (!GTK_OBJECT_DESTROYED (prefs))
-#endif
+	if (!prefs->destroyed)
 		mail_accounts_load (prefs);
 	
 	g_object_unref (prefs);

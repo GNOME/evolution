@@ -1270,19 +1270,19 @@ static void
 message_list_destroy(GtkObject *object)
 {
 	MessageList *message_list = MESSAGE_LIST (object);
-
+	
 	if (message_list->async_event) {
 		mail_async_event_destroy(message_list->async_event);
 		message_list->async_event = NULL;
 	}
-
+	
 	if (message_list->folder) {
 		/* need to do this before removing folder, folderinfo's might not exist after */
 		if (message_list->uid_nodemap) {
 			g_hash_table_foreach(message_list->uid_nodemap, (GHFunc)clear_info, message_list);
 			g_hash_table_destroy (message_list->uid_nodemap);
 		}
-
+		
 		save_tree_state(message_list);
 		hide_save_state(message_list);
 		camel_object_unhook_event(message_list->folder, "folder_changed", folder_changed, message_list);
@@ -1290,27 +1290,29 @@ message_list_destroy(GtkObject *object)
 		camel_object_unref (message_list->folder);
 		message_list->folder = NULL;
 	}
-
+	
 	if (message_list->extras) {
 		g_object_unref((message_list->extras));
 		message_list->extras = NULL;
 	}
-
+	
 	if (message_list->model) {
 		g_object_unref((message_list->model));
 		message_list->model = NULL;
 	}
-
+	
 	if (message_list->idle_id != 0) {
 		g_source_remove (message_list->idle_id);
 		message_list->idle_id = 0;
 	}
-
+	
 	if (message_list->seen_id) {
 		g_source_remove (message_list->seen_id);
 		message_list->seen_id = 0;
 	}
-
+	
+	message_list->destroyed = TRUE;
+	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy(object);
 }
 
@@ -2741,10 +2743,9 @@ regen_list_regened (struct _mail_msg *mm)
 {
 	struct _regen_list_msg *m = (struct _regen_list_msg *)mm;
 
-#warning "GTK_OBJECT_DESTROYED replacement"
-	/*if (GTK_OBJECT_DESTROYED(m->ml))
-	  return;*/
-
+	if (m->ml->destroyed)
+		return;
+	
 	if (!m->complete)
 		return;
 	

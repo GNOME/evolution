@@ -71,6 +71,8 @@ struct _MailAccountsTab {
 	GtkButton *mail_delete;
 	GtkButton *mail_default;
 	GtkButton *mail_able;
+	
+	guint destroyed : 1;
 };
 
 struct _MailAccountsTabClass {

@@ -72,17 +72,21 @@ struct _MessageList {
 	/* IMPORTANT: You MUST have obtained the hide lock, to operate on this data */
 	GHashTable	 *hidden;
 	struct _EMemPool *hidden_pool;
-	int hide_unhidden, /* total length, before hiding */
-		hide_before, hide_after; /* hide ranges of messages */
-
+	int hide_unhidden;           /* total length, before hiding */
+	int hide_before, hide_after; /* hide ranges of messages */
+	
 	/* Current search string, or %NULL */
 	char *search;
-
+	
 	/* Are we displaying threaded view? */
-	gboolean threaded;
+	guint threaded : 1;
+	
 	/* do we automatically hide deleted messages? */
-	gboolean hidedeleted;
-
+	guint hidedeleted : 1;
+	
+	/* is the message-list object in a destroyed state? */
+	guint destroyed : 1;
+	
 	/* Where the ETree cursor is. */
 	int cursor_row;
 	char *cursor_uid;

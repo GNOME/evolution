@@ -1,5 +1,13 @@
 2003-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-accounts.c (mail_accounts_tab_class_init): Register a
+	destroy virtual method.
+	(mail_accounts_tab_destroy): Set mail_display->destroyed = TRUE.
+
+	* message-list.c (message_list_destroy): Set
+	mail_display->destroyed = TRUE. This is a workaround for the
+	GTK_OBJECT_DESTROYED() macro that we used to use before.
+
 	* mail-display.c (mail_display_destroy): Set
 	mail_display->destroyed = TRUE. This is a workaround for the
 	GTK_OBJECT_DESTROYED() macro that we used to use before.
