@@ -1220,7 +1220,7 @@ e_search_bar_set_text (ESearchBar *search_bar, const char *text)
 {
 	g_return_if_fail (E_IS_SEARCH_BAR (search_bar));
 
-	e_utf8_gtk_editable_set_text (GTK_EDITABLE (search_bar->entry), text);
+	gtk_entry_set_text (GTK_ENTRY (search_bar->entry), text);
 }
 
 /**
@@ -1239,5 +1239,5 @@ e_search_bar_get_text (ESearchBar *search_bar)
 	g_return_val_if_fail (search_bar != NULL, NULL);
 	g_return_val_if_fail (E_IS_SEARCH_BAR (search_bar), NULL);
 	
-	return search_bar->subitem_id < 0 ? e_utf8_gtk_editable_get_text (GTK_EDITABLE (search_bar->entry)) : NULL;
+	return search_bar->subitem_id < 0 ? g_strdup (gtk_entry_get_text (GTK_ENTRY (search_bar->entry))) : NULL;
 }
