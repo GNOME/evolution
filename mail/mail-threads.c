@@ -852,6 +852,14 @@ show_error (com_msg_t * msg)
 	ui_set_busy ();
 }
 
+static void
+focus_on_entry(GtkWidget *widget, gpointer user_data)
+{
+	if (GTK_IS_ENTRY(widget)) {
+		gtk_widget_grab_focus(widget);
+	}
+}
+
 /**
  * get_password:
  *
@@ -881,6 +889,7 @@ get_password (com_msg_t * msg)
 		*(msg->reply) = g_strdup (_("Could not create dialog box."));
 		button = -1;
 	} else {
+		e_container_foreach_leaf(dialog, focus_on_entry, NULL);
 		*(msg->reply) = NULL;
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
