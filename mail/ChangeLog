@@ -1,3 +1,11 @@
+2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component-factory.c (component_fn): Pass NULL as the
+	@copy_folder_fn arg to `evolution_shell_component_new()'.
+
+	* folder-browser.c (on_right_click): Removed hide menu.  It
+	belongs to the view menu now.
+
 2001-01-12  Miguel de Icaza  <miguel@ximian.com>
 
 	* message-list.c: Add strings for localization

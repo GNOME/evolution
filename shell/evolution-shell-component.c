@@ -43,6 +43,7 @@ struct _EvolutionShellComponentPrivate {
 	EvolutionShellComponentCreateViewFn              create_view_fn;
 	EvolutionShellComponentCreateFolderFn            create_folder_fn;
 	EvolutionShellComponentRemoveFolderFn            remove_folder_fn;
+	EvolutionShellComponentCopyFolderFn              copy_folder_fn;
 	EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn;
 
 	EvolutionShellClient *owner_client;
@@ -234,8 +235,8 @@ impl_ShellComponent_async_create_folder (PortableServer_Servant servant,
 
 	if (priv->create_folder_fn == NULL) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
-								ev);
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								     ev);
 		return;
 	}
 
@@ -258,12 +259,43 @@ impl_ShellComponent_async_remove_folder (PortableServer_Servant servant,
 
 	if (priv->remove_folder_fn == NULL) {
 		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
-								GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
-								ev);
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								     ev);
 		return;
 	}
 
 	(* priv->remove_folder_fn) (shell_component, physical_uri, listener, priv->closure);
+}
+
+static void
+impl_ShellComponent_async_copy_folder (PortableServer_Servant servant,
+				       const GNOME_Evolution_ShellComponentListener listener,
+				       const CORBA_char *source_physical_uri,
+				       const CORBA_char *destination_physical_uri,
+				       const CORBA_boolean remove_source,
+				       CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	EvolutionShellComponent *shell_component;
+	EvolutionShellComponentPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	shell_component = EVOLUTION_SHELL_COMPONENT (bonobo_object);
+	priv = shell_component->priv;
+
+	if (priv->copy_folder_fn == NULL) {
+		GNOME_Evolution_ShellComponentListener_notifyResult (listener,
+								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION,
+								     ev);
+		return;
+	}
+
+	(* priv->copy_folder_fn) (shell_component,
+				  source_physical_uri,
+				  destination_physical_uri,
+				  remove_source,
+				  listener,
+				  priv->closure);
 }
 
 static void
@@ -405,6 +437,7 @@ init (EvolutionShellComponent *shell_component)
 	priv->create_view_fn                  = NULL;
 	priv->create_folder_fn                = NULL;
 	priv->remove_folder_fn                = NULL;
+	priv->copy_folder_fn                  = NULL;
 	priv->populate_folder_context_menu_fn = NULL;
 
 	priv->owner_client                    = NULL;
@@ -421,6 +454,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 				     EvolutionShellComponentCreateViewFn create_view_fn,
 				     EvolutionShellComponentCreateFolderFn create_folder_fn,
 				     EvolutionShellComponentRemoveFolderFn remove_folder_fn,
+				     EvolutionShellComponentCopyFolderFn copy_folder_fn,
 				     EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn,
 				     void *closure)
 {
@@ -437,6 +471,7 @@ evolution_shell_component_construct (EvolutionShellComponent *shell_component,
 	priv->create_view_fn                  = create_view_fn;
 	priv->create_folder_fn                = create_folder_fn;
 	priv->remove_folder_fn                = remove_folder_fn;
+	priv->copy_folder_fn                  = copy_folder_fn;
 	priv->populate_folder_context_menu_fn = populate_folder_context_menu_fn;
 
 	priv->closure = closure;
@@ -465,6 +500,7 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 			       EvolutionShellComponentCreateViewFn create_view_fn,
 			       EvolutionShellComponentCreateFolderFn create_folder_fn,
 			       EvolutionShellComponentRemoveFolderFn remove_folder_fn,
+			       EvolutionShellComponentCopyFolderFn copy_folder_fn,
 			       EvolutionShellComponentPopulateFolderContextMenu populate_folder_context_menu_fn,
 			       void *closure)
 {
@@ -479,8 +515,13 @@ evolution_shell_component_new (const EvolutionShellComponentFolderType folder_ty
 	new = gtk_type_new (evolution_shell_component_get_type ());
 
 	corba_object = bonobo_object_activate_servant (BONOBO_OBJECT (new), servant);
-	evolution_shell_component_construct (new, folder_types, corba_object,
-					     create_view_fn, create_folder_fn, remove_folder_fn,
+	evolution_shell_component_construct (new,
+					     folder_types,
+					     corba_object,
+					     create_view_fn,
+					     create_folder_fn,
+					     remove_folder_fn,
+					     copy_folder_fn,
 					     populate_folder_context_menu_fn,
 					     closure);
 

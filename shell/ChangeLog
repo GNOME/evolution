@@ -1,8 +1,27 @@
+2001-01-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-shell-component.c: Add member `copy_folder_fn' to
+	`EvolutionShellComponentPrivate'.
+	(init): Init to NULL.
+	(impl_ShellComponent_async_copy_folder): New function,
+	implementation for `::asyncCopyFolder'.
+	(evolution_shell_component_construct): New arg @copy_folder_fn.
+	Set the corresponding member in `EvolutionShellComponentPrivate'.
+	(evolution_shell_component_new): New arg @copy_folder_fn.  Pass it
+	to `evolution_shell_component_construct'.
+
+	* evolution-shell-component.h: New type
+	`EvolutionShellComponentCopyFolderFn'.
+
 2001-01-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* e-splash.c (e_splash_construct): Remove nice toplevel window.
 
 2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Evolution-ShellComponent.idl: Add method `::removeFolderAsync'.
+
+2001-01-12  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-shell-component.c (corba_class_init):
 	s/addFolderAsync/createFolderAsync/.

@@ -248,9 +248,13 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 {
 	EvolutionShellComponent *shell_component;
 
-	shell_component = evolution_shell_component_new (
-		folder_types, create_view, create_folder,
-		NULL, NULL, NULL);
+	shell_component = evolution_shell_component_new (folder_types,
+							 create_view,
+							 create_folder,
+							 NULL, /* remove_folder_fn */
+							 NULL, /* copy_folder_fn */
+							 NULL, /* populate_folder_context_menu */
+							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

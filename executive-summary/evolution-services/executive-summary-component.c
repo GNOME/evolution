@@ -83,7 +83,6 @@ executive_summary_component_destroy (GtkObject *object)
 {
 	ExecutiveSummaryComponent *component;
 	ExecutiveSummaryComponentPrivate *priv;
-	CORBA_Environment ev;
 	
 	component = EXECUTIVE_SUMMARY_COMPONENT (object);
 	priv = component->private;

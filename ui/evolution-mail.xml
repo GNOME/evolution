@@ -6,7 +6,7 @@
       _label="_Threaded" _tip="Threaded Message list" type="toggle" />
 
     <cmd name="ViewSource"
-      _label="_Source" _tip="View Raw Message Source" type="toggle" />
+      _label="S_ource" _tip="View Raw Message Source" type="toggle" />
  
   </commands>
 
@@ -51,6 +51,16 @@
       <menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
 
       <menuitem name="Source" verb="ViewSource" accel=""/>
+
+      <separator/>
+
+      <menuitem name="MessageHideClear" verb="" _label="Show _All Messages"/>
+
+      <separator/>
+
+      <menuitem name="MessageHideSelected" verb="" _label="Hide S_elected Messages"/>
+      <menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
+      <menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted Messages"/>
 
     </submenu>
 
@@ -141,7 +151,7 @@
 
         <separator/>
 
-        <submenu name="MessageCreateRuleFromMessage" _label="Create Rule From Message">
+        <submenu name="MessageCreateRuleFromMessage" _label="Create Rule">
 
           <menuitem name="MessageVFolderSubj" verb=""
           _label="_VFolder on Subject"
@@ -168,17 +178,6 @@
           <menuitem name="MessageFilterRecip" verb=""
           _label="Filter on Rec_ipients"
            />
-
-        </submenu>
-
-        <submenu name="MessageHide" _label="Hide Messages">
-
-          <menuitem name="MessageHideClear" verb="" _label="Show _All messages"/>
-          <separator/>
-          <menuitem name="MessageHideSelected" verb="" _label="Hide _Selected messages"/>
-          <separator/>
-          <menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
-          <menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted messages"/>
 
         </submenu>
 

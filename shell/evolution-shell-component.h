@@ -87,6 +87,12 @@ typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent 
 						        const char *physical_uri,
 						        const GNOME_Evolution_ShellComponentListener listener,
 						        void *closure);
+typedef void (* EvolutionShellComponentCopyFolderFn)   (EvolutionShellComponent *shell_component,
+							const char *source_physical_uri,
+							const char *destination_physical_uri,
+							gboolean remove_source,
+						        const GNOME_Evolution_ShellComponentListener listener,
+						        void *closure);
 typedef void (* EvolutionShellComponentPopulateFolderContextMenu) (EvolutionShellComponent *shell_component,
 								   BonoboUIComponent *uic,
 								   const char *physical_uri,
@@ -124,12 +130,14 @@ void                     evolution_shell_component_construct  (EvolutionShellCom
 							       EvolutionShellComponentCreateViewFn               create_view_fn,
 							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
+							       EvolutionShellComponentCopyFolderFn               copy_folder_fn,
 							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
 							       void                                             *closure);
 EvolutionShellComponent *evolution_shell_component_new        (const EvolutionShellComponentFolderType           folder_types[],
 							       EvolutionShellComponentCreateViewFn               create_view_fn,
 							       EvolutionShellComponentCreateFolderFn             create_folder_fn,
 							       EvolutionShellComponentRemoveFolderFn             remove_folder_fn,
+							       EvolutionShellComponentCopyFolderFn               copy_folder_fn,
 							       EvolutionShellComponentPopulateFolderContextMenu  populate_folder_context_menu_fn,
 							       void                                             *closure);
 EvolutionShellClient    *evolution_shell_component_get_owner  (EvolutionShellComponent                          *shell_component);

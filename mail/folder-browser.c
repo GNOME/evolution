@@ -653,20 +653,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 
-	EPopupMenu hide_menu[] = {
-		{ _("Show all hidden"),            NULL, GTK_SIGNAL_FUNC (hide_none),  	      NULL,  128 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		{ _("Hide selected"), 	           NULL, GTK_SIGNAL_FUNC (hide_selected),     NULL,  2 },
-		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
-		/* could use another mask, but not enough api do to it */
-		{ _("Hide read"), 	           NULL, GTK_SIGNAL_FUNC (hide_read),  	      NULL,  0 },
-		{ _("Hide deleted"), 	           NULL, GTK_SIGNAL_FUNC (hide_deleted),      NULL,  0 },
-#define HIDE_SUBJECT (6)
-		{ _("Hide Subject"),               NULL, GTK_SIGNAL_FUNC (hide_subject),      NULL,  2 },
-#define HIDE_SENDER (7)
-		{ _("Hide from Sender"),           NULL, GTK_SIGNAL_FUNC (hide_sender),       NULL,  2 },
-		{ NULL,                            NULL, NULL,                                NULL,  0 }
-	};
 
 	EPopupMenu menu[] = {
 		{ _("Open"),                       NULL, GTK_SIGNAL_FUNC (view_msg),          NULL,  0 },
@@ -692,7 +678,6 @@ on_right_click (ETable *table, gint row, gint col, GdkEvent *event, FolderBrowse
 		{ _("Apply Filters"),              NULL, GTK_SIGNAL_FUNC (apply_filters),     NULL,  0 },
 		{ "",                              NULL, GTK_SIGNAL_FUNC (NULL),              NULL,  0 },
 		{ _("Create Rule From Message"),   NULL, GTK_SIGNAL_FUNC (NULL),       filter_menu,  2 },
-		{ _("Hide Messages"),   NULL, GTK_SIGNAL_FUNC (NULL),       hide_menu,  0 },
 		{ NULL,                            NULL, NULL,                                NULL,  0 }
 	};
 	
@@ -785,27 +770,9 @@ display_menu:
 		g_free(mailing_list_name);
 	}
 
-	if (subject_match != NULL) {
-		hide_menu[HIDE_SUBJECT].name = g_strdup_printf(_("Hide Subject \"%s\""), subject_match);
-		g_free(subject_match);
-	} else
-		hide_menu[HIDE_SUBJECT].name = g_strdup(_("Hide Subject"));
-
-	if (from_match != NULL) {
-		hide_menu[HIDE_SENDER].name = g_strdup_printf(_("Hide from Sender <%s>"), from_match);
-		g_free(from_match);
-	} else
-		hide_menu[HIDE_SENDER].name = g_strdup(_("Hide from Sender"));
-
-	/* TODO: should probably be a function to say if anything is hidden ... but this is accurate */
-	if (fb->message_list->hidden == NULL)
-		enable_mask |= 128;
-
 	e_popup_menu_run (menu, (GdkEventButton *)event, enable_mask, 0, fb);
 	
 	g_free(filter_menu[last_item].name);
-	g_free(hide_menu[HIDE_SUBJECT].name);
-	g_free(hide_menu[HIDE_SENDER].name);
 
 	return TRUE;
 }

@@ -1,3 +1,11 @@
+2001-01-12  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* component/component-factory.c (factory_fn): Pass NULL as the
+	@copy_folder_fn arg to `evolution_shell_component_new()'.
+
+	* evolution-services/executive-summary-component.c
+	(executive_summary_component_destroy): Remove unused variable.
+
 2001-01-12  Iain Holmes  <iain@ximian.com>
 
 	* component/e-summary-util.c (e_summary_rm_dir): If base == NULL return;

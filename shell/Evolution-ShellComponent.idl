@@ -57,6 +57,12 @@ module Evolution {
 					in string physical_uri)
 			raises (Busy);
 
+		void copyFolderAsync (in ShellComponentListener listener,
+				      in string source_physical_uri,
+				      in string destination_physical_uri,
+				      in boolean remove_source)
+			raises (Busy);
+
 		void populateFolderContextMenu (in Bonobo::UIContainer uih,
 						in string physical_uri,
 						in string type);
