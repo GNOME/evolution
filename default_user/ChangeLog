@@ -1,3 +1,8 @@
+2001-08-16  Peter Williams  <peterw@ximian.com>
+
+	* searches.xml: Implement "Message Contains" (searches sender,
+	recipients, subject, and body) and make it first.
+
 2001-08-14  Peter Williams  <peterw@ximian.com>
 
 	* searches.xml: Rename <title> to <_title> so that these fields can

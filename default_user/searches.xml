@@ -2,6 +2,29 @@
 <filteroptions>
   <ruleset>
     <rule grouping="any" source="demand">
+      <_title>Message contains</_title>
+      <partset>
+        <part name="subject">
+          <value name="subject-type" type="option" value="contains"/>
+          <value name="subject" type="string"/>
+        </part>
+        <part name="body">
+          <value name="body-type" type="option" value="contains"/>
+          <value name="word" type="string"/>
+        </part>
+        <part name="sender">
+          <value name="sender-type" type="option" value="contains"/>
+          <value name="sender" type="string"/>
+        </part>
+        <part name="to">
+          <value name="recipient-type" type="option" value="contains"/>
+          <value name="recipient" type="address"/>
+        </part>
+      </partset>
+      <sources/>
+    </rule>
+
+    <rule grouping="any" source="demand">
       <_title>Sender contains</_title>
       <partset>
         <part name="sender">
