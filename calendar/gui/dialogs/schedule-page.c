@@ -156,6 +156,9 @@ schedule_page_finalize (GObject *object)
 	spage = SCHEDULE_PAGE (object);
 	priv = spage->priv;
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref((priv->xml));
 		priv->xml = NULL;

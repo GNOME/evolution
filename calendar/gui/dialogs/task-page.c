@@ -191,6 +191,9 @@ task_page_finalize (GObject *object)
 		CORBA_exception_free (&ev);
 	}
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref((priv->xml));
 		priv->xml = NULL;

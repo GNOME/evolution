@@ -169,6 +169,9 @@ task_details_page_finalize (GObject *object)
 	tdpage = TASK_DETAILS_PAGE (object);
 	priv = tdpage->priv;
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref((priv->xml));
 		priv->xml = NULL;

@@ -233,6 +233,9 @@ alarm_page_finalize (GObject *object)
 	apage = ALARM_PAGE (object);
 	priv = apage->priv;
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref (priv->xml);
 		priv->xml = NULL;
@@ -407,6 +410,7 @@ alarm_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			gtk_widget_set_sensitive (l->data, TRUE);
 	}
 	
+	sensitize_buttons (apage);
 
 	priv->updating = FALSE;
 }
@@ -752,7 +756,6 @@ init_widgets (AlarmPage *apage)
 	gtk_tree_view_column_add_attribute (column, cell_renderer, "text", E_ALARM_LIST_COLUMN_DESCRIPTION);
 	gtk_tree_view_append_column (GTK_TREE_VIEW (priv->list), column);
 
-	sensitize_buttons (apage);
 #if 0
 	/* If we want the alarm setup widgets to reflect the currently selected alarm, we
 	 * need to do something like this */

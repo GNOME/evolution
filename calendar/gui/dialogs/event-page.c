@@ -180,6 +180,9 @@ event_page_finalize (GObject *object)
 	epage = EVENT_PAGE (object);
 	priv = epage->priv;
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref((priv->xml));
 		priv->xml = NULL;

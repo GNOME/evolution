@@ -303,6 +303,9 @@ recurrence_page_finalize (GObject *object)
 	rpage = RECURRENCE_PAGE (object);
 	priv = rpage->priv;
 
+	if (priv->main)
+		gtk_widget_unref (priv->main);
+
 	if (priv->xml) {
 		g_object_unref((priv->xml));
 		priv->xml = NULL;

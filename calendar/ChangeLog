@@ -1,3 +1,21 @@
+2003-04-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/schedule-page.c (schedule_page_finalize): unref the
+	main widget since we ref it when we un-parent it
+
+	* gui/dialogs/alarm-page.c (alarm_page_finalize): ditto
+
+	* gui/dialogs/task-page.c (task_page_finalize): ditto
+
+	* gui/dialogs/event-page.c (event_page_finalize): ditto
+
+	* gui/dialogs/task-details-page.c (task_details_page_finalize):
+	ditto
+
+	* gui/dialogs/recurrence-page.c (recurrence_page_finalize): ditto
+
+	* gui/dialogs/meeting-page.c (meeting_page_finalize): ditto
+
 2003-04-10  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-meeting-time-sel.c
