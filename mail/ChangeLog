@@ -1,3 +1,9 @@
+2003-10-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c: Add a hide_mask to the
+	create-rule-from-message bars so that we don't segfault when we
+	right click with a multi-selection.
+
 2003-10-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-config-druid.c (identity_prepare): Fixed.
