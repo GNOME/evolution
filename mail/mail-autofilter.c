@@ -293,12 +293,12 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		g_free(mlist);
 	}
 	if (flags & AUTO_THREAD) {
-		char *name, *msgid = nULL;
-		const char *refs = NULL;
+		const char *msgid, *refs = NULL;
+		char *name;
 		
 		if (!(refs = camel_medium_get_header ((CamelMedium *) msg, "References"))) {
 			if (!(refs = camel_medium_get_header ((CamelMedium *) msg, "In-Reply-To")))
-				msgid = camel_message_get_message_id (msg);
+				msgid = camel_mime_message_get_message_id (msg);
 		}
 		
 		if (refs || msgid) {

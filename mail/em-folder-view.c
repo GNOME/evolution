@@ -704,7 +704,7 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "90.filter.00/00.03", N_("VFolder on Mailing _List"),
 	  G_CALLBACK(emfv_popup_vfolder_mlist), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	{ EM_POPUP_ITEM, "90.filter.00/00.04", N_("VFolder on Thread"),
-	  G_CALLBACK(emfv_popup_vfolder_thread), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_THREAD },
+	  G_CALLBACK(emfv_popup_vfolder_thread), NULL, NULL, EM_POPUP_SELECT_ONE },
 	
 	{ EM_POPUP_BAR, "90.filter.00/10", NULL, NULL, NULL, NULL, EM_POPUP_SELECT_ONE },
 	{ EM_POPUP_ITEM, "90.filter.00/10.00", N_("Filter on Sub_ject"), G_CALLBACK(emfv_popup_filter_subject), NULL, NULL, EM_POPUP_SELECT_ONE },
@@ -713,7 +713,7 @@ static EMPopupItem emfv_popup_menu[] = {
 	{ EM_POPUP_ITEM, "90.filter.00/10.03", N_("Filter on _Mailing List"),
 	  G_CALLBACK(emfv_popup_filter_mlist), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_MAILING_LIST },
 	{ EM_POPUP_ITEM, "90.filter.00/10.04", N_("Filter on Thread"),
-	  G_CALLBACK(emfv_popup_filter_thread), NULL, NULL, EM_POPUP_SELECT_ONE|EM_POPUP_SELECT_THREAD },
+	  G_CALLBACK(emfv_popup_filter_thread), NULL, NULL, EM_POPUP_SELECT_ONE },
 };
 
 static void
