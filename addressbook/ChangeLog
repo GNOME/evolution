@@ -1,3 +1,12 @@
+2002-02-21  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/Makefile.am: Define $(iconsdir).
+
+	* gui/component/addressbook-component.c (add_creatable_item): New
+	helper function.
+	(create_component): Add the icons for the user creatable items as
+	well.
+
 2002-02-20  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-file.c (pas_backend_file_load_uri):

@@ -503,6 +503,37 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 
 /* The factory function.  */
 
+static void
+add_creatable_item (EvolutionShellComponent *shell_component,
+		    const char *id,
+		    const char *description,
+		    const char *menu_description,
+		    char menu_shortcut,
+		    const char *icon_name)
+{
+	char *icon_path;
+	GdkPixbuf *icon;
+
+	if (icon_name == NULL) {
+		icon_path = NULL;
+		icon = NULL;
+	} else {
+		icon_path = g_concat_dir_and_file (EVOLUTION_ICONSDIR, icon_name);
+		icon = gdk_pixbuf_new_from_file (icon_path);
+	}
+
+	evolution_shell_component_add_user_creatable_item (shell_component,
+							   id,
+							   description,
+							   menu_description,
+							   menu_shortcut,
+							   icon);
+
+	if (icon != NULL)
+		gdk_pixbuf_unref (icon);
+	g_free (icon_path);
+}
+
 static BonoboObject *
 create_component (void)
 {
@@ -523,12 +554,12 @@ create_component (void)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 
-	evolution_shell_component_add_user_creatable_item (shell_component, "contact",
-							   _("New Contact"), _("_Contact"), 'c',
-							   NULL);
-	evolution_shell_component_add_user_creatable_item (shell_component, "contact_list",
-							   _("New Contact List"), _("Contact _List"), 'l',
-							   NULL);
+	add_creatable_item (shell_component, "contact",
+			    _("New Contact"), _("_Contact"), 'c',
+			    "evolution-contacts-mini.png");
+	add_creatable_item (shell_component, "contact_list",
+			    _("New Contact List"), _("Contact _List"), 'l',
+			    "all_contacts.xpm");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

@@ -21,7 +21,6 @@ INCLUDES =							\
 	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
 	$(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
-
 bin_PROGRAMS =	\
 	evolution-addressbook
 
@@ -72,6 +71,8 @@ oaf_DATA = $(oaf_in_files:.oaf.in=.oaf)
 
 gladedir   = $(datadir)/evolution/glade
 glade_DATA = addressbook-config.glade
+
+iconsdir = $(datadir)/images/evolution
 
 EXTRA_DIST = 				\
 	$(glade_DATA)			\
