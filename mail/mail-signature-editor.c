@@ -311,13 +311,6 @@ format_html_cb (BonoboUIComponent           *component,
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
 }
 
-static void
-check_hide_info_toggled (GtkWidget *widget, ESignatureEditor *editor)
-{
-	gtk_widget_hide (editor->info_frame);
-	mail_config_set_show_signature_info (FALSE);
-}
-
 void
 mail_signature_editor (MailConfigSignature *sig)
 {
@@ -325,7 +318,7 @@ mail_signature_editor (MailConfigSignature *sig)
 	ESignatureEditor *editor;
 	BonoboUIComponent *component;
 	BonoboUIContainer *container;
-	GtkWidget *vbox, *hbox, *label, *frame, *vbox1, *pixmap, *check;
+	GtkWidget *vbox, *hbox, *label, *frame, *vbox1;
 	gchar *title;
 	
 	if (!sig->filename || !*sig->filename)
@@ -391,37 +384,6 @@ mail_signature_editor (MailConfigSignature *sig)
 	gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
 	gtk_widget_show_all (vbox);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), editor->control);
-
-	/* info frame */
-	if (mail_config_get_show_signature_info ()) {
-		editor->info_frame = gtk_frame_new (_("Signature hint"));
-		gtk_container_set_border_width (GTK_CONTAINER (editor->info_frame), 3);
-
-		hbox = gtk_hbox_new (FALSE, 3);
-		gtk_container_set_border_width (GTK_CONTAINER (hbox), 3);
-
-		pixmap = gnome_pixmap_new_from_file (EVOLUTION_IMAGES "/info-bulb.png");
-		gtk_box_pack_start (GTK_BOX (hbox), pixmap, FALSE, TRUE, 0);
-
-		vbox1 = gtk_vbox_new (FALSE, 3);
-		label = gtk_label_new (_("If you would like to use an old signature, "
-					 "you may import it by opening the \"Insert\" "
-					 "menu, and select either the \"Text file\" "
-					 "or the \"HTML file\" item."));
-		gtk_widget_set_usize (label, 500, -2);
-		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
-		gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
-		gtk_box_pack_start (GTK_BOX (vbox1), label, FALSE, TRUE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (hbox), vbox1);
-		check = gtk_check_button_new_with_label (_("Hide signature hint"));
-		gtk_signal_connect (GTK_OBJECT (check), "toggled", check_hide_info_toggled, editor);
-		gtk_box_pack_end (GTK_BOX (vbox1), check, FALSE, TRUE, 3);
-
-		gtk_container_add (GTK_CONTAINER (editor->info_frame), hbox);
-		gtk_widget_show_all (editor->info_frame);
-		gtk_box_pack_end (GTK_BOX (vbox), editor->info_frame, FALSE, TRUE, 0);
-	}
-	/* info frame end */
 
 	bonobo_window_set_contents (BONOBO_WINDOW (editor->win), vbox);
 	bonobo_widget_set_property (BONOBO_WIDGET (editor->control), "FormatHTML", editor->html, NULL);
