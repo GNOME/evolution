@@ -2,7 +2,7 @@
 #  FILE: Makefile.am
 #  CREATOR: eric 
 #  
-#  $Id: Makefile.am,v 1.32 2001/10/05 20:23:26 ettore Exp $
+#  $Id: Makefile.am,v 1.33 2001/10/30 01:49:30 damon Exp $
 #
 #
 # (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
@@ -26,10 +26,10 @@
 DESIGNDATA = $(top_srcdir)/design-data
 ICALSCRIPTS = $(top_srcdir)/scripts
 
-lib_LTLIBRARIES = libical.la
+lib_LTLIBRARIES = libical-evolution.la
 
 noinst_LTLIBRARIES = libical-static.la
-libical_static_la_SOURCES = $(libical_la_SOURCES)
+libical_static_la_SOURCES = $(libical_evolution_la_SOURCES)
 libical_static_la_LDFLAGS = --all-static
 
 YFLAGS = -d -v -t -pical_yy
@@ -46,9 +46,9 @@ INCLUDES =			\
 	-I$(top_builddir)/src	\
 	-I$(srcdir)
 
-libical_la_LDFLAGS = -version-info 0:0:0
+libical_evolution_la_LDFLAGS = -version-info 0:0:0
 
-libical_la_SOURCES =		\
+libical_evolution_la_SOURCES =	\
 	$(BUILT_SOURCES)	\
 	icalarray.c		\
 	icalarray.h		\
@@ -98,7 +98,8 @@ libical_la_SOURCES =		\
 	icallangbind.h		\
 	icallangbind.c
 
-libicalincludedir = $(includedir)
+#libicalincludedir = $(includedir)/$(PACKAGE)
+libicalincludedir = $(includedir)/evolution
 
 libicalinclude_HEADERS =  ical.h 
 

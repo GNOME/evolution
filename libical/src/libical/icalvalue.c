@@ -629,12 +629,18 @@ char* icalvalue_utcoffset_as_ical_string(icalvalue* value)
 	sign = '-';
     }
 
+    /* We add 30 to +ve values or -29 to -ve values, since we will round to
+       the nearest minute, so we compatable with Outlook. */
+    if (data >= 0)
+      data += 30;
+    else
+      data -= 29;
+
     h = data/3600;
     m = (data - (h*3600))/ 60;
-    s = (data - (h*3600) - (m*60));
+    /*s = (data - (h*3600) - (m*60));*/
+    s = 0;
 
-    /* FIXME: We may want to always round to the nearest minute, to avoid
-       interop problems with Outlook (2000). It doesn't like seconds here. */
     if (s == 0)
       sprintf(str,"%c%02d%02d",sign,abs(h),abs(m));
     else
@@ -731,6 +737,10 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 	    }
 	}
 
+
+	/* We don't do folding here any more. We do it in
+	   icalproperty_as_ical_string(). */
+#if 0
 	if (line_length > 65 && *p == ' '){
 	    icalmemory_append_string(&str,&str_p,&buf_sz,"\n ");
 	    line_length=0;
@@ -741,6 +751,7 @@ char* icalvalue_text_as_ical_string(icalvalue* value) {
 	    icalmemory_append_string(&str,&str_p,&buf_sz,"\n ");
 	    line_length=0;
 	}
+#endif
 
     }
 

@@ -263,6 +263,49 @@ icalproperty_free (icalproperty* prop)
 }
 
 
+/* This splits the property every 75 octects, as described in the spec.
+   It returns a tmp buffer.
+   NOTE: I'm not sure if it matters if we split a line in the middle of a
+   UTF-8 character. It probably won't look nice in a text editor. */
+static char*
+fold_property_line (char *text)
+{
+    int len, max_lines, line_length;
+    char *buf, *src, *dest, ch;
+
+    len = strlen (text);
+
+    /* The minimum length we split a line at is 65 characters, so calculate
+       the maximum number of newlines we will need. */
+    max_lines = ((len - 1) / 65);
+
+    /* Calculate the maximum size for the buffer we need, if we add a newline
+       character for each line, and a '\0' at the end. */
+    buf = icalmemory_tmp_buffer (len + max_lines + 1);
+
+    src = text;
+    dest = buf;
+    line_length = 0;
+    while (ch = *src) {
+        /* If the line is 65 characters or over, try to split at next space.
+	   If it is 75 characters or over, split now. */
+	if ((line_length >= 65 && ch == ' ') || (line_length >= 75)) {
+	    *dest++ = '\n';
+	    *dest++ = ' ';
+	    line_length = 0;
+	}
+
+	*dest++ = ch;
+	line_length++;
+
+	src++;
+    }
+    *dest = '\0';
+
+    return buf;
+}
+
+
 char*
 icalproperty_as_ical_string (icalproperty* prop)
 {   
@@ -305,8 +348,8 @@ icalproperty_as_ical_string (icalproperty* prop)
 
 
     icalmemory_append_string(&buf, &buf_ptr, &buf_size, property_name);
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
-
+    /* Outlook doesn't like a newline here. */
+    /*icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);*/
 
 
     /* Determine what VALUE parameter to include. The VALUE parameters
@@ -353,10 +396,13 @@ icalproperty_as_ical_string (icalproperty* prop)
 	}
 
 	if(kind_string!=0){
-	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, " ;");
-	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, "VALUE=");
+	    /* We aren't outputting a newline, so we don't want a space. */
+	    /*icalmemory_append_string(&buf, &buf_ptr, &buf_size, " ;");*/
+	    /*icalmemory_append_string(&buf, &buf_ptr, &buf_size, "VALUE=");*/
+	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, ";VALUE=");
 	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
-	    icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
+	    /* No newline again. */
+	    /*icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);*/
 	}
 	
 
@@ -381,15 +427,13 @@ icalproperty_as_ical_string (icalproperty* prop)
 	    continue;
 	}
 
-	icalmemory_append_string(&buf, &buf_ptr, &buf_size, " ;");
+	icalmemory_append_string(&buf, &buf_ptr, &buf_size, ";");
     	icalmemory_append_string(&buf, &buf_ptr, &buf_size, kind_string);
- 	icalmemory_append_string(&buf, &buf_ptr, &buf_size, newline);
-
     }    
 
     /* Append value */
 
-    icalmemory_append_string(&buf, &buf_ptr, &buf_size, " :");
+    icalmemory_append_string(&buf, &buf_ptr, &buf_size, ":");
 
     value = icalproperty_get_value(prop);
 
@@ -407,9 +451,11 @@ icalproperty_as_ical_string (icalproperty* prop)
     /* Now, copy the buffer to a tmp_buffer, which is safe to give to
        the caller without worring about de-allocating it. */
 
-    
-    out_buf = icalmemory_tmp_buffer(strlen(buf)+1);
-    strcpy(out_buf, buf);
+    /* We now use a function to fold the line properly every 75 characters. */
+    out_buf = fold_property_line (buf);
+
+    /*out_buf = icalmemory_tmp_buffer(strlen(buf)+1);*/
+    /*strcpy(out_buf, buf);*/
 
     icalmemory_free_buffer(buf);
 

@@ -336,7 +336,7 @@ struct icaltimetype icaltime_from_string(const char* str)
 	}
 	    
     } else if (size == 8) { /* A DATE */
-	tt.is_utc = 1;
+	tt.is_utc = 0;
 	tt.is_date = 1;
     } else { /* error */
 	icalerror_set_errno(ICAL_MALFORMEDDATA_ERROR);

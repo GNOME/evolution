@@ -1,3 +1,23 @@
+2001-10-29  Damon Chaplin  <damon@ximian.com>
+
+	* src/libical/Makefile.am: renamed the library to libical-evolution.la,
+	install ical.h into $includedir/evolution, with the other Evo headers.
+
+	* src/libical/icalproperty.c (fold_property_line): new function to
+	fold property lines around every 70 characters. Outlook Web Access
+	doesn't seem to like some properties folded after the property name
+	(e.g. UID, VTIMEZONE stuff.) Slight chance of data corruption here.
+
+	* src/libical/icalvalue.c (icalvalue_text_as_ical_string): don't fold
+	the lines here.
+
+	* src/libical/icaltime.c (icaltime_from_string): DATE values should
+	not have is_utc set to 1 - they don't have a timezone.
+
+	* src/libical/icalvalue.c (icalvalue_utcoffset_as_ical_string): 
+	always round UTC offsets to the nearest minute, for compatability
+	with Outlook. Should round data when parsing as well.
+
 2001-10-27  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_display_name): added
