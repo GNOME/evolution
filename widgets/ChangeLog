@@ -1,3 +1,18 @@
+2001-05-21  Chris Toshok  <toshok@ximian.com>
+
+	* menus/gal-view-menus.c (build_menus): make the view menuitems
+	radio items of the same group, and allocate the closure here.
+	(free_verbs): only need to free the one DefineViews verb here.
+	(closure_free): new function - EListFreeFunc for our
+	listenerClosure list.
+	(remove_listeners): new function, free our listener list.
+	(gvm_destroy): call remove_listeners.
+	(gvm_init): init listenerClosures list.
+	(toggled_cb): callback for radio items.
+	(build_verbs): strip out almost all the code since there's only 1
+	verb now.
+	(build_stuff): call remove_listeners.
+
 2001-05-08  Gediminas Paulauskas <menesis@delfi.lt>
 
 	* misc/e-search-bar.c (add_dropdown), (set_option): first try to
