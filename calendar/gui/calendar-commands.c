@@ -47,6 +47,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <cal-util/timeutil.h>
+#include "shell/Evolution.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "gnome-cal.h"
@@ -420,6 +421,54 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 		itip_send_comp (CAL_COMPONENT_METHOD_PUBLISH, comp);
 }
 
+/* Does a queryInterface on the control's parent control frame for the ShellView interface */
+static GNOME_Evolution_ShellView
+get_shell_view_interface (BonoboControl *control)
+{
+	Bonobo_ControlFrame control_frame;
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
+	control_frame = bonobo_control_get_control_frame (control);
+
+	g_assert (control_frame != CORBA_OBJECT_NIL);
+
+	CORBA_exception_init (&ev);
+	shell_view = Bonobo_Unknown_queryInterface (control_frame,
+						    "IDL:GNOME/Evolution/ShellView:1.0",
+						    &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("get_shell_view_interface(): "
+			   "Could not queryInterface() on the control frame");
+		shell_view = CORBA_OBJECT_NIL;
+		goto out;
+	}
+
+	CORBA_exception_free (&ev);
+
+ out:
+
+	return shell_view;
+}
+
+/* Clears the folder bar label on the shell view */
+static void
+clear_folder_bar_label (BonoboControl *control)
+{
+	GNOME_Evolution_ShellView shell_view;
+	CORBA_Environment ev;
+
+	shell_view = get_shell_view_interface (control);
+	if (shell_view == CORBA_OBJECT_NIL)
+		return;
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_ShellView_setFolderBarLabel (shell_view, "", &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("clear_folder_bar_label(): Could not set the folder bar label");
+
+	CORBA_exception_free (&ev);
+}
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarNew", new_calendar_cmd),
@@ -514,6 +563,8 @@ calendar_control_activate (BonoboControl *control,
 	/* Show the dialog for setting the timezone if the user hasn't chosen
 	   a default timezone already. */
 	calendar_config_check_timezone_set ();
+
+	clear_folder_bar_label (control);
 }
 
 void
