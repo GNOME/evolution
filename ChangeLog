@@ -1,3 +1,9 @@
+2001-06-20  Dan Winship  <danw@ximian.com>
+
+	* configure.in: Change --enable-ldap to --with-openldap, allow a
+	path prefix as an argument. Add some libtooly goodness to the
+	libldap check in case it depends on ssl libraries.
+
 2001-06-20  Kevin Breit  <battery841@mediaone.net>
 
 	* doc/C/apx-gloss.sgml: Took out a reference to gloss.
