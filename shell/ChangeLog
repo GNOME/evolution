@@ -1,5 +1,11 @@
 2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shortcuts-view.c (get_shortcut_info): New.
+	(get_efolder_from_shortcut): Removed.
+	(impl_shortcut_dropped): Use `get_shortcut_info()' instead.
+
+2001-09-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (development_warning): s/Evolution/Ximian Evolution/.
 	(idle_cb): Likewise.
 

@@ -43,6 +43,8 @@
 
 #include "e-util/e-request.h"
 
+#include "e-shell-constants.h"
+
 #include "e-shortcuts-view-model.h"
 
 #include "e-shortcuts-view.h"
@@ -471,22 +473,45 @@ item_selected (EShortcutBar *shortcut_bar,
 			 shortcuts, shortcut_item->uri, FALSE);
 }
 
-static EFolder *
-get_efolder_from_shortcut (EShortcuts *shortcuts,
-			   const char *item_url)
+static void
+get_shortcut_info (EShortcutsView *shortcuts_view,
+		   const char *item_url,
+		   int *unread_count_return,
+		   const char **type_return)
 {
-	EFolderTypeRegistry *folder_type_registry;
+	EShortcutsViewPrivate *priv;
 	EStorageSet *storage_set;
+	EStorage *storage;
 	EFolder *folder;
-	char *path;
+	const char *path;
+
+	priv = shortcuts_view->priv;
+
+	if (strncmp (item_url, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
+		*unread_count_return = 0;
+		*type_return = NULL;
+		return;
+	}
 
 	path = strchr (item_url, G_DIR_SEPARATOR);
-	storage_set = e_shortcuts_get_storage_set (shortcuts);
-	folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
+	storage_set = e_shortcuts_get_storage_set (priv->shortcuts);
 
 	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder != NULL) {
+		*unread_count_return = e_folder_get_unread_count (folder);
+		*type_return = e_folder_get_type_string (folder);
+		return;
+	}
 
-	return folder;
+	storage = e_storage_set_get_storage (storage_set, path + 1);
+	if (storage != NULL) {
+		*unread_count_return = 0;
+		*type_return = e_storage_get_toplevel_node_type (storage);
+		return;
+	}
+
+	*unread_count_return = 0;
+	*type_return = NULL;
 }
 
 static void
@@ -498,7 +523,6 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 {
 	EShortcutsView *shortcuts_view;
 	EShortcutsViewPrivate *priv;
-	EFolder *folder;
 	int unread_count;
 	const char *type;
 	char *tmp;
@@ -508,10 +532,7 @@ impl_shortcut_dropped (EShortcutBar *shortcut_bar,
 	shortcuts_view = E_SHORTCUTS_VIEW (shortcut_bar);
 	priv = shortcuts_view->priv;
 
-	folder = get_efolder_from_shortcut (priv->shortcuts, item_url);
-
-	unread_count = e_folder_get_unread_count (folder);
-	type = e_folder_get_type_string (folder);
+	get_shortcut_info (shortcuts_view, item_url, &unread_count, &type);
 
 	/* Looks funny, but keeps it from adding the unread count
            repeatedly when dragging folders around */
