@@ -160,20 +160,23 @@ sort_uids (gconstpointer a,
 }
 
 static GList *
-get_todays_uids (CalClient *client,
+get_todays_uids (ESummary *summary,
+		 CalClient *client,
 		 GList *uids)
 {
 	GList *today = NULL, *p;
-	time_t todays_end, todays_start;
+	time_t todays_end, todays_start, t;
 
-	todays_start = time_day_begin (time (NULL));
-	todays_end = time_day_end (time (NULL));
+	t = time (NULL);
+	todays_start = time_day_begin_with_zone (t, summary->tz);
+	todays_end = time_day_end_with_zone (t, summary->tz);
 
 	for (p = uids; p; p = p->next) {
 		char *uid;
 		CalComponent *comp;
 		CalClientGetStatus status;
-		CalComponentDateTime end;
+		CalComponentDateTime due;
+		icaltimezone *zone;
 		time_t endt;
 
 		uid = p->data;
@@ -182,15 +185,18 @@ get_todays_uids (CalClient *client,
 			continue;
 		}
 
-		cal_component_get_dtend (comp, &end);
-		if (end.value != 0) {
-			endt = icaltime_as_timet (*end.value);
+		cal_component_get_due (comp, &due);
+
+		cal_client_get_timezone (client, due.tzid, &zone);
+		if (due.value != 0) {
+			icaltimezone_convert_time (due.value, zone, summary->tz);
+			endt = icaltime_as_timet (*due.value);
 
 			if (endt >= todays_start && endt <= todays_end) {
 				today = g_list_append (today, g_strdup (uid));
 			}
 		}
-		cal_component_free_datetime (&end);
+		cal_component_free_datetime (&due);
 	}
 
 	if (today == NULL) {
@@ -219,7 +225,7 @@ generate_html (gpointer data)
 	if (summary->preferences->show_tasks == E_SUMMARY_CALENDAR_TODAYS_TASKS && uids != NULL) {
 		GList *tmp;
 		
-		tmp = get_todays_uids (tasks->client, uids);
+		tmp = get_todays_uids (summary, tasks->client, uids);
 		cal_obj_uid_list_free (uids);
 
 		uids = tmp;
