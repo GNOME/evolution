@@ -98,6 +98,7 @@ struct _EMsgComposer {
 	guint32 view_cc                : 1;
 	guint32 view_subject           : 1;
 	guint32 has_changed            : 1;
+	guint32 autosaved              : 1;
 	
 	guint32 mode_post              : 1;
 	
@@ -185,6 +186,9 @@ char                    *e_msg_composer_guess_mime_type                  (const 
 void                     e_msg_composer_set_changed                      (EMsgComposer      *composer);
 void                     e_msg_composer_unset_changed                    (EMsgComposer      *composer);
 gboolean                 e_msg_composer_is_dirty                         (EMsgComposer      *composer);
+void                     e_msg_composer_set_autosaved                    (EMsgComposer      *composer);
+void                     e_msg_composer_unset_autosaved                  (EMsgComposer      *composer);
+gboolean                 e_msg_composer_is_autosaved                     (EMsgComposer      *composer);
 void                     e_msg_composer_set_enable_autosave              (EMsgComposer      *composer,
 									  gboolean           enabled);
 

@@ -1,3 +1,25 @@
+2003-11-11  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (e_msg_composer_set_autosaved): new method to
+	wrap autosaved flag setting
+	(e_msg_composer_unset_autosaved): ditto
+	(e_msg_composer_is_autosaved): new method, says if composer was
+	autosaved only
+	(autosave_save_draft): unset changed so that we don't autosave all
+	the time when anything else than gtkhtml control changed
+
+2003-11-06  Radek Doulik  <rodo@ximian.com>
+
+	* e-msg-composer.c (autosave_save_draft): call gtkhtml's saved
+	command to clean is-saved flag, set composer's autosaved flag
+	(do_exit): complain if last save was just autosave
+	(e_msg_composer_unset_changed): reset autosaved flag
+	(save): reset autosaved flag
+
+	* e-msg-composer.h: added autosaved flag, it tells whether last
+	save was autosave or regular save, when changed flag is reset the
+	autosaved one is reset too
+
 2003-11-30  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-msg-composer-hdrs.c (create_headers): #if 0 the "post to"

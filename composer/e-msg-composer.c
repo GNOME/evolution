@@ -1179,9 +1179,10 @@ save (EMsgComposer *composer, const char *default_filename)
 		
 		e_notice (composer, GTK_MESSAGE_ERROR, _("Error saving file: %s"), tmp);
 		g_free(tmp);
-	} else
+	} else {
 		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "saved", &ev);
-
+		e_msg_composer_unset_autosaved (composer);
+	}
 	CORBA_exception_free (&ev);
 	
 	g_free (filename);
@@ -1232,7 +1233,7 @@ autosave_save_draft (EMsgComposer *composer)
 	
 	if (!e_msg_composer_is_dirty (composer))
 		return TRUE;
-	
+
 	fd = composer->autosave_fd;
 	file = composer->autosave_file;
 	
@@ -1281,6 +1282,13 @@ autosave_save_draft (EMsgComposer *composer)
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
 		
 		success = FALSE;
+	} else {
+		CORBA_Environment ev;
+		CORBA_exception_init (&ev);
+		GNOME_GtkHTML_Editor_Engine_runCommand (composer->editor_engine, "saved", &ev);
+		CORBA_exception_free (&ev);
+		e_msg_composer_unset_changed (composer);
+		e_msg_composer_set_autosaved (composer);
 	}
 	
 	camel_object_unref (stream);
@@ -1515,6 +1523,7 @@ menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
 	g_signal_emit (data, signals[SAVE_DRAFT], 0, FALSE);
 	e_msg_composer_unset_changed (E_MSG_COMPOSER (data));
+	e_msg_composer_unset_autosaved (E_MSG_COMPOSER (data));
 }
 
 /* Exit dialog.  (Displays a "Save composition to 'Drafts' before exiting?" warning before actually exiting.)  */
@@ -1526,7 +1535,7 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *dialog;
 	int button;
 	
-	if (!e_msg_composer_is_dirty (composer)) {
+	if (!e_msg_composer_is_dirty (composer) && !e_msg_composer_is_autosaved (composer)) {
 		gtk_widget_destroy (GTK_WIDGET (composer));
 		return;
 	}
@@ -1557,6 +1566,7 @@ do_exit (EMsgComposer *composer)
 		/* Save */
 		g_signal_emit (GTK_OBJECT (composer), signals[SAVE_DRAFT], 0, TRUE);
 		e_msg_composer_unset_changed (composer);
+		e_msg_composer_unset_autosaved (composer);
 		break;
 	case GTK_RESPONSE_NO:
 		/* Don't save */
@@ -2673,6 +2683,7 @@ init (EMsgComposer *composer)
 	composer->smime_encrypt            = FALSE;
 	
 	composer->has_changed              = FALSE;
+	composer->autosaved                = FALSE;
 	
 	composer->redirect                 = FALSE;
 	
@@ -4880,7 +4891,6 @@ e_msg_composer_unset_changed (EMsgComposer *composer)
 	composer->has_changed = FALSE;
 }
 
-
 gboolean
 e_msg_composer_is_dirty (EMsgComposer *composer)
 {
@@ -4896,6 +4906,44 @@ e_msg_composer_is_dirty (EMsgComposer *composer)
 	return rv;
 }
 
+/**
+ * e_msg_composer_set_autosaved:
+ * @composer: An EMsgComposer object.
+ *
+ * Mark the composer as autosaved, so before the composer gets destroyed
+ * the user will be prompted about unsaved changes.
+ **/
+void
+e_msg_composer_set_autosaved (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+
+	composer->autosaved = TRUE;
+}
+
+
+/**
+ * e_msg_composer_unset_autosaved:
+ * @composer: An EMsgComposer object.
+ *
+ * Mark the composer as unautosaved, so no prompt about unsaved changes
+ * will appear before destroying the composer.
+ **/
+void
+e_msg_composer_unset_autosaved (EMsgComposer *composer)
+{
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	composer->autosaved = FALSE;
+}
+
+gboolean
+e_msg_composer_is_autosaved (EMsgComposer *composer)
+{
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+
+	return composer->autosaved;
+}
 
 void
 e_msg_composer_set_enable_autosave  (EMsgComposer *composer, gboolean enabled)
