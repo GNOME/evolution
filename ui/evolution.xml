@@ -105,7 +105,7 @@
 		</submenu>
 	</menu>
 
-	<toolbar name="Toolbar" relief="none"/>
+	<dockitem name="Toolbar" relief="none"/>
 
 	<status>
 		<item name="main"/>

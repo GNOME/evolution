@@ -1,3 +1,7 @@
+2000-10-05  Michael Meeks  <michael@helixcode.com>
+
+	* evolution.xml: fix from Darin toolbar -> dockitem.
+
 2000-10-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* evolution-mail.xml: Add Invert Selection
