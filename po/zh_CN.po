@@ -5,11 +5,12 @@
 # Partly comes from Sun_l10n group, 2003
 # Funda Wang <fundawang@linux.net.cn>, 2003, 2004.
 #
+#: plugins/exchange-account-setup/exchange-account-setup.c:96
 msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-13 12:48+0800\n"
+"POT-Creation-Date: 2005-01-14 23:25+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -333,29 +334,16 @@ msgstr "类别编辑器不可用。"
 #. addressbook:generic-error primary
 #. addressbook:load-error secondary
 #. addressbook:search-error secondary
-#. mail:session-message-info secondary
-#. mail:session-message-info-cancel secondary
-#. mail:session-message-warning secondary
-#. mail:session-message-warning-cancel secondary
-#. mail:session-message-error secondary
-#. mail:session-message-error-cancel secondary
-#. mail:ask-session-password secondary
-#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:28
 #: addressbook/addressbook-errors.xml.h:36
-#: addressbook/addressbook-errors.xml.h:40 mail/mail-errors.xml.h:70
-#: mail/mail-errors.xml.h:72 mail/mail-errors.xml.h:74
-#: mail/mail-errors.xml.h:76 mail/mail-errors.xml.h:78
-#: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
-#: mail/mail-errors.xml.h:88
+#: addressbook/addressbook-errors.xml.h:40
 msgid "{0}"
 msgstr "{0}"
 
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
-#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:30
-#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
+#: composer/mail-composer-errors.xml.h:4
 msgid "{1}"
 msgstr "{1}"
 
@@ -467,6 +455,7 @@ msgstr "认证失败。\n"
 
 #: addressbook/gui/component/addressbook.c:192
 #: plugins/groupwise-account-setup/camel-gw-listener.c:483
+#: plugins/send-options/send-options.c:84
 #, c-format
 msgid "%sEnter password for %s (user %s)"
 msgstr "%s为 %s 输入口令 (用户 %s)"
@@ -780,6 +769,7 @@ msgstr "在此管理您的 S/MIME 证书"
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
 #: plugins/shared-folder/properties.glade.h:3
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
+#: calendar/gui/dialogs/cal-attachment.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -1034,7 +1024,8 @@ msgstr "名片"
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:12
 #: calendar/gui/dialogs/alarm-dialog.glade.h:27
 #: calendar/gui/dialogs/calendar-setup.glade.h:14 filter/filter.glade.h:16
-#: mail/em-account-editor.c:1817 plugins/calendar-http/calendar-http.c:263
+#: mail/em-account-editor.c:1820 plugins/calendar-http/calendar-http.c:263
+#: plugins/calendar-weather/calendar-weather.c:564
 msgid "minutes"
 msgstr "分钟"
 
@@ -2477,6 +2468,7 @@ msgid "_IM Service:"
 msgstr "即时通讯服务(_I)："
 
 #: addressbook/gui/contact-editor/im.glade.h:5
+#: plugins/calendar-weather/calendar-weather.c:410
 msgid "_Location:"
 msgstr "位置(_L)："
 
@@ -3954,8 +3946,6 @@ msgid ""
 msgstr "在您的约会中添加有意义的概览可以让您的收件人更容易明白您约会的内容。"
 
 #: calendar/calendar-errors.xml.h:127 calendar/calendar-errors.xml.h:132
-#: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
-#: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
 msgid "_Send"
 msgstr "发送(_S)"
 
@@ -4311,6 +4301,8 @@ msgstr "销毁较早的事件"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:21
 #: calendar/gui/dialogs/calendar-setup.glade.h:12 filter/filter.glade.h:14
 #: plugins/calendar-http/calendar-http.c:265
+#: plugins/calendar-weather/calendar-weather.c:566
+#: widgets/misc/e-send-options.glade.h:39
 msgid "days"
 msgstr "天数"
 
@@ -4536,6 +4528,7 @@ msgstr "小时"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:25
 #: calendar/gui/dialogs/calendar-setup.glade.h:13 filter/filter.glade.h:15
 #: plugins/calendar-http/calendar-http.c:264
+#: plugins/calendar-weather/calendar-weather.c:565
 msgid "hours"
 msgstr "小时"
 
@@ -4618,6 +4611,7 @@ msgstr "添加任务列表(_A)"
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:9
 #: plugins/calendar-http/calendar-http.c:248
+#: plugins/calendar-weather/calendar-weather.c:549
 msgid "_Refresh:"
 msgstr "刷新(_R)："
 
@@ -4628,6 +4622,7 @@ msgstr "_URL："
 
 #: calendar/gui/dialogs/calendar-setup.glade.h:15 filter/filter.glade.h:21
 #: plugins/calendar-http/calendar-http.c:266
+#: plugins/calendar-weather/calendar-weather.c:567
 msgid "weeks"
 msgstr "周"
 
@@ -5315,6 +5310,8 @@ msgstr "开始时间(_S)："
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
+#: plugins/calendar-weather/calendar-weather.c:371
+#: plugins/calendar-weather/calendar-weather.c:425
 msgid "None"
 msgstr "无"
 
@@ -5337,6 +5334,7 @@ msgstr "授权于(_D)..."
 #: calendar/gui/dialogs/meeting-page.c:781
 #: composer/e-msg-composer-attachment-bar.c:440
 #: plugins/shared-folder/properties.glade.h:19
+#: calendar/gui/dialogs/cal-attachment-bar.c:439
 msgid "_Remove"
 msgstr "删除(_R)"
 
@@ -5650,6 +5648,7 @@ msgid "_Date completed:"
 msgstr "完成日期(_D)："
 
 #: calendar/gui/dialogs/task-details-page.glade.h:13
+#: widgets/misc/e-send-options.glade.h:34
 msgid "_Priority:"
 msgstr "优先级(_P)："
 
@@ -5863,6 +5862,7 @@ msgstr "优先级："
 #: calendar/gui/e-cal-component-preview.c:267
 #: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
+#: calendar/gui/dialogs/cal-attachment.glade.h:3
 msgid "Description:"
 msgstr "描述："
 
@@ -8993,59 +8993,75 @@ msgid "Pacific/Yap"
 msgstr "太平洋/雅浦"
 
 #: composer/e-msg-composer-attachment-bar.c:101
+#: calendar/gui/dialogs/cal-attachment-bar.c:108
 #, c-format
 msgid "%.0fK"
 msgstr "%.0fK"
 
 #: composer/e-msg-composer-attachment-bar.c:104
+#: calendar/gui/dialogs/cal-attachment-bar.c:111
 #, c-format
 msgid "%.0fM"
 msgstr "%.0fM"
 
 #: composer/e-msg-composer-attachment-bar.c:107
+#: calendar/gui/dialogs/cal-attachment-bar.c:114
 #, c-format
 msgid "%.0fG"
 msgstr "%.0fG"
 
 #: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
+#: calendar/gui/dialogs/cal-attachment-bar.c:298
+#: calendar/gui/dialogs/cal-attachment-bar.c:909
 msgid "attachment"
 msgstr "附件"
 
 #: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2758
 #: ui/evolution-mail-list.xml.h:27
+#: calendar/gui/dialogs/cal-attachment-bar.c:440
 msgid "_Properties"
 msgstr "属性(_P)"
 
 #: composer/e-msg-composer-attachment-bar.c:443
+#: calendar/gui/dialogs/cal-attachment-bar.c:442
 msgid "_Add attachment..."
 msgstr "添加附件(_A)..."
 
 #: composer/e-msg-composer-attachment.c:174
 #: composer/e-msg-composer-attachment.c:190
+#: calendar/gui/dialogs/cal-attachment.c:197
+#: calendar/gui/dialogs/cal-attachment.c:213
 #, c-format
 msgid "Cannot attach file %s: %s"
 msgstr "无法附加文件 %s：%s"
 
 #: composer/e-msg-composer-attachment.c:182
+#: calendar/gui/dialogs/cal-attachment.c:205
 #, c-format
 msgid "Cannot attach file %s: not a regular file"
 msgstr "无法附加文件 %s：不是普通文件"
 
 #: composer/e-msg-composer-attachment.glade.h:2
+#: calendar/gui/dialogs/cal-attachment.glade.h:2
 msgid "Attachment Properties"
 msgstr "附件属性"
 
 #: composer/e-msg-composer-attachment.glade.h:4
+#: calendar/gui/dialogs/cal-attachment.glade.h:4
 msgid "File name:"
 msgstr "文件名："
 
 #: composer/e-msg-composer-attachment.glade.h:5
+#: calendar/gui/dialogs/cal-attachment.glade.h:5
 msgid "MIME type:"
 msgstr "MIME 类型："
 
 #: composer/e-msg-composer-attachment.glade.h:6
 #: composer/e-msg-composer-select-file.c:93
 #: composer/e-msg-composer-select-file.c:112
+#: calendar/gui/dialogs/cal-attachment-select-file.c:96
+#: calendar/gui/dialogs/cal-attachment-select-file.c:115
+#: calendar/gui/dialogs/cal-attachment.glade.h:6
 msgid "Suggest automatic display of attachment"
 msgstr "建议自动显示附件"
 
@@ -9202,6 +9218,7 @@ msgid "Post To:"
 msgstr "投递到："
 
 #: composer/e-msg-composer-select-file.c:187
+#: calendar/gui/dialogs/cal-attachment-select-file.c:190
 msgid "Attach file(s)"
 msgstr "添加附件"
 
@@ -9236,14 +9253,11 @@ msgstr "无法从 {0} 获取要附加的信件。"
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
-#. mail:no-create-tmp-path secondary
-#. mail:no-delete-folder secondary
 #. system:no-save-file secondary
 #. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
-#: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
-#: widgets/misc/e-system-errors.xml.h:15
+#: composer/mail-composer-errors.xml.h:42
+#: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr "原因是“{1}”。"
 
@@ -9391,6 +9405,7 @@ msgid "<b>Out of Office Message:</b>"
 msgstr "<b>办公室以外信件：</b>"
 
 #: designs/OOA/ooa.glade.h:5
+#: plugins/exchange-account-setup/exchange-account-setup.c:83
 msgid "<b>Status:</b>"
 msgstr "<b>状态：</b>"
 
@@ -9694,8 +9709,7 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr "无法编译正则表达式“{1}”。"
 
 #. filter:no-name primary
-#. mail:no-name-vfolder primary
-#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
+#: filter/filter-errors.xml.h:18
 msgid "Missing name."
 msgstr "缺少名称。"
 
@@ -9875,24 +9889,24 @@ msgstr ""
 msgid "Select Folder"
 msgstr "选择文件夹"
 
-#: mail/em-account-editor.c:1809
+#: mail/em-account-editor.c:1812
 msgid "Automatically check for _new mail every"
 msgstr "自动检查新邮件的间隔(_N)"
 
 #. Most sections for this is auto-generated fromt the camel config
-#: mail/em-account-editor.c:2078 mail/em-account-editor.c:2156
+#: mail/em-account-editor.c:2081 mail/em-account-editor.c:2159
 msgid "Receiving Options"
 msgstr "接收选项"
 
-#: mail/em-account-editor.c:2079 mail/em-account-editor.c:2157
+#: mail/em-account-editor.c:2082 mail/em-account-editor.c:2160
 msgid "Checking for New Mail"
 msgstr "检查新邮件"
 
-#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:34
+#: mail/em-account-editor.c:2504 mail/mail-config.glade.h:34
 msgid "Account Editor"
 msgstr "账户编辑器"
 
-#: mail/em-account-editor.c:2501 mail/mail-config.glade.h:80
+#: mail/em-account-editor.c:2504 mail/mail-config.glade.h:80
 msgid "Evolution Account Assistant"
 msgstr "Evolution 账户助手"
 
@@ -10236,7 +10250,8 @@ msgid "Create New Folder"
 msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:332
+#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:347
+#: plugins/shared-folder/install-shared.c:144
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -10306,7 +10321,9 @@ msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
 #: mail/em-folder-tree.c:2471 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:332
+#: plugins/shared-folder/share-folder-common.c:347
+#: plugins/shared-folder/install-shared.c:144
+#: plugins/shared-folder/install-shared.c:215
 msgid "Create folder"
 msgstr "创建文件夹"
 
@@ -11795,7 +11812,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1637
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1641
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -12465,577 +12482,6 @@ msgstr "以全部本地和活跃远程文件夹"
 msgid "with all local folders"
 msgstr "以所有本地文件夹"
 
-#. mail:camel-service-auth-invalid primary
-#: mail/mail-errors.xml.h:2
-msgid "Invalid authentication"
-msgstr "无效的身份验证"
-
-#. mail:camel-service-auth-invalid secondary
-#: mail/mail-errors.xml.h:4
-msgid ""
-"This server does not support this type of authentication and may not support "
-"authentication at all."
-msgstr "此服务器不支持此类型的身份验证，而且可能根本不支持身份验证。"
-
-#. mail:camel-service-auth-failed primary
-#: mail/mail-errors.xml.h:6
-msgid "Your login to your server \"{0}\" as \"{0}\" failed."
-msgstr "您以登录到服务器“{0}”失败。"
-
-#. mail:camel-service-auth-failed secondary
-#: mail/mail-errors.xml.h:8
-msgid ""
-"Check to make sure your password is spelled correctly.  Remember that many "
-"passwords are case sensitive; your caps lock might be on."
-msgstr ""
-"选中此处以确保您的密码拼写正确。请记住，很多密码都是区分大小写的；您的 Caps "
-"Lock 灯可能为开。"
-
-#. mail:ask-send-html primary
-#: mail/mail-errors.xml.h:10
-msgid "Are you sure you want to send a message in HTML format?"
-msgstr "您确定想要以 HTML 格式发送信件吗？"
-
-#. mail:ask-send-html secondary
-#: mail/mail-errors.xml.h:12
-msgid ""
-"Please make sure the following recipients are willing and able to receive "
-"HTML email:\n"
-"{0}\n"
-"Send anyway?"
-msgstr ""
-"请确定下列受检人想要并可以接收 HTML 邮件：\n"
-"{0}\n"
-"仍然发送吗？"
-
-#. mail:ask-send-no-subject primary
-#: mail/mail-errors.xml.h:17
-msgid "Are you sure you want to send a message without a subject?"
-msgstr "您确定想要发送没有主题的信件吗？"
-
-#. mail:ask-send-no-subject secondary
-#: mail/mail-errors.xml.h:19
-msgid ""
-"Adding a meaningful Subject line to your messages will give your recipients "
-"an idea of what your mail is about."
-msgstr "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
-
-#. mail:ask-send-only-bcc-contact primary
-#. mail:ask-send-only-bcc primary
-#: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
-msgid "Are you sure you want to send a message with only BCC recipients?"
-msgstr "您确定想要发送只有 BCC 收件人的邮件吗？"
-
-#. mail:ask-send-only-bcc-contact secondary
-#: mail/mail-errors.xml.h:24
-msgid ""
-"The contact list you are sending to is configured to hide list recipients.\n"
-"\n"
-"Many email systems add an Apparently-To header to messages that only have "
-"BCC recipients. This header, if added, will list all of your recipients in "
-"your message. To avoid this, you should add at least one To: or CC: "
-"recipient. "
-msgstr ""
-"您即将发送的联系人列表配置为隐藏列表收件人。\n"
-"\n"
-"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了该"
-"信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 To: "
-"或 CC: 收件人。"
-
-#. mail:ask-send-only-bcc secondary
-#: mail/mail-errors.xml.h:31
-msgid ""
-"Many email systems add an Apparently-To header to messages that only have "
-"BCC recipients. This header, if added, will list all of your recipients to "
-"your message anyway. To avoid this, you should add at least one To: or CC: "
-"recipient."
-msgstr ""
-"许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了该"
-"信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一个 To: "
-"或 CC: 收件人。"
-
-#. mail:send-no-recipients primary
-#: mail/mail-errors.xml.h:34
-msgid ""
-"This message cannot be sent because you have not specified any Recipients"
-msgstr "无法发送这封信，原因是您没有指定任何收件人"
-
-#. mail:send-no-recipients secondary
-#: mail/mail-errors.xml.h:36
-msgid ""
-"Please enter a valid email address in the To: field. You can search for "
-"email addresses by clicking on the To: button next to the entry box."
-msgstr ""
-"请在收件人域中输入有效的电子邮件地址。您可以单击输入框旁边的“收件人：”按钮来"
-"搜索电子邮件地址。"
-
-#. mail:ask-default-drafts primary
-#: mail/mail-errors.xml.h:38
-msgid "Use default drafts folder?"
-msgstr "使用默认草稿文件夹吗？"
-
-#. mail:ask-default-drafts secondary
-#: mail/mail-errors.xml.h:40
-msgid ""
-"Unable to open the drafts folder for this account.  Use the system drafts "
-"folder instead?"
-msgstr "无法打开此账户的草稿文件夹。换用系统的草稿文件夹吗？"
-
-#: mail/mail-errors.xml.h:41
-msgid "Use _Default"
-msgstr "使用默认值(_D)"
-
-#. mail:ask-expunge primary
-#: mail/mail-errors.xml.h:43
-msgid ""
-"Are you sure you want to permanently remove all the deleted message in "
-"folder \"{0}\"?"
-msgstr "您确定想要永久删除文件夹“{0}”中已删除的全部信件？"
-
-#. mail:ask-expunge secondary
-#. mail:ask-empty-trash secondary
-#: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
-msgid "If you continue, you will not be able to recover these messages."
-msgstr "如果您继续的话，您将无法恢复这些信件。"
-
-#: mail/mail-errors.xml.h:46
-msgid "_Expunge"
-msgstr "销毁(_E)"
-
-#. mail:ask-empty-trash primary
-#: mail/mail-errors.xml.h:48
-msgid ""
-"Are you sure you want to permanently remove all the deleted messages in all "
-"folders?"
-msgstr "您确定想要永久删除全部文件夹中已删除的全部信件吗？"
-
-#: mail/mail-errors.xml.h:51
-msgid "_Empty Trash"
-msgstr "清空回收站(_E)"
-
-#. mail:exit-unsaved primary
-#: mail/mail-errors.xml.h:53
-msgid "You have unsent messages, do you wish to quit anyway?"
-msgstr "您有未发的信件，您仍然想要退出吗？"
-
-#. mail:exit-unsaved secondary
-#: mail/mail-errors.xml.h:55
-msgid ""
-"If you quit, these messages will not be sent until Evolution is started "
-"again."
-msgstr "如果您退出的话，这些信件将直到 Evolution 下次启动时才会发出。"
-
-#. mail:camel-exception primary
-#: mail/mail-errors.xml.h:57
-msgid "Your message with the subject \"{0}\" was not delivered."
-msgstr "您主题为“{0}”的信件未投递。"
-
-#. mail:camel-exception secondary
-#: mail/mail-errors.xml.h:59
-msgid ""
-"The message was sent via the \"sendmail\" external application.  Sendmail "
-"reports the following error: status 67: mail not sent.\n"
-"The message is stored in the Outbox folder.  Check the message for errors "
-"and resend."
-msgstr ""
-"信件已通过外部应用程序“sendmail”发送。Sendmail 报告了如下错误：状态 67：邮件"
-"未发送。\n"
-"信件存储于发件箱文件夹中。请检查信件中的错误然后重新发送。"
-
-#. mail:async-error primary
-#: mail/mail-errors.xml.h:62
-msgid "Error while {0}."
-msgstr "{0} 时错误。"
-
-#. mail:async-error secondary
-#: mail/mail-errors.xml.h:64
-msgid "{1}."
-msgstr "{1}。"
-
-#. mail:async-error-nodescribe primary
-#: mail/mail-errors.xml.h:66
-msgid "Error while performing operation."
-msgstr "执行操作时错误。"
-
-#. mail:async-error-nodescribe secondary
-#: mail/mail-errors.xml.h:68
-msgid "{0}."
-msgstr "{0}。"
-
-#. mail:ask-session-password primary
-#: mail/mail-errors.xml.h:82
-msgid "Enter password."
-msgstr "输入密码。"
-
-#. mail:filter-load-error primary
-#: mail/mail-errors.xml.h:86
-msgid "Error loading filter definitions."
-msgstr "装入过滤规则信息错误。"
-
-#. mail:no-save-path primary
-#: mail/mail-errors.xml.h:90
-msgid "Cannot save to directory \"{0}\"."
-msgstr "无法保存到目录“{0}”。"
-
-#. mail:no-create-path primary
-#. mail:no-write-path-exists primary
-#. mail:no-write-path-notfile primary
-#: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
-#: mail/mail-errors.xml.h:106
-msgid "Cannot save to file \"{0}\"."
-msgstr "无法保存到文件“{0}”。"
-
-#. mail:no-create-path secondary
-#: mail/mail-errors.xml.h:96
-msgid "Cannot create the save directory, because \"{1}\""
-msgstr "无法创建保存目录，原因是“{0}”"
-
-#. mail:no-create-tmp-path primary
-#: mail/mail-errors.xml.h:98
-msgid "Cannot create temporary save directory."
-msgstr "无法创建临时保存目录。"
-
-#. mail:no-write-path-exists secondary
-#: mail/mail-errors.xml.h:104
-msgid "File exists but cannot overwrite it."
-msgstr "文件已存在，但无法覆盖。"
-
-#. mail:no-write-path-notfile secondary
-#: mail/mail-errors.xml.h:108
-msgid "File exists but is not a regular file."
-msgstr "文件已存在但并不是普通文件。"
-
-#. mail:no-delete-folder primary
-#: mail/mail-errors.xml.h:110
-msgid "Cannot delete folder \"{0}\"."
-msgstr "无法删除文件夹“{0}”。"
-
-#. mail:no-delete-special-folder primary
-#: mail/mail-errors.xml.h:114
-msgid "Cannot delete system folder \"{0}\"."
-msgstr "无法删除系统文件夹“{0}”。"
-
-#. mail:no-delete-special-folder secondary
-#. mail:no-rename-special-folder secondary
-#: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
-msgid ""
-"System folders are required for Ximian Evolution to function correctly and "
-"cannot be renamed, moved, or deleted."
-msgstr ""
-"Ximian Evolution 需要系统文件夹才能正常工作。您也不应该重命名、移动或删除系统"
-"文件夹。"
-
-#. mail:no-rename-special-folder primary
-#: mail/mail-errors.xml.h:118
-msgid "Cannot rename or move system folder \"{0}\"."
-msgstr "无法重命名或移动系统文件夹“{0}”。"
-
-#. mail:ask-delete-folder title
-#: mail/mail-errors.xml.h:122
-msgid "Delete \"{0}\"?"
-msgstr "删除“{0}”吗？"
-
-#. mail:ask-delete-folder primary
-#: mail/mail-errors.xml.h:124
-msgid "Really delete folder \"{0}\" and all of its subfolders?"
-msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗?？"
-
-#. mail:ask-delete-folder secondary
-#: mail/mail-errors.xml.h:126
-msgid ""
-"If you delete the folder, all of its contents and its subfolders contents "
-"will be deleted permanently."
-msgstr ""
-"如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
-
-#. mail:no-rename-folder-exists primary
-#. mail:no-rename-folder primary
-#: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
-msgid "Cannot rename \"{0}\" to \"{1}\"."
-msgstr "无法将“{0}”重命名为“{1}”。"
-
-#. mail:no-rename-folder-exists secondary
-#. mail:vfolder-notunique secondary
-#: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
-msgid "A folder named \"{1}\" already exists. Please use a different name."
-msgstr "名为“{1}”的文件夹已经存在。请使用不同的名称。"
-
-#. mail:no-rename-folder secondary
-#: mail/mail-errors.xml.h:134
-msgid "Because \"{2}\"."
-msgstr "原因是“{2}”。"
-
-#. mail:no-move-folder-nostore primary
-#. mail:no-move-folder-to-nostore primary
-#: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
-msgid "Cannot move folder \"{0}\" to \"{1}\"."
-msgstr "无法将文件夹“{0}”移动到“{1}”。"
-
-#. mail:no-move-folder-nostore secondary
-#. mail:no-copy-folder-nostore secondary
-#: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
-msgid "Cannot open source \"{2}\"."
-msgstr "无法打开源“{2}”。"
-
-#. mail:no-move-folder-to-nostore secondary
-#. mail:no-copy-folder-to-nostore secondary
-#: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
-msgid "Cannot open target \"{2}\"."
-msgstr "无法打开目标“{2}”。"
-
-#. mail:no-copy-folder-nostore primary
-#. mail:no-copy-folder-to-nostore primary
-#: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
-msgid "Cannot copy folder \"{0}\" to \"{1}\"."
-msgstr "无法将文件夹“{0}”复制到“{1}”。"
-
-#. mail:no-create-folder-nostore primary
-#: mail/mail-errors.xml.h:152
-msgid "Cannot create folder \"{0}\"."
-msgstr "无法创建文件夹“{0}”。"
-
-#. mail:no-create-folder-nostore secondary
-#: mail/mail-errors.xml.h:154
-msgid "Cannot open source \"{1}\""
-msgstr "无法打开源“{1}”"
-
-#. mail:account-incomplete primary
-#. mail:account-notunique primary
-#: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
-msgid "Cannot save changes to account."
-msgstr "无法将更改保存到账户。"
-
-#. mail:account-incomplete secondary
-#: mail/mail-errors.xml.h:158
-msgid "You have not filled in all of the required information."
-msgstr "您还没有填写所有必需的信息。"
-
-#. mail:account-notunique secondary
-#: mail/mail-errors.xml.h:162
-msgid "You may not create two accounts with the same name."
-msgstr "您不能以相同的名字创建两个账户。"
-
-#. mail:ask-delete-account title
-#: mail/mail-errors.xml.h:164
-msgid "Delete account?"
-msgstr "删除账户吗？"
-
-#. mail:ask-delete-account primary
-#: mail/mail-errors.xml.h:166
-msgid "Are you sure you want to delete this account?"
-msgstr "您确定要删除此账户吗？"
-
-#. mail:ask-delete-account secondary
-#: mail/mail-errors.xml.h:168
-msgid "If you proceed, the account information will be deleted permanently."
-msgstr "如果您删除了文件夹，账户信息将会被永久删除。"
-
-#: mail/mail-errors.xml.h:169
-msgid "Don't delete"
-msgstr "不删除"
-
-#. mail:no-save-signature primary
-#: mail/mail-errors.xml.h:171
-msgid "Could not save signature file."
-msgstr "无法保存签名文件。"
-
-#. mail:no-save-signature secondary
-#: mail/mail-errors.xml.h:173
-msgid "Because \"{0}\"."
-msgstr "原因是“{0}”。"
-
-#. mail:signature-notscript primary
-#: mail/mail-errors.xml.h:175
-msgid "Cannot set signature script \"{0}\"."
-msgstr "无法设置签名脚本“{0}”。"
-
-#. mail:signature-notscript secondary
-#: mail/mail-errors.xml.h:177
-msgid "The script file must exist and be executable."
-msgstr "脚本文件必须存在且可执行。"
-
-#. mail:ask-signature-changed title
-#: mail/mail-errors.xml.h:179
-msgid "Discard changed?"
-msgstr "丢弃更改吗？"
-
-#. mail:ask-signature-changed primary
-#: mail/mail-errors.xml.h:181
-msgid "Do you wish to save your changes?"
-msgstr "您希望保存更改吗？"
-
-#. mail:ask-signature-changed secondary
-#: mail/mail-errors.xml.h:183
-msgid "This signature has been changed, but has not been saved."
-msgstr "签名已经更改，但尚未保存。"
-
-#: mail/mail-errors.xml.h:184
-msgid "_Discard changes"
-msgstr "丢弃更改(_D)"
-
-#. mail:vfolder-notexist primary
-#: mail/mail-errors.xml.h:186
-msgid "Cannot edit vFolder \"{0}\" as it does not exist."
-msgstr "无法编辑虚拟文件夹“{0}”，因为它不存在。"
-
-#. mail:vfolder-notexist secondary
-#: mail/mail-errors.xml.h:188
-msgid ""
-"This folder may have been added implictly, go to the virtual folder editor "
-"to add it explictly, if required."
-msgstr "此文件夹可能是隐式添加的。若需要的话，请前往虚拟文件夹编辑器显示添加。"
-
-#. mail:vfolder-notunique primary
-#: mail/mail-errors.xml.h:190
-msgid "Cannot add vFolder \"{0}\"."
-msgstr "无法添加虚拟文件夹“{0}”。"
-
-#. mail:vfolder-updated primary
-#: mail/mail-errors.xml.h:194
-msgid "vFolders automatically updated."
-msgstr "虚拟文件夹已自动更新。"
-
-#. mail:vfolder-updated secondary
-#: mail/mail-errors.xml.h:196
-msgid ""
-"The following vFolder(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"下列虚拟文件夹：\n"
-"{0}\n"
-"使用了新删除的文件夹：\n"
-"   “{1}”\n"
-"因此也将更新。"
-
-#. mail:filter-updated primary
-#: mail/mail-errors.xml.h:202
-msgid "Mail filters automatically updated."
-msgstr "邮件过滤器已自动更新。"
-
-#. mail:filter-updated secondary
-#: mail/mail-errors.xml.h:204
-msgid ""
-"The following filter rule(s):\n"
-"{0}\n"
-"Used the now removed folder:\n"
-"    \"{1}\"\n"
-"And have been updated."
-msgstr ""
-"下列过滤规则：\n"
-"{0}\n"
-"使用了新删除的文件夹：\n"
-"   “{1}”\n"
-"因此也将更新。"
-
-#. mail:no-folder primary
-#: mail/mail-errors.xml.h:210
-msgid "Missing folder."
-msgstr "缺少文件夹。"
-
-#. mail:no-folder secondary
-#: mail/mail-errors.xml.h:212
-msgid "You must specify a folder."
-msgstr "您必须指定文件夹。"
-
-#. mail:no-name-vfolder secondary
-#: mail/mail-errors.xml.h:216
-msgid "You must name this vFolder."
-msgstr "您必须为该虚拟文件夹命名。"
-
-#. mail:vfolder-no-source primary
-#: mail/mail-errors.xml.h:218
-msgid "No sources selected."
-msgstr "没有选定来源。"
-
-#. mail:vfolder-no-source secondary
-#: mail/mail-errors.xml.h:220
-msgid ""
-"You must specify at least one folder as a source.\n"
-"Either by selecting the folders individually, and/or by selecting\n"
-"all local folders, all remote folders, or both."
-msgstr ""
-"您必须至少指定一个文件夹作为来源。\n"
-"您即可以逐一选择文件夹，也可以选择全部本地文件夹、全部远程文件夹或二者。"
-
-#. mail:ask-migrate-existing primary
-#: mail/mail-errors.xml.h:224
-msgid "Problem migrating old mail folder \"{0}\"."
-msgstr "升迁旧的邮件文件夹“{0}”有问题。"
-
-#. mail:ask-migrate-existing secondary
-#: mail/mail-errors.xml.h:226
-msgid ""
-"A non-empty folder at \"{1}\" already exists.\n"
-"\n"
-"You can choose to ignore this folder, overwrite or append its contents, or "
-"quit.\n"
-msgstr ""
-"已经存在非空文件夹“{1}”。\n"
-"\n"
-"您可以选择忽略此文件夹、覆盖、追加内容或退出。\n"
-
-#: mail/mail-errors.xml.h:230
-msgid "Ignore"
-msgstr "忽略"
-
-#: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
-msgid "_Overwrite"
-msgstr "覆盖(_O)"
-
-#: mail/mail-errors.xml.h:232
-msgid "_Append"
-msgstr "追加(_A)"
-
-#. mail:no-load-license primary
-#: mail/mail-errors.xml.h:234
-msgid "Unable to read license file."
-msgstr "无法读取协议文件。"
-
-#. mail:no-load-license secondary
-#: mail/mail-errors.xml.h:236
-msgid ""
-"Cannot read the license file \"{0}\", due to an\n"
-"      installation problem.  You will not be able to use this provider "
-"until\n"
-"      you can accept its license."
-msgstr ""
-"无法读取协议文件“{0}”，可能是安装出现问题。\n"
-"      除非您接受其协议，否则您无法使用此服务。"
-
-#. mail:checking-service title
-#: mail/mail-errors.xml.h:240
-msgid "Querying server"
-msgstr "查询服务器"
-
-#. mail:checking-service primary
-#: mail/mail-errors.xml.h:242
-msgid "Please wait."
-msgstr "请稍候。"
-
-#. mail:checking-service secondary
-#: mail/mail-errors.xml.h:244
-msgid "Querying server for a list of supported authentication mechanisms."
-msgstr "正在查询服务器支持的身份验证机制列表。"
-
-#. mail:gw-accountsetup-error primary
-#: mail/mail-errors.xml.h:246
-msgid ""
-"Unable to connect to the GroupWise\n"
-"server."
-msgstr "无法连接到 GroupWise 服务器。"
-
-#. mail:gw-accountsetup-error secondary
-#: mail/mail-errors.xml.h:249
-msgid ""
-"\n"
-"Please check your account settings and try again.\n"
-msgstr ""
-"\n"
-"请检查您的账户设置然后再试一次。\n"
-
 #: mail/mail-folder-cache.c:813
 #, c-format
 msgid "Pinging %s"
@@ -13540,33 +12986,33 @@ msgstr "备份及恢复 Evolution 的数据和设置"
 msgid "Restore Settings..."
 msgstr "恢复设置..."
 
-#: plugins/bbdb/bbdb.c:387
+#: plugins/bbdb/bbdb.c:388
 msgid "Automatic Contacts"
 msgstr "自动联系人"
 
-#: plugins/bbdb/bbdb.c:396
+#: plugins/bbdb/bbdb.c:397
 msgid "<span weight=\"bold\">Automatic Contacts</span>"
 msgstr "<span weight=\"bold\">自动联系人</span>"
 
 #. Enable BBDB checkbox
-#: plugins/bbdb/bbdb.c:409
+#: plugins/bbdb/bbdb.c:410
 msgid ""
 "_Automatically create entries in the addressbook when responding to mail"
 msgstr "回复邮件时自动在地址簿中创建联系人项(_A)"
 
-#: plugins/bbdb/bbdb.c:427
+#: plugins/bbdb/bbdb.c:428
 msgid "<span weight=\"bold\">Instant Messaging Contacts</span>"
 msgstr "<span weight=\"bold\">即时通讯联系人</span>"
 
 #. Enable Gaim Checkbox
-#: plugins/bbdb/bbdb.c:440
+#: plugins/bbdb/bbdb.c:441
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
 msgstr ""
 
 #. Synchronize now button.
-#: plugins/bbdb/bbdb.c:447
+#: plugins/bbdb/bbdb.c:448
 msgid "Synchronize with _buddy list now"
 msgstr "立即同步好友列表(_B)"
 
@@ -13656,22 +13102,22 @@ msgid ""
 "imported"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1628
+#: plugins/itip-formatter/itip-formatter.c:1632
 msgid "Meetings and Tasks"
 msgstr "会议和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1651
+#: plugins/itip-formatter/itip-formatter.c:1655
 msgid "_Delete message after acting"
 msgstr "操作后删除消息(_D)"
 
-#: plugins/itip-formatter/itip-formatter.c:1661
+#: plugins/itip-formatter/itip-formatter.c:1665
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">冲突搜索</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1674
+#: plugins/itip-formatter/itip-formatter.c:1678
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "选择要搜索冲突会议的日历"
 
@@ -14262,15 +13708,15 @@ msgstr "共享对象(_S)..."
 msgid "_Sharing"
 msgstr "共享(_S)"
 
-#: plugins/shared-folder/share-folder-common.c:303
+#: plugins/shared-folder/share-folder-common.c:316
 msgid "Users"
 msgstr "用户"
 
-#: plugins/shared-folder/share-folder-common.c:304
+#: plugins/shared-folder/share-folder-common.c:317
 msgid "Enter the users and set permissions"
 msgstr "输入用户及设定权限"
 
-#: plugins/shared-folder/share-folder-common.c:382
+#: plugins/shared-folder/share-folder-common.c:397
 msgid "Sharing"
 msgstr "共享"
 
@@ -17196,6 +16642,10 @@ msgstr "文件已存在“{0}”。"
 msgid "Do you wish to overwrite it?"
 msgstr "您打算覆盖它吗？"
 
+#: widgets/misc/e-system-errors.xml.h:7
+msgid "_Overwrite"
+msgstr "覆盖(_O)"
+
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
 msgid "Cannot save file \"{0}\"."
@@ -17215,3 +16665,648 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
+
+#: a11y/widgets/ea-combo-button.c:40
+#, fuzzy
+msgid "Combo Button"
+msgstr "时区按钮"
+
+#: a11y/widgets/ea-combo-button.c:50
+#, fuzzy
+msgid "Activate Default"
+msgstr "使用默认值(_D)"
+
+#: a11y/widgets/ea-combo-button.c:52
+msgid "Popup Menu"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:54
+#: plugins/calendar-weather/calendar-weather.c:60
+msgid "Weather: Cloudy"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:61
+msgid "Weather: Fog"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:62
+msgid "Weather: Partly Cloudy"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:63
+#, fuzzy
+msgid "Weather: Rain"
+msgstr "巴林岛"
+
+#: plugins/calendar-weather/calendar-weather.c:64
+msgid "Weather: Snow"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:65
+msgid "Weather: Sunny"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:66
+msgid "Weather: Thunderstorms"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:100
+#, fuzzy
+msgid "Weather"
+msgstr "稍候"
+
+#: plugins/calendar-weather/calendar-weather.c:268
+#, fuzzy
+msgid "Select a location"
+msgstr "选择一项活动"
+
+#: plugins/calendar-weather/calendar-weather.c:655
+#, fuzzy
+msgid "_Units:"
+msgstr "单位"
+
+#: plugins/calendar-weather/calendar-weather.c:662
+msgid "Metric (Celsius, cm, etc)"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:663
+msgid "Imperial (Fahrenheit, inches, etc)"
+msgstr ""
+
+#. Description section
+#: plugins/exchange-account-setup/exchange-account-setup.c:68
+#, fuzzy
+msgid ""
+"The message specified below will be automatically sent to \n"
+"each person who sends mail to you while you are out of the office."
+msgstr ""
+"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的信件\n"
+"送回。</small>"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:92
+#, fuzzy
+msgid "I am in the office"
+msgstr "我正在办公室内"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:106
+#, fuzzy
+msgid "I am out of the office"
+msgstr "我正在办公室外"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:120
+#, fuzzy
+msgid "Out of office Message:"
+msgstr "<b>办公室以外信件：</b>"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:173
+#, fuzzy
+msgid "Exchange Settings"
+msgstr "设置"
+
+#: plugins/exchange-account-setup/exchange-ask-password.c:120
+#: plugins/exchange-account-setup/exchange-ask-password.c:151
+#, fuzzy
+msgid "_Url:"
+msgstr "_URL："
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
+msgid "Add Send Options to groupwise messages"
+msgstr ""
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
+#: widgets/misc/e-send-options.glade.h:20
+#, fuzzy
+msgid "Send Options"
+msgstr "<b>发送选项</b>"
+
+#. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
+#: plugins/new-mail-notify/new-mail-notify.c:66
+#, fuzzy
+msgid "_Generates a D-BUS message when new mail arrives"
+msgstr "新邮件到达时不要提醒我(_D)"
+
+#: plugins/shared-folder/install-shared.c:215
+#, fuzzy
+msgid "Specify where to postion the folder:"
+msgstr "指定在哪里创建文件夹："
+
+#: widgets/misc/e-send-options.c:505
+#, fuzzy
+msgid "When de_leted:"
+msgstr "%d 封已删除"
+
+#: widgets/misc/e-send-options.glade.h:1
+#, fuzzy
+msgid "<b>Delivery Options</b>"
+msgstr "<b>发送选项</b>"
+
+#: widgets/misc/e-send-options.glade.h:2
+#, fuzzy
+msgid "<b>Replies</b>"
+msgstr "<b>重复</b>"
+
+#: widgets/misc/e-send-options.glade.h:3
+#, fuzzy
+msgid "<b>Return Notification</b>"
+msgstr "<b>身份验证</b>"
+
+#: widgets/misc/e-send-options.glade.h:4
+#, fuzzy
+msgid "<b>Status Tracking</b>"
+msgstr "<b>搜索</b>"
+
+#: widgets/misc/e-send-options.glade.h:5
+msgid "A_uto-delete sent item"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:6
+#, fuzzy
+msgid "C_lassification"
+msgstr "分类(_F)："
+
+#: widgets/misc/e-send-options.glade.h:7
+msgid "Creat_e a sent item to track information"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:8
+#, fuzzy
+msgid "Deli_vered and opened"
+msgstr "回复及原始邮件"
+
+#: widgets/misc/e-send-options.glade.h:9
+#, fuzzy
+msgid "Gene_ral Options"
+msgstr "常规"
+
+#: widgets/misc/e-send-options.glade.h:10
+#, fuzzy
+msgid ""
+"None\n"
+"Mail Receipt"
+msgstr "阅读收条"
+
+#: widgets/misc/e-send-options.glade.h:12
+#, fuzzy
+msgid ""
+"None\n"
+"Mail Receipt\n"
+msgstr "阅读收条"
+
+#: widgets/misc/e-send-options.glade.h:15
+#, fuzzy
+msgid ""
+"Public\n"
+"Private\n"
+"Confidential\n"
+msgstr "机密"
+
+#: widgets/misc/e-send-options.glade.h:19
+#, fuzzy
+msgid "R_eply requested"
+msgstr "回复风格(_R)："
+
+#: widgets/misc/e-send-options.glade.h:21
+msgid "Sta_tus  Tracking"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:22
+msgid ""
+"Undefined\n"
+"High\n"
+"Standard\n"
+"Low"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:26
+#, fuzzy
+msgid "W_ithin"
+msgstr "宽度"
+
+#: widgets/misc/e-send-options.glade.h:27
+msgid "When acce_pted: "
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:28
+#, fuzzy
+msgid "When co_mpleted:"
+msgstr "完成日期(_D)："
+
+#: widgets/misc/e-send-options.glade.h:29
+msgid "When decli_ned:    "
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:30
+#, fuzzy
+msgid "_After:"
+msgstr "之后"
+
+#: widgets/misc/e-send-options.glade.h:31
+#, fuzzy
+msgid "_All information"
+msgstr "任务信息"
+
+#: widgets/misc/e-send-options.glade.h:32
+#, fuzzy
+msgid "_Delay message delivery"
+msgstr "每个额外时间"
+
+#: widgets/misc/e-send-options.glade.h:33
+#, fuzzy
+msgid "_Delivered"
+msgstr "删除(_D)"
+
+#: widgets/misc/e-send-options.glade.h:35
+msgid "_Set expiration  date"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:36
+#, fuzzy
+msgid "_Until:"
+msgstr "无标题"
+
+#: widgets/misc/e-send-options.glade.h:37
+msgid "_When convenient"
+msgstr ""
+
+#: widgets/misc/e-send-options.glade.h:38
+msgid "_When opened:     "
+msgstr ""
+
+#~ msgid "Invalid authentication"
+#~ msgstr "无效的身份验证"
+
+#~ msgid ""
+#~ "This server does not support this type of authentication and may not "
+#~ "support authentication at all."
+#~ msgstr "此服务器不支持此类型的身份验证，而且可能根本不支持身份验证。"
+
+#~ msgid "Your login to your server \"{0}\" as \"{0}\" failed."
+#~ msgstr "您以登录到服务器“{0}”失败。"
+
+#~ msgid ""
+#~ "Check to make sure your password is spelled correctly.  Remember that "
+#~ "many passwords are case sensitive; your caps lock might be on."
+#~ msgstr ""
+#~ "选中此处以确保您的密码拼写正确。请记住，很多密码都是区分大小写的；您的 "
+#~ "Caps Lock 灯可能为开。"
+
+#~ msgid "Are you sure you want to send a message in HTML format?"
+#~ msgstr "您确定想要以 HTML 格式发送信件吗？"
+
+#~ msgid ""
+#~ "Please make sure the following recipients are willing and able to receive "
+#~ "HTML email:\n"
+#~ "{0}\n"
+#~ "Send anyway?"
+#~ msgstr ""
+#~ "请确定下列受检人想要并可以接收 HTML 邮件：\n"
+#~ "{0}\n"
+#~ "仍然发送吗？"
+
+#~ msgid "Are you sure you want to send a message without a subject?"
+#~ msgstr "您确定想要发送没有主题的信件吗？"
+
+#~ msgid ""
+#~ "Adding a meaningful Subject line to your messages will give your "
+#~ "recipients an idea of what your mail is about."
+#~ msgstr ""
+#~ "在您的信件中添加有意义的主题行可以让您的收件人更容易明白您邮件的内容。"
+
+#~ msgid "Are you sure you want to send a message with only BCC recipients?"
+#~ msgstr "您确定想要发送只有 BCC 收件人的邮件吗？"
+
+#~ msgid ""
+#~ "The contact list you are sending to is configured to hide list "
+#~ "recipients.\n"
+#~ "\n"
+#~ "Many email systems add an Apparently-To header to messages that only have "
+#~ "BCC recipients. This header, if added, will list all of your recipients "
+#~ "in your message. To avoid this, you should add at least one To: or CC: "
+#~ "recipient. "
+#~ msgstr ""
+#~ "您即将发送的联系人列表配置为隐藏列表收件人。\n"
+#~ "\n"
+#~ "许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
+#~ "该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一"
+#~ "个 To: 或 CC: 收件人。"
+
+#~ msgid ""
+#~ "Many email systems add an Apparently-To header to messages that only have "
+#~ "BCC recipients. This header, if added, will list all of your recipients "
+#~ "to your message anyway. To avoid this, you should add at least one To: or "
+#~ "CC: recipient."
+#~ msgstr ""
+#~ "许多邮件系统会在只有 Bcc 收件人的信件中添加 Apparently-To 信头。如果添加了"
+#~ "该信头，将在您的邮件中列出您的全部收件人。要避免此特性，您应该至少添加一"
+#~ "个 To: 或 CC: 收件人。"
+
+#~ msgid ""
+#~ "This message cannot be sent because you have not specified any Recipients"
+#~ msgstr "无法发送这封信，原因是您没有指定任何收件人"
+
+#~ msgid ""
+#~ "Please enter a valid email address in the To: field. You can search for "
+#~ "email addresses by clicking on the To: button next to the entry box."
+#~ msgstr ""
+#~ "请在收件人域中输入有效的电子邮件地址。您可以单击输入框旁边的“收件人：”按钮"
+#~ "来搜索电子邮件地址。"
+
+#~ msgid "Use default drafts folder?"
+#~ msgstr "使用默认草稿文件夹吗？"
+
+#~ msgid ""
+#~ "Unable to open the drafts folder for this account.  Use the system drafts "
+#~ "folder instead?"
+#~ msgstr "无法打开此账户的草稿文件夹。换用系统的草稿文件夹吗？"
+
+#~ msgid ""
+#~ "Are you sure you want to permanently remove all the deleted message in "
+#~ "folder \"{0}\"?"
+#~ msgstr "您确定想要永久删除文件夹“{0}”中已删除的全部信件？"
+
+#~ msgid "If you continue, you will not be able to recover these messages."
+#~ msgstr "如果您继续的话，您将无法恢复这些信件。"
+
+#~ msgid "_Expunge"
+#~ msgstr "销毁(_E)"
+
+#~ msgid ""
+#~ "Are you sure you want to permanently remove all the deleted messages in "
+#~ "all folders?"
+#~ msgstr "您确定想要永久删除全部文件夹中已删除的全部信件吗？"
+
+#~ msgid "_Empty Trash"
+#~ msgstr "清空回收站(_E)"
+
+#~ msgid "You have unsent messages, do you wish to quit anyway?"
+#~ msgstr "您有未发的信件，您仍然想要退出吗？"
+
+#~ msgid ""
+#~ "If you quit, these messages will not be sent until Evolution is started "
+#~ "again."
+#~ msgstr "如果您退出的话，这些信件将直到 Evolution 下次启动时才会发出。"
+
+#~ msgid "Your message with the subject \"{0}\" was not delivered."
+#~ msgstr "您主题为“{0}”的信件未投递。"
+
+#~ msgid ""
+#~ "The message was sent via the \"sendmail\" external application.  Sendmail "
+#~ "reports the following error: status 67: mail not sent.\n"
+#~ "The message is stored in the Outbox folder.  Check the message for errors "
+#~ "and resend."
+#~ msgstr ""
+#~ "信件已通过外部应用程序“sendmail”发送。Sendmail 报告了如下错误：状态 67：邮"
+#~ "件未发送。\n"
+#~ "信件存储于发件箱文件夹中。请检查信件中的错误然后重新发送。"
+
+#~ msgid "Error while {0}."
+#~ msgstr "{0} 时错误。"
+
+#~ msgid "{1}."
+#~ msgstr "{1}。"
+
+#~ msgid "Error while performing operation."
+#~ msgstr "执行操作时错误。"
+
+#~ msgid "{0}."
+#~ msgstr "{0}。"
+
+#~ msgid "Enter password."
+#~ msgstr "输入密码。"
+
+#~ msgid "Error loading filter definitions."
+#~ msgstr "装入过滤规则信息错误。"
+
+#~ msgid "Cannot save to directory \"{0}\"."
+#~ msgstr "无法保存到目录“{0}”。"
+
+#~ msgid "Cannot save to file \"{0}\"."
+#~ msgstr "无法保存到文件“{0}”。"
+
+#~ msgid "Cannot create the save directory, because \"{1}\""
+#~ msgstr "无法创建保存目录，原因是“{0}”"
+
+#~ msgid "Cannot create temporary save directory."
+#~ msgstr "无法创建临时保存目录。"
+
+#~ msgid "File exists but cannot overwrite it."
+#~ msgstr "文件已存在，但无法覆盖。"
+
+#~ msgid "File exists but is not a regular file."
+#~ msgstr "文件已存在但并不是普通文件。"
+
+#~ msgid "Cannot delete folder \"{0}\"."
+#~ msgstr "无法删除文件夹“{0}”。"
+
+#~ msgid "Cannot delete system folder \"{0}\"."
+#~ msgstr "无法删除系统文件夹“{0}”。"
+
+#~ msgid ""
+#~ "System folders are required for Ximian Evolution to function correctly "
+#~ "and cannot be renamed, moved, or deleted."
+#~ msgstr ""
+#~ "Ximian Evolution 需要系统文件夹才能正常工作。您也不应该重命名、移动或删除"
+#~ "系统文件夹。"
+
+#~ msgid "Cannot rename or move system folder \"{0}\"."
+#~ msgstr "无法重命名或移动系统文件夹“{0}”。"
+
+#~ msgid "Delete \"{0}\"?"
+#~ msgstr "删除“{0}”吗？"
+
+#~ msgid "Really delete folder \"{0}\" and all of its subfolders?"
+#~ msgstr "真的要删除文件夹“{0}”及其全部子文件夹吗?？"
+
+#~ msgid ""
+#~ "If you delete the folder, all of its contents and its subfolders contents "
+#~ "will be deleted permanently."
+#~ msgstr ""
+#~ "如果您删除了文件夹，其中的全部内容及其子文件夹的全部内容都将会被永久删除。"
+
+#~ msgid "Cannot rename \"{0}\" to \"{1}\"."
+#~ msgstr "无法将“{0}”重命名为“{1}”。"
+
+#~ msgid "A folder named \"{1}\" already exists. Please use a different name."
+#~ msgstr "名为“{1}”的文件夹已经存在。请使用不同的名称。"
+
+#~ msgid "Because \"{2}\"."
+#~ msgstr "原因是“{2}”。"
+
+#~ msgid "Cannot move folder \"{0}\" to \"{1}\"."
+#~ msgstr "无法将文件夹“{0}”移动到“{1}”。"
+
+#~ msgid "Cannot open source \"{2}\"."
+#~ msgstr "无法打开源“{2}”。"
+
+#~ msgid "Cannot open target \"{2}\"."
+#~ msgstr "无法打开目标“{2}”。"
+
+#~ msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+#~ msgstr "无法将文件夹“{0}”复制到“{1}”。"
+
+#~ msgid "Cannot create folder \"{0}\"."
+#~ msgstr "无法创建文件夹“{0}”。"
+
+#~ msgid "Cannot open source \"{1}\""
+#~ msgstr "无法打开源“{1}”"
+
+#~ msgid "Cannot save changes to account."
+#~ msgstr "无法将更改保存到账户。"
+
+#~ msgid "You have not filled in all of the required information."
+#~ msgstr "您还没有填写所有必需的信息。"
+
+#~ msgid "You may not create two accounts with the same name."
+#~ msgstr "您不能以相同的名字创建两个账户。"
+
+#~ msgid "Delete account?"
+#~ msgstr "删除账户吗？"
+
+#~ msgid "Are you sure you want to delete this account?"
+#~ msgstr "您确定要删除此账户吗？"
+
+#~ msgid "If you proceed, the account information will be deleted permanently."
+#~ msgstr "如果您删除了文件夹，账户信息将会被永久删除。"
+
+#~ msgid "Don't delete"
+#~ msgstr "不删除"
+
+#~ msgid "Could not save signature file."
+#~ msgstr "无法保存签名文件。"
+
+#~ msgid "Because \"{0}\"."
+#~ msgstr "原因是“{0}”。"
+
+#~ msgid "Cannot set signature script \"{0}\"."
+#~ msgstr "无法设置签名脚本“{0}”。"
+
+#~ msgid "The script file must exist and be executable."
+#~ msgstr "脚本文件必须存在且可执行。"
+
+#~ msgid "Discard changed?"
+#~ msgstr "丢弃更改吗？"
+
+#~ msgid "Do you wish to save your changes?"
+#~ msgstr "您希望保存更改吗？"
+
+#~ msgid "This signature has been changed, but has not been saved."
+#~ msgstr "签名已经更改，但尚未保存。"
+
+#~ msgid "_Discard changes"
+#~ msgstr "丢弃更改(_D)"
+
+#~ msgid "Cannot edit vFolder \"{0}\" as it does not exist."
+#~ msgstr "无法编辑虚拟文件夹“{0}”，因为它不存在。"
+
+#~ msgid ""
+#~ "This folder may have been added implictly, go to the virtual folder "
+#~ "editor to add it explictly, if required."
+#~ msgstr ""
+#~ "此文件夹可能是隐式添加的。若需要的话，请前往虚拟文件夹编辑器显示添加。"
+
+#~ msgid "Cannot add vFolder \"{0}\"."
+#~ msgstr "无法添加虚拟文件夹“{0}”。"
+
+#~ msgid "vFolders automatically updated."
+#~ msgstr "虚拟文件夹已自动更新。"
+
+#~ msgid ""
+#~ "The following vFolder(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "下列虚拟文件夹：\n"
+#~ "{0}\n"
+#~ "使用了新删除的文件夹：\n"
+#~ "   “{1}”\n"
+#~ "因此也将更新。"
+
+#~ msgid "Mail filters automatically updated."
+#~ msgstr "邮件过滤器已自动更新。"
+
+#~ msgid ""
+#~ "The following filter rule(s):\n"
+#~ "{0}\n"
+#~ "Used the now removed folder:\n"
+#~ "    \"{1}\"\n"
+#~ "And have been updated."
+#~ msgstr ""
+#~ "下列过滤规则：\n"
+#~ "{0}\n"
+#~ "使用了新删除的文件夹：\n"
+#~ "   “{1}”\n"
+#~ "因此也将更新。"
+
+#~ msgid "Missing folder."
+#~ msgstr "缺少文件夹。"
+
+#~ msgid "You must specify a folder."
+#~ msgstr "您必须指定文件夹。"
+
+#~ msgid "You must name this vFolder."
+#~ msgstr "您必须为该虚拟文件夹命名。"
+
+#~ msgid "No sources selected."
+#~ msgstr "没有选定来源。"
+
+#~ msgid ""
+#~ "You must specify at least one folder as a source.\n"
+#~ "Either by selecting the folders individually, and/or by selecting\n"
+#~ "all local folders, all remote folders, or both."
+#~ msgstr ""
+#~ "您必须至少指定一个文件夹作为来源。\n"
+#~ "您即可以逐一选择文件夹，也可以选择全部本地文件夹、全部远程文件夹或二者。"
+
+#~ msgid "Problem migrating old mail folder \"{0}\"."
+#~ msgstr "升迁旧的邮件文件夹“{0}”有问题。"
+
+#~ msgid ""
+#~ "A non-empty folder at \"{1}\" already exists.\n"
+#~ "\n"
+#~ "You can choose to ignore this folder, overwrite or append its contents, "
+#~ "or quit.\n"
+#~ msgstr ""
+#~ "已经存在非空文件夹“{1}”。\n"
+#~ "\n"
+#~ "您可以选择忽略此文件夹、覆盖、追加内容或退出。\n"
+
+#~ msgid "Ignore"
+#~ msgstr "忽略"
+
+#~ msgid "_Append"
+#~ msgstr "追加(_A)"
+
+#~ msgid "Unable to read license file."
+#~ msgstr "无法读取协议文件。"
+
+#~ msgid ""
+#~ "Cannot read the license file \"{0}\", due to an\n"
+#~ "      installation problem.  You will not be able to use this provider "
+#~ "until\n"
+#~ "      you can accept its license."
+#~ msgstr ""
+#~ "无法读取协议文件“{0}”，可能是安装出现问题。\n"
+#~ "      除非您接受其协议，否则您无法使用此服务。"
+
+#~ msgid "Querying server"
+#~ msgstr "查询服务器"
+
+#~ msgid "Please wait."
+#~ msgstr "请稍候。"
+
+#~ msgid "Querying server for a list of supported authentication mechanisms."
+#~ msgstr "正在查询服务器支持的身份验证机制列表。"
+
+#~ msgid ""
+#~ "Unable to connect to the GroupWise\n"
+#~ "server."
+#~ msgstr "无法连接到 GroupWise 服务器。"
+
+#~ msgid ""
+#~ "\n"
+#~ "Please check your account settings and try again.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "请检查您的账户设置然后再试一次。\n"
