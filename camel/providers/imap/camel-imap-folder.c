@@ -180,8 +180,11 @@ CamelFolder *
 camel_imap_folder_new (CamelStore *parent, char *folder_name, CamelException *ex)
 {
 	CamelFolder *folder = CAMEL_FOLDER (gtk_object_new (camel_imap_folder_get_type (), NULL));
+	char *dir_sep;
+
+	dir_sep = CAMEL_IMAP_STORE (parent)->dir_sep;
 	
-	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, "/", FALSE, ex);
+	CF_CLASS (folder)->init (folder, parent, NULL, folder_name, dir_sep, FALSE, ex);
 
 	return folder;
 }

@@ -1,3 +1,8 @@
+2000-07-15  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* providers/imap/camel-imap-folder.c (camel_imap_folder_new): 
+	One last fix to get rid of hard-coded "/" directory separators
+
 2000-07-14  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* string-utils.c (string_unquote): New convenience function
