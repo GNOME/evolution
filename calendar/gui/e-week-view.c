@@ -2846,6 +2846,7 @@ e_week_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 	CalComponent *comp, *new_comp;
 	CalComponentDateTime *date;
 	GSList *list;
+
 	week_view = E_WEEK_VIEW (data);
 	
 	if (week_view->popup_event_num == -1)

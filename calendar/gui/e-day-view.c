@@ -2528,16 +2528,14 @@ e_day_view_on_unrecur_appointment (GtkWidget *widget, gpointer data)
 
 	date = g_new0 (CalComponentDateTime, 1);	
 	date->value = g_new (struct icaltimetype, 1);
+
 	*date->value = icaltimetype_from_timet (event->start, FALSE);
 	cal_component_set_dtstart (new_comp, date);
 	*date->value = icaltimetype_from_timet (event->end, FALSE);
 	cal_component_set_dtend (new_comp, date);
-	g_free (date->value);
-	g_free (date);
-	
-	//new_ico->dtstart = event->start;
-	//new_ico->dtend   = event->end;
 
+	cal_component_free_datetime (date);
+	
 	/* Now update both CalComponents. Note that we do this last since at
 	 * present the updates happen synchronously so our event may disappear.
 	 */
@@ -5711,4 +5709,8 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 
 	gtk_drag_finish (context, FALSE, FALSE, time);
 }
+
+
+
+
 
