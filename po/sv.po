@@ -6,13 +6,13 @@
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 # Johan Dahlin <zilch.am@home.se>, 2001.
 #
-# $Id: sv.po,v 1.183.2.5 2003/07/30 23:43:57 menthos Exp $
+# $Id: sv.po,v 1.183.2.6 2003/08/06 12:41:14 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2003-07-31 01:40+0200\n"
-"PO-Revision-Date: 2003-07-31 01:42+0200\n"
+"POT-Creation-Date: 2003-08-06 14:27+0200\n"
+"PO-Revision-Date: 2003-08-06 14:40+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1463,8 +1463,9 @@ msgstr "_Kategorier..."
 #: calendar/gui/dialogs/meeting-page.c:717 calendar/gui/e-calendar-table.c:977
 #: calendar/gui/e-day-view.c:3757 calendar/gui/e-week-view.c:3725
 #: mail/folder-browser.c:1812 ui/evolution-addressbook.xml.h:32
-#: ui/evolution-calendar.xml.h:30 ui/evolution-mail-message.xml.h:97
-#: ui/evolution-tasks.xml.h:17 ui/evolution.xml.h:45
+#: ui/evolution-calendar.xml.h:30 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-mail-message.xml.h:97 ui/evolution-tasks.xml.h:17
+#: ui/evolution.xml.h:45
 msgid "_Delete"
 msgstr "_Ta bort"
 
@@ -3971,7 +3972,7 @@ msgstr ""
 
 #. An empty string is the same as 'None'.
 #: calendar/gui/calendar-model.c:1176 calendar/gui/dialogs/meeting-page.c:330
-#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2065
+#: calendar/gui/dialogs/meeting-page.glade.h:2 composer/e-msg-composer.c:2067
 #: mail/folder-browser.c:1774 mail/mail-account-gui.c:1260
 #: mail/mail-account-gui.c:1692 mail/mail-accounts.c:442
 #: mail/mail-config.glade.h:76
@@ -4123,11 +4124,11 @@ msgstr "Grundläggande"
 msgid "Date/Time:"
 msgstr "Datum/tid:"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:461
+#: calendar/gui/dialogs/alarm-page.glade.h:3 calendar/gui/e-alarm-list.c:462
 msgid "Display a message"
 msgstr "Visa ett meddelande"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:457
+#: calendar/gui/dialogs/alarm-page.glade.h:4 calendar/gui/e-alarm-list.c:458
 msgid "Play a sound"
 msgstr "Spela ett ljud"
 
@@ -4135,7 +4136,7 @@ msgstr "Spela ett ljud"
 msgid "Reminders"
 msgstr "Påminnelser"
 
-#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:469
+#: calendar/gui/dialogs/alarm-page.glade.h:6 calendar/gui/e-alarm-list.c:470
 msgid "Run a program"
 msgstr "Kör ett program"
 
@@ -4547,7 +4548,7 @@ msgstr "Ingen sammanfattning"
 
 #: calendar/gui/dialogs/comp-editor.c:1281
 #: calendar/gui/e-calendar-table.c:1068 calendar/gui/e-day-view.c:3995
-#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1169
+#: calendar/gui/e-week-view.c:3934 composer/e-msg-composer.c:1171
 msgid "Save as..."
 msgstr "Spara som..."
 
@@ -4725,9 +4726,8 @@ msgid "Classification"
 msgstr "Klassifikation"
 
 #: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:4
-msgid "Con_fidential"
-msgstr "_Konfidentiellt"
+msgid "Co_nfidential"
+msgstr "Ko_nfidentiellt"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 #: calendar/gui/dialogs/task-page.glade.h:5
@@ -5000,7 +5000,7 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1566
+#: calendar/gui/dialogs/save-comp.c:58 composer/e-msg-composer.c:1568
 msgid "_Discard Changes"
 msgstr "_Förkasta ändringar"
 
@@ -5072,6 +5072,10 @@ msgstr "Förfallodatumet är fel"
 msgid "Due date is before start date!"
 msgstr "Förfallodatumet är före startdatumet!"
 
+#: calendar/gui/dialogs/task-page.glade.h:4
+msgid "Con_fidential"
+msgstr "_Konfidentiellt"
+
 #: calendar/gui/dialogs/task-page.glade.h:6 calendar/gui/e-itip-control.c:1107
 #: calendar/gui/e-itip-control.glade.h:6
 #: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:43
@@ -5086,95 +5090,95 @@ msgstr "Sta_rtdatum:"
 msgid "_Due Date:"
 msgstr "Förfallo_datum:"
 
-#: calendar/gui/e-alarm-list.c:393
+#: calendar/gui/e-alarm-list.c:394
 #, c-format
 msgid "%d days"
 msgstr "%d dagar"
 
-#: calendar/gui/e-alarm-list.c:396
+#: calendar/gui/e-alarm-list.c:397
 msgid "1 day"
 msgstr "1 dag"
 
-#: calendar/gui/e-alarm-list.c:401
+#: calendar/gui/e-alarm-list.c:402
 #, c-format
 msgid "%d weeks"
 msgstr "%d veckor"
 
-#: calendar/gui/e-alarm-list.c:404
+#: calendar/gui/e-alarm-list.c:405
 msgid "1 week"
 msgstr "1 vecka"
 
-#: calendar/gui/e-alarm-list.c:409
+#: calendar/gui/e-alarm-list.c:410
 #, c-format
 msgid "%d hours"
 msgstr "%d timmar"
 
-#: calendar/gui/e-alarm-list.c:412
+#: calendar/gui/e-alarm-list.c:413
 msgid "1 hour"
 msgstr "1 timme"
 
-#: calendar/gui/e-alarm-list.c:417
+#: calendar/gui/e-alarm-list.c:418
 #, c-format
 msgid "%d minutes"
 msgstr "%d minuter"
 
-#: calendar/gui/e-alarm-list.c:420
+#: calendar/gui/e-alarm-list.c:421
 msgid "1 minute"
 msgstr "1 minut"
 
-#: calendar/gui/e-alarm-list.c:425
+#: calendar/gui/e-alarm-list.c:426
 #, c-format
 msgid "%d seconds"
 msgstr "%d sekunder"
 
-#: calendar/gui/e-alarm-list.c:428
+#: calendar/gui/e-alarm-list.c:429
 msgid "1 second"
 msgstr "1 sekund"
 
-#: calendar/gui/e-alarm-list.c:465
+#: calendar/gui/e-alarm-list.c:466
 msgid "Send an email"
 msgstr "Skicka ett brev"
 
-#: calendar/gui/e-alarm-list.c:475
+#: calendar/gui/e-alarm-list.c:476
 msgid "Unknown action to be performed"
 msgstr "Okänd åtgärd att utföra"
 
-#: calendar/gui/e-alarm-list.c:487
+#: calendar/gui/e-alarm-list.c:488
 #, c-format
 msgid "%s %s before the start of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-#: calendar/gui/e-alarm-list.c:490
+#: calendar/gui/e-alarm-list.c:491
 #, c-format
 msgid "%s %s after the start of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-#: calendar/gui/e-alarm-list.c:495
+#: calendar/gui/e-alarm-list.c:496
 #, c-format
 msgid "%s at the start of the appointment"
 msgstr "%s innan starten på mötet"
 
-#: calendar/gui/e-alarm-list.c:504
+#: calendar/gui/e-alarm-list.c:505
 #, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "%s %s innan starten på mötet"
 
-#: calendar/gui/e-alarm-list.c:507
+#: calendar/gui/e-alarm-list.c:508
 #, c-format
 msgid "%s %s after the end of the appointment"
 msgstr "%s %s efter slut på mötet"
 
-#: calendar/gui/e-alarm-list.c:512
+#: calendar/gui/e-alarm-list.c:513
 #, c-format
 msgid "%s at the end of the appointment"
 msgstr "%s efter slut på mötet"
 
-#: calendar/gui/e-alarm-list.c:536
+#: calendar/gui/e-alarm-list.c:537
 #, c-format
 msgid "%s at %s"
 msgstr "%s vid %s"
 
-#: calendar/gui/e-alarm-list.c:542
+#: calendar/gui/e-alarm-list.c:543
 #, c-format
 msgid "%s for an unknown trigger type"
 msgstr "%s för en okänd triggertyp"
@@ -5241,8 +5245,9 @@ msgstr "_Spara som..."
 #: calendar/gui/e-calendar-table.c:960 calendar/gui/e-day-view.c:3741
 #: calendar/gui/e-week-view.c:3682 calendar/gui/e-week-view.c:3709
 #: ui/evolution-addressbook.xml.h:38 ui/evolution-calendar.xml.h:33
-#: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:108
-#: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
+#: ui/evolution-comp-editor.xml.h:19 ui/evolution-contact-editor.xml.h:14
+#: ui/evolution-mail-message.xml.h:108 ui/evolution-tasks.xml.h:21
+#: ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "Skriv _ut..."
 
@@ -5410,7 +5415,7 @@ msgstr "Nytt sammanträde"
 msgid "New Task"
 msgstr "Ny uppgift"
 
-#: calendar/gui/e-day-view.c:3707 ui/evolution-comp-editor.xml.h:11
+#: calendar/gui/e-day-view.c:3707
 msgid "Print..."
 msgstr "Skriv ut..."
 
@@ -5603,7 +5608,7 @@ msgstr "Avböjt"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:928 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Okänd"
 
@@ -10568,11 +10573,11 @@ msgstr "Postdestination"
 msgid "Attach file(s)"
 msgstr "Bifoga fil(er)"
 
-#: composer/e-msg-composer.c:540
+#: composer/e-msg-composer.c:542
 msgid "Could not create a PGP signature context"
 msgstr "Kunde inte skapa ett PGP-signatursammanhang"
 
-#: composer/e-msg-composer.c:819
+#: composer/e-msg-composer.c:821
 #, c-format
 msgid ""
 "Error while reading file %s:\n"
@@ -10581,30 +10586,30 @@ msgstr ""
 "Fel vid läsning av filen %s:\n"
 "%s"
 
-#: composer/e-msg-composer.c:1182
+#: composer/e-msg-composer.c:1184
 msgid "File exists, overwrite?"
 msgstr "Filen finns, skriv över?"
 
-#: composer/e-msg-composer.c:1200
+#: composer/e-msg-composer.c:1202
 #, c-format
 msgid "Error saving file: %s"
 msgstr "Fel vid sparande av filen: %s"
 
-#: composer/e-msg-composer.c:1223
+#: composer/e-msg-composer.c:1225
 #, c-format
 msgid "Error loading file: %s"
 msgstr "Fel vid inläsning av filen: %s"
 
-#: composer/e-msg-composer.c:1261
+#: composer/e-msg-composer.c:1263
 #, c-format
 msgid "Error accessing file: %s"
 msgstr "Fel vid åtkomst av filen: %s"
 
-#: composer/e-msg-composer.c:1269
+#: composer/e-msg-composer.c:1271
 msgid "Unable to retrieve message from editor"
 msgstr "Kunde inte hämta meddelande från redigeraren"
 
-#: composer/e-msg-composer.c:1276
+#: composer/e-msg-composer.c:1278
 #, c-format
 msgid ""
 "Unable to seek on file: %s\n"
@@ -10613,7 +10618,7 @@ msgstr ""
 "Kan inte spola filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1283
+#: composer/e-msg-composer.c:1285
 #, c-format
 msgid ""
 "Unable to truncate file: %s\n"
@@ -10622,7 +10627,7 @@ msgstr ""
 "Kan inte trunkera filen: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1292
+#: composer/e-msg-composer.c:1294
 #, c-format
 msgid ""
 "Unable to copy file descriptor: %s\n"
@@ -10631,7 +10636,7 @@ msgstr ""
 "Kan inte kopiera filhandtag: %s\n"
 "%s"
 
-#: composer/e-msg-composer.c:1301
+#: composer/e-msg-composer.c:1303
 #, c-format
 msgid ""
 "Error autosaving message: %s\n"
@@ -10640,7 +10645,7 @@ msgstr ""
 "Fel vid automatiskt sparande av meddelande: %s\n"
 " %s"
 
-#: composer/e-msg-composer.c:1398
+#: composer/e-msg-composer.c:1400
 msgid ""
 "Ximian Evolution has found unsaved files from a previous session.\n"
 "Would you like to try to recover them?"
@@ -10648,7 +10653,7 @@ msgstr ""
 "Ximian Evolution har hittat osparade filer från en tidigare session.\n"
 "Vill du försöka återställa dem?"
 
-#: composer/e-msg-composer.c:1561
+#: composer/e-msg-composer.c:1563
 #, c-format
 msgid ""
 "The message \"%s\" has not been sent.\n"
@@ -10659,23 +10664,23 @@ msgstr ""
 "\n"
 "Vill du spara dina ändringar?"
 
-#: composer/e-msg-composer.c:1570
+#: composer/e-msg-composer.c:1572
 msgid "Warning: Modified Message"
 msgstr "Varning: Ändrat meddelande"
 
-#: composer/e-msg-composer.c:1602
+#: composer/e-msg-composer.c:1604
 msgid "Open file"
 msgstr "Öppna fil"
 
-#: composer/e-msg-composer.c:2026
+#: composer/e-msg-composer.c:2028
 msgid "Signature:"
 msgstr "Signatur:"
 
-#: composer/e-msg-composer.c:2066 mail/mail-account-gui.c:1261
+#: composer/e-msg-composer.c:2068 mail/mail-account-gui.c:1261
 msgid "Autogenerated"
 msgstr "Automatiskt genererad"
 
-#: composer/e-msg-composer.c:2242 composer/e-msg-composer.c:2911
+#: composer/e-msg-composer.c:2244 composer/e-msg-composer.c:2911
 #: composer/e-msg-composer.c:2912
 msgid "Compose a message"
 msgstr "Skriv ett meddelande"
@@ -11876,7 +11881,7 @@ msgstr "Egenskaper för \"%s\""
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:917
+#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kunde inte skapa temporär katalog: %s"
@@ -13138,61 +13143,61 @@ msgstr "Spara bilaga"
 msgid "Could not create temporary file '%s': %s"
 msgstr "Kunde inte skapa temporär fil \"%s\": %s"
 
-#: mail/mail-display.c:476
+#: mail/mail-display.c:480
 msgid "Save Attachment..."
 msgstr "Spara bilaga..."
 
-#: mail/mail-display.c:477
+#: mail/mail-display.c:481
 msgid "View Inline"
 msgstr "Visa inuti"
 
-#: mail/mail-display.c:478
+#: mail/mail-display.c:482
 #, c-format
 msgid "Open in %s..."
 msgstr "Öppna i %s..."
 
-#: mail/mail-display.c:538
+#: mail/mail-display.c:542
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "Visa inuti (med %s)"
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 msgid "Hide"
 msgstr "Dölj"
 
-#: mail/mail-display.c:562
+#: mail/mail-display.c:566
 msgid "External Viewer"
 msgstr "Externt visningsprogram"
 
-#: mail/mail-display.c:1348
+#: mail/mail-display.c:1352
 msgid "Downloading images"
 msgstr "Hämtar bilder"
 
-#: mail/mail-display.c:1525
+#: mail/mail-display.c:1529
 msgid "Loading message content"
 msgstr "Läser in meddelandeinnehåll"
 
-#: mail/mail-display.c:1867
+#: mail/mail-display.c:1871
 msgid "Overdue:"
 msgstr "Skulle ha utförts:"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "by %B %d, %Y, %l:%M %P"
 msgstr "den %d %B %Y %H.%M"
 
-#: mail/mail-display.c:2235
+#: mail/mail-display.c:2239
 msgid "Open Link in Browser"
 msgstr "Öppna länk i webbläsare"
 
-#: mail/mail-display.c:2236
+#: mail/mail-display.c:2240
 msgid "Copy Link Location"
 msgstr "Kopiera länkplats"
 
-#: mail/mail-display.c:2238
+#: mail/mail-display.c:2242
 msgid "Save Link as (FIXME)"
 msgstr "Spara länk som (FIXME)"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Save Image as..."
 msgstr "Spara bild som..."
 
@@ -13410,64 +13415,64 @@ msgstr "Kopierar meddelanden till %s"
 msgid "Scanning folders in \"%s\""
 msgstr "Genomsöker mappar i \"%s\""
 
-#: mail/mail-ops.c:1225
+#: mail/mail-ops.c:1230
 msgid "Forwarded messages"
 msgstr "Vidarebefordrade meddelanden"
 
-#: mail/mail-ops.c:1268
+#: mail/mail-ops.c:1273
 #, c-format
 msgid "Opening folder %s"
 msgstr "Öppnar mappen %s"
 
-#: mail/mail-ops.c:1340
+#: mail/mail-ops.c:1345
 #, c-format
 msgid "Opening store %s"
 msgstr "Öppnar lagret %s"
 
-#: mail/mail-ops.c:1413
+#: mail/mail-ops.c:1423
 #, c-format
 msgid "Removing folder %s"
 msgstr "Byter namn på mappen %s"
 
-#: mail/mail-ops.c:1507
+#: mail/mail-ops.c:1517
 #, c-format
 msgid "Storing folder '%s'"
 msgstr "Lagrar mappen \"%s\""
 
-#: mail/mail-ops.c:1558
+#: mail/mail-ops.c:1568
 msgid "Refreshing folder"
 msgstr "Uppdaterar mapp"
 
-#: mail/mail-ops.c:1594 mail/mail-ops.c:1645
+#: mail/mail-ops.c:1604 mail/mail-ops.c:1655
 msgid "Expunging folder"
 msgstr "Tömmer mapp"
 
-#: mail/mail-ops.c:1642
+#: mail/mail-ops.c:1652
 #, c-format
 msgid "Emptying trash in '%s'"
 msgstr "Tömmer papperskorgen i \"%s\""
 
-#: mail/mail-ops.c:1643 my-evolution/e-summary-mail.c:483
+#: mail/mail-ops.c:1653 my-evolution/e-summary-mail.c:483
 #: shell/e-local-storage.c:1151
 msgid "Local Folders"
 msgstr "Lokala mappar"
 
-#: mail/mail-ops.c:1718
+#: mail/mail-ops.c:1728
 #, c-format
 msgid "Retrieving message %s"
 msgstr "Hämtar meddelande %s"
 
-#: mail/mail-ops.c:1790
+#: mail/mail-ops.c:1800
 #, c-format
 msgid "Retrieving %d message(s)"
 msgstr "Hämtar %d meddelande(n)"
 
-#: mail/mail-ops.c:1876
+#: mail/mail-ops.c:1886
 #, c-format
 msgid "Saving %d messsage(s)"
 msgstr "Sparar %d meddelande(n)"
 
-#: mail/mail-ops.c:1924
+#: mail/mail-ops.c:1934
 #, c-format
 msgid ""
 "Unable to create output file: %s\n"
@@ -13476,7 +13481,7 @@ msgstr ""
 "Kan inte spara utdatafilen: %s\n"
 " %s"
 
-#: mail/mail-ops.c:1952
+#: mail/mail-ops.c:1962
 #, c-format
 msgid ""
 "Error saving messages to: %s:\n"
@@ -13485,11 +13490,11 @@ msgstr ""
 "Fel vid sparande av meddelanden till: %s\n"
 " %s"
 
-#: mail/mail-ops.c:2026
+#: mail/mail-ops.c:2036
 msgid "Saving attachment"
 msgstr "Sparar bilaga"
 
-#: mail/mail-ops.c:2043
+#: mail/mail-ops.c:2053
 #, c-format
 msgid ""
 "Cannot create output file: %s:\n"
@@ -13498,17 +13503,17 @@ msgstr ""
 "Kan inte skapa utdatafil: %s:\n"
 " %s"
 
-#: mail/mail-ops.c:2073
+#: mail/mail-ops.c:2083
 #, c-format
 msgid "Could not write data: %s"
 msgstr "Kunde inte skriva data: %s"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Disconnecting from %s"
 msgstr "Kopplar från %s"
 
-#: mail/mail-ops.c:2221
+#: mail/mail-ops.c:2231
 #, c-format
 msgid "Reconnecting to %s"
 msgstr "Ansluter igen till %s"
@@ -26362,7 +26367,7 @@ msgid "View the current contact"
 msgstr "Visa den aktuella kontakten"
 
 #: ui/evolution-addressbook.xml.h:29 ui/evolution-calendar.xml.h:28
-#: ui/evolution-comp-editor.xml.h:17 ui/evolution-contact-editor.xml.h:11
+#: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:11
 #: ui/evolution-contact-list-editor.xml.h:10
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
 #: ui/evolution-mail-list.xml.h:23 ui/evolution-mail-message.xml.h:93
@@ -26504,26 +26509,27 @@ msgstr "Förhandsgranska det utskrivna objektet"
 msgid "Print this item"
 msgstr "Skriv ut detta objekt"
 
-#: ui/evolution-comp-editor.xml.h:12 ui/evolution-message-composer.xml.h:16
-#: ui/evolution-signature-editor.xml.h:5
-msgid "Save"
-msgstr "Spara"
+#: ui/evolution-comp-editor.xml.h:11 ui/evolution-contact-editor.xml.h:7
+#: ui/evolution-contact-list-editor.xml.h:5
+#: ui/evolution-message-composer.xml.h:18
+msgid "Save _As..."
+msgstr "Spara so_m..."
 
-#: ui/evolution-comp-editor.xml.h:13
-msgid "Save As..."
-msgstr "Spara som..."
-
-#: ui/evolution-comp-editor.xml.h:14 ui/evolution-contact-editor.xml.h:8
+#: ui/evolution-comp-editor.xml.h:12 ui/evolution-contact-editor.xml.h:8
 #: ui/evolution-contact-list-editor.xml.h:6
 #: ui/evolution-signature-editor.xml.h:6
 msgid "Save and Close"
 msgstr "Spara och stäng"
 
-#: ui/evolution-comp-editor.xml.h:15
+#: ui/evolution-comp-editor.xml.h:13
+msgid "Save and _Close"
+msgstr "Spara och s_täng"
+
+#: ui/evolution-comp-editor.xml.h:14
 msgid "Save the item and close the dialog box"
 msgstr "Spara objektet och stäng dialogrutan"
 
-#: ui/evolution-comp-editor.xml.h:16
+#: ui/evolution-comp-editor.xml.h:15
 msgid "Save this item to disk"
 msgstr "Spara detta objekt till disk"
 
@@ -26535,6 +26541,13 @@ msgstr "Spara detta objekt till disk"
 #: ui/evolution.xml.h:46
 msgid "_File"
 msgstr "_Arkiv"
+
+#: ui/evolution-comp-editor.xml.h:20 ui/evolution-contact-editor.xml.h:15
+#: ui/evolution-contact-list-editor.xml.h:12
+#: ui/evolution-message-composer.xml.h:47
+#: ui/evolution-signature-editor.xml.h:14
+msgid "_Save"
+msgstr "_Spara"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -26565,12 +26578,6 @@ msgstr "Markera all text"
 msgid "Print En_velope..."
 msgstr "Skriv ut ku_vert..."
 
-#: ui/evolution-contact-editor.xml.h:7
-#: ui/evolution-contact-list-editor.xml.h:5
-#: ui/evolution-message-composer.xml.h:18
-msgid "Save _As..."
-msgstr "Spara so_m..."
-
 #: ui/evolution-contact-editor.xml.h:9
 msgid "Save the contact and close the dialog box"
 msgstr "Spara kontakten och stäng dialogrutan"
@@ -26578,13 +26585,6 @@ msgstr "Spara kontakten och stäng dialogrutan"
 #: ui/evolution-contact-editor.xml.h:10
 msgid "Send _Message to Contact..."
 msgstr "Skicka _meddelande till kontakt..."
-
-#: ui/evolution-contact-editor.xml.h:15
-#: ui/evolution-contact-list-editor.xml.h:12
-#: ui/evolution-message-composer.xml.h:47
-#: ui/evolution-signature-editor.xml.h:14
-msgid "_Save"
-msgstr "_Spara"
 
 #: ui/evolution-contact-list-editor.xml.h:3
 msgid "Delete this list"
@@ -27280,6 +27280,11 @@ msgstr "S/MIME-kryptera"
 #: ui/evolution-message-composer.xml.h:15
 msgid "S/MIME Sign"
 msgstr "S/MIME-signera"
+
+#: ui/evolution-message-composer.xml.h:16
+#: ui/evolution-signature-editor.xml.h:5
+msgid "Save"
+msgstr "Spara"
 
 #: ui/evolution-message-composer.xml.h:17
 msgid "Save As"
@@ -28000,6 +28005,9 @@ msgstr "Evolutions kalenderbakände för lokal fil"
 #: wombat/GNOME_Evolution_WombatNOLDAP.server.in.in.h:1
 msgid "Evolution Addressbook local file backend"
 msgstr "Evolutions adressboksbakände för lokal fil"
+
+#~ msgid "Save As..."
+#~ msgstr "Spara som..."
 
 #~ msgid "Due date is before start date"
 #~ msgstr "Förfallodatumet är före startdatumet"
