@@ -87,7 +87,8 @@ EShellView *e_shell_view_new        (EShell     *shell);
 const GNOME_Evolution_ShellView  e_shell_view_get_corba_interface  (EShellView *view);
 
 gboolean  e_shell_view_display_uri  (EShellView *shell_view,
-				     const char *uri);
+				     const char *uri,
+				     gboolean queue);
 
 void      e_shell_view_show_shortcut_bar   (EShellView *shell_view,
 					    gboolean    show);

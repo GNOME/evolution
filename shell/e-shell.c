@@ -985,7 +985,7 @@ create_view (EShell *shell,
 			    GTK_SIGNAL_FUNC (view_destroy_cb), shell);
 
 	if (uri != NULL)
-		e_shell_view_display_uri (E_SHELL_VIEW (view), uri);
+		e_shell_view_display_uri (E_SHELL_VIEW (view), uri, TRUE);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
 

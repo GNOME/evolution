@@ -323,7 +323,7 @@ command_activate_view (BonoboUIComponent *uih,
 	shell_view = E_SHELL_VIEW (data);
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, get_path_for_folder_op (shell_view), NULL);
-	e_shell_view_display_uri (shell_view, uri);
+	e_shell_view_display_uri (shell_view, uri, TRUE);
 	g_free (uri);
 }
 
@@ -449,7 +449,7 @@ goto_folder_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selec
 		shell_view = E_SHELL_VIEW (data);
 
 		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-		e_shell_view_display_uri (shell_view, uri);
+		e_shell_view_display_uri (shell_view, uri, TRUE);
 		g_free (uri);
 	}
 }

@@ -455,7 +455,7 @@ shared_folder_discovery_listener_callback (BonoboListener *listener,
 				   NULL);
 
 		if (discovery_data->parent != NULL)
-			e_shell_view_display_uri (parent, uri);
+			e_shell_view_display_uri (parent, uri, TRUE);
 		else
 			e_shell_create_view (shell, uri, NULL);
 	} else {

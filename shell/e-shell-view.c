@@ -189,7 +189,8 @@ static const char *get_storage_set_path_from_uri  (const char *uri);
 
 /* Boo.  */
 static void new_folder_cb (EStorageSet *storage_set, const char *path, void *data);
-static gboolean display_uri (EShellView *shell_view, const char *uri, gboolean add_to_history);
+static gboolean display_uri (EShellView *shell_view, const char *uri,
+			     gboolean add_to_history, gboolean queue);
 
 
 /* View handling.  */
@@ -454,7 +455,7 @@ handle_current_folder_removed (EShellView *shell_view)
 
 				/* No Inbox in this storage -- fallback to the storage.  */
 				storage_uri = g_strconcat (E_SHELL_URI_PREFIX, storage_name, NULL);
-				e_shell_view_display_uri (shell_view, storage_uri);
+				e_shell_view_display_uri (shell_view, storage_uri, TRUE);
 
 				g_free (storage_uri);
 				g_free (storage_name);
@@ -466,7 +467,7 @@ handle_current_folder_removed (EShellView *shell_view)
 	}
 
 	if (new_path == NULL) {
-		e_shell_view_display_uri (shell_view, FALLBACK_URI);
+		e_shell_view_display_uri (shell_view, FALLBACK_URI, TRUE);
 	} else {
 		EFolder *folder;
 
@@ -475,12 +476,12 @@ handle_current_folder_removed (EShellView *shell_view)
 
 		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), new_path);
 		if (folder == NULL) {
-			e_shell_view_display_uri (shell_view, FALLBACK_URI);
+			e_shell_view_display_uri (shell_view, FALLBACK_URI, TRUE);
 		} else {
 			char *new_uri;
 
 			new_uri = g_strconcat (E_SHELL_URI_PREFIX, new_path, NULL);
-			e_shell_view_display_uri (shell_view, new_uri);
+			e_shell_view_display_uri (shell_view, new_uri, TRUE);
 			g_free (new_uri);
 		}
 
@@ -745,7 +746,7 @@ set_folder_timeout (gpointer data)
 
 	/* Set to 0 so we don't remove it in _display_uri().  */
 	priv->set_folder_timeout = 0;
-	e_shell_view_display_uri (shell_view, priv->set_folder_uri);
+	e_shell_view_display_uri (shell_view, priv->set_folder_uri, TRUE);
 
 	return FALSE;
 }
@@ -792,7 +793,7 @@ switch_on_folder_tree_click (EShellView *shell_view,
 	cleanup_delayed_selection (shell_view);
 
 	if (priv->folder_bar_popup != NULL) {
-		e_shell_view_display_uri (shell_view, uri);
+		e_shell_view_display_uri (shell_view, uri, TRUE);
 		g_free (uri);
 
 		gtk_object_ref (GTK_OBJECT (shell_view));
@@ -830,7 +831,7 @@ new_folder_cb (EStorageSet *storage_set,
 
 			uri = g_strdup (priv->delayed_selection);
 			cleanup_delayed_selection (shell_view);
-			e_shell_view_display_uri (shell_view, uri);
+			e_shell_view_display_uri (shell_view, uri, TRUE);
 			g_free (uri);
 		}
 	}
@@ -855,7 +856,7 @@ activate_shortcut_cb (EShortcutsView *shortcut_view,
 		e_shell_view_show_shortcut_bar (new_view, FALSE);
 		e_shell_view_show_folder_bar (new_view, FALSE);
 	} else {
-		e_shell_view_display_uri (shell_view, uri);
+		e_shell_view_display_uri (shell_view, uri, TRUE);
 	}
 }
 
@@ -985,7 +986,7 @@ back_clicked_callback (EShellFolderTitleBar *title_bar,
 
 	new_uri = (const char *) e_history_prev (priv->history);
 
-	display_uri (shell_view, new_uri, FALSE);
+	display_uri (shell_view, new_uri, FALSE, TRUE);
 }
 
 static void
@@ -1004,7 +1005,7 @@ forward_clicked_callback (EShellFolderTitleBar *title_bar,
 
 	new_uri = (const char *) e_history_next (priv->history);
 
-	display_uri (shell_view, new_uri, FALSE);
+	display_uri (shell_view, new_uri, FALSE, TRUE);
 }
 
 
@@ -1490,7 +1491,7 @@ corba_interface_change_current_view_cb (EvolutionShellView *shell_view,
 
 	g_return_if_fail (view != NULL);
 
-	e_shell_view_display_uri (view, uri);
+	e_shell_view_display_uri (view, uri, TRUE);
 }
 
 static void
@@ -2045,13 +2046,13 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 	}
 
 	if (viewing_closed_uri)
-		e_shell_view_display_uri (shell_view, NULL);
+		e_shell_view_display_uri (shell_view, NULL, TRUE);
 
 	e_shell_component_maybe_crashed (priv->shell, uri, folder_type, shell_view);
 
 	/* We were actively viewing the component that just crashed, so flip to the default URI */
 	if (viewing_closed_uri)
-		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, TRUE);
 }
 
 
@@ -2226,7 +2227,8 @@ evolution_uri_for_default_uri (EShell *shell,
 static gboolean
 display_uri (EShellView *shell_view,
 	     const char *uri,
-	     gboolean add_to_history)
+	     gboolean add_to_history,
+	     gboolean queue)
 {
 	EShellViewPrivate *priv;
 	View *view;
@@ -2281,12 +2283,17 @@ display_uri (EShellView *shell_view,
 	if (view != NULL) {
 		show_existing_view (shell_view, real_uri, view);
 	} else if (! create_new_view_for_uri (shell_view, real_uri, view_info)) {
+		if (! queue) {
+			retval = FALSE;
+			goto end;
+		}
+
 		cleanup_delayed_selection (shell_view);
 		priv->delayed_selection = g_strdup (real_uri);
 		gtk_signal_connect_full (GTK_OBJECT (e_shell_get_storage_set (priv->shell)),
 					 "new_folder", GTK_SIGNAL_FUNC (new_folder_cb), NULL,
 					 shell_view, NULL, FALSE, TRUE);
-		retval = FALSE;
+		retval = TRUE;
 		goto end;
 	}
 
@@ -2325,12 +2332,13 @@ display_uri (EShellView *shell_view,
 
 gboolean
 e_shell_view_display_uri (EShellView *shell_view,
-			  const char *uri)
+			  const char *uri,
+			  gboolean queue)
 {
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
-	return display_uri (shell_view, uri, TRUE);
+	return display_uri (shell_view, uri, TRUE, queue);
 }
 
 
@@ -2778,10 +2786,13 @@ e_shell_view_load_settings (EShellView *shell_view,
 		key = g_strconcat (prefix, "DisplayedURI", NULL);
 		stringval = bonobo_config_get_string (db, key, NULL);
 		if (stringval) {
-			if (! e_shell_view_display_uri (shell_view, stringval))
-				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
-		} else
-			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+			if (! e_shell_view_display_uri (shell_view, stringval, FALSE)) {
+				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, FALSE);
+				e_shell_view_display_uri (shell_view, stringval, TRUE);
+			}
+		} else {
+			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI, TRUE);
+		}
 
 		g_free (stringval);
 		g_free (key);
