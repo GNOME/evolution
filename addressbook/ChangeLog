@@ -1,3 +1,11 @@
+2004-08-18  Sivaiah Nallagatla <snallagatla@novell.com>
+	
+	* gui/component/select-names/e-select-names.c (e_select_names_init) :
+	select names dialog can not be modal as password dialogs can come up while 
+	user is in this dialog for address books which require authentication
+	like groupwise and LDAP
+	FIxes #63257 
+
 2004-08-11  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/contact-editor/e-contact-editor.c (app_delete_event_cb):

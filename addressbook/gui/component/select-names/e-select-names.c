@@ -498,7 +498,7 @@ e_select_names_init (ESelectNames *e_select_names)
 				GTK_STOCK_OK, GTK_RESPONSE_OK,
 				NULL);
 
-	gtk_window_set_modal (GTK_WINDOW (e_select_names), TRUE);
+	gtk_window_set_modal (GTK_WINDOW (e_select_names), FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (e_select_names), 472, 512);
 	gtk_window_set_title (GTK_WINDOW (e_select_names), _("Select Contacts from Address Book"));
 	gtk_window_set_resizable (GTK_WINDOW (e_select_names), TRUE);
