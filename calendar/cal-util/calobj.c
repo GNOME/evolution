@@ -253,7 +253,7 @@ weekdaylist (iCalObject *o, char **str)
 					(*str)++;
 			}
 		}
-	} while (isalpha (**str));
+	} while (isalpha ((unsigned char) **str));
 
 	if (o->recur->weekday == 0){
 		struct tm tm = *localtime (&o->dtstart);
@@ -289,7 +289,7 @@ weekdaynum (iCalObject *o, char **str)
 					(*str)++;
 			}
 		}
-	} while (isalpha (**str));
+	} while (isalpha ((unsigned char) **str));
 }
 
 static void

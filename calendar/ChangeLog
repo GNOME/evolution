@@ -1,3 +1,9 @@
+2000-10-26  Michael Meeks  <michael@helixcode.com>
+
+	* pcs/cal-factory.c (str_tolower): unsigned chars to isalpha
+
+	* cal-util/calobj.c (weekdaylist, weekdaynum): ditto.
+
 2000-10-25  Jesse Pavel <jpavel@helixcode.com>
 
 	* gui/e-meeting-edit.c: brushed up some code to deal with

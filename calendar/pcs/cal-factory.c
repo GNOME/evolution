@@ -785,7 +785,7 @@ static char *
 str_tolower (const char *s)
 {
 	char *str;
-	char *p;
+	unsigned char *p;
 
 	str = g_strdup (s);
 	for (p = str; *p; p++)
