@@ -1116,16 +1116,22 @@ tooltip_event (GtkWidget *window,
 		event->button.y = tooltip->cy;
 		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
 					 event, &ret_val);
+		if (!ret_val)
+			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(tooltip->eti)->canvas), event);
+		ret_val = TRUE;
 		break;
 	case GDK_KEY_PRESS:
 		e_canvas_hide_tooltip (E_CANVAS(GNOME_CANVAS_ITEM(tooltip->eti)->canvas));
 		gtk_signal_emit_by_name (GTK_OBJECT (tooltip->eti), "event",
 					 event, &ret_val);
+		if (!ret_val)
+			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(tooltip->eti)->canvas), event);
+		ret_val = TRUE;
 		break;
 	default:
 		break;
 	}
-	
+
 	return ret_val;
 }
 

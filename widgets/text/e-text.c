@@ -2702,6 +2702,9 @@ tooltip_event(GtkWidget *tooltip, GdkEvent *event, EText *text)
 		/* Forward events to the text item */
 		gtk_signal_emit_by_name (GTK_OBJECT (text), "event", event,
 					 &ret_val);
+		if (!ret_val)
+			gtk_propagate_event (GTK_WIDGET(GNOME_CANVAS_ITEM(text)->canvas), event);
+		ret_val = TRUE;
 	default:
 		break;
 	}
