@@ -9,6 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/widgets/e-text			\
 	-I$(top_srcdir)					\
+	-I$(top_srcdir)/camel				\
 	-I$(top_builddir)/shell				\
 	$(BONOBO_HTML_GNOME_CFLAGS)			\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
