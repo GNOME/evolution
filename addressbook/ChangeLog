@@ -1,7 +1,8 @@
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/widgets/e-addressbook-view.c (jump_to_letter): Made this
-	change the query based on which letter is clicked.
+	change the query based on which letter is clicked.  Fixes Ximian
+	bug #2202.
 
 2001-08-03  Christopher James Lahey  <clahey@ximian.com>
 
