@@ -1738,7 +1738,7 @@ socket_destroy_cb (GtkWidget *socket_widget, gpointer data)
 
 	/* We were actively viewing the component that just crashed, so flip to the Inbox */
 	if (viewing_closed_uri)
-		e_shell_view_display_uri (shell_view, DEFAULT_URI);
+		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 
 	g_free (copy_of_uri);
 }
@@ -2338,7 +2338,7 @@ e_shell_view_save_settings (EShellView *shell_view,
 	if (uri != NULL)
 		bonobo_config_set_string (db, key, uri, NULL);
 	else
-		bonobo_config_set_string (db, key, DEFAULT_URI, NULL);
+		bonobo_config_set_string (db, key, E_SHELL_VIEW_DEFAULT_URI, NULL);
 	g_free (key);
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
@@ -2434,7 +2434,7 @@ e_shell_view_load_settings (EShellView *shell_view,
 	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	stringval = bonobo_config_get_string (db, key, NULL);
 	if (! e_shell_view_display_uri (shell_view, stringval))
-		e_shell_view_display_uri (shell_view, DEFAULT_URI);
+		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 	g_free (stringval);
 	g_free (key);
 

@@ -1,5 +1,25 @@
 2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
 
+	[Fix #6971, Default folder should be the Summary.]
+
+	* main.c (idle_cb): s/DEFAULT_URI/E_SHELL_VIEW_DEFAULT_URI/.
+
+	* e-shell.c (e_shell_create_view):
+	s/DEFAULT_URI/E_SHELL_VIEW_DEFAULT_URI/.
+
+	* e-shell-view.c (socket_destroy_cb):
+	s/DEFAULT_URI/E_SHELL_VIEW_DEFAULT_URI/.
+	(e_shell_view_save_settings): Likewise.
+
+	* e-shell-folder-commands.c (e_shell_command_delete_folder):
+	s/DEFAULT_URI/E_SHELL_VIEW_DEFAULT_URI/.
+
+	* e-shell-view.h (DEFAULT_URI): Rename to
+	`E_SHELL_VIEW_DEFAULT_URI'.  Change from "evolution:/local/Inbox"
+	to be "evolution:/summary".
+
+2001-09-04  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix ^#7675, Crashes trying to empty trash folder.]
 
 	* e-shortcuts.c (e_shortcuts_construct): Use

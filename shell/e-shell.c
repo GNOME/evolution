@@ -1069,7 +1069,7 @@ e_shell_create_view (EShell *shell,
 			/* FIXME: Consider popping a dialog box up
 			   about how the provided URI does not
 			   exist/could not be displayed */
-			e_shell_view_display_uri (E_SHELL_VIEW (view), DEFAULT_URI);
+			e_shell_view_display_uri (E_SHELL_VIEW (view), E_SHELL_VIEW_DEFAULT_URI);
 
 	shell->priv->views = g_list_prepend (shell->priv->views, view);
 

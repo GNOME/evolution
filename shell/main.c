@@ -190,7 +190,7 @@ idle_cb (void *data)
 	}
 
 	if (! restored && uri_list == NULL) {
-		const char *uri = DEFAULT_URI;
+		const char *uri = E_SHELL_VIEW_DEFAULT_URI;
 
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
