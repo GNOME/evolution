@@ -352,11 +352,11 @@ get_dtstart (ECalModel *model, ECalModelComponent *comp_data)
 		comp_data->dtstart = g_new0 (ECellDateEditValue, 1);
 		comp_data->dtstart->tt = tt_start;
 
-		/* FIXME: handle errors */
-		e_cal_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_start),
-					 &zone, NULL);
-		comp_data->dtstart->zone = zone;
+		if (e_cal_get_timezone (comp_data->client, icaltime_get_tzid (tt_start),
+					&zone, NULL)) 
+			comp_data->dtstart->zone = zone;
+		else
+			comp_data->dtstart->zone = NULL;
 	}
 
 	return comp_data->dtstart;

@@ -1,4 +1,11 @@
-2003-11-18    <jpr@ximian.com>
+2003-11-18  JP Rosevear <jpr@ximian.com>
+
+	* gui/e-cal-model.c (get_dtstart): make sure the timezone value is
+	sane
+
+	* gui/e-cal-model-calendar.c (get_dtend): ditto
+	
+2003-11-18  JP Rosevear  <jpr@ximian.com>
 
 	* gui/calendar-config.h: add protos
 
