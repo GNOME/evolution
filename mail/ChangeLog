@@ -1,3 +1,15 @@
+2000-05-30  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail.h: Added a prototype for providers_config_new() which
+	is the constructor for the configuration dialog window
+
+	* mail-config.c: Added set_service_url() which is basically
+	the reverse of get_service_url().
+	Implemented on_cmdCamelServicesOK_clicked() - The configuration
+	window will now remember the Sendmail/SMTP data that the user
+	had entered in the previous session.
+	Removed on_cmdCamelServicesApply_clicked() - No need for this.
+
 2000-05-30  Dan Winship  <danw@helixcode.com>
 
 	* message-list.c (message_changed): call

@@ -2,8 +2,9 @@
 /* mail-config.c: Mail configuration dialogs/wizard. */
 
 /* 
- * Author: 
+ * Authors: 
  *  Dan Winship <danw@helixcode.com>
+ *  Jeffrey Stedfast <fejj@helixcode.com>
  *
  * Copyright 2000 Helix Code, Inc. (http://www.helixcode.com)
  *
@@ -60,6 +61,7 @@ static void prepare_service (GnomeDruidPage *page, gpointer arg1, gpointer user_
 static void auth_menuitem_activate (GtkObject *menuitem, GtkHTML *html);
 static void fill_auth_menu (GtkOptionMenu *optionmenu, GtkHTML *html, GList *authtypes);
 static char *get_service_url (GtkObject *table);
+static void set_service_url (GtkObject *table, char *url_str);
 static void autodetect_cb (GtkWidget *button, GtkObject *table);
 static gboolean service_acceptable (GtkNotebook *notebook);
 static gboolean service_next (GnomeDruidPage *page, gpointer arg1, gpointer user_data);
@@ -85,7 +87,6 @@ static void on_cmdSourcesAdd_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdSourcesEdit_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdSourcesDelete_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data);
-static void on_cmdCamelServicesApply_clicked (GtkButton *button, gpointer user_data);
 static void on_cmdCamelServicesCancel_clicked (GtkButton *button, gpointer user_data);
 
 
@@ -390,8 +391,8 @@ prepare_service (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	GtkWidget *table;
 	GtkEntry *entry;
 
-	table = gtk_notebook_get_nth_page (
-		notebook, gtk_notebook_get_current_page (notebook));
+	table = gtk_notebook_get_nth_page (notebook,
+					   gtk_notebook_get_current_page (notebook));
 
 	if (username) {
 		char *data = NULL;
@@ -482,6 +483,56 @@ get_service_url (GtkObject *table)
 }
 
 static void
+set_service_url (GtkObject *table, char *url_str)
+{
+	CamelURL *url;
+	GtkEditable *editable;
+	GtkOptionMenu *auth_optionmenu;
+	CamelException *ex;
+
+	g_return_if_fail (table != NULL);
+	g_return_if_fail (url_str != NULL);
+
+	ex = camel_exception_new ();
+	
+	url = camel_url_new (url_str, ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+		return;
+
+	editable = gtk_object_get_data (table, "user_entry");
+	if (editable && url)
+		gtk_entry_set_text (GTK_ENTRY (editable), url->user);
+
+	editable = gtk_object_get_data (table, "server_entry");
+	if (editable && url)
+		gtk_entry_set_text (GTK_ENTRY (editable), url->host);
+
+	editable = gtk_object_get_data (table, "path_entry");
+	if (editable && url)
+		gtk_entry_set_text (GTK_ENTRY (editable), url->path);
+
+        /* How are we gonna do this? */
+#if 0
+	auth_optionmenu = gtk_object_get_data (table, "auth_optionmenu");
+	if (auth_optionmenu) {
+		GtkWidget *menu, *item;
+		CamelServiceAuthType *authtype;
+
+		menu = gtk_option_menu_get_menu (auth_optionmenu);
+		if (menu) {
+			item = gtk_menu_get_active (GTK_MENU (menu));
+			authtype = gtk_object_get_data (GTK_OBJECT (item),
+							"authtype");
+			if (*authtype->authproto)
+				url->authmech = g_strdup (authtype->authproto);
+		}
+	}
+#endif
+	camel_exception_free (ex);
+	camel_url_free (url);
+}
+
+static void
 autodetect_cb (GtkWidget *button, GtkObject *table)
 {
 	char *url;
@@ -508,6 +559,7 @@ autodetect_cb (GtkWidget *button, GtkObject *table)
 	html = gtk_object_get_data (table, "auth_html");
 	optionmenu = gtk_object_get_data (table, "auth_optionmenu");
 	fill_auth_menu (optionmenu, html, authtypes);
+	camel_exception_free (ex);
 	return;
 
  error:
@@ -530,6 +582,7 @@ service_acceptable (GtkNotebook *notebook)
 	page = gtk_notebook_get_current_page (notebook);
 	table = gtk_notebook_get_nth_page (notebook, page);
 	check = gtk_object_get_data (GTK_OBJECT (table), "check");
+
 	if (!check || !gtk_toggle_button_get_active (check))
 		return TRUE;
 
@@ -547,6 +600,8 @@ service_acceptable (GtkNotebook *notebook)
 	if (ok)
 		camel_service_disconnect (service, ex);
 	gtk_object_unref (GTK_OBJECT (service));
+
+	camel_exception_free (ex);
 
 	if (ok)
 		return TRUE;
@@ -1169,14 +1224,21 @@ on_cmdSourcesDelete_clicked (GtkButton *button, gpointer user_data)
 static void
 on_cmdCamelServicesOK_clicked (GtkButton *button, gpointer user_data)
 {
-	on_cmdCamelServicesOK_clicked (button, user_data);
-	gtk_widget_destroy(GTK_WIDGET (user_data));
-}
+	GtkWidget *notebook, *interior_notebook;
+        GtkWidget *vbox;
 
-static void
-on_cmdCamelServicesApply_clicked (GtkButton *button, gpointer user_data)
-{
-	
+	notebook = gtk_object_get_data (GTK_OBJECT (user_data), "notebook");
+
+	/* switch to the third page which is the transport page */
+	gtk_notebook_set_page (GTK_NOTEBOOK (notebook), 2);
+
+	vbox = gtk_object_get_data (GTK_OBJECT (notebook), "transport_page_vbox");
+	interior_notebook = gtk_object_get_data (GTK_OBJECT (vbox), "notebook");
+
+       	if (service_acceptable (GTK_NOTEBOOK (interior_notebook))) {
+		destroy_service (GTK_OBJECT (interior_notebook), (gpointer) &transport);
+		gtk_widget_destroy(GTK_WIDGET (user_data));
+	}
 }
 
 static void
@@ -1190,7 +1252,7 @@ providers_config_new (void)
 {
 	GtkWidget *providers_config;
 	GtkWidget *dialog_vbox1;
-	GtkWidget *notebook1;
+	GtkWidget *notebook;
 	GtkWidget *hbox1;
 	GtkWidget *scrolledwindow1;
 	GtkWidget *clistIdentities;
@@ -1209,15 +1271,35 @@ providers_config_new (void)
 	GtkWidget *cmdSourcesEdit;
 	GtkWidget *cmdSourcesDelete;
 	GtkWidget *lblProviders;
-	GtkWidget *empty_notebook_page;
 	GtkWidget *lblTransports;
 	GtkWidget *dialog_action_area1;
 	GtkWidget *cmdCamelServicesOK;
-	GtkWidget *cmdCamelServicesApply;
 	GtkWidget *cmdCamelServicesCancel;
-	GtkWidget *transport_page;
-	struct service_type st;
+	GtkWidget *transport_page_vbox;
 	GList *providers, *p, *sources, *transports;
+	GtkWidget *table, *interior_notebook;
+	int page;
+
+
+	/* Fetch list of all providers. */
+	providers = camel_session_list_providers (session, TRUE);
+	sources = transports = NULL;
+	for (p = providers; p; p = p->next) {
+		CamelProvider *prov = p->data;
+
+		if (strcmp (prov->domain, "mail") != 0)
+			continue;
+
+		if (prov->object_types[CAMEL_PROVIDER_STORE]) {
+			sources = add_service (sources,
+					       CAMEL_PROVIDER_STORE,
+					       prov);
+		} else if (prov->object_types[CAMEL_PROVIDER_TRANSPORT]) {
+			transports = add_service (transports,
+						  CAMEL_PROVIDER_TRANSPORT,
+						  prov);
+		}
+	}
 	
 	providers_config = gnome_dialog_new (_("Camel Providers Configuration"), NULL);
 	gtk_window_set_modal (GTK_WINDOW (providers_config), TRUE);
@@ -1230,13 +1312,13 @@ providers_config_new (void)
 	gtk_object_set_data (GTK_OBJECT (providers_config), "dialog_vbox1", dialog_vbox1);
 	gtk_widget_show (dialog_vbox1);
 
-	notebook1 = gtk_notebook_new ();
-	gtk_widget_set_name (notebook1, "notebook1");
-	gtk_widget_ref (notebook1);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "notebook1", notebook1,
+	notebook = gtk_notebook_new ();
+	gtk_widget_set_name (notebook, "notebook");
+	gtk_widget_ref (notebook);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), "notebook", notebook,
 				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (notebook1);
-	gtk_box_pack_start (GTK_BOX (dialog_vbox1), notebook1, TRUE, TRUE, 0);
+	gtk_widget_show (notebook);
+	gtk_box_pack_start (GTK_BOX (dialog_vbox1), notebook, TRUE, TRUE, 0);
 
 	hbox1 = gtk_hbox_new (FALSE, 0);
 	gtk_widget_set_name (hbox1, "hbox1");
@@ -1244,7 +1326,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "hbox1", hbox1,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (hbox1);
-	gtk_container_add (GTK_CONTAINER (notebook1), hbox1);
+	gtk_container_add (GTK_CONTAINER (notebook), hbox1);
 
 	scrolledwindow1 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_set_name (scrolledwindow1, "scrolledwindow1");
@@ -1314,7 +1396,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblIdentity", lblIdentity,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (lblIdentity);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 0),
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 0),
 				    lblIdentity);
 
 	hbox2 = gtk_hbox_new (FALSE, 0);
@@ -1323,7 +1405,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "hbox2", hbox2,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (hbox2);
-	gtk_container_add (GTK_CONTAINER (notebook1), hbox2);
+	gtk_container_add (GTK_CONTAINER (notebook), hbox2);
 
 	scrolledwindow2 = gtk_scrolled_window_new (NULL, NULL);
 	gtk_widget_set_name (scrolledwindow2, "scrolledwindow2");
@@ -1394,14 +1476,29 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblProviders", lblProviders,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (lblProviders);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 1),
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 1),
 				    lblProviders);
 
-#if 0
-	transport_page = create_transport (&st);
-	gtk_widget_show (transport_page);
-	gtk_container_add (GTK_CONTAINER (notebook1), transport_page);
-#endif
+
+	/* Setup the transport page */
+	transport_page_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (transport_page_vbox), 8);
+	gtk_box_set_spacing (GTK_BOX (transport_page_vbox), 5);
+	gtk_widget_set_name (transport_page_vbox, "transport_page_vbox");
+	gtk_object_set_data (GTK_OBJECT (notebook), "transport_page_vbox", transport_page_vbox);
+	gtk_widget_ref (transport_page_vbox);
+	gtk_object_set_data_full (GTK_OBJECT (providers_config), "transport_page_vbox", transport_page_vbox,
+				  (GtkDestroyNotify) gtk_widget_unref);
+	gtk_widget_show (transport_page_vbox);
+	gtk_container_add (GTK_CONTAINER (notebook), transport_page_vbox);
+	create_transport_page (transport_page_vbox, transports, &transport);
+
+	/* Set the data in the transports page */
+	interior_notebook = gtk_object_get_data (GTK_OBJECT (transport_page_vbox), "notebook");
+	page = gtk_notebook_get_current_page (GTK_NOTEBOOK (interior_notebook));
+	table = gtk_notebook_get_nth_page (GTK_NOTEBOOK (interior_notebook), page);
+	set_service_url (GTK_OBJECT (table), transport);
+	
 
 	lblTransports = gtk_label_new (_("Transports"));
 	gtk_widget_set_name (lblTransports, "lblTransports");
@@ -1409,7 +1506,7 @@ providers_config_new (void)
 	gtk_object_set_data_full (GTK_OBJECT (providers_config), "lblTransports", lblTransports,
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (lblTransports);
-	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook1), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook1), 2),
+	gtk_notebook_set_tab_label (GTK_NOTEBOOK (notebook), gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), 2),
 				    lblTransports);
 
 	dialog_action_area1 = GNOME_DIALOG (providers_config)->action_area;
@@ -1427,15 +1524,6 @@ providers_config_new (void)
 				  (GtkDestroyNotify) gtk_widget_unref);
 	gtk_widget_show (cmdCamelServicesOK);
 	GTK_WIDGET_SET_FLAGS (cmdCamelServicesOK, GTK_CAN_DEFAULT);
-
-	gnome_dialog_append_button (GNOME_DIALOG (providers_config), GNOME_STOCK_BUTTON_APPLY);
-	cmdCamelServicesApply = g_list_last (GNOME_DIALOG (providers_config)->buttons)->data;
-	gtk_widget_set_name (cmdCamelServicesApply, "cmdCamelServicesApply");
-	gtk_widget_ref (cmdCamelServicesApply);
-	gtk_object_set_data_full (GTK_OBJECT (providers_config), "cmdCamelServicesApply", cmdCamelServicesApply,
-				  (GtkDestroyNotify) gtk_widget_unref);
-	gtk_widget_show (cmdCamelServicesApply);
-	GTK_WIDGET_SET_FLAGS (cmdCamelServicesApply, GTK_CAN_DEFAULT);
 
 	gnome_dialog_append_button (GNOME_DIALOG (providers_config), GNOME_STOCK_BUTTON_CANCEL);
 	cmdCamelServicesCancel = g_list_last (GNOME_DIALOG (providers_config)->buttons)->data;
@@ -1467,15 +1555,13 @@ providers_config_new (void)
 	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesOK), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdCamelServicesOK_clicked),
 			    providers_config);
-	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesApply), "clicked",
-			    GTK_SIGNAL_FUNC (on_cmdCamelServicesApply_clicked),
-			    providers_config);
 	gtk_signal_connect (GTK_OBJECT (cmdCamelServicesCancel), "clicked",
 			    GTK_SIGNAL_FUNC (on_cmdCamelServicesCancel_clicked),
 			    providers_config);
 
 	return providers_config;
 }
+
 
 
 
