@@ -222,6 +222,165 @@ e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string)
 }
 
 gchar *
+e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
+{
+	char *new, *ob;
+	gchar * ib;
+	size_t ibl, obl;
+
+	if (!string) return NULL;
+
+	if (ic == (iconv_t) -1) {
+		gint i;
+		/* iso-8859-1 */
+		ib = (char *) string;
+		new = ob = g_new (unsigned char, bytes * 2 + 1);
+		for (i = 0; i < (bytes); i ++) {
+			ob += e_unichar_to_utf8 (ib[i], ob);
+		}
+		*ob = '\0';
+		return new;
+	}
+
+	ib = (char *) string;
+	ibl = bytes;
+	new = ob = g_new (gchar, ibl * 6 + 1);
+	obl = ibl * 6 + 1;
+
+	while (ibl > 0) {
+		iconv (ic, &ib, &ibl, &ob, &obl);
+		if (ibl > 0) {
+			gint len;
+			if ((*ib & 0x80) == 0x00) len = 1;
+			else if ((*ib &0xe0) == 0xc0) len = 2;
+			else if ((*ib &0xf0) == 0xe0) len = 3;
+			else if ((*ib &0xf8) == 0xf0) len = 4;
+			else {
+				g_warning ("Invalid UTF-8 sequence");
+				break;
+			}
+			ib += len;
+			ibl = bytes - (ib - string);
+			if (ibl > bytes) ibl = 0;
+			*ob++ = '_';
+			obl--;
+		}
+	}
+
+	*ob = '\0';
+
+	return new;
+}
+
+gchar *
+e_utf8_from_iconv_string (iconv_t ic, const gchar *string)
+{
+	if (!string) return NULL;
+	return e_utf8_from_iconv_string_sized (ic, string, strlen (string));
+}
+
+gchar *
+e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes)
+{
+	char *new, *ob;
+	gchar * ib;
+	size_t ibl, obl;
+
+	if (!string) return NULL;
+
+	if (ic == (iconv_t) -1) {
+		gint len;
+		const gchar *u;
+		gunichar uc;
+
+		new = g_new (unsigned char, bytes * 4 + 1);
+		u = string;
+		len = 0;
+
+		while ((u) && (u - string < bytes)) {
+			u = e_unicode_get_utf8 (u, &uc);
+			new[len++] = uc & 0xff;
+		}
+		new[len] = '\0';
+		return new;
+	}
+
+	ib = (char *) string;
+	ibl = bytes;
+	new = ob = g_new (gchar, ibl * 4 + 1);
+	obl = ibl * 4 + 1;
+
+	while (ibl > 0) {
+		iconv (ic, &ib, &ibl, &ob, &obl);
+		if (ibl > 0) {
+			gint len;
+			if ((*ib & 0x80) == 0x00) len = 1;
+			else if ((*ib &0xe0) == 0xc0) len = 2;
+			else if ((*ib &0xf0) == 0xe0) len = 3;
+			else if ((*ib &0xf8) == 0xf0) len = 4;
+			else {
+				g_warning ("Invalid UTF-8 sequence");
+				break;
+			}
+			ib += len;
+			ibl = bytes - (ib - string);
+			if (ibl > bytes) ibl = 0;
+			*ob++ = '_';
+			obl--;
+		}
+	}
+
+	*ob = '\0';
+
+	return new;
+}
+
+gchar *
+e_utf8_to_iconv_string (iconv_t ic, const gchar *string)
+{
+	if (!string) return NULL;
+	return e_utf8_to_iconv_string_sized (ic, string, strlen (string));
+}
+
+gchar *
+e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
+{
+	iconv_t ic;
+
+	if (!string) return NULL;
+
+	ic = e_iconv_from_charset (charset);
+
+	return e_utf8_from_iconv_string_sized (ic, string, bytes);
+}
+
+gchar *
+e_utf8_from_charset_string (const gchar *charset, const gchar *string)
+{
+	if (!string) return NULL;
+	return e_utf8_from_charset_string_sized (charset, string, strlen (string));
+}
+
+gchar *
+e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes)
+{
+	iconv_t ic;
+
+	if (!string) return NULL;
+
+	ic = e_iconv_to_charset (charset);
+
+	return e_utf8_to_iconv_string_sized (ic, string, bytes);
+}
+
+gchar *
+e_utf8_to_charset_string (const gchar *charset, const gchar *string)
+{
+	if (!string) return NULL;
+	return e_utf8_to_charset_string_sized (charset, string, strlen (string));
+}
+
+gchar *
 e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes)
 {
 	iconv_t ic;
@@ -384,53 +543,12 @@ gchar *
 e_utf8_from_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *new, *ob;
-	gchar * ib;
-	size_t ibl, obl;
 
 	if (!string) return NULL;
 
-	ic = e_iconv_from_locale ();
-	if (ic == (iconv_t) -1) {
-		gint i;
-		/* iso-8859-1 */
-		ib = (char *) string;
-		new = ob = g_new (unsigned char, bytes * 2 + 1);
-		for (i = 0; i < (bytes); i ++) {
-			ob += e_unichar_to_utf8 (ib[i], ob);
-		}
-		*ob = '\0';
-		return new;
-	}
+	ic = e_iconv_to_locale ();
 
-	ib = (char *) string;
-	ibl = bytes;
-	new = ob = g_new (gchar, ibl * 6 + 1);
-	obl = ibl * 6 + 1;
-
-	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
-		if (ibl > 0) {
-			gint len;
-			if ((*ib & 0x80) == 0x00) len = 1;
-			else if ((*ib &0xe0) == 0xc0) len = 2;
-			else if ((*ib &0xf0) == 0xe0) len = 3;
-			else if ((*ib &0xf8) == 0xf0) len = 4;
-			else {
-				g_warning ("Invalid UTF-8 sequence");
-				break;
-			}
-			ib += len;
-			ibl = bytes - (ib - string);
-			if (ibl > bytes) ibl = 0;
-			*ob++ = '_';
-			obl--;
-		}
-	}
-
-	*ob = '\0';
-
-	return new;
+	return e_utf8_from_iconv_string_sized (ic, string, bytes);
 }
 
 gchar *
@@ -444,58 +562,12 @@ gchar *
 e_utf8_to_locale_string_sized (const gchar *string, gint bytes)
 {
 	iconv_t ic;
-	char *new, *ob;
-	gchar * ib;
-	size_t ibl, obl;
 
 	if (!string) return NULL;
 
 	ic = e_iconv_to_locale ();
-	if (ic == (iconv_t) -1) {
-		gint len;
-		const gchar *u;
-		gunichar uc;
 
-		new = g_new (unsigned char, bytes * 4 + 1);
-		u = string;
-		len = 0;
-
-		while ((u) && (u - string < bytes)) {
-			u = e_unicode_get_utf8 (u, &uc);
-			new[len++] = uc & 0xff;
-		}
-		new[len] = '\0';
-		return new;
-	}
-
-	ib = (char *) string;
-	ibl = bytes;
-	new = ob = g_new (gchar, ibl * 4 + 1);
-	obl = ibl * 4 + 1;
-
-	while (ibl > 0) {
-		iconv (ic, &ib, &ibl, &ob, &obl);
-		if (ibl > 0) {
-			gint len;
-			if ((*ib & 0x80) == 0x00) len = 1;
-			else if ((*ib &0xe0) == 0xc0) len = 2;
-			else if ((*ib &0xf0) == 0xe0) len = 3;
-			else if ((*ib &0xf8) == 0xf0) len = 4;
-			else {
-				g_warning ("Invalid UTF-8 sequence");
-				break;
-			}
-			ib += len;
-			ibl = bytes - (ib - string);
-			if (ibl > bytes) ibl = 0;
-			*ob++ = '_';
-			obl--;
-		}
-	}
-
-	*ob = '\0';
-
-	return new;
+	return e_utf8_to_iconv_string_sized (ic, string, bytes);
 }
 
 gchar *

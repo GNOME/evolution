@@ -20,6 +20,7 @@
 #include <libgnome/gnome-defs.h>
 #include <gnome-xml/tree.h>
 #include <gal/unicode/gunicode.h>
+#include <iconv.h>
 
 BEGIN_GNOME_DECLS
 
@@ -39,11 +40,26 @@ const gchar *e_utf8_strstrcasedecomp (const gchar *haystack, const gchar *needle
 
 gchar *e_utf8_from_gtk_event_key (GtkWidget *widget, guint keyval, const gchar *string);
 
+gchar *e_utf8_from_iconv_string (iconv_t ic, const gchar *string);
+gchar *e_utf8_from_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes);
+
+gchar *e_utf8_to_iconv_string (iconv_t ic, const gchar *string);
+gchar *e_utf8_to_iconv_string_sized (iconv_t ic, const gchar *string, gint bytes);
+
+
+gchar *e_utf8_from_charset_string (const gchar *charset, const gchar *string);
+gchar *e_utf8_from_charset_string_sized (const gchar *charset, const gchar *string, gint bytes);
+
+gchar *e_utf8_to_charset_string (const gchar *charset, const gchar *string);
+gchar *e_utf8_to_charset_string_sized (const gchar *charset, const gchar *string, gint bytes);
+
+
 gchar *e_utf8_from_gtk_string (GtkWidget *widget, const gchar *string);
 gchar *e_utf8_from_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes);
 
 gchar *e_utf8_to_gtk_string (GtkWidget *widget, const gchar *string);
 gchar *e_utf8_to_gtk_string_sized (GtkWidget *widget, const gchar *string, gint bytes);
+
 
 gchar *e_utf8_from_locale_string (const gchar *string);
 gchar *e_utf8_from_locale_string_sized (const gchar *string, gint bytes);
