@@ -32,8 +32,9 @@ INCLUDES = 						\
 	-I$(top_srcdir)/widgets				\
 	-I$(top_srcdir)/executive-summary		\
 	-I$(includedir)					\
-	$(BONOBO_VFS_GNOME_CFLAGS)			\
-	$(EXTRA_GNOME_CFLAGS)				\
+	$(BONOBO_HTML_GNOME_CFLAGS)			\
+	$(GNOME_VFS_CFLAGS)				\
+	$(GAL_CFLAGS)					\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"
@@ -124,8 +125,8 @@ evolution_calendar_LDADD =								\
 	$(top_builddir)/widgets/menus/libmenus.la					\
 	dialogs/libcal-dialogs.a							\
 	$(BONOBO_HTML_GNOME_LIBS)							\
-	$(BONOBO_VFS_GNOME_LIBS)							\
-	$(EXTRA_GNOME_LIBS)								\
+	$(GNOME_VFS_LIBS)								\
+	$(GAL_LIBS)									\
 	$(INTLLIBS)
 
 #evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`

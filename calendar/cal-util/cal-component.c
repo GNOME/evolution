@@ -4003,7 +4003,7 @@ cal_component_alarm_free (CalComponentAlarm *alarm)
 
 	g_assert (alarm->icalcomp != NULL);
 
-	if (icalcomponent_get_parent (alarm->icalcomp) != NULL)
+	if (icalcomponent_get_parent (alarm->icalcomp) == NULL)
 		icalcomponent_free (alarm->icalcomp);
 
 	alarm->icalcomp = NULL;
