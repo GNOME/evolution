@@ -54,3 +54,15 @@ glade_DATA = ldap-server-dialog.glade
 EXTRA_DIST = 			\
 	addressbook.gnorba	\
 	addressbook.oafinfo
+
+if ENABLE_PURIFY
+PLINK = $(LIBTOOL) --mode=link $(PURIFY) $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+
+all-local: evolution-addressbook.pure
+
+evolution-addressbook.pure: evolution-addressbook
+	@rm -f evolution-addressbook.pure
+	$(PLINK) $(evolution_addressbook_LDFLAGS) $(evolution_addressbook_OBJECTS) $(evolution_addressbook_LDADD) $(LIBS)
+
+endif
+

@@ -1,4 +1,10 @@
 2000-05-06  Chris Toshok  <toshok@helixcode.com>
+	* gui/component/.cvsignore: ignore evolution-addressbook.pure
+
+	* gui/component/Makefile.am: add support for generating 
+	evolution-addressbook.pure.
+
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
 
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_load_uri): if a
 	port isn't specified in the uri default to 389.
