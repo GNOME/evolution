@@ -1,5 +1,10 @@
 2000-09-05  JP Rosevear  <jpr@helixcode.com>
 
+	* gui/e-day-view.c (e_day_view_on_delete_occurrence): Append
+	the exdate to the list AFTER we create the date value.
+	
+2000-09-05  JP Rosevear  <jpr@helixcode.com>
+
 	* cal-util/cal-component.c (cal_component_free_recur_list): Free
 	the data, not the list element.
 	
