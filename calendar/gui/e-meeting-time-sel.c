@@ -84,6 +84,9 @@ const gchar *EMeetingTimeSelectorHours12[24] = {
 
 /* The number of days shown in the entire canvas. */
 #define E_MEETING_TIME_SELECTOR_DAYS_SHOWN		365
+#define E_MEETING_TIME_SELECTOR_DAYS_START_BEFORE	 60
+#define E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE            7
+#define E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER            28
 
 /* This is the number of pixels between the mouse has to move before the
    scroll speed is incremented. */
@@ -1445,13 +1448,24 @@ static void
 e_meeting_time_selector_on_update_free_busy (GtkWidget *button,
 					     EMeetingTimeSelector *mts)
 {
-
+	EMeetingTime start, end;
+	
 	/* Make sure the menu pops down, which doesn't happen by default if
 	   keyboard accelerators are used. */
 	if (GTK_WIDGET_VISIBLE (mts->options_menu))
 		gtk_menu_popdown (GTK_MENU (mts->options_menu));
 
-	e_meeting_model_refresh_busy_periods (mts->model, e_meeting_time_selector_refresh_cb, mts);
+
+	start = mts->meeting_start_time;
+	g_date_subtract_days (&start.date, E_MEETING_TIME_SELECTOR_FB_DAYS_BEFORE);
+	start.hour = 0;
+	start.minute = 0;
+	end = mts->meeting_end_time;
+	g_date_add_days (&end.date, E_MEETING_TIME_SELECTOR_FB_DAYS_AFTER);
+	end.hour = 0;
+	end.minute = 0;	
+	e_meeting_model_refresh_busy_periods (mts->model, &start, &end, 
+					      e_meeting_time_selector_refresh_cb, mts);
 }
 
 
@@ -2692,10 +2706,12 @@ static void
 e_meeting_time_selector_update_dates_shown (EMeetingTimeSelector *mts)
 {
 	mts->first_date_shown = mts->meeting_start_time.date;
-	g_date_subtract_days (&mts->first_date_shown, 60);
+	g_date_subtract_days (&mts->first_date_shown,
+			      E_MEETING_TIME_SELECTOR_DAYS_START_BEFORE);
 
 	mts->last_date_shown = mts->first_date_shown;
-	g_date_add_days (&mts->last_date_shown, E_MEETING_TIME_SELECTOR_DAYS_SHOWN - 1);
+	g_date_add_days (&mts->last_date_shown,
+			 E_MEETING_TIME_SELECTOR_DAYS_SHOWN - 1);
 }
 
 

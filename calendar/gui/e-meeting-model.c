@@ -1023,6 +1023,8 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 		return NULL;
 	
 	param = icalproperty_get_first_parameter (ip, ICAL_TZID_PARAMETER);
+	if (param == NULL)
+		return NULL;
 	tzid = icalparameter_get_tzid (param);
 
 	iter = icalcomponent_begin_component (tz_top_level, ICAL_VTIMEZONE_COMPONENT);
@@ -1047,17 +1049,6 @@ find_zone (icalproperty *ip, icalcomponent *tz_top_level)
 	return NULL;
 }
 
-static struct icaltimetype
-convert_time (struct icaltimetype itt, icaltimezone *from, icaltimezone *to)
-{
-	if (from == NULL)
-		from = icaltimezone_get_utc_timezone ();
-
- 	icaltimezone_convert_time (&itt, from, to);
-
-	return itt;
-}
-
 static void
 process_free_busy_comp (EMeetingAttendee *ia,
 			icalcomponent *fb_comp,
@@ -1069,15 +1060,14 @@ process_free_busy_comp (EMeetingAttendee *ia,
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTSTART_PROPERTY);
 	if (ip != NULL) {
 		struct icaltimetype dtstart;
-		icaltimezone *ds_zone = NULL;
+		icaltimezone *ds_zone;
 		
 		dtstart = icalproperty_get_dtstart (ip);
-		if (!dtstart.is_utc) {
+		if (!dtstart.is_utc)
 			ds_zone = find_zone (ip, tz_top_level);
-			if (ds_zone != NULL)
-				dtstart = convert_time (dtstart, ds_zone, zone);
- 		}
-			
+		else
+			ds_zone = icaltimezone_get_utc_timezone ();
+		icaltimezone_convert_time (&dtstart, ds_zone, zone);
 		e_meeting_attendee_set_start_busy_range (ia,
 							 dtstart.year,
 							 dtstart.month,
@@ -1089,15 +1079,14 @@ process_free_busy_comp (EMeetingAttendee *ia,
 	ip = icalcomponent_get_first_property (fb_comp, ICAL_DTEND_PROPERTY);
 	if (ip != NULL) {
 		struct icaltimetype dtend;
-		icaltimezone *de_zone = NULL;
+		icaltimezone *de_zone;
 		
 		dtend = icalproperty_get_dtend (ip);
-		if (!dtend.is_utc) {
+		if (!dtend.is_utc)
 			de_zone = find_zone (ip, tz_top_level);
-			if (de_zone != NULL)
-				dtend = convert_time (dtend, de_zone, zone);
-		}
-
+		else
+			de_zone = icaltimezone_get_utc_timezone ();
+		icaltimezone_convert_time (&dtend, de_zone, zone);
 		e_meeting_attendee_set_end_busy_range (ia,
 						       dtend.year,
 						       dtend.month,
@@ -1135,8 +1124,10 @@ process_free_busy_comp (EMeetingAttendee *ia,
 		}
 			
 		if (busy_type != E_MEETING_FREE_BUSY_LAST) {
-			fb.start = convert_time (fb.start, NULL, zone);
-			fb.end = convert_time (fb.end, NULL, zone);
+			icaltimezone *utc_zone = icaltimezone_get_utc_timezone ();
+
+			icaltimezone_convert_time (&fb.start, utc_zone, zone);
+			icaltimezone_convert_time (&fb.end, utc_zone, zone);
 			e_meeting_attendee_add_busy_period (ia,
 							    fb.start.year,
 							    fb.start.month,
@@ -1230,7 +1221,7 @@ async_close (GnomeVFSAsyncHandle *handle,
 {
 	EMeetingModelRefreshData *r_data = data;
 	EMeetingModelPrivate *priv;
-	
+
 	process_free_busy (r_data->im, r_data->attendee_data.ia, r_data->attendee_data.string->str);
 
 	priv = r_data->im->priv;
@@ -1276,6 +1267,11 @@ async_open (GnomeVFSAsyncHandle *handle,
 	EMeetingModelRefreshData *r_data = data;
 	GnomeVFSFileSize buf_size = BUF_SIZE - 1;
 
+	if (result != GNOME_VFS_OK) {
+		gnome_vfs_async_close (handle, async_close, r_data);
+		return;
+	}
+
 	gnome_vfs_async_read (handle, r_data->attendee_data.buffer, buf_size, async_read, r_data);
 }
 
@@ -1320,10 +1316,18 @@ cursor_cb (EBook *book, EBookStatus status, ECardCursor *cursor, gpointer data)
 		/* Read in free/busy data from the url */
 		gnome_vfs_async_open (&handle, card->fburl, GNOME_VFS_OPEN_READ, async_open, r_data);
 	}
+
+	/* If we didn't find anybody */
+	if (priv->refresh_count == 0)
+		process_callbacks (im);
 }
 
 void
-e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCallback call_back, gpointer data)
+e_meeting_model_refresh_busy_periods (EMeetingModel *im,
+				      EMeetingTime *start,
+				      EMeetingTime *end,
+				      EMeetingModelRefreshCallback call_back,
+				      gpointer data)
 {
 	EMeetingModelPrivate *priv;
 	GPtrArray *not_found;
@@ -1349,10 +1353,24 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 	/* Check the server for free busy data */	
 	if (priv->client) {
 		GList *fb_data, *users = NULL, *l;
-		time_t start, end, now = time (NULL);
+		struct icaltimetype itt;
+		time_t startt, endt;
 		
-		start = now - 60 * 60 * 24;
-		end = time_add_week (now, 6);
+		itt = icaltime_null_time ();
+		itt.year = g_date_year (&start->date);
+		itt.month = g_date_month (&start->date);
+		itt.day = g_date_day (&start->date);
+		itt.hour = start->hour;
+		itt.minute = start->minute;
+		startt = icaltime_as_timet_with_zone (itt, priv->zone);
+
+		itt = icaltime_null_time ();
+		itt.year = g_date_year (&end->date);
+		itt.month = g_date_month (&end->date);
+		itt.day = g_date_day (&end->date);
+		itt.hour = end->hour;
+		itt.minute = end->minute;
+		endt = icaltime_as_timet_with_zone (itt, priv->zone);
 		
 		for (i = 0; i < priv->attendees->len; i++) {
 			EMeetingAttendee *ia = g_ptr_array_index (priv->attendees, i);
@@ -1362,7 +1380,7 @@ e_meeting_model_refresh_busy_periods (EMeetingModel *im, EMeetingModelRefreshCal
 			users = g_list_append (users, g_strdup (user));
 		}
 
-		fb_data = cal_client_get_free_busy (priv->client, users, start, end);
+		fb_data = cal_client_get_free_busy (priv->client, users, startt, endt);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
@@ -1447,7 +1465,7 @@ e_meeting_model_etable_model_to_view_row (EMeetingModel *im, int model_row)
 	
 	priv = im->priv;
 	
-	return e_table_subset_model_to_view_row (priv->without, model_row);
+	return e_table_subset_model_to_view_row (E_TABLE_SUBSET (priv->without), model_row);
 }
 
 int
@@ -1460,7 +1478,7 @@ e_meeting_model_etable_view_to_model_row (EMeetingModel *im, int view_row)
 	
 	priv = im->priv;
 	
-	return e_table_subset_view_to_model_row (priv->without, view_row);
+	return e_table_subset_view_to_model_row (E_TABLE_SUBSET (priv->without), view_row);
 }
 
 
