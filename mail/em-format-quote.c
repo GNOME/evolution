@@ -427,7 +427,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	CamelContentType *type;
 	const char *format;
 	guint32 rgb = 0x737373, flags;
-
+	
 	flags = emfq->text_html_flags;
 	
 	/* Check for RFC 2646 flowed text. */
@@ -437,13 +437,17 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	
-	sig_strip = em_stripsig_filter_new();
-	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
-	camel_stream_filter_add(filtered_stream, sig_strip);
+	
+	if (emfq->flags != 0) {
+		sig_strip = em_stripsig_filter_new ();
+		camel_stream_filter_add (filtered_stream, sig_strip);
+		camel_object_unref (sig_strip);
+	}
+	
+	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
-	camel_object_unref(sig_strip);
 	
 	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)part));
 	camel_stream_flush((CamelStream *)filtered_stream);

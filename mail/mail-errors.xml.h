@@ -54,7 +54,7 @@ char *s = N_("You have unsent messages, do you wish to quit anyway?");
 /* mail:exit-unsaved secondary */
 char *s = N_("If you quit, these messages will not be sent until Evolution is started again.");
 /* mail:camel-exception primary */
-char *s = N_("Your message message, with the subject \"{0}\" was not delivered.");
+char *s = N_("Your message with the subject \"{0}\" was not delivered.");
 /* mail:camel-exception secondary */
 char *s = N_("The message was sent via the \"sendmail\" external application.  Sendmail reports the following error: status 67: mail not sent.\n"
 	"The message is stored in the Outbox folder.  Check the message for errors and resend.");

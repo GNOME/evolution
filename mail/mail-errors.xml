@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <error-list domain="mail">
 
  <error id="camel-service-auth-invalid" type="warning">
@@ -77,7 +77,7 @@ Many email systems add an Apparently-To header to messages that only have BCC re
  </error>
 
  <error id="camel-exception" type="warning">
-  <primary>Your message message, with the subject &quot;{0}&quot; was not delivered.</primary>
+  <primary>Your message with the subject &quot;{0}&quot; was not delivered.</primary>
   <secondary>The message was sent via the &quot;sendmail&quot; external application.  Sendmail reports the following error: status 67: mail not sent.
 The message is stored in the Outbox folder.  Check the message for errors and resend.</secondary>
  </error>

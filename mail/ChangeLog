@@ -1,3 +1,12 @@
+2004-05-25  Jeffrey Stedfast  <fejj@novell.com>
+
+	* mail-errors.xml: a few fixes.
+
+	* em-format-quote.c (emfq_text_plain): Only strip the signature if
+	we are in some wy modifying the content (we don't want to remove
+	the signature if we are editing the message as a new
+	message). Fixes bug #58826.
+
 2004-05-25  Not Zed  <NotZed@Ximian.com>
 
 	* em-folder-view.c (emfv_popup_menu[]): disable add sender to
