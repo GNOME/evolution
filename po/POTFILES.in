@@ -79,8 +79,8 @@ calendar/gui/dialogs/alarm-options.glade
 calendar/gui/dialogs/alarm-page.c
 calendar/gui/dialogs/alarm-page.glade
 calendar/gui/dialogs/cal-prefs-dialog.glade
-calendar/gui/dialogs/calendar-config.c
-calendar/gui/dialogs/calendar-config.glade
+calendar/gui/dialogs/calendar-setup.c
+calendar/gui/dialogs/calendar-setup.glade
 calendar/gui/dialogs/cancel-comp.c
 calendar/gui/dialogs/changed-comp.c
 calendar/gui/dialogs/comp-editor-page.c
@@ -97,7 +97,6 @@ calendar/gui/dialogs/meeting-page.c
 calendar/gui/dialogs/meeting-page.etspec
 calendar/gui/dialogs/meeting-page.glade
 calendar/gui/dialogs/new-calendar.glade
-calendar/gui/dialogs/new-task-list.c
 calendar/gui/dialogs/new-task-list.glade
 calendar/gui/dialogs/recur-comp.c
 calendar/gui/dialogs/recurrence-page.c
