@@ -1,3 +1,7 @@
+2004-04-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-exception.c (w): Wrap annoying exeption warnings with w().
+
 2004-03-30  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):

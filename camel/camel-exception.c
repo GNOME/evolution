@@ -34,6 +34,8 @@
 
 #include "camel-debug.h"
 
+#define w(x)
+
 /* i dont know why gthread_mutex stuff even exists, this is easier */
 
 /* also, i'm not convinced mutexes are needed here.  But it
@@ -244,7 +246,7 @@ camel_exception_xfer (CamelException *ex_dst,
 		      CamelException *ex_src)
 {
 	if (ex_src == NULL) {
-		g_warning ("camel_exception_xfer: trying to transfer NULL exception to %p\n", ex_dst);
+		w(g_warning ("camel_exception_xfer: trying to transfer NULL exception to %p\n", ex_dst));
 		return;
 	}
 
@@ -282,10 +284,10 @@ camel_exception_get_id (CamelException *ex)
 {
 	if (ex)
 		return ex->id;
-	else {
-		g_warning ("camel_exception_get_id called with NULL parameter.");
-		return CAMEL_EXCEPTION_NONE;
-	}
+	
+	w(g_warning ("camel_exception_get_id called with NULL parameter."));
+	
+	return CAMEL_EXCEPTION_NONE;
 }
 
 /**
@@ -306,7 +308,7 @@ camel_exception_get_description (CamelException *ex)
 	if (ex)
 		ret = ex->desc;
 	else
-		g_warning ("camel_exception_get_description called with NULL parameter.");
+		w(g_warning ("camel_exception_get_description called with NULL parameter."));
 		
 	return ret;
 }
