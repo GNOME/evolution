@@ -1,27 +1,59 @@
 #!/usr/bin/perl -w
 
-#  GNOME PO Update Utility.
-#  (C) 2000 The Free Software Foundation
 #
-#  Author(s): Kenneth Christiansen
+#  GNOME PO Update Utility
 #
-#  GNOME PO Update Utility can use the XML to POT Generator, ui-extract.pl
-#  Please distribute it along with this scrips, aswell as desk.po and
-#  README.tools.
+#  Copyright (C) 2000 Free Software Foundation.
 #
-#  Also remember to change $PACKAGE to reflect the package the script is
-#  used within.
+#  This script is free software; you can redistribute it and/or
+#  modify it under the terms of the GNU General Public License as
+#  published by the Free Software Foundation; either version 2 of the
+#  License, or (at your option) any later version.
+#
+#  This script is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#  General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this library; if not, write to the Free Software
+#  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+#
+#  Authors: Kenneth Christiansen <kenneth@gnu.org>
+#
 
+#  NOTICE: Please remember to change the variable $PACKAGE to reflect 
+#  the package this script is used within.
+
+$PACKAGE="evolution";
+
+use File::Basename;
 
 # Declare global variables
 #-------------------------
-my $VERSION = "1.5beta4";
+my $VERSION = "1.5beta5";
 my $LANG    = $ARGV[0];
-my $PACKAGE = "evolution";
 
 # Always print as the first thing
 #--------------------------------
 $| = 1;
+
+# Figure out what package that is in use
+#---------------------------------------
+#open FILE, "../configure.in";
+#    while (<FILE>) {
+#	next if /^dnl/; #ignore comments
+#        if ($_=~/AM_INIT_AUTOMAKE\((.*),(.*)\)/o){
+#            $PACKAGE=$1;
+#	    last; #stop when found
+#            }
+#	if ($_=~/PACKAGE\((.*)\)/o){
+#            $PACKAGE=$1;
+#            last; #stop when found
+#            }
+#        }   
+#close FILE;
+
 
 # Give error if script is run without an argument
 #------------------------------------------------
@@ -208,23 +240,23 @@ sub GenHeaders{
         open FILE, "<POTFILES.in";
         while (<FILE>) {
 
-           # Find .xml.h files in POTFILES.in and generate the
+           # Find .xml files in POTFILES.in and generate the
            # files with help from the ui-extract.pl script
            #--------------------------------------------------
            if ($_=~ /(.*)(\.xml)/o){
               $filename = "../$1.xml";
-              $xmlfiles="perl \.\/ui-extract.pl --update $filename";
+              $xmlfiles="perl \.\/ui-extract.pl --local $filename";
               system($xmlfiles);
            }
       
-           # Find .glade.h files in POTFILES.in and generate
+           # Find .glade files in POTFILES.in and generate
            # the files with help from the ui-extract.pl script
            #--------------------------------------------------
-#           elsif ($_=~ /(.*)(\.glade)/o){
-#              $filename = "../$1.glade";
-#              $xmlfiles="perl \.\/ui-extract.pl --update $filename";
-#              system($xmlfiles);  
-#           }
+           elsif ($_=~ /(.*)(\.glade)/o){
+              $filename = "../$1.glade";
+              $xmlfiles="perl \.\/ui-extract.pl --local $filename";
+              system($xmlfiles);  
+           }
        }
        close FILE;
 
@@ -249,8 +281,12 @@ sub GeneratePot{
     open INFILE, "<POTFILES.in.old";
     open OUTFILE, ">POTFILES.in";
     while (<INFILE>) {
+	if ($_ =~ /\.(glade|xml)$/) {
         s/\.glade$/\.glade\.h/;
         s/\.xml$/\.xml\.h/;
+        $_ = basename($_);
+	$_ = "po/tmp/$_\n";
+        }
         print OUTFILE $_;        
     }
     close OUTFILE;
@@ -278,25 +314,7 @@ sub GeneratePot{
         unlink(".headerlock");
 
         print "Removing generated header (.h) files...";
-
-        open FILE, "<POTFILES.in";
-        while (<FILE>) {
-
-           # Delete header files coming from xml files
-           #------------------------------------------
-           if ($_=~ /(.*)(\.xml)/o){
-               $filename = "../$1.xml.h";
-    	       unlink($filename);
-           }
-
-           # Delete header files coming from glade files
-           #--------------------------------------------
-#           elsif ($_=~ /(.*)(\.glade)/o){
-#               $filename = "../$1.glade.h";
-#               unlink($filename);
-#           }
-       }
-       close FILE;
+#	system("rm ./tmp/ -rf");
     }
     print "done\n";
 }

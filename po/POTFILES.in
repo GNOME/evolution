@@ -56,6 +56,7 @@ calendar/gui/print.c
 calendar/gui/prop.c
 calendar/gui/weekday-picker.c
 camel/camel-folder-thread.c
+camel/camel-lock.c
 camel/camel-movemail.c
 camel/camel-provider.c
 camel/camel-remote-store.c
@@ -91,11 +92,13 @@ composer/e-msg-composer-attachment.glade
 composer/e-msg-composer-hdrs.c
 composer/e-msg-composer.c
 composer/evolution-composer.c
+filter/e-search-bar.c
 filter/filter-datespec.c
 filter/filter-editor.c
 filter/filter-filter.c
 filter/filter-folder.c
 filter/filter-input.c
+filter/filter-message-search.c
 filter/filter-option.c
 filter/filter-part.c
 filter/filter-rule.c
@@ -160,3 +163,14 @@ widgets/misc/e-calendar-item.c
 widgets/misc/e-clipped-label.c
 widgets/misc/e-dateedit.c
 widgets/shortcut-bar/e-group-bar.c
+camel/providers/imap/camel-imap-auth.c
+camel/providers/local/camel-local-provider.c
+camel/providers/local/camel-local-store.c
+camel/providers/local/camel-maildir-folder.c
+camel/providers/local/camel-maildir-store.c
+camel/providers/local/camel-mbox-folder.c
+camel/providers/local/camel-mbox-provider.c
+camel/providers/local/camel-mbox-store.c
+camel/providers/local/camel-mbox-summary.c
+camel/providers/local/camel-mh-folder.c
+camel/providers/local/camel-mh-store.c
