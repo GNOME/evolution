@@ -178,10 +178,11 @@ process_item_fn (EvolutionImporter *eimporter,
 			info = get_info_from_mozilla (mozilla_status, &deleted);
 		} else {
 			info = g_new0 (CamelMessageInfo, 1);
+			deleted = FALSE;
 		}
 
-		if (deleted == FALSE) {
-		/* write the mesg */
+		if (! deleted) {
+			/* Write the message.  */
 			camel_folder_append_message (importer->folder, msg, info, NULL, ex);
 			g_free (info);
 		}

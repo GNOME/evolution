@@ -1,3 +1,13 @@
+2002-10-01  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #24732]
+
+	* importers/evolution-mbox-importer.c (process_item_fn): Set
+	deleted to FALSE when not having Mozilla status headers.  Before
+	it was being left uninitialized and so there was a pretty good
+	chance that its value would be nonzero and hence the message would
+	not be imported...
+
 2002-10-01  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.c (on_cursor_activated): cursor activated on
