@@ -1,3 +1,9 @@
+2005-03-09  Not Zed  <NotZed@Ximian.com>
+
+	* gui/e-week-view-event-item.c (e_week_view_event_item_draw_icons):
+	* gui/e-day-view.c (e_day_view_reshape_day_event): free the ecalcomponent
+	after using it.
+
 2005-03-08  Chenthill Palanisamy  <pchenthill@novell.com>
 
 	Fixes #73141
@@ -28,7 +34,6 @@
 	(open_alarm_dialog): store the dialog returned by alarm_notify_dialog().
 	(tray_icon_destroyed_cb): destroy the dialog if still around.
 
->>>>>>> 1.2682
 2005-02-28  Harish Krishnaswamy  <kharish@novell.com>
 
         Fixes #69556
