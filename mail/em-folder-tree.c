@@ -332,6 +332,7 @@ folder_tree_new (EMFolderTreeModel *model)
 	GtkWidget *tree;
 	
 	tree = gtk_tree_view_new_with_model ((GtkTreeModel *) model);
+	GTK_WIDGET_SET_FLAGS(tree, GTK_CAN_FOCUS);
 	
 	column = gtk_tree_view_column_new ();
 	gtk_tree_view_append_column ((GtkTreeView *) tree, column);

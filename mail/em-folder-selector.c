@@ -178,7 +178,6 @@ folder_selected_cb (EMFolderTree *emft, const char *path, const char *uri, EMFol
 void
 em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint32 flags, const char *title, const char *text)
 {
-	GtkWidget *scrolled_window;
 	GtkWidget *label;
 	
 	gtk_window_set_default_size (GTK_WINDOW (emfs), 350, 300);
@@ -205,16 +204,7 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 	gtk_widget_show ((GtkWidget *) emft);
 	
 	g_signal_connect (emfs->emft, "folder-selected", G_CALLBACK (folder_selected_cb), emfs);
-	
-	scrolled_window = gtk_scrolled_window_new (NULL, NULL);
-	gtk_scrolled_window_set_shadow_type (GTK_SCROLLED_WINDOW (scrolled_window), GTK_SHADOW_IN);
-	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_window),
-					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_widget_show (scrolled_window);
-	
-	gtk_container_add (GTK_CONTAINER (scrolled_window), (GtkWidget *) emft);
-        
-	gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), scrolled_window, TRUE, TRUE, 6);
+	gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), (GtkWidget *)emft, TRUE, TRUE, 6);
 	
 	if (text != NULL) {
 		label = gtk_label_new (text);
@@ -224,7 +214,6 @@ em_folder_selector_construct (EMFolderSelector *emfs, EMFolderTree *emft, guint3
 		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (emfs)->vbox), label, FALSE, TRUE, 6);
 	}
 	
-	GTK_WIDGET_SET_FLAGS ((GtkWidget *) emfs->emft, GTK_CAN_FOCUS);
 	gtk_widget_grab_focus ((GtkWidget *) emfs->emft);
 }
 

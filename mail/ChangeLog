@@ -1,3 +1,15 @@
+2004-02-02  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #53559.
+
+	* em-folder-tree.c (folder_tree_new): set CAN_FOCUS flag on the
+	folder tree content widget.
+
+	* em-folder-selector.c (em_folder_selector_construct): Don't wrap
+	the folder tree in a scrolled window.  Its already in one ????.
+	(em_folder_selector_construct): dont set can_focus on the folder
+	tree.
+
 2004-02-01  Bill Zhu <bill.zhu@sun.com>
 
         Fixes for bug #53530
