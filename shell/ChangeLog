@@ -1,3 +1,8 @@
+2001-05-29  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-shell-view.c (setup_progress_bar): Added missing castt.
+	(setup_offline_toggle): Likewise.
+
 2001-05-29  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell-view.c (setup_progress_bar): unref the control when

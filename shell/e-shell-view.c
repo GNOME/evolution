@@ -643,8 +643,8 @@ setup_offline_toggle (EShellView *shell_view)
 	bonobo_ui_component_object_set (priv->ui_component, "/status/OfflineToggle",
 					BONOBO_OBJREF (control),
 					NULL);
-	bonobo_object_unref (control);
-	
+	bonobo_object_unref (BONOBO_OBJECT (control));
+
 	priv->offline_toggle        = toggle;
 	priv->offline_toggle_pixmap = pixmap;
 
@@ -674,7 +674,7 @@ setup_progress_bar (EShellView *shell_view)
 	bonobo_ui_component_object_set (priv->ui_component, "/status/Progress",
 					BONOBO_OBJREF (control),
 					NULL);
-	bonobo_object_unref (control);
+	bonobo_object_unref (BONOBO_OBJECT (control));
 }
 
 static void
