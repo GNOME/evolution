@@ -1,3 +1,14 @@
+2000-11-01  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-autofilter.c (rule_from_message): If the name is NULL or
+	empty, then set the title to "Mail from <address>". Closes
+	bugzilla bug #777. Also when filtering on Subject, set the file
+	name to "Subject is <subject>" rather than just "<subject>" - I
+	think this is a bit more user-friendly.
+	(strip_re): Use unsigned char when passing to is<type>()
+	functions from ctype.h.
+	(rule_add_subject): Use the "is" rule instead of "contains".
+
 2000-11-01	Jesse Pavel   <jpavel@helixcode.com>
 
 	* mail-display.c: added property bag support for Bonobo
