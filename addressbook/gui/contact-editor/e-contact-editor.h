@@ -89,6 +89,8 @@ struct _EContactEditor
 	guint in_async_call : 1;
 
 	EList *writable_fields;
+	
+	EList *required_fields;
 
 	/* ID for async load_source call */
 	guint  load_source_id;

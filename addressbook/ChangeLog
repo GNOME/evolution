@@ -1,3 +1,27 @@
+2004-11-28  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/contact-editor/e-contact-editor.h : Define
+	new list for storing required fields
+
+	* gui/contact-editor/e-contact-editor.c 
+	(e_contact_editor_class_init) : install new REQUIRED_FIELDS
+	property 
+	(e_contact_editor_set_property)
+	(e_contact_editor_get_property) : added handling 
+	for new RQUIRED_FIELDS_PROPERTY
+	(e_contact_editor_dispose) : unref the new 
+	required_fields member 
+	(required_fields_cb) : call back to set required fields into
+	contact editor
+	(is_non_string_field) : new method to detect
+	whether a particular field in contact is a string or not
+	(e_contact_editor_is_valid) : check for presence of 
+	all required fields
+	(save_contact) : extract all the data before 
+	calling e_contact_editor_is_valid so that
+	it can check for required fields. Clean up the contact
+	if there is an error
+	
 2004-11-27  Sushma Rai  <rsushma@novell.com>
 
 	* gui/widgets/e-minicard-view.c (set_empty_message):
