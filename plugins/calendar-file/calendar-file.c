@@ -42,10 +42,18 @@ e_calendar_file_dummy (EPlugin *epl, EConfigHookItemFactoryData *data)
 	ECalConfigTargetSource *t = (ECalConfigTargetSource *) data->target;
 	ESource *source = t->source;
 	char *uri_text;
-	
+	char *relative_uri;
+
         uri_text = e_source_get_uri (source);
 	if (strncmp (uri_text, "file", 4)) {
 		g_free (uri_text);
+		
+		return NULL;
+	}
+
+	relative_uri = e_source_peek_relative_uri (source);
+	if (relative_uri && *relative_uri) {
+	  	g_free (uri_text);
 		
 		return NULL;
 	}
