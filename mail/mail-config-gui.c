@@ -76,7 +76,6 @@ typedef struct
 	gboolean userneed;
 	GtkWidget *host;
 	gboolean hostneed;
-	GtkWidget *port;
 	GtkWidget *path;
 	gboolean pathneed;
 	GtkWidget *auth_optionmenu;
@@ -85,8 +84,6 @@ typedef struct
 	GtkWidget *auth_detect;
 	GtkWidget *keep_on_server;
 	gint pnum;
-	gint default_port;
-	GtkWidget *use_default_port;
 } MailDialogServicePageItem;
 
 struct _MailDialogServicePage
@@ -588,21 +585,15 @@ service_page_get_url (MailDialogServicePage *page)
 
 	if (spitem->user)
 		url->user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
-	if (spitem->host)
+	if (spitem->host) {
+		char *p;
+
 		url->host = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
-	if (spitem->port && !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spitem->use_default_port))) {
-		gchar *val;
-
-		val = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->port), 0, -1);
-
-		if (*val)
-			url->port = atoi (val);
-		else
-			url->port = 0;
-
-		g_free (val);
-	} else {
-		url->port = 0;
+		p = strchr (url->host, ':');
+		if (p) {
+			*p++ = '\0';
+			url->port = atoi (p);
+		}
 	}
 
 	if (spitem->path) {
@@ -661,24 +652,17 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 	if (spitem->user && url && url->user)
 		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->user), url->user);
 
-	if (spitem->host && url && url->host)
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->host), url->host);
-	
-	if (spitem->port) {
-		gchar *tmp;
-			
-		if (url && url->port) {
-			tmp = g_strdup_printf ("%d", url->port);
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spitem->use_default_port),
-						      FALSE);
-		} else if (spitem->default_port) {
-			tmp = g_strdup_printf ("%d", spitem->default_port);
+	if (spitem->host && url && url->host) {
+		if (url->port) {
+			char *hostport;
+			hostport = g_strdup_printf ("%s:%d", url->host,
+						    url->port);
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->host),
+						   hostport);
 		} else {
-			tmp = g_strdup ("");
+			e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->host),
+						   url->host);
 		}
-
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (spitem->port), tmp);
-		g_free (tmp);
 	}
 
 	if (spitem->path && url && url->path) {
@@ -879,18 +863,6 @@ service_page_add_elem (MailDialogServicePage *page, GtkWidget *table,
 	return entry;
 }
 
-static void
-toggle_port (GtkWidget *w, gpointer user_data)
-{
-	MailDialogServicePage *page;
-	gboolean val;
-
-	page = (MailDialogServicePage *) user_data;
-
-	val = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
-	gtk_widget_set_sensitive (page->spitem->port, val);
-}
-	
 static MailDialogServicePageItem *
 service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 {
@@ -922,39 +894,9 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 	service_flags = mcs->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
-		GtkWidget *w;
-
 		item->host = service_page_add_elem (page, table, row++, _("Server:"));
 		item->hostneed = ((service_flags & CAMEL_SERVICE_URL_NEED_HOST)
 				  == CAMEL_SERVICE_URL_NEED_HOST);
-
-		item->default_port = mcs->provider->default_ports[mcs->type];
-
-		w = gtk_label_new (_("Port:"));
-		gtk_table_attach (GTK_TABLE (table), w, 0, 1,
-				  row, row + 1, GTK_FILL, 0, 0, 0);
-		gtk_misc_set_alignment (GTK_MISC (w), 1, 0.5);
-
-		item->port = gtk_entry_new();
-		gtk_table_attach (GTK_TABLE (table), item->port,
-				  1, 2, row, row + 1,
-				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
-				  0, 0);
-		gtk_signal_connect (GTK_OBJECT (item->port), "changed",
-				    GTK_SIGNAL_FUNC (service_page_item_changed), page);
-		gtk_widget_set_sensitive (item->port, FALSE);
-
-		item->use_default_port = gtk_check_button_new_with_label (_("Use default port"));
-		gtk_table_attach (GTK_TABLE (table), item->use_default_port, 
-				  2, 3, row, row + 1,
-				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
-				  0, 0);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->use_default_port), 
-					      TRUE);
-		gtk_signal_connect (GTK_OBJECT (item->use_default_port), "toggled",
-				    GTK_SIGNAL_FUNC (toggle_port),
-				    page);
-		row++;
 	}
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {

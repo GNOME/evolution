@@ -1,3 +1,11 @@
+2000-10-02  Dan Winship  <danw@helixcode.com>
+
+	* mail-config-gui.c: Remove "Port" entry from source dialog. We'll
+	use "host:port" like Netscape and other programs do.
+	(service_page_get_url): If host ends in ":###", use that as port.
+	(service_page_set_url): If URL contains a port, append it to the
+	hostname, separated by a colon.
+
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
 	* Makefile.am (evolution_mail_SOURCES): subscribe-control.[ch] -> subscribe_dialog.[ch]
