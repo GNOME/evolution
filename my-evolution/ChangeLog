@@ -1,3 +1,21 @@
+2001-09-10  Dan Winship  <danw@ximian.com>
+
+	Purification.
+	
+	* e-summary.c (destroy): free the protocol hash.
+
+	* e-summary-rdf.c (tree_walk): plug a leak.
+
+	* e-summary-weather.c (e_summary_weather_init_locations): Don't
+	insert duplicates into the hash table.
+
+	* e-summary-mail.c (e_summary_mail_generate_html): free old html
+	before setting new
+
+	* e-summary.c (e_summary_draw): free weather and rdf html strings.
+
+	* e-summary-preferences.c (save_known_rdfs): free strings.
+
 2001-09-10  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-preferences.c: Add Memepool RDF.

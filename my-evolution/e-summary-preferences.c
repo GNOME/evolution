@@ -504,6 +504,7 @@ save_known_rdfs (GList *rdfs)
 		info = rdfs->data;
 		line = g_strconcat (info->url, ",", info->name, "\n", NULL);
 		fputs (line, handle);
+		g_free (line);
 	}
 
 	fclose (handle);

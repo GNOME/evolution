@@ -86,6 +86,13 @@ typedef struct _ProtocolListener {
 
 
 static void
+free_protocol (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
+}
+
+static void
 destroy (GtkObject *object)
 {
 	ESummary *summary;
@@ -116,6 +123,11 @@ destroy (GtkObject *object)
 
 	alarm_remove (priv->alarm);
 	alarm_done ();
+
+	if (priv->protocol_hash) {
+		g_hash_table_foreach (priv->protocol_hash, free_protocol, NULL);
+		g_hash_table_destroy (priv->protocol_hash);
+	}
 
 	g_free (priv);
 	summary->priv = NULL;
@@ -155,11 +167,13 @@ e_summary_draw (ESummary *summary)
 	html = e_summary_weather_get_html (summary);
 	if (html != NULL) {
 		g_string_append (string, html);
+		g_free (html);
 	}
 
 	html = e_summary_rdf_get_html (summary);
 	if (html != NULL) {
 		g_string_append (string, html);
+		g_free (html);
 	}
 
 	g_string_append (string, HTML_4);

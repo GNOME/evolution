@@ -445,10 +445,12 @@ e_summary_weather_init_locations (void)
 								  &locdata);
 					g_return_val_if_fail (nlocdata == 4, FALSE);
 
-					location = weather_location_new (locdata);
-					g_hash_table_insert (locations_hash,
-							     g_strdup (locdata[1]),
-							     location);
+					if (!g_hash_table_lookup (locations_hash, locdata[1])) {
+						location = weather_location_new (locdata);
+						g_hash_table_insert (locations_hash,
+								     g_strdup (locdata[1]),
+								     location);
+					}
 					
 					g_strfreev (locdata);
 				}

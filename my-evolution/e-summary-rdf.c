@@ -116,17 +116,17 @@ layer_find_url (xmlNodePtr node,
 	if (*r == ' ') r++;	/* Fix UF bug */
 
 	while (*r) {
-		if (memcmp (r, "&amp;", 5) == 0) {
+		if (strncmp (r, "&amp;", 5) == 0) {
 			*w++ = '&';
 			r += 5;
 			continue;
 		}
-		if (memcmp (r, "&lt;", 4) == 0) {
+		if (strncmp (r, "&lt;", 4) == 0) {
 			*w++ = '<';
 			r += 4;
 			continue;
 		}
-		if (memcmp (r, "&gt;", 4) == 0) {
+		if (strncmp (r, "&gt;", 4) == 0) {
 			*w++ = '>';
 			r += 4;
 			continue;
@@ -229,12 +229,8 @@ tree_walk (xmlNodePtr root,
 	t = layer_find(channel->childs, "title", "");
 	u = layer_find(channel->childs, "link", "");
 
-	if (*u != '\0') {
-		char *full;
-
-		full = g_strdup_printf ("<a href=\"%s\">", u);
-		g_string_append (html, full);
-	}
+	if (*u != '\0')
+		g_string_sprintfa (html, "<a href=\"%s\">", u); 
 	t = e_utf8_from_locale_string (t);
 	g_string_append (html, t);
 	g_free (t);

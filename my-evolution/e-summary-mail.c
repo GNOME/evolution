@@ -120,6 +120,7 @@ e_summary_mail_generate_html (ESummary *summary)
 	}
 
 	g_string_append (string, "</table></dd></dl>");
+	g_free (mail->html);
 	mail->html = string->str;
 	g_string_free (string, FALSE);
 }
