@@ -67,6 +67,7 @@ EvolutionShellClient *evolution_shell_client_new                 (Evolution_Shel
 void                  evolution_shell_client_user_select_folder  (EvolutionShellClient  *shell_client,
 								  const char            *title,
 								  const char            *default_folder,
+								  const char            *possible_types[],
 								  char                 **uri_return,
 								  char                 **physical_uri_return);
 

@@ -148,10 +148,25 @@ create_folder_selection_listener_interface (char **result,
 	return corba_interface;
 }
 
+static int
+count_string_items (const char *list[])
+{
+	int i;
+
+	if (list == NULL)
+		return 0;
+
+	for (i = 0; list[i] != NULL; i++)
+		;
+
+	return i;
+}
+
 static void
 user_select_folder (EvolutionShellClient *shell_client,
 		    const char *title,
 		    const char *default_folder,
+		    const char *possible_types[],
 		    char **uri_return,
 		    char **physical_uri_return)
 {
@@ -159,6 +174,8 @@ user_select_folder (EvolutionShellClient *shell_client,
 	Evolution_Shell corba_shell;
 	GMainLoop *main_loop;
 	CORBA_Environment ev;
+	Evolution_Shell_FolderTypeList corba_type_list;
+	int num_possible_types;
 	char *result;
 
 	result = NULL;
@@ -175,10 +192,15 @@ user_select_folder (EvolutionShellClient *shell_client,
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
-	g_print ("%s -- %p\n", __FUNCTION__, corba_shell);
+	num_possible_types = count_string_items (possible_types);
+
+	corba_type_list._length  = num_possible_types;
+	corba_type_list._maximum = num_possible_types;
+	corba_type_list._buffer  = possible_types;
 
 	Evolution_Shell_user_select_folder (corba_shell, listener_interface,
-					    title, default_folder, &ev);
+					    title, default_folder, &corba_type_list,
+					    &ev);
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
@@ -301,6 +323,7 @@ void
 evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 					   const char *title,
 					   const char *default_folder,
+					   const char *possible_types[],
 					   char **uri_return,
 					   char **physical_uri_return)
 {
@@ -309,7 +332,8 @@ evolution_shell_client_user_select_folder (EvolutionShellClient *shell_client,
 	g_return_if_fail (title != NULL);
 	g_return_if_fail (default_folder != NULL);
 
-	user_select_folder (shell_client, title, default_folder, uri_return, physical_uri_return);
+	user_select_folder (shell_client, title, default_folder, possible_types,
+			    uri_return, physical_uri_return);
 }
 
 

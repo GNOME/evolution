@@ -1,3 +1,9 @@
+2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-gui-utils.h: #include <libgnomeui/gnome-messagebox.h>.  It's
+	needed to be able to pass an appropriate @type arg to
+	`e_notice()'.
+
 2000-06-29  Jody Goldberg <jgoldberg@home.com>
 
 	* e-canvas.c (e_canvas_init) : Init the InputContext members

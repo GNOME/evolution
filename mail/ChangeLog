@@ -1,3 +1,8 @@
+2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-ops.c (refile_msg): Only allow type "mail" in the folder
+	selection dialog.
+
 2000-07-01  Dan Winship  <danw@helixcode.com>
 
 	* pixmaps.h, pixmaps/*.xpm: Removed. These aren't being used any

@@ -556,6 +556,7 @@ arg_folder_write_text(FilterArg *argin, GString *string)
 static int
 arg_folder_edit_value (FilterArg *arg, int index)
 {
+	const char *allowed_types[] = { "mail", NULL };
 	char *def;
 	char *physical_uri;
 
@@ -569,7 +570,7 @@ arg_folder_edit_value (FilterArg *arg, int index)
 
 	evolution_shell_client_user_select_folder (global_shell_client,
 						   _("Select Folder"),
-						   def, NULL, &physical_uri);
+						   def, allowed_types, NULL, &physical_uri);
 
 	if (physical_uri != NULL && physical_uri[0] != '\0') {
 		GList *node;

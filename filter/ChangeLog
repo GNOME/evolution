@@ -1,3 +1,8 @@
+2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* filter-arg-types.c (arg_folder_edit_value): Only allow type
+	"mail" when selecting a folder for the filter.
+
 2000-07-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* filter-driver.c: Updated to reflect changes made to 

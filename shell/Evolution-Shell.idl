@@ -22,10 +22,13 @@ module Evolution {
 		ShellComponent get_component_for_type (in string type)
 			raises (NotFound);
 
+		typedef sequence<string> FolderTypeList;
+
 		/* FIXME: Parent "transient_for" window. */
 		void user_select_folder (in FolderSelectionListener listener,
 					 in string title,
-					 in string default_folder)
+					 in string default_folder,
+					 in FolderTypeList possible_types)
 			raises (Busy);
 	};
 

@@ -638,6 +638,7 @@ refile_msg (GtkWidget *button, gpointer user_data)
 	MessageList *ml = fb->message_list;
 	char *uri, *physical, *path;
 	struct refile_data rfd;
+	const char *allowed_types[] = { "mail", NULL };
 
 	extern EvolutionShellClient *global_shell_client;
 	static char *last;
@@ -647,7 +648,7 @@ refile_msg (GtkWidget *button, gpointer user_data)
 
 	evolution_shell_client_user_select_folder  (global_shell_client,
 						    _("Refile message(s) to"),
-						    last, &uri, &physical);
+						    last, allowed_types, &uri, &physical);
 	if (!uri)
 		return;
 

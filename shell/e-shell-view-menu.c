@@ -249,32 +249,31 @@ command_new_folder (BonoboUIHandler *uih,
 /* Going to a folder.  */
 
 static void
-folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
-				    int button_number,
-				    void *data)
+folder_selection_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+				      void *data)
 {
-	EShellFolderSelectionDialog *folder_selection_dialog;
 	EShellView *shell_view;
 
 	shell_view = E_SHELL_VIEW (data);
-	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
 
-	if (button_number != 0 /* OK */ && button_number != 1 /* Cancel */)
-		return;
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
+}
 
-	if (button_number == 0 /* OK */) {
-		const char *path;
+static void
+folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+					    const char *path,
+					    void *data)
+{
+	if (path != NULL) {
+		EShellView *shell_view;
+		char *uri;
 
-		path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog);
-		if (path != NULL) {
-			char *uri;
+		shell_view = E_SHELL_VIEW (data);
 
-			uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-			e_shell_view_display_uri (shell_view, uri);
-		}
+		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+		e_shell_view_display_uri (shell_view, uri);
+		g_free (uri);
 	}
-
-	gtk_widget_destroy (GTK_WIDGET (dialog));
 }
 
 static void
@@ -300,10 +299,12 @@ command_goto_folder (BonoboUIHandler *uih,
 
 	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell,
 								       _("Go to folder..."),
-								       default_folder);
+								       default_folder, NULL);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_clicked_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_cb), shell_view);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell_view);
 
 	gtk_widget_show (folder_selection_dialog);
 }

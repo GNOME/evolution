@@ -1,5 +1,54 @@
 2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-shell.c (impl_Shell_user_select_folder): New arg
+	@allowed_types.  Pass it to the EShellFolderSelectionDialog.
+	Connect to the "cancelled" and "folder_selected" signals instead
+	of "clicked".
+	(corba_listener_destroy_notify): New callback.
+	(impl_Shell_user_select_folder): Associate it to the DestroyNotify
+	for the "corba_listener" GtkObject data, so we don't leak it.
+	(folder_selection_dialog_clicked_cb): Don't release the listener
+	interface here.
+	(folder_selection_dialog_cancelled_cb): New callback for the
+	"cancelled" signal.
+	(folder_selection_dialog_folder_selected_cb): New callback for the
+	"folder_selected" signal.
+
+	* e-shell-view-menu.c (command_goto_folder): Don't connect to
+	"clicked".  Connect to "cancelled" and "folder_selected" instead.
+	(folder_selection_dialog_cancelled_cb): New, callback for the
+	"cancelled" signal.
+	(folder_selection_dialog_folder_selected_cb): New, callback for
+	the "folder_selected" signal.
+
+	* e-shell-folder-selection-dialog.c New members `allowed_types',
+	`storage_set' in `EShellFolderSelectionDialogPrivate'.
+	(class_init): Install signals "folder_selected", "cancelled".
+	(init): Init to NULL.
+	(impl_destroy): Free/unref them.
+	(e_shell_folder_selection_dialog_new): New arg @allowed_types.
+	(e_shell_folder_selection_dialog_construct): New arg
+	@allowed_types.  Initialize `priv->allowed_types' from it.
+	(check_folder_type): New function.  Check if the selected folder
+	is of the appropriate type and, if not, return FALSE and pop up an
+	error dialog.  Otherwise, return TRUE.
+	(impl_clicked): Use `check_folder_type()' to check if the folder
+	type is OK.  If it is not, stop emission of the "clicked" signal.
+
+	* e-shell-folder-selection-dialog.h: New signals
+	"folder_selected", "cancelled".
+
+	* evolution-shell-client.c
+	(evolution_shell_client_user_select_folder): New arg
+	@allowed_types.
+	(user_select_folder): New arg @allowed_types.  Pass this to the
+	::user_select_folder method.
+
+	* Evolution-Shell.idl: New arg @required_types in
+	::user_select_folder.
+
+2000-07-01  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* e-shell.c (setup_components): Don't ref the component registry.
 
 2000-06-30  Dan Winship  <danw@helixcode.com>

@@ -29,6 +29,7 @@
 
 #include "Evolution.h"
 
+#include "e-util/e-gui-utils.h"
 #include "e-util/e-util.h"
 
 #include "e-component-registry.h"
@@ -91,51 +92,57 @@ static guint signals[LAST_SIGNAL] = { 0 };
 /* Callback for the folder selection dialog.  */
 
 static void
-folder_selection_dialog_clicked_cb (GnomeDialog *dialog,
-				    int button_number,
-				    void *data)
+folder_selection_dialog_cancelled_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+				      void *data)
 {
-	EShellFolderSelectionDialog *folder_selection_dialog;
 	Evolution_FolderSelectionListener listener;
-	EShell *shell;
-	EStorageSet *storage_set;
-	EFolder *folder;
 	CORBA_Environment ev;
-	const char *path;
-	char *uri;
-	const char *physical_uri;
 
-	if (button_number == 2)
-		return;
-
-	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
-	shell = E_SHELL (data);
-	listener = gtk_object_get_data (GTK_OBJECT (dialog), "corba_listener");
+	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
 
 	CORBA_exception_init (&ev);
 
-	if (button_number == 0) {
-		storage_set = e_shell_get_storage_set (shell);
-		path = e_shell_folder_selection_dialog_get_selected_path (folder_selection_dialog),
-			folder = e_storage_set_get_folder (storage_set, path);
+	Evolution_FolderSelectionListener_cancel (listener, &ev);
 
-		uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
-
-		if (folder == NULL || button_number == 1)	/* Uh? */
-			physical_uri = "";
-		else
-			physical_uri = e_folder_get_physical_uri (folder);
-
-		Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
-		g_free (uri);
-	} else
-		Evolution_FolderSelectionListener_cancel (listener, &ev);
-
-	CORBA_Object_release (listener, &ev);
 	CORBA_exception_free (&ev);
 
-	if (button_number != -1)
-		gnome_dialog_close(dialog);
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
+}
+
+static void
+folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_selection_dialog,
+					    const char *path,
+					    void *data)
+{
+	CORBA_Environment ev;
+	EShell *shell;
+	Evolution_FolderSelectionListener listener;
+	EStorageSet *storage_set;
+	EFolder *folder;
+	char *uri;
+	char *physical_uri;
+
+	shell = E_SHELL (data);
+	listener = gtk_object_get_data (GTK_OBJECT (folder_selection_dialog), "corba_listener");
+
+	CORBA_exception_init (&ev);
+
+	storage_set = e_shell_get_storage_set (shell);
+	folder = e_storage_set_get_folder (storage_set, path);
+
+	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
+
+	if (folder == NULL)
+		physical_uri = "";
+	else
+		physical_uri = e_folder_get_physical_uri (folder);
+
+	Evolution_FolderSelectionListener_selected (listener, uri, physical_uri, &ev);
+	g_free (uri);
+
+	CORBA_exception_free (&ev);
+
+	gtk_widget_destroy (GTK_WIDGET (folder_selection_dialog));
 }
 
 
@@ -195,27 +202,51 @@ impl_Shell_get_component_for_type (PortableServer_Servant servant,
 }
 
 static void
+corba_listener_destroy_notify (void *data)
+{
+	CORBA_Environment ev;
+	Evolution_FolderSelectionListener listener_interface;
+
+	listener_interface = (Evolution_FolderSelectionListener) data;
+
+	CORBA_exception_init (&ev);
+	CORBA_Object_release (listener_interface, &ev);
+	CORBA_exception_free (&ev);
+}
+
+static void
 impl_Shell_user_select_folder (PortableServer_Servant servant,
 			       const Evolution_FolderSelectionListener listener,
 			       const CORBA_char *title,
 			       const CORBA_char *default_folder,
+			       const Evolution_Shell_FolderTypeList *corba_allowed_types,
 			       CORBA_Environment *ev)
 {
 	GtkWidget *folder_selection_dialog;
 	BonoboObject *bonobo_object;
 	Evolution_FolderSelectionListener listener_duplicate;
 	EShell *shell;
+	const char **allowed_types;
+	int i;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
-	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder);
+	allowed_types = alloca (sizeof (allowed_types[0]) * (corba_allowed_types->_length + 1));
+	for (i = 0; i < corba_allowed_types->_length; i++)
+		allowed_types[i] = corba_allowed_types->_buffer[i];
+	allowed_types[corba_allowed_types->_length] = NULL;
+
+	folder_selection_dialog = e_shell_folder_selection_dialog_new (shell, title, default_folder, allowed_types);
 
 	listener_duplicate = CORBA_Object_duplicate (listener, ev);
-	gtk_object_set_data (GTK_OBJECT (folder_selection_dialog), "corba_listener", listener_duplicate);
+	gtk_object_set_data_full (GTK_OBJECT (folder_selection_dialog), "corba_listener",
+				  listener_duplicate, corba_listener_destroy_notify);
 
-	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "clicked",
-			    GTK_SIGNAL_FUNC (folder_selection_dialog_clicked_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "folder_selected",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_folder_selected_cb), shell);
+	gtk_signal_connect (GTK_OBJECT (folder_selection_dialog), "cancelled",
+			    GTK_SIGNAL_FUNC (folder_selection_dialog_cancelled_cb), shell);
 
 	gtk_widget_show (folder_selection_dialog);
 }

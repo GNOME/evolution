@@ -52,6 +52,10 @@ struct _EShellFolderSelectionDialog {
 
 struct _EShellFolderSelectionDialogClass {
 	GnomeDialogClass parent_class;
+
+	void (* folder_selected) (EShellFolderSelectionDialog *folder_selection_dialog,
+				  const char *path);
+	void (* cancelled)       (EShellFolderSelectionDialog *folder_selection_dialog);
 };
 
 
@@ -59,10 +63,12 @@ GtkType     e_shell_folder_selection_dialog_get_type           (void);
 void        e_shell_folder_selection_dialog_construct          (EShellFolderSelectionDialog *folder_selection_dialog,
 								EShell                      *shell,
 								const char                  *title,
-								const char                  *default_path);
+								const char                  *default_path,
+								const char                  *allowed_types[]);
 GtkWidget  *e_shell_folder_selection_dialog_new                (EShell                      *shell,
 								const char                  *title,
-								const char                  *default_path);
+								const char                  *default_path,
+								const char                  *allowed_types[]);
 
 const char *e_shell_folder_selection_dialog_get_selected_path  (EShellFolderSelectionDialog *folder_selection_dialog);
 
