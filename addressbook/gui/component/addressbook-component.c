@@ -350,7 +350,7 @@ get_dnd_selection (EvolutionShellComponent *shell_component,
 		   int *selection_length_return,
 		   void *closure)
 {
-	g_print ("should get dnd selection for %s\n", physical_uri);
+	/* g_print ("should get dnd selection for %s\n", physical_uri); */
 	return NULL;
 }
 
@@ -485,7 +485,7 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *fol
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links in our addressbook format */
 
-	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
+	/* g_print ("in destination_folder_handle_drop (%s)\n", physical_uri); */
 
 	card_list = e_card_load_cards_from_string_with_default_charset (data->bytes._buffer, "ISO-8859-1");
 

@@ -1,5 +1,19 @@
 2001-10-29  Jon Trowbridge  <trow@ximian.com>
 
+	* conduit/address-conduit.c (pre_sync): Comment out spew.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (fill_in_info):
+	Comment out spew.
+
+	* gui/component/addressbook-component.c
+	(destination_folder_handle_drop): Comment out spew.
+	(get_dnd_selection): Comment out spew.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_set_value_at): Comment out spew.
+
+2001-10-29  Jon Trowbridge  <trow@ximian.com>
+
 	* gui/component/addressbook.c (update_command_state): Check that
 	our BonoboUIComponent has a container so we don't get a lot of
 	annoying debug spew.

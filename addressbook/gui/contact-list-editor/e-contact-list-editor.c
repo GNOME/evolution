@@ -867,7 +867,7 @@ fill_in_info(EContactListEditor *editor)
 			const char *dest_xml = e_iterator_get (email_iter);
 			EDestination *dest;
 
-			g_message ("incoming xml: [%s]", dest_xml);
+			/* g_message ("incoming xml: [%s]", dest_xml); */
 			dest = e_destination_import (dest_xml);
 
 			if (dest != NULL) {

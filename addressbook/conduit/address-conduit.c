@@ -1086,7 +1086,7 @@ pre_sync (GnomePilotConduit *conduit,
 
 	LOG ("---------------------------------------------------------\n");
 	LOG ("pre_sync: Addressbook Conduit v.%s", CONDUIT_VERSION);
-	g_message ("Addressbook Conduit v.%s", CONDUIT_VERSION);
+	/* g_message ("Addressbook Conduit v.%s", CONDUIT_VERSION); */
 
 	ctxt->dbi = dbi;	
 	ctxt->ebook = NULL;

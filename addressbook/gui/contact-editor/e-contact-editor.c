@@ -2468,7 +2468,7 @@ extract_info(EContactEditor *editor)
 						  &anniversary.year,
 						  &anniversary.month,
 						  &anniversary.day)) {
-				g_print ("%d %d %d\n", anniversary.year, anniversary.month, anniversary.day);
+				/* g_print ("%d %d %d\n", anniversary.year, anniversary.month, anniversary.day); */
 				gtk_object_set(GTK_OBJECT(card),
 					       "anniversary", &anniversary,
 					       NULL);
@@ -2484,7 +2484,7 @@ extract_info(EContactEditor *editor)
 						  &bday.year,
 						  &bday.month,
 						  &bday.day)) {
-				g_print ("%d %d %d\n", bday.year, bday.month, bday.day);
+				/* g_print ("%d %d %d\n", bday.year, bday.month, bday.day); */
 				gtk_object_set(GTK_OBJECT(card),
 					       "birth_date", &bday,
 					       NULL);

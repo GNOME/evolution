@@ -123,7 +123,7 @@ static void
 card_modified_cb (EBook* book, EBookStatus status,
 		  gpointer user_data)
 {
-	g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__);
+	/* g_print ("%s: %s(): a card was modified\n", __FILE__, __FUNCTION__); */
 	if (status != E_BOOK_STATUS_SUCCESS)
 		e_addressbook_error_dialog (_("Error modifying card"), status);
 }
