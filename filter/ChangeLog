@@ -1,3 +1,8 @@
+2003-09-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* filter-int.c (get_widget): Listen to the "value-changed" signal
+	rather than the "changed" signal. Fixes bug #48166.
+
 2003-09-16  Jeremy Katz  <katzj@redhat.com>
 
 	* rule-context.c (rule_context_add_part_set): type should be a GType.
