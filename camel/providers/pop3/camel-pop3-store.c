@@ -70,6 +70,8 @@ static char *get_folder_name (CamelStore *store, const char *folder_name,
 			      CamelException *ex);
 static char *get_root_folder_name (CamelStore *store, CamelException *ex);
 
+static int pop3_get_response (CamelPop3Store *store, char **ret);
+
 
 static void
 camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
@@ -252,16 +254,19 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 	store->istream = camel_stream_buffer_new (store->ostream,
 						  CAMEL_STREAM_BUFFER_READ);
 
-	/* Read the greeting, note APOP timestamp, if any. */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
-	if (!buf) {
+	/* Read the greeting, check status */
+	status = pop3_get_response (store, &buf);
+	if (status != CAMEL_POP3_OK) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
-				      "Could not read greeting from POP "
-				      "server: %s",
-				      camel_exception_get_description (ex));
+				      "%s: %s", status == CAMEL_POP3_ERR ?
+				      "Error connecting to POP server" :
+				      "Error reading greeting from POP server",
+				      buf);
+		g_free (buf);
 		pop3_disconnect (service, ex);
 		return FALSE;
 	}
+
 	apoptime = strchr (buf, '<');
 	apopend = apoptime ? strchr (apoptime, '>') : NULL;
 	if (apopend) {
@@ -292,6 +297,7 @@ connect_to_server (CamelService *service, gboolean real, CamelException *ex)
 		while (*p) {
 			len = strcspn (p, "\n");
 			if (!strncmp (p, "IMPLEMENTATION ", 15)) {
+				g_free (store->implementation);
 				store->implementation =
 					g_strndup (p + 15, len - 15);
 			} else if (len == 3 && !strncmp (p, "TOP", 3))
@@ -407,10 +413,11 @@ pop3_connect (CamelService *service, CamelException *ex)
 	char *msg, *errbuf = NULL;
 	gboolean authenticated = FALSE;
 	gboolean auth_supported = TRUE;
-	
+	gboolean kpop = FALSE;
+
 #ifdef HAVE_KRB4
-	gboolean kpop = (service->url->authmech &&
-			 !strcmp (service->url->authmech, "+KPOP"));
+	kpop = (service->url->authmech &&
+		!strcmp (service->url->authmech, "+KPOP"));
 
 	if (kpop && service->url->port == 0)
 		service->url->port = KPOP_PORT;
@@ -420,11 +427,6 @@ pop3_connect (CamelService *service, CamelException *ex)
 		return FALSE;
 
 	while (auth_supported && !authenticated) {
-		/* The KPOP code will have set the password to be the username
-		 * in connect_to_server. Password and APOP are the only other
-		 * cases, and they both need a password.
-		 */
-		
 		if (errbuf) {
 			/* We need to un-cache the password before prompting again */
 			camel_session_query_authenticator (camel_service_get_session (service),
@@ -434,6 +436,10 @@ pop3_connect (CamelService *service, CamelException *ex)
 			service->url->passwd = NULL;
 		}
 		
+		/* The KPOP code will have set the password to be the username
+		 * in connect_to_server. Password and APOP are the only other
+		 * cases, and they both need a password.
+		 */
 		if (!service->url->passwd) {
 			char *prompt;
 
@@ -455,9 +461,12 @@ pop3_connect (CamelService *service, CamelException *ex)
 			}
 		}
 
-		if (!service->url->authmech || !strcmp (service->url->authmech, "+KPOP")) {
+		if (!service->url->authmech || kpop) {
 			status = camel_pop3_command (store, &msg, "USER %s", service->url->user);
 			if (status != CAMEL_POP3_OK) {
+				if (kpop)
+					goto lose;
+
 				errbuf = g_strdup_printf ("Unable to connect to POP server.\n"
 							  "Error sending username: %s\n\n",
 							  msg ? msg : "(Unknown)");
@@ -606,16 +615,14 @@ get_root_folder_name (CamelStore *store, CamelException *ex)
 int
 camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 {
-	CamelService *service = CAMEL_SERVICE (store);
-	char *cmdbuf, *respbuf;
+	char *cmdbuf;
 	va_list ap;
-	int status;
 
 	if (!store->ostream) {
 		CamelException ex;
 
 		camel_exception_init (&ex);
-		if (!camel_service_connect (service, &ex)) {
+		if (!camel_service_connect (CAMEL_SERVICE (store), &ex)) {
 			if (ret)
 				*ret = g_strdup (camel_exception_get_description (&ex));
 			camel_exception_clear (&ex);
@@ -636,10 +643,19 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	}
 	g_free (cmdbuf);
 
-	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
+	return pop3_get_response (store, ret);
+}
+
+static int
+pop3_get_response (CamelPop3Store *store, char **ret)
+{
+	char *respbuf;
+	int status;
+
+	respbuf = camel_stream_buffer_read_line (
+		CAMEL_STREAM_BUFFER (store->istream));
 	if (respbuf == NULL) {
-		if (*ret)
+		if (ret)
 			*ret = g_strdup(strerror(errno));
 		return CAMEL_POP3_FAIL;
 	}

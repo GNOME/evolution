@@ -1,3 +1,13 @@
+2000-07-03  Dan Winship  <danw@helixcode.com>
+
+	* providers/pop3/camel-pop3-store.c (camel_pop3_command): Fix a
+	bug in error-setting code.
+	(pop3_connect): Don't re-prompt for password in the KPOP case.
+	(pop3_get_response): New function, split out from
+	camel_pop3_command.
+	(connect_to_server): Use pop3_get_response to parse the greeting
+	message, and error out appropriately if it's -ERR.
+
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
 	* camel-folder.c (camel_folder_freeze, camel_folder_thaw): New
