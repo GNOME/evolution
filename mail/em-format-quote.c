@@ -36,6 +36,7 @@
 
 #include <gal/util/e-iconv.h>
 
+#include "em-stripsig-filter.h"
 #include "em-format-quote.h"
 
 struct _EMFormatQuotePrivate {
@@ -422,6 +423,7 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 {
 	CamelStreamFilter *filtered_stream;
 	CamelMimeFilter *html_filter;
+	CamelMimeFilter *sig_strip;
 	CamelContentType *type;
 	const char *format;
 	guint32 rgb = 0x737373, flags;
@@ -435,10 +437,13 @@ emfq_text_plain(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part, E
 	    && !g_ascii_strcasecmp(format, "flowed"))
 		flags |= CAMEL_MIME_FILTER_TOHTML_FORMAT_FLOWED;
 	
+	sig_strip = em_stripsig_filter_new();
 	html_filter = camel_mime_filter_tohtml_new(flags, rgb);
 	filtered_stream = camel_stream_filter_new_with_stream(stream);
+	camel_stream_filter_add(filtered_stream, sig_strip);
 	camel_stream_filter_add(filtered_stream, html_filter);
 	camel_object_unref(html_filter);
+	camel_object_unref(sig_strip);
 	
 	em_format_format_text((EMFormat *)emfq, (CamelStream *)filtered_stream, camel_medium_get_content_object((CamelMedium *)part));
 	camel_stream_flush((CamelStream *)filtered_stream);
@@ -457,9 +462,9 @@ emfq_text_enriched(EMFormatQuote *emfq, CamelStream *stream, CamelMimePart *part
 	
 	if (!strcmp(info->mime_type, "text/richtext")) {
 		flags = CAMEL_MIME_FILTER_ENRICHED_IS_RICHTEXT;
-		camel_stream_write_string( stream, "\n<!-- text/richtext -->\n");
+		camel_stream_write_string(stream, "\n<!-- text/richtext -->\n");
 	} else {
-		camel_stream_write_string( stream, "\n<!-- text/enriched -->\n");
+		camel_stream_write_string(stream, "\n<!-- text/enriched -->\n");
 	}
 	
 	enriched = camel_mime_filter_enriched_new(flags);

@@ -294,13 +294,13 @@ setup_search_context (MailComponent *component)
 	if (priv->search_context == NULL) {
 		char *user = g_build_filename(component->priv->base_directory, "mail/searches.xml", NULL);
 		char *system = g_strdup (EVOLUTION_PRIVDATADIR "/searchtypes.xml");
-	
+		
 		priv->search_context = rule_context_new ();
 		/* This is a sort of hack, but saves us having to have a search context just to do it for us */
 		priv->search_context->flags |= RULE_CONTEXT_THREADING;
 		g_object_set_data_full (G_OBJECT (priv->search_context), "user", user, g_free);
 		g_object_set_data_full (G_OBJECT (priv->search_context), "system", system, g_free);
-	
+		
 		rule_context_add_part_set (priv->search_context, "partset", filter_part_get_type (),
 					   rule_context_add_part, rule_context_next_part);
 		

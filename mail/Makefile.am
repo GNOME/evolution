@@ -92,6 +92,8 @@ libevolution_mail_la_SOURCES =			\
 	em-format-html-print.h			\
 	em-format-html-quote.c			\
 	em-format-html-quote.h			\
+	em-stripsig-filter.c			\
+	em-stripsig-filter.h			\
 	em-format-quote.c			\
 	em-format-quote.h			\
 	em-message-browser.c			\
