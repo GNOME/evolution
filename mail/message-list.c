@@ -12,6 +12,7 @@
 #include <bonobo/bonobo-main.h>
 #include "e-util/e-util.h"
 #include "camel/camel-exception.h"
+#include "camel/camel-folder-summary.h"
 #include "message-list.h"
 #include "Mail.h"
 #include "widgets/e-table/e-table-header-item.h"
@@ -76,8 +77,19 @@ static void *
 ml_value_at (ETableModel *etm, int col, int row, void *data)
 {
 	static char buffer [10];
-
+	MessageList *message_list = data;
+	CamelFolderSummary *summary;
+	const GArray *array;
+	CamelMessageInfo *info;
+	CamelException *ex;
+	CamelMimeMessage *message;
 	
+	ex = camel_exception_new ();
+	summary = camel_folder_get_summary(message_list->folder, ex);
+	array = camel_folder_summary_get_message_info_list(summary);
+	info = &g_array_index(array, CamelMessageInfo, row);
+	/*message = camel_folder_get_message_by_uid(message_list->folder, info->uid, ex);*/
+	camel_exception_free (ex);
 	switch (col){
 	case COL_ONLINE_STATUS:
 		return GINT_TO_POINTER (0);
@@ -92,10 +104,16 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		return GINT_TO_POINTER (0);
 		
 	case COL_FROM:
-		return "miguel@dudical.com";
+	  if ( info->sender )
+	    return info->sender;
+	  else
+	    return "";
 		
 	case COL_SUBJECT:
-		return "MONEY FAST!";
+	  if ( info->subject )
+	    return info->subject;
+	  else
+	    return "";
 		
 	case COL_SENT:
 		return "sent";
@@ -171,7 +189,6 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	default:
 		g_assert_not_reached ();
 	}
-	return NULL;
 }
 
 static void
@@ -375,7 +392,7 @@ message_list_init (GtkObject *object)
 	 * The etable
 	 */
 	
-	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <leaf column=\"0\" ascending=\"1\"/> </grouping> </ETableSpecification>");
+	message_list->etable = e_table_new (message_list->header_model, message_list->table_model, "<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"0\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
 
 	gtk_widget_show(message_list->etable);
 	
