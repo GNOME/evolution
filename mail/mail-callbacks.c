@@ -699,7 +699,7 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 		}
 	} else {
 		GHashTable *rcpt_hash;
-			
+		
 		rcpt_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		
 		reply_to = camel_mime_message_get_reply_to (message);
@@ -707,10 +707,10 @@ mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char 
 			reply_to = camel_mime_message_get_from (message);
 		if (reply_to) {
 			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-			camel_internet_address_get (reply_to, 0, NULL, &reply_addr);
-			
-			g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
-			to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
+			if (camel_internet_address_get (reply_to, 0, NULL, &reply_addr)) {
+				g_hash_table_insert (rcpt_hash, (char *) reply_addr, GINT_TO_POINTER (1));
+				to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
+			}
 		}
 		
 		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
