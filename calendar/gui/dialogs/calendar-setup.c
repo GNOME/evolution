@@ -30,6 +30,7 @@
 #include <gtk/gtkmenuitem.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkoptionmenu.h>
+#include <libgnome/libgnome.h>
 #include <libgnomeui/gnome-druid.h>
 #include <libgnomeui/gnome-druid-page.h>
 #include <libgnomeui/gnome-color-picker.h>
@@ -552,10 +553,11 @@ source_group_changed_sensitive (SourceDialog *source_dialog)
 }
 
 static void
-new_calendar_test_uri (SourceDialog *source_dialog)
+general_test_uri (SourceDialog *source_dialog)
 {
+	/* FIXME this should do something more specific that just showing the uri */
 	gnome_url_show (gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)),
-			NULL)
+			NULL);
 }
 
 static void
@@ -641,7 +643,7 @@ calendar_setup_new_calendar (GtkWindow *parent)
 	source_to_dialog (source_dialog);
 	
 	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "uri-button"), "clicked",
-				  G_CALLBACK (new_calendar_test_uri), source_dialog);
+				  G_CALLBACK (general_test_uri), source_dialog);
 	
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);
@@ -798,6 +800,11 @@ calendar_setup_new_task_list (GtkWindow *parent)
 	g_object_weak_ref (G_OBJECT (source_dialog->window),
 			   (GWeakNotify) source_dialog_destroy, source_dialog);
 	
+	source_dialog->source_color = glade_xml_get_widget (source_dialog->gui_xml, "source-color");
+
+	g_signal_connect_swapped (glade_xml_get_widget (source_dialog->gui_xml, "uri-button"), "clicked",
+				  G_CALLBACK (general_test_uri), source_dialog);
+
 	source_to_dialog (source_dialog);
 
 	gtk_window_set_type_hint (GTK_WINDOW (source_dialog->window), GDK_WINDOW_TYPE_HINT_DIALOG);

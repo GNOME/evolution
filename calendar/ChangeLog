@@ -1,5 +1,13 @@
 2004-04-27  Larry Ewing  <lewing@ximian.com>
 
+	* gui/dialogs/calendar-setup.c: hook up the color picker and test
+	buttons in the new task dialog.
+
+	* gui/dialogs/calendar-setup.glade: fix visibility and color
+	picker names.
+
+2004-04-27  Larry Ewing  <lewing@ximian.com>
+
 	* gui/dialogs/calendar-setup.c (new_calendar_test_uri): add
 	handler for test button.
 	(calendar_setup_new_calendar): connect test button, fill in color
@@ -7,6 +15,7 @@
 	(source_to_dialog): set the color picker color if the source has
 	one.
 	(dialog_to_source): set the source color.
+	
 
 2004-04-27  Jeffrey Stedfast  <fejj@ximian.com>
 
