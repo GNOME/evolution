@@ -77,10 +77,10 @@ struct _EShellPrivate {
 
 	EComponentRegistry *component_registry;
 
-	ECorbaStorageRegistry *corba_storage_registry;
+	ECorbaStorageRegistry *corba_storage_registry; /* <aggregate> */
 
 	/* ::Activity interface handler.  */
-	EActivityHandler *activity_handler;
+	EActivityHandler *activity_handler; /* <aggregate> */
 
 	/* This object handles going off-line.  If the pointer is not NULL, it
 	   means we have a going-off-line process in progress.  */
@@ -326,8 +326,6 @@ setup_activity_interface (EShell *shell)
 
 	bonobo_object_add_interface (BONOBO_OBJECT (shell),
 				     BONOBO_OBJECT (activity_handler));
-
-	bonobo_object_ref (BONOBO_OBJECT (activity_handler));
 	priv->activity_handler = activity_handler;
 }
 
@@ -351,10 +349,6 @@ setup_corba_storages (EShell *shell)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell),
 				     BONOBO_OBJECT (corba_storage_registry));
 
-	/* Notice that `bonobo_object_add_interface()' aggregates the two object's
-           reference counts, so we need an extra ref here if we want to keep a separate
-           pointer to the storage interface.  */
-	bonobo_object_ref (BONOBO_OBJECT (corba_storage_registry));
 	priv->corba_storage_registry = corba_storage_registry;
 
 	return TRUE;
@@ -548,10 +542,9 @@ view_destroy_cb (GtkObject *object,
 	shell->priv->views = g_list_remove (shell->priv->views, object);
 
 	if (shell->priv->views == NULL) {
-		/* FIXME: This looks like a Bonobo bug to me.  */
-		bonobo_object_ref (BONOBO_OBJECT (shell));
+		/* bonobo_object_ref (BONOBO_OBJECT (shell)); */
 		gtk_signal_emit (GTK_OBJECT (shell), signals [NO_VIEWS_LEFT]);
-		bonobo_object_unref (BONOBO_OBJECT (shell));
+		/* bonobo_object_unref (BONOBO_OBJECT (shell)); */
 	}
 }
 
@@ -605,11 +598,9 @@ destroy (GtkObject *object)
 
 	g_list_free (priv->views);
 
-	if (priv->corba_storage_registry != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry));
-
-	if (priv->activity_handler != NULL)
-		bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler));
+	/* No unreffing for these as they are aggregate.  */
+	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
+	/* bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler)); */
 
 	/* FIXME.  Maybe we should do something special here.  */
 	if (priv->offline_handler != NULL)

@@ -1,5 +1,22 @@
 2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-storage-set.c (destroy): Use
+	`name_to_named_storage_foreach_destroy()' as the function argument
+	to `g_hash_table_foreach()', not `named_storage_destroy()', which
+	is just plainly wrong.
+
+	* e-shell.c (setup_corba_storages): Don't ref the
+	corba_storage_registry here.
+	(destroy): Don't unref here.
+	(setup_activity_interface): Don't ref the activity_handler either.
+	(destroy): Don't unref it here.
+
+	* e-component-registry.c (e_component_registry_construct): Don't
+	ref the shell here.
+	(destroy): Don't unref it here.
+
+2001-06-25  Ettore Perazzoli  <ettore@ximian.com>
+
 	* main.c (no_views_left_cb): Don't call `e_shell_quit()' anymore.
 
 	* e-shell-view-menu.c (command_quit): Call

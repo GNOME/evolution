@@ -227,8 +227,6 @@ destroy (GtkObject *object)
 	component_registry = E_COMPONENT_REGISTRY (object);
 	priv = component_registry->priv;
 
-	bonobo_object_unref (BONOBO_OBJECT (priv->shell));
-
 	g_hash_table_foreach (priv->component_id_to_component, component_id_foreach_free, NULL);
 	g_hash_table_destroy (priv->component_id_to_component);
 
@@ -273,8 +271,6 @@ e_component_registry_construct (EComponentRegistry *component_registry,
 	g_return_if_fail (E_IS_SHELL (shell));
 
 	priv = component_registry->priv;
-
-	bonobo_object_ref (BONOBO_OBJECT (shell));
 	priv->shell = shell;
 }
 

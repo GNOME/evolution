@@ -59,6 +59,9 @@ no_views_left_cb (EShell *shell, gpointer data)
 	/* FIXME: This is wrong.  We should exit only when the shell is
 	   destroyed.  But refcounting is broken at present, so this is a
 	   reasonable workaround for now.  */
+
+	bonobo_object_unref (BONOBO_OBJECT (shell));
+
 	gtk_main_quit ();
 }
 
