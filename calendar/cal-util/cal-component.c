@@ -2193,6 +2193,29 @@ cal_component_get_exrule_list (CalComponent *comp, GSList **recur_list)
 }
 
 /**
+ * cal_component_get_exrule_property_list:
+ * @comp: A calendar component object.
+ * @recur_list: Returns a list of exception rule properties.
+ * 
+ * Returns a list of exception rule properties of a calendar component
+ * object.
+ **/
+void
+cal_component_get_exrule_property_list (CalComponent *comp, GSList **recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	*recur_list = priv->exrule_list;
+}
+
+/**
  * cal_component_set_exrule_list:
  * @comp: A calendar component object.
  * @recur_list: List of struct #icalrecurrencetype structures.
@@ -2588,6 +2611,29 @@ cal_component_get_rrule_list (CalComponent *comp, GSList **recur_list)
 	g_return_if_fail (priv->icalcomp != NULL);
 
 	get_recur_list (priv->rrule_list, icalproperty_get_rrule, recur_list);
+}
+
+/**
+ * cal_component_get_rrule_property_list:
+ * @comp: A calendar component object.
+ * @recur_list: Returns a list of recurrence rule properties.
+ * 
+ * Returns a list of recurrence rule properties of a calendar component
+ * object.
+ **/
+void
+cal_component_get_rrule_property_list (CalComponent *comp, GSList **recur_list)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (recur_list != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	*recur_list = priv->rrule_list;
 }
 
 /**

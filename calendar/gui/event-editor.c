@@ -1239,7 +1239,7 @@ static GnomeUIInfo view_next_menu[] = {
 static GnomeUIInfo view_toolbars_menu[] = {
 	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: _Standard"), NULL, NULL, NULL, NULL,
 	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: __Formatting"), NULL, NULL, NULL, NULL,
+	{ GNOME_APP_UI_TOGGLEITEM, N_("FIXME: _Formatting"), NULL, NULL, NULL, NULL,
 	  GNOME_APP_PIXMAP_NONE, NULL, 0, 0, NULL },
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_NONE (N_("FIXME: _Customize..."), NULL, NULL),

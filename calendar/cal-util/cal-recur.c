@@ -117,7 +117,8 @@ struct _RecurData {
 	guint8 seconds[61];
 };
 
-
+/* The paramter we use to store the enddate in RRULE and EXRULE properties. */
+#define EVOLUTION_END_DATE_PARAMETER	"X-EVOLUTION-ENDDATE"
 
 typedef gboolean (*CalObjFindStartFn) (CalObjTime *event_start,
 				       CalObjTime *event_end,
@@ -159,6 +160,19 @@ typedef enum {
 	CALOBJ_SECOND
 } CalObjTimeComparison;
 
+static void cal_recur_generate_instances_of_rule (CalComponent	*comp,
+						  icalproperty	*prop,
+						  time_t	 start,
+						  time_t	 end,
+						  CalRecurInstanceFn cb,
+						  gpointer       cb_data);
+
+static CalRecurrence * cal_recur_from_icalproperty (icalproperty *prop,
+						    gboolean exception);
+static gint cal_recur_ical_weekday_to_weekday	(enum icalrecurrencetype_weekday day);
+static void	cal_recur_free			(CalRecurrence	*r);
+
+
 static void	cal_object_compute_duration	(CalObjTime	*start,
 						 CalObjTime	*end,
 						 gint		*days,
@@ -196,7 +210,7 @@ static GArray*	cal_obj_generate_set_default	(RecurData	*recur_data,
 						 CalObjTime	*occ);
 
 
-static CalRecurVTable* cal_obj_get_vtable	(CalRecurType	 recur_type);
+static CalRecurVTable* cal_obj_get_vtable	(icalrecurrencetype_frequency recur_type);
 static void	cal_obj_initialize_recur_data	(RecurData	*recur_data,
 						 CalRecurrence	*recur,
 						 CalObjTime	*event_start);
@@ -353,6 +367,24 @@ static gint cal_obj_date_only_compare_func (const void *arg1,
 					    const void *arg2);
 
 
+
+static gboolean cal_recur_ensure_end_dates	(CalComponent	*comp,
+						 gboolean	 refresh);
+static gboolean cal_recur_ensure_rule_end_date	(CalComponent	*comp,
+						 icalproperty	*prop,
+						 gboolean	 exception,
+						 gboolean	 refresh);
+static gboolean cal_recur_ensure_rule_end_date_cb	(CalComponent	*comp,
+							 time_t		 instance_start,
+							 time_t		 instance_end,
+							 gpointer	 data);
+static time_t cal_recur_get_rule_end_date	(icalproperty	*prop);
+static void cal_recur_set_rule_end_date		(icalproperty	*prop,
+						 time_t		 end_date);
+
+
+
+
 CalRecurVTable cal_obj_yearly_vtable = {
 	cal_obj_yearly_find_start_position,
 	cal_obj_yearly_find_next_position,
@@ -464,9 +496,38 @@ cal_recur_generate_instances (CalComponent		*comp,
 			      CalRecurInstanceFn	 cb,
 			      gpointer                   cb_data)
 {
+	cal_recur_generate_instances_of_rule (comp, NULL, start, end,
+					      cb, cb_data);
+}
+
+
+/*
+ * Calls the given callback function for each occurrence of the given
+ * recurrence rule between the given start and end times. If the rule is NULL
+ * it uses all the rules from the component.
+ * If end is 0 it continues until the event ends or forever if the event has
+ * an infinite recurrence rule.
+ * If the callback routine return 0 the occurrence generation stops.
+ *
+ * The use of the specific rule is for determining the end of a rule when
+ * COUNT is set. The callback will count instances and store the enddata
+ * when COUNT is reached.
+ *
+ * Both start and end can be -1, in which case we start at the events first
+ * instance and continue until it ends, or forever if it has no enddate.
+ */
+void
+cal_recur_generate_instances_of_rule (CalComponent	 *comp,
+				      icalproperty	 *prop,
+				      time_t		  start,
+				      time_t		  end,
+				      CalRecurInstanceFn  cb,
+				      gpointer            cb_data)
+{
 	CalComponentDateTime dtstart, dtend;
 	time_t dtstart_time, dtend_time;
-	GSList *rrules, *rdates, *exrules, *exdates;
+	GSList *rrules = NULL, *rdates = NULL, elem;
+	GSList *exrules = NULL, *exdates = NULL;
 	CalObjTime interval_start, interval_end, event_start, event_end;
 	CalObjTime chunk_start, chunk_end;
 	gint days, seconds, year;
@@ -486,6 +547,10 @@ cal_recur_generate_instances (CalComponent		*comp,
 	}
 
 	dtstart_time = icaltime_as_timet (*dtstart.value);
+	if (start == -1)
+		start = dtstart_time;
+
+	/* FIXME: DURATION could be used instead, couldn't it? - Damon */
 	if (dtend.value)
 		dtend_time = icaltime_as_timet (*dtend.value);
 	else
@@ -495,23 +560,34 @@ cal_recur_generate_instances (CalComponent		*comp,
 	   intersects the given interval. */
 	if (!(cal_component_has_recurrences (comp)
 	      || cal_component_has_exceptions (comp))) {
-		if ((end && dtstart_time < end && dtend_time > start)
-		    || (end == 0 && dtend_time > start)) {
+		if ((end == -1 || dtstart_time < end) && dtend_time > start) {
 			(* cb) (comp, dtstart_time, dtend_time, cb_data);
 		}
 
 		goto out;
 	}
 
-	/* Get the recurrence rules */
-	cal_component_get_rrule_list (comp, &rrules);
-	cal_component_get_rdate_list (comp, &rdates);
-	cal_component_get_exrule_list (comp, &exrules);
-	cal_component_get_exdate_list (comp, &exdates);
+	/* If a specific recurrence rule is being used, set up a simple list,
+	   else get the recurrence rules from the component. */
+	if (prop) {
+		elem.data = prop;
+		elem.next = NULL;
+		rrules = &elem;
+	} else {
+		/* Make sure all the enddates for the rules are set. */
+		cal_recur_ensure_end_dates (comp, FALSE);
 
-	/* Convert the interval start & end to CalObjTime. */
+		cal_component_get_rrule_property_list (comp, &rrules);
+		cal_component_get_rdate_list (comp, &rdates);
+		cal_component_get_exrule_property_list (comp, &exrules);
+		cal_component_get_exdate_list (comp, &exdates);
+	}
+
+	/* Convert the interval start & end to CalObjTime. Note that if end
+	   is -1 interval_end won't be set, so don't use it! */
 	cal_object_time_from_time (&interval_start, start);
-	cal_object_time_from_time (&interval_end, end);
+	if (end != -1)
+		cal_object_time_from_time (&interval_end, end);
 
 	cal_object_time_from_time (&event_start, dtstart_time);
 	cal_object_time_from_time (&event_end, dtend_time);
@@ -526,10 +602,13 @@ cal_recur_generate_instances (CalComponent		*comp,
 
 	/* Expand the recurrence for each year between start & end, or until
 	   the callback returns 0 if end is 0. */
-	for (year = interval_start.year; year <= interval_end.year; year++) {
+	for (year = interval_start.year;
+	     end == -1 || year <= interval_end.year;
+	     year++) {
 		chunk_start = interval_start;
 		chunk_start.year = year;
-		chunk_end = interval_end;
+		if (end != -1)
+			chunk_end = interval_end;
 		chunk_end.year = year;
 
 		if (year != interval_start.year) {
@@ -539,7 +618,7 @@ cal_recur_generate_instances (CalComponent		*comp,
 			chunk_start.minute = 0;
 			chunk_start.second = 0;
 		}
-		if (year != interval_end.year) {
+		if (end == -1 || year != interval_end.year) {
 			chunk_end.year++;
 			chunk_end.month  = 0;
 			chunk_end.day    = 0;
@@ -552,18 +631,17 @@ cal_recur_generate_instances (CalComponent		*comp,
 						  rrules, rdates,
 						  exrules, exdates,
 						  &event_start,
-						  &interval_start,
-						  &interval_end,
+						  &chunk_start, &chunk_end,
 						  start, end,
 						  days, seconds,
 						  cb, cb_data))
 			break;
 	}
 
-	cal_component_free_recur_list (rrules);
-	cal_component_free_period_list (rdates);
-	cal_component_free_recur_list (exrules);
-	cal_component_free_exdate_list (exdates);
+	if (!prop) {
+		cal_component_free_period_list (rdates);
+		cal_component_free_exdate_list (exdates);
+	}
 
  out:
 	cal_component_free_datetime (&dtstart);
@@ -587,132 +665,127 @@ array_to_list (short *array, int max_elements)
 }
 
 /**
- * cal_recur_from_icalrecurrencetype:
- * @ir: A struct #icalrecurrencetype.
+ * cal_recur_from_icalproperty:
+ * @ir: An RRULE or EXRULE #icalproperty.
  * 
- * Converts a struct #icalrecurrencetype to a #CalRecurrence.  This should be
+ * Converts an #icalproperty to a #CalRecurrence.  This should be
  * freed using the cal_recur_free() function.
  * 
  * Return value: #CalRecurrence structure.
  **/
-CalRecurrence *
-cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir)
+static CalRecurrence *
+cal_recur_from_icalproperty (icalproperty *prop, gboolean exception)
 {
+	struct icalrecurrencetype ir;
 	CalRecurrence *r;
+	gint max_elements, i;
 
-	g_return_val_if_fail (ir != NULL, NULL);
+	g_return_val_if_fail (prop != NULL, NULL);
 
 	r = g_new (CalRecurrence, 1);
 
-	switch (ir->freq) {
-	case ICAL_SECONDLY_RECURRENCE:
-		r->type = CAL_RECUR_SECONDLY;
-		break;
+	if (exception)
+		ir = icalproperty_get_exrule (prop);
+	else
+		ir = icalproperty_get_rrule (prop);
 
-	case ICAL_MINUTELY_RECURRENCE:
-		r->type = CAL_RECUR_MINUTELY;
-		break;
+	r->freq = ir.freq;
+	r->interval = ir.interval;
 
-	case ICAL_HOURLY_RECURRENCE:
-		r->type = CAL_RECUR_HOURLY;
-		break;
-
-	case ICAL_DAILY_RECURRENCE:
-		r->type = CAL_RECUR_DAILY;
-		break;
-
-	case ICAL_WEEKLY_RECURRENCE:
-		r->type = CAL_RECUR_WEEKLY;
-		break;
-
-	case ICAL_MONTHLY_RECURRENCE:
-		r->type = CAL_RECUR_MONTHLY;
-		break;
-
-	case ICAL_YEARLY_RECURRENCE:
-		r->type = CAL_RECUR_YEARLY;
-		break;
-
-	default:
-		g_message ("cal_recur_from_icalrecurrencetype(): Unknown recurrence frequency %d",
-			   (int) ir->freq);
-		g_free (r);
-		return NULL;
+	if (ir.count != 0) {
+		r->enddate = cal_recur_get_rule_end_date (prop);
+	} else {
+		/* FIXME: Does this work for never-ending events? */
+		r->enddate = icaltime_as_timet (ir.until);
+		if (r->enddate == (time_t)-1)
+			r->enddate = 0;
 	}
 
-	r->interval = ir->interval;
+	r->week_start_day = cal_recur_ical_weekday_to_weekday (ir.week_start);
 
-	/* FIXME: we don't deal with ir->count.  Also, how does libical
-	 * distinguish between n-occurrences and until-some-date rules?
-	 */
-	r->enddate = icaltime_as_timet (ir->until);
-	if (r->enddate == (time_t)-1)
-		r->enddate = 0;
+	r->bymonth = array_to_list (ir.by_month,
+				    sizeof (ir.by_month) / sizeof (ir.by_month[0]));
 
-	switch (ir->week_start) {
-	case ICAL_MONDAY_WEEKDAY:
-		r->week_start_day = 0;
-		break;
+	r->byweekno = array_to_list (ir.by_week_no,
+				     sizeof (ir.by_week_no) / sizeof (ir.by_week_no[0]));
 
-	case ICAL_TUESDAY_WEEKDAY:
-		r->week_start_day = 1;
-		break;
+	r->byyearday = array_to_list (ir.by_year_day,
+				      sizeof (ir.by_year_day) / sizeof (ir.by_year_day[0]));
 
-	case ICAL_WEDNESDAY_WEEKDAY:
-		r->week_start_day = 2;
-		break;
+	r->bymonthday = array_to_list (ir.by_month_day,
+				       sizeof (ir.by_month_day) / sizeof (ir.by_month_day[0]));
 
-	case ICAL_THURSDAY_WEEKDAY:
-		r->week_start_day = 3;
-		break;
+	/* FIXME: libical only supports 8 values, out of possible 107 * 7. */
+	r->byday = NULL;
+	max_elements = sizeof (ir.by_day) / sizeof (ir.by_day[0]);
+	for (i = 0; i < max_elements && ir.by_day[i] != ICAL_RECURRENCE_ARRAY_MAX; i++) {
+		enum icalrecurrencetype_weekday day;
+		gint weeknum, weekday;
 
-	case ICAL_FRIDAY_WEEKDAY:
-		r->week_start_day = 4;
-		break;
+		day = icalrecurrencetype_day_day_of_week (ir.by_day[i]);
+		weeknum = icalrecurrencetype_day_position (ir.by_day[i]);
 
-	case ICAL_SATURDAY_WEEKDAY:
-		r->week_start_day = 5;
-		break;
+		weekday = cal_recur_ical_weekday_to_weekday (day);
 
-	case ICAL_SUNDAY_WEEKDAY:
-		r->week_start_day = 6;
-		break;
-
-	default:
-		g_message ("cal_recur_from_icalrecurrencetype(): Unknown week day %d",
-			   ir->week_start);
-		g_free (r);
-		return NULL;
+		r->byday = g_list_prepend (r->byday,
+					   GINT_TO_POINTER (weeknum));
+		r->byday = g_list_prepend (r->byday,
+					   GINT_TO_POINTER (weekday));
 	}
 
-	r->bymonth = array_to_list (ir->by_month,
-				    sizeof (ir->by_month) / sizeof (ir->by_month[0]));
+	r->byhour = array_to_list (ir.by_hour,
+				   sizeof (ir.by_hour) / sizeof (ir.by_hour[0]));
 
-	r->byweekno = array_to_list (ir->by_week_no,
-				     sizeof (ir->by_week_no) / sizeof (ir->by_week_no[0]));
+	r->byminute = array_to_list (ir.by_minute,
+				     sizeof (ir.by_minute) / sizeof (ir.by_minute[0]));
 
-	r->byyearday = array_to_list (ir->by_year_day,
-				      sizeof (ir->by_year_day) / sizeof (ir->by_year_day[0]));
+	r->bysecond = array_to_list (ir.by_second,
+				     sizeof (ir.by_second) / sizeof (ir.by_second[0]));
 
-	r->bymonthday = array_to_list (ir->by_month_day,
-				       sizeof (ir->by_month_day) / sizeof (ir->by_month_day[0]));
-
-	r->byday = NULL; /* FIXME: libical sucks in this respect */
-
-	r->byhour = array_to_list (ir->by_hour,
-				   sizeof (ir->by_hour) / sizeof (ir->by_hour[0]));
-
-	r->byminute = array_to_list (ir->by_minute,
-				     sizeof (ir->by_minute) / sizeof (ir->by_minute[0]));
-
-	r->bysecond = array_to_list (ir->by_second,
-				     sizeof (ir->by_second) / sizeof (ir->by_second[0]));
-
-	r->bysetpos = array_to_list (ir->by_set_pos,
-				     sizeof (ir->by_set_pos) / sizeof (ir->by_set_pos[0]));
+	r->bysetpos = array_to_list (ir.by_set_pos,
+				     sizeof (ir.by_set_pos) / sizeof (ir.by_set_pos[0]));
 
 	return r;
 }
+
+
+static gint
+cal_recur_ical_weekday_to_weekday	(enum icalrecurrencetype_weekday day)
+{
+	gint weekday;
+
+	switch (day) {
+	case ICAL_NO_WEEKDAY:		/* Monday is the default in RFC2445. */
+	case ICAL_MONDAY_WEEKDAY:
+		weekday = 0;
+		break;
+	case ICAL_TUESDAY_WEEKDAY:
+		weekday = 1;
+		break;
+	case ICAL_WEDNESDAY_WEEKDAY:
+		weekday = 2;
+		break;
+	case ICAL_THURSDAY_WEEKDAY:
+		weekday = 3;
+		break;
+	case ICAL_FRIDAY_WEEKDAY:
+		weekday = 4;
+		break;
+	case ICAL_SATURDAY_WEEKDAY:
+		weekday = 5;
+		break;
+	case ICAL_SUNDAY_WEEKDAY:
+		weekday = 6;
+		break;
+	default:
+		g_warning ("cal_recur_ical_weekday_to_weekday(): Unknown week day %d",
+			   day);
+		weekday = 0;
+	}
+
+	return weekday;
+}
+
 
 /**
  * cal_recur_free:
@@ -720,7 +793,7 @@ cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir)
  * 
  * Frees a #CalRecurrence structure.
  **/
-void
+static void
 cal_recur_free (CalRecurrence *r)
 {
 	g_return_if_fail (r != NULL);
@@ -771,11 +844,11 @@ generate_instances_for_year (CalComponent	*comp,
 
 	/* Expand each of the recurrence rules. */
 	for (elem = rrules; elem; elem = elem->next) {
-		struct icalrecurrencetype *ir;
+		icalproperty *prop;
 		CalRecurrence *r;
 
-		ir = elem->data;
-		r = cal_recur_from_icalrecurrencetype (ir);
+		prop = elem->data;
+		r = cal_recur_from_icalproperty (prop, FALSE);
 
 		tmp_occs = cal_obj_expand_recurrence (event_start, r,
 						      interval_start,
@@ -791,7 +864,11 @@ generate_instances_for_year (CalComponent	*comp,
 		struct icaltimetype *it;
 		time_t t;
 
-		/* FIXME we should only be dealing with dates, not times too */
+		/* FIXME we should only be dealing with dates, not times too.
+
+		   No, I think it is supposed to be dates & times - Damon.
+		   I'm not sure what the semantics of just a date would be,
+		   since the event could recur several times each day. */
 		it = elem->data;
 		t = icaltime_as_timet (*it);
 		cal_object_time_from_time (&cotime, t);
@@ -813,11 +890,11 @@ generate_instances_for_year (CalComponent	*comp,
 	
 	/* Expand each of the exception rules. */
 	for (elem = exrules; elem; elem = elem->next) {
-		struct icalrecurrencetype *ir;
+		icalproperty *prop;
 		CalRecurrence *r;
 
-		ir = elem->data;
-		r = cal_recur_from_icalrecurrencetype (ir);
+		prop = elem->data;
+		r = cal_recur_from_icalproperty (prop, FALSE);
 
 		tmp_occs = cal_obj_expand_recurrence (event_start, r,
 						      interval_start,
@@ -833,7 +910,11 @@ generate_instances_for_year (CalComponent	*comp,
 		struct icaltimetype *it;
 		time_t t;
 
-		/* FIXME we should only be dealing with dates, not times too */
+		/* FIXME we should only be dealing with dates, not times too.
+
+		   No, I think it is supposed to be dates & times - Damon.
+		   I'm not sure what the semantics of just a date would be,
+		   since the event could recur several times each day. */
 		it = elem->data;
 		t = icaltime_as_timet (*it);
 		cal_object_time_from_time (&cotime, t);
@@ -940,10 +1021,12 @@ cal_obj_expand_recurrence		(CalObjTime	  *event_start,
 	GArray *all_occs, *occs;
 	gint len;
 
-	vtable = cal_obj_get_vtable (recur->type);
-
 	/* This is the resulting array of CalObjTime elements. */
 	all_occs = g_array_new (FALSE, FALSE, sizeof (CalObjTime));
+
+	vtable = cal_obj_get_vtable (recur->freq);
+	if (!vtable)
+		return all_occs;
 
 	/* Calculate some useful data such as some fast lookup tables. */
 	cal_obj_initialize_recur_data (&recur_data, recur, event_start);
@@ -967,12 +1050,12 @@ cal_obj_expand_recurrence		(CalObjTime	  *event_start,
 	   interval. */
 	for (;;) {
 		/* Generate the set of occurrences for this period. */
-		switch (recur->type) {
-		case CAL_RECUR_YEARLY:
+		switch (recur->freq) {
+		case ICAL_YEARLY_RECURRENCE:
 			occs = cal_obj_generate_set_yearly (&recur_data,
 							    vtable, &occ);
 			break;
-		case CAL_RECUR_MONTHLY:
+		case ICAL_MONTHLY_RECURRENCE:
 			occs = cal_obj_generate_set_monthly (&recur_data,
 							     vtable, &occ);
 			break;
@@ -1213,26 +1296,38 @@ cal_obj_generate_set_default	(RecurData *recur_data,
 
 
 /* Returns the function table corresponding to the recurrence frequency. */
-static CalRecurVTable*
-cal_obj_get_vtable (CalRecurType recur_type)
+static CalRecurVTable* cal_obj_get_vtable (icalrecurrencetype_frequency recur_type)
 {
+	CalRecurVTable* vtable;
+
 	switch (recur_type) {
-	case CAL_RECUR_YEARLY:
-		return &cal_obj_yearly_vtable;
-	case CAL_RECUR_MONTHLY:
-		return &cal_obj_monthly_vtable;
-	case CAL_RECUR_WEEKLY:
-		return &cal_obj_weekly_vtable;
-	case CAL_RECUR_DAILY:
-		return &cal_obj_daily_vtable;
-	case CAL_RECUR_HOURLY:
-		return &cal_obj_hourly_vtable;
-	case CAL_RECUR_MINUTELY:
-		return &cal_obj_minutely_vtable;
-	case CAL_RECUR_SECONDLY:
-		return &cal_obj_secondly_vtable;
+	case ICAL_YEARLY_RECURRENCE:
+		vtable = &cal_obj_yearly_vtable;
+		break;
+	case ICAL_MONTHLY_RECURRENCE:
+		vtable = &cal_obj_monthly_vtable;
+		break;
+	case ICAL_WEEKLY_RECURRENCE:
+		vtable = &cal_obj_weekly_vtable;
+		break;
+	case ICAL_DAILY_RECURRENCE:
+		vtable = &cal_obj_daily_vtable;
+		break;
+	case ICAL_HOURLY_RECURRENCE:
+		vtable = &cal_obj_hourly_vtable;
+		break;
+	case ICAL_MINUTELY_RECURRENCE:
+		vtable = &cal_obj_minutely_vtable;
+		break;
+	case ICAL_SECONDLY_RECURRENCE:
+		vtable = &cal_obj_secondly_vtable;
+		break;
+	default:
+		g_warning ("Unknown recurrence frequenct");
+		vtable = NULL;
 	}
-	return NULL;
+
+	return vtable;
 }
 
 
@@ -3095,3 +3190,168 @@ cal_object_time_from_time (CalObjTime *cotime,
 	cotime->minute = tmp_tm->tm_min;
 	cotime->second = tmp_tm->tm_sec;
 }
+
+
+/* This recalculates the end dates for recurrence & exception rules which use
+   the COUNT property. If refresh is TRUE it will recalculate all enddates
+   for rules which use COUNT. If refresh is FALSE, it will only calculate
+   the enddate if it hasn't already been set. It returns TRUE if the component
+   was changed, i.e. if the component should be saved at some point.
+   We store the enddate in the "X-EVOLUTION-ENDDATE" parameter of the RRULE
+   or EXRULE. */
+static gboolean
+cal_recur_ensure_end_dates (CalComponent	*comp,
+			    gboolean		 refresh)
+{
+	GSList *rrules, *exrules, *elem;
+	gboolean changed = FALSE;
+
+	/* Do the RRULEs. */
+	cal_component_get_rrule_property_list (comp, &rrules);
+	for (elem = rrules; elem; elem = elem->next) {
+		changed |= cal_recur_ensure_rule_end_date (comp, elem->data,
+							   FALSE, refresh);
+	}
+
+	/* Do the EXRULEs. */
+	cal_component_get_exrule_property_list (comp, &exrules);
+	for (elem = exrules; elem; elem = elem->next) {
+		changed |= cal_recur_ensure_rule_end_date (comp, elem->data,
+							   TRUE, refresh);
+	}
+
+	return changed;
+}
+
+
+typedef struct _CalRecurEnsureEndDateData CalRecurEnsureEndDateData;
+struct _CalRecurEnsureEndDateData {
+	gint count;
+	gint instances;
+	time_t end_date;
+};
+
+
+static gboolean
+cal_recur_ensure_rule_end_date (CalComponent			*comp,
+				icalproperty			*prop,
+				gboolean			 exception,
+				gboolean			 refresh)
+{
+	struct icalrecurrencetype rule;
+	CalRecurEnsureEndDateData cb_data;
+
+	if (exception)
+		rule = icalproperty_get_exrule (prop);
+	else
+		rule = icalproperty_get_rrule (prop);
+
+	/* If the rule doesn't use COUNT just return. */
+	if (rule.count == 0)
+		return FALSE;
+
+	/* If refresh is FALSE, we check if the enddate is already set, and
+	   if it is we just return. */
+	if (!refresh) {
+		if (cal_recur_get_rule_end_date (prop) != -1)
+			return FALSE;
+	}
+
+	/* Calculate the end date. */
+	cb_data.count = rule.count;
+	cb_data.instances = 0;
+	cal_recur_generate_instances_of_rule (comp, prop, -1, -1,
+					      cal_recur_ensure_rule_end_date_cb,
+					      &cb_data);
+
+	/* Store the end date in the "X-EVOLUTION-ENDDATE" parameter of the
+	   rule. */
+	cal_recur_set_rule_end_date (prop, cb_data.end_date);
+		
+	return TRUE;
+}
+
+
+static gboolean
+cal_recur_ensure_rule_end_date_cb	(CalComponent	*comp,
+					 time_t		 instance_start,
+					 time_t		 instance_end,
+					 gpointer	 data)
+{
+	CalRecurEnsureEndDateData *cb_data;
+
+	cb_data = (CalRecurEnsureEndDateData*) data;
+
+	cb_data->instances++;
+	if (cb_data->instances == cb_data->count) {
+		cb_data->end_date = instance_start;
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+
+static time_t
+cal_recur_get_rule_end_date	(icalproperty	*prop)
+{
+	icalparameter *param;
+	char *xname, *xvalue;
+	icalvalue *value;
+	struct icaltimetype icaltime;
+
+	param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
+	while (param) {
+		xname = icalparameter_get_xname (param);
+		if (!strcmp (xname, EVOLUTION_END_DATE_PARAMETER)) {
+			xvalue = icalparameter_get_xvalue (param);
+			value = icalvalue_new_from_string (ICAL_DATETIME_VALUE,
+							   xvalue);
+			if (value) {
+				icaltime = icalvalue_get_datetime (value);
+				icalvalue_free (value);
+
+				return icaltime_as_timet (icaltime);
+			}
+		}
+
+		param = icalproperty_get_next_parameter (prop,
+							 ICAL_X_PARAMETER);
+	}
+
+	return -1;
+}
+
+
+static void
+cal_recur_set_rule_end_date	(icalproperty	*prop,
+				 time_t		 end_date)
+{
+	icalparameter *param;
+	icalvalue *value;
+	struct icaltimetype icaltime;
+	char *end_date_string, *xname;
+
+	icaltime = icaltime_from_timet (end_date, FALSE, FALSE);
+	value = icalvalue_new_datetime (icaltime);
+	end_date_string = icalvalue_as_ical_string (value);
+	icalvalue_free (value);
+
+	/* If we already have an X-EVOLUTION-ENDDATE parameter, set the value
+	   to the new date-time. */
+	param = icalproperty_get_first_parameter (prop, ICAL_X_PARAMETER);
+	while (param) {
+		xname = icalparameter_get_xname (param);
+		if (!strcmp (xname, EVOLUTION_END_DATE_PARAMETER)) {
+			icalparameter_set_x (param, end_date_string);
+			return;
+		}
+		param = icalproperty_get_next_parameter (prop, ICAL_X_PARAMETER);
+	}
+
+	/* Create a new X-EVOLUTION-ENDDATE and add it to the property. */
+	param = icalparameter_new_x (EVOLUTION_END_DATE_PARAMETER);
+	icalparameter_set_x (param, end_date_string);
+	icalproperty_add_parameter (prop, param);
+}
+

@@ -203,6 +203,7 @@ void cal_component_set_exdate_list (CalComponent *comp, GSList *exdate_list);
 gboolean cal_component_has_exdates (CalComponent *comp);
 
 void cal_component_get_exrule_list (CalComponent *comp, GSList **recur_list);
+void cal_component_get_exrule_property_list (CalComponent *comp, GSList **recur_list);
 void cal_component_set_exrule_list (CalComponent *comp, GSList *recur_list);
 gboolean cal_component_has_exrules (CalComponent *comp);
 
@@ -225,6 +226,7 @@ void cal_component_set_rdate_list (CalComponent *comp, GSList *period_list);
 gboolean cal_component_has_rdates (CalComponent *comp);
 
 void cal_component_get_rrule_list (CalComponent *comp, GSList **recur_list);
+void cal_component_get_rrule_property_list (CalComponent *comp, GSList **recur_list);
 void cal_component_set_rrule_list (CalComponent *comp, GSList *recur_list);
 gboolean cal_component_has_rrules (CalComponent *comp);
 

@@ -10,22 +10,19 @@ gchar *s = N_("Sta_rt Date:");
 gchar *s = N_("_Due Date:");
 gchar *s = N_("% Comp_lete:");
 gchar *s = N_("_Status:");
-gchar *s = N_("Not Started\n"
-              "In Progress\n"
-              "Completed\n"
-              "Cancelled\n"
-              "");
+gchar *s = N_("Not Started");
+gchar *s = N_("In Progress");
+gchar *s = N_("Completed");
+gchar *s = N_("Cancelled");
 gchar *s = N_("_Priority:");
-gchar *s = N_("High\n"
-              "Normal\n"
-              "Low\n"
-              "");
+gchar *s = N_("High");
+gchar *s = N_("Normal");
+gchar *s = N_("Low");
 gchar *s = N_("C_lassification:");
-gchar *s = N_("None\n"
-              "Public\n"
-              "Private\n"
-              "Confidential\n"
-              "");
+gchar *s = N_("None");
+gchar *s = N_("Public");
+gchar *s = N_("Private");
+gchar *s = N_("Confidential");
 gchar *s = N_("_Contacts...");
 gchar *s = N_("Ca_tegories...");
 gchar *s = N_("Task");

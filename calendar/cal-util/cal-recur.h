@@ -30,18 +30,8 @@
 
 BEGIN_GNOME_DECLS
 
-typedef enum {
-	CAL_RECUR_YEARLY,
-	CAL_RECUR_MONTHLY,
-	CAL_RECUR_WEEKLY,
-	CAL_RECUR_DAILY,
-	CAL_RECUR_HOURLY,
-	CAL_RECUR_MINUTELY,
-	CAL_RECUR_SECONDLY
-} CalRecurType;
-
 typedef struct {
-	CalRecurType   type;
+	icalrecurrencetype_frequency freq;
 
 	int            interval;
 
@@ -103,14 +93,17 @@ typedef gboolean (* CalRecurInstanceFn) (CalComponent *comp,
 					 time_t        instace_end,
 					 gpointer      data);
 
+/*
+ * Calls the given callback function for each occurrence of the event between
+ * the given start and end times. If end is 0 it continues until the event
+ * ends or forever if the event has an infinite recurrence rule.
+ * If the callback routine return 0 the occurrence generation stops.
+ */
 void	cal_recur_generate_instances	(CalComponent		*comp,
 					 time_t			 start,
 					 time_t			 end,
 					 CalRecurInstanceFn	 cb,
 					 gpointer                cb_data);
-
-CalRecurrence *cal_recur_from_icalrecurrencetype (struct icalrecurrencetype *ir);
-void cal_recur_free (CalRecurrence *r);
 
 END_GNOME_DECLS
 

@@ -22,7 +22,6 @@
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
   <modal>False</modal>
-  <default_height>350</default_height>
   <allow_shrink>False</allow_shrink>
   <allow_grow>True</allow_grow>
   <auto_shrink>False</auto_shrink>
@@ -450,6 +449,7 @@ Confidential
 	<widget>
 	  <class>GtkScrolledWindow</class>
 	  <name>scrolledwindow1</name>
+	  <height>150</height>
 	  <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
 	  <vscrollbar_policy>GTK_POLICY_ALWAYS</vscrollbar_policy>
 	  <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
@@ -484,6 +484,7 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>button3</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -524,6 +525,7 @@ Confidential
 	    <class>GtkButton</class>
 	    <name>button4</name>
 	    <can_focus>True</can_focus>
+	    <relief>GTK_RELIEF_NORMAL</relief>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>

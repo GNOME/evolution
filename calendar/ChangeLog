@@ -1,3 +1,20 @@
+2000-09-24  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/dialogs/task-editor-dialog.glade: set the height of the scrolled
+	window for the description field, since the default window height
+	doesn't seem to be working.
+
+	* cal-util/cal-component.h: added functions to get the actual
+	icalproperty lists for RRULE and EXRULE properties.
+
+	* cal-util/cal-recur.[hc]: added support for COUNT, though I need to
+	test it a bit. Also fixed the call to generate_instances_for_year() so
+	it uses the chunk dates.
+
+2000-09-20  Damon Chaplin  <damon@helixcode.com>
+
+	* gui/event-editor.c: got rid of 1 '_' in '__Formatting'.
+
 2000-09-22  Michael Meeks  <michael@helixcode.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): upd.
