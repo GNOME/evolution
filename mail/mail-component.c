@@ -323,11 +323,6 @@ mc_startup(MailComponent *mc)
 	load_accounts(mc, mail_config_get_accounts());
 	vfolder_load_storage();
 
-#ifdef ENABLE_MONO
-	if (getenv("EVOLUTION_DISABLE_MONO") == NULL)
-		e_plugin_register_type(e_plugin_mono_get_type());
-#endif
-	e_plugin_register_type(e_plugin_lib_get_type());
 	e_plugin_hook_register_type(em_popup_hook_get_type());
 	e_plugin_hook_register_type(em_menu_hook_get_type());
 	e_plugin_hook_register_type(em_config_hook_get_type());
@@ -338,8 +333,6 @@ mc_startup(MailComponent *mc)
 	em_format_hook_register_type(em_format_html_display_get_type());
 
 	e_plugin_hook_register_type(em_event_hook_get_type());
-
-	e_plugin_load_plugins();
 }
 
 static void

@@ -1,3 +1,8 @@
+2004-10-07  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (mc_startup): dont init the base plugin system
+	here anymore, only register the hook types for mail hooks.
+
 2004-09-28  Not Zed  <NotZed@Ximian.com>
 
 	* em-composer-utils.c (forward_non_attached): put back in the
