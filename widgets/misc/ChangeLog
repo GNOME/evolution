@@ -1,3 +1,7 @@
+2003-10-22  Dan Winship  <danw@ximian.com>
+
+	* e-bonobo-widget.[ch]: Remove these (unused since 1.2)
+
 2003-09-30  Mike Kestner  <mkestner@ximian.com>
 
 	* e-cell-renderer-combo.* : new, treeview renderer for combo cells
