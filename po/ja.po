@@ -4,16 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution CVS-20000425\n"
-"POT-Creation-Date: 2000-04-25 09:44+0900\n"
-"PO-Revision-Date: 2000-04-25 21:39+0900\n"
+"Project-Id-Version: evolution CVS-20000506\n"
+"POT-Creation-Date: 2000-05-06 18:41+0900\n"
+"PO-Revision-Date: 2000-05-06 18:46+0900\n"
 "Last-Translator: Akira TAGOH <tagoh@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=euc-jp\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:448
+#: composer/e-msg-composer-address-dialog.c:183 composer/e-msg-composer.c:452
 msgid "Cut"
 msgstr "切り取り"
 
@@ -21,7 +21,7 @@ msgstr "切り取り"
 msgid "Cut selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムを切り取る"
 
-#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:449
+#: composer/e-msg-composer-address-dialog.c:187 composer/e-msg-composer.c:453
 msgid "Copy"
 msgstr "コピー"
 
@@ -30,7 +30,7 @@ msgid "Copy selected item into clipboard"
 msgstr "クリップボードの中へ選択されたアイテムをコピーする"
 
 #: composer/e-msg-composer-address-dialog.c:191
-#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:450
+#: composer/e-msg-composer-address-dialog.c:199 composer/e-msg-composer.c:454
 msgid "Paste"
 msgstr "貼り付け"
 
@@ -43,47 +43,47 @@ msgstr "クリップボードからアイテムを貼り付ける"
 msgid "Select recipients' addresses"
 msgstr "受取人のアドレスを選択します"
 
-#: composer/e-msg-composer-attachment-bar.c:75
+#: composer/e-msg-composer-attachment-bar.c:76
 msgid "1 byte"
 msgstr "1 バイト"
 
-#: composer/e-msg-composer-attachment-bar.c:77
+#: composer/e-msg-composer-attachment-bar.c:78
 #, c-format
 msgid "%u bytes"
 msgstr "%u バイト"
 
-#: composer/e-msg-composer-attachment-bar.c:84
+#: composer/e-msg-composer-attachment-bar.c:85
 #, c-format
 msgid "%.1fK"
 msgstr "%.1fK"
 
-#: composer/e-msg-composer-attachment-bar.c:88
+#: composer/e-msg-composer-attachment-bar.c:89
 #, c-format
 msgid "%.1fM"
 msgstr "%.1fM"
 
-#: composer/e-msg-composer-attachment-bar.c:92
+#: composer/e-msg-composer-attachment-bar.c:93
 #, c-format
 msgid "%.1fG"
 msgstr "%.1fG"
 
-#: composer/e-msg-composer-attachment-bar.c:306
+#: composer/e-msg-composer-attachment-bar.c:307
 msgid "Add attachment"
 msgstr "添付物の追加"
 
-#: composer/e-msg-composer-attachment-bar.c:363
+#: composer/e-msg-composer-attachment-bar.c:364
 msgid "Remove"
 msgstr "削除"
 
-#: composer/e-msg-composer-attachment-bar.c:364
+#: composer/e-msg-composer-attachment-bar.c:365
 msgid "Remove selected items from the attachment list"
 msgstr "添付物リストから選択したアイテムを削除する"
 
-#: composer/e-msg-composer-attachment-bar.c:395
+#: composer/e-msg-composer-attachment-bar.c:396
 msgid "Add attachment..."
 msgstr "添付物の追加..."
 
-#: composer/e-msg-composer-attachment-bar.c:396
+#: composer/e-msg-composer-attachment-bar.c:397
 msgid "Attach a file to the message"
 msgstr "メッセージへファイルを添付する"
 
@@ -131,64 +131,64 @@ msgstr "Subject:"
 msgid "Enter the subject of the mail"
 msgstr "メールの表題を入力"
 
-#: composer/e-msg-composer.c:406
+#: composer/e-msg-composer.c:410
 msgid "Save in _folder..."
 msgstr "フォルダ内を保存(_f)..."
 
-#: composer/e-msg-composer.c:406
+#: composer/e-msg-composer.c:410
 msgid "Save the message in a specified folder"
 msgstr "指定したフォルダ内のメッセージを保存する"
 
-#: composer/e-msg-composer.c:409 composer/e-msg-composer.c:446
-#: mail/folder-browser-factory.c:110
+#: composer/e-msg-composer.c:413 composer/e-msg-composer.c:450
+#: mail/folder-browser-factory.c:115
 msgid "Send"
 msgstr "送信"
 
-#: composer/e-msg-composer.c:409
+#: composer/e-msg-composer.c:413
 msgid "Send the message"
 msgstr "メッセージを送信する"
 
-#: composer/e-msg-composer.c:417
+#: composer/e-msg-composer.c:421
 msgid "View _attachments"
 msgstr "添付物を表示 (_a)"
 
-#: composer/e-msg-composer.c:417
+#: composer/e-msg-composer.c:421
 msgid "View/hide attachments"
 msgstr "添付物を表示/隠す"
 
-#: composer/e-msg-composer.c:446
+#: composer/e-msg-composer.c:450
 msgid "Send this message"
 msgstr "このメッセージを送信する"
 
-#: composer/e-msg-composer.c:448
+#: composer/e-msg-composer.c:452
 msgid "Cut selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を切り取る"
 
-#: composer/e-msg-composer.c:449
+#: composer/e-msg-composer.c:453
 msgid "Copy selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域をコピーする"
 
-#: composer/e-msg-composer.c:450
+#: composer/e-msg-composer.c:454
 msgid "Paste selected region into the clipboard"
 msgstr "クリップボードの中へ選択された領域を貼り付ける"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:455
 msgid "Undo"
 msgstr "元に戻す"
 
-#: composer/e-msg-composer.c:451
+#: composer/e-msg-composer.c:455
 msgid "Undo last operation"
 msgstr "最後の操作を元に戻す"
 
-#: composer/e-msg-composer.c:453
+#: composer/e-msg-composer.c:457
 msgid "Attach"
 msgstr "添付"
 
-#: composer/e-msg-composer.c:453
+#: composer/e-msg-composer.c:457
 msgid "Attach a file"
 msgstr "ファイルを添付する"
 
-#: mail/folder-browser-factory.c:83
+#: mail/folder-browser-factory.c:88
 msgid ""
 "This is a development version of Evolution.\n"
 "Using the mail component on your mail files\n"
@@ -208,71 +208,75 @@ msgstr ""
 "\n"
 "あなたは警告され続けます\n"
 
-#: mail/folder-browser-factory.c:109
+#: mail/folder-browser-factory.c:114
 msgid "New mail"
 msgstr "新着メール"
 
-#: mail/folder-browser-factory.c:109
+#: mail/folder-browser-factory.c:114
 msgid "Check for new mail"
 msgstr "新着メールのチェック"
 
-#: mail/folder-browser-factory.c:110
+#: mail/folder-browser-factory.c:115
 msgid "Send a new message"
 msgstr "メッセージを送信する"
 
-#: mail/folder-browser-factory.c:111
+#: mail/folder-browser-factory.c:116
 msgid "Find"
 msgstr "検索"
 
-#: mail/folder-browser-factory.c:111
+#: mail/folder-browser-factory.c:116
 msgid "Find messages"
 msgstr "メッセージを検索する"
 
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:120
 msgid "Reply"
 msgstr "返信"
 
-#: mail/folder-browser-factory.c:115
+#: mail/folder-browser-factory.c:120
 msgid "Reply to the sender of this message"
 msgstr "メッセージの差出人へ返信する"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:121
 msgid "Reply to All"
 msgstr "全員へ返信"
 
-#: mail/folder-browser-factory.c:116
+#: mail/folder-browser-factory.c:121
 msgid "Reply to all recipients of this message"
 msgstr "このメッセージの受取人全員へ返信する"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:123
 msgid "Forward"
 msgstr "転送"
 
-#: mail/folder-browser-factory.c:118
+#: mail/folder-browser-factory.c:123
 msgid "Forward this message"
 msgstr "このメッセージを転送する"
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:127
 msgid "Print"
 msgstr "印刷"
 
-#: mail/folder-browser-factory.c:122
+#: mail/folder-browser-factory.c:127
 msgid "Print the selected message"
 msgstr "選択されたメッセージを印刷する"
 
-#: mail/folder-browser-factory.c:124
+#: mail/folder-browser-factory.c:129
 msgid "Delete"
 msgstr "削除"
 
-#: mail/folder-browser-factory.c:124
+#: mail/folder-browser-factory.c:129
 msgid "Delete this message"
 msgstr "このメッセージを削除する"
 
-#: mail/folder-browser-factory.c:139
+#: mail/folder-browser-factory.c:146
 msgid "_Mail"
 msgstr "メール(_M)"
 
-#: mail/folder-browser-factory.c:266
+#: mail/folder-browser-factory.c:151
+msgid "_Expunge"
+msgstr "抹消(_E)"
+
+#: mail/folder-browser-factory.c:275
 msgid "We are sorry, Evolution's Folder Browser can not be initialized."
 msgstr "すいませんが，Evolution のフォルダブラウザは初期化することが出来ません"
 
@@ -284,48 +288,35 @@ msgstr "フォルダブラウザが表示する URI"
 msgid "Whether a message preview should be shown"
 msgstr "メッセージプレビューは表示すべきかどうか"
 
-#: mail/mail-component.c:30 mail/main.c:36
+#: mail/mail-component.c:30 mail/main.c:55
 msgid "Mail Component: I could not initialize Bonobo"
 msgstr "メールコンポーネント: Bonobo の初期化が出来ませんでした"
 
-#: mail/mail-display.c:56
-msgid ""
-"An exception occured while trying to load data into the component with "
-"PersistStream"
-msgstr ""
-"PersistStream "
-"でコンポーネントの中へデータをロードしている間に例外が生じました"
-
-#: mail/mail-display.c:192
-#, c-format
-msgid "The %s component doesn't support PersistStream!\n"
-msgstr "%s コンポーネントは PersistStream をサポートしていません!\n"
-
-#: mail/message-list.c:404
+#: mail/message-list.c:431
 msgid "Priority"
 msgstr "優先度"
 
-#: mail/message-list.c:418
+#: mail/message-list.c:445
 msgid "From"
 msgstr "差出人"
 
-#: mail/message-list.c:425
+#: mail/message-list.c:452
 msgid "Subject"
 msgstr "表題"
 
-#: mail/message-list.c:432
+#: mail/message-list.c:459
 msgid "Sent"
 msgstr "送信"
 
-#: mail/message-list.c:439
+#: mail/message-list.c:466
 msgid "Receive"
 msgstr "受信"
 
-#: mail/message-list.c:446
+#: mail/message-list.c:473
 msgid "To"
 msgstr "受取人"
 
-#: mail/message-list.c:453
+#: mail/message-list.c:480
 msgid "Size"
 msgstr "サイズ"
 
@@ -348,22 +339,6 @@ msgstr "フォルダは '仕事' を含んでいます"
 #: shell/e-init.c:25
 msgid "Evolution can not create its local folders"
 msgstr "Evolution はそのローカルフォルダを作成することが出来ません"
-
-#: shell/e-service.c:166
-msgid "A service containing mail items"
-msgstr "サービスは 'メールアイテム' を含んでいます"
-
-#: shell/e-service.c:169
-msgid "A service containing contacts"
-msgstr "サービスは '連絡' を含んでいます"
-
-#: shell/e-service.c:172
-msgid "A service containing calendar entries"
-msgstr "サービスは 'カレンダエントリ' を含んでいます"
-
-#: shell/e-service.c:175
-msgid "A service containing tasks"
-msgstr "サービスは '仕事' を含んでいます"
 
 #: shell/e-shell-shortcut.c:99
 msgid "Large Icons"
@@ -459,7 +434,7 @@ msgstr "ノート(_N)"
 
 #: shell/e-shell-view-menu.c:159
 msgid "_Selected Items"
-msgstr "アイテムを選択(_S)"
+msgstr "選択されたアイテム(_S)"
 
 #: shell/e-shell-view-menu.c:167
 msgid "_New Folder"
@@ -574,19 +549,19 @@ msgstr "他のショートカット"
 msgid "New group"
 msgstr "新規グループ"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "Enables some debugging functions"
 msgstr "いくつかのデバッグ関数を有効にする"
 
-#: shell/main.c:28
+#: shell/main.c:36
 msgid "LEVEL"
 msgstr "LEVEL"
 
-#: shell/main.c:45
+#: shell/main.c:74
 msgid "Failed to initialize the Bonobo component system"
 msgstr "Bonobo コンポーネントシステムの初期化に失敗しました"
 
-#: shell/main.c:75
+#: shell/main.c:104
 msgid ""
 "It was not possible to setup the Evolution startup files.  Please\n"
 "fix the problem, and restart Evolution"
