@@ -69,6 +69,7 @@ calendar/gui/print.c
 calendar/gui/tasks-control.c
 calendar/gui/tasks-migrate.c
 calendar/gui/weekday-picker.c
+camel/camel-cipher-context.c
 camel/camel-filter-driver.c
 camel/camel-filter-search.c
 camel/camel-folder-search.c

@@ -1,7 +1,7 @@
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* POTFILES.in: Removed openpgp-utils.c and added the camel-pgp-*.c
-	files.
+	files. Added camel-cipher-context.c also.
 
 2001-04-12  Héctor García Álvarez <hector@scouts-es.org>
 
