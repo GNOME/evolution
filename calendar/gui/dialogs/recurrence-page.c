@@ -735,7 +735,9 @@ simple_recur_to_comp (RecurrencePage *rpage, CalComponent *comp)
 
 		if (month_num == MONTH_NUM_LAST)
 			month_num = -1;
-
+		else
+			month_num++;
+		
 		switch (month_day) {
 		case MONTH_DAY_NTH:
 			if (month_num == -1)
@@ -1840,7 +1842,7 @@ recurrence_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 			if (pos == -1)
 				priv->month_num = MONTH_NUM_LAST;
 			else 
-				priv->month_num = pos;
+				priv->month_num = pos - 1;
 			priv->month_day = month_day;
 		} else
 			goto custom;

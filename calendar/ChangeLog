@@ -1,3 +1,11 @@
+2002-09-19  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/recurrence-page.c (simple_recur_to_comp): bump the
+	month_num by 1 because it indexs at 0
+	(recurrence_page_fill_widgets): lower the month_num by one as above
+
+	Fixes #30381
+	
 2002-09-17  Rodrigo Moya <rodrigo@ximian.com>
 
 	Fixes #26362
