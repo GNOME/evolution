@@ -682,8 +682,6 @@ static EPixmap pixmaps [] =
 	E_PIXMAP ("/menu/File/Print/PrintPreview",			      "print-preview.xpm"),
 	E_PIXMAP ("/menu/View/ViewBegin/Goto",				      "goto-16.png"),
 
-	E_PIXMAP ("/Toolbar/New",					      "buttons/new_appointment.png"),
-	E_PIXMAP ("/Toolbar/NewTask",					      "buttons/new_task.png"),
 	E_PIXMAP ("/Toolbar/Print",					      "buttons/print.png"),
 	E_PIXMAP ("/Toolbar/Delete",					      "buttons/delete-message.png"),
 	E_PIXMAP ("/Toolbar/Prev",					      "buttons/arrow-left-24.png"),

@@ -1,3 +1,9 @@
+2002-09-27  Dan Winship  <danw@ximian.com>
+
+	* gui/calendar-commands.c (pixmaps): Remove "/Toolbar/New" and
+	"/Toolbar/NewTask" since they're not there any more. Kills some
+	bonobo-ui spewage.
+
 2002-09-26  Dan Winship  <danw@ximian.com>
 
 	Non-Connector part of #29334 (meeting created by a delegate in the
