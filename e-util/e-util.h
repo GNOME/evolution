@@ -187,6 +187,10 @@ void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER                   (GtkO
 									    GtkSignalFunc     func,
 									    gpointer          func_data,
 									    GtkArg           *args);
+void      e_marshal_INT__POINTER_POINTER_POINTER_POINTER_POINTER           (GtkObject        *object,
+									    GtkSignalFunc     func,
+									    gpointer          func_data,
+									    GtkArg           *args);
 void      e_marshal_NONE__POINTER_INT_INT_INT                              (GtkObject        *object,
 									    GtkSignalFunc     func,
 									    gpointer          func_data,
