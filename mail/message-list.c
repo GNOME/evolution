@@ -854,7 +854,6 @@ void
 message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 {
 	CamelException ex;
-	gboolean folder_exists;
 
 	g_return_if_fail (message_list != NULL);
 	g_return_if_fail (camel_folder != NULL);
@@ -931,13 +930,19 @@ on_cursor_change_cmd (ETable *table,
 }
 
 
-static void
-select_row (ETable *table,
-	    gpointer user_data)
+/* FIXME: this is all a kludge. */
+
+static gint
+idle_select_row (gpointer user_data)
 {
-	MessageList *message_list;
-	
-	message_list = MESSAGE_LIST (user_data);
-	
-	e_table_select_row(E_TABLE(message_list->etable), 0);
+	e_table_select_row (user_data, 0);
+	return FALSE;
+}
+
+static void
+select_row (ETable *table, gpointer user_data)
+{
+	MessageList *message_list = user_data;
+
+	gtk_idle_add (idle_select_row, message_list->etable);
 }
