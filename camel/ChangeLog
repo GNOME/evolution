@@ -1,5 +1,12 @@
 2003-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-mime-utils.c: We should check List-Post before List-Id
+	(List-Post has to contain the mailing-list posting address,
+	whereas List-Id does not.) WAlso moved X-Loop to after List-Id to
+	make FreeBSD lusers happy. Fixes bug #32297.
+
+2003-10-28  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* Fixes bug #35083
 
 	* providers/imap/camel-imap-store.c (connect_to_server): Same

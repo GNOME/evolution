@@ -3861,6 +3861,18 @@ static struct {
 	char *pattern;
 	regex_t regex;
 } mail_list_magic[] = {
+	/* List-Post: <mailto:gnome-hackers@gnome.org> */
+	/* List-Post: <mailto:gnome-hackers> */
+	{ "List-Post", "[ \t]*<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
+	/* List-Id: GNOME stuff <gnome-hackers.gnome.org> */
+	/* List-Id: <gnome-hackers.gnome.org> */
+	/* List-Id: <gnome-hackers> */
+	/* This old one wasn't very useful: { "List-Id", " *([^<]+)" },*/
+	{ "List-Id", "[^<]*<([^\\.>]+)\\.?([^ \n\t\r>]*)" },
+	/* Mailing-List: list gnome-hackers@gnome.org; contact gnome-hackers-owner@gnome.org */
+	{ "Mailing-List", "[ \t]*list ([^@]+)@?([^ \n\t\r>;]*)" },
+	/* Originator: gnome-hackers@gnome.org */
+	{ "Originator", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-Mailing-List: <gnome-hackers@gnome.org> arcive/latest/100 */
 	/* X-Mailing-List: gnome-hackers@gnome.org */
 	/* X-Mailing-List: gnome-hackers */
@@ -3868,18 +3880,6 @@ static struct {
 	{ "X-Mailing-List", "[ \t]*<?([^@>]+)@?([^ \n\t\r>]*)" },
 	/* X-Loop: gnome-hackers@gnome.org */
 	{ "X-Loop", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
-	/* List-Id: GNOME stuff <gnome-hackers.gnome.org> */
-	/* List-Id: <gnome-hackers.gnome.org> */
-	/* List-Id: <gnome-hackers> */
-	/* This old one wasn't very useful: { "List-Id", " *([^<]+)" },*/
-	{ "List-Id", "[^<]*<([^\\.>]+)\\.?([^ \n\t\r>]*)" },
-	/* List-Post: <mailto:gnome-hackers@gnome.org> */
-	/* List-Post: <mailto:gnome-hackers> */
-	{ "List-Post", "[ \t]*<mailto:([^@>]+)@?([^ \n\t\r>]*)" },
-	/* Mailing-List: list gnome-hackers@gnome.org; contact gnome-hackers-owner@gnome.org */
-	{ "Mailing-List", "[ \t]*list ([^@]+)@?([^ \n\t\r>;]*)" },
-	/* Originator: gnome-hackers@gnome.org */
-	{ "Originator", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },
 	/* X-List: gnome-hackers */
 	/* X-List: gnome-hackers@gnome.org */
 	{ "X-List", "[ \t]*([^@]+)@?([^ \n\t\r>]*)" },	
