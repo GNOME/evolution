@@ -1,3 +1,7 @@
+2001-04-20  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* mail-display.c: #if 0'd out my not-working selection code
+
 2001-04-19  Dan Winship  <danw@ximian.com>
 
 	* mail-format.c (mail_format_raw_message): Make this more raw:

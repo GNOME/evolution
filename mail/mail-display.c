@@ -1058,6 +1058,7 @@ mail_display_class_init (GtkObjectClass *object_class)
 	thumbnail_cache = g_hash_table_new (g_str_hash, g_str_equal);
 }
 
+#if 0
 static void
 on_selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 		  guint info, guint time_stamp, gpointer data)
@@ -1070,6 +1071,7 @@ on_selection_get (GtkWidget *widget, GtkSelectionData *selection_data,
 					GDK_SELECTION_TYPE_STRING,
 					8, text, strlen (text));
 }
+#endif
 
 static void
 link_open_in_browser (GtkWidget *w, MailDisplay *mail_display)
@@ -1087,12 +1089,15 @@ link_save_as (GtkWidget *w, MailDisplay *mail_display)
 static void
 link_copy_location (GtkWidget *w, MailDisplay *mail_display)
 {
+	g_print ("FIXME\n");
+#if 0
 	gtk_object_set_data (GTK_OBJECT (mail_display->html),
 		"selection", g_strdup (mail_display->html->pointer_url));
 
 	gtk_selection_owner_set (GTK_WIDGET (mail_display->html),
 				 GDK_SELECTION_PRIMARY,
 				 GDK_CURRENT_TIME);
+#endif
 }
 
 #define SEPARATOR  { "", NULL, (NULL), NULL,  0 }
@@ -1265,11 +1270,13 @@ mail_display_new (void)
 			    GTK_SIGNAL_FUNC (html_enter_notify_event), mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "iframe_created",
 			    GTK_SIGNAL_FUNC (html_iframe_created), mail_display);
+#if 0
 	gtk_selection_add_target (GTK_WIDGET(html),
 				  GDK_SELECTION_PRIMARY, 
 				  GDK_SELECTION_TYPE_STRING, 1);
 	gtk_signal_connect (GTK_OBJECT (html), "selection_get",
 			    GTK_SIGNAL_FUNC (on_selection_get), NULL);
+#endif
 
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
