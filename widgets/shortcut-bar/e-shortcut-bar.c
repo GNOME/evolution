@@ -244,9 +244,9 @@ e_shortcut_bar_destroy (GtkObject *object)
 
 	shortcut_bar = E_SHORTCUT_BAR (object);
 
-	g_array_free (shortcut_bar->groups, TRUE);
-
 	e_shortcut_bar_disconnect_model (shortcut_bar);
+
+	g_array_free (shortcut_bar->groups, TRUE);
 
 	g_free (shortcut_bar->dragged_url);
 	g_free (shortcut_bar->dragged_name);
