@@ -60,18 +60,9 @@ static gint e_minicard_drag_begin (EMinicard *minicard, GdkEvent *event);
 
 static GnomeCanvasGroupClass *parent_class = NULL;
 
-typedef struct _EMinicardField EMinicardField;
-
-struct _EMinicardField {
-	EContactField field;
-	GnomeCanvasItem *label;
-};
-
 #define d(x)
 
 #define LIST_ICON_FILENAME "contact-list-16.png"
-
-#define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 
 static void
 e_minicard_field_destroy(EMinicardField *field)
@@ -225,6 +216,9 @@ e_minicard_class_init (EMinicardClass *klass)
 	item_class->event      = e_minicard_event;
 
 	klass->selected        = NULL;
+
+	/* init the accessibility support for e_minicard */
+	e_minicard_a11y_init();
 }
 
 static void

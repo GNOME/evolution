@@ -272,6 +272,9 @@ eab_view_class_init (EABViewClass *klass)
 
 	if (!clipboard_atom)
 		clipboard_atom = gdk_atom_intern ("CLIPBOARD", FALSE);
+
+	/* init the accessibility support for e_addressbook_view */
+	eab_view_a11y_init();
 }
 
 static void

@@ -12,6 +12,7 @@ INCLUDES =									\
 	-I$(top_srcdir)/addressbook/gui/widgets			\
 	-I$(top_srcdir)/addressbook/backend			\
 	-I$(top_builddir)/addressbook/backend			\
+	-I$(top_builddir)/a11y/addressbook			\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"			\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"		\
@@ -57,6 +58,7 @@ libevolution_addressbook_la_LIBADD =							\
 	$(top_builddir)/addressbook/gui/contact-list-editor/libecontactlisteditor.la	\
 	$(top_builddir)/widgets/misc/libemiscwidgets.la					\
 	$(top_builddir)/widgets/menus/libmenus.la					\
+	$(top_builddir)/a11y/addressbook/libevolution-addressbook-a11y.la		\
 	$(EVOLUTION_ADDRESSBOOK_LIBS) $(LDAP_LIBS)
 
 

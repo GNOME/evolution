@@ -489,6 +489,9 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 
 	reflow_class->selection_event = e_minicard_view_selection_event;
 	/* GnomeCanvasItem method overrides */
+
+	/* init the accessibility support for e_minicard_view */
+	e_minicard_view_a11y_init();
 }
 
 static void

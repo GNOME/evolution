@@ -106,6 +106,14 @@ struct _EMinicardClass
 	void (* style_set) (EMinicard *minicard, GtkStyle *previous_style);
 };
 
+typedef struct _EMinicardField EMinicardField;
+                                                                               
+struct _EMinicardField {
+	EContactField field;
+	GnomeCanvasItem *label;
+};
+
+#define E_MINICARD_FIELD(field) ((EMinicardField *)(field))
 
 GType       e_minicard_get_type     (void);
 const char *e_minicard_get_card_id  (EMinicard *minicard);
