@@ -1771,7 +1771,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			e_tep_event.button.position = _get_position_from_xy(text, button.x, button.y);
 			_get_tep(text);
 			return_val = e_text_event_processor_handle_event (text->tep,
-								       &e_tep_event);
+									  &e_tep_event);
 			if (event->button.button == 1) {
 				if (event->type == GDK_BUTTON_PRESS)
 					text->button_down = TRUE;
@@ -1781,18 +1781,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			text->lastx = button.x;
 			text->lasty = button.y;
 			text->last_state = button.state;
-			if (event->type == GDK_BUTTON_PRESS && text->timer) {
-				g_timer_reset(text->timer);
-			}
-			if (event->type == GDK_BUTTON_PRESS) {
-				gnome_canvas_item_grab (item, 
-							GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
-							text->i_cursor,
-							button.time);
-			} else {
-				gnome_canvas_item_ungrab (item, button.time);
-			}
-		} else if (text->editable && event->type == GDK_BUTTON_RELEASE) {
+		} else if (text->editable && event->type == GDK_BUTTON_RELEASE && event->button.button == 1) {
 			gnome_canvas_item_grab_focus (item);
 			return 1;
 		}
@@ -1972,6 +1961,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 	case E_TEP_MOVE:
 		text->selection_start = _get_position(text, command);
 		text->selection_end = text->selection_start;
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 	case E_TEP_SELECT:
 		text->selection_end = _get_position(text, command);
@@ -1979,6 +1971,8 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		sel_end = MAX(text->selection_start, text->selection_end);
 		if (sel_start != sel_end) {
 			e_text_supply_selection (text, command->time, GDK_SELECTION_PRIMARY, text->text + sel_start, sel_end - sel_start);
+		} else if (text->timer) {
+			g_timer_reset(text->timer);
 		}
 		break;
 	case E_TEP_DELETE:
@@ -1988,6 +1982,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		_delete_selection(text);
 		split_into_lines (text);
 		recalc_bounds (text);
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 
 	case E_TEP_INSERT:
@@ -1997,6 +1994,9 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		_insert(text, command->string, command->value);
 		split_into_lines (text);
 		recalc_bounds (text);
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 	case E_TEP_COPY:
 		sel_start = MIN(text->selection_start, text->selection_end);
@@ -2004,17 +2004,35 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (sel_start != sel_end) {
 			e_text_supply_selection (text, command->time, clipboard_atom, text->text + sel_start, sel_end - sel_start);
 		}
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 	case E_TEP_PASTE:
 		e_text_get_selection (text, clipboard_atom, command->time);
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 	case E_TEP_GET_SELECTION:
 		e_text_get_selection (text, GDK_SELECTION_PRIMARY, command->time);
 		break;
 	case E_TEP_ACTIVATE:
+		if (text->timer) {
+			g_timer_reset(text->timer);
+		}
 		break;
 	case E_TEP_SET_SELECT_BY_WORD:
 		text->select_by_word = command->value;
+		break;
+	case E_TEP_GRAB:
+		gnome_canvas_item_grab (GNOME_CANVAS_ITEM(text), 
+					GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK,
+					text->i_cursor,
+					command->time);
+		break;
+	case E_TEP_UNGRAB:
+		gnome_canvas_item_ungrab (GNOME_CANVAS_ITEM(text), command->time);
 		break;
 	case E_TEP_NOP:
 		break;

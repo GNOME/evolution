@@ -146,6 +146,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 	switch (event->type) {
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 1) {
+			command.action = E_TEP_GRAB;
+			command.time = event->button.time;
+			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
 			if (event->button.state & GDK_SHIFT_MASK)
 				command.action = E_TEP_SELECT;
 			else
@@ -158,6 +161,9 @@ e_text_event_processor_emacs_like_event (ETextEventProcessor *tep, ETextEventPro
 		break;
 	case GDK_BUTTON_RELEASE:
 		if (event->button.button == 1) {
+			command.action = E_TEP_UNGRAB;
+			command.time = event->button.time;
+			gtk_signal_emit_by_name (GTK_OBJECT (tep), "command", &command);
 			command.time = event->button.time;
 			tep_el->mouse_down = FALSE;
 		} else if (event->button.button == 2) {

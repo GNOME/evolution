@@ -1,5 +1,30 @@
 2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
 
+	* widgets/e-text.c (e_text_command): Handle the grab and ungrab
+	command instead of doing focus by hand.  This fixes a problem
+	related to the scroll wheel.
+	(e_text_command): Reset the blink timer in many more command
+	situations so that the cursor blinks less when you're interacting
+	with it.
+
+	* widgets/e-text-event-processor-emacs-like.c: Send the grab focus
+	command when starting a selection and the ungrab focus command
+	when ending it.
+
+	* widgets/e-text-event-processor-types.h: Added grab command type
+	so that the event processor can tell the widget to grab the focus.
+
+	* widgets/e-reflow.c: Redefined all sizes using #defines so that
+	they can be tweaked later.  Added scroll wheel handling and set up
+	adjustment increments so that the scroll bars will work correctly.
+
+	* widgets/e-minicard.h: Added minicard focus type enum.  This
+	doesn't mean anything yet, but it will later be used to say which
+	direction the focus is coming from (below for shift-tab, above for
+	tab.)
+
+2000-01-28  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-minicard-label.c, widgets/e-minicard.c: Use
 	e_canvas_item_grab_focus so that it will work with old versions of
 	gnome-canvas.

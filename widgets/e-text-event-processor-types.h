@@ -82,6 +82,9 @@ enum _ETextEventProcessorCommandAction {
 	E_TEP_GET_SELECTION,
 	E_TEP_SET_SELECT_BY_WORD,
 	E_TEP_ACTIVATE,
+	
+	E_TEP_GRAB,
+	E_TEP_UNGRAB,
 
 	E_TEP_NOP
 };

@@ -48,6 +48,12 @@ extern "C" {
 
 typedef struct _EMinicard       EMinicard;
 typedef struct _EMinicardClass  EMinicardClass;
+typedef enum _EMinicardFocusType EMinicardFocusType;
+
+enum _EMinicardFocusType {
+	E_MINICARD_FOCUS_TYPE_START,
+	E_MINICARD_FOCUS_TYPE_END
+};
 
 struct _EMinicard
 {
