@@ -85,6 +85,8 @@ CalListener *cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 			       CalListenerCategoriesChangedFn categories_changed_fn,
 			       gpointer fn_data);
 
+void cal_listener_stop_notification (CalListener *listener);
+
 
 
 END_GNOME_DECLS

@@ -1,5 +1,25 @@
 2001-08-07  Federico Mena Quintero  <federico@ximian.com>
 
+	* cal-client/cal-listener.c (cal_listener_stop_notification): New
+	function to stop further notification from happening.
+	(impl_notifyCalOpened): Do not notify if requested.
+	(impl_notifyObjUpdated): Likewise.
+	(impl_notifyObjRemoved): Likewise.
+	(impl_notifyCategoriesChanged): Likewise.
+	(CalListenerPrivate): Do not keep a reference to the server-side
+	Cal.  This would create a circular reference since the server
+	keeps a reference to the listener.
+	(cal_listener_destroy): Likewise.
+	(impl_notifyCalOpened): Likewise.
+
+	* pcs/cal.c (cal_destroy): bonobo_object_release_unref() the listener.
+
+	* cal-client/cal-client.c (cal_client_destroy): Ask the listener
+	to stop notifications.  Also, do not unref it as the server does
+	that itself when we unref the Cal.
+
+2001-08-07  Federico Mena Quintero  <federico@ximian.com>
+
 	* gui/calendar-model.c (calendar_model_free_value): Only unref the
 	FIELD_COMPONENT if it is non-NULL.  We return a NULL for that
 	field from ::initialize_value(), after all.  Fixes bug #6098.

@@ -260,21 +260,6 @@ destroy_factory (CalClient *client)
 	priv->factory = CORBA_OBJECT_NIL;
 }
 
-/* Gets rid of the listener that a client knows about */
-static void
-destroy_listener (CalClient *client)
-{
-	CalClientPrivate *priv;
-
-	priv = client->priv;
-
-	if (!priv->listener)
-		return;
-
-	bonobo_object_unref (BONOBO_OBJECT (priv->listener));
-	priv->listener = NULL;
-}
-
 /* Gets rid of the calendar client interface object that a client knows about */
 static void
 destroy_cal (CalClient *client)
@@ -337,9 +322,14 @@ cal_client_destroy (GtkObject *object)
 	client = CAL_CLIENT (object);
 	priv = client->priv;
 
+	/* The server unrefs the query listener, so we just NULL it out here */
+	if (priv->listener) {
+		cal_listener_stop_notification (priv->listener);
+		priv->listener = NULL;
+	}
+
 	destroy_wombat_client (client);
 	destroy_factory (client);
-	destroy_listener (client);
 	destroy_cal (client);
 
 	priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;

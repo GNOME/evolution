@@ -554,10 +554,11 @@ cal_destroy (GtkObject *object)
 	priv->backend = NULL;
 
 	CORBA_exception_init (&ev);
-	CORBA_Object_release (priv->listener, &ev);
+	bonobo_object_release_unref (priv->listener, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_message ("cal_destroy(): could not release the listener");
 
+	priv->listener = NULL;
 	CORBA_exception_free (&ev);
 
 	g_free (priv);

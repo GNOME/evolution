@@ -26,15 +26,15 @@
 
 /* Private part of the CalListener structure */
 struct CalListenerPrivate {
-	/* The calendar this listener refers to */
-	GNOME_Evolution_Calendar_Cal cal;
-
 	/* Notification functions and their closure data */
 	CalListenerCalOpenedFn cal_opened_fn;
 	CalListenerObjUpdatedFn obj_updated_fn;
 	CalListenerObjRemovedFn obj_removed_fn;
 	CalListenerCategoriesChangedFn categories_changed_fn;
 	gpointer fn_data;
+
+	/* Whether notification is desired */
+	gboolean notify : 1;
 };
 
 
@@ -93,11 +93,12 @@ cal_listener_init (CalListener *listener)
 	priv = g_new0 (CalListenerPrivate, 1);
 	listener->priv = priv;
 
-	priv->cal = CORBA_OBJECT_NIL;
 	priv->cal_opened_fn = NULL;
 	priv->obj_updated_fn = NULL;
 	priv->obj_removed_fn = NULL;
 	priv->categories_changed_fn = NULL;
+
+	priv->notify = TRUE;
 }
 
 /* Destroy handler for the calendar listener */
@@ -106,8 +107,6 @@ cal_listener_destroy (GtkObject *object)
 {
 	CalListener *listener;
 	CalListenerPrivate *priv;
-	CORBA_Environment ev;
-	gboolean result;
 
 	g_return_if_fail (object != NULL);
 	g_return_if_fail (IS_CAL_LISTENER (object));
@@ -121,23 +120,7 @@ cal_listener_destroy (GtkObject *object)
 	priv->categories_changed_fn = NULL;
 	priv->fn_data = NULL;
 
-	CORBA_exception_init (&ev);
-	result = CORBA_Object_is_nil (priv->cal, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION)
-		g_message ("cal_listener_destroy(): could not see if the calendar was NIL");
-	else if (!result) {
-		CORBA_exception_free (&ev);
-
-		CORBA_exception_init (&ev);
-		CORBA_Object_release (priv->cal, &ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("cal_listener_destroy(): could not release the calendar");
-
-		priv->cal = CORBA_OBJECT_NIL;
-	}
-	CORBA_exception_free (&ev);
+	priv->notify = FALSE;
 
 	g_free (priv);
 	listener->priv = NULL;
@@ -165,10 +148,8 @@ impl_notifyCalOpened (PortableServer_Servant servant,
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
 
-	if (priv->cal != CORBA_OBJECT_NIL) {
-		g_message ("Listener_notifyCalOpened(): calendar was already open!");
+	if (!priv->notify)
 		return;
-	}
 
 	CORBA_exception_init (&aev);
 	cal_copy = CORBA_Object_duplicate (cal, &aev);
@@ -179,8 +160,6 @@ impl_notifyCalOpened (PortableServer_Servant servant,
 		return;
 	}
 	CORBA_exception_free (&aev);
-
-	priv->cal = cal_copy;
 
 	g_assert (priv->cal_opened_fn != NULL);
 	(* priv->cal_opened_fn) (listener, status, cal, priv->fn_data);
@@ -198,6 +177,9 @@ impl_notifyObjUpdated (PortableServer_Servant servant,
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
 
+	if (!priv->notify)
+		return;
+
 	g_assert (priv->obj_updated_fn != NULL);
 	(* priv->obj_updated_fn) (listener, uid, priv->fn_data);
 }
@@ -214,6 +196,9 @@ impl_notifyObjRemoved (PortableServer_Servant servant,
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
 
+	if (!priv->notify)
+		return;
+
 	g_assert (priv->obj_removed_fn != NULL);
 	(* priv->obj_removed_fn) (listener, uid, priv->fn_data);
 }
@@ -229,6 +214,9 @@ impl_notifyCategoriesChanged (PortableServer_Servant servant,
 
 	listener = CAL_LISTENER (bonobo_object_from_servant (servant));
 	priv = listener->priv;
+
+	if (!priv->notify)
+		return;
 
 	g_assert (priv->categories_changed_fn != NULL);
 	(* priv->categories_changed_fn) (listener, categories, priv->fn_data);
@@ -321,4 +309,26 @@ cal_listener_new (CalListenerCalOpenedFn cal_opened_fn,
 				       obj_removed_fn,
 				       categories_changed_fn,
 				       fn_data);
+}
+
+/**
+ * cal_listener_stop_notification:
+ * @listener: A calendar listener.
+ * 
+ * Informs a calendar listener that no further notification is desired.  The
+ * callbacks specified when the listener was created will no longer be invoked
+ * after this function is called.
+ **/
+void
+cal_listener_stop_notification (CalListener *listener)
+{
+	CalListenerPrivate *priv;
+
+	g_return_if_fail (listener != NULL);
+	g_return_if_fail (IS_CAL_LISTENER (listener));
+
+	priv = listener->priv;
+	g_return_if_fail (priv->notify != FALSE);
+
+	priv->notify = FALSE;
 }
