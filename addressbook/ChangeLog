@@ -1,3 +1,15 @@
+2001-10-20  Jon Trowbridge  <trow@ximian.com>
+
+	* backend/ebook/e-book.c (activate_factories_for_uri): We
+	shouldn't leak the info returned by oaf_query.
+
+	* gui/contact-editor/e-contact-quick-add.c (card_added_cb): Remove
+	superfluous call to quick_add_unref.
+	(editor_closed_cb): Remove superfluous call to quick_add_unref.
+
+	* gui/component/select-names/e-select-names.c (esn_get_key_fn): We
+	need to unref the card returned by e_addressbook_model_get_card.
+
 2001-10-20  Ettore Perazzoli  <ettore@ximian.com>
 
 	* gui/component/addressbook-component.c: Make LDAP servers

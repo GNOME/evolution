@@ -662,6 +662,8 @@ activate_factories_for_uri (EBook *book, const char *uri)
 								    factory);
 	}
 
+	CORBA_free (info_list);
+
 	if (!book->priv->book_factories) {
 		g_warning ("Couldn't activate any book factories.");
 		return FALSE;

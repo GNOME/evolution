@@ -247,6 +247,7 @@ esn_get_key_fn (ETableModel *source, int row, void *closure)
 	EAddressbookModel *model = E_ADDRESSBOOK_MODEL (closure);
 	ECard *card = e_addressbook_model_get_card (model, row);
 	void *key = card_key (card);
+	gtk_object_unref (GTK_OBJECT (card));
 	return key;
 }
 
