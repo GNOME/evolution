@@ -79,7 +79,7 @@
 	  </para>
 	  <variablelist>
 	    <varlistentry>
-	      <term>Remote <application>Exchange</application>Information Store</term>
+	      <term>Remote <application>Exchange</application> Information Store</term>
 	      <listitem>
 		<para>
 		  Allows you to access mail, address 
