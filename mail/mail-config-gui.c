@@ -36,6 +36,7 @@
 #include "e-util/e-unicode.h"
 #include "mail.h"
 #include "mail-threads.h"
+#include "mail-tools.h"
 #include "mail-config.h"
 #include "mail-config-gui.h"
 
@@ -50,7 +51,6 @@ typedef struct
 	CamelProvider *provider;
 	CamelService *service;
 	CamelProviderType type;
-	GList *authtypes;
 } MailService;
 
 struct _MailDialogIdentityPage
@@ -86,6 +86,7 @@ typedef struct
 	GtkWidget *keep_on_server;
 	gint pnum;
 	gint default_port;
+	GtkWidget *use_default_port;
 } MailDialogServicePageItem;
 
 struct _MailDialogServicePage
@@ -178,6 +179,7 @@ typedef struct
 
 /* private prototypes - these are ugly, rename some of them? */
 static void config_do_test_service (const char *url, CamelProviderType type);
+static void config_do_query_authtypes (MailDialogServicePage *page, const char *url, CamelProviderType type);
 
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
 static GtkWidget *html_new (gboolean white);
@@ -306,18 +308,15 @@ provider_list_add (GSList *services, CamelProviderType type,
 
 	url = g_strdup_printf ("%s:", prov->protocol);
 	service = camel_session_get_service (session, url, type, ex);
+	camel_exception_free (ex);
 	g_free (url);
-	if (!service) {
-		camel_exception_free (ex);
+	if (!service)
 		return services;
-	}
 
 	mcs = g_new (MailService, 1);
 	mcs->provider = prov;
 	mcs->service = service;
 	mcs->type = type;
-	mcs->authtypes = camel_service_query_auth_types (mcs->service, ex);
-	camel_exception_free (ex);
 
 	return g_slist_prepend (services, mcs);
 }
@@ -589,7 +588,7 @@ service_page_get_url (MailDialogServicePage *page)
 		url->user = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->user), 0, -1);
 	if (spitem->host)
 		url->host = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->host), 0, -1);
-	if (spitem->port) {
+	if (spitem->port && !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (spitem->use_default_port))) {
 		gchar *val;
 
 		val = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->port), 0, -1);
@@ -600,7 +599,10 @@ service_page_get_url (MailDialogServicePage *page)
 			url->port = 0;
 
 		g_free (val);
+	} else {
+		url->port = 0;
 	}
+
 	if (spitem->path) {
 		gchar *path;
 		path = e_utf8_gtk_editable_get_chars (GTK_EDITABLE (spitem->path),
@@ -665,6 +667,8 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 			
 		if (url && url->port) {
 			tmp = g_strdup_printf ("%d", url->port);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spitem->use_default_port),
+						      FALSE);
 		} else if (spitem->default_port) {
 			tmp = g_strdup_printf ("%d", spitem->default_port);
 		} else {
@@ -839,33 +843,11 @@ service_page_detect (GtkWidget *button, MailDialogServicePage *page)
 {
 	MailDialogServicePageItem *spitem;
 	char *url = NULL;
-	CamelException *ex;
-	CamelService *service;
-	GList *authtypes;
 
 	spitem = page->spitem;
 	url = service_page_get_url (page);
 
-	ex = camel_exception_new ();
-	service = camel_session_get_service (session, url, spitem->type, ex);
-	g_free (url);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		goto error;
-
-	authtypes = camel_service_query_auth_types (service, ex);
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		goto error;
-
-	service_page_item_auth_fill (page, spitem, authtypes);
-
-	camel_exception_free (ex);
-
-	return;
-
- error:
-	error_dialog (button, "Could not detect supported authentication "
-		      "types:\n%s", camel_exception_get_description (ex));
-	camel_exception_free (ex);
+	config_do_query_authtypes (page, url, spitem->type);
 }
 
 static void
@@ -895,6 +877,18 @@ service_page_add_elem (MailDialogServicePage *page, GtkWidget *table,
 	return entry;
 }
 
+static void
+toggle_port (GtkWidget *w, gpointer user_data)
+{
+	MailDialogServicePage *page;
+	gboolean val;
+
+	page = (MailDialogServicePage *) user_data;
+
+	val = !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	gtk_widget_set_sensitive (page->spitem->port, val);
+}
+	
 static MailDialogServicePageItem *
 service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 {
@@ -926,11 +920,39 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 	service_flags = mcs->service->url_flags & ~CAMEL_SERVICE_URL_NEED_AUTH;
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_HOST) {
+		GtkWidget *w;
+
 		item->host = service_page_add_elem (page, table, row++, _("Server:"));
 		item->hostneed = ((service_flags & CAMEL_SERVICE_URL_NEED_HOST)
 				  == CAMEL_SERVICE_URL_NEED_HOST);
-		item->port = service_page_add_elem (page, table, row++, _("Port:"));
+
 		item->default_port = mcs->provider->default_ports[mcs->type];
+
+		w = gtk_label_new (_("Port:"));
+		gtk_table_attach (GTK_TABLE (table), w, 0, 1,
+				  row, row + 1, GTK_FILL, 0, 0, 0);
+		gtk_misc_set_alignment (GTK_MISC (w), 1, 0.5);
+
+		item->port = gtk_entry_new();
+		gtk_table_attach (GTK_TABLE (table), item->port,
+				  1, 2, row, row + 1,
+				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  0, 0);
+		gtk_signal_connect (GTK_OBJECT (item->port), "changed",
+				    GTK_SIGNAL_FUNC (service_page_item_changed), page);
+		gtk_widget_set_sensitive (item->port, FALSE);
+
+		item->use_default_port = gtk_check_button_new_with_label (_("Use default port"));
+		gtk_table_attach (GTK_TABLE (table), item->use_default_port, 
+				  2, 3, row, row + 1,
+				  GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND,
+				  0, 0);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item->use_default_port), 
+					      TRUE);
+		gtk_signal_connect (GTK_OBJECT (item->use_default_port), "toggled",
+				    GTK_SIGNAL_FUNC (toggle_port),
+				    page);
+		row++;
 	}
 
 	if (service_flags & CAMEL_SERVICE_URL_ALLOW_USER) {
@@ -945,8 +967,9 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 				  == CAMEL_SERVICE_URL_NEED_PATH);
 	}
 
-	if (mcs->authtypes) {
+	if (mcs->service->url_flags & CAMEL_SERVICE_URL_ALLOW_AUTH) {
 		GtkWidget *label;
+		gchar *url;
 
 		label = gtk_label_new (_("Authentication:"));
 		gtk_table_attach (GTK_TABLE (table), label, 0, 1,
@@ -977,8 +1000,10 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 				  0, 3, row + 1, row + 2,
 				  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 
-		service_page_item_auth_fill (page, item, mcs->authtypes);
-
+		/* this is done async */
+		url = camel_url_to_string (mcs->service->url, FALSE);
+		config_do_query_authtypes (page, url, mcs->type);
+		g_free (url);
 		row += 2;
 	}
 
@@ -2316,4 +2341,106 @@ config_do_test_service (const char *url, CamelProviderType type)
 	input->type = type;
 
         mail_operation_queue (&op_test_service, input, TRUE);
+}
+
+/* ************************************************************************ */
+
+typedef struct query_authtypes_input_s {
+	MailDialogServicePage *page;
+	gchar *url;
+	CamelProviderType type;
+} query_authtypes_input_t;
+
+typedef struct query_authtypes_data_s {
+	CamelService *service;
+	GList *items;
+} query_authtypes_data_t;
+
+static gchar *describe_query_authtypes (gpointer in_data, gboolean gerund);
+static void setup_query_authtypes   (gpointer in_data, gpointer op_data, CamelException *ex);
+static void do_query_authtypes      (gpointer in_data, gpointer op_data, CamelException *ex);
+static void cleanup_query_authtypes (gpointer in_data, gpointer op_data, CamelException *ex);
+
+static gchar *describe_query_authtypes (gpointer in_data, gboolean gerund)
+{
+        query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
+
+        if (gerund) {
+                return g_strdup_printf (_("Querying authorization capabilities of \"%s\""), input->url);
+        } else {
+                return g_strdup_printf (_("Query authorization at \"%s\""), input->url);
+        }
+}
+
+static void setup_query_authtypes (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
+        query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
+
+	if (!input->page) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No service page was provided to test");
+		return;
+	}
+
+	if (!input->url) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No URL was provided to test");
+		return;
+	}
+
+	data->items = NULL;
+	data->service = NULL;
+}
+
+static void do_query_authtypes (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
+        query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
+	
+	data->service = camel_session_get_service (session, input->url, input->type, ex);
+	if (!data->service)
+		return;
+
+	data->items = camel_service_query_auth_types (data->service, ex);
+}
+
+static void cleanup_query_authtypes (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        query_authtypes_input_t *input = (query_authtypes_input_t *) in_data;
+        query_authtypes_data_t *data = (query_authtypes_data_t *) op_data;
+
+	if (data->items && input->page->spitem->auth_optionmenu &&
+	    GTK_WIDGET_VISIBLE (input->page->spitem->auth_optionmenu))
+		service_page_item_auth_fill (input->page, input->page->spitem, data->items);
+
+	if (data->service) {
+		mail_tool_camel_lock_up();
+		camel_service_free_auth_types (data->service, data->items);
+		camel_object_unref (CAMEL_OBJECT (data->service));
+		mail_tool_camel_lock_down();
+	}
+
+	g_free (input->url);
+}
+
+static const mail_operation_spec op_query_authtypes = {
+        describe_query_authtypes,
+        sizeof (query_authtypes_data_t),
+        setup_query_authtypes,
+        do_query_authtypes,
+        cleanup_query_authtypes
+};
+
+static void
+config_do_query_authtypes (MailDialogServicePage *page, const char *url, CamelProviderType type)
+{
+        query_authtypes_input_t *input;
+
+        input = g_new (query_authtypes_input_t, 1);
+	input->page = page;
+	input->url = g_strdup (url);
+	input->type = type;
+
+        mail_operation_queue (&op_query_authtypes, input, TRUE);
 }

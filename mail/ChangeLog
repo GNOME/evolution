@@ -1,3 +1,11 @@
+2000-09-05  Peter Williams  <peterw@helixcode.com>
+
+	* mail-ops.c (cleanup_load_folder): Check for NULL folder.
+	(mail_do_setup_folder): Copy the 'name' parameter so that
+	we can free it.
+
+	* message-list.c (nuke_uids): Depth '-1' means "unlimited", not 0.
+
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
 	* component-factory.c (owner_set_cb): Re-rename "Sent".
@@ -130,6 +138,27 @@
 	needed by `evolution_storage_new_folder()'.
 	* mail-vfolder.c (vfolder_refresh): Likewise.
 
+2000-08-31  Peter Williams  <peterw@helixcode.com>
+
+	* folder-browser.c (folder_browser_new): Don't ref the shell:
+	causes a race upon exit.
+	(folder_browser_destroy): Don't unref it.
+
+	* mail-config-gui.c (service_page_item_new): Add a checkbutton
+	"use default port" to make life simple.
+	(service_page_get_url): Honor use_default_port.
+	(service_page_set_url): Set use_default_port based on the input
+	URL.
+	(toggle_port): New function, sets the sensitivity of the
+	port entry based on "use default port"
+
+	(config_do_query_authtypes): Make this asynchronous, as it
+	may involve connecting to a server.
+	(service_page_detect): Call the async auth querier.
+	(service_page_item_new): Put the authentication stuff in if
+	the url_flags have URL_ALLOW_AUTH. Call the async auth querier
+	to get the info.
+	
 2000-08-30  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* mail-view.c (mail_view_create): Make the HTML widget grab the

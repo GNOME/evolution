@@ -862,7 +862,7 @@ nuke_uids (GtkObject *o)
 	ETreeModel *etm = E_TREE_MODEL (o);
 
 	g_node_traverse (etm->root, G_IN_ORDER, 
-			 G_TRAVERSE_ALL, 0, 
+			 G_TRAVERSE_ALL, -1, 
 			 nuke_uids_cb, etm);
 }
 

@@ -1594,16 +1594,17 @@ cleanup_load_folder (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	load_folder_input_t *input = (load_folder_input_t *) in_data;
 
-	gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_entry),
-				  camel_folder_has_search_capability (input->
-								      fb->
-								      folder));
-	gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_menu),
-				  camel_folder_has_search_capability (input->
-								      fb->
-								      folder));
-
-	message_list_set_folder (input->fb->message_list, input->fb->folder);
+	if (input->fb->folder) {
+		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_entry),
+					  camel_folder_has_search_capability (input->
+									      fb->
+									      folder));
+		gtk_widget_set_sensitive (GTK_WIDGET (input->fb->search_menu),
+					  camel_folder_has_search_capability (input->
+									      fb->
+									      folder));
+		message_list_set_folder (input->fb->message_list, input->fb->folder);
+	}
 
 	/*g_free (input->url); = fb->uri now */
 }
@@ -2104,7 +2105,7 @@ mail_do_edit_messages (CamelFolder *folder, GPtrArray *uids,
 /* ** SETUP FOLDER ****************************************************** */
 
 typedef struct setup_folder_input_s {
-	const char *name;
+	gchar *name;
 	CamelFolder **folder;
 } setup_folder_input_t;
 
@@ -2167,7 +2168,7 @@ mail_do_setup_folder (const char *name, CamelFolder **folder)
 	setup_folder_input_t *input;
 
 	input = g_new (setup_folder_input_t, 1);
-	input->name = name;
+	input->name = g_strdup (name);
 	input->folder = folder;
 	mail_operation_queue (&op_setup_folder, input, TRUE);
 }
