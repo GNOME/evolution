@@ -25,6 +25,7 @@
 
 #include "e-search-bar.h"
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-gui-utils.h>
 
 static void e_search_bar_init		(ESearchBar		 *card);
 static void e_search_bar_class_init	(ESearchBarClass	 *klass);
@@ -173,7 +174,7 @@ esb_pack_menubar(ESearchBar *esb, ESearchBarItem *items)
 	gtk_widget_show_all (menu);
 
 	menuitem = gnome_stock_menu_item(GNOME_STOCK_MENU_SEARCH, _("Sear_ch"));
-	e_container_foreach_leaf(GTK_CONTAINER(menuitem), esb_check_labels);
+	e_container_foreach_leaf(GTK_CONTAINER(menuitem), esb_check_labels, NULL);
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(menuitem), menu);
 
 	gtk_widget_show (menuitem);
