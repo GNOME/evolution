@@ -270,6 +270,8 @@ disco_refresh_info (CamelFolder *folder, CamelException *ex)
 static void
 disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
+	void (*sync)(CamelFolder *, CamelException *) = NULL;
+
 	if (expunge) {
 		disco_expunge (folder, ex);
 		if (camel_exception_is_set (ex))
@@ -280,16 +282,23 @@ disco_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 
 	switch (camel_disco_store_status (CAMEL_DISCO_STORE (folder->parent_store))) {
 	case CAMEL_DISCO_STORE_ONLINE:
-		CDF_CLASS (folder)->sync_online (folder, ex);
+		sync = CDF_CLASS (folder)->sync_online;
 		break;
 
 	case CAMEL_DISCO_STORE_OFFLINE:
-		CDF_CLASS (folder)->sync_offline (folder, ex);
+		sync = CDF_CLASS (folder)->sync_offline;
 		break;
 
 	case CAMEL_DISCO_STORE_RESYNCING:
-		CDF_CLASS (folder)->sync_resyncing (folder, ex);
+		sync = CDF_CLASS (folder)->sync_resyncing;
 		break;
+	}
+
+	if (sync) {
+		sync(folder, ex);
+	} else {
+		g_warning("Class '%s' doesn't implement CamelDiscoFolder:sync methods",
+			  ((CamelObject *)folder)->klass->name);
 	}
 }
 
@@ -297,22 +306,30 @@ static void
 disco_expunge_uids (CamelFolder *folder, GPtrArray *uids, CamelException *ex)
 {
 	CamelDiscoStore *disco = CAMEL_DISCO_STORE (folder->parent_store);
+	void (*expunge_uids)(CamelFolder *, GPtrArray *, CamelException *) = NULL;
 
 	if (uids->len == 0)
 		return;
 
 	switch (camel_disco_store_status (disco)) {
 	case CAMEL_DISCO_STORE_ONLINE:
-		CDF_CLASS (folder)->expunge_uids_online (folder, uids, ex);
+		expunge_uids = CDF_CLASS (folder)->expunge_uids_online;
 		break;
 
 	case CAMEL_DISCO_STORE_OFFLINE:
-		CDF_CLASS (folder)->expunge_uids_offline (folder, uids, ex);
+		expunge_uids = CDF_CLASS (folder)->expunge_uids_offline;
 		break;
 
 	case CAMEL_DISCO_STORE_RESYNCING:
-		CDF_CLASS (folder)->expunge_uids_resyncing (folder, uids, ex);
+		expunge_uids = CDF_CLASS (folder)->expunge_uids_resyncing;
 		break;
+	}
+
+	if (expunge_uids) {
+		expunge_uids(folder, uids, ex);
+	} else {
+		g_warning("Class '%s' doesn't implement CamelDiscoFolder:expunge_uids methods",
+			  ((CamelObject *)folder)->klass->name);
 	}
 }
 
