@@ -1,3 +1,15 @@
+2000-08-11  Dan Winship  <danw@helixcode.com>
+
+	* mail-display.c, mail-format.c: Redo this again. Get rid of
+	struct mail_format_data and move most of that info into
+	MailDisplay itself, and pass the MailDisplay around. Add a GData**
+	to MailDisplay, and put the urls hash table into that. Also add
+	the ability to redisplay the currently-displayed message (with the
+	same GData**), and add a "show_pgp" datum to it that controls
+	whether or not to decrypt PGP messages, and redo the PGP stuff
+	(again) to take that into account. Now you don't get the annoying
+	PGP password dialog box without any warning.
+
 2000-08-11  Peter Williams  <peterw@helixcode.com>
 
 	* mail-config-gui.c (service_acceptable): Make verify-service

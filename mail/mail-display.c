@@ -29,8 +29,7 @@
 
 static GtkObjectClass *mail_display_parent_class;
 
-/* Sigh... gtk_object_set_data is nice to have... */
-extern GHashTable *mail_lookup_url_table (CamelMimeMessage *mime_message);
+static void redisplay (MailDisplay *md);
 
 /*----------------------------------------------------------------------*
  *                        Callbacks
@@ -127,21 +126,21 @@ make_safe_filename (const char *prefix, CamelMimePart *part)
 }
 
 static CamelMimePart *
-part_for_url (const char *url, CamelMimeMessage *message)
+part_for_url (const char *url, MailDisplay *md)
 {
 	GHashTable *urls;
 
-	urls = mail_lookup_url_table (message);
+	urls = g_datalist_get_data (md->data, "urls");
 	g_return_val_if_fail (urls != NULL, NULL);
 	return g_hash_table_lookup (urls, url);
 }
 
 static void
-launch_external (const char *url, CamelMimeMessage *message)
+launch_external (const char *url, MailDisplay *md)
 {
 	const char *command = url + 21;
 	char *tmpl, *tmpdir, *filename, *argv[2];
-	CamelMimePart *part = part_for_url (url, message);
+	CamelMimePart *part = part_for_url (url, md);
 
 	tmpl = g_strdup ("/tmp/evolution.XXXXXX");
 #ifdef HAVE_MKDTEMP
@@ -191,13 +190,13 @@ save_data_cb (GtkWidget *widget, gpointer user_data)
 }
 
 static void
-save_data (const char *cid, CamelMimeMessage *message)
+save_data (const char *cid, MailDisplay *md)
 {
 	GtkFileSelection *file_select;
 	char *filename;
 	CamelMimePart *part;
 
-	part = part_for_url (cid, message);
+	part = part_for_url (cid, md);
 	g_return_if_fail (part != NULL);
 	filename = make_safe_filename (g_get_home_dir (), part);
 
@@ -215,30 +214,51 @@ save_data (const char *cid, CamelMimeMessage *message)
 	gtk_widget_show (GTK_WIDGET (file_select));
 }
 
+static gboolean
+idle_redisplay (gpointer data)
+{
+	MailDisplay *md = data;
+
+	md->idle_id = 0;
+	redisplay (md);
+	return FALSE;
+}
+
+static void
+queue_redisplay (MailDisplay *md)
+{
+	if (!md->idle_id) {
+		md->idle_id = g_idle_add_full (G_PRIORITY_LOW, idle_redisplay,
+					       md, NULL);
+	}
+}
+
 static void
 on_link_clicked (GtkHTML *html, const char *url, gpointer user_data)
 {
-	CamelMimeMessage *message;
-
-	message = gtk_object_get_data (GTK_OBJECT (html), "message");
+	MailDisplay *md = user_data;
 
 	if (!g_strncasecmp (url, "news:", 5) ||
 	    !g_strncasecmp (url, "nntp:", 5))
 		g_warning ("Can't handle news URLs yet.");
 	else if (!g_strncasecmp (url, "mailto:", 7))
 		send_to_url (url);
-	else if (!g_strncasecmp (url, "cid:", 4))
-		save_data (url, message);
-	else if (!g_strncasecmp (url, "x-evolution-external:", 21))
-		launch_external (url, message);
-	else
+	else if (!strncmp (url, "cid:", 4))
+		save_data (url, md);
+	else if (!strncmp (url, "x-evolution-external:", 21))
+		launch_external (url, md);
+	else if (!strcmp (url, "x-evolution-decode-pgp:")) {
+		g_datalist_set_data (md->data, "show_pgp",
+				     GINT_TO_POINTER (1));
+		queue_redisplay (md);
+	} else
 		gnome_url_show (url);
 }
 
 static gboolean
 on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 {
-	CamelMimeMessage *message;
+	MailDisplay *md = data;
 	GHashTable *urls;
 	CamelMedium *medium;
 	CamelDataWrapper *wrapper;
@@ -253,8 +273,9 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 
 	if (strncmp (eb->classid, "cid:", 4) != 0)
 		return FALSE;
-	message = gtk_object_get_data (GTK_OBJECT (html), "message");
-	urls = mail_lookup_url_table (message);
+	urls = g_datalist_get_data (md->data, "urls");
+	g_return_val_if_fail (urls != NULL, FALSE);
+
 	medium = g_hash_table_lookup (urls, eb->classid);
 	g_return_val_if_fail (CAMEL_IS_MEDIUM (medium), FALSE);
 	wrapper = camel_medium_get_content_object (medium);
@@ -314,11 +335,11 @@ static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		  gpointer user_data)
 {
-	CamelMimeMessage *message;
+	MailDisplay *md = user_data;
 	GHashTable *urls;
 
-	message = gtk_object_get_data (GTK_OBJECT (html), "message");
-	urls = mail_lookup_url_table (message);
+	urls = g_datalist_get_data (md->data, "urls");
+	g_return_if_fail (urls != NULL);
 
 	user_data = g_hash_table_lookup (urls, url);
 	if (user_data == NULL)
@@ -401,6 +422,40 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
 	g_free (buf);
 }
 
+static void
+clear_data (CamelObject *object, gpointer event_data, gpointer user_data)
+{
+	GData *data = user_data;
+
+	g_datalist_clear (&data);
+}
+
+static void
+redisplay (MailDisplay *md)
+{
+	GtkAdjustment *adj;
+
+	md->stream = gtk_html_begin (md->html);
+	mail_html_write (md->html, md->stream, "%s%s", HTML_HEADER,
+			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
+
+	if (md->current_message) {
+		camel_object_ref (CAMEL_OBJECT (md->current_message));
+		mail_format_mime_message (md->current_message, md);
+	}
+
+	mail_html_write (md->html, md->stream, "</BODY></HTML>\n");
+	gtk_html_end (md->html, md->stream, GTK_HTML_STREAM_OK);
+	md->stream = NULL;
+
+	adj = e_scroll_frame_get_vadjustment (md->scroll);
+	gtk_adjustment_set_value (adj, 0);
+	e_scroll_frame_set_vadjustment (md->scroll, adj);
+
+	adj = e_scroll_frame_get_hadjustment (md->scroll);
+	gtk_adjustment_set_value (adj, 0);
+	e_scroll_frame_set_hadjustment (md->scroll, adj);
+}
 
 /**
  * mail_display_set_message:
@@ -408,53 +463,29 @@ mail_error_write (GtkHTML *html, GtkHTMLStream *stream,
  * @medium: the input camel medium, or %NULL
  *
  * Makes the mail_display object show the contents of the medium
- * param. This means feeding mail_display->body_stream and
- * mail_display->headers_stream with html.
- *
+ * param.
  **/
 void 
-mail_display_set_message (MailDisplay *mail_display, 
-			  CamelMedium *medium)
+mail_display_set_message (MailDisplay *md, CamelMedium *medium)
 {
-	GtkHTMLStream *stream;
-	GtkAdjustment *adj;
-
-	/*
-	 * For the moment, we deal only with CamelMimeMessage, but in
+	/* For the moment, we deal only with CamelMimeMessage, but in
 	 * the future, we should be able to deal with any medium.
 	 */
 	if (medium && !CAMEL_IS_MIME_MESSAGE (medium))
 		return;
 
 	/* Clean up from previous message. */
-	if (mail_display->current_message)
-		camel_object_unref (CAMEL_OBJECT (mail_display->current_message));
+	if (md->current_message)
+		camel_object_unref (CAMEL_OBJECT (md->current_message));
 
-	mail_display->current_message = (CamelMimeMessage*)medium;
+	md->current_message = (CamelMimeMessage*)medium;
 
-	stream = gtk_html_begin (mail_display->html);
-	mail_html_write (mail_display->html, stream, "%s%s", HTML_HEADER,
-			 "<BODY TEXT=\"#000000\" BGCOLOR=\"#FFFFFF\">\n");
-
+	g_datalist_init (md->data);
+	redisplay (md);
 	if (medium) {
-		camel_object_ref (CAMEL_OBJECT (medium));
-		gtk_object_set_data (GTK_OBJECT (mail_display->html),
-				     "message", medium);
-		mail_format_mime_message (CAMEL_MIME_MESSAGE (medium),
-					  mail_display->html, stream,
-					  CAMEL_MIME_MESSAGE (medium));
+		camel_object_hook_event (CAMEL_OBJECT (medium), "finalize",
+					 clear_data, *(md->data));
 	}
-
-	mail_html_write (mail_display->html, stream, "</BODY></HTML>\n");
-	gtk_html_end (mail_display->html, stream, GTK_HTML_STREAM_OK);
-
-	adj = e_scroll_frame_get_vadjustment (mail_display->scroll);
-	gtk_adjustment_set_value (adj, 0);
-	e_scroll_frame_set_vadjustment (mail_display->scroll, adj);
-
-	adj = e_scroll_frame_get_hadjustment (mail_display->scroll);
-	gtk_adjustment_set_value (adj, 0);
-	e_scroll_frame_set_hadjustment (mail_display->scroll, adj);
 }
 
 
@@ -505,16 +536,22 @@ mail_display_new (void)
 	html = gtk_html_new ();
 	gtk_html_set_editable (GTK_HTML (html), FALSE);
 	gtk_signal_connect (GTK_OBJECT (html), "url_requested",
-			    GTK_SIGNAL_FUNC (on_url_requested), NULL);
+			    GTK_SIGNAL_FUNC (on_url_requested),
+			    mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "object_requested",
-			    GTK_SIGNAL_FUNC (on_object_requested), NULL);
+			    GTK_SIGNAL_FUNC (on_object_requested),
+			    mail_display);
 	gtk_signal_connect (GTK_OBJECT (html), "link_clicked",
-			    GTK_SIGNAL_FUNC (on_link_clicked), NULL);
+			    GTK_SIGNAL_FUNC (on_link_clicked),
+			    mail_display);
 	gtk_container_add (GTK_CONTAINER (scroll), html);
 	gtk_widget_show (GTK_WIDGET (html));
 
 	mail_display->scroll = E_SCROLL_FRAME (scroll);
 	mail_display->html = GTK_HTML (html);
+	mail_display->stream = NULL;
+	mail_display->data = g_new0 (GData *, 1);
+	g_datalist_init (mail_display->data);
 
 	return GTK_WIDGET (mail_display);
 }

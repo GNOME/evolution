@@ -47,8 +47,7 @@ char *mail_crypto_openpgp_encrypt (const char *plaintext,
 
 /* mail-format */
 void mail_format_mime_message (CamelMimeMessage *mime_message,
-			       GtkHTML *html, GtkHTMLStream *stream,
-			       CamelMimeMessage *root_message);
+			       MailDisplay *md);
 
 EMsgComposer *mail_generate_reply (CamelMimeMessage *mime_message,
 				   gboolean to_all);
