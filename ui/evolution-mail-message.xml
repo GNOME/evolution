@@ -244,10 +244,10 @@
 
         <placeholder name="MailFilterTools">
           <submenu name="ToolsFilterFromMessage" _label="_Create Filter From Message">
-            <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject"/>
-            <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder"/>
-            <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients"/>
-            <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List"/>
+            <menuitem name="ToolsFilterSubject" verb="" _label="Filter on _Subject..."/>
+            <menuitem name="ToolsFilterSender" verb="" _label="Filter on Se_nder..."/>
+            <menuitem name="ToolsFilterRecipient" verb="" _label="Filter on _Recipients..."/>
+            <menuitem name="ToolsFilterMailingList" verb="" _label="Filter on Mailing _List..."/>
           </submenu>
         </placeholder>
 
