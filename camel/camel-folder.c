@@ -33,51 +33,87 @@ static GtkObjectClass *parent_class=NULL;
 /* Returns the class for a CamelFolder */
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static void _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex);
+static void _init_with_store (CamelFolder *folder, 
+			      CamelStore *parent_store, 
+			      CamelException *ex);
+static void _finalize (GtkObject *object);
+
+
 static void _open (CamelFolder *folder, 
 		   CamelFolderOpenMode mode, 
-		   CamelFolderAsyncCallback callback, 
-		   gpointer user_data, 
 		   CamelException *ex);
 static void _close (CamelFolder *folder, 
 		    gboolean expunge, 
-		    CamelFolderAsyncCallback callback, 
-		    gpointer user_data, 
 		    CamelException *ex);
-/*  static void _set_name (CamelFolder *folder, const gchar *name, CamelException *ex); */
+static void _open_async (CamelFolder *folder, 
+			 CamelFolderOpenMode mode, 
+			 CamelFolderAsyncCallback callback, 
+			 gpointer user_data, 
+			 CamelException *ex);
+static void _close_async (CamelFolder *folder, 
+			  gboolean expunge, 
+			  CamelFolderAsyncCallback callback, 
+			  gpointer user_data, 
+			  CamelException *ex);
+/* Async operations are not used for the moment */
+
 static void _set_name (CamelFolder *folder, 
 		       const gchar *name, 
-		       CamelFolderAsyncCallback callback, 
-		       gpointer user_data, 
 		       CamelException *ex);
-/*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
-static const gchar *_get_name (CamelFolder *folder, CamelException *ex);
+static const gchar *_get_name (CamelFolder *folder, 
+			       CamelException *ex);
 static const gchar *_get_full_name (CamelFolder *folder, CamelException *ex);
-static gboolean _can_hold_folders (CamelFolder *folder, CamelException *ex);
-static gboolean _can_hold_messages(CamelFolder *folder, CamelException *ex);
-static gboolean _exists (CamelFolder  *folder, CamelException *ex);
+/*  static void _set_full_name (CamelFolder *folder, const gchar *name); */
+
+
+static gboolean _can_hold_folders  (CamelFolder *folder, CamelException *ex);
+static gboolean _can_hold_messages (CamelFolder *folder, CamelException *ex);
+static gboolean _exists  (CamelFolder  *folder, CamelException *ex);
 static gboolean _is_open (CamelFolder *folder, CamelException *ex);
-static CamelFolder *_get_folder (CamelFolder *folder, const gchar *folder_name, CamelException *ex);
+static const GList *_list_permanent_flags (CamelFolder *folder, CamelException *ex);
+static CamelFolderOpenMode _get_mode      (CamelFolder *folder, CamelException *ex);
+
+
 static gboolean _create (CamelFolder *folder, CamelException *ex);
 static gboolean _delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
-static gboolean _delete_messages (CamelFolder *folder, CamelException *ex);
+
+
+static GList *_list_subfolders  (CamelFolder *folder, CamelException *ex);
+static CamelFolder *_get_folder (CamelFolder *folder, 
+				 const gchar *folder_name, CamelException *ex);
 static CamelFolder *_get_parent_folder (CamelFolder *folder, CamelException *ex);
-static CamelStore *_get_parent_store (CamelFolder *folder, CamelException *ex);
-static CamelFolderOpenMode _get_mode (CamelFolder *folder, CamelException *ex);
-static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-static void _expunge (CamelFolder *folder, CamelException *ex);
-static CamelMimeMessage *_get_message (CamelFolder *folder, gint number, CamelException *ex);
-static gint _get_message_count (CamelFolder *folder, CamelException *ex);
-static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-static const GList *_list_permanent_flags (CamelFolder *folder, CamelException *ex);
-static void _copy_message_to (CamelFolder *folder, CamelMimeMessage *message, CamelFolder *dest_folder, CamelException *ex);
-
-static const gchar *_get_message_uid (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
-static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, const gchar *uid, CamelException *ex);
-static GList *_get_uid_list  (CamelFolder *folder, CamelException *ex);
+static CamelStore * _get_parent_store  (CamelFolder *folder, CamelException *ex);
 
 
-static void _finalize (GtkObject *object);
+static CamelMimeMessage *_get_message (CamelFolder *folder, 
+				       gint number, 
+				       CamelException *ex);
+static gint _get_message_count        (CamelFolder *folder, 
+				       CamelException *ex);
+
+
+static gboolean _delete_messages (CamelFolder *folder, 
+				  CamelException *ex);
+static void _expunge         (CamelFolder *folder, 
+			      CamelException *ex);
+static gint _append_message  (CamelFolder *folder, 
+			      CamelMimeMessage *message, 
+			      CamelException *ex);
+static void _copy_message_to (CamelFolder *folder, 
+			      CamelMimeMessage *message, 
+			      CamelFolder *dest_folder, 
+			      CamelException *ex);
+
+
+static GList            *_get_uid_list       (CamelFolder *folder, CamelException *ex);
+static const gchar      *_get_message_uid    (CamelFolder *folder, 
+					      CamelMimeMessage *message, 
+					      CamelException *ex);
+static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, 
+					      const gchar *uid, 
+					      CamelException *ex);
+
+
 
 
 static void
@@ -90,7 +126,9 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	/* virtual method definition */
 	camel_folder_class->init_with_store = _init_with_store;
 	camel_folder_class->open = _open;
+	camel_folder_class->open_async = _open_async;
 	camel_folder_class->close = _close;
+	camel_folder_class->close_async = _close_async;
 	camel_folder_class->set_name = _set_name;
 	camel_folder_class->get_name = _get_name;
 	camel_folder_class->get_full_name = _get_full_name;
@@ -205,13 +243,49 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 static void
 _open (CamelFolder *folder, 
        CamelFolderOpenMode mode, 
-       CamelFolderAsyncCallback callback, 
-       gpointer user_data, 
        CamelException *ex)
 {
-/*  	folder->open_state = FOLDER_OPEN; */
-/*  	folder->open_mode = mode; */
+  	folder->open_state = FOLDER_OPEN;
+  	folder->open_mode = mode;
 }
+
+
+
+
+/**
+ * camel_folder_open: Open a folder
+ * @folder: The folder object
+ * @mode: open mode (R/W/RW ?)
+ * @ex: exception object
+ *
+ * Open a folder in a given mode.
+ * 
+ **/
+void 
+camel_folder_open (CamelFolder *folder, 
+		   CamelFolderOpenMode mode, 
+		   CamelException *ex)
+{	
+	CF_CLASS(folder)->open (folder, mode, ex);
+}
+
+
+
+
+
+
+static void
+_open_async (CamelFolder *folder, 
+	     CamelFolderOpenMode mode, 
+	     CamelFolderAsyncCallback callback, 
+	     gpointer user_data, 
+	     CamelException *ex)
+{
+	CAMEL_LOG_WARNING ("CamelFolder::open_async method must be overloaded\n");
+}
+
+
+
 
 /**
  * camel_folder_open: Open a folder
@@ -227,14 +301,16 @@ _open (CamelFolder *folder,
  * 
  **/
 void 
-camel_folder_open (CamelFolder *folder, 
-		   CamelFolderOpenMode mode, 
-		   CamelFolderAsyncCallback callback, 
-		   gpointer user_data, 
-		   CamelException *ex)
+camel_folder_open_async (CamelFolder *folder, 
+			 CamelFolderOpenMode mode, 
+			 CamelFolderAsyncCallback callback, 
+			 gpointer user_data, 
+			 CamelException *ex)
 {	
-	CF_CLASS(folder)->open (folder, mode, callback, user_data, ex);
+	CF_CLASS(folder)->open_async (folder, mode, callback, user_data, ex);
 }
+
+
 
 
 
@@ -242,8 +318,6 @@ camel_folder_open (CamelFolder *folder,
 static void
 _close (CamelFolder *folder, 
 	gboolean expunge, 
-	CamelFolderAsyncCallback callback, 
-	gpointer user_data, 
 	CamelException *ex)
 {	
 	folder->open_state = FOLDER_CLOSE;
@@ -251,6 +325,39 @@ _close (CamelFolder *folder,
 
 /**
  * camel_folder_close: Close a folder.
+ * @folder: The folder object
+ * @expunge: if TRUE, the flagged message are deleted.
+ * @ex: exception object
+ *
+ * Put a folder in its closed state, and possibly 
+ * expunge the flagged messages. 
+ * 
+ **/
+void 
+camel_folder_close (CamelFolder *folder, 
+		    gboolean expunge, 
+		    CamelException *ex)
+{
+	CF_CLASS(folder)->close (folder, expunge, ex);
+}
+
+
+
+
+
+
+static void
+_close_async (CamelFolder *folder, 
+	      gboolean expunge, 
+	      CamelFolderAsyncCallback callback, 
+	      gpointer user_data, 
+	      CamelException *ex)
+{	
+	CAMEL_LOG_WARNING ("CamelFolder::close_async method must be overloaded\n");
+}
+
+/**
+ * camel_folder_close_async: Close a folder.
  * @folder: The folder object
  * @expunge: if TRUE, the flagged message are deleted.
  * @callback: function to call when the operation is over
@@ -264,22 +371,22 @@ _close (CamelFolder *folder,
  * 
  **/
 void 
-camel_folder_close (CamelFolder *folder, 
-		    gboolean expunge, 
-		    CamelFolderAsyncCallback callback, 
-		    gpointer user_data, 
-		    CamelException *ex)
+camel_folder_close_async (CamelFolder *folder, 
+			  gboolean expunge, 
+			  CamelFolderAsyncCallback callback, 
+			  gpointer user_data, 
+			  CamelException *ex)
 {
-	CF_CLASS(folder)->close (folder, expunge, callback, user_data, ex);
+	CF_CLASS(folder)->close_async (folder, expunge, callback, user_data, ex);
 }
+
+
 
 
 
 static void
 _set_name (CamelFolder *folder, 
 	   const gchar *name, 
-	   CamelFolderAsyncCallback callback, 
-	   gpointer user_data, 
 	   CamelException *ex)
 {
 	gchar separator;
@@ -313,22 +420,15 @@ _set_name (CamelFolder *folder,
  * camel_folder_set_name:set the (short) name of the folder
  * @folder: folder
  * @name: new name of the folder
- * 
- * set the name of the folder. 
- * 
- * 
- **/
-void 
-camel_folder_set_name (CamelFolder *folder, 
-		       const gchar *name, 
-		       CamelFolderAsyncCallback callback, 
-		       gpointer user_data,
-		       CamelException *ex)
-{
-	CF_CLASS(folder)->set_name (folder, name, callback, user_data, ex);
+ * ex);
 }
 
 
+
+
+
+/* not used for the moment, I don't know if it it is
+   a good idea or not to use it */
 #if 0
 static void
 _set_full_name (CamelFolder *folder, const gchar *name, CamelException *ex)
@@ -352,6 +452,9 @@ camel_folder_set_full_name (CamelFolder *folder, const gchar *name, CamelExcepti
 	CF_CLASS(folder)->set_full_name (folder, name, ex);
 }
 #endif
+
+
+
 
 static const gchar *
 _get_name (CamelFolder *folder, CamelException *ex)
