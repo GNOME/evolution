@@ -1,3 +1,7 @@
+2000-11-21  Federico Mena Quintero  <federico@helixcode.com>
+
+	* POTFILES.in: Removed gncal-todo.c.
+
 2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* POTFILES.in: Removed mail/message-thread.c and added
