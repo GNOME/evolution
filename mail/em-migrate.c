@@ -1245,7 +1245,7 @@ cp (const char *src, const char *dest, gboolean show_progress)
 	
 	/* if the dest file exists and has content, abort - we don't
 	 * want to corrupt their existing data */
-	if (stat (dest, &st) != -1 || st.st_size > 0)
+	if (stat (dest, &st) != -1 && st.st_size > 0)
 		return -1;
 	
 	if ((fd[0] = open (src, O_RDONLY)) == -1)
