@@ -1,3 +1,14 @@
+2001-08-29  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-pgp-mime.c (pgp_mime_part_sign_prepare_part): Special-case
+	message/rfc822 mime parts - don't set an encoding on these,
+	instead traverse into their subparts and set the encodings for
+	those.
+	(pgp_mime_part_sign_restore_part): Reverse any operations done to
+	message/rfc822 parts in the above prepare_part() function and also
+	take a pointer to a GSList of encodings instead of just a GSList
+	so we can properly keep track of which encoding we are on.
+
 2001-08-29  Not Zed  <NotZed@Ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_sync): Add progress

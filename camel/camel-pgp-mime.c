@@ -26,6 +26,7 @@
 #endif
 
 #include "camel-pgp-mime.h"
+#include "camel-mime-message.h"
 #include "camel-mime-filter-from.h"
 #include "camel-mime-filter-crlf.h"
 #include "camel-stream-filter.h"
@@ -132,7 +133,7 @@ camel_pgp_mime_is_rfc2015_encrypted (CamelMimePart *mime_part)
 
 
 static void
-pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList *encodings)
+pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList **encodings)
 {
 	CamelDataWrapper *wrapper;
 	
@@ -148,14 +149,19 @@ pgp_mime_part_sign_restore_part (CamelMimePart *mime_part, GSList *encodings)
 			CamelMimePart *part = camel_multipart_get_part (CAMEL_MULTIPART (wrapper), i);
 			
 			pgp_mime_part_sign_restore_part (part, encodings);
-			encodings = encodings->next;
+			*encodings = (*encodings)->next;
 		}
 	} else {
 		CamelMimePartEncodingType encoding;
 		
-		encoding = GPOINTER_TO_INT (encodings->data);
-		
-		camel_mime_part_set_encoding (mime_part, encoding);
+		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+			/* restore the message parts' subparts */
+			pgp_mime_part_sign_restore_part (CAMEL_MIME_PART (wrapper), encodings);
+		} else {
+			encoding = GPOINTER_TO_INT ((*encodings)->data);
+			
+			camel_mime_part_set_encoding (mime_part, encoding);
+		}
 	}
 }
 
@@ -179,14 +185,19 @@ pgp_mime_part_sign_prepare_part (CamelMimePart *mime_part, GSList **encodings)
 	} else {
 		CamelMimePartEncodingType encoding;
 		
-		encoding = camel_mime_part_get_encoding (mime_part);
-		
-		/* FIXME: find the best encoding for this part and use that instead?? */
-		/* the encoding should really be QP or Base64 */
-		if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
-			camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
-		
-		*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+		if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+			/* prepare the message parts' subparts */
+			pgp_mime_part_sign_prepare_part (CAMEL_MIME_PART (wrapper), encodings);
+		} else {
+			encoding = camel_mime_part_get_encoding (mime_part);
+			
+			/* FIXME: find the best encoding for this part and use that instead?? */
+			/* the encoding should really be QP or Base64 */
+			if (encoding != CAMEL_MIME_PART_ENCODING_BASE64)
+				camel_mime_part_set_encoding (mime_part, CAMEL_MIME_PART_ENCODING_QUOTEDPRINTABLE);
+			
+			*encodings = g_slist_append (*encodings, GINT_TO_POINTER (encoding));
+		}
 	}
 }
 
@@ -260,11 +271,14 @@ camel_pgp_mime_part_sign (CamelPgpContext *context, CamelMimePart **mime_part, c
 	
 	/* get the signature */
 	if (camel_pgp_sign (context, userid, hash, stream, sigstream, ex) == -1) {
+		GSList *list;
+		
 		camel_object_unref (CAMEL_OBJECT (stream));
 		camel_object_unref (CAMEL_OBJECT (sigstream));
 		
 		/* restore the original encoding */
-		pgp_mime_part_sign_restore_part (part, encodings);
+		list = encodings;
+		pgp_mime_part_sign_restore_part (part, &list);
 		g_slist_free (encodings);
 		return;
 	}
