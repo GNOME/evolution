@@ -3142,21 +3142,17 @@ add_attachments_handle_mime_part (EMsgComposer *composer, CamelMimePart *mime_pa
 	if (CAMEL_IS_MULTIPART (wrapper)) {
 		/* another layer of multipartness... */
 		add_attachments_from_multipart (composer, (CamelMultipart *) wrapper, just_inlines, depth + 1);
-	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
-		e_msg_composer_attach (composer, mime_part);
 	} else if (just_inlines) {
 		if (camel_mime_part_get_content_id (mime_part) ||
 		    camel_mime_part_get_content_location (mime_part))
 			e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
+	} else if (CAMEL_IS_MIME_MESSAGE (wrapper)) {
+		/* do nothing */
 	} else if (related && header_content_type_is (content_type, "image", "*")) {
 		e_msg_composer_add_inline_image_from_mime_part (composer, mime_part);
 	} else {
 		if (header_content_type_is (content_type, "text", "*")) {
-			const char *disposition;
-			
-			disposition = camel_mime_part_get_disposition (mime_part);
-			if (disposition && !strcasecmp (disposition, "attachment"))
-				e_msg_composer_attach (composer, mime_part);
+			/* do nothing */
 		} else {
 			e_msg_composer_attach (composer, mime_part);
 		}

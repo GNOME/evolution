@@ -10,6 +10,11 @@
 
 2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* e-msg-composer.c (add_attachments_handle_mime_part): Don't ever
+	attach non-inlined text or message parts. Reverts a prior fix.
+
+2003-04-21  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* e-msg-composer-attachment.glade: Change the order of the
 	ok/cancel buttons.
 
