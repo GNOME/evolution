@@ -1,5 +1,8 @@
 2002-07-18  Peter Williams  <peterw@ximian.com>
 
+	* mail-format.c (handle_multipart_digest): Change the HTML to
+	make this a little prettier.
+
 	* folder-browser-window.c (folder_browser_window_new): Load the
 	messagedisplay XML file as a base for the UI, so that things
 	appear. Don't add the global UI items as they don't make sense

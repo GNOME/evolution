@@ -1731,7 +1731,8 @@ handle_multipart_digest (CamelMimePart *part, const char *mime_type,
 	
 	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
 	
-	gtk_html_stream_printf (stream, "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"digest:\"><img src=\"%s\">%s</a>",
+	gtk_html_stream_printf (stream, "&nbsp;&nbsp;&nbsp;&nbsp;<a href=\"digest:\"><img align=\"middle\" src=\"%s\"></a>"
+				"&nbsp;<a href=\"digest:\">%s</a>",
 				mail_display_get_url_for_icon (md, EVOLUTION_ICONSDIR "/envelope.png"),
 				U_("View messages..."));
 	
