@@ -1,3 +1,8 @@
+2004-08-26  Christian Neumair  <chris@gnome-de.org>
+
+	* GNOME_Evolution_Mail.server.in.in:
+	Don't mark component menu accel for translation.
+
 2004-08-24  Jeffrey Stedfast  <fejj@novell.com>
 
 	Fix for bug #63177

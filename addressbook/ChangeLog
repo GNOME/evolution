@@ -1,3 +1,8 @@
+2004-08-26  Christian Neumair  <chris@gnome-de.org>
+
+	* gui/component/GNOME_Evolution_Addressbook.server.in.in:
+	Don't mark component menu accel for translation.
+
 2004-08-25  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * gui/component/addressbook-config.c (source_to_dialog) :

@@ -1,3 +1,8 @@
+2004-08-26  Christian Neumair  <chris@gnome-de.org>
+
+	* gui/GNOME_Evolution_Calendar.server.in.in:
+	Don't mark component menu accels for translation.
+
 2004-08-25  JP Rosevear  <jpr@novell.com>
 
 	* conduits/todo/todo-conduit.c (for_each): prepare the local

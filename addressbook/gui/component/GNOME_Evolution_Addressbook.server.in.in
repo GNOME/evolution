@@ -46,7 +46,7 @@
 	<oaf_attribute name="evolution:component_alias" type="string" value="contacts"/>
 
         <oaf_attribute name="evolution:menu_label" type="string" _value="C_ontacts"/>
-        <oaf_attribute name="evolution:menu_accelerator" type="string" _value="*Control*F2"/>
+        <oaf_attribute name="evolution:menu_accelerator" type="string" value="*Control*F2"/>
         <oaf_attribute name="evolution:button_label" type="string" _value="Contacts"/>
         <oaf_attribute name="evolution:button_sort_order" type="string" value="-9"/>
         <oaf_attribute name="evolution:button_icon" type="string" value="stock_addressbook"/>
