@@ -183,6 +183,7 @@ CamelFolderInfo *camel_folder_info_build           (GPtrArray *folders,
 						    const char *namespace,
 						    char separator,
 						    gboolean short_names);
+CamelFolderInfo *camel_folder_info_clone	   (CamelFolderInfo *fi);
 
 gboolean         camel_store_supports_subscriptions   (CamelStore *store);
 

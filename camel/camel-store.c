@@ -838,7 +838,41 @@ camel_folder_info_build (GPtrArray *folders, const char *namespace,
 		top = fi;
 	}
 	
-	return top;			
+	return top;
+}
+
+static CamelFolderInfo *folder_info_clone_rec(CamelFolderInfo *fi, CamelFolderInfo *parent)
+{
+	CamelFolderInfo *info;
+
+	info = g_malloc(sizeof(*info));
+	info->parent = parent;
+	info->url = g_strdup(fi->url);
+	info->name = g_strdup(fi->name);
+	info->full_name = g_strdup(fi->full_name);
+	info->path = g_strdup(fi->path);
+	info->unread_message_count = fi->unread_message_count;
+
+	if (fi->sibling)
+		info->sibling = folder_info_clone_rec(fi->sibling, parent);
+	else
+		info->sibling = NULL;
+
+	if (fi->child)
+		info->child = folder_info_clone_rec(fi->child, info);
+	else
+		info->child = NULL;
+
+	return info;
+}
+
+CamelFolderInfo *
+camel_folder_info_clone(CamelFolderInfo *fi)
+{
+	if (fi == NULL)
+		return NULL;
+
+	return folder_info_clone_rec(fi, NULL);
 }
 
 gboolean
