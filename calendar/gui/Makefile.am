@@ -81,6 +81,7 @@ libevolution_calendar_la_SOURCES =		\
 	cal-search-bar.h			\
 	calendar-config.c			\
 	calendar-config.h			\
+	calendar-config-keys.h			\
 	calendar-commands.c			\
 	calendar-commands.h			\
 	calendar-component.c			\
@@ -117,6 +118,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-comp-editor-registry.h		\
 	e-date-time-list.c                      \
 	e-date-time-list.h                      \
+	e-day-view-config.c			\
+	e-day-view-config.h			\
 	e-day-view-layout.c			\
 	e-day-view-layout.h			\
 	e-day-view-main-item.c			\
@@ -146,6 +149,8 @@ libevolution_calendar_la_SOURCES =		\
 	e-select-names-editable.h		\
 	e-select-names-renderer.c		\
 	e-select-names-renderer.h		\
+	e-week-view-config.c			\
+	e-week-view-config.h			\
 	e-week-view-event-item.c		\
 	e-week-view-event-item.h		\
 	e-week-view-layout.c			\

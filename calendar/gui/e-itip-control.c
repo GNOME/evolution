@@ -151,10 +151,12 @@ start_calendar_server (EItipControl *itip, char *uri)
 static gboolean
 start_default_server (EItipControl *itip, CalClient *client, gboolean tasks)
 {
+#if 0
 	if (tasks)
 		return cal_client_open_default_tasks (client, FALSE);
 	else
 		return cal_client_open_default_calendar (client, FALSE);
+#endif
 }
 
 #if 0				/* EPFIXME, rewrite this */
@@ -2206,7 +2208,6 @@ object_requested_cb (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 	context->itip   = itip;
 	context->eb     = eb;
 
-	/* FIXME: use the default URIs */
 	switch (vtype) {
 	case CAL_COMPONENT_EVENT:
 		context->client = cal_client_new ("", CALOBJ_TYPE_EVENT);

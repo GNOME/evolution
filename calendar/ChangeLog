@@ -1,3 +1,30 @@
+2003-10-27  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.c (setup_widgets): store config objects as well
+	(gnome_calendar_set_default_uri): return FALSE if the
+	pre-condition fails
+	(gnome_calendar_update_config_settings): remove settings that are
+	now handled by the config objects
+
+	* gui/e-week-view.c (e_week_view_set_compress_weekend): queue a
+	draw
+
+	* gui/e-itip-control.c (start_default_server): comment out
+
+	* gui/e-day-view-config.[hc]: a class to track config changes of
+	interest to day views
+
+	* gui/e-week-view.[hc]: ditto for week views
+	
+	* gui/calendar-config.h: add protos
+
+	* gui/calendar-config.c: use the #defines for the keys and add
+	notification routines
+
+	* gui/calendar-config-keys.h: a list of defines for gconf keys
+
+	* gui/Makefile.am: build new files
+
 2003-10-27  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/e-cal-model.h: changed fill_component_from_model virtual

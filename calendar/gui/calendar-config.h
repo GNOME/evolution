@@ -30,6 +30,7 @@
 #ifndef _CALENDAR_CONFIG_H_
 #define _CALENDAR_CONFIG_H_
 
+#include <gconf/gconf-client.h>
 #include <widgets/misc/e-calendar.h>
 #include <widgets/misc/e-dateedit.h>
 #include <widgets/misc/e-cell-date-edit.h>
@@ -61,7 +62,7 @@ typedef enum
 
 
 void	  calendar_config_init			(void);
-
+void calendar_config_remove_notification (guint id);
 
 /*
  * Calendar Settings.
@@ -74,39 +75,49 @@ void	  calendar_config_set_timezone		(gchar	     *timezone);
 /* The working days of the week, a bit-wise combination of flags. */
 CalWeekdays calendar_config_get_working_days	(void);
 void	  calendar_config_set_working_days	(CalWeekdays  days);
+guint calendar_config_add_notification_working_days (GConfClientNotifyFunc func, gpointer data);
 
 /* The start day of the week (0 = Sun to 6 = Sat). */
 gint	  calendar_config_get_week_start_day	(void);
 void	  calendar_config_set_week_start_day	(gint	      week_start_day);
+guint calendar_config_add_notification_week_start_day (GConfClientNotifyFunc func, gpointer data);
 
 /* The start and end times of the work-day. */
 gint	  calendar_config_get_day_start_hour	(void);
 void	  calendar_config_set_day_start_hour	(gint	      day_start_hour);
+guint calendar_config_add_notification_day_start_hour (GConfClientNotifyFunc func, gpointer data);
 
 gint	  calendar_config_get_day_start_minute	(void);
 void	  calendar_config_set_day_start_minute	(gint	      day_start_min);
+guint calendar_config_add_notification_day_start_minute (GConfClientNotifyFunc func, gpointer data);
 
 gint	  calendar_config_get_day_end_hour	(void);
 void	  calendar_config_set_day_end_hour	(gint	      day_end_hour);
+guint calendar_config_add_notification_day_end_hour (GConfClientNotifyFunc func, gpointer data);
 
 gint	  calendar_config_get_day_end_minute	(void);
 void	  calendar_config_set_day_end_minute	(gint	      day_end_min);
+guint calendar_config_add_notification_day_end_minute (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we use 24-hour format or 12-hour format (AM/PM). */
 gboolean  calendar_config_get_24_hour_format	(void);
 void	  calendar_config_set_24_hour_format	(gboolean     use_24_hour);
+guint calendar_config_add_notification_24_hour_format (GConfClientNotifyFunc func, gpointer data);
 
 /* The time divisions in the Day/Work-Week view in minutes (5/10/15/30/60). */
 gint	  calendar_config_get_time_divisions	(void);
 void	  calendar_config_set_time_divisions	(gint	      divisions);
+guint calendar_config_add_notification_time_divisions (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we show event end times. */
 gboolean  calendar_config_get_show_event_end	(void);
 void	  calendar_config_set_show_event_end	(gboolean     show_end);
+guint calendar_config_add_notification_show_event_end (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we compress the weekend in the week/month views. */
 gboolean  calendar_config_get_compress_weekend	(void);
 void	  calendar_config_set_compress_weekend	(gboolean     compress);
+guint calendar_config_add_notification_compress_weekend (GConfClientNotifyFunc func, gpointer data);
 
 /* Whether we show week numbers in the Date Navigator. */
 gboolean  calendar_config_get_dnav_show_week_no	(void);
@@ -182,9 +193,5 @@ void	  calendar_config_check_timezone_set	(void);
 /* Returns TRUE if the locale has 'am' and 'pm' strings defined, i.e. it
    supports 12-hour time format. */
 gboolean  calendar_config_locale_supports_12_hour_format(void);
-
-/* Default folders, read-only */
-char *calendar_config_default_calendar_folder (void);
-char *calendar_config_default_tasks_folder (void);
 
 #endif /* _CALENDAR_CONFIG_H_ */

@@ -46,8 +46,10 @@
 #include "comp-util.h"
 #include "e-cal-model-calendar.h"
 #include "e-day-view.h"
+#include "e-day-view-config.h"
 #include "e-day-view-time-item.h"
 #include "e-week-view.h"
+#include "e-week-view-config.h"
 #include "e-cal-list-view.h"
 #include "evolution-calendar.h"
 #include "gnome-cal.h"
@@ -121,6 +123,7 @@ struct _GnomeCalendarPrivate {
 	   positions of the panes. range_selected is TRUE if a range of dates
 	   was selected in the date navigator to show the view. */
 	ECalView    *views[GNOME_CAL_LAST_VIEW];
+	GObject    *configs[GNOME_CAL_LAST_VIEW];
 	GnomeCalendarViewType current_view_type;
 	gboolean range_selected;
 
@@ -949,10 +952,15 @@ setup_widgets (GnomeCalendar *gcal)
 	connect_list_view_focus (gcal, E_CAL_LIST_VIEW (priv->list_view));
 
 	priv->views[GNOME_CAL_DAY_VIEW] = E_CAL_VIEW (priv->day_view);
+	priv->configs[GNOME_CAL_DAY_VIEW] = e_day_view_config_new (E_DAY_VIEW (priv->views[GNOME_CAL_DAY_VIEW]));
 	priv->views[GNOME_CAL_WORK_WEEK_VIEW] = E_CAL_VIEW (priv->work_week_view);
+	priv->configs[GNOME_CAL_WORK_WEEK_VIEW] = e_day_view_config_new (E_DAY_VIEW (priv->views[GNOME_CAL_WORK_WEEK_VIEW]));
 	priv->views[GNOME_CAL_WEEK_VIEW] = E_CAL_VIEW (priv->week_view);
+	priv->configs[GNOME_CAL_WEEK_VIEW] = e_week_view_config_new (E_WEEK_VIEW (priv->views[GNOME_CAL_WEEK_VIEW]));
 	priv->views[GNOME_CAL_MONTH_VIEW] = E_CAL_VIEW (priv->month_view);
+	priv->configs[GNOME_CAL_MONTH_VIEW] = e_week_view_config_new (E_WEEK_VIEW (priv->views[GNOME_CAL_MONTH_VIEW]));
 	priv->views[GNOME_CAL_LIST_VIEW] = E_CAL_VIEW (priv->list_view);
+	priv->configs[GNOME_CAL_LIST_VIEW] = NULL;	
 
 	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
 		gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
@@ -2220,7 +2228,7 @@ gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *uri)
 	CalClient *client;
 	int i;
 
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
 
 	priv = gcal->priv;
 	
@@ -2246,10 +2254,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 				       gboolean	      initializing)
 {
 	GnomeCalendarPrivate *priv;
-	CalWeekdays working_days;
-	gint week_start_day, time_divisions;
-	gint start_hour, start_minute, end_hour, end_minute;
-	gboolean use_24_hour, show_event_end, compress_weekend;
 	char *location;
 	GList *l;
 	int i;
@@ -2257,70 +2261,6 @@ gnome_calendar_update_config_settings (GnomeCalendar *gcal,
 	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
 
 	priv = gcal->priv;
-
-	working_days = calendar_config_get_working_days ();
-	/* CalWeekdays and EDayViewDays use the same bit-masks, so we can
-	   use the same value. */
-	e_day_view_set_working_days (E_DAY_VIEW (priv->day_view),
-				     (EDayViewDays) working_days);
-	e_day_view_set_working_days (E_DAY_VIEW (priv->work_week_view),
-				     (EDayViewDays) working_days);
-
-	/* Note that this is 0 (Sun) to 6 (Sat). */
-	week_start_day = calendar_config_get_week_start_day ();
-
-	/* Convert it to 0 (Mon) to 6 (Sun), which is what we use. */
-	week_start_day = (week_start_day + 6) % 7;
-
-	e_day_view_set_week_start_day (E_DAY_VIEW (priv->day_view),
-				       week_start_day);
-	e_day_view_set_week_start_day (E_DAY_VIEW (priv->work_week_view),
-				       week_start_day);
-	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->week_view),
-					week_start_day);
-	e_week_view_set_week_start_day (E_WEEK_VIEW (priv->month_view),
-					week_start_day);
-
-	start_hour = calendar_config_get_day_start_hour ();
-	start_minute = calendar_config_get_day_start_minute ();
-	end_hour = calendar_config_get_day_end_hour ();
-	end_minute = calendar_config_get_day_end_minute ();
-	e_day_view_set_working_day (E_DAY_VIEW (priv->day_view),
-				    start_hour, start_minute,
-				    end_hour, end_minute);
-	e_day_view_set_working_day (E_DAY_VIEW (priv->work_week_view),
-				    start_hour, start_minute,
-				    end_hour, end_minute);
-
-	use_24_hour = calendar_config_get_24_hour_format ();
-	e_day_view_set_24_hour_format (E_DAY_VIEW (priv->day_view),
-				       use_24_hour);
-	e_day_view_set_24_hour_format (E_DAY_VIEW (priv->work_week_view),
-				       use_24_hour);
-	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->week_view),
-					use_24_hour);
-	e_week_view_set_24_hour_format (E_WEEK_VIEW (priv->month_view),
-					use_24_hour);
-
-	time_divisions = calendar_config_get_time_divisions ();
-	e_day_view_set_mins_per_row (E_DAY_VIEW (priv->day_view),
-				     time_divisions);
-	e_day_view_set_mins_per_row (E_DAY_VIEW (priv->work_week_view),
-				     time_divisions);
-
-	show_event_end = calendar_config_get_show_event_end ();
-	e_day_view_set_show_event_end_times (E_DAY_VIEW (priv->day_view),
-					     show_event_end);
-	e_day_view_set_show_event_end_times (E_DAY_VIEW (priv->work_week_view),
-					     show_event_end);
-	e_week_view_set_show_event_end_times (E_WEEK_VIEW (priv->week_view),
-					      show_event_end);
-	e_week_view_set_show_event_end_times (E_WEEK_VIEW (priv->month_view),
-					      show_event_end);
-
-	compress_weekend = calendar_config_get_compress_weekend ();
-	e_week_view_set_compress_weekend (E_WEEK_VIEW (priv->month_view),
-					  compress_weekend);
 
 	calendar_config_configure_e_calendar (E_CALENDAR (priv->date_navigator));
 
