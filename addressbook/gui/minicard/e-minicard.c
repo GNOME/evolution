@@ -502,9 +502,9 @@ remodel( EMinicard *e_minicard )
 		if (address_list) {
 			for (iterator = e_card_list_get_iterator(address_list); e_card_iterator_is_valid(iterator); e_card_iterator_next(iterator)) {
 				const ECardDeliveryAddress *address = e_card_iterator_get(iterator);
-				if (address->flags & ADDR_WORK) {
+				if (address->flags & E_CARD_ADDR_WORK) {
 					add_field(e_minicard, "Work Address:", address->city);
-				} else if (address->flags & ADDR_HOME) {
+				} else if (address->flags & E_CARD_ADDR_HOME) {
 					add_field(e_minicard, "Home Address:", address->city);
 				} else {
 					add_field(e_minicard, "Address:", address->city);

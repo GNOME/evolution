@@ -2580,12 +2580,12 @@ get_address_flags (VObject *vobj)
 		char *id;
 		ECardAddressFlags flag;
 	} addr_pairs[] = {
-		{ VCDomesticProp, ADDR_DOM },
-		{ VCInternationalProp, ADDR_INTL },
-		{ VCPostalProp, ADDR_POSTAL },
-		{ VCParcelProp, ADDR_PARCEL },
-		{ VCHomeProp, ADDR_HOME },
-		{ VCWorkProp, ADDR_WORK },
+		{ VCDomesticProp, E_CARD_ADDR_DOM },
+		{ VCInternationalProp, E_CARD_ADDR_INTL },
+		{ VCPostalProp, E_CARD_ADDR_POSTAL },
+		{ VCParcelProp, E_CARD_ADDR_PARCEL },
+		{ VCHomeProp, E_CARD_ADDR_HOME },
+		{ VCWorkProp, E_CARD_ADDR_WORK },
 	};
 	
 	for (i = 0; i < sizeof(addr_pairs) / sizeof(addr_pairs[0]); i++) {
@@ -2606,12 +2606,12 @@ set_address_flags (VObject *vobj, ECardAddressFlags flags)
 		char *id;
 		ECardAddressFlags flag;
 	} addr_pairs[] = {
-		{ VCDomesticProp, ADDR_DOM },
-		{ VCInternationalProp, ADDR_INTL },
-		{ VCPostalProp, ADDR_POSTAL },
-		{ VCParcelProp, ADDR_PARCEL },
-		{ VCHomeProp, ADDR_HOME },
-		{ VCWorkProp, ADDR_WORK },
+		{ VCDomesticProp, E_CARD_ADDR_DOM },
+		{ VCInternationalProp, E_CARD_ADDR_INTL },
+		{ VCPostalProp, E_CARD_ADDR_POSTAL },
+		{ VCParcelProp, E_CARD_ADDR_PARCEL },
+		{ VCHomeProp, E_CARD_ADDR_HOME },
+		{ VCWorkProp, E_CARD_ADDR_WORK },
 	};
 	
 	for (i = 0; i < sizeof(addr_pairs) / sizeof(addr_pairs[0]); i++) {

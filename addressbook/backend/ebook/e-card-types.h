@@ -180,12 +180,12 @@ typedef struct {
 /* DELIVERY ADDRESSING PROPERTIES */
 
 typedef enum {
-	ADDR_HOME   = 1 << 0, 
-	ADDR_WORK   = 1 << 1,
-	ADDR_POSTAL = 1 << 2, 
-	ADDR_PARCEL = 1 << 3, 
-	ADDR_DOM    = 1 << 4,
-	ADDR_INTL   = 1 << 5 
+	E_CARD_ADDR_HOME   = 1 << 0, 
+	E_CARD_ADDR_WORK   = 1 << 1,
+	E_CARD_ADDR_POSTAL = 1 << 2, 
+	E_CARD_ADDR_PARCEL = 1 << 3, 
+	E_CARD_ADDR_DOM    = 1 << 4,
+	E_CARD_ADDR_INTL   = 1 << 5 
 } ECardAddressFlags;
 
 typedef struct {

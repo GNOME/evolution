@@ -1,3 +1,17 @@
+2000-04-26  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/e-card-types.h, backend/ebook/e-card.c,
+	gui/minicard/e-minicard.c: Prefixed the ADDR_ flags.
+
+	* contact-editor/contact-editor.glade,
+	contact-editor/e-contact-editor-strings.h: Edited the glade file.
+	Removed all the fields that we don't use.
+
+	* contact-editor/e-contact-editor.c,
+	contact-editor/e-contact-editor.h: Made the phone fields work
+	properly.  The address and email fields are temporarily turned off
+	until they can be made to work as the phone fields do.
+
 2000-04-25  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* gui/minicard/Makefile.am (INCLUDES): Use
