@@ -1,3 +1,10 @@
+2004-09-22  JP Rosevear  <jpr@novell.com>
+
+	* gui/calendar-component.c (fill_popup_menu_cb): ditto
+
+	* gui/tasks-component.c (fill_popup_menu_cb): don't allow a delete
+	of the system calendar
+
 2004-09-21  JP Rosevear  <jpr@novell.com>
  
  	Fixes #60904
