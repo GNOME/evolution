@@ -83,7 +83,7 @@ e_completion_view_get_type (void)
 			(GtkClassInitFunc) NULL
 		};
 
-		completion_view_type = gtk_type_unique (gtk_vbox_get_type (), &completion_view_info);
+		completion_view_type = gtk_type_unique (gtk_event_box_get_type (), &completion_view_info);
 	}
 
 	return completion_view_type;
@@ -95,7 +95,7 @@ e_completion_view_class_init (ECompletionViewClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	GtkWidgetClass *widget_class = GTK_WIDGET_CLASS (klass);
 
-	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_vbox_get_type ()));
+	parent_class = GTK_OBJECT_CLASS (gtk_type_class (gtk_event_box_get_type ()));
 
 	e_completion_view_signals[E_COMPLETION_VIEW_NONEMPTY] =
 		gtk_signal_new ("nonempty",
@@ -348,6 +348,11 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		return FALSE;
 
 	case GDK_Escape:
+		/* Unbrowse hack */
+		cv->selection = -1;
+		dir = 0;
+		break;
+
 	case GDK_Left:     /* Lynx-style "back" */
 	case GDK_KP_Left:
 		if (cv->selection >= 0) {

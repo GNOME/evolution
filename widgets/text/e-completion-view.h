@@ -46,7 +46,7 @@ typedef struct _ECompletionView ECompletionView;
 typedef struct _ECompletionViewClass ECompletionViewClass;
 
 struct _ECompletionView {
-	GtkVBox parent;
+	GtkEventBox parent;
 	
 	ETableModel *model;
 	GtkWidget *table;
@@ -73,7 +73,7 @@ struct _ECompletionView {
 };
 
 struct _ECompletionViewClass {
-	GtkVBoxClass parent_class;
+	GtkEventBoxClass parent_class;
 
 	/* Signals */
 	void (*nonempty) (ECompletionView *cv);

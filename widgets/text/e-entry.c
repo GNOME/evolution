@@ -357,17 +357,22 @@ e_entry_set_position (EEntry *entry, gint pos)
 	else if (pos > e_text_model_get_text_length (entry->priv->item->model))
 		pos = e_text_model_get_text_length (entry->priv->item->model);
 
-	entry->priv->item->selection_start = pos;
+	entry->priv->item->selection_start = entry->priv->item->selection_end = pos;
 }
 
 void
 e_entry_select_region (EEntry *entry, gint pos1, gint pos2)
 {
-	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+	gint len;
 
-	e_entry_set_position (entry, MAX (pos1, pos2));
-	entry->priv->item->selection_end = entry->priv->item->selection_start;
-	e_entry_set_position (entry, MIN (pos1, pos2));
+	g_return_if_fail (entry != NULL && E_IS_ENTRY (entry));
+	
+	len = e_text_model_get_text_length (entry->priv->item->model);
+	pos1 = CLAMP (pos1, 0, len);
+	pos2 = CLAMP (pos2, 0, len);
+
+	entry->priv->item->selection_start = MIN (pos1, pos2);
+	entry->priv->item->selection_end   = MAX (pos1, pos2);
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
@@ -412,10 +417,16 @@ e_entry_show_popup (EEntry *entry, gboolean visible)
 		e_completion_view_set_width (E_COMPLETION_VIEW (entry->priv->completion_view), dim->width);
 
 		gtk_widget_show (pop);
+		gdk_keyboard_grab (GTK_WIDGET (entry)->window, TRUE, GDK_CURRENT_TIME);
+		gdk_pointer_grab (GTK_WIDGET (entry->priv->completion_view)->window, TRUE,
+				  (GdkEventMask) GDK_BUTTON_PRESS_MASK | GDK_BUTTON_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+				  NULL, NULL, GDK_CURRENT_TIME);
 		
 	} else {
 
 		gtk_widget_hide (pop);
+		gdk_keyboard_ungrab (GDK_CURRENT_TIME);
+		gdk_pointer_ungrab (GDK_CURRENT_TIME);
 
 	}
 
@@ -572,6 +583,25 @@ e_entry_enable_completion (EEntry *entry, ECompletion *completion)
 	e_entry_enable_completion_full (entry, completion, -1, NULL);
 }
 
+static void
+button_press_cb (GtkWidget *w, GdkEvent *ev, gpointer user_data)
+{
+	EEntry *entry = E_ENTRY (user_data);
+	GtkWidget *child;
+
+	/* Bail out if our click happened inside of our widget. */
+	child = gtk_get_event_widget (ev);
+	if (child != w) {
+		while (child) {
+			if (child == w)
+				return;
+			child = child->parent;
+		}
+	}
+
+	e_entry_show_popup (entry, FALSE);
+}
+
 void
 e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint delay, EEntryCompletionHandler handler)
 {
@@ -592,6 +622,11 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 	/* Make the up and down keys enable and disable completions. */
 	e_completion_view_set_complete_key (E_COMPLETION_VIEW (entry->priv->completion_view), GDK_Down);
 	e_completion_view_set_uncomplete_key (E_COMPLETION_VIEW (entry->priv->completion_view), GDK_Up);
+
+	gtk_signal_connect_after (GTK_OBJECT (entry->priv->completion_view),
+				  "button_press_event",
+				  GTK_SIGNAL_FUNC (button_press_cb),
+				  entry);
 
 	entry->priv->nonempty_signal_id = gtk_signal_connect (GTK_OBJECT (entry->priv->completion_view),
 							      "nonempty",
@@ -624,6 +659,7 @@ e_entry_enable_completion_full (EEntry *entry, ECompletion *completion, gint del
 							      entry);
 
 	entry->priv->completion_view_popup = gtk_window_new (GTK_WINDOW_POPUP);
+			    
 	gtk_object_ref (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_object_sink (GTK_OBJECT (entry->priv->completion_view_popup));
 	gtk_window_set_policy (GTK_WINDOW (entry->priv->completion_view_popup), FALSE, TRUE, FALSE);
