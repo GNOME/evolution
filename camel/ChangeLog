@@ -68,7 +68,6 @@
 	* camel-store.h: time to fix up the camelfolderinfo mess.  fix
 	some member names, and add some type fields.  Fixed all uses.
 
->>>>>>> 1.2033
 2004-03-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #53355.
