@@ -1,10 +1,16 @@
 
 /*  A Bison parser, made from icalyacc.y
- by  GNU Bison version 1.27
-  */
+    by GNU Bison version 1.28  */
 
 #define YYBISON 1  /* Identify Bison output.  */
 
+#define yyparse ical_yyparse
+#define yylex ical_yylex
+#define yyerror ical_yyerror
+#define yylval ical_yylval
+#define yychar ical_yychar
+#define yydebug ical_yydebug
+#define yynerrs ical_yynerrs
 #define	DIGITS	257
 #define	INTNUMBER	258
 #define	FLOATNUMBER	259
@@ -15,124 +21,125 @@
 #define	COLON	264
 #define	COMMA	265
 #define	SEMICOLON	266
-#define	TIMESEPERATOR	267
-#define	TRUE	268
-#define	FALSE	269
-#define	FREQ	270
-#define	BYDAY	271
-#define	BYHOUR	272
-#define	BYMINUTE	273
-#define	BYMONTH	274
-#define	BYMONTHDAY	275
-#define	BYSECOND	276
-#define	BYSETPOS	277
-#define	BYWEEKNO	278
-#define	BYYEARDAY	279
-#define	DAILY	280
-#define	MINUTELY	281
-#define	MONTHLY	282
-#define	SECONDLY	283
-#define	WEEKLY	284
-#define	HOURLY	285
-#define	YEARLY	286
-#define	INTERVAL	287
-#define	COUNT	288
-#define	UNTIL	289
-#define	WKST	290
-#define	MO	291
-#define	SA	292
-#define	SU	293
-#define	TU	294
-#define	WE	295
-#define	TH	296
-#define	FR	297
-#define	BIT8	298
-#define	ACCEPTED	299
-#define	ADD	300
-#define	AUDIO	301
-#define	BASE64	302
-#define	BINARY	303
-#define	BOOLEAN	304
-#define	BUSY	305
-#define	BUSYTENTATIVE	306
-#define	BUSYUNAVAILABLE	307
-#define	CALADDRESS	308
-#define	CANCEL	309
-#define	CANCELLED	310
-#define	CHAIR	311
-#define	CHILD	312
-#define	COMPLETED	313
-#define	CONFIDENTIAL	314
-#define	CONFIRMED	315
-#define	COUNTER	316
-#define	DATE	317
-#define	DATETIME	318
-#define	DECLINECOUNTER	319
-#define	DECLINED	320
-#define	DELEGATED	321
-#define	DISPLAY	322
-#define	DRAFT	323
-#define	DURATION	324
-#define	EMAIL	325
-#define	END	326
-#define	FINAL	327
-#define	FLOAT	328
-#define	FREE	329
-#define	GREGORIAN	330
-#define	GROUP	331
-#define	INDIVIDUAL	332
-#define	INPROCESS	333
-#define	INTEGER	334
-#define	NEEDSACTION	335
-#define	NONPARTICIPANT	336
-#define	OPAQUE	337
-#define	OPTPARTICIPANT	338
-#define	PARENT	339
-#define	PERIOD	340
-#define	PRIVATE	341
-#define	PROCEDURE	342
-#define	PUBLIC	343
-#define	PUBLISH	344
-#define	RECUR	345
-#define	REFRESH	346
-#define	REPLY	347
-#define	REQPARTICIPANT	348
-#define	REQUEST	349
-#define	RESOURCE	350
-#define	ROOM	351
-#define	SIBLING	352
-#define	START	353
-#define	TENTATIVE	354
-#define	TEXT	355
-#define	THISANDFUTURE	356
-#define	THISANDPRIOR	357
-#define	TIME	358
-#define	TRANSPAENT	359
-#define	UNKNOWN	360
-#define	UTCOFFSET	361
-#define	XNAME	362
-#define	ALTREP	363
-#define	CN	364
-#define	CUTYPE	365
-#define	DAYLIGHT	366
-#define	DIR	367
-#define	ENCODING	368
-#define	EVENT	369
-#define	FBTYPE	370
-#define	FMTTYPE	371
-#define	LANGUAGE	372
-#define	MEMBER	373
-#define	PARTSTAT	374
-#define	RANGE	375
-#define	RELATED	376
-#define	RELTYPE	377
-#define	ROLE	378
-#define	RSVP	379
-#define	SENTBY	380
-#define	STANDARD	381
-#define	URI	382
-#define	TIME_CHAR	383
-#define	UTC_CHAR	384
+#define	MINUS	267
+#define	TIMESEPERATOR	268
+#define	TRUE	269
+#define	FALSE	270
+#define	FREQ	271
+#define	BYDAY	272
+#define	BYHOUR	273
+#define	BYMINUTE	274
+#define	BYMONTH	275
+#define	BYMONTHDAY	276
+#define	BYSECOND	277
+#define	BYSETPOS	278
+#define	BYWEEKNO	279
+#define	BYYEARDAY	280
+#define	DAILY	281
+#define	MINUTELY	282
+#define	MONTHLY	283
+#define	SECONDLY	284
+#define	WEEKLY	285
+#define	HOURLY	286
+#define	YEARLY	287
+#define	INTERVAL	288
+#define	COUNT	289
+#define	UNTIL	290
+#define	WKST	291
+#define	MO	292
+#define	SA	293
+#define	SU	294
+#define	TU	295
+#define	WE	296
+#define	TH	297
+#define	FR	298
+#define	BIT8	299
+#define	ACCEPTED	300
+#define	ADD	301
+#define	AUDIO	302
+#define	BASE64	303
+#define	BINARY	304
+#define	BOOLEAN	305
+#define	BUSY	306
+#define	BUSYTENTATIVE	307
+#define	BUSYUNAVAILABLE	308
+#define	CALADDRESS	309
+#define	CANCEL	310
+#define	CANCELLED	311
+#define	CHAIR	312
+#define	CHILD	313
+#define	COMPLETED	314
+#define	CONFIDENTIAL	315
+#define	CONFIRMED	316
+#define	COUNTER	317
+#define	DATE	318
+#define	DATETIME	319
+#define	DECLINECOUNTER	320
+#define	DECLINED	321
+#define	DELEGATED	322
+#define	DISPLAY	323
+#define	DRAFT	324
+#define	DURATION	325
+#define	EMAIL	326
+#define	END	327
+#define	FINAL	328
+#define	FLOAT	329
+#define	FREE	330
+#define	GREGORIAN	331
+#define	GROUP	332
+#define	INDIVIDUAL	333
+#define	INPROCESS	334
+#define	INTEGER	335
+#define	NEEDSACTION	336
+#define	NONPARTICIPANT	337
+#define	OPAQUE	338
+#define	OPTPARTICIPANT	339
+#define	PARENT	340
+#define	PERIOD	341
+#define	PRIVATE	342
+#define	PROCEDURE	343
+#define	PUBLIC	344
+#define	PUBLISH	345
+#define	RECUR	346
+#define	REFRESH	347
+#define	REPLY	348
+#define	REQPARTICIPANT	349
+#define	REQUEST	350
+#define	RESOURCE	351
+#define	ROOM	352
+#define	SIBLING	353
+#define	START	354
+#define	TENTATIVE	355
+#define	TEXT	356
+#define	THISANDFUTURE	357
+#define	THISANDPRIOR	358
+#define	TIME	359
+#define	TRANSPAENT	360
+#define	UNKNOWN	361
+#define	UTCOFFSET	362
+#define	XNAME	363
+#define	ALTREP	364
+#define	CN	365
+#define	CUTYPE	366
+#define	DAYLIGHT	367
+#define	DIR	368
+#define	ENCODING	369
+#define	EVENT	370
+#define	FBTYPE	371
+#define	FMTTYPE	372
+#define	LANGUAGE	373
+#define	MEMBER	374
+#define	PARTSTAT	375
+#define	RANGE	376
+#define	RELATED	377
+#define	RELTYPE	378
+#define	ROLE	379
+#define	RSVP	380
+#define	SENTBY	381
+#define	STANDARD	382
+#define	URI	383
+#define	TIME_CHAR	384
+#define	UTC_CHAR	385
 
 #line 1 "icalyacc.y"
 
@@ -146,36 +153,36 @@
   $Id$
   $Locker$
 
- (C) COPYRIGHT 2000, Eric Busboom, http://www.softwarestudio.org
+  (C) COPYRIGHT 1999 Eric Busboom 
+  http://www.softwarestudio.org
 
- This program is free software; you can redistribute it and/or modify
- it under the terms of either: 
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.0 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+ 
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+  the License for the specific language governing rights and
+  limitations under the License.
 
-    The LGPL as published by the Free Software Foundation, version
-    2.1, available at: http://www.fsf.org/copyleft/lesser.html
-
-  Or:
-
-    The Mozilla Public License Version 1.0. You may obtain a copy of
-    the License at http://www.mozilla.org/MPL/
-
+  The original author is Eric Busboom
   The original code is icalitip.y
 
 
 
-  ================================b======================================*/
+  =======================================================================*/
 
 #include <stdlib.h>
 #include <string.h> /* for strdup() */
-#include <limits.h> /* for SHRT_MAX*/
 #include "icalparser.h"
-#include "ical.h"
 #include "pvl.h"
-#define YYERROR_VERBOSE
-#define YYDEBUG 1 
-
 
 icalvalue *icalparser_yy_value; /* Current Value */
+
+void ical_yyerror(char* s);
+void icalparser_clear_flex_input();  
+int ical_yy_lex(void);
 
 /* Globals for UTCOFFSET values */
 int utc; 
@@ -200,7 +207,7 @@ void set_value_type(icalvalue_kind kind);
 void set_parser_value_state();
 struct icaltimetype fill_datetime(char* d, char* t);
 void ical_yy_error(char *s); /* Don't know why I need this.... */
-/*int yylex(void); /* Or this. */
+int yylex(void); /* Or this. */
 
 
 
@@ -208,58 +215,11 @@ void ical_yy_error(char *s); /* Don't know why I need this.... */
    VALUEs, that is, ) correctly. */
 
 
-#line 76 "icalyacc.y"
+#line 75 "icalyacc.y"
 typedef union {
 	float v_float;
 	int   v_int;
 	char* v_string;
-
-  /* Renaming hack */
-#define    yymaxdepth ical_yy_maxdepth
-#define    yyparse ical_yy_parse
-#define    yylex   ical_yy_lex
-#define    yyerror ical_yy_error
-#define    yylval  ical_yy_lval
-#define    yychar  ical_yy_char
-#define    yydebug ical_yy_debug
-#define    yypact  ical_yy_pact
-#define    yyr1    ical_yy_r1
-#define    yyr2    ical_yy_r2
-#define    yydef   ical_yy_def
-#define    yychk   ical_yy_chk
-#define    yypgo   ical_yy_pgo
-#define    yyact   ical_yy_act
-#define    yyexca  ical_yy_exca
-#define yyerrflag ical_yy_errflag
-#define yynerrs    ical_yy_nerrs
-#define    yyps    ical_yy_ps
-#define    yypv    ical_yy_pv
-#define    yys     ical_yy_s
-#define    yy_yys  ical_yy_yys
-#define    yystate ical_yy_state
-#define    yytmp   ical_yy_tmp
-#define    yyv     ical_yy_v
-#define    yy_yyv  ical_yy_yyv
-#define    yyval   ical_yy_val
-#define    yylloc  ical_yy_lloc
-#define yyreds     ical_yy_reds
-#define yytoks     ical_yy_toks
-#define yylhs      ical_yy_yylhs
-#define yylen      ical_yy_yylen
-#define yydefred ical_yy_yydefred
-#define yydgoto    ical_yy_yydgoto
-#define yydefred ical_yy_yydefred
-#define yydgoto    ical_yy_yydgoto
-#define yysindex ical_yy_yysindex
-#define yyrindex ical_yy_yyrindex
-#define yygindex ical_yy_yygindex
-#define yytable     ical_yy_yytable
-#define yycheck     ical_yy_yycheck
-#define yyname   ical_yy_yyname
-#define yyrule   ical_yy_yyrule
-
-
-
 } YYSTYPE;
 #ifndef YYDEBUG
 #define YYDEBUG 1
@@ -275,22 +235,22 @@ typedef union {
 
 
 
-#define	YYFINAL		137
+#define	YYFINAL		143
 #define	YYFLAG		-32768
-#define	YYNTBASE	141
+#define	YYNTBASE	142
 
-#define YYTRANSLATE(x) ((unsigned)(x) <= 385 ? yytranslate[x] : 167)
+#define YYTRANSLATE(x) ((unsigned)(x) <= 386 ? yytranslate[x] : 168)
 
 static const short yytranslate[] = {     0,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,   137,     2,   138,     2,   140,     2,     2,     2,
+     2,     2,   138,     2,   139,     2,   141,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-     2,     2,     2,     2,     2,     2,     2,   136,     2,     2,
-     2,   133,     2,     2,     2,     2,   134,     2,     2,   139,
-     2,     2,   135,     2,     2,     2,   132,     2,     2,     2,
+     2,     2,     2,     2,     2,     2,     2,   137,     2,     2,
+     2,   134,     2,     2,     2,     2,   135,     2,     2,   140,
+     2,     2,   136,     2,     2,     2,   133,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
      2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -320,7 +280,7 @@ static const short yytranslate[] = {     0,
     97,    98,    99,   100,   101,   102,   103,   104,   105,   106,
    107,   108,   109,   110,   111,   112,   113,   114,   115,   116,
    117,   118,   119,   120,   121,   122,   123,   124,   125,   126,
-   127,   128,   129,   130,   131
+   127,   128,   129,   130,   131,   132
 };
 
 #if YYDEBUG != 0
@@ -330,55 +290,56 @@ static const short yyprhs[] = {     0,
     42,    45,    48,    51,    54,    57,    61,    64,    68,    71,
     74,    75,    77,    79,    83,    87,    91,   101,   108,   112,
    116,   120,   124,   128,   132,   136,   138,   140,   142,   144,
-   146,   148,   150,   152,   155,   159,   164,   166,   170,   174,
-   178,   182,   186,   190,   194,   198,   202,   206,   210,   214,
-   218,   222,   226,   230,   234,   238,   242,   246,   250,   251,
-   255,   258,   260,   262,   266
+   146,   148,   150,   152,   155,   159,   163,   168,   174,   176,
+   180,   184,   188,   192,   196,   200,   204,   208,   212,   216,
+   220,   224,   228,   232,   236,   240,   244,   248,   252,   256,
+   260,   261,   265,   268,   270,   272,   276
 };
 
-static const short yyrhs[] = {   142,
-     0,   143,     0,   144,     0,   147,     0,   156,     0,   157,
-     0,   164,     0,   166,     0,     1,     0,   131,     0,    14,
-     0,    15,     0,     3,     0,     0,   130,     0,     0,   130,
-     0,     3,   129,     3,   145,     0,   154,     0,   154,   150,
-     0,     3,   132,     0,   129,   151,     0,   129,   152,     0,
-   129,   153,     0,     3,   133,     0,     3,   133,   152,     0,
-     3,   134,     0,     3,   134,   153,     0,     3,   135,     0,
-     3,   136,     0,     0,   137,     0,   138,     0,   155,   139,
-   148,     0,   155,   139,   150,     0,   155,   139,   149,     0,
-     3,   129,     3,   145,   140,     3,   129,     3,   146,     0,
-     3,   129,     3,   145,   140,   156,     0,    16,     8,    29,
-     0,    16,     8,    27,     0,    16,     8,    31,     0,    16,
-     8,    26,     0,    16,     8,    30,     0,    16,     8,    28,
-     0,    16,     8,    32,     0,    39,     0,    37,     0,    40,
-     0,    41,     0,    42,     0,    43,     0,    38,     0,   159,
-     0,     3,   159,     0,   160,    11,   159,     0,   160,    11,
-     3,   159,     0,     3,     0,   161,    11,     3,     0,    33,
-     8,     3,     0,    36,     8,    39,     0,    36,     8,    37,
-     0,    36,     8,    40,     0,    36,     8,    41,     0,    36,
-     8,    42,     0,    36,     8,    43,     0,    36,     8,    38,
-     0,    22,     8,   161,     0,    19,     8,   161,     0,    18,
-     8,   161,     0,    17,     8,   160,     0,    20,     8,   161,
-     0,    21,     8,   161,     0,    25,     8,   161,     0,    24,
-     8,   161,     0,    23,     8,   161,     0,    35,     8,   147,
-     0,    35,     8,   144,     0,    34,     8,     3,     0,     0,
-   163,    12,   162,     0,   158,   163,     0,   137,     0,   138,
-     0,   165,     4,     4,     0,   165,     4,     4,     4,     0
+static const short yyrhs[] = {   143,
+     0,   144,     0,   145,     0,   148,     0,   157,     0,   158,
+     0,   165,     0,   167,     0,     1,     0,   132,     0,    15,
+     0,    16,     0,     3,     0,     0,   131,     0,     0,   131,
+     0,     3,   130,     3,   146,     0,   155,     0,   155,   151,
+     0,     3,   133,     0,   130,   152,     0,   130,   153,     0,
+   130,   154,     0,     3,   134,     0,     3,   134,   153,     0,
+     3,   135,     0,     3,   135,   154,     0,     3,   136,     0,
+     3,   137,     0,     0,   138,     0,   139,     0,   156,   140,
+   149,     0,   156,   140,   151,     0,   156,   140,   150,     0,
+     3,   130,     3,   146,   141,     3,   130,     3,   147,     0,
+     3,   130,     3,   146,   141,   157,     0,    17,     8,    30,
+     0,    17,     8,    28,     0,    17,     8,    32,     0,    17,
+     8,    27,     0,    17,     8,    31,     0,    17,     8,    29,
+     0,    17,     8,    33,     0,    40,     0,    38,     0,    41,
+     0,    42,     0,    43,     0,    44,     0,    39,     0,   160,
+     0,     3,   160,     0,    13,     3,   160,     0,   161,    11,
+   160,     0,   161,    11,     3,   160,     0,   161,    11,    13,
+     3,   160,     0,     3,     0,   162,    11,     3,     0,    34,
+     8,     3,     0,    37,     8,    40,     0,    37,     8,    38,
+     0,    37,     8,    41,     0,    37,     8,    42,     0,    37,
+     8,    43,     0,    37,     8,    44,     0,    37,     8,    39,
+     0,    23,     8,   162,     0,    20,     8,   162,     0,    19,
+     8,   162,     0,    18,     8,   161,     0,    21,     8,   162,
+     0,    22,     8,   162,     0,    26,     8,   162,     0,    25,
+     8,   162,     0,    24,     8,   162,     0,    36,     8,   148,
+     0,    36,     8,   145,     0,    35,     8,     3,     0,     0,
+   164,    12,   163,     0,   159,   164,     0,   138,     0,   139,
+     0,   166,     4,     4,     0,   166,     4,     4,     4,     0
 };
 
 #endif
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   159,   161,   162,   163,   164,   165,   166,   167,   168,   174,
-   176,   179,   182,   197,   199,   202,   204,   206,   222,   223,
-   225,   230,   233,   236,   240,   244,   249,   253,   258,   263,
-   268,   271,   274,   278,   283,   288,   297,   318,   350,   352,
-   353,   354,   355,   356,   357,   361,   364,   366,   368,   370,
-   372,   374,   379,   381,   382,   383,   386,   388,   391,   393,
-   394,   395,   396,   397,   398,   399,   400,   401,   402,   403,
-   404,   405,   406,   407,   408,   409,   412,   415,   419,   421,
-   423,   431,   432,   434,   440
+   181,   183,   184,   185,   186,   187,   188,   189,   190,   196,
+   198,   201,   204,   219,   221,   224,   226,   228,   244,   245,
+   247,   252,   255,   258,   262,   266,   271,   275,   280,   285,
+   290,   294,   298,   303,   308,   313,   322,   343,   375,   377,
+   378,   379,   380,   381,   382,   386,   388,   389,   390,   391,
+   392,   393,   398,   400,   402,   404,   405,   407,   411,   413,
+   416,   418,   419,   420,   421,   422,   423,   424,   425,   426,
+   427,   428,   429,   430,   431,   432,   433,   434,   437,   440,
+   444,   446,   448,   456,   457,   459,   465
 };
 #endif
 
@@ -387,7 +348,7 @@ static const short yyrline[] = { 0,
 
 static const char * const yytname[] = {   "$","error","$undefined.","DIGITS",
 "INTNUMBER","FLOATNUMBER","STRING","EOL","EQUALS","CHARACTER","COLON","COMMA",
-"SEMICOLON","TIMESEPERATOR","TRUE","FALSE","FREQ","BYDAY","BYHOUR","BYMINUTE",
+"SEMICOLON","MINUS","TIMESEPERATOR","TRUE","FALSE","FREQ","BYDAY","BYHOUR","BYMINUTE",
 "BYMONTH","BYMONTHDAY","BYSECOND","BYSETPOS","BYWEEKNO","BYYEARDAY","DAILY",
 "MINUTELY","MONTHLY","SECONDLY","WEEKLY","HOURLY","YEARLY","INTERVAL","COUNT",
 "UNTIL","WKST","MO","SA","SU","TU","WE","TH","FR","BIT8","ACCEPTED","ADD","AUDIO",
@@ -401,7 +362,7 @@ static const char * const yytname[] = {   "$","error","$undefined.","DIGITS",
 "TEXT","THISANDFUTURE","THISANDPRIOR","TIME","TRANSPAENT","UNKNOWN","UTCOFFSET",
 "XNAME","ALTREP","CN","CUTYPE","DAYLIGHT","DIR","ENCODING","EVENT","FBTYPE",
 "FMTTYPE","LANGUAGE","MEMBER","PARTSTAT","RANGE","RELATED","RELTYPE","ROLE",
-"RSVP","SENTBY","STANDARD","URI","TIME_CHAR","UTC_CHAR","\"unimplemented2\\\"",
+"RSVP","SENTBY","STANDARD","URI","TIME_CHAR","UTC_CHAR","\"unimplemented2\"",
 "'W'","'H'","'M'","'S'","'D'","'+'","'-'","'P'","'/'","value","binary_value",
 "boolean_value","date_value","utc_char","utc_char_b","datetime_value","dur_date",
 "dur_week","dur_time","dur_hour","dur_minute","dur_second","dur_day","dur_prefix",
@@ -411,15 +372,15 @@ static const char * const yytname[] = {   "$","error","$undefined.","DIGITS",
 #endif
 
 static const short yyr1[] = {     0,
-   141,   141,   141,   141,   141,   141,   141,   141,   141,   142,
-   143,   143,   144,   145,   145,   146,   146,   147,   148,   148,
-   149,   150,   150,   150,   151,   151,   152,   152,   153,   154,
-   155,   155,   155,   156,   156,   156,   157,   157,   158,   158,
-   158,   158,   158,   158,   158,   159,   159,   159,   159,   159,
-   159,   159,   160,   160,   160,   160,   161,   161,   162,   162,
-   162,   162,   162,   162,   162,   162,   162,   162,   162,   162,
-   162,   162,   162,   162,   162,   162,   162,   162,   163,   163,
-   164,   165,   165,   166,   166
+   142,   142,   142,   142,   142,   142,   142,   142,   142,   143,
+   144,   144,   145,   146,   146,   147,   147,   148,   149,   149,
+   150,   151,   151,   151,   152,   152,   153,   153,   154,   155,
+   156,   156,   156,   157,   157,   157,   158,   158,   159,   159,
+   159,   159,   159,   159,   159,   160,   160,   160,   160,   160,
+   160,   160,   161,   161,   161,   161,   161,   161,   162,   162,
+   163,   163,   163,   163,   163,   163,   163,   163,   163,   163,
+   163,   163,   163,   163,   163,   163,   163,   163,   163,   163,
+   164,   164,   165,   166,   166,   167,   167
 };
 
 static const short yyr2[] = {     0,
@@ -428,98 +389,102 @@ static const short yyr2[] = {     0,
      2,     2,     2,     2,     2,     3,     2,     3,     2,     2,
      0,     1,     1,     3,     3,     3,     9,     6,     3,     3,
      3,     3,     3,     3,     3,     1,     1,     1,     1,     1,
-     1,     1,     1,     2,     3,     4,     1,     3,     3,     3,
+     1,     1,     1,     2,     3,     3,     4,     5,     1,     3,
      3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
-     3,     3,     3,     3,     3,     3,     3,     3,     0,     3,
-     2,     1,     1,     3,     4
+     3,     3,     3,     3,     3,     3,     3,     3,     3,     3,
+     0,     3,     2,     1,     1,     3,     4
 };
 
 static const short yydefact[] = {     0,
      9,    13,    11,    12,     0,    10,    32,    33,     1,     2,
-     3,     4,     0,     5,     6,    79,     7,     0,     8,     0,
-     0,     0,    81,     0,    14,    42,    40,    44,    39,    43,
-    41,    45,     0,     0,    34,    36,    35,    19,     0,    84,
+     3,     4,     0,     5,     6,    81,     7,     0,     8,     0,
+     0,     0,    83,     0,    14,    42,    40,    44,    39,    43,
+    41,    45,     0,     0,    34,    36,    35,    19,     0,    86,
     15,    18,    21,    30,     0,    22,    23,    24,    20,     0,
      0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-     0,     0,    80,    85,    31,    25,    27,    29,     0,     0,
+     0,     0,    82,    87,    31,    25,    27,    29,     0,     0,
      0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
      0,     0,    32,    33,    38,     0,    26,     0,    28,     0,
-    47,    52,    46,    48,    49,    50,    51,    53,    70,    57,
-    69,    68,    71,    72,    67,    75,    74,    73,    59,    78,
-    13,    77,    76,    61,    66,    60,    62,    63,    64,    65,
-     0,    54,     0,     0,     0,    16,     0,    55,    58,    14,
-    17,    37,    56,    18,     0,     0,     0
+     0,    47,    52,    46,    48,    49,    50,    51,    53,    72,
+    59,    71,    70,    73,    74,    69,    77,    76,    75,    61,
+    80,    13,    79,    78,    63,    68,    62,    64,    65,    66,
+    67,     0,    54,     0,     0,     0,     0,    16,    55,     0,
+     0,    56,    60,    14,    17,    37,    57,     0,    18,    58,
+     0,     0,     0
 };
 
-static const short yydefgoto[] = {   135,
-     9,    10,    11,    42,   132,    12,    35,    36,    37,    46,
-    47,    48,    38,    13,    14,    15,    16,    98,    99,   101,
+static const short yydefgoto[] = {   141,
+     9,    10,    11,    42,   136,    12,    35,    36,    37,    46,
+    47,    48,    38,    13,    14,    15,    16,    99,   100,   102,
     63,    23,    17,    18,    19
 };
 
 static const short yypact[] = {    -1,
--32768,  -123,-32768,-32768,     1,-32768,     3,     8,-32768,-32768,
--32768,-32768,  -122,-32768,-32768,-32768,-32768,    12,-32768,    33,
-    -7,    -2,    40,    49,  -119,-32768,-32768,-32768,-32768,-32768,
--32768,-32768,  -128,    51,-32768,-32768,-32768,   -46,    39,    80,
--32768,   -55,-32768,-32768,  -100,-32768,-32768,-32768,-32768,    78,
-    79,    81,    82,    83,    84,    85,    86,    87,    88,    89,
-    90,    91,-32768,-32768,     2,    97,    98,-32768,     0,    99,
-    99,    99,    99,    99,    99,    99,    99,   100,   101,   102,
-   -11,   -41,-32768,-32768,-32768,   -28,-32768,   -27,-32768,    28,
--32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,    96,-32768,
-   103,   103,   103,   103,   103,   103,   103,   103,-32768,-32768,
-   -20,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
-   107,-32768,     7,   108,   109,   -17,    28,-32768,-32768,  -119,
--32768,-32768,-32768,-32768,   115,   116,-32768
+-32768,  -123,-32768,-32768,     5,-32768,    31,    32,-32768,-32768,
+-32768,-32768,  -134,-32768,-32768,-32768,-32768,    35,-32768,    15,
+    -7,    -2,    28,    37,   -89,-32768,-32768,-32768,-32768,-32768,
+-32768,-32768,  -129,    83,-32768,-32768,-32768,   -43,    41,    84,
+-32768,   -52,-32768,-32768,  -124,-32768,-32768,-32768,-32768,    82,
+    85,    86,    87,    88,    89,    90,    91,    92,    93,    94,
+    95,    96,-32768,-32768,     2,   102,   103,-32768,     6,   104,
+   104,   104,   104,   104,   104,   104,   104,   105,   106,   107,
+   -10,   -39,-32768,-32768,-32768,   -24,-32768,   -44,-32768,    30,
+   109,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,   108,
+-32768,   110,   110,   110,   110,   110,   110,   110,   110,-32768,
+-32768,   -17,-32768,-32768,-32768,-32768,-32768,-32768,-32768,-32768,
+-32768,   111,-32768,    30,    14,   112,   113,   -14,-32768,    30,
+   115,-32768,-32768,   -89,-32768,-32768,-32768,    30,-32768,-32768,
+   120,   122,-32768
 };
 
 static const short yypgoto[] = {-32768,
--32768,-32768,    37,   -12,-32768,    41,-32768,-32768,    93,-32768,
-    53,    55,-32768,-32768,    58,-32768,-32768,   -72,-32768,     5,
+-32768,-32768,    43,    -9,-32768,    44,-32768,-32768,    97,-32768,
+    60,    62,-32768,-32768,    65,-32768,-32768,   -87,-32768,     8,
 -32768,-32768,-32768,-32768,-32768
 };
 
 
-#define	YYLAST		140
+#define	YYLAST		141
 
 
 static const short yytable[] = {     1,
-    33,     2,    90,    43,    82,    20,   -82,    44,    21,   127,
-    41,   -83,     3,     4,     5,    24,    22,   122,    26,    27,
-    28,    29,    30,    31,    32,   114,   115,   116,   117,   118,
-   119,   120,    66,    67,    68,    25,    91,    92,    93,    94,
-    95,    96,    97,    91,    92,    93,    94,    95,    96,    97,
-   128,    39,    40,    45,   133,    50,    51,    52,    53,    54,
-    55,    56,    57,    58,    91,    92,    93,    94,    95,    96,
-    97,    59,    60,    61,    62,   102,   103,   104,   105,   106,
-   107,   108,    34,    64,    65,    69,    70,   121,    71,    72,
-    73,    74,    75,    76,    77,    78,    79,    80,    81,    86,
-    88,   100,   109,   110,   111,    67,   123,    68,   125,   126,
-   129,   130,   131,   124,   136,   137,   112,   134,    87,     0,
-   113,    89,    85,     0,     0,     0,    34,     0,     0,     6,
-    49,     0,     0,     0,     0,     7,     8,   -31,    83,    84
+    33,     2,   123,    43,    82,    22,    20,    44,    90,    66,
+    67,    68,    21,     3,     4,     5,   130,    25,    91,    26,
+    27,    28,    29,    30,    31,    32,   131,   115,   116,   117,
+   118,   119,   120,   121,   -84,   -85,   129,   132,    24,    39,
+    40,    41,   137,    92,    93,    94,    95,    96,    97,    98,
+   140,    92,    93,    94,    95,    96,    97,    98,    50,    51,
+    52,    53,    54,    55,    56,    57,    58,    92,    93,    94,
+    95,    96,    97,    98,    59,    60,    61,    62,   103,   104,
+   105,   106,   107,   108,   109,    45,    34,    64,    65,    69,
+   122,    68,    70,    71,    72,    73,    74,    75,    76,    77,
+    78,    79,    80,    81,    86,    88,   101,   110,   111,   112,
+    67,   124,   127,   128,   133,   134,   135,   138,   125,   142,
+   126,   143,   113,   114,   139,    87,     0,    34,    89,    85,
+     6,     0,     0,     0,    49,     0,     7,     8,   -31,    83,
+    84
 };
 
 static const short yycheck[] = {     1,
-     3,     3,     3,   132,     3,   129,     4,   136,     8,     3,
-   130,     4,    14,    15,    16,     4,   139,    90,    26,    27,
-    28,    29,    30,    31,    32,    37,    38,    39,    40,    41,
-    42,    43,   133,   134,   135,     3,    37,    38,    39,    40,
-    41,    42,    43,    37,    38,    39,    40,    41,    42,    43,
-   123,    12,     4,     3,   127,    17,    18,    19,    20,    21,
-    22,    23,    24,    25,    37,    38,    39,    40,    41,    42,
-    43,    33,    34,    35,    36,    71,    72,    73,    74,    75,
-    76,    77,   129,     4,   140,     8,     8,   129,     8,     8,
-     8,     8,     8,     8,     8,     8,     8,     8,     8,     3,
-     3,     3,     3,     3,     3,   134,    11,   135,   129,     3,
-     3,     3,   130,    11,     0,     0,    80,   130,    66,    -1,
-    80,    67,    65,    -1,    -1,    -1,   129,    -1,    -1,   131,
-    38,    -1,    -1,    -1,    -1,   137,   138,   139,   137,   138
+     3,     3,    90,   133,     3,   140,   130,   137,     3,   134,
+   135,   136,     8,    15,    16,    17,     3,     3,    13,    27,
+    28,    29,    30,    31,    32,    33,    13,    38,    39,    40,
+    41,    42,    43,    44,     4,     4,   124,   125,     4,    12,
+     4,   131,   130,    38,    39,    40,    41,    42,    43,    44,
+   138,    38,    39,    40,    41,    42,    43,    44,    18,    19,
+    20,    21,    22,    23,    24,    25,    26,    38,    39,    40,
+    41,    42,    43,    44,    34,    35,    36,    37,    71,    72,
+    73,    74,    75,    76,    77,     3,   130,     4,   141,     8,
+   130,   136,     8,     8,     8,     8,     8,     8,     8,     8,
+     8,     8,     8,     8,     3,     3,     3,     3,     3,     3,
+   135,     3,   130,     3,     3,     3,   131,     3,    11,     0,
+    11,     0,    80,    80,   134,    66,    -1,   130,    67,    65,
+   132,    -1,    -1,    -1,    38,    -1,   138,   139,   140,   138,
+   139
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
-/* This file comes from bison-1.27.  */
+/* This file comes from bison-1.28.  */
 
 /* Skeleton output parser for bison,
    Copyright (C) 1984, 1989, 1990 Free Software Foundation, Inc.
@@ -732,7 +697,7 @@ __yy_memcpy (char *to, char *from, unsigned int count)
 #endif
 #endif
 
-#line 216 "/usr/lib/bison.simple"
+#line 217 "/usr/lib/bison.simple"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -1061,7 +1026,7 @@ yyreduce:
   switch (yyn) {
 
 case 9:
-#line 168 "icalyacc.y"
+#line 190 "icalyacc.y"
 { 
                   icalparser_yy_value = 0;
 		  icalparser_clear_flex_input();
@@ -1069,15 +1034,15 @@ case 9:
                   ;
     break;}
 case 11:
-#line 178 "icalyacc.y"
+#line 200 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_boolean(1); ;
     break;}
 case 12:
-#line 180 "icalyacc.y"
+#line 202 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_boolean(0); ;
     break;}
 case 13:
-#line 183 "icalyacc.y"
+#line 205 "icalyacc.y"
 {
 	    struct icaltimetype stm;
 
@@ -1093,23 +1058,23 @@ case 13:
 	;
     break;}
 case 14:
-#line 198 "icalyacc.y"
+#line 220 "icalyacc.y"
 {utc = 0;;
     break;}
 case 15:
-#line 199 "icalyacc.y"
+#line 221 "icalyacc.y"
 {utc = 1;;
     break;}
 case 16:
-#line 203 "icalyacc.y"
+#line 225 "icalyacc.y"
 {utc_b = 0;;
     break;}
 case 17:
-#line 204 "icalyacc.y"
+#line 226 "icalyacc.y"
 {utc_b = 1;;
     break;}
 case 18:
-#line 208 "icalyacc.y"
+#line 230 "icalyacc.y"
 {
 	    struct  icaltimetype stm;
 	    stm = fill_datetime(yyvsp[-3].v_string, yyvsp[-1].v_string);
@@ -1121,100 +1086,103 @@ case 18:
 	;
     break;}
 case 21:
-#line 226 "icalyacc.y"
+#line 248 "icalyacc.y"
 {
 	    duration.weeks = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 22:
-#line 231 "icalyacc.y"
+#line 253 "icalyacc.y"
 {
 	;
     break;}
 case 23:
-#line 234 "icalyacc.y"
+#line 256 "icalyacc.y"
 {
 	;
     break;}
 case 24:
-#line 237 "icalyacc.y"
+#line 259 "icalyacc.y"
 {
 	;
     break;}
 case 25:
-#line 241 "icalyacc.y"
+#line 263 "icalyacc.y"
 {
 	    duration.hours = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 26:
-#line 245 "icalyacc.y"
+#line 267 "icalyacc.y"
 {
 	    duration.hours = atoi(yyvsp[-2].v_string);
 	;
     break;}
 case 27:
-#line 250 "icalyacc.y"
+#line 272 "icalyacc.y"
 {
 	    duration.minutes = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 28:
-#line 254 "icalyacc.y"
+#line 276 "icalyacc.y"
 {
 	    duration.minutes = atoi(yyvsp[-2].v_string);
 	;
     break;}
 case 29:
-#line 259 "icalyacc.y"
+#line 281 "icalyacc.y"
 {
 	    duration.seconds = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 30:
-#line 264 "icalyacc.y"
+#line 286 "icalyacc.y"
 {
 	    duration.days = atoi(yyvsp[-1].v_string);
 	;
     break;}
 case 31:
-#line 269 "icalyacc.y"
+#line 291 "icalyacc.y"
 {
+	    duration.is_neg = 0;
 	;
     break;}
 case 32:
-#line 272 "icalyacc.y"
+#line 295 "icalyacc.y"
 {
+	    duration.is_neg = 0;
 	;
     break;}
 case 33:
-#line 275 "icalyacc.y"
-{
+#line 299 "icalyacc.y"
+{ 
+	    duration.is_neg = 1;
 	;
     break;}
 case 34:
-#line 279 "icalyacc.y"
+#line 304 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 35:
-#line 284 "icalyacc.y"
+#line 309 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 36:
-#line 289 "icalyacc.y"
+#line 314 "icalyacc.y"
 { 
 	    icalparser_yy_value = icalvalue_new_duration(duration); 
 	    memset(&duration,0, sizeof(duration));
 	;
     break;}
 case 37:
-#line 298 "icalyacc.y"
+#line 323 "icalyacc.y"
 {
             struct icalperiodtype p;
         
@@ -1237,7 +1205,7 @@ case 37:
 	;
     break;}
 case 38:
-#line 319 "icalyacc.y"
+#line 344 "icalyacc.y"
 {
             struct icalperiodtype p;
 	    
@@ -1266,201 +1234,206 @@ case 38:
 	;
     break;}
 case 39:
-#line 351 "icalyacc.y"
+#line 376 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_SECONDLY_RECURRENCE;;
     break;}
 case 40:
-#line 352 "icalyacc.y"
+#line 377 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_MINUTELY_RECURRENCE;;
     break;}
 case 41:
-#line 353 "icalyacc.y"
+#line 378 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_HOURLY_RECURRENCE;;
     break;}
 case 42:
-#line 354 "icalyacc.y"
+#line 379 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_DAILY_RECURRENCE;;
     break;}
 case 43:
-#line 355 "icalyacc.y"
+#line 380 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_WEEKLY_RECURRENCE;;
     break;}
 case 44:
-#line 356 "icalyacc.y"
+#line 381 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_MONTHLY_RECURRENCE;;
     break;}
 case 45:
-#line 357 "icalyacc.y"
+#line 382 "icalyacc.y"
 {clear_recur();recur.freq = ICAL_YEARLY_RECURRENCE;;
     break;}
 case 46:
-#line 362 "icalyacc.y"
-{ skiplist[skippos]=ICAL_SUNDAY_WEEKDAY+8*dow_pos; 
-	     if( skippos<8) skippos++;;
+#line 387 "icalyacc.y"
+{ skiplist[skippos]=ICAL_SUNDAY_WEEKDAY; ;
     break;}
 case 47:
-#line 364 "icalyacc.y"
-{ skiplist[skippos]=ICAL_MONDAY_WEEKDAY+8*dow_pos;
-               if( skippos<8) skippos++;;
+#line 388 "icalyacc.y"
+{ skiplist[skippos]=ICAL_MONDAY_WEEKDAY; ;
     break;}
 case 48:
-#line 366 "icalyacc.y"
-{ skiplist[skippos]=ICAL_TUESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;;
+#line 389 "icalyacc.y"
+{ skiplist[skippos]=ICAL_TUESDAY_WEEKDAY; ;
     break;}
 case 49:
-#line 368 "icalyacc.y"
-{ skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;;
+#line 390 "icalyacc.y"
+{ skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY; ;
     break;}
 case 50:
-#line 370 "icalyacc.y"
-{ skiplist[skippos]=ICAL_THURSDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;;
+#line 391 "icalyacc.y"
+{ skiplist[skippos]=ICAL_THURSDAY_WEEKDAY; ;
     break;}
 case 51:
-#line 372 "icalyacc.y"
-{ skiplist[skippos]=ICAL_FRIDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;;
+#line 392 "icalyacc.y"
+{ skiplist[skippos]=ICAL_FRIDAY_WEEKDAY; ;
     break;}
 case 52:
-#line 374 "icalyacc.y"
-{ skiplist[skippos]=ICAL_SATURDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;;
+#line 393 "icalyacc.y"
+{ skiplist[skippos]=ICAL_SATURDAY_WEEKDAY; ;
     break;}
 case 53:
-#line 380 "icalyacc.y"
-{dow_pos = 0;
+#line 399 "icalyacc.y"
+{if( skippos<8) skippos++;;
     break;}
 case 54:
-#line 381 "icalyacc.y"
-{ dow_pos = atoi(yyvsp[-1].v_string);
+#line 400 "icalyacc.y"
+{ dow_pos = atoi(yyvsp[-1].v_string);  
+	           skiplist[skippos] += 8*dow_pos; if( skippos<8) skippos++; ;
     break;}
 case 55:
-#line 382 "icalyacc.y"
-{dow_pos = 0;
+#line 402 "icalyacc.y"
+{ dow_pos = atoi(yyvsp[-1].v_string);  
+	           skiplist[skippos] -= 8*dow_pos; if( skippos<8) skippos++; ;
     break;}
 case 56:
-#line 383 "icalyacc.y"
-{ dow_pos = atoi(yyvsp[-1].v_string);
+#line 404 "icalyacc.y"
+{if( skippos<8) skippos++;;
     break;}
 case 57:
-#line 387 "icalyacc.y"
-{ skiplist[skippos] = atoi(yyvsp[0].v_string); skippos++;;
+#line 405 "icalyacc.y"
+{ dow_pos = atoi(yyvsp[-1].v_string); 
+	           skiplist[skippos] += 8*dow_pos;if( skippos<8) skippos++;;
     break;}
 case 58:
-#line 388 "icalyacc.y"
-{ skiplist[skippos] = atoi(yyvsp[0].v_string); if (skippos<367) skippos++;;
+#line 407 "icalyacc.y"
+{ dow_pos = atoi(yyvsp[-1].v_string); 
+	           skiplist[skippos] -= 8*dow_pos;if( skippos<8) skippos++;;
     break;}
 case 59:
-#line 392 "icalyacc.y"
-{recur.interval = atoi(yyvsp[0].v_string);;
+#line 412 "icalyacc.y"
+{ skiplist[skippos] = atoi(yyvsp[0].v_string); skippos++;;
     break;}
 case 60:
-#line 393 "icalyacc.y"
-{recur.week_start = ICAL_SUNDAY_WEEKDAY;;
+#line 413 "icalyacc.y"
+{ skiplist[skippos] = atoi(yyvsp[0].v_string); if (skippos<367) skippos++;;
     break;}
 case 61:
-#line 394 "icalyacc.y"
-{recur.week_start = ICAL_MONDAY_WEEKDAY;;
+#line 417 "icalyacc.y"
+{recur.interval = atoi(yyvsp[0].v_string);;
     break;}
 case 62:
-#line 395 "icalyacc.y"
-{recur.week_start = ICAL_TUESDAY_WEEKDAY;;
+#line 418 "icalyacc.y"
+{recur.week_start = ICAL_SUNDAY_WEEKDAY;;
     break;}
 case 63:
-#line 396 "icalyacc.y"
-{recur.week_start = ICAL_WEDNESDAY_WEEKDAY;;
+#line 419 "icalyacc.y"
+{recur.week_start = ICAL_MONDAY_WEEKDAY;;
     break;}
 case 64:
-#line 397 "icalyacc.y"
-{recur.week_start = ICAL_THURSDAY_WEEKDAY;;
+#line 420 "icalyacc.y"
+{recur.week_start = ICAL_TUESDAY_WEEKDAY;;
     break;}
 case 65:
-#line 398 "icalyacc.y"
-{recur.week_start = ICAL_FRIDAY_WEEKDAY;;
+#line 421 "icalyacc.y"
+{recur.week_start = ICAL_WEDNESDAY_WEEKDAY;;
     break;}
 case 66:
-#line 399 "icalyacc.y"
-{recur.week_start = ICAL_SATURDAY_WEEKDAY;;
+#line 422 "icalyacc.y"
+{recur.week_start = ICAL_THURSDAY_WEEKDAY;;
     break;}
 case 67:
-#line 400 "icalyacc.y"
-{copy_list(recur.by_second,60);;
+#line 423 "icalyacc.y"
+{recur.week_start = ICAL_FRIDAY_WEEKDAY;;
     break;}
 case 68:
-#line 401 "icalyacc.y"
-{copy_list(recur.by_minute,60);;
+#line 424 "icalyacc.y"
+{recur.week_start = ICAL_SATURDAY_WEEKDAY;;
     break;}
 case 69:
-#line 402 "icalyacc.y"
-{copy_list(recur.by_hour,24);;
+#line 425 "icalyacc.y"
+{copy_list(recur.by_second,60);;
     break;}
 case 70:
-#line 403 "icalyacc.y"
-{copy_list(recur.by_day,7);;
+#line 426 "icalyacc.y"
+{copy_list(recur.by_minute,60);;
     break;}
 case 71:
-#line 404 "icalyacc.y"
-{copy_list(recur.by_month,12);;
+#line 427 "icalyacc.y"
+{copy_list(recur.by_hour,24);;
     break;}
 case 72:
-#line 405 "icalyacc.y"
-{copy_list(recur.by_month_day,31);;
+#line 428 "icalyacc.y"
+{copy_list(recur.by_day,7);;
     break;}
 case 73:
-#line 406 "icalyacc.y"
-{copy_list(recur.by_year_day,366);;
+#line 429 "icalyacc.y"
+{copy_list(recur.by_month,12);;
     break;}
 case 74:
-#line 407 "icalyacc.y"
-{copy_list(recur.by_week_no,53);;
+#line 430 "icalyacc.y"
+{copy_list(recur.by_month_day,31);;
     break;}
 case 75:
-#line 408 "icalyacc.y"
-{copy_list(recur.by_set_pos,366);;
+#line 431 "icalyacc.y"
+{copy_list(recur.by_year_day,366);;
     break;}
 case 76:
-#line 410 "icalyacc.y"
+#line 432 "icalyacc.y"
+{copy_list(recur.by_week_no,53);;
+    break;}
+case 77:
+#line 433 "icalyacc.y"
+{copy_list(recur.by_set_pos,366);;
+    break;}
+case 78:
+#line 435 "icalyacc.y"
 { recur.until = icalvalue_get_datetime(icalparser_yy_value);
 	   icalvalue_free(icalparser_yy_value); icalparser_yy_value=0;;
     break;}
-case 77:
-#line 413 "icalyacc.y"
+case 79:
+#line 438 "icalyacc.y"
 { recur.until = icalvalue_get_date(icalparser_yy_value);
 	   icalvalue_free(icalparser_yy_value); icalparser_yy_value=0;;
     break;}
-case 78:
-#line 416 "icalyacc.y"
+case 80:
+#line 441 "icalyacc.y"
 { recur.count = atoi(yyvsp[0].v_string); ;
     break;}
-case 81:
-#line 425 "icalyacc.y"
+case 83:
+#line 450 "icalyacc.y"
 { icalparser_yy_value = icalvalue_new_recur(recur); ;
     break;}
-case 82:
-#line 431 "icalyacc.y"
+case 84:
+#line 456 "icalyacc.y"
 { utcsign = 1; ;
     break;}
-case 83:
-#line 432 "icalyacc.y"
+case 85:
+#line 457 "icalyacc.y"
 { utcsign = -1; ;
     break;}
-case 84:
-#line 436 "icalyacc.y"
+case 86:
+#line 461 "icalyacc.y"
 {
 	    icalparser_yy_value = icalvalue_new_utcoffset( utcsign * (yyvsp[-1].v_int*3600) + (yyvsp[0].v_int*60) );
   	;
     break;}
-case 85:
-#line 441 "icalyacc.y"
+case 87:
+#line 466 "icalyacc.y"
 {
 	    icalparser_yy_value = icalvalue_new_utcoffset(utcsign * (yyvsp[-2].v_int*3600) + (yyvsp[-1].v_int*60) +(yyvsp[0].v_int));
   	;
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
-#line 542 "/usr/lib/bison.simple"
+#line 543 "/usr/lib/bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -1680,7 +1653,7 @@ yyerrhandle:
     }
   return 1;
 }
-#line 447 "icalyacc.y"
+#line 472 "icalyacc.y"
 
 
 
@@ -1719,7 +1692,7 @@ struct icaltimetype fill_datetime(char* datestr, char* timestr)
 
 }
 
-void yyerror(char* s)
+void ical_yyerror(char* s)
 {
     /*fprintf(stderr,"Parse error \'%s\'\n", s);*/
 }

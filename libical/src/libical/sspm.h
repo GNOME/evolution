@@ -37,6 +37,7 @@
 #define SSPM_H
 
 enum sspm_major_type {
+    SSPM_NO_MAJOR_TYPE,
     SSPM_TEXT_MAJOR_TYPE,
     SSPM_IMAGE_MAJOR_TYPE,
     SSPM_AUDIO_MAJOR_TYPE,
@@ -44,11 +45,11 @@ enum sspm_major_type {
     SSPM_APPLICATION_MAJOR_TYPE,
     SSPM_MULTIPART_MAJOR_TYPE,
     SSPM_MESSAGE_MAJOR_TYPE,
-    SSPM_UNKNOWN_MAJOR_TYPE,
-    SSPM_NO_MAJOR_TYPE
+    SSPM_UNKNOWN_MAJOR_TYPE
 };
 
 enum sspm_minor_type {
+    SSPM_NO_MINOR_TYPE,
     SSPM_ANY_MINOR_TYPE,
     SSPM_PLAIN_MINOR_TYPE,
     SSPM_RFC822_MINOR_TYPE,
@@ -58,8 +59,7 @@ enum sspm_minor_type {
     SSPM_RELATED_MINOR_TYPE,
     SSPM_ALTERNATIVE_MINOR_TYPE,
     SSPM_PARALLEL_MINOR_TYPE,
-    SSPM_UNKNOWN_MINOR_TYPE,
-    SSPM_NO_MINOR_TYPE
+    SSPM_UNKNOWN_MINOR_TYPE
 };
 
 enum sspm_encoding {
@@ -89,6 +89,7 @@ struct sspm_header
 	enum sspm_major_type major;
 	enum sspm_minor_type minor;
 	char *minor_text;
+	char ** content_type_params;
 	char* charset;
 	enum sspm_encoding encoding;
 	char* filename;
@@ -100,6 +101,7 @@ struct sspm_header
 struct sspm_part {
 	struct sspm_header header;
 	int level;
+	size_t data_size;
 	void *data;
 };
 
@@ -115,7 +117,7 @@ struct sspm_action_map {
 
 char* sspm_major_type_string(enum sspm_major_type type);
 char* sspm_minor_type_string(enum sspm_major_type type);
-
+char* sspm_encoding_string(enum sspm_encoding type);
 
 int sspm_parse_mime(struct sspm_part *parts, 
 		    size_t max_parts,
@@ -127,12 +129,15 @@ int sspm_parse_mime(struct sspm_part *parts,
 
 void sspm_free_parts(struct sspm_part *parts, size_t max_parts);
 
-unsigned char *decode_quoted_printable(unsigned char *dest, 
-				       unsigned char *src,
+char *decode_quoted_printable(char *dest, 
+				       char *src,
 				       size_t *size);
-unsigned char *decode_base64(unsigned char *dest, 
-				       unsigned char *src,
-				       size_t *size);
+char *decode_base64(char *dest, 
+			     char *src,
+			     size_t *size);
 
 
-#endif SSPM_H
+int sspm_write_mime(struct sspm_part *parts,size_t num_parts,
+		    char **output_string, char* header);
+
+#endif /*SSPM_H*/

@@ -30,9 +30,13 @@
 
 #include "icalenums.h"
 
+#include <stdio.h> /* For fprintf */
+#include <stdio.h> /* For stderr */
+#include <assert.h>
+
 struct icalproperty_kind_map {
 	icalproperty_kind kind;
-	char *name;
+	const char *name;
 };
 
 static struct icalproperty_kind_map property_map[] = 
@@ -108,7 +112,7 @@ static struct icalproperty_kind_map property_map[] =
 };
 
 
-char* icalenum_property_kind_to_string(icalproperty_kind kind)
+const char* icalenum_property_kind_to_string(icalproperty_kind kind)
 {
     int i;
 
@@ -180,7 +184,7 @@ static struct icalparameter_kind_map parameter_map[] =
     { ICAL_NO_PARAMETER, ""}
 };
 
-char* icalenum_parameter_kind_to_string(icalparameter_kind kind)
+const char* icalenum_parameter_kind_to_string(icalparameter_kind kind)
 {
     int i;
 
@@ -233,6 +237,7 @@ static struct icalvalue_kind_map value_map[] =
     { ICAL_URI_VALUE, "URI"},
     { ICAL_UTCOFFSET_VALUE, "UTC-OFFSET"},
     { ICAL_METHOD_VALUE, "METHOD"}, /* Not an RFC2445 type */
+    { ICAL_STATUS_VALUE, "STATUS"}, /* Not an RFC2445 type */
     { ICAL_GEO_VALUE, "FLOAT"}, /* Not an RFC2445 type */
     { ICAL_ATTACH_VALUE, "XATTACH"}, /* Not an RFC2445 type */
     { ICAL_DATETIMEDATE_VALUE, "XDATETIMEDATE"}, /* Not an RFC2445 type */
@@ -241,7 +246,7 @@ static struct icalvalue_kind_map value_map[] =
     { ICAL_NO_VALUE, ""},
 };
 
-char* icalenum_value_kind_to_string(icalvalue_kind kind)
+const char* icalenum_value_kind_to_string(icalvalue_kind kind)
 {
     int i;
 
@@ -257,7 +262,9 @@ char* icalenum_value_kind_to_string(icalvalue_kind kind)
 
 icalvalue_kind icalenum_value_kind_by_prop(icalproperty_kind kind)
 {
-
+    fprintf(stderr,"icalenum_value_kind_by_prop is not implemented\n");
+    assert(0) ;
+    kind = ICAL_NO_VALUE;
     return ICAL_NO_VALUE;
 }
 
@@ -298,7 +305,7 @@ static struct icalcomponent_kind_map component_map[] =
     { ICAL_NO_COMPONENT, "" },
 };
 
-char* icalenum_component_kind_to_string(icalcomponent_kind kind)
+const char* icalenum_component_kind_to_string(icalcomponent_kind kind)
 {
     int i;
 
@@ -348,7 +355,7 @@ static struct icalproperty_kind_value_map propval_map[] =
     { ICAL_PERCENTCOMPLETE_PROPERTY, ICAL_INTEGER_VALUE }, 
     { ICAL_PRIORITY_PROPERTY, ICAL_INTEGER_VALUE }, 
     { ICAL_RESOURCES_PROPERTY, ICAL_TEXT_VALUE }, 
-    { ICAL_STATUS_PROPERTY, ICAL_TEXT_VALUE }, 
+    { ICAL_STATUS_PROPERTY, ICAL_STATUS_VALUE }, 
     { ICAL_SUMMARY_PROPERTY, ICAL_TEXT_VALUE }, 
     { ICAL_COMPLETED_PROPERTY, ICAL_DATETIME_VALUE }, 
     { ICAL_FREEBUSY_PROPERTY, ICAL_PERIOD_VALUE }, 
@@ -417,65 +424,13 @@ icalvalue_kind icalenum_property_kind_to_value_kind(icalproperty_kind kind)
     return ICAL_NO_VALUE;
 }
 
-struct {icalrecurrencetype_weekday wd; char * str; } 
-wd_map[] = {
-    {ICAL_SUNDAY_WEEKDAY,"SU"},
-    {ICAL_MONDAY_WEEKDAY,"MO"},
-    {ICAL_TUESDAY_WEEKDAY,"TU"},
-    {ICAL_WEDNESDAY_WEEKDAY,"WE"},
-    {ICAL_THURSDAY_WEEKDAY,"TH"},
-    {ICAL_FRIDAY_WEEKDAY,"FR"},
-    {ICAL_SATURDAY_WEEKDAY,"SA"},
-    {ICAL_NO_WEEKDAY,0}
-};
-
-char* icalenum_weekday_to_string(icalrecurrencetype_weekday kind)
-{
-    int i;
-
-    for (i=0; wd_map[i].wd  != ICAL_NO_WEEKDAY; i++) {
-	if ( wd_map[i].wd ==  kind) {
-	    return wd_map[i].str;
-	}
-    }
-
-    return 0;
-}
-
 
 struct {
-	icalrecurrencetype_frequency kind;
-	char* str;
-} freq_map[] = {
-    {ICAL_SECONDLY_RECURRENCE,"SECONDLY"},
-    {ICAL_MINUTELY_RECURRENCE,"MINUTELY"},
-    {ICAL_HOURLY_RECURRENCE,"HOURLY"},
-    {ICAL_DAILY_RECURRENCE,"DAILY"},
-    {ICAL_WEEKLY_RECURRENCE,"WEEKLY"},
-    {ICAL_MONTHLY_RECURRENCE,"MONTHLY"},
-    {ICAL_YEARLY_RECURRENCE,"YEARLY"},
-    {ICAL_NO_RECURRENCE,0}
-};
-
-char* icalenum_recurrence_to_string(icalrecurrencetype_frequency kind)
-{
-    int i;
-
-    for (i=0; freq_map[i].kind != ICAL_NO_RECURRENCE ; i++) {
-	if ( freq_map[i].kind == kind ) {
-	    return freq_map[i].str;
-	}
-    }
-    return 0;
-}
-
-
-struct {
-	icalrecurrencetype_frequency kind;
+	 enum icalrequeststatus kind;
 	int major;
 	int minor;
-	char* str;
-} status_map[] = {
+	const char* str;
+} request_status_map[] = {
     {ICAL_2_0_SUCCESS_STATUS, 2,0,"Success."},
     {ICAL_2_1_FALLBACK_STATUS, 2,1,"Success but fallback taken  on one or more property  values."},
     {ICAL_2_2_IGPROP_STATUS, 2,2,"Success, invalid property ignored."},
@@ -512,14 +467,14 @@ struct {
 };
 
 
-char* icalenum_reqstat_desc(icalrequeststatus stat)
+const char* icalenum_reqstat_desc(icalrequeststatus stat)
 {
 
     int i;
 
-    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
-	if ( status_map[i].kind ==  stat) {
-	    return status_map[i].str;
+    for (i=0; request_status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( request_status_map[i].kind ==  stat) {
+	    return request_status_map[i].str;
 	}
     }
 
@@ -531,9 +486,9 @@ short icalenum_reqstat_major(icalrequeststatus stat)
 {
     int i;
 
-    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
-	if ( status_map[i].kind ==  stat) {
-	    return status_map[i].major;
+    for (i=0; request_status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( request_status_map[i].kind ==  stat) {
+	    return request_status_map[i].major;
 	}
     }
     return -1;
@@ -543,9 +498,9 @@ short icalenum_reqstat_minor(icalrequeststatus stat)
 {
     int i;
 
-    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
-	if ( status_map[i].kind ==  stat) {
-	    return status_map[i].minor;
+    for (i=0; request_status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( request_status_map[i].kind ==  stat) {
+	    return request_status_map[i].minor;
 	}
     }
     return -1;
@@ -556,9 +511,9 @@ icalrequeststatus icalenum_num_to_reqstat(short major, short minor)
 {
     int i;
 
-    for (i=0; status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
-	if ( status_map[i].major ==  major && status_map[i].minor ==  minor) {
-	    return status_map[i].kind;
+    for (i=0; request_status_map[i].kind  != ICAL_UNKNOWN_STATUS; i++) {
+	if ( request_status_map[i].major ==  major && request_status_map[i].minor ==  minor) {
+	    return request_status_map[i].kind;
 	}
     }
     return 0;
@@ -566,7 +521,7 @@ icalrequeststatus icalenum_num_to_reqstat(short major, short minor)
 
 
 
-struct {icalproperty_method method; char* str;} method_map[] = {
+struct {icalproperty_method method; const char* str;} method_map[] = {
     {ICAL_METHOD_PUBLISH,"PUBLISH"},
     {ICAL_METHOD_REQUEST,"REQUEST"},
     {ICAL_METHOD_REPLY,"REPLY"},
@@ -587,7 +542,7 @@ struct {icalproperty_method method; char* str;} method_map[] = {
 };
 
 
-char* icalenum_method_to_string(icalproperty_method method)
+const char* icalenum_method_to_string(icalproperty_method method)
 {
     int i;
 
@@ -600,7 +555,7 @@ char* icalenum_method_to_string(icalproperty_method method)
     return method_map[i].str; /* should be ICAL_METHOD_NONE */
 }
 
-icalproperty_method icalenum_string_to_method(char* str)
+icalproperty_method icalenum_string_to_method(const char* str)
 {
     int i;
 
@@ -616,4 +571,47 @@ icalproperty_method icalenum_string_to_method(char* str)
     }
 
     return ICAL_METHOD_NONE;
+}
+
+
+struct {icalproperty_status status; const char* str;} status_map[] = {
+    {ICAL_STATUS_TENTATIVE,"TENTATIVE"},
+    {ICAL_STATUS_CONFIRMED,"CONFIRMED"},
+    {ICAL_STATUS_NEEDSACTION,"NEEDS-ACTION"},
+    {ICAL_STATUS_COMPLETED,"COMPLETED"},
+    {ICAL_STATUS_INPROCESS,"IN-PROCESS"},
+    {ICAL_STATUS_DRAFT,"DRAFT"},
+    {ICAL_STATUS_FINAL,"FINAL"},
+    {ICAL_STATUS_NONE,"NONE"}
+};
+
+const char* icalenum_status_to_string(icalproperty_status status)
+{
+    int i;
+
+    for (i=0; status_map[i].status  != ICAL_STATUS_NONE; i++) {
+	if ( status_map[i].status ==  status) {
+	    return status_map[i].str;
+	}
+    }
+
+    return status_map[i].str; /* should be ICAL_STATUS_NONE */
+}
+
+icalproperty_status icalenum_string_to_status(const char* str)
+{
+    int i;
+
+    while(*str == ' '){
+	str++;
+    }
+
+
+    for (i=0; status_map[i].status  != ICAL_STATUS_NONE; i++) {
+	if ( strcmp(status_map[i].str, str) == 0) {
+	    return status_map[i].status;
+	}
+    }
+
+    return ICAL_STATUS_NONE;
 }

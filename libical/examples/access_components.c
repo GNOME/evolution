@@ -9,6 +9,8 @@
 #include <time.h> /* for time() */
 #include "icalmemory.h"
 
+void do_something(icalcomponent *c);
+
 /* Creating iCal Components 
 
    There are two ways to create new component in libical. You can
@@ -59,14 +61,9 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	calendar,
-	icalproperty_new_version(strdup("2.0"))
+	icalproperty_new_version("2.0")
 	);
 
-    /* Note the use of strdup() in the previous and next call. All
-       properties constructors for properties with value types of
-       TEXT will take control of the string you pass into them. Since
-       the string '2.0' is a static string, we need to duplicate it in
-       new memory before giving it to the property */
     
     /* Here is the short version of the memory rules: 
 
@@ -88,7 +85,7 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	calendar,
-	icalproperty_new_prodid(strdup("-//RDU Software//NONSGML HandCal//EN"))
+	icalproperty_new_prodid("-//RDU Software//NONSGML HandCal//EN")
 	);
     
     /* Add an event */
@@ -105,11 +102,11 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_uid(strdup("guid-1.host1.com"))
+	icalproperty_new_uid("guid-1.host1.com")
 	);
 
     /* add a property that has parameters */
-    property = icalproperty_new_organizer(strdup("mailto:mrbig@host.com"));
+    property = icalproperty_new_organizer("mailto:mrbig@host.com");
     
     icalproperty_add_parameter(
 	property,
@@ -123,7 +120,7 @@ icalcomponent* create_new_component()
        operation is the same as adding a property to a component */
 
     /* add another property that has parameters */
-    property = icalproperty_new_attendee(strdup("mailto:employee-A@host.com"));
+    property = icalproperty_new_attendee("mailto:employee-A@host.com");
     
     icalproperty_add_parameter(
 	property,
@@ -147,17 +144,17 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_description(strdup("Project XYZ Review Meeting"))
+	icalproperty_new_description("Project XYZ Review Meeting")
 	);
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_categories(strdup("MEETING"))
+	icalproperty_new_categories("MEETING")
 	);
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_class(strdup("PUBLIC"))
+	icalproperty_new_class("PUBLIC")
 	);
     
     icalcomponent_add_property(
@@ -167,14 +164,14 @@ icalcomponent* create_new_component()
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_summary(strdup("XYZ Project Review"))
+	icalproperty_new_summary("XYZ Project Review")
 	);
 
     property = icalproperty_new_dtstart(atime);
     
     icalproperty_add_parameter(
 	property,
-	icalparameter_new_tzid(strdup("US-Eastern"))
+	icalparameter_new_tzid("US-Eastern")
 	);
 
     icalcomponent_add_property(event,property);
@@ -184,14 +181,14 @@ icalcomponent* create_new_component()
     
     icalproperty_add_parameter(
 	property,
-	icalparameter_new_tzid(strdup("US-Eastern"))
+	icalparameter_new_tzid("US-Eastern")
 	);
 
     icalcomponent_add_property(event,property);
 
     icalcomponent_add_property(
 	event,
-	icalproperty_new_location(strdup("1CP Conference Room 4350"))
+	icalproperty_new_location("1CP Conference Room 4350")
 	);
 
     icalcomponent_add_component(calendar,event);
@@ -224,44 +221,41 @@ icalcomponent* create_new_component_with_va_args()
     calendar = 
 	icalcomponent_vanew(
 	    ICAL_VCALENDAR_COMPONENT,
-	    icalproperty_new_version(strdup("2.0")),
-	    icalproperty_new_prodid(strdup("-//RDU Software//NONSGML HandCal//EN")),
+	    icalproperty_new_version("2.0"),
+	    icalproperty_new_prodid("-//RDU Software//NONSGML HandCal//EN"),
 	    icalcomponent_vanew(
 		ICAL_VEVENT_COMPONENT,
 		icalproperty_new_dtstamp(atime),
-		icalproperty_new_uid(strdup("guid-1.host1.com")),
+		icalproperty_new_uid("guid-1.host1.com"),
 		icalproperty_vanew_organizer(
-		    strdup("mailto:mrbig@host.com"),
+		    "mailto:mrbig@host.com",
 		    icalparameter_new_role(ICAL_ROLE_CHAIR),
 		    0
 		    ),
 		icalproperty_vanew_attendee(
-		    strdup("mailto:employee-A@host.com"),
+		    "mailto:employee-A@host.com",
 		    icalparameter_new_role(ICAL_ROLE_REQPARTICIPANT),
 		    icalparameter_new_rsvp(1),
 		    icalparameter_new_cutype(ICAL_CUTYPE_GROUP),
 		    0
 		    ),
-		icalproperty_new_description(strdup("Project XYZ Review Meeting")),
+		icalproperty_new_description("Project XYZ Review Meeting"),
 
-		/* Again, note the use of strdup to give libical
-                   ownership of a static string. */
-
-		icalproperty_new_categories(strdup("MEETING")),
-		icalproperty_new_class(strdup("PUBLIC")),
+		icalproperty_new_categories("MEETING"),
+		icalproperty_new_class("PUBLIC"),
 		icalproperty_new_created(atime),
-		icalproperty_new_summary(strdup("XYZ Project Review")),
+		icalproperty_new_summary("XYZ Project Review"),
 		icalproperty_vanew_dtstart(
 		    atime,
-		    icalparameter_new_tzid(strdup("US-Eastern")),
+		    icalparameter_new_tzid("US-Eastern"),
 		    0
 		    ),
 		icalproperty_vanew_dtend(
 		    atime,
-		    icalparameter_new_tzid(strdup("US-Eastern")),
+		    icalparameter_new_tzid("US-Eastern"),
 		    0
 		    ),
-		icalproperty_new_location(strdup("1CP Conference Room 4350")),
+		icalproperty_new_location("1CP Conference Room 4350"),
 		0
 		),
 	    0

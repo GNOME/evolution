@@ -33,7 +33,11 @@
 /* This definition is in its own file so it can be kept out of the
    main header file, but used by "friend classes" like icaldirset*/
 
+#define ICALFILESET_ID "fset"
+
 struct icalfileset_impl {
+
+	char id[5]; /*fset*/
 	char *path;
 	icalcomponent* cluster;
 	int changed;

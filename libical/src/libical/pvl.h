@@ -39,7 +39,7 @@ extern int  pvl_list_count;
 
 /* Create new lists or elements */
 pvl_elem pvl_new_element(void* d, pvl_elem next,pvl_elem prior);
-pvl_list pvl_newlist();
+pvl_list pvl_newlist(void);
 void pvl_free(pvl_list);
 
 /* Add, remove, or get the head of the list */

@@ -1,3 +1,59 @@
+Version 0.21, 20 Nov 00 ( cvs tag libical-0-21)
+----------------------------------------------
+
+        * icalmessage.c Many routines to create new ical messages. 
+
+	* icalspanlist.c Code to generate a list of the busy time f the
+ 	VEVENTS in a set. Also includes routiens to generate free and busy
+ 	lists from the spanlist, and to find the next free time after a
+ 	given time.
+
+	* icalvalue.c The STATUS property now has its own value type,
+ 	STATUS, which holds the enumeration icalproperty_status.
+
+	* icalrestriction.c Added more restrictions. Now handles mutual
+ 	and exclusive consitions, and checks for the reight values in
+ 	STATUS properties
+	
+	* icaltypes.c Added routine to create durationtype from string:
+ 	icaldurationtype_from_string
+
+
+	* icalcomponet.c Add sever get/set convienience routines to access
+ 	and manipulate common component propoerties from the component
+ 	interface. This eliminates the need to create a lot of temporary
+ 	variables if you just want to change the start time of and event.
+
+
+	* icalcomponent.c Added new routines to icalcomponent:
+	_get_span -- returns the start and end times of the event in UTC
+	_get_first_real_component -- return ref to VTODO, VEVENT or VJOURNAL
+
+	* icalspanlist.c Added new class, icalspanlist, that generates a
+ 	list of alternating busy and free times from an icalset. The class
+ 	includes routines to gnerate rfc2445 busy and free lists, and to
+ 	get the next avaliable busy or free time after a given time.
+
+
+Version 0.20D 3 Nov 00
+-----------------------
+
+Many miscelaneous tweaks to the build system
+
+More work to icalclassify.
+
+Aded routines to icaltime.c to convert to and from specific timezones
+in Olsen format ("America/Los_Angeles")
+
+
+Version 0.20 7 Sept 00 (cvs tag libical-0-20 )
+----------------------------------------------
+
+Addedd icalclassify() which looks at a message and determine how to
+process it.
+
+Misc bug fixes and tweaks. 
+
 Version 0.19 6 August 00 (cvs tag libical-0-19)
 -----------------------------------------------
 

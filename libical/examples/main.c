@@ -1,9 +1,12 @@
 /* This is just to make the code in the example directory link properly. */
+#include "ical.h"
 
-main()
+int main()
 {
+
+    return 1;
 }
 
 
-int do_something(){
+void do_something(icalcomponent* comp){
 }

@@ -1,4 +1,4 @@
-// -*- Mode: C -*-
+/* -*- Mode: C -*- */
 /*======================================================================
  FILE: icalmime.h
  CREATOR: eric 26 July 2000
@@ -20,20 +20,22 @@
     The Mozilla Public License Version 1.0. You may obtain a copy of
     the License at http://www.mozilla.org/MPL/
 
- The Original Code is eric. The Initial Developer of the Original
- Code is Eric Busboom
-
-
 ======================================================================*/
 
 #ifndef ICALMIME_H
 #define ICALMIME_H
 
-#include "ical.h"
+#include "icalcomponent.h"
+#include "icalparser.h"
 
 icalcomponent* icalmime_parse(	char* (*line_gen_func)(char *s, size_t size, 
 						       void *d),
 				void *data);
+
+/* The inverse of icalmime_parse, not implemented yet. Use sspm.h directly.  */
+char* icalmime_as_mime_string(char* component);
+
+
 
 #endif /* !ICALMIME_H */
 

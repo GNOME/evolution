@@ -38,10 +38,15 @@
 #endif
 
 
-#include "ical.h"
-#include "pvl.h"
 #include "icalparser.h"
+#include "pvl.h"
 #include "icalmemory.h"
+#include "icalerror.h"
+#include "icalvalue.h"
+#include "icalparameter.h"
+#include "icalproperty.h"
+#include "icalcomponent.h"
+
 #include <string.h> /* For strncpy & size_t */
 #include <stdio.h> /* For FILE and fgets and sprintf */
 #include <stdlib.h> /* for free */
@@ -49,7 +54,7 @@
 
 extern icalvalue* icalparser_yy_value;
 void set_parser_value_state(icalvalue_kind kind);
-int ical_yy_parse(void);
+int ical_yyparse(void);
 
 char* icalparser_get_next_char(char c, char *str);
 char* icalparser_get_next_parameter(char* line,char** end);
@@ -77,10 +82,9 @@ struct icalparser_impl
 };
 
 
-icalparser* icalparser_new()
+icalparser* icalparser_new(void)
 {
     struct icalparser_impl* impl = 0;
-
     if ( ( impl = (struct icalparser_impl*)
 	   malloc(sizeof(struct icalparser_impl))) == 0) {
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
@@ -177,8 +181,8 @@ char* make_segment(char* start, char* end)
     
 }
 
-char* input_buffer;
-char* input_buffer_p;
+const char* input_buffer;
+const char* input_buffer_p;
 #define min(a,b) ((a) < (b) ? (a) : (b))   
 
 int icalparser_flex_input(char* buf, int max_size)
@@ -194,7 +198,7 @@ int icalparser_flex_input(char* buf, int max_size)
     }
 }
 
-void icalparser_clear_flex_input()
+void icalparser_clear_flex_input(void)
 {
     input_buffer_p = input_buffer+strlen(input_buffer);
 }
@@ -202,7 +206,7 @@ void icalparser_clear_flex_input()
 /* Cal the flex parser to parse a complex value */
 
 icalvalue*  icalparser_parse_value(icalvalue_kind kind,
-                                   char* str, icalproperty** error)
+                                   const char* str, icalproperty** error)
 {
     int r;
     input_buffer_p = input_buffer = str;
@@ -210,7 +214,7 @@ icalvalue*  icalparser_parse_value(icalvalue_kind kind,
     set_parser_value_state(kind);
     icalparser_yy_value = 0;
 
-    r = ical_yy_parse();
+    r = ical_yyparse();
 
     /* Error. Parse failed */
     if( icalparser_yy_value == 0 || r != 0){

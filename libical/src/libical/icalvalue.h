@@ -32,20 +32,21 @@
 #include <time.h>
 #include "icalenums.h"
 #include "icaltypes.h"
-
+#include "icalrecur.h"
+                          
 typedef void icalvalue;
 
 icalvalue* icalvalue_new(icalvalue_kind kind);
 
 icalvalue* icalvalue_new_clone(icalvalue* value);
 
-icalvalue* icalvalue_new_from_string(icalvalue_kind kind, char* str);
+icalvalue* icalvalue_new_from_string(icalvalue_kind kind, const char* str);
 
 void icalvalue_free(icalvalue* value);
 
 int icalvalue_is_valid(icalvalue* value);
 
-char* icalvalue_as_ical_string(icalvalue* value);
+const char* icalvalue_as_ical_string(icalvalue* value);
 
 icalvalue_kind icalvalue_isa(icalvalue* value);
 
@@ -61,9 +62,9 @@ struct icalattachtype icalvalue_get_attach(icalvalue* value);
 void icalvalue_set_attach(icalvalue* value, struct icalattachtype v);
 
 /* BINARY  */
-icalvalue* icalvalue_new_binary(char* v);
-char* icalvalue_get_binary(icalvalue* value);
-void icalvalue_set_binary(icalvalue* value, char* v);
+icalvalue* icalvalue_new_binary(const char* v);
+const char* icalvalue_get_binary(icalvalue* value);
+void icalvalue_set_binary(icalvalue* value, const char* v);
 
 /* BOOLEAN  */
 icalvalue* icalvalue_new_boolean(int v);
@@ -71,9 +72,9 @@ int icalvalue_get_boolean(icalvalue* value);
 void icalvalue_set_boolean(icalvalue* value, int v);
 
 /* CAL-ADDRESS  */
-icalvalue* icalvalue_new_caladdress(char* v);
-char* icalvalue_get_caladdress(icalvalue* value);
-void icalvalue_set_caladdress(icalvalue* value, char* v);
+icalvalue* icalvalue_new_caladdress(const char* v);
+const char* icalvalue_get_caladdress(icalvalue* value);
+void icalvalue_set_caladdress(icalvalue* value, const char* v);
 
 /* DATE  */
 icalvalue* icalvalue_new_date(struct icaltimetype v);
@@ -131,14 +132,14 @@ struct icalrecurrencetype icalvalue_get_recur(icalvalue* value);
 void icalvalue_set_recur(icalvalue* value, struct icalrecurrencetype v);
 
 /* STRING # Non-std */
-icalvalue* icalvalue_new_string(char* v);
-char* icalvalue_get_string(icalvalue* value);
-void icalvalue_set_string(icalvalue* value, char* v);
+icalvalue* icalvalue_new_string(const char* v);
+const char* icalvalue_get_string(icalvalue* value);
+void icalvalue_set_string(icalvalue* value, const char* v);
 
 /* TEXT  */
-icalvalue* icalvalue_new_text(char* v);
-char* icalvalue_get_text(icalvalue* value);
-void icalvalue_set_text(icalvalue* value, char* v);
+icalvalue* icalvalue_new_text(const char* v);
+const char* icalvalue_get_text(icalvalue* value);
+void icalvalue_set_text(icalvalue* value, const char* v);
 
 /* TIME  */
 icalvalue* icalvalue_new_time(struct icaltimetype v);
@@ -151,9 +152,9 @@ union icaltriggertype icalvalue_get_trigger(icalvalue* value);
 void icalvalue_set_trigger(icalvalue* value, union icaltriggertype v);
 
 /* URI  */
-icalvalue* icalvalue_new_uri(char* v);
-char* icalvalue_get_uri(icalvalue* value);
-void icalvalue_set_uri(icalvalue* value, char* v);
+icalvalue* icalvalue_new_uri(const char* v);
+const char* icalvalue_get_uri(icalvalue* value);
+void icalvalue_set_uri(icalvalue* value, const char* v);
 
 /* UTC-OFFSET  */
 icalvalue* icalvalue_new_utcoffset(int v);
@@ -161,8 +162,13 @@ int icalvalue_get_utcoffset(icalvalue* value);
 void icalvalue_set_utcoffset(icalvalue* value, int v);
 
 /* QUERY  */
-icalvalue* icalvalue_new_query(char* v);
-char* icalvalue_get_query(icalvalue* value);
-void icalvalue_set_query(icalvalue* value, char* v);
+icalvalue* icalvalue_new_query(const char* v);
+const char* icalvalue_get_query(icalvalue* value);
+void icalvalue_set_query(icalvalue* value, const char* v);
 
-#endif ICALVALUE_H
+/* STATUS #Non-st */
+icalvalue* icalvalue_new_status(icalproperty_status v);
+icalproperty_status icalvalue_get_status(icalvalue* value);
+void icalvalue_set_status(icalvalue* value, icalproperty_status v);
+
+#endif /*ICALVALUE_H*/

@@ -34,7 +34,6 @@
 #include <errno.h> /* for errno */
 #include <string.h> /* for icalmemory_strdup */
 #include <assert.h>
-#include <limits.h> /* for SHRT_MAX */
 
 #define TEMP_MAX 1024
 
@@ -149,75 +148,6 @@ void* icalattachtype_get_binary(struct icalattachtype* v)
     return v->binary;
 }
 
-
-
-time_t
-icalperiodtype_duration (struct icalperiodtype period);
-
-
-time_t
-icalperiodtype_end (struct icalperiodtype period);
-
-
-/* From Russel Steinthal */
-time_t icaldurationtype_as_timet(struct icaldurationtype dur)
-{
-        return (time_t) (dur.seconds +
-                         (60 * dur.minutes) +
-                         (60 * 60 * dur.hours) +
-                         (60 * 60 * 24 * dur.days) +
-                         (60 * 60 * 24 * 7 * dur.weeks));
-} 
-
-/* From Seth Alves,  <alves@hungry.com>   */
-struct icaldurationtype icaldurationtype_from_timet(time_t t)
-{
-        struct icaldurationtype dur;
-        time_t used = 0;
- 
-        dur.weeks = (t - used) / (60 * 60 * 24 * 7);
-        used += dur.weeks * (60 * 60 * 24 * 7);
-        dur.days = (t - used) / (60 * 60 * 24);
-        used += dur.days * (60 * 60 * 24);
-        dur.hours = (t - used) / (60 * 60);
-        used += dur.hours * (60 * 60);
-        dur.minutes = (t - used) / (60);
-        used += dur.minutes * (60);
-        dur.seconds = (t - used);
- 
-        return dur;
-}
-
-void icalrecurrencetype_clear(struct icalrecurrencetype *recur)
-{
-    memset(recur,ICAL_RECURRENCE_ARRAY_MAX_BYTE,
-	   sizeof(struct icalrecurrencetype));
-
-    recur->week_start = ICAL_NO_WEEKDAY;
-    recur->freq = ICAL_NO_RECURRENCE;
-    recur->interval = 1;
-    memset(&(recur->until),0,sizeof(struct icaltimetype));
-    recur->count = 0;
-}
-
-/* The 'day' element of icalrecurrencetype_weekday is encoded to allow
-reporesentation of both the day of the week ( Monday, Tueday), but
-also the Nth day of the week ( First tuesday of the month, last
-thursday of the year) These routines decode the day values. 
-
-The day's position in the period ( Nth-ness) and the numerical value
-of the day are encoded together as: pos*7 + dow
- */
-
-enum icalrecurrencetype_weekday icalrecurrencetype_day_day_of_week(short day)
-{
-    return abs(day)%8;
-}
-
-short icalrecurrencetype_day_position(short day)
-{
-    return (day-icalrecurrencetype_day_day_of_week(day))/8;
-}
 
 
 struct icalreqstattype icalreqstattype_from_string(char* str)

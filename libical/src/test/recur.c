@@ -52,11 +52,9 @@ int main(int argc, char *argv[])
     cin = icalfileset_new(argv[1]);
     assert(cin != 0);
 
-    for (itr = icalfileset_get_first_component(cin,
-                                               ICAL_ANY_COMPONENT);
+    for (itr = icalfileset_get_first_component(cin);
          itr != 0;
-         itr = icalfileset_get_next_component(cin,
-                                              ICAL_ANY_COMPONENT)){ 
+         itr = icalfileset_get_next_component(cin)){
 
 	desc = icalcomponent_get_first_property(itr,ICAL_DESCRIPTION_PROPERTY);
 	assert(desc !=0);

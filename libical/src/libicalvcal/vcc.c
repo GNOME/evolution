@@ -1,7 +1,6 @@
 
 /*  A Bison parser, made from vcc.y
- by  GNU Bison version 1.27
-  */
+    by GNU Bison version 1.28  */
 
 #define YYBISON 1  /* Identify Bison output.  */
 
@@ -166,7 +165,7 @@ extern "C" {
 #endif
 
     extern void Parse_Debug(const char *s);
-    extern void yyerror(char *s);
+    static void yyerror(char *s);
 
 #if __CPLUSPLUS__
     };
@@ -188,7 +187,6 @@ enum LexMode {
 /****  Private Forward Declarations  ****/
 static int pushVObject(const char *prop);
 static VObject* popVObject();
-static char* lexDataFromBase64();
 static void lexPopMode(int top);
 static int lexWithinMode(enum LexMode mode);
 static void lexPushMode(enum LexMode mode);
@@ -198,7 +196,7 @@ static void enterValues(const char *value);
 static void mime_error_(char *s);
 
 
-#line 179 "vcc.y"
+#line 178 "vcc.y"
 typedef union {
     char *str;
     VObject *vobj;
@@ -278,11 +276,11 @@ static const short yyrhs[] = {    22,
 
 #if YYDEBUG != 0
 static const short yyrline[] = { 0,
-   207,   210,   213,   213,   217,   218,   221,   227,   232,   238,
-   244,   245,   248,   252,   258,   261,   266,   266,   272,   273,
-   276,   279,   283,   290,   293,   294,   294,   298,   299,   302,
-   306,   308,   311,   314,   315,   318,   320,   321,   324,   331,
-   336,   342,   348,   355,   360,   366
+   206,   209,   212,   212,   216,   217,   220,   226,   231,   237,
+   243,   244,   247,   251,   257,   260,   265,   265,   271,   272,
+   275,   278,   282,   289,   292,   293,   293,   297,   298,   301,
+   305,   307,   310,   313,   314,   317,   319,   320,   323,   330,
+   335,   341,   347,   354,   359,   365
 };
 #endif
 
@@ -370,7 +368,7 @@ static const short yycheck[] = {     7,
 };
 /* -*-C-*-  Note some compilers choke on comments on `#line' lines.  */
 #line 3 "/usr/lib/bison.simple"
-/* This file comes from bison-1.27.  */
+/* This file comes from bison-1.28.  */
 
 /* Skeleton output parser for bison,
    Copyright (C) 1984, 1989, 1990 Free Software Foundation, Inc.
@@ -583,7 +581,7 @@ __yy_memcpy (char *to, char *from, unsigned int count)
 #endif
 #endif
 
-#line 216 "/usr/lib/bison.simple"
+#line 217 "/usr/lib/bison.simple"
 
 /* The user can define YYPARSE_PARAM as the name of an argument to be passed
    into yyparse.  The argument should have type void *.
@@ -912,49 +910,49 @@ yyreduce:
   switch (yyn) {
 
 case 2:
-#line 211 "vcc.y"
+#line 210 "vcc.y"
 { addList(&vObjList, yyvsp[0].vobj); curObj = 0; ;
     break;}
 case 4:
-#line 214 "vcc.y"
+#line 213 "vcc.y"
 { addList(&vObjList, yyvsp[0].vobj); curObj = 0; ;
     break;}
 case 7:
-#line 223 "vcc.y"
+#line 222 "vcc.y"
 {
 	lexPushMode(L_VCARD);
 	if (!pushVObject(VCCardProp)) YYERROR;
 	;
     break;}
 case 8:
-#line 228 "vcc.y"
+#line 227 "vcc.y"
 {
 	lexPopMode(0);
 	yyval.vobj = popVObject();
 	;
     break;}
 case 9:
-#line 233 "vcc.y"
+#line 232 "vcc.y"
 {
 	lexPushMode(L_VCARD);
 	if (!pushVObject(VCCardProp)) YYERROR;
 	;
     break;}
 case 10:
-#line 238 "vcc.y"
+#line 237 "vcc.y"
 {
 	lexPopMode(0);
 	yyval.vobj = popVObject();
 	;
     break;}
 case 13:
-#line 249 "vcc.y"
+#line 248 "vcc.y"
 {
 	lexPushMode(L_VALUES);
 	;
     break;}
 case 14:
-#line 253 "vcc.y"
+#line 252 "vcc.y"
 {
 	if (lexWithinMode(L_BASE64) || lexWithinMode(L_QUOTED_PRINTABLE))
 	   lexPopMode(0);
@@ -962,109 +960,109 @@ case 14:
 	;
     break;}
 case 16:
-#line 262 "vcc.y"
+#line 261 "vcc.y"
 {
 	enterProps(yyvsp[0].str);
 	;
     break;}
 case 18:
-#line 267 "vcc.y"
+#line 266 "vcc.y"
 {
 	enterProps(yyvsp[0].str);
 	;
     break;}
 case 22:
-#line 280 "vcc.y"
+#line 279 "vcc.y"
 {
 	enterAttr(yyvsp[0].str,0);
 	;
     break;}
 case 23:
-#line 284 "vcc.y"
+#line 283 "vcc.y"
 {
 	enterAttr(yyvsp[-2].str,yyvsp[0].str);
 
 	;
     break;}
 case 25:
-#line 293 "vcc.y"
+#line 292 "vcc.y"
 { enterValues(yyvsp[-1].str); ;
     break;}
 case 27:
-#line 295 "vcc.y"
+#line 294 "vcc.y"
 { enterValues(yyvsp[0].str); ;
     break;}
 case 29:
-#line 299 "vcc.y"
+#line 298 "vcc.y"
 { yyval.str = 0; ;
     break;}
 case 30:
-#line 304 "vcc.y"
+#line 303 "vcc.y"
 { if (!pushVObject(VCCalProp)) YYERROR; ;
     break;}
 case 31:
-#line 307 "vcc.y"
+#line 306 "vcc.y"
 { yyval.vobj = popVObject(); ;
     break;}
 case 32:
-#line 309 "vcc.y"
+#line 308 "vcc.y"
 { if (!pushVObject(VCCalProp)) YYERROR; ;
     break;}
 case 33:
-#line 311 "vcc.y"
+#line 310 "vcc.y"
 { yyval.vobj = popVObject(); ;
     break;}
 case 39:
-#line 326 "vcc.y"
+#line 325 "vcc.y"
 {
 	lexPushMode(L_VEVENT);
 	if (!pushVObject(VCEventProp)) YYERROR;
 	;
     break;}
 case 40:
-#line 332 "vcc.y"
+#line 331 "vcc.y"
 {
 	lexPopMode(0);
 	popVObject();
 	;
     break;}
 case 41:
-#line 337 "vcc.y"
+#line 336 "vcc.y"
 {
 	lexPushMode(L_VEVENT);
 	if (!pushVObject(VCEventProp)) YYERROR;
 	;
     break;}
 case 42:
-#line 342 "vcc.y"
+#line 341 "vcc.y"
 {
 	lexPopMode(0);
 	popVObject();
 	;
     break;}
 case 43:
-#line 350 "vcc.y"
+#line 349 "vcc.y"
 {
 	lexPushMode(L_VTODO);
 	if (!pushVObject(VCTodoProp)) YYERROR;
 	;
     break;}
 case 44:
-#line 356 "vcc.y"
+#line 355 "vcc.y"
 {
 	lexPopMode(0);
 	popVObject();
 	;
     break;}
 case 45:
-#line 361 "vcc.y"
+#line 360 "vcc.y"
 {
 	lexPushMode(L_VTODO);
 	if (!pushVObject(VCTodoProp)) YYERROR;
 	;
     break;}
 case 46:
-#line 366 "vcc.y"
+#line 365 "vcc.y"
 {
 	lexPopMode(0);
 	popVObject();
@@ -1072,7 +1070,7 @@ case 46:
     break;}
 }
    /* the action file gets copied in in place of this dollarsign */
-#line 542 "/usr/lib/bison.simple"
+#line 543 "/usr/lib/bison.simple"
 
   yyvsp -= yylen;
   yyssp -= yylen;
@@ -1292,9 +1290,8 @@ yyerrhandle:
     }
   return 1;
 }
-#line 372 "vcc.y"
+#line 371 "vcc.y"
 
-/*/////////////////////////////////////////////////////////////////////////*/
 static int pushVObject(const char *prop)
     {
     VObject *newObj;
@@ -1314,7 +1311,6 @@ static int pushVObject(const char *prop)
     }
 
 
-/*/////////////////////////////////////////////////////////////////////////*/
 /* This pops the recently built vCard off the stack and returns it. */
 static VObject* popVObject()
     {
@@ -1555,22 +1551,6 @@ static char* lexGetWord() {
     return lexStr();
     }
 
-static void lexPushLookahead(char *s, int len) {
-    int putptr;
-    if (len == 0) len = strlen(s);
-    putptr = (int)lexBuf.getPtr - len;
-    /* this function assumes that length of word to push back
-     /  is not greater than MAX_LEX_LOOKAHEAD.
-     */
-    if (putptr < 0) putptr += MAX_LEX_LOOKAHEAD;
-    lexBuf.getPtr = putptr;
-    while (*s) {
-	lexBuf.buf[putptr] = *s++;
-	putptr = (putptr + 1) % MAX_LEX_LOOKAHEAD;
-	}
-    lexBuf.len += len;
-    }
-
 static void lexPushLookaheadc(int c) {
     int putptr;
     /* can't putback EOF, because it never leaves lookahead buffer */
@@ -1649,7 +1629,6 @@ static void handleMoreRFC822LineBreak(int c) {
     }
 
 static char* lexGet1Value() {
-    int size = 0;
     int c;
     lexSkipWhite();
     c = lexLookahead();
@@ -1680,18 +1659,6 @@ static char* lexGet1Value() {
     }
 #endif
 
-static char* lexGetStrUntil(char *termset) {
-    int size = 0;
-    int c = lexLookahead();
-    lexClearToken();
-    while (c != EOF && !strchr(termset,c)) {
-	lexAppendc(c);
-	lexSkipLookahead();
-	c = lexLookahead();
-	}
-    lexAppendc(0);
-    return c==EOF?0:lexStr();
-    }
 
 static int match_begin_name(int end) {
     char *n = lexLookaheadWord();
@@ -1737,7 +1704,6 @@ static void finiLex() {
     }
 
 
-/*/////////////////////////////////////////////////////////////////////////*/
 /* This parses and converts the base64 format for binary encoding into
  * a decoded buffer (allocated with new).  See RFC 1521.
  */
@@ -1866,7 +1832,6 @@ static int match_begin_end_name(int end) {
 static char* lexGetQuotedPrintable()
     {
     char cur;
-    unsigned long len = 0;
 
     lexClearToken();
     do {
@@ -1921,8 +1886,7 @@ EndString:
     return lexStr();
     } /* LexQuotedPrintable */
 
-static int yylex() {
-    int token = 0;
+int yylex() {
 
     int lexmode = LEXMODE();
     if (lexmode == L_VALUES) {
@@ -2055,7 +2019,6 @@ static VObject* Parse_MIMEHelper()
     return vObjList;
     }
 
-/*/////////////////////////////////////////////////////////////////////////*/
 DLLEXPORT(VObject*) Parse_MIME(const char *input, unsigned long len)
     {
     initLex(input, len, 0);
@@ -2109,12 +2072,6 @@ DLLEXPORT(VObject*) Parse_MIME_FromFileName(char *fname)
     }
 
 #endif
-
-/*/////////////////////////////////////////////////////////////////////////*/
-static void YYDebug(const char *s)
-{
-/*	Parse_Debug(s); */
-}
 
 
 static MimeErrorHandler mimeErrorHandler;

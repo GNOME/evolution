@@ -26,7 +26,12 @@
  ======================================================================*/
 
 #include "icaltime.h"
+#include "icalvalue.h"
 #include <assert.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 
 struct icaltimetype 
 icaltime_from_timet(time_t tm, int is_date, int is_utc)
@@ -34,11 +39,12 @@ icaltime_from_timet(time_t tm, int is_date, int is_utc)
     struct icaltimetype tt;
     struct tm t;
 
-    if(is_utc == 1){
-	t = *(gmtime(&tm));
-    } else {
-	t = *(localtime(&tm));
+    if(is_utc == 0){
+	tm += icaltime_local_utc_offset();
     }
+
+    t = *(localtime(&tm));
+
     tt.second = t.tm_sec;
     tt.minute = t.tm_min;
     tt.hour = t.tm_hour;
@@ -52,6 +58,7 @@ icaltime_from_timet(time_t tm, int is_date, int is_utc)
     return tt;
 }
 
+/* Always returns time in UTC */
 time_t icaltime_as_timet(struct icaltimetype tt)
 {
     struct tm stm;
@@ -68,10 +75,46 @@ time_t icaltime_as_timet(struct icaltimetype tt)
     stm.tm_isdst = -1; /* prevents mktime from changing hour based on
 			  daylight savings */
 
+    if(tt.is_utc == 0){
+	stm.tm_sec -= icaltime_local_utc_offset();
+    }
+    
     tut = mktime(&stm);
 
     return tut;
 }
+
+
+
+struct icaltimetype icaltime_from_string(const char* str)
+{
+    struct icaltimetype tt;
+    icalvalue *v = icalvalue_new_from_string(ICAL_DATETIME_VALUE,str);
+						  
+    if (v == 0){
+	return icaltime_null_time();
+    }
+
+    tt = icalvalue_get_datetime(v);
+
+    icalvalue_free(v);
+
+    return tt;
+    
+}
+
+char ctime_str[20];
+char* icaltime_as_ctime(struct icaltimetype t)
+{
+    time_t tt = icaltime_as_timet(t);
+
+    sprintf(ctime_str,"%s",ctime(&tt));
+
+    ctime_str[strlen(ctime_str)-1] = 0;
+
+    return ctime_str;
+}
+
 
 short days_in_month[] = {0,31,28,31,30,31,30,31,31,30,31,30,31};
 
@@ -180,3 +223,189 @@ int icaltime_compare(struct icaltimetype a,struct icaltimetype b)
     }
 
 }
+
+int
+icaltime_compare_date_only (struct icaltimetype a, struct icaltimetype b)
+{
+    time_t t1;
+    time_t t2;
+
+    if (a.year == b.year && a.month == b.month && a.day == b.day)
+        return 0;
+
+    t1 = icaltime_as_timet (a);
+    t2 = icaltime_as_timet (b);
+
+    if (t1 > t2) 
+	return 1; 
+    else if (t1 < t2)
+	return -1;
+    else {
+	/* not reached */
+	assert (0);
+	return 0;
+    }
+}
+
+/* convert tt, of timezone tzid, into a utc time */
+struct icaltimetype icaltime_as_utc(struct icaltimetype tt,const char* tzid)
+{
+    time_t offset, tm;
+    struct icaltimetype utc;
+
+    offset = icaltime_utc_offset(tt,tzid);
+    tm = icaltime_as_timet(tt);
+
+    tm += offset;
+
+    utc = icaltime_from_timet(tm,0,0);
+
+    return utc;
+}
+
+/* convert tt, a time in UTC, into a time in timezone tzid */
+struct icaltimetype icaltime_as_zone(struct icaltimetype tt,const char* tzid)
+{
+    time_t offset, tm;
+    struct icaltimetype zone;
+
+    offset = icaltime_utc_offset(tt,tzid);
+    tm = icaltime_as_timet(tt);
+
+    tm -= offset;
+    
+    zone = icaltime_from_timet(tm,0,0);
+
+    return zone;
+
+}
+
+/* Return the offset of the named zone as seconds. tt is a time
+   indicating the date for which you want the offset */
+time_t icaltime_utc_offset(struct icaltimetype tt, const char* tzid)
+{
+    extern long int timezone;
+    time_t now;
+    struct tm *stm;
+
+    char *tzstr = 0;
+    char *tmp;
+
+    /* Put the new time zone into the environment */
+    if(getenv("TZ") != 0){
+	tzstr = (char*)strdup(getenv("TZ"));
+    }
+
+    tmp = (char*)malloc(1024);
+    snprintf(tmp,1024,"TZ=%s",tzid);
+
+    putenv(tmp);
+
+    /* Get the offset */
+
+    now = icaltime_as_timet(tt);
+
+    stm = localtime(&now); /* This sets 'timezone'*/
+
+    /* restore the original environment */
+
+    if(tzstr!=0){
+	putenv(tzstr);
+    } else {
+	putenv("TZ"); /* Delete from environment */
+    }
+ 
+    return timezone;
+}
+
+time_t icaltime_local_utc_offset()
+{
+    time_t now;
+    struct tm *stm;
+
+    stm = localtime(&now); /* This sets 'timezone'*/
+
+    return timezone;
+
+}
+
+
+
+
+
+
+time_t
+icalperiodtype_duration (struct icalperiodtype period);
+
+
+time_t
+icalperiodtype_end (struct icalperiodtype period);
+
+
+/* From Russel Steinthal */
+time_t icaldurationtype_as_timet(struct icaldurationtype dur)
+{
+        return (time_t) (dur.seconds +
+                         (60 * dur.minutes) +
+                         (60 * 60 * dur.hours) +
+                         (60 * 60 * 24 * dur.days) +
+                         (60 * 60 * 24 * 7 * dur.weeks));
+} 
+
+/* From Seth Alves,  <alves@hungry.com>   */
+struct icaldurationtype icaldurationtype_from_timet(time_t t)
+{
+        struct icaldurationtype dur;
+        time_t used = 0;
+ 
+        dur.weeks = (t - used) / (60 * 60 * 24 * 7);
+        used += dur.weeks * (60 * 60 * 24 * 7);
+        dur.days = (t - used) / (60 * 60 * 24);
+        used += dur.days * (60 * 60 * 24);
+        dur.hours = (t - used) / (60 * 60);
+        used += dur.hours * (60 * 60);
+        dur.minutes = (t - used) / (60);
+        used += dur.minutes * (60);
+        dur.seconds = (t - used);
+ 
+        return dur;
+}
+
+struct icaldurationtype icaldurationtype_from_string(const char* str)
+{
+
+    icalvalue *v = icalvalue_new_from_string(ICAL_DURATION_VALUE,str);
+
+    if( v !=0){
+	return icalvalue_get_duration(v);
+    } else {
+        struct icaldurationtype dur;
+	memset(&dur,0,sizeof(struct icaldurationtype));
+	return dur;
+    }
+ 
+}
+
+
+struct icaltimetype  icaltime_add(struct icaltimetype t,
+				  struct icaldurationtype  d)
+{
+    time_t tt = icaltime_as_timet(t);
+    time_t dt = icaldurationtype_as_timet(d);
+
+    return icaltime_from_timet(tt + dt, t.is_date, t.is_utc);
+
+}
+
+struct icaldurationtype  icaltime_subtract(struct icaltimetype t1,
+					   struct icaltimetype t2)
+{
+
+    time_t t1t = icaltime_as_timet(t1);
+    time_t t2t = icaltime_as_timet(t2);
+
+    return icaldurationtype_from_timet(t1t-t2t);
+
+
+}
+

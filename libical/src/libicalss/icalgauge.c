@@ -27,6 +27,45 @@
 ======================================================================*/
 
 #include "ical.h"
+#include "icalgauge.h"
+#include "icalgaugeimpl.h"
+#include <stdlib.h>
+
+
+extern char* input_buffer;
+extern char* input_buffer_p;
+int ssparse(void);
+
+struct icalgauge_impl *icalss_yy_gauge;
+
+icalgauge* icalgauge_new_from_sql(char* sql)
+{
+    struct icalgauge_impl *impl;
+
+    int r;
+    
+    if ( ( impl = (struct icalgauge_impl*)
+	   malloc(sizeof(struct icalgauge_impl))) == 0) {
+	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
+	return 0;
+    }
+
+    impl->select = icalcomponent_new(ICAL_XROOT_COMPONENT);
+    impl->from = icalcomponent_new(ICAL_XROOT_COMPONENT);
+    impl->where = icalcomponent_new(ICAL_XROOT_COMPONENT);
+
+    icalss_yy_gauge = impl;
+
+    input_buffer_p = input_buffer = sql;
+    r = ssparse();
+
+    return impl;
+}
+
+
+void icalgauge_free(icalgauge* gauge)
+{
+}
 
 /* Convert a VQUERY component into a gauge */
 icalcomponent* icalgauge_make_gauge(icalcomponent* query);
@@ -44,22 +83,18 @@ icalcomponent* icalgauge_make_gauge(icalcomponent* query);
    When a gauge has several sub-components, the results of testing the
    target against each of them is ORed together - the target
    component will pass if it matches any of the sub-components in the
-   gauge. However, the results of matching the proeprties in a
+   gauge. However, the results of matching the properties in a
    sub-component are ANDed -- the target must match every property in
    a gauge sub-component to match the sub-component.
 
    Here is an example:
 
    BEGIN:XROOT
-   BEGIN:VCOMPONENT
-   BEGIN:VEVENT
    DTSTART;X-LIC-COMPARETYPE=LESS:19981025T020000
    ORGANIZER;X-LIC-COMPARETYPE=EQUAL:mrbig@host.com 
-   END:VEVENT
-   BEGIN:VEVENT
+   END:XROOT
+   BEGIN:XROOT
    LOCATION;X-LIC-COMPARETYPE=EQUAL:McNary's Pub
-   END:VEVENT
-   END:VCALENDAR
    END:XROOT
 
    This gauge has two sub-components; one which will match a VEVENT
@@ -194,9 +229,11 @@ int icalgauge_test(icalcomponent* comp,
     icalerror_check_arg_rz( (comp!=0), "comp");
     icalerror_check_arg_rz( (gauge!=0), "gauge");
     
-    for(gauge = icalcomponent_get_first_component(gaugecontainer,ICAL_ANY_COMPONENT);
+    for(gauge = icalcomponent_get_first_component(gaugecontainer,
+						  ICAL_ANY_COMPONENT);
 	gauge != 0;
-	gauge = icalcomponent_get_next_component(gaugecontainer,ICAL_ANY_COMPONENT)){
+	gauge = icalcomponent_get_next_component(gaugecontainer,
+						 ICAL_ANY_COMPONENT)){
 
 	pass += icalgauge_test_recurse(comp, gauge);
     }

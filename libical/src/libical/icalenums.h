@@ -183,9 +183,10 @@ typedef enum icalproperty_class {
 
 
 typedef enum icalproperty_status {
+    ICAL_STATUS_NONE,
     ICAL_STATUS_TENTATIVE,
     ICAL_STATUS_CONFIRMED,
-    ICAL_STATUS_CANCELLED, /* CANCELED? SIC */
+    ICAL_STATUS_CANCELLED, /* CANCELED? SIC from RFC*/
     ICAL_STATUS_NEEDSACTION,
     ICAL_STATUS_COMPLETED,
     ICAL_STATUS_INPROCESS,
@@ -220,6 +221,7 @@ typedef enum icalvalue_kind {
     ICAL_GEO_VALUE, /* Non-Standard */
     ICAL_INTEGER_VALUE,
     ICAL_METHOD_VALUE, /* Non-Standard */
+    ICAL_STATUS_VALUE, /* Non-Standard */
     ICAL_PERIOD_VALUE,
     ICAL_RECUR_VALUE,
     ICAL_STRING_VALUE, /* Non-Standard */
@@ -298,7 +300,8 @@ typedef enum icalparameter_partstat {
     ICAL_PARTSTAT_DELEGATED,
     ICAL_PARTSTAT_COMPLETED,
     ICAL_PARTSTAT_INPROCESS,
-    ICAL_PARTSTAT_XNAME
+    ICAL_PARTSTAT_XNAME,
+    ICAL_PARTSTAT_NONE
 } icalparameter_partstat;
 
 typedef enum icalparameter_range {
@@ -334,7 +337,7 @@ typedef enum icalparameter_xlicerrortype {
     ICAL_XLICERRORTYPE_VALUEPARSEERROR,
     ICAL_XLICERRORTYPE_UNKVCALPROP,
     ICAL_XLICERRORTYPE_INVALIDITIP,
-    ICAL_XLICERRORTYPE_MIMEPARSEERROR,    
+    ICAL_XLICERRORTYPE_MIMEPARSEERROR
 } icalparameter_xlicerrortype;
 
 typedef enum icalparameter_xliccomparetype {
@@ -366,46 +369,6 @@ typedef enum icalparameter_value {
     ICAL_VALUE_ERROR = ICAL_NO_VALUE
 } icalparameter_value;
 
-/***********************************************************************
- * Recurrances 
-**********************************************************************/
-
-typedef enum icalrecurrencetype_frequency
-{
-    /* These enums are used to index an array, so don't change the
-       order or the integers */
-
-    ICAL_SECONDLY_RECURRENCE=0,
-    ICAL_MINUTELY_RECURRENCE=1,
-    ICAL_HOURLY_RECURRENCE=2,
-    ICAL_DAILY_RECURRENCE=3,
-    ICAL_WEEKLY_RECURRENCE=4,
-    ICAL_MONTHLY_RECURRENCE=5,
-    ICAL_YEARLY_RECURRENCE=6,
-    ICAL_NO_RECURRENCE=7
-
-} icalrecurrencetype_frequency;
-
-typedef enum icalrecurrencetype_weekday
-{
-    ICAL_NO_WEEKDAY,
-    ICAL_SUNDAY_WEEKDAY,
-    ICAL_MONDAY_WEEKDAY,
-    ICAL_TUESDAY_WEEKDAY,
-    ICAL_WEDNESDAY_WEEKDAY,
-    ICAL_THURSDAY_WEEKDAY,
-    ICAL_FRIDAY_WEEKDAY,
-    ICAL_SATURDAY_WEEKDAY
-} icalrecurrencetype_weekday;
-
-enum {
-    ICAL_RECURRENCE_ARRAY_MAX = 0x7f7f,
-    ICAL_RECURRENCE_ARRAY_MAX_BYTE = 0x7f
-};
-    
-
-char* icalenum_recurrence_to_string(icalrecurrencetype_frequency kind);
-char* icalenum_weekday_to_string(icalrecurrencetype_weekday kind);
 
 /***********************************************************************
  * Request Status codes
@@ -448,7 +411,7 @@ typedef enum icalrequeststatus {
 } icalrequeststatus;
 
 
-char* icalenum_reqstat_desc(icalrequeststatus stat);
+const char* icalenum_reqstat_desc(icalrequeststatus stat);
 short icalenum_reqstat_major(icalrequeststatus stat);
 short icalenum_reqstat_minor(icalrequeststatus stat);
 icalrequeststatus icalenum_num_to_reqstat(short major, short minor);
@@ -457,22 +420,25 @@ icalrequeststatus icalenum_num_to_reqstat(short major, short minor);
  * Conversion functions
 **********************************************************************/
 
-char* icalenum_property_kind_to_string(icalproperty_kind kind);
+const char* icalenum_property_kind_to_string(icalproperty_kind kind);
 icalproperty_kind icalenum_string_to_property_kind(char* string);
 
-char* icalenum_value_kind_to_string(icalvalue_kind kind);
+const char* icalenum_value_kind_to_string(icalvalue_kind kind);
 icalvalue_kind icalenum_value_kind_by_prop(icalproperty_kind kind);
 
-char* icalenum_parameter_kind_to_string(icalparameter_kind kind);
+const char* icalenum_parameter_kind_to_string(icalparameter_kind kind);
 icalparameter_kind icalenum_string_to_parameter_kind(char* string);
 
-char* icalenum_component_kind_to_string(icalcomponent_kind kind);
+const char* icalenum_component_kind_to_string(icalcomponent_kind kind);
 icalcomponent_kind icalenum_string_to_component_kind(char* string);
 
 icalvalue_kind icalenum_property_kind_to_value_kind(icalproperty_kind kind);
 
-char* icalenum_method_to_string(icalproperty_method);
-icalproperty_method icalenum_string_to_method(char* string);
+const char* icalenum_method_to_string(icalproperty_method);
+icalproperty_method icalenum_string_to_method(const char* string);
+
+const char* icalenum_status_to_string(icalproperty_status);
+icalproperty_status icalenum_string_to_status(const char* string);
 
 #endif /* !ICALENUMS_H */
 

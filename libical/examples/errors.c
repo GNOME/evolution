@@ -32,7 +32,7 @@ void component_errors(icalcomponent *comp)
 
     errors = icalcomponent_count_errors(comp);
 
-    printf("This component has %d parsing errors\n");
+    printf("This component has %d parsing errors\n", errors);
 
     /* Print out all of the parsing errors. This is not strictly
        correct, because it does not descend into any sub-components,

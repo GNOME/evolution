@@ -30,6 +30,12 @@
 #include <assert.h>
 #include <stdio.h> /* For icalerror_warn() */
 
+
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+
 /* This routine is called before any error is triggered. It is called
    by icalerror_set_errno, so it does not appear in all of the macros
    below */
@@ -58,14 +64,13 @@ void icalerror_crash_here(void);
 #define icalerror_assert(test,message) 
 #endif 
 
-
 /* Check & abort if check fails */
 #ifdef ICAL_ERRORS_ARE_FATAL
 #define icalerror_check_arg(test,arg) icalerror_stop_here();assert(test) 
 #else
 #define icalerror_check_arg(test,arg)
 #endif
-/* Check & return void if check failes*/
+/* Check & return void if check fails*/
 
 #ifdef ICAL_ERRORS_ARE_FATAL
 #define icalerror_check_arg_rv(test,arg) icalerror_stop_here();assert(test);
@@ -73,7 +78,7 @@ void icalerror_crash_here(void);
 #define icalerror_check_arg_rv(test,arg) if(!(test)) { icalerror_set_errno(ICAL_BADARG_ERROR); return; }
 #endif
 
-/* Check & return 0 if check failes*/
+/* Check & return 0 if check fails*/
 #ifdef ICAL_ERRORS_ARE_FATAL
 #define icalerror_check_arg_rz(test,arg) icalerror_stop_here();assert(test); 
 #else
@@ -81,7 +86,7 @@ void icalerror_crash_here(void);
 #endif
 
 
-/* Check & return an error if check failes*/
+/* Check & return an error if check fails*/
 #ifdef ICAL_ERRORS_ARE_FATAL
 #define icalerror_check_arg_re(test,arg,error) icalerror_stop_here();assert(test); 
 #else
@@ -113,7 +118,7 @@ typedef enum icalerrorenum {
     
     ICAL_BADARG_ERROR,
     ICAL_NEWFAILED_ERROR,
-    ICAL_MALFORMEDDATA_ERROR,
+    ICAL_MALFORMEDDATA_ERROR, 
     ICAL_PARSE_ERROR,
     ICAL_INTERNAL_ERROR, /* Like assert --internal consist. prob */
     ICAL_FILE_ERROR,
@@ -129,7 +134,7 @@ typedef enum icalerrorenum {
 extern icalerrorenum icalerrno;
 
 
-void icalerror_clear_errno();
+void icalerror_clear_errno(void);
 void icalerror_set_errno(icalerrorenum);
 
 char* icalerror_strerror(icalerrorenum e);

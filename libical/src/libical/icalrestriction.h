@@ -27,7 +27,8 @@
 
 ======================================================================*/
 
-#include "ical.h"
+#include "icalproperty.h"
+#include "icalcomponent.h"
 
 #ifndef ICALRESTRICTION_H
 #define ICALRESTRICTION_H
@@ -48,15 +49,6 @@ typedef enum icalrestriction_kind {
 int 
 icalrestriction_compare(icalrestriction_kind restr, int count);
 
-icalrestriction_kind
-icalrestriction_get_property_restriction(icalproperty_method method,
-					 icalcomponent_kind component,
-					 icalproperty_kind property);
-
-icalrestriction_kind
-icalrestriction_get_component_restriction(icalproperty_method method,
-					 icalcomponent_kind component,
-					  icalcomponent_kind subcomponent);
 
 int
 icalrestriction_is_parameter_allowed(icalproperty_kind property,

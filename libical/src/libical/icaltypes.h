@@ -46,7 +46,7 @@ struct icalattachtype
 /* converts base64 to binary, fetches url and stores as binary, or
    just returns data */
 
-struct icalattachtype* icalattachtype_new();
+struct icalattachtype* icalattachtype_new(void);
 void  icalattachtype_add_reference(struct icalattachtype* v);
 void icalattachtype_free(struct icalattachtype* v);
 
@@ -69,89 +69,12 @@ struct icalgeotype
 
 					   
 
-/* See RFC 2445 Section 4.3.10, RECUR Value, for an explaination of
-   the values and fields in struct icalrecurrencetype */
-
-
-struct icalrecurrencetype 
-{
-	icalrecurrencetype_frequency freq;
-
-
-	/* until and count are mutually exclusive. */
-       	struct icaltimetype until;
-	int count;
-
-	short interval;
-	
-	icalrecurrencetype_weekday week_start;
-	
-	/* The BY* parameters can each take a list of values. Here I
-	 * assume that the list of values will not be larger than the
-	 * range of the value -- that is, the client will not name a
-	 * value more than once. 
-	 
-	 * Each of the lists is terminated with the value SHRT_MAX
-	 * unless the the list is full. */
-
-	short by_second[61];
-	short by_minute[61];
-	short by_hour[25];
-	short by_day[8]; /* Encoded value, see below */
-	short by_month_day[32];
-	short by_year_day[367];
-	short by_week_no[54];
-	short by_month[13];
-	short by_set_pos[367];
-};
-
-
-void icalrecurrencetype_clear(struct icalrecurrencetype *r);
-
-/* The 'day' element of icalrecurrencetype_weekday is encoded to allow
-reporesentation of both the day of the week ( Monday, Tueday), but
-also the Nth day of the week ( First tuesday of the month, last
-thursday of the year) These routines decode the day values */
-
-/* 1 == Monday, etc. */
-enum icalrecurrencetype_weekday icalrecurrencetype_day_day_of_week(short day);
-
-/* 0 == any of day of week. 1 == first, 2 = second, -2 == second to last, etc */
-short icalrecurrencetype_day_position(short day);
-
-struct icaldurationtype
-{
-	unsigned int days;
-	unsigned int weeks;
-	unsigned int hours;
-	unsigned int minutes;
-	unsigned int seconds;
-};
-
-struct icaldurationtype icaldurationtype_from_timet(time_t t);
-time_t icaldurationtype_as_timet(struct icaldurationtype duration);
-
-/* Return the next occurance of 'r' after the time specified by 'after' */
-struct icaltimetype icalrecurrencetype_next_occurance(
-    struct icalrecurrencetype *r,
-    struct icaltimetype *after);
-
-
-struct icalperiodtype 
-{
-	struct icaltimetype start; /* Must be absolute */	
-	struct icaltimetype end; /* Must be absolute */
-	struct icaldurationtype duration;
-};
-
-time_t icalperiodtype_duration(struct icalperiodtype period);
-time_t icalperiodtype_end(struct icalperiodtype period);
-
 union icaltriggertype 
 {
 	struct icaltimetype time; 
 	struct icaldurationtype duration;
 };
+
 
 
 /* struct icalreqstattype. This struct contains two string pointers,
@@ -168,8 +91,8 @@ operating on a the value of a request_status property. */
 struct icalreqstattype {
 
 	icalrequeststatus code;
-  char* desc;
-  char* debug;
+	const char* desc;
+	const char* debug;
 };
 
 struct icalreqstattype icalreqstattype_from_string(char* str);

@@ -6,7 +6,7 @@
   
   DESCRIPTION:
   
-  $Id: icalyacc.y,v 1.1.1.2 2000/08/24 19:28:24 jpr Exp $
+  $Id: icalyacc.y,v 1.1.1.3 2000/12/11 22:05:45 federico Exp $
   $Locker:  $
 
   (C) COPYRIGHT 1999 Eric Busboom 
@@ -27,19 +27,18 @@
 
 
 
-  ================================b======================================*/
+  =======================================================================*/
 
 #include <stdlib.h>
 #include <string.h> /* for strdup() */
-#include <limits.h> /* for SHRT_MAX*/
 #include "icalparser.h"
-#include "ical.h"
 #include "pvl.h"
-#define YYERROR_VERBOSE
-#define YYDEBUG 1 
-
 
 icalvalue *icalparser_yy_value; /* Current Value */
+
+void ical_yyerror(char* s);
+void icalparser_clear_flex_input();  
+int ical_yy_lex(void);
 
 /* Globals for UTCOFFSET values */
 int utc; 
@@ -64,7 +63,7 @@ void set_value_type(icalvalue_kind kind);
 void set_parser_value_state();
 struct icaltimetype fill_datetime(char* d, char* t);
 void ical_yy_error(char *s); /* Don't know why I need this.... */
-/*int yylex(void); /* Or this. */
+int yylex(void); /* Or this. */
 
 
 
@@ -77,11 +76,14 @@ void ical_yy_error(char *s); /* Don't know why I need this.... */
 	float v_float;
 	int   v_int;
 	char* v_string;
+}
+
 
   /* Renaming hack */
+
+/*
 #define    yymaxdepth ical_yy_maxdepth
 #define    yyparse ical_yy_parse
-#define    yylex   ical_yy_lex
 #define    yyerror ical_yy_error
 #define    yylval  ical_yy_lval
 #define    yychar  ical_yy_char
@@ -121,16 +123,36 @@ void ical_yy_error(char *s); /* Don't know why I need this.... */
 #define yycheck     ical_yy_yycheck
 #define yyname   ical_yy_yyname
 #define yyrule   ical_yy_yyrule
+#define yy_scan_bytes ical_yy_scan_bytes
+#define yy_scan_string ical_yy_scan_string
+#define yy_scan_buffer ical_yy_scan_buffer
+*/
 
+/* These are redefined with the -P option to flex */
+/*
+#define yy_create_buffer  ical_yy_create_buffer 
+#define yy_delete_buffer ical_yy_delete_buffer
+#define yy_flex_debug ical_yy_flex_debug
+#define yy_init_buffer ical_yy_init_buffer
+#define yy_flush_buffer ical_yy_flush_buffer
+#define yy_load_buffer_state ical_yy_load_buffer_state
+#define yy_switch_to_buffer ical_yy_switch_to_buffer
+#define yyin ical_yyin
+#define yyleng ical_yyleng
+#define yylex ical_yylex
+#define yylineno ical_yylineno
+#define yyout ical_yyout
+#define yyrestart ical_yyrestart
+#define yytext ical_yytext
+#define yywrap ical_yywrap             
+*/
 
-
-}
 
 %token <v_string> DIGITS
 %token <v_int> INTNUMBER
 %token <v_float> FLOATNUMBER
 %token <v_string> STRING   
-%token EOL EQUALS CHARACTER COLON COMMA SEMICOLON TIMESEPERATOR 
+%token EOL EQUALS CHARACTER COLON COMMA SEMICOLON MINUS TIMESEPERATOR 
 
 %token TRUE FALSE
 
@@ -267,12 +289,15 @@ dur_day: DIGITS 'D'
 
 dur_prefix: /* empty */
 	{
+	    duration.is_neg = 0;
 	} 
 	| '+'
 	{
+	    duration.is_neg = 0;
 	}
 	| '-'
-	{
+	{ 
+	    duration.is_neg = 1;
 	}
 
 duration_value: dur_prefix 'P' dur_date
@@ -359,28 +384,28 @@ recur_start:
 
 
 weekday:
-	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY+8*dow_pos; 
-	     if( skippos<8) skippos++;}
-	| MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY+8*dow_pos;
-               if( skippos<8) skippos++;}
-	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
-	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY+8*dow_pos;
-	       if( skippos<8) skippos++;}
+	SU { skiplist[skippos]=ICAL_SUNDAY_WEEKDAY; }
+        | MO { skiplist[skippos]=ICAL_MONDAY_WEEKDAY; }
+	| TU { skiplist[skippos]=ICAL_TUESDAY_WEEKDAY; }
+	| WE { skiplist[skippos]=ICAL_WEDNESDAY_WEEKDAY; }
+	| TH { skiplist[skippos]=ICAL_THURSDAY_WEEKDAY; }
+	| FR { skiplist[skippos]=ICAL_FRIDAY_WEEKDAY; } 
+	| SA { skiplist[skippos]=ICAL_SATURDAY_WEEKDAY; }
 	;
 
+/* HACK. The skippos has only 8 positions, but the spec permits any number */
 
 weekday_list:
-	weekday {dow_pos = 0};
-	| DIGITS weekday { dow_pos = atoi($1)} 
-	| weekday_list COMMA weekday {dow_pos = 0};
-	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3)} 
+	weekday {if( skippos<8) skippos++;}
+	| DIGITS weekday { dow_pos = atoi($1);  
+	           skiplist[skippos] += 8*dow_pos; if( skippos<8) skippos++; } 
+	| MINUS DIGITS weekday { dow_pos = atoi($2);  
+	           skiplist[skippos] -= 8*dow_pos; if( skippos<8) skippos++; } 
+	| weekday_list COMMA weekday {if( skippos<8) skippos++;};
+	| weekday_list COMMA DIGITS weekday { dow_pos = atoi($3); 
+	           skiplist[skippos] += 8*dow_pos;if( skippos<8) skippos++;} 
+	| weekday_list COMMA MINUS DIGITS weekday { dow_pos = atoi($4); 
+	           skiplist[skippos] -= 8*dow_pos;if( skippos<8) skippos++;} 
 	
 
 recur_list: 
@@ -482,7 +507,7 @@ struct icaltimetype fill_datetime(char* datestr, char* timestr)
 
 }
 
-void yyerror(char* s)
+void ical_yyerror(char* s)
 {
     /*fprintf(stderr,"Parse error \'%s\'\n", s);*/
 }

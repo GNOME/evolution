@@ -57,40 +57,59 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 AR = @AR@
+AS = @AS@
 CC = @CC@
+DLLTOOL = @DLLTOOL@
 LEX = @LEX@
+LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
 
-lib_LIBRARIES = libicalvcal.a
+lib_LTLIBRARIES = libicalvcal.la
 
-libicalvcal_a_SOURCES =  	vcc.y			vcc.h			vobject.c		vobject.h		port.h			vcaltmp.c		vcaltmp.h		icalvcal.c      	icalvcal.h 
+INCLUDES =  	-I$(top_builddir)		-I$(top_srcdir)/src/libical		-I$(top_srcdir)/src/libicalss		-I$(srcdir)
 
 
-EXTRA_DIST = README.TXT vcaltest.c vctest.c
+libicalvcal_la_LDFLAGS = -version-info 0:0:0
 
-INCLUDES = -I../libical/
+libicalvcal_la_SOURCES =  	icalvcal.c			vcc.y				vobject.c			vcaltmp.c
+
+
+libicalvcalincludedir = $(includedir)/libicalvcal
+
+libicalvcalinclude_HEADERS =  	icalvcal.h			port.h				vcc.h				vobject.h			vcaltmp.h
+
+
+EXTRA_DIST =  	README.TXT		vcaltest.c		vctest.c
+
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
-LIBRARIES =  $(lib_LIBRARIES)
+LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libicalvcal_a_LIBADD = 
-libicalvcal_a_OBJECTS =  vcc.o vobject.o vcaltmp.o icalvcal.o
+libicalvcal_la_LIBADD = 
+libicalvcal_la_OBJECTS =  icalvcal.lo vcc.lo vobject.lo vcaltmp.lo
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+HEADERS =  $(libicalvcalinclude_HEADERS)
+
 DIST_COMMON =  Makefile.am Makefile.in vcc.c
 
 
@@ -98,13 +117,13 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-SOURCES = $(libicalvcal_a_SOURCES)
-OBJECTS = $(libicalvcal_a_OBJECTS)
+SOURCES = $(libicalvcal_la_SOURCES)
+OBJECTS = $(libicalvcal_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .o .s .y
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+.SUFFIXES: .S .c .lo .o .s .y
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/libicalvcal/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -112,36 +131,29 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 	  && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
 
-mostlyclean-libLIBRARIES:
+mostlyclean-libLTLIBRARIES:
 
-clean-libLIBRARIES:
-	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 
-distclean-libLIBRARIES:
+distclean-libLTLIBRARIES:
 
-maintainer-clean-libLIBRARIES:
+maintainer-clean-libLTLIBRARIES:
 
-install-libLIBRARIES: $(lib_LIBRARIES)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p; \
-	  else :; fi; \
-	done
-	@$(POST_INSTALL)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
-	    $(RANLIB) $(DESTDIR)$(libdir)/$$p; \
+	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
 	  else :; fi; \
 	done
 
-uninstall-libLIBRARIES:
+uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(libdir)/$$p; \
+	list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
 	done
 
 .c.o:
@@ -163,10 +175,27 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libicalvcal.a: $(libicalvcal_a_OBJECTS) $(libicalvcal_a_DEPENDENCIES)
-	-rm -f libicalvcal.a
-	$(AR) cru libicalvcal.a $(libicalvcal_a_OBJECTS) $(libicalvcal_a_LIBADD)
-	$(RANLIB) libicalvcal.a
+.c.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libicalvcal.la: $(libicalvcal_la_OBJECTS) $(libicalvcal_la_DEPENDENCIES)
+	$(LINK) -rpath $(libdir) $(libicalvcal_la_LDFLAGS) $(libicalvcal_la_OBJECTS) $(libicalvcal_la_LIBADD) $(LIBS)
 .y.c:
 	$(YACC) $(AM_YFLAGS) $(YFLAGS) $< && mv y.tab.c $*.c
 	if test -f y.tab.h; then \
@@ -174,6 +203,21 @@ libicalvcal.a: $(libicalvcal_a_OBJECTS) $(libicalvcal_a_DEPENDENCIES)
 	else :; fi
 vcc.h: vcc.c
 
+
+install-libicalvcalincludeHEADERS: $(libicalvcalinclude_HEADERS)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(libicalvcalincludedir)
+	@list='$(libicalvcalinclude_HEADERS)'; for p in $$list; do \
+	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libicalvcalincludedir)/$$p"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libicalvcalincludedir)/$$p; \
+	done
+
+uninstall-libicalvcalincludeHEADERS:
+	@$(NORMAL_UNINSTALL)
+	list='$(libicalvcalinclude_HEADERS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(libicalvcalincludedir)/$$p; \
+	done
 
 tags: TAGS
 
@@ -219,18 +263,6 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-icalvcal.o: icalvcal.c icalvcal.h ../libical/ical.h \
-	../libical/icalversion.h ../libical/icalenums.h \
-	../libical/icalvalue.h ../libical/icaltypes.h \
-	../libical/icaltime.h ../libical/icalparameter.h \
-	../libical/icalproperty.h ../libical/icalcomponent.h \
-	../libical/pvl.h ../libical/icalparser.h \
-	../libical/icalmemory.h ../libical/icalerror.h \
-	../libical/icalrestriction.h ../libical/icalrecur.h vcc.h \
-	vobject.h port.h
-vcaltmp.o: vcaltmp.c vcaltmp.h vcc.h vobject.h port.h
-vcc.o: vcc.c vcc.h vobject.h port.h
-vobject.o: vobject.c vobject.h port.h
 
 info-am:
 info: info-am
@@ -240,23 +272,25 @@ check-am: all-am
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
-install-exec-am: install-libLIBRARIES
+install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-am
 
-install-data-am:
+install-data-am: install-libicalvcalincludeHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-libLIBRARIES
+uninstall-am: uninstall-libLTLIBRARIES \
+		uninstall-libicalvcalincludeHEADERS
 uninstall: uninstall-am
-all-am: Makefile $(LIBRARIES)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(libdir)
+	$(mkinstalldirs)  $(DESTDIR)$(libdir) \
+		$(DESTDIR)$(libicalvcalincludedir)
 
 
 mostlyclean-generic:
@@ -269,39 +303,46 @@ distclean-generic:
 
 maintainer-clean-generic:
 	-test -z "vcchvccc" || rm -f vcch vccc
-mostlyclean-am:  mostlyclean-libLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-libLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-libLTLIBRARIES clean-compile clean-libtool clean-tags \
+		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-libLIBRARIES distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-libLTLIBRARIES distclean-compile \
+		distclean-libtool distclean-tags distclean-generic \
+		clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-libLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-libLTLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-libLIBRARIES distclean-libLIBRARIES \
-clean-libLIBRARIES maintainer-clean-libLIBRARIES uninstall-libLIBRARIES \
-install-libLIBRARIES mostlyclean-compile distclean-compile \
-clean-compile maintainer-clean-compile tags mostlyclean-tags \
-distclean-tags clean-tags maintainer-clean-tags distdir info-am info \
-dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
-install-exec install-data-am install-data install-am install \
-uninstall-am uninstall all-redirect all-am all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
-maintainer-clean-generic clean mostlyclean distclean maintainer-clean
+.PHONY: mostlyclean-libLTLIBRARIES distclean-libLTLIBRARIES \
+clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
+uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
+distclean-compile clean-compile maintainer-clean-compile \
+mostlyclean-libtool distclean-libtool clean-libtool \
+maintainer-clean-libtool uninstall-libicalvcalincludeHEADERS \
+install-libicalvcalincludeHEADERS tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
+install-data-am install-data install-am install uninstall-am uninstall \
+all-redirect all-am all installdirs mostlyclean-generic \
+distclean-generic clean-generic maintainer-clean-generic clean \
+mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

@@ -25,10 +25,9 @@ char* read_stream(char *s, size_t size, void *d)
 
 }
 
-int parse_text(int argc, char* argv[])
+void parse_text(int argc, char* argv[])
 {
 
-    int lineno = 0;
     char* line; 
     FILE* stream;
     icalcomponent *c; 

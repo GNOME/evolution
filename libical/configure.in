@@ -1,21 +1,31 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(src/libical/ical.h)
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(libical,0.19) 
+AM_INIT_AUTOMAKE(libical,0.21helix1)
+
+dnl  Initialize maintainer mode
+AM_MAINTAINER_MODE
 
 dnl Checks for programs.
 AC_PROG_YACC
 AC_PROG_CC
 AM_PROG_LEX
 AC_PROG_LN_S
-AC_PROG_RANLIB
 AC_PROG_INSTALL
+
+dnl Remove this line to enable shared libraries
+AM_DISABLE_SHARED
+
+
+dnl Initialize libtool
+AM_PROG_LIBTOOL
 
 AC_SUBST(AR)
 AC_CHECK_PROGS(AR, ar aal, ar)
 
-AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1)
+dnl AC_DEFINE(ICAL_ERRORS_ARE_FATAL,1)
 AC_DEFINE(ICAL_SAFESAVES,1)
+AC_DEFINE(ICAL_UNIX_NEWLINE,1)
 
 dnl Checks for libraries.
 dnl Replace `main' with a function in -lical:
@@ -33,18 +43,17 @@ AC_STRUCT_TM
 dnl Checks for library functions.
 AC_CHECK_FUNCS(strdup)
 
-AC_OUTPUT(\
-src/libical/icalversion.h \
-config.h \
-src/libical/Makefile \
-src/libicalss/Makefile \
-src/libicalvcal/Makefile \
-src/test/Makefile \
-examples/Makefile \
-src/Makefile \
-design-data/Makefile \
-doc/Makefile \
-scripts/Makefile \
-test-data/Makefile \
-src/Makefile \
-Makefile )
+AC_OUTPUT([
+Makefile
+design-data/Makefile
+doc/Makefile
+examples/Makefile
+scripts/Makefile
+src/Makefile
+src/libical/Makefile
+src/libical/icalversion.h
+src/libicalss/Makefile
+src/libicalvcal/Makefile
+src/test/Makefile
+test-data/Makefile
+])

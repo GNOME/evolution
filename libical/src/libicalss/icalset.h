@@ -52,15 +52,15 @@ typedef enum icalset_kind {
 
 
 /* Create a specific derived type of set */
-icalset* icalset_new_file(char* path);
-icalset* icalset_new_dir(char* path);
+icalset* icalset_new_file(const char* path);
+icalset* icalset_new_dir(const char* path);
 icalset* icalset_new_heap(void);
-icalset* icalset_new_mysql(char* path);
+icalset* icalset_new_mysql(const char* path);
 /*icalset* icalset_new_cap(icalcstp* cstp);*/
 
 void icalset_free(icalset* set);
 
-char* icalset_path(icalset* set);
+const char* icalset_path(icalset* set);
 
 /* Mark the cluster as changed, so it will be written to disk when it
    is freed. Commit writes to disk immediately*/
@@ -79,13 +79,14 @@ icalerrorenum icalset_select(icalset* set, icalcomponent* gauge);
 void icalset_clear_select(icalset* set);
 
 /* Get a component by uid */
-icalcomponent* icalset_fetch(icalset* set, char* uid);
-int icalset_has_uid(icalset* set, char* uid);
+icalcomponent* icalset_fetch(icalset* set, const char* uid);
+int icalset_has_uid(icalset* set, const char* uid);
+icalcomponent* icalset_fetch_match(icalset* set, icalcomponent *c);
 
 /* Modify components according to the MODIFY method of CAP. Works on
    the currently selected components. */
-icalerrorenum icalset_modify(icalset* set, icalcomponent *old,
-			       icalcomponent *new);
+icalerrorenum icalset_modify(icalset* set, icalcomponent *oldc,
+			       icalcomponent *newc);
 
 /* Iterate through the components. If a guage has been defined, these
    will skip over components that do not pass the gauge */

@@ -29,8 +29,14 @@
 #ifndef ICALGAUGE_H
 #define ICALGAUGE_H
 
-icalcomponent* icalgauge_new_from_vquery(char* vquery);
-char* icalgauge_as_vquery(icalcomponent* gauge);
+typedef void icalgauge;
+
+icalgauge* icalgauge_new_from_sql(char* sql);
+
+void icalgauge_free(icalgauge* gauge);
+
+char* icalgauge_as_sql(icalcomponent* gauge);
+
 int icalgauge_test(icalcomponent* comp, icalcomponent* gaugecontainer);
 
 

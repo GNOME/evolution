@@ -46,10 +46,12 @@ while(<F>)
   
   if(!$sub) {
     $sub = "0";
+  } else {
+    $sub = "icalrestriction_".$sub;
   }
 
   if($prop ne "NONE"){
-    print("    \{ICAL_METHOD_${method},ICAL_${targetcomp}_COMPONENT,ICAL_${prop}_PROPERTY,ICAL_RESTRICTION_${restr},$sub\},\n");
+    print("    \{ICAL_METHOD_${method},ICAL_${targetcomp}_COMPONENT,ICAL_${prop}_PROPERTY,ICAL_RESTRICTION_${restr},$sub},\n");
   }
 
 }
@@ -80,6 +82,8 @@ while(<F>)
   
   if(!$sub) {
     $sub = "0";
+  } else {
+    $sub = "icalrestriction_".$sub;
   }
 
 

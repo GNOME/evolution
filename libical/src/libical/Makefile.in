@@ -10,10 +10,6 @@
 # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 # PARTICULAR PURPOSE.
 
-#AUTOMAKE_OPTIONS = no-dependencies
-
-#noinst_LTLIBRARIES = libical.la
-
 
 SHELL = @SHELL@
 
@@ -61,53 +57,98 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
+host_alias = @host_alias@
+host_triplet = @host@
 AR = @AR@
+AS = @AS@
 CC = @CC@
+DLLTOOL = @DLLTOOL@
 LEX = @LEX@
+LIBTOOL = @LIBTOOL@
 LN_S = @LN_S@
+MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
+OBJDUMP = @OBJDUMP@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 VERSION = @VERSION@
 YACC = @YACC@
 
-lib_LIBRARIES = libical.a
+DESIGNDATA = $(top_srcdir)/design-data
+ICALSCRIPTS = $(top_srcdir)/scripts
 
-YFLAGS = -d -v -t
+lib_LTLIBRARIES = libical.la
 
-libical_a_SOURCES =  	ical.h 	icalcomponent.c		icalcomponent.h		icalenums.c 	icalenums.h 	icalerror.c 	icalerror.h 	icalyacc.y 	icallexer.l 	icalmemory.c 	icalmemory.h 	icalparameter.c 	icalparameter.h 	icalparser.c 	icalparser.h 	icalproperty.c 	icalproperty.h 	icalrestriction.c 	icalrestriction.h 	icaltypes.c 	icaltypes.h 	icalvalue.c 	icalvalue.h 	icalrecur.c 	icalrecur.h 	icaltime.h 	icaltime.c 	pvl.c 	pvl.h 	sspm.c 	sspm.h 	icalmime.c 	icalmime.h 
+YFLAGS = -d -v -t -pical_yy
+LFLAGS = -Pical_yy
+LEX_OUTPUT_ROOT = lex.ical_yy
+
+INCLUDES =  	-I$(top_builddir)		-I$(top_srcdir)/src		-I$(top_builddir)/src		-I$(srcdir)
 
 
-include_HEADERS =  	ical.h 	icalcomponent.h		icalenums.h 	icalerror.h 	icalmemory.h 	icalparameter.h 	icalparser.h 	icalproperty.h 	icalrestriction.h 	icaltypes.h 	icalvalue.h 	icalrecur.h 	icalversion.h 	icaltime.h 	pvl.h 	sspm.h 	icalmime.h 
+libical_la_LDFLAGS = -version-info 0:0:0
+
+libical_la_SOURCES =  	icalcomponent.c			icalcomponent.h			icalenums.c			icalenums.h			icalerror.c			icalerror.h			icallexer.l			icalmemory.c			icalmemory.h			icalmime.c			icalmime.h			icalparameter.c			icalparameter.h			icalparser.c			icalparser.h			icalproperty.c			icalproperty.h			icalrecur.c			icalrecur.h			icalrestriction.c		icalrestriction.h		icaltime.c			icaltime.h			icaltypes.c			icaltypes.h			icalvalue.c			icalvalue.h			icalyacc.h			icalyacc.y			pvl.c				pvl.h				sspm.c				sspm.h
 
 
-EXTRA_DIST = icallexer.c icalyacc.c icalyacc.h
+libicalincludedir = $(includedir)
 
-CONFIG_CLEAN_FILES = y.output *~ 
+libicalinclude_HEADERS = ical.h 
 
-DESIGNDATA = ../../design-data
-ICALSCRIPTS = ../../scripts
+# ORDERING OF HEADERS IS SIGNIFICANT. Don't change this ordering. It
+# is required to make the combined header ical.h properly
+COMBINEDHEADERS =  	$(top_builddir)/src/libical/icalversion.h		$(top_srcdir)/src/libical/icaltime.h			$(top_srcdir)/src/libical/icalenums.h			$(top_srcdir)/src/libical/icaltypes.h			$(top_srcdir)/src/libical/icalrecur.h			$(top_srcdir)/src/libical/icalvalue.h			$(top_srcdir)/src/libical/icalparameter.h		$(top_srcdir)/src/libical/icalproperty.h		$(top_srcdir)/src/libical/pvl.h				$(top_srcdir)/src/libical/icalcomponent.h		$(top_srcdir)/src/libical/icalparser.h			$(top_srcdir)/src/libical/icalmemory.h			$(top_srcdir)/src/libical/icalerror.h			$(top_srcdir)/src/libical/icalrestriction.h		$(top_srcdir)/src/libical/sspm.h			$(top_srcdir)/src/libical/icalmime.h 
+
+
+BUILT_SOURCES =  	icalparameter.c			icalparameter.h			icalproperty.c			icalproperty.h			icalrestriction.c		icalvalue.c			icalvalue.h
+
+
+# parameters
+
+PARAMETERDEPS =  	$(ICALSCRIPTS)/mkderivedparameters.pl 	$(DESIGNDATA)/param-c-types.txt		icalparameter.c.in 	icalparameter.h.in
+
+
+# properties
+
+PROPERTYDEPS =  	$(ICALSCRIPTS)/mkderivedproperties.pl		$(DESIGNDATA)/prop-to-value.txt			$(DESIGNDATA)/value-c-types.txt			icalproperty.c.in				icalproperty.h.in
+
+
+# restrictions
+
+RESTRICTIONDEPS =  	$(ICALSCRIPTS)/mkrestrictiontable.pl		$(DESIGNDATA)/restrictions.csv			icalrestriction.c.in
+
+
+# values
+
+VALUEDEPS =  	$(ICALSCRIPTS)/mkderivedvalues.pl  		$(DESIGNDATA)/value-c-types.txt			icalvalue.c.in					icalvalue.h.in
+
+
+# housekeeping
+CONFIG_CLEAN_FILES = y.output
+
+EXTRA_DIST =  	icalparameter.c.in		icalparameter.h.in		icalproperty.c.in		icalproperty.h.in		icalrestriction.c.in		icalvalue.c.in			icalvalue.h.in			icalversion.h.in		$(BUILT_SOURCES)		icallexer.c			icalyacc.c
+
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ../../config.h
-LIBRARIES =  $(lib_LIBRARIES)
+LTLIBRARIES =  $(lib_LTLIBRARIES)
 
 
 DEFS = @DEFS@ -I. -I$(srcdir) -I../..
 CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
-libical_a_LIBADD = 
-libical_a_OBJECTS =  icalcomponent.o icalenums.o icalerror.o icalyacc.o \
-icallexer.o icalmemory.o icalparameter.o icalparser.o icalproperty.o \
-icalrestriction.o icaltypes.o icalvalue.o icalrecur.o icaltime.o pvl.o \
-sspm.o icalmime.o
-LEX_OUTPUT_ROOT = @LEX_OUTPUT_ROOT@
+libical_la_LIBADD = 
+libical_la_OBJECTS =  icalcomponent.lo icalenums.lo icalerror.lo \
+icallexer.lo icalmemory.lo icalmime.lo icalparameter.lo icalparser.lo \
+icalproperty.lo icalrecur.lo icalrestriction.lo icaltime.lo \
+icaltypes.lo icalvalue.lo icalyacc.lo pvl.lo sspm.lo
 LEXLIB = @LEXLIB@
 CFLAGS = @CFLAGS@
 COMPILE = $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
-HEADERS =  $(include_HEADERS)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(LDFLAGS) -o $@
+HEADERS =  $(libicalinclude_HEADERS)
 
 DIST_COMMON =  Makefile.am Makefile.in icallexer.c icalversion.h.in \
 icalyacc.c
@@ -117,13 +158,13 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = gtar
 GZIP_ENV = --best
-SOURCES = $(libical_a_SOURCES)
-OBJECTS = $(libical_a_OBJECTS)
+SOURCES = $(libical_la_SOURCES)
+OBJECTS = $(libical_la_OBJECTS)
 
 all: all-redirect
 .SUFFIXES:
-.SUFFIXES: .S .c .l .o .s .y
-$(srcdir)/Makefile.in: Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
+.SUFFIXES: .S .c .l .lo .o .s .y
+$(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ Makefile.am $(top_srcdir)/configure.in $(ACLOCAL_M4) 
 	cd $(top_srcdir) && $(AUTOMAKE) --gnu --include-deps src/libical/Makefile
 
 Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
@@ -133,36 +174,29 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status
 icalversion.h: $(top_builddir)/config.status icalversion.h.in
 	cd $(top_builddir) && CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
-mostlyclean-libLIBRARIES:
+mostlyclean-libLTLIBRARIES:
 
-clean-libLIBRARIES:
-	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
+clean-libLTLIBRARIES:
+	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
 
-distclean-libLIBRARIES:
+distclean-libLTLIBRARIES:
 
-maintainer-clean-libLIBRARIES:
+maintainer-clean-libLTLIBRARIES:
 
-install-libLIBRARIES: $(lib_LIBRARIES)
+install-libLTLIBRARIES: $(lib_LTLIBRARIES)
 	@$(NORMAL_INSTALL)
 	$(mkinstalldirs) $(DESTDIR)$(libdir)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
+	@list='$(lib_LTLIBRARIES)'; for p in $$list; do \
 	  if test -f $$p; then \
-	    echo " $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p"; \
-	    $(INSTALL_DATA) $$p $(DESTDIR)$(libdir)/$$p; \
-	  else :; fi; \
-	done
-	@$(POST_INSTALL)
-	@list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  if test -f $$p; then \
-	    echo " $(RANLIB) $(DESTDIR)$(libdir)/$$p"; \
-	    $(RANLIB) $(DESTDIR)$(libdir)/$$p; \
+	    echo "$(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p"; \
+	    $(LIBTOOL)  --mode=install $(INSTALL) $$p $(DESTDIR)$(libdir)/$$p; \
 	  else :; fi; \
 	done
 
-uninstall-libLIBRARIES:
+uninstall-libLTLIBRARIES:
 	@$(NORMAL_UNINSTALL)
-	list='$(lib_LIBRARIES)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(libdir)/$$p; \
+	list='$(lib_LTLIBRARIES)'; for p in $$list; do \
+	  $(LIBTOOL)  --mode=uninstall rm -f $(DESTDIR)$(libdir)/$$p; \
 	done
 
 .c.o:
@@ -184,10 +218,27 @@ distclean-compile:
 
 maintainer-clean-compile:
 
-libical.a: $(libical_a_OBJECTS) $(libical_a_DEPENDENCIES)
-	-rm -f libical.a
-	$(AR) cru libical.a $(libical_a_OBJECTS) $(libical_a_LIBADD)
-	$(RANLIB) libical.a
+.c.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.s.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+.S.lo:
+	$(LIBTOOL) --mode=compile $(COMPILE) -c $<
+
+mostlyclean-libtool:
+	-rm -f *.lo
+
+clean-libtool:
+	-rm -rf .libs _libs
+
+distclean-libtool:
+
+maintainer-clean-libtool:
+
+libical.la: $(libical_la_OBJECTS) $(libical_la_DEPENDENCIES)
+	$(LINK) -rpath $(libdir) $(libical_la_LDFLAGS) $(libical_la_OBJECTS) $(libical_la_LIBADD) $(LIBS)
 .l.c:
 	$(LEX) $(AM_LFLAGS) $(LFLAGS) $< && mv $(LEX_OUTPUT_ROOT).c $@
 .y.c:
@@ -198,19 +249,19 @@ libical.a: $(libical_a_OBJECTS) $(libical_a_DEPENDENCIES)
 icalyacc.h: icalyacc.c
 
 
-install-includeHEADERS: $(include_HEADERS)
+install-libicalincludeHEADERS: $(libicalinclude_HEADERS)
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(includedir)
-	@list='$(include_HEADERS)'; for p in $$list; do \
+	$(mkinstalldirs) $(DESTDIR)$(libicalincludedir)
+	@list='$(libicalinclude_HEADERS)'; for p in $$list; do \
 	  if test -f "$$p"; then d= ; else d="$(srcdir)/"; fi; \
-	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p"; \
-	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(includedir)/$$p; \
+	  echo " $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libicalincludedir)/$$p"; \
+	  $(INSTALL_DATA) $$d$$p $(DESTDIR)$(libicalincludedir)/$$p; \
 	done
 
-uninstall-includeHEADERS:
+uninstall-libicalincludeHEADERS:
 	@$(NORMAL_UNINSTALL)
-	list='$(include_HEADERS)'; for p in $$list; do \
-	  rm -f $(DESTDIR)$(includedir)/$$p; \
+	list='$(libicalinclude_HEADERS)'; for p in $$list; do \
+	  rm -f $(DESTDIR)$(libicalincludedir)/$$p; \
 	done
 
 tags: TAGS
@@ -257,54 +308,19 @@ distdir: $(DISTFILES)
 	    || cp -p $$d/$$file $(distdir)/$$file || :; \
 	  fi; \
 	done
-icalcomponent.o: icalcomponent.c ../../config.h ical.h icalversion.h \
-	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h
-icalenums.o: icalenums.c ../../config.h icalenums.h
-icalerror.o: icalerror.c ../../config.h icalerror.h
-icallexer.o: icallexer.c icalyacc.h icalparser.h ical.h icalversion.h \
-	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalmemory.h icalerror.h \
-	icalrestriction.h icalrecur.h
-icalmemory.o: icalmemory.c ../../config.h icalmemory.h icalerror.h
-icalmime.o: icalmime.c icalmime.h ical.h icalversion.h icalenums.h \
-	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h sspm.h
-icalparameter.o: icalparameter.c ../../config.h ical.h icalversion.h \
-	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h
-icalparser.o: icalparser.c ../../config.h ical.h icalversion.h \
-	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h
-icalproperty.o: icalproperty.c ../../config.h ical.h icalversion.h \
-	icalenums.h icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h
-icalrecur.o: icalrecur.c ../../config.h icalrecur.h icaltypes.h \
-	icalenums.h icaltime.h icalerror.h icalmemory.h ical.h \
-	icalversion.h icalvalue.h icalparameter.h icalproperty.h \
-	icalcomponent.h pvl.h icalparser.h icalrestriction.h
-icalrestriction.o: icalrestriction.c ../../config.h icalenums.h \
-	icalrestriction.h ical.h icalversion.h icalvalue.h icaltypes.h \
-	icaltime.h icalparameter.h icalproperty.h icalcomponent.h pvl.h \
-	icalparser.h icalmemory.h icalerror.h icalrecur.h
-icaltime.o: icaltime.c icaltime.h
-icaltypes.o: icaltypes.c ../../config.h icaltypes.h icalenums.h \
-	icaltime.h icalerror.h icalmemory.h
-icalvalue.o: icalvalue.c ../../config.h ical.h icalversion.h icalenums.h \
-	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalparser.h icalmemory.h \
-	icalerror.h icalrestriction.h icalrecur.h
-icalyacc.o: icalyacc.c icalparser.h ical.h icalversion.h icalenums.h \
-	icalvalue.h icaltypes.h icaltime.h icalparameter.h \
-	icalproperty.h icalcomponent.h pvl.h icalmemory.h icalerror.h \
-	icalrestriction.h icalrecur.h
-pvl.o: pvl.c ../../config.h pvl.h
-sspm.o: sspm.c sspm.h
+icalrecur.lo icalrecur.o : icalrecur.c ../../config.h icalrecur.h \
+	icaltime.h ical.h
+icaltime.lo icaltime.o : icaltime.c icaltime.h icalvalue.h icalenums.h \
+	icaltypes.h icalrecur.h
+icaltypes.lo icaltypes.o : icaltypes.c ../../config.h icaltypes.h \
+	icalenums.h icaltime.h icalerror.h icalmemory.h
+icalvalue.lo icalvalue.o : icalvalue.c ../../config.h icalerror.h \
+	icalmemory.h icalparser.h icalenums.h icaltypes.h icaltime.h \
+	icalcomponent.h icalproperty.h icalparameter.h icalvalue.h \
+	icalrecur.h pvl.h
+icalyacc.lo icalyacc.o : icalyacc.c icalparser.h icalenums.h icaltypes.h \
+	icaltime.h icalcomponent.h icalproperty.h icalparameter.h \
+	icalvalue.h icalrecur.h pvl.h
 
 info-am:
 info: info-am
@@ -314,23 +330,23 @@ check-am: all-am
 check: check-am
 installcheck-am:
 installcheck: installcheck-am
-install-exec-am: install-libLIBRARIES
+install-exec-am: install-libLTLIBRARIES
 install-exec: install-exec-am
 
-install-data-am: install-includeHEADERS
+install-data-am: install-libicalincludeHEADERS
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-uninstall-am: uninstall-libLIBRARIES uninstall-includeHEADERS
+uninstall-am: uninstall-libLTLIBRARIES uninstall-libicalincludeHEADERS
 uninstall: uninstall-am
-all-am: Makefile $(LIBRARIES) $(HEADERS)
+all-am: Makefile $(LTLIBRARIES) $(HEADERS)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
-	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(includedir)
+	$(mkinstalldirs)  $(DESTDIR)$(libdir) $(DESTDIR)$(libicalincludedir)
 
 
 mostlyclean-generic:
@@ -342,68 +358,87 @@ distclean-generic:
 	-rm -f config.cache config.log stamp-h stamp-h[0-9]*
 
 maintainer-clean-generic:
-	-test -z "icallexerlicalyacchicalyaccc" || rm -f icallexerl icalyacch icalyaccc
-mostlyclean-am:  mostlyclean-libLIBRARIES mostlyclean-compile \
-		mostlyclean-tags mostlyclean-generic
+	-test -z "icallexerlicalyacchicalyaccc$(BUILT_SOURCES)" || rm -f icallexerl icalyacch icalyaccc $(BUILT_SOURCES)
+mostlyclean-am:  mostlyclean-libLTLIBRARIES mostlyclean-compile \
+		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-generic
 
 mostlyclean: mostlyclean-am
 
-clean-am:  clean-libLIBRARIES clean-compile clean-tags clean-generic \
-		mostlyclean-am
+clean-am:  clean-libLTLIBRARIES clean-compile clean-libtool clean-tags \
+		clean-generic mostlyclean-am
 
 clean: clean-am
 
-distclean-am:  distclean-libLIBRARIES distclean-compile distclean-tags \
-		distclean-generic clean-am
+distclean-am:  distclean-libLTLIBRARIES distclean-compile \
+		distclean-libtool distclean-tags distclean-generic \
+		clean-am
+	-rm -f libtool
 
 distclean: distclean-am
 
-maintainer-clean-am:  maintainer-clean-libLIBRARIES \
-		maintainer-clean-compile maintainer-clean-tags \
-		maintainer-clean-generic distclean-am
+maintainer-clean-am:  maintainer-clean-libLTLIBRARIES \
+		maintainer-clean-compile maintainer-clean-libtool \
+		maintainer-clean-tags maintainer-clean-generic \
+		distclean-am
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: mostlyclean-libLIBRARIES distclean-libLIBRARIES \
-clean-libLIBRARIES maintainer-clean-libLIBRARIES uninstall-libLIBRARIES \
-install-libLIBRARIES mostlyclean-compile distclean-compile \
-clean-compile maintainer-clean-compile uninstall-includeHEADERS \
-install-includeHEADERS tags mostlyclean-tags distclean-tags clean-tags \
-maintainer-clean-tags distdir info-am info dvi-am dvi check check-am \
-installcheck-am installcheck install-exec-am install-exec \
+.PHONY: mostlyclean-libLTLIBRARIES distclean-libLTLIBRARIES \
+clean-libLTLIBRARIES maintainer-clean-libLTLIBRARIES \
+uninstall-libLTLIBRARIES install-libLTLIBRARIES mostlyclean-compile \
+distclean-compile clean-compile maintainer-clean-compile \
+mostlyclean-libtool distclean-libtool clean-libtool \
+maintainer-clean-libtool uninstall-libicalincludeHEADERS \
+install-libicalincludeHEADERS tags mostlyclean-tags distclean-tags \
+clean-tags maintainer-clean-tags distdir info-am info dvi-am dvi check \
+check-am installcheck-am installcheck install-exec-am install-exec \
 install-data-am install-data install-am install uninstall-am uninstall \
 all-redirect all-am all installdirs mostlyclean-generic \
 distclean-generic clean-generic maintainer-clean-generic clean \
 mostlyclean distclean maintainer-clean
 
-derived: icalproperty icalparameter icalvalue icalrestriction
 
-icalproperty:
-	$(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h -h $(DESIGNDATA)/prop-to-value.txt ${DESIGNDATA}/value-c-types.txt > icalproperty.newh
-	mv icalproperty.newh icalproperty.h
+all: ical.h
 
-	$(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.c -c $(DESIGNDATA)/prop-to-value.txt ${DESIGNDATA}/value-c-types.txt > icalproperty.newc
-	mv icalproperty.newc icalproperty.c
+ical.h: $(COMBINEDHEADERS) $(BUILT_SOURCES)
+	cat $(COMBINEDHEADERS)				\
+	| egrep -v "#include.*\"ical"			\
+	| egrep -v "#include.*\"pvl\.h\"" > ical.h
 
-icalparameter: 
-	$(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.h -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh
-	mv icalparameter.newh icalparameter.h
+icallexer.c : icalyacc.h
 
-	$(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.c -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc
-	mv icalparameter.newc icalparameter.c
+icalparameter.h: $(PARAMETERDEPS) 
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.h.in -h $(DESIGNDATA)/param-c-types.txt > icalparameter.newh \
+	&& mv icalparameter.newh icalparameter.h 
 
-icalvalue: 
-	$(ICALSCRIPTS)/mkderivedvalues.pl -i icalvalue.h -h $(DESIGNDATA)/value-c-types.txt > icalvalue.newh
-	mv icalvalue.newh icalvalue.h
+icalparameter.c: $(PARAMETERDEPS) icalparameter.h
+	$(PERL) $(ICALSCRIPTS)/mkderivedparameters.pl -i icalparameter.c.in -c $(DESIGNDATA)/param-c-types.txt > icalparameter.newc \
+	&& mv icalparameter.newc icalparameter.c
 
-	$(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c -c $(DESIGNDATA)/value-c-types.txt > icalvalue.newc
-	mv icalvalue.newc icalvalue.c
+icalproperty.h: $(PROPERTYDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.h.in -h \
+		$(DESIGNDATA)/prop-to-value.txt \
+		${DESIGNDATA}/value-c-types.txt > icalproperty.h 
 
-icalrestriction: 
-	$(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c  $(DESIGNDATA)/restrictions.csv > icalrestriction.newc
-	mv icalrestriction.newc icalrestriction.c
+icalproperty.c: $(PROPERTYDEPS) icalproperty.h 
+	$(PERL) $(ICALSCRIPTS)/mkderivedproperties.pl -i icalproperty.c.in -c \
+		$(DESIGNDATA)/prop-to-value.txt \
+		${DESIGNDATA}/value-c-types.txt > icalproperty.c
+
+icalrestriction.c: $(RESTRICTIONDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkrestrictiontable.pl  -i icalrestriction.c.in \
+		$(DESIGNDATA)/restrictions.csv > icalrestriction.c
+
+icalvalue.h: $(VALUEDEPS)
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl -i icalvalue.h.in -h \
+		$(DESIGNDATA)/value-c-types.txt > icalvalue.h
+
+icalvalue.c: $(VALUEDEPS) icalvalue.h
+	$(PERL) $(ICALSCRIPTS)/mkderivedvalues.pl  -i icalvalue.c.in -c \
+		$(DESIGNDATA)/value-c-types.txt > icalvalue.c
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

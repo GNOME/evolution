@@ -31,11 +31,10 @@
   icaldirset manages a database of ical components and offers
   interfaces for reading, writting and searching for components.
 
-  icaldirset groups components in to clusters based on their DTSTART
+  icaldirset groups components in to clusters based on their DTSTAMP
   time -- all components that start in the same month are grouped
   together in a single file. All files in a sotre are kept in a single
-  directory. ( If a component does not have DTSTART, the store uses
-  DTSTAMP or CREATE )
+  directory. 
 
   The primary interfaces are icaldirset_first and icaldirset_next. These
   routine iterate through all of the components in the store, subject
@@ -76,32 +75,25 @@
 #include <stdlib.h> /* for rand(), srand() */
 #include <sys/utsname.h> /* for uname */
 #include <string.h> /* for strdup */
+#include "icaldirsetimpl.h"
 
-
-struct icaldirset_impl 
-{
-	char* dir;
-	icalcomponent* gauge;
-	icaldirset* cluster;
-	int first_component;
-	pvl_list directory;
-	pvl_elem directory_iterator;
-};
 
 struct icaldirset_impl* icaldirset_new_impl()
 {
-    struct icaldirset_impl* comp;
+    struct icaldirset_impl* impl;
 
-    if ( ( comp = (struct icaldirset_impl*)
+    if ( ( impl = (struct icaldirset_impl*)
 	   malloc(sizeof(struct icaldirset_impl))) == 0) {
 	icalerror_set_errno(ICAL_NEWFAILED_ERROR);
 	return 0;
     }
 
-    return comp;
+    strcpy(impl->id,ICALDIRSET_ID);
+
+    return impl;
 }
 
-char* icaldirset_path(icaldirset* cluster)
+const char* icaldirset_path(icaldirset* cluster)
 {
     struct icaldirset_impl *impl = icaldirset_new_impl();
 
@@ -125,12 +117,12 @@ icalerrorenum icaldirset_commit(icaldirset* store)
 
 }
 
-void icaldirset_lock(char* dir)
+void icaldirset_lock(const char* dir)
 {
 }
 
 
-void icaldirset_unlock(char* dir)
+void icaldirset_unlock(const char* dir)
 {
 }
 
@@ -172,7 +164,7 @@ icalerrorenum icaldirset_read_directory(struct icaldirset_impl* impl)
     return ICAL_NO_ERROR;
 }
 
-icaldirset* icaldirset_new(char* dir)
+icaldirset* icaldirset_new(const char* dir)
 {
     struct icaldirset_impl *impl = icaldirset_new_impl();
     struct stat sbuf;
@@ -366,7 +358,7 @@ void icaldirset_add_uid(icaldirset* store, icaldirset* comp)
 
 /* This assumes that the top level component is a VCALENDAR, and there
    is an inner component of type VEVENT, VTODO or VJOURNAL. The inner
-   component must have a DTSTART property */
+   component must have a DTAMP property */
 
 icalerrorenum icaldirset_add_component(icaldirset* store, icaldirset* comp)
 {
@@ -392,15 +384,32 @@ icalerrorenum icaldirset_add_component(icaldirset* store, icaldirset* comp)
 	inner != 0;
 	inner = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT)){
   
-	dt = icalcomponent_get_first_property(inner,ICAL_DTSTART_PROPERTY);
-	
+	dt = icalcomponent_get_first_property(inner,ICAL_DTSTAMP_PROPERTY);
+ 	
 	if (dt != 0){
 	    break; 
 	}	
     }
 
     if (dt == 0){
-	icalerror_warn("The component does not have a DTSTART property, so it cannot be added to the store");
+
+	for(inner = icalcomponent_get_first_component(comp,ICAL_ANY_COMPONENT);
+	    inner != 0;
+	    inner = icalcomponent_get_next_component(comp,ICAL_ANY_COMPONENT)){
+	    
+	    dt = icalcomponent_get_first_property(inner,ICAL_DTSTART_PROPERTY);
+	    
+	    if (dt != 0){
+		break; 
+	    }	
+	}
+
+    }
+
+    if (dt == 0){
+
+
+	icalerror_warn("The component does not have a DTSTAMP or DTSTART property, so it cannot be added to the store");
 	icalerror_set_errno(ICAL_BADARG_ERROR);
 	return ICAL_BADARG_ERROR;
     }
@@ -488,7 +497,7 @@ icalerrorenum icaldirset_remove_component(icaldirset* store, icaldirset* comp)
 	icalerrorenum error = icaldirset_next_cluster(store);
 
 	if(impl->cluster != 0 && error == ICAL_NO_ERROR){
-	    icalfileset_get_first_component(impl->cluster,ICAL_ANY_COMPONENT);
+	    icalfileset_get_first_component(impl->cluster);
 	} else {
 	    /* HACK. Not strictly correct for impl->cluster==0 */
 	    return error;
@@ -503,10 +512,24 @@ icalerrorenum icaldirset_remove_component(icaldirset* store, icaldirset* comp)
 
 
 int icaldirset_count_components(icaldirset* store,
-			       icalcomponent_kind kind);
+			       icalcomponent_kind kind)
+{
+    /* HACK, not implemented */
+    
+    assert(0);
+
+    return 0;
+}
 
 
-icalcomponent* icaldirset_fetch(icaldirset* store, char* uid)
+icalcomponent* icaldirset_fetch_match(icaldirset* set, icalcomponent *c)
+{
+    fprintf(stderr," icaldirset_fetch_match is not implemented\n");
+    assert(0);
+}
+
+
+icalcomponent* icaldirset_fetch(icaldirset* store, const char* uid)
 {
     icalcomponent *gauge;
     icalcomponent *old_gauge;
@@ -532,7 +555,7 @@ icalcomponent* icaldirset_fetch(icaldirset* store, char* uid)
     old_gauge = impl->gauge;
     impl->gauge = gauge;
 
-    c= icaldirset_get_first_component(store,ICAL_ANY_COMPONENT);
+    c= icaldirset_get_first_component(store);
 
     impl->gauge = old_gauge;
 
@@ -542,7 +565,7 @@ icalcomponent* icaldirset_fetch(icaldirset* store, char* uid)
 }
 
 
-int icaldirset_has_uid(icaldirset* store, char* uid)
+int icaldirset_has_uid(icaldirset* store, const char* uid)
 {
     icalcomponent *c;
 
@@ -560,7 +583,7 @@ int icaldirset_has_uid(icaldirset* store, char* uid)
 
 
 icalerrorenum icaldirset_select(icaldirset* store, icalcomponent* gauge)
-{
+ {
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
 
     icalerror_check_arg_re( (store!=0), "store",ICAL_BADARG_ERROR);
@@ -575,16 +598,30 @@ icalerrorenum icaldirset_select(icaldirset* store, icalcomponent* gauge)
     return ICAL_NO_ERROR;
 }
 
-void icaldirset_clear(icaldirset* store);
-icalcomponent* icaldirset_fetch(icaldirset* store, char* uid);
-int icaldirset_has_uid(icaldirset* store, char* uid);
+
+icalerrorenum icaldirset_modify(icaldirset* store, icalcomponent *old,
+			       icalcomponent *new)
+{
+    assert(0);
+    return ICAL_NO_ERROR; /* HACK, not implemented */
+
+}
+
+
+void icaldirset_clear(icaldirset* store)
+{
+
+    assert(0);
+    return;
+    /* HACK, not implemented */
+}
 
 icalcomponent* icaldirset_get_current_component(icaldirset* store)
 {
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
 
     if(impl->cluster == 0){
-	icaldirset_get_first_component(store,ICAL_ANY_COMPONENT);
+	icaldirset_get_first_component(store);
     }
 
     return icalfileset_get_current_component(impl->cluster);
@@ -592,8 +629,7 @@ icalcomponent* icaldirset_get_current_component(icaldirset* store)
 }
 
 
-icalcomponent* icaldirset_get_first_component(icaldirset* store,
-					       icalcomponent_kind kind)
+icalcomponent* icaldirset_get_first_component(icaldirset* store)
 {
     struct icaldirset_impl *impl = (struct icaldirset_impl*)store;
     icalerrorenum error;
@@ -638,11 +674,10 @@ icalcomponent* icaldirset_get_first_component(icaldirset* store,
 
     impl->first_component = 1;
 
-    return icaldirset_get_next_component(store, kind);
+    return icaldirset_get_next_component(store);
 }
 
-icalcomponent* icaldirset_get_next_component(icaldirset* store, 
-					     icalcomponent_kind kind)
+icalcomponent* icaldirset_get_next_component(icaldirset* store)
 {
     struct icaldirset_impl *impl;
     icalcomponent *c;
@@ -662,10 +697,10 @@ icalcomponent* icaldirset_get_next_component(icaldirset* store,
 
     /* Set the component iterator for the following for loop */
     if (impl->first_component == 1){
-	icalfileset_get_first_component(impl->cluster,kind);
+	icalfileset_get_first_component(impl->cluster);
 	impl->first_component = 0;
     } else {
-	icalfileset_get_next_component(impl->cluster,kind);
+	icalfileset_get_next_component(impl->cluster);
     }
 
 
@@ -673,9 +708,7 @@ icalcomponent* icaldirset_get_next_component(icaldirset* store,
 	/* Iterate through all of the objects in the cluster*/
 	for( c = icalfileset_get_current_component(impl->cluster);
 	     c != 0;
-	     c = icalfileset_get_next_component(
-		 impl->cluster,
-		 kind)){
+	     c = icalfileset_get_next_component(impl->cluster)){
 	    
 	    /* If there is a gauge defined and the component does not
 	       pass the gauge, skip the rest of the loop */
@@ -698,9 +731,7 @@ icalcomponent* icaldirset_get_next_component(icaldirset* store,
 	    /* No more clusters */
 	    return 0;
 	} else {
-	    c = icalfileset_get_first_component(
-		impl->cluster,
-		kind);
+	    c = icalfileset_get_first_component(impl->cluster);
 
 	    return c;
 	}
