@@ -167,7 +167,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		ECalViewEvent *event;
 		gchar *tmp_name;
 		gchar *new_name = g_strdup ("");
-		CalComponentText comp_text;
+		const char *summary;
 
 		atk_gobj = ATK_GOBJECT_ACCESSIBLE (accessible);
 		g_obj = atk_gobject_accessible_get_object (atk_gobj);
@@ -175,16 +175,14 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 			return NULL;
 		event = ea_calendar_helpers_get_cal_view_event_from (GNOME_CANVAS_ITEM(g_obj));
 
-		if (event && event->comp) {
-			CalComponent *comp = event->comp;
-
-			if (cal_component_has_alarms (comp)) {
+		if (event && event->comp_data) {
+			if (cal_util_component_has_alarms (event->comp_data->icalcomp)) {
 				tmp_name = new_name;
 				new_name = g_strconcat (new_name, "alarm ", NULL);
 				g_free (tmp_name);
 			}
 
-			if (cal_component_has_recurrences (comp)) {
+			if (cal_util_component_has_recurrences (event->comp_data->icalcomp)) {
 				tmp_name = new_name;
 				new_name = g_strconcat (new_name, "recurrence ", NULL);
 				g_free (tmp_name);
@@ -196,7 +194,7 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 				g_free (tmp_name);
 			}
 
-			if (cal_component_has_organizer (comp)) {
+			if (cal_util_component_has_organizer (event->comp_data->icalcomp)) {
 				tmp_name = new_name;
 				new_name = g_strconcat (new_name, "meeting ", NULL);
 				g_free (tmp_name);
@@ -206,11 +204,10 @@ ea_cal_view_event_get_name (AtkObject *accessible)
 		new_name = g_strconcat (new_name, "event. Summary is ", NULL);
 		g_free (tmp_name);
 
-		cal_component_get_summary (event->comp, &comp_text);
-		if (comp_text.value) {
-			char *text = (char*) comp_text.value;
+		summary = icalcomponent_get_summary (event->comp_data->icalcomp);
+		if (summary) {
 			tmp_name = new_name;
-			new_name = g_strconcat (new_name, text, NULL);
+			new_name = g_strconcat (new_name, summary, NULL);
 			g_free (tmp_name);
 		}
 		else {

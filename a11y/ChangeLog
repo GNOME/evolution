@@ -1,3 +1,8 @@
+2003-08-20  Rodrigo Moya <rodrigo@ximian.com>
+
+	* calendar/ea-cal-view-event.c (ea_cal_view_event_get_name):
+	adapted to changes in ECalViewEvent.
+
 2003-08-20  Bolian Yin <bolian.yin@sun.com>
 	setup the a11y directory for evolution accessibility work
 	New files are:
