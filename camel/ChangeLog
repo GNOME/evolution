@@ -1,3 +1,9 @@
+2002-08-16  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folders): Fix the logic
+	check for working out if we add inbox or not, we do it if we
+	listed the namespace.
+
 2002-08-15  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.h (CamelFolderInfo): added a flags field, defined

@@ -2014,7 +2014,7 @@ get_folders_online (CamelImapStore *imap_store, const char *pattern,
 	camel_imap_response_free (imap_store, response);
 }
 
-#if 0
+#if 1
 static void
 dumpfi(CamelFolderInfo *fi)
 {
@@ -2158,7 +2158,7 @@ get_folders(CamelStore *store, const char *top, guint32 flags, CamelException *e
 		haveinbox = (strcasecmp(fi->full_name, "INBOX")) == 0;
 	}
 
-	if (!haveinbox && top[0] == 0)
+	if (!haveinbox && top[0] == imap_store->namespace)
 		get_folders_online(imap_store, "INBOX", folders, FALSE, ex);
 
 	for (i=0; i<folders->len; i++)
@@ -2245,6 +2245,8 @@ get_folder_info_online (CamelStore *store, const char *top, guint32 flags, Camel
 
 	if (!(flags & CAMEL_STORE_FOLDER_INFO_FAST))
 		get_folder_counts(imap_store, tree, ex);
+
+	dumpfi(tree);
 
 	return tree;
 }
