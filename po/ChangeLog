@@ -1,3 +1,7 @@
+2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* POTFILES.in: Removed some unused mail source files
+
 2003-10-22  Dan Winship  <danw@ximian.com>
 
 	* POTFILES.in, POTFILES.skip: update to match the tree.

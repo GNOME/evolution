@@ -265,7 +265,6 @@ filter/score-editor.c
 filter/score-rule.c
 filter/vfolder-editor.c
 filter/vfolder-rule.c
-mail/component-factory.c
 mail/em-composer-utils.c
 mail/em-folder-browser.c
 mail/em-folder-selection-button.c
@@ -279,8 +278,6 @@ mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
 mail/folder-browser-ui.c
-mail/folder-browser.c
-mail/folder-browser.h
 mail/folder-info.c
 mail/GNOME_Evolution_Mail.server.in.in
 mail/importers/elm-importer.c
@@ -323,7 +320,6 @@ mail/message-list.etspec
 mail/message-tag-editor.c
 mail/message-tag-followup.c
 mail/message-tags.glade
-mail/subscribe-dialog.c
 mail/subscribe-dialog.etspec
 mail/subscribe-dialog.glade
 shell/e-config-upgrade.c
