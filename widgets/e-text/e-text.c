@@ -56,8 +56,6 @@ enum {
 	ARG_MODEL,
 	ARG_EVENT_PROCESSOR,
 	ARG_TEXT,
-	ARG_X,
-	ARG_Y,
 	ARG_FONT,
         ARG_FONTSET,
 	ARG_FONT_GDK,
@@ -220,10 +218,6 @@ e_text_class_init (ETextClass *klass)
 				 GTK_TYPE_OBJECT, GTK_ARG_READWRITE, ARG_EVENT_PROCESSOR);
 	gtk_object_add_arg_type ("EText::text",
 				 GTK_TYPE_STRING, GTK_ARG_READWRITE, ARG_TEXT);
-	gtk_object_add_arg_type ("EText::x",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_X);
-	gtk_object_add_arg_type ("EText::y",
-				 GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_Y);
 	gtk_object_add_arg_type ("EText::font",
 				 GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_FONT);
 	gtk_object_add_arg_type ("EText::fontset",
@@ -309,8 +303,6 @@ e_text_init (EText *text)
 				   GTK_SIGNAL_FUNC(e_text_text_model_changed),
 				   text);
 
-	text->x = 0.0;
-	text->y = 0.0;
 	text->anchor = GTK_ANCHOR_CENTER;
 	text->justification = GTK_JUSTIFY_LEFT;
 	text->clip_width = -1.0;
@@ -325,6 +317,7 @@ e_text_init (EText *text)
 	text->editable = FALSE;
 	text->editing = FALSE;
 	text->xofs_edit = 0;
+	text->yofs_edit = 0;
 	
 	text->selection_start = 0;
 	text->selection_end = 0;
@@ -447,9 +440,9 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 	int old_height;
 
 	item = GNOME_CANVAS_ITEM (text);
-
-	x = text->x;
-	y = text->y;
+	
+	x = 0;
+	y = 0;
 
 	clip_x = x;
 	clip_y = y;
@@ -478,14 +471,20 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 	case GTK_ANCHOR_CENTER:
 	case GTK_ANCHOR_S:
 		x -= text->max_width / 2;
-		clip_x -= text->clip_width / 2;
+		if ( text->clip_width >= 0)
+			clip_x -= text->clip_width / 2;
+		else
+			clip_x -= text->width / 2;
 		break;
 
 	case GTK_ANCHOR_NE:
 	case GTK_ANCHOR_E:
 	case GTK_ANCHOR_SE:
 		x -= text->max_width;
-		clip_x -= text->clip_width;
+		if (text->clip_width >= 0)
+			clip_x -= text->clip_width;
+		else
+			clip_x -= text->width;
 		break;
 	}
 
@@ -522,7 +521,10 @@ get_bounds_item_relative (EText *text, double *px1, double *py1, double *px2, do
 		/* maybe do bbox intersection here? */
 		*px1 = clip_x;
 		*py1 = clip_y;
-		*px2 = clip_x + text->clip_width;
+		if (text->clip_width >= 0)
+			*px2 = clip_x + text->clip_width;
+		else
+			*px2 = clip_x + text->width;
 
 		if ( text->clip_height >= 0 )
 			*py2 = clip_y + text->clip_height;
@@ -546,8 +548,8 @@ get_bounds (EText *text, double *px1, double *py1, double *px2, double *py2)
 
 	/* Get canvas pixel coordinates for text position */
 
-	wx = text->x;
-	wy = text->y;
+	wx = 0;
+	wy = 0;
 	gnome_canvas_item_i2w (item, &wx, &wy);
 	gnome_canvas_w2c (item->canvas, wx + text->xofs, wy + text->yofs, &text->cx, &text->cy);
 
@@ -992,18 +994,6 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		e_text_model_set_text(text->model, GTK_VALUE_STRING (*arg));
 		break;
 
-	case ARG_X:
-		text->x = GTK_VALUE_DOUBLE (*arg);
-		text->needs_recalc_bounds = 1;
-		needs_update = 1;
-		break;
-
-	case ARG_Y:
-		text->y = GTK_VALUE_DOUBLE (*arg);
-		text->needs_recalc_bounds = 1;
-		needs_update = 1;
-		break;
-
 	case ARG_FONT:
 		if (text->font)
 			gdk_font_unref (text->font);
@@ -1259,14 +1249,6 @@ e_text_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		GTK_VALUE_STRING (*arg) = g_strdup (text->text);
 		break;
 
-	case ARG_X:
-		GTK_VALUE_DOUBLE (*arg) = text->x;
-		break;
-
-	case ARG_Y:
-		GTK_VALUE_DOUBLE (*arg) = text->y;
-		break;
-
 	case ARG_FONT_GDK:
 		GTK_VALUE_BOXED (*arg) = text->font;
 		break;
@@ -1392,8 +1374,9 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 			}
 		}
 		lines --;
+		i--;
 		x = gdk_text_width(text->font,
-				   lines->text, 
+				   lines->text,
 				   text->selection_end - (lines->text - text->text));
 		
 
@@ -1404,6 +1387,12 @@ e_text_reflow (GnomeCanvasItem *item, int flags)
 		if (2 + x - text->clip_width > text->xofs_edit) {
 			text->xofs_edit = 2 + x - text->clip_width;
 		}
+		
+		if ((text->font->ascent + text->font->descent) * (i - 1) < text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * (i - 1);
+		
+		if (2 + (text->font->ascent + text->font->descent) * i - text->clip_height > text->yofs_edit)
+			text->yofs_edit = 2 + (text->font->ascent + text->font->descent) * i - text->clip_height;
 	}
 	if ( text->needs_calc_height ) {
 		calc_height (text);
@@ -1504,7 +1493,7 @@ get_line_xpos_item_relative (EText *text, struct line *line)
 {
 	double x;
 
-	x = text->x;
+	x = 0;
 
 	switch (text->anchor) {
 	case GTK_ANCHOR_NW:
@@ -1550,7 +1539,7 @@ get_line_ypos_item_relative (EText *text)
 {
 	double y;
 
-	y = text->y;
+	y = 0;
 
 	switch (text->anchor) {
 	case GTK_ANCHOR_NW:
@@ -1658,6 +1647,8 @@ e_text_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		clip_rect = &rect;
 	}
 	ypos = text->cy + text->font->ascent;
+	if (text->editing)
+		ypos -= text->yofs_edit;
 
 	if (text->stipple)
 		gnome_canvas_set_stipple_origin (item->canvas, text->gc);
@@ -1965,8 +1956,8 @@ e_text_bounds (GnomeCanvasItem *item, double *x1, double *y1, double *x2, double
 
 	text = E_TEXT (item);
 
-	*x1 = text->x;
-	*y1 = text->y;
+	*x1 = 0;
+	*y1 = 0;
 
 	if (text->clip) {
 		width = text->clip_width;
@@ -2031,7 +2022,8 @@ _get_xy_from_position (EText *text, gint position, gint *xp, gint *yp)
 		double xd, yd;
 		int j;
 		x = get_line_xpos_item_relative (text, lines);
-		y = text->y + text->yofs;
+		y = text->yofs;
+		y -= text->yofs_edit;
 		for (j = 0, lines = text->lines; j < text->num_lines; lines++, j++) {
 			if (lines->text > text->text + position)
 				break;
@@ -2060,7 +2052,7 @@ static gint
 _get_position_from_xy (EText *text, gint x, gint y)
 {
 	int i, j;
-	int ypos = text->y + text->yofs;
+	int ypos = text->yofs;
 	int xpos;
 	double xd, yd;
 	
@@ -2070,6 +2062,8 @@ _get_position_from_xy (EText *text, gint x, gint y)
 	gnome_canvas_c2w (GNOME_CANVAS_ITEM(text)->canvas, xd, yd, &xd, &yd);
 	gnome_canvas_item_w2i (GNOME_CANVAS_ITEM(text), &xd, &yd);
 	x = xd;  y = yd;
+
+	y += text->yofs_edit;
 
 	j = 0;
 	while (y > ypos) {
@@ -2139,6 +2133,22 @@ _blink_scroll_timeout (gpointer data)
 				text->xofs_edit = 0;
 			redraw = TRUE;
 		}
+
+		if (text->lasty - text->clip_cy > text->clip_cheight &&
+		    text->yofs_edit < text->height - text->clip_cheight) {
+			text->yofs_edit += 4;
+			if (text->yofs_edit > text->height - text->clip_cheight + 1)
+				text->yofs_edit = text->height - text->clip_cheight + 1;
+			redraw = TRUE;
+		}
+		if (text->lasty - text->clip_cy < 0 &&
+		    text->yofs_edit > 0) {
+			text->yofs_edit -= 4;
+			if (text->yofs_edit < 0)
+				text->yofs_edit = 0;
+			redraw = TRUE;
+		}
+
 		if (redraw) {
 			ETextEventProcessorEvent e_tep_event;
 			e_tep_event.type = GDK_MOTION_NOTIFY;
@@ -2206,7 +2216,7 @@ _do_tooltip (gpointer data)
 	gdouble max_width;
 	gboolean cut_off;
 	double i2c[6];
-	ArtPoint origin = {text->x, text->y};
+	ArtPoint origin = {0, 0};
 	ArtPoint pixel_origin;
 	int canvas_x, canvas_y;
 	GnomeCanvasItem *tooltip_text;
@@ -2253,6 +2263,13 @@ _do_tooltip (gpointer data)
 	gtk_container_set_border_width (GTK_CONTAINER (text->tooltip_window), 1);
 
 	canvas = e_canvas_new ();
+
+
+
+
+
+
+
 	gtk_container_add (GTK_CONTAINER (text->tooltip_window), canvas);
 	
 	/* Get the longest line length */
@@ -2418,6 +2435,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 					text->selection_end = 0;
 					text->select_by_word = FALSE;
 					text->xofs_edit = 0;
+					text->yofs_edit = 0;
 					if (text->timeout_id == 0)
 						text->timeout_id = g_timeout_add(10, _blink_scroll_timeout, text);
 					text->timer = g_timer_new();
@@ -2851,6 +2869,12 @@ e_text_command(ETextEventProcessor *tep, ETextEventProcessorCommand *command, gp
 		if (2 + x - text->clip_width > text->xofs_edit) {
 			text->xofs_edit = 2 + x - text->clip_width;
 		}
+		
+		if ((text->font->ascent + text->font->descent) * (i - 1) < text->yofs_edit)
+			text->yofs_edit = (text->font->ascent + text->font->descent) * (i - 1);
+		
+		if (2 + (text->font->ascent + text->font->descent) * i - text->clip_height > text->yofs_edit)
+			text->yofs_edit = 2 + (text->font->ascent + text->font->descent) * i - text->clip_height;
 	}
 
 	text->needs_redraw = 1;

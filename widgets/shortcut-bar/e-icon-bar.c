@@ -33,6 +33,7 @@
 #include "e-icon-bar.h"
 #include "e-icon-bar-bg-item.h"
 #include "../e-text/e-text.h"
+#include "e-util/e-canvas-utils.h"
 
 /* These are the offsets of the icons & text in both views. Note that the
    shadow around icons is drawn in the space between items (as is the
@@ -437,9 +438,9 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 				       "anchor", anchor,
 				       "max_lines", max_lines,
 				       "line_wrap", line_wrap,
-				       "x", text_x,
-				       "y", (gdouble) item->text_y,
 				       NULL);
+		e_canvas_item_move_absolute(item->text,
+					    text_x, item->text_y);
 
 		/* Get the text item's height. */
 		gnome_canvas_item_get_bounds (item->text, &x1, &y1, &x2, &y2);
@@ -622,13 +623,13 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 					   "justification", justify,
 					   "line_wrap", TRUE,
 					   "max_lines", max_lines,
-					   "x", text_x,
-					   "y", (gdouble) 0,
 					   "clip", TRUE,
 					   "clip_width", (gdouble) (icon_bar->text_w),
 					   "clip_height", clip_height,
 					   "text", text,
 					   NULL);
+	e_canvas_item_move_absolute(item.text,
+				    text_x, 0);
 
 	gtk_signal_connect (GTK_OBJECT (item.text), "event",
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),

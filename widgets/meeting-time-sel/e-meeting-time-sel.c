@@ -46,6 +46,7 @@
 #include <libgnomeui/gnome-canvas-widget.h>
 
 #include "../../e-util/e-canvas.h"
+#include "e-util/e-canvas-utils.h"
 #include "e-meeting-time-sel.h"
 #include "e-meeting-time-sel-item.h"
 #include "e-meeting-time-sel-list-item.h"
@@ -1253,13 +1254,15 @@ e_meeting_time_selector_attendee_add (EMeetingTimeSelector *mts,
 		 "max_lines", 1,
 		 "editable", TRUE,
 		 "text", attendee_name ? attendee_name : "",
-		 "x", (gdouble) E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH
-		 + E_MEETING_TIME_SELECTOR_TEXT_X_PAD,
-		 "y", (gdouble) (mts->attendees->len * mts->row_height + 1
-				 + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD),
 		 "clip_width", (gdouble) item_width,
 		 "clip_height", (gdouble) font->ascent + font->descent,
 		 NULL);
+	
+	e_canvas_item_move_absolute(attendee.text_item,
+				    E_MEETING_TIME_SELECTOR_ICON_COLUMN_WIDTH
+				    + E_MEETING_TIME_SELECTOR_TEXT_X_PAD,
+				    mts->attendees->len * mts->row_height + 1
+				    + E_MEETING_TIME_SELECTOR_TEXT_Y_PAD);
 #if 0
 	gnome_canvas_item_hide (attendee.text_item);
 #endif

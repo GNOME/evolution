@@ -279,8 +279,6 @@ e_note_init (ENote *note)
 
 	priv->text_item = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (priv->canvas)),
 						 e_text_get_type (),
-						 "x", 5.0,
-						 "y", 25.0,
 						 "text", "",
 						 "font_gdk", priv->canvas->style->font,
 						 "fill_color", "black",
@@ -290,6 +288,9 @@ e_note_init (ENote *note)
 						 "line_wrap", TRUE,
 						 "width", 150.0,
 						 NULL);
+	e_canvas_item_move_absolute(priv->text_item,
+				    5, 25);
+
 	gtk_signal_connect (GTK_OBJECT (E_TEXT (priv->text_item)->model), "changed",
 			    GTK_SIGNAL_FUNC (e_note_text_changed), note);
 					

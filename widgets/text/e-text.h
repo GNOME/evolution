@@ -42,8 +42,6 @@ BEGIN_GNOME_DECLS
  * name			type			read/write	description
  * ------------------------------------------------------------------------------------------
  * text			string			RW		The string of the text label
- * x			double			RW		X coordinate of anchor point
- * y			double			RW		Y coordinate of anchor point
  * font			string			W		X logical font descriptor
  * fontset		string			W		X logical fontset descriptor
  * font_gdk		GdkFont*		RW		Pointer to a GdkFont
@@ -110,7 +108,6 @@ struct _EText {
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
-	double x, y;			/* Position at anchor */
 	GdkFont *font;			/* Font for text */
 	GtkAnchorType anchor;		/* Anchor side for text */
 	GtkJustification justification;	/* Justification for text */
@@ -146,6 +143,7 @@ struct _EText {
 	gboolean editing;               /* Item is currently being edited */
 
 	int xofs_edit;                  /* Offset because of editing */
+	int yofs_edit;                  /* Offset because of editing */
 
 	/* This needs to be reworked a bit once we get line wrapping. */
 	int selection_start;            /* Start of selection */

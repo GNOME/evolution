@@ -1,3 +1,12 @@
+2000-06-21  Christopher James Lahey  <clahey@helixcode.com>
+
+	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Removed the
+	"x" and "y" arguments to EText.   Added vertical scrolling.
+
+	* notes/e-note.c, widgets/meeting-time-sel/e-meeting-time-sel.c,
+	widgets/shortcut-bar/e-icon-bar.c: Removed the usage of "x" and
+	"y" arguments to EText.
+
 2000-06-20  Damon Chaplin  <damon@helixcode.com>
 
 	* widgets/meeting-time-sel/e-meeting-time-sel-item.c: 
