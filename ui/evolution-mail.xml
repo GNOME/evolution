@@ -154,15 +154,13 @@
 		_label="Copy" _descr="Copy message to a new folder"
 		pixtype="stock" pixname="Send Mail"/>
 
+		<toolitem type="separator"/>
+
 		<toolitem name="Print" verb="MessagePrint"
 		_label="Print" _descr="Print the selected message"
 		pixtype="stock" pixname="Print"/>
 
-		<toolitem name="Copy" verb="MessageCopy"
-		_label="Copy" _descr="Copy message to a new folder"
-		pixtype="stock" pixname="Send Mail"/>
-
-		<toolitem name="Copy" verb="MessageDelete"
+		<toolitem name="Delete" verb="MessageDelete"
 		_label="Delete" _descr="Delete this message"
 		pixtype="stock" pixname="Trash"/>
 

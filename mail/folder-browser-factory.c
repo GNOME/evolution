@@ -15,6 +15,7 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h> 
+#include <bonobo/bonobo-ui-component.h>
 
 #include "e-util/e-util.h"
 #include "e-util/e-gui-utils.h"
@@ -116,85 +117,64 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB_END
 };
 
-
-#warning FIXME: some clever person added this recently
-#if 0
-static void
-add_button_to_toolbar (GtkToolbar *toolbar,
-		       const char *label,
-		       const char *hint,
-		       const char *icon,
-		       GtkSignalFunc callback,
-		       void *data)
+/*
+ * MOVEME: into bonobo
+ */
+static char *
+bonobo_ui_xml_get_parent_path (const char *path)
 {
-	GtkWidget *pixmap;
-	GtkWidget *widget;
-	char *path;
+	const char *p;
+	char *ret;
+
+	if ((p = strrchr (path, '/')))
+		ret = g_strndup (path, p - path);
+	else
+		ret = g_strdup (path);
+
+	return ret;
+}
+
+static void
+set_pixmap (Bonobo_UIContainer container,
+	    const char        *xml_path,
+	    const char        *icon)
+{
+/*
+ * FIXME: this is broken, and needs fixing
+ * we probably want just to pass a filename in as filename
+ * and not to have the mess with gnome_pixmap_file as well.
+ */
+/*	char *path, *parent_path;
+	xmlNode *node;
 
 	path = g_concat_dir_and_file (EVOLUTION_DATADIR "/images/evolution/buttons", icon);
-	pixmap = gnome_pixmap_new_from_file (path);
-	g_free (path);
 
-	gtk_widget_show (pixmap);
+	node = bonobo_ui_container_get_tree (container, xml_path, FALSE, NULL);
 
-	widget = gtk_toolbar_append_element (toolbar, GTK_TOOLBAR_CHILD_BUTTON, NULL, label, hint, NULL, pixmap, NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (widget), "clicked", callback, data);
+	g_return_if_fail (node != NULL);
+
+	bonobo_ui_util_xml_set_pix_fname (node, path);
+
+	parent_path = bonobo_ui_xml_get_parent_path (xml_path);
+	bonobo_ui_component_set_tree (NULL, container, parent_path, node, NULL);
+
+	xmlFreeNode (node);
+
+	g_free (parent_path);
+	g_free (path);*/
 }
 
 static void
-add_stock_button_to_toolbar (GtkToolbar *toolbar,
-			     const char *label,
-			     const char *hint,
-			     const char *icon,
-			     GtkSignalFunc callback,
-			     void *data)
+update_pixmaps (Bonobo_UIContainer container)
 {
-	GtkWidget *pixmap;
-	GtkWidget *widget;
-
-	pixmap = gnome_stock_pixmap_widget_new (GTK_WIDGET (toolbar), icon);
-	gtk_widget_show (pixmap);
-
-	widget = gtk_toolbar_append_element (toolbar, GTK_TOOLBAR_CHILD_BUTTON, NULL, label, hint, NULL, pixmap, NULL, NULL);
-	gtk_signal_connect (GTK_OBJECT (widget), "clicked", callback, data);
+	set_pixmap (container, "/Toolbar/MailGet", "fetch-mail.png");
+	set_pixmap (container, "/Toolbar/MailCompose", "compose-message.png");
+	set_pixmap (container, "/Toolbar/Reply", "reply.png");
+	set_pixmap (container, "/Toolbar/ReplyAll", "reply-to-all.png");
+	set_pixmap (container, "/Toolbar/Forward", "forward.png");
+	set_pixmap (container, "/Toolbar/Move", "move-message.png");
+	set_pixmap (container, "/Toolbar/Copy", "copy-message.png");
 }
-
-static void
-fill_toolbar (FolderBrowser *folder_browser,
-	      GtkToolbar *toolbar)
-{
-	add_button_to_toolbar (toolbar, _("Get Mail"), _("Send queued mail and retrieve new mail"),
-			       "fetch-mail.png", send_receieve_mail, folder_browser);
-	add_button_to_toolbar (toolbar, _("Compose"), _("Compose a new message"),
-			       "compose-message.png", compose_msg, folder_browser);
-
-	gtk_toolbar_append_space (toolbar);
-	add_button_to_toolbar (toolbar, _("Reply"), _("Reply to the sender of this message"),
-			       "reply.png", reply_to_sender, folder_browser);
-	add_button_to_toolbar (toolbar, _("Reply to All"), _("Reply to all recipients of this message"),
-			       "reply-to-all.png", reply_to_all, folder_browser);
-	add_button_to_toolbar (toolbar, _("Forward"), _("Forward this message"),
-			       "forward.png", forward_msg, folder_browser);
-
-	gtk_toolbar_append_space (toolbar);
-
-	add_button_to_toolbar (toolbar, _("Move"), _("Move message to a new folder"),
-			       "move-message.png", move_msg, folder_browser);
-	add_button_to_toolbar (toolbar, _("Copy"), _("Move message to a new folder"),
-			       "copy-message.png", move_msg, folder_browser);
-
-	gtk_toolbar_append_space (toolbar);
-
-	add_stock_button_to_toolbar (toolbar, _("Print"), _("Print the selected message"),
-				     GNOME_STOCK_PIXMAP_PRINT, print_msg, folder_browser);
-	add_stock_button_to_toolbar (toolbar, _("Delete"), _("Delete this message"),
-				     GNOME_STOCK_PIXMAP_TRASH, delete_msg, folder_browser);
-
-	gtk_toolbar_set_style (toolbar, GTK_TOOLBAR_BOTH);
-	gtk_toolbar_set_button_relief (toolbar, GTK_RELIEF_NONE);
-	gtk_widget_show_all (GTK_WIDGET (toolbar));
-}
-#endif
 
 static void
 control_activate (BonoboControl *control, BonoboUIHandler *uih,
@@ -203,33 +183,27 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 	GtkWidget         *folder_browser;
 	Bonobo_UIHandler   remote_uih;
 	BonoboUIComponent *component;
+	Bonobo_UIContainer container;
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);
 	bonobo_object_release_unref (remote_uih, NULL);
 
+	container = bonobo_ui_compat_get_container (uih);
+	g_return_if_fail (container != CORBA_OBJECT_NIL);
+		
 	folder_browser = bonobo_control_get_widget (control);
 
 	component = bonobo_ui_compat_get_component (uih);
 	bonobo_ui_component_add_verb_list_with_data (
 		component, verbs, folder_browser);
 
-#warning FIXME set View/Threaded state to mail_config_thread_list ()
-	bonobo_ui_component_add_verb (
-		component, "ViewThreaded",
-		(BonoboUIVerbFn) message_list_toggle_threads,
-		FOLDER_BROWSER (folder_browser)->message_list);
-
-	create_ondemand_hooks (fb, uih);
+	bonobo_ui_container_freeze (container, NULL);
 
 	{ /* FIXME: sweeten this whole function */
 		char *fname;
 		xmlNode *ui;
-		Bonobo_UIContainer container;
 
-		container = bonobo_ui_compat_get_container (uih);
-		g_return_if_fail (container != CORBA_OBJECT_NIL);
-		
 		fname = bonobo_ui_util_get_ui_fname ("evolution-mail.xml");
 		g_warning ("Attempting ui load from '%s'", fname);
 		
@@ -240,6 +214,24 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 		g_free (fname);
 		xmlFreeNode (ui);
 	}
+
+	if (mail_config_thread_list ())
+		bonobo_ui_container_set_prop (
+			container, "/menu/View/Threaded", "state", "1", NULL);
+	else
+		bonobo_ui_container_set_prop (
+			container, "/menu/View/Threaded", "state", "0", NULL);
+
+	bonobo_ui_component_add_verb (
+		component, "ViewThreaded",
+		(BonoboUIVerbFn) message_list_toggle_threads,
+		FOLDER_BROWSER (folder_browser)->message_list);
+
+	create_ondemand_hooks (fb, uih);
+
+	update_pixmaps (container);
+
+	bonobo_ui_container_thaw (container, NULL);
 }
 
 static void
@@ -247,7 +239,6 @@ control_deactivate (BonoboControl *control,
 		    BonoboUIHandler *uih,
 		    FolderBrowser *fb)
 {
-	g_warning ("Mail control deactivate");
 	bonobo_ui_component_rm (
 		bonobo_ui_compat_get_component (uih),
 		bonobo_ui_compat_get_container (uih), "/", NULL);

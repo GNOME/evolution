@@ -1,3 +1,7 @@
+2000-09-14  Michael Meeks  <michael@helixcode.com>
+
+	* POTFILES.in: s/minicard/widgets/
+
 2000-09-12  Jarkko Ranta  <jjranta@cc.joensuu.fi>
 
 	* fi.po: corrected some mistakes
