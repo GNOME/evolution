@@ -25,7 +25,7 @@
 
 #include <gtk/gtk.h>
 #include <gtkhtml/gtkhtml.h>
-#include <gnome-xml/tree.h>
+#include <tree.h> /* gnome-xml */
 
 #define FILTER_ARG(obj)         GTK_CHECK_CAST (obj, filter_arg_get_type (), FilterArg)
 #define FILTER_ARG_CLASS(klass) GTK_CHECK_CLASS_CAST (klass, filter_arg_get_type (), FilterArgClass)
