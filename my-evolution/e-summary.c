@@ -631,8 +631,6 @@ do_summary_print (ESummary *summary)
 		break;
 
 	default:
-		if (preview_widget != NULL)
-			gtk_widget_destroy (preview_widget);
 		gtk_widget_destroy (gpd);
 		return;
 	}

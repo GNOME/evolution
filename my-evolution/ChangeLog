@@ -1,3 +1,9 @@
+2003-06-19  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-summary.c (do_summary_print): Do not destroy preview_widget
+	when returning from gtk_dialog_run() since it's unset at that
+	point.  [#44798]
+
 2003-06-13  Larry Ewing  <lewing@ximian.com>
 
 	* e-summary.c (e_summary_url_requested): free the filename.
