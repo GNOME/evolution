@@ -1,3 +1,10 @@
+2003-10-08  Harry Lu  <harry.lu@sun.com>
+
+	* gui/dialogs/alarm-options.glade: Make repeat-quantity and 
+	repeat-value of alarm option dialog numeric only.
+	* gui/dialogs/task-details-page.glade: Make percent-complete
+	of task details dialog numeric only.
+
 2003-09-16  Harry Lu  <harry.lu@sun.com>
 
 	* gui/apps_evolution_calendar.schemas: change last_notification_time's
