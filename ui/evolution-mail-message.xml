@@ -49,6 +49,10 @@
      accel="*Control*y"
      pixtype="pixbuf"/>
 
+    <cmd name="MessageFilterJunk"
+     _tip="Filter the selected messages for junk status"
+     pixtype="pixbuf"/>
+
     <cmd name="MessageCopy"
      _tip="Copy selected messages to another folder"
      accel="*Control**Shift*y"
@@ -102,7 +106,8 @@
      pixtype="pixbuf"/>
 
     <cmd name="MessageMarkAsNotJunk"
-     _tip="Mark the selected message(s) as not being junk"/>
+     _tip="Mark the selected message(s) as not being junk"
+     pixtype="pixbuf"/>
 
     <cmd name="MessageMove"
      _tip="Move selected message(s) to another folder"
@@ -345,6 +350,7 @@
 	  <separator f="" name="emaillist5"/>
 
           <menuitem name="MessageApplyFilters" verb="" _label="A_pply Filters"/>
+          <menuitem name="MessageFilterJunk" verb="" _label="Filter _Junk"/>
         </placeholder>
       </placeholder>
     </submenu>
