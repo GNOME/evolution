@@ -3432,7 +3432,7 @@ msgid "%s at the start of the appointment"
 msgstr "アポイントの開始 %s"
 
 #: calendar/gui/dialogs/alarm-page.c:420
-#, c-format
+#, fuzzy, c-format
 msgid "%s %s before the end of the appointment"
 msgstr "アポイントの終了 %s"
 
@@ -9371,7 +9371,7 @@ msgid "Reconfiguring folder"
 msgstr "フォルダを再構築中"
 
 #: mail/mail-local.c:655
-#, c-format
+#, fuzzy, c-format
 msgid ""
 "Cannot save folder metainfo; you'll probably find you can't\n"
 "open this folder anymore: %s: %s"

@@ -1,5 +1,9 @@
 2001-10-17  Abel Cheung  <maddog@linux.org.hk>
 
+	* ja.po: Mark line 3436, 9375 as fuzzy, fails at "msgfmt -c" check.
+
+2001-10-17  Abel Cheung  <maddog@linux.org.hk>
+
 	* zh_TW.po: Updated traditional Chinese translation from Joe Man
 	<trmetal@yahoo.com.hk> and Jau-Shiung Liau <pesder@seed.net.tw>.
 
