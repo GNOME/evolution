@@ -3,6 +3,10 @@ Evolution 1.0.4, ???
 
 Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
 
+  * Addressbook
+
+    #22965 -- Comply with RFC 2739 for calCalURI and calFBURL. (Toshok>
+
   * Calendar
 
     #22624 -- Unable to accept meeting request that doesn't list user
