@@ -73,16 +73,6 @@ gchar       *e_utf8_to_charset_string                       (const gchar   *char
 gchar       *e_utf8_to_charset_string_sized                 (const gchar   *charset,
 							     const gchar   *string,
 							     gint           bytes);
-gchar       *e_utf8_from_gtk_string                         (GtkWidget     *widget,
-							     const gchar   *string);
-gchar       *e_utf8_from_gtk_string_sized                   (GtkWidget     *widget,
-							     const gchar   *string,
-							     gint           bytes);
-gchar       *e_utf8_to_gtk_string                           (GtkWidget     *widget,
-							     const gchar   *string);
-gchar       *e_utf8_to_gtk_string_sized                     (GtkWidget     *widget,
-							     const gchar   *string,
-							     gint           bytes);
 gchar       *e_utf8_from_locale_string                      (const gchar   *string);
 gchar       *e_utf8_from_locale_string_sized                (const gchar   *string,
 							     gint           bytes);
@@ -108,14 +98,6 @@ void         e_utf8_gtk_editable_insert_text                (GtkEditable   *edit
 							     const gchar   *text,
 							     gint           length,
 							     gint          *position);
-GtkWidget   *e_utf8_gtk_menu_item_new_with_label            (GtkMenu       *menu,
-							     const gchar   *label);
-void         e_utf8_gtk_clist_set_text                      (GtkCList      *clist,
-							     gint           row,
-							     gint           col,
-							     const gchar   *text);
-gint         e_utf8_gtk_clist_append                        (GtkCList      *clist,
-							     gchar         *text[]);
 gchar       *e_utf8_xml1_decode                             (const gchar   *text);
 gchar       *e_utf8_xml1_encode                             (const gchar   *text);
 gint         e_unichar_to_utf8                              (gint           c,

@@ -47,7 +47,6 @@
 #include "e-cell-text.h"
 #include "gal/util/e-util.h"
 #include "gal/widgets/e-canvas.h"
-#include "gal/widgets/e-font.h"
 #include "gal/widgets/e-unicode.h"
 #include "e-table-item.h"
 #include "gal/util/e-text-event-processor.h"
@@ -112,7 +111,6 @@ typedef struct _CellEdit CellEdit;
 typedef struct {
 	ECellView    cell_view;
 	GdkGC       *gc;
-	EFont *font;
 	GdkCursor *i_cursor;
 	GdkBitmap *stipple;		/* Stipple for text */
 	
@@ -193,7 +191,6 @@ static void _get_tep (CellEdit *edit);
 static gint get_position_from_xy (CellEdit *edit, gint x, gint y);
 static gboolean _blink_scroll_timeout (gpointer data);
 
-static void calc_ellipsis (ECellTextView *text_view);
 static void ect_free_color (gchar *color_spec, GdkColor *color, GdkColormap *colormap);
 static GdkColor* e_cell_text_get_color (ECellTextView *cell_view, gchar *color_spec);
 
@@ -376,22 +373,11 @@ static void
 ect_realize (ECellView *ecell_view)
 {
 	ECellTextView *text_view = (ECellTextView *) ecell_view;
-	ECellText *ect = (ECellText *) ecell_view->ecell;
 	
 	text_view->gc = gdk_gc_new (GTK_WIDGET (text_view->canvas)->window);
 
 	text_view->i_cursor = gdk_cursor_new (GDK_XTERM);
 	
-	if (ect->font_name){
-		text_view->font = e_font_from_gdk_name (ect->font_name);
-	}
-	if (!text_view->font){
-		gdk_font_ref (gtk_style_get_font (GTK_WIDGET (text_view->canvas)->style));
-		text_view->font = e_font_from_gdk_font (gtk_style_get_font (GTK_WIDGET (text_view->canvas)->style));
-	}
-	
-	calc_ellipsis (text_view);
-
 	if (parent_class->realize)
 		(* parent_class->realize) (ecell_view);
 }
@@ -413,10 +399,6 @@ ect_unrealize (ECellView *ecv)
 		ect_cancel_edit (text_view);
 	}
 
-	if (text_view->font)
-		e_font_unref (text_view->font);
-	text_view->font = NULL;
-	
 	if (text_view->stipple)
 		gdk_bitmap_unref (text_view->stipple);
 
@@ -1294,7 +1276,6 @@ ect_show_tooltip (ECellView *ecell_view,
 	tooltip_text = gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (canvas)),
 					      e_text_get_type (),
 					      "anchor", GTK_ANCHOR_NW,
-/*  					      "font_gdk", text_view->font, */
 					      "bold", (gboolean) ect->bold_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->bold_column, row),
 					      "strikeout", (gboolean) ect->strikeout_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->strikeout_column, row),
 					      "underline", (gboolean) ect->underline_column >= 0 && e_table_model_value_at(ecell_view->e_table_model, ect->underline_column, row),
@@ -1555,7 +1536,7 @@ E_MAKE_TYPE(e_cell_text, "ECellText", ECellText, e_cell_text_class_init, e_cell_
 /**
  * e_cell_text_construct:
  * @cell: The cell to construct
- * @fontname: font to be used to render on the screen
+ * @fontname: this param is no longer used, but left here for api stability
  * @justify: Justification of the string in the cell
  *
  * constructs the ECellText.  To be used by subclasses and language
@@ -1573,7 +1554,7 @@ e_cell_text_construct (ECellText *cell, const char *fontname, GtkJustification j
 
 /**
  * e_cell_text_new:
- * @fontname: font to be used to render on the screen
+ * @fontname: this param is no longer used, but left here for api stability
  * @justify: Justification of the string in the cell.
  *
  * Creates a new ECell renderer that can be used to render strings that
@@ -1730,13 +1711,10 @@ _get_position (ECellTextView *text_view, ETextEventProcessorCommand *command)
 {
 	int length;
 	CellEdit *edit = text_view->edit;
-	EFont *font;
 	gchar *p;
 	int unival;
 	int index;
 	int trailing;
-	
-	font = text_view->font;
 	
 	switch (command->position) {
 		
@@ -1982,10 +1960,7 @@ e_cell_text_view_command (ETextEventProcessor *tep, ETextEventProcessorCommand *
 	gboolean redraw = FALSE;
 
 	int sel_start, sel_end;
-	EFont *font;
 	
-	font = text_view->font;
-
 	/* If the EText isn't editable, then ignore any commands that would
 	   modify the text. */
 	if (!ect->editable && (command->action == E_TEP_DELETE
@@ -2266,25 +2241,6 @@ _get_tep (CellEdit *edit)
 				  "command",
 				  G_CALLBACK(e_cell_text_view_command),
 				  (gpointer) edit);
-	}
-}
-
-static void
-calc_ellipsis (ECellTextView *text_view)
-{
-	ECellText *ect = E_CELL_TEXT (((ECellView *)text_view)->ecell);
-	EFont *font;
-	
-	font = text_view->font;
-	if (font) {
-		text_view->ellipsis_width[E_FONT_PLAIN] =
-			e_font_utf8_text_width (font, E_FONT_PLAIN,
-					ect->ellipsis ? ect->ellipsis : "...",
-					ect->ellipsis ? strlen (ect->ellipsis) : 3);
-		text_view->ellipsis_width[E_FONT_BOLD] =
-			e_font_utf8_text_width (font, E_FONT_BOLD,
-					ect->ellipsis ? ect->ellipsis : "...",
-					ect->ellipsis ? strlen (ect->ellipsis) : 3);
 	}
 }
 
