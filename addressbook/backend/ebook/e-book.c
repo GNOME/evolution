@@ -609,9 +609,10 @@ static gboolean
 activate_factories_for_uri (EBook *book, const char *uri)
 {
 	CORBA_Environment ev;
-	OAF_ServerInfoList *info_list;
+	OAF_ServerInfoList *info_list = NULL;
 	int i;
 	char *protocol, *query, *colon;
+	gboolean retval = FALSE;
 
 	colon = strchr (uri, ':');
 	if (!colon) {
@@ -632,18 +633,16 @@ activate_factories_for_uri (EBook *book, const char *uri)
 
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Eeek!  Cannot perform OAF query for book factories.");
-		return FALSE;
+		CORBA_exception_free (&ev);
+		goto shutdown;
 	}
 
 	if (info_list->_length == 0) {
 		g_warning ("Can't find installed BookFactory that handles protocol '%s'.", protocol);
-		g_free (protocol);
 		CORBA_exception_free (&ev);
-		return FALSE;
+		goto shutdown;
 	}
 
-	g_free (protocol);
-	g_free (query);
 	CORBA_exception_free (&ev);
 
 	for (i = 0; i < info_list->_length; i ++) {
@@ -662,14 +661,20 @@ activate_factories_for_uri (EBook *book, const char *uri)
 								    factory);
 	}
 
-	CORBA_free (info_list);
-
 	if (!book->priv->book_factories) {
 		g_warning ("Couldn't activate any book factories.");
-		return FALSE;
+		goto shutdown;
 	}
 
-	return TRUE;
+	retval = TRUE;
+
+ shutdown:
+	if (info_list)
+		CORBA_free (info_list);
+	g_free (query);
+	g_free (protocol);
+
+	return retval;
 }
 
 gboolean
