@@ -1,3 +1,12 @@
+2001-07-17  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-itip-control.c (get_next): find the next displayable
+	component
+	(get_prev): find the previous displayable component
+	(e_itip_control_set_data): use above
+	(prev_clicked_cb): ditto
+	(next_clicked_cb): ditto
+
 2001-07-17  Federico Mena Quintero  <federico@ximian.com>
 
 	Really fixes #4380.  The previous fix was necessary but not

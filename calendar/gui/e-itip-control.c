@@ -736,6 +736,40 @@ show_current_freebusy (EItipControl *itip)
 	}
 }
 
+static icalcomponent *
+get_next (icalcompiter *iter) 
+{
+	icalcomponent *ret = NULL;
+	icalcomponent_kind kind = ICAL_NO_COMPONENT;
+	
+	while (kind != ICAL_VEVENT_COMPONENT 
+	       && kind != ICAL_VTODO_COMPONENT
+	       && kind != ICAL_VFREEBUSY_COMPONENT) {
+		icalcompiter_next (iter);	
+		ret = icalcompiter_deref (iter);
+		kind = icalcomponent_isa (ret);
+	}
+
+	return ret;
+}
+
+static icalcomponent *
+get_prev (icalcompiter *iter)
+{
+	icalcomponent *ret = NULL;
+	icalcomponent_kind kind = ICAL_NO_COMPONENT;
+	
+	while (kind != ICAL_VEVENT_COMPONENT 
+	       && kind != ICAL_VTODO_COMPONENT
+	       && kind != ICAL_VFREEBUSY_COMPONENT) {
+		icalcompiter_prior (iter);	
+		ret = icalcompiter_deref (iter);
+		kind = icalcomponent_isa (ret);
+	}
+
+	return ret;
+}
+
 static void
 show_current (EItipControl *itip) 
 {
@@ -782,7 +816,8 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 {
 	EItipControlPrivate *priv;
 	icalproperty *prop;
-	
+	icalcomponent_kind kind = ICAL_NO_COMPONENT;
+
 	priv = itip->priv;
 	
 	priv->vcalendar = g_strdup (text);
@@ -802,6 +837,11 @@ e_itip_control_set_data (EItipControl *itip, const gchar *text)
 
 	priv->iter = icalcomponent_begin_component (priv->main_comp, ICAL_ANY_COMPONENT);
 	priv->ical_comp = icalcompiter_deref (&priv->iter);
+	kind = icalcomponent_isa (priv->ical_comp);
+	if (kind != ICAL_VEVENT_COMPONENT 
+	    && kind != ICAL_VTODO_COMPONENT
+	    && kind != ICAL_VFREEBUSY_COMPONENT)
+		priv->ical_comp = get_next (&priv->iter);
 	
 	priv->total = icalcomponent_count_components (priv->main_comp, ICAL_VEVENT_COMPONENT);
 	priv->total += icalcomponent_count_components (priv->main_comp, ICAL_VTODO_COMPONENT);
@@ -958,7 +998,7 @@ prev_clicked_cb (GtkWidget *widget, gpointer data)
 	priv = itip->priv;
 	
 	priv->current--;
-	priv->ical_comp = icalcompiter_prior (&priv->iter);
+	priv->ical_comp = get_prev (&priv->iter);
 
 	show_current (itip);
 }
@@ -972,7 +1012,7 @@ next_clicked_cb (GtkWidget *widget, gpointer data)
 	priv = itip->priv;
 	
 	priv->current++;
-	priv->ical_comp = icalcompiter_next (&priv->iter);
+	priv->ical_comp = get_next (&priv->iter);
 
 	show_current (itip);
 }
