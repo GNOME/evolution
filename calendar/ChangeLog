@@ -9,6 +9,9 @@
 	oaf_activate_from_id() -> bonobo_activation_activate_from_id().
 	(load_vcalendar_file): U_() -> _().
 
+	* importers/GNOME_Evolution_Calendar_Importer.server.in:
+	Renamed to corresponding .in.in.
+
 2003-02-28  Dan Winship  <danw@ximian.com>
 
 	* gui/Makefile.am (libevolution_calendar_la_LIBADD): Remove
