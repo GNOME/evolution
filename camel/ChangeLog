@@ -1,17 +1,23 @@
-2004-08-13  Sivaiah Nallagatla <snallagatla@novell.com>
+2004-08-13  Jeffrey Stedfast  <fejj@novell.com>
 
-       * providers/groupwise/camel-gw-listener.c (account_changed):
-       remove the cal/taksks sources when account is disbaled. Also
-       do not try to to create sources when a disabled account is changed to
-       Novell Groupwise
-       (camel_gw_listener_construct) : do not add the disbaled
-       accounts to exitsting groupwise accounts list
+	* providers/imap4/camel-imap4-summary.c (imap4_summary_fetch_all):
+	Use g_ptr_array_sized_new() rather than using set_size() after
+	creating a GPtrArray so that array->len starts out at 0.
+	(imap4_summary_fetch_flags): Same.
 
 2004-08-13  Sivaiah Nallagatla <snallagatla@novell.com>
 
-       * providers/groupwise/camel-groupwise-provider.c : update
-       ssl setting label and title of the soap settings section
-       Fixes #62747
+	* providers/groupwise/camel-gw-listener.c (account_changed):
+	remove the cal/taksks sources when account is disbaled. Also do
+	not try to to create sources when a disabled account is changed to
+	Novell Groupwise
+	(camel_gw_listener_construct) : do not add the disbaled accounts
+	to exitsting groupwise accounts list
+
+2004-08-13  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* providers/groupwise/camel-groupwise-provider.c: update ssl
+	setting label and title of the soap settings section. Fixes #62747
 
 2004-08-13  Rodney Dawes  <dobey@novell.com>
 
