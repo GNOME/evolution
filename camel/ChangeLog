@@ -1,3 +1,7 @@
+2002-08-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-mime-filter-tohtml.c (is_protocol): Match file: urls too.
+
 2002-08-28  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test8.c (test_add_message): Change message number

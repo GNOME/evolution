@@ -262,7 +262,8 @@ is_protocol (char *inptr, char *inend, gboolean *backup)
 		    !strncasecmp (inptr, "ftp://", 6) ||
 		    !strncasecmp (inptr, "nntp://", 7) ||
 		    !strncasecmp (inptr, "mailto:", 7) ||
-		    !strncasecmp (inptr, "news:", 5))
+		    !strncasecmp (inptr, "news:", 5) ||
+		    !strncasecmp (inptr, "file:", 5))
 			return TRUE;
 	} else if (backup) {
 		*backup = TRUE;
