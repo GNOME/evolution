@@ -638,9 +638,6 @@ imap_parse_nstring (char **str_p, int *len)
 			return NULL;
 		}
 		
-		/* capture up until the end of the line - byte count may be a little off */
-		for ( ; *(str + *len) && *(str + *len) != '\n'; (*len)++);
-		
 		out = g_strndup (str, *len);
 		*str_p = str + *len;
 		return out;

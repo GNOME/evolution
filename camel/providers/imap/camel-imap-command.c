@@ -276,10 +276,10 @@ imap_read_untagged (CamelImapStore *store, char *line, CamelException *ex)
 		 */
 		length--;
 	}
-
+	
 	/* Add the length of the post-literal line. */
-	fulllen += strlen (line);
-
+	fulllen += n;
+	
 	/* p points to the "{" in the line that starts the literal.
 	 * The length of the CR-less response must be less than or
 	 * equal to the length of the response with CRs, therefore

@@ -409,8 +409,8 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 {
 	CamelStreamBuffer *stream = CAMEL_STREAM_BUFFER (store->istream);
 	GByteArray *bytes;
-	gchar buf[1024], *ret;
-	guint nread;
+	gchar buf[1025], *ret;
+	gint nread;
 	
 	*dest = NULL;
 	
@@ -433,36 +433,34 @@ remote_recv_line (CamelRemoteStore *store, char **dest, CamelException *ex)
 	
 	bytes = g_byte_array_new ();
 	
-	nread = 1024;
-	while (nread == 1024) {
+	do {
 		nread = camel_stream_buffer_gets (stream, buf, 1024);
 		if (nread > 0)
-			g_byte_array_append (bytes, buf, nread - 1);
-	}
+			g_byte_array_append (bytes, buf, nread);
+	} while (nread == 1024);
 	
 	g_byte_array_append (bytes, "", 1);
 	ret = bytes->data;
 	nread = bytes->len - 1;
 	g_byte_array_free (bytes, FALSE);
 	
-	/* strip off the CRLF sequence at the end of the string */
-	for ( ; nread > 0; nread--) {
-		if (ret[nread] == '\r') {
-			ret[nread] = '\0';
-			break;
-		}
-	}
-	
-	*dest = ret;
-	
-	if (!*dest) {
+	if (nread <= 0) {
+		g_free (ret);
+		ret = NULL;
 		camel_exception_set (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
 				     g_strerror (errno));
 		
 		camel_service_disconnect (CAMEL_SERVICE (store), FALSE, NULL);
 		return -1;
 	}
-
+	
+	/* strip off the CRLF sequence */
+	while (nread > 0 && ret[nread] != '\r')
+		ret[nread--] = '\0';
+	ret[nread] = '\0';
+	
+	*dest = ret;
+	
 #if d(!)0
 	if (camel_verbose_debug)
 		fprintf (stderr, "received: %s\n", *dest);

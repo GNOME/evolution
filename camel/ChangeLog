@@ -1,3 +1,15 @@
+2000-11-20  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* camel-remote-store.c (remote_recv_line): Fixed to return the
+	correct bytecount in all cases which is the real fix to
+	imap_parse_nstring.
+
+	* providers/imap/camel-imap-command.c (imap_read_untagged): Again,
+	don't use strlen for the post-data, use 'n'.
+
+	* providers/imap/camel-imap-utils.c (imap_parse_nstring): Undo my
+	previous temp-fix.
+
 2000-11-20  Not Zed  <NotZed@HelixCode.com>
 
 	* providers/nntp/camel-nntp-utils.c (get_XOVER_headers): Fixes for
@@ -112,6 +124,7 @@
 	parsing (all other data can be retrieved by the caller except
 	this).
 
+>>>>>>> 1.594
 2000-11-17  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* providers/imap/camel-imap-utils.c (imap_parse_nstring): When
