@@ -1,3 +1,13 @@
+2002-09-04  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c,
+	providers/imap/camel-imap-folder.c: Lots of changes, too numerous
+	to list.  Changed to use camel-imap-store-summary to cache list
+	requests.  Changed to use a canonicalised url path with / instead
+	of per-store directory separator.  Indirects folder name so
+	invalid folder names can still be accessed.  Summary now stored in
+	a new expandable format in .ev-store-summary.
+
 2002-08-29  Not Zed  <NotZed@Ximian.com>
 
 	* tests/folder/test3.c: Change the case sensitive search of
@@ -123,6 +133,87 @@
 	(camel_session_register_timeout): Removed.
 	(camel_session_remove_timeout): Removed.
 
+2002-08-28  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (construct): Load store
+	summary if it exists.
+	(can_work_offline): Just see if we have any folders to say whether
+	we can work offline or not.  Should probably always just return
+	true.
+
+2002-08-27  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store-summary.[ch]: New files to
+	handle offline definition of folders, etc.
+
+	* camel-url.h: Define CamelURL to be struct _CamelURL rather than
+	anonymous struct.
+
+	* camel-store-summary.[ch]: a few api tweaks.  Also, the summary
+	header is versioned separately at each level, so that version
+	upgrades can be handled separately.  Renamed FolderInfo ->
+	StoreInfo to avoid namespace with current FolderInfo code.  This
+	should be reversed when the FolderInfo code is rationalised to
+	this new base.
+
+2002-08-23  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-command.c (camel_imap_command): domt
+	encode folder name.
+
+	* providers/imap/camel-imap-folder.c (do_copy): dont encode folder
+	name.
+	(do_append): dont encode folder name.
+
+	* providers/imap/camel-imap-store.c (get_folder_status): don
+	encode folder name in imap request.
+	(get_folder_online): here too for creating folder.
+	(rename_folder): Assume the incoming 'new name' is a utf8 path,
+	whereas the 'old name' is as from get folder info (raw).
+	(create_folder): Dont encode parent_name, assume its the raw
+	thing.
+
+2002-08-22  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_online): Select
+	based on unconverted name.
+	(imap_build_folder_info): New function to create a folderinfo
+	properly based on raw name.
+	(subscribe_folder): Use above helper.
+	(imap_folder_effectively_unsubscribed): Same here.
+	(imap_forget_folder): Same here.
+	(get_one_folder_offline): "
+
+2002-08-21  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c
+	(parse_list_response_as_folder_info): Setup path properly, as
+	decoded path with / separator.  Setup full_name as non-decoded raw
+	name.  Keep url as decoded path but with server separator
+	... (ick).
+	(create_folder): Dont call build_path anymore, get_folders() does
+	it for us.
+	(subscribe_folder): Build the path ourself.
+	(imap_folder_effectively_unsubscribed): Same here.
+	(get_subscribed_folders): list using %S not %F, we're using the
+	raw server provided name directly.
+	(subscribe_folder): As above, for SUBSCRIBE.
+	(unsubscribe_folder): Same here.
+	(delete_folder): Same.
+	(rename_folder_info): Same here for source name.
+	(rename_folder): And here?
+	(get_folders_online): Amd here.
+
+	* providers/imap/camel-imap-utils.c:
+	(imap_parse_list_response): Dont decode the mailbox.
+
+	* camel-utf8.[ch]: some new utf8 & utf7 utilities.
+
+	* providers/imap/camel-imap-utils.c (imap_mailbox_encode):
+	(imap_mailbox_decode): use camel_utf7/8* functions instead.
+	: Add config.h and alloca.h headers.
+
+>>>>>>> 1.1620.2.1
 2002-08-20  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-store.c (imap_noop): Override the

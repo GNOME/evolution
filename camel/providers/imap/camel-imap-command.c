@@ -37,9 +37,11 @@
 #include "camel-imap-utils.h"
 #include "camel-imap-folder.h"
 #include "camel-imap-store.h"
+#include "camel-imap-store-summary.h"
 #include "camel-imap-private.h"
 #include <camel/camel-exception.h>
 #include <camel/camel-private.h>
+#include <camel/camel-utf8.h>
 
 #define d(x) x
 
@@ -764,8 +766,10 @@ imap_command_strdup_vprintf (CamelImapStore *store, const char *fmt,
 		case 'S':
 		case 'F':
 			string = args->pdata[i++];
-			if (*p == 'F')
-				string = imap_mailbox_encode (string, strlen (string));
+			if (*p == 'F') {
+				char *s = camel_imap_store_summary_full_from_path(store->summary, string);
+				string = s?s:camel_utf8_utf7(string);
+			}
 			
 			if (imap_is_atom (string)) {
 				outptr += sprintf (outptr, "%s", string);

@@ -61,7 +61,7 @@ struct _CamelStorePrivate {
 	EMutex *folder_lock;	/* for locking folder operations */
 	EMutex *cache_lock;	/* for locking access to the cache */
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -77,7 +77,7 @@ struct _CamelTransportPrivate {
 #ifdef ENABLE_THREADS
 	GMutex *send_lock;   /* for locking send operations */
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -94,7 +94,7 @@ struct _CamelServicePrivate {
 	EMutex *connect_lock;	/* for locking connection operations */
 	EMutex *connect_op_lock;/* for locking the connection_op */
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -117,7 +117,7 @@ struct _CamelSessionPrivate {
 	GHashTable *thread_active;
 	EThread *thread_queue;
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -169,7 +169,7 @@ struct _CamelStoreSummaryPrivate {
 	GMutex *alloc_lock;	/* for setting up and using allocators */
 	GMutex *ref_lock;	/* for reffing/unreffing messageinfo's ALWAYS obtain before summary_lock */
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -205,7 +205,7 @@ struct _CamelDataWrapperPrivate {
 #ifdef ENABLE_THREADS
 	pthread_mutex_t stream_lock;
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 
@@ -225,7 +225,7 @@ struct _CamelCertDBPrivate {
 	GMutex *alloc_lock;	/* for setting up and using allocators */
 	GMutex *ref_lock;	/* for reffing/unreffing certs */
 #else
-	gpointer dummy;
+	int dummy;
 #endif
 };
 

@@ -35,7 +35,7 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
-typedef struct {
+typedef struct _CamelURL {
 	char  *protocol;
 	char  *user;
 	char  *authmech;

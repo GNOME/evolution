@@ -20,11 +20,19 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include <config.h>
+#endif
+
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include <iconv.h>
+#include <errno.h>
+
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#endif
 
 #include "camel-imap-utils.h"
 #include "camel-imap-summary.h"
@@ -363,7 +371,9 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 		astring = imap_parse_astring (&word, &len);
 		if (!astring)
 			return FALSE;
-		
+
+		*folder = astring;
+#if 0
 		mailbox = imap_mailbox_decode (astring, strlen (astring));
 		g_free (astring);
 		if (!mailbox)
@@ -385,6 +395,7 @@ imap_parse_list_response (CamelImapStore *store, const char *buf, int *flags, ch
 			*flags &= ~CAMEL_FOLDER_NOSELECT;
 		
 		*folder = mailbox;
+#endif
 	}
 	
 	return TRUE;

@@ -24,6 +24,7 @@ libcamelimap_la_SOURCES = 			\
 	camel-imap-provider.c			\
 	camel-imap-search.c			\
 	camel-imap-store.c			\
+	camel-imap-store-summary.c		\
 	camel-imap-summary.c			\
 	camel-imap-utils.c			\
 	camel-imap-wrapper.c
@@ -34,6 +35,7 @@ libcamelimapinclude_HEADERS =			\
 	camel-imap-message-cache.h		\
 	camel-imap-search.h			\
 	camel-imap-store.h			\
+	camel-imap-store-summary.h		\
 	camel-imap-summary.h			\
 	camel-imap-types.h			\
 	camel-imap-utils.h			\

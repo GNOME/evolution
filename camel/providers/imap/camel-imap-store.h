@@ -102,6 +102,8 @@ struct _CamelImapStore {
 	
 	CamelStream *istream;
 	CamelStream *ostream;
+
+	struct _CamelImapStoreSummary *summary;
 	
 	/* Information about the command channel / connection status */
 	gboolean connected;
@@ -113,7 +115,7 @@ struct _CamelImapStore {
 	CamelImapServerLevel server_level;
 	guint32 capabilities, parameters;
 	char *namespace, dir_sep, *base_url, *storage_path;
-	GHashTable *authtypes, *subscribed_folders;
+	GHashTable *authtypes;
 	
 	gboolean renaming;
 	
