@@ -382,13 +382,13 @@ e_week_view_init (EWeekView *week_view)
 				       "EWeekViewMainItem::week_view", week_view,
 				       NULL);
 
-	g_signal_connect_after (week_view->main_canvas, "button_press_event",
+	g_signal_connect (week_view->main_canvas, "button_press_event",
 				G_CALLBACK (e_week_view_on_button_press), week_view);
-	g_signal_connect_after (week_view->main_canvas, "button_release_event",
+	g_signal_connect (week_view->main_canvas, "button_release_event",
 				G_CALLBACK (e_week_view_on_button_release), week_view);
-	g_signal_connect_after (week_view->main_canvas, "scroll_event",
+	g_signal_connect (week_view->main_canvas, "scroll_event",
 				G_CALLBACK (e_week_view_on_scroll), week_view);
-	g_signal_connect_after (week_view->main_canvas, "motion_notify_event",
+	g_signal_connect (week_view->main_canvas, "motion_notify_event",
 				G_CALLBACK (e_week_view_on_motion), week_view);
 
 	/* Create the buttons to jump to each days. */

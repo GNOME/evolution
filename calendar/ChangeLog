@@ -1,3 +1,17 @@
+2003-05-19  JP Rosevear  <jpr@ximian.com>
+
+	Fixes #43103
+	
+	* gui/e-day-view.c (e_day_view_init): connect normally instead of
+	after so that our boolean return values afffect the action signal
+	emmissions properly
+	(e_day_view_on_top_canvas_drag_motion): fix proto to be a gboolean
+	(e_day_view_on_main_canvas_drag_motion): ditto
+
+	* gui/e-week-view.c (e_week_view_init): connect normally instead
+	of after so that our boolean return values afffect the action
+	signal emmissions properly
+
 2003-05-16  JP Rosevear  <jpr@ximian.com>
 
 	* gui/dialogs/comp-editor.c (make_title_from_comp): the title is
