@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -52,6 +53,7 @@
 
 #include "em-popup.h"
 #include "em-utils.h"
+#include "em-migrate.h"
 
 #include <gtk/gtklabel.h>
 
@@ -62,6 +64,7 @@
 #include <gal/e-table/e-tree-memory.h>
 
 #include <camel/camel.h>
+#include <camel/camel-file-utils.h>
 
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
@@ -926,7 +929,7 @@ impl_createControls (PortableServer_Servant servant,
 	GtkWidget *view_widget;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
-
+	
 	browser = e_storage_browser_new (priv->storage_set, "/", create_view_callback, NULL);
 
 	tree_widget = e_storage_browser_peek_tree_widget (browser);
@@ -977,67 +980,55 @@ mail_component_init (MailComponent *component)
 {
 	MailComponentPrivate *priv;
 	EAccountList *accounts;
-
+	struct stat st;
+	char *mail_dir;
+	
 	priv = g_new0 (MailComponentPrivate, 1);
 	component->priv = priv;
-
-	/* EPFIXME: Move to a private directory.  */
-	/* EPFIXME: Create the directory.  */
-	priv->base_directory = g_build_filename (g_get_home_dir (), "evolution", NULL);
-
+	
+	priv->base_directory = g_build_filename (g_get_home_dir (), ".evolution", NULL);
+	if (camel_mkdir (priv->base_directory, 0777) == -1 && errno != EEXIST)
+		abort ();
+	
 	/* EPFIXME: Turn into an object?  */
 	mail_session_init (priv->base_directory);
-
+	
 	priv->async_event = mail_async_event_new();
 	priv->storages_hash = g_hash_table_new (NULL, NULL);
-
+	
 	priv->folder_type_registry = e_folder_type_registry_new ();
 	priv->storage_set = e_storage_set_new (priv->folder_type_registry);
-
-#if 0				/* EPFIXME TODO somehow */
-	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++)
-		*standard_folders[i].uri = g_strdup_printf ("file://%s/local/%s", evolution_dir, standard_folders[i].name);
-#endif
+	
+	/* migrate evolution 1.x folders to 2.0's location/format */
+	mail_dir = g_strdup_printf ("%s/mail", priv->base_directory);
+	if (stat (mail_dir, &st) == -1) {
+		CamelException ex;
+		
+		camel_exception_init (&ex);
+		if (em_migrate (component, &ex) == -1) {
+			GtkWidget *dialog;
+			
+			dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
+							 _("Some of your mail folders were unable to be migrated:\n%s"),
+							 camel_exception_get_description (&ex));
+			
+			g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+			gtk_widget_show (dialog);
+			
+			camel_exception_clear (&ex);
+		}
+	}
+	g_free (mail_dir);
+	
 	setup_local_store (component);
-
+	
 	accounts = mail_config_get_accounts ();
 	load_accounts(component, accounts);
-
-#if 0
-	/* EPFIXME?  */
-	mail_local_storage_startup (shell_client, evolution_dir);
-	mail_importer_init (shell_client);
-
-	for (i = 0; i < sizeof (standard_folders) / sizeof (standard_folders[0]); i++) {
-		mail_msg_wait (mail_get_folder (*standard_folders[i].uri, CAMEL_STORE_FOLDER_CREATE,
-						got_folder, standard_folders[i].folder, mail_thread_new));
-	}
-#endif
 	
 	/* mail_autoreceive_setup (); EPFIXME keep it off for testing */
-
+	
 	setup_search_context (component);
-
-#if 0
-	/* EPFIXME this shouldn't be here.  */
-	if (mail_config_is_corrupt ()) {
-		GtkWidget *dialog;
-		
-		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE,
-						 _("Some of your mail settings seem corrupt, "
-						   "please check that everything is in order."));
-		g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
-		gtk_widget_show (dialog);
-	}
-#endif
-
-#if 0
-	/* EPFIXME if we nuke the summary this is not necessary anymore.  */
-
-	/* Everything should be ready now */
-	evolution_folder_info_notify_ready ();
-#endif
-
+	
 	/* EPFIXME not sure about this.  */
 	go_online (component);
 }

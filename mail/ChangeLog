@@ -1,3 +1,12 @@
+2003-11-05  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-migrate.[c,h]: New source files to migrate from the old mail
+	directory to the new mail directory.
+
+	* mail-component.c (mail_component_init): Changed to use
+	~/.evolution and added code to migrate the old mail folders over
+	if ~/.evolution/mail does not yet exist.
+
 2003-11-03  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Use "evolution2:config_item"
