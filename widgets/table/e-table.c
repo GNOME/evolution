@@ -1411,11 +1411,6 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	e_table->cursor_mode = specification->cursor_mode;
 	e_table->full_header = e_table_spec_to_full_header(specification, ete);
 
-	gtk_object_set(GTK_OBJECT(e_table->selection),
-		       "selection_mode", specification->selection_mode,
-		       "cursor_mode", specification->cursor_mode,
-		       NULL);
-
 	e_table->model = etm;
 	gtk_object_ref (GTK_OBJECT (etm));
 
@@ -1448,6 +1443,8 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 
 	gtk_object_set (GTK_OBJECT (e_table->selection),
 			"model", etm,
+			"selection_mode", specification->selection_mode,
+			"cursor_mode", specification->cursor_mode,
 			"sorter", e_table->sorter,
 			"header", e_table->header,
 			NULL);
