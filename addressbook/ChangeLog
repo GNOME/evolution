@@ -1,3 +1,16 @@
+2004-02-19  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/addressbook.c (activate_source): split out the
+	majority of the set_prop code for PROPERTY_SOURCE_UID_IDX here, so
+	it can be used for both SOURCE_UID and FOLDER_URI.
+	(set_prop): add a setter for "folder_uri".  we sorta fudge things
+	and use the uri for the uid (the uid is only used as a hash key to
+	look up the view associated with the uri/source, so we should be
+	good still.)
+	(get_prop): add getter for "folder_uri".
+	(addressbook_new_control): add the "folder_uri" property to our
+	property bag.
+
 2004-02-19  Hans Petter Jansson  <hpj@ximian.com>
 
 	Fixes #45308 and duplicates.

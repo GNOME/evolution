@@ -61,8 +61,10 @@ static GdkPixbuf *progress_icon = NULL;
 #define d(x)
 
 #define PROPERTY_SOURCE_UID          "source_uid"
+#define PROPERTY_FOLDER_URI          "folder_uri"
 
 #define PROPERTY_SOURCE_UID_IDX      1
+#define PROPERTY_FOLDER_URI_IDX      2
 
 typedef struct {
 	gint refs;
@@ -890,6 +892,97 @@ addressbook_load_default_book (EBookCallback cb, gpointer closure)
 }
 
 static void
+activate_source (AddressbookView *view,
+		 ESource *source,
+		 const char *uid)
+{
+	GtkWidget *uid_view;
+	EBook *book;
+	BookOpenData *data;
+
+	uid_view = g_hash_table_lookup (view->uid_to_view, uid);
+
+	if (uid_view) {
+		/* there is a view for this uid.  make
+		   sure that the view actually
+		   contains an EBook (if it doesn't
+		   contain an EBook a previous load
+		   failed.  try to load it again */
+		g_object_get (uid_view,
+			      "book", &book,
+			      NULL);
+
+		if (book) {
+			g_object_unref (book);
+		}
+		else {
+			book = e_book_new ();
+
+			g_object_get (uid_view,
+				      "source", &source,
+				      NULL);
+
+			/* source can be NULL here, if
+			   a previous load hasn't
+			   actually made it to
+			   book_open_cb yet. */
+			if (source) {
+				data = g_new (BookOpenData, 1);
+				data->view = g_object_ref (uid_view);
+				data->source = source; /* transfer the ref we get back from g_object_get */
+
+				addressbook_load_source (book, source, book_open_cb, data);
+			}
+		}
+	}
+	else {
+		/* we don't have a view for this uid already
+		   set up. */
+		GtkWidget *label = gtk_label_new (uid);
+
+		uid_view = eab_view_new ();
+
+		gtk_widget_show (uid_view);
+		gtk_widget_show (label);
+
+		g_object_set (uid_view, "type", EAB_VIEW_TABLE, NULL);
+
+		gtk_notebook_append_page (GTK_NOTEBOOK (view->notebook),
+					  uid_view,
+					  label);
+
+		g_hash_table_insert (view->uid_to_view, g_strdup (uid), uid_view);
+
+		g_signal_connect (uid_view, "status_message",
+				  G_CALLBACK(set_status_message), view);
+
+		g_signal_connect (uid_view, "search_result",
+				  G_CALLBACK(search_result), view);
+
+		g_signal_connect (uid_view, "command_state_change",
+				  G_CALLBACK(update_command_state), view);
+
+		book = e_book_new ();
+
+		data = g_new (BookOpenData, 1);
+		data->view = g_object_ref (uid_view);
+		data->source = g_object_ref (source);
+
+		addressbook_load_source (book, source, book_open_cb, data);
+	}
+
+	gtk_notebook_set_current_page (GTK_NOTEBOOK (view->notebook),
+				       gtk_notebook_page_num (GTK_NOTEBOOK (view->notebook),
+							      uid_view));
+
+	/* change menus/toolbars to reflect the new view, assuming we are already displayed */
+	if (bonobo_ui_component_get_container (bonobo_control_get_ui_component (view->control)) != CORBA_OBJECT_NIL) {
+		eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (view->control));
+		update_command_state (EAB_VIEW (uid_view), view);
+	}
+}
+
+static void
 set_prop (BonoboPropertyBag *bag,
 	  const BonoboArg   *arg,
 	  guint              arg_id,
@@ -897,11 +990,26 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	AddressbookView *view = user_data;
+	ESource *source;
 
 	switch (arg_id) {
 
+	case PROPERTY_FOLDER_URI_IDX: {
+		const gchar *string = BONOBO_ARG_GET_STRING (arg);
+		ESourceGroup *group;
+
+		group = e_source_group_new ("", string);
+		source = e_source_new ("", "");
+		e_source_set_group (source, group);
+
+		/* we use the uri as the uid here. */
+		activate_source (view, source, string);
+
+		g_object_unref (group);
+
+		break;
+	}
 	case PROPERTY_SOURCE_UID_IDX: {
-		ESource *source;
 		const gchar *uid;
 
 		uid = BONOBO_ARG_GET_STRING (arg);
@@ -909,90 +1017,7 @@ set_prop (BonoboPropertyBag *bag,
 		source = e_source_list_peek_source_by_uid (view->source_list, uid);
 
 		if (source) {
-			GtkWidget *uid_view;
-			EBook *book;
-			BookOpenData *data;
-
-			uid_view = g_hash_table_lookup (view->uid_to_view, uid);
-
-			if (uid_view) {
-				/* there is a view for this uid.  make
-				   sure that the view actually
-				   contains an EBook (if it doesn't
-				   contain an EBook a previous load
-				   failed.  try to load it again */
-				g_object_get (uid_view,
-					      "book", &book,
-					      NULL);
-
-				if (book) {
-					g_object_unref (book);
-				}
-				else {
-					book = e_book_new ();
-
-					g_object_get (uid_view,
-						      "source", &source,
-						      NULL);
-
-					/* source can be NULL here, if
-					   a previous load hasn't
-					   actually made it to
-					   book_open_cb yet. */
-					if (source) {
-						data = g_new (BookOpenData, 1);
-						data->view = g_object_ref (uid_view);
-						data->source = source; /* transfer the ref we get back from g_object_get */
-
-						addressbook_load_source (book, source, book_open_cb, data);
-					}
-				}
-			}
-			else {
-				/* we don't have a view for this uid already
-				   set up. */
-				GtkWidget *label = gtk_label_new (uid);
-
-				uid_view = eab_view_new ();
-
-				gtk_widget_show (uid_view);
-				gtk_widget_show (label);
-
-				g_object_set (uid_view, "type", EAB_VIEW_TABLE, NULL);
-
-				gtk_notebook_append_page (GTK_NOTEBOOK (view->notebook),
-							  uid_view,
-							  label);
-
-				g_hash_table_insert (view->uid_to_view, g_strdup (uid), uid_view);
-
-				g_signal_connect (uid_view, "status_message",
-						  G_CALLBACK(set_status_message), view);
-
-				g_signal_connect (uid_view, "search_result",
-						  G_CALLBACK(search_result), view);
-
-				g_signal_connect (uid_view, "command_state_change",
-						  G_CALLBACK(update_command_state), view);
-
-				book = e_book_new ();
-
-				data = g_new (BookOpenData, 1);
-				data->view = g_object_ref (uid_view);
-				data->source = g_object_ref (source);
-
-				addressbook_load_source (book, source, book_open_cb, data);
-			}
-
-			gtk_notebook_set_current_page (GTK_NOTEBOOK (view->notebook),
-						       gtk_notebook_page_num (GTK_NOTEBOOK (view->notebook),
-									      uid_view));
-
-			/* change menus/toolbars to reflect the new view, assuming we are already displayed */
-			if (bonobo_ui_component_get_container (bonobo_control_get_ui_component (view->control)) != CORBA_OBJECT_NIL) {
-				eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (view->control));
-				update_command_state (EAB_VIEW (uid_view), view);
-			}
+			activate_source (view, source, uid);
 		}
 		else {
 			g_warning ("Could not find source by UID '%s'!", uid);
@@ -1018,6 +1043,26 @@ get_prop (BonoboPropertyBag *bag,
 	ESource *source = NULL;
 
 	switch (arg_id) {
+
+	case PROPERTY_FOLDER_URI_IDX:
+		if (v) {
+			g_object_get (v,
+				      "source", &source,
+				      NULL);
+		}
+
+		if (source) {
+			char *uri = e_source_get_uri (source);
+
+			BONOBO_ARG_SET_STRING (arg, uri);
+
+			g_free (uri);
+			g_object_unref (source);
+		}
+		else {
+			BONOBO_ARG_SET_STRING (arg, "");
+		}
+		break;
 
 	case PROPERTY_SOURCE_UID_IDX:
 		if (v) {
@@ -1069,6 +1114,11 @@ addressbook_new_control (void)
 				 PROPERTY_SOURCE_UID, PROPERTY_SOURCE_UID_IDX,
 				 BONOBO_ARG_STRING, NULL,
 				 _("UID of the contacts source that the view will display"), 0);
+
+	bonobo_property_bag_add (view->properties,
+				 PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
+				 BONOBO_ARG_STRING, NULL,
+				 _("The URI that the address book will display"), 0);
 
 	bonobo_control_set_properties (view->control,
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
