@@ -1,3 +1,13 @@
+2001-11-05  Christopher James Lahey  <clahey@ximian.com>
+
+Based on a patch by Damon Chaplin <damon@ximian.com>
+
+	* e-cell-date-edit.c: Connect to the button_press signal on the
+	popup and do the grab correctly so that this dialog behaves
+	properly when the user clicks it away.  Also, changed all
+	instances of setting of popup_shown field of ECellPopup to call
+	e_cell_popup_set_shown.  Fixes Ximian bug #14016.
+
 2001-10-31    <NotZed@Ximian.com>
 
 	* e-filter-bar.c (build_items): Snotty code so we only disconnect

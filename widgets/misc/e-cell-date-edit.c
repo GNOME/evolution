@@ -77,6 +77,9 @@ static void e_cell_date_edit_rebuild_time_list	(ECellDateEdit	*ecde);
 static int e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 						 GdkEventKey	*event,
 						 ECellDateEdit	*ecde);
+static int  e_cell_date_edit_button_press	(GtkWidget	*popup_window,
+						 GdkEventButton	*event,
+						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_on_ok_clicked	(GtkWidget	*button,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_show_time_invalid_warning	(ECellDateEdit	*ecde);
@@ -91,6 +94,7 @@ static void e_cell_date_edit_update_cell	(ECellDateEdit	*ecde,
 static void e_cell_date_edit_on_time_selected	(GtkList	*list,
 						 ECellDateEdit	*ecde);
 static void e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde);
+
 
 /* Our arguments. */
 enum {
@@ -262,6 +266,10 @@ e_cell_date_edit_init			(ECellDateEdit	*ecde)
 	gtk_signal_connect (GTK_OBJECT (ecde->popup_window),
 			    "key_press_event",
 			    GTK_SIGNAL_FUNC (e_cell_date_edit_key_press),
+			    ecde);
+	gtk_signal_connect (GTK_OBJECT (ecde->popup_window),
+			    "button_press_event",
+			    GTK_SIGNAL_FUNC (e_cell_date_edit_button_press),
 			    ecde);
 }
 
@@ -435,7 +443,11 @@ e_cell_date_edit_do_popup		(ECellPopup	*ecp,
 		time = event->key.time;
 	}
 
+	gdk_keyboard_grab (ecde->popup_window->window, TRUE, time);
 	gtk_grab_add (ecde->popup_window);
+
+	/* Set the focus to the first widget. */
+	gtk_widget_grab_focus (ecde->time_entry);
 
 	return TRUE;
 }
@@ -554,10 +566,7 @@ e_cell_date_edit_show_popup		(ECellDateEdit	*ecde,
 	gdk_window_resize (ecde->popup_window->window, width, height);
 	gtk_widget_show (ecde->popup_window);
 
-	/* Set the focus to the first widget. */
-	gtk_widget_grab_focus (ecde->time_entry);
-
-	E_CELL_POPUP (ecde)->popup_shown = TRUE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecde), TRUE);
 }
 
 
@@ -652,6 +661,25 @@ e_cell_date_edit_key_press		(GtkWidget	*popup_window,
 		return FALSE;
 
 	e_cell_date_edit_hide_popup (ecde);
+
+	return TRUE;
+}
+
+
+/* This handles button press events in the popup window. If the button is
+   pressed outside the popup, we hide it and do not change the cell contents.
+*/
+static int
+e_cell_date_edit_button_press		(GtkWidget	*popup_window,
+					 GdkEventButton	*event,
+					 ECellDateEdit	*ecde)
+{
+	GtkWidget *event_widget;
+
+	event_widget = gtk_get_event_widget ((GdkEvent*) event);
+	if (gtk_widget_get_toplevel (event_widget) != popup_window) {
+		e_cell_date_edit_hide_popup (ecde);
+	}
 
 	return TRUE;
 }
@@ -891,7 +919,7 @@ e_cell_date_edit_hide_popup		(ECellDateEdit	*ecde)
 {
 	gtk_grab_remove (ecde->popup_window);
 	gtk_widget_hide (ecde->popup_window);
-	E_CELL_POPUP (ecde)->popup_shown = FALSE;
+	e_cell_popup_set_shown (E_CELL_POPUP (ecde), FALSE);
 }
 
 
@@ -939,5 +967,3 @@ e_cell_date_edit_set_get_time_callback (ECellDateEdit	*ecde,
 	ecde->time_callback_data = data;
 	ecde->time_callback_destroy = destroy;
 }
-
-
