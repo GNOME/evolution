@@ -1,3 +1,23 @@
+2000-08-18  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/event-editor.h: Update prototypes.
+
+	* gui/event-editor.c: Need to come back here later to fix the 
+	alarm stuff.  The gui also needs to be completely redone to 
+	support the fancier CalComponent settings (exrules, rdates, etc)
+	There are some warnings that I put in to mark some of these
+	spots
+	(event_editor_destroy): Use Calcomponent instead
+	of iCalObject
+	(make_title_from_comp): ditto
+	(clear_widgets): ditto
+	(fill_widgets): ditto
+	(classification_get): ditto
+	(dialog_to_comp_object): ditto
+	(save_ical_object): ditto
+	(close_dialog): ditto
+	(event_editor_set_ical_object): ditto
+
 2000-08-17  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/gncal-todo.c (ok_button): Use CalComponent instead of

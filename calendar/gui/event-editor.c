@@ -28,6 +28,7 @@
 #include <cal-util/timeutil.h>
 #include "event-editor.h"
 
+
 
 
 typedef struct {
@@ -40,7 +41,7 @@ typedef struct {
 	/* Calendar object we are editing; this is an internal copy and is not
 	 * one of the read-only objects from the parent calendar.
 	 */
-	iCalObject *ico;
+	CalComponent *comp;
 
 	/* Widgets from the Glade file */
 
@@ -259,14 +260,14 @@ event_editor_destroy (GtkObject *object)
 		priv->app = NULL;
 	}
 
-	if (priv->ico) {
+	if (priv->comp) {
 		/* We do not emit the "ical_object_released" signal here.  If
 		 * the user cloased the dialog box, then it has already been
 		 * released.  If the application just destroyed the event
 		 * editor, then it had better clean up after itself.
 		 */
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+		priv->comp = NULL;
 	}
 
 	if (priv->xml) {
@@ -283,30 +284,35 @@ event_editor_destroy (GtkObject *object)
 
 /* Creates an appropriate title for the event editor dialog */
 static char *
-make_title_from_ico (iCalObject *ico)
+make_title_from_comp (CalComponent *comp)
 {
 	const char *summary;
-
-	if (!ico)
+	CalComponentVType type;
+	CalComponentText text;
+	
+	if (!comp)
 		return g_strdup (_("Edit Appointment"));
 
-	if (ico->summary)
-		summary = ico->summary;
+	cal_component_get_summary (comp, &text);
+	if (text.value)
+		summary = text.value;
 	else
 		summary =  _("No summary");
 
-	switch (ico->type) {
-	case ICAL_EVENT:
+	
+	type = cal_component_get_vtype (comp);
+	switch (type) {
+	case CAL_COMPONENT_EVENT:
 		return g_strdup_printf (_("Appointment - %s"), summary);
 
-	case ICAL_TODO:
+	case CAL_COMPONENT_TODO:
 		return g_strdup_printf (_("Task - %s"), summary);
 
-	case ICAL_JOURNAL:
+	case CAL_COMPONENT_JOURNAL:
 		return g_strdup_printf (_("Journal entry - %s"), summary);
 
 	default:
-		g_message ("make_title_from_ico(): Cannot handle object of type %d", (int) ico->type);
+		g_message ("make_title_from_comp(): Cannot handle object of type %d", type);
 		return NULL;
 	}
 }
@@ -447,22 +453,14 @@ get_widgets (EventEditor *ee)
 		&& priv->exception_date);
 }
 
-/* Classification types; just an enum for mapping them to radio buttons
- * (iCalObject uses strings for these).
- */
-typedef enum {
-	CLASSIFICATION_PUBLIC,
-	CLASSIFICATION_PRIVATE,
-	CLASSIFICATION_CONFIDENTIAL
-} ClassificationType;
-
 static const int classification_map[] = {
-	CLASSIFICATION_PUBLIC,
-	CLASSIFICATION_PRIVATE,
-	CLASSIFICATION_CONFIDENTIAL,
+	CAL_COMPONENT_CLASS_PUBLIC,
+	CAL_COMPONENT_CLASS_PRIVATE,
+	CAL_COMPONENT_CLASS_CONFIDENTIAL,
 	-1
 };
 
+#if 0
 static const int alarm_unit_map[] = {
 	ALARM_MINUTES,
 	ALARM_HOURS,
@@ -481,26 +479,19 @@ alarm_unit_get (GtkWidget *widget)
 {
 	return e_dialog_option_menu_get (widget, alarm_unit_map);
 }
+#endif
 
 /* Recurrence types for mapping them to radio buttons */
-typedef enum {
-	RECUR_OPTION_NONE,
-	RECUR_OPTION_DAILY,
-	RECUR_OPTION_WEEKLY,
-	RECUR_OPTION_MONTHLY,
-	RECUR_OPTION_YEARLY,
-} RecurOptions;
-
 static const int recur_options_map[] = {
-	RECUR_OPTION_NONE,
-	RECUR_OPTION_DAILY,
-	RECUR_OPTION_WEEKLY,
-	RECUR_OPTION_MONTHLY,
-	RECUR_OPTION_YEARLY,
+	ICAL_NO_RECURRENCE,
+	ICAL_DAILY_RECURRENCE,
+	ICAL_WEEKLY_RECURRENCE,
+	ICAL_MONTHLY_RECURRENCE,
+	ICAL_YEARLY_RECURRENCE,
 	-1
 };
 
-static RecurOptions
+static icalrecurrencetype_frequency
 recur_options_get (GtkWidget *widget)
 {
 	return e_dialog_radio_get (widget, recur_options_map);
@@ -650,21 +641,24 @@ clear_widgets (EventEditor *ee)
 	e_dialog_spin_set (priv->alarm_program_amount, 15);
 	e_dialog_spin_set (priv->alarm_mail_amount, 15);
 
+#if 0
 	alarm_unit_set (priv->alarm_display_unit, ALARM_MINUTES);
 	alarm_unit_set (priv->alarm_audio_unit, ALARM_MINUTES);
 	alarm_unit_set (priv->alarm_program_unit, ALARM_MINUTES);
 	alarm_unit_set (priv->alarm_mail_unit, ALARM_MINUTES);
+#endif
 
 	e_dialog_editable_set (priv->alarm_program_run_program_entry, NULL);
 	e_dialog_editable_set (priv->alarm_mail_mail_to, NULL);
 
 	/* Classification */
 
-	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_PRIVATE, classification_map);
+	e_dialog_radio_set (priv->classification_radio, 
+			    CAL_COMPONENT_CLASS_PRIVATE, classification_map);
 
 	/* Recurrences */
 
-	e_dialog_radio_set (priv->recurrence_rule_none, RECUR_OPTION_NONE, recur_options_map);
+	e_dialog_radio_set (priv->recurrence_rule_none, ICAL_NO_RECURRENCE, recur_options_map);
 
 	e_dialog_spin_set (priv->recurrence_rule_daily_days, 1);
 
@@ -701,26 +695,37 @@ static void
 fill_widgets (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GList *list;
+	CalComponentText text;
+	CalComponentClassification cl;
+	CalComponentDateTime d;
+	GSList *list, *l;
 	time_t dtstart, dtend;
 
 	priv = ee->priv;
 
 	clear_widgets (ee);
 
-	if (!priv->ico)
+	if (!priv->comp)
 		return;
 
 	/* Owner, summary */
+#warning "FIX ME"
+	/* kludge until I figure out where to get the organizer */
+/*  	e_dialog_editable_set (priv->general_owner, */
+/*  			       priv->ico->organizer->addr ? */
+/*  			       priv->ico->organizer->addr : _("?")); */
+	e_dialog_editable_set (priv->general_owner, _("?"));
 
-	e_dialog_editable_set (priv->general_owner,
-			       priv->ico->organizer->addr ?
-			       priv->ico->organizer->addr : _("?"));
+	cal_component_get_summary (priv->comp, &text);
+	e_dialog_editable_set (priv->general_summary, text.value);
 
-	e_dialog_editable_set (priv->general_summary, priv->ico->summary);
-
-	e_dialog_editable_set (priv->description, priv->ico->desc);
-
+	cal_component_get_description_list (priv->comp, &l);
+	if (l) {
+		text = *(CalComponentText *)l->data;
+		e_dialog_editable_set (priv->description, text.value);
+	}
+	cal_component_free_text_list (l);
+	
 	/* Start and end times */
 
 	gtk_signal_handler_block_by_data (GTK_OBJECT (priv->start_time), ee);
@@ -730,8 +735,10 @@ fill_widgets (EventEditor *ee)
 	   then the event includes all of the 2nd Feb. We would normally show
 	   3rd Feb as the end date, since it really ends at midnight on 3rd,
 	   so we have to subtract a day so we only show the 2nd. */
-	dtstart = priv->ico->dtstart;
-	dtend = priv->ico->dtend;
+	cal_component_get_dtstart (priv->comp, &d);
+	dtstart = time_from_icaltimetype (*d.value);
+	cal_component_get_dtend (priv->comp, &d);
+	dtend = time_from_icaltimetype (*d.value);
 	if (time_day_begin (dtstart) == dtstart
 	    && time_day_begin (dtend) == dtend) {
 		dtend = time_add_day (dtend, -1);
@@ -746,14 +753,14 @@ fill_widgets (EventEditor *ee)
 	check_all_day (ee);
 
 	/* Alarms */
-
+#if 0
 	e_dialog_toggle_set (priv->alarm_display, priv->ico->dalarm.enabled);
 	e_dialog_toggle_set (priv->alarm_program, priv->ico->palarm.enabled);
 	e_dialog_toggle_set (priv->alarm_audio, priv->ico->aalarm.enabled);
 	e_dialog_toggle_set (priv->alarm_mail, priv->ico->malarm.enabled);
-
+#endif
 	/* Alarm data */
-
+#if 0
 	e_dialog_spin_set (priv->alarm_display_amount, priv->ico->dalarm.count);
 	e_dialog_spin_set (priv->alarm_audio_amount, priv->ico->aalarm.count);
 	e_dialog_spin_set (priv->alarm_program_amount, priv->ico->palarm.count);
@@ -766,137 +773,158 @@ fill_widgets (EventEditor *ee)
 
 	e_dialog_editable_set (priv->alarm_program_run_program_entry, priv->ico->palarm.data);
 	e_dialog_editable_set (priv->alarm_mail_mail_to, priv->ico->malarm.data);
-
+#endif
 	/* Classification */
-
-	if (strcmp (priv->ico->class, "PUBLIC") == 0)
-	    	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_PUBLIC,
+	cal_component_get_classification (priv->comp, &cl);
+	switch (cl) {
+	case CAL_COMPONENT_CLASS_PUBLIC:
+	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_PUBLIC,
 				    classification_map);
-	else if (strcmp (priv->ico->class, "PRIVATE") == 0)
-	    	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_PRIVATE,
+	case CAL_COMPONENT_CLASS_PRIVATE:
+	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_PRIVATE,
 				    classification_map);
-	else if (strcmp (priv->ico->class, "CONFIDENTIAL") == 0)
-	    	e_dialog_radio_set (priv->classification_radio, CLASSIFICATION_CONFIDENTIAL,
+	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
+	    	e_dialog_radio_set (priv->classification_radio, CAL_COMPONENT_CLASS_CONFIDENTIAL,
 				    classification_map);
-	else {
+	default:
 		/* What do do?  We can't g_assert_not_reached() since it is a
 		 * value from an external file.
 		 */
 	}
-
+	
 	/* Recurrences */
-
-	if (priv->ico->recur) {
-		switch (priv->ico->recur->type) {
-		case RECUR_DAILY:
-			e_dialog_radio_set (priv->recurrence_rule_daily, RECUR_OPTION_DAILY,
+#warning "FIX ME"
+	/* Need to handle recurrence dates as well as recurrence rules */
+	/* Need to handle more than one rrule */
+	if (cal_component_has_rrules (priv->comp)) {
+		struct icalrecurrencetype *r;
+		int i;
+		
+		cal_component_get_rrule_list (priv->comp, &list);
+		r = list->data;
+		
+		switch (r->freq) {
+		case ICAL_DAILY_RECURRENCE:
+			e_dialog_radio_set (priv->recurrence_rule_daily, ICAL_DAILY_RECURRENCE,
 					    recur_options_map);
-			e_dialog_spin_set (priv->recurrence_rule_daily_days,
-					   priv->ico->recur->interval);
+			e_dialog_spin_set (priv->recurrence_rule_daily_days, r->interval);
 			break;
 
-		case RECUR_WEEKLY:
-			e_dialog_radio_set (priv->recurrence_rule_weekly, RECUR_OPTION_WEEKLY,
+		case ICAL_WEEKLY_RECURRENCE:
+			e_dialog_radio_set (priv->recurrence_rule_weekly, ICAL_WEEKLY_RECURRENCE,
 					    recur_options_map);
-			e_dialog_spin_set (priv->recurrence_rule_weekly_weeks,
-					   priv->ico->recur->interval);
+			e_dialog_spin_set (priv->recurrence_rule_weekly_weeks, r->interval);
 
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_sun,
-					     (priv->ico->recur->weekday & (1 << 0)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_mon,
-					     (priv->ico->recur->weekday & (1 << 1)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_tue,
-					     (priv->ico->recur->weekday & (1 << 2)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_wed,
-					     (priv->ico->recur->weekday & (1 << 3)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_thu,
-					     (priv->ico->recur->weekday & (1 << 4)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_fri,
-					     (priv->ico->recur->weekday & (1 << 5)) != 0);
-			e_dialog_toggle_set (priv->recurrence_rule_weekly_sat,
-					     (priv->ico->recur->weekday & (1 << 6)) != 0);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_sun, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_mon, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_tue, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_wed, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_thu, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_fri, FALSE);
+			e_dialog_toggle_set (priv->recurrence_rule_weekly_sat, FALSE);
+
+			for (i=0; i<8 && r->by_day[i] != SHRT_MAX; i++) {
+				switch (r->by_day[i]) {
+				case ICAL_SUNDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_sun, TRUE);
+					break;
+				case ICAL_MONDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_mon, TRUE);
+					break;
+				case ICAL_TUESDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_tue, TRUE);
+					break;
+				case ICAL_WEDNESDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_wed, TRUE);
+					break;
+				case ICAL_THURSDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_thu, TRUE);
+					break;
+				case ICAL_FRIDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_fri, TRUE);
+					break;
+				case ICAL_SATURDAY_WEEKDAY:
+					e_dialog_toggle_set (priv->recurrence_rule_weekly_sat, TRUE);
+					break;
+				default:
+					g_assert_not_reached ();
+				}
+			}
 			break;
 
-		case RECUR_MONTHLY_BY_DAY:
-			e_dialog_radio_set (priv->recurrence_rule_monthly, RECUR_OPTION_MONTHLY,
+		case ICAL_MONTHLY_RECURRENCE:
+			e_dialog_radio_set (priv->recurrence_rule_monthly, ICAL_MONTHLY_RECURRENCE,
 					    recur_options_map);
-			e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
-			e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth,
-					   priv->ico->recur->u.month_day);
+			
+			if (r->by_month_day[0] != SHRT_MAX) {
+				e_dialog_toggle_set (priv->recurrence_rule_monthly_on_day, TRUE);
+				e_dialog_spin_set (priv->recurrence_rule_monthly_day_nth, 
+						   r->by_month_day[0]);
+			} else if (r->by_day[0] != SHRT_MAX) {
+				e_dialog_toggle_set (priv->recurrence_rule_monthly_weekday, TRUE);
+				/* libical does not handle ints in by day */
+/*  				e_dialog_option_menu_set (priv->recurrence_rule_monthly_week, */
+/*  							  priv->ico->recur->u.month_pos, */
+/*  							  month_pos_map); */
+/*  				e_dialog_option_menu_set (priv->recurrence_rule_monthly_weekpos, */
+/*  							  priv->ico->recur->weekday, */
+/*  							  weekday_map); */
+			}
+			
 			e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months,
-					   priv->ico->recur->interval);
+					   r->interval);
 			break;
 
-		case RECUR_MONTHLY_BY_POS:
-			e_dialog_radio_set (priv->recurrence_rule_monthly, RECUR_OPTION_MONTHLY,
-					    recur_options_map);
-			e_dialog_toggle_set (priv->recurrence_rule_monthly_weekday, TRUE);
-			e_dialog_option_menu_set (priv->recurrence_rule_monthly_week,
-						  priv->ico->recur->u.month_pos,
-						  month_pos_map);
-			e_dialog_option_menu_set (priv->recurrence_rule_monthly_weekpos,
-						  priv->ico->recur->weekday,
-						  weekday_map);
-			e_dialog_spin_set (priv->recurrence_rule_monthly_every_n_months,
-					   priv->ico->recur->interval);
-			break;
-
-		case RECUR_YEARLY_BY_DAY:
-		case RECUR_YEARLY_BY_MONTH:
-			e_dialog_radio_set (priv->recurrence_rule_yearly, RECUR_OPTION_YEARLY,
+		case ICAL_YEARLY_RECURRENCE:
+			e_dialog_radio_set (priv->recurrence_rule_yearly, ICAL_YEARLY_RECURRENCE,
 					    recur_options_map);
 			e_dialog_spin_set (priv->recurrence_rule_yearly_every_n_years,
-					   priv->ico->recur->interval);
+					   r->interval);
 			break;
 
 		default:
 			g_assert_not_reached ();
 		}
 
-		if (priv->ico->recur->_enddate == 0) {
-			if (priv->ico->recur->duration == 0)
+		if (r->until.year == 0) {
+			if (r->count == 0)
 				e_dialog_toggle_set (priv->recurrence_ending_date_repeat_forever,
 						     TRUE);
 			else {
 				e_dialog_toggle_set (priv->recurrence_ending_date_end_after, TRUE);
 				e_dialog_spin_set (priv->recurrence_ending_date_end_after_count,
-						   priv->ico->recur->duration);
+						   r->count);
 			}
 		} else {
+			time_t t = time_from_icaltimetype (r->until);
 			e_dialog_toggle_set (priv->recurrence_ending_date_end_on, TRUE);
 			/* Shorten by one day, as we store end-on date a day ahead */
 			/* FIXME is this correct? */
 			e_dialog_dateedit_set (priv->recurrence_ending_date_end_on_date,
-					       time_add_day (priv->ico->recur->enddate, -1));
+					       time_add_day (t, -1));
 		}
+		cal_component_free_recur_list (list);
 	}
 
 	/* Exceptions list */
-
-	for (list = priv->ico->exdate; list; list = list->next)
-		append_exception (ee, *((time_t *) list->data));
+#warning "FIX ME"
+	/* Need to handle exception rules as well as dates */
+	cal_component_get_exdate_list (priv->comp, &list);
+	for (l = list; l; l = l->next) {
+		struct icaltimetype *t;
+		time_t ext;
+		
+		t = l->data;
+		ext = time_from_icaltimetype (*t);
+		append_exception (ee, ext);
+	}
+	cal_component_free_exdate_list (list);
 }
 
 
 
-/* Frees the list of exception dates in an iCalObject */
-static void
-free_exdate (iCalObject *ico)
-{
-	GList *list;
-
-	if (!ico->exdate)
-		return;
-
-	for (list = ico->exdate; list; list = list->next)
-		g_free (list->data);
-
-	g_list_free (ico->exdate);
-	ico->exdate = NULL;
-}
-
 /* Decode the radio button group for classifications */
-static ClassificationType
+static CalComponentClassification
 classification_get (GtkWidget *widget)
 {
 	return e_dialog_radio_get (widget, classification_map);
@@ -904,35 +932,49 @@ classification_get (GtkWidget *widget)
 
 /* Get the values of the widgets in the event editor and put them in the iCalObject */
 static void
-dialog_to_ical_object (EventEditor *ee)
+dialog_to_comp_object (EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	iCalObject *ico;
+	CalComponent *comp;
+	CalComponentText *text;
+	CalComponentDateTime date;
+	time_t t;
+	struct icalrecurrencetype *recur;
 	gboolean all_day_event;
-	int i;
-	time_t *t;
+	int i, pos = 0;
 	GtkCList *exception_list;
-
+	GSList *list = NULL;
+	
 	priv = ee->priv;
-	ico = priv->ico;
+	comp = priv->comp;
 
-	if (ico->summary)
-		g_free (ico->summary);
-	ico->summary  = e_dialog_editable_get (priv->general_summary);
+	text = g_new0 (CalComponentText, 1);
+	text->value = e_dialog_editable_get (priv->general_summary);
+	cal_component_set_summary (comp, text);
 
-	if (ico->desc)
-		g_free (ico->desc);
-	ico->desc  = e_dialog_editable_get (priv->description);
-
-	ico->dtstart = e_dialog_dateedit_get (priv->start_time);
-	ico->dtend = e_dialog_dateedit_get (priv->end_time);
+	text->value  = e_dialog_editable_get (priv->description);
+	g_slist_prepend (list, text);
+	cal_component_set_description_list (comp, list);
+	cal_component_free_text_list (list);
+	list = NULL;
+	
+	date.value = g_new (struct icaltimetype, 1);
+	t = e_dialog_dateedit_get (priv->start_time);
+	*date.value = icaltimetype_from_timet (t, FALSE);
+	cal_component_set_dtstart (comp, &date);
 
 	/* If the all_day toggle is set, the end date is inclusive of the
 	   entire day on which it points to. */
 	all_day_event = e_dialog_toggle_get (priv->all_day_event);
+	t = e_dialog_dateedit_get (priv->end_time);
 	if (all_day_event)
-		ico->dtend = time_day_end (ico->dtend);
+		t = time_day_end (t);
 
+	*date.value = icaltimetype_from_timet (t, FALSE);
+	cal_component_set_dtend (comp, &date);
+	g_free (date.value);
+
+#if 0
 	ico->dalarm.enabled = e_dialog_toggle_get (priv->alarm_display);
 	ico->aalarm.enabled = e_dialog_toggle_get (priv->alarm_program);
 	ico->palarm.enabled = e_dialog_toggle_get (priv->alarm_audio);
@@ -956,137 +998,104 @@ dialog_to_ical_object (EventEditor *ee)
 
 	ico->palarm.data = e_dialog_editable_get (priv->alarm_program_run_program_entry);
 	ico->malarm.data = e_dialog_editable_get (priv->alarm_mail_mail_to);
+#endif
 
-	if (ico->class)
-		g_free (ico->class);
-
-	switch (classification_get (priv->classification_radio)) {
-	case CLASSIFICATION_PUBLIC:
-		ico->class = g_strdup ("PUBLIC");
-		break;
-
-	case CLASSIFICATION_PRIVATE:
-		ico->class = g_strdup ("PRIVATE");
-		break;
-
-	case CLASSIFICATION_CONFIDENTIAL:
-		ico->class = g_strdup ("CONFIDENTIAL");
-		break;
-
-	default:
-		g_assert_not_reached ();
-	}
+	cal_component_set_classification (comp, classification_get (priv->classification_radio));
 
 	/* Recurrence information */
-
-	if (ico->recur) {
-		g_free (ico->recur);
-		ico->recur = NULL;
-	}
-
-	switch (recur_options_get (priv->recurrence_rule_none)) {
-	case RECUR_OPTION_NONE:
+	recur = g_new (struct icalrecurrencetype, 1);
+  	icalrecurrencetype_clear (recur);
+	recur->freq = recur_options_get (priv->recurrence_rule_none);
+	
+	switch (recur->freq) {
+	case ICAL_NO_RECURRENCE:
 		/* nothing */
 		break;
 
-	case RECUR_OPTION_DAILY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_DAILY;
-		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
+	case ICAL_DAILY_RECURRENCE:
+		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_daily_days);
 		break;
 
-	case RECUR_OPTION_WEEKLY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_WEEKLY;
-		ico->recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
-		ico->recur->weekday = 0;
-
+	case ICAL_WEEKLY_RECURRENCE:
+		
+		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_weekly_weeks);
+		
+		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sun))
-			ico->recur->weekday |= 1 << 0;
+			recur->by_day[pos++] = ICAL_SUNDAY_WEEKDAY;		
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_mon))
-			ico->recur->weekday |= 1 << 1;
+			recur->by_day[pos++] = ICAL_MONDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_tue))
-			ico->recur->weekday |= 1 << 2;
+			recur->by_day[pos++] = ICAL_TUESDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_wed))
-			ico->recur->weekday |= 1 << 3;
+			recur->by_day[pos++] = ICAL_WEDNESDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_thu))
-			ico->recur->weekday |= 1 << 4;
+			recur->by_day[pos++] = ICAL_THURSDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_fri))
-			ico->recur->weekday |= 1 << 5;
+			recur->by_day[pos++] = ICAL_FRIDAY_WEEKDAY;
 		if (e_dialog_toggle_get (priv->recurrence_rule_weekly_sat))
-			ico->recur->weekday |= 1 << 6;
+			recur->by_day[pos++] = ICAL_SATURDAY_WEEKDAY;
 
 		break;
 
-	case RECUR_OPTION_MONTHLY:
-		ico->recur = g_new0 (Recurrence, 1);
+	case ICAL_MONTHLY_RECURRENCE:
 
 		if (e_dialog_toggle_get (priv->recurrence_rule_monthly_on_day)) {
 				/* by day of in the month (ex: the 5th) */
-			ico->recur->type = RECUR_MONTHLY_BY_DAY;
-			ico->recur->u.month_day = e_dialog_spin_get_int (
-				priv->recurrence_rule_monthly_day_nth);
+			recur->by_month_day[0] = 
+				e_dialog_spin_get_int (priv->recurrence_rule_monthly_day_nth);
 		} else if (e_dialog_toggle_get (priv->recurrence_rule_monthly_weekday)) {
 				/* "recurrence-rule-monthly-weekday" is TRUE */
 				/* by position on the calender (ex: 2nd monday) */
-			ico->recur->type = RECUR_MONTHLY_BY_POS;
-			ico->recur->u.month_pos = e_dialog_option_menu_get (
-				priv->recurrence_rule_monthly_week,
-				month_pos_map);
-			ico->recur->weekday = e_dialog_option_menu_get (
-				priv->recurrence_rule_monthly_weekpos,
-				weekday_map);
+			/* libical does not handle this yet */
+/*  			ico->recur->u.month_pos = e_dialog_option_menu_get ( */
+/*  				priv->recurrence_rule_monthly_week, */
+/*  				month_pos_map); */
+/*  			ico->recur->weekday = e_dialog_option_menu_get ( */
+/*  				priv->recurrence_rule_monthly_weekpos, */
+/*  				weekday_map); */
 
 		} else
 			g_assert_not_reached ();
 
-		ico->recur->interval = e_dialog_spin_get_int (
-			priv->recurrence_rule_monthly_every_n_months);
+		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_monthly_every_n_months);
 
 		break;
 
-	case RECUR_OPTION_YEARLY:
-		ico->recur = g_new0 (Recurrence, 1);
-		ico->recur->type = RECUR_YEARLY_BY_DAY;
-		ico->recur->interval = e_dialog_spin_get_int (
-			priv->recurrence_rule_yearly_every_n_years);
+	case ICAL_YEARLY_RECURRENCE:
+		recur->interval = e_dialog_spin_get_int (priv->recurrence_rule_yearly_every_n_years);
 
 	default:
 		g_assert_not_reached ();
 	}
 
 	/* recurrence ending date */
-
-	if (ico->recur) {
-		if (e_dialog_toggle_get (priv->recurrence_ending_date_repeat_forever)) {
-			ico->recur->_enddate = 0;
-			ico->recur->enddate = 0;
-			ico->recur->duration = 0;
-		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
-			/* Also here, to ensure that the event is used, we add 86400
-			 * secs to get get next day, in accordance to the RFC
-			 */
-			ico->recur->_enddate = e_dialog_dateedit_get (
-				priv->recurrence_ending_date_end_on_date) + 86400;
-			ico->recur->enddate = ico->recur->_enddate;
-			ico->recur->duration = 0;
-		} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
-			ico->recur->duration = e_dialog_spin_get_int (
-				priv->recurrence_ending_date_end_after_count);
-			ical_object_compute_end (ico);
-		} else
-			g_assert_not_reached ();
+	if (e_dialog_toggle_get (priv->recurrence_ending_date_end_on)) {
+		/* Also here, to ensure that the event is used, we add 86400
+		 * secs to get get next day, in accordance to the RFC
+		 */
+		t = e_dialog_dateedit_get (priv->recurrence_ending_date_end_on_date) + 86400;
+		recur->until = icaltimetype_from_timet (t, TRUE);
+	} else if (e_dialog_toggle_get (priv->recurrence_ending_date_end_after)) {
+		recur->count = e_dialog_spin_get_int (priv->recurrence_ending_date_end_after_count);
 	}
-
+	g_slist_append (list, recur);
+	cal_component_set_rrule_list (comp, list);
+	list = NULL;
+	
 	/* Get exceptions from clist into ico->exdate */
-
-	free_exdate (ico);
 	exception_list = GTK_CLIST (priv->recurrence_exceptions_list);
-
 	for (i = 0; i < exception_list->rows; i++) {
+		struct icaltimetype *tt = g_new (struct icaltimetype, 1);
+		time_t *t;
+		
 		t = gtk_clist_get_row_data (exception_list, i);
-		ico->exdate = g_list_prepend (ico->exdate, t);
+		*tt = icaltimetype_from_timet (*t, FALSE);
+		
+		list = g_slist_prepend (list, tt);
 	}
+	cal_component_set_exdate_list (comp, list);
+	cal_component_free_exdate_list (list);
 }
 
 /* Emits the "save_ical_object" signal if the event editor is editing an object. */
@@ -1098,17 +1107,17 @@ save_ical_object (EventEditor *ee)
 
 	priv = ee->priv;
 
-	if (!priv->ico)
+	if (!priv->comp)
 		return;
 
-	dialog_to_ical_object (ee);
+	dialog_to_comp_object (ee);
 
-	title = make_title_from_ico (priv->ico);
+	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
 	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[SAVE_ICAL_OBJECT],
-			 priv->ico);
+			 priv->comp);
 }
 
 /* Closes the dialog box and emits the appropriate signals */
@@ -1126,11 +1135,13 @@ close_dialog (EventEditor *ee)
 	gtk_widget_destroy (priv->app);
 	priv->app = NULL;
 
-	if (priv->ico) {
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
-				 priv->ico->uid);
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
+	if (priv->comp) {
+		const char *uid;
+		
+		cal_component_get_uid (priv->comp, &uid);
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED], uid);
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+		priv->comp = NULL;
 	}
 
 	gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[EDITOR_CLOSED]);
@@ -1524,12 +1535,12 @@ event_editor_new (void)
 /**
  * event_editor_set_ical_object:
  * @ee: An event editor.
- * @ico: A calendar object.
+ * @comp: A calendar object.
  * 
  * Sets the calendar object that an event editor dialog will manipulate.
  **/
 void
-event_editor_set_ical_object (EventEditor *ee, iCalObject *ico)
+event_editor_set_ical_object (EventEditor *ee, CalComponent *comp)
 {
 	EventEditorPrivate *priv;
 	char *title;
@@ -1537,22 +1548,21 @@ event_editor_set_ical_object (EventEditor *ee, iCalObject *ico)
 	g_return_if_fail (ee != NULL);
 	g_return_if_fail (IS_EVENT_EDITOR (ee));
 
-	if (ico)
-		g_return_if_fail (ico->uid != NULL);
-
 	priv = ee->priv;
 
-	if (priv->ico) {
-		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED],
-				 priv->ico->uid);
-		ical_object_unref (priv->ico);
-		priv->ico = NULL;
+	if (priv->comp) {
+		const char *uid;
+
+		cal_component_get_uid (priv->comp, &uid);
+		gtk_signal_emit (GTK_OBJECT (ee), event_editor_signals[ICAL_OBJECT_RELEASED], uid);
+		gtk_object_unref (GTK_OBJECT (priv->comp));
+		priv->comp = NULL;
 	}
 
-	if (ico)
-		priv->ico = ical_object_duplicate (ico);
+	if (comp)
+		priv->comp = cal_component_clone (comp);
 
-	title = make_title_from_ico (priv->ico);
+	title = make_title_from_comp (priv->comp);
 	gtk_window_set_title (GTK_WINDOW (priv->app), title);
 	g_free (title);
 
@@ -1591,8 +1601,8 @@ static void
 alarm_toggle (GtkWidget *toggle, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	GtkWidget *alarm_amount;
-	GtkWidget *alarm_unit;
+	GtkWidget *alarm_amount = NULL;
+	GtkWidget *alarm_unit = NULL;
 	gboolean active;
 
 	priv = ee->priv;
@@ -1807,16 +1817,16 @@ static void
 recurrence_toggled (GtkWidget *radio, EventEditor *ee)
 {
 	EventEditorPrivate *priv;
-	RecurOptions ro;
+	icalrecurrencetype_frequency rf;
 
 	priv = ee->priv;
 
 	if (!GTK_TOGGLE_BUTTON (radio)->active)
 		return;
 
-	ro = e_dialog_radio_get (radio, recur_options_map);
+	rf = e_dialog_radio_get (radio, recur_options_map);
 
-	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook), (int) ro);
+	gtk_notebook_set_page (GTK_NOTEBOOK (priv->recurrence_rule_notebook), (int) rf);
 }
 
 

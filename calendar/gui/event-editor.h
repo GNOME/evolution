@@ -52,7 +52,7 @@ struct _EventEditorClass {
 
 	/* Notification signals */
 
-	void (* save_ical_object) (EventEditor *ee, iCalObject *ico);
+	void (* save_ical_object) (EventEditor *ee, CalComponent *comp);
 	void (* ical_object_released) (EventEditor *ee, const char *uid);
 	void (* editor_closed) (EventEditor *ee);
 };
@@ -63,7 +63,7 @@ EventEditor *event_editor_construct (EventEditor *ee);
 
 EventEditor *event_editor_new (void);
 
-void event_editor_set_ical_object (EventEditor *ee, iCalObject *ico);
+void event_editor_set_ical_object (EventEditor *ee, CalComponent *comp);
 
 void event_editor_focus (EventEditor *ee);
 
