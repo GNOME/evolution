@@ -4,8 +4,8 @@ AM_CONFIG_HEADER(config.h)
 
 EVOLUTION_MAJOR_VERSION=0
 EVOLUTION_MINOR_VERSION=11
-EVOLUTION_MICRO_VERSION=99
-VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION.$EVOLUTION_MICRO_VERSION
+EVOLUTION_MICRO_VERSION=0
+VERSION=$EVOLUTION_MAJOR_VERSION.$EVOLUTION_MINOR_VERSION
 PACKAGE=evolution
 
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
@@ -119,7 +119,7 @@ AC_PATH_PROG(SENDMAIL, sendmail, /usr/sbin/sendmail, /usr/sbin:/usr/lib)
 AC_DEFINE_UNQUOTED(SENDMAIL_PATH, "$SENDMAIL")
 
 AC_MSG_CHECKING(system mail directory)
-if test -d /var/mail -a '!' -h /var/mail ; then
+if test -d /var/mail -a '!' -L /var/mail ; then
 	system_mail_dir=/var/mail
 else
 	system_mail_dir=/var/spool/mail
@@ -519,7 +519,7 @@ EVO_CHECK_LIB(OAF, oaf, 0.6.2)
 EVO_CHECK_LIB(Bonobo Conf, bonobo_conf, 0.2)
 EVO_CHECK_LIB(libglade, libglade, 0.14)
 EVO_CHECK_LIB(gdk-pixbuf with GNOME canvas support, gnomecanvaspixbuf, 0.9.0)
-EVO_CHECK_LIB(GAL, gal, 0.8.99.8)
+EVO_CHECK_LIB(GAL, gal, 0.9.1, 0.9.1)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.99.1)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)

@@ -308,7 +308,7 @@ display_doc (RDF *r)
 			     "width=\"48\" height=\"48\"><b>");
 
 	if (r->cache == NULL) {
-		g_string_append (html, _("There was an error downloading news feed</b></dt>"));
+		g_string_append (html, _("There was an error downloading news feed</dt>"));
 	} else {
 		tree_walk (r->cache->root, r, html);
 	}

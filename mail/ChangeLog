@@ -1,162 +1,22 @@
-2001-07-20  Peter Williams  <peterw@ximian.com>
-
-	* component-factory.c (storage_remove_folder): Don't let the user
-	remove vtrash folders.
-
-2001-07-20  Peter Williams  <peterw@ximian.com>
-
-	* mail-mt.c (mail_msgport_replied): Fix DanW's fix. Pass the right
-	arguments to mail_msg_destroy.
-
-	* component-factory.c (component_fn): Don't populate the context
-	menu; our only action didn't even work.
-	(populate_folder_context_menu): Removed. ChangeFolderProperties
-	needs a FolderBrowser which we don't have. It didn't even work
-	before.
-
-	* mail-local.c (mail_local_reconfigure_folder): Bring the creation
-	of the hash table to the beginning to prevent warnings. Complain
-	if the mailbox is non-local.
-	
-2001-07-20  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-ops.c (filter_folder_filter): Don't expunge the source
-	folder if we have a cache.
-
-2001-07-20  Dan Winship  <danw@ximian.com>
-
-	* mail-mt.c (mail_msgport_replied): Use mail_msg_destroy rather
-	than mail_msg_free, so the cancellation operation gets
-	unregistered and doesn't leak two file descriptors.
-
-2001-07-19  Jason Leach  <jleach@ximian.com>
-
-	* mail-summary.c (generate_html_summary): Update this
-	evolution:/local/ URI to evolution:/Local Folders/ to go along
-	with today's shell changes.
-
-2001-07-19  Jason Leach  <jleach@ximian.com>
-
-	* mail-display.c: Fix #4605: "Save Image as" should be "Save Image
-	as...".
-
-2001-07-19  Jason Leach  <jleach@ximian.com>
-
-	* mail-display.c (mail_display_new): Set the vertical scrolling
-	policy for the mail display to AUTOMATIC, only get a scrollbar if
-	the e-mail is longer than one frame.
-
-	* folder-browser.c (my_folder_browser_init): We were setting the
-	policy twice (and to two different things).  Removed this one.
-
-	* message-list.c (message_list_init): Set the policy for the
-	message list scroll frame to be horizontal=NEVER,
-	vertical=AUTOMATIC (scrollbar only if you have >1 page of
-	messages).
-
-2001-07-19  Peter Williams  <peterw@ximian.com>
-
-	Track the NoSelect changes in Camel.
-	
-	* mail-callbacks.c (create_folders): We don't need to check if
-	the URL is NULL or not anymore.
-
-	* component-factory.c (create_noselect_control): New
-	function. Create a dummy control for folders that can't contain
-	messages (ie \NoSelect)
-	(create_view): If the URI says the folder is noselect, make a
-	dummy control. FIXME: still should merge in the global UI
-	elements.
-	(xfer_folder): Don't allow the operation if the destination is
-	NoSelect.
-	(destination_folder_handle_motion): Ditto.
-	(destination_folder_handle_drop): Ditto.
-
-2001-07-19  Not Zed  <NotZed@Ximian.com>
-
-	* mail-local.c (reconfigure_folder_reconfigure): remvoed
-	register/start/end etc code.
-
-	* mail-ops.c (get_messages_desc): Add the count here.
-	(get_messages_get): Remove the register/start code, its handled
-	above us.
-	(save_messages_desc): Added count.
-	(save_messages_save): Removed register/start/end code.
-
-	* mail-mt.c (mail_msg_received, mail_msg_destroy): Changed to use
-	camel_operation rather than mail_status.
-	(mail_msgport_received, mail_msgport_replied): Turn of the
-	mail_status stuff, we dont need to report on stuff running in the
-	gui thread right?
-	(retrieve_shell_view_interface_from_control, set_view_data,
-	mail_statusf,  mail_status, mail_status_end, mail_status_start,
-	status_timeout, do_del_status, set_status_op): removed now
-	redundant stuff.
-	(mail_msg_free): Removed reference to timeout_id.
-
-2001-07-18  Not Zed  <NotZed@Ximian.com>
-
-	* mail-local.c (reconfigure_folder_reconfigure): Changed to use
-	camel_operation rathre than mail_status.
-	(reconfigure_folder_describe): re-enabled this function.
-
-	* mail-ops.c (get_messages_get): Changed to use camel-progress for
-	status reporting.
-	(save_messages_save): Likewise.
-
-2001-07-17  Not Zed  <NotZed@Ximian.com>
-
-	* mail-mt.c (struct _mail_msg_priv, destroy_objects, mail_msg_new,
-	mail_msg_free, do_op_status): Changed to use an EvolutionActivityClient for
-	progress.
-
-2001-07-18  Jason Leach  <jleach@ximian.com>
-
-	* mail-tools.h (mail_tool_get_local_inbox_url): Remove this
-	prototype for a function that was removed long ago.
-	(mail_tool_get_local_movemail_url): Ditto.
-
-2001-07-18  Jason Leach  <jleach@ximian.com>
-
-	[Simplifying how default account is stored and used internally,
-	fixes possabilities of having multiple default accounts and things
-	like deleting the current default account]
-	
-	* mail-account-gui.c (mail_account_gui_new): Update for new way of
-	finding out the default account.
-	(mail_account_gui_save): Ditto.
-
-	* mail-accounts.c (load_accounts): Ditto.
-
-	* mail-config-druid.c (make_default_account): Ditto.
-	
-	* mail-config.c: Added an int MailConfig::default_account, to be
-	used instead of a 'default_account' boolean on each mail account.
-	(mail_config_set_default_account_num): New function, facilitates
-	things. 
-
-	* Mail.idl: removed the Account::default_account boolean.
-
-2001-07-18  Jeffrey Stedfast  <fejj@ximian.com>
-
-	* mail-tools.c (mail_tool_generate_forward_subject): Do what was
-	suggested in #4596.
-
 2001-07-18  Peter Williams  <peterw@ximian.com>
 
 	* mail-accounts.c (construct): Add GTK_WIDGET to the charset
 	picker. Reportedly prevent a craash for someone... ?
 
 	* mail-config.glade: Typo fix.
-	Later: And actually fix the typo.
-
+	Later: actually fix it.
+	
 2001-07-17  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-accounts.c (mail_delete): Setup the auto-receive here
 	instead.
-
+  
 	* mail-config.c (mail_config_remove_account): Don't setup the
 	auto-recv here.
+  
+2001-07-18  JP Rosevear  <jpr@ximian.com>
+
+	* mail-ops.c (mail_send_message): update mail header
 
 2001-07-17  Iain Holmes  <iain@ximian.com>
 
@@ -252,17 +112,17 @@
 	* folder-browser-ui.c (folder_browser_ui_add_message): Read our
 	display's state instead of the global setting.
 
-2001-07-16  Peter Williams  <peterw@ximian.com>
-
-	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): DUH.
-	No need to update every folder if we set the folder browser to
-	NULL.
-
 2001-07-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (mail_account_gui_save): Call
 	mail_autoreceive_setup() so that any changes to the list of
 	accounts will be respected the next time mail is checked.
+
+2001-07-16  Peter Williams  <peterw@ximian.com>
+
+	* mail-folder-cache.c (mail_folder_cache_set_folder_browser): DUH. 
+	No need to update every folder if we set the folder browser to 
+	NULL.
 
 2001-07-13  Peter Williams  <peterw@ximian.com>
 

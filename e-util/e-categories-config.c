@@ -95,9 +95,9 @@ initialize_categories_config (void)
 		e_categories_config_set_icon_for (
 			_("Strategies"), EVOLUTION_CATEGORY_ICONS "/16_category_strategies.png");
 		e_categories_config_set_icon_for (
-			_("Suppliers"), EVOLUTION_CATEGORY_ICONS "/16_category_suppliers.png");
+			_("Suppliers"), NULL);
 		e_categories_config_set_icon_for (
-			_("Time & Expenses"), EVOLUTION_CATEGORY_ICONS "/16_category_time-and-expenses.png");
+			_("Time & Expenses"), NULL);
 		e_categories_config_set_icon_for (
 			_("VIP"), NULL);
 		e_categories_config_set_icon_for (

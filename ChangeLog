@@ -1,16 +1,15 @@
-2001-07-20  JP Rosevear  <jpr@ximian.com>
+2001-07-18  JP Rosevear  <jpr@ximian.com>
 
-	* configure.in: Bump to 0.11.99
+	* configure.in: bump to 0.11
 
 2001-07-17  Dan Winship  <danw@ximian.com>
 
 	* configure.in: Fix up the "exactly version N" case of EVO_CHECK_LIB
 
-2001-07-16  Not Zed  <NotZed@Ximian.com>
+2001-07-17  Peter Williams  <peterw@ximian.com>
 
-	* configure.in: Changed to use test -h instead of -L for checking
-	/var/mail vs /var/spool/mail
-
+	* configure.in (GAL): Require GAL 0.9.1.
+	
 2001-07-13  JP Rosevear  <jpr@ximian.com>
 
 	* NEWS: more updates

@@ -1,40 +1,3 @@
-2001-07-18  Chris Toshok  <toshok@ximian.com>
-
-	[ patch contributed by Jos Dehaes <jos.dehaes@bigfoot.com> ]
-	
-	* gui/component/addressbook-storage.c (register_storage): new
-	function, register our evolution_storage.
-	(addressbook_storage_setup): remove storage registration from
-	here.
-	(load_source_data): register the storage here before we load
-	addressbook-sources.xml, and deregister it if there are no sources
-	listed.
-	(addressbook_storage_remove_source): unregister the storage if the
-	list of sources hits 0 length.
-
-2001-07-18  Dan Winship  <danw@ximian.com>
-
-	* backend/ebook/e-book.c (e_book_unload_uri): Flush the listener's
-	queue before unreffing it to ensure that it doesn't emit any more
-	"responses_queued" signals after the EBook is destroyed.
-
-	* backend/ebook/e-book-listener.c (e_book_listener_check_queue,
-	e_book_listener_queue_response, e_book_listener_new): Use
-	bonobo_object_ref/unref rather than gtk_object_ref/unref.
-
-	* backend/ebook/e-book-view-listener.c
-	(e_book_view_listener_queue_response, e_book_view_listener_new):
-	Likewise.
-
-2001-07-18  Chris Toshok  <toshok@ximian.com>
-
-	* backend/ebook/e-card-compare.c (simple_query_cb): prune the list
-	of cards that match our query using the avoid list here, instead
-	of using the avoid list in the query itself, since ldap can't
-	handle that.
-	(use_common_book_cb): remove the block of code including the avoid
-	list in the query sent to wombat.
-
 2001-07-17  Chris Toshok  <toshok@ximian.com>
 
 	[ Fixes bugs #4611 - crash searching in the name field at Bigfoot for "\"
@@ -47,84 +10,6 @@
 	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_build_query):
 	list can be NULL, specifically if there's a parsing error in the
 	sexp, so deal with it.
-
-2001-07-17  Jon Trowbridge  <trow@ximian.com>
-
-	* backend/ebook/e-book-view-listener.c
-	(e_book_view_listener_queue_response): Hold a reference to our
-	listener while the idle function is active.
-	(e_book_view_listener_check_queue): Only unref the listener when
-	the idle function is finished.
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_clicked): Instead of replacing section->model with
-	source, copy source onto section->model with
-	e_select_names_model_overwrite_copy.  #if 0/#endif out all of the
-	stuff related to ETextModels, because it doesn't make any sense to
-	me, and everything appears to work without it.
-	(Die bug #2059.  Die! Die! Die!)
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_overwrite_copy): Added.  Copies the contents
-	of one ESelectNamesModel onto another.
-
-	* backend/ebook/e-destination.c (e_destination_copy): Made the argument
-	const.
-
-	* backend/ebook/e-destination.c (e_destination_set_string): Removed
-	old, broken code and annoying g_messages.
-
-	* backend/ebook/e-book-listener.c
-	(e_book_listener_queue_response): Hold a reference to the listener
-	while the idle function is active.
-	(e_book_listener_check_queue): Only release our reference to the
-	listener when the queue is empty.  These two changes fix a race
-	condition, since the listener could be unrefed while the listener
-	was still active. (Seems to fix bug #4485)
-
-2001-07-17  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/contact-editor/contact-editor.glade,
-	gui/merging/e-card-duplicate-detected.glade,
-	gui/merging/e-card-merging-book-commit-duplicate-detected.glade,
-	printing/e-contact-print.glade: Patch from Taylor Hayward
-	<thayward@gjpc.com>.  Added accelerators to a few dialogs.
-
-2001-07-16  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
-	Added addSectionWithLimit to the SelectNames interface.
-
-	* gui/component/select-names/e-select-names-bonobo.c
-	(impl_SelectNames_add_section_with_limit): Added.  Implements
-	addSectionWithLimit.
-	(e_select_names_bonobo_construct): Set up as a BonoboEventSource.
-	(init): Listen for "changed" signals from our manager.
-	(manager_changed_cb): Notify our listeners if we get a changed
-	signal from our manager.
-
-	* gui/component/select-names/e-select-names-manager.c
-	(e_select_names_manager_class_init): Added a "changed" signal".
-	(section_copy): Propogate the signal connection.
-	(section_free): Disconnect the changed handler.
-	(e_select_names_manager_add_section_with_limit): Connect to the
-	new section's model, listening for changes.
-	(e_select_names_manager_activate_dialog): Connect to the "working
-	copy" model, listening for changes.
-	(e_select_names_manager_add_section_with_limit): Added.
-	(e_select_names_manager_add_section): Changed to just be a special
-	case of e_select_names_manager_add_section_with_limit.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_set_limit): Added.  Allows a max number of
-	names allowed in the model.
-	(e_select_names_model_get_limit): Added.  Returns the limit.
-	(e_select_names_model_at_limit): Added.  Returns TRUE if the
-	model is "full".
-	(e_select_names_model_insert): Check that we aren't at the
-	limit before inserting.  Silently return if we are.
-	(e_select_names_model_append): Check that we aren't at the
-	limit before appending.  Silently return if we are.
 
 2001-07-16  Chris Toshok  <toshok@ximian.com>
 
@@ -146,32 +31,6 @@
 
 	* gui/component/addressbook-storage.h: add prototype for
 	address_storage_write_sources.
-
-2001-07-16  Iain Holmes  <iain@ximian.com>
-
-	* backend/pas/evolution-vcard-importer.c (ebook_create): Don't just 
-	use the default directory. Use the directory that is passed into the
-	load file function.
-
-2001-07-15  Christopher James Lahey  <clahey@ximian.com>
-
-	* backend/ebook/e-destination.c (e_destination_set_string):
-	Commented out some unused variables and labels.
-	(e_destination_importv): Check for the xml not parsing correctly
-	and just return NULL here.
-
-	* gui/component/select-names/e-select-names-model.c
-	(e_select_names_model_import_destinationv): Handle a NULL destv
-	here.
-
-2001-07-15  Christopher James Lahey  <clahey@ximian.com>
-
-	* gui/widgets/e-addressbook-view.c (table_drag_data_get): Added a
-	call to e_table_view_to_model_row here.
-	(e_addressbook_view_can_print, e_addressbook_view_can_delete,
-	e_addressbook_view_can_copy): If the selection model is NULL here,
-	return NULL (this was done before in a g_return_val_if_fail which
-	is only conditionally included.)
 
 2001-07-13  Christopher James Lahey  <clahey@ximian.com>
 

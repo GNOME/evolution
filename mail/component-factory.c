@@ -103,16 +103,6 @@ static const char *schema_types[] = {
 
 /* EvolutionShellComponent methods and signals.  */
 
-static BonoboControl *
-create_noselect_control (void)
-{
-	GtkWidget *label;
-
-	label = gtk_label_new (_("This folder cannot contain messages."));
-	gtk_widget_show (label);
-	return bonobo_control_new (label);
-}
-
 static EvolutionShellComponentResult
 create_view (EvolutionShellComponent *shell_component,
 	     const char *physical_uri,
@@ -128,12 +118,8 @@ create_view (EvolutionShellComponent *shell_component,
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	if (g_strcasecmp (folder_type, "mail") == 0) {
-		/* hack-tastic! */
-		if (strstr (physical_uri, "noselect=yes"))
-			control = create_noselect_control ();
-		else
-			control = folder_browser_factory_new_control (physical_uri,
-								      corba_shell);
+		control = folder_browser_factory_new_control (physical_uri,
+							      corba_shell);
 	} else if (g_strcasecmp (folder_type, "mailstorage") == 0) {
 		CamelService *store;
 		EvolutionStorage *storage;
@@ -276,12 +262,6 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CamelException ex;
 	GPtrArray *uids;
 	
-	if (strstr (destination_physical_uri, "noselect=yes")) {
-		GNOME_Evolution_ShellComponentListener_notifyResult (listener, 
-								     GNOME_Evolution_ShellComponentListener_UNSUPPORTED_OPERATION, &ev);
-		return;
-	}
-
 	camel_exception_init (&ex);
 	source = mail_tool_uri_to_folder (source_physical_uri, &ex);
 	camel_exception_clear (&ex);
@@ -300,7 +280,6 @@ xfer_folder (EvolutionShellComponent *shell_component,
 	CORBA_exception_free (&ev);
 }
 
-#if 0
 static void
 populate_folder_context_menu (EvolutionShellComponent *shell_component,
 			      BonoboUIComponent *uic,
@@ -318,7 +297,6 @@ populate_folder_context_menu (EvolutionShellComponent *shell_component,
 	bonobo_ui_component_set_translate (uic, EVOLUTION_SHELL_COMPONENT_POPUP_PLACEHOLDER,
 					   popup_xml, NULL);
 }
-#endif
 
 static char *
 get_dnd_selection (EvolutionShellComponent *shell_component,
@@ -343,12 +321,8 @@ destination_folder_handle_motion (EvolutionShellComponentDndDestinationFolder *f
 				  gpointer user_data)
 {
 	g_print ("in destination_folder_handle_motion (%s)\n", physical_uri);
-
-	if (strstr (physical_uri, "noselect=yes"))
-		/* uh, no way to say "illegal" */
-		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_DEFAULT;
-	else
-		*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
+	
+	*suggested_action_return = GNOME_Evolution_ShellComponentDnd_ACTION_MOVE;
 	
 	return TRUE;
 }
@@ -407,9 +381,6 @@ destination_folder_handle_drop (EvolutionShellComponentDndDestinationFolder *des
 	if (action == GNOME_Evolution_ShellComponentDnd_ACTION_LINK)
 		return FALSE; /* we can't create links */
 	
-	if (strstr (physical_uri, "noselect=yes"))
-		return FALSE;
-
 	g_print ("in destination_folder_handle_drop (%s)\n", physical_uri);
 	
 	for (type = 0; accepted_dnd_types[type]; type++)
@@ -575,7 +546,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	mail_config_init ();
 	
 	storages_hash = g_hash_table_new (NULL, NULL);
-
+	
 	vfolder_create_storage (shell_component);
 
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
@@ -673,7 +644,7 @@ component_fn (BonoboGenericFactory *factory, void *closure)
 							 create_folder,
 							 remove_folder,
 							 xfer_folder,
-							 /*populate_folder_context_menu*/NULL,
+							 populate_folder_context_menu,
 							 get_dnd_selection,
 							 NULL);
 	
@@ -761,7 +732,7 @@ storage_create_folder (EvolutionStorage *storage,
 	prefix = g_strndup (path, name - path - 1);
 	folder_created (store, prefix, fi);
 	g_free (prefix);
-
+	
 	camel_store_free_folder_info (store, fi);
 	
 	return EVOLUTION_STORAGE_OK;
@@ -781,9 +752,6 @@ storage_remove_folder (EvolutionStorage *storage,
 	g_warning ("storage_remove_folder: path=\"%s\"; uri=\"%s\"", path, physical_uri);
 	
 	if (*physical_uri) {
-		if (strncmp (physical_uri, "vtrash:", 7) == 0)
-			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
-
 		url = camel_url_new (physical_uri, NULL);
 		if (!url)
 			return EVOLUTION_STORAGE_ERROR_INVALID_URI;
@@ -807,7 +775,7 @@ storage_remove_folder (EvolutionStorage *storage,
 	if (camel_store_supports_subscriptions (store))
 		camel_store_unsubscribe_folder (store, fi->full_name, NULL);
 	
-	evolution_storage_removed_folder (storage, path);
+	folder_deleted (store, fi);
 	
 	camel_store_free_folder_info (store, fi);
 	

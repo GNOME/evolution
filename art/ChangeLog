@@ -1,53 +1,6 @@
-2001-07-20  JP Rosevear  <jpr@ximian.com>
-
-	* Pull in new splash screen
-
-2001-07-20  Rodrigo Moya <rodrigo@ximian.com>
-
-	* Makefile.am: install 2 new category icons (16_category_suppliers.png
-	and 16_category_time-and-expenses.png)
-
-2001-07-20    <tigert@ximian.com>
-
-	* 16_category_time-and-expenses.png: Icon for "Time & Expenses"
-	category..
-
-	* 16_category_suppliers.png: Icon for "Suppliers" category..
-
-	* evolution-calendar.png, evolution-contacts.png, 
-	evolution-inbox.png, evolution-tasks.png, evolution-today.png:
-	Took out the colored background circles from the icons, apparently
-	people found them confusing rather than useful, especially on small
-	icons -mode of the shortcutbar.
-
-2001-07-19  Rodrigo Moya <rodrigo@ximian.com>
-
-	* Makefile.am: install the 2 new category icons
-
-2001-07-19    <tigert@ximian.com>
-
-	* 16_category_strategies.png, 16_category_status.png:
-	New category icons.
-
-2001-07-19  Jakub Steiner <jimmac@ximian.com>
-
-	* insert-link-24.png, insert-table-24.png, insert-image-24.png:
-	  toolbar icons for message editor.
-
 2001-07-17  Rodrigo Moya <rodrigo@ximian.com>
 
-	* Makefile.am: install category icons
-
-2001-07-17  Tuomas Kuosmanen  <tigert@ximian.com>
-
-	* 16_category_holiday-cards.png 16_category_hot-contacts.png
-	16_category_ideas.png: new category icons..
-
-2001-07-16  Tuomas Kuosmanen  <tigert@ximian.com>
-
-	* 16_category_favorites.png 16_category_gifts.png
-	16_category_goals.png: New additions for the category stuff..
-	still more to do..
+        * Makefile.am: install category icons
 
 2001-07-13  Tuomas Kuosmanen  <tigert@ximian.com>
 

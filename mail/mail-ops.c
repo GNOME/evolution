@@ -116,8 +116,7 @@ filter_folder_filter (struct _mail_msg *mm)
 		camel_folder_free_uids (folder, folder_uids);
 	
 	/* sync and expunge */
-	if (!m->cache)
-		camel_folder_sync (folder, TRUE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
+	camel_folder_sync (folder, TRUE, camel_exception_is_set (&mm->ex) ? NULL : &mm->ex);
 	camel_folder_thaw (folder);
 	
 	if (m->destination)
@@ -453,9 +452,9 @@ mail_send_message(CamelMimeMessage *message, const char *destination, CamelFilte
 	char *transport_url = NULL, *sent_folder_uri = NULL;
 	
 	if (SUB_VERSION[0] == '\0')
-		version = "Evolution/" VERSION " (Preview Release)";
+		version = "Evolution/" VERSION " (Beta Release)";
 	else
-		version = "Evolution/" VERSION SUB_VERSION " (Preview Release)";
+		version = "Evolution/" VERSION SUB_VERSION " (Beta Release)";
 	camel_medium_add_header (CAMEL_MEDIUM (message), "X-Mailer", version);
 	camel_mime_message_set_date (message, CAMEL_MESSAGE_DATE_CURRENT, 0);
 	
@@ -895,7 +894,7 @@ transfer_messages_transfer (struct _mail_msg *mm)
 	void (*func) (CamelFolder *, GPtrArray *, 
 		      CamelFolder *, 
 		      CamelException *);
-	
+
 	if (m->delete) {
 		func = camel_folder_move_messages_to;
 		desc = _("Moving");
@@ -1706,9 +1705,7 @@ struct _get_messages_msg {
 
 static char * get_messages_desc(struct _mail_msg *mm, int done)
 {
-	struct _get_messages_msg *m = (struct _get_messages_msg *)mm;
-
-	return g_strdup_printf(_("Retrieving %d message(s)"), m->uids->len);
+	return g_strdup_printf(_("Retrieving messages"));
 }
 
 static void get_messages_get(struct _mail_msg *mm)
@@ -1718,10 +1715,10 @@ static void get_messages_get(struct _mail_msg *mm)
 	CamelMimeMessage *message;
 
 	for (i=0; i<m->uids->len; i++) {
-		int pc = ((i+1) * 100) / m->uids->len;
+		mail_statusf(_("Retrieving message number %d of %d (uid \"%s\")"),
+			     i+1, m->uids->len, (char *) m->uids->pdata[i]);
 
 		message = camel_folder_get_message(m->folder, m->uids->pdata[i], &mm->ex);
-		camel_operation_progress(mm->cancel, pc);
 		if (message == NULL)
 			break;
 
@@ -1792,9 +1789,7 @@ struct _save_messages_msg {
 
 static char *save_messages_desc(struct _mail_msg *mm, int done)
 {
-	struct _save_messages_msg *m = (struct _save_messages_msg *)mm;
-
-	return g_strdup_printf(_("Saving %d messsage(s)"), m->uids->len);
+	return g_strdup(_("Saving messages"));
 }
 
 /* tries to build a From line, based on message headers */
@@ -1885,11 +1880,12 @@ static void save_messages_save(struct _mail_msg *mm)
 	
 	for (i=0; i<m->uids->len; i++) {
 		CamelMimeMessage *message;
-		int pc = ((i+1) * 100) / m->uids->len;
 
+		mail_statusf(_("Saving message %d of %d (uid \"%s\")"),
+			     i+1, m->uids->len, (char *)m->uids->pdata[i]);
+		
 		message = camel_folder_get_message(m->folder, m->uids->pdata[i], &mm->ex);
-		camel_operation_progress(mm->cancel, pc);
-		if (message == NULL)
+		if (!message)
 			break;
 
 		/* we need to flush after each stream write since we are writing to the same fd */

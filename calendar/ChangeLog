@@ -1,26 +1,3 @@
-2001-07-19  Federico Mena Quintero  <federico@ximian.com>
-
-	* gui/dialogs/event-editor.h (event_editor_update_widgets):
-	Removed unused prototype.
-
-	* gui/dialogs/task-editor.h (task_editor_update_widgets):
-	Likewise.
-
-2001-07-19  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-itip-control.c (clean_up): free various data related
-	settings
-	(destroy): use cleanup and unref the clients
-	(e_itip_control_set_data): clean up before setting the data and
-	store the timezones in a top level component
-	(update_item): use cal_client_update_objects and our top level
-	(including the timezones)
-
-2001-07-19  Damon Chaplin  <damon@ximian.com>
-
-	* gui/dialogs/comp-editor.c (pixmaps): 
-	* gui/calendar-commands.c (pixmaps): updated to use new print icon.
-
 2001-07-17  Damon Chaplin  <damon@ximian.com>
 
 	* gui/dialogs/recurrence-page.c (init_widgets): don't show the time
@@ -32,20 +9,11 @@
 
 2001-07-18  Rodrigo Moya <rodrigo@ximian.com>
 
-	* gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
-	do not discard drawing icon if mask is NULL
+        * gui/e-day-view-main-item.c (e_day_view_main_item_draw_day_event):
+        do not discard drawing icon if mask is NULL
 
-	* gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
-	ditto
-
-2001-07-17  JP Rosevear  <jpr@ximian.com>
-
-	* gui/e-itip-control.c (get_next): find the next displayable
-	component
-	(get_prev): find the previous displayable component
-	(e_itip_control_set_data): use above
-	(prev_clicked_cb): ditto
-	(next_clicked_cb): ditto
+        * gui/e-day-view-top-item.c (e_day_view_top_item_draw_long_event):
+        ditto
 
 2001-07-17  Federico Mena Quintero  <federico@ximian.com>
 
@@ -64,15 +32,6 @@
 	* gui/e-day-view.c (e_day_view_find_work_week_start): Likewise.
 
 	* gui/e-week-view.c (e_week_view_set_selected_time_range): Likewise.
-
-2001-07-17  Jon Trowbridge  <trow@ximian.com>
-
-	* gui/dialogs/meeting-page.c (invite_entry_changed): Print
-	a g_message when the list of invited people changes
-	in the SelectNames control.
-	(add_section): #if 0/#endif out some (broken?) code.
-	(get_select_name_dialog): Listen for changes in the
-	SelectNames control.
 
 2001-07-17  Damon Chaplin  <damon@ximian.com>
 

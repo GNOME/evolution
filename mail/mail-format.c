@@ -153,9 +153,9 @@ void
 mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 {
 	GHashTable *urls;
-	
+
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
-	
+
 	urls = g_datalist_get_data (md->data, "part_urls");
 	if (!urls) {
 		urls = g_hash_table_new (g_str_hash, g_str_equal);
@@ -168,7 +168,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 		g_datalist_set_data_full (md->data, "data_urls", urls,
 					  free_data_urls);
 	}
-	
+
 	/* ok, so they're not urls. so sue me. */
 	urls = g_datalist_get_data (md->data, "attachment_states");
 	if (!urls) {
@@ -176,7 +176,7 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 		g_datalist_set_data_full (md->data, "attachment_states", urls,
 					  (GDestroyNotify) g_hash_table_destroy);
 	}
-	
+
 	write_headers (mime_message, md);
 	format_mime_part (CAMEL_MIME_PART (mime_message), md);
 }
@@ -875,7 +875,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 	};
 	int i, len, flags;
 	gboolean full = (md->display_style == MAIL_CONFIG_DISPLAY_FULL_HEADERS);
-	
+
 	mail_html_write (md->html, md->stream,
 			 "<table width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td colspan=3 height=10><table height=10 cellpadding=0 cellspacing=0>"
@@ -886,7 +886,7 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 			 "cellspacing=0 cellpadding=1><tr><td>"
 			 "<table bgcolor=\"#EEEEEE\" width=\"100%%\" cellpadding=0 cellspacing=0>"
 			 "<tr><td><table>\n");
-	
+
 	if (full) {
 		gheaders = camel_medium_get_headers (CAMEL_MEDIUM (message));
 		headers = (CamelMediumHeader *)gheaders->data;
@@ -898,13 +898,13 @@ write_headers (CamelMimeMessage *message, MailDisplay *md)
 		len = sizeof (default_headers) / sizeof (default_headers[0]);
 		flags = 0;
 	}
-	
+
 	for (i = 0; i < len; i++)
 		write_header (message, md, headers[i].name, headers[i].value, flags);
-	
+
 	if (gheaders)
 		camel_medium_free_headers (CAMEL_MEDIUM (message), gheaders);
-	
+
 	mail_html_write (md->html, md->stream,
 			 "</table></td></tr></table></td></tr></table></font></td>"
 			 "<td><table width=10 cellpadding=0 cellspacing=0><tr><td></td></tr></table></td></tr>"

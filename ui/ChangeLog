@@ -1,8 +1,3 @@
-2001-07-19  Damon Chaplin  <damon@ximian.com>
-
-	* evolution-calendar.xml: 
-	* evolution-comp-editor.xml: update to use new print icon.
-
 2001-07-16  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution-mail-message.xml: Add closing dots to the "Filter

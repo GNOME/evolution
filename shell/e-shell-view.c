@@ -144,6 +144,8 @@ static guint signals[LAST_SIGNAL] = { 0 };
 #define DEFAULT_WIDTH 705
 #define DEFAULT_HEIGHT 550
 
+#define DEFAULT_URI "evolution:/local/Inbox"
+
 #define SET_FOLDER_DELAY 250
 
 
@@ -823,6 +825,7 @@ setup_widgets (EShellView *shell_view)
 	/* Put things into a paned and the paned into the GnomeApp.  */
 
 	priv->view_vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (priv->view_vbox), 2);
 
 	priv->view_title_bar = e_shell_folder_title_bar_new ();
 	gtk_signal_connect (GTK_OBJECT (priv->view_title_bar), "title_toggled",
@@ -836,7 +839,7 @@ setup_widgets (EShellView *shell_view)
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_title_bar,
 			    FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (priv->view_vbox), priv->view_hpaned,
-			    TRUE, TRUE, 0);
+			    TRUE, TRUE, 2);
 
 	priv->hpaned = e_hpaned_new ();
 	gtk_container_add (GTK_CONTAINER (priv->shortcut_frame), priv->shortcut_bar);

@@ -1194,7 +1194,7 @@ mail_display_redisplay (MailDisplay *md, gboolean unscroll)
 		/* This is a hack until there's a clean way to do this. */
 		GTK_HTML (md->html)->engine->newPage = FALSE;
 	}
-	
+
 	mail_html_write (md->html, md->stream, "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
 	mail_html_write (md->html, md->stream, "<body marginwidth=0 marginheight=0>\n");
 	
@@ -1406,7 +1406,7 @@ static EPopupMenu link_menu [] = {
 	  GTK_SIGNAL_FUNC (link_copy_location), NULL,  MASK_URL },
 	{ N_("Save Link as (FIXME)"), NULL,
 	  GTK_SIGNAL_FUNC (link_save_as), NULL,  MASK_URL },
-	{ N_("Save Image as..."), NULL,
+	{ N_("Save Image as"), NULL,
 	  GTK_SIGNAL_FUNC (image_save_as), NULL, MASK_SRC }, 
      
 	TERMINATOR
@@ -1844,8 +1844,7 @@ mail_display_new (void)
 
 	scroll = e_scroll_frame_new (NULL, NULL);
 	e_scroll_frame_set_policy (E_SCROLL_FRAME (scroll),
-				   GTK_POLICY_AUTOMATIC,
-				   GTK_POLICY_AUTOMATIC);
+				   GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	e_scroll_frame_set_shadow_type (E_SCROLL_FRAME (scroll), GTK_SHADOW_IN);
 	gtk_box_pack_start_defaults (GTK_BOX (mail_display), GTK_WIDGET (scroll));
 	gtk_widget_show (GTK_WIDGET (scroll));

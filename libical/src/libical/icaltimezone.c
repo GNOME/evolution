@@ -414,7 +414,7 @@ icaltimezone_get_tznames_from_vtimezone (icalcomponent *component)
 
 	/* If either of the TZNAMEs was found just return that, else NULL. */
 	tznames = standard_tzname ? standard_tzname : daylight_tzname;
-	return tznames ? strdup (tznames) : NULL;
+	return strdup (tznames);
     }
 }
 

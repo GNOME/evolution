@@ -49,7 +49,6 @@
 #include "evolution-shell-component.h"
 #include "evolution-storage-listener.h"
 
-#include "gal/widgets/e-gui-utils.h"
 #include "e-util/e-path.h"
 
 #include "camel/camel.h"
@@ -718,6 +717,14 @@ mail_local_storage_startup (EvolutionShellClient *shellclient,
 
 */
 
+static void
+update_progress(char *fmt, float percent)
+{
+	if (fmt)
+		mail_status(fmt);
+	/*mail_op_set_percentage (percent);*/
+}
+
 /* ******************** */
 
 /* we should have our own progress bar for this */
@@ -726,22 +733,29 @@ struct _reconfigure_msg {
 	struct _mail_msg msg;
 
 	FolderBrowser *fb;
-	char *newtype;
+	gchar *newtype;
 	GtkWidget *frame;
 	GtkWidget *apply;
 	GtkWidget *cancel;
 	GtkOptionMenu *optionlist;
 };
 
-static char *
-reconfigure_folder_describe(struct _mail_msg *mm, int done)
+#if 0
+static gchar *
+describe_reconfigure_folder (gpointer in_data, gboolean gerund)
 {
-	struct _reconfigure_msg *m = (struct _reconfigure_msg *)mm;
+	reconfigure_folder_input_t *input = (reconfigure_folder_input_t *) in_data;
 
-	return g_strdup_printf (_("Changing folder \"%s\" to \"%s\" format"),
-				m->fb->uri,
-				m->newtype);
+	if (gerund)
+		return g_strdup_printf (_("Changing folder \"%s\" to \"%s\" format"),
+					input->fb->uri,
+					input->newtype);
+	else
+		return g_strdup_printf (_("Change folder \"%s\" to \"%s\" format"),
+					input->fb->uri,
+					input->newtype);
 }
+#endif
 
 static void
 reconfigure_folder_reconfigure(struct _mail_msg *mm)
@@ -759,6 +773,8 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	guint32 flags;
 
 	d(printf("reconfiguring folder: %s to type %s\n", m->fb->uri, m->newtype));
+
+	mail_status (_("Reconfiguring folder"));
 
 	/* NOTE: This var is cleared by the folder_browser via the set_uri method */
 	m->fb->reconfigure = TRUE;
@@ -787,6 +803,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	g_free(metapath);
 
 	/* first, 'close' the old folder */
+	update_progress(_("Closing current folder"), 0.0);
 	camel_folder_sync(local_folder->folder, FALSE, &mm->ex);
 
 	/* Once for the FolderBrowser, once for the local store */
@@ -813,6 +830,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 	/* rename the old mbox and open it again, without indexing */
 	tmpname = g_strdup_printf("%s_reconfig", meta->name);
 	d(printf("renaming %s to %s, and opening it\n", meta->name, tmpname));
+	update_progress(_("Renaming old folder and opening"), 0.0);
 
 	camel_store_rename_folder(fromstore, meta->name, tmpname, &mm->ex);
 	if (camel_exception_is_set(&mm->ex)) {
@@ -830,6 +848,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 
 	/* create a new mbox */
 	d(printf("Creating the destination mbox\n"));
+	update_progress(_("Creating new folder"), 0.0);
 
 	flags = CAMEL_STORE_FOLDER_CREATE;
 	if (meta->indexed)
@@ -843,6 +862,7 @@ reconfigure_folder_reconfigure(struct _mail_msg *mm)
 		goto cleanup;
 	}
 
+	update_progress (_("Copying messages"), 0.0);
 	uids = camel_folder_get_uids (fromfolder);
 	camel_folder_move_messages_to (fromfolder, uids, tofolder, &mm->ex);
 	camel_folder_free_uids (fromfolder, uids);
@@ -919,7 +939,7 @@ reconfigure_folder_free(struct _mail_msg *mm)
 }
 
 static struct _mail_msg_op reconfigure_folder_op = {
-	reconfigure_folder_describe,
+	NULL,
 	reconfigure_folder_reconfigure,
 	reconfigure_folder_reconfigured,
 	reconfigure_folder_free,
@@ -972,29 +992,11 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 		return;
 	}
 	
-	if (!reconfigure_folder_hash)
-		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
-	
 	if ((gd = g_hash_table_lookup (reconfigure_folder_hash, fb->folder))) {
 		/* FIXME: raise this dialog?? */
 		return;
 	}
-
-	/* check if we can work on this folder */
-	name = strchr (fb->uri, '/');
-	if (name) {
-		while (*name == '/')
-			name++;
-		/* we just want to see if it's NULL or not */
-		name = (char *) g_hash_table_lookup (local_store->folders, name);
-	}
-
-	if (name == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_WARNING,
-			  _("You cannot change the format of a non-local folder."));
-		return;
-	}
-
+	
 	m = mail_msg_new (&reconfigure_folder_op, NULL, sizeof (*m));
 	store = camel_folder_get_parent_store (fb->folder);
 	
@@ -1020,6 +1022,9 @@ mail_local_reconfigure_folder (FolderBrowser *fb)
 	
 	gtk_signal_connect (GTK_OBJECT (gd), "clicked", reconfigure_clicked, m);
 	gtk_object_unref (GTK_OBJECT (gui));
+	
+	if (!reconfigure_folder_hash)
+		reconfigure_folder_hash = g_hash_table_new (g_direct_hash, g_direct_equal);
 	
 	g_hash_table_insert (reconfigure_folder_hash, (gpointer) fb->folder, (gpointer) gd);
 	
