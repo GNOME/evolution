@@ -42,7 +42,6 @@
 #include <gtkhtml/htmlselection.h>
 
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/widgets/e-unicode.h>
 
 #include <bonobo/bonobo-listener.h>
@@ -75,6 +74,7 @@
 #include "Mailer.h"
 
 #include <Evolution.h>
+#include "e-util/e-dialog-utils.h"
 
 #include <time.h>
 
@@ -621,7 +621,7 @@ do_summary_print (ESummary *summary,
 		int result = gnome_print_job_print (print_master);
 
 		if (result == -1) {
-			e_notice (NULL, GTK_MESSAGE_ERROR,
+			e_notice (summary, GTK_MESSAGE_ERROR,
 				  _("Printing of Summary failed"));
 		}
 	}
