@@ -1,5 +1,8 @@
 2001-08-14  Peter Williams  <peterw@ximian.com>
 
+	* mail-callbacks.c (previous_unread_msg): Make previous unread
+	wrap around too.
+
 	* mail-accounts.c (load_accounts): If the account is enabled,
 	set a checkmark pixmap instead of a strange plus sign.
 	(mail_accounts_dialog_init): Load the pixmap here.
