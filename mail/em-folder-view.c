@@ -1413,7 +1413,7 @@ static EPixmap emfv_message_pixmaps[] = {
 static const EMFolderViewEnable emfv_enable_map[] = {
 	{ "EditCut",                  EM_POPUP_SELECT_MANY },
 	{ "EditCopy",                 EM_POPUP_SELECT_MANY },
-	{ "EditPaste",                0 },
+	{ "EditPaste",                EM_POPUP_SELECT_FOLDER },
 
 	/* FIXME: should these be single-selection? */
 	{ "MailNext",                 EM_POPUP_SELECT_MANY },

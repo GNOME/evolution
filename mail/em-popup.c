@@ -461,8 +461,16 @@ em_popup_target_new_select(struct _CamelFolder *folder, const char *folder_uri, 
 	t->type = EM_POPUP_TARGET_SELECT;
 	t->data.select.uids = uids;
 	t->data.select.folder = folder;
-	camel_object_ref(folder);
 	t->data.select.folder_uri = g_strdup(folder_uri);
+
+	if (folder == NULL) {
+		t->mask = mask;
+
+		return t;
+	}
+
+	camel_object_ref(folder);
+	mask &= ~EM_POPUP_SELECT_FOLDER;
 
 	if (em_utils_folder_is_sent(folder, folder_uri))
 		mask &= ~EM_POPUP_SELECT_RESEND;
@@ -635,7 +643,8 @@ em_popup_target_free(EMPopupTarget *t)
 {
 	switch (t->type) {
 	case EM_POPUP_TARGET_SELECT:
-		camel_object_unref(t->data.select.folder);
+		if (t->data.select.folder)
+			camel_object_unref(t->data.select.folder);
 		g_free(t->data.select.folder_uri);
 		if (t->data.select.uids)
 			em_utils_uids_free(t->data.select.uids);

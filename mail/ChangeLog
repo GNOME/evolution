@@ -1,5 +1,20 @@
 2004-02-17  Not Zed  <NotZed@Ximian.com>
 
+	** See bug #54200.
+
+	* em-popup.c (em_popup_target_new_select): add
+	EM_POPUP_SELECT_FOLDER - to find out if we have a folder at
+	all.  Handle getting a NULL folder passed in.
+
+	* em-folder-view.c (em_folder_view_get_popup_target): Added
+	EM_FOLDER_VIEW_SELECT_FOLDER - to detect when we dont have a
+	folder set on the emfolderview.
+
+	* em-folder-browser.c (emfb_mark_all_read): if we don't have a
+	folder, dont try and run.
+	(emfb_enable_map[]): Disable a bunch of stuff we have no
+	folder set.
+
 	* importers/pine-importer.c (import_contact): fix for the
 	weird-arsed e-contact list api.  and fix a small memleak.
 

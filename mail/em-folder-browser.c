@@ -562,7 +562,10 @@ emfb_mark_all_read(BonoboUIComponent *uid, void *data, const char *path)
 	EMFolderView *emfv = data;
 	GPtrArray *uids;
 	int i;
-	
+
+	if (emfv->folder == NULL)
+		return;
+
 	uids = camel_folder_get_uids(emfv->folder);
 	camel_folder_freeze(emfv->folder);
 	for (i=0;i<uids->len;i++)
@@ -709,7 +712,11 @@ static EPixmap emfb_pixmaps[] = {
 };
 
 static const EMFolderViewEnable emfb_enable_map[] = {
+	{ "EditInvertSelection", EM_POPUP_SELECT_FOLDER },
+	{ "EditSelectAll", EM_POPUP_SELECT_FOLDER },
 	{ "EditSelectThread", EM_FOLDER_VIEW_SELECT_THREADED },
+	{ "MailPost", EM_POPUP_SELECT_FOLDER },
+	{ "MessageMarkAllAsRead", EM_POPUP_SELECT_FOLDER },
 	{ "ViewHideSelected", EM_POPUP_SELECT_MANY },
 	{ "ViewShowAll", EM_FOLDER_VIEW_SELECT_HIDDEN },
 	{ NULL },
