@@ -1,3 +1,10 @@
+2003-08-13  Not Zed  <NotZed@Ximian.com>
+
+	* camel-folder-summary.c (camel_folder_summary_remove_range): Fix
+	the range check, we were stopping removal of 1 or 2 removals, for
+	some odd and completely uncomprehensible reason.  Perhaps debug
+	left in?
+
 2003-08-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #45504.
