@@ -234,6 +234,7 @@ create_days (GtkWidget *dialog, GnomeCalendar *gcal, int day, int month, int yea
 			       "month", month,
 			       "year", year,
 			       "start_on_monday", week_starts_on_monday,
+			       "heading_color", "white",
 			       NULL);
 	highlight_current_day (GNOME_MONTH_ITEM (mitem));
 

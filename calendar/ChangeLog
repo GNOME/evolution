@@ -1,3 +1,18 @@
+1998-08-25  Federico Mena Quintero  <federico@nuclecu.unam.mx>
+
+	* goto.c (create_days): Set the heading color of the month item.
+
+	* main.c: Use GNOME_STOCK_PIXMAP_JUMP_TO, now that it exists,
+	instead of goto.xpm.  Also, removed goto.xpm from cvs.
+
+	* gnome-month-item.h (struct _GnomeMonthItem): Added fields for
+	the heading and day number fonts.  Added fields for heading and
+	day number label colors.
+
+	* gnome-month-item.c (gnome_month_item_class_init): ARG_DAY_NAMES
+	should be write-only.  Also, added arguments for heading and day
+	number fonts.  Added arguments for heading and day number colors.
+
 1998-08-24  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* prop.c (build_two_radio_group): Doh.  Set the state of the radio

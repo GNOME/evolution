@@ -78,10 +78,12 @@ month_view_init (MonthView *mv)
 	mv->mitem = gnome_month_item_new (GNOME_CANVAS_GROUP (mv->canvas.root));
 	gnome_canvas_item_set (mv->mitem,
 			       "x", 0.0,
-			       "y", 0.0,
 			       "anchor", GTK_ANCHOR_NW,
 			       "day_anchor", GTK_ANCHOR_NE,
 			       "start_on_monday", week_starts_on_monday,
+			       "heading_height", 18.0,
+			       "heading_font", "-*-helvetica-bold-r-normal--12-*-*-*-*-*-iso8859-1",
+			       "day_font", "-*-helvetica-bold-r-normal--14-*-*-*-*-*-iso8859-1",
 			       NULL);
 }
 

@@ -59,13 +59,21 @@ typedef enum {
  * width		double		RW		Width of calendar in canvas units
  * height		double		RW		Height of calendar in canvas units
  * anchor		GtkAnchorType	RW		Anchor side for calendar
- * head_padding		double		RW		Padding inside heading boxes
+ * heading_padding	double		RW		Padding inside heading boxes
  * day_padding		double		RW		Padding inside day boxes
- * day_names		char **		R		Array of strings corresponding to the day names (sun-sat)
+ * day_names		char **		W		Array of strings corresponding to the day names (sun-sat)
  * heading_height	double		RW		Height of headings bar in canvas units
  * heading_anchor	GtkAnchorType	RW		Anchor side for headings inside heading boxes
  * day_anchor		GtkAnchorType	RW		Anchor side for day numbers inside day boxes
  * start_on_monday	boolean		RW		Specifies whether the week starts on Monday or Sunday
+ * heading_font		string		W		X logical font descriptor for the headings
+ * heading_font_gdk	GdkFont *	RW		Pointer to GdkFont for the headings
+ * day_font		string		W		X logical font descriptor for the day numbers
+ * day_font_gdk		GdkFont *	RW		Pointer to GdkFont for the day numbers
+ * heading_color	string		W		X color specification for heading labels
+ * heading_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for heading labels
+ * day_color		string		W		X color specification for day number labels
+ * day_color_gdk	GdkColor *	RW		Pointer to an allocated GdkColor for day number labels
  */
 
 #define GNOME_TYPE_MONTH_ITEM            (gnome_month_item_get_type ())
@@ -95,11 +103,16 @@ struct _GnomeMonthItem {
 
 	double head_height;		/* Height of the headings row */
 	GtkAnchorType head_anchor;	/* Anchor side for the heading labels */
-
 	GtkAnchorType day_anchor;	/* Anchor side for the day number labels */
 
 	GnomeCanvasItem **items;	/* All the items that make up the calendar */
 	int day_numbers[42];		/* The numbers of the days */
+
+	GdkFont *head_font;		/* Font for the headings */
+	GdkFont *day_font;		/* Font for the day numbers */
+
+	gulong head_pixel;		/* Color for heading labels */
+	gulong day_pixel;		/* Color for day number labels */
 
 	int start_on_monday : 1;	/* Start the week on Monday?  If false, then start from Sunday */
 };

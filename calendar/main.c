@@ -19,9 +19,10 @@
 #include "gnome-cal.h"
 #include "main.h"
 #include "timeutil.h"
-#include "goto.xpm"
+
 
 #define COOKIE_USER_HOME_DIR ((char *) -1)
+
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -363,13 +364,13 @@ static GnomeUIInfo gnome_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("Prev"), N_("Go back in time"), previous_clicked, GNOME_STOCK_MENU_BACK),
+	GNOMEUIINFO_ITEM_STOCK (N_("Prev"), N_("Go back in time"), previous_clicked, GNOME_STOCK_PIXMAP_BACK),
 	GNOMEUIINFO_ITEM_STOCK (N_("Today"), N_("Go to present time"), today_clicked, GNOME_STOCK_PIXMAP_HOME),
-	GNOMEUIINFO_ITEM_STOCK (N_("Next"), N_("Go forward in time"), next_clicked, GNOME_STOCK_MENU_FORWARD),
+	GNOMEUIINFO_ITEM_STOCK (N_("Next"), N_("Go forward in time"), next_clicked, GNOME_STOCK_PIXMAP_FORWARD),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM (N_("Go to"), N_("Go to a specific date"), goto_clicked, goto_xpm),
+	GNOMEUIINFO_ITEM_STOCK (N_("Go to"), N_("Go to a specific date"), goto_clicked, GNOME_STOCK_PIXMAP_JUMP_TO),
 
 	GNOMEUIINFO_END
 };

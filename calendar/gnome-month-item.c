@@ -55,7 +55,15 @@ enum {
 	ARG_HEADING_HEIGHT,
 	ARG_HEADING_ANCHOR,
 	ARG_DAY_ANCHOR,
-	ARG_START_ON_MONDAY
+	ARG_START_ON_MONDAY,
+	ARG_HEAD_FONT,
+	ARG_HEAD_FONT_GDK,
+	ARG_DAY_FONT,
+	ARG_DAY_FONT_GDK,
+	ARG_HEAD_COLOR,
+	ARG_HEAD_COLOR_GDK,
+	ARG_DAY_COLOR,
+	ARG_DAY_COLOR_GDK
 };
 
 
@@ -115,13 +123,21 @@ gnome_month_item_class_init (GnomeMonthItemClass *class)
 	gtk_object_add_arg_type ("GnomeMonthItem::width", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_WIDTH);
 	gtk_object_add_arg_type ("GnomeMonthItem::height", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEIGHT);
 	gtk_object_add_arg_type ("GnomeMonthItem::anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_ANCHOR);
-	gtk_object_add_arg_type ("GnomeMonthItem::head_padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEAD_PADDING);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEAD_PADDING);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_padding", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_DAY_PADDING);
-	gtk_object_add_arg_type ("GnomeMonthItem::day_names", GTK_TYPE_POINTER, GTK_ARG_READABLE, ARG_DAY_NAMES);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_names", GTK_TYPE_POINTER, GTK_ARG_WRITABLE, ARG_DAY_NAMES);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_height", GTK_TYPE_DOUBLE, GTK_ARG_READWRITE, ARG_HEADING_HEIGHT);
 	gtk_object_add_arg_type ("GnomeMonthItem::heading_anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_HEADING_ANCHOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::day_anchor", GTK_TYPE_ANCHOR_TYPE, GTK_ARG_READWRITE, ARG_DAY_ANCHOR);
 	gtk_object_add_arg_type ("GnomeMonthItem::start_on_monday", GTK_TYPE_BOOL, GTK_ARG_READWRITE, ARG_START_ON_MONDAY);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_font", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_FONT);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_font_gdk", GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_HEAD_FONT_GDK);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_font", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_FONT);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_font_gdk", GTK_TYPE_GDK_FONT, GTK_ARG_READWRITE, ARG_DAY_FONT_GDK);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_HEAD_COLOR);
+	gtk_object_add_arg_type ("GnomeMonthItem::heading_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_HEAD_COLOR_GDK);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_color", GTK_TYPE_STRING, GTK_ARG_WRITABLE, ARG_DAY_COLOR);
+	gtk_object_add_arg_type ("GnomeMonthItem::day_color_gdk", GTK_TYPE_GDK_COLOR, GTK_ARG_READWRITE, ARG_DAY_COLOR_GDK);
 
 	object_class->destroy = gnome_month_item_destroy;
 	object_class->set_arg = gnome_month_item_set_arg;
@@ -274,6 +290,33 @@ reshape (GnomeMonthItem *mitem)
 	reshape_days (mitem);
 }
 
+/* Sets the font for all the day headings */
+static void
+set_head_font (GnomeMonthItem *mitem)
+{
+	int i;
+
+	for (i = 0; i < 7; i++)
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
+				       "font_gdk", mitem->head_font,
+				       NULL);
+}
+
+/* Sets the color for all the day headings */
+static void
+set_head_color (GnomeMonthItem *mitem)
+{
+	int i;
+	GdkColor color;
+
+	color.pixel = mitem->head_pixel;
+
+	for (i = 0; i < 7; i++)
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i],
+				       "fill_color_gdk", &color,
+				       NULL);
+}
+
 /* Creates the items for the day name headings */
 static void
 create_headings (GnomeMonthItem *mitem)
@@ -300,10 +343,11 @@ create_headings (GnomeMonthItem *mitem)
 		mitem->items[GNOME_MONTH_ITEM_HEAD_LABEL + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_HEAD_GROUP + i]),
 					       gnome_canvas_text_get_type (),
-					       "fill_color", "white",
-					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
 					       NULL);
 	}
+
+	set_head_font (mitem);
+	set_head_color (mitem);
 }
 
 /* Returns the number of leap years since year 1 up to (but not including) the specified year */
@@ -437,6 +481,33 @@ set_days (GnomeMonthItem *mitem)
 				       NULL);
 }
 
+/* Sets the font for all the day numbers */
+static void
+set_day_font (GnomeMonthItem *mitem)
+{
+	int i;
+
+	for (i = 0; i < 42; i++)
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
+				       "font_gdk", mitem->day_font,
+				       NULL);
+}
+
+/* Sets the color for all the day numbers */
+static void
+set_day_color (GnomeMonthItem *mitem)
+{
+	int i;
+	GdkColor color;
+
+	color.pixel = mitem->day_pixel;
+
+	for (i = 0; i < 42; i++)
+		gnome_canvas_item_set (mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i],
+				       "fill_color_gdk", &color,
+				       NULL);
+}
+
 /* Creates the items for the days */
 static void
 create_days (GnomeMonthItem *mitem)
@@ -464,11 +535,11 @@ create_days (GnomeMonthItem *mitem)
 		mitem->items[GNOME_MONTH_ITEM_DAY_LABEL + i] =
 			gnome_canvas_item_new (GNOME_CANVAS_GROUP (mitem->items[GNOME_MONTH_ITEM_DAY_GROUP + i]),
 					       gnome_canvas_text_get_type (),
-					       "fill_color", "black",
-					       "font", "-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1",
 					       NULL);
 	}
 
+	set_day_font (mitem);
+	set_day_color (mitem);
 	set_days (mitem);
 }
 
@@ -531,6 +602,20 @@ gnome_month_item_init (GnomeMonthItem *mitem)
 	mitem->head_height = 14.0;
 	mitem->head_anchor = GTK_ANCHOR_CENTER;
 	mitem->day_anchor = GTK_ANCHOR_CENTER;
+
+	/* Load the default fonts */
+
+	mitem->head_font = gdk_font_load ("-*-helvetica-medium-r-normal--10-*-*-*-p-*-iso8859-1");
+	if (!mitem->head_font) {
+		mitem->head_font = gdk_font_load ("fixed");
+		g_assert (mitem->head_font != NULL);
+	}
+
+	mitem->day_font = gdk_font_load ("-adobe-helvetica-medium-r-normal--10-*-72-72-p-*-iso8859-1");
+	if (!mitem->day_font) {
+		mitem->day_font = gdk_font_load ("fixed");
+		g_assert (mitem->day_font != NULL);
+	}
 }
 
 GnomeCanvasItem *
@@ -553,8 +638,16 @@ gnome_month_item_new (GnomeCanvasGroup *parent)
 void
 gnome_month_item_construct (GnomeMonthItem *mitem)
 {
+	GdkColor color;
+
 	g_return_if_fail (mitem != NULL);
 	g_return_if_fail (GNOME_IS_MONTH_ITEM (mitem));
+
+	gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, "#d6d6d6d6d6d6", &color);
+	mitem->head_pixel = color.pixel;
+
+	gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, "black", &color);
+	mitem->day_pixel = color.pixel;
 
 	create_items (mitem);
 }
@@ -648,6 +741,7 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 	GnomeMonthItem *mitem;
 	char **day_names;
 	int i;
+	GdkColor color;
 
 	mitem = GNOME_MONTH_ITEM (object);
 
@@ -740,6 +834,74 @@ gnome_month_item_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		set_days (mitem);
 		break;
 
+	case ARG_HEAD_FONT:
+		gdk_font_unref (mitem->head_font);
+
+		mitem->head_font = gdk_font_load (GTK_VALUE_STRING (*arg));
+		if (!mitem->head_font) {
+			mitem->head_font = gdk_font_load ("fixed");
+			g_assert (mitem->head_font != NULL);
+		}
+
+		set_head_font (mitem);
+		break;
+
+	case ARG_HEAD_FONT_GDK:
+		gdk_font_unref (mitem->head_font);
+
+		mitem->head_font = GTK_VALUE_BOXED (*arg);
+		gdk_font_ref (mitem->head_font);
+		set_head_font (mitem);
+		break;
+
+	case ARG_DAY_FONT:
+		gdk_font_unref (mitem->day_font);
+
+		mitem->day_font = gdk_font_load (GTK_VALUE_STRING (*arg));
+		if (!mitem->day_font) {
+			mitem->day_font = gdk_font_load ("fixed");
+			g_assert (mitem->day_font != NULL);
+		}
+
+		set_day_font (mitem);
+		break;
+
+	case ARG_DAY_FONT_GDK:
+		gdk_font_unref (mitem->day_font);
+
+		mitem->day_font = GTK_VALUE_BOXED (*arg);
+		gdk_font_ref (mitem->day_font);
+		set_day_font (mitem);
+		break;
+
+	case ARG_HEAD_COLOR:
+		if (gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, GTK_VALUE_STRING (*arg), &color))
+			mitem->head_pixel = color.pixel;
+		else
+			mitem->head_pixel = 0;
+
+		set_head_color (mitem);
+		break;
+
+	case ARG_HEAD_COLOR_GDK:
+		mitem->head_pixel = ((GdkColor *) GTK_VALUE_BOXED (*arg))->pixel;
+		set_head_color (mitem);
+		break;
+
+	case ARG_DAY_COLOR:
+		if (gnome_canvas_get_color (GNOME_CANVAS_ITEM (mitem)->canvas, GTK_VALUE_STRING (*arg), &color))
+			mitem->day_pixel = color.pixel;
+		else
+			mitem->day_pixel = 0;
+
+		set_day_color (mitem);
+		break;
+
+	case ARG_DAY_COLOR_GDK:
+		mitem->day_pixel = ((GdkColor *) GTK_VALUE_BOXED (*arg))->pixel;
+		set_day_color (mitem);
+		break;
+
 	default:
 		break;
 	}
@@ -749,6 +911,7 @@ static void
 gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	GnomeMonthItem *mitem;
+	GdkColor *color;
 
 	mitem = GNOME_MONTH_ITEM (object);
 
@@ -803,6 +966,28 @@ gnome_month_item_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 
 	case ARG_START_ON_MONDAY:
 		GTK_VALUE_BOOL (*arg) = mitem->start_on_monday;
+		break;
+
+	case ARG_HEAD_FONT_GDK:
+		GTK_VALUE_BOXED (*arg) = mitem->head_font;
+		break;
+
+	case ARG_DAY_FONT_GDK:
+		GTK_VALUE_BOXED (*arg) = mitem->day_font;
+		break;
+
+	case ARG_HEAD_COLOR_GDK:
+		color = g_new (GdkColor, 1);
+		color->pixel = mitem->head_pixel;
+		gdk_color_context_query_color (GNOME_CANVAS_ITEM (mitem)->canvas->cc, color);
+		GTK_VALUE_BOXED (*arg) = color;
+		break;
+
+	case ARG_DAY_COLOR_GDK:
+		color = g_new (GdkColor, 1);
+		color->pixel = mitem->day_pixel;
+		gdk_color_context_query_color (GNOME_CANVAS_ITEM (mitem)->canvas->cc, color);
+		GTK_VALUE_BOXED (*arg) = color;
 		break;
 
 	default:
