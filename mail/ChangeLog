@@ -1,3 +1,9 @@
+2004-01-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-session.c (request_password): Changed the logic of the
+	visibility of the passwd text so that we hid ethe passwd if the
+	flags have the SECRET bit set.
+
 2004-01-20  Not Zed  <NotZed@Ximian.com>
 
 	** See Bug #52817.

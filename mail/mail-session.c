@@ -282,7 +282,7 @@ request_password (struct _pass_msg *m)
 	gtk_container_set_border_width ((GtkContainer *) password_dialog, 6);
 	
 	m->entry = gtk_entry_new ();
-	gtk_entry_set_visibility ((GtkEntry *) m->entry, (m->flags & CAMEL_SESSION_PASSWORD_SECRET) != 0);
+	gtk_entry_set_visibility ((GtkEntry *) m->entry, !(m->flags & CAMEL_SESSION_PASSWORD_SECRET));
 	g_signal_connect (m->entry, "activate", G_CALLBACK (pass_activate), password_dialog);
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), m->entry, TRUE, FALSE, 3);
 	gtk_widget_show (m->entry);
