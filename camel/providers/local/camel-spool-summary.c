@@ -641,12 +641,12 @@ spool_summary_sync_full(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCha
 
 	d(printf("performing full summary/sync\n"));
 
-	camel_operation_start(NULL, _("Synchronising folder"));
+	camel_operation_start(NULL, _("Storing folder"));
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open folder to summarise: %s: %s"),
+				     _("Could not open file: %s: %s"),
 				     cls->folder_path, strerror(errno));
 		camel_operation_end(NULL);
 		return -1;
@@ -928,12 +928,12 @@ spool_summary_sync_quick(CamelSpoolSummary *cls, gboolean expunge, CamelFolderCh
 
 	d(printf("Performing quick summary sync\n"));
 
-	camel_operation_start(NULL, _("Synchronising folder"));
+	camel_operation_start(NULL, _("Storing folder"));
 
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open folder to summarise: %s: %s"),
+				     _("Could not file: %s: %s"),
 				     cls->folder_path, strerror(errno));
 
 		camel_operation_end(NULL);
