@@ -1070,7 +1070,7 @@ for_each (GnomePilotConduitSyncAbs *conduit,
 			iterator = g_list_next (iterator);
 
 			*local = g_new0 (EToDoLocalRecord, 1);
-			local_record_from_uid (*local, iterator->data, ctxt);
+			local_record_from_comp (*local, iterator->data, ctxt);
 			g_list_prepend (ctxt->locals, *local);
 		} else {
 			LOG (g_message ( "for_each ending" ));
