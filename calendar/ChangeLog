@@ -1,3 +1,13 @@
+2003-08-12 Andrew Wu <Yang.Wu@sun.com>
+
+       * gui/e-day-view.c
+       (e_day_view_change_duration_to_start_of_work_day):
+       In DayView, Shift+Home, Change the duration to the time
+       that begins the current work day.
+       (e_day_view_change_duration_to_end_of_work_day):
+       In DayView, Shift+End, Change the duration to the time
+       that ends the current work day
+
 2003-08-12  Hans Petter Jansson <hpj@ximian.com>
 
 	* gui/e-itip-control.c (html_destroyed):

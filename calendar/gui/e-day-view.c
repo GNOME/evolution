@@ -158,6 +158,8 @@ static gboolean e_day_view_get_visible_time_range (EDayView *day_view, time_t *s
 static void e_day_view_update_query (EDayView *day_view);
 static void e_day_view_goto_start_of_work_day (EDayView *day_view);
 static void e_day_view_goto_end_of_work_day (EDayView *day_view);
+static void e_day_view_change_duration_to_start_of_work_day (EDayView *day_view);
+static void e_day_view_change_duration_to_end_of_work_day (EDayView *day_view);
 static void e_day_view_cursor_key_up_shifted (EDayView *day_view,
 					      GdkEventKey *event);
 static void e_day_view_cursor_key_down_shifted (EDayView *day_view,
@@ -4816,6 +4818,23 @@ e_day_view_do_key_press (GtkWidget *widget, GdkEventKey *event)
 		return TRUE;
 	}
 	
+	/* In DayView, Shift+Home/End, Change the duration to the time that begins/ends the current work day */	
+	if ((keyval == GDK_Home)
+	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
+	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+		e_day_view_change_duration_to_start_of_work_day (day_view);
+		return TRUE;
+	}
+	if ((keyval == GDK_End)
+	    &&((event->state & GDK_SHIFT_MASK) == GDK_SHIFT_MASK)
+	    &&((event->state & GDK_CONTROL_MASK) != GDK_CONTROL_MASK)
+	    &&((event->state & GDK_MOD1_MASK) != GDK_MOD1_MASK)) {
+		e_day_view_change_duration_to_end_of_work_day (day_view);
+		return TRUE;
+	}
+
+	
 	/* Handle the cursor keys for moving & extending the selection. */
 	stop_emission = TRUE;
 	if (event->state & GDK_SHIFT_MASK) {
@@ -4999,6 +5018,80 @@ e_day_view_goto_end_of_work_day (EDayView *day_view)
 	gtk_widget_queue_draw (day_view->top_canvas);
 	gtk_widget_queue_draw (day_view->main_canvas);
 }
+
+/* Change the duration to the time that begins the current work day */
+static void
+e_day_view_change_duration_to_start_of_work_day (EDayView *day_view)
+{
+	g_return_if_fail(day_view != NULL);
+	
+	if (day_view->selection_in_top_canvas)
+		return;
+	else {
+		gint work_start_row,work_end_row,selection_start_row,selection_end_row;
+		
+		work_start_row =
+			e_day_view_convert_time_to_row (day_view, 
+							day_view->work_day_start_hour, 
+							day_view->work_day_start_minute);
+		work_end_row =
+			e_day_view_convert_time_to_row (day_view, 
+							day_view->work_day_end_hour - 1, 
+							day_view->work_day_end_minute + 30);
+		selection_start_row = day_view->selection_start_row;
+		selection_end_row = day_view->selection_end_row;
+		if (selection_start_row < work_start_row)
+			day_view->selection_end_row = work_start_row - 1;
+		else day_view->selection_start_row = work_start_row;
+	}
+	
+	e_day_view_ensure_rows_visible (day_view,
+					day_view->selection_start_row,
+					day_view->selection_end_row);
+
+	e_day_view_update_calendar_selection_time (day_view);
+
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
+/* Change the duration to the time that ends the current work day */
+static void
+e_day_view_change_duration_to_end_of_work_day (EDayView *day_view)
+{
+	g_return_if_fail(day_view != NULL);
+    
+	if (day_view->selection_in_top_canvas)
+		return;
+	else { 
+		gint work_start_row,work_end_row,selection_start_row,selection_end_row;     
+		work_start_row =
+			e_day_view_convert_time_to_row (day_view, 
+							day_view->work_day_start_hour, 
+							day_view->work_day_start_minute);
+		work_end_row = e_day_view_convert_time_to_row (day_view, 
+							      day_view->work_day_end_hour-1, 
+							      day_view->work_day_end_minute+30);
+		selection_start_row = day_view->selection_start_row;
+		selection_end_row = day_view->selection_end_row;
+		if (selection_start_row <= work_end_row)
+			day_view->selection_end_row = work_end_row;
+		else {
+			day_view->selection_start_row = work_end_row + 1;
+			day_view->selection_end_row = selection_start_row;
+		}
+	}
+
+	e_day_view_ensure_rows_visible (day_view,
+					day_view->selection_start_row,
+					day_view->selection_end_row);
+	
+	e_day_view_update_calendar_selection_time (day_view);
+	
+	gtk_widget_queue_draw (day_view->top_canvas);
+	gtk_widget_queue_draw (day_view->main_canvas);
+}
+
 
 static void
 e_day_view_cursor_key_up_shifted (EDayView *day_view, GdkEventKey *event)
