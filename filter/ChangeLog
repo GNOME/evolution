@@ -1,3 +1,11 @@
+2003-01-03  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* rule-editor.c (add_editor_response): Scroll to the newly added
+	row.
+	(rule_delete): Scroll to the selected row.
+	(rule_move): After moving the row, re-select it and then scroll to
+	make sure that it is still visible.
+
 2003-01-02  Jeffrey Stedfast  <fejj@ximian.com>
 
 	Fixed to build with -DG_DISABLE_DEPRECATED and

@@ -254,6 +254,11 @@ add_editor_response (GtkWidget *dialog, int button, RuleEditor *re)
 		selection = gtk_tree_view_get_selection (re->list);
 		gtk_tree_selection_select_iter (selection, &iter);
 		
+		/* scroll to the newly added row */
+		path = gtk_tree_model_get_path ((GtkTreeModel *) re->model, &iter);
+		gtk_tree_view_scroll_to_cell (re->list, path, NULL, TRUE, 1.0, 0.0);
+		gtk_tree_path_free (path);
+		
 		re->current = re->edit;
 		rule_context_add_rule (re->context, re->current);
 		
@@ -284,12 +289,12 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
 	gtk_window_set_policy (GTK_WINDOW (re->dialog), FALSE, TRUE, FALSE);
-	gtk_window_set_transient_for((GtkWindow *)re->dialog, (GtkWindow *)re);
+	gtk_window_set_transient_for ((GtkWindow *) re->dialog, (GtkWindow *) re);
 	
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (add_editor_response), re);
-	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
+	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
@@ -368,7 +373,7 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (re->dialog)->vbox), rules, TRUE, TRUE, 0);
 	
 	g_signal_connect (re->dialog, "response", G_CALLBACK (edit_editor_response), re);
-	g_object_weak_ref ((GObject *)re->dialog, (GWeakNotify) editor_destroy, re);
+	g_object_weak_ref ((GObject *) re->dialog, (GWeakNotify) editor_destroy, re);
 	
 	gtk_widget_set_sensitive (GTK_WIDGET (re), FALSE);
 	
@@ -405,13 +410,20 @@ rule_delete (GtkWidget *widget, RuleEditor *re)
 		len = gtk_tree_model_iter_n_children (GTK_TREE_MODEL (re->model), NULL);
 		pos = pos >= len ? len - 1 : pos;
 		
-		path = gtk_tree_path_new ();
-		gtk_tree_path_append_index (path, pos);
-		gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
-		gtk_tree_path_free (path);
-		
-		selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (re->list));
-		gtk_tree_selection_select_iter  (selection, &iter);
+		if (pos >= 0) {
+			path = gtk_tree_path_new ();
+			gtk_tree_path_append_index (path, pos);
+			gtk_tree_model_get_iter (GTK_TREE_MODEL (re->model), &iter, path);
+			gtk_tree_path_free (path);
+			
+			selection = gtk_tree_view_get_selection (GTK_TREE_VIEW (re->list));
+			gtk_tree_selection_select_iter (selection, &iter);
+			
+			/* scroll to the selected row */
+			path = gtk_tree_model_get_path ((GtkTreeModel *) re->model, &iter);
+			gtk_tree_view_scroll_to_cell (re->list, path, NULL, FALSE, 0.0, 0.0);
+			gtk_tree_path_free (path);
+		}
 	}
 	
 	rule_editor_set_sensitive (re);
@@ -440,10 +452,21 @@ rule_move (RuleEditor *re, int from, int to)
 	gtk_tree_model_get (GTK_TREE_MODEL (re->model), &iter, 1, &rule, -1);
 	g_assert (rule != NULL);
 	
+	/* remove and then re-insert the row at the new location */
 	gtk_list_store_remove (re->model, &iter);
 	gtk_list_store_insert (re->model, &iter, to);
 	
+	/* set the data on the row */
 	gtk_list_store_set (re->model, &iter, 0, rule->name, 1, rule, -1);
+	
+	/* select the row */
+	selection = gtk_tree_view_get_selection (re->list);
+	gtk_tree_selection_select_iter (selection, &iter);
+	
+	/* scroll to the selected row */
+	path = gtk_tree_model_get_path ((GtkTreeModel *) re->model, &iter);
+	gtk_tree_view_scroll_to_cell (re->list, path, NULL, FALSE, 0.0, 0.0);
+	gtk_tree_path_free (path);
 	
 	rule_editor_set_sensitive (re);
 }
