@@ -797,7 +797,49 @@ etsm_clear(ESelectionModel *selection)
 	e_selection_model_cursor_changed(E_SELECTION_MODEL(etsm), -1, -1);
 }
 
-#if 0
+/* Standard functions */
+static void
+etsm_selected_count_all_recurse (ETreeSelectionModel *etsm,
+				 ETreePath path,
+				 int *count)
+{
+	ETreePath child;
+
+	(*count) ++;
+
+	child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
+	for ( ; child; child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
+		if (child)
+			etsm_selected_count_all_recurse (etsm, child, count);
+}
+
+static void
+etsm_selected_count_recurse (ETreeSelectionModel *etsm,
+			     ETreeSelectionModelNode *selection_node,
+			     ETreePath path,
+			     int *count)
+{
+	if (selection_node->all_children_selected) {
+		if (path)
+			etsm_selected_count_all_recurse(etsm, path, count);
+		return;
+	}
+	if (!selection_node->any_children_selected)
+		return;
+
+	if (selection_node->selected) {
+		(*count) ++;
+	}
+
+	if (selection_node->children) {
+		ETreePath child = e_tree_model_node_get_first_child(E_TREE_MODEL(etsm->priv->model), path);
+		int i;
+		for (i = 0; i < selection_node->num_children; i++, child = e_tree_model_node_get_next(E_TREE_MODEL(etsm->priv->model), child))
+			if (selection_node->children[i])
+				etsm_selected_count_recurse (etsm, selection_node->children[i], child, count);
+	}
+}
+
 /** 
  * e_selection_model_selected_count
  * @selection: #ESelectionModel to count
@@ -810,10 +852,14 @@ static gint
 etsm_selected_count (ESelectionModel *selection)
 {
 	ETreeSelectionModel *etsm = E_TREE_SELECTION_MODEL(selection);
-
-	return g_hash_table_size(etsm->priv->data);
+	int count = 0;
+	if (etsm->priv->root) {
+		ETreePath model_root;
+		model_root = e_tree_model_get_root(etsm->priv->model);
+		etsm_selected_count_recurse(etsm, etsm->priv->root, model_root, &count);
+	}
+	return count;
 }
-#endif
 
 /** 
  * e_selection_model_select_all
@@ -1212,9 +1258,7 @@ e_tree_selection_model_class_init (ETreeSelectionModelClass *klass)
 	esm_class->is_row_selected    = etsm_is_row_selected    ;
 	esm_class->foreach            = etsm_foreach            ;
 	esm_class->clear              = etsm_clear              ;
-#if 0
 	esm_class->selected_count     = etsm_selected_count     ;
-#endif
 	esm_class->select_all         = etsm_select_all         ;
 	esm_class->invert_selection   = etsm_invert_selection   ;
 	esm_class->row_count          = etsm_row_count          ;
