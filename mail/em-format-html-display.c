@@ -169,7 +169,7 @@ efhd_gtkhtml_realise(GtkHTML *html, EMFormatHTMLDisplay *efhd)
 			b = 128 - ((SCALE * b) >> 9);
 		}
 
-		efhd->formathtml.header_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
+		efhd->formathtml.body_colour = ((r<<16) | (g<< 8) | b) & 0xffffff;
 		
 		r = style->text[state].red >> 8;
 		g = style->text[state].green >> 8;
@@ -1310,6 +1310,7 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	info->shown = em_format_is_inline(emf, info->puri.part) && handle != NULL;
 
 	camel_stream_write_string(stream,
+				  "<table height=6><tr><td><a></a></td></tr></table>\n"
 				  "<table cellspacing=0 cellpadding=0><tr><td>"
 				  "<table width=10 cellspacing=0 cellpadding=0>"
 				  "<tr><td></td></tr></table></td>");
@@ -1328,7 +1329,9 @@ efhd_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, 
 	g_free(html);
 	g_free(text);
 
-	camel_stream_write_string(stream, "</font></td></tr><tr></table>");
+	camel_stream_write_string(stream,
+				  "</font></td></tr><tr></table>\n"
+				  "<table height=6><tr><td><a></a></td></tr></table>\n");
 
 	if (handle) {
 		if (info->shown)

@@ -111,7 +111,7 @@ struct _EMFormatHTML {
 	GSList *headers;
 
 	guint32 text_html_flags; /* default flags for text to html conversion */
-	guint32 header_colour;	/* header box colour */
+	guint32 body_colour;	/* header box colour */
 	guint32 text_colour;
 	guint32 citation_colour;
 	unsigned int xmailer_mask:4;

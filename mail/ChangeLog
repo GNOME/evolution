@@ -1,3 +1,19 @@
+2003-11-24  Radek Doulik  <rodo@ximian.com>
+
+	* em-format.c (emf_multipart_mixed): do not use horizonal rule,
+	attachment content is now inside simple frame
+
+	* em-format-html.c (efh_text_plain): add 6 points around text
+	plain content and frame it
+	(efh_text_html): frame text/html
+	(efh_format_do): fix body tag, set bgcolor
+	(em_format_html_format_headers): do not put headers into own
+	table, content body is framed now instead
+	(efh_format_message): update for headers/body changes
+
+	* em-format-html-display.c (efhd_format_attachment): put
+	additional vertical space around attachment button
+
 2003-11-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-folder-tree-model.c (model_drag_data_received)

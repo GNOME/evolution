@@ -134,7 +134,7 @@ efh_init(GObject *o)
 	g_signal_connect(efh->html, "url_requested", G_CALLBACK(efh_url_requested), efh);
 	g_signal_connect(efh->html, "object_requested", G_CALLBACK(efh_object_requested), efh);
 
-	efh->header_colour = 0xeeeeee;
+	efh->body_colour = 0xeeeeee;
 	efh->text_colour = 0;
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
@@ -657,6 +657,11 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	guint32 rgb = 0x737373, flags;
 	int i, count;
 
+	camel_stream_printf (stream,
+			     "<table bgcolor=darkgray cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+			     "<table bgcolor=white cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+			     "<table cellspacing=0 cellpadding=10><td><tr>\n");
+
 	flags = efh->text_html_flags;
 	
 	/* Check for RFC 2646 flowed text. */
@@ -718,6 +723,10 @@ efh_text_plain(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFo
 	}
 
 	camel_object_unref(filtered_stream);
+	camel_stream_write_string(stream,
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n"
+				  "</td></tr></table>\n");
 }
 
 static void
@@ -761,7 +770,10 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	const char *location, *base;
 	EMFormatPURI *puri;
 
-	camel_stream_write_string(stream, "\n<!-- text/html -->\n");
+	camel_stream_write_string(stream,
+				  "<table bgcolor=darkgray cellspacing=0 cellpadding=1 width=100%%><tr><td>\n"
+				  "<table bgcolor=white cellspacing=0 cellpadding=0 width=100%%><tr><td>\n"
+				  "<!-- text/html -->\n");
 	
 	if ((base = camel_medium_get_header((CamelMedium *)part, "Content-Base"))) {
 		char *base_url;
@@ -784,7 +796,9 @@ efh_text_html(EMFormatHTML *efh, CamelStream *stream, CamelMimePart *part, EMFor
 	location = puri->uri?puri->uri:puri->cid;
 	d(printf("adding iframe, location %s\n", location));
 	camel_stream_printf(stream,
-			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>",
+			    "<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>\n"
+			    "</td></tr></table>\n"
+			    "</td></tr></table>\n",
 			    location, location);
 }
 
@@ -1186,7 +1200,8 @@ static void efh_format_do(struct _mail_msg *mm)
 	camel_stream_printf((CamelStream *)m->estream,
 			    "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n<html>\n"
 			    "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n"
-			    "<body text=\"#%06x\"\n",
+			    "<body bgcolor =\"#%06x\" text=\"#%06x\" marginwidth=6 marginheight=6>\n",
+			    m->format->body_colour & 0xffffff,
 			    m->format->text_colour & 0xffffff);
 
 	/* <insert top-header stuff here> */
@@ -1542,14 +1557,8 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,
-				    "<table width=\"100%%\" cellpadding=5 cellspacing=0>"
-				    "<tr><td>"
-				    "<table width=\"100%%\" cellpaddding=1 cellspacing=0 bgcolor=\"#000000\">"
-				    "<tr><td>"
-				    "<table width=\"100%%\"cellpadding=0 cellspacing=0 bgcolor=\"#%06x\">"
-				    "<tr><td>"
-				    "<table><font color=\"#%06x\"",
-				    efh->header_colour & 0xffffff,
+				    "<font color=\"#%06x\">\n"
+				    "<table cellpadding=0>\n",
 				    efh->text_colour & 0xffffff);
 
 	/* dump selected headers */
@@ -1571,10 +1580,7 @@ em_format_html_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMediu
 
 	if (!efh->simple_headers)
 		camel_stream_printf(stream,
-				    "</font></table>"
-				    "</td></tr></table>"
-				    "</td></tr></table>"
-				    "</td></tr></table>");
+				    "</table>\n</font>\n");
 #undef emf
 }
 
@@ -1585,16 +1591,17 @@ static void efh_format_message(EMFormat *emf, CamelStream *stream, CamelMedium *
 
 	efh->enveloped_validity = NULL;
 
+	if (emf->message != part)
+		camel_stream_printf(stream, "<blockquote>\n");
+
 	if (!efh->hide_headers)
 		em_format_html_format_headers(efh, stream, part);
 
-	if (emf->message != part)
-		camel_stream_printf(stream, "<blockquote>");
-
+	camel_stream_printf(stream, "<table height=6><tr><td><a></a></td></tr></table>\n");
 	em_format_part(emf, stream, (CamelMimePart *)part);
 
 	if (emf->message != part)
-		camel_stream_printf(stream, "</blockquote>");
+		camel_stream_printf(stream, "</blockquote>\n");
 
 	efh->enveloped_validity = save;
 #undef efh
@@ -1633,7 +1640,7 @@ efh_format_attachment(EMFormat *emf, CamelStream *stream, CamelMimePart *part, c
 				  "<table width=10 cellspacing=0 cellpadding=0>"
 				  "<tr><td></td></tr></table></td>"
 				  "<td><table width=3 cellspacing=0 cellpadding=0>"
-				  "<tr><td></td></tr></table></td><td><font size=-1>");
+				  "<tr><td></td></tr></table></td><td><font size=-1>\n");
 
 	/* output some info about it */
 	text = em_format_describe_part(part, mime_type);

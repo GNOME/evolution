@@ -980,9 +980,6 @@ emf_multipart_mixed(EMFormat *emf, CamelStream *stream, CamelMimePart *part, con
 	
 	nparts = camel_multipart_get_number(mp);	
 	for (i = 0; i < nparts; i++) {
-		if (i != 0)
-			camel_stream_printf (stream, "<hr>\n");
-		
 		part = camel_multipart_get_part(mp, i);
 		em_format_part(emf, stream, part);
 	}
