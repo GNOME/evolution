@@ -2555,6 +2555,10 @@ char *em_uri_from_camel(const char *curi)
 	char *euri, *tmp;
 	CamelProvider *provider;
 
+	/* Easiest solution to code that shouldnt be calling us */
+	if (!strncmp(curi, "email:", 6))
+		return g_strdup(curi);
+
 	provider = camel_provider_get(curi, NULL);
 	if (provider == NULL) {
 		d(printf("em uri from camel failed '%s'\n", curi));
