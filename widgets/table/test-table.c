@@ -386,9 +386,9 @@ e_table_test (void)
 	load_data ();
 
 	if (1){/*getenv ("DO")){*/
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <leaf column=\"3\" ascending=\"1\"/> </grouping> </ETableSpecification>");
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"1\"> <group column=\"4\" ascending=\"0\"> <leaf column=\"2\" ascending=\"1\"/> </group> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <leaf column=\"3\" ascending=\"true\"/> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"true\"> <group column=\"4\" ascending=\"false\"> <leaf column=\"2\" ascending=\"true\"/> </group> </group> </grouping> </ETableSpecification>");
 	}
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"2\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
-	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"1\"> <leaf column=\"2\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"true\"> <leaf column=\"2\" ascending=\"true\"/> </group> </grouping> </ETableSpecification>");
+	  do_e_table_demo ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> </columns-shown> <grouping> <group column=\"3\" ascending=\"true\"> <leaf column=\"2\" ascending=\"true\"/> </group> </grouping> </ETableSpecification>");
 }

@@ -249,14 +249,14 @@ e_table_sort_info_load_from_node (ETableSortInfo *info,
 	for (grouping = node->childs; grouping && !strcmp (grouping->name, "group"); grouping = grouping->childs) {
 		ETableSortColumn column;
 		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
 		e_table_sort_info_grouping_set_nth(info, i++, column);
 	}
 	i = 0;
 	for (; grouping && !strcmp (grouping->name, "leaf"); grouping = grouping->childs) {
 		ETableSortColumn column;
 		column.column = e_xml_get_integer_prop_by_name (grouping, "column");
-		column.ascending = e_xml_get_integer_prop_by_name (grouping, "ascending");
+		column.ascending = e_xml_get_bool_prop_by_name (grouping, "ascending");
 		e_table_sort_info_sorting_set_nth(info, i++, column);
 	}
 }
@@ -279,7 +279,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 		xmlNode *new_node = xmlNewChild(node, NULL, "group", NULL);
 
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
-		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
 		node = new_node;
 	}
 
@@ -288,7 +288,7 @@ e_table_sort_info_save_to_node (ETableSortInfo *info,
 		xmlNode *new_node = xmlNewChild(node, NULL, "leaf", NULL);
 		
 		e_xml_set_integer_prop_by_name (new_node, "column", column.column);
-		e_xml_set_integer_prop_by_name (new_node, "ascending", column.ascending);
+		e_xml_set_bool_prop_by_name (new_node, "ascending", column.ascending);
 		node = new_node;
 	}
 

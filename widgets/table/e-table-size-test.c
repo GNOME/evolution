@@ -76,7 +76,7 @@
 		<column> 2 </column>     			       \
 		<column> 3 </column>     			       \
 	</columns-shown>                 			       \
-	<grouping> <leaf column=\"1\" ascending=\"1\"/> </grouping>    \
+	<grouping> <leaf column=\"1\" ascending=\"true\"/> </grouping>    \
 </ETableSpecification>"
 
 char *headers [COLS] = {
