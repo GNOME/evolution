@@ -1,5 +1,9 @@
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* tasks/galview.xml: Add accelerators.  [#10069]
+
+2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* calendar/galview.xml: Add accelerators.  [#10067]
 
 2002-07-10  Ettore Perazzoli  <ettore@ximian.com>
