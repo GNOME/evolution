@@ -510,7 +510,8 @@ etable_value_at (ETableModel *etm, int col, int row)
 	ETreeModelClass *et_class = ETM_CLASS(etm);
 	ETreePath* node = e_tree_model_node_at_row (etree, row);
 
-	g_return_val_if_fail (node, NULL);
+	if (node == NULL)
+		g_warning ("node is NULL for row %d in etable_value_at\n", row);
 
 	if (col == -1)
 		return node;
@@ -801,8 +802,12 @@ e_tree_model_node_expanded  (ETreeModel *tree_model, ETreePath *node, gboolean *
 void
 e_tree_model_construct (ETreeModel *etree)
 {
-	ETreeModelPriv *priv = g_new0 (ETreeModelPriv, 1);
+	ETreeModelPriv *priv;
 
+	g_return_if_fail (etree != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (etree));
+
+	priv = g_new0 (ETreeModelPriv, 1);
 	etree->priv = priv;
 
 	priv->node_chunk = g_mem_chunk_create (ETreePath, TREEPATH_CHUNK_AREA_SIZE, G_ALLOC_AND_FREE);
@@ -842,6 +847,9 @@ e_tree_model_new ()
 ETreePath *
 e_tree_model_get_root (ETreeModel *etree)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->get_root(etree);
 }
 
@@ -857,6 +865,9 @@ e_tree_model_get_root (ETreeModel *etree)
 ETreePath *
 e_tree_model_node_at_row (ETreeModel *etree, int row)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->node_at_row (etree, row);
 }
 
@@ -872,6 +883,9 @@ e_tree_model_node_at_row (ETreeModel *etree, int row)
 GdkPixbuf *
 e_tree_model_icon_of_node (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->icon_at (etree, path);
 }
 
@@ -885,9 +899,13 @@ e_tree_model_icon_of_node (ETreeModel *etree, ETreePath *path)
 int
 e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 {
-	ETreeModelPriv *priv = etree->priv;
+	ETreeModelPriv *priv;
 	int i;
 
+	g_return_val_if_fail (etree != NULL, 0);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), 0);
+
+	priv = etree->priv;
 	for (i = 0; i < priv->row_array->len; i ++)
 		if (g_array_index (priv->row_array, ETreePath*, i) == node)
 			return i;
@@ -903,8 +921,12 @@ e_tree_model_row_of_node (ETreeModel *etree, ETreePath *node)
 void
 e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 {
-	ETreeModelPriv *priv = etm->priv;
+	ETreeModelPriv *priv;
 
+	g_return_if_fail (etree != NULL);
+	g_return_if_fail (E_IS_TREE_MODEL (etree));
+
+	priv = etm->priv;
 	if (visible != priv->root_visible) {
 		priv->root_visible = visible;
 		if (priv->root) {
@@ -933,7 +955,12 @@ e_tree_model_root_node_set_visible (ETreeModel *etm, gboolean visible)
 gboolean
 e_tree_model_root_node_is_visible (ETreeModel *etm)
 {
-	ETreeModelPriv *priv = etm->priv;
+	ETreeModelPriv *priv;
+
+	g_return_val_if_fail (etree != NULL, FALSE);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), FALSE);
+
+	priv = etm->priv;
 	return priv->root_visible;
 }
 
@@ -949,6 +976,9 @@ e_tree_model_root_node_is_visible (ETreeModel *etm)
 ETreePath *
 e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath *node)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->get_first_child(etree, node);
 }
 
@@ -964,6 +994,9 @@ e_tree_model_node_get_first_child (ETreeModel *etree, ETreePath *node)
 ETreePath *
 e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath *node)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->get_last_child(etree, node);
 }
 
@@ -980,6 +1013,9 @@ e_tree_model_node_get_last_child (ETreeModel *etree, ETreePath *node)
 ETreePath *
 e_tree_model_node_get_next (ETreeModel *etree, ETreePath *node)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->get_next(etree, node);
 }
 
@@ -995,6 +1031,9 @@ e_tree_model_node_get_next (ETreeModel *etree, ETreePath *node)
 ETreePath *
 e_tree_model_node_get_prev (ETreeModel *etree, ETreePath *node)
 {
+	g_return_val_if_fail (etree != NULL, NULL);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), NULL);
+
 	return ETM_CLASS(etree)->get_prev(etree, node);
 }
 
@@ -1010,6 +1049,9 @@ e_tree_model_node_get_prev (ETreeModel *etree, ETreePath *node)
 guint
 e_tree_model_node_depth (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail (etree != NULL, 0);
+	g_return_val_if_fail (E_IS_TREE_MODEL (etree), 0);
+
 	return e_tree_path_depth (path) - 1;
 }
 
@@ -1025,6 +1067,7 @@ e_tree_model_node_depth (ETreeModel *etree, ETreePath *path)
 ETreePath *
 e_tree_model_node_get_parent (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail(etree != NULL, NULL);
 	return ETM_CLASS(etree)->get_parent(etree, path);
 }
 
@@ -1040,6 +1083,7 @@ e_tree_model_node_get_parent (ETreeModel *etree, ETreePath *path)
 gboolean
 e_tree_model_node_is_root (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail(etree != NULL, FALSE);
 	return (e_tree_model_node_depth (etree, path) == 0);
 }
 
@@ -1055,6 +1099,7 @@ e_tree_model_node_is_root (ETreeModel *etree, ETreePath *path)
 gboolean
 e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail(etree != NULL, FALSE);
 	return (e_tree_model_node_get_children (etree, path, NULL) > 0);
 }
 
@@ -1070,6 +1115,7 @@ e_tree_model_node_is_expandable (ETreeModel *etree, ETreePath *path)
 gboolean
 e_tree_model_node_is_expanded (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail(etree != NULL, FALSE);
 	return ETM_CLASS(etree)->is_expanded (etree, path);
 }
 
@@ -1085,6 +1131,7 @@ e_tree_model_node_is_expanded (ETreeModel *etree, ETreePath *path)
 gboolean
 e_tree_model_node_is_visible (ETreeModel *etree, ETreePath *path)
 {
+	g_return_val_if_fail(etree != NULL, FALSE);
 	return ETM_CLASS(etree)->is_visible (etree, path);
 }
 
@@ -1099,6 +1146,7 @@ e_tree_model_node_is_visible (ETreeModel *etree, ETreePath *path)
 void
 e_tree_model_node_set_expanded (ETreeModel *etree, ETreePath *path, gboolean expanded)
 {
+	g_return_if_fail(etree != NULL);
 	ETM_CLASS(etree)->set_expanded (etree, path, expanded);
 }
 
@@ -1113,12 +1161,14 @@ e_tree_model_node_set_expanded (ETreeModel *etree, ETreePath *path, gboolean exp
 void
 e_tree_model_node_set_expanded_recurse (ETreeModel *etree, ETreePath *path, gboolean expanded)
 {
+	g_return_if_fail(etree != NULL);
 	ETM_CLASS(etree)->set_expanded_recurse (etree, path, expanded);
 }
 
 guint
 e_tree_model_node_get_children (ETreeModel *etree, ETreePath *path, ETreePath ***paths)
 {
+	g_return_val_if_fail(etree != NULL, 0);
 	return ETM_CLASS(etree)->get_children (etree, path, paths);
 }
 
@@ -1134,6 +1184,7 @@ e_tree_model_node_get_children (ETreeModel *etree, ETreePath *path, ETreePath **
 guint
 e_tree_model_node_num_visible_descendents (ETreeModel *etm, ETreePath *node)
 {
+	g_return_val_if_fail(node != NULL, 0)
 	return node->visible_descendents;
 }
 
@@ -1189,6 +1240,8 @@ e_tree_model_node_insert (ETreeModel *tree_model,
 {
 	ETreeModelPriv *priv;
 	ETreePath *new_path;
+
+	g_return_val_if_fail(tree_model != NULL, NULL)
 
 	priv = tree_model->priv;
 
@@ -1295,7 +1348,11 @@ e_tree_model_node_insert_id (ETreeModel *tree_model,
 			     gpointer node_data,
 			     const char *save_id)
 {
-	ETreePath *path = e_tree_model_node_insert (tree_model, parent_path, position, node_data);
+	ETreePath *path;
+
+	g_return_val_if_fail(tree_model != NULL, NULL)
+
+	path = e_tree_model_node_insert (tree_model, parent_path, position, node_data);
 
 	e_tree_model_node_set_save_id (tree_model, path, save_id);
 
@@ -1321,6 +1378,9 @@ e_tree_model_node_insert_before (ETreeModel *etree,
 {
 	ETreePath *child;
 	int position = 0;
+
+	g_return_val_if_fail(tree_model != NULL, NULL)
+
 	for (child = parent->first_child; child; child = child->next_sibling) {
 		if (child == sibling)
 			break;
@@ -1367,6 +1427,8 @@ e_tree_model_node_remove (ETreeModel *etree, ETreePath *path)
 	gpointer ret = path->node_data;
 	int row, visible = 0, base = 0;
 	gboolean dochanged;
+
+	g_return_val_if_fail(etree != NULL, NULL)
 
 	/* work out what range of visible rows to remove */
 	if (parent) {
@@ -1489,6 +1551,8 @@ e_tree_model_save_expanded_state (ETreeModel *etm, const char *filename)
 	int buf_size;
 	ETreeModelPriv *priv = etm->priv;
 
+	g_return_val_if_fail(etm != NULL, FALSE);
+
 	doc = xmlNewDoc ((xmlChar*) "1.0");
 	root = xmlNewDocNode (doc, NULL,
 			      (xmlChar *) "expanded_state",
@@ -1561,6 +1625,8 @@ e_tree_model_load_expanded_state (ETreeModel *etm, const char *filename)
 	xmlNode *root;
 	xmlNode *child;
 
+	g_return_val_if_fail(etm != NULL, FALSE);
+
 	doc = xmlParseFile (filename);
 	if (!doc)
 		return FALSE;
@@ -1605,6 +1671,7 @@ e_tree_model_node_set_save_id (ETreeModel *etm, ETreePath *node, const char *id)
 	gboolean expanded_state;
 	ETreeModelPriv *priv;
 
+	g_return_if_fail(etm != NULL);
 	g_return_if_fail (E_TREE_MODEL (etm));
 	g_return_if_fail (node);
 
@@ -1643,6 +1710,7 @@ e_tree_model_node_set_compare_function (ETreeModel *tree_model,
 {
 	gboolean need_sort;
 
+	g_return_if_fail(etm != NULL);
 	g_return_if_fail (E_TREE_MODEL (tree_model));
 	g_return_if_fail (node);
 
@@ -1682,9 +1750,12 @@ e_tree_model_node_sort (ETreeModel *tree_model,
 	ETreeSortInfo *sort_info;
 	int i;
 	int child_index;
-	gboolean node_expanded = e_tree_model_node_is_expanded (tree_model, node);
+	gboolean node_expanded;
 	ETreeModelPriv *priv = tree_model->priv;;
 
+	node_expanded = e_tree_model_node_is_expanded (tree_model, node);
+
+	g_return_if_fail (tree_model != NULL);
 	g_return_if_fail (E_TREE_MODEL (tree_model));
 	g_return_if_fail (node);
 
