@@ -226,7 +226,7 @@ impl_GNOME_Evolution_Summary_ComponentFactory_createView (PortableServer_Servant
 							  CORBA_Environment *ev)
 {
 	BonoboObject *bonobo_object;
-	ExecutiveSummaryComponent *view;
+	BonoboObject *view;
 	ExecutiveSummaryComponentFactory *factory;
 	ExecutiveSummaryComponentFactoryPrivate *priv;
 	GNOME_Evolution_Summary_Component component, component_dup;

@@ -135,8 +135,14 @@ e_summary_start_load (ESummary *esummary)
 
 	priv->stream = gtk_html_begin (GTK_HTML (priv->html));
 
+	/* HTML hacks */
 	/* Hack to stop page returning to the top */
 	GTK_HTML (priv->html)->engine->newPage = FALSE;
+	/* Hack to make the border width of the page 0 */
+	GTK_HTML (priv->html)->engine->leftBorder = 0;
+	GTK_HTML (priv->html)->engine->rightBorder = 0;
+	GTK_HTML (priv->html)->engine->topBorder = 0;
+	GTK_HTML (priv->html)->engine->bottomBorder = 0;
 }
 
 static void
@@ -356,14 +362,15 @@ make_control_html (ESummaryWindow *window,
 	tmp = html;
 	if (!config) {
 		html = g_strdup_printf ("%s<img src=\"service-configure.png\">"
-					"</td></tr><tr><td>", tmp);
+					"</td></tr></table>", tmp);
 	} else {
 		html = g_strdup_printf ("%s<a href=\"configure://%d\">"
 					"<img src=\"service-configure.png\" border=\"0\">"
-					"</a></td></tr><tr><td>", tmp, id);
+					"</a></td></tr></table>", tmp, id);
 	}
 	g_free (tmp);
 
+#if 0
 	tmp = html;
 	if (!l) {
 		html = g_strdup_printf ("%s<img src=\"service-left-disabled.png\">"
@@ -387,7 +394,6 @@ make_control_html (ESummaryWindow *window,
 	g_free (tmp);
 
 
-#if 0
 	tmp = html;
 	if (!d) {
 		html = g_strdup_printf ("%s<img src=\"service-down-disabled.png\">"
@@ -415,6 +421,36 @@ make_control_html (ESummaryWindow *window,
 }
 
 static void
+e_summary_display_window_title (ESummary *esummary,
+				ESummaryWindow *window,
+				int row,
+				int col,
+				int numwindows)
+{
+	ESummaryPrivate *priv;
+	char *title_html;
+	char *control_html;
+	char *title_colour[2] = {"bac1b6",
+				 "cdd1c7"};
+
+	priv = esummary->private;
+
+	control_html = make_control_html (window, row, col, numwindows);
+	title_html = g_strdup_printf ("<td bgcolor=\"#%s\">"
+				      "<table width=\"100%%\" height=\"100%%\"><tr><td>"
+				      "<img src=\"%s\" height=\"48\"></td>"
+				      "<td nowrap align=\"center\" width=\"100%%\">"
+				      "<b>%s</b></td><td>%s</td></tr></table></td>",
+				      title_colour[col % 2], window->icon, 
+				      window->title, control_html);
+	g_free (control_html);
+	
+	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_html,
+			strlen (title_html));
+	g_free (title_html);
+}
+	
+static void
 e_summary_display_window (ESummary *esummary,
 			  ESummaryWindow *window,
 			  int row,
@@ -422,34 +458,16 @@ e_summary_display_window (ESummary *esummary,
 			  int numwindows)
 {
 	ESummaryPrivate *priv;
-	char *footer = "</td></tr></table>";
-	char *title_html;
-	char *control_html;
+	char *footer = "</td>";
+	char *header;
 	char *colour[2] = {"e6e8e4", 
 			   "edeeeb"};
-	char *title_colour[2] = {"bac1b6", 
-				 "cdd1c7"};
 
 	priv = esummary->private;
 
-	control_html = make_control_html (window, row, col, numwindows);
-	title_html = g_strdup_printf ("<table cellspacing=\"0\" "
-				      "cellpadding=\"0\" border=\"0\" width=\"100%%\" height=\"100%%\">"
-				      "<tr><td bgcolor=\"#%s\">"
-				      "<table width=\"100%%\" height=\"100%%\"><tr><td>"
-				      "<img src=\"%s\"></td>"
-				      "<td nowrap align=\"center\" width=\"100%%\">"
-				      "<b>%s</b></td><td>%s</td></tr></table></td></tr><tr>"
-				      "<td bgcolor=\"#%s\" height=\"100%%\">",
-				      title_colour[col % 2], window->icon, 
-				      window->title, control_html, 
-				      colour[col % 2]);
-	g_free (control_html);
-	
-	gtk_html_write (GTK_HTML (priv->html), priv->stream, title_html,
-			strlen (title_html));
-	g_free (title_html);
-	
+	header = g_strdup_printf ("<td bgcolor=\"%s\" valign=\"top\">", colour[col % 2]);
+	gtk_html_write (GTK_HTML (priv->html), priv->stream, header, strlen (header));
+
 	if (window->html != CORBA_OBJECT_NIL) {
 		char *html;
 		CORBA_Environment ev;
@@ -487,8 +505,8 @@ e_summary_rebuild_page (ESummary *esummary)
 	ESummaryPrivate *priv;
 	GList *windows;
 	char *service_table = "<table numcols=\"3\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\" height=\"100%\">";
-	int loc;
 	int numwindows;
+	int i, j, k;
 
 	g_return_val_if_fail (esummary != NULL, FALSE);
 	g_return_val_if_fail (IS_E_SUMMARY (esummary), FALSE);
@@ -523,33 +541,53 @@ e_summary_rebuild_page (ESummary *esummary)
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, service_table,
 			strlen (service_table));
 	/* Load each of the services */
-	loc = 0;
-	numwindows = g_list_length (priv->window_list);
-	for (windows = priv->window_list; windows; windows = windows->next) {
-		ESummaryWindow *window;
-		char *td = "<td height=\"100%\" width=\"33%\" valign=\"top\">";
-		
-		window = windows->data;
+	numwindows = g_list_length (priv->window_list) - 1;
 
-		if (loc % 3 == 0) {
-			if (loc != 0) {
-				gtk_html_write (GTK_HTML (priv->html),
-						priv->stream, "</tr>", 5);
+	windows = priv->window_list;
+	for (i = 0; i < numwindows / 3; i++) {
+		GList *window = windows;
+
+		g_print ("i: %d/%d\n", i, numwindows);
+		/* Do the same row twice: 
+		   Once for the title, once for the contents */
+		for (j = 0; j < 2; j++) {
+
+			gtk_html_write (GTK_HTML (priv->html), priv->stream,
+					"<tr>", 4);
+			/* For each window on row i */
+			for (k = 0; k < 3; k++) {
+
+				g_print ("%d of 3\n", k);
+				if (j == 0) {
+					e_summary_display_window_title (esummary,
+									window->data,
+									k, k, 
+									numwindows);
+				} else {
+					e_summary_display_window (esummary,
+								  window->data,
+								  k, k,
+								  numwindows);
+				}
+
+				window = window->next;
+				if (window == NULL)
+					break;
 			}
-			gtk_html_write (GTK_HTML (priv->html),
-					priv->stream, "<tr height=\"100%\">", 18);
+
+			gtk_html_write (GTK_HTML (priv->html), priv->stream,
+					"</tr>", 5);
+			if (j == 0)
+				window = windows;
+			else {
+				if (window)
+					windows = window->next;
+				else 
+					break;
+			}
 		}
-
-		gtk_html_write (GTK_HTML (priv->html), priv->stream,
-				td, strlen (td));
-
-		e_summary_display_window (esummary, window, 
-					  (loc / 3), (loc % 3), numwindows);
-
-		gtk_html_write (GTK_HTML (priv->html), priv->stream, "</td>", 5);
-		loc++;
 	}
-				
+			
 	gtk_html_write (GTK_HTML (priv->html), priv->stream, "</tr></table>",
 			13);
 

@@ -18,6 +18,13 @@
 	between the HtmlView and the BonoboPropertyControl.
 
 	* component/e-summary.c (html_event): Use the name spaced #define.
+	(e_summary_start_load): Add a new hack to set the border width of the 
+	GtkHTML widget to 0.
+	(e_summary_rebuild_page): Redid the way the tables are drawn. Made the
+	title icon be constrained to 48.
+
+	* evolution-services/executive-summary-component.c 
+	(impl_GNOME_Evolution_Summary_ComponentFactory_createViw): Fixed a warning.
 
 	* component/e-summary-util (e_pixmap_file): Free the edir. 
 
