@@ -172,9 +172,6 @@
 	gdk-pixbuf.  Added a disabled chuck of code to do alpha blending
 	on pixmaps.
 
-	* widgets/shortcut-bar/e-icon-bar.c (flatten_alpha): update for
-	new gdk-pixbuf.
-
 2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c: Moved some logic a bit.  Minor changes.
@@ -685,14 +682,6 @@
 
 	* art/.cvsignore: New file.
 
-2000-03-31  Damon Chaplin  <damon@helixcode.com>
-
-	* widgets/shortcut-bar/e-shortcut-bar.[hc]: added support for a
-	callback function to set the icons.
-
-	* widgets/shortcut-bar/test-shortcut-bar.c: updated to use the
-	callback function.
-
 2000-03-31  Christopher James Lahey  <clahey@helixcode.com>
 
 	* addressbook/demo/demo.c, addressbook/demo/addressbook-widget.c:
@@ -714,10 +703,6 @@
 	* configure.in:
 	* Makefile.am:
 	* art/Makefile.am: install new shortcut bar pixmaps.
-
-	* widgets/shortcut-bar/e-shortcut-bar.c: Sort of use the new
-	pixmaps. This code needs to be restructured, but Damon is
-	rumored to already be doing it.
 
 2000-03-30  Tuomas Kuosmanen  <tigert@gimp.org>
 
@@ -825,13 +810,6 @@
 	(pas_backend_file_create_unique_id): create id's for entries using
 	the following format: ("pas-id-%08lX%08X", time(NULL), c++).
 	
-2000-03-27  Miguel de Icaza  <miguel@gnu.org>
-
-	* widgets/shortcut-bar/e-icon-bar.c (flatten_alpha): New function,
-	used to flatten the images we get and composite them with the
-	background. 
-	(e_icon_bar_add_item): One happy tigert comming.
-
 2000-03-27  Dan Winship  <danw@helixcode.com>
 
 	* tests/test-movemail.c: new test program. Can be used to copy POP
@@ -1065,10 +1043,6 @@
 	* addressbook/demo/addressbook-widget.c: Make background pixmap
 	get properly set to NULL.
 
-2000-03-21  Christopher James Lahey  <clahey@helixcode.com>
-
-	* widgets/shortcut-bar/e-icon-bar.c: Updated to fix a few bugs.
-
 2000-03-20  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/e-text.c, widgets/e-text/e-text.h: Added the
@@ -1250,9 +1224,6 @@
 
 2000-02-28  NotZed  <NotZed@HelixCode.com>
 
-	* widgets/shortcut-bar/Makefile.am (test_shortcut_bar_LDADD):
-	Fixed references to eutil.
-
 	* widgets/e-minicard/Makefile.am (INCLUDES): Fixed references to
 	eutil.
 
@@ -1335,26 +1306,6 @@
 	* tests/Makefile.am: Changed dependencies on libibex.la to
 	libibex.a. In test9_LDADD, placed libcamelmbox.la before
 	libibex.la, as the former requires the latter.
-
-2000-02-20  Damon Chaplin  <damon@helixcode.com>
-
-	* widgets/shortcut-bar/Makefile.am: added libetext.a and libeutil.a
-	to test_shortcut_bar_LDADD, and got rid of e-icon-bar-text-item.[hc].
-	I'll delete these soon.
-
-	* widgets/shortcut-bar/e-icon-bar.c: changed to be a subclass of
-	ECanvas and to use EText instead of EIconBarTextItem. Also set
-	"width_set" & "height_set" of the GnomeCanvasPixbuf items so they
-	work in the "Small Icon" view.
-
-	* widgets/shortcut-bar/e-vscrolled-bar.c: use map/unmap instead of
-	show/hide for the up & down buttons to avoid queueing resizes.
-	Otherwise the scrolling starts off a bit jerky.
-
-	* widgets/shortcut-bar/test-shortcut-bar.c: output a message when the
-	main label is resized, just for info.
-
-	* widgets/shortcut-bar/*.[hc]: updated my email address.
 
 2000-02-20  Iain Holmes  <ih@csd.abdn.ac.uk>
 
@@ -1730,13 +1681,6 @@
 	(handle_text_plain): Use 'encode_entities' to change '<' to
 	'&gt;', etc.
 
-2000-02-07  Damon Chaplin  <damon@helixcode.com>
-
-	* widgets/shortcut-bar/e-group-bar.c (e_group_bar_draw): finished.
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_item_released): 
-	check that an item was pressed.
-
 2000-02-03  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel/camel-formatter.c (find_preferred_displayable_body_part_in_multipart_alternative): 
@@ -1850,13 +1794,6 @@
 	* camel/camel-formatter.c: By looking up a mimetype in a
 	hashtable, we can now get a handler function for an arbitrary
 	mimetype.
-
-2000-01-26  bertrand  <bertrand@helixcode.com>
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_recalc_item_positions): 
-	don't set the x_set and y_set 
-	arguments as don't exist in gdk-pixbuf 
-	anymore. 
 
 2000-01-25  Mathieu Lacage <mathieu@advogato.org>
 
@@ -2238,9 +2175,6 @@
 	SUBDIRS since the lack of content was preventing it from
 	compiling.
 
-	* widgets/shortcut-bar/Makefile.am: Added gnomecanvaspixbuf to the
-	list of libraries used.
-
 	* widgets/e-text.c, widgets/e-text.h: Fixed a crashing bug.
 
 2000-01-17  bertrand  <bertrand@helixcode.com>
@@ -2312,40 +2246,6 @@
 	(initialize_buffer): ditto.
 	(parser_free): ditto.
 	(new_parser): ditto.
-
-2000-01-09  Miguel de Icaza  <miguel@gnu.org>
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_init): Turn on anti-aliasing.
-
-2000-01-08  Miguel de Icaza  <miguel@gnu.org>
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_add_item): Use
-	GdkPixbuf here. 
-	(e_icon_bar_get_item_image): ditto and initialize image.
-
-	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
-	Use gdk-pixbuf.
-
-2000-01-14  Christopher James Lahey  <clahey@helixcode.com>
-
-	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
-	Use e_bar_set_item_data.
-
-	Drop item_url;  Require image argument;  Require user data
-	argument. 
-
-2000-01-09  Miguel de Icaza  <miguel@gnu.org>
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_init): Turn on anti-aliasing.
-
-2000-01-08  Miguel de Icaza  <miguel@gnu.org>
-
-	* widgets/shortcut-bar/e-icon-bar.c (e_icon_bar_add_item): Use
-	GdkPixbuf here. 
-	(e_icon_bar_get_item_image): ditto and initialize image.
-
-	* widgets/shortcut-bar/e-shortcut-bar.c (e_shortcut_bar_add_item):
-	Use gdk-pixbuf.
 
 2000-01-12    <clahey@galapagos.helixcode.com>
 
