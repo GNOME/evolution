@@ -1,3 +1,11 @@
+2004-08-27  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #64011.
+
+	* gui/component/addressbook-view.c (edit_addressbook_cb): Remove
+	double ;; in declaration section (c99 extension).  From Vincent
+	Noel <vnoel@cox.net>.
+
 2004-08-26  Hans Petter Jansson  <hpj@ximian.com>
 
 	Really fixes #61833 and #63697.
