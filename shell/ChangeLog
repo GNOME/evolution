@@ -1,5 +1,11 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* e-storage-set-view.c (new_storage_cb): track e-tree sort api change.
+	(treepath_compare): same.
+	(new_folder_cb): same.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* e-storage-set-view.c (e_storage_set_view_construct): pass NULL
 	for the open/closed pixbuf of the tree renderer.  we'll let it
 	supply the default.

@@ -523,15 +523,14 @@ etree_is_editable (ETreeModel *etree, ETreePath *path, int col, void *model_data
 
 /* StorageSet signal handling.  */
 
-static ETreeModel *sort_model;
-
 static gint
-treepath_compare (ETreePath **node1,
-		  ETreePath **node2)
+treepath_compare (ETreeModel *model,
+		  ETreePath  *node1,
+		  ETreePath  *node2)
 {
 	char *path1, *path2;
-	path1 = e_tree_model_node_get_data (sort_model, *node1);
-	path2 = e_tree_model_node_get_data (sort_model, *node2);
+	path1 = e_tree_model_node_get_data (model, node1);
+	path2 = e_tree_model_node_get_data (model, node2);
 
 	return strcasecmp (path1, path2);
 }
@@ -565,8 +564,7 @@ new_storage_cb (EStorageSet *storage_set,
 
 	/* FIXME: We want a more specialized sort, e.g. the local folders should always be
            on top.  */
-	sort_model = priv->etree_model;
-	e_tree_model_node_sort (priv->etree_model, priv->root_node, (GCompareFunc)treepath_compare);
+	e_tree_model_node_set_compare_function (priv->etree_model, priv->root_node, (GCompareFunc)treepath_compare);
 }
 
 static void
@@ -634,8 +632,7 @@ new_folder_cb (EStorageSet *storage_set,
 		return;
 	}
 
-	sort_model = priv->etree_model;
-	e_tree_model_node_sort (priv->etree_model, parent_node, (GCompareFunc)treepath_compare);
+	e_tree_model_node_sort (priv->etree_model, parent_node);
 }
 
 static void
