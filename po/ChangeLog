@@ -1,3 +1,7 @@
+2003-12-01  Rodney Dawes  <dobey@ximian.com>
+
+	* POTFILES.in: Remove missing files
+
 2003-11-27  Metin Amiroff  <metin@karegen.com>
 
 	* az.po: Updated Azerbaijani translation.

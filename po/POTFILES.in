@@ -4,7 +4,6 @@ addressbook/conduit/address-conduit.c
 addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in
 addressbook/gui/component/addressbook-component.c
 addressbook/gui/component/addressbook-config.c
-addressbook/gui/component/addressbook-storage.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/ldap-config.glade
 addressbook/gui/component/select-names/GNOME_Evolution_Addressbook_SelectNames.server.in.in
@@ -311,7 +310,6 @@ shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-title-bar.c
 shell/e-shell-importer.c
 shell/e-shell-offline-handler.c
-shell/e-shell-offline-sync.c
 shell/e-shell-settings-dialog.c
 shell/e-shell-shared-folder-picker-dialog.c
 shell/e-shell-startup-wizard.c
