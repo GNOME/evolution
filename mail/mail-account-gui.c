@@ -1717,7 +1717,7 @@ mail_account_gui_save (MailAccountGui *gui)
 	if (gtk_toggle_button_get_active (gui->default_account))
 		mail_config_set_default_account (account);
 	
-	mail_autoreceive_setup_account (account->source);
+	mail_autoreceive_setup ();
 	
 	return TRUE;
 }

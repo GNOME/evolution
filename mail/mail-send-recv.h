@@ -36,7 +36,6 @@ void mail_send_receive(void);
 void mail_receive_uri(const char *uri, int keep);
 /* setup auto receive stuff */
 void mail_autoreceive_setup(void);
-void mail_autoreceive_setup_account(MailConfigService *source);
 
 #ifdef __cplusplus
 }

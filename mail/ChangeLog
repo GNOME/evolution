@@ -1,5 +1,12 @@
 2001-10-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_save): Call
+	mail_autoreceive_setup() instead of
+	mail_autoreceive_setup_account() since that code was completely
+	broken anyway.
+
+	* mail-send-recv.c (mail_autoreceive_setup_account): Removed. 
+
 	* mail-callbacks.c (transfer_msg_done): Move the message-list
 	cursor to the next message.
 	(transfer_msg): If we are moving messages, then pass

@@ -723,11 +723,14 @@ static void auto_clean_set(void *key, struct _auto_data *info, GHashTable *set)
 
 /* call to setup initial, and after changes are made to the config */
 /* FIXME: Need a cleanup funciton for when object is deactivated */
-static void
-autoreceive_setup_list(GSList *sources, gboolean clear_absent)
+void
+mail_autoreceive_setup (void)
 {
 	GHashTable *set_hash;
-
+	GSList *sources;
+	
+	sources = mail_config_get_sources();
+	
 	if (!sources)
 		return;
 
@@ -769,26 +772,8 @@ autoreceive_setup_list(GSList *sources, gboolean clear_absent)
 		sources = sources->next;
 	}
 
-	if (clear_absent)
-		g_hash_table_foreach(set_hash, (GHFunc)auto_clean_set, auto_active);
+	g_hash_table_foreach(set_hash, (GHFunc)auto_clean_set, auto_active);
 	g_hash_table_destroy(set_hash);
-}
-
-void
-mail_autoreceive_setup (void)
-{
-	autoreceive_setup_list (mail_config_get_sources(), TRUE);
-}
-
-void
-mail_autoreceive_setup_account (MailConfigService *service)
-{
-	GSList list;
-
-	list.data = service;
-	list.next = NULL;
-
-	autoreceive_setup_list (&list, FALSE);
 }
 
 /* we setup the download info's in a hashtable, if we later need to build the gui, we insert
