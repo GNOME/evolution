@@ -989,14 +989,10 @@ do_attachment_header (GtkHTML *html, GtkHTMLEmbedded *eb,
 	GTK_WIDGET_UNSET_FLAGS (button, GTK_CAN_FOCUS);
 	gtk_object_set_data (GTK_OBJECT (button), "MailDisplay", md);
 	
-	gtk_signal_connect (GTK_OBJECT (button), "clicked",
-			    GTK_SIGNAL_FUNC (button_press), part);
-	
 	handler = mail_lookup_handler (eb->type);
 	if (handler && handler->builtin)
-		gtk_widget_set_sensitive (button, TRUE);
-	else
-		gtk_widget_set_sensitive (button, FALSE);
+		gtk_signal_connect (GTK_OBJECT (button), "clicked",
+				    GTK_SIGNAL_FUNC (button_press), part);
 	
 	/* Drag & Drop */
 	drag_types[DND_TARGET_TYPE_PART_MIME_TYPE].target = header_content_type_simple(part->content_type);
