@@ -1,3 +1,7 @@
+2001-04-04  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* ename/test-ename-western-gtk.c: Fix headers.
+	
 2001-04-03  Federico Mena Quintero  <federico@ximian.com>
 
 	* e-sexp.h (ESExpResultType): Added ESEXP_RES_TIME for time

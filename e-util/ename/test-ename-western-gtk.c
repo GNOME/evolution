@@ -1,7 +1,9 @@
+#include <gtk/gtkmain.h>
+#include <gtk/gtktable.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-init.h>
 #include <gal/widgets/e-unicode.h>
-#include <ename/e-name-western.h>
+#include "e-name-western.h"
 
 ENameWestern *name;
 GtkWidget    *full;
