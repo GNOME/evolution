@@ -1081,7 +1081,7 @@ get_signature_html (EMsgComposer *composer)
 }
 
 static void
-set_editor_text(EMsgComposer *composer, const char *text, int setsig)
+set_editor_text(EMsgComposer *composer, const char *text, int set_signature, int pad_signature)
 {
 	Bonobo_PersistStream persist;
 	BonoboStream *stream;
@@ -1102,13 +1102,14 @@ set_editor_text(EMsgComposer *composer, const char *text, int setsig)
 
 	/* This copying bullshit is because the bonobo stream interface is just painful */
 	len = strlen(text);
-	if (setsig && (sig = get_signature_html (composer))) {
+	if (set_signature && (sig = get_signature_html (composer))) {
 		char *p;
 		
 		len += strlen (sig);
-		content = mem = g_malloc (len + 5);
+		content = mem = g_malloc (len + (pad_signature ? 4 : 0) + 1);
 		p = g_stpcpy (mem, text);
-		p = g_stpcpy (p, "<br>");
+		if (pad_signature)
+			p = g_stpcpy (p, "<br>");
 		strcpy (p, sig);
 		g_free (sig);
 	} else {
@@ -3358,7 +3359,7 @@ e_msg_composer_new_with_type (int type)
 	if (new) {
 		e_msg_composer_set_send_html (new, send_html);
 		set_editor_signature (new);
-		set_editor_text (new, "", TRUE);
+		set_editor_text (new, "", TRUE, TRUE);
 	}
 
 	return new;
@@ -4273,7 +4274,7 @@ e_msg_composer_set_body_text (EMsgComposer *composer, const char *text)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
 	
-	set_editor_text (composer, text, TRUE);
+	set_editor_text (composer, text, TRUE, text == "");
 }
 
 /**

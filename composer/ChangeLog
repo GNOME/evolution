@@ -2,6 +2,9 @@
 
 	* e-msg-composer.c (prepare_signatures_menu): added empty hbox so
 	that we have 12pxs between account setting and signature setting
+	(set_editor_text): added pad_signature parameter to tell if we
+	want to pad signature with <BR> (used when creating new mail, in
+	other cases we don't want to pad the signature)
 
 	Fixes #42866
 
