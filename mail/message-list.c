@@ -640,11 +640,6 @@ message_list_init_header (MessageList *message_list)
 			message_list->render_text,
 			g_str_compare, TRUE);
 	
-	/*
-	 * Dummy init: It sets up the headers to match the order in which
-	 * they are defined.  In the future e-table widget will take care
-	 * of this.
-	 */
 	for (i = 0; i < COL_LAST; i++) {
 		gtk_object_ref (GTK_OBJECT (message_list->table_cols [i]));
 		e_table_header_add_column (message_list->header_model,
