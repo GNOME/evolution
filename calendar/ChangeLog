@@ -1,3 +1,16 @@
+2004-08-18  Sivaiah Nallagatla <snallagatla@novell.com>
+
+	* gui/alarm-notify/alarm-notify.c (alarm-notify_init) :
+	initialize the mutext needed to prevent concurrect access 
+	priv->uri_clients_hash. Also install a timeout handler for
+        loading sources which requires  auth later
+	(alarm_notify_finalize) : free the new mutex
+	(load_calendars_cb) : call back which adds sources again after
+	one minute
+	(alarm_notify_add_calendar) : lock ad unlock the new mutex
+	before and after accessing uri_clients_hash  
+	
+	
 2004-08-16  JP Rosevear  <jpr@ximian.com>
 
 	Fixes #62706

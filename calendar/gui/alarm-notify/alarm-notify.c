@@ -1,4 +1,5 @@
-/* Evolution calendar - Alarm notification service object
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- *
+ *  Evolution calendar - Alarm notification service object
  *
  * Copyright (C) 2001 Ximian, Inc.
  *
@@ -39,8 +40,8 @@ struct _AlarmNotifyPrivate {
 	/* FIXME do we need per source type uri hashes? or perhaps we
 	   just need to hash based on source */
 	GHashTable *uri_client_hash;
-
-	ESourceList *source_lists [E_CAL_SOURCE_TYPE_LAST];	
+        ESourceList *source_lists [E_CAL_SOURCE_TYPE_LAST];	
+        GMutex *mutex;
 };
 
 
@@ -56,8 +57,8 @@ static BonoboObjectClass *parent_class;
 
 BONOBO_TYPE_FUNC_FULL(AlarmNotify, GNOME_Evolution_Calendar_AlarmNotify, BONOBO_TYPE_OBJECT, alarm_notify)
 
-/* Class initialization function for the alarm notify service */
-static void
+     /* Class initialization function for the alarm notify service */
+     static void
 alarm_notify_class_init (AlarmNotifyClass *klass)
 {
 	GObjectClass *object_class;
@@ -199,6 +200,17 @@ load_calendars (AlarmNotify *an, ECalSourceType source_type)
 	priv->source_lists[source_type] = source_list;
 }
 
+static gboolean
+load_calendars_cb (gpointer data)
+{
+	int i;
+	AlarmNotify *an =  ALARM_NOTIFY (data);
+	
+	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
+		list_changed_cb (an->priv->source_lists[i], an);
+	return FALSE;
+	
+}
 /* Object initialization function for the alarm notify system */
 static void
 alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
@@ -208,13 +220,14 @@ alarm_notify_init (AlarmNotify *an, AlarmNotifyClass *klass)
 
 	priv = g_new0 (AlarmNotifyPrivate, 1);
 	an->priv = priv;
-
+	priv->mutex = g_mutex_new ();
 	priv->uri_client_hash = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_object_unref);
 
 	alarm_queue_init ();
 
 	for (i = 0; i < E_CAL_SOURCE_TYPE_LAST; i++)
 		load_calendars (an, i);
+	g_timeout_add (60000, (GSourceFunc)load_calendars_cb, an);
 }
 
 static void
@@ -237,10 +250,9 @@ alarm_notify_finalize (GObject *object)
 
 	an = ALARM_NOTIFY (object);
 	priv = an->priv;
-
 	g_hash_table_foreach (priv->uri_client_hash, dequeue_client, NULL);
 	g_hash_table_destroy (priv->uri_client_hash);
-
+	g_mutex_free (priv->mutex);
 	g_free (priv);
 
 	if (G_OBJECT_CLASS (parent_class)->finalize)
@@ -307,20 +319,21 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 
 	priv = an->priv;
 	str_uri = e_source_get_uri (source);
+	
+	g_mutex_lock (an->priv->mutex);
 	/* See if we already know about this uri */
-	if (g_hash_table_lookup (priv->uri_client_hash, str_uri))
+	if (g_hash_table_lookup (priv->uri_client_hash, str_uri)) {
+		g_mutex_unlock (an->priv->mutex);
 		return;
-
+	}
 	/* if loading of this requires password and password is not currently availble in e-password
 	   session skip this source loading. we do not really want to prompt for auth from alarm dameon*/
 
-	/*** FIXME we should run an idle loop to check for availbility of passwords for these sources 
-	    and  add them to the list once they are available */
-
 	if ((e_source_get_property (source, "auth") && 
-	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), str_uri))))
-	     return;
-	
+	     (!e_passwords_get_password (e_source_get_property(source, "auth-domain"), str_uri)))) {
+		g_mutex_unlock (an->priv->mutex);
+		return;
+	}
 	client = auth_new_cal_from_source (source, source_type);
 
 	if (client) {
@@ -328,6 +341,7 @@ alarm_notify_add_calendar (AlarmNotify *an, ECalSourceType source_type,  ESource
 		g_signal_connect (G_OBJECT (client), "cal_opened", G_CALLBACK (cal_opened_cb), an);
 		e_cal_open_async (client, FALSE);
 	}
+	g_mutex_unlock (an->priv->mutex);
 }
 
 void
