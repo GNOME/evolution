@@ -1,3 +1,8 @@
+2001-02-15  Ettore Perazzoli  <ettore@ximian.com>
+
+	* C/Makefile.am (evolution-guide): Use `$<' instead of hardcoded
+	`evolution-guide.sgml'.
+
 2001-01-19  Aaron Weber  <aaron@helixcode.com>
 
 	* C/usage-mail.sgml: More of Megan's revisions, and Field Chooser
