@@ -191,7 +191,7 @@ gal_view_instance_save_as_dialog_init (GalViewInstanceSaveAsDialog *dialog)
 
 	dialog->instance = NULL;
 
-	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-instance-save-as-dialog.glade", NULL, PACKAGE);
+	gui = glade_xml_new_with_domain (GAL_GLADEDIR "/gal-view-instance-save-as-dialog.glade", NULL, E_I18N_DOMAIN);
 	dialog->gui = gui;
 
 	widget = glade_xml_get_widget(gui, "table-top");
