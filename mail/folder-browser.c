@@ -706,6 +706,8 @@ static EPopupMenu context_menu[] = {
 	
 	{ N_("_Reply to Sender"),             NULL,
 	  GTK_SIGNAL_FUNC (reply_to_sender),  NULL,  0 },
+	{ N_("_Reply to _List"),              NULL,
+	  GTK_SIGNAL_FUNC (reply_to_list),    NULL,  0 },
 	{ N_("Reply to _All"),                NULL,
 	  GTK_SIGNAL_FUNC (reply_to_all),     NULL,  0 },
 	{ N_("_Forward"),                     NULL,

@@ -569,7 +569,7 @@ free_recipients (GList *list)
 }
 
 static EMsgComposer *
-mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
+mail_generate_reply (CamelFolder *folder, CamelMimeMessage *message, const char *uid, int mode)
 {
 	const CamelInternetAddress *reply_to, *sender, *to_addrs, *cc_addrs;
 	const char *name = NULL, *address = NULL, *source = NULL;
@@ -583,7 +583,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	gchar *sig_file = NULL;
 	time_t date;
 	int offset;
-
+	
 	source = camel_mime_message_get_source (message);
 	me = mail_config_get_account_by_source_url (source);
 	
@@ -611,24 +611,59 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 	/* Set the recipients */
 	accounts = mail_config_get_accounts ();
 	
-	reply_to = camel_mime_message_get_reply_to (message);
-	if (!reply_to)
-		reply_to = camel_mime_message_get_from (message);
-	if (reply_to) {
-		/* Get the Reply-To address so we can ignore references to it in the Cc: list */
-		camel_internet_address_get (reply_to, 0, NULL, &reply_addr);
+	if (mode == REPLY_LIST) {
+		CamelMessageInfo *info;
+		const char *mlist;
+		int i, max, len;
 		
-		to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
-	}
-	
-	to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
-	cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
-	
-	if (to_all) {
-		cc = list_add_addresses (cc, to_addrs, accounts, &me, NULL);
-		cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me, reply_addr);
-	} else if (me == NULL) {
-		me = guess_me (to_addrs, cc_addrs, accounts);
+		info = camel_folder_get_message_info (folder, uid);
+		mlist = camel_message_info_mlist (info);
+		
+		if (mlist) {
+			/* look through the recipients to find the *real* mailing list address */
+			len = strlen (mlist);
+			
+			to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+			max = camel_address_length (CAMEL_ADDRESS (to_addrs));
+			for (i = 0; i < max; i++) {
+				camel_internet_address_get (to_addrs, i, NULL, &address);
+				if (!g_strncasecmp (address, mlist, len))
+					break;
+			}
+			
+			if (i == max) {
+				cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+				max = camel_address_length (CAMEL_ADDRESS (cc_addrs));
+				for (i = 0; i < max; i++) {
+					camel_internet_address_get (cc_addrs, i, NULL, &address);
+					if (!g_strncasecmp (address, mlist, len))
+						break;
+				}
+			}
+			
+			/* We only want to reply to the list address - if it even exists */
+			to = address && i != max ? g_list_append (to, g_strdup (address)) : to;
+		}
+	} else {
+		reply_to = camel_mime_message_get_reply_to (message);
+		if (!reply_to)
+			reply_to = camel_mime_message_get_from (message);
+		if (reply_to) {
+			/* Get the Reply-To address so we can ignore references to it in the Cc: list */
+			camel_internet_address_get (reply_to, 0, NULL, &reply_addr);
+			
+			to = g_list_append (to, camel_address_format (CAMEL_ADDRESS (reply_to)));
+		}
+		
+		to_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_TO);
+		cc_addrs = camel_mime_message_get_recipients (message, CAMEL_RECIPIENT_TYPE_CC);
+		
+		if (mode == REPLY_ALL) {
+			cc = list_add_addresses (cc, to_addrs, accounts, &me, NULL);
+			cc = list_add_addresses (cc, cc_addrs, accounts, me ? NULL : &me, reply_addr);
+		} else if (me == NULL) {
+			me = guess_me (to_addrs, cc_addrs, accounts);
+		}
 	}
 	
 	/* Set the subject of the new message. */
@@ -670,7 +705,7 @@ mail_generate_reply (CamelMimeMessage *message, gboolean to_all)
 }
 
 void
-mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all)
+mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mode)
 {
 	EMsgComposer *composer;
 	struct post_send_data *psd;
@@ -685,7 +720,7 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	psd->uid = g_strdup (uid);
 	psd->flags = CAMEL_MESSAGE_ANSWERED;
 	
-	composer = mail_generate_reply (msg, to_all);
+	composer = mail_generate_reply (folder, msg, uid, mode);
 	if (!composer)
 		return;
 	
@@ -709,7 +744,19 @@ reply_to_sender (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
-		    fb->message_list->cursor_uid, FALSE);
+		    fb->message_list->cursor_uid, REPLY_SENDER);
+}
+
+void
+reply_to_list (GtkWidget *widget, gpointer user_data)
+{
+	FolderBrowser *fb = FOLDER_BROWSER (user_data);
+	
+	if (!check_send_configuration (fb))
+		return;
+	
+	mail_reply (fb->folder, fb->mail_display->current_message, 
+		    fb->message_list->cursor_uid, REPLY_LIST);
 }
 
 void
@@ -721,7 +768,7 @@ reply_to_all (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	mail_reply (fb->folder, fb->mail_display->current_message, 
-		    fb->message_list->cursor_uid, TRUE);
+		    fb->message_list->cursor_uid, REPLY_ALL);
 }
 
 void

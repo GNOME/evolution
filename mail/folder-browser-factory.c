@@ -77,6 +77,7 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessageOpen", open_message),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
+	BONOBO_UI_UNSAFE_VERB ("MessageReplyList", reply_to_list),
 	BONOBO_UI_UNSAFE_VERB ("MessageResend", resend_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageSaveAs", save_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageSearch", search_msg),

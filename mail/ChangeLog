@@ -1,3 +1,16 @@
+2001-06-14  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser-factory.c: Add Reply-to-List bonobo verbs.
+
+	* folder-browser.c: Add Reply-to-List menu items.
+
+	* mail-callbacks.c (mail_reply): Use an enum for specifying the
+	reply mode, becaus enow we can reply-to-list.
+	(reply_to_list): Implement.
+	(reply_to_sender): Use REPLY_SENDER.
+	(reply_to_all): Use REPLY_ALL.
+	(mail_generate_reply): Handle the different modes.
+
 2001-06-12  JP Rosevear  <jpr@ximian.com>
 
 	* Makefile.am: Remove folder-info.h until iain checks it in

@@ -33,6 +33,13 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+/* these are the possible modes for replying */
+enum {
+	REPLY_SENDER,
+	REPLY_LIST,
+	REPLY_ALL
+};
+
 void enumerate_msg (MessageList *ml, const char *uid, gpointer data);
 
 void fetch_mail            (GtkWidget *widget, gpointer user_data);
@@ -48,7 +55,9 @@ void forward_attached      (GtkWidget *widget, gpointer user_data);
 void forward               (GtkWidget *widget, gpointer user_data);
 
 void reply_to_sender       (GtkWidget *widget, gpointer user_data);
+void reply_to_list         (GtkWidget *widget, gpointer user_data);
 void reply_to_all          (GtkWidget *widget, gpointer user_data);
+
 void delete_msg            (GtkWidget *widget, gpointer user_data);
 void undelete_msg          (GtkWidget *widget, gpointer user_data);
 void move_msg              (GtkWidget *widget, gpointer user_data);
@@ -90,7 +99,8 @@ void stop_threads          (BonoboUIComponent *uih, void *user_data, const char 
 
 void empty_trash           (BonoboUIComponent *uih, void *user_data, const char *path);
 
-void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
+void mail_reply            (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, int mode);
+
 void composer_send_cb      (EMsgComposer *composer, gpointer data);
 void composer_postpone_cb  (EMsgComposer *composer, gpointer data);
 
