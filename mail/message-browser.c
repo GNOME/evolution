@@ -25,6 +25,8 @@
 #endif
 
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-unicode.h>
+
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <bonobo/bonobo-ui-container.h>
@@ -108,6 +110,7 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 {
 	CamelMimeMessage *message;
 	char *subject = NULL;
+	char *title;
 	
 	g_warning ("got 'message_loaded' event");
 	
@@ -115,8 +118,17 @@ message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrows
 	
 	if (message)
 		subject = (char *) camel_mime_message_get_subject (message);
+
+	if (subject != NULL)
+		subject = e_utf8_to_gtk_string (GTK_WIDGET (mb), subject);
+	else
+		subject = _("(No subject)");
+
+	title = g_strdup_printf (_("%s - Message"), subject);
 	
-	gtk_window_set_title (GTK_WINDOW (mb), subject ? subject : "");
+	gtk_window_set_title (GTK_WINDOW (mb), title);
+
+	g_free (title);
 }
 
 static void

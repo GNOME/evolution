@@ -1,5 +1,16 @@
 2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
 
+	* message-browser.c (message_browser_message_loaded): Make the
+	title of the window "subject - Message" instead of just "subject".
+	Also, display "(No subject)" if the subject is NULL.
+
+	[Fix #6399, 8-bit characters are not displayed in window title.]
+
+	* message-browser.c (message_browser_message_loaded): Convert the
+	subject from UTF-8 to GTK.
+
+2001-08-05  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Revert the previous changes, there seems to be something wrong
 	with it.]
 
