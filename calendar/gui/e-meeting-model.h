@@ -97,6 +97,10 @@ EMeetingAttendee *e_meeting_model_find_attendee_at_row (EMeetingModel *im, gint 
 gint e_meeting_model_count_actual_attendees (EMeetingModel *im);
 const GPtrArray *e_meeting_model_get_attendees (EMeetingModel *im);
 
+void e_meeting_model_restricted_add (EMeetingModel *im, int row);
+void e_meeting_model_restricted_remove (EMeetingModel *im, int row);
+void e_meeting_model_restricted_clear (EMeetingModel *im);
+
 void e_meeting_model_refresh_all_busy_periods (EMeetingModel *im,
 					       EMeetingTime *start,
 					       EMeetingTime *end,
@@ -112,6 +116,7 @@ void e_meeting_model_refresh_busy_periods (EMeetingModel *im,
 
 /* Helpful functions */
 ETableScrolled    *e_meeting_model_etable_from_model (EMeetingModel *im, const gchar *spec_file, const gchar *state_file);
+void e_meeting_model_etable_click_to_add (EMeetingModel *im, gboolean click_to_add);
 int e_meeting_model_etable_model_to_view_row (ETable *et, EMeetingModel *im, int model_row);
 int e_meeting_model_etable_view_to_model_row (ETable *et, EMeetingModel *im, int view_row);
 

@@ -50,8 +50,6 @@
 
 #include "camel-local-private.h"
 
-#include "camel-text-index.h"
-
 #define d(x) /*(printf("%s(%d): ", __FILE__, __LINE__),(x))*/
 
 #ifndef PATH_MAX
@@ -65,12 +63,8 @@ static CamelFolderClass *parent_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 #define CLOCALS_CLASS(so) CAMEL_STORE_CLASS (CAMEL_OBJECT_GET_CLASS(so))
 
-static int local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args);
-
 static int local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex);
 static void local_unlock(CamelLocalFolder *lf);
-
-static void local_refresh_info(CamelFolder *folder, CamelException *ex);
 
 static void local_sync(CamelFolder *folder, gboolean expunge, CamelException *ex);
 static void local_expunge(CamelFolder *folder, CamelException *ex);
@@ -87,16 +81,12 @@ static void
 camel_local_folder_class_init(CamelLocalFolderClass * camel_local_folder_class)
 {
 	CamelFolderClass *camel_folder_class = CAMEL_FOLDER_CLASS(camel_local_folder_class);
-	CamelObjectClass *oklass = (CamelObjectClass *)camel_local_folder_class;
 
 	parent_class = CAMEL_FOLDER_CLASS(camel_type_get_global_classfuncs(camel_folder_get_type()));
 
 	/* virtual method definition */
 
 	/* virtual method overload */
-	oklass->getv = local_getv;
-
-	camel_folder_class->refresh_info = local_refresh_info;
 	camel_folder_class->sync = local_sync;
 	camel_folder_class->expunge = local_expunge;
 
@@ -148,8 +138,9 @@ local_finalize(CamelObject * object)
 		camel_object_unref((CamelObject *)local_folder->search);
 	}
 
+	/* must free index after summary, since it isn't refcounted */
 	if (local_folder->index)
-		camel_object_unref((CamelObject *)local_folder->index);
+		ibex_close(local_folder->index);
 
 	while (local_folder->locked> 0)
 		camel_local_folder_unlock(local_folder);
@@ -220,20 +211,11 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 	
 	lf->changes = camel_folder_change_info_new();
 
-	/* TODO: Remove the following line, it is a temporary workaround to remove
-	   the old-format 'ibex' files that might be lying around */
-	unlink(lf->index_path);
-
-#if 0
-	forceindex = FALSE;
-#else
-	/* if we have no/invalid index file, force it */
-	forceindex = camel_text_index_check(lf->index_path) == -1;
+	/* if we have no index file, force it */
+	forceindex = stat(lf->index_path, &st) == -1;
 	if (flags & CAMEL_STORE_FOLDER_BODY_INDEX) {
-		int flag = O_RDWR|O_CREAT;
-		if (forceindex)
-			flag |= O_TRUNC;
-		lf->index = (CamelIndex *)camel_text_index_new(lf->index_path, flag);
+
+		lf->index = ibex_open(lf->index_path, O_CREAT | O_RDWR, 0600);
 		if (lf->index == NULL) {
 			/* yes, this isn't fatal at all */
 			g_warning("Could not open/create index file: %s: indexing not performed", strerror(errno));
@@ -242,12 +224,13 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 			flags &= ~CAMEL_STORE_FOLDER_BODY_INDEX;
 		}
 	} else {
-		/* if we do have an index file, remove it (?) */
-		if (forceindex == FALSE)
-			camel_text_index_remove(lf->index_path);
+		/* if we do have an index file, remove it */
+		if (forceindex == FALSE) {
+			unlink(lf->index_path);
+		}
 		forceindex = FALSE;
 	}
-#endif
+
 	lf->flags = flags;
 
 	folder->summary = (CamelFolderSummary *)CLOCALF_CLASS(lf)->create_summary(lf->summary_path, lf->folder_path, lf->index);
@@ -255,9 +238,7 @@ camel_local_folder_construct(CamelLocalFolder *lf, CamelStore *parent_store, con
 		camel_exception_clear(ex);
 	}
 	
-	/*if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1) {*/
-	/* we sync here so that any hard work setting up the folder isn't lost */
-	if (camel_local_summary_sync((CamelLocalSummary *)folder->summary, FALSE, lf->changes, ex) == -1) {
+	if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1) {
 		camel_object_unref (CAMEL_OBJECT (folder));
 		return NULL;
 	}
@@ -305,64 +286,6 @@ int camel_local_folder_unlock(CamelLocalFolder *lf)
 }
 
 static int
-local_getv(CamelObject *object, CamelException *ex, CamelArgGetV *args)
-{
-	CamelFolder *folder = (CamelFolder *)object;
-	int i, count=args->argc;
-	guint32 tag;
-
-	for (i=0;i<args->argc;i++) {
-		CamelArgGet *arg = &args->argv[i];
-
-		tag = arg->tag;
-
-		switch (tag & CAMEL_ARG_TAG) {
-			/* CamelObject args */
-		case CAMEL_OBJECT_ARG_DESCRIPTION:
-			if (folder->description == NULL) {
-				char *tmp, *path;
-
-				/* check some common prefixes to shorten the name */
-				tmp = ((CamelService *)folder->parent_store)->url->path;
-				if (tmp == NULL)
-					goto skip;
-
-				path = alloca(strlen(tmp)+strlen(folder->full_name)+1);
-				sprintf(path, "%s/%s", tmp, folder->full_name);
-
-				if ((tmp = getenv("HOME")) && strncmp(tmp, path, strlen(tmp)) == 0)
-					/* $HOME relative path + protocol string */
-					folder->description = g_strdup_printf(_("~%s (%s)"), path+strlen(tmp),
-									      ((CamelService *)folder->parent_store)->url->protocol);
-				else if ((tmp = "/var/spool/mail") && strncmp(tmp, path, strlen(tmp)) == 0)
-					/* /var/spool/mail relative path + protocol */
-					folder->description = g_strdup_printf(_("mailbox:%s (%s)"), path+strlen(tmp),
-									      ((CamelService *)folder->parent_store)->url->protocol);
-				else if ((tmp = "/var/mail") && strncmp(tmp, path, strlen(tmp)) == 0)
-					folder->description = g_strdup_printf(_("mailbox:%s (%s)"), path+strlen(tmp),
-									      ((CamelService *)folder->parent_store)->url->protocol);
-				else
-					/* a full path + protocol */
-					folder->description = g_strdup_printf(_("%s (%s)"), path, 
-									      ((CamelService *)folder->parent_store)->url->protocol);
-			}
-			*arg->ca_str = folder->description;
-			break;
-		default: skip:
-			count--;
-			continue;
-		}
-
-		arg->tag = (tag & CAMEL_ARG_TYPE) | CAMEL_ARG_IGNORE;
-	}
-
-	if (count)
-		return ((CamelObjectClass *)parent_class)->getv(object, ex, args);
-
-	return 0;
-}
-
-static int
 local_lock(CamelLocalFolder *lf, CamelLockType type, CamelException *ex)
 {
 	return 0;
@@ -372,21 +295,6 @@ static void
 local_unlock(CamelLocalFolder *lf)
 {
 	/* nothing */
-}
-
-/* for auto-check to work */
-static void
-local_refresh_info(CamelFolder *folder, CamelException *ex)
-{
-	CamelLocalFolder *lf = (CamelLocalFolder *)folder;
-
-	if (camel_local_summary_check((CamelLocalSummary *)folder->summary, lf->changes, ex) == -1)
-		return;
-
-	if (camel_folder_change_info_changed(lf->changes)) {
-		camel_object_trigger_event((CamelObject *)folder, "folder_changed", lf->changes);
-		camel_folder_change_info_clear(lf->changes);
-	}
 }
 
 static void

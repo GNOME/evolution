@@ -22,13 +22,11 @@
 #define COMP_EDITOR_H
 
 #include <gtk/gtk.h>
-#include <bonobo/bonobo-win.h>
 #include <bonobo/bonobo-ui-engine.h>
 #include <bonobo/bonobo-ui-component.h>
 #include "cal-client.h"
 #include "../itip-utils.h"
 #include "comp-editor-page.h"
-#include "evolution-shell-component-utils.h"
 
 BEGIN_GNOME_DECLS
 
@@ -43,14 +41,14 @@ BEGIN_GNOME_DECLS
 typedef struct _CompEditorPrivate CompEditorPrivate;
 
 typedef struct {
-	BonoboWindow object;
+	GtkObject object;
 
 	/* Private data */
 	CompEditorPrivate *priv;
 } CompEditor;
 
 typedef struct {
-	BonoboWindowClass parent_class;
+	GtkObjectClass parent_class;
 
 	/* Virtual functions */
 	void (* set_cal_client) (CompEditor *page, CalClient *client);
@@ -65,6 +63,12 @@ gboolean      comp_editor_get_changed      (CompEditor             *editor);
 void          comp_editor_set_needs_send   (CompEditor             *editor,
 					    gboolean                needs_send);
 gboolean      comp_editor_get_needs_send   (CompEditor             *editor);
+void          comp_editor_set_existing_org (CompEditor             *editor,
+					    gboolean                existing_org);
+gboolean      comp_editor_get_existing_org (CompEditor             *editor);
+void          comp_editor_set_user_org     (CompEditor             *editor,
+					    gboolean                user_org);
+gboolean      comp_editor_get_user_org     (CompEditor             *editor);
 void          comp_editor_append_page      (CompEditor             *editor,
 					    CompEditorPage         *page,
 					    const char             *label);
@@ -77,18 +81,15 @@ void          comp_editor_set_cal_client   (CompEditor             *editor,
 CalClient    *comp_editor_get_cal_client   (CompEditor             *editor);
 void          comp_editor_edit_comp        (CompEditor             *ee,
 					    CalComponent           *comp);
-CalComponent *comp_editor_get_comp         (CompEditor             *editor);
 CalComponent *comp_editor_get_current_comp (CompEditor             *editor);
 gboolean      comp_editor_save_comp        (CompEditor             *editor,
 					    gboolean                send);
 void          comp_editor_delete_comp      (CompEditor             *editor);
 void          comp_editor_send_comp        (CompEditor             *editor,
 					    CalComponentItipMethod  method);
-gboolean      comp_editor_close            (CompEditor             *editor);
 void          comp_editor_merge_ui         (CompEditor             *editor,
 					    const char             *filename,
-					    BonoboUIVerb           *verbs,
-					    EPixmap                *pixmaps);
+					    BonoboUIVerb           *verbs);
 void          comp_editor_set_ui_prop      (CompEditor             *editor,
 					    const char             *path,
 					    const char             *attr,

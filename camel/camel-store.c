@@ -27,8 +27,6 @@
 #include <config.h>
 #endif
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <string.h>
 
 #include "camel-session.h"
@@ -44,7 +42,7 @@
 static CamelServiceClass *parent_class = NULL;
 
 /* Returns the class for a CamelStore */
-#define CS_CLASS(so) ((CamelStoreClass *)((CamelObject *)(so))->klass)
+#define CS_CLASS(so) ((CamelStoreClass *)((CamelObject *)(so))->classfuncs)
 
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
@@ -75,15 +73,12 @@ static void construct (CamelService *service, CamelSession *session,
 		       CamelProvider *provider, CamelURL *url,
 		       CamelException *ex);
 
-static int store_setv (CamelObject *object, CamelException *ex, CamelArgV *args);
-static int store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args);
-
 static void
 camel_store_class_init (CamelStoreClass *camel_store_class)
 {
 	CamelObjectClass *camel_object_class = CAMEL_OBJECT_CLASS (camel_store_class);
 	CamelServiceClass *camel_service_class = CAMEL_SERVICE_CLASS(camel_store_class);
-	
+
 	parent_class = CAMEL_SERVICE_CLASS (camel_type_get_global_classfuncs (camel_service_get_type ()));
 	
 	/* virtual method definition */
@@ -105,15 +100,12 @@ camel_store_class_init (CamelStoreClass *camel_store_class)
 	
 	/* virtual method overload */
 	camel_service_class->construct = construct;
-	
-	camel_object_class->setv = store_setv;
-	camel_object_class->getv = store_getv;
-	
-	camel_object_class_add_event(camel_object_class, "folder_created", NULL);
-	camel_object_class_add_event(camel_object_class, "folder_deleted", NULL);
-	camel_object_class_add_event(camel_object_class, "folder_renamed", NULL);
-	camel_object_class_add_event(camel_object_class, "folder_subscribed", NULL);
-	camel_object_class_add_event(camel_object_class, "folder_unsubscribed", NULL);
+
+	camel_object_class_declare_event(camel_object_class, "folder_created", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_deleted", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_renamed", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_subscribed", NULL);
+	camel_object_class_declare_event(camel_object_class, "folder_unsubscribed", NULL);
 }
 
 static void
@@ -180,19 +172,6 @@ camel_store_get_type (void)
 	return camel_store_type;
 }
 
-static int
-store_setv (CamelObject *object, CamelException *ex, CamelArgV *args)
-{
-	/* CamelStore doesn't currently have anything to set */
-	return CAMEL_OBJECT_CLASS (parent_class)->setv (object, ex, args);
-}
-
-static int
-store_getv (CamelObject *object, CamelException *ex, CamelArgGetV *args)
-{
-	/* CamelStore doesn't currently have anything to get */
-	return CAMEL_OBJECT_CLASS (parent_class)->getv (object, ex, args);
-}
 
 static gboolean
 folder_matches (gpointer key, gpointer value, gpointer user_data)
@@ -493,10 +472,10 @@ camel_store_rename_folder (CamelStore *store, const char *old_name, const char *
 			flags |= CAMEL_STORE_FOLDER_INFO_SUBSCRIBED;
 		
 		reninfo.old_base = (char *)old_name;
-		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->klass)->get_folder_info(store, new_name, flags, ex);
+		reninfo.new = ((CamelStoreClass *)((CamelObject *)store)->classfuncs)->get_folder_info(store, new_name, flags, ex);
 		if (reninfo.new != NULL) {
 			camel_object_trigger_event(CAMEL_OBJECT(store), "folder_renamed", &reninfo);
-			((CamelStoreClass *)((CamelObject *)store)->klass)->free_folder_info(store, reninfo.new);
+			((CamelStoreClass *)((CamelObject *)store)->classfuncs)->free_folder_info(store, reninfo.new);
 		}
 	} else {
 		/* Failed, just unlock our folders for re-use */

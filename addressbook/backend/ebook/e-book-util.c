@@ -33,93 +33,6 @@
 #include <libgnome/gnome-util.h>
 #include "e-card-compare.h"
 
-typedef struct _CommonBookInfo CommonBookInfo;
-struct _CommonBookInfo {
-	EBookCommonCallback cb;
-	gpointer closure;
-};
-
-char *
-e_book_expand_uri (const char *uri)
-{
-	if (!strncmp (uri, "file:", 5)) {
-		int length = strlen (uri);
-		int offset = 5;
-
-		if (!strncmp (uri, "file://", 7))
-			offset = 7;
-
-		if (length < 3 || strcmp (uri + length - 3, ".db")) {
-			/* we assume it's a dir and glom addressbook.db onto the end. */
-
-			char *ret_val;
-			char *file_name;
-
-			file_name = g_concat_dir_and_file(uri + offset, "addressbook.db");
-			ret_val = g_strdup_printf("file://%s", file_name);
-			g_free(file_name);
-			return ret_val; 
-		}
-	}
-
-	return g_strdup (uri);
-}
-
-static void
-got_uri_book_cb (EBook *book, EBookStatus status, gpointer closure)
-{
-	CommonBookInfo *info = (CommonBookInfo *) closure;
-
-	if (status == E_BOOK_STATUS_SUCCESS) {
-		info->cb (book, info->closure);
-	} else {
-		info->cb (NULL, info->closure);
-	}
-	g_free (info);
-}
-
-gboolean
-e_book_load_address_book_by_uri (EBook *book, const char *uri, EBookCallback open_response, gpointer closure)
-{
-	gboolean rv;
-	char *real_uri;
-
-	g_return_val_if_fail (book != NULL,          FALSE);
-	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
-	g_return_val_if_fail (open_response != NULL, FALSE);
-
-	real_uri = e_book_expand_uri (uri);
-
-	rv = e_book_load_uri (book, real_uri, open_response, closure);
-
-	if (!rv) {
-		g_warning ("Couldn't load addressbook %s", real_uri);
-	}
-
-	g_free (real_uri);
-
-	return rv;
-}
-
-void
-e_book_use_address_book_by_uri (const char *uri, EBookCommonCallback cb, gpointer closure)
-{
-	EBook *book;
-	CommonBookInfo *info;
-
-	g_return_if_fail (cb != NULL);
-
-	info = g_new0 (CommonBookInfo, 1);
-	info->cb = cb;
-	info->closure = closure;
-
-	book = e_book_new ();
-	if (! e_book_load_address_book_by_uri (book, uri, got_uri_book_cb, info)) {
-		gtk_object_unref (GTK_OBJECT (book));
-		g_free (info);
-	}
-}
-
 Bonobo_ConfigDatabase
 e_book_get_config_database (CORBA_Environment *ev)
 {
@@ -130,7 +43,7 @@ e_book_get_config_database (CORBA_Environment *ev)
 
 	return config_db;
 }
-
+       
 gboolean
 e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
@@ -158,6 +71,12 @@ e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpoint
 }
 
 static EBook *common_local_book = NULL;
+
+typedef struct _CommonBookInfo CommonBookInfo;
+struct _CommonBookInfo {
+	EBookCommonCallback cb;
+	gpointer closure;
+};
 
 static void
 got_local_book_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -242,55 +161,37 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 gboolean
 e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
-	char *uri;
+	char *val;
 	gboolean rv;
-	DefaultBookClosure *default_book_closure;
+	CORBA_Environment ev;
+	Bonobo_ConfigDatabase config_db;
 
 	g_return_val_if_fail (book != NULL,          FALSE);
 	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
 	g_return_val_if_fail (open_response != NULL, FALSE);
 
-	uri = e_book_get_default_book_uri ();
+	CORBA_exception_init (&ev);
+	config_db = e_book_get_config_database (&ev);
+	val = bonobo_config_get_string (config_db, "/Addressbook/default_book_uri", &ev);
+	CORBA_exception_free (&ev);
 
-	default_book_closure = g_new (DefaultBookClosure, 1);
-
-	default_book_closure->closure = closure;
-	default_book_closure->open_response = open_response;
-
-	rv = e_book_load_uri (book, uri,
-			      e_book_default_book_open, default_book_closure);
-	g_free (uri);
+	if (val) {
+		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
+		default_book_closure->closure = closure;
+		default_book_closure->open_response = open_response;
+		rv = e_book_load_uri (book, val,
+				      e_book_default_book_open, default_book_closure);
+		g_free (val);
+	}
+	else {
+		rv = e_book_load_local_address_book (book, open_response, closure);
+	}
 
 	if (!rv) {
 		g_warning ("Couldn't load default addressbook");
 	}
 
 	return rv;
-}
-
-char*
-e_book_get_default_book_uri ()
-{
-	CORBA_Environment ev;
-	char *val, *uri;
-	Bonobo_ConfigDatabase config_db;
-
-	CORBA_exception_init (&ev);
-	config_db = e_book_get_config_database (&ev);
-	val = bonobo_config_get_string (config_db, "/DefaultFolders/contacts_uri", &ev);
-	CORBA_exception_free (&ev);
-
-	if (val) {
-		uri = e_book_expand_uri (val);
-		g_free (val);
-	} else {
-		char *filename;
-		filename = gnome_util_prepend_user_home ("evolution/local/Contacts/addressbook.db");
-		uri = g_strdup_printf ("file://%s", filename);
-		g_free (filename);
-	}
-
-	return uri;
 }
 
 /*

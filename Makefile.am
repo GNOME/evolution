@@ -13,14 +13,15 @@ EXTRA_DIST =			\
 	xml-i18n-update.in	\
 	xml-i18n-extract.in
 
-SUBDIRS =			\
-        intl                    \
+SUBDIRS = 			\
+	intl			\
         macros                  \
         data                    \
         e-util                  \
 	libical			\
         widgets                 \
         shell                   \
+        libibex                 \
         camel                   \
         filter                  \
         libversit               \
@@ -33,7 +34,6 @@ SUBDIRS =			\
 	importers		\
 	my-evolution		\
         art                     \
-	sounds			\
 	ui			\
         default_user            \
 	views			\
@@ -43,3 +43,20 @@ SUBDIRS =			\
         po			\
 	omf-install
 
+# CDE Stuff
+
+if HAVE_DTAPPINTEGRATE
+
+# This installs Evolution into the Application Manager on CDE
+dtappintegrate:
+	( cd data && make dtappintegrate )
+
+# ...And this uninstalls it
+dtappunintegrate:
+	( cd data ; make dtappunintegrate )
+
+# Install/uninstall for CDE
+cde-install: install dtappintegrate
+cde-uninstall: dtappunintegrate uninstall
+
+endif

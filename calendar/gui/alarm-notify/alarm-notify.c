@@ -358,7 +358,7 @@ retry_timeout_cb (gpointer data)
 {
 	LoadedClient *lc = data;
 	char *str_uri;
-	
+
 	if (cal_client_get_load_state (lc->client) != CAL_CLIENT_LOAD_LOADED) {
 		str_uri = e_uri_to_string (lc->uri, FALSE);
 		cal_client_open_calendar (lc->client, str_uri, FALSE);
@@ -377,6 +377,7 @@ cal_opened_cb (CalClient *client, CalClientOpenStatus status, gpointer data)
 	if (status == CAL_CLIENT_OPEN_SUCCESS) {
 		add_uri_to_load (lc->uri);
 		alarm_queue_add_client (client);
+
 		lc->timeout_id = -1;
 	}
 	else {
@@ -452,8 +453,10 @@ alarm_notify_add_calendar (AlarmNotify *an, const char *str_uri, gboolean load_a
 			lc->refcount = 1;
 			g_hash_table_insert (priv->uri_client_hash,
 					     g_strdup (str_uri), lc);
+
 		} else {
 			g_free (lc);
+			remove_uri_to_load (uri);
 			gtk_object_unref (GTK_OBJECT (client));
 			client = NULL;
 		}

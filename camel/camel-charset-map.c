@@ -61,16 +61,15 @@ static struct {
 	{ "iso-8859-2", 0 },	/* Central/Eastern European */
 	{ "iso-8859-4", 0 },	/* Baltic */
 	{ "koi8-r", 0 },	/* Russian */
+	{ "windows-1251", 0 },	/* Russian */
 	{ "koi8-u", 0 },	/* Ukranian */
 	{ "iso-8859-5", 0 },	/* Least-popular Russian encoding */
 	{ "iso-8859-7", 0 },	/* Greek */
-	{ "iso-8859-8", 0 },    /* Hebrew; Visual */
 	{ "iso-8859-9", 0 },	/* Turkish */
 	{ "iso-8859-13", 0 },	/* Baltic again */
 	{ "iso-8859-15", 0 },	/* New-and-improved iso-8859-1, but most
 				 * programs that support this support UTF8
 				 */
-	{ "windows-1251", 0 },	/* Russian */
 	{ 0, 0 }
 };
 
@@ -82,7 +81,7 @@ unsigned int encoding_map[256 * 256];
 #define UCS "UCS-4LE"
 #endif
 
-int main (void)
+void main(void)
 {
 	int i, j;
 	int max, min;
@@ -191,8 +190,7 @@ int main (void)
 			printf("\t\\\n");
 	}
 	printf("\n\n");
-	
-	return 0;
+
 }
 
 #else
@@ -292,61 +290,6 @@ camel_charset_best (const char *in, int len)
 	camel_charset_init (&charset);
 	camel_charset_step (&charset, in, len);
 	return camel_charset_best_name (&charset);
-}
-
-
-/**
- * camel_charset_iso_to_windows:
- * @isocharset: an ISO charset
- *
- * Returns the equivalent Windows charset.
- **/
-const char *
-camel_charset_iso_to_windows (const char *isocharset)
-{
-	/* According to http://czyborra.com/charsets/codepages.html,
-	 * the charset mapping is as follows:
-	 *
-	 * iso-8859-1  maps to windows-cp1252
-	 * iso-8859-2  maps to windows-cp1250
-	 * iso-8859-3  maps to windows-cp????
-	 * iso-8859-4  maps to windows-cp????
-	 * iso-8859-5  maps to windows-cp1251
-	 * iso-8859-6  maps to windows-cp1256
-	 * iso-8859-7  maps to windows-cp1253
-	 * iso-8859-8  maps to windows-cp1255
-	 * iso-8859-9  maps to windows-cp1254
-	 * iso-8859-10 maps to windows-cp????
-	 * iso-8859-11 maps to windows-cp????
-	 * iso-8859-12 maps to windows-cp????
-	 * iso-8859-13 maps to windows-cp1257
-	 *
-	 * Assumptions:
-	 *  - I'm going to assume that since iso-8859-4 and
-	 *    iso-8859-13 are Baltic that it also maps to
-	 *    windows-cp1257.
-	 */
-	
-	if (!strcasecmp (isocharset, "iso-8859-1"))
-		return "windows-cp1252";
-	else if (!strcasecmp (isocharset, "iso-8859-2"))
-		return "windows-cp1250";
-	else if (!strcasecmp (isocharset, "iso-8859-4"))
-		return "windows-cp1257";
-	else if (!strcasecmp (isocharset, "iso-8859-5"))
-		return "windows-cp1251";
-	else if (!strcasecmp (isocharset, "iso-8859-6"))
-		return "windows-cp1256";
-	else if (!strcasecmp (isocharset, "iso-8859-7"))
-		return "windows-cp1253";
-	else if (!strcasecmp (isocharset, "iso-8859-8"))
-		return "windows-cp1255";
-	else if (!strcasecmp (isocharset, "iso-8859-9"))
-		return "windows-cp1254";
-	else if (!strcasecmp (isocharset, "iso-8859-13"))
-		return "windows-cp1257";
-	
-	return isocharset;
 }
 
 #endif /* !BUILD_MAP */

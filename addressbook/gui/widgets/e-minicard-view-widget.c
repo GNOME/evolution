@@ -36,6 +36,8 @@ static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
 
+static void selection_change                     (ESelectionModel *esm, EMinicardViewWidget *widget);
+
 static ECanvasClass *parent_class = NULL;
 
 /* The arguments we take */
@@ -43,18 +45,15 @@ enum {
 	ARG_0,
 	ARG_BOOK,
 	ARG_QUERY,
-	ARG_EDITABLE,
-	ARG_COLUMN_WIDTH
+	ARG_EDITABLE
 };
 
 enum {
 	SELECTION_CHANGE,
-	COLUMN_WIDTH_CHANGED,
-	RIGHT_CLICK,
 	LAST_SIGNAL
 };
 
-static guint signals [LAST_SIGNAL] = {0, };
+static guint e_minicard_view_widget_signals [LAST_SIGNAL] = {0, };
 
 GtkType
 e_minicard_view_widget_get_type (void)
@@ -100,10 +99,8 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EMinicardViewWidget::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("EMinicardViewWidget::column_width", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_COLUMN_WIDTH);
 
-	signals [SELECTION_CHANGE] =
+	e_minicard_view_widget_signals [SELECTION_CHANGE] =
 		gtk_signal_new ("selection_change",
 				GTK_RUN_LAST,
 				object_class->type,
@@ -111,23 +108,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
 
-	signals [COLUMN_WIDTH_CHANGED] =
-		gtk_signal_new ("column_width_changed",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, column_width_changed),
-				e_marshal_NONE__DOUBLE,
-				GTK_TYPE_NONE, 1, GTK_TYPE_DOUBLE);
-
-	signals [RIGHT_CLICK] =
-		gtk_signal_new ("right_click",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewWidgetClass, right_click),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+	gtk_object_class_add_signals (object_class, e_minicard_view_widget_signals, LAST_SIGNAL);
 
 	object_class->set_arg       = e_minicard_view_widget_set_arg;
 	object_class->get_arg       = e_minicard_view_widget_get_arg;
@@ -137,10 +118,6 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
 
 	canvas_class->reflow        = e_minicard_view_widget_reflow;
-
-	klass->selection_change     = NULL;
-	klass->column_width_changed = NULL;
-	klass->right_click          = NULL;
 }
 
 static void
@@ -151,7 +128,6 @@ e_minicard_view_widget_init (EMinicardViewWidget *view)
 	view->book = NULL;
 	view->query = NULL;
 	view->editable = FALSE;
-	view->column_width = 150;
 }
 
 GtkWidget *
@@ -197,17 +173,9 @@ e_minicard_view_widget_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	case ARG_EDITABLE:
 		emvw->editable = GTK_VALUE_BOOL(*arg);
 		if (emvw->emv)
-			gtk_object_set (GTK_OBJECT(emvw->emv),
-					"editable", emvw->editable,
-					NULL);
-		break;
-	case ARG_COLUMN_WIDTH:
-		emvw->column_width = GTK_VALUE_INT (*arg);
-		if (emvw->emv) {
-			gtk_object_set (GTK_OBJECT(emvw->emv),
-					"column_width", (int) emvw->column_width,
-					NULL);
-		}
+		gtk_object_set (GTK_OBJECT(emvw->emv),
+				"editable", emvw->editable,
+				NULL);
 		break;
 	}
 }
@@ -228,9 +196,6 @@ e_minicard_view_widget_get_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		break;
 	case ARG_EDITABLE:
 		GTK_VALUE_BOOL (*arg) = emvw->editable;
-		break;
-	case ARG_COLUMN_WIDTH:
-		GTK_VALUE_INT (*arg) = emvw->column_width;
 		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
@@ -253,30 +218,6 @@ e_minicard_view_widget_destroy (GtkObject *object)
 }
 
 static void
-selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
-{
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [SELECTION_CHANGE]);
-}
-
-static void
-column_width_changed (ESelectionModel *esm, double width, EMinicardViewWidget *widget)
-{
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [COLUMN_WIDTH_CHANGED], width);
-}
-
-static guint
-right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
-{
-	guint ret_val;
-	gtk_signal_emit (GTK_OBJECT(widget),
-			 signals [RIGHT_CLICK],
-			 event, &ret_val);
-	return ret_val;
-}
-
-static void
 e_minicard_view_widget_realize (GtkWidget *widget)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
@@ -291,19 +232,15 @@ e_minicard_view_widget_realize (GtkWidget *widget)
 		e_minicard_view_get_type(),
 		"height", (double) 100,
 		"minimum_width", (double) 100,
-		"adapter", view->adapter,
-		"column_width", (int) view->column_width,
 		NULL );
+
+	gtk_object_set(GTK_OBJECT(view->emv),
+		       "adapter", view->adapter,
+		       NULL);
 
 	gtk_signal_connect (GTK_OBJECT (E_REFLOW(view->emv)->selection),
 			    "selection_changed",
 			    selection_change, view);
-	gtk_signal_connect (GTK_OBJECT (view->emv),
-			    "column_width_changed",
-			    column_width_changed, view);
-	gtk_signal_connect (GTK_OBJECT (view->emv),
-			    "right_click",
-			    GTK_SIGNAL_FUNC (right_click), view);
 
 	if (GTK_WIDGET_CLASS(parent_class)->realize)
 		GTK_WIDGET_CLASS(parent_class)->realize (widget);
@@ -349,20 +286,44 @@ e_minicard_view_widget_reflow(ECanvas *canvas)
 	gnome_canvas_set_scroll_region(GNOME_CANVAS(canvas), 0, 0, width - 1, GTK_WIDGET(canvas)->allocation.height - 1);
 }
 
+static void
+selection_change (ESelectionModel *esm, EMinicardViewWidget *widget)
+{
+	gtk_signal_emit (GTK_OBJECT(widget),
+			 e_minicard_view_widget_signals [SELECTION_CHANGE], widget);
+}
+
+gint
+e_minicard_view_widget_selected_count   (EMinicardViewWidget *view)
+{
+	if (!view->emv)
+		return 0;
+	else
+		return e_selection_model_selected_count (E_REFLOW (view->emv)->selection);
+}
+
+void
+e_minicard_view_widget_remove_selection(EMinicardViewWidget *view,
+					EBookCallback  cb,
+					gpointer       closure)
+{
+	if (view->emv)
+		e_minicard_view_remove_selection(E_MINICARD_VIEW(view->emv), cb, closure);
+}
+
+void
+e_minicard_view_widget_jump_to_letter (EMinicardViewWidget *view,
+                                       gunichar letter)
+{
+	if (view->emv)
+		e_minicard_view_jump_to_letter(E_MINICARD_VIEW(view->emv), letter);
+}
+
 ESelectionModel *
 e_minicard_view_widget_get_selection_model (EMinicardViewWidget *view)
 {
 	if (view->emv)
 		return E_SELECTION_MODEL (E_REFLOW (view->emv)->selection);
-	else
-		return NULL;
-}
-
-EMinicardView *
-e_minicard_view_widget_get_view             (EMinicardViewWidget       *view)
-{
-	if (view->emv)
-		return E_MINICARD_VIEW (view->emv);
 	else
 		return NULL;
 }

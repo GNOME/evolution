@@ -1,7 +1,6 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
- *           Radek Doulik     <rodo@ximian.com>
  *
  *  Copyright 2001 Ximian, Inc. (www.ximian.com)
  *
@@ -69,15 +68,6 @@
 
 #include "Mail.h"
 
-
-MailConfigLabel label_defaults[5] = {
-	{ N_("Important"), 0x00ff0000, NULL },  /* red */
-	{ N_("Work"),      0x00ff8c00, NULL },  /* orange */
-	{ N_("Personal"),  0x00008b00, NULL },  /* forest green */
-	{ N_("To Do"),     0x000000ff, NULL },  /* blue */
-	{ N_("Later"),     0x008b008b, NULL }   /* magenta */
-};
-
 typedef struct {
 	Bonobo_ConfigDatabase db;
 	
@@ -86,7 +76,7 @@ typedef struct {
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
-	int paned_size;
+	gint paned_size;
 	gboolean send_html;
 	gboolean confirm_unwanted_html;
 	gboolean citation_highlight;
@@ -94,14 +84,12 @@ typedef struct {
 	gboolean prompt_empty_subject;
 	gboolean prompt_only_bcc;
 	gboolean confirm_expunge;
-	gboolean confirm_goto_next_folder;
-	gboolean goto_next_folder;
 	gboolean do_seen_timeout;
-	int seen_timeout;
+	gint seen_timeout;
 	gboolean empty_trash_on_exit;
 	
 	GSList *accounts;
-	int default_account;
+	gint default_account;
 	
 	GSList *news;
 	
@@ -110,9 +98,7 @@ typedef struct {
 	
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
-	MailConfigReplyStyle default_reply_style;
 	MailConfigDisplayStyle message_display_style;
-	MailConfigXMailerDisplayStyle x_mailer_display_style;
 	char *default_charset;
 	
 	GHashTable *threaded_hash;
@@ -120,18 +106,6 @@ typedef struct {
 	
 	gboolean filter_log;
 	char *filter_log_path;
-	
-	MailConfigNewMailNotify notify;
-	char *notify_filename;
-	
-	char *last_filesel_dir;
-	
-	GList *signature_list;
-	int signatures;
-	
-	MailConfigLabel labels[5];
-
-	gboolean signature_info;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -140,35 +114,8 @@ static MailConfig *config = NULL;
 
 /* Prototypes */
 static void config_read (void);
-static void mail_config_set_default_account_num (int new_default);
+static void mail_config_set_default_account_num (gint new_default);
 
-/* signatures */
-MailConfigSignature *
-signature_copy (const MailConfigSignature *sig)
-{
-	MailConfigSignature *ns;
-
-	g_return_val_if_fail (sig != NULL, NULL);
-	
-	ns = g_new (MailConfigSignature, 1);
-
-	ns->id = sig->id;
-	ns->name = g_strdup (sig->name);
-	ns->filename = g_strdup (sig->filename);
-	ns->script = g_strdup (sig->script);
-	ns->html = sig->html;
-
-	return ns;
-}
-
-void
-signature_destroy (MailConfigSignature *sig)
-{
-	g_free (sig->name);
-	g_free (sig->filename);
-	g_free (sig->script);
-	g_free (sig);
-}
 
 /* Identity */
 MailConfigIdentity *
@@ -181,11 +128,11 @@ identity_copy (const MailConfigIdentity *id)
 	new = g_new0 (MailConfigIdentity, 1);
 	new->name = g_strdup (id->name);
 	new->address = g_strdup (id->address);
-	new->reply_to = g_strdup (id->reply_to);
 	new->organization = g_strdup (id->organization);
-	new->def_signature = id->def_signature;
-	new->auto_signature = id->auto_signature;
-
+	new->signature = g_strdup (id->signature);
+	new->html_signature = g_strdup (id->html_signature);
+	new->has_html_signature = id->has_html_signature;
+	
 	return new;
 }
 
@@ -197,8 +144,9 @@ identity_destroy (MailConfigIdentity *id)
 	
 	g_free (id->name);
 	g_free (id->address);
-	g_free (id->reply_to);
 	g_free (id->organization);
+	g_free (id->signature);
+	g_free (id->html_signature);
 	
 	g_free (id);
 }
@@ -254,13 +202,10 @@ account_copy (const MailConfigAccount *account)
 	new->source = service_copy (account->source);
 	new->transport = service_copy (account->transport);
 	
+	new->drafts_folder_name = g_strdup (account->drafts_folder_name);
 	new->drafts_folder_uri = g_strdup (account->drafts_folder_uri);
+	new->sent_folder_name = g_strdup (account->sent_folder_name);
 	new->sent_folder_uri = g_strdup (account->sent_folder_uri);
-	
-	new->always_cc = account->always_cc;
-	new->cc_addrs = g_strdup (account->cc_addrs);
-	new->always_bcc = account->always_bcc;
-	new->bcc_addrs = g_strdup (account->bcc_addrs);
 	
 	new->pgp_key = g_strdup (account->pgp_key);
 	new->pgp_encrypt_to_self = account->pgp_encrypt_to_self;
@@ -285,11 +230,10 @@ account_destroy (MailConfigAccount *account)
 	service_destroy (account->source);
 	service_destroy (account->transport);
 	
+	g_free (account->drafts_folder_name);
 	g_free (account->drafts_folder_uri);
+	g_free (account->sent_folder_name);
 	g_free (account->sent_folder_uri);
-	
-	g_free (account->cc_addrs);
-	g_free (account->bcc_addrs);
 	
 	g_free (account->pgp_key);
 	g_free (account->smime_key);
@@ -338,8 +282,6 @@ mail_config_init (void)
 void
 mail_config_clear (void)
 {
-	int i;
-	
 	if (!config)
 		return;
 	
@@ -354,254 +296,14 @@ mail_config_clear (void)
 		g_slist_free (config->news);
 		config->news = NULL;
 	}
-	
-	g_free (config->pgp_path);
-	config->pgp_path = NULL;
-	
-	g_free (config->default_charset);
-	config->default_charset = NULL;
-	
-	g_free (config->filter_log_path);
-	config->filter_log_path = NULL;
-	
-	g_free (config->notify_filename);
-	config->notify_filename = NULL;
-	
-	g_free (config->last_filesel_dir);
-	config->last_filesel_dir = NULL;
-	
-	for (i = 0; i < 5; i++) {
-		g_free (config->labels[i].name);
-		config->labels[i].name = NULL;
-		g_free (config->labels[i].string);
-		config->labels[i].string = NULL;
-	}
-}
-
-static MailConfigSignature *
-config_read_signature (gint i)
-{
-	MailConfigSignature *sig;
-	char *path, *val;
-	
-	sig = g_new0 (MailConfigSignature, 1);
-	
-	sig->id = i;
-	
-	path = g_strdup_printf ("/Mail/Signatures/name_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
-	g_free (path);
-	if (val && *val)
-		sig->name = val;
-	else
-		g_free (val);
-	
-	path = g_strdup_printf ("/Mail/Signatures/filename_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
-	g_free (path);
-	if (val && *val)
-		sig->filename = val;
-	else
-		g_free (val);
-	
-	path = g_strdup_printf ("/Mail/Signatures/script_%d", i);
-	val = bonobo_config_get_string (config->db, path, NULL);
-	g_free (path);
-	if (val && *val)
-		sig->script = val;
-	else
-		g_free (val);
-
-	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
-	sig->html = bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL);
-	g_free (path);
-	
-	return sig;
-}
-
-static void
-config_read_signatures ()
-{
-	MailConfigSignature *sig;
-	gint i;
-
-	config->signature_list = NULL;
-	config->signatures = bonobo_config_get_long_with_default (config->db, "/Mail/Signatures/num", 0, NULL);
-
-	for (i = 0; i < config->signatures; i ++) {
-		sig = config_read_signature (i);
-		config->signature_list = g_list_append (config->signature_list, sig);
-	}
-}
-
-static void
-config_write_signature (MailConfigSignature *sig, gint i)
-{
-	char *path;
-
-	printf ("config_write_signature i: %d id: %d\n", i, sig->id);
-
-	path = g_strdup_printf ("/Mail/Signatures/name_%d", i);
-	bonobo_config_set_string (config->db, path, sig->name ? sig->name : "", NULL);
-	g_free (path);
-
-	path = g_strdup_printf ("/Mail/Signatures/filename_%d", i);
-	bonobo_config_set_string (config->db, path, sig->filename ? sig->filename : "", NULL);
-	g_free (path);
-
-	path = g_strdup_printf ("/Mail/Signatures/script_%d", i);
-	bonobo_config_set_string (config->db, path, sig->script ? sig->script : "", NULL);
-	g_free (path);
-
-	path = g_strdup_printf ("/Mail/Signatures/html_%d", i);
-	bonobo_config_set_boolean (config->db, path, sig->html, NULL);
-	g_free (path);
-}
-
-static void
-config_write_signatures_num ()
-{
-	bonobo_config_set_long (config->db, "/Mail/Signatures/num", config->signatures, NULL);
-}
-
-static void
-config_write_signatures ()
-{
-	GList *l;
-	gint id;
-
-	for (id = 0, l = config->signature_list; l; l = l->next, id ++) {
-		config_write_signature ((MailConfigSignature *) l->data, id);
-	}
-
-	config_write_signatures_num ();
-}
-
-static MailConfigSignature *
-lookup_signature (gint i)
-{
-	MailConfigSignature *sig;
-	GList *l;
-
-	if (i == -1)
-		return NULL;
-
-	for (l = config->signature_list; l; l = l->next) {
-		sig = (MailConfigSignature *) l->data;
-		if (sig->id == i)
-			return sig;
-	}
-
-	return NULL;
-}
-
-static void
-config_write_imported_signature (gchar *filename, gint i, gboolean html)
-{
-	MailConfigSignature *sig = g_new0 (MailConfigSignature, 1);
-	gchar *name;
-
-	name = strrchr (filename, '/');
-	if (!name)
-		name = filename;
-	else
-		name ++;
-
-	sig->name = g_strdup (name);
-	sig->filename = filename;
-	sig->html = html;
-
-	config_write_signature (sig, i);
-	signature_destroy (sig);
-}
-
-static void
-config_import_old_signatures ()
-{
-	gint num;
-
-	num = bonobo_config_get_long_with_default (config->db, "/Mail/Signatures/num", -1, NULL);
-
-	if (num == -1) {
-		/* there are no signatures defined
-		 * look for old config to create new ones from old ones
-		 */
-
-		GHashTable *cache;
-		gint i, accounts;
-
-		cache = g_hash_table_new (g_str_hash, g_str_equal);
-		accounts = bonobo_config_get_long_with_default (config->db, "/Mail/Accounts/num", 0, NULL);
-		num = 0;
-		for (i = 0; i < accounts; i ++) {
-			gchar *path, *val;
-
-			/* read text signature file */
-			path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
-			val = bonobo_config_get_string (config->db, path, NULL);
-			g_free (path);
-			if (val && *val) {
-				gint id;
-				gpointer orig_key, node_val;
-
-				if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
-					id = GPOINTER_TO_INT (node_val);
-				} else {
-					g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
-					config_write_imported_signature (val, num, FALSE);
-					id = num;
-					num ++;
-				}
-
-				/* set new text signature to this identity */
-				path = g_strdup_printf ("/Mail/Accounts/identity_signature_text_%d", i);
-				bonobo_config_set_long (config->db, path, id, NULL);
-				g_free (path);
-			} else
-				g_free (val);
-
-			path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
-			if (bonobo_config_get_boolean_with_default (config->db, path, FALSE, NULL)) {
-				g_free (path);
-				path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
-				val = bonobo_config_get_string (config->db, path, NULL);
-				if (val && *val) {
-					gint id;
-					gpointer orig_key, node_val;
-
-					if (g_hash_table_lookup_extended (cache, val, &orig_key, &node_val)) {
-						id = GPOINTER_TO_INT (node_val);
-					} else {
-						g_hash_table_insert (cache, g_strdup (val), GINT_TO_POINTER (num));
-						config_write_imported_signature (val, num, TRUE);
-						id = num;
-						num ++;
-					}
-
-					/* set new html signature to this identity */
-					g_free (path);
-					path = g_strdup_printf ("/Mail/Accounts/identity_signature_html_%d", i);
-					bonobo_config_set_long (config->db, path, id, NULL);
-				} else
-					g_free (val);
-			}
-			g_free (path);
-		}
-		bonobo_config_set_long (config->db, "/Mail/Signatures/num", num, NULL);
-		g_hash_table_destroy (cache);
-	}
 }
 
 static void
 config_read (void)
 {
 	int len, i, default_num;
-	char *path, *val, *p;
 	
 	mail_config_clear ();
-
-	config_import_old_signatures ();
-	config_read_signatures ();
 	
 	len = bonobo_config_get_long_with_default (config->db, 
 	        "/Mail/Accounts/num", 0, NULL);
@@ -611,6 +313,7 @@ config_read (void)
 		MailConfigIdentity *id;
 		MailConfigService *source;
 		MailConfigService *transport;
+		char *path, *val;
 		
 		account = g_new0 (MailConfigAccount, 1);
 		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
@@ -624,6 +327,14 @@ config_read (void)
 			config->corrupt = TRUE;
 		}
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
+		g_free (path);
+		if (val && *val)
+			account->drafts_folder_name = val;
+		else
+			g_free (val);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
@@ -632,37 +343,19 @@ config_read (void)
 		else
 			g_free (val);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
+		g_free (path);
+		if (val && *val)
+			account->sent_folder_name = val;
+		else
+			g_free (val);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
 		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_uri = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		account->always_cc = bonobo_config_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->cc_addrs = val;
-		else
-			g_free (val);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		account->always_bcc = bonobo_config_get_boolean_with_default (
-		        config->db, path, FALSE, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		val = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		if (val && *val)
-			account->bcc_addrs = val;
 		else
 			g_free (val);
 		
@@ -714,24 +407,21 @@ config_read (void)
 		id->address = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
-		id->reply_to = bonobo_config_get_string (config->db, path, NULL);
-		g_free (path);
-		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		id->organization = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		
-		/* id signatures */
-		path = g_strdup_printf ("/Mail/Accounts/identity_def_signature_%d", i);
-		id->def_signature = lookup_signature (bonobo_config_get_long_with_default (config->db, path, -1, NULL));
+		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
+		id->signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
-		/* autogenerated signature */
-		path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		id->auto_signature = bonobo_config_get_boolean_with_default (config->db, path, TRUE, NULL);
+		path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
+		id->html_signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-
+		path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
+		id->has_html_signature = bonobo_config_get_boolean_with_default (
+			config->db, path, FALSE, NULL);
+		g_free (path);
+		
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
 		
@@ -807,14 +497,13 @@ config_read (void)
 	        "/News/Sources/num", 0, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		char *path, *r;
+		gchar *path, *r;
 		
 		path = g_strdup_printf ("/News/Sources/url_%d", i);
 		
 		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
 			n = g_new0 (MailConfigService, 1);		
 			n->url = r;
-			n->enabled = TRUE;
 			config->news = g_slist_append (config->news, n);
 		} 
 		
@@ -861,10 +550,6 @@ config_read (void)
 	config->paned_size = bonobo_config_get_long_with_default (config->db, 
                 "/Mail/Display/paned_size", 200, NULL);
 	
-	/* Goto next folder when user has reached the bottom of the message-list */
-	config->goto_next_folder = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/MessageList/goto_next_folder", FALSE, NULL);
-	
 	/* Empty Subject */
 	config->prompt_empty_subject = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/empty_subject", TRUE, NULL);
@@ -876,10 +561,6 @@ config_read (void)
 	/* Expunge */
 	config->confirm_expunge = bonobo_config_get_boolean_with_default (
 		config->db, "/Mail/Prompts/confirm_expunge", TRUE, NULL);
-	
-	/* Goto next folder */
-	config->confirm_goto_next_folder = bonobo_config_get_boolean_with_default (
-		config->db, "/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
 	
 	/* PGP/GPG */
 	config->pgp_path = bonobo_config_get_string (config->db, 
@@ -896,11 +577,6 @@ config_read (void)
 	config->default_forward_style = bonobo_config_get_long_with_default (
 		config->db, "/Mail/Format/default_forward_style", 
 		MAIL_CONFIG_FORWARD_ATTACHED, NULL);
-	
-	/* Replying */
-	config->default_reply_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Format/default_reply_style", 
-		MAIL_CONFIG_REPLY_QUOTED, NULL);
 	
 	/* Message Display */
 	config->message_display_style = bonobo_config_get_long_with_default (
@@ -930,81 +606,9 @@ config_read (void)
 	
 	config->filter_log_path = bonobo_config_get_string (
 		config->db, "/Mail/Filters/log_path", NULL);
-	
-	/* New Mail Notification */
-	config->notify = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Notify/new_mail_notification", 
-		MAIL_CONFIG_NOTIFY_NOT, NULL);
-	
-	config->notify_filename = bonobo_config_get_string (
-		config->db, "/Mail/Notify/new_mail_notification_sound_file", NULL);
-	
-	/* X-Mailer header display */
-	config->x_mailer_display_style = bonobo_config_get_long_with_default (
-		config->db, "/Mail/Display/x_mailer_display_style", 
-		MAIL_CONFIG_XMAILER_NONE, NULL);
-
-	/* last filesel dir */
-	config->last_filesel_dir = bonobo_config_get_string (
-		config->db, "/Mail/Filesel/last_filesel_dir", NULL);
-	
-	/* Color labels */
-	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/Mail/Labels/label_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		val = bonobo_config_get_string (config->db, path, NULL);
-		if (!(val && *val)) {
-			g_free (val);
-			val = NULL;
-		}
-		config->labels[i].name = val;
-	}
-	strcpy (path, "/Mail/Labels/color_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		config->labels[i].color = bonobo_config_get_long_with_default (config->db, path,
-									       label_defaults[i].color, NULL);
-	}
-	g_free (path);
-
-	config->signature_info = bonobo_config_get_boolean_with_default (config->db,
-	        "/Mail/Info/show_signature_editor_info", TRUE, NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
-
-void
-mail_config_write_account_sig (MailConfigAccount *account, gint i)
-{
-	char *path;
-
-	mail_config_init ();
-
-	if (i == -1) {
-		GSList *link;
-
-		link = g_slist_find (config->accounts, account);
-		if (!link) {
-			g_warning ("Can't find account in accounts list");
-			return;
-		}
-		i = g_slist_position (config->accounts, link);
-	}
-
-	/* id signatures */
-	path = g_strdup_printf ("/Mail/Accounts/identity_def_signature_%d", i);
-	bonobo_config_set_long (config->db, path, account->id->def_signature
-				? account->id->def_signature->id : -1, NULL);
-	g_free (path);
-
-	path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-	bonobo_config_set_boolean (config->db, path, account->id->auto_signature, NULL);
-	g_free (path);
-}
 
 void
 mail_config_write (void)
@@ -1024,8 +628,6 @@ mail_config_write (void)
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	
-	config_write_signatures ();
-
 	len = g_slist_length (config->accounts);
 	bonobo_config_set_long (config->db,
 				"/Mail/Accounts/num", len, NULL);
@@ -1045,32 +647,24 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->name, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->drafts_folder_name, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, 
 						  account->drafts_folder_uri, NULL);
 		g_free (path);
 		
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, 
+						  account->sent_folder_name, NULL);
+		g_free (path);
+		
 		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, 
 						  account->sent_folder_uri, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_cc, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_cc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->cc_addrs, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->always_bcc, NULL);
-		g_free (path);
-		
-		path = g_strdup_printf ("/Mail/Accounts/account_always_bcc_addrs_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, 
-						  account->bcc_addrs, NULL);
 		g_free (path);
 		
 		/* account pgp options */
@@ -1109,18 +703,20 @@ mail_config_write (void)
 		bonobo_config_set_string_wrapper (config->db, path, account->id->address, NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("/Mail/Accounts/identity_reply_to_%d", i);
-		bonobo_config_set_string_wrapper (config->db, path, account->id->reply_to, NULL);
-		g_free (path);
-		
 		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
 		bonobo_config_set_string_wrapper (config->db, path, account->id->organization, NULL);
 		g_free (path);
 		
-		mail_config_write_account_sig (account, i);
-
-		path = g_strdup_printf ("/Mail/Accounts/identity_autogenerated_signature_%d", i);
-		bonobo_config_set_boolean (config->db, path, account->id->auto_signature, NULL);
+		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->signature, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/identity_html_signature_%d", i);
+		bonobo_config_set_string_wrapper (config->db, path, account->id->html_signature, NULL);
+		g_free (path);
+		
+		path = g_strdup_printf ("/Mail/Accounts/identity_has_html_signature_%d", i);
+		bonobo_config_set_boolean (config->db, path, account->id->has_html_signature, NULL);
 		g_free (path);
 		
 		/* source info */
@@ -1165,7 +761,7 @@ mail_config_write (void)
 	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		char *path;
+		gchar *path;
 		
 		n = g_slist_nth_data (config->news, i);
 		
@@ -1202,8 +798,6 @@ mail_config_write_on_exit (void)
 	CORBA_Environment ev;
 	MailConfigAccount *account;
 	const GSList *accounts;
-	char *path, *p;
-	int i;
 	
 	/* Show Messages Threaded */
 	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
@@ -1231,7 +825,7 @@ mail_config_write_on_exit (void)
 	/* Format */
 	bonobo_config_set_boolean (config->db, "/Mail/Format/send_html", 
 				   config->send_html, NULL);
-	
+
 	/* Confirm Sending Unwanted HTML */
 	bonobo_config_set_boolean (config->db, "/Mail/Format/confirm_unwanted_html",
 				   config->confirm_unwanted_html, NULL);
@@ -1244,10 +838,6 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, "/Mail/Display/citation_color",
 				config->citation_color, NULL);
 	
-	/* Goto next folder */
-	bonobo_config_set_boolean (config->db, "/Mail/MessageList/goto_next_folder",
-				   config->goto_next_folder, NULL);
-	
 	/* Empty Subject */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/empty_subject",
 				   config->prompt_empty_subject, NULL);
@@ -1259,10 +849,6 @@ mail_config_write_on_exit (void)
 	/* Expunge */
 	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_expunge",
 				   config->confirm_expunge, NULL);
-	
-	/* Goto next folder */
-	bonobo_config_set_boolean (config->db, "/Mail/Prompts/confirm_goto_next_folder",
-				   config->confirm_goto_next_folder, NULL);
 	
 	/* PGP/GPG */
 	bonobo_config_set_string_wrapper (config->db, "/Mail/PGP/path", 
@@ -1279,11 +865,6 @@ mail_config_write_on_exit (void)
 	bonobo_config_set_long (config->db, 
 				"/Mail/Format/default_forward_style", 
 				config->default_forward_style, NULL);
-	
-	/* Replying */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Format/default_reply_style", 
-				config->default_reply_style, NULL);
 	
 	/* Message Display */
 	bonobo_config_set_long (config->db, 
@@ -1304,57 +885,19 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
 					  config->filter_log_path, NULL);
-	
-	/* New Mail Notification */
-	bonobo_config_set_long (config->db, "/Mail/Notify/new_mail_notification", 
-				config->notify, NULL);
-	
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_sound_file",
-					  config->notify_filename, NULL);
-	
-	/* X-Mailer Display */
-	bonobo_config_set_long (config->db, 
-				"/Mail/Display/x_mailer_display_style", 
-				config->x_mailer_display_style, NULL);
-	
-	/* last filesel dir */
-	bonobo_config_set_string_wrapper (config->db, "/Mail/Filesel/last_filesel_dir",
-					  config->last_filesel_dir, NULL);
-	
-	/* Color labels */
-	/* Note: we avoid having to malloc/free 10 times this way... */
-	path = g_malloc (sizeof ("/Mail/Labels/") + sizeof ("label_#") + 1);
-	strcpy (path, "/Mail/Labels/label_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		bonobo_config_set_string_wrapper (config->db, path, config->labels[i].name, NULL);
-	}
-	strcpy (path, "/Mail/Labels/color_#");
-	p = path + strlen (path) - 1;
-	for (i = 0; i < 5; i++) {
-		*p = '0' + i;
-		bonobo_config_set_long (config->db, path, config->labels[i].color, NULL);
-	}
-	g_free (path);
-	
-	/* Message Threading */
+
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
-	/* Message Preview */
 	if (config->preview_hash)
 		g_hash_table_foreach_remove (config->preview_hash, hash_save_state, "Preview");
-
-	/* signature editor info label */
-	bonobo_config_set_boolean (config->db, "/Mail/Info/show_signature_editor_info", config->signature_info, NULL);
 	
 	CORBA_exception_init (&ev);
 	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	CORBA_exception_free (&ev);
 	
 	/* Passwords */
-	
+
 	/* then we make sure the ones we want to remember are in the
            session cache */
 	accounts = mail_config_get_accounts ();
@@ -1375,21 +918,21 @@ mail_config_write_on_exit (void)
 			g_free (passwd);
 		}
 	}
-	
+
 	/* then we clear out our component passwords */
 	e_passwords_clear_component_passwords ();
-	
+
 	/* then we remember them */
 	accounts = mail_config_get_accounts ();
 	for ( ; accounts; accounts = accounts->next) {
 		account = accounts->data;
 		if (account->source->save_passwd && account->source->url)
 			mail_session_remember_password (account->source->url);
-		
+
 		if (account->transport->save_passwd && account->transport->url)
 			mail_session_remember_password (account->transport->url);
 	}
-	
+
 	/* now do cleanup */
 	mail_config_clear ();
 }
@@ -1575,22 +1118,6 @@ mail_config_set_filter_log_path (const char *path)
 	config->filter_log_path = g_strdup (path);
 }
 
-const char *
-mail_config_get_last_filesel_dir (void)
-{
-	if (config->last_filesel_dir)
-		return config->last_filesel_dir;
-	else
-		return g_get_home_dir ();
-}
-
-void
-mail_config_set_last_filesel_dir (const char *path)
-{
-	g_free (config->last_filesel_dir);
-	config->last_filesel_dir = g_strdup (path);
-}
-
 gboolean
 mail_config_get_hide_deleted (void)
 {
@@ -1603,14 +1130,14 @@ mail_config_set_hide_deleted (gboolean value)
 	config->hide_deleted = value;
 }
 
-int
+gint
 mail_config_get_paned_size (void)
 {
 	return config->paned_size;
 }
 
 void
-mail_config_set_paned_size (int value)
+mail_config_set_paned_size (gint value)
 {
 	config->paned_size = value;
 }
@@ -1675,14 +1202,14 @@ mail_config_set_do_seen_timeout (gboolean do_seen_timeout)
 	config->do_seen_timeout = do_seen_timeout;
 }
 
-int
+gint
 mail_config_get_mark_as_seen_timeout (void)
 {
 	return config->seen_timeout;
 }
 
 void
-mail_config_set_mark_as_seen_timeout (int timeout)
+mail_config_set_mark_as_seen_timeout (gint timeout)
 {
 	config->seen_timeout = timeout;
 }
@@ -1723,29 +1250,6 @@ mail_config_set_confirm_expunge (gboolean value)
 	config->confirm_expunge = value;
 }
 
-gboolean
-mail_config_get_confirm_goto_next_folder (void)
-{
-	return config->confirm_goto_next_folder;
-}
-
-void
-mail_config_set_confirm_goto_next_folder (gboolean value)
-{
-	config->confirm_goto_next_folder = value;
-}
-
-gboolean
-mail_config_get_goto_next_folder (void)
-{
-	return config->goto_next_folder;
-}
-
-void
-mail_config_set_goto_next_folder (gboolean value)
-{
-	config->goto_next_folder = value;
-}
 
 struct {
 	char *bin;
@@ -2080,18 +1584,6 @@ mail_config_set_default_forward_style (MailConfigForwardStyle style)
 	config->default_forward_style = style;
 }
 
-MailConfigReplyStyle
-mail_config_get_default_reply_style (void)
-{
-	return config->default_reply_style;
-}
-
-void
-mail_config_set_default_reply_style (MailConfigReplyStyle style)
-{
-	config->default_reply_style = style;
-}
-
 MailConfigDisplayStyle
 mail_config_get_message_display_style (void)
 {
@@ -2117,104 +1609,6 @@ mail_config_set_default_charset (const char *charset)
 	config->default_charset = g_strdup (charset);
 }
 
-MailConfigNewMailNotify
-mail_config_get_new_mail_notify (void)
-{
-	return config->notify;
-}
-
-void
-mail_config_set_new_mail_notify (MailConfigNewMailNotify type)
-{
-	config->notify = type;
-}
-
-const char *
-mail_config_get_new_mail_notify_sound_file (void)
-{
-	return config->notify_filename;
-}
-
-void
-mail_config_set_new_mail_notify_sound_file (const char *filename)
-{
-	g_free (config->notify_filename);
-	config->notify_filename = g_strdup (filename);
-}
-
-MailConfigXMailerDisplayStyle
-mail_config_get_x_mailer_display_style (void)
-{
-	return config->x_mailer_display_style;
-}
-
-void
-mail_config_set_x_mailer_display_style (MailConfigXMailerDisplayStyle style)
-{
-	config->x_mailer_display_style = style;
-}
-
-const char *
-mail_config_get_label_name (int label)
-{
-	g_return_val_if_fail (label >= 0 && label < 5, NULL);
-	
-	if (!config->labels[label].name)
-		config->labels[label].name = g_strdup (U_(label_defaults[label].name));
-	
-	return config->labels[label].name;
-}
-
-void
-mail_config_set_label_name (int label, const char *name)
-{
-	g_return_if_fail (label >= 0 && label < 5);
-	
-	if (!name)
-		name = U_(label_defaults[label].name);
-	
-	g_free (config->labels[label].name);
-	config->labels[label].name = g_strdup (name);
-}
-
-guint32
-mail_config_get_label_color (int label)
-{
-	g_return_val_if_fail (label >= 0 && label < 5, 0);
-	
-	return config->labels[label].color;
-}
-
-void
-mail_config_set_label_color (int label, guint32 color)
-{
-	g_return_if_fail (label >= 0 && label < 5);
-	
-	g_free (config->labels[label].string);
-	config->labels[label].string = NULL;
-	
-	config->labels[label].color = color;
-}
-
-const char *
-mail_config_get_label_color_string (int label)
-{
-	g_return_val_if_fail (label >= 0 && label < 5, NULL);
-	
-	if (!config->labels[label].string) {
-		guint32 rgb = config->labels[label].color;
-		char *colour;
-		
-		colour = g_strdup_printf ("#%.2x%.2x%.2x",
-					  (rgb & 0xff0000) >> 16,
-					  (rgb & 0xff00) >> 8,
-					  rgb & 0xff);
-		
-		config->labels[label].string = colour;
-	}
-	
-	return config->labels[label].string;
-}
 
 gboolean
 mail_config_find_account (const MailConfigAccount *account)
@@ -2362,10 +1756,197 @@ mail_config_get_accounts (void)
 	return config->accounts;
 }
 
+static void
+add_shortcut_entry (const char *name, const char *uri, const char *type)
+{
+	extern EvolutionShellClient *global_shell_client;
+	CORBA_Environment ev;
+	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_Shortcuts_Group *the_group;
+	GNOME_Evolution_Shortcuts_Shortcut *the_shortcut;
+	int i;
+	
+	if (!global_shell_client)
+		return;
+	
+	CORBA_exception_init (&ev);
+	
+	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
+	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
+		g_warning ("No ::Shortcut interface on the shell");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	
+	the_group = GNOME_Evolution_Shortcuts_getGroup (shortcuts_interface, 0, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Exception getting first group: %s", ev._repo_id);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	the_shortcut = NULL;
+	for (i = 0; i < the_group->shortcuts._length; i++) {
+		GNOME_Evolution_Shortcuts_Shortcut *iter;
+		
+		iter = the_group->shortcuts._buffer + i;
+		if (!strcmp (iter->name, name)) {
+			the_shortcut = iter;
+			break;
+		}
+	}
+	
+	if (the_shortcut == NULL) {
+		the_shortcut = GNOME_Evolution_Shortcuts_Shortcut__alloc ();
+		the_shortcut->name = CORBA_string_dup (name);
+		the_shortcut->uri = CORBA_string_dup (uri);
+		the_shortcut->type = CORBA_string_dup (type);
+		
+		GNOME_Evolution_Shortcuts_add (shortcuts_interface,
+					       0, -1, /* "end of list" */
+					       the_shortcut,
+					       &ev);
+		
+		CORBA_free (the_shortcut);
+		
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_warning ("Exception creating shortcut \"%s\": %s", name, ev._repo_id);
+	}
+	
+	CORBA_free (the_group);
+	CORBA_exception_free (&ev);
+}
+
+static void
+add_new_storage (const char *url, const char *name)
+{
+	extern EvolutionShellClient *global_shell_client;
+	GNOME_Evolution_Shell corba_shell;
+
+	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (global_shell_client));
+	mail_load_storage_by_uri (corba_shell, url, name);
+}
+
+static void
+new_source_created (MailConfigAccount *account)
+{
+	CamelProvider *prov;
+	CamelFolder *inbox;
+	CamelException ex;
+	gchar *name;
+	gchar *url;
+	
+	/* no source, don't bother. */
+	if (!account->source || !account->source->url)
+		return;
+
+	camel_exception_init (&ex);
+	prov = camel_session_get_provider (session, account->source->url, &ex);
+	if (camel_exception_is_set (&ex)) {
+		g_warning ("Configured provider that doesn't exist?");
+		camel_exception_clear (&ex);
+		return;
+	}
+
+	/* not a storage, don't bother. */
+	if (!(prov->flags & CAMEL_PROVIDER_IS_STORAGE) ||
+	    (prov->flags & CAMEL_PROVIDER_IS_EXTERNAL))
+		return;
+
+	inbox = mail_tool_get_inbox (account->source->url, &ex);
+	if (camel_exception_is_set (&ex)) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Could not get inbox for new mail store:\n%s\n"
+			    "No shortcut will be created."),
+			  camel_exception_get_description (&ex));
+		camel_exception_clear (&ex);
+		return;
+	}
+
+	if (inbox) {
+		/* Create the shortcut. FIXME: This only works if the
+		 * full name matches the path.
+		 */
+		name = g_strdup_printf (U_("%s: Inbox"), account->name);
+		url = g_strdup_printf ("evolution:/%s/%s", account->name,
+				       inbox->full_name);
+		add_shortcut_entry (name, url, "mail");
+		g_free (name);
+		g_free (url);
+
+		/* If we unref inbox here, it will disconnect from the
+		 * store, but then add_new_storage will reconnect. So
+		 * we'll keep holding the ref until after that.
+		 */
+	}
+
+	/* add the storage to the folder tree */
+	add_new_storage (account->source->url, account->name);
+
+	if (inbox)
+		camel_object_unref (CAMEL_OBJECT (inbox));
+}
+
 void
 mail_config_add_account (MailConfigAccount *account)
 {
 	config->accounts = g_slist_append (config->accounts, account);
+	
+	if (account->source && account->source->url)
+		new_source_created (account);
+}
+
+static void
+remove_account_shortcuts (MailConfigAccount *account)
+{
+	extern EvolutionShellClient *global_shell_client;
+	CORBA_Environment ev;
+	GNOME_Evolution_Shortcuts shortcuts_interface;
+	GNOME_Evolution_Shortcuts_GroupList *groups;
+	int i, j, len;;
+
+	CORBA_exception_init (&ev);
+
+	shortcuts_interface = evolution_shell_client_get_shortcuts_interface (global_shell_client);
+	if (CORBA_Object_is_nil (shortcuts_interface, &ev)) {
+		g_warning ("No ::Shortcut interface on the shell");
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	groups = GNOME_Evolution_Shortcuts__get_groups (shortcuts_interface, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("Exception getting the groups: %s", ev._repo_id);
+		CORBA_exception_free (&ev);
+		return;
+	}
+
+	len = strlen (account->name);
+
+	for (i = 0; i < groups->_length; i++) {
+		GNOME_Evolution_Shortcuts_Group *iter;
+		
+		iter = groups->_buffer + i;
+
+		for (j = 0; j < iter->shortcuts._length; j++) {
+			GNOME_Evolution_Shortcuts_Shortcut *sc;
+
+			sc = iter->shortcuts._buffer + j;
+
+			/* "evolution:/" = 11 */
+			if (!strncmp (sc->uri + 11, account->name, len)) {
+				GNOME_Evolution_Shortcuts_remove (shortcuts_interface, i, j, &ev);
+
+				if (ev._major != CORBA_NO_EXCEPTION) {
+					g_warning ("Exception removing shortcut \"%s\": %s", sc->name, ev._repo_id);
+					break;
+				}
+			}
+		}
+	}
+
+	CORBA_exception_free (&ev);
+	CORBA_free (groups);
 }
 
 const GSList *
@@ -2385,19 +1966,20 @@ mail_config_remove_account (MailConfigAccount *account)
 	}
 	
 	config->accounts = g_slist_remove (config->accounts, account);
+	remove_account_shortcuts (account);
 	account_destroy (account);
 	
 	return config->accounts;
 }
 
-int
+gint
 mail_config_get_default_account_num (void)
 {
 	return config->default_account;
 }
 
 static void
-mail_config_set_default_account_num (int new_default)
+mail_config_set_default_account_num (gint new_default)
 {
 	config->default_account = new_default;
 }
@@ -2496,25 +2078,17 @@ mail_config_service_set_save_passwd (MailConfigService *service, gboolean save_p
 }
 
 char *
-mail_config_folder_to_safe_url (CamelFolder *folder)
+mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
 {
 	CamelService *service = CAMEL_SERVICE (folder->parent_store);
-	char *service_url, *url;
+	char *service_url, *url, *filename;
 	
 	service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	url = g_strdup_printf ("%s/%s", service_url, folder->full_name);
 	g_free (service_url);
 	
 	e_filename_make_safe (url);
-	return url;
-}
-
-char *
-mail_config_folder_to_cachename (CamelFolder *folder, const char *prefix)
-{
-	char *url, *filename;
 	
-	url = mail_config_folder_to_safe_url (folder);
 	filename = g_strdup_printf ("%s/config/%s%s", evolution_dir, prefix, url);
 	g_free (url);
 	
@@ -2612,7 +2186,7 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 	
 	id = m->msg.seq;
 	e_thread_put(mail_thread_queued, (EMsg *)m);
-	
+
 	dialog = gnome_dialog_new (_("Connecting to server..."),
 				   GNOME_STOCK_BUTTON_CANCEL,
 				   NULL);
@@ -2627,9 +2201,9 @@ mail_config_check_service (const char *url, CamelProviderType type, GList **auth
 			    GTK_SIGNAL_FUNC (check_cancelled), &id);
 	gtk_window_set_modal (GTK_WINDOW (dialog), FALSE);
 	gtk_widget_show_all (dialog);
-	
+
 	mail_msg_wait(id);
-	
+
 	gtk_widget_destroy (dialog);
 	dialog = NULL;
 	
@@ -2678,8 +2252,10 @@ impl_GNOME_Evolution_MailConfig_addAccount (PortableServer_Servant servant,
 	mail_id = g_new0 (MailConfigIdentity, 1);
 	mail_id->name = g_strdup (id.name);
 	mail_id->address = g_strdup (id.address);
-	mail_id->reply_to = g_strdup (id.reply_to);
 	mail_id->organization = g_strdup (id.organization);
+	mail_id->signature = g_strdup (id.signature);
+	mail_id->html_signature = g_strdup (id.html_signature);
+	mail_id->has_html_signature = id.has_html_signature;
 	
 	mail_account->id = mail_id;
 	
@@ -2764,291 +2340,4 @@ evolution_mail_config_factory_init (void)
 
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
 	return TRUE;
-}
-
-GList *
-mail_config_get_signature_list (void)
-{
-	return config->signature_list;
-}
-
-static gchar *
-get_new_signature_filename ()
-{
-	struct stat st_buf;
-	gchar *filename;
-	gint i;
-
-	filename = g_strconcat (evolution_dir, "/signatures", NULL);
-	if (lstat (filename, &st_buf)) {
-		if (errno == ENOENT) {
-			if (mkdir (filename, 0700))
-				g_warning ("Fatal problem creating %s/signatures directory.", evolution_dir);
-		} else
-			g_warning ("Fatal problem with %s/signatures directory.", evolution_dir);
-	}
-	g_free (filename);
-
-	for (i = 0; ; i ++) {
-		filename = g_strdup_printf ("%s/signatures/signature-%d", evolution_dir, i);
-		if (lstat (filename, &st_buf) == - 1 && errno == ENOENT) {
-			gint fd;
-
-			fd = creat (filename, 0600);
-			if (fd >= 0) {
-				close (fd);
-				return filename;
-			}
-		}
-		g_free (filename);
-	}
-
-	return NULL;
-}
-
-MailConfigSignature *
-mail_config_signature_add (gboolean html, const gchar *script)
-{
-	MailConfigSignature *sig;
-
-	sig = g_new0 (MailConfigSignature, 1);
-
-	/* printf ("mail_config_signature_add %d\n", config->signatures); */
-	sig->id = config->signatures;
-	sig->name = g_strdup (U_("Unnamed"));
-	if (script)
-		sig->script = g_strdup (script);
-	else
-		sig->filename = get_new_signature_filename ();
-	sig->html = html;
-
-	config->signature_list = g_list_append (config->signature_list, sig);
-	config->signatures ++;
-
-	config_write_signature (sig, sig->id);
-	config_write_signatures_num ();
-
-	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_ADDED, sig);
-	/* printf ("mail_config_signature_add end\n"); */
-
-	return sig;
-}
-
-static void
-delete_unused_signature_file (const gchar *filename)
-{
-	gint len;
-	gchar *signatures_dir;
-
-	signatures_dir = g_strconcat (evolution_dir, "/signatures", NULL);
-
-	/* remove signature file if it's in evolution dir and no other signature uses it */
-	len = strlen (signatures_dir);
-	if (filename && !strncmp (filename, signatures_dir, len)) {
-		GList *l;
-		gboolean only_one = TRUE;
-
-		for (l = config->signature_list; l; l = l->next) {
-			if (((MailConfigSignature *)l->data)->filename
-			    && !strcmp (filename, ((MailConfigSignature *)l->data)->filename)) {
-				only_one = FALSE;
-				break;
-			}
-		}
-
-		if (only_one) {
-			unlink (filename);
-		}
-	}
-
-	g_free (signatures_dir);
-}
-
-void
-mail_config_signature_delete (MailConfigSignature *sig)
-{
-	GList *l, *next;
-	GSList *al;
-	gboolean after = FALSE;
-
-	for (al = config->accounts; al; al = al->next) {
-		MailConfigAccount *account;
-
-		account = (MailConfigAccount *) al->data;
-
-		if (account->id->def_signature == sig)
-			account->id->def_signature = NULL;
-	}
-
-	for (l = config->signature_list; l; l = next) {
-		next = l->next;
-		if (after)
-			((MailConfigSignature *) l->data)->id --;
-		else if (l->data == sig) {
-			config->signature_list = g_list_remove_link (config->signature_list, l);
-			after = TRUE;
-			config->signatures --;
-		}
-	}
-
-	config_write_signatures ();
-	delete_unused_signature_file (sig->filename);
-	/* printf ("signatures: %d\n", config->signatures); */
-	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_DELETED, sig);
-	signature_destroy (sig);
-}
-
-void
-mail_config_signature_write (MailConfigSignature *sig)
-{
-	config_write_signature (sig, sig->id);
-}
-
-void
-mail_config_signature_set_filename (MailConfigSignature *sig, const gchar *filename)
-{
-	gchar *old_filename = sig->filename;
-
-	sig->filename = g_strdup (filename);
-	if (old_filename) {
-		delete_unused_signature_file (old_filename);
-		g_free (old_filename);
-	}
-	mail_config_signature_write (sig);
-}
-
-void
-mail_config_signature_set_name (MailConfigSignature *sig, const gchar *name)
-{
-	g_free (sig->name);
-	sig->name = g_strdup (name);
-
-	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_NAME_CHANGED, sig);
-}
-
-static GList *clients = NULL;
-
-void
-mail_config_signature_register_client (MailConfigSignatureClient client, gpointer data)
-{
-	clients = g_list_append (clients, client);
-	clients = g_list_append (clients, data);
-}
-
-void
-mail_config_signature_unregister_client (MailConfigSignatureClient client, gpointer data)
-{
-	GList *link;
-
-	link = g_list_find (clients, data);
-	clients = g_list_remove_link (clients, link->prev);
-	clients = g_list_remove_link (clients, link);
-}
-
-void
-mail_config_signature_emit_event (MailConfigSigEvent event, MailConfigSignature *sig)
-{
-	GList *l, *next;
-
-	for (l = clients; l; l = next) {
-		next = l->next->next;
-		(*((MailConfigSignatureClient) l->data)) (event, sig, l->next->data);
-	}
-}
-
-gchar *
-mail_config_signature_run_script (gchar *script)
-{
-	int result, status;
-	int in_fds[2];
-	pid_t pid;
-	
-	if (pipe (in_fds) == -1) {
-		g_warning ("Failed to create pipe to '%s': %s", script, g_strerror (errno));
-		return NULL;
-	}
-	
-	if (!(pid = fork ())) {
-		/* child process */
-		int maxfd, i;
-
-		close (in_fds [0]);
-		if (dup2 (in_fds[1], STDOUT_FILENO) < 0)
-			_exit (255);
-		close (in_fds [1]);
-		
-		setsid ();
-		
-		maxfd = sysconf (_SC_OPEN_MAX);
-		if (maxfd > 0) {
-			for (i = 0; i < maxfd; i++) {
-				if (i != STDIN_FILENO && i != STDOUT_FILENO && i != STDERR_FILENO)
-					close (i);
-			}
-		}
-		
-		
-		execlp (script, NULL);
-		g_warning ("Could not execute %s: %s\n", script, g_strerror (errno));
-		_exit (255);
-	} else if (pid < 0) {
-		g_warning ("Failed to create create child process '%s': %s", script, g_strerror (errno));
-		return NULL;
-	} else {
-#define BUFFER_SIZE 4096
-		GString *str = g_string_new (NULL);
-		gchar *rv;
-		gchar buffer [BUFFER_SIZE];
-		ssize_t rb;
-
-		/* parent process */
-		close (in_fds[1]);
-		while ((rb = read (in_fds [0], buffer, BUFFER_SIZE - 1)) > 0) {
-			buffer [rb] = 0;
-			g_string_append (str, buffer);
-		}
-
-		close (in_fds [0]);
-		result = waitpid (pid, &status, 0);
-	
-		if (result == -1 && errno == EINTR) {
-			/* child process is hanging... */
-			kill (pid, SIGTERM);
-			sleep (1);
-			result = waitpid (pid, &status, WNOHANG);
-			if (result == 0) {
-				/* ...still hanging, set phasers to KILL */
-				kill (pid, SIGKILL);
-				sleep (1);
-				result = waitpid (pid, &status, WNOHANG);
-			}
-		}
-
-		rv = str->str;
-		g_string_free (str, FALSE);
-
-		return rv;
-	}
-}
-
-void
-mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
-{
-	if (sig->html != html) {
-		sig->html = html;
-		mail_config_signature_write (sig);
-		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
-	}
-}
-
-gboolean
-mail_config_get_show_signature_info (void)
-{
-	return config->signature_info;
-}
-
-void
-mail_config_set_show_signature_info (gboolean show)
-{
-	config->signature_info = show;
 }

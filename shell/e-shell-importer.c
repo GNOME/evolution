@@ -46,7 +46,7 @@
 
 #include "e-shell.h"
 #include "e-shell-view.h"
-#include "e-shell-constants.h"
+#include "e-local-storage.h" /* for E_LOCAL_STORAGE_NAME */
 #include "e-shell-folder-selection-dialog.h"
 
 #include "importer/evolution-importer-client.h"
@@ -1027,7 +1027,7 @@ import_druid_finish (GnomeDruidPage *page,
 							      _("Select folder"),
 							      _("Select a destination folder for importing this data"),
 							      e_shell_view_get_current_uri (data->view),
-							      NULL);
+							      NULL, NULL);
 		
 		gtk_signal_connect (GTK_OBJECT (folder), "folder_selected",
 				    GTK_SIGNAL_FUNC (folder_selected), data);

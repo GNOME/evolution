@@ -300,22 +300,6 @@ open_backend (CalFactory *factory, const char *uristr, gboolean only_if_exists,
 		CORBA_exception_free (&ev);
 		return NULL;
 
-	case CAL_BACKEND_OPEN_PERMISSION_DENIED :
-		gtk_object_unref (GTK_OBJECT (backend));
-
-		CORBA_exception_init (&ev);
-		GNOME_Evolution_Calendar_Listener_notifyCalOpened (
-			listener,
-			GNOME_Evolution_Calendar_Listener_PERMISSION_DENIED,
-			CORBA_OBJECT_NIL,
-			&ev);
-
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_message ("open_backend(): could not notify the listener");
-
-		CORBA_exception_free (&ev);
-		return NULL;
-
 	default:
 		g_assert_not_reached ();
 		return NULL;

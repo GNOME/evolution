@@ -14,7 +14,6 @@
 #include <gnome-xml/xmlmemory.h>
 #include <gnome.h>
 #include <gal/widgets/e-gui-utils.h>
-#include "e-addressbook-util.h"
 
 #define PARENT_TYPE gtk_object_get_type()
 GtkObjectClass *parent_class;
@@ -444,16 +443,6 @@ e_addressbook_model_get_card(EAddressbookModel *model,
 	return NULL;
 }
 
-const ECard *
-e_addressbook_model_peek_card(EAddressbookModel *model,
-			      int                row)
-{
-	if (model->data && 0 <= row && row < model->data_count) {
-		return model->data[row];
-	}
-	return NULL;
-}
-
 static void
 e_addressbook_model_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
@@ -551,6 +540,21 @@ e_addressbook_model_new (void)
 	et = gtk_type_new (e_addressbook_model_get_type ());
 	
 	return et;
+}
+
+gboolean
+e_addressbook_model_supports_lists (EAddressbookModel *model)
+{
+	gboolean retval;
+	char *capabilities;
+	capabilities = e_book_get_static_capabilities (model->book);
+	if (capabilities && strstr (capabilities, "contact-lists"))
+		retval = TRUE;
+	else
+		retval = FALSE;
+	g_free (capabilities);
+
+	return retval;
 }
 
 void   e_addressbook_model_stop    (EAddressbookModel *model)

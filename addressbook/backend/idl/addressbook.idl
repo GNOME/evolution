@@ -64,7 +64,8 @@ module Addressbook {
 		/*
 		 * This function returns a cursor to the book
 		 * listener.  This is for people who want a snapshot
-		 * of the addressbook.
+		 * of the addressbook.  The syntax for the query
+		 * string is not yet defined.
 		 */
 		void getCursor (in string query);
 		
@@ -98,9 +99,6 @@ module Addressbook {
 			AuthenticationFailed,
 			AuthenticationRequired,
 			UnsupportedField,
-
-			TLSNotAvailable,
-
 			OtherError
 		};
 

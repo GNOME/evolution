@@ -1090,6 +1090,20 @@ cal_component_rescan (CalComponent *comp)
 	ensure_mandatory_properties (comp);
 }
 
+void
+cal_component_strip_errors (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+	icalproperty *prop;
+	
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
+
+	icalcomponent_strip_errors (priv->icalcomp);
+}
+
 /**
  * cal_component_get_vtype:
  * @comp: A calendar component object.
@@ -1272,6 +1286,19 @@ cal_component_commit_sequence (CalComponent *comp)
 		priv->sequence = icalproperty_new_sequence (1);
 		icalcomponent_add_property (priv->icalcomp, priv->sequence);
 	}
+
+	priv->need_sequence_inc = FALSE;
+}
+
+void
+cal_component_abort_sequence (CalComponent *comp)
+{
+	CalComponentPrivate *priv;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+
+	priv = comp->priv;
 
 	priv->need_sequence_inc = FALSE;
 }
@@ -5211,4 +5238,5 @@ cal_component_event_dates_match	(CalComponent *comp1,
 
 	return retval;
 }
+
 

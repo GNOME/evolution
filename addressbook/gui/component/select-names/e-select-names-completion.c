@@ -55,7 +55,7 @@ typedef struct {
 
 struct _ESelectNamesCompletionPrivate {
 
-	ESelectNamesTextModel *text_model;
+	ESelectNamesModel *model;
 
 	GList *book_data;
 	gint books_not_ready;
@@ -734,9 +734,13 @@ e_select_names_completion_init (ESelectNamesCompletion *comp)
 }
 
 static void
-e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
+e_select_names_completion_destroy (GtkObject *object)
 {
+	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
 	GList *l;
+
+	if (comp->priv->model)
+		gtk_object_unref (GTK_OBJECT (comp->priv->model));
 
 	for (l = comp->priv->book_data; l; l = l->next) {
 		ESelectNamesCompletionBookData *book_data = l->data;
@@ -759,17 +763,6 @@ e_select_names_completion_clear_book_data (ESelectNamesCompletion *comp)
 		g_free (book_data);
 	}
 	g_list_free (comp->priv->book_data);
-}
-
-static void
-e_select_names_completion_destroy (GtkObject *object)
-{
-	ESelectNamesCompletion *comp = E_SELECT_NAMES_COMPLETION (object);
-
-	if (comp->priv->text_model)
-		gtk_object_unref (GTK_OBJECT (comp->priv->text_model));
-
-	e_select_names_completion_clear_book_data (comp);
 
 	g_free (comp->priv->waiting_query);
 	g_free (comp->priv->query_text);
@@ -1149,10 +1142,8 @@ e_select_names_completion_handle_request (ECompletion *comp, const gchar *text, 
 		fprintf (out, "text=\"%s\" pos=%d limit=%d\n", text, pos, limit);
 	}
 
-	e_select_names_model_text_pos (selcomp->priv->text_model->source,
-				       selcomp->priv->text_model->seplen,
-				       pos, &index, NULL, NULL);
-	str = index >= 0 ? e_select_names_model_get_string (selcomp->priv->text_model->source, index) : NULL;
+	e_select_names_model_text_pos (selcomp->priv->model, pos, &index, NULL, NULL);
+	str = index >= 0 ? e_select_names_model_get_string (selcomp->priv->model, index) : NULL;
 
 	if (out)
 		fprintf (out, "index=%d str=\"%s\"\n", index, str);
@@ -1205,7 +1196,6 @@ check_capabilities (ESelectNamesCompletion *comp, EBook *book)
 	g_free (cap);
 }
 
-#if 0
 static void
 e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNamesCompletion *comp)
 {
@@ -1226,7 +1216,6 @@ e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNa
 
 	gtk_object_unref (GTK_OBJECT (comp)); /* post-async unref */
 }
-#endif
 
 
 /*
@@ -1236,16 +1225,36 @@ e_select_names_completion_book_ready (EBook *book, EBookStatus status, ESelectNa
  */
 
 ECompletion *
-e_select_names_completion_new (ESelectNamesTextModel *text_model)
+e_select_names_completion_new (EBook *book, ESelectNamesModel *model)
 {
 	ESelectNamesCompletion *comp;
 
-	g_return_val_if_fail (E_IS_SELECT_NAMES_TEXT_MODEL (text_model), NULL);
+	g_return_val_if_fail (book == NULL || E_IS_BOOK (book), NULL);
+	g_return_val_if_fail (model, NULL);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), NULL);
 
 	comp = (ESelectNamesCompletion *) gtk_type_new (e_select_names_completion_get_type ());
 
-	comp->priv->text_model = text_model;
-	gtk_object_ref (GTK_OBJECT (text_model));
+	if (book == NULL) {
+		ESelectNamesCompletionBookData *book_data = g_new0 (ESelectNamesCompletionBookData, 1);
+
+		book_data->book = e_book_new ();
+		book_data->comp = comp;
+		gtk_object_ref (GTK_OBJECT (book_data->book));
+		gtk_object_sink (GTK_OBJECT (book_data->book));
+
+		comp->priv->book_data = g_list_append (comp->priv->book_data, book_data);
+		comp->priv->books_not_ready++;
+
+		gtk_object_ref (GTK_OBJECT (comp)); /* ref ourself before our async call */
+		e_book_load_local_address_book (book_data->book, (EBookCallback) e_select_names_completion_book_ready, comp);
+
+	} else {
+		e_select_names_completion_add_book (comp, book);
+	}
+		
+	comp->priv->model = model;
+	gtk_object_ref (GTK_OBJECT (model));
 
 	return E_COMPLETION (comp);
 }
@@ -1263,22 +1272,6 @@ e_select_names_completion_add_book (ESelectNamesCompletion *comp, EBook *book)
 	check_capabilities (comp, book);
 	gtk_object_ref (GTK_OBJECT (book_data->book));
 	comp->priv->book_data = g_list_append (comp->priv->book_data, book_data);
-
-	/* if the user is typing as we're adding books, restart the
-	   query after the new book has been added */
-	if (comp->priv->query_text && *comp->priv->query_text) {
-		char *query_text = g_strdup (comp->priv->query_text);
-		e_select_names_completion_stop_query (comp);
-		e_select_names_completion_start_query (comp, query_text);
-		g_free (query_text);
-	}
-}
-
-void
-e_select_names_completion_clear_books (ESelectNamesCompletion *comp)
-{
-	e_select_names_completion_stop_query (comp);
-	e_select_names_completion_clear_book_data (comp);
 }
 
 gboolean

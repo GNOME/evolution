@@ -48,7 +48,6 @@ struct _EventEditorPrivate {
 	EMeetingModel *model;
 
 	gboolean meeting_shown;
-	gboolean existing_org;
 	gboolean updating;	
 };
 
@@ -68,11 +67,6 @@ static void forward_cmd (GtkWidget *widget, gpointer data);
 
 static void model_row_changed_cb (ETableModel *etm, int row, gpointer data);
 static void row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data);
-
-static EPixmap pixmaps [] = {
-	E_PIXMAP ("/Toolbar/Actions/ActionScheduleMeeting", "schedule-meeting-24.png"),
-	E_PIXMAP_END
-};
 
 static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ActionScheduleMeeting", schedule_meeting_cmd),
@@ -142,19 +136,24 @@ static void
 set_menu_sens (EventEditor *ee) 
 {
 	EventEditorPrivate *priv;
-	gboolean sens;
+	gboolean sens, existing, user;
 	
 	priv = ee->priv;
+
+	existing = comp_editor_get_existing_org (COMP_EDITOR (ee));
+	user = comp_editor_get_user_org (COMP_EDITOR (ee));
 
 	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionScheduleMeeting", 
 				 "sensitive", sens ? "0" : "1");
 
-	sens = sens && priv->existing_org;
+	sens = priv->meeting_shown && existing && !user;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionRefreshMeeting", 
 				 "sensitive", sens ? "1" : "0");
+
+	sens = priv->meeting_shown && existing && user;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 
 				 "/commands/ActionCancelMeeting", 
 				 "sensitive", sens ? "1" : "0");
@@ -211,10 +210,9 @@ event_editor_init (EventEditor *ee)
 				 COMP_EDITOR_PAGE (priv->meet_page),
 				 _("Meeting"));
 
- 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs, pixmaps);
+ 	comp_editor_merge_ui (COMP_EDITOR (ee), "evolution-event-editor.xml", verbs);
 
 	priv->meeting_shown = TRUE;
-	priv->existing_org = FALSE;
 	priv->updating = FALSE;	
 
 	init_widgets (ee);
@@ -241,17 +239,26 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 {
 	EventEditor *ee;
 	EventEditorPrivate *priv;
+	CalComponentOrganizer organizer;
 	GSList *attendees = NULL;
 	
 	ee = EVENT_EDITOR (editor);
 	priv = ee->priv;
 	
 	priv->updating = TRUE;
+	
+	if (parent_class->edit_comp)
+		parent_class->edit_comp (editor, comp);
 
-	priv->existing_org = cal_component_has_organizer (comp);
+	/* Get meeting related stuff */
+	cal_component_get_organizer (comp, &organizer);
 	cal_component_get_attendee_list (comp, &attendees);
 
+	/* Clear things up */
+	e_meeting_model_restricted_clear (priv->model);
 	e_meeting_model_remove_all_attendees (priv->model);
+
+	/* Set up the attendees */
 	if (attendees == NULL) {
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->meet_page));
 		comp_editor_remove_page (editor, COMP_EDITOR_PAGE (priv->sched_page));
@@ -267,26 +274,45 @@ event_editor_edit_comp (CompEditor *editor, CalComponent *comp)
 						 COMP_EDITOR_PAGE (priv->meet_page),
 						 _("Meeting"));
 		}
-		
+	
 		for (l = attendees; l != NULL; l = l->next) {
 			CalComponentAttendee *ca = l->data;
 			EMeetingAttendee *ia;
 
 			ia = E_MEETING_ATTENDEE (e_meeting_attendee_new_from_cal_component_attendee (ca));
 			e_meeting_model_add_attendee (priv->model, ia);
+			
 			gtk_object_unref (GTK_OBJECT (ia));
 		}
+
+		if (organizer.value != NULL) {
+			GList *addresses, *l;
+			const char *strip;
+			int row;
+
+			strip = itip_strip_mailto (organizer.value);
+
+			addresses = itip_addresses_get ();
+			for (l = addresses; l != NULL; l = l->next) {
+				ItipAddress *a = l->data;
+				
+				if (e_meeting_model_find_attendee (priv->model, a->address, &row))
+					e_meeting_model_restricted_add (priv->model, row);
+			}
+			itip_addresses_free (addresses);
+		}
+		
+		if (comp_editor_get_user_org (editor))
+			e_meeting_model_restricted_clear (priv->model);
+
 		priv->meeting_shown = TRUE;
 	}	
 	cal_component_free_attendee_list (attendees);
 
 	set_menu_sens (ee);
-	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
+	comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown && itip_organizer_is_user (comp));
 	
 	priv->updating = FALSE;
-	
-	if (parent_class->edit_comp)
-		parent_class->edit_comp (editor, comp);
 }
 
 static void
@@ -358,8 +384,9 @@ event_editor_new (void)
 }
 
 static void
-show_meeting (EventEditor *ee)
+schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 {
+	EventEditor *ee = EVENT_EDITOR (data);
 	EventEditorPrivate *priv;
 
 	priv = ee->priv;
@@ -380,24 +407,6 @@ show_meeting (EventEditor *ee)
 	
 	comp_editor_show_page (COMP_EDITOR (ee),
 			       COMP_EDITOR_PAGE (priv->meet_page));
-}
-
-void
-event_editor_show_meeting (EventEditor *ee)
-{
-	g_return_if_fail (ee != NULL);
-	g_return_if_fail (IS_EVENT_EDITOR (ee));
-
-
-	show_meeting (ee);
-}
-
-static void
-schedule_meeting_cmd (GtkWidget *widget, gpointer data)
-{
-	EventEditor *ee = EVENT_EDITOR (data);
-
-	show_meeting (ee);
 }
 
 static void
@@ -438,8 +447,10 @@ model_row_changed_cb (ETableModel *etm, int row, gpointer data)
 	
 	priv = ee->priv;
 	
-	if (!priv->updating)
+	if (!priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
+	}
 }
 
 static void
@@ -450,6 +461,8 @@ row_count_changed_cb (ETableModel *etm, int row, int count, gpointer data)
 	
 	priv = ee->priv;
 	
-	if (!priv->updating)
+	if (!priv->updating) {
 		comp_editor_set_changed (COMP_EDITOR (ee), TRUE);
+		comp_editor_set_needs_send (COMP_EDITOR (ee), TRUE);
+	}
 }

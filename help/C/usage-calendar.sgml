@@ -115,9 +115,9 @@
       </para>
       <para>
 	<application>Evolution</application> supports the use of
-	timezones.  If you share calendar files with friends or
-	co-workers, it is quite possible you will need to configure
-	your timezone.  To configure your timezone:
+	timezones.  If you use the calendar to schedule meetings, it
+	is quite possible you will need to set your time zone.
+	To do so:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
@@ -212,26 +212,6 @@
          </para>
         </note>
 
-      <para>
-         <guilabel>Classification</guilabel> 
-         only applies to calendars on a
-         network. <guilabel>Public</guilabel> is the default category,
-         and a public appointment can be viewed by anyone on the calendar
-         sharing network.  <guilabel>Private</guilabel> denotes one
-         level of security, and <guilabel>Confidential</guilabel> an even 
-         higher level.
-      </para>
-      <para>
-	<application>Evolution</application> can handle free/busy
-	scheduling Using the Ximian Connector on a Microsoft Exchange
-	2000 server. For more information about Ximian Connector, see
-	<xref linkend="usage-exchange">.
-      </para>
-      <para>
-	To set your appointment to be free or busy, simply click the
-	box in the <guilabel>Show Time As</guilabel> section in the
-	<guilabel>Appointment Editor</guilabel>.
-      </para>
       <para>
         <application>Evolution</application> lets you categorize your
 	appointments, which can help if you lead a busy life.  The bottom
@@ -383,8 +363,7 @@
 	the organizer with your answer.  The event will also be added
 	to your calendar if you accept.
       </para>
-
- <para>
+      <para>
         Note, however, that if you add a meeting to your calendar,
         there are some limitations: only the organizer of a meeting
         can add participants in a meeting. Your only options, as a
@@ -392,21 +371,20 @@
       </para>
       <para>
         Once you have added the meeting to your calendar, you can make
-        changes to your copy-- change the description, mark yourself
-        the organizer, invite more people, and so forth-- but be aware
-        that if the original organizer sends out another update, your
-        changes may be overwritten.
+        changes to your copy-- mark yourself the organizer, invite
+        more people, and so forth-- but be aware that if the original
+        organizer sends out another update, your changes may be overwritten.
       </para>
    <note id="organizer-only-one">
      <title>There Can Be Only One</title>
-      <para>
+      <para> 
          A meeting can have only one organizer. You can designate
          yourself the organizer of the meeting, but unless you
          coordinate that action with the organizer you are replacing,
          you could create confusion in the scheduling process. If you
          want to invite additional people to a meeting without
          changing the organizer, it's best to forward the first
-         organizer's message to the additional participants.
+         organizer's message to the additional participants
       </para>
     </note>
     </sect2>

@@ -49,6 +49,7 @@ struct _EShellFolderSelectionDialogPrivate {
 	GList *allowed_types;
 	EStorageSet *storage_set;
 	GtkWidget *storage_set_view;
+	char *default_type;
 
 	gboolean allow_creation;
 };
@@ -159,6 +160,7 @@ impl_destroy (GtkObject *object)
 
 	e_free_string_list (priv->allowed_types);
 
+	g_free (priv->default_type);
 	g_free (priv);
 
 	(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -199,7 +201,6 @@ impl_clicked (GnomeDialog *dialog,
 	EShellFolderSelectionDialogPrivate *priv;
 	EStorageSetView *storage_set_view;
 	const char *default_parent_folder;
-	const char *default_type;
 
 	folder_selection_dialog = E_SHELL_FOLDER_SELECTION_DIALOG (dialog);
 	priv = folder_selection_dialog->priv;
@@ -220,17 +221,9 @@ impl_clicked (GnomeDialog *dialog,
 		storage_set_view = E_STORAGE_SET_VIEW (priv->storage_set_view);
 		default_parent_folder = e_storage_set_view_get_current_folder (storage_set_view);
 
-		/* The default type in the folder creation dialog will be the
-		   first of the allowed types.  If all types are allowed,
-		   hardcode to "mail".  */
-		if (priv->allowed_types == NULL)
-			default_type = "mail";
-		else
-			default_type = (const char *) priv->allowed_types->data;
-
 		e_shell_show_folder_creation_dialog (priv->shell, GTK_WINDOW (dialog),
 						     default_parent_folder,
-						     (const char *) priv->allowed_types->data,
+						     priv->default_type,
 						     folder_creation_dialog_result_cb,
 						     dialog);
 
@@ -286,6 +279,7 @@ init (EShellFolderSelectionDialog *shell_folder_selection_dialog)
 	priv->storage_set_view = NULL;
 	priv->allowed_types    = NULL;
 	priv->allow_creation   = TRUE;
+	priv->default_type     = NULL;
 
 	shell_folder_selection_dialog->priv = priv;
 }
@@ -337,6 +331,8 @@ folder_selected_cb (EStorageSetView *storage_set_view,
  * @caption: A brief text to be put on top of the storage view
  * @default_uri: The URI of the folder to be selected by default
  * @allowed_types: List of the names of the allowed types
+ * @default_type: The default type of folder that will be created if the
+ * New folder button is pressed.
  * 
  * Construct @folder_selection_dialog.
  **/
@@ -346,7 +342,8 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 					   const char *title,
 					   const char *caption,
 					   const char *default_uri,
-					   const char *allowed_types[])
+					   const char *allowed_types[],
+					   const char *default_type)
 {
 	EShellFolderSelectionDialogPrivate *priv;
 	GtkWidget *scroll_frame;
@@ -361,9 +358,14 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 
 	priv = folder_selection_dialog->priv;
 
+	if (default_type != NULL && *default_type != 0) {
+		priv->default_type = g_strdup (default_type);
+	} else {
+		priv->default_type = NULL;
+	}
 	/* Basic dialog setup.  */
 
-	gtk_window_set_policy (GTK_WINDOW (folder_selection_dialog), FALSE, TRUE, FALSE);
+	gtk_window_set_policy (GTK_WINDOW (folder_selection_dialog), TRUE, TRUE, FALSE);
 	gtk_window_set_default_size (GTK_WINDOW (folder_selection_dialog), 350, 300);
 	gtk_window_set_modal (GTK_WINDOW (folder_selection_dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (folder_selection_dialog), title);
@@ -422,11 +424,6 @@ e_shell_folder_selection_dialog_construct (EShellFolderSelectionDialog *folder_s
 		for (i = 0; allowed_types[i] != NULL; i++)
 			priv->allowed_types = g_list_prepend (priv->allowed_types,
 							      g_strdup (allowed_types[i]));
-
-		/* Preserve the order so we can use the first type listed as
-		   the default for the folder creation dialog invoked by the
-		   "New..." button.  */
-		priv->allowed_types = g_list_reverse (priv->allowed_types);
 	}
 
 	if (default_uri != NULL)
@@ -468,7 +465,8 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 				     const char *title,
 				     const char *caption,
 				     const char *default_uri,
-				     const char *allowed_types[])
+				     const char *allowed_types[],
+				     const char *default_type)
 {
 	EShellFolderSelectionDialog *folder_selection_dialog;
 
@@ -477,7 +475,7 @@ e_shell_folder_selection_dialog_new (EShell *shell,
 
 	folder_selection_dialog = gtk_type_new (e_shell_folder_selection_dialog_get_type ());
 	e_shell_folder_selection_dialog_construct (folder_selection_dialog, shell,
-						   title, caption, default_uri, allowed_types);
+						   title, caption, default_uri, allowed_types, default_type);
 
 	return GTK_WIDGET (folder_selection_dialog);
 }

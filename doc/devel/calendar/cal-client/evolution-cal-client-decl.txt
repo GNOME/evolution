@@ -1,3 +1,116 @@
+<MACRO>
+<NAME>CAL_CLIENT_MULTI_TYPE</NAME>
+#define CAL_CLIENT_MULTI_TYPE            (cal_client_multi_get_type ())
+</MACRO>
+<MACRO>
+<NAME>CAL_CLIENT_MULTI</NAME>
+#define CAL_CLIENT_MULTI(obj)            (GTK_CHECK_CAST ((obj), CAL_CLIENT_MULTI_TYPE, CalClientMulti))
+</MACRO>
+<MACRO>
+<NAME>CAL_CLIENT_MULTI_CLASS</NAME>
+#define CAL_CLIENT_MULTI_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_CLIENT_MULTI_TYPE, CalClientMultiClass))
+</MACRO>
+<MACRO>
+<NAME>IS_CAL_CLIENT_MULTI</NAME>
+#define IS_CAL_CLIENT_MULTI(obj)         (GTK_CHECK_TYPE ((obj), CAL_CLIENT_MULTI_TYPE))
+</MACRO>
+<MACRO>
+<NAME>IS_CAL_CLIENT_MULTI_CLASS</NAME>
+#define IS_CAL_CLIENT_MULTI_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_MULTI_TYPE))
+</MACRO>
+<STRUCT>
+<NAME>CalClientMulti</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>CalClientMultiClass</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>CalClientMultiPrivate</NAME>
+</STRUCT>
+<STRUCT>
+<NAME>CalClientMulti</NAME>
+struct CalClientMulti {
+	GtkObject object;
+
+	/* Private data */
+	CalClientMultiPrivate *priv;
+};
+</STRUCT>
+<FUNCTION>
+<NAME>cal_client_multi_get_type</NAME>
+<RETURNS>GtkType  </RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_new</NAME>
+<RETURNS>CalClientMulti     *</RETURNS>
+void
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_add_client</NAME>
+<RETURNS>void  </RETURNS>
+CalClientMulti *multi, CalClient *client
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_set_auth_func</NAME>
+<RETURNS>void  </RETURNS>
+CalClientMulti *multi,CalClientAuthFunc func,gpointer user_data
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_open_calendar</NAME>
+<RETURNS>CalClient          *</RETURNS>
+CalClientMulti *multi,const char *str_uri,gboolean only_if_exists
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_client_for_uri</NAME>
+<RETURNS>CalClient          *</RETURNS>
+CalClientMulti *multi,const char *uri
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_n_objects</NAME>
+<RETURNS>int  </RETURNS>
+CalClientMulti *multi, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_object</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClientMulti *multi,const char *uid,CalComponent **comp
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_timezone</NAME>
+<RETURNS>CalClientGetStatus  </RETURNS>
+CalClientMulti *multi,const char *tzid,icaltimezone **zone
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_uids</NAME>
+<RETURNS>GList              *</RETURNS>
+CalClientMulti *multi, CalObjType type
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_changes</NAME>
+<RETURNS>GList              *</RETURNS>
+CalClientMulti *multi,CalObjType type,const char *change_id
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_objects_in_range</NAME>
+<RETURNS>GList              *</RETURNS>
+CalClientMulti *multi,CalObjType type,time_t start,time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_free_busy</NAME>
+<RETURNS>GList              *</RETURNS>
+CalClientMulti *multi,GList *users,time_t start,time_t end
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_generate_instances</NAME>
+<RETURNS>void  </RETURNS>
+CalClientMulti *multi,CalObjType type,time_t start,time_t end,CalRecurInstanceFn cb,gpointer cb_data
+</FUNCTION>
+<FUNCTION>
+<NAME>cal_client_multi_get_alarms_in_range</NAME>
+<RETURNS>GSList             *</RETURNS>
+CalClientMulti *multi,time_t start, time_t end
+</FUNCTION>
 <ENUM>
 <NAME>CalClientChangeType</NAME>
 typedef enum {
@@ -374,117 +487,4 @@ QueryListenerObjUpdatedFn obj_updated_fn,QueryListenerObjRemovedFn obj_removed_f
 <NAME>query_listener_stop_notification</NAME>
 <RETURNS>void  </RETURNS>
 QueryListener *ql
-</FUNCTION>
-<MACRO>
-<NAME>CAL_CLIENT_MULTI_TYPE</NAME>
-#define CAL_CLIENT_MULTI_TYPE            (cal_client_multi_get_type ())
-</MACRO>
-<MACRO>
-<NAME>CAL_CLIENT_MULTI</NAME>
-#define CAL_CLIENT_MULTI(obj)            (GTK_CHECK_CAST ((obj), CAL_CLIENT_MULTI_TYPE, CalClientMulti))
-</MACRO>
-<MACRO>
-<NAME>CAL_CLIENT_MULTI_CLASS</NAME>
-#define CAL_CLIENT_MULTI_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), CAL_CLIENT_MULTI_TYPE, CalClientMultiClass))
-</MACRO>
-<MACRO>
-<NAME>IS_CAL_CLIENT_MULTI</NAME>
-#define IS_CAL_CLIENT_MULTI(obj)         (GTK_CHECK_TYPE ((obj), CAL_CLIENT_MULTI_TYPE))
-</MACRO>
-<MACRO>
-<NAME>IS_CAL_CLIENT_MULTI_CLASS</NAME>
-#define IS_CAL_CLIENT_MULTI_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), CAL_CLIENT_MULTI_TYPE))
-</MACRO>
-<STRUCT>
-<NAME>CalClientMulti</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>CalClientMultiClass</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>CalClientMultiPrivate</NAME>
-</STRUCT>
-<STRUCT>
-<NAME>CalClientMulti</NAME>
-struct CalClientMulti {
-	GtkObject object;
-
-	/* Private data */
-	CalClientMultiPrivate *priv;
-};
-</STRUCT>
-<FUNCTION>
-<NAME>cal_client_multi_get_type</NAME>
-<RETURNS>GtkType  </RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_new</NAME>
-<RETURNS>CalClientMulti     *</RETURNS>
-void
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_add_client</NAME>
-<RETURNS>void  </RETURNS>
-CalClientMulti *multi, CalClient *client
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_set_auth_func</NAME>
-<RETURNS>void  </RETURNS>
-CalClientMulti *multi,CalClientAuthFunc func,gpointer user_data
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_open_calendar</NAME>
-<RETURNS>CalClient          *</RETURNS>
-CalClientMulti *multi,const char *str_uri,gboolean only_if_exists
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_client_for_uri</NAME>
-<RETURNS>CalClient          *</RETURNS>
-CalClientMulti *multi,const char *uri
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_n_objects</NAME>
-<RETURNS>int  </RETURNS>
-CalClientMulti *multi, CalObjType type
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_object</NAME>
-<RETURNS>CalClientGetStatus  </RETURNS>
-CalClientMulti *multi,const char *uid,CalComponent **comp
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_timezone</NAME>
-<RETURNS>CalClientGetStatus  </RETURNS>
-CalClientMulti *multi,const char *tzid,icaltimezone **zone
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_uids</NAME>
-<RETURNS>GList              *</RETURNS>
-CalClientMulti *multi, CalObjType type
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_changes</NAME>
-<RETURNS>GList              *</RETURNS>
-CalClientMulti *multi,CalObjType type,const char *change_id
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_objects_in_range</NAME>
-<RETURNS>GList              *</RETURNS>
-CalClientMulti *multi,CalObjType type,time_t start,time_t end
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_free_busy</NAME>
-<RETURNS>GList              *</RETURNS>
-CalClientMulti *multi,GList *users,time_t start,time_t end
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_generate_instances</NAME>
-<RETURNS>void  </RETURNS>
-CalClientMulti *multi,CalObjType type,time_t start,time_t end,CalRecurInstanceFn cb,gpointer cb_data
-</FUNCTION>
-<FUNCTION>
-<NAME>cal_client_multi_get_alarms_in_range</NAME>
-<RETURNS>GSList             *</RETURNS>
-CalClientMulti *multi,time_t start, time_t end
 </FUNCTION>

@@ -36,6 +36,12 @@
 
 
 
+/* Menu items for the ESearchBar */
+static ESearchBarItem search_menu_items[] = {
+	E_FILTERBAR_RESET,
+	{ NULL, -1, NULL }
+};
+
 /* IDs and option items for the ESearchBar */
 enum {
 	SEARCH_ANY_FIELD_CONTAINS,
@@ -72,6 +78,7 @@ static void cal_search_bar_init (CalSearchBar *cal_search);
 static void cal_search_bar_destroy (GtkObject *object);
 
 static void cal_search_bar_search_activated (ESearchBar *search);
+static void cal_search_bar_menu_activated (ESearchBar *search, int item);
 
 static ESearchBarClass *parent_class = NULL;
 
@@ -153,6 +160,7 @@ cal_search_bar_class_init (CalSearchBarClass *class)
 	class->category_changed = NULL;
 
 	e_search_bar_class->search_activated = cal_search_bar_search_activated;
+	e_search_bar_class->menu_activated = cal_search_bar_menu_activated;
 
 	object_class->destroy = cal_search_bar_destroy;
 }
@@ -360,6 +368,28 @@ cal_search_bar_search_activated (ESearchBar *search)
 	regen_query (cal_search);
 }
 
+/* menu_activated handler for the calendar search bar */
+static void
+cal_search_bar_menu_activated (ESearchBar *search, int item)
+{
+	CalSearchBar *cal_search;
+
+	cal_search = CAL_SEARCH_BAR (search);
+
+	switch (item) {
+	case E_FILTERBAR_RESET_ID:
+		notify_sexp_changed (cal_search, "#t"); /* match all */
+		/* FIXME: should we change the rest of the search bar so that
+		 * the user sees that he selected "show all" instead of some
+		 * type/text search combination?
+		 */
+		break;
+
+	default:
+		g_assert_not_reached ();
+	}
+}
+
 
 
 /* Creates the suboptions menu for the ESearchBar with the list of categories */
@@ -434,7 +464,7 @@ cal_search_bar_construct (CalSearchBar *cal_search)
 	g_return_val_if_fail (cal_search != NULL, NULL);
 	g_return_val_if_fail (IS_CAL_SEARCH_BAR (cal_search), NULL);
 
-	e_search_bar_construct (E_SEARCH_BAR (cal_search), NULL, search_option_items);
+	e_search_bar_construct (E_SEARCH_BAR (cal_search), search_menu_items, search_option_items);
 	make_suboptions (cal_search);
 
 	e_search_bar_set_ids (E_SEARCH_BAR (cal_search), SEARCH_CATEGORY_IS, CATEGORIES_ALL);

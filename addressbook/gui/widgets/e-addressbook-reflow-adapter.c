@@ -5,7 +5,6 @@
 
 #include "e-addressbook-reflow-adapter.h"
 #include "e-addressbook-model.h"
-#include "e-addressbook-view.h"
 #include "e-addressbook-util.h"
 
 #include <gal/util/e-i18n.h>
@@ -14,7 +13,6 @@
 #include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-font.h>
 #include <gal/widgets/e-popup-menu.h>
-#include <gal/widgets/e-gui-utils.h>
 #include <gal/unicode/gunicode.h>
 #include "e-contact-save-as.h"
 #include "addressbook/printing/e-contact-print.h"
@@ -37,7 +35,6 @@ enum {
 	ARG_BOOK,
 	ARG_QUERY,
 	ARG_EDITABLE,
-	ARG_MODEL,
 };
 
 enum {
@@ -92,6 +89,198 @@ text_height (GnomeCanvas *canvas, const gchar *text)
 
 	e_font_unref (font);
 	return height;
+}
+
+typedef struct {
+	EAddressbookReflowAdapter *adapter;
+	ESelectionModel *selection;
+} ModelAndSelection;
+
+static void
+model_and_selection_free (ModelAndSelection *mns)
+{
+	gtk_object_unref(GTK_OBJECT(mns->adapter));
+	e_selection_model_right_click_up(mns->selection);
+	gtk_object_unref(GTK_OBJECT(mns->selection));
+	g_free(mns);
+}
+
+static void
+add_to_list (int model_row, gpointer closure)
+{
+	GList **list = closure;
+	*list = g_list_prepend (*list, GINT_TO_POINTER (model_row));
+}
+
+static GList *
+get_card_list (ModelAndSelection *mns)
+{
+	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
+	GList *list;
+	GList *iterator;
+
+	list = NULL;
+	e_selection_model_foreach (mns->selection, add_to_list, &list);
+
+	for (iterator = list; iterator; iterator = iterator->next) {
+		iterator->data = e_addressbook_model_card_at (priv->model, GPOINTER_TO_INT (iterator->data));
+	}
+	list = g_list_reverse (list);
+	return list;
+}
+
+static void
+save_as (GtkWidget *widget, ModelAndSelection *mns)
+{
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list)
+		e_contact_list_save_as (_("Save as VCard"), list, NULL);
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+static void
+send_as (GtkWidget *widget, ModelAndSelection *mns)
+{
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list)
+		e_card_list_send (list, E_CARD_DISPOSITION_AS_ATTACHMENT);
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+static void
+send_to (GtkWidget *widget, ModelAndSelection *mns)
+{
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list)
+		e_card_list_send (list, E_CARD_DISPOSITION_AS_TO);
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+static void
+print (GtkWidget *widget, ModelAndSelection *mns)
+{
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list)
+		gtk_widget_show (e_contact_print_card_list_dialog_new (list));
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
+static void
+print_envelope (GtkWidget *widget, ModelAndSelection *mns)
+{
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list)
+		gtk_widget_show (e_contact_print_envelope_list_dialog_new (list));
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+#endif
+
+static void
+card_changed_cb (EBook* book, EBookStatus status, gpointer user_data)
+{
+	d(g_print ("%s: %s(): a card was changed with status %d\n", __FILE__, __FUNCTION__, status));
+}
+
+static void
+delete (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list) {
+
+		if (e_contact_editor_confirm_delete(NULL)) { /*FIXME: Give a GtkWindow here. */
+			GList *iterator;
+			EBook *book = e_addressbook_model_get_ebook(priv->model);
+
+			for (iterator = list; iterator; iterator = iterator->next) {
+				ECard *card = iterator->data;
+
+				gtk_object_ref(GTK_OBJECT(card));
+
+				e_book_remove_card (book,
+						    card,
+						    card_changed_cb,
+						    NULL);
+
+				gtk_object_unref(GTK_OBJECT(card));
+			}
+		}
+	}
+
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+static void
+open_card (GtkWidget *widget, ModelAndSelection *mns)
+{
+	EAddressbookReflowAdapterPrivate *priv = mns->adapter->priv;
+	GList *list;
+
+	list = get_card_list (mns);
+	if (list) {
+		GList *iterator;
+		EBook *book = e_addressbook_model_get_ebook(priv->model);
+
+		for (iterator = list; iterator; iterator = iterator->next) {
+			ECard *card = iterator->data;
+
+			if (e_card_evolution_list (card)) {
+				e_addressbook_show_contact_list_editor (book, card,
+									FALSE, e_addressbook_model_editable (priv->model));
+			}
+			else {
+				e_addressbook_show_contact_editor (book, card,
+								   FALSE, e_addressbook_model_editable (priv->model));
+			}
+		}
+	}
+
+	g_list_free (list);
+	model_and_selection_free (mns);
+}
+
+#define POPUP_READONLY_MASK 0x01
+gint
+e_addressbook_reflow_adapter_right_click (EAddressbookReflowAdapter *adapter, GdkEvent *event, ESelectionModel *selection)
+{
+	EAddressbookReflowAdapterPrivate *priv = adapter->priv;
+	ModelAndSelection *mns = g_new(ModelAndSelection, 1);
+	EPopupMenu menu[] = { {N_("Open"), NULL, GTK_SIGNAL_FUNC(open_card), NULL, 0},
+			      {N_("Save as VCard"), NULL, GTK_SIGNAL_FUNC(save_as), NULL, 0},
+			      {N_("Forward Contact"), NULL, GTK_SIGNAL_FUNC(send_as), NULL, 0},
+			      {N_("Send Message to Contact"), NULL, GTK_SIGNAL_FUNC(send_to), NULL, 0},
+			      {N_("Print"), NULL, GTK_SIGNAL_FUNC(print), NULL, 0},
+#if 0 /* Envelope printing is disabled for Evolution 1.0. */
+			      {N_("Print Envelope"), NULL, GTK_SIGNAL_FUNC(print_envelope), NULL, 0},
+#endif
+			      {N_("Delete"), NULL, GTK_SIGNAL_FUNC(delete), NULL, POPUP_READONLY_MASK},
+			      {NULL, NULL, NULL, 0}};
+
+	mns->adapter = adapter;
+	mns->selection = selection;
+	gtk_object_ref(GTK_OBJECT(mns->adapter));
+	gtk_object_ref(GTK_OBJECT(mns->selection));
+	e_popup_menu_run (menu, event, e_addressbook_model_editable(priv->model) ? 0 : POPUP_READONLY_MASK, 0, mns);
+	return TRUE;
 }
 
 static void
@@ -312,10 +501,7 @@ addressbook_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_get (GTK_OBJECT (priv->model),
 				"book", &book,
 				NULL);
-		if (book)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(book);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
+		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(book);
 		break;
 	}
 	case ARG_QUERY: {
@@ -334,12 +520,6 @@ addressbook_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		GTK_VALUE_BOOL (*arg) = editable;
 		break;
 	}
-	case ARG_MODEL:
-		if (priv->model)
-			GTK_VALUE_OBJECT (*arg) = GTK_OBJECT (priv->model);
-		else
-			GTK_VALUE_OBJECT (*arg) = NULL;
-		break;
 	default:
 		arg->type = GTK_TYPE_INVALID;
 		break;
@@ -363,8 +543,6 @@ e_addressbook_reflow_adapter_class_init (GtkObjectClass *object_class)
 				 GTK_ARG_READWRITE, ARG_QUERY);
 	gtk_object_add_arg_type ("EAddressbookReflowAdapter::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
-	gtk_object_add_arg_type ("EAddressbookReflowAdapter::model", E_ADDRESSBOOK_MODEL_TYPE,
-				 GTK_ARG_READABLE, ARG_MODEL);
 
 	e_addressbook_reflow_adapter_signals [DRAG_BEGIN] =
 		gtk_signal_new ("drag_begin",

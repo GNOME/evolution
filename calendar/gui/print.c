@@ -1132,29 +1132,6 @@ print_day_details (GnomePrintContext *pc, GnomeCalendar *gcal, time_t whence,
 	qsort (pdi.events[0]->data, pdi.events[0]->len,
 	       sizeof (EDayViewEvent), e_day_view_event_sort_func);
 
-	/* Also print events outside of work hours */
-	if (pdi.events[0]->len > 0) {
-		icaltimezone *zone = get_timezone ();
-		struct icaltimetype tt;
-
-		event = &g_array_index (pdi.events[0], EDayViewEvent, 0);		
-		tt = icaltime_from_timet_with_zone (event->start, FALSE, zone);
-		if (tt.hour < pdi.start_hour)
-			pdi.start_hour = tt.hour;
-		pdi.start_minute_offset = pdi.start_hour * 60;
-
-		event = &g_array_index (pdi.events[0], EDayViewEvent, pdi.events[0]->len - 1);
-		tt = icaltime_from_timet_with_zone (event->end, FALSE, zone);
-		if (tt.hour > pdi.end_hour || tt.hour == 0) {
-			pdi.end_hour = tt.hour ? tt.hour : 24;
-			if (tt.minute > 0)
-				pdi.end_hour++;
-		}
-		pdi.end_minute_offset = pdi.end_hour * 60;
-
-		pdi.rows = (pdi.end_hour - pdi.start_hour) * 2;
-	}
-	
 	/* Lay them out the long events, across the top of the page. */
 	e_day_view_layout_long_events (pdi.long_events, pdi.days_shown,
 				       pdi.day_starts, &rows_in_top_display);

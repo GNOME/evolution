@@ -50,14 +50,6 @@ enum {
 	ARG_EDITABLE
 };
 
-
-enum {
-	RIGHT_CLICK,
-	LAST_SIGNAL
-};
-
-static guint signals [LAST_SIGNAL] = {0, };
-
 enum DndTargetType {
 	DND_TARGET_TYPE_VCARD_LIST,
 };
@@ -97,14 +89,40 @@ e_minicard_view_drag_data_get(GtkWidget *widget,
 	view->drag_list = NULL;
 }
 
+typedef struct {
+	GList *list;
+	EAddressbookReflowAdapter *adapter;
+} ModelAndList;
+
+static void
+add_to_list (int index, gpointer closure)
+{
+	ModelAndList *mal = closure;
+	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_card (mal->adapter, index));
+}
+
+static GList *
+get_card_list (EAddressbookReflowAdapter *adapter, ESelectionModel *selection)
+{
+	ModelAndList mal;
+
+	mal.adapter = adapter;
+	mal.list = NULL;
+
+	e_selection_model_foreach (selection, add_to_list, &mal);
+
+	mal.list = g_list_reverse (mal.list);
+	return mal.list;
+}
+
 static int
 e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event, EMinicardView *view)
 {
 	GdkDragContext *context;
 	GtkTargetList *target_list;
-	GdkDragAction actions = GDK_ACTION_MOVE | GDK_ACTION_COPY;
-	
-	view->drag_list = e_minicard_view_get_card_list (view);
+	GdkDragAction actions = GDK_ACTION_MOVE;
+
+	view->drag_list = get_card_list (adapter, E_REFLOW (view)->selection);
 
 	g_print ("dragging %d card(s)\n", g_list_length (view->drag_list));
 
@@ -125,43 +143,28 @@ e_minicard_view_drag_begin (EAddressbookReflowAdapter *adapter, GdkEvent *event,
 }
 
 static void
-set_empty_message (EMinicardView *view)
+adapter_changed (EMinicardView *view)
 {
 	char *empty_message;
-	gboolean editable = FALSE;
+	gboolean editable;
 
-	if (view->adapter) {
-		gtk_object_get (GTK_OBJECT (view->adapter),
-				"editable", &editable,
-				NULL);
-	}
+	gtk_object_get (GTK_OBJECT (view->adapter),
+			"editable", &editable,
+			NULL);
 
 	if (editable)
 		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view.\n\n"
 							    "Double-click here to create a new Contact."));
 	else
 		empty_message = e_utf8_from_locale_string(_("\n\nThere are no items to show in this view."));
-
 	gtk_object_set (GTK_OBJECT(view),
 			"empty_message", empty_message,
 			NULL);
 
-	g_free (empty_message);
-}
-
-static void
-writable_status_change (EAddressbookModel *model, gboolean writable, EMinicardView *view)
-{
-	set_empty_message (view);
-}
-
-static void
-adapter_changed (EMinicardView *view)
-{
-	set_empty_message (view);
-
 	gtk_signal_connect (GTK_OBJECT (view->adapter), "drag_begin",
 			    GTK_SIGNAL_FUNC (e_minicard_view_drag_begin), view);
+
+	g_free (empty_message);
 }
 
 static void
@@ -175,44 +178,19 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	
 	switch (arg_id){
 	case ARG_ADAPTER:
-		if (view->adapter) {
-			if (view->writable_status_id) {
-				EAddressbookModel *model;
-				gtk_object_get (GTK_OBJECT (view->adapter),
-						"model", &model,
-						NULL);
-				if (model) {
-					gtk_signal_disconnect (GTK_OBJECT (model), view->writable_status_id);
-				}
-			}
-
+		if (view->adapter)
 			gtk_object_unref (GTK_OBJECT(view->adapter));
-		}
-		view->writable_status_id = 0;
 		view->adapter = GTK_VALUE_POINTER (*arg);
 		gtk_object_ref (GTK_OBJECT (view->adapter));
 		adapter_changed (view);
 		gtk_object_set (GTK_OBJECT (view),
 				"model", view->adapter,
 				NULL);
-		if (view->adapter) {
-			EAddressbookModel *model;
-			gtk_object_get (GTK_OBJECT (view->adapter),
-					"model", &model,
-					NULL);
-			if (model) {
-				view->writable_status_id =
-					gtk_signal_connect (GTK_OBJECT (model), "writable_status",
-							    GTK_SIGNAL_FUNC (writable_status_change), view);
-			}
-							    
-		}
 		break;
 	case ARG_BOOK:
 		gtk_object_set (GTK_OBJECT (view->adapter),
 					    "book", GTK_VALUE_OBJECT (*arg),
 					    NULL);
-		set_empty_message (view);
 		break;
 	case ARG_QUERY:
 		gtk_object_set (GTK_OBJECT (view->adapter),
@@ -223,7 +201,6 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		gtk_object_set (GTK_OBJECT (view->adapter),
 					    "editable", GTK_VALUE_BOOL (*arg),
 					    NULL);
-		set_empty_message (view);
 		break;
 	}
 }
@@ -269,33 +246,9 @@ e_minicard_view_destroy (GtkObject *object)
 		gtk_signal_disconnect (GTK_OBJECT (GNOME_CANVAS_ITEM (view)->canvas),
 				       view->canvas_drag_data_get_id);
 	}
-
-	if (view->adapter) {
-		if (view->writable_status_id) {
-			EAddressbookModel *model;
-			gtk_object_get (GTK_OBJECT (view->adapter),
-					"model", &model,
-					NULL);
-			if (model) {
-				gtk_signal_disconnect (GTK_OBJECT (model), view->writable_status_id);
-			}
-		}
-
-		gtk_object_unref (GTK_OBJECT(view->adapter));
-	}
-	view->writable_status_id = 0;
-	view->adapter = NULL;
+	gtk_object_unref (GTK_OBJECT (view->adapter));
 
 	GTK_OBJECT_CLASS(parent_class)->destroy (object);
-}
-
-static guint
-e_minicard_view_right_click (EMinicardView *view, GdkEvent *event)
-{
-	guint ret_val = 0;
-	gtk_signal_emit (GTK_OBJECT (view), signals[RIGHT_CLICK],
-			 event, &ret_val);
-	return ret_val;
 }
 
 static gboolean
@@ -307,33 +260,27 @@ e_minicard_view_event (GnomeCanvasItem *item, GdkEvent *event)
 
 	switch( event->type ) {
 	case GDK_2BUTTON_PRESS:
-		if (((GdkEventButton *)event)->button == 1) {
+		if (((GdkEventButton *)event)->button == 1)
+		{
 			gboolean editable;
-
 			gtk_object_get(GTK_OBJECT(view->adapter), "editable", &editable, NULL);
-  
+
 			if (editable) {
 				EBook *book;
 				gtk_object_get(GTK_OBJECT(view), "book", &book, NULL);
- 
+
 				if (book && E_IS_BOOK (book))
 					e_addressbook_show_contact_editor (book, e_card_new(""), TRUE, editable);
 			}
-			return TRUE;
 		}
-	case GDK_BUTTON_PRESS:
-		if (event->button.button == 3) {
-			e_minicard_view_right_click (view, event);
-		}
-		break;
+		return TRUE;
 	default:
+		if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
+			return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
+		else
+			return FALSE;
 		break;
 	}
-
-	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->event)
-		return GNOME_CANVAS_ITEM_CLASS(parent_class)->event(item, event);
-	else
-		return FALSE;
 }
 
 static gint
@@ -361,9 +308,9 @@ e_minicard_view_selection_event (EReflow *reflow, GnomeCanvasItem *item, GdkEven
 		break;
 	case GDK_BUTTON_PRESS:
 		if (event->button.button == 3) {
-			return_val = e_minicard_view_right_click (view, event);
+			return_val = e_addressbook_reflow_adapter_right_click (view->adapter, event, reflow->selection);
 			if (!return_val)
-				e_selection_model_right_click_up(reflow->selection);
+				e_selection_model_right_click_up(E_SELECTION_MODEL (view->selection));
 		}
 		break;
 	default:
@@ -399,6 +346,21 @@ do_remove (int i, gpointer user_data)
 	gtk_object_unref (GTK_OBJECT (card));
 }
 
+void
+e_minicard_view_remove_selection(EMinicardView *view,
+				 EBookCallback  cb,
+				 gpointer       closure)
+{
+	ViewCbClosure viewcbclosure;
+	viewcbclosure.view = view;
+	viewcbclosure.cb = cb;
+	viewcbclosure.closure = closure;
+
+	e_selection_model_foreach (E_REFLOW (view)->selection,
+				   do_remove,
+				   &viewcbclosure);
+}
+
 #if 0
 static int
 compare_to_utf_str (EMinicard *card, const char *utf_str)
@@ -425,6 +387,22 @@ compare_to_utf_str (EMinicard *card, const char *utf_str)
 }
 #endif
 
+
+
+void
+e_minicard_view_jump_to_letter (EMinicardView *view,
+                                gunichar letter)
+{
+#if 0
+	char uft_str[6 + 1];
+
+	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
+	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
+	                      (GCompareFunc) compare_to_utf_str,
+	                      utf_str);
+#endif
+}
+
 static void
 e_minicard_view_class_init (EMinicardViewClass *klass)
 {
@@ -447,16 +425,6 @@ e_minicard_view_class_init (EMinicardViewClass *klass)
 	gtk_object_add_arg_type ("EMinicardView::editable", GTK_TYPE_BOOL,
 				 GTK_ARG_READWRITE, ARG_EDITABLE);
 
-	signals [RIGHT_CLICK] =
-		gtk_signal_new ("right_click",
-				GTK_RUN_LAST,
-				object_class->type,
-				GTK_SIGNAL_OFFSET (EMinicardViewClass, right_click),
-				gtk_marshal_INT__POINTER,
-				GTK_TYPE_INT, 1, GTK_TYPE_GDK_EVENT);
-
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
-
 	object_class->set_arg         = e_minicard_view_set_arg;
 	object_class->get_arg         = e_minicard_view_get_arg;
 	object_class->destroy         = e_minicard_view_destroy;
@@ -472,9 +440,6 @@ e_minicard_view_init (EMinicardView *view)
 {
 	view->adapter = NULL;
 	view->canvas_drag_data_get_id = 0;
-	view->writable_status_id = 0;
-
-	set_empty_message (view);
 }
 
 GtkType
@@ -498,59 +463,4 @@ e_minicard_view_get_type (void)
 	}
 
 	return reflow_type;
-}
-
-void
-e_minicard_view_remove_selection(EMinicardView *view,
-				 EBookCallback  cb,
-				 gpointer       closure)
-{
-	ViewCbClosure viewcbclosure;
-	viewcbclosure.view = view;
-	viewcbclosure.cb = cb;
-	viewcbclosure.closure = closure;
-
-	e_selection_model_foreach (E_REFLOW (view)->selection,
-				   do_remove,
-				   &viewcbclosure);
-}
-
-void
-e_minicard_view_jump_to_letter (EMinicardView *view,
-                                gunichar letter)
-{
-#if 0
-	char uft_str[6 + 1];
-
-	utf_str [g_unichar_to_utf8 (letter, utf_str)] = '\0';
-	e_reflow_sorted_jump (E_REFLOW_SORTED (view),
-	                      (GCompareFunc) compare_to_utf_str,
-	                      utf_str);
-#endif
-}
-
-typedef struct {
-	GList *list;
-	EAddressbookReflowAdapter *adapter;
-} ModelAndList;
-
-static void
-add_to_list (int index, gpointer closure)
-{
-	ModelAndList *mal = closure;
-	mal->list = g_list_prepend (mal->list, e_addressbook_reflow_adapter_get_card (mal->adapter, index));
-}
-
-GList *
-e_minicard_view_get_card_list (EMinicardView *view)
-{
-	ModelAndList mal;
-
-	mal.adapter = view->adapter;
-	mal.list = NULL;
-
-	e_selection_model_foreach (E_REFLOW (view)->selection, add_to_list, &mal);
-
-	mal.list = g_list_reverse (mal.list);
-	return mal.list;
 }

@@ -40,54 +40,46 @@ typedef void (*EBookCommonCallback)      (EBook *book, gpointer closure);
 typedef void (*EBookSimpleQueryCallback) (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpointer closure);
 typedef void (*EBookHaveAddressCallback) (EBook *book, const gchar *addr, ECard *card, gpointer closure);
 
-/* expand file:///foo/foo/ to file:///foo/foo/addressbook.db */
-char                  *e_book_expand_uri                (const char               *uri);
+gboolean e_book_load_local_address_book (EBook *book, 
+					 EBookCallback open_response, 
+					 gpointer closure);
 
-gboolean               e_book_load_address_book_by_uri  (EBook                    *book,
-							 const char               *uri,
-							 EBookCallback             open_response,
-							 gpointer                  closure);
-void                   e_book_use_address_book_by_uri   (const char               *uri,
-							 EBookCommonCallback       cb,
-							 gpointer                  closure);
+void     e_book_use_local_address_book  (EBookCommonCallback cb, gpointer closure);
 
-gboolean               e_book_load_local_address_book   (EBook                    *book,
-							 EBookCallback             open_response,
-							 gpointer                  closure);
-void                   e_book_use_local_address_book    (EBookCommonCallback       cb,
-							 gpointer                  closure);
-gboolean               e_book_load_default_book         (EBook                    *book,
-							 EBookCallback             open_response,
-							 gpointer                  closure);
-char                  *e_book_get_default_book_uri      (void);
+gboolean e_book_load_default_book	(EBook *book,
+					 EBookCallback open_response,
+					 gpointer closure);
 
 /* Bonoboconf database interface. */
-Bonobo_ConfigDatabase  e_book_get_config_database       (CORBA_Environment        *ev);
+Bonobo_ConfigDatabase e_book_get_config_database (CORBA_Environment *ev);
 
 /* Simple Query Interface. */
-guint                  e_book_simple_query              (EBook                    *book,
-							 const char               *query,
-							 EBookSimpleQueryCallback  cb,
-							 gpointer                  closure);
-void                   e_book_simple_query_cancel       (EBook                    *book,
-							 guint                     tag);
+
+guint     e_book_simple_query             (EBook                    *book,
+					   const char               *query,
+					   EBookSimpleQueryCallback  cb,
+					   gpointer                  closure);
+void      e_book_simple_query_cancel      (EBook                    *book,
+					   guint                     tag);
 
 /* Specialized Name/Email Queries */
-guint                  e_book_name_and_email_query      (EBook                    *book,
-							 const char               *name,
-							 const char               *email,
-							 EBookSimpleQueryCallback  cb,
-							 gpointer                  closure);
-guint                  e_book_nickname_query            (EBook                    *book,
-							 const char               *nickname,
-							 EBookSimpleQueryCallback  cb,
-							 gpointer                  closure);
+
+guint e_book_name_and_email_query (EBook *book,
+				   const char *name,
+				   const char *email,
+				   EBookSimpleQueryCallback cb,
+				   gpointer closure);
+
+guint e_book_nickname_query (EBook *book,
+			     const char *nickname,
+			     EBookSimpleQueryCallback cb,
+			     gpointer closure);
 
 /* Returns the ECard associated to email in the callback,
    or NULL if no match is found in the local address book. */
-void                   e_book_query_address_locally     (const gchar              *email,
-							 EBookHaveAddressCallback  cb,
-							 gpointer                  closure);
+void e_book_query_address_locally (const gchar *email,
+				   EBookHaveAddressCallback cb,
+				   gpointer closure);
 
 END_GNOME_DECLS
 
