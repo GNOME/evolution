@@ -258,6 +258,7 @@ camel/providers/maildir/Makefile
 camel/providers/mbox/Makefile
 camel/providers/pop3/Makefile
 camel/providers/sendmail/Makefile
+camel/providers/smtp/Makefile
 composer/Makefile
 devel-docs/Makefile
 devel-docs/camel/Makefile
