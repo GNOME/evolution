@@ -1,4 +1,4 @@
-Evolution 1.5.94, xxxx-xx-xx
+Evolution 1.5.94, 2004-08-27
 ----------------------------
 
 Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
@@ -44,6 +44,12 @@ Other bugs
 
     - Crash in em-utils on GtkFileChooser with no name selected (Hans Petter)
 
+  * Misc
+
+    - avoid warnings on dialogs with GTK 2.4 (Frederic)
+    - upgrade egg tray icon (Rodrigo)
+    - fix memory corruption when pilot syncing tasks/events (JP)
+   	
 
 Evolution 1.4.1, 2003-06-25
 ---------------------------

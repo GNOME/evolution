@@ -1,3 +1,7 @@
+2004-08-27  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version, requirements
+
 2004-08-23  Jeffrey Stedfast  <fejj@novell.com>
 
 	* configure.in: Added some comments about --enable-openssl
@@ -6,6 +10,7 @@
 2004-08-18  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Added «nb» to ALL_LINGUAS.
+
 2004-08-13  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version. requires

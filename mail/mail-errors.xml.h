@@ -231,4 +231,9 @@ char *s = N_("Ignore");
 char *s = N_("_Overwrite");
 char *s = N_("_Append");
 /* mail:gw-accountsetup-error primary */
-char *s = N_("Could not connect to {0}. Groupwise account setup is incomplete. You may need to setup  the account again");
+char *s = N_("Unable to connect to the GroupWise\n"
+	"server.");
+/* mail:gw-accountsetup-error secondary */
+char *s = N_("\n"
+	"Please check your account settings and try again.\n"
+	"");

@@ -2192,16 +2192,20 @@ rsvp_clicked_cb (GtkWidget *widget, gpointer data)
 	
 	priv = itip->priv;
 
-	priv->rsvp = TRUE;
+	priv->rsvp = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 }
 
 static void
 insert_rsvp (GtkWidget *hbox, EItipControl *itip) 
 {
+	EItipControlPrivate *priv;
 	GtkWidget *btn;
+
+	priv = itip->priv;
 	
 	btn = gtk_check_button_new_with_label ("RSVP");
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (btn), TRUE);
+	priv->rsvp = TRUE;
 
 	g_signal_connect (btn, "clicked", G_CALLBACK (rsvp_clicked_cb), itip);
 
