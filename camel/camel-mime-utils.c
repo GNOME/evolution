@@ -2464,6 +2464,12 @@ header_content_type_format(struct _header_content_type *ct)
 }
 
 char *
+header_content_type_simple(struct _header_content_type *ct)
+{
+	return g_strdup_printf("%s/%s", ct->type, ct->subtype);
+}
+
+char *
 header_content_encoding_decode(const char *in)
 {
 	if (in)

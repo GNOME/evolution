@@ -205,7 +205,7 @@ camel_data_wrapper_set_mime_type (CamelDataWrapper *data_wrapper,
 static gchar *
 get_mime_type (CamelDataWrapper *data_wrapper)
 {
-	return header_content_type_format (data_wrapper->mime_type);
+	return header_content_type_simple (data_wrapper->mime_type);
 }
 
 /**

@@ -118,6 +118,7 @@ const char *header_content_type_param(struct _header_content_type *t, const char
 void header_content_type_set_param(struct _header_content_type *t, const char *name, const char *value);
 int header_content_type_is(struct _header_content_type *ct, const char *type, const char *subtype);
 char *header_content_type_format(struct _header_content_type *ct);
+char *header_content_type_simple(struct _header_content_type *ct);
 
 /* DEBUGGING function */
 void header_content_type_dump(struct _header_content_type *ct);

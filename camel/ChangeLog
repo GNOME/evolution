@@ -1,3 +1,11 @@
+2001-01-02  Dan Winship  <danw@helixcode.com>
+
+	* camel-mime-utils.c (header_content_type_simple): New function to
+	return just foo/bar with no parameters.
+
+	* camel-data-wrapper.c (get_mime_type): Use
+	header_content_type_simple rather than header_content_type_format.
+
 2000-12-28  Dan Winship  <danw@helixcode.com>
 
 	* gmime-content-field.[ch]: Remove this. It was only a thin
