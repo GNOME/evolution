@@ -1,5 +1,10 @@
 2001-08-14  Federico Mena Quintero  <federico@ximian.com>
 
+	* e-search-bar.c (activate_by_subitems): Correctness fixes for
+	when the entry and submenu must be interchanged.
+
+2001-08-14  Federico Mena Quintero  <federico@ximian.com>
+
 	*Please* add accessor functions instead of just object arguments!
 
 	* e-search-bar.c (e_search_bar_set_option_choice): New function.

@@ -125,40 +125,68 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 	if (subitems == NULL) {
 		/* This item uses the entry. */
 
+		/* Remove the menu */
+		if (esb->suboption && esb->suboption_choice != -1) {
+			g_assert (esb->suboption->parent == esb->entry_box);
+			g_assert (!esb->entry || esb->entry->parent == NULL);
+			gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->suboption);
+		}
+
+		/* Create and add the entry */
+
 		if (esb->entry == NULL) {
 			esb->entry = gtk_entry_new();
 			gtk_object_ref (GTK_OBJECT (esb->entry));
 			gtk_signal_connect (GTK_OBJECT (esb->entry), "activate",
 					    GTK_SIGNAL_FUNC (entry_activated_cb), esb);
+			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
 			gtk_widget_show(esb->entry);
 
-			esb->suboption_choice = 0;
+			esb->suboption_choice = -1;
+		}
+
+		if (esb->suboption_choice == -1) {
+			g_assert (esb->entry->parent == esb->entry_box);
+			g_assert (!esb->suboption || esb->suboption->parent == NULL);
+		} else {
+			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
+			esb->suboption_choice = -1;
 		}
 		
-		if (esb->suboption_choice >= 0) {
-
-			if (esb->suboption != NULL) {
-				gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->suboption);
-			}
-			
-			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->entry);
-		}
-
 		gtk_entry_set_text (GTK_ENTRY (esb->entry), "");
-
-		esb->suboption_choice = -1;
-
 	} else {
-
+		/* This item uses a submenu */
 		GtkWidget *menu;
 		GtkWidget *menu_item;
 		gint i;
 
+		/* Remove the entry */
+		if (esb->entry && esb->suboption_choice == -1) {
+			g_assert (esb->entry->parent == esb->entry_box);
+			g_assert (!esb->suboption || esb->suboption->parent == NULL);
+			gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->entry);
+		}
+
+		/* Create and add the menu */
+
 		if (esb->suboption == NULL) {
 			esb->suboption = gtk_option_menu_new ();
 			gtk_object_ref (GTK_OBJECT (esb->suboption));
+			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
 			gtk_widget_show (esb->suboption);
+
+			esb->suboption_choice = subitems[0].id;
 		}
+
+		if (esb->suboption_choice != -1) {
+			g_assert (esb->suboption->parent == esb->entry_box);
+			g_assert (!esb->entry || esb->entry->parent == NULL);
+		} else {
+			gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
+			esb->suboption_choice = subitems[0].id;
+		}
+
+		/* Create the items */
 
 		esb->suboption_menu = menu = gtk_menu_new ();
 		for (i = 0; subitems[i].id != -1; ++i) {
@@ -176,8 +204,10 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 				gtk_widget_set_sensitive (menu_item, FALSE);
 			}
 
-			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbItemId", GINT_TO_POINTER (item_id));
-			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbSubitemId", GINT_TO_POINTER (subitems[i].id));
+			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbItemId",
+					     GINT_TO_POINTER (item_id));
+			gtk_object_set_data (GTK_OBJECT (menu_item), "EsbSubitemId",
+					     GINT_TO_POINTER (subitems[i].id));
 
 			gtk_signal_connect (GTK_OBJECT (menu_item),
 					    "activate",
@@ -190,19 +220,10 @@ activate_by_subitems (ESearchBar *esb, gint item_id, ESearchBarSubitem *subitems
 
 		gtk_option_menu_remove_menu (GTK_OPTION_MENU (esb->suboption));
 		gtk_option_menu_set_menu (GTK_OPTION_MENU (esb->suboption), menu);
-
-		if (esb->entry != NULL) {
-			gtk_container_remove (GTK_CONTAINER (esb->entry_box), esb->entry);
-		}
-
-		gtk_container_add (GTK_CONTAINER (esb->entry_box), esb->suboption);
-	
-		esb->suboption_choice = subitems[0].id;
 	}
 
-	if (esb->activate_button) {
+	if (esb->activate_button)
 		gtk_widget_set_sensitive (esb->activate_button, subitems == NULL);
-	}
 }
 
 static void
