@@ -1,5 +1,12 @@
 2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_new): Destroy the S/MIME
+	frame if not available, instead of just graying it out.  [I would
+	just hide it, but it looks like there is a show_all somewhere so
+	that doesn't work.]
+
+2002-02-02  Ettore Perazzoli  <ettore@ximian.com>
+
 	* mail-config.glade: Some touchups from me and Anna.
 
 2002-01-31  Jeffrey Stedfast  <fejj@ximian.com>

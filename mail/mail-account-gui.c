@@ -1380,7 +1380,7 @@ mail_account_gui_new (MailConfigAccount *account)
 		GtkWidget *frame;
 		
 		frame = glade_xml_get_widget (gui->xml, "smime_frame");
-		gtk_widget_set_sensitive (frame, FALSE);
+		gtk_widget_destroy (frame);
 	}
 #endif
 	
