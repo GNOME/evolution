@@ -59,6 +59,7 @@
 
         <oaf_attribute name="evolution:button_label" type="string" _value="Contacts"/>
         <oaf_attribute name="evolution:button_sort_order" type="string" value="-9"/>
+        <oaf_attribute name="evolution:button_icon" type="string" value="evolution-contacts.png"/>
 
 </oaf_server>
 

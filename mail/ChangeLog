@@ -1,6 +1,11 @@
 2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
 
 	* GNOME_Evolution_Mail.server.in.in: Add an
+	"evolution:button_icon" attribute.
+
+2003-10-22  Ettore Perazzoli  <ettore@ximian.com>
+
+	* GNOME_Evolution_Mail.server.in.in: Add an
 	"evolution:button_sort_order" attribute.
 
 2003-10-22  Jeffrey Stedfast  <fejj@ximian.com>
