@@ -1,5 +1,9 @@
 2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-importer.c (start_import): Removed unused variable.
+
+2001-09-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #8204 and the other bugs caused by allowing invocations on
 	the ::Shell interface to happen before the shell is actually fully
 	initialized.  This is a lame hack and not a nice, complete

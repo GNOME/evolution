@@ -358,9 +358,7 @@ start_import (const char *folderpath,
 	/* Only allow importing to /local */
 	localpath = "/" E_LOCAL_STORAGE_NAME "/";
 	if (strncmp (folderpath, localpath, strlen (localpath))) {
-		char *message;
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
-			  _("You may only import to local folders"));
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR, _("You may only import to local folders"));
 		return;
 	}
 
