@@ -165,6 +165,7 @@ static CamelServiceAuthType kpop_authtype = {
 	"+KPOP",
 	FALSE
 };
+#endif
 
 static gboolean
 try_connect (CamelService *service, CamelException *ex)
@@ -195,7 +196,6 @@ try_connect (CamelService *service, CamelException *ex)
 	close (fd);
 	return TRUE;
 }
-#endif
 
 static GList *
 query_auth_types (CamelService *service, CamelException *ex)
