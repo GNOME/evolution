@@ -1,5 +1,12 @@
 2000-04-05  Seth Alves  <alves@hungry.com>
 
+	* gui/calendar-commands.c (setup_menu): removed
+	(setup_appbar): removed
+	(calendar_control_activate): new function -- does the work
+	that setup_appbar and setup_menu used to do.
+	(calendar_control_deactivate): undoes what calendar_control_activate
+	does by removing the toolbar items and menu items.
+
 	* gui/Makefile.am: build test-calendar-widget and evolution-calendar,
 	common stuff is in a library
 
