@@ -892,13 +892,6 @@ get_signature_html (EMsgComposer *composer)
 
 	/* printf ("text: %s\n", text); */
 	if (text) {
-		if (!format_html) {
-			gchar *tmp;
-
-			tmp = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_SPACES);
-			g_free (text);
-			text = tmp;
-		}
 		/* The signature dash convention ("-- \n") is specified in the
 		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
 		 * section 4.3.2.
