@@ -827,6 +827,8 @@ iterate_specific (GnomePilotConduitStandardAbs *conduit,
 		  gint archived,
 		  GCalConduitContext *ctxt)
 {
+	(*local) = NULL;
+
 #ifdef DEBUG_CALCONDUIT
 	{
 		gchar *tmp;
