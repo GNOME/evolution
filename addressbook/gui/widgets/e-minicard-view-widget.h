@@ -40,6 +40,7 @@ struct _EMinicardViewWidget
 {
 	ECanvas parent;
 
+	GnomeCanvasItem *background;
 	GnomeCanvasItem *emv;
 
 	EAddressbookReflowAdapter *adapter;

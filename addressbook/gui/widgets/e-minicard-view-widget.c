@@ -36,6 +36,7 @@ static void e_minicard_view_widget_get_property  (GObject *object, guint prop_id
 static void e_minicard_view_widget_dispose       (GObject *object);
 static void e_minicard_view_widget_reflow        (ECanvas *canvas);
 static void e_minicard_view_widget_size_allocate (GtkWidget *widget, GtkAllocation *allocation);
+static void e_minicard_view_widget_style_set     (GtkWidget *widget, GtkStyle *previous_style);
 static void e_minicard_view_widget_realize       (GtkWidget *widget);
 
 static ECanvasClass *parent_class = NULL;
@@ -154,6 +155,7 @@ e_minicard_view_widget_class_init (EMinicardViewWidgetClass *klass)
 			      e_addressbook_marshal_INT__POINTER,
 			      G_TYPE_INT, 1, G_TYPE_POINTER);
 
+	widget_class->style_set     = e_minicard_view_widget_style_set;
 	widget_class->realize       = e_minicard_view_widget_realize;
 	widget_class->size_allocate = e_minicard_view_widget_size_allocate;
 
@@ -316,14 +318,29 @@ right_click (EMinicardView *view, GdkEvent *event, EMinicardViewWidget *widget)
 }
 
 static void
-e_minicard_view_widget_realize (GtkWidget *widget)
+e_minicard_view_widget_style_set (GtkWidget *widget, GtkStyle *previous_style)
 {
 	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
 
-	gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS(view) ),
-			      e_canvas_background_get_type(),
-			      "fill_color", "white",
-			      NULL );
+	if (view->background)
+		gnome_canvas_item_set (view->background,
+				       "fill_color_gdk", &widget->style->base[GTK_STATE_NORMAL],
+				       NULL );
+
+	if (GTK_WIDGET_CLASS(parent_class)->style_set)
+		GTK_WIDGET_CLASS(parent_class)->style_set (widget, previous_style);
+}
+
+static void
+e_minicard_view_widget_realize (GtkWidget *widget)
+{
+	EMinicardViewWidget *view = E_MINICARD_VIEW_WIDGET(widget);
+	GtkStyle *style = gtk_widget_get_style (widget);
+
+	view->background = gnome_canvas_item_new(gnome_canvas_root( GNOME_CANVAS(view) ),
+						 e_canvas_background_get_type(),
+						 "fill_color_gdk", &style->base[GTK_STATE_NORMAL],
+						 NULL );
 
 	view->emv = gnome_canvas_item_new(
 		gnome_canvas_root( GNOME_CANVAS(view) ),

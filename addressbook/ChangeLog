@@ -1,5 +1,39 @@
 2003-04-07  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes #7103 ]
+	* gui/widgets/e-minicard-label.c (e_minicard_label_class_init):
+	init style_set. and add the signal.
+	(e_minicard_label_realize): include e_minicard_label_construct's
+	code here, and call set_colors after we create the sub-items.
+	(e_minicard_label_unrealize): indent, and remove dead code.
+	(e_minicard_label_event): indent, and call set_colors instead of
+	setting the colors manually.
+	(set_colors): new function, set our colors based on the current
+	style.
+	(e_minicard_label_style_set): new function, just call set_colors.
+	(e_minicard_label_new): e_minicard_label_construct doesn't exist
+	anymore.
+
+	* gui/widgets/e-minicard-label.h (struct _EMinicardLabelClass):
+	add style_set signal.
+
+	* gui/widgets/e-minicard.c (set_selected): little tweaks in the
+	coloring.
+	(e_minicard_unrealize): reindent, and remove some unused code.
+
+	* gui/widgets/e-minicard-view-widget.h (struct
+	_EMinicardViewWidget): add background.
+
+	* gui/widgets/e-minicard-view-widget.c
+	(e_minicard_view_widget_class_init): init
+	widget_class->style_class.
+	(e_minicard_view_widget_style_set): new function, just set the
+	background's fill_color_gdk to base[GTK_STATE_NORMAL].
+	(e_minicard_view_widget_realize): store off the background canvas
+	item so we can set the color later.
+
+2003-04-07  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #40901 ]
 	* gui/component/ldap-config.glade: HIG-ify the ldap server edit
 	dialog's button layout.

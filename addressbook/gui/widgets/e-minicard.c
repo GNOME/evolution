@@ -260,7 +260,7 @@ set_selected (EMinicard *minicard, gboolean selected)
 	GtkWidget *canvas = GTK_WIDGET(GNOME_CANVAS_ITEM(minicard)->canvas);
 	if (selected) {
 		gnome_canvas_item_set (minicard->rect, 
-				       "outline_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
+				       "outline_color_gdk", &canvas->style->bg[GTK_STATE_ACTIVE],
 				       NULL);
 		gnome_canvas_item_set (minicard->header_rect, 
 				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_SELECTED],
@@ -276,7 +276,7 @@ set_selected (EMinicard *minicard, gboolean selected)
 				       "fill_color_gdk", &canvas->style->bg[GTK_STATE_NORMAL],
 				       NULL);
 		gnome_canvas_item_set (minicard->header_text, 
-				       "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
+				       "fill_color_gdk", &canvas->style->text[GTK_STATE_NORMAL],
 				       NULL);
 	}
 	minicard->selected = selected;
@@ -506,26 +506,21 @@ e_minicard_realize (GnomeCanvasItem *item)
 					"pixbuf", e_minicard->list_icon_pixbuf,
 					NULL);
 
+	set_selected (e_minicard, e_minicard->selected);
+
 	remodel(e_minicard);
 	e_canvas_item_request_reflow(item);
-
-	if (!item->canvas->aa) {
-	}
 }
 
 static void
 e_minicard_unrealize (GnomeCanvasItem *item)
 {
-  EMinicard *e_minicard;
+	EMinicard *e_minicard;
 
-  e_minicard = E_MINICARD (item);
+	e_minicard = E_MINICARD (item);
 
-  if (!item->canvas->aa)
-    {
-    }
-
-  if (GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize)
-    (* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
+	if (GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize)
+		(* GNOME_CANVAS_ITEM_CLASS(parent_class)->unrealize) (item);
 }
 
 static void
