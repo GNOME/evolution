@@ -478,6 +478,7 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	DB      *db = bf->priv->file_db;
 	DBT     id_dbt, vcard_dbt;
 	int i;
+	int esexp_error;
 	PASBackendFileBookView *view = (PASBackendFileBookView *)cnstview;
 
 	if (!bf->priv->loaded)
@@ -498,7 +499,12 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	}
 
 	e_sexp_input_text(view->search_sexp, view->search, strlen(view->search));
-	e_sexp_parse(view->search_sexp);
+	esexp_error = e_sexp_parse(view->search_sexp);
+
+	if (esexp_error == -1) {
+		pas_book_view_notify_complete (view->book_view);
+		return;
+	}
 
 	db_error = db->seq(db, &id_dbt, &vcard_dbt, R_FIRST);
 
@@ -521,10 +527,9 @@ pas_backend_file_search (PASBackendFile  	      *bf,
 	if (db_error == -1) {
 		g_warning ("pas_backend_file_search: error building list\n");
 	}
-	else {
-		pas_book_view_notify_add (view->book_view, cards);
-		pas_book_view_notify_complete (view->book_view);
-	}
+
+	pas_book_view_notify_add (view->book_view, cards);
+	pas_book_view_notify_complete (view->book_view);
 
 	/*
 	** It's fine to do this now since the data has been handed off.

@@ -296,8 +296,9 @@ e_select_names_text_model_activate_obj (ETextModel *model, gint n)
 
 	data = e_iterator_get (iterator);
 	card = E_CARD (data->card);
-	
-	contact_editor = e_contact_editor_new (card, FALSE);
+
+	/* FIXME: const incorrectness here. */	
+	contact_editor = e_contact_editor_new ((ECard *) card, FALSE);
 	e_contact_editor_raise (contact_editor);
 }
 

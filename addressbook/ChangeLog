@@ -1,3 +1,12 @@
+2001-02-21  Christopher James Lahey  <clahey@ximian.com>
+
+	* backend/pas/pas-backend-file.c (pas_backend_file_search): Made
+	this pay attention to the return value of e_sexp_parse.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_activate_obj): Fixed a const
+	inconsistency here.
+
 2001-02-21  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-book.c (pas_book_queue_get_supported_fields):
