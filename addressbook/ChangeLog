@@ -1,3 +1,9 @@
+2001-07-16  Iain Holmes  <iain@ximian.com>
+
+	* backend/pas/evolution-vcard-importer.c (ebook_create): Don't just 
+	use the default directory. Use the directory that is passed into the
+	load file function.
+
 2001-07-15  Christopher James Lahey  <clahey@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_set_string):

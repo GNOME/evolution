@@ -18,6 +18,7 @@ static BonoboGenericFactory *factory = NULL;
 
 typedef struct {
 	char *filename;
+	char *folderpath;
 	GList *cardlist;
 	GList *iterator;
 	EBook *book;
@@ -47,6 +48,7 @@ static void
 ebook_create (VCardImporter *gci)
 {
 	gchar *path, *uri;
+	gchar *epath;
 	
 	gci->book = e_book_new ();
 
@@ -57,10 +59,14 @@ ebook_create (VCardImporter *gci)
 		return;
 	}
 
-	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts/addressbook.db");
+	path = g_concat_dir_and_file (g_get_home_dir (), "evolution/local");
 	uri = g_strdup_printf ("file://%s", path);
 	g_free (path);
+
+	epath = e_path_to_physical (uri, gci->folderpath);
+	g_free (uri);
+	uri = g_strdup_printf ("%s/addressbook.db", epath);
+	g_free (epath);
 
 	if (! e_book_load_uri (gci->book, uri, book_open_cb, gci)) {
 		printf ("error calling load_uri!\n");
@@ -184,6 +190,7 @@ load_file_fn (EvolutionImporter *importer,
 
 	gci = (VCardImporter *) closure;
 	gci->filename = g_strdup (filename);
+	gci->folderpath = g_strdup (folderpath);
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
 	gci->ready = FALSE;
