@@ -746,7 +746,7 @@ impl_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *ps
 		break;
 
 	case PROP_TEXT:
-		g_value_set_string (value, e_search_bar_get_text (esb));
+		g_value_set_string_take_ownership (value, e_search_bar_get_text (esb));
 		break;
 
 	default:
