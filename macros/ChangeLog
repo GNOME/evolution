@@ -1,3 +1,9 @@
+Thu Mar 19 23:23:30 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* gnome.m4: An empty true branch of an `if' statement is not valid
+	sh syntax.  If GNOME_INIT_HOOK argument $1 is empty, use ":"
+	instead.
+
 1998-03-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* gnome.m4 (GNOME_INIT_HOOK): Provide a way to hook some code to

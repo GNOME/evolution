@@ -37,7 +37,8 @@ AC_DEFUN([GNOME_INIT_HOOK],
 	AC_ARG_WITH(gnome,
 	[  --with-gnome            Specify prefix for GNOME files],[
 	if test x$withval = xyes; then
-	    $1
+	    dnl Note that an empty true branch is not valid sh syntax.
+	    ifelse([$1], [], :, [$1])
         else
 	    LDFLAGS="$LDFLAGS -L$withval/lib"
 	    CFLAGS="$CFLAGS -I$withval/include"
