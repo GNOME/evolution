@@ -1,3 +1,26 @@
+2003-10-24  JP Rosevear <jpr@ximian.com>
+
+	* gui/gnome-cal.h: update protos
+
+	* gui/gnome-cal.c (gnome_calendar_set_default_uri): set the
+	default client based on uri
+
+	* gui/calendar-component.c (add_uri_for_source): rename from
+	load_uri_for_source and take a calendar
+	(remove_uri_for_source): utility routine to remove the source's
+	uri from the calendar
+	(is_in_selection): checks to see if the uid of the given source
+	matches any of those in the given selection
+	(update_uris_for_selection): remove any uris no longer in the
+	selection, add those that still exist
+	(source_selection_changed_callback): call above
+	(primary_source_selection_changed_callback): we have the calendar
+	easily now; set the default by uri
+	(control_activate_cb): handle activation and de-activation
+	(impl_createControls): create the calendar control ourselves so we
+	have access to the calendar
+	(impl_dispose): release the source selection
+
 2003-10-23  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/cal-backend-file.c (add_component): if the component received

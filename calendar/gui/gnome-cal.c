@@ -2025,28 +2025,6 @@ gnome_calendar_get_default_client (GnomeCalendar *gcal)
 }
 
 /**
- * gnome_calendar_set_default_client
- * @gcal: A calendar view.
- * @client: The client to use as default.
- *
- * Set the default client on the given calendar view. The default calendar will
- * be used as the default when creating events in the view.
- */
-void
-gnome_calendar_set_default_client (GnomeCalendar *gcal, CalClient *client)
-{
-	int i;
-
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-
-	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
-		e_cal_model_set_default_client (
-			e_cal_view_get_model (E_CAL_VIEW (gcal->priv->views[i])),
-			client);
-	}
-}
-
-/**
  * gnome_calendar_get_task_pad_cal_client:
  * @gcal: A calendar view.
  *
@@ -2210,6 +2188,51 @@ gnome_calendar_remove_event_uri (GnomeCalendar *gcal, const char *str_uri)
 
 	/* update date navigator query */
         update_query (gcal);
+
+	return TRUE;
+}
+
+/**
+ * gnome_calendar_set_default_uri
+ * @gcal: A calendar view.
+ * @client: The client to use as default.
+ *
+ * Set the default client on the given calendar view. The default calendar will
+ * be used as the default when creating events in the view.
+ */
+
+/**
+ * gnome_calendar_set_default_uri:
+ * @gcal: A calendar view
+ * @uri: The uri to use as default
+ * 
+ * Set the default uri on the given calendar view, the default uri
+ * will be used as the default when creating events in the view.
+
+ * 
+ * Return value: TRUE if the uri was already added and is set, FALSE
+ * otherwise
+ **/
+gboolean
+gnome_calendar_set_default_uri (GnomeCalendar *gcal, const char *uri)
+{
+	GnomeCalendarPrivate *priv;
+	CalClient *client;
+	int i;
+
+	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
+
+	priv = gcal->priv;
+	
+	client = g_hash_table_lookup (priv->clients, uri);
+	if (!client)
+		return FALSE;
+	
+	for (i = 0; i < GNOME_CAL_LAST_VIEW; i++) {
+		e_cal_model_set_default_client (
+			e_cal_view_get_model (E_CAL_VIEW (priv->views[i])),
+			client);
+	}
 
 	return TRUE;
 }

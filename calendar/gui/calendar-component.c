@@ -20,12 +20,14 @@
  * Author: Ettore Perazzoli <ettore@ximian.com>
  */
 
-#ifdef CONFIG_H
+#ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
+#include <string.h>
+
 #include "calendar-component.h"
-#include "control-factory.h"
+#include "calendar-commands.h"
 #include "gnome-cal.h"
 #include "migration.h"
 
@@ -47,7 +49,8 @@ struct _CalendarComponentPrivate {
 
 	GConfClient *gconf_client;
 	ESourceList *source_list;
-
+	GSList *source_selection;
+	
 	GnomeCalendar *calendar;
 };
 
@@ -55,60 +58,92 @@ struct _CalendarComponentPrivate {
 /* Utility functions.  */
 
 static void
-load_uri_for_source (ESource *source, BonoboControl *view_control)
+add_uri_for_source (ESource *source, GnomeCalendar *calendar)
 {
-	GnomeCalendar *gcal;
 	char *uri = e_source_get_uri (source);
 
-	gcal = (GnomeCalendar *) bonobo_control_get_widget (view_control);
-	gnome_calendar_add_event_uri (gcal, uri);
+	gnome_calendar_add_event_uri (calendar, uri);
 	g_free (uri);
 }
 
 static void
-load_uri_for_selection (ESourceSelector *selector, BonoboControl *view_control)
+remove_uri_for_source (ESource *source, GnomeCalendar *calendar)
 {
-	GSList *selection, *l;
+	char *uri = e_source_get_uri (source);
+
+	gnome_calendar_remove_event_uri (calendar, uri);
+	g_free (uri);
+}
+
+static gboolean
+is_in_selection (GSList *selection, ESource *source)
+{
+	GSList *l;
 	
-	selection = e_source_selector_get_selection (selector);
 	for (l = selection; l; l = l->next) {
 		ESource *selected_source = l->data;
 		
-		load_uri_for_source (selected_source, view_control);
+		if (!strcmp (e_source_peek_uid (selected_source), e_source_peek_uid (source)))
+			return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+update_uris_for_selection (ESourceSelector *selector, CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	GSList *selection, *l;
+	
+	selection = e_source_selector_get_selection (selector);
+
+	priv = calendar_component->priv;
+	
+	for (l = priv->source_selection; l; l = l->next) {
+		ESource *old_selected_source = l->data;
+
+		if (!is_in_selection (selection, old_selected_source))
+			remove_uri_for_source (old_selected_source, priv->calendar);
 	}	
+	
+	for (l = selection; l; l = l->next) {
+		ESource *selected_source = l->data;
+		
+		add_uri_for_source (selected_source, priv->calendar);
+	}
+
+	e_source_selector_free_selection (priv->source_selection);
+	priv->source_selection = selection;
 }
 
 /* Callbacks.  */
 static void
-source_selection_changed_callback (ESourceSelector *selector,
-				   BonoboControl *view_control)
+source_selection_changed_callback (ESourceSelector *selector, 
+				   CalendarComponent *calendar_component)
 {
-	
-	load_uri_for_selection (selector, view_control);
+	update_uris_for_selection (selector, calendar_component);
 }
 
 static void
 primary_source_selection_changed_callback (ESourceSelector *selector,
-					   BonoboControl *view_control)
+					   CalendarComponent *calendar_component)
 {
+	CalendarComponentPrivate *priv;
 	ESource *source;
-	GnomeCalendar *gcal;
-	ECalModel *model;
-	CalClient *client;
+	char *uri;
 
+	priv = calendar_component->priv;
+	
 	source = e_source_selector_peek_primary_selection (selector);
 	if (!source)
 		return;
 
-	/* set the default client on the GnomeCalendar */
-	gcal = (GnomeCalendar *) bonobo_control_get_widget (view_control);
-	if (!GNOME_IS_CALENDAR (gcal))
-		return;
+	/* Set the default */
+	uri = e_source_get_uri (source);
+	gnome_calendar_set_default_uri (priv->calendar, uri);
+	g_free (uri);
 
-	model = gnome_calendar_get_calendar_model (gcal);
-	client = e_cal_model_get_client_for_uri (model, e_source_get_uri (source));
-	if (client)
-		gnome_calendar_set_default_client (gcal, client);
 }
 
 /* GObject methods.  */
@@ -123,6 +158,11 @@ impl_dispose (GObject *object)
 		priv->source_list = NULL;
 	}
 
+	if (priv->source_selection != NULL) {
+		e_source_selector_free_selection (priv->source_selection);
+		priv->source_selection = NULL;
+	}
+	
 	if (priv->gconf_client != NULL) {
 		g_object_unref (priv->gconf_client);
 		priv->gconf_client = NULL;
@@ -137,6 +177,7 @@ impl_finalize (GObject *object)
 	CalendarComponentPrivate *priv = CALENDAR_COMPONENT (object)->priv;
 
 	g_free (priv->config_directory);
+
 	g_free (priv);
 
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
@@ -146,17 +187,33 @@ impl_finalize (GObject *object)
 /* Evolution::Component CORBA methods.  */
 
 static void
+control_activate_cb (BonoboControl *control, gboolean activate, gpointer data)
+{
+	GnomeCalendar *gcal;
+
+	gcal = GNOME_CALENDAR (data);
+
+	if (activate)
+		calendar_control_activate (control, gcal);
+	else
+		calendar_control_deactivate (control, gcal);
+}
+
+static void
 impl_createControls (PortableServer_Servant servant,
 		     Bonobo_Control *corba_sidebar_control,
 		     Bonobo_Control *corba_view_control,
 		     CORBA_Environment *ev)
 {
 	CalendarComponent *calendar_component = CALENDAR_COMPONENT (bonobo_object_from_servant (servant));
+	CalendarComponentPrivate *priv;
 	GtkWidget *selector;
 	GtkWidget *selector_scrolled_window;
 	BonoboControl *sidebar_control;
 	BonoboControl *view_control;
 
+	priv = calendar_component->priv;
+	
 	/* Create sidebar selector */
 	selector = e_source_selector_new (calendar_component->priv->source_list);
 	gtk_widget_show (selector);
@@ -172,17 +229,33 @@ impl_createControls (PortableServer_Servant servant,
 	sidebar_control = bonobo_control_new (selector_scrolled_window);
 
 	/* Create main calendar view */
+	/* FIXME Instead of returning, we should make a control with a
+	 * label describing the problem */
+	priv->calendar = new_calendar ();
+	if (!priv->calendar) {
+		g_warning (G_STRLOC ": could not create the calendar widget!");
+		return;
+	}
 	
-	view_control = control_factory_new_control ();
+	gtk_widget_show (GTK_WIDGET (priv->calendar));
+
+	view_control = bonobo_control_new (GTK_WIDGET (priv->calendar));
+	if (!view_control) {
+		g_warning (G_STRLOC ": could not create the control!");
+		return;
+	}
+	g_object_set_data (G_OBJECT (priv->calendar), "control", view_control);
+
+	g_signal_connect (view_control, "activate", G_CALLBACK (control_activate_cb), priv->calendar);
 
 	g_signal_connect_object (selector, "selection_changed",
 				 G_CALLBACK (source_selection_changed_callback), 
-				 G_OBJECT (view_control), 0);
+				 G_OBJECT (calendar_component), 0);
 	g_signal_connect_object (selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback), 
-				 G_OBJECT (view_control), 0);
+				 G_OBJECT (calendar_component), 0);
 
-	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
+	update_uris_for_selection (E_SOURCE_SELECTOR (selector), calendar_component);
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);
 	*corba_view_control = CORBA_Object_duplicate (BONOBO_OBJREF (view_control), ev);
