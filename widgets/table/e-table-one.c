@@ -60,7 +60,7 @@ one_is_cell_editable (ETableModel *etm, int col, int row)
 	ETableOne *one = E_TABLE_ONE(etm);
 
 	if (one->source)
-		return e_table_model_is_cell_editable(one->source, 0, row);
+		return e_table_model_is_cell_editable(one->source, col, -1);
 	else
 		return FALSE;
 }
