@@ -1685,10 +1685,14 @@ e_date_edit_check_date_changed		(EDateEdit	*dedit)
 
 	priv = dedit->priv;
 
+	tmp_tm.tm_year = 0;
+	tmp_tm.tm_mon = 0;
+	tmp_tm.tm_mday = 0;
+
 	date_text = gtk_entry_get_text (GTK_ENTRY (priv->date_entry));
-	if (field_set_to_none (date_text))
+	if (field_set_to_none (date_text)) {
 		none = TRUE;
-	else if (!e_date_edit_parse_date (dedit, date_text, &tmp_tm)) {
+	} else if (!e_date_edit_parse_date (dedit, date_text, &tmp_tm)) {
 		valid = FALSE;
 		tmp_tm.tm_year = 0;
 		tmp_tm.tm_mon = 0;
@@ -1718,6 +1722,9 @@ e_date_edit_check_time_changed		(EDateEdit	*dedit)
 	gboolean none = FALSE, valid = TRUE, time_changed;
 
 	priv = dedit->priv;
+
+	tmp_tm.tm_hour = 0;
+	tmp_tm.tm_min = 0;
 
 	time_text = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry));
 	if (field_set_to_none (time_text))

@@ -1,3 +1,9 @@
+2001-10-23  Damon Chaplin  <damon@ximian.com>
+
+	* e-dateedit.c (e_date_edit_check_date_changed):
+	(e_date_edit_check_time_changed): clear the struct tm fields to keep
+	purify happy.
+
 2001-10-22  Damon Chaplin  <damon@ximian.com>
 
 	* e-cell-date-edit.c (e_cell_date_edit_set_popup_values): 
