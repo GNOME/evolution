@@ -76,14 +76,15 @@ struct _EMsgComposer {
 	char *sig_file;
 	
 	gboolean attachment_bar_visible : 1;
-	gboolean send_html   : 1;
-	gboolean pgp_sign    : 1;
-	gboolean pgp_encrypt : 1;
-	gboolean view_from   : 1;
-	gboolean view_bcc    : 1;
-	gboolean view_cc     : 1;
-	gboolean view_subject: 1;
-	gboolean has_changed : 1;
+	gboolean send_html    : 1;
+	gboolean pgp_sign     : 1;
+	gboolean pgp_encrypt  : 1;
+	gboolean view_from    : 1;
+	gboolean view_replyto : 1;
+	gboolean view_bcc     : 1;
+	gboolean view_cc      : 1;
+	gboolean view_subject : 1;
+	gboolean has_changed  : 1;
 };
 
 struct _EMsgComposerClass {
@@ -127,21 +128,27 @@ void              e_msg_composer_set_send_html        (EMsgComposer     *compose
 gboolean          e_msg_composer_get_view_from        (EMsgComposer     *composer);
 void              e_msg_composer_set_view_from        (EMsgComposer     *composer,
 						       gboolean          view_from);
+
+gboolean          e_msg_composer_get_view_replyto     (EMsgComposer     *composer);
+void              e_msg_composer_set_view_replyto     (EMsgComposer     *composer,
+						       gboolean          view_replyto);
+
 gboolean          e_msg_composer_get_view_bcc         (EMsgComposer     *composer);
 void              e_msg_composer_set_view_bcc         (EMsgComposer     *composer,
 						       gboolean          view_bcc);
 gboolean          e_msg_composer_get_view_cc          (EMsgComposer     *composer);
 void              e_msg_composer_set_view_cc          (EMsgComposer     *composer,
 						       gboolean          view_cc);
-void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
-						       gboolean          pgp_sign);
 
 const MailConfigAccount *e_msg_composer_get_preferred_account (EMsgComposer *composer);
 
+void              e_msg_composer_set_pgp_sign         (EMsgComposer     *composer,
+						       gboolean          pgp_sign);
 gboolean          e_msg_composer_get_pgp_sign         (EMsgComposer     *composer);
 void              e_msg_composer_set_pgp_encrypt      (EMsgComposer     *composer,
 						       gboolean          pgp_encrypt);
 gboolean          e_msg_composer_get_pgp_encrypt      (EMsgComposer     *composer);
+
 void              e_msg_composer_clear_inlined_table  (EMsgComposer     *composer);
 gchar *           e_msg_composer_guess_mime_type      (const gchar *file_name);
 

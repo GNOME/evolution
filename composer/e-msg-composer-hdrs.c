@@ -46,10 +46,11 @@
 /* Indexes in the GtkTable assigned to various items */
 
 #define LINE_FROM    0
-#define LINE_TO      1
-#define LINE_CC      2
-#define LINE_BCC     3
-#define LINE_SUBJECT 4
+#define LINE_REPLYTO 1
+#define LINE_TO      2
+#define LINE_CC      3
+#define LINE_BCC     4
+#define LINE_SUBJECT 5
 
 typedef struct {
 	GtkWidget *label;
@@ -65,7 +66,7 @@ struct _EMsgComposerHdrsPrivate {
 	GSList *from_options;
 	
 	/* Standard headers.  */
-	Pair from, to, cc, bcc, subject;
+	Pair from, reply_to, to, cc, bcc, subject;
 };
 
 
@@ -174,7 +175,6 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 	
 	omenu = gtk_option_menu_new ();
 	menu = gtk_menu_new ();
-	
 		
 	accounts = mail_config_get_accounts ();
 	while (accounts) {
@@ -346,6 +346,17 @@ create_headers (EMsgComposerHdrs *hdrs)
 	priv->from.entry = create_from_optionmenu (hdrs);
 
 	/*
+	 * Reply-To:
+	 */
+	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
+	priv->reply_to.entry = e_entry_new ();
+	gtk_object_set (GTK_OBJECT (priv->reply_to.entry),
+			"editable", TRUE,
+			"use_ellipsis", TRUE,
+			"allow_newlines", FALSE,
+			NULL);
+
+	/*
 	 * Subject:
 	 */
 	priv->subject.label = gtk_label_new (_("Subject:"));
@@ -391,7 +402,7 @@ attach_couple (EMsgComposerHdrs *hdrs, Pair *pair, int line)
 		pair->label, 0, 1,
 		line, line + 1,
 		GTK_FILL, GTK_FILL, pad, pad);
-
+	
 	gtk_table_attach (
 		GTK_TABLE (hdrs),
 		pair->entry, 1, 2,
@@ -405,6 +416,7 @@ attach_headers (EMsgComposerHdrs *hdrs)
 	EMsgComposerHdrsPrivate *p = hdrs->priv;
 
 	attach_couple (hdrs, &p->from, LINE_FROM);
+	attach_couple (hdrs, &p->reply_to, LINE_REPLYTO);
 	attach_couple (hdrs, &p->to, LINE_TO);
 	attach_couple (hdrs, &p->cc, LINE_CC);
 	attach_couple (hdrs, &p->bcc, LINE_BCC);
@@ -429,6 +441,7 @@ headers_set_visibility (EMsgComposerHdrs *h, gint visible_flags)
 	EMsgComposerHdrsPrivate *p = h->priv;
 
 	set_pair_visibility (h, &p->from, visible_flags & E_MSG_COMPOSER_VISIBLE_FROM);
+	set_pair_visibility (h, &p->reply_to, visible_flags & E_MSG_COMPOSER_VISIBLE_REPLYTO);
 	set_pair_visibility (h, &p->cc, visible_flags & E_MSG_COMPOSER_VISIBLE_CC);
 	set_pair_visibility (h, &p->bcc, visible_flags & E_MSG_COMPOSER_VISIBLE_BCC);
 	set_pair_visibility (h, &p->subject, visible_flags & E_MSG_COMPOSER_VISIBLE_SUBJECT);
@@ -620,8 +633,8 @@ void
 e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 				CamelMimeMessage *msg)
 {
+	CamelInternetAddress *addr;
 	gchar *subject;
-	CamelInternetAddress *from;
 	
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
@@ -632,9 +645,15 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	camel_mime_message_set_subject (msg, subject);
 	g_free (subject);
 	
-	from = e_msg_composer_hdrs_get_from (hdrs);
-	camel_mime_message_set_from (msg, from);
-	camel_object_unref (CAMEL_OBJECT (from));
+	addr = e_msg_composer_hdrs_get_from (hdrs);
+	camel_mime_message_set_from (msg, addr);
+	camel_object_unref (CAMEL_OBJECT (addr));
+	
+	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
+	if (addr) {
+		camel_mime_message_set_reply_to (msg, addr);
+		camel_object_unref (CAMEL_OBJECT (addr));
+	}
 	
 	set_recipients (msg, hdrs->priv->to.entry, CAMEL_RECIPIENT_TYPE_TO);
 	set_recipients (msg, hdrs->priv->cc.entry, CAMEL_RECIPIENT_TYPE_CC);
@@ -686,14 +705,27 @@ e_msg_composer_hdrs_set_from_account (EMsgComposerHdrs *hdrs,
 		account = gtk_object_get_data (GTK_OBJECT (item), "account");
 		if ((account_name && !strcmp (account_name, account->name)) ||
 		    (!account_name && account->default_account)) {
+			/* set the correct optionlist item */
 			gtk_option_menu_set_history (omenu, i);
 			gtk_signal_emit_by_name (GTK_OBJECT (item), "activate", hdrs);
+			
 			return;
 		}
 		
 		l = l->next;
 		i++;
 	}
+}
+
+void
+e_msg_composer_hdrs_set_reply_to (EMsgComposerHdrs *hdrs,
+				  const char *reply_to)
+{
+	g_return_if_fail (hdrs != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
+	
+	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->reply_to.entry),
+				    "text", reply_to, NULL);
 }
 
 void
@@ -761,6 +793,30 @@ e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs)
 	return addr;
 }
 
+CamelInternetAddress *
+e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
+{
+	CamelInternetAddress *addr;
+	gchar *reply_to;
+	
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+	
+	gtk_object_get (GTK_OBJECT (hdrs->priv->reply_to.entry),
+			"text", &reply_to, NULL);
+	
+	addr = camel_internet_address_new ();
+	if (camel_address_unformat (CAMEL_ADDRESS (addr), reply_to) == -1) {
+		g_free (reply_to);
+		camel_object_unref (CAMEL_OBJECT (addr));
+		return NULL;
+	}
+	
+	g_free (reply_to);
+	
+	return addr;
+}
+
 /* FIXME this is currently unused and broken.  */
 GList *
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
@@ -812,6 +868,15 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 }
 
 
+GtkWidget *
+e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs)
+{
+	g_return_val_if_fail (hdrs != NULL, NULL);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
+
+	return hdrs->priv->reply_to.entry;
+}
+
 GtkWidget *
 e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
 {

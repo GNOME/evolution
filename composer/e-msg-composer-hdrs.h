@@ -66,9 +66,10 @@ struct _EMsgComposerHdrsClass {
 
 typedef enum {
 	E_MSG_COMPOSER_VISIBLE_FROM    = 1,
-	E_MSG_COMPOSER_VISIBLE_CC      = 2,
-	E_MSG_COMPOSER_VISIBLE_BCC     = 4,
-	E_MSG_COMPOSER_VISIBLE_SUBJECT = 8
+	E_MSG_COMPOSER_VISIBLE_REPLYTO = 2,
+	E_MSG_COMPOSER_VISIBLE_CC      = 4,
+	E_MSG_COMPOSER_VISIBLE_BCC     = 8,
+	E_MSG_COMPOSER_VISIBLE_SUBJECT = 16
 } EMsgComposerHeaderVisibleFlags;
 
 
@@ -80,6 +81,8 @@ void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 
 void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
+void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,
+						    const char *reply_to);
 void        e_msg_composer_hdrs_set_to             (EMsgComposerHdrs *hdrs,
 						    const GList      *to_list);
 void        e_msg_composer_hdrs_set_cc             (EMsgComposerHdrs *hdrs,
@@ -90,11 +93,13 @@ void        e_msg_composer_hdrs_set_subject        (EMsgComposerHdrs *hdrs,
 						    const char       *subject);
 
 CamelInternetAddress *e_msg_composer_hdrs_get_from (EMsgComposerHdrs *hdrs);
+CamelInternetAddress *e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_to             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_cc             (EMsgComposerHdrs *hdrs);
 GList      *e_msg_composer_hdrs_get_bcc            (EMsgComposerHdrs *hdrs);
 char       *e_msg_composer_hdrs_get_subject        (EMsgComposerHdrs *hdrs);
 
+GtkWidget  *e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_to_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_cc_entry       (EMsgComposerHdrs *hdrs);
 GtkWidget  *e_msg_composer_hdrs_get_bcc_entry      (EMsgComposerHdrs *hdrs);

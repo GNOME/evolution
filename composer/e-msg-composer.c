@@ -642,7 +642,7 @@ set_editor_text (EMsgComposer *composer, const char *sig_file, const char *text)
 	bonobo_object_unref (BONOBO_OBJECT(stream));
 }
 
-void
+static void
 set_config (EMsgComposer *composer, char *key, int val)
 {
 	if (composer->property_bag){
@@ -748,46 +748,47 @@ struct _save_info {
 	int quitok;
 };
 
-static void save_done(CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
+static void
+save_done (CamelFolder *folder, CamelMimeMessage *msg, CamelMessageInfo *info, int ok, void *data)
 {
 	struct _save_info *si = data;
 
 	if (ok && si->quitok)
-		gtk_widget_destroy((GtkWidget *)si->composer);
+		gtk_widget_destroy (GTK_WIDGET (si->composer));
 	else
-		gtk_object_unref((GtkObject *)si->composer);
+		gtk_object_unref (GTK_OBJECT (si->composer));
 
-	g_free(info);
-	g_free(si);
+	g_free (info);
+	g_free (si);
 }
 
 static void
-save_draft(EMsgComposer *composer, int quitok)
+save_draft (EMsgComposer *composer, int quitok)
 {
 	CamelMimeMessage *msg;
 	CamelMessageInfo *info;
 	extern CamelFolder *drafts_folder;
 	struct _save_info *si;
-
+	
 	composer->send_html = TRUE;  /* always save drafts as HTML to keep formatting */
-	msg = e_msg_composer_get_message(composer);
-
+	msg = e_msg_composer_get_message (composer);
+	
 	info = g_new0 (CamelMessageInfo, 1);
 	info->flags = CAMEL_MESSAGE_DRAFT;
-
-	si = g_malloc(sizeof(*si));
+	
+	si = g_malloc (sizeof (*si));
 	si->composer = composer;
-	gtk_object_ref((GtkObject *)composer);
+	gtk_object_ref (GTK_OBJECT (composer));
 	si->quitok = quitok;
-
-	mail_append_mail(drafts_folder, msg, info, save_done, si);
-	camel_object_unref((CamelObject *)msg);
+	
+	mail_append_mail (drafts_folder, msg, info, save_done, si);
+	camel_object_unref (CAMEL_OBJECT (msg));
 }
 
 static void
 menu_file_save_draft_cb (BonoboUIComponent *uic, void *data, const char *path)
 {
-	save_draft(E_MSG_COMPOSER(data), FALSE);
+	save_draft (E_MSG_COMPOSER (data), FALSE);
 }
 
 static void
@@ -1088,8 +1089,8 @@ fs_selection_get (GtkWidget *widget, GtkSelectionData *sdata,
 	g_free (buffer);
 	gtk_object_remove_data (GTK_OBJECT (widget), "ev_file_buffer");
 }
-
 #endif
+
 static void
 menu_file_insert_file_cb (BonoboUIComponent *uic,
 		void *data,
@@ -1172,6 +1173,19 @@ menu_view_from_cb (BonoboUIComponent           *component,
 }
 
 static void
+menu_view_replyto_cb (BonoboUIComponent           *component,
+		      const char                  *path,
+		      Bonobo_UIComponent_EventType type,
+		      const char                  *state,
+		      gpointer                     user_data)
+{
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+	e_msg_composer_set_view_replyto (E_MSG_COMPOSER (user_data), atoi (state));
+}
+
+static void
 menu_view_bcc_cb (BonoboUIComponent           *component,
 		  const char                  *path,
 		  Bonobo_UIComponent_EventType type,
@@ -1249,6 +1263,14 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewFrom",
 		menu_view_from_cb, composer);
+
+	/* View/ReplyTo */
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewReplyTo",
+		"state", composer->view_replyto ? "1" : "0", NULL);
+	bonobo_ui_component_add_listener (
+		composer->uic, "ViewReplyTo",
+		menu_view_replyto_cb, composer);
 
 	/* View/BCC */
 	bonobo_ui_component_set_prop (
@@ -1571,6 +1593,7 @@ load_from_property_bag (EMsgComposer *composer)
 	Bonobo_PropertyBag bag = composer->property_bag;
 	
 	composer->view_from = load_with_failue_control (bag, "ViewFrom", 1);
+	composer->view_replyto = load_with_failue_control (bag, "ViewReplyTo", 0);
 	composer->view_bcc = load_with_failue_control (bag, "ViewBCC", 0);
 	composer->view_cc = load_with_failue_control (bag, "ViewCC", 1);
 	composer->view_subject = load_with_failue_control (bag, "ViewSubject", 1);
@@ -1580,6 +1603,7 @@ static void
 load_from_gnome_config (EMsgComposer *composer)
 {
 	composer->view_from = get_config_value ("ViewFrom=1");
+	composer->view_replyto = get_config_value ("ViewReplyTo=0");
 	composer->view_bcc  = get_config_value ("ViewBCC=0");
 	composer->view_cc   = get_config_value ("ViewCC=1");
 	composer->view_subject = get_config_value ("ViewSubject=1");
@@ -1612,6 +1636,8 @@ e_msg_composer_get_visible_flags (EMsgComposer *composer)
 
 	if (composer->view_from)
 		flags |= E_MSG_COMPOSER_VISIBLE_FROM;
+	if (composer->view_replyto)
+		flags |= E_MSG_COMPOSER_VISIBLE_REPLYTO;
 	if (composer->view_cc)
 		flags |= E_MSG_COMPOSER_VISIBLE_CC;
 	if (composer->view_bcc)
@@ -2501,6 +2527,23 @@ e_msg_composer_set_view_bcc (EMsgComposer *composer, gboolean view_bcc)
 }
 
 /**
+ * e_msg_composer_get_view_bcc:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View BCC header" flag.
+ * 
+ * Return value: The status of the "View BCC header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_bcc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_bcc;
+}
+
+/**
  * e_msg_composer_set_view_cc:
  * @composer: A message composer widget
  * @state: whether to show or hide the cc view
@@ -2528,6 +2571,23 @@ e_msg_composer_set_view_cc (EMsgComposer *composer, gboolean view_cc)
 }
 
 /**
+ * e_msg_composer_get_view_cc:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View CC header" flag.
+ * 
+ * Return value: The status of the "View CC header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_cc (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_cc;
+}
+
+/**
  * e_msg_composer_set_view_from:
  * @composer: A message composer widget
  * @state: whether to show or hide the From selector
@@ -2552,6 +2612,67 @@ e_msg_composer_set_view_from (EMsgComposer *composer, gboolean view_from)
 	e_msg_composer_set_hdrs_visible
 		(E_MSG_COMPOSER_HDRS (composer->hdrs),
 		 e_msg_composer_get_visible_flags (composer));
+}
+
+/**
+ * e_msg_composer_get_view_from:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View From header" flag.
+ * 
+ * Return value: The status of the "View From header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_from (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_from;
+}
+
+/**
+ * e_msg_composer_set_view_from:
+ * @composer: A message composer widget
+ * @state: whether to show or hide the From selector
+ *
+ * Controls the state of the From selector
+ */
+void
+e_msg_composer_set_view_replyto (EMsgComposer *composer, gboolean view_replyto)
+{
+	g_return_if_fail (composer != NULL);
+	g_return_if_fail (E_IS_MSG_COMPOSER (composer));
+	
+	if ((composer->view_replyto && view_replyto) ||
+	    (!composer->view_replyto && !view_replyto))
+		return;
+	
+	composer->view_replyto = view_replyto;
+	bonobo_ui_component_set_prop (
+		composer->uic, "/commands/ViewReplyTo",
+		"state", composer->view_replyto ? "1" : "0", NULL);
+	set_config (composer, "ViewReplyTo", composer->view_replyto);
+	e_msg_composer_set_hdrs_visible
+		(E_MSG_COMPOSER_HDRS (composer->hdrs),
+		 e_msg_composer_get_visible_flags (composer));
+}
+
+/**
+ * e_msg_composer_get_view_replyto:
+ * @composer: A message composer widget
+ * 
+ * Get the status of the "View Reply-To header" flag.
+ * 
+ * Return value: The status of the "View Reply-To header" flag.
+ **/
+gboolean
+e_msg_composer_get_view_replyto (EMsgComposer *composer)
+{
+	g_return_val_if_fail (composer != NULL, FALSE);
+	g_return_val_if_fail (E_IS_MSG_COMPOSER (composer), FALSE);
+	
+	return composer->view_replyto;
 }
 
 /**

@@ -1,3 +1,31 @@
+2001-03-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* e-msg-composer.h: Added view_replyto member.
+
+	* e-msg-composer.c (e_msg_composer_get_visible_flags): Find out if
+	we want to view the Reply-To header.
+	(e_msg_composer_set_view_replyto): A new function to set the state
+	of the replyto header.
+	(menu_view_replyto_cb): Callback for setting the ReplyTo state.
+	(set_config): Make static.
+	(setup_ui): Setup the ReplyTo bonobo stuff.
+	(load_from_property_bag): More defaults for the ReplyTo, yay.
+	(load_from_gnome_config): Again...
+	(e_msg_composer_get_view_bcc): Implemented.
+	(e_msg_composer_get_view_cc): Implemented.
+	(e_msg_composer_get_view_from): Implemented.
+	(e_msg_composer_get_view_replyto): Implemented.
+
+	* e-msg-composer-hdrs.c (e_msg_composer_hdrs_get_reply_to_entry):
+	New function, yay.
+	(e_msg_composer_hdrs_get_reply_to): Another new function.
+	(e_msg_composer_hdrs_set_reply_to): Yet another new function...
+	(create_headers): Create the reply-to header.
+	(attach_headers): Attach the reply_to.
+	(headers_set_visibility): Set the reply_to visibility.
+	(e_msg_composer_hdrs_to_message): Set the message's reply-to here
+	based on the user-set reply-to header.
+
 2001-03-06  Miguel de Icaza  <miguel@ximian.com>
 
 	* e-msg-composer.c (set_config): New function.  Used to store
