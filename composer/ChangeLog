@@ -1,3 +1,10 @@
+2002-12-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Patch from Chris Lahey <clahey@ximian.com>.]
+
+	* evolution-composer.c (factory_fn): Do not return a composer if
+	the mailer isn't ready.
+
 2002-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (e_msg_composer_new_with_message): Make sure to

@@ -33,6 +33,7 @@
 #include <camel/camel.h>
 #include "evolution-composer.h"
 #include "mail/mail-config.h"
+#include "mail/mail-session.h"
 #include "e-util/e-html-utils.h"
 
 #define PARENT_TYPE BONOBO_OBJECT_TYPE
@@ -393,6 +394,10 @@ factory_fn (BonoboGenericFactory *factory, void *closure)
 			  _("Could not create composer window, because you "
 			    "have not yet\nconfigured any identities in the "
 			    "mail component."));
+		return NULL;
+	}
+	if (! (session && mail_session_get_interactive ())) {
+		/* Don't return a composer if mailer isn't ready. */
 		return NULL;
 	}
 	return BONOBO_OBJECT (evolution_composer_new ());
