@@ -1,3 +1,8 @@
+2002-03-28  Christopher James Lahey  <clahey@ximian.com>
+
+	* e-msg-composer-select-file.c: Switch to using EFileSelection
+	here instead of GtkFileSelection.
+
 2002-03-27  Larry Ewing  <lewing@ximian.com>
 
 	* Makefile.am: fix for the changes to GTKHTML_DATADIR that include

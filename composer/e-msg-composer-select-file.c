@@ -30,6 +30,7 @@
 #include <gtk/gtkfilesel.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
+#include <gal/widgets/e-file-selection.h>
 #include "e-msg-composer-select-file.h"
 
 
@@ -43,40 +44,18 @@ typedef struct _FileSelectionInfo {
 static void
 confirm (FileSelectionInfo *info)
 {
-	const char *filename;
-	GtkCList *file_list;
-	char *path;
-	GList *l;
-	
-	file_list = GTK_CLIST (GTK_FILE_SELECTION (info->widget)->file_list);
-	
-	if (info->multiple && file_list->selection) {
-		/* evil kludgy hack cuz the gtk file selector fucking sucks ass */
-		path = g_dirname (gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->widget)));
-		
-		l = file_list->selection;
-		
-		while (l) {
-			int row;
-			
-			if (!info->selected_files)
-				info->selected_files = g_ptr_array_new ();
-			
-			row = GPOINTER_TO_INT (l->data);
-			if (gtk_clist_get_text (GTK_CLIST (file_list), row, 0, (char **) &filename))
-				g_ptr_array_add (info->selected_files, g_strdup_printf ("%s/%s", path, filename));
-			
-			l = l->next;
-		}
-		
-		g_free (path);
-	} else {
-		filename = gtk_file_selection_get_filename (GTK_FILE_SELECTION (info->widget));
-		if (filename) {
-			info->selected_files = g_ptr_array_new ();
-			g_ptr_array_add (info->selected_files, g_strdup (filename));
-		}
-	}
+	char **file_list;
+	int i;
+
+	file_list = e_file_selection_get_filenames (E_FILE_SELECTION (info->widget));
+
+	if (!info->selected_files)
+		info->selected_files = g_ptr_array_new ();
+
+	for (i = 0; file_list[i]; i++)
+		g_ptr_array_add (info->selected_files, file_list[i]);
+
+	g_free (file_list);
 	
 	gtk_widget_hide (info->widget);
 	
@@ -145,24 +124,21 @@ create_file_selection (EMsgComposer *composer, gboolean multiple)
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
 	GtkWidget *inline_checkbox;
-	GtkWidget *file_list;
 	GtkWidget *box;
 	char *path;
 	
 	info = g_new (FileSelectionInfo, 1);
 	
-	widget = gtk_file_selection_new (NULL);
+	widget = e_file_selection_new (NULL);
 	path = g_strdup_printf ("%s/", g_get_home_dir ());
 	gtk_file_selection_set_filename (GTK_FILE_SELECTION (widget), path);
 	g_free (path);
 	gtk_window_set_wmclass (GTK_WINDOW (widget), "fileselection", 
 				"Evolution:composer");
 	
-	if (multiple) {
-		file_list = GTK_FILE_SELECTION (widget)->file_list;
-		gtk_clist_set_selection_mode (GTK_CLIST (file_list),
-					      GTK_SELECTION_MULTIPLE);
-	}
+	gtk_object_set (GTK_OBJECT (widget),
+			"multiple", multiple,
+			NULL);
 	
 	ok_button     = GTK_FILE_SELECTION (widget)->ok_button;
 	cancel_button = GTK_FILE_SELECTION (widget)->cancel_button;
