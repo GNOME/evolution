@@ -158,4 +158,33 @@
                        _value="Factory to centralize calendar component editor dialogs"/>
 </oaf_server>
 
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ConfigControlFactory"
+            type="exe"
+            location="evolution-calendar">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_ConfigControl"
+	    type="factory"
+	    location="OAFIID:GNOME_Evolution_Calendar_ConfigControlFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ConfigControl:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="evolution:config_item:title" type="string"
+		       _value="Calendar Settings"/>
+
+	<oaf_attribute name="evolution:config_item:description" type="string"
+		       _value="This page can be used to configure your calendar settings"/>
+
+	<oaf_attribute name="description" type="string"
+		       _value="Configuration control for the Evolution Calendar."/>
+
+</oaf_server>
+
 </oaf_info>

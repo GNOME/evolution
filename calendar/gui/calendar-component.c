@@ -36,6 +36,7 @@
 #include "calendar-offline-handler.h"
 #include "component-factory.h"
 #include "tasks-control-factory.h"
+#include "config-control-factory.h"
 #include "control-factory.h"
 #include "calendar-config.h"
 #include "tasks-control.h"
@@ -487,6 +488,8 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	shells = g_list_append (shells, shell_component);
 
 	global_shell_client = shell_client;
+
+	config_control_factory_register (bonobo_object_corba_objref (BONOBO_OBJECT (shell_client)));
 }
 
 static void

@@ -30,46 +30,9 @@
 #ifndef _CAL_PREFS_DIALOG_H_
 #define _CAL_PREFS_DIALOG_H_
 
-#include <gtk/gtkobject.h>
-#include <libgnome/gnome-defs.h>
+#include "evolution-config-control.h"
 
-BEGIN_GNOME_DECLS
-
-
-#define CAL_PREFS_DIALOG(obj)          GTK_CHECK_CAST (obj, cal_prefs_dialog_get_type (), CalPrefsDialog)
-#define CAL_PREFS_DIALOG_CLASS(klass)  GTK_CHECK_CLASS_CAST (klass, cal_prefs_dialog_get_type (), CalPrefsDialogClass)
-#define IS_CAL_PREFS_DIALOG(obj)       GTK_CHECK_TYPE (obj, cal_prefs_dialog_get_type ())
-
-
-typedef struct _CalPrefsDialog       CalPrefsDialog;
-typedef struct _CalPrefsDialogClass  CalPrefsDialogClass;
-
-typedef struct _CalPrefsDialogPrivate CalPrefsDialogPrivate;
-
-typedef enum {
-	CAL_PREFS_DIALOG_PAGE_CALENDAR,
-	CAL_PREFS_DIALOG_PAGE_TASKS
-} CalPrefsDialogPage;
-
-struct _CalPrefsDialog
-{
-	GtkObject object;
-
-	/*< private >*/
-	CalPrefsDialogPrivate *priv;
-};
-
-struct _CalPrefsDialogClass
-{
-	GtkObjectClass parent_class;
-};
-
-
-GtkType		cal_prefs_dialog_get_type	(void);
-CalPrefsDialog* cal_prefs_dialog_construct	(CalPrefsDialog *prefs, CalPrefsDialogPage page);
-CalPrefsDialog* cal_prefs_dialog_new		(CalPrefsDialogPage page);
-
-void		cal_prefs_dialog_show		(CalPrefsDialog *prefs, CalPrefsDialogPage page);
+EvolutionConfigControl *cal_prefs_dialog_new (void);
 
 END_GNOME_DECLS
 

@@ -87,6 +87,8 @@ evolution_calendar_SOURCES =			\
 	comp-editor-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
+	config-control-factory.c		\
+	config-control-factory.h		\
 	control-factory.c			\
 	control-factory.h			\
 	component-factory.c			\

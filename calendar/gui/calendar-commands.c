@@ -59,9 +59,6 @@
 /* A list of all of the calendars started */
 static GList *all_calendars = NULL;
 
-/* We have one global preferences dialog. */
-static CalPrefsDialog *preferences_dialog = NULL;
-
 /* Focusing information for the calendar view.  We have to keep track of this
  * ourselves because with Bonobo controls, we may get unpaired focus_out events.
  */
@@ -288,15 +285,6 @@ show_month_view_clicked (BonoboUIComponent *uic, gpointer data, const char *path
 }
 
 
-
-static void
-settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	if (!preferences_dialog)
-		preferences_dialog = cal_prefs_dialog_new (CAL_PREFS_DIALOG_PAGE_CALENDAR);
-	else
-		cal_prefs_dialog_show (preferences_dialog, CAL_PREFS_DIALOG_PAGE_CALENDAR);
-}
 
 static void
 cut_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
@@ -683,8 +671,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("CalendarNewMeeting", new_meeting_cb),
 	BONOBO_UI_VERB ("CalendarNewEvent", new_event_cb),
 	BONOBO_UI_VERB ("CalendarNewTask", new_task_cb),
-
-	BONOBO_UI_VERB ("CalendarSettings", settings_cmd),
 
 	BONOBO_UI_VERB ("Cut", cut_cmd),
 	BONOBO_UI_VERB ("Copy", copy_cmd),

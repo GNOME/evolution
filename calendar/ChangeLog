@@ -1,3 +1,55 @@
+2002-03-12  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: Add <visible>False</visible>
+	to cal-prefs-dialog so it doesn't get shown when we load the Glade
+	file with libglade.
+
+	* gui/component-factory.c (owner_set_cb): Register the
+	ConfigControl factory.
+
+	* gui/tasks-control.c: Removed verb "TaskSettings".
+	(tasks_control_settings_cmd): Removed.
+
+	* gui/calendar-commands.c: Removed verb "CalendarSettings".
+	(settings_cmd): Removed.
+
+	* gui/dialogs/cal-prefs-dialog.c: Renamed `CalPrefsDialogPrivate'
+	to `DialogData'.  Replace `dialog' member with a `page' member.
+	Remove `toplevel_notebook' member.
+	(init_widgets): Renamed from `cal_prefs_dialog_init_widgets'.
+	Just get a DialogData.
+	(get_widgets): Get a DialogData pointer.
+	(cal_prefs_dialog_destroy): Removed.
+	(config_control_destroy_callback): New, signal handler for
+	::destroy for ConfigControl.
+	(cal_prefs_dialog_new): Create a new DialogData, connect all the
+	signal handlers.
+	(create_time_edit): Renamed from
+	`cal_prefs_dialog_create_time_edit'.
+	(cal_prefs_dialog_show): Removed.
+	(cal_prefs_dialog_button_clicked): Removed.
+	(show_task_list_config): Get a DialogData.
+	(show_config): Renamed from `cal_prefs_dialog_show_config'.
+	Likewise.
+	(update_task_list_config): Likewise.
+	(update_config): Renamed from
+	`cal_prefs_dialog_update_config'. Likewise.
+	(color_set_callback): New callback, makes the dialog report
+	changes when the setting in any of the color widgets is changed.
+	(widget_changed_callback): New callback, makes the dialog report
+	changes when any of the widgets changes status.
+	(connect_changed): New utility function to connect this callback
+	to all the widgets.
+	(setup_widgets): Connect all the widgets.
+	(cal_prefs_dialog_new): Call `setup_widgets'.
+
+	* gui/config-control-factory.c: New.
+	* gui/config-control-factory.h: New.
+
+	* gui/GNOME_Evolution_Calendar.oaf.in: Add
+	OAFIID:GNOME_Evolution_Calendar_ConfigControl and
+	OAFIID:GNOME_Evolution_Calendar_ConfigControlFactory.
+
 2002-03-06  Rodrigo Moya <rodrigo@ximian.com>
 
 	Should fix #21240

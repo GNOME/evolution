@@ -92,9 +92,6 @@ static void tasks_control_complete_cmd		(BonoboUIComponent	*uic,
 static void tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
-static void tasks_control_settings_cmd		(BonoboUIComponent	*uic,
-						 gpointer		 data,
-						 const char		*path);
 static void tasks_control_print_cmd		(BonoboUIComponent	*uic,
 						 gpointer		 data,
 						 const char		*path);
@@ -270,7 +267,6 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_VERB ("TasksDelete", tasks_control_delete_cmd),
 	BONOBO_UI_VERB ("TasksMarkComplete", tasks_control_complete_cmd),
 	BONOBO_UI_VERB ("TasksExpunge", tasks_control_expunge_cmd),
-	BONOBO_UI_VERB ("TasksSettings", tasks_control_settings_cmd),
 	BONOBO_UI_VERB ("TasksPrint", tasks_control_print_cmd),
 	BONOBO_UI_VERB ("TasksPrintPreview", tasks_control_print_preview_cmd),
 
@@ -485,22 +481,6 @@ tasks_control_expunge_cmd		(BonoboUIComponent	*uic,
 	
 	if (confirm_expunge (tasks))
 	    e_tasks_delete_completed (tasks);
-}
-
-
-/* Callback used for the tasks settings command */
-static void
-tasks_control_settings_cmd (BonoboUIComponent *uic, gpointer data, const char *path)
-{
-	ETasks *tasks;
-	static CalPrefsDialog *prefs_dialog = NULL;
-
-	tasks = E_TASKS (data);
-
-	if (!prefs_dialog)
-		prefs_dialog = cal_prefs_dialog_new (CAL_PREFS_DIALOG_PAGE_TASKS);
-	else
-		cal_prefs_dialog_show (prefs_dialog, CAL_PREFS_DIALOG_PAGE_TASKS);
 }
 
 

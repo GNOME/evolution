@@ -15,6 +15,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>cal-prefs-dialog</name>
+  <visible>False</visible>
   <title>Calendar and Tasks Settings</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>
