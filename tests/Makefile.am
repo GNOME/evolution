@@ -34,6 +34,13 @@ LDADD = \
 #	$(GNOME_LIBDIR) 			\
 #	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 
+test14_LDADD = \
+	$(top_builddir)/camel/providers/vee/libcamelvee.la 	\
+	$(top_builddir)/camel/libcamel.la 	\
+	$(top_builddir)/libibex/libibex.la 	\
+	$(GNOME_LIBDIR) 			\
+	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
+
 #test12_LDADD = \
 #	$(top_builddir)/camel/libcamel.la 	\
 #	$(top_builddir)/camel/providers/nntp/libcamelnntp.la 	\
@@ -61,6 +68,7 @@ noinst_PROGRAMS =  	\
 	test10		\
 	test11		\
 	test13		\
+	test14		\
 	test-movemail	\
 	test-url	\
 	$(THREAD_RELATED_TESTS)

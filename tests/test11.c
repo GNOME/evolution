@@ -44,7 +44,7 @@ main (int argc, char**argv)
 
 	camel_provider_load (session, "../camel/providers/mbox/.libs/libcamelmbox.so.0", ex);
 	if (camel_exception_get_id (ex)) {
-		printf ("Exceptions suck\n");
+		printf ("Exceptions suck: %s\n", camel_exception_get_description (ex));
 		return 1;
 	}
 
@@ -94,13 +94,15 @@ main (int argc, char**argv)
 		CamelMimeMessage *m;
 		
 		printf("uid: %s\n", (char *) n->data);
-#if 0
 		m = camel_folder_get_message_by_uid(folder, n->data, ex);
 
 		if (camel_exception_get_id (ex)) {
 			printf ("Cannot get message\n"
 				"Full description : %s\n", camel_exception_get_description (ex));
+			camel_exception_init(ex);
 		} else {
+
+#if 1
 		
 			camel_folder_append_message(outbox, m, ex);
 			
@@ -112,13 +114,19 @@ main (int argc, char**argv)
 			printf("Removing matching message from source folder?\n");
 			camel_mime_message_set_flags(m, CAMEL_MESSAGE_DELETED, CAMEL_MESSAGE_DELETED);
 /*			camel_mime_message_set_flags(m, CAMEL_MESSAGE_ANSWERED, CAMEL_MESSAGE_ANSWERED);*/
-		}
-		camel_mime_message_unref(m);
 #endif
+
+		}
+		if (m)
+			gtk_object_unref(m);
 		n = g_list_next(n);
 	}
 
+	camel_folder_close (outbox, TRUE, ex);
 	camel_folder_close (folder, TRUE, ex);
+
+	gtk_object_unref((GtkObject *)outbox);
+	gtk_object_unref((GtkObject *)folder);
 
 	return 0;
 }
