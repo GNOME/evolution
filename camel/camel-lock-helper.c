@@ -360,8 +360,9 @@ int main(int argc, char **argv)
 			switch(msg.id) {
 			case CAMEL_LOCK_HELPER_LOCK:
 				res = CAMEL_LOCK_HELPER_STATUS_NOMEM;
-				path = malloc(msg.data+1);
-				if (path != NULL) {
+				if (msg.data > 0xffff) {
+					res = CAMEL_LOCK_HELPER_STATUS_PROTOCOL;
+				} else if ((path = malloc(msg.data+1)) != NULL) {
 					res = CAMEL_LOCK_HELPER_STATUS_PROTOCOL;
 					len = read_n(STDIN_FILENO, path, msg.data);
 					if (len == msg.data) {

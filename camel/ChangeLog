@@ -1,3 +1,10 @@
+2005-01-20  Not Zed  <NotZed@Ximian.com>
+
+	* camel-lock-helper.c (main): since malloc(MAXINT+1) returns a
+	valid pointer, validate the length of the path before using it.
+	set maximum path to 65000 characters.  Spotted by Max Vozeler
+	<max@hinterhof.net>
+
 2005-01-11  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #70919.
