@@ -7,7 +7,7 @@ INCLUDES =					\
 	-I$(top_srcdir)/camel/providers/MH	\
 	-I$(top_srcdir)/widgets			\
 	-I$(top_srcdir)/filter			\
-	$(EXTRA_GNOME_CFLAGS)
+	$(EXTRA_GNOME_CFLAGS) $(BONOBO_GNOME_CFLAGS)
 
 LDADD =							\
 	$(top_builddir)/widgets/libevolutionwidgets.la	\
@@ -22,7 +22,7 @@ message_browser_LDADD = \
 	$(EXTRA_GNOME_LIBS)				\
 	$(PTHREAD_LIB) 					\
 	$(EXTRA_GNOME_LIBS) \
-	-lgtkhtml -lgnomeprint ../../mail/html-stream.o
+	-lgtkhtml -lgnomeprint ../../mail/html-stream.o $(BONOBO_GNOME_LIBS)
 
 filter_LDADD = \
 	$(top_builddir)/camel/libcamel.la		\

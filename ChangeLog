@@ -1,3 +1,14 @@
+2000-03-04  bertrand  <bertrand@helixcode.com>
+
+	* tests/ui-tests/Makefile.am: add bonobo to the build 
+	process.
+
+	* tests/ui-tests/message-browser.c (main): 
+	initialize Bonobo. Use bonobo_main.
+	(get_gtk_html_contents_window): set signal handlers
+	for url requests and objects requests.
+	(on_object_requested): answer to object requests.
+
 2000-03-03  bertrand  <bertrand@helixcode.com>
 
 	* tests/ui-tests/message-browser.c (main): initialize

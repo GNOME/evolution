@@ -31,6 +31,10 @@
 /* gtkhtml stuff */
 #include <gtkhtml/gtkhtml.h>
 
+/* corba/bonobo stuff */
+#include <bonobo/bonobo.h>
+#include <libgnorba/gnorba.h>
+
 static void
 print_usage_and_quit()
 {
@@ -335,6 +339,28 @@ on_url_requested (GtkHTML *html, const gchar *url, GtkHTMLStreamHandle handle, g
 }
 
 
+static void
+on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, void *data)
+{
+	gchar *class_id;
+	gchar *uid;
+	GtkWidget *bonobo_embedable;
+
+
+
+	uid = gtk_html_embedded_get_parameter (eb, "uid");
+	class_id = eb->classid;
+
+	
+	printf ("object requested : %s\n", class_id);
+     	printf ("UID = %s\n", uid);
+
+	bonobo_embedable = bonobo_widget_new_subdoc  (class_id, NULL);
+	gtk_widget_show (bonobo_embedable);
+
+	gtk_container_add (GTK_CONTAINER(eb), bonobo_embedable);
+}
+
 
 static GtkWidget*
 get_gtk_html_contents_window (CamelDataWrapper* data)
@@ -359,6 +385,10 @@ get_gtk_html_contents_window (CamelDataWrapper* data)
 				    "url_requested",
 				    GTK_SIGNAL_FUNC (on_url_requested),
 				    NULL);		
+		gtk_signal_connect (GTK_OBJECT (html_widget), 
+				    "object_requested",
+				    GTK_SIGNAL_FUNC (on_object_requested), 
+				    NULL);
 
 		scroll_wnd = gtk_scrolled_window_new (NULL, NULL);
 		gtk_container_add (GTK_CONTAINER (scroll_wnd), html_widget);
@@ -589,10 +619,21 @@ main (int argc, char *argv[])
 	GtkWidget* hpane;
 	GtkWidget* tree_ctrl_window;
 	GtkWidget* html_window;
-	
+	CORBA_Environment ev;
+
 	CamelMimeMessage* message = NULL;
 
 	/* initialization */
+
+	/* Corba and Bonobo stuff */
+	CORBA_exception_init (&ev);
+
+	gnome_CORBA_init ("Message Browser", "1.0", &argc, argv, 0, &ev);
+
+	if (bonobo_init (gnome_CORBA_ORB (), NULL, NULL) == FALSE)
+		g_error ("Cannot bonobo_init");
+
+	
 	gnome_init ("MessageBrowser", "1.0", argc, argv);
 
 	gdk_rgb_init ();
@@ -636,7 +677,7 @@ main (int argc, char *argv[])
 	if (!message)
 		file_menu_open_cb (NULL, NULL);
 
-	gtk_main();
+	bonobo_main();
 
 	return 1;
 }
