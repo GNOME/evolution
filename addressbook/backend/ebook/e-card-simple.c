@@ -783,6 +783,8 @@ void            e_card_simple_set_delivery_address (ECardSimple          *simple
 {
 	e_card_delivery_address_unref(simple->delivery[id]);
 	simple->delivery[id] = e_card_delivery_address_ref(delivery);
+	e_card_address_label_unref(simple->address[id]);
+	simple->address[id] = e_card_delivery_address_to_label(simple->delivery[id]);
 	simple->changed = TRUE;
 }
 

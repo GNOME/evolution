@@ -1,3 +1,17 @@
+2003-03-28  Chris Toshok  <toshok@ximian.com>
+
+	[ fix the contact editor so that the only time the address is
+	parsed is when the user types in the address GtkTextView. ]
+	* gui/contact-editor/e-contact-editor.c (address_mailing_changed):
+	make this use delivery addresses instead of labels.
+	(full_addr_clicked): same.
+	(find_address_mailing): same.
+
+	* backend/ebook/e-card-simple.c
+	(e_card_simple_set_delivery_address): make this operate similar to
+	e_card_simple_set_address: it sets both the delivery address and
+	the label for the address.
+
 2003-03-26  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes bug #19178 ]

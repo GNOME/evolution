@@ -352,8 +352,8 @@ address_text_changed (GtkTextBuffer *buffer, EContactEditor *editor)
 static void
 address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 {
-	ECardAddrLabel *address;
-	GtkWidget *text;
+	const ECardDeliveryAddress *curr;
+	ECardDeliveryAddress *address;
 	gboolean mailing_address;
 
 	if (editor->address_choice == -1)
@@ -362,38 +362,31 @@ address_mailing_changed (GtkWidget *widget, EContactEditor *editor)
 	mailing_address = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
 	
 	/* Mark the current address as the mailing address */
- 	text = glade_xml_get_widget(editor->gui, "text-address");
-	if (text && GTK_IS_TEXT_VIEW(text)) {
-		GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text));
-		GtkTextIter start_iter, end_iter;
+	curr = e_card_simple_get_delivery_address (editor->simple,
+						   editor->address_choice);
 
-		address = e_card_address_label_new();
-		
-		if (mailing_address)
-			address->flags |= E_CARD_ADDR_DEFAULT;
-		else
-			address->flags &= ~E_CARD_ADDR_DEFAULT;
+	address = e_card_delivery_address_copy (curr);
 
-		gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &start_iter);
-		gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER (buffer), &end_iter);
+	if (mailing_address)
+		address->flags |= E_CARD_ADDR_DEFAULT;
+	else
+		address->flags &= ~E_CARD_ADDR_DEFAULT;
 
-		address->data = gtk_text_buffer_get_text (buffer, &start_iter, &end_iter, FALSE);
-
-		e_card_simple_set_address(editor->simple, editor->address_choice, address);
-		e_card_address_label_unref(address);
-	}
+	e_card_simple_set_delivery_address(editor->simple, editor->address_choice, address);
+	e_card_delivery_address_unref (address);
 
 	/* Unset the previous mailing address flag */
 	if (mailing_address && editor->address_mailing != -1) {
-		const ECardAddrLabel *curr;
+		const ECardDeliveryAddress *curr;
 
-		curr = e_card_simple_get_address(editor->simple, 
-						 editor->address_mailing);
-		address = e_card_address_label_copy (curr);
+		curr = e_card_simple_get_delivery_address(editor->simple, 
+							  editor->address_mailing);
+		address = e_card_delivery_address_copy (curr);
 		address->flags &= ~E_CARD_ADDR_DEFAULT;
-		e_card_simple_set_address(editor->simple, 
-					  editor->address_mailing,
-					  address);
+		e_card_simple_set_delivery_address(editor->simple, 
+						   editor->address_mailing,
+						   address);
+		e_card_delivery_address_unref (address);
 	}
 
 	/* Remember the new mailing address */
@@ -777,6 +770,9 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 	if (editor->address_editable[editor->address_choice] && result == GTK_RESPONSE_OK) {
 		ECardDeliveryAddress *new_address;
 		GtkWidget *address_widget;
+		int saved_choice = editor->address_choice;
+
+		editor->address_choice = -1;
 
 		g_object_get (dialog,
 			       "address", &new_address,
@@ -798,11 +794,9 @@ full_addr_clicked(GtkWidget *button, EContactEditor *editor)
 			gtk_text_buffer_insert (buffer, &start_iter, string, strlen (string));
 
 			g_free(string);
-		} else {
-			ECardAddrLabel *address = e_card_delivery_address_to_label(new_address);
-			e_card_simple_set_address(editor->simple, editor->address_choice, address);
-			e_card_address_label_unref(address);
 		}
+
+		editor->address_choice = saved_choice;
 
 		e_card_simple_set_delivery_address(editor->simple, editor->address_choice, new_address);
 
@@ -1934,22 +1928,22 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 static void
 find_address_mailing (EContactEditor *editor)
 {
-	const ECardAddrLabel *address;
+	const ECardDeliveryAddress *address;
 	int i;
 	
 	editor->address_mailing = -1;
 	for (i = 0; i < E_CARD_SIMPLE_ADDRESS_ID_LAST; i++) {
-		address = e_card_simple_get_address(editor->simple, i);
+		address = e_card_simple_get_delivery_address(editor->simple, i);
 		if (address && (address->flags & E_CARD_ADDR_DEFAULT)) {
 			if (editor->address_mailing == -1) {
 				editor->address_mailing = i;
 			} else {
-				ECardAddrLabel *new;
+				ECardDeliveryAddress *new;
 				
-				new = e_card_address_label_copy (address);
+				new = e_card_delivery_address_copy (address);
 				new->flags &= ~E_CARD_ADDR_DEFAULT;
-				e_card_simple_set_address(editor->simple, i, new);
-				e_card_address_label_unref (new);
+				e_card_simple_set_delivery_address(editor->simple, i, new);
+				e_card_delivery_address_unref (new);
 			}
 		}
 	}
