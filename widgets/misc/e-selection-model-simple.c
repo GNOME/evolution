@@ -26,8 +26,6 @@
 #include "e-selection-model-array.h"
 #include "e-selection-model-simple.h"
 
-#define ESMS_CLASS(e) ((ESelectionModelSimpleClass *)((GtkObject *)e)->klass)
-
 #define PARENT_TYPE e_selection_model_array_get_type ()
 
 static ESelectionModelArray *parent_class;
@@ -45,7 +43,7 @@ e_selection_model_simple_class_init (ESelectionModelSimpleClass *klass)
 {
 	ESelectionModelArrayClass *esma_class;
 
-	parent_class             = gtk_type_class (PARENT_TYPE);
+	parent_class              = g_type_class_ref (PARENT_TYPE);
 
 	esma_class                = E_SELECTION_MODEL_ARRAY_CLASS(klass);
 
@@ -65,7 +63,7 @@ E_MAKE_TYPE(e_selection_model_simple, "ESelectionModelSimple", ESelectionModelSi
 ESelectionModelSimple *
 e_selection_model_simple_new (void)
 {
-	return gtk_type_new (e_selection_model_simple_get_type ());
+	return g_object_new (E_SELECTION_MODEL_SIMPLE_TYPE, NULL);
 }
 
 void

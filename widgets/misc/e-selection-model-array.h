@@ -33,10 +33,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_SELECTION_MODEL_ARRAY_TYPE        (e_selection_model_array_get_type ())
-#define E_SELECTION_MODEL_ARRAY(o)          (GTK_CHECK_CAST ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArray))
-#define E_SELECTION_MODEL_ARRAY_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArrayClass))
-#define E_IS_SELECTION_MODEL_ARRAY(o)       (GTK_CHECK_TYPE ((o), E_SELECTION_MODEL_ARRAY_TYPE))
-#define E_IS_SELECTION_MODEL_ARRAY_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_ARRAY_TYPE))
+#define E_SELECTION_MODEL_ARRAY(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArray))
+#define E_SELECTION_MODEL_ARRAY_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArrayClass))
+#define E_IS_SELECTION_MODEL_ARRAY(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_SELECTION_MODEL_ARRAY_TYPE))
+#define E_IS_SELECTION_MODEL_ARRAY_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_SELECTION_MODEL_ARRAY_TYPE))
+#define E_SELECTION_MODEL_ARRAY_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_SELECTION_MODEL_ARRAY_TYPE, ESelectionModelArrayClass))
 
 typedef struct {
 	ESelectionModel base;
@@ -70,7 +71,7 @@ typedef struct {
 	gint (*get_row_count)     (ESelectionModelArray *selection);
 } ESelectionModelArrayClass;
 
-GtkType  e_selection_model_array_get_type           (void);
+GType    e_selection_model_array_get_type           (void);
 
 /* Protected Functions */
 void     e_selection_model_array_insert_rows        (ESelectionModelArray *esm,

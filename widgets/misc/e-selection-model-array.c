@@ -24,18 +24,17 @@
 #include <config.h>
 #include <gtk/gtksignal.h>
 #include "e-selection-model-array.h"
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
-
-#define ESMA_CLASS(e) ((ESelectionModelArrayClass *)(GTK_OBJECT_GET_CLASS (e)))
 
 #define PARENT_TYPE e_selection_model_get_type ()
 
 static ESelectionModelClass *parent_class;
 
 enum {
-	ARG_0,
-	ARG_CURSOR_ROW,
-	ARG_CURSOR_COL
+	PROP_0,
+	PROP_CURSOR_ROW,
+	PROP_CURSOR_COL
 };
 
 void
@@ -128,7 +127,7 @@ e_selection_model_array_move_row(ESelectionModelArray *esma, int old_row, int ne
 }
 
 static void
-esma_destroy (GtkObject *object)
+esma_dispose (GObject *object)
 {
 	ESelectionModelArray *esma;
 
@@ -139,39 +138,39 @@ esma_destroy (GtkObject *object)
 		esma->eba = NULL;
 	}
 
-	if (GTK_OBJECT_CLASS (parent_class)->destroy)
-		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+	if (G_OBJECT_CLASS (parent_class)->dispose)
+		(* G_OBJECT_CLASS (parent_class)->dispose) (object);
 }
 
 static void
-esma_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+esma_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (o);
+	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (object);
 
-	switch (arg_id){
-	case ARG_CURSOR_ROW:
-		GTK_VALUE_INT(*arg) = esma->cursor_row;
+	switch (prop_id){
+	case PROP_CURSOR_ROW:
+		g_value_set_int (value, esma->cursor_row);
 		break;
 
-	case ARG_CURSOR_COL:
-		GTK_VALUE_INT(*arg) = esma->cursor_col;
+	case PROP_CURSOR_COL:
+		g_value_set_int (value, esma->cursor_col);
 		break;
 	}
 }
 
 static void
-esma_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+esma_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ESelectionModel *esm = E_SELECTION_MODEL (o);
-	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (o);
+	ESelectionModel *esm = E_SELECTION_MODEL (object);
+	ESelectionModelArray *esma = E_SELECTION_MODEL_ARRAY (object);
 
-	switch (arg_id){
-	case ARG_CURSOR_ROW:
-		e_selection_model_do_something(esm, GTK_VALUE_INT(*arg), esma->cursor_col, 0);
+	switch (prop_id){
+	case PROP_CURSOR_ROW:
+		e_selection_model_do_something(esm, g_value_get_int (value), esma->cursor_col, 0);
 		break;
 
-	case ARG_CURSOR_COL:
-		e_selection_model_do_something(esm, esma->cursor_row, GTK_VALUE_INT(*arg), 0);
+	case PROP_CURSOR_COL:
+		e_selection_model_do_something(esm, esma->cursor_row, g_value_get_int(value), 0);
 		break;
 	}
 }
@@ -485,8 +484,8 @@ e_selection_model_array_get_row_count (ESelectionModelArray *esma)
 	g_return_val_if_fail(esma != NULL, 0);
 	g_return_val_if_fail(E_IS_SELECTION_MODEL_ARRAY(esma), 0);
 
-	if (ESMA_CLASS(esma)->get_row_count)
-		return ESMA_CLASS(esma)->get_row_count (esma);
+	if (E_SELECTION_MODEL_ARRAY_GET_CLASS(esma)->get_row_count)
+		return E_SELECTION_MODEL_ARRAY_GET_CLASS(esma)->get_row_count (esma);
 	else
 		return 0;
 }
@@ -507,17 +506,17 @@ e_selection_model_array_init (ESelectionModelArray *esma)
 static void
 e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 	ESelectionModelClass *esm_class;
 
-	parent_class = gtk_type_class (e_selection_model_get_type ());
+	parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 	esm_class = E_SELECTION_MODEL_CLASS(klass);
 
-	object_class->destroy = esma_destroy;
-	object_class->get_arg = esma_get_arg;
-	object_class->set_arg = esma_set_arg;
+	object_class->dispose = esma_dispose;
+	object_class->get_property = esma_get_property;
+	object_class->set_property = esma_set_property;
 
 	esm_class->is_row_selected    = esma_is_row_selected    ;
 	esm_class->foreach            = esma_foreach            ;
@@ -539,10 +538,19 @@ e_selection_model_array_class_init (ESelectionModelArrayClass *klass)
 
 	klass->get_row_count          = NULL                    ;
 
-	gtk_object_add_arg_type ("ESelectionModelArray::cursor_row", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_CURSOR_ROW);
-	gtk_object_add_arg_type ("ESelectionModelArray::cursor_col", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_CURSOR_COL);
+	g_object_class_install_property (object_class, PROP_CURSOR_ROW, 
+					 g_param_spec_int ("cursor_row",
+							   _("Cursor Row"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CURSOR_COL, 
+					 g_param_spec_int ("cursor_col",
+							   _("Cursor Column"),
+							   /*_( */"XXX blurb" /*)*/,
+							   0, G_MAXINT, 0,
+							   G_PARAM_READWRITE));
 }
 
 E_MAKE_TYPE(e_selection_model_array, "ESelectionModelArray", ESelectionModelArray,

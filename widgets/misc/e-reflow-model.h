@@ -24,7 +24,7 @@
 #ifndef _E_REFLOW_MODEL_H_
 #define _E_REFLOW_MODEL_H_
 
-#include <gtk/gtkobject.h>
+#include <glib-object.h>
 #include <libgnomecanvas/gnome-canvas.h>
 
 #ifdef __cplusplus
@@ -32,17 +32,18 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_REFLOW_MODEL_TYPE        (e_reflow_model_get_type ())
-#define E_REFLOW_MODEL(o)          (GTK_CHECK_CAST ((o), E_REFLOW_MODEL_TYPE, EReflowModel))
-#define E_REFLOW_MODEL_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), E_REFLOW_MODEL_TYPE, EReflowModelClass))
-#define E_IS_REFLOW_MODEL(o)       (GTK_CHECK_TYPE ((o), E_REFLOW_MODEL_TYPE))
-#define E_IS_REFLOW_MODEL_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), E_REFLOW_MODEL_TYPE))
+#define E_REFLOW_MODEL(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), E_REFLOW_MODEL_TYPE, EReflowModel))
+#define E_REFLOW_MODEL_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST((k), E_REFLOW_MODEL_TYPE, EReflowModelClass))
+#define E_IS_REFLOW_MODEL(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), E_REFLOW_MODEL_TYPE))
+#define E_IS_REFLOW_MODEL_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), E_REFLOW_MODEL_TYPE))
+#define E_REFLOW_MODEL_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), E_REFLOW_MODEL_TYPE, EReflowModelClass))
 
 typedef struct {
-	GtkObject   base;
+	GObject   base;
 } EReflowModel;
 
 typedef struct {
-	GtkObjectClass parent_class;
+	GObjectClass parent_class;
 
 	/*
 	 * Virtual methods
@@ -69,7 +70,7 @@ typedef struct {
 	void        (*model_item_changed)  (EReflowModel *etm, int n);
 } EReflowModelClass;
 
-GtkType          e_reflow_model_get_type        (void);
+GType            e_reflow_model_get_type        (void);
 
 /**/
 void             e_reflow_model_set_width       (EReflowModel     *e_reflow_model,

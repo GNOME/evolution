@@ -23,19 +23,16 @@
 
 #include <config.h>
 #include "e-reflow-model.h"
-#include <gtk/gtksignal.h>
 #include "gal/util/e-util.h"
 
-#define ERM_CLASS(e) ((EReflowModelClass *)(GTK_OBJECT_GET_CLASS (e)))
-
-#define PARENT_TYPE gtk_object_get_type ()
+#define PARENT_TYPE G_TYPE_OBJECT
 
 #define d(x)
 
 d(static gint depth = 0;)
 
 
-static GtkObjectClass *e_reflow_model_parent_class;
+static GObjectClass *e_reflow_model_parent_class;
 
 enum {
 	MODEL_CHANGED,
@@ -57,7 +54,7 @@ e_reflow_model_set_width (EReflowModel *e_reflow_model, int width)
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	ERM_CLASS (e_reflow_model)->set_width (e_reflow_model, width);
+	E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->set_width (e_reflow_model, width);
 }
 
 /**
@@ -72,7 +69,7 @@ e_reflow_model_count (EReflowModel *e_reflow_model)
 	g_return_val_if_fail (e_reflow_model != NULL, 0);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 
-	return ERM_CLASS (e_reflow_model)->count (e_reflow_model);
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->count (e_reflow_model);
 }
 
 /**
@@ -89,7 +86,7 @@ e_reflow_model_height (EReflowModel *e_reflow_model, int n, GnomeCanvasGroup *pa
 	g_return_val_if_fail (e_reflow_model != NULL, 0);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 
-	return ERM_CLASS (e_reflow_model)->height (e_reflow_model, n, parent);
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->height (e_reflow_model, n, parent);
 }
 
 /**
@@ -108,7 +105,7 @@ e_reflow_model_incarnate (EReflowModel *e_reflow_model, int n, GnomeCanvasGroup 
 	g_return_val_if_fail (e_reflow_model != NULL, NULL);
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), NULL);
 
-	return ERM_CLASS (e_reflow_model)->incarnate (e_reflow_model, n, parent);
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->incarnate (e_reflow_model, n, parent);
 }
 
 /**
@@ -129,7 +126,7 @@ e_reflow_model_compare (EReflowModel *e_reflow_model, int n1, int n2)
 	g_return_val_if_fail (E_IS_REFLOW_MODEL (e_reflow_model), 0);
 #endif
 
-	return ERM_CLASS (e_reflow_model)->compare (e_reflow_model, n1, n2);
+	return E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->compare (e_reflow_model, n1, n2);
 }
 
 /**
@@ -146,40 +143,41 @@ e_reflow_model_reincarnate (EReflowModel *e_reflow_model, int n, GnomeCanvasItem
 	g_return_if_fail (e_reflow_model != NULL);
 	g_return_if_fail (E_IS_REFLOW_MODEL (e_reflow_model));
 
-	ERM_CLASS (e_reflow_model)->reincarnate (e_reflow_model, n, item);
+	E_REFLOW_MODEL_GET_CLASS (e_reflow_model)->reincarnate (e_reflow_model, n, item);
 }
 
 static void
-e_reflow_model_class_init (GtkObjectClass *object_class)
+e_reflow_model_class_init (GObjectClass *object_class)
 {
 	EReflowModelClass *klass = E_REFLOW_MODEL_CLASS(object_class);
-	e_reflow_model_parent_class = gtk_type_class (PARENT_TYPE);
+	e_reflow_model_parent_class = g_type_class_ref (PARENT_TYPE);
 
 	e_reflow_model_signals [MODEL_CHANGED] =
-		gtk_signal_new ("model_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowModelClass, model_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("model_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowModelClass, model_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_reflow_model_signals [MODEL_ITEMS_INSERTED] =
-		gtk_signal_new ("model_items_inserted",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowModelClass, model_items_inserted),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+		g_signal_new ("model_items_inserted",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowModelClass, model_items_inserted),
+			      NULL, NULL,
+			      e_marshal_NONE__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_reflow_model_signals [MODEL_ITEM_CHANGED] =
-		gtk_signal_new ("model_item_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (EReflowModelClass, model_item_changed),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
-
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_reflow_model_signals, LAST_SIGNAL);
+		g_signal_new ("model_item_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (EReflowModelClass, model_item_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	klass->set_width            = NULL;
 	klass->count                = NULL;
@@ -192,31 +190,13 @@ e_reflow_model_class_init (GtkObjectClass *object_class)
 	klass->model_item_changed   = NULL;
 }
 
-
-GtkType
-e_reflow_model_get_type (void)
+static void
+e_reflow_model_init (GObject *object)
 {
-	static guint type = 0;
-	
-	if (!type)
-	{
-		GtkTypeInfo info =
-		{
-			"EReflowModel",
-			sizeof (EReflowModel),
-			sizeof (EReflowModelClass),
-			(GtkClassInitFunc) e_reflow_model_class_init,
-			NULL,
-			/* reserved_1 */ NULL,
-			/* reserved_2 */ NULL,
-			(GtkClassInitFunc) NULL,
-		};
-		
-		type = gtk_type_unique (PARENT_TYPE, &info);
-	}
-
-  return type;
 }
+
+E_MAKE_TYPE(e_reflow_model, "EReflowModel", EReflowModel,
+	    e_reflow_model_class_init, e_reflow_model_init, PARENT_TYPE)
 
 #if d(!)0
 static void
@@ -250,8 +230,8 @@ e_reflow_model_changed (EReflowModel *e_reflow_model)
 	d(print_tabs());
 	d(g_print("Emitting model_changed on model 0x%p.\n", e_reflow_model));
 	d(depth++);
-	gtk_signal_emit (GTK_OBJECT (e_reflow_model),
-			 e_reflow_model_signals [MODEL_CHANGED]);
+	g_signal_emit (e_reflow_model,
+		       e_reflow_model_signals [MODEL_CHANGED], 0);
 	d(depth--);
 }
 
@@ -272,8 +252,9 @@ e_reflow_model_items_inserted (EReflowModel *e_reflow_model, int position, int c
 	d(print_tabs());
 	d(g_print("Emitting items_inserted on model 0x%p, position=%d, count=%d.\n", e_reflow_model, position, count));
 	d(depth++);
-	gtk_signal_emit (GTK_OBJECT (e_reflow_model),
-			 e_reflow_model_signals [MODEL_ITEMS_INSERTED], position, count);
+	g_signal_emit (e_reflow_model,
+		       e_reflow_model_signals [MODEL_ITEMS_INSERTED], 0,
+		       position, count);
 	d(depth--);
 }
 
@@ -297,7 +278,8 @@ e_reflow_model_item_changed (EReflowModel *e_reflow_model, int n)
 	d(print_tabs());
 	d(g_print("Emitting item_changed on model 0x%p, n=%d.\n", e_reflow_model, n));
 	d(depth++);
-	gtk_signal_emit (GTK_OBJECT (e_reflow_model),
-			 e_reflow_model_signals [MODEL_ITEM_CHANGED], n);
+	g_signal_emit (e_reflow_model,
+		       e_reflow_model_signals [MODEL_ITEM_CHANGED], 0,
+		       n);
 	d(depth--);
 }

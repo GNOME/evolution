@@ -23,15 +23,13 @@
 
 #include <config.h>
 #include <gdk/gdkkeysyms.h>
-#include <gtk/gtksignal.h>
 #include "e-selection-model.h"
+#include "gal/util/e-i18n.h"
 #include "gal/util/e-util.h"
 
-#define ESM_CLASS(e) ((ESelectionModelClass *)(GTK_OBJECT_GET_CLASS (e)))
+#define PARENT_TYPE G_TYPE_OBJECT
 
-#define PARENT_TYPE gtk_object_get_type ()
-
-static GtkObjectClass *e_selection_model_parent_class;
+static GObjectClass *e_selection_model_parent_class;
 
 enum {
 	CURSOR_CHANGED,
@@ -44,10 +42,10 @@ enum {
 static guint e_selection_model_signals [LAST_SIGNAL] = { 0, };
 
 enum {
-	ARG_0,
-	ARG_SORTER,
-	ARG_SELECTION_MODE,
-	ARG_CURSOR_MODE
+	PROP_0,
+	PROP_SORTER,
+	PROP_SELECTION_MODE,
+	PROP_CURSOR_MODE
 };
 
 inline static void
@@ -69,7 +67,7 @@ drop_sorter(ESelectionModel *esm)
 }
 
 static void
-esm_destroy (GtkObject *object)
+esm_dispose (GObject *object)
 {
 	ESelectionModel *esm;
 
@@ -77,43 +75,43 @@ esm_destroy (GtkObject *object)
 
 	drop_sorter(esm);
 
-	if (e_selection_model_parent_class->destroy)
-		(* e_selection_model_parent_class->destroy) (object);
+	if (e_selection_model_parent_class->dispose)
+		(* e_selection_model_parent_class->dispose) (object);
 }
 
 static void
-esm_get_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+esm_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec *pspec)
 {
-	ESelectionModel *esm = E_SELECTION_MODEL (o);
+	ESelectionModel *esm = E_SELECTION_MODEL (object);
 
-	switch (arg_id){
-	case ARG_SORTER:
-		GTK_VALUE_OBJECT (*arg) = GTK_OBJECT(esm->sorter);
+	switch (prop_id){
+	case PROP_SORTER:
+		g_value_set_object (value, esm->sorter);
 		break;
 
-	case ARG_SELECTION_MODE:
-		GTK_VALUE_INT(*arg) = esm->mode;
+	case PROP_SELECTION_MODE:
+		g_value_set_int (value, esm->mode);
 		break;
 
-	case ARG_CURSOR_MODE:
-		GTK_VALUE_INT(*arg) = esm->cursor_mode;
+	case PROP_CURSOR_MODE:
+		g_value_set_int (value, esm->cursor_mode);
 		break;
 	}
 }
 
 static void
-esm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
+esm_set_property (GObject *object, guint prop_id, const GValue *value, GParamSpec *pspec)
 {
-	ESelectionModel *esm = E_SELECTION_MODEL (o);
+	ESelectionModel *esm = E_SELECTION_MODEL (object);
 	
-	switch (arg_id){
-	case ARG_SORTER:
+	switch (prop_id){
+	case PROP_SORTER:
 		drop_sorter(esm);
-		add_sorter(esm, GTK_VALUE_OBJECT (*arg) ? E_SORTER(GTK_VALUE_OBJECT (*arg)) : NULL);
+		add_sorter(esm, g_value_get_object (value) ? E_SORTER(g_value_get_object(value)) : NULL);
 		break;
 
-	case ARG_SELECTION_MODE:
-		esm->mode = GTK_VALUE_INT(*arg);
+	case PROP_SELECTION_MODE:
+		esm->mode = g_value_get_int (value);
 		if (esm->mode == GTK_SELECTION_SINGLE) {
 			int cursor_row = e_selection_model_cursor_row(esm);
 			int cursor_col = e_selection_model_cursor_col(esm);
@@ -121,8 +119,8 @@ esm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		}
 		break;
 
-	case ARG_CURSOR_MODE:
-		esm->cursor_mode = GTK_VALUE_INT(*arg);
+	case PROP_CURSOR_MODE:
+		esm->cursor_mode = g_value_get_int (value);
 		break;
 	}
 }
@@ -138,47 +136,51 @@ e_selection_model_init (ESelectionModel *selection)
 static void
 e_selection_model_class_init (ESelectionModelClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class;
 
-	e_selection_model_parent_class = gtk_type_class (gtk_object_get_type ());
+	e_selection_model_parent_class = g_type_class_ref (PARENT_TYPE);
 
-	object_class = GTK_OBJECT_CLASS(klass);
+	object_class = G_OBJECT_CLASS(klass);
 
-	object_class->destroy = esm_destroy;
-	object_class->get_arg = esm_get_arg;
-	object_class->set_arg = esm_set_arg;
+	object_class->dispose = esm_dispose;
+	object_class->get_property = esm_get_property;
+	object_class->set_property = esm_set_property;
 
 	e_selection_model_signals [CURSOR_CHANGED] =
-		gtk_signal_new ("cursor_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESelectionModelClass, cursor_changed),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+		g_signal_new ("cursor_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [CURSOR_ACTIVATED] =
-		gtk_signal_new ("cursor_activated",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESelectionModelClass, cursor_activated),
-				gtk_marshal_NONE__INT_INT,
-				GTK_TYPE_NONE, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+		g_signal_new ("cursor_activated",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESelectionModelClass, cursor_activated),
+			      NULL, NULL,
+			      e_marshal_NONE__INT_INT,
+			      G_TYPE_NONE, 2, G_TYPE_INT, G_TYPE_INT);
 
 	e_selection_model_signals [SELECTION_CHANGED] =
-		gtk_signal_new ("selection_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESelectionModelClass, selection_changed),
-				gtk_marshal_NONE__NONE,
-				GTK_TYPE_NONE, 0);
+		g_signal_new ("selection_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESelectionModelClass, selection_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 
 	e_selection_model_signals [SELECTION_ROW_CHANGED] =
-		gtk_signal_new ("selection_row_changed",
-				GTK_RUN_LAST,
-				E_OBJECT_CLASS_TYPE (object_class),
-				GTK_SIGNAL_OFFSET (ESelectionModelClass, selection_row_changed),
-				gtk_marshal_NONE__INT,
-				GTK_TYPE_NONE, 1, GTK_TYPE_INT);
+		g_signal_new ("selection_row_changed",
+			      G_OBJECT_CLASS_TYPE (object_class),
+			      G_SIGNAL_RUN_LAST,
+			      G_STRUCT_OFFSET (ESelectionModelClass, selection_row_changed),
+			      NULL, NULL,
+			      e_marshal_NONE__INT,
+			      G_TYPE_NONE, 1, G_TYPE_INT);
 
 	klass->cursor_changed        = NULL;
 	klass->cursor_activated      = NULL;
@@ -203,14 +205,28 @@ e_selection_model_class_init (ESelectionModelClass *klass)
 	klass->move_selection_end    = NULL;
 	klass->set_selection_end     = NULL;
 
-	E_OBJECT_CLASS_ADD_SIGNALS (object_class, e_selection_model_signals, LAST_SIGNAL);
+	g_object_class_install_property (object_class, PROP_SORTER, 
+					 g_param_spec_object ("sorter",
+							      _("Sorter"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_SORTER_TYPE,
+							      G_PARAM_READWRITE));
 
-	gtk_object_add_arg_type ("ESelectionModel::sorter", GTK_TYPE_OBJECT,
-				 GTK_ARG_READWRITE, ARG_SORTER);
-	gtk_object_add_arg_type ("ESelectionModel::selection_mode", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_SELECTION_MODE);
-	gtk_object_add_arg_type ("ESelectionModel::cursor_mode", GTK_TYPE_INT,
-				 GTK_ARG_READWRITE, ARG_CURSOR_MODE);
+	g_object_class_install_property (object_class, PROP_SELECTION_MODE, 
+					 g_param_spec_int ("selection_mode",
+							   _("Selection Mode"),
+							   /*_( */"XXX blurb" /*)*/,
+							   GTK_SELECTION_NONE, GTK_SELECTION_MULTIPLE,
+							   GTK_SELECTION_SINGLE,
+							   G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_CURSOR_MODE, 
+					 g_param_spec_int ("cursor_mode",
+							   _("Cursor Mode"),
+							   /*_( */"XXX blurb" /*)*/,
+							   E_CURSOR_LINE, E_CURSOR_SPREADSHEET,
+							   E_CURSOR_LINE,
+							   G_PARAM_READWRITE));
 }
 
 E_MAKE_TYPE(e_selection_model, "ESelectionModel", ESelectionModel,
@@ -229,8 +245,8 @@ gboolean
 e_selection_model_is_row_selected (ESelectionModel *selection,
 				   gint                 n)
 {
-	if (ESM_CLASS(selection)->is_row_selected)
-		return ESM_CLASS(selection)->is_row_selected (selection, n);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->is_row_selected)
+		return E_SELECTION_MODEL_GET_CLASS(selection)->is_row_selected (selection, n);
 	else
 		return FALSE;
 }
@@ -249,8 +265,8 @@ e_selection_model_foreach     (ESelectionModel *selection,
 			       EForeachFunc callback,
 			       gpointer closure)
 {
-	if (ESM_CLASS(selection)->foreach)
-		ESM_CLASS(selection)->foreach (selection, callback, closure);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->foreach)
+		E_SELECTION_MODEL_GET_CLASS(selection)->foreach (selection, callback, closure);
 }
 
 /** 
@@ -262,8 +278,8 @@ e_selection_model_foreach     (ESelectionModel *selection,
 void
 e_selection_model_clear(ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->clear)
-		ESM_CLASS(selection)->clear (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->clear)
+		E_SELECTION_MODEL_GET_CLASS(selection)->clear (selection);
 }
 
 /** 
@@ -277,8 +293,8 @@ e_selection_model_clear(ESelectionModel *selection)
 gint
 e_selection_model_selected_count (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->selected_count)
-		return ESM_CLASS(selection)->selected_count (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->selected_count)
+		return E_SELECTION_MODEL_GET_CLASS(selection)->selected_count (selection);
 	else
 		return 0;
 }
@@ -293,8 +309,8 @@ e_selection_model_selected_count (ESelectionModel *selection)
 void
 e_selection_model_select_all (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->select_all)
-		ESM_CLASS(selection)->select_all (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->select_all)
+		E_SELECTION_MODEL_GET_CLASS(selection)->select_all (selection);
 }
 
 /** 
@@ -307,15 +323,15 @@ e_selection_model_select_all (ESelectionModel *selection)
 void
 e_selection_model_invert_selection (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->invert_selection)
-		ESM_CLASS(selection)->invert_selection (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->invert_selection)
+		E_SELECTION_MODEL_GET_CLASS(selection)->invert_selection (selection);
 }
 
 int
 e_selection_model_row_count (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->row_count)
-		return ESM_CLASS(selection)->row_count (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->row_count)
+		return E_SELECTION_MODEL_GET_CLASS(selection)->row_count (selection);
 	else
 		return 0;
 }
@@ -323,22 +339,22 @@ e_selection_model_row_count (ESelectionModel *selection)
 void
 e_selection_model_change_one_row(ESelectionModel *selection, int row, gboolean grow)
 {
-	if (ESM_CLASS(selection)->change_one_row)
-		ESM_CLASS(selection)->change_one_row (selection, row, grow);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->change_one_row)
+		E_SELECTION_MODEL_GET_CLASS(selection)->change_one_row (selection, row, grow);
 }
 
 void
 e_selection_model_change_cursor (ESelectionModel *selection, int row, int col)
 {
-	if (ESM_CLASS(selection)->change_cursor)
-		ESM_CLASS(selection)->change_cursor (selection, row, col);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->change_cursor)
+		E_SELECTION_MODEL_GET_CLASS(selection)->change_cursor (selection, row, col);
 }
 
 int
 e_selection_model_cursor_row (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->cursor_row)
-		return ESM_CLASS(selection)->cursor_row (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->cursor_row)
+		return E_SELECTION_MODEL_GET_CLASS(selection)->cursor_row (selection);
 	else
 		return -1;
 }
@@ -346,8 +362,8 @@ e_selection_model_cursor_row (ESelectionModel *selection)
 int
 e_selection_model_cursor_col (ESelectionModel *selection)
 {
-	if (ESM_CLASS(selection)->cursor_col)
-		return ESM_CLASS(selection)->cursor_col (selection);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->cursor_col)
+		return E_SELECTION_MODEL_GET_CLASS(selection)->cursor_col (selection);
 	else
 		return -1;
 }
@@ -355,29 +371,29 @@ e_selection_model_cursor_col (ESelectionModel *selection)
 void
 e_selection_model_select_single_row (ESelectionModel *selection, int row)
 {
-	if (ESM_CLASS(selection)->select_single_row)
-		ESM_CLASS(selection)->select_single_row (selection, row);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->select_single_row)
+		E_SELECTION_MODEL_GET_CLASS(selection)->select_single_row (selection, row);
 }
 
 void
 e_selection_model_toggle_single_row (ESelectionModel *selection, int row)
 {
-	if (ESM_CLASS(selection)->toggle_single_row)
-		ESM_CLASS(selection)->toggle_single_row (selection, row);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->toggle_single_row)
+		E_SELECTION_MODEL_GET_CLASS(selection)->toggle_single_row (selection, row);
 }
 
 void
 e_selection_model_move_selection_end (ESelectionModel *selection, int row)
 {
-	if (ESM_CLASS(selection)->move_selection_end)
-		ESM_CLASS(selection)->move_selection_end (selection, row);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->move_selection_end)
+		E_SELECTION_MODEL_GET_CLASS(selection)->move_selection_end (selection, row);
 }
 
 void
 e_selection_model_set_selection_end (ESelectionModel *selection, int row)
 {
-	if (ESM_CLASS(selection)->set_selection_end)
-		ESM_CLASS(selection)->set_selection_end (selection, row);
+	if (E_SELECTION_MODEL_GET_CLASS(selection)->set_selection_end)
+		E_SELECTION_MODEL_GET_CLASS(selection)->set_selection_end (selection, row);
 }
 
 /** 
@@ -430,10 +446,12 @@ e_selection_model_do_something (ESelectionModel *selection,
 			break;
 		}
 		e_selection_model_change_cursor(selection, row, col);
-		gtk_signal_emit(GTK_OBJECT(selection),
-				e_selection_model_signals[CURSOR_CHANGED], row, col);
-		gtk_signal_emit(GTK_OBJECT(selection),
-				e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+		g_signal_emit(selection,
+			      e_selection_model_signals[CURSOR_CHANGED], 0,
+			      row, col);
+		g_signal_emit(selection,
+			      e_selection_model_signals[CURSOR_ACTIVATED], 0,
+			      row, col);
 	}
 }
 
@@ -460,8 +478,9 @@ e_selection_model_maybe_do_something      (ESelectionModel *selection,
 
 	if (e_selection_model_is_row_selected(selection, row)) {
 		e_selection_model_change_cursor(selection, row, col);
-		gtk_signal_emit(GTK_OBJECT(selection),
-				e_selection_model_signals[CURSOR_CHANGED], row, col);
+		g_signal_emit(selection,
+			      e_selection_model_signals[CURSOR_CHANGED], 0,
+			      row, col);
 		return FALSE;
 	} else {
 		e_selection_model_do_something(selection, row, col, state);
@@ -523,11 +542,13 @@ e_selection_model_select_as_key_press (ESelectionModel *selection,
 	}
 	if (row != -1) {
 		e_selection_model_change_cursor(selection, row, col);
-		gtk_signal_emit(GTK_OBJECT(selection),
-				e_selection_model_signals[CURSOR_CHANGED], row, col);
+		g_signal_emit(selection,
+			      e_selection_model_signals[CURSOR_CHANGED], 0,
+			      row, col);
 		if (cursor_activated)
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+			g_signal_emit(selection,
+				      e_selection_model_signals[CURSOR_ACTIVATED], 0,
+				      row, col);
 	}
 }
 
@@ -587,8 +608,9 @@ e_selection_model_key_press      (ESelectionModel *selection,
 			int row = e_selection_model_cursor_row(selection);
 			int col = e_selection_model_cursor_col(selection);
 			e_selection_model_toggle_single_row (selection, row);
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+			g_signal_emit(selection,
+				      e_selection_model_signals[CURSOR_ACTIVATED], 0,
+				      row, col);
 			return TRUE;
 		}
 		break;
@@ -598,8 +620,9 @@ e_selection_model_key_press      (ESelectionModel *selection,
 			int row = e_selection_model_cursor_row(selection);
 			int col = e_selection_model_cursor_col(selection);
 			e_selection_model_select_single_row (selection, row);
-			gtk_signal_emit(GTK_OBJECT(selection),
-					e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+			g_signal_emit(selection,
+				      e_selection_model_signals[CURSOR_ACTIVATED], 0,
+				      row, col);
 			return TRUE;
 		}
 		break;
@@ -634,8 +657,9 @@ e_selection_model_cursor_changed      (ESelectionModel *selection,
 				       int              row,
 				       int              col)
 {
-	gtk_signal_emit(GTK_OBJECT(selection),
-			e_selection_model_signals[CURSOR_CHANGED], row, col);
+	g_signal_emit(selection,
+		      e_selection_model_signals[CURSOR_CHANGED], 0,
+		      row, col);
 }
 
 void
@@ -643,22 +667,23 @@ e_selection_model_cursor_activated    (ESelectionModel *selection,
 				       int              row,
 				       int              col)
 {
-	gtk_signal_emit(GTK_OBJECT(selection),
-			e_selection_model_signals[CURSOR_ACTIVATED], row, col);
+	g_signal_emit(selection,
+		      e_selection_model_signals[CURSOR_ACTIVATED], 0,
+		      row, col);
 }
 
 void
 e_selection_model_selection_changed   (ESelectionModel *selection)
 {
-	gtk_signal_emit(GTK_OBJECT(selection),
-			e_selection_model_signals[SELECTION_CHANGED]);
+	g_signal_emit(selection,
+		      e_selection_model_signals[SELECTION_CHANGED], 0);
 }
 
 void
 e_selection_model_selection_row_changed (ESelectionModel *selection,
 					 int              row)
 {
-	gtk_signal_emit(GTK_OBJECT(selection),
-			e_selection_model_signals[SELECTION_ROW_CHANGED],
-			row);
+	g_signal_emit(selection,
+		      e_selection_model_signals[SELECTION_ROW_CHANGED], 0,
+		      row);
 }
