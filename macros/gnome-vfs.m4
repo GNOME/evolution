@@ -49,10 +49,27 @@ AC_DEFUN([GNOME_WITH_VFS],[
       AC_CHECK_FUNCS(pmap_getport pmap_getmaps rresvport)
       dnl add for source routing support setsockopt
       AC_CHECK_HEADERS(rpc/pmap_clnt.h)
-      vfs_flags="$vfs_flags, mcfs, ftpfs, smbfs, fish"
+      vfs_flags="$vfs_flags, mcfs, ftpfs, fish"
       use_net_code=true
   fi
 
+  dnl
+  dnl Samba support
+  dnl
+  smbfs=""
+  SAMBAFILES=""
+  AC_ARG_WITH(samba,
+  	  [--with-samba	            Support smb virtual file system],[
+  	  if test "x$withval != xno"; then
+  		  AC_DEFINE(WITH_SMBFS)
+	          vfs_flags="$vfs_flags, smbfs"
+		  smbfs="smbfs.o"
+		  SAMBAFILES="\$(SAMBAFILES)"
+  	  fi
+  ])
+  AC_SUBST(smbfs)
+  AC_SUBST(SAMBAFILES)
+  
   dnl
   dnl The termnet support
   dnl
