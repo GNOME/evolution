@@ -72,6 +72,8 @@ void		 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,
 							 char		  *display_name);
 
 GtkWidget*	 e_timezone_dialog_get_toplevel		(ETimezoneDialog  *etd);
+void e_timezone_dialog_reparent (ETimezoneDialog *etd,
+				 GtkWidget *new_parent);
 
 
 

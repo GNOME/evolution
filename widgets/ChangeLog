@@ -1,3 +1,8 @@
+2001-08-27  Iain Holmes  <iain@ximian.com>
+
+	* e-timezone-dialog/e-timezone.h: Add a prototype for 
+	e_timezone_dialog_reparent
+
 2001-08-18  Iain Holmes  <iain@ximian.com>
 
 	* Makefile.am: Add the e-timezone-dialog dir.
