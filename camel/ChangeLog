@@ -1,5 +1,35 @@
 2001-09-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/nntp/camel-nntp-provider.c
+	(camel_provider_module_init): Init the nntp url hash and url_equal
+	functions.
+
+	* providers/sendmail/camel-sendmail-provider.c
+	(camel_provider_module_init): Init the sendmail url hash and
+	url_equal functions.
+
+	* providers/smtp/camel-smtp-provider.c
+	(camel_provider_module_init): Init the smtp url hash and url_equal
+	functions.
+
+	* providers/pop3/camel-pop3-provider.c
+	(camel_provider_module_init): Init the pop3 url hash and url_equal
+	functions.
+
+	* providers/imap/camel-imap-provider.c
+	(camel_provider_module_init): Init the imap url hash and url_equal
+	functions.
+
+	* providers/local/camel-local-provider.c
+	(camel_provider_module_init): Init the local url hash and
+	url_equal functions.
+
+	* camel-session.c (camel_session_class_init): Init the vfolder url
+	hash and url_equal functions.
+
+	* camel-provider.h: Added url_hash and url_equal function pointers
+	to the structure.
+
 	* camel-vtrash-folder.c (vtrash_move_messages_to): Oops, a
 	CamelFolder is not a CamelFolderClass.
 

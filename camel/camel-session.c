@@ -99,7 +99,7 @@ camel_session_init (CamelSession *session)
 	session->priv->thread_id = 1;
 	session->priv->thread_active = g_hash_table_new(NULL, NULL);
 	session->priv->thread_queue = NULL;
-#endif	
+#endif
 }
 
 static gboolean
@@ -151,10 +151,12 @@ camel_session_class_init (CamelSessionClass *camel_session_class)
 	camel_session_class->thread_queue = session_thread_queue;
 	camel_session_class->thread_wait = session_thread_wait;
 #endif
-
+	
 	if (vee_provider.service_cache == NULL) {
 		vee_provider.object_types[CAMEL_PROVIDER_STORE] = camel_vee_store_get_type ();
 		vee_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
+		vee_provider.url_hash = camel_url_hash;
+		vee_provider.url_equal = camel_url_equal;
 	}
 }
 

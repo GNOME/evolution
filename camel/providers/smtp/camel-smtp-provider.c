@@ -57,7 +57,9 @@ camel_provider_module_init (CamelSession *session)
 	smtp_provider.authtypes = g_list_append(camel_sasl_authtype_list(TRUE), camel_sasl_authtype ("LOGIN"));
 	smtp_provider.authtypes = g_list_append(smtp_provider.authtypes, camel_sasl_authtype ("POPB4SMTP"));
 	smtp_provider.service_cache = g_hash_table_new (camel_url_hash, camel_url_equal);
-
+	smtp_provider.url_hash = camel_url_hash;
+	smtp_provider.url_equal = camel_url_equal;
+	
 	camel_session_register_provider (session, &smtp_provider);
 }
 

@@ -87,17 +87,25 @@ void camel_provider_module_init(CamelSession * session)
 {
 	mh_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mh_store_get_type();
 	mh_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	mh_provider.url_hash = camel_url_hash;
+	mh_provider.url_equal = camel_url_equal;
 	camel_session_register_provider(session, &mh_provider);
 
 	mbox_provider.object_types[CAMEL_PROVIDER_STORE] = camel_mbox_store_get_type();
 	mbox_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	mbox_provider.url_hash = camel_url_hash;
+	mbox_provider.url_equal = camel_url_equal;
 	camel_session_register_provider(session, &mbox_provider);
 
 	maildir_provider.object_types[CAMEL_PROVIDER_STORE] = camel_maildir_store_get_type();
 	maildir_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	maildir_provider.url_hash = camel_url_hash;
+	maildir_provider.url_equal = camel_url_equal;
 	camel_session_register_provider(session, &maildir_provider);
 
 	spool_provider.object_types[CAMEL_PROVIDER_STORE] = camel_spool_store_get_type();
 	spool_provider.service_cache = g_hash_table_new(camel_url_hash, camel_url_equal);
+	spool_provider.url_hash = camel_url_hash;
+	spool_provider.url_equal = camel_url_equal;
 	camel_session_register_provider(session, &spool_provider);
 }

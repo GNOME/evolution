@@ -145,7 +145,9 @@ typedef struct {
 	GList *authtypes;
 
 	GHashTable *service_cache;
-	
+
+	GHashFunc url_hash;
+	GCompareFunc url_equal;
 } CamelProvider;
 
 GHashTable *camel_provider_init (void);
