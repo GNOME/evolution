@@ -1,3 +1,7 @@
+2005-01-13  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: bump version to 2.1.3.2
+
 2005-01-13  Rodney Dawes  <dobey@novell.com>
 
 	* configure.in: Add new-mail-notify to the plugins_all listing
