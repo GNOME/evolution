@@ -1,3 +1,11 @@
+2000-12-22  Dan Winship  <danw@helixcode.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info): When
+	getting the top-level folder list, include INBOX even if it's not
+	subscribed. Don't show subscribed folders outside of the given
+	namespace. Do a better job of pruning the namespace from the
+	returned folder tree.
+
 2000-12-21  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-search.c: New CamelFolderSearch

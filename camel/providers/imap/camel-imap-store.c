@@ -615,7 +615,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 
 	name = top;
 	if (!name) {
-		need_inbox = !subscribed_only;
+		need_inbox = TRUE;
 		if (url->path)
 			name = url->path + 1;
 		else
@@ -636,9 +636,7 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 		topfi->name = g_strdup (name);
 	}
 
-	if (!top && subscribed_only)
-		pattern = g_strdup (recursive ? "*" : "%");
- 	else if (*name)
+ 	if (*name)
 		pattern = g_strdup_printf ("%s%c%c", name, imap_store->dir_sep,
 					   recursive ? '*' : '%');
 	else
@@ -721,14 +719,23 @@ get_folder_info (CamelStore *store, const char *top, gboolean fast,
 	camel_folder_info_build (folders, topfi, imap_store->dir_sep, TRUE);
 	g_ptr_array_free (folders, TRUE);
 
-	/* Remove the top if it's the root of the store. */
-	if (!top && !topfi->sibling && !topfi->url) {
-		fi = topfi;
-		topfi = topfi->child;
-		fi->child = NULL;
-		camel_folder_info_free (fi);
-		for (fi = topfi; fi; fi = fi->sibling)
-			fi->parent = NULL;
+	/* If this is the root of the store, prune off any namespace. */
+	if (!top && !topfi->sibling) {
+		int toplen = strlen (name), len;
+
+		while (!topfi->sibling) {
+			len = strlen (topfi->full_name);
+			if (len > toplen ||
+			    strncmp (topfi->full_name, name, len) != 0)
+				break;
+
+			fi = topfi;
+			topfi = topfi->child;
+			fi->child = NULL;
+			camel_folder_info_free (fi);
+			for (fi = topfi; fi; fi = fi->sibling)
+				fi->parent = NULL;
+		}
 	}
 
 	return topfi;
