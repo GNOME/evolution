@@ -228,8 +228,9 @@ send_queued_mail (GtkWidget *widget, gpointer user_data)
 void
 send_receieve_mail (GtkWidget *widget, gpointer user_data)
 {
-	send_queued_mail (widget, user_data);
+	/* receive first then send, this is a temp fix for POP-before-SMTP */
 	fetch_mail (widget, user_data);
+	send_queued_mail (widget, user_data);
 }
 
 static gboolean

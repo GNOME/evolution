@@ -1,7 +1,12 @@
+2000-10-05  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* mail-callbacks.c (send_receieve_mail): fetch mail before
+	sending, this is a temp fix for POP-before-SMTP authentication.
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
-	* component-factory.c (summary_fn, component_factory_init): Disable
-	summary stuff, it appears to be badly broken.
+	* component-factory.c (summary_fn, component_factory_init):
+	Disable summary stuff, it appears to be badly broken.
 
 	* Makefile.am (evolution_mail_SOURCES): add mail-summary.[ch]
 
