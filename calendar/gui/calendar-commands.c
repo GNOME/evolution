@@ -92,10 +92,6 @@ CalendarAlarm alarm_defaults[4] = {
 };
 #endif
 
-static void calendar_iterate_free_cache_entry	(gpointer	key,
-						 gpointer	value,
-						 gpointer	user_data);
-
 static void
 init_username (void)
 {
@@ -187,17 +183,28 @@ static void
 display_objedit (BonoboUIHandler *uih, void *user_data, const char *path)
 {
 	GnomeCalendar *gcal;
-	iCalObject *ico;
+	CalComponent *comp;
+	time_t dtstart, dtend;
+	CalComponentDateTime dt;
+	struct icaltimetype itt;
 
 	gcal = GNOME_CALENDAR (user_data);
 
-	ico = ical_new ("", user_name, "");
-	ico->new = TRUE;
-	gnome_calendar_get_current_time_range (gcal, &ico->dtstart,
-					       &ico->dtend);
+	gnome_calendar_get_current_time_range (gcal, dtstart, dtend);
+	dt.value = &itt;
+	dt.tzid = NULL;
 
-	gnome_calendar_edit_object (gcal, ico);
-	ical_object_unref (ico);
+	comp = cal_component_new ();
+	cal_component_set_new_vtype (comp, CAL_COMPONENT_EVENT);
+
+	itt = icaltimetype_from_timet (dtstart);
+	cal_component_set_dtstart (comp, &dt);
+
+	itt = icaltimetype_from_timet (dtend);
+	cal_component_set_dtend (comp, &dt);
+
+	gnome_calendar_edit_object (gcal, comp);
+	gtk_object_unref (GTK_OBJECT (comp));
 }
 
 static void
@@ -884,71 +891,4 @@ init_calendar (void)
 	/* Done */
 
 	gnome_config_pop_prefix ();
-}
-
-
-
-/* FIXME -- where should this go? */
-void
-calendar_iterate (GnomeCalendar *cal,
-		  time_t start, time_t end,
-		  calendarfn cb, void *closure)
-{
-	GList *l, *cois;
-	GHashTable *cache;
-	CalClientGetStatus status;
-	CalObjInstance *coi;
-	char *uid;
-	iCalObject *ico;
-
-	cois = cal_client_get_events_in_range (cal->client, start, end);
-
-	/* We use a hash table to keep a cache of uid->iCalObject, so for
-	   recurring events we only load and parse the objects once. */
-	cache = g_hash_table_new (g_str_hash, g_str_equal);
-
-	for (l = cois; l; l = l->next) {
-		coi = l->data;
-		uid = coi->uid;
-
-		ico = g_hash_table_lookup (cache, uid);
-		if (!ico) {
-			status = cal_client_get_object (cal->client, uid, &ico);
-
-			switch (status) {
-			case CAL_CLIENT_GET_SUCCESS:
-				g_hash_table_insert (cache, ico->uid, ico);
-				break;
-			case CAL_CLIENT_GET_SYNTAX_ERROR:
-				printf ("calendar_iterate: syntax error uid=%s\n", uid);
-				break;
-			case CAL_CLIENT_GET_NOT_FOUND:
-				printf ("calendar_iterate: obj not found uid=%s\n", uid);
-				break;
-			}
-		}
-
-		if (ico)
-			(*cb) (ico, coi->start, coi->end, closure);
-
-		g_free (uid);
-		g_free (coi);
-	}
-
-	g_list_free (cois);
-
-	/* We need to unref all the iCalObjects in the cache now. The callback
-	   function should have ref'd any of them it wants to keep. */
-	g_hash_table_foreach (cache, calendar_iterate_free_cache_entry, NULL);
-
-	g_hash_table_destroy (cache);
-}
-
-
-static void
-calendar_iterate_free_cache_entry	(gpointer	key,
-					 gpointer	value,
-					 gpointer	user_data)
-{
-	ical_object_unref ((iCalObject*) value);
 }

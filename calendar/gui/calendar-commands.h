@@ -107,11 +107,6 @@ void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file);
 /* FIXME -- where should this stuff go?                                 */
 /*----------------------------------------------------------------------*/
 
-void
-calendar_iterate (GnomeCalendar *cal,
-		  time_t start, time_t end,
-		  calendarfn cb, void *closure);
-
 void init_calendar (void);
 
 void calendar_control_activate (BonoboControl *control,

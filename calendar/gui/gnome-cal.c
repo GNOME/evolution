@@ -1382,7 +1382,7 @@ gnome_calendar_get_current_time_range (GnomeCalendar *gcal,
 		e_week_view_get_selected_time_range (E_WEEK_VIEW (page),
 						     start_time, end_time);
 	else {
-		g_warning ("My penguin is gone!");
+		g_message ("My penguin is gone!");
 		g_assert_not_reached ();
 	}
 }

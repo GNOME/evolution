@@ -1,5 +1,9 @@
 2000-08-10  Federico Mena Quintero  <federico@helixcode.com>
 
+	* gui/calendar-commands.c (calendar_iterate): Removed.  Wheee!
+
+2000-08-10  Federico Mena Quintero  <federico@helixcode.com>
+
 	* cal-client/cal-client.c (cal_client_generate_instances): There.
 	A pretty function to generate recurrence instances atomically so
 	that clients don't have to jump through hoops.  Now we can get rid
