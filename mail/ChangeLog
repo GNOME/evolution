@@ -1,5 +1,10 @@
 2001-09-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-ops.c (fetch_mail_fetch): Unref the source folder here
+	because it might be a POP folder. We do this because on store
+	finalize, we now try to disconnect cleanly which means that we may
+	block.
+
 	* mail-send-recv.c (build_dialogue): Fix capitalization. Fixes bug
 	#7486.
 

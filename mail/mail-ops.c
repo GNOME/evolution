@@ -312,6 +312,12 @@ fetch_mail_fetch (struct _mail_msg *mm)
 			} else {
 				filter_folder_filter (mm);
 			}
+			
+			/* we unref the source folder here since we
+			   may now block in finalize (we try to
+			   disconnect cleanly) */
+			camel_object_unref (CAMEL_OBJECT (fm->source_folder));
+			fm->source_folder = NULL;
 		}
 	}
 	
@@ -321,8 +327,8 @@ fetch_mail_fetch (struct _mail_msg *mm)
 	/* we unref this here as it may have more work to do (syncing
 	   folders and whatnot) before we are really done */
 	/* should this be cancellable too? (i.e. above unregister above) */
-	camel_object_unref ((CamelObject *)m->fmsg.driver);
-	m->fmsg.driver = NULL;
+	camel_object_unref (CAMEL_OBJECT (fm->driver));
+	fm->driver = NULL;
 }
 
 static void
