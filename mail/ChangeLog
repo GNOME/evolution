@@ -1,3 +1,13 @@
+2005-02-09  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #70795
+
+	* em-folder-view.c (em_folder_view_open_selected): set the search
+	on the browser to match the current view.
+
+	* message-list.c (mail_regen_list): save the search if no folder
+	set, incase the folder gets set later on.
+
 2005-02-04  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #65329
