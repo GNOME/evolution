@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-14 23:25+0800\n"
+"POT-Creation-Date: 2005-01-14 23:29+0800\n"
 "PO-Revision-Date: 2005-01-11 14:55+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -253,6 +253,20 @@ msgstr ")"
 #: a11y/widgets/ea-calendar-item.c:337
 msgid "evolution calendar item"
 msgstr "Evolution 日历项目"
+
+#: a11y/widgets/ea-combo-button.c:40
+#, fuzzy
+msgid "Combo Button"
+msgstr "时区按钮"
+
+#: a11y/widgets/ea-combo-button.c:50
+#, fuzzy
+msgid "Activate Default"
+msgstr "使用默认值(_D)"
+
+#: a11y/widgets/ea-combo-button.c:52
+msgid "Popup Menu"
+msgstr ""
 
 #. addressbook:ldap-init primary
 #: addressbook/addressbook-errors.xml.h:2
@@ -758,6 +772,7 @@ msgstr "在此管理您的 S/MIME 证书"
 #: addressbook/gui/contact-editor/im.glade.h:1
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-dialog.glade.h:1
+#: calendar/gui/dialogs/cal-attachment.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
@@ -769,7 +784,6 @@ msgstr "在此管理您的 S/MIME 证书"
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
 #: plugins/shared-folder/properties.glade.h:3
 #: widgets/e-timezone-dialog/e-timezone-dialog.glade.h:1
-#: calendar/gui/dialogs/cal-attachment.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -4568,6 +4582,98 @@ msgstr "添加(_D)"
 msgid "Alarms"
 msgstr "提醒"
 
+#: calendar/gui/dialogs/cal-attachment-bar.c:108
+#: composer/e-msg-composer-attachment-bar.c:101
+#, c-format
+msgid "%.0fK"
+msgstr "%.0fK"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:111
+#: composer/e-msg-composer-attachment-bar.c:104
+#, c-format
+msgid "%.0fM"
+msgstr "%.0fM"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:114
+#: composer/e-msg-composer-attachment-bar.c:107
+#, c-format
+msgid "%.0fG"
+msgstr "%.0fG"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:298
+#: calendar/gui/dialogs/cal-attachment-bar.c:909
+#: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
+msgid "attachment"
+msgstr "附件"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:439
+#: calendar/gui/dialogs/meeting-page.c:781
+#: composer/e-msg-composer-attachment-bar.c:440
+#: plugins/shared-folder/properties.glade.h:19
+msgid "_Remove"
+msgstr "删除(_R)"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:440
+#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2758
+#: ui/evolution-mail-list.xml.h:27
+msgid "_Properties"
+msgstr "属性(_P)"
+
+#: calendar/gui/dialogs/cal-attachment-bar.c:442
+#: composer/e-msg-composer-attachment-bar.c:443
+msgid "_Add attachment..."
+msgstr "添加附件(_A)..."
+
+#: calendar/gui/dialogs/cal-attachment.c:197
+#: calendar/gui/dialogs/cal-attachment.c:213
+#: composer/e-msg-composer-attachment.c:174
+#: composer/e-msg-composer-attachment.c:190
+#, c-format
+msgid "Cannot attach file %s: %s"
+msgstr "无法附加文件 %s：%s"
+
+#: calendar/gui/dialogs/cal-attachment.c:205
+#: composer/e-msg-composer-attachment.c:182
+#, c-format
+msgid "Cannot attach file %s: not a regular file"
+msgstr "无法附加文件 %s：不是普通文件"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:2
+#: composer/e-msg-composer-attachment.glade.h:2
+msgid "Attachment Properties"
+msgstr "附件属性"
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:3
+#: calendar/gui/e-cal-component-preview.c:267
+#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
+#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
+msgid "Description:"
+msgstr "描述："
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:4
+#: composer/e-msg-composer-attachment.glade.h:4
+msgid "File name:"
+msgstr "文件名："
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:5
+#: composer/e-msg-composer-attachment.glade.h:5
+msgid "MIME type:"
+msgstr "MIME 类型："
+
+#: calendar/gui/dialogs/cal-attachment.glade.h:6
+#: calendar/gui/dialogs/cal-attachment-select-file.c:96
+#: calendar/gui/dialogs/cal-attachment-select-file.c:115
+#: composer/e-msg-composer-attachment.glade.h:6
+#: composer/e-msg-composer-select-file.c:93
+#: composer/e-msg-composer-select-file.c:112
+msgid "Suggest automatic display of attachment"
+msgstr "建议自动显示附件"
+
+#: calendar/gui/dialogs/cal-attachment-select-file.c:190
+#: composer/e-msg-composer-select-file.c:187
+msgid "Attach file(s)"
+msgstr "添加附件"
+
 #: calendar/gui/dialogs/calendar-setup.c:284
 msgid "Copy calendar contents locally for offline operation"
 msgstr "将日历内容复制到本地以进行脱机操作"
@@ -5306,12 +5412,12 @@ msgstr "开始时间(_S)："
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1268
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
+#: plugins/calendar-weather/calendar-weather.c:371
+#: plugins/calendar-weather/calendar-weather.c:425
 #: plugins/itip-formatter/itip-formatter.c:1365
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
-#: plugins/calendar-weather/calendar-weather.c:371
-#: plugins/calendar-weather/calendar-weather.c:425
 msgid "None"
 msgstr "无"
 
@@ -5330,13 +5436,6 @@ msgstr "需要至少一个参加者。"
 #: calendar/gui/dialogs/meeting-page.c:778
 msgid "_Delegate To..."
 msgstr "授权于(_D)..."
-
-#: calendar/gui/dialogs/meeting-page.c:781
-#: composer/e-msg-composer-attachment-bar.c:440
-#: plugins/shared-folder/properties.glade.h:19
-#: calendar/gui/dialogs/cal-attachment-bar.c:439
-msgid "_Remove"
-msgstr "删除(_R)"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:1
 #: calendar/gui/e-meeting-list-view.c:235
@@ -5858,13 +5957,6 @@ msgstr "状态："
 #: calendar/gui/e-cal-component-preview.c:246
 msgid "Priority:"
 msgstr "优先级："
-
-#: calendar/gui/e-cal-component-preview.c:267
-#: calendar/gui/e-itip-control.c:1164 calendar/gui/e-itip-control.glade.h:6
-#: composer/e-msg-composer-attachment.glade.h:3 mail/mail-config.glade.h:69
-#: calendar/gui/dialogs/cal-attachment.glade.h:3
-msgid "Description:"
-msgstr "描述："
 
 #: calendar/gui/e-cal-component-preview.c:299
 msgid "Web Page:"
@@ -8992,79 +9084,6 @@ msgstr "太平洋/沃利斯"
 msgid "Pacific/Yap"
 msgstr "太平洋/雅浦"
 
-#: composer/e-msg-composer-attachment-bar.c:101
-#: calendar/gui/dialogs/cal-attachment-bar.c:108
-#, c-format
-msgid "%.0fK"
-msgstr "%.0fK"
-
-#: composer/e-msg-composer-attachment-bar.c:104
-#: calendar/gui/dialogs/cal-attachment-bar.c:111
-#, c-format
-msgid "%.0fM"
-msgstr "%.0fM"
-
-#: composer/e-msg-composer-attachment-bar.c:107
-#: calendar/gui/dialogs/cal-attachment-bar.c:114
-#, c-format
-msgid "%.0fG"
-msgstr "%.0fG"
-
-#: composer/e-msg-composer-attachment-bar.c:293 mail/em-utils.c:436
-#: calendar/gui/dialogs/cal-attachment-bar.c:298
-#: calendar/gui/dialogs/cal-attachment-bar.c:909
-msgid "attachment"
-msgstr "附件"
-
-#: composer/e-msg-composer-attachment-bar.c:441 mail/em-folder-tree.c:2758
-#: ui/evolution-mail-list.xml.h:27
-#: calendar/gui/dialogs/cal-attachment-bar.c:440
-msgid "_Properties"
-msgstr "属性(_P)"
-
-#: composer/e-msg-composer-attachment-bar.c:443
-#: calendar/gui/dialogs/cal-attachment-bar.c:442
-msgid "_Add attachment..."
-msgstr "添加附件(_A)..."
-
-#: composer/e-msg-composer-attachment.c:174
-#: composer/e-msg-composer-attachment.c:190
-#: calendar/gui/dialogs/cal-attachment.c:197
-#: calendar/gui/dialogs/cal-attachment.c:213
-#, c-format
-msgid "Cannot attach file %s: %s"
-msgstr "无法附加文件 %s：%s"
-
-#: composer/e-msg-composer-attachment.c:182
-#: calendar/gui/dialogs/cal-attachment.c:205
-#, c-format
-msgid "Cannot attach file %s: not a regular file"
-msgstr "无法附加文件 %s：不是普通文件"
-
-#: composer/e-msg-composer-attachment.glade.h:2
-#: calendar/gui/dialogs/cal-attachment.glade.h:2
-msgid "Attachment Properties"
-msgstr "附件属性"
-
-#: composer/e-msg-composer-attachment.glade.h:4
-#: calendar/gui/dialogs/cal-attachment.glade.h:4
-msgid "File name:"
-msgstr "文件名："
-
-#: composer/e-msg-composer-attachment.glade.h:5
-#: calendar/gui/dialogs/cal-attachment.glade.h:5
-msgid "MIME type:"
-msgstr "MIME 类型："
-
-#: composer/e-msg-composer-attachment.glade.h:6
-#: composer/e-msg-composer-select-file.c:93
-#: composer/e-msg-composer-select-file.c:112
-#: calendar/gui/dialogs/cal-attachment-select-file.c:96
-#: calendar/gui/dialogs/cal-attachment-select-file.c:115
-#: calendar/gui/dialogs/cal-attachment.glade.h:6
-msgid "Suggest automatic display of attachment"
-msgstr "建议自动显示附件"
-
 #: composer/e-msg-composer.c:727
 msgid ""
 "Cannot sign outgoing message: No signing certificate set for this account"
@@ -9216,11 +9235,6 @@ msgstr "单击此处以选择要投递到的文件夹"
 #: composer/e-msg-composer-hdrs.c:628
 msgid "Post To:"
 msgstr "投递到："
-
-#: composer/e-msg-composer-select-file.c:187
-#: calendar/gui/dialogs/cal-attachment-select-file.c:190
-msgid "Attach file(s)"
-msgstr "添加附件"
 
 #. mail-composer:no-attach primary
 #: composer/mail-composer-errors.xml.h:2
@@ -10250,8 +10264,8 @@ msgid "Create New Folder"
 msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2471
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:347
-#: plugins/shared-folder/install-shared.c:144
+#: mail/mail-component.c:732 plugins/shared-folder/install-shared.c:144
+#: plugins/shared-folder/share-folder-common.c:347
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -10321,9 +10335,9 @@ msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
 #: mail/em-folder-tree.c:2471 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:347
 #: plugins/shared-folder/install-shared.c:144
 #: plugins/shared-folder/install-shared.c:215
+#: plugins/shared-folder/share-folder-common.c:347
 msgid "Create folder"
 msgstr "创建文件夹"
 
@@ -13016,6 +13030,95 @@ msgstr ""
 msgid "Synchronize with _buddy list now"
 msgstr "立即同步好友列表(_B)"
 
+#: plugins/calendar-weather/calendar-weather.c:54
+#: plugins/calendar-weather/calendar-weather.c:60
+msgid "Weather: Cloudy"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:61
+msgid "Weather: Fog"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:62
+msgid "Weather: Partly Cloudy"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:63
+#, fuzzy
+msgid "Weather: Rain"
+msgstr "巴林岛"
+
+#: plugins/calendar-weather/calendar-weather.c:64
+msgid "Weather: Snow"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:65
+msgid "Weather: Sunny"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:66
+msgid "Weather: Thunderstorms"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:100
+#, fuzzy
+msgid "Weather"
+msgstr "稍候"
+
+#: plugins/calendar-weather/calendar-weather.c:268
+#, fuzzy
+msgid "Select a location"
+msgstr "选择一项活动"
+
+#: plugins/calendar-weather/calendar-weather.c:655
+#, fuzzy
+msgid "_Units:"
+msgstr "单位"
+
+#: plugins/calendar-weather/calendar-weather.c:662
+msgid "Metric (Celsius, cm, etc)"
+msgstr ""
+
+#: plugins/calendar-weather/calendar-weather.c:663
+msgid "Imperial (Fahrenheit, inches, etc)"
+msgstr ""
+
+#. Description section
+#: plugins/exchange-account-setup/exchange-account-setup.c:68
+#, fuzzy
+msgid ""
+"The message specified below will be automatically sent to \n"
+"each person who sends mail to you while you are out of the office."
+msgstr ""
+"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的信件\n"
+"送回。</small>"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:92
+#, fuzzy
+msgid "I am in the office"
+msgstr "我正在办公室内"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:106
+#, fuzzy
+msgid "I am out of the office"
+msgstr "我正在办公室外"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:120
+#, fuzzy
+msgid "Out of office Message:"
+msgstr "<b>办公室以外信件：</b>"
+
+#: plugins/exchange-account-setup/exchange-account-setup.c:173
+#, fuzzy
+msgid "Exchange Settings"
+msgstr "设置"
+
+#: plugins/exchange-account-setup/exchange-ask-password.c:120
+#: plugins/exchange-account-setup/exchange-ask-password.c:151
+#, fuzzy
+msgid "_Url:"
+msgstr "_URL："
+
 #: plugins/folder-unsubscribe/folder-unsubscribe.c:57
 #, c-format
 msgid "Unsubscribing from folder \"%s\""
@@ -13024,6 +13127,16 @@ msgstr "无法退订文件夹“%s”"
 #: plugins/groupwise-account-setup/camel-gw-listener.c:436
 msgid "Checklist"
 msgstr "待办清单"
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
+msgid "Add Send Options to groupwise messages"
+msgstr ""
+
+#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
+#: widgets/misc/e-send-options.glade.h:20
+#, fuzzy
+msgid "Send Options"
+msgstr "<b>发送选项</b>"
 
 #: plugins/itip-formatter/itip-formatter.c:697
 msgid "Unable to parse item"
@@ -13524,6 +13637,12 @@ msgstr "订阅列表(_S)"
 msgid "_Un-subscribe to list"
 msgstr "退订列表(_U)"
 
+#. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
+#: plugins/new-mail-notify/new-mail-notify.c:66
+#, fuzzy
+msgid "_Generates a D-BUS message when new mail arrives"
+msgstr "新邮件到达时不要提醒我(_D)"
+
 #: plugins/plugin-manager/org-gnome-plugin-manager.xml.h:1
 msgid "Enable and disable plugins"
 msgstr "启用和禁用插件"
@@ -13655,6 +13774,11 @@ msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
 msgstr ""
+
+#: plugins/shared-folder/install-shared.c:215
+#, fuzzy
+msgid "Specify where to postion the folder:"
+msgstr "指定在哪里创建文件夹："
 
 #: plugins/shared-folder/properties.glade.h:1
 msgid ""
@@ -16632,164 +16756,6 @@ msgstr "文字"
 msgid "Find _Now"
 msgstr "立即查找(_N)"
 
-#. system:ask-save-file-exists-overwrite primary
-#: widgets/misc/e-system-errors.xml.h:4
-msgid "File exists \"{0}\"."
-msgstr "文件已存在“{0}”。"
-
-#. system:ask-save-file-exists-overwrite secondary
-#: widgets/misc/e-system-errors.xml.h:6
-msgid "Do you wish to overwrite it?"
-msgstr "您打算覆盖它吗？"
-
-#: widgets/misc/e-system-errors.xml.h:7
-msgid "_Overwrite"
-msgstr "覆盖(_O)"
-
-#. system:no-save-file primary
-#: widgets/misc/e-system-errors.xml.h:9
-msgid "Cannot save file \"{0}\"."
-msgstr "无法保存文件“{0}”。"
-
-#. system:no-load-file primary
-#: widgets/misc/e-system-errors.xml.h:13
-msgid "Cannot open file \"{0}\"."
-msgstr "无法打开文件“{0}”。"
-
-#: widgets/misc/e-task-widget.c:208
-#, c-format
-msgid "%s (...)"
-msgstr "%s (...)"
-
-#: widgets/misc/e-task-widget.c:213
-#, c-format
-msgid "%s (%d%% complete)"
-msgstr "%s (%d%% 完成)"
-
-#: a11y/widgets/ea-combo-button.c:40
-#, fuzzy
-msgid "Combo Button"
-msgstr "时区按钮"
-
-#: a11y/widgets/ea-combo-button.c:50
-#, fuzzy
-msgid "Activate Default"
-msgstr "使用默认值(_D)"
-
-#: a11y/widgets/ea-combo-button.c:52
-msgid "Popup Menu"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:54
-#: plugins/calendar-weather/calendar-weather.c:60
-msgid "Weather: Cloudy"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:61
-msgid "Weather: Fog"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:62
-msgid "Weather: Partly Cloudy"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:63
-#, fuzzy
-msgid "Weather: Rain"
-msgstr "巴林岛"
-
-#: plugins/calendar-weather/calendar-weather.c:64
-msgid "Weather: Snow"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:65
-msgid "Weather: Sunny"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:66
-msgid "Weather: Thunderstorms"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:100
-#, fuzzy
-msgid "Weather"
-msgstr "稍候"
-
-#: plugins/calendar-weather/calendar-weather.c:268
-#, fuzzy
-msgid "Select a location"
-msgstr "选择一项活动"
-
-#: plugins/calendar-weather/calendar-weather.c:655
-#, fuzzy
-msgid "_Units:"
-msgstr "单位"
-
-#: plugins/calendar-weather/calendar-weather.c:662
-msgid "Metric (Celsius, cm, etc)"
-msgstr ""
-
-#: plugins/calendar-weather/calendar-weather.c:663
-msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
-
-#. Description section
-#: plugins/exchange-account-setup/exchange-account-setup.c:68
-#, fuzzy
-msgid ""
-"The message specified below will be automatically sent to \n"
-"each person who sends mail to you while you are out of the office."
-msgstr ""
-"<small>在您位于办公室外势，如果有人给您发送邮件，则会自动将下面指定的信件\n"
-"送回。</small>"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:92
-#, fuzzy
-msgid "I am in the office"
-msgstr "我正在办公室内"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:106
-#, fuzzy
-msgid "I am out of the office"
-msgstr "我正在办公室外"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:120
-#, fuzzy
-msgid "Out of office Message:"
-msgstr "<b>办公室以外信件：</b>"
-
-#: plugins/exchange-account-setup/exchange-account-setup.c:173
-#, fuzzy
-msgid "Exchange Settings"
-msgstr "设置"
-
-#: plugins/exchange-account-setup/exchange-ask-password.c:120
-#: plugins/exchange-account-setup/exchange-ask-password.c:151
-#, fuzzy
-msgid "_Url:"
-msgstr "_URL："
-
-#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:1
-msgid "Add Send Options to groupwise messages"
-msgstr ""
-
-#: plugins/groupwise-send-options/org-gnome-compose-send-options.xml.h:2
-#: widgets/misc/e-send-options.glade.h:20
-#, fuzzy
-msgid "Send Options"
-msgstr "<b>发送选项</b>"
-
-#. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
-#: plugins/new-mail-notify/new-mail-notify.c:66
-#, fuzzy
-msgid "_Generates a D-BUS message when new mail arrives"
-msgstr "新邮件到达时不要提醒我(_D)"
-
-#: plugins/shared-folder/install-shared.c:215
-#, fuzzy
-msgid "Specify where to postion the folder:"
-msgstr "指定在哪里创建文件夹："
-
 #: widgets/misc/e-send-options.c:505
 #, fuzzy
 msgid "When de_leted:"
@@ -16931,6 +16897,40 @@ msgstr ""
 #: widgets/misc/e-send-options.glade.h:38
 msgid "_When opened:     "
 msgstr ""
+
+#. system:ask-save-file-exists-overwrite primary
+#: widgets/misc/e-system-errors.xml.h:4
+msgid "File exists \"{0}\"."
+msgstr "文件已存在“{0}”。"
+
+#. system:ask-save-file-exists-overwrite secondary
+#: widgets/misc/e-system-errors.xml.h:6
+msgid "Do you wish to overwrite it?"
+msgstr "您打算覆盖它吗？"
+
+#: widgets/misc/e-system-errors.xml.h:7
+msgid "_Overwrite"
+msgstr "覆盖(_O)"
+
+#. system:no-save-file primary
+#: widgets/misc/e-system-errors.xml.h:9
+msgid "Cannot save file \"{0}\"."
+msgstr "无法保存文件“{0}”。"
+
+#. system:no-load-file primary
+#: widgets/misc/e-system-errors.xml.h:13
+msgid "Cannot open file \"{0}\"."
+msgstr "无法打开文件“{0}”。"
+
+#: widgets/misc/e-task-widget.c:208
+#, c-format
+msgid "%s (...)"
+msgstr "%s (...)"
+
+#: widgets/misc/e-task-widget.c:213
+#, c-format
+msgid "%s (%d%% complete)"
+msgstr "%s (%d%% 完成)"
 
 #~ msgid "Invalid authentication"
 #~ msgstr "无效的身份验证"
