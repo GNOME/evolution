@@ -52,6 +52,9 @@ struct ETreeMemory {
 
 struct ETreeMemoryClass {
 	ETreeModelClass parent_class;
+
+	/* signals */
+	void (*fill_in_children) (ETreeMemory *model, ETreePath node);
 };
 
 
