@@ -772,14 +772,14 @@ imap_get_subfolder_names (CamelFolder *folder, CamelException *ex)
 
 			/* chop out the folder prefix */
 			if (*folder_path && !strncmp (folder, folder_path, strlen (folder_path))) {
-				f = folder + strlen (folder_path) + 1;
+				f = folder + strlen (folder_path) + strlen (sep);
 				memmove (folder, f, strlen (f) + 1);
 			}
 			d(fprintf (stderr, "adding folder: %s\n", folder));
 			
 			g_ptr_array_add (listing, folder);
 
-			g_free (sep);  /* TODO: decide if we really need dir_sep */
+			g_free (sep);
 			
 			if (*ptr == '\n')
 				ptr++;
