@@ -27,6 +27,18 @@ Bugzilla Bugs Fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #32276 -- My custom task view crashes task and calender views
 	      every time (JP)
 
+    #25153 -- Crash on iCalendar entry (Rodrigo)
+
+    #28951 -- CDO doesn't understand UNTIL=date in RRULE (JP)
+
+Other fixes:
+
+  * Calendar
+
+    - Make sure configuration info can be applied in units changed for
+      task hide option	(JP)
+
+
 Evolution 1.1.2, 2002-10-07
 ---------------------------
 
