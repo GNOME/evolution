@@ -100,6 +100,7 @@ libcamel_la_SOURCES = 				\
 	camel-stream-fs.c			\
 	camel-stream-mem.c			\
 	camel-stream-null.c			\
+	camel-stream-process.c			\
 	camel-stream.c				\
 	camel-string-utils.c			\
 	camel-text-index.c			\
@@ -198,6 +199,7 @@ libcamelinclude_HEADERS =			\
 	camel-stream-fs.h			\
 	camel-stream-mem.h			\
 	camel-stream-null.h			\
+	camel-stream-process.h			\
 	camel-stream.h				\
 	camel-string-utils.h			\
 	camel-text-index.h			\

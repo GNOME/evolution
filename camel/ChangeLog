@@ -1,3 +1,9 @@
+2003-09-03  David Woodhouse  <dwmw2@infradead.org>
+
+	* camel-stream-process.[ch]: New stream implementation for running
+	commands.
+	* Makefile.am: Compile the above
+
 2003-08-20  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #47765.
