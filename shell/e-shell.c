@@ -347,29 +347,6 @@ window_weak_notify (void *data,
 	}
 }
 
-static EShellWindow *
-create_window (EShell *shell,
-	       const char *component_id,
-	       EShellWindow *template_window)
-{
-	EShellPrivate *priv;
-	EShellWindow *window;
-
-	priv = shell->priv;
-
-	window = E_SHELL_WINDOW (e_shell_window_new (shell, component_id));
-
-	g_signal_connect (window, "delete_event", G_CALLBACK (window_delete_event_cb), shell);
-	g_object_weak_ref (G_OBJECT (window), window_weak_notify, shell);
-
-	shell->priv->windows = g_list_prepend (shell->priv->windows, window);
-
-	g_signal_emit (shell, signals[NEW_WINDOW_CREATED], 0, window);
-
-	return window;
-}
-
-
 /* GObject methods.  */
 
 static void
@@ -809,9 +786,17 @@ e_shell_create_window (EShell *shell,
 
 	priv = shell->priv;
 
-	window = create_window (shell, component_id, template_window);
+	window = E_SHELL_WINDOW (e_shell_window_new (shell, component_id));
+
+	g_signal_connect (window, "delete_event", G_CALLBACK (window_delete_event_cb), shell);
+	g_object_weak_ref (G_OBJECT (window), window_weak_notify, shell);
+	shell->priv->windows = g_list_prepend (shell->priv->windows, window);
+
+	g_signal_emit (shell, signals[NEW_WINDOW_CREATED], 0, window);
 
 	gtk_widget_show (GTK_WIDGET (window));
+
+	e_error_default_parent((GtkWindow *)window);
 
 	set_interactive (shell, TRUE);
 

@@ -1,3 +1,9 @@
+2004-07-22  Not Zed  <NotZed@Ximian.com>
+
+	* e-shell.c (create_window): merged this into
+	e_shell_create_window, all it was doing was adding a stack frame.
+	(e_shell_create_window): setup the e error default window.
+
 2004-07-22  Jeffrey Stedfast  <fejj@novell.com>
 
 	* e-shell-importer.c (e_shell_importer_start_import): Use
