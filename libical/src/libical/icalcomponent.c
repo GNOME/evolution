@@ -826,7 +826,7 @@ icalcomponent_begin_component(icalcomponent* component,icalcomponent_kind kind)
 
     itr.kind = kind;
 
-    icalerror_check_arg_rz( (component!=0),"component");
+    icalerror_check_arg_re( (component!=0),"component",icalcompiter_null);
 
     for( i = pvl_head(impl->components); i != 0; i = pvl_next(itr.iter)) {
 	
@@ -852,7 +852,7 @@ icalcomponent_end_component(icalcomponent* component,icalcomponent_kind kind)
 
     itr.kind = kind;
 
-    icalerror_check_arg_rz( (component!=0),"component");
+    icalerror_check_arg_re( (component!=0),"component",icalcompiter_null);
 
     for( i = pvl_tail(impl->components); i != 0; i = pvl_prior(i)) {
 	
