@@ -28,11 +28,20 @@ enum {
 	ARG_CARD,
 };
 
+enum {
+	CHANGED,
+	LAST_SIGNAL
+};
+
+static guint e_select_names_manager_signals[LAST_SIGNAL] = { 0 };
+
 
 typedef struct {
 	char *id;
 	char *title;
 	ESelectNamesModel *model;
+	ESelectNamesManager *manager;
+	guint changed_handler;
 } ESelectNamesManagerSection;
 
 typedef struct {
@@ -105,6 +114,17 @@ e_select_names_manager_class_init (ESelectNamesManagerClass *klass)
 	object_class->destroy = e_select_names_manager_destroy;
 	object_class->get_arg = e_select_names_manager_get_arg;
 	object_class->set_arg = e_select_names_manager_set_arg;
+
+	e_select_names_manager_signals[CHANGED] = 
+		gtk_signal_new ("changed",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (ESelectNamesManagerClass, changed),
+				gtk_marshal_NONE__POINTER_INT,
+				GTK_TYPE_NONE, 2,
+				GTK_TYPE_POINTER,
+				GTK_TYPE_INT);
+	gtk_object_class_add_signals (object_class, e_select_names_manager_signals, LAST_SIGNAL);
 }
 
 /*
@@ -161,11 +181,19 @@ section_copy(const void *sec, void *data)
 {
 	const ESelectNamesManagerSection *section = sec;
 	ESelectNamesManagerSection *newsec;
-	
+
+	static void section_model_changed_cb (ESelectNamesModel *, gpointer);
+
 	newsec = g_new(ESelectNamesManagerSection, 1);
 	newsec->id = g_strdup(section->id);
 	newsec->title = g_strdup(section->title);
 	newsec->model = section->model;
+	newsec->manager = section->manager;
+	newsec->changed_handler = gtk_signal_connect (GTK_OBJECT (newsec->model),
+						      "changed",
+						      GTK_SIGNAL_FUNC (section_model_changed_cb),
+						      newsec);
+
 	if (newsec->model)
 		gtk_object_ref(GTK_OBJECT(newsec->model));
 	return newsec;
@@ -175,6 +203,9 @@ static void
 section_free(void *sec, void *data)
 {
 	ESelectNamesManagerSection *section = sec;
+	if (section->manager && section->changed_handler) {
+		gtk_signal_disconnect (GTK_OBJECT (section->model), section->changed_handler);
+	}
 	g_free(section->id);
 	g_free(section->title);
 	if (section->model)
@@ -216,17 +247,56 @@ e_select_names_manager_init (ESelectNamesManager *manager)
 	manager->entries  = e_list_new(entry_copy, entry_free, manager);
 }
 
+static void
+section_model_changed_cb (ESelectNamesModel *model, gpointer closure)
+{
+	ESelectNamesManagerSection *section = closure;
+	gtk_signal_emit (GTK_OBJECT (section->manager),
+			 e_select_names_manager_signals[CHANGED],
+			 section->id,
+			 FALSE);
+}
+
+static void
+section_model_working_copy_changed_cb (ESelectNamesModel *model, gpointer closure)
+{
+	ESelectNamesManagerSection *section = closure;
+	gtk_signal_emit (GTK_OBJECT (section->manager),
+			 e_select_names_manager_signals[CHANGED],
+			 section->id,
+			 TRUE);
+}
+
 void
 e_select_names_manager_add_section (ESelectNamesManager *manager,
 				    const char *id,
 				    const char *title)
+{
+	e_select_names_manager_add_section_with_limit (manager, id, title, -1);
+}
+
+void
+e_select_names_manager_add_section_with_limit (ESelectNamesManager *manager,
+					       const char *id,
+					       const char *title,
+					       gint limit)
 {
 	ESelectNamesManagerSection *section;
 	
 	section = g_new(ESelectNamesManagerSection, 1);
 	section->id = g_strdup(id);
 	section->title = g_strdup(title);
+
 	section->model = e_select_names_model_new();
+	e_select_names_model_set_limit (section->model, limit);
+
+	section->manager = manager;
+
+	section->changed_handler = gtk_signal_connect (GTK_OBJECT (section->model),
+						       "changed",
+						       GTK_SIGNAL_FUNC (section_model_changed_cb),
+						       section);
+
 	e_list_append(manager->sections, section);
 	section_free(section, manager);
 }
@@ -404,6 +474,10 @@ e_select_names_manager_activate_dialog (ESelectNamesManager *manager,
 			const ESelectNamesManagerSection *section = e_iterator_get(iterator);
 			ESelectNamesModel *newmodel = e_select_names_model_duplicate(section->model);
 			e_select_names_add_section(manager->names, section->id, section->title, newmodel);
+			gtk_signal_connect (GTK_OBJECT (newmodel),
+					    "changed",
+					    GTK_SIGNAL_FUNC (section_model_working_copy_changed_cb),
+					    (gpointer)section); /* casting out const to avoid compiler warning */
 			gtk_object_unref(GTK_OBJECT(newmodel));
 		}
 		e_select_names_set_default(manager->names, id);

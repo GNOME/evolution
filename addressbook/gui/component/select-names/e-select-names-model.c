@@ -56,6 +56,8 @@ struct _ESelectNamesModelPrivate {
 	GList *data;  /* of EDestination */
 	gchar *text;
 	gchar *addr_text;
+
+	gint limit;
 };
 
 
@@ -148,6 +150,8 @@ static void
 e_select_names_model_init (ESelectNamesModel *model)
 {
 	model->priv = g_new0 (struct _ESelectNamesModelPrivate, 1);
+
+	model->priv->limit = -1;
 }
 
 static void
@@ -239,6 +243,8 @@ e_select_names_model_duplicate (ESelectNamesModel *old)
 		model->priv->data = g_list_append (model->priv->data, dup);
 	}
 
+	model->priv->limit = old->priv->limit;
+
 	return model;
 }
 
@@ -316,6 +322,33 @@ e_select_names_model_count (ESelectNamesModel *model)
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), 0);
 
 	return g_list_length (model->priv->data);
+}
+
+gint
+e_select_names_model_get_limit (ESelectNamesModel *model)
+{
+	g_return_val_if_fail (model != NULL, 0);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), 0);
+
+	return model->priv->limit;
+}
+
+void
+e_select_names_model_set_limit (ESelectNamesModel *model, gint limit)
+{
+	g_return_if_fail (model != NULL);
+	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
+
+	model->priv->limit = MAX (limit, -1);
+}
+
+gboolean
+e_select_names_model_at_limit (ESelectNamesModel *model)
+{
+	g_return_val_if_fail (model != NULL, TRUE);
+	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), TRUE);
+
+	return model->priv->limit >= 0 && g_list_length (model->priv->data) >= model->priv->limit;
 }
 
 const EDestination *
@@ -419,6 +452,12 @@ e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination 
 	g_return_if_fail (0 <= index && index <= g_list_length (model->priv->data));
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
+	if (e_select_names_model_at_limit (model)) {
+		/* FIXME: This is bad. */
+		gtk_object_unref (GTK_OBJECT (dest));
+		return;
+	}
+
 	model->priv->data = g_list_insert (model->priv->data, dest, index);
 	
 	gtk_object_ref (GTK_OBJECT (dest));
@@ -432,6 +471,12 @@ e_select_names_model_append (ESelectNamesModel *model, EDestination *dest)
 {
 	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
 	g_return_if_fail (dest && E_IS_DESTINATION (dest));
+
+	if (e_select_names_model_at_limit (model)) {
+		/* FIXME: This is bad. */
+		gtk_object_unref (GTK_OBJECT (dest));
+		return;
+	}
 
 	model->priv->data = g_list_append (model->priv->data, dest);
 

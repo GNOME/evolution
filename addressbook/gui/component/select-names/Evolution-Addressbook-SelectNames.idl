@@ -27,12 +27,15 @@ module Addressbook {
 
 		void addSection (in string id, in string title)
 			raises (DuplicateID);
+		void addSectionWithLimit (in string id, in string title, in short limit)
+			raises (DuplicateID);
 
 		Bonobo::Control getEntryBySection (in string section_id)
 			raises (SectionNotFound);
 
 		void activateDialog (in string section_id);
 	};
+
 
 };
 };

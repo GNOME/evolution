@@ -1,3 +1,39 @@
+2001-07-16  Jon Trowbridge  <trow@ximian.com>
+
+	* gui/component/select-names/Evolution-Addressbook-SelectNames.idl:
+	Added addSectionWithLimit to the SelectNames interface.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(impl_SelectNames_add_section_with_limit): Added.  Implements
+	addSectionWithLimit.
+	(e_select_names_bonobo_construct): Set up as a BonoboEventSource.
+	(init): Listen for "changed" signals from our manager.
+	(manager_changed_cb): Notify our listeners if we get a changed
+	signal from our manager.
+
+	* gui/component/select-names/e-select-names-manager.c
+	(e_select_names_manager_class_init): Added a "changed" signal".
+	(section_copy): Propogate the signal connection.
+	(section_free): Disconnect the changed handler.
+	(e_select_names_manager_add_section_with_limit): Connect to the
+	new section's model, listening for changes.
+	(e_select_names_manager_activate_dialog): Connect to the "working
+	copy" model, listening for changes.
+	(e_select_names_manager_add_section_with_limit): Added.
+	(e_select_names_manager_add_section): Changed to just be a special
+	case of e_select_names_manager_add_section_with_limit.
+
+	* gui/component/select-names/e-select-names-model.c
+	(e_select_names_model_set_limit): Added.  Allows a max number of
+	names allowed in the model.
+	(e_select_names_model_get_limit): Added.  Returns the limit.
+	(e_select_names_model_at_limit): Added.  Returns TRUE if the
+	model is "full".
+	(e_select_names_model_insert): Check that we aren't at the
+	limit before inserting.  Silently return if we are.
+	(e_select_names_model_append): Check that we aren't at the
+	limit before appending.  Silently return if we are.
+
 2001-07-16  Chris Toshok  <toshok@ximian.com>
 
 	[ Fix bug #4705 - LDAP storage gets saved with corrupted binddn]

@@ -46,25 +46,25 @@ INCLUDES =						\
 
 lib_LTLIBRARIES = libeselectnames.la
 
-libeselectnames_la_SOURCES = 		\
-	$(IDL_GENERATED)		\
-	e-select-names-bonobo.c		\
-	e-select-names-bonobo.h		\
-	e-select-names-completion.c	\
-	e-select-names-completion.h	\
-	e-select-names-factory.c	\
-	e-select-names-factory.h	\
-	e-select-names-manager.c	\
-	e-select-names-manager.h	\
-	e-select-names-model.c		\
-	e-select-names-model.h		\
-	e-select-names-popup.c		\
-	e-select-names-popup.h		\
-	e-select-names-table-model.c	\
-	e-select-names-table-model.h	\
-	e-select-names-text-model.c	\
-	e-select-names-text-model.h	\
-	e-select-names.c		\
+libeselectnames_la_SOURCES = 			\
+	$(IDL_GENERATED)			\
+	e-select-names-bonobo.c			\
+	e-select-names-bonobo.h			\
+	e-select-names-completion.c		\
+	e-select-names-completion.h		\
+	e-select-names-factory.c		\
+	e-select-names-factory.h		\
+	e-select-names-manager.c		\
+	e-select-names-manager.h		\
+	e-select-names-model.c			\
+	e-select-names-model.h			\
+	e-select-names-popup.c			\
+	e-select-names-popup.h			\
+	e-select-names-table-model.c		\
+	e-select-names-table-model.h		\
+	e-select-names-text-model.c		\
+	e-select-names-text-model.h		\
+	e-select-names.c			\
 	e-select-names.h
 
 gladedir   = $(datadir)/evolution/glade

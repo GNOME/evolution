@@ -50,6 +50,10 @@ const gchar  *e_select_names_model_get_textification (ESelectNamesModel *model);
 const gchar  *e_select_names_model_get_address_text  (ESelectNamesModel *model);
 
 gint                e_select_names_model_count               (ESelectNamesModel *model);
+gint                e_select_names_model_get_limit           (ESelectNamesModel *model);
+void                e_select_names_model_set_limit           (ESelectNamesModel *model, gint limit);
+gboolean            e_select_names_model_at_limit            (ESelectNamesModel *model);
+
 const EDestination *e_select_names_model_get_destination     (ESelectNamesModel *model, gint index);
 gchar              *e_select_names_model_export_destinationv (ESelectNamesModel *model);
 void                e_select_names_model_import_destinationv (ESelectNamesModel *model,

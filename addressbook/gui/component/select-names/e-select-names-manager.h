@@ -35,26 +35,32 @@ struct _ESelectNamesManager {
 
 struct _ESelectNamesManagerClass {
 	GtkObjectClass parent_class;
+
+	void (*changed) (ESelectNamesManager *, const gchar *section_id, gint changed_working_copy);
 };
 
-ESelectNamesManager *e_select_names_manager_new               (void);
-void                 e_select_names_manager_add_section       (ESelectNamesManager *manager,
-							       const char *id,
-							       const char *title);
-ESelectNamesModel   *e_select_names_manager_get_source        (ESelectNamesManager *manager,
-							       const char *id);
-GtkWidget           *e_select_names_manager_create_entry      (ESelectNamesManager *manager,
-							       const char *id);
-void                 e_select_names_manager_activate_dialog   (ESelectNamesManager *manager,
-							       const char *id);
+ESelectNamesManager *e_select_names_manager_new                    (void);
+void                 e_select_names_manager_add_section            (ESelectNamesManager *manager,
+							            const char *id,
+							            const char *title);
+void                 e_select_names_manager_add_section_with_limit (ESelectNamesManager *manager,
+								    const char *id,
+								    const char *title,
+								    gint limit);
+ESelectNamesModel   *e_select_names_manager_get_source             (ESelectNamesManager *manager,
+							            const char *id);
+GtkWidget           *e_select_names_manager_create_entry           (ESelectNamesManager *manager,
+							            const char *id);
+void                 e_select_names_manager_activate_dialog        (ESelectNamesManager *manager,
+							            const char *id);
 
 #if 0
 /* Of type ECard */
-EList               *e_select_names_manager_get_cards         (ESelectNamesManager *manager,
-							       const char *id);
+EList               *e_select_names_manager_get_cards              (ESelectNamesManager *manager,
+							            const char *id);
 #endif
 
 /* Standard Gtk function */			      
-GtkType              e_select_names_manager_get_type          (void);
+GtkType              e_select_names_manager_get_type               (void);
 
 #endif /* ! __E_SELECT_NAMES_MANAGER_H__ */

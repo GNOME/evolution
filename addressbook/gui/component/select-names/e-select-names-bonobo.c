@@ -29,6 +29,7 @@
 
 #include <bonobo/bonobo-property-bag.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-event-source.h>
 
 #include <gal/util/e-util.h>
 #include <gal/e-text/e-entry.h>
@@ -47,6 +48,7 @@ static BonoboObjectClass *parent_class = NULL;
 
 struct _ESelectNamesBonoboPrivate {
 	ESelectNamesManager *manager;
+	BonoboEventSource *event_source;
 };
 
 enum _EntryPropertyID {
@@ -163,6 +165,24 @@ impl_SelectNames_add_section (PortableServer_Servant servant,
 }
 
 static void
+impl_SelectNames_add_section_with_limit (PortableServer_Servant servant,
+					 const CORBA_char *id,
+					 const CORBA_char *title,
+					 CORBA_short limit,
+					 CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+	ESelectNamesBonobo *select_names;
+	ESelectNamesBonoboPrivate *priv;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	select_names = E_SELECT_NAMES_BONOBO (bonobo_object);
+	priv = select_names->priv;
+
+	e_select_names_manager_add_section_with_limit (priv->manager, id, title, limit);
+}
+
+static void
 entry_changed (GtkWidget *widget, BonoboControl *control)
 {
 	gboolean changed = GPOINTER_TO_UINT (gtk_object_get_data (GTK_OBJECT (widget), "entry_property_id_changed"));
@@ -263,9 +283,10 @@ corba_class_init ()
 	base_epv->default_POA = NULL;
 
 	epv = g_new0 (POA_GNOME_Evolution_Addressbook_SelectNames__epv, 1);
-	epv->addSection        = impl_SelectNames_add_section;
-	epv->getEntryBySection = impl_SelectNames_get_entry_for_section;
-	epv->activateDialog    = impl_SelectNames_activate_dialog;
+	epv->addSection          = impl_SelectNames_add_section;
+	epv->addSectionWithLimit = impl_SelectNames_add_section_with_limit;
+	epv->getEntryBySection   = impl_SelectNames_get_entry_for_section;
+	epv->activateDialog      = impl_SelectNames_activate_dialog;
 
 	vepv = &SelectNames_vepv;
 	vepv->Bonobo_Unknown_epv                    = bonobo_object_get_epv ();
@@ -286,6 +307,24 @@ class_init (ESelectNamesBonoboClass *klass)
 }
 
 static void
+manager_changed_cb (ESelectNamesManager *manager, const gchar *section_id, gint changed_working_copy, gpointer closure)
+{
+	ESelectNamesBonobo *select_names = E_SELECT_NAMES_BONOBO (closure);
+	BonoboArg *arg;
+
+	arg = bonobo_arg_new (BONOBO_ARG_STRING);
+	BONOBO_ARG_SET_STRING (arg, section_id);
+
+	bonobo_event_source_notify_listeners_full (select_names->priv->event_source,
+						   "GNOME/Evolution",
+						   "changed",
+						   changed_working_copy ? "working_copy" : "model",
+						   arg, NULL);
+
+	bonobo_arg_release (arg);
+}
+
+static void
 init (ESelectNamesBonobo *select_names)
 {
 	ESelectNamesBonoboPrivate *priv;
@@ -293,6 +332,12 @@ init (ESelectNamesBonobo *select_names)
 	priv = g_new (ESelectNamesBonoboPrivate, 1);
 
 	priv->manager = e_select_names_manager_new ();
+	priv->event_source = NULL;
+
+	gtk_signal_connect (GTK_OBJECT (priv->manager),
+			    "changed",
+			    GTK_SIGNAL_FUNC (manager_changed_cb),
+			    select_names);
 
 	select_names->priv = priv;
 }
@@ -306,6 +351,10 @@ e_select_names_bonobo_construct (ESelectNamesBonobo *select_names,
 	g_return_if_fail (E_IS_SELECT_NAMES_BONOBO (select_names));
 
 	bonobo_object_construct (BONOBO_OBJECT (select_names), corba_object);
+
+	g_assert (select_names->priv->event_source == NULL);
+	select_names->priv->event_source = bonobo_event_source_new ();
+	bonobo_object_add_interface (BONOBO_OBJECT (select_names), BONOBO_OBJECT (select_names->priv->event_source));
 }
 
 ESelectNamesBonobo *
