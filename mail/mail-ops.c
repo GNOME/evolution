@@ -404,7 +404,7 @@ do_filter_ondemand (gpointer in_data, gpointer op_data, CamelException *ex)
 		gtk_object_unref (GTK_OBJECT (driver));
 		
 		/* FIXME: when we hide deleted msgs, we may want to not expunge? */
-		camel_folder_sync (input->source, TRUE, ex);
+		camel_folder_sync (input->source, /*TRUE*/ FALSE, ex);
 		
 		camel_folder_thaw (input->source);
 		
