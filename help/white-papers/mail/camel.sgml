@@ -43,8 +43,9 @@
     <para>
       &Camel; is a generic messaging library. It is being used as the
       back end for the mail component of &Evolution;. The name
-      "&Camel;" is not an acronym; it refers to the fact that the
+      "&Camel;" is an acronym; it refers to the fact that the
       library is capable of going several days without food or water.
+      It means : Camel has an Acronym that Makes Everyone Laugh.
     </para>
 
     <para>
