@@ -1,3 +1,16 @@
+2001-02-06  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config-druid.c (set_defaults): Updated to checkfor
+	"(none)".
+
+	* mail-account-editor.c (entry_changed): Make sure the email
+	address is valid.
+
+	* mail-config-druid.c (identity_check): Check to make sure we have
+	a valid email address.
+	(is_email): New function to check a string to see if it's a valid
+	email address.
+
 2001-02-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mbox-importer.c: We are now going to use a file

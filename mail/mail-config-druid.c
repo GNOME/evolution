@@ -237,12 +237,34 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	gtk_widget_destroy (GTK_WIDGET (druid));
 }
 
+static gboolean
+is_email (const char *address)
+{
+	const char *at, *hname;
+	
+	g_return_val_if_fail (address != NULL, FALSE);
+	
+	at = strchr (address, '@');
+	/* make sure we have an '@' and that it's not the first or last char */
+	if (!at || at == address || *(at + 1) == '\0')
+		return FALSE;
+	
+	hname = at + 1;
+	/* make sure the first and last chars aren't '.' */
+	if (*hname == '.' || hname[strlen (hname) - 1] == '.')
+		return FALSE;
+	
+	return strchr (hname, '.') != NULL;
+}
+
 /* Identity Page */
 static void
 identity_check (MailConfigDruid *druid)
 {
-	if (gtk_entry_get_text (druid->full_name) &&
-	    gtk_entry_get_text (druid->email_address))
+	char *address;
+	
+	address = gtk_entry_get_text (druid->email_address);
+	if (gtk_entry_get_text (druid->full_name) && is_email (address))
 		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, TRUE, TRUE);
 	else
 		gnome_druid_set_buttons_sensitive (druid->druid, TRUE, FALSE, TRUE);
@@ -769,6 +791,14 @@ provider_compare (const CamelProvider *p1, const CamelProvider *p2)
 	}
 }
 
+static gboolean
+is_domain (const char *domain)
+{
+	/* domain && *domain should be enough but linux's
+           getdomainname() likes to return "(none)" */
+	return domain && *domain && strcmp (domain, "(none)");
+}
+
 static void
 set_defaults (MailConfigDruid *druid)
 {
@@ -795,8 +825,8 @@ set_defaults (MailConfigDruid *druid)
 		memset (domain, 0, sizeof (domain));
 		getdomainname (domain, 1023);
 		
-		address = g_strdup_printf ("%s@%s%s%s", user, hostname, domain && *domain ? "." : "",
-					   domain && *domain ? domain : "");
+		address = g_strdup_printf ("%s@%s%s%s", user, hostname, is_domain (domain) ? "." : "",
+					   is_domain (domain) ? domain : "");
 		
 		gtk_entry_set_text (druid->email_address, address);
 		g_free (address);
