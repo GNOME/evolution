@@ -1,5 +1,9 @@
 2001-10-11  Dan Winship  <danw@ximian.com>
 
+	* Evolution-Storage.idl: Remove "display_name" arg from update
+	methods. It was only there to do the "Inbox (5)" hack, which is
+	supported directly now.
+
 	* evolution-storage.c (impl_Storage_updateFolder): no longer takes
 	display_name.
 	(evolution_storage_update_folder,
@@ -15,9 +19,6 @@
 	* e-local-storage.c (bonobo_interface_update_folder_cb): 
 	* e-corba-storage.c (impl_StorageListener_notifyFolderUpdated): No
 	longer take display_name.
-
-	* Evolution-Storage.idl: Remove "display_name" arg from update
-	methods.
 
 2001-10-10  Ettore Perazzoli  <ettore@ximian.com>
 
