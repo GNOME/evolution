@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2002-12-05 17:57-0500\n"
-"PO-Revision-Date: 2002-03-13 12:27+01:00\n"
+"PO-Revision-Date: 2003-01-23 18:07+0100\n"
 "Last-Translator:Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -2691,7 +2691,7 @@ msgstr ""
 
 #: addressbook/gui/contact-editor/file-exists.glade.h:3
 msgid "Overwrite"
-msgstr "Sovrascrivi""
+msgstr "Sovrascrivi"
 
 #: addressbook/gui/contact-editor/fulladdr.glade.h:1
 msgid "Address _2:"
@@ -3460,7 +3460,7 @@ msgstr "Appuntamento senza titolo"
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-calendar-table.c:418 mail/message-list.c:748
 msgid "High"
-msgstr "Altezza"
+msgstr "Alta"
 
 #: calendar/cal-util/cal-util.c:502 calendar/cal-util/cal-util.c:524
 #: calendar/gui/calendar-model.c:1721
@@ -3473,14 +3473,14 @@ msgstr "Normale"
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-calendar-table.c:420 mail/message-list.c:746
 msgid "Low"
-msgstr "Basso"
+msgstr "Bassa"
 
 #. An empty string is the same as 'None'.
 #: calendar/cal-util/cal-util.c:520
 #: calendar/gui/dialogs/task-details-page.glade.h:14
 #: calendar/gui/e-calendar-table.c:421
 msgid "Undefined"
-msgstr "Non definito"
+msgstr "Non definita"
 
 #: calendar/conduits/calendar/calendar-conduit.c:205
 msgid "Split Multi-Day Events:"

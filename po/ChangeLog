@@ -1,3 +1,7 @@
+2003-01-23  Alessio Frusciante  <algol@firenze.linux.it>
+
+	* it.po: Fixed bug #84257.
+
 22003-01-23  Not Zed  <NotZed@Ximian.com>
 
         * zh_CN.po: Update for chinese translation from Yuedong Du
