@@ -26,6 +26,7 @@
 
 #include <gdk_imlib.h>
 #include <libgnomeui/gnome-canvas.h>
+#include <gdk-pixbuf/gdk-pixbuf.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -150,7 +151,7 @@ void	       e_icon_bar_set_view_type		(EIconBar	  *icon_bar,
 /* Adds a new item to a group at the given position. If position is -1 it is
    added at the end. It returns the index of the item. */
 gint	       e_icon_bar_add_item		(EIconBar	  *icon_bar,
-						 GdkImlibImage	  *image,
+						 GdkPixbuf	  *image,
 						 gchar		  *text,
 						 gint		   position);
 
@@ -163,11 +164,11 @@ void	       e_icon_bar_reorder_item		(EIconBar	  *icon_bar,
 void	       e_icon_bar_remove_item		(EIconBar	  *icon_bar,
 						 gint		   item_num);
 
-GdkImlibImage* e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
+GdkPixbuf    * e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
 						 gint		   item_num);
 void	       e_icon_bar_set_item_image	(EIconBar	  *icon_bar,
 						 gint		   item_num,
-						 GdkImlibImage	  *image);
+						 GdkPixbuf	  *image);
 
 gchar*	       e_icon_bar_get_item_text		(EIconBar	  *icon_bar,
 						 gint		   item_num);

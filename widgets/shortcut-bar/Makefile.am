@@ -27,4 +27,7 @@ test_shortcut_bar_SOURCES = 	\
 
 test_shortcut_bar_LDADD = 	\
 	./libshortcut-bar.a	\
-	$(EXTRA_GNOME_LIBS)	\
+	$(EXTRA_GNOME_LIBS)
+
+test_shortcut_bar_LDFLAGS =	\
+	`gnome-config --libs gdk_pixbuf`

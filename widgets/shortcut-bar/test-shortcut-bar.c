@@ -74,8 +74,8 @@ main (int argc, char *argv[])
 
 	gnome_init ("test-shortcut-bar", "0.1", argc, argv);
 
-	gtk_widget_push_visual (gdk_imlib_get_visual ());
-	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
+	gtk_widget_push_visual (gdk_rgb_get_visual ());
+	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	window = gnome_app_new ("TestShortcutBar", "TestShortCutBar");
 	gtk_window_set_default_size (GTK_WINDOW (window), 600, 400);

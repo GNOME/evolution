@@ -29,8 +29,7 @@
 
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
-#include <libgnomeui/gnome-canvas-image.h>
-
+#include <gdk-pixbuf/gnome-canvas-pixbuf.h>
 #include "e-icon-bar.h"
 #include "e-icon-bar-bg-item.h"
 #include "e-icon-bar-text-item.h"
@@ -397,10 +396,14 @@ e_icon_bar_recalc_item_positions (EIconBar *icon_bar)
 				       NULL);
 
 		gnome_canvas_item_set (item->image,
-				       "GnomeCanvasImage::x", (gdouble)icon_bar->icon_x,
-				       "GnomeCanvasImage::y", (gdouble)item->icon_y,
-				       "GnomeCanvasImage::width", (gdouble)icon_bar->icon_w,
-				       "GnomeCanvasImage::height", (gdouble)icon_bar->icon_h,
+				       "GnomeCanvasPixbuf::x", (gdouble)icon_bar->icon_x,
+				       "GnomeCanvasPixbuf::x_set", TRUE,
+				       "GnomeCanvasPixbuf::y", (gdouble)item->icon_y,
+				       "GnomeCanvasPixbuf::width", (gdouble)icon_bar->icon_w,
+				       "GnomeCanvasPixbuf::width_set", TRUE,
+				       "GnomeCanvasPixbuf::y_set", TRUE,
+				       "GnomeCanvasPixbuf::height", (gdouble)icon_bar->icon_h,
+				       "GnomeCanvasPixbuf::height_set", TRUE,
 				       NULL);
 
 		y += item->item_height + icon_bar->spacing;
@@ -523,7 +526,7 @@ e_icon_bar_set_view_type (EIconBar *icon_bar,
  **/
 gint
 e_icon_bar_add_item (EIconBar	    *icon_bar,
-		     GdkImlibImage  *image,
+		     GdkPixbuf      *image,
 		     gchar	    *text,
 		     gint	     position)
 {
@@ -570,11 +573,10 @@ e_icon_bar_add_item (EIconBar	    *icon_bar,
 			    icon_bar);
 
 	item.image = gnome_canvas_item_new (GNOME_CANVAS_GROUP (GNOME_CANVAS (icon_bar)->root),
-					    gnome_canvas_image_get_type (),
-					    "GnomeCanvasImage::image", image,
-					    "GnomeCanvasImage::anchor", GTK_ANCHOR_NORTH_WEST,
-					    "GnomeCanvasImage::width", (gdouble) icon_bar->icon_w,
-					    "GnomeCanvasImage::height", (gdouble) icon_bar->icon_h,
+					    gnome_canvas_pixbuf_get_type (),
+					    "GnomeCanvasPixbuf::pixbuf", image,
+					    "GnomeCanvasPixbuf::width", (gdouble) icon_bar->icon_w,
+					    "GnomeCanvasPixbuf::height", (gdouble) icon_bar->icon_h,
 					     NULL);
 	gtk_signal_connect (GTK_OBJECT (item.image), "event",
 			    GTK_SIGNAL_FUNC (e_icon_bar_on_item_event),
@@ -675,12 +677,12 @@ e_icon_bar_remove_item		(EIconBar	  *icon_bar,
  *
  * Returns the icon used for the given item.
  **/
-GdkImlibImage*
+GdkPixbuf *
 e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
 				 gint		   item_num)
 {
 	EIconBarItem *item;
-	GdkImlibImage *image;
+	GdkPixbuf *image = NULL;
 
 	g_return_val_if_fail (E_IS_ICON_BAR (icon_bar), NULL);
 	g_return_val_if_fail (item_num >= 0, NULL);
@@ -688,7 +690,7 @@ e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
 
 	item = &g_array_index (icon_bar->items, EIconBarItem, item_num);
 	gtk_object_get (GTK_OBJECT (item->image),
-			"GnomeCanvasImage::image", image,
+			"GnomeCanvasPixbuf::pixbuf", image,
 			NULL);
 	return image;
 }
@@ -705,7 +707,7 @@ e_icon_bar_get_item_image	(EIconBar	  *icon_bar,
 void
 e_icon_bar_set_item_image	(EIconBar	  *icon_bar,
 				 gint		   item_num,
-				 GdkImlibImage	  *image)
+				 GdkPixbuf	  *image)
 {
 	EIconBarItem *item;
 
@@ -715,7 +717,7 @@ e_icon_bar_set_item_image	(EIconBar	  *icon_bar,
 
 	item = &g_array_index (icon_bar->items, EIconBarItem, item_num);
 	gnome_canvas_item_set (item->image,
-			       "GnomeCanvasImage::image", image,
+			       "GnomeCanvasPixbuf::pixbuf", image,
 			       NULL);
 }
 
@@ -1028,7 +1030,7 @@ e_icon_bar_find_item_at_position (EIconBar *icon_bar,
 				  gint y,
 				  gint *before_item)
 {
-	EIconBarItem *item;
+	EIconBarItem *item = NULL;
 	gint item_num;
 
 	if (before_item)

@@ -48,7 +48,7 @@ typedef struct _EShortcutBarBuiltinType  EShortcutBarBuiltinType;
 struct _EShortcutBarBuiltinType {
 	gchar *name;
 	gchar *filename;
-	GdkImlibImage *image;
+	GdkPixbuf *image;
 };
 
 EShortcutBarBuiltinType e_shortcut_bar_builtin_types[] = {
@@ -60,7 +60,7 @@ EShortcutBarBuiltinType e_shortcut_bar_builtin_types[] = {
 static gint e_shortcut_bar_num_builtin_types = sizeof (e_shortcut_bar_builtin_types) / sizeof (EShortcutBarBuiltinType);
 
 gboolean e_shortcut_bar_default_type_image_loaded = FALSE;
-GdkImlibImage *e_shortcut_bar_default_type_image = NULL;
+GdkPixbuf *e_shortcut_bar_default_type_image = NULL;
 gchar *e_shortcut_bar_default_type_filename = "gnome-balsa2.png";
 
 static void e_shortcut_bar_class_init (EShortcutBarClass *class);
@@ -95,9 +95,9 @@ static void e_shortcut_bar_on_drag_data_delete (GtkWidget          *widget,
 						EShortcutBar       *shortcut_bar);
 static void e_shortcut_bar_stop_editing (GtkWidget *button,
 					 EShortcutBar *shortcut_bar);
-static GdkImlibImage* e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
+static GdkPixbuf* e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 							 gchar *item_url);
-static GdkImlibImage* e_shortcut_bar_load_image (gchar *filename);
+static GdkPixbuf* e_shortcut_bar_load_image (gchar *filename);
 
 
 enum
@@ -280,7 +280,7 @@ e_shortcut_bar_add_item (EShortcutBar *shortcut_bar, gint group_num,
 			 gchar *item_url, gchar *item_name)
 {
 	EShortcutBarGroup *group;
-	GdkImlibImage *image;
+	GdkPixbuf *image;
 	gint item_num;
 
 	g_return_val_if_fail (E_IS_SHORTCUT_BAR (shortcut_bar), -1);
@@ -290,7 +290,6 @@ e_shortcut_bar_add_item (EShortcutBar *shortcut_bar, gint group_num,
 	g_return_val_if_fail (item_name != NULL, -1);
 
 	image = e_shortcut_bar_get_image_from_url (shortcut_bar, item_url);
-
 	group = &g_array_index (shortcut_bar->groups,
 				EShortcutBarGroup, group_num);
 
@@ -437,7 +436,7 @@ e_shortcut_bar_on_drag_data_received  (GtkWidget          *widget,
 	EShortcutBarGroup *group;
 	gchar *item_name, *item_url;
 	EIconBar *icon_bar;
-	GdkImlibImage *image;
+	GdkPixbuf *image;
 	gint group_num, item_num;
 
 	icon_bar = E_ICON_BAR (widget);
@@ -518,7 +517,7 @@ e_shortcut_bar_stop_editing (GtkWidget *button,
 }
 
 
-static GdkImlibImage*
+static GdkPixbuf *
 e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 				   gchar *item_url)
 {
@@ -547,15 +546,15 @@ e_shortcut_bar_get_image_from_url (EShortcutBar *shortcut_bar,
 }
 
 
-static GdkImlibImage*
+static GdkPixbuf *
 e_shortcut_bar_load_image (gchar *filename)
 {
 	gchar *pathname;
-	GdkImlibImage *image = NULL;
+	GdkPixbuf *image = NULL;
 
 	pathname = gnome_pixmap_file (filename);
 	if (pathname)
-		image = gdk_imlib_load_image (pathname);
+		image = gdk_pixbuf_new_from_file (pathname);
 	else
 		g_warning ("Couldn't find pixmap: %s", filename);
 
