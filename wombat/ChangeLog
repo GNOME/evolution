@@ -1,3 +1,7 @@
+2002-11-07  Rodrigo Moya <rodrigo@ximian.com>
+
+	* wombat.c: re-enabled calendar parts.
+
 2002-11-06  Chris Toshok  <toshok@ximian.com>
 
 	* Makefile.am (wombat_LDADD): remove libcamel.la from the link for
