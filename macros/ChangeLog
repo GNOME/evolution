@@ -1,3 +1,8 @@
+2000-01-26  Dave Camp  <campd@oit.edu>
+
+	* gnome-bonobo-check.m4: Check for bonobo_object_get_type() rather 
+	than gnome_object_get_type().
+
 2000-01-23  Peter Teichman  <peter@helixcode.com>
 
 	* gnome-pilot.m4: i broke the version-checking macro for other

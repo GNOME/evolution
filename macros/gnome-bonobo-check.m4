@@ -88,7 +88,7 @@ int main ()
   char *tmp_version;
 
   system ("touch conf.bonobotest");
-  gnome_object_get_type ();
+  bonobo_object_get_type ();
   return 0;
 }
 
