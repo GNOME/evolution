@@ -406,20 +406,22 @@ if test "$msg_ldap" = yes; then
 
 	AC_CHECK_LIB(resolv, res_query, LDAP_LIBS="-lresolv")
 	AC_CHECK_LIB(lber, ber_get_tag, [
-		LDAP_LIBS="-llber $LDAP_LIBS"
+		LDAP_LIBS="$with_openldap/lib/liblber.a $LDAP_LIBS"
 		# libldap might depend on OpenSSL... We need to pull
 		# in the dependency libs explicitly here since we're
 		# not using libtool for the configure test.
 		if test -f $with_openldap/lib/libldap.la; then
 			LDAP_LIBS="`. $with_openldap/lib/libldap.la; echo $dependency_libs` $LDAP_LIBS"
 		fi
-		AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="-lldap $LDAP_LIBS",
+		AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS",
 			LDAP_LIBS="", $LDAP_LDFLAGS $LDAP_LIBS)
 		LDAP_LIBS="$LDAP_LDFLAGS $LDAP_LIBS"
 	], LDAP_LIBS="", $LDAP_LDFLAGS $LDAP_LIBS)
 
 	if test -z "$LDAP_LIBS"; then
 		AC_MSG_ERROR(could not find OpenLDAP libraries)
+	else
+		LDAP_LIBS="-Wl,-Bstatic $LDAP_LIBS -Wl,-Bdynamic"
 	fi
 
 	AC_SUBST(LDAP_CFLAGS)

@@ -1,3 +1,7 @@
+2001-08-09  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: link statically with OpenLDAP.
+
 2001-08-09  Jon Trowbridge  <trow@ximian.com>
 
 	* configure.in: Require GAL 0.10.99.2.
