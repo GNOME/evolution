@@ -55,8 +55,7 @@
 	* e-storage-set-view.c (set_e_shortcut_selection): Remove
 	special-case for storages.
 	(etree_icon_at): Remove special case for figuring out storage
-	icons (but leave the code that makes the icon disappear once the
-	storage is opened).
+	icons (but leave the code for storages without icons).
 	(etree_value_at): Remove special case for storage names. (But
 	still make storages always bold.) Remove unused special-case code
 	for Summary.

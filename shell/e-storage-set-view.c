@@ -1363,10 +1363,17 @@ etree_icon_at (ETreeModel *etree,
 
 	path = (char*) e_tree_memory_node_get_data (E_TREE_MEMORY(etree), tree_path);
 
-	/* No icon for a storage with children */
+	folder = e_storage_set_get_folder (storage_set, path);
+	if (folder == NULL)
+		return NULL;
+		
+	/* No icon for a storage with children (or with no real root folder) */
 	if (path_is_storage (etree, tree_path)) {
 		EStorage *storage;
 		GList *subfolder_paths;
+
+		if (! strcmp (e_folder_get_type_string (folder), "noselect"))
+			return NULL;
 
 		storage = e_storage_set_get_storage (storage_set, path + 1);
 		subfolder_paths = e_storage_get_subfolder_paths (storage, "/");
@@ -1376,10 +1383,6 @@ etree_icon_at (ETreeModel *etree,
 		}
 	}
 
-	folder = e_storage_set_get_folder (storage_set, path);
-	if (folder == NULL)
-		return NULL;
-		
 	return get_pixbuf_for_folder (storage_set_view, folder);
 }
 
