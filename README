@@ -97,13 +97,13 @@ the Ximian GNOME evolution preview mirror.
 If installing from packages, remember that you need both the runtime
 and -devel packages for each library.
 
- - xml-i18n-tools - 0.7 or later (*)
+ - xml-i18n-tools - 0.8.1
 
  - gnome-xml - 1.8.10 or later in the 1.0 series, but not from the 2.0
    series (If you get this from GNOME CVS, use the tag "LIB_XML_1_X".)
    (*)
 
- - gnome-print - 0.20 or later (*)
+ - gnome-print - 0.25 or later (*)
 
  - gdk-pixbuf - 0.8.0 or later (*)
 
@@ -117,24 +117,25 @@ and -devel packages for each library.
    *** "--disable-more-warnings" when configure, or it may fail to
    *** build.
 
- - gnome-vfs - 0.4.2 or later
+ - gnome-vfs - 0.4.2 or later (If you get this from GNOME CVS, use
+   the tag "gnome-vfs-1-0")
 
    *** If you are using gnome-vfs from CVS, you should use the flag
    *** "--disable-more-warnings" when configuring, or it may fail to
    *** build.
 
- - bonobo - 0.33 or later
+ - bonobo - 0.34 or later
 
    *** Note that bonobo must be installed with the same --prefix as
    *** either gnome-libs or evolution for the Makefiles to work
    *** properly.
 
- - libunicode - 0.4 or later, available from
-   http://www.pango.org/download.shtml
+ - libunicode - 0.4.gnome (*)
 
  - gconf - 0.6 or later
 
- - gal (GNOME Application Library) - 0.4.99.8 or later
+ - gal (GNOME Application Library) - 0.4.99.8 (If you get this from
+   GNOME CVS, use the tag "GAL_0_5")
 
  - gtkhtml - 0.8.2 or later
 
