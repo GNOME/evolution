@@ -1,3 +1,28 @@
+2004-10-28  Li Yuan  <li.yuan@sun.com>
+
+	* e-timezone-dialog/e-timezone-dialog.glade:
+	Add a name for timezone combox.
+	* misc/e-calendar.c: (e_calendar_init), (e_calendar_new):
+	Make accessibility name and description translatable.
+	Add a atk name for the two buttons so that they can be UI
+	grabbed by GOK.
+	* misc/e-dateedit.c: (e_date_edit_new), (create_children):
+	Add a name for atk object.
+	Make accessibility name and description translatable.
+	Add name and description for the date_entry, date_button
+	and time_combo.
+	(e_date_edit_show_date_popup), (hide_date_popup):
+	Grab and ungrab keyboard.
+	add_relation():
+	New function to add labelled_by relation for entry
+	and combobox.
+	* misc/e-map.c: (e_map_new):
+	Add a name for world map widget.
+	Make accessibility name and description translatable.
+	Set the atk role to image.
+	* misc/e-multi-config-dialog.c: (e_multi_config_dialog_add_page):
+	Add an atk name for the page.
+
 2004-09-13  Rodney Dawes  <dobey@novell.com>
 
 	* e-timezone-dialog/e-timezone-dialog.c (get_widgets):

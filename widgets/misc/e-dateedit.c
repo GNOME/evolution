@@ -55,6 +55,8 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkvbox.h>
+#include <atk/atkrelation.h>
+#include <atk/atkrelationset.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
 #include "e-util/e-time-utils.h"
@@ -304,8 +306,11 @@ GtkWidget *
 e_date_edit_new			(void)
 {
 	EDateEdit *dedit;
+	AtkObject *a11y;
 
 	dedit = g_object_new (E_TYPE_DATE_EDIT, NULL);
+	a11y = gtk_widget_get_accessible (GTK_WIDGET (dedit));
+	atk_object_set_name (a11y, _("Date and Time Entry"));
 
 	return GTK_WIDGET (dedit);
 }
@@ -318,10 +323,14 @@ create_children			(EDateEdit	*dedit)
 	ECalendar *calendar;
 	GtkWidget *frame, *arrow;
 	GtkWidget *vbox, *bbox;
+	AtkObject *a11y;
 
 	priv = dedit->priv;
 
 	priv->date_entry  = gtk_entry_new ();
+	a11y = gtk_widget_get_accessible (priv->date_entry);
+	atk_object_set_description (a11y, _("Text entry to input date"));
+	atk_object_set_name (a11y, _("Text Date Entry"));
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_entry, FALSE, TRUE, 0);
 	
 	g_signal_connect (priv->date_entry, "key_press_event",
@@ -337,6 +346,9 @@ create_children			(EDateEdit	*dedit)
 			  G_CALLBACK (on_date_button_clicked), dedit);
 	gtk_box_pack_start (GTK_BOX (dedit), priv->date_button,
 			    FALSE, FALSE, 0);
+	a11y = gtk_widget_get_accessible (priv->date_button);
+	atk_object_set_description (a11y, _("Click this button to show a calendar"));
+	atk_object_set_name (a11y, _("Date Button"));
 
 	arrow = gtk_arrow_new (GTK_ARROW_DOWN, GTK_SHADOW_NONE);
 	gtk_container_add (GTK_CONTAINER (priv->date_button), arrow);
@@ -355,6 +367,9 @@ create_children			(EDateEdit	*dedit)
 	priv->time_combo = gtk_combo_new ();
 	gtk_box_pack_start (GTK_BOX (dedit), priv->time_combo, FALSE, TRUE, 0);
 	rebuild_time_popup (dedit);
+	a11y = gtk_widget_get_accessible (priv->time_combo);
+	atk_object_set_description (a11y, _("Combo box to select time"));
+	atk_object_set_name (a11y, _("Time Combo Box"));
 
 	g_signal_connect (GTK_COMBO (priv->time_combo)->entry,
 			  "key_press_event",
@@ -1185,6 +1200,7 @@ e_date_edit_show_date_popup	(EDateEdit	*dedit)
 			   | GDK_BUTTON_RELEASE_MASK
 			   | GDK_POINTER_MOTION_MASK),
 			  NULL, NULL, GDK_CURRENT_TIME);
+	gdk_keyboard_grab (priv->cal_popup->window, TRUE, GDK_CURRENT_TIME);
 	gdk_window_focus (priv->cal_popup->window, GDK_CURRENT_TIME);
 }
 
@@ -1364,6 +1380,7 @@ hide_date_popup			(EDateEdit	*dedit)
 	gtk_widget_hide (dedit->priv->cal_popup);
 	gtk_grab_remove (dedit->priv->cal_popup);
 	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_keyboard_ungrab (GDK_CURRENT_TIME);
 }
 
 
@@ -1580,6 +1597,45 @@ on_time_entry_focus_out			(GtkEntry	*entry,
 	return FALSE;
 }
 
+static void
+add_relation (EDateEdit *dedit, GtkWidget *widget)
+{
+	AtkObject *a11yEdit, *a11yWidget;
+	AtkRelationSet *set;
+	AtkRelation *relation;
+	GPtrArray *target;
+	gpointer target_object;
+
+	/* add a labelled_by relation for widget for accessibility */
+
+	a11yEdit = gtk_widget_get_accessible (GTK_WIDGET (dedit));
+	a11yWidget = gtk_widget_get_accessible (widget);
+
+	set = atk_object_ref_relation_set (a11yWidget);
+	if (set != NULL) {
+		relation = atk_relation_set_get_relation_by_type (set,
+				ATK_RELATION_LABELLED_BY);
+		/* check whether has a labelled_by relation already */
+		if (relation != NULL)
+			return;
+	}
+
+	set = atk_object_ref_relation_set (a11yEdit);
+	if (!set)
+		return;
+
+	relation = atk_relation_set_get_relation_by_type (set,
+			ATK_RELATION_LABELLED_BY);
+	if (relation != NULL) {
+		target = atk_relation_get_target (relation);
+		target_object = g_ptr_array_index (target, 0);
+		if (ATK_IS_OBJECT (target_object)) {
+			atk_object_add_relationship (a11yWidget,
+					ATK_RELATION_LABELLED_BY,
+					ATK_OBJECT (target_object));
+		}
+	}
+}
 
 /* This sets the text in the date entry according to the current settings. */
 static void
@@ -1604,6 +1660,8 @@ e_date_edit_update_date_entry		(EDateEdit	*dedit)
 		e_utf8_strftime (buffer, sizeof (buffer), _("%m/%d/%Y"), &tmp_tm);
 		gtk_entry_set_text (GTK_ENTRY (priv->date_entry), buffer);
 	}
+
+	add_relation (dedit, priv->date_entry);
 }
 
 
@@ -1642,6 +1700,8 @@ e_date_edit_update_time_entry		(EDateEdit	*dedit)
 		gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->time_combo)->entry),
 				    buffer);
 	}
+
+	add_relation (dedit, priv->time_combo);
 }
 
 

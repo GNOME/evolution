@@ -42,6 +42,7 @@
 #include <gtk/gtksignal.h>
 #include <libgnomecanvas/gnome-canvas-widget.h>
 #include <gal/util/e-util.h>
+#include <libgnome/gnome-i18n.h>
 
 #define E_CALENDAR_SMALL_FONT_PTSIZE 6
 
@@ -140,6 +141,7 @@ e_calendar_init (ECalendar *cal)
 	GnomeCanvasGroup *canvas_group;
 	PangoFontDescription *small_font_desc;
 	GtkWidget *button, *pixmap;
+	AtkObject *a11y;
 
 	/* Create the small font. */
 
@@ -179,6 +181,8 @@ e_calendar_init (ECalendar *cal)
 						gnome_canvas_widget_get_type (),
 						"widget", button,
 						NULL);
+	a11y = gtk_widget_get_accessible (button);
+	atk_object_set_name (a11y, _("Previous Button"));
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
@@ -201,6 +205,8 @@ e_calendar_init (ECalendar *cal)
 						gnome_canvas_widget_get_type (),
 						"widget", button,
 						NULL);
+	a11y = gtk_widget_get_accessible (button);
+	atk_object_set_name (a11y, _("Previous Button"));
 
 	cal->min_rows = 1;
 	cal->min_cols = 1;
@@ -221,8 +227,11 @@ GtkWidget *
 e_calendar_new			(void)
 {
 	GtkWidget *cal;
+	AtkObject *a11y;
 
 	cal = gtk_type_new (e_calendar_get_type ());
+	a11y = gtk_widget_get_accessible (cal);
+	atk_object_set_name (a11y, _("Month Calendar"));
 
 	return cal;
 }

@@ -27,6 +27,7 @@
 #include <gtk/gtksignal.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <libart_lgpl/art_filterlevel.h>
+#include <libgnome/gnome-i18n.h>
 
 #include "e-map.h"
 
@@ -639,8 +640,13 @@ EMap *
 e_map_new ()
 {
 	GtkWidget *widget;
+	AtkObject *a11y;
 
 	widget = GTK_WIDGET (gtk_type_new (TYPE_E_MAP));
+	a11y = gtk_widget_get_accessible (widget);
+	atk_object_set_name (a11y, _("World Map"));
+	atk_object_set_role (a11y, ATK_ROLE_IMAGE);
+	atk_object_set_description (a11y, _("Mouse-based interactive map widget for selecting timezone. Keyboard users should select the timezone from the below combo box instead."));
 	return (E_MAP (widget));
 }
 

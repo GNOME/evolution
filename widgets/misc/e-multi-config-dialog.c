@@ -395,6 +395,8 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 				EConfigPage *page_widget)
 {
 	EMultiConfigDialogPrivate *priv;
+	AtkObject *a11y;
+	gint page_no;
 
 	g_return_if_fail (E_IS_MULTI_CONFIG_DIALOG (dialog));
 	g_return_if_fail (title != NULL);
@@ -411,10 +413,17 @@ e_multi_config_dialog_add_page (EMultiConfigDialog *dialog,
 		fill_in_pixbufs (dialog, e_table_model_row_count (priv->list_e_table_model) - 1);
 	}
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
+	page_no = gtk_notebook_append_page (GTK_NOTEBOOK (priv->notebook),
 				  create_page_container (description, GTK_WIDGET (page_widget)),
 				  NULL);
 
+	a11y = gtk_widget_get_accessible (GTK_WIDGET(priv->notebook));
+	AtkObject *a11yPage = atk_object_ref_accessible_child (a11y, page_no);
+	if (a11yPage != NULL) {
+		if (atk_object_get_role (a11yPage) == ATK_ROLE_PAGE_TAB)
+			atk_object_set_name (a11yPage, title);
+		g_object_unref (a11yPage);
+	}
 	if (priv->pages->next == NULL) {
 		ETable *table;
 
