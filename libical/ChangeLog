@@ -1,3 +1,7 @@
+2001-06-15  JP Rosevear  <jpr@ximian.com>
+
+	* zoneinfo/Makefile.am: Extra dist the zones.tab information
+
 2001-06-14  Damon Chaplin  <damon@ximian.com>
 
 	* src/libical/icaltimezone.c (icaltimezone_get_latitude): 

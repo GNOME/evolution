@@ -34,3 +34,5 @@ dist-hook:
 	    cp -p $$tzfile $(distdir)/$$dir; \
 	  done \
 	done
+
+EXTRA_DIST = $(zoneinfodata_DATA)
