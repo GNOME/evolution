@@ -1,3 +1,15 @@
+2004-08-10  Not Zed  <NotZed@Ximian.com>
+
+	** See bug #61840, and others.
+
+	* e-passwords.c: Lots of changes.  The api is now fully
+	multi-thread safe, all calls are serialised internally, even
+	recursive main-loop calls.  Small api changes to the
+	ask_password call to add some new features required by the mailer
+	and to clean up some of the names.
+	(e_passwords_cancel): new procedure to cancel any outstanding
+	password requests, for when we need to go uninteractive.
+
 2004-08-09  Rodney Dawes  <dobey@novell.com>
 
 	* e-icon-factory.c (icon_foreach_remove): We must return TRUE here

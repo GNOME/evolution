@@ -22,40 +22,182 @@
  * USA.
  */
 
+/*
+ * This looks a lot more complicated than it is, and than you'd think
+ * it would need to be.  There is however, method to the madness.
+ *
+ * The code most cope with being called from any thread at any time,
+ * recursively from the main thread, and then serialising every
+ * request so that sane and correct values are always returned, and
+ * duplicate requests are never made.
+ *
+ * To this end, every call is marshalled and queued and a dispatch
+ * method invoked until that request is satisfied.  If mainloop
+ * recursion occurs, then the sub-call will necessarily return out of
+ * order, but will not be processed out of order.
+ */
+
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "e-passwords.h"
 #include <string.h>
 #include <libgnome/gnome-config.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkentry.h>
-#include <gtk/gtkbox.h>
+#include <gtk/gtkvbox.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkmessagedialog.h>
 
-static char *decode_base64 (char *base64);
+#include "e-passwords.h"
+#include "e-msgport.h"
+#include "widgets/misc/e-error.h"
+
+#ifndef ENABLE_THREADS
+#define ENABLE_THREADS (1)
+#endif
+
+#ifdef ENABLE_THREADS
+#include <pthread.h>
+
+static pthread_t main_thread;
+static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
+#define LOCK() pthread_mutex_lock(&lock)
+#define UNLOCK() pthread_mutex_unlock(&lock)
+#else
+#define LOCK()
+#define UNLOCK()
+#endif
+
+struct _EPassMsg {
+	EMsg msg;
+
+	void (*dispatch)(struct _EPassMsg *);
+
+	/* input */
+	struct _GtkWindow *parent;	
+	const char *component;
+	const char *key;
+	const char *title;
+	const char *prompt;
+	const char *oldpass;
+	guint32 flags;
+
+	/* output */
+	gboolean *remember;
+	char *password;
+
+	/* work variables */
+	GtkWidget *entry;
+	GtkWidget *check;
+	int ismain:1;
+	int noreply:1;		/* supress replies; when calling
+				 * dispatch functions from others */
+};
+
+typedef struct _EPassMsg EPassMsg;
 
 static GHashTable *passwords = NULL;
+static GtkDialog *password_dialog;
+static EDList request_list = E_DLIST_INITIALISER(request_list);
+static int idle_id;
 
+static char *decode_base64 (char *base64);
 static int base64_encode_close(unsigned char *in, int inlen, gboolean break_lines, unsigned char *out, int *state, int *save);
 static int base64_encode_step(unsigned char *in, int len, gboolean break_lines, unsigned char *out, int *state, int *save);
 
-/**
- * e_passwords_init:
- *
- * Initializes the e_passwords routines. Must be called before any other
- * e_passwords_* function.
- **/
-static void
-e_passwords_init ()
+static gboolean
+ep_idle_dispatch(void *data)
 {
-	if (passwords)
-		return;
+	EPassMsg *msg;
 
-	/* create the per-session hash table */
-	passwords = g_hash_table_new (g_str_hash, g_str_equal);
+	/* As soon as a password window is up we stop; it will
+	   re-invoke us when it has been closed down */
+	LOCK();
+	while (password_dialog == NULL && (msg = (EPassMsg *)e_dlist_remhead(&request_list))) {
+		UNLOCK();
+
+		msg->dispatch(msg);
+
+		LOCK();
+	}
+
+	idle_id = 0;
+	UNLOCK();
+
+	return FALSE;
+}
+
+static EPassMsg *
+ep_msg_new(void (*dispatch)(EPassMsg *))
+{
+	EPassMsg *msg;
+
+	e_passwords_init();
+
+	msg = g_malloc0(sizeof(*msg));
+	msg->dispatch = dispatch;
+	msg->msg.reply_port = e_msgport_new();
+#ifdef ENABLE_THREADS
+	msg->ismain = pthread_self() == main_thread;
+#else
+	msg->ismain = TRUE;
+#endif
+	return msg;
+}
+
+static void
+ep_msg_free(EPassMsg *msg)
+{
+	e_msgport_destroy(msg->msg.reply_port);
+	g_free(msg->password);
+	g_free(msg);
+}
+
+static void
+ep_msg_send(EPassMsg *msg)
+{
+	int needidle = 0;
+
+	LOCK();
+	e_dlist_addtail(&request_list, (EDListNode *)&msg->msg);
+	if (!idle_id) {
+		if (!msg->ismain)
+			idle_id = g_idle_add(ep_idle_dispatch, NULL);
+		else
+			needidle = 1;
+	}
+	UNLOCK();
+
+	if (msg->ismain) {
+		EPassMsg *m;
+
+		if (needidle)
+			ep_idle_dispatch(NULL);
+		while ((m = (EPassMsg *)e_msgport_get(msg->msg.reply_port)) == NULL)
+			g_main_context_iteration(NULL, TRUE);
+		g_assert(m == msg);
+	} else {
+		e_msgport_wait(msg->msg.reply_port);
+		g_assert(e_msgport_get(msg->msg.reply_port) == &msg->msg);
+	}
+}
+
+/* the functions that actually do the work */
+static void
+ep_clear_passwords(EPassMsg *msg)
+{
+	char *path;
+
+	path = g_strdup_printf ("/Evolution/Passwords-%s", msg->component);
+
+	gnome_config_private_clean_section (path);
+	gnome_config_private_sync_file ("/Evolution");
+
+	g_free (path);
+
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
 }
 
 static gboolean
@@ -67,38 +209,11 @@ free_entry (gpointer key, gpointer value, gpointer user_data)
 	return TRUE;
 }
 
-/**
- * e_passwords_shutdown:
- *
- * Cleanup routine to call before exiting.
- **/
-void
-e_passwords_shutdown ()
-{
-	/* shouldn't need this really - everything is synchronous */
-	gnome_config_private_sync_file ("/Evolution");
-
-	if (passwords) {
-		/* and destroy our per session hash */
-		g_hash_table_foreach_remove (passwords, free_entry, NULL);
-		g_hash_table_destroy (passwords);
-		passwords = NULL;
-	}
-}
-
-
-/**
- * e_passwords_forget_passwords:
- *
- * Forgets all cached passwords, in memory and on disk.
- **/
-void
-e_passwords_forget_passwords ()
+static void
+ep_forget_passwords(EPassMsg *msg)
 {
 	void *it;
 	char *key;
-
-	e_passwords_init ();
 
 	it = gnome_config_private_init_iterator_sections("/Evolution");
 	while ( (it = gnome_config_iterator_next(it, &key, NULL)) ) {
@@ -111,31 +226,13 @@ e_passwords_forget_passwords ()
 		g_free(key);
 	}
 
-	/*gnome_config_private_clean_section ("/Evolution/Passwords-Mail");*/
 	gnome_config_private_sync_file ("/Evolution");
 
 	/* free up the session passwords */
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
-}
 
-/**
- * e_passwords_clear_component_passwords:
- *
- * Forgets all disk cached passwords.
- **/
-void
-e_passwords_clear_component_passwords (const char *component_name)
-{
-	char *path;
-
-	e_passwords_init ();
-
-	path = g_strdup_printf ("/Evolution/Passwords-%s", component_name);
-
-	gnome_config_private_clean_section (path);
-	gnome_config_private_sync_file ("/Evolution");
-
-	g_free (path);
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
 }
 
 static char *
@@ -156,6 +253,316 @@ password_path (const char *component_name, const char *key)
 	return path;
 }
 
+static void
+ep_remember_password(EPassMsg *msg)
+{
+	gpointer okey, value;
+	char *path, *pass64;
+	int len, state, save;
+
+	if (g_hash_table_lookup_extended (passwords, msg->key, &okey, &value)) {
+		/* add it to the on-disk cache of passwords */
+		path = password_path (msg->component, okey);
+
+		len = strlen (value);
+		pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+		state = save = 0;
+		base64_encode_close (value, len, FALSE, pass64, &state, &save);
+
+		gnome_config_private_set_string (path, pass64);
+		g_free (path);
+		g_free (pass64);
+
+		/* now remove it from our session hash */
+		g_hash_table_remove (passwords, msg->key);
+		g_free (okey);
+		g_free (value);
+
+		gnome_config_private_sync_file ("/Evolution");
+	}
+
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
+}
+
+static void
+ep_forget_password (EPassMsg *msg)
+{
+	gpointer okey, value;
+	char *path;
+
+	if (g_hash_table_lookup_extended (passwords, msg->key, &okey, &value)) {
+		g_hash_table_remove (passwords, msg->key);
+		memset (value, 0, strlen (value));
+		g_free (okey);
+		g_free (value);
+	}
+
+	/* clear it in the on disk db */
+	path = password_path (msg->component, msg->key);
+	gnome_config_private_clean_key (path);
+	gnome_config_private_sync_file ("/Evolution");
+	g_free (path);
+	
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
+}
+
+static void
+ep_get_password (EPassMsg *msg)
+{
+	char *path, *passwd;
+	char *encoded = NULL;
+
+	passwd = g_hash_table_lookup (passwords, msg->key);
+	if (passwd) {
+		msg->password = g_strdup(passwd);
+	} else {
+		/* not part of the session hash, look it up in the on disk db */
+		path = password_path (msg->component, msg->key);
+		encoded = gnome_config_private_get_string_with_default (path, NULL);
+		g_free (path);
+		if (encoded) {
+			msg->password = decode_base64 (encoded);
+			g_free (encoded);
+		}
+	}
+
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
+}
+
+static void
+ep_add_password (EPassMsg *msg)
+{
+	gpointer okey, value;
+
+	if (g_hash_table_lookup_extended (passwords, msg->key, &okey, &value)) {
+		g_hash_table_remove (passwords, msg->key);
+		g_free (okey);
+		g_free (value);
+	}
+
+	g_hash_table_insert (passwords, g_strdup (msg->key), g_strdup (msg->oldpass));
+
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
+}
+
+static void ep_ask_password(EPassMsg *msg);
+
+static void
+pass_response(GtkDialog *dialog, int response, void *data)
+{
+	EPassMsg *msg = data;
+	int type = msg->flags & E_PASSWORDS_REMEMBER_MASK;
+	EDList pending = E_DLIST_INITIALISER(pending);
+	EPassMsg *mw, *mn;
+
+	if (response == GTK_RESPONSE_OK) {
+		msg->password = g_strdup(gtk_entry_get_text((GtkEntry *)msg->entry));
+
+		if (type != E_PASSWORDS_REMEMBER_NEVER) {
+			int noreply = msg->noreply;
+
+			*msg->remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (msg->check));
+
+			msg->noreply = 1;
+
+			if (*msg->remember || type == E_PASSWORDS_REMEMBER_FOREVER) {
+				msg->oldpass = msg->password;
+				ep_add_password(msg);
+			}
+
+			if (*msg->remember && type == E_PASSWORDS_REMEMBER_FOREVER)
+				ep_remember_password(msg);
+
+			msg->noreply = noreply;
+		}
+	}
+
+	gtk_widget_destroy((GtkWidget *)dialog);
+	password_dialog = NULL;
+
+	/* ok, here things get interesting, we suck up any pending
+	 * operations on this specific password, and return the same
+	 * result or ignore other operations */
+
+	LOCK();
+	mw = (EPassMsg *)request_list.head;
+	mn = (EPassMsg *)mw->msg.ln.next;
+	while (mn) {
+		if ((mw->dispatch == ep_forget_password
+		     || mw->dispatch == ep_get_password
+		     || mw->dispatch == ep_ask_password)
+		    && (strcmp(mw->component, msg->component) == 0
+			&& strcmp(mw->key, msg->key) == 0)) {
+			e_dlist_remove((EDListNode *)mw);
+			mw->password = g_strdup(msg->password);
+			e_msgport_reply(&mw->msg);
+		}
+		mw = mn;
+		mn = (EPassMsg *)mn->msg.ln.next;
+	}
+	UNLOCK();
+
+	if (!msg->noreply)
+		e_msgport_reply(&msg->msg);
+
+	ep_idle_dispatch(NULL);
+}
+
+static void
+ep_ask_password(EPassMsg *msg)
+{
+	GtkWidget *vbox;
+	int type = msg->flags & E_PASSWORDS_REMEMBER_MASK;
+	int noreply = msg->noreply;
+
+	msg->noreply = 1;
+
+	/*password_dialog = (GtkDialog *)e_error_new(msg->parent, "mail:ask-session-password", msg->prompt, NULL);*/
+	password_dialog = (GtkDialog *)gtk_message_dialog_new (msg->parent,
+							       0,
+							       GTK_MESSAGE_QUESTION,
+							       GTK_BUTTONS_OK_CANCEL,
+							       msg->prompt);
+	gtk_window_set_title(GTK_WINDOW(password_dialog), msg->title);
+
+	gtk_dialog_set_has_separator(password_dialog, FALSE);
+	gtk_dialog_set_default_response(password_dialog, GTK_RESPONSE_OK);
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_widget_show (vbox);
+	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (password_dialog)->vbox), vbox, TRUE, FALSE, 0);
+	gtk_container_set_border_width((GtkContainer *)vbox, 6);
+	
+	msg->entry = gtk_entry_new ();
+	gtk_entry_set_visibility ((GtkEntry *)msg->entry, !(msg->flags & E_PASSWORDS_SECRET));
+	gtk_entry_set_activates_default((GtkEntry *)msg->entry, TRUE);
+	gtk_box_pack_start (GTK_BOX (vbox), msg->entry, TRUE, FALSE, 3);
+	gtk_widget_show (msg->entry);
+	gtk_widget_grab_focus (msg->entry);
+	
+	if ((msg->flags & E_PASSWORDS_REPROMPT)) {
+		ep_get_password(msg);
+		if (msg->password) {
+			gtk_entry_set_text ((GtkEntry *) msg->entry, msg->password);
+			g_free (msg->password);
+			msg->password = NULL;
+		}
+	}
+
+	/* static password, shouldn't be remembered between sessions,
+	   but will be remembered within the session beyond our control */
+	if (type != E_PASSWORDS_REMEMBER_NEVER) {
+		msg->check = gtk_check_button_new_with_mnemonic(type == E_PASSWORDS_REMEMBER_FOREVER
+								? _("_Remember this password")
+								: _("_Remember this password for the remainder of this session"));
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (msg->check), *msg->remember);
+		gtk_box_pack_start (GTK_BOX (vbox), msg->check, TRUE, FALSE, 3);
+		gtk_widget_show (msg->check);
+	}
+	
+	msg->noreply = noreply;
+
+	g_signal_connect(password_dialog, "response", G_CALLBACK (pass_response), msg);
+	gtk_widget_show((GtkWidget *)password_dialog);
+}
+
+
+/**
+ * e_passwords_init:
+ *
+ * Initializes the e_passwords routines. Must be called before any other
+ * e_passwords_* function.
+ **/
+void
+e_passwords_init (void)
+{
+	LOCK();
+
+	if (!passwords) {
+		/* create the per-session hash table */
+		passwords = g_hash_table_new (g_str_hash, g_str_equal);
+#ifdef ENABLE_THREADS
+		main_thread = pthread_self();
+#endif
+	}
+
+	UNLOCK();
+}
+
+/**
+ * e_passwords_cancel:
+ * 
+ * Cancel any outstanding password operations and close any dialogues
+ * currently being shown.
+ **/
+void
+e_passwords_cancel(void)
+{
+	EPassMsg *msg;
+
+	LOCK();
+	while ((msg = (EPassMsg *)e_dlist_remhead(&request_list)))
+		e_msgport_reply(&msg->msg);
+	UNLOCK();
+
+	if (password_dialog)
+		gtk_widget_destroy((GtkWidget *)password_dialog);
+}
+
+/**
+ * e_passwords_shutdown:
+ *
+ * Cleanup routine to call before exiting.
+ **/
+void
+e_passwords_shutdown (void)
+{
+	/* shouldn't need this really - everything is synchronous */
+	gnome_config_private_sync_file ("/Evolution");
+
+	e_passwords_cancel();
+
+	if (passwords) {
+		/* and destroy our per session hash */
+		g_hash_table_foreach_remove (passwords, free_entry, NULL);
+		g_hash_table_destroy (passwords);
+		passwords = NULL;
+	}
+}
+
+/**
+ * e_passwords_forget_passwords:
+ *
+ * Forgets all cached passwords, in memory and on disk.
+ **/
+void
+e_passwords_forget_passwords (void)
+{
+	EPassMsg *msg = ep_msg_new(ep_forget_passwords);
+
+	ep_msg_send(msg);
+	ep_msg_free(msg);
+}
+
+/**
+ * e_passwords_clear_passwords:
+ *
+ * Forgets all disk cached passwords for the component.
+ **/
+void
+e_passwords_clear_passwords (const char *component_name)
+{
+	EPassMsg *msg = ep_msg_new(ep_clear_passwords);
+
+	msg->component = component_name;
+	ep_msg_send(msg);
+	ep_msg_free(msg);
+}
+
 /**
  * e_passwords_remember_password:
  * @key: the key
@@ -165,33 +572,18 @@ password_path (const char *component_name, const char *key)
 void
 e_passwords_remember_password (const char *component_name, const char *key)
 {
-	gpointer okey, value;
-	char *path, *pass64;
-	int len, state, save;
+	EPassMsg *msg;
 
-	e_passwords_init ();
+	g_return_if_fail(component_name != NULL);
+	g_return_if_fail(key != NULL);
 
-	if (!g_hash_table_lookup_extended (passwords, key, &okey, &value))
-		return;
+	msg = ep_msg_new(ep_remember_password);
 
-	/* add it to the on-disk cache of passwords */
-	path = password_path (component_name, okey);
+	msg->component = component_name;
+	msg->key = key;
 
-	len = strlen (value);
-	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
-	state = save = 0;
-	base64_encode_close (value, len, FALSE, pass64, &state, &save);
-
-	gnome_config_private_set_string (path, pass64);
-	g_free (path);
-	g_free (pass64);
-
-	/* now remove it from our session hash */
-	g_hash_table_remove (passwords, key);
-	g_free (okey);
-	g_free (value);
-
-	gnome_config_private_sync_file ("/Evolution");
+	ep_msg_send(msg);
+	ep_msg_free(msg);
 }
 
 /**
@@ -203,23 +595,18 @@ e_passwords_remember_password (const char *component_name, const char *key)
 void
 e_passwords_forget_password (const char *component_name, const char *key)
 {
-	gpointer okey, value;
-	char *path;
+	EPassMsg *msg;
 
-	e_passwords_init ();
+	g_return_if_fail(component_name != NULL);
+	g_return_if_fail(key != NULL);
 
-	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
-		g_hash_table_remove (passwords, key);
-		memset (value, 0, strlen (value));
-		g_free (okey);
-		g_free (value);
-	}
+	msg = ep_msg_new(ep_forget_password);
 
-	/* clear it in the on disk db */
-	path = password_path (component_name, key);
-	gnome_config_private_clean_key (path);
-	gnome_config_private_sync_file ("/Evolution");
-	g_free (path);
+	msg->component = component_name;
+	msg->key = key;
+
+	ep_msg_send(msg);
+	ep_msg_free(msg);
 }
 
 /**
@@ -232,28 +619,23 @@ e_passwords_forget_password (const char *component_name, const char *key)
 char *
 e_passwords_get_password (const char *component_name, const char *key)
 {
-	char *path, *passwd;
-	char *encoded = NULL;
+	EPassMsg *msg;
+	char *passwd;
 
-	e_passwords_init ();
-	
-	passwd = g_hash_table_lookup (passwords, key);
-	if (passwd)
-		return g_strdup (passwd);
-	
-	/* not part of the session hash, look it up in the on disk db */
-	path = password_path (component_name, key);
+	g_return_val_if_fail(component_name != NULL, NULL);
+	g_return_val_if_fail(key != NULL, NULL);
 
-	encoded = gnome_config_private_get_string_with_default (path, NULL);
-	
-	g_free (path);
+	msg = ep_msg_new(ep_get_password);
 
-	if (!encoded)
-		return NULL;
-	
-	passwd = decode_base64 (encoded);
-	g_free (encoded);
-	
+	msg->component = component_name;
+	msg->key = key;
+
+	ep_msg_send(msg);
+
+	passwd = msg->password;
+	msg->password = NULL;
+	ep_msg_free(msg);
+
 	return passwd;
 }
 
@@ -268,28 +650,17 @@ e_passwords_get_password (const char *component_name, const char *key)
 void
 e_passwords_add_password (const char *key, const char *passwd)
 {
-	gpointer okey, value;
+	EPassMsg *msg;
 
-	e_passwords_init ();
+	g_return_if_fail(key != NULL);
+	g_return_if_fail(passwd != NULL);
 
-	/* FIXME: shouldn't this be g_return_if_fail? */
-	if (!key || !passwd)
-		return;
+	msg = ep_msg_new(ep_add_password);
+	msg->key = key;
+	msg->oldpass = passwd;
 
-	if (g_hash_table_lookup_extended (passwords, key, &okey, &value)) {
-		g_hash_table_remove (passwords, key);
-		g_free (okey);
-		g_free (value);
-	}
-
-	g_hash_table_insert (passwords, g_strdup (key), g_strdup (passwd));
-}
-
-
-static void
-entry_activate (GtkEntry *entry, GtkDialog *dialog)
-{
-	gtk_dialog_response (dialog, GTK_RESPONSE_OK);
+	ep_msg_send(msg);
+	ep_msg_free(msg);
 }
 
 /**
@@ -316,75 +687,28 @@ entry_activate (GtkEntry *entry, GtkDialog *dialog)
 char *
 e_passwords_ask_password (const char *title, const char *component_name,
 			  const char *key,
-			  const char *prompt, gboolean secret,
-			  EPasswordsRememberType remember_type,
+			  const char *prompt,
+			  EPasswordsRememberType type,
 			  gboolean *remember,
 			  GtkWindow *parent)
 {
-	GtkWidget *dialog;
-	GtkWidget *check = NULL, *entry;
-	char *password;
-	int response;
+	char *passwd;
+	EPassMsg *msg = ep_msg_new(ep_ask_password);
 
-	dialog = gtk_message_dialog_new (parent,
-					 0,
-					 GTK_MESSAGE_QUESTION,
-					 GTK_BUTTONS_OK_CANCEL,
-					 prompt);
+	msg->title = title;
+	msg->component = component_name;
+	msg->key = key;
+	msg->prompt = prompt;
+	msg->flags = type;
+	msg->remember = remember;
+	msg->parent = parent;
 
-	gtk_window_set_title (GTK_WINDOW (dialog), title);
-
-	gtk_dialog_set_has_separator (GTK_DIALOG (dialog), FALSE);
-	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_OK);
-
-	/* Password entry */
-	entry = gtk_entry_new();
-	if (secret)
-		gtk_entry_set_visibility (GTK_ENTRY(entry), FALSE);
-
-	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox), 
-			    entry, FALSE, FALSE, 4);
-	gtk_widget_show (entry);
-	gtk_widget_grab_focus (entry);
-
-	g_signal_connect (entry, "activate",
-			  G_CALLBACK (entry_activate), dialog);
-
-	/* Remember the password? */
-	if (remember_type != E_PASSWORDS_DO_NOT_REMEMBER) {
-		const char *label;
-
-		if (remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-			label = _("Remember this password");
-		else
-			label = _("Remember this password for the remainder of this session");
-		check = gtk_check_button_new_with_label (label);
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check),
-					      *remember);
-
-		gtk_box_pack_end (GTK_BOX (GTK_DIALOG (dialog)->vbox),
-				  check, TRUE, FALSE, 4);
-		gtk_widget_show (check);
-	}
-
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-
-	if (response == GTK_RESPONSE_OK) {
-		password = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
-		if (remember_type != E_PASSWORDS_DO_NOT_REMEMBER) {
-			*remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (check));
-
-			if (*remember || remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-				e_passwords_add_password (key, password);
-			if (*remember && remember_type == E_PASSWORDS_REMEMBER_FOREVER)
-				e_passwords_remember_password (component_name, key);
-		}
-	} else
-		password = NULL;
-
-	gtk_widget_destroy (dialog);
-
-	return password;
+	ep_msg_send(msg);
+	passwd = msg->password;
+	msg->password = NULL;
+	ep_msg_free(msg);
+	
+	return passwd;
 }
 
 
