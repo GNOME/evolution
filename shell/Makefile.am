@@ -316,12 +316,13 @@ install-data-local:
 	fi
 
 install-evolution:
+	$(mkinstalldirs) $(DESTDIR)$(bindir)
 	$(LIBTOOL) --mode=install $(INSTALL_PROGRAM) evolution $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION)
 
 if HAVE_DTAPPINTEGRATE
 
 install-exec-local: install-evolution
-	mkdir -p $(DESTDIR)$(libexecdir)
+	$(mkinstalldirs) $(DESTDIR)$(libexecdir)
 	mv $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) $(DESTDIR)$(libexecdir)/evolution-$(BASE_VERSION)
 	$(INSTALL_PROGRAM) evolution-nognome $(DESTDIR)$(bindir)/evolution-$(BASE_VERSION) 
 

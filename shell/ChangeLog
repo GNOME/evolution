@@ -1,3 +1,7 @@
+2003-04-29  Rodney Dawes  <dobey@ximian.com>
+
+	* Makefile.am: Fix install of evolution
+	
 2003-04-28  Not Zed  <NotZed@Ximian.com>
 
 	[#41013]
