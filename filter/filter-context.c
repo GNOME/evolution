@@ -126,10 +126,20 @@ void filter_context_add_action(FilterContext *f, FilterPart *action)
 	f->actions = g_list_append(f->actions, action);
 }
 
-FilterPart *filter_context_find_action(FilterContext *f, char *name)
+FilterPart *filter_context_find_action(FilterContext *f, const char *name)
 {
 	d(printf("find action : "));
 	return filter_part_find_list(f->actions, name);
+}
+
+FilterPart 	*filter_context_create_action(FilterContext *f, const char *name)
+{
+	FilterPart *part;
+
+	part = filter_context_find_action(f, name);
+	if (part)
+		part = filter_part_clone(part);
+	return part;
 }
 
 FilterPart 	*filter_context_next_action(FilterContext *f, FilterPart *last)

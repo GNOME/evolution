@@ -96,6 +96,7 @@ FilterPart 	*rule_context_next_part(RuleContext *f, FilterPart *last);
 FilterRule 	*rule_context_next_rule(RuleContext *f, FilterRule *last);
 FilterRule 	*rule_context_find_rule(RuleContext *f, const char *name);
 void		rule_context_add_rule(RuleContext *f, FilterRule *new);
+void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *title, const char *path);
 void		rule_context_remove_rule(RuleContext *f, FilterRule *rule);
 
 /* get/set the rank (position) of a rule */

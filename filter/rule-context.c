@@ -155,7 +155,7 @@ void		rule_context_add_rule_set(RuleContext *f, const char *setname, int rule_ty
  * 
  * Set the text error for the context, or NULL to clear it.
  **/
-void
+static void
 rule_context_set_error(RuleContext *f, char *error)
 {
 	g_free(f->error);
@@ -341,6 +341,44 @@ void		rule_context_add_part(RuleContext *f, FilterPart *part)
 void		rule_context_add_rule(RuleContext *f, FilterRule *new)
 {
 	f->rules = g_list_append(f->rules, new);
+}
+
+static void
+new_rule_clicked(GtkWidget *w, int button, RuleContext *context)
+{
+#warning "Need a changed signal for this to work best"
+	if (button == 0) {
+		FilterRule *rule = gtk_object_get_data((GtkObject *)w, "rule");
+		char *user = gtk_object_get_data((GtkObject *)w, "path");
+
+		gtk_object_ref((GtkObject *)rule);
+		rule_context_add_rule(context, rule);
+		if (user) {
+			rule_context_save((RuleContext *)context, user);
+		}
+	}
+	if (button != -1) {
+		gnome_dialog_close((GnomeDialog *)w);
+	}
+}
+
+/* add a rule, with a gui, asking for confirmation first ... optionally save to path */
+void		rule_context_add_rule_gui(RuleContext *f, FilterRule *rule, const char *title, const char *path)
+{
+	GtkWidget *w;
+	GnomeDialog *gd;
+
+	w = filter_rule_get_widget(rule, f);
+	gd = (GnomeDialog *)gnome_dialog_new(title, "Ok", "Cancel", NULL);
+	gtk_box_pack_start((GtkBox *)gd->vbox, w, FALSE, TRUE, 0);
+	gtk_widget_show((GtkWidget *)gd);
+	gtk_object_set_data_full((GtkObject *)gd, "rule", rule, (GtkDestroyNotify)gtk_object_unref);
+	if (path)
+		gtk_object_set_data_full((GtkObject *)gd, "path", g_strdup(path), (GtkDestroyNotify)g_free);
+	gtk_signal_connect((GtkObject *)gd, "clicked", new_rule_clicked, f);
+	gtk_object_ref((GtkObject *)f);
+	gtk_object_set_data_full((GtkObject *)gd, "context", f, (GtkDestroyNotify)gtk_object_unref);
+	gtk_widget_show((GtkWidget *)gd);
 }
 
 void		rule_context_remove_rule(RuleContext *f, FilterRule *rule)

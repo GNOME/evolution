@@ -51,8 +51,8 @@ FilterContext	*filter_context_new	(void);
 
 /* methods */
 void		filter_context_add_action(FilterContext *f, FilterPart *action);
-FilterPart	*filter_context_find_action(FilterContext *f, char *name);
-/*FilterPart	*filter_context_create_action(FilterContext *f, char *name);*/
+FilterPart	*filter_context_find_action(FilterContext *f, const char *name);
+FilterPart	*filter_context_create_action(FilterContext *f, const char *name);
 FilterPart 	*filter_context_next_action(FilterContext *f, FilterPart *last);
 
 #endif /* ! _FILTER_CONTEXT_H */

@@ -1,3 +1,13 @@
+2000-08-09  Not Zed  <NotZed@HelixCode.com>
+
+	* rule-context.c (rule_context_add_rule_gui): Helper function to
+	add a rule, but present a gui first, asking for confirmation/allow
+	editing.
+	(rule_context_add_rule_gui): Keep track of context so it isn't freed under us.
+
+	* filter-context.c (filter_context_create_action): Implement,
+	helper to aid filter generation.
+
 2000-08-03  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* filter-folder.c (button_clicked): Use the base name of the
