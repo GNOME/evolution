@@ -1,3 +1,8 @@
+2000-04-11  Christopher James Lahey  <clahey@helixcode.com>
+
+	* addressbook/gui/minicard/e-minicard-view.c: This was setting
+	E_REFLOW(view)->items to NULL too soon.  Fixed now.
+
 2000-04-11  Chris Toshok  <toshok@helixcode.com>
 
 	* addressbook/backend/pas/pas-backend-file.c

@@ -175,7 +175,6 @@ book_view_loaded (EBook *book, EBookStatus status, EBookView *book_view, gpointe
 static gboolean
 get_view(EMinicardView *view)
 {
-	E_REFLOW(view)->items = NULL;
 	e_book_get_book_view(view->book, view->query, book_view_loaded, view);
 
 	view->get_view_idle = 0;
@@ -199,7 +198,7 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		if (view->book) {
 			gtk_object_ref(GTK_OBJECT(view->book));
 			if (view->get_view_idle == 0)
-				g_idle_add((GSourceFunc)get_view, view);
+				view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
 		}
 		break;
 	case ARG_QUERY:
@@ -207,7 +206,7 @@ e_minicard_view_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			g_free(view->query);
 		view->query = g_strdup(GTK_VALUE_STRING (*arg));
 		if (view->get_view_idle == 0)
-			g_idle_add((GSourceFunc)get_view, view);
+			view->get_view_idle = g_idle_add((GSourceFunc)get_view, view);
 		break;
 	}
 }
