@@ -1,3 +1,20 @@
+2002-12-11  JP Rosevear  <jpr@ximian.com>
+
+	* gui/e-day-view.c: pass NULL as parent to recur dialog
+
+	* gui/e-week-view.c: ditto
+
+	* gui/dialogs/comp-editor.c (prompt_to_save_changes): show recur
+	dialog after prompting, not before
+	(save_cmd): ditto
+	(save_close_cmd): ditto
+	(real_edit_comp): don't show recur dialog before opening
+
+	* gui/dialogs/recur-comp.h (recur_component_dialog): update proto
+
+	* gui/dialogs/recur-comp.c (recur_component_dialog): take a parent
+	argument and set the dialog parent if non-null
+
 2002-12-10  JP Rosevear  <jpr@ximian.com>
 
 	* gui/e-week-view.c (e_week_view_show_popup_menu): mask out "make

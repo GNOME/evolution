@@ -3283,7 +3283,7 @@ e_week_view_on_editing_stopped (EWeekView *week_view,
 		if (cal_component_is_instance (event->comp)) {
 			CalObjModType mod;
 			
-			if (recur_component_dialog (event->comp, &mod)) {
+			if (recur_component_dialog (event->comp, &mod, NULL)) {
 				if (cal_client_update_object_with_mod (week_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 					if (itip_organizer_is_user (event->comp) 
 					    && send_component_dialog (event->comp, FALSE))

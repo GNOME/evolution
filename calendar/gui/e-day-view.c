@@ -4890,7 +4890,7 @@ e_day_view_finish_long_event_resize (EDayView *day_view)
 	if (cal_component_is_instance (comp)) {
 		CalObjModType mod;
 
-		if (recur_component_dialog (comp, &mod)) {
+		if (recur_component_dialog (comp, &mod, NULL)) {
 			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
@@ -4957,7 +4957,7 @@ e_day_view_finish_resize (EDayView *day_view)
 	if (cal_component_is_instance (comp)) {
 		CalObjModType mod;
 
-		if (recur_component_dialog (comp, &mod)) {
+		if (recur_component_dialog (comp, &mod, NULL)) {
 			if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 				if (itip_organizer_is_user (comp) && send_component_dialog (comp, FALSE))
 					itip_send_comp (CAL_COMPONENT_METHOD_REQUEST, comp, day_view->client, NULL);
@@ -6315,7 +6315,7 @@ e_day_view_on_editing_stopped (EDayView *day_view,
 		if (cal_component_is_instance (event->comp)) {
 			CalObjModType mod;
 			
-			if (recur_component_dialog (event->comp, &mod)) {
+			if (recur_component_dialog (event->comp, &mod, NULL)) {
 				if (cal_client_update_object_with_mod (day_view->client, event->comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 					if (itip_organizer_is_user (event->comp) 
 					    && send_component_dialog (event->comp, FALSE))
@@ -7393,7 +7393,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 			if (cal_component_is_instance (comp)) {
 				CalObjModType mod;
 				
-				if (recur_component_dialog (comp, &mod)) {
+				if (recur_component_dialog (comp, &mod, NULL)) {
 					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 						if (itip_organizer_is_user (comp) 
 						    && send_component_dialog (comp, FALSE))
@@ -7521,7 +7521,7 @@ e_day_view_on_main_canvas_drag_data_received  (GtkWidget          *widget,
 			if (cal_component_is_instance (comp)) {
 				CalObjModType mod;
 				
-				if (recur_component_dialog (comp, &mod)) {
+				if (recur_component_dialog (comp, &mod, NULL)) {
 					if (cal_client_update_object_with_mod (day_view->client, comp, mod) == CAL_CLIENT_RESULT_SUCCESS) {
 						if (itip_organizer_is_user (comp) 
 						    && send_component_dialog (comp, FALSE))

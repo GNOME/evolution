@@ -35,7 +35,8 @@
 
 gboolean
 recur_component_dialog (CalComponent *comp,
-			CalObjModType *mod)
+			CalObjModType *mod,
+			GtkWindow *parent)
 {
 	char *str;
 	GtkWidget *dialog, *rb1, *rb2, *rb3, *hbox;
@@ -85,6 +86,8 @@ recur_component_dialog (CalComponent *comp,
 	
 	gtk_widget_hide (e_message_box_get_checkbox (E_MESSAGE_BOX (dialog)));
 	gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
+	if (parent != NULL)
+		gnome_dialog_set_parent (GNOME_DIALOG (dialog), parent);
 	
 	btn = gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 

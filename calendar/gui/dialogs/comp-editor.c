@@ -424,6 +424,10 @@ prompt_to_save_changes (CompEditor *editor, gboolean send)
 
 	switch (save_component_dialog (GTK_WINDOW (editor))) {
 	case 0: /* Save */
+		if (cal_component_is_instance (priv->comp))
+			if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+				return FALSE;
+
 		if (send && save_comp_with_send (editor))
 			return TRUE;
 		else if (!send && save_comp (editor))
@@ -946,9 +950,6 @@ real_edit_comp (CompEditor *editor, CalComponent *comp)
 
 	if (comp)
 		priv->comp = cal_component_clone (comp);
-
-	if (cal_component_is_instance (comp))
-		recur_component_dialog (comp, &priv->mod);
 	
  	priv->existing_org = cal_component_has_organizer (comp);
  	priv->user_org = itip_organizer_is_user (comp);
@@ -1198,8 +1199,15 @@ static void
 save_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
 
 	commit_all_fields (editor);
+
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			return;
 
 	save_comp_with_send (editor);
 }
@@ -1208,8 +1216,15 @@ static void
 save_close_cmd (GtkWidget *widget, gpointer data)
 {
 	CompEditor *editor = COMP_EDITOR (data);
-
+	CompEditorPrivate *priv;
+	
+	priv = editor->priv;
+	
 	commit_all_fields (editor);
+
+	if (cal_component_is_instance (priv->comp))
+		if (!recur_component_dialog (priv->comp, &priv->mod, GTK_WINDOW (editor)))
+			return;
 
 	if (save_comp_with_send (editor))
 		close_dialog (editor);

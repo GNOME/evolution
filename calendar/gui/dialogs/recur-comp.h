@@ -26,6 +26,7 @@
 #include <cal-util/cal-util.h>
 
 gboolean recur_component_dialog (CalComponent *comp,
-				 CalObjModType *mod);
+				 CalObjModType *mod,
+				 GtkWindow *parent);
 
 #endif
