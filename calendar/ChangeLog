@@ -1,9 +1,11 @@
 2004-01-21  JP Rosevear <jpr@ximian.com>
 
 	* gui/dialogs/calendar-setup.c (calendar_setup_new_calendar): just
-	use the convienence function for the default gconf client (fixes leak)
+	use the convienence function for the default gconf client (fixes
+	leak)
 	(calendar_setup_new_task_list): ditto
-
+	(new_task_list_finish): we don't support task uri's
+	
 2004-01-21  JP Rosevear <jpr@ximian.com>
 
 	* gui/dialogs/calendar-setup.c (source_to_dialog): only block

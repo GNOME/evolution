@@ -643,8 +643,7 @@ new_task_list_finish (SourceDialog *source_dialog)
 {
 	source_dialog->source =
 		create_new_source_with_group (GTK_WINDOW (source_dialog->window), source_dialog->source_group, 
-					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)),
-					      gtk_entry_get_text (GTK_ENTRY (source_dialog->uri_entry)));
+					      gtk_entry_get_text (GTK_ENTRY (source_dialog->name_entry)), NULL);
 	dialog_to_source (source_dialog);
 
 	gtk_widget_destroy (source_dialog->window);
