@@ -58,7 +58,7 @@ evolution_mail_LDADD = 					\
 	../e-util/libeutil.la				\
 	../libibex/libibex.la				\
 	$(BONOBO_HTML_GNOME_LIBS)			\
-        -lunicode
+	$(UNICODE_LIBS)
 
 test_mail_SOURCES = \
 	test-mail.c

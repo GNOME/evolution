@@ -1,3 +1,8 @@
+2000-05-03  Jason Leach  <leach@wam.umd.edu>
+
+	* Makefile.am (evolution_mail_LDADD): s/-lunicode/$(UNICODE_LIBS)/
+	in the LDADD section.
+
 2000-05-03  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.c (write_recipients_to_stream, write_headers): Make

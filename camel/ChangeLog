@@ -1,3 +1,9 @@
+2000-05-03  Jason Leach  <leach@wam.umd.edu>
+
+	* Makefile.am (INCLUDES): add $(UNICODE_CFLAGS) to the INCLUDES,
+	people who installed libunicde in non-standard include paths need
+	this.
+
 2000-05-03  NotZed  <NotZed@HelixCode.com>
 
 	* camel-mime-utils.c (rfc2047_decode_word): If the iconv handle is
