@@ -33,6 +33,9 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus }*/
 
+/* for mode_t */
+#include <sys/types.h>
+
 #include <camel/camel-object.h>
 #include <camel/camel-service.h>
 

@@ -1,3 +1,7 @@
+2001-08-19  Chris Toshok  <toshok@ximian.com>
+
+	* camel-store.h: #include <sys/types.h> for mode_t on freebsd.
+
 2001-08-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/pop3/camel-pop3-folder.c (pop3_generate_uids): Make
