@@ -1,3 +1,8 @@
+2001-04-12  Dan Winship  <danw@ximian.com>
+
+	* camel-mime-filter-crlf.c (filter): Fix a pair of array bounds
+	reads noted by purify
+
 2001-04-12  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel.h: #include the pgp stuff.

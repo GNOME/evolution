@@ -78,7 +78,7 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 			if (*p == '\n')
 				*q++ = '\r';
 			else
-				if (do_dots && *(p - 1) == '\n' && *p == '.')
+				if (do_dots && *p == '.' && (p == in || *(p - 1) == '\n'))
 					*q++ = '.';
 			*q++ = *p++;
 		}
@@ -100,7 +100,7 @@ filter (CamelMimeFilter *f, char *in, size_t len, size_t prespace,
 			}
 
 			if (do_dots) {
-				if (*p == '.' && *(p - 1) == '\n') {
+				if (*p == '.' && (p == in || *(p - 1) == '\n')) {
 					crlf->saw_dot = TRUE;
 				} else {
 					if (crlf->saw_dot) {
