@@ -1,3 +1,16 @@
+2000-10-09  Iain Holmes  <iain@helixcode.com>
+
+	* Makefile.am: Added the executive-summary library and cflags
+
+	* gui/evolution-calendar.oafinfo: Added oaf servers for the 
+	executive summary and executive summary factory.
+
+	* gui/calendar-summary.[ch]: New files to create the summary.
+
+	* gui/component-factory.c (summary_fn): Create the executive
+	summary component.
+	(component_factory_init): Start the summary factory as well.
+
 2000-10-06  Federico Mena Quintero  <federico@helixcode.com>
 
 	* gui/weekday-picker.[ch]: New widget to pick weekdays.

@@ -26,4 +26,28 @@
 
 </oaf_server>
 
+<oaf_server iid="OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af"
+		type="exe"
+		location="evolution-calendar">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME:GenericFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+			value="Factory for the Calendar Summary component."/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:evolution-executive-summary-component:evolution-calendar:c80742c0-c7ae-4f53-9df2-33221864729c"
+	    type="factory"
+	    location="OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:Evolution:SummaryComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		       value="Evolution calendar executive summary component."/>
+</oaf_server>
+
 </oaf_info>

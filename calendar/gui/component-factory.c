@@ -24,14 +24,19 @@
 #include <config.h>
 #include <bonobo.h>
 #include "evolution-shell-component.h"
+#include <executive-summary/evolution-services/executive-summary-component.h>
 #include "component-factory.h"
 #include "control-factory.h"
+#include "calendar-summary.h"
 
 
 
 #define COMPONENT_FACTORY_ID "OAFIID:evolution-shell-component-factory:evolution-calendar:cba77062-1466-4aac-8ce7-b019eaf2e921"
+#define SUMMARY_FACTORY_ID "OAFIID:evolution-executive-summary-component-factory:evolution-calendar:6b45a890-fbc0-4f20-97d8-b8e344c059af"
 
 static BonoboGenericFactory *factory = NULL;
+static BonoboGenericFactory *summary_factory = NULL;
+static char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
 	{ "calendar", "evolution-calendar.png" },
@@ -68,6 +73,7 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 	      Evolution_Shell shell_interface,
 	      const char *evolution_homedir)
 {
+	evolution_dir = g_strdup (evolution_homedir);
 	owner_count ++;
 }
 
@@ -77,6 +83,7 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		EvolutionShellClient shell_client,
 		void *data)
 {
+	g_free (evolution_dir);
 	owner_count --;
 	if (owner_count <= 0)
 		gtk_main_quit();
@@ -101,15 +108,32 @@ factory_fn (BonoboGenericFactory *factory,
 	return BONOBO_OBJECT (shell_component);
 }
 
+static BonoboObject *
+summary_fn (BonoboGenericFactory *factory, 
+	    void *closure)
+{
+	ExecutiveSummaryComponent *summary_component;
+
+	summary_component = executive_summary_component_new (NULL,
+							     create_summary_view,
+							     NULL,
+							     evolution_dir);
+	return BONOBO_OBJECT (summary_component);
+}
+
 
 void
 component_factory_init (void)
 {
-	if (factory != NULL)
+	if (factory != NULL && factory != NULL)
 		return;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_ID, factory_fn, NULL);
+	summary_factory = bonobo_generic_factory_new (SUMMARY_FACTORY_ID, summary_fn, NULL);
 
 	if (factory == NULL)
 		g_error ("Cannot initialize Evolution's calendar component.");
+
+	if (summary_factory == NULL)
+		g_error ("Cannot initialize Evolution's calendar summary component.");
 }
