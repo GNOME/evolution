@@ -1,4 +1,4 @@
-2004-01-04  Harry Lu  <harry.lu@sun.com>
+2005-01-04  Harry Lu  <harry.lu@sun.com>
 
 	* misc/e-combo-button.c: (e_combo_button_popup): new internal function
 	to popup the menu.
