@@ -898,6 +898,8 @@ addressbook_dialog_apply (GnomePropertyBox *property_box, gint page_num, Address
 		AddressbookSource *source = (AddressbookSource*)gtk_clist_get_row_data (GTK_CLIST (dialog->clistSources), i);
 		addressbook_storage_add_source (addressbook_source_copy (source));
 	}
+
+	addressbook_storage_write_sources();
 }
 
 static void

@@ -70,6 +70,7 @@ void addressbook_storage_setup (EvolutionShellComponent *shell_component,
 GList             *addressbook_storage_get_sources (void);
 AddressbookSource *addressbook_storage_get_source_by_uri (const char *uri);
 void               addressbook_storage_clear_sources (void);
+void               addressbook_storage_write_sources (void);
 AddressbookSource *addressbook_source_copy (const AddressbookSource *source);
 void               addressbook_source_free (AddressbookSource *source);
 void               addressbook_storage_init_source_uri (AddressbookSource *source);
