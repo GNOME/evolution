@@ -1,3 +1,10 @@
+2000-10-07  Miguel de Icaza  <miguel@helixcode.com>
+
+	* mail-ops.c (do_fetch_mail): Move the functionality to
+	incorporate messages into mail_incorporate_messages.
+	(mail_load_evolution_rule_context): New function.  Move the
+	functionality for loading the context rules to its own function.
+
 2000-10-06  Iain Holmes  <iain@helixcode.com>
 
 	* mail-summary.c: Fix the locking up of the mail by only calling

@@ -81,6 +81,144 @@ setup_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 		camel_object_ref (CAMEL_OBJECT (input->destination));
 }
 
+static FilterContext *
+mail_load_evolution_rule_context ()
+{
+	gchar *userrules;
+	gchar *systemrules;
+	FilterContext *fc;
+
+	userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
+	systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
+	fc = filter_context_new ();
+	rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
+	g_free (userrules);
+	g_free (systemrules);
+
+	return fc;
+}
+
+static void
+mail_incorporate_messages (CamelFolder *folder, 
+			   fetch_mail_input_t *input,
+			   fetch_mail_data_t  *data,
+			   CamelException *ex)
+{
+	CamelUIDCache *cache = NULL;
+	FilterContext *fc;
+	FilterDriver *filter;
+	GPtrArray *uids, *new_uids;
+	char *url, *p, *filename;
+	FILE *logfile;
+	int i;
+
+	fc = mail_load_evolution_rule_context ();
+	filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
+	
+	if (input->hook_func)
+		camel_object_hook_event (
+			CAMEL_OBJECT (input->destination), "folder_changed",
+			input->hook_func, input->hook_data);
+	
+	camel_folder_freeze (input->destination);
+	
+	uids = camel_folder_get_uids (folder);
+	
+	if (input->keep_on_server) {
+		/* get the mail source's uid cache file */
+		url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
+		for (p = url; *p; p++) {
+			if (!isascii ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
+				*p = '_';
+		}
+		
+		filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, url);
+		g_free (url);
+		
+		cache = camel_uid_cache_new (filename);
+		g_free (filename);
+		
+		if (cache) {
+			/* determine the new uids */
+			new_uids = camel_uid_cache_get_new_uids (cache, uids);
+			camel_folder_free_uids (folder, uids);
+			uids = new_uids;
+		}
+	}
+	
+	/* FIXME: find out if we want to log or not - config option */
+	if (TRUE /* perform_logging */) {
+		filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
+		logfile = fopen (filename, "a+");
+		g_free (filename);
+	} else
+		logfile = NULL;
+	
+	/* get/filter the new messages */
+	for (i = 0; i < uids->len; i++) {
+		CamelMimeMessage *message;
+		CamelMessageInfo *info;
+		gboolean free_info;
+		
+		mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
+		
+		message = camel_folder_get_message (folder, uids->pdata[i], ex);
+		if (camel_exception_is_set (ex))
+			continue;
+		
+		if (camel_folder_has_summary_capability (folder)) {
+			info = (CamelMessageInfo *) camel_folder_get_message_info (folder, uids->pdata[i]);
+			free_info = FALSE;
+		} else {
+			info = g_new0 (CamelMessageInfo, 1);
+			free_info = TRUE;
+		}
+		
+		filter_driver_run (filter, message, info, input->destination,
+				   FILTER_SOURCE_INCOMING, logfile, ex);
+		
+		if (free_info)
+			camel_message_info_free (info);
+		
+		/* we don't care if it was filtered or not here because no matter
+		   what it's been copied to at least 1 folder - even if it's just
+		   the default (assuming we didn't get an exception) */
+		if (!input->keep_on_server && !camel_exception_is_set (ex)) {
+			camel_folder_set_message_flags (folder, uids->pdata[i],
+							CAMEL_MESSAGE_DELETED,
+							CAMEL_MESSAGE_DELETED);
+		}
+		camel_object_unref (CAMEL_OBJECT (message));
+	}
+	
+	/* close the log file */
+	if (logfile)
+		fclose (logfile);
+	
+	gtk_object_unref (GTK_OBJECT (filter));
+	
+	camel_folder_sync (folder, TRUE, ex);
+	
+	camel_folder_thaw (input->destination);
+	
+	if (input->hook_func)
+		camel_object_unhook_event (
+			CAMEL_OBJECT (input->destination), "folder_changed", 
+			input->hook_func, input->hook_data);
+	
+	if (cache) {
+		/* save the cache for the next time we fetch mail! */
+		camel_uid_cache_free_uids (uids);
+		
+		if (!camel_exception_is_set (ex))
+			camel_uid_cache_save (cache);
+		camel_uid_cache_destroy (cache);
+	} else
+		camel_folder_free_uids (folder, uids);
+	
+	data->empty = FALSE;
+}
+
 static void
 do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 {
@@ -117,129 +255,11 @@ do_fetch_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	}
 	
 	mail_tool_camel_lock_up ();
-	if (camel_folder_get_message_count (folder) == 0) {
+	if (camel_folder_get_message_count (folder) == 0) 
 		data->empty = TRUE;
-	} else {
-		CamelUIDCache *cache = NULL;
-		gchar *userrules;
-		gchar *systemrules;
-		FilterContext *fc;
-		FilterDriver *filter;
-		GPtrArray *uids, *new_uids;
-		char *url, *p, *filename;
-		FILE *logfile;
-		int i;
-		
-		userrules = g_strdup_printf ("%s/filters.xml", evolution_dir);
-		systemrules = g_strdup_printf ("%s/evolution/filtertypes.xml", EVOLUTION_DATADIR);
-		fc = filter_context_new ();
-		rule_context_load ((RuleContext *)fc, systemrules, userrules, NULL, NULL);
-		g_free (userrules);
-		g_free (systemrules);
-		
-		filter = filter_driver_new (fc, mail_tool_filter_get_folder_func, 0);
-		
-		if (input->hook_func)
-			camel_object_hook_event (CAMEL_OBJECT (input->destination), "folder_changed",
-						 input->hook_func, input->hook_data);
-		
-		camel_folder_freeze (input->destination);
-		
-		uids = camel_folder_get_uids (folder);
-		
-		if (input->keep_on_server) {
-			/* get the mail source's uid cache file */
-			url = camel_url_to_string (CAMEL_SERVICE (folder->parent_store)->url, FALSE);
-			for (p = url; *p; p++) {
-				if (!isascii ((unsigned char)*p) || strchr (" /'\"`&();|<>${}!", *p))
-					*p = '_';
-			}
-			
-			filename = g_strdup_printf ("%s/config/cache-%s", evolution_dir, url);
-			g_free (url);
-			
-			cache = camel_uid_cache_new (filename);
-			g_free (filename);
-			
-			if (cache) {
-				/* determine the new uids */
-				new_uids = camel_uid_cache_get_new_uids (cache, uids);
-				camel_folder_free_uids (folder, uids);
-				uids = new_uids;
-			}
-		}
-		
-		/* FIXME: find out if we want to log or not - config option */
-		if (TRUE /* perform_logging */) {
-			filename = g_strdup_printf ("%s/evolution-filter-log", evolution_dir);
-			logfile = fopen (filename, "a+");
-			g_free (filename);
-		} else
-			logfile = NULL;
-		
-		/* get/filter the new messages */
-		for (i = 0; i < uids->len; i++) {
-			CamelMimeMessage *message;
-			CamelMessageInfo *info;
-			gboolean free_info;
-			
-			mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
-			
-			message = camel_folder_get_message (folder, uids->pdata[i], ex);
-			if (camel_exception_is_set (ex))
-				continue;
-			
-			if (camel_folder_has_summary_capability (folder)) {
-				info = (CamelMessageInfo *) camel_folder_get_message_info (folder, uids->pdata[i]);
-				free_info = FALSE;
-			} else {
-				info = g_new0 (CamelMessageInfo, 1);
-				free_info = TRUE;
-			}
-			
-			filter_driver_run (filter, message, info, input->destination,
-					   FILTER_SOURCE_INCOMING, logfile, ex);
-			
-			if (free_info)
-				camel_message_info_free (info);
-			
-			/* we don't care if it was filtered or not here because no matter
-			   what it's been copied to at least 1 folder - even if it's just
-			   the default (assuming we didn't get an exception) */
-			if (!input->keep_on_server && !camel_exception_is_set (ex)) {
-				camel_folder_set_message_flags (folder, uids->pdata[i],
-								CAMEL_MESSAGE_DELETED,
-								CAMEL_MESSAGE_DELETED);
-			}
-			camel_object_unref (CAMEL_OBJECT (message));
-		}
-		
-		/* close the log file */
-		if (logfile)
-			fclose (logfile);
-		
-		gtk_object_unref (GTK_OBJECT (filter));
-		
-		camel_folder_sync (folder, TRUE, ex);
-		
-		camel_folder_thaw (input->destination);
-		
-		if (input->hook_func)
-			camel_object_unhook_event (CAMEL_OBJECT (input->destination), "folder_changed", 
-						   input->hook_func, input->hook_data);
-		
-		if (cache) {
-			/* save the cache for the next time we fetch mail! */
-			camel_uid_cache_free_uids (uids);
-			
-			if (!camel_exception_is_set (ex))
-				camel_uid_cache_save (cache);
-			camel_uid_cache_destroy (cache);
-		} else
-			camel_folder_free_uids (folder, uids);
-		
-		data->empty = FALSE;
-	}
+	else
+		mail_incorporate_messages (folder, input, data, ex);
+
 	mail_tool_camel_lock_down ();
 	
 	camel_object_unref (CAMEL_OBJECT (folder));
