@@ -331,6 +331,30 @@
 	  </widget>
 
 	  <widget>
+	    <class>GtkHButtonBox</class>
+	    <name>hbuttonbox1</name>
+	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	    <spacing>30</spacing>
+	    <child_min_width>85</child_min_width>
+	    <child_min_height>27</child_min_height>
+	    <child_ipad_x>7</child_ipad_x>
+	    <child_ipad_y>0</child_ipad_y>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
+
+	    <widget>
+	      <class>GtkButton</class>
+	      <name>add_button</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Add to Calendar</label>
+	    </widget>
+	  </widget>
+
+	  <widget>
 	    <class>GtkText</class>
 	    <name>text_box</name>
 	    <can_focus>True</can_focus>
@@ -342,6 +366,86 @@
 	      <fill>True</fill>
 	    </child>
 	  </widget>
+	</widget>
+      </widget>
+    </widget>
+  </widget>
+</widget>
+
+<widget>
+  <class>GtkWindow</class>
+  <name>loading_window</name>
+  <visible>False</visible>
+  <title>Loading Calendar</title>
+  <type>GTK_WINDOW_DIALOG</type>
+  <position>GTK_WIN_POS_CENTER</position>
+  <modal>False</modal>
+  <allow_shrink>False</allow_shrink>
+  <allow_grow>True</allow_grow>
+  <auto_shrink>False</auto_shrink>
+
+  <widget>
+    <class>GtkFrame</class>
+    <name>frame1</name>
+    <border_width>4</border_width>
+    <label></label>
+    <label_xalign>0</label_xalign>
+    <shadow_type>GTK_SHADOW_ETCHED_OUT</shadow_type>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox2</name>
+      <border_width>7</border_width>
+      <homogeneous>False</homogeneous>
+      <spacing>1</spacing>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox2</name>
+	<border_width>6</border_width>
+	<homogeneous>False</homogeneous>
+	<spacing>9</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label10</name>
+	  <label>Loading calendar...</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkProgressBar</class>
+	  <name>progressbar1</name>
+	  <value>0</value>
+	  <lower>0</lower>
+	  <upper>100</upper>
+	  <bar_style>GTK_PROGRESS_CONTINUOUS</bar_style>
+	  <orientation>GTK_PROGRESS_LEFT_TO_RIGHT</orientation>
+	  <activity_mode>False</activity_mode>
+	  <show_text>False</show_text>
+	  <format>%P %%</format>
+	  <text_xalign>0.5</text_xalign>
+	  <text_yalign>0.5</text_yalign>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
 	</widget>
       </widget>
     </widget>

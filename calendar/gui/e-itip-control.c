@@ -18,11 +18,13 @@
 
 #include "e-itip-control.h"
 #include <cal-util/cal-component.h>
+#include <cal-client/cal-client.h>
 
 
 #define DEFAULT_WIDTH 500
 #define DEFAULT_HEIGHT 400
 
+extern gchar *evolution_dir;
 
 typedef struct _EItipControlPrivate EItipControlPrivate;
 
@@ -32,6 +34,9 @@ struct _EItipControlPrivate {
 	GtkWidget *text_box;
 	GtkWidget *organizer_entry, *dtstart_label, *dtend_label;
 	GtkWidget *summary_entry, *description_box;
+	GtkWidget *add_button;
+	GtkWidget *loading_window;
+	GtkWidget *loading_progress;
 
 	icalcomponent *main_comp, *comp;
 	CalComponent *cal_comp;
@@ -63,6 +68,9 @@ itip_control_destroy_cb (GtkObject *object,
 		icalcomponent_free (priv->main_comp);
 	}
 
+	if (priv->cal_comp != NULL) {
+		gtk_object_unref (GTK_OBJECT (priv->cal_comp));
+	}
 	g_free (priv);
 }
 	
@@ -71,6 +79,69 @@ itip_control_size_request_cb (GtkWidget *widget, GtkRequisition *requisition)
 {
 	requisition->width = DEFAULT_WIDTH;
 	requisition->height = DEFAULT_HEIGHT;
+}
+
+static void
+cal_loaded_cb (GtkObject *object, CalClientGetStatus status, gpointer data)
+{
+	CalClient *client = CAL_CLIENT (object);
+	EItipControlPrivate *priv = data;
+
+	gtk_widget_hide (priv->loading_progress);
+
+	if (status == CAL_CLIENT_GET_SUCCESS) {
+		if (cal_client_update_object (client, priv->cal_comp) == FALSE) {
+			GtkWidget *dialog;
+	
+			dialog = gnome_warning_dialog("I couldn't update your calendar file!\n");
+			gnome_dialog_run (GNOME_DIALOG(dialog));
+		}
+		else {
+			/* We have success. */
+			GtkWidget *dialog;
+	
+			dialog = gnome_ok_dialog("Component successfully added.");
+			gnome_dialog_run (GNOME_DIALOG(dialog));
+		}
+	}
+	else {
+		GtkWidget *dialog;
+
+		dialog = gnome_ok_dialog("There was an error loading the calendar file.");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+	}
+
+	gtk_object_unref (GTK_OBJECT (client));
+	return;
+}
+
+static void
+add_button_clicked_cb (GtkWidget *widget, gpointer data)
+{
+	EItipControlPrivate *priv = data;
+	gchar cal_uri[255];
+	CalClient *client;
+
+	sprintf (cal_uri, "%s/local/Calendar/calendar.ics", evolution_dir);
+	
+	client = cal_client_new ();
+	if (cal_client_load_calendar (client, cal_uri) == FALSE) {
+		GtkWidget *dialog;
+
+		dialog = gnome_warning_dialog("I couldn't open your calendar file!\n");
+		gnome_dialog_run (GNOME_DIALOG(dialog));
+		gtk_object_unref (GTK_OBJECT (client));
+	
+		return;
+	}
+
+	gtk_signal_connect (GTK_OBJECT (client), "cal_loaded",
+	    	   	    GTK_SIGNAL_FUNC (cal_loaded_cb), priv);
+	
+	gtk_progress_bar_update (GTK_PROGRESS_BAR (priv->loading_progress), 0.5);
+	gtk_widget_show (priv->loading_progress);
+
+	return;
 }
 
 
@@ -178,15 +249,13 @@ pstream_load (BonoboPersistStream *ps, const Bonobo_Stream stream,
 		return;
 	}
 
-#if 0	
 	priv->cal_comp = cal_component_new ();
-	if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE)) {
-		gtk_object_destroy (GTK_OBJECT (priv->cal_comp));
-		icalcomponent_free (main_comp);
+	if (cal_component_set_icalcomponent (priv->cal_comp, priv->comp) == FALSE) {
+		g_printerr ("e-itip-control.c: I couldn't create a CalComponent from the iTip data.\n");
+		gtk_object_unref (GTK_OBJECT (priv->cal_comp));
 	}
-#endif
 
-	/* Okay, good then; now I will pick apart the CalComponent to get
+	/* Okay, good then; now I will pick apart the component to get
 	 all the things I'll show in my control. */
 	{
 		icalproperty *prop;
@@ -328,12 +397,18 @@ e_itip_control_factory (BonoboGenericFactory *Factory, void *closure)
 	priv->dtend_label = glade_xml_get_widget (priv->xml, "dtend_label");
 	priv->summary_entry = glade_xml_get_widget (priv->xml, "summary_entry");
 	priv->description_box = glade_xml_get_widget (priv->xml, "description_box");
-	gtk_text_set_editable (GTK_TEXT (priv->text_box), FALSE);
+	priv->add_button = glade_xml_get_widget (priv->xml, "add_button");
+	priv->loading_progress = glade_xml_get_widget (priv->xml, "loading_progress");
+	priv->loading_window = glade_xml_get_widget (priv->xml, "loading_window");
 
+	gtk_text_set_editable (GTK_TEXT (priv->text_box), FALSE);
+	
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "destroy",
 			    GTK_SIGNAL_FUNC (itip_control_destroy_cb), priv);
 	gtk_signal_connect (GTK_OBJECT (priv->main_frame), "size_request",
 			    GTK_SIGNAL_FUNC (itip_control_size_request_cb), priv);
+	gtk_signal_connect (GTK_OBJECT (priv->add_button), "clicked",
+			    GTK_SIGNAL_FUNC (add_button_clicked_cb), priv);
 
 	gtk_widget_show (priv->text_box);
 	gtk_widget_show (priv->main_frame);
