@@ -1,5 +1,10 @@
 2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* openpgp-utils.c (openpgp_encrypt): Don't g_free the recipient
+	array members here because we free them in the caller.
+
+2001-04-11  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* mail-crypto.c (pgp_mime_part_verify): Huh, somehow I forgot to
 	apply the from filter when verifying signed parts. Oh well,
 	probably not all that common. Fixed now though.
