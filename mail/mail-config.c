@@ -99,6 +99,8 @@ service_copy (const MailConfigService *source)
 	new = g_new0 (MailConfigService, 1);
 	new->url = g_strdup (source->url);
 	new->keep_on_server = source->keep_on_server;
+	new->auto_check = source->auto_check;
+	new->auto_check_time = source->auto_check_time;
 	new->save_passwd = source->save_passwd;
 	new->use_ssl = source->use_ssl;
 	
@@ -260,6 +262,12 @@ config_read (void)
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		source->keep_on_server = gnome_config_get_bool (path);
 		g_free (path);
+		path = g_strdup_printf ("source_auto_check_%d", i);
+		source->auto_check = gnome_config_get_bool (path);
+		g_free (path);
+		path = g_strdup_printf ("source_auto_check_time_%d", i);
+		source->auto_check_time = gnome_config_get_int (path);
+		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		source->save_passwd = gnome_config_get_bool (path);
 		g_free (path);
@@ -402,8 +410,17 @@ mail_config_write (void)
 		path = g_strdup_printf ("source_keep_on_server_%d", i);
 		gnome_config_set_bool (path, account->source->keep_on_server);
 		g_free (path);
+		path = g_strdup_printf ("source_auto_check_%d", i);
+		gnome_config_set_bool (path, account->source->auto_check);
+		g_free (path);
+		path = g_strdup_printf ("source_auto_check_time_%d", i);
+		gnome_config_set_int (path, account->source->auto_check_time);
+		g_free (path);
 		path = g_strdup_printf ("source_save_passwd_%d", i);
 		gnome_config_set_bool (path, account->source->save_passwd);
+		g_free (path);
+		path = g_strdup_printf ("source_use_ssl_%d", i);
+		gnome_config_set_bool (path, account->source->use_ssl);
 		g_free (path);
 		
 		/* transport info */

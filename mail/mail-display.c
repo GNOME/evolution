@@ -696,7 +696,7 @@ on_object_requested (GtkHTML *html, GtkHTMLEmbedded *eb, gpointer data)
 		hbox = gtk_hbox_new (FALSE, 2);
 		gtk_container_set_border_width (GTK_CONTAINER (hbox), 2);
 
-		if (mail_part_is_inline (medium)) {
+		if (mail_part_is_inline (CAMEL_MIME_PART (medium))) {
 			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_DOWN);
 		} else {
 			arrow = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_FORWARD);

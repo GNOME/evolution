@@ -1,3 +1,18 @@
+2001-02-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_object_requested): Cast the CamelMedium to a
+	CamelMimePart before performing actions on it as if it were a
+	CamelMimePart.
+
+	* mail-config-druid.c (druid_finish): Save the auto-check settings.
+	(construct): Initialize auto-check widgets.
+	(mail_config_druid_get_auto_check): New function
+	(mail_config_druid_get_auto_check_minutes): New functions
+
+	* mail-config.c (config_read): Read in whether or not to check
+	every x minutes.
+	(mail_config_write): Save auto-check config data and SSL.
+
 2001-02-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-autofilter.c (rule_add_subject): Use "contains" because the

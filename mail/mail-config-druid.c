@@ -203,6 +203,8 @@ druid_finish (GnomeDruidPage *page, gpointer arg1, gpointer user_data)
 	/* construct the source */
 	source = g_new0 (MailConfigService, 1);
 	source->keep_on_server = mail_config_druid_get_keep_mail_on_server (druid);
+	source->auto_check = mail_config_druid_get_auto_check (druid);
+	source->auto_check_time = mail_config_druid_get_auto_check_minutes (druid);
 	source->save_passwd = mail_config_druid_get_save_password (druid);
 	str = mail_config_druid_get_source_url (druid);
 	if (str) {
@@ -315,6 +317,14 @@ incoming_check (MailConfigDruid *druid)
 	next_sensitive = host && user && path;
 	
 	gnome_druid_set_buttons_sensitive (druid->druid, TRUE, next_sensitive, TRUE);
+}
+
+static void
+auto_check_toggled (GtkToggleButton *button, gpointer data)
+{
+	MailConfigDruid *druid = data;
+	
+	gtk_widget_set_sensitive (GTK_WIDGET (druid->incoming_auto_check_min), button->active);
 }
 
 static void
@@ -1076,6 +1086,9 @@ construct (MailConfigDruid *druid)
 	druid->incoming_path = GTK_ENTRY (glade_xml_get_widget (gui, "txtIncomingPath"));
 	gtk_signal_connect (GTK_OBJECT (druid->incoming_path), "changed", incoming_changed, druid);
 	druid->incoming_keep_mail = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingKeepMail"));
+	druid->incoming_auto_check = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkAutoCheck"));
+	gtk_signal_connect (GTK_OBJECT (druid->incoming_auto_check), "toggled", auto_check_toggled, druid);
+	druid->incoming_auto_check_min = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinAutoCheckMinutes"));
 	druid->incoming_check_settings = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkIncomingCheckSettings"));
 	
 	druid->have_auth_page = TRUE;
@@ -1215,6 +1228,23 @@ mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid)
 	return GTK_TOGGLE_BUTTON (druid->incoming_keep_mail)->active;
 }
 
+
+gboolean
+mail_config_druid_get_auto_check (MailConfigDruid *druid)
+{
+	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), FALSE);
+	
+	return GTK_TOGGLE_BUTTON (druid->incoming_auto_check)->active;
+}
+
+
+gint
+mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid)
+{
+	g_return_val_if_fail (IS_MAIL_CONFIG_DRUID (druid), 0);
+	
+	return gtk_spin_button_get_value_as_int (druid->incoming_auto_check_min);
+}
 
 gboolean
 mail_config_druid_get_save_password (MailConfigDruid *druid)

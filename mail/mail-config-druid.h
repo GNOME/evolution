@@ -69,6 +69,8 @@ struct _MailConfigDruid {
 	GtkEntry *incoming_username;
 	GtkEntry *incoming_path;
 	GtkCheckButton *incoming_keep_mail;
+	GtkCheckButton *incoming_auto_check;
+	GtkSpinButton  *incoming_auto_check_min;
 	GtkCheckButton *incoming_check_settings;
 	
 	/* authentication */
@@ -121,6 +123,10 @@ char *mail_config_druid_get_source_url (MailConfigDruid *druid);
 gboolean mail_config_druid_get_keep_mail_on_server (MailConfigDruid *druid);
 
 gboolean mail_config_druid_get_save_password (MailConfigDruid *druid);
+
+gboolean mail_config_druid_get_auto_check (MailConfigDruid *druid);
+
+gint mail_config_druid_get_auto_check_minutes (MailConfigDruid *druid);
 
 char *mail_config_druid_get_transport_url (MailConfigDruid *druid);
 
