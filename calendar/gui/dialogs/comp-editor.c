@@ -645,7 +645,7 @@ real_send_comp (CompEditor *editor, CalComponentItipMethod method)
 	g_return_if_fail (IS_COMP_EDITOR (editor));
 
 	priv = editor->priv;
-	
+
 	itip_send_comp (method, priv->comp);
 }
 
@@ -751,6 +751,7 @@ comp_editor_merge_ui (CompEditor *editor, const char *filename, BonoboUIVerb *ve
 	CompEditorPrivate *priv;
 	BonoboUIEngine *engine;
 	BonoboUINode *node;
+	const char *name;
 	
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
@@ -762,7 +763,8 @@ comp_editor_merge_ui (CompEditor *editor, const char *filename, BonoboUIVerb *ve
 				      "evolution-calendar");
 	g_assert (node != NULL);
 
-	bonobo_ui_engine_xml_merge_tree (engine, "/", node, "comp-editor");
+	name = bonobo_ui_component_get_name (priv->uic);	
+	bonobo_ui_engine_xml_merge_tree (engine, "/", node, name);
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
 }
 

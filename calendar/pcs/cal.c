@@ -594,7 +594,7 @@ cal_class_init (CalClass *klass)
 	GtkObjectClass *object_class = (GtkObjectClass *) klass;
 	POA_GNOME_Evolution_Calendar_Cal__epv *epv = &klass->epv;
 
-	parent_class = gtk_type_class (BONOBO_OBJECT_TYPE);
+	parent_class = gtk_type_class (PARENT_TYPE);
 
 	/* Class method overrides */
 	object_class->destroy = cal_destroy;

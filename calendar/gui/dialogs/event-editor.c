@@ -47,7 +47,7 @@ struct _EventEditorPrivate {
 	SchedulePage *sched_page;
 
 	EMeetingModel *model;
-	
+
 	gboolean meeting_shown;
 	gboolean updating;	
 };
@@ -349,6 +349,7 @@ schedule_meeting_cmd (GtkWidget *widget, gpointer data)
 		priv->meeting_shown = TRUE;
 
 		set_menu_sens (ee);
+ 		comp_editor_set_changed (COMP_EDITOR (ee), priv->meeting_shown);
 		comp_editor_set_needs_send (COMP_EDITOR (ee), priv->meeting_shown);
 	}
 	
@@ -383,7 +384,7 @@ forward_cmd (GtkWidget *widget, gpointer data)
 {
 	EventEditor *ee = EVENT_EDITOR (data);
 	
-	comp_editor_save_comp (COMP_EDITOR (ee));
+	comp_editor_save_comp (COMP_EDITOR (ee));	
 	comp_editor_send_comp (COMP_EDITOR (ee), CAL_COMPONENT_METHOD_PUBLISH);
 }
 

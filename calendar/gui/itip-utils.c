@@ -184,17 +184,22 @@ get_label (struct icaltimetype *tt)
 	return g_strdup (buffer);
 }
 
+typedef struct {
+	GHashTable *tzids;
+	icalcomponent *icomp;	
+} ItipUtilTZData;
+
 static void
 foreach_tzid_callback (icalparameter *param, gpointer data)
 {
-	icalcomponent *icomp = data;
+	ItipUtilTZData *tz_data = data;	
 	const char *tzid;
 	icaltimezone *zone;
 	icalcomponent *vtimezone_comp;
 
 	/* Get the TZID string from the parameter. */
 	tzid = icalparameter_get_tzid (param);
-	if (!tzid)
+	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
 		return;
 
 	/* Check if it is a builtin timezone. If it isn't, return. */
@@ -207,40 +212,19 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 	if (!vtimezone_comp)
 		return;
 
-	icalcomponent_add_component (icomp, icalcomponent_new_clone (vtimezone_comp));
+	icalcomponent_add_component (tz_data->icomp, icalcomponent_new_clone (vtimezone_comp));
+	g_hash_table_insert (tz_data->tzids, (char *)tzid, (char *)tzid);	
 }
 
-void
-itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
+static GNOME_Evolution_Composer_RecipientList *
+comp_to_list (CalComponentItipMethod method, CalComponent *comp)
 {
-	BonoboObjectClient *bonobo_server;
-	GNOME_Evolution_Composer composer_server;
-	CORBA_Environment ev;
-	GSList *attendees, *l;
-	GNOME_Evolution_Composer_RecipientList *to_list, *cc_list, *bcc_list;
+	GNOME_Evolution_Composer_RecipientList *to_list;
 	GNOME_Evolution_Composer_Recipient *recipient;
-	CORBA_char *subject;
-	gint cntr, len;
-	CalComponentVType type;	
-	CalComponentText caltext;
 	CalComponentOrganizer organizer;
-	CORBA_char *content_type, *filename, *description;
-	GNOME_Evolution_Composer_AttachmentData *attach_data;
-	CORBA_boolean show_inline;
-	char tempstr[200];
-	
-	CORBA_exception_init (&ev);
+	GSList *attendees, *l;
+	gint cntr, len;
 
-	/* Obtain an object reference for the Composer. */
-	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
-	g_return_if_fail (bonobo_server != NULL);
-
-	composer_server = BONOBO_OBJREF (bonobo_server);
-
-	/* Type for later use */
-	type = cal_component_get_vtype (comp);
-
-	/* Create list of recipients */
 	switch (method) {
 	case CAL_COMPONENT_METHOD_REQUEST:
 	case CAL_COMPONENT_METHOD_CANCEL:
@@ -272,7 +256,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		cal_component_get_organizer (comp, &organizer);
 		if (organizer.value == NULL) {
 			error_dialog (_("An organizer must be set."));
-			return;
+			return NULL;
 		}
 		
 		len = 1;
@@ -295,65 +279,70 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 		to_list->_maximum = to_list->_length = 0;
 		break;
 	}
+	CORBA_sequence_set_release (to_list, TRUE);
 
-	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	cc_list->_maximum = cc_list->_length = 0;
-	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
-	bcc_list->_maximum = bcc_list->_length = 0;
+	return to_list;	
+}
 	
-	/* Subject information */
+static CORBA_char *
+comp_subject (CalComponent *comp) 
+{
+	CalComponentText caltext;
+
 	cal_component_get_summary (comp, &caltext);
-	if (caltext.value != NULL) {		
-		subject = CORBA_string_dup (caltext.value);
-	} else {
-		switch (type) {
-		case CAL_COMPONENT_EVENT:
-			subject = CORBA_string_dup ("Event information");
-			break;
-		case CAL_COMPONENT_TODO:
-			subject = CORBA_string_dup ("Task information");
-			break;
-		case CAL_COMPONENT_JOURNAL:
-			subject = CORBA_string_dup ("Journal information");
-			break;
-		case CAL_COMPONENT_FREEBUSY:
-			subject = CORBA_string_dup ("Free/Busy information");
-			break;
-		default:
-			subject = CORBA_string_dup ("Calendar information");
-		}		
-	}
-	
-	/* Set recipients, subject */
-	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Unable to set composer headers while sending iTip message");
-		CORBA_exception_free (&ev);
-		return;
-	}
+	if (caltext.value != NULL)	
+		return CORBA_string_dup (caltext.value);
 
-	/* Content type, suggested file name, description */
-	sprintf (tempstr, "text/calendar;METHOD=%s", itip_methods[method]);
-	content_type = CORBA_string_dup (tempstr);
-	if (type == CAL_COMPONENT_FREEBUSY)
-		filename = CORBA_string_dup ("freebusy.ifb");
-	else
-		filename = CORBA_string_dup ("calendar.ics");
-	switch (type) {
+	switch (cal_component_get_vtype (comp)) {
 	case CAL_COMPONENT_EVENT:
-		description = CORBA_string_dup ("Event information");
-		break;
+		return CORBA_string_dup ("Event information");
 	case CAL_COMPONENT_TODO:
-		description = CORBA_string_dup ("Task information");
-		break;
+		return CORBA_string_dup ("Task information");
 	case CAL_COMPONENT_JOURNAL:
-		description = CORBA_string_dup ("Journal information");
-		break;
+		return CORBA_string_dup ("Journal information");
 	case CAL_COMPONENT_FREEBUSY:
-	{
-		CalComponentDateTime dt;
-		char *start = NULL, *end = NULL;
-		
+		return CORBA_string_dup ("Free/Busy information");
+	default:
+		return CORBA_string_dup ("Calendar information");
+	}		
+}
+
+static CORBA_char *
+comp_content_type (CalComponentItipMethod method)
+{
+	char tmp[256];	
+
+	sprintf (tmp, "text/calendar;METHOD=%s", itip_methods[method]);
+	return CORBA_string_dup (tmp);
+
+}
+
+static CORBA_char *
+comp_filename (CalComponent *comp)
+{
+	switch (cal_component_get_vtype (comp)) {
+	case CAL_COMPONENT_FREEBUSY:
+		return CORBA_string_dup ("freebusy.ifb");
+	default:
+		return CORBA_string_dup ("calendar.ics");
+	}	
+}
+
+static CORBA_char *
+comp_description (CalComponent *comp)
+{
+	CORBA_char *description;	
+	CalComponentDateTime dt;
+	char *start = NULL, *end = NULL;
+
+	switch (cal_component_get_vtype (comp)) {
+	case CAL_COMPONENT_EVENT:
+		return CORBA_string_dup ("Event information");
+	case CAL_COMPONENT_TODO:
+		return CORBA_string_dup ("Task information");
+	case CAL_COMPONENT_JOURNAL:
+		return CORBA_string_dup ("Journal information");
+	case CAL_COMPONENT_FREEBUSY:
 		cal_component_get_dtstart (comp, &dt);
 		if (dt.value) {
 			start = get_label (dt.value);
@@ -362,106 +351,163 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
 				end = get_label (dt.value);
 		}
 		if (start != NULL && end != NULL) {
-			snprintf (tempstr, 200, "Free/Busy information (%s to %s)", start, end);
-			description = CORBA_string_dup (tempstr);
-			g_free (start);
-			g_free (end);
+			char *tmp = g_strdup_printf ("Free/Busy information (%s to %s)", start, end);
+			description = CORBA_string_dup (tmp);
+			g_free (tmp);			
 		} else {
 			description = CORBA_string_dup ("Free/Busy information");
 		}
+		g_free (start);
+		g_free (end);
+		return description;		
+	default:
+		return CORBA_string_dup ("iCalendar information");
 	}
+}
+
+static char *
+comp_string (CalComponentItipMethod method, CalComponent *comp)
+{
+	CalComponent *clone;		
+	icalcomponent *icomp, *iclone;
+	icalproperty *prop;
+	icalvalue *value;
+	gchar *ical_string;
+	ItipUtilTZData tz_data;
+		
+	icomp = cal_util_new_top_level ();
+
+	prop = icalproperty_new (ICAL_METHOD_PROPERTY);
+	value = icalvalue_new_method (itip_methods_enum[method]);
+	icalproperty_set_value (prop, value);
+	icalcomponent_add_property (icomp, prop);
+
+	/* Strip off attributes barred from appearing */
+	clone = cal_component_clone (comp);
+	switch (method) {
+	case CAL_COMPONENT_METHOD_PUBLISH:
+		cal_component_set_attendee_list (clone, NULL);
+		break;			
+	case CAL_COMPONENT_METHOD_REPLY:
+	case CAL_COMPONENT_METHOD_CANCEL:
+	case CAL_COMPONENT_METHOD_REFRESH:
+	case CAL_COMPONENT_METHOD_DECLINECOUNTER:
+		cal_component_remove_all_alarms (clone);
 		break;
 	default:
-		description = CORBA_string_dup ("iCalendar information");
-	}	
-	show_inline = FALSE;
-
-	/* Create a top level component, and add our component */
-	{
-		CalComponent *clone;		
-		icalcomponent *icomp, *iclone;
-		icalproperty *prop;
-		icalvalue *value;
-		gchar *ical_string;
-
-		icomp = cal_util_new_top_level ();
-
-		prop = icalproperty_new (ICAL_METHOD_PROPERTY);
-		value = icalvalue_new_method (itip_methods_enum[method]);
-		icalproperty_set_value (prop, value);
-		icalcomponent_add_property (icomp, prop);
-
-		/* Strip alarms if necessary */
-		clone = cal_component_clone (comp);
-		if (method == CAL_COMPONENT_METHOD_REPLY
-		    || method == CAL_COMPONENT_METHOD_CANCEL
-		    || method == CAL_COMPONENT_METHOD_REFRESH
-		    || method == CAL_COMPONENT_METHOD_DECLINECOUNTER)
-			cal_component_remove_all_alarms (clone);
-		
-		iclone = cal_component_get_icalcomponent (clone);
-		icalcomponent_add_component (icomp, iclone);
-
-		icalcomponent_foreach_tzid (iclone, foreach_tzid_callback, icomp);
-
-		ical_string = icalcomponent_as_ical_string (icomp);
-		attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
-		attach_data->_maximum = attach_data->_length = strlen (ical_string);		
-		attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);	
-		strcpy (attach_data->_buffer, ical_string);
-
-		icalcomponent_free (icomp);
 	}
+
+	iclone = cal_component_get_icalcomponent (clone);
+		
+	/* Add the timezones */
+	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
+	tz_data.icomp = icomp;		
+	icalcomponent_foreach_tzid (iclone, foreach_tzid_callback, &tz_data);
+	g_hash_table_destroy (tz_data.tzids);
+
+	icalcomponent_add_component (icomp, iclone);
+	ical_string = icalcomponent_as_ical_string (icomp);
+	icalcomponent_remove_component (icomp, iclone);
+	
+	icalcomponent_free (icomp);
+	gtk_object_unref (GTK_OBJECT (clone));	
+	
+	return ical_string;	
+}
+
+void
+itip_send_comp (CalComponentItipMethod method, CalComponent *comp)
+{
+	BonoboObjectClient *bonobo_server;
+	GNOME_Evolution_Composer composer_server;
+	GNOME_Evolution_Composer_RecipientList *to_list = NULL;
+	GNOME_Evolution_Composer_RecipientList *cc_list = NULL;
+	GNOME_Evolution_Composer_RecipientList *bcc_list = NULL;
+	CORBA_char *subject = NULL, *content_type = NULL;
+	CORBA_char *filename = NULL, *description = NULL;
+	GNOME_Evolution_Composer_AttachmentData *attach_data = NULL;
+	CORBA_boolean show_inline;
+	char *ical_string;
+	CORBA_Environment ev;
+	
+	CORBA_exception_init (&ev);
+
+	/* Obtain an object reference for the Composer. */
+	bonobo_server = bonobo_object_activate (GNOME_EVOLUTION_COMPOSER_OAFIID, 0);
+	g_return_if_fail (bonobo_server != NULL);
+	composer_server = BONOBO_OBJREF (bonobo_server);
+
+	to_list = comp_to_list (method, comp);
+	if (to_list == NULL)
+		goto cleanup;
+	
+	cc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	cc_list->_maximum = cc_list->_length = 0;
+	bcc_list = GNOME_Evolution_Composer_RecipientList__alloc ();
+	bcc_list->_maximum = bcc_list->_length = 0;
+	
+	/* Subject information */
+	subject = comp_subject (comp);
+	
+	/* Set recipients, subject */
+	GNOME_Evolution_Composer_setHeaders (composer_server, to_list, cc_list, bcc_list, subject, &ev);
+	if (BONOBO_EX (&ev)) {		
+		g_warning ("Unable to set composer headers while sending iTip message");
+		goto cleanup;
+	}
+
+	/* Content type, suggested file name, description */
+	content_type = comp_content_type (method);
+	filename = comp_filename (comp);	
+	description = comp_description (comp);	
+	show_inline = TRUE;
+
+	ical_string = comp_string (method, comp);	
+	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
+	attach_data->_length = strlen (ical_string);
+	attach_data->_maximum = attach_data->_length;	
+	attach_data->_buffer = CORBA_sequence_CORBA_char_allocbuf (attach_data->_length);	
+	strcpy (attach_data->_buffer, ical_string);
 
 	GNOME_Evolution_Composer_attachData (composer_server, 
 					content_type, filename, description,
 					show_inline, attach_data,
 					&ev);
 	
-	if (ev._major != CORBA_NO_EXCEPTION) {
+	if (BONOBO_EX (&ev)) {
 		g_warning ("Unable to attach data to the composer while sending iTip message");
-		CORBA_exception_free (&ev);
-		return;
+		goto cleanup;
 	}
 	
-	if (method == CAL_COMPONENT_METHOD_PUBLISH)
+	if (method == CAL_COMPONENT_METHOD_PUBLISH) {
 		GNOME_Evolution_Composer_show (composer_server, &ev);
-	else
+		if (BONOBO_EX (&ev))
+			g_warning ("Unable to show the composer while sending iTip message");
+	} else {		
 		GNOME_Evolution_Composer_send (composer_server, &ev);
-
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("Unable to show the composer while sending iTip message");
-		CORBA_exception_free (&ev);
-		return;
+		if (BONOBO_EX (&ev))
+			g_warning ("Unable to send iTip message");
 	}
 	
+ cleanup:
 	CORBA_exception_free (&ev);
 
-	/* Beware--depending on whether CORBA_free is recursive, which I
-	   think is is, we might have memory leaks, in which case the code
-	   below is necessary. */
-#if 0
-	for (cntr = 0; cntr < priv->numentries; cntr++) {
-		recipient = &(to_list->_buffer[cntr]);
-		CORBA_free (recipient->name);
-		CORBA_free (recipient->address);
-		recipient->name = recipient->address = NULL;
-	}
-#endif
+	if (to_list != NULL)
+		CORBA_free (to_list);
+	if (cc_list != NULL)
+		CORBA_free (cc_list);
+	if (bcc_list != NULL)
+		CORBA_free (bcc_list);
 
-	if (CORBA_sequence_get_release (to_list) != FALSE)
-		CORBA_free (to_list->_buffer);
-
-	CORBA_free (to_list);
-	CORBA_free (cc_list);
-	CORBA_free (bcc_list);
-
-	CORBA_free (subject);
-	CORBA_free (content_type);
-	CORBA_free (filename);
-	CORBA_free (description);
-	CORBA_free (attach_data);
-
-	/* bonobo_object_unref (BONOBO_OBJECT (bonobo_server));   */
+	if (subject != NULL)
+		CORBA_free (subject);
+	if (content_type != NULL)
+		CORBA_free (content_type);
+	if (filename != NULL)
+		CORBA_free (filename);
+	if (description != NULL)
+		CORBA_free (description);
+	if (attach_data != NULL)
+		CORBA_free (attach_data);
 }
 

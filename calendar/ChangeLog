@@ -1,3 +1,17 @@
+2001-10-03  JP Rosevear  <jpr@ximian.com>
+
+	* gui/itip-utils.c (itip_send_comp): refactor functionality into
+	several function
+	(comp_string): if we are publishing, empty the attendee list
+
+	* gui/dialogs/event-editor.c (schedule_meeting_cmd): when we
+	schedule a new meeting, mark the event editor as changed
+
+	* pcs/cal.c (cal_class_init): get correct parent class
+
+	* gui/dialogs/comp-editor.c (comp_editor_merge_ui): use the
+	generated ui component name
+
 2001-10-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* gui/component-factory.c:
