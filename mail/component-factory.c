@@ -128,10 +128,12 @@ create_view (EvolutionShellComponent *shell_component,
 	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
 
 	if (g_strcasecmp (folder_type, "mail") == 0) {
+		const char *noselect;
 		CamelURL *url;
 		
 		url = camel_url_new (physical_uri, NULL);
-		if (url && g_strcasecmp (camel_url_get_param (url, "noselect"), "yes"))
+		noselect = camel_url_get_param (url, "noselect");
+		if (url && noselect && !g_strcasecmp (noselect, "yes"))
 			control = create_noselect_control ();
 		else
 			control = folder_browser_factory_new_control (physical_uri,
