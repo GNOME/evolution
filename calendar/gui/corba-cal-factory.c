@@ -10,8 +10,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include "gnome-cal.h"
-#include "main.h"
-/*#include "alarm.h"*/
+#include "calendar-commands.h"
 #include "cal-util/timeutil.h"
 #include "libversit/vcc.h"
 #include <libgnorba/gnorba.h>

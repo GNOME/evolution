@@ -11,7 +11,7 @@
 #include "eventedit.h"
 #include "layout.h"
 #include "month-view.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "mark.h"
 #include "quick-view.h"
 #include "cal-util/timeutil.h"

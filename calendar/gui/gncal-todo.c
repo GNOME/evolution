@@ -9,7 +9,7 @@
 #include <string.h>
 #include <gnome.h>
 #include "gncal-todo.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "popup-menu.h"
 #include "eventedit.h"
 
@@ -516,6 +516,7 @@ gncal_todo_new (GnomeCalendar *calendar)
 	return GTK_WIDGET (todo);
 }
 
+#if 0
 static char *
 convert_time_t_to_char (time_t t)
 {
@@ -527,7 +528,10 @@ convert_time_t_to_char (time_t t)
 
 	return g_strdup (buf);
 }
+#endif /* 0 */
 
+
+#if 0
 enum todo_styles {
 	TODO_STYLE_OVERDUE,
 	TODO_STYLE_DUE_TODAY,
@@ -570,10 +574,10 @@ make_todo_style(GncalTodo *todo, todo_status style_type)
 	style->base[GTK_STATE_NORMAL] = style_color;
 	return style;
 }
+#endif /* 0 */
 
 
-
-
+#if 0
 static
 todo_status todo_item_due_status(time_t *todo_due_time) {
 	struct tm due_tm_time;
@@ -600,6 +604,7 @@ todo_status todo_item_due_status(time_t *todo_due_time) {
 	
 	return TODO_ITEM_DSTATUS_NOT_DUE_YET;
 }
+#endif /* 0 */
 
 
 enum todo_remaining_time_form {
@@ -611,6 +616,7 @@ enum todo_remaining_time_form {
 };
 typedef enum todo_remaining_time_form todo_remaining_time_form;
 
+#if 0
 static void
 insert_in_clist (GncalTodo *todo, iCalObject *ico)
 {
@@ -791,6 +797,7 @@ insert_in_clist (GncalTodo *todo, iCalObject *ico)
 	/* keep the list in order */
 	gtk_clist_sort (todo->clist); 
 }
+#endif /* 0 */
 
 void
 gncal_todo_update (GncalTodo *todo, iCalObject *ico, int flags)

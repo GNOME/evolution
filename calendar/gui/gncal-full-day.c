@@ -13,7 +13,7 @@
 #include "gncal-full-day.h"
 #include "view-utils.h"
 #include "layout.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "popup-menu.h"
 
 /* Images */

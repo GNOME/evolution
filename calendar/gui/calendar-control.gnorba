@@ -1,0 +1,11 @@
+[control-factory:calendar]
+type=exe
+repo_id=IDL:GNOME/GenericFactory:1.0
+description=Factory for the sample Calendar control
+location_info=evolution-calendar
+
+[control:calendar]
+type=factory
+repo_id=IDL:BonoboControl/calendar-control:1.0 IDL:GNOME/Control:1.0
+description=A sample Bonobo control which displays an calendar.
+location_info=control-factory:calendar

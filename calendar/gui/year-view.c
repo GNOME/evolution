@@ -11,7 +11,7 @@
 #include <gnome.h>
 #include "eventedit.h"
 #include "year-view.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "mark.h"
 #include "quick-view.h"
 #include "cal-util/timeutil.h"

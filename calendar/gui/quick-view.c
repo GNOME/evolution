@@ -17,7 +17,7 @@
 #include <libgnomeui/gnome-canvas-text.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include "quick-view.h"
-#include "main.h"
+#include "calendar-commands.h"
 
 
 #define QUICK_VIEW_FONTSET "-adobe-helvetica-medium-r-normal--10-*-*-*-p-*-*-*,-cronyx-helvetica-medium-r-normal-*-11-*-*-*-p-*-koi8-r,-*-*-medium-r-normal--10-*-*-*-*-*-ksc5601.1987-0,*"

@@ -8,9 +8,8 @@
 #include <config.h>
 #include <gnome.h>
 #include <string.h>
-/* #include "calendar.h" DELETE */
 #include "eventedit.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "cal-util/timeutil.h"
 
 

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* Evolution calendar client
  *
  * Copyright (C) 2000 Helix Code, Inc.
@@ -603,7 +604,9 @@ cal_client_get_uids (CalClient *client, CalObjType type)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	/*g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);*/
+	if (priv->load_state != LOAD_STATE_LOADED)
+		return NULL;
 
 	t = (((type & CALOBJ_TYPE_EVENT) ? Evolution_Calendar_TYPE_EVENT : 0)
 	     | ((type & CALOBJ_TYPE_TODO) ? Evolution_Calendar_TYPE_TODO : 0)
@@ -656,7 +659,9 @@ cal_client_get_events_in_range (CalClient *client, time_t start, time_t end)
 	g_return_val_if_fail (IS_CAL_CLIENT (client), NULL);
 
 	priv = client->priv;
-	g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);
+	/*g_return_val_if_fail (priv->load_state == LOAD_STATE_LOADED, NULL);*/
+	if (priv->load_state != LOAD_STATE_LOADED)
+		return NULL;
 
 	g_return_val_if_fail (start != -1 && end != -1, NULL);
 	g_return_val_if_fail (start <= end, NULL);

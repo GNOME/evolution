@@ -1,15 +1,11 @@
 help_base = $(datadir)/gnome/help/cal
 
-#bin_PROGRAMS = gnomecal $(extra_pilot_bins)
-bin_PROGRAMS = gnomecal
-
 #if HAVE_GNOME_PILOT
 #extra_pilot_bins = 				\
 #		 calendar-conduit-control-applet	\
 #		 calendar-pilot-sync
 #endif
 
-ICAL_LINK_FLAGS = $(top_builddir)/libical/src/libical/libical.la
 
 INCLUDES = 						\
 	-I$(includedir)					\
@@ -21,7 +17,20 @@ INCLUDES = 						\
 	-I$(top_srcdir)/libical/src/libical		\
         -DGNOMELOCALEDIR=\""$(datadir)/locale"\"
 
-gnomecal_SOURCES =				\
+
+LINK_FLAGS = \
+	$(BONOBO_VFS_GNOME_LIBS) \
+	$(INTLLIBS) \
+	$(top_builddir)/calendar/cal-util/libcalutil.la \
+	$(top_builddir)/e-util/libeutil.la \
+	$(top_builddir)/widgets/e-text/libetext.a \
+	$(top_builddir)/libversit/libversit.la \
+	$(top_builddir)/libical/src/libical/libical.la \
+	$(top_builddir)/calendar/cal-client/libcal-client.la
+
+noinst_LIBRARIES = libcalendarwidget.a
+
+libcalendarwidget_a_SOURCES =			\
 	alarm.c					\
 	alarm.h					\
 	e-day-view-main-item.c			\
@@ -66,8 +75,36 @@ gnomecal_SOURCES =				\
 	view-utils.c				\
 	year-view.c				\
 	year-view.h				\
-	main.c					\
-	main.h
+	calendar-commands.c			\
+	calendar-commands.h
+
+
+bin_PROGRAMS = evolution-calendar
+noinst_PROGRAMS = test-calendar-widget
+test_calendar_widget_SOURCES = main.c
+test_calendar_widget_INCLUDES =		\
+	$(INCLUDES)			\
+	-DG_LOG_DOMAIN=\"test-calendar-widget\"
+test_calendar_widget_LDADD = \
+	libcalendarwidget.a \
+	$(LINK_FLAGS)
+
+evolution_calendar_SOURCES = evolution-calendar-control.c
+
+evolution_calendar_LDADD =					\
+	$(EXTRA_GNOME_LIBS)					\
+	$(BONOBO_HTML_GNOME_LIBS)				\
+	$(top_builddir)/calendar/gui/libcalendarwidget.a	\
+	$(top_builddir)/widgets/e-minicard/libeminicard.a	\
+	$(top_builddir)/widgets/e-table/libetable.a		\
+	$(top_builddir)/widgets/e-text/libetext.a		\
+	$(top_builddir)/e-util/libeutil.la			\
+	$(LINK_FLAGS)
+
+evolution_calendar_LDFLAGS = `gnome-config --libs gdk_pixbuf`
+
+gnorbadir = $(sysconfdir)/CORBA/servers
+gnorba_DATA = calendar-control.gnorba
 
 #calendar_pilot_sync_SOURCES =	\
 #	 GnomeCal-common.c	\
@@ -77,15 +114,6 @@ gnomecal_SOURCES =				\
 #	 calendar.c		\
 #	 calendar.h
 
-LINK_FLAGS = \
-	$(BONOBO_VFS_GNOME_LIBS) \
-	$(INTLLIBS) \
-	$(top_builddir)/calendar/cal-util/libcalutil.la \
-	$(top_builddir)/e-util/libeutil.la \
-	$(top_builddir)/widgets/e-text/libetext.a \
-	$(top_builddir)/libversit/libversit.la \
-	$(ICAL_LINK_FLAGS) \
-	$(top_builddir)/calendar/cal-client/libcal-client.la
 
 #calendar_pilot_sync_LDADD =	\
 #	 $(PISOCK_LIBDIR) $(PISOCK_LIBS)		\
@@ -155,12 +183,6 @@ LINK_FLAGS = \
 #	$(GNOMEUI_LIBS) \
 #	$(GNOME_PILOT_LIBS) \
 #	$(INTLLIBS) 
-
-gnomecal_INCLUDES =			\
-	$(INCLUDES)			\
-	-DG_LOG_DOMAIN=\"gnomecal\"
-
-gnomecal_LDADD = $(LINK_FLAGS)
 
 #if HAVE_GNOME_PILOT
 #ccenterdir = $(datadir)/control-center

@@ -9,7 +9,7 @@
 #include <gnome.h>
 #include "gnome-cal.h"
 #include "gnome-month-item.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "mark.h"
 #include "cal-util/timeutil.h"
 

@@ -7,7 +7,7 @@
 
 #include <config.h>
 #include "gnome-cal.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "mark.h"
 #include "cal-util/timeutil.h"
 

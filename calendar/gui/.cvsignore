@@ -4,7 +4,8 @@ Makefile
 _libs
 .libs
 gncal
-gnomecal
+evolution-calendar
+test-calendar-widget
 getdate.c
 GnomeCal-skels.c
 GnomeCal-common.c

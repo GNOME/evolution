@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * GnomeCalendar widget
  * Copyright (C) 1998 the Free Software Foundation
@@ -12,6 +13,7 @@
 #include <fcntl.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkframe.h>
 #include <libgnomeui/gnome-messagebox.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
@@ -20,7 +22,7 @@
 #include "gncal-week-view.h"
 #include "month-view.h"
 #include "year-view.h"
-#include "main.h"
+#include "calendar-commands.h"
 
 
 
@@ -40,8 +42,12 @@ gnome_calendar_get_type (void)
 			(GtkArgSetFunc) NULL,
 			(GtkArgGetFunc) NULL,
 		};
+		/*
 		gnome_calendar_type = gtk_type_unique(gnome_app_get_type(), &gnome_calendar_info);
 		parent_class = gtk_type_class (gnome_app_get_type());
+		*/
+		gnome_calendar_type = gtk_type_unique (gtk_frame_get_type (), &gnome_calendar_info);
+		parent_class = gtk_type_class (gtk_frame_get_type ());
 	}
 	return gnome_calendar_type;
 }
@@ -74,7 +80,11 @@ setup_widgets (GnomeCalendar *gcal)
 
 	gtk_widget_show_all (gcal->notebook);
 
-	gnome_app_set_contents (GNOME_APP (gcal), gcal->notebook);
+	/*gnome_app_set_contents (GNOME_APP (gcal), gcal->notebook);*/
+	gtk_container_add (GTK_CONTAINER (gcal), gcal->notebook);
+
+
+	gtk_widget_show (GTK_WIDGET (gcal));
 }
 
 static GtkWidget *
@@ -214,24 +224,26 @@ gnome_calendar_set_view (GnomeCalendar *gcal, char *page_name)
 	gtk_notebook_set_page (GTK_NOTEBOOK (gcal->notebook), page);
 }
 
+
 GtkWidget *
 gnome_calendar_new (char *title)
 {
 	GtkWidget      *retval;
 	GnomeCalendar  *gcal;
-	GnomeApp       *app;
+	/*GnomeApp       *app;*/
 
 	retval = gtk_type_new (gnome_calendar_get_type ());
-	app = GNOME_APP (retval);
+	/*app = GNOME_APP (retval);*/
 	gcal = GNOME_CALENDAR (retval);
 
+	/*
 	app->name = g_strdup ("calendar");
 	app->prefix = g_strconcat ("/", app->name, "/", NULL);
+	*/
 
-	gtk_window_set_title(GTK_WINDOW(retval), title);
+	/* gtk_window_set_title(GTK_WINDOW(retval), title); */
 
 	gcal->current_display = time_day_begin (time (NULL));
-	/*gcal->cal = calendar_new (title, CALENDAR_INIT_ALARMS); DELETE */
 	gcal->client = cal_client_new ();
 	setup_widgets (gcal);
 

@@ -9,7 +9,7 @@
 #include <gnome.h>
 #include <gtk/gtkhseparator.h>
 #include "gncal-day-panel.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "cal-util/timeutil.h"
 
 

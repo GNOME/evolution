@@ -36,7 +36,7 @@
 #include "e-day-view-time-item.h"
 #include "e-day-view-top-item.h"
 #include "e-day-view-main-item.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "popup-menu.h"
 #include "eventedit.h"
 #include "../e-util/e-canvas.h"
@@ -4443,7 +4443,7 @@ e_day_view_on_top_canvas_drag_data_received  (GtkWidget          *widget,
 {
 	EDayViewEvent *event;
 	EDayViewPosition pos;
-	gint day, row, scroll_x, scroll_y, start_day, end_day, num_days;
+	gint day, /* row, scroll_x, scroll_y,*/ start_day, end_day, num_days;
 	gchar *event_uid;
 
 	g_print ("In e_day_view_on_top_canvas_drag_data_received\n");

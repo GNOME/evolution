@@ -10,7 +10,7 @@
 #include "gncal-day-view.h"
 #include "cal-util/timeutil.h"
 #include "view-utils.h"
-#include "main.h"
+#include "calendar-commands.h"
 #include "eventedit.h"
 #include "popup-menu.h"
 #include "quick-view.h"

@@ -1,8 +1,25 @@
+2000-04-05  Seth Alves  <alves@hungry.com>
+
+	* gui/Makefile.am: build test-calendar-widget and evolution-calendar,
+	common stuff is in a library
+
+	* gui/gnome-cal.c (gnome_calendar_get_type): made the calendar widget
+	based on a gtk_frame rather than a gnome_app
+
+	* gui/calendar-commands.c: split out some of main.c
+
+	* gui/evolution-calendar-control.c: bonobo bung so evolution
+	can use the calendar widget
+
 2000-04-01  Matt Loper  <matt@helixcode.com>
 
 	* pcs/.cvsignore: Added *.lo.
 
 2000-03-30  Seth Alves  <alves@hungry.com>
+
+        * gui/main.c (calendar_get_events_in_range):
+        cal_client_get_events_in_range returns a list of CalObjInstance *, not
+        a list of (char *) uid.
 
 	* Makefile.am (SUBDIRS): readded the gui directory
 
