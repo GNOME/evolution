@@ -8,7 +8,6 @@
 #include <e-book.h>
 
 #include <evolution-importer.h>
-#include <evolution-importer-factory.h>
 #include <GNOME_Evolution_Importer.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_GnomeCard_ImporterFactory"
@@ -111,21 +110,12 @@ process_item_fn (EvolutionImporter *importer,
 	return;
 }
 
-static char *
-get_error_fn (EvolutionImporter *importer,
-	      void *closure)
-{
-	return NULL;
-}
-
-/* EvolutionImporterFactory methods */
-
 static char *supported_extensions[3] = {
 	".vcf", ".gcrd", NULL
 };
 
 static gboolean
-support_format_fn (EvolutionImporterFactory *_factory,
+support_format_fn (EvolutionImporter *importer,
 		   const char *filename,
 		   void *closure)
 {
@@ -148,36 +138,38 @@ importer_destroy_cb (GtkObject *object,
 	gtk_main_quit ();
 }
 
-static EvolutionImporter *
-load_file_fn (EvolutionImporterFactory *_factory,
+static gboolean
+load_file_fn (EvolutionImporter *importer,
 	      const char *filename,
 	      void *closure)
 {
-	EvolutionImporter *importer;
 	GnomeCardImporter *gci;
 
-	gci = g_new (GnomeCardImporter, 1);
+	gci = (GnomeCardImporter *) closure;
 	gci->filename = g_strdup (filename);
 	gci->cardlist = NULL;
 	gci->iterator = NULL;
 	gci->ready = FALSE;
 	ebook_create (gci);
 
-	importer = evolution_importer_new (process_item_fn, get_error_fn, gci);
-	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
-			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
-
-	return importer;
+	return TRUE;
 }
 					   
 static BonoboObject *
 factory_fn (BonoboGenericFactory *_factory,
 	    void *closure)
 {
-	EvolutionImporterFactory *importer_factory;
-	importer_factory = evolution_importer_factory_new (support_format_fn,
-							   load_file_fn, NULL);
-	return BONOBO_OBJECT (importer_factory);
+	EvolutionImporter *importer;
+	GnomeCardImporter *gci;
+
+	gci = g_new (GnomeCardImporter, 1);
+	importer = evolution_importer_new (support_format_fn, load_file_fn, 
+					   process_item_fn, NULL, gci);
+	
+	gtk_signal_connect (GTK_OBJECT (importer), "destroy",
+			    GTK_SIGNAL_FUNC (importer_destroy_cb), gci);
+	
+	return BONOBO_OBJECT (importer);
 }
 
 static void
