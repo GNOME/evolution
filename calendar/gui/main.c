@@ -34,6 +34,7 @@
 
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-generic-factory.h>
 
 #include <gal/widgets/e-cursors.h>
 
@@ -41,9 +42,13 @@
 #include "calendar-commands.h"
 #include "calendar-config.h"
 #include "component-factory.h"
+#include "comp-editor-factory.h"
 #include "control-factory.h"
 #include "itip-control-factory.h"
 #include "tasks-control-factory.h"
+
+/* The component editor factory */
+static CompEditorFactory *comp_editor_factory = NULL;
 
 static void
 init_bonobo (int argc, char **argv)
@@ -56,6 +61,35 @@ init_bonobo (int argc, char **argv)
 
 	if (bonobo_init (CORBA_OBJECT_NIL, CORBA_OBJECT_NIL, CORBA_OBJECT_NIL) == FALSE)
 		g_error (_("Could not initialize Bonobo"));
+}
+
+/* Factory function for the calendar component factory; just creates and
+ * references a singleton service object.
+ */
+static BonoboObject *
+comp_editor_factory_fn (BonoboGenericFactory *factory, void *data)
+{
+	if (!comp_editor_factory) {
+		comp_editor_factory = comp_editor_factory_new ();
+		if (!comp_editor_factory)
+			return NULL;
+	}
+
+	bonobo_object_ref (BONOBO_OBJECT (comp_editor_factory));
+	return BONOBO_OBJECT (comp_editor_factory);
+}
+
+/* Creates and registers the component editor factory */
+static void
+component_editor_factory_init (void)
+{
+	BonoboGenericFactory *factory;
+
+	factory = bonobo_generic_factory_new (
+		"OAFIID:GNOME_Evolution_Calendar_CompEditorFactory_Factory",
+		comp_editor_factory_fn, NULL);
+	if (!factory)
+		g_error (_("Could not create the component editor factory"));
 }
 
 int
@@ -86,6 +120,7 @@ main (int argc, char **argv)
 	component_factory_init ();
 	itip_control_factory_init ();
 	tasks_control_factory_init ();
+	component_editor_factory_init ();
 
 	bonobo_main ();
 

@@ -44,6 +44,10 @@
 /* OAFIID for the component factory */
 #define COMPONENT_FACTORY_ID "OAFIID:GNOME_Evolution_Calendar_ShellComponentFactory"
 
+/* Folder type IDs */
+#define FOLDER_CALENDAR "calendar"
+#define FOLDER_TASKS "tasks"
+
 /* IDs for user creatable items */
 #define CREATE_EVENT_ID "event"
 #define CREATE_TASK_ID "task"
@@ -52,8 +56,16 @@ static BonoboGenericFactory *factory = NULL;
 char *evolution_dir;
 
 static const EvolutionShellComponentFolderType folder_types[] = {
-	{ "calendar", "evolution-calendar.png", N_("Calendar"), N_("Folder containing appointments and events"), TRUE, NULL, NULL },
-	{ "tasks", "evolution-tasks.png", N_("Tasks"), N_("Folder containing to-do items"), TRUE, NULL, NULL },
+	{ FOLDER_CALENDAR,
+	  "evolution-calendar.png",
+	  N_("Calendar"),
+	  N_("Folder containing appointments and events"),
+	  TRUE, NULL, NULL },
+	{ FOLDER_TASKS,
+	  "evolution-tasks.png",
+	  N_("Tasks"),
+	  N_("Folder containing to-do items"),
+	  TRUE, NULL, NULL },
 	{ NULL, NULL }
 };
 
@@ -343,6 +355,93 @@ owner_unset_cb (EvolutionShellComponent *shell_component,
 		gtk_main_quit ();
 }
 
+/* Computes the final URI for a calendar component */
+static char *
+get_data_uri (const char *uri, CalComponentVType vtype)
+{
+	if (uri) {
+		if (vtype == CAL_COMPONENT_EVENT)
+			return g_concat_dir_and_file (uri, "calendar.ics");
+		else if (vtype == CAL_COMPONENT_TODO)
+			return g_concat_dir_and_file (uri, "tasks.ics");
+		else
+			g_assert_not_reached ();
+	} else {
+		if (vtype == CAL_COMPONENT_EVENT)
+			return g_concat_dir_and_file (g_get_home_dir (),
+						      "evolution/local/Calendar/calendar.ics");
+		else if (vtype == CAL_COMPONENT_TODO)
+			return g_concat_dir_and_file (g_get_home_dir (),
+						      "evolution/local/Tasks/tasks.ics");
+		else
+			g_assert_not_reached ();
+	}
+
+	return NULL;
+}
+
+/* Creates a calendar component at a specified URI.  If the URI is NULL then it
+ * uses the default folder for that type of component.
+ */
+static void
+create_component (const char *uri, CalComponentVType vtype)
+{
+	char *real_uri;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CalObjType corba_type;
+	GNOME_Evolution_Calendar_CompEditorFactory factory;
+
+	real_uri = get_data_uri (uri, vtype);
+
+	switch (vtype) {
+	case CAL_COMPONENT_EVENT:
+		corba_type = GNOME_Evolution_Calendar_TYPE_EVENT;
+		break;
+
+	case CAL_COMPONENT_TODO:
+		corba_type = GNOME_Evolution_Calendar_TYPE_TODO;
+		break;
+
+	default:
+		g_assert_not_reached ();
+		return;
+	}
+
+	/* Get the factory */
+
+	CORBA_exception_init (&ev);
+	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+					0, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("create_component(): Could not activate the component editor factory");
+		CORBA_exception_free (&ev);
+		g_free (real_uri);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Create the item */
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_CompEditorFactory_editNew (factory, real_uri, corba_type, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("create_component(): Exception while creating the component");
+
+	CORBA_exception_free (&ev);
+	g_free (real_uri);
+
+	/* Get rid of the factory */
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (factory, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("create_component(): Could not unref the calendar component factory");
+
+	CORBA_exception_free (&ev);
+}
+
 /* Callback used when we must create a user-creatable item */
 static void
 sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
@@ -350,7 +449,18 @@ sc_user_create_new_item_cb (EvolutionShellComponent *shell_component,
 			    const char *parent_folder_physical_uri,
 			    const char *parent_folder_type)
 {
-	/* FIXME */
+	if (strcmp (id, CREATE_EVENT_ID) == 0) {
+		if (strcmp (parent_folder_type, FOLDER_CALENDAR) == 0)
+			create_component (parent_folder_physical_uri, CAL_COMPONENT_EVENT);
+		else
+			create_component (NULL, CAL_COMPONENT_EVENT);
+	} else if (strcmp (id, CREATE_TASK_ID) == 0) {
+		if (strcmp (parent_folder_type, FOLDER_TASKS) == 0)
+			create_component (parent_folder_physical_uri, CAL_COMPONENT_TODO);
+		else
+			create_component (NULL, CAL_COMPONENT_TODO);
+	} else
+		g_assert_not_reached ();
 }
 
 #if 0

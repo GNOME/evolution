@@ -1,3 +1,19 @@
+2001-09-04  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/component-factory.c (sc_user_create_new_item_cb):
+	Implemented.
+
+	* gui/main.c (component_editor_factory_init): New function to
+	create the factory for the comp_editor_factory.
+
+	* gui/comp-editor-factory.c: Finished implementation.
+
+	* gui/alarm-notify/alarm-queue.c (edit_component): Implemented the
+	Edit command.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	comp-editor-factory.[ch] to the list of sources.
+
 2001-09-03  Damon Chaplin  <damon@ximian.com>
 
 	* gui/calendar-commands.c (calendar_control_activate): 

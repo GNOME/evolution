@@ -67,7 +67,7 @@
 		location="evolution-calendar">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME:GenericFactory:1.0"/>
+		<item value="IDL:GNOME:ObjectFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
@@ -117,9 +117,21 @@
 	               _value="A sample Bonobo control which displays an calendar."/>
 </oaf_server>
 
-<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_CompEditorFactory"
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_CompEditorFactory_Factory"
             type="exe"
             location="evolution-calendar">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+                       _value="Factory to create a component editor factory"/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Calendar_CompEditorFactory"
+            type="factory"
+            location="OAFIID:GNOME_Evolution_Calendar_CompEditorFactory_Factory">
 
 	<oaf_attribute name="repo_ids" type="stringv">
 		<item value="IDL:GNOME/Evolution/Calendar/CompEditorFactory:1.0"/>

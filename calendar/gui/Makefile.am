@@ -74,6 +74,8 @@ evolution_calendar_SOURCES =			\
 	calendar-view.h				\
 	calendar-view-factory.c			\
 	calendar-view-factory.h			\
+	comp-editor-factory.c			\
+	comp-editor-factory.h			\
 	comp-util.c				\
 	comp-util.h				\
 	control-factory.c			\

@@ -28,6 +28,8 @@
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtksignal.h>
+#include <liboaf/liboaf.h>
+#include <bonobo/bonobo-object.h>
 #include <cal-util/timeutil.h>
 #include "alarm.h"
 #include "alarm-notify-dialog.h"
@@ -491,6 +493,54 @@ create_snooze (CompQueuedAlarms *cqa, gpointer alarm_id, int snooze_mins)
 	cqa->queued_alarms = g_slist_prepend (cqa->queued_alarms, qa);
 }
 
+/* Launches a component editor for a component */
+static void
+edit_component (CompQueuedAlarms *cqa)
+{
+	CalComponent *comp;
+	const char *uid;
+	const char *uri;
+	CORBA_Environment ev;
+	GNOME_Evolution_Calendar_CompEditorFactory factory;
+
+	comp = cqa->alarms->comp;
+	cal_component_get_uid (comp, &uid);
+
+	uri = cal_client_get_uri (cqa->parent_client->client);
+
+	/* Get the factory */
+
+	CORBA_exception_init (&ev);
+	factory = oaf_activate_from_id ("OAFIID:GNOME_Evolution_Calendar_CompEditorFactory",
+					0, NULL, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_message ("edit_component(): Could not activate the component editor factory");
+		CORBA_exception_free (&ev);
+		return;
+	}
+	CORBA_exception_free (&ev);
+
+	/* Edit the component */
+
+	CORBA_exception_init (&ev);
+	GNOME_Evolution_Calendar_CompEditorFactory_editExisting (factory, uri, (char *) uid, &ev);
+
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("edit_component(): Exception while editing the component");
+
+	CORBA_exception_free (&ev);
+
+	/* Get rid of the factory */
+
+	CORBA_exception_init (&ev);
+	bonobo_object_release_unref (factory, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION)
+		g_message ("edit_component(): Could not unref the calendar component factory");
+
+	CORBA_exception_free (&ev);
+}
+
 struct notify_dialog_closure {
 	CompQueuedAlarms *cqa;
 	gpointer alarm_id;
@@ -510,7 +560,7 @@ notify_dialog_cb (AlarmNotifyResult result, int snooze_mins, gpointer data)
 		break;
 
 	case ALARM_NOTIFY_EDIT:
-		/* FIXME */
+		edit_component (c->cqa);
 		break;
 
 	case ALARM_NOTIFY_CLOSE:
