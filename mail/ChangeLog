@@ -1,3 +1,11 @@
+2001-08-28  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* message-list.c
+	(e_mail_address_compare): Use g_utf8_collate instead of g_strcasecmp
+	for comparing names.
+	(subject_compare): Replaced g_strcasecmp, isspace, var++ with UTF-8
+	counterparts.
+
 2001-08-30  Iain Holmes  <iain@ximian.com>
 
 	* importer/evolution-mbox-importer.c: (load_file_fn): Check if it's a

@@ -28,6 +28,7 @@
 #include <gal/e-table/e-cell-size.h>
 #include <gal/e-table/e-tree-memory.h>
 #include <gal/e-table/e-tree-memory-callbacks.h>
+#include <gal/unicode/gunicode.h>
 
 #include <camel/camel-exception.h>
 #include <camel/camel-file-utils.h>
@@ -229,7 +230,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 	if (!addr2->wname->last)
 		return 1;
 	
-	retval = g_strcasecmp (addr1->wname->last, addr2->wname->last);
+	retval = g_utf8_collate (addr1->wname->last, addr2->wname->last);
 	if (retval) 
 		return retval;
 	
@@ -243,7 +244,7 @@ e_mail_address_compare (gconstpointer address1, gconstpointer address2)
 	if (!addr2->wname->first)
 		return 1;
 	
-	retval = g_strcasecmp (addr1->wname->first, addr2->wname->first);
+	retval = g_utf8_collate (addr1->wname->first, addr2->wname->first);
 	if (retval) 
 		return retval;
 	
@@ -269,7 +270,7 @@ address_compare (gconstpointer address1, gconstpointer address2)
 	e_mail_address_free (addr1);
 	e_mail_address_free (addr2);
 #else
-	retval = g_strcasecmp ((const char *) address1, (const char *) address2);
+	retval = g_utf8_collate ((const char *) address1, (const char *) address2);
 #endif /* SMART_ADDRESS_COMPARE */
 	
 	return retval;
@@ -289,22 +290,25 @@ subject_compare (gconstpointer subject1, gconstpointer subject2)
 	while (!g_strncasecmp (sub1, "Re:", 3)) {
 		sub1 += 3;
 		/* jump over any spaces */
-		for ( ; *sub1 && isspace (*sub1); sub1++);
+		while (*sub1 && g_unichar_isspace (g_utf8_get_char (sub1)))
+			sub1 = g_utf8_next_char (sub1);
 	}
 	
 	/* trim off any "Re:"'s at the beginning of subject2 */
 	sub2 = (char *) subject2;
 	while (!g_strncasecmp (sub2, "Re:", 3)) {
 		sub2 += 3;
-		/* jump over any spaces */
-		for ( ; *sub2 && isspace (*sub2); sub2++);
+		while (*sub2 && g_unichar_isspace (g_utf8_get_char (sub2)))
+			sub2 = g_utf8_next_char (sub2);
 	}
 	
 	/* jump over any spaces */
-	for ( ; *sub1 && isspace (*sub1); sub1++);
-	for ( ; *sub2 && isspace (*sub2); sub2++);
+	while (*sub1 && g_unichar_isspace (g_utf8_get_char (sub1)))
+		sub1 = g_utf8_next_char (sub1);
+	while (*sub2 && g_unichar_isspace (g_utf8_get_char (sub2)))
+		sub2 = g_utf8_next_char (sub2);
 	
-	return g_strcasecmp (sub1, sub2);
+	return g_utf8_collate (sub1, sub2);
 }
 
 static gchar *
