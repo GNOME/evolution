@@ -1,3 +1,7 @@
+2000-08-01  Damon Chaplin  <damon@helixcode.com>
+
+	* configure.in (AC_OUTPUT): removed calendar/doc/*
+
 2000-08-01  Not Zed  <NotZed@HelixCode.com>
 
 	* configure.in: Added mh provider.
