@@ -1,3 +1,11 @@
+2000-12-05  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* mail-vfolder.c (vfolder_create_storage): Updated the call to
+	`evolution_storage_new()': pass NULL for @toplevel_node_uri.
+
+	* component-factory.c (add_storage): Updated the call to
+	`evolution_storage_new()': pass NULL for @toplevel_node_uri.
+
 2000-12-04  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* subscribe-dialog.c (setup_subscribe_folder): Use info->full_name
