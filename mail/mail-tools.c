@@ -93,16 +93,24 @@ mail_tool_get_inbox (const gchar *url, CamelException *ex)
 }
 
 CamelFolder *
-mail_tool_get_trash (const gchar *url, CamelException *ex)
+mail_tool_get_trash (const gchar *url, int connect, CamelException *ex)
 {
 	CamelStore *store;
 	CamelFolder *trash;
-	
-	store = camel_session_get_store (session, url, ex);
+
+	if (connect)
+		store = camel_session_get_store (session, url, ex);
+	else
+		store = (CamelStore *)camel_session_get_service(session, url, CAMEL_PROVIDER_STORE, ex);
+
 	if (!store)
 		return NULL;
 	
-	trash = camel_store_get_trash (store, ex);
+	if (connect || ((CamelService *)store)->status == CAMEL_SERVICE_CONNECTED)
+		trash = camel_store_get_trash (store, ex);
+	else
+		trash = NULL;
+
 	camel_object_unref (CAMEL_OBJECT (store));
 	
 	return trash;

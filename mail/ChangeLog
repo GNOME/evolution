@@ -1,3 +1,47 @@
+2001-10-23    <NotZed@Ximian.com>
+
+	* mail-session.c (get_password): Completely re-done.  We now hae a
+	completely async dialogue when requested from antoehr thread, and
+	dont use gtk_main() if we can avoid it (which is normally the
+	case).  This stuff is only partially finished, and will mena the
+	removal of the same from mail-mt.c, and the mail_user_message()
+	code will be moved here and changed to work in a similar way.
+
+	* mail-callbacks.c (empty_trash): Dont try and connect to remote
+	stores just to get the trash.  Also, always run empty trash async,
+	and make sure we unref the trash.
+	(empty_trash): Hmm, dont unref the trash, causes a problem on
+	exit, i suspect something else is doing funky unrefs on it.
+
+	* mail-tools.c (mail_tool_get_trash): Pass a 'connect' arg, tell
+	it whether it should tryand connect or not to the parent service,
+	if it isn't already connected.
+
+	* component-factory.c (owner_unset_cb): Dont try wait_all here,
+	could potentially deadlock.
+	(idle_quit): Keep returning TRUE if we have outstanding
+	processing.  Note that this may busy-wait during exit processign
+	with busy tasks :(
+	(idle_quit): Keep calling ourselves till we no longer get called
+	(i.e. gtk_main really quits).
+
+	* mail-mt.c (mail_msg_active): New function, returns TRUE if
+	events are still active/outstanding.
+	(do_op_status): @$@$#@@!#@!!  didn't unlock the mail_msg_lock if
+	data->activity was NULL and we had no global_shell_client anymore!
+	Also shortcut processing if this is going to be the case.
+	(mail_msg_init): Setup a temporary other gui_port for redoing with
+	new semantics password, user message and progress reporting.
+	(mail_get_password): #ifdef'd out all this code temporarily, till
+	it gets fully moved to mail-session.c
+
+2001-10-22    <NotZed@Ximian.com>
+
+	* component-factory.c (owner_set_cb): Dont call enable_interaction
+	here.
+	(interactive_cb): But here instead, let the shell tell us when its
+	ok to go interactive.
+
 2001-10-22  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-format.c (write_one_text_plain_chunk): Oops, revert my

@@ -39,6 +39,8 @@
 #include "mail-mt.h"
 #include "e-util/e-passwords.h"
 
+#define d(x)
+
 CamelSession *session;
 
 
@@ -130,55 +132,267 @@ make_key (CamelService *service, const char *item)
 	return key;
 }
 
-static char *
-main_get_password (CamelSession *session, const char *prompt, gboolean secret,
-		   CamelService *service, const char *item, CamelException *ex)
+/* ********************************************************************** */
+
+static GnomeDialog *password_dialogue = NULL;
+static EDList password_list = E_DLIST_INITIALISER(password_list);
+static struct _pass_msg *password_current = NULL;
+static int password_destroy_id;
+
+struct _pass_msg {
+	struct _mail_msg msg;
+
+	CamelSession *session;
+	const char *prompt;
+	gboolean secret;
+	CamelService *service;
+	const char *item;
+	CamelException *ex;
+
+	char *service_url;
+	char *key;
+
+	GtkWidget *check;
+	char *result;
+	int ismain;
+};
+
+static void do_get_pass(struct _mail_msg *mm);
+
+static void
+pass_got (char *string, void *data)
 {
-	MailSession *mail_session = MAIL_SESSION (session);
-	gboolean cache = TRUE;
-	char *key, *ans;
+	struct _pass_msg *m = data;
+
+	if (string) {
+		MailConfigService *service = NULL;
+		const MailConfigAccount *mca;
+		gboolean remember;
+		
+		m->result = g_strdup (string);
+		remember = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (m->check));
+		if (m->service_url) {
+			mca = mail_config_get_account_by_source_url (m->service_url);
+			if (mca) {
+				service = mca->source;
+			} else {
+				mca = mail_config_get_account_by_transport_url (m->service_url);
+				if (mca)
+					service = mca->transport;
+			}
+			
+			if (service) {
+				mail_config_service_set_save_passwd (service, remember);
+				
+				/* set `remember' to TRUE because people don't want to have to
+				   re-enter their passwords for this session even if they told
+				   us not to cache their passwords in the dialog...*sigh* */
+				remember = TRUE;
+			}
+		}
+		
+		if (remember)
+			e_passwords_add_password(m->key, m->result);
+	} else {
+		camel_exception_set(m->ex, CAMEL_EXCEPTION_USER_CANCEL, _("User canceled operation."));
+	}
+
+	if (password_destroy_id) {
+		gtk_signal_disconnect((GtkObject *)password_dialogue, password_destroy_id);
+		password_destroy_id = 0;
+	}
+
+	password_dialogue = NULL;
+	e_msgport_reply((EMsg *)m);
+
+	if ((m = (struct _pass_msg *)e_dlist_remhead(&password_list)))
+		do_get_pass((struct _mail_msg *)m);
+}
+
+static void
+request_password_deleted(GtkWidget *w, struct _pass_msg *m)
+{
+	password_destroy_id = 0;
+	pass_got(NULL, m);
+}
+
+static void
+request_password(struct _pass_msg *m)
+{
+	const MailConfigAccount *mca = NULL;
+	GtkWidget *dialogue;
+	GtkWidget *check, *entry;
+	GList *children, *iter;
+	gboolean show;
+	char *title;
+
+	/* If we already have a password_dialogue up, save this request till later */
+	if (!m->ismain && password_dialogue) {
+		e_dlist_addtail(&password_list, (EDListNode *)m);
+		return;
+	}
+
+	password_current = m;
+
+	/* FIXME: Remove this total snot */
+
+	/* this api is just awful ... hence the major hacks */
+	password_dialogue = dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
+
+	/* cant bleieve how @!@#!@# 5this api is, it doesn't handle this for you, BLAH! */
+	password_destroy_id = gtk_signal_connect((GtkObject *)dialogue, "destroy", request_password_deleted, m);
+
+	/* Remember the password? */
+	check = gtk_check_button_new_with_label (m->service_url ? _("Remember this password") :
+						 _("Remember this password for the remainder of this session"));
+	show = TRUE;
 	
-	if (!strcmp (item, "popb4smtp_uri")) {
-		char *url = camel_url_to_string(service->url, 0);
+	if (m->service_url) {
+		mca = mail_config_get_account_by_source_url(m->service_url);
+		if (mca)
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->source->save_passwd);
+		else {
+			mca = mail_config_get_account_by_transport_url (m->service_url);
+			if (mca)
+				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), mca->transport->save_passwd);
+			else {
+				d(printf ("Cannot figure out which account owns URL \"%s\"\n", m->service_url));
+				show = FALSE;
+			}
+		}
+	}
+	
+	if (show)
+		gtk_widget_show (check);
+	
+	/* do some dirty stuff to put the checkbutton after the entry */
+	entry = NULL;
+	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
+	for (iter = children; iter; iter = iter->next) {
+		if (GTK_IS_ENTRY (iter->data)) {
+			entry = GTK_WIDGET (iter->data);
+			break;
+		}
+	}
+	g_list_free (children);
+	
+	if (entry) {
+		gtk_object_ref (GTK_OBJECT (entry));
+		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
+	}
+	
+	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), check, TRUE, FALSE, 0);
+	
+	if (entry) {
+		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
+		gtk_widget_grab_focus (entry);
+		gtk_object_unref (GTK_OBJECT (entry));
+	}
+	
+	m->check = check;
+	
+	if (mca) {
+		char *name;
+		
+		name = e_utf8_to_gtk_string (GTK_WIDGET (dialogue), mca->name);
+		title = g_strdup_printf (_("Enter Password for %s"), name);
+		g_free (name);
+	} else
+		title = g_strdup (_("Enter Password"));
+	
+	gtk_window_set_title (GTK_WINDOW (dialogue), title);
+	g_free (title);
+
+	if (m->ismain) {
+		password_current = NULL;
+		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
+	} else {
+		gtk_widget_show(dialogue);
+	}
+}
+
+static void
+do_get_pass(struct _mail_msg *mm)
+{
+	struct _pass_msg *m = (struct _pass_msg *)mm;
+	MailSession *mail_session = MAIL_SESSION (m->session);
+	
+	if (!strcmp (m->item, "popb4smtp_uri")) {
+		char *url = camel_url_to_string(m->service->url, 0);
 		const MailConfigAccount *account = mail_config_get_account_by_transport_url(url);
 		
 		g_free(url);
-		if (account == NULL)
-			return NULL;
-		
-		return g_strdup(account->source->url);
+		if (account)
+			m->result = g_strdup(account->source->url);
+	} else if (m->key) {
+		m->result = e_passwords_get_password(m->key);
+		if (m->result == NULL) {
+			if (mail_session->interaction_enabled) {
+				request_password(m);
+				return;
+			}
+		}
 	}
-	
-	key = make_key (service, item);
-	if (!key)
-		return NULL;
 
-	ans = e_passwords_get_password (key);
-	if (ans) {
-		g_free (key);
-		return ans;
-	}
-	
-	if (!mail_session->interaction_enabled ||
-	    !(ans = mail_get_password (service, prompt, secret, &cache))) {
-		g_free (key);
-		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-				     _("User canceled operation."));
-		return NULL;
-	}
-	
-	if (cache)
-		e_passwords_add_password (key, ans);
-
-	return ans;
+	e_msgport_reply((EMsg *)mm);
 }
 
-static char *
-get_password (CamelSession *session, const char *prompt, gboolean secret,
-	      CamelService *service, const char *item, CamelException *ex)
+static void
+do_free_pass(struct _mail_msg *mm)
 {
-	return (char *)mail_call_main(MAIL_CALL_p_ppippp, (MailMainFunc)main_get_password,
-				      session, prompt, secret, service, item, ex);
+	struct _pass_msg *m = (struct _pass_msg *)mm;
+
+	g_free(m->service_url);
+	g_free(m->key);
+}
+
+static struct _mail_msg_op get_pass_op = {
+	NULL,
+	do_get_pass,
+	NULL,
+	do_free_pass,
+};
+
+static char *
+get_password (CamelSession *session, const char *prompt, gboolean secret, CamelService *service, const char *item, CamelException *ex)
+{
+	struct _pass_msg *m, *r;
+	EMsgPort *pass_reply;
+	char *ret;
+
+	/* We setup an async request and send it off, and wait for it to return */
+	/* If we're really in main, we dont of course ...
+	   ... but this shouldn't be allowed because of locking issues */
+	pass_reply = e_msgport_new ();
+	m = mail_msg_new(&get_pass_op, pass_reply, sizeof(struct _pass_msg));
+	m->ismain = pthread_self() == mail_gui_thread;
+	m->session = session;
+	m->prompt = prompt;
+	m->secret = secret;
+	m->service = service;
+	m->item = item;
+	m->ex = ex;
+	if (service)
+		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
+	m->key = make_key(service, item);
+
+	if (m->ismain)
+		do_get_pass(m);
+	else {
+		extern EMsgPort *mail_gui_port2;
+
+		e_msgport_put(mail_gui_port2, (EMsg *)m);
+	}
+	
+	e_msgport_wait(pass_reply);
+	r = (struct _pass_msg *)e_msgport_get(pass_reply);
+	g_assert(m == r);
+
+	ret = m->result;
+	mail_msg_free(m);
+	e_msgport_destroy(pass_reply);
+
+	return ret;
 }
 
 static void

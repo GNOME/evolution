@@ -2391,12 +2391,8 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	CamelFolder *vtrash;
 	FolderBrowser *fb;
 	CamelException ex;
-	gboolean async;
 	
 	fb = user_data ? FOLDER_BROWSER (user_data) : NULL;
-	
-	/* the only time all three args are NULL is for empty-on-exit */
-	async = !(uih == NULL && fb == NULL && path == NULL);
 	
 	if (fb && !confirm_expunge (fb))
 		return;
@@ -2415,13 +2411,10 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 				/* make sure this store is a remote store */
 				if (provider->flags & CAMEL_PROVIDER_IS_STORAGE &&
 				    provider->flags & CAMEL_PROVIDER_IS_REMOTE) {
-					vtrash = mail_tool_get_trash (account->source->url, &ex);
+					vtrash = mail_tool_get_trash (account->source->url, FALSE, &ex);
 					
 					if (vtrash) {
-						if (async)
-							mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
-						else
-							camel_folder_sync (vtrash, TRUE, NULL);
+						mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
 					}
 				}
 			}
@@ -2433,12 +2426,9 @@ empty_trash (BonoboUIComponent *uih, void *user_data, const char *path)
 	}
 	
 	/* Now empty the local trash folder */
-	vtrash = mail_tool_get_trash ("file:/", &ex);
+	vtrash = mail_tool_get_trash ("file:/", TRUE, &ex);
 	if (vtrash) {
-		if (async)
-			mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
-		else
-			camel_folder_sync (vtrash, TRUE, NULL);
+		mail_expunge_folder (vtrash, empty_trash_expunged_cb, NULL);
 	}
 	
 	camel_exception_clear (&ex);

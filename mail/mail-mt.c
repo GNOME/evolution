@@ -35,6 +35,7 @@
 
 /*#define MALLOC_CHECK*/
 #define LOG_OPS
+#define LOG_LOCKS
 #define d(x) 
 
 static void set_stop(int sensitive);
@@ -42,9 +43,13 @@ static void mail_enable_stop(void);
 static void mail_disable_stop(void);
 static void mail_operation_status(struct _CamelOperation *op, const char *what, int pc, void *data);
 
+#ifdef LOG_LOCKS
+#define MAIL_MT_LOCK(x) (log_locks?fprintf(log, "%ld: lock " # x "\n", pthread_self()):0, pthread_mutex_lock(&x))
+#define MAIL_MT_UNLOCK(x) (log_locks?fprintf(log, "%ld: unlock " # x "\n", pthread_self()): 0, pthread_mutex_unlock(&x))
+#else
 #define MAIL_MT_LOCK(x) pthread_mutex_lock(&x)
 #define MAIL_MT_UNLOCK(x) pthread_mutex_unlock(&x)
-
+#endif
 extern EvolutionShellClient *global_shell_client;
 
 /* background operation status stuff */
@@ -62,10 +67,11 @@ static GdkPixbuf *progress_icon[2] = { NULL, NULL };
 /* mail_msg stuff */
 #ifdef LOG_OPS
 static FILE *log;
+static int log_ops, log_locks, log_init;
 #endif
 
 static unsigned int mail_msg_seq; /* sequence number of each message */
-static GHashTable *mail_msg_active; /* table of active messages, must hold mail_msg_lock to access */
+static GHashTable *mail_msg_active_table; /* table of active messages, must hold mail_msg_lock to access */
 static pthread_mutex_t mail_msg_lock = PTHREAD_MUTEX_INITIALIZER;
 static pthread_cond_t mail_msg_cond = PTHREAD_COND_INITIALIZER;
 
@@ -81,13 +87,26 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 
 	MAIL_MT_LOCK(mail_msg_lock);
 
-#ifdef LOG_OPS
-	if (log == NULL && getenv("EVOLUTION_MAIL_LOG_OPS") != NULL) {
+#if defined(LOG_OPS) || defined(LOG_LOCKS)
+	if (!log_init) {
 		time_t now = time(0);
 
+		log_init = TRUE;
+		log_ops = getenv("EVOLUTION_MAIL_LOG_OPS") != NULL;
+		log_locks = getenv("EVOLUTION_MAIL_LOG_LOCKS") != NULL;
 		log = fopen("evolution-mail-ops.log", "w+");
 		setvbuf(log, NULL, _IOLBF, 0);
 		fprintf(log, "Started evolution-mail: %s\n", ctime(&now));
+#ifdef LOG_OPS
+		if (log_ops)
+			fprintf(log, "Logging async operations\n");
+#endif
+#ifdef LOG_LOCKS
+		if (log_locks) {
+			fprintf(log, "Logging lock operations, mail_gui_thread = %ld\n\n", mail_gui_thread);
+			fprintf(log, "%ld: lock mail_msg_lock\n", pthread_self());
+		}
+#endif
 		g_warning("Logging mail operations to evolution-mail-ops.log");
 	}
 #endif
@@ -99,12 +118,12 @@ void *mail_msg_new(mail_msg_op_t *ops, EMsgPort *reply_port, size_t size)
 	camel_exception_init(&msg->ex);
 	msg->priv = g_malloc0(sizeof(*msg->priv));
 
-	g_hash_table_insert(mail_msg_active, (void *)msg->seq, msg);
+	g_hash_table_insert(mail_msg_active_table, (void *)msg->seq, msg);
 
 	d(printf("New message %p\n", msg));
 
 #ifdef LOG_OPS
-	if (log)
+	if (log_ops)
 		fprintf(log, "%p: New\n", msg);
 #endif
 	MAIL_MT_UNLOCK(mail_msg_lock);
@@ -161,10 +180,10 @@ void mail_msg_free(void *msg)
 	MAIL_MT_LOCK(mail_msg_lock);
 
 #ifdef LOG_OPS
-	if (log)
+	if (log_ops)
 		fprintf(log, "%p: Free\n", msg);
 #endif
-	g_hash_table_remove(mail_msg_active, (void *)m->seq);
+	g_hash_table_remove(mail_msg_active_table, (void *)m->seq);
 	pthread_cond_broadcast(&mail_msg_cond);
 
 	/* We need to make sure we dont lose a reference here YUCK YUCK */
@@ -250,7 +269,7 @@ void mail_msg_cancel(unsigned int msgid)
 	struct _mail_msg *m;
 
 	MAIL_MT_LOCK(mail_msg_lock);
-	m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+	m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 
 	if (m)
 		camel_operation_cancel(m->cancel);
@@ -268,23 +287,37 @@ void mail_msg_wait(unsigned int msgid)
 
 	if (ismain) {
 		MAIL_MT_LOCK(mail_msg_lock);
-		m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 		while (m) {
 			MAIL_MT_UNLOCK(mail_msg_lock);
 			gtk_main_iteration();
 			MAIL_MT_LOCK(mail_msg_lock);
-			m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+			m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 		}
 		MAIL_MT_UNLOCK(mail_msg_lock);
 	} else {
 		MAIL_MT_LOCK(mail_msg_lock);
-		m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+		m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 		while (m) {
 			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
-			m = g_hash_table_lookup(mail_msg_active, (void *)msgid);
+			m = g_hash_table_lookup(mail_msg_active_table, (void *)msgid);
 		}
 		MAIL_MT_UNLOCK(mail_msg_lock);
 	}
+}
+
+int mail_msg_active(unsigned int msgid)
+{
+	int active;
+
+	MAIL_MT_LOCK(mail_msg_lock);
+	if (msgid == (unsigned int)-1) 
+		active = g_hash_table_size(mail_msg_active_table) > 0;
+	else
+		active = g_hash_table_lookup(mail_msg_active_table, (void *)msgid) != NULL;
+	MAIL_MT_UNLOCK(mail_msg_lock);
+
+	return active;
 }
 
 void mail_msg_wait_all(void)
@@ -293,7 +326,7 @@ void mail_msg_wait_all(void)
 
 	if (ismain) {
 		MAIL_MT_LOCK(mail_msg_lock);
-		while (g_hash_table_size(mail_msg_active) > 0) {
+		while (g_hash_table_size(mail_msg_active_table) > 0) {
 			MAIL_MT_UNLOCK(mail_msg_lock);
 			gtk_main_iteration();
 			MAIL_MT_LOCK(mail_msg_lock);
@@ -301,7 +334,7 @@ void mail_msg_wait_all(void)
 		MAIL_MT_UNLOCK(mail_msg_lock);
 	} else {
 		MAIL_MT_LOCK(mail_msg_lock);
-		while (g_hash_table_size(mail_msg_active) > 0) {
+		while (g_hash_table_size(mail_msg_active_table) > 0) {
 			pthread_cond_wait(&mail_msg_cond, &mail_msg_lock);
 		}
 		MAIL_MT_UNLOCK(mail_msg_lock);
@@ -310,6 +343,12 @@ void mail_msg_wait_all(void)
 
 EMsgPort		*mail_gui_port;
 static GIOChannel	*mail_gui_channel;
+static guint		 mail_gui_watch;
+
+EMsgPort		*mail_gui_port2;
+static GIOChannel	*mail_gui_channel2;
+static guint		 mail_gui_watch2;
+
 EMsgPort		*mail_gui_reply_port;
 static GIOChannel	*mail_gui_reply_channel;
 
@@ -333,7 +372,7 @@ mail_msgport_replied(GIOChannel *source, GIOCondition cond, void *d)
 #endif
 
 #ifdef LOG_OPS
-		if (log)
+		if (log_ops)
 			fprintf(log, "%p: Replied to GUI thread\n", m);
 #endif
 
@@ -360,7 +399,7 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 #endif
 
 #ifdef LOG_OPS
-		if (log)
+		if (log_ops)
 			fprintf(log, "%p: Received at GUI thread\n", m);
 #endif
 
@@ -377,6 +416,29 @@ mail_msgport_received(GIOChannel *source, GIOCondition cond, void *d)
 
 	return TRUE;
 }
+
+/* Test code, lighterwight, more configurable calls */
+static gboolean
+mail_msgport_received2(GIOChannel *source, GIOCondition cond, void *d)
+{
+	EMsgPort *port = (EMsgPort *)d;
+	mail_msg_t *m;
+
+	while (( m = (mail_msg_t *)e_msgport_get(port))) {
+#ifdef LOG_OPS
+		if (log_ops)
+			fprintf(log, "%p: Received at GUI2 thread\n", m);
+#endif
+
+		if (m->ops->receive_msg)
+			m->ops->receive_msg(m);
+		else
+			mail_msg_free(m);
+	}
+
+	return TRUE;
+}
+
 
 static void
 mail_msg_destroy(EThread *e, EMsg *msg, void *data)
@@ -407,7 +469,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 		char *text = m->ops->describe_msg(m, FALSE);
 
 #ifdef LOG_OPS
-		if (log)
+		if (log_ops)
 			fprintf(log, "%p: Received at thread %ld: '%s'\n", m, pthread_self(), text);
 #endif
 
@@ -418,7 +480,7 @@ mail_msg_received(EThread *e, EMsg *msg, void *data)
 	}
 #ifdef LOG_OPS
 	else
-		if (log)
+		if (log_ops)
 			fprintf(log, "%p: Received at thread %ld\n", m, pthread_self());
 #endif
 
@@ -457,7 +519,13 @@ void mail_msg_init(void)
 
 	mail_gui_port = e_msgport_new();
 	mail_gui_channel = g_io_channel_unix_new(e_msgport_fd(mail_gui_port));
-	g_io_add_watch(mail_gui_channel, G_IO_IN, mail_msgport_received, mail_gui_port);
+	mail_gui_watch = g_io_add_watch(mail_gui_channel, G_IO_IN, mail_msgport_received, mail_gui_port);
+
+	/* experimental temporary */
+	mail_gui_port2 = e_msgport_new();
+	mail_gui_channel2 = g_io_channel_unix_new(e_msgport_fd(mail_gui_port2));
+	mail_gui_watch2 = g_io_add_watch(mail_gui_channel2, G_IO_IN, mail_msgport_received2, mail_gui_port2);
+
 
 	mail_thread_queued = e_thread_new(E_THREAD_QUEUE);
 	e_thread_set_msg_destroy(mail_thread_queued, mail_msg_destroy, 0);
@@ -475,7 +543,7 @@ void mail_msg_init(void)
 	e_thread_set_reply_port(mail_thread_new, mail_gui_reply_port);
 	e_thread_set_queue_limit(mail_thread_new, 10);
 
-	mail_msg_active = g_hash_table_new(NULL, NULL);
+	mail_msg_active_table = g_hash_table_new(NULL, NULL);
 	mail_gui_thread = pthread_self();
 
 	mail_async_event = mail_async_event_new();
@@ -488,6 +556,13 @@ static pthread_mutex_t status_lock = PTHREAD_MUTEX_INITIALIZER;
 
 /* ********************************************************************** */
 
+#if 0
+static GnomeDialog *password_dialogue = NULL;
+static EDList password_list = E_DLIST_INITIALISER(password_list);
+static struct _pass_msg *password_current = NULL;
+
+static void do_get_pass (struct _mail_msg *mm);
+
 struct _pass_msg {
 	struct _mail_msg msg;
 	const char *prompt;
@@ -496,12 +571,15 @@ struct _pass_msg {
 	char *result;
 	char *service_url;
 	GtkWidget *check;
+	int inmain;
 };
 
 static void
 pass_got (char *string, void *data)
 {
 	struct _pass_msg *m = data;
+
+	printf("password got!  string = '%s'\n", string?string:"<nil>");
 	
 	if (string) {
 		MailConfigService *service = NULL;
@@ -533,6 +611,18 @@ pass_got (char *string, void *data)
 		
 		if (m->cache)
 			*(m->cache) = remember;
+
+	}
+
+	if (!m->inmain)
+		e_msgport_reply((EMsg *)m);
+
+	password_dialogue = NULL;
+
+	m = e_dlist_remhead(&password_list);
+	if (m) {
+		printf("Have queued password request, showing now the other is finished\n");
+		do_get_pass(m);
 	}
 }
 
@@ -546,10 +636,17 @@ do_get_pass (struct _mail_msg *mm)
 	GList *children, *iter;
 	gboolean show;
 	char *title;
-	
+
+	/* If we already have a password_dialogue up, save this request till later */
+	if (!m->inmain && password_dialogue) {
+		e_dlist_addtail(&password_list, (EDListNode *)mm);
+		return;
+	}
+
+	password_current = m;
+
 	/* this api is just awful ... hence the hacks */
-	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL,
-					 0, pass_got, m, NULL);
+	dialogue = gnome_request_dialog (m->secret, m->prompt, NULL, 0, pass_got, m, NULL);
 	
 	/* Remember the password? */
 	check = gtk_check_button_new_with_label (m->service_url ? _("Remember this password") :
@@ -577,14 +674,12 @@ do_get_pass (struct _mail_msg *mm)
 	/* do some dirty stuff to put the checkbutton after the entry */
 	entry = NULL;
 	children = gtk_container_children (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox));
-	
 	for (iter = children; iter; iter = iter->next) {
 		if (GTK_IS_ENTRY (iter->data)) {
 			entry = GTK_WIDGET (iter->data);
 			break;
 		}
 	}
-	
 	g_list_free (children);
 	
 	if (entry) {
@@ -592,8 +687,7 @@ do_get_pass (struct _mail_msg *mm)
 		gtk_container_remove (GTK_CONTAINER (GNOME_DIALOG (dialogue)->vbox), entry);
 	}
 	
-	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox),
-			  check, TRUE, FALSE, 0);
+	gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), check, TRUE, FALSE, 0);
 	
 	if (entry) {
 		gtk_box_pack_end (GTK_BOX (GNOME_DIALOG (dialogue)->vbox), entry, TRUE, FALSE, 0);
@@ -617,10 +711,16 @@ do_get_pass (struct _mail_msg *mm)
 	
 	gtk_window_set_title (GTK_WINDOW (dialogue), title);
 	g_free (title);
-	
-	gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
-	
-	/*gtk_widget_show(dialogue);*/
+
+	if (m->inmain) {
+		printf("showing dialogue in main\n");
+		password_current = NULL;
+		gnome_dialog_run_and_close ((GnomeDialog *)dialogue);
+		e_msgport_reply((EMsg *)m);
+	} else {
+		printf("showing dialogue async\n");
+		gtk_widget_show(dialogue);
+	}
 }
 
 static void
@@ -653,23 +753,19 @@ mail_get_password (CamelService *service, const char *prompt, gboolean secret, g
 	m->prompt = prompt;
 	m->secret = secret;
 	m->cache = cache;
+	m->inmain = pthread_self() == mail_gui_thread;
 	if (service) {
 		m->service_url = camel_url_to_string (service->url, CAMEL_URL_HIDE_ALL);
 	} else
 		m->service_url = NULL;
 	
-	if (pthread_self () == mail_gui_thread) {
+	if (m->inmain) {
 		do_get_pass ((struct _mail_msg *)m);
 		r = m;
 	} else {
-		static pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
-		
-		/* we want this single-threaded, this is the easiest way to do it without blocking ? */
-		pthread_mutex_lock (&lock);
-		e_msgport_put (mail_gui_port, (EMsg *)m);
+		e_msgport_put (mail_gui_port2, (EMsg *)m);
 		e_msgport_wait (pass_reply);
 		r = (struct _pass_msg *)e_msgport_get (pass_reply);
-		pthread_mutex_unlock (&lock);
 	}
 	
 	g_assert (r == m);
@@ -682,6 +778,7 @@ mail_get_password (CamelService *service, const char *prompt, gboolean secret, g
 	
 	return ret;
 }
+#endif
 
 /* ******************** */
 
@@ -948,7 +1045,6 @@ void *mail_call_main(mail_call_t type, MailMainFunc func, ...)
 	return ret;
 }
 
-
 /* ********************************************************************** */
 /* locked via status_lock */
 static int busy_state;
@@ -1015,8 +1111,10 @@ static void do_op_status(struct _mail_msg *mm)
 	
 	MAIL_MT_LOCK (mail_msg_lock);
 	
-	msg = g_hash_table_lookup (mail_msg_active, m->data);
-	if (msg == NULL) {
+	msg = g_hash_table_lookup (mail_msg_active_table, m->data);
+
+	/* shortcut processing, i.e. if we have no global_shell_client and no activity, we can't create one */
+	if (msg == NULL || (msg->priv->activity == NULL && global_shell_client == NULL)) {
 		MAIL_MT_UNLOCK (mail_msg_lock);
 		return;
 	}
@@ -1092,15 +1190,15 @@ static void do_op_status(struct _mail_msg *mm)
 			}
 			return;
 		}
-	}
-	
-	activity = data->activity;
-	if (activity) {
+	} else if (data->activity) {
+		activity = data->activity;
 		gtk_object_ref (GTK_OBJECT (activity));
 		MAIL_MT_UNLOCK (mail_msg_lock);
-		
+			
 		evolution_activity_client_update (activity, out, (double)(pc/100.0));
 		gtk_object_unref (GTK_OBJECT (activity));
+	} else {
+		MAIL_MT_UNLOCK (mail_msg_lock);
 	}
 }
 

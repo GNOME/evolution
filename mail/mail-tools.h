@@ -47,7 +47,7 @@ CamelFolder *mail_tool_get_local_inbox (CamelException *ex);
 CamelFolder *mail_tool_get_inbox (const gchar *url, CamelException *ex);
 
 /* Get the "trash" for a url (uses global session) */
-CamelFolder *mail_tool_get_trash (const gchar *url, CamelException *ex);
+CamelFolder *mail_tool_get_trash (const gchar *url, int connect, CamelException *ex);
 
 /* Does a camel_movemail into the local movemail folder
  * and returns the path to the new movemail folder that was created. which shoudl be freed later */

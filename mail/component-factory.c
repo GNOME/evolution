@@ -718,8 +718,6 @@ owner_set_cb (EvolutionShellComponent *shell_component,
 						got_folder, standard_folders[i].folder, mail_thread_new));
 	}
 	
-	mail_session_enable_interaction (TRUE);
-		
 	mail_autoreceive_setup ();
 	
 	if (mail_config_is_corrupt ()) {
@@ -751,6 +749,12 @@ debug_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	extern gboolean camel_verbose_debug;
 	
 	camel_verbose_debug = 1;
+}
+
+static void
+interactive_cb (EvolutionShellComponent *shell_component, gboolean on, gpointer user_data)
+{
+	mail_session_enable_interaction(on);
 }
 
 static void
@@ -788,19 +792,32 @@ user_create_new_item_cb (EvolutionShellComponent *shell_component,
 static gboolean
 idle_quit (gpointer user_data)
 {
-	mail_msg_wait_all();
-	
-	if (e_list_length (folder_browser_factory_get_control_list ()))
-		return TRUE;
-	
-	g_hash_table_foreach (storages_hash, free_storage, NULL);
-	g_hash_table_destroy (storages_hash);
-	
-	mail_vfolder_shutdown ();
+	static int shutdown_vfolder = FALSE;
+	static int shutdown_shutdown = FALSE;
 
+	if (!shutdown_shutdown) {
+		if (e_list_length (folder_browser_factory_get_control_list ()))
+			return TRUE;
+
+		if (mail_msg_active(-1)) {
+			/* short sleep? */
+			return TRUE;
+		}
+
+		if (!shutdown_vfolder) {
+			shutdown_vfolder = TRUE;
+			mail_vfolder_shutdown();
+			return TRUE;
+		}
+
+		shutdown_shutdown = TRUE;
+		g_hash_table_foreach (storages_hash, free_storage, NULL);
+		g_hash_table_destroy (storages_hash);
+	}
+	
 	gtk_main_quit ();
 	
-	return FALSE;
+	return TRUE;
 }	
 
 static void owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data);
@@ -814,6 +831,7 @@ static struct {
 	{ "owner_set", owner_set_cb, },
 	{ "owner_unset", owner_unset_cb, },
 	{ "debug", debug_cb, },
+	{ "interactive", interactive_cb },
 	{ "destroy", owner_unset_cb, },
 	{ "handle_external_uri", handle_external_uri_cb, },
 	{ "user_create_new_item", user_create_new_item_cb }
@@ -830,14 +848,12 @@ owner_unset_cb (EvolutionShellComponent *shell_component, gpointer user_data)
 	if (mail_config_get_empty_trash_on_exit ())
 		empty_trash (NULL, NULL, NULL);
 	
-	mail_msg_wait_all();
-		
 	unref_standard_folders ();
 	mail_importer_uninit ();
 
 	global_shell_client = NULL;
-	
 	mail_session_enable_interaction (FALSE);
+
 	g_idle_add_full (G_PRIORITY_LOW, idle_quit, NULL, NULL);
 }
 

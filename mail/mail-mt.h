@@ -58,6 +58,7 @@ void mail_msg_check_error(void *msg);
 void mail_msg_cancel(unsigned int msgid);
 void mail_msg_wait(unsigned int msgid);
 void mail_msg_wait_all(void);
+int mail_msg_active(unsigned int msgid);
 
 /* request a string/password */
 char *mail_get_password (CamelService *service, const char *prompt,
