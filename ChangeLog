@@ -1,3 +1,8 @@
+2000-09-20  Tuomas Kuosmanen  <tigert@gimp.org>
+
+	* art/attachment.xpm
+	* art/send.png: new icons for "compose mail" dialog...
+
 2000-09-19  Dan Winship  <danw@helixcode.com>
 
 	* configure.in: alter the krb4 check a bit to deal with configure
