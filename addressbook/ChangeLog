@@ -1,3 +1,8 @@
+2001-08-27  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* gui/widgets/e-addressbook-util.c (e_addressbook_error_dialog):
+	Display localized status string (added missing _()).
+
 2001-08-24  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-destination.c (e_destination_set_card): Put a

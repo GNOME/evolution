@@ -43,7 +43,7 @@ e_addressbook_error_dialog (const gchar *msg, EBookStatus status)
 	};
 	char *error_msg;
 
-	error_msg = g_strdup_printf ("%s: %s", msg, status_to_string [status]);
+	error_msg = g_strdup_printf ("%s: %s", msg, _(status_to_string [status]));
 
 	gtk_widget_show (gnome_error_dialog (error_msg));
 
