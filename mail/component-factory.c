@@ -149,7 +149,7 @@ create_view (EvolutionShellComponent *shell_component,
 	BonoboControl *control;
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = evolution_shell_client_corba_objref(shell_client);
 	
 	if (type_is_mail (folder_type)) {
 		const char *noselect;
@@ -1389,7 +1389,7 @@ mail_add_storage (CamelStore *store, const char *name, const char *uri)
 	g_return_if_fail (CAMEL_IS_STORE (store));
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	shell = evolution_shell_client_corba_objref (shell_client);
 	
 	camel_exception_init (&ex);
 	
@@ -1548,7 +1548,7 @@ mail_remove_storage (CamelStore *store)
 	mail_note_store_remove(store);
 	
 	shell_client = evolution_shell_component_get_owner (shell_component);
-	corba_shell = bonobo_object_corba_objref (BONOBO_OBJECT (shell_client));
+	corba_shell = evolution_shell_client_corba_objref(shell_client);
 	
 	evolution_storage_deregister_on_shell (storage, corba_shell);
 	
