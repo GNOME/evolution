@@ -1,5 +1,9 @@
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-callbacks.c: Half way ported. I'll finish the rest later.
+
+	* mail-autofilter.c: Ported.
+
 	* mail-account-gui.c: Ported.
 
 	* mail-account-editor.c: Ported.

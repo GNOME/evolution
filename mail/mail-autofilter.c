@@ -31,15 +31,10 @@
 #include <ctype.h>
 
 #include <glib.h>
-#include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <libgnomeui/gnome-dialog.h>
-#include <libgnomeui/gnome-dialog-util.h>
-#include <libgnomeui/gnome-stock.h>
-#include <gal/util/e-unicode-i18n.h>
 
 #include "mail-vfolder.h"
 #include "mail-autofilter.h"
@@ -75,7 +70,7 @@ rule_match_recipients (RuleContext *context, FilterRule *rule, CamelInternetAddr
 		element = filter_part_find_element (part, "recipient");
 		filter_input_set_value ((FilterInput *)element, addr);
 		
-		namestr = g_strdup_printf (U_("Mail to %s"), real && real[0] ? real : addr);
+		namestr = g_strdup_printf (_("Mail to %s"), real && real[0] ? real : addr);
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
@@ -182,7 +177,7 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 	s2 = strchr (s, ']');
 	if (s1 && s2 && s1 < s2) {
 		/* probably a mailing list, match on the mailing list name */
-		tmp = alloca (s2 - s1 + 2);
+		tmp = g_alloca (s2 - s1 + 2);
 		memcpy (tmp, s1, s2 - s1 + 1);
 		tmp[s2 - s1 + 1] = 0;
 		g_strstrip (tmp);
@@ -192,7 +187,7 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 	/* Froblah: at the start is probably something important (e.g. bug number) */
 	s1 = strchr (s, ':');
 	if (s1) {
-		tmp = alloca (s1 - s + 1);
+		tmp = g_alloca (s1 - s + 1);
 		memcpy (tmp, s, s1-s);
 		tmp[s1 - s] = 0;
 		g_strstrip (tmp);
@@ -201,7 +196,7 @@ rule_match_subject (RuleContext *context, FilterRule *rule, const char *subject)
 	}
 	
 	/* just lump the rest together */
-	tmp = alloca (strlen (s) + 1);
+	tmp = g_alloca (strlen (s) + 1);
 	strcpy (tmp, s);
 	g_strstrip (tmp);
 	rule_add_subject (context, rule, tmp);
@@ -212,10 +207,10 @@ rule_match_mlist(RuleContext *context, FilterRule *rule, const char *mlist)
 {
 	FilterPart *part;
 	FilterElement *element;
-
+	
 	if (mlist[0] == 0)
 		return;
-
+	
 	part = rule_context_create_part(context, "mlist");
 	filter_rule_add_part(rule, part);
 	
@@ -239,7 +234,7 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		
 		rule_match_subject (context, rule, subject);
 		
-		namestr = g_strdup_printf (U_("Subject is %s"), strip_re (subject));
+		namestr = g_strdup_printf (_("Subject is %s"), strip_re (subject));
 		filter_rule_set_name (rule, namestr);
 		g_free (namestr);
 	}
@@ -249,15 +244,15 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 		int i;
 		const char *name, *addr;
 		char *namestr;
-
-		from = camel_mime_message_get_from(msg);
-		for (i=0;camel_internet_address_get(from, i, &name, &addr); i++) {
-			rule_add_sender(context, rule, addr);
-			if (name==NULL || name[0]==0)
+		
+		from = camel_mime_message_get_from (msg);
+		for (i = 0; camel_internet_address_get (from, i, &name, &addr); i++) {
+			rule_add_sender (context, rule, addr);
+			if (name == NULL || name[0] == '\0')
 				name = addr;
-			namestr = g_strdup_printf(U_("Mail from %s"), name);
-			filter_rule_set_name(rule, namestr);
-			g_free(namestr);
+			namestr = g_strdup_printf(_("Mail from %s"), name);
+			filter_rule_set_name (rule, namestr);
+			g_free (namestr);
 		}
 	}
 	if (flags & AUTO_TO) {
@@ -268,11 +263,11 @@ rule_from_message (FilterRule *rule, RuleContext *context, CamelMimeMessage *msg
 	}
 	if (flags & AUTO_MLIST) {
 		char *name, *mlist;
-
+		
 		mlist = header_raw_check_mailing_list(&((CamelMimePart *)msg)->headers);
 		if (mlist) {
 			rule_match_mlist(context, rule, mlist);
-			name = g_strdup_printf(U_("%s mailing list"), mlist);
+			name = g_strdup_printf (_("%s mailing list"), mlist);
 			filter_rule_set_name(rule, name);
 			g_free(name);
 		}
@@ -313,7 +308,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	FilterContext *fc;
 	char *user, *system;
 	FilterRule *rule;
-
+	
 	g_return_if_fail (msg != NULL);
 	
 	fc = filter_context_new ();
@@ -326,7 +321,7 @@ filter_gui_add_from_message (CamelMimeMessage *msg, const char *source, int flag
 	
 	rule_context_add_rule_gui ((RuleContext *)fc, rule, _("Add Filter Rule"), user);
 	g_free (user);
-	gtk_object_unref (GTK_OBJECT (fc));
+	g_object_unref (fc);
 }
 
 void
@@ -336,12 +331,12 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 	FilterContext *fc;
 	char *user, *system;
 	GList *changed;
-
+	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
-
+	
 	changed = rule_context_rename_uri((RuleContext *)fc, olduri, newuri, uri_cmp);
 	if (changed) {
 		printf("Folder rename '%s' -> '%s' changed filters, resaving\n", olduri, newuri);
@@ -349,9 +344,9 @@ mail_filter_rename_uri(CamelStore *store, const char *olduri, const char *newuri
 			g_warning("Could not write out changed filter rules\n");
 		rule_context_free_uri_list((RuleContext *)fc, changed);
 	}
-
+	
 	g_free(user);
-	gtk_object_unref (GTK_OBJECT (fc));
+	g_object_unref (fc);
 }
 
 void
@@ -361,37 +356,40 @@ mail_filter_delete_uri(CamelStore *store, const char *uri)
 	FilterContext *fc;
 	char *user, *system;
 	GList *deleted;
-
+	
 	fc = filter_context_new ();
 	user = g_strdup_printf ("%s/filters.xml", evolution_dir);
 	system = EVOLUTION_DATADIR "/evolution/filtertypes.xml";
 	rule_context_load ((RuleContext *)fc, system, user);
-
+	
 	deleted = rule_context_delete_uri((RuleContext *)fc, uri, uri_cmp);
 	if (deleted) {
-		GnomeDialog *gd;
+		GtkWidget *dialog;
 		GString *s;
 		GList *l;
-
-		s = g_string_new(_("The following filter rule(s):\n"));
+		
+		s = g_string_new (_("The following filter rule(s):\n"));
 		l = deleted;
 		while (l) {
 			g_string_sprintfa(s, "    %s\n", (char *)l->data);
 			l = l->next;
 		}
-		g_string_sprintfa(s, _("Used the removed folder:\n    '%s'\n"
-				       "And have been updated."), uri);
-		gd = (GnomeDialog *)gnome_warning_dialog(s->str);
-		g_string_free(s, TRUE);
-		gnome_dialog_set_close(gd, TRUE);
-		gtk_widget_show((GtkWidget *)gd);
-
+		g_string_sprintfa (s, _("Used the removed folder:\n    '%s'\n"
+					"And have been updated."), uri);
+		
+		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL, GTK_MESSAGE_INFO, GTK_STOCK_CLOSE, "%s", s->str);
+		g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+		
+		g_string_free (s, TRUE);
+		
+		gtk_widget_show (dialog);
+		
 		printf("Folder deleterename '%s' changed filters, resaving\n", uri);
 		if (rule_context_save((RuleContext *)fc, user) == -1)
 			g_warning("Could not write out changed filter rules\n");
 		rule_context_free_uri_list((RuleContext *)fc, deleted);
 	}
-
-	g_free(user);
-	gtk_object_unref (GTK_OBJECT (fc));
+	
+	g_free (user);
+	g_object_unref (fc);
 }
