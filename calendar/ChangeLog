@@ -1,3 +1,8 @@
+2001-02-16  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/calbackend-db.c (cal_backend_db_destroy): close DB environment.
+	Some compilation warnings removed
+
 2001-02-13  Christopher James Lahey  <clahey@ximian.com>
 
 	* gui/Makefile.am (evolution_calendar_LDADD): Added libmenus.la.

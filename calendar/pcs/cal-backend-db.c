@@ -35,9 +35,10 @@ typedef struct {
 	gint ref;
 	DBC* dbc;
 	DB*  parent_db;
-	/* TODO: convert into a hash table */
-	GList* keys;
-	GList* data;
+	
+	/* data in the cursor */
+	GList *keys;
+	GList *data;
 } CalBackendDBCursor;
 
 /* private part of the CalBackendDB structure */
@@ -204,6 +205,10 @@ cal_backend_db_destroy (GtkObject *object)
 	if (cbdb->priv->history_db)
 		cbdb->priv->history_db->close(cbdb->priv->history_db, 0);
 
+	/* close DB environment */
+	if (cbdb->priv->environment)
+		cbdb->priv->environment->close(cbdb->priv->environment, 0);
+	
 	g_free((gpointer) priv);
 	cbdb->priv = NULL;
 
@@ -275,9 +280,15 @@ open_cursor (CalBackendDB *cbdb, DB *db)
 		DBT data;
 
 		/* read data */
+		memset(&key, 0, sizeof(key));
+		memset(&data, 0, sizeof(data));
+		
 		while ((ret = cursor->dbc->c_get(cursor->dbc, &key, &data, DB_NEXT)) == 0) {
 			cursor->keys = g_list_append(cursor->keys, g_memdup(&key, sizeof(key)));
 			cursor->data = g_list_append(cursor->data, g_memdup(&data, sizeof(data)));
+			
+			memset(&key, 0, sizeof(key));
+			memset(&data, 0, sizeof(data));
 		}
 		if (ret == DB_NOTFOUND) {
 			cbdb->priv->cursors = g_list_prepend(cbdb->priv->cursors, (gpointer) cursor);
@@ -303,6 +314,7 @@ find_cursor_by_db (CalBackendDB *cbdb, DB *db)
 
 	for (node = g_list_first(cbdb->priv->cursors); node != NULL; node = g_list_next(node)) {
 		CalBackendDBCursor* cursor = (CalBackendDBCursor *) node->data;
+
 		if (cursor && cursor->parent_db == db)
 			return cursor;
 	}
@@ -315,21 +327,23 @@ static DBT *
 find_record_by_id (CalBackendDBCursor *cursor, const gchar *id)
 {
 	GList *node;
-	gint pos = 0;
 
 	g_return_val_if_fail(cursor != NULL, NULL);
 	g_return_val_if_fail(id != NULL, NULL);
 
+	
 	for (node = g_list_first(cursor->keys); node != NULL; node = g_list_next(node)) {
-		DBT* key = (DBT *) node->data;
-		if (key) {
-			if (!strcmp((gchar *) key->data, id)) {
-				GList* tmp = g_list_nth(cursor->data, pos);
-				if (tmp)
-					return (DBT *) node->data;
-			}
+		DBT *key;
+		
+		key = (DBT *) node->data;
+		if (key && !strcmp(key->data, id)) {
+			GList *tmp;
+			
+			tmp = g_list_nth(cursor->data, g_list_position(cursor->keys, node));
+			if (tmp)
+				return (DBT *) tmp->data;
+			return NULL; /* no data associated with this key */
 		}
-		pos++;
 	}
 
 	return NULL; /* not found */
@@ -1336,7 +1350,7 @@ cal_backend_db_get_alarms_for_object (CalBackend *backend,
 
 /* do notifications to Cal clients */
 static void
-do_notify (CalBackendDB *cbdb, void (*notify_fn)(Cal *, gchar *), gchar *uid)
+do_notify (CalBackendDB *cbdb, void (*notify_fn)(Cal *, gchar *), const gchar *uid)
 {
 	GList *node;
 
@@ -1350,7 +1364,7 @@ do_notify (CalBackendDB *cbdb, void (*notify_fn)(Cal *, gchar *), gchar *uid)
 		Cal *cal;
 		
 		cal = CAL(node->data);
-		(*notify_fn)(cal, uid);
+		(*notify_fn)(cal, (gpointer) uid);
 	}
 }
 
