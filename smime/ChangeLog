@@ -1,3 +1,7 @@
+2003-12-05  JP Rosevear  <jpr@ximian.com>
+
+	* lib/e-cert.c: fix for C89
+
 2003-12-04  Chris Toshok  <toshok@ximian.com>
 
 	* gui/certificate-viewer.c (certificate_viewer_show): set the

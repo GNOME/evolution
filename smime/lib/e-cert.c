@@ -705,6 +705,7 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 	EASN1Object *spkiSequence = e_asn1_object_new();
 	EASN1Object *sequenceItem;
 	EASN1Object *printableItem;
+	SECItem data;
 	char *text;
 
 	e_asn1_object_set_display_name (spkiSequence, _("Subject Public Key Info"));
@@ -720,7 +721,6 @@ process_subject_public_key_info (CERTSubjectPublicKeyInfo *spki,
 	   ProcessRawBytes expects the lenght to be in bytes, so 
 	   let's convert the lenght into a temporary SECItem.
 	*/
-	SECItem data;
 	data.data = spki->subjectPublicKey.data;
 	data.len  = spki->subjectPublicKey.len / 8;
 
