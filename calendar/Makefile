@@ -60,7 +60,7 @@ host_triplet = alphaev5-unknown-linux-gnu
 CATALOGS = 
 CATOBJEXT = .gmo
 CC = gcc
-CFLAGS = -g -O2
+CFLAGS = -Wall -g -I/da/share/gnome-install/include
 CPP = gcc -E
 CPPFLAGS = 
 CXX = c++
@@ -68,9 +68,12 @@ DATADIRNAME = share
 GENCAT = 
 GMOFILES = 
 GMSGFMT = /usr/bin/msgfmt
-GNOMEUI_LIBS = -lgnomeui -lgtk -lgdk -lglib -lm  -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE -lgnome  
-GNOME_LIBS = -lgnome  
-GTKXMHTML_LIBS = -lgtkxmhtml -lgtk -lgdk -lglib -lm -lXpm -ljpeg  -lz  -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE
+GNOMEINCLUDE_DIR = 
+GNOMELIB_DIR = 
+GNOMEUI_LIBS = -lgnomeui -lgnome  -ldl -lgtk -lgdk -lglib -lm  -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE
+GNOME_LIBS = -lgnome  -ldl
+GTKXMHTML_LIBS = -lgtkxmhtml -lgtk -lgdk -lglib -lm -lXpm     -L/usr/X11R6/lib  -lSM -lICE -lX11  -lXext -lSM -lICE
+GTK_LIBS = @GTK_LIBS@
 GT_NO = 
 GT_YES = #YES#
 GUILE_LIBS = -lguile
@@ -80,7 +83,7 @@ INTLDEPS =
 INTLLIBS = 
 INTLOBJS = 
 LD = /usr/bin/ld
-LDFLAGS = 
+LDFLAGS =  -L/da/share/gnome-install/lib
 LEX = flex
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
@@ -94,6 +97,7 @@ POFILES =
 POSUB = po
 PROGRAMS_GENIUS = 
 PROGRAMS_GTOP = gtop
+PTHREAD_LIB = @PTHREAD_LIB@
 QTTHREADS_LIB = 
 RANLIB = ranlib
 READLINE_LIB = 
@@ -101,16 +105,22 @@ TERMCAP_LIB =
 USE_INCLUDED_LIBINTL = no
 USE_NLS = yes
 VERSION = 0.12
+XPM_LIBS = @XPM_LIBS@
 YACC = 
 l = 
+x_libs = @x_libs@
 
 INCLUDES = 			\
-	-I$(includedir)		\
-	$(X_CFLAGS)
+	-I$(includedir)
 
 bin_PROGRAMS = gncal
 
 gncal_SOURCES = \
+	gncal.c		\
+	gncal.h		\
+	calcs.c		\
+	calcs.h
+
 gncal_LDADD = \
 	$(GNOMEUI_LIBS)
 
@@ -128,10 +138,16 @@ PROGRAMS =  $(bin_PROGRAMS)
 
 DEFS = -DHAVE_CONFIG_H -I. -I$(srcdir) -I..
 LIBS = 
-gncal_OBJECTS = 
-gncal_LDADD = $(LDADD)
+X_CFLAGS = @X_CFLAGS@
+X_LIBS = @X_LIBS@
+X_EXTRA_LIBS = @X_EXTRA_LIBS@
+X_PRE_LIBS = @X_PRE_LIBS@
+gncal_OBJECTS =  gncal.o calcs.o
 gncal_DEPENDENCIES = 
 gncal_LDFLAGS = 
+COMPILE = $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+LINK = $(LIBTOOL) --mode=link $(CC) $(CFLAGS) $(LDFLAGS) -o $@
 DATA =  $(Productivity_DATA)
 
 DIST_COMMON =  ChangeLog Makefile.am Makefile.in
@@ -141,6 +157,7 @@ DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
 
 TAR = tar
 GZIP = --best
+DEP_FILES =  .deps/calcs.P .deps/gncal.P
 SOURCES = $(gncal_SOURCES)
 OBJECTS = $(gncal_OBJECTS)
 
@@ -266,6 +283,32 @@ distdir: $(DISTFILES)
 	  || ln $$d/$$file $(distdir)/$$file 2> /dev/null \
 	  || cp -p $$d/$$file $(distdir)/$$file; \
 	done
+
+MKDEP = $(CC) -M $(DEFS) $(INCLUDES) $(CPPFLAGS) $(CFLAGS)
+
+DEPS_MAGIC := $(shell mkdir .deps > /dev/null 2>&1 || :)
+-include .deps/.P
+.deps/.P: $(BUILT_SOURCES)
+	echo > $@
+
+-include $(DEP_FILES)
+
+mostlyclean-depend:
+
+clean-depend:
+
+distclean-depend:
+
+maintainer-clean-depend:
+	-rm -rf .deps
+
+.deps/%.P: %.c
+	@echo "Computing dependencies for $<..."
+	@o='o'; \
+	test -n "$o" && o='$$o'; \
+	$(MKDEP) $< >$@.tmp \
+	  && sed "s,^\(.*\)\.o:,\1.$$o \1.l$$o $@:," < $@.tmp > $@ \
+	  && rm -f $@.tmp
 info:
 dvi:
 check: all
@@ -305,20 +348,21 @@ maintainer-clean-generic:
 	-test -z "$(MAINTAINERCLEANFILES)" || rm -f $(MAINTAINERCLEANFILES)
 	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 mostlyclean:  mostlyclean-binPROGRAMS mostlyclean-compile \
-		mostlyclean-libtool mostlyclean-tags \
+		mostlyclean-libtool mostlyclean-tags mostlyclean-depend \
 		mostlyclean-generic
 
 clean:  clean-binPROGRAMS clean-compile clean-libtool clean-tags \
-		clean-generic mostlyclean
+		clean-depend clean-generic mostlyclean
 
 distclean:  distclean-binPROGRAMS distclean-compile distclean-libtool \
-		distclean-tags distclean-generic clean
+		distclean-tags distclean-depend distclean-generic clean
 	-rm -f config.status
 	-rm -f libtool
 
 maintainer-clean:  maintainer-clean-binPROGRAMS maintainer-clean-compile \
 		maintainer-clean-libtool maintainer-clean-tags \
-		maintainer-clean-generic distclean
+		maintainer-clean-depend maintainer-clean-generic \
+		distclean
 	@echo "This command is intended for maintainers to use;"
 	@echo "it deletes files that may require special tools to rebuild."
 
@@ -328,9 +372,10 @@ install-binPROGRAMS mostlyclean-compile distclean-compile clean-compile \
 maintainer-clean-compile mostlyclean-libtool distclean-libtool \
 clean-libtool maintainer-clean-libtool uninstall-ProductivityDATA \
 install-ProductivityDATA tags mostlyclean-tags distclean-tags \
-clean-tags maintainer-clean-tags distdir info dvi installcheck \
-install-exec install-data install uninstall all installdirs \
-mostlyclean-generic distclean-generic clean-generic \
+clean-tags maintainer-clean-tags distdir mostlyclean-depend \
+distclean-depend clean-depend maintainer-clean-depend info dvi \
+installcheck install-exec install-data install uninstall all \
+installdirs mostlyclean-generic distclean-generic clean-generic \
 maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 

@@ -1,7 +1,5 @@
-
 INCLUDES = 			\
-	-I$(includedir)		\
-	$(X_CFLAGS)
+	-I$(includedir)
 
 bin_PROGRAMS = gncal
 
