@@ -1414,6 +1414,8 @@ gnome_calendar_setup_view_menus (GnomeCalendar *gcal, BonoboUIComponent *uic)
 
 	priv->view_menus = gal_view_menus_new (priv->view_instance);
 	gal_view_menus_apply (priv->view_menus, uic, NULL);
+	gnome_calendar_set_view (gcal, priv->current_view_type, TRUE, FALSE);
+
 	gtk_signal_connect (GTK_OBJECT (priv->view_instance), "display_view",
 			    GTK_SIGNAL_FUNC (display_view_cb), gcal);
 	display_view_cb (priv->view_instance, gal_view_instance_get_current_view (priv->view_instance), gcal);
