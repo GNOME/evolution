@@ -207,8 +207,10 @@ filter_driver_new (const char *system, const char *user, FilterFolderFetcher fet
 		p->options = filter_load_optionset(filt, p->rules);
 
 #warning "Zucchi: is this safe? Doesn't seem to cause problems..."
+#if 0
 	filter_load_ruleset_free (p->rules);
 	xmlFreeDoc (desc);
+#endif
 
 	return new;
 }

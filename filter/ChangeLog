@@ -1,3 +1,9 @@
+2000-07-02  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* filter-driver.c (filter_driver_new): Don't free the ruleset nor
+	the xmlDoc.  This will make us leak [I think], but at least
+	filters work.
+
 2000-07-02  Dan Winship  <danw@helixcode.com>
 
 	* filter-driver.c (open_folder): freeze the folder to avoid
