@@ -37,8 +37,21 @@
 
 	<para>
           To open up your address book, click on
-          <guibutton>Contacts</guibutton> in the shortcut bar.
+          <guibutton>Contacts</guibutton> in the shortcut bar.  The
+          contact manager is illustrated in <xref
+          linkend="usage-contact-fig">
         </para>
+
+
+	<figure id="usage-contact-fig">
+	<title>Evolution Contact Manager</title>
+	<screenshot>
+	  <screeninfo>Evolution Contact Manager Window</screeninfo>
+	  <graphic fileref="fig/contact.png" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	</screenshot>
+	</figure>
+
 	<para>
           The contact manager interface is broken into two main parts.
           The first part is the contact display section.  This can be
@@ -56,7 +69,7 @@
 	<para>
           You can create a new card by pressing the <guibutton>New
           Card</guibutton> button, or by pressing
-          <shortcut><keysym>KEYSYM</keysym></shortcut>. The
+          <keysym>KEYSYM</keysym>. The
           <interface>New Card</interface> window will appear.  It has
           the following fields:
 

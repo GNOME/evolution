@@ -1,10 +1,10 @@
 
     <chapter id="config-prefs">
-      <title>Advanced Configuration with the Preferences Window</title>
+      <title>Advanced Configuration</title>
       <para>
         To change your configuration settings, select
-        <guimenuitem>Preferences</guimenuitem> from the
-        <guimenu>Settings</guimenu> menu.  This will open the
+        <guimenuitem>Configure Camel Providers</guimenuitem> from the
+        <guimenu>Tools</guimenu> menu.  This will open the
         preferences window, illustrated in <xref linkend="config-prefs-fig">.
         Preferences are seperated into several categories:
         <itemizedlist>
@@ -18,8 +18,22 @@
 
 	  <listitem>
 	    <para>
-              <guilabel>Mail</guilabel>, which allows you to specify
-              your email server and protocols, as well as attachment
+              <guilabel>Sources</guilabel>, which allows you to specify
+              your mail receiving server and protocols.
+            </para>
+          </listitem>
+
+        <listitem>
+         <para>
+           <guilabel>Transports</guilabel>, which allows you to
+           specify how you will send mail.
+           </para>
+         </listitem>
+         </itemizedlist>
+
+<!-- THE FOLLOWING MAY BE REINSTATED:
+
+ as well as attachment
               and HTML handling, forwarding behavior, filters, and
               other <application>Evolution</application> behaviors
               specific to email.  The default behaviors are those
@@ -53,8 +67,8 @@
               startup screen.
             </para>
 	  </listitem>
-	</itemizedlist>
-      
+       </itemizedlist>
+-->
     </para>
 
       <!-- ==============Figure===================== -->
@@ -62,7 +76,7 @@
 	<title>Preferences Dialog</title>
 	<screenshot>
 	  <screeninfo>Preferences dialog</screeninfo>
-	  <graphic fileref="evolution_config_pic" format="png" srccredit="Aaron Weber">
+	  <graphic fileref="fig/config-camel-fig" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	</screenshot>
       </figure>
@@ -74,30 +88,54 @@
       <para>
          If you have only one email address, or use automatic
          forwarding to funnel multiple addresses into one, then you
-         will only need to configure one identity. To create a single
-         user with a single identity, enter the following information:
-         (INSERT detailed DESCRIPTION HERE)
+         will only need to configure one identity. You may, however,
+         want more thatn one.  To alter an identity, click on it in
+         the <guilabel>Identity</guilabel> tab of the
+         <interface>Preferences</interface> window, and then click
+         <guibutton>Edit</guibutton>. To add a new identity, simply
+         click <guibutton>Add</guibutton>.
       </para>
 
       <para>
-         If you have one email accout for your personal life, and one
-	 for work, you'll want to create multiple identities.  You
-	 can do this by: (INSERT DESCRIPTION HERE)
-      </para>
+         In either case, you'll be presented with a dialog box with
+         four fields:
+          <itemizedlist>
+           <listitem>
+	    <para>
+              <guilabel>Full Name:</guilabel> by default, this is the
+              same name as the full name described in your user
+              account on your computer.
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Email address:</guilabel> Enter your email
+              address in this space.
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Organization:</guilabel> If you send email as
+              a representative of a company or other organization,
+              enter its name here.
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Signature file:</guilabel> You may choose a
+              small text file to be appended to every message that you
+              send.  Typically, signature files include address or
+              other contact information, or a favorite quotation.
+              They should not be more than three lines long.
+            </para>
+	  </listitem>
+	</itemizedlist>
 
-      <note id="config-prefs-identity-note">
-	<title>Multiple Identities and Network Settings</title>
-	<para>
-           If you use multiple network connections&mdash;if, for
-           example, you dial up an ISP for your personal mail, and use
-           a LAN for your work-related tasks&mdash; you will also have
-           to set seperate network settings for each identity.
-        </para>
-      </note>
+      </para>
     </sect1>
 
     <sect1 id="config-prefs-network">
-      <title>Setting up the Network</title> 
+      <title>Network Settings</title> 
       <para>
         In order to do much of anything with
         <application>Evolution</application>, you need to connect to
@@ -107,14 +145,64 @@
         you'll be using.  If you're switching from another groupware
         or email progam, you can almost certainly use the same
         settings as you did with that program.  Select the
-        <guibutton>Network</guibutton> tab in the
-        <interface>Preferences</interface> window to get started.
+        <guibutton>Sources</guibutton> tab in the
+        <interface>Preferences</interface> window to tell
+        <application>Evolution</application> where you want to get
+        your mail, and click <guibutton>Transports</guibutton> to
+        determine how you want to send your mail.
       </para>
  
-	<sect2 id="config-prefs-network-advanced">
-	  <title>Advanced Network Configuration</title>
+	<sect2 id="config-prefs-network-sources">
+	  <title>Mail Sources</title>
 	  <para>
-            INSERT a little introduction paragraph here.
+            The <interface>Mail Sources</interface> tab allows you to
+            edit, add, or delete methods of retreiving mail from
+            servers.  Clicking on <guibutton>Add</guibutton> or
+            <guibutton>Edit</guibutton> will bring up a dialog box to
+            offer you the following options:
+         <itemizedlist>
+
+           <listitem>
+	    <para>
+              <guilabel>Mail source type:</guilabel>At this point, you
+              can only select from POP or Unix-style mbox files, but
+              additional types will be supported in the future.
+            </para>
+	  </listitem>
+
+           <listitem>
+	    <para>
+              <guilabel>Server:</guilabel>Enter the name of your mail
+              server in this field, eg: mail.mycompany.com
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Username:</guilabel>Enter your user name here.
+              Eva Lucy Ann Tester's user name is eltester.
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Authentication:</guilabel> Your system
+              administrator will know which type of authentication
+              your system requires.
+              <application>Evolution</application> can also detect
+              what sorts of authentication are available once it knows
+              where to find the server.
+            </para>
+	  </listitem>
+           <listitem>
+	    <para>
+              <guilabel>Test these values before continuing</guilabel>
+              If this box is checked,
+              <application>Evolution</application> will attempt to
+              make sure that all the other entries in the dialog box
+              are correct.
+            </para>
+        </listitem>
+	</itemizedlist>
+
           </para>
 	  <sect3 id="config-prefs-network-advanced-multiconnect">
 	    <title>Multiple Network Connections</title>

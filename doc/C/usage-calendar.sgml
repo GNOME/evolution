@@ -13,7 +13,7 @@
 	  <title>Evolution Calendar View</title>
 	  <screenshot>
 	    <screeninfo>Evolution Contact Manager Window</screeninfo>
-	    <graphic fileref="cal-pic" format="png" srccredit="Aaron Weber">
+	    <graphic fileref="fig/calendar" format="png" srccredit="Aaron Weber">
 	    </graphic>
 	  </screenshot>
 	</figure>

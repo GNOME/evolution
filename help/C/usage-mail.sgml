@@ -704,6 +704,75 @@
 
 	    </para>
 	  </example>
+          <para>
+             To create a vFolder, select <guimenuitem>VFolder
+             Druid</guimenuitem> from the <guimenu>Tools</guimenu>
+             menu in the <interface>main window</interface>.  This
+             will bring up a dialog box that looks suspiciously like
+             the Filter Druid (for more information on filters, see
+             <xref linkend="usage-mail-organize-filters">), and which
+             presents you with a list of vFolders you have previously
+             created. If you have already created vFolders, you can
+             click on them in the frame labelled <guilabel>Select Rule
+             Type</guilabel>, and edit or remove them.  If you have
+             not created any, there will be only one available option:
+             click <guibutton>Add</guibutton> to add a new vFolder.
+          </para>
+          <para>
+             You'll be prompted to create a filtering rule. To do so,
+             select one of the base rules, and click
+             <guibutton>Next</guibutton> to customize it.  Your options are:
+        <itemizedlist>
+             <listitem>
+                <para>
+                   For matching messages: you may select one or more
+                   search criteria; the vFolder you create will
+                   contain messages that match all of
+                   them.
+                 </para>
+               </listitem>
+               <listitem>
+                 <para>
+                    Messages from a certain person: you enter an email
+                    address, and the vFolder will contain any messages
+                    from that address.
+                 </para>
+               </listitem>
+               <listitem>
+                 <para>
+                   Messages to a certain address: any messages sent
+                   directly to this address will be in the vFolder you create.
+                  </para>
+               </listitem>
+               <listitem>
+                 <para>
+                    Messages with a given subject: enter a subject,
+                    and the vFolder will contain messages with that
+                    subject.
+                 </para>
+               </listitem>
+              </itemizedlist>
+            as is shown in <xref linkend="usage-mail-vfolder-fig-createrule">
+
+	   <figure id="usage-mail-vfolder-fig-createrule">
+	     <title>Selecting a vFolder Rule</title>
+	     <screenshot>
+	      <screeninfo>Selecting a vFolder Rule</screeninfo>
+	      <graphic fileref="fig/vfolder-createrule-fig" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	    </screenshot>
+	  </figure>
+          </para>
+          <para>
+ 
+            Once you click <guibutton>Next</guibutton>, you'll
+            customize the vFolder rule.  This process is somewhat
+            complicated, but promises to get much more simple in
+            future versions of <application>Evolution</application>.
+            As it stands now, try clicking different things to have
+            the sentence in the bottom frame make sense.
+
+          </para>
 	</sect2>
 
 	<sect2 id="usage-mail-organize-filters">
@@ -717,9 +786,21 @@
             To create a filter, go to your
             <interface>Inbox</interface>.  Then select
             <guimenuitem>Filter Druid</guimenuitem> from the
-            <guimenu>Tools</guimenu> menu. This will start the a
-            <glossterm> druid</glossterm>, which will allow you to
-            create filters.
+            <guimenu>Tools</guimenu> menu. This will bring up a
+            <glossterm>druid</glossterm>, or assistant, which will
+            allow you to create filters.  The <interface>filter
+            druid</interface> is shown in <xref linkend="usage-mail-filters-fig-new">
+
+           
+	   <figure id="usage-mail-filters-fig-new">
+	     <title>Creating a new Filter</title>
+	     <screenshot>
+	      <screeninfo>Creating a new Filter</screeninfo>
+	      <graphic fileref="fig/filter-new-fig" format="png" srccredit="Aaron Weber">
+	    </graphic>
+	    </screenshot>
+	  </figure>
+
           </para>
 
           <para> The <interface>filter druid</interface> window
@@ -774,3 +855,4 @@
       </sect1>
     </chapter>
 <!-- ================ END OF MAILER CHAPTER ============= -->
+
