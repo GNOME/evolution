@@ -190,7 +190,8 @@ e_cell_combo_destroy			(GtkObject *object)
 {
 	ECellCombo *ecc = E_CELL_COMBO (object);
 
-	gtk_widget_unref (ecc->popup_window);
+	gtk_widget_destroy (ecc->popup_window);
+	ecc->popup_window = NULL;
 
 	GTK_OBJECT_CLASS (parent_class)->destroy (object);
 }
