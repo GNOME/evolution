@@ -98,6 +98,7 @@ static ECardSimpleFieldData field_data[] =
 	{ E_CARD_SIMPLE_FIELD_BIRTH_DATE,         "birth_date",      "Birth Date",    "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_DATE },
 	{ E_CARD_SIMPLE_FIELD_MAILER,             "mailer",          "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 	{ E_CARD_SIMPLE_FIELD_NAME_OR_ORG,        "nameororg",       "",              "",         0,                                   E_CARD_SIMPLE_INTERNAL_TYPE_SPECIAL },
+	{ E_CARD_SIMPLE_FIELD_CATEGORIES,         "categories",      "Categories",    "Categories", 0,                                 E_CARD_SIMPLE_INTERNAL_TYPE_STRING },
 };
 static int field_data_count = sizeof (field_data) / sizeof (field_data[0]);
 

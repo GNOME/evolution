@@ -145,6 +145,12 @@ attributetype ( 666.666.666.1.22
 	SUBSTR telephoneNumberSubstringsMatch
 	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15 )
 
+attributetype ( 666.666.666.1.23
+	NAME 'categories'
+	EQUALITY caseIgnoreMatch
+	SUBSTR caseIgnoreSubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.15{4096} )
+
 # evolutionPerson
 objectclass	( 666.666.666.2.1
     NAME 'evolutionPerson'
@@ -156,5 +162,5 @@ objectclass	( 666.666.666.2.1
 		otherPhone $ businessRole $ managerName $ assistantName $ assistantPhone $
 		otherPostalAddress $ mailer $ birthDate $ anniversary $ spouseName $
 		note $ companyPhone $ callbackPhone $ otherFacsimileTelephoneNumber $
-		radio $ telex $ tty )
+		radio $ telex $ tty $ categories )
 	)  

@@ -1,5 +1,18 @@
 2001-03-12  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c: add E_STRING_PROP for
+	categories.
+
+	* backend/pas/evolutionperson.schema: add categories attribute.
+
+	* backend/ebook/e-card-simple.c (field_data): add
+	E_CARD_SIMPLE_FIELD_CATEGORIES.
+
+	* backend/ebook/e-card-simple.h: add
+	E_CARD_SIMPLE_FIELD_CATEGORIES.
+
+2001-03-12  Chris Toshok  <toshok@ximian.com>
+
 	* gui/widgets/e-minicard.c (supported_fields_cb): add is_read_only
 	param.
 
