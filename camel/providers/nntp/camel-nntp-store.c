@@ -55,12 +55,47 @@ static CamelServiceClass *service_class = NULL;
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 #define CNNTPF_CLASS(so) CAMEL_NNTP_FOLDER_CLASS (GTK_OBJECT(so)->klass)
 
-static CamelFolder *_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex);
-static char *_get_folder_name (CamelStore *store, const char *folder_name,
-			       CamelException *ex);
-
 static gboolean nntp_connect (CamelService *service, CamelException *ex);
 static gboolean nntp_disconnect (CamelService *service, CamelException *ex);
+
+
+static CamelFolder *
+nntp_store_get_folder (CamelStore *store, const gchar *folder_name,
+		       gboolean get_folder, CamelException *ex)
+{
+	CamelNNTPFolder *new_nntp_folder;
+	CamelFolder *new_folder;
+	CamelNNTPStore *nntp_store = CAMEL_NNTP_STORE (store);
+
+	/* if we haven't already read our .newsrc, read it now */
+	if (!nntp_store->newsrc)
+		nntp_store->newsrc = camel_nntp_newsrc_read_for_server (CAMEL_SERVICE(store)->url->host);
+
+	/* check if folder has already been created */
+	/* call the standard routine for that when  */
+	/* it is done ... */
+
+	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
+	new_folder = CAMEL_FOLDER (new_nntp_folder);
+	
+	/* XXX We shouldn't be passing NULL here, but it's equivalent to
+	 * what was there before, and there's no
+	 * CamelNNTPFolder::get_subfolder yet anyway...
+	 */
+	CF_CLASS (new_folder)->init (new_folder, store, NULL,
+				     folder_name, ".", FALSE, ex);
+	
+	return new_folder;
+}
+
+
+static char *
+nntp_store_get_folder_name (CamelStore *store, const char *folder_name,
+			    CamelException *ex)
+{
+	return g_strdup (folder_name);
+}
+
 
 static void
 camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
@@ -70,8 +105,8 @@ camel_nntp_store_class_init (CamelNNTPStoreClass *camel_nntp_store_class)
 	service_class = gtk_type_class (camel_service_get_type ());
 	
 	/* virtual method overload */
-	camel_store_class->get_folder = _get_folder;
-	camel_store_class->get_folder_name = _get_folder_name;
+	camel_store_class->get_folder = nntp_store_get_folder;
+	camel_store_class->get_folder_name = nntp_store_get_folder_name;
 }
 
 
@@ -106,37 +141,6 @@ camel_nntp_store_get_type (void)
 	}
 	
 	return camel_nntp_store_type;
-}
-
-static CamelFolder *
-_get_folder (CamelStore *store, const gchar *folder_name, CamelException *ex)
-{
-	CamelNNTPFolder *new_nntp_folder;
-	CamelFolder *new_folder;
-
-	/* check if folder has already been created */
-	/* call the standard routine for that when  */
-	/* it is done ... */
-
-	new_nntp_folder =  gtk_type_new (CAMEL_NNTP_FOLDER_TYPE);
-	new_folder = CAMEL_FOLDER (new_nntp_folder);
-	
-	/* XXX We shouldn't be passing NULL here, but it's equivalent to
-	 * what was there before, and there's no
-	 * CamelNNTPFolder::get_subfolder yet anyway...
-	 */
-	CF_CLASS (new_folder)->init (new_folder, store, NULL,
-				     folder_name, '/', ex);
-	
-	return new_folder;
-}
-
-
-static char *
-_get_folder_name (CamelStore *store, const char *folder_name,
-		  CamelException *ex)
-{
-	return g_strdup (folder_name);
 }
 
 /**
@@ -206,7 +210,7 @@ nntp_connect (CamelService *service, CamelException *ex)
 						  CAMEL_STREAM_BUFFER_READ);
 
 	/* Read the greeting */
-	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex /* XX check this */);
+	buf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	if (!buf) {
 		return -1;
 	}
@@ -286,12 +290,12 @@ camel_nntp_command (CamelNNTPStore *store, char **ret, char *fmt, ...)
 	}
 
 	/* Send the command */
-	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf), ex /* XXX */);
+	camel_stream_write (store->ostream, cmdbuf, strlen (cmdbuf));
 	g_free (cmdbuf);
-	camel_stream_write (store->ostream, "\r\n", 2, ex /* XXX */);
+	camel_stream_write (store->ostream, "\r\n", 2);
 
 	/* Read the response */
-	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream), ex /* XXX */);
+	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (store->istream));
 	resp_code = atoi (respbuf);
 
 	if (resp_code < 400)
@@ -333,11 +337,10 @@ camel_nntp_command_get_additional_data (CamelNNTPStore *store)
 	GPtrArray *data;
 	char *buf;
 	int i, status = CAMEL_NNTP_OK;
-	CamelException *ex = camel_exception_new();
 
 	data = g_ptr_array_new ();
 	while (1) {
-		buf = camel_stream_buffer_read_line (stream, ex /* XXX */);
+		buf = camel_stream_buffer_read_line (stream);
 		if (!buf) {
 			status = CAMEL_NNTP_FAIL;
 			break;
@@ -375,8 +378,6 @@ camel_nntp_store_subscribe_group (CamelStore *store,
 	gchar *root_dir = camel_nntp_store_get_toplevel_dir(CAMEL_NNTP_STORE(store));
 	char *ret = NULL;
 	CamelException *ex = camel_exception_new();
-
-	camel_nntp_store_open(CAMEL_NNTP_STORE(store), ex);
 
 	if (camel_exception_get_id (ex)) {
 		g_free (root_dir);

@@ -47,6 +47,7 @@ extern "C" {
 typedef struct {
 	CamelFolder parent_object;
 
+	gchar *group_name;
 	gchar *summary_file_path;  /* contains the messages summary */
 	CamelFolderSummary *summary;
 } CamelNNTPFolder;

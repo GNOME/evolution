@@ -51,8 +51,7 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 		while (!done) {
 			char *line;
 
-			line = camel_stream_buffer_read_line ( 
-					      CAMEL_STREAM_BUFFER ( nntp_istream ), ex /* XXX */);
+			line = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER ( nntp_istream ));
 
 			if (*line == '.') {
 				done = TRUE;
@@ -63,9 +62,9 @@ get_XOVER_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 
 				new_info->subject = g_strdup(split_line[1]);
 				new_info->from = g_strdup(split_line[2]);
-				new_info->to = g_strdup(folder->name);
+				new_info->to = g_strdup(nntp_folder->group_name);
+				new_info->date_sent = header_decode_date(split_line[3], NULL);
 #if 0
-				new_info->date_sent = g_strdup(split_line[3]);
 				/* XXX do we need to fill in both dates? */
 				new_info->headers.date_received = g_strdup(split_line[3]);
 #endif
@@ -87,10 +86,6 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 {
 	int i;
 	int status;
-	GArray *array;
-	CamelMessageInfo info;
-
-	array = g_array_new(FALSE, FALSE, sizeof(CamelMessageInfo));
 
 	for (i = first_message; i < last_message; i ++) {
 		status = camel_nntp_command (nntp_store, NULL,
@@ -105,6 +100,7 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			CamelStream *header_stream;
 			GArray *header_array;
 			CamelStream *nntp_istream;
+			CamelMessageInfo *new_info = g_new0(CamelMessageInfo, 1);
 
 			buf_alloc = 2048;
 			buf_len = 0;
@@ -150,21 +146,23 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			for (h = 0; h < header_array->len; h ++) {
 				Rfc822Header *header = &((Rfc822Header*)header_array->data)[h];
 				if (!g_strcasecmp(header->name, "From"))
-					info.from = g_strdup(header->value);
+					new_info->from = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "To"))
-					info.to = g_strdup(header->value);
+					new_info->to = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "Subject"))
-					info.subject = g_strdup(header->value);
+					new_info->subject = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "Message-ID"))
-					info.uid = g_strdup(header->value);
+					new_info->uid = g_strdup(header->value);
 				else if (!g_strcasecmp(header->name, "Date")) {
+					new_info->date_sent = header_decode_date (header->value);
 #if 0
-					info.date_sent = g_strdup(header->value);
-					info.date_received = g_strdup(header->value);
+					new_info->date_sent = g_strdup(header->value);
+					new_info->date_received = g_strdup(header->value);
 #endif
 				}
 			}
-			g_array_append_val(array, info);
+
+			camel_folder_summary_add (nntp_folder->summary, new_info);
 		}
 		else if (status == CAMEL_NNTP_FAIL) {
 			/* nasty things are afoot */
@@ -172,7 +170,6 @@ get_HEAD_headers(CamelNNTPStore *nntp_store, CamelFolder *folder,
 			break;
 		}
 	}
-	return array;
 }
 #endif
 
@@ -188,7 +185,7 @@ camel_nntp_get_headers (CamelStore *store,
 	int status;
 
 	status = camel_nntp_command (nntp_store, &ret,
-				     "GROUP %s", folder->name);
+				     "GROUP %s", CAMEL_NNTP_FOLDER (folder)->group_name);
 
 	sscanf (ret, "%d %d %d", &nb_message, &first_message, &last_message);
 	g_free (ret);
@@ -199,13 +196,15 @@ camel_nntp_get_headers (CamelStore *store,
 		return;
 	}
 
+#if 0
 	if (nntp_store->extensions & CAMEL_NNTP_EXT_XOVER) {
+#endif
 		get_XOVER_headers (nntp_store, folder, first_message, last_message, ex);
+#if 0
 	}
 	else {
-#if 0
 		get_HEAD_headers (nntp_store, folder, first_message, last_message, ex);
-#endif
 	}
+#endif
 }
 

@@ -33,6 +33,7 @@ extern "C" {
 
 #include <gtk/gtk.h>
 #include "camel-store.h"
+#include "camel-nntp-newsrc.h"
 
 #define CAMEL_NNTP_STORE_TYPE     (camel_nntp_store_get_type ())
 #define CAMEL_NNTP_STORE(obj)     (GTK_CHECK_CAST((obj), CAMEL_NNTP_STORE_TYPE, CamelNNTPStore))
@@ -45,6 +46,8 @@ typedef struct {
 
 #define CAMEL_NNTP_EXT_XOVER 0x01
 	guint32 extensions;
+
+	CamelNNTPNewsrc *newsrc;
 
 	CamelStream *istream, *ostream;
 } CamelNNTPStore;
