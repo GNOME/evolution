@@ -163,9 +163,11 @@ envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelExceptio
 {
 	char *addr, *name = NULL, *user = NULL;
 	struct _camel_header_address *cia;
+	unsigned char *literal = NULL;
 	camel_imap4_token_t token;
 	const char *domain = NULL;
 	int part = 0;
+	size_t n;
 	
 	if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
 		return -1;
@@ -182,8 +184,9 @@ envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelExceptio
 	
 	do {
 		if (camel_imap4_engine_next_token (engine, &token, ex) == -1)
-			return -1;
+			goto exception;
 		
+		literal = NULL;
 		switch (token.token) {
 		case CAMEL_IMAP4_TOKEN_NIL:
 			break;
@@ -201,17 +204,33 @@ envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelExceptio
 				break;
 			}
 			break;
+		case CAMEL_IMAP4_TOKEN_LITERAL:
+			if (camel_imap4_engine_literal (engine, &literal, &n, ex) == -1)
+				goto exception;
+			
+			switch (part) {
+			case 0:
+				name = camel_header_decode_string (literal, NULL);
+				g_free (literal);
+				break;
+			case 2:
+				user = literal;
+				break;
+			case 3:
+				domain = literal;
+				break;
+			}
+			break;
 		default:
 			camel_imap4_utils_set_unexpected_token_error (ex, engine, &token);
-			g_free (name);
-			g_free (user);
-			return -1;
+			goto exception;
 		}
 		
 		part++;
 	} while (part < 4);
 	
 	addr = g_strdup_printf ("%s@%s", user, domain);
+	g_free (literal);
 	g_free (user);
 	
 	cia = camel_header_address_new_name (name, addr);
@@ -233,6 +252,13 @@ envelope_decode_address (CamelIMAP4Engine *engine, GString *addrs, CamelExceptio
 	}
 	
 	return 0;
+	
+ exception:
+	
+	g_free (name);
+	g_free (user);
+	
+	return -1;
 }
 
 static int
@@ -315,8 +341,7 @@ envelope_decode_date (CamelIMAP4Engine *engine, time_t *date, CamelException *ex
 	
 	*date = camel_header_decode_date (nstring, NULL);
 	
-	if (literal)
-		g_free (literal);
+	g_free (literal);
 	
 	return 0;
 }

@@ -1,5 +1,8 @@
 2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-summary.c (envelope_decode_address):
+	Do proper cleanup in case of error and also handle literals.
+
 	* providers/imap4/camel-imap4-store.c (imap4_get_folder_info):
 	Removed camel_service_connect() call which is no longer needed.
 	(imap4_connect): If engine is already connected, shortcut to
@@ -13,11 +16,14 @@
 	(connect_to_server_wrapper): Do the same SSL->TLS and TLS->CLEAR
 	fallbacks that the 2.0 (and older) code did.
 
-	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper): Same.
+	* providers/pop3/camel-pop3-store.c (connect_to_server_wrapper):
+	Same.
 
-	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper): Same.
+	* providers/imap4/camel-imap4-store.c (connect_to_server_wrapper):
+	Same.
 
-	* providers/imap/camel-imap-store.c (connect_to_server_wrapper): Same.
+	* providers/imap/camel-imap-store.c (connect_to_server_wrapper):
+	Same.
 
 2004-11-01  Jeffrey Stedfast  <fejj@novell.com>
 
