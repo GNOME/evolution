@@ -1,3 +1,9 @@
+2001-09-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/addressbook.c: Update the paths,
+	/menu/ComponentToolsPlaceholder/Tools/ ->
+	/menu/Tools/ComponentPlaceholder/.
+
 2001-09-27  JP Rosevear  <jpr@ximian.com>
 
 	* conduit/address-conduit.c (local_record_from_ecard): use the old
