@@ -311,15 +311,24 @@
         navigating your mailbox with the keyboard instead of the
         mouse:
          <variablelist>
-	  <varlistentry>
-	    <term>Check Mail</term>
+
+          <varlistentry>
+	    <term>Navigating the Message List with the Keyboard</term>
 	    <listitem>
 	      <para>
-                Click <guibutton>Get Mail</guibutton> in the
-                toolbar. There is no keyboard shortcut for this task,
-                but you can ask <application>Evolution</application>
-                to check for new mail periodically in the
-                <guilabel>Mail Settings</guilabel> dialog.
+                Press <keycap>N</keycap> to jump to the next unread
+                message. <keycap>P</keycap> goes to the previous
+                unread message.  Use the arrow keys to move up
+                and down along the list of all message.
+                </para>
+	    </listitem>
+	  </varlistentry>
+
+          <varlistentry>
+	    <term>Display the next page of a message in the preview pane</term>
+	    <listitem>
+	      <para>
+                Press the space bar.
                 </para>
 	    </listitem>
 	  </varlistentry>
@@ -358,7 +367,7 @@
                 toolbar, or press
                 <keycombo action="simul">
 		  <keycap>Ctrl</keycap>
-		  <keycap>J</keycap>
+		  <keycap>F</keycap>
                 </keycombo>
                 </para>
 	    </listitem>
@@ -382,17 +391,9 @@
 	    <term>Create Filters and Virtual Folders</term>
 	    <listitem>
 	      <para>
-                You can create filters and Virtual Folders based on
-                specific message attributes from the message's
-                right-click menu.  Alternately, select a message, and
-                then choose <menuchoice> <guimenu>Settings</guimenu>
-		  <guimenuitem>Mail Filters</guimenuitem> </menuchoice>
-                or <menuchoice> <guimenu>Settings</guimenu>
-		  <guimenuitem>Virtual Folder Editor</guimenuitem>
-                </menuchoice>.  Filters are discussed in <xref
-                linkend="usage-mail-organize-filters">, and Virtual
-		  Folders in <xref
-				 linkend="usage-mail-organize-vfolders">.
+                Right-click on a message and select "Create Rule..."
+                menu items. You can also create filters and virtual
+                folders in the <guimenu>Tools</guimenu> menu.
 	      </para>
 	    </listitem>
 	  </varlistentry>
@@ -401,7 +402,7 @@
       </para>
     </sect2>
     <sect2 id="quickref-cal">
-      <title>Calendar</title>
+      <title>Address Book</title>
       <para>
         <variablelist>
 	  <varlistentry>
@@ -411,7 +412,7 @@
 		<tip id="new-appt">
 		  <title>New Appointments Fast</title>
 		  <para>
-		    Double-click in a blank space to create a new appointment.
+		    Double-click in a blank space to create a new contact.
 		  </para>
 		</tip>
 	      </para>

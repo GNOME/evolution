@@ -1,4 +1,6 @@
+<!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
+-->
 <chapter id="config-prefs">
 
       <title>Advanced Configuration</title>
@@ -227,10 +229,44 @@
           <tip>
             <title>Sharing Mailboxes with Other Mail Programs</title>
             <para>
-              You may want to use <application>Evolution</application> and another email client, such as <application>Mutt</application>.  You should download your mail as you would normally with <application>Mutt</application>.  Set your identity in <application>Evolution</application> to be a Standard Unix mailbox file, UNIX mbox spool-format mail files, or the QMail maildir-format mail file.  Then specify the file that you read your email from.  You can now use both mail programs seamlessly together, using the same files.
-            </para>
-         </tip>
-      </sect3>
+              If you want to use <application>Evolution</application>
+              and another email client, such as
+              <application>Mutt</application>, at the same time,
+              here's how:
+              <orderedlist numeration="arabic">
+                <listitem>
+                   <para>
+                      Download your mail in the other application as
+                      you would normally.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      In <application>Evolution</application>
+                      <menuchoice><guimenu>Tools</guimenu><guimenuitem>Mail
+                      Settings</guimenuitem></menuchoice>, and pick the account
+                      you'd like to use to share mail. You may want to
+                      create a new account just for this source of
+                      mail.
+                   </para>
+               </listitem>                     
+               <listitem>
+                   <para>
+                      Under the <guilabel>Receiving Mail</guilabel>
+                      tab, select the type of mail file that your
+                      other mail application uses, and then enter the
+                      full path to that file.
+                   </para>
+                  </listitem>
+                <listitem>
+                   <para>
+                      Click the <guibutton>OK</guibutton> button.
+                   </para>
+                  </listitem>
+                </orderedlist>
+               </para>
+            </tip>
+        </sect3>
 
       <sect3 id="config-prefs-mail-network-transports">
 	<title>Mail Transports</title>

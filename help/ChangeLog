@@ -1,3 +1,7 @@
+2001-08-09  Aaron Weber  <aaron@ximian.com>
+
+	* C/config-prefs.sgml: Made sharing tip an orderedlist.
+
 2001-08-08  Kevin Breit  <battery841@mediaone.net>
 
 	* C/config-prefs.sgml: Add information about sharing mailbox files.
