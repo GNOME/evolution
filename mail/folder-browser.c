@@ -987,6 +987,7 @@ vfolder_mlist (GtkWidget *w, FolderBrowser *fb)
 
 	name = header_raw_check_mailing_list(&((CamelMimePart *)fb->mail_display->current_message)->headers);
 	if (name) {
+		g_strstrip (name);
 		vfolder_gui_add_from_mlist(fb->mail_display->current_message, name, fb->uri);
 		g_free(name);
 	}

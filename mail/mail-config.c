@@ -797,7 +797,7 @@ mail_config_write_on_exit (void)
 	sources = mail_config_get_sources ();
 	for ( ; sources; sources = sources->next) {
 		s = sources->data;
-		if (s->save_passwd)
+		if (s->save_passwd && s->url)
 			mail_session_remember_password (s->url);
 	}
 	g_slist_free (sources);

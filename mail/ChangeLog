@@ -1,5 +1,11 @@
 2001-06-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-config.c (mail_config_write_on_exit): Don't bother trying
+	to save the passwd if the url is NULL.
+
+	* folder-browser.c (vfolder_mlist): Strip the mlist name to fix
+	bug #3732.
+
 	* component-factory.c (destination_folder_handle_drop): Since we
 	have an exception variable, we might as well use it when getting
 	folders too.
