@@ -1,3 +1,12 @@
+2003-07-23  Dan Winship  <danw@ximian.com>
+
+	* bad-icon.xpm: Remove this. It was only used by e-icon-list,
+	which is no longer there.
+
+	* composer-marshal.list: Likewise
+
+	* Makefile.am: Update
+
 2003-07-21  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c (build_message): Init charset to NULL.

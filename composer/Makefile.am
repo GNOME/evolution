@@ -29,19 +29,6 @@ $(HTML_EDITOR_GENERATED): $(GTKHTML_DATADIR)/Editor.idl
 
 ##
 
-composer-marshal.h: composer-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_msg_composer_marshal composer-marshal.list --header > composer-marshal.tmp \
-	&& mv composer-marshal.tmp composer-marshal.h ) \
-	|| ( rm -f composer-marshal.tmp && exit 1 )
-composer-marshal.c: composer-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_msg_composer_marshal composer-marshal.list --body > composer-marshal.tmp \
-	&& mv composer-marshal.tmp composer-marshal.c ) \
-	|| ( rm -f composer-marshal.tmp && exit 1 )
-
-$(libcomposer_la_OBJECTS): composer-marshal.h
-
-##
-
 idl_DATA = $(IDLS)
 
 glade_DATA =					\
@@ -73,7 +60,6 @@ INCLUDES =								\
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
 	$(HTML_EDITOR_GENERATED)		\
-	composer-marshal.c			\
 	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\
@@ -92,9 +78,7 @@ libcomposer_la_SOURCES = 			\
 EXTRA_DIST =					\
 	$(glade_DATA)				\
 	$(IDLS)					\
-	ChangeLog.pre-1-4			\
-	composer-marshal.list			\
-	bad-icon.xpm
+	ChangeLog.pre-1-4
 
 BUILT_SOURCES = $(IDL_GENERATED) $(HTML_EDITOR_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)
