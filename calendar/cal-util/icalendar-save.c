@@ -164,9 +164,9 @@ icalcomponent_create_from_ical_object (iCalObject *ical)
 	/*** transp ***/
 	{
 		if (ical->transp == ICAL_TRANSP_PROPERTY)
-			icalproperty_set_transp (prop, "TRANSPARENT");
+			prop = icalproperty_new_transp ("TRANSPARENT");
 		else
-			icalproperty_set_transp (prop, "OPAQUE");
+			prop = icalproperty_new_transp ("OPAQUE");
 		icalcomponent_add_property (comp, prop);
 	}
 
@@ -347,8 +347,10 @@ void unparse_person (iCalPerson *person, icalproperty *person_prop)
 
 	/* convert iCalPerson to an icalproperty */
 
-	param = icalparameter_new_cn (person->name);
-	icalproperty_add_parameter (person_prop, param);
+	if (person->name) {
+		param = icalparameter_new_cn (person->name);
+		icalproperty_add_parameter (person_prop, param);
+	}
 
 	if (g_strcasecmp (person->role, "CHAIR") == 0)
 		param = icalparameter_new_role (ICAL_ROLE_CHAIR);
@@ -418,7 +420,10 @@ void unparse_person (iCalPerson *person, icalproperty *person_prop)
 		icalproperty_add_parameter (person_prop, param);
 	}
 
-	param = icalparameter_new_sentby (person->sent_by);
+	if (person->sent_by) {
+		param = icalparameter_new_sentby (person->sent_by);
+		icalproperty_add_parameter (person_prop, param);
+	}
 
 	/* ret->deleg_to is a list of ICAL_DIR_PARAMETER */
 	/* FIX ME ... */

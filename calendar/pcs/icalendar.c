@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * icalendar server for gnomecal
  * 
@@ -195,8 +196,8 @@ ical_object_create_from_icalcomponent (icalcomponent* comp)
 			ical->dtend = icaltime_to_timet (&ictime);
 			param = icalproperty_get_first_parameter (prop,
 								  ICAL_VALUE_PARAMETER);
-			ical->date_only = (icalparameter_get_value (param) == 
-					   ICAL_VALUE_DATE);
+			if (param)
+				ical->date_only = (icalparameter_get_value (param) == ICAL_VALUE_DATE);
 			/* FIXME: We should handle timezone specifiers */
 			break;
 		case ICAL_DUE_PROPERTY:
@@ -213,8 +214,8 @@ ical_object_create_from_icalcomponent (icalcomponent* comp)
 			ical->dtstart = icaltime_to_timet (&ictime);
 			param = icalproperty_get_first_parameter (prop,
 								  ICAL_VALUE_PARAMETER);
-			ical->date_only = (icalparameter_get_value (param) == 
-					   ICAL_VALUE_DATE);
+			if (param)
+				ical->date_only = (icalparameter_get_value (param) == ICAL_VALUE_DATE);
 			/* FIXME: We should handle timezone specifiers */
 			break;
 		case ICAL_DURATION_PROPERTY:
@@ -414,7 +415,11 @@ parse_person (icalproperty* prop, gchar* value)
 
 	param = icalproperty_get_first_parameter (prop,
 						  ICAL_CN_PARAMETER);
-	ret->name = g_strdup (icalparameter_get_cn (param));
+	if (param)
+		ret->name = g_strdup (icalparameter_get_cn (param));
+	else
+		ret->name = NULL;
+	
 	
 	param = icalproperty_get_first_parameter (prop,
 						  ICAL_ROLE_PARAMETER);
@@ -532,10 +537,11 @@ parse_person (icalproperty* prop, gchar* value)
 							 ICAL_DELEGATEDFROM_PARAMETER);
 	}
 
-	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER
-);
-	copy_str (&ret->sent_by,
-		  icalparameter_get_sentby (param));
+	param = icalproperty_get_first_parameter (prop, ICAL_SENTBY_PARAMETER);
+	if (param)
+		copy_str (&ret->sent_by, icalparameter_get_sentby (param));
+	else
+		ret->sent_by = NULL;
 
 	param = icalproperty_get_first_parameter (prop, ICAL_DIR_PARAMETER);
 	while (param) {

@@ -1,3 +1,13 @@
+2000-04-24  Seth Alves  <alves@hungry.com>
+
+	* pcs/icalendar.c (parse_person): allow for null CN
+	(parse_person): allow for null sent_by
+
+	* pcs/Makefile.am: build icalendar-test
+
+	* pcs/icalendar-test.c: a test which loads an ical file and
+	converts it to our internal format, and then saves it back out.
+
 2000-04-24  Damon Chaplin  <damon@helixcode.com>
 
 	* gui/Makefile.am: added new source files and pixmaps, and removed

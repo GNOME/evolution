@@ -38,5 +38,24 @@ libpcs_a_SOURCES =		\
 	job.c			\
 	job.h
 
+
+
+noinst_PROGRAMS = icalendar-test
+
+icalendar_test_SOURCES =	\
+	icalendar-test.c	\
+	icalendar.c		\
+	icalendar-save.c
+
+icalendar_test_LDADD =						\
+	$(EXTRA_GNOME_LIBS)					\
+	$(top_builddir)/libversit/libversit.la			\
+	$(top_builddir)/libical/src/libical/libical.la
+
+#	$(top_builddir)/calendar/cal-util/libcal-util.la	\
+
+
+
+
 BUILT_SOURCES = $(CORBA_GENERATED)
 CLEANFILES += $(BUILT_SOURCES)
