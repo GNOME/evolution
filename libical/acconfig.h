@@ -9,7 +9,7 @@
 /* Define to terminate lines with "\n" instead of "\r\n" */
 #undef ICAL_UNIX_NEWLINE
 
-/* Define if your libc defines a "timezone" variable
+/* Define if your libc defines a "timezone" variable */
 #undef HAVE_TIMEZONE
 
 /* Define if your libc defines a struct tm containing a "tm_gmtoff" member */

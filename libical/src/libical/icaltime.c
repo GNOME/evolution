@@ -25,6 +25,10 @@
 
  ======================================================================*/
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "icaltime.h"
 #include "icalvalue.h"
 #include <assert.h>

@@ -1,3 +1,11 @@
+2000-12-21  JP Rosevear  <jpr@helixcode.com>
+
+	* src/libical/icaltime.c: include configure.h because HAVE_TIMEZONE
+	is used
+
+	* acconfig.h: Terminate variable comment so that the variable can
+	actually be seen
+
 2000-12-15  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* src/libical/Makefile.am: Build `libical-static.la'.
