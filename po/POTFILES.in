@@ -85,10 +85,13 @@ camel/camel-search-private.c
 camel/camel-service.c
 camel/camel-session.c
 camel/camel-store.c
+camel/camel-tcp-stream-ssl.c
 camel/camel-url.c
 camel/camel-vee-folder.c
+camel/camel-vtrash-folder.c
 camel/providers/imap/camel-imap-command.c
 camel/providers/imap/camel-imap-folder.c
+camel/providers/imap/camel-imap-message-cache.c
 camel/providers/imap/camel-imap-provider.c
 camel/providers/imap/camel-imap-store.c
 camel/providers/local/camel-local-provider.c
@@ -142,6 +145,7 @@ filter/filter-part.c
 filter/filter-rule.c
 filter/filter.glade
 filter/libfilter-i18n.h
+filter/rule-editor.c
 filter/score-editor.c
 filter/score-rule.c
 filter/vfolder-editor.c
@@ -153,6 +157,7 @@ mail/GNOME_Evolution_Mail.oaf.in
 mail/local-config.glade
 mail/mail-accounts.c
 mail/mail-account-editor.c
+mail/mail-account-gui.c
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-config.c
@@ -174,9 +179,15 @@ mail/message-list.c
 mail/openpgp-utils.c
 mail/session.c
 mail/subscribe-dialog.c
+mail/importers/GNOME_Evolution_Mail_Mbox_Importer.oaf.in
+mail/importers/GNOME_Evolution_Mail_Outlook_Importer.oaf.in
+mail/importers/elm-importer.c
+mail/importers/netscape-importer.c
+mail/importers/pine-importer.c
 shell/glade/e-shell-folder-creation-dialog.glade
 shell/importer/importer.c
 shell/importer/import.glade
+shell/importer/intelligent.c
 shell/e-setup.c
 shell/e-shell-folder-creation-dialog.c
 shell/e-shell-folder-selection-dialog.c
