@@ -1,3 +1,9 @@
+2001-10-02  Rodrigo Moya <rodrigo@ximian.com>
+
+	* Makefile.am: add $(BONOBO_GNOME_CFLAGS) to make it compile with
+	latest Bonobo, which does not install headers in
+	$(gnome_prefix)/include
+
 2001-10-01  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-rdf.c: Applied patch from Takuo Kitame for using charset

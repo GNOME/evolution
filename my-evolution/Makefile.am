@@ -12,6 +12,7 @@ INCLUDES = \
 	$(GNOME_VFS_CFLAGS)					\
 	$(GTKHTML_CFLAGS)					\
 	$(BONOBO_CONF_CFLAGS)					\
+	$(BONOBO_GNOME_CFLAGS)					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"			\
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"		\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"            	\
