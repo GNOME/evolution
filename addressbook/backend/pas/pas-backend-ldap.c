@@ -2925,8 +2925,8 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 		return;
 	}
 	else {
-		g_warning ("LDAP problem converting search query %s\n", view->search);
-		book_view_notify_status (view->book_view, _("Could not parse query string"));
+		pas_book_view_notify_complete (view->book_view,
+					       GNOME_Evolution_Addressbook_BookViewListener_InvalidQuery);
 		return;
 	}
 
