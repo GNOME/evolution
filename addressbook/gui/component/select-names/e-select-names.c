@@ -21,7 +21,10 @@
 #include <config.h>
 #include <string.h>
 #include <glib.h>
-#include <gtk/gtk.h>
+#include <gtk/gtkalignment.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
+#include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 
 #include <gal/e-table/e-table-simple.h>
@@ -214,7 +217,7 @@ real_add_address_cb (int model_row, gpointer closure)
 	ESelectNamesChild *child = closure;
 	ESelectNames *names = child->names;
 	const EContact *contact;
-	EABDestination *dest = eab_destination_new ();
+	EDestination *dest = e_destination_new ();
 	gint mapped_row;
 
 	mapped_row = e_table_subset_view_to_model_row (E_TABLE_SUBSET (names->without), model_row);
@@ -222,7 +225,7 @@ real_add_address_cb (int model_row, gpointer closure)
 	contact = eab_model_contact_at (EAB_MODEL(names->model), mapped_row);
 	
 	if (contact != NULL) {
-		eab_destination_set_contact (dest, (EContact*)contact, 0);
+		e_destination_set_contact (dest, (EContact*)contact, 0);
 
 		e_select_names_model_append (child->source, dest);
 		e_select_names_model_clean (child->source, FALSE);

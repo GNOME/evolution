@@ -39,7 +39,7 @@
 #include "e-minicard-label.h"
 #include "e-minicard-view.h"
 #include "e-contact-editor.h"
-#include "util/eab-destination.h"
+#include "util/e-destination.h"
 
 static void e_minicard_init		(EMinicard		 *card);
 static void e_minicard_class_init	(EMinicardClass	 *klass);
@@ -537,12 +537,12 @@ activiate_editor(GnomeCanvasItem *item)
 			if (e_contact_get (e_minicard->contact, E_CONTACT_IS_LIST)) {
 				EContactListEditor *editor = eab_show_contact_list_editor (book, e_minicard->contact,
 												FALSE, e_minicard->editable);
-				e_minicard->editor = G_OBJECT (editor);
+				e_minicard->editor = EAB_EDITOR (editor);
 			}
 			else {
 				EContactEditor *editor = eab_show_contact_editor (book, e_minicard->contact,
 												FALSE, e_minicard->editable);
-				e_minicard->editor = G_OBJECT (editor);
+				e_minicard->editor = EAB_EDITOR (editor);
 			}
 
 			g_object_ref (e_minicard->editor);
@@ -746,17 +746,6 @@ add_field (EMinicard *e_minicard, EContactField field, gdouble left_width)
 	name = g_strdup_printf("%s:", e_contact_pretty_name (field));
 	string = e_contact_get (e_minicard->contact, field);
 
-	/* Magically convert embedded XML into an address. */
-	if (!strncmp (string, "<?xml", 5)) {
-		EABDestination *dest = eab_destination_import (string);
-		if (dest != NULL) {
-			gchar *new_string = g_strdup (eab_destination_get_textrep (dest, TRUE));
-			g_free (string);
-			string = new_string;
-			g_object_unref (dest);
-		}
-	}
-
 	new_item = e_minicard_label_new(group);
 	gnome_canvas_item_set( new_item,
 			       "width", e_minicard->width - 4.0,
@@ -852,17 +841,6 @@ remodel( EMinicard *e_minicard )
 
 				string = e_contact_get(e_minicard->contact, field);
 				if (string && *string) {
-					/* Magically convert embedded XML into an address. */
-					if (!strncmp (string, "<?xml", 4)) {
-						EABDestination *dest = eab_destination_import (string);
-						if (dest != NULL) {
-							gchar *new_string = g_strdup (eab_destination_get_textrep (dest, TRUE));
-							g_free (string);
-							string = new_string;
-							g_object_unref (dest);
-						}
-					}
-
 					e_minicard->fields = g_list_append(e_minicard->fields, minicard_field);
 					g_object_set(minicard_field->label,
 						     "field", string,

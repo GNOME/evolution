@@ -372,9 +372,9 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 		/* Is this a quoted or an unquoted separator we are dealing with? */
 		if (ut == g_utf8_get_char(text_model->sep) && index >= 0) {
-			const EABDestination *dest = e_select_names_model_get_destination (source, index);
+			const EDestination *dest = e_select_names_model_get_destination (source, index);
 			if (dest) {
-				const gchar *str = eab_destination_get_textrep (dest, FALSE);
+				const gchar *str = e_destination_get_textrep (dest, FALSE);
 				int j;
 				const char *jp;
 
@@ -400,8 +400,8 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 			if (index == -1) {
 				EReposAbsolute repos;
 				
-				e_select_names_model_insert (source, 0, eab_destination_new ());
-				e_select_names_model_insert (source, 0, eab_destination_new ());
+				e_select_names_model_insert (source, 0, e_destination_new ());
+				e_select_names_model_insert (source, 0, e_destination_new ());
 
 				repos.model = model;
 				repos.pos = -1; /* At end */
@@ -420,7 +420,7 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 					(e_select_names_model_get_string (source, ins_point) == NULL)) 
 				       || (ins_point > 0 && (e_select_names_model_get_string (source, ins_point-1) == NULL)))) {
 
-					e_select_names_model_insert (source, ins_point, eab_destination_new ());
+					e_select_names_model_insert (source, ins_point, e_destination_new ());
 
 					repos.model = model;
 					repos.pos = pos;
@@ -435,10 +435,10 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 				const gchar *str = e_select_names_model_get_string (source, index);
 				gchar *str1 = g_strndup (str, offset);
 				gchar *str2 = g_strdup (str+offset);
-				EABDestination *d1 = eab_destination_new (), *d2 = eab_destination_new ();
+				EDestination *d1 = e_destination_new (), *d2 = e_destination_new ();
 
-				eab_destination_set_raw (d1, str1);
-				eab_destination_set_raw (d2, str2);
+				e_destination_set_raw (d1, str1);
+				e_destination_set_raw (d2, str2);
 
 				e_select_names_model_replace (source, index, d1);
 				e_select_names_model_insert (source, index+1, d2);
@@ -498,12 +498,10 @@ e_select_names_text_model_insert_length (ETextModel *model, gint pos, const gcha
 
 			if (new_str->len) {
 
-				EABDestination *dest;
-				dest = index >= 0 ? eab_destination_copy (e_select_names_model_get_destination (source, index)) : eab_destination_new ();
-				eab_destination_set_raw (dest, new_str->str);
+				EDestination *dest;
+				dest = e_destination_new ();
+				e_destination_set_raw (dest, new_str->str);
 				e_select_names_model_replace (source, index, dest);
-				
-				/* e_select_names_model_replace (source, index, dest); */
 
 				if (this_length > 0) {
 					repos.model = model;
@@ -589,7 +587,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 		if (index+1 < e_select_names_model_count (source)) {
 			EReposDeleteShift repos;
-			EABDestination *new_dest;
+			EDestination *new_dest;
 			const gchar *str1 = e_select_names_model_get_string (source, index);
 			const gchar *str2 = e_select_names_model_get_string (source, index+1);
 			gchar *new_str;
@@ -613,8 +611,8 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 
 			e_select_names_model_delete (source, index+1);
 
-			new_dest = eab_destination_new ();
-			eab_destination_set_raw (new_dest, new_str);
+			new_dest = e_destination_new ();
+			e_destination_set_raw (new_dest, new_str);
 			e_select_names_model_replace (source, index, new_dest);
 			g_free (new_str);
 
@@ -689,7 +687,7 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 			char *np;
 			int i;
 			EReposDeleteShift repos;
-			EABDestination *dest;
+			EDestination *dest;
 
 			new_str = g_new0 (char, strlen (str) * 6 + 1); /* worse case it can't be any longer than this */
 
@@ -718,8 +716,8 @@ e_select_names_text_model_delete (ETextModel *model, gint pos, gint length)
 				np = g_utf8_next_char (np);
 			}
 
-			dest = index >= 0 ? eab_destination_copy (e_select_names_model_get_destination (source, index)) : eab_destination_new ();
-			eab_destination_set_raw (dest, new_str);
+			dest = e_destination_new ();
+			e_destination_set_raw (dest, new_str);
 			e_select_names_model_replace (source, index, dest);
 			
 			if (out)
@@ -764,10 +762,10 @@ e_select_names_text_model_obj_count (ETextModel *model)
 
 	count = i = e_select_names_model_count (source);
 	while (i > 0) {
-		const EABDestination *dest;
+		const EDestination *dest;
 		--i;
 		dest = e_select_names_model_get_destination (source, i);
-		if (eab_destination_get_contact (dest) == NULL)
+		if (e_destination_get_contact (dest) == NULL)
 			--count;
 	}
 
@@ -783,8 +781,8 @@ nth_obj_index (ESelectNamesModel *source, gint n)
 	N = e_select_names_model_count (source);
 	
 	do {
-		const EABDestination *dest = e_select_names_model_get_destination (source, i);
-		if (eab_destination_get_contact (dest))
+		const EDestination *dest = e_select_names_model_get_destination (source, i);
+		if (e_destination_get_contact (dest))
 			--n;
 		++i;
 	} while (n >= 0 && i < N);

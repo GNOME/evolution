@@ -23,9 +23,12 @@
 #include "e-contact-list-editor.h"
 
 #include <string.h>
-#include <glib.h>
+
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window-icon.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtktogglebutton.h>
+
 #include <bonobo/bonobo-ui-container.h>
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-window.h>
@@ -868,7 +871,8 @@ table_drag_data_received_cb (ETable *table, int row, int col,
 
 			if (!e_contact_get (contact, E_CONTACT_IS_LIST)) {
 				e_contact_list_model_add_contact (E_CONTACT_LIST_MODEL (editor->model),
-								  contact);
+								  contact,
+								  0  /* Hard-wired for default e-mail */);
 
 				changed = TRUE;
 			}
@@ -916,7 +920,6 @@ extract_info(EContactListEditor *editor)
 	EContact *contact = editor->contact;
 	if (contact) {
 		int i;
-		GList *email_list;
 		char *image_data;
 		gsize image_data_len;
 		char *string = gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
@@ -932,19 +935,19 @@ extract_info(EContactListEditor *editor)
 		e_contact_set (contact, E_CONTACT_LIST_SHOW_ADDRESSES,
 			       GINT_TO_POINTER (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton))));
 
-		email_list = NULL;
+		e_vcard_remove_attributes (E_VCARD (contact), "", EVC_EMAIL);
+
 		/* then refill it from the contact list model */
 		for (i = 0; i < e_table_model_row_count (editor->model); i ++) {
-			const EABDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
-			gchar *dest_xml = eab_destination_export (dest);
-			if (dest_xml)
-				email_list = g_list_append (email_list, dest_xml);
+			const EDestination *dest = e_contact_list_model_get_destination (E_CONTACT_LIST_MODEL (editor->model), i);
+			EVCardAttribute *attr;
+
+			attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
+
+			e_vcard_add_attribute (E_VCARD (contact), attr);
+
+			e_destination_export_to_vcard_attribute (dest, attr);
 		}
-
-		e_contact_set (contact, E_CONTACT_EMAIL, email_list);
-
-		g_list_foreach (email_list, (GFunc) g_free, NULL);
-		g_list_free (email_list);
 
 		if (editor->image_set
 		    && e_image_chooser_get_image_data (E_IMAGE_CHOOSER (editor->list_image),
@@ -976,7 +979,7 @@ fill_in_info(EContactListEditor *editor)
 		GList *iter;
 
 		file_as = e_contact_get_const (editor->contact, E_CONTACT_FILE_AS);
-		email_list = e_contact_get (editor->contact, E_CONTACT_EMAIL);
+		email_list = e_contact_get_attributes (editor->contact, E_CONTACT_EMAIL);
 		is_evolution_list = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_IS_LIST));
 		show_addresses = GPOINTER_TO_INT (e_contact_get (editor->contact, E_CONTACT_LIST_SHOW_ADDRESSES));
 
@@ -992,18 +995,54 @@ fill_in_info(EContactListEditor *editor)
 		e_contact_list_model_remove_all (E_CONTACT_LIST_MODEL (editor->model));
 
 		for (iter = email_list; iter; iter = iter->next) {
-			char *dest_xml = iter->data;
-			EABDestination *dest;
+			EVCardAttribute *attr = iter->data;
+			GList *p;
+			EDestination *list_dest = e_destination_new ();
+			char *contact_uid = NULL;
+			char *email = NULL;
+			char *name = NULL;
+			int email_num = -1;
+			gboolean html_pref = FALSE;
 
-			/* g_message ("incoming xml: [%s]", dest_xml); */
-			dest = eab_destination_import (dest_xml);
-
-			if (dest != NULL) {
-				e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model), dest);
+			for (p = e_vcard_attribute_get_params (attr); p; p = p->next) {
+				EVCardAttributeParam *param = p->data;
+				const char *param_name = e_vcard_attribute_param_get_name (param);
+				if (!g_ascii_strcasecmp (param_name,
+							 EVC_X_DEST_CONTACT_UID)) {
+					GList *v = e_vcard_attribute_param_get_values (param);
+					contact_uid = v ? v->data : NULL;
+				}
+				else if (!g_ascii_strcasecmp (param_name,
+							      EVC_X_DEST_EMAIL_NUM)) {
+					GList *v = e_vcard_attribute_param_get_values (param);
+					email_num = v ? atoi (v->data) : -1;
+				}
+				else if (!g_ascii_strcasecmp (param_name,
+							      EVC_X_DEST_NAME)) {
+					GList *v = e_vcard_attribute_param_get_values (param);
+					name = v ? v->data : NULL;
+				}
+				else if (!g_ascii_strcasecmp (param_name,
+							      EVC_X_DEST_EMAIL)) {
+					GList *v = e_vcard_attribute_param_get_values (param);
+					email = v ? v->data : NULL;
+				}
+				else if (!g_ascii_strcasecmp (param_name,
+							      EVC_X_DEST_HTML_MAIL)) {
+					GList *v = e_vcard_attribute_param_get_values (param);
+					html_pref = v ? !g_ascii_strcasecmp (v->data, "true") : FALSE;
+				}
 			}
+
+			if (contact_uid) e_destination_set_contact_uid (list_dest, contact_uid, email_num);
+			if (name) e_destination_set_name (list_dest, name);
+			if (email) e_destination_set_email (list_dest, email);
+			e_destination_set_html_mail_pref (list_dest, html_pref);
+			
+			e_contact_list_model_add_destination (E_CONTACT_LIST_MODEL (editor->model), list_dest);
 		}
 
-		g_list_foreach (email_list, (GFunc) g_free, NULL);
+		g_list_foreach (email_list, (GFunc) e_vcard_attribute_free, NULL);
 		g_list_free (email_list);
 
 		photo = e_contact_get (editor->contact, E_CONTACT_LOGO);

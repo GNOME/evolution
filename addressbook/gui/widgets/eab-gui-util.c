@@ -29,7 +29,7 @@
 #include <gal/util/e-util.h>
 #include "eab-gui-util.h"
 #include "util/eab-book-util.h"
-#include "util/eab-destination.h"
+#include "util/e-destination.h"
 #include "widgets/misc/e-image-chooser.h"
 #include "widgets/misc/e-source-selector.h"
 
@@ -703,14 +703,8 @@ eab_send_contact_list (GList *contacts, EABDisposition disposition)
 					addr = NULL;
 					if (iterator && iterator->data) {
 						if (is_list) {
-							/* We need to decode the list entries, which are XMLified EABDestinations. */
-							EABDestination *dest = eab_destination_import ((char*)iterator->data);
-							if (dest != NULL) {
-								name = g_strdup (eab_destination_get_name (dest));
-								addr = g_strdup (eab_destination_get_email (dest));
-								g_object_unref (dest);
-							}
-							
+							/* XXX we should probably try to get the name from the attribute parameter here.. */
+							addr = g_strdup ((char*)iterator->data);
 						} else { /* is just a plain old card */
 							EContactName *contact_name = e_contact_get (contact, E_CONTACT_NAME);
 							if (contact_name) {

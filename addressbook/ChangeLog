@@ -1,3 +1,146 @@
+2004-04-09  Chris Toshok  <toshok@ximian.com>
+
+	* importers/evolution-ldif-importer.c (resolve_list_card): use the
+	new e_destination_export_to_vcard_attribute call to build up the
+	attributes.
+
+	* importers/evolution-vcard-importer.c (process_item_fn): if we're
+	importing a vcard that we wrote out previously containing xml in
+	the EMAIL attributes, DTRT and strip it out and use
+	e_destination_export_to_vcard_attribute to build up the proper
+	attribute.
+
+	* util/Makefile.am (libeabutil_la_SOURCES): remove
+	eab-destination.[ch] and add e-destination.[ch].
+
+	* printing/e-contact-print.c (e_contact_print_contact): we don't
+	have to worry about the "<?xml..."  EMAIL fields anymore.
+
+	* gui/widgets/eab-gui-util.c (eab_send_contact_list): just use the
+	value as the address (since that's what it is) in the list case.
+
+	* gui/widgets/eab-contact-display.c (render_contact_list): remove
+	the EABDestination stuff from here.
+	(eab_contact_display_render_compact): same.
+
+	* gui/widgets/e-minicard.c (activiate_editor): fix warnings - use
+	EAB_EDITOR instead of G_OBJECT.
+	(add_field): we don't have to worry about the "<?xml..."  EMAIL
+	fields anymore.
+	(remodel): same.
+
+	* gui/widgets/e-addressbook-treeview-adapter.c
+	(adapter_get_value): we don't have to worry about the "<?xml..."
+	EMAIL fields anymore.
+
+	* gui/widgets/e-addressbook-table-adapter.c
+	(addressbook_value_at): we don't have to worry about the
+	"<?xml..." EMAIL fields anymore.
+
+	* gui/contact-list-editor/e-contact-list-model.c
+	(contact_list_value_at): eab->e.
+	(contact_list_model_dispose): we're not a GtkObject, we're a
+	GObject.  rename _destroy to _dispose, and chain up to the parent
+	class's ::dispose.
+	(e_contact_list_model_class_init): GtkObject -> GObject, and
+	destroy -> dispose.
+	(e_contact_list_model_init): GtkObject -> GObject, and EAB -> E.
+	(e_contact_list_model_add_destination): EAB -> E.
+	(e_contact_list_model_add_email): same.
+	(e_contact_list_model_add_contact): same.
+	(e_contact_list_model_get_destination): same.
+
+	* gui/contact-list-editor/e-contact-list-editor.c
+	(table_drag_data_received_cb): add email num arg to
+	e_contact_list_model_add_contact.
+	(extract_info): fill in the vcard attributes instead of just
+	generating xml.
+	(fill_in_info): extract the values from the vcard attributes.
+
+	* gui/component/select-names/e-select-names-text-model.c
+	(e_select_names_text_model_insert_length): eab->e, and don't
+	sometimes copy, sometimes ::new.  always ::new.
+	(e_select_names_text_model_delete): same.
+	(e_select_names_text_model_obj_count): same.
+	(nth_obj_index): same.
+
+	* gui/component/select-names/e-select-names-table-model.c
+	(fill_in_info): eab -> e.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(make_contact_editor_cb): eab -> e.
+	(change_email_num_cb): same.
+	(toggle_html_mail_cb): same.
+	(populate_popup_contact): same, and remove code that checks for
+	<?xml, then imports the EDestination.
+	(quick_add_cb): eab -> e.
+	(populate_popup_nocontact): same.
+	(e_select_names_populate_popup): same.
+
+	* gui/component/select-names/e-select-names-model.h: eab -> e, and
+	remove prototypes for nuked functions.
+
+	* gui/component/select-names/e-select-names-model.c
+	(destination_changed_proxy, send_changed, connect_destination,
+	disconnect_destination): nuke.
+	(e_select_names_model_duplicate): EAB -> E.
+	(e_select_names_model_get_textification): same.
+	(e_select_names_model_get_address_text): same.
+	(e_select_names_model_get_destination): same.
+	(e_select_names_model_export_destinationv): same.
+	(send_changed): same.
+	(e_select_names_model_import_destinationv): same.
+	(e_select_names_model_get_contact): same.
+	(e_select_names_model_contains): same.
+	(e_select_names_model_insert): same, and remove call to
+	connect_destination.
+	(e_select_names_model_append): same.
+	(e_select_names_model_replace): same, and remove call to
+	disconnect/connect_destination.
+	(e_select_names_model_delete): same.
+	(delete_all_iter): nuke.
+	(e_select_names_model_delete_all): use g_object_unref for the
+	foreach call.
+	(e_select_names_model_merge): EAB -> E.
+	(e_select_names_model_name_pos): same.
+	(e_select_names_model_name_pos): same.
+	(e_select_names_model_load_all_contacts): nuke.
+	(e_select_names_model_cancel_all_contact_load): nuke.
+	
+	* gui/component/select-names/e-select-names-manager.c
+	(clean_cb, focus_in_cb, focus_out_cb, completion_popup_cb): nuke.
+	(completion_handler): EAB -> E, and the signals are gone.
+
+	* gui/component/select-names/e-select-names-completion.c: in
+	general, s/eab_dest/e_dest and s/EABDest/EDest.
+	(e_select_names_completion_got_book_view_cb): move the
+	e_book_view_start to below the assignment of
+	sequence_complete_received, just to put my mind at ease.
+	(e_select_names_completion_stop_query): un-#if notyet the call to
+	e_book_cancel.
+	(e_select_names_completion_start_query): free the waiting_query
+	before assigning to it.
+
+	* gui/component/select-names/e-select-names-bonobo.c
+	(entry_set_property_fn): remove calls to
+	e_select_names_model_load_all_contacts, since that function is
+	dead.
+
+	* gui/component/addressbook-migrate.c (setup_progress_dialog):
+	take the label to display to the user as an arg.
+	(migrate_contact_lists_for_local_folders): loop over all contacts
+	in all local addressbooks looking for ones that have <?xml in
+	their EMAIL attributes.  for the ones we find, call
+	e_destination_export_to_vcard_attribute to build up the proper
+	attribute.
+	(addressbook_migrate): add in a clause for all versions under
+	1.5.7 to convert contact lists.  also, move the unrefs of the
+	sources/groups to outside the if, as they're created outside it.
+
+	* gui/component/Makefile.am (INCLUDES): remove the
+	addressbook/backend/ dirs, since libebook isn't there anymore
+	(nothing is, actually).  Add addressbook/util/.
+
 2004-04-09  Dan Winship  <danw@ximian.com>
 
 	* gui/component/addressbook.c (addressbook_new_control): create an

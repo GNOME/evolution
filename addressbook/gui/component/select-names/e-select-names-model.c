@@ -41,7 +41,7 @@ struct _ESelectNamesModelPrivate {
 	gchar *id;
 	gchar *title;
 
-	GList *data;  /* of EABDestination */
+	GList *data;  /* of EDestination */
 
 	gint limit;
 
@@ -157,12 +157,6 @@ e_select_names_model_changed (ESelectNamesModel *model)
 	}
 }
 
-static void
-destination_changed_proxy (EABDestination *dest, gpointer closure)
-{
-	e_select_names_model_changed (E_SELECT_NAMES_MODEL (closure));
-}
-
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
 
 ESelectNamesModel *
@@ -183,7 +177,7 @@ e_select_names_model_duplicate (ESelectNamesModel *old)
 	model->priv->title = g_strdup (old->priv->title);
 	
 	for (iter = old->priv->data; iter != NULL; iter = g_list_next (iter)) {
-		EABDestination *dup = eab_destination_copy (EAB_DESTINATION (iter->data));
+		EDestination *dup = e_destination_copy (E_DESTINATION (iter->data));
 		e_select_names_model_append (model, dup);
 	}
 
@@ -211,8 +205,8 @@ e_select_names_model_get_textification (ESelectNamesModel *model, const char *se
 		GList *iter = model->priv->data;
 		
 		while (iter) {
-			EABDestination *dest = EAB_DESTINATION (iter->data);
-			strv[i] = (gchar *) eab_destination_get_textrep (dest, FALSE);
+			EDestination *dest = E_DESTINATION (iter->data);
+			strv[i] = (gchar *) e_destination_get_textrep (dest, FALSE);
 			++i;
 			iter = g_list_next (iter);
 		}
@@ -251,8 +245,8 @@ e_select_names_model_get_address_text (ESelectNamesModel *model, const char *sep
 		GList *iter = model->priv->data;
 
 		while (iter) {
-			EABDestination *dest = EAB_DESTINATION (iter->data);
-			strv[i] = (gchar *) eab_destination_get_address (dest);
+			EDestination *dest = E_DESTINATION (iter->data);
+			strv[i] = (gchar *) e_destination_get_address (dest);
 			if (strv[i])
 				++i;
 			iter = g_list_next (iter);
@@ -303,57 +297,51 @@ e_select_names_model_at_limit (ESelectNamesModel *model)
 	return model->priv->limit >= 0 && g_list_length (model->priv->data) >= model->priv->limit;
 }
 
-const EABDestination *
+const EDestination *
 e_select_names_model_get_destination (ESelectNamesModel *model, gint index)
 {
 	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
 	g_return_val_if_fail (0 <= index, NULL);
 	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
 
-	return EAB_DESTINATION (g_list_nth_data (model->priv->data, index));
+	return E_DESTINATION (g_list_nth_data (model->priv->data, index));
 }
 
 gchar *
 e_select_names_model_export_destinationv (ESelectNamesModel *model)
 {
-	EABDestination **destv;
+	EDestination **destv;
 	gchar *str;
 	gint i, len = 0;
 	GList *j;
 	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
 
 	len = g_list_length (model->priv->data);
-	destv = g_new0 (EABDestination *, len+1);
+	destv = g_new0 (EDestination *, len+1);
 	
 	for (i=0, j = model->priv->data; j != NULL; j = g_list_next (j)) {
-		EABDestination *dest = EAB_DESTINATION (j->data);
+		EDestination *dest = E_DESTINATION (j->data);
 
 		if (dest)
 			destv[i++] = dest;
 	}
 
-	str = eab_destination_exportv (destv);
+	str = e_destination_exportv (destv);
 	g_free (destv);
 
 	return str;
-}
-
-static void send_changed (EABDestination *dest, EContact *contact, gpointer closure)
-{
-	ESelectNamesModel *model = closure;
-	e_select_names_model_changed (model);
 }
 
 void
 e_select_names_model_import_destinationv (ESelectNamesModel *model,
 					  gchar *destinationv)
 {
-	EABDestination **destv;
+	EDestination **destv;
 	gint i;
 
 	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
 
-	destv = eab_destination_importv (destinationv);
+	destv = e_destination_importv (destinationv);
 
 	e_select_names_model_delete_all (model);
 
@@ -361,7 +349,6 @@ e_select_names_model_import_destinationv (ESelectNamesModel *model,
 		return;
 
 	for (i = 0; destv[i]; i++) {
-		eab_destination_use_contact (destv[i], send_changed, model);
 		e_select_names_model_append (model, destv[i]);
 	}
 	g_free (destv);
@@ -370,21 +357,21 @@ e_select_names_model_import_destinationv (ESelectNamesModel *model,
 EContact *
 e_select_names_model_get_contact (ESelectNamesModel *model, gint index)
 {
-	const EABDestination *dest;
+	const EDestination *dest;
 
 	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
 	g_return_val_if_fail (0 <= index, NULL);
 	g_return_val_if_fail (index < g_list_length (model->priv->data), NULL);
 
 	dest = e_select_names_model_get_destination (model, index);
-	return dest ? eab_destination_get_contact (dest) : NULL;
+	return dest ? e_destination_get_contact (dest) : NULL;
 
 }
 
 const gchar *
 e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 {
-	const EABDestination *dest;
+	const EDestination *dest;
 
 	g_return_val_if_fail (model && E_IS_SELECT_NAMES_MODEL (model), NULL);
 	g_return_val_if_fail (0 <= index, NULL);
@@ -392,34 +379,19 @@ e_select_names_model_get_string (ESelectNamesModel *model, gint index)
 
 	dest = e_select_names_model_get_destination (model, index);
 	
-	return dest ? eab_destination_get_textrep (dest, FALSE) : "";
-}
-
-static void
-connect_destination (ESelectNamesModel *model, EABDestination *dest)
-{
-	g_signal_connect (dest,
-			  "changed",
-			  G_CALLBACK (destination_changed_proxy),
-			  model);
-}
-
-static void
-disconnect_destination (ESelectNamesModel *model, EABDestination *dest)
-{
-	g_signal_handlers_disconnect_by_func (dest, destination_changed_proxy, model);
+	return dest ? e_destination_get_textrep (dest, FALSE) : "";
 }
 
 gboolean
-e_select_names_model_contains (ESelectNamesModel *model, const EABDestination *dest)
+e_select_names_model_contains (ESelectNamesModel *model, const EDestination *dest)
 {
 	GList *iter;
 
 	g_return_val_if_fail (E_IS_SELECT_NAMES_MODEL (model), FALSE);
-	g_return_val_if_fail (EAB_IS_DESTINATION (dest), FALSE);
+	g_return_val_if_fail (E_IS_DESTINATION (dest), FALSE);
 
 	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
-		if (iter->data != NULL && eab_destination_equal (dest, EAB_DESTINATION (iter->data)))
+		if (iter->data != NULL && e_destination_equal (dest, E_DESTINATION (iter->data)))
 			return TRUE;
 	}
 
@@ -427,20 +399,18 @@ e_select_names_model_contains (ESelectNamesModel *model, const EABDestination *d
 }
 
 void
-e_select_names_model_insert (ESelectNamesModel *model, gint index, EABDestination *dest)
+e_select_names_model_insert (ESelectNamesModel *model, gint index, EDestination *dest)
 {
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
 	g_return_if_fail (0 <= index && index <= g_list_length (model->priv->data));
-	g_return_if_fail (dest && EAB_IS_DESTINATION (dest));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
 	if (e_select_names_model_at_limit (model)) {
 		/* FIXME: This is bad. */
 		g_object_unref (dest);
 		return;
 	}
-
-	connect_destination (model, dest);
 
 	model->priv->data = g_list_insert (model->priv->data, dest, index);
 	
@@ -450,18 +420,16 @@ e_select_names_model_insert (ESelectNamesModel *model, gint index, EABDestinatio
 }
 
 void
-e_select_names_model_append (ESelectNamesModel *model, EABDestination *dest)
+e_select_names_model_append (ESelectNamesModel *model, EDestination *dest)
 {
 	g_return_if_fail (model && E_IS_SELECT_NAMES_MODEL (model));
-	g_return_if_fail (dest && EAB_IS_DESTINATION (dest));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 
 	if (e_select_names_model_at_limit (model)) {
 		/* FIXME: This is bad. */
 		g_object_unref (dest);
 		return;
 	}
-
-	connect_destination (model, dest);
 
 	model->priv->data = g_list_append (model->priv->data, dest);
 
@@ -471,7 +439,7 @@ e_select_names_model_append (ESelectNamesModel *model, EABDestination *dest)
 }
 
 void
-e_select_names_model_replace (ESelectNamesModel *model, gint index, EABDestination *dest)
+e_select_names_model_replace (ESelectNamesModel *model, gint index, EDestination *dest)
 {
 	GList *node;
 	const gchar *new_str, *old_str;
@@ -480,14 +448,12 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EABDestinati
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
 	g_return_if_fail (model->priv->data == NULL || (0 <= index && index < g_list_length (model->priv->data)));
-	g_return_if_fail (dest && EAB_IS_DESTINATION (dest));
+	g_return_if_fail (dest && E_IS_DESTINATION (dest));
 	
-	new_str = eab_destination_get_textrep (dest, FALSE);
+	new_str = e_destination_get_textrep (dest, FALSE);
 	new_strlen = new_str ? strlen (new_str) : 0;
 
 	if (model->priv->data == NULL) {
-
-		connect_destination (model, dest);
 
 		model->priv->data = g_list_append (model->priv->data, dest);
 		g_object_ref (dest);
@@ -498,10 +464,7 @@ e_select_names_model_replace (ESelectNamesModel *model, gint index, EABDestinati
 
 		if (node->data != dest) {
 
-			disconnect_destination (model, EAB_DESTINATION (node->data));
-			connect_destination (model, dest);
-
-			old_str = eab_destination_get_textrep (EAB_DESTINATION (node->data), FALSE);
+			old_str = e_destination_get_textrep (E_DESTINATION (node->data), FALSE);
 			old_strlen = old_str ? strlen (old_str) : 0;
 
 			g_object_unref (node->data);
@@ -521,16 +484,15 @@ void
 e_select_names_model_delete (ESelectNamesModel *model, gint index)
 {
 	GList *node;
-	EABDestination *dest;
+	EDestination *dest;
 
 	g_return_if_fail (model != NULL);
 	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
 	g_return_if_fail (0 <= index && index < g_list_length (model->priv->data));
 	
 	node = g_list_nth (model->priv->data, index);
-	dest = EAB_DESTINATION (node->data);
+	dest = E_DESTINATION (node->data);
 
-	disconnect_destination (model, dest);
 	g_object_unref (dest);
 
 	model->priv->data = g_list_remove_link (model->priv->data, node);
@@ -550,20 +512,18 @@ e_select_names_model_clean (ESelectNamesModel *model, gboolean clean_last_entry)
 	iter = model->priv->data;
 
 	while (iter) {
-		EABDestination *dest;
+		EDestination *dest;
 
 		next = g_list_next (iter);
 
 		if (next == NULL && !clean_last_entry)
 			break;
 		
-		dest = iter->data ? EAB_DESTINATION (iter->data) : NULL;
+		dest = iter->data ? E_DESTINATION (iter->data) : NULL;
 
-		if (dest == NULL || eab_destination_is_empty (dest)) {
-			if (dest) {
-				disconnect_destination (model, dest);
+		if (dest == NULL || e_destination_empty (dest)) {
+			if (dest)
 				g_object_unref (dest);
-			}
 			model->priv->data = g_list_remove_link (model->priv->data, iter);
 			g_list_free_1 (iter);
 			changed = TRUE;
@@ -576,19 +536,12 @@ e_select_names_model_clean (ESelectNamesModel *model, gboolean clean_last_entry)
 		e_select_names_model_changed (model);
 }
 
-static void
-delete_all_iter (gpointer data, gpointer closure)
-{
-	disconnect_destination (E_SELECT_NAMES_MODEL (closure), EAB_DESTINATION (data));
-	g_object_unref (data);
-}
-
 void
 e_select_names_model_delete_all (ESelectNamesModel *model)
 {
 	g_return_if_fail (model != NULL && E_IS_SELECT_NAMES_MODEL (model));
 
-	g_list_foreach (model->priv->data, delete_all_iter, model);
+	g_list_foreach (model->priv->data, (GFunc)g_object_unref, model);
 	g_list_free (model->priv->data);
 	model->priv->data = NULL;
 
@@ -609,9 +562,9 @@ e_select_names_model_overwrite_copy (ESelectNamesModel *dest, ESelectNamesModel 
 	e_select_names_model_delete_all (dest);
 	len = e_select_names_model_count (src);
 	for (i = 0; i < len; ++i) {
-		const EABDestination *d = e_select_names_model_get_destination (src, i);
+		const EDestination *d = e_select_names_model_get_destination (src, i);
 		if (d)
-			e_select_names_model_append (dest, eab_destination_copy (d));
+			e_select_names_model_append (dest, e_destination_copy (d));
 	}
 }
 
@@ -628,9 +581,9 @@ e_select_names_model_merge (ESelectNamesModel *dest, ESelectNamesModel *src)
 
 	len = e_select_names_model_count (src);
 	for (i = 0; i < len; ++i) {
-		const EABDestination *d = e_select_names_model_get_destination (src, i);
+		const EDestination *d = e_select_names_model_get_destination (src, i);
 		if (d && !e_select_names_model_contains (dest, d))
-			e_select_names_model_append (dest, eab_destination_copy (d));
+			e_select_names_model_append (dest, e_destination_copy (d));
 	}
 }
 
@@ -648,7 +601,7 @@ e_select_names_model_name_pos (ESelectNamesModel *model, gint seplen, gint index
 	iter = model->priv->data;
 	while (iter && i <= index) {
 		rp += len + (i > 0 ? seplen : 0);
-		str = eab_destination_get_textrep (EAB_DESTINATION (iter->data), FALSE);
+		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
 		len = str ? g_utf8_strlen (str, -1) : 0;
 		++i;
 		iter = g_list_next (iter);
@@ -678,7 +631,7 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, 
 	iter = model->priv->data;
 
 	while (iter != NULL) {
-		str = eab_destination_get_textrep (EAB_DESTINATION (iter->data), FALSE);
+		str = e_destination_get_textrep (E_DESTINATION (iter->data), FALSE);
 		len = str ? g_utf8_strlen (str, -1) : 0;
 
 		if (sp <= pos && pos <= sp + len + adj) {
@@ -714,39 +667,6 @@ e_select_names_model_text_pos (ESelectNamesModel *model, gint seplen, gint pos, 
 		*start_pos = sp;
 	if (length)
 		*length = len;
-}
-
-void
-e_select_names_model_load_all_contacts (ESelectNamesModel *model, EBook *book)
-{
-	GList *iter;
-
-	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
-	g_return_if_fail (book == NULL || E_IS_BOOK (book));
-
-	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
-		EABDestination *dest = EAB_DESTINATION (iter->data);
-		if (!eab_destination_is_empty (dest)) {
-
-			eab_destination_load_contact (dest, book);
-		}
-	}
-}
-
-void
-e_select_names_model_cancel_all_contact_load (ESelectNamesModel *model)
-{
-	GList *iter;
-
-	g_return_if_fail (E_IS_SELECT_NAMES_MODEL (model));
-
-	for (iter = model->priv->data; iter != NULL; iter = g_list_next (iter)) {
-		EABDestination *dest = EAB_DESTINATION (iter->data);
-		if (!eab_destination_is_empty (dest)) {
-
-			eab_destination_cancel_contact_load (dest);
-		}
-	}
 }
 
 void

@@ -117,8 +117,8 @@ fill_in_info (ESelectNamesTableModel *model)
 		model->data = g_new(ESelectNamesTableModelData, count);
 
 		for (i = 0; i < count; ++i) {
-			const EABDestination *dest = e_select_names_model_get_destination (model->source, i);
-			EContact *contact = dest ? eab_destination_get_contact (dest) : NULL;
+			const EDestination *dest = e_select_names_model_get_destination (model->source, i);
+			EContact *contact = dest ? e_destination_get_contact (dest) : NULL;
 
 			if (contact) {
 				model->data[i].name =  e_contact_get(contact, E_CONTACT_FILE_AS);
@@ -128,8 +128,8 @@ fill_in_info (ESelectNamesTableModel *model)
 				if (model->data[i].email == 0)
 					model->data[i].email = g_strdup("");
 			} else {
-				const gchar *name = eab_destination_get_name (dest);
-				const gchar *email = eab_destination_get_email (dest);
+				const gchar *name = e_destination_get_name (dest);
+				const gchar *email = e_destination_get_email (dest);
 
 				model->data[i].name =  g_strdup (name && *name ? name : email);
 				model->data[i].email = g_strdup (email);

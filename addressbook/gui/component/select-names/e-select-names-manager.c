@@ -25,7 +25,7 @@
 #include "e-select-names-completion.h"
 #include "e-select-names-popup.h"
 #include <addressbook/util/eab-book-util.h>
-#include <addressbook/util/eab-destination.h>
+#include <addressbook/util/e-destination.h>
 #include "addressbook/gui/component/addressbook.h"
 #include <bonobo/bonobo-object.h>
 
@@ -153,75 +153,19 @@ populate_popup_cb (EEntry *eentry, GdkEventButton *ev, gint pos, GtkWidget *menu
 	e_select_names_populate_popup (menu, text_model, ev, pos, GTK_WIDGET (eentry));
 }
 
-#if 0
-static gboolean
-clean_cb (gpointer ptr)
-{
-	ESelectNamesManagerEntry *entry = ptr;
-
-	e_select_names_model_clean (entry->model, TRUE);
-	entry->cleaning_tag = 0;
-	return FALSE;
-}
-#endif
-
-static gint
-focus_in_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
-{
-	ESelectNamesManagerEntry *entry = user_data;
-
-	if (entry->cleaning_tag) {
-		g_source_remove (entry->cleaning_tag);
-		entry->cleaning_tag = 0;
-	}
-
-	e_select_names_model_cancel_all_contact_load (entry->model);
-
-	return FALSE;
-}
-
-static gint
-focus_out_cb (GtkWidget *w, GdkEventFocus *ev, gpointer user_data)
-{
-#if 0
-	/* XXX fix me */
-	ESelectNamesManagerEntry *entry = user_data;
-	gboolean visible = e_entry_completion_popup_is_visible (entry->entry);
-
-	if (! visible) {
-		e_select_names_model_load_all_contacts (entry->model, entry->manager->completion_book, 100);
-		if (entry->cleaning_tag == 0)
-			entry->cleaning_tag = gtk_timeout_add (100, clean_cb, entry);
-	}
-#endif
-	return FALSE;
-}
-
-static void
-completion_popup_cb (EEntry *w, gint visible, gpointer user_data)
-{
-#if 0
-	/* XXX fix me */
-	ESelectNamesManagerEntry *entry = user_data;
-
-	if (!visible && !GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->entry->canvas)))
-		e_select_names_model_load_all_contacts (entry->model, entry->manager->completion_book, 0);
-#endif
-}
-
 static void
 completion_handler (EEntry *entry, ECompletionMatch *match)
 {
 	ESelectNamesManagerEntry *mgr_entry;
 	ESelectNamesTextModel *text_model;
-	EABDestination *dest;
+	EDestination *dest;
 	gint i, pos, start_pos, len;
 
 	if (match == NULL || match->user_data == NULL)
 		return;
 
 	mgr_entry = get_entry_info (entry);
-	dest = EAB_DESTINATION (match->user_data);
+	dest = E_DESTINATION (match->user_data);
 
 	/* Sometimes I really long for garbage collection.  Reference
            counting makes you feel 31337, but sometimes it is just a
@@ -287,21 +231,6 @@ e_select_names_manager_entry_new (ESelectNamesManager *manager, ESelectNamesMode
 			  G_CALLBACK (populate_popup_cb),
 			  entry);
 			
-	g_signal_connect (entry->entry->canvas,
-			  "focus_in_event",
-			  G_CALLBACK (focus_in_cb),
-			  entry);
-	
-	g_signal_connect (entry->entry->canvas,
-			  "focus_out_event",
-			  G_CALLBACK (focus_out_cb),
-			  entry);
-
-	g_signal_connect (entry->entry,
-			  "completion_popup",
-			  G_CALLBACK (completion_popup_cb),
-			  entry);
-
 	g_object_set_data (G_OBJECT (entry->entry), "entry_info", entry);
 	g_object_set_data (G_OBJECT (entry->entry), "select_names_model", model);
 	g_object_set_data (G_OBJECT (entry->entry), "select_names_text_model", text_model);

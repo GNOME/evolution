@@ -40,13 +40,13 @@
 #include <bonobo/bonobo-shlib-factory.h>
 #include <bonobo/bonobo-control.h>
 
-
 #include <libebook/e-book.h>
 
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include <widgets/misc/e-source-selector.h>
 #include <util/eab-book-util.h>
+#include <util/e-destination.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_ImporterFactory"
 #define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_VCard_Importer"
@@ -70,6 +70,7 @@ process_item_fn (EvolutionImporter *importer,
 	VCardImporter *gci = (VCardImporter *) closure;
 	EContact *contact;
 	EContactPhoto *photo;
+	GList *attrs, *attr;
 
 	if (gci->iterator == NULL)
 		gci->iterator = gci->contactlist;
@@ -104,6 +105,25 @@ process_item_fn (EvolutionImporter *importer,
 		e_contact_set (contact, E_CONTACT_PHOTO, photo);
 		e_contact_photo_free (photo);
 	}
+
+	/* Deal with our XML EDestination stuff in EMAIL attributes, if there is any. */
+	attrs = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+	for (attr = attrs; attr; attr = attr->next) {
+		EVCardAttribute *a = attr->data;
+		GList *v = e_vcard_attribute_get_values (a);
+
+		if (v && v->data) {
+			if (!strncmp ((char*)v->data, "<?xml", 5)) {
+				EDestination *dest = e_destination_import ((char*)v->data);
+
+				e_destination_export_to_vcard_attribute (dest, a);
+
+				g_object_unref (dest);
+
+			}
+		}
+	}
+	e_contact_set_attributes (contact, E_CONTACT_EMAIL, attrs);
 
 	/* FIXME Error checking */
 	e_book_add_contact (gci->book, contact, NULL);

@@ -41,7 +41,6 @@
 #include <libebook/e-book-async.h>
 #include <libebook/e-contact.h>
 #include <gal/util/e-util.h>
-#include <addressbook/util/eab-destination.h>
 
 #define SCALE 5
 #define HYPHEN_PIXELS 20
@@ -474,16 +473,6 @@ e_contact_print_contact (EContact *contact, EContactPrintContext *ctxt)
 	for(field = E_CONTACT_FILE_AS; field != E_CONTACT_LAST_SIMPLE_STRING; field++) {
 		char *string;
 		string = e_contact_get(contact, field);
-
-		if (string && !strncmp (string, "<?xml", 4)) {
-			EABDestination *dest = eab_destination_import (string);
-			if (dest != NULL) {
-				gchar *new_string = g_strdup (eab_destination_get_address (dest));
-				g_free (string);
-				string = new_string;
-				g_object_unref (dest);
-			}
-		}
 
 		if (string && *string) {
 			double xoff = 0;

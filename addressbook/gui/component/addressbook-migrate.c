@@ -22,6 +22,7 @@
 #include <glib.h>
 #include <string.h>
 #include "addressbook-migrate.h"
+#include "e-destination.h"
 #include <libebook/e-book-async.h>
 #include <libgnome/gnome-i18n.h>
 #include <gal/util/e-util.h>
@@ -49,7 +50,7 @@ typedef struct {
 } MigrationContext;
 
 static void
-setup_progress_dialog (MigrationContext *context)
+setup_progress_dialog (MigrationContext *context, const char *str)
 {
 	GtkWidget *vbox, *hbox, *w;
 
@@ -62,9 +63,7 @@ setup_progress_dialog (MigrationContext *context)
 	gtk_widget_show (vbox);
 	gtk_container_add (GTK_CONTAINER (context->window), vbox);
 	
-	w = gtk_label_new (_("The location and hierarchy of the Evolution contact "
-			     "folders has changed since Evolution 1.x.\n\nPlease be "
-			     "patient while Evolution migrates your folders..."));
+	w = gtk_label_new (str);
 	gtk_label_set_line_wrap (GTK_LABEL (w), TRUE);
 	gtk_widget_show (w);
 	gtk_box_pack_start_defaults (GTK_BOX (vbox), w);
@@ -735,6 +734,78 @@ migrate_completion_folders (MigrationContext *context)
 	return TRUE;
 }
 
+static void
+migrate_contact_lists_for_local_folders (MigrationContext *context, ESourceGroup *on_this_computer)
+{
+	GSList *sources, *s;
+
+	sources = e_source_group_peek_sources (on_this_computer);
+	for (s = sources; s; s = s->next) {
+		ESource *source = s->data;
+		EBook *book;
+		EBookQuery *query;
+		GList *l, *contacts;
+		int num_contacts, num_converted;
+
+		book = e_book_new ();
+		if (!e_book_load_source (book, source, TRUE, NULL)) {
+			char *uri = e_source_get_uri (source);
+			g_warning ("failed to migrate contact lists for source %s", uri);
+			g_free (uri);
+			continue;
+		}
+
+		query = e_book_query_any_field_contains ("");
+
+		e_book_get_contacts (book, query, &contacts, NULL);
+
+		num_converted = 0;
+		num_contacts = g_list_length (contacts);
+		for (l = contacts; l; l = l->next) {
+			EContact *contact = l->data;
+			GError *e = NULL;
+			GList *attrs, *attr;
+			gboolean converted = FALSE;
+
+			attrs = e_contact_get_attributes (contact, E_CONTACT_EMAIL);
+			for (attr = attrs; attr; attr = attr->next) {
+				EVCardAttribute *a = attr->data;
+				GList *v = e_vcard_attribute_get_values (a);
+
+				if (v && v->data) {
+					if (!strncmp ((char*)v->data, "<?xml", 5)) {
+						EDestination *dest = e_destination_import ((char*)v->data);
+
+						e_destination_export_to_vcard_attribute (dest, a);
+
+						g_object_unref (dest);
+
+						converted = TRUE;
+					}
+				}
+			}
+
+			if (converted) {
+				e_contact_set_attributes (contact, E_CONTACT_EMAIL, attrs);
+
+				if (!e_book_commit_contact (book,
+							    contact,
+							    &e))
+					g_warning ("contact add failed: `%s'", e->message);
+			}
+
+			num_converted ++;
+
+			dialog_set_progress (context, (double)num_converted / num_contacts);
+		}
+
+		g_list_foreach (contacts, (GFunc)g_object_unref, NULL);
+		g_list_free (contacts);
+
+		g_object_unref (book);
+	}
+}
+
 static MigrationContext*
 migration_context_new (AddressbookComponent *component)
 {
@@ -774,34 +845,44 @@ addressbook_migrate (AddressbookComponent *component, int major, int minor, int 
 	   groups/sources. */
 	create_groups (context, &on_this_computer, &on_ldap_servers, &personal_source);
 
-	if (major <= 1) {
+	if (major == 1) {
 		
-		if (/* we're <= 1.5.2 */
-		    (major == 1
-		     && ((minor == 5 && revision <= 2) 
-			 || (minor < 5)))
-		    ||
-		    /* we're 0.x */
-		    (major == 0)) {
+		if (minor < 5 || (minor == 5 && revision <= 2)) {
 			/* initialize our dialog */
-			setup_progress_dialog (context);
+			setup_progress_dialog (context,
+					       _("The location and hierarchy of the Evolution contact "
+						 "folders has changed since Evolution 1.x.\n\nPlease be "
+						 "patient while Evolution migrates your folders..."));
 
-			if (on_this_computer) {
+			if (on_this_computer)
 				migrate_local_folders (context, on_this_computer, personal_source);
-				g_object_unref (on_this_computer);
-			}
-			if (on_ldap_servers) {
+			if (on_ldap_servers)
 				migrate_ldap_servers (context, on_ldap_servers);
-				g_object_unref (on_ldap_servers);
-			}
-			if (personal_source)
-				g_object_unref (personal_source);
 
 			migrate_completion_folders (context);
 
 			dialog_close (context);
 		}
+
+		if (minor <= 5 || (minor == 5 && revision <= 6)) {
+			setup_progress_dialog (context,
+					       _("The format of mailing list contacts has changed.\n\n"
+						 "Please be patient while Evolution migrates your "
+						 "folders..."));
+
+			migrate_contact_lists_for_local_folders (context, on_this_computer);
+
+			dialog_close (context);
+		}
 	}
+
+	if (on_this_computer)
+		g_object_unref (on_this_computer);
+	if (on_ldap_servers)
+		g_object_unref (on_ldap_servers);
+	if (personal_source)
+		g_object_unref (personal_source);
+		
 
 	migration_context_free (context);
 

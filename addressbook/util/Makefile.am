@@ -14,8 +14,8 @@ noinst_LTLIBRARIES = libeabutil.la
 
 libeabutil_la_SOURCES =					\
 	eab-marshal.c					\
-	eab-destination.c				\
-	eab-destination.h				\
+	e-destination.c					\
+	e-destination.h					\
 	eab-book-util.c					\
 	eab-book-util.h
 

@@ -23,7 +23,6 @@
 #include "eab-contact-display.h"
 
 #include "e-util/e-html-utils.h"
-#include "util/eab-destination.h"
 
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
@@ -243,14 +242,9 @@ render_contact_list (GtkHTMLStream *html_stream, EContact *contact)
 
 	email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 	for (l = email_list; l; l = l->next) {
-		EABDestination *dest = eab_destination_import (l->data);
-		if (dest) {
-			const char *textrep = eab_destination_get_textrep (dest, TRUE);
-			char *html = e_text_to_html (textrep, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
-			gtk_html_stream_printf (html_stream, "%s<br>", html);
-			g_free (html);
-			g_object_unref (dest);
-		}
+		char *html = e_text_to_html (l->data, E_TEXT_TO_HTML_CONVERT_ADDRESSES);
+		gtk_html_stream_printf (html_stream, "%s<br>", html);
+		g_free (html);
 	}
 	gtk_html_stream_printf (html_stream, "</td></tr></table>");
 }
@@ -499,14 +493,9 @@ eab_contact_display_render_compact (EABContactDisplay *display, EContact *contac
 
 			email_list = e_contact_get (contact, E_CONTACT_EMAIL);
 			for (l = email_list; l; l = l->next) {
-				EABDestination *dest = eab_destination_import (l->data);
-				if (dest) {
-					const char *textrep = eab_destination_get_textrep (dest, TRUE);
-					char *html = e_text_to_html (textrep, 0);
-					gtk_html_stream_printf (html_stream, "%s, ", html);
-					g_free (html);
-					g_object_unref (dest);
-				}
+				char *html = e_text_to_html (l->data, 0);
+				gtk_html_stream_printf (html_stream, "%s, ", html);
+				g_free (html);
 			}
 			gtk_html_stream_printf (html_stream, "</td></tr></table>");
 		}

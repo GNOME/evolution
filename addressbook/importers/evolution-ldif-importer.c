@@ -32,7 +32,7 @@
 #include <importer/evolution-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
 #include <widgets/misc/e-source-selector.h>
-#include <util/eab-destination.h>
+#include <util/e-destination.h>
 
 #define COMPONENT_FACTORY_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_ImporterFactory"
 #define COMPONENT_IID "OAFIID:GNOME_Evolution_Addressbook_LDIF_Importer"
@@ -353,7 +353,8 @@ getNextLDIFEntry( FILE *f )
 static void
 resolve_list_card (LDIFImporter *gci, EContact *contact)
 {
-	GList *email, *l, *new_email = NULL;
+	GList *email, *l;
+	GList *email_attrs = NULL;
 	char *full_name;
 
 	/* set file_as to full_name so we don't later try and figure
@@ -372,26 +373,26 @@ resolve_list_card (LDIFImporter *gci, EContact *contact)
 
 		/* break list chains here, since we don't support them just yet */
 		if (dn_contact && !e_contact_get (dn_contact, E_CONTACT_IS_LIST)) {
-			EABDestination *dest;
-			gchar *dest_xml;
+			EDestination *dest;
+			EVCardAttribute *attr = e_vcard_attribute_new (NULL, EVC_EMAIL);
 
 			/* Hard-wired for default e-mail, since netscape only exports 1 email address */
-			dest = eab_destination_new ();
-			eab_destination_set_contact (dest, dn_contact, 0);
-			dest_xml = eab_destination_export (dest);
+			dest = e_destination_new ();
+			e_destination_set_contact (dest, dn_contact, 0);
+
+			e_destination_export_to_vcard_attribute (dest, attr);
+
 			g_object_unref (dest);
 
-			if (dest_xml) {
-				new_email = g_list_append (new_email, dest_xml);
-			}
+			email_attrs = g_list_append (email_attrs, attr);
 		}
 	}		
-	e_contact_set (contact, E_CONTACT_EMAIL, new_email);
+	e_contact_set_attributes (contact, E_CONTACT_EMAIL, email_attrs);
 
 	g_list_foreach (email, (GFunc) g_free, NULL);
 	g_list_free (email);
-	g_list_foreach (new_email, (GFunc) g_free, NULL);
-	g_list_free (new_email);
+	g_list_foreach (email_attrs, (GFunc) e_vcard_attribute_free, NULL);
+	g_list_free (email_attrs);
 }
 
 static GList *
