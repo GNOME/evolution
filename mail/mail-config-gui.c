@@ -966,7 +966,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 
 		item->remember_password = gtk_check_button_new_with_label (
 			_("Remember this password"));
-		gtk_signal_connect (GTK_OBJECT (item->keep_on_server), "toggled",
+		gtk_signal_connect (GTK_OBJECT (item->remember_password), "toggled",
 				    GTK_SIGNAL_FUNC (service_page_item_changed),
 				    page);
 		gtk_table_attach (GTK_TABLE (table), item->remember_password,
