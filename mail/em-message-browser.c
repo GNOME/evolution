@@ -67,7 +67,7 @@ emmb_init(GObject *o)
 
 	/* currently: just use a scrolledwindow for preview widget */
 	p->preview = gtk_scrolled_window_new(NULL, NULL);
-	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->preview, GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_policy((GtkScrolledWindow *)p->preview, GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
 	gtk_scrolled_window_set_shadow_type((GtkScrolledWindow *)p->preview, GTK_SHADOW_IN);
 	gtk_widget_show(p->preview);
 

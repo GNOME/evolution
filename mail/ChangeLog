@@ -1,3 +1,10 @@
+2004-01-07  Radek Doulik  <rodo@ximian.com>
+
+	* em-message-browser.c (emmb_init): as below
+
+	* em-folder-browser.c (emfb_init): always show vertical scrollbar,
+	we do the same for message list and it avoids ugly flicker
+
 2004-01-06  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-message-browser.c (emmb_set_message): Protect against a NULL
