@@ -109,7 +109,7 @@ editor_page_class_init (EditorPageClass *class)
 	class->fill_component = NULL;
 	class->set_summary = NULL;
 	class->get_summary = NULL;
-	class->set_dtstart = NULL;
+	class->set_dates = NULL;
 }
 
 
@@ -209,21 +209,22 @@ editor_page_get_summary (EditorPage *page)
 }
 
 /**
- * editor_page_set_dtstart:
+ * editor_page_set_dates:
  * @page: An editor page.
  * @start: Start date for calendar component.
+ * @end: End date for calendar component.
  * 
- * Sets the calendar component DTSTART in an editor page.
+ * Sets the calendar component DTSTART and DTEND in an editor page.
  **/
 void
-editor_page_set_dtstart (EditorPage *page, time_t start)
+editor_page_set_dates (EditorPage *page, time_t start, time_t end)
 {
 	g_return_if_fail (page != NULL);
 	g_return_if_fail (IS_EDITOR_PAGE (page));
 	g_return_if_fail (start != -1);
 
-	g_assert (CLASS (page)->set_dtstart != NULL);
-	(* CLASS (page)->set_dtstart) (page, start);
+	g_assert (CLASS (page)->set_dates != NULL);
+	(* CLASS (page)->set_dates) (page, start, end);
 }
 
 /**

@@ -30,6 +30,8 @@ libcal_dialogs_a_SOURCES =	\
 	editor-page.h		\
 	event-page.c		\
 	event-page.h		\
+	recurrence-page.c	\
+	recurrence-page.h	\
 	save-comp.c		\
 	save-comp.h		\
 	task-editor.c		\

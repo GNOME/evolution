@@ -1,3 +1,19 @@
+2001-05-23  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/recurrence-page.c: Finished porting from the old
+	event-editor.c.  Made it store a clone of the component for when
+	we need to expand the recurrence set.
+
+2001-05-22  Federico Mena Quintero  <federico@ximian.com>
+
+	* gui/dialogs/event-page.c (event_page_get_dates): New function.
+
+	* gui/dialogs/editor-page.c (editor_page_set_dates): Renamed from
+	editor_page_set_dtstart(); now sets both DTSTART and DTEND.
+
+	* gui/dialogs/alarm-page.c (alarm_page_set_dates): Ahem, it is a
+	label, not an entry.
+
 2001-05-21  Federico Mena Quintero  <federico@ximian.com>
 
 	Fix bug #2831; the tasks toolbar and menu now have a button to

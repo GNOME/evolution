@@ -78,7 +78,7 @@ static void event_page_fill_widgets (EditorPage *page, CalComponent *comp);
 static void event_page_fill_component (EditorPage *page, CalComponent *comp);
 static void event_page_set_summary (EditorPage *page, const char *summary);
 static char *event_page_get_summary (EditorPage *page);
-static void event_page_set_dtstart (EditorPage *page, time_t start);
+static void event_page_set_dates (EditorPage *page, time_t start, time_t end);
 
 /* Signal IDs */
 enum {
@@ -152,7 +152,7 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->get_summary = event_page_get_summary;
-	editor_page_class->set_dtstart = event_page_set_dtstart;
+	editor_page_class->set_dates = event_page_set_dates;
 
 	object_class->destroy = event_page_destroy;
 }
@@ -509,11 +509,11 @@ event_page_get_summary (EditorPage *page)
 	return e_utf8_gtk_entry_get_text (GTK_ENTRY (priv->summary));
 }
 
-/* set_dtstart handler for the event page.  We do nothing since we are *the*
- * only provider of the dtstart value.
+/* set_dates handler for the event page.  We do nothing since we are *the*
+ * only provider of the date values.
  */
 static void
-event_page_set_dtstart (EditorPage *page, time_t start)
+event_page_set_dates (EditorPage *page, time_t start, time_t end)
 {
 	/* nothing */
 }
@@ -905,4 +905,29 @@ event_page_new (void)
 	}
 
 	return epage;
+}
+
+/**
+ * event_page_get_dates:
+ * @page: An event page.
+ * @start: Return value for the start date, can be NULL.
+ * @end: Return value for the end date, can be NULL.
+ * 
+ * Queries the start and end dates for the calendar component in an event page.
+ **/
+void
+event_page_get_dates (EventPage *page, time_t *start, time_t *end)
+{
+	EventPagePrivate *priv;
+
+	g_return_if_fail (page != NULL);
+	g_return_if_fail (IS_EVENT_PAGE (page));
+
+	priv = page->priv;
+
+	if (start)
+		*start = e_date_edit_get_time (E_DATE_EDIT (priv->start_time));
+
+	if (end)
+		*end = e_date_edit_get_time (E_DATE_EDIT (priv->end_time));
 }

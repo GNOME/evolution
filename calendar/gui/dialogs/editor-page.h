@@ -61,7 +61,7 @@ typedef struct {
 	void (* set_summary) (EditorPage *page, const char *summary);
 	char *(* get_summary) (EditorPage *page);
 
-	void (* set_dtstart) (EditorPage *page, time_t start);
+	void (* set_dates) (EditorPage *page, time_t start, time_t end);
 } EditorPageClass;
 
 GtkType editor_page_get_type (void);
@@ -74,7 +74,7 @@ void editor_page_fill_component (EditorPage *page, CalComponent *comp);
 void editor_page_set_summary (EditorPage *page, const char *summary);
 char *editor_page_get_summary (EditorPage *page);
 
-void editor_page_set_dtstart (EditorPage *page, time_t start);
+void editor_page_set_dates (EditorPage *page, time_t start, time_t end);
 
 void editor_page_notify_changed (EditorPage *page);
 void editor_page_notify_summary_changed (EditorPage *page);

@@ -71,7 +71,7 @@ static void alarm_page_fill_widgets (EditorPage *page, CalComponent *comp);
 static void alarm_page_fill_component (EditorPage *page, CalComponent *comp);
 static void alarm_page_set_summary (EditorPage *page, const char *summary);
 static char *alarm_page_get_summary (EditorPage *page);
-static void alarm_page_set_dtstart (EditorPage *page, time_t start);
+static void alarm_page_set_dates (EditorPage *page, time_t start, time_t end);
 
 static EditorPageClass *parent_class = NULL;
 
@@ -125,7 +125,7 @@ alarm_page_class_init (AlarmPageClass *class)
 	editor_page_class->fill_component = alarm_page_fill_component;
 	editor_page_class->set_summary = alarm_page_set_summary;
 	editor_page_class->get_summary = alarm_page_get_summary;
-	editor_page_class->set_dtstart = alarm_page_set_dtstart;
+	editor_page_class->set_dates = alarm_page_set_dates;
 
 	object_class->destroy = alarm_page_destroy;
 }
@@ -488,9 +488,9 @@ alarm_page_get_summary (EditorPage *page)
 	return e_utf8_gtk_entry_get_text (GTK_ENTRY (priv->summary));
 }
 
-/* set_dtstart handler for the alarm page */
+/* set_dates handler for the alarm page */
 static void
-alarm_page_set_dtstart (EditorPage *page, time_t start)
+alarm_page_set_dates (EditorPage *page, time_t start, time_t end)
 {
 	AlarmPage *apage;
 	AlarmPagePrivate *priv;
@@ -503,7 +503,7 @@ alarm_page_set_dtstart (EditorPage *page, time_t start)
 	tm = *localtime (&start);
 	strftime (str, sizeof (str), _("%A %b %d %Y %H:%M:%S"), &tm);
 
-	gtk_entry_set_text (GTK_ENTRY (priv->starting_date), str);
+	gtk_label_set_text (GTK_LABEL (priv->starting_date), str);
 }
 
 

@@ -61,7 +61,7 @@ EventPage *event_page_construct (EventPage *epage);
 
 EventPage *event_page_new (void);
 
-time_t event_page_get_dtstart (EventPage *epage);
+void event_page_get_dates (EventPage *epage, time_t *start, time_t *end);
 
 
 
