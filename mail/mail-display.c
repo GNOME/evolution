@@ -1700,7 +1700,10 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 			 "<!doctype html public \"-//W3C//DTD HTML 4.0 TRANSITIONAL//EN\">\n"
 			 "<html>\n"
 			 "<head>\n<meta name=\"generator\" content=\"Evolution Mail Component\">\n</head>\n");
-	mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
+	if (md->current_message && md->display_style == MAIL_CONFIG_DISPLAY_SOURCE)
+		mail_html_write (html, stream, "<body>\n");
+	else
+		mail_html_write (html, stream, "<body marginwidth=0 marginheight=0>\n");
 	
 	flag = md->info ? camel_tag_get (&md->info->user_tags, "follow-up") : NULL;
 	completed = md->info ? camel_tag_get (&md->info->user_tags, "completed-on") : NULL;

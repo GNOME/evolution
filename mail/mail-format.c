@@ -202,27 +202,14 @@ mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md,
 	
 	bytes = mail_format_get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
 	if (bytes) {
-		GByteArray *ba;
-		gchar *xed, *iframe;
-		gchar *btt = "<tt>\n";
-		gchar *ett = "</tt>\n";
-
 		g_byte_array_append (bytes, "", 1);
 		html_str = e_text_to_html (bytes->data, E_TEXT_TO_HTML_CONVERT_NL |
 					   E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
 		g_byte_array_free (bytes, TRUE);
-		
-		ba = g_byte_array_new ();
-		g_byte_array_append (ba, (const guint8 *) btt, strlen (btt) + 1);
-		g_byte_array_append (ba, (const guint8 *) html_str, strlen (html_str) + 1);
-		g_byte_array_append (ba, (const guint8 *) ett, strlen (ett) + 1);
+		mail_html_write (html, stream, "<tt>");
+		mail_html_write (html, stream, html_str);
 		g_free (html_str);
-
-		xed = g_strdup_printf ("x-evolution-data:%p", mime_message);
-		iframe = g_strdup_printf ("<iframe src=\"%s\" frameborder=0 scrolling=no>could not get %s</iframe>", xed, xed);
-		mail_display_add_url (md, "data_urls", xed, ba);
-		mail_html_write (html, stream, iframe);
-		g_free (iframe);
+		mail_html_write (html, stream, "</tt>");
 	}
 }
 
