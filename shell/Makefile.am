@@ -64,6 +64,8 @@ libeshell_a_SOURCES = 				\
 	evolution-shell-view.h			\
 	evolution-storage-listener.c		\
 	evolution-storage-listener.h		\
+	evolution-storage-set-view-listener.c	\
+	evolution-storage-set-view-listener.h	\
 	evolution-storage.c			\
 	evolution-storage.h
 
@@ -117,8 +119,6 @@ evolution_SOURCES =				\
 	e-storage.h				\
 	evolution-storage-set-view.c		\
 	evolution-storage-set-view.h		\
-	evolution-storage-set-view-listener.c	\
-	evolution-storage-set-view-listener.h	\
 	evolution-storage-set-view-factory.c	\
 	evolution-storage-set-view-factory.h	\
 	main.c

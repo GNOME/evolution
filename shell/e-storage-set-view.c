@@ -679,7 +679,7 @@ class_init (EStorageSetViewClass *klass)
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
 
-	signals[FOLDER_SELECTED]
+	signals[STORAGE_SELECTED]
 		= gtk_signal_new ("storage_selected",
 				  GTK_RUN_FIRST,
 				  object_class->type,
@@ -1013,6 +1013,9 @@ e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
 	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
 
 	priv = storage_set_view->priv;
+
+	if (!priv->show_folders)
+		return NULL; /* Mmh! */
 
 	row = e_table_get_cursor_row (E_TABLE (storage_set_view));
 	etree_node = e_tree_model_node_at_row (priv->etree_model, row);

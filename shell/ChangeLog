@@ -1,5 +1,15 @@
 2000-10-02  Chris Toshok  <toshok@helixcode.com>
 
+	* e-storage-set-view.c (e_storage_set_view_get_current_folder): if
+	we're not displaying folders, the current folder is NULL.
+	(class_init): fix typo.
+
+	* Makefile.am (libeshell_a_SOURCES):
+	evolution-storage-set-view-listener.[ch] should be here, not
+	evolution_SOURCES.
+
+2000-10-02  Chris Toshok  <toshok@helixcode.com>
+
 	* evolution-storage-set-view.c: add storage_selected behavior -
 	loop over the listeners calling _storage_selected.
 
