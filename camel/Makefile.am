@@ -26,6 +26,7 @@ libcamel_la_SOURCES = 				\
 	camel-address.c				\
 	camel-cipher-context.c			\
 	camel-data-wrapper.c			\
+	camel-digest-folder.c			\
 	camel-exception.c			\
 	camel-filter-driver.c			\
 	camel-filter-search.c			\
@@ -100,6 +101,7 @@ libcamelinclude_HEADERS =			\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
 	camel-data-wrapper.h			\
+	camel-digest-folder.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\
 	camel-filter-driver.h			\

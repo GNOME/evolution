@@ -236,7 +236,8 @@ camel_folder_construct (CamelFolder *folder, CamelStore *parent_store,
 	g_return_if_fail (folder->name == NULL);
 
 	folder->parent_store = parent_store;
-	camel_object_ref (CAMEL_OBJECT (parent_store));
+	if (parent_store)
+		camel_object_ref (CAMEL_OBJECT (parent_store));
 
 	folder->name = g_strdup (name);
 	folder->full_name = g_strdup (full_name);
