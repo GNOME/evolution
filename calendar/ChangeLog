@@ -1,3 +1,8 @@
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component-factory.c (create_object): Pass a NULL @icon to
+	`evolution_shell_component_add_user_creatable_item()'.
+
 2002-01-21  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/todo/todo-conduit.c (todoconduit_load_configuration):

@@ -640,14 +640,14 @@ create_object (void)
 	evolution_shell_component_add_user_creatable_item (shell_component,
 							   CREATE_EVENT_ID,
 							   _("Create a new appointment"),
-							   _("New _Appointment"),
-							   'a');
+							   _("New _Appointment"), 'a',
+							   NULL);
 
 	evolution_shell_component_add_user_creatable_item (shell_component,
 							   CREATE_TASK_ID,
 							   _("Create a new task"),
-							   _("New _Task"),
-							   't');
+							   _("New _Task"), 't',
+							   NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
