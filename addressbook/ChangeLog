@@ -128,7 +128,6 @@
 	* gui/component/addressbook-component.c: Removed unused factory
 	variable.
 
->>>>>>> 1.757
 2001-09-06  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook-storage.c (notify_listener): new

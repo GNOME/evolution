@@ -26,8 +26,9 @@ static BonoboObjectClass          *e_book_view_listener_parent_class;
 POA_GNOME_Evolution_Addressbook_BookViewListener__vepv  e_book_view_listener_vepv;
 
 struct _EBookViewListenerPrivate {
-	GList *response_queue;
-	gint   idle_id;
+	GList   *response_queue;
+	gint     idle_id;
+	gboolean idle_lock;
 
 	guint stopped : 1;
 };
@@ -36,56 +37,49 @@ struct _EBookViewListenerPrivate {
 static gboolean
 e_book_view_listener_check_queue (EBookViewListener *listener)
 {
-	gboolean retval;
+	if (listener->priv->idle_lock)
+		return TRUE;
+
+	listener->priv->idle_lock = TRUE;
 
 	if (listener->priv->stopped) {
 		listener->priv->idle_id = 0;
-		bonobo_object_unref (BONOBO_OBJECT (listener));
+		goto exit_gracefully;
+	}
+
+	if (listener->priv->response_queue != NULL) {
+		gtk_signal_emit (GTK_OBJECT (listener), e_book_view_listener_signals [RESPONSES_QUEUED]);
+	}
+
+	if (listener->priv->response_queue == NULL) {
+		listener->priv->idle_id = 0;
+	}
+
+ exit_gracefully:
+
+	listener->priv->idle_lock = FALSE;
+	
+	/* Only drop the reference when we exit for the last time. */
+	if (listener->priv->idle_id == 0) {
+		gtk_object_unref (GTK_OBJECT (listener));
 		return FALSE;
 	}
 
-	/* An extra ref to keep listener from being destroyed during the
-	   signal emission. */
-	bonobo_object_ref (BONOBO_OBJECT (listener));
-	retval = TRUE;
-
-	if (listener->priv->response_queue != NULL) {
-
-		gtk_signal_emit (GTK_OBJECT (listener),
-				 e_book_view_listener_signals [RESPONSES_QUEUED]);
-
-	}
-
-	/* this callback could be (and indeed is) called from signal emited above,
-	   signal handler could call e_book_view_listener_stop, so we need to check
-	   if idle is still set and if not we don't want to unref again */
-	if (listener->priv->response_queue == NULL && listener->priv->idle_id != 0) {
-		listener->priv->idle_id = 0;
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		retval = FALSE;
-	}
-
-	/* Drop our extra reference from above. */
-	bonobo_object_unref (BONOBO_OBJECT (listener));
-
-	return retval;
+	return TRUE;
 }
 
 static void
 e_book_view_listener_queue_response (EBookViewListener         *listener,
 				     EBookViewListenerResponse *response)
 {
-	listener->priv->response_queue =
-		g_list_append (listener->priv->response_queue,
-			       response);
+	listener->priv->response_queue = g_list_append (listener->priv->response_queue, response);
 
 	if (listener->priv->idle_id == 0) {
 
 		/* Hold a reference to the listener while the idle is active. */
-		bonobo_object_ref (BONOBO_OBJECT (listener));
+		gtk_object_ref (GTK_OBJECT (listener));
 
-		listener->priv->idle_id = g_idle_add (
-			(GSourceFunc) e_book_view_listener_check_queue, listener);
+		listener->priv->idle_id = g_idle_add ((GSourceFunc) e_book_view_listener_check_queue, listener);
 	}
 }
 

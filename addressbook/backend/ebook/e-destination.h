@@ -68,6 +68,7 @@ EDestination  *e_destination_copy               (const EDestination *);
 void           e_destination_clear              (EDestination *);
 
 gboolean       e_destination_is_empty           (const EDestination *);
+gboolean       e_destination_is_valid           (const EDestination *);
 gboolean       e_destination_equal              (const EDestination *a, const EDestination *b);
 
 void           e_destination_set_card           (EDestination *, ECard *card, gint email_num);
@@ -107,10 +108,9 @@ void           e_destination_set_allow_cardification (EDestination *, gboolean);
 void           e_destination_cardify                 (EDestination *, EBook *);
 void           e_destination_cardify_delayed         (EDestination *, EBook *, gint delay); /* delay < 0: "default" */
 void           e_destination_cancel_cardify          (EDestination *);
+gboolean       e_destination_uncardify               (EDestination *);
 
-#if 0
-void           e_destination_uncardify               (EDestination *);
-#endif
+gboolean       e_destination_revert                  (EDestination *);
 
 gchar         *e_destination_get_address_textv  (EDestination **);
 
@@ -123,7 +123,11 @@ EDestination  *e_destination_import             (const gchar *str);
 gchar         *e_destination_exportv            (EDestination **);
 EDestination **e_destination_importv            (const gchar *str);
 
+EDestination **e_destination_list_to_vector     (GList *);
+void           e_destination_freev              (EDestination **);
+
 void           e_destination_touch              (EDestination *);
+void           e_destination_touchv             (EDestination **);
 
 
 #endif /* __E_DESTINATION_H__ */

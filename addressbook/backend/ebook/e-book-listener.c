@@ -26,8 +26,9 @@ static BonoboObjectClass          *e_book_listener_parent_class;
 POA_GNOME_Evolution_Addressbook_BookListener__vepv  e_book_listener_vepv;
 
 struct _EBookListenerPrivate {
-	GList *response_queue;
-	gint   idle_id;
+	GList   *response_queue;
+	gint     idle_id;
+	gboolean idle_lock;
 
 	guint stopped : 1;
 };
@@ -35,32 +36,35 @@ struct _EBookListenerPrivate {
 static gboolean
 e_book_listener_check_queue (EBookListener *listener)
 {
-	gboolean retval;
+	if (listener->priv->idle_lock)
+		return TRUE;
 
-	/* Hold a reference locally, so that we can't get blown away
-	   during the signal emission. */
-	bonobo_object_ref (BONOBO_OBJECT (listener));
-	retval = TRUE;
+	listener->priv->idle_lock = TRUE;
+
+	if (listener->priv->stopped) {
+		listener->priv->idle_id = 0;
+		goto exit_gracefully;
+	}
 
 	if (listener->priv->response_queue != NULL) {
-		gtk_signal_emit (GTK_OBJECT (listener),
-				 e_book_listener_signals [RESPONSES_QUEUED]);
+		gtk_signal_emit (GTK_OBJECT (listener), e_book_listener_signals [RESPONSES_QUEUED]);
 	}
 
-	/* Make sure that ->idle_id != 0, so that only the first reentrant call to
-	   this function unrefs our "global" reference. */
-	if (listener->priv->response_queue == NULL && listener->priv->idle_id != 0) {
+	if (listener->priv->response_queue == NULL) {
 		listener->priv->idle_id = 0;
-
-		/* We only release our reference to the listener when the idle
-		   function is totally finished. */
-		bonobo_object_unref (BONOBO_OBJECT (listener));
-		retval = FALSE;
 	}
 
-	bonobo_object_unref (BONOBO_OBJECT (listener));
+ exit_gracefully:
 
-	return retval;
+	listener->priv->idle_lock = FALSE;
+	
+	/* Only drop the reference when we exit for the last time. */
+	if (listener->priv->idle_id == 0) {
+		gtk_object_unref (GTK_OBJECT (listener));
+		return FALSE;
+	}
+
+	return TRUE;
 }
 
 static void
@@ -74,10 +78,9 @@ e_book_listener_queue_response (EBookListener         *listener,
 	if (listener->priv->idle_id == 0) {
 
 		/* Hold a reference to the listener until the idle function is finished. */
-		bonobo_object_ref (BONOBO_OBJECT (listener));
+		gtk_object_ref (GTK_OBJECT (listener));
 
-		listener->priv->idle_id = g_idle_add (
-			(GSourceFunc) e_book_listener_check_queue, listener);
+		listener->priv->idle_id = g_idle_add ((GSourceFunc) e_book_listener_check_queue, listener);
 	}
 }
 
