@@ -348,7 +348,6 @@ lack of time, resources, and interest.
 	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
 	<guimenuitem>Calendar</guimenuitem>
       </menuchoice>.
-
        You can place the calendar in any calendar folder and access it
        from the folder view.  Alarms, configuration, and display for
        each calendar are separate from each other.

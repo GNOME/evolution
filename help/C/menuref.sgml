@@ -5,22 +5,35 @@
 <chapter id="menuref">
   <title>Menu Reference</title>
   <para>
-    This section will serve as a reference for every menu that
-    <application>Evolution</application> has. If you've ever wondered
-    what some obscure menu item does, this is the chapter for
-    you. When menu items are repeated in
-    <application>Evolution</application>, they're repeated here too.
+    <application>Evolution</application>'s menus may not hold the
+    secret to happiness, they do hold every ability that
+    <application>Evolution</application> has. This section will serve
+    as a reference for all those menus, and the capabilites that they
+    offer you.
   </para>
   <para>
-    From left to right, the menus available to you when you are
-    reading mail are: <guimenu>File</guimenu>,
-    <guimenu>Edit</guimenu>, <guimenu>View</guimenu>,
-    <guimenu>Tools</guimenu>, <guimenu>Actions</guimenu>, and
-    <guimenu>Help</guimenu>.  The last of these doesn't change, but
-    the rest of them have contents that will change depending on
-    whether you're looking at mail, contacts, or calendar information.
     In addition, the editor tools for messages, appointments, and
-    contacts all have menu bars.
+    contacts all have menu bars of their own. From left to right, the
+    menus available to you when you are reading mail are:
+    <guimenu>File</guimenu>, <guimenu>Edit</guimenu>,
+    <guimenu>View</guimenu>, <guimenu>Settings</guimenu>,
+    <guimenu>Message</guimenu>, <guimenu>Folder</guimenu>and
+    <guimenu>Help</guimenu>.
+
+  </para>
+  <para>
+    Menus in <application>Evolution</application> are
+    context-sensitive, which means that they vary depending on what
+    you're doing.  If you're reading your mail, you'll have
+    mail-related menus; for your calendar, you'll have
+    calendar-related menu items.  Some menus, of course, like
+    <guimenu>Help</guimenu> and <guimenu>File</guimenu> don't much, if
+    at all, because they have more universal functions.  But you'd
+    never mark an address card as "read," or set the recurrence for an
+    email message you've recieved. depending on whether you're looking
+    at mail, contacts, or calendar information. 
+  </para>
+
 
   </para>
   <sect1 id="menuref-universal">
@@ -891,9 +904,10 @@
 
 	  <varlistentry>
 	    <term><guimenuitem>Print Preview</guimenuitem></term>
-	    <listitem><para>
-              Shows you what your appointment will look like if you print it.
-           </para></listitem>
+	    <listitem><para> Shows you what your appointment will look
+	    like if you print it. See <xref linkend="usage-print">
+	    for details on printing and the Print Preview function.
+	    </para></listitem>
 	  </varlistentry>
 
 
@@ -1049,24 +1063,43 @@
     <sect2 id="menuref-cal-editor-tools">
       <title>The Appointment Editor's Tools Menu</title>
       <para>
-         
-         This menu contains four items, none of which
-         have any functionality yet:
+         This menu contains four items, including the
+         <guisubmenu>Forms</guisubmenu> submenu, which allows you to
+         alter calendar forms and create your own entries.  None of
+         this works yet, though.
          <variablelist>
 	  <varlistentry>
-	    <term><guimenuitem>Item</guimenuitem></term>
+	    <term><guimenuitem>Spelling</guimenuitem></term>
 	    <listitem><para>
-            FIXME: ?
+              Checks the spelling of your calendar entry.
            </para></listitem>
 	  </varlistentry>
 
 	  <varlistentry>
-	    <term><guimenuitem>Item</guimenuitem></term>
+	    <term><guimenuitem>Check Names</guimenuitem></term>
+	    <listitem><para> Checks the names listed here against
+	    those in your address book.
+            </para></listitem>
+	  </varlistentry>
+	</variablelist>
+
+	  <varlistentry>
+	    <term><guimenuitem>Address Book</guimenuitem></term>
 	    <listitem><para>
              FIXME: ?
            </para></listitem>
 	  </varlistentry>
 	</variablelist>
+
+	  <varlistentry>
+	    <term><guisubmenu>Forms</guisubmenu> Submenu</term>
+	    <listitem><para>
+               The Forms submenu lets you alter the
+	       appearance of Calendar Forms. 
+           </para></listitem>
+	  </varlistentry>
+	</variablelist>
+
       </para>
     </sect2>
 
@@ -1077,10 +1110,10 @@
 
          <variablelist>
 	  <varlistentry>
-	    <term><guimenuitem>Invite Attendees</guimenuitem></term>
+	    <term><guimenuitem>Schedule Meeting</guimenuitem></term>
 	    <listitem><para>
-              Invite the listed attendees to the current event (via email).
-              You may be prompted to specify an invitation message.
+              Brings up the <interface>Meeting Invitation</interface> window, 
+              described in <xref linkend="usage-calendar-apts-invite">.
            </para></listitem>
 	  </varlistentry>
 

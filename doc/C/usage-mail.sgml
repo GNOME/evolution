@@ -1,8 +1,6 @@
 <!--
 <!DOCTYPE Chapter PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN">
 -->
-<!-- NOTE: Queue handling, Outbox, and Written Message Editing are not
-implemented with a stable UI yet, and are described wrong -->
 
 <chapter id="usage-mail"> 
   <title>Evolution Mail</title>
@@ -91,47 +89,23 @@ implemented with a stable UI yet, and are described wrong -->
       </figure>
 <!-- ==============End of Figure============================== -->
 
-
-
       <para>
-         Other actions you can perform are listed, appropriately, in
-         the <guimenu>Actions</guimenu> menu in the menu bar:
-         <variablelist>
-	  <varlistentry>
-	    <term><guimenuitem>Mark all Messages Read</guimenuitem></term>
-	    <listitem><para>
-               <application>Evolution</application> keeps track of which 
-                messages you have read, and which ones you haven't: 
-                When you've looked at a message for more than a few seconds, 
-                it's no longer marked as new.  If you want to mark all mail 
-                in a folder as read, select this item.
-             </para></listitem>
-	    </varlistentry>
-	  <varlistentry>
-	    <term><guimenuitem>View Message</guimenuitem></term>
-	    <listitem><para>
-                <guimenuitem>View Message</guimenuitem> opens the selected message 
-                in its own window.
-             </para></listitem>
-	    </varlistentry>	  
-	  <varlistentry>
-	    <term><guimenuitem>Edit Message</guimenuitem></term>
-	    <listitem><para>
-               Only available for messages you have written (drafts and
-               mail in the <guilabel>Outbox</guilabel>, this item opens the message
-               in a new mail composition window.
-             </para></listitem>
-	    </varlistentry>
-	  <varlistentry>
-	    <term><guimenuitem>Expunge</guimenuitem></term>
-	    <listitem><para>
-               Clicking the <guibutton>Delete</guibutton> button marks 
-               messages for deletion. <guimenuitem>Expunge</guimenuitem> 
-               wipes them off the face of the earth.               
-             </para></listitem>
-	    </varlistentry>
-	  </variablelist>
+         Most of the mail-related actions you'll want to perform are
+         listed in the <guimenu>Message</guimenu> menu in the menu
+         bar.  The most frequently used ones, like
+         <guimenuitem>Reply</guimenuitem> and
+         <guimenuitem>Forward</guimenuitem>, also appear as buttons in
+         the toolbar.
+       </para>
+       <para>
+         While you're there, have a look at the items items the bottom
+         of the list, which are shortcuts for simple filter and
+         vFolder creation.  You can learn more about filters and
+         vFolders in <xref linkend="usage-mail-organize">; a
+         comprehensive description of this menu (and all the others)
+         is in <xref linkend="menuref">.
       </para>
+
       <sect3 id="usage-mail-listorder">
 	<title>Sorting the message list</title>
 	<para>
@@ -143,11 +117,10 @@ implemented with a stable UI yet, and are described wrong -->
 	<para>
           Aside from sorting the messages, you can opt to have the
           messages threaded. Select <menuchoice>
-          <guimenu>View</guimenu> <guimenuitem>Threaded Message
-          List</guimenuitem> </menuchoice> to turn the threaded view
-          on or off.  If the option selected,
-          <application>Evolution</application> will attempt to
-          associate related messages by using the
+          <guimenu>View</guimenu> <guimenuitem>Threaded</guimenuitem>
+          </menuchoice> to turn the threaded view on or off.  If the
+          option selected, <application>Evolution</application> will
+          attempt to associate related messages by using the
           <systemitem>References</systemitem>,
           <systemitem>In-Reply-To</systemitem>, and
           <systemitem>Subject</systemitem> message headers.  Messages
@@ -168,7 +141,7 @@ implemented with a stable UI yet, and are described wrong -->
         <para>
           If you really want to get rid of it, choose
           <guimenuitem>Expunge</guimenuitem> from the
-          <guimenu>Actions</guimenu> menu.  That will delete it
+          <guimenu>Folder</guimenu> menu.  That will delete it
           permanently. If you want to keep it, click
           <guibutton>Delete</guibutton> again, and it will no longer
           be marked as deleted.  At some point in the future, this
@@ -230,7 +203,7 @@ implemented with a stable UI yet, and are described wrong -->
         your password.  If you'd like
         <application>Evolution</application> to forget your password
         sooner, select
-        <menuchoice><guimenu>Actions</guimenu><guimenuitem>Forget
+        <menuchoice><guimenu>Settings</guimenu><guimenuitem>Forget
         Passwords</guimenuitem></menuchoice>, and it will do so
         immediately.
       </para>

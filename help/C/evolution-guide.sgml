@@ -6,6 +6,7 @@
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
 <!ENTITY USAGE-CALENDAR SYSTEM "usage-calendar.sgml">
 <!ENTITY USAGE-SYNC SYSTEM "usage-sync.sgml">
+<!ENTITY USAGE-PRINT SYSTEM "usage-print.sgml">
 <!ENTITY CONFIG-SETUPASSIST SYSTEM "config-setupassist.sgml">
 <!ENTITY CONFIG-PREFS SYSTEM "config-prefs.sgml">
 <!ENTITY CONFIG-SYNC SYSTEM "config-sync.sgml">
@@ -88,8 +89,8 @@ implemented. -->
     &USAGE-CONTACT;
     &USAGE-CALENDAR;
 <!--   &USAGE-NOTES; -->
-    &USAGE-SYNC;
-
+    &USAGE-SYNC; 
+    &USAGE-PRINT;
   </part>
   <part id="config">
   <title>Configuring and Managing Evolution</title>
