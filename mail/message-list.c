@@ -76,6 +76,7 @@
 #include "art/score-higher.xpm"
 #include "art/score-highest.xpm"
 #include "art/flag-for-followup.xpm"
+#include "art/flag-for-followup-done.xpm"
 
 /*#define TIMEIT */
 
@@ -185,6 +186,7 @@ static struct {
 	{ score_higher_xpm,     NULL },
 	{ score_highest_xpm,    NULL },
 	{ flag_for_followup_xpm,NULL },
+	{ flag_for_followup_done_xpm,NULL },
 	{ NULL,			NULL }
 };
 
@@ -1078,13 +1080,19 @@ ml_tree_value_at (ETreeModel *etm, ETreePath path, int col, void *model_data)
 		return GINT_TO_POINTER (score);
 	}
 	case COL_FOLLOWUP_FLAG_STATUS: {
-		const char *tag;
+		const char *tag, *cmp;
 		
+		/* FIXME: this all should be methods off of message-tag-followup class,
+		   FIXME: the tag names should be namespaced :( */
 		tag = camel_tag_get ((CamelTag **) &msg_info->user_tags, "follow-up");
-		if (tag && *tag)
-			return GINT_TO_POINTER (TRUE);
-		else
-			return GINT_TO_POINTER (FALSE);
+		cmp = camel_tag_get ((CamelTag **) &msg_info->user_tags, "completed-on");
+		if (tag && tag[0]) {
+			if (cmp && cmp[0])
+				return GINT_TO_POINTER(2);
+			else
+				return GINT_TO_POINTER(1);
+		} else
+			return GINT_TO_POINTER(0);
 	}
 	case COL_FOLLOWUP_DUE_BY: {
 		const char *tag;
@@ -1313,7 +1321,8 @@ message_list_create_extras (void)
 	e_table_extras_add_cell (extras, "render_flagged", e_cell_toggle_new (0, 2, images));
 	
 	images[1] = states_pixmaps [15].pixbuf;
-	e_table_extras_add_cell (extras, "render_flag_status", e_cell_toggle_new (0, 2, images));
+	images[2] = states_pixmaps [16].pixbuf;
+	e_table_extras_add_cell (extras, "render_flag_status", e_cell_toggle_new (0, 3, images));
 	
 	for (i = 0; i < 7; i++)
 		images[i] = states_pixmaps [i + 7].pixbuf;

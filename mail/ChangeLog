@@ -1,5 +1,11 @@
 2003-12-02  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (message_list_create_extras): setup another image
+	(followup completed) to flag status list.
+	(states_pixmaps[]): added flag_for_followup_done.
+	(ml_tree_value_at): return 0,1 or 2 for completed icon.  also use
+	the real ints, these shouldn't have been true/false.  Bug #43514.
+
 	* evolution-mail.schemas: Added empty_trash prompt key.
 
 	* em-utils.c (em_utils_prompt_user): changed to take the gconf
