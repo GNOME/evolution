@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-08-03 20:27-0400\n"
-"PO-Revision-Date: 2004-08-03 19:18-0700\n"
+"PO-Revision-Date: 2004-08-05 19:18-0700\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@FreeBSD.org>\n"
 "MIME-Version: 1.0\n"
@@ -2932,7 +2932,7 @@ msgstr "Protocol not supported"
 #: camel/providers/pop3/camel-pop3-store.c:456
 #: camel/providers/pop3/camel-pop3-store.c:537
 msgid "Cancelled"
-msgstr "Cancelled"
+msgstr "Canceled"
 
 #. E_BOOK_ERROR_COULD_NOT_CANCEL
 #: addressbook/gui/widgets/eab-gui-util.c:62
@@ -3510,7 +3510,7 @@ msgstr "Unnamed List"
 #. calendar:prompt-cancel-task primary
 #: calendar/calendar-errors.xml.h:2 calendar/calendar-errors.xml.h:12
 msgid "Would you like to send all the participants a cancellation notice?"
-msgstr "Would you like to send all the participants a cancellation notice?"
+msgstr "Would you like to send all the participants a cancelation notice?"
 
 #. calendar:prompt-cancel-meeting secondary
 #: calendar/calendar-errors.xml.h:4
@@ -3518,7 +3518,7 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not "
+"If you do not send a cancelation notice, the other participants may not "
 "know the meeting is canceled."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
@@ -3551,7 +3551,7 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the task has been deleted."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not "
+"If you do not send a cancelation notice, the other participants may not "
 "know the task has been deleted."
 
 #. calendar:prompt-delete-task primary
@@ -3570,7 +3570,7 @@ msgstr "All information on this task will be deleted and cannot be restored."
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Would you like to send a cancellation notice for this journal entry?"
+msgstr "Would you like to send a cancelation notice for this journal entry?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3578,7 +3578,7 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"If you do not send a cancellation notice, the other participants may not "
+"If you do not send a cancelation notice, the other participants may not "
 "know the journal has been deleted."
 
 #. calendar:prompt-delete-journal primary
@@ -6249,14 +6249,14 @@ msgid ""
 "The meeting has been cancelled, however it could not be found in your "
 "calendars"
 msgstr ""
-"The meeting has been cancelled. However, it could not be found in your "
+"The meeting has been canceled. However, it could not be found in your "
 "calendars"
 
 #: calendar/gui/e-itip-control.c:1121
 msgid ""
 "The task has been cancelled, however it could not be found in your task lists"
 msgstr ""
-"The task has been cancelled. However, it could not be found in your task "
+"The task has been canceled. However, it could not be found in your task "
 "lists"
 
 #: calendar/gui/e-itip-control.c:1134 calendar/gui/itip-utils.c:442
@@ -6318,11 +6318,11 @@ msgstr "Meeting Reply"
 #: calendar/gui/e-itip-control.c:1274
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
-msgstr "<b>%s</b> has cancelled a meeting."
+msgstr "<b>%s</b> has canceled a meeting."
 
 #: calendar/gui/e-itip-control.c:1275
 msgid "Meeting Cancellation"
-msgstr "Meeting Cancellation"
+msgstr "Meeting Cancelation"
 
 #: calendar/gui/e-itip-control.c:1282 calendar/gui/e-itip-control.c:1350
 #: calendar/gui/e-itip-control.c:1385
@@ -6387,11 +6387,11 @@ msgstr "Task Reply"
 #: calendar/gui/e-itip-control.c:1342
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
-msgstr "<b>%s</b> has cancelled a task."
+msgstr "<b>%s</b> has canceled a task."
 
 #: calendar/gui/e-itip-control.c:1343
 msgid "Task Cancellation"
-msgstr "Task Cancellation"
+msgstr "Task Cancelation"
 
 #: calendar/gui/e-itip-control.c:1351
 msgid "Bad Task Message"
@@ -9076,7 +9076,7 @@ msgstr ""
 #: camel/providers/nntp/camel-nntp-store.c:1329 mail/mail-ops.c:705
 #: mail/mail-send-recv.c:611
 msgid "Cancelled."
-msgstr "Cancelled."
+msgstr "Canceled."
 
 #: camel/camel-gpg-context.c:822
 msgid "Failed to unlock secret key: 3 bad passphrases given."
@@ -10169,7 +10169,7 @@ msgstr "Checklist"
 #: camel/providers/imap/camel-imap-command.c:447
 #: camel/providers/imap/camel-imap-store.c:3191
 msgid "Operation cancelled"
-msgstr "Operation cancelled"
+msgstr "Operation canceled"
 
 #: camel/providers/imap/camel-imap-command.c:302
 #: camel/providers/imap/camel-imap-store.c:3194
@@ -10399,7 +10399,7 @@ msgstr "SSL unavailable"
 #: camel/providers/nntp/camel-nntp-store.c:224
 #: camel/providers/pop3/camel-pop3-store.c:192
 msgid "Connection cancelled"
-msgstr "Connection cancelled"
+msgstr "Connection canceled"
 
 #: camel/providers/imap/camel-imap-store.c:675
 #: camel/providers/imap/camel-imap-store.c:706
@@ -10888,7 +10888,7 @@ msgstr "Inbox"
 
 #: camel/providers/local/camel-maildir-folder.c:214
 msgid "Maildir append message cancelled"
-msgstr "Maildir append message cancelled"
+msgstr "Maildir append message canceled"
 
 #: camel/providers/local/camel-maildir-folder.c:217
 #, c-format
@@ -10996,7 +10996,7 @@ msgstr "Cannot open mailbox: %s: %s\n"
 
 #: camel/providers/local/camel-mbox-folder.c:344
 msgid "Mail append cancelled"
-msgstr "Mail append cancelled"
+msgstr "Mail append canceled"
 
 #: camel/providers/local/camel-mbox-folder.c:347
 #, c-format
@@ -11146,7 +11146,7 @@ msgstr "Writing to tmp mailbox failed: %s: %s"
 
 #: camel/providers/local/camel-mh-folder.c:174
 msgid "MH append message cancelled"
-msgstr "MH append message cancelled"
+msgstr "MH append message canceled"
 
 #: camel/providers/local/camel-mh-folder.c:177
 #, c-format
@@ -11294,7 +11294,7 @@ msgstr "Cannot get message %s: %s"
 #: camel/providers/pop3/camel-pop3-folder.c:491
 #: camel/providers/pop3/camel-pop3-folder.c:509
 msgid "User cancelled"
-msgstr "User cancelled"
+msgstr "User canceled"
 
 #: camel/providers/nntp/camel-nntp-folder.c:176
 #: camel/providers/nntp/camel-nntp-folder.c:208
@@ -16249,7 +16249,7 @@ msgstr "Reconnecting to %s"
 
 #: mail/mail-send-recv.c:157
 msgid "Cancelling..."
-msgstr "Cancelling..."
+msgstr "Canceling..."
 
 #: mail/mail-send-recv.c:264
 #, c-format
