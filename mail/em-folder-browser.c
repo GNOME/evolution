@@ -1006,6 +1006,9 @@ emfb_activate(EMFolderView *emfv, BonoboUIComponent *uic, int act)
 		if (p->view_instance) {
 			g_object_unref(p->view_instance);
 			p->view_instance = NULL;
+		}
+
+		if (p->view_menus) {
 			g_object_unref(p->view_menus);
 			p->view_menus = NULL;
 		}

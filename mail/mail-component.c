@@ -758,16 +758,19 @@ char *em_uri_to_camel(const char *euri)
 		return g_strdup(euri);
 	}
 
-	g_assert(eurl->user != NULL);
 	g_assert(eurl->host != NULL);
 
-	if (strcmp(eurl->user, "local") == 0 && strcmp(eurl->host, "local") == 0) {
-		curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path[0]=='/'?eurl->path+1:eurl->path);
-		camel_url_free(eurl);
-		return curi;
-	}
+	if (eurl->user != NULL) {
+		if (strcmp(eurl->user, "local") == 0 && strcmp(eurl->host, "local") == 0) {
+			curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path[0]=='/'?eurl->path+1:eurl->path);
+			camel_url_free(eurl);
+			return curi;
+		}
 
-	uid = g_strdup_printf("%s@%s", eurl->user, eurl->host);
+		uid = g_strdup_printf("%s@%s", eurl->user, eurl->host);
+	} else {
+		uid = g_strdup(eurl->host);
+	}
 
 	accounts = mail_config_get_accounts();
 	account = e_account_list_find(accounts, E_ACCOUNT_FIND_UID, uid);

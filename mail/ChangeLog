@@ -1,3 +1,13 @@
+2003-12-10  Not Zed  <NotZed@Ximian.com>
+
+	* em-folder-browser.c (emfb_activate): separeate view_menu
+	unreffing from view_instance.  fixes a runtime warning.
+
+	** See bug #51718.
+
+	* mail-component.c (em_uri_to_camel): handle an e-uri which has an
+	account uid which isn't in user@host format.
+
 2003-12-09  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #51899.
