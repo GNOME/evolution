@@ -20,6 +20,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <unistd.h>
 #include "cal-component.h"
 #include "timeutil.h"
@@ -39,6 +40,8 @@ typedef struct {
 		icalproperty *prop;
 	};
 	GSList *categories_list;
+
+	icalproperty *classification;
 
 	struct text {
 		icalproperty *prop;
@@ -171,6 +174,9 @@ free_icalcomponent (CalComponent *comp)
 	priv->uid_prop = NULL;
 
 	priv->categories_list = free_slist (priv->categories_list);
+
+	priv->classification = NULL;
+	priv->comment_list = NULL;
 
 	priv->description_list = free_slist (priv->description_list);
 
@@ -383,6 +389,10 @@ scan_property (CalComponent *comp, icalproperty *prop)
 	switch (kind) {
 	case ICAL_CATEGORIES_PROPERTY:
 		scan_categories (comp, prop);
+		break;
+
+	case ICAL_CLASS_PROPERTY:
+		priv->classification = prop;
 		break;
 
 	case ICAL_COMMENT_PROPERTY:
@@ -813,6 +823,102 @@ cal_component_free_categories_list (GSList *categ_list)
 		g_free (l->data);
 
 	g_slist_free (categ_list);
+}
+
+/**
+ * cal_component_get_classification:
+ * @comp: A calendar component object.
+ * @classif: Return value for the classification.
+ * 
+ * Queries the classification of a calendar component object.  If the
+ * classification property is not set on this component, this function returns
+ * #CAL_COMPONENT_CLASS_NONE.
+ **/
+void
+cal_component_get_classification (CalComponent *comp, CalComponentClassification *classif)
+{
+	CalComponentPrivate *priv;
+	const char *class;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (classif != NULL);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (!priv->classification) {
+		*classif = CAL_COMPONENT_CLASS_NONE;
+		return;
+	}
+
+	class = icalproperty_get_class (priv->classification);
+
+	if (strcasecmp (class, "PUBLIC") == 0)
+		*classif = CAL_COMPONENT_CLASS_PUBLIC;
+	else if (strcasecmp (class, "PRIVATE") == 0)
+		*classif = CAL_COMPONENT_CLASS_PRIVATE;
+	else if (strcasecmp (class, "CONFIDENTIAL") == 0)
+		*classif = CAL_COMPONENT_CLASS_CONFIDENTIAL;
+	else
+		*classif = CAL_COMPONENT_CLASS_UNKNOWN;
+}
+
+/**
+ * cal_component_set_classification:
+ * @comp: A calendar component object.
+ * @classif: Classification to use.
+ * 
+ * Sets the classification property of a calendar component object.  To unset
+ * the property, specify CAL_COMPONENT_CLASS_NONE for @classif.
+ **/
+void
+cal_component_set_classification (CalComponent *comp, CalComponentClassification classif)
+{
+	CalComponentPrivate *priv;
+	char *str;
+
+	g_return_if_fail (comp != NULL);
+	g_return_if_fail (IS_CAL_COMPONENT (comp));
+	g_return_if_fail (classif != CAL_COMPONENT_CLASS_UNKNOWN);
+
+	priv = comp->priv;
+	g_return_if_fail (priv->icalcomp != NULL);
+
+	if (classif == CAL_COMPONENT_CLASS_NONE) {
+		if (priv->classification) {
+			icalcomponent_remove_property (priv->icalcomp, priv->classification);
+			icalproperty_free (priv->classification);
+			priv->classification = NULL;
+		}
+
+		return;
+	}
+
+	switch (classif) {
+	case CAL_COMPONENT_CLASS_PUBLIC:
+		str = "PUBLIC";
+		break;
+
+	case CAL_COMPONENT_CLASS_PRIVATE:
+		str = "PRIVATE";
+		break;
+
+	case CAL_COMPONENT_CLASS_CONFIDENTIAL:
+		str = "CONFIDENTIAL";
+		break;
+
+	default:
+		g_assert_not_reached ();
+		str = NULL;
+	}
+
+	if (priv->classification)
+		icalproperty_set_class (priv->classification, str);
+	else {
+		priv->classification = icalproperty_new_class (str);
+		icalcomponent_add_property (priv->icalcomp, priv->classification);
+	}
 }
 
 /**
@@ -1261,7 +1367,7 @@ cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt)
  * Queries the summary of a calendar component object.
  **/
 void
-cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary)
+cal_component_get_summary (CalComponent *comp, CalComponentText *summary)
 {
 	CalComponentPrivate *priv;
 
@@ -1291,7 +1397,7 @@ cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary)
  * Sets the summary of a calendar component object.
  **/
 void
-cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary)
+cal_component_set_summary (CalComponent *comp, CalComponentText *summary)
 {
 	CalComponentPrivate *priv;
 

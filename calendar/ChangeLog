@@ -1,5 +1,13 @@
 2000-07-03  Federico Mena Quintero  <federico@helixcode.com>
 
+	* cal-util/cal-component.c (cal_component_get_summary): Use
+	CalComponentText instead of CalComponentPropSummary.  Removed the
+	latter typedef.
+	(cal_component_set_summary): Likewise.
+	(scan_property): Handle the CLASSIFICATION property.
+	(cal_component_get_classification): Ditto.
+	(cal_component_set_classification): Ditto.
+
 	* cal-util/cal-component.c (cal_component_free_text_list): Renamed
 	from cal_component_free_description_list().  We can share this
 	function since both comments and descriptions have the same form.

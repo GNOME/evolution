@@ -53,13 +53,13 @@ typedef enum {
 
 /* Structures to return properties and their parameters */
 
-typedef struct {
-	/* Summary string */
-	const char *value;
-
-	/* Alternate representation URI */
-	const char *altrep;
-} CalComponentPropSummary;
+typedef enum {
+	CAL_COMPONENT_CLASS_NONE,
+	CAL_COMPONENT_CLASS_PUBLIC,
+	CAL_COMPONENT_CLASS_PRIVATE,
+	CAL_COMPONENT_CLASS_CONFIDENTIAL,
+	CAL_COMPONENT_CLASS_UNKNOWN
+} CalComponentClassification;
 
 typedef struct {
 	/* Description string */
@@ -111,6 +111,9 @@ void cal_component_get_categories_list (CalComponent *comp, GSList **categ_list)
 void cal_component_set_categories_list (CalComponent *comp, GSList *categ_list);
 void cal_component_free_categories_list (GSList *categ_list);
 
+void cal_component_get_classification (CalComponent *comp, CalComponentClassification *classif);
+void cal_component_set_classification (CalComponent *comp, CalComponentClassification classif);
+
 void cal_component_free_text_list (GSList *text_list);
 
 void cal_component_get_comment_list (CalComponent *comp, GSList **text_list);
@@ -130,8 +133,8 @@ void cal_component_set_dtend (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_get_due (CalComponent *comp, CalComponentDateTime *dt);
 void cal_component_set_due (CalComponent *comp, CalComponentDateTime *dt);
 
-void cal_component_get_summary (CalComponent *comp, CalComponentPropSummary *summary);
-void cal_component_set_summary (CalComponent *comp, const CalComponentPropSummary *summary);
+void cal_component_get_summary (CalComponent *comp, CalComponentText *summary);
+void cal_component_set_summary (CalComponent *comp, CalComponentText *summary);
 
 
 
