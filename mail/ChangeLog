@@ -1,5 +1,7 @@
 2001-07-10  JP Rosevear  <jpr@ximian.com>
 
+	* folder-browser.c: Cosmetic patch - replace our defines with the e-popup ones
+
 	* Makefile.am: Typo
 
 2001-07-10  Peter Williams  <peterw@ximian.com>
