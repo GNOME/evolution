@@ -33,7 +33,6 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-dialog-util.h>
 #include <glade/glade.h>
-#include <gal/widgets/e-popup-menu.h>
 #include <e-util/e-dialog-widgets.h>
 #include "../calendar-config.h"
 #include "../e-meeting-time-sel.h"

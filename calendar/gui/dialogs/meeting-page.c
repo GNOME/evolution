@@ -36,7 +36,6 @@
 #include <glade/glade.h>
 #include <libgnomeui/gnome-stock-icons.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-popup-menu.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-utils.h>
@@ -50,7 +49,7 @@
 #include "comp-editor-util.h"
 #include "e-delegate-dialog.h"
 #include "meeting-page.h"
-
+#include "../e-cal-popup.h"
 
 /* Private part of the MeetingPage structure */
 struct _MeetingPagePrivate {
@@ -775,9 +774,9 @@ client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
 }
 
 static void
-popup_delete_cb (GtkWidget *widget, gpointer data) 
+popup_delete_cb (EPopup *ep, EPopupItem *pitem, void *data)
 {
-	MeetingPage *mpage = MEETING_PAGE (data);
+	MeetingPage *mpage = data;
 	MeetingPagePrivate *priv;
 	
 	priv = mpage->priv;
@@ -790,16 +789,19 @@ enum {
 	CAN_DELETE = 4
 };
 
-static EPopupMenu context_menu[] = {
+static EPopupItem context_menu_items[] = {
 #if 0
-	E_POPUP_ITEM (N_("_Delegate To..."), G_CALLBACK (popup_delegate_cb),  CAN_DELEGATE),
-
-	E_POPUP_SEPARATOR,
+	{ E_POPUP_ITEM, "00.delegate", N_("_Delegate To..."), popup_delegate_cb, NULL, NULL, CAN_DELEGATE },
+	{ E_POPUP_BAR, "05.bar" },
 #endif
-	E_POPUP_ITEM (N_("_Remove"), G_CALLBACK (popup_delete_cb),   CAN_DELETE),
-	
-	E_POPUP_TERMINATOR
+	{ E_POPUP_ITEM, "10.delete", N_("_Remove"), popup_delete_cb, NULL, GTK_STOCK_REMOVE, CAN_DELETE },
 };
+
+static void
+context_popup_free(EPopup *ep, GSList *items, void *data)
+{
+	g_slist_free(items);
+}
 
 static gint
 button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage)
@@ -810,8 +812,11 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	GtkTreePath *path;
 	GtkTreeIter iter;
 	char *address;
-	int disable_mask = 0, hide_mask = 0;
-	
+	int disable_mask = 0;
+	GSList *menus = NULL;
+	ECalPopup *ep;
+	int i;
+
 	priv = mpage->priv;
 
 	/* only process right-clicks */
@@ -832,16 +837,13 @@ button_press_event (GtkWidget *widget, GdkEventButton *event, MeetingPage *mpage
 	
  	if (e_meeting_attendee_get_edit_level (ia) != E_MEETING_ATTENDEE_EDIT_FULL)
  		disable_mask = CAN_DELETE;
- 
-	/* FIXME: if you enable Delegate, then change index to '1'.
-	 * (This has now been enabled). */
-	/* context_menu[1].pixmap_widget = gnome_stock_new_with_icon (GNOME_STOCK_MENU_TRASH); */
-	context_menu[0].pixmap_widget =
-	  gtk_image_new_from_stock (GTK_STOCK_REMOVE, GTK_ICON_SIZE_MENU);
 
-	menu = e_popup_menu_create (context_menu, disable_mask, hide_mask, mpage);
-	e_auto_kill_popup_menu_on_selection_done (menu);
-	
+	ep = e_cal_popup_new("com.novell.evolution.calendar.meeting.popup");
+	for (i=0;i<sizeof(context_menu_items)/sizeof(context_menu_items[0]);i++)
+		menus = g_slist_prepend(menus, &context_menu_items[i]);
+
+	e_popup_add_items((EPopup *)ep, menus, context_popup_free, mpage);
+	menu = e_popup_create_menu_once((EPopup *)ep, NULL, disable_mask);
 	gtk_menu_popup (menu, NULL, NULL, NULL, NULL, event->button, event->time);
 
 	return TRUE;
