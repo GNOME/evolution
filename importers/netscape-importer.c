@@ -41,6 +41,9 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/GNOME_Evolution_Importer.h>
@@ -84,6 +87,8 @@ typedef struct {
 
 	GtkWidget *ask;
 	gboolean ask_again;
+
+	Bonobo_ConfigDatabase db;
 } NetscapeImporter;
 
 static void import_next (NetscapeImporter *importer);
@@ -91,44 +96,36 @@ static void import_next (NetscapeImporter *importer);
 static void
 netscape_store_settings (NetscapeImporter *importer)
 {
-	char *evolution_dir, *key;
-
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Netscape-Importer=/settings/", 
-			       evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	gnome_config_set_bool ("mail", importer->do_mail);
-	gnome_config_set_bool ("address", importer->do_addrs);
-	gnome_config_set_bool ("filters", importer->do_filters);
-	gnome_config_set_bool ("settings", importer->do_settings);
-
-	gnome_config_set_bool ("ask-again", importer->ask_again);
-	gnome_config_pop_prefix ();
+	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/mail", 
+				   importer->do_mail, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/address", 
+				   importer->do_addrs, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/filters", 
+				   importer->do_filters, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Netscape/settings",
+				   importer->do_settings, NULL);
+	bonobo_config_set_boolean (importer->db, 
+				   "/Importer/Netscape/ask-again", 
+				   importer->ask_again, NULL);
 }
 
 static void
 netscape_restore_settings (NetscapeImporter *importer)
 {
-	char *evolution_dir, *key;
+	importer->do_mail = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Netscape/mail", TRUE, NULL);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Netscape-Importer=/settings/", evolution_dir);
-	g_free (evolution_dir);
+	importer->do_addrs = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Netscape/address", TRUE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
+	importer->do_filters = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Netscape/filters", TRUE, NULL);
 
-	importer->do_mail = gnome_config_get_bool ("mail=True");
-	importer->do_addrs = gnome_config_get_bool ("address=True");
-	importer->do_filters = gnome_config_get_bool ("filters=True");
-	importer->do_settings = gnome_config_get_bool ("setting=True");
+	importer->do_settings = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Netscape/settings", TRUE, NULL);
 
-	importer->ask_again = gnome_config_get_bool ("ask-again=False");
-	gnome_config_pop_prefix ();
+	importer->ask_again = bonobo_config_get_boolean_with_default (
+                importer->db, "/Importer/Netscape/ask-again", FALSE, NULL);
 }
 
 static const char *
@@ -458,27 +455,14 @@ netscape_can_import (EvolutionIntelligentImporter *ii,
 {
 	NetscapeImporter *importer = closure;
 	gboolean mail, settings;
-	char *evolution_dir;
-	char *key;
 
-	/* Probably shouldn't hard code this, but there's no way yet to change
-	   the home dir. FIXME */
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	/* Already imported */
-	key = g_strdup_printf ("=%s/config/Importers=/netscape-importers/", evolution_dir);
-	g_free (evolution_dir);
+	mail = bonobo_config_get_boolean_with_default (importer->db,
+                "/Importer/Netscape/mail-imported", FALSE, NULL);
+	settings = bonobo_config_get_boolean_with_default (importer->db,
+                "/Importer/Netscape/settings-imported", FALSE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	mail = gnome_config_get_bool ("mail-imported");
-	settings = gnome_config_get_bool ("settings-imported");
-
-	if (settings && mail) {
-		gnome_config_pop_prefix ();
+	if (settings && mail)
 		return FALSE;
-	}
-	gnome_config_pop_prefix ();
 
 	importer->do_mail = !mail;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail), 
@@ -700,8 +684,8 @@ static void
 netscape_create_structure (EvolutionIntelligentImporter *ii,
 			   void *closure)
 {
+	CORBA_Environment ev;
 	NetscapeImporter *importer = closure;
-	char *key, *evolution_dir;
 
 	g_return_if_fail (nsmail_dir != NULL);
 
@@ -710,21 +694,16 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 
 	netscape_store_settings (importer);
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	/* Set that we've imported the folders so we won't import them again */
-	key = g_strdup_printf ("=%s/config/Importers=/netscape-importers/", evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
 
 	if (importer->do_settings == TRUE) {
-		gnome_config_set_bool ("settings-imported", TRUE);
+		bonobo_config_set_boolean (importer->db, 
+                "/Importer/Netscape/settings-imported", TRUE, NULL);
 		netscape_import_accounts (importer);
 	}
 
 	if (importer->do_mail == TRUE) {
-		gnome_config_set_bool ("mail-imported", TRUE);
+		bonobo_config_set_boolean (importer->db, 
+                "/Importer/Netscape/mail-imported", TRUE, NULL);
 		/* Scan the nsmail folder and find out what folders 
 		   need to be imported */
 		scan_dir (importer, "/", nsmail_dir);
@@ -733,10 +712,9 @@ netscape_create_structure (EvolutionIntelligentImporter *ii,
 		import_next (importer);
 	}
 
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
 
 	if (importer->do_mail == FALSE) {
 		/* Destroy it here if we weren't importing mail
@@ -750,6 +728,8 @@ static void
 netscape_destroy_cb (GtkObject *object,
 		     NetscapeImporter *importer)
 {
+	CORBA_Environment ev;
+
 	/* Save the state of the checkboxes */
 	g_print ("\n-------Settings-------\n");
 	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
@@ -758,6 +738,15 @@ netscape_destroy_cb (GtkObject *object,
 	g_print ("Settings - %s\n", importer->do_settings ? "Yes" : "No");
 
 	netscape_store_settings (importer);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
+
+	if (importer->db != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (importer->db, NULL);
+	importer->db = CORBA_OBJECT_NIL;
+
 	gtk_main_quit ();
 }
 
@@ -848,9 +837,20 @@ factory_fn (BonoboGenericFactory *_factory,
 			   "Would you like them to be imported into Evolution?");
 	
 	netscape = g_new0 (NetscapeImporter, 1);
-	netscape_restore_settings (netscape);
 
 	CORBA_exception_init (&ev);
+
+	netscape->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", 
+					  &ev);
+
+	if (BONOBO_EX (&ev) || netscape->db == CORBA_OBJECT_NIL) {
+		g_free (netscape);
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	netscape_restore_settings (netscape);
+
 	netscape->importer = oaf_activate_from_id (MBOX_IMPORTER_IID, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Could not start MBox importer\n%s", CORBA_exception_id (&ev));

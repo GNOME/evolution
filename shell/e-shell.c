@@ -29,9 +29,11 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnome/gnome-util.h>
+
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
 
 #include <gal/widgets/e-gui-utils.h>
 #include <gal/util/e-util.h>
@@ -93,6 +95,9 @@ struct _EShellPrivate {
 
 	/* Line status.  */
 	EShellLineStatus line_status;
+
+	/* Configuration Database */
+	Bonobo_ConfigDatabase db;
 };
 
 
@@ -111,6 +116,14 @@ enum {
 };
 
 static guint signals[LAST_SIGNAL] = { 0 };
+
+Bonobo_ConfigDatabase 
+e_shell_get_config_db (EShell *shell)
+{
+	g_return_val_if_fail (shell != NULL, CORBA_OBJECT_NIL);
+
+	return shell->priv->db;
+}
 
 
 /* Callback for the folder selection dialog.  */
@@ -662,6 +675,10 @@ destroy (GtkObject *object)
 
 	g_list_free (priv->views);
 
+	if (shell->priv->db != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (shell->priv->db, NULL);
+	shell->priv->db = CORBA_OBJECT_NIL;
+
 	/* No unreffing for these as they are aggregate.  */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->corba_storage_registry)); */
 	/* bonobo_object_unref (BONOBO_OBJECT (priv->activity_handler)); */
@@ -766,6 +783,7 @@ e_shell_construct (EShell *shell,
 	GtkWidget *splash;
 	EShellPrivate *priv;
 	CORBA_Object corba_object;
+	CORBA_Environment ev;
 	gchar *shortcut_path;
 
 	g_return_val_if_fail (shell != NULL, FALSE);
@@ -802,6 +820,17 @@ e_shell_construct (EShell *shell,
 	if (! setup_corba_storages (shell))
 		return FALSE;
 
+	CORBA_exception_init (&ev);
+
+	priv->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	if (BONOBO_EX (&ev) || priv->db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return FALSE;
+ 	}
+	
+	CORBA_exception_free (&ev);
+	
 	if (show_splash)
 		setup_components (shell, E_SPLASH (splash));
 	else
@@ -1024,10 +1053,10 @@ e_shell_get_local_storage (EShell *shell)
 static gboolean
 save_settings_for_views (EShell *shell)
 {
+	CORBA_Environment ev;
 	EShellPrivate *priv;
 	GList *p;
 	gboolean retval;
-	char *prefix;
 	int i;
 
 	priv = shell->priv;
@@ -1044,12 +1073,12 @@ save_settings_for_views (EShell *shell)
 		}
 	}
 
-	prefix = g_strdup_printf ("=%s/config/Shell=/Views/NumberOfViews",
-				  priv->local_directory);
-	gnome_config_set_int (prefix, g_list_length (priv->views));
-	g_free (prefix);
-	
-	gnome_config_sync ();
+	bonobo_config_set_long (priv->db, "/Shell/Views/NumberOfViews", 
+				g_list_length (priv->views), NULL);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (priv->db, &ev);
+	CORBA_exception_free (&ev);
 
 	return TRUE;
 }
@@ -1162,7 +1191,6 @@ e_shell_restore_from_settings (EShell *shell)
 {
 	EShellPrivate *priv;
 	gboolean retval;
-	char *prefix;
 	int num_views;
 	int i;
 
@@ -1172,10 +1200,8 @@ e_shell_restore_from_settings (EShell *shell)
 
 	priv = shell->priv;
 
-	prefix = g_strdup_printf ("=%s/config/Shell=/Views/NumberOfViews",
-				  priv->local_directory);
-	num_views = gnome_config_get_int (prefix);
-	g_free (prefix);
+	num_views = bonobo_config_get_long_with_default (priv->db, 
+                "/Shell/Views/NumberOfViews", 0, NULL);
 
 	if (num_views == 0)
 		return FALSE;

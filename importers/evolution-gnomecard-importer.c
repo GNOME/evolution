@@ -31,6 +31,9 @@
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
 #include <bonobo/bonobo-control.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <e-book.h>
 
@@ -50,44 +53,29 @@ typedef struct {
 
 	GtkWidget *ask;
 	gboolean ask_again;
+
+	Bonobo_ConfigDatabase db;
 } GnomeCardImporter;
 
 static void
 gnomecard_store_settings (GnomeCardImporter *importer)
 {
-	char *evolution_dir, *key;
-
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Gnomecard-Importer=/settings/",
-			       evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	gnome_config_set_bool ("address", importer->do_addresses);
-
-	gnome_config_set_bool ("ask-again", importer->ask_again);
-	gnome_config_pop_prefix ();
+	bonobo_config_set_boolean (importer->db, 
+				   "/Importer/Gnomecard/address", 
+				   importer->do_addresses, NULL);
+	bonobo_config_set_boolean (importer->db, 
+				   "/Importer/Gnomecard/ask-again", 
+				   importer->ask_again, NULL);
 }
 
 static void
 gnomecard_restore_settings (GnomeCardImporter *importer)
 {
-	char *evolution_dir, *key;
+	importer->do_addresses = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Gnomecard/address", TRUE, NULL);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Gnomecard-Importer=/settings/",
-			       evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	importer->do_addresses = gnome_config_get_bool ("address=True");
-
-	importer->ask_again = gnome_config_get_bool ("ask-again=False");
-	gnome_config_pop_prefix ();
+	importer->ask_again =  bonobo_config_get_boolean_with_default (
+                importer->db, "/Importer/Gnomecard/ask-again", FALSE, NULL);
 }
 
 static gboolean
@@ -95,28 +83,14 @@ gnomecard_can_import (EvolutionIntelligentImporter *ii,
 		      void *closure)
 {
 	GnomeCardImporter *importer = closure;
-	char *evolution_dir;
 	char *gnomecard;
-	char *key;
 	gboolean result, address;
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/gnomecard-importers/", evolution_dir);
-	g_free (evolution_dir);
+	address = bonobo_config_get_boolean_with_default (importer->db, 
+                "/Importer/Gnomecard/address-imported", FALSE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	address = gnome_config_get_bool ("address-imported");
-	if (address == TRUE) {
-		gnome_config_pop_prefix ();
+	if (address == TRUE || importer->ask_again == TRUE)
 		return FALSE;
-	}
-	gnome_config_pop_prefix ();
-
-	if (importer->ask_again == TRUE) {
-		return FALSE;
-	}
 
 	gnomecard = gnome_util_home_file ("GnomeCard.gcrd");
 	result = g_file_exists (gnomecard);
@@ -177,6 +151,7 @@ gnomecard_import (EvolutionIntelligentImporter *ii,
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 
 	gnomecard_store_settings (gci);
+
 	if (gci->do_addresses == TRUE) {
 
 		CORBA_exception_init (&ev);
@@ -213,11 +188,22 @@ static void
 gnomecard_destroy_cb (GtkObject *object,
 		      GnomeCardImporter *importer)
 {
+	CORBA_Environment ev;
+
 	/* save the state of the checkboxes */
 	g_print ("\n---------Settings-------\n");
 	g_print ("Addressbook - %s\n", importer->do_addresses? "Yes" : "No");
 
 	gnomecard_store_settings (importer);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
+
+	if (importer->db != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (importer->db, NULL);
+	importer->db = CORBA_OBJECT_NIL;
+
 	gtk_main_quit ();
 }
 
@@ -278,9 +264,19 @@ factory_fn (BonoboGenericFactory *_factory,
 	BonoboControl *control;
 
 	gci = g_new (GnomeCardImporter, 1);
-	gnomecard_restore_settings (gci);
 
 	CORBA_exception_init (&ev);
+
+	gci->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	if (BONOBO_EX (&ev) || gci->db == CORBA_OBJECT_NIL) {
+		g_free (gci);
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	gnomecard_restore_settings (gci);
+
 	gci->importer = oaf_activate_from_id (VCARD_IMPORTER_IID, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Could not start VCard importer: %s",
@@ -308,7 +304,7 @@ factory_fn (BonoboGenericFactory *_factory,
 static void
 importer_init (void)
 {
-	BonoboObject *factory;
+	BonoboGenericFactory *factory;
 
 	factory = bonobo_generic_factory_new (COMPONENT_FACTORY_IID, 
 					      factory_fn, NULL);

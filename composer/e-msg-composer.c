@@ -43,7 +43,6 @@
 #include <errno.h>
 #include <ctype.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-uidefs.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -807,21 +806,16 @@ set_editor_text (EMsgComposer *composer, const char *text)
 static void
 set_config (EMsgComposer *composer, char *key, int val)
 {
-	if (composer->property_bag){
-		CORBA_Environment ev;
-		CORBA_exception_init (&ev);
-
-		bonobo_property_bag_client_set_value_gint (
-			composer->property_bag, key, val, &ev);
-		CORBA_exception_free (&ev);
+	char *full_key;
+	
+	if (composer->config_db == CORBA_OBJECT_NIL)
 		return;
-	} else {
-		char *full_key;
-		
-		full_key = g_strconcat ("Evolution/Composer/", key, NULL);
-		gnome_config_set_int (full_key, val);
-		g_free (full_key);
-	}
+
+	full_key = g_strconcat ("/Mail/Composer/", key, NULL);
+
+	bonobo_config_set_long (composer->config_db, full_key, val, NULL);
+	
+	g_free (full_key);
 }
 
 
@@ -1609,9 +1603,15 @@ destroy (GtkObject *object)
 	CORBA_Environment ev;
 	
 	composer = E_MSG_COMPOSER (object);
-	
-	gnome_config_sync ();
-	
+
+	CORBA_exception_init (&ev);
+
+	if (composer->config_db) {
+		Bonobo_ConfigDatabase_sync (composer->config_db, &ev);
+		bonobo_object_release_unref (composer->config_db, NULL);
+	}
+	composer->config_db = NULL;
+
 	if (composer->uic)
 		bonobo_object_unref (BONOBO_OBJECT (composer->uic));
 	composer->uic = NULL;
@@ -1641,7 +1641,7 @@ destroy (GtkObject *object)
 	g_free (composer->charset);
 	
 	CORBA_exception_init (&ev);
-	
+
 	if (composer->persist_stream_interface != CORBA_OBJECT_NIL) {
 		Bonobo_Unknown_unref (composer->persist_stream_interface, &ev);
 		CORBA_Object_release (composer->persist_stream_interface, &ev);
@@ -1852,71 +1852,39 @@ e_msg_composer_get_type (void)
 	return type;
 }
 
-static int
-get_config_value (const char *key)
-{
-	char *full_key = g_strconcat ("/Evolution/Composer/", key, NULL);
-	int v;
-	
-	v = gnome_config_get_int (full_key);
-	g_free (full_key);
-	return v;
-}
-
-static gint
-load_with_failue_control (Bonobo_PropertyBag bag, char *key, gint default_if_fails)
-{
-	CORBA_Environment ev;
-	gint v;
-	
-	CORBA_exception_init (&ev);
-	v = bonobo_property_bag_client_get_value_gint (bag, key, &ev);
-	if (ev._major == CORBA_NO_EXCEPTION)
-		return v;
-	CORBA_exception_free (&ev);
-	
-	return default_if_fails;
-}
-
 static void
-load_from_property_bag (EMsgComposer *composer)
+load_from_config_db (EMsgComposer *composer)
 {
-	Bonobo_PropertyBag bag = composer->property_bag;
+	Bonobo_ConfigDatabase db = composer->config_db;
 	
-	composer->view_from = load_with_failue_control (bag, "ViewFrom", 1);
-	composer->view_replyto = load_with_failue_control (bag, "ViewReplyTo", 0);
-	composer->view_bcc = load_with_failue_control (bag, "ViewBCC", 0);
-	composer->view_cc = load_with_failue_control (bag, "ViewCC", 1);
-	composer->view_subject = load_with_failue_control (bag, "ViewSubject", 1);
-}
-
-static void
-load_from_gnome_config (EMsgComposer *composer)
-{
-	composer->view_from = get_config_value ("ViewFrom=1");
-	composer->view_replyto = get_config_value ("ViewReplyTo=0");
-	composer->view_bcc  = get_config_value ("ViewBCC=0");
-	composer->view_cc   = get_config_value ("ViewCC=1");
-	composer->view_subject = get_config_value ("ViewSubject=1");
+	composer->view_from = bonobo_config_get_long_with_default (db, 
+		"Mail/Composer/ViewFrom", 1, NULL);
+	composer->view_replyto = bonobo_config_get_long_with_default (db, 
+                "Mail/Composer/ViewReplyTo", 0, NULL);
+	composer->view_bcc = bonobo_config_get_long_with_default (db, 
+                "Mail/Composer/ViewBCC", 0, NULL);
+	composer->view_cc = bonobo_config_get_long_with_default (db, 
+                "Mail/Composer/ViewCC", 1, NULL);
+	composer->view_subject = bonobo_config_get_long_with_default (db, 
+                "Mail/Composer/ViewSubject", 1, NULL);
 }
 
 static void
 e_msg_composer_load_config (EMsgComposer *composer)
 {
-	Bonobo_PropertyBag pbag;
+	Bonobo_ConfigDatabase db;
 	CORBA_Environment ev;
-	
+
 	CORBA_exception_init (&ev);
-	pbag = bonobo_get_object (
-		"config:/Evolution/Mail/Composer", "IDL:Bonobo/PropertyBag:1.0",
-		&ev);
-	if (ev._major == CORBA_NO_EXCEPTION && pbag != CORBA_OBJECT_NIL){
-		composer->property_bag = pbag;
-		load_from_property_bag (composer);
-	} else {
-		composer->property_bag = CORBA_OBJECT_NIL;
-		load_from_gnome_config (composer);
-	}
+
+	db = bonobo_get_object ( "wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	if (ev._major == CORBA_NO_EXCEPTION && db != CORBA_OBJECT_NIL){
+		composer->config_db = db;
+		load_from_config_db (composer);
+	} else
+		composer->config_db = CORBA_OBJECT_NIL;
+
 	CORBA_exception_free (&ev);
 }
 

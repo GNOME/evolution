@@ -56,6 +56,7 @@ INCLUDES =								\
 	$(EXTRA_GNOME_CFLAGS)						\
 	$(GNOME_INCLUDEDIR)						\
 	$(BONOBO_GNOME_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)						\
 	$(GTKHTML_CFLAGS)						\
 	$(BONOBO_CONF_CFLAGS)						\
 	-DEVOLUTION_DATADIR=\"$(datadir)\"				\

@@ -40,6 +40,9 @@
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/evolution-importer-client.h>
@@ -76,6 +79,8 @@ typedef struct {
 	gboolean ask_again;
 
 	EBook *book;
+
+	Bonobo_ConfigDatabase db;
 } PineImporter;
 
 typedef struct {
@@ -89,41 +94,30 @@ static void import_next (PineImporter *importer);
 static void
 pine_store_settings (PineImporter *importer)
 {
-	char *evolution_dir, *key;
-
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Pine-Importer=/settings/", evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	gnome_config_set_bool ("mail", importer->do_mail);
-	gnome_config_set_bool ("settings", importer->do_settings);
-	gnome_config_set_bool ("address", importer->do_address);
-
-	gnome_config_set_bool ("ask-again", importer->ask_again);
-	gnome_config_pop_prefix ();
+	bonobo_config_set_boolean (importer->db, "/Importer/Pine/mail", 
+				   importer->do_mail, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Pine/settings", 
+				   importer->do_settings, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Pine/address", 
+				   importer->do_address, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Pine/ask-again", 
+				   importer->ask_again, NULL);
 }
 
 static void
 pine_restore_settings (PineImporter *importer)
 {
-	char *evolution_dir, *key;
+	importer->do_mail = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Pine/mail", TRUE, NULL);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Pine-Importer=/settings/", evolution_dir);
-	g_free (evolution_dir);
+	importer->do_settings = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Pine/settings", TRUE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
-	
-	importer->do_mail = gnome_config_get_bool ("mail=True");
-	importer->do_settings = gnome_config_get_bool ("settings=True");
-	importer->do_address = gnome_config_get_bool ("address=True");
+	importer->do_address = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Pine/address", TRUE, NULL);
 
-	importer->ask_again = gnome_config_get_bool ("ask-again=False");
-	gnome_config_pop_prefix ();
+	importer->ask_again = bonobo_config_get_boolean_with_default (
+                importer->db, "/Importer/Pine/ask-again", FALSE, NULL);
 }
 
 /* Pass in handle so we can get the next line if we need to */
@@ -419,25 +413,17 @@ pine_can_import (EvolutionIntelligentImporter *ii,
 		 void *closure)
 {
 	PineImporter *importer = closure;
-	char *key, *maildir, *evolution_dir, *addrfile;
+	char *maildir, *addrfile;
 	gboolean mail;
 	gboolean md_exists, addr_exists;
 
 	/* Already imported */
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/pine-importer/", evolution_dir);
-	g_free (evolution_dir);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
+	mail = bonobo_config_get_boolean_with_default (importer->db,
+                "/Importer/Pine/mail-imported", FALSE, NULL);
 
-	mail = gnome_config_get_bool ("mail-imported");
-
-	if (mail) {
-		gnome_config_pop_prefix ();
+	if (mail)
 		return FALSE;
-	}
-	gnome_config_pop_prefix ();
 
 	importer->do_mail = !mail;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
@@ -569,27 +555,23 @@ static void
 pine_create_structure (EvolutionIntelligentImporter *ii,
 		       void *closure)
 {
+	CORBA_Environment ev;
 	PineImporter *importer = closure;
-	char *maildir, *key, *evolution_dir;
+	char *maildir;
 
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 	pine_store_settings (importer);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/pine-importer/", evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
 	if (importer->do_address == TRUE) {
-		gnome_config_set_bool ("address-imported", TRUE);
+		bonobo_config_set_boolean (importer->db, 
+                "/Importer/Pine/address-imported", TRUE, NULL);
 
 		import_addressbook (importer);
 	}
 
 	if (importer->do_mail == TRUE) {
-		gnome_config_set_bool ("mail-imported", TRUE);
+		bonobo_config_set_boolean (importer->db, 
+                "/Importer/Pine/mail-imported", TRUE, NULL);
 
 		maildir = gnome_util_prepend_user_home ("mail");
 		scan_dir (importer, maildir, "/");
@@ -599,10 +581,9 @@ pine_create_structure (EvolutionIntelligentImporter *ii,
 		import_next (importer);
 	}
 
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
 
 	if (importer->do_mail == FALSE && importer->do_address == FALSE) {
 		/* Destroy it here if we weren't importing mail
@@ -618,12 +599,23 @@ static void
 pine_destroy_cb (GtkObject *object,
 		 PineImporter *importer)
 {
+	CORBA_Environment ev;
+
 	g_print ("\n-------Settings-------\n");
 	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
 	g_print ("Settings - %s\n", importer->do_settings ? "Yes" : "No");
 	g_print ("Address - %s\n", importer->do_address ? "Yes" : "No");
 
 	pine_store_settings (importer);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
+
+	if (importer->db != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (importer->db, NULL);
+	importer->db = CORBA_OBJECT_NIL;
+
 	gtk_main_quit ();
 }
 
@@ -706,9 +698,19 @@ factory_fn (BonoboGenericFactory *_factory,
 			   "Would you like to import them into Evolution?");
 
 	pine = g_new0 (PineImporter, 1);
-	pine_restore_settings (pine);
 
 	CORBA_exception_init (&ev);
+
+	pine->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	if (BONOBO_EX (&ev) || pine->db == CORBA_OBJECT_NIL) {
+		g_free (pine);
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	pine_restore_settings (pine);
+
 	pine->importer = oaf_activate_from_id (MBOX_IMPORTER_IID, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		g_warning ("Could not start MBox importer\n%s",

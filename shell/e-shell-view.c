@@ -30,7 +30,6 @@
 
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-config.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window.h>
 #include <libgnomeui/gnome-window-icon.h>
@@ -2132,71 +2131,6 @@ e_shell_view_get_current_path (EShellView *shell_view)
 	return current_path;
 }
 
-static void
-save_shortcut_bar_icon_modes (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	EShortcutBar *shortcut_bar;
-	int num_groups;
-	int group;
-
-	priv = shell_view->priv;
-	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
-
-	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
-
-	for (group = 0; group < num_groups; group++) {
-		char *tmp;
-
-		tmp = g_strdup_printf ("ShortcutBarGroup%dIconMode", group);
-		gnome_config_set_int (tmp, e_shortcut_bar_get_view_type (shortcut_bar, group));
-		g_free (tmp);
-	}
-}
-
-static void
-load_shortcut_bar_icon_modes (EShellView *shell_view)
-{
-	EShellViewPrivate *priv;
-	EShortcutBar *shortcut_bar;
-	int num_groups;
-	int group;
-
-	priv = shell_view->priv;
-	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
-
-	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
-
-	for (group = 0; group < num_groups; group++) {
-		char *tmp;
-		int iconmode;
-
-		tmp = g_strdup_printf ("ShortcutBarGroup%dIconMode", group);
-		iconmode = gnome_config_get_int (tmp);
-		g_free (tmp);
-
-		e_shortcut_bar_set_view_type (shortcut_bar, group, iconmode);
-	}
-}
-
-static char *
-get_local_prefix_for_view (EShellView *shell_view,
-			   int view_num)
-{
-	EShellViewPrivate *priv;
-	char *prefix;
-	const char *local_directory;
-
-	priv = shell_view->priv;
-
-	local_directory = e_shell_get_local_directory (priv->shell);
-
-	prefix = g_strdup_printf ("=%s/config/Shell=/Views/%d/",
-				  local_directory, view_num);
-	
-	return prefix;
-}
-
 
 /**
  * e_shell_view_save_settings:
@@ -2211,36 +2145,75 @@ gboolean
 e_shell_view_save_settings (EShellView *shell_view,
 			    int view_num)
 {
+	Bonobo_ConfigDatabase db;
 	EShellViewPrivate *priv;
+	EShortcutBar *shortcut_bar;
 	const char *uri;
-	char *prefix;
+	char *prefix, *key;
 	char *filename;
+	int num_groups;
+	int group;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
 	priv = shell_view->priv;
+	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
 
-	prefix = get_local_prefix_for_view (shell_view, view_num);
-	g_return_val_if_fail (prefix != NULL, FALSE);
+	db = e_shell_get_config_db (priv->shell);
 
-	gnome_config_push_prefix (prefix);
+	g_return_val_if_fail (db != CORBA_OBJECT_NIL, FALSE);
 
-	gnome_config_set_int ("CurrentShortcutsGroupNum", e_shell_view_get_current_shortcuts_group_num (shell_view));
-	gnome_config_set_int ("FolderBarMode",      e_shell_view_get_folder_bar_mode (shell_view));
-	gnome_config_set_int ("ShortcutBarMode",    e_shell_view_get_shortcut_bar_mode (shell_view));
-	gnome_config_set_int ("HPanedPosition",     e_paned_get_position (E_PANED (priv->hpaned)));
-	gnome_config_set_int ("ViewHPanedPosition", e_paned_get_position (E_PANED (priv->view_hpaned)));
+	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
+	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
+	bonobo_config_set_long (db, key, 
+	        e_shell_view_get_current_shortcuts_group_num (shell_view),
+		NULL);
+	g_free (key);
+
+
+	key = g_strconcat (prefix, "FolderBarMode", NULL);
+	bonobo_config_set_long (db, key,       
+	        e_shell_view_get_folder_bar_mode (shell_view), NULL);
+	g_free (key);
+
+	key = g_strconcat (prefix, "ShortcutBarMode", NULL);
+	bonobo_config_set_long (db, key,     
+	        e_shell_view_get_shortcut_bar_mode (shell_view), NULL);
+	g_free (key);
+
+	key = g_strconcat (prefix, "HPanedPosition", NULL);
+	bonobo_config_set_long (db, key,      
+	        e_paned_get_position (E_PANED (priv->hpaned)), NULL);
+	g_free (key);
+
+	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
+	bonobo_config_set_long (db, key,  
+	        e_paned_get_position (E_PANED (priv->view_hpaned)), NULL);
+	g_free (key);
+
+
+	key = g_strconcat (prefix, "DisplayedURI", NULL);
 	uri = e_shell_view_get_current_uri (shell_view);
 	if (uri != NULL)
-		gnome_config_set_string ("DisplayedURI", uri);
+		bonobo_config_set_string (db, key, uri, NULL);
 	else
-		gnome_config_set_string ("DisplayedURI", DEFAULT_URI);
+		bonobo_config_set_string (db, key, DEFAULT_URI, NULL);
+	g_free (key);
 
-	save_shortcut_bar_icon_modes (shell_view);
+	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
 
-	gnome_config_pop_prefix ();
+	for (group = 0; group < num_groups; group++) {
+		key = g_strdup_printf ("%sShortcutBarGroup%dIconMode", prefix,
+				       group);
+		bonobo_config_set_long (db, key,
+		        e_shortcut_bar_get_view_type (shortcut_bar, group),
+			NULL);
+		g_free (key);
+	}
+
+	g_free (prefix);
 
 	/* Save the expanded state for this ShellViews StorageSetView */
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
@@ -2250,7 +2223,6 @@ e_shell_view_save_settings (EShellView *shell_view,
 				    filename);
 
 	g_free (filename);
-	g_free (prefix);
 
 	return TRUE;
 }
@@ -2268,45 +2240,70 @@ gboolean
 e_shell_view_load_settings (EShellView *shell_view,
 			    int view_num)
 {
+	Bonobo_ConfigDatabase db;
 	EShellViewPrivate *priv;
-	int val;
-	char *stringval;
-	char *prefix;
-	char *filename;
+	EShortcutBar *shortcut_bar;
+	int num_groups, group, val;
+	char *stringval, *prefix, *filename, *key;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
 
 	priv = shell_view->priv;
+	shortcut_bar = E_SHORTCUT_BAR (priv->shortcut_bar);
 
-	prefix = get_local_prefix_for_view (shell_view, view_num);
-	g_return_val_if_fail (prefix != NULL, FALSE);
+	db = e_shell_get_config_db (priv->shell);
 
-	gnome_config_push_prefix (prefix);
+	g_return_val_if_fail (db != CORBA_OBJECT_NIL, FALSE);
 
-	val = gnome_config_get_int ("CurrentShortcutsGroupNum");
+	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
+
+	key = g_strconcat (prefix, "CurrentShortcutsGroupNum", NULL);
+	val = bonobo_config_get_long (db, key, NULL);
 	e_shell_view_set_current_shortcuts_group_num (shell_view, val);
+	g_free (key);
 
-	val = gnome_config_get_int ("FolderBarMode");
+	key = g_strconcat (prefix, "FolderBarMode", NULL);
+	val = bonobo_config_get_long (db, key, NULL);
 	e_shell_view_set_folder_bar_mode (shell_view, val);
+	g_free (key);
 
-	val = gnome_config_get_int ("ShortcutBarMode");
+	key = g_strconcat (prefix, "ShortcutBarMode", NULL);
+	val = bonobo_config_get_long (db, key, NULL);
 	e_shell_view_set_shortcut_bar_mode (shell_view, val);
+	g_free (key);
 
-	val = gnome_config_get_int ("HPanedPosition");
+	key = g_strconcat (prefix, "HPanedPosition", NULL);
+	val = bonobo_config_get_long (db, key, NULL);
 	e_paned_set_position (E_PANED (priv->hpaned), val);
+	g_free (key);
 
-	val = gnome_config_get_int ("ViewHPanedPosition");
+	key = g_strconcat (prefix, "ViewHPanedPosition", NULL);
+	val = bonobo_config_get_long (db, key, NULL);
 	e_paned_set_position (E_PANED (priv->view_hpaned), val);
+	g_free (key);
 
-	stringval = gnome_config_get_string ("DisplayedURI");
+	key = g_strconcat (prefix, "DisplayedURI", NULL);
+	stringval = bonobo_config_get_string (db, key, NULL);
 	if (! e_shell_view_display_uri (shell_view, stringval))
 		e_shell_view_display_uri (shell_view, DEFAULT_URI);
 	g_free (stringval);
+	g_free (key);
 
-	load_shortcut_bar_icon_modes (shell_view);
+	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
 
-	gnome_config_pop_prefix ();
+	for (group = 0; group < num_groups; group++) {
+		int iconmode;
+
+		key = g_strdup_printf ("%sShortcutBarGroup%dIconMode", prefix,
+				       group);
+		iconmode = bonobo_config_get_long (db, key, NULL);
+		g_free (key);
+
+		e_shortcut_bar_set_view_type (shortcut_bar, group, iconmode);
+	}
+
+	g_free (prefix);
 
 	/* Load the expanded state for the ShellView's StorageSetView */
 	filename = g_strdup_printf ("%s/config/storage-set-view-expanded:view_%d",
@@ -2317,7 +2314,6 @@ e_shell_view_load_settings (EShellView *shell_view,
 				    filename);
 
 	g_free (filename);
-	g_free (prefix);
 
 	return TRUE;
 }

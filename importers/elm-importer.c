@@ -41,6 +41,9 @@
 #include <bonobo/bonobo-context.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-main.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <importer/evolution-intelligent-importer.h>
 #include <importer/evolution-importer-client.h>
@@ -72,6 +75,8 @@ typedef struct {
 
 	GtkWidget *ask;
 	gboolean ask_again;
+
+	Bonobo_ConfigDatabase db;
 } ElmImporter;
 
 typedef struct {
@@ -87,41 +92,25 @@ static void import_next (ElmImporter *importer);
 static void
 elm_store_settings (ElmImporter *importer)
 {
-	char *evolution_dir, *key;
-
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Elm-Importer=/settings/",
-			       evolution_dir);
-	g_free (evolution_dir);
-
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	gnome_config_set_bool ("mail", importer->do_mail);
-	gnome_config_set_bool ("alias", importer->do_alias);
-
-	gnome_config_set_bool ("ask-again", importer->ask_again);
-	gnome_config_pop_prefix ();
+	bonobo_config_set_boolean (importer->db, "/Importer/Elm/mail", 
+				   importer->do_mail, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Elm/alias", 
+				   importer->do_alias, NULL);
+	bonobo_config_set_boolean (importer->db, "/Importer/Elm/ask-again", 
+				   importer->ask_again, NULL);
 }
 
 static void
 elm_restore_settings (ElmImporter *importer)
 {
-	char *evolution_dir, *key;
+	importer->do_mail = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Elm/mail", TRUE, NULL);
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Elm-Importer=/settings/",
-			       evolution_dir);
-	g_free (evolution_dir);
+	importer->do_alias = bonobo_config_get_boolean_with_default (
+		importer->db, "/Importer/Elm/alias", TRUE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
-
-	importer->do_mail = gnome_config_get_bool ("mail=True");
-	importer->do_alias = gnome_config_get_bool ("alias=True");
-
-	importer->ask_again = gnome_config_get_bool ("ask-again=False");
-	gnome_config_pop_prefix ();
+	importer->ask_again = bonobo_config_get_boolean_with_default (
+                importer->db, "/Importer/Elm/ask-again", FALSE, NULL);
 }
 
 static void
@@ -269,28 +258,20 @@ elm_can_import (EvolutionIntelligentImporter *ii,
 		void *closure)
 {
 	ElmImporter *importer = closure;
-	char *key, *elmdir, *maildir, *evolution_dir, *aliasfile;
+	char *elmdir, *maildir, *aliasfile;
 	char *elmrc;
 	gboolean exists, mailexists, aliasexists;
 	gboolean mail, alias;
 
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	/* Already imported */
-	key = g_strdup_printf ("=%s/config/Importers=/elm-importers/", evolution_dir);
-	g_free (evolution_dir);
+	mail = bonobo_config_get_boolean_with_default (importer->db, 
+                "/Importer/Elm/mail-imported", FALSE, NULL);
 
-	gnome_config_push_prefix (key);
-	g_free (key);
+	alias = bonobo_config_get_boolean_with_default (importer->db, 
+                "/Importer/Elm/alias-imported", FALSE, NULL);
 
-	mail = gnome_config_get_bool ("mail-imported");
-	alias = gnome_config_get_bool ("alias-importer");
-
-	if (alias && mail) {
-		gnome_config_pop_prefix ();
+	if (alias && mail)
 		return FALSE;
-	}
-	gnome_config_pop_prefix ();
-
+       
 	importer->do_mail = !mail;
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (importer->mail),
 				      importer->do_mail);
@@ -428,19 +409,15 @@ static void
 elm_create_structure (EvolutionIntelligentImporter *ii,
 		      void *closure)
 {
+	CORBA_Environment ev;
 	ElmImporter *importer = closure;
-	char *maildir, *key, *evolution_dir;
+	char *maildir;
 
 	/* Reference our object so when the shell release_unrefs us
 	   we will still exist and not go byebye */
 	bonobo_object_ref (BONOBO_OBJECT (ii));
 
 	elm_store_settings (importer);
-	evolution_dir = gnome_util_prepend_user_home ("evolution");
-	key = g_strdup_printf ("=%s/config/Importers=/elm-importers/", evolution_dir);
-	g_free (evolution_dir);
-	gnome_config_push_prefix (key);
-	g_free (key);
 
 	if (importer->do_alias == TRUE) {
 		/* Do the aliases */
@@ -448,7 +425,9 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 
 	if (importer->do_mail == TRUE) {
 		char *elmdir;
-		gnome_config_set_bool ("mail-importer", TRUE);
+
+		bonobo_config_set_boolean (importer->db, 
+                "/Importer/Elm/mail-imported", TRUE, NULL);
 
 		maildir = elm_get_rc_value ("maildir");
 		if (maildir == NULL) {
@@ -472,10 +451,9 @@ elm_create_structure (EvolutionIntelligentImporter *ii,
 		import_next (importer);
 	}
 
-	gnome_config_pop_prefix ();
-
-	gnome_config_sync ();
-	gnome_config_drop_all ();
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
 
 	if (importer->do_mail == FALSE) {
 		bonobo_object_unref (BONOBO_OBJECT (ii));
@@ -486,11 +464,22 @@ static void
 elm_destroy_cb (GtkObject *object,
 		ElmImporter *importer)
 {
+	CORBA_Environment ev;
+
 	g_print ("\n----------Settings-------\n");
 	g_print ("Mail - %s\n", importer->do_mail ? "Yes" : "No");
 	g_print ("Alias - %s\n", importer->do_alias ? "Yes" : "No");
 
 	elm_store_settings (importer);
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (importer->db, &ev);
+	CORBA_exception_free (&ev);
+
+	if (importer->db != CORBA_OBJECT_NIL)
+		bonobo_object_release_unref (importer->db, NULL);
+	importer->db = CORBA_OBJECT_NIL;
+
 	gtk_main_quit ();
 }
 
@@ -562,11 +551,22 @@ factory_fn (BonoboGenericFactory *_factory,
 			   "Would you like to import them into Evolution?");
 
 	elm = g_new0 (ElmImporter, 1);
-	elm_restore_settings (elm);
 
 	CORBA_exception_init (&ev);
+
+	elm->db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+
+	if (BONOBO_EX (&ev) || elm->db == CORBA_OBJECT_NIL) {
+		g_free (elm);
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	elm_restore_settings (elm);
+
 	elm->importer = oaf_activate_from_id (MBOX_IMPORTER_IID, 0, NULL, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_free (elm);
 		g_warning ("Could not start MBox importer\n%s", 
 			   CORBA_exception_id (&ev));
 		CORBA_exception_free (&ev);

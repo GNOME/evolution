@@ -503,6 +503,7 @@ EVO_CHECK_LIB(GAL, gal, 0.8.99.7)
 EVO_CHECK_LIB(GtkHTML, gtkhtml, 0.9.99.1)
 EVO_CHECK_LIB(GNOME-VFS, vfs, 1.0)
 EVO_CHECK_LIB(libxml, xml, 1.8.10, 2.0)
+EVO_CHECK_LIB(bonobo-conf, bonobo_conf, 0.6)
 
 dnl *************************
 dnl CFLAGS and LIBS and stuff
@@ -542,6 +543,11 @@ GNOME_PRINT_LIBS=`gnome-config --libs print`
 GNOME_PRINT_CFLAGS=`gnome-config --cflags print`
 AC_SUBST(GNOME_PRINT_LIBS)
 AC_SUBST(GNOME_PRINT_CFLAGS)
+
+BONOBO_CONF_CFLAGS="`gnome-config --cflags bonobo_conf`"
+BONOBO_CONF_LIBS="`gnome-config --libs bonobo_conf`"
+AC_SUBST(BONOBO_CONF_CFLAGS)
+AC_SUBST(BONOBO_CONF_LIBS)
 
 GTKHTML_CFLAGS="`gnome-config --cflags gtkhtml`"
 GTKHTML_LIBS="`gnome-config --libs gtkhtml`"

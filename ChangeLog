@@ -1,3 +1,7 @@
+2001-07-03  Dietmar Maurer  <dietmar@ximian.com>
+
+	* *: use bonobo-conf everywhere
+	
 2001-07-03  Damon Chaplin  <damon@ximian.com>
 
 	* configure.in (MAILER_LIBS):

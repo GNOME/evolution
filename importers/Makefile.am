@@ -11,6 +11,7 @@ INCLUDES = 				\
 	-I$(top_srcdir)/shell			\
 	-I$(top_srcdir)/addressbook/backend/ebook	\
 	$(BONOBO_GNOME_CFLAGS)			\
+	$(BONOBO_CONF_CFLAGS)			\
 	$(EXTRA_GNOME_CFLAGS)
 
 IDLS = 			\

@@ -36,7 +36,9 @@
 #include "calendar-commands.h"
 #include "e-tasks.h"
 #include "calendar-config.h"
-
+#include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 typedef struct
 {
@@ -88,137 +90,178 @@ calendar_config_init			(void)
 static void
 config_read				(void)
 {
-	gchar *prefix;
-	gboolean is_default;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 
-	/* 'Display' settings. */
-	prefix = g_strdup_printf ("=%s/config/Calendar=/Display/",
-				  evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return;
+ 	}
 
-	config->timezone = gnome_config_get_string ("Timezone");
-	config->working_days = gnome_config_get_int_with_default ("WorkingDays", &is_default);
-	if (is_default) {
-		config->working_days = CAL_MONDAY | CAL_TUESDAY
-			| CAL_WEDNESDAY | CAL_THURSDAY | CAL_FRIDAY;
-	}
-	config->use_24_hour_format = gnome_config_get_bool ("Use24HourFormat=0");
-	config->week_start_day = gnome_config_get_int ("WeekStartDay=1");
-	config->day_start_hour = gnome_config_get_int ("DayStartHour=9");
-	config->day_start_minute = gnome_config_get_int ("DayStartMinute=0");
-	config->day_end_hour = gnome_config_get_int ("DayEndHour=17");
-	config->day_end_minute = gnome_config_get_int ("DayEndMinute=0");
-	config->time_divisions = gnome_config_get_int ("TimeDivisions=30");
-	config->view = gnome_config_get_int ("View=0");
-	config->hpane_pos = gnome_config_get_float ("HPanePosition=1");
-	config->vpane_pos = gnome_config_get_float ("VPanePosition=1");
-	config->month_hpane_pos = gnome_config_get_float ("MonthHPanePosition=0");
-	config->month_vpane_pos = gnome_config_get_float ("MonthVPanePosition=1");
-	config->compress_weekend = gnome_config_get_bool ("CompressWeekend=1");
-	config->show_event_end = gnome_config_get_bool ("ShowEventEndTime=1");
+	CORBA_exception_free (&ev);
 
-	gnome_config_pop_prefix ();
+	config->timezone =  bonobo_config_get_string (db, 
+                "/Calendar/Display/Timezone", NULL);
+
+ 	config->working_days = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/WorkingDays", CAL_MONDAY | CAL_TUESDAY |
+		CAL_WEDNESDAY | CAL_THURSDAY | CAL_FRIDAY, NULL);
+ 
+	config->week_start_day = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/WeekStartDay", 1, NULL);
+ 
+	config->use_24_hour_format = bonobo_config_get_boolean_with_default (
+		db, "/Calendar/Display/Use24HourFormat", FALSE, NULL);
+
+	config->week_start_day = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/WeekStartDay", 1, NULL);
+ 
+	config->day_start_hour = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/DayStartHour", 9, NULL);
+ 
+	config->day_start_minute = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/DayStartMinute", 0, NULL);
+ 
+	config->day_end_hour =  bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/DayEndHour", 17, NULL);
+
+	config->day_end_minute = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/DayEndMinute", 0, NULL);
+
+	config->time_divisions = bonobo_config_get_long_with_default (db, 
+                "/Calendar/Display/TimeDivisions", 30, NULL);
+
+	config->view = bonobo_config_get_long_with_default (db, 
+		"/Calendar/Display/View", 0, NULL);
+
+	config->hpane_pos = bonobo_config_get_float_with_default (db, 
+                "/Calendar/Display/HPanePosition", 1.0, NULL);
+
+	config->vpane_pos = bonobo_config_get_float_with_default (db, 
+                "/Calendar/Display/VPanePosition", 1.0, NULL);
+
+	config->month_hpane_pos = bonobo_config_get_float_with_default (db, 
+                "/Calendar/Display/MonthHPanePosition", 0.0, NULL);
+
+	config->month_vpane_pos = bonobo_config_get_float_with_default (db, 
+                "/Calendar/Display/MonthVPanePosition", 1.0, NULL);
+
+	config->compress_weekend =  bonobo_config_get_boolean_with_default (db,
+                "/Calendar/Display/CompressWeekend", TRUE, NULL);
+
+	config->show_event_end =  bonobo_config_get_boolean_with_default (db, 
+                "/Calendar/Display/ShowEventEndTime", TRUE, NULL);
 
 	/* 'DateNavigator' settings. */
-	prefix = g_strdup_printf ("=%s/config/Calendar=/DateNavigator/",
-				  evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
 
-	config->dnav_show_week_no = gnome_config_get_bool ("ShowWeekNumbers=0");
-
-	gnome_config_pop_prefix ();
+	config->dnav_show_week_no = bonobo_config_get_boolean_with_default (db,
+                "/Calendar/DateNavigator/ShowWeekNumbers", FALSE, NULL);
 
 	/* Task list settings */
 
-	prefix = g_strdup_printf ("=%s/config/Tasks=/Colors/", evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
+	config->tasks_due_today_color = bonobo_config_get_string_with_default (
+		db, "/Calendar/Tasks/Colors/TasksDueToday", "blue", NULL);
 
-	config->tasks_due_today_color = gnome_config_get_string ("TasksDueToday=blue");
-	config->tasks_overdue_color = gnome_config_get_string ("TasksOverdue=red");
+	config->tasks_overdue_color = bonobo_config_get_string_with_default (
+		db, "/Calendar/Tasks/Colors/TasksOverdue", "red", NULL);
 
-	gnome_config_pop_prefix ();
-
-	/* Done */
-	gnome_config_sync ();
+	bonobo_object_release_unref (db, NULL);
 }
 
 
 void
 calendar_config_write			(void)
 {
-	gchar *prefix;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 
-	/* 'Display' settings. */
-	prefix = g_strdup_printf ("=%s/config/Calendar=/Display/",
-				  evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return;
+ 	}
 
 	if (config->timezone)
-		gnome_config_set_string ("Timezone", config->timezone);
-	gnome_config_set_int ("WorkingDays", config->working_days);
-	gnome_config_set_bool ("Use24HourFormat", config->use_24_hour_format);
-	gnome_config_set_int ("WeekStartDay", config->week_start_day);
-	gnome_config_set_int ("DayStartHour", config->day_start_hour);
-	gnome_config_set_int ("DayStartMinute", config->day_start_minute);
-	gnome_config_set_int ("DayEndHour", config->day_end_hour);
-	gnome_config_set_int ("DayEndMinute", config->day_end_minute);
-	gnome_config_set_bool ("CompressWeekend", config->compress_weekend);
-	gnome_config_set_bool ("ShowEventEndTime", config->show_event_end);
+		bonobo_config_set_string (db, "/Calendar/Display/Timezone", 
+					  config->timezone, NULL);
 
-	gnome_config_pop_prefix ();
+	bonobo_config_set_long (db, "/Calendar/Display/WorkingDays", 
+				config->working_days, NULL);
+	bonobo_config_set_boolean (db, "/Calendar/Display/Use24HourFormat", 
+				   config->use_24_hour_format, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/WeekStartDay", 
+				config->week_start_day, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/DayStartHour", 
+				config->day_start_hour, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/DayStartMinute", 
+				config->day_start_minute, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/DayEndHour", 
+				config->day_end_hour, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/DayEndMinute", 
+				config->day_end_minute, NULL);
+	bonobo_config_set_boolean (db, "/Calendar/Display/CompressWeekend", 
+				   config->compress_weekend, NULL);
+	bonobo_config_set_boolean (db, "/Calendar/Display/ShowEventEndTime", 
+				   config->show_event_end, NULL);
 
-	/* 'DateNavigator' settings. */
-	prefix = g_strdup_printf ("=%s/config/Calendar=/DateNavigator/",
-				  evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
+	bonobo_config_set_boolean (db, 
+				   "/Calendar/DateNavigator/ShowWeekNumbers", 
+				   config->dnav_show_week_no, NULL);
 
-	gnome_config_set_bool ("ShowWeekNumbers", config->dnav_show_week_no);
+	bonobo_config_set_string (db, "/Calendar/Tasks/Colors/TasksDueToday", 
+				  config->tasks_due_today_color, NULL);
 
-	gnome_config_pop_prefix ();
+	bonobo_config_set_string (db, "/Calendar/Tasks/Colors/TasksOverdue", 
+				  config->tasks_overdue_color, NULL);
 
-	/* Task list settings */
+	Bonobo_ConfigDatabase_sync (db, &ev);
+ 
+	bonobo_object_release_unref (db, NULL);
 
-	prefix = g_strdup_printf ("=%s/config/Tasks=/Colors/", evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
-
-	gnome_config_set_string ("TasksDueToday", config->tasks_due_today_color);
-	gnome_config_set_string ("TasksOverdue", config->tasks_overdue_color);
-
-	gnome_config_pop_prefix ();
-
-	/* Done */
-	gnome_config_sync ();
+	CORBA_exception_free (&ev);
 }
-
 
 void
 calendar_config_write_on_exit		(void)
 {
-	gchar *prefix;
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
 
-	/* 'Display' settings. */
-	prefix = g_strdup_printf ("=%s/config/Calendar=/Display/",
-				  evolution_dir);
-	gnome_config_push_prefix (prefix);
-	g_free (prefix);
+	CORBA_exception_init (&ev);
 
-	gnome_config_set_int ("View", config->view);
-	gnome_config_set_int ("TimeDivisions", config->time_divisions);
-	gnome_config_set_float ("HPanePosition", config->hpane_pos);
-	gnome_config_set_float ("VPanePosition", config->vpane_pos);
-	gnome_config_set_float ("MonthHPanePosition", config->month_hpane_pos);
-	gnome_config_set_float ("MonthVPanePosition", config->month_vpane_pos);
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return;
+ 	}
 
-	gnome_config_pop_prefix ();
+	bonobo_config_set_long (db, "/Calendar/Display/View", 
+				config->view, NULL);
+	bonobo_config_set_long (db, "/Calendar/Display/TimeDivisions", 
+				config->time_divisions, NULL);
+	bonobo_config_set_float (db, "/Calendar/Display/HPanePosition", 
+				 config->hpane_pos, NULL);
+	bonobo_config_set_float (db, "/Calendar/Display/VPanePosition", 
+				 config->vpane_pos, NULL);
+	bonobo_config_set_float (db, "/Calendar/Display/MonthHPanePosition", 
+				 config->month_hpane_pos, NULL);
+	bonobo_config_set_float (db, "/Calendar/Display/MonthVPanePosition", 
+				 config->month_vpane_pos, NULL);
 
+	Bonobo_ConfigDatabase_sync (db, &ev);
+ 
+	bonobo_object_release_unref (db, NULL);
 
-	gnome_config_sync ();
+	CORBA_exception_free (&ev);
 }
 
 

@@ -6,7 +6,7 @@
 #include <bonobo/bonobo-storage.h>
 #include "wombat-moniker.h"
 
-#define DEFAULT_DB_URL "xmldb:/tmp/wombat-default-config.xmldb"
+#define DEFAULT_DB_URL "xmldb:" EVOLUTION_DATADIR "/evolution/config.xmldb"
 #define USER_DB_URL "xmldb:~/evolution/config.xmldb"
 
 #define DB_URL (DEFAULT_DB_URL "#" USER_DB_URL)

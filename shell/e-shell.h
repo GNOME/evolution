@@ -26,6 +26,7 @@
 
 #include <liboaf/liboaf.h>	/* For the registration stuff.  */
 #include <bonobo/bonobo-xobject.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -113,6 +114,8 @@ void              e_shell_go_offline       (EShell     *shell,
 					    EShellView *action_view);
 void              e_shell_go_online        (EShell     *shell,
 					    EShellView *action_view);
+
+Bonobo_ConfigDatabase e_shell_get_config_db (EShell     *shell);
 
 #ifdef __cplusplus
 }

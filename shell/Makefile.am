@@ -5,6 +5,7 @@ INCLUDES = -O								\
 	-I$(top_srcdir)/widgets/misc					\
 	-I$(top_srcdir)							\
 	$(BONOBO_GNOME_CFLAGS)						\
+	$(BONOBO_CONF_CFLAGS)						\
 	$(EXTRA_GNOME_CFLAGS)						\
 	$(BONOBO_CONF_CFLAGS)						\
 	-DEVOLUTION_IMAGES=\""$(datadir)/images/evolution"\"		\

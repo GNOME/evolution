@@ -38,6 +38,9 @@
 #include <bonobo/bonobo-object.h>
 #include <bonobo/bonobo-generic-factory.h>
 #include <bonobo/bonobo-context.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo/bonobo-exception.h>
+#include <bonobo-conf/bonobo-config-database.h>
 
 #include <gal/util/e-util.h>
 #include <gal/unicode/gunicode.h>
@@ -51,6 +54,8 @@
 #include "Mail.h"
 
 typedef struct {
+	Bonobo_ConfigDatabase db;
+
 	gboolean show_preview;
 	gboolean thread_list;
 	gboolean hide_deleted;
@@ -78,7 +83,6 @@ typedef struct {
 	GHashTable *preview_hash;
 } MailConfig;
 
-static const char GCONFPATH[] = "/apps/Evolution/Mail";
 static MailConfig *config = NULL;
 
 #define MAIL_CONFIG_IID "OAFIID:GNOME_Evolution_MailConfig_Factory"
@@ -219,10 +223,28 @@ account_destroy_each (gpointer item, gpointer data)
 void
 mail_config_init (void)
 {
+	Bonobo_ConfigDatabase db;
+	CORBA_Environment ev;
+
 	if (config)
 		return;
 	
+	CORBA_exception_init (&ev);
+
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+	       
+		CORBA_exception_free (&ev);
+		return;
+ 	}
+
+	CORBA_exception_free (&ev);
+
 	config = g_new0 (MailConfig, 1);
+
+	config->db = db;
+	
 	config_read ();
 }
 
@@ -248,19 +270,14 @@ mail_config_clear (void)
 static void
 config_read (void)
 {
-	gchar *str;
 	gint len, i;
 	gboolean have_default = FALSE;
-	gboolean def;
 	
 	mail_config_clear ();
-	
-	/* Accounts */
-	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
-	gnome_config_push_prefix (str);
-	g_free (str);
-	
-	len = gnome_config_get_int ("num");
+		
+	len = bonobo_config_get_long_with_default (config->db, 
+	        "/Mail/Accounts/num", 0, NULL);
+
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		MailConfigIdentity *id;
@@ -269,41 +286,44 @@ config_read (void)
 		gchar *path, *val;
 		
 		account = g_new0 (MailConfigAccount, 1);
-		path = g_strdup_printf ("account_name_%d", i);
-		account->name = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
+		account->name = bonobo_config_get_string (config->db, path, 
+							  NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_is_default_%d", i);
-		account->default_account = gnome_config_get_bool (path) && !have_default;
+		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
+		account->default_account = bonobo_config_get_boolean 
+			(config->db, path, NULL) && !have_default;
+
 		if (account->default_account)
 			have_default = TRUE;
 		g_free (path);
 		
-		path = g_strdup_printf ("account_drafts_folder_name_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->drafts_folder_name = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("account_drafts_folder_uri_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->drafts_folder_uri = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("account_sent_folder_name_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_name = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->sent_folder_uri = val;
@@ -311,48 +331,49 @@ config_read (void)
 			g_free (val);
 		
 		/* get the pgp info */
-		path = g_strdup_printf ("account_pgp_key_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->pgp_key = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("account_pgp_encrypt_to_self_%d", i);
-		account->pgp_encrypt_to_self = gnome_config_get_bool_with_default (path, &def);
-		if (def)
-			account->pgp_encrypt_to_self = TRUE;
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
+		account->pgp_encrypt_to_self = bonobo_config_get_boolean_with_default (
+		        config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the s/mime info */
-		path = g_strdup_printf ("account_smime_key_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			account->smime_key = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("account_smime_encrypt_to_self_%d", i);
-		account->smime_encrypt_to_self = gnome_config_get_bool_with_default (path, &def);
-		if (def)
-			account->smime_encrypt_to_self = TRUE;
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
+		account->smime_encrypt_to_self = bonobo_config_get_boolean_with_default (
+		        config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the identity info */
 		id = g_new0 (MailConfigIdentity, 1);		
-		path = g_strdup_printf ("identity_name_%d", i);
-		id->name = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
+		id->name = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_address_%d", i);
-		id->address = gnome_config_get_string (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
+		id->address = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_organization_%d", i);
-		id->organization = gnome_config_get_string (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
+		id->organization = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_signature_%d", i);
-		id->signature = gnome_config_get_string (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
+		id->signature = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_html_signature_%d", i);
 		id->html_signature = gnome_config_get_string (path);
@@ -363,48 +384,59 @@ config_read (void)
 
 		/* get the source */
 		source = g_new0 (MailConfigService, 1);
-		path = g_strdup_printf ("source_url_%d", i);
-		val = gnome_config_get_string (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			source->url = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("source_keep_on_server_%d", i);
-		source->keep_on_server = gnome_config_get_bool (path);
+		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
+		source->keep_on_server = bonobo_config_get_boolean (config->db, path, NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_auto_check_%d", i);
-		source->auto_check = gnome_config_get_bool_with_default (path, &def);
-		if (def)
+
+		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
+		source->auto_check = bonobo_config_get_boolean_with_default (
+                        config->db, path, FALSE, NULL);
+		g_free (path);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
+		source->auto_check_time = bonobo_config_get_long_with_default ( 
+			config->db, path, -1, NULL);
+
+		if (source->auto_check && source->auto_check_time <= 0) {
+			source->auto_check_time = 5;
 			source->auto_check = FALSE;
+		}
+
 		g_free (path);
-		path = g_strdup_printf ("source_auto_check_time_%d", i);
-		source->auto_check_time = gnome_config_get_int_with_default (path, &def);
-		if (source->auto_check && def)
-			source->auto_check = FALSE;
+
+		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
+		source->enabled = bonobo_config_get_boolean_with_default (
+			config->db, path, TRUE, NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_enabled_%d", i);
-		source->enabled = gnome_config_get_bool_with_default (path, &def);
-		if (def)
-			source->enabled = TRUE;
-		g_free (path);
-		path = g_strdup_printf ("source_save_passwd_%d", i);
-		source->save_passwd = gnome_config_get_bool (path);
+
+		path = g_strdup_printf 
+			("/Mail/Accounts/source_save_passwd_%d", i);
+		source->save_passwd = bonobo_config_get_boolean_with_default ( 
+			config->db, path, TRUE, NULL);
 		g_free (path);
 		
 		/* get the transport */
 		transport = g_new0 (MailConfigService, 1);
-		path = g_strdup_printf ("transport_url_%d", i);
-		val = gnome_config_get_string (path);
+		path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
+		val = bonobo_config_get_string (config->db, path, NULL);
 		g_free (path);
 		if (val && *val)
 			transport->url = val;
 		else
 			g_free (val);
 		
-		path = g_strdup_printf ("transport_save_passwd_%d", i);
-		transport->save_passwd = gnome_config_get_bool (path);
+		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
+		transport->save_passwd = bonobo_config_get_boolean 
+			(config->db, path, NULL);
 		g_free (path);
 		
 		account->id = id;
@@ -413,148 +445,93 @@ config_read (void)
 		
 		config->accounts = g_slist_append (config->accounts, account);
 	}
-	gnome_config_pop_prefix ();
 	
 #ifdef ENABLE_NNTP
 	/* News */
-	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
-	gnome_config_push_prefix (str);
-	g_free (str);
 	
-	len = gnome_config_get_int ("num");
+	len = bonobo_config_get_long_with_default (config->db, 
+	        "/News/Sources/num", 0, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
-		gchar *path;
+		gchar *path, *r;
 		
-		n = g_new0 (MailConfigService, 1);
-		
-		path = g_strdup_printf ("url_%d", i);
-		n->url = gnome_config_get_string (path);
+		path = g_strdup_printf ("/News/Sources/url_%d", i);
+
+		if ((r = bonobo_config_get_string (config->db, path, NULL))) {
+
+			n = g_new0 (MailConfigService, 1);		
+			n->url = r;
+			config->news = g_slist_append (config->news, n);
+		} 
+
 		g_free (path);
 		
-		config->news = g_slist_append (config->news, n);
 	}
-	gnome_config_pop_prefix ();
 #endif
 	
 	/* Format */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
-			       evolution_dir);
-	config->send_html = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->send_html = FALSE;
-	g_free (str);
-	
+	config->send_html = bonobo_config_get_boolean_with_default (config->db,
+	        "/Mail/Format/send_html", FALSE, NULL);
+
 	/* Citation */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_highlight", 
-			       evolution_dir);
-	config->citation_highlight = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->citation_highlight = TRUE;
-	g_free (str);
-	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_color", 
-			       evolution_dir);
-	config->citation_color = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->citation_color = 0x737373;
-	g_free (str);
+	config->citation_highlight = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Display/citation_highlight", TRUE, NULL);
+	
+	config->citation_color = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Display/citation_color", 0x737373, NULL);
 	
 	/* Mark as seen timeout */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
-			       evolution_dir);
-	config->seen_timeout = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->seen_timeout = 1500;
-	g_free (str);
+	config->seen_timeout = bonobo_config_get_long_with_default (config->db,
+                "/Mail/Display/seen_timeout", 1500, NULL);
 	
 	/* Show Messages Threaded */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
-			       evolution_dir);
-	config->thread_list = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->thread_list = FALSE;
-	g_free (str);
+	config->thread_list = bonobo_config_get_boolean_with_default (
+                config->db, "/Mail/Display/thread_list", FALSE, NULL);
 	
-	/* Show Message Preview */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/preview_pane", 
-			       evolution_dir);
-	config->show_preview = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->show_preview = TRUE;
-	g_free (str);
+	config->show_preview = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Display/preview_pane", TRUE, NULL);
 	
 	/* Hide deleted automatically */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
-			       evolution_dir);
-	config->hide_deleted = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->hide_deleted = FALSE;
-	g_free (str);
+	config->hide_deleted = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Display/hide_deleted", FALSE, NULL);
 	
 	/* Size of vpaned in mail view */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
-			       evolution_dir);
-	config->paned_size = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->paned_size = 200;
-	g_free (str);
-	
+	config->paned_size = bonobo_config_get_long_with_default (config->db, 
+                "/Mail/Display/paned_size", 200, NULL);
+
 	/* Empty Subject */
-	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
-			       evolution_dir);
-	config->prompt_empty_subject = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->prompt_empty_subject = TRUE;
-	g_free (str);
+	config->prompt_empty_subject = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Prompts/empty_subject", TRUE, NULL);
 	
 	/* Only Bcc */
-	str = g_strdup_printf ("=%s/config/Mail=/Prompts/only_bcc", 
-			       evolution_dir);
-	config->prompt_only_bcc = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->prompt_only_bcc = TRUE;
-	g_free (str);
-	
+	config->prompt_only_bcc = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Prompts/only_bcc", TRUE, NULL);
+
 	/* PGP/GPG */
-	str = g_strdup_printf ("=%s/config/Mail=/PGP/path", 
-			       evolution_dir);
-	config->pgp_path = gnome_config_get_string (str);
-	g_free (str);
-	str = g_strdup_printf ("=%s/config/Mail=/PGP/type", 
-			       evolution_dir);
-	config->pgp_type = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->pgp_type = CAMEL_PGP_TYPE_NONE;
-	g_free (str);
-	
+	config->pgp_path = bonobo_config_get_string (config->db, 
+						     "/Mail/PGP/path", NULL);
+
+	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
+	        "/Mail/PGP/type", CAMEL_PGP_TYPE_NONE, NULL);
+
 	/* HTTP images */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
-			       evolution_dir);
-	config->http_mode = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->http_mode = MAIL_CONFIG_HTTP_SOMETIMES;
-	g_free (str);
+	config->http_mode = bonobo_config_get_long_with_default (config->db, 
+		"/Mail/Display/http_images", MAIL_CONFIG_HTTP_SOMETIMES, NULL);
 	
 	/* Forwarding */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/default_forward_style",
-			       evolution_dir);
-	config->default_forward_style = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->default_forward_style = MAIL_CONFIG_FORWARD_ATTACHED;
-	g_free (str);
+	config->default_forward_style = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Format/default_forward_style", 
+		MAIL_CONFIG_FORWARD_ATTACHED, NULL);
 	
 	/* Message Display */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/message_display_style",
-			       evolution_dir);
-	config->message_display_style = gnome_config_get_int_with_default (str, &def);
-	if (def)
-		config->message_display_style = MAIL_CONFIG_DISPLAY_NORMAL;
-	g_free (str);
-	
+	config->message_display_style = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Format/message_display_style", 
+		MAIL_CONFIG_DISPLAY_NORMAL, NULL);
+
 	/* Default charset */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/default_charset", evolution_dir);
-	config->default_charset = gnome_config_get_string (str);
-	g_free (str);
+	config->default_charset = bonobo_config_get_string (config->db, 
+	        "/Mail/Format/default_charset", NULL);
+
 	if (!config->default_charset) {
 		g_get_charset (&config->default_charset);
 		if (!config->default_charset ||
@@ -563,33 +540,32 @@ config_read (void)
 		else
 			config->default_charset = g_strdup (config->default_charset);
 	}
-	
+
 	/* Trash folders */
-	str = g_strdup_printf ("=%s/config/Mail=/Trash/empty_on_exit",
-			       evolution_dir);
-	config->empty_trash_on_exit = gnome_config_get_bool_with_default (str, &def);
-	if (def)
-		config->empty_trash_on_exit = FALSE;
-	g_free (str);
-	
-	gnome_config_sync ();
+	config->empty_trash_on_exit = bonobo_config_get_boolean_with_default (
+		config->db, "/Mail/Trash/empty_on_exit", FALSE, NULL);
 }
 
 void
 mail_config_write (void)
 {
-	gchar *str;
+	CORBA_Environment ev;
 	gint len, i;
 	
 	/* Accounts */
-	str = g_strdup_printf ("=%s/config/Mail=/Accounts/", evolution_dir);
-	gnome_config_clean_section (str);
-	gnome_config_sync ();
-	gnome_config_push_prefix (str);
-	g_free (str);
+
+	if (!config)
+		return;
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeDir (config->db, "/Mail/Accounts", &ev);
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_removeDir (config->db, "/News/Sources", &ev);
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (config->db, &ev);
 	
 	len = g_slist_length (config->accounts);
-	gnome_config_set_int ("num", len);
+	bonobo_config_set_long (config->db, "/Mail/Accounts/num", len, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigAccount *account;
 		gchar *path;
@@ -597,53 +573,76 @@ mail_config_write (void)
 		account = g_slist_nth_data (config->accounts, i);
 		
 		/* account info */
-		path = g_strdup_printf ("account_name_%d", i);
-		gnome_config_set_string (path, account->name);
+		path = g_strdup_printf ("/Mail/Accounts/account_name_%d", i);
+		bonobo_config_set_string (config->db, path, account->name, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_is_default_%d", i);
-		gnome_config_set_bool (path, account->default_account);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_is_default_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->default_account, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_drafts_folder_name_%d", i);
-		gnome_config_set_string (path, account->drafts_folder_name);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_name_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->drafts_folder_name, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_drafts_folder_uri_%d", i);
-		gnome_config_set_string (path, account->drafts_folder_uri);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_drafts_folder_uri_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->drafts_folder_uri, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_sent_folder_name_%d", i);
-		gnome_config_set_string (path, account->sent_folder_name);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_name_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->sent_folder_name, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_sent_folder_uri_%d", i);
-		gnome_config_set_string (path, account->sent_folder_uri);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_sent_folder_uri_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->sent_folder_uri, NULL);
 		g_free (path);
 		
 		/* account pgp options */
-		path = g_strdup_printf ("account_pgp_key_%d", i);
-		gnome_config_set_string (path, account->pgp_key);
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_key_%d", i);
+		bonobo_config_set_string (config->db, path, account->pgp_key, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_pgp_encrypt_to_self_%d", i);
-		gnome_config_set_bool (path, account->pgp_encrypt_to_self);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_pgp_encrypt_to_self_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->pgp_encrypt_to_self, NULL);
 		g_free (path);
 		
 		/* account s/mime options */
-		path = g_strdup_printf ("account_smime_key_%d", i);
-		gnome_config_set_string (path, account->smime_key);
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_key_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->smime_key, NULL);
 		g_free (path);
-		path = g_strdup_printf ("account_smime_encrypt_to_self_%d", i);
-		gnome_config_set_bool (path, account->smime_encrypt_to_self);
+
+		path = g_strdup_printf ("/Mail/Accounts/account_smime_encrypt_to_self_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->smime_encrypt_to_self, 
+					   NULL);
 		g_free (path);
 		
 		/* identity info */
-		path = g_strdup_printf ("identity_name_%d", i);
-		gnome_config_set_string (path, account->id->name);
+		path = g_strdup_printf ("/Mail/Accounts/identity_name_%d", i);
+		bonobo_config_set_string (config->db, path, account->id->name,
+					  NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_address_%d", i);
-		gnome_config_set_string (path, account->id->address);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_address_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->id->address, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_organization_%d", i);
-		gnome_config_set_string (path, account->id->organization);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_organization_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->id->organization, NULL);
 		g_free (path);
-		path = g_strdup_printf ("identity_signature_%d", i);
-		gnome_config_set_string (path, account->id->signature);
+
+		path = g_strdup_printf ("/Mail/Accounts/identity_signature_%d", i);
+		bonobo_config_set_string (config->db, path, 
+					  account->id->signature, NULL);
 		g_free (path);
 		path = g_strdup_printf ("identity_html_signature_%d", i);
 		gnome_config_set_string (path, account->id->html_signature);
@@ -653,66 +652,86 @@ mail_config_write (void)
 		g_free (path);
 		
 		/* source info */
-		path = g_strdup_printf ("source_url_%d", i);
-		gnome_config_set_string (path, account->source->url ? account->source->url : "");
+		path = g_strdup_printf ("/Mail/Accounts/source_url_%d", i);
+		bonobo_config_set_string (config->db, path, 
+		        account->source->url ? account->source->url : "", 
+			NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_keep_on_server_%d", i);
-		gnome_config_set_bool (path, account->source->keep_on_server);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_keep_on_server_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->source->keep_on_server, 
+					   NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_auto_check_%d", i);
-		gnome_config_set_bool (path, account->source->auto_check);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->source->auto_check, NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_auto_check_time_%d", i);
-		gnome_config_set_int (path, account->source->auto_check_time);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_auto_check_time_%d", i);
+		bonobo_config_set_long (config->db, path, 
+					account->source->auto_check_time, 
+					NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_enabled_%d", i);
-		gnome_config_set_bool (path, account->source->enabled);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_enabled_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->source->enabled, NULL);
 		g_free (path);
-		path = g_strdup_printf ("source_save_passwd_%d", i);
-		gnome_config_set_bool (path, account->source->save_passwd);
+
+		path = g_strdup_printf ("/Mail/Accounts/source_save_passwd_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->source->save_passwd, NULL);
 		g_free (path);
 		
 		/* transport info */
-		path = g_strdup_printf ("transport_url_%d", i);
-		gnome_config_set_string (path, account->transport->url ? account->transport->url : "");
+		path = g_strdup_printf ("/Mail/Accounts/transport_url_%d", i);
+		bonobo_config_set_string (config->db, path, 
+		        account->transport->url ? account->transport->url : "",
+			NULL);
 		g_free (path);
 		
-		path = g_strdup_printf ("transport_save_passwd_%d", i);
-		gnome_config_set_bool (path, account->transport->save_passwd);
+		path = g_strdup_printf ("/Mail/Accounts/transport_save_passwd_%d", i);
+		bonobo_config_set_boolean (config->db, path, 
+					   account->transport->save_passwd, 
+					   NULL);
 		g_free (path);
 	}
-	gnome_config_pop_prefix ();
 	
 #ifdef ENABLE_NNTP
 	/* News */
-	str = g_strdup_printf ("=%s/config/News=/Sources/", evolution_dir);
-	gnome_config_push_prefix (str);
-	g_free (str);
-	
+
   	len = g_slist_length (config->news);
-	gnome_config_set_int ("num", len);
+	bonobo_config_set_long (config->db, "/News/Sources/num", len, NULL);
 	for (i = 0; i < len; i++) {
 		MailConfigService *n;
 		gchar *path;
 		
 		n = g_slist_nth_data (config->news, i);
 		
-		path = g_strdup_printf ("url_%d", i);
-		gnome_config_set_string (path, n->url);
+		path = g_strdup_printf ("/News/Sources/url_%d", i);
+		bonobo_config_set_string (config->db, path, n->url, NULL);
 		g_free (path);
 	}
-	gnome_config_pop_prefix ();
+
 #endif
 	
-	gnome_config_sync ();
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (config->db, &ev);
+	CORBA_exception_free (&ev);
 }
 
 static gboolean
 hash_save_state (gpointer key, gpointer value, gpointer user_data)
 {
+	char *path;
 	gboolean bool = GPOINTER_TO_INT (value);
 	
-	gnome_config_set_bool ((char *) key, bool);
+	path = g_strconcat ("/Mail/", (char *)user_data, "/", (char *)key, 
+			    NULL);
+	bonobo_config_set_boolean (config->db, path, bool, NULL);
+	g_free (path);
 	g_free (key);
 	
 	return TRUE;
@@ -721,107 +740,92 @@ hash_save_state (gpointer key, gpointer value, gpointer user_data)
 void
 mail_config_write_on_exit (void)
 {
-	gchar *str;
+	CORBA_Environment ev;
 	GSList *sources;
 	MailConfigService *s;
 	
 	/* Show Messages Threaded */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->thread_list);
-	g_free (str);
+	bonobo_config_set_boolean (config->db, "/Mail/Display/thread_list", 
+				   config->thread_list, NULL);
 	
 	/* Show Message Preview */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/preview_pane", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->show_preview);
-	g_free (str);
-	
+	bonobo_config_set_boolean (config->db, "/Mail/Display/preview_pane",
+				   config->show_preview, NULL);
+
 	/* Hide deleted automatically */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/hide_deleted", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->hide_deleted);
-	g_free (str);
+	bonobo_config_set_boolean (config->db, "Mail/Display/hide_deleted", 
+				   config->hide_deleted, NULL);
 	
 	/* Size of vpaned in mail view */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/paned_size", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->paned_size);
-	g_free (str);
-	
+	bonobo_config_set_long (config->db, "Mail/Display/paned_size", 
+				config->paned_size, NULL);
+
 	/* Mark as seen timeout */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/seen_timeout", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->seen_timeout);
-	g_free (str);
+	bonobo_config_set_long (config->db, "/Mail/Display/seen_timeout", 
+				config->seen_timeout, NULL);
 	
 	/* Format */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/send_html", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->send_html);
-	g_free (str);
+	bonobo_config_set_boolean (config->db, "/Mail/Format/send_html", 
+				   config->send_html, NULL);
 	
 	/* Citation */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_highlight",
-			       evolution_dir);
-	gnome_config_set_bool (str, config->citation_highlight);
-	g_free (str);
-	str = g_strdup_printf ("=%s/config/Mail=/Display/citation_color", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->citation_color);
-	g_free (str);
+	bonobo_config_set_boolean (config->db, 
+				   "/Mail/Display/citation_highlight", 
+				   config->citation_highlight, NULL);
+
+	bonobo_config_set_long (config->db, "/Mail/Display/citation_color",
+				config->citation_color, NULL);
 	
 	/* Empty Subject */
-	str = g_strdup_printf ("=%s/config/Mail=/Prompts/empty_subject", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->prompt_empty_subject);
-	g_free (str);
+	bonobo_config_set_boolean (config->db, "/Mail/Prompts/empty_subject",
+				   config->prompt_empty_subject, NULL);	
 	
 	/* Only Bcc */
-	str = g_strdup_printf ("=%s/config/Mail=/Prompts/only_bcc", 
-			       evolution_dir);
-	gnome_config_set_bool (str, config->prompt_only_bcc);
-	g_free (str);
-	
+	bonobo_config_set_boolean (config->db, "/Mail/Prompts/only_bcc",
+				   config->prompt_only_bcc, NULL);	
+
 	/* PGP/GPG */
-	str = g_strdup_printf ("=%s/config/Mail=/PGP/path", 
-			       evolution_dir);
-	gnome_config_set_string (str, config->pgp_path);
-	g_free (str);
-	str = g_strdup_printf ("=%s/config/Mail=/PGP/type", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->pgp_type);
-	g_free (str);
+	bonobo_config_set_string (config->db, "/Mail/PGP/path", 
+				  config->pgp_path, NULL);
+
+	bonobo_config_set_long (config->db, "/Mail/PGP/type", 
+				config->pgp_type, NULL);
 	
 	/* HTTP images */
-	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->http_mode);
-	g_free (str);
-	
+	bonobo_config_set_long (config->db, "/Mail/Display/http_images", 
+				config->http_mode, NULL);
+
 	/* Forwarding */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/default_forward_style", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->default_forward_style);
-	g_free (str);
+	bonobo_config_set_long (config->db, 
+				"/Mail/Format/default_forward_style", 
+				config->default_forward_style, NULL);
 	
 	/* Message Display */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/message_display_style", 
-			       evolution_dir);
-	gnome_config_set_int (str, config->message_display_style);
-	g_free (str);
-	
+	bonobo_config_set_long (config->db, 
+				"/Mail/Format/message_display_style", 
+				config->message_display_style, NULL);
+
 	/* Default charset */
-	str = g_strdup_printf ("=%s/config/Mail=/Format/default_charset", evolution_dir);
-	gnome_config_set_string (str, config->default_charset);
-	g_free (str);
+	bonobo_config_set_string (config->db, "/Mail/Format/default_charset", 
+				  config->default_charset, NULL);
 	
 	/* Trash folders */
-	str = g_strdup_printf ("=%s/config/Mail=/Trash/empty_on_exit", evolution_dir);
-	gnome_config_set_bool (str, config->empty_trash_on_exit);
-	g_free (str);
-	
+	bonobo_config_set_boolean (config->db, "/Mail/Trash/empty_on_exit", 
+				   config->empty_trash_on_exit, NULL);
+
+
+	g_hash_table_foreach_remove (config->threaded_hash, 
+				     hash_save_state, "Threads");
+
+	g_hash_table_foreach_remove (config->preview_hash, 
+				     hash_save_state, "Preview");
+
+	CORBA_exception_init (&ev);
+	Bonobo_ConfigDatabase_sync (config->db, &ev);
+	CORBA_exception_free (&ev);
+
 	/* Passwords */
+	/* fixme: still depends on gnome-config */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
 	for ( ; sources; sources = sources->next) {
@@ -830,25 +834,8 @@ mail_config_write_on_exit (void)
 			mail_session_remember_password (s->url);
 	}
 	g_slist_free (sources);
-	
-	str = g_strdup_printf ("=%s/config/Mail=/Threads/", evolution_dir);
-	gnome_config_push_prefix (str);
-	g_free (str);
-	
-	g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, NULL);
-	
-	gnome_config_pop_prefix ();
-	
-	str = g_strdup_printf ("=%s/config/Mail=/Preview/", evolution_dir);
-	gnome_config_push_prefix (str);
-	g_free (str);
-	
-	g_hash_table_foreach_remove (config->preview_hash, hash_save_state, NULL);
-	
-	gnome_config_pop_prefix ();
-	
 	gnome_config_sync ();
-	
+				
 	/* now do cleanup */
 	mail_config_clear ();
 }
@@ -858,6 +845,28 @@ gboolean
 mail_config_is_configured (void)
 {
 	return config->accounts != NULL;
+}
+
+static char *
+uri_to_key (const char *uri)
+{
+	char *rval;
+	int i = 0;
+
+	if (!uri)
+		return NULL;
+
+	rval = g_strdup (uri);
+
+	while (rval [i]) {
+
+		if (rval [i] == '/' || rval [i] == ':')
+			rval [i] = '_';
+
+		i++;
+	}
+
+	return rval;
 }
 
 gboolean
@@ -872,31 +881,38 @@ mail_config_set_empty_trash_on_exit (gboolean value)
 	config->empty_trash_on_exit = value;
 }
 
-gboolean
 mail_config_get_show_preview (const char *uri)
 {
 	if (uri) {
+		char *key;
 		gboolean value = FALSE;
 		
+		key = uri_to_key (uri);
+
 		if (!config->preview_hash)
 			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		else
-			value = GPOINTER_TO_INT (g_hash_table_lookup (config->preview_hash, uri));
+			value = GPOINTER_TO_INT (g_hash_table_lookup (config->preview_hash, key));
 		
 		if (!value) {
-			/* add the preference to the hash table */
-			gboolean def = FALSE;
+			CORBA_Environment ev;
 			char *str;
 			
-			str = g_strdup_printf ("=%s/config/Mail=/Preview/%s", evolution_dir, uri);
-			value = gnome_config_get_bool_with_default (str, &def);
+			CORBA_exception_init (&ev);
+			str = g_strdup_printf ("/Mail/Preview/%s", key);
+			value = bonobo_config_get_boolean 
+				(config->db, str, &ev);
 			g_free (str);
 			
-			if (!def) {
-				g_hash_table_insert (config->preview_hash, g_strdup (uri),
+			if (!BONOBO_EX (&ev)) {
+				g_hash_table_insert (config->preview_hash, 
+						     g_strdup (key),
 						     GINT_TO_POINTER (value));
-				return value;
 			}
+
+			CORBA_exception_free (&ev);
+			g_free (key);
+			return value;
 		} else
 			return value;
 	}
@@ -910,17 +926,21 @@ void
 mail_config_set_show_preview (const char *uri, gboolean value)
 {
 	if (uri) {
+		char *dbkey = uri_to_key (uri);
 		gpointer key, val;
 		
 		if (!config->preview_hash)
-			config->preview_hash = g_hash_table_new (g_str_hash, g_str_equal);
+			config->preview_hash = g_hash_table_new (g_str_hash, 
+								 g_str_equal);
 		
-		if (g_hash_table_lookup_extended (config->preview_hash, uri, &key, &val)) {
-			g_hash_table_remove (config->preview_hash, uri);
+		if (g_hash_table_lookup_extended (config->preview_hash, dbkey,
+						  &key, &val)) {
+			g_hash_table_remove (config->preview_hash, dbkey);
 			g_free (key);
 		}
 		
-		g_hash_table_insert (config->preview_hash, g_strdup (uri), GINT_TO_POINTER (value));
+		g_hash_table_insert (config->preview_hash, dbkey, 
+				     GINT_TO_POINTER (value));
 	} else
 		config->show_preview = value;
 }
@@ -929,27 +949,35 @@ gboolean
 mail_config_get_thread_list (const char *uri)
 {
 	if (uri) {
+		char *key;
 		gboolean value = FALSE;
 		
+		key = uri_to_key (uri);
+
 		if (!config->threaded_hash)
 			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
 		else
-			value = GPOINTER_TO_INT (g_hash_table_lookup (config->threaded_hash, uri));
+			value = GPOINTER_TO_INT (g_hash_table_lookup (config->threaded_hash, key));
 		
 		if (!value) {
-			/* add the preference to the hash table */
-			gboolean def = FALSE;
+			CORBA_Environment ev;
 			char *str;
 			
-			str = g_strdup_printf ("=%s/config/Mail=/Threads/%s", evolution_dir, uri);
-			value = gnome_config_get_bool_with_default (str, &def);
+			CORBA_exception_init (&ev);
+			str = g_strdup_printf ("/Mail/Threads/%s", key);
+			value = bonobo_config_get_boolean (config->db , str, 
+							   &ev);
 			g_free (str);
 			
-			if (!def) {
-				g_hash_table_insert (config->threaded_hash, g_strdup (uri),
+			if (!BONOBO_EX (&ev)) {
+				g_hash_table_insert (config->threaded_hash, 
+						     g_strdup (key),
 						     GINT_TO_POINTER (value));
-				return value;
 			}
+
+			CORBA_exception_free (&ev);
+			g_free (key);
+			return value;
 		} else
 			return value;
 	}
@@ -963,17 +991,21 @@ void
 mail_config_set_thread_list (const char *uri, gboolean value)
 {
 	if (uri) {
+		char *dbkey = uri_to_key (uri);
 		gpointer key, val;
 		
 		if (!config->threaded_hash)
-			config->threaded_hash = g_hash_table_new (g_str_hash, g_str_equal);
+			config->threaded_hash = g_hash_table_new (g_str_hash, 
+								  g_str_equal);
 		
-		if (g_hash_table_lookup_extended (config->threaded_hash, uri, &key, &val)) {
-			g_hash_table_remove (config->threaded_hash, uri);
+		if (g_hash_table_lookup_extended (config->threaded_hash, dbkey,
+						  &key, &val)) {
+			g_hash_table_remove (config->threaded_hash, dbkey);
 			g_free (key);
 		}
 		
-		g_hash_table_insert (config->threaded_hash, g_strdup (uri), GINT_TO_POINTER (value));
+		g_hash_table_insert (config->threaded_hash, dbkey,
+				     GINT_TO_POINTER (value));
 	} else
 		config->thread_list = value;
 }
