@@ -1,3 +1,8 @@
+2000-10-10  Jacob "Ulysses" Berkman  <jacob@helixcode.com>
+
+	* evolution-services/Makefile.am (IDLS): make the built sources
+	depend on the idl files
+
 2000-10-09  Iain Holmes  <iain@helixcode.com>
 
 	* idl/SummaryComponent.idl: Added an icon parameter to the

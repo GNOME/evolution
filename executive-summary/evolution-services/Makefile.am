@@ -25,6 +25,11 @@ IDL_GENERATED = \
 
 Executive-Summary-impl.o: Executive-Summary.h
 
+IDLS = \
+	$(srcdir)/../idl/Executive-Summary.idl		\
+	$(srcdir)/../idl/Summary.idl			\
+	$(srcdir)/../idl/SummaryComponent.idl
+
 $(IDL_GENERATED): $(IDLS)
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl` \
 		-I$(srcdir) $(srcdir)/../idl/Executive-Summary.idl
