@@ -477,7 +477,7 @@ list_add_addresses (GList *list, const CamelInternetAddress *cia, const GSList *
 	
 	for (i = 0; camel_internet_address_get (cia, i, &name, &addr); i++) {
 		/* Make sure we don't want to ignore this address */
-		if (!ignore || g_strcasecmp (ignore, addr)) {
+		if (!ignore_addr || g_strcasecmp (ignore_addr, addr)) {
 			/* now, we format this, as if for display, but does the composer
 			   then use it as a real address?  If so, very broken. */
 			/* we should probably pass around CamelAddresse's if thats what
