@@ -533,6 +533,10 @@ camel_imap4_stream_next_token (CamelIMAP4Stream *stream, camel_imap4_token_t *to
 					goto refill;
 				}
 				
+				/* handle the \* case */
+				if ((inptr - start) == 1 && *inptr == '*')
+					inptr++;
+				
 				if ((inptr - start) > 1) {
 					token_save (stream, start, inptr - start);
 					

@@ -1,3 +1,9 @@
+2004-10-28  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap4/camel-imap4-stream.c
+	(camel_imap4_stream_next_token): Properly tokenise "\*" as a flag
+	token. Fixes bug #68869.
+
 2004-10-21  Björn Torkelsson <torkel@acc.umu.se>
 
 	* camel-sasl-kerberos4.c: #include "camel-i18n.h"
