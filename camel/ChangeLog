@@ -1,3 +1,11 @@
+2003-07-08  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-raw.c (stream_read): Use camel_read().
+	(stream_write): Use camel_write().
+
+	* camel-stream-fs.c (stream_read): Use camel_read().
+	(stream_write): Use camel_write().
+
 2003-07-07  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/nntp/camel-nntp-folder.c (camel_nntp_folder_new): Use

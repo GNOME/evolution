@@ -5,7 +5,7 @@
  * Authors: Bertrand Guiheneuf <bertrand@helixcode.com>
  *	    Michael Zucchi <notzed@ximian.com>
  *
- * Copyright 1999, 2000 Ximian, Inc. (www.ximian.com)
+ * Copyright 1999-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -33,6 +33,7 @@
 #include <errno.h>
 #include <string.h>
 
+#include "camel-file-utils.h"
 #include "camel-operation.h"
 #include "camel-stream-fs.h"
 #include "camel-session.h"
@@ -214,62 +215,11 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
-	ssize_t nread;
-	int cancel_fd;
-	
-	if (camel_operation_cancel_check(NULL)) {
-		errno = EINTR;
-		return  -1;
-	}
 	
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 	
-	cancel_fd = camel_operation_cancel_fd(NULL);
-	if (cancel_fd == -1) {
-		do {
-			nread = read (stream_fs->fd, buffer, n);
-		} while (nread == -1 && (errno == EINTR || errno == EAGAIN));
-	} else {
-		fd_set rdset;
-		int error, flags, fdmax;
-		
-		flags = fcntl (stream_fs->fd, F_GETFL);
-		fcntl (stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
-		
-		do {
-			FD_ZERO (&rdset);
-			FD_SET (stream_fs->fd, &rdset);
-			FD_SET (cancel_fd, &rdset);
-			fdmax = MAX (stream_fs->fd, cancel_fd) + 1;
-			
-			nread = -1;
-			if (select (fdmax, &rdset, 0, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (stream_fs->fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					nread = read (stream_fs->fd, buffer, n);
-				} while (nread == -1 && errno == EAGAIN);
-			} else if (errno == EINTR) {
-				errno = EAGAIN;
-			}
-		} while (nread == -1 && errno == EAGAIN);
-		
-		error = errno;
-		fcntl (stream_fs->fd, F_SETFL, flags);
-		errno = error;
-	}
-	
-	if (nread > 0)
-		seekable->position += nread;
-	else if (nread == 0)
-		stream->eos = TRUE;
-	
-	return nread;
+	return camel_read (stream_fs->fd, buffer, n);
 }
 
 static ssize_t
@@ -277,80 +227,11 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
 	CamelStreamFs *stream_fs = CAMEL_STREAM_FS (stream);
 	CamelSeekableStream *seekable = CAMEL_SEEKABLE_STREAM (stream);
-	ssize_t w, written = 0;
-	int cancel_fd;
-	
-	if (camel_operation_cancel_check(NULL)) {
-		errno = EINTR;
-		return  -1;
-	}
 	
 	if (seekable->bound_end != CAMEL_STREAM_UNBOUND)
 		n = MIN (seekable->bound_end - seekable->position, n);
 	
-	cancel_fd = camel_operation_cancel_fd(NULL);
-	if (cancel_fd == -1) {
-		do {
-			do {
-				w = write (stream_fs->fd, buffer + written, n - written);
-			} while (w == -1 && (errno == EINTR || errno == EAGAIN));
-			
-			if (w > 0)
-				written += w;
-		} while (w != -1 && written < n);
-	} else {
-		fd_set rdset, wrset;
-		int error, flags, fdmax;
-		
-		flags = fcntl (stream_fs->fd, F_GETFL);
-		fcntl (stream_fs->fd, F_SETFL, flags | O_NONBLOCK);
-		
-		fdmax = MAX (stream_fs->fd, cancel_fd)+1;
-		do {
-			FD_ZERO (&rdset);
-			FD_ZERO (&wrset);
-			FD_SET (stream_fs->fd, &wrset);
-			FD_SET (cancel_fd, &rdset);
-			
-			w = -1;
-			if (select (fdmax, &rdset, &wrset, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (stream_fs->fd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					w = write (stream_fs->fd, buffer + written, n - written);
-				} while (w == -1 && errno == EINTR);
-				
-				if (w == -1) {
-					if (errno == EAGAIN) {
-						w = 0;
-					} else {
-						error = errno;
-						fcntl (stream_fs->fd, F_SETFL, flags);
-						errno = error;
-						return -1;
-					}
-				} else
-					written += w;
-			} else if (errno == EINTR) {
-				w = 0;
-			}
-		} while (w != -1 && written < n);
-		
-		error = errno;
-		fcntl (stream_fs->fd, F_SETFL, flags);
-		errno = error;
-	}
-	
-	if (written > 0)
-		seekable->position += written;
-	else if (w == -1)
-		return -1;
-	
-	return written;
+	return camel_write (stream_fs->fd, buffer, n);
 }
 
 static int

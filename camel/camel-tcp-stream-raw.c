@@ -2,7 +2,7 @@
 /*
  *  Authors: Jeffrey Stedfast <fejj@ximian.com>
  *
- *  Copyright 2001 Ximian, Inc. (www.ximian.com)
+ *  Copyright 2001-2003 Ximian, Inc. (www.ximian.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -35,6 +35,7 @@
 #include <errno.h>
 
 #include "camel-tcp-stream-raw.h"
+#include "camel-file-utils.h"
 #include "camel-operation.h"
 
 static CamelTcpStreamClass *parent_class = NULL;
@@ -234,130 +235,17 @@ camel_tcp_stream_raw_new ()
 static ssize_t
 stream_read (CamelStream *stream, char *buffer, size_t n)
 {
-	CamelTcpStreamRaw *tcp_stream_raw = CAMEL_TCP_STREAM_RAW (stream);
-	ssize_t nread;
-	int cancel_fd;
+	CamelTcpStreamRaw *raw = CAMEL_TCP_STREAM_RAW (stream);
 	
-	if (camel_operation_cancel_check (NULL)) {
-		errno = EINTR;
-		return -1;
-	}
-	
-	cancel_fd = camel_operation_cancel_fd (NULL);
-	if (cancel_fd == -1) {
-		do {
-			nread = read (tcp_stream_raw->sockfd, buffer, n);
-		} while (nread == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
-	} else {
-		int error, flags, fdmax;
-		fd_set rdset;
-		
-		flags = fcntl (tcp_stream_raw->sockfd, F_GETFL);
-		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags | O_NONBLOCK);
-		
-		do {
-			FD_ZERO (&rdset);
-			FD_SET (tcp_stream_raw->sockfd, &rdset);
-			FD_SET (cancel_fd, &rdset);
-			fdmax = MAX (tcp_stream_raw->sockfd, cancel_fd) + 1;
-			
-			nread = -1;
-			if (select (fdmax, &rdset, 0, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					nread = read (tcp_stream_raw->sockfd, buffer, n);
-				} while (nread == -1 && errno == EINTR);
-			} else if (errno == EINTR) {
-				errno = EAGAIN;
-			}
-		} while (nread == -1 && (errno == EAGAIN || errno == EWOULDBLOCK));
-		
-		error = errno;
-		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-		errno = error;
-	}
-	
-	return nread;
+	return camel_read (raw->sockfd, buffer, n);
 }
 
 static ssize_t
 stream_write (CamelStream *stream, const char *buffer, size_t n)
 {
-	CamelTcpStreamRaw *tcp_stream_raw = CAMEL_TCP_STREAM_RAW (stream);
-	ssize_t w, written = 0;
-	int cancel_fd;
+	CamelTcpStreamRaw *raw = CAMEL_TCP_STREAM_RAW (stream);
 	
-	if (camel_operation_cancel_check (NULL)) {
-		errno = EINTR;
-		return -1;
-	}
-	
-	cancel_fd = camel_operation_cancel_fd (NULL);
-	if (cancel_fd == -1) {
-		do {
-			do {
-				w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
-			} while (w == -1 && (errno == EINTR || errno == EAGAIN || errno == EWOULDBLOCK));
-			
-			if (w > 0)
-				written += w;
-		} while (w != -1 && written < n);
-	} else {
-		int error, flags, fdmax;
-		fd_set rdset, wrset;
-		
-		flags = fcntl (tcp_stream_raw->sockfd, F_GETFL);
-		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags | O_NONBLOCK);
-		
-		fdmax = MAX (tcp_stream_raw->sockfd, cancel_fd) + 1;
-		do {
-			FD_ZERO (&rdset);
-			FD_ZERO (&wrset);
-			FD_SET (tcp_stream_raw->sockfd, &wrset);
-			FD_SET (cancel_fd, &rdset);
-			
-			w = -1;
-			if (select (fdmax, &rdset, &wrset, 0, NULL) != -1) {
-				if (FD_ISSET (cancel_fd, &rdset)) {
-					fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-					errno = EINTR;
-					return -1;
-				}
-				
-				do {
-					w = write (tcp_stream_raw->sockfd, buffer + written, n - written);
-				} while (w == -1 && errno == EINTR);
-				
-				if (w == -1) {
-					if (errno == EAGAIN || errno == EWOULDBLOCK) {
-						w = 0;
-					} else {
-						error = errno;
-						fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-						errno = error;
-						return -1;
-					}
-				} else
-					written += w;
-			} else if (errno == EINTR) {
-				w = 0;
-			}
-		} while (w != -1 && written < n);
-		
-		error = errno;
-		fcntl (tcp_stream_raw->sockfd, F_SETFL, flags);
-		errno = error;
-	}
-	
-	if (w == -1)
-		return -1;
-	
-	return written;
+	return camel_write (raw->sockfd, buffer, n);
 }
 
 static int
