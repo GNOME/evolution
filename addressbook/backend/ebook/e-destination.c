@@ -39,7 +39,7 @@
 #include <libxml/xmlmemory.h>
 #include <camel/camel-internet-address.h>
 
-#define d(x) x
+#define d(x)
 
 enum {
 	CHANGED,
