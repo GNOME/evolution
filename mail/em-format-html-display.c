@@ -614,8 +614,6 @@ efhd_xpkcs7mime_validity_clicked(GtkWidget *button, EMFormatHTMLPObject *pobject
 	GladeXML *xml;
 	GtkWidget *vbox, *w;
 
-	printf("validity clicked\n");
-
 	if (po->widget)
 		/* FIXME: window raise? */
 		return;

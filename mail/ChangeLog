@@ -1,3 +1,8 @@
+2003-11-13  Not Zed  <NotZed@Ximian.com>
+
+	* em-format-html.c (em_format_html_add_pobject): use malloc0 for
+	the pobject memory.
+
 2003-11-12  Not Zed  <NotZed@Ximian.com>
 
 	* mail-account-gui.c (smime_sign_key_select)

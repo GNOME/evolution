@@ -321,7 +321,7 @@ em_format_html_add_pobject(EMFormatHTML *efh, size_t size, const char *classid, 
 
 	g_assert(size >= sizeof(EMFormatHTMLPObject));
 
-	pobj = g_malloc(size);
+	pobj = g_malloc0(size);
 	if (classid) {
 		pobj->classid = g_strdup(classid);
 	} else {
