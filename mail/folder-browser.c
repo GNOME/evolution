@@ -1577,17 +1577,17 @@ enum {
 #define MLIST_FILTER (8)
 
 static EPopupMenu filter_menu[] = {
-	E_POPUP_ITEM (N_("VFolder on _Subject"),        GTK_SIGNAL_FUNC (vfolder_subject_uid),   SELECTION_SET),
-	E_POPUP_ITEM (N_("VFolder on Se_nder"),         GTK_SIGNAL_FUNC (vfolder_sender_uid),    SELECTION_SET),
-	E_POPUP_ITEM (N_("VFolder on _Recipients"),     GTK_SIGNAL_FUNC (vfolder_recipient_uid), SELECTION_SET),
-	E_POPUP_ITEM (N_("VFolder on Mailing _List"),   GTK_SIGNAL_FUNC (vfolder_mlist_uid),     SELECTION_SET | IS_MAILING_LIST),
+	E_POPUP_ITEM_CC (N_("VFolder on _Subject"),        GTK_SIGNAL_FUNC (vfolder_subject_uid),   NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on Se_nder"),         GTK_SIGNAL_FUNC (vfolder_sender_uid),    NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on _Recipients"),     GTK_SIGNAL_FUNC (vfolder_recipient_uid), NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("VFolder on Mailing _List"),   GTK_SIGNAL_FUNC (vfolder_mlist_uid),     NULL, SELECTION_SET | IS_MAILING_LIST),
 	
 	E_POPUP_SEPARATOR,
 	
-	E_POPUP_ITEM (N_("Filter on Sub_ject"),         GTK_SIGNAL_FUNC (filter_subject_uid),    SELECTION_SET),
-	E_POPUP_ITEM (N_("Filter on Sen_der"),          GTK_SIGNAL_FUNC (filter_sender_uid),     SELECTION_SET),
-	E_POPUP_ITEM (N_("Filter on Re_cipients"),      GTK_SIGNAL_FUNC (filter_recipient_uid),  SELECTION_SET),
-	E_POPUP_ITEM (N_("Filter on _Mailing List"),    GTK_SIGNAL_FUNC (filter_mlist_uid),      SELECTION_SET | IS_MAILING_LIST),
+	E_POPUP_ITEM_CC (N_("Filter on Sub_ject"),         GTK_SIGNAL_FUNC (filter_subject_uid),    NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on Sen_der"),          GTK_SIGNAL_FUNC (filter_sender_uid),     NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on Re_cipients"),      GTK_SIGNAL_FUNC (filter_recipient_uid),  NULL, SELECTION_SET),
+	E_POPUP_ITEM_CC (N_("Filter on _Mailing List"),    GTK_SIGNAL_FUNC (filter_mlist_uid),      NULL, SELECTION_SET | IS_MAILING_LIST),
 	
 	E_POPUP_TERMINATOR
 };
@@ -1981,7 +1981,8 @@ on_right_click (ETree *tree, gint row, ETreePath path, gint col, GdkEvent *event
 				  closures, (GtkDestroyNotify) colour_closures_free);
 	
 	if (fdata)
-		gtk_object_set_data_full(GTK_OBJECT(menu), "filter_data", fdata, (GtkDestroyNotify)filter_data_free);
+		gtk_object_set_data_full (GTK_OBJECT (menu), "filter_data",
+					  fdata, (GtkDestroyNotify) filter_data_free);
 	
 	if (event->type == GDK_KEY_PRESS) {
 		struct cmpf_data closure;

@@ -1,3 +1,9 @@
+2002-05-01  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c (on_right_click): Fix the filter_menu static
+	array to use the E_POPUP_MENU_CC macros since we plan on using
+	custom closures for this.
+
 2002-05-01  Not Zed  <NotZed@Ximian.com>
 
 	* folder-browser.h (FOLDER_BROWSER_IS_DESTROYED): Also check
