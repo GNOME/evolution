@@ -187,7 +187,7 @@ void                     e_msg_composer_add_message_attachments          (EMsgCo
 									  gboolean           just_inlines);
 void                     e_msg_composer_ignore                           (EMsgComposer      *composer,
 									  const gchar       *str);
-
+void                     e_msg_composer_drop_editor_undo                 (EMsgComposer      *composer);
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

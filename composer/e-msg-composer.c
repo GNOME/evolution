@@ -1286,7 +1286,7 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *dialog;
 	gint button;
 	
-	if (TRUE || e_msg_composer_is_dirty (composer)) {
+	if (e_msg_composer_is_dirty (composer)) {
 		dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
 						GNOME_MESSAGE_BOX_QUESTION,
 						GNOME_STOCK_BUTTON_YES,      /* Save */
@@ -3952,12 +3952,13 @@ gboolean
 e_msg_composer_is_dirty (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-	gboolean dirty = composer->has_changed;
+	gboolean rv;
+	
 	CORBA_exception_init (&ev);
-	
-	dirty = dirty || Bonobo_PersistStream_isDirty (composer->persist_stream_interface, &ev);
-	
-	return dirty;
+	rv = composer->has_changed || GNOME_GtkHTML_Editor_Engine_isDirty (composer->editor_engine, &ev);
+	CORBA_exception_free (&ev);
+
+	return rv;
 }
 
 void
@@ -4023,5 +4024,15 @@ e_msg_composer_ignore (EMsgComposer *composer, const gchar *str)
 		GNOME_GtkHTML_Editor_Engine_ignoreWord (composer->editor_engine, word, &ev);
 		g_free (word);
 	}
+	CORBA_exception_free (&ev);
+}
+
+void
+e_msg_composer_drop_editor_undo (EMsgComposer *composer)
+{
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	GNOME_GtkHTML_Editor_Engine_dropUndo (composer->editor_engine, &ev);
 	CORBA_exception_free (&ev);
 }
