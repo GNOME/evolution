@@ -582,9 +582,9 @@ save_as_cb (GtkWidget *widget,
 }
 
 static void
-send_cb (GtkWidget *widget,
-	 gpointer data)
+send_cb (GtkWidget *widget, gpointer data)
 {
+	/* FIXME: We should really write this to Outbox in the future? */
 	gtk_signal_emit (GTK_OBJECT (data), signals[SEND]);
 }
 
@@ -608,28 +608,24 @@ exit_cb (GtkWidget *widget, gpointer data)
 }
 	
 static void
-menu_view_attachments_activate_cb (GtkWidget *widget,
-				   gpointer data)
+menu_view_attachments_activate_cb (GtkWidget *widget, gpointer data)
 {
 	e_msg_composer_show_attachments (E_MSG_COMPOSER (data),
 					 GTK_CHECK_MENU_ITEM (widget)->active);
 }
 
 static void
-toolbar_view_attachments_clicked_cb (GtkWidget *widget,
-				      gpointer data)
+toolbar_view_attachments_clicked_cb (GtkWidget *widget, gpointer data)
 {
 	EMsgComposer *composer;
 
 	composer = E_MSG_COMPOSER (data);
 
-	e_msg_composer_show_attachments (composer,
-					 ! composer->attachment_bar_visible);
+	e_msg_composer_show_attachments (composer, !composer->attachment_bar_visible);
 }
 
 static void
-add_attachment_cb (GtkWidget *widget,
-		   gpointer data)
+add_attachment_cb (GtkWidget *widget, gpointer data)
 {
 	EMsgComposer *composer;
 

@@ -2,7 +2,7 @@
 
 	* e-msg-composer.c: Changed "Exit" to "Close" in the File menu.
 	This is a little more intuitive as it does not suggest exiting
-	the application, just says "close this window"
+	the application, just says "close this window".
 
 2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
 
