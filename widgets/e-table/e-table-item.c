@@ -58,7 +58,7 @@ enum {
 static int eti_get_height (ETableItem *eti);
 static int eti_get_minimum_width (ETableItem *eti);
 static int eti_row_height (ETableItem *eti, int row);
-static void e_table_item_focus (ETableItem *eti, int col, int row, gboolean shift_p, gboolean ctrl_p);
+static void e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state);
 static void eti_cursor_change (ETableSelectionModel *selection, int row, int col, ETableItem *eti);
 static void eti_selection_change (ETableSelectionModel *selection, ETableItem *eti);
 #if 0
@@ -924,7 +924,7 @@ eti_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 			       "cursor_col", &cursor_col,
 			       NULL);
 
-		e_table_item_focus (eti, cursor_col != -1 ? cursor_col : 0, view_to_model_row(eti, GTK_VALUE_INT (*arg)), FALSE, FALSE);
+		e_table_item_focus (eti, cursor_col != -1 ? cursor_col : 0, view_to_model_row(eti, GTK_VALUE_INT (*arg)), 0);
 		break;
 	}
 	eti->needs_redraw = 1;
@@ -1314,7 +1314,7 @@ static void
 eti_cursor_move (ETableItem *eti, gint row, gint column)
 {
 	e_table_item_leave_edit (eti);
-	e_table_item_focus (eti, view_to_model_col(eti, column), view_to_model_row(eti, row), FALSE, FALSE);
+	e_table_item_focus (eti, view_to_model_col(eti, column), view_to_model_row(eti, row), 0);
 }
 
 static void
@@ -1377,8 +1377,6 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 	case GDK_BUTTON_PRESS: {
 		double x1, y1;
 		int col, row;
-		gint shifted = e->button.state & GDK_SHIFT_MASK;
-		gint ctrled = e->button.state & GDK_CONTROL_MASK;
 		gint cursor_row, cursor_col;
 
 		e_canvas_item_grab_focus(GNOME_CANVAS_ITEM(eti));
@@ -1391,7 +1389,7 @@ eti_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (!find_cell (eti, e->button.x, e->button.y, &col, &row, &x1, &y1))
 				return TRUE;
 
-			e_table_selection_model_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), shifted, ctrled);
+			e_table_selection_model_do_something(eti->selection, view_to_model_row(eti, row), view_to_model_col(eti, col), e->button.state);
 
 			gtk_object_get(GTK_OBJECT(eti->selection),
 				       "cursor_row", &cursor_row,
@@ -1769,11 +1767,11 @@ e_table_item_get_type (void)
 void
 e_table_item_set_cursor    (ETableItem *eti, int col, int row)
 {
-	e_table_item_focus(eti, col, view_to_model_row(eti, row), FALSE, FALSE);
+	e_table_item_focus(eti, col, view_to_model_row(eti, row), 0);
 }
 
 static void
-e_table_item_focus (ETableItem *eti, int col, int row, gboolean shift_p, gboolean ctrl_p)
+e_table_item_focus (ETableItem *eti, int col, int row, GdkModifierType state)
 {
 	g_return_if_fail (eti != NULL);
 	g_return_if_fail (E_IS_TABLE_ITEM (eti));
@@ -1789,8 +1787,7 @@ e_table_item_focus (ETableItem *eti, int col, int row, gboolean shift_p, gboolea
 	if (row != -1) {
 		e_table_selection_model_do_something(eti->selection,
 						     row, col,
-						     shift_p,
-						     ctrl_p);
+						     state);
 	}
 }
 
@@ -1884,6 +1881,19 @@ e_table_item_leave_edit (ETableItem *eti)
 	e_cell_leave_edit (eti->cell_views [col],
 			   view_to_model_col(eti, col),
 			   col, row, edit_ctx);
+}
+
+void 
+e_table_item_compute_location (ETableItem        *eti,
+			       int               *x,
+			       int               *y,
+			       int               *row,
+			       int               *col)
+{
+	if (!find_cell (eti, *x, *y, col, row, NULL, NULL)) {
+		*y -= eti_get_height(eti);
+	}
+	
 }
 
 typedef struct {

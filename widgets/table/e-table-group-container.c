@@ -542,6 +542,31 @@ etgc_get_focus_column (ETableGroup *etg)
 	return 0;
 }
 
+static void
+etgc_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+{
+	ETableGroupContainer *etgc = E_TABLE_GROUP_CONTAINER(etg);
+
+	if (row)
+		*row = -1;
+	if (col)
+		*col = -1;
+
+	*x -= GROUP_INDENT;
+	*y -= TITLE_HEIGHT;
+
+	if (*x >= 0 && *y >= 0 && etgc->children) {
+		GList *list;
+		for (list = etgc->children; list; list = list->next) {
+			ETableGroupContainerChildNode *child_node = (ETableGroupContainerChildNode *)list->data;
+			ETableGroup *child = child_node->child;
+
+			e_table_group_compute_location (child, x, y, row, col);
+			if ((*row != -1) && (*col != -1))
+				return;
+		}
+	}
+}
 
 static void etgc_thaw (ETableGroup *etg)
 {
@@ -684,6 +709,7 @@ etgc_class_init (GtkObjectClass *object_class)
 	e_group_class->get_cursor_row = etgc_get_cursor_row;
 	e_group_class->get_focus_column = etgc_get_focus_column;
 	e_group_class->get_printable = etgc_get_printable;
+	e_group_class->compute_location = etgc_compute_location;
 
 	gtk_object_add_arg_type ("ETableGroupContainer::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

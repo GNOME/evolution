@@ -55,8 +55,7 @@ void             e_table_selection_model_foreach         (ETableSelectionModel *
 void             e_table_selection_model_do_something    (ETableSelectionModel *selection,
 						          guint                 row,
 						          guint                 col,
-						          gboolean              shift_p,
-						          gboolean              ctrl_p);
+							  GdkModifierType       state);
 void             e_table_selection_model_clear           (ETableSelectionModel *selection);
 
 ETableSelectionModel  *e_table_selection_model_new       (void);

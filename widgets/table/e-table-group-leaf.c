@@ -240,6 +240,13 @@ etgl_get_printable (ETableGroup *etg)
 }
 
 static void
+etgl_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+{
+	ETableGroupLeaf *etgl = E_TABLE_GROUP_LEAF (etg);
+	e_table_item_compute_location (etgl->item, x, y, row, col);
+}
+
+static void
 etgl_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 {
 	ETableGroup *etg = E_TABLE_GROUP (object);
@@ -362,6 +369,7 @@ etgl_class_init (GtkObjectClass *object_class)
 	e_group_class->get_cursor_row = etgl_get_cursor_row;
 	e_group_class->get_focus_column = etgl_get_focus_column;
 	e_group_class->get_printable = etgl_get_printable;
+	e_group_class->compute_location = etgl_compute_location;
 
 	gtk_object_add_arg_type ("ETableGroupLeaf::drawgrid", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_TABLE_DRAW_GRID);

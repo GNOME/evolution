@@ -195,11 +195,11 @@ etsm_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		break;
 
 	case ARG_CURSOR_ROW:
-		e_table_selection_model_do_something(etsm, GTK_VALUE_INT(*arg), etsm->cursor_col, FALSE, FALSE);
+		e_table_selection_model_do_something(etsm, GTK_VALUE_INT(*arg), etsm->cursor_col, 0);
 		break;
 
 	case ARG_CURSOR_COL:
-		e_table_selection_model_do_something(etsm, etsm->cursor_row, GTK_VALUE_INT(*arg), FALSE, FALSE);
+		e_table_selection_model_do_something(etsm, etsm->cursor_row, GTK_VALUE_INT(*arg), 0);
 		break;
 	}
 }
@@ -321,9 +321,10 @@ change_selection(ETableSelectionModel *selection, int start, int end, gboolean g
 void             e_table_selection_model_do_something      (ETableSelectionModel *selection,
 							    guint                 row,
 							    guint                 col,
-							    gboolean              shift_p,
-							    gboolean              ctrl_p)
+							    GdkModifierType       state)
 {
+	gint shift_p = state & GDK_SHIFT_MASK;
+	gint ctrl_p = state & GDK_CONTROL_MASK;
 	if (selection->row_count < 0) {
 		if (selection->model) {
 			selection->row_count = e_table_model_row_count(selection->model);

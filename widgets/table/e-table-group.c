@@ -239,6 +239,16 @@ e_table_group_get_printable (ETableGroup *etg)
 }
 
 void
+e_table_group_compute_location (ETableGroup *etg, int *x, int *y, int *row, int *col)
+{
+	g_return_if_fail (etg != NULL);
+	g_return_if_fail (E_IS_TABLE_GROUP (etg));
+
+	if (ETG_CLASS (etg)->compute_location)
+		ETG_CLASS (etg)->compute_location (etg, x, y, row, col);
+}
+
+void
 e_table_group_cursor_change (ETableGroup *e_table_group, gint row)
 {
 	g_return_if_fail (e_table_group != NULL);
@@ -355,6 +365,7 @@ etg_class_init (GtkObjectClass *object_class)
 	klass->get_focus = etg_get_focus;
 	klass->get_ecol = NULL;
 	klass->get_printable = NULL;
+	klass->compute_location = NULL;
 
 	etg_parent_class = gtk_type_class (PARENT_TYPE);
 

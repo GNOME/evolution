@@ -64,6 +64,7 @@ typedef struct {
 	gint        (*get_focus_column)      (ETableGroup *etg);
 	ETableCol  *(*get_ecol)              (ETableGroup *etg);
 	EPrintable *(*get_printable)         (ETableGroup *etg);
+	void        (*compute_location)      (ETableGroup *etg, int *x, int *y, int *row, int *col);
 
 } ETableGroupClass;
 
@@ -89,6 +90,11 @@ gint             e_table_group_get_focus_column      (ETableGroup      *etg);
 ETableHeader    *e_table_group_get_header            (ETableGroup     *etg);
 ETableCol       *e_table_group_get_ecol              (ETableGroup      *etg);
 EPrintable      *e_table_group_get_printable         (ETableGroup      *etg);
+void             e_table_group_compute_location      (ETableGroup      *etg,
+						      int *x,
+						      int *y,
+						      int *row,
+						      int *col);
 
 ETableGroup     *e_table_group_new       (GnomeCanvasGroup *parent,
 					  ETableHeader     *full_header,
