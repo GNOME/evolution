@@ -1,3 +1,7 @@
+2003-09-07  Wang Jian  <lark@linux.net.cn>
+
+	* zh_CN.po: Merged from evolution-1-4-branch.
+
 2003-08-20 Suresh Chandrasekharan <suresh.chandrasekharan@sun.com>
 	
 	* zh_CN.po: Removed illegal '-'s from strptime msgstr, this fixes
