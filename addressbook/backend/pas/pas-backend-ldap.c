@@ -2437,9 +2437,6 @@ ldap_search_dtor (PASBackend *backend, LDAPOp *op)
 {
 	LDAPSearchOp *search_op = (LDAPSearchOp*) op;
 
-	if (op->view)
-		bonobo_object_release_unref(bonobo_object_corba_objref(BONOBO_OBJECT(op->view)), NULL);
-
 	g_free (search_op->ldap_query);
 	g_free (search_op);
 }
@@ -2451,7 +2448,6 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 {
 	LDAPSearchOp *op = g_new (LDAPSearchOp, 1);
 
-	bonobo_object_dup_ref(bonobo_object_corba_objref(BONOBO_OBJECT(view->book_view)), NULL);
 	ldap_op_init ((LDAPOp*)op, PAS_BACKEND(bl), book, view->book_view, ldap_search_handler, ldap_search_dtor);
 
 	op->ldap_query = NULL;
