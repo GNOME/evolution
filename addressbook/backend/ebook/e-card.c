@@ -1689,6 +1689,24 @@ e_card_init (ECard *card)
 #endif
 }
 
+GList *
+e_card_load_cards_from_file(const char *filename)
+{
+	VObject *vobj = Parse_MIME_FromFileName(filename);
+	GList *list = NULL;
+	while(vobj) {
+		VObject *next;
+		ECard *card = E_CARD(gtk_type_new(e_card_get_type()));
+		parse(card, vobj);
+		next = nextVObjectInList(vobj);
+		cleanVObject(vobj);
+		vobj = next;
+		list = g_list_prepend(list, card);
+	}
+	list = g_list_reverse(list);
+	return list;
+}
+
 static void
 assign_string(VObject *vobj, char **string)
 {
@@ -3113,36 +3131,6 @@ card_to_string (Card *crd)
 	g_string_free (string, TRUE);
 	
 	return ret;
-}
-
-char *
-card_to_vobj_string (Card *crd)
-{
-	VObject *object;
-	char *data, *ret_val;
-	
-	g_assert (crd != NULL);
-
-	object = card_convert_to_vobject (crd);
-	data = writeMemVObject (0, 0, object);
-        ret_val = g_strdup (data);
-	free (data);
-		
-	cleanVObject (object);
-
-	return ret_val;
-}
-
-void 
-card_save (Card *crd, FILE *fp)
-{
-	VObject *object;
-	
-	g_return_if_fail (crd != NULL);
-
-	object = card_convert_to_vobject (crd);
-	writeVObject (fp, object);
-	cleanVObject (object);
 }
 #endif
 

@@ -1,4 +1,4 @@
-noinst_PROGRAMS = test-card test-client test-client-list load-pine-addressbook
+noinst_PROGRAMS = test-card test-client test-client-list load-pine-addressbook load-gnomecard-addressbook
 
 CORBA_SOURCE =						\
 	addressbook.h					\
@@ -90,10 +90,21 @@ test_card_LDADD =					\
 	$(top_builddir)/e-util/libeutil.la
 
 
-load_pine_addressbook_SOURCES =					\
+load_pine_addressbook_SOURCES =				\
 	load-pine-addressbook.c
 
-load_pine_addressbook_LDADD =					\
+load_pine_addressbook_LDADD =				\
+	libebook.la					\
+	$(BONOBO_GNOME_LIBS)				\
+	$(top_builddir)/addressbook/ename/libename.la	\
+	$(top_builddir)/libversit/libversit.la		\
+	$(top_builddir)/e-util/libeutil.la
+
+
+load_gnomecard_addressbook_SOURCES =			\
+	load-gnomecard-addressbook.c
+
+load_gnomecard_addressbook_LDADD =			\
 	libebook.la					\
 	$(BONOBO_GNOME_LIBS)				\
 	$(top_builddir)/addressbook/ename/libename.la	\

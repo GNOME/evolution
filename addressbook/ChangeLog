@@ -1,3 +1,21 @@
+2000-07-29  Christopher James Lahey  <clahey@helixcode.com>
+
+	* backend/ebook/Makefile.am: Added load-gnomecard-addressbook
+	compilation.
+
+	* backend/ebook/e-card.c, backend/ebook/e-card.h: Added
+	e_card_load_cards_from_file helper function to load multiple cards
+	from a single file.
+
+	* backend/ebook/load-gnomecard-addressbook.c: New file to load
+	vcard files.  I think this is the format that gnomecard uses so if
+	you copy your gnomecard file to gnomecard.vcf and then run this
+	program in the same directory, it'll copy all your gnome contacts
+	into evolution.  It needs to be changed to take a filename as a
+	parameter.  Some fields (phone and address information, for
+	example) aren't displayed properly, but are saved.  This is new
+	code, so some other than phone and address may be lost.
+
 2000-07-28  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* backend/pas/Makefile.am: Add `pas-backend-ldap.c' and

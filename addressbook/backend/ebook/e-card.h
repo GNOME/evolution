@@ -133,6 +133,8 @@ ECardArbitrary *e_card_arbitrary_new  (void);
 ECardArbitrary *e_card_arbitrary_copy (const ECardArbitrary *arbitrary);
 void            e_card_arbitrary_free (      ECardArbitrary *arbitrary);
 
+GList *e_card_load_cards_from_file(const char *filename);
+
 /* Standard Gtk function */
 GtkType        e_card_get_type (void);
 
