@@ -1070,9 +1070,11 @@ load_http (MailDisplay *md, gpointer data)
 	GHashTable *urls;
 	GnomeVFSHandle *handle;
 	GnomeVFSFileSize read;
+	GnomeVFSResult result;
 	GByteArray *ba;
 	char buf[8192];
-
+	size_t total = 0;
+	
 	urls = g_datalist_get_data (md->data, "data_urls");
 	ba = g_hash_table_lookup (urls, url);
 	g_return_if_fail (ba != NULL);
@@ -1085,10 +1087,15 @@ load_http (MailDisplay *md, gpointer data)
 		return;
 	}
 
-	while (gnome_vfs_read (handle, buf, sizeof (buf), &read) == GNOME_VFS_OK)
+	while ((result = gnome_vfs_read (handle, buf, sizeof (buf), &read)) == GNOME_VFS_OK) {
+		printf ("%s: read %d bytes\n", url, read);
 		g_byte_array_append (ba, buf, read);
+		total += read;
+	}
 	gnome_vfs_close (handle);
-
+	
+	printf ("gnome_vfs_read result is %d; read %d total bytes\n", result, total);
+	
 #if 0
 	if (!ba->len)
 		printf ("no data in %s\n", url);
@@ -1137,7 +1144,7 @@ on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
 		
 		if (md->related)
 			g_hash_table_remove(md->related, medium);
-
+		
 		data = camel_medium_get_content_object (medium);
 		if (!mail_content_loaded (data, md, FALSE, url, html, handle))
 			return;

@@ -1,5 +1,9 @@
 2002-03-04  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-display.c (load_http): Added more debugging code to help
+	figure out why a certain image isn't loading - looks like
+	gnome-vfs is getting a premature EOF?
+
 	* folder-browser.c (my_folder_browser_init): Connect to the
 	focus-in/out events on the message-list so that we can disable the
 	EditInvertSelection and EditSelectThread menu items when the
