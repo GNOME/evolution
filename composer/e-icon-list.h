@@ -43,10 +43,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_ICON_LIST            (e_icon_list_get_type ())
-#define E_ICON_LIST(obj)            (GTK_CHECK_CAST ((obj), E_TYPE_ICON_LIST, EIconList))
-#define E_ICON_LIST_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_ICON_LIST, EIconListClass))
-#define E_IS_ICON_LIST(obj)         (GTK_CHECK_TYPE ((obj), E_TYPE_ICON_LIST))
-#define E_IS_ICON_LIST_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((klass), E_TYPE_ICON_LIST))
+#define E_ICON_LIST(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_ICON_LIST, EIconList))
+#define E_ICON_LIST_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_ICON_LIST, EIconListClass))
+#define E_IS_ICON_LIST(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_ICON_LIST))
+#define E_IS_ICON_LIST_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((klass), E_TYPE_ICON_LIST))
 #define E_ICON_LIST_GET_CLASS(obj)  (GTK_CHECK_GET_CLASS ((obj), E_TYPE_ICON_LIST, EIconListClass))
 
 typedef struct _EIconList        EIconList;

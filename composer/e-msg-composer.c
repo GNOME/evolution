@@ -1176,10 +1176,9 @@ save (EMsgComposer *composer, const char *file_name)
 	Bonobo_PersistFile_save (composer->persist_file_interface, my_file_name, &ev);
 	
 	if (ev._major != CORBA_NO_EXCEPTION) {
-#warning "e_notice??"
 		char *tmp = g_path_get_basename(my_file_name);
 
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Error saving file: %s"), tmp);
 		g_free(tmp);
 	} else
@@ -1202,7 +1201,7 @@ load (EMsgComposer *composer, const char *file_name)
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		char *tmp = g_path_get_basename(file_name);
 
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Error loading file: %s"), tmp);
 		g_free(tmp);
 	}
@@ -1237,7 +1236,7 @@ autosave_save_draft (EMsgComposer *composer)
 	file = composer->autosave_file;
 	
 	if (fd == -1) {
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Error accessing file: %s"), file);
 		return FALSE;
 	}
@@ -1245,21 +1244,21 @@ autosave_save_draft (EMsgComposer *composer)
 	message = e_msg_composer_get_message_draft (composer);
 	
 	if (message == NULL) {
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Unable to retrieve message from editor"));
 		return FALSE;
 	}
 	
 	if (lseek (fd, (off_t)0, SEEK_SET) == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Unable to seek on file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
 	
 	if (ftruncate (fd, (off_t)0) == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Unable to truncate file: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
@@ -1268,7 +1267,7 @@ autosave_save_draft (EMsgComposer *composer)
 	camelfd = dup(fd);
 	if (fd == -1) {
 		camel_object_unref (message);
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Unable to copy file descriptor: %s\n%s"), file, g_strerror (errno));
 		return FALSE;
 	}
@@ -1277,7 +1276,7 @@ autosave_save_draft (EMsgComposer *composer)
 	stream = camel_stream_fs_new_with_fd (camelfd);
 	if (camel_data_wrapper_write_to_stream (CAMEL_DATA_WRAPPER (message), stream) == -1
 	    || camel_stream_close (CAMEL_STREAM (stream)) == -1) {
-		e_notice (GTK_WINDOW (composer), GNOME_MESSAGE_BOX_ERROR,
+		e_notice (GTK_WINDOW (composer), GTK_MESSAGE_ERROR,
 			  _("Error autosaving message: %s\n %s"), file, strerror(errno));
 		
 		success = FALSE;
@@ -1965,7 +1964,7 @@ setup_signatures_menu (EMsgComposer *composer)
 #define ADD(x) \
 	mi = (x ? gtk_menu_item_new_with_label (x) : gtk_menu_item_new ()); \
 	gtk_widget_show (mi); \
-	gtk_menu_append (GTK_MENU (menu), mi);
+	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
 	
 	menu = gtk_menu_new ();
 	ADD (_("None"));

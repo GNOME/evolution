@@ -45,10 +45,10 @@ extern "C" {
 
 
 #define E_TYPE_MSG_COMPOSER	       (e_msg_composer_get_type ())
-#define E_MSG_COMPOSER(obj)	       (GTK_CHECK_CAST ((obj), E_TYPE_MSG_COMPOSER, EMsgComposer))
-#define E_MSG_COMPOSER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), E_TYPE_MSG_COMPOSER, EMsgComposerClass))
-#define E_IS_MSG_COMPOSER(obj)	       (GTK_CHECK_TYPE ((obj), E_TYPE_MSG_COMPOSER))
-#define E_IS_MSG_COMPOSER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER))
+#define E_MSG_COMPOSER(obj)	       (G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MSG_COMPOSER, EMsgComposer))
+#define E_MSG_COMPOSER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MSG_COMPOSER, EMsgComposerClass))
+#define E_IS_MSG_COMPOSER(obj)	       (G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MSG_COMPOSER))
+#define E_IS_MSG_COMPOSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER))
 
 
 

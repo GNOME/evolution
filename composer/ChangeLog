@@ -1,3 +1,10 @@
+2002-11-27  Not Zed  <NotZed@Ximian.com>
+
+	* e-msg-composer.c (save): removed warning about e_notice.  its
+	used too much, its here to stay.
+
+	* *.[ch]: run fix.sh over everything.
+
 2002-12-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* e-msg-composer.c: s/g_str[n]casecmp/str[n]casecmp

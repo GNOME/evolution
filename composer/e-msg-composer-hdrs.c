@@ -253,7 +253,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			/* this is so we can later set which one we want */
 			hdrs->priv->from_options = g_slist_append (hdrs->priv->from_options, item);
 			
-			gtk_menu_append (GTK_MENU (menu), item);
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 			gtk_widget_show (item);
 			i++;
 		}
@@ -392,7 +392,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 */
 	priv->reply_to.label = gtk_label_new (_("Reply-To:"));
 	priv->reply_to.entry = e_entry_new ();
-	gtk_object_set (GTK_OBJECT (priv->reply_to.entry),
+	g_object_set((priv->reply_to.entry),
 			"editable", TRUE,
 			"use_ellipsis", TRUE,
 			"allow_newlines", FALSE,
@@ -409,7 +409,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 	 */
 	priv->subject.label = gtk_label_new (_("Subject:"));
 	priv->subject.entry = e_entry_new ();
-	gtk_object_set (GTK_OBJECT (priv->subject.entry),
+	g_object_set((priv->subject.entry),
 			"editable", TRUE,
 			"use_ellipsis", TRUE,
 			"allow_newlines", FALSE,
@@ -990,7 +990,7 @@ e_msg_composer_hdrs_set_subject (EMsgComposerHdrs *hdrs,
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	g_return_if_fail (subject != NULL);
 	
-	gtk_object_set (GTK_OBJECT (hdrs->priv->subject.entry),
+	g_object_set((hdrs->priv->subject.entry),
 			"text", subject,
 			NULL);
 }
@@ -1155,7 +1155,7 @@ e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
 	
-	gtk_object_get (GTK_OBJECT (hdrs->priv->subject.entry),
+	g_object_get((hdrs->priv->subject.entry),
 			"text", &subject, NULL);
 	
 	return subject;

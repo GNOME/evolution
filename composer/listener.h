@@ -27,10 +27,10 @@
 #include "e-msg-composer.h"
 
 #define EDITOR_LISTENER_TYPE        (listener_get_type ())
-#define EDITOR_LISTENER(o)          (GTK_CHECK_CAST ((o), EDITOR_LISTENER_TYPE, EditorListener))
-#define EDITOR_LISTENER_CLASS(k)    (GTK_CHECK_CLASS_CAST((k), EDITOR_LISTENER_TYPE, EditorListenerClass))
-#define IS_EDITOR_LISTENER(o)       (GTK_CHECK_TYPE ((o), EDITOR_LISTENER_TYPE))
-#define IS_EDITOR_LISTENER_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), EDITOR_LISTENER_TYPE))
+#define EDITOR_LISTENER(o)          (G_TYPE_CHECK_INSTANCE_CAST ((o), EDITOR_LISTENER_TYPE, EditorListener))
+#define EDITOR_LISTENER_CLASS(k)    (G_TYPE_CHECK_CLASS_CAST ((k), EDITOR_LISTENER_TYPE, EditorListenerClass))
+#define IS_EDITOR_LISTENER(o)       (G_TYPE_CHECK_INSTANCE_TYPE ((o), EDITOR_LISTENER_TYPE))
+#define IS_EDITOR_LISTENER_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE ((k), EDITOR_LISTENER_TYPE))
 
 typedef struct {
 	BonoboObject parent;

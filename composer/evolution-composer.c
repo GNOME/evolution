@@ -403,7 +403,7 @@ static BonoboObject *
 factory_fn (BonoboGenericFactory *factory, const char *id, void *closure)
 {
 	if (!mail_config_is_configured ()) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Could not create composer window, because you "
 			    "have not yet\nconfigured any identities in the "
 			    "mail component."));
@@ -418,7 +418,7 @@ evolution_composer_factory_init (void (*send) (EMsgComposer *, gpointer),
 {
 	if (bonobo_generic_factory_new (GNOME_EVOLUTION_MAIL_COMPOSER_FACTORY_ID,
 					factory_fn, NULL) == NULL) {
-		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+		e_notice (NULL, GTK_MESSAGE_ERROR,
 			  _("Cannot initialize the Evolution composer."));
 		exit (1);
 	}

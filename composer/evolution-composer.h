@@ -35,10 +35,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define EVOLUTION_TYPE_COMPOSER            (evolution_composer_get_type ())
-#define EVOLUTION_COMPOSER(obj)            (GTK_CHECK_CAST ((obj), EVOLUTION_TYPE_COMPOSER, EvolutionComposer))
-#define EVOLUTION_COMPOSER_CLASS(klass)    (GTK_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_COMPOSER, EvolutionComposerClass))
-#define EVOLUTION_IS_COMPOSER(obj)         (GTK_CHECK_TYPE ((obj), EVOLUTION_TYPE_COMPOSER))
-#define EVOLUTION_IS_COMPOSER_CLASS(klass) (GTK_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_COMPOSER))
+#define EVOLUTION_COMPOSER(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), EVOLUTION_TYPE_COMPOSER, EvolutionComposer))
+#define EVOLUTION_COMPOSER_CLASS(klass)    (G_TYPE_CHECK_CLASS_CAST ((klass), EVOLUTION_TYPE_COMPOSER, EvolutionComposerClass))
+#define EVOLUTION_IS_COMPOSER(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), EVOLUTION_TYPE_COMPOSER))
+#define EVOLUTION_IS_COMPOSER_CLASS(klass) (G_TYPE_CHECK_CLASS_TYPE ((obj), EVOLUTION_TYPE_COMPOSER))
 
 typedef struct _EvolutionComposer        EvolutionComposer;
 typedef struct _EvolutionComposerClass   EvolutionComposerClass;

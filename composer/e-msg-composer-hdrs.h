@@ -39,10 +39,10 @@ extern "C" {
 #endif /* __cplusplus */
 
 #define E_TYPE_MSG_COMPOSER_HDRS		(e_msg_composer_hdrs_get_type ())
-#define E_MSG_COMPOSER_HDRS(obj)		(GTK_CHECK_CAST ((obj), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrs))
-#define E_MSG_COMPOSER_HDRS_CLASS(klass)	(GTK_CHECK_CLASS_CAST ((klass), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrsClass))
-#define E_IS_MSG_COMPOSER_HDRS(obj)		(GTK_CHECK_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
-#define E_IS_MSG_COMPOSER_HDRS_CLASS(klass)	(GTK_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
+#define E_MSG_COMPOSER_HDRS(obj)		(G_TYPE_CHECK_INSTANCE_CAST ((obj), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrs))
+#define E_MSG_COMPOSER_HDRS_CLASS(klass)	(G_TYPE_CHECK_CLASS_CAST ((klass), E_TYPE_MSG_COMPOSER_HDRS, EMsgComposerHdrsClass))
+#define E_IS_MSG_COMPOSER_HDRS(obj)		(G_TYPE_CHECK_INSTANCE_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
+#define E_IS_MSG_COMPOSER_HDRS_CLASS(klass)	(G_TYPE_CHECK_CLASS_TYPE ((obj), E_TYPE_MSG_COMPOSER_HDRS))
 
 
 #define SELECT_NAMES_OAFIID "OAFIID:GNOME_Evolution_Addressbook_SelectNames"
