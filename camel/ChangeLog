@@ -1,3 +1,9 @@
+2004-05-17  Not Zed  <NotZed@Ximian.com>
+
+	* providers/local/camel-mh-store.c (fill_fi): if we have no folder
+	in-memory, load it if we're not doing it fast to get really up to
+	date unread counts.  #57616.
+
 2004-05-14  Not Zed  <NotZed@Ximian.com>
 
 	* camel-store.c (camel_store_create_folder): don't allow creation
