@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "POT-Creation-Date: 2003-02-04 12:25-0500\n"
-"PO-Revision-Date: 2003-03-11 07:59+0100\n"
+"PO-Revision-Date: 2003-03-13 17:11+0100\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <it@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2991,11 +2991,11 @@ msgstr "Errore nella rimozione di una card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:208
 msgid "Display Cards?"
-msgstr "Mostra Card?"
+msgstr "Mostra card?"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:209
 msgid "Display Cards"
-msgstr "Mostra Card"
+msgstr "Mostra card"
 
 #: addressbook/gui/widgets/e-addressbook-util.c:213
 #, c-format
@@ -3032,19 +3032,19 @@ msgstr "Rubrica"
 #: addressbook/gui/widgets/e-addressbook-view.c:1790
 #: ui/evolution-addressbook.xml.h:19
 msgid "Save as VCard"
-msgstr "Salva come VCard"
+msgstr "Salva come vcard"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:800
 msgid "New Contact..."
-msgstr "Nuovo Contatto..."
+msgstr "Nuovo contatto..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:801
 msgid "New Contact List..."
-msgstr "Nuovo Elenco di Contatti..."
+msgstr "Nuovo elenco di contatti..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:804
 msgid "Go to Folder..."
-msgstr "Vai alla Cartella..."
+msgstr "Vai alla cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:805
 msgid "Import..."
@@ -3052,11 +3052,11 @@ msgstr "Importa..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:807
 msgid "Search for Contacts..."
-msgstr "Cerca Contatti..."
+msgstr "Cerca contatti..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:808
 msgid "Addressbook Sources..."
-msgstr "Sorgenti della Rubrica..."
+msgstr "Sorgenti della rubrica..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:810
 msgid "Pilot Settings..."
@@ -3065,11 +3065,11 @@ msgstr "Impostazioni Pilot..."
 #: addressbook/gui/widgets/e-addressbook-view.c:814
 #: ui/evolution-addressbook.xml.h:10
 msgid "Forward Contact"
-msgstr "Contatto Precedente"
+msgstr "Contatto precedente"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:815
 msgid "Send Message to Contact"
-msgstr "Invia un Messaggio al Contatto"
+msgstr "Invia un messaggio al contatto"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:816
 #: ui/evolution-addressbook.h:18 ui/evolution-addressbook.xml.h:16
@@ -3080,15 +3080,15 @@ msgstr "Stampa"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:818
 msgid "Print Envelope"
-msgstr "Stampa Busta"
+msgstr "Stampa busta"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:822
 msgid "Copy to folder..."
-msgstr "Copia nella Cartella..."
+msgstr "Copia nella cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:823
 msgid "Move to folder..."
-msgstr "Sposta nella Cartella..."
+msgstr "Sposta nella cartella..."
 
 #: addressbook/gui/widgets/e-addressbook-view.c:826
 #: ui/evolution-addressbook.xml.h:6 ui/evolution-tasks.xml.h:4
@@ -3117,7 +3117,7 @@ msgstr "Elimina"
 #: addressbook/gui/widgets/e-addressbook-view.c:833
 #: calendar/gui/e-day-view.c:3726 calendar/gui/e-week-view.c:3528
 msgid "Current View"
-msgstr "Vista Corrente"
+msgstr "Vista corrente"
 
 #. Minicard view stuff
 #. Translators: put here a list of labels you want to see on buttons in
@@ -3153,23 +3153,23 @@ msgstr "* Cliccare qui per aggiungere un contatto *"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:3
 msgid "Assistant Phone"
-msgstr "Telefono Assistente"
+msgstr "Telefono assistente"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:4
 msgid "Business Address"
-msgstr "Indirizzo Ufficio"
+msgstr "Indirizzo ufficio"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:6
 msgid "Business Phone"
-msgstr "Telefono Ufficio"
+msgstr "Telefono ufficio"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:7
 msgid "Business Phone 2"
-msgstr "Telefono Ufficio 2"
+msgstr "Telefono ufficio 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
 msgid "Callback Phone"
-msgstr "Telefono a cui Richiamare"
+msgstr "Telefono a cui richiamare"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:9
 msgid "Car Phone"
@@ -3177,19 +3177,19 @@ msgstr "Telefono auto"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:10
 msgid "Company Phone"
-msgstr "Telefono Ditta"
+msgstr "Telefono ditta"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:18
 msgid "Home Address"
-msgstr "Indirizzo di Casa"
+msgstr "Indirizzo di casa"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:20
 msgid "Home Phone"
-msgstr "Telefono di Casa"
+msgstr "Telefono di casa"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:21
 msgid "Home Phone 2"
-msgstr "Telefono Casa 2"
+msgstr "Telefono casa 2"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:24
 msgid "Mobile Phone"
@@ -3197,24 +3197,24 @@ msgstr "Cellulare"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:29
 msgid "Other Address"
-msgstr "Altro Indirizzo"
+msgstr "Altro indirizzo"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:31
 msgid "Other Phone"
-msgstr "Altro Telefono"
+msgstr "Altro telefono"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:33
 msgid "Primary Phone"
-msgstr "Telefono Principale"
+msgstr "Telefono principale"
 
 #: addressbook/gui/widgets/e-minicard-control.c:185
 #, c-format
 msgid "and %d other cards."
-msgstr "e %d altri contatti."
+msgstr "e %d altre card."
 
 #: addressbook/gui/widgets/e-minicard-control.c:187
 msgid "and one other card."
-msgstr "e un'altro contatto."
+msgstr "e un'altro card."
 
 #: addressbook/gui/widgets/e-minicard-control.c:316
 msgid "Save in addressbook"
@@ -3232,7 +3232,7 @@ msgstr ""
 "\n"
 "Non c'è niente da mostrare in questa vista\n"
 "\n"
-"Fare doppio click qui per creare un nuovo Contatto."
+"Fare doppio click qui per creare un nuovo contatto."
 
 #: addressbook/gui/widgets/e-minicard-view.c:143
 msgid ""
@@ -3246,7 +3246,7 @@ msgstr ""
 
 #: addressbook/gui/widgets/gal-view-factory-minicard.c:26
 msgid "Card View"
-msgstr "Vista della carta"
+msgstr "Vista della card"
 
 #: addressbook/printing/e-contact-print-envelope.c:215
 #: addressbook/printing/e-contact-print-envelope.c:236
@@ -3308,7 +3308,7 @@ msgstr "Intestazione"
 
 #: addressbook/printing/e-contact-print.glade.h:12
 msgid "Header/Footer"
-msgstr "Intestazione/Note a piè di pagina"
+msgstr "Intestazione/note a piè di pagina"
 
 #: addressbook/printing/e-contact-print.glade.h:13
 msgid "Headings"
@@ -3341,7 +3341,7 @@ msgstr "Sinistra:"
 
 #: addressbook/printing/e-contact-print.glade.h:20
 msgid "Letter tabs on side"
-msgstr "Lettere sul bordo"
+msgstr "Linguette lettera sul bordo"
 
 #: addressbook/printing/e-contact-print.glade.h:21
 msgid "Margins"
@@ -3358,7 +3358,7 @@ msgstr "Opzioni"
 #: addressbook/printing/e-contact-print.glade.h:24
 #: calendar/gui/tasks-control.c:621
 msgid "Orientation"
-msgstr "Orientazione"
+msgstr "Orientamento"
 
 #: addressbook/printing/e-contact-print.glade.h:25
 #: my-evolution/Locations.h:1671
@@ -3467,7 +3467,7 @@ msgstr "Non definita"
 
 #: calendar/conduits/calendar/calendar-conduit.c:205
 msgid "Split Multi-Day Events:"
-msgstr "Dividi Eventi-Multigiorno:"
+msgstr "Dividi eventi-multigiorno:"
 
 #: calendar/conduits/calendar/calendar-conduit.c:1225
 #: calendar/conduits/todo/todo-conduit.c:835
@@ -3477,11 +3477,11 @@ msgstr "Errore durante la comunicazione con il server del calendario"
 #: calendar/conduits/calendar/calendar-conduit.c:1372
 #: calendar/conduits/calendar/calendar-conduit.c:1375
 msgid "Could not read pilot's Calendar application block"
-msgstr "Impossibile leggere il blocco di applicazione del Calendario"
+msgstr "Impossibile leggere il blocco di applicazione del calendario"
 
 #: calendar/conduits/todo/todo-conduit.c:206
 msgid "Default Priority:"
-msgstr "Priorità Predefinita:"
+msgstr "Priorità predefinita:"
 
 #: calendar/conduits/todo/todo-conduit.c:951
 #: calendar/conduits/todo/todo-conduit.c:954
@@ -3498,15 +3498,15 @@ msgstr "Un semplice controllo di Bonobo che visualizza un calendario."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:3
 msgid "Calendar and Tasks"
-msgstr "Calendario e Attività"
+msgstr "Calendario e attività"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:4
 msgid "Configuration control for the Evolution Calendar."
-msgstr "Configurazione per il Calendario di Evolution."
+msgstr "Configurazione per il calendario di Evolution."
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:5
 msgid "Configure your timezone, Calendar and Task List here "
-msgstr "Configura quì il tuo Fuso orario, il Calendario e l'elenco Attività"
+msgstr "Configura quì il tuo fuso orario, il calendario e l'elenco attività"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:6
 msgid "Evolution calendar iTip/iMip viewer"
@@ -3526,7 +3526,7 @@ msgstr "Fabbrica per il controllo della vista iTip del calendario"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:10
 msgid "Factory for the sample Calendar control"
-msgstr "Fabbrica per il controllo del Calendario di esempio"
+msgstr "Fabbrica per il controllo del calendario di esempio"
 
 #: calendar/gui/GNOME_Evolution_Calendar.oaf.in.h:11
 msgid "Factory to centralize calendar component editor dialogs"
@@ -3565,7 +3565,7 @@ msgstr "Allarme di Evolution"
 #: calendar/gui/alarm-notify/alarm-notify-dialog.c:371
 #, c-format
 msgid "Alarm on %s"
-msgstr "Allarme: %s"
+msgstr "Allarme su %s"
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:1
 #: ui/evolution-comp-editor.xml.h:1
@@ -3604,7 +3604,7 @@ msgstr ""
 #: calendar/gui/tasks-control.c:454 mail/mail-callbacks.c:2924
 #: widgets/misc/e-messagebox.c:159
 msgid "Warning"
-msgstr "Attenzine"
+msgstr "Attenzione"
 
 #: calendar/gui/alarm-notify/alarm-queue.c:765
 #, c-format
@@ -3633,7 +3633,7 @@ msgstr "Impossibile inizializzare GNOME"
 
 #: calendar/gui/alarm-notify/notify-main.c:184
 msgid "Could not create the alarm notify service factory"
-msgstr "Impossibile creare la babbrica per il servizio di notifica dell'avviso sonoro"
+msgstr "Impossibile creare la fabbrica per il servizio di notifica dell'avviso sonoro"
 
 #: calendar/gui/cal-search-bar.c:50
 msgid "Summary contains"
@@ -3766,11 +3766,11 @@ msgstr ""
 #: widgets/misc/e-cell-date-edit.c:250 widgets/misc/e-dateedit.c:452
 #: widgets/misc/e-dateedit.c:1473 widgets/misc/e-dateedit.c:1588
 msgid "None"
-msgstr "Nessuno "
+msgstr "Nessuno"
 
 #: calendar/gui/calendar-model.c:1723
 msgid "Recurring"
-msgstr "Ricorre"
+msgstr "Ricorrente"
 
 #: calendar/gui/calendar-model.c:1725
 msgid "Assigned"
@@ -3789,19 +3789,19 @@ msgstr "No"
 
 #: calendar/gui/calendar-view-factory.c:148
 msgid "Day View"
-msgstr "Vista Giornaliera"
+msgstr "Vista giornaliera"
 
 #: calendar/gui/calendar-view-factory.c:151
 msgid "Work Week View"
-msgstr "Vista della Settimana Lavorativa"
+msgstr "Vista della settimana lavorativa"
 
 #: calendar/gui/calendar-view-factory.c:154
 msgid "Week View"
-msgstr "Vista Settimanale"
+msgstr "Vista settimanale"
 
 #: calendar/gui/calendar-view-factory.c:157
 msgid "Month View"
-msgstr "Vista Mensile"
+msgstr "Vista mensile"
 
 #: calendar/gui/component-factory.c:71 calendar/gui/gnome-cal.c:1372
 #: importers/netscape-importer.c:1873 my-evolution/my-evolution.glade.h:3
@@ -3815,7 +3815,7 @@ msgstr "Cartella contenente appuntamenti ed eventi"
 
 #: calendar/gui/component-factory.c:76
 msgid "Public Calendar"
-msgstr "Calendario Pubblico"
+msgstr "Calendario pubblico"
 
 #: calendar/gui/component-factory.c:77
 msgid "Public folder containing appointments and events"
@@ -3836,7 +3836,7 @@ msgstr "Cartella contente le cose da fare"
 
 #: calendar/gui/component-factory.c:86
 msgid "Public Tasks"
-msgstr "Attività Pubbliche"
+msgstr "Attività pubbliche"
 
 #: calendar/gui/component-factory.c:87
 msgid "Public folder containing to-do items"
@@ -3884,7 +3884,7 @@ msgstr "Nuovo appuntamento giornaliero"
 
 #: calendar/gui/component-factory.c:765
 msgid "All _Day Appointment"
-msgstr "Appuntamento Giornaliero"
+msgstr "Appuntamento giornaliero"
 
 #: calendar/gui/component-factory.c:766
 msgid "Create a new all-day appointment"
@@ -3905,11 +3905,11 @@ msgstr "Il tipo di vista da mostrare"
 
 #: calendar/gui/dialogs/alarm-options.c:359
 msgid "Audio Alarm Options"
-msgstr "Opzioni Avviso Sonoro"
+msgstr "Opzioni avviso sonoro"
 
 #: calendar/gui/dialogs/alarm-options.c:368
 msgid "Message Alarm Options"
-msgstr "Opzioni Messaggi di Avviso"
+msgstr "Opzioni messaggi di avviso"
 
 #: calendar/gui/dialogs/alarm-options.c:377
 msgid "Mail Alarm Options"
@@ -3917,11 +3917,11 @@ msgstr "Opzioni posta di avviso"
 
 #: calendar/gui/dialogs/alarm-options.c:386
 msgid "Program Alarm Options"
-msgstr "Opzioni Programma di Avviso"
+msgstr "Opzioni programma di avviso"
 
 #: calendar/gui/dialogs/alarm-options.c:395
 msgid "Unknown Alarm Options"
-msgstr "Opzioni di Avviso Sconosciute"
+msgstr "Opzioni di avviso sconosciute"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:1
 msgid "Alarm Repeat"
@@ -3968,7 +3968,7 @@ msgstr "tempo in più ogni"
 #: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:72
 #: filter/filter.glade.h:21
 msgid "hours"
-msgstr "Ore"
+msgstr "ore"
 
 #: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:71
 #: filter/filter.glade.h:22
@@ -4091,7 +4091,7 @@ msgstr "Di base"
 #: calendar/gui/dialogs/alarm-page.glade.h:2
 #: calendar/gui/dialogs/recurrence-page.glade.h:3
 msgid "Date/Time:"
-msgstr "Data/Ora:"
+msgstr "Data/ora:"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:5
 msgid "Reminders"
@@ -4126,7 +4126,7 @@ msgstr "termine dell'appuntamento"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:15
 msgid "hour(s)"
-msgstr "Ora (e)"
+msgstr "ora(e)"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:16 mail/mail-config.glade.h:182
 msgid "minute(s)"
@@ -4162,7 +4162,7 @@ msgstr "Allarmi"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "Calendar and Tasks Settings"
-msgstr "Impostazioni Calendario e Attività"
+msgstr "Impostazioni calendario e attività"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "Color for overdue tasks"
@@ -4184,7 +4184,7 @@ msgstr "Giorni"
 #: calendar/gui/dialogs/recurrence-page.c:1135
 #: calendar/gui/e-itip-control.c:655
 msgid "Friday"
-msgstr "Venerdi"
+msgstr "Venerdì"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "Hours"
@@ -4198,7 +4198,7 @@ msgstr "Minuti"
 #: calendar/gui/dialogs/recurrence-page.c:1131
 #: calendar/gui/e-itip-control.c:651
 msgid "Monday"
-msgstr "Lunedi"
+msgstr "Lunedì"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "S_un"
@@ -4234,13 +4234,13 @@ msgstr "G_io"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Task List"
-msgstr "Lista Attività"
+msgstr "Lista attività"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1134
 #: calendar/gui/e-itip-control.c:654
 msgid "Thursday"
-msgstr "Giovedi"
+msgstr "Giovedì"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 msgid "Time"
@@ -4258,7 +4258,7 @@ msgstr "Formato dell'ora:"
 #: calendar/gui/dialogs/recurrence-page.c:1132
 #: calendar/gui/e-itip-control.c:652
 msgid "Tuesday"
-msgstr "Martedi"
+msgstr "Martedì"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "W_eek starts:"
@@ -4268,7 +4268,7 @@ msgstr "Inizio settimana:"
 #: calendar/gui/dialogs/recurrence-page.c:1133
 #: calendar/gui/e-itip-control.c:653
 msgid "Wednesday"
-msgstr "Mercoledi"
+msgstr "Mercoledì"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 #: ui/evolution-calendar.xml.h:24
@@ -4289,7 +4289,7 @@ msgstr "_24 ore"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "_Ask for confirmation when deleting items"
-msgstr "_Chiedi conferma prima di cancellare"
+msgstr "Chiedi conferm_a prima di cancellare"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "_Compress weekends in month view"
@@ -4334,7 +4334,7 @@ msgstr "Mostra la scadenza degli appuntamenti nelle viste mensili e settimanali"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Time divisions:"
-msgstr "Suddivisioni del _Tempo:"
+msgstr "Suddivisioni del _tempo:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Tue"
@@ -4473,7 +4473,7 @@ msgstr "Impossibile aggiornare l'oggetto"
 
 #: calendar/gui/dialogs/comp-editor.c:798
 msgid "Edit Appointment"
-msgstr "Modifica Appuntamenti"
+msgstr "Modifica appuntamenti"
 
 #: calendar/gui/dialogs/comp-editor.c:803
 #, c-format
@@ -4564,7 +4564,7 @@ msgstr "Delega a:"
 
 #: calendar/gui/dialogs/e-delegate-dialog.glade.h:3
 msgid "Enter Delegate"
-msgstr "Inserire Delegato"
+msgstr "Inserire delegato"
 
 #: calendar/gui/dialogs/event-editor.c:217 calendar/gui/print.c:2247
 msgid "Appointment"
@@ -4628,7 +4628,7 @@ msgstr "Con_fidenziale"
 #: calendar/gui/dialogs/event-page.glade.h:6
 #: calendar/gui/dialogs/task-page.glade.h:4
 msgid "Date & Time"
-msgstr "Data e Ora"
+msgstr "Data e ora"
 
 #: calendar/gui/dialogs/event-page.glade.h:7
 msgid "F_ree"
@@ -4636,7 +4636,7 @@ msgstr "Libe_ro"
 
 #: calendar/gui/dialogs/event-page.glade.h:8
 msgid "L_ocation:"
-msgstr "Posizione _Geografica:"
+msgstr "Posizione _geografica:"
 
 #: calendar/gui/dialogs/event-page.glade.h:9
 #: calendar/gui/dialogs/task-page.glade.h:6
@@ -4710,7 +4710,7 @@ msgstr "Delega"
 #: calendar/gui/dialogs/meeting-page.etspec.h:5
 #: calendar/gui/e-meeting-time-sel.etspec.h:5
 msgid "Delegated To"
-msgstr "Delegato A"
+msgstr "Delegato a"
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:6
 #: calendar/gui/e-meeting-time-sel.etspec.h:6
@@ -4754,7 +4754,7 @@ msgstr "Organizzatore:"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:3
 msgid "_Change Organizer"
-msgstr "_Cambia Organizzatore"
+msgstr "_Cambia organizzatore"
 
 #: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-meeting-time-sel.c:456
@@ -4854,7 +4854,7 @@ msgstr "ultimo"
 
 #: calendar/gui/dialogs/recurrence-page.c:1102
 msgid "Other Date"
-msgstr "Altra Data"
+msgstr "Altra data"
 
 #: calendar/gui/dialogs/recurrence-page.c:1130 filter/filter-datespec.c:73
 msgid "day"
@@ -4898,11 +4898,11 @@ msgstr "_Modifica"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:11
 msgid "_No recurrence"
-msgstr "_Nessuna Ricorrenza"
+msgstr "_Nessuna ricorrenza"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:13
 msgid "_Simple recurrence"
-msgstr "_Semplice ricorrenza"
+msgstr "Ricorrenza _semplice"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:15
 msgid "for"
@@ -4922,7 +4922,7 @@ msgstr "fino a"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:19
 msgid "week(s)"
-msgstr "Settimana(e)"
+msgstr "settimana(e)"
 
 #: calendar/gui/dialogs/recurrence-page.glade.h:20
 msgid "year(s)"
@@ -4966,7 +4966,7 @@ msgstr "Completato in data:"
 #: calendar/gui/e-meeting-model.c:320 calendar/gui/e-meeting-model.c:343
 #: calendar/gui/e-meeting-model.c:575 calendar/gui/e-meeting-model.c:876
 msgid "Needs Action"
-msgstr "Richiede Azione"
+msgstr "Richiede azione"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:12
 msgid "Progress"
@@ -5114,7 +5114,7 @@ msgstr "_Incolla"
 
 #: calendar/gui/e-calendar-table.c:999
 msgid "_Assign Task"
-msgstr "_Assegna Attività"
+msgstr "_Assegna attività"
 
 #: calendar/gui/e-calendar-table.c:1000
 msgid "_Forward as iCalendar"
@@ -5122,15 +5122,15 @@ msgstr "Inoltra come iCalendar"
 
 #: calendar/gui/e-calendar-table.c:1001
 msgid "_Mark as Complete"
-msgstr "_Segna come Completato"
+msgstr "_Segna come completato"
 
 #: calendar/gui/e-calendar-table.c:1002
 msgid "_Mark Selected Tasks as Complete"
-msgstr "_Marca Attività Come Completata"
+msgstr "_Marca attività come completata"
 
 #: calendar/gui/e-calendar-table.c:1007
 msgid "_Delete Selected Tasks"
-msgstr "_Elimina le Attività Selezionate"
+msgstr "_Elimina le attività selezionate"
 
 #: calendar/gui/e-calendar-table.c:1278 calendar/gui/e-day-view.c:7586
 #: calendar/gui/e-week-view.c:4241
@@ -5144,7 +5144,7 @@ msgstr "Fare clic qui per aggiungere un'attività"
 
 #: calendar/gui/e-calendar-table.etspec.h:3
 msgid "Alarms"
-msgstr "Avvisi Sonoro"
+msgstr "Avvisi sonori"
 
 #: calendar/gui/e-calendar-table.etspec.h:7 camel/camel-filter-driver.c:1001
 #: camel/camel-filter-driver.c:1096
@@ -5165,7 +5165,7 @@ msgstr "Termine"
 
 #: calendar/gui/e-calendar-table.etspec.h:11
 msgid "Geographical Position"
-msgstr "Posizione Geografica"
+msgstr "Posizione geografica"
 
 #: calendar/gui/e-calendar-table.etspec.h:12
 msgid "Priority"
@@ -5245,11 +5245,11 @@ msgstr "pm"
 
 #: calendar/gui/e-day-view.c:3705
 msgid "New _Appointment"
-msgstr "Nuovo _Appuntamento"
+msgstr "Nuovo _appuntamento"
 
 #: calendar/gui/e-day-view.c:3707 calendar/gui/e-week-view.c:3514
 msgid "New All Day _Event"
-msgstr "Nuovo _Evento del Giorno"
+msgstr "Nuovo _evento del giorno"
 
 #: calendar/gui/e-day-view.c:3709 calendar/gui/e-week-view.c:3515
 msgid "New Meeting"
@@ -5257,7 +5257,7 @@ msgstr "Nuova riunione"
 
 #: calendar/gui/e-day-view.c:3711 calendar/gui/e-week-view.c:3516
 msgid "New Task"
-msgstr "Nuova Attività"
+msgstr "Nuova attività"
 
 #: calendar/gui/e-day-view.c:3716 ui/evolution-comp-editor.xml.h:11
 msgid "Print..."
@@ -5266,7 +5266,7 @@ msgstr "Stampa..."
 #: calendar/gui/e-day-view.c:3728 calendar/gui/e-week-view.c:3530
 #: ui/evolution-calendar.xml.h:10
 msgid "Go to _Today"
-msgstr "Vai a _Oggi"
+msgstr "Vai a _oggi"
 
 #: calendar/gui/e-day-view.c:3730 calendar/gui/e-week-view.c:3531
 msgid "_Go to Date..."
@@ -5275,7 +5275,7 @@ msgstr "_Vai alla data..."
 #: calendar/gui/e-day-view.c:3735 calendar/gui/e-week-view.c:3535
 #: ui/evolution-calendar.xml.h:31
 msgid "_Publish Free/Busy Information"
-msgstr "_Rende note le Informazioni sulla Disponibilità"
+msgstr "_Rende note le Informazioni sulla disponibilità"
 
 #: calendar/gui/e-day-view.c:3740 calendar/gui/e-week-view.c:3539
 #: ui/evolution.xml.h:62
