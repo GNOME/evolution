@@ -1,3 +1,8 @@
+2000-12-08  JP Rosevear  <jpr@helixcode.com>
+
+	* Makefile.am: Remove files from extra_dist since they are already
+	listed
+
 2000-12-07  Iain Holmes  <iain@helixcode.com>
 
 	* summary.html: Prettier HTML summary.

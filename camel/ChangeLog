@@ -1,3 +1,8 @@
+2000-12-08  JP Rosevear  <jpr@helixcode.com>
+
+	* tests/message/Makefile.am: Remove test3 from build until the files
+	show up
+	
 2000-12-09  Not Zed  <NotZed@HelixCode.com>
 
 	* camel-mime-message.c (camel_mime_message_set_date): Change the
