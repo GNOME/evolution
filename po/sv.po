@@ -5,12 +5,12 @@
 # Christian Rose <menthos@menthos.com>, 2000, 2001.
 # Martin Norbäck <d95mback@dtek.chalmers.se>, 2001.
 #
-# $Id: sv.po,v 1.80 2001/07/07 12:40:01 menthos Exp $
+# $Id: sv.po,v 1.81 2001/07/08 17:29:40 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"POT-Creation-Date: 2001-07-07 14:38+0200\n"
+"POT-Creation-Date: 2001-07-08 19:28+0200\n"
 "PO-Revision-Date: 2001-07-07 14:47+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -433,6 +433,7 @@ msgid "Web page address:"
 msgstr "Webbsideadress:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:17
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:4
 #: mail/mail-config.glade.h:101
 msgid "_Add"
 msgstr "_Lägg till"
@@ -744,6 +745,30 @@ msgstr "_Suffix:"
 #: addressbook/gui/contact-editor/fullname.glade.h:17
 msgid "_Title:"
 msgstr "_Titel:"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
+msgid "List _name:"
+msgstr "List_namn:"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:2
+msgid "Members"
+msgstr "Medlemmar"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
+msgid "Type an email address or drag a contact into the list below:"
+msgstr "Ange en e-postadress eller dra en kontakt till listan nedan:"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:5
+msgid "_Hide addresses when sending mail to this list"
+msgstr "_Göm adresser då e-post skickas till denna lista"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:6
+msgid "_Remove"
+msgstr "_Ta bort"
+
+#: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
+msgid "contact-list-editor"
+msgstr "kontaktlisteredigerare"
 
 #: addressbook/gui/component/addressbook.c:345
 #, c-format
@@ -1955,6 +1980,70 @@ msgstr "Nej"
 msgid "The URI that the calendar will display"
 msgstr "URI:n som kalendern kommer att visa"
 
+#: calendar/gui/dialogs/alarm-options.c:354
+msgid "Audio Alarm Options"
+msgstr "Alternativ för ljudalarm"
+
+#: calendar/gui/dialogs/alarm-options.c:363
+msgid "Message Alarm Options"
+msgstr "Alternativ för meddelandealarm"
+
+#: calendar/gui/dialogs/alarm-options.c:372
+msgid "Mail Alarm Options"
+msgstr "Alternativ för e-postalarm"
+
+#: calendar/gui/dialogs/alarm-options.c:381
+msgid "Program Alarm Options"
+msgstr "Alternativ för programalarm"
+
+#: calendar/gui/dialogs/alarm-options.c:390
+msgid "Unknown Alarm Options"
+msgstr "Alternativ för okända alarm"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:1
+msgid "Alarm Repeat"
+msgstr "Alarmupprepning"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:2
+msgid "FIXME: mail alarm options"
+msgstr "FIXME: alternativ för e-postalarm"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:3
+msgid "Message to Display"
+msgstr "Meddelande att visa"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:4
+msgid "Play sound:"
+msgstr "Spela ljud:"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:5
+msgid "Repeat the alarm"
+msgstr "Upprepa larmet"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:6
+msgid "Run program:"
+msgstr "Kör program:"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:7
+msgid "With these arguments:"
+msgstr "Med dessa argument:"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:8 filter/filter-datespec.c:81
+msgid "days"
+msgstr "dagar"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:9
+msgid "extra times every"
+msgstr "extra gånger var"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:10 filter/filter-datespec.c:82
+msgid "hours"
+msgstr "timme"
+
+#: calendar/gui/dialogs/alarm-options.glade.h:11 filter/filter-datespec.c:83
+msgid "minutes"
+msgstr "minut"
+
 #: calendar/gui/dialogs/alarm-page.c:284
 #, c-format
 msgid "%d days"
@@ -2130,7 +2219,8 @@ msgstr "60 minuter"
 msgid "Beep when alarm windows appear."
 msgstr "Pip när alarmfönster visas."
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9 shell/e-shortcuts.c:1001
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: my-evolution/my-evolution.glade.h:6 shell/e-shortcuts.c:1001
 #: ui/evolution-calendar.xml.h:4
 msgid "Calendar"
 msgstr "Kalender"
@@ -2336,6 +2426,28 @@ msgstr "Är du säker på att du vill ta bort %d uppgifter?"
 #, c-format
 msgid "Are you sure you want to delete %d journal entries?"
 msgstr "Är du säker på att du vill ta bort %d dagboksposter?"
+
+#: calendar/gui/dialogs/e-timezone-dialog.glade.h:1
+msgid "Select a Time Zone"
+msgstr "Välj en tidszon"
+
+#: calendar/gui/dialogs/e-timezone-dialog.glade.h:2
+msgid "Selection:"
+msgstr "Markering:"
+
+#: calendar/gui/dialogs/e-timezone-dialog.glade.h:3
+msgid "Time Zones"
+msgstr "Tidszoner"
+
+#: calendar/gui/dialogs/e-timezone-dialog.glade.h:4
+msgid ""
+"Use the left mouse button to zoom in on an area of the map and select a time "
+"zone.\n"
+" Use the right mouse button to zoom out."
+msgstr ""
+"Använd vänster musknapp för att zooma in på ett intressant område på kartan "
+"och välja en tidszon.\n"
+" Använd höger musknapp för att zooma ut."
 
 #: calendar/gui/dialogs/event-editor.c:154
 msgid "Appointment"
@@ -5292,24 +5404,12 @@ msgstr "vecka"
 msgid "weeks"
 msgstr "veckor"
 
-#: filter/filter-datespec.c:81
-msgid "days"
-msgstr "dagar"
-
 #: filter/filter-datespec.c:82
 msgid "hour"
 msgstr "timme"
 
-#: filter/filter-datespec.c:82
-msgid "hours"
-msgstr "timmar"
-
 #: filter/filter-datespec.c:83
 msgid "minute"
-msgstr "minut"
-
-#: filter/filter-datespec.c:83
-msgid "minutes"
 msgstr "minut"
 
 #: filter/filter-datespec.c:84
@@ -5732,7 +5832,7 @@ msgid "Import"
 msgstr "Importera"
 
 #: importers/elm-importer.c:506 importers/netscape-importer.c:774
-#: importers/pine-importer.c:643
+#: importers/pine-importer.c:643 my-evolution/my-evolution.glade.h:12
 msgid "Mail"
 msgstr "E-post"
 
@@ -6737,6 +6837,25 @@ msgstr "Spara länk som (FIXME)"
 #: mail/mail-display.c:1377
 msgid "Save Image as"
 msgstr "Spara bild som"
+
+#: mail/mail-folder-cache.c:166
+#, c-format
+msgid "%d new"
+msgstr "%d nya"
+
+#: mail/mail-folder-cache.c:172 mail/mail-folder-cache.c:179
+msgid ", "
+msgstr ", "
+
+#: mail/mail-folder-cache.c:173
+#, c-format
+msgid "%d hidden"
+msgstr "%d gömda"
+
+#: mail/mail-folder-cache.c:180
+#, c-format
+msgid "%d total"
+msgstr "%d totalt"
 
 #: mail/mail-format.c:532
 #, c-format
@@ -8445,6 +8564,122 @@ msgstr "Blåsande dammvirvlar"
 #: my-evolution/metar.c:121
 msgid "Drifting dust whirls"
 msgstr "Drivande dammvirvlar"
+
+#: my-evolution/my-evolution.glade.h:1
+msgid "Add ->"
+msgstr "Lägg till ->"
+
+#: my-evolution/my-evolution.glade.h:2
+msgid "Add new feed"
+msgstr "Lägg till ny källa"
+
+#: my-evolution/my-evolution.glade.h:3
+msgid "All folders:"
+msgstr "Alla mappar:"
+
+#: my-evolution/my-evolution.glade.h:4
+msgid "All news feeds:"
+msgstr "Alla nyhetsmappar:"
+
+#: my-evolution/my-evolution.glade.h:5
+msgid "All stations:"
+msgstr "Alla stationer:"
+
+#: my-evolution/my-evolution.glade.h:7
+msgid "Display folders:"
+msgstr "Visa mappar:"
+
+#: my-evolution/my-evolution.glade.h:8
+msgid "Display stations:"
+msgstr "Visa stationer:"
+
+#: my-evolution/my-evolution.glade.h:9
+msgid "Displayed feeds:"
+msgstr "Visade källor:"
+
+#: my-evolution/my-evolution.glade.h:10
+msgid "Five days"
+msgstr "Fem dagar"
+
+#: my-evolution/my-evolution.glade.h:11
+msgid "How many days should the calendar display at once?"
+msgstr "Hur många dagar ska kalendern visa samtidigt?"
+
+#: my-evolution/my-evolution.glade.h:13
+msgid "Max number of items shown:"
+msgstr "Maximalt antal objekt som visas:"
+
+#: my-evolution/my-evolution.glade.h:14
+msgid "News Feed Settings"
+msgstr "Inställningar för nyhetskällor"
+
+#: my-evolution/my-evolution.glade.h:15
+msgid "News Feeds"
+msgstr "Nyhetskällor"
+
+#: my-evolution/my-evolution.glade.h:16
+msgid "One day"
+msgstr "En dag"
+
+#: my-evolution/my-evolution.glade.h:17
+msgid "One month"
+msgstr "En månad"
+
+#: my-evolution/my-evolution.glade.h:18
+msgid "One week"
+msgstr "En vecka"
+
+#: my-evolution/my-evolution.glade.h:19
+msgid "Refresh time (seconds):"
+msgstr "Uppdateringstid (sekunder):"
+
+#: my-evolution/my-evolution.glade.h:20
+msgid "Remove <-"
+msgstr "Ta bort <-"
+
+#: my-evolution/my-evolution.glade.h:21
+msgid "Schedule"
+msgstr "Schemalägg"
+
+#: my-evolution/my-evolution.glade.h:22
+msgid "Show all tasks"
+msgstr "Visa alla uppgifter"
+
+#: my-evolution/my-evolution.glade.h:23
+msgid "Show full path for folders"
+msgstr "Visa fullständiga sökvägar för mappar"
+
+#: my-evolution/my-evolution.glade.h:24
+msgid "Show today's tasks"
+msgstr "Visa dagens uppgifter"
+
+#: my-evolution/my-evolution.glade.h:25
+msgid "Tasks "
+msgstr "Uppgifter "
+
+#: my-evolution/my-evolution.glade.h:26
+msgid "Units: "
+msgstr "Enheter: "
+
+#: my-evolution/my-evolution.glade.h:27
+msgid "Weather"
+msgstr "Väder"
+
+#: my-evolution/my-evolution.glade.h:28
+msgid "Weather settings"
+msgstr "Väderinställningar"
+
+#: my-evolution/my-evolution.glade.h:29
+msgid "Wipe trackers"
+msgstr "Rensa spårare"
+
+#: my-evolution/my-evolution.glade.h:30
+msgid "imperial"
+msgstr "amerikanska"
+
+#: my-evolution/my-evolution.glade.h:31
+msgid "metric"
+msgstr "metriska"
 
 #: shell/e-activity-handler.c:198
 msgid "Show Details"
@@ -10946,9 +11181,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Update enabled"
 #~ msgstr "Uppdatering påslagen"
 
-#~ msgid "Use metric"
-#~ msgstr "Använd metriska enheter"
-
 #~ msgid "Detailed forecast"
 #~ msgstr "Detaljerad prognos"
 
@@ -11006,14 +11238,8 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Alarms timeout after"
 #~ msgstr "Ljudalarm stängs av efter"
 
-#~ msgid "Audio Alarms"
-#~ msgstr "Ljudalarm"
-
 #~ msgid "Colors"
 #~ msgstr "Färger"
-
-#~ msgid "Display options"
-#~ msgstr "Visningsalternativ"
 
 #~ msgid "Enable snoozing for"
 #~ msgstr "Aktivera slummer i"
@@ -11158,13 +11384,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Role"
 #~ msgstr "Roll"
 
-#~ msgid ""
-#~ "Schedule\n"
-#~ "Time"
-#~ msgstr ""
-#~ "Boka\n"
-#~ "tid"
-
 #~ msgid "Could not test lock file for %s: %s"
 #~ msgstr "Kunde inte testa låsfilen för %s: %s"
 
@@ -11292,9 +11511,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Update automatically"
 #~ msgstr "Uppdatera automatiskt"
-
-#~ msgid "Update every "
-#~ msgstr "Uppdatera var "
 
 #~ msgid "Incomplete message written on pipe!"
 #~ msgstr "Inkomplett meddelande skrevs på rör!"
@@ -11833,17 +12049,11 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Advanced"
 #~ msgstr "Avancerat"
 
-#~ msgid "Check settings"
-#~ msgstr "Kontrollera inställningarna"
-
 #~ msgid "Email address:"
 #~ msgstr "E-postadress:"
 
 #~ msgid "Evolution Mail Configuration"
 #~ msgstr "Evolutions e-postkonfiguration"
-
-#~ msgid "Hostname:"
-#~ msgstr "Värd:"
 
 #~ msgid "IMAP"
 #~ msgstr "IMAP"
@@ -12454,9 +12664,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 #~ msgid "Edit Source"
 #~ msgstr "Redigera källkod"
 
-#~ msgid "Add News Server"
-#~ msgstr "Lägg till diskussionsgruppsserver"
-
 #~ msgid "Edit News Server"
 #~ msgstr "Redigera diskussionsgruppsserver"
 
@@ -12477,9 +12684,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Mail Transport"
 #~ msgstr "E-posttransport"
-
-#~ msgid "News Servers"
-#~ msgstr "Diskussionsgruppsservrar"
 
 #~ msgid "News Sources"
 #~ msgstr "Diskussionsgruppskällor"
@@ -12879,9 +13083,6 @@ msgstr "init_bonobo(): kunde inte initiera Bonobo"
 
 #~ msgid "Preferences"
 #~ msgstr "Inställningar"
-
-#~ msgid "Alarm Properties"
-#~ msgstr "Egenskaper för alarm"
 
 #~ msgid "Beep on display alarms"
 #~ msgstr "Pip vid alarmvisning"
