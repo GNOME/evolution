@@ -75,7 +75,7 @@ struct _EItipControlPrivate {
 };
 
 /* HTML Strings */
-#define HTML_HEADER     "<html><head><title> Evolution Meeting Request</title></head>"
+#define HTML_HEADER     "<html><head><title>iCalendar Information</title></head>"
 #define HTML_BODY_START "<body bgcolor=\"#ffffff\" text=\"#000000\" link=\"#336699\">"
 #define HTML_SEP        "<hr color=#336699 align=\"left\" width=450>"
 #define HTML_BODY_END   "</body>"
@@ -454,13 +454,34 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 	time_t start = 0, end = 0, complete = 0, due = 0;
 	static char buffer[1024];
 	gboolean wrote = FALSE;
+	CalComponentVType type;
 	
+	type = cal_component_get_vtype (comp);
+
 	/* FIXME: timezones. */
 	buffer[0] = '\0';
 	cal_component_get_dtstart (comp, &datetime);	
 	if (datetime.value) {
 		start = icaltime_as_timet (*datetime.value);
-		write_label_piece (start, buffer, 1024, "Meeting begins: <b>", "</b><br>");
+		switch (type) {
+		case CAL_COMPONENT_EVENT:
+			write_label_piece (start, buffer, 1024,
+					   U_("Meeting begins: <b>"),
+					   "</b><br>");
+			break;			
+		case CAL_COMPONENT_TODO:
+			write_label_piece (start, buffer, 1024,
+					   U_("Task begins: <b>"),
+					   "</b><br>");
+			break;			
+		case CAL_COMPONENT_FREEBUSY:
+			write_label_piece (start, buffer, 1024,
+					   U_("Free/Busy info begins: <b>"), 
+					   "</b><br>");
+			break;			
+		default:
+			write_label_piece (start, buffer, 1024, U_("Begins: <b>"), "</b><br>");	
+		}
 		gtk_html_write (html, html_stream, buffer, strlen(buffer));
 		wrote = TRUE;
 	}
@@ -470,7 +491,17 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 	cal_component_get_dtend (comp, &datetime);
 	if (datetime.value){
 		end = icaltime_as_timet (*datetime.value);
-		write_label_piece (end, buffer, 1024, "Meeting ends: <b>", "</b><br>");
+		switch (type) {
+		case CAL_COMPONENT_EVENT:
+			write_label_piece (end, buffer, 1024, "Meeting ends: <b>", "</b><br>");
+			break;			
+		case CAL_COMPONENT_FREEBUSY:
+			write_label_piece (start, buffer, 1024, "Free/Busy info ends: <b>", 
+					   "</b><br>");
+			break;			
+		default:
+			write_label_piece (start, buffer, 1024, "Ends: <b>", "</b><br>");	
+		}
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -479,9 +510,9 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 	buffer[0] = '\0';
 	datetime.tzid = NULL;
 	cal_component_get_completed (comp, &datetime.value);
-	if (datetime.value) {
+	if (type == CAL_COMPONENT_TODO && datetime.value) {
 		complete = icaltime_as_timet (*datetime.value);
-		write_label_piece (complete, buffer, 1024, "Completed: <b>", "</b><br>");
+		write_label_piece (complete, buffer, 1024, "Task Completed: <b>", "</b><br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
@@ -489,9 +520,9 @@ set_date_label (GtkHTML *html, GtkHTMLStream *html_stream, CalComponent *comp)
 
 	buffer[0] = '\0';
 	cal_component_get_due (comp, &datetime);
-	if (complete == 0 && datetime.value) {
+	if (type == CAL_COMPONENT_TODO && complete == 0 && datetime.value) {
 		due = icaltime_as_timet (*datetime.value);
-		write_label_piece (due, buffer, 1024, "Due: <b>", "</b><br>");
+		write_label_piece (due, buffer, 1024, "Task Due: <b>", "</b><br>");
 		gtk_html_write (html, html_stream, buffer, strlen (buffer));
 		wrote = TRUE;
 	}
