@@ -1,3 +1,8 @@
+2001-07-23  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-preferences.c: Fix the KDE and Newsforge things. Change the
+	KDE rdf to the one that the KDE person told me :)
+
 2001-07-23  Jason Leach  <jleach@ximian.com>
 
 	* e-summary-preferences.c: Update the url (and site name) for the
