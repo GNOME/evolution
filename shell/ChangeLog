@@ -1,3 +1,10 @@
+2003-03-05  Ettore Perazzoli  <ettore@ximian.com>
+
+	* importer/Makefile.am (BUILT_SOURCES): $(IDL_GENERATED), not
+	$(IDL_GENERATED_H).
+	(CLEANFILES): Make the same as $(BUILT_SOURCES).
+	(GNOME_Evolution_Importer-impl.o): Removed useless rule.
+
 2003-03-04  Mike Kestner  <mkestner@ximian.com>
 
 	* e-shell-view.c (update_for_current_uri): only set current

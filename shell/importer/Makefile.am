@@ -23,13 +23,10 @@ IDL_GENERATED_C =				\
 
 IDL_GENERATED = $(IDL_GENERATED_H) $(IDL_GENERATED_C)
 
-GNOME_Evolution_Importer-impl.o: GNOME_Evolution_Importer.h
-
 $(IDL_GENERATED_H): $(IDLS)
 	$(ORBIT_IDL) -I $(srcdir) $(IDL_INCLUDES) $(srcdir)/GNOME_Evolution_Importer.idl
 
 $(IDL_GENERATED_C): $(IDL_GENERATED_H)
-	@true
 
 idl_DATA = $(IDLS)
 
@@ -61,8 +58,8 @@ glade_DATA = import.glade
 
 EXTRA_DIST = $(glade_DATA) $(IDLS)
 
-BUILT_SOURCES= $(IDL_GENERATED_H)
-CLEANFILES = $(IDL_GENERATED)
+BUILT_SOURCES= $(IDL_GENERATED)
+CLEANFILES = $(BUILT_SOURCES)
 
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
