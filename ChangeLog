@@ -1,3 +1,8 @@
+2002-04-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* configure.in (EVO_CHECK_LIB): Bumped the required version number
+	of gal to 0.19.99.15.
+
 2002-04-26  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* configure.in: Don't generate libibex/Makefile anymore.
