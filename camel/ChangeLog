@@ -1,3 +1,10 @@
+2002-03-13  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Unfix #21655.]
+
+	* camel-mime-utils.c: Revert to the old order, as the new one
+	could break mailing list names for existing users.
+
 2002-03-11  Ettore Perazzoli  <ettore@ximian.com>
 
 	[Fix #21655.]
