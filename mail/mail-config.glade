@@ -4231,6 +4231,11 @@ Baltic (ISO-8859-4)
 		<class>GnomeColorPicker</class>
 		<name>colorpickerSpellCheckColor</name>
 		<can_focus>True</can_focus>
+		<signal>
+		  <name>color_set</name>
+		  <handler>spellColorSet</handler>
+		  <last_modification_time>Wed, 08 May 2002 17:06:36 GMT</last_modification_time>
+		</signal>
 		<dither>True</dither>
 		<use_alpha>False</use_alpha>
 		<title>Pick a color</title>
@@ -4284,12 +4289,21 @@ Baltic (ISO-8859-4)
 
 	    <widget>
 	      <class>GtkCList</class>
-	      <name>clist1</name>
-	      <height>80</height>
+	      <name>clistSpellCheckLanguage</name>
 	      <can_focus>True</can_focus>
+	      <signal>
+		<name>select_row</name>
+		<handler>spellLanguageChanged</handler>
+		<last_modification_time>Wed, 08 May 2002 17:08:46 GMT</last_modification_time>
+	      </signal>
+	      <signal>
+		<name>unselect_row</name>
+		<handler>spellLanguageChanged</handler>
+		<last_modification_time>Wed, 08 May 2002 17:08:54 GMT</last_modification_time>
+	      </signal>
 	      <columns>1</columns>
 	      <column_widths>80</column_widths>
-	      <selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	      <selection_mode>GTK_SELECTION_MULTIPLE</selection_mode>
 	      <show_titles>False</show_titles>
 	      <shadow_type>GTK_SHADOW_IN</shadow_type>
 

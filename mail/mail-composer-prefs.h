@@ -36,12 +36,14 @@ extern "C" {
 #include <libgnomeui/gnome-file-entry.h>
 #include <gtkhtml/gtkhtml.h>
 #include <gtkhtml/gtkhtml-propmanager.h>
+#include <gconf/gconf-client.h>
 
 #include "mail-signature-editor.h"
 
 #include "evolution-config-control.h"
 
 #include <shell/Evolution.h>
+#include "Spell.h"
 
 #define MAIL_COMPOSER_PREFS_TYPE        (mail_composer_prefs_get_type ())
 #define MAIL_COMPOSER_PREFS(o)          (GTK_CHECK_CAST ((o), MAIL_COMPOSER_PREFS_TYPE, MailComposerPrefs))
@@ -56,7 +58,9 @@ struct _MailComposerPrefs {
 	GtkVBox parent_object;
 	
 	EvolutionConfigControl *control;
-	
+
+	GConfClient *gconf;
+
 	GladeXML *gui;
 	
 	/* General tab */
@@ -71,7 +75,13 @@ struct _MailComposerPrefs {
 	GtkHTMLPropmanager *pman;
 	GtkToggleButton *spell_check;
 	GnomeColorPicker *colour;
-	GtkCombo *language;
+	GtkCList *language;
+	CORBA_sequence_GNOME_Spell_Language *language_seq;
+	gboolean spell_active;
+	gchar *language_str;
+	gchar *language_str_orig;
+	GdkColor spell_error_color;
+	GdkColor spell_error_color_orig;
 	
 	/* Forwards and Replies */
 	GtkOptionMenu *forward_style;

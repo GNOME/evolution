@@ -2861,6 +2861,7 @@ do_mail_print (FolderBrowser *fb, gboolean preview)
 	if (printer)
 		gnome_print_master_set_printer (print_master, printer);
 	paper = (GnomePaper *) gnome_paper_with_name (_("US-Letter"));
+
 	if (!paper)
 		paper = (GnomePaper *) gnome_paper_with_name (gnome_paper_name_default ());
 	gnome_print_master_set_paper (print_master, paper);

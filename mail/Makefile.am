@@ -40,10 +40,24 @@ EVOLUTION_MAIL_NNTP  =                  \
 	mail-account-editor-news.h	
 endif
 
+SPELL_IDL = Spell.idl
+
+IDL_GENERATED = 		\
+	Spell.h			\
+	Spell-common.c		\
+	Spell-skels.c		\
+	Spell-stubs.c
+
+$(IDL_GENERATED): $(SPELL_IDL)
+	$(ORBIT_IDL) -I $(srcdir) -I $(datadir)/idl -I `$(GNOME_CONFIG) --cflags idl` \
+	-I `$(GNOME_CONFIG) --datadir`/idl $(srcdir)/Spell.idl
+
+Spell-impl.o: Spell.h
 
 evolution_mail_SOURCES =		\
 	$(EVOLUTION_MAIL_CORBA_GENERATED)	\
 	$(EVOLUTION_MAIL_NNTP)          \
+	$(IDL_GENERATED)		\
 	component-factory.c		\
 	component-factory.h		\
 	e-searching-tokenizer.c		\
@@ -183,8 +197,8 @@ evolution-mail.pure: evolution-mail
 
 endif
 
-BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
-CLEANFILES = $(BUILT_SOURCES)
-
 dist-hook:
 	cd $(distdir); rm -f $(BUILT_SOURCES)
+
+BUILT_SOURCES = $(EVOLUTION_MAIL_CORBA_GENERATED)
+CLEANFILES = $(BUILT_SOURCES) $(IDL_GENERATED)

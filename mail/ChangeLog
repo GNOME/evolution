@@ -1,3 +1,8 @@
+2002-05-08  Radek Doulik  <rodo@ximian.com>
+
+	* mail-composer-prefs.c: implemented (c'n'p-ed and updated) spell
+	checking settings
+
 2002-05-08  Iain Holmes <iain@ximian.com>
 
 	* component-factory.c (owner_set_cb): Tell the folder info listeners 

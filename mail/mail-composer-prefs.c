@@ -29,6 +29,7 @@
 #include "composer/e-msg-composer.h"
 
 #include <bonobo/bonobo-generic-factory.h>
+#include <bonobo/bonobo-object-client.h>
 
 #include <gal/widgets/e-gui-utils.h>
 
@@ -108,29 +109,6 @@ mail_composer_prefs_destroy (GtkObject *obj)
 	
 	if (GTK_OBJECT_CLASS (parent_class))
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (obj);
-}
-
-static void
-colorpicker_set_color (GnomeColorPicker *color, guint32 rgb)
-{
-	gnome_color_picker_set_i8 (color, (rgb & 0xff0000) >> 16, (rgb & 0xff00) >> 8, rgb & 0xff, 0xff);
-}
-
-static guint32
-colorpicker_get_color (GnomeColorPicker *color)
-{
-	guint8 r, g, b, a;
-	guint32 rgb = 0;
-	
-	gnome_color_picker_get_i8 (color, &r, &g, &b, &a);
-	
-	rgb   = r;
-	rgb <<= 8;
-	rgb  |= g;
-	rgb <<= 8;
-	rgb  |= b;
-	
-	return rgb;
 }
 
 static void
@@ -512,6 +490,243 @@ sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, MailCompos
 	}
 }
 
+/*
+ *
+ * Spell checking cut'n'pasted from gnome-spell/capplet/main.c
+ *
+ */
+
+#include "Spell.h"
+
+#define GNOME_SPELL_GCONF_DIR "/GNOME/Spell"
+#define SPELL_API_VERSION "0.2"
+
+static void
+spell_select_lang (MailComposerPrefs *prefs, const gchar *abrev)
+{
+	gint i;
+
+	for (i = 0; i < prefs->language_seq->_length; i ++) {
+		if (!strcasecmp (abrev, prefs->language_seq->_buffer [i].abrev)) {
+			gtk_clist_select_row (GTK_CLIST (prefs->language), i, 0);
+		}
+	}
+}
+
+static void
+spell_set_ui_language (MailComposerPrefs *prefs)
+{
+	gchar *l, *last, *lang;
+
+	gtk_clist_freeze (GTK_CLIST (prefs->language));
+	gtk_clist_unselect_all (GTK_CLIST (prefs->language));
+	last = prefs->language_str;
+	while ((l = strchr (last, ' '))) {
+		if (l != last) {
+			lang = g_strndup (last, l - last);
+			spell_select_lang (prefs, lang);
+			g_free (lang);
+		}
+
+		last = l + 1;
+	}
+	if (last)
+		spell_select_lang (prefs, last);
+	gtk_clist_thaw (GTK_CLIST (prefs->language));
+}
+
+static void
+spell_set_ui (MailComposerPrefs *prefs)
+{
+	prefs->spell_active = FALSE;
+
+	spell_set_ui_language (prefs);
+	gnome_color_picker_set_i16 (GNOME_COLOR_PICKER (prefs->colour),
+				    prefs->spell_error_color.red, prefs->spell_error_color.green, prefs->spell_error_color.blue, 0xffff);
+
+	prefs->spell_active = TRUE;
+}
+
+static gchar *
+spell_get_language_str (MailComposerPrefs *prefs)
+{
+	GList *selection = GTK_CLIST (prefs->language)->selection;
+	GString *str = g_string_new (NULL);
+	gchar *rv;
+
+	for (; selection; selection = selection->next) {
+		g_string_append (str, gtk_clist_get_row_data (GTK_CLIST (prefs->language),
+							      GPOINTER_TO_INT (selection->data)));
+		if (selection->next)
+			g_string_append_c (str, ' ');
+	}
+
+	rv = str->str;
+	g_string_free (str, FALSE);
+
+	return rv;
+}
+
+static void
+spell_get_ui (MailComposerPrefs *prefs)
+{
+	gnome_color_picker_get_i16 (GNOME_COLOR_PICKER (prefs->colour),
+				    &prefs->spell_error_color.red,
+				    &prefs->spell_error_color.green,
+				    &prefs->spell_error_color.blue, NULL);
+	g_free (prefs->language_str);
+	prefs->language_str = spell_get_language_str (prefs);
+}
+
+#define GET(t,x,prop,f,c) \
+        val = gconf_client_get_without_default (prefs->gconf, GNOME_SPELL_GCONF_DIR x, NULL); \
+        if (val) { f; prop = c (gconf_value_get_ ## t (val)); \
+        gconf_value_free (val); }
+
+static void
+spell_save_orig (MailComposerPrefs *prefs)
+{
+	g_free (prefs->language_str_orig);
+	prefs->language_str_orig = g_strdup (prefs->language_str);
+	prefs->spell_error_color_orig = prefs->spell_error_color;
+}
+
+/* static void
+spell_load_orig (MailComposerPrefs *prefs)
+{
+	g_free (prefs->language_str);
+	prefs->language_str = g_strdup (prefs->language_str_orig);
+	prefs->spell_error_color = prefs->spell_error_color_orig;
+} */
+
+static void
+spell_load_values (MailComposerPrefs *prefs)
+{
+	GConfValue *val;
+
+	g_free (prefs->language_str);
+	prefs->language_str = g_strdup (_("en"));
+	prefs->spell_error_color.red   = 0xffff;
+	prefs->spell_error_color.green = 0;
+	prefs->spell_error_color.blue  = 0;
+
+	GET (int, "/spell_error_color_red",   prefs->spell_error_color.red,,);
+	GET (int, "/spell_error_color_green", prefs->spell_error_color.green,,);
+	GET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue,,);
+	GET (string, "/language", prefs->language_str, g_free (prefs->language_str), g_strdup);
+
+	spell_save_orig (prefs);
+}
+
+#define SET(t,x,prop) \
+        gconf_client_set_ ## t (prefs->gconf, GNOME_SPELL_GCONF_DIR x, prop, NULL);
+
+static void
+spell_save_values (MailComposerPrefs *prefs, gboolean force)
+{
+	if (force || !gdk_color_equal (&prefs->spell_error_color, &prefs->spell_error_color_orig)) {
+		SET (int, "/spell_error_color_red",   prefs->spell_error_color.red);
+		SET (int, "/spell_error_color_green", prefs->spell_error_color.green);
+		SET (int, "/spell_error_color_blue",  prefs->spell_error_color.blue);
+	}
+	if (force || strcmp (prefs->language_str, prefs->language_str_orig)) {
+		SET (string, "/language", prefs->language_str);
+	}
+
+	gconf_client_suggest_sync (prefs->gconf, NULL);
+}
+
+static void
+spell_apply (MailComposerPrefs *prefs)
+{
+	spell_get_ui (prefs);
+	spell_save_values (prefs, FALSE);
+}
+
+/* static void
+spell_revert (MailComposerPrefs *prefs)
+{
+	spell_load_orig (prefs);
+	spell_set_ui (prefs);
+	spell_save_values (prefs, TRUE);
+} */
+
+static void
+spell_changed (gpointer user_data)
+{
+	MailComposerPrefs *prefs = (MailComposerPrefs *) user_data;
+	
+	if (prefs->control)
+		evolution_config_control_changed (prefs->control);
+}
+
+static void
+spell_color_set (GtkWidget *widget, guint r, guint g, guint b, guint a, gpointer user_data)
+{
+	spell_changed (user_data);
+}
+
+static void
+spell_language_changed (GtkWidget *widget, gint row, gint column, GdkEvent *event, gpointer user_data)
+{
+	spell_changed (user_data);
+}
+
+static void
+spell_setup (MailComposerPrefs *prefs)
+{
+	gint i;
+
+	gtk_clist_freeze (GTK_CLIST (prefs->language));
+	for (i = 0; i < prefs->language_seq->_length; i ++) {
+		gchar *texts [1];
+
+		texts [0] = _(prefs->language_seq->_buffer [i].name);
+		gtk_clist_append (GTK_CLIST (prefs->language), texts);
+		gtk_clist_set_row_data (GTK_CLIST (prefs->language), i, prefs->language_seq->_buffer [i].abrev);
+	}
+	gtk_clist_thaw (GTK_CLIST (prefs->language));
+
+	spell_load_values (prefs);
+	spell_set_ui (prefs);
+
+	glade_xml_signal_connect_data (prefs->gui, "spellColorSet", GTK_SIGNAL_FUNC (spell_color_set), prefs);
+	glade_xml_signal_connect_data (prefs->gui, "spellLanguageChanged", GTK_SIGNAL_FUNC (spell_language_changed), prefs);
+}
+
+static gboolean
+spell_setup_check_options (MailComposerPrefs *prefs)
+{
+	BonoboObjectClient *dictionary_client;
+	GNOME_Spell_Dictionary dict;
+	CORBA_Environment ev;
+	gchar *dictionary_id;
+
+	dictionary_id = "OAFIID:GNOME_Spell_Dictionary:" SPELL_API_VERSION;
+	dictionary_client = bonobo_object_activate (dictionary_id, 0);
+
+	if (!dictionary_client) {
+		g_warning ("Cannot activate %s", dictionary_id);
+
+		return FALSE;
+	}
+	dict = bonobo_object_corba_objref (BONOBO_OBJECT (dictionary_client));
+
+	CORBA_exception_init (&ev);
+	prefs->language_seq = GNOME_Spell_Dictionary_getLanguages (dict, &ev);
+	CORBA_exception_free (&ev);
+
+	gconf_client_add_dir (prefs->gconf, GNOME_SPELL_GCONF_DIR, GCONF_CLIENT_PRELOAD_NONE, NULL);
+
+        spell_setup (prefs);
+
+	return TRUE;
+}
+
+/*
+ * End of Spell checking
+ */
+
 static void
 mail_composer_prefs_construct (MailComposerPrefs *prefs)
 {
@@ -521,10 +736,12 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	char *names[][2] = {{"live_spell_check", "chkEnableSpellChecking"},
 			    {"gtk_html_prop_keymap_option", "omenuShortcutsType"},
 			    {NULL, NULL}};
-	
+
+	prefs->gconf = gconf_client_get_default ();
+
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", "composer_tab");
 	prefs->gui = gui;
-	
+
 	/* get our toplevel widget */
 	toplevel = glade_xml_get_widget (gui, "toplevel");
 	
@@ -557,7 +774,7 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_option_menu_set_menu (prefs->charset, GTK_WIDGET (menu));
 	option_menu_connect (prefs->charset, prefs);
 	
-	/* Spell Checking */
+	/* Spell Checking: GtkHTML part */
 	prefs->pman = GTK_HTML_PROPMANAGER (gtk_html_propmanager_new (NULL));
 	gtk_signal_connect (GTK_OBJECT (prefs->pman), "changed", toggle_button_toggled, prefs);
 	gtk_object_ref (GTK_OBJECT (prefs->pman));
@@ -565,10 +782,14 @@ mail_composer_prefs_construct (MailComposerPrefs *prefs)
 	gtk_html_propmanager_set_names (prefs->pman, names);
 	gtk_html_propmanager_set_gui (prefs->pman, gui, NULL);
 
-	/*
+	/* Spell Checking: GNOME Spell part */
 	prefs->colour = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerSpellCheckColor"));
-	prefs->language = GTK_COMBO (glade_xml_get_widget (gui, "cmboSpellCheckLanguage"));
-	*/
+	prefs->language = GTK_CLIST (glade_xml_get_widget (gui, "clistSpellCheckLanguage"));
+
+	if (!spell_setup_check_options (prefs)) {
+		gtk_widget_hide (GTK_WIDGET (prefs->colour));
+		gtk_widget_hide (GTK_WIDGET (prefs->language));
+	}
 
 	/* Forwards and Replies */
 	prefs->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
@@ -683,8 +904,8 @@ mail_composer_prefs_apply (MailComposerPrefs *prefs)
 	}
 	
 	/* Spell Checking */
-	/* FIXME: implement me */
 	gtk_html_propmanager_apply (prefs->pman);
+	spell_apply (prefs);
 	
 	/* Forwards and Replies */
 	menu = gtk_option_menu_get_menu (prefs->forward_style);
