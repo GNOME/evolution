@@ -108,13 +108,22 @@
 	      choose <guilabel>Delete</guilabel>.
 	    </para>
 	    <note>
-	      <title>Deleted but still here?</title>
+	      <title>Why do I still see deleted mail?</title>
 	      <para>
-		When you do this, your message is marked to be
-		deleted.  Your email is not gone until you have
-		expunged it. When you "Expunge" a folder, you remove
-		all the mail that you have marked for deletion.
+		When you press <guibutton>Delete</guibutton> or click
+		the trash button, your mail isn't actually deleted,
+		but is marked for deletion.  Your email is not gone
+		until you have expunged it. When you "Expunge" a
+		folder, you remove all the mail that you have marked
+		for deletion.
 	      </para>
+              <para>
+                 If you don't like this behavior, select
+                 <menuchoice><guimenu>View</guimenu><guimenuitem>Hide
+                 Deleted Messages</guimenuitem></menuchoice>. Then,
+                 you will only see deleted messages when you look in
+                 your <guilabel>Trash</guilabel> folder.
+              </para>
 	    </note>
 	  </listitem>
 	  <listitem>
@@ -184,7 +193,7 @@
   </sect1>
 
   <sect1 id="usage-mail-getnsend-get">
-    <title>Checking Mail</title>
+    <title>Checking for New Mail</title>
     <para>
       Now that you've had a look around the
       <interface>Inbox</interface>, it's time to check for new mail.
@@ -232,7 +241,7 @@
 
 <!-- NOT FOR 1.0
        <sect2 id="usage-mail-getnsend-get-news">
-	  <title>Using Evolution for News </title>
+	  <title>Using Evolution for News</title>
 	<para>
 	  Newsgroups are so similar to email that there's no reason not
 	  to read them side by side.  If you want to do that, add a
@@ -245,7 +254,8 @@
 	</para>
 	</sect2>
 -->
-       <sect2 id="usage-mail-getnsend-get-attach">
+
+     <sect2 id="usage-mail-getnsend-get-attach">
 	 <title>Working with Attachments and HTML Mail</title>
 	 <para>
 	   If someone sends you an <glossterm>attachment</glossterm>,
@@ -256,63 +266,96 @@
 	   as part of the message, rather than at the end of the
 	   message as an attachment.
      </para>
+
+     <sect3 id="usage-mail-getnsend-get-attach-actions">
+     <title>Saving or Opening Attachments</title>
      <para>
-       To Save an Attachment to Disk:
+        If you get an attachment with an email message,
+        <application>Ximian Evolution</application> can help you save
+        it or open it with the appropriate applications.
+     </para>
+     <para>
+       To save an attachment to disk:
        <orderedlist numeration="arabic">
 	 <listitem>
 	   <para>
-	     Open up the desired email
+	     Click the downward pointing arrow on the attachment icon
+	     and select <guimenuitem>Save to Disk</guimenuitem>.
 	   </para>
 	 </listitem>
 	 <listitem>
 	   <para>
-	     Click on the down arrow at the bottom of the email for the desired
-	     attachment.
+	     Choose a location and name for the file.
 	   </para>
 	 </listitem>
 	 <listitem>
 	   <para>
-	     Select <guibutton>Save to Disk</guibutton>.
-	   </para>
-	 </listitem>
-	 <listitem>
-	   <para>
-	     Choose the directory and filename you wish.
-	   </para>
-	 </listitem>
-	 <listitem>
-	   <para>
-	     Click <guibutton>OK</guibutton>
+	     Click <guibutton>OK</guibutton>.
 	   </para>
 	 </listitem>
        </orderedlist>
       </para>
+
       <para>
-         When someone sends you HTML mail, and includes an image in
-         the actual mail (that is, they use the <menuchoice>
-         <guimenu>Insert</guimenu> <guimenuitem>Image</guimenuitem>
-         </menuchoice> tool, not the <guibutton>Attach</guibutton>
-         tool), <application>Evolution</application> will display the
-         image inside the message.
+	To Open an Attachment in a Program:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Open the mail message with the attachment you want to read.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click the arrow next the attachment icon.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Select the program you'd like to use. It will start up
+	      and open the document.
+	    </para>
+	  </listitem>
+	</orderedlist>
       </para>
       <para>
-         If an HTML mail uses a link to an image, and asks
-         <application>Evolution</application> to download the image
-         from the Internet, <application>Evolution</application> will
-         not display the image unless you ask it to. This is because
-         remotely hosted images can slow down your system, and can be
-         used by spammers to track who reads their email.  Having
-         images not load automatically helps protect your privacy.
+      </para>
+      </sect3>
+
+      <sect3 id="usage-mail-getnsend-get-attach-html">
+      <title>Images in HTML Mail</title>
+      <para>
+         When someone sends you HTML mail that includes an image in
+         the body of the message&mdash; like the welcome message in
+         your Inbox when you first started <application>Ximian
+         Evolution</application>&mdash;
+         <application>Evolution</application> will display the image
+         inside the message.  You can create messages like this by
+         using the
+         <menuchoice><guimenu>Insert</guimenu><guimenuitem>Image</guimenuitem></menuchoice>
+         tool in the message composer.
+      </para>
+
+      <para>
+         If the image isn't included in the message, but is, instead,
+         a link to an image, <application>Evolution</application> can
+         download the image from the Internet for you.  However,
+         <application>Evolution</application> will not display the
+         image unless you ask it to. This is because remotely hosted
+         images can be slow to load and display, and can even be used
+         by spammers to track who reads their email.  Having images
+         not load automatically helps protect your privacy.
       </para>
       <para>
-	 If you want the images to load, select 
+	 If you want the images to load for one message, select 
 	 <menuchoice>
 	   <guimenu>View</guimenu>
 	   <guisubmenu>Message Display</guisubmenu>
 	   <guimenuitem>Load Images</guimenuitem>
          </menuchoice>.  
-         You can also set image loading behavior in the
-         <guilabel>Display</guilabel> tab of the        
+
+         If you want <application>Ximian Evolution</application> to
+         load remotely hosted images more often, go to the
+         <guilabel>Display</guilabel> tab of the
          <menuchoice>
 	   <guimenu>Tools</guimenu>
 	   <guimenuitem>Mail Settings</guimenuitem>
@@ -324,7 +367,8 @@
            If you use an HTTP proxy,
            <application>Evolution</application> must be able to find
            it through the <systemitem>gnome-vfs</systemitem> subsystem
-           before it can load iamges from the net.
+           before it can load iamges from the Internet.  You can set
+           this in one of two ways:
             <variablelist>
 	    <varlistentry>
 	      <term>Configure it with Nautilus</term>
@@ -405,33 +449,12 @@
 	  </variablelist>
          </para>
       </note>
-
-      <para>
-	To Open an Attachment in a Program:
-	<orderedlist numeration="arabic">
-	  <listitem>
-	    <para>
-	      Open the mail message with the attachment you want to read.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Click the arrow next the attachment icon.
-	    </para>
-	  </listitem>
-	  <listitem>
-	    <para>
-	      Select the program you'd like to use. It will start up
-	      and open the document.
-	    </para>
-	  </listitem>
-	</orderedlist>
-      </para>
+     </sect3>
     </sect2>
   </sect1>
 
     <sect1 id="usage-mail-getnsend-send">
-      <title>Writing and Sending Mail</title>
+      <title>Composing New Email Messages</title>
       <para>
          You can start writing a new email message by selecting
          <menuchoice> <guimenu>File</guimenu>
@@ -455,30 +478,42 @@
 <!-- ==============End of Figure=================================== -->
 
       <para>
-      Enter an address in the <guilabel>To:</guilabel> field.  If you wish
-      enter a  subject in the <guilabel>Subject:</guilabel> and a message in
-      the big empty box at the bottom of the window.  Once you have revised
-      your message, press <guibutton>Send</guibutton>.
+      Enter an address in the <guilabel>To:</guilabel> field.  If you
+      wish, enter a subject in the <guilabel>Subject:</guilabel>, and
+      a message in the big empty box at the bottom of the window.
+      Once you have written your message, press
+      <guibutton>Send</guibutton>.
     </para>
 
       <sect2 id="usage-mail-getnsend-send-delay">
-        <title>Saving Messages for Later</title>
+        <title>Sending Composed Messages Later</title>
         <para>
-           <application>Evolution</application> will send mail immediately unless you tell it to
-           do otherwise by selecting <menuchoice>
-           <guimenu>File</guimenu> <guimenuitem>Send
+           <application>Evolution</application> will send mail
+           immediately unless you tell it to do otherwise by selecting
+           <menuchoice> <guimenu>File</guimenu> <guimenuitem>Send
            Later</guimenuitem></menuchoice>.  This will add your
-           messages to the <guilabel>Outbox</guilabel> queue.  Then,
-           when you press <guibutton>Send</guibutton> in another
-           message, or <guibutton>Get Mail</guibutton> in the main
-           mail window, all your unsent messages will go out at once.
-           You might want to use "Send Later" becuase it gives
-           you a chance to change your mind about a message before you send it.
+           messages to the <guilabel>Outbox</guilabel> queue.  The
+           "Send Later" feature is particularly useful if you use a
+           modem to connect to the Internet and pay per-minute
+           charges: you can remain offline until you need to send
+           mail, then connect and send all your mail at once.
         </para>
         <para>
            To learn more about how you can specify message queue and
            filter behavior, see <xref linkend="config-prefs-mail">.
         </para>
+	  <note>
+            <title>Working Offline</title>
+            <para>
+	      Select
+	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+	      Offline</guimenuitem></menuchoice> to have
+	      <application>Ximian Evolution</application> disconnect
+	      from the Internet while you work. When you want to
+	      reconnect, choose
+	      <menuchoice><guimenu>File</guimenu><guimenuitem>Work
+	      Online</guimenuitem></menuchoice>
+         </note>
 
       <para>
 	You can also choose to save messages as drafts or as text
@@ -512,7 +547,7 @@
     </sect2>
 
     <sect2 id="usage-mail-getnsend-send-compose">
-      <title>Advanced Mail Composition</title>
+      <title>More About Mail Composition</title>
       <para>
         In the next few sections, you'll see how
 	<application>Evolution</application> handles advanced email
@@ -560,7 +595,7 @@
        </sect3>
 
       <sect3 id="usage-mail-getnsend-send-to-types">
-	<title>Types of Recipients</title>
+	<title>Specifying Recipients for Email</title>
         <para>
 	  <application>Evolution</application>, like most email
 	   programs, recognizes three types of addressee: primary
@@ -588,40 +623,6 @@
             groups of people, especially if they don't know each other
             or if privacy is a concern.
           </para>
-
-            <example id="ex-mail-cc">
-              <title>Using the Cc: field</title>
-              <para>
-                 When Susan sends an email to a client, she puts her
-                 co-worker, Tim, in the in the
-                 <guilabel>Cc:</guilabel> field, so that he know
-                 what's going on.  The client can see that Tim also
-                 received the message, and knows that he can talk to
-                 Tim about the message as well.
-              </para>
-            </example>
-
-          <para>
-
-            <example id="ex-mail-bcc">
-              <title>Using the Bcc: field</title>
-              <para>
-                 Tim is sending an email announcement to all of his
-                 company's clients, some of whom are in competition
-                 with each other, and all of whom value their
-                 privacy. He needs to use the
-                 <guilabel>Bcc:</guilabel> field here.  If he puts
-                 every address from his address book's "Clients"
-                 category into the <guilabel>To:</guilabel> or
-                 <guilabel>Cc:</guilabel> fields, he'll make the
-                 company's <emphasis>entire</emphasis> client list
-                 public. But putting his "Clients" addressbook
-                 into the Bcc: section, that will cause them to be hidden
-                 from the competition.  It seems insignificant, but it can
-                 make a huge difference in some situations.
-             </para>
-            </example>
-          </para>
         </sect3>
 
         <sect3 id="usage-mail-getnsend-send-to">
@@ -633,11 +634,16 @@
           drop down list of possible address completions from your
           address book.  If you enter a name or nickname that can go
           with more than one card, Evolution will open a dialog box to
-          ask you which person you meant. Also,
-          <application>Evolution</application> will add a domain to
-          any unqualified addresses.  By default, this is your domain,
-          but you can choose which one mail preferences dialog.
+          ask you which person you meant. 
+
+	  <!-- Also, <application>Evolution</application> will add a
+          domain to any unqualified addresses.  By default, this is
+          your domain, but you can choose which one mail preferences
+          dialog. NOTE: Bug filed on this-- it's not available now,
+          but may be in the future.-->
+
           </para>
+
           <para>
             Alternately, you can click on the
             <guibutton>To:</guibutton>, <guibutton>Cc:</guibutton>, or
@@ -657,7 +663,7 @@
       </sect2>
 
       <sect2 id="usage-mail-getnsend-send-reply">
-        <title>Replying to Messages</title>
+        <title>Replying to Email Messages</title>
         <para>
            To reply to a message, press the
            <guibutton>Reply:</guibutton> button while it is selected,
@@ -810,14 +816,13 @@ with quoted materials and the relevant replies interspersed-->
         <title>Enhance your email with HTML</title>
         <para>
             Normally, you can't set text styles or insert pictures in
-            emails, which is why you've probably seen people use far
-            too many exclamation points for emphasis, or use
-            text drawn facial expressions to
-            convey their feelings.  However, most newer email programs
-            can display images and text styles as well as basic
-            alignment and paragraph formatting. They do this with
-            <glossterm linkend="html">HTML</glossterm>, just like web
-            pages do.
+            emails, which is why email is often regarded as
+            uncommunicative and cold, and why people often resort to
+            using far too many exclamation points to convey their
+            feelings.  However, most newer email programs can display
+            images and text styles as well as basic alignment and
+            paragraph formatting. They do this with <glossterm
+            linkend="html">HTML</glossterm>, just like web pages do.
         </para>
         <note>
           <title>HTML Mail is not a Default Setting</title>
@@ -827,13 +832,20 @@ with quoted materials and the relevant replies interspersed-->
             slower to download and display. Because some people may
             prefer not to get HTML mail,
             <application>Evolution</application> sends plain text
-            unless you explicitly ask for HTML.  To send HTML mail,
-            you will need to select <menuchoice>
+            unless you explicitly ask for HTML.  
+           </para>
+	 </note>
+
+	 <para> You can change the format of an email message between
+            plain text and HTML by choosing <menuchoice>
             <guimenu>Format</guimenu> <guimenuitem>
-            HTML</guimenuitem></menuchoice>.  To send all your mail as
-            HTML, you can set your default mail format preferences in
-            the mail configuration dialog.  See <xref
-            linkend="config-prefs-mail-other"> for more information.
+            HTML</guimenuitem></menuchoice>.
+	  </para>
+	  <para>
+            To send all your mail as HTML by default, set your mail
+            format preferences in the mail configuration dialog.  See
+            <xref linkend="config-prefs-mail-other"> for more
+            information.
           </para>
         </note>
         <para>
@@ -956,16 +968,21 @@ with quoted materials and the relevant replies interspersed-->
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Make the email HTML mail by clicking
+		      Make sure that you have the
 		      <menuchoice>
 			<guimenu>Format</guimenu>
 			<guimenuitem>HTML</guimenuitem>
 		      </menuchoice>
+                      selector checked.
 		    </para>
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Click the <guibutton>Image</guibutton> button in the <guilabel>Toolbar</guilabel>.
+		      Click the <guibutton>Insert Image</guibutton> button in the toolbar, or select		   
+		         <menuchoice>
+			<guimenu>Insert</guimenu>
+			<guimenuitem>Image</guimenuitem>
+		      </menuchoice>.
 		      </para>
 		  </listitem>
 		  <listitem>
@@ -999,11 +1016,12 @@ with quoted materials and the relevant replies interspersed-->
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Make the email HTML mail by clicking
+		      Make sure that you have the
 		      <menuchoice>
 			<guimenu>Format</guimenu>
 			<guimenuitem>HTML</guimenuitem>
 		      </menuchoice>
+                      selector checked.
 		    </para>
 		  </listitem>
 		  <listitem>
@@ -1013,9 +1031,25 @@ with quoted materials and the relevant replies interspersed-->
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Select the template to use for the rule.
+		      Select the type of rule. You can use a plain
+		      line, a 3D line, or a yellow line with flowers.
 		    </para>
 		  </listitem>
+		  <listitem>
+		    <para>
+		      Choose the size of the line, as a percentage of the width of the email window.
+		    </para>
+		  </listitem>
+
+		  <listitem>
+		    <para>
+		    Choose the alignment and style.  For the plain
+		    line, you can choose the thickness of the line,
+		    and whether it will be shaded, or solid.  For the
+		    other types, you can only choose alignment.
+		    </para>
+		  </listitem>
+
 		  <listitem>
 		    <para>
 		      Click <guibutton>Insert</guibutton> to insert the rule.
@@ -1030,7 +1064,7 @@ with quoted materials and the relevant replies interspersed-->
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Select the text you want to link from
+	      Select the text you want to display as a link.
 	    </para>
 	  </listitem>
 	  <listitem>
@@ -1051,55 +1085,55 @@ with quoted materials and the relevant replies interspersed-->
 	    </para>
 	  </listitem>
 	</orderedlist>
-      </para>
-      <para>
+</para>
+
+<para>
 	To add an image to your HTML message:
 	<orderedlist numeration="arabic">
 	  <listitem>
 	    <para>
-	      Click
+	     Select
 	      <menuchoice>
 		<guimenu>Insert</guimenu>
 		<guimenuitem>Image</guimenuitem>
-	      </menuchoice>
+	      </menuchoice>.
 	    </para>
 	  </listitem>
 	  <listitem>
 	    <para>
-	      Click <guibutton>Browse</guibutton>
+	      Click <guibutton>Browse</guibutton> to select the image
+	      you want to include in your email.
 	    </para>
 	  </listitem>
+
 	  <listitem>
 	    <para>
-	      Select the image you want to include in your email.
+	    Along the right side of the window, choose the alignment,
+	    border, and other attributes of the image. If you change
+	    the size attributes, the image will be shrunk or stretched
+	    to fit the size you have chosen.
 	    </para>
 	  </listitem>
+
 	  <listitem>
 	    <para>
-	      Press <guibutton>OK</guibutton>
+	     If you would like to make the image a clickable link,
+	     enter a URL in the <guilabel>Link</guilabel> tab of the
+	     window.
 	    </para>
 	  </listitem>
+
 	  <listitem>
 	    <para>
-	      Press <guibutton>Insert</guibutton>
+	      When you are finished, press
+	      <guibutton>Insert</guibutton> to include the image in
+	      your message.
 	    </para>
 	  </listitem>
 	</orderedlist>
 
       </para>
-      <note>
-	<title>A Technical note on HTML Tags</title>
-	<para>
-	  The composer is a <acronym>WYSIWYG</acronym>
-	  (What You See Is What You Get)
-	  editor for HTML. That means that if you enter HTML
-	  directly into the composer&mdash; say, 
-	  <markup role="html">&lt;B&gt;Bold Text&lt;/B&gt</markup>, the
-	  the composer will assume you meant exactly that string
-	  of characters, and not "make this text bold," as an HTML
-	  composition tool or text editor would.
-	</para>
-      </note>
+
       <sect3 id="html-templates">
 	<title>HTML Templates</title>
 	<para>
@@ -1159,7 +1193,11 @@ with quoted materials and the relevant replies interspersed-->
       <sect3 id="composer-tables">
 	<title>Tables in Email</title>
 	<para>
-	  <application>Evolution</application> allows you to put tables in your HTML email to help organize your thoughts.  These tables are a simplified version of what you might find in a spreadsheet program such as <application>Gnumeric</application>.
+	  <application>Evolution</application> allows you to put
+	  tables in your HTML email to help organize your thoughts.
+	  These tables are a simplified version of what you might find
+	  in a spreadsheet program like
+	  <application>Gnumeric</application>.
 	</para>
 	<para>
 	  To include a table in your email:
@@ -1171,7 +1209,7 @@ with quoted materials and the relevant replies interspersed-->
 	    </listitem>
 	    <listitem>
 	      <para>
-		Enable HTML in your email by clicking
+		Make sure you have the
 		<menuchoice>
 		  <guimenu>
 		    Format
@@ -1180,16 +1218,35 @@ with quoted materials and the relevant replies interspersed-->
 		    HTML
 		  </guimenuitem>
 		</menuchoice>
+		selector checked.
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+	      Select
+		<menuchoice>
+		  <guimenu>
+		    Insert
+		  </guimenu>
+		  <guimenuitem>
+		    Table
+		  </guimenuitem>
+		</menuchoice>
+		or click the <guiicon>Table</guiicon> button in the
+		toolbar.
+	      </para>
+	    </listitem>
+
+	    <listitem>
+	      <para>
+		Select the template, or style, you want to use for the
+		table.
 	      </para>
 	    </listitem>
 	    <listitem>
 	      <para>
-		Select the template to use for the table.
-	      </para>
-	    </listitem>
-	    <listitem>
-	      <para>
-		Set up how many rows and columns you want.
+		Set the number of rows and columns you want.
 	      </para>
 	    </listitem>
 	    <listitem>

@@ -526,7 +526,7 @@
     </sect1>
 
     <sect1 id="contact-automation-lists">
-      <title>Managing a Mailing list</title>
+      <title>Sending Mail to Categories of Contacts</title>
       <para>
 	 You already know that when you are writing an email, you can
 	 address it to one or more people, and that

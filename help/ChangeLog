@@ -1,3 +1,23 @@
+2001-09-04  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-authors.sgml: Credit kmarass.
+
+	* C/usage-contact.sgml: groups-of-contacts-management.
+
+	* C/usage-mainwindow.sgml: Add more info, "whatis" section,
+	"Ximian Evolution" and "vFolder."
+
+	* C/evolution.sgml: "Ximian Evolution" not "Evolution"
+
+	* C/preface.sgml: Moved "whatis" section to usage-mainwindow, as
+	per new-outline.
+
+	* C/usage-mail.sgml: Expand deletion info. Also composer work.
+
+2001-08-30  Aaron Weber  <aaron@ximian.com>
+
+	* C/apx-gloss.sgml: remove Spam, emoticon, haiku. Revise "Virus"
+
 2001-09-04  Kevin Breit  <battery841@mediaone.net>
 
 	* C/usage-print.sgml: Added infoa about Windows not handling .ps
