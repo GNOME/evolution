@@ -392,7 +392,7 @@ generate_html (gpointer data)
 					       "alt=\"\" width=\"16\" height=\"16\">  &#160; "
 					       "<font size=\"-1\"><a href=\"calendar:/%s\">%s, %s</a></font><br>", 
 					       img,
-					       event->uid, start_str_utf, text.value);
+					       event->uid, start_str_utf, text.value ? text.value : _("No description"));
 			g_free (start_str_utf);
 			
 			g_string_append (string, tmp);

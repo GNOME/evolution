@@ -1,3 +1,8 @@
+2001-12-13  Iain Holmes  <iain@ximian.com>
+
+	* e-summary-calendar.c (generate_html): Check that text.value isn't
+	NULL.
+
 2001-12-10  Iain Holmes  <iain@ximian.com>
 
 	* e-summary-rdf.c (e_summary_rdf_init): Set the initial sites to
