@@ -144,8 +144,7 @@ camel_imap4_get_path_delim (CamelIMAP4StoreSummary *s, const char *full_name)
 	size_t len;
 	char *top;
 	
-	if (s->namespaces == NULL)
-		return '/';
+	g_return_val_if_fail (s->namespaces != NULL, '/');
 	
 	if ((slash = strchr (full_name, '/')))
 		len = (slash - full_name);

@@ -592,26 +592,26 @@ static char *
 imap4_folder_utf7_name (CamelStore *store, const char *folder_name, char wildcard)
 {
 	char *real_name, *p;
-	char sep;
+	char sep = '\0';
 	int len;
 	
-	sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->summary, folder_name);
-	
-	if (sep != '/') {
-		p = real_name = g_alloca (strlen (folder_name) + 1);
-		strcpy (real_name, folder_name);
-		while (*p != '\0') {
-			if (*p == '/')
-				*p = sep;
-			p++;
+	if (*folder_name) {
+		sep = camel_imap4_get_path_delim (((CamelIMAP4Store *) store)->summary, folder_name);
+		
+		if (sep != '/') {
+			p = real_name = g_alloca (strlen (folder_name) + 1);
+			strcpy (real_name, folder_name);
+			while (*p != '\0') {
+				if (*p == '/')
+					*p = sep;
+				p++;
+			}
+			
+			folder_name = real_name;
 		}
 		
-		folder_name = real_name;
-	}
-	
-	if (*folder_name)
 		real_name = camel_utf8_utf7 (folder_name);
-	else
+	} else
 		real_name = g_strdup ("");
 	
 	if (wildcard) {

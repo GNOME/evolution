@@ -1,8 +1,12 @@
 2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
 
+	* providers/imap4/camel-imap4-store.c (imap4_folder_utf7_name):
+	Don't bother getting the folder delim if the name is "" since we
+	don't need it in that case.
+
 	* providers/imap4/camel-imap4-utils.c
-	(camel_imap4_get_path_delim): If namespaces is NULL, return the
-	default folder delim ('/').
+	(camel_imap4_get_path_delim): add an assert that s->namespaces is
+	non-NULL.
 
 	* providers/imap4/camel-imap4-stream.c
 	(camel_imap4_stream_literal): Update stream->inptr after fetching
