@@ -2,7 +2,7 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx>
+ * Author: Federico Mena <quartic@gimp.org>
  */
 
 #include <string.h>
@@ -260,9 +260,9 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 	/* Left handle */
 
 	rect.x = 0;
-	rect.y = 0;
+	rect.y = has_focus ? HANDLE_SIZE : 0;
 	rect.width = HANDLE_SIZE;
-	rect.height = has_focus ? (child->height - HANDLE_SIZE) : child->height;
+	rect.height = has_focus ? (child->height - 2 * HANDLE_SIZE) : child->height;
 
 	if (gdk_rectangle_intersect (&rect, area, &dest))
 		view_utils_draw_textured_frame (GTK_WIDGET (fullday), child->window, &rect, GTK_SHADOW_OUT);
@@ -270,9 +270,9 @@ child_draw (GncalFullDay *fullday, Child *child, GdkRectangle *area, int draw_ch
 	if (has_focus) {
 		/* Top handle */
 
-		rect.x = HANDLE_SIZE;
+		rect.x = 0;
 		rect.y = 0;
-		rect.width = child->width - HANDLE_SIZE;
+		rect.width = child->width;
 		rect.height = HANDLE_SIZE;
 
 		if (gdk_rectangle_intersect (&rect, area, &dest))
@@ -413,6 +413,58 @@ child_realized_setup (GtkWidget *widget, gpointer data)
 			 strlen (child->ico->summary));
 }
 
+static void
+child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int height)
+{
+	child->x = x;
+	child->y = y;
+	child->width = width;
+	child->height = height;
+
+	if (!child->window) /* realized? */
+		return;
+
+	child_set_text_pos (child);
+	gdk_window_move_resize (child->window, x, y, width, height);
+}
+
+static int
+calc_row_height (GncalFullDay *fullday)
+{
+	int f_rows;
+	GtkWidget *widget;
+
+	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
+
+	widget = GTK_WIDGET (fullday);
+
+	return (widget->allocation.height - 2 * widget->style->klass->ythickness) / f_rows;
+}
+
+static void
+child_set_size (Child *child)
+{
+	int row_height;
+	int x, y, width, height;
+	GncalFullDay *fullday;
+
+	fullday = GNCAL_FULL_DAY (child->widget->parent);
+
+	row_height = calc_row_height (fullday);
+
+	x = child->x;
+	y = child->lower_row * row_height + GTK_WIDGET (fullday)->style->klass->ythickness;
+	width = child->width;
+	height = child->rows_used * row_height;
+
+	if (GTK_WIDGET_HAS_FOCUS (child->widget)) {
+		y -= HANDLE_SIZE;
+		height += 2 * HANDLE_SIZE;
+	}
+
+	child_set_pos (fullday, child, x, y, width, height);
+}
+
 static gint
 child_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 {
@@ -420,9 +472,7 @@ child_focus_in (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 
 	child = data;
 
-	/* Paint handles on child */
-
-	child_set_text_pos (child);
+	child_set_size (child);
 
 	return FALSE;
 }
@@ -442,9 +492,7 @@ child_focus_out (GtkWidget *widget, GdkEventFocus *event, gpointer data)
 
 	child->ico->summary = gtk_editable_get_chars (GTK_EDITABLE (widget), 0, -1);
 
-	/* Erase handles from child */
-
-	child_set_text_pos (child);
+	child_set_size (child);
 
 	/* Notify calendar of change */
 
@@ -556,21 +604,6 @@ child_destroy (GncalFullDay *fullday, Child *child)
 	g_free (child);
 }
 
-static void
-child_set_pos (GncalFullDay *fullday, Child *child, int x, int y, int width, int height)
-{
-	child->x = x;
-	child->y = y;
-	child->width = width;
-	child->height = height;
-
-	if (!child->window) /* realized? */
-		return;
-
-	child_set_text_pos (child);
-	gdk_window_move_resize (child->window, x, y, width, height);
-}
-
 static struct layout_row *
 layout_get_rows (GncalFullDay *fullday, int *rowcount)
 {
@@ -607,12 +640,13 @@ layout_get_rows (GncalFullDay *fullday, int *rowcount)
 }
 
 static void
-layout_kill_rows (struct layout_row *rows, int f_rows)
+layout_free_rows (struct layout_row *rows, int f_rows)
 {
 	int i;
-	
+
 	for (i = 0; i < f_rows; i++)
-		g_free (rows [i].slots);
+		g_free (rows[i].slots);
+
 	g_free (rows);
 }
 
@@ -677,44 +711,22 @@ calc_labels_width (GncalFullDay *fullday)
 	return max_w;
 }
 
-static int
-calc_row_height (GncalFullDay *fullday)
-{
-	int f_rows;
-	GtkWidget *widget;
-
-	get_tm_range (fullday, fullday->lower, fullday->upper, NULL, NULL, NULL, &f_rows);
-
-	widget = GTK_WIDGET (fullday);
-
-	return (widget->allocation.height - 2 * widget->style->klass->ythickness) / f_rows;
-}
-
 static void
 layout_child (GncalFullDay *fullday, Child *child, struct layout_row *rows, int left_x)
 {
-	int c_y, c_width, c_height;
 	GtkWidget *widget;
-	int row_height;
-
-	/* Calculate child position */
 
 	widget = GTK_WIDGET (fullday);
 
-	row_height = calc_row_height (fullday);
-
-	c_y = widget->style->klass->ythickness;
+	child->x = left_x;
 
 	/* FIXME: for now, the children overlap.  Make it layout them nicely. */
 
-	c_width = widget->allocation.width - (widget->style->klass->xthickness + left_x);
-
-	c_y += child->lower_row * row_height;
-	c_height = child->rows_used * row_height;
+	child->width = widget->allocation.width - (widget->style->klass->xthickness + left_x);
 
 	/* Position child */
 
-	child_set_pos (fullday, child, left_x, c_y, c_width, c_height);
+	child_set_size (child);
 }
 
 static void
@@ -734,7 +746,7 @@ layout_children (GncalFullDay *fullday)
 	for (children = fullday->children; children; children = children->next)
 		layout_child (fullday, children->data, rows, left_x);
 
-	layout_kill_rows (rows, rowcount);
+	layout_free_rows (rows, rowcount);
 }
 
 guint
@@ -1332,7 +1344,7 @@ draw_xor_rect (GncalFullDay *fullday)
 				    di->child->x + i,
 				    di->child_start_row * row_height + ythickness + i,
 				    di->child->width - 2 * i - 1,
-				    di->child_rows_used * row_height - 2 * i - 2);
+				    di->child_rows_used * row_height - 2 - 2 * i);
 
 	gdk_gc_set_function (widget->style->white_gc, GDK_COPY);
 	gdk_gc_set_subwindow (widget->style->white_gc, GDK_CLIP_BY_CHILDREN);
@@ -1381,6 +1393,7 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 	struct drag_info *di;
 	gint y;
 	int row_height;
+	int has_focus;
 	int old_start_row, old_rows_used;
 	int old_max;
 	int paint_start_row, paint_rows_used;
@@ -1440,20 +1453,25 @@ button_1 (GncalFullDay *fullday, GdkEventButton *event)
 
 		gtk_widget_get_pointer (widget, NULL, &y);
 
-		if (event->x < HANDLE_SIZE)
+		has_focus = GTK_WIDGET_HAS_FOCUS (child->widget);
+
+		if (has_focus) {
+			if (event->y < HANDLE_SIZE)
+				di->drag_mode = DRAG_SIZE_TOP;
+			else if (event->y >= (child->height - HANDLE_SIZE))
+				di->drag_mode = DRAG_SIZE_BOTTOM;
+			else
+				di->drag_mode = DRAG_MOVE;
+		} else
 			di->drag_mode = DRAG_MOVE;
-		else if (event->y < HANDLE_SIZE)
-			di->drag_mode = DRAG_SIZE_TOP;
-		else
-			di->drag_mode = DRAG_SIZE_BOTTOM;
 
 		row_height = calc_row_height (fullday);
 
 		di->child = child;
 
 		di->child_click_y = event->y;
-		di->child_start_row = get_row_from_y (fullday, child->y, FALSE);
-		di->child_rows_used = child->height / row_height;
+		di->child_start_row = child->lower_row;
+		di->child_rows_used = child->rows_used;
 
 		gdk_pointer_grab (child->window, FALSE,
 				  (GDK_BUTTON_MOTION_MASK
@@ -1535,6 +1553,7 @@ recompute_motion (GncalFullDay *fullday, int y)
 	struct drag_info *di;
 	int f_rows;
 	int row;
+	int has_focus;
 
 	di = fullday->drag_info;
 
@@ -1558,7 +1577,9 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_MOVE:
-		row = get_row_from_y (fullday, y - di->child_click_y, TRUE);
+		has_focus = GTK_WIDGET_HAS_FOCUS (di->child->widget);
+
+		row = get_row_from_y (fullday, y - di->child_click_y + (has_focus ? HANDLE_SIZE : 0), TRUE);
 
 		if (row > (f_rows - di->child_rows_used))
 			row = f_rows - di->child_rows_used;
@@ -1568,7 +1589,7 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_SIZE_TOP:
-		row = get_row_from_y (fullday, y, TRUE);
+		row = get_row_from_y (fullday, y + HANDLE_SIZE, TRUE);
 
 		if (row > (di->child_start_row + di->child_rows_used - 1))
 			row = di->child_start_row + di->child_rows_used - 1;
@@ -1579,7 +1600,7 @@ recompute_motion (GncalFullDay *fullday, int y)
 		break;
 
 	case DRAG_SIZE_BOTTOM:
-		row = get_row_from_y (fullday, y, TRUE);
+		row = get_row_from_y (fullday, y - HANDLE_SIZE, TRUE);
 
 		if (row <= di->child_start_row)
 			row = di->child_start_row + 1;
@@ -1748,8 +1769,8 @@ static gint
 gncal_full_day_expose (GtkWidget *widget, GdkEventExpose *event)
 {
 	GncalFullDay *fullday;
-	GList *children;
 	Child *child;
+	int on_text;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (GNCAL_IS_FULL_DAY (widget), FALSE);
@@ -1762,15 +1783,12 @@ gncal_full_day_expose (GtkWidget *widget, GdkEventExpose *event)
 
 	if (event->window == widget->window)
 		paint_back (fullday, &event->area);
-	else
-		for (children = fullday->children; children; children = children->next) {
-			child = children->data;
+	else {
+		child = find_child_by_window (fullday, event->window, &on_text);
 
-			if (event->window == child->window) {
-				child_draw (fullday, child, &event->area, FALSE);
-				break;
-			}
-		}
+		if (child && !on_text)
+			child_draw (fullday, child, &event->area, FALSE);
+	}
 
 	return FALSE;
 }

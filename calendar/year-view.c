@@ -9,6 +9,7 @@
  */
 
 #include "gncal-year-view.h"
+#include "timeutil.h"
 
 static void gncal_year_view_init (GncalYearView *yview);
 

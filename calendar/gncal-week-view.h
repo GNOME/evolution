@@ -2,7 +2,7 @@
  *
  * Copyright (C) 1998 The Free Software Foundation
  *
- * Author: Federico Mena <federico@nuclecu.unam.mx>
+ * Author: Federico Mena <quartic@gimp.org>
  */
 
 #ifndef WEEK_VIEW_H

@@ -8,7 +8,7 @@
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
- *   Federico Mena (federico@gimp.org)
+ *   Federico Mena (quartic@gimp.org)
  *
  */
 

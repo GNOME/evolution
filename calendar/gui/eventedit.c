@@ -2,7 +2,8 @@
  * EventEditor widget
  * Copyright (C) 1998 the Free Software Foundation
  *
- * Author: Miguel de Icaza (miguel@kernel.org)
+ * Authors: Miguel de Icaza (miguel@kernel.org)
+ *          Federico Mena (quartic@gimp.org)
  */
 
 #include <gnome.h>
@@ -53,22 +54,6 @@ event_editor_class_init (EventEditorClass *class)
 	object_class->destroy = event_editor_destroy;
 }
 
-/*
- * when the start time is changed, this adjusts the end time. 
- */
-static void
-adjust_end_time (GtkWidget *widget, EventEditor *ee)
-{
-	struct tm *tm;
-	time_t start_t;
-
-	start_t = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
-	tm = localtime (&start_t);
-	if (tm->tm_hour < 22)
-		tm->tm_hour++;
-	gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (tm));
-}
-
 GtkWidget *
 adjust (GtkWidget *w, gfloat x, gfloat y, gfloat xs, gfloat ys)
 {
@@ -90,19 +75,95 @@ ee_check_all_day (EventEditor *ee)
 	ev_start = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
 	ev_end   = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->end_time)); 
 	
-	if (get_time_t_hour (ev_start) <= day_begin && get_time_t_hour (ev_end) >= day_end){
+	if (get_time_t_hour (ev_start) <= day_begin && get_time_t_hour (ev_end) >= day_end)
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (ee->general_allday), 1);
-	} else{
+	else
 		gtk_toggle_button_set_state (GTK_TOGGLE_BUTTON (ee->general_allday), 0);
+}
+
+/*
+ * Callback: checks that the dates are start < end
+ */
+static void
+check_dates (GnomeDateEdit *gde, EventEditor *ee)
+{
+	time_t start, end;
+	struct tm tm_start, tm_end;
+
+	start = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
+	end = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->end_time));
+
+	if (start > end) {
+		tm_start = *localtime (&start);
+		tm_end = *localtime (&end);
+
+		if (GTK_WIDGET (gde) == ee->start_time) {
+			tm_end.tm_year = tm_start.tm_year;
+			tm_end.tm_mon  = tm_start.tm_mon;
+			tm_end.tm_mday = tm_start.tm_mday;
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (&tm_end));
+		} else if (GTK_WIDGET (gde) == ee->end_time) {
+			tm_start.tm_year = tm_end.tm_year;
+			tm_start.tm_mon  = tm_end.tm_mon;
+			tm_start.tm_mday = tm_end.tm_mday;
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->start_time), mktime (&tm_start));
+		}
 	}
 }
 
 /*
- * Callback: checks if the selected hour range spans all of the day
+ * Callback: checks that start_time < end_time and whether the
+ * selected hour range spans all of the day
  */
 static void
-check_times (GtkWidget *widget, EventEditor *ee)
+check_times (GnomeDateEdit *gde, EventEditor *ee)
 {
+	time_t start, end;
+	struct tm tm_start, tm_end;
+
+	gdk_pointer_ungrab (GDK_CURRENT_TIME);
+	gdk_flush ();
+
+	start = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->start_time));
+	end = gnome_date_edit_get_date (GNOME_DATE_EDIT (ee->end_time));
+
+	if (start >= end) {
+		tm_start = *localtime (&start);
+		tm_end = *localtime (&end);
+
+		if (GTK_WIDGET (gde) == ee->start_time) {
+			tm_end.tm_min  = tm_start.tm_min;
+			tm_end.tm_sec  = tm_start.tm_sec;
+
+			tm_end.tm_hour = tm_start.tm_hour + 1;
+
+			if (tm_end.tm_hour >= 24) {
+				tm_end.tm_hour = 24; /* mktime() will bump the day */
+				tm_end.tm_min = 0;
+				tm_end.tm_sec = 0;
+			}
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->end_time), mktime (&tm_end));
+		} else if (GTK_WIDGET (gde) == ee->end_time) {
+			tm_start.tm_min  = tm_end.tm_min;
+			tm_start.tm_sec  = tm_end.tm_sec;
+
+			tm_start.tm_hour = tm_end.tm_hour - 1;
+
+			if (tm_start.tm_hour < 0) {
+				tm_start.tm_hour = 0;
+				tm_start.tm_min = 0;
+				tm_start.tm_min = 0;
+			}
+
+			gnome_date_edit_set_time (GNOME_DATE_EDIT (ee->start_time), mktime (&tm_start));
+		}
+	}
+
+	/* Check whether the event spans the whole day */
+
 	ee_check_all_day (ee);
 }
 
@@ -147,8 +208,8 @@ event_editor_setup_time_frame (EventEditor *ee)
 	/* 1. Start time */
 	ee->start_time = start_time = gnome_date_edit_new (ee->ical->dtstart);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) start_time, day_begin, day_end);
-	gtk_signal_connect (GTK_OBJECT (start_time), "time_changed",
-			    GTK_SIGNAL_FUNC (adjust_end_time), ee);
+	gtk_signal_connect (GTK_OBJECT (start_time), "date_changed",
+			    GTK_SIGNAL_FUNC (check_dates), ee);
 	gtk_signal_connect (GTK_OBJECT (start_time), "time_changed",
 			    GTK_SIGNAL_FUNC (check_times), ee);
 	gtk_table_attach (t, gtk_label_new (_("Start time:")), 1, 2, 1, 2,
@@ -163,6 +224,8 @@ event_editor_setup_time_frame (EventEditor *ee)
 	/* 2. End time */
 	ee->end_time   = end_time   = gnome_date_edit_new (ee->ical->dtend);
 	gnome_date_edit_set_popup_range ((GnomeDateEdit *) end_time,   day_begin, day_end);
+	gtk_signal_connect (GTK_OBJECT (end_time), "date_changed",
+			    GTK_SIGNAL_FUNC (check_dates), ee);
 	gtk_signal_connect (GTK_OBJECT (end_time), "time_changed",
 			    GTK_SIGNAL_FUNC (check_times), ee);
 	gtk_table_attach (t, gtk_label_new (_("End time:")), 1, 2, 2, 3,
@@ -371,7 +434,7 @@ ee_store_alarm (CalendarAlarm *alarm, enum AlarmType type)
 	
 	item = gtk_menu_get_active (menu);
 	
-	for (idx = 0, child = menu->children; child->data != item; child = child->next)
+	for (idx = 0, child = GTK_MENU_SHELL (menu)->children; child->data != item; child = child->next)
 		idx++;
 	
 	alarm->units = idx;

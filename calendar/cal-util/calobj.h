@@ -2,7 +2,8 @@
  * Internal representation of a Calendar object.  This is modeled after the
  * iCalendar/vCalendar specificiation
  *
- * Authors: Miguel de Icaza (miguel@gnu.org), Federico Mena (federico@gimp.org).
+ * Authors: Miguel de Icaza (miguel@gnu.org)
+ *          Federico Mena (quartic@gimp.org).
  */
 #ifndef CALOBJ_H
 #define CALOBJ_H

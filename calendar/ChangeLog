@@ -1,5 +1,20 @@
 1998-04-16  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
+	* eventedit.c (ee_store_alarm): Use menu_shell->children, not
+	menu->children.  Why does GtkMenu have a children field in the
+	object structure?
+	(check_dates): New function that insures that start_date < end_date.
+	(check_times): In addition to checking whether the event spans the
+	whole day, now it insures that start_time < end_time.
+
+	* gncal-full-day.c (child_set_size): Now children get bigger
+	temporarily while they are focused.  This allows the handles not
+	to "overlap" the rows used by the child and thus allow editing of
+	very thin events.
+	(recompute_motion): Fix for new child coordinates.
+	(gncal_full_day_expose): Make it use find_child_by_window()
+	instead of looking for it by hand.
+
 	* bell.xpm recur.xpm: XPM files for events with alarm and
 	recurrence, respectively.
 
