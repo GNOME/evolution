@@ -9,17 +9,42 @@
       This chapter will show you how to use the Ximian Evolution
       Calendar to manage your schedule alone or in conjunction with
       others.
+<!-- Others what? -->
      </para>
 
     <sect1 id ="usage-calendar-view"> 
     <title>Ways of Looking at your Calendar</title>
     <para>
        The toolbar offers you four different views of your calendar:
-       one day, five days, a week, or a month at once. Press the
-       calendar-shaped buttons on the right side of the toolbar to
-       switch between views. You can also select a range of
-       days&mdash; three days, ten days, a fortnight if you want
-       &mdash; in the small calendar at the upper right.
+       <itemizedlist>
+	<listitem>
+	  <para>
+	    Day
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Work Week
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Week
+	  </para>
+	</listitem>
+	<listitem>
+	  <para>
+	    Month
+	  </para>
+	</listitem>
+      </itemizedlist>
+
+      Press the calendar-shaped buttons on the right side of the toolbar to
+      switch between views. 
+<!--QUESTION What does the following mean?  I can't find this functionality -->
+      You can also select a range of
+      days&mdash; three days, ten days, or a fortnight if you want
+      &mdash; in the small calendar at the upper right.
     </para>
     <para>
        The <guibutton>Prev</guibutton> and <guibutton>Next</guibutton>
@@ -44,6 +69,7 @@
       out what day it is. This section will tell you how to schedule
       appointments, set alarms, and determine appointment recurrence.
     </para>
+
     <sect2 id="usage-calendar-apts-basic">
       <title>Creating appointments</title>
       <para>
@@ -55,7 +81,7 @@
 	</menuchoice>
 	or click the <guibutton>New</guibutton> button on the left end
 	of the toolbar. The <interface>New Appointment</interface>
-	dialog will pop up with the usual menu bar, tool bar, and
+	dialog will pop up with the menu bar, tool bar, and
 	window full of choices for you.
       </para>
       <tip id="new-appointment-shortcut">
@@ -73,7 +99,7 @@
         default, today &mdash; but you can choose whether to give it
         starting and ending times or to mark it as an <guilabel>All
         day event</guilabel>. An <guilabel>All day event</guilabel>
-        appears at the top of a day's appointment list rather than inside
+        appears at the top of a day's appointment list, in the grey header under the date, rather than inside
         it.  That makes it easy to have appointments that overlap and fit
         inside each other.  For example, a conference might be an all
         day appointment, and the meetings at the conference would be timed
@@ -140,7 +166,7 @@
       </para>
       <para>
          <guilabel>Classification</guilabel> 
-          and only applies to calendars on a
+         only applies to calendars on a
          network. <guilabel>Public</guilabel> is the default category,
          and a public appointment can be viewed by anyone on the calendar
          sharing network.  <guilabel>Private</guilabel> denotes one
@@ -158,7 +184,7 @@
       <title>Adding a New Appointment Category</title>
 	<para>
 	 You can add a new category to your category list by clicking on
-         <guibutton>Edit Master Category List...</guibutton> and single-clicking
+         <guibutton>Edit Master Category List</guibutton> and single-clicking
 	 on <guilabel> Click here to add a category</guilabel>.
 	</para>
       </tip>
@@ -194,8 +220,8 @@
 
       <para>
 	Once you're done with all those settings, click on the disk
-	icon in the toolbar.  That will save the appointment and close the
-	appointment editor window. If you want, you can alter an appointment
+	icon in the toolbar to save and close the appointment editor window. 
+	If you want, you can alter an appointment
 	summary in the calendar view by clicking on it and typing. You
 	can change other settings by right-clicking on the appointment then
 	choosing <guimenuitem>Edit this Appointment</guimenuitem>.
@@ -213,7 +239,84 @@
 	easily reply to you with their response.  If they aren't sure if they
 	can attend, they can always reply to the mail later.
       </para>
+      <para>
+	To select receipients to be invited to an event:
+	<orderedlist numeration="arabic">
+	  <listitem>
+	    <para>
+	      Click
+	      <menuchoice>
+		<guimenu>Actions</guimenu>
+		<guimenuitem>Schedule Meeting</guimenuitem>
+	      </menuchoice>.  The <guilabel>Scheduling</guilabel> and <guilabel>Meeting</guilabel> tab open.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      If you have multiple identities setup, select the identity to use in the <guilabel>Sent By</guilabel> field.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click in the white box.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>Invite Others</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	    Select a person in the <guilabel>Contacts</guilabel> field and click one of the four choices to move them to be an RSVP reciever.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Click <guibutton>OK</guibutton>.
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Save the Appointment.
+	    </para>
+	  </listitem>
+	</orderedlist>
+	An email is now sent out to all the recipients, inviting them to your event.
+      </para>
     </sect2>
+    <sect2 id="replying-to-rsvp">
+      <title>Replying to an RSVP</title>
+      <para>
+	If you recieve an RSVP, the RSVP will be attached as an ical file.  Click on the attachment and view it inline.   All the details are shown about the event including time and dates.  Then you can choose how to reply to the RSVP.  Your choices are:
+	<itemizedlist>
+	  <listitem>
+	    <para>
+	      Accept
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Tentativly Accept
+	    </para>
+	  </listitem>
+	  <listitem>
+	    <para>
+	      Decline
+	    </para>
+	  </listitem>
+	</itemizedlist>
+	Click <guibutton>OK</guibutton> and an email will be sent to the organizer with your answer.  The event will also be added to your calendar if you accept.
+      </para>
+    </sect2>
+
+    <sect2 id="recieving-rsvp-response">
+      <title>Recieving an RSVP Response</title>
+      <para>
+	Once you recieve an RSVP, you'll need to view it inline in the email.  Click the attachment and select <guibutton>View Inline</guibutton>.  At the bottom, you can choose an action.  Click <guibutton>OK</guibutton> to update your attendee list.
+      </para>
+    </sect2>
+
 <!-- ############UNIMPLEMENTED FEATURES ###################
 
     <sect2 id="usage-calendar-apts-group">
@@ -281,47 +384,46 @@
        calendar appointments.  Tasks are colored and sorted by priority and
        due-date (see <xref linkend="config-prefs"> for more
        information), and are included with calendar data during
-       synchronization with a hand-held device.  You can use the list
+       synchronization  with a hand-held device.  You can use the list
        in a larger format by choosing the <guibutton>Tasks</guibutton>
        button in the shortcut bar or in the folder tree.
     </para>
     <para>
        To record a new task, click the <guibutton>Add</guibutton>
-       button below the list.  <application>Evolution</application>
+       button in the toolbar.  <application>Evolution</application>
        will pop up a small window with five items in it:
      
         <variablelist>
-	  <varlistentry>
+	<varlistentry>
 	  <term> <guilabel>Summary:</guilabel></term>
 	  <listitem>
             <para>
               The description you enter here will appear in the To Do
               list itself.
-          </para>
+	    </para>
 	  </listitem>
-	  </varlistentry>
+	</varlistentry>
 	
 	<varlistentry>
 	  <term> <guilabel>Due Date:</guilabel></term>
 	  <listitem>
 	    <para>
-            Decide when this item is
-            due.  You can either type in a date and time, or select one from
-            the <guibutton>Calendar</guibutton> and time drop-down menus.
+	      Decide when this item is
+	      due.  You can either type in a date and time, or select one from
+	      the <guibutton>Calendar</guibutton> and time drop-down menus.
           </para>
 	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term><guilabel>Priority:</guilabel></term>
+	  <term><guilabel>Start Date</guilabel></term>
 	  <listitem>
 	    <para>
-             Select a level of importance from 1 (most important) to 9
-              (least important).
-            </para>
-	  </listitem> 
+	      The date you intend to start working.  <!-- NOTE Check this please --> The item will not show up on the list until the start date.
+	    </para>
+	  </listitem>
 	</varlistentry>
 	<varlistentry>
-	  <term> <guilabel>Item Comments:</guilabel></term>
+	  <term> <guilabel>Description:</guilabel></term>
 	  <listitem>
 	    <para>
               If you wish, you can keep a more detailed description of
@@ -330,7 +432,18 @@
             </para>
 	  </listitem>
 	</varlistentry>
+	<varlistentry>
+	  <term><guilabel>Classification</guilabel></term>
+	  <listitem>
+	    <para>
+	      Sets who will see it if your calendar is shared.
+	    </para>
+	  </listitem>
+	</varlistentry>
       </variablelist>
+    </para>
+    <para>
+      There are more options in the <guilabel>Details</guilabel> tab such as priority and progress settings.
     </para>
     <para>
        Once you've added a task to your to-do list, its summary
@@ -367,7 +480,7 @@
         maintains one for the conference room, so people know when
         they can schedule meetings.  Next to that, she maintains a
         calendar that reflects when consultants are going to be on
-        site, and another that keeps track of when the Red Sox are
+        site, and another that keeps track of when the Cubs are
         playing.
       </para>
     </example>
@@ -375,22 +488,12 @@
       To create a new calendar, select 
       <menuchoice>
 	<guimenu>File</guimenu> <guisubmenu>New</guisubmenu>
-	<guimenuitem>Calendar</guimenuitem>
+	<guimenuitem>Folder</guimenuitem>
       </menuchoice>.
-       You can place the calendar in any calendar folder and access it
+       You'll need to tell the <guilabel>New Folder</guibutton> dialog that the new folder should be of the calendar type.  You can place the calendar in any calendar folder and access it
        from the folder view.  Alarms, configuration, and display for
        each calendar are separate from each other.
     </para>
     
   </sect1>
 </chapter>
-
-
-
-
-
-
-
-
-
-
