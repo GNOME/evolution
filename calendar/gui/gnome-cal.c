@@ -27,6 +27,7 @@
 #include "component-factory.h"
 #include "calendar-commands.h"
 #include "calendar-config.h"
+#include "tag-calendar.h"
 
 
 
@@ -50,6 +51,7 @@ typedef enum {
 
 /* Private part of the GnomeCalendar structure */
 struct _GnomeCalendarPrivate {
+	/* The calendar client object we monitor */
 	CalClient   *client;
 
 	/* Loading state; we can be loading or creating a calendar */
@@ -109,6 +111,11 @@ struct _GnomeCalendarPrivate {
 
 	/* UID->alarms hash */
 	GHashTable *alarms;
+
+	/* Whether we are being destroyed and should not mess with the object
+	 * editor hash table.
+	 */
+	guint in_destroy : 1;
 };
 
 
@@ -330,12 +337,12 @@ free_object_alarms (gpointer key, gpointer value, gpointer data)
 
 /* Used from g_hash_table_foreach(); frees an UID string */
 static void
-free_uid (gpointer key, gpointer value, gpointer data)
+destroy_editor_cb (gpointer key, gpointer value, gpointer data)
 {
-	char *uid;
+	EventEditor *ee;
 
-	uid = key;
-	g_free (uid);
+	ee = EVENT_EDITOR (value);
+	gtk_object_unref (GTK_OBJECT (ee));
 }
 
 static void
@@ -372,7 +379,8 @@ gnome_calendar_destroy (GtkObject *object)
 	g_hash_table_destroy (priv->alarms);
 	priv->alarms = NULL;
 
-	g_hash_table_foreach (priv->object_editor_hash, free_uid, NULL);
+	priv->in_destroy = TRUE;
+	g_hash_table_foreach (priv->object_editor_hash, destroy_editor_cb, NULL);
 	g_hash_table_destroy (priv->object_editor_hash);
 	priv->object_editor_hash = NULL;
 
@@ -1075,7 +1083,7 @@ initial_load (GnomeCalendar *gcal)
 	priv = gcal->priv;
 
 	load_alarms (gcal);
-	gnome_calendar_tag_calendar (gcal, priv->date_navigator);
+	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
 /* Removes any queued alarms for the specified UID */
@@ -1271,7 +1279,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 	remove_alarms_for_object (gcal, uid);
 	add_alarms_for_object (gcal, uid);
 
-	gnome_calendar_tag_calendar (gcal, priv->date_navigator);
+	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
 /* Callback from the calendar client when an object is removed */
@@ -1286,7 +1294,7 @@ obj_removed_cb (CalClient *client, const char *uid, gpointer data)
 
 	remove_alarms_for_object (gcal, uid);
 
-	gnome_calendar_tag_calendar (gcal, priv->date_navigator);
+	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
 
@@ -1544,98 +1552,6 @@ calendar_notify (time_t activation_time, CalendarAlarm *which, void *data)
 
 #endif
 
-struct calendar_tag_closure
-{
-	ECalendarItem *calitem;
-	time_t start_time;
-	time_t end_time;
-};
-
-/* Marks the specified range in a GtkCalendar */
-static gboolean
-gnome_calendar_tag_calendar_cb (CalComponent *comp,
-				time_t istart,
-				time_t iend,
-				gpointer data)
-{
-	struct calendar_tag_closure *c = data;
-	time_t t;
-
-	t = time_day_begin (istart);
-
-	do {
-		struct tm tm;
-
-		tm = *localtime (&t);
-
-		e_calendar_item_mark_day (c->calitem, tm.tm_year + 1900,
-					  tm.tm_mon, tm.tm_mday,
-					  E_CALENDAR_ITEM_MARK_BOLD);
-
-		t = time_day_end (t);
-	} while (t < iend);
-
-	return TRUE;
-}
-
-/*
- * Tags the dates with appointments in a GtkCalendar based on the
- * GnomeCalendar contents
- */
-void
-gnome_calendar_tag_calendar (GnomeCalendar *gcal, ECalendar *ecal)
-{
-	GnomeCalendarPrivate *priv;
-	struct calendar_tag_closure c;
-	gint start_year, start_month, start_day;
-	gint end_year, end_month, end_day;
-	struct tm start_tm = { 0 }, end_tm = { 0 };
-
-	g_return_if_fail (gcal != NULL);
-	g_return_if_fail (GNOME_IS_CALENDAR (gcal));
-	g_return_if_fail (ecal != NULL);
-	g_return_if_fail (E_IS_CALENDAR (ecal));
-
-	priv = gcal->priv;
-
-	/* If the ECalendar isn't visible, we just return. */
-	if (!GTK_WIDGET_VISIBLE (ecal))
-		return;
-
-	e_calendar_item_clear_marks (ecal->calitem);
-
-	if (!cal_client_is_loaded (priv->client))
-		return;
-
-	e_calendar_item_get_date_range	(ecal->calitem,
-					 &start_year, &start_month, &start_day,
-					 &end_year, &end_month, &end_day);
-
-	start_tm.tm_year = start_year - 1900;
-	start_tm.tm_mon = start_month;
-	start_tm.tm_mday = start_day;
-	start_tm.tm_hour = 0;
-	start_tm.tm_min = 0;
-	start_tm.tm_sec = 0;
-	start_tm.tm_isdst = -1;
-
-	end_tm.tm_year = end_year - 1900;
-	end_tm.tm_mon = end_month;
-	end_tm.tm_mday = end_day;
-	end_tm.tm_hour = 0;
-	end_tm.tm_min = 0;
-	end_tm.tm_sec = 0;
-	end_tm.tm_isdst = -1;
-
-	c.calitem = ecal->calitem;
-	c.start_time = mktime (&start_tm);
-	c.end_time = mktime (&end_tm);
-
-	cal_client_generate_instances (priv->client, CALOBJ_TYPE_EVENT,
-				       c.start_time, c.end_time,
-				       gnome_calendar_tag_calendar_cb, &c);
-}
-
 
 /* Tells the calendar to reload all config settings.
    If initializing is TRUE it sets the pane positions as well. (We don't
@@ -1867,9 +1783,7 @@ editor_closed_cb (GtkWidget *widget, gpointer data)
 	gpointer orig_key;
 	char *orig_uid;
 
-	g_print ("editor_closed_cb ()\n");
-
-	ec = (struct editor_closure *)data;
+	ec = (struct editor_closure *) data;
 	gcal = ec->gcal;
 	priv = gcal->priv;
 
@@ -1878,8 +1792,12 @@ editor_closed_cb (GtkWidget *widget, gpointer data)
 
 	orig_uid = orig_key;
 
-	g_hash_table_remove (priv->object_editor_hash, orig_uid);
+	if (!priv->in_destroy)
+		g_hash_table_remove (priv->object_editor_hash, orig_uid);
+
 	g_free (orig_uid);
+
+	g_free (ec);
 }
 
 void
@@ -2139,7 +2057,7 @@ gnome_calendar_on_date_navigator_date_range_changed (ECalendarItem *calitem,
 
 	priv = gcal->priv;
 
-	gnome_calendar_tag_calendar (gcal, priv->date_navigator);
+	tag_calendar_by_client (priv->date_navigator, priv->client);
 }
 
 

@@ -1201,8 +1201,8 @@ forever
 	      <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	      <child>
 		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
+		<expand>True</expand>
+		<fill>True</fill>
 	      </child>
 
 	      <widget>
@@ -1330,22 +1330,50 @@ forever
 	    </widget>
 
 	    <widget>
-	      <class>GtkLabel</class>
-	      <name>recurrence-custom-warning</name>
-	      <label>This appointment has custom recurrence rules that cannot be edited by Evolution.
-
-However, the appointment will recur at the appropriate time and will be displayed properly in the calendar views.</label>
-	      <justify>GTK_JUSTIFY_LEFT</justify>
-	      <wrap>True</wrap>
-	      <xalign>0</xalign>
-	      <yalign>0</yalign>
-	      <xpad>0</xpad>
-	      <ypad>0</ypad>
+	      <class>GtkVBox</class>
+	      <name>vbox48</name>
+	      <homogeneous>False</homogeneous>
+	      <spacing>0</spacing>
 	      <child>
 		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
+		<expand>False</expand>
+		<fill>False</fill>
 	      </child>
+
+	      <widget>
+		<class>GtkLabel</class>
+		<name>label50</name>
+		<label>Rule view</label>
+		<justify>GTK_JUSTIFY_CENTER</justify>
+		<wrap>False</wrap>
+		<xalign>0</xalign>
+		<yalign>0.5</yalign>
+		<xpad>0</xpad>
+		<ypad>0</ypad>
+		<child>
+		  <padding>0</padding>
+		  <expand>False</expand>
+		  <fill>False</fill>
+		</child>
+	      </widget>
+
+	      <widget>
+		<class>GtkAlignment</class>
+		<name>recurrence-preview-bin</name>
+		<xalign>0</xalign>
+		<yalign>0</yalign>
+		<xscale>1</xscale>
+		<yscale>1</yscale>
+		<child>
+		  <padding>0</padding>
+		  <expand>True</expand>
+		  <fill>True</fill>
+		</child>
+
+		<widget>
+		  <class>Placeholder</class>
+		</widget>
+	      </widget>
 	    </widget>
 	  </widget>
 	</widget>

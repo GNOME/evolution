@@ -113,6 +113,8 @@ evolution_calendar_SOURCES =			\
 	print.c					\
 	print.h					\
 	prop.c					\
+	tag-calendar.c				\
+	tag-calendar.h				\
 	weekday-picker.c			\
 	weekday-picker.h
 

@@ -70,8 +70,6 @@ void       gnome_calendar_dayjump          	(GnomeCalendar *gcal,
 						 time_t time);
 /* Jumps to the current day */
 void       gnome_calendar_goto_today            (GnomeCalendar *gcal);
-void       gnome_calendar_tag_calendar          (GnomeCalendar *gcal,
-						 ECalendar     *ecal);
 char      *gnome_calendar_get_current_view_name (GnomeCalendar *gcal);
 void	   gnome_calendar_set_view		(GnomeCalendar	*gcal,
 						 char		*page_name,

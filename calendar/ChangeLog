@@ -1,3 +1,54 @@
+2000-11-12  Federico Mena Quintero  <federico@helixcode.com>
+
+	* gui/event-editor.c (recur_to_comp_object): Clear the rdate and
+	exrule lists from the component if we are setting a simple
+	recurrence.
+	(recur_to_comp_object): Set the exdate list here instead of in
+	dialog_to_comp_object().
+	(preview_recur): New function to tag the recurrence preview
+	calendar based on the information from the dialog box.
+	(fill_exception_widgets): Fill the exception widgets here; moved
+	over from fill_widgets().
+	(fill_recurrence_widgets): Call preview_recur().  Also, call
+	fill_exception_widgets() first of all.
+	(recurrence_type_toggled_cb): Call preview_recur().
+	(recur_interval_selection_done_cb): Likewise.
+	(recur_ending_selection_done_cb): Likewise.
+	(recurrence_exception_add_cb): Likewise.
+	(recurrence_exception_modify_cb): Likewise.
+	(recurrence_exception_delete_cb): Likewise.
+	(date_changed_cb): Likewise.
+	(recur_interval_value_changed_cb): Likewise, new function.
+
+	* gui/tag-calendar.[ch]: New files with utilities for tagging
+	calendars.  mark.[ch] should go away some day.
+
+	* gui/tag-calendar.c (tag_calendar): Moved over from
+	gnome_calendar_tag_calendar().  Take in a CalClient instead of a
+	GnomeCalendar.  Added API docs.
+	(tag_calendar_by_comp): New function to tag a calendar based on a
+	single calendar component instead of a whole client.
+
+	* gui/gnome-cal.c (initial_load): Use tag_calendar_by_client().
+	(obj_updated_cb): Likewise.
+	(obj_removed_cb): Likewise.
+	(gnome_calendar_on_date_navigator_date_range_changed): Likewise.
+	(editor_closed_cb): Free the closure.
+	(destroy_editor_cb): Renamed from free_uid().  Do not free the
+	UID; just unref the event editor.  Our destroy handler to it will
+	free things properly.  This will also cause the corresponding
+	calendar client to be unrefed.
+	(editor_closed_cb): Use a flag on the GnomeCalendar to decide
+	whether to remove the editor from the hash table.  This is sort of
+	icky.
+
+	* gui/calendar-model.c (obj_updated_cb): If the object is new, we
+	have to use e_table_model_row_inserted(), not row_changed().
+	Thanks to JP Rosevear for reporting this.
+
+	* gui/Makefile.am (evolution_calendar_SOURCES): Added
+	tag-calendar.[ch] to the list of sources.
+
 2000-11-11  Matt Bissiri  <bissiri@eecs.umich.edu>
 
 	* gui/evolution-calendar.oafinfo:

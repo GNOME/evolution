@@ -1630,6 +1630,7 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 			*new_idx = priv->objects->len - 1;
 
 			g_hash_table_insert (priv->uid_index_hash, (char *) new_comp_uid, new_idx);
+			e_table_model_row_inserted (E_TABLE_MODEL (model), *new_idx);
 		} else {
 			int i;
 
@@ -1658,9 +1659,10 @@ obj_updated_cb (CalClient *client, const char *uid, gpointer data)
 
 				(*comp_idx)++;
 			}
+
+			e_table_model_row_changed (E_TABLE_MODEL (model), *new_idx);
 		}
 
-		e_table_model_row_changed (E_TABLE_MODEL (model), *new_idx);
 		break;
 
 	case CAL_CLIENT_GET_NOT_FOUND:

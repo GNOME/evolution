@@ -54,7 +54,5 @@ gchar *s = N_("Add");
 gchar *s = N_("Modify");
 gchar *s = N_("Delete");
 gchar *s = N_("label21");
-gchar *s = N_("This appointment has custom recurrence rules that cannot be edited by Evolution.\n"
-              "\n"
-              "However, the appointment will recur at the appropriate time and will be displayed properly in the calendar views.");
+gchar *s = N_("Rule view");
 gchar *s = N_("Recurrence");
