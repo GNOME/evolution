@@ -116,7 +116,7 @@
 	  <name>addSource</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Add</label>
+	  <label>_Add</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
@@ -125,7 +125,7 @@
 	  <name>editSource</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Edit</label>
+	  <label>_Edit</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
 
@@ -134,7 +134,7 @@
 	  <name>deleteSource</name>
 	  <can_default>True</can_default>
 	  <can_focus>True</can_focus>
-	  <label>Delete</label>
+	  <label>De_lete</label>
 	  <relief>GTK_RELIEF_NORMAL</relief>
 	</widget>
       </widget>

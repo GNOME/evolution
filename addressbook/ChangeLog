@@ -1,3 +1,8 @@
+2001-07-12  JP Rosevear  <jpr@ximian.com>
+
+	* gui/component/addressbook-config.glade: add accelerators,
+	taylor's patch
+
 2001-07-12  Jason Leach  <jleach@ximian.com>
 
 	* backend/ebook/evolution-vcard-importer.c (support_format_fn):
