@@ -625,6 +625,18 @@ e_cell_tree_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE(e_cell_tree, "ECellTree", ECellTree, e_cell_tree_class_init, NULL, PARENT_TYPE);
 
+/**
+ * e_cell_tree_construct:
+ * @ect: the ECellTree we're constructing.
+ * @open_pixbuf: pixbuf to be used instead of the '-' icon.
+ * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
+ * @draw_lines: whether or not to draw the lines between parents/children/siblings.
+ * @subcell: the ECell to render to the right of the tree effects.
+ * 
+ * Constructs an ECellTree.  used by subclasses that need to
+ * initialize a nested ECellTree.  See e_cell_tree_new() for more info.
+ * 
+ **/
 void
 e_cell_tree_construct (ECellTree *ect,
 		       GdkPixbuf *open_pixbuf,
@@ -650,6 +662,22 @@ e_cell_tree_construct (ECellTree *ect,
 }
 
 
+/**
+ * e_cell_tree_new:
+ * @open_pixbuf: pixbuf to be used instead of the '-' icon.
+ * @closed_pixbuf: pixbuf to be used instead of the '+' icon.
+ * @draw_lines: whether or not to draw the lines between parents/children/siblings.
+ * @subcell: the ECell to render to the right of the tree effects.
+ * 
+ * Creates a new ECell renderer that can be used to render tree
+ * effects that come from an ETreeModel.  Various assumptions are made
+ * as to the fact that the ETableModel the ETable this cell is
+ * associated with is in fact an ETreeModel.  The cell uses special
+ * columns to get at structural information (needed to draw the
+ * lines/icons.
+ * 
+ * Return value: an ECell object that can be used to render trees.
+ **/
 ECell *
 e_cell_tree_new (GdkPixbuf *open_pixbuf,
 		 GdkPixbuf *closed_pixbuf,

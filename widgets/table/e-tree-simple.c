@@ -133,6 +133,35 @@ e_tree_simple_class_init (GtkObjectClass *object_class)
 
 E_MAKE_TYPE(e_tree_simple, "ETreeSimple", ETreeSimple, e_tree_simple_class_init, NULL, PARENT_TYPE)
 
+/**
+ * e_tree_simple_new:
+ * @col_count: 
+ * @duplicate_value: 
+ * @free_value: 
+ * @initialize_value: 
+ * @value_is_empty: 
+ * @value_to_string: 
+ * @icon_at: 
+ * @value_at: 
+ * @set_value_at: 
+ * @is_editable: 
+ * @model_data: 
+ * 
+ * This initializes a new ETreeSimpleModel object.  ETreeSimpleModel is
+ * an implementaiton of the abstract class ETreeModel.  The ETreeSimpleModel
+ * is designed to allow people to easily create ETreeModels without having
+ * to create a new GtkType derived from ETreeModel every time they need one.
+ *
+ * Instead, ETreeSimpleModel uses a setup based in callback functions, every
+ * callback function signature mimics the signature of each ETreeModel method
+ * and passes the extra @data pointer to each one of the method to provide them
+ * with any context they might want to use. 
+ * 
+ * ETreeSimple is to ETreeModel as ETableSimple is to ETableModel.
+ *
+ * Return value: An ETreeSimple object (which is also an ETreeModel
+ * object).
+ **/
 ETreeModel *
 e_tree_simple_new  (ETableSimpleColumnCountFn     col_count,
 		    ETableSimpleDuplicateValueFn  duplicate_value,
