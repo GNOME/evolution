@@ -1,3 +1,8 @@
+2002-05-14  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/schedule-page.c (schedule_page_construct): set the
+	working hours for the meeting time selector
+
 2002-05-13  JP Rosevear  <jpr@ximian.com>
 
 	* cal-util/cal-component.h: make the range datetime member a

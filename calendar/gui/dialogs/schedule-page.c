@@ -44,6 +44,7 @@
 #include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
+#include "../calendar-config.h"
 #include "../e-meeting-time-sel.h"
 #include "../itip-utils.h"
 #include "comp-editor-util.h"
@@ -445,6 +446,11 @@ schedule_page_construct (SchedulePage *spage, EMeetingModel *emm)
 	
 	/* Selector */
 	priv->sel = E_MEETING_TIME_SELECTOR (e_meeting_time_selector_new (emm));
+	e_meeting_time_selector_set_working_hours (priv->sel,
+						   calendar_config_get_day_start_hour (),
+						   calendar_config_get_day_start_minute (),
+						   calendar_config_get_day_end_hour (),
+						   calendar_config_get_day_end_minute ());
 	gtk_widget_show (GTK_WIDGET (priv->sel));
 	gtk_box_pack_start (GTK_BOX (priv->main), GTK_WIDGET (priv->sel), TRUE, TRUE, 2);
 
