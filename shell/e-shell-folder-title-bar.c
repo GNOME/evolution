@@ -421,10 +421,10 @@ e_shell_folder_title_bar_new (void)
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	new = gtk_type_new (e_shell_folder_title_bar_get_type ());
-	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();
 
 	e_shell_folder_title_bar_construct (new);
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
 
 	return GTK_WIDGET (new);
 }
