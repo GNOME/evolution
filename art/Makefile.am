@@ -109,6 +109,7 @@ images_DATA = \
 	service-up-disabled.png		\
 	show_all_messages.xpm		\
 	splash.png			\
+	task.xpm			\
 	thankyou.png			\
 	undelete_message-16.png		\
 	wax-seal.png			\
@@ -181,7 +182,6 @@ EXTRA_DIST = \
 	task-assigned-to.xpm		\
 	task-assigned.xpm		\
 	task-recurring.xpm		\
-	task.xpm			\
 	timezone-16.xpm			\
 	tree-expanded.xpm		\
 	tree-unexpanded.xpm		\
