@@ -62,6 +62,7 @@
 #include "e-shell-corba-icon-utils.h"
 #include "e-shell-folder-selection-dialog.h"
 #include "e-shell-offline-handler.h"
+#include "e-shell-settings-dialog.h"
 #include "e-shell-startup-wizard.h"
 #include "e-shell-view.h"
 #include "e-shortcuts.h"
@@ -119,6 +120,9 @@ struct _EShellPrivate {
 	/* Line status.  */
 	EShellLineStatus line_status;
 
+	/* Settings Dialog */
+	GtkWidget *settings_dialog;
+	
 	/* Configuration Database */
 	Bonobo_ConfigDatabase db;
 
@@ -1165,6 +1169,7 @@ init (EShell *shell)
 	priv->offline_handler              = NULL;
 	priv->crash_type_names             = NULL;
 	priv->line_status                  = E_SHELL_LINE_STATUS_OFFLINE;
+	priv->settings_dialog              = NULL;
 	priv->db                           = CORBA_OBJECT_NIL;
 	priv->is_initialized               = FALSE;
 	priv->is_interactive               = FALSE;
@@ -2012,6 +2017,46 @@ e_shell_send_receive (EShell *shell)
 	}
 
 	e_free_string_list (id_list);
+}
+
+static void
+settings_dialog_destroy_cb (GtkWidget *widget, void *data)
+{
+	EShell *shell;
+	EShellPrivate *priv;
+	
+	shell = E_SHELL (data);
+	priv = shell->priv;
+	
+	priv->settings_dialog = NULL;
+}
+
+void
+e_shell_show_settings (EShell *shell, const char *type, EShellView *shell_view)
+{
+	EShellPrivate *priv;
+	
+	g_return_if_fail (shell != NULL);
+	g_return_if_fail (E_IS_SHELL (shell));
+	g_return_if_fail (type != NULL);
+
+	priv = shell->priv;
+	
+	if (priv->settings_dialog != NULL) {
+		gdk_window_show (priv->settings_dialog->window);
+		gtk_widget_grab_focus (priv->settings_dialog);
+		return;
+	}
+	
+	priv->settings_dialog = e_shell_settings_dialog_new ();
+	e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (priv->settings_dialog), type);
+
+	gtk_signal_connect (GTK_OBJECT (priv->settings_dialog), "destroy",
+			    GTK_SIGNAL_FUNC (settings_dialog_destroy_cb), shell);
+
+	gtk_window_set_transient_for (GTK_WINDOW (priv->settings_dialog), GTK_WINDOW (shell_view));
+	gtk_widget_show (priv->settings_dialog);
+
 }
 
 

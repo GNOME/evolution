@@ -94,6 +94,8 @@ void      e_shell_view_show_folder_bar     (EShellView *shell_view,
 					    gboolean    show);
 gboolean  e_shell_view_folder_bar_shown    (EShellView *shell_view);
 
+void e_shell_view_show_settings (EShellView *shell_view);
+
 ETaskBar          *e_shell_view_get_task_bar               (EShellView *shell_view);
 EShell            *e_shell_view_get_shell                  (EShellView *shell_view);
 BonoboUIComponent *e_shell_view_get_bonobo_ui_component    (EShellView *shell_view);

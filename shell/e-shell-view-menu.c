@@ -33,8 +33,6 @@
 #include "e-shell-folder-creation-dialog.h"
 #include "e-shell-folder-selection-dialog.h"
 
-#include "e-shell-settings-dialog.h"
-
 #include "e-shell-constants.h"
 
 #include "e-shell-importer.h"
@@ -588,18 +586,10 @@ command_settings (BonoboUIComponent *uih,
 		  const char *path)
 {
 	EShellView *shell_view;
-	GtkWidget *dialog;
-	const char *type;
 	
 	shell_view = E_SHELL_VIEW (data);
 
-	type = e_shell_view_get_current_folder_type (shell_view);
-	dialog = e_shell_settings_dialog_new ();
-	e_shell_settings_dialog_show_type (E_SHELL_SETTINGS_DIALOG (dialog), type);
-	
-	gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (shell_view));
-	
-	gtk_widget_show (dialog);
+	e_shell_view_show_settings (shell_view);
 }
 
 static void

@@ -1518,6 +1518,22 @@ corba_interface_set_folder_bar_label (EvolutionShellView *evolution_shell_view,
 }
 
 static void
+corba_interface_show_settings (EvolutionShellView *evolution_shell_view,
+			       void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
+	g_return_if_fail (data != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (data));
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	e_shell_view_show_settings (shell_view);
+}
+
+static void
 unmerge_on_error (BonoboObject *object,
 		  CORBA_Object  cobject,
 		  CORBA_Environment *ev)
@@ -1945,6 +1961,9 @@ setup_corba_interface (EShellView *shell_view,
 	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "set_folder_bar_label",
 					GTK_SIGNAL_FUNC (corba_interface_set_folder_bar_label),
 					shell_view, GTK_OBJECT (shell_view));
+	gtk_signal_connect_while_alive (GTK_OBJECT (corba_interface), "show_settings",
+					GTK_SIGNAL_FUNC (corba_interface_show_settings),
+					shell_view, GTK_OBJECT (shell_view));
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control_frame),
 				     BONOBO_OBJECT (corba_interface));
@@ -2347,6 +2366,21 @@ e_shell_view_show_folder_bar (EShellView *shell_view,
 
 	gtk_signal_emit (GTK_OBJECT (shell_view), signals[FOLDER_BAR_VISIBILITY_CHANGED],
 			 priv->folder_bar_shown);
+}
+
+void
+e_shell_view_show_settings (EShellView *shell_view)
+{
+	EShellViewPrivate *priv;	
+	const char *type;
+
+	g_return_if_fail (shell_view != NULL);
+	g_return_if_fail (E_IS_SHELL_VIEW (shell_view));
+	
+	priv = shell_view->priv;
+	
+	type = e_shell_view_get_current_folder_type (shell_view);
+	e_shell_show_settings (priv->shell, type, shell_view);
 }
 
 gboolean

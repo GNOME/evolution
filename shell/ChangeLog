@@ -1,3 +1,31 @@
+2002-04-18  JP Rosevear  <jpr@ximian.com>
+
+	* evolution-shell-view.c (impl_ShellView_show_settings): emit
+	show_settings signal
+	(corba_class_init): assign epv method
+	(class_init): add signal
+
+	* evolution-shell-view.h: new signal
+
+	* e-shell.c (init): init settings_dialog private member
+	(settings_dialog_destroy_cb): reset dialog pointer
+	(e_shell_show_settings): show the settings dialog, bring it to the
+	front if one already exists for this shell
+
+	* e-shell.h: new proto
+
+	* e-shell-view.c (corba_interface_show_settings): implement
+	showSettings method
+	(setup_corba_interface): listen for show_settings signal
+	(e_shell_view_show_settings): show the settings dialog
+
+	* e-shell-view.h: new proto
+
+	* e-shell-view-menu.c (command_settings): call
+	e_shell_view_show_settings instead
+
+	* Evolution-ShellView.idl: add showSettings method
+
 2002-04-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-shortcuts-view.c (impl_shortcut_drag_motion): New, override

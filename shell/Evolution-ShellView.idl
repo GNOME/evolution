@@ -19,6 +19,7 @@ module Evolution {
 		void changeCurrentView (in string uri);
 		void setTitle          (in string title);
 		void setFolderBarLabel (in string text);
+		void showSettings      ();
 	};
 };
 };

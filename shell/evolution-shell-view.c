@@ -44,6 +44,7 @@ enum {
 	CHANGE_VIEW,
 	SET_TITLE,
 	SET_FOLDER_BAR_LABEL,
+	SHOW_SETTINGS,
 	LAST_SIGNAL
 };
 static int signals[LAST_SIGNAL] = { 0 };
@@ -133,6 +134,16 @@ impl_ShellView_set_folder_bar_label (PortableServer_Servant servant,
 			 text);
 }
 
+static void
+impl_ShellView_show_settings (PortableServer_Servant servant,
+			      CORBA_Environment *ev)
+{
+	BonoboObject *bonobo_object;
+
+	bonobo_object = bonobo_object_from_servant (servant);
+	gtk_signal_emit (GTK_OBJECT (bonobo_object), signals[SHOW_SETTINGS]);
+}
+
 
 /* GtkObject methods.  */
 static void
@@ -168,6 +179,7 @@ corba_class_init (void)
 	epv->changeCurrentView = impl_ShellView_change_current_view;
 	epv->setTitle          = impl_ShellView_set_title;
 	epv->setFolderBarLabel = impl_ShellView_set_folder_bar_label;
+	epv->showSettings      = impl_ShellView_show_settings;
 
 	vepv = &ShellView_vepv;
 	vepv->_base_epv               = base_epv;
@@ -227,6 +239,14 @@ class_init (EvolutionShellViewClass *klass)
 				  gtk_marshal_NONE__POINTER,
 				  GTK_TYPE_NONE, 1,
 				  GTK_TYPE_STRING);
+
+	signals[SHOW_SETTINGS]
+		= gtk_signal_new ("show_settings",
+				  GTK_RUN_FIRST,
+				  object_class->type,
+				  GTK_SIGNAL_OFFSET (EvolutionShellViewClass, show_settings),
+				  gtk_marshal_NONE__NONE,
+				  GTK_TYPE_NONE, 0);
 
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 
