@@ -109,7 +109,7 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 	numcols = e_table_header_count (eth);
 
 	if (ethi->font) {
-		maxheight = ethi->font->ascent + ethi->font->descent + HEADER_PADDING;
+		maxheight = ethi->font->ascent + ethi->font->descent + HEADER_PADDING + 1;
 	} else {
 		/* FIXME: Default??? */
 		maxheight = 16;
@@ -118,12 +118,12 @@ e_table_header_item_get_height (ETableHeaderItem *ethi)
 		ETableCol *ecol = e_table_header_get_column (eth, col);
 		
 		if (ecol->is_pixbuf) {
-			maxheight = MAX (maxheight, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 4);
+			maxheight = MAX (maxheight, gdk_pixbuf_get_height (ecol->pixbuf) + HEADER_PADDING + 1);
 		}
 	}
 
-	if (maxheight < MIN_ARROW_SIZE + 4 + HEADER_PADDING)
-		maxheight = MIN_ARROW_SIZE + 4 + HEADER_PADDING;
+	if (maxheight < MIN_ARROW_SIZE + 1 + HEADER_PADDING)
+		maxheight = MIN_ARROW_SIZE + 1 + HEADER_PADDING;
 
 	return maxheight;
 }
@@ -180,6 +180,7 @@ ethi_font_set (ETableHeaderItem *ethi, GdkFont *font)
 	ethi->font = font;
 	
 	ethi->height = e_table_header_item_get_height (ethi);
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
 }
 
 static void
@@ -237,7 +238,8 @@ ethi_add_table_header (ETableHeaderItem *ethi, ETableHeader *header)
 	ethi->dimension_change_id = gtk_signal_connect (
 		GTK_OBJECT (header), "dimension_change",
 		GTK_SIGNAL_FUNC(dimension_changed), ethi);
-	gnome_canvas_item_request_update(GNOME_CANVAS_ITEM(ethi));
+	e_canvas_item_request_reflow(GNOME_CANVAS_ITEM(ethi));
+	gnome_canvas_item_request_update (GNOME_CANVAS_ITEM(ethi));
 }
 
 static void
@@ -832,11 +834,10 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 		ellipsis_width = gdk_text_width (ethi->font, "...", 3);
 
 		str_width = gdk_text_width (ethi->font, col->text, text_len);
+		/* y_xtra = ethi->height / 2 + (ethi->font->ascent + ethi->font->descent) / 2 - ethi->font->descent; */
+		y_xtra = (ethi->height + ethi->font->ascent - ethi->font->descent) / 2;
 
 		if (str_width < clip.width) {
-			font_height = gdk_text_height (ethi->font, col->text,
-						       text_len);
-			y_xtra = (clip.height - font_height) / 2;
 		
 			/* Center the thing */
 			xtra = (clip.width - gdk_string_measure (ethi->font, col->text))/2;
@@ -848,7 +849,7 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 			xtra += HEADER_PADDING / 2;
 			
 			gdk_draw_text (drawable, ethi->font,
-				       ethi->gc, clip.x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING - 1),
+				       ethi->gc, clip.x + xtra, y + y_xtra,
 				       col->text, text_len);
 		} else {
 			/* Need ellipsis */
@@ -869,18 +870,15 @@ draw_button (ETableHeaderItem *ethi, ETableCol *col,
 
 			xtra += HEADER_PADDING / 2;
 
-			font_height = gdk_text_height (ethi->font, col->text, 
-						       ellipsis_length);
-			y_xtra = (clip.height - font_height) / 2;
 
 			gdk_draw_text (drawable, ethi->font, ethi->gc,
-				       x + xtra, y + (ethi->height - y_xtra - HEADER_PADDING - 1),
+				       x + xtra, y + y_xtra,
 				       col->text, ellipsis_length);
 			gdk_draw_string (drawable, ethi->font, ethi->gc,
 					 x + xtra + gdk_text_width (ethi->font,
 								    col->text,
 								    ellipsis_length),
-					 y + (ethi->height - y_xtra - HEADER_PADDING - 1),
+					 y + y_xtra,
 					 "...");
 		}
 	}
