@@ -1,3 +1,15 @@
+2001-04-20  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-smime-context.c (smime_sign): Implemented using the
+	secmime.h convenience functions.
+	(smime_clearsign): We just error our here, there is no clearsign
+	for smime.
+	(smime_verify): Copied code over from the pkcs7 verify - same
+	state, ugly and unknown :-)
+	(smime_encrypt): Implemented using the secmime.h convenience
+	functions.
+	(smime_decrypt): Same as the code in pkcs7-context.
+
 2001-04-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-pkcs7-context.c (pkcs7_sign): Implemented.
