@@ -137,6 +137,7 @@ typedef struct {
 	void (*search_free) (CamelFolder *folder, GPtrArray *result);
 
 	CamelMessageInfo * (*get_message_info) (CamelFolder *, const char *uid);
+	void (*ref_message_info) (CamelFolder *, CamelMessageInfo *);
 	void (*free_message_info) (CamelFolder *, CamelMessageInfo *);
 
 	void (*copy_message_to) (CamelFolder *source,
@@ -252,6 +253,7 @@ void		   camel_folder_search_free	      (CamelFolder *folder, GPtrArray *);
 /* summary info */
 CamelMessageInfo *camel_folder_get_message_info		(CamelFolder *folder, const char *uid);
 void		  camel_folder_free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
+void		  camel_folder_ref_message_info		(CamelFolder *folder, CamelMessageInfo *info);
 
 void               camel_folder_copy_message_to       (CamelFolder *source,
 						       const char *uid,

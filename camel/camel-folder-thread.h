@@ -43,6 +43,9 @@ typedef struct CamelFolderThread {
 } CamelFolderThread;
 
 CamelFolderThread *camel_folder_thread_messages_new(CamelFolder *folder, GPtrArray *uids);
+
+/* new improved interface (believe it or not!) */
+CamelFolderThread *camel_folder_thread_messages_new_summary(GPtrArray *summary);
 /*
 void camel_folder_thread_messages_add(CamelFolderThread *threads, CamelFolder *folder, GPtrArray *uids);
 void camel_folder_thread_messages_remove(CamelFolderThread *threads, CamelFolder *folder, GPtrArray *uids);

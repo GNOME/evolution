@@ -35,7 +35,7 @@
 
 #include "camel-private.h"
 
-#define d(x) x
+#define d(x) 
 
 static CamelObjectClass *parent_class = NULL;
 
@@ -87,6 +87,7 @@ static CamelMimeMessage *get_message         (CamelFolder *folder,
 
 static CamelMessageInfo *get_message_info	(CamelFolder *folder, const char *uid);
 static void		 free_message_info	(CamelFolder *folder, CamelMessageInfo *info);
+static void		 ref_message_info	(CamelFolder *folder, CamelMessageInfo *info);
 
 static GPtrArray      *search_by_expression  (CamelFolder *folder,
 					      const char *exp,
@@ -145,6 +146,7 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->search_by_expression = search_by_expression;
 	camel_folder_class->search_free = search_free;
 	camel_folder_class->get_message_info = get_message_info;
+	camel_folder_class->ref_message_info = ref_message_info;
 	camel_folder_class->free_message_info = free_message_info;
 	camel_folder_class->copy_message_to = copy_message_to;
 	camel_folder_class->move_message_to = move_message_to;
@@ -799,6 +801,30 @@ camel_folder_free_message_info(CamelFolder *folder, CamelMessageInfo *info)
 	g_return_if_fail(info != NULL);
 
 	CF_CLASS (folder)->free_message_info(folder, info);
+}
+
+static void
+ref_message_info (CamelFolder *folder, CamelMessageInfo *info)
+{
+	g_return_if_fail(folder->summary != NULL);
+
+	camel_folder_summary_info_ref(folder->summary, info);
+}
+
+/**
+ * camel_folder_ref_message_info:
+ * @folder: 
+ * @info: 
+ * 
+ * Ref a CamelMessageInfo, previously obtained with get_message_info().
+ **/
+void
+camel_folder_ref_message_info(CamelFolder *folder, CamelMessageInfo *info)
+{
+	g_return_if_fail(CAMEL_IS_FOLDER (folder));
+	g_return_if_fail(info != NULL);
+
+	CF_CLASS (folder)->ref_message_info(folder, info);
 }
 
 /* TODO: is this function required anyway? */
