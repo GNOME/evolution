@@ -33,18 +33,20 @@
 #include <gal/util/e-util.h>
 #include <e-util/e-dialog-widgets.h>
 #include <widgets/misc/e-dateedit.h>
+#include "../e-timezone-entry.h"
 #include "cal-prefs-dialog.h"
 #include "../calendar-config.h"
 #include "../calendar-commands.h"
 #include "../e-tasks.h"
 
 
-typedef struct {
+struct _CalPrefsDialogPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
 
 	GtkWidget *dialog;
 
+	GtkWidget *timezone;
 	GtkWidget *working_days[7];
 	GtkWidget *week_start_day;
 	GtkWidget *start_of_day;
@@ -55,7 +57,7 @@ typedef struct {
 	GtkWidget *show_end_times;
 	GtkWidget *compress_weekend;
 	GtkWidget *dnav_show_week_no;
-} CalPrefsDialogPrivate;
+};
 
 static const int week_start_day_map[] = {
 	1, 2, 3, 4, 5, 6, 0, -1
@@ -196,6 +198,7 @@ get_widgets (CalPrefsDialog *prefs)
 	priv->working_days[5] = GW ("fri_button");
 	priv->working_days[6] = GW ("sat_button");
 
+	priv->timezone = GW ("timezone");
 	priv->week_start_day = GW ("first_day_of_week");
 	priv->start_of_day = GW ("start_of_day");
 	priv->end_of_day = GW ("end_of_day");
@@ -209,6 +212,7 @@ get_widgets (CalPrefsDialog *prefs)
 #undef GW
 
 	return (priv->dialog
+		&& priv->timezone
 		&& priv->working_days[0]
 		&& priv->working_days[1]
 		&& priv->working_days[2]
@@ -347,8 +351,14 @@ cal_prefs_dialog_show_config	(CalPrefsDialog	*prefs)
 	CalPrefsDialogPrivate *priv;
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions;
+	char *zone;
 
 	priv = prefs->priv;
+
+	/* Timezone. */
+	zone = calendar_config_get_timezone ();
+	e_timezone_entry_set_timezone (E_TIMEZONE_ENTRY (priv->timezone),
+				       zone ? zone : "");
 
 	/* Working Days. */
 	working_days = calendar_config_get_working_days ();
@@ -403,8 +413,13 @@ cal_prefs_dialog_update_config	(CalPrefsDialog	*prefs)
 	CalPrefsDialogPrivate *priv;
 	CalWeekdays working_days;
 	gint mask, day, week_start_day, time_divisions, hour, minute;
+	char *zone;
 
 	priv = prefs->priv;
+
+	/* Timezone. */
+	zone = e_timezone_entry_get_timezone (E_TIMEZONE_ENTRY (priv->timezone));
+	calendar_config_set_timezone (zone);
 
 	/* Working Days. */
 	working_days = 0;

@@ -84,7 +84,6 @@ static void event_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void event_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void event_page_set_summary (CompEditorPage *page, const char *summary);
 static void event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
-static void event_page_set_cal_client (CompEditorPage *page, CalClient *client);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -139,7 +138,6 @@ event_page_class_init (EventPageClass *class)
 	editor_page_class->fill_component = event_page_fill_component;
 	editor_page_class->set_summary = event_page_set_summary;
 	editor_page_class->set_dates = event_page_set_dates;
-	editor_page_class->set_cal_client = event_page_set_cal_client;
 
 	object_class->destroy = event_page_destroy;
 }
@@ -510,19 +508,6 @@ static void
 event_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 {
 	/* nothing */
-}
-
-static void
-event_page_set_cal_client (CompEditorPage *page, CalClient *client)
-{
-	EventPage *epage;
-	EventPagePrivate *priv;
-
-	epage = EVENT_PAGE (page);
-	priv = epage->priv;
-
-	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->start_timezone), client);
-	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->end_timezone),client);
 }
 
 

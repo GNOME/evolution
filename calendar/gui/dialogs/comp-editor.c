@@ -359,7 +359,6 @@ void
 comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 {
 	CompEditorPrivate *priv;
-	GList *elem;
 
 	g_return_if_fail (editor != NULL);
 	g_return_if_fail (IS_COMP_EDITOR (editor));
@@ -383,10 +382,6 @@ comp_editor_set_cal_client (CompEditor *editor, CalClient *client)
 	}
 
 	priv->client = client;
-
-	/* Pass the client to any pages that need it. */
-	for (elem = priv->pages; elem; elem = elem->next)
-	  comp_editor_page_set_cal_client (elem->data, client);
 }
 
 /**

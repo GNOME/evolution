@@ -67,9 +67,6 @@ struct _ETimezoneEntryClass {
 guint      e_timezone_entry_get_type		(void);
 GtkWidget* e_timezone_entry_new			(void);
 
-void	   e_timezone_entry_set_cal_client	(ETimezoneEntry	*tentry,
-						 CalClient	*client);
-
 char*	   e_timezone_entry_get_timezone	(ETimezoneEntry	*tentry);
 void	   e_timezone_entry_set_timezone	(ETimezoneEntry	*tentry,
 						 char		*timezone);

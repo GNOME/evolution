@@ -26,6 +26,7 @@
 #include <gtk/gtkentry.h>
 #include <gtk/gtklabel.h>
 #include <gnome.h>
+#include <ical.h>
 #include <glade/glade.h>
 #include <widgets/misc/e-map.h>
 #include "e-timezone-dialog.h"
@@ -38,11 +39,6 @@
 struct _ETimezoneDialogPrivate {
 	/* Glade XML data */
 	GladeXML *xml;
-
-	/* Client to use */
-	CalClient *client;
-
-	GArray *zones;
 
 	EMapPoint *point_selected;
 	EMapPoint *point_hover;
@@ -158,12 +154,6 @@ e_timezone_dialog_destroy (GtkObject *object)
 		priv->timeout_id = 0;
 	}
 
-	if (priv->client) {
-		gtk_signal_disconnect_by_data (GTK_OBJECT (priv->client), etd);
-		gtk_object_unref (GTK_OBJECT (priv->client));
-		priv->client = NULL;
-	}
-
 	if (priv->xml) {
 		gtk_object_unref (GTK_OBJECT (priv->xml));
 		priv->xml = NULL;
@@ -174,6 +164,57 @@ e_timezone_dialog_destroy (GtkObject *object)
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
+}
+
+
+static void
+e_timezone_dialog_add_timezones (ETimezoneDialog *etd)
+{
+	ETimezoneDialogPrivate *priv;
+	icalarray *zones;
+	GtkWidget *listitem;
+	GtkCombo *combo;
+	int i;
+
+	priv = etd->priv;
+
+	combo = GTK_COMBO (priv->timezone_combo);
+
+	/* Clear any existing items in the combo. */
+	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
+
+	/* Put the "None" and "UTC" entries at the top of the combo's list.
+	   When "None" is selected we want the field to be cleared. */
+	listitem = gtk_list_item_new_with_label (_("None"));
+	gtk_widget_show (listitem);
+	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
+	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
+
+	/* Note: We don't translate timezone names at the moment. */
+	listitem = gtk_list_item_new_with_label ("UTC");
+	gtk_widget_show (listitem);
+	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
+
+	/* Get the array of builtin timezones. */
+	zones = icaltimezone_get_builtin_timezones ();
+
+	for (i = 0; i < zones->num_elements; i++) {
+		icaltimezone *zone;
+		char *location;
+
+		zone = icalarray_element_at (zones, i);
+
+		location = icaltimezone_get_location (zone);
+
+		e_map_add_point (priv->map, location,
+				 icaltimezone_get_longitude (zone),
+				 icaltimezone_get_latitude (zone),
+				 E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
+
+		listitem = gtk_list_item_new_with_label (location);
+		gtk_widget_show (listitem);
+		gtk_container_add (GTK_CONTAINER (combo->list), listitem);
+	}
 }
 
 
@@ -209,6 +250,8 @@ e_timezone_dialog_construct (ETimezoneDialog *etd)
 			       | GDK_VISIBILITY_NOTIFY_MASK);
 
 	gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry), FALSE);
+
+	e_timezone_dialog_add_timezones (etd);
 
 	gtk_container_add (GTK_CONTAINER (priv->map_window), map);
 	gtk_widget_show (map);
@@ -428,104 +471,40 @@ get_zone_from_point (ETimezoneDialog *etd,
 		     EMapPoint *point)
 {
 	ETimezoneDialogPrivate *priv;
-	CalTimezoneInfo *zone;
+	icalarray *zones;
 	double longitude, latitude;
 	int i;
 
 	priv = etd->priv;
 
-	if (point == NULL || priv->zones == NULL)
+	if (point == NULL)
 		return "";
 
 	e_map_point_get_location (point, &longitude, &latitude);
 
-	for (i = 0; i < priv->zones->len; i++) {
-		zone = &g_array_index (priv->zones, CalTimezoneInfo, i);
+	/* Get the array of builtin timezones. */
+	zones = icaltimezone_get_builtin_timezones ();
 
-		if (zone->longitude - 0.005 <= longitude &&
-		    zone->longitude + 0.005 >= longitude &&
-		    zone->latitude - 0.005 <= latitude &&
-		    zone->latitude + 0.005 >= latitude)
+	for (i = 0; i < zones->num_elements; i++) {
+		icaltimezone *zone;
+		double zone_longitude, zone_latitude;
+
+		zone = icalarray_element_at (zones, i);
+		zone_longitude = icaltimezone_get_longitude (zone);
+		zone_latitude = icaltimezone_get_latitude (zone);
+
+		if (zone_longitude - 0.005 <= longitude &&
+		    zone_longitude + 0.005 >= longitude &&
+		    zone_latitude - 0.005 <= latitude &&
+		    zone_latitude + 0.005 >= latitude)
 		{
-			return zone->location;
+			return icaltimezone_get_location (zone);
 		}
 	}
 
 	g_assert_not_reached ();
 
 	return NULL;
-}
-
-
-CalClient*
-e_timezone_dialog_get_cal_client	(ETimezoneDialog  *etd)
-{
-
-	return etd->priv->client;
-}
-
-
-void
-e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
-					 CalClient	  *client)
-{
-	ETimezoneDialogPrivate *priv;
-	CalTimezoneInfo *zone;
-	GtkWidget *listitem;
-	GtkCombo *combo;
-	char *current_zone;
-	int i;
-
-	g_return_if_fail (etd != NULL);
-	g_return_if_fail (E_IS_TIMEZONE_DIALOG (etd));
-	g_return_if_fail (IS_CAL_CLIENT (client));
-
-	priv = etd->priv;
-
-	combo = GTK_COMBO (priv->timezone_combo);
-
-	/* Clear any existing items */
-	gtk_list_clear_items (GTK_LIST (combo->list), 0, -1);
-
-	priv->zones = cal_client_get_builtin_timezone_info (client);
-
-	if (!priv->zones) {
-		g_warning ("No timezone info found");
-		return;
-	}
-
-	/* Put the "None" and "UTC" entries at the top of the combo's list.
-	   When "None" is selected we want the field to be cleared. */
-	listitem = gtk_list_item_new_with_label (_("None"));
-	gtk_widget_show (listitem);
-	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
-	gtk_combo_set_item_string (combo, GTK_ITEM (listitem), "");
-
-	/* Note: We don't translate timezone names at the moment. */
-	listitem = gtk_list_item_new_with_label ("UTC");
-	gtk_widget_show (listitem);
-	gtk_container_add (GTK_CONTAINER (combo->list), listitem);
-
-	current_zone = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
-
-	for (i = 0; i < priv->zones->len; i++) {
-		zone = &g_array_index (priv->zones, CalTimezoneInfo, i);
-		if (!strcmp (current_zone, zone->location)) {
-			priv->point_selected = e_map_add_point (priv->map,
-								zone->location,
-								zone->longitude,
-								zone->latitude,
-								E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
-		} else {
-			e_map_add_point (priv->map, zone->location,
-					 zone->longitude, zone->latitude,
-					 E_TIMEZONE_DIALOG_MAP_POINT_NORMAL_RGBA);
-		}
-
-		listitem = gtk_list_item_new_with_label (zone->location);
-		gtk_widget_show (listitem);
-		gtk_container_add (GTK_CONTAINER (combo->list), listitem);
-	}
 }
 
 
@@ -581,26 +560,36 @@ static void
 find_selected_point (ETimezoneDialog *etd)
 {
 	ETimezoneDialogPrivate *priv;
-	CalTimezoneInfo *zone;
+	icalarray *zones;
 	char *current_zone;
 	EMapPoint *point = NULL;
 	int i;
 
 	priv = etd->priv;
 
-	if (priv->zones == NULL)
-		return;
-
 	current_zone = gtk_entry_get_text (GTK_ENTRY (GTK_COMBO (priv->timezone_combo)->entry));
 
-	for (i = 0; i < priv->zones->len; i++) {
-		zone = &g_array_index (priv->zones, CalTimezoneInfo, i);
-		if (!strcmp (current_zone, zone->location)) {
-			point = e_map_get_closest_point (priv->map,
-							 zone->longitude,
-							 zone->latitude,
-							 FALSE);
+	/* Get the array of builtin timezones. */
+	zones = icaltimezone_get_builtin_timezones ();
 
+	for (i = 0; i < zones->num_elements; i++) {
+		icaltimezone *zone;
+		char *location;
+
+		zone = icalarray_element_at (zones, i);
+
+		location = icaltimezone_get_location (zone);
+
+		if (!strcmp (current_zone, location)) {
+			double zone_longitude, zone_latitude;
+
+			zone_longitude = icaltimezone_get_longitude (zone);
+			zone_latitude = icaltimezone_get_latitude (zone);
+
+			point = e_map_get_closest_point (priv->map,
+							 zone_longitude,
+							 zone_latitude,
+							 FALSE);
 			break;
 		}
 	}

@@ -42,8 +42,6 @@
 struct _ETimezoneEntryPrivate {
 	GtkWidget *entry;
 	GtkWidget *button;
-
-	CalClient *client;
 };
 
 
@@ -175,11 +173,6 @@ e_timezone_entry_destroy		(GtkObject	*object)
 	tentry = E_TIMEZONE_ENTRY (object);
 	priv = tentry->priv;
 
-	if (priv->client) {
-		gtk_object_unref (GTK_OBJECT (priv->client));
-		priv->client = NULL;
-	}
-
 	g_free (tentry->priv);
 	tentry->priv = NULL;
 
@@ -202,7 +195,6 @@ on_button_clicked		(GtkWidget	*widget,
 	priv = tentry->priv;
 
 	timezone_dialog = e_timezone_dialog_new ();
-	e_timezone_dialog_set_cal_client (timezone_dialog, priv->client);
 	zone = e_timezone_entry_get_timezone (tentry);
 	e_timezone_dialog_set_timezone (timezone_dialog, zone);
 
@@ -214,39 +206,6 @@ on_button_clicked		(GtkWidget	*widget,
 	}
 
 	gtk_object_unref (GTK_OBJECT (timezone_dialog));
-}
-
-
-/**
- * e_timezone_entry_set_cal_client:
- * @tentry: An #ETimezoneEntry.
- * @client: Calendar client.
- *
- * Sets the calendar client that the timezone entry uses to get the timezone
- * information.
- **/
-void
-e_timezone_entry_set_cal_client (ETimezoneEntry *tentry, CalClient *client)
-{
-	ETimezoneEntryPrivate *priv;
-
-	g_return_if_fail (tentry != NULL);
-	g_return_if_fail (E_IS_TIMEZONE_ENTRY (tentry));
-
-	priv = tentry->priv;
-
-	if (client == priv->client)
-		return;
-
-	if (client) {
-		g_return_if_fail (IS_CAL_CLIENT (client));
-		gtk_object_ref (GTK_OBJECT (client));
-	}
-
-	if (priv->client)
-		gtk_object_unref (GTK_OBJECT (priv->client));
-
-	priv->client = client;
 }
 
 

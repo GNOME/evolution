@@ -45,12 +45,14 @@ BEGIN_GNOME_DECLS
 typedef struct _CalPrefsDialog       CalPrefsDialog;
 typedef struct _CalPrefsDialogClass  CalPrefsDialogClass;
 
+typedef struct _CalPrefsDialogPrivate CalPrefsDialogPrivate;
+
 struct _CalPrefsDialog
 {
 	GtkObject object;
 
-	/* Private data */
-	gpointer priv;
+	/*< private >*/
+	CalPrefsDialogPrivate *priv;
 };
 
 struct _CalPrefsDialogClass

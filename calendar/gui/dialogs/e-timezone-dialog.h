@@ -24,7 +24,6 @@
 
 #include <libgnome/gnome-defs.h>
 #include <gtk/gtkobject.h>
-#include <cal-client/cal-client.h>
 
 
 
@@ -56,10 +55,6 @@ GtkType		 e_timezone_dialog_get_type		(void);
 ETimezoneDialog* e_timezone_dialog_construct		(ETimezoneDialog  *etd);
 
 ETimezoneDialog* e_timezone_dialog_new			(void);
-
-CalClient*	 e_timezone_dialog_get_cal_client	(ETimezoneDialog  *etd);
-void		 e_timezone_dialog_set_cal_client	(ETimezoneDialog  *etd,
-							 CalClient	  *client);
 
 char*		 e_timezone_dialog_get_timezone		(ETimezoneDialog  *etd);
 void		 e_timezone_dialog_set_timezone		(ETimezoneDialog  *etd,

@@ -119,7 +119,6 @@ static void task_page_fill_widgets (CompEditorPage *page, CalComponent *comp);
 static void task_page_fill_component (CompEditorPage *page, CalComponent *comp);
 static void task_page_set_summary (CompEditorPage *page, const char *summary);
 static void task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates);
-static void task_page_set_cal_client (CompEditorPage *page, CalClient *client);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -174,7 +173,6 @@ task_page_class_init (TaskPageClass *class)
 	editor_page_class->fill_component = task_page_fill_component;
 	editor_page_class->set_summary = task_page_set_summary;
 	editor_page_class->set_dates = task_page_set_dates;
-	editor_page_class->set_cal_client = task_page_set_cal_client;
 
 	object_class->destroy = task_page_destroy;
 }
@@ -605,19 +603,6 @@ task_page_set_dates (CompEditorPage *page, CompEditorPageDates *dates)
 	}
 
 	priv->updating = FALSE;
-}
-
-static void
-task_page_set_cal_client (CompEditorPage *page, CalClient *client)
-{
-	TaskPage *tpage;
-	TaskPagePrivate *priv;
-
-	tpage = TASK_PAGE (page);
-	priv = tpage->priv;
-
-	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->due_timezone), client);
-	e_timezone_entry_set_cal_client (E_TIMEZONE_ENTRY (priv->start_timezone),client);
 }
 
 
