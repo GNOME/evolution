@@ -922,22 +922,32 @@ e_select_names_set_default (ESelectNames *e_select_names,
 		if (child) {
 			EFont *efont;
 			GdkFont *gdkfont;
-			GtkStyle *style, *oldstyle;
+			GtkStyle *oldstyle;
 
 			oldstyle = gtk_widget_get_style(child->label);
-			style = gtk_style_copy(oldstyle);
 
-			efont = e_font_from_gdk_font(style->font);
+			efont = e_font_from_gdk_font(oldstyle->font);
 			gdkfont = e_font_to_gdk_font(efont, E_FONT_BOLD);
 			e_font_unref(efont);
+			
+			if (gdkfont != NULL) {
+				GtkStyle *style;
 
-			gdk_font_ref(gdkfont);
-			gdk_font_unref(style->font);
-			style->font = gdkfont;
+				style = gtk_style_copy(oldstyle);
+				
+				gdk_font_ref(gdkfont);
+				gdk_font_unref(style->font);
+				style->font = gdkfont;
 
-			gtk_widget_set_style(child->label, style);
+				gtk_widget_set_style(child->label, style);
 
-			gtk_style_unref(oldstyle);
+				gtk_style_unref(oldstyle);
+			}
 		}
 	}
 }
+
+
+
+
+
