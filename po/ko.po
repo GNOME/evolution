@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution 1.5.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-14 21:05+0900\n"
-"PO-Revision-Date: 2004-08-14 21:08+0900\n"
+"POT-Creation-Date: 2004-08-22 13:57+0900\n"
+"PO-Revision-Date: 2004-08-22 13:57+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GNOME Korea <gnome-kr-hackers@lists.kldp.net>\n"
 "MIME-Version: 1.0\n"
@@ -18,29 +18,29 @@ msgstr ""
 
 #: a11y/addressbook/ea-addressbook-view.c:94
 #: a11y/addressbook/ea-addressbook-view.c:103
-#: a11y/addressbook/ea-minicard-view.c:120
+#: a11y/addressbook/ea-minicard-view.c:119
 msgid "evolution addressbook"
 msgstr "evolution 주소록"
 
 # FIXME: bad msgid
 # "current addressbook folder {has,have} %d folder(s)
-#: a11y/addressbook/ea-minicard-view.c:102
+#: a11y/addressbook/ea-minicard-view.c:101
 msgid "current addressbook folder "
 msgstr "현재 주소록 폴더에는 "
 
-#: a11y/addressbook/ea-minicard-view.c:103
+#: a11y/addressbook/ea-minicard-view.c:102
 msgid "have "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:103
+#: a11y/addressbook/ea-minicard-view.c:102
 msgid "has "
 msgstr "카드가 "
 
-#: a11y/addressbook/ea-minicard-view.c:105
+#: a11y/addressbook/ea-minicard-view.c:104
 msgid " cards"
 msgstr "개 있습니다"
 
-#: a11y/addressbook/ea-minicard-view.c:105
+#: a11y/addressbook/ea-minicard-view.c:104
 msgid " card"
 msgstr "개 있습니다"
 
@@ -181,8 +181,6 @@ msgid ""
 msgstr "이 연락처에 바뀐 부분이 있습니다. 바뀐 사항을 저장하시겠습니까?"
 
 #: addressbook/addressbook-errors.xml.h:43
-#: addressbook/gui/contact-editor/e-contact-editor.c:2803
-#: addressbook/gui/contact-editor/e-contact-editor.c:2827
 msgid "_Discard"
 msgstr "버리기(_D)"
 
@@ -258,7 +256,7 @@ msgstr "여기서 자동 완성을 설정합니다"
 
 #. Create the contacts group
 #: addressbook/gui/component/GNOME_Evolution_Addressbook.server.in.in.h:6
-#: addressbook/gui/component/addressbook-view.c:1104
+#: addressbook/gui/component/addressbook-view.c:1142
 #: calendar/gui/migration.c:377
 msgid "Contacts"
 msgstr "연락처"
@@ -320,7 +318,7 @@ msgid "Create a new contact list"
 msgstr "새 연락처 목록을 만듭니다"
 
 #: addressbook/gui/component/addressbook-component.c:109
-#: addressbook/gui/component/addressbook-view.c:773
+#: addressbook/gui/component/addressbook-view.c:811
 msgid "New Address Book"
 msgstr "새 주소록"
 
@@ -422,12 +420,12 @@ msgstr ""
 "\n"
 "폴더를 여기에 맞게 변환하는 동안 잠시 기다리십시오..."
 
-#: addressbook/gui/component/addressbook-view.c:671
+#: addressbook/gui/component/addressbook-view.c:711
 #, c-format
 msgid "Address book '%s' will be removed. Are you sure you want to continue?"
 msgstr "'%s' 주소록을 지우게 됩니다. 정말로 계속 하시겠습니까?"
 
-#: addressbook/gui/component/addressbook-view.c:774
+#: addressbook/gui/component/addressbook-view.c:812
 #: addressbook/gui/widgets/e-addressbook-view.c:1124
 #: calendar/gui/calendar-component.c:430 calendar/gui/tasks-component.c:376
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
@@ -438,7 +436,7 @@ msgstr "'%s' 주소록을 지우게 됩니다. 정말로 계속 하시겠습니�
 msgid "Delete"
 msgstr "지우기"
 
-#: addressbook/gui/component/addressbook-view.c:775
+#: addressbook/gui/component/addressbook-view.c:813
 #: calendar/gui/calendar-component.c:431 calendar/gui/tasks-component.c:378
 msgid "Properties..."
 msgstr "등록 정보..."
@@ -2109,20 +2107,19 @@ msgstr "쓰기 가능한 필드"
 msgid "Changed"
 msgstr "바뀜"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2428
+#: addressbook/gui/contact-editor/e-contact-editor.c:2456
 msgid "This contact belongs to these categories:"
 msgstr "이 연락처는 다음 분류에 속합니다:"
 
-#. Create the selector
-#: addressbook/gui/contact-editor/e-contact-editor.c:2505
+#: addressbook/gui/contact-editor/e-contact-editor.c:2549
 msgid "Please select an image for this contact"
 msgstr "이 연락처에 사용할 그림을 선택하십시오"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2509
+#: addressbook/gui/contact-editor/e-contact-editor.c:2550
 msgid "No image"
 msgstr "그림이 없습니다"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2712
+#: addressbook/gui/contact-editor/e-contact-editor.c:2778
 msgid ""
 "The contact data is invalid:\n"
 "\n"
@@ -2130,24 +2127,9 @@ msgstr ""
 "연락처 데이터가 잘못되었습니다:\n"
 "\n"
 
-#: addressbook/gui/contact-editor/e-contact-editor.c:2740
+#: addressbook/gui/contact-editor/e-contact-editor.c:2806
 msgid "Invalid contact."
 msgstr "연락처가 잘못되었습니다."
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2799
-msgid ""
-"The contact cannot be saved to the selected address book. Do you want to "
-"discard changes?"
-msgstr ""
-"연락처를 선택하신 주소록에 저장할 수 없습니다. 바뀐 부분을 버리시겠습니까?"
-
-#: addressbook/gui/contact-editor/e-contact-editor.c:2822
-msgid ""
-"You are moving the contact from one address book to another, but it cannot "
-"be removed from the source. Do you want to save a copy instead?"
-msgstr ""
-"연락처를 한 주소록에서 다른 주소록으로 옮기려 했지만 연락처를 원래 주소록에"
-"서 지울 수 없습니다. 옮기는 대신에 복사하시겠습니까?"
 
 #: addressbook/gui/contact-editor/e-contact-quick-add.c:280
 msgid "Contact Quick-Add"
@@ -3030,7 +3012,7 @@ msgid "Error adding list"
 msgstr "목록을 더하는 중 오류가 발생했습니다"
 
 #: addressbook/gui/widgets/eab-gui-util.c:170
-#: addressbook/gui/widgets/eab-gui-util.c:640
+#: addressbook/gui/widgets/eab-gui-util.c:643
 msgid "Error adding contact"
 msgstr "연락처를 더하는 중 오류가 발생했습니다"
 
@@ -3047,20 +3029,23 @@ msgid "Error removing list"
 msgstr "목록을 지우는 중 오류가 발생했습니다"
 
 #: addressbook/gui/widgets/eab-gui-util.c:193
-#: addressbook/gui/widgets/eab-gui-util.c:598
+#: addressbook/gui/widgets/eab-gui-util.c:601
 msgid "Error removing contact"
 msgstr "연락처를 지우는 중 오류가 발생했습니다"
 
 #: addressbook/gui/widgets/eab-gui-util.c:275
 #, c-format
 msgid ""
+"Opening %d contact will open %d new window as well.\n"
+"Do you really want to display this contact?"
+msgid_plural ""
 "Opening %d contacts will open %d new windows as well.\n"
 "Do you really want to display all of these contacts?"
-msgstr ""
+msgstr[0] ""
 "연락처 %d개를 열면 %d개의 새 창을 열게 됩니다.\n"
 "정말로 이 연락처를 전부 여시겠습니까?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:301
+#: addressbook/gui/widgets/eab-gui-util.c:304
 #, c-format
 msgid ""
 "%s already exists\n"
@@ -3069,46 +3054,46 @@ msgstr ""
 "%s이(가) 이미 존재합니다\n"
 "이 파일을 덮어 쓰시겠습니까?"
 
-#: addressbook/gui/widgets/eab-gui-util.c:305
+#: addressbook/gui/widgets/eab-gui-util.c:308
 msgid "Overwrite"
 msgstr "덮어 쓰기"
 
 # 파일 이름
 #. This is a filename. Translators take note.
-#: addressbook/gui/widgets/eab-gui-util.c:383
+#: addressbook/gui/widgets/eab-gui-util.c:386
 msgid "card.vcf"
 msgstr "카드.vcf"
 
 # 파일 이름
-#: addressbook/gui/widgets/eab-gui-util.c:545
+#: addressbook/gui/widgets/eab-gui-util.c:548
 msgid "list"
 msgstr "목록"
 
-#: addressbook/gui/widgets/eab-gui-util.c:694
+#: addressbook/gui/widgets/eab-gui-util.c:697
 msgid "Move contact to"
 msgstr "연락처 이동"
 
-#: addressbook/gui/widgets/eab-gui-util.c:696
+#: addressbook/gui/widgets/eab-gui-util.c:699
 msgid "Copy contact to"
 msgstr "연락처 복사"
 
-#: addressbook/gui/widgets/eab-gui-util.c:699
+#: addressbook/gui/widgets/eab-gui-util.c:702
 msgid "Move contacts to"
 msgstr "연락처 이동"
 
-#: addressbook/gui/widgets/eab-gui-util.c:701
+#: addressbook/gui/widgets/eab-gui-util.c:704
 msgid "Copy contacts to"
 msgstr "연락처 복사"
 
-#: addressbook/gui/widgets/eab-gui-util.c:704
+#: addressbook/gui/widgets/eab-gui-util.c:707
 msgid "Select target addressbook."
 msgstr "어디로 갈지 주소록을 선택하십시오."
 
-#: addressbook/gui/widgets/eab-gui-util.c:927
+#: addressbook/gui/widgets/eab-gui-util.c:930
 msgid "Multiple VCards"
 msgstr "여러 개 VCard"
 
-#: addressbook/gui/widgets/eab-gui-util.c:930
+#: addressbook/gui/widgets/eab-gui-util.c:933
 #, c-format
 msgid "VCard for %s"
 msgstr "%s에 대한 VCard"
@@ -12997,9 +12982,10 @@ msgstr "서명 스크립트 더하기"
 msgid "Signature(s)"
 msgstr "서명"
 
+# 번역은 적합하지 않다.
 #: mail/em-composer-utils.c:889
 msgid "-------- Forwarded Message --------"
-msgstr "-------- 전달된 메시지 --------"
+msgstr "-------- Forwarded Message --------"
 
 #: mail/em-composer-utils.c:1502
 msgid "an unknown sender"
@@ -16500,7 +16486,7 @@ msgstr "%b %e일 %p %l:%M"
 msgid "%b %d %Y"
 msgstr "%Y년 %b %e일"
 
-#: mail/message-list.c:3376
+#: mail/message-list.c:3380
 msgid "Generating message list"
 msgstr "메세지 목록 작성중"
 
@@ -19590,3 +19576,16 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 완료)"
+
+#~ msgid ""
+#~ "The contact cannot be saved to the selected address book. Do you want to "
+#~ "discard changes?"
+#~ msgstr ""
+#~ "연락처를 선택하신 주소록에 저장할 수 없습니다. 바뀐 부분을 버리시겠습니까?"
+
+#~ msgid ""
+#~ "You are moving the contact from one address book to another, but it "
+#~ "cannot be removed from the source. Do you want to save a copy instead?"
+#~ msgstr ""
+#~ "연락처를 한 주소록에서 다른 주소록으로 옮기려 했지만 연락처를 원래 주소록"
+#~ "에서 지울 수 없습니다. 옮기는 대신에 복사하시겠습니까?"
