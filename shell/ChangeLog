@@ -1,3 +1,7 @@
+2004-09-13  JP Rosevear  <jpr@novell.com>
+
+	* main.c: turn off development mode
+
 2004-09-07  JP Rosevear  <jpr@novell.com>
 
 	Fixes #17338
