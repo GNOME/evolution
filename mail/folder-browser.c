@@ -54,6 +54,7 @@ static GtkObjectClass *folder_browser_parent_class;
 
 enum {
 	FOLDER_LOADED,
+	MESSAGE_LOADED,
 	LAST_SIGNAL
 };
 
@@ -105,6 +106,14 @@ folder_browser_class_init (GtkObjectClass *object_class)
 				GTK_RUN_LAST,
 				object_class->type,
 				GTK_SIGNAL_OFFSET (FolderBrowserClass, folder_loaded),
+				gtk_marshal_NONE__STRING,
+				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
+	
+	folder_browser_signals[MESSAGE_LOADED] =
+		gtk_signal_new ("message_loaded",
+				GTK_RUN_LAST,
+				object_class->type,
+				GTK_SIGNAL_OFFSET (FolderBrowserClass, message_loaded),
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE, 1, GTK_TYPE_STRING);
 	
@@ -958,9 +967,11 @@ static void done_message_selected(CamelFolder *folder, char *uid, CamelMimeMessa
 
 	if (folder != fb->folder)
 		return;
-
-	mail_display_set_message(fb->mail_display, (CamelMedium *)msg);
-
+	
+	mail_display_set_message (fb->mail_display, (CamelMedium *)msg);
+	/* FIXME: should this signal be emitted here?? */
+	gtk_signal_emit (GTK_OBJECT (fb), folder_browser_signals [MESSAGE_LOADED], uid);
+	
 	/* pain, if we have pending stuff, re-run */
 	if (fb->pending_uid) {	
 		g_free(fb->loading_uid);

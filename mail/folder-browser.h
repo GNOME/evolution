@@ -64,8 +64,9 @@ struct  _FolderBrowser {
 typedef struct {
 	GtkTableClass parent_class;
 	
-	/* signals - select a message */
-	void (*folder_loaded) (FolderBrowser *fb, const char *uri);
+	/* signals */
+	void (*folder_loaded)  (FolderBrowser *fb, const char *uri);
+	void (*message_loaded) (FolderBrowser *fb, const char *uid);
 } FolderBrowserClass;
 
 struct fb_ondemand_closure {

@@ -129,27 +129,41 @@ static void
 message_browser_next_msg (GtkWidget *button, gpointer user_data)
 {
 	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
+	int row;
 	
-	next_msg (NULL, mb->fb);
+	row = e_tree_row_of_node (mb->fb->message_list->tree,
+				  e_tree_get_cursor (mb->fb->message_list->tree));
+	
+	message_list_select (mb->fb->message_list, row,
+			     MESSAGE_LIST_SELECT_NEXT,
+			     0, 0);
+	
 }
 
 static void
 message_browser_prev_msg (GtkWidget *button, gpointer user_data)
 {
 	MessageBrowser *mb = MESSAGE_BROWSER (user_data);
+	int row;
 	
-	previous_msg (NULL, mb->fb);
+	row = e_tree_row_of_node (mb->fb->message_list->tree,
+				  e_tree_get_cursor (mb->fb->message_list->tree));
+	
+	message_list_select (mb->fb->message_list, row,
+			     MESSAGE_LIST_SELECT_PREVIOUS,
+			     0, 0);
+	
 }
 
 static void
-message_browser_message_selected (MessageList *ml, const char *uid, MessageBrowser *mb)
+message_browser_message_loaded (FolderBrowser *fb, const char *uid, MessageBrowser *mb)
 {
 	CamelMimeMessage *message;
 	char *subject = NULL;
 	
-	g_warning ("got 'message_selected' event");
+	g_warning ("got 'message_loaded' event");
 	
-	message = mb->fb->mail_display->current_message;
+	message = fb->mail_display->current_message;
 	
 	if (message)
 		subject = (char *) camel_mime_message_get_subject (message);
@@ -163,9 +177,6 @@ message_browser_folder_loaded (FolderBrowser *fb, const char *uri, MessageBrowse
 	const char *uid = gtk_object_get_data (GTK_OBJECT (mb), "uid");
 	
 	g_warning ("got 'folder_loaded' event");
-	
-	gtk_signal_connect (GTK_OBJECT (fb->message_list), "message_selected",
-			    message_browser_message_selected, mb);
 	
 	message_list_select_uid (fb->message_list, uid);
 }
@@ -273,6 +284,9 @@ message_browser_new (const GNOME_Evolution_Shell shell, const char *uri, const c
 	/* more evil hackery... */
 	gtk_signal_connect (GTK_OBJECT (fb), "folder_loaded",
 			    message_browser_folder_loaded, new);
+	
+	gtk_signal_connect (GTK_OBJECT (fb), "message_loaded",
+			    message_browser_message_loaded, new);
 	
 	folder_browser_set_uri (fb, uri);
 	

@@ -1,3 +1,23 @@
+2001-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* folder-browser.c: Added a new signal, "message_loaded" that gets
+	emitted when the message has been loaded and set on the
+	mail_display.
+	(folder_browser_class_init): Define the "message_loaded" signal
+	stuff.
+	(done_message_selected): Emit the "message_loaded" signal here.
+
+	* message-browser.c (message_browser_next_msg): Do our own
+	message-list manipulation. We want the next message, not the next
+	unread message.
+	(message_browser_prev_msg): Same here but for previous.
+	(message_browser_new): Connect to the folder browser's
+	"message_loaded" signal.
+	(message_browser_folder_loaded): Don't connect to the
+	message-list's "message_selected" signal.
+	(message_browser_message_loaded): Nw callback which replaces the
+	old message_browser_message_selected callback's functionality.
+
 2001-04-24  Dan Winship  <danw@ximian.com>
 
 	* folder-browser.c: Add accelerators to the context menu.
