@@ -1,5 +1,16 @@
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
 
+	* Makefile.am: Added rule to generate
+	GNOME_Evolution_Summary.server.in from
+	GNOME_Evolution_Summary.server.in.in, substituting @LIBEXECDIR@.
+	Also, install evolution-executive-summary in $libexecdir instead
+	of $bindir.
+
+	* GNOME_Evolution_Summary.server.in.in: Removed the @OAF_SHLIB_*@
+	stuff and added @LIBEXECDIR@/ to the executable's name instead.
+
+2002-11-14  Ettore Perazzoli  <ettore@ximian.com>
+
 	* my-evolution.glade: Converted to Glade 2.
 
 2002-11-14  Ettore Perazzoli  <ettore@ximian.com>

@@ -18,8 +18,8 @@
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ShellComponentFactory"
-	      type="@OAF_SHLIB_TYPE@"
-	      location="@OAF_SHLIB_PREFIX@evolution-executive-summary@OAF_SHLIB_SUFFIX@">
+	      type="exe"
+	      location="@LIBEXECDIR@/evolution-executive-summary">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>
@@ -31,8 +31,8 @@
   </oaf_server>
 
   <oaf_server iid="OAFIID:GNOME_Evolution_Summary_ConfigControlFactory"
-	      type="@OAF_SHLIB_TYPE@"
-	      location="@OAF_SHLIB_PREFIX@evolution-executive-summary@OAF_SHLIB_SUFFIX@">
+	      type="exe"
+	      location="@LIBEXECDIR@/evolution-executive-summary">
 
     <oaf_attribute name="repo_ids" type="stringv">
       <item value="IDL:GNOME/GenericFactory:1.0"/>

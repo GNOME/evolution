@@ -89,7 +89,7 @@ libevolution_executive_summary_la_LIBADD = \
 
 else
 
-bin_PROGRAMS = evolution-executive-summary
+libexec_PROGRAMS = evolution-executive-summary
 
 evolution_executive_summary_SOURCES =		\
 	$(summary_sources)			\
@@ -103,12 +103,12 @@ endif
 Locationdir = $(datadir)/evolution
 Location_DATA = Locations
 
-server_files = GNOME_Evolution_Summary.server
-server_in_files = $(server_files:.server=.server.in)
-server_in_in_files  = $(server_files:.server=.server.in.in)
+server_in_files = GNOME_Evolution_Summary.server.in.in
 
 serverdir = $(libdir)/bonobo/servers
-server_DATA = $(server_files)
+server_DATA = $(server_in_files:.server.in.in=.server)
+$(server_in_files:.server.in.in=.server.in): $(server_in_files)
+	sed -e "s|\@LIBEXECDIR\@|$(libexecdir)|" $< > $@
 
 gladedir = $(datadir)/evolution/glade
 glade_DATA = my-evolution.glade
@@ -118,9 +118,7 @@ glade_DATA = my-evolution.glade
 EXTRA_DIST = 				\
 	$(summary_sources)		\
 	$(summary_exe_sources)		\
-	$(server_files)			\
 	$(server_in_files)		\
-	$(server_in_in_files)		\
 	$(server_DATA)			\
 	$(Location_DATA)		\
 	$(glade_DATA)			\
