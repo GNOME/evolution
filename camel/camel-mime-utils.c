@@ -298,9 +298,9 @@ base64_encode_step(unsigned char *in, int len, unsigned char *out, int *state, i
 		already = *state;
 
 		switch (((char *)save)[0]) {
-		case 1:	c1 = ((char *)save)[1];	goto skip1;
-		case 2:	c1 = ((char *)save)[1];
-			c2 = ((char *)save)[2];	goto skip2;
+		case 1:	c1 = ((unsigned char *)save)[1]; goto skip1;
+		case 2:	c1 = ((unsigned char *)save)[1];
+			c2 = ((unsigned char *)save)[2]; goto skip2;
 		}
 		
 		/* yes, we jump into the loop, no i'm not going to change it, its beautiful! */

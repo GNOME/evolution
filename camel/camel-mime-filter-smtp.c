@@ -119,32 +119,33 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 			}
 
 			left = inend - inptr;
-		        if (left < 2) {
-				if (*inptr == '.') {
-					camel_mime_filter_backup (mf, inptr, left);
-					midline = FALSE;
-					inend = inptr;
-					break;
+			if (left > 0) {
+				midline = TRUE;
+				if (left < 2) {
+					if (*inptr == '.') {
+						camel_mime_filter_backup (mf, inptr, left);
+						midline = FALSE;
+						inend = inptr;
+						break;
+					}
+				} else {
+					/* we only need to escape dots if they start the line */
+					if (*inptr == '.' && *(inptr+1) != '.') {
+						midline = TRUE;
+						dotcount++;
+						node = alloca (sizeof (*node));
+						node->type = DOT_NODE;
+						node->pointer = inptr;
+						node->next = NULL;
+						tail->next = node;
+						tail = node;
+						inptr++;
+					}
 				}
 			} else {
-				/* we only need to escape dots if they start the line */
-				if (left > 0 && *inptr == '.' && *(inptr+1) != '.') {
-					midline = TRUE;
-					dotcount++;
-					node = alloca (sizeof (*node));
-					node->type = DOT_NODE;
-					node->pointer = inptr;
-					node->next = NULL;
-					tail->next = node;
-					tail = node;
-					inptr++;
-				} else {
-					midline = TRUE;
-				}
+				/* \n is at end of line, check next buffer */
+				midline = FALSE;
 			}
-		} else {
-			/* \n is at end of line, check next buffer */
-			midline = FALSE;
 		}
 	}
 
@@ -156,16 +157,13 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		inptr = in;
 		outptr = mf->outbuf;
 		while (node) {
+			g_assert(node->pointer >= inptr);
+			memcpy (outptr, inptr, node->pointer - inptr);
+			outptr += node->pointer - inptr;
 			if (node->type == EOLN_NODE) {
-				memcpy (outptr, inptr, node->pointer - inptr);
-				outptr += node->pointer - inptr;
 				*outptr++ = '\r';
-			} else {
-				if (node->type == DOT_NODE) {
-					memcpy (outptr, inptr, node->pointer - inptr);
-					outptr += node->pointer - inptr;
-					*outptr++ = '.';
-				}
+			} else if (node->type == DOT_NODE) {
+				*outptr++ = '.';
 			}
 			inptr = node->pointer;
 			node = node->next;
@@ -176,7 +174,7 @@ filter(CamelMimeFilter *mf, char *in, size_t len, size_t prespace, char **out, s
 		*outlen = outptr - mf->outbuf;
 		*outprespace = mf->outbuf - mf->outreal;
 
-		d(printf ("Filtered '%.*s'\n", *outlen, *out));
+		d(printf ("Filtered [%d] '%.*s'\n", *outlen, *outlen, *out));
 	} else {
 		*out = in;
 		*outlen = inend - in;

@@ -1,3 +1,11 @@
+2000-06-02  Not Zed  <NotZed@HelixCode.com>
+
+	* camel-mime-utils.c (base64_encode_step): Ick, damn signs!  Fix a
+	bug with sign extended bytes.
+
+	* camel-mime-filter-smtp.c (filter): Changed layout/logic slightly
+	(to match From filter)
+
 2000-06-02  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* camel-mime-filter-smtp.c (filter): Fixed the filter so that it wouldn't
