@@ -888,11 +888,17 @@ config_read (void)
 		config->db, "/Mail/Prompts/confirm_goto_next_folder", TRUE, NULL);
 	
 	/* PGP/GPG */
-	config->pgp_path = bonobo_config_get_string (config->db, 
-						     "/Mail/PGP/path", NULL);
+	config->pgp_path = bonobo_config_get_string (config->db, "/Mail/PGP/path", NULL);
 	
 	config->pgp_type = bonobo_config_get_long_with_default (config->db, 
-	        "/Mail/PGP/type", CAMEL_PGP_TYPE_NONE, NULL);
+	        "/Mail/PGP/type", CONFIG_PGP_TYPE_NONE, NULL);
+	
+	/* we only support GnuPG now */
+	if (config->pgp_type != CONFIG_PGP_TYPE_GPG) {
+		config->pgp_type = CONFIG_PGP_TYPE_NONE;
+		g_free (config->pgp_path);
+		config->pgp_path = NULL;
+	}
 	
 	/* HTTP images */
 	config->http_mode = bonobo_config_get_long_with_default (config->db, 
@@ -1760,13 +1766,13 @@ mail_config_set_goto_next_folder (gboolean value)
 struct {
 	char *bin;
 	char *version;
-	CamelPgpType type;
+	int type;
 } binaries[] = {
-	{ "gpg", NULL, CAMEL_PGP_TYPE_GPG },
-	{ "pgp", "6.5.8", CAMEL_PGP_TYPE_PGP6 },
-	{ "pgp", "5.0", CAMEL_PGP_TYPE_PGP5 },
-	{ "pgp", "2.6", CAMEL_PGP_TYPE_PGP2 },
-	{ NULL, NULL, CAMEL_PGP_TYPE_NONE }
+	{ "gpg", NULL, CONFIG_PGP_TYPE_GPG },
+	{ "pgp", "6.5.8", CONFIG_PGP_TYPE_PGP6 },
+	{ "pgp", "5.0", CONFIG_PGP_TYPE_PGP5 },
+	{ "pgp", "2.6", CONFIG_PGP_TYPE_PGP2 },
+	{ NULL, NULL, CONFIG_PGP_TYPE_NONE }
 };
 
 
@@ -1909,7 +1915,7 @@ pgpclose (PGPFILE *pgp)
 		return -1;
 }
 
-CamelPgpType
+int
 mail_config_pgp_type_detect_from_path (const char *pgp)
 {
 	const char *bin = g_basename (pgp);
@@ -1918,7 +1924,7 @@ mail_config_pgp_type_detect_from_path (const char *pgp)
 	
 	/* make sure the file exists *and* is executable? */
 	if (stat (pgp, &st) == -1 || !(st.st_mode & (S_IXOTH | S_IXGRP | S_IXUSR)))
-		return CAMEL_PGP_TYPE_NONE;
+		return CONFIG_PGP_TYPE_NONE;
 	
 	for (i = 0; binaries[i].bin; i++) {
 		if (binaries[i].version) {
@@ -1948,13 +1954,13 @@ mail_config_pgp_type_detect_from_path (const char *pgp)
 		}
 	}
 	
-	return CAMEL_PGP_TYPE_NONE;
+	return CONFIG_PGP_TYPE_NONE;
 }
 
 static void
 auto_detect_pgp_variables (void)
 {
-	CamelPgpType type = CAMEL_PGP_TYPE_NONE;
+	int type = CONFIG_PGP_TYPE_NONE;
 	const char *PATH, *path;
 	char *pgp = NULL;
 	
@@ -2034,7 +2040,7 @@ auto_detect_pgp_variables (void)
 	g_free (pgp);
 }
 
-CamelPgpType
+int
 mail_config_get_pgp_type (void)
 {
 	if (!config->pgp_path || !config->pgp_type)
@@ -2044,7 +2050,7 @@ mail_config_get_pgp_type (void)
 }
 
 void
-mail_config_set_pgp_type (CamelPgpType pgp_type)
+mail_config_set_pgp_type (int pgp_type)
 {
 	config->pgp_type = pgp_type;
 }

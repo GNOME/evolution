@@ -1,3 +1,22 @@
+2002-06-26  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (config_read): Don't allow the pgp type to be
+	anything except NONE or GPG.
+
+	* mail-preferences.c (mail_preferences_apply): Don't allow someone
+	to use anything other than GnuPG.
+
+	* mail-crypto.c (mail_crypto_get_pgp_cipher_context): No need to
+	handle pgp5 or pgp6 types anymore since we are no longer
+	supporting them. Ding dong the witch is dead!
+
+	* mail-format.c (handle_multipart_encrypted): Rewritten to use
+	camel_multipart_encrypted_decrypt.
+
+	* mail-crypto.c (mail_crypto_pgp_mime_part_verify): Removed.
+	(mail_crypto_pgp_mime_part_encrypt): Removed.
+	(mail_crypto_pgp_mime_part_decrypt): Are we seeing a trend yet?
+
 2002-06-25  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-display.c (on_url_requested): Also handle https urls.

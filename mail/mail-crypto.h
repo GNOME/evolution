@@ -34,18 +34,10 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus  */
 
+
 /* PGP/MIME convenience wrappers */
 CamelCipherContext *mail_crypto_get_pgp_cipher_context (const MailConfigAccount *account);
 
-CamelCipherValidity *mail_crypto_pgp_mime_part_verify (CamelMimePart *mime_part,
-						       CamelException *ex);
-
-void mail_crypto_pgp_mime_part_encrypt (CamelMimePart **mime_part,
-					GPtrArray *recipients,
-					CamelException *ex);
-
-CamelMimePart *mail_crypto_pgp_mime_part_decrypt (CamelMimePart *mime_part,
-						  CamelException *ex);
 
 /* S/MIME v3 convenience wrappers */
 CamelMimeMessage *mail_crypto_smime_sign      (CamelMimeMessage *message, const char *userid,

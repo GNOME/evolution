@@ -31,6 +31,14 @@ extern "C" {
 #pragma }
 #endif /* __cplusplus */
 
+enum {
+	CONFIG_PGP_TYPE_NONE,
+	CONFIG_PGP_TYPE_PGP2,   /* no longer supported */
+	CONFIG_PGP_TYPE_PGP5,   /* no longer supported */
+	CONFIG_PGP_TYPE_PGP6,   /* no longer supported */
+	CONFIG_PGP_TYPE_GPG
+};
+
 typedef struct {
 	int id;
 	char *name;
@@ -217,10 +225,10 @@ void     mail_config_set_confirm_goto_next_folder (gboolean value);
 gboolean mail_config_get_goto_next_folder (void);
 void     mail_config_set_goto_next_folder (gboolean value);
 
-CamelPgpType mail_config_pgp_type_detect_from_path (const char *pgp);
+int          mail_config_pgp_type_detect_from_path (const char *pgp);
 
-CamelPgpType mail_config_get_pgp_type (void);
-void         mail_config_set_pgp_type (CamelPgpType pgp_type);
+int          mail_config_get_pgp_type (void);
+void         mail_config_set_pgp_type (int pgp_type);
 
 const char *mail_config_get_pgp_path (void);
 void        mail_config_set_pgp_path (const char *pgp_path);

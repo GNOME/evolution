@@ -1742,20 +1742,24 @@ static gboolean
 handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 			    MailDisplay *md, GtkHTML *html, GtkHTMLStream *stream)
 {
-	CamelDataWrapper *wrapper;
 	CamelMimePart *mime_part;
+	CamelCipherContext *cipher;
+	CamelDataWrapper *wrapper;
 	CamelException ex;
-	
-	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	
-	g_return_val_if_fail (CAMEL_IS_MULTIPART (wrapper), FALSE);
+	gboolean handled;
 	
 	/* Currently we only handle RFC2015-style PGP encryption. */
 	if (!camel_pgp_mime_is_rfc2015_encrypted (part))
 		return handle_multipart_mixed (part, mime_type, md, html, stream);
 	
+	wrapper = camel_medium_get_content_object (CAMEL_MEDIUM (part));
+	
+	g_assert (CAMEL_IS_MULTIPART (wrapper));
+	
 	camel_exception_init (&ex);
-	mime_part = mail_crypto_pgp_mime_part_decrypt (part, &ex);
+	cipher = mail_crypto_get_pgp_cipher_context (NULL);
+	mime_part = camel_multipart_encrypted_decrypt (part, cipher, &ex);
+	camel_object_unref (cipher);
 	
 	if (camel_exception_is_set (&ex)) {
 		char *error;
@@ -1767,15 +1771,12 @@ handle_multipart_encrypted (CamelMimePart *part, const char *mime_type,
 		
 		camel_exception_clear (&ex);
 		return TRUE;
-	} else {
-		/* replace the encrypted part with the decrypted part */
-		camel_medium_set_content_object (CAMEL_MEDIUM (part),
-						 camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)));
-		camel_object_unref (CAMEL_OBJECT (mime_part));
-		
-		/* and continue on our merry way... */
-		return format_mime_part (part, md, html, stream);
 	}
+	
+	handled = format_mime_part (mime_part, md, html, stream);
+	camel_object_unref (mime_part);
+	
+	return handled;
 }
 
 static gboolean

@@ -356,7 +356,7 @@ void
 mail_preferences_apply (MailPreferences *prefs)
 {
 	GtkWidget *entry, *menu;
-	CamelPgpType type;
+	int pgp_type;
 	char *string;
 	guint32 rgb;
 	int i, val;
@@ -414,9 +414,11 @@ mail_preferences_apply (MailPreferences *prefs)
 	entry = gnome_file_entry_gtk_entry (GNOME_FILE_ENTRY (prefs->notify_sound_file));
 	string = gtk_entry_get_text (GTK_ENTRY (entry));
 	
-	type = string && *string ? mail_config_pgp_type_detect_from_path (string) : CAMEL_PGP_TYPE_NONE;
-	mail_config_set_pgp_path (string && *string ? string : NULL);
-	mail_config_set_pgp_type (type);
+	pgp_type = string && *string ? mail_config_pgp_type_detect_from_path (string) : CONFIG_PGP_TYPE_NONE;
+	if (pgp_type == CONFIG_PGP_TYPE_GPG) {
+		mail_config_set_pgp_path (string && *string ? string : NULL);
+		mail_config_set_pgp_type (pgp_type);
+	}
 	
 	/* Labels and Colours */
 	for (i = 0; i < 5; i++) {
