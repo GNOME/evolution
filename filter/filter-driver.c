@@ -207,8 +207,10 @@ filter_driver_finalise (GtkObject *obj)
 	
 	gtk_object_unref (GTK_OBJECT (p->eval));
 
-	if (p->defaultfolder)
+	if (p->defaultfolder) {
+		camel_folder_sync (p->defaultfolder, FALSE, NULL);
 		camel_object_unref (CAMEL_OBJECT (p->defaultfolder));
+	}
 	
 	g_free (p);
 	
