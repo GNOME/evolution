@@ -1,3 +1,8 @@
+2004-06-16  JP Rosevear  <jpr@novell.com>
+
+	* em-composer-prefs.c (spell_set_ui): clear the error, don't free
+	it, so NULL is handled properly
+
 2004-06-16  Not Zed  <NotZed@Ximian.com>
 
 	** See #56479.

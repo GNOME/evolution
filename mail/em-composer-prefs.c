@@ -536,7 +536,7 @@ spell_set_ui (EMComposerPrefs *prefs)
 	/* setup the language list */
 	if (!(lang = gconf_client_get_string (prefs->gconf, GNOME_SPELL_GCONF_DIR "/language", &err)) || err) {
 		g_free (lang);
-		g_error_free (err);
+		g_clear_error (&err);
 		lang = g_strdup (e_iconv_locale_language ());
 	}
 	
