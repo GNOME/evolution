@@ -1,3 +1,10 @@
+2004-08-11  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/contact-editor/e-contact-editor.c (app_delete_event_cb):
+	Remove the custom prompt-to-save dialogs from here - use
+	eab_prompt_save_dialog (), and then only if the contact actually
+	changed.
+
 2004-08-16  Chris Toshok  <toshok@ximian.com>
 
 	* gui/widgets/eab-gui-util.c (eab_show_multiple_contacts):
