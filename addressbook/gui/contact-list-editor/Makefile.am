@@ -29,20 +29,8 @@ libecontactlisteditor_la_SOURCES = 		\
 	e-contact-list-model.c			\
 	e-contact-list-model.h
 
-# GLib marshalling cruft
-
-e-contact-list-editor-marshal.h: e-contact-list-editor-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=ecle_marshal e-contact-list-editor-marshal.list --header > e-contact-list-editor-marshal.tmp \
-	&& mv e-contact-list-editor-marshal.tmp e-contact-list-editor-marshal.h ) \
-	|| ( rm -f e-contact-list-editor-marshal.tmp && exit 1 )
-
-e-contact-list-editor-marshal.c: e-contact-list-editor-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=ecle_marshal e-contact-list-editor-marshal.list --body > e-contact-list-editor-marshal.tmp \
-	&& mv e-contact-list-editor-marshal.tmp e-contact-list-editor-marshal.c ) \
-	|| ( rm -f e-contact-list-editor-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-contact-list-editor-marshal.c e-contact-list-editor-marshal.h
-
+@EVO_MARSHAL_RULE@
 
 glade_DATA  = contact-list-editor.glade
 etspec_DATA = e-contact-list-editor.etspec

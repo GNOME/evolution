@@ -171,7 +171,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EContactListEditorClass, list_added),
 			      NULL, NULL,
-			      ecle_marshal_NONE__INT_OBJECT,
+			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -181,7 +181,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EContactListEditorClass, list_modified),
 			      NULL, NULL,
-			      ecle_marshal_NONE__INT_OBJECT,
+			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -191,7 +191,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EContactListEditorClass, list_deleted),
 			      NULL, NULL,
-			      ecle_marshal_NONE__INT_OBJECT,
+			      e_contact_list_editor_marshal_NONE__INT_OBJECT,
 			      G_TYPE_NONE, 2,
 			      G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -201,7 +201,7 @@ e_contact_list_editor_class_init (EContactListEditorClass *klass)
 			      G_SIGNAL_RUN_FIRST,
 			      G_STRUCT_OFFSET (EContactListEditorClass, editor_closed),
 			      NULL, NULL,
-			      ecle_marshal_NONE__NONE,
+			      e_contact_list_editor_marshal_NONE__NONE,
 			      G_TYPE_NONE, 0);
 }
 

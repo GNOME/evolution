@@ -83,19 +83,8 @@ libeselectnames_la_LIBADD =					\
 #	e-select-names-factory.c
 #	e-select-names-factory.h
 
-# GLib marshalling cruft
-
-e-select-names-marshal.h: e-select-names-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_select_names_marshal e-select-names-marshal.list --header > e-select-names-marshal.tmp \
-	&& mv e-select-names-marshal.tmp e-select-names-marshal.h ) \
-	|| ( rm -f e-select-names-marshal.tmp && exit 1 )
-
-e-select-names-marshal.c: e-select-names-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_select_names_marshal e-select-names-marshal.list --body > e-select-names-marshal.tmp \
-	&& mv e-select-names-marshal.tmp e-select-names-marshal.c ) \
-	|| ( rm -f e-select-names-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-select-names-marshal.c e-select-names-marshal.h
+@EVO_MARSHAL_RULE@
 
 glade_DATA = select-names.glade
 etspec_DATA = e-select-names.etspec e-select-names-section.etspec

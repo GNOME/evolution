@@ -99,19 +99,8 @@ libebookinclude_HEADERS =				\
 libebook_static_la_SOURCES = $(libebook_la_SOURCES)
 libebook_static_la_LDFLAGS = -all-static
 
-# GLib marshalling cruft
-
-e-book-marshal.h: e-book-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --header > e-book-marshal.h.tmp \
-	&& mv e-book-marshal.h.tmp e-book-marshal.h ) \
-	|| ( rm -f e-book-marshal.h.tmp && exit 1 )
-
-e-book-marshal.c: e-book-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_book_marshal e-book-marshal.list --body > e-book-marshal.c.tmp \
-	&& mv e-book-marshal.c.tmp e-book-marshal.c ) \
-	|| ( rm -f e-book-marshal.c.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-book-marshal.c e-book-marshal.h
+@EVO_MARSHAL_RULE@
 
 test_client_SOURCES =					\
 	test-client.c

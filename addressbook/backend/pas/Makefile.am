@@ -78,19 +78,8 @@ libpasldap_a_SOURCES =					\
 	$(LDAP_BACKEND_FILES)
 endif
 
-# GLib marshalling cruft
-
-pas-marshal.h: pas-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=pas_marshal pas-marshal.list --header > pas-marshal.tmp \
-	&& mv pas-marshal.tmp pas-marshal.h ) \
-	|| ( rm -f pas-marshal.tmp && exit 1 )
-
-pas-marshal.c: pas-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=pas_marshal pas-marshal.list --body > pas-marshal.tmp \
-	&& mv pas-marshal.tmp pas-marshal.c ) \
-	|| ( rm -f pas-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = pas-marshal.c pas-marshal.h
+@EVO_MARSHAL_RULE@
 
 BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

@@ -199,7 +199,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET (EContactEditorClass, card_added),
 			NULL, NULL,
-			ece_marshal_NONE__INT_OBJECT,
+			e_contact_editor_marshal_NONE__INT_OBJECT,
 			G_TYPE_NONE, 2,
 			G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -209,7 +209,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET (EContactEditorClass, card_modified),
 			NULL, NULL,
-			ece_marshal_NONE__INT_OBJECT,
+			e_contact_editor_marshal_NONE__INT_OBJECT,
 			G_TYPE_NONE, 2,
 			G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -219,7 +219,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET (EContactEditorClass, card_deleted),
 			NULL, NULL,
-			ece_marshal_NONE__INT_OBJECT,
+			e_contact_editor_marshal_NONE__INT_OBJECT,
 			G_TYPE_NONE, 2,
 			G_TYPE_INT, G_TYPE_OBJECT);
 
@@ -229,7 +229,7 @@ e_contact_editor_class_init (EContactEditorClass *klass)
 			G_SIGNAL_RUN_FIRST,
 			G_STRUCT_OFFSET (EContactEditorClass, editor_closed),
 			NULL, NULL,
-			ece_marshal_NONE__NONE,
+			e_contact_editor_marshal_NONE__NONE,
 			G_TYPE_NONE, 0);
 }
 

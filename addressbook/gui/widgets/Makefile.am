@@ -74,19 +74,8 @@ libeminicard_la_SOURCES =			\
 #			gal-view-treeview.c			\
 #			gal-view-treeview.h
 
-# GLib marshalling cruft
-
-e-addressbook-marshal.h: e-addressbook-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=e_addressbook_marshal e-addressbook-marshal.list --header > e-addressbook-marshal.tmp \
-	&& mv e-addressbook-marshal.tmp e-addressbook-marshal.h ) \
-	|| ( rm -f e-addressbook-marshal.tmp && exit 1 )
-
-e-addressbook-marshal.c: e-addressbook-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=e_addressbook_marshal e-addressbook-marshal.list --body > e-addressbook-marshal.tmp \
-	&& mv e-addressbook-marshal.tmp e-addressbook-marshal.c ) \
-	|| ( rm -f e-addressbook-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-addressbook-marshal.c e-addressbook-marshal.h
+@EVO_MARSHAL_RULE@
 
 BUILT_SOURCES = $(CORBA_SOURCE) $(MARSHAL_GENERATED)
 CLEANFILES = $(BUILT_SOURCES)

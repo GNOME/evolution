@@ -34,19 +34,8 @@ libecontacteditor_la_SOURCES = 			\
 	e-contact-quick-add.c			\
 	e-contact-quick-add.h
 
-# GLib marshalling cruft
-
-e-contact-editor-marshal.h: e-contact-editor-marshal.list
-	( @GLIB_GENMARSHAL@ --prefix=ece_marshal e-contact-editor-marshal.list --header > e-contact-editor-marshal.tmp \
-	&& mv e-contact-editor-marshal.tmp e-contact-editor-marshal.h ) \
-	|| ( rm -f e-contact-editor-marshal.tmp && exit 1 )
-
-e-contact-editor-marshal.c: e-contact-editor-marshal.h
-	( @GLIB_GENMARSHAL@ --prefix=ece_marshal e-contact-editor-marshal.list --body > e-contact-editor-marshal.tmp \
-	&& mv e-contact-editor-marshal.tmp e-contact-editor-marshal.c ) \
-	|| ( rm -f e-contact-editor-marshal.tmp && exit 1 )
-
 MARSHAL_GENERATED = e-contact-editor-marshal.c e-contact-editor-marshal.h
+@EVO_MARSHAL_RULE@
 
 glade_DATA = 				\
 	contact-editor.glade		\
