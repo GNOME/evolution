@@ -48,6 +48,9 @@ struct _CamelOperation {
 #define CAMEL_OPERATION_CANCELLED (1<<0)
 #define CAMEL_OPERATION_TRANSIENT (1<<1)
 
+/* Delay before a transient operation has any effect on the status */
+#define CAMEL_OPERATION_TRANSIENT_DELAY (5)
+
 #ifdef ENABLE_THREADS
 #define CAMEL_ACTIVE_LOCK() pthread_mutex_lock(&operation_active_lock)
 #define CAMEL_ACTIVE_UNLOCK() pthread_mutex_unlock(&operation_active_lock)
@@ -562,12 +565,20 @@ void camel_operation_progress(CamelOperation *cc, int pc)
 	s = cc->status_stack->data;
 	s->pc = pc;
 
+	/* Transient messages dont start updating till 4 seconds after
+	   they started, then they update every second */
 	now = stamp();
-	if (cc->status_update == now
-	    || (s->flags & CAMEL_OPERATION_TRANSIENT
-		&& s->stamp/16 > now/16))
+	if (cc->status_update == now) {
 		cc = NULL;
-	else {
+	} else if (s->flags & CAMEL_OPERATION_TRANSIENT) {
+		if (s->stamp + CAMEL_OPERATION_TRANSIENT_DELAY > now) {
+			cc = NULL;
+		} else {
+			cc->status_update = now;
+			cc->lastreport = s;
+			msg = g_strdup(s->msg);
+		}
+	} else {
 		s->stamp = cc->status_update = now;
 		cc->lastreport = s;
 		msg = g_strdup(s->msg);
@@ -627,7 +638,7 @@ void camel_operation_end(CamelOperation *cc)
 			while (l) {
 				p = l->data;
 				if (p->flags & CAMEL_OPERATION_TRANSIENT) {
-					if (p->stamp/16 < now/16) {
+					if (p->stamp + CAMEL_OPERATION_TRANSIENT_DELAY < now) {
 						msg = g_strdup(p->msg);
 						pc = p->pc;
 						cc->lastreport = p;

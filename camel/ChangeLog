@@ -1,5 +1,10 @@
 2001-10-09    <NotZed@Ximian.com>
 
+	* camel-operation.c (camel_operation_progress): Another go at
+	getting the logic right again.  Make transients only update after
+	5 seconds (CAMEL_OPERATION_TRANSIENT_DELAY)
+	(camel_operation_end): Likewise.
+
 	* providers/local/camel-spool-folder.c (spool_search_by_uids):
 	Implement.
 
