@@ -61,8 +61,8 @@ e_popup_menu_create (EPopupMenu *menu_list, int disable_mask, int hide_mask, voi
 {
 	GtkMenu *menu = GTK_MENU (gtk_menu_new ());
 	int i;
-	gboolean last_item_separator = TRUE;
-	gint last_non_separator = -1;
+	gboolean last_item_seperator = TRUE;
+	gint last_non_seperator = -1;
 
 	for (i = 0; menu_list[i].name; i++) {
 		if (strcmp("", menu_list[i].name) && !(menu_list [i].disable_mask & hide_mask)) {
@@ -70,13 +70,13 @@ e_popup_menu_create (EPopupMenu *menu_list, int disable_mask, int hide_mask, voi
 		}
 	}
 
-	for (i = 0; i < last_non_separator; i++) {
+	for (i = 0; i < last_non_seperator; i++) {
 		GtkWidget *item;
-		gboolean separator;
+		gboolean seperator;
 
-		separator = !strcmp("", menu_list[i].name);
+		seperator = !strcmp("", menu_list[i].name);
 
-		if ((!(separator && last_separator)) && !(menu_list [i].disable_mask & hide_mask)) {
+		if ((!(seperator && last_item_seperator)) && !(menu_list [i].disable_mask & hide_mask)) {
 
 			item = make_item (menu, menu_list [i].name,
 					  menu_list [i].pixname);
@@ -93,6 +93,7 @@ e_popup_menu_create (EPopupMenu *menu_list, int disable_mask, int hide_mask, voi
 			gtk_widget_show (item);
 			gtk_menu_append (menu, item);
 		}
+		last_item_seperator = seperator;
 	}
 
 	return menu;
