@@ -29,6 +29,7 @@
 #include <glib.h>
 #include <libgnome/gnome-defs.h>
 #include <libgnome/gnome-i18n.h>
+#include <libgnomeui/gnome-stock.h>
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-widget.h>
@@ -41,6 +42,8 @@
 #include <gal/e-table/e-table-simple.h>
 #include <gal/e-table/e-table-scrolled.h>
 #include <gal/widgets/e-unicode.h>
+#include <gal/widgets/e-popup-menu.h>
+#include <gal/widgets/e-gui-utils.h>
 #include <widgets/misc/e-dateedit.h>
 #include <e-util/e-dialog-widgets.h>
 #include "../Evolution-Addressbook-SelectNames.h"
@@ -71,13 +74,19 @@
         "  <ETableColumn model_col= \"4\" _title=\"RSVP\" "	        \
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"5\" _title=\"Status\" "		\
+        "  <ETableColumn model_col= \"5\" _title=\"Delegated To\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"6\" _title=\"Delegated From\" "	\
+	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
+	"   cell=\"rsvpedit\" compare=\"string\"/>"			\
+        "  <ETableColumn model_col= \"7\" _title=\"Status\" "		\
 	"   expansion=\"1.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"statusedit\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"6\" _title=\"Common Name\" "	\
+        "  <ETableColumn model_col= \"8\" _title=\"Common Name\" "	\
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"string\" compare=\"string\"/>"			\
-        "  <ETableColumn model_col= \"7\" _title=\"Language\" "	        \
+        "  <ETableColumn model_col= \"9\" _title=\"Language\" "	        \
 	"   expansion=\"2.0\" minimum_width=\"10\" resizable=\"true\" "	\
 	"   cell=\"string\" compare=\"string\"/>"			\
 	"  <ETableState>"						\
@@ -85,7 +94,7 @@
 	"    <column source=\"2\"/>"					\
 	"    <column source=\"3\"/>"					\
 	"    <column source=\"4\"/>"					\
-	"    <column source=\"5\"/>"					\
+	"    <column source=\"7\"/>"					\
 	"    <grouping></grouping>"					\
 	"  </ETableState>"						\
 	"</ETableSpecification>"
@@ -96,6 +105,8 @@ enum columns {
 	MEETING_TYPE_COL,
 	MEETING_ROLE_COL,
 	MEETING_RSVP_COL,
+	MEETING_DELTO_COL,
+	MEETING_DELFROM_COL,
 	MEETING_STATUS_COL,
 	MEETING_CN_COL,
 	MEETING_LANG_COL,
@@ -147,7 +158,8 @@ struct _MeetingPagePrivate {
 	/* E Table stuff */
 	ETableModel *model;
 	GtkWidget *etable;
-
+	gint row;
+	
 	/* For handling who the organizer is */
 	gboolean other;
 	gboolean existing;
@@ -170,6 +182,7 @@ static void meeting_page_fill_widgets (CompEditorPage *page, CalComponent *comp)
 static void meeting_page_fill_component (CompEditorPage *page, CalComponent *comp);
 
 static int row_count (ETableModel *etm, void *data);
+static gint right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer data);
 
 static CompEditorPageClass *parent_class = NULL;
 
@@ -880,6 +893,8 @@ append_row (ETableModel *etm, ETableModel *model, int row, void *data)
 	attendee->cutype = text_to_type (e_table_model_value_at (model, MEETING_TYPE_COL, row));
 	attendee->role = text_to_role (e_table_model_value_at (model, MEETING_ROLE_COL, row));
 	attendee->rsvp = text_to_boolean (e_table_model_value_at (model, MEETING_RSVP_COL, row));
+	attendee->delto = g_strdup (e_table_model_value_at (model, MEETING_DELTO_COL, row));
+	attendee->delfrom = g_strdup (e_table_model_value_at (model, MEETING_DELFROM_COL, row));
 	attendee->status = text_to_partstat (e_table_model_value_at (model, MEETING_STATUS_COL, row));
 	attendee->cn = g_strdup (e_table_model_value_at (model, MEETING_CN_COL, row));
 	attendee->language = g_strdup (e_table_model_value_at (model, MEETING_LANG_COL, row));
@@ -916,6 +931,10 @@ value_at (ETableModel *etm, int col, int row, void *data)
 		return role_to_text (attendee->role);
 	case MEETING_RSVP_COL:
 		return boolean_to_text (attendee->rsvp);
+	case MEETING_DELTO_COL:
+		return attendee->delto;
+	case MEETING_DELFROM_COL:
+		return attendee->delfrom;
 	case MEETING_STATUS_COL:
 		return partstat_to_text (attendee->status);
 	case MEETING_CN_COL:
@@ -941,9 +960,13 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 	
 	switch (col) {
 	case MEETING_ATTENDEE_COL:
+		if (attendee->address)
+			g_free (attendee->address);
 		attendee->address = g_strdup (val);
 		break;
 	case MEETING_MEMBER_COL:
+		if (attendee->member)
+			g_free (attendee->member);
 		attendee->member = g_strdup (val);
 		break;
 	case MEETING_TYPE_COL:
@@ -955,13 +978,27 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 	case MEETING_RSVP_COL:
 		attendee->rsvp = text_to_boolean (val);
 		break;
+	case MEETING_DELTO_COL:
+		if (attendee->delto)
+			g_free (attendee->delto);
+		attendee->delto = g_strdup (val);
+		break;
+	case MEETING_DELFROM_COL:
+		if (attendee->delfrom)
+			g_free (attendee->delfrom);
+		attendee->delto = g_strdup (val);
+		break;
 	case MEETING_STATUS_COL:
 		attendee->status = text_to_partstat (val);
 		break;
 	case MEETING_CN_COL:
+		if (attendee->cn)
+			g_free (attendee->cn);
 		attendee->cn = g_strdup (val);
 		break;
 	case MEETING_LANG_COL:
+		if (attendee->language)
+			g_free (attendee->language);
 		attendee->language = g_strdup (val);
 		break;
 	}
@@ -975,6 +1012,14 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 static gboolean
 is_cell_editable (ETableModel *etm, int col, int row, void *data)
 {
+	switch (col) {
+	case MEETING_DELTO_COL:
+	case MEETING_DELFROM_COL:
+		return FALSE;
+
+	default:
+	}
+
 	return TRUE;
 }
 
@@ -1004,6 +1049,10 @@ init_value (ETableModel *etm, int col, void *data)
 		return g_strdup ("Required Participant");
 	case MEETING_RSVP_COL:
 		return g_strdup ("Yes");
+	case MEETING_DELTO_COL:
+		return g_strdup ("");
+	case MEETING_DELFROM_COL:
+		return g_strdup ("");
 	case MEETING_STATUS_COL:
 		return g_strdup ("Needs Action");
 	case MEETING_CN_COL:
@@ -1018,11 +1067,18 @@ init_value (ETableModel *etm, int col, void *data)
 static gboolean
 value_is_empty (ETableModel *etm, int col, const void *val, void *data)
 {
-	if (col == 0) {
+	
+	switch (col) {
+	case MEETING_ATTENDEE_COL:
+	case MEETING_MEMBER_COL:
+	case MEETING_DELTO_COL:
+	case MEETING_DELFROM_COL:
+	case MEETING_CN_COL:
 		if (val && !g_strcasecmp (val, ""))
 			return TRUE;
 		else
 			return FALSE;
+	default:
 	}
 	
 	return TRUE;
@@ -1135,7 +1191,75 @@ build_etable (MeetingPage *mpage)
 	e_table_load_state (real_table, filename);
 	g_free (filename);
 
+	gtk_signal_connect (GTK_OBJECT (real_table),
+			    "right_click", GTK_SIGNAL_FUNC (right_click_cb), mpage);
+
 	gtk_object_unref (GTK_OBJECT (extras));
+}
+
+static void
+popup_delegate_cb (GtkWidget *widget, gpointer data) 
+{
+	MeetingPage *mpage = MEETING_PAGE (data);
+	MeetingPagePrivate *priv;
+	
+	priv = mpage->priv;
+
+	e_table_model_row_changed (priv->model, priv->row);
+}
+
+static void
+popup_delete_cb (GtkWidget *widget, gpointer data) 
+{
+	MeetingPage *mpage = MEETING_PAGE (data);
+	MeetingPagePrivate *priv;
+	GSList *l;
+	
+	priv = mpage->priv;
+
+	l = g_slist_nth (priv->attendees, priv->row);
+	priv->attendees = g_slist_remove (priv->attendees, l->data);
+	
+	e_table_model_row_deleted (priv->model, priv->row);
+}
+
+enum {
+	CAN_DELEGATE = 2,
+	CAN_DELETE = 4
+};
+
+static EPopupMenu context_menu[] = {
+	{ N_("_Delegate To..."),              NULL,
+	  GTK_SIGNAL_FUNC (popup_delegate_cb),NULL,  CAN_DELEGATE },
+
+	E_POPUP_SEPARATOR,
+
+	{ N_("_Delete"),                      GNOME_STOCK_MENU_TRASH,
+	  GTK_SIGNAL_FUNC (popup_delete_cb),  NULL,  CAN_DELETE },
+	
+	E_POPUP_TERMINATOR
+};
+
+/* handle context menu over message-list */
+static gint
+right_click_cb (ETable *etable, gint row, gint col, GdkEvent *event, gpointer data)
+{
+	MeetingPage *mpage = MEETING_PAGE (data);
+	MeetingPagePrivate *priv;
+	GtkMenu *menu;
+	int enable_mask = 0, hide_mask = 0;
+
+	priv = mpage->priv;
+
+	priv->row = row;
+
+	menu = e_popup_menu_create (context_menu, enable_mask, hide_mask, data);
+	e_auto_kill_popup_menu_on_hide (menu);
+	
+	gtk_menu_popup (menu, NULL, NULL, NULL, NULL,
+			event->button.button, event->button.time);
+
+	return TRUE;
 }
 
 

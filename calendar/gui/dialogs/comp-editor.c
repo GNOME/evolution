@@ -190,8 +190,9 @@ setup_widgets (CompEditor *editor)
 					  "/evolution/UIConf/kvps");
 
 	bonobo_ui_component_add_verb_list_with_data (priv->uic, verbs, editor);
-	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR "/gnome/gui",
-			       "evolution-comp-editor.xml", "evolution-calendar");
+	bonobo_ui_util_set_ui (priv->uic, EVOLUTION_DATADIR, 
+			       "evolution-comp-editor.xml", 
+			       "evolution-calendar");
 	e_pixmaps_update (priv->uic, pixmaps);
 
 	vbox = gtk_vbox_new (FALSE, GNOME_PAD_SMALL);

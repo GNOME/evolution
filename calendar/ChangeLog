@@ -1,3 +1,10 @@
+2001-07-10  JP Rosevear  <jpr@ximian.com>
+
+	* gui/dialogs/meeting-page.c: Add popup support so you can delete
+	users from the list
+
+	* gui/dialogs/comp-editor.c (setup_widgets): fix typo
+
 2001-07-10  Federico Mena Quintero  <federico@ximian.com>
 
 	* gui/alarm-notify/alarm-queue.c (alarm_trigger_cb): Handle the
