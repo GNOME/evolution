@@ -1,3 +1,7 @@
+2000-11-10  Radek Doulik  <rodo@helixcode.com>
+
+	* camel-mime-utils.c (header_msgid_generate): fix ids ending with '.'
+
 2000-11-09  Dan Winship  <danw@helixcode.com>
 
 	* providers/imap/camel-imap-auth.c (imap_try_kerberos_v4_auth):
