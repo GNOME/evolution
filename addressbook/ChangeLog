@@ -1,3 +1,8 @@
+2002-09-03  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/component/GNOME_Evolution_Addressbook.oaf.in: Use
+	ldap-settings.png instead of evolution-contacts.png.
+
 2002-09-03  Chris Toshok  <toshok@ximian.com>
 
 	[ fixes #29699 ]

@@ -161,7 +161,7 @@
 		       _value="This page can be used to configure access to LDAP directory servers"/>
 
 	<oaf_attribute name="evolution:config_item:icon_name" type="string"
-		       value="evolution-contacts.png"/>
+		       value="ldap-settings.png"/>
 
 	<oaf_attribute name="evolution:config_item:priority" type="string" value="-6"/>
     
