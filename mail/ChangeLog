@@ -1,5 +1,8 @@
 2001-01-23  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-send-recv.c (build_dialogue): Make sure the source->url is
+	not NULL (which is perfectly valid).
+
 	* openpgp-utils.c:
 	* mail-crypto.c: A few minor tweaks.
 
