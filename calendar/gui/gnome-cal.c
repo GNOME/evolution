@@ -2098,13 +2098,12 @@ gnome_calendar_add_event_source (GnomeCalendar *gcal, ESource *source)
 
 	/* FIXME Do this async? */
 	if (!open_ecal (client, FALSE)) {
-		g_hash_table_remove (priv->clients, str_uri);
 		priv->clients_list = g_list_remove (priv->clients_list, client);
 		g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 						      0, 0, NULL, NULL, gcal);
 
-		g_free (str_uri);
-		g_object_unref (client);
+		/* Do this last because it unrefs the client */
+		g_hash_table_remove (priv->clients, str_uri);
 
 		return FALSE;
 	}
@@ -2137,8 +2136,8 @@ gnome_calendar_remove_event_source (GnomeCalendar *gcal, ESource *source)
 {
 	GnomeCalendarPrivate *priv;
 	ECal *client;
+	char *str_uri;
 	int i;
-	char *str_uri, *orig_uri;
 
 	g_return_val_if_fail (gcal != NULL, FALSE);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), FALSE);
@@ -2147,12 +2146,12 @@ gnome_calendar_remove_event_source (GnomeCalendar *gcal, ESource *source)
 	priv = gcal->priv;
 
 	str_uri = e_source_get_uri (source);
-	if (!g_hash_table_lookup_extended (priv->clients, str_uri, &orig_uri, &client)) {
+	client = g_hash_table_lookup (priv->clients, str_uri);
+	if (!client) {
 		g_free (str_uri);
 		return TRUE;
 	}
 
-	g_hash_table_remove (priv->clients, orig_uri);
 	priv->clients_list = g_list_remove (priv->clients_list, client);
 	g_signal_handlers_disconnect_matched (client, G_SIGNAL_MATCH_DATA,
 					      0, 0, NULL, NULL, gcal);	
@@ -2164,9 +2163,8 @@ gnome_calendar_remove_event_source (GnomeCalendar *gcal, ESource *source)
 		e_cal_model_remove_client (model, client);
 	}
 
-	g_free (orig_uri);
+	g_hash_table_remove (priv->clients, str_uri);
 	g_free (str_uri);
-	g_object_unref (client);
 
 	/* update date navigator query */
         update_query (gcal);
