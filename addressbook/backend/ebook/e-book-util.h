@@ -55,7 +55,7 @@ void                   e_book_use_default_book          (EBookCommonCallback    
 void                   e_book_load_default_book         (EBook                    *book,
 							 EBookCallback             open_response,
 							 gpointer                  closure);
-char                  *e_book_get_default_book_uri      (void);
+const char            *e_book_get_default_book_uri      (void);
 
 /* config database interface. */
 EConfigListener       *e_book_get_config_database       (void);

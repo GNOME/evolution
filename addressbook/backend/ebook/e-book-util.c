@@ -265,7 +265,7 @@ e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
 void
 e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
-	char *uri;
+	const char *uri;
 	DefaultBookClosure *default_book_closure;
 
 	g_return_if_fail (book != NULL);
@@ -284,7 +284,7 @@ e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer clo
 
 }
 
-char*
+const char *
 e_book_get_default_book_uri ()
 {
 	if (!default_book_uri)
