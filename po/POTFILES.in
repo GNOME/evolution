@@ -29,8 +29,13 @@ calendar/conduits/calendar/calendar-conduit-control-applet.c
 calendar/conduits/calendar/calendar-conduit.c
 calendar/conduits/todo/todo-conduit-control-applet.c
 calendar/conduits/todo/todo-conduit.c
+calendar/gui/GNOME_Evolution_Calendar_Control.oaf.in
+calendar/gui/GNOME_Evolution_Calendar_gnomecal.oaf.in
+calendar/gui/GNOME_Evolution_Calendar.oaf.in
+calendar/gui/alarm-notify.c
 calendar/gui/calendar-commands.c
 calendar/gui/calendar-model.c
+calendar/gui/calendar-summary.c
 calendar/gui/control-factory.c
 calendar/gui/dialogs/alarm-notify-dialog.c
 calendar/gui/dialogs/alarm-notify.glade
@@ -42,6 +47,8 @@ calendar/gui/e-calendar-table.c
 calendar/gui/e-day-view-time-item.c
 calendar/gui/e-day-view-top-item.c
 calendar/gui/e-day-view.c
+calendar/gui/e-itip-control.c
+calendar/gui/e-tasks.c
 calendar/gui/e-week-view-main-item.c
 calendar/gui/e-week-view.c
 calendar/gui/event-editor-dialog.glade
@@ -49,9 +56,11 @@ calendar/gui/event-editor.c
 calendar/gui/gnome-cal.c
 calendar/gui/gnome-month-item.c
 calendar/gui/goto.c
+calendar/gui/goto-dialog.glade
 calendar/gui/main.c
 calendar/gui/popup-menu.c
 calendar/gui/print.c
+calendar/gui/tasks-control.c
 calendar/gui/weekday-picker.c
 camel/camel-folder-thread.c
 camel/camel-lock.c
@@ -114,6 +123,7 @@ filter/vfolder-rule.c
 mail/component-factory.c
 mail/folder-browser-factory.c
 mail/folder-browser.c
+mail/local-config.glade
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-config-druid.glade
@@ -123,6 +133,7 @@ mail/mail-crypto.c
 mail/mail-display.c
 mail/mail-format.c
 mail/mail-local.c
+mail/mail-mt.c
 mail/mail-ops.c
 mail/mail-search-dialogue.c
 mail/mail-summary.c
