@@ -150,6 +150,8 @@ view_delete_event_cb (GtkWidget *widget,
 	shell = E_SHELL (data);
 
 	gtk_widget_destroy (widget);
+
+	/* FIXME we should keep track of the number of views and exit when all the views are gone.  */
 	e_shell_quit (shell);
 }
 
