@@ -239,6 +239,35 @@ composer_send_cb (EMsgComposer *composer, gpointer data)
 	}
 }
 
+void
+composer_postpone_cb (EMsgComposer *composer, gpointer data)
+{
+	/* FIXME: do we want to use post_send_data to set flags and stuff? */
+	extern CamelFolder *outbox_folder;
+	CamelMimeMessage *message;
+	CamelMessageInfo *info;
+	const char *subject;
+	
+	/* Get the message */
+	message = e_msg_composer_get_message (composer);
+	
+	/* Check for no subject */
+	subject = camel_mime_message_get_subject (message);
+	if (subject == NULL || subject[0] == '\0') {
+		if (!ask_confirm_for_empty_subject (composer)) {
+			camel_object_unref (CAMEL_OBJECT (message));
+			return;
+		}
+	}
+	
+	/* Save the message in Outbox */
+	info = g_new0 (CamelMessageInfo, 1);
+	info->flags = 0;
+	mail_do_append_mail (outbox_folder, message, info);
+	g_free (info);
+	gtk_widget_destroy (GTK_WIDGET (composer));
+}
+
 static GtkWidget *
 create_msg_composer (const char *url)
 {
@@ -268,14 +297,17 @@ void
 compose_msg (GtkWidget *widget, gpointer user_data)
 {
 	GtkWidget *composer;
-
+	
 	if (!check_send_configuration (FOLDER_BROWSER (user_data)))
 		return;
-
+	
 	composer = create_msg_composer (NULL);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+	
 	gtk_widget_show (composer);
 }
 
@@ -284,16 +316,19 @@ void
 send_to_url (const char *url)
 {
 	GtkWidget *composer;
-
+	
 	/* FIXME: no way to get folder browser? Not without
 	 * big pain in the ass, as far as I can tell */
 	if (!check_send_configuration (NULL))
 		return;
-
+	
 	composer = create_msg_composer (url);
-
+	
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
+	
 	gtk_widget_show (composer);
 }	
 
@@ -318,7 +353,9 @@ mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolea
 	composer = mail_generate_reply (msg, to_all);
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
-			    GTK_SIGNAL_FUNC (composer_send_cb), psd); 
+			    GTK_SIGNAL_FUNC (composer_send_cb), psd);
+	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+			    GTK_SIGNAL_FUNC (composer_postpone_cb), psd);
 	gtk_signal_connect (GTK_OBJECT (composer), "destroy",
 			    GTK_SIGNAL_FUNC (free_psd), psd);
 
@@ -369,6 +406,8 @@ forward_msg (GtkWidget *widget, gpointer user_data)
 
 	gtk_signal_connect (GTK_OBJECT (composer), "send",
 			    GTK_SIGNAL_FUNC (composer_send_cb), NULL);
+	gtk_signal_connect (GTK_OBJECT (composer), "postpone",
+			    GTK_SIGNAL_FUNC (composer_postpone_cb), NULL);
 
 	mail_do_forward_message (cursor_msg,
 				 fb->message_list->folder,
@@ -459,22 +498,23 @@ edit_msg (GtkWidget *widget, gpointer user_data)
 	FolderBrowser *fb = FOLDER_BROWSER (user_data);
 	GPtrArray *uids;
 	extern CamelFolder *drafts_folder;
-
+	
 	if (fb->folder != drafts_folder) {
 		GtkWidget *message;
-
+		
 		message = gnome_warning_dialog (_("You may only edit messages saved\n"
-							   "in the Drafts folder."));
+						  "in the Drafts folder."));
 		gnome_dialog_run_and_close (GNOME_DIALOG (message));
 		return;
 	}
-
+	
 	if (!check_send_configuration (fb))
 		return;
-
+	
 	uids = g_ptr_array_new();
 	message_list_foreach (fb->message_list, enumerate_msg, uids);
-
+	
+	/* FIXME: do we need to pass the postpone callback too? */
 	mail_do_edit_messages (fb->folder, uids, (GtkSignalFunc) composer_send_cb);
 }
 

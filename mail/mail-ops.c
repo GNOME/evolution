@@ -344,11 +344,15 @@ do_send_mail (gpointer in_data, gpointer op_data, CamelException *ex)
 	/* now to save the message in Sentbox */
 	if (sentbox_folder) {
 		CamelMessageInfo *info;
+
+		mail_tool_camel_lock_up ();
 		
 		info = g_new0 (CamelMessageInfo, 1);
 		info->flags = 0;
 		camel_folder_append_message (sentbox_folder, input->message, info, ex);
 		g_free (info);
+		
+		mail_tool_camel_lock_down ();
 	}
 }
 
@@ -396,6 +400,120 @@ mail_do_send_mail (const char *xport_uri,
 	input->composer = composer;
 	
 	mail_operation_queue (&op_send_mail, input, TRUE);
+}
+
+/* ** APPEND MESSAGE TO FOLDER ******************************************** */
+
+typedef struct append_mail_input_s
+{
+        CamelFolder *folder;
+	CamelMimeMessage *message;
+        CamelMessageInfo *info;
+}
+append_mail_input_t;
+
+static gchar *describe_append_mail (gpointer in_data, gboolean gerund);
+static void setup_append_mail (gpointer in_data, gpointer op_data,
+			       CamelException *ex);
+static void do_append_mail (gpointer in_data, gpointer op_data,
+			    CamelException *ex);
+static void cleanup_append_mail (gpointer in_data, gpointer op_data,
+				 CamelException *ex);
+
+static gchar *
+describe_append_mail (gpointer in_data, gboolean gerund)
+{
+	append_mail_input_t *input = (append_mail_input_t *) in_data;
+	
+	if (gerund) {
+		if (input->message->subject && input->message->subject[0])
+			return g_strdup_printf (_("Appending \"%s\""),
+						input->message->subject);
+		else
+			return
+				g_strdup (_("Appending a message without a subject"));
+	} else {
+		if (input->message->subject && input->message->subject[0])
+			return g_strdup_printf (_("Appending \"%s\""),
+						input->message->subject);
+		else
+			return g_strdup (_("Appending a message without a subject"));
+	}
+}
+
+static void
+setup_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	append_mail_input_t *input = (append_mail_input_t *) in_data;
+	
+	if (!CAMEL_IS_MIME_MESSAGE (input->message)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No message specified for append_mail operation.");
+		return;
+	}
+	
+	if (!input->info) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No message info specified for append_mail operation.");
+		return;
+	}
+	
+	if (!CAMEL_IS_FOLDER (input->folder)) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "Bad done_folder specified for append_mail operation.");
+		return;
+	}
+	
+	camel_object_ref (CAMEL_OBJECT (input->message));
+	camel_object_ref (CAMEL_OBJECT (input->folder));
+}
+
+static void
+do_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	append_mail_input_t *input = (append_mail_input_t *) in_data;
+	
+	camel_mime_message_set_date (input->message,
+				     CAMEL_MESSAGE_DATE_CURRENT, 0);
+	
+        mail_tool_camel_lock_up ();
+	
+	/* now to save the message in the specified folder */
+	camel_folder_append_message (input->folder, input->message, input->info, ex);
+	
+        mail_tool_camel_lock_down ();
+}
+
+static void
+cleanup_append_mail (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+	append_mail_input_t *input = (append_mail_input_t *) in_data;
+	
+	camel_object_unref (CAMEL_OBJECT (input->message));
+        camel_object_unref (CAMEL_OBJECT (input->folder));
+}
+
+static const mail_operation_spec op_append_mail = {
+	describe_append_mail,
+	0,
+	setup_append_mail,
+	do_append_mail,
+	cleanup_append_mail
+};
+
+void
+mail_do_append_mail (CamelFolder *folder,
+		     CamelMimeMessage *message,
+		     CamelMessageInfo *info)
+{
+	append_mail_input_t *input;
+	
+	input = g_new (append_mail_input_t, 1);
+	input->folder = folder;
+	input->message = message;
+	input->info = info;
+	
+	mail_operation_queue (&op_append_mail, input, TRUE);
 }
 
 /* ** EXPUNGE FOLDER ****************************************************** */
@@ -1712,11 +1830,11 @@ typedef struct edit_messages_data_s {
 
 static gchar *describe_edit_messages (gpointer in_data, gboolean gerund);
 static void setup_edit_messages (gpointer in_data, gpointer op_data,
-				  CamelException *ex);
+				 CamelException *ex);
 static void do_edit_messages (gpointer in_data, gpointer op_data,
-			       CamelException *ex);
+			      CamelException *ex);
 static void cleanup_edit_messages (gpointer in_data, gpointer op_data,
-				    CamelException *ex);
+				   CamelException *ex);
 
 static gchar *
 describe_edit_messages (gpointer in_data, gboolean gerund)
@@ -1736,20 +1854,20 @@ static void
 setup_edit_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	edit_messages_input_t *input = (edit_messages_input_t *) in_data;
-
+	
 	if (!input->uids) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     /* doesn't need i18n */
 				     "No UIDs specified to edit.");
 		return;
 	}
-
+	
 	if (!CAMEL_IS_FOLDER (input->folder)) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
 				     "No folder to fetch the messages from specified.");
 		return;
 	}
-
+	
 	camel_object_ref (CAMEL_OBJECT (input->folder));
 }
 
@@ -1758,21 +1876,21 @@ do_edit_messages (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	edit_messages_input_t *input = (edit_messages_input_t *) in_data;
 	edit_messages_data_t *data = (edit_messages_data_t *) op_data;
-
+	
 	int i;
-
+	
 	data->messages = g_ptr_array_new ();
-
+	
 	for (i = 0; i < input->uids->len; i++) {
 		CamelMimeMessage *message;
-
+		
 		mail_tool_camel_lock_up ();
 		message = camel_folder_get_message (input->folder, input->uids->pdata[i], ex);
 		mail_tool_camel_lock_down ();
-
+		
 		if (message)
 			g_ptr_array_add (data->messages, message);
-
+		
 		g_free (input->uids->pdata[i]);
 	}
 }

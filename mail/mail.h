@@ -79,6 +79,7 @@ void configure_folder(BonoboUIHandler *uih, void *user_data, const char *path);
 
 void mail_reply (CamelFolder *folder, CamelMimeMessage *msg, const char *uid, gboolean to_all);
 void composer_send_cb (EMsgComposer *composer, gpointer data);
+void composer_postpone_cb (EMsgComposer *composer, gpointer data);
 void mail_print_msg (MailDisplay *md);
 
 void run_filter_ondemand (BonoboUIHandler *uih, gpointer user_data, const char *path);
