@@ -24,6 +24,7 @@
 #include <libgnomeui/gnome-stock.h>
 #include <gal/widgets/e-unicode.h>
 #include <e-contact-editor-address.h>
+#include <gtk/gtkcombo.h>
 
 static void e_contact_editor_address_init		(EContactEditorAddress		 *card);
 static void e_contact_editor_address_class_init	(EContactEditorAddressClass	 *klass);
@@ -163,7 +164,16 @@ e_contact_editor_address_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		};
 		e_contact_editor_address->editable = GTK_VALUE_BOOL (*arg) ? TRUE : FALSE;
 		for (i = 0; entry_names[i] != NULL; i ++) {
-			gtk_widget_set_sensitive (glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]), e_contact_editor_address->editable);
+			GtkWidget *w = glade_xml_get_widget(e_contact_editor_address->gui, entry_names[i]);
+			if (GTK_IS_ENTRY (w)) {
+				gtk_entry_set_editable (GTK_ENTRY (w),
+							e_contact_editor_address->editable);
+			}
+			else if (GTK_IS_COMBO (w)) {
+				gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (w)->entry),
+							e_contact_editor_address->editable);
+				gtk_widget_set_sensitive (GTK_COMBO (w)->button, e_contact_editor_address->editable);
+			}
 		}
 		break;
 	}

@@ -1,5 +1,25 @@
 2001-09-16  Chris Toshok  <toshok@ximian.com>
 
+	* gui/contact-editor/e-contact-editor.c (_phone_arrow_pressed):
+	use enable_widget instead of gtk_widget_set_sensitive.
+	(_email_arrow_pressed): same.
+	(_address_arrow_pressed): same.
+	(disable_widget_foreach): same.
+	(enable_writable_fields): same.
+	(set_editable): same.
+	(enable_widget): new function, using both gtk_widget_set_sensitive
+	and *_set_editable to allow the user to select text in GtkEntry's
+	and GtkText's.
+
+	* gui/contact-editor/e-contact-editor-fullname.c
+	(e_contact_editor_fullname_set_arg): use set_editable as well as
+	set_sensitive, to allow the user to select text in GtkEntry's.
+
+	* gui/contact-editor/e-contact-editor-address.c
+	(e_contact_editor_address_set_arg): same.
+
+2001-09-16  Chris Toshok  <toshok@ximian.com>
+
 	* backend/pas/evolutionperson.schema: fix syntax errors (which are
 	broken, imo...)
 

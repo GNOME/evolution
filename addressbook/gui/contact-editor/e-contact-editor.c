@@ -85,6 +85,7 @@ static void add_field_callback(GtkWidget *widget, EContactEditor *editor);
 static void command_state_changed (EContactEditor *ce);
 static void widget_changed (GtkWidget *widget, EContactEditor *editor);
 static void close_dialog (EContactEditor *ce);
+static void enable_widget (GtkWidget *widget, gboolean enabled);
 
 static GtkObjectClass *parent_class = NULL;
 
@@ -523,6 +524,11 @@ set_entry_changed_signal_phone(EContactEditor *editor, char *id)
 static void
 widget_changed (GtkWidget *widget, EContactEditor *editor)
 {
+	if (!editor->editable) {
+		g_warning ("non-editable contact editor has an editable field in it.");
+		return;
+	}
+
 	if (!editor->changed) {
 		editor->changed = TRUE;
 		command_state_changed (editor);
@@ -1167,6 +1173,7 @@ e_contact_editor_init (EContactEditor *e_contact_editor)
 
 	e_contact_editor->card = NULL;
 	e_contact_editor->changed = FALSE;
+	e_contact_editor->editable = TRUE;
 
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/contact-editor.glade", NULL);
 	e_contact_editor->gui = gui;
@@ -1774,8 +1781,8 @@ _phone_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 	if (result != -1) {
 		editor->phone_choice[which - 1] = result;
 		set_fields(editor);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, label), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, entry), editor->editable);
+		enable_widget (glade_xml_get_widget (editor->gui, label), TRUE);
+		enable_widget (glade_xml_get_widget (editor->gui, entry), editor->editable);
 	}
 
 	g_free(label);
@@ -1807,9 +1814,9 @@ _email_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEditor 
 		set_fields(editor);
 
 		/* make sure the buttons/entry is/are sensitive */
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
+		enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
+		enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
+		enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
 	}
 }
 
@@ -1837,9 +1844,8 @@ _address_arrow_pressed (GtkWidget *widget, GdkEventButton *button, EContactEdito
 		set_address_field(editor, result);
 
 		/* make sure the buttons/entry is/are sensitive */
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), editor->editable);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
+		enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
+		enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
 	}
 }
 
@@ -2032,7 +2038,7 @@ fill_in_single_field(EContactEditor *editor, char *name)
 static void
 disable_widget_foreach (char *key, GtkWidget *widget, gpointer closure)
 {
-	gtk_widget_set_sensitive (widget, FALSE);
+	enable_widget (widget, FALSE);
 }
 
 static struct {
@@ -2083,7 +2089,6 @@ static struct {
 	{ "label-comments", E_CARD_SIMPLE_FIELD_NOTE },
 	{ "text-comments", E_CARD_SIMPLE_FIELD_NOTE, TRUE },
 
-	{ "button-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME },
 	{ "entry-fullname", E_CARD_SIMPLE_FIELD_FULL_NAME, TRUE },
 
 	{ "button-categories", E_CARD_SIMPLE_FIELD_CATEGORIES, TRUE },
@@ -2136,18 +2141,17 @@ enable_writable_fields(EContactEditor *editor)
            the full adress button */
 	for (i = 0; i < 4; i ++) {
 		widget_name = g_strdup_printf ("label-phone%d", i+1);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), FALSE);
+		enable_widget (glade_xml_get_widget (editor->gui, widget_name), FALSE);
 		g_free (widget_name);
 		widget_name = g_strdup_printf ("entry-phone%d", i+1);
-		gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), FALSE);
+		enable_widget (glade_xml_get_widget (editor->gui, widget_name), FALSE);
 		g_free (widget_name);
 	}
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), FALSE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "label-address"), FALSE);
+	enable_widget (glade_xml_get_widget (editor->gui, "text-address"), FALSE);
 
 	/* enable widgets that map directly from a field to a widget (the drop down items) */
 	iter = e_list_get_iterator (fields);
@@ -2156,7 +2160,7 @@ enable_writable_fields(EContactEditor *editor)
 		GtkWidget *widget = g_hash_table_lookup (dropdown_hash, field);
 
 		if (widget) {
-			gtk_widget_set_sensitive (widget, TRUE);
+			enable_widget (widget, editor->editable);
 		}
 		else {
 			/* if it's not a field that's handled by the
@@ -2170,22 +2174,21 @@ enable_writable_fields(EContactEditor *editor)
                    the menu (the one reflected in the label) is
                    enabled. */
 		if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_email_to_field(editor->email_choice)))) {
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), TRUE);
+			enable_widget (glade_xml_get_widget (editor->gui, "label-email1"), TRUE);
+			enable_widget (glade_xml_get_widget (editor->gui, "entry-email1"), editor->editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "checkbutton-htmlmail"), editor->editable);
 		}
 		else if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_address_to_field(editor->address_choice)))) {
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "button-fulladdr"), editor->editable);
-			gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
+			enable_widget (glade_xml_get_widget (editor->gui, "label-address"), TRUE);
+			enable_widget (glade_xml_get_widget (editor->gui, "text-address"), editor->editable);
 		}
 		else for (i = 0; i < 4; i ++) {
 			if (!strcmp (field, e_card_simple_get_ecard_field (simple, e_card_simple_map_phone_to_field(editor->phone_choice[i])))) {
 				widget_name = g_strdup_printf ("label-phone%d", i+1);
-				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), TRUE);
+				enable_widget (glade_xml_get_widget (editor->gui, widget_name), TRUE);
 				g_free (widget_name);
 				widget_name = g_strdup_printf ("entry-phone%d", i+1);
-				gtk_widget_set_sensitive (glade_xml_get_widget (editor->gui, widget_name), editor->editable);
+				enable_widget (glade_xml_get_widget (editor->gui, widget_name), editor->editable);
 				g_free (widget_name);
 			}
 		}
@@ -2204,13 +2207,14 @@ enable_writable_fields(EContactEditor *editor)
 				   widget_field_mappings[i].widget_name);
 			continue;
 		}
-
+		if (!GTK_IS_LABEL (w))
+			continue;
 		field = e_card_simple_get_ecard_field (simple,
 						       widget_field_mappings[i].field_id);
 
 		enabled = (g_hash_table_lookup (supported_hash, field) != NULL);
 
-		gtk_widget_set_sensitive (w, enabled);
+		enable_widget (w, enabled);
 	}
 
 	g_hash_table_destroy (dropdown_hash);
@@ -2223,43 +2227,36 @@ static void
 set_editable (EContactEditor *editor)
 {
 	int i;
-	char *label, *entry;
+	char *entry;
 	/* set the sensitivity of all the non-dropdown entry/texts/dateedits */
 	for (i = 0; i < num_widget_field_mappings; i ++) {
-		if (widget_field_mappings[i].desensitize_for_read_only)
-			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-								       widget_field_mappings[i].widget_name), editor->editable);
+		if (widget_field_mappings[i].desensitize_for_read_only) {
+			GtkWidget *widget = glade_xml_get_widget(editor->gui, widget_field_mappings[i].widget_name);
+			enable_widget (widget, editor->editable);
+		}
 	}
 
 	/* handle the phone dropdown entries */
 	for (i = 0; i < 4; i ++) {
-		label = g_strdup_printf ("label-phone%d", i+1);
 		entry = g_strdup_printf ("entry-phone%d", i+1);
 
-		if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
-			gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-								       entry), editor->editable);
+		enable_widget (glade_xml_get_widget(editor->gui, entry),
+			       editor->editable);
 
-		g_free (label);
 		g_free (entry);
 	}
 
 	/* handle the email dropdown entry */
-	label = "label-email1";
 	entry = "entry-email1";
-	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label))) {
-		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       entry), editor->editable);
-		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       "checkbutton-htmlmail"), editor->editable);
-	}
+	enable_widget (glade_xml_get_widget(editor->gui, entry),
+		       editor->editable);
+	enable_widget (glade_xml_get_widget(editor->gui, "checkbutton-htmlmail"),
+		       editor->editable);
 
 	/* handle the address dropdown entry */
-	label = "label-address";
 	entry = "text-address";
-	if (GTK_WIDGET_IS_SENSITIVE (glade_xml_get_widget (editor->gui, label)))
-		gtk_widget_set_sensitive (glade_xml_get_widget(editor->gui,
-							       entry), editor->editable);
+	enable_widget (glade_xml_get_widget(editor->gui, entry),
+		       editor->editable);
 }
 
 static void
@@ -2518,4 +2515,25 @@ e_contact_editor_create_date(gchar *name,
 	e_date_edit_set_show_time (E_DATE_EDIT (widget), FALSE);
 	e_date_edit_set_time (E_DATE_EDIT (widget), -1);
 	return widget;
+}
+
+static void
+enable_widget (GtkWidget *widget, gboolean enabled)
+{
+	if (GTK_IS_ENTRY (widget)) {
+		gtk_entry_set_editable (GTK_ENTRY (widget), enabled);
+	}
+	else if (GTK_IS_TEXT (widget)) {
+		gtk_text_set_editable (GTK_TEXT (widget), enabled);
+	}
+	else if (GTK_IS_COMBO (widget)) {
+		gtk_entry_set_editable (GTK_ENTRY (GTK_COMBO (widget)->entry),
+					enabled);
+		gtk_widget_set_sensitive (GTK_COMBO (widget)->button, enabled);
+	}
+	else if (E_IS_DATE_EDIT (widget)) {
+		e_date_edit_set_editable (E_DATE_EDIT (widget), enabled);
+	}
+	else
+		gtk_widget_set_sensitive (widget, enabled);
 }
