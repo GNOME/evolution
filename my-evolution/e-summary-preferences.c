@@ -584,23 +584,19 @@ static struct _RDFInfo rdfs[] = {
 	{"http://dot.kde.org/rdf", "KDE Dot News", FALSE},
 	{"http://www.kuro5hin.org/backend.rdf", "Kuro5hin", FALSE},
 	{"http://linuxgames.com/bin/mynetscape.pl", "Linux Games", FALSE},
-	{"http://linux.com/mrn/jobs/latest_jobs.rss", "Linux Jobs", FALSE},
 	{"http://linuxtoday.com/backend/my-netscape.rdf", "Linux Today", FALSE},
 	{"http://lwn.net/headlines/rss", "Linux Weekly News", FALSE},
-	{"http://www.linux.com/mrn/front_page.rss", "Linux.com", FALSE},
 	{"http://memepool.com/memepool.rss", "Memepool", FALSE},
 	{"http://www.mozilla.org/news.rdf", "Mozilla", FALSE},
 	{"http://www.mozillazine.org/contents.rdf", "Mozillazine", FALSE},
 	{"http://www.fool.com/about/headlines/rss_headlines.asp", "The Motley Fool", FALSE},
 	{"http://www.newsforge.com/newsforge.rss", "Newsforge", FALSE},
-	{"http://www.nanotechnews.com/nano/rdf", "Nanotech News", FALSE},
 	{"http://www.pigdog.org/pigdog.rdf", "Pigdog", FALSE},
 	{"http://www.python.org/channews.rdf", "Python.org", FALSE},
 	{"http://www.quotationspage.com/data/mqotd.rss", N_("Quotes of the Day"), FALSE},
 	{"http://www.salon.com/feed/RDF/salon_use.rdf", "Salon", FALSE},
 	{"http://slashdot.org/slashdot.rdf", "Slashdot", FALSE},
 	{"http://www.theregister.co.uk/tonys/slashdot.rdf", "The Register", FALSE},
-	{"http://www.thinkgeek.com/thinkgeek.rdf", "Think Geek", FALSE},
 	{"http://www.webreference.com/webreference.rdf", "Web Reference", FALSE},
 	{"http://redcarpet.ximian.com/red-carpet.rdf", "Ximian Red Carpet New", FALSE},
 	{NULL, NULL, FALSE}
@@ -1325,7 +1321,7 @@ set_selected_folders (GNOME_Evolution_StorageSetView view)
 	list->_maximum = count;
 	list->_buffer = CORBA_sequence_GNOME_Evolution_Folder_allocbuf (count);
 
-	CORBA_sequence_set_release (list->_buffer, TRUE);
+/* 	CORBA_sequence_set_release (list->_buffer, TRUE); */
 
 	for (i = 0, l = global_preferences->display_folders; l; i++, l = l->next) {
 		ESummaryPrefsFolder *folder = l->data;
