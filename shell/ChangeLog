@@ -1,3 +1,9 @@
+2000-12-11  Jeffrey Stedfast  <fejj@helixcode.com>
+
+	* e-splash.c (e_splash_construct): Connect a button-press-event
+	signal on the splash screen so users can click it to hide it.
+	(button_press_event): New callback to hide the splash screen.
+
 2000-12-11  Dan Winship  <danw@helixcode.com>
 
 	* e-shell-view.c (get_type_for_{folder,storage}): return NULL if

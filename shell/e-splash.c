@@ -258,6 +258,14 @@ init (ESplash *splash)
 	splash->priv = priv;
 }
 
+static gboolean
+button_press_event (GtkWidget *widget, GdkEventButton *event, gpointer data)
+{
+	ESplash *splash = (ESplash *) data;
+	
+	gtk_widget_hide (GTK_WIDGET (splash));
+}
+
 
 /**
  * e_splash_construct:
@@ -303,7 +311,10 @@ e_splash_construct (ESplash *splash,
 			       GNOME_TYPE_CANVAS_PIXBUF,
 			       "pixbuf", splash_image_pixbuf,
 			       NULL);
-
+	
+	gtk_signal_connect (GTK_OBJECT (splash), "button-press-event",
+			    GTK_SIGNAL_FUNC (button_press_event), splash);
+	
 	gtk_object_set (GTK_OBJECT (splash), "type", GTK_WINDOW_POPUP, NULL);
 	gtk_window_set_position (GTK_WINDOW (splash), GTK_WIN_POS_CENTER);
 	gtk_window_set_policy (GTK_WINDOW (splash), FALSE, FALSE, FALSE);
