@@ -196,7 +196,6 @@ show_development_warning (GtkWindow *parent)
 	GtkWidget *dont_bother_me_again_checkbox;
 	GtkWidget *alignment;
 	GConfClient *client;
-	char *text;
 
 	client = gconf_client_get_default ();
 
@@ -210,28 +209,24 @@ show_development_warning (GtkWindow *parent)
 	warning_dialog = gtk_dialog_new_with_buttons("Ximian Evolution " VERSION, parent,
 						     GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
 						     GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
-	text = g_strdup_printf(
+	label = gtk_label_new (
 		/* xgettext:no-c-format */
-		/* Preview/Alpha/Beta version warning message */
 		_("Hi.  Thanks for taking the time to download this preview release\n"
 		  "of the Ximian Evolution groupware suite.\n"
 		  "\n"
-		  "This version of Ximian Evolution is not yet complete. It is getting close,\n"
-		  "but some features are either unfinished or do not work properly.\n"
+		  "This version of Ximian Evolution is not yet complete. It's getting close,\n"
+		  "but some features are either unfinished or don't work properly.\n"
 		  "\n"
 		  "If you want a stable version of Evolution, we urge you to uninstall\n"
-		  "this version, and install version %s instead.\n"
+		  "this version and install a 1.2.x version instead (1.2.2)\n"
 		  "\n"
 		  "If you find bugs, please report them to us at bugzilla.ximian.com.\n"
                   "This product comes with no warranty and is not intended for\n"
 		  "individuals prone to violent fits of anger.\n"
                   "\n"
 		  "We hope that you enjoy the results of our hard work, and we\n"
-		  "eagerly await your contributions!\n"),
-		"1.2.x (1.2.2)");
-	label = gtk_label_new (text);
-	g_free(text);
-
+		  "eagerly await your contributions!\n"
+			));
 	gtk_label_set_justify (GTK_LABEL (label), GTK_JUSTIFY_LEFT);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (warning_dialog)->vbox), 
