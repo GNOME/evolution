@@ -612,17 +612,47 @@ decode_xml1(const char *txt)
 	return res;
 }
 
+static char *
+utf8_reencode (const char * txt)
+{
+	GString *out = g_string_new("");
+	const unsigned char *p;
+	char *res;
+
+	/* convert:
+        libxml1  8 bit utf8 converted to xml entities byte-by-byte chars -> utf8 */
+
+	p =  (const unsigned char *) txt;
+
+	while (*p) {
+		g_string_append_c(out,(char) g_utf8_get_char(p));
+		p = g_utf8_next_char (p);
+	}
+	res = out->str;
+	if (g_utf8_validate (res, -1, NULL)) {
+		g_string_free(out, FALSE);
+		return res;
+	} else {
+		g_string_free (out, TRUE);
+		return g_strdup (txt);
+	}
+}
+
+
 static int
 upgrade_xml_1_2_rec(xmlNodePtr node)
 {
 	const char *value_tags[] = { "string", "address", "regex", "file", "command", NULL };
 	const char *rule_tags[] = { "title", NULL };
+	const char *item_props[] = { "name", NULL };
 	struct {
 		const char *name;
 		const char **tags;
+		const char **props;
 	} tags[] = {
-		{ "value", value_tags },
-		{ "rule", rule_tags },
+		{ "value", value_tags, NULL },
+		{ "rule", rule_tags, NULL },
+		{ "item", NULL, item_props },
 		{ 0 },
 	};
 	int changed = 0;
@@ -634,6 +664,7 @@ upgrade_xml_1_2_rec(xmlNodePtr node)
 
 	for (i=0;tags[i].name;i++) {
 		if (!strcmp(node->name, tags[i].name)) {
+		   if (tags[i].tags != NULL) {
 			work = node->children;
 			while (work) {
 				for (j=0;tags[i].tags[j];j++) {
@@ -652,7 +683,19 @@ upgrade_xml_1_2_rec(xmlNodePtr node)
 				work = work->next;
 			}
 			break;
-		}
+		   }
+		   if (tags[i].props != NULL) {
+			for (j=0; tags[i].props[j];j++) {
+				txt = xmlGetProp (node, tags[i].props[j]);
+				d(printf("upgrading xml property %s on node %s '%s' -> '%s'\n", tags[i].props[j],tags[i].name,txt,tmp));
+				tmp = utf8_reencode(txt);
+				xmlSetProp(node, tags[i].props[j],tmp);
+				changed = 1;
+				g_free(tmp);
+				xmlFree(txt);
+			}
+		   }
+		} 
 	}
 
 	node = node->children;
@@ -1849,7 +1892,7 @@ e_config_upgrade(const char *edir)
 
 	if (major <=1 && minor <=3 && revision < 1) {
 		/* check for xml 1 encoding from version 1.2 upgrade or from a previous previous 1.3.0 upgrade */
-		char *xml_files[] = { "vfolders.xml", "filters.xml" };
+		char *xml_files[] = { "vfolders.xml", "filters.xml", "shortcuts.xml"};
 
 		d(printf("Checking for xml1 format xml files\n"));
 
