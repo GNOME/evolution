@@ -1,3 +1,35 @@
+2004-11-08  Steven Zhang <steven.zhang@sun.com>
+
+	Implement accessible feature for e-minicard and e-mini-card-view.
+	Add get_n_children, ref_child, ref_state_set, atk_selection_interface,
+	and action_interface for ea-minicard-view and ea-minicard
+
+	*ea-minicard-view.c:
+	(ea_minicard_view_get_n_children),
+	(ea_minicard_view_ref_child),
+	(ea_minicard_view_ref_state_set),
+	(atk_selection_interface_init),
+	(selection_interface_add_selection),
+	(selection_interface_clear_selection),
+	(selection_interface_ref_selection),
+	(selection_interface_get_selection_count),
+	(selection_interface_is_child_selected),
+	(atk_action_interface_init),
+	(atk_action_interface_do_action),
+	(atk_action_interface_get_n_action),
+	(atk_action_interface_get_description),
+	(atk_action_interface_get_name).
+
+	*ea-minicard.c:
+	(ea_minicard_get_n_children),
+	(ea_minicard_ref_child),
+	(ea_minicard_ref_state_set),
+	(atk_action_interface_init),
+	(atk_action_interface_do_action),
+	(atk_action_interface_get_n_action),
+	(atk_action_interface_get_description),
+	(atk_action_interface_get_name).
+
 2004-11-01  Li Yuan  <li.yuan@sun.com>
 
 	* calendar/ea-day-view.c: (ea_day_view_get_name):

@@ -74,13 +74,13 @@ ea_addressbook_focus_watcher (GSignalInvocationHint *ihint,
 	object = g_value_get_object (param_values + 0);
 	event = g_value_get_boxed (param_values + 1);
 
-	if (E_IS_MINICARD(object)) {
+	if (E_IS_MINICARD (object)) {
 		EMinicard *minicard = E_MINICARD (object);
-                GnomeCanvasItem *item = GNOME_CANVAS_ITEM(object);
-		ea_event = atk_gobject_accessible_for_object(minicard);
+                GnomeCanvasItem *item = GNOME_CANVAS_ITEM (object);
+		ea_event = atk_gobject_accessible_for_object (ATK_OBJECT (minicard));
 		if (event->type == GDK_FOCUS_CHANGE) {
-			if ((event->focus_change.in) && (E_IS_MINICARD(item->canvas->focused_item)))
-				atk_focus_tracker_notify(ea_event);
+			if ((event->focus_change.in) && (E_IS_MINICARD (item->canvas->focused_item)))
+				atk_focus_tracker_notify (ea_event);
 		}
 	}
 

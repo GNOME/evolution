@@ -104,7 +104,7 @@ ea_ab_view_get_description (AtkObject *accessible)
 }
 
 AtkObject* 
-ea_ab_view_new (GtkWidget *obj)
+ea_ab_view_new (GObject *obj)
 {
 	GObject *object;
 	AtkObject *accessible;
