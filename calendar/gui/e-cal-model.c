@@ -1314,11 +1314,11 @@ add_new_client (ECalModel *model, ECal *client)
 }
 
 static void
-cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer user_data)
+cal_opened_cb (ECal *client, ECalendarStatus status, gpointer user_data)
 {
 	ECalModel *model = (ECalModel *) user_data;
 
-	if (status != E_CAL_OPEN_SUCCESS)
+	if (status != E_CALENDAR_STATUS_OK)
 		return;
 
 	add_new_client (model, client);

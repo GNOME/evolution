@@ -428,13 +428,13 @@ load_missed_alarms (ClientAlarms *ca)
 
 /* Called when a calendar client finished loading; we load its alarms */
 static void
-cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
+cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 {
 	ClientAlarms *ca;
 
 	ca = data;
 
-	if (status != E_CAL_OPEN_SUCCESS)
+	if (status != E_CALENDAR_STATUS_OK)
 		return;
 
 	load_alarms_for_today (ca);

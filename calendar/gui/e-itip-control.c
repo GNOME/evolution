@@ -2142,7 +2142,7 @@ typedef struct
 ObjectRequestContext;
 
 static void
-default_server_started_cb (ECal *client, ECalOpenStatus status, gpointer data)
+default_server_started_cb (ECal *client, ECalendarStatus status, gpointer data)
 {
 	ObjectRequestContext *context = data;
 	EItipControlPrivate *priv;
@@ -2151,7 +2151,7 @@ default_server_started_cb (ECal *client, ECalOpenStatus status, gpointer data)
 
 	priv = context->itip->priv;	
 
-	if (status != E_CAL_OPEN_SUCCESS ||
+	if (status != E_CALENDAR_STATUS_OK ||
 	    context->itip->priv->destroyed    ||
 	    context->itip->priv->html == NULL) {
 		g_object_unref (context->client);

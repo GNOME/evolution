@@ -80,7 +80,7 @@ static void e_tasks_init (ETasks *tasks);
 static void setup_widgets (ETasks *tasks);
 static void e_tasks_destroy (GtkObject *object);
 
-static void cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data);
+static void cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data);
 static void backend_error_cb (ECal *client, const char *message, gpointer data);
 
 /* Signal IDs */
@@ -799,7 +799,7 @@ permission_error (ETasks *tasks, const char *uri)
 /* Callback from the calendar client when a calendar is opened */
 static void
 cal_opened_cb				(ECal	*client,
-					 ECalOpenStatus status,
+					 ECalendarStatus status,
 					 gpointer	 data)
 {
 	ETasks *tasks;
@@ -811,25 +811,25 @@ cal_opened_cb				(ECal	*client,
 	set_status_message (tasks, NULL);
 
 	switch (status) {
-	case E_CAL_OPEN_SUCCESS:
+	case E_CALENDAR_STATUS_OK:
 		/* Everything is OK */
 		set_timezone (tasks);
 		return;
 
-	case E_CAL_OPEN_ERROR:
+	case E_CALENDAR_STATUS_OTHER_ERROR:
 		load_error (tasks, e_cal_get_uri (client));
 		break;
 
-	case E_CAL_OPEN_NOT_FOUND:
+	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
 		/* bullshit; we did not specify only_if_exists */
 		g_assert_not_reached ();
 		return;
 
-	case E_CAL_OPEN_METHOD_NOT_SUPPORTED:
+	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
 		method_error (tasks, e_cal_get_uri (client));
 		break;
 
-	case E_CAL_OPEN_PERMISSION_DENIED:
+	case E_CALENDAR_STATUS_PERMISSION_DENIED:
 		permission_error (tasks, e_cal_get_uri (client));
 		break;
 

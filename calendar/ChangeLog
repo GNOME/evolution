@@ -1,5 +1,23 @@
 2003-11-11  JP Rosevear <jpr@ximian.com>
 
+	* gui/calendar-offline-handler.c (backend_cal_opened_offline): use
+	a standard calendar status
+	(backend_cal_opened_online): ditto
+	
+	* gui/alarm-notify/alarm-queue.c (cal_opened_cb): ditto
+
+	* gui/gnome-cal.c (client_cal_opened_cb): ditto
+
+	* gui/e-tasks.c (cal_opened_cb): ditto
+
+	* gui/e-itip-control.c (default_server_started_cb): ditto
+
+	* gui/e-cal-model.c (cal_opened_cb): ditto
+
+	* gui/comp-editor-factory.c (cal_opened_cb): ditto
+
+2003-11-11  JP Rosevear <jpr@ximian.com>
+
 	* conduits/todo/todo-conduit.c (start_calendar_server): load the
 	calendar synchronously
 

@@ -1785,7 +1785,7 @@ update_e_cal_view_timeout (gpointer data)
 }
 
 static void
-client_cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
+client_cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 {
 	GnomeCalendar *gcal;
 	GnomeCalendarPrivate *priv;
@@ -1796,7 +1796,7 @@ client_cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
 	priv = gcal->priv;
 
 	switch (status) {
-	case E_CAL_OPEN_SUCCESS:
+	case E_CALENDAR_STATUS_OK:
 		/* Set the client's default timezone, if we have one. */
 		if (priv->zone) {
 			/* FIXME Error checking */
@@ -1823,20 +1823,20 @@ client_cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
 		add_alarms (e_cal_get_uri (client));
 		break;
 
-	case E_CAL_OPEN_ERROR:
+	case E_CALENDAR_STATUS_OTHER_ERROR:
 		open_error (gcal, e_cal_get_uri (client));
 		break;
 
-	case E_CAL_OPEN_NOT_FOUND:
+	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
 		/* bullshit; we did not specify only_if_exists */
 		g_assert_not_reached ();
 		return;
 
-	case E_CAL_OPEN_METHOD_NOT_SUPPORTED:
+	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
 		method_error (gcal, e_cal_get_uri (client));
 		break;
 
-	case E_CAL_OPEN_PERMISSION_DENIED :
+	case E_CALENDAR_STATUS_PERMISSION_DENIED :
 		permission_error (gcal, e_cal_get_uri (client));
 		break;
 

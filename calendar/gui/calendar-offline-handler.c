@@ -148,11 +148,11 @@ backend_cal_set_mode (ECal *client, ECalSetModeStatus status, CalMode mode, gpoi
 }
 
 static void
-backend_cal_opened_offline (ECal *client, ECalOpenStatus status, gpointer data)
+backend_cal_opened_offline (ECal *client, ECalendarStatus status, gpointer data)
 {
 	CalendarOfflineHandler *offline_handler = data;
 
-	if (status != E_CAL_OPEN_SUCCESS) {
+	if (status != E_CALENDAR_STATUS_OK) {
 		update_offline (offline_handler);
 		g_object_unref (client);
 		return;
@@ -163,9 +163,9 @@ backend_cal_opened_offline (ECal *client, ECalOpenStatus status, gpointer data)
 }
 
 static void
-backend_cal_opened_online (ECal *client, ECalOpenStatus status, gpointer data)
+backend_cal_opened_online (ECal *client, ECalendarStatus status, gpointer data)
 {
-	if (status != E_CAL_OPEN_SUCCESS) {
+	if (status != E_CALENDAR_STATUS_OK) {
 		g_object_unref (G_OBJECT (client));
 		return;
 	}

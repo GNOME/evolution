@@ -428,7 +428,7 @@ resolve_pending_requests (OpenClient *oc)
  * requests.
  */
 static void
-cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
+cal_opened_cb (ECal *client, ECalendarStatus status, gpointer data)
 {
 	OpenClient *oc;
 	CompEditorFactory *factory;
@@ -440,29 +440,29 @@ cal_opened_cb (ECal *client, ECalOpenStatus status, gpointer data)
 	priv = factory->priv;
 
 	switch (status) {
-	case E_CAL_OPEN_SUCCESS:
+	case E_CALENDAR_STATUS_OK:
 		oc->open = TRUE;
 		resolve_pending_requests (oc);
 		return;
 
-	case E_CAL_OPEN_ERROR:
+	case E_CALENDAR_STATUS_OTHER_ERROR:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Error while opening the calendar"));
 		break;
 
-	case E_CAL_OPEN_NOT_FOUND:
-		/* bullshit; we specified only_if_exists = FALSE */
+	case E_CALENDAR_STATUS_NO_SUCH_CALENDAR:
+		/* oops - we specified only_if_exists = FALSE */
 		g_assert_not_reached ();
 		return;
 
-	case E_CAL_OPEN_METHOD_NOT_SUPPORTED:
+	case E_CALENDAR_STATUS_PROTOCOL_NOT_SUPPORTED:
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Method not supported when opening the calendar"));
 		break;
 
-	case E_CAL_OPEN_PERMISSION_DENIED :
+	case E_CALENDAR_STATUS_PERMISSION_DENIED :
 		dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_MODAL,
 						 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
 						 _("Permission denied to open the calendar"));
