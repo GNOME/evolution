@@ -149,6 +149,23 @@
     </schema>
 
     <schema>
+      <key>/schemas/apps/evolution/mail/display/mime_types</key>
+      <applyto>/apps/evolution/mail/display/mime_types</applyto>
+      <owner>evolution-mail</owner>
+      <type>list</type>
+      <list_type>string</list_type>
+      <default></default>
+      <locale name="C">
+         <short>List of mime types to check for bonobo component viewers</short>
+         <long>
+           If there isn't a builtin viewer for a particular mime-type inside Evolution,
+           any mime-types appearing in this list which map to a bonobo-component viewer
+           in GNOME's mime-type database may be used for displaying content.
+         </long>
+      </locale>
+    </schema>
+
+    <schema>
       <key>/schemas/apps/evolution/mail/display/xmailer_mask</key>
       <applyto>/apps/evolution/mail/display/xmailer_mask</applyto>
       <owner>evolution-mail</owner>

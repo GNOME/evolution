@@ -371,6 +371,27 @@ component_supports (Bonobo_ServerInfo *component, const char *mime_type)
 	return FALSE;
 }
 
+static gboolean
+mime_type_uses_evolution_component (const char *mime_type)
+{
+	return (!strcmp (mime_type, "text/x-vcard") || !strcmp (mime_type, "text/calendar"));
+}
+
+static gboolean
+mime_type_can_use_component (const char *mime_type)
+{
+	const char **mime_types;
+	int i;
+	
+	mime_types = mail_config_get_allowable_mime_types ();
+	for (i = 0; mime_types[i]; i++) {
+		if (!strcmp (mime_types[i], mime_type))
+			return TRUE;
+	}
+	
+	return FALSE;
+}
+
 /**
  * mail_lookup_handler:
  * @mime_type: a MIME type
@@ -423,22 +444,26 @@ mail_lookup_handler (const char *mime_type)
 		goto reg;
 	}
 	
-	/* Try for the first matching component. (we don't use get_short_list_comps
-	 * as that will return NULL if the oaf files don't have the short_list properties
-	 * defined). */
-	components = gnome_vfs_mime_get_all_components (mime_type);
-	for (iter = components; iter; iter = iter->next) {
-		if (component_supports (iter->data, mime_type)) {
-			handler->generic = FALSE;
-			handler->is_bonobo = TRUE;
-			handler->builtin = handle_via_bonobo;
-			handler->component = Bonobo_ServerInfo_duplicate (iter->data);
-			gnome_vfs_mime_component_list_free (components);
-			goto reg;
+	/* only allow using a bonobo component if it is an evo-component or the user has
+	 * specified that we can use a bonobo-component by setting the gconf key */
+	if (mime_type_uses_evolution_component (mime_type) || mime_type_can_use_component (mime_type)) {
+		/* Try for the first matching component. (we don't use get_short_list_comps
+		 * as that will return NULL if the oaf files don't have the short_list properties
+		 * defined). */
+		components = gnome_vfs_mime_get_all_components (mime_type);
+		for (iter = components; iter; iter = iter->next) {
+			if (component_supports (iter->data, mime_type)) {
+				handler->generic = FALSE;
+				handler->is_bonobo = TRUE;
+				handler->builtin = handle_via_bonobo;
+				handler->component = Bonobo_ServerInfo_duplicate (iter->data);
+				gnome_vfs_mime_component_list_free (components);
+				goto reg;
+			}
 		}
+		
+		gnome_vfs_mime_component_list_free (components);
 	}
-	
-	gnome_vfs_mime_component_list_free (components);
 	
 	/* Try for a generic builtin match. */
 	p = strchr (mime_type, '/');

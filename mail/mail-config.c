@@ -85,7 +85,11 @@ typedef struct {
 	
 	GSList *labels;
 	guint label_notify_id;
+	
 	guint font_notify_id;
+	
+	GPtrArray *mime_types;
+	guint mime_types_notify_id;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -395,6 +399,33 @@ config_cache_labels (void)
 }
 
 static void
+config_clear_mime_types (void)
+{
+	int i;
+	
+	for (i = 0; i < config->mime_types->len; i++)
+		g_free (config->mime_types->pdata[i]);
+	
+	g_ptr_array_set_size (config->mime_types, 0);
+}
+
+static void
+config_cache_mime_types (void)
+{
+	GSList *n, *nn;
+	
+	n = gconf_client_get_list (config->gconf, "/apps/evolution/mail/display/mime_types", GCONF_VALUE_STRING, NULL);
+	while (n != NULL) {
+		nn = n->next;
+		g_ptr_array_add (config->mime_types, n->data);
+		g_slist_free_1 (n);
+		n = nn;
+	}
+	
+	g_ptr_array_add (config->mime_types, NULL);
+}
+
+static void
 config_write_fonts (void)
 {
 	char *filename;
@@ -450,9 +481,17 @@ gconf_labels_changed (GConfClient *client, guint cnxn_id,
 
 static void
 gconf_fonts_changed (GConfClient *client, guint cnxn_id,
-		      GConfEntry *entry, gpointer user_data)
+		     GConfEntry *entry, gpointer user_data)
 {
 	config_write_fonts ();
+}
+
+static void
+gconf_mime_types_changed (GConfClient *client, guint cnxn_id,
+			  GConfEntry *entry, gpointer user_data)
+{
+	config_clear_mime_types ();
+	config_cache_mime_types ();
 }
 
 /* Config struct routines */
@@ -460,11 +499,13 @@ void
 mail_config_init (void)
 {
 	char *filename;
+	
 	if (config)
 		return;
 	
 	config = g_new0 (MailConfig, 1);
 	config->gconf = gconf_client_get_default ();
+	config->mime_types = g_ptr_array_new ();
 	
 	mail_config_clear ();
 
@@ -475,21 +516,27 @@ mail_config_init (void)
 	filename = g_build_filename (g_get_home_dir (), "/evolution", MAIL_CONFIG_RC, NULL);
 	gtk_rc_parse (filename);
 	g_free (filename);
-
+	
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/display/fonts", 			      
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->font_notify_id = gconf_client_notify_add (config->gconf, "/apps/evolution/mail/display/fonts",
 							  gconf_fonts_changed, NULL, NULL, NULL);
-
 
 	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/labels",
 			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
 	config->label_notify_id =
 		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/labels",
 					 gconf_labels_changed, NULL, NULL, NULL);
-
+	
+	gconf_client_add_dir (config->gconf, "/apps/evolution/mail/mime_types",
+			      GCONF_CLIENT_PRELOAD_ONELEVEL, NULL);
+	config->mime_types_notify_id =
+		gconf_client_notify_add (config->gconf, "/apps/evolution/mail/mime_types",
+					 gconf_mime_types_changed, NULL, NULL, NULL);
+	
 	config_cache_labels ();
 	config_read_signatures ();
+	config_cache_mime_types ();
 	
 	config->accounts = e_account_list_new (config->gconf);
 }
@@ -506,6 +553,7 @@ mail_config_clear (void)
 	}
 	
 	config_clear_labels ();
+	config_clear_mime_types ();
 }
 
 void
@@ -636,6 +684,12 @@ mail_config_get_label_color_by_index (int index)
 		return label->colour;
 	
 	return NULL;
+}
+
+const char **
+mail_config_get_allowable_mime_types (void)
+{
+	return (const char **) config->mime_types->pdata;
 }
 
 gboolean

@@ -107,6 +107,8 @@ GSList *mail_config_get_labels (void);
 const char *mail_config_get_label_color_by_name (const char *name);
 const char *mail_config_get_label_color_by_index (int index);
 
+const char **mail_config_get_allowable_mime_types (void);
+
 void mail_config_service_set_save_passwd (EAccountService *service, gboolean save_passwd);
 
 gboolean      mail_config_find_account                 (EAccount *account);

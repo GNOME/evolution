@@ -1,3 +1,27 @@
+2003-04-25  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.glade: Made toplevel container widgets set a
+	border-width (including toplevel widgets within frames), set the
+	table/hbox/vbox spacings, set the spacing between an image and the
+	description text in hboxes to 12pts (as suggested by the HIG),
+	Changed Add/Delete buttons to the stock Add/Remove buttons, etc
+
+2003-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_init): Cache the allowable
+	mime-types.
+	(mail_config_get_allowable_mime_types): New public function to get
+	an array of allowable mime-types.
+
+	* mail-format.c (mail_lookup_handler): Only allow a
+	bonobo-component handler if the mime-type is something handled by
+	evolution or the user has specifically chosen that type as
+	available for viewing with a bonobo component in the gconf
+	database.
+	(mime_type_uses_evolution_component): New convenience function.
+	(mime_type_can_use_component): Checks gconf to see if the user has
+	allowed the mime-type to be viewed by a component.
+
 2003-04-24  Radek Doulik  <rodo@ximian.com>
 
 	* mail-display.c (html_button_press_event): as below
