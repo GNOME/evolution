@@ -494,7 +494,6 @@ composer_get_message (EMsgComposer *composer)
 		
 		if (html_problem) {
 			html_problem = ! ask_confirm_for_unwanted_html_mail (composer, recipients);
-			e_destination_freev (recipients);
 			if (html_problem) {
 				camel_object_unref (CAMEL_OBJECT (message));
 				message = NULL;
