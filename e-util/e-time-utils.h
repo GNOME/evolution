@@ -24,6 +24,10 @@ typedef enum {
 ETimeParseStatus e_time_parse_date_and_time	(const char	*value,
 						 struct tm	*result);
 
+/* Tries to parse a string containing a date. */
+ETimeParseStatus e_time_parse_date		(const char	*value,
+						 struct tm	*result);
+
 /* Tries to parse a string containing a time. */
 ETimeParseStatus e_time_parse_time		(const char	*value,
 						 struct tm	*result);

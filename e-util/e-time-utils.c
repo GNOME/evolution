@@ -25,7 +25,26 @@
 #include <libgnome/gnome-i18n.h>
 #include "e-time-utils.h"
 
-static gboolean string_is_empty (const char *value);
+
+/* Returns whether a string is NULL, empty, or full of whitespace */
+static gboolean
+string_is_empty (const char *value)
+{
+	const char *p;
+	gboolean empty = TRUE;
+
+	if (value) {
+		p = value;
+		while (*p) {
+			if (!isspace (*p)) {
+				empty = FALSE;
+				break;
+			}
+			p++;
+		}
+	}
+	return empty;
+}
 
 
 /*
@@ -42,7 +61,7 @@ ETimeParseStatus
 e_time_parse_date_and_time		(const char	*value,
 					 struct tm	*result)
 {
-	struct tm discard_tm, time_tm;
+	struct tm time_tm;
 	struct tm *today_tm;
 	time_t t;
 	const char *pos, *parse_end;
@@ -50,8 +69,11 @@ e_time_parse_date_and_time		(const char	*value,
 	gboolean parsed_date = FALSE, parsed_time = FALSE;
 	gint i;
 
-	if (string_is_empty (value))
+	if (string_is_empty (value)) {
+		memset (result, 0, sizeof (*result));
+		result->tm_isdst = -1;
 		return E_TIME_PARSE_NONE;
+	}
 
 	pos = value;
 
@@ -151,6 +173,77 @@ e_time_parse_date_and_time		(const char	*value,
 	return E_TIME_PARSE_OK;
 }
 
+/* Takes a number of format strings for strptime() and attempts to parse a
+ * string with them.
+ */
+static ETimeParseStatus
+parse_with_strptime (const char *value, struct tm *result, const char **formats, int n_formats)
+{
+	const char *pos, *parse_end;
+	gboolean parsed;
+	int i;
+
+	if (string_is_empty (value)) {
+		memset (result, 0, sizeof (*result));
+		result->tm_isdst = -1;
+		return E_TIME_PARSE_NONE;
+	}
+
+	pos = value;
+
+	/* Skip whitespace */
+	while (isspace (*pos))
+		pos++;
+
+	/* Try each of the formats in turn */
+
+	for (i = 0; i < n_formats; i++) {
+		memset (result, 0, sizeof (*result));
+		parse_end = strptime (pos, formats[i], result);
+		if (parse_end) {
+			pos = parse_end;
+			parsed = TRUE;
+			break;
+		}
+	}
+
+	result->tm_isdst = -1;
+
+	/* If we could not parse it it must be invalid. */
+	if (!parsed)
+		return E_TIME_PARSE_INVALID;
+
+	return E_TIME_PARSE_OK;
+}
+
+
+/**
+ * e_time_parse_date:
+ * @value: A date string.
+ * @result: Return value for the parsed date.
+ * 
+ * Takes in a date string entered by the user and tries to convert it to
+ * a struct tm.
+ * 
+ * Return value: Result code indicating whether the @value was an empty
+ * string, a valid date, or an invalid date.
+ **/
+ETimeParseStatus
+e_time_parse_date (const char *value, struct tm *result)
+{
+	const char *format[4];
+
+	g_return_val_if_fail (value != NULL, E_TIME_PARSE_INVALID);
+	g_return_val_if_fail (result != NULL, E_TIME_PARSE_INVALID);
+
+	format[0] = _("%m/%d/%Y");
+	format[1] = _("%d/%m/%Y");
+	format[2] = _("%Y/%m/%d");
+	format[3] = _("%x"); /* catch-all give-up strptime()-sucks format */
+
+	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
+}
+
 
 /*
  * Parses a string containing a time. It is expected to be in a format
@@ -162,25 +255,9 @@ e_time_parse_date_and_time		(const char	*value,
  * was empty, or E_TIME_PARSE_INVALID if it couldn't be parsed.
  */
 ETimeParseStatus
-e_time_parse_time			(const char	*value,
-					 struct tm	*result)
+e_time_parse_time (const char *value, struct tm *result)
 {
-	const char *pos, *parse_end;
-	char *format[4];
-	gboolean parsed_time = FALSE;
-	gint i;
-
-	if (string_is_empty (value)) {
-		memset (result, 0, sizeof (*result));
-		result->tm_isdst = -1;
-		return E_TIME_PARSE_NONE;
-	}
-
-	pos = value;
-
-	/* Skip any whitespace. */
-	while (isspace (*pos))
-		pos++;
+	const char *format[4];
 
 	/* strptime format for a time of day, in 12-hour format.
 	   If it is not appropriate in the locale set to an empty string. */
@@ -196,44 +273,7 @@ e_time_parse_time			(const char	*value,
 	/* strptime format for time of day, without seconds 24-hour format. */
 	format[3] = _("%H:%M");
 
-	for (i = 0; i < sizeof (format) / sizeof (format[0]); i++) {
-		memset (result, 0, sizeof (*result));
-		parse_end = strptime (pos, format[i], result);
-		if (parse_end) {
-			pos = parse_end;
-			parsed_time = TRUE;
-			break;
-		}
-	}
-
-	result->tm_isdst = -1;
-
-	/* If we don't have a date or a time it must be invalid. */
-	if (!parsed_time)
-		return E_TIME_PARSE_INVALID;
-
-	return E_TIME_PARSE_OK;
-}
-
-
-/* Returns whether a string is NULL, empty, or full of whitespace */
-static gboolean
-string_is_empty (const char *value)
-{
-	const char *p;
-	gboolean empty = TRUE;
-
-	if (value) {
-		p = value;
-		while (*p) {
-			if (!isspace (*p)) {
-				empty = FALSE;
-				break;
-			}
-			p++;
-		}
-	}
-	return empty;
+	return parse_with_strptime (value, result, format, sizeof (format) / sizeof (format[0]));
 }
 
 

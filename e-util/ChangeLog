@@ -1,3 +1,16 @@
+2001-07-16  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-time-utils.c (parse_with_strptime): Generalized function for
+	trying a number of strptime() formats on a string.
+	(e_time_parse_time): Use parse_with_strptime().
+	(e_time_parse_date): New function, analogous to the previous one,
+	but uses a number of date formats.
+
+2001-07-12  Federico Mena Quintero  <federico@ximian.com>
+
+	* e-time-utils.c (e_time_parse_date_and_time): If the string is
+	empty, clear the struct tm before returning.
+
 2001-07-12  Jon Trowbridge  <trow@ximian.com>
 
 	* e-html-utils.c: Added is_addr_char_no_pipes macro, which specifically
