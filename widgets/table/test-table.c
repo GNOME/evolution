@@ -346,7 +346,7 @@ do_e_table_demo (const char *spec)
 	gtk_widget_show (window);
 
 	if (getenv ("TEST")){
-		e_config_do_gui_config (NULL, e_table);
+		e_table_do_gui_config (NULL, e_table);
 	}
 }
 

@@ -132,6 +132,7 @@ e_table_gui_config (ETable *etable)
 	GnomeDialog *dialog;
 	ConfigData *config_data;
 	
+	glade_gnome_init ();
 	gui = glade_xml_new (ETABLE_GLADEDIR "/e-table-config.glade", NULL);
 	if (!gui)
 		return NULL;
@@ -205,6 +206,9 @@ e_table_do_gui_config (GtkWidget *parent, ETable *etable)
 		e_table_gui_config_cancel (GTK_WIDGET (dialog), etable);
 	else
 		e_table_gui_config_accept (GTK_WIDGET (dialog), etable);
+
+	if (r != -1)
+		gtk_object_destroy (GTK_OBJECT (dialog));
 }
 
 	      
