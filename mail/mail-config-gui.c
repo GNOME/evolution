@@ -83,6 +83,7 @@ typedef struct
 	GtkWidget *auth_html;
 	GtkWidget *auth_detect;
 	GtkWidget *keep_on_server;
+	GtkWidget *remember_password;
 	gint pnum;
 } MailDialogServicePageItem;
 
@@ -708,6 +709,9 @@ service_page_set_url (MailDialogServicePage *page, MailConfigService *service)
 	if (spitem->keep_on_server)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spitem->keep_on_server), service->keep_on_server);
 
+	if (spitem->remember_password)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (spitem->remember_password), service->remember_password);
+
 	camel_exception_free (ex);
 	camel_url_free (url);
 }
@@ -721,6 +725,10 @@ service_page_item_auth_activate (GtkWidget *menuitem,
 	authtype = gtk_object_get_data (GTK_OBJECT (menuitem), "authtype");
 	put_html (GTK_HTML (spitem->auth_html), 
 		  _(authtype->description));
+	if (authtype->need_password)
+		gtk_widget_show (spitem->remember_password);
+	else
+		gtk_widget_hide (spitem->remember_password);
 }
 
 static void
@@ -780,7 +788,15 @@ service_page_extract (MailDialogServicePage *page)
 	if (spitem->keep_on_server) {
 		source->keep_on_server = gtk_toggle_button_get_active (
 			GTK_TOGGLE_BUTTON (spitem->keep_on_server));
-	}
+	} else
+		source->keep_on_server = FALSE;
+
+	if (spitem->remember_password &&
+	    GTK_WIDGET_VISIBLE (spitem->remember_password)) {
+		source->remember_password = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (spitem->remember_password));
+	} else
+		source->remember_password = FALSE;
 
 	return source;
 }
@@ -890,7 +906,7 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 			    description->parent->parent,
 			    TRUE, TRUE, 0);
 	
-	table = gtk_table_new (6, 3, FALSE);
+	table = gtk_table_new (7, 3, FALSE);
 	gtk_table_set_row_spacings (GTK_TABLE (table), 2);
 	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
 	gtk_container_set_border_width (GTK_CONTAINER (table), 8);
@@ -948,17 +964,25 @@ service_page_item_new (MailDialogServicePage *page, MailService *mcs)
 				    GTK_SIGNAL_FUNC (service_page_detect), 
 				    page);
 
+		item->remember_password = gtk_check_button_new_with_label (
+			_("Remember this password"));
+		gtk_signal_connect (GTK_OBJECT (item->keep_on_server), "toggled",
+				    GTK_SIGNAL_FUNC (service_page_item_changed),
+				    page);
+		gtk_table_attach (GTK_TABLE (table), item->remember_password,
+				  1, 3, row + 1, row + 2, GTK_FILL, 0, 0, 0);
+
 		item->auth_html = html_new (TRUE);
 		gtk_table_attach (GTK_TABLE (table), 
 				  item->auth_html->parent->parent,
-				  0, 3, row + 1, row + 2,
+				  0, 3, row + 2, row + 3,
 				  GTK_FILL, GTK_EXPAND | GTK_FILL, 0, 0);
 
 		/* this is done async */
 		url = camel_url_to_string (mcs->service->url, FALSE);
 		config_do_query_authtypes (page, url, item);
 		g_free (url);
-		row += 2;
+		row += 3;
 	}
 
 	if ((mcs->provider->flags & CAMEL_PROVIDER_IS_REMOTE) &&

@@ -1,3 +1,25 @@
+2000-12-01  Dan Winship  <danw@helixcode.com>
+
+	* session.c (mail_session_remember_password): Writes out passwords
+	(to .gnome_private) in our patented proprietary "Best Awesome
+	Super Encryption 64" ("BASE64") format which could not possibly
+	ever be cracked by even the most cryptographically knowledgeable
+	five-year-olds.
+	(mail_session_init): Load remembered passwords at startup.
+	(mail_session_forget_passwords): Erase them from disk as well as
+	memory.
+
+	* mail-config.c: Add "remember_password" field to
+	MailConfigService.
+	(mail_config_write_on_exit): Call mail_session_remember_password
+	for services with "remember_password" set.
+	* mail-config-gui.c: Add "remember password" checkbox to the
+	dialogs, and make it appear and disappear as appropriate.
+
+	* component-factory.c (mail_load_storages): Unref the store
+	regardless of whether or not we're using it, so we don't leak
+	references to non-storage stores.
+
 2000-12-01  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* message-list.c (e_mail_address_new): Perform better

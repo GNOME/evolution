@@ -38,6 +38,7 @@ typedef struct
 {
 	gchar *url;
 	gboolean keep_on_server;
+	gboolean remember_password;
 } MailConfigService;
 
 /* Identities */

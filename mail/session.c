@@ -64,9 +64,6 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 {
 	char *key, *ans, *url;
 
-	if (!passwords)
-		passwords = g_hash_table_new (g_str_hash, g_str_equal);
-
 	url = camel_url_to_string (service->url, FALSE);
 	key = g_strdup_printf ("%s:%s", url, item);
 	g_free (url);
@@ -101,6 +98,58 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 
 	return ans;
 }
+
+static char *
+decode_base64 (char *base64)
+{
+	char *plain, *pad = "==";
+	int len, out, state, save;
+
+	len = strlen (base64);
+	plain = g_malloc0 (len);
+	state = save = 0;
+	out = base64_decode_step (base64, len, plain, &state, &save);
+	if (len % 4) {
+		base64_decode_step (pad, 4 - len % 4, plain + out,
+				    &state, &save);
+	}
+
+	return plain;
+}
+
+static void
+maybe_remember_password (gpointer key, gpointer password, gpointer url)
+{
+	char *path, *key64, *pass64;
+	int len, state, save;
+
+	len = strlen (url);
+	if (strncmp (key, url, len) != 0)
+		return;
+
+	len = strlen (key);
+	key64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close (key, len, FALSE, key64, &state, &save);
+	path = g_strdup_printf ("/Evolution/Passwords/%s", key64);
+	g_free (key64);
+
+	len = strlen (password);
+	pass64 = g_malloc0 ((len + 2) * 4 / 3 + 1);
+	state = save = 0;
+	base64_encode_close (password, len, FALSE, pass64, &state, &save);
+
+	gnome_config_private_set_string (path, pass64);
+	g_free (path);
+	g_free (pass64);
+}
+
+void
+mail_session_remember_password (const char *url)
+{
+	g_hash_table_foreach (passwords, maybe_remember_password, url);
+}
+
 
 /* ******************** */
 
@@ -190,13 +239,25 @@ remove_callback (guint handle)
 void
 mail_session_init (void)
 {
-	char *camel_dir;
+	char *camel_dir, *key, *value;
+	void *iter;
 
 	camel_init ();
 	camel_dir = g_strdup_printf ("%s/mail", evolution_dir);
 	session = camel_session_new (camel_dir, auth_callback,
 				     register_callback, remove_callback);
 	g_free (camel_dir);
+
+	passwords = g_hash_table_new (g_str_hash, g_str_equal);
+	iter = gnome_config_private_init_iterator ("/Evolution/Passwords");
+	if (iter) {
+		while (gnome_config_iterator_next (iter, &key, &value)) {
+			g_hash_table_insert (passwords, decode_base64 (key),
+					     decode_base64 (value));
+			g_free (key);
+			g_free (value);
+		}
+	}
 }
 
 static gboolean
@@ -213,4 +274,6 @@ mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 			       const char *path)
 {
 	g_hash_table_foreach_remove (passwords, free_entry, NULL);
+	gnome_config_private_clean_section ("/Evolution/Passwords");
+	gnome_config_sync ();
 }

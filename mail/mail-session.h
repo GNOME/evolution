@@ -37,6 +37,7 @@ char *mail_session_request_dialog (const char *prompt, gboolean secret,
 				   const char *key, gboolean async);
 void mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 				    const char *path);
+void mail_session_remember_password (const char *url);
 
 extern CamelSession *session;
 

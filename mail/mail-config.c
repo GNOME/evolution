@@ -107,6 +107,7 @@ service_copy (MailConfigService *source)
 	newsource = g_new0 (MailConfigService, 1);
 	newsource->url = g_strdup (source->url);
 	newsource->keep_on_server = source->keep_on_server;
+	newsource->remember_password = source->remember_password;
 	
 	return newsource;
 }
@@ -232,6 +233,9 @@ config_read (void)
 		path = g_strdup_printf ("keep_on_server_%d", i);
 		s->keep_on_server = gnome_config_get_bool (path);
 		g_free (path);
+		path = g_strdup_printf ("remember_password_%d", i);
+		s->remember_password = gnome_config_get_bool (path);
+		g_free (path);
 		
 		config->sources = g_slist_append (config->sources, s);
 	}
@@ -351,6 +355,9 @@ mail_config_write (void)
 		path = g_strdup_printf ("keep_on_server_%d", i);
 		gnome_config_set_bool (path, s->keep_on_server);
 		g_free (path);
+		path = g_strdup_printf ("remember_password_%d", i);
+		gnome_config_set_bool (path, s->remember_password);
+		g_free (path);
 	}
 	gnome_config_pop_prefix ();
 
@@ -398,6 +405,8 @@ void
 mail_config_write_on_exit (void)
 {
 	gchar *str;
+	GSList *sources;
+	MailConfigService *s;
 
 	/* Show Messages Threaded */
 	str = g_strdup_printf ("=%s/config/Mail=/Display/thread_list", 
@@ -410,6 +419,14 @@ mail_config_write_on_exit (void)
 			       evolution_dir);
 	gnome_config_set_int (str, config->paned_size);
 	g_free (str);
+
+	/* Passwords */
+	gnome_config_private_clean_section ("/Evolution/Passwords");
+	for (sources = config->sources; sources; sources = sources->next) {
+		s = sources->data;
+		if (s->remember_password)
+			mail_session_remember_password (s->url);
+	}
 
 	gnome_config_sync ();
 }
