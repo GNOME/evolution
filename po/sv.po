@@ -11,14 +11,14 @@
 # meeting = sammanträde
 # event = evenemang
 #
-# $Id: sv.po,v 1.209 2005/02/26 23:03:09 menthos Exp $
+# $Id: sv.po,v 1.210 2005/02/27 11:07:05 menthos Exp $
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-02-27 00:00+0100\n"
-"PO-Revision-Date: 2005-02-27 00:01+0100\n"
+"POT-Creation-Date: 2005-02-27 11:05+0100\n"
+"PO-Revision-Date: 2005-02-27 12:06+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16142,48 +16142,40 @@ msgid "Algorithm Parameters"
 msgstr "Algoritmparametrar"
 
 #: smime/lib/e-cert.c:768
-#, fuzzy
 msgid "Subject Public Key Info"
-msgstr ""
-"\n"
-"Publik nyckel: "
+msgstr "Information om publik nyckel för objektet"
 
 #: smime/lib/e-cert.c:773
 msgid "Subject Public Key Algorithm"
-msgstr ""
+msgstr "Algoritm för objektets publika nyckel"
 
 #: smime/lib/e-cert.c:788
-#, fuzzy
 msgid "Subject's Public Key"
-msgstr "Ämnet är %s"
+msgstr "Objektets publika nyckel"
 
 #: smime/lib/e-cert.c:809 smime/lib/e-cert.c:858
-#, fuzzy
 msgid "Error: Unable to process extension"
-msgstr "Kan inte bearbeta spool-mappen"
+msgstr "Fel: Kan inte bearbeta utökning"
 
 #: smime/lib/e-cert.c:830 smime/lib/e-cert.c:842
 msgid "Object Signer"
 msgstr "Objektsignerare"
 
 #: smime/lib/e-cert.c:834
-#, fuzzy
 msgid "SSL Certificate Authority"
-msgstr "Ogiltig certifikatmyndighet (CA)"
+msgstr "SSL-certifikatmyndighet"
 
 #: smime/lib/e-cert.c:838
-#, fuzzy
 msgid "Email Certificate Authority"
-msgstr "Ogiltig certifikatmyndighet (CA)"
+msgstr "E-postcertifikatmyndighet"
 
 #: smime/lib/e-cert.c:866
 msgid "Signing"
 msgstr "Signerar"
 
 #: smime/lib/e-cert.c:870
-#, fuzzy
 msgid "Non-repudiation"
-msgstr "Ingen information"
+msgstr "Ickeförkastande"
 
 #: smime/lib/e-cert.c:874
 msgid "Key Encipherment"
@@ -16223,9 +16215,8 @@ msgid "%s = %s"
 msgstr "%s = %s"
 
 #: smime/lib/e-cert.c:1091 smime/lib/e-cert.c:1211
-#, fuzzy
 msgid "Certificate Signature Algorithm"
-msgstr "Certifikatsignaturfel"
+msgstr "Certifikatsignaturalgoritm"
 
 #: smime/lib/e-cert.c:1100
 msgid "Issuer"
@@ -16236,18 +16227,16 @@ msgid "Issuer Unique ID"
 msgstr "Unikt id för utfärdare"
 
 #: smime/lib/e-cert.c:1173
-#, fuzzy
 msgid "Subject Unique ID"
-msgstr "Ämnet är %s"
+msgstr "Unikt id för objektet"
 
 #: smime/lib/e-cert.c:1216
-#, fuzzy
 msgid "Certificate Signature Value"
-msgstr "Certifikatsignaturfel"
+msgstr "Certifikatsignaturvärde"
 
 #: smime/lib/e-pkcs12.c:264
 msgid "PKCS12 File Password"
-msgstr ""
+msgstr "PKCS12-fillösenord"
 
 #: smime/lib/e-pkcs12.c:264
 msgid "Enter password for PKCS12 file:"
@@ -16364,9 +16353,8 @@ msgid "Send selected contacts to another person."
 msgstr "Skicka markerade kontakter till en annan person."
 
 #: ui/evolution-addressbook.xml.h:26
-#, fuzzy
 msgid "Show contact preview window"
-msgstr "Visa förhandsgranskningsfönster för meddelanden"
+msgstr "Visa förhandsgranskningsfönster för kontakter"
 
 #: ui/evolution-addressbook.xml.h:27
 msgid "Stop"
@@ -16401,8 +16389,10 @@ msgid "_Preview Pane"
 msgstr "F_örhandsgranskningspanel"
 
 #: ui/evolution-addressbook.xml.h:41
-#, fuzzy
 msgid "_Save as VCard..."
+msgstr "_Spara som VCard..."
+
+msgid "_Save as VCard"
 msgstr "_Spara som VCard"
 
 #: ui/evolution-addressbook.xml.h:42
@@ -16474,34 +16464,31 @@ msgid "Publish Free/Busy information for this calendar"
 msgstr "Publicera ledig-/upptageninformation för denna kalender"
 
 #: ui/evolution-calendar.xml.h:23 ui/evolution-tasks.xml.h:17
-#, fuzzy
 msgid "Purg_e"
-msgstr "Bourges"
+msgstr "Tö_m"
 
 #: ui/evolution-calendar.xml.h:24
-#, fuzzy
 msgid "Purge old appointments and meetings"
-msgstr "Publik mapp som innehåller möten och evenemang"
+msgstr "Töm gamla möten och sammanträden"
 
 #: ui/evolution-calendar.xml.h:25
-#, fuzzy
 msgid "Select _Date"
-msgstr "Markera namn"
+msgstr "Välj _datum"
+
+msgid "Select date"
+msgstr "Välj datum"
 
 #: ui/evolution-calendar.xml.h:27
-#, fuzzy
 msgid "Select a specific date"
-msgstr "Gå till ett specifikt datum"
+msgstr "Välj ett specifikt datum"
 
 #: ui/evolution-calendar.xml.h:28
-#, fuzzy
 msgid "Select today"
-msgstr "Välj mapp"
+msgstr "Välj idag"
 
 #: ui/evolution-calendar.xml.h:29
-#, fuzzy
 msgid "Show as list"
-msgstr "Låga bankar med fuktdis"
+msgstr "Visa som lista"
 
 #: ui/evolution-calendar.xml.h:30
 msgid "Show one day"
@@ -16520,9 +16507,8 @@ msgid "Show the working week"
 msgstr "Visa arbetsveckan"
 
 #: ui/evolution-calendar.xml.h:35
-#, fuzzy
 msgid "View the current appointment"
-msgstr "Visa den aktuella kontakten"
+msgstr "Visa det aktuella mötet"
 
 #: ui/evolution-calendar.xml.h:36
 msgid "Week"
@@ -16533,9 +16519,8 @@ msgid "Work Week"
 msgstr "Arbetsvecka"
 
 #: ui/evolution-calendar.xml.h:42
-#, fuzzy
 msgid "_Open Appointment"
-msgstr "_Möte"
+msgstr "_Öppna möte"
 
 #: ui/evolution-composer-entries.xml.h:1
 msgid "Copy selected text to the clipboard"
@@ -16579,7 +16564,6 @@ msgid "Create or edit rules for filtering new mail"
 msgstr "Skapa eller redigera regler för filtrering av ny post"
 
 #: ui/evolution-mail-global.xml.h:5
-#, fuzzy
 msgid "Create or edit vFolder definitions"
 msgstr "Skapa eller redigera definitioner för virtuella mappar"
 
@@ -16596,8 +16580,16 @@ msgid "Permanently remove all deleted messages from all folders"
 msgstr "Ta bort alla borttagna meddelanden från alla mappar permanent"
 
 #: ui/evolution-mail-global.xml.h:9
-#, fuzzy
 msgid "Post Ne_w Message"
+msgstr "Posta n_ytt meddelande"
+
+msgid "Post New Message"
+msgstr "Posta nytt meddelande"
+
+msgid "Post _New Message"
+msgstr "Posta _nytt meddelande"
+
+msgid "Post new message"
 msgstr "Posta nytt meddelande"
 
 #: ui/evolution-mail-global.xml.h:10
@@ -16621,7 +16613,6 @@ msgid "_Filters..."
 msgstr "_Filter..."
 
 #: ui/evolution-mail-global.xml.h:18
-#, fuzzy
 msgid "vFolder _Editor..."
 msgstr "_Redigerare för virtuella mappar..."
 
@@ -16638,7 +16629,6 @@ msgid "Cut selected message(s) to the clipboard"
 msgstr "Klipp ut markerade meddelanden till urklipp"
 
 #: ui/evolution-mail-list.xml.h:4
-#, fuzzy
 msgid "E_xpunge"
 msgstr "T_öm"
 
@@ -16725,7 +16715,6 @@ msgid "_Threaded Message List"
 msgstr "_Trådad meddelandelista"
 
 #: ui/evolution-mail-message.xml.h:1
-#, fuzzy
 msgid "A_dd Sender to Address Book"
 msgstr "L_ägg till avsändaren i adressboken"
 
@@ -16734,7 +16723,6 @@ msgid "A_pply Filters"
 msgstr "Tillä_mpa filter"
 
 #: ui/evolution-mail-message.xml.h:3
-#, fuzzy
 msgid "Add Sender to Address Book"
 msgstr "Lägg till avsändaren i adressboken"
 
@@ -16743,9 +16731,11 @@ msgid "Apply filter rules to the selected messages"
 msgstr "Tillämpa filterregler på de markerade meddelandena"
 
 #: ui/evolution-mail-message.xml.h:5
-#, fuzzy
 msgid "Caret _Mode"
-msgstr "Textmodell"
+msgstr "Markör_läge"
+
+msgid "Caret Mode"
+msgstr "Markörläge"
 
 #: ui/evolution-mail-message.xml.h:6
 msgid "Compose a reply to all of the recipients of the selected message"
@@ -16764,9 +16754,8 @@ msgid "Copy selected messages to another folder"
 msgstr "Kopiera markerade meddelanden till en annan mapp"
 
 #: ui/evolution-mail-message.xml.h:12
-#, fuzzy
 msgid "Create _vFolder From Message"
-msgstr "_Skapa filter från meddelande"
+msgstr "Skapa _virtuell mapp från meddelande"
 
 #: ui/evolution-mail-message.xml.h:13
 msgid "Create a rule to filter messages from this sender"
@@ -16785,22 +16774,18 @@ msgid "Create a rule to filter messages with this subject"
 msgstr "Skapa en regel för att filtrera meddelanden med detta ämne"
 
 #: ui/evolution-mail-message.xml.h:17
-#, fuzzy
 msgid "Create a vFolder for these recipients"
 msgstr "Skapa en virtuell mapp för dessa mottagare"
 
 #: ui/evolution-mail-message.xml.h:18
-#, fuzzy
 msgid "Create a vFolder for this mailing list"
 msgstr "Skapa en virtuell mapp för denna sändlista"
 
 #: ui/evolution-mail-message.xml.h:19
-#, fuzzy
 msgid "Create a vFolder for this sender"
 msgstr "Skapa en virtuell mapp för denna avsändare"
 
 #: ui/evolution-mail-message.xml.h:20
-#, fuzzy
 msgid "Create a vFolder for this subject"
 msgstr "Skapa en virtuell mapp för detta ämne"
 
@@ -16841,9 +16826,11 @@ msgid "F_orward As..."
 msgstr "_Vidarebefordra som..."
 
 #: ui/evolution-mail-message.xml.h:33
-#, fuzzy
 msgid "Filter _Junk"
-msgstr "Filterregler"
+msgstr "Filtrera s_kräp"
+
+msgid "Filter junk"
+msgstr "Filtrera skräp"
 
 #: ui/evolution-mail-message.xml.h:34
 msgid "Filter on Mailing _List..."
@@ -16862,9 +16849,8 @@ msgid "Filter on _Subject..."
 msgstr "Filtrera på _ämne..."
 
 #: ui/evolution-mail-message.xml.h:38
-#, fuzzy
 msgid "Filter the selected messages for junk status"
-msgstr "Markera de markerade meddelandena för borttagning"
+msgstr "Filtrera de markerade meddelandena med avseende på skräpstatus"
 
 #: ui/evolution-mail-message.xml.h:39
 msgid "Flag selected message(s) for follow-up"
@@ -16928,14 +16914,12 @@ msgid "Mark the selected message(s) as important"
 msgstr "Markera de markerade meddelandena som viktiga"
 
 #: ui/evolution-mail-message.xml.h:58
-#, fuzzy
 msgid "Mark the selected message(s) as junk"
-msgstr "Markera de markerade meddelandena som oviktiga"
+msgstr "Markera de markerade meddelandena som skräp"
 
 #: ui/evolution-mail-message.xml.h:59
-#, fuzzy
 msgid "Mark the selected message(s) as not being junk"
-msgstr "Markera de markerade meddelandena som olästa"
+msgstr "Markera de markerade meddelandena som inte skräp"
 
 #: ui/evolution-mail-message.xml.h:60
 msgid "Mark the selected message(s) as not having been read"
@@ -16970,18 +16954,16 @@ msgid "Next _Unread Message"
 msgstr "Nästa _olästa meddelande"
 
 #: ui/evolution-mail-message.xml.h:69
-#, fuzzy
 msgid "Not Junk"
-msgstr "Hittades inte"
+msgstr "Inte skräp"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Open the selected message in a new window"
 msgstr "Öppna det markerade meddelandet i ett nytt fönster"
 
 #: ui/evolution-mail-message.xml.h:71
-#, fuzzy
 msgid "Open the selected message in the composer for editing"
-msgstr "Öppna det markerade meddelandet i redigeraren för återsändning av det"
+msgstr "Öppna det markerade meddelandet i redigeraren för redigering"
 
 #: ui/evolution-mail-message.xml.h:72
 msgid "Original Si_ze"
@@ -16992,8 +16974,10 @@ msgid "P_revious Unread Message"
 msgstr "F_öregående olästa meddelande"
 
 #: ui/evolution-mail-message.xml.h:75
-#, fuzzy
 msgid "Post a Repl_y"
+msgstr "Posta ett s_var"
+
+msgid "Post a Reply"
 msgstr "Posta ett svar"
 
 #: ui/evolution-mail-message.xml.h:76
@@ -17053,9 +17037,8 @@ msgid "Show Full _Headers"
 msgstr "Visa fullständiga _huvuden"
 
 #: ui/evolution-mail-message.xml.h:97
-#, fuzzy
 msgid "Show a blinking cursor in the body of displayed messages"
-msgstr "Sök efter text i meddelandetexten på det visade meddelandet"
+msgstr "Visa en blinkande markör i meddelandetexten på de visade meddelandena"
 
 #: ui/evolution-mail-message.xml.h:98
 msgid "Show message in the normal style"
@@ -17130,22 +17113,18 @@ msgid "_Undelete"
 msgstr "_Ångra borttagning"
 
 #: ui/evolution-mail-message.xml.h:127
-#, fuzzy
 msgid "vFolder on Mailing _List..."
-msgstr "Virtuell mapp på _sändlista..."
+msgstr "Virtuell mapp på sänd_lista..."
 
 #: ui/evolution-mail-message.xml.h:128
-#, fuzzy
 msgid "vFolder on Se_nder..."
-msgstr "Virtuell mapp på _avsändare..."
+msgstr "Virtuell mapp på a_vsändare..."
 
 #: ui/evolution-mail-message.xml.h:129
-#, fuzzy
 msgid "vFolder on _Recipients..."
 msgstr "Virtuell mapp på _mottagare..."
 
 #: ui/evolution-mail-message.xml.h:130
-#, fuzzy
 msgid "vFolder on _Subject..."
 msgstr "Virtuell mapp på _ämne..."
 
@@ -17288,29 +17267,45 @@ msgstr "Signera detta meddelande med ditt S/MIME-signaturcertifikat"
 
 #: ui/evolution-message-composer.xml.h:32
 msgid "Toggles whether the BCC field is displayed"
-msgstr "Växla om blindkopiefältet ska visas"
+msgstr "Växlar huruvida blindkopiefältet ska visas"
+
+msgid "Toggle whether the BCC field is displayed"
+msgstr "Växla huruvida blindkopiefältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:33
 msgid "Toggles whether the CC field is displayed"
-msgstr "Växla om kopiefältet ska visas"
+msgstr "Växlar huruvida kopiefältet ska visas"
+
+msgid "Toggle whether the CC field is displayed"
+msgstr "Växla huruvida kopiefältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:34
 msgid "Toggles whether the From chooser is displayed"
-msgstr "Växla om frånväljaren ska visas"
+msgstr "Växlar huruvida frånväljaren ska visas"
+
+msgid "Toggle whether the From chooser is displayed"
+msgstr "Växla huruvida frånväljaren ska visas"
 
 #: ui/evolution-message-composer.xml.h:35
-#, fuzzy
 msgid "Toggles whether the Post-To field is displayed"
-msgstr "Växla om svara till-fältet ska visas"
+msgstr "Växlar huruvida svara till-fältet ska visas"
+
+msgid "Toggle whether the Post-To field is displayed"
+msgstr "Växla huruvida svara till-fältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:36
 msgid "Toggles whether the Reply-To field is displayed"
-msgstr "Växla om svara till-fältet ska visas"
+msgstr "Växlar huruvida svara till-fältet ska visas"
+
+msgid "Toggle whether the Reply-To field is displayed"
+msgstr "Växla huruvida svara till-fältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:37
-#, fuzzy
 msgid "Toggles whether the To field is displayed"
-msgstr "Växla om kopiefältet ska visas"
+msgstr "Växlar huruvida kopiefältet ska visas"
+
+msgid "Toggle whether the To field is displayed"
+msgstr "Växla huruvida kopiefältet ska visas"
 
 #: ui/evolution-message-composer.xml.h:38
 msgid "_Attachment..."
@@ -20844,7 +20839,7 @@ msgstr "<klicka här för att välja en mapp>"
 #~ msgstr "Ta bort efter %s dag(ar)"
 
 #~ msgid "Disable support for all POP3 extensions"
-#~ msgstr "Inaktivera stöd för alla POP3-tillägg"
+#~ msgstr "Inaktivera stöd för alla POP3-utökningar"
 
 #~ msgid "POP"
 #~ msgstr "POP"
