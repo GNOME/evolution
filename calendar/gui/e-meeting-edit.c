@@ -699,7 +699,7 @@ add_button_clicked_cb (GtkWidget *widget, gpointer data)
 	prop = icalproperty_new (ICAL_ATTENDEE_PROPERTY);
 	param = icalparameter_new_role (ICAL_ROLE_REQPARTICIPANT); 
 	icalproperty_add_parameter (prop, param);
-	param = icalparameter_new_rsvp (TRUE); 
+	param = icalparameter_new_rsvp (ICAL_RSVP_TRUE); 
 	icalproperty_add_parameter (prop, param);
 	param = icalparameter_new_partstat (ICAL_PARTSTAT_NEEDSACTION);
 	icalproperty_add_parameter (prop, param);

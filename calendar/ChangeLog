@@ -1,5 +1,10 @@
 2001-04-26  JP Rosevear  <jpr@ximian.com>
 
+	* gui/e-meeting-edit.c (add_button_clicked_cb):
+	icalparameter_new_rsvp now takes an enum
+
+2001-04-26  JP Rosevear  <jpr@ximian.com>
+
 	* cal-util/cal-component.c (cal_component_alarm_set_trigger): the
 	value type should be inited with ICAL_VALUE_* rather than
 	ICAL_*_VALUE because it is a param argument.
