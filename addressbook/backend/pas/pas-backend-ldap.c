@@ -613,16 +613,14 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 	if (NULL != blpriv->ldap) {
 		int ldap_error;
 
-		if (bl->priv->use_tls) {
-			int protocol_version = LDAP_VERSION3;
-			ldap_error = ldap_set_option (blpriv->ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
-			if (LDAP_OPT_SUCCESS != ldap_error) {
-				g_warning ("failed to set protocol version to LDAPv3");
-				bl->priv->ldap_v3 = FALSE;
-			}
-			else
-				bl->priv->ldap_v3 = TRUE;
+		int protocol_version = LDAP_VERSION3;
+		ldap_error = ldap_set_option (blpriv->ldap, LDAP_OPT_PROTOCOL_VERSION, &protocol_version);
+		if (LDAP_OPT_SUCCESS != ldap_error) {
+			g_warning ("failed to set protocol version to LDAPv3");
+			bl->priv->ldap_v3 = FALSE;
 		}
+		else
+			bl->priv->ldap_v3 = TRUE;
 
 		if (bl->priv->ldap_port == LDAPS_PORT && bl->priv->use_tls == PAS_BACKEND_LDAP_TLS_ALWAYS) {
 			int tls_level = LDAP_OPT_X_TLS_HARD;
@@ -2254,17 +2252,20 @@ category_ber (ECardSimple *card)
 			"category_list", &categories,
 			NULL);
 
-	result = g_new0 (struct berval*, e_list_length (categories) + 1);
+	if (e_list_length (categories) != 0) {
+		result = g_new0 (struct berval*, e_list_length (categories) + 1);
 
-	for (iterator = e_list_get_iterator(categories), i = 0; e_iterator_is_valid (iterator); e_iterator_next (iterator), i++) {
-		const char *category = e_iterator_get (iterator);
+		for (iterator = e_list_get_iterator(categories), i = 0; e_iterator_is_valid (iterator);
+		     e_iterator_next (iterator), i++) {
+			const char *category = e_iterator_get (iterator);
 
-		result[i] = g_new (struct berval, 1);
-		result[i]->bv_val = g_strdup (category);
-		result[i]->bv_len = strlen (category);
+			result[i] = g_new (struct berval, 1);
+			result[i]->bv_val = g_strdup (category);
+			result[i]->bv_len = strlen (category);
+		}
+
+		gtk_object_unref (GTK_OBJECT (iterator));
 	}
-
-	gtk_object_unref (GTK_OBJECT (iterator));
 
 	return result;
 }
