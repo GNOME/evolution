@@ -28,10 +28,17 @@
 #include "addressbook-component.h"
 
 #include "addressbook.h"
+#include "new-addressbook.h"
 
 #include "widgets/misc/e-source-selector.h"
 
+#include <bonobo/bonobo-i18n.h>
 #include <gtk/gtkscrolledwindow.h>
+#include <gtk/gtkmenu.h>
+#include <gtk/gtkimage.h>
+#include <gtk/gtkimagemenuitem.h>
+#include <gtk/gtkmessagedialog.h>
+#include <gtk/gtkstock.h>
 #include <gconf/gconf-client.h>
 
 
@@ -59,6 +66,45 @@ load_uri_for_selection (ESourceSelector *selector,
 	}
 }
 
+static void
+add_popup_menu_item (GtkMenu *menu, const char *label, const char *pixmap,
+		     GCallback callback, gpointer user_data)
+{
+	GtkWidget *item, *image;
+
+	if (pixmap) {
+		item = gtk_image_menu_item_new_with_label (label);
+
+		/* load the image */
+		image = gtk_image_new_from_file (pixmap);
+		if (!image)
+			image = gtk_image_new_from_stock (pixmap, GTK_ICON_SIZE_MENU);
+
+		if (image)
+			gtk_image_menu_item_set_image (GTK_IMAGE_MENU_ITEM (item), image);
+	} else {
+		item = gtk_menu_item_new_with_label (label);
+	}
+
+	if (callback)
+		g_signal_connect (G_OBJECT (item), "activate", callback, user_data);
+
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	gtk_widget_show (item);
+}
+
+/* Folder popup menu callbacks */
+
+static void
+new_addressbook_cb (GtkWidget *widget, ESourceSelector *selector)
+{
+	new_addressbook_dialog (GTK_WINDOW (gtk_widget_get_toplevel (widget)));
+}
+
+static void
+delete_addressbook_cb (GtkWidget *widget, AddressbookComponent *comp)
+{
+}
 
 /* Callbacks.  */
 
@@ -69,6 +115,13 @@ primary_source_selection_changed_callback (ESourceSelector *selector,
 	load_uri_for_selection (selector, view_control);
 }
 
+static void
+fill_popup_menu_callback (ESourceSelector *selector, GtkMenu *menu, AddressbookComponent *comp)
+{
+	add_popup_menu_item (menu, _("New Addressbook"), NULL, G_CALLBACK (new_addressbook_cb), comp);
+	add_popup_menu_item (menu, _("Delete"), GTK_STOCK_DELETE, G_CALLBACK (delete_addressbook_cb), comp);
+	add_popup_menu_item (menu, _("Rename"), NULL, NULL, NULL);
+}
 
 /* Evolution::Component CORBA methods.  */
 
@@ -101,6 +154,9 @@ impl_createControls (PortableServer_Servant servant,
 	g_signal_connect_object (selector, "primary_selection_changed",
 				 G_CALLBACK (primary_source_selection_changed_callback),
 				 G_OBJECT (view_control), 0);
+	g_signal_connect_object (selector, "fill_popup_menu",
+				 G_CALLBACK (fill_popup_menu_callback),
+				 G_OBJECT (addressbook_component), 0);
 	load_uri_for_selection (E_SOURCE_SELECTOR (selector), view_control);
 
 	*corba_sidebar_control = CORBA_Object_duplicate (BONOBO_OBJREF (sidebar_control), ev);

@@ -37,6 +37,8 @@ libevolution_addressbook_la_SOURCES = 	\
 	addressbook-storage.h		\
 	addressbook.c			\
 	addressbook.h			\
+	new-addressbook.c		\
+	new-addressbook.h		\
 	component-factory.c
 
 #	$(top_builddir)/addressbook/printing/libecontactprint.la
@@ -82,7 +84,9 @@ server_DATA = $(server_in_files:.server.in.in=_$(BASE_VERSION).server)
 @EVO_NAME_SERVER_RULE@
 @INTLTOOL_SERVER_RULE@
 
-glade_DATA = ldap-config.glade
+glade_DATA =			\
+	ldap-config.glade	\
+	new-addressbook.glade
 
 BUILT_SOURCES = $(server_DATA)
 CLEANFILES    = $(BUILT_SOURCES)

@@ -1,3 +1,20 @@
+2003-11-08  Hans Petter Jansson  <hpj@ximian.com>
+
+	* gui/component/Makefile.am (libevolution_addressbook_la_SOURCES):
+	Add new-addressbook.[ch].
+	(glade_DATA): Add new-addressbook.glade.
+
+	* gui/component/addressbook-component.c (add_popup_menu_item):
+	Implement.
+	(new_addressbook_cb): Implement.
+	(delete_addressbook_cb): Implement (skeletal).
+	(fill_popup_menu_callback): Implement.
+	(impl_createControls): Hook up fill_popup_menu_callback().
+
+	* gui/component/new-addressbook.[ch]: New files.
+
+	* gui/component/new-addressbook.glade: New file.
+
 2003-11-07  Dan Winship  <danw@ximian.com>
 
 	* util/Makefile.am (INCLUDES): Remove some includes of directories
