@@ -72,11 +72,11 @@ struct _EMsgComposer {
 	BonoboObject            *editor_listener;
 	GHashTable              *inline_images, *inline_images_by_url;
 	GList                   *current_images;
-
+	
 	Bonobo_ConfigDatabase    config_db;
 	
 	char *charset;
-
+	
 	char *autosave_file;
         int   autosave_fd;
 
@@ -97,6 +97,8 @@ struct _EMsgComposer {
 	gboolean in_signature_insert : 1;
 
 	gboolean enable_autosave : 1;
+	
+	CamelMimeMessage *redirect;
 };
 
 struct _EMsgComposerClass {
@@ -112,6 +114,9 @@ GtkType           e_msg_composer_get_type             (void);
 EMsgComposer     *e_msg_composer_new                  (void);
 EMsgComposer     *e_msg_composer_new_with_message     (CamelMimeMessage *msg);
 EMsgComposer     *e_msg_composer_new_from_url         (const char       *url);
+EMsgComposer     *e_msg_composer_new_redirect         (CamelMimeMessage *message,
+						       const char *resent_from);
+
 void              e_msg_composer_show_attachments     (EMsgComposer     *composer,
 						       gboolean          show);
 void              e_msg_composer_set_headers          (EMsgComposer     *composer,

@@ -84,6 +84,9 @@ GtkWidget  *e_msg_composer_hdrs_new                (gint visible_flags);
 void        e_msg_composer_hdrs_to_message         (EMsgComposerHdrs *hdrs,
 						    CamelMimeMessage *msg);
 
+void        e_msg_composer_hdrs_to_redirect        (EMsgComposerHdrs *hdrs,
+						    CamelMimeMessage *msg);
+
 void        e_msg_composer_hdrs_set_from_account   (EMsgComposerHdrs *hdrs,
 						    const char *account_name);
 void        e_msg_composer_hdrs_set_reply_to       (EMsgComposerHdrs *hdrs,

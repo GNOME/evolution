@@ -66,7 +66,7 @@ typedef struct {
 
 struct _EMsgComposerHdrsPrivate {
 	GNOME_Evolution_Addressbook_SelectNames corba_select_names;
-
+	
 	/* The tooltips.  */
 	GtkTooltips *tooltips;
 	
@@ -87,7 +87,7 @@ enum {
 	LAST_SIGNAL
 };
 
-static gint signals[LAST_SIGNAL];
+static int signals[LAST_SIGNAL];
 
 
 static gboolean
@@ -139,7 +139,7 @@ e_msg_composer_hdrs_and_string_create (EMsgComposerHdrs *hdrs, const char *strin
 	emchas->string = g_strdup (string);
 	if (emchas->hdrs)
 		gtk_object_ref (GTK_OBJECT (emchas->hdrs));
-
+	
 	return emchas;
 }
 
@@ -227,7 +227,7 @@ create_from_optionmenu (EMsgComposerHdrs *hdrs)
 			
 			gtk_menu_append (GTK_MENU (menu), item);
 			gtk_widget_show (item);
-			++i;
+			i++;
 		}
 		
 		accounts = accounts->next;
@@ -251,7 +251,7 @@ addressbook_entry_changed (BonoboListener    *listener,
 			   gpointer           user_data)
 {
 	EMsgComposerHdrs *hdrs = E_MSG_COMPOSER_HDRS (user_data);
-
+	
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
 }
 
@@ -266,41 +266,41 @@ create_addressbook_entry (EMsgComposerHdrs *hdrs,
 	CORBA_Environment ev;
 	BonoboControlFrame *cf;
 	Bonobo_PropertyBag pb = CORBA_OBJECT_NIL;
-
+	
 	priv = hdrs->priv;
 	corba_select_names = priv->corba_select_names;
-
+	
 	CORBA_exception_init (&ev);
-
+	
 	GNOME_Evolution_Addressbook_SelectNames_addSection (
 		corba_select_names, name, name, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
-
+	
 	corba_control =
 		GNOME_Evolution_Addressbook_SelectNames_getEntryBySection (
 			corba_select_names, name, &ev);
-
+	
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		CORBA_exception_free (&ev);
 		return NULL;
 	}
-
+	
 	CORBA_exception_free (&ev);
-
+	
 	control_widget = bonobo_widget_new_control_from_objref (
 		corba_control, CORBA_OBJECT_NIL);
-
+	
 	cf = bonobo_widget_get_control_frame (BONOBO_WIDGET (control_widget));
 	pb = bonobo_control_frame_get_control_property_bag (cf, NULL);
-
+	
 	bonobo_event_source_client_add_listener (
 		pb, addressbook_entry_changed,
 		"Bonobo/Property:change:entry_changed",
 		NULL, hdrs);
-
+	
 	return control_widget;
 }
 
@@ -320,29 +320,28 @@ header_new_recipient (EMsgComposerHdrs *hdrs, const gchar *name, const gchar *ti
 		e_msg_composer_hdrs_and_string_create(hdrs, name),
 		(GtkDestroyNotify) e_msg_composer_hdrs_and_string_free,
 		FALSE, FALSE);
-
+	
 	gtk_tooltips_set_tip (
 		hdrs->priv->tooltips, ret.label,
 		_("Click here for the address book"),
 		NULL);
-
+	
 	ret.entry = create_addressbook_entry (hdrs, name);
-
+	
 	return ret;
 }
 
 static void
 entry_changed (GtkWidget *entry, EMsgComposerHdrs *hdrs)
 {
-	gchar *tmp;
-	gchar *subject;
-
+	char *subject, *tmp;
+	
 	tmp = e_msg_composer_hdrs_get_subject (hdrs);
 	subject = e_utf8_to_gtk_string (GTK_WIDGET (entry), tmp);
-
+	
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals[SUBJECT_CHANGED], subject);
 	g_free (tmp);
-
+	
 	gtk_signal_emit (GTK_OBJECT (hdrs), signals[HDRS_CHANGED]);
 }
 
@@ -350,13 +349,13 @@ static void
 create_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv = hdrs->priv;
-
+	
 	/*
 	 * From:
 	 */
 	priv->from.label = gtk_label_new (_("From:"));
 	priv->from.entry = create_from_optionmenu (hdrs);
-
+	
 	/*
 	 * Reply-To:
 	 */
@@ -367,7 +366,7 @@ create_headers (EMsgComposerHdrs *hdrs)
 			"use_ellipsis", TRUE,
 			"allow_newlines", FALSE,
 			NULL);
-
+	
 	/*
 	 * Subject:
 	 */
@@ -380,18 +379,18 @@ create_headers (EMsgComposerHdrs *hdrs)
 			NULL);
 	gtk_signal_connect (GTK_OBJECT (priv->subject.entry), "changed",
 			    GTK_SIGNAL_FUNC (entry_changed), hdrs);
-
+	
 	/*
 	 * To: CC: and Bcc:
 	 */
 	priv->to = header_new_recipient (
 		hdrs, _("To:"),
 		_("Enter the recipients of the message"));
-
+	
 	priv->cc = header_new_recipient (
 		hdrs, _("Cc:"),
 		_("Enter the addresses that will receive a carbon copy of the message"));
-
+	
 	priv->bcc = header_new_recipient (
 		hdrs, _("Bcc:"),
 		 _("Enter the addresses that will receive a carbon copy of "
@@ -415,7 +414,7 @@ attach_couple (EMsgComposerHdrs *hdrs, EMsgComposerHdrPair *pair, int line)
 		pad = GNOME_PAD;
 	else
 		pad = 2;
-
+	
 	gtk_table_attach (GTK_TABLE (hdrs),
 			  pair->label, 0, 1,
 			  line, line + 1,
@@ -431,7 +430,7 @@ static void
 attach_headers (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *p = hdrs->priv;
-
+	
 	attach_couple (hdrs, &p->from, LINE_FROM);
 	attach_couple (hdrs, &p->reply_to, LINE_REPLYTO);
 	attach_couple (hdrs, &p->to, LINE_TO);
@@ -456,7 +455,7 @@ static void
 headers_set_visibility (EMsgComposerHdrs *h, gint visible_flags)
 {
 	EMsgComposerHdrsPrivate *p = h->priv;
-
+	
 	set_pair_visibility (h, &p->from, visible_flags & E_MSG_COMPOSER_VISIBLE_FROM);
 	set_pair_visibility (h, &p->reply_to, visible_flags & E_MSG_COMPOSER_VISIBLE_REPLYTO);
 	set_pair_visibility (h, &p->cc, visible_flags & E_MSG_COMPOSER_VISIBLE_CC);
@@ -469,7 +468,7 @@ e_msg_composer_set_hdrs_visible (EMsgComposerHdrs *hdrs, gint visible_flags)
 {
 	g_return_if_fail (hdrs != NULL);
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	headers_set_visibility (hdrs, visible_flags);
 	gtk_widget_queue_resize (GTK_WIDGET (hdrs));
 }
@@ -479,7 +478,7 @@ setup_headers (EMsgComposerHdrs *hdrs, gint visible_flags)
 {
 	create_headers (hdrs);
 	attach_headers (hdrs);
-
+	
 	/*
 	 * To: is always visible
 	 */
@@ -498,17 +497,17 @@ destroy (GtkObject *object)
 	EMsgComposerHdrs *hdrs;
 	EMsgComposerHdrsPrivate *priv;
 	GSList *l;
-
+	
 	hdrs = E_MSG_COMPOSER_HDRS (object);
 	priv = hdrs->priv;
-
+	
 	if (priv->corba_select_names != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
 		CORBA_exception_init (&ev);
 		bonobo_object_release_unref (priv->corba_select_names, &ev);
 		CORBA_exception_free (&ev);
 	}
-
+	
 	gtk_object_destroy (GTK_OBJECT (priv->tooltips));
 	
 	l = priv->from_options;
@@ -534,12 +533,12 @@ static void
 class_init (EMsgComposerHdrsClass *class)
 {
 	GtkObjectClass *object_class;
-
+	
 	object_class = GTK_OBJECT_CLASS (class);
 	object_class->destroy = destroy;
-
+	
 	parent_class = gtk_type_class (gtk_table_get_type ());
-
+	
 	signals[SHOW_ADDRESS_DIALOG] =
 		gtk_signal_new ("show_address_dialog",
 				GTK_RUN_LAST,
@@ -548,7 +547,7 @@ class_init (EMsgComposerHdrsClass *class)
 						   show_address_dialog),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	signals[SUBJECT_CHANGED] =
 		gtk_signal_new ("subject_changed",
 				GTK_RUN_LAST,
@@ -558,7 +557,7 @@ class_init (EMsgComposerHdrsClass *class)
 				gtk_marshal_NONE__STRING,
 				GTK_TYPE_NONE,
 				1, GTK_TYPE_STRING);
-
+	
 	signals[HDRS_CHANGED] =
 		gtk_signal_new ("hdrs_changed",
 				GTK_RUN_LAST,
@@ -567,7 +566,7 @@ class_init (EMsgComposerHdrsClass *class)
 						   hdrs_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	signals[FROM_CHANGED] =
 		gtk_signal_new ("from_changed",
 				GTK_RUN_LAST,
@@ -576,7 +575,7 @@ class_init (EMsgComposerHdrsClass *class)
 						   from_changed),
 				gtk_marshal_NONE__NONE,
 				GTK_TYPE_NONE, 0);
-
+	
 	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
 }
 
@@ -584,11 +583,11 @@ static void
 init (EMsgComposerHdrs *hdrs)
 {
 	EMsgComposerHdrsPrivate *priv;
-
+	
 	priv = g_new0 (EMsgComposerHdrsPrivate, 1);
-
+	
 	priv->tooltips = gtk_tooltips_new ();
-
+	
 	hdrs->priv = priv;
 }
 
@@ -597,7 +596,7 @@ GtkType
 e_msg_composer_hdrs_get_type (void)
 {
 	static GtkType type = 0;
-
+	
 	if (type == 0) {
 		static const GtkTypeInfo info = {
 			"EMsgComposerHdrs",
@@ -609,10 +608,10 @@ e_msg_composer_hdrs_get_type (void)
 			/* reserved_2 */ NULL,
 			(GtkClassInitFunc) NULL,
 		};
-
+		
 		type = gtk_type_unique (gtk_table_get_type (), &info);
 	}
-
+	
 	return type;
 }
 
@@ -625,13 +624,13 @@ e_msg_composer_hdrs_new (gint visible_flags)
 	new = gtk_type_new (e_msg_composer_hdrs_get_type ());
 	priv = new->priv;
 	
-	if (! setup_corba (new)) {
+	if (!setup_corba (new)) {
 		gtk_widget_destroy (GTK_WIDGET (new));
 		return NULL;
 	}
 	
 	setup_headers (new, visible_flags);
-
+	
 	return GTK_WIDGET (new);
 }
 
@@ -639,27 +638,26 @@ static void
 set_recipients_from_destv (CamelMimeMessage *msg,
 			   EDestination **to_destv,
 			   EDestination **cc_destv,
-			   EDestination **bcc_destv)
+			   EDestination **bcc_destv,
+			   gboolean redirect)
 {
 	CamelInternetAddress *to_addr;
 	CamelInternetAddress *cc_addr;
 	CamelInternetAddress *bcc_addr;
 	CamelInternetAddress *target;
-	const gchar *text_addr;
-	gint i;
+	const char *text_addr, *header;
 	gboolean seen_hidden_list = FALSE;
-
+	int i;
+	
 	to_addr  = camel_internet_address_new ();
 	cc_addr  = camel_internet_address_new ();
 	bcc_addr = camel_internet_address_new ();
-
+	
 	if (to_destv) {
 		for (i = 0; to_destv[i] != NULL; ++i) {
 			text_addr = e_destination_get_address (to_destv[i]);
-
-
+			
 			if (text_addr && *text_addr) {
-
 				target = to_addr;
 				if (e_destination_is_evolution_list (to_destv[i])
 				    && !e_destination_list_show_addresses (to_destv[i])) {
@@ -671,12 +669,11 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 			}
 		}
 	}
-
+	
 	if (cc_destv) {
 		for (i = 0; cc_destv[i] != NULL; ++i) {
 			text_addr = e_destination_get_address (cc_destv[i]);
 			if (text_addr && *text_addr) {
-
 				target = cc_addr;
 				if (e_destination_is_evolution_list (cc_destv[i])
 				    && !e_destination_list_show_addresses (cc_destv[i])) {
@@ -688,42 +685,45 @@ set_recipients_from_destv (CamelMimeMessage *msg,
 			}
 		}
 	}
-
+	
 	if (bcc_destv) {
 		for (i = 0; bcc_destv[i] != NULL; ++i) {
 			text_addr = e_destination_get_address (bcc_destv[i]);
-			if (text_addr && *text_addr) {
-				
+			if (text_addr && *text_addr) {				
 				camel_address_unformat (CAMEL_ADDRESS (bcc_addr), text_addr);
 			}
 		}
 	}
-
+	
+	header = redirect ? CAMEL_RECIPIENT_TYPE_RESENT_TO : CAMEL_RECIPIENT_TYPE_TO;
 	if (camel_address_length (CAMEL_ADDRESS (to_addr)) > 0) {
-		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_TO, to_addr);
+		camel_mime_message_set_recipients (msg, header, to_addr);
 	} else if (seen_hidden_list) {
-		camel_medium_set_header (CAMEL_MEDIUM (msg), CAMEL_RECIPIENT_TYPE_TO, "Undisclosed-Recipient:;");
+		camel_medium_set_header (CAMEL_MEDIUM (msg), header, "Undisclosed-Recipient:;");
 	}
-
+	
+	header = redirect ? CAMEL_RECIPIENT_TYPE_RESENT_CC : CAMEL_RECIPIENT_TYPE_CC;
 	if (camel_address_length (CAMEL_ADDRESS (cc_addr)) > 0) {
-		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_CC, cc_addr);
+		camel_mime_message_set_recipients (msg, header, cc_addr);
 	}
-
+	
+	header = redirect ? CAMEL_RECIPIENT_TYPE_RESENT_BCC : CAMEL_RECIPIENT_TYPE_BCC;
 	if (camel_address_length (CAMEL_ADDRESS (bcc_addr)) > 0) {
-		camel_mime_message_set_recipients (msg, CAMEL_RECIPIENT_TYPE_BCC, bcc_addr);
+		camel_mime_message_set_recipients (msg, header, bcc_addr);
 	}
-
+	
 	camel_object_unref (CAMEL_OBJECT (to_addr));
 	camel_object_unref (CAMEL_OBJECT (cc_addr));
 	camel_object_unref (CAMEL_OBJECT (bcc_addr));
 }
 
-void
-e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
-				CamelMimeMessage *msg)
+static void
+e_msg_composer_hdrs_to_message_internal (EMsgComposerHdrs *hdrs,
+					 CamelMimeMessage *msg,
+					 gboolean redirect)
 {
 	CamelInternetAddress *addr;
-	gchar *subject;
+	char *subject, *header;
 	EDestination **to_destv, **cc_destv, **bcc_destv;
 	
 	g_return_if_fail (hdrs != NULL);
@@ -736,7 +736,13 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 	g_free (subject);
 	
 	addr = e_msg_composer_hdrs_get_from (hdrs);
-	camel_mime_message_set_from (msg, addr);
+	if (redirect) {
+		header = camel_address_format (CAMEL_ADDRESS (addr));
+		camel_medium_set_header (CAMEL_MEDIUM (msg), "Resent-From", header);
+		g_free (header);
+	} else {
+		camel_mime_message_set_from (msg, addr);
+	}
 	camel_object_unref (CAMEL_OBJECT (addr));
 	
  	addr = e_msg_composer_hdrs_get_reply_to (hdrs);
@@ -744,21 +750,36 @@ e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
 		camel_mime_message_set_reply_to (msg, addr);
 		camel_object_unref (CAMEL_OBJECT (addr));
 	}
-
+	
 	to_destv  = e_msg_composer_hdrs_get_to (hdrs);
 	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
 	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
-
+	
 	/* Attach destinations to the message. */
-
-	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv);
-
+	
+	set_recipients_from_destv (msg, to_destv, cc_destv, bcc_destv, redirect);
+	
 	e_destination_freev (to_destv);
 	e_destination_freev (cc_destv);
 	e_destination_freev (bcc_destv);
 }
 
-
+
+void
+e_msg_composer_hdrs_to_message (EMsgComposerHdrs *hdrs,
+				CamelMimeMessage *msg)
+{
+	e_msg_composer_hdrs_to_message_internal (hdrs, msg, FALSE);
+}
+
+
+void
+e_msg_composer_hdrs_to_redirect (EMsgComposerHdrs *hdrs,
+				 CamelMimeMessage *msg)
+{
+	e_msg_composer_hdrs_to_message_internal (hdrs, msg, TRUE);
+}
+
 
 /* FIXME: yea, this could be better... but it's doubtful it'll be used much */
 void
@@ -818,9 +839,10 @@ void
 e_msg_composer_hdrs_set_to (EMsgComposerHdrs *hdrs,
 			    EDestination **to_destv)
 {
-	gchar *str;
+	char *str;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	str = e_destination_exportv (to_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", str, NULL); 
 	g_free (str);
@@ -830,7 +852,8 @@ void
 e_msg_composer_hdrs_set_cc (EMsgComposerHdrs *hdrs,
 			    EDestination **cc_destv)
 {
-	gchar *str;
+	char *str;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
 	
 	str = e_destination_exportv (cc_destv);
@@ -842,9 +865,10 @@ void
 e_msg_composer_hdrs_set_bcc (EMsgComposerHdrs *hdrs,
 			     EDestination **bcc_destv)
 {
-	gchar *str;
+	char *str;
+	
 	g_return_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs));
-
+	
 	str = e_destination_exportv (bcc_destv);
 	bonobo_widget_set_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", str, NULL); 
 	g_free (str);
@@ -889,7 +913,7 @@ CamelInternetAddress *
 e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 {
 	CamelInternetAddress *addr;
-	gchar *reply_to;
+	char *reply_to;
 	
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
@@ -917,13 +941,13 @@ e_msg_composer_hdrs_get_reply_to (EMsgComposerHdrs *hdrs)
 EDestination **
 e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 {
-	gchar *str = NULL;
+	char *str = NULL;
 	EDestination **destv = NULL;
-
+	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->to.entry), "destinations", &str, NULL); 
-
+	
 	if (str != NULL) {
 		destv = e_destination_importv (str);
 		g_free (str);
@@ -935,36 +959,36 @@ e_msg_composer_hdrs_get_to (EMsgComposerHdrs *hdrs)
 EDestination **
 e_msg_composer_hdrs_get_cc (EMsgComposerHdrs *hdrs)
 {
-	gchar *str = NULL;
+	char *str = NULL;
 	EDestination **destv = NULL;
-
+	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->cc.entry), "destinations", &str, NULL); 
-
+	
 	if (str != NULL) {
 		destv = e_destination_importv (str);
 		g_free (str);
 	}
-
+	
 	return destv;
 }
 
 EDestination **
 e_msg_composer_hdrs_get_bcc (EMsgComposerHdrs *hdrs)
 {
-	gchar *str = NULL;
+	char *str = NULL;
 	EDestination **destv = NULL;
-
+	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	bonobo_widget_get_property (BONOBO_WIDGET (hdrs->priv->bcc.entry), "destinations", &str, NULL); 
-
+	
 	if (str != NULL) {
 		destv = e_destination_importv (str);
 		g_free (str);
 	}
-
+	
 	return destv;
 }
 
@@ -975,48 +999,48 @@ e_msg_composer_hdrs_get_recipients (EMsgComposerHdrs *hdrs)
 	EDestination **cc_destv;
 	EDestination **bcc_destv;
 	EDestination **recip_destv;
-	gint i, j, n;
+	int i, j, n;
 	
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	to_destv  = e_msg_composer_hdrs_get_to (hdrs);
 	cc_destv  = e_msg_composer_hdrs_get_cc (hdrs);
 	bcc_destv = e_msg_composer_hdrs_get_bcc (hdrs);
-
+	
 	n = 0;
-
-	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++n);
-	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++n);
-	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++n);
-
+	
+	for (i = 0; to_destv && to_destv[i] != NULL; i++, n++);
+	for (i = 0; cc_destv && cc_destv[i] != NULL; i++, n++);
+	for (i = 0; bcc_destv && bcc_destv[i] != NULL; i++, n++);
+	
 	if (n == 0)
 		return NULL;
-
-	recip_destv = g_new (EDestination *, n+1);
-
+	
+	recip_destv = g_new (EDestination *, n + 1);
+	
 	j = 0;
-
-	for (i = 0; to_destv && to_destv[i] != NULL; ++i, ++j)
+	
+	for (i = 0; to_destv && to_destv[i] != NULL; i++, j++)
 		recip_destv[j] = to_destv[i];
-	for (i = 0; cc_destv && cc_destv[i] != NULL; ++i, ++j)
+	for (i = 0; cc_destv && cc_destv[i] != NULL; i++, j++)
 		recip_destv[j] = cc_destv[i];
-	for (i = 0; bcc_destv && bcc_destv[i] != NULL; ++i, ++j)
+	for (i = 0; bcc_destv && bcc_destv[i] != NULL; i++, j++)
 		recip_destv[j] = bcc_destv[i];
-
+	
 	g_assert (j == n);
 	recip_destv[j] = NULL;
-
+	
 	g_free (to_destv);
 	g_free (cc_destv);
 	g_free (bcc_destv);
-
+	
 	return recip_destv;
 }
 
 char *
 e_msg_composer_hdrs_get_subject (EMsgComposerHdrs *hdrs)
 {
-	gchar *subject;
+	char *subject;
 	
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
@@ -1033,7 +1057,7 @@ e_msg_composer_hdrs_get_reply_to_entry (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	return hdrs->priv->reply_to.entry;
 }
 
@@ -1042,7 +1066,7 @@ e_msg_composer_hdrs_get_to_entry (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	return hdrs->priv->to.entry;
 }
 
@@ -1060,7 +1084,7 @@ e_msg_composer_hdrs_get_bcc_entry (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	return hdrs->priv->bcc.entry;
 }
 
@@ -1069,6 +1093,6 @@ e_msg_composer_hdrs_get_subject_entry (EMsgComposerHdrs *hdrs)
 {
 	g_return_val_if_fail (hdrs != NULL, NULL);
 	g_return_val_if_fail (E_IS_MSG_COMPOSER_HDRS (hdrs), NULL);
-
+	
 	return hdrs->priv->subject.entry;
 }

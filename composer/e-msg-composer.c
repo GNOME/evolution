@@ -319,6 +319,13 @@ build_message (EMsgComposer *composer)
 	if (composer->persist_stream_interface == CORBA_OBJECT_NIL)
 		return NULL;
 	
+	/* evil kludgy hack for Redirect */
+	if (composer->redirect) {
+		e_msg_composer_hdrs_to_redirect (hdrs, composer->redirect);
+		camel_object_ref (CAMEL_OBJECT (composer->redirect));
+		return composer->redirect;
+	}
+	
 	new = camel_mime_message_new ();
 	e_msg_composer_hdrs_to_message (hdrs, new);
 	for (i = 0; i < composer->extra_hdr_names->len; i++) {
@@ -1953,6 +1960,9 @@ destroy (GtkObject *object)
 	
 	CORBA_exception_free (&ev);
 	
+	if (composer->redirect)
+		camel_object_unref (CAMEL_OBJECT (composer->redirect));
+	
 	if (composer->editor_listener)
 		bonobo_object_unref (composer->editor_listener);
 	
@@ -2162,6 +2172,8 @@ init (EMsgComposer *composer)
 	composer->smime_encrypt            = FALSE;
 	
 	composer->has_changed              = FALSE;
+	
+	composer->redirect                 = FALSE;
 	
 	composer->charset                  = NULL;
 	
@@ -2835,29 +2847,37 @@ e_msg_composer_new_with_message (CamelMimeMessage *message)
 	return new;
 }
 
-#if 0
-static GList *
-add_recipients (GList *list, const char *recips, gboolean decode)
+
+/**
+ * e_msg_composer_new_redirect:
+ * @message: The message to use as the source
+ * 
+ * Create a new message composer widget.
+ *
+ * Return value: A pointer to the newly created widget
+ **/
+EMsgComposer *
+e_msg_composer_new_redirect (CamelMimeMessage *message, const char *resent_from)
 {
-	int len;
-	char *addr;
+	EMsgComposer *composer;
+	const char *subject;
 	
-	while (*recips) {
-		len = strcspn (recips, ",");
-		if (len) {
-			addr = g_strndup (recips, len);
-			if (decode)
-				camel_url_decode (addr);
-			list = g_list_append (list, addr);
-		}
-		recips += len;
-		if (*recips == ',')
-			recips++;
-	}
+	g_return_val_if_fail (message != NULL, NULL);
 	
-	return list;
+	composer = e_msg_composer_new_with_message (message);
+	subject = camel_mime_message_get_subject (message);
+	
+	composer->redirect = message;
+	camel_object_ref (CAMEL_OBJECT (message));
+	
+	e_msg_composer_set_headers (composer, resent_from, NULL, NULL, NULL, subject);
+	
+	gtk_widget_set_sensitive (composer->editor, FALSE);
+	gtk_widget_set_sensitive (composer->attachment_bar, FALSE);
+	
+	return composer;
 }
-#endif
+
 
 static GList *
 add_recipients (GList *list, const char *recips, gboolean decode)
