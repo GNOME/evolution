@@ -2034,7 +2034,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 		
 		camel_object_ref (CAMEL_OBJECT (camel_folder));
 
-		message_list->hidedeleted = !(CAMEL_IS_VTRASH_FOLDER(camel_folder));
+		if (CAMEL_IS_VTRASH_FOLDER(camel_folder))
+			message_list->hidedeleted = FALSE;
 
 		hide_load_state(message_list);
 		mail_regen_list(message_list, message_list->search, NULL, NULL);

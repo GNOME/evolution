@@ -1,5 +1,8 @@
 2001-04-18  Not Zed  <NotZed@Ximian.com>
 
+	* message-list.c (message_list_set_folder): Only set hidedeleted
+	if we are a trash folder, then turn it off.
+
 	* mail-ops.c (mail_send_message): Pass the exception to
 	uri_to_folder, so the user knows if it failed.  Unref the folder
 	after we're done with it, if it is not the default sent folder.
