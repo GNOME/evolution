@@ -1,3 +1,11 @@
+2002-11-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/imap/camel-imap-store.c (imap_connect_online): If the
+	namespace is at/below INBOX, check for the INBOX explicitly (since
+	it obviously won't show up in a LSUB INBOX.*). If either INBOX is
+	not returned in the response or if the folder flags contain
+	\NoSelect, subscribe to INBOX and then try LSUB again.
+
 2002-11-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-mime-filter-tohtml.c (html_convert): Rewritten. Much much
