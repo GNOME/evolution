@@ -12950,7 +12950,7 @@ msgstr "Regelnaam"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:1
 msgid "Composer Preferences"
-msgstr "Bericht opstellen - Voorkeuren"
+msgstr "Bericht opstellen"
 
 #: mail/GNOME_Evolution_Mail.server.in.in.h:2
 msgid ""
