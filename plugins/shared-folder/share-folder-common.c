@@ -410,7 +410,8 @@ EGwConnection *
 get_cnc (CamelStore *store)
 {
 		EGwConnection *cnc;
-		const char *uri, *property_value, *use_ssl, *server_name, *user, *port;
+		const char *uri, *property_value, *server_name, *user, *port;
+		char *use_ssl;
 		CamelService *service;
 		CamelURL *url;
 		
@@ -422,20 +423,27 @@ get_cnc (CamelStore *store)
 		server_name = g_strdup (url->host);
 		user = g_strdup (url->user);
 		property_value =  camel_url_get_param (url, "soap_port");
-		use_ssl = g_strdup (camel_url_get_param (url, "soap_ssl"));
+		use_ssl = g_strdup (camel_url_get_param (url, "use_ssl"));
 		if(property_value == NULL)
-			port = g_strdup ("7181");
+			port = g_strdup ("7191");
 		else if (strlen(property_value) == 0)
-			port = g_strdup ("7181");
+			port = g_strdup ("7191");
 		else
 			port = g_strdup (property_value);
 
-		if (use_ssl)
+		if (use_ssl && !g_str_equal (use_ssl, "never"))
 			uri = g_strconcat ("https://", server_name, ":", port, "/soap", NULL);	
 		else
 			uri = g_strconcat ("http://", server_name, ":", port, "/soap", NULL);
 
 		cnc = e_gw_connection_new (uri, user, service->url->passwd);
+		if (!E_IS_GW_CONNECTION(cnc) && use_ssl && g_str_equal (use_ssl, "when-possible")) {
+			char *http_uri = g_strconcat ("http://", uri + 8, NULL);
+			cnc = e_gw_connection_new (http_uri, user, service->url->passwd);
+			g_free (http_uri);
+		}
+		g_free (use_ssl);
+		use_ssl = NULL;
 
 		return cnc;
 

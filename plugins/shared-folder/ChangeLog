@@ -1,3 +1,11 @@
+2005-02-17  Vivek Jain <jvivek@novell.com>
+	
+	* share-folder-common.c : (get_cnc):
+	 
+	 use ssl when "always" and "whenever possible" is enabled
+	 changed "soap_ssl" to "use_ssl"		
+	 use the default port "7191" instead of "7181"	 
+
 2005-01-24  Vivek Jain <jvivek@novell.com>
 	*properties.glade : changed the layout of the widgets
 	*share-folder.[ch]: removed the checkbuttons for display of rights
