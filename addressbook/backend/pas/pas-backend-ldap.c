@@ -134,24 +134,28 @@ static void
 pas_backend_ldap_ensure_connected (PASBackendLDAP *bl)
 {
 	LDAP           *ldap = bl->priv->ldap;
-	int            ldap_error;
 
 	/* the connection has gone down, or wasn't ever opened */
 	if (ldap == NULL ||
-	    (ldap_error = ldap_simple_bind_s(ldap, NULL /*binddn*/, NULL /*passwd*/)) != LDAP_SUCCESS) {
+	    (ldap_simple_bind_s(ldap, NULL /*binddn*/, NULL /*passwd*/) != LDAP_SUCCESS)) {
 
 		/* close connection first if it's open first */
 		if (ldap)
 			ldap_unbind (ldap);
 
 		bl->priv->ldap = ldap_open (bl->priv->ldap_host, bl->priv->ldap_port);
-		if (NULL != bl->priv->ldap)
+		if (NULL != bl->priv->ldap) {
+			ldap_simple_bind_s(bl->priv->ldap,
+					   NULL /*binddn*/, NULL /*passwd*/);
 			bl->priv->connected = TRUE;
+		}
 		else
-			g_warning ("pas_backend_ldap_ensure_connected failed for 'ldap://%s:%d/' (error %s)\n",
-				   bl->priv->ldap_host, bl->priv->ldap_port, ldap_err2string(ldap_error));
+			g_warning ("pas_backend_ldap_ensure_connected failed for "
+				   "'ldap://%s:%d/' (error %s)\n",
+				   bl->priv->ldap_host,
+				   bl->priv->ldap_port,
+				   ldap_err2string(ldap->ld_errno));
 
-		ldap_simple_bind_s(bl->priv->ldap, NULL /*binddn*/, NULL /*passwd*/);
 	}
 }
 
@@ -197,38 +201,42 @@ pas_backend_ldap_build_all_cards_list(PASBackend *backend,
 
 	ldap = bl->priv->ldap;
 
-	ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
+	if (ldap) {
+		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
-	if (ldap_search_s (ldap,
-			   NULL,
-			   LDAP_SCOPE_ONELEVEL,
-			   "(objectclass=*)",
-			   NULL, 0, &res) == -1) {
-		g_warning ("ldap error '%s' in pas_backend_ldap_build_all_cards_list\n", ldap_err2string(ldap_error));
-	}
-
-	cursor_data->elements = NULL;
-
-	cursor_data->num_elements = ldap_count_entries (ldap, res);
-
-	e = ldap_first_entry(ldap, res);
-
-	while (NULL != e) {
-
-		/* for now just make a list of the dn's */
-#if 0
-		for ( a = ldap_first_attribute( ldap, e, &ber ); a != NULL;
-		      a = ldap_next_attribute( ldap, e, ber ) ) {
+		if ((ldap_error = ldap_search_s (ldap,
+						 NULL,
+						 LDAP_SCOPE_ONELEVEL,
+						 "(objectclass=*)",
+						 NULL, 0, &res)) == -1) {
+			g_warning ("ldap error '%s' in "
+				   "pas_backend_ldap_build_all_cards_list\n",
+				   ldap_err2string(ldap_error));
 		}
+
+		cursor_data->elements = NULL;
+
+		cursor_data->num_elements = ldap_count_entries (ldap, res);
+
+		e = ldap_first_entry(ldap, res);
+
+		while (NULL != e) {
+
+			/* for now just make a list of the dn's */
+#if 0
+			for ( a = ldap_first_attribute( ldap, e, &ber ); a != NULL;
+			      a = ldap_next_attribute( ldap, e, ber ) ) {
+			}
 #else
-		cursor_data->elements = g_list_prepend(cursor_data->elements,
+			cursor_data->elements = g_list_prepend(cursor_data->elements,
 						       g_strdup(ldap_get_dn(ldap, e)));
 #endif
 
-		e = ldap_next_entry(ldap, e);
-	}
+			e = ldap_next_entry(ldap, e);
+		}
 
-	ldap_msgfree(res);
+		ldap_msgfree(res);
+	}
 }
 
 static void
@@ -586,8 +594,8 @@ construct_phone_list(ECard *card, const char *prop, char **values)
 }
 
 struct prop_info {
-	const char *query_prop;
-	const char *ldap_attr;
+	char *query_prop;
+	char *ldap_attr;
 #define PROP_TYPE_NORMAL   0x01
 #define PROP_TYPE_LIST     0x02
 #define PROP_TYPE_LISTITEM 0x03
@@ -619,7 +627,7 @@ static gboolean
 poll_ldap (PASBackendLDAPBookView *view)
 {
 	LDAP           *ldap;
-	int            ldap_error, rc;
+	int            rc;
 	LDAPMessage    *res, *e;
 	GList   *cards = NULL;
 
@@ -709,23 +717,24 @@ pas_backend_ldap_search (PASBackendLDAP  	*bl,
 
 	if (ldap_query != NULL) {
 		LDAP           *ldap;
-		int            ldap_error;
 
 		pas_backend_ldap_ensure_connected(bl);
 
 		ldap = bl->priv->ldap;
-		
-		ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
 
-		if ((view->search_msgid = ldap_search (ldap,
-						       NULL,
-						       LDAP_SCOPE_ONELEVEL,
-						       ldap_query,
-						       NULL, 0)) == -1) {
-			g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap->ld_errno));
-		}
-		else {
-			view->search_idle = g_idle_add((GSourceFunc)poll_ldap, view);
+		if (ldap) {
+			ldap->ld_sizelimit = LDAP_MAX_SEARCH_RESPONSES;
+
+			if ((view->search_msgid = ldap_search (ldap,
+							       NULL,
+							       LDAP_SCOPE_ONELEVEL,
+							       ldap_query,
+							       NULL, 0)) == -1) {
+				g_warning ("ldap error '%s' in pas_backend_ldap_search\n", ldap_err2string(ldap->ld_errno));
+			}
+			else {
+				view->search_idle = g_idle_add((GSourceFunc)poll_ldap, view);
+			}
 		}
 	}
 }
@@ -737,7 +746,6 @@ pas_backend_ldap_process_get_book_view (PASBackend *backend,
 {
 	PASBackendLDAP *bl = PAS_BACKEND_LDAP (backend);
 	CORBA_Environment ev;
-	int               db_error = 0;
 	Evolution_Book    corba_book;
 	PASBookView       *book_view;
 	PASBackendLDAPBookView *view;
@@ -845,7 +853,7 @@ pas_backend_ldap_get_vcard (PASBook *book, const char *id)
 {
 	PASBackendLDAP *bl;
 	LDAP           *ldap;
-	int            ldap_error;
+	int            ldap_error = LDAP_SUCCESS; /* XXX */
 
 	bl = PAS_BACKEND_LDAP (pas_book_get_backend (book));
 	ldap = bl->priv->ldap;
@@ -871,7 +879,7 @@ pas_backend_ldap_load_uri (PASBackend             *backend,
 
 	g_assert (bl->priv->connected == FALSE);
 
-	ldap_error = ldap_url_parse (uri, &lud);
+	ldap_error = ldap_url_parse ((char*)uri, &lud);
 	if (LDAP_SUCCESS == ldap_error) {
 		bl->priv->ldap_host = g_strdup(lud->lud_host);
 		bl->priv->ldap_port = lud->lud_port;

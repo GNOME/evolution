@@ -1,5 +1,16 @@
 2000-04-14  Chris Toshok  <toshok@helixcode.com>
 
+	* addressbook/backend/pas/pas-backend-ldap.c
+	(pas_backend_ldap_ensure_connected): don't ldap_simple_bind_s if
+	the ldap_open failed, and fix warnings.
+	(pas_backend_ldap_build_all_cards_list): don't do search if the
+	ensure_connected failed, and fix warnings.
+	(pas_backend_ldap_search): same.
+	(poll_ldap): fix warnings.
+	(pas_backend_ldap_process_get_book_view): same.
+	(pas_backend_ldap_get_vcard): same.
+	(pas_backend_ldap_load_uri): same.
+
 	* configure.in: quiet configure in the case where it can't find
 	ldap libs.
 
