@@ -448,7 +448,7 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 {
 	ECompletionView *cv = E_COMPLETION_VIEW (user_data);
 	gint dir = 0;
-	gboolean key_handled = TRUE, complete_key = FALSE, uncomplete_key = FALSE;
+	gboolean key_handled = TRUE, complete_key = FALSE, uncomplete_key = FALSE, is_space = FALSE;
 
 	/* FIXME: This is totally lame.
 	   The ECompletionView should be able to specify multiple completion/uncompletion keys, or just
@@ -503,23 +503,48 @@ e_completion_view_key_press_handler (GtkWidget *w, GdkEventKey *key_event, gpoin
 		break;
 		
 	case GDK_Tab:
-		/* Unbrowse, unhandled. */
-		cv->selection = -1;
-		dir = 0;
-		key_handled = FALSE;
+		/* If our cursor is still up in the entry, move down into
+		   the popup.  Otherwise unbrowse. */
+		if (cv->choices->len > 0) {
+			if (cv->selection < 0) {
+				cv->selection = 0;
+				dir = 0;
+			} else {
+				cv->selection = -1;
+				dir = 0;
+				key_handled = FALSE;
+			}
+		}
 		break;
+
+	case GDK_space:
+	case GDK_KP_Space:
+		is_space = TRUE;
 
 	case GDK_Return:
 	case GDK_KP_Enter:
-	case GDK_space:
-	case GDK_KP_Space:
-		/* Only handle these key presses if we have an active selection;
-		   otherwise, pass them on. */
-		if (cv->selection >= 0) {
+		if (cv->selection < 0) {
+			/* We don't have a selection yet, move to the first selection if there is
+			   more than one option.  If there is only one option, select it automatically. */
+
+			/* Let space pass through. */
+			if (is_space)
+				return FALSE;
+			
+			if (cv->choices->len == 1) {
+				e_completion_view_select (cv, 0);
+				goto stop_emission;
+			} else {
+				cv->selection = 0;
+				dir = 0;
+			}
+
+		} else {
+			/* Our cursor is down in the pop-up, so we make our selection. */
 			e_completion_view_select (cv, cv->selection);
 			goto stop_emission;
 		}
-		return FALSE;
+		break;
 
 	case GDK_Escape:
 		/* Unbrowse hack */
