@@ -4,9 +4,10 @@ INCLUDES =						\
 	-DEVOLUTION_DATADIR=\""$(datadir)"\"		\
 	-DEVOLUTION_IMAGESDIR=\""$(datadir)"/images/evolution\" \
 	-I$(top_srcdir)					\
-	-I$(top_srcdir)/addressbook/backend/ebook	\
+	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_srcdir)/addressbook/gui/contact-editor	\
 	-I$(top_srcdir)/addressbook/gui/merging		\
+	-I$(top_srcdir)/addressbook/gui/component	\
 	-I$(top_srcdir)/widgets/misc			\
 	-I$(top_builddir)/shell				\
 	$(BONOBO_GNOME_CFLAGS)				\

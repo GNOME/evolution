@@ -1,3 +1,25 @@
+2001-10-27  Chris Toshok  <toshok@ximian.com>
+
+	* gui/component/e-address-popup.c (email_table_save_card_cb):
+	change to EBookCallback signature, and unref the book.
+	(add_card_idle_cb): use addressbook_load_default_book, and call
+	the cb if it fails.
+	(e_address_popup_cleanup): fix type -- should be "pop->card =
+	NULL", not "pop = NULL".
+	(contact_editor_cb): change to EBookCallback signature.
+	(edit_contact_info_cb): use addressbook_load_default_book.
+	(start_query): change to EBookCallback signature.
+	(e_address_popup_query): use addressbook_load_default_book.
+
+	* gui/widgets/e-minicard-control.c (book_open_cb): change to
+	EBookCallback signature, and unref the book.
+	(save_in_addressbook): use addressbook_load_default_book instead
+	of e_book_use_local_address_book.
+
+	* gui/widgets/Makefile.am (INCLUDES): change includes since we're
+	including addressbook.h which has it's own set of funky include
+	path requirements.
+
 2001-10-27  Jon Trowbridge  <trow@ximian.com>
 
 	* backend/ebook/e-book.c (activate_factories_for_uri): Don't leak

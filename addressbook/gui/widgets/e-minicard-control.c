@@ -19,6 +19,8 @@
 #include <addressbook/backend/ebook/e-card.h>
 #include <gal/util/e-util.h>
 
+#include <addressbook/gui/component/addressbook.h>
+
 #include "e-minicard-control.h"
 #include "e-minicard-widget.h"
 #include "e-card-merging.h"
@@ -240,7 +242,7 @@ pstream_get_content_types (BonoboPersistStream *ps, void *closure,
 }
 
 static void
-book_open_cb (EBook *book, gpointer closure)
+book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	GList *list = closure;
 	if (book) {
@@ -248,6 +250,7 @@ book_open_cb (EBook *book, gpointer closure)
 		for (p = list; p; p = p->next) {
 			e_card_merging_book_add_card(book, p->data, NULL, NULL);
 		}
+		gtk_object_unref (GTK_OBJECT (book));
 	}
 	e_free_object_list (list);
 }
@@ -257,13 +260,19 @@ save_in_addressbook(GtkWidget *button, gpointer data)
 {
 	EMinicardControl *minicard_control = data;
 	GList *list, *p;
+	EBook *book;
+
+	book = e_book_new ();
 
 	list = g_list_copy (minicard_control->card_list);
 
 	for (p = list; p; p = p->next)
 		gtk_object_ref (GTK_OBJECT (p->data));
 
-	e_book_use_local_address_book (book_open_cb, list);
+	if (!addressbook_load_default_book (book, book_open_cb, list)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		book_open_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, list);
+	}
 }
 
 static void

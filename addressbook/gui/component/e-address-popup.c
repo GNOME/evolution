@@ -29,6 +29,7 @@
  */
 
 #include <config.h>
+#include "addressbook.h"
 #include "e-address-popup.h"
 #include <bonobo/bonobo-control.h>
 #include <bonobo/bonobo-property-bag.h>
@@ -384,12 +385,13 @@ email_table_to_card (EMailTable *et)
 }
 
 static void
-email_table_save_card_cb (EBook *book, gpointer closure)
+email_table_save_card_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	ECard *card = E_CARD (closure);
 
 	if (book) {
 		e_book_commit_card (book, card, NULL, NULL);
+		gtk_object_unref (GTK_OBJECT (book));
 	}
 	gtk_object_unref (GTK_OBJECT (card));
 }
@@ -401,7 +403,14 @@ email_table_save_card_cb (EBook *book, gpointer closure)
 static gint
 add_card_idle_cb (gpointer closure)
 {
-	e_book_use_local_address_book (email_table_save_card_cb, closure);
+	EBook *book;
+
+	book = e_book_new ();
+	if (!addressbook_load_default_book (book, email_table_save_card_cb, closure)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		email_table_save_card_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, closure);
+	}
+
 	return 0;
 }
 
@@ -680,7 +689,7 @@ e_address_popup_cleanup (EAddressPopup *pop)
 {
 	if (pop->card) {
 		gtk_object_unref (GTK_OBJECT (pop->card));
-		pop = NULL;
+		pop->card = NULL;
 	}
 
 	if (pop->scheduled_refresh) {
@@ -923,7 +932,7 @@ emit_event (EAddressPopup *pop, const char *event)
 }
 
 static void
-contact_editor_cb (EBook *book, gpointer closure)
+contact_editor_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
 	EContactEditor *ce = e_addressbook_show_contact_editor (book, pop->card, FALSE, TRUE);
@@ -935,8 +944,14 @@ contact_editor_cb (EBook *book, gpointer closure)
 static void
 edit_contact_info_cb (EAddressPopup *pop)
 {
+	EBook *book;
 	emit_event (pop, "Hide");
-	e_book_use_local_address_book (contact_editor_cb, pop);
+
+	book = e_book_new ();
+	if (!addressbook_load_default_book (book, contact_editor_cb, pop)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		contact_editor_cb (NULL, E_BOOK_STATUS_OTHER_ERROR, pop);
+	}
 }
 
 static void
@@ -1113,7 +1128,7 @@ query_cb (EBook *book, EBookSimpleQueryStatus status, const GList *cards, gpoint
 }
 
 static void
-start_query (EBook *book, gpointer closure)
+start_query (EBook *book, EBookStatus status, gpointer closure)
 {
 	EAddressPopup *pop = E_ADDRESS_POPUP (closure);
 	
@@ -1135,10 +1150,17 @@ start_query (EBook *book, gpointer closure)
 static void
 e_address_popup_query (EAddressPopup *pop)
 {
+	EBook *book;
+
 	g_return_if_fail (pop && E_IS_ADDRESS_POPUP (pop));
 
+	book = e_book_new ();
 	gtk_object_ref (GTK_OBJECT (pop));
-	e_book_use_local_address_book (start_query, pop);
+
+	if (!addressbook_load_default_book (book, start_query, pop)) {
+		gtk_object_unref (GTK_OBJECT (book));
+		start_query (NULL, E_BOOK_STATUS_OTHER_ERROR, pop);
+	}
 }
 
 /** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** **/
