@@ -28,7 +28,6 @@
 #include <stdio.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "gmime-utils.h"
 #include "hash-table-utils.h"
 
 #define d(x)

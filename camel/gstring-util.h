@@ -38,14 +38,6 @@ extern "C" {
 #include <glib.h>
 
 typedef enum {
-    GSTRING_DICHOTOMY_NONE            =     0,
-    GSTRING_DICHOTOMY_RIGHT_DIR       =     1,
-    GSTRING_DICHOTOMY_STRIP_TRAILING  =     2,
-    GSTRING_DICHOTOMY_STRIP_LEADING   =     4
-    
-} GStringDichotomyOption;
-
-typedef enum {
     GSTRING_TRIM_NONE            =     0,
     GSTRING_TRIM_STRIP_TRAILING  =     1,
     GSTRING_TRIM_STRIP_LEADING   =     2
@@ -54,9 +46,6 @@ typedef enum {
 
 gboolean g_string_equals          (GString *string1, GString *string2);
 GString *g_string_clone           (GString *string);
-gchar    g_string_dichotomy       (GString *string, gchar sep,
-				   GString **prefix, GString **suffix,
-				   GStringDichotomyOption options);
 void     g_string_append_g_string (GString *dest_string,
 				   GString *other_string);
 

@@ -25,7 +25,6 @@
 #include <string.h>
 #include "gmime-content-field.h"
 #include "string-utils.h"
-#include "gmime-utils.h"
 #include "camel-mime-part-utils.h"
 #include "camel-mime-message.h"
 #include "camel-multipart.h"
@@ -44,12 +43,12 @@ simple_data_wrapper_construct_from_parser(CamelDataWrapper *dw, CamelMimeParser 
 	GByteArray *buffer;
 	char *buf;
 	int len;
-	off_t start, end;
+	off_t start, end;	/* ignore the start may be used unitialised warning */
 	CamelMimeFilter *fdec = NULL, *fch = NULL;
 	struct _header_content_type *ct;
 	int decid=-1, chrid=-1, cache=TRUE;
 	CamelStream *source;
-	CamelSeekableStream *seekable_source;
+	CamelSeekableStream *seekable_source; /* and ignore the warning about this one too. */
 	char *encoding;
 
 	d(printf("constructing data-wrapper\n"));

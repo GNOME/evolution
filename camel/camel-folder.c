@@ -679,40 +679,29 @@ camel_folder_get_subfolder (CamelFolder *folder, gchar *folder_name, CamelExcept
 static gboolean
 _create (CamelFolder *folder, CamelException *ex)
 {
-	gchar *prefix;
-	gchar dich_result;
 	CamelFolder *parent;
 	
 	g_assert (folder->parent_store != NULL);
 	g_assert (folder->name != NULL);
 	
-	/* if the folder already exists on the 
-	   store, do nothing and return true */
+	/* if the folder already exists on the store, do nothing and return true */
 	if (CF_CLASS (folder)->exists (folder, ex))
 		return TRUE;
 	
-	
 	if (folder->parent_folder) {
 		camel_folder_create (folder->parent_folder, ex);
-		if (camel_exception_get_id (ex)) return FALSE;
-	}
-	else {   
-		if (folder->full_name) {
-			dich_result = string_dichotomy (
-							folder->full_name,
-							folder->separator,
-							&prefix, NULL,
-							STRING_DICHOTOMY_STRIP_TRAILING | STRING_DICHOTOMY_RIGHT_DIR);
-			if (dich_result!='o') {
-				if (prefix == NULL) {
-					/* separator is the first caracter, no folder above */
-					 return TRUE;
-				}
-			} else {
-				parent = camel_store_get_folder (folder->parent_store, prefix, ex);
-				camel_folder_create (parent, ex);
-				if (camel_exception_get_id (ex)) return FALSE;
-			}
+		if (camel_exception_get_id (ex))
+			return FALSE;
+	} else if (folder->full_name) {
+		char *slash, *prefix;
+
+		slash = strrchr(folder->full_name, folder->separator);
+		if (slash && slash != folder->full_name) {
+			prefix = g_strndup(folder->full_name, slash-folder->full_name);
+			parent = camel_store_get_folder (folder->parent_store, prefix, ex);
+			camel_folder_create (parent, ex);
+			if (camel_exception_get_id (ex))
+				return FALSE;
 		}
 	}	
 	return TRUE;

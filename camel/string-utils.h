@@ -37,17 +37,6 @@ extern "C" {
 
 #include <glib.h>
 
-
-
-typedef enum {
-	STRING_DICHOTOMY_NONE            =     0,
-	STRING_DICHOTOMY_RIGHT_DIR       =     1,
-	STRING_DICHOTOMY_STRIP_TRAILING  =     2,
-	STRING_DICHOTOMY_STRIP_LEADING   =     4
-	
-} StringDichotomyOption;
-
-
 typedef enum {
 	STRING_TRIM_NONE            =     0,
 	STRING_TRIM_STRIP_TRAILING  =     1,
@@ -58,9 +47,6 @@ typedef enum {
 
 gboolean string_equal_for_glist (gconstpointer v, gconstpointer v2);
 
-gchar    string_dichotomy       (const gchar *string, gchar sep,
-				 gchar **prefix, gchar **suffix,
-				 StringDichotomyOption options);
 void     string_list_free       (GList *string_list);
 
 GList   *string_split           (const gchar *string, char sep,

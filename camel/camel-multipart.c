@@ -28,7 +28,6 @@
 
 #include <config.h>
 #include "gmime-content-field.h"
-#include "gmime-utils.h"
 #include "camel-stream-mem.h"
 #include "camel-multipart.h"
 #include "camel-mime-part.h"

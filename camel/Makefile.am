@@ -57,7 +57,6 @@ libcamel_la_SOURCES = 				\
 	camel-transport.c			\
 	camel-url.c				\
 	gmime-content-field.c			\
-	gmime-utils.c				\
 	gstring-util.c				\
 	hash-table-utils.c			\
 	md5-utils.c				\
@@ -100,7 +99,6 @@ libcamelinclude_HEADERS =			\
 	camel-transport.h			\
 	camel-url.h				\
 	gmime-content-field.h			\
-	gmime-utils.h				\
 	gstring-util.h				\
 	hash-table-utils.h			\
 	md5-utils.h				\

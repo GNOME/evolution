@@ -59,119 +59,8 @@ g_string_equals (GString *string1, GString *string2)
 GString *
 g_string_clone (GString *string)
 {
-	return g_string_new (g_strdup (string->str) );
+	return g_string_new (string->str);
 }
-
-
-
-
-/**
- * g_string_dichotomy:
- * @sep : separator
- * @prefix: pointer to be field by the prefix object
- *   the prefix is not returned when the given pointer is NULL
- * @suffix: pointer to be field by the suffix object
- *   the suffix is not returned when the given pointer is NULL
- *
- * Return the strings before and/or after 
- * the last occurence of the specified separator
- *
- * This routine returns the string before and/or after
- * a character given as an argument. 
- * if the separator is the last character, prefix and/or
- * suffix is set to NULL and result is set to 'l'
- * if the separator is not in the list, prefix and/or
- * suffix is set to NULL and result is set to 'n'
- * When the operation succedeed, the return value is 'o'
- *
- * @Return Value : result of the operation ('o', 'l' or 'n')
- *
- **/
-gchar
-g_string_dichotomy (GString *string, gchar sep, GString **prefix, GString **suffix,
-		    GStringDichotomyOption options)
-{
-	gchar *str, *tmp;
-	gint pos, len, first;
-	
-	g_assert (tmp=string->str);
-	len = strlen (tmp);
-	if (!len) {
-		if (prefix)
-			*prefix=NULL;
-		if (suffix)
-			*suffix=NULL;
-		return 'n';
-	}
-	first = 0;
-	
-	if ((options & GSTRING_DICHOTOMY_STRIP_LEADING ) && (tmp[first] == sep) )
-	    do {first++;} while ( (first<len) && (tmp[first] == sep) );
-	
-	if (options & GSTRING_DICHOTOMY_STRIP_TRAILING )
-		while (tmp[len-1] == sep)
-			len--;
-	
-	if (first==len) {
-		if (prefix) *prefix=NULL;
-		if (suffix) *suffix=NULL;
-		return 'n';
-	}
-	
-	if (options & GSTRING_DICHOTOMY_RIGHT_DIR) {
-		pos = len;
-		
-		do {
-			pos--;
-		} while ((pos>=first) && (tmp[pos]!=sep));
-	} else {
-		pos = first;
-		do {
-			pos++;
-		} while ((pos<len) && (tmp[pos]!=sep));
-		
-	}
-	
-	if ( (pos<first) || (pos>=len) ) 
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'n';
-		}
-	
-	/* if we have stripped trailing separators, we should */
-	/* never enter here */
-	if (pos==len-1) 
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'l';
-		}
-	/* if we have stripped leading separators, we should */
-	/* never enter here */
-	if (pos==first)
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'l';
-		}
-	
-	if (prefix) /* return the prefix */
-	{
-		str = g_strndup(tmp,pos);
-		*prefix = g_string_new(str);
-		g_free(str);
-	}
-	if (suffix) /* return the suffix */
-		{
-			str = g_strdup(tmp+pos+1);
-			*suffix = g_string_new(str);
-			g_free(str);
-	}
-	
-	return 'o';
-}
-
 
 /**
  * g_string_append_g_string : append a GString to another  GString
@@ -185,12 +74,10 @@ g_string_append_g_string(GString *dest_string, GString *other_string)
 {
 	g_assert(other_string);
 	g_assert(dest_string);
-	g_assert(other_string->str);
 
-	g_string_append(dest_string, other_string->str);
+	if (other_string->len)
+		g_string_append(dest_string, other_string->str);
 }
-
-
 
 /**
  * g_string_equal_for_hash: test equality of two GStrings for hash tables

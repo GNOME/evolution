@@ -24,121 +24,15 @@
  * USA
  */
 
-
-
 #include <config.h>
 #include "string-utils.h"
 #include "string.h"
-
-
 
 gboolean
 string_equal_for_glist (gconstpointer v, gconstpointer v2)
 {
   return (!strcmp ( ((const gchar *)v), ((const gchar*)v2))) == 0;
 }
-
-/**
- * string_dichotomy:
- * @sep : separator
- * @prefix: pointer to be field by the prefix object
- *   the prefix is not returned when the given pointer is NULL
- * @suffix: pointer to be field by the suffix object
- *   the suffix is not returned when the given pointer is NULL
- *
- * Return the strings before and/or after 
- * the last occurence of the specified separator
- *
- * This routine returns the string before and/or after
- * a character given as an argument. 
- * if the separator is the last character, prefix and/or
- * suffix is set to NULL and result is set to 'l'
- * if the separator is not in the list, prefix and/or
- * suffix is set to NULL and result is set to 'n'
- * When the operation succedeed, the return value is 'o'
- *
- * @Return Value : result of the operation ('o', 'l' or 'n')
- *
- **/
-gchar
-string_dichotomy (const gchar *string, gchar sep, gchar **prefix, gchar **suffix,
-		    StringDichotomyOption options)
-{
-	gint sep_pos, first, last, len;
-	
-	g_assert (string);
-	len = strlen (string);
-	if (!len) {
-		if (prefix)
-			*prefix=NULL;
-		if (suffix)
-			*suffix=NULL;
-		return 'n';
-	}
-	first = 0;
-	last = len-1;
-	
-	if ( (options & STRING_DICHOTOMY_STRIP_LEADING ) && (string[first] == sep) )
-	    do {first++;} while ( (first<len) && (string[first] == sep) );
-	
-	if (options & STRING_DICHOTOMY_STRIP_TRAILING )
-		while ((string[last] == sep) && (last>first))
-			last--;
-	
-	if (first==last) {
-		if (prefix) *prefix=NULL;
-		if (suffix) *suffix=NULL;
-		return 'n';
-	}
-	
-	if (options & STRING_DICHOTOMY_RIGHT_DIR) {
-		sep_pos = last;
-		while ((sep_pos>=first) && (string[sep_pos]!=sep)) {
-			sep_pos--;
-		}
-	} else {
-		sep_pos = first;
-		while ((sep_pos<=last) && (string[sep_pos]!=sep)) {
-			sep_pos++;
-		}
-		
-	}
-	
-	if ( (sep_pos<first) || (sep_pos>last) ) 
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'n';
-		}
-	
-	/* if we have stripped trailing separators, we should */
-	/* never enter here */
-	if (sep_pos==last) 
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'l';
-		}
-	/* if we have stripped leading separators, we should */
-	/* never enter here */
-	if (sep_pos==first)
-		{
-			if (suffix) *suffix=NULL;
-			if (prefix) *prefix=NULL;
-			return 'l';
-		}
-	if (prefix)
-		*prefix = g_strndup (string+first,sep_pos-first);
-	if (suffix)
-		*suffix = g_strndup (string+sep_pos+1, last-sep_pos);
-	 
-	return 'o';
-}
-
-
-
-
-
 
 /* utility func : frees a gchar element in a GList */
 static void 
@@ -147,7 +41,6 @@ __string_list_free_string (gpointer data, gpointer user_data)
 	gchar *string = (gchar *)data;
 	g_free (string);
 }
-
 
 void 
 string_list_free (GList *string_list)

@@ -1,5 +1,28 @@
 2000-05-02  NotZed  <NotZed@HelixCode.com>
 
+	* gmime-utils.[ch]: What the hell, remove it.  This will break the
+	nntp provider.  The mime parser can be used instead though.
+	Removed from all code including it (but none were using it).
+
+	* gmime-utils.c (_store_header_pair_from_string): Removed bizarre
+	string_dichotomy version of this.  This code is somewhat redundant
+	now, and is headed for death anyway.
+
+	* gstring-util.c (g_string_dichotomy): Same with this one.
+	(g_string_clone): Removed a memory leak, g_string_new() allocates
+	its own memory.
+	(g_string_append_g_string): Allow to append an empty gstring onto
+	another gstring, dont abort()!
+
+	* string-utils.c (string_dichotomy): Removed this incredibly weird
+	function.
+
+	* camel-folder.c (_create): Replaced the rather obtuse use of
+	"string_dichotomy" function with a simple strrchr().  Still not
+	sure it'll work.
+
+	* camel-folder-summary.c: cvs removed a long-removed file.
+
 	* camel-mime-parser.c (folder_scan_header): Fix the previous
 	overflow problem properly (can happen in 2 places).
 	(header_append): A new macro to include the code changed above, so
