@@ -176,7 +176,11 @@ accum_address (GString *gstr, EContact *contact, const char *html_label, EContac
 	if (label) {
 		char *html = e_text_to_html (label, E_TEXT_TO_HTML_CONVERT_NL);
 
+#if mapping_works
 		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font><br><a href=\"http://www.mapquest.com/\">%s</a></td><td valign=\"top\">%s</td></tr>", html_label, _("(map)"), html);
+#else
+		g_string_append_printf (gstr, "<tr><td valign=\"top\" width=\"" IMAGE_COL_WIDTH "\"></td><td valign=\"top\" width=\"100\"><font color=" HEADER_COLOR ">%s:</font></td><td valign=\"top\">%s</td></tr>", html_label, html);
+#endif
 
 		g_free (html);
 		return;
