@@ -399,23 +399,6 @@ source_type_changed (GtkWidget *widget, gpointer user_data)
 			if (!dwidget)
 				dwidget = GTK_WIDGET (gui->source.path);
 			
-			if (!strcmp (provider->protocol, "mbox")
-			    || !strcmp (provider->protocol, "spool")) {
-				char *path;
-				
-				if (getenv ("MAIL"))
-					path = g_strdup (getenv ("MAIL"));
-				else
-					path = g_strdup_printf (SYSTEM_MAIL_DIR "/%s", g_get_user_name ());
-				gtk_entry_set_text (gui->source.path, path);
-				g_free (path);
-			} else if (!strcmp (provider->protocol, "maildir") &&
-				   getenv ("MAILDIR")) {
-				gtk_entry_set_text (gui->source.path, getenv ("MAILDIR"));
-			} else {
-				gtk_entry_set_text (gui->source.path, "");
-			}
-			
 			gtk_widget_show (GTK_WIDGET (file_entry));
 			gtk_widget_show (label);
 		} else {
@@ -619,7 +602,9 @@ void
 mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 {
 	CamelURL *url;
-	GtkWidget *mailcheck_frame, *main_vbox, *cur_vbox, *username;
+	GtkWidget *mailcheck_frame, *main_vbox, *cur_vbox;
+	GtkWidget *hostname_label, *username_label, *path_label;
+	GtkWidget *hostname, *username, *path;
 	CamelProviderConfEntry *entries;
 	GList *children, *child;
 	char *name;
@@ -630,8 +615,17 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 	else
 		url = NULL;
 	
-	username = glade_xml_get_widget (gui->xml, "source_user_label");
-	gtk_label_parse_uline (GTK_LABEL (username), _("User_name:"));
+	hostname_label = glade_xml_get_widget (gui->xml, "source_host_label");
+	gtk_label_parse_uline (GTK_LABEL (hostname_label), _("_Host:"));
+	hostname = glade_xml_get_widget (gui->xml, "source_host");
+	
+	username_label = glade_xml_get_widget (gui->xml, "source_user_label");
+	gtk_label_parse_uline (GTK_LABEL (username_label), _("User_name:"));
+	username = glade_xml_get_widget (gui->xml, "source_user");
+	
+	path_label = glade_xml_get_widget (gui->xml, "source_path_label");
+	gtk_label_parse_uline (GTK_LABEL (path_label), _("_Path:"));
+	path = glade_xml_get_widget (gui->xml, "source_path");
 	
 	main_vbox = glade_xml_get_widget (gui->xml, "extra_vbox");
 	
@@ -708,8 +702,13 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 				GtkWidget *label;
 				
 				if (!strcmp (entries[i].name, "username")) {
-					gtk_label_parse_uline (GTK_LABEL (username), _(entries[i].text));
+					gtk_label_parse_uline (GTK_LABEL (username_label), _(entries[i].text));
+				} else if (!strcmp (entries[i].name, "hostname")) {
+					gtk_label_parse_uline (GTK_LABEL (hostname_label), _(entries[i].text));
+				} else if (!strcmp (entries[i].name, "path")) {
+					gtk_label_parse_uline (GTK_LABEL (path_label), _(entries[i].text));
 				} else {
+					/* make a new label */
 					label = gtk_label_new (_(entries[i].text));
 					gtk_box_pack_start (GTK_BOX (cur_vbox), label, FALSE, FALSE, 0);
 				}
@@ -721,7 +720,7 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			GtkWidget *checkbox;
 			gboolean active;
 			
-			checkbox = gtk_check_button_new_with_label (entries[i].text);
+			checkbox = gtk_check_button_new_with_label (_(entries[i].text));
 			if (url)
 				active = camel_url_get_param (url, entries[i].name) != NULL;
 			else
@@ -739,25 +738,44 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			GtkWidget *hbox, *label, *entry;
 			const char *text;
 			
-			hbox = gtk_hbox_new (FALSE, 8);
-			label = gtk_label_new (entries[i].text);
-			entry = gtk_entry_new ();
+			if (!strcmp (entries[i].name, "username")) {
+				gtk_label_parse_uline (GTK_LABEL (username_label), _(entries[i].text));
+				label = username_label;
+				entry = username;
+			} else if (!strcmp (entries[i].name, "hostname")) {
+				gtk_label_parse_uline (GTK_LABEL (hostname_label), _(entries[i].text));
+				label = hostname_label;
+				entry = hostname;
+			} else if (!strcmp (entries[i].name, "path")) {
+				gtk_label_parse_uline (GTK_LABEL (path_label), _(entries[i].text));
+				label = path_label;
+				entry = path;
+			} else {
+				/* make a new text entry with label */
+				hbox = gtk_hbox_new (FALSE, 8);
+				label = gtk_label_new (_(entries[i].text));
+				entry = gtk_entry_new ();
+				
+				gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
+				gtk_box_pack_end (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
+				
+				gtk_box_pack_start (GTK_BOX (cur_vbox), hbox, FALSE, FALSE, 0);
+				g_hash_table_insert (gui->extra_config, entries[i].name, entry);
+			}
+			
 			if (url)
 				text = camel_url_get_param (url, entries[i].name);
 			else
 				text = entries[i].value;
+			
 			if (text)
 				gtk_entry_set_text (GTK_ENTRY (entry), text);
 			
-			gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-			gtk_box_pack_end (GTK_BOX (hbox), entry, TRUE, TRUE, 0);
-			
-			gtk_box_pack_start (GTK_BOX (cur_vbox), hbox, FALSE, FALSE, 0);
-			g_hash_table_insert (gui->extra_config, entries[i].name, entry);
 			if (entries[i].depname) {
 				setup_toggle (entry, entries[i].depname, gui);
 				setup_toggle (label, entries[i].depname, gui);
 			}
+			
 			break;
 		}
 		
@@ -769,7 +787,8 @@ mail_account_gui_build_extra_conf (MailAccountGui *gui, const char *url_string)
 			double min, def, max;
 			gboolean enable;
 			
-			data = entries[i].text;
+			/* FIXME: this is pretty fucked... */
+			data = _(entries[i].text);
 			p = strstr (data, "%s");
 			g_return_if_fail (p != NULL);
 			

@@ -1,5 +1,12 @@
 2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-gui.c (mail_account_gui_build_extra_conf): Allow
+	providers to override text entry boxes too.
+	(source_type_changed): Remove the logic to decide upon default
+	paths, these paths can now be set by the provider.
+
+2002-04-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* folder-browser.c (label_menu): Update to use
 	E_POPUP_MENU_PIXMAP_WIDGET_ITEM_CC so that our callback gets
 	called without per-item closure rather than being called with NULL
