@@ -21,6 +21,8 @@ libcamelimap4_la_SOURCES = 			\
 	camel-imap-command.h			\
 	camel-imap-engine.c			\
 	camel-imap-engine.h			\
+	camel-imap-folder.c			\
+	camel-imap-folder.h			\
 	camel-imap-provider.c			\
 	camel-imap-specials.c			\
 	camel-imap-specials.h			\
