@@ -14,12 +14,10 @@
 #include "folder-browser.h"
 
 void folder_browser_ui_add_message (FolderBrowser *fb);
-void folder_browser_ui_rm_message (FolderBrowser *fb);
-
 void folder_browser_ui_add_list (FolderBrowser *fb);
-void folder_browser_ui_rm_list (FolderBrowser *fb);
-
 void folder_browser_ui_add_global (FolderBrowser *fb);
-void folder_browser_ui_rm_global (FolderBrowser *fb);
 
-#endif /* _FOLDER_BROWSER_FACTORY_H */
+void folder_browser_ui_rm_list (FolderBrowser *fb);
+void folder_browser_ui_rm_all (FolderBrowser *fb);
+
+#endif /* _FOLDER_BROWSER_UI_H */

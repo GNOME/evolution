@@ -30,6 +30,7 @@
 #include "folder-browser-factory.h"
 
 #include "folder-browser.h"
+#include "folder-browser-ui.h"
 #include "mail.h"
 #include "mail-callbacks.h"
 #include "shell/Evolution.h"
@@ -75,9 +76,8 @@ control_deactivate (BonoboControl     *control,
 		    BonoboUIComponent *uic,
 		    FolderBrowser     *fb)
 {
-	folder_browser_ui_rm_message (fb);
 	folder_browser_ui_rm_list (fb);
-	folder_browser_ui_rm_global (fb);
+	folder_browser_ui_rm_all (fb);
 
 	/* turn this back on to get the old (broken) behaviour of
 	 * synching when leaving a folder

@@ -172,19 +172,6 @@ static void ui_add (FolderBrowser *fb,
 	bonobo_ui_component_thaw (uic, NULL);
 }
 
-/* unused args, for now... */
-
-static void ui_rm (FolderBrowser *fb,
-		    const gchar *name,
-		    BonoboUIVerb verb[],
-		    EPixmap pixcache[])
-{
-	BonoboUIComponent *uic = fb->uicomp;
-
-	bonobo_ui_component_rm (uic, "/", NULL);
- 	bonobo_ui_component_unset_container (uic);
-}
-
 /* more complex stuff */
 
 static void
@@ -304,11 +291,13 @@ folder_browser_ui_add_message (FolderBrowser *fb)
 		bonobo_ui_component_set_prop (uic, "/commands/MessageResend", "sensitive", "0", NULL);	
 }
 
+/*
 void 
 folder_browser_ui_rm_message (FolderBrowser *fb)
 {
 	ui_rm (fb, "message", message_verbs, message_pixcache);
 }
+*/
 
 void 
 folder_browser_ui_add_list (FolderBrowser *fb)
@@ -344,12 +333,18 @@ folder_browser_ui_add_list (FolderBrowser *fb)
 	/* Property menu */
 
 	folder_browser_setup_property_menu (fb, fb->uicomp);
+
+	/* View menu */
+
+	folder_browser_setup_view_menus (fb, fb->uicomp);
 }
 
 void 
 folder_browser_ui_rm_list (FolderBrowser *fb)
 {
-	ui_rm (fb, "list", list_verbs, list_pixcache);
+	/* View menu */
+
+	folder_browser_discard_view_menus (fb);
 }
 
 void 
@@ -371,20 +366,21 @@ folder_browser_ui_add_global (FolderBrowser *fb)
 	/* Stop button */
 
 	bonobo_ui_component_set_prop(uic, "/commands/MailStop", "sensitive", "0", NULL);
-
-	/* View menu */
-
-	folder_browser_setup_view_menus (fb, fb->uicomp);
-
 }
 
+/*
 void 
 folder_browser_ui_rm_global (FolderBrowser *fb)
 {
-	ui_rm (fb, "global", global_verbs, global_pixcache);
+}
+*/
 
-	/* View menu */
+void 
+folder_browser_ui_rm_all (FolderBrowser *fb)
+{
+	BonoboUIComponent *uic = fb->uicomp;
 
-	folder_browser_discard_view_menus (fb);
+	bonobo_ui_component_rm (uic, "/", NULL);
+ 	bonobo_ui_component_unset_container (uic);
 }
 

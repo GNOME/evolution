@@ -1,3 +1,20 @@
+2001-06-27  Peter Williams  <peterw@ximian.com>
+
+	* folder-browser-factory.c (control_deactivate): Change to use
+	more reality-based API below.
+	Include folder-browser-ui.h too.
+	(control_activate): Remove now-unused 'int state'.
+
+	* folder-browser-ui.h: Changed prototypes to match changes below.
+
+	* folder-browser-ui.c (folder_browser_ui_rm_message): Commented out
+	to reflect reality of how this stuff works (you can't actually remove
+	the pieces).
+	(folder_browser_ui_rm_global): Same.
+	(folder_browser_ui_rm_list): Left because here we add the view menus.
+	(folder_browser_ui_add_list): ... which were moved here.
+	(folder_browser_ui_rm_all): New function, does the job of old ui_rm()
+
 2001-06-26  Peter Williams  <peterw@ximian.com>
 
 	* folder-browser-ui.c: New file derived from folder-browser-factory.c.
