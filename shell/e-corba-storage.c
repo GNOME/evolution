@@ -187,7 +187,7 @@ impl_StorageListener_notifyHasSubfolders (PortableServer_Servant servant,
 	storage_listener_servant = (StorageListenerServant *) servant;
 	storage = storage_listener_servant->storage;
 
-	if (! e_storage_has_subfolders (storage, path, message)) {
+	if (! e_storage_declare_has_subfolders (storage, path, message)) {
 		g_warning ("Cannot register subfolder tree -- %s\n", path);
 		CORBA_exception_set (ev,
 				     CORBA_USER_EXCEPTION,
@@ -292,6 +292,47 @@ impl_finalize (GObject *object)
 
 
 /* EStorage methods.  */
+
+static void
+get_folder_cb (EStorage *storage, EStorageResult result,
+	       const char *path, gpointer data)
+{
+	gboolean *done = data;
+
+	*done = TRUE;
+}
+
+static EFolder *
+get_folder (EStorage *storage, const char *path)
+{
+	EFolder *folder;
+	char *path_dup, *p;
+
+	folder = (* E_STORAGE_CLASS (parent_class)->get_folder) (storage, path);
+	if (folder)
+		return folder;
+
+	/* If @path points to a part of the storage that hasn't been
+	 * opened yet, do that.
+	 */
+	path_dup = g_strdup (path);
+	p = strchr (path_dup + 1, '/');
+	while (p) {
+		*p = '\0';
+		if (e_storage_get_has_subfolders (storage, path_dup)) {
+			gboolean done = FALSE;
+
+			e_storage_async_open_folder (storage, path_dup,
+						     get_folder_cb, &done);
+			while (!done)
+				gtk_main_iteration (TRUE);
+		}
+		*p = '/';
+		p = strchr (p + 1, '/');
+	}
+
+	return (* E_STORAGE_CLASS (parent_class)->get_folder) (storage, path);
+}
 
 struct async_folder_closure {
 	EStorageResultCallback callback;
@@ -714,6 +755,7 @@ class_init (ECorbaStorageClass *klass)
 	object_class->finalize = impl_finalize;
 
 	storage_class = E_STORAGE_CLASS (klass);
+	storage_class->get_folder                    = get_folder;
 	storage_class->async_create_folder           = async_create_folder;
 	storage_class->async_remove_folder           = async_remove_folder;
 	storage_class->async_xfer_folder             = async_xfer_folder;

@@ -1,5 +1,20 @@
 2003-03-14  Dan Winship  <danw@ximian.com>
 
+	* e-storage.c (e_storage_get_has_subfolders): Add
+	(e_storage_declare_has_subfolders): Rename from
+	e_storage_has_subfolders to make it clearer that this is a setter,
+	not a getter. (Can't call it e_storage_set_has_subfolders because
+	that sounds like it belongs in e-storage-set.)
+
+	* e-corba-storage.c (impl_StorageListener_notifyHasSubfolders):
+	update for e_storage_declare_has_subfolders name change
+	(get_folder): Override the default EStorage implementation: if
+	asked for a folder under a not-yet-expanded folder, attempt to
+	force the parent(s) to expand so that the child is available.
+	Fixes part of #30415
+
+2003-03-14  Dan Winship  <danw@ximian.com>
+
 	* Evolution-Storage.idl (asyncOpenFolder): add a Bonobo::Listener
 	to this like the other async interfaces, rather than having a
 	hacky way to signal failure.

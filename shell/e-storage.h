@@ -195,9 +195,17 @@ char *e_storage_get_path_for_physical_uri  (EStorage   *storage,
 					    const char *physical_uri);
 
 /* Protected.  C++ anyone?  */
-gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);
-gboolean  e_storage_has_subfolders  (EStorage *storage, const char *path, const char *message);
-gboolean  e_storage_removed_folder  (EStorage *storage, const char *path);
+gboolean e_storage_new_folder             (EStorage   *storage,
+					   const char *path,
+					   EFolder    *folder);
+gboolean e_storage_removed_folder         (EStorage   *storage,
+					   const char *path);
+
+gboolean e_storage_declare_has_subfolders (EStorage   *storage,
+					   const char *path,
+					   const char *message);
+gboolean e_storage_get_has_subfolders     (EStorage   *storage,
+					   const char *path);
 
 #ifdef __cplusplus
 }

@@ -720,10 +720,16 @@ e_storage_new_folder (EStorage *storage,
 	return TRUE;
 }
 
+/* This really should be called e_storage_set_has_subfolders, but then
+ * it would look like it was an EStorageSet function. (Fact o' the
+ * day: The word "set" has more distinct meanings than any other word
+ * in the English language.) Anyway, we now return you to your
+ * regularly scheduled source code, already in progress.
+ */
 gboolean
-e_storage_has_subfolders (EStorage *storage,
-			  const char *path,
-			  const char *message)
+e_storage_declare_has_subfolders (EStorage *storage,
+				  const char *path,
+				  const char *message)
 {
 	EStoragePrivate *priv;
 	GList *subfolders, *f;
@@ -759,6 +765,22 @@ e_storage_has_subfolders (EStorage *storage,
 	g_hash_table_insert (priv->pseudofolders, g_strdup (path), pseudofolder);
 
 	return e_storage_new_folder (storage, pseudofolder_path, pseudofolder);
+}
+
+gboolean
+e_storage_get_has_subfolders (EStorage *storage,
+			      const char *path)
+{
+	EStoragePrivate *priv;
+
+	g_return_val_if_fail (storage != NULL, FALSE);
+	g_return_val_if_fail (E_IS_STORAGE (storage), FALSE);
+	g_return_val_if_fail (path != NULL, FALSE);
+	g_return_val_if_fail (g_path_is_absolute (path), FALSE);
+
+	priv = storage->priv;
+
+	return g_hash_table_lookup (priv->pseudofolders, path) != NULL;
 }
 
 gboolean
