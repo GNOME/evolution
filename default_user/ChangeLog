@@ -1,3 +1,8 @@
+2002-06-25  Aaron Weber  <aaron@ximian.com>
+
+	* local/Inbox/mbox: Add example FAQ items in welcome email, as per
+	danw's request in bug 18645
+
 2001-12-10  Not Zed  <NotZed@Ximian.com>
 
 	* Makefile.am: Added vfolders.xml containing default initial

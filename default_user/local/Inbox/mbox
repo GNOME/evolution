@@ -12,8 +12,8 @@ Received: from smtp.ximian.com (HELO localhost) (141.154.95.10) by
 From: Ximian, Inc. <evolve@ximian.com>
 To: Ximian Evolution Users <evolve@ximian.com>
 Content-Type: multipart/related; type="multipart/alternative"; boundary="=-t4dRE6cqcdSBHOrMdTQ1"
-X-Mailer: Evolution/0.14.99 (Preview Release)
-Date: 25 Sep 2001 14:45:00 +0300
+X-Mailer: Evolution/1.1.99 (Preview Release)
+Date: 25 June 2002 14:45:00 +0300
 Message-Id: <1001418302.27070.20.camel@spectrolite>
 Mime-Version: 1.0
 Subject: Welcome to Ximian Evolution!
@@ -21,7 +21,7 @@ Sender: evolve@ximian.com
 Errors-To: evolve@ximian.com
 X-Mailman-Version: 1.1
 Status:   
-X-Evolution-Source: pop://aaron@pop.ximian.com/inbox
+X-Evolution-Source: pop://rupert@pop.ximian.com/inbox
 X-Evolution: 00000ddd-0030
 
 
@@ -59,8 +59,10 @@ Learn More, Do More
 
 Questions? Comments? Suggestions?
 
-	To read our list of frequently asked questions (FAQ), select
-	Ximian Evolution FAQ from the Help menu.
+	To learn the answers to frequently asked questions (FAQs), such
+	as how to make Evolution use your preferred web browser to
+	open links in email, or how to use Evolution to open mailto:
+	links in web pages, select Ximian Evolution FAQ from the Help menu.
 
 	If your question isn't there, or if you'd like to send us some
 	comments, write to us at evolve@ximian.com. We'd be glad to
@@ -155,12 +157,15 @@ Content-Type: text/html; charset=utf-8
 
 <blockquote>
 
-    To read our list of frequently asked questions (FAQ), select
-    <b>Ximian Evolution FAQ</b> from the <b>Help</b> menu.
-    If your question isn't there, or if you'd like to send us some
-    comments, write to us at <a
-    HREF="mailto:evolve@ximian.com">evolve@ximian.com</A>. We'd
-    be glad to hear from you!
+	To learn the answers to frequently asked questions (FAQs), such
+	as how to make Evolution use your preferred web browser to
+	open links in email, or how to use Evolution to open mailto:
+	links in web pages, select <b>Ximian Evolution FAQ</b> from the Help menu.
+<br>
+	If your question isn't there, or if you'd like to send us some
+    	comments, write to us at <a
+    	HREF="mailto:evolve@ximian.com">evolve@ximian.com</A>. We'd
+    	be glad to hear from you!
 </blockquote>
 
 
