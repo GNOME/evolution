@@ -1,3 +1,7 @@
+2001-03-07  Ettore Perazzoli  <ettore@ximian.com>
+
+	* configure.in: Require GAL 0.5.99.6 or later.
+
 2001-03-07  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* shell/main: /* xgettext:no-c-format */ before the welcome
