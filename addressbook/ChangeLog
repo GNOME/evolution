@@ -1,3 +1,40 @@
+2000-05-06  Chris Toshok  <toshok@helixcode.com>
+
+	* gui/component/addressbook.c (control_deactivate): remove the
+	separator and toggle view items as well.
+	(toggle_view_as_cb): callback for the "/View/Toggle View" menu
+	item.
+	(get_query): getter for the query string that takes into account
+	the two view types.
+	(set_query): setter for the query string that takes into account
+	the two view types.
+	(set_book): setter for the EBook type - not really a setter, since
+	the book is kept in the AddressbookView, but this method actually
+	sets the "book" property on the current view.
+	(find_contact_cb): make use of get/set_query
+	(search_entry_activated): make use of set_query.
+	(control_activate): add a menu separator and an item to toggle
+	between view types.
+	(book_open_cb): make use of set_book.
+	(ebook_create): no longer needs to return the EBook, since we set
+	the book field in our view.
+	(teardown_minicard_view): destructor function for the minicard
+	specific ui.
+	(create_minicard_view): constructor function for the minicard
+	specific ui.
+	(teardown_table_view): destructor function for the e-table
+	specific ui.
+	(create_table_view): constructor function for the e-table specific
+	ui.
+	(change_view_type): destroy the old and create the new view ui,
+	change the label of the Toggle View menu item, and reset the book
+	and query on the new view type.
+	(addressbook_factory): create an all-encompassing vbox that the
+	view uses to create the bonobo control, which contains 1 widget
+	per ui specific view (the e-table in the table case, and another
+	vbox in the minicard case.)  use change_view_type to create the
+	initial view.
+
 2000-05-07  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/ebook/e-book.c: Made a NULL callback just mean to not

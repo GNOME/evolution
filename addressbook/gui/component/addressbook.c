@@ -38,21 +38,36 @@
 
 #define PROPERTY_FOLDER_URI_IDX      1
 
+typedef enum {
+	ADDRESSBOOK_VIEW_NONE, /* initialized to this */
+	ADDRESSBOOK_VIEW_TABLE,
+	ADDRESSBOOK_VIEW_MINICARD
+} AddressbookViewType;
+
 typedef struct {
+	AddressbookViewType view_type;
+	EBook *book;
+	GtkWidget *vbox;
+	GtkWidget *minicard_vbox;
 	GtkWidget *canvas;
 	GnomeCanvasItem *view;
 	GnomeCanvasItem *rect;
 	GtkWidget *table;
 	ETableModel *model;
 	GtkAllocation last_alloc;
+	BonoboControl *control;
 	BonoboPropertyBag *properties;
 	char *uri;
 } AddressbookView;
+
+static void change_view_type (AddressbookView *view, AddressbookViewType view_type);
 
 static void
 control_deactivate (BonoboControl *control, BonoboUIHandler *uih)
 {
 	/* how to remove a menu item */
+	bonobo_ui_handler_menu_remove (uih, "/View/<sep>");
+	bonobo_ui_handler_menu_remove (uih, "/View/Toggle View"); 
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Contact"); 
 #ifdef HAVE_LDAP
 	bonobo_ui_handler_menu_remove (uih, "/Actions/New Directory Server");
@@ -122,6 +137,17 @@ new_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	
 }
 
+static void
+toggle_view_as_cb (BonoboUIHandler *uih, void *user_data, const char *path)
+{
+	AddressbookView *view = user_data;
+	
+	if (view->view_type == ADDRESSBOOK_VIEW_TABLE)
+		change_view_type (view, ADDRESSBOOK_VIEW_MINICARD);
+	else
+		change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
+}
+
 #ifdef HAVE_LDAP
 static void
 null_cb (EBook *book, EBookStatus status, gpointer closure)
@@ -165,6 +191,47 @@ new_server_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 }
 #endif
 
+static char *
+get_query (AddressbookView *view)
+{
+	GtkObject *object;
+	char *query = NULL;
+
+	if (view->view)
+		object = GTK_OBJECT(view->view);
+	else
+		object = GTK_OBJECT(view->model);
+
+	if (object)
+		gtk_object_get (object, "query", &query, NULL);
+
+	return query;
+}
+
+static void
+set_query (AddressbookView *view, char *query)
+{
+	GtkObject *object;
+
+	if (view->view)
+		object = GTK_OBJECT(view->view);
+	else
+		object = GTK_OBJECT(view->model);
+
+	gtk_object_set (object, 
+			"query", query, 
+			NULL);
+}
+
+static void
+set_book(AddressbookView *view)
+{
+	if (view->book)
+		gtk_object_set(view->view ? GTK_OBJECT(view->view) : GTK_OBJECT(view->model),
+			       "book", view->book,
+			       NULL);
+}
+
 static void
 find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 {
@@ -172,15 +239,9 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	GtkWidget* search_entry = gtk_entry_new();
 	gchar* search_text;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkObject *object;
 	GtkWidget* dlg = gnome_dialog_new ("Search Contacts", "Find", "Cancel", NULL);
 
-	if (view->view)
-		object = GTK_OBJECT(view->view);
-	else
-		object = GTK_OBJECT(view->model);
-
-	gtk_object_get (object, "query", &search_text, NULL);
+	search_text = get_query (view);
 	gtk_entry_set_text(GTK_ENTRY(search_entry), search_text);
 	g_free (search_text);
 
@@ -195,7 +256,7 @@ find_contact_cb (BonoboUIHandler *uih, void *user_data, const char *path)
 	/* If the user clicks "okay"...*/
 	if (result == 0) {
 		search_text = gtk_entry_get_text(GTK_ENTRY(search_entry));
-		gtk_object_set (object, "query", search_text, NULL);
+		set_query (view, search_text);
 	}
 	
 }
@@ -226,18 +287,13 @@ static GnomeUIInfo gnome_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
+
 static void
 search_entry_activated (GtkWidget* widget, gpointer user_data)
 {
 	char* search_word = gtk_entry_get_text(GTK_ENTRY(widget));
 	char* search_query;
 	AddressbookView *view = (AddressbookView *) user_data;
-	GtkObject *object;
-
-	if (view->view)
-		object = GTK_OBJECT(view->view);
-	else
-		object = GTK_OBJECT(view->model);
 
 	if (search_word && strlen (search_word))
 		search_query = g_strdup_printf (
@@ -246,10 +302,9 @@ search_entry_activated (GtkWidget* widget, gpointer user_data)
 	else
 		search_query = g_strdup (
 			"(contains \"full_name\" \"\")");		
-	
-	gtk_object_set (object, 
-			"query", search_query, 
-			NULL);
+
+	set_query(view, search_query);
+
 	g_free (search_query);
 }
 
@@ -289,6 +344,15 @@ control_activate (BonoboControl *control, BonoboUIHandler *uih,
 
 	remote_uih = bonobo_control_get_remote_ui_handler (control);
 	bonobo_ui_handler_set_container (uih, remote_uih);		
+
+	bonobo_ui_handler_menu_new_separator (uih, "/View/<sep>", -1);
+
+	bonobo_ui_handler_menu_new_item (uih, "/View/Toggle View",
+					 N_("As _Table"),
+					 NULL, -1,
+					 BONOBO_UI_HANDLER_PIXMAP_NONE, NULL,
+					 0, 0, toggle_view_as_cb,
+					 (gpointer)view);
 
 	bonobo_ui_handler_menu_new_item (uih, "/Actions/New Contact",
 					 N_("_New Contact"),       
@@ -365,35 +429,29 @@ static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
 	AddressbookView *view = closure;
-	if (status == E_BOOK_STATUS_SUCCESS)
-		gtk_object_set(view->view ? GTK_OBJECT(view->view) : GTK_OBJECT(view->model),
-			       "book", book,
-			       NULL);
+	if (status == E_BOOK_STATUS_SUCCESS) {
+		set_book (view);
+	}
 }
 
-static EBook *
+static void
 ebook_create (AddressbookView *view)
 {
-	EBook *book;
-	
-	book = e_book_new ();
+	view->book = e_book_new ();
 
-	if (!book) {
+	if (!view->book) {
 		printf ("%s: %s(): Couldn't create EBook, bailing.\n",
 			__FILE__,
 			__FUNCTION__);
-		return NULL;
+		return;
 	}
 	
 
 
-	if (! e_book_load_uri (book, "file:/tmp/test.db", book_open_cb, view))
+	if (! e_book_load_uri (view->book, "file:/tmp/test.db", book_open_cb, view))
 	{
 		printf ("error calling load_uri!\n");
 	}
-
-
-	return book;
 }
 
 static void destroy_callback(GtkWidget *widget, gpointer data)
@@ -533,23 +591,28 @@ set_prop (BonoboPropertyBag *bag,
   </grouping>                            \
 </ETableSpecification>"
 
-
-static BonoboObject *
-addressbook_factory (BonoboGenericFactory *Factory, void *closure)
+static void
+teardown_minicard_view (AddressbookView *view)
 {
-	BonoboControl      *control;
-	EBook *book;
-	AddressbookView *view;
+	if (view->minicard_vbox) {
+		gtk_widget_destroy(view->minicard_vbox);
+		view->minicard_vbox = NULL;
+	}
 
-#if 1
-	GtkWidget *vbox, *scrollbar;
+	view->canvas = NULL;
+	view->view = NULL;
+}
+
+static void
+create_minicard_view (AddressbookView *view, char *initial_query)
+{
+	GtkWidget *scrollbar;
 
 	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
-	
-	view = g_new (AddressbookView, 1);
-	
-	vbox = gtk_vbox_new(FALSE, 0);
+
+	view->minicard_vbox = gtk_vbox_new(FALSE, 0);
+
 	view->canvas = e_canvas_new();
 	view->rect = gnome_canvas_item_new(
 		gnome_canvas_root( GNOME_CANVAS( view->canvas ) ),
@@ -575,43 +638,53 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	gnome_canvas_set_scroll_region ( GNOME_CANVAS( view->canvas ),
 					 0, 0,
 					 100, 100 );
-	view->table = NULL;
-	view->model = NULL;
 
-	gtk_box_pack_start(GTK_BOX(vbox), view->canvas, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(view->minicard_vbox), view->canvas, TRUE, TRUE, 0);
 
 	scrollbar = gtk_hscrollbar_new(
 		gtk_layout_get_hadjustment(GTK_LAYOUT(view->canvas)));
 
-	gtk_box_pack_start(GTK_BOX(vbox), scrollbar, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(view->minicard_vbox), scrollbar, FALSE, FALSE, 0);
+
+	gtk_box_pack_start(GTK_BOX(view->vbox), view->minicard_vbox, TRUE, TRUE, 0);
+
+	gtk_widget_show_all( GTK_WIDGET(view->minicard_vbox) );
 
 	/* Connect the signals */
-	gtk_signal_connect( GTK_OBJECT( vbox ), "destroy",
-			    GTK_SIGNAL_FUNC( destroy_callback ),
-			    ( gpointer ) view );
-
 	gtk_signal_connect( GTK_OBJECT( view->canvas ), "size_allocate",
 			    GTK_SIGNAL_FUNC( allocate_callback ),
 			    ( gpointer ) view );
-	gtk_widget_show_all( vbox );
-
-	/* Create the control. */
-	control = bonobo_control_new(vbox);
 
 #if 0
 	gdk_window_set_back_pixmap(
 		GTK_LAYOUT(view->canvas)->bin_window, NULL, FALSE);
 #endif
 
-#else
+	gtk_widget_pop_visual ();
+	gtk_widget_pop_colormap ();
+}
+
+static void
+teardown_table_view (AddressbookView *view)
+{
+	if (view->table) {
+		gtk_widget_destroy (GTK_WIDGET (view->table));
+		view->table = NULL;
+	}
+	if (view->model) {
+		gtk_object_destroy (GTK_OBJECT (view->model));
+		view->model = NULL;
+	}
+}
+
+static void
+create_table_view (AddressbookView *view, char *initial_query)
+{
 	ECell *cell_left_just;
 	ETableHeader *e_table_header;
 	int i;
 	ECardSimple *simple = e_card_simple_new(NULL);
 
-	view = g_new (AddressbookView, 1);
-	
-	view->view = NULL;
 	view->model = e_addressbook_model_new();
 
 	/*
@@ -650,16 +723,77 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 	   initial layout.  It does the rest.  */
 	view->table = e_table_new (e_table_header, E_TABLE_MODEL(view->model), SPEC);
 
-	gtk_signal_connect( GTK_OBJECT( view->table ), "destroy",
+	gtk_box_pack_start(GTK_BOX(view->vbox), view->table, TRUE, TRUE, 0);
+
+	gtk_widget_show_all( GTK_WIDGET(view->table) );
+}
+
+static void
+change_view_type (AddressbookView *view, AddressbookViewType view_type)
+{
+	char *query = NULL;
+	BonoboUIHandler *uih = bonobo_control_get_ui_handler (view->control);
+
+	if (view_type == view->view_type)
+		return;
+
+	query = get_query(view);
+
+	switch (view_type) {
+	case ADDRESSBOOK_VIEW_MINICARD:
+		teardown_table_view (view);
+		create_minicard_view (view, query);
+		if (uih)
+			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
+							  N_("As _Table"));
+		break;
+	case ADDRESSBOOK_VIEW_TABLE:
+		teardown_minicard_view (view);
+		create_table_view (view, query);
+		if (uih)
+			bonobo_ui_handler_menu_set_label (uih, "/View/Toggle View",
+							  N_("As _Minicards"));
+		break;
+	default:
+		g_warning ("view_type must be either TABLE or MINICARD\n");
+		g_free (query);
+		return;
+	}
+
+	view->view_type = view_type;
+
+	/* set the book */
+	set_book (view);
+
+	/* and reset the query */
+	if (query)
+		set_query (view, query);
+	g_free (query);
+}
+
+
+static BonoboObject *
+addressbook_factory (BonoboGenericFactory *Factory, void *closure)
+{
+	AddressbookView *view;
+
+	view = g_new0 (AddressbookView, 1);
+
+	view->vbox = gtk_vbox_new(FALSE, 0);
+
+	gtk_signal_connect( GTK_OBJECT( view->vbox ), "destroy",
 			    GTK_SIGNAL_FUNC( destroy_callback ),
 			    ( gpointer ) view );
-	
-	gtk_widget_show_all( GTK_WIDGET(view->table) );
 
-	control = bonobo_control_new(view->table);
-#endif
+	/* Create the control. */
+	view->control = bonobo_control_new(view->vbox);
 
-	book = ebook_create(view);
+	/* create the initial view */
+	change_view_type (view, ADDRESSBOOK_VIEW_TABLE);
+
+	gtk_widget_show_all( view->vbox );
+
+	ebook_create(view);
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
@@ -667,20 +801,15 @@ addressbook_factory (BonoboGenericFactory *Factory, void *closure)
 		view->properties, PROPERTY_FOLDER_URI, PROPERTY_FOLDER_URI_IDX,
 		BONOBO_ARG_STRING, NULL, _("The URI that the Folder Browser will display"), 0);
 
-	bonobo_control_set_property_bag (control,
+	bonobo_control_set_property_bag (view->control,
 					 view->properties);
 
 	view->uri = NULL;
 
-	gtk_signal_connect (GTK_OBJECT (control), "activate",
+	gtk_signal_connect (GTK_OBJECT (view->control), "activate",
 			    control_activate_cb, view);
 
-#if 0
-	gtk_widget_pop_visual ();
-	gtk_widget_pop_colormap ();
-#endif
-
-	return BONOBO_OBJECT (control);
+	return BONOBO_OBJECT (view->control);
 }
 
 void
