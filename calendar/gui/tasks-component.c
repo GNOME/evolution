@@ -314,11 +314,11 @@ delete_task_list_cb (GtkWidget *widget, TasksComponent *comp)
 		if (cal) {
 			if (e_cal_remove (cal, NULL)) {
 				if (e_source_selector_source_is_selected (E_SOURCE_SELECTOR (priv->source_selector),
-									  selected_source))
+									  selected_source)) {
+					e_tasks_remove_todo_source (priv->tasks, selected_source);
 					e_source_selector_unselect_source (E_SOURCE_SELECTOR (priv->source_selector),
 									   selected_source);
-				else
-					e_tasks_remove_todo_source (priv->tasks, selected_source);
+				}
 
 				e_source_group_remove_source (e_source_peek_group (selected_source), selected_source);
 				e_source_list_sync (priv->source_list, NULL);
