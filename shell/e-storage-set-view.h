@@ -63,12 +63,13 @@ struct _EStorageSetViewClass {
 };
 
 
-GtkType    e_storage_set_view_get_type            (void);
-GtkWidget *e_storage_set_view_new                 (EStorageSet     *storage_set);
-void       e_storage_set_view_construct           (EStorageSetView *storage_set_view,
-						   EStorageSet     *storage_set);
-void       e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
-						   const char      *path);
+GtkType     e_storage_set_view_get_type            (void);
+GtkWidget  *e_storage_set_view_new                 (EStorageSet     *storage_set);
+void        e_storage_set_view_construct           (EStorageSetView *storage_set_view,
+						    EStorageSet     *storage_set);
+void        e_storage_set_view_set_current_folder  (EStorageSetView *storage_set_view,
+						    const char      *path);
+const char *e_storage_set_view_get_current_folder  (EStorageSetView *storage_set_view);
 
 #ifdef __cplusplus
 }

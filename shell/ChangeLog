@@ -1,3 +1,79 @@
+2000-06-10  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* e-local-folder.c (save_metadata): Don't set the description in
+	the XML file if null.  Compute the physical path correctly.
+
+	* e-folder.c (e_folder_construct): Allow NULL description.
+
+	* evolution-shell-component-client.c (init): Initalize
+	`listener_interface' to `CORBA_OBJECT_NIL' and `listener_servant'
+	to NULL.
+	(create_listener_interface): Return void and set the `servant' and
+	`listener_servant' fields directly.
+	(evolution_shell_component_client_async_create_folder): Updated
+	accordingly.
+
+	* e-shell-folder-creation-dialog.c: New struct `DialogData' to be
+	passed to the dialog's callbacks.
+	(dialog_data_destroy): New.
+	(e_shell_show_folder_creation_dialog): Set up a `DialogData'
+	object and pass it as the data for the signals.
+	(shell_destroy_cb): New handler for the "destroy" signal on the
+	shell.
+	(e_shell_show_folder_creation_dialog): Connect it.
+	(dialog_destroy_cb): New handler for the "destroy" signal on the
+	dialog; it frees the associated `DialogData'.
+	(e_shell_show_folder_creation_dialog): Connect it.
+	(async_create_cb): New function, callback for the async folder
+	creation function.
+	(entry_name_is_valid): New function to check if the entered folder
+	name is valid.
+	(dialog_clicked_cb): Check if the specified folder name is valid
+	and, if so, asynchronously create the new folder.
+	(add_folder_types): Set "type_name" data on each menu item.
+
+	* e-storage-set-view.c (e_storage_set_view_get_current_folder):
+	New function.
+
+	* e-storage-set.c (get_storage_for_path): New helper function.
+	(e_storage_set_get_folder): Use it.
+
+	* e-storage.c (e_storage_async_create_folder): Renamed from
+	`e_storage_create_folder'.
+	(e_storage_remove_folder): Renamed from `e_storage_remove_folder'.
+	(impl_create_create_folder): Renamed from `impl_create_folder'.
+	(impl_create_remove_folder): Renamed from `impl_remove_folder'.
+	(class_init): Updated accordingly.
+	(e_storage_result_to_string): New function.
+
+	* e-storage.h: `::create_folder' renamed to
+	`::async_create_folder'.  `::remove_folder' renamed to
+	`::async_remove_folder'.
+
+	* evolution-shell-component.h: Return type of
+	`EvolutionShellComponentCreateFolderFn' and
+	`EvolutionShellComponentRemoveFolderFn' changed to `void'.
+
+	* e-local-storage.c: `EComponentRegistry component_registry'
+	replaced with `EFolderTypeRegistry folder_type_registry' in
+	`ELocalStoragePrivate'
+	(component_async_create_folder_callback): New function, to handle
+	the callback from EvolutionShellComponent.
+	(construct): Likewise.
+	(e_local_storage_open): Replaced @component_registry with
+	@folder_type_registry.
+	(impl_create_folder): Implemented.
+
+	* e-local-folder.c (e_local_folder_new): New.
+	(e_local_folder_construct): New.
+	(e_local_folder_save): Precondition: physical URI is not NULL.
+	(save_metadata): Unlink the metadata file if `xmlSaveFile()'
+	fails.
+
+	* e-storage.c (e_storage_create_folder): Precondition: @path is
+	absolute.
+	(e_storage_remove_folder): Likewise.
+
 2000-06-09  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view-menu.c: Removed folder menu and "save as..." command.

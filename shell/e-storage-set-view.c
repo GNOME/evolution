@@ -856,5 +856,36 @@ e_storage_set_view_set_current_folder (EStorageSetView *storage_set_view,
 	gtk_signal_emit (GTK_OBJECT (storage_set_view), signals[FOLDER_SELECTED], path);
 }
 
+const char *
+e_storage_set_view_get_current_folder (EStorageSetView *storage_set_view)
+{
+	EStorageSetViewPrivate *priv;
+	GtkCList *clist;
+	GtkCTree *ctree;
+	GtkCTreeRow *ctree_row;
+	GtkCTreeNode *ctree_node;
+	const char *path;
+
+	g_return_val_if_fail (storage_set_view != NULL, NULL);
+	g_return_val_if_fail (E_IS_STORAGE_SET_VIEW (storage_set_view), NULL);
+
+	priv = storage_set_view->priv;
+
+	clist = GTK_CLIST (storage_set_view);
+	ctree = GTK_CTREE (storage_set_view);
+
+	if (clist->selection == NULL)
+		return NULL;
+
+	ctree_row = GTK_CTREE_ROW (clist->selection->data);
+	ctree_node = gtk_ctree_find_node_ptr (ctree, ctree_row);
+	if (ctree_node == NULL)
+		return NULL;	/* Mmh? */
+
+	path = g_hash_table_lookup (priv->ctree_node_to_path, ctree_node);
+
+	return path;
+}
+
 
 E_MAKE_TYPE (e_storage_set_view, "EStorageSetView", EStorageSetView, class_init, init, PARENT_TYPE)

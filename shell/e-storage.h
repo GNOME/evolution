@@ -48,10 +48,15 @@ typedef struct _EStorageClass   EStorageClass;
 
 enum _EStorageResult {
 	E_STORAGE_OK,
-	E_STORAGE_NOTIMPLEMENTED,
-	E_STORAGE_NOTFOUND,
+	E_STORAGE_GENERICERROR,
 	E_STORAGE_EXISTS,
-	E_STORAGE_IO,
+	E_STORAGE_INVALIDTYPE,
+	E_STORAGE_IOERROR,
+	E_STORAGE_NOSPACE,
+	E_STORAGE_NOTFOUND,
+	E_STORAGE_NOTIMPLEMENTED,
+	E_STORAGE_PERMISSIONDENIED,
+	E_STORAGE_UNSUPPORTEDOPERATION,
 	E_STORAGE_UNSUPPORTEDTYPE
 };
 typedef enum _EStorageResult EStorageResult;
@@ -76,15 +81,15 @@ struct _EStorageClass {
 
 	/* Virtual methods.  */
 
-	GList      * (* list_folders)  (EStorage *storage, const char *path);
-	EFolder    * (* get_folder)    (EStorage *storage, const char *path);
-	const char * (* get_name)      (EStorage *storage);
+	GList      * (* list_folders)  	     (EStorage *storage, const char *path);
+	EFolder    * (* get_folder)    	     (EStorage *storage, const char *path);
+	const char * (* get_name)      	     (EStorage *storage);
 
-	void         (* create_folder) (EStorage *storage, const char *path,
-					const char *type, const char *description,
-					EStorageResultCallback callback, void *data);
-	void         (* remove_folder) (EStorage *storage, const char *path,
-					EStorageResultCallback callback, void *data);
+	void         (* async_create_folder) (EStorage *storage, const char *path,
+					      const char *type, const char *description,
+					      EStorageResultCallback callback, void *data);
+	void         (* async_remove_folder) (EStorage *storage, const char *path,
+					      EStorageResultCallback callback, void *data);
 };
 
 
@@ -101,16 +106,18 @@ const char *e_storage_get_name          (EStorage   *storage);
 
 /* Folder operations.  */
 
-void  e_storage_create_folder  (EStorage               *storage,
-				const char             *path,
-				const char             *type,
-				const char             *description,
-				EStorageResultCallback  callback,
-				void                   *data);
-void  e_storage_remove_folder  (EStorage               *storage,
-				const char             *path,
-				EStorageResultCallback  callback,
-				void                   *data);
+void        e_storage_async_create_folder  (EStorage               *storage,
+					    const char             *path,
+					    const char             *type,
+					    const char             *description,
+					    EStorageResultCallback  callback,
+					    void                   *data);
+void        e_storage_async_remove_folder  (EStorage               *storage,
+					    const char             *path,
+					    EStorageResultCallback  callback,
+					    void                   *data);
+
+const char *e_storage_result_to_string     (EStorageResult          result);
 
 /* Protected.  C++ anyone?  */
 gboolean  e_storage_new_folder      (EStorage *storage, const char *path, EFolder *folder);

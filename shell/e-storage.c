@@ -218,21 +218,21 @@ impl_get_name (EStorage *storage)
 }
 
 static void
-impl_create_folder (EStorage *storage,
-		    const char *path,
-		    const char *type,
-		    const char *description,
-		    EStorageResultCallback callback,
-		    void *data)
+impl_async_create_folder (EStorage *storage,
+			  const char *path,
+			  const char *type,
+			  const char *description,
+			  EStorageResultCallback callback,
+			  void *data)
 {
 	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
 }
 
 static void
-impl_remove_folder (EStorage *storage,
-		    const char *path,
-		    EStorageResultCallback callback,
-		    void *data)
+impl_async_remove_folder (EStorage *storage,
+			  const char *path,
+			  EStorageResultCallback callback,
+			  void *data)
 {
 	(* callback) (storage, E_STORAGE_NOTIMPLEMENTED, data);
 }
@@ -250,11 +250,11 @@ class_init (EStorageClass *class)
 
 	object_class->destroy = destroy;
 
-	class->list_folders   = impl_list_folders;
-	class->get_folder     = impl_get_folder;
-	class->get_name       = impl_get_name;
-	class->create_folder  = impl_create_folder;
-	class->remove_folder  = impl_remove_folder;
+	class->list_folders        = impl_list_folders;
+	class->get_folder          = impl_get_folder;
+	class->get_name            = impl_get_name;
+	class->async_create_folder = impl_async_create_folder;
+	class->async_remove_folder = impl_async_remove_folder;
 
 	signals[NEW_FOLDER] =
 		gtk_signal_new ("new_folder",
@@ -371,34 +371,68 @@ e_storage_get_name (EStorage *storage)
 /* Folder operations.  */
 
 void
-e_storage_create_folder (EStorage *storage,
-			 const char *path,
-			 const char *type,
-			 const char *description,
-			 EStorageResultCallback callback,
-			 void *data)
+e_storage_async_create_folder (EStorage *storage,
+			       const char *path,
+			       const char *type,
+			       const char *description,
+			       EStorageResultCallback callback,
+			       void *data)
 {
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
 	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
 	g_return_if_fail (type != NULL);
 	g_return_if_fail (callback != NULL);
 
-	(* ES_CLASS (storage)->create_folder) (storage, path, type, description, callback, data);
+	(* ES_CLASS (storage)->async_create_folder) (storage, path, type, description, callback, data);
 }
 
 void
-e_storage_remove_folder (EStorage *storage,
-			 const char *path,
-			 EStorageResultCallback callback,
-			 void *data)
+e_storage_async_remove_folder (EStorage *storage,
+			       const char *path,
+			       EStorageResultCallback callback,
+			       void *data)
 {
 	g_return_if_fail (storage != NULL);
 	g_return_if_fail (E_IS_STORAGE (storage));
 	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
 	g_return_if_fail (callback != NULL);
 
-	(* ES_CLASS (storage)->remove_folder) (storage, path, callback, data);
+	(* ES_CLASS (storage)->async_remove_folder) (storage, path, callback, data);
+}
+
+
+const char *
+e_storage_result_to_string (EStorageResult result)
+{
+	switch (result) {
+	case E_STORAGE_OK:
+		return _("No error");
+	case E_STORAGE_GENERICERROR:
+		return _("Generic error");
+	case E_STORAGE_EXISTS:
+		return _("A folder with the same name already exists");
+	case E_STORAGE_INVALIDTYPE:
+		return _("The specified folder type is not valid");
+	case E_STORAGE_IOERROR:
+		return _("I/O error");
+	case E_STORAGE_NOSPACE:
+		return _("Not enough space to create the folder");
+	case E_STORAGE_NOTFOUND:
+		return _("The specified folder was not found");
+	case E_STORAGE_NOTIMPLEMENTED:
+		return _("Function not implemented in this storage");
+	case E_STORAGE_PERMISSIONDENIED:
+		return _("Permission denied");
+	case E_STORAGE_UNSUPPORTEDOPERATION:
+		return _("Operation not supported");
+	case E_STORAGE_UNSUPPORTEDTYPE:
+		return _("The specified type is not supported in this storage");
+	default:
+		return _("Unknown error");
+	}
 }
 
 

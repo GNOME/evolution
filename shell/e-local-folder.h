@@ -55,9 +55,16 @@ struct _ELocalFolderClass {
 };
 
 
-GtkType  e_local_folder_get_type       (void);
-EFolder *e_local_folder_new_from_path  (const char *physical_path);
-gboolean e_local_folder_save           (ELocalFolder *local_folder);
+GtkType   e_local_folder_get_type       (void);
+void      e_local_folder_construct      (ELocalFolder *local_folder,
+					 const char   *name,
+					 const char   *type,
+					 const char   *description);
+EFolder  *e_local_folder_new            (const char   *name,
+					 const char   *type,
+					 const char   *description);
+EFolder  *e_local_folder_new_from_path  (const char   *physical_path);
+gboolean  e_local_folder_save           (ELocalFolder *local_folder);
 
 #ifdef __cplusplus
 }

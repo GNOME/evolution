@@ -138,7 +138,8 @@ save_metadata (ELocalFolder *local_folder)
 	EFolder *folder;
 	xmlDoc *doc;
 	xmlNode *root;
-	const char *physical_path;
+	const char *physical_directory;
+	char *physical_path;
 
 	folder = E_FOLDER (local_folder);
 
@@ -146,15 +147,24 @@ save_metadata (ELocalFolder *local_folder)
 	root = xmlNewDocNode (doc, NULL, (xmlChar *) "efolder", NULL);
 	xmlDocSetRootElement (doc, root);
 
-	xmlNewChild (root, NULL, (xmlChar *) "type", (xmlChar *) e_folder_get_type_string (folder));
-	xmlNewChild (root, NULL, (xmlChar *) "description", (xmlChar *) e_folder_get_description (folder));
+	xmlNewChild (root, NULL, (xmlChar *) "type",
+		     (xmlChar *) e_folder_get_type_string (folder));
 
-	physical_path = e_folder_get_physical_uri (folder) + URI_PREFIX_LEN - 1;
+	if (e_folder_get_description (folder) != NULL)
+		xmlNewChild (root, NULL, (xmlChar *) "description",
+			     (xmlChar *) e_folder_get_description (folder));
+
+	physical_directory = e_folder_get_physical_uri (folder) + URI_PREFIX_LEN - 1;
+	physical_path = g_concat_dir_and_file (physical_directory, METADATA_FILE_NAME);
 
 	if (xmlSaveFile (physical_path, doc) < 0) {
+		unlink (physical_path);
+		g_free (physical_path);
 		xmlFreeDoc (doc);
 		return FALSE;
 	}
+
+	g_free (physical_path);
 
 	xmlFreeDoc (doc);
 	return TRUE;
@@ -189,6 +199,37 @@ init (ELocalFolder *local_folder)
 }
 
 
+void
+e_local_folder_construct (ELocalFolder *local_folder,
+			  const char *name,
+			  const char *type,
+			  const char *description)
+{
+	g_return_if_fail (local_folder != NULL);
+	g_return_if_fail (E_IS_LOCAL_FOLDER (local_folder));
+	g_return_if_fail (name != NULL);
+	g_return_if_fail (type != NULL);
+
+	e_folder_construct (E_FOLDER (local_folder), name, type, description);
+}
+
+EFolder *
+e_local_folder_new (const char *name,
+		    const char *type,
+		    const char *description)
+{
+	ELocalFolder *local_folder;
+
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (type != NULL, NULL);
+
+	local_folder = gtk_type_new (e_local_folder_get_type ());
+
+	e_local_folder_construct (local_folder, name, type, description);
+
+	return E_FOLDER (local_folder);
+}
+
 EFolder *
 e_local_folder_new_from_path (const char *path)
 {
@@ -211,6 +252,7 @@ e_local_folder_save (ELocalFolder *local_folder)
 {
 	g_return_val_if_fail (local_folder != NULL, FALSE);
 	g_return_val_if_fail (E_IS_LOCAL_FOLDER (local_folder), FALSE);
+	g_return_val_if_fail (e_folder_get_physical_uri (E_FOLDER (local_folder)) != NULL, FALSE);
 
 	return save_metadata (local_folder);
 }

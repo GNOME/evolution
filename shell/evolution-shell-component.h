@@ -70,20 +70,21 @@ enum _EvolutionShellComponentResult {
 };
 typedef enum _EvolutionShellComponentResult EvolutionShellComponentResult;
 
-typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateViewFn) 	(EvolutionShellComponent *shell_component,
-									      	 const char *physical_uri,
-									      	 const char *type,
-									      	 BonoboControl **control_return,
-									      	 void *closure);
-typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent *shell_component,
-										 const char *physical_uri,
-										 const char *type,
-										 const Evolution_ShellComponentListener listener,
-										 void *closure);
-typedef EvolutionShellComponentResult (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent *shell_component,
-										 const char *physical_uri,
-										 const Evolution_ShellComponentListener listener,
-										 void *closure);
+typedef EvolutionShellComponentResult (* EvolutionShellComponentCreateViewFn)
+	                                               (EvolutionShellComponent *shell_component,
+							const char *physical_uri,
+							const char *type,
+							BonoboControl **control_return,
+							void *closure);
+typedef void (* EvolutionShellComponentCreateFolderFn) (EvolutionShellComponent *shell_component,
+						        const char *physical_uri,
+						        const char *type,
+						        const Evolution_ShellComponentListener listener,
+						        void *closure);
+typedef void (* EvolutionShellComponentRemoveFolderFn) (EvolutionShellComponent *shell_component,
+						        const char *physical_uri,
+						        const Evolution_ShellComponentListener listener,
+						        void *closure);
 
 struct _EvolutionShellComponentFolderType {
 	char *name;

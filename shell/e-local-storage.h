@@ -28,7 +28,7 @@
 #include <config.h>
 #endif
 
-#include "e-component-registry.h"
+#include "e-folder-type-registry.h"
 #include "e-storage.h"
 
 #ifdef __cplusplus
@@ -58,9 +58,9 @@ struct _ELocalStorageClass {
 
 
 GtkType     e_local_storage_get_type       (void);
-EStorage   *e_local_storage_open           (EComponentRegistry *component_registry,
-					    const char         *base_path);
-const char *e_local_storage_get_base_path  (ELocalStorage      *storage);
+EStorage   *e_local_storage_open           (EFolderTypeRegistry *folder_type_registry,
+					    const char          *base_path);
+const char *e_local_storage_get_base_path  (ELocalStorage       *storage);
 
 #ifdef __cplusplus
 }

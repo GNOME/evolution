@@ -94,6 +94,26 @@ create_view (EvolutionShellComponent *shell_component,
 }
 
 static void
+create_folder (EvolutionShellComponent *shell_component,
+	       const char *physical_uri,
+	       const char *type,
+	       const Evolution_ShellComponentListener listener,
+	       void *closure)
+{
+	CORBA_Environment ev;
+
+	/* FIXME: Implement.  */
+
+	CORBA_exception_init (&ev);
+
+	Evolution_ShellComponentListener_report_result (listener,
+							Evolution_ShellComponentListener_OK,
+							&ev);
+
+	CORBA_exception_free (&ev);
+}
+
+static void
 owner_set_cb (EvolutionShellComponent *shell_component,
 	      Evolution_Shell shell_interface,
 	      gpointer user_data)
@@ -130,7 +150,11 @@ factory_fn (BonoboGenericFactory *factory,
 {
 	EvolutionShellComponent *shell_component;
 
-	shell_component = evolution_shell_component_new (folder_types, create_view, NULL, NULL, NULL);
+	shell_component = evolution_shell_component_new (folder_types,
+							 create_view,
+							 create_folder,
+							 NULL,
+							 NULL);
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

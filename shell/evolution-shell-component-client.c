@@ -137,12 +137,12 @@ dispatch_callback (EvolutionShellComponentClient *shell_component_client,
 
 	CORBA_exception_init (&ev);
 
-	CORBA_Object_release (priv->listener_interface, &ev);
-
 	oid = PortableServer_POA_servant_to_id (bonobo_poa (), priv->listener_servant, &ev);
 	PortableServer_POA_deactivate_object (bonobo_poa (), oid, &ev);
 	POA_Evolution_ShellComponentListener__fini (priv->listener_servant, &ev);
 	CORBA_free (oid);
+
+	CORBA_Object_release (priv->listener_interface, &ev);
 
 	CORBA_exception_free (&ev);
 
@@ -251,34 +251,38 @@ free_ShellComponentListener_servant (PortableServer_Servant servant)
 	g_free (servant);
 }
 
-static CORBA_Object
+static void
 create_listener_interface (EvolutionShellComponentClient *shell_component_client)
 {
-	PortableServer_Servant servant;
+	EvolutionShellComponentClientPrivate *priv;
+	PortableServer_Servant listener_servant;
 	Evolution_ShellComponentListener corba_interface;
 	CORBA_Environment ev;
 
-	servant = create_ShellComponentListener_servant (shell_component_client);
+	priv = shell_component_client->priv;
+
+	listener_servant = create_ShellComponentListener_servant (shell_component_client);
 
 	CORBA_exception_init (&ev);
 
-	POA_Evolution_ShellComponentListener__init (servant, &ev);
+	POA_Evolution_ShellComponentListener__init (listener_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
-		free_ShellComponentListener_servant (servant);
-		return CORBA_OBJECT_NIL;
+		free_ShellComponentListener_servant (listener_servant);
+		return;
 	}
 
-	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), servant, &ev));
+	CORBA_free (PortableServer_POA_activate_object (bonobo_poa (), listener_servant, &ev));
 
-	corba_interface = PortableServer_POA_servant_to_reference (bonobo_poa (), servant, &ev);
+	corba_interface = PortableServer_POA_servant_to_reference (bonobo_poa (), listener_servant, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		corba_interface = CORBA_OBJECT_NIL;
-		free_ShellComponentListener_servant (servant);
+		free_ShellComponentListener_servant (listener_servant);
 	}
 
 	CORBA_exception_free (&ev);
 
-	return corba_interface;
+	priv->listener_servant   = listener_servant;
+	priv->listener_interface = corba_interface;
 }
 
 
@@ -319,8 +323,10 @@ init (EvolutionShellComponentClient *shell_component_client)
 	EvolutionShellComponentClientPrivate *priv;
 
 	priv = g_new (EvolutionShellComponentClientPrivate, 1);
-	priv->callback      = NULL;
-	priv->callback_data = NULL;
+	priv->listener_interface = CORBA_OBJECT_NIL;
+	priv->listener_servant   = NULL;
+	priv->callback           = NULL;
+	priv->callback_data      = NULL;
 
 	shell_component_client->priv = priv;
 }
@@ -476,20 +482,19 @@ evolution_shell_component_client_async_create_folder (EvolutionShellComponentCli
 		return;
 	}
 
-	priv->listener_interface = create_listener_interface (shell_component_client);
+	create_listener_interface (shell_component_client);
 
 	CORBA_exception_init (&ev);
 
 	corba_shell_component = bonobo_object_corba_objref (BONOBO_OBJECT (shell_component_client));
 
+	priv->callback      = callback;
+	priv->callback_data = data;
+
 	Evolution_ShellComponent_async_create_folder (corba_shell_component,
 						      priv->listener_interface,
 						      physical_uri, type,
 						      &ev);
-
-	/* FIXME merge with create_listener_interface into separate init_for_callback() func.  */
-	priv->callback      = callback;
-	priv->callback_data = data;
 
 	CORBA_exception_free (&ev);
 }

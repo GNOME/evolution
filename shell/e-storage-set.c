@@ -153,6 +153,37 @@ storage_removed_folder_cb (EStorage *storage,
 }
 
 
+static EStorage *
+get_storage_for_path (EStorageSet *storage_set,
+		      const char *path,
+		      const char **subpath_return)
+{
+	EStorage *storage;
+	char *storage_name;
+	const char *first_separator;
+
+	g_return_val_if_fail (g_path_is_absolute (path), NULL);
+
+	/* Skip initial separator.  */
+	path++;
+
+	first_separator = strchr (path, G_DIR_SEPARATOR);
+
+	if (first_separator == NULL || first_separator == path || first_separator[1] == 0) {
+		*subpath_return = NULL;
+		return NULL;
+	}
+
+	storage_name = g_strndup (path, first_separator - path);
+	storage = e_storage_set_get_storage (storage_set, storage_name);
+	g_free (storage_name);
+
+	*subpath_return = first_separator;
+
+	return storage;
+}
+
+
 /* GtkObject methods.  */
 
 static void
@@ -412,30 +443,16 @@ e_storage_set_get_folder (EStorageSet *storage_set,
 			  const char *path)
 {
 	EStorage *storage;
-	const char *first_separator;
-	char *storage_name;
+	const char *subpath;
 
 	g_return_val_if_fail (storage_set != NULL, NULL);
 	g_return_val_if_fail (E_IS_STORAGE_SET (storage_set), NULL);
 	g_return_val_if_fail (path != NULL, NULL);
 	g_return_val_if_fail (g_path_is_absolute (path), NULL);
 
-	/* Skip initial separator.  */
-	path++;
+	storage = get_storage_for_path (storage_set, path, &subpath);
 
-	first_separator = strchr (path, G_DIR_SEPARATOR);
-
-	if (first_separator == NULL || first_separator == path || first_separator[1] == 0)
-		return NULL;
-
-	storage_name = g_strndup (path, first_separator - path);
-	storage = e_storage_set_get_storage (storage_set, storage_name);
-	g_free (storage_name);
-
-	if (storage == NULL)
-		return NULL;
-
-	return e_storage_get_folder (storage, first_separator);
+	return e_storage_get_folder (storage, subpath);
 }
 
 
@@ -450,6 +467,50 @@ e_storage_set_new_view (EStorageSet *storage_set)
 	storage_set_view = e_storage_set_view_new (storage_set);
 
 	return storage_set_view;
+}
+
+
+void
+e_storage_set_async_create_folder  (EStorageSet            *storage_set,
+				    const char             *path,
+				    const char             *type,
+				    const char             *description,
+				    EStorageResultCallback  callback,
+				    void                   *data)
+{
+	EStorage *storage;
+	const char *subpath;
+
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
+	g_return_if_fail (type != NULL);
+	g_return_if_fail (callback != NULL);
+
+	storage = get_storage_for_path (storage_set, path, &subpath);
+
+	e_storage_async_create_folder (storage, subpath, type, description, callback, data);
+}
+
+void
+e_storage_set_async_remove_folder  (EStorageSet            *storage_set,
+				    const char             *path,
+				    EStorageResultCallback  callback,
+				    void                   *data)
+{
+	EStorage *storage;
+	const char *subpath;
+
+	g_return_if_fail (storage_set != NULL);
+	g_return_if_fail (E_IS_STORAGE_SET (storage_set));
+	g_return_if_fail (path != NULL);
+	g_return_if_fail (g_path_is_absolute (path));
+	g_return_if_fail (callback != NULL);
+
+	storage = get_storage_for_path (storage_set, path, &subpath);
+
+	e_storage_async_remove_folder (storage, path, callback, data);
 }
 
 

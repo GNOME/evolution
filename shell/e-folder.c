@@ -162,7 +162,6 @@ e_folder_construct (EFolder *folder,
 	g_return_if_fail (E_IS_FOLDER (folder));
 	g_return_if_fail (name != NULL);
 	g_return_if_fail (type != NULL);
-	g_return_if_fail (description != NULL);
 
 	GTK_OBJECT_UNSET_FLAGS (GTK_OBJECT (folder), GTK_FLOATING);
 

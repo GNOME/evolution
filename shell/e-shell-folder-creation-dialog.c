@@ -28,7 +28,9 @@
 #include <gnome.h>
 #include <glade/glade-xml.h>
 
+#include "e-util/e-gui-utils.h"
 #include "e-util/e-util.h"
+
 #include "widgets/misc/e-scroll-frame.h"
 
 #include "e-storage-set.h"
@@ -37,26 +39,143 @@
 #include "e-shell-folder-creation-dialog.h"
 
 
-#define GLADE_FILE_NAME E_GLADEDIR "/e-shell-folder-creation-dialog.glade"
+#define GLADE_FILE_NAME  E_GLADEDIR "/e-shell-folder-creation-dialog.glade"
 
 
-/* Dialog callbacks.  */
+/* Data for the callbacks.  */
+struct _DialogData {
+	GtkWidget *dialog;
+	EShell *shell;
+	GtkWidget *folder_name_entry;
+	GtkWidget *storage_set_view;
+	GtkWidget *folder_type_option_menu;
+	GList *folder_types;
+};
+typedef struct _DialogData DialogData;
+
+static void
+dialog_data_destroy (DialogData *dialog_data)
+{
+	e_free_string_list (dialog_data->folder_types);
+	g_free (dialog_data);
+}
+
+
+/* Callback for the asynchronous folder creation function.  */
+
+static void
+async_create_cb (EStorage *storage,
+		 EStorageResult result,
+		 void *data)
+{
+	DialogData *dialog_data;
+
+	dialog_data = (DialogData *) data;
+
+	if (result == E_STORAGE_OK) {
+		gtk_widget_destroy (dialog_data->dialog);
+		return;
+	}
+
+	e_notice (GTK_WINDOW (dialog_data->dialog), GNOME_MESSAGE_BOX_ERROR,
+		  _("Cannot create the specified folder:\n%s"),
+		  e_storage_result_to_string (result));
+}
+
+
+/* Sanity check for the user-specified folder name.  */
+/* FIXME in the future we would like not to have the `G_DIR_SEPARATOR' limitation.  */
+static gboolean
+entry_name_is_valid (GtkEntry *entry)
+{
+	const char *name;
+
+	name = gtk_entry_get_text (entry);
+
+	if (name == NULL || *name == '\0')
+		return FALSE;
+
+	if (strchr (name, G_DIR_SEPARATOR) != NULL)
+		return FALSE;
+
+	if (strcmp (name, ".") == 0 || strcmp (name, "..") == 0)
+		return FALSE;
+
+	return TRUE;
+}
+
+
+/* Dialog signal callbacks.  */
 
 static void
 dialog_clicked_cb (GnomeDialog *dialog,
 		   int button_number,
 		   void *data)
 {
-	g_print ("Clicked -- %d\n", button_number);
-	gnome_dialog_close (dialog);
+	DialogData *dialog_data;
+	EStorageSet *storage_set;
+	GtkWidget *folder_type_menu_item;
+	const char *folder_type;
+	const char *parent_path;
+	const char *folder_name;
+	char *path;
+
+	if (button_number != 0) {
+		gnome_dialog_close (dialog);
+		return;
+	}
+
+	dialog_data = (DialogData *) data;
+
+	if (! entry_name_is_valid (GTK_ENTRY (dialog_data->folder_name_entry))) {
+		/* FIXME: Explain better.  */
+		e_notice (GTK_WINDOW (dialog), GNOME_MESSAGE_BOX_ERROR,
+			  _("The specified folder name is not valid."));
+		return;
+	}
+
+	parent_path = e_storage_set_view_get_current_folder
+					(E_STORAGE_SET_VIEW (dialog_data->storage_set_view));
+	if (parent_path == NULL) {
+		gnome_dialog_close (dialog);
+		return;
+	}
+
+	folder_name = gtk_entry_get_text (GTK_ENTRY (dialog_data->folder_name_entry));
+	path = g_concat_dir_and_file (parent_path, folder_name);
+
+	storage_set = e_shell_get_storage_set (dialog_data->shell);
+
+	folder_type_menu_item = GTK_OPTION_MENU (dialog_data->folder_type_option_menu)->menu_item;
+	folder_type = gtk_object_get_data (GTK_OBJECT (folder_type_menu_item), "folder_type");
+
+	if (folder_type == NULL) {
+		g_warning ("Cannot get folder type for selected GtkOptionMenu item.");
+		return;
+	}
+
+	e_storage_set_async_create_folder (storage_set,
+					   path,
+					   folder_type,
+					   NULL, /* description */
+					   async_create_cb, dialog_data);
 }
 
 static void
 dialog_close_cb (GnomeDialog *dialog,
 		 void *data)
 {
-	g_print ("Closed\n");
 	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
+dialog_destroy_cb (GtkObject *object,
+		   void *data)
+{
+	DialogData *dialog_data;
+
+	dialog_data = (DialogData *) data;
+	dialog_data_destroy (dialog_data);
 }
 
 static void
@@ -76,27 +195,35 @@ folder_name_entry_changed_cb (GtkEditable *editable,
 }
 
 
+/* Shell signal callbacks.  */
+
+static void
+shell_destroy_cb (GtkObject *object,
+		  void *data)
+{
+	GnomeDialog *dialog;
+
+	dialog = GNOME_DIALOG (data);
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+
 /* Dialog setup.  */
 
 static void
 setup_dialog (GtkWidget *dialog,
 	      GladeXML *gui,
 	      EShell *shell,
-	      GtkWindow *parent)
+	      GtkWindow *parent_window)
 {
-	if (parent != NULL)
-		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent);
+	if (parent_window != NULL)
+		gtk_window_set_transient_for (GTK_WINDOW (dialog), parent_window);
 
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	gtk_window_set_title (GTK_WINDOW (dialog), _("Evolution - Create new folder"));
 
 	gnome_dialog_set_default   (GNOME_DIALOG (dialog), 0);
 	gnome_dialog_set_sensitive (GNOME_DIALOG (dialog), 0, FALSE);
-
-	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_clicked_cb), shell);
-	gtk_signal_connect (GTK_OBJECT (dialog), "close",
-			    GTK_SIGNAL_FUNC (dialog_close_cb), shell);
 
 	gtk_widget_show (dialog);
 }
@@ -116,7 +243,7 @@ setup_folder_name_entry (GtkWidget *dialog,
 			    GTK_SIGNAL_FUNC (folder_name_entry_changed_cb), dialog);
 }
 
-static void
+static GtkWidget *
 add_storage_set_view (GtkWidget *dialog,
 		      GladeXML *gui,
 		      EShell *shell,
@@ -146,9 +273,11 @@ add_storage_set_view (GtkWidget *dialog,
 
 	gtk_widget_show (scroll_frame);
 	gtk_widget_show (storage_set_view);
+
+	return storage_set_view;
 }
 
-static void
+static GList *
 add_folder_types (GtkWidget *dialog,
 		  GladeXML *gui,
 		  EShell *shell)
@@ -156,7 +285,7 @@ add_folder_types (GtkWidget *dialog,
 	EFolderTypeRegistry *folder_type_registry;
 	GtkWidget *folder_type_option_menu;
 	GtkWidget *menu;
-	GList *types;
+	GList *folder_types;
 	GList *p;
 	int default_item;
 	int i;
@@ -170,17 +299,17 @@ add_folder_types (GtkWidget *dialog,
 	folder_type_registry = e_shell_get_folder_type_registry (shell);
 	g_assert (folder_type_registry != NULL);
 
-	types = e_folder_type_registry_get_type_names (folder_type_registry);
-	if (types == NULL)
-		return;		/* Uh? */
+	folder_types = e_folder_type_registry_get_type_names (folder_type_registry);
+	if (folder_types == NULL)
+		return NULL;		/* Uh? */
 
-	types = g_list_sort (types, (GCompareFunc) g_strcasecmp);
+	folder_types = g_list_sort (folder_types, (GCompareFunc) g_strcasecmp);
 
 	/* FIXME: Use descriptive name (not in the registry's implementation yet).  */
 	/* FIXME: Add icon (I don't feel like writing an alpha-capable thingie again).  */
 
 	default_item = 0;
-	for (p = types, i = 0; p != NULL; p = p->next, i++) {
+	for (p = folder_types, i = 0; p != NULL; p = p->next, i++) {
 		const char *type_name;
 		GtkWidget *menu_item;
 
@@ -190,13 +319,15 @@ add_folder_types (GtkWidget *dialog,
 		gtk_menu_append (GTK_MENU (menu), menu_item);
 		gtk_widget_show (menu_item);
 
+		gtk_object_set_data (GTK_OBJECT (menu_item), "folder_type", (void *) type_name);
+
 		if (strcmp (type_name, "mail") == 0)
 			default_item = i;
 	}
 
-	e_free_string_list (types);
-
 	gtk_option_menu_set_history (GTK_OPTION_MENU (folder_type_option_menu), default_item);
+
+	return folder_types;
 }
 
 
@@ -205,11 +336,14 @@ add_folder_types (GtkWidget *dialog,
    open at once.  Currently it relies on modality for this.  */
 void
 e_shell_show_folder_creation_dialog (EShell *shell,
-				     GtkWindow *parent,
+				     GtkWindow *parent_window,
 				     const char *default_parent_folder)
 {
 	GladeXML *gui;
 	GtkWidget *dialog;
+	GtkWidget *storage_set_view;
+	GList *folder_types;
+	DialogData *dialog_data;
 
 	g_return_if_fail (shell != NULL);
 	g_return_if_fail (E_IS_SHELL (shell));
@@ -223,11 +357,30 @@ e_shell_show_folder_creation_dialog (EShell *shell,
 
 	dialog = glade_xml_get_widget (gui, "create_folder_dialog");
 
-	setup_dialog (dialog, gui, shell, parent);
+	setup_dialog (dialog, gui, shell, parent_window);
 	setup_folder_name_entry (dialog, gui, shell);
 
-	add_storage_set_view (dialog, gui, shell, default_parent_folder);
-	add_folder_types (dialog, gui, shell);
+	storage_set_view = add_storage_set_view (dialog, gui, shell, default_parent_folder);
+	folder_types = add_folder_types (dialog, gui, shell);
+
+	dialog_data = g_new (DialogData, 1);
+	dialog_data->dialog                  = dialog;
+	dialog_data->shell                   = shell;
+	dialog_data->folder_name_entry       = glade_xml_get_widget (gui, "folder_name_entry");
+	dialog_data->storage_set_view        = storage_set_view;
+	dialog_data->folder_type_option_menu = glade_xml_get_widget (gui, "folder_type_option_menu");
+	dialog_data->folder_types            = folder_types;
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (dialog_clicked_cb), dialog_data);
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    GTK_SIGNAL_FUNC (dialog_close_cb), dialog_data);
+	gtk_signal_connect (GTK_OBJECT (dialog), "destroy",
+			    GTK_SIGNAL_FUNC (dialog_destroy_cb), dialog_data);
+
+	gtk_signal_connect_while_alive (GTK_OBJECT (shell), "destroy",
+					GTK_SIGNAL_FUNC (shell_destroy_cb), dialog_data,
+					GTK_OBJECT (dialog));
 
 	gtk_object_unref (GTK_OBJECT (gui));
 }
