@@ -29,4 +29,6 @@ EXTRA_DIST = \
 	meeting.xpm \
 	priority-high.xpm \
 	priority-low.xpm \
+	tree-expanded.xpm \
+	tree-unexpanded.xpm \
 	$(images_DATA)

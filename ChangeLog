@@ -1,5 +1,9 @@
 2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
 
+	* art/Makefile.am: Fixed EXTRA_DIST for make distcheck.
+
+2000-07-07  Christopher James Lahey  <clahey@helixcode.com>
+
 	* widgets/e-text/e-entry.c: Set "anchor" and "fill_clip_rectangle"
 	arguments.
 
