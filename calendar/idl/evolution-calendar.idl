@@ -37,8 +37,8 @@ module Calendar {
 	/* Types of object changes made */
 	typedef long CalObjChangeType;
 	const CalObjChangeType ADDED = 1 << 0;
-	const CalObjChangeType MODIFIED = 1 << 0;
-	const CalObjChangeType DELETED = 1 << 1;
+	const CalObjChangeType MODIFIED = 1 << 1;
+	const CalObjChangeType DELETED = 1 << 2;
 	
 	/* Types of alarms */
 	enum AlarmType {

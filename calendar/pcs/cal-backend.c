@@ -305,10 +305,15 @@ cal_backend_compute_changes_foreach_key (const char *key, gpointer data)
 	char *calobj = cal_backend_get_object (be_data->backend, key);
 	
 	if (calobj == NULL) {
+		CalComponent *comp;
 		GNOME_Evolution_Calendar_CalObjChange *coc;
 
+		comp = cal_component_new ();
+		cal_component_set_new_vtype (comp, CAL_COMPONENT_TODO);
+		cal_component_set_uid (comp, key);
+
 		coc = GNOME_Evolution_Calendar_CalObjChange__alloc ();
-		coc->calobj =  CORBA_string_dup (calobj);
+		coc->calobj =  CORBA_string_dup (cal_component_get_as_string (comp));
 		coc->type = GNOME_Evolution_Calendar_DELETED;
 		be_data->changes = g_list_prepend (be_data->changes, coc);
 		be_data->change_ids = g_list_prepend (be_data->change_ids, (gpointer) key);

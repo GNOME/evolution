@@ -1,3 +1,11 @@
+2000-12-07  JP Rosevear  <jpr@helixcode.com>
+
+	* pcs/cal-backend.c (cal_backend_compute_changes_foreach_key): Create
+	an empty cal component if the object has been deleted.
+
+	* idl/evolution-calendar.idl: Bit shift the change type constants
+	properly
+
 2000-12-07  Federico Mena Quintero  <federico@helixcode.com>
 
 	* cal-client/cal-client.c (cal_client_generate_instances): Unref
