@@ -15,7 +15,8 @@ CPPFLAGS = \
         -DEVOLUTION_GLADEDIR=\""$(gladedir)"\"	\
 	-DEVOLUTION_ECPSDIR=\""$(ecpsdir)"\"	\
 	-DDATADIR=\""$(datadir)"\"		\
-	$(GNOME_PRINT_CFLAGS)
+	$(GNOME_PRINT_CFLAGS)			\
+        $(BONOBO_GNOME_CFLAGS)
 
 INCLUDES =					\
 	$(GNOME_INCLUDEDIR)			\

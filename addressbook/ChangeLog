@@ -1,5 +1,9 @@
 2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
 
+	* printing/Makefile.am: Added BONOBO_GNOME_CFLAGS to CPPFLAGS.
+
+2000-05-30  Christopher James Lahey  <clahey@helixcode.com>
+
 	* gui/minicard/e-minicard-view.c: Made double clicking create a
 	new card.  Set the empty message.
 
