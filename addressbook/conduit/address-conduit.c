@@ -31,6 +31,7 @@
 #include <pi-file.h>
 #include <pi-dlp.h>
 #include <ebook/e-book.h>
+#include <ebook/e-book-util.h>
 #include <ebook/e-card-types.h>
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
@@ -38,9 +39,11 @@
 #include <e-pilot-util.h>
 
 #define ADDR_CONFIG_LOAD 1
+#define ADDR_CONFIG_SAVE 1
 #define ADDR_CONFIG_DESTROY 1
 #include "address-conduit-config.h"
 #undef ADDR_CONFIG_LOAD
+#undef ADDR_CONFIG_SAVE
 #undef ADDR_CONFIG_DESTROY
 
 #include "address-conduit.h"
@@ -311,24 +314,17 @@ book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 static int
 start_addressbook_server (EAddrConduitContext *ctxt)
 {
-	gchar *uri, *path;
-
+	gboolean result;
+	
 	g_return_val_if_fail(ctxt!=NULL,-2);
 
 	ctxt->ebook = e_book_new ();
 
-	path = g_concat_dir_and_file (g_get_home_dir (),
-				      "evolution/local/Contacts/addressbook.db");
-	uri = g_strdup_printf ("file://%s", path);
-	g_free (path);
-
-	e_book_load_uri (ctxt->ebook, uri, book_open_cb, ctxt);
-
+	result = e_book_load_default_book (ctxt->ebook, book_open_cb, ctxt);
+	
 	/* run a sub event loop to turn ebook's async loading into a
            synchronous call */
 	gtk_main ();
-
-	g_free (uri);
 
 	if (ctxt->address_load_success)
 		return 0;
@@ -956,10 +952,19 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 {
 	GnomePilotConduitStandard *conduit = GNOME_PILOT_CONDUIT_STANDARD (c);
 	int map_count;
-
+	const char *uri;
+	
 	map_count = g_hash_table_size (ctxt->map->pid_map);	
 	if (map_count == 0)
 		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
+
+	/* Or if the URI's don't match */
+	uri = e_book_get_uri (ctxt->ebook);
+	LOG("  Current URI %s (%s)\n", uri, ctxt->cfg->last_uri ? ctxt->cfg->last_uri : "<NONE>");
+	if (ctxt->cfg->last_uri != NULL && strcmp (ctxt->cfg->last_uri, uri)) {
+		gnome_pilot_conduit_standard_set_slow (conduit, TRUE);
+		e_pilot_map_clear (ctxt->map);
+	}
 
 	if (gnome_pilot_conduit_standard_get_slow (conduit)) {
 		ctxt->map->write_touched_only = TRUE;
@@ -1147,6 +1152,10 @@ post_sync (GnomePilotConduit *conduit,
 	gchar *filename, *change_id;
 	
 	LOG ("post_sync: Address Conduit v.%s", CONDUIT_VERSION);
+
+	g_free (ctxt->cfg->last_uri);
+	ctxt->cfg->last_uri = g_strdup (e_book_get_uri (ctxt->ebook));
+	addrconduit_save_configuration (ctxt->cfg);
 
 	filename = map_name (ctxt);
 	e_pilot_map_write (filename, ctxt->map);

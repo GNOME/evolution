@@ -29,6 +29,9 @@
 
 #include <libgnome/gnome-defs.h>
 #include "e-book.h"
+#include <bonobo-conf/bonobo-config-database.h>
+#include <bonobo/bonobo-object.h>
+#include <bonobo/bonobo-moniker-util.h>
 
 BEGIN_GNOME_DECLS
 
@@ -42,6 +45,13 @@ gboolean e_book_load_local_address_book (EBook *book,
 					 gpointer closure);
 
 void     e_book_use_local_address_book  (EBookCommonCallback cb, gpointer closure);
+
+gboolean e_book_load_default_book	(EBook *book,
+					 EBookCallback open_response,
+					 gpointer closure);
+
+/* Bonoboconf database interface. */
+Bonobo_ConfigDatabase e_book_get_config_database (CORBA_Environment *ev);
 
 /* Simple Query Interface. */
 

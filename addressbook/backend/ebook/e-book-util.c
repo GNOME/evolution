@@ -33,6 +33,17 @@
 #include <libgnome/gnome-util.h>
 #include "e-card-compare.h"
 
+Bonobo_ConfigDatabase
+e_book_get_config_database (CORBA_Environment *ev)
+{
+	static Bonobo_ConfigDatabase config_db;
+
+	if (config_db == NULL)
+		config_db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", ev);
+
+	return config_db;
+}
+       
 gboolean
 e_book_load_local_address_book (EBook *book, EBookCallback open_response, gpointer closure)
 {
@@ -118,6 +129,69 @@ e_book_use_local_address_book (EBookCommonCallback cb, gpointer closure)
 		gtk_object_unref (GTK_OBJECT (book));
 		g_free (info);
 	}
+}
+
+typedef struct {
+	gpointer closure;
+	EBookCallback open_response;
+} DefaultBookClosure;
+
+static void
+e_book_default_book_open (EBook *book, EBookStatus status, gpointer closure)
+{
+	DefaultBookClosure *default_book_closure = closure;
+	gpointer user_closure = default_book_closure->closure;
+	EBookCallback user_response = default_book_closure->open_response;
+
+	g_free (default_book_closure);
+
+	/* special case the protocol not supported error, since we
+	   really only want to failover to the local book in the case
+	   where there's no installed backend for that protocol.  all
+	   other errors (failure to connect, etc.) should get reported
+	   to the caller as normal. */
+	if (status == E_BOOK_STATUS_PROTOCOL_NOT_SUPPORTED) {
+		e_book_load_local_address_book (book, user_response, user_closure);
+	}
+	else {
+		user_response (book, status, user_closure);
+	}
+}
+
+gboolean
+e_book_load_default_book (EBook *book, EBookCallback open_response, gpointer closure)
+{
+	char *val;
+	gboolean rv;
+	CORBA_Environment ev;
+	Bonobo_ConfigDatabase config_db;
+
+	g_return_val_if_fail (book != NULL,          FALSE);
+	g_return_val_if_fail (E_IS_BOOK (book),      FALSE);
+	g_return_val_if_fail (open_response != NULL, FALSE);
+
+	CORBA_exception_init (&ev);
+	config_db = e_book_get_config_database (&ev);
+	val = bonobo_config_get_string (config_db, "/Addressbook/default_book_uri", &ev);
+	CORBA_exception_free (&ev);
+
+	if (val) {
+		DefaultBookClosure *default_book_closure = g_new (DefaultBookClosure, 1);
+		default_book_closure->closure = closure;
+		default_book_closure->open_response = open_response;
+		rv = e_book_load_uri (book, val,
+				      e_book_default_book_open, default_book_closure);
+		g_free (val);
+	}
+	else {
+		rv = e_book_load_local_address_book (book, open_response, closure);
+	}
+
+	if (!rv) {
+		g_warning ("Couldn't load default addressbook");
+	}
+
+	return rv;
 }
 
 /*

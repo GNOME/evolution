@@ -32,9 +32,11 @@
 /* Configuration info */
 typedef struct _EAddrConduitCfg EAddrConduitCfg;
 struct _EAddrConduitCfg {
-	gboolean open_secret;
 	guint32 pilot_id;
-	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
+	GnomePilotConduitSyncType  sync_type;
+
+	gboolean open_secret;
+	gchar *last_uri;
 };
 
 #ifdef ADDR_CONFIG_LOAD
@@ -63,6 +65,7 @@ addrconduit_load_configuration (EAddrConduitCfg **c, guint32 pilot_id)
 	gnome_config_push_prefix (prefix);
 
 	(*c)->open_secret = gnome_config_get_bool ("open_secret=FALSE");
+	(*c)->last_uri = gnome_config_get_string ("last_uri");
 
 	gnome_config_pop_prefix ();
 }
@@ -80,6 +83,7 @@ addrconduit_save_configuration (EAddrConduitCfg *c)
 
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("open_secret", c->open_secret);
+	gnome_config_set_string ("last_uri", c->last_uri);
 	gnome_config_pop_prefix ();
 
 	gnome_config_sync ();
@@ -99,7 +103,9 @@ addrconduit_dupe_configuration (EAddrConduitCfg *c)
 	retval = g_new0 (EAddrConduitCfg, 1);
 	retval->sync_type = c->sync_type;
 	retval->open_secret = c->open_secret;
+
 	retval->pilot_id = c->pilot_id;
+	retval->last_uri = g_strdup (c->last_uri);
 
 	return retval;
 }
@@ -113,6 +119,7 @@ addrconduit_destroy_configuration (EAddrConduitCfg **c)
 	g_return_if_fail (c != NULL);
 	g_return_if_fail (*c != NULL);
 
+	g_free ((*c)->last_uri);
 	g_free (*c);
 	*c = NULL;
 }
