@@ -20,13 +20,15 @@
 #ifndef __EAB_VIEW_H__
 #define __EAB_VIEW_H__
 
-#include <gtk/gtkeventbox.h>
+#include <gtk/gtkvbox.h>
 #include <bonobo/bonobo-ui-component.h>
 #include <gal/menus/gal-view-instance.h>
 #include <libebook/e-book.h>
 #include "e-addressbook-model.h"
 #include "eab-contact-display.h"
 #include "widgets/menus/gal-view-menus.h"
+#include "widgets/misc/e-search-bar.h"
+#include "widgets/misc/e-filter-bar.h"
 
 G_BEGIN_DECLS
 
@@ -59,7 +61,7 @@ typedef struct _EABViewClass  EABViewClass;
 
 struct _EABView
 {
-	GtkEventBox parent;
+	GtkVBox parent;
 	
 	/* item specific fields */
 	EABViewType view_type;
@@ -70,6 +72,7 @@ struct _EABView
 	GList *clipboard_contacts;
 
 	EBook *book;
+	ESource *source;
 	char  *query;
 	guint editable : 1;
 
@@ -85,11 +88,16 @@ struct _EABView
 	GalViewMenus *view_menus;
 	GalView *current_view;
 	BonoboUIComponent *uic;
+
+	/* the search bar and related machinery */
+	ESearchBar *search;
+	gint        ecml_changed_id;
+
 };
 
 struct _EABViewClass
 {
-	GtkEventBoxClass parent_class;
+	GtkVBoxClass parent_class;
 
 	/*
 	 * Signals
@@ -103,9 +111,10 @@ struct _EABViewClass
 GtkWidget *eab_view_new                 (void);
 GType      eab_view_get_type            (void);
 
+void       eab_view_show_contact_preview (EABView *view, gboolean show);
+
 void       eab_view_setup_menus         (EABView  *view,
 					 BonoboUIComponent *uic);
-
 void       eab_view_discard_menus       (EABView  *view);
 
 void       eab_view_save_as             (EABView  *view);

@@ -1,3 +1,71 @@
+2003-12-17  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (eab_view_class_init): install
+	the "source" property.
+	(eab_view_init): init eav->source to NULL.
+	(eab_view_dispose): disconnect the ecml_changed_id and unref
+	source.
+	(eab_view_new): create the search bar here.
+	(view_preview): c&p the mailer's code mostly for this - this is
+	the toggle listener for the Preview Pane menuitem.
+	(setup_menus): add a listener for the ContactsViewPreview toggle.
+	(eab_view_set_property): sensitize the search bar based on whether
+	or not we have a book set.  This makes it so you can't search
+	until the book is loaded.  Also add handling for the "source"
+	attribute and print a warning when it's set multiple times
+	(something that's not supported at the moment.)
+	(eab_view_get_property): add "source" case.
+	(search_activated, query_changed, compare_subitems, make_subitems,
+	ecml_changed, get_master_list, connect_master_list_changed): move
+	this here from addressbook.c
+	(eab_view_show_contact_preview): implement - just show or hide the
+	scrolled window.
+	(eab_view_setup_menus): call e_search_bar_set_ui_component here,
+	kind of a hack.
+
+	* gui/widgets/e-addressbook-view.h: make this inherit from GtkVBox
+	instead of GtkEventBox since we'll be packing children.  Add a
+	prototype for eab_view_show_contact_preview.
+
+	* gui/component/addressbook.c (get_current_view): return the
+	EABView associated with the active notebook page.
+	(save_contact_cb): use the current view.
+	(view_contact_cb): same.
+	(search_cb): same.
+	(delete_contact_cb): same.
+	(print_cb): same.
+	(print_preview_cb): same.
+	(stop_loading_cb): same.
+	(cut_contacts_cb): same.
+	(copy_contacts_cb): same.
+	(paste_contacts_cb): same.
+	(select_all_contacts_cb): same.
+	(send_contact_cb): same.
+	(send_contact_to_cb): same.
+	(copy_contact_to_cb): same.
+	(move_contact_to_cb): same.
+	(update_command_state): same.
+	(change_view_type): nuke, nothing uses this.
+	(control_activate): use the current view.
+	(control_activate_cb): same.
+	(source_list_changed_cb): new function, remove the notebook pages
+	(and destroy the EABView's) for sources that no longer exist.
+	(addressbook_view_clear): dispose of the uid_to_view hash.
+	(book_open_cb): store the ESource on the EABView too.  this
+	function now takes a struct containing both EABView and ESource
+	since we can't store either in the AddressbookView.
+	(set_prop): if we have a view already for this uid, bring it up.
+	otherwise create a new one and start the book loading.
+	(addressbook_search_activated): nuked - this is being moved to
+	e-addressbook-view.
+	(addressbook_query_changed): same.
+	(compare_subitems, make_subitems, ecml_changed,
+	connect_master_list_changed): same.
+	(addressbook_new_control): simplify things a bunch.  create a
+	notebook to store the views in.  the search/vbox stuff is gone.
+	use e_source_list_new_for_gconf_default, and handle the source
+	list's "changed" signal.
+	
 2003-12-17  Rodney Dawes  <dobey@ximian.com>
 
 	* gui/component/autocompletion-config.c:

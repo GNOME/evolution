@@ -25,6 +25,7 @@
 #include <string.h>
 #include <glib.h>
 #include <gtk/gtkvbox.h>
+#include <gtk/gtknotebook.h>
 #include <gtk/gtkwidget.h>
 #include <gtk/gtkmessagedialog.h>
 #include <libgnome/gnome-i18n.h>
@@ -37,8 +38,6 @@
 #include <bonobo/bonobo-property-bag.h>
 #include <gal/util/e-util.h>
 
-#include "e-util/e-categories-master-list-wombat.h"
-#include "e-util/e-sexp.h"
 #include "e-util/e-passwords.h"
 
 #include "evolution-shell-component-utils.h"
@@ -54,8 +53,6 @@
 #include "addressbook/util/eab-book-util.h"
 
 #include <libebook/e-book-async.h>
-#include <widgets/misc/e-search-bar.h>
-#include <widgets/misc/e-filter-bar.h>
 
 /* This is used for the addressbook status bar */
 #define EVOLUTION_CONTACTS_PROGRESS_IMAGE "evolution-contacts-mini.png"
@@ -69,20 +66,14 @@ static GdkPixbuf *progress_icon = NULL;
 
 typedef struct {
 	gint refs;
-	EABView *view;
-	ESearchBar *search;
-	gint        ecml_changed_id;
-	GtkWidget *vbox;
+	GHashTable *uid_to_view;
+	GtkWidget *notebook;
 	EBook *book;
 	guint activity_id;
 	BonoboControl *control;
 	BonoboPropertyBag *properties;
-	GConfClient *gconf_client;
 	ESourceList *source_list;
-	ESource *source;
 	char *passwd;
-	gboolean ignore_search_changes;
-	gboolean failed_to_load;
 } AddressbookView;
 
 static void addressbook_view_ref (AddressbookView *);
@@ -92,127 +83,149 @@ static void addressbook_authenticate (EBook *book, gboolean previous_failure,
 				      ESource *source, EBookCallback cb, gpointer closure);
 
 static void book_open_cb (EBook *book, EBookStatus status, gpointer closure);
+static void set_status_message (EABView *eav, const char *message, AddressbookView *view);
+static void search_result (EABView *eav, EBookViewStatus status, AddressbookView *view);
+
+static EABView *
+get_current_view (AddressbookView *view)
+{
+	return EAB_VIEW (gtk_notebook_get_nth_page (GTK_NOTEBOOK (view->notebook),
+						    gtk_notebook_get_current_page (GTK_NOTEBOOK (view->notebook))));
+}
 
 static void
 save_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_save_as(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_save_as(v);
 }
 
 static void
 view_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_view(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_view(v);
 }
 
 static void
 search_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-
-	if (view->view)
-		gtk_widget_show(eab_search_dialog_new(view->view));
+	EABView *v = get_current_view (view);
+	if (v)
+		gtk_widget_show(eab_search_dialog_new(v));
 }
 
 static void
 delete_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view) {
-		eab_view_delete_selection(view->view);
-	}
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_delete_selection(v);
 }
 
 static void
 print_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_print(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_print(v);
 }
 
 static void
 print_preview_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_print_preview(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_print_preview(v);
 }
 
 static void
 stop_loading_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_stop(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_stop(v);
 }
 
 static void
 cut_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_cut(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_cut(v);
 }
 
 static void
 copy_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_copy(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_copy(v);
 }
 
 static void
 paste_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_paste(view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_paste(v);
 }
 
 static void
 select_all_contacts_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_select_all (view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_select_all (v);
 }
 
 static void
 send_contact_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_send (view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_send (v);
 }
 
 static void
 send_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_send_to (view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_send_to (v);
 }
 
 static void
 copy_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_copy_to_folder (view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_copy_to_folder (v);
 }
 
 static void
 move_contact_to_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 {
 	AddressbookView *view = (AddressbookView *) user_data;
-	if (view->view)
-		eab_view_move_to_folder (view->view);
+	EABView *v = get_current_view (view);
+	if (v)
+		eab_view_move_to_folder (v);
 }
 
 static void
@@ -222,11 +235,81 @@ forget_passwords_cb (BonoboUIComponent *uih, void *user_data, const char *path)
 }
 
 static void
+set_status_message (EABView *eav, const char *message, AddressbookView *view)
+{
+	EActivityHandler *activity_handler = addressbook_component_peek_activity_handler (addressbook_component_peek ());
+
+	if (!message || !*message) {
+		if (view->activity_id != 0) {
+			e_activity_handler_operation_finished (activity_handler, view->activity_id);
+			view->activity_id = 0;
+		}
+	} else if (view->activity_id == 0) {
+		char *clientid = g_strdup_printf ("%p", view);
+
+		if (progress_icon == NULL)
+			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
+
+		view->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
+									  progress_icon, message, TRUE);
+
+		g_free (clientid);
+	} else {
+		e_activity_handler_operation_progressing (activity_handler, view->activity_id, message, -1.0);
+	}
+
+}
+
+
+static void
+search_result (EABView *eav, EBookViewStatus status, AddressbookView *view)
+{
+	char *str = NULL;
+
+	switch (status) {
+	case E_BOOK_VIEW_STATUS_OK:
+		return;
+	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
+		str = _("More cards matched this query than either the server is \n"
+			"configured to return or Evolution is configured to display.\n"
+			"Please make your search more specific or raise the result limit in\n"
+			"the directory server preferences for this addressbook.");
+		break;
+	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
+		str = _("The time to execute this query exceeded the server limit or the limit\n"
+			"you have configured for this addressbook.  Please make your search\n"
+			"more specific or raise the time limit in the directory server\n"
+			"preferences for this addressbook.");
+		break;
+	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
+		str = _("The backend for this addressbook was unable to parse this query.");
+		break;
+	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
+		str = _("The backend for this addressbook refused to perform this query.");
+		break;
+	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
+		str = _("This query did not complete successfully.");
+		break;
+	}
+
+	if (str) {
+		GtkWidget *dialog;
+		dialog = gtk_message_dialog_new (NULL,
+						 0,
+						 GTK_MESSAGE_WARNING,
+						 GTK_BUTTONS_OK,
+						 str);
+		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
+		gtk_widget_show (dialog);
+	}
+}
+
+static void
 update_command_state (EABView *eav, AddressbookView *view)
 {
 	BonoboUIComponent *uic;
 
-	if (view->view == NULL)
+	if (eav != get_current_view (view))
 		return;
 
 	addressbook_view_ref (view);
@@ -237,80 +320,74 @@ update_command_state (EABView *eav, AddressbookView *view)
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSaveAsVCard",
 					      "sensitive",
-					      eab_view_can_save_as (view->view) ? "1" : "0", NULL);
+					      eab_view_can_save_as (eav) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsView",
 					      "sensitive",
-					      eab_view_can_view (view->view) ? "1" : "0", NULL);
+					      eab_view_can_view (eav) ? "1" : "0", NULL);
 
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrint",
 					      "sensitive",
-					      eab_view_can_print (view->view) ? "1" : "0", NULL);
+					      eab_view_can_print (eav) ? "1" : "0", NULL);
 
 		/* Print Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPrintPreview",
 					      "sensitive",
-					      eab_view_can_print (view->view) ? "1" : "0", NULL);
+					      eab_view_can_print (eav) ? "1" : "0", NULL);
 
 		/* Delete Contact */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactDelete",
 					      "sensitive",
-					      eab_view_can_delete (view->view) ? "1" : "0", NULL);
+					      eab_view_can_delete (eav) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCut",
 					      "sensitive",
-					      eab_view_can_cut (view->view) ? "1" : "0", NULL);
+					      eab_view_can_cut (eav) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCopy",
 					      "sensitive",
-					      eab_view_can_copy (view->view) ? "1" : "0", NULL);
+					      eab_view_can_copy (eav) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsPaste",
 					      "sensitive",
-					      eab_view_can_paste (view->view) ? "1" : "0", NULL);
+					      eab_view_can_paste (eav) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSelectAll",
 					      "sensitive",
-					      eab_view_can_select_all (view->view) ? "1" : "0", NULL);
+					      eab_view_can_select_all (eav) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendContactToOther",
 					      "sensitive",
-					      eab_view_can_send (view->view) ? "1" : "0", NULL);
+					      eab_view_can_send (eav) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsSendMessageToContact",
 					      "sensitive",
-					      eab_view_can_send_to (view->view) ? "1" : "0", NULL);
+					      eab_view_can_send_to (eav) ? "1" : "0", NULL);
 
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsMoveToFolder",
 					      "sensitive",
-					      eab_view_can_move_to_folder (view->view) ? "1" : "0", NULL);
+					      eab_view_can_move_to_folder (eav) ? "1" : "0", NULL);
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactsCopyToFolder",
 					      "sensitive",
-					      eab_view_can_copy_to_folder (view->view) ? "1" : "0", NULL);
+					      eab_view_can_copy_to_folder (eav) ? "1" : "0", NULL);
 
 		/* Stop */
 		bonobo_ui_component_set_prop (uic,
 					      "/commands/ContactStop",
 					      "sensitive",
-					      eab_view_can_stop (view->view) ? "1" : "0", NULL);
+					      eab_view_can_stop (eav) ? "1" : "0", NULL);
 	}
 
 	addressbook_view_unref (view);
-}
-
-static void
-change_view_type (AddressbookView *view, EABViewType view_type)
-{
-	g_object_set (view->view, "type", view_type, NULL);
 }
 
 static BonoboUIVerb verbs [] = {
@@ -333,6 +410,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ContactsMoveToFolder", move_contact_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsCopyToFolder", copy_contact_to_cb),
 	BONOBO_UI_UNSAFE_VERB ("ContactsForgetPasswords", forget_passwords_cb),
+	/* ContactsViewPreview is a toggle */
 
 	BONOBO_UI_VERB_END
 };
@@ -361,12 +439,11 @@ control_activate (BonoboControl     *control,
 		  AddressbookView   *view)
 {
 	Bonobo_UIContainer remote_ui_container;
+	EABView *v = get_current_view (view);
 
 	remote_ui_container = bonobo_control_get_remote_ui_container (control, NULL);
 	bonobo_ui_component_set_container (uic, remote_ui_container, NULL);
 	bonobo_object_release_unref (remote_ui_container, NULL);
-
-	e_search_bar_set_ui_component (view->search, uic);
 
 	bonobo_ui_component_add_verb_list_with_data (
 		uic, verbs, view);
@@ -377,13 +454,15 @@ control_activate (BonoboControl     *control,
 			       EVOLUTION_UIDIR "/evolution-addressbook.xml",
 			       "evolution-addressbook", NULL);
 
-	eab_view_setup_menus (view->view, uic);
+	if (v)
+		eab_view_setup_menus (v, uic);
 
 	e_pixmaps_update (uic, pixmaps);
 
 	bonobo_ui_component_thaw (uic, NULL);
 
-	update_command_state (view->view, view);
+	if (v)
+		update_command_state (v, view);
 }
 
 static void
@@ -392,39 +471,63 @@ control_activate_cb (BonoboControl *control,
 		     AddressbookView *view)
 {
 	BonoboUIComponent *uic;
+	EABView *v = get_current_view (view);
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	if (activate) {
 		control_activate (control, uic, view);
-		if (activate && view->view && view->view->model)
-			eab_model_force_folder_bar_message (view->view->model);
-
-		/* if the book failed to load, we kick off another
-		   load here */
-
-		if (view->failed_to_load && view->source) {
-			EBook *book;
-
-			book = e_book_new ();
-
-			addressbook_load_source (book, view->source, book_open_cb, view);
-		}
+		if (activate && v && v->model)
+			eab_model_force_folder_bar_message (v->model);
 	} else {
 		bonobo_ui_component_unset_container (uic, NULL);
-		eab_view_discard_menus (view->view);
+		eab_view_discard_menus (v);
 	}
 }
 
-static ECategoriesMasterList *
-get_master_list (void)
+static void
+gather_uids_foreach (char *key,
+		     gpointer value,
+		     GList **list)
 {
-	static ECategoriesMasterList *category_list = NULL;
+	(*list) = g_list_prepend (*list, key);
+}
 
-	if (category_list == NULL)
-		category_list = e_categories_master_list_wombat_new ();
-	return category_list;
+static void
+source_list_changed_cb (ESourceList *source_list, AddressbookView *view)
+{
+	GList *uids, *l;
+	EABView *v;
+
+	uids = NULL;
+	g_hash_table_foreach (view->uid_to_view, (GHFunc)gather_uids_foreach, &uids);
+
+	for (l = uids; l; l = l->next) {
+		char *uid = l->data;
+		if (e_source_list_peek_source_by_uid (source_list, uid)) {
+			/* the source still exists, do nothing */
+		}
+		else {
+			/* the source no longer exists, remove the
+			   view and remove it from our hash table. */
+			v = g_hash_table_lookup (view->uid_to_view,
+						 uid);
+			g_hash_table_remove (view->uid_to_view, uid);
+			gtk_notebook_remove_page (GTK_NOTEBOOK (view->notebook),
+						  gtk_notebook_page_num (GTK_NOTEBOOK (view->notebook),
+									 GTK_WIDGET (v)));
+			g_object_unref (v);
+		}
+	}
+
+	/* make sure we've got the current view selected and updated
+	   properly */
+	v = get_current_view (view);
+	if (v) {
+		eab_view_setup_menus (v, bonobo_control_get_ui_component (view->control));
+		update_command_state (v, view);
+	}
 }
 
 static void
@@ -448,10 +551,9 @@ addressbook_view_clear (AddressbookView *view)
 		view->source_list = NULL;
 	}
 
-	if (view->ecml_changed_id != 0) {
-		g_signal_handler_disconnect (get_master_list(),
-					     view->ecml_changed_id);
-		view->ecml_changed_id = 0;
+	if (view->uid_to_view) {
+		g_hash_table_destroy (view->uid_to_view);
+		view->uid_to_view = NULL;
 	}
 }
 
@@ -536,22 +638,37 @@ addressbook_show_load_error_dialog (GtkWidget *parent, ESource *source, EBookSta
 	g_free (uri);
 }
 
+typedef struct {
+	EABView *view;
+	ESource *source;
+} BookOpenData;
+
 static void
 book_open_cb (EBook *book, EBookStatus status, gpointer closure)
 {
-	AddressbookView *view = closure;
+	BookOpenData *data = closure;
+	EABView *view = data->view;
+	ESource *source = data->source;
+
+	g_free (data);
+
+	/* we always set the "source" property on the EABView, since
+	   we use it to reload a previously failed book. */
+	g_object_set(view,
+		     "source", source,
+		     NULL);
 
 	if (status == E_BOOK_ERROR_OK) {
-		view->failed_to_load = FALSE;
-		g_object_set(view->view,
+		g_object_set(view,
 			     "book", book,
 			     NULL);
-		view->book = book;
 	}
 	else {
-		view->failed_to_load = TRUE;
-		addressbook_show_load_error_dialog (NULL /* XXX */, view->source, status);
+		addressbook_show_load_error_dialog (NULL /* XXX */, source, status);
 	}
+
+
+	g_object_unref (source);
 }
 
 static void
@@ -559,29 +676,6 @@ destroy_callback(gpointer data, GObject *where_object_was)
 {
 	AddressbookView *view = data;
 	addressbook_view_unref (view);
-}
-
-static void
-get_prop (BonoboPropertyBag *bag,
-	  BonoboArg         *arg,
-	  guint              arg_id,
-	  CORBA_Environment *ev,
-	  gpointer           user_data)
-{
-	AddressbookView *view = user_data;
-
-	switch (arg_id) {
-
-	case PROPERTY_SOURCE_UID_IDX:
-		if (view && view->source)
-			BONOBO_ARG_SET_STRING (arg, e_source_peek_uid (view->source));
-		else
-			BONOBO_ARG_SET_STRING (arg, "");
-		break;
-
-	default:
-		g_warning ("Unhandled arg %d\n", arg_id);
-	}
 }
 
 typedef struct {
@@ -765,261 +859,147 @@ set_prop (BonoboPropertyBag *bag,
 	  gpointer           user_data)
 {
 	AddressbookView *view = user_data;
-	const gchar *uid;
 
 	switch (arg_id) {
 
-	case PROPERTY_SOURCE_UID_IDX:
-		if (view->book) {
-			g_object_unref (view->book);
-			view->source = NULL;
-		}
-
-		view->book = e_book_new ();
-
-		view->failed_to_load = FALSE;
+	case PROPERTY_SOURCE_UID_IDX: {
+		ESource *source;
+		const gchar *uid;
 
 		uid = BONOBO_ARG_GET_STRING (arg);
-		view->source = e_source_list_peek_source_by_uid (view->source_list, uid);
 
-		if (view->source)
-			addressbook_load_source (view->book, view->source, book_open_cb, view);
-		else
+		source = e_source_list_peek_source_by_uid (view->source_list, uid);
+
+		if (source) {
+			GtkWidget *uid_view;
+			EBook *book;
+			BookOpenData *data;
+
+			uid_view = g_hash_table_lookup (view->uid_to_view, uid);
+
+			if (uid_view) {
+				/* there is a view for this uid.  make
+				   sure that the view actually
+				   contains an EBook (if it doesn't
+				   contain an EBook a previous load
+				   failed.  try to load it again */
+				g_object_get (uid_view,
+					      "book", &book,
+					      NULL);
+
+				if (book) {
+					g_object_unref (book);
+				}
+				else {
+					book = e_book_new ();
+
+					g_object_get (uid_view,
+						      "source", &source,
+						      NULL);
+
+					/* source can be NULL here, if
+					   a previous load hasn't
+					   actually made it to
+					   book_open_cb yet. */
+					if (source) {
+						data = g_new (BookOpenData, 1);
+						data->view = g_object_ref (uid_view);
+						data->source = source; /* transfer the ref we get back from g_object_get */
+
+						addressbook_load_source (book, source, book_open_cb, data);
+					}
+				}
+			}
+			else {
+				/* we don't have a view for this uid already
+				   set up. */
+				GtkWidget *label = gtk_label_new (uid);
+
+				uid_view = eab_view_new ();
+
+				gtk_widget_show (uid_view);
+				gtk_widget_show (label);
+
+				g_object_set (uid_view, "type", EAB_VIEW_TABLE, NULL);
+
+				gtk_notebook_append_page (GTK_NOTEBOOK (view->notebook),
+							  uid_view,
+							  label);
+
+				g_hash_table_insert (view->uid_to_view, g_strdup (uid), uid_view);
+
+				g_signal_connect (uid_view, "status_message",
+						  G_CALLBACK(set_status_message), view);
+
+				g_signal_connect (uid_view, "search_result",
+						  G_CALLBACK(search_result), view);
+
+				g_signal_connect (uid_view, "command_state_change",
+						  G_CALLBACK(update_command_state), view);
+
+				book = e_book_new ();
+
+				data = g_new (BookOpenData, 1);
+				data->view = g_object_ref (uid_view);
+				data->source = g_object_ref (source);
+
+				addressbook_load_source (book, source, book_open_cb, data);
+			}
+
+			gtk_notebook_set_current_page (GTK_NOTEBOOK (view->notebook),
+						       gtk_notebook_page_num (GTK_NOTEBOOK (view->notebook),
+									      uid_view));
+
+			/* change menus/toolbars to reflect the new view */
+			eab_view_setup_menus (EAB_VIEW (uid_view), bonobo_control_get_ui_component (view->control));
+			update_command_state (EAB_VIEW (uid_view), view);
+		}
+		else {
 			g_warning ("Could not find source by UID '%s'!", uid);
+		}
 
 		break;
-		
+	}
 	default:
 		g_warning ("Unhandled arg %d\n", arg_id);
 		break;
 	}
 }
 
-enum {
-	ESB_FULL_NAME,
-	ESB_EMAIL,
-	ESB_CATEGORY,
-	ESB_ANY,
-	ESB_ADVANCED
-};
-
-static ESearchBarItem addressbook_search_option_items[] = {
-	{ N_("Name begins with"), ESB_FULL_NAME, NULL },
-	{ N_("Email begins with"), ESB_EMAIL, NULL },
-	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
-	{ N_("Any field contains"), ESB_ANY, NULL },
-	{ N_("Advanced..."), ESB_ADVANCED, NULL },
-	{ NULL, -1, NULL }
-};
-
 static void
-addressbook_search_activated (ESearchBar *esb, AddressbookView *view)
+get_prop (BonoboPropertyBag *bag,
+	  BonoboArg         *arg,
+	  guint              arg_id,
+	  CORBA_Environment *ev,
+	  gpointer           user_data)
 {
-	ECategoriesMasterList *master_list;
-	char *search_word, *search_query;
-	const char *category_name;
-	int search_type, subid;
+	AddressbookView *view = user_data;
+	EABView *v = get_current_view (view);
+	ESource *source = NULL;
 
-	if (view->ignore_search_changes) {
-		return;
-	}
+	switch (arg_id) {
 
-	g_object_get(esb,
-		     "text", &search_word,
-		     "item_id", &search_type,
-		     NULL);
-
-	if (search_type == ESB_ADVANCED) {
-		gtk_widget_show(eab_search_dialog_new(view->view));
-	}
-	else {
-		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
-			GString *s = g_string_new ("");
-			e_sexp_encode_string (s, search_word);
-			switch (search_type) {
-			case ESB_ANY:
-				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" %s)",
-								s->str);
-				break;
-			case ESB_FULL_NAME:
-				search_query = g_strdup_printf ("(beginswith \"full_name\" %s)",
-								s->str);
-				break;
-			case ESB_EMAIL:
-				search_query = g_strdup_printf ("(beginswith \"email\" %s)",
-								s->str);
-				break;
-			case ESB_CATEGORY:
-				subid = e_search_bar_get_subitem_id (esb);
-
-				if (subid < 0 || subid == G_MAXINT) {
-					/* match everything */
-					search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-				} else {
-					master_list = get_master_list ();
-					category_name = e_categories_master_list_nth (master_list, subid);
-					search_query = g_strdup_printf ("(is \"category\" \"%s\")", category_name);
-				}
-				break;
-			default:
-				search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-				break;
-			}
-			g_string_free (s, TRUE);
-		} else
-			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
-
-		if (search_query)
-			g_object_set (view->view,
-				      "query", search_query,
+	case PROPERTY_SOURCE_UID_IDX:
+		if (v) {
+			g_object_get (v,
+				      "source", &source,
 				      NULL);
-
-		g_free (search_query);
-	}
-
-	g_free (search_word);
-}
-
-static void
-addressbook_query_changed (ESearchBar *esb, AddressbookView *view)
-{
-	int search_type;
-
-	g_object_get(esb,
-		     "item_id", &search_type,
-		     NULL);
-
-	if (search_type == ESB_ADVANCED) {
-		gtk_widget_show(eab_search_dialog_new(view->view));
-	}
-}
-
-static void
-set_status_message (EABView *eav, const char *message, AddressbookView *view)
-{
-	EActivityHandler *activity_handler = addressbook_component_peek_activity_handler (addressbook_component_peek ());
-
-	if (!message || !*message) {
-		if (view->activity_id != 0) {
-			e_activity_handler_operation_finished (activity_handler, view->activity_id);
-			view->activity_id = 0;
 		}
-	} else if (view->activity_id == 0) {
-		char *clientid = g_strdup_printf ("%p", view);
 
-		if (progress_icon == NULL)
-			progress_icon = gdk_pixbuf_new_from_file (EVOLUTION_IMAGESDIR "/" EVOLUTION_CONTACTS_PROGRESS_IMAGE, NULL);
+		if (source) {
+			BONOBO_ARG_SET_STRING (arg, e_source_peek_uid (source));
 
-		view->activity_id = e_activity_handler_operation_started (activity_handler, clientid,
-									  progress_icon, message, TRUE);
+			g_object_unref (source);
+		}
+		else {
+			BONOBO_ARG_SET_STRING (arg, "");
+		}
 
-		g_free (clientid);
-	} else {
-		e_activity_handler_operation_progressing (activity_handler, view->activity_id, message, -1.0);
-	}
-
-}
-
-static void
-search_result (EABView *eav, EBookViewStatus status, AddressbookView *view)
-{
-	char *str = NULL;
-
-	switch (status) {
-	case E_BOOK_VIEW_STATUS_OK:
-		return;
-	case E_BOOK_VIEW_STATUS_SIZE_LIMIT_EXCEEDED:
-		str = _("More cards matched this query than either the server is \n"
-			"configured to return or Evolution is configured to display.\n"
-			"Please make your search more specific or raise the result limit in\n"
-			"the directory server preferences for this addressbook.");
 		break;
-	case E_BOOK_VIEW_STATUS_TIME_LIMIT_EXCEEDED:
-		str = _("The time to execute this query exceeded the server limit or the limit\n"
-			"you have configured for this addressbook.  Please make your search\n"
-			"more specific or raise the time limit in the directory server\n"
-			"preferences for this addressbook.");
-		break;
-	case E_BOOK_VIEW_ERROR_INVALID_QUERY:
-		str = _("The backend for this addressbook was unable to parse this query.");
-		break;
-	case E_BOOK_VIEW_ERROR_QUERY_REFUSED:
-		str = _("The backend for this addressbook refused to perform this query.");
-		break;
-	case E_BOOK_VIEW_ERROR_OTHER_ERROR:
-		str = _("This query did not complete successfully.");
-		break;
+
+	default:
+		g_warning ("Unhandled arg %d\n", arg_id);
 	}
-
-	if (str) {
-		GtkWidget *dialog;
-		dialog = gtk_message_dialog_new (NULL,
-						 0,
-						 GTK_MESSAGE_WARNING,
-						 GTK_BUTTONS_OK,
-						 str);
-		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-		gtk_widget_show (dialog);
-	}
-}
-
-static int
-compare_subitems (const void *a, const void *b)
-{
-	const ESearchBarSubitem *subitem_a = a;
-	const ESearchBarSubitem *subitem_b = b;
-
-	return strcoll (subitem_a->text, subitem_b->text);
-}
-
-static void
-make_suboptions (AddressbookView *view)
-{
-	ESearchBarSubitem *subitems, *s;
-	ECategoriesMasterList *master_list;
-	gint i, N;
-
-	master_list = get_master_list ();
-	N = e_categories_master_list_count (master_list);
-	subitems = g_new (ESearchBarSubitem, N+2);
-
-	subitems[0].id = G_MAXINT;
-	subitems[0].text = g_strdup (_("Any Category"));
-	subitems[0].translate = FALSE;
-
-	for (i=0; i<N; ++i) {
-		const char *category = e_categories_master_list_nth (master_list, i);
-
-		subitems[i+1].id = i;
-		subitems[i+1].text = g_strdup (category);
-		subitems[i+1].translate = FALSE;
-	}
-	subitems[N+1].id = -1;
-	subitems[N+1].text = NULL;
-
-	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
-
-	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
-
-	for (s = subitems; s->id != -1; s++) {
-		if (s->text)
-			g_free (s->text);
-	}
-	g_free (subitems);
-}
-
-static void
-ecml_changed (ECategoriesMasterList *ecml, AddressbookView *view)
-{
-	make_suboptions (view);
-}
-
-static void
-connect_master_list_changed (AddressbookView *view)
-{
-	view->ecml_changed_id =
-		g_signal_connect (get_master_list(), "changed",
-				  G_CALLBACK (ecml_changed), view);
 }
 
 BonoboControl *
@@ -1029,36 +1009,18 @@ addressbook_new_control (void)
 
 	view = g_new0 (AddressbookView, 1);
 	view->refs = 1;
-	view->ignore_search_changes = FALSE;
 
-	view->vbox = gtk_vbox_new (FALSE, 0);
+	view->uid_to_view = g_hash_table_new_full (g_str_hash, g_str_equal, (GDestroyNotify)g_free, NULL);
 
-	g_object_weak_ref (G_OBJECT (view->vbox), destroy_callback, view);
+	view->notebook = gtk_notebook_new ();
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (view->notebook), FALSE);
+
+	g_object_weak_ref (G_OBJECT (view->notebook), destroy_callback, view);
 
 	/* Create the control. */
-	view->control = bonobo_control_new (view->vbox);
+	view->control = bonobo_control_new (view->notebook);
 
-	view->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
-	make_suboptions (view);
-	connect_master_list_changed (view);
-
-	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->search),
-			    FALSE, FALSE, 0);
-	g_signal_connect (view->search, "query_changed",
-			  G_CALLBACK (addressbook_query_changed), view);
-	g_signal_connect (view->search, "search_activated",
-			  G_CALLBACK (addressbook_search_activated), view);
-
-	view->view = EAB_VIEW(eab_view_new());
-	gtk_box_pack_start (GTK_BOX (view->vbox), GTK_WIDGET (view->view),
-			    TRUE, TRUE, 0);
-
-	/* create the initial view */
-	change_view_type (view, EAB_VIEW_TABLE);
-
-	gtk_widget_show (view->vbox);
-	gtk_widget_show (GTK_WIDGET(view->view));
-	gtk_widget_show (GTK_WIDGET(view->search));
+	gtk_widget_show (view->notebook);
 
 	view->properties = bonobo_property_bag_new (get_prop, set_prop, view);
 
@@ -1071,19 +1033,10 @@ addressbook_new_control (void)
 				       bonobo_object_corba_objref (BONOBO_OBJECT (view->properties)),
 				       NULL);
 
-	g_signal_connect (view->view, "status_message",
-			  G_CALLBACK(set_status_message), view);
-
-	g_signal_connect (view->view, "search_result",
-			  G_CALLBACK(search_result), view);
-
-	g_signal_connect (view->view, "command_state_change",
-			  G_CALLBACK(update_command_state), view);
-
-	view->gconf_client = gconf_client_get_default ();
-	view->source_list = e_source_list_new_for_gconf (view->gconf_client,
-							 "/apps/evolution/addressbook/sources");
-	view->source = NULL;
+	view->source_list = e_source_list_new_for_gconf_default ("/apps/evolution/addressbook/sources");
+	g_signal_connect (view->source_list,
+			  "changed",
+			  G_CALLBACK (source_list_changed_cb), view);
 
 	g_signal_connect (view->control, "activate",
 			  G_CALLBACK (control_activate_cb), view);

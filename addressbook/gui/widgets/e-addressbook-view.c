@@ -1,8 +1,9 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /* 
- * e-table-field-chooser.c
+ * e-addressbook-view.c
  * Copyright (C) 2000  Ximian, Inc.
  * Author: Chris Lahey <clahey@ximian.com>
+ *         Chris Toshok <toshok@ximian.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -42,6 +43,10 @@
 
 #include "addressbook/printing/e-contact-print.h"
 #include "addressbook/printing/e-contact-print-envelope.h"
+#include "addressbook/gui/search/e-addressbook-search-dialog.h"
+
+#include "e-util/e-categories-master-list-wombat.h"
+#include "e-util/e-sexp.h"
 
 #ifdef WITH_ADDRESSBOOK_VIEW_TREEVIEW
 #include <gal/widgets/e-treeview-selection-model.h>
@@ -99,13 +104,20 @@ static void selection_get (GtkWidget *invisible, GtkSelectionData *selection_dat
 			   guint info, guint time_stamp, EABView *view);
 static void invisible_destroyed (gpointer data, GObject *where_object_was);
 
-#define PARENT_TYPE GTK_TYPE_EVENT_BOX
-static GtkEventBoxClass *parent_class = NULL;
+static void make_suboptions             (EABView *view);
+static void query_changed               (ESearchBar *esb, EABView *view);
+static void search_activated            (ESearchBar *esb, EABView *view);
+static void connect_master_list_changed (EABView *view);
+static ECategoriesMasterList *get_master_list (void);
+
+#define PARENT_TYPE GTK_TYPE_VBOX
+static GtkVBoxClass *parent_class = NULL;
 
 /* The arguments we take */
 enum {
 	PROP_0,
 	PROP_BOOK,
+	PROP_SOURCE,
 	PROP_QUERY,
 	PROP_TYPE,
 };
@@ -132,6 +144,23 @@ static guint eab_view_signals [LAST_SIGNAL] = {0, };
 static GdkAtom clipboard_atom = GDK_NONE;
 
 static GalViewCollection *collection = NULL;
+
+enum {
+	ESB_FULL_NAME,
+	ESB_EMAIL,
+	ESB_CATEGORY,
+	ESB_ANY,
+	ESB_ADVANCED
+};
+
+static ESearchBarItem addressbook_search_option_items[] = {
+	{ N_("Name begins with"), ESB_FULL_NAME, NULL },
+	{ N_("Email begins with"), ESB_EMAIL, NULL },
+	{ N_("Category is"), ESB_CATEGORY, NULL }, /* We attach subitems below */
+	{ N_("Any field contains"), ESB_ANY, NULL },
+	{ N_("Advanced..."), ESB_ADVANCED, NULL },
+	{ NULL, -1, NULL }
+};
 
 GType
 eab_view_get_type (void)
@@ -177,6 +206,13 @@ eab_view_class_init (EABViewClass *klass)
 							      _("Book"),
 							      /*_( */"XXX blurb" /*)*/,
 							      E_TYPE_BOOK,
+							      G_PARAM_READWRITE));
+
+	g_object_class_install_property (object_class, PROP_SOURCE, 
+					 g_param_spec_object ("source",
+							      _("Source"),
+							      /*_( */"XXX blurb" /*)*/,
+							      E_TYPE_SOURCE,
 							      G_PARAM_READWRITE));
 
 	g_object_class_install_property (object_class, PROP_QUERY, 
@@ -252,6 +288,7 @@ eab_view_init (EABView *eav)
 	eav->uic = NULL;
 
 	eav->book = NULL;
+	eav->source = NULL;
 	eav->query = NULL;
 
 	eav->invisible = NULL;
@@ -275,6 +312,11 @@ eab_view_dispose (GObject *object)
 	if (eav->book) {
 		g_object_unref (eav->book);
 		eav->book = NULL;
+	}
+
+	if (eav->source) {
+		g_object_unref (eav->source);
+		eav->source = NULL;
 	}
 
 	if (eav->query) {
@@ -303,6 +345,12 @@ eab_view_dispose (GObject *object)
 	if (eav->invisible) {
 		gtk_widget_destroy (eav->invisible);
 		eav->invisible = NULL;
+	}
+
+	if (eav->ecml_changed_id != 0) {
+		g_signal_handler_disconnect (get_master_list(),
+					     eav->ecml_changed_id);
+		eav->ecml_changed_id = 0;
 	}
 
 	if (G_OBJECT_CLASS(parent_class)->dispose)
@@ -334,9 +382,21 @@ eab_view_new (void)
 	eav->editable = FALSE;
 	eav->query = g_strdup (SHOW_ALL_SEARCH);
 
+	/* create our search bar */
+	eav->search = E_SEARCH_BAR (e_search_bar_new (NULL, addressbook_search_option_items));
+	make_suboptions (eav);
+	connect_master_list_changed (eav);
+	g_signal_connect (eav->search, "query_changed",
+			  G_CALLBACK (query_changed), eav);
+	g_signal_connect (eav->search, "search_activated",
+			  G_CALLBACK (search_activated), eav);
+	gtk_box_pack_start (GTK_BOX (eav), GTK_WIDGET (eav->search), FALSE, FALSE, 0);
+	gtk_widget_show (GTK_WIDGET (eav->search));
+	gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
+
 	/* create the paned window and contact display */
 	eav->paned = gtk_vpaned_new ();
-	gtk_container_add (GTK_CONTAINER (eav), eav->paned);
+	gtk_box_pack_start (GTK_BOX (eav), eav->paned, TRUE, TRUE, 0);
 
 	eav->widget = gtk_label_new ("empty label here");
 	gtk_container_add (GTK_CONTAINER (eav->paned), eav->widget);
@@ -451,6 +511,26 @@ display_view(GalViewInstance *instance,
 }
 
 static void
+view_preview(BonoboUIComponent *uic, const char *path, Bonobo_UIComponent_EventType type, const char *state, void *data)
+{
+	GConfClient *gconf;
+	EABView *view = EAB_VIEW (data);
+
+	if (type != Bonobo_UIComponent_STATE_CHANGED)
+		return;
+
+#if 0
+	gconf = mail_config_get_gconf_client ();
+	gconf_client_set_bool(gconf, "/apps/evolution/mail/display/show_preview", state[0] != '0', NULL);
+
+	if (camel_object_meta_set(emfv->folder, "evolution:show_preview", state))
+		camel_object_state_write(emfv->folder);
+#endif
+
+	eab_view_show_contact_preview(view, state[0] != '0');
+}
+
+static void
 setup_menus (EABView *view)
 {
 	if (view->book && view->view_instance == NULL) {
@@ -467,6 +547,9 @@ setup_menus (EABView *view)
 		g_signal_connect(view->view_instance, "display_view",
 				 G_CALLBACK (display_view), view);
 	}
+
+
+	bonobo_ui_component_add_listener(view->uic, "ContactsViewPreview", view_preview, view);
 }
 
 static void
@@ -482,9 +565,12 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		if (g_value_get_object (value)) {
 			eav->book = E_BOOK(g_value_get_object (value));
 			g_object_ref (eav->book);
+			gtk_widget_set_sensitive (GTK_WIDGET (eav->search), TRUE);
 		}
-		else
+		else {
 			eav->book = NULL;
+			gtk_widget_set_sensitive (GTK_WIDGET (eav->search), FALSE);
+		}
 
 		if (eav->view_instance) {
 			g_object_unref (eav->view_instance);
@@ -498,6 +584,20 @@ eab_view_set_property (GObject *object, guint prop_id, const GValue *value, GPar
 		setup_menus (eav);
 
 		break;
+	case PROP_SOURCE:
+		if (eav->source) {
+			g_warning ("EABView at present does not support multiple writes on the \"source\" property.");
+			break;
+		}
+		else {
+			if (g_value_get_object (value)) {
+				eav->source = E_SOURCE(g_value_get_object (value));
+				g_object_ref (eav->source);
+			}
+			else {
+				eav->source = NULL;
+			}
+		}
 	case PROP_QUERY:
 #if 0 /* This code will mess up ldap a bit.  We need to think about the ramifications of this more. */
 		if ((g_value_get_string (value) == NULL && !strcmp (eav->query, SHOW_ALL_SEARCH)) ||
@@ -533,6 +633,13 @@ eab_view_get_property (GObject *object, guint prop_id, GValue *value, GParamSpec
 		else
 			g_value_set_object (value, NULL);
 		break;
+	case PROP_SOURCE:
+		if (eav->source)
+			g_value_set_object (value, eav->source);
+		else
+			g_value_set_object (value, NULL);
+		break;
+
 	case PROP_QUERY:
 		g_value_set_string (value, eav->query);
 		break;
@@ -1313,6 +1420,159 @@ change_view_type (EABView *view, EABViewType view_type)
 	command_state_change (view);
 }
 
+
+
+static void
+search_activated (ESearchBar *esb, EABView *v)
+{
+	ECategoriesMasterList *master_list;
+	char *search_word, *search_query;
+	const char *category_name;
+	int search_type, subid;
+
+	g_message ("in search_activated");
+
+	g_object_get(esb,
+		     "text", &search_word,
+		     "item_id", &search_type,
+		     NULL);
+
+	if (search_type == ESB_ADVANCED) {
+		gtk_widget_show(eab_search_dialog_new(v));
+	}
+	else {
+		if ((search_word && strlen (search_word)) || search_type == ESB_CATEGORY) {
+			GString *s = g_string_new ("");
+			e_sexp_encode_string (s, search_word);
+			switch (search_type) {
+			case ESB_ANY:
+				search_query = g_strdup_printf ("(contains \"x-evolution-any-field\" %s)",
+								s->str);
+				break;
+			case ESB_FULL_NAME:
+				search_query = g_strdup_printf ("(beginswith \"full_name\" %s)",
+								s->str);
+				break;
+			case ESB_EMAIL:
+				search_query = g_strdup_printf ("(beginswith \"email\" %s)",
+								s->str);
+				break;
+			case ESB_CATEGORY:
+				subid = e_search_bar_get_subitem_id (esb);
+
+				if (subid < 0 || subid == G_MAXINT) {
+					/* match everything */
+					search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
+				} else {
+					master_list = get_master_list ();
+					category_name = e_categories_master_list_nth (master_list, subid);
+					search_query = g_strdup_printf ("(is \"category\" \"%s\")", category_name);
+				}
+				break;
+			default:
+				search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
+				break;
+			}
+			g_string_free (s, TRUE);
+		} else
+			search_query = g_strdup ("(contains \"x-evolution-any-field\" \"\")");
+
+		if (search_query)
+			g_object_set (v,
+				      "query", search_query,
+				      NULL);
+
+		g_free (search_query);
+	}
+
+	g_free (search_word);
+}
+
+static void
+query_changed (ESearchBar *esb, EABView *view)
+{
+	int search_type;
+
+	g_object_get(esb,
+		     "item_id", &search_type,
+		     NULL);
+
+	if (search_type == ESB_ADVANCED) {
+		gtk_widget_show(eab_search_dialog_new(view));
+	}
+}
+
+static int
+compare_subitems (const void *a, const void *b)
+{
+	const ESearchBarSubitem *subitem_a = a;
+	const ESearchBarSubitem *subitem_b = b;
+
+	return strcoll (subitem_a->text, subitem_b->text);
+}
+
+static void
+make_suboptions (EABView *view)
+{
+	ESearchBarSubitem *subitems, *s;
+	ECategoriesMasterList *master_list;
+	gint i, N;
+
+	master_list = get_master_list ();
+	N = e_categories_master_list_count (master_list);
+	subitems = g_new (ESearchBarSubitem, N+2);
+
+	subitems[0].id = G_MAXINT;
+	subitems[0].text = g_strdup (_("Any Category"));
+	subitems[0].translate = FALSE;
+
+	for (i=0; i<N; ++i) {
+		const char *category = e_categories_master_list_nth (master_list, i);
+
+		subitems[i+1].id = i;
+		subitems[i+1].text = g_strdup (category);
+		subitems[i+1].translate = FALSE;
+	}
+	subitems[N+1].id = -1;
+	subitems[N+1].text = NULL;
+
+	qsort (subitems + 1, N, sizeof (subitems[0]), compare_subitems);
+
+	e_search_bar_set_suboption (view->search, ESB_CATEGORY, subitems);
+
+	for (s = subitems; s->id != -1; s++) {
+		if (s->text)
+			g_free (s->text);
+	}
+	g_free (subitems);
+}
+
+static void
+ecml_changed (ECategoriesMasterList *ecml, EABView *view)
+{
+	make_suboptions (view);
+}
+
+static ECategoriesMasterList *
+get_master_list (void)
+{
+	static ECategoriesMasterList *category_list = NULL;
+
+	if (category_list == NULL)
+		category_list = e_categories_master_list_wombat_new ();
+	return category_list;
+}
+
+static void
+connect_master_list_changed (EABView *view)
+{
+	view->ecml_changed_id =
+		g_signal_connect (get_master_list(), "changed",
+				  G_CALLBACK (ecml_changed), view);
+}
+
+
+
 typedef struct {
 	GtkWidget *table;
 	GObject *printable;
@@ -1391,8 +1651,19 @@ e_contact_print_button(GtkDialog *dialog, gint response, gpointer data)
 }
 
 void
+eab_view_show_contact_preview (EABView *view, gboolean show)
+{
+	g_return_if_fail (view && E_IS_ADDRESSBOOK_VIEW (view));
+
+	if (show)
+		gtk_widget_show (view->scrolled);
+	else
+		gtk_widget_hide (view->scrolled);
+}
+
+void
 eab_view_setup_menus (EABView *view,
-				BonoboUIComponent *uic)
+		      BonoboUIComponent *uic)
 {
 
 	g_return_if_fail (view != NULL);
@@ -1405,6 +1676,10 @@ eab_view_setup_menus (EABView *view,
 	view->uic = uic;
 
 	setup_menus (view);
+
+	/* XXX toshok - yeah this really doesn't belong here, but it
+	   needs to happen at the same time and takes the uic */
+	e_search_bar_set_ui_component (view->search, uic);
 }
 
 /**
