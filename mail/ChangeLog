@@ -1,3 +1,12 @@
+2001-03-27  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-account-editor.c (switch_page): Lets do some NULL checking
+	here. First, make sure the gsrc isn't NULL and also make sure that
+	account->source isn't NULL either.
+
+	* mail-account-gui.c (mail_account_gui_setup): If there isn't a
+	source_proto, make sure we select "None" as the source type.
+
 2001-03-27  Dan Winship  <danw@ximian.com>
 
 	* mail-config-druid.c (construct): set the initial druid button

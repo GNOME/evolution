@@ -139,17 +139,15 @@ switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	MailAccountEditor *editor = user_data;
 	MailConfigService *source = editor->gui->account->source;
 	MailAccountGuiService *gsrc = &editor->gui->source;
-	char *url;
+	char *url = NULL;
 
 	if (page_num != 2)
 		return;
 
-	if (gsrc->provider && !strncmp (gsrc->provider->protocol, source->url,
-					strlen (gsrc->provider->protocol)))
+	if (gsrc && gsrc->provider && source->url &&
+	    !strncmp (gsrc->provider->protocol, source->url, strlen (source->url)))
 		url = source->url;
-	else
-		url = NULL;
-
+	
 	mail_account_gui_build_extra_conf (editor->gui, url);
 }
 

@@ -128,8 +128,6 @@ mail_account_gui_management_complete (MailAccountGui *gui)
 }
 
 
-
-
 static void
 service_authtype_changed (GtkWidget *widget, gpointer user_data)
 {
@@ -901,7 +899,7 @@ mail_account_gui_setup (MailAccountGui *gui, GtkWidget *top)
 
 	gtk_widget_show (item);
 
-	if (!fstore) {
+	if (!fstore || !source_proto) {
 		fstore = item;
 		hstore = si;
 	}
