@@ -402,6 +402,11 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		ldap_simple_bind_s(blpriv->ldap,
 				   NULL /*binddn*/, NULL /*passwd*/);
 		blpriv->connected = TRUE;
+
+		/* check to see if evolutionPerson is supported, if we can (me
+		   might not be able to if we can't authenticate.  if we
+		   can't, try again in auth_user.) */
+		check_schema_support (bl);
 	}
 	else {
 		g_warning ("pas_backend_ldap_connect failed for "
@@ -412,10 +417,6 @@ pas_backend_ldap_connect (PASBackendLDAP *bl)
 		blpriv->connected = FALSE;
 	}
 
-	/* check to see if evolutionPerson is supported, if we can (me
-           might not be able to if we can't authenticate.  if we
-           can't, try again in auth_user.) */
-	check_schema_support (bl);
 }
 
 static void

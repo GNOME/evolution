@@ -1,5 +1,10 @@
 2001-05-11  Chris Toshok  <toshok@ximian.com>
 
+	* backend/pas/pas-backend-ldap.c (pas_backend_ldap_connect): only
+	check schema support if we've connected.
+
+2001-05-11  Chris Toshok  <toshok@ximian.com>
+
 	* contact-editor/e-contact-editor.c (enable_writable_fields):
 	don't leak the ECard or ECardSimple.
 
