@@ -1,3 +1,8 @@
+2001-12-21  Jon Trowbridge  <trow@ximian.com>
+
+	* message-list.c (on_click): Makes the auto-undelete behavior when
+	changing message flags a bit more sane. (Fixes #17634)
+
 2001-12-17  Dan Winship  <danw@ximian.com>
 
 	* Makefile.am (INCLUDES): Define CAMEL_PROVIDERDIR to be the
