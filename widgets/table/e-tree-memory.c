@@ -329,6 +329,26 @@ etmm_get_expanded_default (ETreeModel *etm)
 	return priv->expanded_default;
 }
 
+static void
+etmm_clear_children_computed (ETreeMemoryPath *path)
+{
+	for (path = path->first_child; path; path = path->next_sibling) {
+		path->children_computed = FALSE;
+		etmm_clear_children_computed (path);
+	}
+}
+
+static void
+etmm_node_request_collapse (ETreeModel *etm, ETreePath node)
+{
+	if (node)
+		etmm_clear_children_computed (node);
+
+	if (parent_class->node_request_collapse) {
+		parent_class->node_request_collapse (etm, node);
+	}
+}
+
 
 static void
 e_tree_memory_class_init (ETreeMemoryClass *klass)
@@ -350,22 +370,24 @@ e_tree_memory_class_init (ETreeMemoryClass *klass)
 
 	E_OBJECT_CLASS_ADD_SIGNALS (object_class, signals, LAST_SIGNAL);
 
-	object_class->destroy            = etmm_destroy;
+	object_class->destroy             = etmm_destroy;
 
-	tree_class->get_root             = etmm_get_root;
-	tree_class->get_prev             = etmm_get_prev;
-	tree_class->get_next             = etmm_get_next;
-	tree_class->get_first_child      = etmm_get_first_child;
-	tree_class->get_last_child       = etmm_get_last_child;
-	tree_class->get_parent           = etmm_get_parent;
+	tree_class->get_root              = etmm_get_root;
+	tree_class->get_prev              = etmm_get_prev;
+	tree_class->get_next              = etmm_get_next;
+	tree_class->get_first_child       = etmm_get_first_child;
+	tree_class->get_last_child        = etmm_get_last_child;
+	tree_class->get_parent            = etmm_get_parent;
 
-	tree_class->is_root              = etmm_is_root;
-	tree_class->is_expandable        = etmm_is_expandable;
-	tree_class->get_children         = etmm_get_children;
-	tree_class->depth                = etmm_depth;
-	tree_class->get_expanded_default = etmm_get_expanded_default;
+	tree_class->is_root               = etmm_is_root;
+	tree_class->is_expandable         = etmm_is_expandable;
+	tree_class->get_children          = etmm_get_children;
+	tree_class->depth                 = etmm_depth;
+	tree_class->get_expanded_default  = etmm_get_expanded_default;
 
-	klass->fill_in_children          = NULL;
+	tree_class->node_request_collapse = etmm_node_request_collapse;
+
+	klass->fill_in_children           = NULL;
 }
 
 static void
