@@ -4,9 +4,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: evolution 1.2.3\n"
-"POT-Creation-Date: 2003-03-17 12:10-0500\n"
-"PO-Revision-Date: 2003-03-08 22:24-0300\n"
+"Project-Id-Version: evolution 1.2.4\n"
+"POT-Creation-Date: 2003-03-29 11:48-0300\n"
+"PO-Revision-Date: 2003-03-29 14:37-0300\n"
 "Last-Translator: Gustavo Maciel Dias Vieira <gdvieira@zaz.com.br>\n"
 "Language-Team: Brazilian Portuguese <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
@@ -778,7 +778,7 @@ msgstr "Ativar consultas (Perigoso!)"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:1
 #: mail/mail-config.glade.h:1 mail/subscribe-dialog.glade.h:1
 msgid "\n"
-msgstr ""
+msgstr "\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:3
 msgid "  S_how Supported Bases "
@@ -1121,7 +1121,6 @@ msgstr ""
 "árvore do diretório."
 
 #: addressbook/gui/component/ldap-config.glade.h:80
-#, fuzzy
 msgid ""
 "The search scope defines how deep you would like the search to extend down "
 "the \n"
@@ -1135,7 +1134,7 @@ msgstr ""
 "pela árvore do diretório. Um escopo de busca de \"sub\" incluirá todas as "
 "entradas sob a sua base de busca.\n"
 "Um escopo de busca de \"um\" incluirá apenas as entradas um nível abaixo da "
-"sua base."
+"sua base.\n"
 
 #: addressbook/gui/component/ldap-config.glade.h:84
 msgid ""
@@ -1439,7 +1438,7 @@ msgstr "Selecionar nomes"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:3
 msgid "Selected Contacts:"
-msgstr "Contatos selcionados:"
+msgstr "Contatos selecionados:"
 
 #: addressbook/gui/component/select-names/select-names.glade.h:4
 msgid "Show Contacts"
@@ -1508,7 +1507,7 @@ msgstr "Detalhes"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:13
 msgid "F_ree/Busy URL:"
-msgstr "URL _livre-ocupado:"
+msgstr "URL _livre/ocupado:"
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:14
 msgid "File A_s:"
@@ -4395,7 +4394,7 @@ msgid ""
 "The journal entry being deleted is published, would you like to send a "
 "cancellation notice?"
 msgstr ""
-"A entrada de diário sendo apagada está publicada. Você gostaria de enviar um "
+"O item de diário sendo apagado está publicado. Você gostaria de enviar um "
 "aviso de cancelamento?"
 
 #: calendar/gui/dialogs/cancel-comp.c:80
@@ -5020,57 +5019,46 @@ msgid "_Due Date:"
 msgstr "Pra_zo de conclusão:"
 
 #: calendar/gui/e-calendar-table.c:440
-#, c-format
 msgid "0%"
 msgstr "0%"
 
 #: calendar/gui/e-calendar-table.c:441
-#, c-format
 msgid "10%"
 msgstr "10%"
 
 #: calendar/gui/e-calendar-table.c:442
-#, c-format
 msgid "20%"
 msgstr "20%"
 
 #: calendar/gui/e-calendar-table.c:443
-#, c-format
 msgid "30%"
 msgstr "30%"
 
 #: calendar/gui/e-calendar-table.c:444
-#, c-format
 msgid "40%"
 msgstr "40%"
 
 #: calendar/gui/e-calendar-table.c:445
-#, c-format
 msgid "50%"
 msgstr "50%"
 
 #: calendar/gui/e-calendar-table.c:446
-#, c-format
 msgid "60%"
 msgstr "60%"
 
 #: calendar/gui/e-calendar-table.c:447
-#, c-format
 msgid "70%"
 msgstr "70%"
 
 #: calendar/gui/e-calendar-table.c:448
-#, c-format
 msgid "80%"
 msgstr "80%"
 
 #: calendar/gui/e-calendar-table.c:449
-#, c-format
 msgid "90%"
 msgstr "90%"
 
 #: calendar/gui/e-calendar-table.c:450
-#, c-format
 msgid "100%"
 msgstr "100%"
 
@@ -8669,7 +8657,9 @@ msgstr ""
 "%s"
 
 #: camel/camel-sasl-kerberos4.c:218
-#: camel/providers/imap/camel-imap-store.c:1059
+#: camel/providers/imap/camel-imap-store.c:1059 camel/camel-sasl-gssapi.c:189
+#: camel/camel-sasl-gssapi.c:238 camel/camel-sasl-gssapi.c:274
+#: camel/camel-sasl-gssapi.c:289
 msgid "Bad authentication response from server."
 msgstr "Resposta de autenticação inválida do servidor."
 
@@ -27529,7 +27519,7 @@ msgstr "Enviar / receber"
 
 #: ui/evolution.xml.h:30
 msgid "Send queued items and retrieve new items"
-msgstr "Enviar ítens na fila de saída e recuperar novos ítens"
+msgstr "Enviar itens na fila de saída e recuperar novos itens"
 
 #: ui/evolution.xml.h:31
 msgid "Set up Pilot conduit configuration"
@@ -27939,3 +27929,122 @@ msgstr "init_corba(): não foi possível iniciar GNOME"
 #: wombat/wombat.c:224
 msgid "init_bonobo(): could not initialize Bonobo"
 msgstr "init_bonobo(): não foi possível iniciar Bonobo"
+
+#: calendar/gui/comp-editor-factory.c:456
+msgid "Error while opening the calendar"
+msgstr "Erro ao abrir a agenda"
+
+#: calendar/gui/comp-editor-factory.c:465
+msgid "Method not supported when opening the calendar"
+msgstr "Método não suportado ao abrir a agenda"
+
+#: calendar/gui/comp-editor-factory.c:469
+msgid "Permission denied to open calendar"
+msgstr "Permissão negada para abrir a agenda"
+
+#: calendar/gui/dialogs/recur-comp.c:52
+msgid "You are modifying a recurring event, what would you like to modify?"
+msgstr ""
+"Você está modificando um evento recorrente, o que você gostaria de modificar?"
+
+#: calendar/gui/dialogs/recur-comp.c:56
+msgid "You are modifying a recurring task, what would you like to modify?"
+msgstr ""
+"Você está modificando uma tarefa recorrente, o que você gostaria de "
+"modificar?"
+
+#: calendar/gui/dialogs/recur-comp.c:60
+msgid ""
+"You are modifying a recurring journal entry, what would you like to modify?"
+msgstr ""
+"Você está modificando um item de diário recorrente, o que você gostaria de "
+"modificar?"
+
+#: calendar/gui/dialogs/recur-comp.c:77
+msgid "This Instance Only"
+msgstr "Esta instância apenas"
+
+#: calendar/gui/dialogs/recur-comp.c:80
+msgid "This and Future Instances"
+msgstr "Esta e futuras instâncias"
+
+#: calendar/gui/dialogs/recur-comp.c:82
+msgid "All Instances"
+msgstr "Todas as instâncias"
+
+#: camel/camel-sasl-gssapi.c:48
+msgid "GSSAPI"
+msgstr "GSSAPI"
+
+#: camel/camel-sasl-gssapi.c:50
+msgid "This option will connect to the server using Kerberos 5 authentication."
+msgstr "Esta opção conectará ao servidor usando autenticação Kerberos 5."
+
+#: camel/camel-sasl-gssapi.c:148
+msgid ""
+"The specified mechanism is not supported by the provided credential, or is "
+"unrecognized by the implementation."
+msgstr ""
+"O mecanismo especificado não é suportado pela credencial fornecida ou não é "
+"reconhecido pela implementação."
+
+#: camel/camel-sasl-gssapi.c:153
+msgid "The provided target_name parameter was ill-formed."
+msgstr "O parâmetro target_name fornecido foi mal-formado."
+
+#: camel/camel-sasl-gssapi.c:156
+msgid ""
+"The provided target_name parameter contained an invalid or unsupported type "
+"of name."
+msgstr ""
+"O parâmetro target_name fornecido continha um tipo de nome inválido ou não "
+"suportado."
+
+#: camel/camel-sasl-gssapi.c:160
+msgid ""
+"The input_token contains different channel bindings to those specified via "
+"the input_chan_bindings parameter."
+msgstr ""
+"O input_token contém associações de canal diferentes daquelas especificadas "
+"pelo parâmetro input_chan_bindings."
+
+#: camel/camel-sasl-gssapi.c:165
+msgid ""
+"The input_token contains an invalid signature, or a signature that could not "
+"be verified."
+msgstr ""
+"O input_token contém uma assinatura inválida ou uma assinatura que não pode "
+"ser verificada."
+
+#: camel/camel-sasl-gssapi.c:169
+msgid ""
+"The supplied credentials were not valid for context initiation, or the "
+"credential handle did not reference any credentials."
+msgstr ""
+"As credenciais fornecidas não foram válidas para início de contexto ou o "
+"tratador de credencial não fazia referência a nenhuma credencial."
+
+#: camel/camel-sasl-gssapi.c:174
+msgid "The supplied context handle did not refer to a valid context."
+msgstr "O tratador de contexto fornecido não se referia a um contexto válido."
+
+#: camel/camel-sasl-gssapi.c:177
+msgid "The consistency checks performed on the input_token failed."
+msgstr "Os testes de consistência executados no input_token falharam."
+
+#: camel/camel-sasl-gssapi.c:180
+msgid "The consistency checks performed on the credential failed."
+msgstr "Os testes de consistência executados na credencial falharam."
+
+#: camel/camel-sasl-gssapi.c:183
+msgid "The referenced credentials have expired."
+msgstr "As credenciais de referência expiraram."
+
+#: camel/camel-sasl-gssapi.c:213
+#, c-format
+msgid "Failed to resolve host `%s': %s"
+msgstr "Falhou a resolução da máquina `%s': %s"
+
+#: camel/camel-sasl-gssapi.c:299
+msgid "Unsupported security layer."
+msgstr "Camada de segurança não suportada."
