@@ -67,8 +67,8 @@ typedef struct {
 	gboolean in_summary;
 } MailSummary;
 
-#define SUMMARY_IN() g_print ("IN: %s: %d\n", __FUNCTION__, __LINE__);
-#define SUMMARY_OUT() g_print ("OUT: %s: %d\n", __FUNCTION__, __LINE__);
+#define SUMMARY_IN() g_print ("IN: %s: %d\n", G_GNUC_FUNCTION, __LINE__);
+#define SUMMARY_OUT() g_print ("OUT: %s: %d\n", G_GNUC_FUNCTION, __LINE__);
 
 static int queue_len = 0;
 
@@ -247,7 +247,7 @@ folder_changed_cb (CamelObject *folder,
 	summary = (MailSummary *) user_data;
 	fs = g_hash_table_lookup (summary->folder_to_summary, folder);
 	if (fs == NULL) {
-		g_warning ("%s: Unknown folder", __FUNCTION__);
+		g_warning ("%s: Unknown folder", G_GNUC_FUNCTION);
 		return;
 	}
 
@@ -271,7 +271,7 @@ message_changed_cb (CamelObject *folder,
 	summary = (MailSummary *)user_data;
 	fs = g_hash_table_lookup (summary->folder_to_summary, folder);
 	if (fs == NULL) {
-		g_warning ("%s: Unknown folder.", __FUNCTION__);
+		g_warning ("%s: Unknown folder.", G_GNUC_FUNCTION);
 		return;
 	}
 

@@ -574,7 +574,7 @@ receive_done (char *uri, void *data)
 		gtk_widget_set_sensitive((GtkWidget *)info->stop, FALSE);
 
 	/* remove/free this active download */
-	d(printf("%s: freeing info %p\n", __FUNCTION__, info));
+	d(printf("%s: freeing info %p\n", G_GNUC_FUNCTION, info));
 	g_hash_table_remove(info->data->active, info->uri);
 	info->data->infos = g_list_remove(info->data->infos, info);
 

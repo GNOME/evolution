@@ -1809,7 +1809,7 @@ netscape_import_file (NsImporter *importer,
 	importer->listener = evolution_importer_listener_new (importer_cb, 
 							      importer);
 	objref = bonobo_object_corba_objref (BONOBO_OBJECT (importer->listener));
-	d(g_print ("%s:Processing...\n", __FUNCTION__));
+	d(g_print ("%s:Processing...\n", G_GNUC_FUNCTION));
 	CORBA_exception_init (&ev);
 	GNOME_Evolution_Importer_processItem (importer->importer, 
 					      objref, &ev);
