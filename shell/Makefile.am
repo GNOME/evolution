@@ -140,7 +140,7 @@ evolution_LDADD =						\
 	$(BONOBO_GNOME_LIBS)
 
 oafdir = $(datadir)/oaf
-oaf_DATA = evolution.oafinfo
+oaf_DATA = GNOME_Evolution_Shell.oafinfo
 
 EXTRA_DIST = $(IDLS) $(oaf_DATA)
 

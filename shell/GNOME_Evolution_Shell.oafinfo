@@ -1,6 +1,6 @@
 <oaf_info>
 
-<oaf_server iid="OAFIID:evolution:584cc84c-27d4-42c8-ae4d-39a64bdefbd2"
+<oaf_server iid="OAFIID:GNOME_Evolution_Shell"
             type="exe"
             location="evolution">
 

@@ -67,7 +67,7 @@ struct _EShellClass {
 
 
 /* ID for registering the shell in the OAF name service.  */
-#define E_SHELL_OAFIID  "OAFIID:evolution:584cc84c-27d4-42c8-ae4d-39a64bdefbd2"
+#define E_SHELL_OAFIID  "OAFIID:GNOME_Evolution_Shell"
 
 
 GtkType  e_shell_get_type   (void);
