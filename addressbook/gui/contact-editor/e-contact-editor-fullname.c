@@ -20,13 +20,14 @@
  */
 
 #include <config.h>
-#include <gal/widgets/e-unicode.h>
 #include "e-contact-editor-fullname.h"
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtkcombo.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
 
 static void e_contact_editor_fullname_init		(EContactEditorFullname		 *card);
 static void e_contact_editor_fullname_class_init	(EContactEditorFullnameClass	 *klass);
@@ -261,7 +262,7 @@ extract_field(EContactEditorFullname *editor, char *field)
 {
 	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
 	if (entry)
-		return e_utf8_gtk_entry_get_text(entry);
+		return g_strdup (gtk_entry_get_text(entry));
 	else
 		return NULL;
 }

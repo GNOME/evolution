@@ -134,7 +134,7 @@ e_addressbook_search_dialog_init (EAddressbookSearchDialog *view)
 GtkWidget *
 e_addressbook_search_dialog_new (EAddressbookView *addr_view)
 {
-	EAddressbookSearchDialog *view = gtk_type_new (e_addressbook_search_dialog_get_type ());
+	EAddressbookSearchDialog *view = g_object_new (E_ADDRESSBOOK_SEARCH_DIALOG_TYPE, NULL);
 	view->view = addr_view;
 	return GTK_WIDGET(view);
 }

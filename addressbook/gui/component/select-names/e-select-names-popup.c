@@ -35,7 +35,6 @@
 #include <libgnomeui/gnome-app.h>
 #include <libgnomeui/gnome-app-helper.h>
 #include <libgnomeui/gnome-popup-menu.h>
-#include <gal/widgets/e-unicode.h>
 
 #include <addressbook/backend/ebook/e-book-util.h>
 #include <addressbook/gui/contact-editor/e-contact-editor.h>
@@ -215,15 +214,12 @@ static void
 set_uiinfo_label (GnomeUIInfo *uiinfo, const gchar *str)
 {
 	GtkWidget *label;
-	gchar *label_txt;
 	GList *item_children;
 	
-	label_txt = e_utf8_to_locale_string (str);
-	item_children = gtk_container_children (GTK_CONTAINER (uiinfo->widget));
+	item_children = gtk_container_get_children (GTK_CONTAINER (uiinfo->widget));
 	label = item_children->data;
 	g_list_free (item_children);
-	gtk_label_set_text (GTK_LABEL (label), label_txt);
-	g_free (label_txt);
+	gtk_label_set_text (GTK_LABEL (label), str);
 }
 
 #define ARBITRARY_UIINFO_LIMIT 64

@@ -29,7 +29,6 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-window.h>
 #include <gal/e-table/e-table-scrolled.h>
-#include <gal/widgets/e-unicode.h>
 #include "shell/evolution-shell-component-utils.h"
 
 #include "addressbook/gui/widgets/e-addressbook-util.h"
@@ -397,7 +396,7 @@ save_card (EContactListEditor *cle, gboolean should_close)
 static gboolean
 is_named (EContactListEditor *editor)
 {
-	char *string = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
+	char *string = gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
 	gboolean named = FALSE;
 
 	if (string && *string) {
@@ -924,7 +923,7 @@ extract_info(EContactListEditor *editor)
 		int i;
 		EList *email_list;
 		EIterator *email_iter;
-		char *string = e_utf8_gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
+		char *string = gtk_editable_get_chars(GTK_EDITABLE (editor->list_name_entry), 0, -1);
 
 		if (string && *string)
 			g_object_set (card,
@@ -985,9 +984,7 @@ fill_in_info(EContactListEditor *editor)
 		gtk_editable_delete_text (GTK_EDITABLE (editor->list_name_entry), 0, -1);
 		if (file_as) {
 			int position = 0;
-			gchar *u = e_utf8_to_gtk_string (editor->list_name_entry, file_as);
-			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), u, strlen (u), &position);
-			g_free (u);
+			gtk_editable_insert_text (GTK_EDITABLE (editor->list_name_entry), file_as, strlen (file_as), &position);
 		}
 
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(editor->visible_addrs_checkbutton), !show_addresses);

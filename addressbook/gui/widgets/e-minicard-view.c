@@ -29,7 +29,6 @@
 #include <gtk/gtkselection.h>
 #include <gtk/gtkdnd.h>
 #include <gal/widgets/e-canvas.h>
-#include <gal/widgets/e-unicode.h>
 #include <libgnome/gnome-i18n.h>
 
 static void e_minicard_view_drag_data_get(GtkWidget *widget,

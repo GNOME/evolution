@@ -27,10 +27,11 @@
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-util.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/widgets/e-gui-utils.h>
 #include <gtk/gtkcombo.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtklabel.h>
 #include <string.h>
 #include <stdlib.h>
 #include <locale.h>
@@ -577,9 +578,9 @@ fill_in_info(EContactEditorAddress *editor)
 static char *
 extract_field(EContactEditorAddress *editor, char *field)
 {
-	GtkEditable *editable = GTK_EDITABLE(glade_xml_get_widget(editor->gui, field));
-	if (editable)
-		return e_utf8_gtk_editable_get_text(editable);
+	GtkEntry *entry = GTK_ENTRY(glade_xml_get_widget(editor->gui, field));
+	if (entry)
+		return g_strdup (gtk_entry_get_text(entry));
 	else
 		return NULL;
 }

@@ -2294,7 +2294,7 @@ e_card_get_property (GObject *object,
 				strs[i] = (char *)e_iterator_get(iterator);
 			}
 			strs[i] = 0;
-			g_value_set_string(value, g_strjoinv(", ", strs)); /* XXX leak here? */
+			g_value_set_string(value, g_strjoinv(", ", strs));
 			g_free(strs);
 		}
 		break;

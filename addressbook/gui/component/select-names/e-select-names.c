@@ -43,7 +43,6 @@
 #include <addressbook/backend/ebook/e-card-simple.h>
 #include "e-select-names-text-model.h"
 #include <gal/widgets/e-categories-master-list-option-menu.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/e-text/e-entry.h>
 #include <e-util/e-categories-master-list-wombat.h>
 
@@ -724,7 +723,7 @@ e_select_names_add_section(ESelectNames *e_select_names, char *name, char *id, E
 	child = g_new(ESelectNamesChild, 1);
 
 	child->names = e_select_names;
-	child->title = e_utf8_from_locale_string(_(name));
+	child->title = g_strdup (_(name));
 
 	child->text_model = (ESelectNamesTextModel *) e_select_names_text_model_new (source);
 	e_select_names_text_model_set_separator (child->text_model, "\n");

@@ -34,7 +34,6 @@
 #include <gtk/gtkstock.h>
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeui/gnome-app.h>
-#include <gal/widgets/e-unicode.h>
 #include <addressbook/gui/component/addressbook.h>
 #include <addressbook/backend/ebook/e-book.h>
 #include <addressbook/backend/ebook/e-book-util.h>
@@ -253,15 +252,13 @@ clicked_cb (GtkWidget *w, gint button, gpointer closure)
 		if (qa->name_entry) {
 			gchar *tmp;
 			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->name_entry), 0, -1);
-			name = e_utf8_from_gtk_string (qa->name_entry, tmp);
-			g_free (tmp);
+			name = tmp;
 		}
 
 		if (qa->email_entry) {
 			gchar *tmp;
 			tmp = gtk_editable_get_chars (GTK_EDITABLE (qa->email_entry), 0, -1);
-			email = e_utf8_from_gtk_string (qa->email_entry, tmp);
-			g_free (tmp);
+			email = tmp;
 		}
 
 		quick_add_set_name (qa, name);
@@ -311,19 +308,13 @@ build_quick_add_dialog (QuickAdd *qa)
 			  G_CALLBACK (clicked_cb), qa);
 
 	qa->name_entry = gtk_entry_new ();
-	if (qa->name) {
-		gchar *str = e_utf8_to_gtk_string (qa->name_entry, qa->name);
-		gtk_entry_set_text (GTK_ENTRY (qa->name_entry), str);
-		g_free (str);
-	}
+	if (qa->name)
+		gtk_entry_set_text (GTK_ENTRY (qa->name_entry), qa->name);
 
 
 	qa->email_entry = gtk_entry_new ();
-	if (qa->email) {
-		gchar *str = e_utf8_to_gtk_string (qa->email_entry, qa->email);
-		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), str);
-		g_free (str);
-	}
+	if (qa->email)
+		gtk_entry_set_text (GTK_ENTRY (qa->email_entry), qa->email);
 
 	table = GTK_TABLE (gtk_table_new (2, 2, FALSE));
 

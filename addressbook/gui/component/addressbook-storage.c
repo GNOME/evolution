@@ -371,15 +371,18 @@ addressbook_storage_init_source_uri (AddressbookSource *source)
 
 	str = g_string_new ("ldap://");
 
-	g_string_sprintfa (str, "%s:%s/%s?"/*trigraph prevention*/"?%s",
-			   source->host, source->port, source->rootdn, ldap_unparse_scope (source->scope));
+	g_string_append_printf (str, "%s:%s/%s?"/*trigraph prevention*/"?%s",
+				source->host,
+				source->port,
+				source->rootdn,
+				ldap_unparse_scope (source->scope));
 
-	g_string_sprintfa (str, ";limit=%d", source->limit);
+	g_string_append_printf (str, ";limit=%d", source->limit);
 
-	g_string_sprintfa (str, ";ssl=%s", ldap_unparse_ssl (source->ssl));
+	g_string_append_printf (str, ";ssl=%s", ldap_unparse_ssl (source->ssl));
 
 #if 0
-	g_string_sprintfa (str, ";timeout=%d", source->timeout);
+	g_string_append_printf (str, ";timeout=%d", source->timeout);
 #endif
 
 	source->uri = str->str;

@@ -27,7 +27,7 @@
 
 #include "addressbook-storage.h"
 
-BonoboControl *addressbook_config_control_new (void);
+BonoboObject *addressbook_config_control_new (void);
 void  addressbook_config_create_new_source  (const char *new_source,
 					     GtkWidget  *parent);
 

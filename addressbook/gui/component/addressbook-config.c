@@ -33,7 +33,6 @@
 #include "evolution-config-control.h"
 #include <shell/e-folder-list.h>
 
-#include <gal/widgets/e-unicode.h>
 #include <gal/e-table/e-table-memory-store.h>
 #include <gal/e-table/e-table-scrolled.h>
 
@@ -80,7 +79,7 @@ typedef struct {
 static void
 focus_help (GtkWidget *w, GdkEventFocus *event, FocusHelpClosure *closure)
 {
-	gtk_notebook_set_page (GTK_NOTEBOOK(closure->notebook), closure->page_num);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(closure->notebook), closure->page_num);
 }
 
 static void
@@ -204,7 +203,7 @@ addressbook_ldap_init (GtkWidget *window, AddressbookSource *source)
 						 GTK_MESSAGE_ERROR,
 						 GTK_BUTTONS_OK,
 						 _("Failed to connect to LDAP server"));
-
+		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 		gtk_widget_show (dialog);
 
 		return NULL;
@@ -229,6 +228,7 @@ addressbook_ldap_auth (GtkWidget *window, AddressbookSource *source, LDAP *ldap)
 						 GTK_MESSAGE_ERROR,
 						 GTK_BUTTONS_OK,
 						 _("Failed to authenticate with LDAP server"));
+		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 		gtk_widget_show (dialog);
 	}
 	return ldap_error;
@@ -256,6 +256,7 @@ addressbook_root_dse_query (GtkWindow *window, AddressbookSource *source, LDAP *
 						 GTK_MESSAGE_ERROR,
 						 GTK_BUTTONS_OK,
 						 _("Could not perform query on Root DSE"));
+		g_signal_connect (dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 		gtk_widget_show (dialog);
 	}
 
@@ -302,8 +303,8 @@ addressbook_source_dialog_set_source (AddressbookSourceDialog *dialog, Addressbo
 	dialog->auth = source ? source->auth : ADDRESSBOOK_LDAP_AUTH_NONE;
 	gtk_option_menu_set_history (GTK_OPTION_MENU(dialog->auth_optionmenu), dialog->auth);
 	if (dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE) {
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_label_notebook), dialog->auth - 1);
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_label_notebook), dialog->auth - 1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
 	}
 	gtk_widget_set_sensitive (dialog->auth_label_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
 	gtk_widget_set_sensitive (dialog->auth_entry_notebook, dialog->auth != ADDRESSBOOK_LDAP_AUTH_NONE);
@@ -398,8 +399,8 @@ reparent_to_vbox (AddressbookSourceDialog *dialog, char *vbox_name, char *widget
 static void
 auth_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
-	dialog->auth = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
-				    item);
+	dialog->auth = g_list_index (gtk_container_get_children (GTK_CONTAINER (item->parent)),
+				     item);
 
 	dialog->general_modify_func (item, dialog);
 
@@ -410,8 +411,8 @@ auth_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 	else {
 		gtk_widget_set_sensitive (dialog->auth_label_notebook, TRUE);
 		gtk_widget_set_sensitive (dialog->auth_entry_notebook, TRUE);
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_label_notebook), dialog->auth - 1);
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_label_notebook), dialog->auth - 1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->auth_entry_notebook), dialog->auth - 1);
 	}
 }
 
@@ -501,7 +502,7 @@ druid_info_page_prepare (GnomeDruidPage *dpage, GtkWidget *gdruid, AddressbookSo
 static void
 ssl_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
-	dialog->ssl = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
+	dialog->ssl = g_list_index (gtk_container_get_children (GTK_CONTAINER (item->parent)),
 				    item);
 
 	dialog->connecting_modify_func (item, dialog);
@@ -511,12 +512,12 @@ static void
 ssl_optionmenu_selected (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
 	GtkWidget *connecting_tab_help;
-	int ssl_type = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
+	int ssl_type = g_list_index (gtk_container_get_children (GTK_CONTAINER (item->parent)),
 				     item);
 
 	connecting_tab_help = glade_xml_get_widget (dialog->gui, "connecting-tab-help");
 
-	gtk_notebook_set_page (GTK_NOTEBOOK(connecting_tab_help), ssl_type + 1);
+	gtk_notebook_set_current_page (GTK_NOTEBOOK(connecting_tab_help), ssl_type + 1);
 }
 
 static void
@@ -667,6 +668,7 @@ do_ldap_root_dse_query (GtkWidget *dialog, ETableModel *model, AddressbookSource
 						       GTK_MESSAGE_ERROR,
 						       GTK_BUTTONS_OK,
 						       _("The server responded with no supported search bases"));
+		g_signal_connect (error_dialog, "response", G_CALLBACK(gtk_widget_destroy), NULL);
 		gtk_widget_show (error_dialog);
 		goto fail;
 	}
@@ -744,7 +746,7 @@ query_for_supported_bases (GtkWidget *button, AddressbookSourceDialog *sdialog)
 static void
 scope_optionmenu_activated (GtkWidget *item, AddressbookSourceDialog *dialog)
 {
-	dialog->scope = g_list_index (gtk_container_children (GTK_CONTAINER (item->parent)),
+	dialog->scope = g_list_index (gtk_container_get_children (GTK_CONTAINER (item->parent)),
 				      item);
 
 	if (dialog->searching_modify_func)
@@ -1117,7 +1119,7 @@ static void
 set_advanced_button_state (AddressbookSourceDialog *dialog)
 {
 	if (dialog->advanced) {
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->advanced_button_notebook), 0);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->advanced_button_notebook), 0);
 #ifdef NEW_ADVANCED_UI
 		gtk_notebook_append_page (GTK_NOTEBOOK(dialog->notebook), dialog->objectclasses_tab, dialog->objectclasses_label);
 		gtk_notebook_append_page (GTK_NOTEBOOK(dialog->notebook), dialog->mappings_tab, dialog->mappings_label);
@@ -1125,7 +1127,7 @@ set_advanced_button_state (AddressbookSourceDialog *dialog)
 #endif
 	}
 	else {
-		gtk_notebook_set_page (GTK_NOTEBOOK(dialog->advanced_button_notebook), 1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(dialog->advanced_button_notebook), 1);
 		
 		/* hide the advanced tabs of the main notebook */
 		gtk_notebook_remove_page (GTK_NOTEBOOK(dialog->notebook), 5);
@@ -1672,7 +1674,7 @@ ldap_config_control_new (GNOME_Evolution_Shell shell)
 }
 
 
-BonoboControl *
+BonoboObject *
 addressbook_config_control_new (void)
 {
 	GNOME_Evolution_Shell shell;
@@ -1681,7 +1683,7 @@ addressbook_config_control_new (void)
 	if (! shell)
 		return NULL;
 
-	return BONOBO_CONTROL (ldap_config_control_new (shell));
+	return BONOBO_OBJECT (ldap_config_control_new (shell));
 }
 
 void
@@ -1731,7 +1733,6 @@ main(int argc, char **argv)
 	g_log_set_always_fatal (G_LOG_LEVEL_CRITICAL | G_LOG_LEVEL_WARNING);
 #endif
 
-	gtk_widget_push_visual (gdk_rgb_get_visual ());
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	dialog = ldap_dialog_new (NULL);

@@ -37,7 +37,6 @@
 #include <bonobo/bonobo-exception.h>
 #include <bonobo/bonobo-property-bag.h>
 #include <gal/util/e-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "e-util/e-categories-master-list-wombat.h"
 #include "e-util/e-sexp.h"

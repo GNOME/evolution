@@ -1,3 +1,113 @@
+2002-12-18  Chris Toshok  <toshok@ximian.com>
+
+	* gui/widgets/e-minicard.c (e_minicard_realize): drop use of
+	"font" arg.
+	(get_left_width): use pango to calculate this instead of a GdkFont.
+
+	* gui/widgets/e-minicard-view.c: drop include of e-unicode.h.
+
+	* gui/widgets/e-minicard-label.c (e_minicard_label_construct):
+	don't need to create the font anymore.
+
+	* gui/search/Makefile.am (INCLUDES): add -D*_DISABLE_DEPRECATED.
+
+	* gui/search/e-addressbook-search-dialog.c
+	(e_addressbook_search_dialog_new): use g_object_new instead of
+	gtk_type_new.
+
+	* gui/merging/Makefile.am (INCLUDES): add -D*_DISABLE_DEPRECATED.
+
+	* gui/contact-list-editor/Makefile.am (INCLUDES): add
+	-D*_DISABLE_DEPRECATED.
+
+	* gui/contact-list-editor/e-contact-list-editor.c (is_named):
+	strdup (or not, if we don't need to save the value) instead of
+	using the e_utf8 functions.
+	(fill_in_info): same.
+
+	* gui/contact-editor/Makefile.am (INCLUDES): add
+	-D*_DISABLE_DEPRECATED.
+
+	* gui/contact-editor/e-contact-save-as.c (e_contact_save_as):
+	strdup (or not, if we don't need to save the value) instead of
+	using the e_utf8 functions.
+	(e_contact_list_save_as): same.
+
+	* gui/contact-editor/e-contact-quick-add.c (clicked_cb): strdup
+	(or not, if we don't need to save the value) instead of using the
+	e_utf8 functions.
+	(build_quick_add_dialog): same.
+
+	* gui/contact-editor/e-contact-editor.c (phone_entry_changed):
+	strdup (or not, if we don't need to save the value) instead of
+	using the e_utf8 functions.
+	(file_as_set_style): same.
+	(name_entry_changed): same.
+	(full_name_clicked): same.
+	(categories_clicked): same.
+	(set_field): same.
+	(fill_in_field): same.
+	(fill_in_single_field): same.
+	(extract_field): same.
+	(extract_single_field): same.
+
+	* gui/contact-editor/e-contact-editor-fullname.c (extract_field):
+	just strdup, it's already utf8.
+
+	* gui/contact-editor/e-contact-editor-address.c (extract_field):
+	they're all entries, use GTK_ENTRY foo here.
+
+	* gui/component/select-names/Makefile.am (INCLUDES): add
+	-D*_DISABLE_DEPRECATED.
+
+	* gui/component/select-names/e-select-names.c
+	(e_select_names_add_section): remove the extra
+	utf8_from_locale_string stuff.
+
+	* gui/component/select-names/e-select-names-popup.c
+	(set_uiinfo_label): gtk_container_children ->
+	gtk_container_get_children, and remove the extra utf8 stuff.
+
+	* gui/component/Makefile.am (INCLUDES): add
+	-D*_DISABLE_DEPRECATED.
+
+	* gui/component/addressbook-storage.c
+	(addressbook_storage_init_source_uri): g_string_sprintfa ->
+	g_string_append_printf.
+
+	* gui/component/addressbook-config.c (focus_help):
+	gtk_notebook_set_page -> gtk_notebook_set_current_page.
+	(addressbook_source_dialog_set_source): same.
+	(auth_optionmenu_activated): gtk_container_children ->
+	gtk_container_get_children.
+	(ssl_optionmenu_activated): same.
+	(ssl_optionmenu_selected): same, and gtk_notebook_set_page ->
+	gtk_notebook_set_current_page.
+	(scope_optionmenu_activated): same.
+	(set_advanced_button_state): same.
+	(addressbook_ldap_init): hook "response" to gtk_widget_destroy to
+	make the dialog go away when clicked.
+	(addressbook_ldap_auth): same.
+	(addressbook_root_dse_query): same.
+	(do_ldap_root_dse_query): same.
+	(addressbook_config_control_new): fix return type and cast.
+	(main): remove call to gtk_widget_push_visual.
+
+	* gui/component/addressbook-config.h:
+	addressbook_config_control_new returns a BonoboObject, not a
+	BonoboControl.
+
+	* gui/component/addressbook.c: remove e-unicode.h include.
+
+	* backend/pas/Makefile.am (INCLUDES): Add
+	-DLIBGNOME_DISABLE_DEPRECATED.
+
+	* backend/ebook/Makefile.am (INCLUDES): Add
+	-DLIBGNOME_DISABLE_DEPRECATED.
+
+	* backend/ebook/e-card.c (e_card_get_property): remove misleading
+	comment.
+
 2002-12-17  Chris Toshok  <toshok@ximian.com>
 
 	* backend/pas/pas-backend-ldap.c (build_card_from_entry):

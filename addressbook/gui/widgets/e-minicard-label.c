@@ -273,9 +273,6 @@ e_minicard_label_construct (GnomeCanvasItem *item)
 {
 	EMinicardLabel *e_minicard_label;
 	GnomeCanvasGroup *group;
-	GdkFont *font;
-
-	font = gtk_style_get_font (gtk_widget_get_style (GTK_WIDGET (item->canvas)));
 
 	e_minicard_label = E_MINICARD_LABEL (item);
 	group = GNOME_CANVAS_GROUP( item );

@@ -22,6 +22,7 @@ INCLUDES =						\
 	-I$(top_srcdir)/addressbook/backend		\
 	-I$(top_builddir)/addressbook/backend		\
 	-DG_DISABLE_DEPRECATED				\
+	-DLIBGNOME_DISABLE_DEPRECATED			\
         $(EVOLUTION_ADDRESSBOOK_CFLAGS)
 
 LDAP_SCHEMA =						\

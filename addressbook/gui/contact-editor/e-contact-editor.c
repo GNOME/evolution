@@ -30,6 +30,8 @@
 #include <gtk/gtktextview.h>
 #include <gtk/gtkmessagedialog.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkentry.h>
+#include <gtk/gtklabel.h>
 #include <libgnomeui/gnome-popup-menu.h>
 #include <libgnomeui/gnome-window-icon.h>
 #include <libgnome/gnome-i18n.h>
@@ -40,7 +42,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 #include <gal/widgets/e-categories.h>
 #include <gal/widgets/e-gui-utils.h>
-#include <gal/widgets/e-unicode.h>
 #include <gal/e-text/e-entry.h>
 
 #include <e-util/e-categories-master-list-wombat.h>
@@ -294,7 +295,7 @@ phone_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	} else
 		return;
 	phone = e_card_phone_new();
-	phone->number = e_utf8_gtk_entry_get_text(entry);
+	phone->number = g_strdup (gtk_entry_get_text(entry));
 	e_card_simple_set_phone(editor->simple, editor->phone_choice[which - 1], phone);
 	e_card_phone_unref(phone);
 	set_fields(editor);
@@ -508,7 +509,7 @@ file_as_get_style (EContactEditor *editor)
 	if (!(file_as && GTK_IS_ENTRY(file_as)))
 		return -1;
 
-	filestring = e_utf8_gtk_entry_get_text(file_as);
+	filestring = g_strdup (gtk_entry_get_text(file_as));
 
 	style = -1;
 	for (i = 0; i < 5; i++) {
@@ -538,7 +539,7 @@ file_as_set_style(EContactEditor *editor, int style)
 		return;
 
 	if (style == -1) {
-		string = e_utf8_gtk_entry_get_text(file_as);
+		string = g_strdup (gtk_entry_get_text(file_as));
 		strings = g_list_append(strings, string);
 	}
 
@@ -548,9 +549,7 @@ file_as_set_style(EContactEditor *editor, int style)
 		if (style_makes_sense(editor->name, editor->company, i)) {
 			char *u;
 			u = name_to_style(editor->name, editor->company, i);
-			string = e_utf8_to_gtk_string (widget, u);
-			g_free (u);
-			if (string) strings = g_list_append(strings, string);
+			if (u) strings = g_list_append(strings, u);
 		}
 	}
 
@@ -563,7 +562,7 @@ file_as_set_style(EContactEditor *editor, int style)
 
 	if (style != -1) {
 		string = name_to_style(editor->name, editor->company, style);
-		e_utf8_gtk_entry_set_text(file_as, string);
+		gtk_entry_set_text(file_as, string);
 		g_free(string);
 	}
 }
@@ -572,15 +571,14 @@ static void
 name_entry_changed (GtkWidget *widget, EContactEditor *editor)
 {
 	int style = 0;
-	char *string;
+	const char *string;
 
 	style = file_as_get_style(editor);
 	
 	e_card_name_unref(editor->name);
 
-	string = e_utf8_gtk_entry_get_text (GTK_ENTRY(widget));
+	string = gtk_entry_get_text (GTK_ENTRY(widget));
 	editor->name = e_card_name_from_string(string);
-	g_free (string);
 	
 	file_as_set_style(editor, style);
 
@@ -596,7 +594,7 @@ company_entry_changed (GtkWidget *widget, EContactEditor *editor)
 	
 	g_free(editor->company);
 	
-	editor->company = e_utf8_gtk_entry_get_text(GTK_ENTRY(widget));
+	editor->company = g_strdup (gtk_entry_get_text(GTK_ENTRY(widget)));
 	
 	file_as_set_style(editor, style);
 
@@ -779,7 +777,7 @@ full_name_clicked(GtkWidget *button, EContactEditor *editor)
 		fname_widget = glade_xml_get_widget(editor->gui, "entry-fullname");
 		if (fname_widget && GTK_IS_ENTRY(fname_widget)) {
 			char *full_name = e_card_name_to_string(name);
-			e_utf8_gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
+			gtk_entry_set_text(GTK_ENTRY(fname_widget), full_name);
 			g_free(full_name);
 		}
 
@@ -856,7 +854,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 	GtkWidget *entry = glade_xml_get_widget(editor->gui, "entry-categories");
 	ECategoriesMasterList *ecml;
 	if (entry && GTK_IS_ENTRY(entry))
-		categories = e_utf8_gtk_entry_get_text(GTK_ENTRY(entry));
+		categories = g_strdup (gtk_entry_get_text(GTK_ENTRY(entry)));
 	else if (editor->card)
 		g_object_get (editor->card,
 			       "categories", &categories,
@@ -869,6 +867,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 							   GTK_RESPONSE_OK,
 							   _("Category editor not available."),
 							   NULL);
+		g_free (categories);
 		gtk_widget_show (uh_oh);
 		return;
 	}
@@ -887,7 +886,7 @@ categories_clicked(GtkWidget *button, EContactEditor *editor)
 			       "categories", &categories,
 			       NULL);
 		if (entry && GTK_IS_ENTRY(entry))
-			e_utf8_gtk_entry_set_text(GTK_ENTRY(entry), categories);
+			gtk_entry_set_text(GTK_ENTRY(entry), categories);
 		else
 			g_object_set (editor->card,
 				       "categories", categories,
@@ -2061,12 +2060,11 @@ find_address_mailing (EContactEditor *editor)
 static void
 set_field(GtkEntry *entry, const char *string)
 {
-	char *oldstring = e_utf8_gtk_entry_get_text(entry);
+	const char *oldstring = gtk_entry_get_text(entry);
 	if (!string)
 		string = "";
 	if (strcmp(string, oldstring))
-		e_utf8_gtk_entry_set_text(entry, string);
-	g_free (oldstring);
+		gtk_entry_set_text(entry, string);
 }
 
 static void
@@ -2242,11 +2240,8 @@ fill_in_field(EContactEditor *editor, char *id, char *value)
 		int position = 0;
 		GtkEditable *editable = GTK_EDITABLE(widget);
 		gtk_editable_delete_text(editable, 0, -1);
-		if (value) {
-			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, value);
-			gtk_editable_insert_text(editable, u, strlen(u), &position);
-			g_free (u);
-		}
+		if (value)
+			gtk_editable_insert_text(editable, value, strlen(value), &position);
 	}
 }
 
@@ -2273,11 +2268,8 @@ fill_in_single_field(EContactEditor *editor, char *name)
 		gtk_editable_delete_text(editable, 0, -1);
 		arbitrary = e_card_simple_get_arbitrary(simple,
 							name);
-		if (arbitrary && arbitrary->value) {
-			gchar *u = e_utf8_to_gtk_string ((GtkWidget *) editable, arbitrary->value);
-			gtk_editable_insert_text(editable, u, strlen(u), &position);
-			g_free (u);
-		}
+		if (arbitrary && arbitrary->value)
+			gtk_editable_insert_text(editable, arbitrary->value, strlen(arbitrary->value), &position);
 	}
 }
 
@@ -2616,18 +2608,19 @@ static void
 extract_field(EContactEditor *editor, ECard *card, char *editable_id, char *key)
 {
 	GtkWidget *widget = glade_xml_get_widget(editor->gui, editable_id);
-	if (widget && GTK_IS_EDITABLE(widget)) {
+
+	if (widget && GTK_IS_EDITABLE (widget)) {
 		GtkEditable *editable = GTK_EDITABLE(widget);
-		char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+		char *string = gtk_editable_get_chars(editable, 0, -1);
 
 		if (string && *string)
 			g_object_set (card,
-				       key, string,
-				       NULL);
+				      key, string,
+				      NULL);
 		else
 			g_object_set (card,
-				       key, NULL,
-				       NULL);
+				      key, NULL,
+				      NULL);
 
 		if (string) g_free(string);
 	}
@@ -2640,7 +2633,7 @@ extract_single_field(EContactEditor *editor, char *name)
 	ECardSimple *simple = editor->simple;
 	if (widget && GTK_IS_EDITABLE(widget)) {
 		GtkEditable *editable = GTK_EDITABLE(widget);
-		char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+		char *string = gtk_editable_get_chars(editable, 0, -1);
 
 		if (string && *string)
 			e_card_simple_set_arbitrary(simple,
@@ -2670,7 +2663,7 @@ extract_info(EContactEditor *editor)
 		widget = glade_xml_get_widget(editor->gui, "entry-file-as");
 		if (widget && GTK_IS_EDITABLE(widget)) {
 			GtkEditable *editable = GTK_EDITABLE(widget);
-			char *string = e_utf8_gtk_editable_get_chars(editable, 0, -1);
+			char *string = gtk_editable_get_chars(editable, 0, -1);
 
 			if (string && *string)
 				g_object_set (card,

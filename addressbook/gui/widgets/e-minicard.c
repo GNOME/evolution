@@ -468,9 +468,6 @@ e_minicard_realize (GnomeCanvasItem *item)
 				 "width", (double) MAX( e_minicard->width - 12, 0 ),
 				 "clip", TRUE,
 				 "use_ellipsis", TRUE,
-#if 0
-				 "font", "fixed-bold-10",
-#endif
 				 "fill_color_gdk", &canvas->style->fg[GTK_STATE_NORMAL],
 				 "text", "",
 				 "draw_background", FALSE,
@@ -811,24 +808,26 @@ add_field (EMinicard *e_minicard, ECardSimpleField field, gdouble left_width)
 	g_free(string);
 }
 
-static gdouble
+static int
 get_left_width(EMinicard *e_minicard)
 {
 	gchar *name;
 	ECardSimpleField field;
-	gdouble width = -1;
+	int width = -1;
 	GdkFont *font;
+	PangoLayout *layout;
 
-	font = gtk_style_get_font (gtk_widget_get_style ((GtkWidget *) ((GnomeCanvasItem *) e_minicard)->canvas));
-
+	layout = gtk_widget_create_pango_layout (GTK_WIDGET (GNOME_CANVAS_ITEM (e_minicard)->canvas), "");
 	for(field = E_CARD_SIMPLE_FIELD_FULL_NAME; field != E_CARD_SIMPLE_FIELD_LAST; field++) {
-		gdouble this_width;
+		int this_width;
 		name = g_strdup_printf("%s:", e_card_simple_get_name(e_minicard->simple, field));
-		this_width = gdk_text_width(font, name, strlen(name));
+		pango_layout_set_text (layout, name, -1);
+		pango_layout_get_pixel_size (layout, &this_width, NULL);
 		if (width < this_width)
 			width = this_width;
 		g_free(name);
 	}
+	g_object_unref (layout);
 	return width;
 }
 
@@ -842,7 +841,7 @@ remodel( EMinicard *e_minicard )
 		ECardSimpleField field;
 		GList *list;
 		char *file_as;
-		gdouble left_width = -1;
+		int left_width = -1;
 
 		if (e_minicard->header_text) {
 			file_as = e_card_simple_get(e_minicard->simple, E_CARD_SIMPLE_FIELD_FILE_AS);
