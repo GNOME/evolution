@@ -107,6 +107,16 @@ else
 fi
 
 dnl ******************************
+dnl libunicode checking
+dnl ******************************
+AC_MSG_CHECKING(For libunicode)
+if unicode-config --libs > /dev/null 2>&1; then 
+    AC_MSG_RESULT(found)
+else
+    AC_MSG_ERROR(libunicode not found)
+fi
+
+dnl ******************************
 dnl GdkPixbuf checking
 dnl ******************************
 AC_MSG_CHECKING(For Gdkpixbuf libraries)
@@ -124,9 +134,8 @@ else
 	THREADS_CFLAGS=""
 fi
 
-EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_LIBS"
-EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_CFLAGS"
-
+EXTRA_GNOME_LIBS="`gnome-config --libs gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_LIBS `unicode-config --libs`"
+EXTRA_GNOME_CFLAGS="`gnome-config --cflags gnomeui libglade gdk_pixbuf gnomecanvaspixbuf ` $THREADS_CFLAGS `unicode-config --cflags`"
 
 AC_SUBST(EXTRA_GNOME_LIBS)
 AC_SUBST(EXTRA_GNOME_CFLAGS)

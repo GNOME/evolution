@@ -14,6 +14,7 @@ SUBDIRS =			\
 	po			\
 	macros			\
 	data			\
+	libibex			\
 	camel			\
 	e-util			\
 	widgets			\

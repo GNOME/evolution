@@ -1,3 +1,15 @@
+2000-02-14  NotZed  <notzed@zedzone.helixcode.com>
+
+	* configure.in (EXTRA_GNOME_CFLAGS): Add libunicode to CFLAGS/LIBS.
+
+2000-02-13  NotZed  <notzed@zedzone.helixcode.com>
+
+	* configure.in: Added check for libunicode.
+
+	* Makefile.am (SUBDIRS): Added libibex.
+
+	* tests/test11.c (main): New test, tests search api.
+
 2000-02-13  Matt Loper  <matt@helixcode.com>
 
 	* tests/ui-tests/test-multipart-mixed.msg: New rfc822 file, which

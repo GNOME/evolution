@@ -38,5 +38,6 @@ noinst_PROGRAMS =  	\
 	test7		\
 	test9		\
 	test10		\
+	test11		\
 	test-formatter	\
 	$(THREAD_RELATED_TESTS)
