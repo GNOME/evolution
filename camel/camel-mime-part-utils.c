@@ -194,7 +194,7 @@ static void
 simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser *mp)
 {
 	CamelMimeFilter *fdec = NULL, *fcrlf = NULL;
-	CamelMimeFilterBasicType enctype;
+	CamelMimeFilterBasicType enctype = 0;
 	int len, decid = -1, crlfid = -1;
 	struct _header_content_type *ct;
 	const char *charset = NULL;
@@ -207,11 +207,20 @@ simple_data_wrapper_construct_from_parser (CamelDataWrapper *dw, CamelMimeParser
 	/* first, work out conversion, if any, required, we dont care about what we dont know about */
 	encoding = header_content_encoding_decode (camel_mime_parser_header (mp, "Content-Transfer-Encoding", NULL));
 	if (encoding) {
-		enctype = camel_mime_part_encoding_from_string (encoding);
+		if (!strcasecmp (encoding, "base64")) {
+			d(printf("Adding base64 decoder ...\n"));
+			enctype = CAMEL_MIME_FILTER_BASIC_BASE64_DEC;
+		} else if (!strcasecmp (encoding, "quoted-printable")) {
+			d(printf("Adding quoted-printable decoder ...\n"));
+			enctype = CAMEL_MIME_FILTER_BASIC_QP_DEC;
+		} else if (!strcasecmp (encoding, "x-uuencode")) {
+			d(printf("Adding uudecoder ...\n"));
+			enctype = CAMEL_MIME_FILTER_BASIC_UU_DEC;
+		}
 		g_free (encoding);
 		
-		if (enctype != CAMEL_MIME_PART_ENCODING_DEFAULT) {
-			fdec = (CamelMimeFilter *) camel_mime_filter_basic_new_type (enctype);
+		if (enctype != 0) {
+			fdec = (CamelMimeFilter *)camel_mime_filter_basic_new_type(enctype);
 			decid = camel_mime_parser_filter_add (mp, fdec);
 		}
 	}
