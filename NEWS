@@ -101,6 +101,8 @@ Addressbook:
 
   - Changed advanced search to match behavior in mailer.  (Toshok)
 
+  - Redesigned LDAP server dialog.  (Anna Dirks)
+
   - Work on addressbook authentication.  (Toshok)
 
   - Changes to EDestination.  (Trow)
