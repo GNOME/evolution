@@ -1,3 +1,8 @@
+1998-10-07  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
+
+	* main.c (main): Replaced the 'gnome_client_new_default' call with
+	'gnome_master_client'.
+
 1998-10-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* timeutil.c (time_day_begin): Changed name from

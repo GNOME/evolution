@@ -708,14 +708,15 @@ main(int argc, char *argv[])
 	bindtextdomain(PACKAGE, GNOMELOCALEDIR);
 	textdomain(PACKAGE);
 
-	client = gnome_client_new_default ();
+	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
+
+	client = gnome_master_client ();
 	if (client){
 		gtk_signal_connect (GTK_OBJECT (client), "save_yourself",
 				    GTK_SIGNAL_FUNC (session_save_state), argv [0]);
 		gtk_signal_connect (GTK_OBJECT (client), "die",
 				    GTK_SIGNAL_FUNC (session_die), NULL);
 	}
-	gnome_init ("calendar", &parser, argc, argv, 0, NULL);
 
 	process_dates ();
 	alarm_init ();
