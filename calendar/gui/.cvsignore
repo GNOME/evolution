@@ -6,6 +6,7 @@ _libs
 .pure
 apps_evolution_calendar-1.5.schemas
 apps_evolution_calendar-1.5.schemas.in
+apps_evolution_calendar-2.2.schemas
 evolution-calendar
 evolution-calendar.pure
 evolution-calendar.h
