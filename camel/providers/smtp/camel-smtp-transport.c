@@ -69,8 +69,6 @@ static GList *query_auth_types_generic (CamelService *service, CamelException *e
 static void free_auth_types (CamelService *service, GList *authtypes);
 static char *get_name (CamelService *service, gboolean brief);
 
-static gchar *smtp_get_email_addr_from_text (gchar *text);
-
 static gboolean smtp_helo (CamelSmtpTransport *transport, CamelException *ex);
 static gboolean smtp_mail (CamelSmtpTransport *transport, const char *sender, CamelException *ex);
 static gboolean smtp_rcpt (CamelSmtpTransport *transport, const char *recipient, CamelException *ex);
@@ -349,21 +347,31 @@ _send_to (CamelTransport *transport, CamelMedium *message,
 	  GList *recipients, CamelException *ex)
 {
 	CamelSmtpTransport *smtp_transport = CAMEL_SMTP_TRANSPORT (transport);
-	char *recipient, *s, *sender;
+	CamelInternetAddress *cia;
+	char *recipient, *sender;
+	const char *addr;
 	GList *r;
 	
-	s = g_strdup (camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
-	if (!s) {
+	sender = g_strdup (camel_mime_message_get_from (CAMEL_MIME_MESSAGE (message)));
+	if (!sender) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 				      "Cannot send message: "
 				      "sender address not defined.");
 		return FALSE;
 	}
 	
-	sender = smtp_get_email_addr_from_text (s);
-	smtp_mail (smtp_transport, sender, ex);
+	cia = camel_internet_address_new ();
+	camel_address_decode (CAMEL_ADDRESS (cia), sender);
 	g_free (sender);
-	g_free (s);
+	
+	if (!camel_internet_address_get (cia, 0, NULL, &addr)) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      "Cannot send message: "
+				      "sender address not valid.");
+		return FALSE;
+	}
+	
+	smtp_mail (smtp_transport, addr, ex);
 	
 	if (!recipients) {
 		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
@@ -429,51 +437,6 @@ _send (CamelTransport *transport, CamelMedium *message, CamelException *ex)
 	}
 	
 	return _send_to (transport, message, recipients, ex);
-}
-
-/* FIXME: this is unreliable, use Camel's address parser */
-static gchar *
-smtp_get_email_addr_from_text (gchar *text)
-{
-	/* get the actual email address from the string passed and place it in addr
-	 * we can assume the address will be in one of the following forms:
-	 * 1) The Name <person@host.com>
-	 * 2) <person@host.com>
-	 * 3) person@host.com
-	 * 4) person@host.com (The Name)
-	 */
-	
-	gchar *addr;
-	gchar *addr_strt;
-	gchar *addr_end;
-	
-	g_return_val_if_fail (text != NULL, NULL);
-	
-	/* scan the string for an open brace */
-	for (addr_strt = text; *addr_strt; addr_strt++) 
-		if (*addr_strt == '<')
-			break;
-	
-	if (*addr_strt == '<') {
-		/* we found an open brace, let's look for it's counterpart */
-		addr_strt++;
-		for (addr_end = addr_strt; *addr_end; addr_end++)
-			if (*addr_end == '>') 
-				break;
-	} else {
-		/* no open brace...assume type 3 or 4? */
-		
-		/* trim leading space */
-		for (addr_strt = text; *addr_strt && isspace (*addr_strt); addr_strt++);
-		
-		/* find the end of the email addr/string */
-		for (addr_end = addr_strt; *addr_end && !isspace (*addr_end); addr_end++);
-	}
-	
-	/* copy the string into addr */
-	addr = g_strndup (addr_strt, (gint) (addr_end - addr_strt));
-	
-	return addr;
 }
 
 static gboolean
