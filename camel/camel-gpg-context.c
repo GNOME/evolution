@@ -214,7 +214,10 @@ struct _GpgCtx {
 	int status_fd;
 	int passwd_fd;  /* only needed for sign/decrypt */
 	
-	FILE *status_fp;
+	/* status-fd buffer */
+	unsigned char *statusbuf;
+	unsigned char *statusptr;
+	unsigned int statusleft;
 	
 	gboolean need_passwd;
 	char *passwd;
@@ -252,7 +255,9 @@ gpg_ctx_new (CamelSession *session, const char *path)
 	gpg->status_fd = -1;
 	gpg->passwd_fd = -1;
 	
-	gpg->status_fp = NULL;
+	gpg->statusbuf = g_malloc (128);
+	gpg->statusptr = gpg->statusbuf;
+	gpg->statusleft = 128;
 	
 	gpg->need_passwd = FALSE;
 	gpg->passwd = NULL;
@@ -377,13 +382,12 @@ gpg_ctx_free (struct _GpgCtx *gpg)
 		close (gpg->stdout);
 	if (gpg->stderr != -1)
 		close (gpg->stderr);
-	if (gpg->status_fd != -1 && gpg->status_fp == NULL)
+	if (gpg->status_fd != -1)
 		close (gpg->status_fd);
 	if (gpg->passwd_fd != -1)
 		close (gpg->passwd_fd);
 	
-	if (gpg->status_fp != NULL)
-		fclose (gpg->status_fp);
+	g_free (gpg->statusbuf);
 	
 	if (gpg->passwd)
 		g_free (gpg->passwd);
@@ -433,8 +437,7 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 	g_ptr_array_add (argv, "--batch");
 	g_ptr_array_add (argv, "--yes");
 	
-	*sfd = buf = g_strdup_printf ("%d", status_fd);
-	g_ptr_array_add (argv, "--status-fd");
+	*sfd = buf = g_strdup_printf ("--status-fd=%d", status_fd);
 	g_ptr_array_add (argv, buf);
 	
 	switch (gpg->mode) {
@@ -484,17 +487,21 @@ gpg_ctx_get_argv (struct _GpgCtx *gpg, int status_fd, char **sfd, int passwd_fd,
 		g_ptr_array_add (argv, "-");
 		break;
 	case GPG_CTX_MODE_DECRYPT:
-		g_ptr_array_add (argv,  "--decrypt");
+		g_ptr_array_add (argv, "--decrypt");
 		g_ptr_array_add (argv, "--output");
 		g_ptr_array_add (argv, "-");
 		break;
 	}
 	
 	if (gpg->need_passwd && passwd_fd != -1) {
-		*pfd = buf = g_strdup_printf ("%d", passwd_fd);
-		g_ptr_array_add (argv, "--passphrase-fd");
+		*pfd = buf = g_strdup_printf ("--passphrase-fd=%d", passwd_fd);
 		g_ptr_array_add (argv, buf);
 	}
+	
+	printf ("gpg command-line: ");
+	for (i = 0; i < argv->len; i++)
+		printf ("%s ", argv->pdata[i]);
+	printf ("\n");
 	
 	g_ptr_array_add (argv, NULL);
 	
@@ -517,7 +524,7 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 			goto exception;
 	}
 	
-	argv = gpg_ctx_get_argv (gpg, fds[6], &status_fd, fds[9], &passwd_fd);
+	argv = gpg_ctx_get_argv (gpg, fds[7], &status_fd, fds[8], &passwd_fd);
 	
 	if (!(gpg->pid = fork ())) {
 		/* child process */
@@ -578,6 +585,7 @@ gpg_ctx_op_start (struct _GpgCtx *gpg)
 	fcntl (gpg->stdin, F_SETFL, O_NONBLOCK);
 	fcntl (gpg->stdout, F_SETFL, O_NONBLOCK);
 	fcntl (gpg->stderr, F_SETFL, O_NONBLOCK);
+	fcntl (gpg->status_fd, F_SETFL, O_NONBLOCK);
 	
 	return 0;
 	
@@ -616,8 +624,29 @@ next_token (const char *in, char **token)
 }
 
 static int
-gpg_ctx_parse_status (struct _GpgCtx *gpg, const char *status, CamelException *ex)
+gpg_ctx_parse_status (struct _GpgCtx *gpg, CamelException *ex)
 {
+	register unsigned char *inptr;
+	const unsigned char *status;
+	int len;
+	
+ parse:
+	
+	inptr = gpg->statusbuf;
+	while (inptr < gpg->statusptr && *inptr != '\n')
+		inptr++;
+	
+	if (*inptr != '\n') {
+		/* we don't have enough data buffered to parse this status line */
+		return 0;
+	}
+	
+	*inptr++ = '\0';
+	status = gpg->statusbuf;
+	
+	printf ("status: %s", status);
+	fflush (stdout);
+	
 	if (strncmp (status, "[GNUPG:] ", 9) != 0)
 		return -1;
 	
@@ -637,7 +666,7 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, const char *status, CamelException *e
 		if (g_hash_table_lookup (gpg->userid_hint, hint)) {
 			/* we already have this userid hint... */
 			g_free (hint);
-			return 0;
+			goto recycle;
 		}
 		
 		user = g_strdup (status);
@@ -692,7 +721,8 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, const char *status, CamelException *e
 				gpg->complete = TRUE;
 			break;
 		case GPG_CTX_MODE_VERIFY:
-			if (!strncmp (status, "TRUST_", 6))
+			/* FIXME: we should save this so we can present it to the user? */
+			if (!strncmp (status, "TRUST_", 6) || !strncmp (status, "BADSIG ", 7))
 				gpg->complete = TRUE;
 			break;
 		case GPG_CTX_MODE_ENCRYPT:
@@ -704,130 +734,203 @@ gpg_ctx_parse_status (struct _GpgCtx *gpg, const char *status, CamelException *e
 				gpg->complete = TRUE;
 			break;
 		}
+		
+		printf ("okay, that's all folks...\n");
 	}
+	
+ recycle:
+	
+	/* recycle our statusbuf by moving inptr to the beginning of statusbuf */
+	len = gpg->statusptr - inptr;
+	memmove (gpg->statusbuf, inptr, len);
+	
+	len = inptr - gpg->statusbuf;
+	gpg->statusleft += len;
+	gpg->statusptr -= len;
+	
+	/* if we have more data, try parsing the next line? */
+	if (gpg->statusptr > gpg->statusbuf)
+		goto parse;
 	
 	return 0;
 }
 
+#define status_backup(gpg, start, len) G_STMT_START {                     \
+	if (gpg->statusleft <= len) {                                     \
+		unsigned int slen, soff;                                  \
+		                                                          \
+		slen = soff = gpg->statusptr - gpg->statusbuf;            \
+		slen = slen ? slen : 1;                                   \
+		                                                          \
+		while (slen < soff + len)                                 \
+			slen <<= 1;                                       \
+		                                                          \
+		gpg->statusbuf = g_realloc (gpg->statusbuf, slen + 1);    \
+		gpg->statusptr = gpg->statusbuf + soff;                   \
+		gpg->statusleft = slen - soff;                            \
+	}                                                                 \
+	                                                                  \
+	memcpy (gpg->statusptr, start, len);                              \
+	gpg->statusptr += len;                                            \
+	gpg->statusleft -= len;                                           \
+} G_STMT_END
+
+
 static int
 gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 {
+	fd_set rdset, wrset, *wrsetp = NULL;
 	struct timeval timeout;
-	fd_set rdset, wrset;
 	const char *mode;
 	int maxfd = 0;
-	int ret;
+	int ready;
 	
-	do {
-		FD_ZERO (&rdset);
-		FD_SET (gpg->stdout, &rdset);
-		FD_SET (gpg->stderr, &rdset);
-		FD_SET (gpg->status_fd, &rdset);
-		
-		maxfd = MAX (gpg->stdout, gpg->stderr);
-		maxfd = MAX (maxfd, gpg->status_fd);
-		
+ retry:
+	FD_ZERO (&rdset);
+	FD_SET (gpg->stdout, &rdset);
+	FD_SET (gpg->stderr, &rdset);
+	FD_SET (gpg->status_fd, &rdset);
+	
+	maxfd = MAX (gpg->stdout, gpg->stderr);
+	maxfd = MAX (maxfd, gpg->status_fd);
+	
+	if (gpg->stdin != -1 || gpg->passwd_fd != -1) {
 		FD_ZERO (&wrset);
-		FD_SET (gpg->stdin, &wrset);
-		maxfd = MAX (maxfd, gpg->stdin);
+		if (gpg->stdin != -1) {
+			FD_SET (gpg->stdin, &wrset);
+			maxfd = MAX (maxfd, gpg->stdin);
+		}
 		if (gpg->passwd_fd != -1) {
 			FD_SET (gpg->passwd_fd, &wrset);
 			maxfd = MAX (maxfd, gpg->passwd_fd);
 		}
 		
-		timeout.tv_sec = 10; /* timeout in seconds */
-		timeout.tv_usec = 0;
+		wrsetp = &wrset;
+	}
+	
+	timeout.tv_sec = 10; /* timeout in seconds */
+	timeout.tv_usec = 0;
+	
+	if ((ready = select (maxfd + 1, &rdset, wrsetp, NULL, &timeout)) == 0)
+		return 0;
+	
+	if (ready < 0) {
+		if (errno == EINTR)
+			goto retry;
 		
-		if ((ret = select (maxfd + 1, &rdset, &wrset, NULL, &timeout)) == 0)
-			return 0;
+		printf ("select() failed: %s\n", g_strerror (errno));
 		
-		if (ret < 0) {
-			if (errno == EINTR)
-				continue;
+		return -1;
+	}
+	
+	/* Test each and every file descriptor to see if it's 'ready',
+	   and if so - do what we can with it and then drop through to
+	   the next file descriptor and so on until we've done what we
+	   can to all of them. If one fails along the way, return
+	   -1. */
+	
+	if (FD_ISSET (gpg->status_fd, &rdset)) {
+		/* read the status message and decide what to do... */
+		char buffer[4096];
+		ssize_t nread;
+		
+		printf ("reading from gpg's status-fd...\n");
+		
+		nread = read (gpg->status_fd, buffer, sizeof (buffer));
+		if (nread == -1)
+			goto exception;
+		
+		if (nread > 0) {
+			status_backup (gpg, buffer, nread);
 			
-			return -1;
+			if (gpg_ctx_parse_status (gpg, ex) == -1)
+				return -1;
 		}
+	}
+	
+	if (FD_ISSET (gpg->stdout, &rdset) && gpg->ostream) {
+		char buffer[4096];
+		ssize_t nread;
 		
-		if (FD_ISSET (gpg->status_fd, &rdset)) {
-			/* read the status message and decide what to do... */
-			char buffer[4096];
-			FILE *fp;
-			
-			if (gpg->status_fp == NULL) {
-				gpg->status_fp = fdopen (gpg->status_fd, "r");
-				if (gpg->status_fp == NULL)
-					goto exception;
-			}
-			
-			fp = gpg->status_fp;
-			
-			fgets (buffer, sizeof (buffer), fp);
-			return gpg_ctx_parse_status (gpg, buffer, ex);
-		}
+		printf ("reading gpg's stdout...\n");
 		
-		if (FD_ISSET (gpg->stdout, &rdset) && gpg->ostream) {
-			char buffer[4096];
-			ssize_t nread;
-			
-			nread = read (gpg->stdout, buffer, sizeof (buffer));
-			if (nread > 0)
-				ret = camel_stream_write (gpg->ostream, buffer, (size_t) nread);
-			
-			if (ret == -1)
-				goto exception;
-			
-			return 0;
-		}
+		nread = read (gpg->stdout, buffer, sizeof (buffer));
+		if (nread == -1)
+			goto exception;
 		
-		if (FD_ISSET (gpg->stderr, &rdset)) {
-			char buffer[4096];
-			ssize_t nread;
-			
-			nread = read (gpg->stdout, buffer, sizeof (buffer));
-			if (nread > 0)
-				g_byte_array_append (gpg->diagnostics, buffer, nread);
-			
-			return 0;
-		}
+		if (camel_stream_write (gpg->ostream, buffer, (size_t) nread) == -1)
+			goto exception;
+	}
+	
+	if (FD_ISSET (gpg->stderr, &rdset)) {
+		char buffer[4096];
+		ssize_t nread;
 		
-		if (gpg->passwd_fd != -1 && gpg->need_passwd && gpg->passwd && FD_ISSET (gpg->passwd_fd, &wrset)) {
+		printf ("reading gpg's stderr...\n");
+		
+		nread = read (gpg->stderr, buffer, sizeof (buffer));
+		if (nread == -1)
+			goto exception;
+		
+		g_byte_array_append (gpg->diagnostics, buffer, nread);
+	}
+	
+	if (wrsetp && FD_ISSET (gpg->passwd_fd, &wrset) && gpg->passwd_fd != -1 && gpg->need_passwd && gpg->passwd) {
+		ssize_t w, nwritten = 0;
+		size_t n;
+		
+		printf ("sending gpg our passphrase...\n");
+		
+		/* send the passphrase to gpg */
+		n = strlen (gpg->passwd);
+		do {
+			do {
+				w = write (gpg->passwd_fd, gpg->passwd + nwritten, n - nwritten);
+			} while (w == -1 && (errno == EINTR || errno == EAGAIN));
+			
+			if (w > 0)
+				nwritten += w;
+		} while (nwritten < n && w != -1);
+		
+		if (w == -1)
+			goto exception;
+	}
+	
+	if (wrsetp && FD_ISSET (gpg->stdin, &wrset) && gpg->stdin != -1) {
+		char buffer[4096];
+		ssize_t nread;
+		
+		printf ("writing to gpg's stdin...");
+		fflush (stdout);
+		
+		/* write our stream to gpg's stdin */
+		nread = camel_stream_read (gpg->istream, buffer, sizeof (buffer));
+		if (nread > 0) {
 			ssize_t w, nwritten = 0;
-			size_t n;
 			
-			/* send the passphrase to gpg */
-			n = strlen (gpg->passwd);
 			do {
 				do {
-					w = write (gpg->passwd_fd, gpg->passwd + nwritten, n - nwritten);
+					printf (".");
+					w = write (gpg->stdin, buffer + nwritten, nread - nwritten);
 				} while (w == -1 && (errno == EINTR || errno == EAGAIN));
 				
 				if (w > 0)
 					nwritten += w;
-			} while (nwritten < n && w != -1);
+			} while (nwritten < nread && w != -1);
 			
-			if (ret == -1)
+			if (w == -1) {
+				printf ("write failed: %s\n", g_strerror (errno));
 				goto exception;
-			
-			return 0;
+			}
 		}
 		
-		if (FD_ISSET (gpg->stdin, &wrset) && gpg->istream && !camel_stream_eos (gpg->istream)) {
-			CamelStream *stream;
-			
-			/* write our stream to gpg's stdin */
-			stream = camel_stream_fs_new_with_fd (gpg->stdin);
-			ret = camel_stream_write_to_stream (gpg->istream, stream);
-			if (ret != -1)
-				ret = camel_stream_flush (stream);
-			CAMEL_STREAM_FS (stream)->fd = -1;
-			camel_object_unref (CAMEL_OBJECT (stream));
-			
-			if (ret == -1)
-				goto exception;
-			
-			return 0;
+		if (camel_stream_eos (gpg->istream)) {
+			close (gpg->stdin);
+			gpg->stdin = -1;
 		}
-	} while (1);
+		
+		printf ("done.\n");
+	}
 	
 	return 0;
 	
@@ -852,9 +955,17 @@ gpg_ctx_op_step (struct _GpgCtx *gpg, CamelException *ex)
 		break;
 	}
 	
-	camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-			      _("Failed to GPG %s message: %s\n"),
-			      mode, g_strerror (errno));
+	if (gpg->diagnostics->len) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to GPG %s message: %s\n\n%.*s"),
+				      mode, g_strerror (errno),
+				      gpg->diagnostics->len,
+				      gpg->diagnostics->data);
+	} else {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+				      _("Failed to GPG %s message: %s\n"),
+				      mode, g_strerror (errno));
+	}
 	
 	return -1;
 }
@@ -1046,6 +1157,7 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	if (gpg_ctx_op_start (gpg) == -1) {
 		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
 				     _("Failed to execute gpg."));
+		printf ("gpg_ctx_op_start() failed\n");
 		gpg_ctx_free (gpg);
 		goto exception;
 	}
@@ -1054,12 +1166,16 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 		if (camel_operation_cancel_check (NULL)) {
 			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cancelled."));
+			printf ("user cancelled gpg operation\n");
 			gpg_ctx_op_cancel (gpg);
 			goto exception;
 		}
 		
 		if (gpg_ctx_op_step (gpg, ex) == -1) {
+			diagnostics = gpg_ctx_get_diagnostics (gpg);
+			printf ("gpg_ctx_op_step() failed: \n%s\n\n", diagnostics);
 			gpg_ctx_op_cancel (gpg);
+			g_free (diagnostics);
 			goto exception;
 		}
 	}
@@ -1082,6 +1198,9 @@ gpg_verify (CamelCipherContext *context, CamelCipherHash hash,
 	return validity;
 	
  exception:
+	
+	diagnostics = gpg_ctx_get_diagnostics (gpg);
+	
 	
 	gpg_ctx_free (gpg);
 		
