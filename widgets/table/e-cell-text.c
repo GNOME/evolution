@@ -1194,6 +1194,8 @@ ect_show_tooltip (ECellView *ecell_view,
 
 	if (!cut_off) {
 		tooltip->timer = 0;
+		unref_lines (&cell);
+		unbuild_current_cell (&cell);
 		return;
 	}
 
@@ -2215,7 +2217,6 @@ split_into_lines (CurrentCell *cell)
 	linebreaks = cell->breaks;
 
 	/* Check if already split. */
-
 	linebreaks->lines = NULL;
 	linebreaks->num_lines = 0;
 	
