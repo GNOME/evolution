@@ -2071,12 +2071,11 @@ evolution_mail_config_factory_fn (BonoboGenericFactory *factory,
 {
 	EvolutionMailConfig *config;
 
-	g_warning ("Made");
 	config = gtk_type_new (evolution_mail_config_get_type ());
 	return BONOBO_OBJECT (config);
 }
 
-void
+gboolean
 evolution_mail_config_factory_init (void)
 {
 	BonoboGenericFactory *factory;
@@ -2086,7 +2085,9 @@ evolution_mail_config_factory_init (void)
 					      NULL);
 	if (factory == NULL) {
 		g_warning ("Error starting MailConfig");
+		return FALSE;
 	}
 
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+	return TRUE;
 }

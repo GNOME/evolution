@@ -847,10 +847,17 @@ component_factory_init (void)
 		exit (1);
 	}
 
-	/* FIXME these don't check for errors.  */
+	if (evolution_mail_config_factory_init () == FALSE) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize Evolution's mail config component."));
+		exit (1);
+	}
 
-	evolution_mail_config_factory_init ();
-	evolution_folder_info_factory_init ();
+	if (evolution_folder_info_factory_init () == FALSE) {
+		e_notice (NULL, GNOME_MESSAGE_BOX_ERROR,
+			  _("Cannot initialize Evolution's folder info component."));
+		exit (1);
+	}
 }
 
 static void

@@ -206,7 +206,7 @@ gboolean  mail_config_check_service (const char *url, CamelProviderType type, GL
 
 
 
-void evolution_mail_config_factory_init (void);
+gboolean evolution_mail_config_factory_init (void);
 
 #ifdef __cplusplus
 }

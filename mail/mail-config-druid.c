@@ -52,6 +52,7 @@
 #include <bonobo/bonobo-context.h>
 
 #include <evolution-wizard.h>
+
 static void mail_config_druid_class_init (MailConfigDruidClass *class);
 static void mail_config_druid_finalize   (GtkObject *obj);
 
@@ -508,9 +509,7 @@ finish_func (GnomeDruidPage *page,
 	CORBA_exception_init (&ev);
 
 	pagenum = page_to_num (page);
-	g_print ("Hello\n");
 	GNOME_Evolution_Wizard_notifyAction (wiz, 0, GNOME_Evolution_Wizard_FINISH, &ev);
-	g_print ("Goodbye\n");
 	CORBA_exception_free (&ev);
 
 	druid_finish (page, druid, data);
@@ -878,7 +877,7 @@ evolution_mail_config_wizard_factory_fn (BonoboGenericFactory *factory,
 	
         wizard = evolution_wizard_new (get_fn, 5, gui);
 	account_wizard = wizard;
-	
+
 	gtk_object_set_data_full (GTK_OBJECT (account_wizard),
 				  "account-data", gui,
 				  (GtkDestroyNotify) wizard_free);

@@ -1,3 +1,17 @@
+2001-10-01  Iain Holmes  <iain@ximian.com>
+
+	* component-factory.c (component_factory_init): Check for errors.
+	
+	* mail.h: Change prototype for evolution_folder_info_factory_init.
+
+	* folder-info.c (evolution_folder_info_factory_init): Return TRUE
+	or FALSE.
+
+	* mail-config.c (evolution_mail_config_factory_init): Return TRUE or
+	FALSE.
+
+	* mail-config.h: Change prototype for above.
+
 2001-10-01  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-vfolder.c (mail_vfolder_remove_uri): replace my_list_find()

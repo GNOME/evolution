@@ -78,6 +78,5 @@ void mail_remove_storage (CamelStore *store);
 void mail_storages_foreach (GHFunc func, gpointer data);
 int  mail_storages_count (void);
 
-
-void evolution_folder_info_factory_init (void);
+gboolean evolution_folder_info_factory_init (void);
 

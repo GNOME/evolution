@@ -227,7 +227,7 @@ evolution_folder_info_factory_fn (BonoboGenericFactory *factory,
 	return BONOBO_OBJECT (info);
 }
 
-void 
+gboolean
 evolution_folder_info_factory_init (void)
 {
 	BonoboGenericFactory *factory;
@@ -238,8 +238,9 @@ evolution_folder_info_factory_init (void)
 
 	if (factory == NULL) {
 		g_warning ("Error starting FolderInfo");
-		return;
+		return FALSE;
 	}
 
 	bonobo_running_context_auto_exit_unref (BONOBO_OBJECT (factory));
+	return TRUE;
 }
