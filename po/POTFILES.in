@@ -191,7 +191,7 @@ mail/mail-tools.c
 mail/mail-vfolder.c
 mail/message-browser.c
 mail/message-list.c
-mail/session.c
+mail/mail-session.c
 mail/subscribe-dialog.c
 shell/e-setup.c
 shell/e-shell.c
