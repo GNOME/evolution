@@ -77,14 +77,15 @@
         Execute a sequence.  The last function return is the return type.
 */
 
+#include "e-sexp.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
 
+#include <glib.h>
 #include "e-memory.h"
-#include "e-sexp.h"
-
 #define p(x)			/* parse debug */
 #define r(x)			/* run debug */
 #define d(x)			/* general debug */

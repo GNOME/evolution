@@ -1,4 +1,6 @@
 
+#include "e-msgport.h"
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
@@ -9,8 +11,6 @@
 #include <pthread.h>
 
 #include <glib.h>
-
-#include "e-msgport.h"
 
 #define m(x)			/* msgport debug */
 #define t(x) 			/* thread debug */

@@ -1,3 +1,9 @@
+2001-04-24  Kjartan Maraas  <kmaraas@gnome.org>
+
+	* e-gui-utils.c, e-memory, e-msgport.c, e-pilot-map, e-sexp.c:
+	Added #include <glib.h> and move corresponding local headers
+	to the top to catch missing includes in them. Tip from clahey.
+	
 2001-04-24  Chris Toshok  <toshok@ximian.com>
 
 	* e-host-utils.h: remove prototype for e_gethostbyname_init.
