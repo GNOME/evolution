@@ -731,6 +731,9 @@ clipboard_get_text_cb (GtkClipboard *clipboard, const gchar *text, ECalendarView
 
 	g_return_if_fail (E_IS_CALENDAR_VIEW (cal_view));
 
+	if (!text || !*text)
+		return;
+
 	icalcomp = icalparser_parse_string ((const char *) text);
 	if (!icalcomp)
 		return;

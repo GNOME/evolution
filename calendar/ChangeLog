@@ -1,4 +1,11 @@
-2004-05-31 Priyanshu Raj <Priyanshu@students.iiit.net>
+2004-06-01  Rodrigo Moya <rodrigo@novell.com>
+
+	Fixes #59369
+
+	* gui/e-calendar-view.c (clipboard_get_text_cb): don't pass NULL strings
+	to libical functions.
+
+2004-05-31  Priyanshu Raj <Priyanshu@students.iiit.net>
 
 	* Bug #51968 "Invite others.." button confusing in Appointment
 	editor dialog(Fixed)"
