@@ -41,6 +41,7 @@ extern "C" {
 typedef struct {
 	CamelStore parent_object;
 
+	char *local_base;
 	CamelStore *remote, *local;
 
 } CamelCacheStore;
@@ -53,7 +54,7 @@ typedef struct {
 
 
 /* support functions */
-void camel_cache_store_sync (CamelCacheStore *store);
+CamelStore *camel_cache_store_new (CamelStore *remote, CamelException *ex);
 
 /* Standard Camel function */
 CamelType camel_cache_store_get_type (void);

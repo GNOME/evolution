@@ -72,7 +72,8 @@ typedef struct {
 
 
 CamelFolder *camel_cache_folder_new (CamelStore *store, CamelFolder *parent,
-				     CamelFolder *remote, CamelFolder *local);
+				     CamelFolder *remote, CamelFolder *local,
+				     CamelException *ex);
 
 void camel_cache_folder_sync (CamelCacheFolder *cache_folder,
 			      CamelException *ex);

@@ -68,11 +68,14 @@
 #include <camel/camel-medium.h>
 
 #define CF_CLASS(so) CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(so))
+static CamelFolderClass *folder_class = NULL;
 
 static void init (CamelFolder *folder, CamelStore *parent_store,
 		  CamelFolder *parent_folder, const gchar *name,
 		  gchar *separator, gboolean path_begins_with_sep,
 		  CamelException *ex);
+
+static void refresh_info (CamelFolder *folder, CamelException *ex);
 
 static void cache_sync (CamelFolder *folder, gboolean expunge, 
 			CamelException *ex);
@@ -91,6 +94,10 @@ static gboolean get_message_user_flag (CamelFolder *folder, const char *uid,
 				       const char *name);
 static void set_message_user_flag (CamelFolder *folder, const char *uid,
 				   const char *name, gboolean value);
+static const char *get_message_user_tag (CamelFolder *folder, const char *uid,
+					 const char *name);
+static void set_message_user_tag (CamelFolder *folder, const char *uid,
+				  const char *name, const char *value);
 
 static CamelMimeMessage *get_message (CamelFolder *folder, 
 				      const gchar *uid,
@@ -108,6 +115,12 @@ static GPtrArray *search_by_expression (CamelFolder *folder,
 static const CamelMessageInfo *get_message_info (CamelFolder *folder,
 						 const char *uid);
 
+static void copy_message_to (CamelFolder *source, const char *uid,
+			     CamelFolder *destination, CamelException *ex);
+
+static void move_message_to (CamelFolder *source, const char *uid,
+			     CamelFolder *destination, CamelException *ex);
+
 static void finalize (CamelObject *object);
 
 static void
@@ -116,8 +129,11 @@ camel_cache_folder_class_init (CamelCacheFolderClass *camel_cache_folder_class)
 	CamelFolderClass *camel_folder_class =
 		CAMEL_FOLDER_CLASS (camel_cache_folder_class);
 
+	folder_class = CAMEL_FOLDER_CLASS (camel_type_get_global_classfuncs (camel_folder_get_type ()));
+
 	/* virtual method overload */
 	camel_folder_class->init = init;
+	camel_folder_class->refresh_info = refresh_info;
 	camel_folder_class->sync = cache_sync;
 	camel_folder_class->expunge = expunge;
 	camel_folder_class->get_message_count = get_message_count;
@@ -126,6 +142,8 @@ camel_cache_folder_class_init (CamelCacheFolderClass *camel_cache_folder_class)
 	camel_folder_class->set_message_flags = set_message_flags;
 	camel_folder_class->get_message_user_flag = get_message_user_flag;
 	camel_folder_class->set_message_user_flag = set_message_user_flag;
+	camel_folder_class->get_message_user_tag = get_message_user_tag;
+	camel_folder_class->set_message_user_tag = set_message_user_tag;
 	camel_folder_class->get_message = get_message;
 	camel_folder_class->get_uids = get_uids;
 	camel_folder_class->free_uids = camel_folder_free_nop;
@@ -135,6 +153,8 @@ camel_cache_folder_class_init (CamelCacheFolderClass *camel_cache_folder_class)
 	camel_folder_class->free_subfolder_names = free_subfolder_names;
 	camel_folder_class->search_by_expression = search_by_expression;
 	camel_folder_class->get_message_info = get_message_info;
+	camel_folder_class->copy_message_to = copy_message_to;
+	camel_folder_class->move_message_to = move_message_to;
 }
 
 CamelType
@@ -360,6 +380,15 @@ local_folder_changed (CamelObject *local, gpointer type, gpointer data)
 
 /* DONE */
 static void
+refresh_info (CamelFolder *folder, CamelException *ex)
+{
+	CamelCacheFolder *cache_folder = (CamelCacheFolder *)folder;
+
+	camel_folder_refresh_info (cache_folder->remote, ex);
+}
+
+/* DONE */
+static void
 cache_sync (CamelFolder *folder, gboolean expunge, CamelException *ex)
 {
 	CamelCacheFolder *cache_folder = (CamelCacheFolder *)folder;
@@ -459,6 +488,35 @@ set_message_user_flag (CamelFolder *folder, const char *uid,
 	}
 	camel_folder_set_message_user_flag (cache_folder->remote, uid,
 					    name, value);
+}
+
+
+/* DONE */
+static const char *
+get_message_user_tag (CamelFolder *folder, const char *uid, const char *name)
+{
+	const CamelMessageInfo *mi;
+
+	mi = get_message_info (folder, uid);
+	g_return_val_if_fail (mi != NULL, NULL);
+	return camel_tag_get ((CamelTag **)&mi->user_tags, name);
+}
+
+/* DONE */
+static void
+set_message_user_tag (CamelFolder *folder, const char *uid,
+		      const char *name, const char *value)
+{
+	CamelCacheFolder *cache_folder = (CamelCacheFolder *)folder;
+	const char *luid;
+
+	luid = camel_cache_map_get_local (cache_folder->uidmap, uid);
+	if (luid) {
+		camel_folder_set_message_user_tag (cache_folder->local, luid,
+						   name, value);
+	}
+	camel_folder_set_message_user_tag (cache_folder->remote, uid,
+					   name, value);
 }
 
 
@@ -588,10 +646,87 @@ get_message_info (CamelFolder *folder, const char *uid)
 		return g_hash_table_lookup (cache_folder->summary_uids, uid);
 }
 
+/* DONE */
+static void
+copy_message_to (CamelFolder *source, const char *uid,
+		 CamelFolder *destination, CamelException *ex)
+{
+	CamelCacheFolder *source_cache_folder = (CamelCacheFolder *)source;
+	CamelCacheFolder *dest_cache_folder = (CamelCacheFolder *)destination;
+
+	/* If we are here, we know that the folders have the same parent
+	 * store, which implies their remote and local folders have the
+	 * same parent store as well.
+	 */
+
+	if (CF_CLASS (source_cache_folder->remote)->copy_message_to !=
+	    folder_class->copy_message_to) {
+		/* The remote store has a non-default copy method, so
+		 * use it to avoid unnecessary network traffic.
+		 */
+		CF_CLASS (source_cache_folder->remote)->copy_message_to (
+			source_cache_folder->remote, uid,
+			dest_cache_folder->remote, ex);
+	} else {
+		/* The remote store uses the default copy method,
+		 * meaning if we proxy the copy_message_to over to it,
+		 * it will suck the message over the network. We may
+		 * already have a local copy, and if we don't, we want
+		 * to, and if we're going to have the message in
+		 * memory, then we should get it into the destination
+		 * cache too. So do this by hand.
+		 */
+		CamelMimeMessage *msg;
+		const CamelMessageInfo *info;
+
+		msg = get_message (source, uid, ex);
+		if (camel_exception_is_set (ex))
+			return;
+		info = camel_folder_get_message_info (source, uid);
+
+		camel_medium_remove_header (CAMEL_MEDIUM (msg),
+					    "X-Evolution-Remote-UID");
+		append_message (destination, msg, info, ex);
+	}
+}
+
+/* DONE */
+static void
+move_message_to (CamelFolder *source, const char *uid,
+		 CamelFolder *destination, CamelException *ex)
+{
+	CamelCacheFolder *source_cache_folder = (CamelCacheFolder *)source;
+	CamelCacheFolder *dest_cache_folder = (CamelCacheFolder *)destination;
+
+	/* See comments in copy_message_to. */
+
+	if (CF_CLASS (source_cache_folder)->move_message_to !=
+	    folder_class->move_message_to) {
+		CF_CLASS (source_cache_folder)->move_message_to (
+			source_cache_folder->remote, uid,
+			dest_cache_folder->remote, ex);
+	} else {
+		CamelMimeMessage *msg;
+		const CamelMessageInfo *info;
+
+		msg = get_message (source, uid, ex);
+		if (camel_exception_is_set (ex))
+			return;
+		info = camel_folder_get_message_info (source, uid);
+
+		camel_medium_remove_header (CAMEL_MEDIUM (msg),
+					    "X-Evolution-Remote-UID");
+		append_message (destination, msg, info, ex);
+		if (!camel_exception_is_set (ex))
+			camel_folder_delete_message (source, uid);
+	}
+}
+
 
 CamelFolder *
 camel_cache_folder_new (CamelStore *store, CamelFolder *parent,
-			CamelFolder *remote, CamelFolder *local)
+			CamelFolder *remote, CamelFolder *local,
+			CamelException *ex)
 {
 	CamelCacheFolder *cache_folder;
 	CamelFolder *folder;
