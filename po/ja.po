@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution CVS-20010612\n"
 "POT-Creation-Date: 2001-09-21 18:31-0400\n"
-"PO-Revision-Date: 2001-09-09 19:52+0900\n"
+"PO-Revision-Date: 2001-10-01 00:28+0900\n"
 "Last-Translator: Takuo KITAME <kitame@debian.org>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -9959,27 +9959,27 @@ msgstr "¶áÎÙ¤ËÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Light drizzle"
-msgstr "·Ú¤¤Ì¸±«"
+msgstr "¼å¤¤Ì¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Moderate drizzle"
-msgstr "¤À¤¤¤ÖÌ¸±«"
+msgstr "ÊÂ¤ÎÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Heavy drizzle"
-msgstr "¤Ò¤É¤¤Ì¸±«"
+msgstr "¶¯¤¤Ì¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Shallow drizzle"
-msgstr "Àõ¤¤Ì¸±«"
+msgstr "¤Á¤ç¤Ã¤ÈÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Patches of drizzle"
-msgstr "¤È¤³¤í¤Ë¤è¤Ã¤ÆÌ¸±«"
+msgstr "½ê¡¹Ì¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Partial drizzle"
-msgstr "°ìÉô¤ÇÌ¸±«"
+msgstr "»þ¡¹Ì¸±«"
 
 #: my-evolution/metar.c:100 my-evolution/metar.c:101
 msgid "Thunderstorm"
@@ -9987,19 +9987,19 @@ msgstr "ÍëÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Windy drizzle"
-msgstr "É÷¤ÈÌ¸±«"
+msgstr "¿á¤­¤Ä¤±¤ëÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Showers"
-msgstr "¤Ë¤ï¤«Ì¸±«"
+msgstr "¤Ë¤ï¤«±«"
 
 #: my-evolution/metar.c:100
 msgid "Drifting drizzle"
-msgstr "Î®Ì¸±«"
+msgstr "¿á¤­´ó¤»¤ëÌ¸±«"
 
 #: my-evolution/metar.c:100
 msgid "Freezing drizzle"
-msgstr "É¹¤ÎÌ¸±«"
+msgstr "ÃåÉ¹À­¤ÎÌ¸±«"
 
 #. RAIN
 #: my-evolution/metar.c:101
@@ -10012,43 +10012,43 @@ msgstr "¶áÎÙ¤Ç±«"
 
 #: my-evolution/metar.c:101
 msgid "Light rain"
-msgstr "¾®±«"
+msgstr "¼å¤¤±«"
 
 #: my-evolution/metar.c:101
 msgid "Moderate rain"
-msgstr "Ãæ¤¯¤é¤¤¤Ë±«"
+msgstr "ÊÂ¤Î±«"
 
 #: my-evolution/metar.c:101
 msgid "Heavy rain"
-msgstr "¹ë±«"
+msgstr "¶¯¤¤±«"
 
 #: my-evolution/metar.c:101
 msgid "Shallow rain"
-msgstr "·Ú¤¤±«"
+msgstr "¤Á¤ç¤Ã¤È±«"
 
 #: my-evolution/metar.c:101
 msgid "Patches of rain"
-msgstr "¤È¤³¤í¤Ë¤è¤ê±«"
+msgstr "½ê¡¹±«"
 
 #: my-evolution/metar.c:101
 msgid "Partial rainfall"
-msgstr "°ìÉô¤Ç±«"
+msgstr "»þ¡¹±«"
 
 #: my-evolution/metar.c:101
 msgid "Blowing rainfall"
-msgstr "É÷±«"
+msgstr "¿á¤­¤Ä¤±¤ë±«"
 
 #: my-evolution/metar.c:101
 msgid "Rain showers"
-msgstr "¤Ë¤ï¤«±«"
+msgstr "¤Ë¤ï¤«¤Ë±«"
 
 #: my-evolution/metar.c:101
 msgid "Drifting rain"
-msgstr "Î®±«"
+msgstr "¿á¤­´ó¤»¤ë±«"
 
 #: my-evolution/metar.c:101
 msgid "Freezing rain"
-msgstr "É¹±«"
+msgstr "ÃåÉ¹À­¤Î±«"
 
 #. SNOW
 #: my-evolution/metar.c:102
@@ -10061,27 +10061,27 @@ msgstr "¶áÎÙ¤ÇÀã"
 
 #: my-evolution/metar.c:102
 msgid "Light snow"
-msgstr "¾®Àã"
+msgstr "¼å¤¤Àã"
 
 #: my-evolution/metar.c:102
 msgid "Moderate snow"
-msgstr "¤À¤¤¤ÖÀã"
+msgstr "ÊÂ¤ÎÀã"
 
 #: my-evolution/metar.c:102
 msgid "Heavy snow"
-msgstr "¹ëÀã"
+msgstr "¶¯¤¤Àã"
 
 #: my-evolution/metar.c:102
 msgid "Shallow snow"
-msgstr "¤«¤ë¤¤Àã"
+msgstr "Àõ¤¤Àã"
 
 #: my-evolution/metar.c:102
 msgid "Patches of snow"
-msgstr "¤È¤³¤í¤Ë¤è¤êÀã"
+msgstr "½ê¡¹Àã"
 
 #: my-evolution/metar.c:102
 msgid "Partial snowfall"
-msgstr "°ìÉô¤ÇÀã"
+msgstr "»þ¡¹Àã"
 
 #: my-evolution/metar.c:102 my-evolution/metar.c:103
 msgid "Snowstorm"
@@ -10097,65 +10097,65 @@ msgstr "¤Ë¤ï¤«Àã"
 
 #: my-evolution/metar.c:102
 msgid "Drifting snow"
-msgstr "Î®Àã"
+msgstr "¿á¤­´ó¤»¤ëÀã"
 
 #: my-evolution/metar.c:102
 msgid "Freezing snow"
-msgstr "É¹¤ÎÀã"
+msgstr "ÃåÉ¹À­¤ÎÀã"
 
 #. SNOW_GRAINS
 #: my-evolution/metar.c:103
 msgid "Snow grains"
-msgstr ""
+msgstr "Î³¾õ¤ÎÀã"
 
 #: my-evolution/metar.c:103
 msgid "Snow grains in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤ÇÎ³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Light snow grains"
-msgstr ""
+msgstr "¼å¤¤Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Moderate snow grains"
-msgstr ""
+msgstr "ÊÂ¤ÎÎ³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Heavy snow grains"
-msgstr ""
+msgstr "¶¯¤¤Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Shallow snow grains"
-msgstr ""
+msgstr "Àõ¤¤Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Patches of snow grains"
-msgstr ""
+msgstr "½ê¡¹Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Partial snow grains"
-msgstr ""
+msgstr "»þ¡¹Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Blowing snow grains"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ëÎ³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Snow grain showers"
-msgstr ""
+msgstr "¤Ë¤ï¤«Î³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Drifting snow grains"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ëÎ³Àã"
 
 #: my-evolution/metar.c:103
 msgid "Freezing snow grains"
-msgstr ""
+msgstr "ÃåÉ¹À­¤ÎÎ³Àã"
 
 #. ICE_CRYSTALS
 #: my-evolution/metar.c:104
 msgid "Ice crystals"
-msgstr ""
+msgstr "ºÙÉ¹"
 
 #: my-evolution/metar.c:104
 msgid "Ice crystals in the vicinity"
@@ -10265,15 +10265,15 @@ msgstr "¶áÎÙ¤Ç¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106 my-evolution/metar.c:107
 msgid "Light hail"
-msgstr "·Ú¤¤¤¢¤é¤ì"
+msgstr "¼å¤¤¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Moderate hail"
-msgstr "Ãæ¤¯¤é¤¤¤Î¤¢¤é¤ì"
+msgstr "ÊÂ¤Î¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Heavy hail"
-msgstr "¤Ï¤²¤·¤¤¤¢¤é¤ì"
+msgstr "¶¯¤¤¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Shallow hail"
@@ -10281,11 +10281,11 @@ msgstr "Àõ¤¤¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Patches of hail"
-msgstr "¤È¤³¤í¤Ë¤è¤Ã¤Æ¤¢¤é¤ì"
+msgstr "½ê¡¹¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Partial hail"
-msgstr "°ìÉô¤Ç¤¢¤é¤ì"
+msgstr "»þ¡¹¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Hailstorm"
@@ -10293,7 +10293,7 @@ msgstr "¤¢¤é¤ì¤ÎÍò"
 
 #: my-evolution/metar.c:106
 msgid "Blowing hail"
-msgstr "¤¢¤é¤ìÉ÷"
+msgstr "¿á¤­¤Ä¤±¤ë¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Hail showers"
@@ -10301,60 +10301,60 @@ msgstr "¤Ë¤ï¤«¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Drifting hail"
-msgstr "Î®¤¢¤é¤ì"
+msgstr "¿á¤­´ó¤»¤ë¤¢¤é¤ì"
 
 #: my-evolution/metar.c:106
 msgid "Freezing hail"
-msgstr "É¹¤Î¤¢¤é¤ì"
+msgstr "ÃåÉ¹À­¤Î¤¢¤é¤ì"
 
 #. SMALL_HAIL
 #: my-evolution/metar.c:107
 msgid "Small hail"
-msgstr ""
+msgstr "ð»"
 
 #: my-evolution/metar.c:107
 msgid "Small hail in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Çð»"
 
 #: my-evolution/metar.c:107
 msgid "Moderate small hail"
-msgstr ""
+msgstr "ÊÂ¤Îð»"
 
 #: my-evolution/metar.c:107
 msgid "Heavy small hail"
-msgstr ""
+msgstr "¶¯¤¤ð»"
 
 #: my-evolution/metar.c:107
 msgid "Shallow small hail"
-msgstr ""
+msgstr "Àõ¤¤ð»"
 
 #: my-evolution/metar.c:107
 msgid "Patches of small hail"
-msgstr ""
+msgstr "½ê¡¹ð»"
 
 #: my-evolution/metar.c:107
 msgid "Partial small hail"
-msgstr ""
+msgstr "»þ¡¹ð»"
 
 #: my-evolution/metar.c:107
 msgid "Small hailstorm"
-msgstr ""
+msgstr "ð»Íò"
 
 #: my-evolution/metar.c:107
 msgid "Blowing small hail"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ëð»"
 
 #: my-evolution/metar.c:107
 msgid "Showers of small hail"
-msgstr ""
+msgstr "¤Ë¤ï¤«ð»"
 
 #: my-evolution/metar.c:107
 msgid "Drifting small hail"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ëð»"
 
 #: my-evolution/metar.c:107
 msgid "Freezing small hail"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Îð»"
 
 #. PRECIPITATION
 #: my-evolution/metar.c:108
@@ -10363,542 +10363,530 @@ msgstr "ÉÔÌÀ¤Ê¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Precipitation in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Light precipitation"
-msgstr "·Ú¤¤¹ß¿å"
+msgstr "¼å¤¤¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Moderate precipitation"
-msgstr ""
+msgstr "ÊÂ¤Î¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Heavy precipitation"
-msgstr ""
+msgstr "¶¯¤¤¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Shallow precipitation"
-msgstr ""
+msgstr "Àõ¤¤¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Patches of precipitation"
-msgstr ""
+msgstr "½ê¡¹¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Partial precipitation"
-msgstr ""
+msgstr "»þ¡¹¹ß¿å"
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Unknown thunderstorm"
-msgstr "Ì¤ÃÎ¤Î¥¨¥é¡¼"
+msgstr "Ì¤ÃÎ¤ÎÍëÍò"
 
 #: my-evolution/metar.c:108
 msgid "Blowing precipitation"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ë¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Showers, type unknown"
-msgstr ""
+msgstr "ÉÔÌÀ¤Ê¤Ë¤ï¤«¹ß¿å"
 
 #: my-evolution/metar.c:108
 msgid "Drifting precipitation"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë¹ß¿å"
 
 #: my-evolution/metar.c:108
-#, fuzzy
 msgid "Freezing precipitation"
-msgstr "ÂÇ¹ç¤»¤Î°ÆÆâ"
+msgstr "ÃåÉ¹À­¤Î¹ß¿å"
 
 #. MIST
 #: my-evolution/metar.c:109
 msgid "Mist"
-msgstr ""
+msgstr "Ì¸"
 
 #: my-evolution/metar.c:109
 msgid "Mist in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤ÇÌ¸"
 
 #: my-evolution/metar.c:109
 msgid "Light mist"
-msgstr ""
+msgstr "¼å¤¤Ì¸"
 
 #: my-evolution/metar.c:109
 msgid "Moderate mist"
-msgstr ""
+msgstr "ÊÂ¤ÎÌ¸"
 
 #: my-evolution/metar.c:109
 msgid "Thick mist"
-msgstr ""
+msgstr "Ç»¤¤Ì¸"
 
 #: my-evolution/metar.c:109
 msgid "Shallow mist"
-msgstr ""
+msgstr "Àõ¤¤Ì¸"
 
 #: my-evolution/metar.c:109
 msgid "Patches of mist"
-msgstr ""
+msgstr "½ê¡¹Ì¸"
 
 #: my-evolution/metar.c:109
-#, fuzzy
 msgid "Partial mist"
-msgstr "½ÄÄ¹"
+msgstr "»þ¡¹Ì¸"
 
 #: my-evolution/metar.c:109
 msgid "Mist with wind"
-msgstr ""
+msgstr "É÷¤ÈÌ¸"
 
 #: my-evolution/metar.c:109
-#, fuzzy
 msgid "Drifting mist"
-msgstr "¥á¡¼¥ê¥ó¥°¥ê¥¹¥È"
+msgstr "¿á¤­´ó¤»¤ëÌ¸"
 
 #: my-evolution/metar.c:109
 msgid "Freezing mist"
-msgstr ""
+msgstr "ÃåÉ¹À­¤ÎÌ¸"
 
 #. FOG
 #: my-evolution/metar.c:110
 msgid "Fog"
-msgstr ""
+msgstr "±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Fog in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Light fog"
-msgstr ""
+msgstr "¼å¤¤±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Moderate fog"
-msgstr ""
+msgstr "ÊÂ¤Î±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Thick fog"
-msgstr ""
+msgstr "Ç»¤¤±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Shallow fog"
-msgstr ""
+msgstr "Àõ¤¤±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Patches of fog"
-msgstr ""
+msgstr "½ê¡¹±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Partial fog"
-msgstr ""
+msgstr "»þ¡¹±ìÌ¸"
 
 #: my-evolution/metar.c:110
-#, fuzzy
 msgid "Fog with wind"
-msgstr "¤³¤Î¥¦¥£¥ó¥É¥¦¤òÊÄ¤¸¤Þ¤¹"
+msgstr "É÷¤È±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Drifting fog"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë±ìÌ¸"
 
 #: my-evolution/metar.c:110
 msgid "Freezing fog"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î±ìÌ¸"
 
 #. SMOKE
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Smoke"
-msgstr "µ­Ï¿"
+msgstr "±ì"
 
 #: my-evolution/metar.c:111
 msgid "Smoke in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç±ì"
 
 #: my-evolution/metar.c:111
 msgid "Thin smoke"
-msgstr ""
+msgstr "ºÙ¤¤±ì"
 
 #: my-evolution/metar.c:111
 msgid "Moderate smoke"
-msgstr ""
+msgstr "ÊÂ¤Î±ì"
 
 #: my-evolution/metar.c:111
 msgid "Thick smoke"
-msgstr ""
+msgstr "Ç»¤¤±ì"
 
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Shallow smoke"
-msgstr "¥¿¥¹¥¯¤ÎÉ½¼¨"
+msgstr "Àõ¤¤±ì"
 
 #: my-evolution/metar.c:111
 msgid "Patches of smoke"
-msgstr ""
+msgstr "½ê¡¹±ì"
 
 #: my-evolution/metar.c:111
 msgid "Partial smoke"
-msgstr ""
+msgstr "»þ¡¹±ì"
 
 #: my-evolution/metar.c:111
 msgid "Smoke w/ thunders"
-msgstr ""
+msgstr "Íë¤È±ì"
 
 #: my-evolution/metar.c:111
-#, fuzzy
 msgid "Smoke with wind"
-msgstr "¤³¤Î¥¦¥£¥ó¥É¥¦¤òÊÄ¤¸¤Þ¤¹"
+msgstr "É÷¤È±ì"
 
 #: my-evolution/metar.c:111
 msgid "Drifting smoke"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë±ì"
 
 #. VOLCANIC_ASH
 #: my-evolution/metar.c:112
 msgid "Volcanic ash"
-msgstr ""
+msgstr "²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Moderate volcanic ash"
-msgstr ""
+msgstr "ÊÂ¤Î²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Thick volcanic ash"
-msgstr ""
+msgstr "Ç»¤¤²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Shallow volcanic ash"
-msgstr ""
+msgstr "Àõ¤¤²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Patches of volcanic ash"
-msgstr ""
+msgstr "½ê¡¹²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Partial volcanic ash"
-msgstr ""
+msgstr "»þ¡¹²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Volcanic ash w/ thunders"
-msgstr ""
+msgstr "Íë¤È²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Blowing volcanic ash"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ë²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Showers of volcanic ash "
-msgstr ""
+msgstr "¤Ë¤ï¤«¤Ë²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Drifting volcanic ash"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë²Ð»³³¥"
 
 #: my-evolution/metar.c:112
 msgid "Freezing volcanic ash"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î²Ð»³³¥"
 
 #. SAND
 #: my-evolution/metar.c:113
-#, fuzzy
 msgid "Sand"
-msgstr "Á÷¿®"
+msgstr "º½"
 
 #: my-evolution/metar.c:113
 msgid "Sand in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Çº½"
 
 #: my-evolution/metar.c:113
 msgid "Light sand"
-msgstr ""
+msgstr "¼å¤¤º½"
 
 #: my-evolution/metar.c:113
 msgid "Moderate sand"
-msgstr ""
+msgstr "ÊÂ¤Îº½"
 
 #: my-evolution/metar.c:113
 msgid "Heavy sand"
-msgstr ""
+msgstr "¶¯¤¤º½"
 
 #: my-evolution/metar.c:113
 msgid "Patches of sand"
-msgstr ""
+msgstr "½ê¡¹º½"
 
 #: my-evolution/metar.c:113
 msgid "Partial sand"
-msgstr ""
+msgstr "»þ¡¹º½"
 
 #: my-evolution/metar.c:113
 msgid "Blowing sand"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ëº½"
 
 #: my-evolution/metar.c:113
 msgid "Drifting sand"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ëº½"
 
 #. HAZE
 #: my-evolution/metar.c:114
-#, fuzzy
 msgid "Haze"
-msgstr "¥Ø¥Ã¥À"
+msgstr "¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Haze in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Light haze"
-msgstr ""
+msgstr "¼å¤¤¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Moderate haze"
-msgstr ""
+msgstr "ÊÂ¤Î¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Thick haze"
-msgstr ""
+msgstr "Ç»¤¤¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Shallow haze"
-msgstr ""
+msgstr "Àõ¤¤¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Patches of haze"
-msgstr ""
+msgstr "½ê¡¹¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Partial haze"
-msgstr ""
+msgstr "»þ¡¹¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Haze with wind"
-msgstr ""
+msgstr "É÷¤Î¤¢¤ë¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Drifting haze"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë¤â¤ä"
 
 #: my-evolution/metar.c:114
 msgid "Freezing haze"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î¤â¤ä"
 
 #. SPRAY
 #: my-evolution/metar.c:115
-#, fuzzy
 msgid "Sprays"
-msgstr "Æü"
+msgstr "¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Sprays in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Light sprays"
-msgstr ""
+msgstr "¼å¤¤¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Moderate sprays"
-msgstr ""
+msgstr "ÊÂ¤Î¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Heavy sprays"
-msgstr ""
+msgstr "¶¯¤¤¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Shallow sprays"
-msgstr ""
+msgstr "Àõ¤¤¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Patches of sprays"
-msgstr ""
+msgstr "½ê¡¹¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Partial sprays"
-msgstr ""
+msgstr "»þ¡¹¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Blowing sprays"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ë¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Drifting sprays"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë¿å±ì"
 
 #: my-evolution/metar.c:115
 msgid "Freezing sprays"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î¿å±ì"
 
 #. DUST
 #: my-evolution/metar.c:116
-#, fuzzy
 msgid "Dust"
-msgstr "8 ·î"
+msgstr "Ê´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Dust in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤ÇÊ´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Light dust"
-msgstr ""
+msgstr "¼å¤¤Ê´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Moderate dust"
-msgstr ""
+msgstr "ÊÂ¤ÎÊ´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Heavy dust"
-msgstr ""
+msgstr "¶¯¤¤Ê´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Patches of dust"
-msgstr ""
+msgstr "½ê¡¹Ê´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Partial dust"
-msgstr ""
+msgstr "»þ¡¹Ê´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Blowing dust"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ëÊ´¿Ð"
 
 #: my-evolution/metar.c:116
 msgid "Drifting dust"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ëÊ´¿Ð"
 
 #. SQUALL
 #: my-evolution/metar.c:117
 msgid "Squall"
-msgstr ""
+msgstr "¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Squall in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Light squall"
-msgstr ""
+msgstr "¼å¤¤¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Moderate squall"
-msgstr ""
+msgstr "ÊÂ¤Î¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Heavy squall"
-msgstr ""
+msgstr "¶¯¤¤¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Partial squall"
-msgstr ""
+msgstr "»þ¡¹¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Thunderous squall"
-msgstr ""
+msgstr "Íë¤¬¤¢¤ë¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Blowing squall"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ë¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Drifting squall"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë¥¹¥³¡¼¥ë"
 
 #: my-evolution/metar.c:117
 msgid "Freezing squall"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î¥¹¥³¡¼¥ë"
 
 #. SANDSTORM
 #: my-evolution/metar.c:118
 msgid "Sandstorm"
-msgstr ""
+msgstr "º½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Sandstorm in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Çº½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Light standstorm"
-msgstr ""
+msgstr "¼å¤¤º½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Moderate sandstorm"
-msgstr ""
+msgstr "ÊÂ¤Îº½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Heavy sandstorm"
-msgstr ""
+msgstr "¶¯¤¤º½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Shallow sandstorm"
-msgstr ""
+msgstr "Àõ¤¤º½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Partial sandstorm"
-msgstr ""
+msgstr "»þ¡¹º½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Thunderous sandstorm"
-msgstr ""
+msgstr "Íë¤Î¤¢¤ëº½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Blowing sandstorm"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ëº½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Drifting sandstorm"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ëº½Íò"
 
 #: my-evolution/metar.c:118
 msgid "Freezing sandstorm"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Îº½Íò"
 
 #. DUSTSTORM
 #: my-evolution/metar.c:119
 msgid "Duststorm"
-msgstr ""
+msgstr "¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Duststorm in the vicinity"
-msgstr ""
+msgstr "¶áÎÙ¤Ç¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Light duststorm"
-msgstr ""
+msgstr "¼å¤¤¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Moderate duststorm"
-msgstr ""
+msgstr "ÊÂ¤Î¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Heavy duststorm"
-msgstr ""
+msgstr "¶¯¤¤¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Shallow duststorm"
-msgstr ""
+msgstr "Àõ¤¤¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Partial duststorm"
-msgstr ""
+msgstr "»þ¡¹¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Thunderous duststorm"
-msgstr ""
+msgstr "Íë¤¬¤¢¤ë¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Blowing duststorm"
-msgstr ""
+msgstr "¿á¤­¤Ä¤±¤ë¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Drifting duststorm"
-msgstr ""
+msgstr "¿á¤­´ó¤»¤ë¿ÐÍò"
 
 #: my-evolution/metar.c:119
 msgid "Freezing duststorm"
-msgstr ""
+msgstr "ÃåÉ¹À­¤Î¿ÐÍò"
 
 #. FUNNEL_CLOUD
 #: my-evolution/metar.c:120
