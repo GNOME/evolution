@@ -28,5 +28,9 @@ time_t time_add_year (time_t time, int years);
  */
 char *format_simple_hour (int hour, int use_am_pm);
 
+time_t time_start_of_day (time_t t);
+time_t time_end_of_day (time_t t);
+time_t time_day_hour (time_t t, int hour);
+
 
 #endif

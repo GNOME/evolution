@@ -117,3 +117,51 @@ time_add_year (time_t time, int years)
 	}
 	return new_time;
 }
+
+time_t
+time_day_hour (time_t t, int hour)
+{
+	struct tm tm;
+	time_t retval;
+	
+	tm = *localtime (&t);
+	tm.tm_hour = hour;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+
+	retval = mktime (&tm);
+	return retval;
+}
+
+
+time_t
+time_start_of_day (time_t t)
+{
+	struct tm tm;
+	time_t retval;
+	
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+
+	retval = mktime (&tm);
+	return retval;
+}
+
+time_t
+time_end_of_day (time_t t)
+{
+	struct tm tm;
+	time_t retval;
+	
+	tm = *localtime (&t);
+	tm.tm_hour = 0;
+	tm.tm_min  = 0;
+	tm.tm_sec  = 0;
+	tm.tm_mday++;
+	
+	retval = mktime (&tm);
+	return retval;
+}
+

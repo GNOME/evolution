@@ -41,44 +41,32 @@ static void
 setup_widgets (GnomeCalendar *gcal)
 {
 	time_t now;
-	GtkWidget *sw;
 
 	now = time (NULL);
 	
 	gcal->notebook  = gtk_notebook_new ();
-	gcal->day_view  = day_view_create (gcal);
 	gcal->week_view = gncal_week_view_new (gcal, now);
 	gcal->year_view = year_view_create (gcal);
 	gcal->task_view = tasks_create (gcal);
 
 	if (1)
 	{
-		struct tm tm;
 		time_t a, b;
 
-		tm = *localtime (&now);
-/* 		tm.tm_mday = 2; */
-		tm.tm_hour = 0;
-		tm.tm_min  = 0;
-		tm.tm_sec  = 0;
-
-		a = mktime (&tm);
-
-		tm.tm_mday++;
-
-		b = mktime (&tm);
-
+		a = time_start_of_day (now);
+		b = time_end_of_day (now);
+		
 		gcal->day_view = gncal_full_day_new (gcal, a, b);
 
-		sw = gtk_scrolled_window_new (NULL, NULL);
-		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw),
+		gcal->day_view_container = gtk_scrolled_window_new (NULL, NULL);
+		gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (gcal->day_view_container),
 						GTK_POLICY_AUTOMATIC,
 						GTK_POLICY_AUTOMATIC);
-		gtk_container_add (GTK_CONTAINER (sw), gcal->day_view);
+		gtk_container_add (GTK_CONTAINER (gcal->day_view_container), gcal->day_view);
 		gtk_widget_show (gcal->day_view);
 	}
 
-	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), sw,  gtk_label_new (_("Day View")));
+	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->day_view_container,  gtk_label_new (_("Day View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->week_view, gtk_label_new (_("Week View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->year_view, gtk_label_new (_("Year View")));
 	gtk_notebook_append_page (GTK_NOTEBOOK (gcal->notebook), gcal->task_view, gtk_label_new (_("Todo")));
@@ -114,9 +102,11 @@ gnome_calendar_goto (GnomeCalendar *gcal, time_t new_time)
 
 	if (current == gcal->week_view)
 		gncal_week_view_set (GNCAL_WEEK_VIEW (gcal->week_view), new_time);
-	else if (current == gcal->day_view)
-		printf ("updating day view\n");
-	else if (current == gcal->year_view)
+	else if (current == gcal->day_view_container){
+		gncal_full_day_set_bounds (GNCAL_FULL_DAY (gcal->day_view),
+					   time_start_of_day (new_time),
+					   time_end_of_day (new_time));
+	} else if (current == gcal->year_view)
 		printf ("updating year view\n");
 	else
 		printf ("My penguin is gone!\n");
@@ -131,7 +121,7 @@ gnome_calendar_direction (GnomeCalendar *gcal, int direction)
 	
 	if (cp == gcal->week_view)
 		new_time = time_add_day (gcal->current_display, 7 * direction);
-	else if (cp == gcal->day_view)
+	else if (cp == gcal->day_view_container)
 		new_time = time_add_day (gcal->current_display, 1 * direction);
 	else if (cp == gcal->year_view)
 		new_time = time_add_year (gcal->current_display, 1 * direction);

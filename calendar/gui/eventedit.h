@@ -38,17 +38,17 @@ typedef struct {
 	GSList     *recur_group;
 	GtkWidget  *recur_content;
 
-	GtkWidget  *recur_content_daily;
 	GtkWidget  *recur_day_period; /* GtkEntry */
 
-	GtkWidget  *recur_content_weekly;
 	GtkWidget  *recur_week_period; /* GtkEntry */
 	GtkWidget  *recur_week_days [7];
 
-	GtkWidget  *recur_content_monthly;
 	GtkWidget  *recur_month_date;
 	GtkWidget  *recur_month_day;
 	GtkWidget  *recur_month_weekday;
+	GtkWidget  *recur_month_period;	/* GtkEntry */
+	
+	GtkWidget  *recur_year_period; /* GtkEntry */
 	
 	/* The associated ical object */
 	iCalObject *ical;

@@ -103,7 +103,7 @@ ical_object_destroy (iCalObject *ico)
 	g_free (ico);
 }
 
-GList *
+static GList *
 set_list (char *str, char *sc)
 {
 	GList *list = 0;
@@ -113,6 +113,12 @@ set_list (char *str, char *sc)
 		list = g_list_prepend (list, g_strdup (s));
 	
 	return list;
+}
+
+static void
+load_recurrence (iCalObject *o, char *str)
+{
+
 }
 
 #define is_a_prop_of(obj,prop) isAPropertyOf (obj,prop)
@@ -246,13 +252,9 @@ ical_object_create_from_vobject (VObject *o, const char *object_name)
 	if (has (o, VCMAlarmProp))
 		;
 
-	/* FIXME: rdate */
-	if (has (o, VCRDateProp))
-		;
-
 	/* FIXME: rrule */
 	if (has (o, VCRRuleProp))
-		;
+		load_recurrence (ical, str_val (vo));
 		
 	return ical;
 }

@@ -25,6 +25,7 @@ typedef struct {
 	GtkWidget   *notebook;
 	GtkWidget   *week_view;
 	GtkWidget   *day_view;
+	GtkWidget   *day_view_container;
 	GtkWidget   *year_view;
 	GtkWidget   *task_view;
 	void        *event_editor;

@@ -70,6 +70,21 @@ typedef enum {
 
 typedef char NotYet;
 
+enum RecurType {
+	RECUR_DAILY,
+	RECUR_WEEKLY,
+	RECUR_MONTHLY_BY_POS,
+	RECUR_MONTHLY_BY_DAY,
+	RECUR_YEARLY_BY_MONTH,
+	RECUR_YEARLY_BY_DAY,
+};
+
+typedef struct {
+	enum RecurType type;
+
+	int frequency;
+} Recurrence;
+
 /*
  * This describes an iCalendar object, note that we never store durations, instead we
  * always compute the end time computed from the start + duration.
@@ -114,6 +129,8 @@ typedef struct {
 	CalendarAlarm aalarm;
 	CalendarAlarm palarm;
 	CalendarAlarm malarm;
+
+	Recurrence    *recur;
 } iCalObject;
 
 iCalObject *ical_new (char *comment, char *organizer, char *summary);

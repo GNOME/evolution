@@ -1,3 +1,15 @@
+1998-04-11  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* gnome-cal.c (gnome_calendar_goto): Add support for navigating
+	on the day view.
+
+	* timeutil.c (time_start_of_day, time_end_of_day, time_day_hour):
+	New time manipulation functions. 
+
+	* eventedit.c (ee_rp_init_frequency): Add the different frequency
+	editors to a notebook.  Make the notebook startup on the entry
+	selected recurrence type;
+
 1998-04-11  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* gncal-full-day.c (recompute_motion): Now we support selecting a
