@@ -57,8 +57,6 @@ INCLUDES =										\
 	-DEVOLUTION_UIDIR=\""$(evolutionuidir)\""					\
 	$(EVOLUTION_CALENDAR_CFLAGS)
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
-
 gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = 					\
 	e-itip-control.glade			\

@@ -78,8 +78,6 @@ libcal_dialogs_a_SOURCES =	\
 	task-page.c		\
 	task-page.h
 
-iconsdir = $(datadir)/evolution-$(BASE_VERSION)/images
-
 gladedir = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA =				\
 	alarm-options.glade		\

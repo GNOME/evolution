@@ -1,3 +1,14 @@
+2003-01-24  Ettore Perazzoli  <ettore@ximian.com>
+
+	* gui/dialogs/Makefile.am (iconsdir): Remove, this is now defined
+	in configure.in.
+
+	* gui/Makefile.am (iconsdir): Remove; this is now defined in
+	configure.in.
+
+	* gui/alarm-notify/Makefile.am (iconsdir): Remove; this is now
+	defined in configure.in.
+
 2003-01-23  Hans Petter Jansson  <hpj@ximian.com>
 
 	* gui/dialogs/event-page.c (get_widgets): GTK_OBJECT -> G_OBJECT cast.
