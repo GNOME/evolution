@@ -231,14 +231,14 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 
 					g_snprintf (font, 25, "<FONT COLOR=\"#%06x\">", color);
 
-					check_size (&buffer, &buffer_size, out, 25);
+					out = check_size (&buffer, &buffer_size, out, 25);
 					out += sprintf (out, "%s", font);
 					colored = TRUE;
 				}
 			} else if (colored) {
 				gchar *no_font = "</FONT>";
 
-				check_size (&buffer, &buffer_size, out, 9);
+				out = check_size (&buffer, &buffer_size, out, 9);
 				out += sprintf (out, "%s", no_font);
 				colored = FALSE;
 			}
@@ -247,7 +247,7 @@ e_text_to_html_full (const char *input, unsigned int flags, guint32 color)
 			if (*cur == '>' && !saw_citation)
 				cur++;
 		} else if (flags & E_TEXT_TO_HTML_CITE && col == 0) {
-			check_size (&buffer, &buffer_size, out, 5);
+			out = check_size (&buffer, &buffer_size, out, 5);
 			out += sprintf (out, "&gt; ");
 		}
 
