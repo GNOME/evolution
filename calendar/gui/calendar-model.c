@@ -27,14 +27,6 @@
 #include <math.h>
 #include <sys/types.h>
 
-/* We need this for strptime. */
-#define _XOPEN_SOURCE 500
-#define __USE_XOPEN
-#include <time.h>
-#include <sys/time.h>
-#undef _XOPEN_SOURCE
-#undef __USE_XOPEN
-
 #include <ctype.h>
 
 #include <libgnomeui/gnome-messagebox.h>
