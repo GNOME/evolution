@@ -347,7 +347,7 @@ impl_dispose (GObject *object)
 	}
 	
 	if (priv->local_store != NULL) {
-		camel_object_unref (CAMEL_OBJECT (priv->local_store));
+		camel_object_unref (priv->local_store);
 		priv->local_store = NULL;
 	}
 	
@@ -866,6 +866,15 @@ mail_component_peek_tree_model (MailComponent *component)
 	MAIL_COMPONENT_DEFAULT(component);
 
 	return component->priv->model;
+}
+
+CamelStore *
+mail_component_peek_local_store (MailComponent *mc)
+{
+	MAIL_COMPONENT_DEFAULT (mc);
+	mc_setup_local_store (mc);
+	
+	return mc->priv->local_store;
 }
 
 /**

@@ -94,6 +94,7 @@ void mail_component_remove_folder (MailComponent *component, struct _CamelStore 
 
 struct _EMFolderTreeModel *mail_component_peek_tree_model (MailComponent *component);
 
+struct _CamelStore *mail_component_peek_local_store (MailComponent *mc);
 struct _CamelFolder *mail_component_get_folder(MailComponent *mc, enum _mail_component_folder_t id);
 const char *mail_component_get_folder_uri(MailComponent *mc, enum _mail_component_folder_t id);
 

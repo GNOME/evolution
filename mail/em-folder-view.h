@@ -81,6 +81,7 @@ struct _EMFolderView {
 	int mark_seen:1;
 	int preview_active:1;	/* is preview being used */
 	int statusbar_active:1; /* should we manage the statusbar messages ourselves? */
+	int hide_deleted:1;
 };
 
 struct _EMFolderViewClass {

@@ -956,30 +956,76 @@ tree_drag_data_received(GtkWidget *widget, GdkDragContext *context, int x, int y
 	e_thread_put (mail_thread_new, (EMsg *) m);
 }
 
+static gboolean
+is_special_local_folder (const char *name)
+{
+	return (!strcmp (name, "Drafts") || !strcmp (name, "Inbox") || !strcmp (name, "Outbox") || !strcmp (name, "Sent"));
+}
+
 static GdkAtom
 emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 {
 	struct _EMFolderTreePrivate *p = emft->priv;
+	char *uri, *folder_path, *src_uri = NULL;
+	CamelStore *local, *sstore, *dstore;
 	gboolean is_store;
 	GtkTreeIter iter;
 	GList *targets;
-	char *uri, *src_uri = NULL;
-
+	
 	/* This is a bit of a mess, but should handle all the cases properly */
 
 	if (!gtk_tree_model_get_iter((GtkTreeModel *)p->model, &iter, path))
 		return GDK_NONE;
 	
-	gtk_tree_model_get((GtkTreeModel *)p->model, &iter, COL_BOOL_IS_STORE, &is_store, COL_STRING_URI, &uri, -1);
-
+	gtk_tree_model_get((GtkTreeModel *)p->model, &iter, COL_BOOL_IS_STORE, &is_store,
+			   COL_STRING_FOLDER_PATH, &folder_path,
+			   COL_POINTER_CAMEL_STORE, &dstore,
+			   COL_STRING_URI, &uri, -1);
+	
+	local = mail_component_peek_local_store (NULL);
+	
+	targets = context->targets;
+	
+	/* Check for special destinations */
+	if (uri && folder_path) {
+		folder_path = folder_path[0] == '/' ? folder_path + 1 : folder_path;
+		
+#if 0
+		/* only allow copying/moving folders (not messages) into the local Outbox */
+		if (dstore == local && !strcmp (folder_path, "Outbox")) {
+			GdkAtom xfolder;
+			
+			xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+			while (targets != NULL) {
+				if (targets->data == (gpointer) xfolder)
+					return xfolder;
+				
+				targets = targets->next;
+			}
+			
+			return GDK_NONE;
+		}
+#endif
+		
+		/* don't allow copying/moving into the UNMATCHED vfolder */
+		if (!strncmp (uri, "vfolder:", 8) && !strcmp (folder_path, CAMEL_UNMATCHED_NAME))
+			return GDK_NONE;
+		
+		/* don't allow copying/moving into a vTrash/vJunk folder */
+		if (!strcmp (folder_path, CAMEL_VTRASH_NAME)
+		    || !strcmp (folder_path, CAMEL_VJUNK_NAME))
+			return GDK_NONE;
+	}
+	
 	if (p->drag_row) {
 		GtkTreePath *src_path = gtk_tree_row_reference_get_path(p->drag_row);
-
+		
 		if (src_path) {
 			if (gtk_tree_model_get_iter((GtkTreeModel *)p->model, &iter, src_path))
 				gtk_tree_model_get((GtkTreeModel *)p->model, &iter,
+						   COL_POINTER_CAMEL_STORE, &sstore,
 						   COL_STRING_URI, &src_uri, -1);
-
+			
 			/* can't dnd onto itself or below itself - bad things happen,
 			   no point dragging to where we were either */
 			if (gtk_tree_path_compare(path, src_path) == 0
@@ -994,42 +1040,53 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		}
 	}
 	
-	targets = context->targets;
-
 	/* Check for special sources, and vfolder stuff */
 	if (src_uri) {
 		CamelURL *url;
 		char *path;
-
+		
 		/* FIXME: this is a total hack, but i think all we can do at present */
-		/* Check for dragging from spethal folders which can't be moved/copied */
+		/* Check for dragging from special folders which can't be moved/copied */
 		url = camel_url_new(src_uri, NULL);
 		path = url->fragment?url->fragment:url->path;
-		if (path
-		    && 	(strcmp(path, CAMEL_VTRASH_NAME) == 0
-			 || strcmp(path, CAMEL_VJUNK_NAME) == 0
-			 || strcmp(path, CAMEL_UNMATCHED_NAME) == 0
-			 /* Dont allow drag from maildir 'inbox' */
-			 || strcmp(path, ".") == 0)) {
-			camel_url_free(url);
-			return GDK_NONE;
-		}
-		camel_url_free(url);
-
-		if (uri) {
-			/* Check for dragging folders into spethal folders */
-			url = camel_url_new(uri, NULL);
-			path = url->fragment?url->fragment:url->path;
-			if (path && path[0]
-			    && (strcmp(path, CAMEL_VTRASH_NAME) == 0
-				|| strcmp(path, CAMEL_VJUNK_NAME) == 0
-				|| strcmp(path, CAMEL_UNMATCHED_NAME) == 0)) {
+		if (path && path[0]) {
+			/* don't allow moving any of the the local special folders */
+			if (sstore == local && is_special_local_folder (path)) {
+				GdkAtom xfolder;
+				
+				camel_url_free (url);
+				
+				/* TODO: not sure if this is legal, but it works, force copy for special local folders */
+				context->suggested_action = GDK_ACTION_COPY;
+				xfolder = drop_atoms[DND_DROP_TYPE_FOLDER];
+				while (targets != NULL) {
+					if (targets->data == (gpointer) xfolder)
+						return xfolder;
+					
+					targets = targets->next;
+				}
+				
+				return GDK_NONE;
+			}
+			
+			/* don't allow copying/moving of the UNMATCHED vfolder */
+			if (!strcmp (url->protocol, "vfolder") && !strcmp (path, CAMEL_UNMATCHED_NAME)) {
+				camel_url_free (url);
+				return GDK_NONE;
+			}
+			
+			/* don't allow copying/moving of any vTrash/vJunk folder nor maildir 'inbox' */
+			if (strcmp(path, CAMEL_VTRASH_NAME) == 0
+			    || strcmp(path, CAMEL_VJUNK_NAME) == 0
+			    /* Dont allow drag from maildir 'inbox' */
+			    || strcmp(path, ".") == 0) {
 				camel_url_free(url);
 				return GDK_NONE;
 			}
-			camel_url_free(url);
 		}
-
+		camel_url_free(url);
+		
+		/* vFolders can only be dropped into other vFolders */
 		if (strncmp(src_uri, "vfolder:", 8) == 0) {
 			/* TODO: not sure if this is legal, but it works, force move only for vfolders */
 			context->suggested_action = GDK_ACTION_MOVE;
@@ -1041,7 +1098,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 				while (targets != NULL) {
 					if (targets->data == (gpointer) xfolder)
 						return xfolder;
-			
+					
 					targets = targets->next;
 				}
 			}
@@ -1055,7 +1112,7 @@ emft_drop_target(EMFolderTree *emft, GdkDragContext *context, GtkTreePath *path)
 		return GDK_NONE;
 
 	/* Now we either have a store or a normal folder */
-		
+	
 	if (is_store) {
 		GdkAtom xfolder;
 
@@ -1133,7 +1190,7 @@ tree_drag_motion (GtkWidget *widget, GdkDragContext *context, int x, int y, guin
 	
 	if (!gtk_tree_view_get_dest_row_at_pos(priv->treeview, x, y, &path, &pos))
 		return FALSE;
-
+	
 	target = emft_drop_target(emft, context, path);
 	if (target != GDK_NONE) {
 		for (i=0; i<NUM_DROP_TYPES; i++) {
@@ -1674,6 +1731,7 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	struct _EMFolderTreePrivate *priv;
 	CamelStore *fromstore, *tostore;
 	char *tobase, *frombase;
+	GtkWindow *parent;
 	CamelException ex;
 	GtkWidget *dialog;
 	CamelURL *url;
@@ -1685,13 +1743,19 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
 	priv = cfd->emft->priv;
 	
-	d(printf ("copying folder '%s' to '%s'\n", priv->selected_path, uri));
+	d(printf ("%sing folder '%s' to '%s'\n", cfd->delete ? "move" : "copy", priv->selected_path, uri));
 	
 	camel_exception_init (&ex);
 	if (!(fromstore = camel_session_get_store (session, priv->selected_uri, &ex)))
 		goto exception;
 	
 	frombase = priv->selected_path + 1;
+	if (fromstore == mail_component_peek_local_store (NULL) && is_special_local_folder (frombase)) {
+		if (cfd->delete)
+			camel_exception_setv (&ex, CAMEL_EXCEPTION_SYSTEM, _("Cannot move folder `%s': illegal operation"), frombase);
+		camel_object_unref (fromstore);
+		goto exception;
+	}
 	
 	if (!(tostore = camel_session_get_store (session, uri, &ex))) {
 		camel_object_unref (fromstore);
@@ -1715,7 +1779,8 @@ emft_popup_copy_folder_selected (const char *uri, void *data)
 	
  exception:
 	
-	dialog = gtk_message_dialog_new ((GtkWindow *) cfd->emft, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+	parent = (GtkWindow *) gtk_widget_get_ancestor ((GtkWidget *) cfd->emft, GTK_TYPE_WINDOW);
+	dialog = gtk_message_dialog_new (parent, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	camel_exception_clear (&ex);
@@ -1757,6 +1822,7 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	struct _EMFolderTreeModelStoreInfo *si;
 	const char *parent, *full_name;
 	char *name, *namebuf = NULL;
+	GtkWindow *window;
 	GtkWidget *dialog;
 	CamelStore *store;
 	CamelException ex;
@@ -1802,7 +1868,8 @@ em_folder_tree_create_folder (EMFolderTree *emft, const char *path, const char *
 	
  exception:
 	
-	dialog = gtk_message_dialog_new ((GtkWindow *) emft, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+	window = (GtkWindow *) gtk_widget_get_ancestor ((GtkWidget *) emft, GTK_TYPE_WINDOW);
+	dialog = gtk_message_dialog_new (window, GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
 					 GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE, _("%s"), ex.desc);
 	g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
 	camel_exception_clear (&ex);
@@ -1967,19 +2034,29 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 {
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
+	CamelStore *local, *store;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
 	GtkWidget *dialog;
+	const char *full_name;
 	char *title, *path;
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);
-	gtk_tree_model_get (model, &iter, COL_STRING_FOLDER_PATH, &path, -1);
+	gtk_tree_model_get (model, &iter, COL_POINTER_CAMEL_STORE, &store, COL_STRING_FOLDER_PATH, &path, -1);
+	
+	local = mail_component_peek_local_store (NULL);
+	
+	full_name = path[0] == '/' ? path + 1 : path;
+	if (store == local && is_special_local_folder (full_name)) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot delete local %s folder."), full_name);
+		return;
+	}
 	
 	dialog = gtk_message_dialog_new (NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
 					 GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE,
 					 _("Really delete folder \"%s\" and all of its subfolders?"),
-					 path);
+					 full_name);
 	
 	gtk_dialog_add_button ((GtkDialog *) dialog, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL);
 	gtk_dialog_add_button ((GtkDialog *) dialog, GTK_STOCK_DELETE, GTK_RESPONSE_OK);
@@ -1988,7 +2065,7 @@ emft_popup_delete_folder (GtkWidget *item, EMFolderTree *emft)
 	gtk_container_set_border_width ((GtkContainer *) dialog, 6); 
 	gtk_box_set_spacing ((GtkBox *) ((GtkDialog *) dialog)->vbox, 6);
 	
-	title = g_strdup_printf (_("Delete \"%s\""), path);
+	title = g_strdup_printf (_("Delete \"%s\""), full_name);
 	gtk_window_set_title ((GtkWindow *) dialog, title);
 	g_free (title);
 	
@@ -2003,11 +2080,13 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 	char *prompt, *folder_path, *name, *new_name, *uri;
 	GtkTreeSelection *selection;
 	const char *full_name, *p;
+	CamelStore *local, *store;
 	gboolean done = FALSE;
 	GtkTreeModel *model;
-	CamelStore *store;
 	GtkTreeIter iter;
 	size_t base_len;
+	
+	local = mail_component_peek_local_store (NULL);
 	
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);
@@ -2017,6 +2096,13 @@ emft_popup_rename_folder (GtkWidget *item, EMFolderTree *emft)
 			    COL_STRING_URI, &uri, -1);
 	
 	full_name = folder_path[0] == '/' ? folder_path + 1 : folder_path;
+	
+	/* don't allow user to rename one of the special local folders */
+	if (store == local && is_special_local_folder (full_name)) {
+		e_notice (NULL, GTK_MESSAGE_ERROR, _("Cannot rename local %s folder."), full_name);
+		return;
+	}
+	
 	if ((p = strrchr (full_name, '/')))
 		base_len = (size_t) (p - full_name);
 	else
@@ -2116,6 +2202,7 @@ static EMPopupItem emft_popup_menu[] = {
 static gboolean
 emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree *emft)
 {
+	/* FIXME: need to disable Rename/Move for Outbox and possibly other special folders */
 	struct _EMFolderTreePrivate *priv = emft->priv;
 	GtkTreeSelection *selection;
 	GtkTreeModel *model;
@@ -2133,7 +2220,7 @@ emft_tree_button_press (GtkWidget *treeview, GdkEventButton *event, EMFolderTree
 	
 	/* handle right-click by opening a context menu */
 	emp = em_popup_new ("com.ximian.mail.storageset.popup.select");
-
+	
 	/* FIXME: we really need the folderinfo to build a proper menu */
 	selection = gtk_tree_view_get_selection (priv->treeview);
 	emft_selection_get_selected (selection, &model, &iter);

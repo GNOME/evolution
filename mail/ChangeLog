@@ -1,5 +1,24 @@
 2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
 
+	Fix for bug #54060 (except for the "don't let users copy/move
+	messages to Outbox" bit).
+
+	* em-folder-tree.c (emft_drop_target): Rearranged a little. We can
+	check for special dest folders right away. Also added a check for
+	the default local folders (Drafts/Inbox/Outbox/Sent) since we
+	don't want to be able to move them anywhere else (copying is ok).
+	(emft_popup_copy_folder_selected): Don't allow moving any of the
+	default local folders to be consistant with drag&drop changes.
+	(emft_popup_rename_folder): Don't allow the user to rename a
+	default local folder.
+	(emft_popup_delete_folder): Don't allow deletion of special local
+	folders.
+
+	* mail-component.c (mail_component_peek_local_store): New function
+	to peek the local store.
+
+2004-02-17  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* em-format-html-display.c (efhd_xpkcs7mime_validity_clicked):
 	Display an alternate description based on the trust value if we
 	have a trust to work with.
