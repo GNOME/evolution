@@ -1,3 +1,10 @@
+2001-12-20  Ettore Perazzoli  <ettore@ximian.com>
+
+	[Fix #17377, Evolution doesn't work on multi-depth displays.]
+
+	* gui/component/addressbook-factory.c (main): Push GdkRGB visual
+	and colormap.
+
 2001-12-19  Jon Trowbridge  <trow@ximian.com>
 
 	* gui/widgets/e-addressbook-reflow-adapter.c
