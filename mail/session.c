@@ -69,31 +69,63 @@ mail_session_request_dialog (const char *prompt, gboolean secret, const char *ke
 		    ans == NULL)
 			return NULL;
 	} else {
-		if ((ans = mail_get_password ((char *) prompt, secret)) == NULL)
+		if ((ans = mail_get_password (prompt, secret)) == NULL)
 			return NULL;
 	}
-
+	
 	g_hash_table_insert (passwords, g_strdup (key), g_strdup (ans));
 	return ans;
 }
 
-static char *
+gboolean
+mail_session_accept_dialog (const char *prompt, const char *key, gboolean async)
+{
+	GtkWidget *dialog;
+	GtkWidget *label;
+	
+	if (!interaction_enabled)
+		return FALSE;
+	
+	if (!async) {
+		dialog = gnome_dialog_new (_("Do you accept?"),
+					   GNOME_STOCK_BUTTON_YES,
+					   GNOME_STOCK_BUTTON_NO);
+		gnome_dialog_set_default (GNOME_DIALOG (dialog), 1);
+		
+		label = gtk_label_new (prompt);
+		gtk_label_set_line_wrap (GTK_LABEL (label), TRUE);
+		
+		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), label,
+				    TRUE, TRUE, 0);
+		
+		if (gnome_dialog_run_and_close (GNOME_DIALOG (dialog)) == 0)
+			return TRUE;
+		else
+			return FALSE;
+	} else {
+		return mail_get_accept (prompt);
+	}
+}
+
+static gpointer
 auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 	       CamelService *service, char *item, CamelException *ex)
 {
 	char *key, *ans, *url;
-
+	gboolean accept;
+	
 	url = camel_url_to_string (service->url, FALSE);
 	key = g_strdup_printf ("%s:%s", url, item);
 	g_free (url);
-
-	if (mode == CAMEL_AUTHENTICATOR_TELL) {
+	
+	switch (mode) {
+	case CAMEL_AUTHENTICATOR_TELL:
 		if (!data) {
 			g_hash_table_remove (passwords, key);
 			g_free (key);
 		} else {
 			gpointer old_key, old_data;
-
+			
 			if (g_hash_table_lookup_extended (passwords, key,
 							  &old_key,
 							  &old_data)) {
@@ -103,19 +135,29 @@ auth_callback (CamelAuthCallbackMode mode, char *data, gboolean secret,
 			} else
 				g_hash_table_insert (passwords, key, data);
 		}
-
+		
 		return NULL;
+		break;
+	case CAMEL_AUTHENTICATOR_ASK:
+		ans = mail_session_request_dialog (data, secret, key, TRUE);
+		g_free (key);
+	
+		if (!ans) {
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
+					     "User canceled operation.");
+		}
+		
+		return ans;
+		break;
+	case CAMEL_AUTHENTICATOR_ACCEPT:
+		accept = mail_session_accept_dialog (data, key, TRUE);
+		g_free (key);
+		
+		return GINT_TO_POINTER (accept);
+		break;
 	}
-
-	ans = mail_session_request_dialog (data, secret, key, TRUE);
-	g_free (key);
-
-	if (!ans) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
-				     "User canceled operation.");
-	}
-
-	return ans;
+	
+	return NULL;
 }
 
 static char *

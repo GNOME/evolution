@@ -36,6 +36,8 @@ void mail_session_init (void);
 void mail_session_enable_interaction (gboolean enable);
 char *mail_session_request_dialog (const char *prompt, gboolean secret,
 				   const char *key, gboolean async);
+gboolean mail_session_accept_dialog (const char *prompt, const char *key,
+				     gboolean async);
 void mail_session_forget_passwords (BonoboUIComponent *uih, void *user_data,
 				    const char *path);
 void mail_session_remember_password (const char *url);

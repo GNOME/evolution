@@ -66,7 +66,10 @@ void mail_statusf(const char *fmt, ...);
 void mail_status(const char *msg);
 
 /* request a string/password */
-char *mail_get_password(char *prompt, gboolean secret);
+char *mail_get_password (const char *prompt, gboolean secret);
+
+/* request a yes/no response as to whether or not to accept (a certificate?) */
+gboolean mail_get_accept (const char *prompt);
 
 /* forward a camel event (or other call) to the gui thread */
 int mail_proxy_event(CamelObjectEventHookFunc func, CamelObject *o, void *event_data, void *data);
