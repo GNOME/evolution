@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-09 23:55+0800\n"
+"POT-Creation-Date: 2005-01-11 00:37+0800\n"
 "PO-Revision-Date: 2004-12-24 17:54+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -155,7 +155,7 @@ msgstr "一天或多天的日历视图"
 msgid "a table to view and select the current time range"
 msgstr "可查看并选择当前时间范围的表"
 
-#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:519
+#: a11y/calendar/ea-gnome-calendar.c:187 calendar/gui/calendar-component.c:520
 msgid "%A %d %b %Y"
 msgstr "%Y年%-m月%-d日%A"
 
@@ -165,22 +165,22 @@ msgstr "%Y年%-m月%-d日%A"
 #. %d = day of month, %b = abbreviated month name.
 #. You can change the order but don't change the
 #. specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:522
+#: a11y/calendar/ea-gnome-calendar.c:190 calendar/gui/calendar-component.c:523
 #: calendar/gui/e-day-view.c:1511 calendar/gui/e-day-view-top-item.c:719
 #: calendar/gui/e-week-view-main-item.c:321
 msgid "%a %d %b"
 msgstr "%-m月%-d日%A"
 
 #: a11y/calendar/ea-gnome-calendar.c:192 a11y/calendar/ea-gnome-calendar.c:197
-#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:524
-#: calendar/gui/calendar-component.c:529 calendar/gui/calendar-component.c:531
+#: a11y/calendar/ea-gnome-calendar.c:199 calendar/gui/calendar-component.c:525
+#: calendar/gui/calendar-component.c:530 calendar/gui/calendar-component.c:532
 msgid "%a %d %b %Y"
 msgstr "%Y年%-m月%-d日%A"
 
 #: a11y/calendar/ea-gnome-calendar.c:216 a11y/calendar/ea-gnome-calendar.c:222
 #: a11y/calendar/ea-gnome-calendar.c:228 a11y/calendar/ea-gnome-calendar.c:230
-#: calendar/gui/calendar-component.c:543 calendar/gui/calendar-component.c:550
-#: calendar/gui/calendar-component.c:556 calendar/gui/calendar-component.c:558
+#: calendar/gui/calendar-component.c:544 calendar/gui/calendar-component.c:551
+#: calendar/gui/calendar-component.c:557 calendar/gui/calendar-component.c:559
 msgid "%d %b %Y"
 msgstr "%Y年%-m月%-d日"
 
@@ -189,7 +189,7 @@ msgstr "%Y年%-m月%-d日"
 #. strftime format %d = day of month, %b = abbreviated
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:548
+#: a11y/calendar/ea-gnome-calendar.c:220 calendar/gui/calendar-component.c:549
 #: calendar/gui/e-day-view.c:1527 calendar/gui/e-day-view-top-item.c:723
 #: calendar/gui/e-week-view-main-item.c:335
 msgid "%d %b"
@@ -651,7 +651,7 @@ msgstr ""
 
 #: addressbook/gui/component/addressbook-view.c:758
 #: addressbook/gui/widgets/e-addressbook-view.c:934
-#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:330
+#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:330
 #: mail/em-filter-i18n.h:11 ui/evolution-addressbook.xml.h:8
 #: ui/evolution-calendar.xml.h:5 ui/evolution-mail-message.xml.h:24
 #: ui/evolution-tasks.xml.h:6
@@ -659,7 +659,7 @@ msgid "Delete"
 msgstr "删除"
 
 #: addressbook/gui/component/addressbook-view.c:760
-#: calendar/gui/calendar-component.c:386 calendar/gui/tasks-component.c:331
+#: calendar/gui/calendar-component.c:387 calendar/gui/tasks-component.c:331
 msgid "Properties..."
 msgstr "属性..."
 
@@ -772,9 +772,11 @@ msgstr "在此管理您的 S/MIME 证书"
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:3
 #: calendar/gui/dialogs/alarm-dialog.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
 #: calendar/gui/dialogs/new-task-list.glade.h:1
+#: calendar/gui/dialogs/task-page.glade.h:1
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:1
 #: composer/e-msg-composer-attachment.glade.h:1 mail/mail-config.glade.h:3
 #: mail/mail-dialogs.glade.h:6 mail/message-tags.glade.h:1
@@ -3105,7 +3107,7 @@ msgid "Cut"
 msgstr "剪切"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:932
-#: calendar/gui/calendar-component.c:384 calendar/gui/tasks-component.c:329
+#: calendar/gui/calendar-component.c:385 calendar/gui/tasks-component.c:329
 #: ui/evolution-addressbook.xml.h:2 ui/evolution-mail-message.xml.h:9
 #: ui/evolution-tasks.xml.h:2
 msgid "Copy"
@@ -3151,7 +3153,7 @@ msgid "Car Phone"
 msgstr "车载电话"
 
 #: addressbook/gui/widgets/e-addressbook-view.etspec.h:8
-#: calendar/gui/dialogs/task-page.glade.h:6
+#: calendar/gui/dialogs/task-page.glade.h:7
 #: calendar/gui/e-calendar-table.etspec.h:3
 #: calendar/gui/e-cal-list-view.etspec.h:1
 msgid "Categories"
@@ -4292,7 +4294,7 @@ msgstr "是以 24 小时格式还是以 12 小时格式显示时间"
 msgid "Whether to show week numbers in date navigator"
 msgstr "是否在日期浏览器中显示周数"
 
-#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:567
+#: calendar/gui/calendar-commands.c:120 calendar/gui/calendar-component.c:568
 #: calendar/gui/dialogs/calendar-setup.c:362 calendar/gui/gnome-cal.c:1925
 #: camel/providers/groupwise/camel-gw-listener.c:405
 #: camel/providers/groupwise/camel-gw-listener.c:435
@@ -4320,79 +4322,79 @@ msgstr "销毁较早的事件"
 msgid "days"
 msgstr "天数"
 
-#: calendar/gui/calendar-component.c:383
+#: calendar/gui/calendar-component.c:384
 #: calendar/gui/dialogs/calendar-setup.c:442
 msgid "New Calendar"
 msgstr "新建日历"
 
-#: calendar/gui/calendar-component.c:638
+#: calendar/gui/calendar-component.c:701
 msgid "Failed upgrading calendars."
 msgstr "升级日历失败。"
 
-#: calendar/gui/calendar-component.c:934
+#: calendar/gui/calendar-component.c:997
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr "无法打开日历“%s”来创建事件和会议"
 
-#: calendar/gui/calendar-component.c:950
+#: calendar/gui/calendar-component.c:1013
 msgid "There is no calendar available for creating events and meetings"
 msgstr "没有可创建事件和会议的日历"
 
-#: calendar/gui/calendar-component.c:1060
+#: calendar/gui/calendar-component.c:1123
 #, fuzzy
 msgid "Calendar Source Selector"
 msgstr "日历位置"
 
-#: calendar/gui/calendar-component.c:1085
+#: calendar/gui/calendar-component.c:1148
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:2
 msgid "Calendars"
 msgstr "日历"
 
-#: calendar/gui/calendar-component.c:1251
+#: calendar/gui/calendar-component.c:1314
 msgid "New appointment"
 msgstr "新建约会"
 
-#: calendar/gui/calendar-component.c:1252
+#: calendar/gui/calendar-component.c:1315
 msgid "_Appointment"
 msgstr "约会(_A)"
 
-#: calendar/gui/calendar-component.c:1253
+#: calendar/gui/calendar-component.c:1316
 msgid "Create a new appointment"
 msgstr "创建新约会"
 
-#: calendar/gui/calendar-component.c:1259
+#: calendar/gui/calendar-component.c:1322
 msgid "New meeting"
 msgstr "新闻会议"
 
-#: calendar/gui/calendar-component.c:1260
+#: calendar/gui/calendar-component.c:1323
 msgid "M_eeting"
 msgstr "会议(_E)"
 
-#: calendar/gui/calendar-component.c:1261
+#: calendar/gui/calendar-component.c:1324
 msgid "Create a new meeting request"
 msgstr "创建一条新会议请求"
 
-#: calendar/gui/calendar-component.c:1267
+#: calendar/gui/calendar-component.c:1330
 msgid "New all day appointment"
 msgstr "新建全天约会"
 
-#: calendar/gui/calendar-component.c:1268
+#: calendar/gui/calendar-component.c:1331
 msgid "All Day A_ppointment"
 msgstr "全天约会(_P)"
 
-#: calendar/gui/calendar-component.c:1269
+#: calendar/gui/calendar-component.c:1332
 msgid "Create a new all-day appointment"
 msgstr "创建新全天约会"
 
-#: calendar/gui/calendar-component.c:1275
+#: calendar/gui/calendar-component.c:1338
 msgid "New calendar"
 msgstr "新建日历"
 
-#: calendar/gui/calendar-component.c:1276
+#: calendar/gui/calendar-component.c:1339
 msgid "Cale_ndar"
 msgstr "日历(_N)"
 
-#: calendar/gui/calendar-component.c:1277
+#: calendar/gui/calendar-component.c:1340
 msgid "Create a new calendar"
 msgstr "创建新日历"
 
@@ -4450,7 +4452,7 @@ msgstr "没有权限打开日历"
 #: camel/providers/imap/camel-imap-command.c:400
 #: camel/providers/pop3/camel-pop3-store.c:526
 #: camel/providers/pop3/camel-pop3-store.c:533
-#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1252
+#: camel/providers/pop3/camel-pop3-store.c:539 shell/e-shell.c:1259
 msgid "Unknown error"
 msgstr "未知的错误"
 
@@ -5036,13 +5038,13 @@ msgstr "日志条目 - %s"
 msgid "No summary"
 msgstr "没有概要"
 
-#: calendar/gui/dialogs/comp-editor.c:1551
-#: calendar/gui/dialogs/comp-editor.c:1584
-#: calendar/gui/dialogs/comp-editor.c:1608
+#: calendar/gui/dialogs/comp-editor.c:1548
+#: calendar/gui/dialogs/comp-editor.c:1581
+#: calendar/gui/dialogs/comp-editor.c:1605
 msgid "Changes made to this item may be discarded if an update arrives"
 msgstr "如果更新到达的话，对此项目的更改将被丢弃"
 
-#: calendar/gui/dialogs/comp-editor.c:1632
+#: calendar/gui/dialogs/comp-editor.c:1629
 msgid "Unable to use current version!"
 msgstr "无法使用当前版本！"
 
@@ -5202,114 +5204,114 @@ msgid "%d minute before appointement"
 msgid_plural "%d minutes before appointment"
 msgstr[0] "约会的 %d 分钟前"
 
-#: calendar/gui/dialogs/event-page.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:2
 msgid "1 day before appointment"
 msgstr "约会的 1 天前"
 
-#: calendar/gui/dialogs/event-page.glade.h:2
+#: calendar/gui/dialogs/event-page.glade.h:3
 msgid "1 hour before appointment"
 msgstr "约会的 1 小时前"
 
-#: calendar/gui/dialogs/event-page.glade.h:3
+#: calendar/gui/dialogs/event-page.glade.h:4
 msgid "15 minutes before appointment"
 msgstr "约会的 15 分钟前"
 
-#: calendar/gui/dialogs/event-page.glade.h:4
+#: calendar/gui/dialogs/event-page.glade.h:5
 msgid "<b>Basics</b>"
 msgstr "<b>基本</b>"
 
-#: calendar/gui/dialogs/event-page.glade.h:5
+#: calendar/gui/dialogs/event-page.glade.h:6
 msgid "<b>Date and Time</b>"
 msgstr "<b>日期和时间</b>"
 
-#: calendar/gui/dialogs/event-page.glade.h:6
-#: calendar/gui/dialogs/task-page.glade.h:1
+#: calendar/gui/dialogs/event-page.glade.h:7
+#: calendar/gui/dialogs/task-page.glade.h:2
 #, fuzzy
 msgid "<b>Send Options</b>"
 msgstr "<b>选项</b>"
 
-#: calendar/gui/dialogs/event-page.glade.h:7
+#: calendar/gui/dialogs/event-page.glade.h:8
 msgid "A_ll day event"
 msgstr "全天事务(_L)"
 
-#: calendar/gui/dialogs/event-page.glade.h:8
+#: calendar/gui/dialogs/event-page.glade.h:9
 msgid "Ad_vanced  send options"
 msgstr ""
 
-#: calendar/gui/dialogs/event-page.glade.h:9
+#: calendar/gui/dialogs/event-page.glade.h:10
 msgid "C_ustomize..."
 msgstr "自定义(_U)..."
 
-#: calendar/gui/dialogs/event-page.glade.h:10
-#: calendar/gui/dialogs/task-page.glade.h:5
+#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/task-page.glade.h:6
 msgid "Ca_tegories..."
 msgstr "类别(_T)..."
 
-#: calendar/gui/dialogs/event-page.glade.h:11
+#: calendar/gui/dialogs/event-page.glade.h:12
 msgid "Cale_ndar:"
 msgstr "日历(_N)："
 
-#: calendar/gui/dialogs/event-page.glade.h:12
-#: calendar/gui/dialogs/task-page.glade.h:7
+#: calendar/gui/dialogs/event-page.glade.h:13
+#: calendar/gui/dialogs/task-page.glade.h:8
 msgid "Classi_fication:"
 msgstr "分类(_F)："
 
-#: calendar/gui/dialogs/event-page.glade.h:13
-#: calendar/gui/dialogs/task-page.glade.h:8
+#: calendar/gui/dialogs/event-page.glade.h:14
+#: calendar/gui/dialogs/task-page.glade.h:9
 #: calendar/gui/e-calendar-table.c:361 calendar/gui/e-cal-list-view.c:255
 #: calendar/gui/e-cal-model.c:305
 msgid "Confidential"
 msgstr "机密"
 
-#: calendar/gui/dialogs/event-page.glade.h:14
+#: calendar/gui/dialogs/event-page.glade.h:15
 msgid "Event Description"
 msgstr "事件描述"
 
-#: calendar/gui/dialogs/event-page.glade.h:15
+#: calendar/gui/dialogs/event-page.glade.h:16
 msgid "Locat_ion:"
 msgstr "位置(_I)："
 
-#: calendar/gui/dialogs/event-page.glade.h:16
-#: calendar/gui/dialogs/task-page.glade.h:10
+#: calendar/gui/dialogs/event-page.glade.h:17
+#: calendar/gui/dialogs/task-page.glade.h:11
 #: calendar/gui/e-calendar-table.c:360 calendar/gui/e-cal-list-view.c:254
 #: calendar/gui/e-cal-model.c:303
 msgid "Private"
 msgstr "保密"
 
-#: calendar/gui/dialogs/event-page.glade.h:17
-#: calendar/gui/dialogs/task-page.glade.h:11
+#: calendar/gui/dialogs/event-page.glade.h:18
+#: calendar/gui/dialogs/task-page.glade.h:12
 #: calendar/gui/e-calendar-table.c:359 calendar/gui/e-cal-list-view.c:253
 #: calendar/gui/e-cal-model.c:294 calendar/gui/e-cal-model.c:301
 msgid "Public"
 msgstr "公开"
 
-#: calendar/gui/dialogs/event-page.glade.h:18
+#: calendar/gui/dialogs/event-page.glade.h:19
 msgid "Show time as _busy"
 msgstr "将时间显示为忙(_B)"
 
-#: calendar/gui/dialogs/event-page.glade.h:19
-#: calendar/gui/dialogs/task-page.glade.h:13
+#: calendar/gui/dialogs/event-page.glade.h:20
+#: calendar/gui/dialogs/task-page.glade.h:14
 msgid "Su_mmary:"
 msgstr "概要(_M)："
 
-#: calendar/gui/dialogs/event-page.glade.h:20
+#: calendar/gui/dialogs/event-page.glade.h:21
 msgid "This appointment has customized alarms"
 msgstr "此约会有自定义提醒"
 
-#: calendar/gui/dialogs/event-page.glade.h:21
+#: calendar/gui/dialogs/event-page.glade.h:22
 msgid "_Alarm"
 msgstr "提醒(_A)"
 
-#: calendar/gui/dialogs/event-page.glade.h:22
+#: calendar/gui/dialogs/event-page.glade.h:23
 msgid "_Description:"
 msgstr "描述(_D)："
 
-#: calendar/gui/dialogs/event-page.glade.h:23
+#: calendar/gui/dialogs/event-page.glade.h:24
 #: calendar/gui/e-meeting-time-sel.c:642
 msgid "_End time:"
 msgstr "结束时间(_E)："
 
-#: calendar/gui/dialogs/event-page.glade.h:24
+#: calendar/gui/dialogs/event-page.glade.h:25
 #: calendar/gui/e-meeting-time-sel.c:615
 msgid "_Start time:"
 msgstr "开始时间(_S)："
@@ -5325,7 +5327,7 @@ msgstr "开始时间(_S)："
 #: composer/e-msg-composer.c:2122 filter/filter-rule.c:878
 #: mail/em-account-editor.c:675 mail/em-account-editor.c:1267
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:961
-#: plugins/itip-formatter/itip-formatter.c:1146
+#: plugins/itip-formatter/itip-formatter.c:1356
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5694,35 +5696,35 @@ msgstr "到期日期错误"
 msgid "Unable to open tasks in '%s'."
 msgstr "无法打开“%s”中的任务。"
 
-#: calendar/gui/dialogs/task-page.glade.h:2
+#: calendar/gui/dialogs/task-page.glade.h:3
 msgid "<span weight=\"bold\">Basics</span>"
 msgstr "<span weight=\"bold\">基本</span>"
 
-#: calendar/gui/dialogs/task-page.glade.h:3
+#: calendar/gui/dialogs/task-page.glade.h:4
 msgid "<span weight=\"bold\">Date and Time</span>"
 msgstr "<span weight=\"bold\">日期和时间</span>"
 
-#: calendar/gui/dialogs/task-page.glade.h:4
+#: calendar/gui/dialogs/task-page.glade.h:5
 msgid "Ad_vanced send options"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.glade.h:9
+#: calendar/gui/dialogs/task-page.glade.h:10
 msgid "D_escription:"
 msgstr "描述(_E)："
 
-#: calendar/gui/dialogs/task-page.glade.h:12
+#: calendar/gui/dialogs/task-page.glade.h:13
 msgid "Sta_rt date:"
 msgstr "开始日期(_R)："
 
-#: calendar/gui/dialogs/task-page.glade.h:14
+#: calendar/gui/dialogs/task-page.glade.h:15
 msgid "Task Description"
 msgstr "任务描述"
 
-#: calendar/gui/dialogs/task-page.glade.h:15
+#: calendar/gui/dialogs/task-page.glade.h:16
 msgid "_Due date:"
 msgstr "到期日期(_D)："
 
-#: calendar/gui/dialogs/task-page.glade.h:16
+#: calendar/gui/dialogs/task-page.glade.h:17
 msgid "_Group:"
 msgstr "组(_G)："
 
@@ -6151,8 +6153,8 @@ msgstr "开始日期"
 #: camel/providers/imap4/camel-imap4-utils.c:575
 #: camel/providers/smtp/camel-smtp-transport.c:163
 #: camel/providers/smtp/camel-smtp-transport.c:218 mail/em-utils.c:1157
-#: plugins/itip-formatter/itip-formatter.c:248
-#: plugins/itip-formatter/itip-formatter.c:1168
+#: plugins/itip-formatter/itip-formatter.c:249
+#: plugins/itip-formatter/itip-formatter.c:1378
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6359,19 +6361,19 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1159
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1369
 msgid "Accepted"
 msgstr "接受"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1162
+#: plugins/itip-formatter/itip-formatter.c:1372
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1165
+#: plugins/itip-formatter/itip-formatter.c:1375
 msgid "Declined"
 msgstr "拒绝"
 
@@ -6588,7 +6590,7 @@ msgid "Attendee status updated\n"
 msgstr "更新参与者状态\n"
 
 #: calendar/gui/e-itip-control.c:1979
-#: plugins/itip-formatter/itip-formatter.c:762
+#: plugins/itip-formatter/itip-formatter.c:838
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "由于条目不再存在而无法更新参与者状态"
 
@@ -13416,7 +13418,7 @@ msgid "Create New Folder"
 msgstr "创建新文件夹"
 
 #: mail/em-folder-selector.c:166 mail/em-folder-tree.c:2463
-#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:311
+#: mail/mail-component.c:732 plugins/shared-folder/share-folder-common.c:323
 msgid "Specify where to create the folder:"
 msgstr "指定在哪里创建文件夹："
 
@@ -13481,13 +13483,13 @@ msgstr "选择文件夹"
 msgid "C_opy"
 msgstr "复制(_O)"
 
-#: mail/em-folder-tree.c:2274 plugins/shared-folder/share-folder-common.c:115
+#: mail/em-folder-tree.c:2274 plugins/shared-folder/share-folder-common.c:128
 #, c-format
 msgid "Creating folder `%s'"
 msgstr "创建文件夹“%s”"
 
 #: mail/em-folder-tree.c:2463 mail/mail-component.c:732
-#: plugins/shared-folder/share-folder-common.c:311
+#: plugins/shared-folder/share-folder-common.c:323
 msgid "Create folder"
 msgstr "创建文件夹"
 
@@ -14969,7 +14971,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1367
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1628
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -16745,64 +16747,99 @@ msgstr "立即同步好友列表(_B)"
 msgid "Unsubscribing from folder \"%s\""
 msgstr "无法退订文件夹“%s”"
 
-#: plugins/itip-formatter/itip-formatter.c:668
+#: plugins/itip-formatter/itip-formatter.c:746
 #, fuzzy, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "无法打开日历“%s”。"
 
-#: plugins/itip-formatter/itip-formatter.c:681
+#: plugins/itip-formatter/itip-formatter.c:757
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:685
+#: plugins/itip-formatter/itip-formatter.c:761
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:690
+#: plugins/itip-formatter/itip-formatter.c:766
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:695
+#: plugins/itip-formatter/itip-formatter.c:771
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:743
+#: plugins/itip-formatter/itip-formatter.c:819
 #, fuzzy
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "因为无效状态而无法更新参与者状态！\n"
 
-#: plugins/itip-formatter/itip-formatter.c:754
+#: plugins/itip-formatter/itip-formatter.c:830
 #, c-format
 msgid "Unable to update attendee statusAttendee status updated. %s"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:758
+#: plugins/itip-formatter/itip-formatter.c:834
 #, fuzzy
 msgid "Attendee status updated"
 msgstr "更新参与者状态\n"
 
-#: plugins/itip-formatter/itip-formatter.c:1358
+#: plugins/itip-formatter/itip-formatter.c:959
+#, fuzzy
+msgid "The calendar attached is not valid"
+msgstr ""
+"联系人数据无效：\n"
+"\n"
+
+#: plugins/itip-formatter/itip-formatter.c:960
+msgid ""
+"The message claims to contain a calendar, but the calendar is not valid "
+"iCalendar."
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:994
+#: plugins/itip-formatter/itip-formatter.c:1050
+msgid "The item in the calendar is not valid"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:995
+#: plugins/itip-formatter/itip-formatter.c:1051
+msgid ""
+"The message does contain a calendar, but the calendar contains no events, "
+"tasks or free/busy information"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:1006
+msgid "The calendar attached contains multiple items"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:1007
+msgid ""
+"To process all of these items, the file should be saved and the calendar "
+"imported"
+msgstr ""
+
+#: plugins/itip-formatter/itip-formatter.c:1619
 #, fuzzy
 msgid "Meetings and Tasks"
 msgstr "日历和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1642
 msgid "_Delete message after acting"
 msgstr ""
 
-#: plugins/itip-formatter/itip-formatter.c:1391
+#: plugins/itip-formatter/itip-formatter.c:1652
 #, fuzzy
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">配置</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1404
+#: plugins/itip-formatter/itip-formatter.c:1665
 msgid "Select the calendars to search for meeting conflicts"
 msgstr ""
 
@@ -17080,7 +17117,7 @@ msgstr "<b>%s</b> 取消了一个会议。"
 msgid "Comment:"
 msgstr "命令："
 
-#: plugins/itip-formatter/itip-view.c:1542
+#: plugins/itip-formatter/itip-view.c:1573
 #, fuzzy
 msgid "_Calendar:"
 msgstr "日历："
@@ -17395,15 +17432,15 @@ msgstr "共享对象(_S)..."
 msgid "_Sharing"
 msgstr "共享(_S)"
 
-#: plugins/shared-folder/share-folder-common.c:282
+#: plugins/shared-folder/share-folder-common.c:294
 msgid "Users"
 msgstr "用户"
 
-#: plugins/shared-folder/share-folder-common.c:283
+#: plugins/shared-folder/share-folder-common.c:295
 msgid "Enter the users and set permissions"
 msgstr "输入用户及设定权限"
 
-#: plugins/shared-folder/share-folder-common.c:361
+#: plugins/shared-folder/share-folder-common.c:374
 msgid "Sharing"
 msgstr "共享"
 
@@ -17501,32 +17538,32 @@ msgstr "当前连接"
 msgid "Click OK to close these connections and go offline"
 msgstr "单击确定关闭这些连接，并转入脱机操作"
 
-#: shell/e-shell.c:590
+#: shell/e-shell.c:597
 msgid "Uknown system error."
 msgstr "未知的系统错误。"
 
-#: shell/e-shell.c:798 shell/e-shell.c:799
+#: shell/e-shell.c:805 shell/e-shell.c:806
 #, c-format
 msgid "%ld KB"
 msgstr "%ld KB"
 
-#: shell/e-shell.c:1242 widgets/misc/e-cell-date-edit.c:256
+#: shell/e-shell.c:1249 widgets/misc/e-cell-date-edit.c:256
 msgid "OK"
 msgstr "确定"
 
-#: shell/e-shell.c:1244
+#: shell/e-shell.c:1251
 msgid "Invalid arguments"
 msgstr "无效参数"
 
-#: shell/e-shell.c:1246
+#: shell/e-shell.c:1253
 msgid "Cannot register on OAF"
 msgstr "无法注册到 OAF"
 
-#: shell/e-shell.c:1248
+#: shell/e-shell.c:1255
 msgid "Configuration Database not found"
 msgstr "找不到配置数据库"
 
-#: shell/e-shell.c:1250
+#: shell/e-shell.c:1257
 msgid "Generic error"
 msgstr "通用错误"
 
