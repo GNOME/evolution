@@ -1,3 +1,17 @@
+2002-09-09  Jeffrey Stedfast  <fejj@ximian.com>
+
+	Fixes bug #4224
+
+	* providers/imap/camel-imap-folder.c
+	(camel_imap_folder_fetch_data): Pass ex into
+	camel_imap_message_cache_get().
+
+	* providers/imap/camel-imap-message-cache.c
+	(camel_imap_message_cache_get): Now takes an exception and sets it
+	on fail.
+	(camel_imap_message_cache_copy): Updated to properly handle
+	cache_get error conditions.
+
 2002-09-04  Dan Winship  <danw@ximian.com>
 
 	* camel-mime-utils.c (header_decode_date): Use e_mktime_utc.
@@ -24,7 +38,7 @@
 	(get_message_simple): Set an exception if we get a construct
 	failure.
 	(imap_refresh_info): if we're refreshing inbox, force a reselect.
-	this is required for at least cryus.  CHECK doesnt work either :(
+	this is required for at least cyrus.  CHECK doesnt work either :(
 
 	* tests/lib/folders.c (test_folder_basic): for non-local stores,
 	the folder will have an extra ref for selection, take this into

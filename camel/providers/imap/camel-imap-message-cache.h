@@ -87,7 +87,9 @@ void camel_imap_message_cache_insert_wrapper (CamelImapMessageCache *cache,
 
 CamelStream *camel_imap_message_cache_get    (CamelImapMessageCache *cache,
 					      const char *uid,
-					      const char *part_spec);
+					      const char *part_spec,
+					      CamelException *ex);
+
 void         camel_imap_message_cache_remove (CamelImapMessageCache *cache,
 					      const char *uid);
 

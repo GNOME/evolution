@@ -1223,7 +1223,7 @@ imap_connect_online (CamelService *service, CamelException *ex)
 	
 	if (!store->namespace)
 		store->namespace = g_strdup ("");
-
+	
 	if (!store->dir_sep) {
 		if (store->server_level >= IMAP_LEVEL_IMAP4REV1) {
 			/* This idiom means "tell me the hierarchy separator

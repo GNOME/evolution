@@ -2410,9 +2410,12 @@ camel_imap_folder_fetch_data (CamelImapFolder *imap_folder, const char *uid,
 	CAMEL_SERVICE_LOCK (store, connect_lock);
 	
 	CAMEL_IMAP_FOLDER_LOCK (imap_folder, cache_lock);
-	stream = camel_imap_message_cache_get (imap_folder->cache, uid, section_text);
-	if (!stream && (!strcmp (section_text, "HEADER") || !strcmp (section_text, "0")))
-		stream = camel_imap_message_cache_get (imap_folder->cache, uid, "");
+	stream = camel_imap_message_cache_get (imap_folder->cache, uid, section_text, ex);
+	if (!stream && (!strcmp (section_text, "HEADER") || !strcmp (section_text, "0"))) {
+		camel_exception_clear (ex);
+		stream = camel_imap_message_cache_get (imap_folder->cache, uid, "", ex);
+	}
+	
 	if (stream || cache_only) {
 		CAMEL_IMAP_FOLDER_UNLOCK (imap_folder, cache_lock);
 		CAMEL_SERVICE_UNLOCK (store, connect_lock);
