@@ -59,6 +59,7 @@ Addressbook:
   #14646 -- Doesn't handle failure in default_book case
   #14743 -- Contacts crashes when saving a List
   #14780 -- Pushing categories in Contact editor crashes Contacts
+  #17355 -- e-select-names/completion from arbitrary storages
 
 Pilot conduits:
 
