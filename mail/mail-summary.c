@@ -416,8 +416,10 @@ get_property (BonoboPropertyBag *bag,
 /* Check that we can generate a new summary
    and keep coming back until we can. */
 static gboolean
-idle_check (MailSummary *summary)
+idle_check (gpointer data)
 {
+	MailSummary *summary = (MailSummary *) data;
+
 	if (summary->in_summary == TRUE)
 		return TRUE;
 
@@ -457,8 +459,8 @@ BonoboObject *
 create_summary_view (ExecutiveSummaryComponentFactory *_factory,
 		     void *closure)
 {
-	GNOME_Evolution_Storage *corba_local_objref;
-	GNOME_Evolution_StorageListener *corba_object;
+	GNOME_Evolution_Storage corba_local_objref;
+	GNOME_Evolution_StorageListener corba_object;
 	CORBA_Environment ev;
 	BonoboObject *component, *view;
 	BonoboPropertyBag *bag;

@@ -1,3 +1,9 @@
+2001-01-27  Iain Holmes  <iain@ximian.com>
+
+	* mail-summary.c (create_summary_view): Applied patch from John R Sheets
+	to fix some warnings.
+	(idle_check): Fixed the prototype to fix some warnngs as well.
+
 2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* mail-display.c (get_embedded_for_component): Try a control
