@@ -10,6 +10,8 @@
 
 	* notes/*: Removed; never finished and no one is working on it.
 
+	* omf-install/*: Removed; part of old doc system
+
 	* tests/*: Removed; these are ancient. Camel regression tests are
 	in camel/tests now.
 
