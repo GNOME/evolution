@@ -12,13 +12,14 @@
 # Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>, 2001,2003.
 # Mendel Mobach <mendel@mobach.nl>, 2001.
 # Kees van den Broek <kvdb@NOSPAMkvdb.net>, 2003.
+# Tino Meinen <a.t.meinen@chello.nl>, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution.evolution-1-4-branch.nl\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-08-26 11:38+0200\n"
-"PO-Revision-Date: 2003-08-08 22:08+0100\n"
+"POT-Creation-Date: 2003-09-05 19:59+0200\n"
+"PO-Revision-Date: 2003-09-06 00:28+0200\n"
 "Last-Translator: Vincent van Adrighem <V.vanAdrighem@dirck.mine.nu>\n"
 "Language-Team: Dutch <nl@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -402,7 +403,7 @@ msgstr "Organisatie"
 msgid "Role"
 msgstr "Rol"
 
-#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:963
+#: addressbook/backend/ebook/e-card.c:1436 mail/mail-format.c:966
 msgid "Mailer"
 msgstr "E-mailprogramma"
 
@@ -3970,7 +3971,7 @@ msgstr ""
 #: mail/mail-config.glade.h:76
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:194
 #: widgets/misc/e-cell-date-edit.c:257 widgets/misc/e-dateedit.c:442
-#: widgets/misc/e-dateedit.c:1458 widgets/misc/e-dateedit.c:1573
+#: widgets/misc/e-dateedit.c:1470 widgets/misc/e-dateedit.c:1585
 msgid "None"
 msgstr "Geen"
 
@@ -5609,7 +5610,7 @@ msgstr "Geweigerd"
 #: camel/camel-gpg-context.c:1625 camel/camel-tcp-stream-openssl.c:634
 #: camel/providers/smtp/camel-smtp-transport.c:173
 #: camel/providers/smtp/camel-smtp-transport.c:228 mail/folder-browser.c:347
-#: mail/mail-display.c:932 widgets/misc/e-charset-picker.c:60
+#: mail/mail-display.c:936 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "Onbekend"
 
@@ -6041,7 +6042,7 @@ msgstr "%a %d-%m-%Y"
 #. This is a strftime() format string %m = month number,
 #. %d = month day, %Y = full year.
 #: calendar/gui/e-meeting-time-sel-item.c:466 e-util/e-time-utils.c:238
-#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1582
+#: e-util/e-time-utils.c:299 widgets/misc/e-dateedit.c:1594
 msgid "%m/%d/%Y"
 msgstr "%d-%m-%Y"
 
@@ -8298,11 +8299,11 @@ msgstr ""
 "Fout bij uitvoeren zoekexpressie: %s:\n"
 "%s"
 
-#: camel/camel-folder-search.c:575 camel/camel-folder-search.c:603
+#: camel/camel-folder-search.c:569 camel/camel-folder-search.c:598
 msgid "(match-all) requires a single bool result"
 msgstr "(past-allen) vereist enkelvoudig booleaans resultaat"
 
-#: camel/camel-folder-search.c:655
+#: camel/camel-folder-search.c:650
 #, c-format
 msgid "Performing query on unknown header: %s"
 msgstr "Zoeken naar onbekende koptekst: %s"
@@ -10493,11 +10494,9 @@ msgid "Suggest automatic display of attachment"
 msgstr "Probeer bijlage automatisch weer te geven"
 
 #: composer/e-msg-composer-hdrs.c:290
-#, fuzzy
 msgid "You need to configure an account before you can compose mail."
 msgstr ""
-"U dient een account in te stellen\n"
-"voordat u post kunt versturen."
+"U dient eerst een account aan te maken voordat u berichten kunt opstellen."
 
 #: composer/e-msg-composer-hdrs.c:483
 msgid "Click here for the address book"
@@ -10983,13 +10982,13 @@ msgstr "%H:%M:%S%n"
 #. strptime format for time of day, without seconds,
 #. in 12-hour format.
 #: e-util/e-time-utils.c:348 e-util/e-time-utils.c:435
-#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1617
+#: widgets/misc/e-dateedit.c:1404 widgets/misc/e-dateedit.c:1629
 msgid "%I:%M %p"
 msgstr "%I:%M %p"
 
 #. strptime format for time of day, without seconds 24-hour format.
 #: e-util/e-time-utils.c:352 e-util/e-time-utils.c:427
-#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1614
+#: widgets/misc/e-dateedit.c:1401 widgets/misc/e-dateedit.c:1626
 msgid "%H:%M"
 msgstr "%H:%M"
 
@@ -11513,7 +11512,7 @@ msgstr "begint met"
 msgid "Stop Processing"
 msgstr "Stop met Verwerken"
 
-#: filter/libfilter-i18n.h:60 mail/mail-format.c:934
+#: filter/libfilter-i18n.h:60 mail/mail-format.c:937
 #: mail/message-list.etspec.h:13 mail/message-tag-followup.c:305
 msgid "Subject"
 msgstr "Onderwerp"
@@ -11879,7 +11878,7 @@ msgstr "Eigenschappen voor \"%s\""
 msgid "Properties"
 msgstr "Eigenschappen"
 
-#: mail/folder-browser.c:329 mail/mail-display.c:393 mail/mail-display.c:921
+#: mail/folder-browser.c:329 mail/mail-display.c:397 mail/mail-display.c:925
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "Kon tijdelijke directory niet maken: %s"
@@ -13146,71 +13145,70 @@ msgstr ""
 "Het bestand '%s' bestaat al.\n"
 "Overschrijven?"
 
-#: mail/mail-display.c:335
+#: mail/mail-display.c:339
 msgid "Save Attachment"
 msgstr "Bijlage opslaan"
 
-#: mail/mail-display.c:408
+#: mail/mail-display.c:412
 #, c-format
 msgid "Could not create temporary file '%s': %s"
 msgstr "Kon tijdelijke bestand '%s' niet maken: %s"
 
-#: mail/mail-display.c:480
+#: mail/mail-display.c:484
 msgid "Save Attachment..."
 msgstr "Bijlage opslaan..."
 
-#: mail/mail-display.c:481
+#: mail/mail-display.c:485
 msgid "View Inline"
 msgstr "In bericht weergeven"
 
-#: mail/mail-display.c:482
+#: mail/mail-display.c:486
 #, c-format
 msgid "Open in %s..."
 msgstr "Openen in %s..."
 
-#: mail/mail-display.c:542
+#: mail/mail-display.c:546
 #, c-format
 msgid "View Inline (via %s)"
 msgstr "In bericht weergeven (via %s)"
 
-#: mail/mail-display.c:546
+#: mail/mail-display.c:550
 msgid "Hide"
 msgstr "Verbergen"
 
-#: mail/mail-display.c:566
+#: mail/mail-display.c:570
 msgid "External Viewer"
 msgstr "Externe weergave"
 
-#: mail/mail-display.c:1352
+#: mail/mail-display.c:1356
 msgid "Downloading images"
 msgstr "Afbeeldingen worden gedownload"
 
-#: mail/mail-display.c:1529
+#: mail/mail-display.c:1533
 msgid "Loading message content"
 msgstr "Laden van berichtinhoud"
 
-#: mail/mail-display.c:1871
+#: mail/mail-display.c:1875
 msgid "Overdue:"
 msgstr "Te laat:"
 
-#: mail/mail-display.c:1875
-#, fuzzy
+#: mail/mail-display.c:1879
 msgid "by %B %d, %Y, %l:%M %p"
-msgstr "op %B %d, %Y, %l:%M %P"
+msgstr "op %B %d, %Y, %l:%M %p"
 
-#: mail/mail-display.c:2239
+#: mail/mail-display.c:2243
 msgid "Open Link in Browser"
 msgstr "Verwijzing in browser openen"
 
-#: mail/mail-display.c:2240
+#: mail/mail-display.c:2244
 msgid "Copy Link Location"
 msgstr "Verwijzing kopiëren"
 
-#: mail/mail-display.c:2242
+#: mail/mail-display.c:2246
 msgid "Save Link as (FIXME)"
 msgstr "Verwijzing opslaan als (FIXME)"
 
-#: mail/mail-display.c:2244
+#: mail/mail-display.c:2248
 msgid "Save Image as..."
 msgstr "Afbeelding opslaan als..."
 
@@ -13219,92 +13217,92 @@ msgstr "Afbeelding opslaan als..."
 msgid "Pinging %s"
 msgstr "Controleren of %s actief is"
 
-#: mail/mail-format.c:665
+#: mail/mail-format.c:668
 #, c-format
 msgid "%s attachment"
 msgstr "%s bijlage"
 
-#: mail/mail-format.c:707 mail/mail-format.c:1370 mail/mail-format.c:1439
-#: mail/mail-format.c:1559 mail/mail-format.c:1683 mail/mail-format.c:1708
+#: mail/mail-format.c:710 mail/mail-format.c:1513 mail/mail-format.c:1582
+#: mail/mail-format.c:1702 mail/mail-format.c:1826 mail/mail-format.c:1851
 msgid "Could not parse MIME message. Displaying as source."
 msgstr "Kon MIME bericht niet verwerken. Onbewerkte weergave."
 
-#: mail/mail-format.c:785 mail/message-list.etspec.h:2
+#: mail/mail-format.c:788 mail/message-list.etspec.h:2
 msgid "Date"
 msgstr "Datum"
 
-#: mail/mail-format.c:871
+#: mail/mail-format.c:874
 msgid "Bad Address"
 msgstr "Ongeldig e-mailadres"
 
-#: mail/mail-format.c:912 mail/message-list.etspec.h:7
+#: mail/mail-format.c:915 mail/message-list.etspec.h:7
 #: mail/message-tag-followup.c:301
 msgid "From"
 msgstr "Van"
 
-#: mail/mail-format.c:916
+#: mail/mail-format.c:919
 msgid "Reply-To"
 msgstr "Antwoordadres"
 
-#: mail/mail-format.c:921 mail/message-list.etspec.h:14
+#: mail/mail-format.c:924 mail/message-list.etspec.h:14
 msgid "To"
 msgstr "Aan"
 
-#: mail/mail-format.c:926
+#: mail/mail-format.c:929
 msgid "Cc"
 msgstr "Cc"
 
-#: mail/mail-format.c:931
+#: mail/mail-format.c:934
 msgid "Bcc"
 msgstr "Bcc"
 
-#: mail/mail-format.c:1482
+#: mail/mail-format.c:1625
 msgid ""
 "This message is digitally signed. Click the lock icon for more information."
 msgstr ""
 "Dit bericht is digitaal ondertekend. Klik op het hangslotpictogram voor meer "
 "informatie."
 
-#: mail/mail-format.c:1510
+#: mail/mail-format.c:1653
 msgid "Could not create a PGP verfication context"
 msgstr "Kon geen PGP verificatieomgeving maken"
 
-#: mail/mail-format.c:1518
+#: mail/mail-format.c:1661
 msgid "This message is digitally signed and has been found to be authentic."
 msgstr "Dit bericht is digitaal ondertekend en is authentiek."
 
-#: mail/mail-format.c:1525
+#: mail/mail-format.c:1668
 msgid "This message is digitally signed but can not be proven to be authentic."
 msgstr ""
 "Dit bericht is digitaal ondertekend, maar er kan niet worden aangetoond dat "
 "het authentiek is."
 
-#: mail/mail-format.c:1789
+#: mail/mail-format.c:1932
 #, c-format
 msgid "Pointer to FTP site (%s)"
 msgstr "Verwijzing naar FTP site (%s)"
 
-#: mail/mail-format.c:1800
+#: mail/mail-format.c:1943
 #, c-format
 msgid "Pointer to local file (%s) valid at site \"%s\""
 msgstr "Verwijzing naar lokaal bestand (%s) geldig bij site \"%s\""
 
-#: mail/mail-format.c:1803
+#: mail/mail-format.c:1946
 #, c-format
 msgid "Pointer to local file (%s)"
 msgstr "Verwijzing naar lokaal bestand (%s)"
 
-#: mail/mail-format.c:1830
+#: mail/mail-format.c:1973
 #, c-format
 msgid "Pointer to remote data (%s)"
 msgstr "Verwijzing naar externe gegevens (%s)"
 
-#: mail/mail-format.c:1836
+#: mail/mail-format.c:1979
 #, c-format
 msgid "Pointer to unknown external data (\"%s\" type)"
 msgstr "Verwijzing naar onbekende externe gegevens (\"%s\" type)"
 
-#: mail/mail-format.c:1838
+#: mail/mail-format.c:1981
 msgid "Malformed external-body part."
 msgstr "Misvormd extern-berichtgedeelte"
 
@@ -13389,9 +13387,9 @@ msgid "Fetching Mail"
 msgstr "Berichten aan het ontvangen"
 
 #: mail/mail-ops.c:563
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to apply outgoing filters: %s"
-msgstr "Fout bij opslaan post in tijdelijk bestand %s: %s"
+msgstr "Kon uitgaande filters niet toepassen: %s"
 
 #: mail/mail-ops.c:584
 #, c-format
@@ -13399,11 +13397,13 @@ msgid ""
 "Failed to append to %s: %s\n"
 "Appending to local `Sent' folder instead."
 msgstr ""
+"Toevoegen aan %s is mislukt: %s\n"
+"Zal aan lokale map 'Verzonden' toevoegen."
 
 #: mail/mail-ops.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to append to local `Sent' folder: %s"
-msgstr "Fout bij opslaan post in tijdelijk bestand %s: %s"
+msgstr "Toevoegen aan lokale map 'Verzonden' is mislukt: %s"
 
 #: mail/mail-ops.c:635
 #, c-format
@@ -13558,9 +13558,10 @@ msgstr "Naamloos Bericht"
 msgid "Empty Message"
 msgstr "Leeg Bericht"
 
+# titel van dialoogvenster
 #: mail/mail-search.c:287
 msgid "Find in Message"
-msgstr "Vind in bericht"
+msgstr "Bericht doorzoeken"
 
 #: mail/mail-search.c:320
 msgid "Case Sensitive"
@@ -13574,9 +13575,10 @@ msgstr "Zoek doorgestuurde"
 msgid "Find:"
 msgstr "Zoek:"
 
+# Dit staat voor het aantal zoekresultaten
 #: mail/mail-search.c:346
 msgid "Matches:"
-msgstr "Klopt:"
+msgstr "Gevonden:"
 
 #: mail/mail-send-recv.c:146
 msgid "Cancelling..."
@@ -13856,6 +13858,7 @@ msgstr "Geen antwoord nodig"
 msgid "Reply"
 msgstr "Beantwoorden"
 
+# Allen beantwoorden? (is korter)
 #: mail/message-tag-followup.c:70 ui/evolution-mail-message.xml.h:73
 msgid "Reply to All"
 msgstr "Iedereen beantwoorden"
@@ -23767,9 +23770,8 @@ msgid "%k:%M %d %B"
 msgstr "%k %M %d %B"
 
 #: my-evolution/e-summary-calendar.c:408
-#, fuzzy
 msgid "%l:%M%p %d %B"
-msgstr "%l:%M%P %d %B"
+msgstr "%l:%M%p %d %B"
 
 #: my-evolution/e-summary-calendar.c:426
 msgid "No description"
@@ -26865,6 +26867,7 @@ msgstr "Afzender aan adresboek toevoegen"
 msgid "Apply filter rules to the selected messages"
 msgstr "Pas filter regels toe op geselecteerde berichten"
 
+# Alle geadresseerden van dit bericht antwoord geven
 #: ui/evolution-mail-message.xml.h:5
 msgid "Compose a reply to all of the recipients of the selected message"
 msgstr "Stuur antwoord naar alle geadresseerden van dit bericht"
@@ -27101,23 +27104,23 @@ msgstr "Vorige"
 
 #: ui/evolution-mail-message.xml.h:69
 msgid "Print this message"
-msgstr "Druk dit bericht af"
+msgstr "Dit bericht afdrukken"
 
 #: ui/evolution-mail-message.xml.h:70
 msgid "Re_direct"
-msgstr "Doorsturen"
+msgstr "_Doorsturen"
 
 #: ui/evolution-mail-message.xml.h:71
 msgid "Redirect (bounce) the selected message to someone"
-msgstr "Stuur het geselecteerde bericht door naar iemand"
+msgstr "Het geselecteerde bericht naar iemand doorsturen"
 
 #: ui/evolution-mail-message.xml.h:76
 msgid "Reset the text to its original size"
 msgstr "De tekst zijn originele grootte geven"
 
 #: ui/evolution-mail-message.xml.h:77
-msgid "S_earch Message..."
-msgstr "B_ericht zoeken..."
+msgid "S_earch in Message..."
+msgstr "B_ericht doorzoeken..."
 
 #: ui/evolution-mail-message.xml.h:78
 msgid "S_maller"
