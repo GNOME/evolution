@@ -1350,19 +1350,13 @@ get_storage_set_path_from_uri (const char *uri)
 
 static void
 update_window_icon (EShellView *shell_view,
-		    EFolder *folder)
+		    const char *type)
 {
 	EShellViewPrivate *priv;
-	const char *type;
 	const char *icon_name;
 	char *icon_path;
 
 	priv = shell_view->priv;
-
-	if (folder == NULL)
-			type = NULL;
-	else
-		type = e_folder_get_type_string (folder);
 
 	if (type == NULL) {
 		icon_path = NULL;
@@ -1387,40 +1381,32 @@ update_window_icon (EShellView *shell_view,
 
 static void
 update_folder_title_bar (EShellView *shell_view,
-			 EFolder *folder)
+			 const char *title,
+			 const char *type)
 {
 	EShellViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
 	GdkPixbuf *folder_icon;
-	const char *folder_name;
-	const char *folder_type_name;
 
 	priv = shell_view->priv;
 
-	if (folder == NULL)
-		folder_type_name = NULL;
-	else
-		folder_type_name = e_folder_get_type_string (folder);
-
-	if (folder_type_name == NULL) {
-		folder_name = NULL;
+	if (type == NULL) {
+		title = NULL;
 		folder_icon = NULL;
 	} else {
 		folder_type_registry = e_shell_get_folder_type_registry (priv->shell);
-		folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry,
-									folder_type_name,
-									TRUE);
-
-		folder_name = e_folder_get_name (folder);
+		folder_icon = e_folder_type_registry_get_icon_for_type (folder_type_registry, type, TRUE);
 	}
 
-	if (folder_icon)
+	if (folder_icon != NULL)
 		e_shell_folder_title_bar_set_icon (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), folder_icon);
-	if (folder_name) {
-		gchar * utf;
-		utf = e_utf8_to_gtk_string (GTK_WIDGET (priv->folder_title_bar), folder_name);
-		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), utf);
-		g_free (utf);
+
+	if (title != NULL) {
+		char *s;
+
+		s = e_utf8_to_gtk_string (GTK_WIDGET (priv->folder_title_bar), title);
+		e_shell_folder_title_bar_set_title (E_SHELL_FOLDER_TITLE_BAR (priv->folder_title_bar), s);
+		g_free (s);
 	}
 }
 
@@ -1429,9 +1415,11 @@ update_for_current_uri (EShellView *shell_view)
 {
 	EShellViewPrivate *priv;
 	EFolder *folder;
-	char *folder_name;
 	const char *path;
-	char *window_title;
+	const char *title;
+	const char *type;
+	char *utf8_window_title;
+	char *gtk_window_title;
 
 	priv = shell_view->priv;
 
@@ -1444,29 +1432,40 @@ update_for_current_uri (EShellView *shell_view)
 
 	path = get_storage_set_path_from_uri (priv->uri);
 
-	if (path == NULL)
+	if (path == NULL) {
 		folder = NULL;
-	else
-		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell),
-						   path);
-		
-	if (folder == NULL)
-		folder_name = g_strdup (_("None"));
-	else
-		folder_name = e_utf8_to_gtk_string ((GtkWidget *) shell_view, e_folder_get_name (folder));
+	} else {
+		folder = e_storage_set_get_folder (e_shell_get_storage_set (priv->shell), path);
+
+		if (folder != NULL) {
+			title = e_folder_get_name (folder);
+			type = e_folder_get_type_string (folder);
+		} else if (path != NULL) {
+			EStorage *storage;
+
+			storage = e_storage_set_get_storage (e_shell_get_storage_set (priv->shell), path + 1);
+			if (storage == NULL) {
+				title = NULL;
+				type = NULL;
+			} else {
+				title = e_storage_get_display_name (storage);
+				type = e_storage_get_toplevel_node_type (storage);
+			}
+		} 
+	}
 
 	if (SUB_VERSION[0] == '\0')
-		window_title = g_strdup_printf (_("%s - Evolution %s"), folder_name, VERSION);
+		utf8_window_title = g_strdup_printf (_("%s - Evolution %s"), title, VERSION);
 	else
-		window_title = g_strdup_printf (_("%s - Evolution %s [%s]"), folder_name, VERSION, SUB_VERSION);
+		utf8_window_title = g_strdup_printf (_("%s - Evolution %s [%s]"), title, VERSION, SUB_VERSION);
 
-	gtk_window_set_title (GTK_WINDOW (shell_view), window_title);
-	g_free (window_title);
-	g_free (folder_name);
-	
-	update_folder_title_bar (shell_view, folder);
-	
-	update_window_icon (shell_view, folder);
+	gtk_window_title = e_utf8_to_gtk_string (GTK_WIDGET (shell_view), utf8_window_title);
+	gtk_window_set_title (GTK_WINDOW (shell_view), gtk_window_title);
+	g_free (gtk_window_title);
+	g_free (utf8_window_title);
+
+	update_folder_title_bar (shell_view, title, type);
+	update_window_icon (shell_view, type);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (priv->storage_set_view),
 					  GTK_SIGNAL_FUNC (folder_selected_cb),

@@ -1,5 +1,13 @@
 2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-shell-view.c (update_folder_title_bar): Changed to get a
+	@title and a @type.
+	(update_for_current_uri): Updated accordingly.
+	(update_window_icon): Get a @type instead of a @folder.
+	(update_for_current_uri): Updated accordingly.
+
+2001-08-24  Ettore Perazzoli  <ettore@ximian.com>
+
 	[Fix #5978, "If a component dies, it's toolbar buttons remain".]
 
 	* e-shell-view.c (socket_destroy_cb): If the view belongs to a
