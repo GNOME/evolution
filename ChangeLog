@@ -1,3 +1,9 @@
+2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* configure.in: Add
+	`addressbook/gui/component/select-names/Makefile' to the
+	`AC_OUTPUT()' list.
+
 2000-07-03  Christopher James Lahey  <clahey@helixcode.com>
 
 	* widgets/e-text/Makefile.am: Added e-entry.c and e-entry.h.

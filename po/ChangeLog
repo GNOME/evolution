@@ -1,3 +1,8 @@
+2000-07-03  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* POTFILES.in: Removed `e-select-names.c' and
+	`select-name.glade.h' which were removed by Chris' commit.
+
 2000-06-30  Valek Filippov  <frob@df.ru>
 
 	* ru.po: Updated russian translation.

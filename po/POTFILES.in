@@ -7,8 +7,6 @@ addressbook/gui/component/addressbook-factory.c
 addressbook/gui/component/addressbook.c
 addressbook/gui/component/alphabet.glade.h
 addressbook/gui/component/ldap-server-dialog.glade.h
-addressbook/gui/component/e-select-names.c
-addressbook/gui/component/select-names.glade.h
 addressbook/gui/minicard/e-minicard-view.c
 addressbook/gui/minicard/e-minicard.c
 addressbook/printing/e-contact-print.glade.h

@@ -484,6 +484,7 @@ addressbook/backend/ebook/Makefile
 addressbook/gui/Makefile
 addressbook/gui/minicard/Makefile
 addressbook/gui/component/Makefile
+addressbook/gui/component/select-names/Makefile
 shell/Makefile
 shell/glade/Makefile
 mail/Makefile
