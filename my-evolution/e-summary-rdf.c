@@ -556,7 +556,7 @@ e_summary_rdf_init (ESummary *summary)
 
 	e_summary_add_protocol_listener (summary, "rdf", e_summary_rdf_protocol, rdf);
 	if (prefs == NULL) {
-		e_summary_rdf_add_uri (summary, "http://news.gnome.org/gnome-news/rdf");
+		e_summary_rdf_add_uri (summary, "http://www.cnn.com/cnn.rss");
 		timeout = 600;
 	} else {
 		GList *p;

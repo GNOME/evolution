@@ -584,8 +584,8 @@ e_summary_weather_init (ESummary *summary)
 	e_summary_add_protocol_listener (summary, "weather", e_summary_weather_protocol, weather);
 
 	if (prefs == NULL) {
-		e_summary_weather_add_location (summary, "ENBR");
-		e_summary_weather_add_location (summary, "EGAC");
+		e_summary_weather_add_location (summary, "KBOS");
+		e_summary_weather_add_location (summary, "ZSAM");
 		e_summary_weather_add_location (summary, "EGAA");
 		timeout = 600;
 	} else {
