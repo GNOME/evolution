@@ -1,3 +1,8 @@
+2001-02-11  Rodrigo Moya <rodrigo@ximian.com>
+
+	* pcs/cal-backend-db.[ch]: added the new DB3-based backend. This is just
+	the beginning, there are some missing things still.
+
 2001-02-11  Gediminas Paulauskas <menesis@delfi.lt>
 
 	Really use xml-i18n-tools.
