@@ -44,8 +44,6 @@
 #include "art/mail-replied.xpm"
 #include "art/attachment.xpm"
 #include "art/empty.xpm"
-#include "art/tree-expanded.xpm"
-#include "art/tree-unexpanded.xpm"
 #include "art/score-lowest.xpm"
 #include "art/score-lower.xpm"
 #include "art/score-low.xpm"
@@ -99,8 +97,6 @@ static struct {
 	{ mail_replied_xpm,	NULL },
 	{ empty_xpm,		NULL },
 	{ attachment_xpm,	NULL },
-	{ tree_expanded_xpm,	NULL },
-	{ tree_unexpanded_xpm,	NULL },
 	{ score_lowest_xpm,     NULL },
 	{ score_lower_xpm,      NULL },
 	{ score_low_xpm,        NULL },
@@ -909,7 +905,7 @@ message_list_init_renderers (MessageList *message_list)
 	 * Miguel has suggested perhaps using icons with thumbs up/down
 	 */
 	for (i = 0; i < 7; i++)
-		images[i] = states_pixmaps [i + 7].pixbuf;
+		images[i] = states_pixmaps [i + 5].pixbuf;
 	
 	message_list->render_score = e_cell_toggle_new (0, 7, images);
 
@@ -918,8 +914,7 @@ message_list_init_renderers (MessageList *message_list)
 	 */
 	message_list->render_tree =
 		e_cell_tree_new (message_list->table_model,
-				 states_pixmaps[5].pixbuf,
-				 states_pixmaps[6].pixbuf,
+				 NULL, NULL, /* let the tree renderer default the pixmaps */
 				 TRUE, message_list->render_text);
 }
 
