@@ -1,3 +1,10 @@
+2002-07-24  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-store.c (get_folder_info_online):
+	Duplicated the very much hack in imap_store_refresh_folders() to
+	avoid a deadlock in #27959.  A decent fix has to wait for a
+	rewrite.
+
 2002-07-23  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-tcp-stream.c: #include <string.h> for memcpy.

@@ -767,6 +767,7 @@ copy_folder(char *key, CamelFolder *folder, GPtrArray *out)
 /* the alternative is to:
    make the camel folder->lock recursive (which should probably be done)
    or remove it from camel_folder_refresh_info, and use another locking mechanism */
+/* also see get_folder_info_online() for the same hack repeated */
 static void
 imap_store_refresh_folders (CamelImapStore *store, CamelException *ex)
 {
@@ -2013,7 +2014,9 @@ get_folder_info_online (CamelStore *store, const char *top,
 		 */
 		if (imap_store->current_folder &&
 		    !strcmp (imap_store->current_folder->full_name, fi->full_name)) {
-			camel_folder_refresh_info (imap_store->current_folder, NULL);
+			/* we bypass the folder locking otherwise we can deadlock.  we use the command lock for
+			   any operations anyway so this is 'safe'.  See comment above imap_store_refresh_folders() for info */
+			CAMEL_FOLDER_CLASS (CAMEL_OBJECT_GET_CLASS(imap_store->current_folder))->refresh_info(imap_store->current_folder, ex);
 			fi->unread_message_count = camel_folder_get_unread_message_count (imap_store->current_folder);
 		} else
 			fi->unread_message_count = get_folder_status (imap_store, fi->full_name, "UNSEEN");
