@@ -1,3 +1,22 @@
+2000-05-27  Aaron Weber  <aaron@helixcode.com>
+
+	* C/evolution-guide.sgml: added Kevin Breit to author and
+	copyright.
+
+	* C/apx-authors.sgml: Put app authors in a simplelist.
+
+	* C/usage-mail.sgml: Removed USAGE-SETUP insertion, added xref to send
+        users to config-setupassist chapter. This and the following changes 
+	take setup druid coverage out of usage 
+	section and put it in config section. 
+	* C/config-setupassist.sgml: Added mail druid coverage from
+	usage-setup.sgml.
+	* C/usage-setup.sgml: Removed file. contents in
+	config-setupassist.sgml.  
+	* C/evolution-guide.sgml: Removed
+	USAGE-SETUP entity (and file usage-setup.sgml.)
+
+	
 2000-05-26  Aaron Weber  <aaron@helixcode.com>
 
 	* C/fig/mainwindow-pic.png: new file

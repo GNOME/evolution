@@ -1,7 +1,6 @@
 <!DOCTYPE Book PUBLIC "-//GNOME//DTD DocBook PNG Variant V1.1//EN"[
 
 <!ENTITY PREFACE SYSTEM "preface.sgml">
-<!ENTITY USAGE-SETUP SYSTEM "usage-setup.sgml">
 <!ENTITY USAGE-MAINWINDOW SYSTEM "usage-mainwindow.sgml">
 <!ENTITY USAGE-MAIL SYSTEM "usage-mail.sgml">
 <!ENTITY USAGE-CONTACT SYSTEM "usage-contact.sgml">
@@ -25,8 +24,15 @@
 <book id="index">
   <bookinfo>
     <title>A User's Guide to Evolution</title>
-    <author><firstname>Aaron</firstname><surname>Weber</surname></author>
-    <copyright><year>2000</year><holder>Helix Code, Inc.</holder></copyright>
+    <authorgroup>
+     <author><firstname>Aaron</firstname><surname>Weber</surname></author>
+      <author><firstname>Kevin</firstname><surname>Breit</surname></author>
+
+   </authorgroup>
+    <copyright>
+      <year>2000</year><holder>Helix Code, Inc.</holder>
+      <holder>Kevin Breit</holder>
+    </copyright>
     
     <legalnotice>
       <para>

@@ -144,14 +144,47 @@ forth.  Can these things be labelled with little arrows & stuff?
           data like a <glossterm>file tree</glossterm>&mdash; it
           starts small at the top, and branches downwards. There are a
           few folders you will always see, because they're at the top.
-          On my computer, they are: (ch. to itemizedlist w/descriptions?)
-          <simplelist>
-	    <member>Local Mail</member>
-	    <member>Remote Mail</member>
-	    <member>Address Book</member>
-	    <member>Calendar</member>
-	    <member>Trash</member>
-	  </simplelist>.
+          On my computer, I have only one: <guilabel>Local</guilabel>.
+          When I click on the plus sign next to the label, I see the
+          contents:
+          <itemizedlist>
+             <listitem>
+                <para>
+                  <guilabel>Calendar</guilabel>, where you'll find the
+                  appointments and event listings.
+               </para>
+             </listitem> 
+             <listitem>
+                <para>
+                <guilabel>Contacts</guilabel>, where your address
+                cards are stored.
+               </para>
+             </listitem>
+             <listitem>
+                <para>
+              <guilabel>Directories</guilabel>, for directories, which
+              have not been implemented yet.
+               </para>
+             </listitem>
+             <listitem>
+                <para>
+                 <guilabel>Inbox</guilabel>, for your incoming mail.
+                 This is where you will make the most subfolders.
+               </para>
+             </listitem>
+            <listitem>
+                <para>
+                <guilabel>Outbox</guilabel>, where you can store
+                copies of mail you have sent, or unsent drafts.
+               </para>
+             </listitem>
+             <listitem>
+                <para>
+                <guilabel>Trash</guilabel>, where you can throw things away.
+               </para>
+             </listitem>
+          </itemizedlist>
+
         </para>
 
 	<para>
@@ -179,10 +212,11 @@ forth.  Can these things be labelled with little arrows & stuff?
 	
 	<para>
           If a folder has other folders in it, there will be a plus
-          sign next to it. Click on the plus sign, and you will see
-          the other folders inside.  This may change in the future to
-          something more attractive, like triangles that drop down as
-          you click on them to display the rest of the tree.
+          sign next to it. Click on the plus sign, and the folder will
+          open to let you see the other folders inside.  This may
+          change in the future to something more attractive, like
+          triangles that drop down as you click on them to display the
+          rest of the tree.
         </para>
 
 	<para>
@@ -194,14 +228,19 @@ forth.  Can these things be labelled with little arrows & stuff?
         </para>
 
 	<para>
-          You can drag the folders inside the tree view to change
-          their order or put one folder inside another.  To delete a
-          folder, you can drag it into the trash folder.  The same
-          goes for individual messages, appointments, and address
-          cards, whether they're in the <interface>tree
+          Moving and deleting folders and other items works in one of
+          two ways: using <glossterm>drag-and-drop</glossterm> or by
+          right-clicking and selecting an item from the
+          <interface>right-click menu</interface>.  You can drag the
+          folders inside the tree view to change their order or put
+          one folder inside another.  To delete a folder, drag it into
+          the trash folder or right-click it and select
+          <guimenuitem>Delete</guimenuitem> from the menu that pops
+          up.  The same goes for individual messages, appointments,
+          and address cards, whether they're in the <interface>tree
           view</interface> or not: drag them where you want them, and
-          they will go there.
-<!--  ****This paragraph could use some work****  -->
+          they will go there.  <!-- ****This paragraph could use some
+          work**** -->
         </para>
 	<para>
           You can also use the <guimenu>right-click menu</guimenu> to
@@ -212,8 +251,14 @@ forth.  Can these things be labelled with little arrows & stuff?
 	<para>
           Once you've familiarized yourself with the <interface>main
           window</interface> you can start doing things with it.
-          We'll start with email: you've got a letter waiting for you
-          already.
+          We'll start with your email inbox: you've got a letter
+          waiting for you already.
         </para>
       </sect1>
     </chapter>
+
+
+
+
+
+

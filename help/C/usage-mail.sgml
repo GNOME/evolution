@@ -47,7 +47,9 @@
            You can start reading email by clicking
            <guibutton>Inbox</guibutton> in the shortcut bar.  By
            default, the <interface>Inbox</interface> is open when you
-           start <application>Evolution</application>.
+           start <application>Evolution</application>, and the first
+           time you see your inbox, there's a message in it from Helix
+           Code welcoming you to the application.
         </para>
       </abstract>
    
@@ -92,29 +94,34 @@
 	    </graphic>
 	    </screenshot>
 	  </figure>
-   <!-- ==============End of Figure=================================== -->
+   <!-- ==============End of Figure===================================
+   -->
           </para>
 	</sect2>
 
-        &USAGE-SETUP;
+
  	
 	<sect2 id="usage-mail-getnsend-get">
 	  <title>Getting Mail</title>
 	  <para>
             To check your email, just click <guibutton>Send and
-            Receive</guibutton> in the toolbar.
-            <application>Evolution</application> will download your
-            mail for you and send any mail you've marked ready to
-            send. New mail will appear in your
+            Receive</guibutton> in the toolbar.  If this is the first
+            time you've done so, the <interface>mail druid</interface>
+            will ask you for the information it needs to check your
+            mail (see <xref linkend="config-setupassist"> for more
+            information).  Then, <application>Evolution</application>
+            will download your mail for you and send any mail you've
+            marked ready to send. New mail will appear in your
             <interface>Inbox</interface> and also in the
             <interface>Today View</interface>.
           </para>
 
 	  <para>
-            If you get an error message, you probably need to change
-            your network preferences.  To learn how to do that, have a
-            look at <xref linkend="config-prefs-network">, or ask your
-            system administrator.
+            If you get an error message instead of mail, you probably
+            need to change your network preferences.  To learn how to
+            do that, have a look at <xref
+            linkend="config-prefs-network">, or ask your system
+            administrator.
           </para>
 
 	  <sect3 id="usage-mail-getnsend-get-attach">
@@ -125,7 +132,8 @@
               want to put it.  Once you've downloaded a file, you can
               open, move, copy, or execute it just like any other,
               using <application>Nautilus</application> or your
-              favorite shell or file manager.
+              favorite shell or file manager. (This text will change
+              to fit app behavior, once features are implemented.)
             </para>
 
 	    <para>
@@ -541,20 +549,24 @@
 	<sect2 id="usage-mail-organize-folders">
 	  <title>Getting Organized with Folders</title>
 	  <para>
-            You can create new folders by selecting
-            <guimenuitem>ITEM</guimenuitem> from the
-            <guimenu>MENU</guimenu>, or by pressing
+            Mail, as well as address cards and calendars, is kept in
+            folders.  If you like, you can create new folders by
+            selecting <guisubmenu>New</guisubmenu> and then
+            <guimenuitem>Folder</guimenuitem> from the
+            <guimenu>File</guimenu> menu, or by pressing
             <keysym>COMBO</keysym>.  (Will there be a dialog box to
             determine name and location? Must wait for feature to
-            describe) The new folders will appear in the
+            describe.) The new folders will appear in the
             <interface>tree view</interface>, and you can drag them
             wherever you want to relocate them.  You can move messages
-            into them by dragging, or by selecting them and choosing
-            <guimenuitem>ITEM</guimenuitem> from the
-            <guimenu>MENU</guimenu>.  An email message can be in only
-            one folder at a time, just like real mail in real folders.
-            This is also the case for folders of address cards and calendar
-            information.
+            into the folders by dragging and dropping, or by selecting
+            them and choosing <guimenuitem>ITEM</guimenuitem> from the
+            <guimenu>MENU</guimenu>.  If you create filters with the
+            <interface>filter druid</interface>, you can have mail
+            moved to a folder automatically.  An email message can be in
+            only one folder at a time, just like real mail in real
+            folders.  This is also the case for folders of address
+            cards and calendar information.
           </para>
 	</sect2>    
 
@@ -718,17 +730,18 @@
               <itemizedlist>
 		<listitem>
                    <para>
-                     <guilabel>When mail arrives:</guilabel> new mail
-		     arrives in the Inbox, and you can filter it from
-		     here.
+                     <guilabel>When mail arrives:</guilabel> Select
+		     this option to have messages filtered as they
+		     arrive.
                    </para>
                  </listitem>
                  <listitem>
                    <para>
-                     <guilabel> When mail is sent:</guilabel> When you
-                     send mail, you can perform additional actions on
-                     it&mdash; perhaps you keep your Outbox sorted into
-                     subfolders.
+                     <guilabel>When mail is sent:</guilabel> Select
+                     this option to filter your outgoing mail.  You
+                     can use this feature to keep your
+                     <interface>Outbox</interface> as organized as
+                     your <interface>Inbox</interface>.
                  </para>
               </listitem>
             </itemizedlist>

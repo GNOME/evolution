@@ -3,30 +3,30 @@
     <title>Authors</title>
      <para>
       <application>Evolution</application> was written by:
-
-      Seth Alves: <email>alves@helixcode.com</email>
-      Anders Carlsson<email>andersca@helixcode.com</email>
-      Damon Chaplin:<email>damon@helixcode.com</email>
-      Clifford R. Conover <email>rusty@zootweb.com</email>
-      Miguel De Icaza: <email>miguel@helixcode.com</email>
-      Arturo Espinoza <email>arturo@nucleu.unam.mx</email>
-      Larry Ewing: <email>lewing@helixcode.com</email>
-      Bertrand Guiheneuf: <email>bertrand@helixcode.com</email>
-      Tuomas Kuosmanen: <email>tigert@gimp.org</email>
-      Christopher J. Lahey: <email>clahey@helixcode.com</email>
-      Matthew Loper:  <email>matt@helixcode.com</email>
-      Dave Mason <email>dcm@redhat.com</email>
-      Federico Mena: <email>federico@helixcode.com</email>
-      Eskil Heyn Olsen<email>deity@eski.dk</email>
-      Nat Friedman: <email>nat@helixcode.com</email>
-      Ettore Perazzoli:<email>ettore@helixcode.com</email>
-      Russell Steinthal: <email>rms39@columbia.edu</email>
-      Peter Teichman: <email>peter@helixcode.com</email>      
-      Chris Toshok: <email>toshok@helixcode.com</email>
-      Radek Doulik: <email>rodo@helixcode.com</email>
-      Dan Winship: <email>winship@helixcode.com</email>
-      Michael Zucchi: <email>notzed@helixcode.com</email>
-
+<simplelist>
+      <member>Seth Alves: <email>alves@helixcode.com</email></member>
+     <member>Anders Carlsson<email>andersca@gnu.org</email></member>
+      <member>Damon Chaplin:<email>damon@helixcode.com</email></member>
+      <member>Clifford R. Conover <email>rusty@zootweb.com</email></member>
+     <member>Miguel De Icaza: <email>miguel@helixcode.com</email></member>
+     <member>Arturo Espinoza <email>arturo@nucleu.unam.mx</email></member>
+     <member>Larry Ewing: <email>lewing@helixcode.com</email></member>
+    <member>Bertrand Guiheneuf: <email>bertrand@helixcode.com</email></member>
+    <member>Tuomas Kuosmanen: <email>tigert@gimp.org</email></member>
+    <member>Christopher J. Lahey: <email>clahey@helixcode.com</email></member>
+    <member>Matthew Loper:  <email>matt@helixcode.com</email></member>
+    <member>Dave Mason <email>dcm@redhat.com</email></member>
+    <member> Federico Mena: <email>federico@helixcode.com</email></member>
+    <member>Eskil Heyn Olsen<email>deity@eski.dk</email></member>
+    <member> Nat Friedman: <email>nat@helixcode.com</email></member>
+    <member>Ettore Perazzoli:<email>ettore@helixcode.com</email></member>
+    <member>Russell Steinthal: <email>rms39@columbia.edu</email></member>
+    <member> Peter Teichman: <email>peter@helixcode.com</email></member>     
+    <member> Chris Toshok: <email>toshok@helixcode.com</email></member>
+    <member> Radek Doulik: <email>rodo@helixcode.com</email></member>
+    <member> Dan Winship: <email>winship@helixcode.com</email></member>
+    <member> Michael Zucchi: <email>notzed@helixcode.com</email></member>
+</simplelist>
 and other dedicated GNOME programmers. 
 </para>
     <para>
