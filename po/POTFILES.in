@@ -153,6 +153,7 @@ mail/GNOME_Evolution_Mail.oaf.in
 mail/local-config.glade
 mail/mail-accounts.c
 mail/mail-account-editor.c
+mail/mail-account-gui.c
 mail/mail-autofilter.c
 mail/mail-callbacks.c
 mail/mail-config.c
