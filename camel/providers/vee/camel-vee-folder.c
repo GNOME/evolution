@@ -290,25 +290,24 @@ vee_get_unread_message_count (CamelFolder *folder)
 }
 
 static gboolean
-get_real_message (CamelFolder *folder, const char *uid,
-		  CamelFolder **out_folder, const char **out_uid)
+get_real_message(CamelFolder *folder, const char *uid, CamelFolder **out_folder, const char **out_uid)
 {
 	CamelVeeMessageInfo *mi;
 
 	mi = (CamelVeeMessageInfo *)vee_get_message_info(folder, uid);
-	g_return_val_if_fail (mi != NULL, FALSE);
+	g_return_val_if_fail(mi != NULL, FALSE);
 
 	*out_folder = mi->folder;
 	*out_uid = strchr(mi->info.uid, ':')+1;
 	return TRUE;
 }
 
-static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
+static CamelMimeMessage *vee_get_message(CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid)) {
+	if (!get_real_message(folder, uid, &real_folder, &real_uid)) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
 				     "No such message %s in %s", uid,
 				     folder->name);
@@ -318,14 +317,14 @@ static CamelMimeMessage *vee_get_message (CamelFolder *folder, const gchar *uid,
 	return camel_folder_get_message (real_folder, real_uid, ex);
 }
 
-GPtrArray *vee_get_summary (CamelFolder *folder)
+GPtrArray *vee_get_summary(CamelFolder *folder)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)folder;
 
 	return vf->messages;
 }
 
-static const CamelMessageInfo *vee_get_message_info (CamelFolder *f, const char *uid)
+static const CamelMessageInfo *vee_get_message_info(CamelFolder *f, const char *uid)
 {
 	CamelVeeFolder *vf = (CamelVeeFolder *)f;
 
@@ -387,26 +386,24 @@ vee_get_message_flags(CamelFolder *folder, const char *uid)
 }
 
 static void
-vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags,
-		      guint32 set)
+vee_set_message_flags(CamelFolder *folder, const char *uid, guint32 flags, guint32 set)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid))
+	if (!get_real_message(folder, uid, &real_folder, &real_uid))
 		return;
 
 	camel_folder_set_message_flags(real_folder, real_uid, flags, set);
 }
 
 static gboolean
-vee_get_message_user_flag(CamelFolder *folder, const char *uid,
-			  const char *name)
+vee_get_message_user_flag(CamelFolder *folder, const char *uid, const char *name)
 {
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid))
+	if (!get_real_message(folder, uid, &real_folder, &real_uid))
 		return FALSE;
 
 	return camel_folder_get_message_user_flag(real_folder, real_uid, name);
@@ -419,7 +416,7 @@ vee_set_message_user_flag(CamelFolder *folder, const char *uid,
 	const char *real_uid;
 	CamelFolder *real_folder;
 
-	if (!get_real_message (folder, uid, &real_folder, &real_uid))
+	if (!get_real_message(folder, uid, &real_folder, &real_uid))
 		return;
 
 	return camel_folder_set_message_user_flag(real_folder, real_uid, name, value);
@@ -437,17 +434,13 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 {
 	struct _CamelVeeFolderPrivate *p = _PRIVATE(vf);
 	GList *node;
-
+	int i;
 	GPtrArray *messages;
 	GHashTable *messages_uid;
 
-	{
-		int i;
-
-		for (i=0;i<vf->messages->len;i++) {
-			CamelMessageInfo *mi = g_ptr_array_index(vf->messages, i);
-			camel_message_info_free(mi);
-		}
+	for (i=0;i<vf->messages->len;i++) {
+		CamelMessageInfo *mi = g_ptr_array_index(vf->messages, i);
+		camel_message_info_free(mi);
 	}
 
 	messages = g_ptr_array_new();
@@ -474,9 +467,7 @@ vee_folder_build(CamelVeeFolder *vf, CamelException *ex)
 				g_hash_table_insert(messages_uid, mi->info.uid, mi);
 			}
 		}
-		g_ptr_array_add (matches, NULL);
-		g_strfreev((char **)matches->pdata);
-		g_ptr_array_free(matches, FALSE);
+		camel_folder_search_free(f, matches);
 		node = g_list_next(node);
 	}
 
@@ -527,9 +518,7 @@ vee_folder_build_folder(CamelVeeFolder *vf, CamelFolder *source, CamelException 
 			g_hash_table_insert(messages_uid, mi->info.uid, mi);
 		}
 	}
-	g_ptr_array_add (matches, NULL);
-	g_strfreev((char **)matches->pdata);
-	g_ptr_array_free(matches, FALSE);
+	camel_folder_search_free(f, matches);
 }
 
 
