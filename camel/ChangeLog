@@ -1,5 +1,8 @@
 2002-01-28  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-filter-driver.c (camel_filter_driver_remove_rule_by_name):
+	Use while (node->next) instead of while (node)
+
 	* providers/smtp/camel-smtp-transport.c (smtp_decode_status_code):
 	New function to decode an enhanced status code.
 	(smtp_set_exception): Sets an exception based on the

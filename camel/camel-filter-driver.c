@@ -356,7 +356,7 @@ camel_filter_driver_remove_rule_by_name (CamelFilterDriver *d, const char *name)
 	struct _filter_rule *node;
 	
 	node = (struct _filter_rule *) p->rules.head;
-	while (node) {
+	while (node->next) {
 		if (!strcmp (node->name, name)) {
 			e_dlist_remove ((EDListNode *) node);
 			g_free (node->match);
