@@ -1340,7 +1340,7 @@ do_exit (EMsgComposer *composer)
 	GtkWidget *dialog;
 	gint button;
 	
-	if (e_msg_composer_is_dirty (composer)) {
+	if (TRUE || e_msg_composer_is_dirty (composer)) {
 		dialog = gnome_message_box_new (_("This message has not been sent.\n\nDo you wish to save your changes?"),
 						GNOME_MESSAGE_BOX_QUESTION,
 						GNOME_STOCK_BUTTON_YES,      /* Save */
