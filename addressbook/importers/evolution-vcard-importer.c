@@ -200,6 +200,46 @@ process_item_fn (EvolutionImporter *importer,
 		}
 	}
 
+	/*
+	  Deal with ADR attributes that don't conform to what we need.
+
+	  if HOME or WORK isn't specified, add TYPE=OTHER.
+	*/
+	attrs = e_vcard_get_attributes (E_VCARD (contact));
+	for (attr = attrs; attr; attr = attr->next) {
+		EVCardAttribute *a = attr->data;
+		gboolean no_location = TRUE;
+		GList *params, *param;
+
+		if (g_ascii_strcasecmp (e_vcard_attribute_get_name (a),
+					EVC_ADR))
+			continue;
+
+		params = e_vcard_attribute_get_params (a);
+		for (param = params; param; param = param->next) {
+			EVCardAttributeParam *p = param->data;
+			GList *vs, *v;
+
+			if (g_ascii_strcasecmp (e_vcard_attribute_param_get_name (p),
+						EVC_TYPE))
+				continue;
+
+			vs = e_vcard_attribute_param_get_values (p);
+			for (v = vs; v; v = v->next) {
+				if (!g_ascii_strcasecmp ((char*)v->data, "WORK") ||
+				    !g_ascii_strcasecmp ((char*)v->data, "HOME"))
+					no_location = FALSE;
+			}
+		}
+
+		if (no_location) {
+			/* add OTHER */
+			e_vcard_attribute_add_param_with_value (a,
+								e_vcard_attribute_param_new (EVC_TYPE),
+								"OTHER");
+		}
+	}
+
 	/* Work around the fact that these fields no longer show up in the UI */
 	add_to_notes (contact, E_CONTACT_OFFICE);
 	add_to_notes (contact, E_CONTACT_SPOUSE);

@@ -1,5 +1,12 @@
 2004-05-24  Chris Toshok  <toshok@ximian.com>
 
+	[ fixes bug #32194 ]
+	
+	* importers/evolution-vcard-importer.c (process_item_fn): make
+	sure all ADR attributes have HOME/WORK/OTHER.
+
+2004-05-24  Chris Toshok  <toshok@ximian.com>
+
 	[ fixes bug #40013 ]
 	
 	* importers/evolution-vcard-importer.c (process_item_fn): for TEL
