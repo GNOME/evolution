@@ -80,6 +80,8 @@ static gint           read__static                           (CamelStream *strea
 							       gchar *buffer, 
 							       gint n);
 
+static void           reset__static                          (CamelStream *stream);
+
 static gint           read_decode__static                    (CamelStream *stream, 
 							       gchar *buffer, 
 							       gint n);
@@ -98,8 +100,9 @@ camel_stream_b64_class_init (CamelStreamB64Class *camel_stream_b64_class)
 
 
 	/* virtual method overload */
-	camel_stream_class->read = read__static;
-	camel_stream_class->eos = eos__static; 
+	camel_stream_class->read     = read__static;
+	camel_stream_class->eos      = eos__static; 
+	camel_stream_class->reset    = reset__static; 
 
 	/* signal definition */
 	
@@ -302,4 +305,22 @@ eos__static (CamelStream *stream)
 	g_assert (stream_b64->input_stream);
 
 	return (stream_b64->eos || camel_stream_eos (stream_b64->input_stream));
+}
+
+
+
+
+
+static void 
+reset__static (CamelStream *stream)
+{
+	CamelStreamB64 *stream_b64 = CAMEL_STREAM_B64 (stream);
+	
+	g_assert (stream);
+	g_assert (stream_b64->input_stream);
+
+	stream_b64->decode_status.keep = 0;
+	stream_b64->decode_status.state = 0;
+	
+	camel_stream_reset (stream_b64->input_stream);
 }

@@ -39,6 +39,7 @@ $(EVOLUTION_CORBA_GENERATED): Evolution.idl
 
 evolution_LDADD = 					\
 	../widgets/shortcut-bar/libshortcut-bar.a	\
+	../widgets/e-text/libetext.a			\
 	../e-util/libeutil.a				\
 	$(BONOBO_GNOME_LIBS)				
 

@@ -1,3 +1,12 @@
+2000-02-22  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel-stream-b64.c (reset__static): added a
+	reset method. Thanks message-browser to find
+	so much bugs :)
+
+	* providers/mbox/Makefile.am (libcamelmbox_la_LIBADD): readd
+	Unicode libs.
+
 2000-02-21  bertrand  <Bertrand.Guiheneuf@aful.org>
 
 	* camel-formatter.c (lookup_unique_id): 
