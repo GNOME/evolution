@@ -521,7 +521,7 @@ pgp_sign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash,
 	
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 				     _("Cannot sign this message: no password provided"));
 		goto exception;
 	}
@@ -696,7 +696,7 @@ pgp_clearsign (CamelCipherContext *ctx, const char *userid, CamelCipherHash hash
 	
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, (char *) userid);
 	if (!passphrase) {
-		camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+		camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 				     _("Cannot sign this message: no password provided"));
 		goto exception;
 	}
@@ -1075,7 +1075,7 @@ pgp_encrypt (CamelCipherContext *ctx, gboolean sign, const char *userid, GPtrArr
 		passphrase = pgp_get_passphrase (ctx->session, context->priv->type,
 						 (char *) userid);
 		if (!passphrase) {
-			camel_exception_set (ex, CAMEL_EXCEPTION_SYSTEM,
+			camel_exception_set (ex, CAMEL_EXCEPTION_USER_CANCEL,
 					     _("Cannot encrypt this message: no password provided"));
 			goto exception;
 		}
@@ -1262,7 +1262,7 @@ pgp_decrypt (CamelCipherContext *ctx, CamelStream *istream,
 	
 	passphrase = pgp_get_passphrase (ctx->session, context->priv->type, NULL);
 	if (!passphrase) {
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+		camel_exception_setv (ex, CAMEL_EXCEPTION_USER_CANCEL,
 				      _("Cannot decrypt this message: no password provided"));
 		
 		goto exception;

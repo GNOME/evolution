@@ -170,22 +170,23 @@ static void
 errlib_error_to_errno (int ret)
 {
 	long error;
-
-	error = ERR_get_error();
+	
+	error = ERR_get_error ();
 	if (error == 0) {
 		if (ret == 0)
 			errno = EINVAL; /* unexpected EOF */
 		/* otherwise errno should be set */
-	} else
+	} else {
 		/* ok, we get the shaft now. */
-		errno = EIO;
-}	
+		errno = EINTR;
+	}
+}
 
 static void
 ssl_error_to_errno (CamelTcpStreamOpenSSL *stream, int ret)
 {
 	/* hm, a CamelException might be useful right about now! */
-
+	
 	switch (SSL_get_error (stream->priv->ssl, ret)) {
 	case SSL_ERROR_NONE:
 		errno = 0;
@@ -217,7 +218,7 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
-		return  -1;
+		return -1;
 	}
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
@@ -231,19 +232,19 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 		
 		flags = fcntl (tcp_stream_openssl->priv->sockfd, F_GETFL);
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags | O_NONBLOCK);
-
+		
 		do {
 			nread = SSL_read (tcp_stream_openssl->priv->ssl, buffer, n);
-
+			
 			if (nread == 0)
 				return nread;
-
+			
 			if (nread == -1 && errno == EAGAIN) {
 				FD_ZERO (&rdset);
 				FD_SET (tcp_stream_openssl->priv->sockfd, &rdset);
 				FD_SET (cancel_fd, &rdset);
 				fdmax = MAX (tcp_stream_openssl->priv->sockfd, cancel_fd) + 1;
-		
+				
 				select (fdmax, &rdset, 0, 0, NULL);
 				if (FD_ISSET (cancel_fd, &rdset)) {
 					fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
@@ -252,13 +253,13 @@ stream_read (CamelStream *stream, char *buffer, size_t n)
 				}
 			}
 		} while (nread == -1 && errno == EAGAIN);
-
+		
 		fcntl (tcp_stream_openssl->priv->sockfd, F_SETFL, flags);
 	}
-
+	
 	if (nread == -1)
 		ssl_error_to_errno (tcp_stream_openssl, -1);
-
+	
 	return nread;
 }
 
@@ -271,7 +272,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	
 	if (camel_operation_cancel_check (NULL)) {
 		errno = EINTR;
-		return  -1;
+		return -1;
 	}
 	
 	cancel_fd = camel_operation_cancel_fd (NULL);
@@ -310,7 +311,7 @@ stream_write (CamelStream *stream, const char *buffer, size_t n)
 	
 	if (written == -1)
 		ssl_error_to_errno (tcp_stream_openssl, -1);
-
+	
 	return written;
 }
 
@@ -441,24 +442,25 @@ socket_connect (struct hostent *h, int port)
 static int
 ssl_verify (int ok, X509_STORE_CTX *ctx)
 {
-	SSL *ssl;
 	CamelTcpStreamOpenSSL *stream;
+	CamelService *service;
 	X509 *cert;
+	SSL *ssl;
 	int err;
-
-	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx());
+	
+	ssl = X509_STORE_CTX_get_ex_data (ctx, SSL_get_ex_data_X509_STORE_CTX_idx ());
 	
 	stream = SSL_CTX_get_app_data (ssl->ctx);
+	service = stream ? stream->priv->service : NULL;
 	
 	cert = X509_STORE_CTX_get_current_cert (ctx);
 	err = X509_STORE_CTX_get_error (ctx);
 	
-	if (!ok && stream) {
-		CamelService *service = stream->priv->service;
+	if (!ok && stream && camel_session_is_interactive (service->session)) {
 		char *prompt, *cert_str;
 		char buf[257];
 		
-#define GET_STRING(name) X509_NAME_oneline(name, buf, 256)
+#define GET_STRING(name) X509_NAME_oneline (name, buf, 256)
 		
 		cert_str = g_strdup_printf (_("Issuer: %s\n"
 					      "Subject: %s"),

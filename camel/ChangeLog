@@ -1,3 +1,16 @@
+2001-09-23  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-tcp-stream-openssl.c (ssl_verify): Don't even try to alert
+	the user if the session isn't interactive.
+	(errlib_error_to_errno): Make the default errno EINTR so that we
+	act just like CamelTcpStreamSSL.
+
+	* camel-pgp-context.c (pgp_sign): When the password is not
+	provided, set the exception to USER_CANCEL.
+	(pgp_clearsign): Same.
+	(pgp_encrypt): And here.
+	(pgp_decrypt): Here too.
+
 2001-09-21    <NotZed@Ximian.com>
 
 	* camel-store.c (create_folder): Set the exception if
@@ -338,7 +351,8 @@
 
 2001-09-12    <NotZed@Ximian.com>
 
-	* camel-store.c (camel_store_delete_folder): Fixed warnings with a cast.
+	* camel-store.c (camel_store_delete_folder): Fixed warnings with a
+	cast.
 	(camel_store_rename_folder): "
 
 2001-09-14  Jeffrey Stedfast  <fejj@ximian.com>
