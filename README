@@ -21,18 +21,42 @@ http://lists.helixcode.com/archives/public/evolution/
 There is also an #evolution IRC channel on irc.gnome.org.
 
 
-Evolution depends on the following non-core gnome libraries: bonobo,
-gdk-pixbuf, gnome-print, gnome-vfs, gtkhtml, libglade, and libunicode.
-(These are all in GNOME CVS, in the modules by those names.) You also
-need a recent copy of ORBit. At the present time, the version in Helix
-GNOME is the only released version that is new enough. If you don't
-have that, you should check out ORBit from GNOME CVS with the option
-"-r orbit-stable-0-5" to get the recent stable branch.
+Evolution depends on the following non-core GNOME libraries, which
+are all in GNOME CVS under the given names.
 
-The Palm-synchronization code requires the pilot-link package. There
-is most likely a package for this in your OS of choice (the name may
-be "pilot-link" or "libpisock"). If not, you can get the source at
-ftp://ryeham.ee.ryerson.ca/pub/PalmOS/
+	bonobo - Evolution always tracks the latest CVS versions of
+	bonobo. Released versions will virtually always be too old.
+	Note that this must be installed with the same --prefix as
+	gnome-libs for the Makefiles to work properly.
+
+	gdk-pixbuf - 0.7.0 (or later?)
+
+	gnome-print
+
+	gnome-vfs
+
+	gnome-xml - currently, only 1.8.7 works. Earlier versions have
+	a bug in code that Evolution needs, and the 2.0 branch is not
+	source or binary compatible. If you get this from GNOME CVS,
+	use the	tag "LIB_XML_1_X".
+
+	gtkhtml - Evolution might work with the released versions of
+	this, but the CVS versions tend to be less buggy and more
+	featureful.
+
+	libglade
+
+	libunicode
+
+You also need a recent copy of ORBit. At the present time, the version
+in Helix GNOME is the only released version that is new enough. If you
+don't have that, you should check out ORBit from GNOME CVS with the
+option "-r orbit-stable-0-5" to get the recent stable branch.
+
+The Palm-synchronization code, when it is incorporated, will require
+the pilot-link package. There is most likely a package for this in
+your OS of choice (the name may be "pilot-link" or "libpisock"). If
+not, you can get the source at ftp://ryeham.ee.ryerson.ca/pub/PalmOS/
 
 
 The layout of the source tree is:

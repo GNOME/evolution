@@ -1,3 +1,8 @@
+2000-04-19  Dan Winship  <danw@helixcode.com>
+
+	* README: More detail on exactly what versions of what libraries
+	are needed.
+
 2000-04-18  Dan Winship  <danw@helixcode.com>
 
 	* tests/*: remove camel-log references
