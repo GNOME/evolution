@@ -1,3 +1,8 @@
+2001-11-07  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (try_inline_pgp): Add a "x-inline-pgp-hack=true"
+	paramter to the multipart's content-type.
+
 2001-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-editor.c (construct): Don't make the account editor

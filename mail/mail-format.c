@@ -1335,7 +1335,8 @@ try_inline_pgp (char *start, CamelMimePart *mime_part,
 	multipart = camel_multipart_new ();
 	camel_data_wrapper_set_mime_type (CAMEL_DATA_WRAPPER (multipart),
 					  "multipart/encrypted; "
-					  "protocol=\"application/pgp-encrypted\"");
+					  "protocol=\"application/pgp-encrypted\"; "
+					  "x-inline-pgp-hack=true");
 	
 	part = fake_mime_part_from_data ("Version: 1\n",
 					 sizeof ("Version: 1\n") - 1,
