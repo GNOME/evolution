@@ -775,7 +775,7 @@ send_item (FormatItipPObject *pitip)
 	comp = get_real_item (pitip);
 	
 	if (comp != NULL) {
-		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL);
+		itip_send_comp (E_CAL_COMPONENT_METHOD_REQUEST, comp, pitip->current_ecal, NULL, NULL);
 		g_object_unref (comp);
 
 		switch (pitip->type) {
@@ -1031,7 +1031,7 @@ view_response_cb (GtkWidget *widget, ItipViewResponse response, gpointer data)
 		}
 		
                 e_cal_component_rescan (comp);
-                itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level);
+                itip_send_comp (E_CAL_COMPONENT_METHOD_REPLY, comp, pitip->current_ecal, pitip->top_level, NULL);
 
                 g_object_unref (comp);
 		
