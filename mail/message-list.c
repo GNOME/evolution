@@ -2592,7 +2592,10 @@ hide_save_state (MessageList *ml)
 {
 	char *filename;
 	FILE *out;
-
+	
+	if (ml->folder == NULL)
+		return;
+	
 	MESSAGE_LIST_LOCK(ml, hide_lock);
 
 	filename = mail_config_folder_to_cachename(ml->folder, "hidestate-");

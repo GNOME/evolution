@@ -1,3 +1,9 @@
+2003-06-18  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* message-list.c (hide_save_state): Only save state if we have a
+	folder reference. Fixes some warnings about casting a NULL object
+	to a CamelFolder.
+
 2003-06-16  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (ml_tree_value_at): Don't display an unread icon
