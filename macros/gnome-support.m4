@@ -81,7 +81,7 @@ AC_DEFUN([GNOME_SUPPORT_CHECKS],[
   AC_REPLACE_FUNCS(memmove mkstemp scandir strcasecmp strerror strndup strnlen)
   AC_REPLACE_FUNCS(strtok_r strtod strtol strtoul vasprintf)
 
-  AC_CHECK_FUNCS(canonicalize_file_name,,LIBOBJS="$LIBOBJS canonicalize.o")
+  #AC_CHECK_FUNCS(canonicalize_file_name,,LIBOBJS="$LIBOBJS canonicalize.o")
   AC_CHECK_FUNCS(realpath,,LIBOBJS="$LIBOBJS canonicalize.o")
 
   # to include `error.c' error.c has some HAVE_* checks

@@ -1,3 +1,7 @@
+1998-09-02  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* gnome-support.m4: Remove check for `canonicalize_file_name'.
+
 1998-09-02  Martin Baulig  <martin@home-of-linux.org>
 
 	* gnome-support.m4: Check for canonicalize_file_name () and
