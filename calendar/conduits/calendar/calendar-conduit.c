@@ -389,22 +389,14 @@ static char *print_remote (GnomePilotRecord *remote)
 static int
 start_calendar_server (ECalConduitContext *ctxt)
 {
-	char *uri;
-	
 	g_return_val_if_fail (ctxt != NULL, -2);
-
+	
 	/* FIXME Need a mechanism for the user to select uri's */
 	/* FIXME Can we use the cal model? */
-	uri = g_strdup_printf ("file://%s/local/Calendar/", g_get_home_dir ());
-	ctxt->client = e_cal_new (uri, E_CAL_SOURCE_TYPE_EVENT);
-	g_free (uri);
 	
-	if (!ctxt->client)
+	if (!e_cal_open_default (&ctxt->client, E_CAL_SOURCE_TYPE_EVENT, NULL, NULL, NULL))
 		return -1;
-
-	if (!e_cal_open (ctxt->client, FALSE, NULL))
-		return -1;
-
+	
 	return 0;
 }
 
@@ -451,8 +443,9 @@ map_name (ECalConduitContext *ctxt)
 {
 	char *filename;
 	
-	filename = g_strdup_printf ("%s/evolution/local/Calendar/pilot-map-calendar-%d.xml", g_get_home_dir (), ctxt->cfg->pilot_id);
-
+	filename = g_strdup_printf ("%s/.evolution/calendar/local/system/pilot-map-calendar-%d.xml",
+				    g_get_home_dir (), ctxt->cfg->pilot_id);
+	
 	return filename;
 }
 
@@ -1345,20 +1338,13 @@ pre_sync (GnomePilotConduit *conduit,
 		return -1;
 	}
 
-	ctxt->default_comp = e_cal_component_new ();
-	if (!e_cal_component_set_icalcomponent (ctxt->default_comp, icalcomp)) {
-		g_object_unref (ctxt->default_comp);
-		icalcomponent_free (icalcomp);
-		return -1;
-	}
-
 	/* Load the uid <--> pilot id mapping */
 	filename = map_name (ctxt);
 	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
 	/* Get the local database */
-	if (!e_cal_get_object_list_as_comp (ctxt->client, "(#t)", &ctxt->comps, NULL))
+	if (!e_cal_get_object_list_as_comp (ctxt->client, "#t", &ctxt->comps, NULL))
 		return -1;
 
 	/* Find the added, modified and deleted items */
