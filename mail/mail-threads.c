@@ -292,7 +292,7 @@ mail_operation_queue (const mail_operation_spec * spec, gpointer input,
 			g_free (msg);
 			gnome_dialog_set_close (GNOME_DIALOG (err_dialog),
 						TRUE);
-			/*gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog)); */
+			/*gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog));*/
 			/*gtk_widget_destroy (err_dialog); */
 			gtk_widget_show (GTK_WIDGET (err_dialog));
 
@@ -1043,13 +1043,16 @@ show_error (com_msg_t * msg)
 
 	timeout_toggle (FALSE);
 	modal_may_proceed = FALSE;
-	gtk_widget_show_all (GTK_WIDGET (err_dialog));
-	gnome_win_hints_set_layer (err_dialog, WIN_LAYER_ONTOP);
-	gnome_win_hints_set_state (err_dialog, WIN_STATE_ARRANGE_IGNORE);
-	gnome_win_hints_set_hints (err_dialog,
-				   WIN_HINTS_SKIP_FOCUS |
-				   WIN_HINTS_SKIP_WINLIST |
-				   WIN_HINTS_SKIP_TASKBAR);
+	/*gtk_widget_show_all (GTK_WIDGET (err_dialog));*/
+	gnome_dialog_run_and_close (GNOME_DIALOG (err_dialog));
+	/*
+	 *gnome_win_hints_set_layer (err_dialog, WIN_LAYER_ONTOP);
+	 *gnome_win_hints_set_state (err_dialog, WIN_STATE_ARRANGE_IGNORE);
+	 *gnome_win_hints_set_hints (err_dialog,
+	 *			   WIN_HINTS_SKIP_FOCUS |
+	 *			   WIN_HINTS_SKIP_WINLIST |
+	 *			   WIN_HINTS_SKIP_TASKBAR);
+	 */
 }
 
 /**
@@ -1117,13 +1120,16 @@ get_password (com_msg_t * msg)
 	} else {
 		*(msg->reply) = NULL;
 		timeout_toggle (FALSE);
-		gtk_widget_show_all (GTK_WIDGET (dialog));
-		gnome_win_hints_set_layer (dialog, WIN_LAYER_ONTOP);
-		gnome_win_hints_set_state (dialog, WIN_STATE_ARRANGE_IGNORE);
-		gnome_win_hints_set_hints (dialog,
-					   WIN_HINTS_SKIP_FOCUS |
-					   WIN_HINTS_SKIP_WINLIST |
-					   WIN_HINTS_SKIP_TASKBAR);
+		/*
+		 *gtk_widget_show_all (GTK_WIDGET (dialog));
+		 *gnome_win_hints_set_layer (dialog, WIN_LAYER_ONTOP);
+		 *gnome_win_hints_set_state (dialog, WIN_STATE_ARRANGE_IGNORE);
+		 *gnome_win_hints_set_hints (dialog,
+		 *			   WIN_HINTS_SKIP_FOCUS |
+		 *			   WIN_HINTS_SKIP_WINLIST |
+		 *			   WIN_HINTS_SKIP_TASKBAR);
+		 */
+		gnome_dialog_run_and_close (GNOME_DIALOG (dialog));
 	}
 }
 

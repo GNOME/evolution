@@ -34,6 +34,7 @@
 
 #include "e-util/e-html-utils.h"
 #include "mail.h"
+#include "mail-threads.h"
 #include "mail-config.h"
 #include "mail-config-gui.h"
 
@@ -171,6 +172,8 @@ typedef struct
 } MailDialog;
 
 /* private prototypes - these are ugly, rename some of them? */
+static void config_do_test_service (const char *url, CamelProviderType type);
+
 static void html_size_req (GtkWidget *widget, GtkRequisition *requisition);
 static GtkWidget *html_new (gboolean white);
 static void put_html (GtkHTML *html, char *text);
@@ -264,6 +267,7 @@ error_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 	g_free (msg);
 }
 
+#if 0
 static void
 info_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 {
@@ -281,6 +285,7 @@ info_dialog (GtkWidget *parent_finder, const char *fmt, ...)
 	gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
 	g_free (msg);
 }
+#endif
 
 /* Provider List */
 static GSList *
@@ -725,41 +730,14 @@ service_page_item_auth_fill (MailDialogServicePage *page,
 		service_page_item_auth_activate (firstitem, spitem);
 }
 
-static gboolean
+static void
 service_acceptable (MailDialogServicePage *page)
 {
-	char *url = NULL;
-	CamelService *service;
-	CamelException *ex;
-	
+	char *url;
+
 	url = service_page_get_url (page);
-	
-	ex = camel_exception_new ();
-	camel_exception_clear (ex);
-	service = camel_session_get_service (session, url, 
-					     page->spitem->type, ex);
+	config_do_test_service (url, page->spitem->type);
 	g_free (url);
-	
-	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
-		goto error;
-	
-	if (camel_service_connect (service, ex)) {
-		camel_service_disconnect (service, ex);
-		camel_object_unref (CAMEL_OBJECT (service));
-		camel_exception_free (ex);
-		
-		info_dialog (page->vbox, "Connection successful!");
-		
-		return TRUE;
-	}
-	
-	gtk_object_unref (GTK_OBJECT (service));
-	
- error:
-	error_dialog (page->vbox, camel_exception_get_description (ex));
-	camel_exception_free (ex);
-	
-	return FALSE;
 }
 
 static MailConfigService *
@@ -2163,4 +2141,102 @@ mail_config (void)
 	/* Clean up */
 	gtk_object_unref (GTK_OBJECT (gui));
 	g_free (dialog);
+}
+
+/* ************************************************************************ */
+
+typedef struct test_service_input_s {
+	gchar *url;
+	CamelProviderType type;
+} test_service_input_t;
+
+typedef struct test_service_data_s {
+	gboolean success;
+} test_service_data_t;
+
+static gchar *describe_test_service (gpointer in_data, gboolean gerund);
+static void setup_test_service   (gpointer in_data, gpointer op_data, CamelException *ex);
+static void do_test_service      (gpointer in_data, gpointer op_data, CamelException *ex);
+static void cleanup_test_service (gpointer in_data, gpointer op_data, CamelException *ex);
+
+static gchar *describe_test_service (gpointer in_data, gboolean gerund)
+{
+        test_service_input_t *input = (test_service_input_t *) in_data;
+
+        if (gerund) {
+                return g_strdup_printf ("Testing \"%s\"", input->url);
+        } else {
+                return g_strdup_printf ("Test connection to \"%s\"", input->url);
+        }
+}
+
+static void setup_test_service (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        test_service_input_t *input = (test_service_input_t *) in_data;
+        test_service_data_t *data = (test_service_data_t *) op_data;
+
+	if (!input->url) {
+		camel_exception_set (ex, CAMEL_EXCEPTION_INVALID_PARAM,
+				     "No URL was provided to test");
+		return;
+	}
+
+	data->success = FALSE;
+}
+
+static void do_test_service (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        test_service_input_t *input = (test_service_input_t *) in_data;
+        test_service_data_t *data = (test_service_data_t *) op_data;
+
+	CamelService *service;
+	
+	service = camel_session_get_service (session, input->url, 
+					     input->type, ex);
+	
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE) {
+		data->success = FALSE;
+	} else if (camel_service_connect (service, ex)) {
+		camel_service_disconnect (service, ex);
+		data->success = TRUE;
+	} else {
+		data->success = FALSE;	
+	}
+
+	camel_object_unref (CAMEL_OBJECT (service));
+}
+
+static void cleanup_test_service (gpointer in_data, gpointer op_data, CamelException *ex)
+{
+        test_service_input_t *input = (test_service_input_t *) in_data;
+        test_service_data_t *data = (test_service_data_t *) op_data;
+
+	GtkWidget *dlg;
+
+	if (data->success) {
+		dlg = gnome_ok_dialog (_("The connection was successful!"));
+		gnome_dialog_run_and_close (GNOME_DIALOG (dlg));
+	}
+
+	g_free (input->url);
+}
+
+static const mail_operation_spec op_test_service = {
+        describe_test_service,
+        sizeof (test_service_data_t),
+        setup_test_service,
+        do_test_service,
+        cleanup_test_service
+};
+
+static void
+config_do_test_service (const char *url, CamelProviderType type)
+{
+        test_service_input_t *input;
+
+        input = g_new (test_service_input_t, 1);
+	input->url = g_strdup (url);
+	input->type = type;
+
+        mail_operation_queue (&op_test_service, input, TRUE);
 }

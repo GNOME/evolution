@@ -185,6 +185,8 @@ static void cleanup_operation_name (gpointer in_data, gpointer op_data, CamelExc
 
 static gchar *describe_operation_name (gpointer in_data, gboolean gerund)
 {
+	operation_name_input_t *input = (operation_name_input_t *) in_data;
+
 	if (gerund) {
 		return a g_strdup'ed string describing what we're doing
 	} else {
@@ -195,6 +197,7 @@ static gchar *describe_operation_name (gpointer in_data, gboolean gerund)
 static void setup_operation_name (gpointer in_data, gpointer op_data, CamelException *ex)
 {
 	operation_name_input_t *input = (operation_name_input_t *) in_data;
+	operation_name_data_t *data = (operation_name_data_t *) op_data;
 
 	verify that parameters are valid
 
@@ -225,7 +228,7 @@ static void cleanup_operation_name (gpointer in_data, gpointer op_data, CamelExc
 
 static const mail_operation_spec op_operation_name = {
 	describe_operation_name,
-	sizoef (operation_name_data_t),
+	sizeof (operation_name_data_t),
 	setup_operation_name,
 	do_operation_name,
 	cleanup_operation_name
@@ -234,7 +237,7 @@ static const mail_operation_spec op_operation_name = {
 void
 mail_do_operation_name (parameters)
 {
-	operation_name_input_t *input
+	operation_name_input_t *input;
 
 	input = g_new (operation_name_input_t, 1);
 

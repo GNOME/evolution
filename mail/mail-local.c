@@ -228,7 +228,7 @@ static void update_progress(char *fmt, float percent)
 {
 	if (fmt)
 		mail_op_set_message ("%s", fmt);
-	mail_op_set_percentage (percent);
+	/*mail_op_set_percentage (percent);*/
 }
 
 /* ******************** */

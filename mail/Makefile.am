@@ -1,6 +1,6 @@
 bin_PROGRAMS =	evolution-mail
 
-noinst_PROGRAMS = test-mail test-thread
+noinst_PROGRAMS = test-mail #test-thread
 
 providerdir = $(libdir)/evolution/camel-providers/$(VERSION)
 
@@ -93,23 +93,23 @@ evolution_mail_LDADD = 					\
 test_mail_SOURCES = \
 	test-mail.c
 
-test_mail_LDADD = \
-	$(BONOBO_HTML_GNOME_LIBS)
-
-test_thread_SOURCES =	\
-	mail-threads.c	\
-	mail-threads.h	\
-	test-thread.c
-
-test_thread_LDADD = 				\
-	$(top_builddir)/camel/libcamel.la	\
-	$(top_builddir)/e-util/libeutil.la	\
-	$(top_builddir)/libibex/libibex.la	\
-	$(BONOBO_HTML_GNOME_LIBS)		\
-	$(UNICODE_LIBS)				\
-	$(THREADS_LIBS)
-
-test_thread_CFLAGS = -g $(THREADS_CFLAGS)
+#test_mail_LDADD = \
+#	$(BONOBO_HTML_GNOME_LIBS)
+#
+#test_thread_SOURCES =	\
+#	mail-threads.c	\
+#	mail-threads.h	\
+#	test-thread.c
+#
+#test_thread_LDADD = 				\
+#	$(top_builddir)/camel/libcamel.la	\
+#	$(top_builddir)/e-util/libeutil.la	\
+#	$(top_builddir)/libibex/libibex.la	\
+#	$(BONOBO_HTML_GNOME_LIBS)		\
+#	$(UNICODE_LIBS)				\
+#	$(THREADS_LIBS)
+#
+#test_thread_CFLAGS = -g $(THREADS_CFLAGS)
 
 GOAD_FILES = evolution-mail.gnorba
 OAF_FILES = evolution-mail.oafinfo
