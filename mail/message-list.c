@@ -16,6 +16,7 @@
 #include <camel/camel-folder.h>
 #include <e-util/ename/e-name-western.h>
 #include <camel/camel-folder-thread.h>
+#include <camel/camel-vtrash-folder.h>
 #include <e-util/e-memory.h>
 
 #include <string.h>
@@ -1815,15 +1816,44 @@ static void
 main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 {
 	MessageList *ml = MESSAGE_LIST (user_data);
-	CamelFolderChangeInfo *changes = (CamelFolderChangeInfo *)event_data;
+	CamelFolderChangeInfo *changes = (CamelFolderChangeInfo *)event_data, *newchanges;
+	CamelMessageInfo *info;
+	CamelFolder *folder = (CamelFolder *)o;
+	int i;
 
 	printf("folder changed event, changes = %p\n", changes);
 	if (changes) {
 		printf("changed = %d added = %d removed = %d\n",
 		       changes->uid_changed->len, changes->uid_added->len, changes->uid_removed->len);
-		if (changes->uid_added->len == 0 && changes->uid_removed->len == 0) {
-			int i;
 
+		/* check if the hidden state has changed, if so modify accordingly, then regenerate */
+		if (ml->hidedeleted) {
+			newchanges = camel_folder_change_info_new();
+			
+			for (i=0;i<changes->uid_changed->len;i++) {
+				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
+
+				info = camel_folder_get_message_info(folder, changes->uid_changed->pdata[i]);
+				if (node != NULL && info != NULL && (info->flags & CAMEL_MESSAGE_DELETED) != 0) {
+					camel_folder_change_info_remove_uid(newchanges, changes->uid_changed->pdata[i]);
+				} else if (node == NULL && info != NULL && (info->flags & CAMEL_MESSAGE_DELETED) == 0) {
+					camel_folder_change_info_add_uid(newchanges, changes->uid_changed->pdata[i]);
+				} else {
+					camel_folder_change_info_change_uid(newchanges, changes->uid_changed->pdata[i]);
+				}
+				camel_folder_free_message_info(folder, info);
+			}
+			
+			if (newchanges->uid_added->len != changes->uid_added->len
+			    || newchanges->uid_removed->len != changes->uid_removed->len) {
+				camel_folder_change_info_free(changes);
+				changes = newchanges;
+			} else {
+				camel_folder_change_info_free(newchanges);
+			}
+		}
+
+		if (changes->uid_added->len == 0 && changes->uid_removed->len == 0 && changes->uid_changed->len < 100) {
 			for (i=0;i<changes->uid_changed->len;i++) {
 				ETreePath node = g_hash_table_lookup (ml->uid_nodemap, changes->uid_changed->pdata[i]);
 				if (node)
@@ -1835,7 +1865,6 @@ main_folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 		}
 	}
 
-	
 	mail_regen_list(ml, ml->search, NULL, changes);
 }
 
@@ -1858,14 +1887,13 @@ folder_changed (CamelObject *o, gpointer event_data, gpointer user_data)
 static void
 main_message_changed (CamelObject *o, gpointer uid, gpointer user_data)
 {
-	MessageList *message_list = MESSAGE_LIST (user_data);
-	ETreePath *node;
+	MessageList *ml = MESSAGE_LIST (user_data);
+	CamelFolderChangeInfo *changes;
 
-	node = g_hash_table_lookup (message_list->uid_nodemap, uid);
-	if (node)
-		e_tree_model_node_data_changed (message_list->model, node);
-
-	g_free (uid);
+	changes = camel_folder_change_info_new();
+	camel_folder_change_info_change_uid(changes, uid);
+	main_folder_changed(o, changes, ml);
+	g_free(uid);
 }
 
 static void
@@ -1920,6 +1948,8 @@ message_list_set_folder (MessageList *message_list, CamelFolder *camel_folder)
 					message_changed, message_list);
 		
 		camel_object_ref (CAMEL_OBJECT (camel_folder));
+
+		message_list->hidedeleted = !(CAMEL_IS_VTRASH_FOLDER(camel_folder));
 
 		hide_load_state(message_list);
 		mail_regen_list(message_list, message_list->search, NULL, NULL);
@@ -2026,6 +2056,16 @@ message_list_set_threaded(MessageList *ml, gboolean threaded)
 {
 	if (ml->threaded ^ threaded) {
 		ml->threaded = threaded;
+
+		mail_regen_list(ml, ml->search, NULL, NULL);
+	}
+}
+
+void
+message_list_set_hidedeleted(MessageList *ml, gboolean hidedeleted)
+{
+	if (ml->hidedeleted ^ hidedeleted) {
+		ml->hidedeleted = hidedeleted;
 
 		mail_regen_list(ml, ml->search, NULL, NULL);
 	}
@@ -2207,6 +2247,7 @@ struct _regen_list_msg {
 	char *hideexpr;
 	CamelFolderChangeInfo *changes;
 	gboolean dotree;	/* we are building a tree */
+	gboolean hidedel;	/* we want to/dont want to show deleted messages */
 	CamelFolderThread *tree;
 
 	CamelFolder *folder;
@@ -2317,8 +2358,13 @@ static void regen_list_regen(struct _mail_msg *mm)
 	m->summary = g_ptr_array_new();
 	for (i=0;i<showuids->len;i++) {
 		info = camel_folder_get_message_info(m->folder, showuids->pdata[i]);
-		if (info)
-			g_ptr_array_add(m->summary, info);
+		if (info) {
+			/* FIXME: should this be taken account of in above processing? */
+			if (m->hidedel && (info->flags & CAMEL_MESSAGE_DELETED) != 0)
+				camel_folder_free_message_info(m->folder, info);
+			else
+				g_ptr_array_add(m->summary, info);
+		}
 	}
 
 	if (uidnew)
@@ -2409,6 +2455,7 @@ mail_regen_list(MessageList *ml, const char *search, const char *hideexpr, Camel
 	m->hideexpr = g_strdup(hideexpr);
 	m->changes = changes;
 	m->dotree = ml->threaded;
+	m->hidedel = ml->hidedeleted;
 	gtk_object_ref((GtkObject *)ml);
 	m->folder = ml->folder;
 	camel_object_ref((CamelObject *)m->folder);

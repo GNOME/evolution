@@ -1,3 +1,24 @@
+2001-03-29  Not Zed  <NotZed@Ximian.com>
+
+	* mail-local.c (init_trash): Create a vtrash folder, not a vee folder.
+
+	* folder-browser-factory.c (control_activate): Hook in the hide
+	deleted thingy.
+	Removed MessageHideDeleted menu stuff.
+
+	* message-list.c (message_list_set_hidedeleted): New function, to
+	set if we should hide deleted messages automatically/always.
+	(regen_list_regen): If we have hide deleted messages turned on,
+	then hide them.
+	(main_message_changed): Promote to a folder_changed event with a
+	change list, folder_changed has the optimisations to handle this
+	appropriately.
+	(main_folder_changed): IF we get changes events for
+	deleted/undeleted stuff, change to added/removed events, rebuild
+	if necessary.
+	(message_list_set_folder): Setup the default hidedeleted state to
+	be to hide everything unless it is in a vtrash folder.
+
 2001-03-28  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-account-gui.c (setup_service): Move the

@@ -92,7 +92,7 @@ BonoboUIVerb verbs [] = {
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageHideClear", hide_none),
 	BONOBO_UI_UNSAFE_VERB ("MessageHideRead", hide_read),
-	BONOBO_UI_UNSAFE_VERB ("MessageHideDeleted", hide_deleted),
+	/*BONOBO_UI_UNSAFE_VERB ("MessageHideDeleted", hide_deleted),*/
 	BONOBO_UI_UNSAFE_VERB ("MessageHideSelected", hide_selected),
 	
 	/* Folder Menu */
@@ -121,7 +121,7 @@ static struct {
 	{ "/menu/Tools/Component/SetMailConfig", "16_configure_mail.xpm", NULL },
 	{ "/menu/Edit/MessageDelete", "delete_message.xpm", NULL },
 	{ "/menu/Edit/MessageUndelete", "undelete_message.xpm", NULL },
-	{ "/menu/View/MessageHideDeleted", "hide_deleted_messages.xpm", NULL },
+	/*{ "/menu/View/MessageHideDeleted", "hide_deleted_messages.xpm", NULL },*/
 	{ "/menu/View/MessageHideRead", "hide_read_messages.xpm", NULL },
 	{ "/menu/View/MessageHideSelected", "hide_selected_messages.xpm", NULL },
 	{ "/menu/View/MessageHideClear", "show_all_messages.xpm", NULL },

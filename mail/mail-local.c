@@ -51,6 +51,7 @@
 #include "camel/camel.h"
 #include "camel/camel-vee-store.h"
 #include "camel/camel-vee-folder.h"
+#include "camel/camel-vtrash-folder.h"
 
 #include "filter/vfolder-context.h"
 #include "filter/vfolder-rule.h"
@@ -364,7 +365,7 @@ init_trash (CamelStore *store)
 	
 	name = g_strdup_printf ("%s?(match-all (system-flag \"Deleted\"))", "vTrash");
 	
-	store->vtrash = camel_vee_folder_new (store, name, CAMEL_STORE_FOLDER_CREATE|CAMEL_STORE_VEE_FOLDER_AUTO);
+	store->vtrash = camel_vtrash_folder_new (store, name);
 	
 	g_free (name);
 	
