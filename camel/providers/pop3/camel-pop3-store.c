@@ -46,7 +46,10 @@
 
 static CamelServiceClass *service_class = NULL;
 
+static void finalize (GtkObject *object);
+
 static gboolean pop3_connect (CamelService *service, CamelException *ex);
+static gboolean pop3_disconnect (CamelService *service, CamelException *ex);
 static GList *query_auth_types (CamelService *service);
 static void free_auth_types (CamelService *service, GList *authtypes);
 
@@ -57,6 +60,8 @@ static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name,
 static void
 camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 {
+	GtkObjectClass *object_class =
+		GTK_OBJECT_CLASS (camel_pop3_store_class);
 	CamelServiceClass *camel_service_class =
 		CAMEL_SERVICE_CLASS (camel_pop3_store_class);
 	CamelStoreClass *camel_store_class =
@@ -65,7 +70,10 @@ camel_pop3_store_class_init (CamelPop3StoreClass *camel_pop3_store_class)
 	service_class = gtk_type_class (camel_service_get_type ());
 
 	/* virtual method overload */
+	object_class->finalize = finalize;
+
 	camel_service_class->connect = pop3_connect;
+	camel_service_class->disconnect = pop3_disconnect;
 	camel_service_class->query_auth_types = query_auth_types;
 	camel_service_class->free_auth_types = free_auth_types;
 
@@ -112,6 +120,16 @@ camel_pop3_store_get_type (void)
 	return camel_pop3_store_type;
 }
 
+static void
+finalize (GtkObject *object)
+{
+	CamelException ex;
+
+	camel_exception_init (&ex);
+	pop3_disconnect (CAMEL_SERVICE (object), &ex);
+	camel_exception_free (&ex);
+}
+
 
 static CamelServiceAuthType password_authtype = {
 	"Password/APOP",
@@ -123,7 +141,8 @@ static CamelServiceAuthType password_authtype = {
 	TRUE
 };
 
-static GList *query_auth_types (CamelService *service)
+static GList
+*query_auth_types (CamelService *service)
 {
 	GList *ret;
 
@@ -131,9 +150,52 @@ static GList *query_auth_types (CamelService *service)
 	return ret;
 }
 
-static void free_auth_types (CamelService *service, GList *authtypes)
+static void
+free_auth_types (CamelService *service, GList *authtypes)
 {
 	g_list_free (authtypes);
+}
+
+/**
+ * camel_pop3_store_open: Connect to the server if we are currently
+ * disconnected.
+ * @store: the store
+ * @ex: a CamelException
+ *
+ * The POP protocol does not allow deleted messages to be expunged
+ * except by closing the connection. Thus, camel_pop3_folder_{open,close}
+ * sometimes need to connect to or disconnect from the server. This
+ * routine reconnects to the server if we have disconnected.
+ *
+ **/
+void
+camel_pop3_store_open (CamelPop3Store *store, CamelException *ex)
+{
+	CamelService *service = CAMEL_SERVICE (store);
+
+	if (!camel_service_is_connected (service))
+		pop3_connect (service, ex);
+}
+
+/**
+ * camel_pop3_store_close: Close the connection to the server and
+ * possibly expunge deleted messages.
+ * @store: the store
+ * @expunge: whether or not to expunge deleted messages
+ * @ex: a CamelException
+ *
+ * See camel_pop3_store_open for an explanation of why this is needed.
+ *
+ **/
+void
+camel_pop3_store_close (CamelPop3Store *store, gboolean expunge,
+			CamelException *ex)
+{
+	if (expunge)
+		camel_pop3_command (store, NULL, "QUIT");
+	else
+		camel_pop3_command (store, NULL, "RSET");
+	pop3_disconnect (CAMEL_SERVICE (store), ex);
 }
 
 static gboolean
@@ -255,6 +317,27 @@ pop3_connect (CamelService *service, CamelException *ex)
 	return TRUE;
 }
 
+static gboolean
+pop3_disconnect (CamelService *service, CamelException *ex)
+{
+	CamelPop3Store *store = CAMEL_POP3_STORE (service);
+
+	if (!service->connected)
+		return TRUE;
+
+	if (!service_class->disconnect (service, ex))
+		return FALSE;
+
+	/* Closing the buffered write stream will close the
+	 * unbuffered read stream wrapped inside it as well.
+	 */
+	camel_stream_close (store->ostream);
+	gtk_object_unref (GTK_OBJECT (store->ostream));
+	store->ostream = NULL;
+	store->istream = NULL;
+	return TRUE;
+}
+
 static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name, 
 				CamelException *ex)
 {
@@ -267,6 +350,26 @@ static CamelFolder *get_folder (CamelStore *store, const gchar *folder_name,
 	}
 }
 
+/**
+ * camel_pop3_command: Send a command to a POP3 server.
+ * @store: the POP3 store
+ * @ret: a pointer to return the full server response in
+ * @fmt: a printf-style format string, followed by arguments
+ *
+ * This command sends the command specified by @fmt and the following
+ * arguments to the connected POP3 store specified by @store. It then
+ * reads the server's response and parses out the status code. If
+ * the caller passed a non-NULL pointer for @ret, camel_pop3_command
+ * will set it to point to an buffer containing the rest of the
+ * response from the POP3 server. (If @ret was passed but there was
+ * no extended response, @ret will be set to NULL.) The caller must
+ * free this buffer when it is done with it.
+ *
+ * Return value: one of CAMEL_POP3_OK (command executed successfully),
+ * CAMEL_POP3_ERR (command encounted an error), or CAMEL_POP3_FAIL
+ * (a protocol-level error occurred, and Camel is uncertain of the
+ * result of the command.)
+ **/
 int
 camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 {
@@ -305,6 +408,20 @@ camel_pop3_command (CamelPop3Store *store, char **ret, char *fmt, ...)
 	return status;
 }
 
+/**
+ * camel_pop3_command_get_additional_data: get "additional data" from
+ * a POP3 command.
+ * @store: the POP3 store
+ *
+ * This command gets the additional data returned by "multi-line" POP
+ * commands, such as LIST, RETR, TOP, and UIDL. This command _must_
+ * be called after a successful (CAMEL_POP3_OK) call to
+ * camel_pop3_command for a command that has a multi-line response.
+ * The returned data is un-byte-stuffed, and has lines termined by
+ * newlines rather than CR/LF pairs.
+ *
+ * Return value: the data, which the caller must free.
+ **/
 char *
 camel_pop3_command_get_additional_data (CamelPop3Store *store)
 {
@@ -329,8 +446,9 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store)
 	}
 
 	if (status == CAMEL_POP3_OK) {
-		/* The empty string is so that we end up with a "\n"
-		 * at the end of the string.
+		/* Append an empty string to the end of the array
+		 * so when we g_strjoinv it, we get a "\n" after
+		 * the last real line.
 		 */
 		g_ptr_array_add (data, "");
 		g_ptr_array_add (data, NULL);
@@ -338,7 +456,7 @@ camel_pop3_command_get_additional_data (CamelPop3Store *store)
 	} else
 		buf = NULL;
 
-	for (i = 0; i < data->len - 1; i++)
+	for (i = 0; i < data->len - 2; i++)
 		g_free (data->pdata[i]);
 	g_ptr_array_free (data, TRUE);
 

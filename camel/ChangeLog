@@ -1,3 +1,17 @@
+2000-03-27  Dan Winship  <danw@helixcode.com>
+
+	* camel-folder.[ch]: add delete_message_by_{number,uid}.
+
+	* providers/pop3/camel-pop3-folder.[ch]: implement
+	delete_message_by_uid. Add a close method to do expunging
+	of deleted messages if requested.
+
+	* providers/pop3/camel-pop3-store.[ch]: support for
+	CamelPop3Folder::close. (You have to close the connection
+	in order to expunge the folder, thus the store may be
+	connected in the CamelService::is_connected sense when it
+	is not actually connected to the server.) Also some bugfixes.
+
 2000-03-27  NotZed  <NotZed@HelixCode.com>
 
 	* providers/mbox/camel-mbox-folder.c (_append_message): Unref the

@@ -165,6 +165,10 @@ typedef struct {
 						     gint number, 
 						     CamelException *ex);
 	
+	void (*delete_message_by_number) (CamelFolder *folder, 
+					  gint number, 
+					  CamelException *ex);
+	
 	gint   (*get_message_count)   (CamelFolder *folder, 
 				       CamelException *ex);
 
@@ -189,6 +193,10 @@ typedef struct {
 	CamelMimeMessage * (*get_message_by_uid)  (CamelFolder *folder, 
 						   const gchar *uid, 
 						   CamelException *ex);
+
+	void (*delete_message_by_uid)  (CamelFolder *folder, 
+					const gchar *uid, 
+					CamelException *ex);
 
 	GList * (*get_uid_list)  (CamelFolder *folder, 
 				  CamelException *ex);
@@ -287,6 +295,9 @@ gboolean           camel_folder_has_message_number_capability (CamelFolder *fold
 CamelMimeMessage * camel_folder_get_message_by_number (CamelFolder *folder, 
 						       gint number, 
 						       CamelException *ex);
+void               camel_folder_delete_message_by_number (CamelFolder *folder, 
+							  gint number, 
+							  CamelException *ex);
 gint               camel_folder_get_message_count     (CamelFolder *folder, 
 						       CamelException *ex);
 
@@ -297,6 +308,9 @@ const gchar *      camel_folder_get_message_uid       (CamelFolder *folder,
 						       CamelMimeMessage *message, 
 						       CamelException *ex);
 CamelMimeMessage * camel_folder_get_message_by_uid    (CamelFolder *folder, 
+						       const gchar *uid, 
+						       CamelException *ex);
+void               camel_folder_delete_message_by_uid (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);
 GList *            camel_folder_get_uid_list          (CamelFolder *folder, 

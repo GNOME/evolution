@@ -104,6 +104,9 @@ static gboolean _has_message_number_capability (CamelFolder *folder);
 static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, 
 						 gint number, 
 						 CamelException *ex);
+static void _delete_message_by_number (CamelFolder *folder, 
+				       gint number, 
+				       CamelException *ex);
 static gint _get_message_count        (CamelFolder *folder, 
 				       CamelException *ex);
 
@@ -129,6 +132,9 @@ static const gchar      *_get_message_uid    (CamelFolder *folder,
 static CamelMimeMessage *_get_message_by_uid (CamelFolder *folder, 
 					      const gchar *uid, 
 					      CamelException *ex);
+static void _delete_message_by_uid (CamelFolder *folder, 
+				    const gchar *uid, 
+				    CamelException *ex);
 
 
 
@@ -168,12 +174,14 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->has_message_number_capability = _has_message_number_capability;
 	camel_folder_class->get_message_by_number = _get_message_by_number;
+	camel_folder_class->delete_message_by_number = _delete_message_by_number;
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
 	camel_folder_class->list_permanent_flags = _list_permanent_flags;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
+	camel_folder_class->delete_message_by_uid = _delete_message_by_uid;
 	camel_folder_class->get_uid_list = _get_uid_list;
 
 	/* virtual method overload */
@@ -1098,6 +1106,35 @@ camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelExcep
 }
 
 
+static void
+_delete_message_by_number (CamelFolder *folder, gint number,
+			   CamelException *ex)
+{
+	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_message_by_number "
+			   "directly. Should be overloaded\n");
+}
+
+/**
+ * camel_folder_delete_message_by_number: delete the message
+ * corresponding to that number in the folder
+ * @folder: a CamelFolder object
+ * @number: the number of the message within the folder.
+ * 
+ * Delete the message corresponding to that number within the folder.
+ * 
+ **/
+void
+camel_folder_delete_message_by_number (CamelFolder *folder, gint number,
+				       CamelException *ex)
+{
+	g_assert (folder != NULL);
+	g_assert (camel_folder_is_open (folder));
+
+	return CF_CLASS (folder)->delete_message_by_number (folder, number,
+							    ex);
+}
+
+
 static gint
 _get_message_count (CamelFolder *folder, CamelException *ex)
 {
@@ -1352,6 +1389,34 @@ camel_folder_get_message_by_uid  (CamelFolder *folder, const gchar *uid, CamelEx
 	g_assert (camel_folder_is_open (folder));
 
 	return CF_CLASS (folder)->get_message_by_uid (folder, uid, ex);
+}
+
+static void
+_delete_message_by_uid (CamelFolder *folder, const gchar *uid,
+			CamelException *ex)
+{
+	CAMEL_LOG_WARNING ("Calling CamelFolder::delete_message_by_uid "
+			   "directly. Should be overloaded\n");
+}
+
+
+/**
+ * camel_folder_delete_message_by_uid: Delete a message by its UID in a folder
+ * @folder: the folder object
+ * @uid: the UID
+ * 
+ * Delete a message from a folder given its UID.
+ *
+ **/
+void
+camel_folder_delete_message_by_uid  (CamelFolder *folder, const gchar *uid,
+				     CamelException *ex)
+{
+	g_assert (folder != NULL);
+	g_assert (folder->has_uid_capability);
+	g_assert (camel_folder_is_open (folder));
+
+	return CF_CLASS (folder)->delete_message_by_uid (folder, uid, ex);
 }
 
 static GList *

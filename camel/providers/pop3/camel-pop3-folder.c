@@ -32,11 +32,19 @@
 #include <stdlib.h>
 
 #define CF_CLASS(o) (CAMEL_FOLDER_CLASS (GTK_OBJECT (o)->klass))
+static CamelFolderClass *parent_class;
 
+static void pop3_open (CamelFolder *folder, CamelFolderOpenMode mode,
+		       CamelException *ex);
+static void pop3_close (CamelFolder *folder, gboolean expunge,
+			CamelException *ex);
+static gboolean delete_messages (CamelFolder *folder, CamelException *ex);
 static gboolean has_message_number_capability (CamelFolder *folder);
 static CamelMimeMessage *get_message_by_number (CamelFolder *folder, 
 						gint number, 
 						CamelException *ex);
+static void delete_message_by_number (CamelFolder *folder, gint number, 
+				      CamelException *ex);
 static gint get_message_count (CamelFolder *folder, CamelException *ex);
 
 
@@ -45,12 +53,19 @@ camel_pop3_folder_class_init (CamelPop3FolderClass *camel_pop3_folder_class)
 {
 	CamelFolderClass *camel_folder_class =
 		CAMEL_FOLDER_CLASS (camel_pop3_folder_class);
-	
+
+	parent_class = gtk_type_class (camel_folder_get_type ());
+
 	/* virtual method overload */
+	camel_folder_class->open = pop3_open;
+	camel_folder_class->close = pop3_close;
+	camel_folder_class->delete_messages = delete_messages;
 	camel_folder_class->has_message_number_capability =
 		has_message_number_capability;
 	camel_folder_class->get_message_by_number =
 		get_message_by_number;
+	camel_folder_class->delete_message_by_number =
+		delete_message_by_number;
 	camel_folder_class->get_message_count =
 		get_message_count;
 }
@@ -109,6 +124,50 @@ CamelFolder *camel_pop3_folder_new (CamelStore *parent, CamelException *ex)
 	return folder;
 }
 
+static void
+pop3_open (CamelFolder *folder, CamelFolderOpenMode mode, CamelException *ex)
+{
+	camel_pop3_store_open (CAMEL_POP3_STORE (folder->parent_store), ex);
+	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE)
+		parent_class->open (folder, mode, ex);
+}
+
+static void
+pop3_close (CamelFolder *folder, gboolean expunge, CamelException *ex)
+{
+	camel_pop3_store_close (CAMEL_POP3_STORE (folder->parent_store),
+				expunge, ex);
+	if (camel_exception_get_id (ex) == CAMEL_EXCEPTION_NONE)
+		parent_class->close (folder, expunge, ex);
+}
+				
+static gboolean
+delete_messages (CamelFolder *folder, CamelException *ex)
+{
+	int msgs;
+	gboolean status;
+
+	msgs = get_message_count (folder, ex);
+	if (camel_exception_get_id (ex) != CAMEL_EXCEPTION_NONE)
+		return FALSE;
+
+	status = TRUE;
+	for (; msgs > 0; msgs--) {
+		status = status &&
+			(camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
+					     NULL, "DELE %d", msgs) ==
+			 CAMEL_POP3_OK);
+	}
+
+	if (!status) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_SERVICE_UNAVAILABLE,
+				      "Unable to delete all messages.");
+	}
+
+	return status;
+}
+
+
 static gboolean
 has_message_number_capability (CamelFolder *folder)
 {
@@ -155,8 +214,25 @@ get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 	return msg;
 }
 
+static void
+delete_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
+{
+	int status;
+	char *resp;
 
-static gint get_message_count (CamelFolder *folder, CamelException *ex)
+	status = camel_pop3_command (CAMEL_POP3_STORE (folder->parent_store),
+				     &resp, "DELE %d", number);
+	if (status != CAMEL_POP3_OK) {
+		camel_exception_setv (ex, CAMEL_EXCEPTION_FOLDER_INVALID_UID,
+				      "Unable to delete message %d%s%s",
+				      number, resp ? ": " : "",
+				      resp ? resp : "");
+	}
+	g_free (resp);
+}
+
+static gint
+get_message_count (CamelFolder *folder, CamelException *ex)
 {
 	int status, count;
 	char *result;
