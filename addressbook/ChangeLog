@@ -1,5 +1,11 @@
 2003-05-19  Chris Toshok  <toshok@ximian.com>
 
+	* backend/ebook/e-destination.c (use_default_book_cb): handle the
+	case where @book == NULL, which can happen if there was a problem
+	opening the default book.  Should fix #43005.
+	
+2003-05-19  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/addressbook-component.c
 	(ensure_completion_uris_exist): fix the initial run case.  the
 	config upgrade code creates all elements so we can't just check

@@ -1039,12 +1039,15 @@ static void
 use_default_book_cb (EBook *book, gpointer closure)
 {
 	EDestination *dest = E_DESTINATION (closure);
-	if (dest->priv->cardify_book == NULL) {
+	if (book != NULL && dest->priv->cardify_book == NULL) {
 		dest->priv->cardify_book = book;
 		g_object_ref (book);
 	}
 	
-	launch_cardify_query (dest);
+	if (dest->priv->cardify_book)
+		launch_cardify_query (dest);
+	else
+		g_object_unref (dest);
 }
 
 
