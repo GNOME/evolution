@@ -635,6 +635,8 @@ stream_connect (CamelTcpStream *stream, struct hostent *host, int port)
 			
 			return -1;
 		}
+		
+		errno = 0;
 	}
 	
 	ssl->priv->sockfd = fd;

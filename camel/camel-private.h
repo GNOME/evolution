@@ -59,16 +59,16 @@ struct _CamelFolderPrivate {
 
 struct _CamelStorePrivate {
 #ifdef ENABLE_THREADS
-	GMutex *folder_lock;	/* for locking folder operations */
-	GMutex *cache_lock;	/* for locking access to the cache */
+	EMutex *folder_lock;	/* for locking folder operations */
+	EMutex *cache_lock;	/* for locking access to the cache */
 #else
 	gpointer dummy;
 #endif
 };
 
 #ifdef ENABLE_THREADS
-#define CAMEL_STORE_LOCK(f, l) (g_mutex_lock(((CamelStore *)f)->priv->l))
-#define CAMEL_STORE_UNLOCK(f, l) (g_mutex_unlock(((CamelStore *)f)->priv->l))
+#define CAMEL_STORE_LOCK(f, l) (e_mutex_lock(((CamelStore *)f)->priv->l))
+#define CAMEL_STORE_UNLOCK(f, l) (e_mutex_unlock(((CamelStore *)f)->priv->l))
 #else
 #define CAMEL_STORE_LOCK(f, l)
 #define CAMEL_STORE_UNLOCK(f, l)

@@ -1,5 +1,11 @@
 2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* camel-store.c (camel_store_init): Make the folder_lock
+	recursive. See bug #22363 for details. Basically,
+	get_folder_info() is requesting a diary folder which in turn
+	connects which requests then calls get_folder() but deadlocks
+	because get_folder_info already holds the lock.
+
 	* camel-mime-message.c (camel_mime_message_set_date): Don't adjust
 	the timezone offset if we used tm.tm_gmtoff because it is already
 	adjusted.

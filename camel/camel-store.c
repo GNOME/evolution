@@ -129,8 +129,8 @@ camel_store_init (void *o)
 	
 	store->priv = g_malloc0 (sizeof (*store->priv));
 #ifdef ENABLE_THREADS
-	store->priv->folder_lock = g_mutex_new ();
-	store->priv->cache_lock = g_mutex_new ();
+	store->priv->folder_lock = e_mutex_new (E_MUTEX_REC);
+	store->priv->cache_lock = e_mutex_new (E_MUTEX_SIMPLE);
 #endif
 }
 
@@ -149,8 +149,8 @@ camel_store_finalize (CamelObject *object)
 	}
 	
 #ifdef ENABLE_THREADS
-	g_mutex_free (store->priv->folder_lock);
-	g_mutex_free (store->priv->cache_lock);
+	e_mutex_destroy (store->priv->folder_lock);
+	e_mutex_destroy (store->priv->cache_lock);
 #endif
 	g_free (store->priv);
 }
