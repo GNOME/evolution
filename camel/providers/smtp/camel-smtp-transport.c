@@ -159,7 +159,7 @@ smtp_connect (CamelService *service, CamelException *ex)
 
    /* get the localaddr - needed later by smtp_helo */
    addrlen = sizeof(localaddr);
-   getsockname(sock, (struct sockaddr*)&localaddr, &addrlen);
+   getsockname(fd, (struct sockaddr*)&localaddr, &addrlen);
 
 	transport->ostream = camel_stream_fs_new_with_fd (fd);
 	transport->istream = camel_stream_buffer_new (transport->ostream, 
