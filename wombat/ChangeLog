@@ -1,3 +1,7 @@
+2003-02-06  Dan Winship  <danw@ximian.com>
+
+	* Makefile.am: cleanup
+
 2003-02-01  Hans Petter Jansson  <hpj@ximian.com>
 
 	* Makefile.am: Make .server file point to where wombat is now

@@ -13,12 +13,10 @@ INCLUDES =						\
 	-I$(top_builddir)/calendar			\
 	-I$(top_srcdir)/libical/src/libical		\
 	-I$(top_builddir)/libical/src/libical		\
-	-DEVOLUTION_DATADIR=\""$(datadir)"\"            \
 	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
 	$(WOMBAT_CFLAGS)
 
-evolibexecdir = $(libexecdir)/evolution/$(BASE_VERSION)
-evolibexec_PROGRAMS =	\
+privlibexec_PROGRAMS =	\
 	evolution-wombat
 
 evolution_wombat_SOURCES = \
@@ -48,8 +46,6 @@ evolution_wombat_LDADD =						\
 	$(top_builddir)/libwombat/libwombat.la				\
 	$(WOMBAT_LIBS)
 
-serversdir = $(libdir)/bonobo/servers
-
 if ENABLE_LDAP
 SERVER_IN_FILE=GNOME_Evolution_WombatLDAP.server.in.in
 else
@@ -61,7 +57,6 @@ GNOME_Evolution_Wombat.server.in.in: $(SERVER_IN_FILE)
 
 server_in_files = GNOME_Evolution_Wombat.server.in.in
 
-serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@LIBEXECDIR\@|$(evolibexecdir)|" $< > $@
