@@ -632,8 +632,10 @@ static void
 full_cb (ECompletionView *view, gpointer user_data)
 {
 	EEntry *entry = E_ENTRY (user_data);
+	gboolean show;
 
-	e_entry_show_popup (entry, view->choices->len > 0);
+	show = GTK_WIDGET_HAS_FOCUS (GTK_WIDGET (entry->canvas)) && view->choices->len > 0;
+	e_entry_show_popup (entry, show);
 }
 
 static void
