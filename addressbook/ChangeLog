@@ -1,3 +1,8 @@
+2002-08-25  Mike Kestner  <mkestner@ximian.com>
+
+	* gui/widgets/e-addressbook-view.c (remove_book_view): stop the
+	view before unref, in case the listener has pending events.
+
 2002-08-20  Chris Toshok  <toshok@ximian.com>
 
 	* gui/component/addressbook.c (book_open_cb): not sure what i was

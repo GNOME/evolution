@@ -94,6 +94,7 @@ remove_book_view(EAddressbookModel *model)
 	model->search_in_progress = FALSE;
 
 	if (model->book_view) {
+		e_book_view_stop (model->book_view);
 		gtk_object_unref(GTK_OBJECT(model->book_view));
 	}
 
