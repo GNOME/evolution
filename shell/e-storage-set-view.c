@@ -1193,6 +1193,7 @@ tree_drag_data_received (ETree *etree,
 {
 	EStorageSetView *storage_set_view;
 	EStorageSetViewPrivate *priv;
+	gboolean handled;
 	char *target_type;
 
 	storage_set_view = E_STORAGE_SET_VIEW (etree);
@@ -1223,19 +1224,21 @@ tree_drag_data_received (ETree *etree,
 			g_print ("EStorageSetView: Moving from `%s' to `%s'\n", source_path, destination_path);
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, TRUE,
 							 folder_xfer_callback, NULL);
+			handled = TRUE;
 			break;
 		case GDK_ACTION_COPY:
 			g_print ("EStorageSetView: Copying from `%s' to `%s'\n", source_path, destination_path);
 			e_storage_set_async_xfer_folder (priv->storage_set, source_path, destination_path, FALSE,
 							 folder_xfer_callback, NULL);
+			handled = TRUE;
 			break;
 		default:
+			handled = FALSE;
 			g_warning ("EStorageSetView: Unknown action %d", context->action);
 		}
 
 		g_free (destination_path);
-	}
-	else {
+	} else {
 		GNOME_Evolution_ShellComponentDnd_DestinationFolder destination_folder_interface;
 		GNOME_Evolution_ShellComponentDnd_DestinationFolder_Context corba_context;
 		GNOME_Evolution_ShellComponentDnd_Data corba_data;
@@ -1250,7 +1253,6 @@ tree_drag_data_received (ETree *etree,
 			if (destination_folder_interface != NULL) {
 				EFolder *folder;
 				CORBA_Environment ev;
-				CORBA_boolean handled;
 
 				CORBA_exception_init (&ev);
 
@@ -1275,9 +1277,12 @@ tree_drag_data_received (ETree *etree,
 													  convert_gdk_drag_action_to_corba (context->action),
 													  &corba_data,
 													  &ev);
+
 			}
 		}
 	}
+
+	gtk_drag_finish (context, handled, FALSE, time);
 
 	g_free (target_type);
 }
