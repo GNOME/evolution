@@ -170,6 +170,7 @@ struct _EWeekView
 	GnomeCanvasItem *main_canvas_item;
 
 	GnomeCanvasItem *jump_buttons[E_WEEK_VIEW_MAX_WEEKS * 7];
+	gint focused_jump_button;
 
 	GtkWidget *vscrollbar;
 
@@ -441,6 +442,11 @@ gboolean e_week_view_find_event_from_item (EWeekView	  *week_view,
  					   GnomeCanvasItem *item,
  					   gint		  *event_num_return,
  					   gint		  *span_num_return);
+
+gboolean e_week_view_is_jump_button_visible (EWeekView *week_view,
+					     gint day);
+void e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

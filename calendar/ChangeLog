@@ -1,3 +1,10 @@
+2003-09-12  Bolian Yin <bolian.yin@sun.com>
+
+	* e-week-view.c (e_week_view_focus): make jump button focusable
+	 (e_week_view_on_jump_button_event): key_press and focus event for jump button
+	 (e_week_view_jump_to_button_item): new function, jump to the day view.
+	 (e_week_view_is_jump_button_visible): new function.
+
 2003-09-11  Hans Petter Jansson  <hpj@ximian.com>
 
 	* cal-util/Makefile.am (libcal_util_la_LIBADD):

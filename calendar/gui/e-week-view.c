@@ -82,6 +82,8 @@
 #define E_WEEK_VIEW_JUMP_BUTTON_X_PAD	3
 #define E_WEEK_VIEW_JUMP_BUTTON_Y_PAD	3
 
+#define E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS -1
+
 /* The timeout before we do a layout, so we don't do a layout for each event
    we get from the server. */
 #define E_WEEK_VIEW_LAYOUT_TIMEOUT	100
@@ -382,6 +384,8 @@ e_week_view_init (EWeekView *week_view)
 		g_signal_connect (week_view->jump_buttons[i], "event",
 				  G_CALLBACK (e_week_view_on_jump_button_event), week_view);
 	}
+	week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
+
 	gdk_pixbuf_unref (pixbuf);
 
 	/*
@@ -996,22 +1000,25 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 	EWeekView *week_view;
 	gint new_event_num;
 	gint new_span_num;
-	gint current_event_num;
-	gint current_span_num;
 	gint event_loop;
 	gboolean editable = FALSE;
+	static gint last_focus_event_num = -1, last_focus_span_num = -1;
 
 	g_return_val_if_fail (widget != NULL, FALSE);
 	g_return_val_if_fail (E_IS_WEEK_VIEW (widget), FALSE);
 
 	week_view = E_WEEK_VIEW (widget);
-	current_event_num = week_view->editing_event_num;
-	current_span_num = week_view->editing_span_num;
+
+	if (week_view->focused_jump_button == E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS) {
+		last_focus_event_num = week_view->editing_event_num;
+		last_focus_span_num = week_view->editing_span_num;
+	}
+
 	for (event_loop = 0; event_loop < week_view->events->len;
 	     ++event_loop) {
 		if (!e_week_view_get_next_tab_event (week_view, direction,
-						     current_event_num,
-						     current_span_num,
+						     last_focus_event_num,
+						     last_focus_span_num,
 						     &new_event_num,
 						     &new_span_num))
 			return FALSE;
@@ -1029,8 +1036,32 @@ e_week_view_focus (GtkWidget *widget, GtkDirectionType direction)
 							    NULL);
 		if (editable)
 			break;
-		current_event_num = new_event_num;
-		current_span_num = new_span_num;
+		else {
+			/* check if we should go to the jump button */
+
+			EWeekViewEvent *event;
+			EWeekViewEventSpan *span;
+			gint current_day;
+
+			event = &g_array_index (week_view->events,
+						EWeekViewEvent,
+						new_event_num);
+			span = &g_array_index (week_view->spans,
+					       EWeekViewEventSpan,
+					       event->spans_index + new_span_num);
+			current_day = span->start_day;
+
+			if ((week_view->focused_jump_button != current_day) &&
+			    e_week_view_is_jump_button_visible(week_view, current_day)) {
+
+				/* focus go to the jump button */
+				e_week_view_stop_editing_event (week_view);
+				gnome_canvas_item_grab_focus (week_view->jump_buttons[current_day]);
+				return TRUE;
+			}
+		}
+		last_focus_event_num = new_event_num;
+		last_focus_span_num = new_span_num;
 	}
 	return editable;
 }
@@ -3571,6 +3602,25 @@ e_week_view_unrecur_appointment (EWeekView *week_view)
 	g_object_unref (new_comp);
 }
 
+void
+e_week_view_jump_to_button_item (EWeekView *week_view, GnomeCanvasItem *item)
+{
+	gint day;
+	GnomeCalendar *calendar;
+
+	for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; ++day) {
+		if (item == week_view->jump_buttons[day]) {
+			calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
+			if (calendar)
+				gnome_calendar_dayjump
+					(calendar,
+					 week_view->day_starts[day]);
+			else
+				g_warning ("Calendar not set");
+			return;
+		}
+	}
+}
 
 static gboolean
 e_week_view_on_jump_button_event (GnomeCanvasItem *item,
@@ -3580,21 +3630,49 @@ e_week_view_on_jump_button_event (GnomeCanvasItem *item,
 	gint day;
 
 	if (event->type == GDK_BUTTON_PRESS) {
-		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
-			if (item == week_view->jump_buttons[day]) {
-				GnomeCalendar *calendar;
+		e_week_view_jump_to_button_item (week_view, item);
+		return TRUE;
+	}
+	else if (event->type == GDK_KEY_PRESS) {
+		/* return, if Tab, Control or Alt is pressed */
+		if ((event->key.keyval == GDK_Tab) ||
+		    (event->key.state & (GDK_CONTROL_MASK | GDK_MOD1_MASK)))
+			return FALSE;
+		/* with a return key or a simple character (from 0x20 to 0xff),
+		 * jump to the day
+		 */
+		if ((event->key.keyval == GDK_Return) ||
+		    ((event->key.keyval >= 0x20) &&
+		     (event->key.keyval <= 0xFF))) {
+			e_week_view_jump_to_button_item (week_view, item);
+			return TRUE;
+		}
+	}
+	else if (event->type == GDK_FOCUS_CHANGE) {
+		GdkEventFocus *focus_event = (GdkEventFocus *)event;
+		GdkPixbuf *pixbuf = NULL;
 
-				calendar = e_cal_view_get_calendar (E_CAL_VIEW (week_view));
-				if (calendar)
-					gnome_calendar_dayjump
-						(calendar,
-						 week_view->day_starts[day]);
-				else
-					g_warning ("Calendar not set");
-				return TRUE;
-			}
+		for (day = 0; day < E_WEEK_VIEW_MAX_WEEKS * 7; day++) {
+			if (item == week_view->jump_buttons[day])
+				break;
 		}
 
+		if (focus_event->in) {
+			week_view->focused_jump_button = day;
+			pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm_focused);
+			gnome_canvas_item_set (week_view->jump_buttons[day],
+					       "GnomeCanvasPixbuf::pixbuf",
+					       pixbuf, NULL);
+		}
+		else {
+			week_view->focused_jump_button = E_WEEK_VIEW_JUMP_BUTTON_NO_FOCUS;
+			pixbuf = gdk_pixbuf_new_from_xpm_data ((const char**) jump_xpm);
+			gnome_canvas_item_set (week_view->jump_buttons[day],
+					       "GnomeCanvasPixbuf::pixbuf",
+					       pixbuf, NULL);
+		}
+		if (pixbuf)
+			gdk_pixbuf_unref (pixbuf);
 	}
 
 	return FALSE;
@@ -3695,4 +3773,12 @@ e_week_view_get_num_events_selected (EWeekView *week_view)
 	return (week_view->editing_event_num != -1) ? 1 : 0;
 }
 
+gboolean
+e_week_view_is_jump_button_visible (EWeekView *week_view, gint day)
+{
+	g_return_val_if_fail (E_IS_WEEK_VIEW (week_view), FALSE);
 
+	if ((day >= 0) && (day < E_WEEK_VIEW_MAX_WEEKS * 7))
+		return week_view->jump_buttons[day]->object.flags & GNOME_CANVAS_ITEM_VISIBLE;
+	return FALSE;
+}
