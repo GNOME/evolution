@@ -378,6 +378,8 @@ e_text_init (EText *text)
 	text->model                   = e_text_model_new ();
 	text->text                    = e_text_model_get_text (text->model);
 
+	text->revert                  = NULL;
+
 	gtk_object_ref (GTK_OBJECT (text->model));
 	gtk_object_sink (GTK_OBJECT (text->model));
 
@@ -503,6 +505,7 @@ e_text_destroy (GtkObject *object)
 	g_free (text->lines);
 	g_free (text->primary_selection);
 	g_free (text->clipboard_selection);
+	g_free (text->revert);
 
 	if (text->font)
 		e_font_unref (text->font);
@@ -3062,6 +3065,8 @@ start_editing (EText *text)
 	if (text->editing)
 		return;
 
+	text->revert = g_strdup (text->text);
+
 	text->editing = TRUE;
 	if (text->pointer_in) {
 		if (text->default_cursor_shown && (!text->draw_borders)) {
@@ -3079,11 +3084,13 @@ start_editing (EText *text)
 	g_timer_start(text->timer);
 }
 
-static void
-stop_editing (EText *text)
+void
+e_text_stop_editing (EText *text)
 {
 	if (!text->editing)
 		return;
+
+	g_free (text->revert);
 
 	text->editing = FALSE;
 	if ( (!text->default_cursor_shown) && (!text->draw_borders) ) {
@@ -3095,6 +3102,13 @@ stop_editing (EText *text)
 		g_timer_destroy(text->timer);
 		text->timer = NULL;
 	}
+}
+
+void
+e_text_cancel_editing (EText *text)
+{
+	e_text_model_set_text(text->model, text->revert);
+	e_text_stop_editing (text);
 }
 
 static gboolean
@@ -3124,7 +3138,7 @@ e_text_event (GnomeCanvasItem *item, GdkEvent *event)
 			if (focus_event->in) {
 				start_editing (text);
 			} else {
-				stop_editing (text);
+				e_text_stop_editing (text);
 				if (text->timeout_id) {
 					g_source_remove(text->timeout_id);
 					text->timeout_id = 0;

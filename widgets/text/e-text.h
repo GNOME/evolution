@@ -138,6 +138,8 @@ struct _EText {
 	gpointer lines;			/* Text split into lines (private field) */
 	int num_lines;			/* Number of lines of text */
 
+	gchar *revert;                  /* Text to revert to */
+
 #if 0
 	GdkFont *font;			/* Font for text */
 #else
@@ -261,7 +263,9 @@ struct _ETextClass {
 
 
 /* Standard Gtk function */
-GtkType e_text_get_type (void);
+GtkType  e_text_get_type        (void);
+void     e_text_cancel_editing  (EText *text);
+void     e_text_stop_editing    (EText *text);
 
 END_GNOME_DECLS
 
