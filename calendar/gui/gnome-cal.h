@@ -45,12 +45,21 @@ typedef struct {
 	GnomeAppClass parent_class;
 } GnomeCalendarClass;
 
+
+typedef enum {
+  CALENDAR_OPEN,
+  CALENDAR_OPEN_OR_CREATE
+} GnomeCalendarOpenMode;
+
 guint      gnome_calendar_get_type         	(void);
 GtkWidget *gnome_calendar_new			(char *title);
-int        gnome_calendar_load                  (GnomeCalendar *gcal,
-						 char *file);
+int        gnome_calendar_open                  (GnomeCalendar *gcal,
+						 char *file,
+						 GnomeCalendarOpenMode gcom);
+/*
 int	   gnome_calendar_create		(GnomeCalendar *gcal,
 						 char *file);
+*/
 void       gnome_calendar_add_object       	(GnomeCalendar *gcal,
 						 iCalObject *obj);
 void       gnome_calendar_remove_object    	(GnomeCalendar *gcal,

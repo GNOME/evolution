@@ -1,5 +1,15 @@
 2000-04-19  Seth Alves  <alves@hungry.com>
 
+	* gui/calendar-commands.c (calendar_set_uri): calls gnome_calendar_open
+	instead of checking on disk and calling load or create.
+
+	* gui/gnome-cal.c (gnome_calendar_object_changed): fixed to use
+	cal_client_update_object -- editing and dragging events works again
+	(gnome_calendar_open): collapsed gnome_calendar_load and
+	gnome_calendar_create into this function.  added new type
+	GnomeCalendarOpenMode which has the value CALENDAR_OPEN or
+	CALENDAR_OPEN_OR_CREATE.
+
 	* gui/evolution-calendar-control.c (calendar_properties_init): create
 	a property bag for this control
 	(set_prop): callback for property sets

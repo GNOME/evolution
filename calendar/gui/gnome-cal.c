@@ -230,24 +230,13 @@ gnome_calendar_new (char *title)
 {
 	GtkWidget      *retval;
 	GnomeCalendar  *gcal;
-	/*GnomeApp       *app;*/
 
 	retval = gtk_type_new (gnome_calendar_get_type ());
-	/*app = GNOME_APP (retval);*/
+
 	gcal = GNOME_CALENDAR (retval);
-
-	/*
-	app->name = g_strdup ("calendar");
-	app->prefix = g_strconcat ("/", app->name, "/", NULL);
-	*/
-
-	/*
-	gtk_window_set_title (GTK_WINDOW (gtk_widget_get_toplevel (retval)),
-			      title);
-	*/
-
 	gcal->current_display = time_day_begin (time (NULL));
 	gcal->client = cal_client_new ();
+
 	setup_widgets (gcal);
 
 	return retval;
@@ -265,51 +254,84 @@ gnome_calendar_update_all (GnomeCalendar *cal, iCalObject *object, int flags)
 }
 
 
+typedef struct
+{
+	GnomeCalendar *gcal;
+	char *uri;
+	GnomeCalendarOpenMode gcom;
+	guint signal_handle;
+} load_or_create_data;
+
+
 static void
 gnome_calendar_load_cb (GtkWidget *cal_client,
-			gpointer something,
-			GnomeCalendar *gcal)
+			/*gpointer something,*/
+			CalClientLoadStatus success,
+			load_or_create_data *locd)
 {
-	gnome_calendar_update_all (gcal, NULL, 0);
+	g_return_if_fail (locd);
+	g_return_if_fail (GNOME_IS_CALENDAR (locd->gcal));
+
+	switch (success) {
+	case CAL_CLIENT_LOAD_SUCCESS:
+		gnome_calendar_update_all (locd->gcal, NULL, 0);
+		printf ("gnome_calendar_load_cb: success\n");
+		break;
+	case CAL_CLIENT_LOAD_ERROR:
+		printf ("gnome_calendar_load_cb: load error.\n");
+		if (locd->gcom == CALENDAR_OPEN_OR_CREATE) {
+			printf ("gnome_calendar_load_cb: trying create...\n");
+			/* FIXME: connect to the cal_loaded signal of the
+			 * CalClient and get theasynchronous notification
+			 * properly! */
+			/*gtk_signal_connect (GTK_OBJECT (gcal->client),
+					    "cal_loaded",
+					    gnome_calendar_create_cb, gcal);*/
+
+			gtk_signal_disconnect (GTK_OBJECT (locd->gcal->client),
+					       locd->signal_handle);
+
+			cal_client_create_calendar (locd->gcal->client,
+						    locd->uri);
+			gnome_calendar_update_all (locd->gcal, NULL, 0);
+		}
+		break;
+	case CAL_CLIENT_LOAD_IN_USE:
+		printf ("gnome_calendar_load_cb: in use\n");
+		break;
+	}
+
+	g_free (locd->uri);
+	g_free (locd);
 }
 
 
-
 int
-gnome_calendar_load (GnomeCalendar *gcal, char *file)
+gnome_calendar_open (GnomeCalendar *gcal,
+		     char *file,
+		     GnomeCalendarOpenMode gcom)
 {
+	load_or_create_data *locd;
+
 	g_return_val_if_fail (gcal != NULL, 0);
 	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
 	g_return_val_if_fail (file != NULL, 0);
 
-	gtk_signal_connect (GTK_OBJECT (gcal->client), "cal_loaded",
-			    gnome_calendar_load_cb, gcal);
+	locd = g_new0 (load_or_create_data, 1);
+	locd->gcal = gcal;
+	locd->uri = g_strdup (file);
+	locd->gcom = gcom;
+
+	locd->signal_handle = gtk_signal_connect (GTK_OBJECT (gcal->client),
+						  "cal_loaded",
+						  gnome_calendar_load_cb,
+						  locd);
 
 	if (cal_client_load_calendar (gcal->client, file) == FALSE){
 		printf ("Error loading calendar: %s\n", file);
 		return 0;
 	}
 
-	return 1;
-}
-
-int
-gnome_calendar_create (GnomeCalendar *gcal, char *file)
-{
-	g_return_val_if_fail (gcal != NULL, 0);
-	g_return_val_if_fail (GNOME_IS_CALENDAR (gcal), 0);
-	g_return_val_if_fail (file != NULL, 0);
-
-	/* FIXME: connect to the cal_loaded signal fo the CalClient and get the
-	 * asynchronous notification properly!
-	 */
-
-	/* if ((r = calendar_load (gcal->cal, file)) != NULL){ DELETE */
-	if (cal_client_create_calendar (gcal->client, file) == FALSE){
-		printf ("Error creating calendar: %s\n", file);
-		return 0;
-	}
-	gnome_calendar_update_all (gcal, NULL, 0);
 	return 1;
 }
 

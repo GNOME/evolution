@@ -205,6 +205,8 @@ save (CalBackend *backend)
 		/* FIX ME log */
 	        break;
 	}
+
+	printf ("cal-backend: '%s' saved\n", str_uri);
 }
 
 

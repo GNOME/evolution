@@ -617,17 +617,14 @@ void calendar_set_uri (GnomeCalendar *gcal, char *calendar_file)
 {
 	gboolean    success;
 
-	printf ("calendar_set_uri: calendar_file is '%s'\n",
-		calendar_file ? calendar_file : "NULL");
+	g_return_if_fail (gcal);
+	g_return_if_fail (calendar_file);
 
-	if (calendar_file && g_file_exists (calendar_file)) {
-		printf ("loading calendar\n");
-		success = gnome_calendar_load (gcal, calendar_file);
-	}
-	else {
-		printf ("creating calendar\n");
-		success = gnome_calendar_create (gcal, calendar_file);
-	}
+	printf ("calendar_set_uri: calendar_file is '%s'\n", calendar_file);
+
+	success = gnome_calendar_open (gcal,
+				       calendar_file,
+				       CALENDAR_OPEN_OR_CREATE);
 
 	printf ("    load or create returned %d\n", success);
 }
