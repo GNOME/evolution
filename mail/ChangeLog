@@ -1,3 +1,11 @@
+2000-12-13  Christopher James Lahey  <clahey@helixcode.com>
+
+	* folder-browser.c (my_folder_browser_init): Made the vertical
+	scrollbar always be there.
+
+	* message-list.c (message_list_get_layout): Changed the minimum
+	width of some of the pixmap column headers.
+
 2000-12-12  Christopher James Lahey  <clahey@helixcode.com>
 
 	* component-factory.c (create_view): Added a cast.

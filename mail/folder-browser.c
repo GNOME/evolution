@@ -727,6 +727,10 @@ my_folder_browser_init (GtkObject *object)
 	 */
 	fb->message_list = (MessageList *)message_list_new ();
 	fb->mail_display = (MailDisplay *)mail_display_new ();
+
+	e_scroll_frame_set_policy(E_SCROLL_FRAME(fb->message_list),
+				  GTK_POLICY_NEVER,
+				  GTK_POLICY_ALWAYS);
 	
 	gtk_signal_connect (GTK_OBJECT (fb->message_list->table),
 			    "key_press", GTK_SIGNAL_FUNC (etable_key), fb);

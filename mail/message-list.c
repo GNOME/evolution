@@ -1026,8 +1026,8 @@ message_list_get_layout (MessageList *message_list)
 	/* Default: Status, Attachments, Priority, From, Subject, Date */
 	return g_strdup ("<ETableSpecification cursor-mode=\"line\" draw-grid=\"true\">"
 			 "<ETableColumn model_col= \"0\" pixbuf=\"status\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_message_status\" compare=\"integer\" sortable=\"false\"/>"
-			 "<ETableColumn model_col= \"1\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
-			 "<ETableColumn model_col= \"2\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"20\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"1\" pixbuf=\"flagged\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_flagged\" compare=\"integer\"/>"
+			 "<ETableColumn model_col= \"2\" pixbuf=\"score\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_score\" compare=\"integer\"/>"
 			 "<ETableColumn model_col= \"3\" pixbuf=\"attachment\" expansion=\"0.0\" minimum_width=\"18\" resizable=\"false\" cell=\"render_attachment\" compare=\"integer\" sortable=\"false\"/>"
 			 "<ETableColumn model_col= \"4\" _title=\"From\" expansion=\"24.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_text\" compare=\"address_compare\"/>"
 			 "<ETableColumn model_col= \"5\" _title=\"Subject\" expansion=\"30.0\" minimum_width=\"32\" resizable=\"true\" cell=\"render_tree\" compare=\"subject_compare\"/>"
