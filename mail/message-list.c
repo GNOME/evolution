@@ -39,7 +39,7 @@
 #define COL_SUBJECT_EXPANSION (30.0)
 #define COL_SUBJECT_WIDTH_MIN (32)
 #define COL_SENT_EXPANSION    (4.0)
-#define COL_SENT_WIDTH_MIN    (1)
+#define COL_SENT_WIDTH_MIN    (32)
 #define COL_RECEIVE_EXPANSION (20.0)
 #define COL_RECEIVE_WIDTH_MIN (32)
 #define COL_TO_EXPANSION      (24.0)
@@ -243,7 +243,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_SENT:
-		retval = "sent";
+		retval = GINT_TO_POINTER (msg_info->date_sent);
 		break;
 		
 	case COL_RECEIVE:
@@ -251,7 +251,7 @@ ml_value_at (ETableModel *etm, int col, int row, void *data)
 		break;
 		
 	case COL_TO:
-		retval = "dudes@server";
+		retval = msg_info->to;
 		break;
 		
 	case COL_SIZE:
@@ -306,11 +306,11 @@ ml_duplicate_value (ETableModel *etm, int col, const void *value, void *data)
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
+	case COL_SENT:
 		return (void *) value;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_SENT:
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
@@ -331,11 +331,11 @@ ml_free_value (ETableModel *etm, int col, void *value, void *data)
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
+	case COL_SENT:
 		break;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_SENT:
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
@@ -356,11 +356,11 @@ ml_initialize_value (ETableModel *etm, int col, void *data)
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
+	case COL_SENT:
 		return NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_SENT:
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
@@ -382,11 +382,11 @@ ml_value_is_empty (ETableModel *etm, int col, const void *value, void *data)
 	case COL_ATTACHMENT:
 	case COL_DELETED:
 	case COL_UNREAD:
+	case COL_SENT:
 		return value == NULL;
 
 	case COL_FROM:
 	case COL_SUBJECT:
-	case COL_SENT:
 	case COL_RECEIVE:
 	case COL_TO:
 	case COL_SIZE:
@@ -432,6 +432,20 @@ message_list_init_images (void)
 	}
 }
 
+static char *
+filter_date (const void *data)
+{
+	time_t date = GPOINTER_TO_INT (data);
+	char buf[26], *p;
+
+	ctime_r (&date, buf);
+	p = strchr (buf, '\n');
+	if (p)
+		*p = '\0';
+
+	return g_strdup (buf);
+}
+
 static void
 message_list_init_renderers (MessageList *message_list)
 {
@@ -448,6 +462,20 @@ message_list_init_renderers (MessageList *message_list)
 		       "strikeout_column", COL_DELETED,
 		       NULL);
 	gtk_object_set(GTK_OBJECT(message_list->render_text),
+		       "bold_column", COL_UNREAD,
+		       NULL);
+
+	message_list->render_date = e_cell_text_new (
+		message_list->table_model,
+		NULL, GTK_JUSTIFY_LEFT);
+
+	gtk_object_set(GTK_OBJECT(message_list->render_date),
+		       "text_filter", filter_date,
+		       NULL);
+	gtk_object_set(GTK_OBJECT(message_list->render_date),
+		       "strikeout_column", COL_DELETED,
+		       NULL);
+	gtk_object_set(GTK_OBJECT(message_list->render_date),
 		       "bold_column", COL_UNREAD,
 		       NULL);
 
@@ -535,10 +563,10 @@ message_list_init_header (MessageList *message_list)
 
 	message_list->table_cols [COL_SENT] =
 		e_table_col_new (
-			COL_SENT, _("Sent"),
+			COL_SENT, _("Date"),
 			COL_SENT_EXPANSION, COL_SENT_WIDTH_MIN,
-			message_list->render_text,
-			g_str_compare, TRUE);
+			message_list->render_date,
+			g_int_compare, TRUE);
 	
 	message_list->table_cols [COL_RECEIVE] =
 		e_table_col_new (
@@ -576,12 +604,8 @@ message_list_init_header (MessageList *message_list)
 static char *
 message_list_get_layout (MessageList *message_list)
 {
-	if (0)
-		return g_strdup ("<ETableSpecification> <columns-shown> <column> 0 </column> <column> 1 </column> <column> 2 </column> <column> 3 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> <column> 7 </column> <column> 8 </column> <column> 9 </column> </columns-shown> <grouping> <group column=\"4\" ascending=\"1\"> <leaf column=\"5\" ascending=\"1\"/> </group> </grouping> </ETableSpecification>");
-	else {
-		/* Message status, From, Sent, Subject */
-		return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 5 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
-	}
+	/* Message status, From, Subject, Sent Date */
+	return g_strdup ("<ETableSpecification> <columns-shown> <column> 1 </column> <column> 4 </column> <column> 5 </column> <column> 6 </column> </columns-shown> <grouping> </grouping> </ETableSpecification>");
 }
 
 /*

@@ -1,3 +1,15 @@
+2000-06-01  Dan Winship  <danw@helixcode.com>
+
+	* message-list.c: Add a date column.	
+	(COL_SENT_WIDTH_MIN): Make this wider.
+	(ml_value_at): return the sent date (as a time_t) for COL_SENT.
+	(Fix COL_TO too while I'm here.) 
+	(ml_duplicate_value, ml_free_value, ml_initialize_value,
+	ml_value_is_empty): COL_SENT is numeric now.
+	(message_list_init_renderers): Create a date renderer (using
+	text_filter to translate the time_t into a string).
+	(message_list_init_header): Use render_date for COL_SENT.
+
 2000-06-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* session.c: Don't call e_setup_base_dir.

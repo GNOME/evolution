@@ -54,6 +54,7 @@ struct _MessageList {
 	ETableCol    *table_cols [COL_LAST];
 
 	ECell        *render_text;
+	ECell        *render_date;
 	ECell        *render_online_status;
 	ECell        *render_message_status;
 	ECell        *render_priority;
