@@ -1,4 +1,10 @@
 2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
+                                                                                                                             
+        * gui/component/addressbook.c (addressbook_authenticate) :
+        Remove leading "%s" from the transalatable string
+        Fixes #36137
+
+2005-01-26  Sivaiah Nallagatla <snallagatla@novell.com>
 
        * util/eab-book-util.c (strstrcase) :
        case insesitive version of strstr. Used
