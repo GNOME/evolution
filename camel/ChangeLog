@@ -1,3 +1,15 @@
+2001-08-11  Ettore Perazzoli  <ettore@ximian.com>
+
+	* providers/local/camel-spool-summary.c (summary_rebuild):
+	s/summarising/summarizing/.
+	(summary_rebuild): Likewise.
+
+	* providers/local/camel-mbox-summary.c (mbox_summary_sync_full):
+	s/summarise/summarize/.
+	(mbox_summary_sync_quick): Likewise.
+	(summary_rebuild): Likewise.
+	(mbox_summary_check): Likewise.
+
 2001-08-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-utils.c (imap_quote_string): Added an

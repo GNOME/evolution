@@ -246,12 +246,12 @@ summary_rebuild(CamelMboxSummary *mbs, off_t offset, CamelException *ex)
 	/* FIXME: If there is a failure, it shouldn't clear the summary and restart,
 	   it should try and merge the summary info's.  This is a bit tricky. */
 
-	camel_operation_start(NULL, _("Summarising folder"));
+	camel_operation_start(NULL, _("Summarizing folder"));
 
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
 		printf("%s failed to open: %s", cls->folder_path, strerror(errno));
-		camel_exception_setv(ex, 1, _("Could not open folder: %s: summarising from position %ld: %s"),
+		camel_exception_setv(ex, 1, _("Could not open folder: %s: summarizing from position %ld: %s"),
 				     cls->folder_path, offset, strerror(errno));
 		camel_operation_end(NULL);
 		return -1;
@@ -368,7 +368,7 @@ mbox_summary_check(CamelLocalSummary *cls, CamelFolderChangeInfo *changes, Camel
 	/* check if the summary is up-to-date */
 	if (stat(cls->folder_path, &st) == -1) {
 		camel_folder_summary_clear(s);
-		camel_exception_setv(ex, 1, _("Cannot summarise folder: %s: %s"), cls->folder_path, strerror(errno));
+		camel_exception_setv(ex, 1, _("Cannot summarize folder: %s: %s"), cls->folder_path, strerror(errno));
 		return -1;
 	}
 
@@ -504,7 +504,7 @@ mbox_summary_sync_full(CamelLocalSummary *cls, gboolean expunge, CamelFolderChan
 	fd = open(cls->folder_path, O_RDONLY);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open folder to summarise: %s: %s"),
+				     _("Could not open folder to summarize: %s: %s"),
 				     cls->folder_path, strerror(errno));
 		camel_operation_end(NULL);
 		return -1;
@@ -705,7 +705,7 @@ mbox_summary_sync_quick(CamelLocalSummary *cls, gboolean expunge, CamelFolderCha
 	fd = open(cls->folder_path, O_RDWR);
 	if (fd == -1) {
 		camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM,
-				     _("Could not open folder to summarise: %s: %s"),
+				     _("Could not open folder to summarize: %s: %s"),
 				     cls->folder_path, strerror(errno));
 
 		camel_operation_end(NULL);
