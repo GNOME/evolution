@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: evolution.HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-02 10:24+0200\n"
-"PO-Revision-Date: 2004-07-03 12:49+0200\n"
+"POT-Creation-Date: 2004-07-08 10:17+0200\n"
+"PO-Revision-Date: 2004-07-08 12:09+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
@@ -121,10 +121,22 @@ msgstr "E pamundur heqja e rubrikës."
 #. addressbook:generic-error primary
 #. addressbook:load-error secondary
 #. addressbook:search-error secondary
+#. mail:session-message-info secondary
+#. mail:session-message-info-cancel secondary
+#. mail:session-message-warning secondary
+#. mail:session-message-warning-cancel secondary
+#. mail:session-message-error secondary
+#. mail:session-message-error-cancel secondary
+#. mail:ask-session-password secondary
+#. mail:filter-load-error secondary
 #: addressbook/addressbook-errors.xml.h:22
 #: addressbook/addressbook-errors.xml.h:26
 #: addressbook/addressbook-errors.xml.h:34
-#: addressbook/addressbook-errors.xml.h:38
+#: addressbook/addressbook-errors.xml.h:38 mail/mail-errors.xml.h:70
+#: mail/mail-errors.xml.h:72 mail/mail-errors.xml.h:74
+#: mail/mail-errors.xml.h:76 mail/mail-errors.xml.h:78
+#: mail/mail-errors.xml.h:80 mail/mail-errors.xml.h:84
+#: mail/mail-errors.xml.h:88
 msgid "{0}"
 msgstr "{0}"
 
@@ -135,8 +147,9 @@ msgstr "Editori i kategorive nuk është disponibël."
 
 #. addressbook:generic-error secondary
 #. mail-composer:no-attach secondary
+#. mail:no-save-path secondary
 #: addressbook/addressbook-errors.xml.h:28
-#: composer/mail-composer-errors.xml.h:4
+#: composer/mail-composer-errors.xml.h:4 mail/mail-errors.xml.h:92
 msgid "{1}"
 msgstr "{1}"
 
@@ -512,6 +525,7 @@ msgid "636"
 msgstr "636"
 
 #: addressbook/gui/component/ldap-config.glade.h:7
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
 msgid "<b>Authentication</b>"
 msgstr "<b>Identifikimi</b>"
 
@@ -1409,7 +1423,6 @@ msgstr "Gjeorgjia"
 msgid "Germany"
 msgstr "Gjermania"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:217
 msgid "Ghana"
 msgstr "Ghana"
@@ -1654,7 +1667,6 @@ msgstr "Mayotte"
 msgid "Mexico"
 msgstr "Meksika"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:278
 msgid "Micronesia"
 msgstr "Mikronezia"
@@ -1703,7 +1715,6 @@ msgstr "Nepali"
 msgid "Netherlands"
 msgstr "Hollanda"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:290
 msgid "Netherlands Antilles"
 msgstr "Antillet Hollandeze"
@@ -1720,7 +1731,6 @@ msgstr "Zelanda e Re"
 msgid "Nicaragua"
 msgstr "Nikaragua"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:294
 msgid "Niger"
 msgstr "Nigjeri"
@@ -1993,7 +2003,6 @@ msgstr "Tuvalu"
 msgid "Uganda"
 msgstr "Uganda"
 
-#. GRUT modified this item
 #: addressbook/gui/contact-editor/e-contact-editor-address.c:362
 msgid "Ukraine"
 msgstr "Ukrahina"
@@ -3432,7 +3441,9 @@ msgstr "Provuesi i Editorit të stilit të printimit të kontakteve"
 
 #: addressbook/printing/test-contact-print-style-editor.c:56
 msgid "This should test the contact print style editor widget"
-msgstr "Kjo duhet të kontrollojë instrumentin e edituesit të stilit të printimit të kontakteve"
+msgstr ""
+"Kjo duhet të kontrollojë instrumentin e edituesit të stilit të printimit të "
+"kontakteve"
 
 #: addressbook/printing/test-print.c:52
 msgid "Contact Print Test"
@@ -3493,8 +3504,8 @@ msgstr "NUMRI"
 #: addressbook/tools/evolution-addressbook-export.c:91
 msgid "Command line arguments error, please use --help option to see the usage."
 msgstr ""
-"Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për "
-"të shikuar përdorimin."
+"Gabim në argumentet e rreshtit të komandës, përdor opcionin --help për të "
+"shikuar përdorimin."
 
 #: addressbook/tools/evolution-addressbook-export.c:105
 msgid "Only support csv or vcard format."
@@ -3540,8 +3551,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the meeting is canceled."
 msgstr ""
-"Nëse nuk dërgoni një njoftim anullimi, pjesmarrësit e tjerë ndoshta nuk e dinë "
-"që takimi është anulluar."
+"Nëse nuk dërgoni një njoftim anullimi, pjesmarrësit e tjerë ndoshta nuk e "
+"dinë që takimi është anulluar."
 
 #: calendar/calendar-errors.xml.h:5 calendar/calendar-errors.xml.h:15
 #: calendar/calendar-errors.xml.h:25 calendar/calendar-errors.xml.h:79
@@ -3564,8 +3575,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni këtë mbledhje?"
 #: calendar/calendar-errors.xml.h:10
 msgid "All information on this meeting will be deleted and can not be restored."
 msgstr ""
-"Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të "
-"jenë më të rekuperueshme."
+"Të gjitha informacionet mbi këtë mbledhje do të fshihen dhe nuk do të jenë "
+"më të rekuperueshme."
 
 #. calendar:prompt-cancel-task secondary
 #: calendar/calendar-errors.xml.h:14
@@ -3588,13 +3599,15 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni këtë aktivitet?"
 #: calendar/calendar-errors.xml.h:46
 msgid "All information on this task will be deleted and can not be restored."
 msgstr ""
-"Të gjitha informacionet mbi këtë aktivitet do të eleminohen dhe ai nuk "
-"mund të rekuperohet."
+"Të gjitha informacionet mbi këtë aktivitet do të eleminohen dhe ai nuk mund "
+"të rekuperohet."
 
 #. calendar:prompt-cancel-journal primary
 #: calendar/calendar-errors.xml.h:22
 msgid "Would you like to send a cancellation notice for this journal entry?"
-msgstr "Jeni i sigurt që dëshironi të dërgoni një njoftim fshirje mbi këtë zë të ditarit?"
+msgstr ""
+"Jeni i sigurt që dëshironi të dërgoni një njoftim fshirje mbi këtë zë të "
+"ditarit?"
 
 #. calendar:prompt-cancel-journal secondary
 #: calendar/calendar-errors.xml.h:24
@@ -3602,8 +3615,8 @@ msgid ""
 "If you don't send a cancellation notice, the other participants may not know "
 "the journal has been deleted."
 msgstr ""
-"Nëse nuk dërgoni një njoftim fshirje, pjesmarrësit e tjerë nuk mund t'a marrin "
-"vesh që ditari është fshirë."
+"Nëse nuk dërgoni një njoftim fshirje, pjesmarrësit e tjerë nuk mund t'a "
+"marrin vesh që ditari është fshirë."
 
 #. calendar:prompt-delete-journal primary
 #: calendar/calendar-errors.xml.h:28 calendar/calendar-errors.xml.h:52
@@ -3629,8 +3642,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni takimin me titull '{0}'?"
 #: calendar/calendar-errors.xml.h:34 calendar/calendar-errors.xml.h:38
 msgid "All information on this appointment will be deleted and can not be restored."
 msgstr ""
-"Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe "
-"nuk do të jenë më të rekuperueshme."
+"Të gjitha informacionet e përmbajtura në këtë takim do të fshihen dhe nuk do "
+"të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-appointment primary
 #: calendar/calendar-errors.xml.h:36
@@ -3652,8 +3665,8 @@ msgstr "Jeni i sigurt që dëshironi të eleminoni zërin e ditarit '{0}'?"
 #: calendar/calendar-errors.xml.h:50 calendar/calendar-errors.xml.h:54
 msgid "All information in this journal will be deleted and can not be restored."
 msgstr ""
-"Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe "
-"nuk do të jenë më të rekuperueshme."
+"Të gjitha informacionet e përmbajtura në këtë ditar do të fshihen dhe nuk do "
+"të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-appointments primary
 #: calendar/calendar-errors.xml.h:56
@@ -3666,8 +3679,8 @@ msgid ""
 "All information on these appointments will be deleted and can not be "
 "restored."
 msgstr ""
-"Të gjitha informacionet e përmbajtura në këto takime do të fshihen dhe "
-"nuk do të jenë më të rekuperueshme."
+"Të gjitha informacionet e përmbajtura në këto takime do të fshihen dhe nuk "
+"do të jenë më të rekuperueshme."
 
 #. calendar:prompt-delete-tasks primary
 #: calendar/calendar-errors.xml.h:60
@@ -3726,7 +3739,9 @@ msgstr "Dëshironi t'i dërgoni një ftesë mbledhjeje pjesmarrësve?"
 #. calendar:prompt-meeting-invite secondary
 #: calendar/calendar-errors.xml.h:78
 msgid "Email invitations will be sent to all participants and allow them to RSVP."
-msgstr "Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata në RSVP."
+msgstr ""
+"Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'i lejojë ata "
+"në RSVP."
 
 #: calendar/calendar-errors.xml.h:80 calendar/calendar-errors.xml.h:86
 #: calendar/calendar-errors.xml.h:92 calendar/calendar-errors.xml.h:98
@@ -3745,8 +3760,8 @@ msgid ""
 "Sending updated information allows other participants to keep their "
 "calendars up to date."
 msgstr ""
-"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë "
-"të rifreskuar kalendarët e tyre."
+"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë të "
+"rifreskuar kalendarët e tyre."
 
 #. calendar:prompt-send-task primary
 #: calendar/calendar-errors.xml.h:88
@@ -3759,8 +3774,8 @@ msgid ""
 "Email invitations will be sent to all participants and allow them to accept "
 "this task."
 msgstr ""
-"Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'ju japë mundësinë "
-"të pranojnë këtë aktivitet."
+"Mesazhi ftues do t'u dërgohet të gjithë pjesmarrësve dhe do t'ju japë "
+"mundësinë të pranojnë këtë aktivitet."
 
 #. calendar:prompt-send-updated-task-info primary
 #: calendar/calendar-errors.xml.h:94
@@ -3773,8 +3788,8 @@ msgid ""
 "Sending updated information allows other participants to keep their task "
 "lists up to date."
 msgstr ""
-"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë "
-"të rifreskuar listën e aktiviteteve të tyre."
+"Dërgimi i informacioneve të rifreskuara u mundëson pjesmarrësve të mbajnë të "
+"rifreskuar listën e aktiviteteve të tyre."
 
 #. calendar:tasks-crashed primary
 #: calendar/calendar-errors.xml.h:100
@@ -4153,7 +4168,7 @@ msgstr "Jo korrispondues"
 
 #: calendar/gui/calendar-commands.c:117 calendar/gui/calendar-component.c:552
 #: calendar/gui/dialogs/select-source-dialog.c:108
-#: calendar/gui/gnome-cal.c:1827
+#: calendar/gui/gnome-cal.c:1826
 #: camel/providers/groupwise/camel-gw-listener.c:311
 #: camel/providers/groupwise/camel-gw-listener.c:334
 msgid "Calendar"
@@ -4165,9 +4180,9 @@ msgid ""
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
-"Ky veprim eleminon përfundimisht të gjitha ngjarjet më të vjetra se "
-"periudha e kohës së përcaktuar. Nëse vazhdoni, nuk mund t'i rekuperoni "
-"më këto ngjarje."
+"Ky veprim eleminon përfundimisht të gjitha ngjarjet më të vjetra se periudha "
+"e kohës së përcaktuar. Nëse vazhdoni, nuk mund t'i rekuperoni më këto "
+"ngjarje."
 
 #: calendar/gui/calendar-commands.c:358
 msgid "Purge events older than"
@@ -5548,53 +5563,45 @@ msgstr "Ska_dimi:"
 msgid "_Group:"
 msgstr "_Grupi:"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:2
-msgid "Authentication Credentials for HTTP Server"
-msgstr "Kreditë e autentifikimit për serverin HTTP"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:3
-msgid "Calendars selected for publishing"
-msgstr "Kalendarët e zgjedhur për publikim"
+msgid "<b>Free/Busy C_alendars</b>"
+msgstr "<b>Kalendarët e disponibilitetit</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:4
-msgid "Daily"
-msgstr "Ditor"
+msgid "<b>Publishing Frequency</b>"
+msgstr "<b>Frekuenca e publikimit</b>"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:5
+msgid "<b>Publishing _Location</b>"
+msgstr "<b>_Vendi për publikimin</b>"
+
+#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
 msgid "Free/Busy Editor"
 msgstr "Ndrysho disponibilitetin"
 
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:6
-msgid "Free/Busy Publishing Location"
-msgstr "Vendi për publikimin e disponibilitetit"
-
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:7
-msgid "Login name:"
-msgstr "Emri i login:"
+msgid "_Daily"
+msgstr "_Ditor"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:8
-msgid "Password:"
-msgstr "Fjalëkalimi:"
+msgid "_Manual"
+msgstr "_Manual"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:9
-msgid "Publishing Frequency"
-msgstr "Frekuenca e publikimit"
+msgid "_Password:"
+msgstr "_Fjalëkalimi:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:10
-msgid "Remember password"
-msgstr "Kujto fjalëkalimin"
+msgid "_Remember password"
+msgstr "_Kujto fjalëkalimin"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:11
-msgid "URL:"
-msgstr "URL:"
+msgid "_Username:"
+msgstr "_Përdoruesi:"
 
 #: calendar/gui/dialogs/url-editor-dialog.glade.h:12
-msgid "User Publishes"
-msgstr "Përdoruesi publikon"
-
-#: calendar/gui/dialogs/url-editor-dialog.glade.h:13
-msgid "Weekly"
-msgstr "Çdo javë"
+msgid "_Weekly"
+msgstr "_Javor"
 
 #: calendar/gui/e-alarm-list.c:395
 #, c-format
@@ -5784,7 +5791,7 @@ msgstr "Jo"
 #: camel/providers/imap4/camel-imap4-engine.c:1436
 #: camel/providers/imap4/camel-imap4-engine.c:1476
 #: camel/providers/imap4/camel-imap4-store.c:1255
-#: camel/providers/imap4/camel-imap4-utils.c:293
+#: camel/providers/imap4/camel-imap4-utils.c:457
 #: camel/providers/smtp/camel-smtp-transport.c:172
 #: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1120
 #: shell/e-component-registry.c:207 shell/e-component-registry.c:211
@@ -6472,7 +6479,9 @@ msgstr "Kjo përgjigje nuk vjen nga një pjesmarrës aktual.  T'a shtoj si pjesm
 
 #: calendar/gui/e-itip-control.c:1825
 msgid "Attendee status could not be updated because of an invalid status!\n"
-msgstr "Gjendja e pjesmarrësit nuk mund të rifreskohet për shkak të një gjendje të pavlefshme!\n"
+msgstr ""
+"Gjendja e pjesmarrësit nuk mund të rifreskohet për shkak të një gjendje të "
+"pavlefshme!\n"
 
 #: calendar/gui/e-itip-control.c:1842
 msgid "Attendee status updated\n"
@@ -6863,8 +6872,8 @@ msgid ""
 "\n"
 "Please be patient while Evolution migrates your folders..."
 msgstr ""
-"Vendodhja dhe gjerarkia e kartelave të aktiviteteve të Evolution ka ndryshuar "
-"që nga Evolution 1.x.\n"
+"Vendodhja dhe gjerarkia e kartelave të aktiviteteve të Evolution ka "
+"ndryshuar që nga Evolution 1.x.\n"
 "\n"
 "Durim sa Evolution të migrojë kartelat tuaja..."
 
@@ -7163,7 +7172,9 @@ msgstr "Rifreskimi i aktiviteteve dështoi."
 #: calendar/gui/tasks-component.c:749
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
-msgstr "E pamundur hapja e listës së aktiviteve '%s' për të krijuar ngjarje dhe mbledhje"
+msgstr ""
+"E pamundur hapja e listës së aktiviteve '%s' për të krijuar ngjarje dhe "
+"mbledhje"
 
 #: calendar/gui/tasks-component.c:761
 msgid "There is no calendar available for creating tasks"
@@ -7200,8 +7211,9 @@ msgid ""
 "\n"
 "Really erase these tasks?"
 msgstr ""
-"Ky operacion do të eleminojë përfundimisht të gjitha aktivitetet e shënuara si të "
-"plotësuara. Nëse vazhdoni, nuk do të jeni më në gjendje t'i rekuperoni.\n"
+"Ky operacion do të eleminojë përfundimisht të gjitha aktivitetet e shënuara "
+"si të plotësuara. Nëse vazhdoni, nuk do të jeni më në gjendje t'i "
+"rekuperoni.\n"
 "\n"
 "Eleminoj aktivitetet?"
 
@@ -9124,7 +9136,9 @@ msgstr "I pamundur verifikimi i firmës së mesazhit: Format i pavlefshëm mesaz
 #: camel/camel-gpg-context.c:1420
 #, c-format
 msgid "Cannot verify message signature: could not create temp file: %s"
-msgstr "I pamundur verifikimi i firmës së mesazhit: nuk arrij të krijoj file të përkohshëm: %s"
+msgstr ""
+"I pamundur verifikimi i firmës së mesazhit: nuk arrij të krijoj file të "
+"përkohshëm: %s"
 
 #: camel/camel-gpg-context.c:1508
 #, c-format
@@ -9171,7 +9185,9 @@ msgstr "I pamundur krijimi i file të bllokimit për %s: %s"
 #: camel/camel-lock.c:154
 #, c-format
 msgid "Timed out trying to get lock file on %s. Try again later."
-msgstr "Koha skadoi gjatë përpjekjes për të marrë file e lock tek %s. Riprovo më vonë."
+msgstr ""
+"Koha skadoi gjatë përpjekjes për të marrë file e lock tek %s. Riprovo më "
+"vonë."
 
 #: camel/camel-lock.c:209
 #, c-format
@@ -9181,101 +9197,101 @@ msgstr "Marrja e lock duke përdorur fcntl(2) dështoi: %s"
 #: camel/camel-lock.c:272
 #, c-format
 msgid "Failed to get lock using flock(2): %s"
-msgstr ""
+msgstr "Marrja e lock duke përdorur flock(2) dështoi: %s"
 
 #: camel/camel-movemail.c:107
 #, c-format
 msgid "Could not check mail file %s: %s"
-msgstr ""
+msgstr "I pamundur kontrolli i file mail %s: %s"
 
 #: camel/camel-movemail.c:120
 #, c-format
 msgid "Could not open mail file %s: %s"
-msgstr ""
+msgstr "E pamundur hapja e file mail %s: %s"
 
 #: camel/camel-movemail.c:128
 #, c-format
 msgid "Could not open temporary mail file %s: %s"
-msgstr ""
+msgstr "E pamundur hapja e file të përkohshëm mail %s: %s"
 
 #: camel/camel-movemail.c:157
 #, c-format
 msgid "Failed to store mail in temp file %s: %s"
-msgstr ""
+msgstr "I pamundur magazinimi i mail në file e përkohshëm %s: %s"
 
 #: camel/camel-movemail.c:187
 #, c-format
 msgid "Could not create pipe: %s"
-msgstr ""
+msgstr "I pamundur krijimi i pipe: %s"
 
 #: camel/camel-movemail.c:199
 #, c-format
 msgid "Could not fork: %s"
-msgstr ""
+msgstr "E pamundur kryerja e fork: %s"
 
 #: camel/camel-movemail.c:237
 #, c-format
 msgid "Movemail program failed: %s"
-msgstr ""
+msgstr "Programi i lëvizjes së mail dështoi: %s"
 
 #: camel/camel-movemail.c:238
 msgid "(Unknown error)"
-msgstr ""
+msgstr "(Gabim i panjohur)"
 
 #: camel/camel-movemail.c:261
 #, c-format
 msgid "Error reading mail file: %s"
-msgstr ""
+msgstr "Gabim gjatë leximit të file mail: %s"
 
 #: camel/camel-movemail.c:272
 #, c-format
 msgid "Error writing mail temp file: %s"
-msgstr ""
+msgstr "Gabim gjatë shkrimit të file të përkohshëm mail: %s"
 
 #: camel/camel-movemail.c:465 camel/camel-movemail.c:532
 #, c-format
 msgid "Error copying mail temp file: %s"
-msgstr ""
+msgstr "Gabim gjatë kopjimit të file të përkohshëm mail: %s"
 
 #: camel/camel-multipart-encrypted.c:229 camel/camel-multipart-encrypted.c:244
 msgid "Failed to decrypt MIME part: protocol error"
-msgstr ""
+msgstr "Dekriptimi i pjesës MIME dështoi: gabim i protokollit"
 
 #: camel/camel-multipart-encrypted.c:257
 msgid "Failed to decrypt MIME part: invalid structure"
-msgstr ""
+msgstr "Dekriptimi i pjesës MIME dështoi: strukturë e pavlefshme"
 
 #: camel/camel-multipart-signed.c:673 camel/camel-multipart-signed.c:724
 msgid "parse error"
-msgstr ""
+msgstr "gabim analizimi"
 
 #: camel/camel-provider.c:59
 msgid "Virtual folder email provider"
-msgstr ""
+msgstr "Fornizues kartelash virtuale email"
 
 #: camel/camel-provider.c:61
 msgid "For reading mail as a query of another set of folders"
-msgstr ""
+msgstr "Për të lexuar postën si një kërkim i të përbashkët tjetër kartelash"
 
 #: camel/camel-provider.c:172
 #, c-format
 msgid "Could not load %s: Module loading not supported on this system."
-msgstr ""
+msgstr "I pamundur ngarkimi i %s: ky sistem nuk suporton ngarkimin e një moduli."
 
 #: camel/camel-provider.c:181
 #, c-format
 msgid "Could not load %s: %s"
-msgstr ""
+msgstr "I pamundur ngarkimi i %s: %s"
 
 #: camel/camel-provider.c:189
 #, c-format
 msgid "Could not load %s: No initialization code in module."
-msgstr ""
+msgstr "I pamundur ngarkimi i %s: asnjë kod fillues në modul."
 
 #: camel/camel-provider.c:356 camel/camel-session.c:160
 #, c-format
 msgid "No provider available for protocol `%s'"
-msgstr ""
+msgstr "Asnjë fornizues në dispozicion për protokollin `%s'"
 
 #: camel/camel-sasl-anonymous.c:35
 msgid "Anonymous"
@@ -9283,11 +9299,11 @@ msgstr "Anonim"
 
 #: camel/camel-sasl-anonymous.c:37
 msgid "This option will connect to the server using an anonymous login."
-msgstr ""
+msgstr "Me këtë opcion lidhesh në server duke u futur si anonim."
 
 #: camel/camel-sasl-anonymous.c:112 camel/camel-sasl-plain.c:87
 msgid "Authentication failed."
-msgstr ""
+msgstr "Autentifikimi dështoi."
 
 #: camel/camel-sasl-anonymous.c:121
 #, c-format
@@ -9295,6 +9311,8 @@ msgid ""
 "Invalid email address trace information:\n"
 "%s"
 msgstr ""
+"Informacione të pavlefshme të gjurmës së adresës email:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:133
 #, c-format
@@ -9302,6 +9320,8 @@ msgid ""
 "Invalid opaque trace information:\n"
 "%s"
 msgstr ""
+"Informacione të pavlefshme të gjurmës opake:\n"
+"%s"
 
 #: camel/camel-sasl-anonymous.c:145
 #, c-format
@@ -9309,132 +9329,148 @@ msgid ""
 "Invalid trace information:\n"
 "%s"
 msgstr ""
+"Informacione të pavlefshme të gjurmës:\n"
+"%s"
 
 #: camel/camel-sasl-cram-md5.c:35
 msgid "CRAM-MD5"
-msgstr ""
+msgstr "CRAM-MD5"
 
 #: camel/camel-sasl-cram-md5.c:37
 msgid ""
 "This option will connect to the server using a secure CRAM-MD5 password, if "
 "the server supports it."
 msgstr ""
+"Me këtë opcion lidheni në server duke përdorur një fjalëkalim të sigurt CRAM-MD5, "
+"nëse serveri e suporton."
 
 #: camel/camel-sasl-digest-md5.c:48
 msgid "DIGEST-MD5"
-msgstr ""
+msgstr "DIGEST-MD5"
 
 #: camel/camel-sasl-digest-md5.c:50
 msgid ""
 "This option will connect to the server using a secure DIGEST-MD5 password, "
 "if the server supports it."
 msgstr ""
+"Me këtë opcion lidheni në server duke përdorur një fjalëkalim të sigurt DIGEST-MD5, "
+"nëse serveri e suporton."
 
 #: camel/camel-sasl-digest-md5.c:813
 msgid "Server challenge too long (>2048 octets)\n"
-msgstr ""
+msgstr "Server challenge tepër i gjatë (>2048 octets)\n"
 
 #: camel/camel-sasl-digest-md5.c:822
 msgid "Server challenge invalid\n"
-msgstr ""
+msgstr "Server challenge i pavlefshëm\n"
 
 #: camel/camel-sasl-digest-md5.c:828
 msgid "Server challenge contained invalid \"Quality of Protection\" token\n"
-msgstr ""
+msgstr "Server challenge përmbante një token \"Quality of Protection\" të pavlefshëm\n"
 
 #: camel/camel-sasl-digest-md5.c:850
 msgid "Server response did not contain authorization data\n"
-msgstr ""
+msgstr "Përgjigja nga serveri nuk përmban të dhënat e autorizimit\n"
 
 #: camel/camel-sasl-digest-md5.c:868
 msgid "Server response contained incomplete authorization data\n"
-msgstr ""
+msgstr "Përgjigja nga serveri përmban të dhëna autorizimi jo të plota\n"
 
 #: camel/camel-sasl-digest-md5.c:878
 msgid "Server response does not match\n"
-msgstr ""
+msgstr "Përgjigja e serverit nuk korrispondon\n"
 
 #: camel/camel-sasl-gssapi.c:48
 msgid "GSSAPI"
-msgstr ""
+msgstr "GSSAPI"
 
 #: camel/camel-sasl-gssapi.c:50
 msgid "This option will connect to the server using Kerberos 5 authentication."
-msgstr ""
+msgstr "Me këtë opcion lidheni në server duke përdorur autentifikimin Kerberos 5."
 
 #: camel/camel-sasl-gssapi.c:148
 msgid ""
 "The specified mechanism is not supported by the provided credential, or is "
 "unrecognized by the implementation."
 msgstr ""
+"Mekanizmi i specifikuar nuk është i suportuar nga kredencialet e dhëna, ose "
+"nuk është njohur nga implementimi."
 
 #: camel/camel-sasl-gssapi.c:153
 msgid "The provided target_name parameter was ill-formed."
-msgstr ""
+msgstr "Parametri target_name i dhënë ishte i keqformuar."
 
 #: camel/camel-sasl-gssapi.c:156
 msgid ""
 "The provided target_name parameter contained an invalid or unsupported type "
 "of name."
 msgstr ""
+"Parametri target_name i dhënë përmbante një lloj emri të pavlefshëm apo "
+"të pasuportuar."
 
 #: camel/camel-sasl-gssapi.c:160
 msgid ""
 "The input_token contains different channel bindings to those specified via "
 "the input_chan_bindings parameter."
 msgstr ""
+"input_token përmban lidhje kanali të ndryshme nga ato të specifikuara me anë "
+"të parametrit input_chan_bindings."
 
 #: camel/camel-sasl-gssapi.c:165
 msgid ""
 "The input_token contains an invalid signature, or a signature that could not "
 "be verified."
 msgstr ""
+"input_token përmban një firmë të pavlefshme, ose një firmë që nuk mund "
+"të verifikohet."
 
 #: camel/camel-sasl-gssapi.c:169
 msgid ""
 "The supplied credentials were not valid for context initiation, or the "
 "credential handle did not reference any credentials."
 msgstr ""
+"Kredencialet e dhëna nuk ishin të vlefshme për fillimin e përmbajtjes, ose "
+"handle e kredencialit nuk ka të bëjë me asnjë kredencial."
 
 #: camel/camel-sasl-gssapi.c:174
 msgid "The supplied context handle did not refer to a valid context."
-msgstr ""
+msgstr "Handle e përmbajtjes së dhënë nuk i referohet një konteksti të vlefshëm."
 
 #: camel/camel-sasl-gssapi.c:177
 msgid "The consistency checks performed on the input_token failed."
-msgstr ""
+msgstr "Kontrolli i konsistencës kryer tek input_token dështoi."
 
 #: camel/camel-sasl-gssapi.c:180
 msgid "The consistency checks performed on the credential failed."
-msgstr ""
+msgstr "Kontrolli i konsistencës kryer tek kredenciali dështoi."
 
 #: camel/camel-sasl-gssapi.c:183
 msgid "The referenced credentials have expired."
-msgstr ""
+msgstr "Kredencialet referues kanë skaduar."
 
 #: camel/camel-sasl-gssapi.c:189 camel/camel-sasl-gssapi.c:238
 #: camel/camel-sasl-gssapi.c:274 camel/camel-sasl-gssapi.c:289
 #: camel/camel-sasl-kerberos4.c:219
 #: camel/providers/imap/camel-imap-store.c:1236
 msgid "Bad authentication response from server."
-msgstr ""
+msgstr "Përgjigje e pavlefshme autentifikimi nga serveri."
 
 #: camel/camel-sasl-gssapi.c:213
 #, c-format
 msgid "Failed to resolve host `%s': %s"
-msgstr ""
+msgstr "Zgjidhja e host `%s' dështoi: %s"
 
 #: camel/camel-sasl-gssapi.c:299
 msgid "Unsupported security layer."
-msgstr ""
+msgstr "Nivel sigurie i pasuportuar."
 
 #: camel/camel-sasl-kerberos4.c:41
 msgid "Kerberos 4"
-msgstr ""
+msgstr "Kerberos 4"
 
 #: camel/camel-sasl-kerberos4.c:43
 msgid "This option will connect to the server using Kerberos 4 authentication."
-msgstr ""
+msgstr "Me këtë opcion lidheni me serverin duke përdorur Kerberos 4 për autentifikimin."
 
 #: camel/camel-sasl-kerberos4.c:162
 #, c-format
@@ -9442,109 +9478,113 @@ msgid ""
 "Could not get Kerberos ticket:\n"
 "%s"
 msgstr ""
+"E pamundur marrja e ticket të Kerberos:\n"
+"%s"
 
 #: camel/camel-sasl-login.c:32
 msgid "Login"
-msgstr ""
+msgstr "Futu"
 
 #: camel/camel-sasl-login.c:34 camel/camel-sasl-plain.c:34
 msgid "This option will connect to the server using a simple password."
-msgstr ""
+msgstr "Me këtë opcion lidheni me serverin duke përdorur një fjalëkalim të thjeshtë."
 
 #: camel/camel-sasl-login.c:127
 msgid "Unknown authentication state."
-msgstr ""
+msgstr "Gjendje autentifikimi e panjohur."
 
 #: camel/camel-sasl-ntlm.c:31
 msgid "NTLM / SPA"
-msgstr ""
+msgstr "NTLM / SPA"
 
 #: camel/camel-sasl-ntlm.c:33
 msgid ""
 "This option will connect to a Windows-based server using NTLM / Secure "
 "Password Authentication."
 msgstr ""
+"Me këtë opcion do të lidheni me një server Windows duke përdorur NTLM / Secure "
+"Password Authentication."
 
 #: camel/camel-sasl-plain.c:32
 msgid "PLAIN"
-msgstr ""
+msgstr "E PA FSHEHUR"
 
 #: camel/camel-sasl-popb4smtp.c:36
 msgid "POP before SMTP"
-msgstr ""
+msgstr "POP para SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:38
 msgid "This option will authorise a POP connection before attempting SMTP"
-msgstr ""
+msgstr "Me këtë opcion autorizohet një lidhje POP para se të provohet SMTP"
 
 #: camel/camel-sasl-popb4smtp.c:103
 msgid "POP Source URI"
-msgstr ""
+msgstr "URI Burimit POP"
 
 #: camel/camel-sasl-popb4smtp.c:106
 msgid "POP Before SMTP auth using an unknown transport"
-msgstr ""
+msgstr "Autorizim POP para SMTP duke përdorur një transport të panjohur"
 
 #: camel/camel-sasl-popb4smtp.c:111
 msgid "POP Before SMTP auth using a non-pop source"
-msgstr ""
+msgstr "Autorizim POP para SMTP duke përdorur një burim jo pop"
 
 #: camel/camel-search-private.c:114
 #, c-format
 msgid "Regular expression compilation failed: %s: %s"
-msgstr ""
+msgstr "Kompilimi i shprehjes së rregullt dështoi: %s: %s"
 
 #: camel/camel-service.c:271
 #, c-format
 msgid "URL '%s' needs a username component"
-msgstr ""
+msgstr "URL '%s' ka nevojë për një përbërës username"
 
 #: camel/camel-service.c:275
 #, c-format
 msgid "URL '%s' needs a host component"
-msgstr ""
+msgstr "URL '%s' ka nevojë për një përbërës host"
 
 #: camel/camel-service.c:279
 #, c-format
 msgid "URL '%s' needs a path component"
-msgstr ""
+msgstr "URL '%s' ka nevojë për një përbërës path"
 
 #: camel/camel-service.c:729
 #, c-format
 msgid "Resolving: %s"
-msgstr ""
+msgstr "Duke zgjidhur: %s"
 
 #: camel/camel-service.c:760 camel/camel-service.c:884
 #, c-format
 msgid "Failure in name lookup: %s"
-msgstr ""
+msgstr "Gabim në kërkimin e emrit: %s"
 
 #: camel/camel-service.c:781 camel/camel-service.c:905
 #, c-format
 msgid "Host lookup failed: cannot create thread: %s"
-msgstr ""
+msgstr "Kërkimi i host dështoi: i pamundur krijimi i thread: %s"
 
 #: camel/camel-service.c:794
 #, c-format
 msgid "Host lookup failed: %s: host not found"
-msgstr ""
+msgstr "Kërkimi i host dështoi: %s: host nuk u gjet"
 
 #: camel/camel-service.c:797
 #, c-format
 msgid "Host lookup failed: %s: unknown reason"
-msgstr ""
+msgstr "Kërkimi i host dështoi: %s: shkaku nuk njihet"
 
 #: camel/camel-service.c:851
 msgid "Resolving address"
-msgstr ""
+msgstr "Duke zgjidhur adresën"
 
 #: camel/camel-service.c:920
 msgid "Host lookup failed: host not found"
-msgstr ""
+msgstr "Kërkimi i host dështoi: host nuk u gjet"
 
 #: camel/camel-service.c:923
 msgid "Host lookup failed: unknown reason"
-msgstr ""
+msgstr "Kërkimi i host dështoi: shkak i panjohur"
 
 #: camel/camel-session.c:282
 #, c-format
@@ -9552,11 +9592,13 @@ msgid ""
 "Could not create directory %s:\n"
 "%s"
 msgstr ""
+"I pamundur krijimi i directory %s:\n"
+"%s"
 
 #: camel/camel-smime-context.c:104
 #, c-format
 msgid "Enter security pass-phrase for `%s'"
-msgstr ""
+msgstr "Shkruaj fjalëkalimin për `%s'"
 
 #: camel/camel-smime-context.c:261
 #, c-format
@@ -9565,44 +9607,44 @@ msgstr "E pamundur gjetja e çertifikatës për '%s'"
 
 #: camel/camel-smime-context.c:267
 msgid "Cannot create CMS message"
-msgstr "E pamundur krijimi i mesazhit CMS"
+msgstr "I pamundur krijimi i mesazhit CMS"
 
 #: camel/camel-smime-context.c:272
 msgid "Cannot create CMS signedData"
-msgstr ""
+msgstr "I pamundur krijimi i të dhënave të firmosura CMS"
 
 #: camel/camel-smime-context.c:278
 msgid "Cannot attach CMS signedData"
-msgstr ""
+msgstr "E pamundur bashkangjitja e të dhënave të firmosura CMS"
 
 #: camel/camel-smime-context.c:285
 msgid "Cannot attach CMS data"
-msgstr ""
+msgstr "E pamundur bashkangjitja e të dhënave CMS"
 
 #: camel/camel-smime-context.c:291
 msgid "Cannot create CMS SignerInfo"
-msgstr ""
+msgstr "I pamundur krijimi i informacioneve të firmuesit CMS"
 
 #: camel/camel-smime-context.c:297
 msgid "Cannot find cert chain"
-msgstr ""
+msgstr "E pamundur gjetja e zinxhirit të çertifikatave"
 
 #: camel/camel-smime-context.c:303
 msgid "Cannot add CMS SigningTime"
-msgstr ""
+msgstr "I pamundur shtimi i datës së firmës CMS"
 
 #: camel/camel-smime-context.c:325 camel/camel-smime-context.c:337
 #, c-format
 msgid "Encryption cert for '%s' does not exist"
-msgstr ""
+msgstr "Çertifikata e kriptimit për '%s' nuk ekziston"
 
 #: camel/camel-smime-context.c:344
 msgid "Cannot add SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "I pamundur shtimi i atributit SMIMEEncKeyPrefs"
 
 #: camel/camel-smime-context.c:349
 msgid "Cannot add MS SMIMEEncKeyPrefs attribute"
-msgstr ""
+msgstr "I pamundur shtimi i atributit MS SMIMEEncKeyPrefs"
 
 #: camel/camel-smime-context.c:354
 msgid "Cannot add encryption certificate"
@@ -9610,9 +9652,9 @@ msgstr "I pamundur shtimi i çertifikatës së kriptuar"
 
 #: camel/camel-smime-context.c:360
 msgid "Cannot add CMS SignerInfo"
-msgstr ""
+msgstr "I pamundur shtimi i informacioneve të firmuesit CMS"
 
-#: camel/camel-smime-context.c:430
+#: camel/camel-smime-context.c:430 camel/camel-smime-context.c:877
 msgid "Cannot create encoder context"
 msgstr "I pamundur krijimi i kontestit të kodifikuesit"
 
@@ -9630,15 +9672,15 @@ msgstr "I paverifikuar"
 
 #: camel/camel-smime-context.c:516
 msgid "Good signature"
-msgstr ""
+msgstr "Firmë korrekte"
 
 #: camel/camel-smime-context.c:518
 msgid "Bad signature"
-msgstr ""
+msgstr "Firmë e pavlefshme"
 
 #: camel/camel-smime-context.c:520
 msgid "Content tampered with or altered in transit"
-msgstr ""
+msgstr "Përmbajtja është prekur apo ndryshuar gjatë transportit"
 
 #: camel/camel-smime-context.c:522
 msgid "Signing certificate not found"
@@ -9646,19 +9688,19 @@ msgstr "Çertifikata e firmës nuk u gjet"
 
 #: camel/camel-smime-context.c:524
 msgid "Signing certificate not trusted"
-msgstr ""
+msgstr "Çertifikata e firmës nuk është e besueshme"
 
 #: camel/camel-smime-context.c:526
 msgid "Signature algorithm unknown"
-msgstr ""
+msgstr "Algoritmi i firmës nuk njihet"
 
 #: camel/camel-smime-context.c:528
 msgid "Signature algorithm unsupported"
-msgstr ""
+msgstr "Algoritmi i firmës nuk suportohet"
 
 #: camel/camel-smime-context.c:530
 msgid "Malformed signature"
-msgstr ""
+msgstr "Firmë e keqformuar"
 
 #: camel/camel-smime-context.c:532
 msgid "Processing error"
@@ -9670,7 +9712,7 @@ msgstr "Firma nuk përmban signedData"
 
 #: camel/camel-smime-context.c:576
 msgid "Digests missing from enveloped data"
-msgstr ""
+msgstr "Mungojnë mbledhjet nga të dhënat e zarfit"
 
 #: camel/camel-smime-context.c:589 camel/camel-smime-context.c:599
 msgid "Cannot calculate digests"
@@ -9678,7 +9720,7 @@ msgstr "E pamundur llogaritja e mbledhjeve"
 
 #: camel/camel-smime-context.c:604
 msgid "Cannot set message digests"
-msgstr ""
+msgstr "E pamundur vendosja e mbledhjes së mesazheve"
 
 #: camel/camel-smime-context.c:614 camel/camel-smime-context.c:619
 msgid "Certificate import failed"
@@ -9686,66 +9728,62 @@ msgstr "Importimi i çertifikatës dështoi"
 
 #: camel/camel-smime-context.c:628
 msgid "Certificate only message, cannot verify certificates"
-msgstr ""
+msgstr "Mesazh i vetëm çertifikatës, çertifikatat nuk mund të verifikohen"
 
 #: camel/camel-smime-context.c:631
 msgid "Certificate only message, certificates imported and verified"
-msgstr ""
+msgstr "Mesazh i vetëm çertifikatës, çertifikatat u importuan dhe verifikuan"
 
 #: camel/camel-smime-context.c:635
-msgid "Can't find signature digests"
-msgstr ""
+msgid "Cannot find signature digests"
+msgstr "E pamundur gjetja e mbledhjeve të firmave"
 
 #: camel/camel-smime-context.c:651
 #, c-format
 msgid "Signer: %s <%s>: %s\n"
-msgstr ""
+msgstr "Firmuesi: %s <%s>: %s\n"
 
 #: camel/camel-smime-context.c:752
 msgid "Decoder failed"
-msgstr ""
+msgstr "Dekoduesi dështoi"
 
 #: camel/camel-smime-context.c:804
 #, c-format
-msgid "Can't find certificate for `%s'"
+msgid "Cannot find certificate for `%s'"
 msgstr "E pamundur gjetja e çertifikatës për `%s'"
 
 #: camel/camel-smime-context.c:811
-msgid "Can't find common bulk encryption algorithm"
-msgstr ""
+msgid "Cannot find common bulk encryption algorithm"
+msgstr "E pamundur gjetja e algoritmit të kriptimit minimal"
 
 #. PORT_GetError(); ??
 #: camel/camel-smime-context.c:820
-msgid "Can't allocate slot for encryption bulk key"
-msgstr ""
+msgid "Cannot allocate slot for encryption bulk key"
+msgstr "E pamundur vendosja e një slot për kyçin e kriptimit"
 
 #: camel/camel-smime-context.c:831
-msgid "Can't create CMS Message"
-msgstr ""
+msgid "Cannot create CMS Message"
+msgstr "I pamundur krijimi i mesazhit CMS"
 
 #: camel/camel-smime-context.c:837
-msgid "Can't create CMS EnvelopedData"
-msgstr ""
+msgid "Cannot create CMS EnvelopedData"
+msgstr "I pamundur krijimi i të dhënave zarfi CMS"
 
 #: camel/camel-smime-context.c:843
-msgid "Can't attach CMS EnvelopedData"
-msgstr ""
+msgid "Cannot attach CMS EnvelopedData"
+msgstr "E pamundur bashkangjitja e të dhënave zarfi CMS"
 
 #: camel/camel-smime-context.c:849
-msgid "Can't attach CMS data object"
-msgstr ""
+msgid "Cannot attach CMS data object"
+msgstr "E pamundur bashkangjitja e objektit të dhëna CMS"
 
 #: camel/camel-smime-context.c:858
-msgid "Can't create CMS RecipientInfo"
-msgstr ""
+msgid "Cannot create CMS RecipientInfo"
+msgstr "I pamundur krijimi i informacioneve të marrësit CMS"
 
 #: camel/camel-smime-context.c:863
-msgid "Can't add CMS RecipientInfo"
-msgstr ""
-
-#: camel/camel-smime-context.c:877
-msgid "Can't create encoder context"
-msgstr "I pamundur krijimi i kontestit të kodifikuesit"
+msgid "Cannot add CMS RecipientInfo"
+msgstr "I pamundur shtimi i informacioneve të marrësit CMS"
 
 #: camel/camel-smime-context.c:888
 msgid "Failed to add data to encoder"
@@ -9754,23 +9792,23 @@ msgstr "Shtimi i të dhënave në kodifikues dështoi"
 #: camel/camel-smime-context.c:974
 #, c-format
 msgid "Decoder failed, error %d"
-msgstr ""
+msgstr "Dekoduesi dështoi, gabim %d"
 
 #: camel/camel-smime-context.c:981
 msgid "S/MIME Decrypt: No encrypted content found"
-msgstr ""
+msgstr "Dekriptim S/MIME: muk u gjet asnjë përmbajtje e kriptuar"
 
 #: camel/camel-smime-context.c:1008
 msgid "import keys: unimplemented"
-msgstr ""
+msgstr "importimi i kyçeve: jo në dispozicion"
 
 #: camel/camel-smime-context.c:1016
 msgid "export keys: unimplemented"
-msgstr ""
+msgstr "eksportimi i kyçeve: jo në dispozicion"
 
 #: camel/camel-store.c:213
 msgid "Cannot get folder: Invalid operation on this store"
-msgstr ""
+msgstr "E pamundur marrja e kartelës: operacion i pavlefshëm në këtë arkiv"
 
 #: camel/camel-store.c:243
 #, c-format
@@ -9779,7 +9817,7 @@ msgstr "I pamundur krijimi i kartelës `%s': kartela ekziston"
 
 #: camel/camel-store.c:297
 msgid "Cannot create folder: Invalid operation on this store"
-msgstr ""
+msgstr "I pamundur krijimi i kartelës: operacion i pavlefshëm në këtë arkiv"
 
 #: camel/camel-store.c:325
 #, c-format
@@ -9789,13 +9827,13 @@ msgstr "I pamundur krijimi i kartelës: %s: kartela ekziston"
 #: camel/camel-store.c:389 camel/camel-vee-store.c:351
 #, c-format
 msgid "Cannot delete folder: %s: Invalid operation"
-msgstr ""
+msgstr "I pamundur eleminimi i kartelës: %s Veprim i pavlefshëm"
 
 #: camel/camel-store.c:439 camel/camel-vee-store.c:388
 #: camel/providers/local/camel-maildir-store.c:232
 #, c-format
 msgid "Cannot rename folder: %s: Invalid operation"
-msgstr ""
+msgstr "I pamundur ndryshimi i emrit të kartelës: %s Veprim i pavlefshëm"
 
 #: camel/camel-store.c:777
 msgid "Trash"
@@ -9808,51 +9846,51 @@ msgstr "Për në plehra"
 
 #: camel/camel-tcp-stream-openssl.c:568
 msgid "Unable to get issuer's certificate"
-msgstr ""
+msgstr "E pamundur marrja e çertifikatës nga dërguesi"
 
 #: camel/camel-tcp-stream-openssl.c:570
 msgid "Unable to get Certificate Revocation List"
-msgstr ""
+msgstr "E pamundur marrja e listës me çertifikatat e anulluara"
 
 #: camel/camel-tcp-stream-openssl.c:572
 msgid "Unable to decrypt certificate signature"
-msgstr ""
+msgstr "I pamundur dekriptimi i firmës së çertifikatës"
 
 #: camel/camel-tcp-stream-openssl.c:574
 msgid "Unable to decrypt Certificate Revocation List signature"
-msgstr ""
+msgstr "I pamundur dekriptimi i firmës së listës me çertifikatat e anulluara"
 
 #: camel/camel-tcp-stream-openssl.c:576
 msgid "Unable to decode issuer's public key"
-msgstr ""
+msgstr "I pamundur dekriptimi i kyçit publik të dërguesit"
 
 #: camel/camel-tcp-stream-openssl.c:578
 msgid "Certificate signature failure"
-msgstr ""
+msgstr "Firmosja e çertifikatës dështoi"
 
 #: camel/camel-tcp-stream-openssl.c:580
 msgid "Certificate Revocation List signature failure"
-msgstr ""
+msgstr "Firmosja e listës me çertifikatat e anulluara dështoi"
 
 #: camel/camel-tcp-stream-openssl.c:582
 msgid "Certificate not yet valid"
-msgstr ""
+msgstr "Çertifikatë akoma e pavlefshme"
 
 #: camel/camel-tcp-stream-openssl.c:584
 msgid "Certificate has expired"
-msgstr ""
+msgstr "Çertifikata ka skaduar"
 
 #: camel/camel-tcp-stream-openssl.c:586
 msgid "CRL not yet valid"
-msgstr ""
+msgstr "CRL akoma e pavlefshme"
 
 #: camel/camel-tcp-stream-openssl.c:588
 msgid "CRL has expired"
-msgstr ""
+msgstr "CRL ka skaduar"
 
 #: camel/camel-tcp-stream-openssl.c:593
 msgid "Error in CRL"
-msgstr ""
+msgstr "Gabim në CRL"
 
 #: camel/camel-tcp-stream-openssl.c:595
 msgid "Out of memory"
@@ -9860,67 +9898,67 @@ msgstr "Jashtë memorjes"
 
 #: camel/camel-tcp-stream-openssl.c:597
 msgid "Zero-depth self-signed certificate"
-msgstr ""
+msgstr "Çertifikatë e autofirmosur me thellësi zero"
 
 #: camel/camel-tcp-stream-openssl.c:599
 msgid "Self-signed certificate in chain"
-msgstr ""
+msgstr "Çertifikatë e autofirmosur në zinxhir"
 
 #: camel/camel-tcp-stream-openssl.c:601
 msgid "Unable to get issuer's certificate locally"
-msgstr ""
+msgstr "E pamundur marrja në lokale e çertifikatës së dërguesit"
 
 #: camel/camel-tcp-stream-openssl.c:603
 msgid "Unable to verify leaf signature"
-msgstr ""
+msgstr "I pamundur verifikimi i firmës së fletës"
 
 #: camel/camel-tcp-stream-openssl.c:605
 msgid "Certificate chain too long"
-msgstr ""
+msgstr "Çertifikatë tepër e gjatë në zinxhir"
 
 #: camel/camel-tcp-stream-openssl.c:607
 msgid "Certificate Revoked"
-msgstr ""
+msgstr "Çertifikata u anullua"
 
 #: camel/camel-tcp-stream-openssl.c:609
 msgid "Invalid Certificate Authority (CA)"
-msgstr ""
+msgstr "Autoritet Çertifikimi (CA) i pavlefshëm"
 
 #: camel/camel-tcp-stream-openssl.c:611
 msgid "Path length exceeded"
-msgstr ""
+msgstr "Gjatësi vendodhje e tepërt"
 
 #: camel/camel-tcp-stream-openssl.c:613
 msgid "Invalid purpose"
-msgstr ""
+msgstr "Qëllim i pavlefshëm"
 
 #: camel/camel-tcp-stream-openssl.c:615
 msgid "Certificate untrusted"
-msgstr ""
+msgstr "Çertifikatë e pasigurt"
 
 #: camel/camel-tcp-stream-openssl.c:617
 msgid "Certificate rejected"
-msgstr ""
+msgstr "Çertifikatë e kthyer mbrapsht"
 
 #: camel/camel-tcp-stream-openssl.c:620
 msgid "Subject/Issuer mismatch"
-msgstr ""
+msgstr "Subjekti/Dërguesi pa lidhje"
 
 #: camel/camel-tcp-stream-openssl.c:622
 msgid "AKID/SKID mismatch"
-msgstr ""
+msgstr "AKID/SKID pa lidhje"
 
 #: camel/camel-tcp-stream-openssl.c:624
 msgid "AKID/Issuer serial mismatch"
-msgstr ""
+msgstr "AKID/Seriali i dërguesit pa lidhje"
 
 #: camel/camel-tcp-stream-openssl.c:626
 msgid "Key usage does not support certificate signing"
-msgstr ""
+msgstr "Përdorimi i kyçit nuk lejon firmën e çertifikatës"
 
 #: camel/camel-tcp-stream-openssl.c:629
 msgid "Error in application verification"
-msgstr ""
+msgstr "Gabim gjatë verifikimit të programit"
 
 #: camel/camel-tcp-stream-openssl.c:696 camel/camel-tcp-stream-ssl.c:826
 #, c-format
@@ -9930,14 +9968,18 @@ msgid ""
 "Fingerprint:       %s\n"
 "Signature:         %s"
 msgstr ""
+"Dërguesi:                         %s\n"
+"Subjekti:                            %s\n"
+"Shenjëdallimi dixhital:        %s\n"
+"Firma:                                %s"
 
 #: camel/camel-tcp-stream-openssl.c:702 camel/camel-tcp-stream-ssl.c:832
 msgid "GOOD"
-msgstr ""
+msgstr "MIRË"
 
 #: camel/camel-tcp-stream-openssl.c:702 camel/camel-tcp-stream-ssl.c:832
 msgid "BAD"
-msgstr ""
+msgstr "KEQ"
 
 #: camel/camel-tcp-stream-openssl.c:704
 #, c-format
@@ -9950,6 +9992,13 @@ msgid ""
 "\n"
 "Do you wish to accept anyway?"
 msgstr ""
+"Çertifikatë jo korrekte nga %s:\n"
+"\n"
+"%s\n"
+"\n"
+"%s\n"
+"\n"
+"Dëshiron t'a pranosh sidoqoftë?"
 
 #. construct our user prompt
 #: camel/camel-tcp-stream-ssl.c:836
@@ -9961,6 +10010,11 @@ msgid ""
 "\n"
 "Do you wish to accept?"
 msgstr ""
+"Kontrolli çertifikatës SSL për %s:\n"
+"\n"
+"%s\n"
+"\n"
+"Dëshironi t'a pranoni?"
 
 #: camel/camel-tcp-stream-ssl.c:880
 #, c-format
@@ -9968,6 +10022,8 @@ msgid ""
 "Certificate problem: %s\n"
 "Issuer: %s"
 msgstr ""
+"Problem me çertifikatën: %s\n"
+"Dërguesi: %s"
 
 #: camel/camel-tcp-stream-ssl.c:932
 #, c-format
@@ -9975,6 +10031,8 @@ msgid ""
 "Bad certificate domain: %s\n"
 "Issuer: %s"
 msgstr ""
+"Domain çertifikate i gabuar: %s\n"
+"Dërguesi: %s"
 
 #: camel/camel-tcp-stream-ssl.c:950
 #, c-format
@@ -9982,6 +10040,8 @@ msgid ""
 "Certificate expired: %s\n"
 "Issuer: %s"
 msgstr ""
+"Çertifikatë e skaduar: %s\n"
+"Dërguesi: %s"
 
 #: camel/camel-tcp-stream-ssl.c:967
 #, c-format
@@ -10038,7 +10098,6 @@ msgstr ""
 msgid "Check for new messages in all folders"
 msgstr ""
 
-#. GRUT modified this item
 #: camel/providers/groupwise/camel-groupwise-provider.c:59
 msgid "Apply filters to new messages in Inbox on this server"
 msgstr "Aplikoi filtrat mesazheve të rinj në \"Inbox\" tek ky server"
@@ -10182,7 +10241,6 @@ msgstr "Mesazhi nuk u gjet"
 msgid "This message is not currently available"
 msgstr ""
 
-#. GRUT modified this item
 #: camel/providers/imap/camel-imap-folder.c:2285
 #: camel/providers/imap/camel-imap-folder.c:2355
 msgid "Fetching summary information for new messages"
@@ -10266,7 +10324,6 @@ msgstr "Emri hapësirës"
 msgid "Apply filters to new messages in INBOX on this server"
 msgstr ""
 
-#. GRUT modified this item
 #: camel/providers/imap/camel-imap-provider.c:66
 msgid "Check new messages for Junk contents"
 msgstr "Kontrollo nëse mesazhet e rinj përmbajnë material që duhet refuzuar"
@@ -10387,7 +10444,9 @@ msgstr ""
 #: camel/providers/imap4/camel-imap4-store.c:796
 #, c-format
 msgid "The folder name \"%s\" is invalid because it contains the character \"%c\""
-msgstr "Emri i kartelës \"%s\" është i pavlefshëm pasi nuk mund të përmbajë simbolin \"%c\""
+msgstr ""
+"Emri i kartelës \"%s\" është i pavlefshëm pasi nuk mund të përmbajë simbolin "
+"\"%c\""
 
 #: camel/providers/imap/camel-imap-store.c:1939
 #: camel/providers/imap/camel-imap-store.c:2320
@@ -10407,13 +10466,13 @@ msgstr "I pamundur krijimi i kartelës `%s': kartela ekziston."
 msgid "Unknown parent folder: %s"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-command.c:531
-#: camel/providers/imap4/camel-imap4-command.c:538
+#: camel/providers/imap4/camel-imap4-command.c:550
+#: camel/providers/imap4/camel-imap4-command.c:557
 #, c-format
 msgid "Failed sending command to IMAP server %s: %s"
 msgstr "Dërgimi i komandës serverit IMAP %s dështoi: %s"
 
-#: camel/providers/imap4/camel-imap4-command.c:637
+#: camel/providers/imap4/camel-imap4-command.c:656
 #, c-format
 msgid "Unexpected response from IMAP4 server %s: %s"
 msgstr ""
@@ -10446,64 +10505,64 @@ msgstr ""
 msgid "Got BYE response"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-folder.c:507
+#: camel/providers/imap4/camel-imap4-folder.c:359
 #, c-format
 msgid "Cannot sync flags to folder `%s': Unknown"
 msgstr "I pamundur sinkronizimi i flags tek kartela `%s': nuk njihet"
 
-#: camel/providers/imap4/camel-imap4-folder.c:513
+#: camel/providers/imap4/camel-imap4-folder.c:365
 #, c-format
 msgid "Cannot sync flags to folder `%s': Bad command"
 msgstr "I pamundur sinkronizimi i flags tek kartela `%s': Komandë e pavlefshme"
 
-#: camel/providers/imap4/camel-imap4-folder.c:650
+#: camel/providers/imap4/camel-imap4-folder.c:502
 #, c-format
 msgid "Cannot expunge folder `%s': Unknown"
 msgstr "I pamundur pastrimi i kartelës `%s': nuk njihet"
 
-#: camel/providers/imap4/camel-imap4-folder.c:655
+#: camel/providers/imap4/camel-imap4-folder.c:507
 #, c-format
 msgid "Cannot expunge folder `%s': Bad command"
 msgstr "I pamundur pastrimi i kartelës `%s': Komandë e pavlefshme"
 
-#: camel/providers/imap4/camel-imap4-folder.c:845
+#: camel/providers/imap4/camel-imap4-folder.c:697
 #, c-format
 msgid "Cannot get message %s from folder `%s': No such message"
 msgstr "E pamundur marrja e mesazhit %s nga kartela `%s': mesazhi nuk ekziston"
 
-#: camel/providers/imap4/camel-imap4-folder.c:850
+#: camel/providers/imap4/camel-imap4-folder.c:702
 #, c-format
 msgid "Cannot get message %s from folder `%s': Bad command"
 msgstr "E pamundur marrja e mesazhit %s nga kartela `%s': Komandë e gabuar"
 
-#: camel/providers/imap4/camel-imap4-folder.c:975
+#: camel/providers/imap4/camel-imap4-folder.c:827
 #, c-format
 msgid "Cannot append message to folder `%s': Unknown error"
 msgstr "I pamundur shtimi i mesazhit tek kartela `%s': Gabim i panjohur"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1004
+#: camel/providers/imap4/camel-imap4-folder.c:856
 #, c-format
 msgid "Cannot append message to folder `%s': Bad command"
 msgstr "I pamundur shtimi i mesazhit tek kartela `%s': Komandë e pavlefshme"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1083
+#: camel/providers/imap4/camel-imap4-folder.c:935
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Unknown"
 msgstr "E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1087
+#: camel/providers/imap4/camel-imap4-folder.c:939
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Unknown"
 msgstr "I pamundur kopjimi i mesazheve nga kartela `%s' tek kartela `%s': nuk njihet"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1095
+#: camel/providers/imap4/camel-imap4-folder.c:947
 #, c-format
 msgid "Cannot move messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
 "E pamundur lëvizja e mesazheve nga kartela `%s' tek kartela `%s': komandë e "
 "pavlefshme"
 
-#: camel/providers/imap4/camel-imap4-folder.c:1099
+#: camel/providers/imap4/camel-imap4-folder.c:951
 #, c-format
 msgid "Cannot copy messages from folder `%s' to folder `%s': Bad command"
 msgstr ""
@@ -10582,7 +10641,9 @@ msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': Kartelë speci
 #: camel/providers/imap4/camel-imap4-store.c:1000
 #, c-format
 msgid "Cannot rename folder `%s' to `%s': Invalid mailbox name"
-msgstr "I pamundur ndryshimi i emrit të kartelës `%s' në `%s': emër i pavlefshëm mailbox"
+msgstr ""
+"I pamundur ndryshimi i emrit të kartelës `%s' në `%s': emër i pavlefshëm "
+"mailbox"
 
 #: camel/providers/imap4/camel-imap4-store.c:1005
 #, c-format
@@ -10618,16 +10679,16 @@ msgstr ""
 msgid "Cannot unsubscribe from folder `%s': Bad command"
 msgstr "I pamundur ç'regjistrimi nga kartela `%s': Komandë e pavlefshme"
 
-#: camel/providers/imap4/camel-imap4-utils.c:86
+#: camel/providers/imap4/camel-imap4-utils.c:250
 #, c-format
 msgid "Unexpected token in response from IMAP server %s: "
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-utils.c:109
+#: camel/providers/imap4/camel-imap4-utils.c:273
 msgid "No data"
 msgstr ""
 
-#: camel/providers/imap4/camel-imap4-utils.c:292
+#: camel/providers/imap4/camel-imap4-utils.c:456
 #, c-format
 msgid "IMAP server %s unexpectedly disconnected: %s"
 msgstr ""
@@ -12054,11 +12115,14 @@ msgstr "E pamundur hapja e kartelës tek '%s'"
 
 #. mail-composer:attach-nomessages secondary
 #. mail-composer:no-sig-file secondary
+#. mail:no-create-tmp-path secondary
+#. mail:no-delete-folder secondary
 #. system:no-save-file secondary
 #. system:no-load-file secondary
 #: composer/mail-composer-errors.xml.h:14
-#: composer/mail-composer-errors.xml.h:42
-#: widgets/misc/e-system-errors.xml.h:11 widgets/misc/e-system-errors.xml.h:15
+#: composer/mail-composer-errors.xml.h:42 mail/mail-errors.xml.h:100
+#: mail/mail-errors.xml.h:112 widgets/misc/e-system-errors.xml.h:11
+#: widgets/misc/e-system-errors.xml.h:15
 msgid "Because \"{1}\"."
 msgstr ""
 
@@ -12518,7 +12582,8 @@ msgid "Could not compile regular expression \"{1}\"."
 msgstr ""
 
 #. filter:no-name primary
-#: filter/filter-errors.xml.h:18
+#. mail:no-name-vfolder primary
+#: filter/filter-errors.xml.h:18 mail/mail-errors.xml.h:214
 #, fuzzy
 msgid "Missing name."
 msgstr "_Emri dallues:"
@@ -12990,7 +13055,7 @@ msgstr "Lësho tingullin:"
 
 #: mail/em-filter-i18n.h:46 mail/message-tag-followup.c:79
 msgid "Read"
-msgstr ""
+msgstr "Lexo"
 
 #: mail/em-filter-i18n.h:47
 #, fuzzy
@@ -15325,7 +15390,7 @@ msgstr "_Abonohu"
 
 #: mail/mail-dialogs.glade.h:29
 msgid "_Unsubscribe"
-msgstr ""
+msgstr "_Ç'regjistrohu"
 
 #: mail/mail-dialogs.glade.h:30
 msgid "specific folders only"
@@ -15342,6 +15407,545 @@ msgstr ""
 #: mail/mail-dialogs.glade.h:33
 msgid "with all local folders"
 msgstr ""
+
+#. mail:camel-service-auth-invalid primary
+#: mail/mail-errors.xml.h:2
+#, fuzzy
+msgid "Invalid authentication"
+msgstr "Argumente të pavlefshme"
+
+#. mail:camel-service-auth-invalid secondary
+#: mail/mail-errors.xml.h:4
+msgid ""
+"This server does not support this type of authentication and may not support "
+"authentication at all."
+msgstr ""
+
+#. mail:camel-service-auth-failed primary
+#: mail/mail-errors.xml.h:6
+msgid "Your login to your server \"{0}\" as \"{0}\" failed."
+msgstr ""
+
+#. mail:camel-service-auth-failed secondary
+#: mail/mail-errors.xml.h:8
+#, fuzzy
+msgid ""
+"Check to make sure your password is spelled correctly.  Remember that many "
+"passwords are case sensitive; your caps lock might be on."
+msgstr ""
+"Kontrolloni që keni shkruar si duhet fjalëkalimin dhe që jeni duke përdorur "
+"një metodë hyrje të suportuar. Kini parasysh që tek fjalëkalimet gërmat e "
+"mëdha ndikojnë dhe mund të keni shtypur pulsantin e shkrimit me gërma të "
+"mëdha."
+
+#. mail:ask-send-html primary
+#: mail/mail-errors.xml.h:10
+#, fuzzy
+msgid "Are you sure you want to send a message in HTML format?"
+msgstr "Jeni i sigurt që dëshiron të eleminosh këtë URL?"
+
+#. mail:ask-send-html secondary
+#: mail/mail-errors.xml.h:12
+msgid ""
+"Please make sure the following recipients are willing and able to receive "
+"HTML email:\n"
+"{0}\n"
+"Send anyway?"
+msgstr ""
+
+#: mail/mail-errors.xml.h:15 mail/mail-errors.xml.h:20
+#: mail/mail-errors.xml.h:27 mail/mail-errors.xml.h:32
+msgid "_Send"
+msgstr "_Dërgo"
+
+#. mail:ask-send-no-subject primary
+#: mail/mail-errors.xml.h:17
+#, fuzzy
+msgid "Are you sure you want to send a message without a subject?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë aktivitet?"
+
+#. mail:ask-send-no-subject secondary
+#: mail/mail-errors.xml.h:19
+msgid ""
+"Adding a meaningful Subject line to your messages will give your recipients "
+"an idea of what your mail is about."
+msgstr ""
+
+#. mail:ask-send-only-bcc-contact primary
+#. mail:ask-send-only-bcc primary
+#: mail/mail-errors.xml.h:22 mail/mail-errors.xml.h:29
+#, fuzzy
+msgid "Are you sure you want to send a message with only BCC recipients?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë zë të ditarit?"
+
+#. mail:ask-send-only-bcc-contact secondary
+#: mail/mail-errors.xml.h:24
+msgid ""
+"The contact list you are sending to is configured to hide list recipients.\n"
+"\n"
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients in "
+"your message. To avoid this, you should add at least one To: or CC: "
+"recipient. "
+msgstr ""
+
+#. mail:ask-send-only-bcc secondary
+#: mail/mail-errors.xml.h:31
+msgid ""
+"Many email systems add an Apparently-To header to messages that only have "
+"BCC recipients. This header, if added, will list all of your recipients to "
+"your message anyway. To avoid this, you should add at least one To: or CC: "
+"recipient."
+msgstr ""
+
+#. mail:send-no-recipients primary
+#: mail/mail-errors.xml.h:34
+msgid "This message cannot be sent because you have not specified any Recipients"
+msgstr ""
+
+#. mail:send-no-recipients secondary
+#: mail/mail-errors.xml.h:36
+msgid ""
+"Please enter a valid email address in the To: field. You can search for "
+"email addresses by clicking on the To: button next to the entry box."
+msgstr ""
+
+#. mail:ask-default-drafts primary
+#: mail/mail-errors.xml.h:38
+msgid "Use default drafts folder?"
+msgstr ""
+
+#. mail:ask-default-drafts secondary
+#: mail/mail-errors.xml.h:40
+msgid ""
+"Unable to open the drafts folder for this account.  Use the system drafts "
+"folder instead?"
+msgstr ""
+
+#: mail/mail-errors.xml.h:41
+msgid "Use _Default"
+msgstr "Përdor të _Prezgjedhurin"
+
+#. mail:ask-expunge primary
+#: mail/mail-errors.xml.h:43
+#, fuzzy
+msgid ""
+"Are you sure you want to permanently remove all the deleted message in "
+"folder \"{0}\"?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni takimin me titull '{0}'?"
+
+#. mail:ask-expunge secondary
+#. mail:ask-empty-trash secondary
+#: mail/mail-errors.xml.h:45 mail/mail-errors.xml.h:50
+msgid "If you continue, you will not be able to recover these messages."
+msgstr ""
+
+#: mail/mail-errors.xml.h:46
+#, fuzzy
+msgid "_Expunge"
+msgstr "Duke pastruar"
+
+#. mail:ask-empty-trash primary
+#: mail/mail-errors.xml.h:48
+#, fuzzy
+msgid ""
+"Are you sure you want to permanently remove all the deleted messages in all "
+"folders?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këto {0} zëra të ditarit?"
+
+#: mail/mail-errors.xml.h:51
+#, fuzzy
+msgid "_Empty Trash"
+msgstr "Zbraz _Koshin"
+
+#. mail:exit-unsaved primary
+#: mail/mail-errors.xml.h:53
+msgid "You have unsent messages, do you wish to quit anyway?"
+msgstr ""
+
+#. mail:exit-unsaved secondary
+#: mail/mail-errors.xml.h:55
+#, fuzzy
+msgid ""
+"If you quit, these messages will not be sent until Evolution is started "
+"again."
+msgstr "Aktivitetet tuaja do të jenë në dispozicion vetëm mbas rinisjes së Evolution."
+
+#. mail:camel-exception primary
+#: mail/mail-errors.xml.h:57
+msgid "Your message with the subject \"{0}\" was not delivered."
+msgstr ""
+
+#. mail:camel-exception secondary
+#: mail/mail-errors.xml.h:59
+msgid ""
+"The message was sent via the \"sendmail\" external application.  Sendmail "
+"reports the following error: status 67: mail not sent.\n"
+"The message is stored in the Outbox folder.  Check the message for errors "
+"and resend."
+msgstr ""
+
+#. mail:async-error primary
+#: mail/mail-errors.xml.h:62
+msgid "Error while {0}."
+msgstr ""
+
+#. mail:async-error secondary
+#: mail/mail-errors.xml.h:64
+#, fuzzy
+msgid "{1}."
+msgstr "{1}"
+
+#. mail:async-error-nodescribe primary
+#: mail/mail-errors.xml.h:66
+#, fuzzy
+msgid "Error while performing operation."
+msgstr "Gabim gjatë hapjes së kalendarit"
+
+#. mail:async-error-nodescribe secondary
+#: mail/mail-errors.xml.h:68
+#, fuzzy
+msgid "{0}."
+msgstr "{0}"
+
+#. mail:ask-session-password primary
+#: mail/mail-errors.xml.h:82
+#, fuzzy
+msgid "Enter password."
+msgstr "Shkruaj fjalëkalimin"
+
+#. mail:filter-load-error primary
+#: mail/mail-errors.xml.h:86
+#, fuzzy
+msgid "Error loading filter definitions."
+msgstr "Gabim gjatë ngarkimit të rubrikës së prezgjedhur."
+
+#. mail:no-save-path primary
+#: mail/mail-errors.xml.h:90
+#, fuzzy
+msgid "Cannot save to directory \"{0}\"."
+msgstr "Hap file"
+
+#. mail:no-create-path primary
+#. mail:no-write-path-exists primary
+#. mail:no-write-path-notfile primary
+#: mail/mail-errors.xml.h:94 mail/mail-errors.xml.h:102
+#: mail/mail-errors.xml.h:106
+#, fuzzy
+msgid "Cannot save to file \"{0}\"."
+msgstr "Hap file"
+
+#. mail:no-create-path secondary
+#: mail/mail-errors.xml.h:96
+#, fuzzy
+msgid "Cannot create the save directory, because \"{1}\""
+msgstr "I pamundur krijimi i directory %s: %s"
+
+#. mail:no-create-tmp-path primary
+#: mail/mail-errors.xml.h:98
+#, fuzzy
+msgid "Cannot create temporary save directory."
+msgstr "E pamundur hapja e kartelës `%s': nuk është një directory."
+
+#. mail:no-write-path-exists secondary
+#: mail/mail-errors.xml.h:104
+#, fuzzy
+msgid "File exists but cannot overwrite it."
+msgstr ""
+"%s ekziston\n"
+"Dëshiron t'a mbishkruash?"
+
+#. mail:no-write-path-notfile secondary
+#: mail/mail-errors.xml.h:108
+msgid "File exists but is not a regular file."
+msgstr ""
+
+#. mail:no-delete-folder primary
+#: mail/mail-errors.xml.h:110
+#, fuzzy
+msgid "Cannot delete folder \"{0}\"."
+msgstr "Hap file"
+
+#. mail:no-delete-spethal-folder primary
+#: mail/mail-errors.xml.h:114
+#, fuzzy
+msgid "Cannot delete system folder \"{0}\"."
+msgstr "Hap file"
+
+#. mail:no-delete-spethal-folder secondary
+#. mail:no-rename-spethal-folder secondary
+#: mail/mail-errors.xml.h:116 mail/mail-errors.xml.h:120
+msgid ""
+"System folders are required for Ximian Evolution to function correctly and "
+"cannot be renamed, moved, or deleted."
+msgstr ""
+
+#. mail:no-rename-spethal-folder primary
+#: mail/mail-errors.xml.h:118
+#, fuzzy
+msgid "Cannot rename or move system folder \"{0}\"."
+msgstr "Hap file"
+
+#. mail:ask-delete-folder title
+#: mail/mail-errors.xml.h:122
+#, fuzzy
+msgid "Delete \"{0}\"?"
+msgstr "Elemino"
+
+#. mail:ask-delete-folder primary
+#: mail/mail-errors.xml.h:124
+msgid "Really delete folder \"{0}\" and all of its subfolders?"
+msgstr ""
+
+#. mail:ask-delete-folder secondary
+#: mail/mail-errors.xml.h:126
+msgid ""
+"If you delete the folder, all of its contents and its subfolders contents "
+"will be deleted permanently."
+msgstr ""
+
+#. mail:no-rename-folder-exists primary
+#. mail:no-rename-folder primary
+#: mail/mail-errors.xml.h:128 mail/mail-errors.xml.h:132
+#, fuzzy
+msgid "Cannot rename \"{0}\" to \"{1}\"."
+msgstr "Hap file"
+
+#. mail:no-rename-folder-exists secondary
+#. mail:vfolder-notunique secondary
+#: mail/mail-errors.xml.h:130 mail/mail-errors.xml.h:192
+msgid "A folder named \"{1}\" already exists. Please use a different name."
+msgstr ""
+
+#. mail:no-rename-folder secondary
+#: mail/mail-errors.xml.h:134
+msgid "Because \"{2}\"."
+msgstr ""
+
+#. mail:no-move-folder-nostore primary
+#. mail:no-move-folder-to-nostore primary
+#: mail/mail-errors.xml.h:136 mail/mail-errors.xml.h:140
+#, fuzzy
+msgid "Cannot move folder \"{0}\" to \"{1}\"."
+msgstr "Hap file"
+
+#. mail:no-move-folder-nostore secondary
+#. mail:no-copy-folder-nostore secondary
+#: mail/mail-errors.xml.h:138 mail/mail-errors.xml.h:146
+#, fuzzy
+msgid "Cannot open source \"{2}\"."
+msgstr "Hap file"
+
+#. mail:no-move-folder-to-nostore secondary
+#. mail:no-copy-folder-to-nostore secondary
+#: mail/mail-errors.xml.h:142 mail/mail-errors.xml.h:150
+#, fuzzy
+msgid "Cannot open target \"{2}\"."
+msgstr "Hap file"
+
+#. mail:no-copy-folder-nostore primary
+#. mail:no-copy-folder-to-nostore primary
+#: mail/mail-errors.xml.h:144 mail/mail-errors.xml.h:148
+#, fuzzy
+msgid "Cannot copy folder \"{0}\" to \"{1}\"."
+msgstr "Hap file"
+
+#. mail:no-create-folder-nostore primary
+#: mail/mail-errors.xml.h:152
+#, fuzzy
+msgid "Cannot create folder \"{0}\"."
+msgstr "Hap file"
+
+#. mail:no-create-folder-nostore secondary
+#: mail/mail-errors.xml.h:154
+#, fuzzy
+msgid "Cannot open source \"{1}\""
+msgstr "Hap file"
+
+#. mail:account-incomplete primary
+#. mail:account-notunique primary
+#: mail/mail-errors.xml.h:156 mail/mail-errors.xml.h:160
+#, fuzzy
+msgid "Cannot save changes to account."
+msgstr "E pamundur lëvizja e kontaktit."
+
+#. mail:account-incomplete secondary
+#: mail/mail-errors.xml.h:158
+msgid "You have not filled in all of the required information."
+msgstr ""
+
+#. mail:account-notunique secondary
+#: mail/mail-errors.xml.h:162
+msgid "You may not create two accounts with the same name."
+msgstr ""
+
+#. mail:ask-delete-account title
+#: mail/mail-errors.xml.h:164
+msgid "Delete account?"
+msgstr ""
+
+#. mail:ask-delete-account primary
+#: mail/mail-errors.xml.h:166
+msgid "Are you sure you want to delete this account?"
+msgstr "Jeni i sigurt që dëshironi të eleminoni këtë llogari?"
+
+#. mail:ask-delete-account secondary
+#: mail/mail-errors.xml.h:168
+msgid "If you proceed, the account information will be deleted permanently."
+msgstr ""
+
+#: mail/mail-errors.xml.h:169
+msgid "Don't delete"
+msgstr "Mos elemino"
+
+#. mail:no-save-signature primary
+#: mail/mail-errors.xml.h:171
+#, fuzzy
+msgid "Could not save signature file."
+msgstr "E pamundur hapja e file"
+
+#. mail:no-save-signature secondary
+#: mail/mail-errors.xml.h:173
+msgid "Because \"{0}\"."
+msgstr ""
+
+#. mail:signature-notscript primary
+#: mail/mail-errors.xml.h:175
+#, fuzzy
+msgid "Cannot set signature script \"{0}\"."
+msgstr "Hap file"
+
+#. mail:signature-notscript secondary
+#: mail/mail-errors.xml.h:177
+msgid "The script file must exist and be executable."
+msgstr ""
+
+#. mail:ask-signature-changed title
+#: mail/mail-errors.xml.h:179
+#, fuzzy
+msgid "Discard changed?"
+msgstr "Anullo ndryshimet"
+
+#. mail:ask-signature-changed primary
+#: mail/mail-errors.xml.h:181
+#, fuzzy
+msgid "Do you wish to save your changes?"
+msgstr "Dëshiron të ruash ndryshimet e kryera?"
+
+#. mail:ask-signature-changed secondary
+#: mail/mail-errors.xml.h:183
+msgid "This signature has been changed, but has not been saved."
+msgstr ""
+
+#: mail/mail-errors.xml.h:184
+msgid "_Discard changes"
+msgstr "_Anullo ndryshimet"
+
+#. mail:vfolder-notexist primary
+#: mail/mail-errors.xml.h:186
+#, fuzzy
+msgid "Cannot edit vFolder \"{0}\" as it does not exist."
+msgstr "I pamundur krijimi i kartelës `%s': kartela ekziston."
+
+#. mail:vfolder-notexist secondary
+#: mail/mail-errors.xml.h:188
+msgid ""
+"This folder may have been added implictly, go to the virtual folder editor "
+"to add it explictly, if required."
+msgstr ""
+
+#. mail:vfolder-notunique primary
+#: mail/mail-errors.xml.h:190
+#, fuzzy
+msgid "Cannot add vFolder \"{0}\"."
+msgstr "Hap file"
+
+#. mail:vfolder-updated primary
+#: mail/mail-errors.xml.h:194
+msgid "vFolders automatically updated."
+msgstr ""
+
+#. mail:vfolder-updated secondary
+#: mail/mail-errors.xml.h:196
+msgid ""
+"The following vFolder(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+
+#. mail:filter-updated primary
+#: mail/mail-errors.xml.h:202
+msgid "Mail filters automatically updated."
+msgstr ""
+
+#. mail:filter-updated secondary
+#: mail/mail-errors.xml.h:204
+msgid ""
+"The following filter rule(s):\n"
+"{0}\n"
+"Used the now removed folder:\n"
+"    \"{1}\"\n"
+"And have been updated."
+msgstr ""
+
+#. mail:no-folder primary
+#: mail/mail-errors.xml.h:210
+#, fuzzy
+msgid "Missing folder."
+msgstr "Mungon emri i file."
+
+#. mail:no-folder secondary
+#: mail/mail-errors.xml.h:212
+#, fuzzy
+msgid "You must specify a folder."
+msgstr "Ju duhet të jepni vendin nga duhet marrë kalendari."
+
+#. mail:no-name-vfolder secondary
+#: mail/mail-errors.xml.h:216
+msgid "You must name this vFolder."
+msgstr ""
+
+#. mail:vfolder-no-source primary
+#: mail/mail-errors.xml.h:218
+#, fuzzy
+msgid "No sources selected."
+msgstr ", %d i zgjedhur"
+
+#. mail:vfolder-no-source secondary
+#: mail/mail-errors.xml.h:220
+msgid ""
+"You must specify at least one folder as a source.\n"
+"Either by selecting the folders individually, and/or by selecting\n"
+"all local folders, all remote folders, or both."
+msgstr ""
+
+#. mail:ask-migrate-existing primary
+#: mail/mail-errors.xml.h:224
+msgid "Problem migrating old mail folder \"{0}\"."
+msgstr ""
+
+#. mail:ask-migrate-existing secondary
+#: mail/mail-errors.xml.h:226
+msgid ""
+"A non-empty folder at \"{1}\" already exists.\n"
+"\n"
+"You can choose to ignore this folder, overwrite or append its contents, or "
+"quit.\n"
+msgstr ""
+
+#: mail/mail-errors.xml.h:230
+msgid "Ignore"
+msgstr "Shpërfill"
+
+#: mail/mail-errors.xml.h:231 widgets/misc/e-system-errors.xml.h:7
+msgid "_Overwrite"
+msgstr "_Mbishkruaj"
+
+#: mail/mail-errors.xml.h:232
+msgid "_Append"
+msgstr "_Shto (në fund)"
 
 #: mail/mail-folder-cache.c:785
 #, c-format
@@ -16084,7 +16688,6 @@ msgstr "Grupi"
 msgid "_Work Online"
 msgstr "_Puno online"
 
-#. GRUT modified this item
 #: shell/e-shell-window-commands.c:575 ui/evolution.xml.h:39
 msgid "_Work Offline"
 msgstr "_Puno Jashtë Linje"
@@ -16319,6 +16922,73 @@ msgstr ""
 msgid ""
 "%s: --online and --offline cannot be used together.\n"
 "  Use %s --help for more information.\n"
+msgstr ""
+
+#. shell:upgrade-nospace primary
+#: shell/shell-errors.xml.h:2
+msgid "Insufficient disk space for upgrade."
+msgstr ""
+
+#. shell:upgrade-nospace secondary
+#: shell/shell-errors.xml.h:4
+msgid ""
+"Upgrading your data and settings will require upto {0} of disk space, but "
+"you only have {1} available.\n"
+"\n"
+"You will need to make more space available in your home directory before you "
+"can continue."
+msgstr ""
+
+#. shell:upgrade-failed primary
+#: shell/shell-errors.xml.h:8
+msgid ""
+"Upgrade from previous version failed:\n"
+"{0}"
+msgstr ""
+
+#. shell:upgrade-failed secondary
+#: shell/shell-errors.xml.h:11
+msgid ""
+"{1}\n"
+"\n"
+"If you choose to continue, you may not have access to some of your old "
+"data.\n"
+msgstr ""
+
+#: shell/shell-errors.xml.h:15
+msgid "Continue"
+msgstr "Vazhdo"
+
+#. shell:noshell title
+#. shell:noshell-reason title
+#: shell/shell-errors.xml.h:17 shell/shell-errors.xml.h:25
+#, fuzzy
+msgid "Cannot start Evolution"
+msgstr "E pamundur nisja e evolution-data-server"
+
+#. shell:noshell primary
+#. shell:noshell-reason primary
+#: shell/shell-errors.xml.h:19 shell/shell-errors.xml.h:27
+#, fuzzy
+msgid "Evolution can not start."
+msgstr "Alarmi i Evolution"
+
+#. shell:noshell secondary
+#: shell/shell-errors.xml.h:21
+msgid ""
+"Your system configuration does not match your Evolution configuration.\n"
+"\n"
+"Click help for details"
+msgstr ""
+
+#. shell:noshell-reason secondary
+#: shell/shell-errors.xml.h:29
+msgid ""
+"Your system configuration does not match your Evolution configuration:\n"
+"\n"
+"{0}\n"
+"\n"
+"Click help for details."
 msgstr ""
 
 #: smime/gui/ca-trust-dialog.c:91
@@ -18587,7 +19257,7 @@ msgstr "_Kërko"
 
 #: widgets/misc/e-search-bar.c:546
 msgid "_Find Now"
-msgstr ""
+msgstr "_Gjej tani"
 
 #: widgets/misc/e-search-bar.c:547 widgets/misc/e-search-bar.c:929
 msgid "_Clear"
@@ -18622,10 +19292,6 @@ msgid "Do you wish to overwrite it?"
 msgstr ""
 "%s ekziston\n"
 "Dëshiron t'a mbishkruash?"
-
-#: widgets/misc/e-system-errors.xml.h:7
-msgid "_Overwrite"
-msgstr "_Mbishkruaj"
 
 #. system:no-save-file primary
 #: widgets/misc/e-system-errors.xml.h:9
