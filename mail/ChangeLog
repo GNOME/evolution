@@ -1,3 +1,9 @@
+2000-11-17  Not Zed  <NotZed@HelixCode.com>
+
+	* message-list.c (message_list_destroy): Before we destroy
+	ourselves, unhook ourselves from the folder update events.  Should
+	fix a common crash on exit case.
+
 2000-11-16  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* folder-browser-factory.c: Added the MessageViewSource bonobo

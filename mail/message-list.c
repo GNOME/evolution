@@ -91,6 +91,9 @@ static void free_tree_ids (ETreeModel *etm);
 
 static void save_tree_state(MessageList *ml);
 
+static void folder_changed (CamelObject *o, gpointer event_data, gpointer user_data);
+static void message_changed (CamelObject *o, gpointer event_data, gpointer user_data);
+
 /* note: @changes is owned/freed by the caller */
 static void mail_do_regenerate_messagelist (MessageList *list, const gchar *search, CamelFolderChangeInfo *changes);
 
@@ -1050,8 +1053,13 @@ message_list_destroy (GtkObject *object)
 	if (message_list->seen_id)
 		gtk_timeout_remove (message_list->seen_id);
 	
-	if (message_list->folder)
+	if (message_list->folder) {
+		camel_object_unhook_event((CamelObject *)message_list->folder, "folder_changed",
+					  folder_changed, message_list);
+		camel_object_unhook_event((CamelObject *)message_list->folder, "message_changed",
+					  message_changed, message_list);
 		camel_object_unref (CAMEL_OBJECT (message_list->folder));
+	}
 	
 	GTK_OBJECT_CLASS (message_list_parent_class)->destroy (object);
 }
