@@ -307,8 +307,11 @@ sort_info_changed (ETableSortInfo *info, ETable *et)
 	gboolean will_be_grouped = e_table_sort_info_grouping_get_count(info) > 0;
 	if (et->is_grouped || will_be_grouped) {
 		et->need_rebuild = TRUE;
-		if (!et->rebuild_idle_id)
+		if (!et->rebuild_idle_id) {
+			gtk_object_destroy (GTK_OBJECT (et->group));
+			et->group = NULL;
 			et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
+		}
 	}
 }
 
@@ -529,8 +532,11 @@ static void
 et_table_model_changed (ETableModel *model, ETable *et)
 {
 	et->need_rebuild = TRUE;
-	if (!et->rebuild_idle_id)
+	if (!et->rebuild_idle_id) {
+		gtk_object_destroy (GTK_OBJECT (et->group));
+		et->group = NULL;
 		et->rebuild_idle_id = g_idle_add_full (20, changed_idle, et, NULL);
+	}
 }
 
 static void
@@ -573,7 +579,7 @@ et_table_rows_deleted (ETableModel *table_model, int row, int count, ETable *et)
 	if (!et->need_rebuild) {
 		int i;
 		for (i = 0; i < count; i++)
-			e_table_group_remove (et->group, row);
+			e_table_group_remove (et->group, i);
 		if (row != row_count)
 			e_table_group_decrement(et->group, row, count);
 		if (et->horizontal_scrolling)
@@ -650,7 +656,8 @@ changed_idle (gpointer data)
 	ETable *et = E_TABLE (data);
 
 	if (et->need_rebuild) {
-		gtk_object_destroy (GTK_OBJECT (et->group));
+		if (et->group)
+			gtk_object_destroy (GTK_OBJECT (et->group));
 		et_build_groups(et);
 		gtk_object_set (GTK_OBJECT (et->canvas_vbox),
 				"width", (double) GTK_WIDGET (et->table_canvas)->allocation.width,
