@@ -1,5 +1,15 @@
 2004-05-20  Hans Petter Jansson  <hpj@ximian.com>
 
+	* importers/evolution-ldif-importer.c (add_to_notes): Add helper
+	func.
+	(process_item_fn): Add undisplayed fields to notes.
+
+	* importers/evolution-vcard-importer.c (add_to_notes): Add helper
+	func.
+	(process_item_fn): Add undisplayed fields to notes.
+
+2004-05-20  Hans Petter Jansson  <hpj@ximian.com>
+
 	* gui/component/addressbook-migrate.c (add_to_notes): Implement.
 	(migrate_contacts_hidden_fields): Implement.
 	(migrate_contacts): Copy fields that are now hidden in the UI,

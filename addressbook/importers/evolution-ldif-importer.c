@@ -428,6 +428,30 @@ create_contacts_from_ldif (const char *filename)
 	return list;
 }
 
+static void
+add_to_notes (EContact *contact, EContactField field)
+{
+	const gchar *old_text;
+	const gchar *field_text;
+	gchar       *new_text;
+
+	old_text = e_contact_get_const (contact, E_CONTACT_NOTE);
+	if (old_text && strstr (old_text, e_contact_pretty_name (field)))
+		return;
+
+	field_text = e_contact_get_const (contact, field);
+	if (!field_text || !*field_text)
+		return;
+
+	new_text = g_strdup_printf ("%s%s%s: %s",
+				    old_text ? old_text : "",
+				    old_text && *old_text &&
+				    *(old_text + strlen (old_text) - 1) != '\n' ? "\n" : "",
+				    e_contact_pretty_name (field), field_text);
+	e_contact_set (contact, E_CONTACT_NOTE, new_text);
+	g_free (new_text);
+}
+
 /* EvolutionImporter methods */
 static void
 process_item_fn (EvolutionImporter *importer,
@@ -459,6 +483,13 @@ process_item_fn (EvolutionImporter *importer,
 	contact = gci->iterator->data;
 	if (e_contact_get (contact, E_CONTACT_IS_LIST))
 		resolve_list_card (gci, contact);
+	else {
+		/* Work around the fact that these fields no longer show up in the UI */
+		add_to_notes (contact, E_CONTACT_OFFICE);
+		add_to_notes (contact, E_CONTACT_SPOUSE);
+		add_to_notes (contact, E_CONTACT_BLOG_URL);
+	}
+
 	/* FIXME Error checking */
 	e_book_add_contact (gci->book, contact, NULL);
 
