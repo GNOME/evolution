@@ -1281,6 +1281,7 @@ calendar_model_free_value (ETableModel *etm, int col, void *value)
 	case CAL_COMPONENT_FIELD_GEO:
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_SUMMARY:
 		g_free (value);
 
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
@@ -1332,6 +1333,9 @@ calendar_model_initialize_value (ETableModel *etm, int col)
 	case CAL_COMPONENT_FIELD_PRIORITY:
 		return init_string ();
 
+	case CAL_COMPONENT_FIELD_SUMMARY:
+		return g_strdup ("Hello");
+
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 		return NULL;
 
@@ -1371,6 +1375,7 @@ calendar_model_value_is_empty (ETableModel *etm, int col, const void *value)
 	case CAL_COMPONENT_FIELD_GEO:
 	case CAL_COMPONENT_FIELD_PERCENT:
 	case CAL_COMPONENT_FIELD_PRIORITY:
+	case CAL_COMPONENT_FIELD_SUMMARY:
 	case CAL_COMPONENT_FIELD_TRANSPARENCY:
 	case CAL_COMPONENT_FIELD_URL:
 		return string_is_empty (value);

@@ -1,3 +1,10 @@
+2000-08-24  JP Rosevear  <jpr@helixcode.com>
+
+	* gui/calendar-model.c (calendar_model_initialize_value): Handle
+	summary field
+	(calendar_model_value_is_empty): ditto
+	(calendar_model_free_value): ditto
+
 2000-08-23  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/event-editor-dialog.glade: Remove status bar
