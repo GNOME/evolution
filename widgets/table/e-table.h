@@ -76,6 +76,8 @@ typedef struct {
 	guint draw_grid : 1;
 	guint draw_focus : 1;
 	guint row_selection_active : 1;
+
+	guint horizontal_scrolling : 1;
 	
 	char *click_to_add_message;
 	GnomeCanvasItem *click_to_add;

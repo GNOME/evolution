@@ -789,6 +789,26 @@ eth_calc_widths (ETableHeader *eth)
 	gtk_signal_emit (GTK_OBJECT (eth), eth_signals [DIMENSION_CHANGE]);
 }
 
+void
+e_table_header_update_horizontal (ETableHeader *eth)
+{
+	int i;
+	int cols;
+
+	cols = eth->col_count;
+
+	for (i = 0; i < cols; i++) {
+		int width;
+		
+		gtk_signal_emit_by_name (GTK_OBJECT (eth),
+					 "request_width",
+					 i, &width);
+		eth->columns[i]->min_width = width + 10;
+		eth->columns[i]->expansion = 1;
+	}
+	enqueue(eth, -1, eth->nominal_width);
+}
+
 GtkType
 e_table_header_get_type (void)
 {
@@ -811,4 +831,3 @@ e_table_header_get_type (void)
 
 	return type;
 }
-

@@ -189,6 +189,8 @@ e_table_init (GtkObject *object)
 	e_table->need_rebuild = 0;
 	e_table->rebuild_idle_id = 0;
 
+	e_table->horizontal_scrolling = FALSE;
+
 	e_table->click_to_add_message = NULL;
 
 	e_table->drag_get_data_row = -1;
@@ -510,6 +512,9 @@ changed_idle (gpointer data)
 	et->need_rebuild = 0;
 	et->rebuild_idle_id = 0;
 
+	if (et->horizontal_scrolling)
+		e_table_header_update_horizontal(et->header);
+
 	return FALSE;
 }
 
@@ -527,6 +532,8 @@ et_table_row_changed (ETableModel *table_model, int row, ETable *et)
 	if (!et->need_rebuild) {
 		if (e_table_group_remove (et->group, row))
 			e_table_group_add (et->group, row);
+		if (et->horizontal_scrolling)
+			e_table_header_update_horizontal(et->header);
 	}
 }
 
@@ -545,6 +552,8 @@ et_table_row_inserted (ETableModel *table_model, int row, ETable *et)
 		if (row != row_count - 1)
 			e_table_group_increment(et->group, row, 1);
 		e_table_group_add (et->group, row);
+		if (et->horizontal_scrolling)
+			e_table_header_update_horizontal(et->header);
 	}
 }
 
@@ -556,6 +565,8 @@ et_table_row_deleted (ETableModel *table_model, int row, ETable *et)
 		e_table_group_remove (et->group, row);
 		if (row != row_count)
 			e_table_group_decrement(et->group, row, 1);
+		if (et->horizontal_scrolling)
+			e_table_header_update_horizontal(et->header);
 	}
 }
 
@@ -1025,6 +1036,13 @@ et_real_construct (ETable *e_table, ETableModel *etm, ETableExtras *ete,
 	gtk_widget_push_colormap (gdk_rgb_get_cmap ());
 
 	e_table->header = et_state_to_header (e_table, e_table->full_header, state);
+	e_table->horizontal_scrolling = specification->horizontal_scrolling;
+	if (specification->horizontal_scrolling) {
+		gtk_object_set(GTK_OBJECT(e_table->header),
+			       "horizontal_scrolling", TRUE,
+			       NULL);
+	}
+
 	e_table->sort_info = state->sort_info;
 
 	e_table->group_info_change_id =
