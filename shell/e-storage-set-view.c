@@ -56,10 +56,15 @@ struct _EStorageSetViewPrivate {
 	/* Whether we are currently performing a drag from this view.  */
 	int in_drag : 1;
 
+	/* X/Y position for the last button click.  */
+	int button_x, button_y;
+
 	/* Button used for the drag.  This is initialized in the `button_press_event'
            handler.  */
 	int drag_button;
 };
+
+#define DRAG_RESISTANCE 3
 
 
 enum {
@@ -257,6 +262,8 @@ button_press_event (GtkWidget *widget,
 		return FALSE;
 
 	priv->drag_button = event->button;
+	priv->button_x = event->x;
+	priv->button_y = event->y;
 
 	/* KLUDGE ALERT.  So look at this.  We need to grab the pointer now, to check for
            motion events and maybe start a drag operation.  And GtkCTree seems to do it
@@ -293,6 +300,10 @@ motion_notify_event (GtkWidget *widget,
 	if (priv->in_drag || priv->drag_button == 0)
 		return FALSE;
 
+	if (ABS (event->x - priv->button_x) < DRAG_RESISTANCE
+	    && ABS (event->y - priv->button_y) < DRAG_RESISTANCE)
+		return FALSE;
+
 	priv->in_drag = TRUE;
 	priv->dragged_row_path = priv->selected_row_path;
 
@@ -315,14 +326,16 @@ button_release_event (GtkWidget *widget,
 	storage_set_view = E_STORAGE_SET_VIEW (widget);
 	priv = storage_set_view->priv;
 
-	if (! priv->in_drag && priv->selected_row_path != NULL) {
+	if (! priv->in_drag) {
 		gdk_pointer_ungrab (GDK_CURRENT_TIME);
 		gtk_grab_remove (widget);
 		gdk_flush ();
 
-		gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
-				 priv->selected_row_path);
-		priv->selected_row_path = NULL;
+		if (priv->selected_row_path != NULL) {
+			gtk_signal_emit (GTK_OBJECT (widget), signals[FOLDER_SELECTED],
+					 priv->selected_row_path);
+			priv->selected_row_path = NULL;
+		}
 	}
 
 	priv->selected_row_path_before_click = NULL;
@@ -641,6 +654,8 @@ init (EStorageSetView *storage_set_view)
 	priv->dragged_row_path               = NULL;
 	priv->selected_row_path_before_click = NULL;
 	priv->in_drag                        = FALSE;
+	priv->button_x                       = 0;
+	priv->button_y                       = 0;
 
 	storage_set_view->priv = priv;
 }

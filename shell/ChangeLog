@@ -1,5 +1,17 @@
 2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
 
+	* e-storage-set-view.c: New constant `DRAG_RESISTANCE'.  New
+	members `button_x', `button_y' in `EStorageSetViewPrivate'.
+	(init): Initialize to zero.
+	(button_press_event): Set.
+	(motion_notify_event): Don't start drag unless the current x/y
+	position is farther than `DRAG_RESISTANCE', in any of the two
+	directions, from the original position of the button click.
+	(button_release_event): Always ungrab the pointer, even if
+	`selected_row_path' is NULL.
+
+2000-05-31  Ettore Perazzoli  <ettore@helixcode.com>
+
 	* evolution-shell-component.c (class_init): Eeek!
 	s/owner_set/owner_unset/.
 
