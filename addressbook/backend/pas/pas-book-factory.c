@@ -30,6 +30,9 @@ struct _PASBookFactoryPrivate {
 	GHashTable *backends;
 	GHashTable *active_server_map;
 	GList      *queued_requests;
+
+	/* Whether the factory has been registered with OAF yet */
+	guint       registered : 1;
 };
 
 /* Signal IDs */
@@ -419,17 +422,32 @@ pas_book_factory_new (void)
 	return factory;
 }
 
-static gboolean
-register_factory (CORBA_Object obj)
+/**
+ * pas_book_factory_activate:
+ */
+gboolean
+pas_book_factory_activate (PASBookFactory *factory)
 {
+	PASBookFactoryPrivate *priv;
+	CORBA_Object obj;
 	OAF_RegistrationResult result;
 
+	g_return_val_if_fail (factory != NULL, FALSE);
+	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), FALSE);
+
+	priv = factory->priv;
+
+	g_return_val_if_fail (!priv->registered, FALSE);
+
 	puts ("about to register addressbook");
+
+	obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
 
 	result = oaf_active_server_register (PAS_BOOK_FACTORY_OAF_ID, obj);
 
 	switch (result) {
 	case OAF_REG_SUCCESS:
+		priv->registered = TRUE;
 		return TRUE;
 	case OAF_REG_NOT_LISTED:
 		g_message ("Error registering the PAS factory: not listed");
@@ -444,18 +462,6 @@ register_factory (CORBA_Object obj)
 	}
 }
 
-/**
- * pas_book_factory_activate:
- */
-gboolean
-pas_book_factory_activate (PASBookFactory *factory)
-{
-	g_return_val_if_fail (factory != NULL, FALSE);
-	g_return_val_if_fail (PAS_IS_BOOK_FACTORY (factory), FALSE);
-
-	return register_factory (bonobo_object_corba_objref (BONOBO_OBJECT (factory)));
-}
-
 static void
 pas_book_factory_init (PASBookFactory *factory)
 {
@@ -464,6 +470,7 @@ pas_book_factory_init (PASBookFactory *factory)
 	factory->priv->active_server_map = g_hash_table_new (g_str_hash, g_str_equal);
 	factory->priv->backends          = g_hash_table_new (g_str_hash, g_str_equal);
 	factory->priv->queued_requests   = NULL;
+	factory->priv->registered        = FALSE;
 }
 
 static void
@@ -520,6 +527,14 @@ pas_book_factory_destroy (GtkObject *object)
 			      NULL);
 	g_hash_table_destroy (factory->priv->backends);
 	factory->priv->backends = NULL;
+
+	if (factory->priv->registered) {
+		CORBA_Object obj;
+
+		obj = bonobo_object_corba_objref (BONOBO_OBJECT (factory));
+		oaf_active_server_unregister (PAS_BOOK_FACTORY_OAF_ID, obj);
+		factory->priv->registered = FALSE;
+	}
 	
 	g_free (factory->priv);
 

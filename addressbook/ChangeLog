@@ -1,3 +1,12 @@
+2001-02-20  Federico Mena Quintero  <federico@ximian.com>
+
+	* backend/pas/pas-book-factory.c (pas_book_factory_activate):
+	Moved the register_factory() code to here, since it was the only
+	thing being called anyways.
+	(PasBookFactoryPrivate): Added a "registered" flag.
+	(pas_book_factory_activate): Set the registered flag.
+	(pas_book_factory_destroy): Deactivate the factory when we go away.
+
 2001-02-20  Chris Toshok  <toshok@ximian.com>
 
 	* backend/ebook/e-book.c (e_book_get_supported_fields): new function.
