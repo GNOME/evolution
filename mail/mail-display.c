@@ -1013,37 +1013,47 @@ ebook_callback (EBook *book, const gchar *addr, ECard *card, gpointer data)
 
 static void
 on_url_requested (GtkHTML *html, const char *url, GtkHTMLStream *handle,
-		       gpointer user_data)
+		  gpointer user_data)
 {
 	MailDisplay *md = user_data;
 	GHashTable *urls;
 	CamelMedium *medium;
 	GByteArray *ba;
-
+	
 	urls = g_datalist_get_data (md->data, "part_urls");
 	g_return_if_fail (urls != NULL);
-
+	
 	/* See if it refers to a MIME part (cid: or http:) */
 	medium = g_hash_table_lookup (urls, url);
 	if (medium) {
+		CamelContentType *content_type;
 		CamelDataWrapper *data;
 		CamelStream *stream_mem;
-
+		
 		g_return_if_fail (CAMEL_IS_MEDIUM (medium));
-
+		
 		data = camel_medium_get_content_object (medium);
 		if (!mail_content_loaded (data, md, FALSE, url, handle))
 			return;
-
-		ba = g_byte_array_new ();
-		stream_mem = camel_stream_mem_new_with_byte_array (ba);
-		camel_data_wrapper_write_to_stream (data, stream_mem);
-		/* printf ("-- begin --\n");
-		   printf (ba->data);
-		   printf ("-- end --\n"); */
-		gtk_html_write (html, handle, ba->data, ba->len);
-		camel_object_unref (CAMEL_OBJECT (stream_mem));
-
+		
+		content_type = camel_data_wrapper_get_mime_type_field (data);
+		
+		if (header_content_type_is (content_type, "text", "*")) {
+			ba = mail_format_get_data_wrapper_text (data, md);
+		} else {
+			ba = g_byte_array_new ();
+			stream_mem = camel_stream_mem_new ();
+			camel_stream_mem_set_byte_array (CAMEL_STREAM_MEM (stream_mem), ba);
+			camel_data_wrapper_write_to_stream (data, stream_mem);
+			camel_object_unref (CAMEL_OBJECT (stream_mem));
+		}
+		
+		if (ba) {
+			gtk_html_write (html, handle, ba->data, ba->len);
+			
+			g_byte_array_free (ba, TRUE);
+		}
+		
 		gtk_html_end (html, handle, GTK_HTML_STREAM_OK);
 		return;
 	}

@@ -1,3 +1,18 @@
+2001-10-21  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (on_url_requested): Use
+	mail_format_get_data_wrapper_text for text parts so we get free
+	charset conversion.
+
+	* mail-format.c (mail_format_get_data_wrapper_text): Renamed from
+	get_data_wrapper_text and now returns a GByteArray.
+	(handle_text_plain): Updated to use the new get_data_wrapper_text.
+	(handle_application_pgp): Same. Wow...also fixed a mem leak and
+	made a bit more efficient by doing so.
+	(handle_text_enriched): Here too. Also use string->len instead of
+	strlen (string->str).
+	(mail_format_raw_message): Same.
+
 2001-10-22    <NotZed@Ximian.com>
 
 	* mail-callbacks.c (mark_all_as_seen): Instead of select_all()

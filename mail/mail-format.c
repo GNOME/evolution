@@ -49,8 +49,6 @@
 #include "mail-mt.h"
 #include "mail-crypto.h"
 
-static char *get_data_wrapper_text (CamelDataWrapper *data, MailDisplay *mail_display);
-
 static char *try_inline_pgp (char *start, CamelMimePart *part, MailDisplay *md);
 static char *try_inline_pgp_sig (char *start, CamelMimePart *part, MailDisplay *md);
 static char *try_uudecoding (char *start, CamelMimePart *part, MailDisplay *md);
@@ -201,22 +199,29 @@ mail_format_mime_message (CamelMimeMessage *mime_message, MailDisplay *md)
 void
 mail_format_raw_message (CamelMimeMessage *mime_message, MailDisplay *md)
 {
-	char *text, *html;
-
+	GByteArray *bytes;
+	char *html;
+	
 	g_return_if_fail (CAMEL_IS_MIME_MESSAGE (mime_message));
 	
 	if (!mail_content_loaded (CAMEL_DATA_WRAPPER (mime_message), md,
 				  TRUE, NULL, NULL))
 		return;
-
-	mail_html_write (md->html, md->stream, "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td><tt>\n");
 	
-	text = get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
-	html = e_text_to_html (text, E_TEXT_TO_HTML_CONVERT_NL | E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
-	g_free (text);
-	gtk_html_write (md->html, md->stream, html, strlen (html));
-	g_free (html);
-
+	mail_html_write (md->html, md->stream,
+			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td><tt>\n");
+	
+	bytes = mail_format_get_data_wrapper_text (CAMEL_DATA_WRAPPER (mime_message), md);
+	if (bytes) {
+		g_byte_array_append (bytes, "", 1);
+		html = e_text_to_html (bytes->data, E_TEXT_TO_HTML_CONVERT_NL |
+				       E_TEXT_TO_HTML_CONVERT_SPACES | E_TEXT_TO_HTML_ESCAPE_8BIT);
+		g_byte_array_free (bytes, TRUE);
+		
+		gtk_html_write (md->html, md->stream, html, strlen (html));
+		g_free (html);
+	}
+	
 	mail_html_write (md->html, md->stream, "</tt></td></tr></table>");
 }
 
@@ -1050,8 +1055,8 @@ mail_content_loaded (CamelDataWrapper *wrapper, MailDisplay *md, gboolean redisp
 /* Return the contents of a data wrapper, or %NULL if it contains only
  * whitespace.
  */
-static char *
-get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
+GByteArray *
+mail_format_get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
 {
 	CamelStream *memstream;
 	CamelStreamFilter *filtered_stream;
@@ -1095,11 +1100,7 @@ get_data_wrapper_text (CamelDataWrapper *wrapper, MailDisplay *mail_display)
 		return NULL;
 	}
 	
-	g_byte_array_append (ba, "", 1);
-	text = ba->data;
-	g_byte_array_free (ba, FALSE);
-	
-	return text;
+	return ba;
 }
 
 /*----------------------------------------------------------------------*
@@ -1123,22 +1124,27 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 {
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	char *text, *p, *start;
 	CamelContentType *type;
 	gboolean check_specials;
+	char *p, *start, *text;
 	const char *format;
+	GByteArray *bytes;
 	int i;
 	
-	text = get_data_wrapper_text (wrapper, md);
-	if (!text)
+	bytes = mail_format_get_data_wrapper_text (wrapper, md);
+	if (!bytes)
 		return FALSE;
+	
+	g_byte_array_append (bytes, "", 1);
+	text = bytes->data;
+	g_byte_array_free (bytes, FALSE);
 	
 	/* Check for RFC 2646 flowed text. */
 	type = camel_mime_part_get_content_type (part);
 	format = header_content_type_param (type, "format");
 	if (format && !g_strcasecmp (format, "flowed"))
 		return handle_text_plain_flowed (text, md);
-
+	
 	mail_html_write (md->html, md->stream,
 			 "\n<!-- text/plain -->\n"
 			 "<table cellspacing=0 cellpadding=10 width=\"100%%\"><tr><td>\n");
@@ -1204,7 +1210,7 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 	const char *format, *xaction;
 	CamelMimePart *mime_part;
 	CamelContentType *type;
-	char *text;
+	GByteArray *bytes;
 	
 	/* Check the format and x-action parameters. */
 	type = camel_mime_part_get_content_type (part);
@@ -1215,19 +1221,19 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 	if (g_strcasecmp (format, "text") != 0)
 		return FALSE;
 	
-	text = get_data_wrapper_text (wrapper, md);
-	if (!text)
+	bytes = mail_format_get_data_wrapper_text (wrapper, md);
+	if (!bytes)
 		return FALSE;
 	
 	mime_part = camel_mime_part_new ();
 	if (!g_strcasecmp (xaction, "sign")) {
-		camel_mime_part_set_content (mime_part, text, strlen (text), "text/plain");
+		camel_mime_part_set_content (mime_part, bytes->data, bytes->len, "text/plain");
 	} else {
 		CamelStream *ciphertext, *plaintext;
 		GByteArray *buffer;
 		
 		ciphertext = camel_stream_mem_new ();
-		camel_stream_write (ciphertext, text, strlen (text));
+		camel_stream_write (ciphertext, bytes->data, bytes->len);
 		camel_stream_reset (ciphertext);
 		
 		plaintext = camel_stream_mem_new ();
@@ -1239,6 +1245,8 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 		camel_mime_part_set_content (mime_part, buffer->data, buffer->len, "text/plain");
 		camel_object_unref (CAMEL_OBJECT (plaintext));
 	}
+	
+	g_byte_array_free (bytes, TRUE);
 	
 	camel_medium_set_content_object (CAMEL_MEDIUM (part),
 					 camel_medium_get_content_object (CAMEL_MEDIUM (mime_part)));
@@ -1654,11 +1662,11 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	static GHashTable *translations = NULL;
 	CamelDataWrapper *wrapper =
 		camel_medium_get_content_object (CAMEL_MEDIUM (part));
-	GString *string;
-	GByteArray *ba;
+	GByteArray *ba, *bytes;
 	char *text, *p, *xed;
 	int len, nofill = 0;
 	gboolean enriched;
+	GString *string;
 	
 	if (!translations) {
 		translations = g_hash_table_new (g_strcase_hash,
@@ -1693,8 +1701,8 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 		g_hash_table_insert (translations, "np", "<hr>");
 	}
 	
-	text = get_data_wrapper_text (wrapper, md);
-	if (!text)
+	bytes = mail_format_get_data_wrapper_text (wrapper, md);
+	if (!bytes)
 		return FALSE;
 	
 	if (!g_strcasecmp (mime_type, "text/richtext")) {
@@ -1710,8 +1718,10 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	/* This is not great code, but I don't feel like fixing it right
 	 * now. I mean, it's just text/enriched...
 	 */
-	p = text;
-	string = g_string_sized_new (2 * strlen (p));
+	string = g_string_sized_new (2 * bytes->len);
+	g_byte_array_append (bytes, "", 1);
+	p = text = bytes->data;
+	g_byte_array_free (bytes, FALSE);
 	
 	while (p) {
 		len = strcspn (p, " <>&\n");
@@ -1791,7 +1801,7 @@ handle_text_enriched (CamelMimePart *part, const char *mime_type,
 	
 	ba = g_byte_array_new ();
 	g_byte_array_append (ba, (const guint8 *)string->str,
-			     strlen (string->str));
+			     string->len);
 	g_string_free (string, TRUE);
 	
 	xed = g_strdup_printf ("x-evolution-data:%p", part);
@@ -2336,33 +2346,40 @@ mail_get_message_rfc822 (CamelMimeMessage *message, gboolean want_plain, gboolea
 char *
 mail_get_message_body (CamelDataWrapper *data, gboolean want_plain, gboolean cite)
 {
+	CamelContentType *mime_type;
 	CamelMultipart *mp;
 	CamelMimePart *subpart;
-	int i, nparts;
 	char *subtext, *old, *div;
 	char *text = NULL;
-	CamelContentType *mime_type;
-
+	GByteArray *bytes;
+	int i, nparts;
+	
 	mime_type = camel_data_wrapper_get_mime_type_field (data);
-
+	
 	/* If it is message/rfc822 or message/news, extract the
 	 * important headers and recursively process the body.
 	 */
 	if (header_content_type_is (mime_type, "message", "rfc822") ||
 	    header_content_type_is (mime_type, "message", "news"))
 		return mail_get_message_rfc822 (CAMEL_MIME_MESSAGE (data), want_plain, cite);
-
+	
 	/* If it's a vcard or icalendar, ignore it. */
 	if (header_content_type_is (mime_type, "text", "x-vcard") ||
 	    header_content_type_is (mime_type, "text", "calendar"))
 		return NULL;
-
+	
 	/* Get the body data for other text/ or message/ types */
 	if (header_content_type_is (mime_type, "text", "*") ||
 	    header_content_type_is (mime_type, "message", "*")) {
-		text = get_data_wrapper_text (data, NULL);
-		if (text && !header_content_type_is (mime_type, "text", "html")) {
-			char *html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
+		bytes = mail_format_get_data_wrapper_text (data, NULL);
+		if (bytes && !header_content_type_is (mime_type, "text", "html")) {
+			char *html;
+			
+			g_byte_array_append (bytes, "", 1);
+			text = bytes->data;
+			g_byte_array_free (bytes, FALSE);
+			
+			html = e_text_to_html (text, E_TEXT_TO_HTML_PRE | (cite ? E_TEXT_TO_HTML_CITE : 0));
 			g_free (text);
 			text = html;
 		}
