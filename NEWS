@@ -8,6 +8,9 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
     #41582 - display incorrect after switching between week and day
              view (Rodrigo)
     #43585 - Ugly tasks printout (Hans Petter)
+    #45273 - Tab through events in day view (Bolian Yin)
+    #45275 - Shift+F10 to activate Popup menu in ToDo List (Bolian Yin)
+    #45423 - provide shortcus for "Go to today" and "Go to date" (Bolian Yin)
 
   * Mail
 
