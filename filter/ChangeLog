@@ -1,3 +1,10 @@
+2002-04-11  Russell Steinthal  <rms39@columbia.edu>
+
+	* filtertypes.xml: Fix "Follow Up" searches by generating a
+	boolean, rather than a string result (Fixes #23334)
+
+	* vfoldertypes.xml: Ditto
+
 2002-04-09  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (double_click): This needs to return a gboolean

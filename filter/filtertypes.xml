@@ -471,13 +471,13 @@
    <option value="is">
     <title>is Flagged</title>
     <code>
-     (match-all (user-tag "follow-up"))
+     (match-all (not (= (user-tag "follow-up") "")))
     </code>
    </option>
    <option value="is not">
     <title>is not Flagged</title>
     <code>
-     (match-all (not (user-tag "follow-up")))
+     (match-all (= (user-tag "follow-up") ""))
     </code>
    </option>
   </input>
@@ -592,6 +592,11 @@
  <part name="score">
   <title>Assign Score</title>
   <code>(set-score ${score})</code>
+  <input type="score" name="score"/>
+ </part>
+ <part name="adj-score">
+  <title>Adjust Score</title>
+  <code>(adjust-score ${score})</code>
   <input type="score" name="score"/>
  </part>
  <part name="set-status">
