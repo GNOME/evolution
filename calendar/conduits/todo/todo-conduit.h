@@ -61,21 +61,14 @@ struct _EToDoConduitContext {
 	struct ToDoAppInfo ai;
 
 	CalClient *client;
-	char *calendar_file;
-	gboolean calendar_open_success;
 
 	icaltimezone *timezone;
 	GList *uids;
 	GList *changed;
 	GHashTable *changed_hash;
+	GList *locals;
 	
 	EPilotMap *map;
 };
 
 #endif /* __TODO_CONDUIT_H__ */
-
-
-
-
-
-

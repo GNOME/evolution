@@ -1,3 +1,29 @@
+2001-10-26  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.h: modify fields
+
+	* conduits/todo/todo-conduit.h: as above
+
+	* conduits/calendar/calendar-conduit.c (print_remote): free the
+	struct after use
+	(e_calendar_context_new): explicitly init context fields
+	(e_calendar_context_destroy): free local records and properly free
+	changed hash elements
+	(start_calendar_server_cb): tidy
+	(start_calendar_server): ditto
+	(free_local): free a local record
+	(local_record_to_pilot_record): use a static buffer to avoid leaks
+	(local_record_from_comp): only copy over alarm stuff from the
+	original record, we sync everything else
+	(local_record_from_uid): unref the comp when we are done
+	(pre_sync): free change_id
+	(post_sync): ditto
+	(for_each): track locals
+	(for_each_modified): ditto
+	(free_match): use free_local
+
+	* conduits/todo/todo-conduit.c: as above
+	
 2001-10-26  Federico Mena Quintero  <federico@ximian.com>
 
 	* pcs/cal.c (cal_construct): Get a fresh CORBA_Environment for

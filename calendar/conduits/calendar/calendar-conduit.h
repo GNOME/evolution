@@ -61,14 +61,12 @@ struct _ECalConduitContext {
 	struct AppointmentAppInfo ai;
 
 	CalClient *client;
-	char *calendar_file;
-	gboolean calendar_open_success;
 
 	icaltimezone *timezone;
-	time_t since;
 	GList *uids;
 	GList *changed;
 	GHashTable *changed_hash;
+	GList *locals;
 	
 	EPilotMap *map;
 };
