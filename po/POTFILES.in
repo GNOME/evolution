@@ -258,11 +258,8 @@ e-util/e-passwords.c
 e-util/e-pilot-settings.c
 e-util/e-time-utils.c
 filter/filter-datespec.c
-filter/filter-editor.c
 filter/filter-errors.xml.h
 filter/filter-file.c
-filter/filter-filter.c
-filter/filter-folder.c
 filter/filter.glade
 filter/filter-input.c
 filter/filter-label.c
@@ -271,15 +268,14 @@ filter/filter-part.c
 filter/filter-rule.c
 filter/rule-context.c
 filter/rule-editor.c
-filter/score-editor.c
-filter/score-rule.c
-filter/searchtypes.xml
-filter/vfolder-editor.c
-filter/vfolder-rule.c
 # List of source files containing translatable strings.
 mail/em-account-prefs.c
 mail/em-composer-prefs.c
 mail/em-composer-utils.c
+mail/em-filter-editor.c
+mail/em-filter-folder-element.c
+mail/em-filter-i18n.h
+mail/em-filter-rule.c
 mail/em-folder-browser.c
 mail/em-folder-properties.c
 mail/em-folder-selection-button.c
@@ -298,6 +294,8 @@ mail/em-migrate.c
 mail/em-popup.c
 mail/em-subscribe-editor.c
 mail/em-utils.c
+mail/em-vfolder-editor.c
+mail/em-vfolder-rule.c
 mail/evolution-mail.schemas.in.in
 mail/GNOME_Evolution_Mail.server.in.in
 mail/importers/elm-importer.c
