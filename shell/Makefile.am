@@ -8,7 +8,8 @@ INCLUDES = 						\
 	$(BONOBO_GNOME_CFLAGS)				\
 	-DEVOLUTION_IMAGES=\""$(imagesdir)"\"		\
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"
+	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"   \
+	-DG_LOG_DOMAIN=\"evolution-shell\"
 
 EVOLUTION_CORBA_GENERATED = 	\
 	Evolution.h		\

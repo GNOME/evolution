@@ -2,7 +2,8 @@
 
 INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 	-I$(includedir) -I$(top_srcdir)/camel/providers/pop3 \
-	-I$(top_srcdir)/camel/providers/mbox -I$(top_srcdir)/camel/providers/nntp
+	-I$(top_srcdir)/camel/providers/mbox -I$(top_srcdir)/camel/providers/nntp \
+	-DG_LOG_DOMAIN=\"evolution-tests\"	
 
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\

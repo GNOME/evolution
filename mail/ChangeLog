@@ -1,3 +1,7 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: set G_LOG_DOMAIN.
+
 2000-05-02  Larry Ewing  <lewing@helixcode.com>
 
 	* message-list.c (message_list_set_search): only free search if it

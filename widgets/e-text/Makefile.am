@@ -1,6 +1,7 @@
 INCLUDES =					\
 	-I$(top_srcdir)				\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-DG_LOG_DOMAIN=\"e-text\"
 
 noinst_LIBRARIES =				\
 	libetext.a

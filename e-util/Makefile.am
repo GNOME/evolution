@@ -1,5 +1,6 @@
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-DG_LOG_DOMAIN=\"e-utils\"
 
 noinst_LTLIBRARIES = libeutil.la
 

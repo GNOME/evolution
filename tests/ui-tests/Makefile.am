@@ -7,7 +7,8 @@ INCLUDES =					\
 	-I$(top_srcdir)/camel/providers/MH	\
 	-I$(top_srcdir)/widgets			\
 	-I$(top_srcdir)/filter			\
-	$(EXTRA_GNOME_CFLAGS) $(BONOBO_GNOME_CFLAGS)
+	$(EXTRA_GNOME_CFLAGS) $(BONOBO_GNOME_CFLAGS) \
+	-DG_LOG_DOMAIN=\"evolution-ui-tests\"
 
 LDADD =							\
 	$(top_builddir)/widgets/libevolutionwidgets.la	\

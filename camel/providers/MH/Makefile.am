@@ -9,7 +9,8 @@ lib_LTLIBRARIES = libcamelmh.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
-	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel
+	$(GTK_INCLUDEDIR) -I$(top_srcdir)/camel	\
+	-DG_LOG_DOMAIN=\"camel-mh-provider\"	
 
 libcamelmh_la_SOURCES = 			\
 	camel-mh-folder.c			\

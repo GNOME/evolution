@@ -7,7 +7,8 @@ libcamelmaildirincludedir = $(includedir)/camel
 lib_LTLIBRARIES = libcamelmaildir.la
 
 INCLUDES = -I.. -I$(srcdir)/.. -I$(top_srcdir)/intl -I$(top_srcdir)/camel \
-	$(GTK_INCLUDEDIR) -I$(includedir)
+	$(GTK_INCLUDEDIR) -I$(includedir)		\
+	-DG_LOG_DOMAIN=\"camel-maildir-provider\"		
 
 libcamelmaildir_la_SOURCES = \
 	camel-maildir-folder.c \

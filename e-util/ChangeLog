@@ -1,3 +1,7 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: set G_LOG_DOMAIN.
+
 2000-05-01  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-xml-utils.c, e-xml-utils.h: Constified all the functions.

@@ -17,7 +17,8 @@ INCLUDES =					\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR)			\
 	-I$(top_srcdir)/camel			\
-	-I$(srcdir)/../mbox
+	-I$(srcdir)/../mbox			\
+	-DG_LOG_DOMAIN=\"camel-pop3-provider\"
 
 libcamelpop3_la_SOURCES = 			\
 	camel-pop3-folder.c			\

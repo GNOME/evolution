@@ -1,3 +1,7 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: set G_LOG_DOMAIN.
+
 2000-04-28  Dan Winship  <danw@helixcode.com>
 
 	* e-msg-composer-hdrs.c (set_recipients): Update (minimally) for

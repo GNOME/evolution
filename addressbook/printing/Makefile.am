@@ -5,7 +5,8 @@ CPPFLAGS = \
 	$(GNOME_PRINT_CFLAGS)
 
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-DG_LOG_DOMAIN=\"addressbook-printing\"			
 
 noinst_LIBRARIES =				\
 	libecontactprint.a

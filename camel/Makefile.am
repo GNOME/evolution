@@ -10,8 +10,8 @@ lib_LTLIBRARIES = libcamel.la
 INCLUDES = -I.. -I$(srcdir)/.. -I$(includedir)	\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR)			\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
-
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\" \
+	-DG_LOG_DOMAIN=\"camel\"
 
 if ENABLE_THREADS
 

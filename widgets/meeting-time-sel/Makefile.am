@@ -1,6 +1,7 @@
 
 INCLUDES =					\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)			\
+	-DG_LOG_DOMAIN=\"meeting-time-sel\"
 
 noinst_LIBRARIES =				\
 	libevolutionmtsel.a

@@ -14,7 +14,8 @@ INCLUDES =					\
 	-DETABLE_GLADEDIR=\""$(gladedir)"\"	\
 	-I$(top_srcdir)/widgets/e-text		\
 	-I$(top_srcdir)/e-util			\
-	-I$(top_srcdir)
+	-I$(top_srcdir)                         \
+        -DG_LOG_DOMAIN=\"e-table\"
 
 noinst_LIBRARIES =				\
 	libetable.a

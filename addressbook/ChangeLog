@@ -1,3 +1,8 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* demo/Makefile.am: set G_LOG_DOMAIN.
+	* printing/Makefile.am: same.
+
 2000-05-01  Christopher James Lahey  <clahey@helixcode.com>
 
 	* backend/pas/pas-book-factory.c: Add back in the

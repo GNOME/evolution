@@ -12,7 +12,8 @@ INCLUDES =					\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
+	-DG_LOG_DOMAIN=\"addressbook-demo\"			
 
 noinst_PROGRAMS =	\
 	test-addressbook

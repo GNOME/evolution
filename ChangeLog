@@ -1,3 +1,10 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* tests/Makefile.am: set G_LOG_DOMAIN.
+	* tests/ui-tests/Makefile.am: same.
+	* widgets/e-text/Makefile.am: same.
+	* widgets/meeting-time-sel/Makefile.am: same.
+
 2000-05-01  NotZed  <NotZed@HelixCode.com>
 
 	* tests/test11.c (main): *sigh* moved back to sync api.

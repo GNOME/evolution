@@ -16,7 +16,8 @@ INCLUDES = \
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
 	-DEVOLUTION_LOCALEDIR=\""$(datadir)/locale"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"
+	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
+        -DG_LOG_DOMAIN=\"evolution-mail\"
 
 EVOLUTION_MAIL_CORBA_GENERATED = \
 	Mail.h			\

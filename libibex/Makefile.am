@@ -7,7 +7,8 @@ libibex_la_LDFLAGS = -static
 
 noinst_HEADERS = ibex_internal.h
 
-INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS)
+INCLUDES = -I$(srcdir) $(GLIB_CFLAGS) $(UNICODE_CFLAGS) \
+		-DG_LOG_DOMAIN=\"libibex\"
 
 
 noinst_PROGRAMS = mkindex lookup

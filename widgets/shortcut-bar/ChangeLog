@@ -1,3 +1,7 @@
+2000-05-02  Matt Loper  <matt@helixcode.com>
+
+	* Makefile.am: set G_LOG_DOMAIN.
+
 2000-04-16  Damon Chaplin  <damon@helixcode.com>
 
 	* test-shortcut-bar.c: added buttons to test moving/reordering groups.

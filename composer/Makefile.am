@@ -15,7 +15,8 @@ INCLUDES =					\
 	-I$(top_srcdir)/camel			\
 	-I$(top_builddir)/camel			\
 	$(GNOME_INCLUDEDIR)			\
-	$(BONOBO_GNOME_CFLAGS)
+	$(BONOBO_GNOME_CFLAGS)			\
+	-DG_LOG_DOMAIN=\"composer\"
 
 CPPFLAGS =					\
 	-DE_GLADEDIR=\"$(gladedir)\"

@@ -16,7 +16,8 @@ INCLUDES =					\
 	-I$(includedir)				\
 	-I$(top_srcdir)/intl			\
 	$(GTK_INCLUDEDIR)			\
-	-I$(top_srcdir)/camel
+	-I$(top_srcdir)/camel			\
+        -DG_LOG_DOMAIN=\"camel-smtp-provider\"
 
 libcamelsmtp_la_SOURCES = 			\
 	camel-smtp-provider.c			\

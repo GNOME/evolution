@@ -4,7 +4,8 @@ noinst_PROGRAMS = test-shortcut-bar
 
 INCLUDES = \
 	-DEVOLUTION_VERSION=\""$(VERSION)"\"		\
-	$(EXTRA_GNOME_CFLAGS)
+	$(EXTRA_GNOME_CFLAGS)				\
+	-DG_LOG_DOMAIN=\"shortcut-bar\" 
 
 libshortcut_bar_a_SOURCES = 	\
 	e-clipped-label.c	\
