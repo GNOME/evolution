@@ -73,6 +73,11 @@ GSList   *calendar_config_get_calendars_selected (void);
 void	  calendar_config_set_calendars_selected (GSList *selected);
 guint	  calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func, gpointer data);
 
+/* The primary calendar */
+char     *calendar_config_get_primary_calendar (void);
+void	  calendar_config_set_primary_calendar (const char *primary_uid);
+guint	  calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data);
+
 /* The current timezone, e.g. "Europe/London". */
 gchar*	  calendar_config_get_timezone		(void);
 void	  calendar_config_set_timezone		(gchar	     *timezone);
@@ -151,6 +156,11 @@ void	  calendar_config_set_month_vpane_pos	(gint	      vpane_pos);
 GSList   *calendar_config_get_tasks_selected (void);
 void	  calendar_config_set_tasks_selected (GSList *selected);
 guint	  calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpointer data);
+
+/* The primary calendar */
+char     *calendar_config_get_primary_tasks (void);
+void	  calendar_config_set_primary_tasks (const char *primary_uid);
+guint	  calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data);
 
 /* The pane position */
 gint      calendar_config_get_task_vpane_pos    (void);

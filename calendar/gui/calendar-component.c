@@ -117,6 +117,26 @@ is_in_uids (GSList *uids, ESource *source)
 	return FALSE;
 }
 
+static ESource *
+find_first_source (ESourceList *source_list)
+{
+	GSList *groups, *sources, *l, *m;
+			
+	groups = e_source_list_peek_groups (source_list);
+	for (l = groups; l; l = l->next) {
+		ESourceGroup *group = l->data;
+				
+		sources = e_source_group_peek_sources (group);
+		for (m = sources; m; m = m->next) {
+			ESource *source = m->data;
+
+			return source;
+		}				
+	}
+
+	return NULL;
+}
+
 static void
 update_uris_for_selection (CalendarComponent *calendar_component)
 {
@@ -147,6 +167,28 @@ update_uris_for_selection (CalendarComponent *calendar_component)
 	/* Save the selection for next time we start up */
 	calendar_config_set_calendars_selected (uids_selected);
 	g_slist_free (uids_selected);
+}
+
+static void
+update_uri_for_primary_selection (CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	ESource *source;
+	char *uri;
+
+	priv = calendar_component->priv;
+	
+	source = e_source_selector_peek_primary_selection (E_SOURCE_SELECTOR (priv->source_selector));
+	if (!source)
+		return;
+
+	/* Set the default */
+	uri = e_source_get_uri (source);
+	gnome_calendar_set_default_uri (priv->calendar, uri);
+	g_free (uri);
+	
+	/* Save the selection for next time we start up */
+	calendar_config_set_primary_calendar (e_source_peek_uid (source));
 }
 
 static void
@@ -184,6 +226,31 @@ update_selection (CalendarComponent *calendar_component)
 		g_free (uid);
 	}
 	g_slist_free (uids_selected);
+}
+
+static void
+update_primary_selection (CalendarComponent *calendar_component)
+{
+	CalendarComponentPrivate *priv;
+	ESource *source;
+	char *uid;
+
+	priv = calendar_component->priv;
+
+	uid = calendar_config_get_primary_calendar ();
+	if (uid) {
+		source = e_source_list_peek_source_by_uid (priv->source_list, uid);
+		g_free (uid);
+	
+		e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+	} else {
+		ESource *source;
+		
+		/* Try to create a default if there isn't one */
+		source = find_first_source (priv->source_list);
+		if (source)
+			e_source_selector_set_primary_selection (E_SOURCE_SELECTOR (priv->source_selector), source);
+	}
 }
 
 /* FIXME This is duplicated from comp-editor-factory.c, should it go in comp-util? */
@@ -354,21 +421,7 @@ static void
 primary_source_selection_changed_cb (ESourceSelector *selector,
 				     CalendarComponent *calendar_component)
 {
-	CalendarComponentPrivate *priv;
-	ESource *source;
-	char *uri;
-
-	priv = calendar_component->priv;
-	
-	source = e_source_selector_peek_primary_selection (selector);
-	if (!source)
-		return;
-
-	/* Set the default */
-	uri = e_source_get_uri (source);
-	gnome_calendar_set_default_uri (priv->calendar, uri);
-	g_free (uri);
-
+	update_uri_for_primary_selection (calendar_component);
 }
 
 static void
@@ -497,6 +550,7 @@ impl_createControls (PortableServer_Servant servant,
 
 	/* Load the selection from the last run */
 	update_selection (calendar_component);	
+	update_primary_selection (calendar_component);
 
 	/* If it gets fiddled with, ie from another evolution window, update it */
 	priv->selected_not = calendar_config_add_notification_calendars_selected (config_selection_changed_cb, 

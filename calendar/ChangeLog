@@ -1,3 +1,28 @@
+2003-11-18    <jpr@ximian.com>
+
+	* gui/calendar-config.h: add protos
+
+	* gui/calendar-config.c (calendar_config_get_primary_calendar):
+	get the primary calendar
+	(calendar_config_set_primary_calendar): set it
+	(calendar_config_add_notification_primary_calendar): set
+	notifications for it
+	(calendar_config_get_primary_tasks): get the primary task list
+	(calendar_config_set_primary_tasks): set it
+	(calendar_config_add_notification_primary_tasks): set
+	notifications for it
+
+	* gui/calendar-config-keys.h: add primary keys
+
+	* gui/calendar-component.c (find_first_source): find any source
+	(update_uri_for_primary_selection): set the default uri and save
+	the source uid
+	(update_primary_selection): set the primary selection
+	(primary_source_selection_changed_cb): use above
+	(impl_createControls): set the primary selection
+
+	* gui/tasks-component.c: as above
+	
 2003-11-18  JP Rosevear <jpr@ximian.com>
 
 	* gui/Makefile.am: remove db3 include

@@ -119,6 +119,7 @@ units_to_string (CalUnits units)
  * Calendar Settings.
  */
 
+/* The current list of calendars selected */
 GSList *
 calendar_config_get_calendars_selected (void)
 {
@@ -140,6 +141,31 @@ calendar_config_add_notification_calendars_selected (GConfClientNotifyFunc func,
 	
 	return id;
 }
+
+/* The primary calendar */
+char *
+calendar_config_get_primary_calendar (void)
+{
+	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, NULL);
+}
+
+void
+calendar_config_set_primary_calendar (const char *primary_uid)
+{
+	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, primary_uid, NULL);
+}
+
+
+guint
+calendar_config_add_notification_primary_calendar (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_CALENDAR, func, data, NULL, NULL);
+	
+	return id;
+}
+
 
 /* The current timezone, e.g. "Europe/London". It may be NULL, in which case
    you should assume UTC (though Evolution will show the timezone-setting
@@ -459,6 +485,30 @@ calendar_config_add_notification_tasks_selected (GConfClientNotifyFunc func, gpo
 	guint id;
 	
 	id = gconf_client_notify_add (config, CALENDAR_CONFIG_TASKS_SELECTED_TASKS, func, data, NULL, NULL);
+	
+	return id;
+}
+
+/* The primary task list */
+char *
+calendar_config_get_primary_tasks (void)
+{
+	return gconf_client_get_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, NULL);
+}
+
+void
+calendar_config_set_primary_tasks (const char *primary_uid)
+{
+	gconf_client_set_string (config, CALENDAR_CONFIG_PRIMARY_TASKS, primary_uid, NULL);
+}
+
+
+guint
+calendar_config_add_notification_primary_tasks (GConfClientNotifyFunc func, gpointer data)
+{
+	guint id;
+	
+	id = gconf_client_notify_add (config, CALENDAR_CONFIG_PRIMARY_TASKS, func, data, NULL, NULL);
 	
 	return id;
 }
