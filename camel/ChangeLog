@@ -1,3 +1,23 @@
+2001-09-21    <NotZed@Ximian.com>
+
+	* camel-vee-store.c (vee_get_folder_info): Force a refresh of
+	vfolders before storing their count.  This essentially makes
+	'get_folderinfo' refresh all vfolders, so that get-mail works as
+	expected.
+
+	* camel-vee-folder.c (camel_vee_folder_finalise): Clear lists.
+	(folder_changed): If we're not autoupdating the folder, then
+	add this folder to the list of 'changed' folders for this vfolder.
+	(camel_vee_folder_set_expression): Reset the folders_changed list.
+	(camel_vee_folder_remove_folder): Remove the folder from the
+	folders_changed list.
+	(camel_vee_folder_set_folders): If we have a folder already, but
+	its changed, use this opportunity to update it.
+	(vee_sync): Remove any synced folders from the folders_changed
+	list.
+	(vee_refresh_info): Refresh folder, re-run queries on any changed
+	folders.
+
 2001-09-20    <NotZed@Ximian.com>
 
 	* camel-folder-summary.c (camel_folder_summary_header_load): New

@@ -160,6 +160,7 @@ struct _build_info {
 	const char *top;
 	guint32 flags;
 	GPtrArray *infos;
+	GPtrArray *folders;
 };
 
 static void
@@ -188,8 +189,10 @@ build_info(char *name, CamelVeeFolder *folder, struct _build_info *data)
 				    ((CamelFolder *)folder)->full_name);
 	info->full_name = g_strdup(((CamelFolder *)folder)->full_name);
 	info->name = g_strdup(((CamelFolder *)folder)->name);
-	info->unread_message_count = camel_folder_get_unread_message_count((CamelFolder *)folder);
+	info->unread_message_count = -1;
 	g_ptr_array_add(data->infos, info);
+	camel_object_ref((CamelObject *)folder);
+	g_ptr_array_add(data->folders, folder);
 }
 
 static CamelFolderInfo *
@@ -197,14 +200,27 @@ vee_get_folder_info(CamelStore *store, const char *top, guint32 flags, CamelExce
 {
 	struct _build_info data;
 	CamelFolderInfo *info;
+	int i;
 
 	/* first, build the info list */
 	data.top = top;
 	data.flags = flags;
 	data.infos = g_ptr_array_new();
+	data.folders = g_ptr_array_new();
 	CAMEL_STORE_LOCK(store, cache_lock);
 	g_hash_table_foreach(store->folders, (GHFunc)build_info, &data);
 	CAMEL_STORE_UNLOCK(store, cache_lock);
+
+	/* then make sure the unread counts are accurate */
+	for (i=0;i<data.infos->len;i++) {
+		CamelFolderInfo *info = data.infos->pdata[i];
+		CamelFolder *folder = data.folders->pdata[i];
+
+		camel_folder_refresh_info(folder, NULL);
+		info->unread_message_count = camel_folder_get_unread_message_count(folder);
+		camel_object_unref((CamelObject *)folder);
+	}
+	g_ptr_array_free(data.folders, TRUE);
 
 	/* and always add UNMATCHED, if scanning from top/etc */
 	if (top == NULL || top[0] == 0 || strncmp(top, CAMEL_UNMATCHED_NAME, strlen(CAMEL_UNMATCHED_NAME)) == 0) {
