@@ -11,7 +11,7 @@ Bugzilla bugs fixed (see http://bugzilla.ximian.com/show_bug.cgi):
              (Lorenzo Gil)
     #46130 - evolution fails to build with error undefined reference to
              `ORBIT_SERVANT_SET_CLASSINFO' (egallego@telefonica.net)
-    #29032 - "% finished" changes if status is touched (Hans)
+    #29032 - "% finished" changes if status is touched (Hans Petter)
     #47863 - Evolution crash/hangs on deleting tasks folder (Jack Jia)
     #47464 - Strange behavior after cutting meeting page's organizer
              to blank (Harry Lu)
