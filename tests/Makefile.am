@@ -5,7 +5,7 @@ INCLUDES = -I$(top_srcdir)/intl -I$(top_srcdir) -I$(top_srcdir)/camel \
 	-I$(top_srcdir)/camel/providers/mbox
 LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
-	$(top_builddir)/libibex/libibex.la 	\
+	$(top_builddir)/libibex/libibex.a 	\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 #	$(BONOBO_LIBS)				
@@ -22,12 +22,12 @@ LDADD = \
 #test11_LDADD = \
 #	$(LDADD) \
 #	$(top_builddir)/filter/libfilter.la \
-#	$(top_builddir)/libibex/libibex.la
+#	$(top_builddir)/libibex/libibex.a
 
 test9_LDADD = \
 	$(top_builddir)/camel/libcamel.la 	\
-	$(top_builddir)/libibex/libibex.la 	\
 	$(top_builddir)/camel/providers/mbox/libcamelmbox.la 	\
+	$(top_builddir)/libibex/libibex.a 	\
 	$(GNOME_LIBDIR) 			\
 	$(GNOMEUI_LIBS) $(INTLLIBS) $(EXTRA_GNOME_LIBS)
 

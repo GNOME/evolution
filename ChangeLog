@@ -1,3 +1,9 @@
+2000-02-20  Matt Loper  <matt@helixcode.com>
+
+	* tests/Makefile.am: Changed dependencies on libibex.la to
+	libibex.a. In test9_LDADD, placed libcamelmbox.la before
+	libibex.la, as the former requires the latter.
+
 2000-02-20  Damon Chaplin  <damon@helixcode.com>
 
 	* widgets/shortcut-bar/Makefile.am: added libetext.a and libeutil.a
