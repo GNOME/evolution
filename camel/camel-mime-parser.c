@@ -951,7 +951,8 @@ folder_push_part(struct _header_scan_state *s, struct _header_scan_stack *h)
 	if (s->parts && s->parts->atleast > h->boundarylenfinal)
 		h->atleast = s->parts->atleast;
 	else
-		h->atleast = h->boundarylenfinal;
+		/* boundarylen should never be zero, but just incase */
+		h->atleast = MAX(h->boundarylenfinal, 1);
 
 	h->parent = s->parts;
 	s->parts = h;
@@ -1010,8 +1011,8 @@ folder_scan_skip_line(struct _header_scan_state *s)
 
 	s->atleast = atleast;
 
-	 return -1;		/* not found */
- }
+	return -1;		/* not found */
+}
 
 /* TODO: Is there any way to make this run faster?  It gets called a lot ... */
 static struct _header_scan_stack *
