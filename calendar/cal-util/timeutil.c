@@ -109,7 +109,8 @@ time_add_minutes (time_t time, int minutes)
 
 	tm->tm_min += minutes;
 	if ((new_time = mktime (tm)) == -1){
-		g_warning ("mktime could not handling adding a day with\n");
+		g_message ("time_add_minutes(): mktime() could not handle "
+			   "adding %d minutes with\n", minutes);
 		print_time_t (time);
 		return time;
 	}
@@ -135,7 +136,8 @@ time_add_day (time_t time, int days)
 	tm->tm_mday += days;
 
 	if ((new_time = mktime (tm)) == -1){
-		g_warning ("mktime could not handling adding a day with\n");
+		g_message ("time_add_day(): mktime() could not handling adding %d days with\n",
+			   days);
 		print_time_t (time);
 		return time;
 	}
@@ -173,7 +175,8 @@ time_add_month (time_t time, int months)
 	tm->tm_mon += months;
 	tm->tm_isdst = -1;
 	if ((new_time = mktime (tm)) == -1){
-		g_warning ("mktime could not handling adding a month with\n");
+		g_message ("time_add_month(): mktime() could not handling adding %d months with\n",
+			   months);
 		print_time_t (time);
 		return time;
 	}
@@ -195,7 +198,8 @@ time_add_year (time_t time, int years)
 	
 	tm->tm_year += years;
 	if ((new_time = mktime (tm)) == -1){
-		g_warning ("mktime could not handling adding a year with\n");
+		g_message ("time_add_year(): mktime() could not handling adding %d years with\n",
+			   years);
 		print_time_t (time);
 		return time;
 	}
@@ -249,6 +253,7 @@ time_from_day (int year, int month, int day)
 	tm.tm_year = year - 1900;
 	tm.tm_mon = month;
 	tm.tm_mday = day;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
@@ -329,6 +334,7 @@ time_week_begin (time_t t)
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 	tm.tm_mday -= tm.tm_wday;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }
@@ -345,6 +351,7 @@ time_week_end (time_t t)
 	tm.tm_min  = 0;
 	tm.tm_sec  = 0;
 	tm.tm_mday += 7 - tm.tm_wday;
+	tm.tm_isdst = -1;
 
 	return mktime (&tm);
 }

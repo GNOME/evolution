@@ -1,3 +1,5 @@
+gladedir = $(datadir)/evolution/glade
+
 INCLUDES = 						\
 	-DG_LOG_DOMAIN=\"calendar-gui\"			\
 	-I$(top_srcdir)					\
@@ -13,8 +15,6 @@ noinst_LIBRARIES = libcal-dialogs.a
 libcal_dialogs_a_SOURCES =	\
 	alarm-notify-dialog.c	\
 	alarm-notify-dialog.h
-
-gladedir = $(datadir)/evolution/glade
 
 glade_DATA =			\
 	alarm-notify.glade

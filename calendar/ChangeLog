@@ -1,3 +1,16 @@
+2000-05-19  Federico Mena Quintero  <federico@helixcode.com>
+
+	* cal-util/timeutil.c (time_add_minutes): Fixed warning message.
+	(time_add_day): Likewise.
+	(time_add_month): Likewise.
+	(time_add_year): Likewise.
+	(time_from_day): Of all functions, *this* one had to have a bug.
+	Set the tm.tm_isdst to -1 to specify that we don't know whether
+	the time is in DST or not.  This fixes *many* bugs upstream.
+	(time_week_begin): Likewise.  We never noticed this since the week
+	functions are never used.
+	(time_week_end): Likewise.
+
 2000-05-17  Seth Alves  <alves@hungry.com>
 
 	* gui/event-editor.c: hooked up more widget signals to callbacks
