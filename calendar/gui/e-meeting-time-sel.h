@@ -132,12 +132,17 @@ struct _EMeetingTimeSelector
 	   vertically. */
 	GtkWidget *display_main;
 
+	/* The 'Add attendees from addressbook' button */
+	GtkWidget *add_attendees_button;
+
 	/* This is the 'Options' button & menu. */
 	GtkWidget *options_button;
 	GtkWidget *options_menu;
 
 	/* This is the 'Autopick' button, menu & radio menu items. */
+	GtkWidget *autopick_down_button;
 	GtkWidget *autopick_button;
+	GtkWidget *autopick_up_button;
 	GtkWidget *autopick_menu;
 	GtkWidget *autopick_all_item;
 	GtkWidget *autopick_all_people_one_resource_item;
@@ -316,6 +321,8 @@ void e_meeting_time_selector_set_autopick_option (EMeetingTimeSelector *mts,
 void e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
 							   gint row,
 							   gboolean send_meeting_to);
+
+void e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts, gboolean read_only);
 
 /* Clears all busy times for the given attendee. */
 void e_meeting_time_selector_attendee_clear_busy_periods (EMeetingTimeSelector *mts,

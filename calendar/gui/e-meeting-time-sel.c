@@ -1,10 +1,12 @@
 /* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /* 
- * Author : 
+ * Authors : 
  *  Damon Chaplin <damon@gtk.org>
+ *  Rodrigo Moya <rodrigo@novell.com>
  *
  * Copyright 1999, Ximian, Inc.
+ * Copyright 2004, Novell, Inc.
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of version 2 of the GNU General Public 
@@ -266,7 +268,7 @@ void
 e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *ems)
 {
 	char *filename;
-	GtkWidget *hbox, *vbox, *separator, *button, *label, *table;
+	GtkWidget *hbox, *vbox, *separator, *label, *table;
 	GtkWidget *alignment, *child_hbox, *arrow, *menuitem;
 	GSList *group;
 	GdkVisual *visual;
@@ -412,17 +414,17 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  0, 1, 3, 4, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	button = gtk_button_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+	mts->add_attendees_button = gtk_button_new_with_label ("");
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child),
 					  _("Add attendees from addressbook"));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
-	gtk_widget_show (button);
-	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (mts->add_attendees_button)->child));
+	gtk_box_pack_start (GTK_BOX (hbox), mts->add_attendees_button, TRUE, TRUE, 6);
+	gtk_widget_show (mts->add_attendees_button);
+	gtk_widget_add_accelerator (mts->add_attendees_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK, 0);
-	g_signal_connect (button, "clicked",
+	g_signal_connect (mts->add_attendees_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_clicked), mts);
-	g_signal_connect (button, "expose-event",
+	g_signal_connect (mts->add_attendees_button, "expose-event",
 			  G_CALLBACK (e_meeting_time_selector_on_invite_others_button_expose), mts);
 
 	mts->options_button = gtk_button_new ();
@@ -492,15 +494,15 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 			  0, 1, 5, 6, GTK_FILL, 0, 0, 0);
 	gtk_widget_show (hbox);
 
-	button = gtk_button_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+	mts->autopick_down_button = gtk_button_new_with_label ("");
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (mts->autopick_down_button)->child),
 					  _("_<<"));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
-	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (mts->autopick_down_button)->child));
+	gtk_widget_add_accelerator (mts->autopick_down_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
-	gtk_widget_show (button);
-	g_signal_connect (button, "clicked",
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_down_button, TRUE, TRUE, 6);
+	gtk_widget_show (mts->autopick_down_button);
+	g_signal_connect (mts->autopick_down_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_prev_button_clicked), mts);
 
 	mts->autopick_button = gtk_button_new ();
@@ -525,15 +527,15 @@ e_meeting_time_selector_construct (EMeetingTimeSelector * mts, EMeetingStore *em
 	gtk_box_pack_start (GTK_BOX (child_hbox), arrow, FALSE, FALSE, 6);
 	gtk_widget_show (arrow);
 
-	button = gtk_button_new_with_label ("");
-	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (button)->child),
+	mts->autopick_up_button = gtk_button_new_with_label ("");
+	gtk_label_set_text_with_mnemonic (GTK_LABEL (GTK_BIN (mts->autopick_up_button)->child),
 					  _(">_>"));
-	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (button)->child));
-	gtk_widget_add_accelerator (button, "clicked", mts->accel_group,
+	accel_key = gtk_label_get_mnemonic_keyval (GTK_LABEL (GTK_BIN (mts->autopick_up_button)->child));
+	gtk_widget_add_accelerator (mts->autopick_up_button, "clicked", mts->accel_group,
 				    accel_key, GDK_MOD1_MASK | GDK_SHIFT_MASK, 0);
-	gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 6);
-	gtk_widget_show (button);
-	g_signal_connect (button, "clicked",
+	gtk_box_pack_start (GTK_BOX (hbox), mts->autopick_up_button, TRUE, TRUE, 6);
+	gtk_widget_show (mts->autopick_up_button);
+	g_signal_connect (mts->autopick_up_button, "clicked",
 			  G_CALLBACK (e_meeting_time_selector_on_next_button_clicked), mts);
 
 	/* Create the Autopick menu. */
@@ -1260,6 +1262,21 @@ e_meeting_time_selector_attendee_set_send_meeting_to (EMeetingTimeSelector *mts,
 	attendee->send_meeting_to = send_meeting_to;
 }
 #endif
+
+void
+e_meeting_time_selector_set_read_only (EMeetingTimeSelector *mts, gboolean read_only)
+{
+	g_return_if_fail (IS_E_MEETING_TIME_SELECTOR (mts));
+
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->list_view), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->display_main), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->add_attendees_button), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_down_button), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_button), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->autopick_up_button), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->start_date_edit), !read_only);
+	gtk_widget_set_sensitive (GTK_WIDGET (mts->end_date_edit), !read_only);
+}
 
 /*
  * DEBUGGING ROUTINES - functions to output various bits of data.

@@ -194,6 +194,26 @@ schedule_page_focus_main_widget (CompEditorPage *page)
 	gtk_widget_grab_focus (GTK_WIDGET (priv->sel));
 }
 
+static void
+sensitize_widgets (SchedulePage *spage)
+{
+	gboolean read_only;
+	SchedulePagePrivate *priv = spage->priv;
+
+	if (!e_cal_is_read_only (COMP_EDITOR_PAGE (spage)->client, &read_only, NULL))
+		read_only = TRUE;
+
+	e_meeting_time_selector_set_read_only (GTK_WIDGET (priv->sel), read_only);
+}
+
+static void
+client_changed_cb (CompEditorPage *page, ECal *client, gpointer user_data)
+{
+	SchedulePage *spage = SCHEDULE_PAGE (page);
+
+	sensitize_widgets (spage);
+}
+
 /* Set date/time */
 static void
 update_time (SchedulePage *spage, ECalComponentDateTime *start_date, ECalComponentDateTime *end_date) 
@@ -308,6 +328,8 @@ schedule_page_fill_widgets (CompEditorPage *page, ECalComponent *comp)
 	e_cal_component_free_datetime (&end_date);
 	
 	priv->updating = FALSE;
+
+	sensitize_widgets (spage);
 
 	return validated;
 }
@@ -443,6 +465,8 @@ schedule_page_construct (SchedulePage *spage, EMeetingStore *ems)
 		return NULL;
 	}
 
+	g_signal_connect_after (G_OBJECT (spage), "client_changed",
+				G_CALLBACK (client_changed_cb), NULL);
 	return spage;
 }
 
