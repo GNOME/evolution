@@ -1,3 +1,11 @@
+2001-10-16  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-filter-driver.c (do_flag): Only perform the operation on
+	the folder if the folder has summary capability, else just poke
+	the info directly. Fixes the "Filters don't work" bug.
+	(do_score): Same.
+	(do_colour): And here too.
+
 2001-10-15  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* camel-stream-fs.c (stream_read): Save the errno before calling

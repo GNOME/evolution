@@ -456,7 +456,7 @@ do_colour (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDr
 	
 	d(fprintf (stderr, "setting colour tag\n"));
 	if (argc > 0 && argv[0]->type == ESEXP_RES_STRING) {
-		if (p->source && p->uid)
+		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_user_tag(p->source, p->uid, "colour", argv[0]->value.string);
 		else
 			camel_tag_set (&p->info->user_tags, "colour", argv[0]->value.string);
@@ -476,7 +476,7 @@ do_score (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDri
 		char *value;
 		
 		value = g_strdup_printf ("%d", argv[0]->value.number);
-		if (p->source && p->uid)
+		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_user_tag(p->source, p->uid, "score", value);
 		else
 			camel_tag_set (&p->info->user_tags, "score", value);
@@ -494,7 +494,7 @@ do_flag (struct _ESExp *f, int argc, struct _ESExpResult **argv, CamelFilterDriv
 	
 	d(fprintf (stderr, "setting flag\n"));
 	if (argc == 1 && argv[0]->type == ESEXP_RES_STRING) {
-		if (p->source && p->uid)
+		if (p->source && p->uid && camel_folder_has_summary_capability (p->source))
 			camel_folder_set_message_flags(p->source, p->uid, camel_system_flag(argv[0]->value.string), ~0);
 		else
 			p->info->flags |= camel_system_flag (argv[0]->value.string)|CAMEL_MESSAGE_FOLDER_FLAGGED;
