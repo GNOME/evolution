@@ -298,7 +298,8 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 	CamelStore *store = NULL;
 	CamelFolder *folder = NULL;
 	int offset = 0;
-	
+	char *curi = NULL;
+
 	g_return_val_if_fail (uri != NULL, NULL);
 	
 	/* This hack is still needed for file:/ since it's its own EvolutionStorage type */
@@ -306,9 +307,19 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 		offset = 7;
 	else if (!strncmp (uri, "vjunk:", 6))
 		offset = 6;
+	else if (!strncmp(uri, "email:", 6)) {
+		/* FIXME?: the filter:get_folder callback should do this itself? */
+		curi = em_uri_to_camel(uri);
+		if (uri == NULL) {
+			camel_exception_setv(ex, CAMEL_EXCEPTION_SYSTEM, _("Invalid folder: `%s'"), uri);
+			return NULL;
+		}
+		uri = curi;
+	}
 	
 	url = camel_url_new (uri + offset, ex);
 	if (!url) {
+		g_free(curi);
 		return NULL;
 	}
 
@@ -343,6 +354,7 @@ mail_tool_uri_to_folder (const char *uri, guint32 flags, CamelException *ex)
 		mail_note_folder (folder);
 	
 	camel_url_free (url);
+	g_free(curi);
 	
 	return folder;
 }
@@ -410,81 +422,4 @@ mail_tools_folder_to_url (CamelFolder *folder)
 	g_free (service_url);
 	
 	return url;
-}
-
-static char *meta_data_key(const char *uri, char **pathp)
-{
-	const char *base_directory = mail_component_peek_base_directory (mail_component_peek ());
-	CamelURL *url;
-	GString *path;
-	const char *key;
-	char *p, c;
-
-	url = camel_url_new(uri, NULL);
-
-	if (url == NULL) {
-		g_warning("Trying to retrieve meta-data for unparsable uri: %s", uri);
-		*pathp = g_build_path(base_directory, "meta/unknown", NULL);
-
-		return g_strdup("folder");
-	}
-
-	path = g_string_new(base_directory);
-	g_string_append_printf(path, "/meta/%s/", url->protocol);
-
-	if (url->host && url->host[0]) {
-		if (url->user)
-			g_string_append_printf(path, "%s@", url->user);
-		g_string_append(path, url->host);
-		if (url->port)
-			g_string_append_printf(path, ":%d", url->port);
-		key = url->path;
-	} else if (url->path) {
-		if (url->fragment) {
-			p = url->path;
-			while ((c = *p++)) {
-				if (c == '/')
-					c = '_';
-				g_string_append_c(path, c);
-			}
-			key = url->fragment;
-		} else {
-			key = url->path;
-		}
-	}
-
-	if (key == NULL)
-		key = uri;
-
-	p = g_strdup(key);
-	camel_url_free(url);
-	*pathp = path->str;
-	g_string_free(path, FALSE);
-
-	return p;
-}
-
-EMeta *
-mail_tool_get_meta_data(const char *uri)
-{
-	char *path, *key;
-	EMeta *meta;
-
-	key = meta_data_key(uri, &path);
-	meta = e_meta_data_find(path, key);
-	g_free(key);
-	g_free(path);
-
-	return meta;
-}
-
-void
-mail_tool_delete_meta_data(const char *uri)
-{
-	char *path, *key;
-
-	key = meta_data_key(uri, &path);
-	e_meta_data_delete(path, key);
-	g_free(key);
-	g_free(path);
 }

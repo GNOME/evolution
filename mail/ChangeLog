@@ -1,3 +1,14 @@
+2003-11-19  Not Zed  <NotZed@Ximian.com>
+
+	* mail-component.c (em_uri_to_camel): if we're setting the
+	fragment, strip leading /'s.
+
+	* mail-tools.c (mail_tool_get_meta_data)
+	(mail_tool_delete_meta_data, meta_data_key): old stuff killed.
+	(mail_tool_uri_to_folder): handle email: uri's specially.  this is
+	a bit of a hack, the filter callbacks should manage this itself
+	since filters are the only bits which use those uri's.
+
 2003-11-18  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* em-migrate.c (em_migrate_dir): Don't leak the message objects.

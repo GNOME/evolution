@@ -734,7 +734,7 @@ char *em_uri_to_camel(const char *euri)
 	g_assert(eurl->host != NULL);
 
 	if (strcmp(eurl->user, "local") == 0 && strcmp(eurl->host, "local") == 0) {
-		curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path);
+		curi = g_strdup_printf("mbox:%s/.evolution/mail/local#%s", g_get_home_dir(), eurl->path[0]=='/'?eurl->path+1:eurl->path);
 		camel_url_free(eurl);
 		return curi;
 	}
@@ -755,7 +755,7 @@ char *em_uri_to_camel(const char *euri)
 
 	curl = camel_url_new(service->url, NULL);
 	if (provider->url_flags & CAMEL_URL_FRAGMENT_IS_PATH)
-		camel_url_set_fragment(curl, eurl->path);
+		camel_url_set_fragment(curl, eurl->path[0]=='/'?eurl->path+1:eurl->path);
 	else
 		camel_url_set_path(curl, eurl->path);
 

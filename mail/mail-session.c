@@ -539,9 +539,8 @@ alert_user(CamelSession *session, CamelSessionAlertType type, const char *prompt
 static CamelFolder *
 get_folder (CamelFilterDriver *d, const char *uri, void *data, CamelException *ex)
 {
-	return mail_tool_uri_to_folder (uri, 0, ex);
+	return mail_tool_uri_to_folder(uri, 0, ex);
 }
-
 
 static void
 main_play_sound (CamelFilterDriver *driver, char *filename, gpointer user_data)
