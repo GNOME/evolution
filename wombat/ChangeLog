@@ -2,6 +2,8 @@
 
 	* Makefile.am: Do not dist the .server.in files; just dist the
 	.server.in.in ones.
+	(EXTRA_DIST): Add GNOME_Evolution_WombatLDAP.server.in.in and
+	GNOME_Evolution_WombatNOLDAP.server.in.in
 
 2003-01-06  Dan Winship  <danw@ximian.com>
 

@@ -47,6 +47,7 @@ contact_print_test_LDADD =	\
 	$(top_builddir)/e-util/libeutil.la			\
 	$(top_builddir)/libversit/libversit.a			\
 	$(top_builddir)/e-util/ename/libename.la		\
+	$(top_builddir)/camel/libcamel.la			\
 	libecontactprint.a					\
 	$(EVOLUTION_ADDRESSBOOK_LIBS)
 

@@ -100,9 +100,10 @@ glade_DATA = ldap-config.glade
 
 iconsdir = $(datadir)/evolution/images
 
-EXTRA_DIST = 				\
-	$(glade_DATA)			\
-	$(server_DATA)			\
+EXTRA_DIST =			\
+	$(glade_DATA)		\
+	$(schema_DATA)		\
+	$(server_DATA)		\
 	$(server_in_files)
 
 if ENABLE_PURIFY
