@@ -79,6 +79,7 @@ struct _MailDisplay {
 	MailConfigDisplayStyle display_style;
 	
 	guint printing : 1;
+	guint destroyed: 1;
 };
 
 typedef struct {

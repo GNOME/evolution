@@ -1,3 +1,9 @@
+2003-02-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-display.c (mail_display_destroy): Set
+	mail_display->destroyed = TRUE. This is a workaround for the
+	GTK_OBJECT_DESTROYED() macro that we used to use before.
+
 2003-02-10  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* message-list.c (build_tree): Use g_signal_emit() rather than

@@ -1588,12 +1588,9 @@ static void
 load_content_loaded (struct _mail_msg *mm)
 {
 	struct _load_content_msg *m = (struct _load_content_msg *)mm;
-
-#warning "object_destroy check?"
-#if 0
-	if (GTK_OBJECT_DESTROYED (m->display))
+	
+	if (m->display->destroyed)
 		return;
-#endif
 	
 	if (m->display->current_message == m->message) {
 		if (m->handle) {
@@ -1637,11 +1634,9 @@ stream_write_or_redisplay_when_loaded (MailDisplay *md,
 	struct _load_content_msg *m;
 	GHashTable *loading;
 	
-#if 0
-#warning "GTK_OBJECT_DESTROYED"
-	if (GTK_OBJECT_DESTROYED (md))
+	if (md->destroyed)
 		return;
-#endif
+	
 	loading = g_datalist_get_data (md->data, "loading");
 	if (loading) {
 		if (g_hash_table_lookup (loading, key))
@@ -1909,11 +1904,9 @@ mail_display_render (MailDisplay *md, GtkHTML *html, gboolean reset_scroll)
 void
 mail_display_redisplay (MailDisplay *md, gboolean reset_scroll)
 {
-#if 0
-#warning "GTK_OBJECT_DESTROYED"
-	if (GTK_OBJECT_DESTROYED (md))
+	if (md->destroyed)
 		return;
-#endif
+	
 	fetch_cancel(md);
 	
 	md->last_active = NULL;
@@ -2087,6 +2080,8 @@ mail_display_destroy (GtkObject *object)
 	
 	g_free (mail_display->priv);
 	mail_display->priv = NULL;
+	
+	mail_display->destroyed = TRUE;
 	
 	mail_display_parent_class->destroy (object);
 }
