@@ -1,3 +1,9 @@
+2001-08-10  Chris Toshok  <toshok@ximian.com>
+
+	* configure.in: if libldap.la is there, default to static linking
+	of openldap.  if it's not, default to dynamic.  also, provide
+	--with-static-ldap for users that want to override these defaults.
+
 2001-08-09  Chris Toshok  <toshok@ximian.com>
 
 	* configure.in: link statically with OpenLDAP.

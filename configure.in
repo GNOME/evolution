@@ -369,7 +369,8 @@ LIBS="$LIBS_save"
 dnl **************************************************
 dnl * ldap related stuff.
 dnl **************************************************
-AC_ARG_WITH(openldap, [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution])
+AC_ARG_WITH(openldap,     [  --with-openldap=[no/yes/PREFIX]      Enable LDAP support in evolution])
+AC_ARG_WITH(static-ldap,  [  --with-static-ldap=[no/yes]          Link LDAP support statically into evolution ])
 AC_CACHE_CHECK([for OpenLDAP], ac_cv_with_openldap, ac_cv_with_openldap="${with_openldap:=no}")
 case $ac_cv_with_openldap in
 no|"")
@@ -388,7 +389,27 @@ yes)
 esac
 
 if test "$msg_ldap" = yes; then
+
 	AC_DEFINE(HAVE_LDAP)
+
+	if test -f $with_openldap/lib/libldap.la; then
+		msg_ldap_linktype="(static)"
+	else
+		msg_ldap_linktype="(dynamic)"
+	fi
+
+
+	if test "${with_static_ldap+set}" = set; then
+		case $with_static_ldap in
+		no|"")
+			msg_ldap_linktype="(dynamic)"
+			;;
+		*)
+			msg_ldap_linktype="(static)"
+			;;
+		esac
+	fi
+
 	AC_CACHE_CHECK(if OpenLDAP is version 2.x, ac_cv_openldap_version2, [
 		CPPFLAGS_save="$CPPFLAGS"
 		CPPFLAGS="$CPPFLAGS $LDAP_CFLAGS"
@@ -406,21 +427,31 @@ if test "$msg_ldap" = yes; then
 
 	AC_CHECK_LIB(resolv, res_query, LDAP_LIBS="-lresolv")
 	AC_CHECK_LIB(lber, ber_get_tag, [
-		LDAP_LIBS="$with_openldap/lib/liblber.a $LDAP_LIBS"
-		# libldap might depend on OpenSSL... We need to pull
-		# in the dependency libs explicitly here since we're
-		# not using libtool for the configure test.
-		if test -f $with_openldap/lib/libldap.la; then
-			LDAP_LIBS="`. $with_openldap/lib/libldap.la; echo $dependency_libs` $LDAP_LIBS"
+		if test "$msg_ldap_linktype" = "(static)"; then
+			LDAP_LIBS="$with_openldap/lib/liblber.a $LDAP_LIBS"
+
+			# libldap might depend on OpenSSL... We need to pull
+			# in the dependency libs explicitly here since we're
+			# not using libtool for the configure test.
+			if test -f $with_openldap/lib/libldap.la; then
+				LDAP_LIBS="`. $with_openldap/lib/libldap.la; echo $dependency_libs` $LDAP_LIBS"
+			fi
+		else
+			LDAP_LIBS="-llber $LDAP_LIBS"
 		fi
-		AC_CHECK_LIB(ldap, ldap_open, LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS",
+		AC_CHECK_LIB(ldap, ldap_open, [
+				if test $msg_ldap_linktype = "(static)"; then
+					LDAP_LIBS="$with_openldap/lib/libldap.a $LDAP_LIBS",
+				else
+					LDAP_LIBS="-lldap $LDAP_LIBS"
+				fi],
 			LDAP_LIBS="", $LDAP_LDFLAGS $LDAP_LIBS)
 		LDAP_LIBS="$LDAP_LDFLAGS $LDAP_LIBS"
 	], LDAP_LIBS="", $LDAP_LDFLAGS $LDAP_LIBS)
 
 	if test -z "$LDAP_LIBS"; then
 		AC_MSG_ERROR(could not find OpenLDAP libraries)
-	else
+	elif test "$msg_ldap_linktype" = "(static)"; then
 		LDAP_LIBS="-Wl,-Bstatic $LDAP_LIBS -Wl,-Bdynamic"
 	fi
 
@@ -1114,7 +1145,7 @@ fi
 
 echo "
 	Mail Directory:   $system_mail_dir, $system_mail_perm
-	LDAP support:     $msg_ldap
+	LDAP support:     $msg_ldap $msg_ldap_linktype
 	NNTP support:     $msg_nntp
 	Pilot conduits:   $msg_pilot
 	Kerberos 4/5:     $msg_krb4/$msg_krb5
