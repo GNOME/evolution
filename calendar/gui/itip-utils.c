@@ -84,6 +84,7 @@ get_address (long num)
 
 	path = g_strdup_printf ("/Mail/Accounts/identity_address_%ld", num);
 	a->address = bonobo_config_get_string (db, path, NULL);
+	a->address = g_strstrip (a->address);
 	g_free (path);
 
 	a->full = g_strdup_printf ("%s <%s>", a->name, a->address);
@@ -183,13 +184,10 @@ itip_addresses_free (GList *addresses)
 const gchar *
 itip_strip_mailto (const gchar *address) 
 {
-	const gchar *text;
-	
 	if (address == NULL)
 		return NULL;
 	
-	text = e_strstrcase (address, "mailto:");
-	if (text != NULL && strlen (address) > 7)
+	if (!g_strncasecmp (address, "mailto:", 7))
 		address += 7;
 
 	return address;
@@ -222,6 +220,8 @@ get_label (struct icaltimetype *tt)
 typedef struct {
 	GHashTable *tzids;
 	icalcomponent *icomp;	
+	CalClient *client;
+	icalcomponent *zones;
 } ItipUtilTZData;
 
 static GNOME_Evolution_Composer_RecipientList *
@@ -388,7 +388,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 {
 	ItipUtilTZData *tz_data = data;	
 	const char *tzid;
-	icaltimezone *zone;
+	icaltimezone *zone = NULL;
 	icalcomponent *vtimezone_comp;
 
 	/* Get the TZID string from the parameter. */
@@ -396,9 +396,14 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 	if (!tzid || g_hash_table_lookup (tz_data->tzids, tzid))
 		return;
 
-	/* Check if it is a builtin timezone. If it isn't, return. */
-	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (!zone)
+	/* Look for the timezone */
+	if (tz_data->zones != NULL)
+		zone = icalcomponent_get_timezone (tz_data->zones, tzid);
+	if (zone == NULL)
+		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
+	if (zone == NULL && tz_data->client != NULL)
+		cal_client_get_timezone (tz_data->client, tzid, &zone);
+	if (zone == NULL)
 		return;
 
 	/* Convert it to a string and add it to the hash. */
@@ -411,7 +416,7 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 }
 
 static char *
-comp_string (CalComponentItipMethod method, CalComponent *comp)
+comp_string (CalComponentItipMethod method, CalComponent *comp, CalClient *client, icalcomponent *zones)
 {
 	icalcomponent *top_level, *icomp;
 	icalproperty *prop;
@@ -430,7 +435,9 @@ comp_string (CalComponentItipMethod method, CalComponent *comp)
 		
 	/* Add the timezones */
 	tz_data.tzids = g_hash_table_new (g_str_hash, g_str_equal);
-	tz_data.icomp = top_level;		
+	tz_data.icomp = top_level;
+	tz_data.client = client;
+	tz_data.zones = zones;
 	icalcomponent_foreach_tzid (icomp, foreach_tzid_callback, &tz_data);
 	g_hash_table_destroy (tz_data.tzids);
 
@@ -460,7 +467,8 @@ comp_limit_attendees (CalComponent *comp)
 	     prop = icalcomponent_get_next_property (icomp, ICAL_ATTENDEE_PROPERTY))
 	{
 		icalvalue *value;
-		const char *attendee, *text;
+		const char *attendee;
+		char *text;
 		GList *l;
 
 		/* If we've already found something, just erase the rest */
@@ -475,14 +483,16 @@ comp_limit_attendees (CalComponent *comp)
 
 		attendee = icalvalue_get_string (value);
 
-		text = itip_strip_mailto (attendee);
+		text = g_strdup (itip_strip_mailto (attendee));
+		text = g_strstrip (text);
 		for (l = addresses; l != NULL; l = l->next) {
 			ItipAddress *a = l->data;
 
-			if (strstr (text, a->address))
+			if (!g_strcasecmp (a->address, text))
 				found = match = TRUE;
 		}
-
+		g_free (text);
+		
 		if (!match)
 			list = g_slist_prepend (list, prop);
 		match = FALSE;
@@ -679,7 +689,8 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp)
 }
 
 void
-itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
+itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp,
+		CalClient *client, icalcomponent *zones)
 {
 	BonoboObjectClient *bonobo_server;
 	GNOME_Evolution_Composer composer_server;
@@ -740,7 +751,7 @@ itip_send_comp (CalComponentItipMethod method, CalComponent *send_comp)
 	description = comp_description (comp);	
 	show_inline = TRUE;
 
-	ical_string = comp_string (method, comp);	
+	ical_string = comp_string (method, comp, client, zones);
 	attach_data = GNOME_Evolution_Composer_AttachmentData__alloc ();
 	attach_data->_length = strlen (ical_string) + 1;
 	attach_data->_maximum = attach_data->_length;	

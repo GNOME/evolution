@@ -261,8 +261,11 @@ task_editor_send_comp (CompEditor *editor, CalComponentItipMethod method)
 		goto parent;
 	
 	comp = meeting_page_get_cancel_comp (priv->meet_page);
-	if (comp != NULL) {		
-		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp);
+	if (comp != NULL) {
+		CalClient *client;
+		
+		client = e_meeting_model_get_cal_client (priv->model);
+		itip_send_comp (CAL_COMPONENT_METHOD_CANCEL, comp, client, NULL);
 		gtk_object_unref (GTK_OBJECT (comp));
 	}
 

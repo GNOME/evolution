@@ -5,6 +5,7 @@
 #include <ical.h>
 #include <string.h>
 #include <glib.h>
+#include <cal-client/cal-client.h>
 #include <cal-util/cal-component.h>
 
 typedef enum {
@@ -33,7 +34,8 @@ void itip_addresses_free (GList *addresses);
 
 const gchar *itip_strip_mailto (const gchar *address);
 
-void itip_send_comp (CalComponentItipMethod method, CalComponent *comp);
+void itip_send_comp (CalComponentItipMethod method, CalComponent *comp,
+		     CalClient *client, icalcomponent *zones);
 
 
 #endif
