@@ -1,5 +1,11 @@
 2000-07-24  Dan Winship  <danw@helixcode.com>
 
+	* camel-folder.[ch]: Remove camel_folder_get_message_uid, which
+	was not used, and not implemented by any provider.
+
+	* providers/nntp/camel-nntp-folder.c: Remove get_message_uid
+	non-implementation.
+
 	* camel-folder-pt-proxy.[ch], camel-arg-collector.c,
 	camel-marshal-utils.[ch]: Bye bye bye.
 

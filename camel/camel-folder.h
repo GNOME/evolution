@@ -134,10 +134,6 @@ typedef struct {
 					   gboolean value,
 					   CamelException *ex);
 
-	const gchar * (*get_message_uid)  (CamelFolder *folder, 
-					   CamelMimeMessage *message, 
-					   CamelException *ex);
-
 	CamelMimeMessage * (*get_message)  (CamelFolder *folder, 
 					    const gchar *uid, 
 					    CamelException *ex);
@@ -275,9 +271,6 @@ void               camel_folder_free_subfolder_names  (CamelFolder *folder,
 
 
 /* uid based access operations */
-const gchar *      camel_folder_get_message_uid       (CamelFolder *folder, 
-						       CamelMimeMessage *message, 
-						       CamelException *ex);
 CamelMimeMessage * camel_folder_get_message           (CamelFolder *folder, 
 						       const gchar *uid, 
 						       CamelException *ex);

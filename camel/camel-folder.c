@@ -109,9 +109,6 @@ static GPtrArray        *get_summary         (CamelFolder *folder,
 					      CamelException *ex);
 static void              free_summary        (CamelFolder *folder,
 					      GPtrArray *array);
-static const gchar      *get_message_uid     (CamelFolder *folder,
-					      CamelMimeMessage *message,
-					      CamelException *ex);
 static CamelMimeMessage *get_message         (CamelFolder *folder,
 					      const gchar *uid,
 					      CamelException *ex);
@@ -174,7 +171,6 @@ camel_folder_class_init (CamelFolderClass *camel_folder_class)
 	camel_folder_class->set_message_flags = set_message_flags;
 	camel_folder_class->get_message_user_flag = get_message_user_flag;
 	camel_folder_class->set_message_user_flag = set_message_user_flag;
-	camel_folder_class->get_message_uid = get_message_uid;
 	camel_folder_class->get_message = get_message;
 	camel_folder_class->delete_message = delete_message;
 	camel_folder_class->get_uids = get_uids;
@@ -837,39 +833,6 @@ camel_folder_has_summary_capability (CamelFolder *folder)
 
 
 /* UIDs stuff */
-
-static const gchar *
-get_message_uid (CamelFolder *folder, CamelMimeMessage *message,
-		 CamelException *ex)
-{
-	g_warning ("CamelFolder::get_message_uid not implemented for `%s'",
-		   gtk_type_name (GTK_OBJECT_TYPE (folder)));
-	return NULL;
-}
-
-/**
- * camel_folder_get_message_uid:
- * @folder: Folder in which the UID must refer to
- * @message: Message object
- * @ex: a CamelException
- *
- * Return the UID of a message relatively to a folder.
- * A message can have different UID, each one corresponding
- * to a different folder, if the message is referenced in
- * several folders.
- *
- * Return value: The UID of the message in the folder
- **/
-const gchar *
-camel_folder_get_message_uid (CamelFolder *folder, CamelMimeMessage *message,
-			      CamelException *ex)
-{
-	g_return_val_if_fail (CAMEL_IS_FOLDER (folder), NULL);
-	g_return_val_if_fail (CAMEL_IS_MIME_MESSAGE (message), NULL);
-
-	return CF_CLASS (folder)->get_message_uid (folder, message, ex);
-}
-
 
 static CamelMimeMessage *
 get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)

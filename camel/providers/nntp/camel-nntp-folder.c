@@ -205,15 +205,6 @@ nntp_folder_set_message_flags (CamelFolder *folder, const char *uid,
 	camel_folder_summary_touch (nntp_folder->summary);
 }
 
-static const gchar*
-nntp_folder_get_message_uid (CamelFolder *folder,
-			     CamelMimeMessage *message,
-			     CamelException *ex)
-{
-	g_assert (0);
-	return NULL;
-}
-
 static CamelMimeMessage *
 nntp_folder_get_message (CamelFolder *folder, const gchar *uid, CamelException *ex)
 {
@@ -412,7 +403,6 @@ camel_nntp_folder_class_init (CamelNNTPFolderClass *camel_nntp_folder_class)
 	camel_folder_class->get_message_count = nntp_folder_get_message_count;
 	camel_folder_class->set_message_flags = nntp_folder_set_message_flags;
 	camel_folder_class->get_message_flags = nntp_folder_get_message_flags;
-	camel_folder_class->get_message_uid = nntp_folder_get_message_uid;
 	camel_folder_class->get_message = nntp_folder_get_message;
 	camel_folder_class->delete_message = nntp_folder_delete_message;
 	camel_folder_class->get_uids = nntp_folder_get_uids;
