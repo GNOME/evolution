@@ -1,3 +1,8 @@
+2001-10-29  Christopher James Lahey  <clahey@ximian.com>
+
+	* ename/e-name-western.c (e_name_western_fixup): Check for
+	compound first names here (X & Y).
+
 2001-10-28  JP Rosevear  <jpr@ximian.com>
 
 	* e-pilot-map.c (e_pilot_map_remove_by_pid): make sure to free the

@@ -1,11 +1,12 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * A simple Western name parser.
  *
  * <Nat> Jamie, do you know anything about name parsing?
  * <jwz> Are you going down that rat hole?  Bring a flashlight.
  *
- * Author:
- *   Nat Friedman (nat@ximian.com)
+ * Authors:
+ *   Nat Friedman <nat@ximian.com>
  *
  * Copyright 1999, Ximian, Inc.
  */
@@ -707,6 +708,54 @@ e_name_western_zap_nil (char **str, int *idx)
 	*str = NULL;
 }
 
+#define FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION	\
+	char *last_start = NULL;	\
+	if (name->last)	\
+		last_start = strchr (name->last, ' ');	\
+	if (last_start) {	\
+		char *new_last, *new_first;	\
+	\
+		new_last = g_strdup (last_start + 1);	\
+		*last_start = 0;	\
+	\
+		new_first = g_strdup_printf ("%s %s %s", name->first, name->middle, name->last);	\
+	\
+		g_free (name->first);	\
+		g_free (name->middle);	\
+		g_free (name->last);	\
+	\
+		name->first = new_first;	\
+		name->middle = NULL;	\
+		name->last = new_last;	\
+	\
+		idxs->middle_idx = -1;	\
+		idxs->last_idx = idxs->first_idx + strlen (name->first) + 1;	\
+	} else {	\
+		char *new_first;	\
+	\
+		new_first = g_strdup_printf ("%s %s %s", name->first, name->middle, name->last);	\
+	\
+		g_free (name->first);	\
+		g_free (name->middle);	\
+		g_free (name->last);	\
+	\
+		name->first = new_first;	\
+		name->middle = NULL;	\
+		name->last = NULL;	\
+		idxs->middle_idx = -1;	\
+		idxs->last_idx = -1;	\
+	}
+
+#define CHECK_MIDDLE_NAME_FOR_CONJUNCTION(conj) \
+	if (idxs->middle_idx != -1 && !strcmp (name->middle, conj)) {	\
+		FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION	\
+	}
+
+#define CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE(conj) \
+	if (idxs->middle_idx != -1 && !strcasecmp (name->middle, conj)) {	\
+		FINISH_CHECK_MIDDLE_NAME_FOR_CONJUNCTION	\
+	}
+
 static void
 e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 {
@@ -766,6 +815,39 @@ e_name_western_fixup (ENameWestern *name, ENameWesternIdxs *idxs)
 		idxs->last_idx  = idxs->first_idx;
 		idxs->first_idx = -1;
 		name->first     = NULL;
+	}
+
+	if (idxs->middle_idx != -1) {
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("&");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("*");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("|");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("^");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("&&");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("||");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("+");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("-");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("and");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("or");
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("plus");
+
+		/* Spanish */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("y");
+
+                /* German */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("und");
+
+		/* Italian */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("e");
+
+		/* Czech */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("a");
+
+		/* Finnish */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION_CASE ("ja");
+
+		/* Russian */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("\xd0\x98"); /* u+0418 */
+		CHECK_MIDDLE_NAME_FOR_CONJUNCTION ("\xd0\xb8"); /* u+0438 */
 	}
 
 	/*
