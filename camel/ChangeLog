@@ -1,3 +1,13 @@
+2004-01-23  Not Zed  <NotZed@Ximian.com>
+
+	* providers/imap/camel-imap-folder.c (IMAP_SMALL_BODY_SIZE):
+	removed the meaningless fixme, a butt-retrieved-number is as good
+	as any in this case.
+	(imap_get_message): revert peterw's change of 2002-07-15, instead
+	of checking for online mode here, let get_message do it when you
+	retrieve the parts.  This lets a multi-fetch (i.e. large) message
+	work more betterer in offline mode.
+
 2004-01-22  Jeremy Katz  <katzj@redhat.com>
 
 	* camel-mime-part.c: Fix prototype to be consistent.
