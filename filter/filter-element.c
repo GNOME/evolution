@@ -31,7 +31,7 @@
 #include "filter-folder.h"
 #include "filter-url.h"
 
-static gboolean validate (FilterElement *fe, gpointer data);
+static gboolean validate (FilterElement *fe);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static FilterElement *clone(FilterElement *fe);
 
@@ -124,9 +124,9 @@ filter_element_new (void)
 }
 
 gboolean
-filter_element_validate (FilterElement *fe, gpointer data)
+filter_element_validate (FilterElement *fe)
 {
-	return ((FilterElementClass *)((GtkObject *)fe)->klass)->validate (fe, data);
+	return ((FilterElementClass *)((GtkObject *)fe)->klass)->validate (fe);
 }
 
 /**
@@ -262,6 +262,8 @@ filter_element_new_type_name (const char *type)
 		return (FilterElement *)filter_score_new ();
 	} else if (!strcmp (type, "url")) {
 		return (FilterElement *)filter_url_new ();
+	} else if (!strcmp (type, "regex")) {
+		return (FilterElement *)filter_input_new_type_name (type);
 	} else {
 		g_warning("Unknown filter type '%s'", type);
 		return 0;
@@ -276,7 +278,7 @@ filter_element_set_data (FilterElement *fe, gpointer data)
 
 /* default implementations */
 static gboolean
-validate (FilterElement *fe, gpointer data)
+validate (FilterElement *fe)
 {
 	return TRUE;
 }

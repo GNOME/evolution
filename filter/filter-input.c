@@ -29,7 +29,7 @@
 
 #define d(x)
 
-static gboolean validate (FilterElement *fe, gpointer data);
+static gboolean validate (FilterElement *fe);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -157,16 +157,12 @@ filter_input_set_value (FilterInput *fi, const char *value)
 }
 
 static gboolean
-validate (FilterElement *fe, gpointer data)
+validate (FilterElement *fe)
 {
 	FilterInput *fi = (FilterInput *)fe;
-	gboolean is_regex = FALSE;
 	gboolean valid = TRUE;
 	
-	if (data)
-		is_regex = GPOINTER_TO_INT (data);
-	
-	if (is_regex) {
+	if (!strcmp (fi->type, "regex")) {
 		regex_t regexpat;        /* regex patern */
 		gint regerr;
 		char *text;

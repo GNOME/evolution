@@ -117,16 +117,14 @@ gboolean
 filter_part_validate (FilterPart *fp)
 {
 	gboolean correct = TRUE;
-	FilterElement *last = NULL;
 	GList *l;
 	
 	l = fp->elements;
 	while (l && correct) {
 		FilterElement *fe = l->data;
 		
-	        correct = filter_element_validate (fe, last ? last->data : NULL);
+	        correct = filter_element_validate (fe);
 		
-		last = fe;
 		l = l->next;
 	}
 	

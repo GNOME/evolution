@@ -33,7 +33,7 @@
 
 #define d(x)
 
-static gboolean validate (FilterElement *fe, gpointer data);
+static gboolean validate (FilterElement *fe);
 static void xml_create(FilterElement *fe, xmlNodePtr node);
 static xmlNodePtr xml_encode(FilterElement *fe);
 static int xml_decode(FilterElement *fe, xmlNodePtr node);
@@ -131,7 +131,7 @@ filter_folder_new (void)
 }
 
 static gboolean
-validate (FilterElement *fe, gpointer data)
+validate (FilterElement *fe)
 {
 	FilterFolder *ff = (FilterFolder *) fe;
 	

@@ -41,6 +41,7 @@ static ESExpResult *header_ends_with (struct _ESExp *f, int argc, struct _ESExpR
 static ESExpResult *header_exists (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_soundex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_full_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *match_all (struct _ESExp *f, int argc, struct _ESExpTerm **argv, FilterMessageSearch *fms);
 static ESExpResult *body_contains (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *body_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
@@ -69,6 +70,7 @@ static struct {
 	{ "header-exists",      (ESExpFunc *) header_exists,      0 },
 	{ "header-soundex",     (ESExpFunc *) header_soundex,     0 },
 	{ "header-regex",       (ESExpFunc *) header_regex,       0 },
+	{ "header-full-regex",  (ESExpFunc *) header_full_regex,  0 },
 	{ "user-tag",           (ESExpFunc *) user_tag,           0 },
 	{ "user-flag",          (ESExpFunc *) user_flag,          0 },
 	{ "get-sent-date",      (ESExpFunc *) get_sent_date,      0 },
@@ -372,7 +374,7 @@ header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 			regmsg = g_malloc0 (reglen + 1);
 			regerror (regerr, &regexpat, regmsg, reglen);
 			camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
-					      "Failed to perform regex search on message body: %s",
+					      _("Failed to perform regex search on message header: %s"),
 					      regmsg);
 			g_free (regmsg);
 			regfree (&regexpat);
@@ -387,6 +389,75 @@ header_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 				regfree (&regexpat);
 			}
 		}
+	}
+	
+	r = e_sexp_result_new (ESEXP_RES_BOOL);
+	r->value.bool = matched;
+	
+	return r;
+}
+
+static gchar *
+get_full_header (CamelMimeMessage *message)
+{
+	CamelMimePart *mp = CAMEL_MIME_PART (message);
+	GString *str = g_string_new ("");
+	char   *ret;
+	struct _header_raw *h;
+	
+	for (h = mp->headers; h; h = h->next) {
+		if (h->value != NULL)
+			g_string_sprintfa (str, "%s%s%s\n", h->name,
+					   isspace (h->value[0]) ? ":" : ": ", h->value);
+	}
+	
+	ret = str->str;
+	g_string_free (str, FALSE);
+	
+	return ret;
+}
+
+static ESExpResult *
+header_full_regex (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+{
+	gboolean matched = FALSE;
+	ESExpResult *r;
+	
+	if (argc == 1) {
+		char *match = (argv[0])->value.string;
+		regex_t regexpat;        /* regex patern */
+		regmatch_t *fltmatch;
+		gint regerr = 0;
+		size_t reglen = 0;
+		gchar *regmsg;
+		char *contents;
+		
+		contents = get_full_header (fms->message);
+		
+		regerr = regcomp (&regexpat, match, REG_EXTENDED | REG_NEWLINE | REG_ICASE);
+		if (regerr) {
+			/* regerror gets called twice to get the full error string 
+			   length to do proper posix error reporting */
+			reglen = regerror (regerr, &regexpat, 0, 0);
+			regmsg = g_malloc0 (reglen + 1);
+			regerror (regerr, &regexpat, regmsg, reglen);
+			camel_exception_setv (fms->ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("Failed to perform regex search on message header: %s"),
+					      regmsg);
+			g_free (regmsg);
+			regfree (&regexpat);
+		} else {
+			if (contents) {
+				fltmatch = g_new0 (regmatch_t, regexpat.re_nsub);
+				
+				if (!regexec (&regexpat, contents, regexpat.re_nsub, fltmatch, 0))
+					matched = TRUE;
+				
+				g_free (fltmatch);
+				regfree (&regexpat);
+			}
+		}
+		g_free (contents);
 	}
 	
 	r = e_sexp_result_new (ESEXP_RES_BOOL);

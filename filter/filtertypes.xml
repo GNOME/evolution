@@ -64,18 +64,6 @@
         (match-all (not (header-soundex "From" ${sender})))
      </code>
     </option>
-    <option value="matches regex">
-     <title>matches regex</title>
-     <code>
-        (match-all (header-regex "From" ${sender}))
-     </code>
-    </option>
-    <option value="not match regex">
-     <title>does not match regex</title>
-     <code>
-        (match-all (not (header-regex "From" ${sender})))
-     </code>
-    </option>
    </input>
    <input type="string" name="sender"/>
  </part>
@@ -158,21 +146,6 @@
 	       (header-soundex "Cc" ${recipient}))))
      </code>
     </option>
-    <option value="matches regex">
-     <title>matches regex</title>
-     <code>
-	(match-all (or (header-regex "To" ${recipient})
-	    	       (header-regex "Cc" ${recipient})))
-     </code>
-    </option>
-    <option value="not match regex">
-     <title>does not match regex</title>
-     <code>
-	(match-all (not (or
-               (header-regex "To" ${recipient})
-	       (header-regex "Cc" ${recipient}))))
-     </code>
-    </option>
    </input>
    <input type="address" name="recipient"/>
  </part>
@@ -238,18 +211,6 @@
      <title>does not sound like</title>
      <code>
         (match-all (not (header-soundex "Subject" ${subject})))
-     </code>
-    </option>
-    <option value="matches regex">
-     <title>matches regex</title>
-     <code>
-	(match-all (header-regex "Subject" ${subject}))
-     </code>
-    </option>
-    <option value="not match regex">
-     <title>does not match regex</title>
-     <code>
-	(match-all (not (header-regex "Subject" ${subject}))
      </code>
     </option>
    </input>
@@ -332,18 +293,6 @@
         (match-all (not (header-soundex ${header-field} ${word})))
      </code>
     </option>
-    <option value="matches regex">
-     <title>matches regex</title>
-     <code>
-	(match-all (header-regex ${header-field} ${word}))
-     </code>
-    </option>
-    <option value="not match regex">
-     <title>does not match regex</title>
-     <code>
-	(match-all (not (header-regex ${header-field} ${word}))
-     </code>
-    </option>
    </input>
    <input type="string" name="word"/>
  </part>
@@ -361,18 +310,6 @@
      <title>does not contain</title>
      <code>
 	(not (body-contains ${word}))
-     </code>
-    </option>
-    <option value="matches regex">
-     <title>matches regex</title>
-     <code>
-	(body-regex ${word})
-     </code>
-    </option>
-    <option value="not match regex">
-     <title>does not match regex</title>
-     <code>
-	(not (body-regex ${word}))
      </code>
     </option>
    </input>
@@ -412,8 +349,7 @@
     </code>
    </option>
   </input>    
-  <input type="datespec" name="versus">
-  </input>
+  <input type="datespec" name="versus"/>
  </part>
 
  <part name="recv-date">
@@ -444,8 +380,7 @@
     </code>
    </option>
   </input>    
-  <input type="datespec" name="versus">
-  </input>
+  <input type="datespec" name="versus"/>
  </part>
 
  <part name="score">
@@ -476,8 +411,26 @@
     </code>
    </option>
   </input>
-  <input type="score" name="versus">
+  <input type="score" name="versus"/>
+ </part>
+
+ <part name="regex">
+  <title>Regex Match</title>
+  <input type="optionlist" name="match-type">
+   <option value="header">
+    <title>Message Header</title>
+    <code>
+       (match-all (header-full-regex ${expression}))
+    </code>
+   </option>
+   <option value="body">
+    <title>Message Body</title>
+    <code>
+       (match-all (body-regex ${expression}))
+    </code>
+   </option>
   </input>
+  <input type="regex" name="expression"/>
  </part>
 
  <part name="source">

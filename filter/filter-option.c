@@ -231,20 +231,6 @@ xml_decode (FilterElement *fe, xmlNodePtr node)
 	return 0;
 }
 
-static void
-option_activate (GtkMenuItem *item, FilterOption *fo)
-{
-	FilterElement *fe = (FilterElement *) fo;
-	gboolean is_regex;
-	
-	fo->current = gtk_object_get_data (GTK_OBJECT (item), "option");
-	d(printf ("option changed to %s\n", fo->current->title));
-	
-	/* FIXME: there's probably a better way to do this */
-	is_regex = !(!strstr (fo->current->title, "regex"));
-	fe->data = GINT_TO_POINTER (is_regex);
-}
-
 static GtkWidget *
 get_widget (FilterElement *fe)
 {
@@ -261,7 +247,6 @@ get_widget (FilterElement *fe)
 		op = l->data;
 		item = gtk_menu_item_new_with_label (_(op->title));
 		gtk_object_set_data (GTK_OBJECT (item), "option", op);
-		gtk_signal_connect (GTK_OBJECT (item), "activate", option_activate, fo);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
 		if (op == fo->current) {

@@ -45,7 +45,7 @@ struct _FilterElementClass {
 	GtkObjectClass parent_class;
 
 	/* virtual methods */
-	gboolean (*validate)(FilterElement *fe, gpointer data);
+	gboolean (*validate)(FilterElement *fe);
 	
 	void (*xml_create)(FilterElement *, xmlNodePtr);
 	xmlNodePtr (*xml_encode)(FilterElement *);
@@ -68,7 +68,7 @@ FilterElement	*filter_element_new_type_name	(const char *type);
 void            filter_element_set_data (FilterElement *fe, gpointer data);
 
 /* methods */
-gboolean        filter_element_validate         (FilterElement *fe, gpointer data);
+gboolean        filter_element_validate         (FilterElement *fe);
 
 void		filter_element_xml_create	(FilterElement *fe, xmlNodePtr node);
 

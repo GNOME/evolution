@@ -1,5 +1,36 @@
-2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+2000-11-27  Jeffrey Stedfast  <fejj@helixcode.com>
 
+	* filtertypes.xml: Moved the regex filter rule around - we've
+	changed the format a bit.
+
+	* filter-option.c (option_activate): Removed.
+	(get_widget): Don't connect the activate signal.
+
+	* filter-folder.c (validate): Updated.
+
+	* filter-datespec.c (validate): Updated.
+
+	* filter-part.c (filter_part_validate): Updated.
+
+	* filter-input.c (validate): Check the filter-input type - if it's
+	of type "regex", then check for regex validity.
+
+	* filter-element.c (filter_element_validate): No longer takes a
+	gpointer argument.
+	(filter_element_new_type_name): Allow type "regex" and create a
+	new filter-input with type "regex".
+
+2000-11-24  Michael Meeks  <michael@helixcode.com>
+
+	* filter-message-search.c (get_full_header): impl.
+	(header_full_regex): use it.
+
+2000-11-23  Michael Meeks  <michael@helixcode.com>
+
+	* filter-message-search.c (header_full_regex): impl.
+
+2000-11-21  Jeffrey Stedfast  <fejj@helixcode.com>
+	
 	* filter-message-search.c: took out some no longer needed
 	printfs.
 
