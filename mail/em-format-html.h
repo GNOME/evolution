@@ -115,6 +115,7 @@ struct _EMFormatHTML {
 	unsigned int mark_citations:1;
 	unsigned int simple_headers:1; /* simple header format, no box/table */
 	unsigned int hide_headers:1; /* no headers at all */
+	unsigned int show_rupert:1; /* whether we print rupert or not */
 };
 
 struct _EMFormatHTMLClass {

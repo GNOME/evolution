@@ -54,6 +54,7 @@ efhp_init(GObject *o)
 	efhp->window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_container_add((GtkContainer *)efhp->window, html);
 	gtk_widget_realize(html);
+	efhp->formathtml.show_rupert = FALSE;
 }
 
 static void

@@ -1,5 +1,19 @@
 2004-05-18  Not Zed  <NotZed@Ximian.com>
 
+	** Quick fix for #57434
+
+	* em-format.c (emf_format_clone): fix the FIXME about cloning
+	headers shown.
+
+	* em-format-html.c (efh_format_headers): only show rupert if we're
+	showing rupert.
+
+	* em-format-html-print.c (efhp_init): default show_rupert to off.
+
+	* em-format-html.c (efh_init): default show_rupert to on.
+
+	* em-format-html.h: added show_rupert bit.
+
 	* mail-folder-cache.c (folder_changed): don't emit new mail if its
 	any vfolder, not just vtrash folder.  #56350.
 

@@ -142,6 +142,7 @@ efh_init(GObject *o)
 	efh->content_colour = 0xffffff;
 	efh->text_html_flags = CAMEL_MIME_FILTER_TOHTML_CONVERT_NL | CAMEL_MIME_FILTER_TOHTML_CONVERT_SPACES
 		| CAMEL_MIME_FILTER_TOHTML_MARK_CITATION;
+	efh->show_rupert = TRUE;
 }
 
 static void
@@ -1671,7 +1672,7 @@ efh_format_headers(EMFormatHTML *efh, CamelStream *stream, CamelMedium *part)
 	if (!efh->simple_headers) {
 		camel_stream_printf(stream, "</table></td>");
 
-		if (rupert) {
+		if (rupert && efh->show_rupert) {
 			char *classid;
 			CamelMimePart *iconpart;
 

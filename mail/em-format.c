@@ -538,12 +538,17 @@ emf_format_clone(EMFormat *emf, CamelFolder *folder, const char *uid, CamelMimeM
 		g_hash_table_destroy(emf->inline_table);
 		emf->inline_table = g_hash_table_new(NULL, NULL);
 		if (emfsource) {
+			struct _EMFormatHeader *h;
+
 			/* We clone the current state here */
 			g_hash_table_foreach(emfsource->inline_table, emf_clone_inlines, emf);
 			emf->mode = emfsource->mode;
 			g_free(emf->charset);
 			emf->charset = g_strdup(emfsource->charset);
-			/* FIXME: clone headers shown */
+
+			em_format_clear_headers(emf);
+			for (h = (struct _EMFormatHeader *)emfsource->header_list.head; h->next; h = h->next)
+				em_format_add_header(emf, h->name, h->flags);
 		}
 	}
 
