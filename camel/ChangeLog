@@ -1,3 +1,9 @@
+2004-10-01  Jeffrey Stedfast  <fejj@novell.com>
+
+	* camel-service.c (camel_getaddrinfo): Avoid assigning a value to
+	the member of a const struct (which newer gcc's apparently break
+	over) by casting to non-const.
+
 2004-09-28  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #66509.

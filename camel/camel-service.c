@@ -897,7 +897,7 @@ camel_getaddrinfo(const char *name, const char *service, const struct addrinfo *
 		hints = &myhints;
 	}
 
-	hints->ai_family = AF_INET;
+	((struct addrinfo *) hints)->ai_family = AF_INET;
 #endif
 
 	msg = g_malloc0(sizeof(*msg));
