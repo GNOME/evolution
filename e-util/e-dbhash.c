@@ -148,6 +148,8 @@ e_dbhash_foreach_key (EDbHash *edbh, EDbHashFunc func, gpointer user_data)
 		return;
 	}
 
+	memset(&dkey, 0, sizeof(DBT));
+	memset(&ddata, 0, sizeof(DBT));
 	db_error = dbc->c_get(dbc, &dkey, &ddata, DB_FIRST);
 
 	while (db_error == 0) {

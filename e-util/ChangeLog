@@ -1,3 +1,8 @@
+2001-10-22  JP Rosevear  <jpr@ximian.com>
+
+	* e-dbhash.c (e_dbhash_foreach_key): null out DBT memory prior to
+	usage (from Edd Dumbill <edd@usefulinc.com>)
+	
 2001-10-17  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-dialog-utils.c (e_set_dialog_parent_from_xid): New.
