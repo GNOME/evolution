@@ -110,8 +110,6 @@ gboolean  e_shell_view_save_settings  (EShellView *shell_view,
 gboolean  e_shell_view_load_settings  (EShellView *shell_view,
 				       int view_num);
 
-gboolean e_shell_view_remove_control_for_uri (EShellView *shell_view, const char *uri);
-
 int   e_shell_view_get_current_shortcuts_group_num  (EShellView *shell_view);
 void  e_shell_view_set_current_shortcuts_group_num  (EShellView *shell_view,
 						     int         group_num);

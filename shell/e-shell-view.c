@@ -2621,6 +2621,7 @@ e_shell_view_load_settings (EShellView *shell_view,
 	int num_groups, group, val;
 	long width, height;
 	char *stringval, *prefix, *filename, *key;
+	CORBA_Environment ev;
 
 	g_return_val_if_fail (shell_view != NULL, FALSE);
 	g_return_val_if_fail (E_IS_SHELL_VIEW (shell_view), FALSE);
@@ -2634,9 +2635,14 @@ e_shell_view_load_settings (EShellView *shell_view,
 
 	prefix = g_strdup_printf ("/Shell/Views/%d/", view_num);
 
+	CORBA_exception_init (&ev);
 	key = g_strconcat (prefix, "Width", NULL);
-	width = bonobo_config_get_long (db, key, NULL);
+	width = bonobo_config_get_long (db, key, &ev);
 	g_free (key);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		CORBA_exception_free (&ev);
+		return FALSE;
+	}
 
 	key = g_strconcat (prefix, "Height", NULL);
 	height = bonobo_config_get_long (db, key, NULL);
@@ -2673,16 +2679,18 @@ e_shell_view_load_settings (EShellView *shell_view,
 	priv->view_hpaned_position = val;
 	g_free (key);
 
-	key = g_strconcat (prefix, "DisplayedURI", NULL);
-	stringval = bonobo_config_get_string (db, key, NULL);
-	if (stringval) {
-		if (! e_shell_view_display_uri (shell_view, stringval))
+	if (priv->uri == NULL && priv->delayed_selection == NULL) {
+		key = g_strconcat (prefix, "DisplayedURI", NULL);
+		stringval = bonobo_config_get_string (db, key, NULL);
+		if (stringval) {
+			if (! e_shell_view_display_uri (shell_view, stringval))
+				e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
+		} else
 			e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
-	} else
-		e_shell_view_display_uri (shell_view, E_SHELL_VIEW_DEFAULT_URI);
 
-	g_free (stringval);
-	g_free (key);
+		g_free (stringval);
+		g_free (key);
+	}
 
 	num_groups = e_shortcut_model_get_num_groups (shortcut_bar->model);
 

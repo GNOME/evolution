@@ -402,7 +402,7 @@ impl_Shell_createNewView (PortableServer_Servant servant,
 		return CORBA_OBJECT_NIL;
 	}
 
-	shell_view = e_shell_create_view (shell, uri, NULL);
+	shell_view = e_shell_create_view_from_uri_and_settings (shell, uri, 0);
 	if (shell_view == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
 				     ex_GNOME_Evolution_Shell_NotFound, NULL);
@@ -1388,20 +1388,17 @@ e_shell_create_view (EShell *shell,
 }
 
 EShellView *
-e_shell_create_view_from_settings (EShell *shell,
-				   const char *uri,
-				   EShellView *template_view,
-				   int view_num,
-				   gboolean *settings_found)
+e_shell_create_view_from_uri_and_settings (EShell *shell,
+					   const char *uri,
+					   int view_num)
 {
 	EShellView *view;
 
 	g_return_val_if_fail (shell != NULL, NULL);
 	g_return_val_if_fail (E_IS_SHELL (shell), NULL);
 
-	view = create_view (shell, uri, template_view);
-
-	*settings_found = e_shell_view_load_settings (view, view_num);
+	view = create_view (shell, uri, NULL);
+	e_shell_view_load_settings (view, view_num);
 
 	gtk_widget_show (GTK_WIDGET (view));
 	while (gtk_events_pending ())
@@ -1672,7 +1669,6 @@ gboolean
 e_shell_restore_from_settings (EShell *shell)
 {
 	EShellPrivate *priv;
-	gboolean retval;
 	int num_views;
 	int i;
 
@@ -1684,21 +1680,10 @@ e_shell_restore_from_settings (EShell *shell)
 
 	num_views = bonobo_config_get_long_with_default (priv->db, "/Shell/Views/NumberOfViews", 0, NULL);
 
-	if (num_views == 0)
-		return FALSE;
-	
-	retval = TRUE;
+	for (i = 0; i < num_views; i++)
+		e_shell_create_view_from_uri_and_settings (shell, NULL, i);
 
-	for (i = 0; i < num_views; i++) {
-		EShellView *view;
-		gboolean settings_found;
-
-		view = e_shell_create_view_from_settings (shell, NULL, NULL, i, &settings_found);
-		if (! settings_found)
-			retval = FALSE;
-	}
-
-	return retval;
+	return (num_views > 0);
 }
 
 /**

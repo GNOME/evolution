@@ -108,14 +108,12 @@ EShell                *e_shell_new        (const char            *local_director
 					   EShellStartupLineMode  startup_line_mode,
 					   EShellConstructResult *construct_result_return);
 
-EShellView *e_shell_create_view                (EShell     *shell,
-						const char *uri,
-						EShellView *template_view);
-EShellView *e_shell_create_view_from_settings  (EShell     *shell,
-						const char *uri,
-						EShellView  *template_view,
-						int         view_num,
-						gboolean   *settings_found);
+EShellView *e_shell_create_view                        (EShell          *shell,
+							const char      *uri,
+							EShellView      *template_view);
+EShellView *e_shell_create_view_from_uri_and_settings  (EShell          *shell,
+							const char      *uri,
+							int              view_num);
 
 const char          *e_shell_get_local_directory       (EShell          *shell);
 EShortcuts          *e_shell_get_shortcuts             (EShell          *shell);

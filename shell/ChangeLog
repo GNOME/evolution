@@ -1,3 +1,30 @@
+2002-04-08  Dan Winship  <danw@ximian.com>
+
+	Fix "evolution evolution:/path/to/folder" to use default view
+	prefs.
+	
+	* e-shell.c (impl_Shell_createNewView): Use
+	e_shell_create_view_from_uri_and_settings to create the new view
+	based on saved view 0 instead of always using the initial
+	evolution defaults.
+	(e_shell_create_view_from_uri_and_settings): Renamed and
+	simplified; the template_view argument was useless and
+	settings_found would always be set to TRUE in the context it was
+	being used it.
+	(e_shell_restore_from_settings): Simplify for
+	e_shell_create_view_from_uri_and_settings changes.
+
+	* e-shell-view.c (e_shell_view_load_settings): Only load the
+	DisplayedURI if the view isn't already displaying a URI. Also,
+	pass an &ev to the first bonobo_config_get_long so we can tell if
+	it failed and bail out.
+
+	* e-shell-view.h: Remove a prototype for a non-existent function
+	(e_shell_view_remove_control_for_uri).
+
+	* main.c (idle_cb): Add some comments here and remove some dead
+	code.
+
 2002-04-06  JP Rosevear  <jpr@ximian.com>
 
 	* e-shell-settings-dialog.c (page_new): set type

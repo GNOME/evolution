@@ -247,11 +247,19 @@ idle_cb (void *data)
 	}
 
 	if (shell == NULL) {
+		/* We're talking to a remote shell. If the user didn't
+		 * ask us to open any particular URI, then open another
+		 * view of the default URI
+		 */
 		if (uri_list == NULL)
 			display_default = TRUE;
 		else
 			display_default = FALSE;
 	} else {
+		/* We're starting a new shell. If the user didn't specify
+		 * any evolution: URIs to view, AND we can't load the
+		 * user's previous settings, then show the default URI.
+		 */
 		if (! have_evolution_uri) {
 			if (! e_shell_restore_from_settings (shell)) 
 				display_default = TRUE;
@@ -278,9 +286,6 @@ idle_cb (void *data)
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
 		if (ev._major != CORBA_NO_EXCEPTION)
 			g_warning ("CORBA exception %s when requesting URI -- %s", ev._repo_id, uri);
-
-		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0)
-			have_evolution_uri = TRUE;
 	}
 
 	g_slist_free (uri_list);
