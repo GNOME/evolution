@@ -1,5 +1,9 @@
 2000-07-06  Not Zed  <NotZed@HelixCode.com>
 
+	* message-thread.c (sort_thread): sort messages based on date for
+	the initial sort order.
+	(thread_messages_free): Implement.
+
 	* message-list.c (message_list_init_header): Setup the subject
 	renderer to a tree in tree mode.
 	(on_cursor_change_cmd): For a tree model, map the view row to the
@@ -12,6 +16,9 @@
 	(ml_tree_is_cell_editable): Maps tree node to data row, and calls
 	the equivalent table callback
 	(message_list_init_renderers): Setup the tree renderer if needed.
+	(message_list_init): set the root node invisible afterall.
+	(message_list_set_search): Clear the old tree before putting in a
+	new one.
 
 	* message-list.h: Add a tree renderer to render list, and
 	tree_view indicator.

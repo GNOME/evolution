@@ -787,8 +787,7 @@ message_list_init (GtkObject *object)
 					  ml_tree_set_value_at,
 					  ml_tree_is_cell_editable,
 					  message_list);
-		/* setting this seems to upset the display, not sure.  It should be set though */
-		/*e_tree_model_root_node_set_visible((ETableModel *)message_list->table_model, FALSE); */
+		e_tree_model_root_node_set_visible((ETreeModel *)message_list->table_model, FALSE);
 	} else {
 		message_list->table_model = e_table_simple_new (
 			ml_col_count, ml_row_count, ml_value_at,
@@ -1059,7 +1058,13 @@ message_list_set_search (MessageList *message_list, const char *search)
 	if (message_list->is_tree_view) {
 		struct _container *head;
 
+		/* clear the old list */
+		if (message_list->tree_root)
+			e_tree_model_node_remove((ETreeModel *)message_list->table_model, message_list->tree_root);
+
+		/* thread the new */
 		head = thread_messages((CamelMessageInfo **)message_list->summary_table->pdata, message_list->summary_table->len);
+		/* and populate ... */
 		message_list->tree_root = e_tree_model_node_insert((ETreeModel *)message_list->table_model, NULL, 0, message_list);
 		e_tree_model_node_set_expanded((ETreeModel *)message_list->table_model, message_list->tree_root, TRUE);
 		build_tree(message_list, message_list->tree_root, head);
@@ -1092,8 +1097,9 @@ message_changed (CamelFolder *f, const char *uid, MessageList *message_list)
 	int row;
 
 	row = get_message_row (message_list, uid);
-	if (row != -1)
+	if (row != -1) {
 		e_table_model_row_changed (message_list->table_model, row);
+	}
 }
 
 void

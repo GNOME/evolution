@@ -702,7 +702,8 @@ delete_msg (GtkWidget *button, gpointer user_data)
 
 	/* Move the cursor down a row... FIXME: should skip other
 	 * deleted messages. FIXME: this implementation is a bit
-	 * questionable
+	 * questionable.  FIXME: this behaviour is very annoying
+	 * too.
 	 */
 	e_table_set_cursor_row (E_TABLE (ml->etable), cursor + 1);
 }

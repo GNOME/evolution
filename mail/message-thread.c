@@ -28,6 +28,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <glib.h>
+#include <ctype.h>
 
 #include "message-thread.h"
 
@@ -44,10 +45,11 @@ container_add_child(struct _container *node, struct _container *child)
 	child->parent = node;
 }
 
+#if 0
 static void
 container_unparent_child(struct _container *child)
 {
-	struct _container *c, *p = NULL, *last, *node;
+	struct _container *c, *node;
 
 	/* are we unparented? */
 	if (child->parent == NULL) {
@@ -71,11 +73,12 @@ container_unparent_child(struct _container *child)
 
 	printf("DAMN, we shouldn't  be here!\n");
 }
+#endif
 
 static void
 container_parent_child(struct _container *parent, struct _container *child)
 {
-	struct _container *c, *p = NULL, *last, *node;
+	struct _container *c, *node;
 
 	/* are we already the right parent? */
 	if (child->parent == parent)
@@ -109,7 +112,7 @@ container_parent_child(struct _container *parent, struct _container *child)
 static void
 prune_empty(struct _container **cp)
 {
-	struct _container *child, *next, *nextc, *c, *lastc;
+	struct _container *child, *next, *c, *lastc;
 
 	/* yes, this is intentional */
 	lastc = (struct _container *)cp;
@@ -149,7 +152,6 @@ static void
 hashloop(void *key, void *value, void *data)
 {
 	struct _container *c = value;
-	char *keystr = key;
 	struct _container *tail = data;
 
 	if (c->parent == NULL) {
@@ -181,7 +183,6 @@ get_root_subject(struct _container *c, int *re)
 	}
 	if (s != NULL) {
 		while (*s) {
-			char cc;
 			while (isspace(*s))
 				s++;
 			if (s[0] == 0)
@@ -189,7 +190,7 @@ get_root_subject(struct _container *c, int *re)
 			if ((s[0] == 'r' || s[0]=='R')
 			    && (s[1] == 'e' || s[1]=='E')) {
 				p = s+2;
-				while (ispunct(*p) || isdigit(*p) && *p != ':')
+				while (ispunct(*p) || (isdigit(*p) && (*p != ':')))
 					p++;
 				if (*p==':') {
 					*re = TRUE;
@@ -227,8 +228,6 @@ group_root_set(struct _container **cp)
 {
 	GHashTable *subject_table = g_hash_table_new(g_str_hash, g_str_equal);
 	struct _container *c, *clast, *scan, *container;
-	char *s;
-	int re;
 
 	/* gather subject lines */ 
 	d(printf("gathering subject lines\n"));
@@ -309,7 +308,6 @@ int
 dump_tree(struct _container *c, int depth)
 {
 	char *p;
-	struct _container *child;
 	int count=0;
 
 	p = alloca(depth*2+1);
@@ -330,17 +328,88 @@ dump_tree(struct _container *c, int depth)
 	return count;
 }
 
-void thread_messages_free(struct _container *head)
+void thread_messages_free(struct _container *c)
 {
-	printf("FIXME: Free message thread structure\n");
+	struct _container *n;
+
+	return;
+
+	/* FIXME: ok, for some reason this doesn't work .. investigate later ... */
+
+	while (c) {
+		n = c->next;
+		if (c->child)
+			thread_messages_free(c->child); /* free's children first */
+		g_free(c);
+		c = n;
+	}
+}
+
+static int
+sort_node(const void *a, const void *b)
+{
+	const struct _container *a1 = ((struct _container **)a)[0];
+	const struct _container *b1 = ((struct _container **)b)[0];
+
+	/* if we have no message, it must be a dummy node, which 
+	   also means it must have a child, just use that as the
+	   sort data (close enough?) */
+	if (a1->message == NULL)
+		a1 = a1->child;
+	if (b1->message == NULL)
+		b1 = b1->child;
+	if (a1->message->date_sent == b1->message->date_sent)
+		return 0;
+	if (a1->message->date_sent < b1->message->date_sent)
+		return 1;
+	else
+		return -1;
+}
+
+static void
+sort_thread(struct _container **cp)
+{
+	struct _container *c, *head, **carray;
+	int size=0;
+
+	c = *cp;
+	while (c) {
+		/* sort the children while we're at it */
+		if (c->child)
+			sort_thread(&c->child);
+		size++;
+		c = c->next;
+	}
+	if (size<2)
+		return;
+	carray = alloca(size*sizeof(struct _container *));
+	c = *cp;
+	size=0;
+	while (c) {
+		carray[size] = c;
+		c = c->next;
+		size++;
+	}
+	qsort(carray, size, sizeof(struct _container *), sort_node);
+	size--;
+	head = carray[size];
+	head->next = NULL;
+	size--;
+	do {
+		c = carray[size];
+		c->next = head;
+		head = c;
+		size--;
+	} while (size>=0);
+	*cp = head;
 }
 
 struct _container *
 thread_messages(CamelMessageInfo **messages, int count)
 {
 	GHashTable *id_table;
-	int i, msgs;
-	struct _container *c, *p, *child, *head, *scan, *container;
+	int i;
+	struct _container *c, *p, *child, *head, *container;
 	struct _header_references *ref;
 
 	id_table = g_hash_table_new(g_str_hash, g_str_equal);
@@ -411,6 +480,7 @@ thread_messages(CamelMessageInfo **messages, int count)
 	printf("%d count, %d msgs initially, %d items in tree\n", count, msgs, i);
 #endif
 
+	sort_thread(&head);
 	return head;
 }
 
