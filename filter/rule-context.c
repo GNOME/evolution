@@ -681,8 +681,10 @@ rule_context_add_rule_gui (RuleContext *rc, FilterRule *rule, const char *title,
 	gtk_widget_show (widget);
 	
 	dialog = (GtkDialog *) gtk_dialog_new ();
-	gtk_dialog_add_buttons (dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_add_buttons (dialog,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	
 	gtk_window_set_title ((GtkWindow *) dialog, title);
 	gtk_window_set_default_size ((GtkWindow *) dialog, 600, 400);

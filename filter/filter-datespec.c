@@ -415,8 +415,10 @@ button_clicked (GtkButton *button, FilterDatespec *fds)
 	
 	dialog = (GtkDialog *) gtk_dialog_new ();
 	gtk_window_set_title ((GtkWindow *) dialog, _("Select a time to compare against"));
-	gtk_dialog_add_buttons (dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_add_buttons (dialog,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	
 	p->notebook_type = glade_xml_get_widget (gui, "notebook_type");
 	p->option_type = glade_xml_get_widget (gui, "option_type");

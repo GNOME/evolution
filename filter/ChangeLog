@@ -1,3 +1,16 @@
+2003-01-14  Ettore Perazzoli  <ettore@ximian.com>
+
+	* rule-editor.c (rule_add): Change dialog from OK/Cancel to
+	Cancel/OK to match HIG.
+	(rule_edit): Likewise.
+	(rule_editor_construct): Likewise.
+
+	* rule-context.c (rule_context_add_rule_gui): Change dialog from
+	OK/Cancel to Cancel/OK to match HIG.
+
+	* filter-datespec.c (button_clicked): Change dialog from OK/Cancel
+	to Cancel/OK to match HIG.
+
 2003-01-03  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* rule-editor.c (add_editor_response): Scroll to the newly added

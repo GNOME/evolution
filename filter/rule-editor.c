@@ -283,8 +283,10 @@ rule_add (GtkWidget *widget, RuleEditor *re)
 	rules = filter_rule_get_widget (re->edit, re->context);
 	
 	re->dialog = gtk_dialog_new ();
-	gtk_dialog_add_buttons ((GtkDialog *) re->dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_add_buttons ((GtkDialog *) re->dialog,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Add Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
@@ -362,8 +364,10 @@ rule_edit (GtkWidget *widget, RuleEditor *re)
 	rules = filter_rule_get_widget (re->edit, re->context);
 	
 	re->dialog = gtk_dialog_new ();
-	gtk_dialog_add_buttons ((GtkDialog *) re->dialog, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+	gtk_dialog_add_buttons ((GtkDialog *) re->dialog,
+				GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+				GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+				NULL);
 	
 	gtk_window_set_title ((GtkWindow *) re->dialog, _("Edit Rule"));
 	gtk_window_set_default_size (GTK_WINDOW (re->dialog), 650, 400);
@@ -730,8 +734,10 @@ rule_editor_construct (RuleEditor *re, RuleContext *context, GladeXML *gui, cons
 	rule_editor_set_source (re, source);
 	
 	if (enable_undo) {
-		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
-					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT, NULL);
+		gtk_dialog_add_buttons ((GtkDialog *) re,
+					GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT,
+					NULL);
 	} else
 		gtk_dialog_add_buttons ((GtkDialog *) re, GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
 }
