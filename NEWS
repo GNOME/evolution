@@ -6,6 +6,10 @@ Addressbook:
   - General bug fixes (Iain, Trow, JP, Chris Toshok, Chris Lahey, Dan
     Winship)
 
+  - Fixed problem that arose in an earlier beta where some contacts
+    couldn't be modified or deleted from local addressbook (Chris
+    Toshok)
+
   - LDIF Importer (Chris Toshok, Michael M. Morrison)
 
 Calendar:
