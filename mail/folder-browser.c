@@ -631,7 +631,7 @@ etable_key (ETable *table, int row, int col, GdkEvent *ev, FolderBrowser *fb)
 }
 
 static void
-on_double_click (ETableScrolled *table, gint row, FolderBrowser *fb)
+on_double_click (ETableScrolled *table, gint row, gint col, GdkEvent *event, FolderBrowser *fb)
 {
 	view_msg (NULL, fb);
 }
