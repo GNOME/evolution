@@ -30,7 +30,7 @@
 #include <stdlib.h>
 
 #include "camel-imap-summary.h"
-#include <camel/camel-mime-message.h>
+#include "camel-file-utils.h"
 
 #define CAMEL_IMAP_SUMMARY_VERSION (0x300)
 
@@ -110,7 +110,6 @@ camel_imap_summary_new (const char *filename)
 {
 	CamelFolderSummary *summary = CAMEL_FOLDER_SUMMARY (
 		camel_object_new (camel_imap_summary_get_type ()));
-	CamelImapSummary *imap_summary = (CamelImapSummary *)summary;
 
 	camel_folder_summary_set_build_content (summary, TRUE);
 	camel_folder_summary_set_filename (summary, filename);
@@ -132,7 +131,7 @@ summary_header_load (CamelFolderSummary *s, FILE *in)
 	if (camel_imap_summary_parent->summary_header_load (s, in) == -1)
 		return -1;
 
-	return camel_folder_summary_decode_uint32 (in, &ims->validity);
+	return camel_file_util_decode_uint32 (in, &ims->validity);
 }
 
 static int
@@ -143,7 +142,7 @@ summary_header_save (CamelFolderSummary *s, FILE *out)
 	if (camel_imap_summary_parent->summary_header_save (s, out) == -1)
 		return -1;
 
-	return camel_folder_summary_encode_uint32 (out, ims->validity);
+	return camel_file_util_encode_uint32 (out, ims->validity);
 }
 
 
@@ -157,7 +156,7 @@ message_info_load (CamelFolderSummary *s, FILE *in)
 	if (info) {
 		iinfo = (CamelImapMessageInfo *)info;
 
-		if (camel_folder_summary_decode_uint32 (in, &iinfo->server_flags) == -1)
+		if (camel_file_util_decode_uint32 (in, &iinfo->server_flags) == -1)
 			goto error;
 	}
 
@@ -175,7 +174,7 @@ message_info_save (CamelFolderSummary *s, FILE *out, CamelMessageInfo *info)
 	if (camel_imap_summary_parent->message_info_save (s, out, info) == -1)
 		return -1;
 
-	return camel_folder_summary_encode_uint32 (out, iinfo->server_flags);
+	return camel_file_util_encode_uint32 (out, iinfo->server_flags);
 }
 
 

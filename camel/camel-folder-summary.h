@@ -261,18 +261,6 @@ void camel_folder_summary_array_free(CamelFolderSummary *s, GPtrArray *array);
 char *camel_folder_summary_format_address(struct _header_raw *h, const char *name);
 char *camel_folder_summary_format_string(struct _header_raw *h, const char *name);
 
-/* summary file loading/saving helper functions */
-int camel_folder_summary_encode_fixed_int32(FILE *, gint32);
-int camel_folder_summary_decode_fixed_int32(FILE *, gint32 *);
-int camel_folder_summary_encode_uint32(FILE *, guint32);
-int camel_folder_summary_decode_uint32(FILE *, guint32 *);
-int camel_folder_summary_encode_time_t(FILE *out, time_t value);
-int camel_folder_summary_decode_time_t(FILE *in, time_t *dest);
-int camel_folder_summary_encode_off_t(FILE *out, off_t value);
-int camel_folder_summary_decode_off_t(FILE *in, off_t *dest);
-int camel_folder_summary_encode_string(FILE *out, const char *str);
-int camel_folder_summary_decode_string(FILE *in, char **);
-
 /* basically like strings, but certain keywords can be compressed and de-cased */
 int camel_folder_summary_encode_token(FILE *, const char *);
 int camel_folder_summary_decode_token(FILE *, char **);

@@ -25,6 +25,7 @@ libcamel_la_SOURCES = 				\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
 	camel-exception.c			\
+	camel-file-utils.c			\
 	camel-filter-driver.c			\
 	camel-filter-search.c			\
 	camel-folder-search.c			\
@@ -101,6 +102,7 @@ libcamelinclude_HEADERS =			\
 	camel-digest-folder.h			\
 	camel-exception-list.def		\
 	camel-exception.h			\
+	camel-file-utils.h			\
 	camel-filter-driver.h			\
 	camel-filter-search.h			\
 	camel-folder-search.h			\

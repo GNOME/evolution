@@ -36,6 +36,7 @@
 #include <stdlib.h>
 
 #include "camel-mbox-summary.h"
+#include "camel/camel-file-utils.h"
 #include "camel/camel-mime-message.h"
 #include "camel/camel-operation.h"
 
@@ -152,7 +153,7 @@ summary_header_load(CamelFolderSummary *s, FILE *in)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_load(s, in) == -1)
 		return -1;
 
-	return camel_folder_summary_decode_uint32(in, &mbs->folder_size);
+	return camel_file_util_decode_uint32(in, &mbs->folder_size);
 }
 
 static int
@@ -163,7 +164,7 @@ summary_header_save(CamelFolderSummary *s, FILE *out)
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->summary_header_save(s, out) == -1)
 		return -1;
 
-	return camel_folder_summary_encode_uint32(out, mbs->folder_size);
+	return camel_file_util_encode_uint32(out, mbs->folder_size);
 }
 
 static CamelMessageInfo *
@@ -207,7 +208,7 @@ message_info_load(CamelFolderSummary *s, FILE *in)
 	if (mi) {
 		CamelMboxMessageInfo *mbi = (CamelMboxMessageInfo *)mi;
 		
-		if (camel_folder_summary_decode_off_t(in, &mbi->frompos) == -1)
+		if (camel_file_util_decode_off_t(in, &mbi->frompos) == -1)
 			goto error;
 	}
 	
@@ -225,7 +226,7 @@ message_info_save(CamelFolderSummary *s, FILE *out, CamelMessageInfo *mi)
 	io(printf("saving mbox message info\n"));
 
 	if (((CamelFolderSummaryClass *)camel_mbox_summary_parent)->message_info_save(s, out, mi) == -1
-	    || camel_folder_summary_encode_off_t(out, mbi->frompos) == -1)
+	    || camel_file_util_encode_off_t(out, mbi->frompos) == -1)
 		return -1;
 
 	return 0;

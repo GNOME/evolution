@@ -1,5 +1,28 @@
 2001-04-26  Dan Winship  <danw@ximian.com>
 
+	* camel-file-utils.c: New file, with the int, string, time_t, and
+	off_t encode/decode routines from camel-folder-summary.c moved
+	here and renamed, for the enjoyment of non-CamelFolderSummary
+	subclasses.
+
+	* Makefile.am (libcamel_la_SOURCES): Add camel-file-utils.c
+	(libcamelinclude_HEADERS): and camel-file-utils.h
+
+	* camel-folder-summary.c: Remove functions that were moved to
+	camel-file-utils.c, update uses of them for the new names.
+	(camel_folder_summary_{en,de}code_token are still here.)
+
+	* providers/local/camel-mbox-summary.c: Use camel_file_util_*
+	names
+
+	* providers/imap/camel-imap-summary.c: Use camel_file_util_* names
+
+	* providers/imap/camel-imap-store.c (imap_store_setup_online,
+	imap_store_setup_offline): Use camel_file_util_* names, which
+	makes much more sense since this isn't folder summary stuff.
+
+2001-04-26  Dan Winship  <danw@ximian.com>
+
 	* Makefile.am (INCLUDES): Remove UNICODE_CFLAGS (and some other
 	stuff that's redundant with EXTRA_GNOME_CFLAGS)
 	(libcamel_la_LIBADD): Replace UNICODE_LIBS with GAL_LIBS.

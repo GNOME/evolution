@@ -38,6 +38,7 @@
 #include "camel-imap-folder.h"
 #include "camel-imap-utils.h"
 #include "camel-imap-command.h"
+#include "camel-file-utils.h"
 #include "camel-folder.h"
 #include "camel-exception.h"
 #include "camel-session.h"
@@ -568,8 +569,8 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	g_free (path);
 
 	/* Write header and capabilities */
-	camel_folder_summary_encode_uint32 (storeinfo, IMAP_STOREINFO_VERSION);
-	camel_folder_summary_encode_uint32 (storeinfo, store->capabilities);
+	camel_file_util_encode_uint32 (storeinfo, IMAP_STOREINFO_VERSION);
+	camel_file_util_encode_uint32 (storeinfo, store->capabilities);
 
 	/* Get namespace and hierarchy separator */
 	if ((store->capabilities & IMAP_CAPABILITY_NAMESPACE) &&
@@ -636,8 +637,8 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 	}
 
 	/* Write namespace/separator out */
-	camel_folder_summary_encode_string (storeinfo, store->namespace);
-	camel_folder_summary_encode_uint32 (storeinfo, store->dir_sep);
+	camel_file_util_encode_string (storeinfo, store->namespace);
+	camel_file_util_encode_uint32 (storeinfo, store->dir_sep);
 
 	if (CAMEL_STORE (store)->flags & CAMEL_STORE_SUBSCRIPTIONS) {
 		/* Get subscribed folders */
@@ -659,7 +660,7 @@ imap_store_setup_online (CamelImapStore *store, CamelException *ex)
 			}
 			g_hash_table_insert (store->subscribed_folders, name,
 					     GINT_TO_POINTER (1));
-			camel_folder_summary_encode_string (storeinfo, result);
+			camel_file_util_encode_string (storeinfo, result);
 		}
 		camel_imap_response_free (response);
 	}
@@ -680,20 +681,20 @@ imap_store_setup_offline (CamelImapStore *store, CamelException *ex)
 	g_free (path);
 	tmp = 0;
 	if (storeinfo)
-		camel_folder_summary_decode_uint32 (storeinfo, &tmp);
+		camel_file_util_decode_uint32 (storeinfo, &tmp);
 	if (tmp != IMAP_STOREINFO_VERSION) {
 		/* This must set ex and return FALSE if we're here... */
 		return camel_imap_store_check_online (store, ex);
 	}
 
-	camel_folder_summary_decode_uint32 (storeinfo, &store->capabilities);
-	camel_folder_summary_decode_string (storeinfo, &store->namespace);
-	camel_folder_summary_decode_uint32 (storeinfo, &tmp);
+	camel_file_util_decode_uint32 (storeinfo, &store->capabilities);
+	camel_file_util_decode_string (storeinfo, &store->namespace);
+	camel_file_util_decode_uint32 (storeinfo, &tmp);
 	store->dir_sep = tmp;
 
 	/* Get subscribed folders */
 	store->subscribed_folders = g_hash_table_new (g_str_hash, g_str_equal);
-	while (camel_folder_summary_decode_string (storeinfo, &buf) == 0) {
+	while (camel_file_util_decode_string (storeinfo, &buf) == 0) {
 		if (!imap_parse_list_response (buf, NULL, NULL, &name)) {
 			g_free (buf);
 			continue;
