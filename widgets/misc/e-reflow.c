@@ -971,6 +971,7 @@ e_reflow_event (GnomeCanvasItem *item, GdkEvent *event)
 					gtk_adjustment_changed(adjustment);
 					e_reflow_resize_children(item);
 					e_canvas_item_request_reflow(item);
+					gnome_canvas_request_redraw(item->canvas, 0, 0, reflow->width, reflow->height);
 					column_width_changed (reflow);
 				}
 				reflow->need_column_resize = TRUE;
