@@ -30,6 +30,7 @@
 
 /* #include <ctype.h> */
 #include <errno.h>
+#include <gnome.h>
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-unicode.h>
 #include <gal/util/e-unicode-i18n.h>
@@ -2169,4 +2170,58 @@ mail_store_set_offline (CamelStore *store, gboolean offline,
 	m->done = done;
 
 	e_thread_put(mail_thread_queued, (EMsg *)m);
+}
+
+
+/* ** Execute Shell Command ***************************************************** */
+
+struct _execute_shell_command_msg {
+	struct _mail_msg msg;
+	
+	char *command;
+};
+
+static char *execute_shell_command_desc (struct _mail_msg *mm, int done)
+{
+	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
+	char *msg;
+	
+	msg = g_strdup_printf (_("Executing shell command: %s"), m->command);
+	
+	return msg;
+}
+
+static void execute_shell_command_do (struct _mail_msg *mm)
+{
+	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
+	
+	gnome_execute_shell (NULL, m->command);
+}
+
+static void execute_shell_command_free (struct _mail_msg *mm)
+{
+	struct _execute_shell_command_msg *m = (struct _execute_shell_command_msg *) mm;
+	
+	g_free (m->command);
+}
+
+static struct _mail_msg_op execute_shell_command_op = {
+	execute_shell_command_desc,
+	execute_shell_command_do,
+	NULL,
+	execute_shell_command_free,
+};
+
+void
+mail_execute_shell_command (const char *command)
+{
+	struct _execute_shell_command_msg *m;
+	
+	if (command == NULL)
+		return;
+	
+	m = mail_msg_new (&execute_shell_command_op, NULL, sizeof (*m));
+	m->command = g_strdup (command);
+	
+	e_thread_put (mail_thread_queued, (EMsg *) m);
 }

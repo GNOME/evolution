@@ -106,6 +106,9 @@ typedef struct {
 	
 	gboolean filter_log;
 	char *filter_log_path;
+	
+	MailConfigNewMailNotification notify;
+	char *notify_command;
 } MailConfig;
 
 static MailConfig *config = NULL;
@@ -607,6 +610,14 @@ config_read (void)
 	
 	config->filter_log_path = bonobo_config_get_string (
 		config->db, "/Mail/Filters/log_path", NULL);
+	
+	/* New Mail Notification */
+	config->notify = bonobo_config_get_long_with_default (
+		config->db, "/Mail/Notify/new_mail_notification", 
+		MAIL_CONFIG_NEW_MAIL_NOTIFICATION_NONE, NULL);
+	
+	config->notify_command = bonobo_config_get_string (
+		config->db, "/Mail/Notify/new_mail_notification_command", NULL);
 }
 
 #define bonobo_config_set_string_wrapper(db, path, val, ev) bonobo_config_set_string (db, path, val ? val : "", ev)
@@ -886,7 +897,14 @@ mail_config_write_on_exit (void)
 	
 	bonobo_config_set_string_wrapper (config->db, "/Mail/Filters/log_path",
 					  config->filter_log_path, NULL);
-
+	
+	/* New Mail Notification */
+	bonobo_config_set_long (config->db, "/Mail/Notify/new_mail_notification", 
+				config->notify, NULL);
+	
+	bonobo_config_set_string_wrapper (config->db, "/Mail/Notify/new_mail_notification_command",
+					  config->notify_command, NULL);
+	
 	if (config->threaded_hash)
 		g_hash_table_foreach_remove (config->threaded_hash, hash_save_state, "Threads");
 	
@@ -898,7 +916,7 @@ mail_config_write_on_exit (void)
 	CORBA_exception_free (&ev);
 	
 	/* Passwords */
-
+	
 	/* then we make sure the ones we want to remember are in the
            session cache */
 	accounts = mail_config_get_accounts ();
@@ -919,21 +937,21 @@ mail_config_write_on_exit (void)
 			g_free (passwd);
 		}
 	}
-
+	
 	/* then we clear out our component passwords */
 	e_passwords_clear_component_passwords ();
-
+	
 	/* then we remember them */
 	accounts = mail_config_get_accounts ();
 	for ( ; accounts; accounts = accounts->next) {
 		account = accounts->data;
 		if (account->source->save_passwd && account->source->url)
 			mail_session_remember_password (account->source->url);
-
+		
 		if (account->transport->save_passwd && account->transport->url)
 			mail_session_remember_password (account->transport->url);
 	}
-
+	
 	/* now do cleanup */
 	mail_config_clear ();
 }
@@ -1610,6 +1628,30 @@ mail_config_set_default_charset (const char *charset)
 	config->default_charset = g_strdup (charset);
 }
 
+MailConfigNewMailNotification
+mail_config_get_new_mail_notification (void)
+{
+	return config->notify;
+}
+
+void
+mail_config_set_new_mail_notification (MailConfigNewMailNotification type)
+{
+	config->notify = type;
+}
+
+const char *
+mail_config_get_new_mail_notification_command (void)
+{
+	return config->notify_command;
+}
+
+void
+mail_config_set_new_mail_notification_command (const char *command)
+{
+	g_free (config->notify_command);
+	config->notify_command = g_strdup (command);
+}
 
 gboolean
 mail_config_find_account (const MailConfigAccount *account)

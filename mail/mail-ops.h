@@ -150,6 +150,8 @@ void mail_store_set_offline (CamelStore *store, gboolean offline,
 			     void (*done)(CamelStore *, void *data),
 			     void *data);
 
+void mail_execute_shell_command (const char *command);
+
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */

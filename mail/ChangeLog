@@ -1,3 +1,21 @@
+2001-12-12  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-config.c (mail_config_set_new_mail_notification_command):
+	set the new-mail-notify command.
+	(mail_config_get_new_mail_notification_command): get the
+	new-mail-notify command.
+	(mail_config_set_new_mail_notification): set the
+	new-mail-notification action.
+	(mail_config_get_new_mail_notification): get the
+	new-mail-notification action.
+	(mail_config_write_on_exit): save the new-mail-notification
+	settings.
+	(config_read): Read in the new-mail-notification settings.
+
+	* mail-ops.c (mail_execute_shell_command): New function to execute
+	a shell command async. Will be used for playing sounds on new mail
+	or whatever.
+
 2001-12-11  Jon Trowbridge  <trow@ximian.com>
 
 	* mail-identify.c (mail_identify_mime_part): Fixed for
