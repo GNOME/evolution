@@ -1,5 +1,11 @@
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component-factory.c (create_object): Change the order of the
+	user creatable items a bit so that "New Appointment" and "New
+	Meeting" are at the top when in a calendar folder.
+
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component-factory.c (add_creatable_item): New arg
 	@folder_type, pass it to
 	evolution_shell_component_add_user_creatable_item().

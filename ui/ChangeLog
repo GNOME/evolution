@@ -1,3 +1,8 @@
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
+	* evolution-mail-global.xml: Remove "New Mail Message" and "Post
+	Message" items.
+
 2002-07-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* evolution.xml: Move File/New/NewItems placeholder on the top and

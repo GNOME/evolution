@@ -45,19 +45,6 @@
 
   <menu>
 
-    <submenu name="File">
-      <submenu name="New">
-        <placeholder name="NewFirstItem">
-          <menuitem name="MessageNew" verb="MailCompose"
-           accel="*Control*n" _label="_Mail Message"/>
-          <menuitem name="MessagePost" verb="MailPost"
-           accel="" _label="Post a Message"/>
-
-          <separator f="" name="emailglobal"/>
-        </placeholder>
-      </submenu>
-    </submenu>
-
     <submenu name="View">
       <menuitem name="ViewPreview" verb="" _label="_Preview Pane"/>
       <separator f="" name="emailglobal"/>

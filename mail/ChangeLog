@@ -1,5 +1,10 @@
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* component-factory.c (create_component): Put "New Mail Message"
+	before "New Message Post" instead of vice versa.
+
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* component-factory.c (create_component): Pass "mail" as
 	@folder_type to
 	evolution_shell_component_add_user_creatable_item().

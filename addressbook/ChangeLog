@@ -1,5 +1,11 @@
 2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook-component.c (create_component): Change
+	the order so that "New Contact" is first and "New Contact List" is
+	next.
+
+2002-07-31  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/component/addressbook-component.c (add_creatable_item): Pass
 	"contacts" as the @folder_type to
 	evolution_shell_component_add_user_creatable_item().

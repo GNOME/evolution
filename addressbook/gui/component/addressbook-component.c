@@ -577,14 +577,14 @@ create_component (void)
 	bonobo_object_add_interface (BONOBO_OBJECT (shell_component),
 				     BONOBO_OBJECT (destination_interface));
 
-	add_creatable_item (shell_component, "contact_list",
-			    _("New Contact List"), _("Contact _List"),
-			    _("Create a new contact list"), 'l',
-			    "all_contacts.xpm");
 	add_creatable_item (shell_component, "contact",
 			    _("New Contact"), _("_Contact"),
 			    _("Create a new contact"), 'c',
 			    "evolution-contacts-mini.png");
+	add_creatable_item (shell_component, "contact_list",
+			    _("New Contact List"), _("Contact _List"),
+			    _("Create a new contact list"), 'l',
+			    "all_contacts.xpm");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "owner_set",
 			    GTK_SIGNAL_FUNC (owner_set_cb), NULL);

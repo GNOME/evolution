@@ -704,6 +704,11 @@ create_object (void)
 
 	/* User creatable items */
 
+	add_creatable_item (shell_component, CREATE_EVENT_ID,
+			    _("New appointment"), _("_Appointment"),
+			    _("Create a new appointment"),
+			    "calendar", 'a', "new_appointment.xpm");
+
 	add_creatable_item (shell_component, CREATE_MEETING_ID,
 			    _("New meeting"), _("_Meeting"),
 			    _("Create a new meeting request"),
@@ -718,11 +723,6 @@ create_object (void)
 			    _("New All Day Appointment"), _("All _Day Appointment"),
 			    _("Create a new all-day appointment"),
 			    "calendar", 'd', "new_all_day_event.png");
-
-	add_creatable_item (shell_component, CREATE_EVENT_ID,
-			    _("New appointment"), _("_Appointment"),
-			    _("Create a new appointment"),
-			    "calendar", 'a', "new_appointment.xpm");
 
 	gtk_signal_connect (GTK_OBJECT (shell_component), "user_create_new_item",
 			    GTK_SIGNAL_FUNC (sc_user_create_new_item_cb), NULL);
