@@ -324,7 +324,7 @@ clear_widgets (MeetingPage *mpage)
 
 	gtk_entry_set_text (GTK_ENTRY (GTK_COMBO (priv->organizer)->entry), "");
 	gtk_entry_set_text (GTK_ENTRY (priv->other_organizer), "");
-	gtk_label_set_text (GTK_LABEL (priv->existing_organizer), "None");
+	gtk_label_set_text (GTK_LABEL (priv->existing_organizer), _("None"));
 
 	gtk_widget_show (priv->organizer_table);
 	gtk_widget_hide (priv->existing_organizer_table);	
@@ -548,13 +548,13 @@ get_widgets (MeetingPage *mpage)
 static CalComponentCUType
 text_to_type (const char *type)
 {
-	if (!g_strcasecmp (type, "Individual"))
+	if (!g_strcasecmp (type, _("Individual")))
 		return CAL_COMPONENT_CUTYPE_INDIVIDUAL;
-	else if (!g_strcasecmp (type, "Group"))
+	else if (!g_strcasecmp (type, _("Group")))
 		return CAL_COMPONENT_CUTYPE_GROUP;
-	else if (!g_strcasecmp (type, "Resource"))
+	else if (!g_strcasecmp (type, _("Resource")))
 		return CAL_COMPONENT_CUTYPE_RESOURCE;
-	else if (!g_strcasecmp (type, "Room"))
+	else if (!g_strcasecmp (type, _("Room")))
 		return CAL_COMPONENT_CUTYPE_ROOM;
 	else
 		return CAL_COMPONENT_ROLE_UNKNOWN;
@@ -565,15 +565,15 @@ type_to_text (CalComponentCUType type)
 {
 	switch (type) {
 	case CAL_COMPONENT_CUTYPE_INDIVIDUAL:
-		return "Individual";
+		return _("Individual");
 	case CAL_COMPONENT_CUTYPE_GROUP:
-		return "Group";
+		return _("Group");
 	case CAL_COMPONENT_CUTYPE_RESOURCE:
-		return "Resource";
+		return _("Resource");
 	case CAL_COMPONENT_CUTYPE_ROOM:
-		return "Room";
+		return _("Room");
 	default:
-		return "Unknown";
+		return _("Unknown");
 	}
 
 	return NULL;
@@ -583,13 +583,13 @@ type_to_text (CalComponentCUType type)
 static CalComponentRole
 text_to_role (const char *role)
 {
-	if (!g_strcasecmp (role, "Chair"))
+	if (!g_strcasecmp (role, _("Chair")))
 		return CAL_COMPONENT_ROLE_CHAIR;
-	else if (!g_strcasecmp (role, "Required Participant"))
+	else if (!g_strcasecmp (role, _("Required Participant")))
 		return CAL_COMPONENT_ROLE_REQUIRED;
-	else if (!g_strcasecmp (role, "Optional Participant"))
+	else if (!g_strcasecmp (role, _("Optional Participant")))
 		return CAL_COMPONENT_ROLE_OPTIONAL;
-	else if (!g_strcasecmp (role, "Non-Participant"))
+	else if (!g_strcasecmp (role, _("Non-Participant")))
 		return CAL_COMPONENT_ROLE_NON;
 	else
 		return CAL_COMPONENT_ROLE_UNKNOWN;
@@ -600,15 +600,15 @@ role_to_text (CalComponentRole role)
 {
 	switch (role) {
 	case CAL_COMPONENT_ROLE_CHAIR:
-		return "Chair";
+		return _("Chair");
 	case CAL_COMPONENT_ROLE_REQUIRED:
-		return "Required Participant";
+		return _("Required Participant");
 	case CAL_COMPONENT_ROLE_OPTIONAL:
-		return "Optional Participant";
+		return _("Optional Participant");
 	case CAL_COMPONENT_ROLE_NON:
-		return "Non-Participant";
+		return _("Non-Participant");
 	default:
-		return "Unknown";
+		return _("Unknown");
 	}
 
 	return NULL;
@@ -617,7 +617,7 @@ role_to_text (CalComponentRole role)
 static gboolean
 text_to_boolean (const char *role)
 {
-	if (!g_strcasecmp (role, "Yes"))
+	if (!g_strcasecmp (role, _("Yes")))
 		return TRUE;
 	else
 		return FALSE;
@@ -627,27 +627,27 @@ static char *
 boolean_to_text (gboolean b) 
 {
 	if (b)
-		return "Yes";
+		return _("Yes");
 	else
-		return "No";
+		return _("No");
 }
 
 static CalComponentPartStat
 text_to_partstat (const char *partstat)
 {
-	if (!g_strcasecmp (partstat, "Needs Action"))
+	if (!g_strcasecmp (partstat, _("Needs Action")))
 		return CAL_COMPONENT_PARTSTAT_NEEDSACTION;
-	else if (!g_strcasecmp (partstat, "Accepted"))
+	else if (!g_strcasecmp (partstat, _("Accepted")))
 		return CAL_COMPONENT_PARTSTAT_ACCEPTED;
-	else if (!g_strcasecmp (partstat, "Declined"))
+	else if (!g_strcasecmp (partstat, _("Declined")))
 		return CAL_COMPONENT_PARTSTAT_DECLINED;
-	else if (!g_strcasecmp (partstat, "Tentative"))
+	else if (!g_strcasecmp (partstat, _("Tentative")))
 		return CAL_COMPONENT_PARTSTAT_TENTATIVE;
-	else if (!g_strcasecmp (partstat, "Delegated"))
+	else if (!g_strcasecmp (partstat, _("Delegated")))
 		return CAL_COMPONENT_PARTSTAT_DELEGATED;
-	else if (!g_strcasecmp (partstat, "Completed"))
+	else if (!g_strcasecmp (partstat, _("Completed")))
 		return CAL_COMPONENT_PARTSTAT_COMPLETED;
-	else if (!g_strcasecmp (partstat, "In Process"))
+	else if (!g_strcasecmp (partstat, _("In Process")))
 		return CAL_COMPONENT_PARTSTAT_INPROCESS;
 	else
 		return CAL_COMPONENT_PARTSTAT_UNKNOWN;
@@ -658,22 +658,22 @@ partstat_to_text (CalComponentPartStat partstat)
 {
 	switch (partstat) {
 	case CAL_COMPONENT_PARTSTAT_NEEDSACTION:
-		return "Needs Action";
+		return _("Needs Action");
 	case CAL_COMPONENT_PARTSTAT_ACCEPTED:
-		return "Accepted";
+		return _("Accepted");
 	case CAL_COMPONENT_PARTSTAT_DECLINED:
-		return "Declined";
+		return _("Declined");
 	case CAL_COMPONENT_PARTSTAT_TENTATIVE:
-		return "Tentative";
+		return _("Tentative");
 	case CAL_COMPONENT_PARTSTAT_DELEGATED:
-		return "Delegated";
+		return _("Delegated");
 	case CAL_COMPONENT_PARTSTAT_COMPLETED:
-		return "Completed";
+		return _("Completed");
 	case CAL_COMPONENT_PARTSTAT_INPROCESS:
-		return "In Process";
+		return _("In Process");
 	case CAL_COMPONENT_PARTSTAT_UNKNOWN:
 	default:
-		return "Unknown";
+		return _("Unknown");
 	}
 
 	return NULL;
@@ -760,13 +760,13 @@ invite_entry_changed (BonoboListener    *listener,
 			a->cutype = text_to_type (str);
 			g_free (str);
 
-			if (!strcmp (section, "Chair Persons"))
+			if (!strcmp (section, _("Chair Persons")))
 				a->role = CAL_COMPONENT_ROLE_CHAIR;
-			else if (!strcmp (section, "Required Participants"))
+			else if (!strcmp (section, _("Required Participants")))
 				a->role = CAL_COMPONENT_ROLE_REQUIRED;
-			else if (!strcmp (section, "Optional Participants"))
+			else if (!strcmp (section, _("Optional Participants")))
 				a->role = CAL_COMPONENT_ROLE_OPTIONAL;
-			else if (!strcmp (section, "Non-Participants"))
+			else if (!strcmp (section, _("Non-Participants")))
 				a->role = CAL_COMPONENT_ROLE_NON;
 			
 			str = init_value (NULL, MEETING_RSVP_COL, mpage);
@@ -810,7 +810,7 @@ static gboolean
 get_select_name_dialog (MeetingPage *mpage) 
 {
 	MeetingPagePrivate *priv;
-	const char *sections[] = {"Chair Persons", "Required Participants", "Optional Participants", "Non-Participants"};	
+	const char *sections[] = {_("Chair Persons"), _("Required Participants"), _("Optional Participants"), _("Non-Participants")};
 	CORBA_Environment ev;
 	
 	priv = mpage->priv;
@@ -930,7 +930,7 @@ invite_cb (GtkWidget *widget, gpointer data)
 	CORBA_exception_init (&ev);
 
 	GNOME_Evolution_Addressbook_SelectNames_activateDialog (
-		priv->corba_select_names, "Required Participants", &ev);
+		priv->corba_select_names, _("Required Participants"), &ev);
 
 	CORBA_exception_free (&ev);
 }
@@ -1119,12 +1119,9 @@ set_value_at (ETableModel *etm, int col, int row, const void *val, void *data)
 static gboolean
 is_cell_editable (ETableModel *etm, int col, int row, void *data)
 {
-	g_print ("Is editable, %d, %d\n", col, row);
-	
 	switch (col) {
 	case MEETING_DELTO_COL:
 	case MEETING_DELFROM_COL:
-		g_print ("FALSE\n");
 		return FALSE;
 
 	default:
@@ -1154,17 +1151,17 @@ init_value (ETableModel *etm, int col, void *data)
 	case MEETING_MEMBER_COL:
 		return g_strdup ("");
 	case MEETING_TYPE_COL:
-		return g_strdup ("Individual");
+		return g_strdup (_("Individual"));
 	case MEETING_ROLE_COL:
-		return g_strdup ("Required Participant");
+		return g_strdup (_("Required Participant"));
 	case MEETING_RSVP_COL:
-		return g_strdup ("Yes");
+		return g_strdup (_("Yes"));
 	case MEETING_DELTO_COL:
 		return g_strdup ("");
 	case MEETING_DELFROM_COL:
 		return g_strdup ("");
 	case MEETING_STATUS_COL:
-		return g_strdup ("Needs Action");
+		return g_strdup (_("Needs Action"));
 	case MEETING_CN_COL:
 		return g_strdup ("");
 	case MEETING_LANG_COL:
@@ -1222,11 +1219,11 @@ build_etable (MeetingPage *mpage)
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, "Individual");
-	strings = g_list_append (strings, "Group");
-	strings = g_list_append (strings, "Resource");
-	strings = g_list_append (strings, "Room");
-	strings = g_list_append (strings, "Unknown");
+	strings = g_list_append (strings, _("Individual"));
+	strings = g_list_append (strings, _("Group"));
+	strings = g_list_append (strings, _("Resource"));
+	strings = g_list_append (strings, _("Room"));
+	strings = g_list_append (strings, _("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "typeedit", popup_cell);
@@ -1238,11 +1235,11 @@ build_etable (MeetingPage *mpage)
 	gtk_object_unref (GTK_OBJECT (cell));
 	
 	strings = NULL;
-	strings = g_list_append (strings, "Chair");
-	strings = g_list_append (strings, "Required Participant");
-	strings = g_list_append (strings, "Optional Participant");
-	strings = g_list_append (strings, "Non-Participant");
-	strings = g_list_append (strings, "Unknown");
+	strings = g_list_append (strings, _("Chair"));
+	strings = g_list_append (strings, _("Required Participant"));
+	strings = g_list_append (strings, _("Optional Participant"));
+	strings = g_list_append (strings, _("Non-Participant"));
+	strings = g_list_append (strings, _("Unknown"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "roleedit", popup_cell);
@@ -1254,8 +1251,8 @@ build_etable (MeetingPage *mpage)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, "Yes");
-	strings = g_list_append (strings, "No");
+	strings = g_list_append (strings, _("Yes"));
+	strings = g_list_append (strings, _("No"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "rsvpedit", popup_cell);
@@ -1267,11 +1264,11 @@ build_etable (MeetingPage *mpage)
 	gtk_object_unref (GTK_OBJECT (cell));
 
 	strings = NULL;
-	strings = g_list_append (strings, "Needs Action");
-	strings = g_list_append (strings, "Accepted");
-	strings = g_list_append (strings, "Declined");
-	strings = g_list_append (strings, "Tentative");
-	strings = g_list_append (strings, "Delegated");
+	strings = g_list_append (strings, _("Needs Action"));
+	strings = g_list_append (strings, _("Accepted"));
+	strings = g_list_append (strings, _("Declined"));
+	strings = g_list_append (strings, _("Tentative"));
+	strings = g_list_append (strings, _("Delegated"));
 
 	e_cell_combo_set_popdown_strings (E_CELL_COMBO (popup_cell), strings);
 	e_table_extras_add_cell (extras, "statusedit", popup_cell);
