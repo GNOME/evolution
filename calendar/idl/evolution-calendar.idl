@@ -295,7 +295,7 @@ module Calendar {
 
 		/* Open a calendar from an URI */
 		void open (in string uri, in boolean only_if_exists, in Listener listener)
-			raises (NilListener);
+			raises (NilListener, InvalidURI, UnsupportedMethod);
 
 		/* List of open URI's */
 		StringSeq uriList (in CalMode mode);

@@ -114,6 +114,9 @@ void cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpoint
 gboolean cal_client_set_default_timezone (CalClient *client, icaltimezone *zone);
 
 gboolean cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists);
+gboolean cal_client_open_default_calendar (CalClient *client, gboolean only_if_exists);
+gboolean cal_client_open_default_tasks (CalClient *client, gboolean only_if_exists);
+
 GList *cal_client_uri_list (CalClient *client, CalMode mode);
 
 CalClientLoadState cal_client_get_load_state (CalClient *client);

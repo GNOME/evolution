@@ -31,9 +31,11 @@
 /* Configuration info */
 typedef struct _EToDoConduitCfg EToDoConduitCfg;
 struct _EToDoConduitCfg {
-	gboolean open_secret;
 	guint32 pilot_id;
 	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
+
+	gboolean open_secret;
+	gchar *last_uri;
 };
 
 #ifdef TODO_CONFIG_LOAD
@@ -63,6 +65,7 @@ todoconduit_load_configuration (EToDoConduitCfg **c, guint32 pilot_id)
 	gnome_config_push_prefix (prefix);
 
 	(*c)->open_secret = gnome_config_get_bool ("open_secret=FALSE");
+	(*c)->last_uri = gnome_config_get_string ("last_uri");
 
 	gnome_config_pop_prefix ();
 }
@@ -80,6 +83,7 @@ todoconduit_save_configuration (EToDoConduitCfg *c)
 
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("open_secret", c->open_secret);
+	gnome_config_set_string ("last_uri", c->last_uri);
 	gnome_config_pop_prefix ();
 
 	gnome_config_sync ();
@@ -98,8 +102,10 @@ todoconduit_dupe_configuration (EToDoConduitCfg *c)
 
 	retval = g_new0 (EToDoConduitCfg, 1);
 	retval->sync_type = c->sync_type;
-	retval->open_secret = c->open_secret;
 	retval->pilot_id = c->pilot_id;
+
+	retval->open_secret = c->open_secret;
+	retval->last_uri = g_strdup (c->last_uri);
 
 	return retval;
 }
@@ -113,6 +119,7 @@ todoconduit_destroy_configuration (EToDoConduitCfg **c)
 	g_return_if_fail (c != NULL);
 	g_return_if_fail (*c != NULL);
 
+	g_free ((*c)->last_uri);
 	g_free (*c);
 	*c = NULL;
 }

@@ -31,9 +31,11 @@
 /* Configuration info */
 typedef struct _ECalConduitCfg ECalConduitCfg;
 struct _ECalConduitCfg {
-	gboolean open_secret;
 	guint32 pilot_id;
-	GnomePilotConduitSyncType  sync_type;   /* only used by capplet */
+	GnomePilotConduitSyncType  sync_type;
+
+	gboolean open_secret;
+	gchar *last_uri;
 };
 
 #ifdef CAL_CONFIG_LOAD
@@ -63,6 +65,7 @@ calconduit_load_configuration (ECalConduitCfg **c, guint32 pilot_id)
 	gnome_config_push_prefix (prefix);
 
 	(*c)->open_secret = gnome_config_get_bool ("open_secret=FALSE");
+	(*c)->last_uri = gnome_config_get_string ("last_uri");
 
 	gnome_config_pop_prefix ();
 }
@@ -80,6 +83,7 @@ calconduit_save_configuration (ECalConduitCfg *c)
 
 	gnome_config_push_prefix (prefix);
 	gnome_config_set_bool ("open_secret", c->open_secret);
+	gnome_config_set_string ("last_uri", c->last_uri);
 	gnome_config_pop_prefix ();
 
 	gnome_config_sync ();
@@ -98,9 +102,11 @@ calconduit_dupe_configuration (ECalConduitCfg *c)
 
 	retval = g_new0 (ECalConduitCfg, 1);
 	retval->sync_type = c->sync_type;
-	retval->open_secret = c->open_secret;
 	retval->pilot_id = c->pilot_id;
 
+	retval->open_secret = c->open_secret;
+	retval->last_uri = g_strdup (c->last_uri);
+	
 	return retval;
 }
 #endif
@@ -113,6 +119,7 @@ calconduit_destroy_configuration (ECalConduitCfg **c)
 	g_return_if_fail (c != NULL);
 	g_return_if_fail (*c != NULL);
 
+	g_free ((*c)->last_uri);
 	g_free (*c);
 	*c = NULL;
 }

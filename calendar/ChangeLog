@@ -1,3 +1,39 @@
+2001-12-18  JP Rosevear  <jpr@ximian.com>
+
+	* conduits/calendar/calendar-conduit.c (check_for_slow_setting):
+	go slow and clear the map if the last uri and the current uri do
+	not match
+	(post_sync): save the last uri
+
+	* conduits/calendar/calendar-conduit-config.h: handle a last uri
+	config option
+
+	* conduits/todo/todo-conduit-config.h: ditto
+
+    	* conduits/calendar/calendar-conduit.c (start_calendar_server):
+    	use the open_default_calendar method
+    
+    	* conduits/todo/todo-conduit.c (start_calendar_server): same as above
+	
+    	* cal-client/Makefile.am: link with bonobo conf
+    
+    	* cal-client/cal-client.h: new protos
+    
+    	* idl/evolution-calendar.idl: make sure open method raises
+    	appropriate exceptions
+    
+     	* gui/e-itip-control.c (start_calendar_server): use
+     	cal_client_open_default_* calls
+     
+     	* cal-client/cal-client.c (real_open_calendar): do the real work
+     	of loading
+     	(cal_client_open_calendar): use above
+     	(get_fall_back_uri): get the basic local uri
+     	(get_default_uri): get the default uri from the config db
+     	(cal_client_open_default_calendar): open the default uri or the
+     	fallback if the method is unsupported
+     	(cal_client_open_default_tasks): same for tasks
+
 2001-12-18  Dan Winship  <danw@ximian.com>
 
 	* gui/itip-utils.c (itip_send_comp): Unfortunate hack to make this

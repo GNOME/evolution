@@ -25,6 +25,9 @@
 #include <gtk/gtksignal.h>
 #include <liboaf/liboaf.h>
 #include <bonobo/bonobo-exception.h>
+#include <bonobo/bonobo-moniker-util.h>
+#include <bonobo-conf/bonobo-config-database.h>
+#include <libgnome/gnome-util.h>
 
 #include "cal-client-types.h"
 #include "cal-client.h"
@@ -608,6 +611,7 @@ cal_client_construct (CalClient *client)
 
 		info = servers->_buffer + i;
 
+		g_print ("Factory: %s\n", info->iid);
 		factory = (GNOME_Evolution_Calendar_CalFactory)
 			oaf_activate_from_id (info->iid, 0, NULL, &ev);
 		if (BONOBO_EX (&ev)) {
@@ -679,32 +683,15 @@ cal_client_set_auth_func (CalClient *client, CalClientAuthFunc func, gpointer da
 	client->priv->auth_user_data = data;
 }
 
-/**
- * cal_client_open_calendar:
- * @client: A calendar client.
- * @str_uri: URI of calendar to open.
- * @only_if_exists: FALSE if the calendar should be opened even if there
- * was no storage for it, i.e. to create a new calendar or load an existing
- * one if it already exists.  TRUE if it should only try to load calendars
- * that already exist.
- *
- * Makes a calendar client initiate a request to open a calendar.  The calendar
- * client will emit the "cal_opened" signal when the response from the server is
- * received.
- *
- * Return value: TRUE on success, FALSE on failure to issue the open request.
- **/
-gboolean
-cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists)
+static gboolean
+real_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists, gboolean *supported)
 {
 	CalClientPrivate *priv;
 	GNOME_Evolution_Calendar_Listener corba_listener;
-	CORBA_Environment ev;
+	int unsupported;
 	GList *f;
-
-	g_return_val_if_fail (client != NULL, FALSE);
-	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
-
+	CORBA_Environment ev;
+	
 	priv = client->priv;
 	g_return_val_if_fail (priv->load_state == CAL_CLIENT_LOAD_NOT_LOADED, FALSE);
 	g_assert (priv->uri == NULL);
@@ -735,24 +722,27 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 	priv->load_state = CAL_CLIENT_LOAD_LOADING;
 	priv->uri = g_strdup (str_uri);
 
+	unsupported = 0;
 	for (f = priv->factories; f; f = f->next) {
 		CORBA_exception_init (&ev);
+
 		GNOME_Evolution_Calendar_CalFactory_open (f->data, str_uri,
 							  only_if_exists,
 							  corba_listener, &ev);
 		if (!BONOBO_EX (&ev))
 			break;
+		else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod))
+			unsupported++;
 	}
 
-	if (BONOBO_EX (&ev)) {
-		CORBA_exception_free (&ev);
-
-		if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_InvalidURI))
-			g_message ("cal_client_open_calendar: invalid URI");
-		else if (BONOBO_USER_EX (&ev, ex_GNOME_Evolution_Calendar_CalFactory_UnsupportedMethod))
-			 g_message ("cal_client_open_calendar: unsupported method");
+	if (supported != NULL) {
+		if (unsupported == g_list_length (priv->factories))
+			*supported = FALSE;
 		else
-			g_message ("cal_client_open_calendar(): open request failed");
+			*supported = TRUE;
+	}
+	
+	if (BONOBO_EX (&ev)) {
 		bonobo_object_unref (BONOBO_OBJECT (priv->listener));
 		priv->listener = NULL;
 		priv->load_state = CAL_CLIENT_LOAD_NOT_LOADED;
@@ -761,9 +751,121 @@ cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_
 
 		return FALSE;
 	}
-	CORBA_exception_free (&ev);
 
 	return TRUE;
+}
+
+/**
+ * cal_client_open_calendar:
+ * @client: A calendar client.
+ * @str_uri: URI of calendar to open.
+ * @only_if_exists: FALSE if the calendar should be opened even if there
+ * was no storage for it, i.e. to create a new calendar or load an existing
+ * one if it already exists.  TRUE if it should only try to load calendars
+ * that already exist.
+ *
+ * Makes a calendar client initiate a request to open a calendar.  The calendar
+ * client will emit the "cal_opened" signal when the response from the server is
+ * received.
+ *
+ * Return value: TRUE on success, FALSE on failure to issue the open request.
+ **/
+gboolean
+cal_client_open_calendar (CalClient *client, const char *str_uri, gboolean only_if_exists)
+{
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	return real_open_calendar (client, str_uri, only_if_exists, NULL);
+}
+
+static char *
+get_fall_back_uri (gboolean tasks)
+{
+	if (tasks)
+		return g_concat_dir_and_file (g_get_home_dir (),
+					      "evolution/local/"
+					      "Tasks/tasks.ics");
+	else
+		return g_concat_dir_and_file (g_get_home_dir (),
+					      "evolution/local/"
+					      "Calendar/calendar.ics");
+}
+
+static char *
+get_default_uri (gboolean tasks)
+{
+	Bonobo_ConfigDatabase db;
+	char *uri, *fall_back = NULL;
+	CORBA_Environment ev;
+
+	CORBA_exception_init (&ev);
+	
+	db = bonobo_get_object ("wombat:", "Bonobo/ConfigDatabase", &ev);
+	
+	if (BONOBO_EX (&ev) || db == CORBA_OBJECT_NIL) {
+		CORBA_exception_free (&ev);
+		return NULL;
+ 	}
+
+	CORBA_exception_free (&ev);
+
+	fall_back = get_fall_back_uri (tasks);
+	if (tasks)
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultTasksUri", 
+							     fall_back, NULL);
+	else
+		uri = bonobo_config_get_string_with_default (db, "/Calendar/DefaultUri",
+							     fall_back, NULL);
+	g_free (fall_back);
+	
+	bonobo_object_release_unref (db, NULL);
+
+	return uri;
+}
+
+gboolean
+cal_client_open_default_calendar (CalClient *client, gboolean only_if_exists)
+{
+	char *default_uri, *fall_back;
+	gboolean result, supported;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	default_uri = get_default_uri (FALSE);
+	fall_back = get_fall_back_uri (FALSE);
+	
+	result = real_open_calendar (client, default_uri, only_if_exists, &supported);
+	if (!supported && strcmp (fall_back, default_uri))
+		result = real_open_calendar (client, fall_back, only_if_exists, NULL);
+
+	g_free (default_uri);
+	g_free (fall_back);
+	
+	return result;
+}
+
+gboolean
+cal_client_open_default_tasks (CalClient *client, gboolean only_if_exists)
+{
+	char *default_uri, *fall_back;
+	gboolean result, supported;
+
+	g_return_val_if_fail (client != NULL, FALSE);
+	g_return_val_if_fail (IS_CAL_CLIENT (client), FALSE);
+
+	default_uri = get_default_uri (TRUE);
+	fall_back = get_fall_back_uri (TRUE);
+
+	result = real_open_calendar (client, default_uri, only_if_exists, &supported);
+	if (!supported && strcmp (fall_back, default_uri))
+		result = real_open_calendar (client, fall_back, only_if_exists, NULL);
+
+	g_free (default_uri);
+	g_free (fall_back);
+
+	return result;
 }
 
 /* Builds an URI list out of a CORBA string sequence */
