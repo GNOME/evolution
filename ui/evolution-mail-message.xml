@@ -267,12 +267,12 @@
           <menuitem name="MessageReplyList" verb="" _label="Reply to _List"/>
           <menuitem name="MessageReplyAll" verb="" _label="Reply to _All"/>
           <menuitem name="MessageForward" verb="" _label="_Forward Message"/>
-          <submenu name="ForwardAs" _label="Forward As">
-            <menuitem verb="MessageForwardAttached" _label="Forward _Attached"/>
-            <menuitem verb="MessageForwardInline" _label="Forward _Inline"/>
-            <menuitem verb="MessageForwardQuoted" _label="Forward _Quoted"/>
+          <submenu name="ForwardAs" _label="Forward">
+            <menuitem verb="MessageForwardAttached" _label="_Attached"/>
+            <menuitem verb="MessageForwardInline" _label="_Inline"/>
+            <menuitem verb="MessageForwardQuoted" _label="_Quoted"/>
             <separator f="" name="forwardlist1"/>
-            <menuitem verb="MessageRedirect" _label="Redirect"/>
+            <menuitem verb="MessageRedirect" _label="Re_direct"/>
           </submenu>
 
 	  <separator f="" name="emaillist1"/>
@@ -282,7 +282,7 @@
 
 	  <separator f="" name="emaillist2"/>
 
-          <menuitem name="AddSenderToAddressbook" verb="" _label="Add Sender to Address Book"/>
+          <menuitem name="AddSenderToAddressbook" verb="" _label="Add Sender to Address _Book"/>
 
 	  <separator f="" name="emaillist3"/>
 
