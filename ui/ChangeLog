@@ -1,3 +1,10 @@
+2004-05-06  Rodney Dawes  <dobey@ximian.com>
+
+	* evolution-mail-message.xml: Make some more toolbar and menu items
+	use the stock versions of icons
+
+	Fixes #57963 partly
+
 2004-04-30  Dave Fallon <davef@tetsubo.com>
 
        * ui/evolution-addressbook.xml: Fixed Bug #57611.

@@ -11,15 +11,15 @@
 
     <cmd name="EditCut"
      _tip="Cut selected message(s) to the clipboard"
-     accel="*Control*x" pixtype="pixbuf"/>
+     accel="*Control*x" pixtype="stock" pixname="gtk-cut"/>
 
     <cmd name="EditCopy"
      _tip="Copy selected message(s) to the clipboard"
-     accel="*Control*c" pixtype="pixbuf"/>
+     accel="*Control*c" pixtype="stock" pixname="gtk-copy"/>
 
     <cmd name="EditPaste"
      _tip="Paste message(s) from the clipboard"
-     accel="*Control*v" pixtype="pixbuf"/>
+     accel="*Control*v" pixtype="stock" pixname="gtk-paste"/>
 
     <cmd name="MailNext"
      _tip="Display the next message"/>
@@ -61,7 +61,7 @@
     <cmd name="MessageDelete"
      _tip="Mark the selected messages for deletion"
      accel="*Control*d"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-delete"/>
 
     <cmd name="MessageFollowUpFlag"
      _tip="Flag selected message(s) for follow-up"
@@ -161,11 +161,11 @@
     <cmd name="PrintMessage"
      _tip="Print this message"
      accel="*Control*p"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-print"/>
 
     <cmd name="PrintPreviewMessage"
      _tip="Preview the message to be printed"
-     pixtype="pixbuf"/>
+     pixtype="stock" pixname="gtk-print-preview"/>
 
     <cmd name="PrintSetup"
      _tip="Set up the page settings for your current printer"
@@ -406,11 +406,11 @@
 
       <toolitem name="PrintMessage" verb=""
        _label="Print"
-       pixtype="pixbuf"/>
+       pixtype="stock" pixname="gtk-print"/>
 
       <toolitem name="MessageDelete" verb=""
        _label="Delete"
-       pixtype="pixbuf"/>
+       pixtype="stock" pixname="gtk-delete"/>
 
       <toolitem name="MessageMarkAsJunk" verb=""
        _label="Junk"
