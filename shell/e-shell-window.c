@@ -389,13 +389,12 @@ init (EShellWindow *shell_window)
 /* Instantiation.  */
 
 GtkWidget *
-e_shell_window_new (EShell *shell)
+e_shell_window_new (EShell *shell,
+		    const char *component_id)
 {
 	EShellWindow *window = g_object_new (e_shell_window_get_type (), NULL);
 	EShellWindowPrivate *priv = window->priv;
 	BonoboUIContainer *ui_container;
-	GConfClient *gconf_client;
-	char *default_component_id;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
@@ -428,17 +427,24 @@ e_shell_window_new (EShell *shell)
 
 	gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
 
-	gconf_client = gconf_client_get_default ();
-	default_component_id = gconf_client_get_string (gconf_client,
-							"/apps/evolution/shell/view_defaults/component_id",
-							NULL);
-	g_object_unref (gconf_client);
-
-	if (default_component_id == NULL) {
-		e_shell_window_switch_to_component (window, "mail");
+	if (component_id != NULL) {
+		e_shell_window_switch_to_component (window, component_id);
 	} else {
-		e_shell_window_switch_to_component (window, default_component_id);
-		g_free (default_component_id);
+		GConfClient *gconf_client;
+		char *default_component_id;
+
+		gconf_client = gconf_client_get_default ();
+		default_component_id = gconf_client_get_string (gconf_client,
+								"/apps/evolution/shell/view_defaults/component_id",
+								NULL);
+		g_object_unref (gconf_client);
+
+		if (default_component_id == NULL) {
+			e_shell_window_switch_to_component (window, "mail");
+		} else {
+			e_shell_window_switch_to_component (window, default_component_id);
+			g_free (default_component_id);
+		}
 	}
 
 	return GTK_WIDGET (window);

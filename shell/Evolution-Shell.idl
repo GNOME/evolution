@@ -13,21 +13,21 @@
 module GNOME {
 module Evolution {
 	interface Shell : Bonobo::Unknown {
-		exception NotReady {};
-		exception NotFound {};
-		exception UnsupportedSchema {};
-		exception InvalidURI {};
-		exception InternalError {};
 		exception Busy {};
+		exception ComponentNotFound {};
+		exception InternalError {};
+		exception InvalidURI {};
+		exception NotFound {};
+		exception NotReady {};
+		exception UnsupportedSchema {};
 
 		/**
-		 * createNewView:
-		 * @uri: URI for the view to open
+		 * createNewWindow:
+		 * @component_id: id or alias of the component to display in the new window.
 		 *
-		 * Return value: the new view.
 		 */
-		ShellView createNewView (in string uri)
-			raises (NotReady, NotFound, UnsupportedSchema, InvalidURI, InternalError);
+		void createNewWindow (in string component_id)
+			raises (NotReady, ComponentNotFound, UnsupportedSchema, InternalError);
 
 		/**
 		 * handleURI:

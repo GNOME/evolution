@@ -1,5 +1,22 @@
 2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
 
+	* main.c: Added a new "-c" command-line arg.
+	(idle_cb): If the arg is specified, open the component with that
+	id/alias.
+
+	* e-shell.c (impl_Shell_createNewView): New, implementation for
+	the Shell::createNewView() CORBA method.
+	(e_shell_class_init): Install.
+	(e_shell_create_window): Get a component_id arg.
+
+	* e-shell-window.c (e_shell_window_new): Get a component_id arg
+	and create the window with that component activated if not NULL.
+
+	* Evolution-Shell.idl (createNewView): Remove.
+	(createNewWindow): New.
+
+2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-shell-window.c (struct _ComponentView): New member
 	"component_alias".
 	(component_view_new): Get a new "alias" arg, set the member in the

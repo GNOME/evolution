@@ -52,7 +52,8 @@ struct _EShellWindowClass {
 
 GType  e_shell_window_get_type  (void);
 
-GtkWidget *e_shell_window_new  (EShell *shell);
+GtkWidget *e_shell_window_new  (EShell     *shell,
+				const char *component_id);
 
 void  e_shell_window_switch_to_component  (EShellWindow *shell,
 					   const char   *component_id);

@@ -85,6 +85,7 @@ static gboolean start_online = FALSE;
 static gboolean start_offline = FALSE;
 static gboolean setup_only = FALSE;
 static gboolean killev = FALSE;
+static char *default_component_id = NULL;
 
 extern char *evolution_debug_log;
 
@@ -404,35 +405,15 @@ idle_cb (void *data)
 	}
 
 	have_evolution_uri = FALSE;
-	displayed_any = FALSE;
 
-	for (p = uri_list; p != NULL; p = p->next) {
-		const char *uri;
+	if (uri_list == NULL && shell != NULL)
+		e_shell_create_window (shell, default_component_id, NULL);
+	else {
+		CORBA_Environment ev;
 
-		uri = (const char *) p->data;
-		if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0 ||
-		    strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0)
-			have_evolution_uri = TRUE;
-	}
-
-	if (shell == NULL) {
-		/* We're talking to a remote shell. If the user didn't ask us to open any particular
- 		   URI, then open another view of the default URI.  */
-		if (uri_list == NULL)
-			display_default = TRUE;
-		else
-			display_default = FALSE;
-	} else {
-		/* We're starting a new shell. If the user didn't specify any evolution: URIs to
-		   view, AND we can't load the user's previous settings, then show the default
-		   URI.  */
-		if (! have_evolution_uri) {
-			e_shell_create_window (shell, NULL);
-			display_default = TRUE;
-			displayed_any = TRUE;
-		} else {
-			display_default = FALSE;
-		}
+		CORBA_exception_init (&ev);
+		GNOME_Evolution_Shell_createNewWindow (corba_shell, default_component_id, &ev);
+		CORBA_exception_free (&ev);
 	}
 
 	for (p = uri_list; p != NULL; p = p->next) {
@@ -440,9 +421,7 @@ idle_cb (void *data)
 
 		uri = (const char *) p->data;
 		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major == CORBA_NO_EXCEPTION)
-			displayed_any = TRUE;
-		else {
+		if (ev._major == CORBA_NO_EXCEPTION) {
 			g_warning ("CORBA exception %s when requesting URI -- %s",
 				   BONOBO_EX_REPOID (&ev), uri);
 			CORBA_exception_free (&ev);
@@ -450,15 +429,6 @@ idle_cb (void *data)
 	}
 
 	g_slist_free (uri_list);
-
-	if (display_default && ! displayed_any) {
-		const char *uri;
-
-		uri = E_SHELL_VIEW_DEFAULT_URI;
-		GNOME_Evolution_Shell_handleURI (corba_shell, uri, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION)
-			g_warning ("CORBA exception %s when requesting URI -- %s", BONOBO_EX_REPOID (&ev), uri);
-	}
 
 	CORBA_Object_release (corba_shell, &ev);
 
@@ -526,6 +496,8 @@ int
 main (int argc, char **argv)
 {
 	struct poptOption options[] = {
+		{ "component", 'c', POPT_ARG_STRING, &default_component_id, 0,
+		  N_("Start Evolution activating the specified component"), NULL },
 		{ "offline", '\0', POPT_ARG_NONE, &start_offline, 0, 
 		  N_("Start in offline mode"), NULL },
 		{ "online", '\0', POPT_ARG_NONE, &start_online, 0, 

@@ -166,52 +166,27 @@ raise_exception_if_not_ready (PortableServer_Servant servant,
 	return FALSE;
 }
 
-static GNOME_Evolution_ShellView
-impl_Shell_createNewView (PortableServer_Servant servant,
-			  const CORBA_char *uri,
-			  CORBA_Environment *ev)
+static void
+impl_Shell_createNewWindow (PortableServer_Servant servant,
+			    const CORBA_char *component_id,
+			    CORBA_Environment *ev)
 {
-	CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-			     ex_GNOME_Evolution_Shell_InternalError, NULL);
-
-	return CORBA_OBJECT_NIL;
-
-#if 0				/* FIXME */
 	BonoboObject *bonobo_object;
 	EShell *shell;
 	EShellWindow *shell_window;
-	GNOME_Evolution_ShellView shell_view_interface;
 
 	if (raise_exception_if_not_ready (servant, ev))
-		return CORBA_OBJECT_NIL;
+		return;
 
 	bonobo_object = bonobo_object_from_servant (servant);
 	shell = E_SHELL (bonobo_object);
 
-	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) != 0) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_UnsupportedSchema,
-				     NULL);
-		return CORBA_OBJECT_NIL;
-	}
-
-	shell_window = e_shell_create_window (shell, uri, NULL);
+	shell_window = e_shell_create_window (shell, component_id, NULL);
 	if (shell_window == NULL) {
 		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_NotFound, NULL);
-		return CORBA_OBJECT_NIL;
+				     ex_GNOME_Evolution_Shell_ComponentNotFound, NULL);
+		return;
 	}
-
-	shell_window_interface = e_shell_window_get_corba_interface (shell_window);
-	if (shell_window_interface == CORBA_OBJECT_NIL) {
-		CORBA_exception_set (ev, CORBA_USER_EXCEPTION,
-				     ex_GNOME_Evolution_Shell_InternalError, NULL);
-		return CORBA_OBJECT_NIL;
-	}
-
-	Bonobo_Unknown_ref (shell_window_interface, ev);
-	return CORBA_Object_duplicate ((CORBA_Object) shell_window_interface, ev);
-#endif
 }
 
 static void
@@ -233,7 +208,7 @@ impl_Shell_handleURI (PortableServer_Servant servant,
 
 	if (strncmp (uri, E_SHELL_URI_PREFIX, E_SHELL_URI_PREFIX_LEN) == 0
 	    || strncmp (uri, E_SHELL_DEFAULTURI_PREFIX, E_SHELL_DEFAULTURI_PREFIX_LEN) == 0) {
-		e_shell_create_window (shell, NULL);
+		e_shell_create_window (shell, NULL, NULL);
 		return;
 	}
 
@@ -344,6 +319,7 @@ window_weak_notify (void *data,
 
 static EShellWindow *
 create_window (EShell *shell,
+	       const char *component_id,
 	       EShellWindow *template_window)
 {
 	EShellPrivate *priv;
@@ -351,7 +327,7 @@ create_window (EShell *shell,
 
 	priv = shell->priv;
 
-	window = E_SHELL_WINDOW (e_shell_window_new (shell));
+	window = E_SHELL_WINDOW (e_shell_window_new (shell, component_id));
 
 	g_signal_connect (window, "delete_event", G_CALLBACK (window_delete_event_cb), shell);
 	g_object_weak_ref (G_OBJECT (window), window_weak_notify, shell);
@@ -473,9 +449,9 @@ e_shell_class_init (EShellClass *klass)
 			      G_TYPE_POINTER);
 
 	epv = & klass->epv;
-	epv->createNewView        = impl_Shell_createNewView;
-	epv->handleURI            = impl_Shell_handleURI;
-	epv->setLineStatus        = impl_Shell_setLineStatus;
+	epv->createNewWindow = impl_Shell_createNewWindow;
+	epv->handleURI       = impl_Shell_handleURI;
+	epv->setLineStatus   = impl_Shell_setLineStatus;
 }
 
 static void
@@ -601,6 +577,7 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
 /**
  * e_shell_create_window:
  * @shell: The shell for which to create a new window.
+ * @component_id: Id or alias of the component to display in the new window.
  * @template_window: Window from which to copy the window settings (can be %NULL).
  * 
  * Create a new window for @uri.
@@ -609,6 +586,7 @@ e_shell_new (EShellStartupLineMode startup_line_mode,
  **/
 EShellWindow *
 e_shell_create_window (EShell *shell,
+		       const char *component_id,
 		       EShellWindow *template_window)
 {
 	EShellWindow *window;
@@ -621,7 +599,7 @@ e_shell_create_window (EShell *shell,
 
 	priv = shell->priv;
 
-	window = create_window (shell, template_window);
+	window = create_window (shell, component_id, template_window);
 
 	gtk_widget_show (GTK_WIDGET (window));
 

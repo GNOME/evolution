@@ -102,6 +102,7 @@ EShell                *e_shell_new        (EShellStartupLineMode  startup_line_m
 					   EShellConstructResult *construct_result_return);
 
 EShellWindow *e_shell_create_window         (EShell       *shell,
+					     const char   *component_id,
 					     EShellWindow *template_window);
 gboolean      e_shell_request_close_window  (EShell       *shell,
 					     EShellWindow *window);
