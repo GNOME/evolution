@@ -1,3 +1,8 @@
+2000-04-17  Chris Toshok  <toshok@helixcode.com>
+
+	* message-list.c (message_list_init_renderers): no more
+	e_cell_set_editable.  this info always comes from the model.
+
 2000-04-14  Dan Winship  <danw@helixcode.com>
 
 	* mail-format.[ch]: Moved from camel/camel-formatter, and changed

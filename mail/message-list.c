@@ -333,7 +333,6 @@ message_list_init_renderers (MessageList *message_list)
 	message_list->render_text = e_cell_text_new (
 		message_list->table_model,
 		NULL, GTK_JUSTIFY_LEFT);
-	e_cell_set_editable (E_CELL (message_list->render_text), FALSE);
 
 	message_list->render_online_status = e_cell_checkbox_new ();
 
@@ -348,7 +347,6 @@ message_list_init_renderers (MessageList *message_list)
 		
 		message_list->render_message_status = e_cell_toggle_new (0, 2, images);
 	}
-	e_cell_set_editable (E_CELL (message_list->render_message_status), FALSE);
 
 	/*
 	 * Attachment
@@ -361,7 +359,6 @@ message_list_init_renderers (MessageList *message_list)
 		
 		message_list->render_attachment = e_cell_toggle_new (0, 2, images);
 	}
-	e_cell_set_editable (E_CELL (message_list->render_attachment), FALSE);
 	
 	/*
 	 * FIXME: We need a real renderer here
