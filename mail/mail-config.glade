@@ -2182,7 +2182,7 @@ Quoted
       <name>vbox64</name>
       <border_width>4</border_width>
       <homogeneous>False</homogeneous>
-      <spacing>4</spacing>
+      <spacing>8</spacing>
 
       <widget>
 	<class>GtkHBox</class>
@@ -2203,7 +2203,7 @@ Quoted
 	  <wrap>False</wrap>
 	  <xalign>0.5</xalign>
 	  <yalign>0.5</yalign>
-	  <xpad>4</xpad>
+	  <xpad>0</xpad>
 	  <ypad>0</ypad>
 	  <child>
 	    <padding>0</padding>
@@ -2237,13 +2237,56 @@ Quoted
 	  </widget>
 	</widget>
       </widget>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox56</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>lblCharset</name>
+	  <label>Default character set: </label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkOptionMenu</class>
+	  <name>omenuCharset</name>
+	  <can_focus>True</can_focus>
+	  <items>placeholder
+</items>
+	  <initial_choice>0</initial_choice>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
     </widget>
 
     <widget>
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
-      <name>pgp_config_label</name>
-      <label>PGP</label>
+      <name>other_config_label</name>
+      <label>Other</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>

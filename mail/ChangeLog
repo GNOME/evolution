@@ -1,3 +1,16 @@
+2001-05-30  Dan Winship  <danw@ximian.com>
+
+	* mail-config.glade: Rename the "PGP" page back to "Other" and add
+	a "default charset" option menu.
+
+	* mail-config.c (config_read, mail_config_write_on_exit,
+	mail_config_get_default_charset, mail_config_set_default_charset):
+	Handle "default charset".
+
+	* mail-accounts.c (construct): Fill in the "default_charset" menu
+	with an e_charset_picker menu.
+	(charset_menu_deactivate): Update the default charset.
+
 2001-05-29  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* mail-callbacks.c (list_add_addresses): Take another argument to

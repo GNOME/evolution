@@ -68,6 +68,7 @@ typedef struct {
 	MailConfigHTTPMode http_mode;
 	MailConfigForwardStyle default_forward_style;
 	MailConfigDisplayStyle message_display_style;
+	char *default_charset;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -477,6 +478,19 @@ config_read (void)
 		config->message_display_style = MAIL_CONFIG_DISPLAY_NORMAL;
 	g_free (str);
 	
+	/* Default charset */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/charset", evolution_dir);
+	config->default_charset = gnome_config_get_string (str);
+	g_free (str);
+	if (!config->default_charset) {
+		config->default_charset = g_get_charset ();
+		if (!config->default_charset ||
+		    !g_strcasecmp (config->default_charset, "US-ASCII"))
+			config->default_charset = g_strdup ("ISO-8859-1");
+		else
+			config->default_charset = g_strdup (config->default_charset);
+	}
+
 	gnome_config_sync ();
 }
 
@@ -671,6 +685,11 @@ mail_config_write_on_exit (void)
 	gnome_config_set_int (str, config->message_display_style);
 	g_free (str);
 	
+	/* Default charset */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/default_charset", evolution_dir);
+	gnome_config_set_string (str, config->default_charset);
+	g_free (str);
+
 	/* Passwords */
 	gnome_config_private_clean_section ("/Evolution/Passwords");
 	sources = mail_config_get_sources ();
@@ -926,6 +945,20 @@ mail_config_set_message_display_style (MailConfigDisplayStyle style)
 {
 	config->message_display_style = style;
 }
+
+const char *
+mail_config_get_default_charset (void)
+{
+	return config->default_charset;
+}
+
+void
+mail_config_set_default_charset (const char *charset)
+{
+	g_free (config->default_charset);
+	config->default_charset = g_strdup (charset);
+}
+
 
 const MailConfigAccount *
 mail_config_get_default_account (void)

@@ -30,6 +30,7 @@
 #include <libgnomeui/gnome-stock.h>
 #include <camel/camel-url.h>
 #include <camel/camel-pgp-context.h>
+#include <gal/widgets/e-charset-picker.h>
 
 #include "mail-accounts.h"
 #include "mail-config.h"
@@ -549,10 +550,22 @@ attach_forward_style_signal (GtkWidget *item, gpointer data)
 }
 
 static void
+charset_menu_deactivate (GtkWidget *menu, gpointer data)
+{
+	char *charset;
+
+	charset = e_charset_picker_get_charset (menu);
+	if (charset) {
+		mail_config_set_default_charset (charset);
+		g_free (charset);
+	}
+}
+
+static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
-	GtkWidget *notebook;
+	GtkWidget *notebook, *menu;
 	int num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
@@ -654,6 +667,7 @@ construct (MailAccountsDialog *dialog)
 	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (dialog->forward_style)),
 			       attach_forward_style_signal, &num);
 
+	/* Other page */
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
 			    mail_config_get_pgp_path ());
@@ -661,6 +675,12 @@ construct (MailAccountsDialog *dialog)
 	gtk_signal_connect (GTK_OBJECT (gnome_file_entry_gtk_entry (dialog->pgp_path)),
 			    "changed", GTK_SIGNAL_FUNC (pgp_path_changed), dialog);
 	
+	dialog->charset = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuCharset"));
+	menu = e_charset_picker_new (mail_config_get_default_charset ());
+	gtk_option_menu_set_menu (dialog->charset, menu);
+	gtk_signal_connect (GTK_OBJECT (menu), "deactivate",
+			    GTK_SIGNAL_FUNC (charset_menu_deactivate), NULL);
+
 	/* now to fill in the clists */
 	dialog->accounts_row = -1;
 	dialog->accounts = mail_config_get_accounts ();

@@ -81,6 +81,7 @@ struct _MailAccountsDialog {
 	/* Composer page */
 	GtkToggleButton *send_html;
 	GtkOptionMenu *forward_style;
+	GtkOptionMenu *charset;
 
 	/* PGP page */
 	GnomeFileEntry *pgp_path;

@@ -137,6 +137,9 @@ void                   mail_config_set_default_forward_style (MailConfigForwardS
 MailConfigDisplayStyle mail_config_get_message_display_style (void);
 void                   mail_config_set_message_display_style (MailConfigDisplayStyle style);
 
+const char *mail_config_get_default_charset (void);
+void        mail_config_set_default_charset (const char *charset);
+
 const MailConfigAccount  *mail_config_get_default_account       (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);
 const MailConfigAccount  *mail_config_get_account_by_source_url (const char *url);
