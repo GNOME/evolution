@@ -1020,6 +1020,7 @@ e_text_set_arg (GtkObject *object, GtkArg *arg, guint arg_id)
 		e_text_free_lines(text);
 
 		text->text = e_text_model_get_text(text->model);
+		gtk_signal_emit (GTK_OBJECT (text), e_text_signals[E_TEXT_CHANGED]);
 
 		text->needs_split_into_lines = 1;
 		needs_reflow = 1;
