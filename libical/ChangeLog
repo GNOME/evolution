@@ -1,5 +1,13 @@
 2001-06-13  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icaltimezone.[hc]: new files to contain support for
+	timezones.
+
+	* src/libical/icalarray.[hc]: new files to provide a simple expanding
+	array datatype.
+
+2001-06-13  Damon Chaplin  <damon@ximian.com>
+
 	* Makefile.am (SUBDIRS): added zoneinfo.
 
 	* configure.in (AC_OUTPUT): added zoneinfo/Makefile.
