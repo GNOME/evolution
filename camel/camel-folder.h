@@ -81,8 +81,6 @@ struct _CamelFolder
 
 	gboolean has_uid_capability;
 
-	GList *message_list;
-
 };
 
 
@@ -165,7 +163,7 @@ typedef struct {
 	GList *  (*list_subfolders)   (CamelFolder *folder, 
 				       CamelException *ex);
 
-	void  (*expunge)  (CamelFolder *folder, 
+	GList *  (*expunge)  (CamelFolder *folder, 
 			   CamelException *ex);
 
 	gboolean (*has_message_number_capability) (CamelFolder *folder, CamelException *ex);
@@ -243,7 +241,7 @@ GList *camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex);
 /* delete operations */
 gboolean camel_folder_delete (CamelFolder *folder, gboolean recurse, CamelException *ex);
 gboolean camel_folder_delete_messages (CamelFolder *folder, CamelException *ex);
-void camel_folder_expunge (CamelFolder *folder, CamelException *ex);
+GList *camel_folder_expunge (CamelFolder *folder, CamelException *ex);
 
 
 /* folder name manipulation operations */

@@ -90,7 +90,7 @@ static CamelFolder *_get_parent_folder (CamelFolder *folder, CamelException *ex)
 static CamelStore *_get_parent_store (CamelFolder *folder, CamelException *ex);
 static CamelFolderOpenMode _get_mode (CamelFolder *folder, CamelException *ex);
 static GList *_list_subfolders (CamelFolder *folder, CamelException *ex);
-static void _expunge (CamelFolder *folder, CamelException *ex);
+static GList *_expunge (CamelFolder *folder, CamelException *ex);
 static CamelMimeMessage *_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex);
 static gint _get_message_count (CamelFolder *folder, CamelException *ex);
 static gint _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException *ex);
@@ -684,13 +684,13 @@ _list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
-static void
+static GList *
 _expunge (CamelFolder *folder, CamelException *ex)
 {
 	CamelFolderPtProxy *proxy_folder;
 
 	proxy_folder = CAMEL_FOLDER_PT_PROXY (folder);
-	CF_CLASS (proxy_folder->real_folder)->
+	return CF_CLASS (proxy_folder->real_folder)->
 		expunge (proxy_folder->real_folder, ex);
 }
 

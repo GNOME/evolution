@@ -95,7 +95,7 @@ static gint _get_message_count        (CamelFolder *folder,
 
 static gboolean _delete_messages (CamelFolder *folder, 
 				  CamelException *ex);
-static void _expunge         (CamelFolder *folder, 
+static GList * _expunge         (CamelFolder *folder, 
 			      CamelException *ex);
 static gint _append_message  (CamelFolder *folder, 
 			      CamelMimeMessage *message, 
@@ -202,15 +202,7 @@ _finalize (GtkObject *object)
 	g_free (camel_folder->name);
 	g_free (camel_folder->full_name);
 	g_free (camel_folder->permanent_flags);
-	if (camel_folder->message_list) {
-		/* unref all messages got from the folder */
-		message_node = camel_folder->message_list;
-		while (message_node) {
-			gtk_object_unref (GTK_OBJECT (message_node->data));
-			g_list_next (message_node);
-		}
-		g_list_free (camel_folder->message_list);
-	}
+
 	GTK_OBJECT_CLASS (parent_class)->finalize (object);
 	CAMEL_LOG_FULL_DEBUG ("Leaving CamelFolder::finalize\n");
 }
@@ -226,12 +218,30 @@ _finalize (GtkObject *object)
 static void 
 _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException *ex)
 {
-	g_assert(folder);
-	g_assert(parent_store);
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
+
+	if (!parent_store) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_PARAM,
+				     "parent_store parameter is NULL");
+		return;
+	}
 	
-	if (folder->parent_store) gtk_object_unref (GTK_OBJECT (folder->parent_store));
+	if (!folder->parent_store) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_INVALID_FOLDER,
+				     "folder already has a parent store");
+		return;
+	}
+	
 	folder->parent_store = parent_store;
-	if (parent_store) gtk_object_ref (GTK_OBJECT (parent_store));
+	gtk_object_ref (GTK_OBJECT (parent_store));
+	
 	folder->open_mode = FOLDER_OPEN_UNKNOWN;
 	folder->open_state = FOLDER_CLOSE;
 	folder->name = NULL;
@@ -247,6 +257,13 @@ _open (CamelFolder *folder,
        CamelFolderOpenMode mode, 
        CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
+
   	folder->open_state = FOLDER_OPEN;
   	folder->open_mode = mode;
 }
@@ -268,6 +285,12 @@ camel_folder_open (CamelFolder *folder,
 		   CamelFolderOpenMode mode, 
 		   CamelException *ex)
 {	
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	CF_CLASS(folder)->open (folder, mode, ex);
 }
 
@@ -309,6 +332,12 @@ camel_folder_open_async (CamelFolder *folder,
 			 gpointer user_data, 
 			 CamelException *ex)
 {	
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	CF_CLASS(folder)->open_async (folder, mode, callback, user_data, ex);
 }
 
@@ -322,6 +351,12 @@ _close (CamelFolder *folder,
 	gboolean expunge, 
 	CamelException *ex)
 {	
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	folder->open_state = FOLDER_CLOSE;
 }
 
@@ -340,6 +375,12 @@ camel_folder_close (CamelFolder *folder,
 		    gboolean expunge, 
 		    CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	CF_CLASS(folder)->close (folder, expunge, ex);
 }
 
@@ -380,6 +421,12 @@ camel_folder_close_async (CamelFolder *folder,
 			  gpointer user_data, 
 			  CamelException *ex)
 {
+	if (!folder) {
+		camel_exception_set (ex, 
+				     CAMEL_EXCEPTION_FOLDER_NULL,
+				     "folder object is NULL");
+		return;
+	}
 	CF_CLASS(folder)->close_async (folder, expunge, callback, user_data, ex);
 }
 
@@ -943,7 +990,7 @@ camel_folder_list_subfolders (CamelFolder *folder, CamelException *ex)
 
 
 
-static void
+static GList *
 _expunge (CamelFolder *folder, CamelException *ex)
 {
 	CAMEL_LOG_WARNING ("Calling CamelFolder::expunge directly. "
@@ -958,57 +1005,13 @@ _expunge (CamelFolder *folder, CamelException *ex)
  * 
  * Delete messages which have been marked as  "DELETED"
  * 
+ * Return value: list of expunged messages 
  **/
-void
+GList *
 camel_folder_expunge (CamelFolder *folder,  CamelException *ex)
 {
-	CamelMimeMessage *message;
-	GList *message_node;
-	GList *next_message_node;
-	guint nb_expunged = 0;
-
-	
-	/* sort message list by ascending message number
-	if (folder->message_list)
-		folder->message_list = g_list_sort (folder->message_list, camel_mime_message_number_cmp);
-	*/
-	/* call provider method, 
-	 *  PROVIDERS MUST SET THE EXPUNGED FLAGS TO TRUE
-	 * when they expunge a message of the active message list */
 	CF_CLASS (folder)->expunge (folder, ex);
 	
-	message_node = folder->message_list;
-
-	/* look in folder message list which messages
-	 * need to be expunged  */
-	while ( message_node) {
-		message = CAMEL_MIME_MESSAGE (message_node->data);
-
-		/* we may free message_node so get the next node now */
-		next_message_node = message_node->next;
-
-		if (message) {
-			CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examining message %d\n", message->message_number);
-			if (message->expunged) {
-				
-				/* remove the message from active message list */
-				g_list_remove_link (folder->message_list, message_node);
-				g_list_free_1 (message_node);
-				nb_expunged++;
-			} else {
-				/* readjust message number */
-				CAMEL_LOG_FULL_DEBUG ("CamelFolder:: Readjusting message number %d", 
-						      message->message_number);
-				message->message_number -= nb_expunged;
-				CAMEL_LOG_FULL_DEBUG (" to %d\n", message->message_number);
-			}
-		}
-		else {
-			CAMEL_LOG_WARNING ("CamelFolder::expunge warning message_node contains no message\n");
-		}
-		message_node = next_message_node;
-		CAMEL_LOG_FULL_DEBUG ("CamelFolder::expunge, examined message node %p\n", message_node);
-	}
 	
 }
 
@@ -1068,45 +1071,7 @@ _get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 CamelMimeMessage *
 camel_folder_get_message_by_number (CamelFolder *folder, gint number, CamelException *ex)
 {
-#warning this code has nothing to do here. 
-	CamelMimeMessage *a_message;
-	CamelMimeMessage *new_message = NULL;
-	GList *message_node;
-	
-	message_node = folder->message_list;
-	CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message Looking for message number %d\n", number);
-	/* look in folder message list if the 
-	 * if the message has not already been retreived */
-	while ((!new_message) && message_node) {
-		a_message = CAMEL_MIME_MESSAGE (message_node->data);
-		
-		if (a_message) {
-			CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message "
-					      "found message number %d in the active list\n",
-					      a_message->message_number);
-			if (a_message->message_number == number) {
-				CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message "
-						      "%d already retreived once: returning %pOK\n", 
-						      number, a_message);
-				new_message = a_message;
-			} 
-		} else {
-			CAMEL_LOG_WARNING ("CamelFolder::get_message "
-					   " problem in the active list, a message was NULL\n");
-		}
-		message_node = message_node->next;
-		
-		CAMEL_LOG_FULL_DEBUG ("CamelFolder::get_message message node = %p\n", message_node);
-	}
-	if (!new_message) new_message = CF_CLASS (folder)->get_message_by_number (folder, number, ex);
-	if (!new_message) return NULL;
-
-	/* if the message has not been already put in 
-	 * this folder active message list, put it in */
-	if ((!folder->message_list) || (!g_list_find (folder->message_list, new_message)))
-	    folder->message_list = g_list_append (folder->message_list, new_message);
-	
-	return new_message;
+	return CF_CLASS (folder)->get_message_by_number (folder, number, ex);
 }
 
 

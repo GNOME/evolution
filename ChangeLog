@@ -1,3 +1,94 @@
+1999-12-16  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder.c (camel_folder_expunge): 
+	(_expunge): 
+	* camel/camel-folder-pt-proxy.c (_expunge): 
+	changed the return value. Now returns the list 
+	of expunged messages
+
+	* camel/camel-folder.c (_init_with_store): 
+	cleaned up. Use the exception system now.
+	(_open): ditto.
+	(camel_folder_open): ditto.
+	(camel_folder_open_async): ditto.
+	(_close):  ditto.
+	(camel_folder_close):  ditto.
+	(camel_folder_close_async): ditto.
+
+	* camel/camel-exception.c (camel_exception_set): 
+	When no exception is given, do nothing, just
+	return. 
+	(camel_exception_set): documented.
+	(camel_exception_new): idem.
+	(camel_exception_free): idem.
+	(camel_exception_xfer): idem.
+	
+
+	* camel/camel-folder.c:
+	* camel/camel-folder.h: more clean-ups. 
+	Removed message list related code. 
+	This was braindead design. 
+	
+
+	* camel/camel-folder-utils.c (camel_aml_expunge_messages): 
+	implemented. The routines in this file will be
+	called by providers to handle the list of
+	message already standing in memory. 
+
+1999-12-15  bertrand  <Bertrand.Guiheneuf@aful.org>
+
+	* camel/camel-folder-utils.c: 
+	* camel/camel-folder-utils.h: 
+	New files, misc utilities for the 
+	folder providers. Includes active message
+	list utilities. 
+
+	
+	* camel/camel-folder.c (_has_message_number_capability): 
+	(camel_folder_has_message_number_capability): 
+	Added this to know if a folder provides 
+	number-based message access.
+
+	* camel/camel-folder.c (_get_message_count): 
+	added warning when called directly.
+	(_append_message): ditto
+	(_open_async):  ditto
+	(_close_async):  ditto
+	(_delete_messages): ditto 
+	(_expunge):  ditto
+	(_get_message_by_number):  ditto
+	(_get_message_uid):  ditto
+	(_get_message_uid_by_number):  ditto
+	(_get_message_by_uid):  ditto
+	(_get_uid_list):  ditto
+
+	
+	* camel/camel-folder-pt-proxy.c (_open_async): 
+	(_open): 
+	(_close_async): 
+	(_close): 
+	(camel_folder_pt_proxy_class_init): 
+	update 
+	(_get_message_by_number): 
+	Update to reflect changes in CamelFolder
+
+	* camel/camel-folder.h: 
+	* camel/camel-folder.c (_get_subfolder): 
+	(camel_folder_get_subfolder): 
+	The CamelFolder::get_folder is renamed to 
+	get_subfolder as it is more intuitive. 
+
+	* camel/camel-folder.c (_get_message_by_number): 
+	(camel_folder_get_message_by_number): 
+	* camel/camel-folder.h 
+	(camel_folder_get_message_by_number): 
+	The get_message method is now named
+	get_message_by_number for consistency
+	with the _by_uid methods.
+
+	* camel/camel-folder.[ch]: 
+	 clean-ups. 
+
 1999-12-13  Nat Friedman  <nat@helixcode.com>
 
 	* ebook/e-book.h: New file.

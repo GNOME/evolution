@@ -69,8 +69,8 @@ camel_aml_expunge_messages (GList *aml,
 	guint nb_expunged = 0;  
 	GList *expunged_messages;
 	
-	message_node = folder->message_list;
 
+	message_node = aml;
 	/* look in folder message list which messages
 	 * need to be expunged  */
 	while ( message_node) {
@@ -83,7 +83,7 @@ camel_aml_expunge_messages (GList *aml,
 			if (camel_mime_message_get_flag (message, "DELETED")) {
 				
 				/* remove the message from active message list */
-				g_list_remove_link (folder->message_list, message_node);
+				g_list_remove_link (aml, message_node);
 				g_list_free_1 (message_node);
 				camel_mime_message_set_flag (message, "EXPUNGED", TRUE);
 				expunged_messages = g_list_prepend (expunged_messages, message);
