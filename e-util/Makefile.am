@@ -16,6 +16,7 @@ INCLUDES =								\
 	$(E_UTIL_CFLAGS)
 
 privlib_LTLIBRARIES = libeutil.la libedb3util.la libeconduit.la
+noinst_LTLIBRARIES = libeutil-static.la libeconduit-static.la
 
 eutilinclude_HEADERS = 				\
 	e-account-list.h			\
@@ -83,14 +84,19 @@ libeutil_la_SOURCES =				\
 	e-url.c					\
 	e-util-marshal.c			\
 	e-xml-hash-utils.c			\
-	eggtrayicon.c				\
-	eggtrayicon.h				\
 	md5-utils.c
 
 MARSHAL_GENERATED = e-util-marshal.c e-util-marshal.h
 @EVO_MARSHAL_RULE@
 
 libeutil_la_LIBADD = $(E_UTIL_LIBS)
+
+libeutil_static_la_SOURCES = $(libeutil_la_SOURCES)
+libeutil_static_la_LIBADD  = $(libeutil_la_LIBADD)
+libeutil_static_la_LDFLAGS = -all-static
+# Make sure libeutil.la and libeutil-static.la are not built in
+# parallel when using a parallel make; libtool can't handle that.
+libeutil_static_la_DEPENDENCIES = libeutil.la
 
 econdinclude_HEADERS =		\
 	e-pilot-map.h		\
@@ -111,19 +117,20 @@ endif
 
 libeconduit_la_SOURCES = $(pilot_compile)
 
+libeconduit_static_la_SOURCES = $(libeconduit_la_SOURCES)
+libeconduit_static_la_LDFLAGS = -all-static
+
 EXTRA_DIST =				\
 	$(pilot_sources)		\
 	ChangeLog.pre-1-4		\
 	e-util-marshal.list
 
 edb3include_HEADERS =			\
-	e-db3-utils.h			\
-	e-dbhash.h
+	e-db3-utils.h
 
 libedb3util_la_SOURCES =		\
 	$(edb3include_HEADERS)		\
-	e-db3-utils.c			\
-	e-dbhash.c
+	e-db3-utils.c
 
 BUILT_SOURCES = $(MARSHAL_GENERATED)
 CLEANFILES    = $(BUILT_SOURCES)

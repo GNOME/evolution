@@ -297,9 +297,6 @@ AlarmNotify_removeCalendar (PortableServer_Servant servant,
 	gpointer lc_ptr, orig_str_ptr;
 	gboolean found;
 
-	lc_ptr = NULL;
-	orig_str_ptr = NULL;
-
 	an = ALARM_NOTIFY (bonobo_object_from_servant (servant));
 	priv = an->priv;
 

@@ -787,7 +787,8 @@ cal_opened_cb				(CalClient	*client,
 		location = calendar_config_get_timezone ();
 		zone = icaltimezone_get_builtin_timezone (location);
 		if (zone)
-			cal_client_set_default_timezone (client, zone);
+			/* FIXME Error checking */
+			cal_client_set_default_timezone (client, zone, NULL);
 		return;
 
 	case CAL_CLIENT_OPEN_ERROR:
@@ -937,60 +938,6 @@ create_sexp (void)
 	return sexp;
 }
 
-/* Callback used when a component is updated in the live query */
-static void
-query_obj_updated_cb (CalQuery *query, const char *uid,
-		      gboolean query_in_progress, int n_scanned, int total,
-		      gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-	
-	delete_error_dialog (cal_client_remove_object (priv->client, uid), CAL_COMPONENT_TODO);
-}
-
-/* Callback used when an evaluation error occurs when running a query */
-static void
-query_eval_error_cb (CalQuery *query, const char *error_str, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-	
-	g_warning ("eval error: %s\n", error_str);
-
-	set_status_message (tasks, NULL);
-
-	g_signal_handlers_disconnect_matched (priv->query, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, tasks);
-	g_object_unref (priv->query);
-	priv->query = NULL;
-}
-
-static void
-query_query_done_cb (CalQuery *query, CalQueryDoneStatus status, const char *error_str, gpointer data)
-{
-	ETasks *tasks;
-	ETasksPrivate *priv;
-	
-	tasks = E_TASKS (data);
-	priv = tasks->priv;
-	
-	if (status != CAL_QUERY_DONE_SUCCESS)
-		g_warning ("query done: %s\n", error_str);
-
-	set_status_message (tasks, NULL);
-
-	g_signal_handlers_disconnect_matched (priv->query, G_SIGNAL_MATCH_DATA,
-					      0, 0, NULL, NULL, tasks);
-	g_object_unref (priv->query);
-	priv->query = NULL;
-}
 /**
  * e_tasks_expunge:
  * @tasks: A tasks control widget
@@ -1002,31 +949,32 @@ e_tasks_delete_completed (ETasks *tasks)
 {
 	ETasksPrivate *priv;
 	char *sexp;
+	GList *objects, *l;
 	
 	g_return_if_fail (tasks != NULL);
 	g_return_if_fail (E_IS_TASKS (tasks));
 
 	priv = tasks->priv;
 
-	/* If we have a query, we are already expunging */
-	if (priv->query)
-		return;
+	/* FIXME Confirm expunge */
 
 	sexp = create_sexp ();
 
 	set_status_message (tasks, _("Expunging"));
-	priv->query = cal_client_get_query (priv->client, sexp);
-	g_free (sexp);
-
-	if (!priv->query) {
+	
+	if (!cal_client_get_object_list (priv->client, sexp, &objects, NULL)) {
 		set_status_message (tasks, NULL);
-		g_message ("update_query(): Could not create the query");
+		g_warning (G_STRLOC ": Could not get the objects");
+
 		return;
 	}
+	
+	for (l = objects; l; l = l->next) {
+		/* FIXME Better error handling */
+		cal_client_remove_object (priv->client, icalcomponent_get_uid (l->data), NULL);
+	}
 
-	g_signal_connect (priv->query, "obj_updated", G_CALLBACK (query_obj_updated_cb), tasks);
-	g_signal_connect (priv->query, "query_done", G_CALLBACK (query_query_done_cb), tasks);
-	g_signal_connect (priv->query, "eval_error", G_CALLBACK (query_eval_error_cb), tasks);
+	set_status_message (tasks, NULL);
 }
 
 /* Callback used from the view collection when we need to display a new view */
@@ -1181,6 +1129,7 @@ e_tasks_update_all_config_settings	(void)
 		calendar_config_configure_e_calendar_table (E_CALENDAR_TABLE (priv->tasks_view));
 
 		if (zone)
-			cal_client_set_default_timezone (priv->client, zone);
+			/* FIXME Error checking */
+			cal_client_set_default_timezone (priv->client, zone, NULL);
 	}
 }

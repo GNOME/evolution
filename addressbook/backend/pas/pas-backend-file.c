@@ -17,7 +17,7 @@
 #include <db.h>
 #include <sys/stat.h>
 
-#include <e-util/e-db3-utils.h>
+#include <e-util/e-xml-hash-utils.h>
 
 #if DB_VERSION_MAJOR != 3 || \
     DB_VERSION_MINOR != 1 || \
@@ -29,7 +29,6 @@
 #include <gal/widgets/e-unicode.h>
 
 #include <ebook/e-card-simple.h>
-#include <e-util/e-dbhash.h>
 #include <e-util/e-db3-utils.h>
 #include <libgnome/gnome-i18n.h>
 
@@ -529,7 +528,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	int     db_error = 0;
 	DBT     id_dbt, vcard_dbt;
 	char    *filename;
-	EDbHash *ehash;
+	EXmlHash *ehash;
 	GList *i, *v;
 	DB      *db = bf->priv->file_db;
 	DBC *dbc;
@@ -546,7 +545,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 	*slash = '\0';
 
 	filename = g_strdup_printf ("%s/%s.db", dirname, view->change_id);
-	ehash = e_dbhash_new (filename);
+	ehash = e_xmlhash_new (filename);
 	g_free (filename);
 	g_free (dirname);
 
@@ -576,15 +575,15 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 				g_object_unref (card);
 				
 				/* check what type of change has occurred, if any */
-				switch (e_dbhash_compare (ehash, id, vcard_string)) {
-				case E_DBHASH_STATUS_SAME:
+				switch (e_xmlhash_compare (ehash, id, vcard_string)) {
+				case E_XMLHASH_STATUS_SAME:
 					break;
-				case E_DBHASH_STATUS_NOT_FOUND:
+				case E_XMLHASH_STATUS_NOT_FOUND:
 					ctx->add_cards = g_list_append (ctx->add_cards, 
 									vcard_string);
 					ctx->add_ids = g_list_append (ctx->add_ids, g_strdup(id));
 					break;
-				case E_DBHASH_STATUS_DIFFERENT:
+				case E_XMLHASH_STATUS_DIFFERENT:
 					ctx->mod_cards = g_list_append (ctx->mod_cards, 
 									vcard_string);
 					ctx->mod_ids = g_list_append (ctx->mod_ids, g_strdup(id));
@@ -597,7 +596,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		dbc->c_close (dbc);
 	}
 
-   	e_dbhash_foreach_key (ehash, (EDbHashFunc)pas_backend_file_changes_foreach_key, view->change_context);
+   	e_xmlhash_foreach_key (ehash, (EXmlHashFunc)pas_backend_file_changes_foreach_key, view->change_context);
 
 	/* Send the changes */
 	if (db_error != DB_NOTFOUND) {
@@ -622,7 +621,7 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		char *id = i->data;
 		char *vcard = v->data;
 
-		e_dbhash_add (ehash, id, vcard);
+		e_xmlhash_add (ehash, id, vcard);
 		g_free (i->data);
 		g_free (v->data);		
 	}	
@@ -630,19 +629,19 @@ pas_backend_file_changes (PASBackendFile  	      *bf,
 		char *id = i->data;
 		char *vcard = v->data;
 
-		e_dbhash_add (ehash, id, vcard);
+		e_xmlhash_add (ehash, id, vcard);
 		g_free (i->data);
 		g_free (v->data);		
 	}	
 	for (i = ctx->del_ids; i != NULL; i = i->next){
 		char *id = i->data;
 
-		e_dbhash_remove (ehash, id);
+		e_xmlhash_remove (ehash, id);
 		g_free (i->data);
 	}
 
-	e_dbhash_write (ehash);
-  	e_dbhash_destroy (ehash);
+	e_xmlhash_write (ehash);
+  	e_xmlhash_destroy (ehash);
 }
 
 static char *

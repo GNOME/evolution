@@ -41,14 +41,9 @@ icalcomponent* icallangbind_get_first_component(icalcomponent *c,
 icalcomponent* icallangbind_get_next_component(icalcomponent *c,
                                               const char* comp);
 
-icalparameter* icallangbind_get_first_parameter(icalproperty *prop);
-
-icalparameter* icallangbind_get_next_parameter(icalproperty *prop);
 
 const char* icallangbind_property_eval_string(icalproperty* prop, char* sep);
 
 
 int icallangbind_string_to_open_flag(const char* str);
-
-const char* icallangbind_quote_as_ical(const char* str);
 #endif /*__ICALLANGBIND_H__*/

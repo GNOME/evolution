@@ -725,10 +725,12 @@ delete_selected_components (ECalendarTable *cal_table)
 
 	for (l = objs; l; l = l->next) {
 		ECalModelComponent *comp_data = (ECalModelComponent *) l->data;
-
-		delete_error_dialog (cal_client_remove_object (comp_data->client,
-							       icalcomponent_get_uid (comp_data->icalcomp)),
-				     CAL_COMPONENT_TODO);
+		GError *error = NULL;
+		
+		cal_client_remove_object (comp_data->client, 
+					  icalcomponent_get_uid (comp_data->icalcomp), &error);
+		delete_error_dialog (error, CAL_COMPONENT_TODO);
+		g_clear_error (&error);
 	}
 
 	e_calendar_table_set_status_message (cal_table, NULL);
@@ -987,7 +989,7 @@ enum {
 static EPopupMenu tasks_popup_menu [] = {
 	E_POPUP_ITEM (N_("_Open"), GTK_SIGNAL_FUNC (e_calendar_table_on_open_task), MASK_SINGLE),
 	E_POPUP_ITEM (N_("Open _Web Page"), GTK_SIGNAL_FUNC (open_url_cb), MASK_SINGLE | MASK_LACKS_URL),
-	E_POPUP_ITEM (N_("_Save As..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
+	E_POPUP_ITEM (N_("_Save as..."), GTK_SIGNAL_FUNC (e_calendar_table_on_save_as), MASK_SINGLE),
 	E_POPUP_ITEM (N_("_Print..."), GTK_SIGNAL_FUNC (e_calendar_table_on_print_task), MASK_SINGLE),
 
 	E_POPUP_SEPARATOR,
@@ -1011,36 +1013,6 @@ static EPopupMenu tasks_popup_menu [] = {
 	E_POPUP_TERMINATOR
 };
 
-static void
-setup_popup_icons (EPopupMenu *context_menu)
-{
-	gint i;
-
-	for (i = 0; context_menu[i].name; i++) {
-		GtkWidget *pixmap_widget = NULL;
-
-		if (!strcmp (context_menu[i].name, _("_Copy")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_COPY, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("C_ut")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_CUT, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Delete")) ||
-			 !strcmp (context_menu[i].name, _("_Delete Selected Tasks")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_DELETE, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Open")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_OPEN, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Paste")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PASTE, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Print...")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_PRINT, GTK_ICON_SIZE_MENU);
-		else if (!strcmp (context_menu[i].name, _("_Save As...")))
-			pixmap_widget = gtk_image_new_from_stock (GTK_STOCK_SAVE_AS, GTK_ICON_SIZE_MENU);
-
-		if (pixmap_widget)
-			gtk_widget_show (pixmap_widget);
-		context_menu[i].pixmap_widget = pixmap_widget;
-	}
-}
-
 static gint
 e_calendar_table_show_popup_menu (ETable *table,
 				  GdkEvent *gdk_event,
@@ -1052,7 +1024,8 @@ e_calendar_table_show_popup_menu (ETable *table,
 	GtkMenu *gtk_menu;
 	icalproperty *prop;
 	ECalModelComponent *comp_data;
-
+	gboolean read_only = TRUE;
+	
 	n_selected = e_table_selected_count (table);
 	if (n_selected <= 0)
 		return TRUE;
@@ -1071,13 +1044,13 @@ e_calendar_table_show_popup_menu (ETable *table,
 	} else
 		hide_mask = MASK_SINGLE;
 
-	if (cal_client_is_read_only (comp_data->client))
+	cal_client_is_read_only (comp_data->client, &read_only, NULL);
+	if (!read_only)
 		disable_mask |= MASK_EDITABLE;
 
 	if (cal_client_get_static_capability (comp_data->client, CAL_STATIC_CAPABILITY_NO_TASK_ASSIGNMENT))
 		disable_mask |= MASK_ASSIGNABLE;
 
-	setup_popup_icons (tasks_popup_menu);
         gtk_menu = e_popup_menu_create (tasks_popup_menu, disable_mask,
 					hide_mask, cal_table);
                                                                             
@@ -1315,6 +1288,7 @@ selection_received (GtkWidget *invisible,
 	icalcomponent *icalcomp;
 	char *uid;
 	CalComponent *comp;
+	CalClient *client;
 	icalcomponent_kind kind;
 
 	g_return_if_fail (E_IS_CALENDAR_TABLE (cal_table));
@@ -1338,6 +1312,8 @@ selection_received (GtkWidget *invisible,
 		return;
 	}
 
+	client = e_cal_model_get_default_client (cal_table->model);
+	
 	e_calendar_table_set_status_message (cal_table, _("Updating objects"));
 
 	if (kind == ICAL_VCALENDAR_COMPONENT) {
@@ -1360,11 +1336,12 @@ selection_received (GtkWidget *invisible,
 				cal_component_set_icalcomponent (
 					tmp_comp, icalcomponent_new_clone (subcomp));
 				cal_component_set_uid (tmp_comp, uid);
-
-				cal_client_update_object (
-					e_cal_model_get_default_client (cal_table->model),
-					tmp_comp);
 				free (uid);
+
+				/* FIXME should we convert start/due/complete times? */
+				/* FIXME Error handling */
+				cal_client_create_object (client, cal_component_get_icalcomponent (tmp_comp), NULL, NULL);
+
 				g_object_unref (tmp_comp);
 			}
 			subcomp = icalcomponent_get_next_component (
@@ -1378,9 +1355,8 @@ selection_received (GtkWidget *invisible,
 		cal_component_set_uid (comp, (const char *) uid);
 		free (uid);
 
-		cal_client_update_object (
-			e_cal_model_get_default_client (cal_table->model),
-			comp);
+		cal_client_create_object (client, cal_component_get_icalcomponent (comp), NULL, NULL);
+
 		g_object_unref (comp);
 	}
 

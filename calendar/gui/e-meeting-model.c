@@ -671,9 +671,6 @@ finalize (GObject *obj)
  		g_source_remove (priv->refresh_idle_id);
  		
 	g_free (priv);
-
-	if (G_OBJECT_CLASS (parent_class)->finalize)
- 		(* G_OBJECT_CLASS (parent_class)->finalize) (obj);
 }
 
 GtkObject *
@@ -1388,7 +1385,7 @@ refresh_busy_periods (gpointer data)
 	
 	/* Check the server for free busy data */	
 	if (priv->client) {
-		GList *fb_data, *users = NULL;
+		GList *fb_data = NULL, *users = NULL;
 		struct icaltimetype itt;
 		time_t startt, endt;
 		const char *user;
@@ -1411,7 +1408,9 @@ refresh_busy_periods (gpointer data)
 
 		user = itip_strip_mailto (e_meeting_attendee_get_address (ia));
 		users = g_list_append (users, g_strdup (user));
-		fb_data = cal_client_get_free_busy (priv->client, users, startt, endt);
+
+		/* FIXME Error checking */
+		cal_client_get_free_busy (priv->client, users, startt, endt, &fb_data, NULL);
 
 		g_list_foreach (users, (GFunc)g_free, NULL);
 		g_list_free (users);
@@ -1650,7 +1649,8 @@ process_section (EMeetingModel *im, GNOME_Evolution_Addressbook_SimpleCardList *
 	priv = im->priv;
 	for (i = 0; i < cards->_length; i++) {
 		EMeetingAttendee *ia;
-		const char *name, *attendee = NULL, *attr;
+		const char *name, *attendee = NULL;
+		char *attr;
 		GNOME_Evolution_Addressbook_SimpleCard card;
 		CORBA_Environment ev;
 
@@ -1666,11 +1666,12 @@ process_section (EMeetingModel *im, GNOME_Evolution_Addressbook_SimpleCardList *
 		}
 
 		/* Get the field as attendee from the backend */
-		attr = cal_client_get_ldap_attribute (priv->client);
-		if (attr) {
+		if (cal_client_get_ldap_attribute (priv->client, &attr, NULL) && attr) {
 			/* FIXME this should be more general */
 			if (!strcmp (attr, "icscalendar"))
 				attendee = GNOME_Evolution_Addressbook_SimpleCard_get (card, GNOME_Evolution_Addressbook_SimpleCard_Icscalendar, &ev);
+		
+			g_free (attr);
 		}
 
 		CORBA_exception_init (&ev);

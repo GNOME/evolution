@@ -121,13 +121,14 @@ static void
 set_menu_sens (EventEditor *ee) 
 {
 	EventEditorPrivate *priv;
-	gboolean sens, existing, user, read_only;
+	gboolean sens, existing, user, read_only = TRUE;
 	
 	priv = ee->priv;
 
 	existing = comp_editor_get_existing_org (COMP_EDITOR (ee));
 	user = comp_editor_get_user_org (COMP_EDITOR (ee));
-	read_only = cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (ee)));
+	
+	cal_client_is_read_only (comp_editor_get_cal_client (COMP_EDITOR (ee)), &read_only, NULL);
 
 	sens = priv->meeting_shown;
 	comp_editor_set_ui_prop (COMP_EDITOR (ee), 

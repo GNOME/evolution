@@ -128,8 +128,8 @@ get_dtend (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_end),
-					 &zone);
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_end.zone)),
+					 &zone, NULL);
 		comp_data->dtend->zone = zone;
 	}
 
@@ -155,14 +155,12 @@ get_transparency (ECalModelComponent *comp_data)
 
 	prop = icalcomponent_get_first_property (comp_data->icalcomp, ICAL_TRANSP_PROPERTY);
 	if (prop) {
-		icalproperty_transp transp;
+		const char *transp;
 
 		transp = icalproperty_get_transp (prop);
-		if (transp == ICAL_TRANSP_TRANSPARENT ||
-		    transp == ICAL_TRANSP_TRANSPARENTNOCONFLICT)
+		if (strcasecmp (transp, "TRANSPARENT") == 0)
 			return _("Free");
-		else if (transp == ICAL_TRANSP_OPAQUE ||
-			 transp == ICAL_TRANSP_OPAQUENOCONFLICT)
+		else if (strcasecmp (transp, "OPAQUE") == 0)
 			return _("Busy");
 	}
 
@@ -253,12 +251,12 @@ set_transparency (ECalModelComponent *comp_data, const void *value)
 			icalproperty_free (prop);
 		}
 	} else {
-		icalproperty_transp transp;
+		const char *transp;
 
-		if (!strcasecmp (value, "FREE"))
-			transp = ICAL_TRANSP_TRANSPARENT;
-		else if (!strcasecmp (value, "OPAQUE"))
-			transp = ICAL_TRANSP_OPAQUE;
+		if (strcasecmp (value, "FREE"))
+			transp = "TRANSPARENT";
+		else if (strcasecmp (value, "OPAQUE"))
+			transp = "OPAQUE";
 		else {
 			if (prop) {
 				icalcomponent_remove_property (comp_data->icalcomp, prop);
@@ -308,8 +306,12 @@ ecmc_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		break;
 	}
 
-	if (cal_client_update_objects (comp_data->client, comp_data->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
-		g_message ("ecmc_set_value_at(): Could not update the object!");
+	/* FIXME ask about mod type */
+	if (!cal_client_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+		g_warning (G_STRLOC ": Could not modify the object!");
+		
+		/* FIXME Show error dialog */
+	}
 }
 
 static gboolean

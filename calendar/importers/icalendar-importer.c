@@ -179,6 +179,60 @@ prepare_tasks (icalcomponent *icalcomp, GList *vtodos)
 	g_list_free (vtodos);
 }
 
+static CalClientResult
+update_single_object (CalClient *client, icalcomponent *icalcomp)
+{
+	const char *uid;
+	icalcomponent *tmp_icalcomp;
+
+	uid = icalcomponent_get_uid (icalcomp);
+	
+	if (cal_client_get_object (client, uid, NULL, &tmp_icalcomp, NULL))
+		return cal_client_modify_object (client, icalcomp, CALOBJ_MOD_ALL, NULL)
+			? CAL_CLIENT_RESULT_SUCCESS : CAL_CLIENT_RESULT_CORBA_ERROR;
+
+	return cal_client_create_object (client, icalcomp, &uid, NULL)
+		? CAL_CLIENT_RESULT_SUCCESS : CAL_CLIENT_RESULT_CORBA_ERROR;
+}
+
+static CalClientResult
+update_objects (CalClient *client, icalcomponent *icalcomp)
+{
+	icalcomponent *subcomp;
+	icalcomponent_kind kind;
+	CalClientResult result;
+
+	kind = icalcomponent_isa (icalcomp);
+	if (kind == ICAL_VTODO_COMPONENT || kind == ICAL_VEVENT_COMPONENT)
+		return update_single_object (client, icalcomp);
+	else if (kind != ICAL_VCALENDAR_COMPONENT)
+		return CAL_CLIENT_RESULT_INVALID_OBJECT;
+
+	subcomp = icalcomponent_get_first_component (icalcomp, ICAL_ANY_COMPONENT);
+	while (subcomp) {
+		kind = icalcomponent_isa (subcomp);
+		if (kind == ICAL_VTIMEZONE_COMPONENT) {
+			icaltimezone *zone;
+
+			zone = icaltimezone_new ();
+			icaltimezone_set_component (zone, subcomp);
+
+			result = cal_client_add_timezone (client, zone, NULL);
+			icaltimezone_free (zone, 1);
+			if (result != CAL_CLIENT_RESULT_SUCCESS)
+				return result;
+		} else if (kind == ICAL_VTODO_COMPONENT ||
+			   kind == ICAL_VEVENT_COMPONENT) {
+			result = update_single_object (client, subcomp);
+			if (result != CAL_CLIENT_RESULT_SUCCESS)
+				return result;
+		}
+
+		subcomp = icalcomponent_get_next_component (icalcomp, ICAL_ANY_COMPONENT);
+	}
+
+	return CAL_CLIENT_RESULT_SUCCESS;
+}
 
 static void
 process_item_fn (EvolutionImporter *importer,
@@ -220,20 +274,20 @@ process_item_fn (EvolutionImporter *importer,
 	   contains just tasks, we strip out the VEVENTs, which do not get
 	   imported at all. */
 	if (ici->folder_contains_events && ici->folder_contains_tasks) {
-		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else if (ici->folder_contains_events) {
 		GList *vtodos = prepare_events (ici->icalcomp);
-		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 
 		prepare_tasks (ici->icalcomp, vtodos);
-		if (cal_client_update_objects (ici->tasks_client,
+		if (update_objects (ici->tasks_client,
 					       ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	} else {
 		prepare_tasks (ici->icalcomp, NULL);
-		if (cal_client_update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
+		if (update_objects (ici->client, ici->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
 			result = GNOME_Evolution_ImporterListener_BAD_DATA;
 	}
 
@@ -598,7 +652,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	/* Import the calendar events. */
 	/* FIXME: What do intelligent importers do about errors? */
 	if (ici->do_calendar)
-		cal_client_update_objects (calendar_client, icalcomp);
+		update_objects (calendar_client, icalcomp);
 
 
 	/*
@@ -606,7 +660,7 @@ gnome_calendar_import_data_fn (EvolutionIntelligentImporter *ii,
 	 */
 	prepare_tasks (icalcomp, vtodos);
 	if (ici->do_tasks)
-		cal_client_update_objects (tasks_client, icalcomp);
+		update_objects (tasks_client, icalcomp);
 
  out:
 	if (icalcomp)

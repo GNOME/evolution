@@ -95,7 +95,6 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 				       CalClient *client,
 				       icaltimezone *zone)
 {
-	CalClientGetStatus status;
 	CalComponentDateTime start_datetime, end_datetime;
 	const char *tzid;
 	gboolean retval = FALSE;
@@ -143,10 +142,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 		/* If the TZIDs differ, we have to compare the UTC offsets
 		   of the start and end times, using their own timezones and
 		   the given timezone. */
-		status = cal_client_get_timezone (client,
-						  start_datetime.tzid,
-						  &start_zone);
-		if (status != CAL_CLIENT_GET_SUCCESS)
+		if (!cal_client_get_timezone (client, start_datetime.tzid,
+					      &start_zone, NULL))
 			goto out;
 
 		if (start_datetime.value) {
@@ -160,10 +157,8 @@ cal_comp_util_compare_event_timezones (CalComponent *comp,
 				goto out;
 		}
 
-		status = cal_client_get_timezone (client,
-						  end_datetime.tzid,
-						  &end_zone);
-		if (status != CAL_CLIENT_GET_SUCCESS)
+		if (!cal_client_get_timezone (client, end_datetime.tzid,
+					      &end_zone, NULL))
 			goto out;
 
 		if (end_datetime.value) {
@@ -210,7 +205,6 @@ gboolean
 cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 {
 	const char *uid;
-	CalClientGetStatus status;
 	icalcomponent *icalcomp;
 
 	g_return_val_if_fail (comp != NULL, FALSE);
@@ -226,25 +220,12 @@ cal_comp_is_on_server (CalComponent *comp, CalClient *client)
 	 */
 	cal_component_get_uid (comp, &uid);
 
-	status = cal_client_get_object (client, uid, &icalcomp);
-
-	switch (status) {
-	case CAL_CLIENT_GET_SUCCESS:
+	if (cal_client_get_object (client, uid, NULL, &icalcomp, NULL)) {
 		icalcomponent_free (icalcomp);
 		return TRUE;
-
-	case CAL_CLIENT_GET_SYNTAX_ERROR:
-		g_message ("confirm_delete_empty_appointment(): Syntax error when getting "
-			   "object `%s'",
-			   uid);
-		return TRUE;
-
-	case CAL_CLIENT_GET_NOT_FOUND:
-		return FALSE;
-
-	default:
-		g_assert_not_reached ();
 	}
+
+	/* FIXME Better error handling */
 	
 	return FALSE;
 }
@@ -268,7 +249,7 @@ cal_comp_event_new_with_defaults (CalClient *client)
 	icalproperty *icalprop;
 	CalAlarmTrigger trigger;
 
-	if (cal_client_get_default_object (client, CALOBJ_TYPE_EVENT, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
+	if (!cal_client_get_default_object (client, CALOBJ_TYPE_EVENT, &icalcomp, NULL))
 		return NULL;
 
 	comp = cal_component_new ();
@@ -334,7 +315,7 @@ cal_comp_task_new_with_defaults (CalClient *client)
 	CalComponent *comp;
 	icalcomponent *icalcomp;
 
-	if (cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &icalcomp) != CAL_CLIENT_GET_SUCCESS)
+	if (!cal_client_get_default_object (client, CALOBJ_TYPE_TODO, &icalcomp, NULL))
 		return NULL;
 
 	comp = cal_component_new ();

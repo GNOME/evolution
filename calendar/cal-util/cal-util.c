@@ -584,29 +584,7 @@ cal_util_priority_from_string (const char *string)
 char *
 cal_util_expand_uri (char *uri, gboolean tasks)
 {
-	char *file_uri, *file_name;
-
-	if (!strncmp (uri, "file://", 7)) {
-		file_uri = uri + 7;
-		if (strlen (file_uri) > 4
-		    && !strcmp (file_uri + strlen (file_uri) - 4, ".ics")) {
-			
-			/* it's a .ics file */
-			return g_strdup (uri);
-		}
-
-		/* we assume it's a dir and glom <type>.ics onto the end. */
-		if (tasks)
-			file_name = g_concat_dir_and_file (file_uri, "tasks.ics");
-		else
-			file_name = g_concat_dir_and_file (file_uri, "calendar.ics");
-		file_uri = g_strdup_printf("file://%s", file_name);
-		g_free(file_name);
-	} else {
-		file_uri = g_strdup (uri);
-	}
-
-	return file_uri;
+	return g_strdup (uri);
 }
 
 /* callback for icalcomponent_foreach_tzid */
@@ -755,19 +733,13 @@ cal_util_event_dates_match (icalcomponent *icalcomp1, icalcomponent *icalcomp2)
 			return FALSE;
 	}
 
-	
-
 	/* now match the timezones */
 	if (!(!c1_dtstart.zone && !c2_dtstart.zone) ||
-	    (c1_dtstart.zone && c2_dtstart.zone &&
-	     !strcmp (icaltimezone_get_tzid ((icaltimezone *) c1_dtstart.zone),
-		      icaltimezone_get_tzid ((icaltimezone *) c2_dtstart.zone))))
+	    (c1_dtstart.zone && c2_dtstart.zone && !strcmp (c1_dtstart.zone, c2_dtstart.zone)))
 		return FALSE;
 
 	if (!(!c1_dtend.zone && !c2_dtend.zone) ||
-	    (c1_dtend.zone && c2_dtend.zone &&
-	     !strcmp (icaltimezone_get_tzid ((icaltimezone *) c1_dtend.zone),
-		      icaltimezone_get_tzid ((icaltimezone *) c2_dtend.zone))))
+	    (c1_dtend.zone && c2_dtend.zone && !strcmp (c1_dtend.zone, c2_dtend.zone)))
 		return FALSE;
 
 	return TRUE;

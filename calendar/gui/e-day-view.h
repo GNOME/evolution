@@ -528,7 +528,6 @@ void	   e_day_view_set_week_start_day	(EDayView	*day_view,
 						 gint		 week_start_day);
 
 void       e_day_view_delete_occurrence         (EDayView       *day_view);
-void       e_day_view_unrecur_appointment       (EDayView *day_view);
 
 /* Returns the number of selected events (0 or 1 at present). */
 gint	   e_day_view_get_num_events_selected	(EDayView	*day_view);
@@ -587,11 +586,6 @@ gint	   e_day_view_get_time_string_width	(EDayView	*day_view);
 
 gint	   e_day_view_event_sort_func		(const void	*arg1,
 						 const void	*arg2);
-
-gboolean e_day_view_find_event_from_item (EDayView *day_view,
- 					  GnomeCanvasItem *item,
- 					  gint *day_return,
- 					  gint *event_num_return);
 
 #ifdef __cplusplus
 }

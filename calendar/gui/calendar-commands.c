@@ -325,12 +325,10 @@ publish_freebusy_cmd (BonoboUIComponent *uic, gpointer data, const gchar *path)
 	start = time_day_begin_with_zone (start, utc);
 	end = time_add_week_with_zone (start, 6, utc);
 
+	/* FIXME Should we aggregate the data? */
 	client_list = e_cal_model_get_client_list (gnome_calendar_get_calendar_model (gcal));
 	for (cl = client_list; cl != NULL; cl = cl->next) {
-		GList *tmp_comp_list;
-
-		tmp_comp_list = cal_client_get_free_busy ((CalClient *) cl->data, NULL, start, end);
-		if (tmp_comp_list) {
+		if (cal_client_get_free_busy ((CalClient *) cl->data, NULL, start, end, &comp_list, NULL)) {
 			GList *l;
 
 			for (l = comp_list; l; l = l->next) {
@@ -425,15 +423,16 @@ get_shell_view_interface (BonoboControl *control)
 	return shell_view;
 }
 
-const gchar *
-calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
+/* Displays the currently displayed time range in the folder bar label on the
+   shell view, according to which view we are showing. */
+void
+calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
 {
 	icaltimezone *zone;
 	struct icaltimetype start_tt, end_tt;
 	time_t start_time, end_time;
 	struct tm start_tm, end_tm;
-	static char buffer[512];
-	char end_buffer[256];
+	char buffer[512], end_buffer[256];
 	GnomeCalendarViewType view;
 
 	gnome_calendar_get_visible_time_range (gcal, &start_time, &end_time);
@@ -517,17 +516,8 @@ calendar_get_text_for_folder_bar_label (GnomeCalendar *gcal)
 		break;
 	default:
 		g_assert_not_reached ();
-		return NULL;
 	}
-	return buffer;
-}
 
-/* Displays the currently displayed time range in the folder bar label on the
-   shell view, according to which view we are showing. */
-void
-calendar_set_folder_bar_label (GnomeCalendar *gcal, BonoboControl *control)
-{
-	char *buffer = (char *)calendar_get_text_for_folder_bar_label (gcal);
 	control_util_set_folder_bar_label (control, buffer);
 }
 
@@ -589,13 +579,15 @@ sensitize_calendar_commands (GnomeCalendar *gcal, BonoboControl *control, gboole
 {
 	BonoboUIComponent *uic;
 	int n_selected;
-	gboolean read_only, has_recurrences;
+	gboolean read_only = FALSE, has_recurrences;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_events_selected (gcal) : 0;
-	read_only = cal_client_is_read_only (e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal)));
+
+	cal_client_is_read_only (e_cal_model_get_default_client (gnome_calendar_get_calendar_model (gcal)), 
+				 &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",
@@ -648,13 +640,13 @@ sensitize_taskpad_commands (GnomeCalendar *gcal, BonoboControl *control, gboolea
 {
 	BonoboUIComponent *uic;
 	int n_selected;
-	gboolean read_only;
+	gboolean read_only = TRUE;
 	
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
 	n_selected = enable ? gnome_calendar_get_num_tasks_selected (gcal) : 0;
-	read_only = cal_client_is_read_only (gnome_calendar_get_task_pad_cal_client (gcal));
+	cal_client_is_read_only (gnome_calendar_get_task_pad_cal_client (gcal), &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/Cut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",

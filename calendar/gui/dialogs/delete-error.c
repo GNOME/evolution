@@ -38,13 +38,16 @@
  * 
  **/
 void
-delete_error_dialog (CalClientResult result, CalComponentVType vtype)
+delete_error_dialog (GError *error, CalComponentVType vtype)
 {
 	GtkWidget *dialog;
 	const char *str;
 
-	switch (result) {
-	case CAL_CLIENT_RESULT_CORBA_ERROR:
+	if (!error)
+		return;
+	
+	switch (error->code) {
+	case E_CALENDAR_STATUS_CORBA_EXCEPTION:
 		switch (vtype) {
 		case CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted due to a corba error");
@@ -60,7 +63,7 @@ delete_error_dialog (CalClientResult result, CalComponentVType vtype)
 			break;
 		}
 		break;
-	case CAL_CLIENT_RESULT_PERMISSION_DENIED:
+	case E_CALENDAR_STATUS_PERMISSION_DENIED:
 		switch (vtype) {
 		case CAL_COMPONENT_EVENT:
 			str = _("The event could not be deleted because permission was denied");
@@ -76,24 +79,24 @@ delete_error_dialog (CalClientResult result, CalComponentVType vtype)
 			break;
 		}
 		break;
-	case CAL_CLIENT_RESULT_INVALID_OBJECT:
+	case E_CALENDAR_STATUS_OTHER_ERROR:
 		switch (vtype) {
 		case CAL_COMPONENT_EVENT:
-			str = _("The event could not be deleted because it was invalid");
+			str = _("The event could not be deleted due to an error");
 			break;
 		case CAL_COMPONENT_TODO:
-			str = _("The task could not be deleted because it was invalid");
+			str = _("The task could not be deleted due to an error");
 			break;
 		case CAL_COMPONENT_JOURNAL:
-			str = _("The journal entry could not be deleted because it was invalid");
+			str = _("The journal entry could not be deleted due to an error");
 			break;
 		default:
-			str = _("The item could not be deleted because it was invalid");
+			str = _("The item could not be deleted due to an error");
 			break;
 		}
 		break;
-	case CAL_CLIENT_RESULT_SUCCESS:
-	case CAL_CLIENT_RESULT_NOT_FOUND:
+	case E_CALENDAR_STATUS_OK:
+	case E_CALENDAR_STATUS_OBJECT_NOT_FOUND:
 	default:		
 		/* If not found, we don't care - its gone anyhow */
 		return;

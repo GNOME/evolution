@@ -222,8 +222,8 @@ get_completed (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_completed),
-					 &zone);
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_completed.zone)),
+					 &zone, NULL);
 		comp_data->completed->zone = zone;
 	}
 
@@ -252,8 +252,8 @@ get_due (ECalModelComponent *comp_data)
 
 		/* FIXME: handle errors */
 		cal_client_get_timezone (comp_data->client,
-					 icaltime_get_tzid (tt_due),
-					 &zone);
+					 icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (tt_due.zone)),
+					 &zone, NULL);
 		comp_data->due->zone = zone;
 	}
 
@@ -374,7 +374,6 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 		return E_CAL_MODEL_TASKS_DUE_NEVER;
 	else {
 		struct icaltimetype now_tt, due_tt;
-		CalClientGetStatus status;
 		icaltimezone *zone;
 
 		/* Second, is it already completed? */
@@ -397,10 +396,9 @@ get_due_status (ECalModelTasks *model, ECalModelComponent *comp_data)
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 		} else {
 			/* Get the current time in the same timezone as the DUE date.*/
-			status = cal_client_get_timezone (comp_data->client,
-							  icaltime_get_tzid (due_tt),
-							  &zone);
-			if (status != CAL_CLIENT_GET_SUCCESS)
+			if (!cal_client_get_timezone (comp_data->client,
+						      icaltimezone_get_tzid (icaltimezone_get_builtin_timezone (due_tt.zone)),
+						      &zone, NULL))
 				return E_CAL_MODEL_TASKS_DUE_FUTURE;
 			
 			now_tt = icaltime_current_time_with_zone (zone);
@@ -756,8 +754,12 @@ ecmt_set_value_at (ETableModel *etm, int col, int row, const void *value)
 		break;
 	}
 
-	if (cal_client_update_objects (comp_data->client, comp_data->icalcomp) != CAL_CLIENT_RESULT_SUCCESS)
-		g_message ("ecmt_set_value_at(): Could not update the object!");
+	/* FIXME ask about mod type */
+	if (!cal_client_modify_object (comp_data->client, comp_data->icalcomp, CALOBJ_MOD_ALL, NULL)) {
+		g_warning (G_STRLOC ": Could not modify the object!");
+		
+		/* FIXME Show error dialog */
+	}
 }
 
 static gboolean
@@ -960,8 +962,7 @@ ecmt_get_color_for_component (ECalModel *model, ECalModelComponent *comp_data)
 		break;
 	}
 
-	return "black";
-	/* return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data); */
+	return E_CAL_MODEL_CLASS (parent_class)->get_color_for_component (model, comp_data);
 }
 
 static void

@@ -497,7 +497,7 @@ get_widgets (MeetingPage *mpage)
 	/* For making the user the organizer */
 	priv->organizer_table = GW ("organizer-table");
 	priv->organizer = GW ("organizer");
-	gtk_combo_set_value_in_list (GTK_COMBO (priv->organizer), FALSE, FALSE);
+	gtk_combo_set_value_in_list (GTK_COMBO (priv->organizer), TRUE, FALSE);
 	
 	/* For showing existing organizers */
 	priv->existing_organizer_table = GW ("existing-organizer-table");
@@ -790,7 +790,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	MeetingPagePrivate *priv;
 	ETable *real_table;
 	gchar *filename;
-	const char *backend_address;
+	char *backend_address;
 	EIterator *it;
 	EAccount *def_account;
 	GList *address_strings = NULL, *l;
@@ -812,7 +812,8 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 	}
 
 	/* Address information */
-	backend_address = cal_client_get_cal_address (client);
+	if (!cal_client_get_cal_address (client, &backend_address, NULL))
+		return NULL;
 
 	priv->accounts = itip_addresses_get ();
 	def_account = itip_addresses_get_default();
@@ -839,6 +840,7 @@ meeting_page_construct (MeetingPage *mpage, EMeetingModel *emm,
 		}
 	}
 	g_object_unref(it);
+	g_free (backend_address);
 	
 	if (address_strings)
 		gtk_combo_set_popdown_strings (GTK_COMBO (priv->organizer), address_strings);

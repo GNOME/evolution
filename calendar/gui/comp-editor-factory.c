@@ -241,7 +241,6 @@ edit_existing (OpenClient *oc, const char *uid)
 {
 	CalComponent *comp;
 	icalcomponent *icalcomp;
-	CalClientGetStatus status;
 	CompEditor *editor;
 	CalComponentVType vtype;
 
@@ -249,31 +248,20 @@ edit_existing (OpenClient *oc, const char *uid)
 
 	/* Get the object */
 
-	status = cal_client_get_object (oc->client, uid, &icalcomp);
-
-	switch (status) {
-	case CAL_CLIENT_GET_SUCCESS:
-		comp = cal_component_new ();
-		if (!cal_component_set_icalcomponent (comp, icalcomp)) {
-			g_object_unref (comp);
-			icalcomponent_free (icalcomp);
-			return;
-		}
-		break;
-
-	case CAL_CLIENT_GET_NOT_FOUND:
-		/* The object disappeared from the server */
-		return;
-
-	case CAL_CLIENT_GET_SYNTAX_ERROR:
-		g_message ("edit_exiting(): Syntax error while getting component `%s'", uid);
-		return;
-
-	default:
-		g_assert_not_reached ();
+	if (!cal_client_get_object (oc->client, uid, NULL, &icalcomp, NULL)) {
+		/* FIXME Better error handling */
+		g_warning (G_STRLOC ": Syntax error while getting component `%s'", uid);
+		
 		return;
 	}
-
+	
+	comp = cal_component_new ();
+	if (!cal_component_set_icalcomponent (comp, icalcomp)) {
+		g_object_unref (comp);
+		icalcomponent_free (icalcomp);
+		return;
+	}
+	
 	/* Create the appropriate type of editor */
 	
 	vtype = cal_component_get_vtype (comp);
@@ -405,13 +393,15 @@ resolve_pending_requests (OpenClient *oc)
 	factory = oc->factory;
 	priv = factory->priv;
 
-	g_assert (oc->pending != NULL);
+	if (!oc->pending)
+		return;
 
 	/* Set the default timezone in the backend. */
 	location = calendar_config_get_timezone ();
 	zone = icaltimezone_get_builtin_timezone (location);
 	if (zone)
-		cal_client_set_default_timezone (oc->client, zone);
+		/* FIXME Error handling? */
+		cal_client_set_default_timezone (oc->client, zone, NULL);
 
 	for (l = oc->pending; l; l = l->next) {
 		Request *request;

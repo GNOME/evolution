@@ -235,12 +235,12 @@ static void
 sensitize_commands (ETasks *tasks, BonoboControl *control, int n_selected)
 {
 	BonoboUIComponent *uic;
-	gboolean read_only;
+	gboolean read_only = TRUE;
 
 	uic = bonobo_control_get_ui_component (control);
 	g_assert (uic != NULL);
 
-	read_only = cal_client_is_read_only (e_tasks_get_cal_client (tasks));
+	cal_client_is_read_only (e_tasks_get_cal_client (tasks), &read_only, NULL);
 
 	bonobo_ui_component_set_prop (uic, "/commands/TasksCut", "sensitive",
 				      n_selected == 0 || read_only ? "0" : "1",

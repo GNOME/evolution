@@ -522,6 +522,16 @@ format_date(time_t time, int flags, char *buffer, int bufflen)
 	return buffer;
 }
 
+static gboolean 
+instance_cb (CalComponent *comp, time_t instance_start, time_t instance_end, gpointer data)
+{
+	gboolean *found = data;
+	
+	*found = TRUE;
+	
+	return FALSE;
+}
+
 
 /*
   print out the month small, embolden any days with events.
@@ -625,16 +635,16 @@ print_month_small (GnomePrintContext *pc, GnomeCalendar *gcal, time_t month,
 
 			day = days[y * 7 + x];
 			if (day != 0) {
-				GList *uids;
+				gboolean found = FALSE;
 
 				sprintf (buf, "%d", day);
 
 				/* this is a slow messy way to do this ... but easy ... */
-				uids = cal_client_get_objects_in_range (client,
-									CALOBJ_TYPE_EVENT,
-									now, time_day_end_with_zone (now, zone));
-				font = uids ? font_bold : font_normal;
-				cal_obj_uid_list_free (uids);
+				cal_client_generate_instances (client, now, CALOBJ_TYPE_EVENT, 
+							       time_day_end_with_zone (now, zone),
+							       instance_cb, &found);
+				
+				font = found ? font_bold : font_normal;
 
 				next = time_add_day_with_zone (now, 1, zone);
 				if ((now >= greystart && now < greyend)
@@ -2161,11 +2171,8 @@ get_zone_from_tzid (CalClient *client, const char *tzid)
 	   the builtin timezone with the TZID first. */
 	zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
 	if (!zone) {
-		CalClientGetStatus status;
-
-		status = cal_client_get_timezone (client, tzid, &zone);
-		/* FIXME: Handle error better. */
-		if (status != CAL_CLIENT_GET_SUCCESS)
+		if (!cal_client_get_timezone (client, tzid, &zone, NULL)) 
+			/* FIXME: Handle error better. */
 			g_warning ("Couldn't get timezone from server: %s",
 				   tzid ? tzid : "");
 	}

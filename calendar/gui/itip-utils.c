@@ -98,12 +98,14 @@ itip_organizer_is_user (CalComponent *comp, CalClient *client)
   		strip = itip_strip_mailto (organizer.value);
   
  		if (cal_client_get_static_capability (client, CAL_STATIC_CAPABILITY_ORGANIZER_NOT_EMAIL_ADDRESS)) { 
- 			const char *email;
+ 			char *email;
  			
- 			email = cal_client_get_cal_address (client);
- 			if (email && !g_strcasecmp (email, strip))
+  			if (cal_client_get_cal_address (client, &email, NULL) && !g_strcasecmp (email, strip)) {
+				g_free (email);
+				
  				return TRUE;
- 
+			}
+			
  			return FALSE;
  		}
  	
@@ -185,8 +187,8 @@ foreach_tzid_callback (icalparameter *param, gpointer data)
 		zone = icalcomponent_get_timezone (tz_data->zones, tzid);
 	if (zone == NULL)
 		zone = icaltimezone_get_builtin_timezone_from_tzid (tzid);
-	if (zone == NULL && tz_data->client != NULL)
-		cal_client_get_timezone (tz_data->client, tzid, &zone);
+	if (zone == NULL && tz_data->client != NULL)		
+		cal_client_get_timezone (tz_data->client, tzid, &zone, NULL);
 	if (zone == NULL)
 		return;
 
@@ -528,28 +530,23 @@ static gboolean
 comp_server_send (CalComponentItipMethod method, CalComponent *comp, CalClient *client, 
 		  icalcomponent *zones, GList **users)
 {
-	CalClientSendResult result;
-	icalcomponent *top_level, *new_top_level = NULL;
-	char *error_msg;
+	icalcomponent *top_level;
 	gboolean retval = TRUE;
+	GError *error = NULL;
 	
 	top_level = comp_toplevel_with_zones (method, comp, client, zones);
-	result = cal_client_send_object (client, top_level, &new_top_level, users, &error_msg);
-
-	if (result == CAL_CLIENT_SEND_SUCCESS) {
-		icalcomponent *ical_comp;
-		
-		ical_comp = icalcomponent_get_inner (new_top_level);
-		icalcomponent_remove_component (new_top_level, ical_comp);
-		cal_component_set_icalcomponent (comp, ical_comp);
-		icalcomponent_free (new_top_level);
-	} else if (result == CAL_CLIENT_SEND_BUSY) {
-		e_notice (NULL, GTK_MESSAGE_ERROR, error_msg);
-
-		g_free (error_msg);
-		retval = FALSE;
+	if (!cal_client_send_objects (client, top_level, &error)) {
+		/* FIXME Really need a book problem status code */
+		if (error->code != E_CALENDAR_STATUS_OK) {
+			/* FIXME Better error message */
+			e_notice (NULL, GTK_MESSAGE_ERROR, "Unable to book");
+			
+			retval = FALSE;
+		}
 	}
 
+	g_clear_error (&error);
+	
 	icalcomponent_free (top_level);
 
 	return retval;
@@ -755,7 +752,8 @@ comp_compliant (CalComponentItipMethod method, CalComponent *comp, CalClient *cl
 				if (from_zone == NULL)
 					from_zone = icaltimezone_get_builtin_timezone_from_tzid (dt.tzid);
 				if (from_zone == NULL && client != NULL)
-					cal_client_get_timezone (client, dt.tzid, &from_zone);
+					/* FIXME Error checking */
+					cal_client_get_timezone (client, dt.tzid, &from_zone, NULL);
 			}
 			
 			to_zone = icaltimezone_get_utc_timezone ();
