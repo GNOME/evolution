@@ -53,6 +53,7 @@ struct _EComponentRegistryPrivate {
 
 static EComponentInfo *
 component_info_new (const char *id,
+		    const char *alias,
 		    const char *button_label,
 		    int sort_order,
 		    GdkPixbuf *button_icon)
@@ -60,6 +61,7 @@ component_info_new (const char *id,
 	EComponentInfo *info = g_new0 (EComponentInfo, 1);
 
 	info->id = g_strdup (id);
+	info->alias = g_strdup (alias);
 	info->button_label = g_strdup (button_label);
 	info->sort_order = sort_order;
 
@@ -73,6 +75,7 @@ static void
 component_info_free (EComponentInfo *info)
 {
 	g_free (info->id);
+	g_free (info->alias);
 	g_free (info->button_label);
 
 	if (info->iface != NULL)
@@ -118,6 +121,7 @@ query_components (EComponentRegistry *registry)
 	for (i = 0; i < info_list->_length; i++) {
 		const char *id;
 		const char *label;
+		const char *alias;
 		const char *icon_name;
 		const char *sort_order_string;
 		GdkPixbuf *icon;
@@ -125,18 +129,16 @@ query_components (EComponentRegistry *registry)
 
 		id = info_list->_buffer[i].iid;
 		label = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_label", language_list);
-		if (label == NULL) {
-			g_print ("no label for %s\n", id);
+		if (label == NULL)
 			label = g_strdup (_("Unknown"));
-		}
+
+		alias = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:component_alias", NULL);
 
 		icon_name = bonobo_server_info_prop_lookup (& info_list->_buffer[i], "evolution:button_icon", NULL);
 		if (icon_name == NULL) {
 			icon = NULL;
-			g_print ("no icon for %s\n", id);
 		} else {
 			char *full_path = e_shell_get_icon_path (icon_name, TRUE);
-			g_print ("icon %s\n", full_path);
 			icon = gdk_pixbuf_new_from_file (full_path, NULL);
 		}
 
@@ -148,7 +150,7 @@ query_components (EComponentRegistry *registry)
 			sort_order = atoi (sort_order_string);
 
 		registry->priv->infos = g_slist_prepend (registry->priv->infos,
-							 component_info_new (id, label, sort_order, icon));
+							 component_info_new (id, alias, label, sort_order, icon));
 
 		if (icon != NULL)
 			g_object_unref (icon);

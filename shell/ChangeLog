@@ -1,3 +1,31 @@
+2003-11-10  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-shell-window.c (struct _ComponentView): New member
+	"component_alias".
+	(component_view_new): Get a new "alias" arg, set the member in the
+	struct accordingly.
+	(component_view_free): Free ->component_alias.
+	(setup_widgets): Pass the alias from the ComponentInfo to
+	e_component_view().
+	(switch_view): New utility function.
+	(sidebar_button_selected_callback): Use it.
+	(e_shell_window_switch_to_component): New public function.
+	(e_shell_window_new): Switch to the component whose id is in the
+	/apps/evolution/shell/view_defaults/component_id GConf key.
+
+	* apps_evolution_shell.schemas: Removed view_defaults/folder_path.
+	New key view_defaults/component_id.
+
+	* e-component-registry.c (component_info_free): Free ->alias.
+	(component_info_new): Get an "alias" arg and set the member
+	accordingly.
+	(query_components): Remove debugging messages.  Get an
+	"evolution:component_alias" property from the component and set
+	the alias from that.
+
+	* e-component-registry.h (struct _EComponentInfo): New member
+	"alias".
+
 2003-11-07  JP Rosevear <jpr@ximian.com>
 
 	* Makefile.am: make sure the marshal header is in the sources too

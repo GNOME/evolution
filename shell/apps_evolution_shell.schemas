@@ -213,13 +213,13 @@
     </schema>
 
     <schema>
-      <key>/schemas/apps/evolution/shell/view_defaults/folder_path</key>
-      <applyto>/apps/evolution/shell/view_defaults/folder_path</applyto>
+      <key>/schemas/apps/evolution/shell/view_defaults/component_id</key>
+      <applyto>/apps/evolution/shell/view_defaults/component_id</applyto>
       <owner>evolution</owner>
       <type>string</type>
       <locale name="C">
-        <default>/Summary</default>
-        <short>Path to the folder to be displayed by default</short>
+        <default>mail</default>
+        <short>ID or alias of the component to be shown by default at start-up.</short>
       </locale>
     </schema>
 

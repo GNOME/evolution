@@ -61,6 +61,8 @@ struct _EComponentRegistryClass {
 struct _EComponentInfo {
 	char *id;
 
+	char *alias;
+
 	/* NULL if not activated.  */
 	GNOME_Evolution_Component iface;
 

@@ -44,6 +44,8 @@
 #include <bonobo/bonobo-ui-util.h>
 #include <bonobo/bonobo-widget.h>
 
+#include <gconf/gconf-client.h>
+
 #include <string.h>
 
 
@@ -58,6 +60,7 @@ static GtkWindowClass *parent_class = NULL;
 struct _ComponentView {
 	int button_id;
 	char *component_id;
+	char *component_alias;
 
 	GtkWidget *sidebar_widget;
 	GtkWidget *view_widget;
@@ -91,11 +94,12 @@ struct _EShellWindowPrivate {
 /* ComponentView handling.  */
 
 static ComponentView *
-component_view_new (const char *id, int button_id)
+component_view_new (const char *id, const char *alias, int button_id)
 {
 	ComponentView *view = g_new0 (ComponentView, 1);
 
 	view->component_id = g_strdup (id);
+	view->component_alias = g_strdup (alias);
 	view->button_id = button_id;
 	view->notebook_page_num = -1;
 
@@ -106,6 +110,7 @@ static void
 component_view_free (ComponentView *view)
 {
 	g_free (view->component_id);
+	g_free (view->component_alias);
 	g_free (view);
 }
 
@@ -140,9 +145,6 @@ component_view_activate (ComponentView *view)
 	sidebar_control_frame = bonobo_widget_get_control_frame (BONOBO_WIDGET (view->sidebar_widget));
 	bonobo_control_frame_control_activate (sidebar_control_frame);
 }
-
-
-/* Utility functions.  */
 
 static void
 init_view (EShellWindow *window,
@@ -226,6 +228,34 @@ init_view (EShellWindow *window,
 	bonobo_object_release_unref (component_iface, NULL);
 }
 
+static void
+switch_view (EShellWindow *window, ComponentView *component_view)
+{
+	EShellWindowPrivate *priv = window->priv;
+	GConfClient *gconf_client = gconf_client_get_default ();
+
+	if (component_view->sidebar_widget == NULL) {
+		init_view (window, component_view);
+	} else {
+		if (priv->current_view != NULL)
+			component_view_deactivate (priv->current_view);
+		priv->current_view = component_view;
+		component_view_activate (component_view);
+
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->view_notebook), component_view->notebook_page_num);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), component_view->notebook_page_num);
+	}
+
+	gconf_client_set_string (gconf_client, "/apps/evolution/shell/view_defaults/component_id",
+				 (component_view->component_alias != NULL
+				  ? component_view->component_alias
+				  : component_view->component_id),
+				 NULL);
+
+	g_object_unref (gconf_client);
+}
+
+
 
 /* Callbacks.  */
 
@@ -246,21 +276,11 @@ sidebar_button_selected_callback (ESidebar *sidebar,
 	}
 
 	if (component_view == NULL) {
-		g_warning ("Unknown component id %d", button_id);
+		g_warning ("Unknown component button id %d", button_id);
 		return;
 	}
 
-	if (component_view->sidebar_widget == NULL) {
-		init_view (window, component_view);
-	} else {
-		if (priv->current_view != NULL)
-			component_view_deactivate (priv->current_view);
-		priv->current_view = component_view;
-		component_view_activate (component_view);
-
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->view_notebook), component_view->notebook_page_num);
-		gtk_notebook_set_current_page (GTK_NOTEBOOK (priv->sidebar_notebook), component_view->notebook_page_num);
-	}
+	switch_view (window, component_view);
 }
 
 
@@ -298,7 +318,7 @@ setup_widgets (EShellWindow *window)
 	button_id = 0;
 	for (p = e_component_registry_peek_list (registry); p != NULL; p = p->next) {
 		EComponentInfo *info = p->data;
-		ComponentView *view = component_view_new (info->id, button_id);
+		ComponentView *view = component_view_new (info->id, info->alias, button_id);
 
 		window->priv->component_views = g_slist_prepend (window->priv->component_views, view);
 		e_sidebar_add_button (E_SIDEBAR (priv->sidebar), info->button_label, info->button_icon, button_id);
@@ -374,6 +394,8 @@ e_shell_window_new (EShell *shell)
 	EShellWindow *window = g_object_new (e_shell_window_get_type (), NULL);
 	EShellWindowPrivate *priv = window->priv;
 	BonoboUIContainer *ui_container;
+	GConfClient *gconf_client;
+	char *default_component_id;
 
 	if (bonobo_window_construct (BONOBO_WINDOW (window),
 				     bonobo_ui_container_new (),
@@ -406,7 +428,51 @@ e_shell_window_new (EShell *shell)
 
 	gtk_window_set_default_size (GTK_WINDOW (window), 640, 480);
 
+	gconf_client = gconf_client_get_default ();
+	default_component_id = gconf_client_get_string (gconf_client,
+							"/apps/evolution/shell/view_defaults/component_id",
+							NULL);
+	g_object_unref (gconf_client);
+
+	if (default_component_id == NULL) {
+		e_shell_window_switch_to_component (window, "mail");
+	} else {
+		e_shell_window_switch_to_component (window, default_component_id);
+		g_free (default_component_id);
+	}
+
 	return GTK_WIDGET (window);
+}
+
+
+void
+e_shell_window_switch_to_component (EShellWindow *window, const char *component_id)
+{
+	EShellWindowPrivate *priv = window->priv;
+	ComponentView *view = NULL;
+	GSList *p;
+
+	g_return_if_fail (E_IS_SHELL_WINDOW (window));
+	g_return_if_fail (component_id != NULL);
+
+	for (p = priv->component_views; p != NULL; p = p->next) {
+		ComponentView *this_view = p->data;
+
+		if (strcmp (this_view->component_id, component_id) == 0
+		    || (this_view->component_alias != NULL
+			&& strcmp (this_view->component_alias, component_id) == 0))
+		{
+			view = p->data;
+			break;
+		}
+	}
+
+	if (view == NULL) {
+		g_warning ("Unknown component %s", component_id);
+		return;
+	}
+
+	switch_view (window, view);
 }
 
 
