@@ -100,7 +100,7 @@
 	</menu>
 
 	<dockitem name="Toolbar">
-		<toolitem name="New" verb="EditNewAppointment"/>
+		<toolitem name="New" verb="EditNewAppointment" pixtype="pixbuf"/>
 
 		<separator/>
 
@@ -120,13 +120,13 @@
 		
 		<separator/>
 
-		<toolitem name="DayView" verb="ShowDayView"/>
+		<toolitem name="DayView" verb="ShowDayView" pixtype="pixbuf"/>
 
-		<toolitem name="WorkWeekView" verb="ShowWorkWeekView"/>
+		<toolitem name="WorkWeekView" verb="ShowWorkWeekView" pixtype="pixbuf"/>
 
-		<toolitem name="WeekView" verb="ShowWeekView"/>
+		<toolitem name="WeekView" verb="ShowWeekView" pixtype="pixbuf"/>
 
-		<toolitem name="MonthView" verb="ShowMonthView"/>
+		<toolitem name="MonthView" verb="ShowMonthView" pixtype="pixbuf"/>
 
 	</dockitem>
 

@@ -1,3 +1,8 @@
+2001-04-16  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* evolution-calendar.xml: toolitems which have non-default pixmaps, must
+	have "pixtype=pixbuf" arg. Now *View buttons show up again.
+
 2001-04-14  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* evolution-mail.xml: Added Filter/VFolder on mailing list. Yay. I
