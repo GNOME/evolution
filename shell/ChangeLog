@@ -1,6 +1,10 @@
 2001-01-12  Miguel de Icaza  <miguel@ximian.com>
 
-	* e-shell-view-menu.c (command_new_mail_message): Remove "window"
+	* e-storage-set-view.c: Added translation strings.
+
+	* e-shell-view-menu.c 	(command_about_box): Update our name
+
+	(command_new_mail_message): Remove "window"
 	from the moniker path.
 
 	* e-splash.c (e_splash_construct): Make the spalsh screen a

@@ -1,7 +1,7 @@
 /* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 8; tab-width: 8 -*- */
 /* e-shell-view.c
  *
- * Copyright (C) 2000  Helix Code, Inc.
+ * Copyright (C) 2000, 2001  Ximian, Inc.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -169,7 +169,7 @@ command_about_box (BonoboUIComponent *uih,
 
 		about_box = gnome_about_new(_("Evolution"),
 					    VERSION,
-					    _("Copyright 1999, 2000 Helix Code, Inc."),
+					    _("Copyright 1999, 2000, 2001 Ximian, Inc."),
 					    authors,
 					    _("Evolution is a suite of groupware applications\n"
 					      "for mail, calendaring, and contact management\n"

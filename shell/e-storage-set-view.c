@@ -39,7 +39,13 @@
 #include <gal/e-table/e-cell-tree.h>
 #include <gal/e-table/e-cell-text.h>
 
-#define ETABLE_SPEC "<ETableSpecification no-headers=\"true\" cursor-mode=\"line\" draw-grid=\"true\"> \
+#ifdef JUST_FOR_TRANSLATORS
+static char *list [] = {
+	N_("Folder"),
+};
+#endif
+
+#define ETABLE_SPEC "<ETableSpecification no-headers=\"true\" selection-mode=\"single\" cursor-mode=\"line\" draw-grid=\"true\"> \
   <ETableColumn model_col=\"0\" _title=\"Folder\" expansion=\"1.0\" minimum_width=\"20\" resizable=\"true\" cell=\"render_tree\" compare=\"string\"/> \
 	<ETableState>                   			       \
 		<column source=\"0\"/>     			       \
