@@ -1,5 +1,8 @@
 2000-07-06  Dan Winship  <danw@helixcode.com>
 
+	* folder-browser-factory.c, folder-browser.c, mail-ops.c,
+	message-list.c: fix warnings.
+
 	* main.c (main): gtkhtmllib_init is no more. Call gconf_init
 	directly instead.
 

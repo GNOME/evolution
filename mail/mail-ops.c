@@ -708,7 +708,6 @@ delete_msg (GtkWidget *button, gpointer user_data)
 {
 	FolderBrowser *fb = user_data;
 	MessageList *ml = fb->message_list;
-	int cursor = e_table_get_cursor_row (E_TABLE (ml->etable));
 	CamelException ex;
 
 	camel_exception_init (&ex);

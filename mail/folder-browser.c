@@ -81,12 +81,13 @@ mail_uri_to_folder (const char *name)
 			/* FIXME: do this properly rather than hardcoding */
 #warning "Find a way not to hardcode vfolder source"
 			{
+				char *source_name;
 				CamelFolder *source_folder;
 				extern char *evolution_dir;
 				
-				name = g_strdup_printf ("file://%s/local/Inbox", evolution_dir);
-				source_folder = mail_uri_to_folder (name);
-				g_free (name);
+				source_name = g_strdup_printf ("file://%s/local/Inbox", evolution_dir);
+				source_folder = mail_uri_to_folder (source_name);
+				g_free (source_name);
 				if (source_folder)
 					camel_vee_folder_add_folder (folder, source_folder);
 			}

@@ -59,6 +59,7 @@ static void on_cursor_change_cmd (ETable *table, int row, gpointer user_data);
 static void on_row_selection (ETable *table, int row, gboolean selected,
 			      gpointer user_data);
 static void select_row (ETable *table, gpointer user_data);
+static void select_msg (MessageList *message_list, gint row);
 static char *filter_date (const void *data);
 
 static struct {
