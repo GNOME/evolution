@@ -561,7 +561,6 @@ format_mime_part (CamelMimePart *part, MailDisplay *md)
 	char *mime_type;
 	MailMimeHandler *handler;
 	gboolean output, is_inline;
-	const char *location;
 
 	/* Record URLs associated with this part */
 	get_cid (part, md);

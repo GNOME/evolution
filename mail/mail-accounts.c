@@ -518,10 +518,42 @@ set_color (GnomeColorPicker *cp)
 }
 
 static void
+images_radio_toggled (GtkWidget *radio, gpointer data)
+{
+	MailAccountsDialog *dialog = data;
+
+	if (radio == (GtkWidget *)dialog->images_always)
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_ALWAYS);
+	else if (radio == (GtkWidget *)dialog->images_sometimes)
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_SOMETIMES);
+	else
+		mail_config_set_http_mode (MAIL_CONFIG_HTTP_NEVER);
+}
+
+static void
+forward_style_activated (GtkWidget *item, gpointer data)
+{
+	int style = GPOINTER_TO_INT (data);
+
+	mail_config_set_default_forward_style (style);
+}
+
+static void
+attach_forward_style_signal (GtkWidget *item, gpointer data)
+{
+	int *num = data;
+
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    forward_style_activated, GINT_TO_POINTER (*num));
+	(*num)++;
+}
+
+static void
 construct (MailAccountsDialog *dialog)
 {
 	GladeXML *gui;
 	GtkWidget *notebook;
+	int num;
 	
 	gui = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL);
 	dialog->gui = gui;
@@ -581,30 +613,47 @@ construct (MailAccountsDialog *dialog)
 	gtk_notebook_remove_page (GTK_NOTEBOOK (notebook), 1);
 #endif
 	
-	/* get those temp widgets */
-	dialog->send_html = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->send_html),
-				      mail_config_get_send_html ());
-	gtk_signal_connect (GTK_OBJECT (dialog->send_html), "toggled",
-			    GTK_SIGNAL_FUNC (send_html_toggled), dialog);
-	
-	dialog->citation_highlight = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "chckHighlightCitations"));
-	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (dialog->citation_highlight),
-				      mail_config_get_citation_highlight ());
+	/* Display page */
+	dialog->citation_highlight = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chckHighlightCitations"));
+	gtk_toggle_button_set_active (dialog->citation_highlight, mail_config_get_citation_highlight ());
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_highlight), "toggled",
 			    GTK_SIGNAL_FUNC (citation_highlight_toggled), dialog);
-
 	dialog->citation_color = GNOME_COLOR_PICKER (glade_xml_get_widget (gui, "colorpickerCitations"));
 	set_color (dialog->citation_color);
 	gtk_signal_connect (GTK_OBJECT (dialog->citation_color), "color_set",
 			    GTK_SIGNAL_FUNC (citation_color_set), dialog);
 
 	dialog->timeout = GTK_SPIN_BUTTON (glade_xml_get_widget (gui, "spinMarkTimeout"));
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (dialog->timeout),
-				   (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
+	gtk_spin_button_set_value (dialog->timeout, (1.0 * mail_config_get_mark_as_seen_timeout ()) / 1000.0);
 	gtk_signal_connect (GTK_OBJECT (dialog->timeout), "changed",
 			    GTK_SIGNAL_FUNC (timeout_changed), dialog);
 	
+	dialog->images_never = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesNever"));
+	gtk_toggle_button_set_active (dialog->images_never, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_NEVER);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_never), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+	dialog->images_sometimes = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesSometimes"));
+	gtk_toggle_button_set_active (dialog->images_sometimes, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_SOMETIMES);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_sometimes), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+	dialog->images_always = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "radioImagesAlways"));
+	gtk_toggle_button_set_active (dialog->images_always, mail_config_get_http_mode () == MAIL_CONFIG_HTTP_ALWAYS);
+	gtk_signal_connect (GTK_OBJECT (dialog->images_always), "toggled",
+			    GTK_SIGNAL_FUNC (images_radio_toggled), dialog);
+
+	/* Composer page */
+	dialog->send_html = GTK_TOGGLE_BUTTON (glade_xml_get_widget (gui, "chkSendHTML"));
+	gtk_toggle_button_set_active (dialog->send_html, mail_config_get_send_html ());
+	gtk_signal_connect (GTK_OBJECT (dialog->send_html), "toggled",
+			    GTK_SIGNAL_FUNC (send_html_toggled), dialog);
+	
+	dialog->forward_style = GTK_OPTION_MENU (glade_xml_get_widget (gui, "omenuForwardStyle"));
+	gtk_option_menu_set_history (dialog->forward_style, mail_config_get_default_forward_style ());
+	/* Hm. This sucks... */
+	num = 0;
+	gtk_container_foreach (GTK_CONTAINER (gtk_option_menu_get_menu (dialog->forward_style)),
+			       attach_forward_style_signal, &num);
+
 	dialog->pgp_path = GNOME_FILE_ENTRY (glade_xml_get_widget (gui, "filePgpPath"));
 	gtk_entry_set_text (GTK_ENTRY (gnome_file_entry_gtk_entry (dialog->pgp_path)),
 			    mail_config_get_pgp_path ());

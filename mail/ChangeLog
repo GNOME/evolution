@@ -1,3 +1,34 @@
+2001-05-14  Dan Winship  <danw@ximian.com>
+
+	* mail-config.glade: Split "Other" page into three pages, Display,
+	Composer, and PGP. Add HTML image stuff on the Display page and
+	default forward style on the Composer page.
+
+	* mail-config.c (mail_config_get_default_forward_style,
+	mail_config_set_default_forward_style): User-specified default
+	style for forwarding messages.
+	(config_read, mail_config_write_on_exit): Deal with forward style.
+
+	* mail-accounts.c: Handle HTML image display options and default
+	forward style.
+
+	* mail-callbacks.c (forward): New. Forward in the user-selected
+	default style.
+	(forward_inline, forward_quoted): Simplify these some. Remove the
+	fallback to forward attached when forwarding multiple messages: it
+	should just forward the multiple messages inline or quoted in
+	those cases. (Which it doesn't yet, but that's a bug.)
+
+	* folder-browser.c (context_menu): Remove "Forward inline" and
+	make "Forward" call forward() rather than forward_attached().
+
+	* folder-browser-factory.c: Update command/menu/toolbar/pixmap
+	gunk for the "MessageForwardAttached" vs "MessageForward" split.
+
+	* mail-session.c (mail_session_get_type): 
+	* mail-format.c (format_mime_part): 
+	* mail-account-gui.c (setup_service): Fix warnings.
+
 2001-05-14  Jon Trowbridge  <trow@ximian.com>
 
 	* folder-browser.c (folder_browser_config_search): Use secondary

@@ -104,7 +104,7 @@ class_init (MailSessionClass *mail_session_class)
 	camel_session_class->remove_timeout = remove_timeout;
 }
 
-CamelType
+static CamelType
 mail_session_get_type (void)
 {
 	static CamelType mail_session_type = CAMEL_INVALID_TYPE;

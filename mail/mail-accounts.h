@@ -29,7 +29,8 @@ extern "C" {
 #endif /* __cplusplus */
 
 #include <gtk/gtkclist.h>
-#include <gtk/gtkcheckbutton.h>
+#include <gtk/gtktogglebutton.h>
+#include <gtk/gtkoptionmenu.h>
 #include <gtk/gtkspinbutton.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <libgnomeui/gnome-dialog.h>
@@ -53,7 +54,8 @@ struct _MailAccountsDialog {
 	
 	const GSList *accounts;
 	gint accounts_row;
-	
+
+	/* Accounts page */
 	GtkCList *mail_accounts;
 	GtkButton *mail_add;
 	GtkButton *mail_edit;
@@ -63,17 +65,24 @@ struct _MailAccountsDialog {
 	
 	const GSList *news;
 	gint news_row;
-	
+
+	/* News page */
 	GtkCList *news_accounts;
 	GtkButton *news_add;
 	GtkButton *news_edit;
 	GtkButton *news_delete;
 	
-	/* "Other" widgets */
-	GtkCheckButton *send_html;
-	GtkCheckButton *citation_highlight;
+	/* Display page */
+	GtkToggleButton *citation_highlight;
 	GnomeColorPicker *citation_color;
 	GtkSpinButton *timeout;
+	GtkToggleButton *images_always, *images_sometimes, *images_never;
+
+	/* Composer page */
+	GtkToggleButton *send_html;
+	GtkOptionMenu *forward_style;
+
+	/* PGP page */
 	GnomeFileEntry *pgp_path;
 };
 

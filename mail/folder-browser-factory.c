@@ -70,8 +70,9 @@ BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("MessagePrint", print_msg),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplySender", reply_to_sender),
 	BONOBO_UI_UNSAFE_VERB ("MessageReplyAll", reply_to_all),
+	BONOBO_UI_UNSAFE_VERB ("MessageForward", forward),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardAttached", forward_attached),
-	BONOBO_UI_UNSAFE_VERB ("MessageForwardInlined", forward_inlined),
+	BONOBO_UI_UNSAFE_VERB ("MessageForwardInline", forward_inline),
 	BONOBO_UI_UNSAFE_VERB ("MessageForwardQuoted", forward_quoted),
 	
 	BONOBO_UI_UNSAFE_VERB ("MessageMarkAsRead", mark_as_seen),
@@ -136,7 +137,7 @@ static EPixmap pixcache [] = {
 	E_PIXMAP ("/menu/Actions/Component/MessageMove", "move_message.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/MessageReplyAll", "reply_to_all.xpm"),
 	E_PIXMAP ("/menu/Actions/Component/MessageReplySender", "reply.xpm"),
-	E_PIXMAP ("/menu/Actions/Component/MessageForwardAttached", "forward.xpm"),
+	E_PIXMAP ("/menu/Actions/Component/MessageForward", "forward.xpm"),
 
 	E_PIXMAP ("/menu/Tools/Component/SetMailConfig", "configure_16_mail.xpm"),
 	

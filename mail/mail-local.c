@@ -207,8 +207,7 @@ static char *get_name (CamelService *service, gboolean brief);
 static CamelFolder *get_folder (CamelStore *store, const char *folder_name,
 				guint32 flags, CamelException *ex);
 static CamelFolderInfo *get_folder_info (CamelStore *store, const char *top,
-					 gboolean fast, gboolean recursive,
-					 gboolean subscribed_only, CamelException *ex);
+					 guint32 flags, CamelException *ex);
 static void delete_folder (CamelStore *store, const char *folder_name,
 			   CamelException *ex);
 static void rename_folder (CamelStore *store, const char *old_name,
@@ -402,8 +401,7 @@ populate_folders (gpointer key, gpointer data, gpointer user_data)
 
 static CamelFolderInfo *
 get_folder_info (CamelStore *store, const char *top,
-		 gboolean fast, gboolean recursive,
-		 gboolean subscribed_only, CamelException *ex)
+		 guint32 flags, CamelException *ex)
 {
 	MailLocalStore *local_store = MAIL_LOCAL_STORE (store);
 	CamelFolderInfo *fi = NULL;

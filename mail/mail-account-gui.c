@@ -703,7 +703,7 @@ setup_service (MailAccountGuiService *gsvc, MailConfigService *service)
 	gboolean has_auth = FALSE;
 
 	if (url == NULL)
-		return;
+		return FALSE;
 
 	if (url->user && CAMEL_PROVIDER_ALLOWS (gsvc->provider, CAMEL_URL_PART_USER))
 		gtk_entry_set_text (gsvc->username, url->user);

@@ -64,6 +64,11 @@ typedef enum {
 	MAIL_CONFIG_HTTP_ALWAYS,
 } MailConfigHTTPMode;
 
+typedef enum {
+	MAIL_CONFIG_FORWARD_ATTACHED, MAIL_CONFIG_FORWARD_INLINE,
+	MAIL_CONFIG_FORWARD_QUOTED,
+} MailConfigForwardStyle;
+
 /* Identities */
 MailConfigIdentity *identity_copy (const MailConfigIdentity *id);
 void                identity_destroy (MailConfigIdentity *id);
@@ -122,6 +127,9 @@ void        mail_config_set_pgp_path (const char *pgp_path);
 
 MailConfigHTTPMode mail_config_get_http_mode (void);
 void               mail_config_set_http_mode (MailConfigHTTPMode);
+
+MailConfigForwardStyle mail_config_get_default_forward_style (void);
+void                   mail_config_set_default_forward_style (MailConfigForwardStyle);
 
 const MailConfigAccount  *mail_config_get_default_account       (void);
 const MailConfigAccount  *mail_config_get_account_by_name       (const char *account_name);

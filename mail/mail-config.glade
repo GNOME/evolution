@@ -1881,22 +1881,9 @@ Kerberos
     <widget>
       <class>GtkVBox</class>
       <name>vbox38</name>
+      <border_width>4</border_width>
       <homogeneous>False</homogeneous>
       <spacing>4</spacing>
-
-      <widget>
-	<class>GtkCheckButton</class>
-	<name>chkSendHTML</name>
-	<can_focus>True</can_focus>
-	<label>Send mail in HTML format by default.</label>
-	<active>False</active>
-	<draw_indicator>True</draw_indicator>
-	<child>
-	  <padding>0</padding>
-	  <expand>False</expand>
-	  <fill>False</fill>
-	</child>
-      </widget>
 
       <widget>
 	<class>GtkHBox</class>
@@ -1913,7 +1900,7 @@ Kerberos
 	  <class>GtkCheckButton</class>
 	  <name>chckHighlightCitations</name>
 	  <can_focus>True</can_focus>
-	  <label>Highlight citations with </label>
+	  <label>Highlight citations with</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	  <child>
@@ -2025,6 +2012,172 @@ Kerberos
       </widget>
 
       <widget>
+	<class>GtkFrame</class>
+	<name>frame1</name>
+	<label>In HTML mail</label>
+	<label_xalign>0</label_xalign>
+	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox65</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radioImagesNever</name>
+	    <can_focus>True</can_focus>
+	    <label>Never load images off the net</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>images</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radioImagesSometimes</name>
+	    <can_focus>True</can_focus>
+	    <label>Load images if sender is in addressbook</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>images</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>radioImagesAlways</name>
+	    <can_focus>True</can_focus>
+	    <label>Always load images off the net</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>images</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>display_config_label</name>
+      <label>Display</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox63</name>
+      <border_width>4</border_width>
+      <homogeneous>False</homogeneous>
+      <spacing>4</spacing>
+
+      <widget>
+	<class>GtkCheckButton</class>
+	<name>chkSendHTML</name>
+	<can_focus>True</can_focus>
+	<label>Send mail in HTML format by default.</label>
+	<active>False</active>
+	<draw_indicator>True</draw_indicator>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>False</fill>
+	</child>
+      </widget>
+
+      <widget>
+	<class>GtkHBox</class>
+	<name>hbox55</name>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
+	<child>
+	  <padding>0</padding>
+	  <expand>False</expand>
+	  <fill>True</fill>
+	</child>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <name>label39</name>
+	  <label>Default &quot;Forward&quot; style is: </label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkOptionMenu</class>
+	  <name>omenuForwardStyle</name>
+	  <can_focus>True</can_focus>
+	  <items>Attachment
+Inline
+Quoted
+</items>
+	  <initial_choice>0</initial_choice>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkLabel</class>
+      <child_name>Notebook:tab</child_name>
+      <name>composer_config_label</name>
+      <label>Composer</label>
+      <justify>GTK_JUSTIFY_CENTER</justify>
+      <wrap>False</wrap>
+      <xalign>0.5</xalign>
+      <yalign>0.5</yalign>
+      <xpad>0</xpad>
+      <ypad>0</ypad>
+    </widget>
+
+    <widget>
+      <class>GtkVBox</class>
+      <name>vbox64</name>
+      <border_width>4</border_width>
+      <homogeneous>False</homogeneous>
+      <spacing>4</spacing>
+
+      <widget>
 	<class>GtkHBox</class>
 	<name>hbox41</name>
 	<homogeneous>False</homogeneous>
@@ -2082,8 +2235,8 @@ Kerberos
     <widget>
       <class>GtkLabel</class>
       <child_name>Notebook:tab</child_name>
-      <name>other_config_label</name>
-      <label>Other</label>
+      <name>pgp_config_label</name>
+      <label>PGP</label>
       <justify>GTK_JUSTIFY_CENTER</justify>
       <wrap>False</wrap>
       <xalign>0.5</xalign>

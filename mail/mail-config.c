@@ -67,6 +67,7 @@ typedef struct {
 	CamelPgpType pgp_type;
 
 	MailConfigHTTPMode http_mode;
+	MailConfigForwardStyle default_forward_style;
 } MailConfig;
 
 static const char GCONFPATH[] = "/apps/Evolution/Mail";
@@ -460,6 +461,14 @@ config_read (void)
 		config->http_mode = MAIL_CONFIG_HTTP_NEVER;
 	g_free (str);
 	
+	/* Forwarding */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/defaul_forward_style",
+			       evolution_dir);
+	config->default_forward_style = gnome_config_get_int_with_default (str, &def);
+	if (def)
+		config->default_forward_style = MAIL_CONFIG_FORWARD_ATTACHED;
+	g_free (str);
+	
 	gnome_config_sync ();
 }
 
@@ -640,6 +649,12 @@ mail_config_write_on_exit (void)
 	str = g_strdup_printf ("=%s/config/Mail=/Display/http_images", 
 			       evolution_dir);
 	gnome_config_set_int (str, config->http_mode);
+	g_free (str);
+
+	/* Forwarding */
+	str = g_strdup_printf ("=%s/config/Mail=/Format/default_forward_style", 
+			       evolution_dir);
+	gnome_config_set_int (str, config->default_forward_style);
 	g_free (str);
 
 	/* Passwords */
@@ -884,6 +899,18 @@ void
 mail_config_set_http_mode (MailConfigHTTPMode mode)
 {
 	config->http_mode = mode;
+}
+
+MailConfigForwardStyle
+mail_config_get_default_forward_style (void)
+{
+	return config->default_forward_style;
+}
+
+void
+mail_config_set_default_forward_style (MailConfigForwardStyle style)
+{
+	config->default_forward_style = style;
 }
 
 const MailConfigAccount *
