@@ -80,6 +80,7 @@ struct _ESearchBar
 	GtkWidget *suboption_menu;
 	GtkWidget *dropdown_menu;
 	GtkWidget *activate_button;
+	GtkWidget *clear_button;
 	GtkWidget *entry_box;
 	guint      pending_activate;
 

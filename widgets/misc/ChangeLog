@@ -1,5 +1,19 @@
 2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
 
+	* e-search-bar.c (init): Init clear_button to NULL.
+	(add_button): New helper function to add a button to the search
+	bar with the right spacing etc.
+	(clear_search): New helper function.
+	(add_activate_button): Removed.
+	(clear_button_clicked_cb): New.
+	(e_search_bar_construct): Just add the button here using
+	`add_button'.  Also add a clear_button.
+	(clear_verb_cb): Rewritten by means of `clear_search()'.
+
+	* e-search-bar.h (ESearchBar): Add clear_button.
+
+2002-03-18  Ettore Perazzoli  <ettore@ximian.com>
+
 	* e-search-bar.c (search_now_verb_cb): New, implementation for a
 	new "SearchNow" verb.
 	(setup_standard_verbs): Create verb here.

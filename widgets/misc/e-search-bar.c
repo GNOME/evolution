@@ -96,6 +96,16 @@ emit_menu_activated (ESearchBar *esb, int item)
 			 item);
 }
 
+/* This implements the "clear" action, i.e. clears the text and then emits
+ * ::search_activated.  */
+
+static void
+clear_search (ESearchBar *esb)
+{
+	e_search_bar_set_text (esb, "");
+	emit_search_activated (esb);
+}
+
 
 /* Callbacks -- Standard verbs.  */
 
@@ -118,9 +128,7 @@ clear_verb_cb (BonoboUIComponent *ui_component,
 	ESearchBar *esb;
 
 	esb = E_SEARCH_BAR (data);
-	e_search_bar_set_text (esb, "");
-
-	emit_search_activated (esb);
+	clear_search (esb);
 }
 
 static void
@@ -295,9 +303,17 @@ option_activated_cb (GtkWidget *widget,
 }
 
 static void
-activate_button_clicked_cb (GtkWidget *widget, ESearchBar *esb)
+activate_button_clicked_cb (GtkWidget *widget,
+			    ESearchBar *esb)
 {
 	emit_search_activated (esb);
+}
+
+static void
+clear_button_clicked_cb (GtkWidget *widget,
+			 ESearchBar *esb)
+{
+	clear_search (esb);
 }
 
 
@@ -515,30 +531,34 @@ set_option (ESearchBar *esb, ESearchBarItem *items)
 	gtk_widget_set_sensitive (esb->option, TRUE);
 }
 
-static void
-add_activate_button (ESearchBar *esb)
+static GtkWidget *
+add_button (ESearchBar *esb,
+	    const char *text,
+	    GtkSignalFunc callback)
 {
 	GtkWidget *label;
 	GtkWidget *holder;
+	GtkWidget *button;
 
-	label = gtk_label_new (_("Find Now"));
-	gtk_misc_set_padding(GTK_MISC(label), 2, 0);
+	label = gtk_label_new (text);
+	gtk_misc_set_padding (GTK_MISC (label), 2, 0);
 	gtk_widget_show (label);
 	
 	/* See the comment in `put_in_spacer_widget()' to understand
 	   why we have to do this.  */
 	
-	esb->activate_button = gtk_button_new ();
-	gtk_widget_show (esb->activate_button);
-	gtk_container_add (GTK_CONTAINER (esb->activate_button), label);
+	button = gtk_button_new ();
+	gtk_widget_show (button);
+	gtk_container_add (GTK_CONTAINER (button), label);
 	
-	holder = put_in_spacer_widget (esb->activate_button);
+	holder = put_in_spacer_widget (button);
 	gtk_widget_show (holder);
 	
-	gtk_signal_connect (GTK_OBJECT (esb->activate_button), "clicked",
-			    GTK_SIGNAL_FUNC (activate_button_clicked_cb), esb);
+	gtk_signal_connect (GTK_OBJECT (button), "clicked", callback, esb);
 	
 	gtk_box_pack_start (GTK_BOX (esb), holder, FALSE, FALSE, 0);
+
+	return button;
 }
 
 static int
@@ -707,6 +727,7 @@ init (ESearchBar *esb)
 	esb->suboption_menu   = NULL;
 	esb->dropdown_menu    = NULL;
 	esb->activate_button  = NULL;
+	esb->clear_button     = NULL;
 	esb->entry_box        = NULL;
 
 	esb->pending_activate = 0;
@@ -747,7 +768,10 @@ e_search_bar_construct (ESearchBar *search_bar,
 	gtk_widget_show (search_bar->entry_box);
 	gtk_box_pack_start (GTK_BOX(search_bar), search_bar->entry_box, TRUE, TRUE, 0);
 
-	add_activate_button (search_bar);
+	search_bar->activate_button = add_button (search_bar, _("Find Now"),
+						  GTK_SIGNAL_FUNC (activate_button_clicked_cb));
+	search_bar->clear_button    = add_button (search_bar, _("Clear"),
+						  GTK_SIGNAL_FUNC (clear_button_clicked_cb));
 
 	/* 
 	 * If the default choice for the option menu has subitems, then we need to
