@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Evolution\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-01-25 17:33+0800\n"
-"PO-Revision-Date: 2005-01-25 22:03+0800\n"
+"POT-Creation-Date: 2005-01-28 02:11+0800\n"
+"PO-Revision-Date: 2005-01-28 02:17+0800\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
 "MIME-Version: 1.0\n"
@@ -536,7 +536,7 @@ msgstr "将地址簿内容复制到本地以进行脱机操作"
 #: addressbook/gui/component/ldap-config.glade.h:23
 #: calendar/gui/dialogs/calendar-setup.c:361
 #: calendar/gui/dialogs/calendar-setup.c:372
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
 #: mail/em-folder-properties.c:214 mail/mail-config.glade.h:85
 #: smime/gui/smime-ui.glade.h:27
 msgid "General"
@@ -788,6 +788,7 @@ msgstr "在此管理您的 S/MIME 证书"
 #: calendar/gui/dialogs/alarm-dialog.glade.h:1
 #: calendar/gui/dialogs/calendar-setup.glade.h:1
 #: calendar/gui/dialogs/cal-attachment.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
 #: calendar/gui/dialogs/event-page.glade.h:1
 #: calendar/gui/dialogs/meeting-page.glade.h:1
 #: calendar/gui/dialogs/new-calendar.glade.h:1
@@ -1173,7 +1174,7 @@ msgid "_Birthday:"
 msgstr "生日(_B)："
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:28
-#: plugins/itip-formatter/itip-view.c:1573
+#: plugins/itip-formatter/itip-view.c:1575
 msgid "_Calendar:"
 msgstr "日历(_C)："
 
@@ -2510,7 +2511,6 @@ msgid "Insert email adresses from Adress Book"
 msgstr "从地址簿中插入电子邮件地址"
 
 #: addressbook/gui/contact-list-editor/contact-list-editor.glade.h:7
-#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
 msgid "Members"
 msgstr "成员"
 
@@ -2546,6 +2546,10 @@ msgstr "地址簿"
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:175
 msgid "Is New List"
 msgstr "为新列表"
+
+#: addressbook/gui/contact-list-editor/e-contact-list-editor.c:709
+msgid "_Members"
+msgstr "成员(_M)"
 
 #: addressbook/gui/contact-list-editor/e-contact-list-editor.c:712
 msgid "Contact List Members"
@@ -2729,7 +2733,7 @@ msgstr "不支持的协议"
 #: addressbook/gui/widgets/eab-gui-util.c:61
 #: calendar/gui/dialogs/task-details-page.glade.h:3
 #: calendar/gui/e-cal-component-preview.c:232
-#: calendar/gui/e-calendar-table.c:457 calendar/gui/e-cal-model-tasks.c:347
+#: calendar/gui/e-calendar-table.c:458 calendar/gui/e-cal-model-tasks.c:347
 #: calendar/gui/e-cal-model-tasks.c:660 calendar/gui/print.c:2352
 msgid "Cancelled"
 msgstr "已经取消"
@@ -2772,8 +2776,8 @@ msgid ""
 "marked for offline usage or not yet downloaded for offline usage. Please "
 "load the addressbook once in online mode to download its contents"
 msgstr ""
-"我们无法打开此地址簿。这可能意味着这本地址簿没有标为脱机使用，或者尚未下载完成"
-"以供脱机使用。请在联机模式中装入此地址簿以便下载其内容"
+"我们无法打开此地址簿。这可能意味着这本地址簿没有标为脱机使用，或者尚未下载完"
+"成以供脱机使用。请在联机模式中装入此地址簿以便下载其内容"
 
 #: addressbook/gui/widgets/eab-gui-util.c:98
 msgid ""
@@ -3978,7 +3982,7 @@ msgstr "您确定想要发送没有概览的任务吗？"
 #: calendar/calendar-errors.xml.h:131
 msgid ""
 "Adding a meaningful Summary to your task will give your recipients an idea "
-"of what your appointment is about."
+"of what your task is about."
 msgstr "在您的任务中添加有意义的概览可以让您的收件人更容易明白您任务的内容。"
 
 #: calendar/common/authentication.c:49 calendar/gui/e-pub-utils.c:301
@@ -4027,13 +4031,13 @@ msgstr "约会标题"
 
 #. End time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:3
-#: plugins/itip-formatter/itip-view.c:830
+#: plugins/itip-formatter/itip-view.c:832
 msgid "End time:"
 msgstr "结束时间："
 
 #. Location
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:4
-#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:813
+#: calendar/gui/e-itip-control.c:1118 plugins/itip-formatter/itip-view.c:815
 msgid "Location:"
 msgstr "位置："
 
@@ -4043,12 +4047,12 @@ msgstr "午睡时间(_T)："
 
 #. Start time
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:6
-#: plugins/itip-formatter/itip-view.c:821
+#: plugins/itip-formatter/itip-view.c:823
 msgid "Start time:"
 msgstr "开始时间："
 
 #: calendar/gui/alarm-notify/alarm-notify.glade.h:7
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
 #: calendar/gui/dialogs/recurrence-page.glade.h:6 filter/filter.glade.h:11
 #: mail/mail-config.glade.h:153 ui/evolution-addressbook.xml.h:34
 #: ui/evolution-calendar.xml.h:41 ui/evolution-composer-entries.xml.h:8
@@ -4770,252 +4774,252 @@ msgstr "禁用"
 msgid "Enable"
 msgstr "启用"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:1
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
 msgid "05 minutes"
 msgstr "05 分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:2
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
 msgid "10 minutes"
 msgstr "10 分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:3
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
 msgid "15 minutes"
 msgstr "15 分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:4
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
 msgid "30 minutes"
 msgstr "30 分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:5
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
 msgid "60 minutes"
 msgstr "60 分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:6
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
 msgid "<b>Alerts</b>"
 msgstr "<b>提醒</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:7
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
 msgid "<b>Default Free/Busy Server</b>"
 msgstr "<b>默认忙/闲服务器</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:8
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
 msgid "<b>General</b>"
 msgstr "<b>常规</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:9
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
 msgid "<b>Publishing</b>"
 msgstr "<b>公布</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:10
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
 msgid "<b>Task List</b>"
 msgstr "<b>任务列表</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:11
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
 msgid "<b>Time</b>"
 msgstr "<b>时间</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:12
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:13
 msgid "<b>Work Week</b>"
 msgstr "<b>工作周</b>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:14
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
 #, no-c-format
 msgid ""
 "<i>%u and %d will be replaced by user and domain from the email address.</i>"
 msgstr "<i>%u 和 %d 将被替换为电子邮件地址中的用户和域名。</i>"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:15
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 msgid "Calendar and Tasks Settings"
 msgstr "日历和任务设置"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
 msgid "Color for overdue tasks"
 msgstr "被延误任务的颜色"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:17
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
 msgid "Color for tasks due today"
 msgstr "今天到期任务的颜色"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:18
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 msgid "Day _ends:"
 msgstr "一天结束(_E)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
 msgid "Days"
 msgstr "天数"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:20
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 msgid "Display"
 msgstr "显示"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
 #: mail/mail-config.glade.h:74
 msgid "E_nable"
 msgstr "启用(_N)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:22
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
 msgid "Free/Busy"
 msgstr "忙/闲"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:23
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1044
 #: calendar/gui/e-itip-control.c:732
 msgid "Friday"
 msgstr "星期五"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:25
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
 msgid "Hours"
 msgstr "小时"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:26
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 msgid "Minutes"
 msgstr "分钟"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
 #: calendar/gui/dialogs/recurrence-page.c:1040
 #: calendar/gui/e-itip-control.c:728
 msgid "Monday"
 msgstr "星期一"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:28
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
 msgid "S_un"
 msgstr "周日(_U)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:29
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1045
 #: calendar/gui/e-itip-control.c:733
 msgid "Saturday"
 msgstr "星期六"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
 msgid "Sh_ow a reminder"
 msgstr "显示一条提醒(_O)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:31
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 msgid "Show week _numbers in date navigator"
 msgstr "在日期浏览器中显示周数(_N)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
 #: calendar/gui/dialogs/recurrence-page.c:1046
 #: calendar/gui/e-itip-control.c:727
 msgid "Sunday"
 msgstr "星期日"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:33
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
 msgid "T_asks due today:"
 msgstr "今天到期的任务(_A)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:34
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
 msgid "T_hu"
 msgstr "周四(_H)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:35
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
 msgid "Template:"
 msgstr "模板："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:36
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
 #: calendar/gui/dialogs/recurrence-page.c:1043
 #: calendar/gui/e-itip-control.c:731
 msgid "Thursday"
 msgstr "星期四"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:37
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
 msgid "Time _zone:"
 msgstr "时区(_Z)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:38
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
 msgid "Time format:"
 msgstr "时间格式："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:39
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
 #: calendar/gui/dialogs/recurrence-page.c:1041
 #: calendar/gui/e-itip-control.c:729
 msgid "Tuesday"
 msgstr "星期二"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:40
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
 msgid "W_eek starts:"
 msgstr "一周开始(_E)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:41
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
 #: calendar/gui/dialogs/recurrence-page.c:1042
 #: calendar/gui/e-itip-control.c:730
 msgid "Wednesday"
 msgstr "星期三"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:42
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
 msgid "Work days:"
 msgstr "工作日："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:43
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
 msgid "_12 hour (AM/PM)"
 msgstr "_12 小时(上/下午)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:44
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
 msgid "_24 hour"
 msgstr "_24 小时"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:45
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
 msgid "_Add URL"
 msgstr "添加 URL(_A)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:46
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
 msgid "_Ask for confirmation when deleting items"
 msgstr "删除项时要求确认(_A)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:47
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
 msgid "_Compress weekends in month view"
 msgstr "不在月视图中显示周末(_C)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:48
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:49
 msgid "_Day begins:"
 msgstr "一天开始(_D)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:50
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
 msgid "_Fri"
 msgstr "周五(_F)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:51
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
 msgid "_Hide completed tasks after"
 msgstr "随后隐藏已完成的任务(_H)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:52
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
 msgid "_Mon"
 msgstr "周一(_M)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:53
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
 msgid "_Overdue tasks:"
 msgstr "延误的任务(_O)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:54
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
 msgid "_Sat"
 msgstr "周六(_S)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:55
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
 msgid "_Show appointment end times in week and month views"
 msgstr "在周视图和月视图中显示约会结束时间(_S)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:56
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
 msgid "_Time divisions:"
 msgstr "时间分割(_T)："
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:57
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
 msgid "_Tue"
 msgstr "周二(_T)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:58
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
 msgid "_Wed"
 msgstr "周三(_W)"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:59
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
 msgid "before every appointment"
 msgstr "在每次约会前"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:60
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
 msgid "option menu to choose reminder units"
 msgstr "选择提醒单位的选项菜单"
 
-#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:61
+#: calendar/gui/dialogs/cal-prefs-dialog.glade.h:62
 msgid "option menu to choose time units"
 msgstr "选择时间单位的选项菜单"
 
@@ -5342,7 +5346,7 @@ msgstr "分类(_F)："
 
 #: calendar/gui/dialogs/event-page.glade.h:14
 #: calendar/gui/dialogs/task-page.glade.h:9
-#: calendar/gui/e-calendar-table.c:361 calendar/gui/e-cal-list-view.c:255
+#: calendar/gui/e-calendar-table.c:362 calendar/gui/e-cal-list-view.c:255
 #: calendar/gui/e-cal-model.c:305
 msgid "Confidential"
 msgstr "机密"
@@ -5357,14 +5361,14 @@ msgstr "位置(_I)："
 
 #: calendar/gui/dialogs/event-page.glade.h:17
 #: calendar/gui/dialogs/task-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:360 calendar/gui/e-cal-list-view.c:254
+#: calendar/gui/e-calendar-table.c:361 calendar/gui/e-cal-list-view.c:254
 #: calendar/gui/e-cal-model.c:303
 msgid "Private"
 msgstr "保密"
 
 #: calendar/gui/dialogs/event-page.glade.h:18
 #: calendar/gui/dialogs/task-page.glade.h:12
-#: calendar/gui/e-calendar-table.c:359 calendar/gui/e-cal-list-view.c:253
+#: calendar/gui/e-calendar-table.c:360 calendar/gui/e-cal-list-view.c:253
 #: calendar/gui/e-cal-model.c:294 calendar/gui/e-cal-model.c:301
 msgid "Public"
 msgstr "公开"
@@ -5413,7 +5417,7 @@ msgstr "开始时间(_S)："
 #: mail/em-account-prefs.c:431 mail/em-folder-view.c:965
 #: plugins/calendar-weather/calendar-weather.c:371
 #: plugins/calendar-weather/calendar-weather.c:425
-#: plugins/itip-formatter/itip-formatter.c:1365
+#: plugins/itip-formatter/itip-formatter.c:1373
 #: widgets/e-timezone-dialog/e-timezone-dialog.c:190
 #: widgets/misc/e-cell-date-edit.c:248 widgets/misc/e-dateedit.c:458
 #: widgets/misc/e-dateedit.c:1497 widgets/misc/e-dateedit.c:1651
@@ -5691,7 +5695,7 @@ msgstr "<span weight=\"bold\">状态</span>"
 #. timezone.
 #: calendar/gui/dialogs/task-details-page.glade.h:4
 #: calendar/gui/e-cal-component-preview.c:229
-#: calendar/gui/e-calendar-table.c:456 calendar/gui/e-cal-model-tasks.c:345
+#: calendar/gui/e-calendar-table.c:457 calendar/gui/e-cal-model-tasks.c:345
 #: calendar/gui/e-cal-model-tasks.c:658 calendar/gui/e-itip-control.c:896
 #: calendar/gui/e-meeting-store.c:196 calendar/gui/e-meeting-store.c:219
 #: calendar/gui/print.c:2349
@@ -5700,13 +5704,13 @@ msgstr "已完成"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:5
 #: calendar/gui/e-cal-component-preview.c:248
-#: calendar/gui/e-calendar-table.c:381 mail/message-list.c:1011
+#: calendar/gui/e-calendar-table.c:382 mail/message-list.c:1011
 msgid "High"
 msgstr "高"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:6
 #: calendar/gui/e-cal-component-preview.c:226
-#: calendar/gui/e-calendar-table.c:455 calendar/gui/e-cal-model-tasks.c:343
+#: calendar/gui/e-calendar-table.c:456 calendar/gui/e-cal-model-tasks.c:343
 #: calendar/gui/e-cal-model-tasks.c:656 calendar/gui/e-cal-model-tasks.c:731
 #: calendar/gui/print.c:2346
 msgid "In Progress"
@@ -5714,20 +5718,20 @@ msgstr "进行中"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:7
 #: calendar/gui/e-cal-component-preview.c:252
-#: calendar/gui/e-calendar-table.c:383 mail/message-list.c:1009
+#: calendar/gui/e-calendar-table.c:384 mail/message-list.c:1009
 msgid "Low"
 msgstr "低"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:8
 #: calendar/gui/e-cal-component-preview.c:250
-#: calendar/gui/e-calendar-table.c:382 calendar/gui/e-cal-model.c:899
+#: calendar/gui/e-calendar-table.c:383 calendar/gui/e-cal-model.c:899
 #: mail/message-list.c:1010
 msgid "Normal"
 msgstr "中"
 
 #: calendar/gui/dialogs/task-details-page.glade.h:9
 #: calendar/gui/e-cal-component-preview.c:236
-#: calendar/gui/e-calendar-table.c:454 calendar/gui/e-cal-model-tasks.c:341
+#: calendar/gui/e-calendar-table.c:455 calendar/gui/e-cal-model-tasks.c:341
 #: calendar/gui/e-cal-model-tasks.c:654 calendar/gui/print.c:2343
 msgid "Not Started"
 msgstr "尚未开始"
@@ -5737,7 +5741,7 @@ msgid "P_ercent complete:"
 msgstr "完成百分比(_E)："
 
 #: calendar/gui/dialogs/task-details-page.glade.h:11
-#: calendar/gui/e-calendar-table.c:384
+#: calendar/gui/e-calendar-table.c:385
 msgid "Undefined"
 msgstr "未定义"
 
@@ -5949,7 +5953,7 @@ msgstr "到期日期："
 #. write status
 #. Status
 #: calendar/gui/e-cal-component-preview.c:222
-#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:838
+#: calendar/gui/e-itip-control.c:1132 plugins/itip-formatter/itip-view.c:840
 msgid "Status:"
 msgstr "状态："
 
@@ -5961,101 +5965,105 @@ msgstr "优先级："
 msgid "Web Page:"
 msgstr "网页："
 
-#: calendar/gui/e-calendar-table.c:403
+#: calendar/gui/e-calendar-table.c:404
 msgid "0%"
 msgstr "0%"
 
-#: calendar/gui/e-calendar-table.c:404
+#: calendar/gui/e-calendar-table.c:405
 msgid "10%"
 msgstr "10%"
 
-#: calendar/gui/e-calendar-table.c:405
+#: calendar/gui/e-calendar-table.c:406
 msgid "20%"
 msgstr "20%"
 
-#: calendar/gui/e-calendar-table.c:406
+#: calendar/gui/e-calendar-table.c:407
 msgid "30%"
 msgstr "30%"
 
-#: calendar/gui/e-calendar-table.c:407
+#: calendar/gui/e-calendar-table.c:408
 msgid "40%"
 msgstr "40%"
 
-#: calendar/gui/e-calendar-table.c:408
+#: calendar/gui/e-calendar-table.c:409
 msgid "50%"
 msgstr "50%"
 
-#: calendar/gui/e-calendar-table.c:409
+#: calendar/gui/e-calendar-table.c:410
 msgid "60%"
 msgstr "60%"
 
-#: calendar/gui/e-calendar-table.c:410
+#: calendar/gui/e-calendar-table.c:411
 msgid "70%"
 msgstr "70%"
 
-#: calendar/gui/e-calendar-table.c:411
+#: calendar/gui/e-calendar-table.c:412
 msgid "80%"
 msgstr "80%"
 
-#: calendar/gui/e-calendar-table.c:412
+#: calendar/gui/e-calendar-table.c:413
 msgid "90%"
 msgstr "90%"
 
-#: calendar/gui/e-calendar-table.c:413
+#: calendar/gui/e-calendar-table.c:414
 msgid "100%"
 msgstr "100%"
 
-#: calendar/gui/e-calendar-table.c:433 calendar/gui/e-cal-model-calendar.c:179
+#: calendar/gui/e-calendar-table.c:434 calendar/gui/e-cal-model-calendar.c:179
 msgid "Free"
 msgstr "空闲"
 
-#: calendar/gui/e-calendar-table.c:434 calendar/gui/e-cal-model-calendar.c:182
+#: calendar/gui/e-calendar-table.c:435 calendar/gui/e-cal-model-calendar.c:182
 #: calendar/gui/e-meeting-time-sel.c:412
 msgid "Busy"
 msgstr "繁忙"
 
-#: calendar/gui/e-calendar-table.c:689 calendar/gui/e-calendar-view.c:652
+#: calendar/gui/e-calendar-table.c:516
+msgid "Task Table"
+msgstr "任务表"
+
+#: calendar/gui/e-calendar-table.c:694 calendar/gui/e-calendar-view.c:652
 msgid "Deleting selected objects"
 msgstr "删除选中的对象"
 
-#: calendar/gui/e-calendar-table.c:868 calendar/gui/e-calendar-view.c:756
+#: calendar/gui/e-calendar-table.c:873 calendar/gui/e-calendar-view.c:756
 msgid "Updating objects"
 msgstr "更新对象"
 
-#: calendar/gui/e-calendar-table.c:1009 calendar/gui/e-calendar-view.c:1064
+#: calendar/gui/e-calendar-table.c:1014 calendar/gui/e-calendar-view.c:1064
 #: composer/e-msg-composer.c:1201
 msgid "Save as..."
 msgstr "另存为..."
 
-#: calendar/gui/e-calendar-table.c:1151 calendar/gui/e-calendar-view.c:1389
+#: calendar/gui/e-calendar-table.c:1156 calendar/gui/e-calendar-view.c:1389
 #: mail/em-folder-view.c:931 ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "打开(_O)"
 
-#: calendar/gui/e-calendar-table.c:1152
+#: calendar/gui/e-calendar-table.c:1157
 msgid "Open _Web Page"
 msgstr "打开网页(_W)"
 
-#: calendar/gui/e-calendar-table.c:1153 calendar/gui/e-calendar-view.c:1390
+#: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1390
 #: mail/em-folder-view.c:933 mail/em-popup.c:493
 #: ui/evolution-mail-message.xml.h:128
 msgid "_Save As..."
 msgstr "另存为(_S)..."
 
-#: calendar/gui/e-calendar-table.c:1154 calendar/gui/e-calendar-view.c:1370
+#: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1370
 #: calendar/gui/e-calendar-view.c:1391 ui/evolution-addressbook.xml.h:40
 #: ui/evolution-calendar.xml.h:44 ui/evolution-mail-message.xml.h:125
 #: ui/evolution-tasks.xml.h:25
 msgid "_Print..."
 msgstr "打印(_P)..."
 
-#: calendar/gui/e-calendar-table.c:1158 calendar/gui/e-calendar-view.c:1395
+#: calendar/gui/e-calendar-table.c:1163 calendar/gui/e-calendar-view.c:1395
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "剪切(_U)"
 
-#: calendar/gui/e-calendar-table.c:1159 calendar/gui/e-calendar-view.c:1396
+#: calendar/gui/e-calendar-table.c:1164 calendar/gui/e-calendar-view.c:1396
 #: composer/e-msg-composer.c:2901 mail/em-folder-tree.c:1036
 #: mail/message-list.c:1712 ui/evolution-addressbook.xml.h:31
 #: ui/evolution-calendar.xml.h:39 ui/evolution-composer-entries.xml.h:7
@@ -6063,42 +6071,42 @@ msgstr "剪切(_U)"
 msgid "_Copy"
 msgstr "复制(_C)"
 
-#: calendar/gui/e-calendar-table.c:1160 calendar/gui/e-calendar-view.c:1373
+#: calendar/gui/e-calendar-table.c:1165 calendar/gui/e-calendar-view.c:1373
 #: calendar/gui/e-calendar-view.c:1397 ui/evolution-addressbook.xml.h:38
 #: ui/evolution-calendar.xml.h:43 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:123 ui/evolution-tasks.xml.h:24
 msgid "_Paste"
 msgstr "粘贴(_P)"
 
-#: calendar/gui/e-calendar-table.c:1164
+#: calendar/gui/e-calendar-table.c:1169
 msgid "_Assign Task"
 msgstr "指派任务(_A)"
 
-#: calendar/gui/e-calendar-table.c:1165
+#: calendar/gui/e-calendar-table.c:1170
 msgid "_Forward as iCalendar"
 msgstr "作为 iCalendar 转发(_F)"
 
-#: calendar/gui/e-calendar-table.c:1166
+#: calendar/gui/e-calendar-table.c:1171
 msgid "_Mark as Complete"
 msgstr "标记为完成(_M)"
 
-#: calendar/gui/e-calendar-table.c:1167
+#: calendar/gui/e-calendar-table.c:1172
 msgid "_Mark Selected Tasks as Complete"
 msgstr "把任务标记为完成(_M)"
 
 #. FIXME: need to disable for undeletable folders
-#: calendar/gui/e-calendar-table.c:1171 calendar/gui/e-calendar-view.c:1408
+#: calendar/gui/e-calendar-table.c:1176 calendar/gui/e-calendar-view.c:1408
 #: mail/em-folder-tree.c:2766 mail/em-folder-view.c:956
 #: ui/evolution-addressbook.xml.h:33 ui/evolution-calendar.xml.h:40
 #: ui/evolution-mail-message.xml.h:112 ui/evolution-tasks.xml.h:21
 msgid "_Delete"
 msgstr "删除(_D)"
 
-#: calendar/gui/e-calendar-table.c:1172
+#: calendar/gui/e-calendar-table.c:1177
 msgid "_Delete Selected Tasks"
 msgstr "删除选中任务(_D)"
 
-#: calendar/gui/e-calendar-table.c:1323
+#: calendar/gui/e-calendar-table.c:1328
 #: calendar/gui/e-calendar-table.etspec.h:4
 msgid "Click to add a task"
 msgstr "单击以添加任务"
@@ -6217,8 +6225,8 @@ msgstr "开始日期"
 #: calendar/gui/e-meeting-list-view.c:139
 #: calendar/gui/e-meeting-list-view.c:153 calendar/gui/e-meeting-store.c:124
 #: calendar/gui/e-meeting-store.c:159 calendar/gui/e-meeting-store.c:224
-#: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:249
-#: plugins/itip-formatter/itip-formatter.c:1387
+#: mail/em-utils.c:1157 plugins/itip-formatter/itip-formatter.c:251
+#: plugins/itip-formatter/itip-formatter.c:1395
 #: plugins/plugin-manager/plugin-manager.c:72 shell/e-component-registry.c:202
 #: shell/e-component-registry.c:206 widgets/misc/e-charset-picker.c:62
 msgid "Unknown"
@@ -6409,10 +6417,10 @@ msgstr "iCalendar 错误"
 
 #: calendar/gui/e-itip-control.c:1038 calendar/gui/e-itip-control.c:1054
 #: calendar/gui/e-itip-control.c:1065 calendar/gui/e-itip-control.c:1082
-#: plugins/itip-formatter/itip-view.c:285
-#: plugins/itip-formatter/itip-view.c:286
-#: plugins/itip-formatter/itip-view.c:353
-#: plugins/itip-formatter/itip-view.c:354
+#: plugins/itip-formatter/itip-view.c:287
+#: plugins/itip-formatter/itip-view.c:288
+#: plugins/itip-formatter/itip-view.c:355
+#: plugins/itip-formatter/itip-view.c:356
 msgid "An unknown person"
 msgstr "未知的人"
 
@@ -6425,19 +6433,19 @@ msgstr "<br> 请查看下列信息，并从下面的菜单中选择一个动作�
 
 #: calendar/gui/e-itip-control.c:1137 calendar/gui/e-meeting-list-view.c:175
 #: calendar/gui/e-meeting-store.c:188 calendar/gui/e-meeting-store.c:211
-#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1378
+#: calendar/gui/itip-utils.c:422 plugins/itip-formatter/itip-formatter.c:1386
 msgid "Accepted"
 msgstr "接受"
 
 #: calendar/gui/e-itip-control.c:1141 calendar/gui/itip-utils.c:425
-#: plugins/itip-formatter/itip-formatter.c:1381
+#: plugins/itip-formatter/itip-formatter.c:1389
 msgid "Tentatively Accepted"
 msgstr "暂时接受"
 
 #: calendar/gui/e-itip-control.c:1145 calendar/gui/e-meeting-list-view.c:176
 #: calendar/gui/e-meeting-store.c:190 calendar/gui/e-meeting-store.c:213
 #: calendar/gui/itip-utils.c:428 calendar/gui/itip-utils.c:454
-#: plugins/itip-formatter/itip-formatter.c:1384
+#: plugins/itip-formatter/itip-formatter.c:1392
 msgid "Declined"
 msgstr "拒绝"
 
@@ -6654,7 +6662,7 @@ msgid "Attendee status updated\n"
 msgstr "更新参与者状态\n"
 
 #: calendar/gui/e-itip-control.c:1979
-#: plugins/itip-formatter/itip-formatter.c:844
+#: plugins/itip-formatter/itip-formatter.c:852
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr "由于条目不再存在而无法更新参与者状态"
 
@@ -10353,7 +10361,7 @@ msgstr "把文件夹“%s”重命名为："
 msgid "Rename Folder"
 msgstr "重命名文件夹"
 
-#: mail/em-folder-tree.c:2677
+#: mail/em-folder-tree.c:2680
 msgid "Folder names cannot contain '/'"
 msgstr "文件夹名不能含有字符“/”"
 
@@ -10689,7 +10697,7 @@ msgstr "格式化信件"
 
 #. pseudo-header
 #: mail/em-format-html.c:1537 mail/em-format-quote.c:315
-#: mail/em-mailer-prefs.c:984
+#: mail/em-mailer-prefs.c:986
 msgid "Mailer"
 msgstr "邮件程序"
 
@@ -11080,8 +11088,7 @@ msgstr "信件列表面板的高度。"
 msgid ""
 "If a user tries to open 10 or more messages at one time, ask the user if "
 "they really want to do it."
-msgstr ""
-"如果用户试图一次打开的信件大于等于十封，将会询问用户是否真的要这么做。"
+msgstr "如果用户试图一次打开的信件大于等于十封，将会询问用户是否真的要这么做。"
 
 #: mail/evolution-mail.schemas.in.in.h:28
 msgid ""
@@ -11844,7 +11851,7 @@ msgstr "<span weight=\"bold\">显示的邮件头(_H)</span>"
 msgid "<span weight=\"bold\">Filter Options</span>"
 msgstr "<span weight=\"bold\">过滤器选项</span>"
 
-#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1641
+#: mail/mail-config.glade.h:19 plugins/itip-formatter/itip-formatter.c:1664
 msgid "<span weight=\"bold\">General</span>"
 msgstr "<span weight=\"bold\">常规</span>"
 
@@ -12270,8 +12277,7 @@ msgstr "类型(_Y)："
 msgid ""
 "The list of languages here reflects only the languages for which you have a "
 "dictionary installed."
-msgstr ""
-"在此列出的语言反映了您所安装的字典。"
+msgstr "在此列出的语言反映了您所安装的字典。"
 
 #: mail/mail-config.glade.h:136
 msgid ""
@@ -12536,8 +12542,8 @@ msgid ""
 "Check to make sure your password is spelled correctly.  Remember that many "
 "passwords are case sensitive; your caps lock might be on."
 msgstr ""
-"选中此处以确保您的密码拼写正确。请记住，很多密"
-"码都是区分大小写的；您的 Caps Lock 灯可能为开。"
+"选中此处以确保您的密码拼写正确。请记住，很多密码都是区分大小写的；您的 Caps "
+"Lock 灯可能为开。"
 
 #. mail:ask-send-html primary
 #: mail/mail-errors.xml.h:10
@@ -12552,7 +12558,9 @@ msgid ""
 "{0}\n"
 "Send anyway?"
 msgstr ""
-"请确定下列收件人愿意并且能够接收 HTML 邮件：\n{0}\n仍然发送吗？"
+"请确定下列收件人愿意并且能够接收 HTML 邮件：\n"
+"{0}\n"
+"仍然发送吗？"
 
 #. mail:ask-send-no-subject primary
 #: mail/mail-errors.xml.h:17
@@ -12582,10 +12590,11 @@ msgid ""
 "your message. To avoid this, you should add at least one To: or CC: "
 "recipient. "
 msgstr ""
-"您即将发送的联系人列表配置为隐藏列表收件人。\n\n"
-"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。"
-"如果添加了这个邮件头，将在您的信件中列出您的全部收件人。"
-"为了避免这种情况，您应该至少填入一个 To: 或 CC: 收件人。"
+"您即将发送的联系人列表配置为隐藏列表收件人。\n"
+"\n"
+"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。如果添加了这"
+"个邮件头，将在您的信件中列出您的全部收件人。为了避免这种情况，您应该至少填入"
+"一个 To: 或 CC: 收件人。"
 
 #. mail:ask-send-only-bcc secondary
 #: mail/mail-errors.xml.h:31
@@ -12595,9 +12604,9 @@ msgid ""
 "your message anyway. To avoid this, you should add at least one To: or CC: "
 "recipient."
 msgstr ""
-"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。"
-"如果添加了这个邮件头，将在您的信件中列出您的全部收件人。"
-"为了避免这种情况，您应该至少填入一个 To: 或 CC: 收件人。"
+"许多邮件系统会在只有密件抄送收件人的信件中添加 Apparently-To 头。如果添加了这"
+"个邮件头，将在您的信件中列出您的全部收件人。为了避免这种情况，您应该至少填入"
+"一个 To: 或 CC: 收件人。"
 
 #. mail:send-no-recipients primary
 #: mail/mail-errors.xml.h:34
@@ -12611,8 +12620,8 @@ msgid ""
 "Please enter a valid email address in the To: field. You can search for "
 "email addresses by clicking on the To: button next to the entry box."
 msgstr ""
-"请在 To: 中输入有效的电子邮件地址。您可以单击输入框旁边的 To: 按钮来搜索"
-"电子邮件地址。"
+"请在 To: 中输入有效的电子邮件地址。您可以单击输入框旁边的 To: 按钮来搜索电子"
+"邮件地址。"
 
 #. mail:ask-default-drafts primary
 #: mail/mail-errors.xml.h:38
@@ -12624,8 +12633,7 @@ msgstr "使用默认的草稿文件夹吗？"
 msgid ""
 "Unable to open the drafts folder for this account.  Use the system drafts "
 "folder instead?"
-msgstr ""
-"无法打开此账户的草稿文件夹。使用系统的草稿文件夹吗？"
+msgstr "无法打开此账户的草稿文件夹。使用系统的草稿文件夹吗？"
 
 #: mail/mail-errors.xml.h:41
 msgid "Use _Default"
@@ -12698,8 +12706,9 @@ msgid ""
 "The message is stored in the Outbox folder.  Check the message for errors "
 "and resend."
 msgstr ""
-"此信件是通过“sendmail”外部应用程序发送的。而 Sendmail 报告了下列错误："
-"状态 67：邮件未发出。\n此信件仍然保存在发件夹中。请检查信件的错误，然后重新发送。"
+"此信件是通过“sendmail”外部应用程序发送的。而 Sendmail 报告了下列错误：状态 "
+"67：邮件未发出。\n"
+"此信件仍然保存在发件夹中。请检查信件的错误，然后重新发送。"
 
 #. mail:async-error primary
 #: mail/mail-errors.xml.h:67
@@ -12780,8 +12789,7 @@ msgstr "无法删除系统文件夹“{0}”。"
 msgid ""
 "System folders are required for Ximian Evolution to function correctly and "
 "cannot be renamed, moved, or deleted."
-msgstr ""
-"要让 Ximian Evolution 正常运作所需的系统文件夹无法重命名、移动或删除。"
+msgstr "要让 Ximian Evolution 正常运作所需的系统文件夹无法重命名、移动或删除。"
 
 #. mail:no-rename-special-folder primary
 #: mail/mail-errors.xml.h:123
@@ -12941,6 +12949,7 @@ msgid ""
 "This folder may have been added implictly, go to the virtual folder editor "
 "to add it explictly, if required."
 msgstr ""
+"此文件夹可能已经隐式添加了。如果需要的话，请转到虚拟文件夹编辑器显式添加。"
 
 #. mail:vfolder-notunique primary
 #: mail/mail-errors.xml.h:195
@@ -13020,7 +13029,8 @@ msgid ""
 "You can choose to ignore this folder, overwrite or append its contents, or "
 "quit.\n"
 msgstr ""
-"“{1}”已经存在非空文件夹。\n\n"
+"“{1}”已经存在非空文件夹。\n"
+"\n"
 "您可以选择忽略此文件夹，覆盖或追加其内容，或者退出。\n"
 
 #: mail/mail-errors.xml.h:235
@@ -13078,7 +13088,9 @@ msgstr "无法连接到 GroupWise 服务器。"
 msgid ""
 "\n"
 "Please check your account settings and try again.\n"
-msgstr "\n请检查您的账户设置，然后再试一次。\n"
+msgstr ""
+"\n"
+"请检查您的账户设置，然后再试一次。\n"
 
 #: mail/mail-folder-cache.c:813
 #, c-format
@@ -13413,8 +13425,8 @@ msgstr "最高"
 msgid "?"
 msgstr "?"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
 #: mail/message-list.c:1348 plugins/itip-formatter/itip-view.c:160
 msgid "Today %l:%M %p"
 msgstr "今天 %H:%M"
@@ -13598,8 +13610,7 @@ msgstr "<span weight=\"bold\">即时通讯联系人</span>"
 msgid ""
 "Periodically synchronize contact information and images from my _instant "
 "messenger"
-msgstr ""
-"定时从我的即时通讯服务器上同步联系人信息和图像(_I)"
+msgstr "定时从我的即时通讯服务器上同步联系人信息和图像(_I)"
 
 #. Synchronize now button.
 #: plugins/bbdb/bbdb.c:448
@@ -13649,11 +13660,11 @@ msgstr "单位(_U)："
 
 #: plugins/calendar-weather/calendar-weather.c:662
 msgid "Metric (Celsius, cm, etc)"
-msgstr ""
+msgstr "公制(摄氏、厘米等等)"
 
 #: plugins/calendar-weather/calendar-weather.c:663
 msgid "Imperial (Fahrenheit, inches, etc)"
-msgstr ""
+msgstr "英制(华氏、英寸等等)"
 
 #: plugins/default-source/default-source.c:82
 msgid "Mark  as default folder"
@@ -13716,99 +13727,96 @@ msgstr "将发送选项添加到 GroupWise 信件"
 msgid "Send Options"
 msgstr "发送选项"
 
-#: plugins/itip-formatter/itip-formatter.c:697
+#: plugins/itip-formatter/itip-formatter.c:704
 msgid "Unable to parse item"
 msgstr "无法分析信件项目"
 
-#: plugins/itip-formatter/itip-formatter.c:750
+#: plugins/itip-formatter/itip-formatter.c:757
 #, c-format
 msgid "Unable to send item to calendar '%s'.  %s"
 msgstr "无法将项目发送到日历“%s”。%s"
 
-#: plugins/itip-formatter/itip-formatter.c:761
+#: plugins/itip-formatter/itip-formatter.c:768
 #, c-format
 msgid "Sent to calendar '%s' as accepted"
 msgstr "将日历“%s”发送为已接受"
 
-#: plugins/itip-formatter/itip-formatter.c:765
+#: plugins/itip-formatter/itip-formatter.c:772
 #, c-format
 msgid "Sent to calendar '%s' as tentative"
-msgstr ""
+msgstr "将日历“%s”发送为待定"
 
-#: plugins/itip-formatter/itip-formatter.c:770
+#: plugins/itip-formatter/itip-formatter.c:777
 #, c-format
 msgid "Sent to calendar '%s' as declined"
 msgstr "将日历“%s”发送为已拒绝"
 
-#: plugins/itip-formatter/itip-formatter.c:775
+#: plugins/itip-formatter/itip-formatter.c:782
 #, c-format
 msgid "Sent to calendar '%s' as cancelled"
 msgstr "将日历“%s”发送为已取消"
 
-#: plugins/itip-formatter/itip-formatter.c:825
+#: plugins/itip-formatter/itip-formatter.c:833
 msgid "Attendee status could not be updated because the status is invalid"
 msgstr "参与者状态无法更新，原因是状态无效"
 
-#: plugins/itip-formatter/itip-formatter.c:836
+#: plugins/itip-formatter/itip-formatter.c:844
 #, c-format
-msgid "Unable to update attendee statusAttendee status updated. %s"
-msgstr ""
+msgid "Unable to update attendee. %s"
+msgstr "无法更新参与者。%s"
 
-#: plugins/itip-formatter/itip-formatter.c:840
+#: plugins/itip-formatter/itip-formatter.c:848
 msgid "Attendee status updated"
 msgstr "参与者状态已更新"
 
-#: plugins/itip-formatter/itip-formatter.c:965
+#: plugins/itip-formatter/itip-formatter.c:973
 msgid "The calendar attached is not valid"
 msgstr "附加的日历无效"
 
-#: plugins/itip-formatter/itip-formatter.c:966
+#: plugins/itip-formatter/itip-formatter.c:974
 msgid ""
 "The message claims to contain a calendar, but the calendar is not valid "
 "iCalendar."
-msgstr ""
-"信件声明其包含日历，但日历不是有效的 iCalendar。"
+msgstr "信件声明其包含日历，但日历不是有效的 iCalendar。"
 
-#: plugins/itip-formatter/itip-formatter.c:1000
-#: plugins/itip-formatter/itip-formatter.c:1056
+#: plugins/itip-formatter/itip-formatter.c:1008
+#: plugins/itip-formatter/itip-formatter.c:1064
 msgid "The item in the calendar is not valid"
 msgstr "日历项无效"
 
-#: plugins/itip-formatter/itip-formatter.c:1001
-#: plugins/itip-formatter/itip-formatter.c:1057
+#: plugins/itip-formatter/itip-formatter.c:1009
+#: plugins/itip-formatter/itip-formatter.c:1065
 msgid ""
 "The message does contain a calendar, but the calendar contains no events, "
 "tasks or free/busy information"
-msgstr ""
-"信件的确包含日历，但是日历不包含事件、任务或忙/闲信息"
+msgstr "信件的确包含日历，但是日历不包含事件、任务或忙/闲信息"
 
-#: plugins/itip-formatter/itip-formatter.c:1012
+#: plugins/itip-formatter/itip-formatter.c:1020
 msgid "The calendar attached contains multiple items"
 msgstr "附加的日历包含多个项目"
 
-#: plugins/itip-formatter/itip-formatter.c:1013
+#: plugins/itip-formatter/itip-formatter.c:1021
 msgid ""
 "To process all of these items, the file should be saved and the calendar "
 "imported"
-msgstr ""
-"要处理这些全部项目，应该保存文件并导入日历"
+msgstr "要处理这些全部项目，应该保存文件并导入日历"
 
-#: plugins/itip-formatter/itip-formatter.c:1632
+#: plugins/itip-formatter/itip-formatter.c:1655
 msgid "Meetings and Tasks"
 msgstr "会议和任务"
 
 #. Delete message after acting
 #. FIXME Need a schema for this
-#: plugins/itip-formatter/itip-formatter.c:1655
+#: plugins/itip-formatter/itip-formatter.c:1678
 msgid "_Delete message after acting"
 msgstr "操作后删除消息(_D)"
 
-#: plugins/itip-formatter/itip-formatter.c:1665
+#: plugins/itip-formatter/itip-formatter.c:1688
 msgid "<span weight=\"bold\">Conflict Search</span>"
 msgstr "<span weight=\"bold\">冲突搜索</span>"
 
 #. Source selector
-#: plugins/itip-formatter/itip-formatter.c:1678
+#: plugins/itip-formatter/itip-formatter.c:1701
 msgid "Select the calendars to search for meeting conflicts"
 msgstr "选择要搜索冲突会议的日历"
 
@@ -13818,263 +13826,289 @@ msgstr "选择要搜索冲突会议的日历"
 msgid "Today"
 msgstr "今天"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:151
 msgid "Today %H:%M"
 msgstr "今天 %H:%M"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
+#. strftime format of a time,
+#. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:155
 msgid "Today %H:%M:%S"
 msgstr "今天 %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
+#. strftime format of a time,
+#. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:164
 msgid "Today %l:%M:%S %p"
 msgstr "今天 %H:%M:%S"
 
 #. strftime format of a weekday and a date.
 #: plugins/itip-formatter/itip-view.c:172
-#: plugins/itip-formatter/itip-view.c:224
-msgid "%A, %B %e"
-msgstr "%-m月%-d日%A"
+msgid "Tomorrow"
+msgstr "明天"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format, without seconds.
+#. strftime format of a time,
+#. in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:177
-#: plugins/itip-formatter/itip-view.c:229
-msgid "%A, %B %e %H:%M"
-msgstr "%-m月%-d日%A %H:%M"
+msgid "Tomorrow %H:%M"
+msgstr "明天 %H:%M"
 
-#. strftime format of a weekday, a date and a
-#. time, in 24-hour format.
+#. strftime format of a time,
+#. in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:181
-#: plugins/itip-formatter/itip-view.c:233
-msgid "%A, %B %e %H:%M:%S"
-msgstr "%-m月%-d日%A %H:%M:%S"
+msgid "Tomorrow %H:%M:%S"
+msgstr "明天 %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format, without seconds.
+#. strftime format of a time,
+#. in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:186
-#: plugins/itip-formatter/itip-view.c:238
-msgid "%A, %B %e %l:%M %p"
-msgstr "%-m月%-d日%A %H:%M"
+msgid "Tomorrow %l:%M %p"
+msgstr "明天 %H:%M"
 
-#. strftime format of a weekday, a date and a
-#. time, in 12-hour format.
+#. strftime format of a time,
+#. in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:190
-#: plugins/itip-formatter/itip-view.c:242
-msgid "%A, %B %e %l:%M:%S %p"
-msgstr "%-m月%-d日%A %H:%M:%S"
+msgid "Tomorrow %l:%M:%S %p"
+msgstr "明天 %H:%M:%S"
 
-#. strftime format of a weekday and a date.
+#. strftime format of a weekday.
 #: plugins/itip-formatter/itip-view.c:198
 #, c-format
 msgid "%A"
 msgstr "%A"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 24-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:203
 msgid "%A %H:%M"
 msgstr "%A %H:%M"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 24-hour format.
 #: plugins/itip-formatter/itip-view.c:207
 msgid "%A %H:%M:%S"
 msgstr "%A %H:%M:%S"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 12-hour format, without seconds.
 #: plugins/itip-formatter/itip-view.c:212
 msgid "%A %l:%M %p"
 msgstr "%A %H:%M"
 
-#. strftime format of a weekday, a date and a
+#. strftime format of a weekday and a
 #. time, in 12-hour format.
 #: plugins/itip-formatter/itip-view.c:216
 msgid "%A %l:%M:%S %p"
 msgstr "%A %H:%M:%S"
 
+#. strftime format of a weekday and a date
+#. without a year.
+#: plugins/itip-formatter/itip-view.c:225
+msgid "%A, %B %e"
+msgstr "%-m月%-d日%A"
+
+#. strftime format of a weekday, a date
+#. without a year and a time,
+#. in 24-hour format, without seconds.
+#: plugins/itip-formatter/itip-view.c:231
+msgid "%A, %B %e %H:%M"
+msgstr "%-m月%-d日%A %H:%M"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 24-hour format.
+#: plugins/itip-formatter/itip-view.c:235
+msgid "%A, %B %e %H:%M:%S"
+msgstr "%-m月%-d日%A %H:%M:%S"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format, without seconds.
+#: plugins/itip-formatter/itip-view.c:240
+msgid "%A, %B %e %l:%M %p"
+msgstr "%-m月%-d日%A %H:%M"
+
+#. strftime format of a weekday, a date without a year
+#. and a time, in 12-hour format.
+#: plugins/itip-formatter/itip-view.c:244
+msgid "%A, %B %e %l:%M:%S %p"
+msgstr "%-m月%-d日%A %H:%M:%S"
+
 #. strftime format of a weekday and a date.
-#: plugins/itip-formatter/itip-view.c:248
+#: plugins/itip-formatter/itip-view.c:250
 msgid "%A, %B %e, %Y"
 msgstr "%Y年%-m月%-d日%A"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:253
+#: plugins/itip-formatter/itip-view.c:255
 msgid "%A, %B %e, %Y %H:%M"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 24-hour format.
-#: plugins/itip-formatter/itip-view.c:257
+#: plugins/itip-formatter/itip-view.c:259
 msgid "%A, %B %e, %Y %H:%M:%S"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format, without seconds.
-#: plugins/itip-formatter/itip-view.c:262
+#: plugins/itip-formatter/itip-view.c:264
 msgid "%A, %B %e, %Y %l:%M %p"
 msgstr "%Y年%-m月%-d日%A %H:%M"
 
 #. strftime format of a weekday, a date and a
 #. time, in 12-hour format.
-#: plugins/itip-formatter/itip-view.c:266
+#: plugins/itip-formatter/itip-view.c:268
 msgid "%A, %B %e, %Y %l:%M:%S %p"
 msgstr "%Y年%-m月%-d日%A %H:%M:%S"
 
-#: plugins/itip-formatter/itip-view.c:291
+#: plugins/itip-formatter/itip-view.c:293
 #, c-format
 msgid "<b>%s</b> through %s has published the following meeting information:"
 msgstr "<b>%s</b> 通过 %s 发布了会议信息："
 
-#: plugins/itip-formatter/itip-view.c:293
+#: plugins/itip-formatter/itip-view.c:295
 #, c-format
 msgid "<b>%s</b> has published the following meeting information:"
 msgstr "<b>%s</b> 发布了会议信息："
 
-#: plugins/itip-formatter/itip-view.c:298
+#: plugins/itip-formatter/itip-view.c:300
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at the following meeting:"
 msgstr "<b>%s</b> 请求 %s 参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:301
+#: plugins/itip-formatter/itip-view.c:303
 #, c-format
 msgid "<b>%s</b> through %s requests your presence at the following meeting:"
 msgstr "<b>%s</b> 通过 %s 请求您参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:303
+#: plugins/itip-formatter/itip-view.c:305
 #, c-format
 msgid "<b>%s</b> requests your presence at the following meeting:"
 msgstr "<b>%s</b> 请求您参加下列会议："
 
-#: plugins/itip-formatter/itip-view.c:309
+#: plugins/itip-formatter/itip-view.c:311
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 通过 %s 希望加入到已有的会议："
 
-#: plugins/itip-formatter/itip-view.c:311
+#: plugins/itip-formatter/itip-view.c:313
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting:"
 msgstr "<b>%s</b> 希望加入到已有的会议："
 
-#: plugins/itip-formatter/itip-view.c:314
+#: plugins/itip-formatter/itip-view.c:316
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following meeting:"
 msgstr "<b>%s</b> 希望接收到下列会议的最新信息："
 
-#: plugins/itip-formatter/itip-view.c:317
+#: plugins/itip-formatter/itip-view.c:319
 #, c-format
 msgid "<b>%s</b> has sent back the following meeting response:"
 msgstr "<b>%s</b> 发回了下列会议请求的响应："
 
-#: plugins/itip-formatter/itip-view.c:321
+#: plugins/itip-formatter/itip-view.c:323
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following meeting:"
 msgstr "<b>%s</b> 通过 %s 取消了下列会议："
 
-#: plugins/itip-formatter/itip-view.c:323
+#: plugins/itip-formatter/itip-view.c:325
 #, c-format
 msgid "<b>%s</b> has cancelled the following meeting."
 msgstr "<b>%s</b> 取消了下列会议："
 
-#: plugins/itip-formatter/itip-view.c:326
+#: plugins/itip-formatter/itip-view.c:328
 #, c-format
 msgid "<b>%s</b> has proposed the following meeting changes."
 msgstr "<b>%s</b> 提议了下列会议变更。"
 
-#: plugins/itip-formatter/itip-view.c:330
+#: plugins/itip-formatter/itip-view.c:332
 #, c-format
 msgid "<b>%s</b> through %s has declined the following meeting changes:"
 msgstr "<b>%s</b> 通过 %s 拒绝了下列会议变更："
 
-#: plugins/itip-formatter/itip-view.c:332
+#: plugins/itip-formatter/itip-view.c:334
 #, c-format
 msgid "<b>%s</b> has declined the following meeting changes."
 msgstr "<b>%s</b> 拒绝了下列会议变更。"
 
-#: plugins/itip-formatter/itip-view.c:359
+#: plugins/itip-formatter/itip-view.c:361
 #, c-format
 msgid "<b>%s</b> through %s has published the following task:"
 msgstr "<b>%s</b> 通过 %s 发布了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:361
+#: plugins/itip-formatter/itip-view.c:363
 #, c-format
 msgid "<b>%s</b> has published the following task:"
 msgstr "<b>%s</b> 发布了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:366
+#: plugins/itip-formatter/itip-view.c:368
 #, c-format
 msgid "<b>%s</b> requests the assignment of %s to the following task:"
 msgstr "<b>%s</b> 请求给 %s 指派下列任务："
 
-#: plugins/itip-formatter/itip-view.c:369
+#: plugins/itip-formatter/itip-view.c:371
 #, c-format
 msgid "<b>%s</b> through %s has assigned you a task:"
 msgstr "<b>%s</b> 通过 %s 为您指派了下列任务："
 
-#: plugins/itip-formatter/itip-view.c:371
+#: plugins/itip-formatter/itip-view.c:373
 #, c-format
 msgid "<b>%s</b> has assigned you a task:"
 msgstr "<b>%s</b> 为您指派了一个任务："
 
-#: plugins/itip-formatter/itip-view.c:377
+#: plugins/itip-formatter/itip-view.c:379
 #, c-format
 msgid "<b>%s</b> through %s wishes to add to an existing task:"
 msgstr "<b>%s</b> 通过 %s 希望加入到已有的任务："
 
-#: plugins/itip-formatter/itip-view.c:379
+#: plugins/itip-formatter/itip-view.c:381
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task:"
 msgstr "<b>%s<b> 希望加入到已存在的任务："
 
-#: plugins/itip-formatter/itip-view.c:382
+#: plugins/itip-formatter/itip-view.c:384
 #, c-format
 msgid ""
 "<b>%s</b> wishes to receive the latest information for the following "
 "assigned task:"
 msgstr "<b>%s</b> 想要收到所指派的下列任务的最新信息："
 
-#: plugins/itip-formatter/itip-view.c:385
+#: plugins/itip-formatter/itip-view.c:387
 #, c-format
 msgid "<b>%s</b> has sent back the following assigned task response:"
 msgstr "<b>%s</b> 发回了下列指派任务的回应："
 
-#: plugins/itip-formatter/itip-view.c:389
+#: plugins/itip-formatter/itip-view.c:391
 #, c-format
 msgid "<b>%s</b> through %s has cancelled the following assigned task:"
 msgstr "<b>%s</b> 通过 %s 取消了下列任务指派："
 
-#: plugins/itip-formatter/itip-view.c:391
+#: plugins/itip-formatter/itip-view.c:393
 #, c-format
 msgid "<b>%s</b> has cancelled the following assigned task:"
 msgstr "<b>%s</b> 取消指派的下列任务："
 
-#: plugins/itip-formatter/itip-view.c:394
+#: plugins/itip-formatter/itip-view.c:396
 #, c-format
 msgid "<b>%s</b> has proposed the following task assignment changes:"
 msgstr "<b>%s</b> 提议了下列任务指派变更："
 
-#: plugins/itip-formatter/itip-view.c:398
+#: plugins/itip-formatter/itip-view.c:400
 #, c-format
 msgid "<b>%s</b> through %s has declined the following assigned task:"
 msgstr "<b>%s</b> 通过 %s 拒绝了下列任务指派："
 
-#: plugins/itip-formatter/itip-view.c:400
+#: plugins/itip-formatter/itip-view.c:402
 #, c-format
 msgid "<b>%s</b> has declined the following assigned task:"
 msgstr "<b>%s</b> 拒绝了指派的下列任务："
 
 #. Comment
-#: plugins/itip-formatter/itip-view.c:846
-#: plugins/itip-formatter/itip-view.c:896
+#: plugins/itip-formatter/itip-view.c:848
+#: plugins/itip-formatter/itip-view.c:898
 msgid "Comment:"
 msgstr "注释："
 
@@ -14088,8 +14122,7 @@ msgstr "没有可用的动作"
 msgid ""
 "This message does not contain the header information required for this "
 "action."
-msgstr ""
-"这封信不包含此动作所需的头信息。"
+msgstr "这封信不包含此动作所需的头信息。"
 
 #. org.gnome.mailing-list-actions:posting-not-allowed primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:6
@@ -14118,6 +14151,8 @@ msgid ""
 "You should receive an answer from the mailing list shortly after the message "
 "has been sent."
 msgstr ""
+"将向 URL“{0}”发送电子邮件。您可以自动发送此消息，或者先看看再改改。\n\n"
+"稍后这封信发出之后，您应该能够从邮件列表收到响应。"
 
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:15
 msgid "_Send message"
@@ -14139,6 +14174,7 @@ msgid ""
 "\n"
 "Header: {1}"
 msgstr ""
+"信件的 {0} 头格式不对，无法处理。\n\n头：{1}"
 
 #. org.gnome.mailing-list-actions:no-action primary
 #: plugins/mailing-list-actions/org-gnome-mailing-list-actions-errors.xml.h:24
@@ -14153,6 +14189,7 @@ msgid ""
 "\n"
 "Header: {0}"
 msgstr ""
+"无法执行此动作。这意味着此动作所用的头不包含我们可处理的任何动作。\n\n头：{0}"
 
 #. Create the checkbox we will display, complete with mnemonic that is unique in the dialog
 #: plugins/new-mail-notify/new-mail-notify.c:66
@@ -14246,9 +14283,8 @@ msgid ""
 "sCreated%sContact List%sStart%sEnd%sDue%sPercent Done%sPriority%sUrl%"
 "sAttendees List%sLocation%sModified%s"
 msgstr ""
-"Uid%s概要%s描述列表%s类别列表%s注释列表%s已完成%"
-"s创建时间%s联系人列表%s开始%s结束%s到期%s完成百分比%s优先级%sUrl%"
-"s参与者列表%s位置%s修改时间%s"
+"Uid%s概要%s描述列表%s类别列表%s注释列表%s已完成%s创建时间%s联系人列表%s开始%s"
+"结束%s到期%s完成百分比%s优先级%sUrl%s参与者列表%s位置%s修改时间%s"
 
 #: plugins/save-calendar/csv-format.c:519
 msgid "Advanced options for the CSV format"
@@ -14292,8 +14328,7 @@ msgstr "选择目的文件"
 msgid ""
 "The suggested filename extension of this filetype (%s) is unused in the "
 "chosen filename. Do you want to continue?"
-msgstr ""
-"此文件类型(%s)所建议的文件扩展名未在所选的文件名中使用。您想要继续吗？"
+msgstr "此文件类型(%s)所建议的文件扩展名未在所选的文件名中使用。您想要继续吗？"
 
 #: plugins/shared-folder/properties.glade.h:2
 msgid "<b>Users :</b>"
@@ -14411,8 +14446,8 @@ msgid ""
 "toolbar is set, the style of the toolbar is followed as determined by the "
 "GNOME setting."
 msgstr ""
-"所显示按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具"
-"栏的样式由 GNOME 设置决定。"
+"所显示按钮的样式。可以是文字、图标、二者、工具栏。如果设置为工具栏，则工具栏"
+"的样式由 GNOME 设置决定。"
 
 #: shell/apps_evolution_shell.schemas.in.in.h:15
 msgid "Toolbar is visible"
@@ -17126,7 +17161,7 @@ msgid "Evolution Query"
 msgstr "Evolution 查询"
 
 #. setup a dummy error
-#: widgets/misc/e-error.c:436
+#: widgets/misc/e-error.c:438
 #, c-format
 msgid ""
 "<span weight=\"bold\">Internal error, unknown error '%s' requested</span>"
@@ -17224,7 +17259,8 @@ msgid ""
 "Mouse-based interactive map widget for selecting timezone. Keyboard users "
 "should select the timezone from the below combo box instead."
 msgstr ""
-"基于鼠标交互的地图部件，可用来选择时区。键盘用户可以从下方的组合框中选择时区。"
+"基于鼠标交互的地图部件，可用来选择时区。键盘用户可以从下方的组合框中选择时"
+"区。"
 
 #: widgets/misc/e-pilot-settings.c:103
 msgid "Sync with:"
@@ -17439,4 +17475,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% 完成)"
-
