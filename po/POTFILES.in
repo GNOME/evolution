@@ -385,3 +385,6 @@ widgets/misc/e-search-bar.c
 wombat/GNOME_Evolution_WombatLDAP.oaf.in
 wombat/GNOME_Evolution_WombatNOLDAP.oaf.in
 wombat/wombat.c
+calendar/gui/comp-editor-factory.c
+calendar/gui/dialogs/recur-comp.c
+camel/camel-sasl-gssapi.c

@@ -20,3 +20,4 @@ executive-summary/test-service/rdf-summary.c
 mail/mail-summary.c
 my-evolution/GNOME_Evolution_Summary.oaf.in.in
 notes/GNOME_Evolution_Notes.oaf.in
+calendar/gui/calendar-component.c
