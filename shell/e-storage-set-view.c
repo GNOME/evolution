@@ -201,7 +201,7 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 
 #if 0
 static void
-folder_context_menu_activate_cb (BonoboUIHandler *uih,
+folder_context_menu_activate_cb (BonoboUIComponent *uih,
 				 void *data,
 				 const char *path)
 {
@@ -217,7 +217,7 @@ folder_context_menu_activate_cb (BonoboUIHandler *uih,
 
 static void
 populate_folder_context_menu_with_common_items (EStorageSetView *storage_set_view,
-						BonoboUIHandler *uih)
+						BonoboUIComponent *uih)
 {
 	bonobo_ui_handler_menu_new_item (uih, "/Activate",
 					 _("_View"), _("View the selected folder"),
@@ -236,7 +236,7 @@ popup_folder_menu (EStorageSetView *storage_set_view,
 	EvolutionShellComponentClient *handler;
 	EStorageSetViewPrivate *priv;
 	EFolderTypeRegistry *folder_type_registry;
-	BonoboUIHandler *uih;
+	BonoboUIComponent *uih;
 	EFolder *folder;
 
 	priv = storage_set_view->priv;

@@ -25,7 +25,6 @@
 #define EVOLUTION_SHELL_COMPONENT_CLIENT_H
 
 #include <bonobo/bonobo-object-client.h>
-#include <bonobo/bonobo-ui-compat.h>
 
 #include "evolution-shell-component.h"
 
@@ -73,7 +72,7 @@ EvolutionShellComponentResult  evolution_shell_component_client_set_owner    (Ev
 EvolutionShellComponentResult  evolution_shell_component_client_unset_owner  (EvolutionShellComponentClient  *shell_component_client,
 									      Evolution_Shell                 shell);
 EvolutionShellComponentResult  evolution_shell_component_client_create_view  (EvolutionShellComponentClient  *shell_component_client,
-									      BonoboUIHandler                *uih,
+									      BonoboUIComponent                *uih,
 									      const char                     *physical_uri,
 									      const char                     *type_string,
 									      BonoboControl                 **control_return);
@@ -90,7 +89,7 @@ void  evolution_shell_component_client_async_remove_folder  (EvolutionShellCompo
 							     void                                  *data);
 
 void  evolution_shell_component_client_populate_folder_context_menu  (EvolutionShellComponentClient *shell_component_client,
-								      BonoboUIHandler               *uih,
+								      BonoboUIComponent               *uih,
 								      const char                    *physical_uri,
 								      const char                    *type);
 

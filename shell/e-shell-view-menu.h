@@ -26,8 +26,6 @@
 #ifndef E_SHELL_VIEW_MENU_H
 #define E_SHELL_VIEW_MENU_H
 
-#include <bonobo/bonobo-ui-compat.h>
-
 #include "e-shell-view.h"
 
 void e_shell_view_menu_setup (EShellView *shell_view);

@@ -80,7 +80,7 @@ folder_bar_mode_changed_cb (EShellView *shell_view,
 
 /* Command callbacks.  */
 static void
-command_quit (BonoboUIHandler *uih,
+command_quit (BonoboUIComponent *uih,
 	      void *data,
 	      const char *path)
 {
@@ -94,7 +94,7 @@ command_quit (BonoboUIHandler *uih,
 }
 
 static void
-command_run_bugbuddy (BonoboUIHandler *uih,
+command_run_bugbuddy (BonoboUIComponent *uih,
 		      void *data,
 		      const char *path)
 {
@@ -128,7 +128,7 @@ zero_pointer(GtkObject *object, void **pointer)
 }
 
 static void
-command_about_box (BonoboUIHandler *uih,
+command_about_box (BonoboUIComponent *uih,
 		   void *data,
 		   const char *path)
 {
@@ -179,7 +179,7 @@ command_about_box (BonoboUIHandler *uih,
 }
 
 static void
-command_help (BonoboUIHandler *uih,
+command_help (BonoboUIComponent *uih,
 	      void *data,
 	      const char *path)
 {
@@ -244,7 +244,7 @@ command_toggle_shortcut_bar (BonoboUIComponent           *component,
 
 
 static void
-command_new_folder (BonoboUIHandler *uih,
+command_new_folder (BonoboUIComponent *uih,
 		    void *data,
 		    const char *path)
 {
@@ -267,7 +267,7 @@ command_new_folder (BonoboUIHandler *uih,
 }
 
 static void
-command_new_view (BonoboUIHandler *uih,
+command_new_view (BonoboUIComponent *uih,
 		  void *data,
 		  const char *path)
 {
@@ -314,7 +314,7 @@ folder_selection_dialog_folder_selected_cb (EShellFolderSelectionDialog *folder_
 }
 
 static void
-command_goto_folder (BonoboUIHandler *uih,
+command_goto_folder (BonoboUIComponent *uih,
 		     void *data,
 		     const char *path)
 {
@@ -344,7 +344,7 @@ command_goto_folder (BonoboUIHandler *uih,
 }
 
 static void
-command_create_folder (BonoboUIHandler *uih,
+command_create_folder (BonoboUIComponent *uih,
 		       void *data,
 		       const char *path)
 {

@@ -398,7 +398,7 @@ evolution_shell_component_client_unset_owner (EvolutionShellComponentClient *she
 
 EvolutionShellComponentResult
 evolution_shell_component_client_create_view (EvolutionShellComponentClient *shell_component_client,
-					      BonoboUIHandler *uih,
+					      BonoboUIComponent *uih,
 					      const char *physical_uri,
 					      const char *type_string,
 					      BonoboControl **control_return)
@@ -411,7 +411,7 @@ evolution_shell_component_client_create_view (EvolutionShellComponentClient *she
 	RETURN_ERROR_IF_FAIL (shell_component_client != NULL);
 	RETURN_ERROR_IF_FAIL (EVOLUTION_IS_SHELL_COMPONENT_CLIENT (shell_component_client));
 	RETURN_ERROR_IF_FAIL (uih != NULL);
-	RETURN_ERROR_IF_FAIL (BONOBO_IS_UI_HANDLER (uih));
+	RETURN_ERROR_IF_FAIL (BONOBO_IS_UI_COMPONENT (uih));
 	RETURN_ERROR_IF_FAIL (physical_uri != NULL);
 	RETURN_ERROR_IF_FAIL (type_string != NULL);
 	RETURN_ERROR_IF_FAIL (control_return != NULL);
@@ -493,7 +493,7 @@ evolution_shell_component_client_async_remove_folder (EvolutionShellComponentCli
 
 void
 evolution_shell_component_client_populate_folder_context_menu (EvolutionShellComponentClient *shell_component_client,
-							       BonoboUIHandler *uih,
+							       BonoboUIComponent *uih,
 							       const char *physical_uri,
 							       const char *type)
 {

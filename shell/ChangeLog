@@ -1,3 +1,15 @@
+2000-10-20  Michael Meeks  <michael@helixcode.com>
+
+	* evolution-shell-component-client.c
+	(evolution_shell_component_client_populate_folder_context_menu),
+	(evolution_shell_component_client_create_view): update to new UI handler
+
+	* e-shell-view-menu.c (command_create_folder): ditto.
+
+	* e-storage-set-view.c (popup_folder_menu): ditto.
+
+	* evolution-shell-component-client.h: kill ui-compat include.
+
 2000-10-19  Iain Holmes  <iain@helixcode.com>
 
 	*e-shell-view.c (e_shell_view_save_settings): If there is no view
