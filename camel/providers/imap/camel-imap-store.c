@@ -2271,7 +2271,7 @@ camel_imap_store_readline (CamelImapStore *store, char **dest, CamelException *e
 #if d(!)0
 	if (camel_verbose_debug) {
 		fprintf (stderr, "received: ");
-		fwrite (*dest, 1, nread, stderr);
+		fwrite (ba->data, 1, ba->len, stderr);
 	}
 #endif
 	

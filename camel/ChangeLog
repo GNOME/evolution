@@ -1,5 +1,13 @@
 2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* providers/imap/camel-imap-folder.c (content_info_get_part_spec):
+	Helps if we allocate enough space here. Also, start smoking the
+	same purple flavoured IMAP crack when counting parts (parts don't
+	count if their parent part is a message/* part with a parent
+	part). Fixes bug #25260.
+
+2002-05-24  Jeffrey Stedfast  <fejj@ximian.com>
+
 	* providers/imap/camel-imap-command.c (imap_read_untagged): Use
 	the new readline function.
 

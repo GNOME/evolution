@@ -1526,6 +1526,12 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 	while (node->parent) {
 		CamelMessageContentInfo *child;
 		
+		/* FIXME: is this only supposed to apply if 'node' is a multipart? */
+		if (node->parent->parent && header_content_type_is (node->parent->type, "message", "*")) {
+			node = node->parent;
+			continue;
+		}
+		
 		child = node->parent->childs;
 		for (part = 1; child; part++) {
 			if (child == node)
@@ -1536,7 +1542,7 @@ content_info_get_part_spec (CamelMessageContentInfo *ci)
 		
 		part_spec_push (&stack, part);
 		
-		len++;
+		len += 2;
 		while ((part = part / 10))
 			len++;
 		
@@ -1581,7 +1587,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 		camel_multipart_set_boundary (body_mp, NULL);
 		
 		speclen = strlen (part_spec);
-		child_spec = g_malloc (speclen + 16);
+		child_spec = g_malloc (speclen + 17); /* dot + 10 + dot + MIME + nul */
 		memcpy (child_spec, part_spec, speclen);
 		if (speclen > 0)
 			child_spec[speclen++] = '.';
@@ -1607,9 +1613,10 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 				
 				content = get_content (imap_folder, uid, part, ci, ex);
 			}
+			
 			if (!stream || !content) {
-				g_free (child_spec);
 				camel_object_unref (CAMEL_OBJECT (body_mp));
+				g_free (child_spec);
 				return NULL;
 			}
 			
@@ -1620,6 +1627,7 @@ get_content (CamelImapFolder *imap_folder, const char *uid,
 			
 			ci = ci->next;
 		}
+		
 		g_free (child_spec);
 		
 		return (CamelDataWrapper *)body_mp;
