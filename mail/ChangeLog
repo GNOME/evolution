@@ -1,5 +1,10 @@
 2000-09-05  Dan Winship  <danw@helixcode.com>
 
+	* mail-tools.c (mail_tool_move_folder_contents): only call
+	camel_folder_get_message_info if the folder has
+	summary_capability. Don't hack up a fake CamelMessageInfo:
+	append_message will take NULL.
+
 	* mail-ops.c: Replace mail_do_setup_draftbox,
 	mail_do_setup_outbox, and mail_do_setup_sentbox with
 	mail_do_setup_folder.

@@ -252,25 +252,26 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 	CamelUIDCache *cache;
 	GPtrArray *uids;
 	int i;
-	
+	gboolean summary_capability;
+
 	mail_tool_camel_lock_up();
-	
+
 	camel_object_ref (CAMEL_OBJECT (source));
 	camel_object_ref (CAMEL_OBJECT (dest));
-	
+
 	/* Get all uids of source */
-	
+
 	mail_op_set_message ("Examining %s", source->full_name);
-	
+
 	uids = camel_folder_get_uids (source);
 	printf ("mail_tool_move_folder: got %d messages in source\n", uids->len);
-	
+
 	/* If we're using the cache, ... use it */
-	
+
 	if (use_cache) {
 		GPtrArray *new_uids;
 		char *url, *p, *filename;
-		
+
 		url = camel_url_to_string (
 			CAMEL_SERVICE (source->parent_store)->url, FALSE);
 		for (p = url; *p; p++) {
@@ -281,9 +282,9 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		filename = g_strdup_printf ("%s/config/cache-%s",
 					    evolution_dir, url);
 		g_free (url);
-		
+
 		cache = camel_uid_cache_new (filename);
-		
+
 		if (cache) {
 			new_uids = camel_uid_cache_get_new_uids (cache, uids);
 			camel_folder_free_uids (source, uids);
@@ -295,26 +296,26 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 					      "receive duplicate "
 					      "messages."), filename);
 		}
-		
+
 		g_free (filename);
 	} else
 		cache = NULL;
-	
+
 	printf ("mail_tool_move_folder: %d of those messages are new\n", uids->len);
-	
+
+	summary_capability = camel_folder_has_summary_capability (source);
+
 	/* Copy the messages */
-	
 	for (i = 0; i < uids->len; i++) {
 		CamelMimeMessage *msg;
-		CamelMessageInfo *info;
-		gboolean no_info = FALSE;
-		
+		const CamelMessageInfo *info = NULL;
+
 		/* Info */
-		
+
 		mail_op_set_message ("Retrieving message %d of %d", i + 1, uids->len);
-		
+
 		/* Get the message */
-		
+
 		msg = camel_folder_get_message (source, uids->pdata[i], ex);
 		if (camel_exception_is_set (ex)) {
 			camel_object_unref (CAMEL_OBJECT (msg));
@@ -322,36 +323,26 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		}
 		
 		/* Append it to dest */
-		
+
 		mail_op_set_message ("Writing message %d of %d", i + 1, uids->len);
-		
-		info = (CamelMessageInfo *) camel_folder_get_message_info (source, uids->pdata[i]);
-		if (!info) {
-			/* FIXME: should we even bother to call get_message_info? */
-			no_info = TRUE;
-			info = g_new0 (CamelMessageInfo, 1);
-			info->flags = 0;
-		}
-		
+
+		if (summary_capability)
+			info = camel_folder_get_message_info (source, uids->pdata[i]);
 		camel_folder_append_message (dest, msg, info, ex);
-		
-		if (no_info)
-			g_free (info);
-		
 		if (camel_exception_is_set (ex)) {
 			camel_object_unref (CAMEL_OBJECT (msg));
 			goto cleanup;
 		}
-		
+
 		/* (Maybe) get rid of the message */
-		
+
 		camel_object_unref (CAMEL_OBJECT (msg));
 		if (!use_cache)
 			camel_folder_delete_message (source, uids->pdata[i]);
 	}
-	
+
 	/* All done. Sync n' free. */
-	
+
 	if (cache) {
 		camel_uid_cache_free_uids (uids);
 		
@@ -360,11 +351,11 @@ mail_tool_move_folder_contents (CamelFolder *source, CamelFolder *dest, gboolean
 		camel_uid_cache_destroy (cache);
 	} else
 		camel_folder_free_uids (source, uids);
-	
+
 	mail_op_set_message ("Saving changes to %s", source->full_name);
-	
+
 	camel_folder_sync (source, TRUE, ex);
-	
+
  cleanup:
 	camel_object_unref (CAMEL_OBJECT (source));
 	camel_object_unref (CAMEL_OBJECT (dest));
@@ -461,42 +452,42 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 {
 	CamelFolder *search_folder = NULL;
 	CamelFolder *spool_folder = NULL;
-	
+
 	/* If fetching mail from an mbox store, safely copy it to a
 	 * temporary store first.
 	 */
-	
+
 	if (!strncmp (source_url, "mbox:", 5))
 		spool_folder = mail_tool_do_movemail (source_url, ex);
 	else
 		spool_folder = mail_tool_get_inbox (source_url, ex);
-	
+
 	/* No new mail */
 	if (spool_folder == NULL)
 		return NULL;
-	
+
 	if (camel_exception_is_set (ex))
 		goto cleanup;
-	
+
 	/* can we perform filtering on this source? */
-	
+
 	if (!(spool_folder->has_summary_capability
 	      && spool_folder->has_search_capability)) {
-		
+
 		/* no :-(. Copy the messages to a local tempbox
 		 * so that the folder browser can search it. */
 		gchar *url;
-		
+
 		url = mail_tool_get_local_movemail_url();
 		search_folder = mail_tool_get_folder_from_urlname (url, "movemail", TRUE, ex);
 		g_free (url);
 		if (camel_exception_is_set (ex))
 			goto cleanup;
-		
+
 		mail_tool_move_folder_contents (spool_folder, search_folder, keep_on_server, ex);
 		if (camel_exception_is_set (ex))
 			goto cleanup;
-		
+
 	} else {
 		/* we can search! don't bother movemailing */
 		search_folder = spool_folder;
@@ -504,7 +495,7 @@ mail_tool_fetch_mail_into_searchable (const char *source_url, gboolean keep_on_s
 		camel_object_ref (CAMEL_OBJECT (search_folder));
 		mail_tool_camel_lock_down();
 	}
-	
+
  cleanup:
 	mail_tool_camel_lock_up();
 	camel_object_unref (CAMEL_OBJECT (spool_folder));
