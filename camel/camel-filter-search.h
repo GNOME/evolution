@@ -42,7 +42,8 @@ enum {
 
 typedef CamelMimeMessage * (*CamelFilterSearchGetMessageFunc) (void *data, CamelException *ex);
 
-int camel_filter_search_match (CamelFilterSearchGetMessageFunc get_message, void *data,
+int camel_filter_search_match (CamelSession *session,
+			       CamelFilterSearchGetMessageFunc get_message, void *data,
 			       CamelMessageInfo *info, const char *source,
 			       const char *expression, CamelException *ex);
 

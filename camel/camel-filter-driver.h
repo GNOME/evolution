@@ -71,7 +71,7 @@ typedef void (CamelFilterPlaySoundFunc)  (CamelFilterDriver *driver, const char 
 typedef void (CamelFilterSystemBeepFunc) (CamelFilterDriver *driver, void *data);
 
 CamelType          camel_filter_driver_get_type (void);
-CamelFilterDriver  *camel_filter_driver_new     (void);
+CamelFilterDriver  *camel_filter_driver_new     (CamelSession *);
 
 /* modifiers */
 void camel_filter_driver_set_logfile          (CamelFilterDriver *d, FILE *logfile);

@@ -72,7 +72,9 @@ struct _filter_rule {
 
 struct _CamelFilterDriverPrivate {
 	GHashTable *globals;       /* global variables */
-	
+
+	CamelSession *session;
+
 	CamelFolder *defaultfolder;        /* defualt folder */
 	
 	CamelFilterStatusFunc *statusfunc; /* status callback */
@@ -256,7 +258,9 @@ camel_filter_driver_finalise (CamelObject *obj)
 		g_free(node->name);
 		g_free(node);
 	}
-	
+
+	camel_object_unref(p->session);
+
 	g_free (p);
 }
 
@@ -266,9 +270,14 @@ camel_filter_driver_finalise (CamelObject *obj)
  * Return value: A new CamelFilterDriver object
  **/
 CamelFilterDriver *
-camel_filter_driver_new (void)
+camel_filter_driver_new (CamelSession *session)
 {
-	return CAMEL_FILTER_DRIVER (camel_object_new(camel_filter_driver_get_type ()));
+	CamelFilterDriver *d = (CamelFilterDriver *)camel_object_new(camel_filter_driver_get_type());
+
+	d->priv->session = session;
+	camel_object_ref((CamelObject *)session);
+
+	return d;
 }
 
 void
@@ -1226,7 +1235,7 @@ camel_filter_driver_filter_message (CamelFilterDriver *driver, CamelMimeMessage 
 		data.p = p;
 		data.source_url = original_source_url;
 		
-		result = camel_filter_search_match (get_message_cb, &data, p->info, 
+		result = camel_filter_search_match (p->session, get_message_cb, &data, p->info, 
 						    original_source_url ? original_source_url : source_url,
 						    node->match, p->ex);
 		

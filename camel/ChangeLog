@@ -1,3 +1,17 @@
+2002-09-19  Not Zed  <NotZed@Ximian.com>
+
+	* camel-filter-search.c (camel_filter_search_match): Take new
+	session arg.  Update callers.
+	(symbols[]): changed get-source to header-source
+	(header_source): Chagned from get_source.  Now a boolean, returns
+	true if source matches one of the arguments.  Uses the provider
+	url comparison directly for accurate checking.  Makes 'filter on
+	source' work.
+
+	* camel-filter-driver.c (camel_filter_driver_new): Take new arg,
+	session.
+	(camel_filter_driver_finalise): Free session.
+
 2002-09-19  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-folder.c (parse_fetch_response): Don't

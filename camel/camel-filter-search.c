@@ -52,6 +52,8 @@
 #include "e-util/e-sexp.h"
 
 #include "camel-mime-message.h"
+#include "camel-provider.h"
+#include "camel-session.h"
 #include "camel-filter-search.h"
 #include "camel-exception.h"
 #include "camel-multipart.h"
@@ -64,6 +66,7 @@
 #define d(x)
 
 typedef struct {
+	CamelSession *session;
 	CamelFilterSearchGetMessageFunc get_message;
 	void *get_message_data;
 	CamelMimeMessage *message;
@@ -90,7 +93,7 @@ static ESExpResult *system_flag (struct _ESExp *f, int argc, struct _ESExpResult
 static ESExpResult *get_sent_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_received_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
-static ESExpResult *get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
+static ESExpResult *header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *get_size (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 static ESExpResult *pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms);
 
@@ -118,7 +121,7 @@ static struct {
 	{ "get-sent-date",      (ESExpFunc *) get_sent_date,      0 },
 	{ "get-received-date",  (ESExpFunc *) get_received_date,  0 },
 	{ "get-current-date",   (ESExpFunc *) get_current_date,   0 },
-	{ "get-source",         (ESExpFunc *) get_source,         0 },
+	{ "header-source",      (ESExpFunc *) header_source,      0 },
 	{ "get-size",           (ESExpFunc *) get_size,           0 },
 	{ "pipe-message",       (ESExpFunc *) pipe_message,       0 },
 };
@@ -444,40 +447,40 @@ get_current_date (struct _ESExp *f, int argc, struct _ESExpResult **argv, Filter
 }
 
 static ESExpResult *
-get_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
+header_source (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMessageSearch *fms)
 {
 	CamelMimeMessage *message;
 	ESExpResult *r;
-	char *src = NULL;
-	char *tmp;
-	
+	const char *src;
+	int truth = FALSE, i;
+	CamelProvider *provider;
+	CamelURL *uria, *urib;
+
 	if (fms->source) {
-		CamelURL *url;
-		
-		url = camel_url_new (fms->source, NULL);
-		if (url) {
-			src = camel_url_to_string (url, CAMEL_URL_HIDE_ALL);
-			camel_url_free (url);
+		src = fms->source;
+	} else {
+		message = camel_filter_search_get_message(fms, f);
+		src = camel_mime_message_get_source(message);
+	}
+
+	if (src
+	    && (provider = camel_session_get_provider(fms->session, src, NULL))
+	    && provider->url_equal) {
+		uria = camel_url_new(src, NULL);
+		if (uria) {
+			for (i=0;i<argc && !truth;i++) {
+				if (argv[i]->type == ESEXP_RES_STRING
+				    && (urib = camel_url_new(argv[i]->value.string, NULL))) {
+					truth = provider->url_equal(uria, urib);
+					camel_url_free(urib);
+				}
+			}
+			camel_url_free(uria);
 		}
-	} else {
-		message = camel_filter_search_get_message (fms, f);
-		src = g_strdup (camel_mime_message_get_source (message));
 	}
-	
-	/* This is an abusive hack */
-	if (src && (tmp = strstr (src, "://"))) {
-		tmp += 3;
-		tmp = strchr (tmp, '/');
-		if (tmp)
-			*tmp = '\0';
-	}
-	
-	if (src) {
-		r = e_sexp_result_new (f, ESEXP_RES_STRING);
-		r->value.string = src;
-	} else {
-		r = e_sexp_result_new (f, ESEXP_RES_UNDEFINED);
-	}
+
+	r = e_sexp_result_new(f, ESEXP_RES_BOOL);
+	r->value.bool = truth;
 	
 	return r;
 }
@@ -608,7 +611,9 @@ pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
 
 /**
  * camel_filter_search_match:
- * @message:
+ * @session:
+ * @get_message: function to retrieve the message if necessary
+ * @data: data for above
  * @info:
  * @source:
  * @expression:
@@ -617,7 +622,8 @@ pipe_message (struct _ESExp *f, int argc, struct _ESExpResult **argv, FilterMess
  * Returns one of CAMEL_SEARCH_MATCHED, CAMEL_SEARCH_NOMATCH, or CAMEL_SEARCH_ERROR.
  **/
 int
-camel_filter_search_match (CamelFilterSearchGetMessageFunc get_message, void *data,
+camel_filter_search_match (CamelSession *session,
+			   CamelFilterSearchGetMessageFunc get_message, void *data,
 			   CamelMessageInfo *info, const char *source,
 			   const char *expression, CamelException *ex)
 {
@@ -626,7 +632,8 @@ camel_filter_search_match (CamelFilterSearchGetMessageFunc get_message, void *da
 	ESExpResult *result;
 	gboolean retval;
 	int i;
-	
+
+	fms.session = session;
 	fms.get_message = get_message;
 	fms.get_message_data = data;
 	fms.message = NULL;
