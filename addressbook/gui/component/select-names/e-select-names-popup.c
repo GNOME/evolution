@@ -207,8 +207,6 @@ init_html_mail (GnomeUIInfo *uiinfo, PopupInfo *info)
 {
 	gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (uiinfo->widget),
 					e_destination_get_html_mail_pref (info->dest));
-	gtk_check_menu_item_set_show_toggle (GTK_CHECK_MENU_ITEM (uiinfo->widget), TRUE);
-
 }
 
 static void

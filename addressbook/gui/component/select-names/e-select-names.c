@@ -19,6 +19,7 @@
  */
 
 #include <config.h>
+#include <string.h>
 #include <glib.h>
 #include <gtk/gtk.h>
 #include <libgnome/gnome-i18n.h>

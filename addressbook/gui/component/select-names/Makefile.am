@@ -17,7 +17,6 @@ $(IDL_GENERATED): $(idl_DATA)
 
 server_in_files = GNOME_Evolution_Addressbook_SelectNames.server.in.in
 
-serverdir = $(libdir)/bonobo/servers
 server_DATA = $(server_in_files:.server.in.in=.server)
 $(server_in_files:.server.in.in=.server.in): $(server_in_files)
 	sed -e "s|\@COMPONENTDIR\@|$(componentdir)|" $< > $@
@@ -39,9 +38,6 @@ INCLUDES =						\
 	-I$(top_builddir)/addressbook/backend		\
 	-DEVOLUTION_GLADEDIR=\""$(gladedir)"\"		\
 	-DEVOLUTION_ETSPECDIR=\""$(etspecdir)"\"	\
-	-DEVOLUTION_ICONSDIR=\""$(iconsdir)"\"		\
-	-DEVOLUTION_LOCALEDIR=\""$(localedir)"\"	\
-	-DCAMEL_PROVIDERDIR=\""$(providerdir)"\"	\
 	-DG_DISABLE_DEPRECATED				\
 	-DGTK_DISABLE_DEPRECATED			\
 	-DLIBGNOME_DISABLE_DEPRECATED			\
@@ -92,10 +88,7 @@ e-select-names-marshal.c: e-select-names-marshal.h
 
 MARSHAL_GENERATED = e-select-names-marshal.c e-select-names-marshal.h
 
-gladedir   = $(datadir)/evolution-$(BASE_VERSION)/glade
 glade_DATA = select-names.glade
-
-etspecdir   = $(datadir)/evolution-$(BASE_VERSION)/etspec
 etspec_DATA = e-select-names.etspec
 
 EXTRA_DIST = 			\

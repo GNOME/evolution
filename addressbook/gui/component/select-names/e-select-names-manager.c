@@ -321,7 +321,7 @@ e_select_names_manager_entry_free (ESelectNamesManagerEntry *entry)
 	g_object_unref (entry->entry);
 
 	if (entry->cleaning_tag)
-		gtk_timeout_remove (entry->cleaning_tag);
+		g_source_remove (entry->cleaning_tag);
 
 	g_free (entry);
 }
