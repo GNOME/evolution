@@ -23,7 +23,27 @@
 #ifndef E_PILOT_MAP_H
 #define E_PILOT_MAP_H
 
-int e_pilot_map_read (const char *filename, GHashTable *pid_map, GHashTable *uid_map, time_t *since);
-int e_pilot_map_write (const char *filename, GHashTable *pid_map);
+#include <glib.h>
+#include <time.h>
+
+typedef struct _EPilotMap EPilotMap;
+
+struct _EPilotMap
+{
+	GHashTable *pid_map;
+	GHashTable *uid_map;
+
+	time_t since;
+};
+
+gboolean e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pilot_id);
+gboolean e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid);
+
+void e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived);
+
+int e_pilot_map_read (const char *filename, EPilotMap **map);
+int e_pilot_map_write (const char *filename, EPilotMap *map);
+
+void e_pilot_map_destroy (EPilotMap *map);
 
 #endif /* E_PILOT_MAP_H */

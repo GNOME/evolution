@@ -42,7 +42,6 @@
 #include <ebook/e-card-cursor.h>
 #include <ebook/e-card.h>
 #include <ebook/e-card-simple.h>
-#include <e-pilot-map.h>
 
 #define ADDR_CONFIG_LOAD 1
 #define ADDR_CONFIG_DESTROY 1
@@ -255,7 +254,7 @@ compute_pid (EAddrConduitContext *ctxt, EAddrLocalRecord *local, const char *uid
 {
 /*  	guint32 *pid; */
 	
-/*  	pid = g_hash_table_lookup (ctxt->uid_map, uid); */
+/*  	pid = g_hash_table_lookup (ctxt->map->uid_map, uid); */
 	
 /*  	if (pid) */
 /*  		local->local.ID = *pid; */
@@ -601,7 +600,7 @@ check_for_slow_setting (GnomePilotConduit *c, EAddrConduitContext *ctxt)
 /*  	count = g_list_length (ctxt->uids); */
 	count = 0;
 
-	map_count = g_hash_table_size (ctxt->pid_map);
+	map_count = g_hash_table_size (ctxt->map->pid_map);
 	
   	/* If there are no objects or objects but no log */
 	if ((count == 0) || (count > 0 && map_count == 0)) {
@@ -642,11 +641,8 @@ pre_sync (GnomePilotConduit *conduit,
 	}
 
 	/* Load the uid <--> pilot id mappings */
-	ctxt->pid_map = g_hash_table_new (g_int_hash, g_int_equal);
-	ctxt->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
-
 	filename = map_name (ctxt);
-	e_pilot_map_read (filename, ctxt->pid_map, ctxt->uid_map, &ctxt->since);
+	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
 	/* Set the count information */
@@ -691,7 +687,7 @@ post_sync (GnomePilotConduit *conduit,
 	LOG ("---------------------------------------------------------\n");
 
 	filename = map_name (ctxt);
-	e_pilot_map_write (filename, ctxt->pid_map);
+	e_pilot_map_write (filename, ctxt->map);
 	g_free (filename);
 	
 	return 0;
@@ -703,15 +699,9 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	      guint32 ID,
 	      EAddrConduitContext *ctxt)
 {
-  	char *new_uid;
-  	guint32 *pid = g_new (guint32, 1);
-
 	LOG ("set_pilot_id: setting to %d\n", ID);
 	
-  	*pid = ID;
-  	new_uid = g_strdup (local->ecard->id);
-  	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
-  	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
+	e_pilot_map_insert (ctxt->map, ID, local->ecard->id, FALSE);
 
         return 0;
 }
@@ -858,8 +848,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	    EAddrConduitContext *ctxt)
 {
 	ECard *ecard;
-  	char *new_uid;
-  	guint32 *pid = g_new (guint32, 1);
 	add_card_cons cons;
 	int retval = 0;
 	
@@ -883,10 +871,7 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 				     e_book_get_card (ctxt->ebook, cons.id));
 	g_free (cons.id);
 
-	*pid = remote->ID;
-	new_uid = g_strdup (ecard->id);
-	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
-	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
+	e_pilot_map_insert (ctxt->map, remote->ID, ecard->id, FALSE);
 
 	return retval;
 }
@@ -987,7 +972,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 /*  	*local = NULL; */
-/*  	uid = g_hash_table_lookup (ctxt->pid_map, &remote->ID); */
+/*  	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID); */
 	
 /*  	if (!uid) */
 /*  		return 0; */

@@ -1,5 +1,14 @@
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
+	* conduits/todo/todo-conduit.h: Use new libeconduit calls and
+	abstraction
+
+	* conduits/calendar/calendar-conduit.c: ditto
+
+	* conduits/calendar/calendar-conduit.h: ditto
+
+	* conduits/todo/todo-conduit.c: ditto
+
 	* conduits/calendar/Makefile.am: Add libeconduit-static.la
 
 	* conduits/calendar/calendar-conduit.c (post_sync): Use e_pilot_map_write

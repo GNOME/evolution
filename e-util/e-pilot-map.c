@@ -22,16 +22,9 @@
 
 #include <stdlib.h>
 #include <time.h>
-#include <glib.h>
+#include <gnome.h>
 #include <gnome-xml/parser.h>
 #include <e-pilot-map.h>
-
-struct map_sax_closure 
-{
-	GHashTable *pid_map;
-	GHashTable *uid_map;
-	time_t *since;
-};
 
 static void
 map_set_node_timet (xmlNodePtr node, const char *name, time_t t)
@@ -46,7 +39,7 @@ static void
 map_sax_start_element (void *data, const xmlChar *name, 
 		       const xmlChar **attrs)
 {
-	struct map_sax_closure *closure = (struct map_sax_closure *)data;
+	EPilotMap *map = (EPilotMap *)data;
 
 	if (!strcmp (name, "PilotMap")) {
 		while (attrs && *attrs != NULL) {
@@ -54,7 +47,7 @@ map_sax_start_element (void *data, const xmlChar *name,
 			
 			val++;
 			if (!strcmp (*attrs, "timestamp")) 
-				*closure->since = (time_t)strtoul (*val, NULL, 0);
+				map->since = (time_t)strtoul (*val, NULL, 0);
 
 			attrs = ++val;
 		}
@@ -80,8 +73,8 @@ map_sax_start_element (void *data, const xmlChar *name,
 		}
 			
 		if (uid && *pid != 0) {
-			g_hash_table_insert (closure->pid_map, pid, uid);
-			g_hash_table_insert (closure->uid_map, uid, pid);
+			g_hash_table_insert (map->pid_map, pid, uid);
+			g_hash_table_insert (map->uid_map, uid, pid);
 		} else {
 			g_free (pid);
 		}
@@ -103,14 +96,65 @@ map_write_foreach (gpointer key, gpointer value, gpointer data)
 	xmlSetProp (mnode, "pilot_id", pidstr);
 	g_free (pidstr);
 }
+
+gboolean 
+e_pilot_map_pid_is_archived (EPilotMap *map, guint32 pilot_id)
+{
+	return FALSE;
+}
+
+gboolean 
+e_pilot_map_uid_is_archived (EPilotMap *map, const char *uid)
+{
+	return FALSE;
+}
+
+void 
+e_pilot_map_insert (EPilotMap *map, guint32 pid, const char *uid, gboolean archived)
+{
+	char *new_uid;
+	guint32 *new_pid = g_new (guint32, 1);
+	
+	*new_pid = pid;
+	new_uid = g_strdup (uid);
+
+	g_hash_table_insert (map->pid_map, new_pid, new_uid);
+	g_hash_table_insert (map->uid_map, new_uid, new_pid);
+}
+
+int 
+e_pilot_map_read (const char *filename, EPilotMap **map)
+{
+	xmlSAXHandler handler;
+	EPilotMap *new_map = g_new0 (EPilotMap, 1);
+
+	*map = NULL;
+	
+	memset (&handler, 0, sizeof (xmlSAXHandler));
+	handler.startElement = map_sax_start_element;
+
+	new_map->pid_map = g_hash_table_new (g_int_hash, g_int_equal);
+	new_map->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
+
+	if (g_file_exists (filename)) {
+		if (xmlSAXUserParseFile (&handler, new_map, filename) < 0) {
+			g_free (new_map);
+			return -1;
+		}
+	}
+	
+	*map = new_map;
+	
+	return 0;
+}
 		
 int
-e_pilot_map_write (const char *filename, GHashTable *pid_map)
+e_pilot_map_write (const char *filename, EPilotMap *map)
 {
 	xmlDocPtr doc;
 	int ret;
 	
-	g_return_val_if_fail (pid_map != NULL, -1);
+	g_return_val_if_fail (map != NULL, -1);
 	
 	doc = xmlNewDoc ("1.0");
 	if (doc == NULL) {
@@ -118,9 +162,10 @@ e_pilot_map_write (const char *filename, GHashTable *pid_map)
 		return -1;
 	}
 	doc->root = xmlNewDocNode(doc, NULL, "PilotMap", NULL);
-	map_set_node_timet (doc->root, "timestamp", time (NULL));
+	map->since = time (NULL);
+	map_set_node_timet (doc->root, "timestamp", map->since);
 
-	g_hash_table_foreach (pid_map, map_write_foreach, doc->root);
+	g_hash_table_foreach (map->pid_map, map_write_foreach, doc->root);
 	
 	/* Write the file */
 	xmlSetDocCompressMode (doc, 0);
@@ -135,24 +180,14 @@ e_pilot_map_write (const char *filename, GHashTable *pid_map)
 	return 0;
 }
 
-int 
-e_pilot_map_read (const char *filename, GHashTable *pid_map, 
-		  GHashTable *uid_map, time_t *since)
+void 
+e_pilot_map_destroy (EPilotMap *map)
 {
-	xmlSAXHandler handler;
-	struct map_sax_closure closure;
-
-	memset (&handler, 0, sizeof (xmlSAXHandler));
-	handler.startElement = map_sax_start_element;
-
-	closure.pid_map = pid_map;
-	closure.uid_map = uid_map;
-	
-	if (xmlSAXUserParseFile (&handler, &closure, filename) < 0)
-		return -1;
-
-	return 0;
+	g_hash_table_destroy (map->pid_map);
+	g_hash_table_destroy (map->uid_map);
+	g_free (map);
 }
+
 
 
 

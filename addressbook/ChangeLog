@@ -1,5 +1,12 @@
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
+	* conduit/address-conduit.h: Use new libeconduit calls and
+	abstraction
+
+	* conduit/address-conduit.c: ditto
+	
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
 	* conduit/address-conduit.c (pre_sync): Use e_pilot_map_read
 	(post_sync): Use e_pilot_map_write
 

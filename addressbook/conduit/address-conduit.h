@@ -32,7 +32,7 @@
 #include <pi-address.h>
 #include <gpilotd/gnome-pilot-conduit.h>
 #include <gpilotd/gnome-pilot-conduit-sync-abs.h>
-
+#include <e-pilot-map.h>
 
 /* This is the local record structure for the Evolution ToDo conduit. */
 typedef struct _EAddrLocalRecord EAddrLocalRecord;
@@ -63,10 +63,7 @@ struct _EAddrConduitContext {
 	gboolean address_load_tried;
 	gboolean address_load_success;
 
-	time_t since;
-	
-	GHashTable *uid_map;
-	GHashTable *pid_map;
+	EPilotMap *map;
 };
 
 #endif __ADDR_CONDUIT_H__ 

@@ -1,5 +1,16 @@
 2000-10-23  JP Rosevear  <jpr@helixcode.com>
 
+	* e-pilot-map.c: Operate with EPilotMap structure so things are
+	abstract to the caller
+	(e_pilot_map_pid_is_archived): Infrastructure for marking records
+	as archived
+	(e_pilot_map_uid_is_archived): ditto
+
+	* e-pilot-map.h: Add more to public interface, including EPilotMap
+	structure
+	
+2000-10-23  JP Rosevear  <jpr@helixcode.com>
+
 	* e-pilot-map.c: Pilot map functions grabbed from existing conduits
 
 	* e-pilot-map.h (e_pilot_map_write): Header

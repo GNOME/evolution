@@ -41,7 +41,6 @@
 #include <pi-dlp.h>
 #include <pi-version.h>
 #include <libical/src/libical/icaltypes.h>
-#include <e-pilot-map.h>
 
 #define CAL_CONFIG_LOAD 1
 #define CAL_CONFIG_DESTROY 1
@@ -241,7 +240,7 @@ compute_pid (ECalConduitContext *ctxt, ECalLocalRecord *local, const char *uid)
 {
 	guint32 *pid;
 	
-	pid = g_hash_table_lookup (ctxt->uid_map, uid);
+	pid = g_hash_table_lookup (ctxt->map->uid_map, uid);
 	
 	if (pid)
 		local->local.ID = *pid;
@@ -591,7 +590,7 @@ check_for_slow_setting (GnomePilotConduit *c, ECalConduitContext *ctxt)
 	int count, map_count;
 
 	count = g_list_length (ctxt->uids);
-	map_count = g_hash_table_size (ctxt->pid_map);
+	map_count = g_hash_table_size (ctxt->map->pid_map);
 	
 	/* If there are no objects or objects but no log */
 	if ((count == 0) || (count > 0 && map_count == 0)) {
@@ -615,7 +614,6 @@ pre_sync (GnomePilotConduit *conduit,
 	int len;
 	unsigned char *buf;
 	char *filename;
-	xmlSAXHandler handler;
 	gint num_records;
 
 	abs_conduit = GNOME_PILOT_CONDUIT_SYNC_ABS (conduit);
@@ -636,11 +634,8 @@ pre_sync (GnomePilotConduit *conduit,
 	ctxt->uids = cal_client_get_uids (ctxt->client, CALOBJ_TYPE_EVENT);
 	
 	/* Load the uid <--> pilot id mapping */
-	ctxt->pid_map = g_hash_table_new (g_int_hash, g_int_equal);
-	ctxt->uid_map = g_hash_table_new (g_str_hash, g_str_equal);
-
 	filename = map_name (ctxt);
-	e_pilot_map_read (filename, ctxt->pid_map, ctxt->uid_map, &ctxt->since);
+	e_pilot_map_read (filename, &ctxt->map);
 	g_free (filename);
 
 	/* Find the added, modified and deleted items */
@@ -650,13 +645,13 @@ pre_sync (GnomePilotConduit *conduit,
 
 	ctxt->changed = cal_client_get_changed_uids (ctxt->client, 
 						     CALOBJ_TYPE_EVENT,
-						     ctxt->since + 1);
+						     ctxt->map->since + 1);
 	for (l = ctxt->changed; l != NULL; l = l->next) {
 		CalObjChange *coc = l->data;
 		
 		switch (coc->type) {
 		case CALOBJ_UPDATED:
-			if (g_hash_table_lookup (ctxt->uid_map, coc->uid))
+			if (g_hash_table_lookup (ctxt->map->uid_map, coc->uid))
 				g_hash_table_insert (ctxt->modified, coc->uid, coc);
 			else
 				g_hash_table_insert (ctxt->added, coc->uid, coc);
@@ -709,7 +704,7 @@ post_sync (GnomePilotConduit *conduit,
 	LOG ("---------------------------------------------------------\n");
 
 	filename = map_name (ctxt);
-	e_pilot_map_write (filename, ctxt->pid_map);
+	e_pilot_map_write (filename, ctxt->map);
 	g_free (filename);
 	
 	return 0;
@@ -722,16 +717,11 @@ set_pilot_id (GnomePilotConduitSyncAbs *conduit,
 	      ECalConduitContext *ctxt)
 {
 	const char *uid;
-	char *new_uid;
-	guint32 *pid = g_new (guint32, 1);
 
 	LOG ("set_pilot_id: setting to %d\n", ID);
 	
 	cal_component_get_uid (local->comp, &uid);
-	*pid = ID;
-	new_uid = g_strdup (uid);
-	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
-	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
+	e_pilot_map_insert (ctxt->map, ID, uid, FALSE);
 
         return 0;
 }
@@ -879,8 +869,6 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 {
 	CalComponent *comp;
 	const char *uid;
-	char *new_uid;
-	guint32 *pid = g_new (guint32, 1);
 	int retval = 0;
 	
 	g_return_val_if_fail (remote != NULL, -1);
@@ -890,11 +878,9 @@ add_record (GnomePilotConduitSyncAbs *conduit,
 	comp = comp_from_remote_record (conduit, remote, NULL);
 	update_comp (conduit, comp, ctxt);
 
-	*pid = remote->ID;
 	cal_component_get_uid (comp, &uid);
-	new_uid = g_strdup (uid);
-	g_hash_table_insert (ctxt->pid_map, pid, new_uid);
-	g_hash_table_insert (ctxt->uid_map, new_uid, pid);
+
+	e_pilot_map_insert (ctxt->map, remote->ID, uid, FALSE);
 
 	return retval;
 }
@@ -988,7 +974,7 @@ match (GnomePilotConduitSyncAbs *conduit,
 	g_return_val_if_fail (remote != NULL, -1);
 
 	*local = NULL;
-	uid = g_hash_table_lookup (ctxt->pid_map, &remote->ID);
+	uid = g_hash_table_lookup (ctxt->map->pid_map, &remote->ID);
 	
 	if (!uid)
 		return 0;
