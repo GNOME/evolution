@@ -23,6 +23,8 @@
 #ifndef __MAIL_IMPORTER_H__
 #define __MAIL_IMPORTER_H__
 
+#include <camel/camel-operation.h>
+
 struct _MailComponent *mc;
 
 typedef struct _MailImporter MailImporter;

@@ -1,3 +1,7 @@
+2004-02-11  JP Rosevear <jpr@ximian.com>
+
+	* importers/mail-importer.h: include camel-operation.h
+
 2004-02-11  Not Zed  <NotZed@Ximian.com>
 
 	* importers/pine-importer.c: Basically rewrote this, the import
