@@ -4,3 +4,4 @@ Makefile
 Makefile.in
 .deps
 gnome-macros.dep
+macros.dep
