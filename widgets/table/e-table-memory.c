@@ -175,7 +175,7 @@ e_table_memory_insert (ETableMemory *etmm,
 		       gpointer data)
 {
 	g_return_if_fail(row >= -1);
-	g_return_if_fail(row < etmm->priv->num_rows);
+	g_return_if_fail(row <= etmm->priv->num_rows);
 
 	if (!etmm->priv->frozen)
 		e_table_model_pre_change(E_TABLE_MODEL(etmm));
