@@ -1,5 +1,11 @@
 2003-01-09  Chris Toshok  <toshok@ximian.com>
 
+	* gui/component/select-names/e-select-names-bonobo.c
+	(e_select_names_bonobo_new): call e_select_names_bonobo_construct
+	on the newly created object.
+
+2003-01-09  Chris Toshok  <toshok@ximian.com>
+
 	* gui/component/Makefile.am: addressbook-config.etspec is gone.
 
 	* gui/component/addressbook-config.c: make the sources table be a

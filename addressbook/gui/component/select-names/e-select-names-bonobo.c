@@ -455,6 +455,8 @@ e_select_names_bonobo_new (void)
 
 	select_names = g_object_new (E_TYPE_SELECT_NAMES_BONOBO, NULL);
 
+	e_select_names_bonobo_construct (select_names);
+
 	return select_names;
 }
 
