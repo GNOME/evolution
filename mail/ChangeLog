@@ -1,3 +1,9 @@
+2004-06-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* em-folder-view.c (emfv_init): Changed the second
+	gtk_selection_add_target() to use GDK_SELECTION_CLIPBOARD rather
+	than GDK_SELECTION_PRIMARY again. This should fix bug #60022.
+
 2004-06-14  Radek Doulik  <rodo@ximian.com>
 
 	* em-mailer-prefs.c (em_mailer_prefs_construct): the check button

@@ -190,7 +190,7 @@ emfv_init(GObject *o)
 	g_signal_connect(p->invisible, "selection_get", G_CALLBACK(emfv_selection_get), emfv);
 	g_signal_connect(p->invisible, "selection_clear_event", G_CALLBACK(emfv_selection_clear_event), emfv);
 	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 0);
-	gtk_selection_add_target(p->invisible, GDK_SELECTION_PRIMARY, GDK_SELECTION_TYPE_STRING, 1);
+	gtk_selection_add_target(p->invisible, GDK_SELECTION_CLIPBOARD, GDK_SELECTION_TYPE_STRING, 1);
 
 	emfv->async = mail_async_event_new();
 
