@@ -247,17 +247,18 @@ string_is_empty (const char *value)
 }
 
 
-/* Creates a string representation of a time value and stores it in result.
-   result_size is the size of the result buffer, and should be about 64 to
-   be safe. If show_midnight is FALSE, and the time is midnight, then we just
-   show the date. */
+/* Creates a string representation of a time value and stores it in buffer.
+   buffer_size should be about 64 to be safe. If show_midnight is FALSE, and
+   the time is midnight, then we just show the date. If show_zero_seconds
+   is FALSE, then if the time has zero seconds only the hour and minute are
+   shown. */
 void
 e_time_format_date_and_time		(struct tm	*date_tm,
 					 gboolean	 use_24_hour_format,
 					 gboolean	 show_midnight,
 					 gboolean	 show_zero_seconds,
-					 char		*result,
-					 int		 result_size)
+					 char		*buffer,
+					 int		 buffer_size)
 {
 	char *format;
 
@@ -287,6 +288,42 @@ e_time_format_date_and_time		(struct tm	*date_tm,
 
 	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
 	   undefined, so we set it to the empty string in that case. */
-	if (strftime (result, result_size, format, date_tm) == 0)
-		result[0] = '\0';
+	if (strftime (buffer, buffer_size, format, date_tm) == 0)
+		buffer[0] = '\0';
+}
+
+
+/* Creates a string representation of a time value and stores it in buffer.
+   buffer_size should be about 64 to be safe. */
+void
+e_time_format_time			(struct tm	*date_tm,
+					 gboolean	 use_24_hour_format,
+					 gboolean	 show_zero_seconds,
+					 char		*buffer,
+					 int		 buffer_size)
+{
+	char *format;
+
+	if (use_24_hour_format) {
+		if (!show_zero_seconds && date_tm->tm_sec == 0)
+			/* strftime format of a time in 24-hour format,
+			   without seconds. */
+			format = _("%H:%M");
+		else
+			/* strftime format of a time in 24-hour format. */
+			format = _("%H:%M:%S");
+	} else {
+		if (!show_zero_seconds && date_tm->tm_sec == 0)
+			/* strftime format of a time in 12-hour format,
+			   without seconds. */
+			format = _("%I:%M %p");
+		else
+			/* strftime format of a time in 12-hour format. */
+			format = _("%I:%M:%S %p");
+	}
+			
+	/* strftime returns 0 if the string doesn't fit, and leaves the buffer
+	   undefined, so we set it to the empty string in that case. */
+	if (strftime (buffer, buffer_size, format, date_tm) == 0)
+		buffer[0] = '\0';
 }

@@ -30,6 +30,17 @@ void e_time_format_date_and_time		(struct tm	*date_tm,
 						 gboolean	 use_24_hour_format,
 						 gboolean	 show_midnight,
 						 gboolean	 show_zero_seconds,
-						 char		*result,
-						 int		 result_size);
+						 char		*buffer,
+						 int		 buffer_size);
+
+/* Formats a time from a struct tm, e.g. "01:59 PM". */
+void e_time_format_time				(struct tm	*date_tm,
+						 gboolean	 use_24_hour_format,
+						 gboolean	 show_zero_seconds,
+						 char		*buffer,
+						 int		 buffer_size);
+
+
+
+
 #endif /* E_TIME_UTILS */
