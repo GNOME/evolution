@@ -21,13 +21,11 @@
  */
 
 
-#ifndef CAMEL_SMIME_H
-#define CAMEL_SMIME_H
+#ifndef CAMEL_SMIME_UTILS_H
+#define CAMEL_SMIME_UTILS_H
 
 #include <glib.h>
 #include <camel/camel-mime-part.h>
-#include <camel/camel-smime-context.h>
-#include <camel/camel-exception.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,29 +33,11 @@ extern "C" {
 #endif /* __cplusplus */
 
 gboolean camel_smime_is_smime_v3_signed (CamelMimePart *part);
+
 gboolean camel_smime_is_smime_v3_encrypted (CamelMimePart *part);
-
-void camel_smime_part_sign (CamelSMimeContext *context,
-			    CamelMimePart **mime_part,
-			    const char *userid,
-			    CamelCipherHash hash,
-			    CamelException *ex);
-
-CamelCipherValidity *camel_smime_part_verify (CamelSMimeContext *context,
-					      CamelMimePart *mime_part,
-					      CamelException *ex);
-
-void camel_smime_part_encrypt (CamelSMimeContext *context,
-			       CamelMimePart **mime_part,
-			       GPtrArray *recipients,
-			       CamelException *ex);
-
-CamelMimePart *camel_smime_part_decrypt (CamelSMimeContext *context,
-					 CamelMimePart *mime_part,
-					 CamelException *ex);
 
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
 
-#endif /* ! CAMEL_SMIME_H */
+#endif /* ! CAMEL_SMIME_UTILS_H */

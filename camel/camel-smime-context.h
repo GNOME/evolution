@@ -24,9 +24,8 @@
 #define CAMEL_SMIME_CONTEXT_H
 
 #include <camel/camel-session.h>
-#include <camel/camel-stream.h>
 #include <camel/camel-exception.h>
-#include <camel/camel-cipher-context.h>
+#include <camel/camel-cms-context.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -39,32 +38,21 @@ extern "C" {
 #define CAMEL_IS_SMIME_CONTEXT(o)    (CAMEL_CHECK_TYPE((o), CAMEL_SMIME_CONTEXT_TYPE))
 
 typedef struct _CamelSMimeContext {
-	CamelCipherContext parent_object;
+	CamelCMSContext parent_object;
 	
 	struct _CamelSMimeContextPrivate *priv;
 	
 } CamelSMimeContext;
 
 typedef struct _CamelSMimeContextClass {
-	CamelCipherContextClass parent_class;
+	CamelCMSContextClass parent_class;
 	
 } CamelSMimeContextClass;
 
 
 CamelType            camel_smime_context_get_type (void);
 
-CamelSMimeContext   *camel_smime_context_new (CamelSession *session);
-
-/* SMIME routines */
-#define camel_smime_sign(c, u, h, i, o, e) camel_cipher_sign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
-
-#define camel_smime_clearsign(c, u, h, i, o, e) camel_cipher_clearsign (CAMEL_CIPHER_CONTEXT (c), u, h, i, o, e)
-
-#define camel_smime_verify(c, h, i, s, e) camel_cipher_verify (CAMEL_CIPHER_CONTEXT (c), h, i, s, e)
-
-#define camel_smime_encrypt(c, s, u, r, i, o, e) camel_cipher_encrypt (CAMEL_CIPHER_CONTEXT (c), s, u, r, i, o, e)
-
-#define camel_smime_decrypt(c, i, o, e) camel_cipher_decrypt (CAMEL_CIPHER_CONTEXT (c), i, o, e)
+CamelSMimeContext   *camel_smime_context_new (CamelSession *session, const char *encryption_key);
 
 #ifdef __cplusplus
 }

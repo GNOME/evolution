@@ -1,3 +1,17 @@
+2001-05-31  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-cms-context.[c,h]: New virtual class for manipulating
+	cryptographic message syntax messages (like S/MIME).
+
+	* camel-smime-context.[c,h]: Modified to inherit from the
+	CamelCMSContext class rather than the CamelCipherContext class.
+
+	* camel-smime.[c,h]: Removed - just use camel-smime-context
+	directly.
+
+	* camel-smime-utils.[c,h]: New source files. Moved the 2 useful
+	functions from camel-smime.[c,h] into here.
+
 2001-05-30  Dan Winship  <danw@ximian.com>
 
 	* camel-charset-map.c: Redo the BUILD_MAP code to not depend on

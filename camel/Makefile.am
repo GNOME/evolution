@@ -22,6 +22,7 @@ libcamel_la_SOURCES = 				\
 	broken-date-parser.c			\
 	camel-address.c				\
 	camel-cipher-context.c			\
+	camel-cms-context.c			\
 	camel-data-wrapper.c			\
 	camel-digest-folder.c			\
 	camel-disco-diary.c			\
@@ -60,7 +61,7 @@ libcamel_la_SOURCES = 				\
 	camel-pgp-context.c			\
 	camel-pgp-mime.c			\
 	camel-smime-context.c			\
-	camel-smime.c				\
+	camel-smime-utils.c			\
 	camel-provider.c			\
 	camel-remote-store.c			\
 	camel-sasl.c				\
@@ -103,6 +104,7 @@ libcamelinclude_HEADERS =			\
 	camel-address.h				\
 	camel-charset-map.h			\
 	camel-cipher-context.h			\
+	camel-cms-context.h			\
 	camel-data-wrapper.h			\
 	camel-digest-folder.h			\
 	camel-disco-diary.h			\
@@ -142,7 +144,7 @@ libcamelinclude_HEADERS =			\
 	camel-pgp-context.h			\
 	camel-pgp-mime.h			\
 	camel-smime-context.h			\
-	camel-smime.h				\
+	camel-smime-utils.h			\
 	camel-provider.h			\
 	camel-remote-store.h			\
 	camel-sasl.h				\
