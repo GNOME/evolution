@@ -35,8 +35,6 @@ typedef struct _EMsgComposerClass  EMsgComposerClass;
 #include "e-msg-composer-hdrs.h"
 #include "Editor.h"
 
-#include <mail/mail-config.h>
-
 #ifdef __cplusplus
 extern "C" {
 #pragma }
@@ -109,10 +107,12 @@ struct _EMsgComposer {
 	guint32 mode_post              : 1;
 	
 	guint32 in_signature_insert    : 1;
-	guint32 auto_signature         : 1;
 	
-	MailConfigSignature *signature;
-	GtkWidget *sig_omenu;
+	struct _ESignature *signature;
+	struct _GtkOptionMenu *sig_menu;
+	guint sig_added_id;
+	guint sig_removed_id;
+	guint sig_changed_id;
 	
 	CamelMimeMessage *redirect;
 	

@@ -88,6 +88,7 @@
 #include <gal/e-text/e-entry.h>
 
 #include "e-util/e-dialog-utils.h"
+#include "e-util/e-signature-list.h"
 #include "widgets/misc/e-charset-picker.h"
 #include "widgets/misc/e-expander.h"
 
@@ -100,6 +101,7 @@
 #endif
 
 #include "mail/em-utils.h"
+#include "mail/mail-config.h"
 #include "mail/mail-crypto.h"
 #include "mail/mail-tools.h"
 #include "mail/mail-ops.h"
@@ -911,12 +913,12 @@ prepare_engine (EMsgComposer *composer)
 	CORBA_exception_free (&ev);
 }
 
-static gchar *
-encode_signature_name (const gchar *name)
+static char *
+encode_signature_name (const char *name)
 {
-	const gchar *s;
-	gchar *ename, *e;
-	gint len = 0;
+	const char *s;
+	char *ename, *e;
+	int len = 0;
 
 	s = name;
 	while (*s) {
@@ -956,12 +958,12 @@ encode_signature_name (const gchar *name)
 	return ename;
 }
 
-static gchar *
-decode_signature_name (const gchar *name)
+static char *
+decode_signature_name (const char *name)
 {
-	const gchar *s;
-	gchar *dname, *d;
-	gint len = 0;
+	const char *s;
+	char *dname, *d;
+	int len = 0;
 
 	s = name;
 	while (*s) {
@@ -1006,14 +1008,19 @@ decode_signature_name (const gchar *name)
 static char *
 get_signature_html (EMsgComposer *composer)
 {
+	char *text = NULL, *html = NULL;
 	gboolean format_html = FALSE;
-	char *text = NULL, *html = NULL, *sig_file = NULL, *script = NULL;
 	
-	if (composer->signature) {
-		sig_file = composer->signature->filename;
-		format_html = composer->signature->html;
-		script = composer->signature->script;
-	} else if (composer->auto_signature) {
+	if (!composer->signature->autogen) {
+		if (!composer->signature->filename)
+			return NULL;
+		
+		if (composer->signature->script) {
+			text = mail_config_signature_run_script (composer->signature->filename);
+		} else {
+			text = e_msg_composer_get_sig_file_content (composer->signature->filename, composer->signature->html);
+		}
+	} else {
 		EAccountIdentity *id;
 		char *organization;
 		char *address;
@@ -1038,42 +1045,30 @@ get_signature_html (EMsgComposer *composer)
 		g_free (organization);
 		format_html = TRUE;
 	}
-
-	if (!text) {
-		if (script)
-			text = mail_config_signature_run_script (script);
-		else {
-			if (!sig_file)
-				return NULL;
-			/* printf ("sig file: %s\n", sig_file); */
-			text = e_msg_composer_get_sig_file_content (sig_file, format_html);
-		}
-	}
-
+	
 	/* printf ("text: %s\n", text); */
 	if (text) {
-		gchar *encoded_name = NULL;
-
+		char *encoded_uid = NULL;
+		
 		if (composer->signature)
-			encoded_name = encode_signature_name (composer->signature->name);
-
+			encoded_uid = encode_signature_name (composer->signature->uid);
+		
 		/* The signature dash convention ("-- \n") is specified in the
 		 * "Son of RFC 1036": http://www.chemie.fu-berlin.de/outerspace/netnews/son-of-1036.html,
 		 * section 4.3.2.
 		 */
 		html = g_strdup_printf ("<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature\" value=\"1\">-->"
-					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"%s%s\">-->"
+					"<!--+GtkHTML:<DATA class=\"ClueFlow\" key=\"signature_name\" value=\"uid:%s\">-->"
 					"<TABLE WIDTH=\"100%%\" CELLSPACING=\"0\" CELLPADDING=\"0\"><TR><TD>"
 					"%s%s%s%s"
 					"</TD></TR></TABLE>",
-					composer->signature ? "name:" : "auto",
-					composer->signature ? encoded_name : "",
+					composer->signature ? encoded_uid : "",
 					format_html ? "" : "<PRE>\n",
 					format_html || (!strncmp ("-- \n", text, 4) || strstr(text, "\n-- \n")) ? "" : "-- \n",
 					text,
 					format_html ? "" : "</PRE>\n");
 		g_free (text);
-		g_free (encoded_name);
+		g_free (encoded_uid);
 		text = html;
 	}
 	
@@ -1987,57 +1982,75 @@ static EPixmap pixcache [] = {
 	E_PIXMAP_END
 };
 
-static void sig_select_item (EMsgComposer *composer);
 
 static void
-signature_cb (GtkWidget *w, EMsgComposer *composer)
+signature_activate_cb (GtkWidget *menu, EMsgComposer *composer)
 {
-	MailConfigSignature *old_sig;
-	gboolean old_auto;
-	int idx = g_list_index (GTK_MENU_SHELL (w)->children, gtk_menu_get_active (GTK_MENU (w)));
-	int len = g_list_length (GTK_MENU_SHELL (w)->children);
+	GtkWidget *active;
+	ESignature *sig;
 	
-	/* printf ("signature_cb: %d\n", idx); */
+	active = gtk_menu_get_active (GTK_MENU (menu));
+	sig = g_object_get_data ((GObject *) active, "sig");
 	
-	old_sig = composer->signature;
-	old_auto = composer->auto_signature;
-	
-	if (idx < len) {
-		if (idx == 0) {			                /* none */
-			composer->signature = NULL;
-			composer->auto_signature = FALSE;
-		} else if (idx == 1) {				/* auto */
-			composer->signature = NULL;
-			composer->auto_signature = TRUE;
-		} else {
-			composer->signature = g_slist_nth_data (mail_config_get_signature_list (), idx - 2);
-			composer->auto_signature = FALSE;
-		}
-		if (old_sig != composer->signature || old_auto != composer->auto_signature)
-			e_msg_composer_show_sig_file (composer);
+	if (composer->signature != sig) {
+		composer->signature = sig;
+		e_msg_composer_show_sig_file (composer);
 	}
-	/* printf ("signature_cb end\n"); */
 }
 
-static void setup_signatures_menu (EMsgComposer *composer);
+static void
+signature_added (ESignatureList *signatures, ESignature *sig, EMsgComposer *composer)
+{
+	GtkWidget *menu, *item;
+	
+	menu = gtk_option_menu_get_menu (composer->sig_menu);
+	item = gtk_menu_item_new_with_label (sig->name);
+	g_object_set_data ((GObject *) item, "sig", sig);
+	gtk_widget_show (item);
+	
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+}
 
 static void
-sig_event_client (MailConfigSigEvent event, MailConfigSignature *sig, EMsgComposer *composer)
+signature_removed (ESignatureList *signatures, ESignature *sig, EMsgComposer *composer)
 {
-	switch (event) {
-	case MAIL_CONFIG_SIG_EVENT_DELETED:
-		if (sig == composer->signature) {
-			composer->signature = NULL;
-			composer->auto_signature = TRUE;
-			e_msg_composer_show_sig_file (composer);
+	GtkWidget *menu;
+	ESignature *cur;
+	GList *items;
+	
+	if (composer->signature == sig) {
+		composer->signature = NULL;
+		e_msg_composer_show_sig_file (composer);
+	}
+	
+	menu = gtk_option_menu_get_menu (composer->sig_menu);
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items != NULL) {
+		cur = g_object_get_data (items->data, "sig");
+		if (cur == sig) {
+			gtk_widget_destroy (items->data);
+			break;
 		}
-		setup_signatures_menu (composer);
-		break;
-	case MAIL_CONFIG_SIG_EVENT_ADDED:
-	case MAIL_CONFIG_SIG_EVENT_NAME_CHANGED:
-		setup_signatures_menu (composer);
-	default:
-		;
+		items = items->next;
+	}
+}
+
+static void
+signature_changed (ESignatureList *signatures, ESignature *sig, EMsgComposer *composer)
+{
+	GtkWidget *menu;
+	ESignature *cur;
+	GList *items;
+	
+	menu = gtk_option_menu_get_menu (composer->sig_menu);
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items != NULL) {
+		cur = g_object_get_data (items->data, "sig");
+		if (cur == sig) {
+			gtk_label_set ((GtkLabel *) ((GtkBin *) items->data)->child, sig->name);
+			break;
+		}
+		items = items->next;
 	}
 }
 
@@ -2052,57 +2065,71 @@ prepare_signatures_menu (EMsgComposer *composer)
 	label = gtk_label_new (_("Signature:"));
 	gtk_widget_show (label);
 	
-	composer->sig_omenu = gtk_option_menu_new ();
-	gtk_widget_show (composer->sig_omenu);
+	composer->sig_menu = (GtkOptionMenu *) gtk_option_menu_new ();
+	gtk_widget_show ((GtkWidget *) composer->sig_menu);
 	
-	gtk_box_pack_end_defaults (GTK_BOX (hbox), composer->sig_omenu);
+	gtk_box_pack_end_defaults (GTK_BOX (hbox), (GtkWidget *) composer->sig_menu);
 	gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 }
 
 static void
 sig_select_item (EMsgComposer *composer)
 {
-	int idx;
+	ESignature *cur;
+	GtkWidget *menu;
+	GList *items;
+	int i = 0;
 	
-	if (composer->auto_signature) {
-		idx = 1;
-	} else if (composer->signature == NULL) {
-		idx = 0;
-	} else {
-		idx = composer->signature->id + 2;
+	if (composer->signature) {
+		gtk_option_menu_set_history (composer->sig_menu, 0);
+		return;
 	}
 	
-	gtk_option_menu_set_history (GTK_OPTION_MENU (composer->sig_omenu), idx);
+	menu = gtk_option_menu_get_menu (composer->sig_menu);
+	items = GTK_MENU_SHELL (menu)->children;
+	while (items != NULL) {
+		cur = g_object_get_data ((GObject *) items->data, "sig");
+		if (cur == composer->signature) {
+			gtk_option_menu_set_history (composer->sig_menu, i);
+			return;
+		}
+		items = items->next;
+		i++;
+	}
 }
 
 static void
 setup_signatures_menu (EMsgComposer *composer)
 {
+	ESignatureList *signatures;
 	GtkWidget *menu;
-	GtkWidget *mi;
-	GSList *node;
-	
-#define ADD(x) \
-	mi = (x ? gtk_menu_item_new_with_label (x) : gtk_menu_item_new ()); \
-	gtk_widget_show (mi); \
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), mi);
+	EIterator *it;
 	
 	menu = gtk_menu_new ();
-	ADD (_("None"));
-	ADD (_("Autogenerated"));
 	
-	node = mail_config_get_signature_list ();
-	while (node != NULL) {
-		ADD (((MailConfigSignature *) node->data)->name);
-		node = node->next;
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), gtk_menu_item_new_with_label (_("None")));
+	
+	signatures = mail_config_get_signatures ();
+	it = e_list_get_iterator ((EList *) signatures);
+	
+	while (e_iterator_is_valid (it)) {
+		ESignature *sig;
+		
+		sig = (ESignature *) e_iterator_get (it);
+		signature_added (signatures, sig, composer);
+		e_iterator_next (it);
 	}
-#undef ADD
+	
+	g_object_unref (it);
 	
 	gtk_widget_show (menu);
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (composer->sig_omenu), menu);
-	sig_select_item (composer);
+	gtk_option_menu_set_menu (composer->sig_menu, menu);
 	
-	g_signal_connect (menu, "selection-done", (GCallback)signature_cb, composer);
+	g_signal_connect (menu, "selection-done", G_CALLBACK (signature_activate_cb), composer);
+	
+	composer->sig_added_id = g_signal_connect (signatures, "signature-added", G_CALLBACK (signature_added), composer);
+	composer->sig_removed_id = g_signal_connect (signatures, "signature-removed", G_CALLBACK (signature_removed), composer);
+	composer->sig_changed_id = g_signal_connect (signatures, "signature-changed", G_CALLBACK (signature_changed), composer);
 }
 
 static void
@@ -2244,8 +2271,6 @@ setup_ui (EMsgComposer *composer)
 	bonobo_ui_component_add_listener (
 		composer->uic, "ViewAttach",
 		menu_view_attachments_activate_cb, composer);
-	
-	mail_config_signature_register_client ((MailConfigSignatureClient) sig_event_client, composer);
 	
 	bonobo_ui_component_thaw (composer->uic, NULL);
 
@@ -2516,7 +2541,8 @@ destroy (GtkObject *object)
 {
 	EMsgComposer *composer;
 	CORBA_Environment ev;
-
+	ESignatureList *signatures;
+	
 	composer = E_MSG_COMPOSER (object);
 	
 	CORBA_exception_init (&ev);
@@ -2574,7 +2600,22 @@ destroy (GtkObject *object)
 		composer->editor_listener = NULL;
 	}
 	
-	mail_config_signature_unregister_client ((MailConfigSignatureClient) sig_event_client, composer);
+	signatures = mail_config_get_signatures ();
+	
+	if (composer->sig_added_id != 0) {
+		g_signal_handler_disconnect (signatures, composer->sig_added_id);
+		composer->sig_added_id = 0;
+	}
+	
+	if (composer->sig_removed_id != 0) {
+		g_signal_handler_disconnect (signatures, composer->sig_removed_id);
+		composer->sig_removed_id = 0;
+	}
+	
+	if (composer->sig_changed_id != 0) {
+		g_signal_handler_disconnect (signatures, composer->sig_changed_id);
+		composer->sig_changed_id = 0;
+	}
 	
 	if (GTK_OBJECT_CLASS (parent_class)->destroy != NULL)
 		(* GTK_OBJECT_CLASS (parent_class)->destroy) (object);
@@ -3246,24 +3287,16 @@ static void
 set_editor_signature (EMsgComposer *composer)
 {
 	EAccountIdentity *id;
-	GSList *signatures;
-
-	g_return_if_fail(E_MSG_COMPOSER_HDRS (composer->hdrs)->account != NULL);
 	
-	/* printf ("set_editor_signature\n"); */
-
+	g_return_if_fail (E_MSG_COMPOSER_HDRS (composer->hdrs)->account != NULL);
+	
 	id = E_MSG_COMPOSER_HDRS (composer->hdrs)->account->id;
-	
-	signatures = mail_config_get_signature_list ();
-	
-	composer->signature = g_slist_nth_data (signatures, id->def_signature);
-	composer->auto_signature = id->auto_signature;
-	
-	/* printf ("auto: %d\n", id->auto_signature); */
+	if (id->sig_uid)
+		composer->signature = mail_config_get_signature_by_uid (id->sig_uid);
+	else
+		composer->signature = NULL;
 	
 	sig_select_item (composer);
-	
-	/* printf ("set_editor_signature end\n"); */
 }
 
 /**
@@ -3645,36 +3678,26 @@ static void
 set_signature_gui (EMsgComposer *composer)
 {
 	CORBA_Environment ev;
-
-	composer->auto_signature = FALSE;
+	
 	composer->signature = NULL;
-
+	
 	CORBA_exception_init (&ev);
 	if (GNOME_GtkHTML_Editor_Engine_searchByData (composer->editor_engine, 1, "ClueFlow", "signature", "1", &ev)) {
-		gchar *str = NULL;
-
+		char *name, *str = NULL;
+		
 		str = GNOME_GtkHTML_Editor_Engine_getParagraphData (composer->editor_engine, "signature_name", &ev);
 		if (ev._major == CORBA_NO_EXCEPTION && str) {
-			if (!strncmp (str, "name:", 5)) {
-				GSList *list = NULL;
-				char *decoded_signature_name = decode_signature_name (str + 5);
-				
-				list = mail_config_get_signature_list ();
-				if (list && decoded_signature_name)
-					for (; list; list = list->next) {
-						if (!strcmp (decoded_signature_name,
-							     ((MailConfigSignature *) list->data)->name))
-							break;
-					}
-				if (list && decoded_signature_name)
-					composer->signature = (MailConfigSignature *) list->data;
-				else
-					composer->auto_signature = TRUE;
-				g_free (decoded_signature_name);
-			} else if (!strcmp (str, "auto")) {
-				composer->auto_signature = TRUE;
+			if (!strncmp (str, "uid:", 4)) {
+				name = decode_signature_name (str + 4);
+				composer->signature = mail_config_get_signature_by_uid (name);
+				g_free (name);
+			} else if (!strncmp (str, "name:", 5)) {
+				name = decode_signature_name (str + 4);
+				composer->signature = mail_config_get_signature_by_name (name);
+				g_free (name);
 			}
 		}
+		
 		sig_select_item (composer);
 	}
 	CORBA_exception_free (&ev);
