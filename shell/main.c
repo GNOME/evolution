@@ -72,6 +72,14 @@ destroy_cb (GtkObject *object, gpointer data)
 
 
 static void
+warning_dialog_clicked_callback (GnomeDialog *dialog,
+				 int button_number,
+				 void *data)
+{
+	gtk_widget_destroy (GTK_WIDGET (dialog));
+}
+
+static void
 development_warning (void)
 {
 	GtkWidget *label, *warning_dialog;
@@ -112,9 +120,9 @@ development_warning (void)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (warning_dialog)->vbox), 
 			    label, TRUE, TRUE, 0);
 
-	gnome_dialog_close_hides (GNOME_DIALOG (warning_dialog), FALSE);
-
 	gtk_widget_show (warning_dialog);
+	gtk_signal_connect (GTK_OBJECT (warning_dialog), "clicked",
+			    GTK_SIGNAL_FUNC (warning_dialog_clicked_callback), NULL);
 }
 
 
