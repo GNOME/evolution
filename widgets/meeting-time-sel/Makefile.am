@@ -1,5 +1,6 @@
 
 INCLUDES =					\
+	$(EXTRA_GNOME_CFLAGS)			\
 	$(GNOME_INCLUDEDIR)			\
 	-I $(top_srcdir)			\
 	-DG_LOG_DOMAIN=\"meeting-time-sel\"

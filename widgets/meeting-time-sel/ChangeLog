@@ -1,3 +1,7 @@
+2000-09-06  Ettore Perazzoli  <ettore@helixcode.com>
+
+	* Makefile.am (INCLUDES): Add `$(EXTRA_GNOME_CFLAGS)'.
+
 2000-06-26  Christopher James Lahey  <clahey@helixcode.com>
 
 	* Makefile.am: Added the include path to top_srcdir.
