@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2004-07-02 19:02+0200\n"
-"PO-Revision-Date: 2004-07-02 19:07+0200\n"
+"PO-Revision-Date: 2004-07-08 00:43+0200\n"
 "Last-Translator: Marco Ciampa <ciampix@libero.it>\n"
 "Language-Team: Italian <tp@lists.linux.it>\n"
 "MIME-Version: 1.0\n"
@@ -13015,9 +13015,7 @@ msgstr "un mittente sconosciuto"
 msgid ""
 "On ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} at ${24Hour}:${Minute} "
 "${TimeZone}, ${Sender} wrote:"
-msgstr ""
-"Il ${AbbrevWeekdayName}, ${Year}-${Month}-${Day} alle ${24Hour}:${Minute} "
-"${TimeZone}, ${Sender} scrisse:"
+msgstr "${AbbrevWeekdayName}, ${Day}-${Month}-${Year} alle ${24Hour}:${Minute} ${TimeZone}, ${Sender} ha scritto:"
 
 #: mail/em-filter-editor.c:147
 msgid "_Filter Rules"
@@ -18922,27 +18920,3 @@ msgstr "%s (...)"
 #, c-format
 msgid "%s (%d%% complete)"
 msgstr "%s (%d%% completata)"
-
-#~ msgid "Authentication Credentials for HTTP Server"
-#~ msgstr "Credenziali di autenticazione dal server HTTP"
-
-#~ msgid "Calendars selected for publishing"
-#~ msgstr "Calendari selezionati per la pubblicazione"
-
-#~ msgid "Login name:"
-#~ msgstr "Nome di login:"
-
-#~ msgid "URL:"
-#~ msgstr "URL:"
-
-#~ msgid "User Publishes"
-#~ msgstr "L'utente pubblica"
-
-#~ msgid "Can't find certificate for `%s'"
-#~ msgstr "Impossibile trovare certificato per `%s'"
-
-#~ msgid "Can't create CMS Message"
-#~ msgstr "Impossibile creare messaggio CMS"
-
-#~ msgid "Can't create encoder context"
-#~ msgstr "Impossibile creare contesto codificatore"
