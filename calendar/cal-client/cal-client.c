@@ -476,9 +476,6 @@ cal_set_mode_cb (CalListener *listener,
 	client = CAL_CLIENT (data);
 	priv = client->priv;
 
-	g_assert (priv->load_state == CAL_CLIENT_LOAD_LOADING);
-	g_assert (priv->uri != NULL);
-
 	client_status = CAL_CLIENT_OPEN_ERROR;
 
 	switch (status) {

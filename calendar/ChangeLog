@@ -1,5 +1,10 @@
 2001-10-10  JP Rosevear  <jpr@ximian.com>
 
+	* cal-client/cal-client.c (cal_set_mode_cb): remove unneeded
+	assertions
+
+2001-10-10  JP Rosevear  <jpr@ximian.com>
+	
 	* pcs/cal-factory.c (add_uri): fix logic checks
 
 	* gui/dialogs/event-editor.c (event_editor_init): init the
