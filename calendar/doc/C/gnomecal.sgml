@@ -6,6 +6,14 @@
     <title>GNOME calendar user's manual</title>
     <authorgroup>
       <author>
+	<firstname>Dave</firstname> <surname>Mason</surname>
+	<affiliation>
+	  <address>
+	    <email>dcm@redhat.com</email>
+	  </address>
+	</affiliation>
+      </author>
+      <author>
 	<firstname>Miguel</firstname> <surname>de Icaza
 	  Amozurrutia</surname>
 	<affiliation>
