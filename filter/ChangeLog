@@ -1,5 +1,7 @@
 2002-11-05  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* filter-rule.c: Ported.
+
 	* score-rule.c: Ported.
 
 	* score-editor.c: Ported. Again, thise code seems to be unused.

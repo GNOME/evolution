@@ -38,6 +38,7 @@
 #include <gal/util/e-xml-utils.h>
 
 #include "rule-context.h"
+#include "filter-rule.h"
 
 #define d(x) 
 

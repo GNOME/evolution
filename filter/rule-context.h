@@ -29,7 +29,7 @@
 #include <gnome-xml/parser.h>
 
 #include "filter-part.h"
-#include "filter-rule.h"
+
 
 #define RULE_TYPE_CONTEXT            (rule_context_get_type ())
 #define RULE_CONTEXT(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), RULE_TYPE_CONTEXT, RuleContext))

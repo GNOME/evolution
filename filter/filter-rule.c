@@ -1,5 +1,6 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- *  Copyright (C) 2000 Ximian Inc.
+ *  Copyright (C) 2000-2002 Ximian Inc.
  *
  *  Authors: Not Zed <notzed@lostzed.mmc.com.au>
  *           Jeffrey Stedfast <fejj@ximian.com>
@@ -25,7 +26,6 @@
 #endif
 
 #include <string.h>
-#include <glib.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkmenuitem.h>
@@ -37,7 +37,6 @@
 #include <libgnomeui/gnome-stock.h>
 #include <libgnomeui/gnome-dialog.h>
 #include <libgnomeui/gnome-dialog-util.h>
-#include <gal/widgets/e-unicode.h>
 
 #include "filter-rule.h"
 #include "filter-context.h"
@@ -52,9 +51,9 @@ static void build_code (FilterRule *, GString * out);
 static void rule_copy  (FilterRule *dest, FilterRule *src);
 static GtkWidget *get_widget (FilterRule * fr, struct _RuleContext *f);
 
-static void filter_rule_class_init (FilterRuleClass * class);
-static void filter_rule_init (FilterRule * gspaper);
-static void filter_rule_finalise (GtkObject * obj);
+static void filter_rule_class_init (FilterRuleClass *klass);
+static void filter_rule_init (FilterRule *fr);
+static void filter_rule_finalise (GObject *obj);
 
 #define _PRIVATE(x) (((FilterRule *)(x))->priv)
 
@@ -62,7 +61,7 @@ struct _FilterRulePrivate {
 	int frozen;
 };
 
-static GtkObjectClass *parent_class;
+static GObjectClass *parent_class = NULL;
 
 enum {
 	CHANGED,
@@ -71,35 +70,36 @@ enum {
 
 static guint signals[LAST_SIGNAL] = { 0 };
 
-guint
+GType
 filter_rule_get_type ()
 {
-	static guint type = 0;
+	static GType type = 0;
 	
 	if (!type) {
-		GtkTypeInfo type_info = {
-			"FilterRule",
-			sizeof (FilterRule),
+		static const GTypeInfo info = {
 			sizeof (FilterRuleClass),
-			(GtkClassInitFunc) filter_rule_class_init,
-			(GtkObjectInitFunc) filter_rule_init,
-			(GtkArgSetFunc) NULL,
-			(GtkArgGetFunc) NULL
+			NULL, /* base_class_init */
+			NULL, /* base_class_finalize */
+			(GClassInitFunc) filter_rule_class_init,
+			NULL, /* class_finalize */
+			NULL, /* class_data */
+			sizeof (FilterRule),
+			0,    /* n_preallocs */
+			(GInstanceInitFunc) filter_rule_init,
 		};
 		
-		type = gtk_type_unique (gtk_object_get_type(), &type_info);
+		type = g_type_register_static (G_TYPE_OBJECT, "FilterRule", &info, 0);
 	}
 	
 	return type;
 }
 
 static void
-filter_rule_class_init (FilterRuleClass * class)
+filter_rule_class_init (FilterRuleClass *klass)
 {
-	GtkObjectClass *object_class;
+	GObjectClass *object_class = G_OBJECT_CLASS (klass);
 	
-	object_class = (GtkObjectClass *) class;
-	parent_class = gtk_type_class (gtk_object_get_type());
+	parent_class = g_type_class_ref (G_OBJECT_CLASS);
 	
 	object_class->finalize = filter_rule_finalise;
 	
@@ -114,35 +114,35 @@ filter_rule_class_init (FilterRuleClass * class)
 	
 	/* signals */
 	signals[CHANGED] =
-		gtk_signal_new("changed",
-			       GTK_RUN_LAST,
-			       object_class->type,
-			       GTK_SIGNAL_OFFSET (FilterRuleClass, changed),
-			       gtk_marshal_NONE__NONE,
-			       GTK_TYPE_NONE, 0);
-	
-	gtk_object_class_add_signals (object_class, signals, LAST_SIGNAL);
+		g_signal_new ("changed",
+			      FILTER_TYPE_RULE,
+			      G_SIGNAL_RUN_LAST,
+			      GTK_SIGNAL_OFFSET (FilterRuleClass, changed),
+			      NULL,
+			      NULL,
+			      gtk_marshal_NONE__NONE,
+			      G_TYPE_NONE, 0);
 }
 
 static void
-filter_rule_init (FilterRule * o)
+filter_rule_init (FilterRule *fr)
 {
-	o->priv = g_malloc0 (sizeof (*o->priv));
+	fr->priv = g_malloc0 (sizeof (*fr->priv));
 }
 
 static void
-filter_rule_finalise (GtkObject * obj)
+filter_rule_finalise (GObject *obj)
 {
-	FilterRule *o = (FilterRule *) obj;
-
-	g_free (o->name);
-	g_free (o->source);
-	g_list_foreach(o->parts, (GFunc)gtk_object_unref, NULL);
-	g_list_free(o->parts);
-
-	g_free(o->priv);
+	FilterRule *fr = (FilterRule *) obj;
 	
-	((GtkObjectClass *) (parent_class))->finalize(obj);
+	g_free (fr->name);
+	g_free (fr->source);
+	g_list_foreach (fr->parts, (GFunc)g_object_unref, NULL);
+	g_list_free (fr->parts);
+	
+	g_free (fr->priv);
+	
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /**
@@ -155,9 +155,7 @@ filter_rule_finalise (GtkObject * obj)
 FilterRule *
 filter_rule_new ()
 {
-	FilterRule *o = (FilterRule *) gtk_type_new (filter_rule_get_type());
-	
-	return o;
+	return (FilterRule *) g_object_new (FILTER_TYPE_RULE, NULL, NULL);
 }
 
 FilterRule *
@@ -167,7 +165,7 @@ filter_rule_clone (FilterRule *base)
 	
 	g_assert (IS_FILTER_RULE (base));
 	
-	rule = gtk_type_new (GTK_OBJECT (base)->klass->type);
+	rule = g_object_new (G_OBJECT_TYPE (base), NULL, NULL);
 	filter_rule_copy (rule, base);
 	
 	return rule;
@@ -177,30 +175,30 @@ void
 filter_rule_set_name (FilterRule *fr, const char *name)
 {
 	g_assert (IS_FILTER_RULE (fr));
-
-	if ((fr->name && name && strcmp(fr->name, name) == 0)
+	
+	if ((fr->name && name && strcmp (fr->name, name) == 0)
 	    || (fr->name == NULL && name == NULL))
 		return;
 	
 	g_free (fr->name);
 	fr->name = g_strdup (name);
-
-	filter_rule_emit_changed(fr);
+	
+	filter_rule_emit_changed (fr);
 }
 
 void
 filter_rule_set_source (FilterRule *fr, const char *source)
 {
 	g_assert (IS_FILTER_RULE (fr));
-
-	if ((fr->source && source && strcmp(fr->source, source) == 0)
+	
+	if ((fr->source && source && strcmp (fr->source, source) == 0)
 	    || (fr->source == NULL && source == NULL))
 		return;
 	
 	g_free (fr->source);
 	fr->source = g_strdup (source);
-
-	filter_rule_emit_changed(fr);
+	
+	filter_rule_emit_changed (fr);
 }
 
 int
@@ -208,7 +206,7 @@ filter_rule_validate (FilterRule *fr)
 {
 	g_assert (IS_FILTER_RULE (fr));
 	
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->validate (fr);
+	return FILTER_RULE_CLASS (fr)->validate (fr);
 }
 
 static int
@@ -230,7 +228,7 @@ validate (FilterRule *fr)
 	/* validate rule parts */
 	parts = fr->parts;
 	while (parts && valid) {
-		valid = filter_part_validate ((FilterPart *)parts->data);
+		valid = filter_part_validate ((FilterPart *) parts->data);
 		parts = parts->next;
 	}
 	
@@ -238,40 +236,40 @@ validate (FilterRule *fr)
 }
 
 int
-filter_rule_eq(FilterRule *fr, FilterRule *cm)
+filter_rule_eq (FilterRule *fr, FilterRule *cm)
 {
-	g_assert(IS_FILTER_RULE(fr));
-	g_assert(IS_FILTER_RULE(cm));
-
-	return ((GtkObject *)fr)->klass == ((GtkObject *)cm)->klass
-		&& ((FilterRuleClass *) ((GtkObject *) fr)->klass)->eq(fr, cm);
+	g_assert (IS_FILTER_RULE (fr));
+	g_assert (IS_FILTER_RULE (cm));
+	
+	return (FILTER_RULE_GET_CLASS (fr) == FILTER_RULE_GET_CLASS (cm))
+		&& FILTER_RULE_GET_CLASS (fr)->eq (fr, cm);
 }
 
 static int
 list_eq(GList *al, GList *bl)
 {
 	int truth = TRUE;
-
+	
 	while (truth && al && bl) {
 		FilterPart *a = al->data, *b = bl->data;
-
-		truth = filter_part_eq(a, b);
+		
+		truth = filter_part_eq (a, b);
 		al = al->next;
 		bl = bl->next;
 	}
-
+	
 	return truth && al == NULL && bl == NULL;
 }
 
 static int
-rule_eq(FilterRule *fr, FilterRule *cm)
+rule_eq (FilterRule *fr, FilterRule *cm)
 {
 	return fr->grouping == cm->grouping
-		&& ( (fr->name && cm->name && strcmp(fr->name, cm->name) == 0)
+		&& ((fr->name && cm->name && strcmp (fr->name, cm->name) == 0)
 		     || (fr->name == NULL && cm->name == NULL))
-		&& ( (fr->source && cm->source && strcmp(fr->source, cm->source) == 0)
+		&& ((fr->source && cm->source && strcmp (fr->source, cm->source) == 0)
 		     || (fr->source == NULL && cm->source == NULL) )
-		&& list_eq(fr->parts, cm->parts);
+		&& list_eq (fr->parts, cm->parts);
 }
 
 xmlNodePtr
@@ -279,7 +277,7 @@ filter_rule_xml_encode (FilterRule *fr)
 {
 	g_assert (IS_FILTER_RULE (fr));
 	
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_encode (fr);
+	return FILTER_RULE_GET_CLASS (fr)->xml_encode (fr);
 }
 
 static xmlNodePtr
@@ -306,12 +304,8 @@ xml_encode (FilterRule *fr)
 	}
 	
 	if (fr->name) {
-		char *encstr;
-		
 		work = xmlNewNode (NULL, "title");
-		encstr = e_utf8_xml1_encode (fr->name);
-		xmlNodeSetContent (work, encstr);
-		g_free (encstr);
+		xmlNodeSetContent (work, fr->name);
 		xmlAddChild (node, work);
 	}
 	
@@ -321,7 +315,7 @@ xml_encode (FilterRule *fr)
 	while (l) {
 		work = filter_part_xml_encode ((FilterPart *) l->data);
 		xmlAddChild (set, work);
-		l = g_list_next (l);
+		l = l->next;
 	}
 	
 	return node;
@@ -348,7 +342,7 @@ load_set (xmlNodePtr node, FilterRule *fr, RuleContext *f)
 			}
 			xmlFree (rulename);
 		} else {
-			g_warning ("Unknwon xml node in part: %s", work->name);
+			g_warning ("Unknown xml node in part: %s", work->name);
 		}
 		work = work->next;
 	}
@@ -358,17 +352,17 @@ int
 filter_rule_xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 {
 	int res;
-
+	
 	g_assert (IS_FILTER_RULE (fr));
 	g_assert (IS_RULE_CONTEXT (f));
 	g_assert (node != NULL);
-
+	
 	fr->priv->frozen++;	
-	res = ((FilterRuleClass *) ((GtkObject *) fr)->klass)->xml_decode (fr, node, f);
+	res = FILTER_RULE_GET_CLASS (fr)->xml_decode (fr, node, f);
 	fr->priv->frozen--;
-
-	filter_rule_emit_changed(fr);
-
+	
+	filter_rule_emit_changed (fr);
+	
 	return res;
 }
 
@@ -408,9 +402,9 @@ xml_decode (FilterRule *fr, xmlNodePtr node, RuleContext *f)
 		} else if (!strcmp (work->name, "title") || !strcmp (work->name, "_title")) {
 			if (!fr->name) {
 				char *str, *decstr;
-
+				
 				str = xmlNodeGetContent (work);
-				decstr = e_utf8_xml1_decode (str);
+				decstr = g_strdup (str);
 				if (str)
 					xmlFree (str);
 				fr->name = decstr;
@@ -436,7 +430,7 @@ rule_copy (FilterRule *dest, FilterRule *src)
 	dest->grouping = src->grouping;
 	
 	if (dest->parts) {
-		g_list_foreach (dest->parts, (GFunc) gtk_object_unref, NULL);
+		g_list_foreach (dest->parts, (GFunc) g_object_unref, NULL);
 		g_list_free (dest->parts);
 		dest->parts = NULL;
 	}
@@ -445,7 +439,7 @@ rule_copy (FilterRule *dest, FilterRule *src)
 	while (node) {
 		FilterPart *part = node->data;
 		
-		gtk_object_ref (GTK_OBJECT (part));
+		g_object_ref (part);
 		dest->parts = g_list_append (dest->parts, part);
 		node = node->next;
 	}
@@ -457,9 +451,9 @@ filter_rule_copy (FilterRule *dest, FilterRule *src)
 	g_assert (IS_FILTER_RULE (dest));
 	g_assert (IS_FILTER_RULE (src));
 	
-	((FilterRuleClass *) ((GtkObject *) dest)->klass)->copy (dest, src);
-
-	filter_rule_emit_changed(dest);
+	FILTER_RULE_GET_CLASS (dest)->copy (dest, src);
+	
+	filter_rule_emit_changed (dest);
 }
 
 void
@@ -469,8 +463,8 @@ filter_rule_add_part (FilterRule *fr, FilterPart *fp)
 	g_assert (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_append (fr->parts, fp);
-
-	filter_rule_emit_changed(fr);
+	
+	filter_rule_emit_changed (fr);
 }
 
 void
@@ -480,8 +474,8 @@ filter_rule_remove_part (FilterRule *fr, FilterPart *fp)
 	g_assert (IS_FILTER_PART (fp));
 	
 	fr->parts = g_list_remove (fr->parts, fp);
-
-	filter_rule_emit_changed(fr);
+	
+	filter_rule_emit_changed (fr);
 }
 
 void
@@ -499,8 +493,8 @@ filter_rule_replace_part (FilterRule *fr, FilterPart *fp, FilterPart *new)
 	} else {
 		fr->parts = g_list_append (fr->parts, new);
 	}
-
-	filter_rule_emit_changed(fr);
+	
+	filter_rule_emit_changed (fr);
 }
 
 void
@@ -509,7 +503,7 @@ filter_rule_build_code (FilterRule *fr, GString *out)
 	g_assert (IS_FILTER_RULE (fr));
 	g_assert (out != NULL);
 	
-	((FilterRuleClass *) ((GtkObject *) fr)->klass)->build_code (fr, out);
+	FILTER_RULE_GET_CLASS (fr)->build_code (fr, out);
 	
 	d(printf ("build_code: [%s](%d)", out->str, out->len));
 }
@@ -518,9 +512,9 @@ void
 filter_rule_emit_changed(FilterRule *fr)
 {
 	g_assert (IS_FILTER_RULE (fr));
-
+	
 	if (fr->priv->frozen == 0)
-		gtk_signal_emit((GtkObject *)fr, signals[CHANGED]);
+		g_signal_emit (fr, signals[CHANGED]);
 }
 
 static void
@@ -563,7 +557,7 @@ struct _part_data {
 static void
 option_activate (GtkMenuItem *item, struct _part_data *data)
 {
-	FilterPart *part = gtk_object_get_data (GTK_OBJECT (item), "part");
+	FilterPart *part = g_object_get_data (item, "part");
 	FilterPart *newpart;
 	
 	/* dont update if we haven't changed */
@@ -576,15 +570,15 @@ option_activate (GtkMenuItem *item, struct _part_data *data)
 		gtk_container_remove (GTK_CONTAINER (data->container), data->partwidget);
 	
 	newpart = filter_part_clone (part);
-	filter_part_copy_values(newpart, data->part);
+	filter_part_copy_values (newpart, data->part);
 	filter_rule_replace_part (data->fr, data->part, newpart);
-	gtk_object_unref (GTK_OBJECT (data->part));
+	g_object_unref (data->part);
 	data->part = newpart;
 	data->partwidget = filter_part_get_widget (newpart);
 	if (data->partwidget)
 		gtk_box_pack_start (GTK_BOX (data->container), data->partwidget, FALSE, FALSE, 0);
 	
-	gtk_object_set_data (GTK_OBJECT (data->container), "part", newpart);
+	g_object_set_data (data->container, "part", newpart);
 }
 
 static GtkWidget *
@@ -606,7 +600,7 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	
 	hbox = gtk_hbox_new (FALSE, 0);
 	/* only set to automatically clean up the memory */
-	gtk_object_set_data_full (GTK_OBJECT (hbox), "data", data, g_free);
+	g_object_set_data_full (hbox, "data", data, g_free);
 	
 	p = filter_part_get_widget (newpart);
 	
@@ -617,13 +611,13 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	/* sigh, this is a little ugly */
 	while ((part = rule_context_next_part (f, part))) {
 		item = gtk_menu_item_new_with_label (_(part->title));
-		gtk_object_set_data (GTK_OBJECT (item), "part", part);
-		gtk_signal_connect (GTK_OBJECT (item), "activate", option_activate, data);
+		g_object_set_data (item, "part", part);
+		g_signal_connect (item, "activate", option_activate, data);
 		gtk_menu_append (GTK_MENU (menu), item);
 		gtk_widget_show (item);
-		if (!strcmp (newpart->title, part->title)) {
+		if (!strcmp (newpart->title, part->title))
 			current = index;
-		}
+		
 		index++;
 	}
 	
@@ -633,9 +627,9 @@ get_rule_part_widget (RuleContext *f, FilterPart *newpart, FilterRule *fr)
 	gtk_widget_show (omenu);
 	
 	gtk_box_pack_start (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
-	if (p) {
+	if (p)
 		gtk_box_pack_start (GTK_BOX (hbox), p, FALSE, FALSE, 0);
-	}
+	
 	gtk_widget_show_all (hbox);
 	
 	return hbox;
@@ -656,12 +650,12 @@ less_parts (GtkWidget *button, struct _rule_data *data)
 	if (g_list_length (data->fr->parts) < 2)
 		return;
 	
-	rule = gtk_object_get_data (GTK_OBJECT (button), "rule");
-	part = gtk_object_get_data (GTK_OBJECT (rule), "part");
+	rule = g_object_get_data (button, "rule");
+	part = g_object_get_data (rule, "part");
 	
 	/* remove the part from the list */
 	filter_rule_remove_part (data->fr, part);
-	gtk_object_unref (GTK_OBJECT (part));
+	g_object_unref (part);
 	
 	/* and from the display */
 	gtk_container_remove (GTK_CONTAINER (data->parts), rule);
@@ -679,10 +673,10 @@ attach_rule (GtkWidget *rule, struct _rule_data *data, FilterPart *part, int row
 	
 	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_REMOVE);
 	remove = gnome_pixmap_button (pixmap, _("Remove"));
-	gtk_object_set_data (GTK_OBJECT (remove), "rule", rule);
-	gtk_object_set_data (GTK_OBJECT (rule), "part", part);
+	g_object_set_data (remove, "rule", rule);
+	g_object_set_data (rule, "part", part);
 	/*gtk_button_set_relief (GTK_BUTTON (remove), GTK_RELIEF_NONE);*/
-	gtk_signal_connect (GTK_OBJECT (remove), "clicked", less_parts, data);
+	g_signal_connect (remove, "clicked", less_parts, data);
 	gtk_table_attach (GTK_TABLE (data->parts), remove, 1, 2, row, row + 1,
 			  0, 0, 0, 0);
 	gtk_widget_show (remove);
@@ -724,13 +718,13 @@ static void
 name_changed (GtkEntry *entry, FilterRule *fr)
 {
 	g_free (fr->name);
-	fr->name = e_utf8_gtk_entry_get_text (entry);
+	fr->name = g_strdup (gtk_entry_get_text (entry));
 }
 
 GtkWidget *
-filter_rule_get_widget (FilterRule *fr, struct _RuleContext *f)
+filter_rule_get_widget (FilterRule *fr, RuleContext *rc)
 {
-	return ((FilterRuleClass *) ((GtkObject *) fr)->klass)->get_widget(fr, f);
+	return FILTER_RULE_GET_CLASS (fr)->get_widget (fr, rc);
 }
 
 static void
@@ -755,7 +749,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	GList *l;
 	FilterPart *part;
 	struct _rule_data *data;
-	gint rows, i = 0;
+	int rows, i = 0;
 	
 	/* this stuff should probably be a table, but the
 	   rule parts need to be a vbox */
@@ -770,17 +764,17 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 		/* FIXME: do we want the following code in the future? */
 		/*gtk_editable_select_region (GTK_EDITABLE (name), 0, -1);*/
 	} else {
-		e_utf8_gtk_entry_set_text (GTK_ENTRY (name), _(fr->name));
+		gtk_entry_set_text (GTK_ENTRY (name), fr->name);
 	}
 	
 	/* evil kludgy hack because gtk sucks */
-	gtk_signal_connect (GTK_OBJECT (name), "realize", grab_focus, name);
+	g_signal_connect (name, "realize", grab_focus, name);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), name, TRUE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, FALSE, 0);
-	gtk_signal_connect (GTK_OBJECT (name), "changed", name_changed, fr);
+	g_signal_connect (name, "changed", name_changed, fr);
 	
 	frame = gtk_frame_new (_("If"));
 	inframe = gtk_vbox_new (FALSE, 3);
@@ -797,7 +791,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	data->parts = parts;
 	
 	/* only set to automatically clean up the memory */
-	gtk_object_set_data_full (GTK_OBJECT (vbox), "data", data, g_free);
+	g_object_set_data_full (vbox, "data", data, g_free);
 	
 	hbox = gtk_hbox_new (FALSE, 3);
 	label = gtk_label_new (_("Execute actions"));
@@ -805,12 +799,12 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	menu = gtk_menu_new ();
 	
 	item = gtk_menu_item_new_with_label (_("if all criteria are met"));
-	gtk_signal_connect (GTK_OBJECT (item), "activate", match_all, fr);
+	g_signal_connect (item, "activate", match_all, fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
 	item = gtk_menu_item_new_with_label (_("if any criteria are met"));
-	gtk_signal_connect (GTK_OBJECT (item), "activate", match_any, fr);
+	g_signal_connect (item, "activate", match_any, fr);
 	gtk_menu_append (GTK_MENU (menu), item);
 	gtk_widget_show (item);
 	
@@ -821,7 +815,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 	
 	pixmap = gnome_stock_new_with_icon (GNOME_STOCK_PIXMAP_ADD);
 	add = gnome_pixmap_button (pixmap, _("Add criterion"));
-	gtk_signal_connect (GTK_OBJECT (add), "clicked", more_parts, data);
+	g_signal_connect (add, "clicked", more_parts, data);
 	gtk_box_pack_start (GTK_BOX (hbox), add, FALSE, FALSE, 3);
 	
 	gtk_box_pack_end (GTK_BOX (hbox), omenu, FALSE, FALSE, 0);
@@ -859,7 +853,7 @@ get_widget (FilterRule *fr, struct _RuleContext *f)
 }
 
 FilterRule *
-filter_rule_next_list (GList * l, FilterRule * last, const char *source)
+filter_rule_next_list (GList *l, FilterRule *last, const char *source)
 {
 	GList *node = l;
 	
@@ -868,7 +862,7 @@ filter_rule_next_list (GList * l, FilterRule * last, const char *source)
 		if (node == NULL)
 			node = l;
 		else
-			node = g_list_next (node);
+			node = node->next;
 	}
 	
 	if (source) {
@@ -877,7 +871,7 @@ filter_rule_next_list (GList * l, FilterRule * last, const char *source)
 			
 			if (rule->source && strcmp (rule->source, source) == 0)
 				break;
-			node = g_list_next (node);
+			node = node->next;
 		}
 	}
 	
@@ -896,7 +890,7 @@ filter_rule_find_list (GList * l, const char *name, const char *source)
 		if (strcmp (rule->name, name) == 0)
 			if (source == NULL || (rule->source != NULL && strcmp (rule->source, source) == 0))
 				return rule;
-		l = g_list_next (l);
+		l = l->next;
 	}
 	
 	return NULL;
