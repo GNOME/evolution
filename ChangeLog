@@ -1,3 +1,8 @@
+2003-12-29  JP Rosevear <jpr@ximian.com>
+
+	* configure.in: bump version and gal, e-d-s and gtkhtml
+	requirements
+
 2003-12-22  Rodrigo Moya <rodrigo@ximian.com>
 
 	* configure.in: added camel/providers/groupwise to the build.

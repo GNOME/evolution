@@ -4,14 +4,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: evolution\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-29 00:13+0000\n"
+"POT-Creation-Date: 2003-12-29 12:04-0500\n"
 "PO-Revision-Date: 2003-12-29 01:13+0000\n"
 "Last-Translator: Görkem Çetin <gorkem@kde.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -453,7 +453,7 @@ msgid "S_earch scope: "
 msgstr ""
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:579
+#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:605
 #: calendar/gui/gnome-cal.c:586
 msgid "Searching"
 msgstr "Arama"
@@ -663,7 +663,8 @@ msgid ""
 "log in information. Please ask your system administrator if you are unsure "
 "of this information."
 msgstr ""
-"Bir LDAP sunucuyu tanımlarken ilk gerekecek bilgi bu sunucunun adı ve sizin \n"
+"Bir LDAP sunucuyu tanımlarken ilk gerekecek bilgi bu sunucunun adı ve "
+"sizin \n"
 "giriş bilgilerinizdir. Lütfen bu konuda emin değilseniz sistem yöneticinize "
 "danışın."
 
@@ -677,7 +678,7 @@ msgstr "İ_ndirme sınırı:"
 
 #: addressbook/gui/component/ldap-config.glade.h:87 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:35 ui/evolution-composer-entries.xml.h:8
+#: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
@@ -920,11 +921,11 @@ msgid "_Categories..."
 msgstr "_Kategoriler..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1210
-#: calendar/gui/e-cal-view.c:1241 calendar/gui/e-calendar-table.c:1043
+#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1236
+#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-calendar-table.c:1043
 #: calendar/gui/e-calendar-table.c:1061 mail/em-folder-tree.c:1502
 #: mail/em-folder-view.c:706 ui/evolution-addressbook.xml.h:33
-#: ui/evolution-calendar.xml.h:34 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
 #: ui/evolution-tasks.xml.h:18
 msgid "_Delete"
@@ -2342,7 +2343,7 @@ msgid "Paste"
 msgstr "Yapıştır"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1021
-#: calendar/gui/e-cal-view.c:1179
+#: calendar/gui/e-cal-view.c:1205
 msgid "Current View"
 msgstr "Şimdiki Görünüm"
 
@@ -3501,7 +3502,7 @@ msgstr "Açıklama içeriği"
 msgid "Unmatched"
 msgstr "Eşleme yok"
 
-#: calendar/gui/calendar-commands.c:360
+#: calendar/gui/calendar-commands.c:371
 #, fuzzy
 msgid ""
 "This operation will permanently erase all events older than the selected "
@@ -3513,41 +3514,41 @@ msgstr ""
 "\n"
 "Gerçekten bu görevleri silmek istiyor musunuz?"
 
-#: calendar/gui/calendar-commands.c:367
+#: calendar/gui/calendar-commands.c:378
 #, fuzzy
 msgid "Purge events older than"
 msgstr "küçük"
 
-#: calendar/gui/calendar-commands.c:372
+#: calendar/gui/calendar-commands.c:383
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:17
 msgid "days"
 msgstr "gün"
 
-#: calendar/gui/calendar-commands.c:441
+#: calendar/gui/calendar-commands.c:452
 msgid "%A %d %B %Y"
 msgstr "%d %B %A %Y"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:444 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/calendar-commands.c:455 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1359 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%d %b %a"
 
-#: calendar/gui/calendar-commands.c:446 calendar/gui/calendar-commands.c:451
-#: calendar/gui/calendar-commands.c:453
+#: calendar/gui/calendar-commands.c:457 calendar/gui/calendar-commands.c:462
+#: calendar/gui/calendar-commands.c:464
 msgid "%a %d %b %Y"
 msgstr "%d %b %a %Y"
 
-#: calendar/gui/calendar-commands.c:470 calendar/gui/calendar-commands.c:476
-#: calendar/gui/calendar-commands.c:482 calendar/gui/calendar-commands.c:484
+#: calendar/gui/calendar-commands.c:481 calendar/gui/calendar-commands.c:487
+#: calendar/gui/calendar-commands.c:493 calendar/gui/calendar-commands.c:495
 msgid "%d %B %Y"
 msgstr "%d %B %Y"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:474
+#: calendar/gui/calendar-commands.c:485
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1516
 msgid "%d %B"
 msgstr "%d %B"
@@ -4214,7 +4215,7 @@ msgstr ""
 msgid "No summary"
 msgstr "Özet yok"
 
-#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:966
+#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:992
 #: calendar/gui/e-calendar-table.c:1175 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "Farklı kaydet..."
@@ -5152,106 +5153,106 @@ msgstr "Tekrarlama"
 msgid "Assigned"
 msgstr "Görevlendirildi"
 
-#: calendar/gui/e-cal-view.c:600 calendar/gui/e-calendar-table.c:686
+#: calendar/gui/e-cal-view.c:626 calendar/gui/e-calendar-table.c:686
 msgid "Deleting selected objects"
 msgstr "Seçilen bağlantılar siliniyor"
 
-#: calendar/gui/e-cal-view.c:704 calendar/gui/e-calendar-table.c:847
+#: calendar/gui/e-cal-view.c:730 calendar/gui/e-calendar-table.c:847
 msgid "Updating objects"
 msgstr "Öğeler güncelleniyor"
 
-#: calendar/gui/e-cal-view.c:1164 calendar/gui/e-cal-view.c:1249
+#: calendar/gui/e-cal-view.c:1190 calendar/gui/e-cal-view.c:1275
 msgid "New _Appointment..."
 msgstr "Yeni _Randevu..."
 
-#: calendar/gui/e-cal-view.c:1165 calendar/gui/e-cal-view.c:1251
+#: calendar/gui/e-cal-view.c:1191 calendar/gui/e-cal-view.c:1277
 msgid "New All Day _Event"
 msgstr "Y_eni Tüm Gün Olayı"
 
-#: calendar/gui/e-cal-view.c:1166 calendar/gui/e-cal-view.c:1253
+#: calendar/gui/e-cal-view.c:1192 calendar/gui/e-cal-view.c:1279
 msgid "New Meeting"
 msgstr "Yeni Toplantı"
 
-#: calendar/gui/e-cal-view.c:1167 calendar/gui/e-cal-view.c:1255
+#: calendar/gui/e-cal-view.c:1193 calendar/gui/e-cal-view.c:1281
 msgid "New Task"
 msgstr "Yeni Görev"
 
-#: calendar/gui/e-cal-view.c:1171 calendar/gui/e-cal-view.c:1194
-#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-calendar-table.c:1026
+#: calendar/gui/e-cal-view.c:1197 calendar/gui/e-cal-view.c:1220
+#: calendar/gui/e-cal-view.c:1287 calendar/gui/e-calendar-table.c:1026
 #: calendar/gui/e-calendar-table.c:1068 ui/evolution-addressbook.xml.h:40
-#: ui/evolution-calendar.xml.h:37 ui/evolution-comp-editor.xml.h:19
+#: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
 #: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: calendar/gui/e-cal-view.c:1175 calendar/gui/e-cal-view.c:1201
-#: calendar/gui/e-cal-view.c:1259 calendar/gui/e-calendar-table.c:1032
+#: calendar/gui/e-cal-view.c:1201 calendar/gui/e-cal-view.c:1227
+#: calendar/gui/e-cal-view.c:1285 calendar/gui/e-calendar-table.c:1032
 #: calendar/gui/e-calendar-table.c:1066 ui/evolution-addressbook.xml.h:38
-#: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:9
+#: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:20
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: calendar/gui/e-cal-view.c:1181 calendar/gui/e-cal-view.c:1245
+#: calendar/gui/e-cal-view.c:1207 calendar/gui/e-cal-view.c:1271
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "_Bugüne Git"
 
-#: calendar/gui/e-cal-view.c:1182 calendar/gui/e-cal-view.c:1247
+#: calendar/gui/e-cal-view.c:1208 calendar/gui/e-cal-view.c:1273
 msgid "_Go to Date..."
 msgstr "_Güne Git..."
 
-#: calendar/gui/e-cal-view.c:1186 ui/evolution-calendar.xml.h:38
+#: calendar/gui/e-cal-view.c:1212 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "_Boş/Meşgul Bilgisini Yayınla"
 
-#: calendar/gui/e-cal-view.c:1192 calendar/gui/e-cal-view.c:1257
+#: calendar/gui/e-cal-view.c:1218 calendar/gui/e-cal-view.c:1283
 #: calendar/gui/e-calendar-table.c:1023 calendar/gui/e-calendar-table.c:1064
 #: mail/em-folder-view.c:681 shell/e-shortcuts-view.c:422
 #: ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "_Aç"
 
-#: calendar/gui/e-cal-view.c:1193 calendar/gui/e-cal-view.c:1263
+#: calendar/gui/e-cal-view.c:1219 calendar/gui/e-cal-view.c:1289
 #: calendar/gui/e-calendar-table.c:1025 calendar/gui/e-calendar-table.c:1070
 #: mail/em-folder-view.c:683 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "_Farklı Kaydet..."
 
-#: calendar/gui/e-cal-view.c:1199 calendar/gui/e-cal-view.c:1239
+#: calendar/gui/e-cal-view.c:1225 calendar/gui/e-cal-view.c:1265
 #: calendar/gui/e-calendar-table.c:1030 calendar/gui/e-calendar-table.c:1059
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "_Kes"
 
-#: calendar/gui/e-cal-view.c:1200 calendar/gui/e-cal-view.c:1237
+#: calendar/gui/e-cal-view.c:1226 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-calendar-table.c:1031 calendar/gui/e-calendar-table.c:1057
 #: mail/em-folder-tree.c:1497 ui/evolution-addressbook.xml.h:31
-#: ui/evolution-calendar.xml.h:33 ui/evolution-composer-entries.xml.h:7
+#: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:17
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: calendar/gui/e-cal-view.c:1205
+#: calendar/gui/e-cal-view.c:1231
 msgid "_Schedule Meeting..."
 msgstr "_Toplantı Tarihi Ayarla..."
 
-#: calendar/gui/e-cal-view.c:1206
+#: calendar/gui/e-cal-view.c:1232
 msgid "_Forward as iCalendar..."
 msgstr "_iCalendar olarak Yönlendir..."
 
-#: calendar/gui/e-cal-view.c:1211 calendar/gui/e-cal-view.c:1242
+#: calendar/gui/e-cal-view.c:1237 calendar/gui/e-cal-view.c:1268
 msgid "Delete this _Occurrence"
 msgstr "_Bu Oluşumu Sil"
 
-#: calendar/gui/e-cal-view.c:1212 calendar/gui/e-cal-view.c:1243
+#: calendar/gui/e-cal-view.c:1238 calendar/gui/e-cal-view.c:1269
 msgid "Delete _All Occurrences"
 msgstr "_Tüm Oluşumları Sil"
 
-#: calendar/gui/e-cal-view.c:1265 ui/evolution.xml.h:30
+#: calendar/gui/e-cal-view.c:1291 ui/evolution.xml.h:30
 msgid "_Settings..."
 msgstr "_Ayarlar..."
 
@@ -5323,7 +5324,7 @@ msgstr "_Seçilen Görevleri Bitmiş Olarak İşaretle"
 msgid "_Delete Selected Tasks"
 msgstr "_Seçilen Görevleri Sil"
 
-#: calendar/gui/e-calendar-table.c:1351
+#: calendar/gui/e-calendar-table.c:1355
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "Görev eklemek için tıklayın"
@@ -16178,7 +16179,7 @@ msgstr "Yüklemeyi Durdur"
 msgid "View the current contact"
 msgstr ""
 
-#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:32
+#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:33
 #: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
 #: ui/evolution-contact-list-editor.xml.h:11
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
@@ -16312,12 +16313,22 @@ msgid "Show the working week"
 msgstr "Çalışma günlerini göster"
 
 #: ui/evolution-calendar.xml.h:30
+#, fuzzy
+msgid "View the current appointment"
+msgstr "şimdiki zaman"
+
+#: ui/evolution-calendar.xml.h:31
 msgid "Week"
 msgstr "Hafta"
 
-#: ui/evolution-calendar.xml.h:31
+#: ui/evolution-calendar.xml.h:32
 msgid "Work Week"
 msgstr "Çalışma Haftası"
+
+#: ui/evolution-calendar.xml.h:37
+#, fuzzy
+msgid "_Open Appointment"
+msgstr "_Randevu"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2

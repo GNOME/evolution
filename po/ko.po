@@ -7,14 +7,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: AC_PACKAGE_NAME AC_PACKAGE_VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-22 03:22+0900\n"
+"POT-Creation-Date: 2003-12-29 12:04-0500\n"
 "PO-Revision-Date: 2003-12-22 05:19+0900\n"
 "Last-Translator: Changwoo Ryu <cwryu@debian.org>\n"
 "Language-Team: GTP Korean <gnome-kr-translation@gnome.or.kr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: addressbook/conduit/address-conduit.c:272
 msgid "Default Sync Address:"
@@ -100,7 +100,7 @@ msgstr "등록 정보..."
 
 #: addressbook/gui/component/addressbook-component.c:213
 #: addressbook/gui/widgets/e-addressbook-view.c:1017
-#: calendar/gui/calendar-component.c:443 calendar/gui/tasks-component.c:417
+#: calendar/gui/calendar-component.c:436 calendar/gui/tasks-component.c:418
 #: filter/libfilter-i18n.h:10 mail/em-account-prefs.c:236
 #: ui/evolution-addressbook.xml.h:8 ui/evolution-comp-editor.xml.h:4
 #: ui/evolution-contact-editor.xml.h:3
@@ -109,7 +109,7 @@ msgid "Delete"
 msgstr "지우기"
 
 #: addressbook/gui/component/addressbook-component.c:214
-#: calendar/gui/calendar-component.c:442 calendar/gui/tasks-component.c:415
+#: calendar/gui/calendar-component.c:435 calendar/gui/tasks-component.c:416
 msgid "Rename"
 msgstr "이름 바꾸기"
 
@@ -138,14 +138,14 @@ msgid "Create a new contact list"
 msgstr "새 연락처 목록을 만듭니다"
 
 #: addressbook/gui/component/addressbook-component.c:443
-#: calendar/gui/calendar-component.c:838 calendar/gui/tasks-component.c:771
+#: calendar/gui/calendar-component.c:831 calendar/gui/tasks-component.c:772
 msgid "On This Computer"
 msgstr ""
 
 #. orange
 #: addressbook/gui/component/addressbook-component.c:453
-#: calendar/gui/calendar-component.c:846 calendar/gui/migration.c:123
-#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:779
+#: calendar/gui/calendar-component.c:839 calendar/gui/migration.c:123
+#: calendar/gui/migration.c:146 calendar/gui/tasks-component.c:780
 #: filter/filter-label.c:123 mail/mail-config.c:65 mail/mail-config.glade.h:88
 #: shell/e-config-upgrade.c:1456
 msgid "Personal"
@@ -153,7 +153,7 @@ msgstr "개인"
 
 #. red
 #: addressbook/gui/component/addressbook-component.c:460
-#: calendar/gui/calendar-component.c:853 filter/filter-label.c:122
+#: calendar/gui/calendar-component.c:846 filter/filter-label.c:122
 #: mail/mail-config.c:64 mail/mail-config.glade.h:135
 #: shell/e-config-upgrade.c:1455
 msgid "Work"
@@ -431,8 +431,8 @@ msgid "S_earch scope: "
 msgstr "찾기 범위(_E): "
 
 #: addressbook/gui/component/ldap-config.glade.h:34
-#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:579
-#: calendar/gui/gnome-cal.c:585
+#: calendar/gui/e-cal-list-view.c:396 calendar/gui/e-cal-view.c:605
+#: calendar/gui/gnome-cal.c:586
 msgid "Searching"
 msgstr "찾는 중"
 
@@ -620,7 +620,7 @@ msgstr "다운로드 제한(_D):"
 
 #: addressbook/gui/component/ldap-config.glade.h:87 filter/filter.glade.h:14
 #: mail/mail-config.glade.h:148 ui/evolution-addressbook.xml.h:34
-#: ui/evolution-calendar.xml.h:35 ui/evolution-composer-entries.xml.h:8
+#: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:8
 #: ui/evolution-mail-list.xml.h:24 ui/evolution-mail-messagedisplay.xml.h:6
 #: ui/evolution-message-composer.xml.h:41
 #: ui/evolution-signature-editor.xml.h:12 ui/evolution-subscribe.xml.h:10
@@ -864,11 +864,11 @@ msgid "_Categories..."
 msgstr "분류(_C)..."
 
 #: addressbook/gui/contact-editor/contact-editor.glade.h:30
-#: calendar/gui/dialogs/meeting-page.c:633 calendar/gui/e-cal-view.c:1210
-#: calendar/gui/e-cal-view.c:1241 calendar/gui/e-calendar-table.c:1043
+#: calendar/gui/dialogs/meeting-page.c:649 calendar/gui/e-cal-view.c:1236
+#: calendar/gui/e-cal-view.c:1267 calendar/gui/e-calendar-table.c:1043
 #: calendar/gui/e-calendar-table.c:1061 mail/em-folder-tree.c:1502
 #: mail/em-folder-view.c:706 ui/evolution-addressbook.xml.h:33
-#: ui/evolution-calendar.xml.h:34 ui/evolution-comp-editor.xml.h:17
+#: ui/evolution-calendar.xml.h:35 ui/evolution-comp-editor.xml.h:17
 #: ui/evolution-contact-editor.xml.h:14 ui/evolution-mail-message.xml.h:110
 #: ui/evolution-tasks.xml.h:18
 msgid "_Delete"
@@ -2271,9 +2271,9 @@ msgstr "잘라내기"
 
 #. create the dialog
 #: addressbook/gui/widgets/e-addressbook-view.c:1015
-#: calendar/gui/calendar-component.c:440
-#: calendar/gui/dialogs/copy-source-dialog.c:135
-#: calendar/gui/tasks-component.c:413 ui/evolution-addressbook.xml.h:2
+#: calendar/gui/calendar-component.c:433
+#: calendar/gui/dialogs/copy-source-dialog.c:136
+#: calendar/gui/tasks-component.c:414 ui/evolution-addressbook.xml.h:2
 #: ui/evolution-mail-message.xml.h:9 ui/evolution-tasks.xml.h:2
 msgid "Copy"
 msgstr "복사"
@@ -2284,7 +2284,7 @@ msgid "Paste"
 msgstr "붙여 넣기"
 
 #: addressbook/gui/widgets/e-addressbook-view.c:1021
-#: calendar/gui/e-cal-view.c:1179
+#: calendar/gui/e-cal-view.c:1205
 msgid "Current View"
 msgstr "현재 보기"
 
@@ -2583,7 +2583,7 @@ msgstr "성공했습니다"
 #: camel/providers/imap/camel-imap-command.c:306
 #: camel/providers/imap/camel-imap-command.c:403
 #: camel/providers/pop3/camel-pop3-store.c:536
-#: camel/providers/pop3/camel-pop3-store.c:543 shell/e-shell.c:1011
+#: camel/providers/pop3/camel-pop3-store.c:543 shell/e-shell.c:1012
 msgid "Unknown error"
 msgstr "알 수 없는 에러가 발생했습니다"
 
@@ -3174,7 +3174,7 @@ msgstr "Evolution 작업 컴포넌트"
 #: calendar/gui/GNOME_Evolution_Calendar.server.in.in.h:12
 #: calendar/gui/e-tasks.c:1082 calendar/gui/print.c:1795
 #: calendar/gui/tasks-control.c:490
-#: calendar/importers/icalendar-importer.c:716
+#: calendar/importers/icalendar-importer.c:717
 #: mail/importers/netscape-importer.c:1845 shell/e-shortcuts.c:1087
 msgid "Tasks"
 msgstr "작업"
@@ -3423,134 +3423,134 @@ msgstr "주석에 포함"
 msgid "Unmatched"
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:360
+#: calendar/gui/calendar-commands.c:371
 msgid ""
 "This operation will permanently erase all events older than the selected "
 "amount of time. If you continue, you will not be able to recover these "
 "events."
 msgstr ""
 
-#: calendar/gui/calendar-commands.c:367
+#: calendar/gui/calendar-commands.c:378
 #, fuzzy
 msgid "Purge events older than"
 msgstr "보다 적음"
 
-#: calendar/gui/calendar-commands.c:372
+#: calendar/gui/calendar-commands.c:383
 #: calendar/gui/dialogs/alarm-options.glade.h:14 filter/filter.glade.h:17
 msgid "days"
 msgstr "일"
 
-#: calendar/gui/calendar-commands.c:441
+#: calendar/gui/calendar-commands.c:452
 msgid "%A %d %B %Y"
 msgstr "%Y년 %B %d일 %A"
 
 #. strftime format %a = abbreviated weekday name, %d = day of month,
 #. %b = abbreviated month name. Don't use any other specifiers.
-#: calendar/gui/calendar-commands.c:444 calendar/gui/e-day-view-top-item.c:692
+#: calendar/gui/calendar-commands.c:455 calendar/gui/e-day-view-top-item.c:692
 #: calendar/gui/e-day-view.c:1359 calendar/gui/e-week-view-main-item.c:329
 msgid "%a %d %b"
 msgstr "%b %d일 %a"
 
-#: calendar/gui/calendar-commands.c:446 calendar/gui/calendar-commands.c:451
-#: calendar/gui/calendar-commands.c:453
+#: calendar/gui/calendar-commands.c:457 calendar/gui/calendar-commands.c:462
+#: calendar/gui/calendar-commands.c:464
 msgid "%a %d %b %Y"
 msgstr "%Y년 %b %d일 %a"
 
-#: calendar/gui/calendar-commands.c:470 calendar/gui/calendar-commands.c:476
-#: calendar/gui/calendar-commands.c:482 calendar/gui/calendar-commands.c:484
+#: calendar/gui/calendar-commands.c:481 calendar/gui/calendar-commands.c:487
+#: calendar/gui/calendar-commands.c:493 calendar/gui/calendar-commands.c:495
 msgid "%d %B %Y"
 msgstr "%Y년 %B %d일"
 
 #. strftime format %d = day of month, %B = full
 #. month name. You can change the order but don't
 #. change the specifiers or add anything.
-#: calendar/gui/calendar-commands.c:474
+#: calendar/gui/calendar-commands.c:485
 #: calendar/gui/e-week-view-main-item.c:337 calendar/gui/print.c:1516
 msgid "%d %B"
 msgstr "%B %d일"
 
-#: calendar/gui/calendar-component.c:376
+#: calendar/gui/calendar-component.c:369
 #, c-format
 msgid "Calendar '%s' will be removed. Are you sure you want to continue?"
 msgstr "'%s' 달력을 지우게 됩니다. 정말로 계속 하시겠습니까?"
 
-#: calendar/gui/calendar-component.c:417
+#: calendar/gui/calendar-component.c:410
 #, fuzzy
 msgid "Rename this calendar to"
 msgstr "이 달력을 바꿀 이름"
 
-#: calendar/gui/calendar-component.c:438
+#: calendar/gui/calendar-component.c:431
 msgid "New Calendar"
 msgstr "새 달력"
 
-#: calendar/gui/calendar-component.c:622
+#: calendar/gui/calendar-component.c:615
 msgid "New appointment"
 msgstr "새 약속"
 
-#: calendar/gui/calendar-component.c:623
+#: calendar/gui/calendar-component.c:616
 msgid "_Appointment"
 msgstr "약속(_A)"
 
-#: calendar/gui/calendar-component.c:624
+#: calendar/gui/calendar-component.c:617
 msgid "Create a new appointment"
 msgstr "새 약속을 만듭니다"
 
-#: calendar/gui/calendar-component.c:629
+#: calendar/gui/calendar-component.c:622
 msgid "New meeting"
 msgstr "새 모임"
 
-#: calendar/gui/calendar-component.c:630
+#: calendar/gui/calendar-component.c:623
 msgid "M_eeting"
 msgstr "모임(_E)"
 
-#: calendar/gui/calendar-component.c:631
+#: calendar/gui/calendar-component.c:624
 msgid "Create a new meeting request"
 msgstr "새 모임 요청을 만듭니다"
 
-#: calendar/gui/calendar-component.c:636
+#: calendar/gui/calendar-component.c:629
 msgid "New all day appointment"
 msgstr "새 하루 종일 약속"
 
-#: calendar/gui/calendar-component.c:637
+#: calendar/gui/calendar-component.c:630
 msgid "All _Day Appointment"
 msgstr "하루 종일 약속(_D)"
 
-#: calendar/gui/calendar-component.c:638
+#: calendar/gui/calendar-component.c:631
 msgid "Create a new all-day appointment"
 msgstr "새 하루 종일 약속을 만듭니다"
 
-#: calendar/gui/calendar-component.c:643
+#: calendar/gui/calendar-component.c:636
 msgid "New calendar"
 msgstr "새 달력"
 
-#: calendar/gui/calendar-component.c:644
+#: calendar/gui/calendar-component.c:637
 msgid "C_alendar"
 msgstr "달력(_A)"
 
-#: calendar/gui/calendar-component.c:645
+#: calendar/gui/calendar-component.c:638
 msgid "Create a new calendar"
 msgstr "새 달력을 만듭니다"
 
-#: calendar/gui/calendar-component.c:712
+#: calendar/gui/calendar-component.c:705
 #, c-format
 msgid "Unable to open the calendar '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/calendar-component.c:725
+#: calendar/gui/calendar-component.c:718
 msgid "There is no calendar available for creating events and meetings"
 msgstr ""
 
 #. create the remote source group
-#: calendar/gui/calendar-component.c:862
+#: calendar/gui/calendar-component.c:855
 msgid "On The Web"
 msgstr ""
 
-#: calendar/gui/calendar-offline-handler.c:191
+#: calendar/gui/calendar-offline-handler.c:192
 #, c-format
 msgid "backend_go_offline(): %s"
 msgstr ""
 
-#: calendar/gui/calendar-offline-handler.c:214
+#: calendar/gui/calendar-offline-handler.c:215
 #, c-format
 msgid "backend_go_online(): %s"
 msgstr ""
@@ -3576,33 +3576,33 @@ msgstr "달별 보기"
 msgid "List View"
 msgstr "사용자 보기"
 
-#: calendar/gui/comp-editor-factory.c:451
+#: calendar/gui/comp-editor-factory.c:452
 msgid "Error while opening the calendar"
 msgstr "달력을 여는 중에 오류가 발생했습니다"
 
-#: calendar/gui/comp-editor-factory.c:462
+#: calendar/gui/comp-editor-factory.c:463
 msgid "Method not supported when opening the calendar"
 msgstr ""
 
-#: calendar/gui/comp-editor-factory.c:468
+#: calendar/gui/comp-editor-factory.c:469
 msgid "Permission denied to open the calendar"
 msgstr "달력을 열 허가가 거부되었습니다"
 
-#: calendar/gui/comp-editor-factory.c:518
+#: calendar/gui/comp-editor-factory.c:519
 #, c-format
 msgid "open_client(): %s"
 msgstr ""
 
-#: calendar/gui/control-factory.c:133
+#: calendar/gui/control-factory.c:140
 #, c-format
 msgid "Could not open the folder in '%s'"
 msgstr "`%s'에 있는 폴더를 열수가 없습니다"
 
-#: calendar/gui/control-factory.c:179
+#: calendar/gui/control-factory.c:190
 msgid "The URI that the calendar will display"
 msgstr "달력에 보여줄 URI"
 
-#: calendar/gui/control-factory.c:186
+#: calendar/gui/control-factory.c:197
 msgid "The type of view to show"
 msgstr ""
 
@@ -3736,7 +3736,7 @@ msgstr "전자메일 보내기"
 
 #: calendar/gui/dialogs/alarm-page.glade.h:9
 #: calendar/gui/dialogs/recurrence-page.glade.h:9
-#: calendar/gui/e-itip-control.c:932 calendar/gui/e-itip-control.glade.h:11
+#: calendar/gui/e-itip-control.c:933 calendar/gui/e-itip-control.glade.h:11
 #: calendar/gui/e-tasks.c:168
 msgid "Summary:"
 msgstr "요약:"
@@ -3835,7 +3835,7 @@ msgstr "일"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:16
 #: calendar/gui/dialogs/recurrence-page.c:1048
-#: calendar/gui/e-itip-control.c:556
+#: calendar/gui/e-itip-control.c:557
 msgid "Friday"
 msgstr "금요일"
 
@@ -3849,7 +3849,7 @@ msgstr "분"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:19
 #: calendar/gui/dialogs/recurrence-page.c:1044
-#: calendar/gui/e-itip-control.c:552
+#: calendar/gui/e-itip-control.c:553
 msgid "Monday"
 msgstr "월요일"
 
@@ -3859,7 +3859,7 @@ msgstr "일(_U)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:21
 #: calendar/gui/dialogs/recurrence-page.c:1049
-#: calendar/gui/e-itip-control.c:557
+#: calendar/gui/e-itip-control.c:558
 msgid "Saturday"
 msgstr "토요일"
 
@@ -3874,7 +3874,7 @@ msgstr "날짜 선택할 때 몇 번째 주인지 표시(_N)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:24
 #: calendar/gui/dialogs/recurrence-page.c:1050
-#: calendar/gui/e-itip-control.c:551
+#: calendar/gui/e-itip-control.c:552
 msgid "Sunday"
 msgstr "일요일"
 
@@ -3888,7 +3888,7 @@ msgstr "목(_H)"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:27
 #: calendar/gui/dialogs/recurrence-page.c:1047
-#: calendar/gui/e-itip-control.c:555
+#: calendar/gui/e-itip-control.c:556
 msgid "Thursday"
 msgstr "목요일"
 
@@ -3902,7 +3902,7 @@ msgstr "시간 형식:"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:30
 #: calendar/gui/dialogs/recurrence-page.c:1045
-#: calendar/gui/e-itip-control.c:553
+#: calendar/gui/e-itip-control.c:554
 msgid "Tuesday"
 msgstr "화요일"
 
@@ -3912,7 +3912,7 @@ msgstr "시작 요일(_E):"
 
 #: calendar/gui/dialogs/cal-prefs-dialog.glade.h:32
 #: calendar/gui/dialogs/recurrence-page.c:1046
-#: calendar/gui/e-itip-control.c:554
+#: calendar/gui/e-itip-control.c:555
 msgid "Wednesday"
 msgstr "수요일"
 
@@ -4126,7 +4126,7 @@ msgstr "여행 일정 - %s"
 msgid "No summary"
 msgstr "요약 없음"
 
-#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:966
+#: calendar/gui/dialogs/comp-editor.c:1313 calendar/gui/e-cal-view.c:992
 #: calendar/gui/e-calendar-table.c:1175 composer/e-msg-composer.c:1138
 msgid "Save as..."
 msgstr "다른 이름으로 저장..."
@@ -4142,7 +4142,7 @@ msgstr ""
 msgid "Unable to obtain current version!"
 msgstr ""
 
-#: calendar/gui/dialogs/copy-source-dialog.c:141
+#: calendar/gui/dialogs/copy-source-dialog.c:142
 msgid "Select destination source"
 msgstr ""
 
@@ -4272,23 +4272,23 @@ msgstr "계획"
 msgid "Meeting"
 msgstr "모임"
 
-#: calendar/gui/dialogs/event-page.c:608 calendar/gui/dialogs/task-page.c:511
+#: calendar/gui/dialogs/event-page.c:609 calendar/gui/dialogs/task-page.c:512
 msgid "Start date is wrong"
 msgstr "시작 날짜가 틀렸습니다"
 
-#: calendar/gui/dialogs/event-page.c:618
+#: calendar/gui/dialogs/event-page.c:619
 msgid "End date is wrong"
 msgstr "끝 날짜가 틀렸습니다"
 
-#: calendar/gui/dialogs/event-page.c:641
+#: calendar/gui/dialogs/event-page.c:642
 msgid "Start time is wrong"
 msgstr "시작 시각이 틀렸습니다"
 
-#: calendar/gui/dialogs/event-page.c:648
+#: calendar/gui/dialogs/event-page.c:649
 msgid "End time is wrong"
 msgstr "끝 시각이 틀렸습니다"
 
-#: calendar/gui/dialogs/event-page.c:1227
+#: calendar/gui/dialogs/event-page.c:1228
 #, fuzzy, c-format
 msgid "Unable to open the calendar '%s'."
 msgstr "달력을 열 허가가 거부되었습니다"
@@ -4366,8 +4366,8 @@ msgid "_Start time:"
 msgstr "시작 시각(_S):"
 
 #. an empty string is the same as 'None'
-#: calendar/gui/dialogs/meeting-page.c:310
-#: calendar/gui/dialogs/meeting-page.glade.h:2
+#: calendar/gui/dialogs/meeting-page.c:311
+#: calendar/gui/dialogs/meeting-page.glade.h:3
 #: calendar/gui/e-cal-model-tasks.c:593 composer/e-msg-composer.c:2050
 #: mail/em-account-prefs.c:448 mail/em-folder-view.c:715
 #: mail/mail-account-gui.c:1259 mail/mail-account-gui.c:1783
@@ -4378,19 +4378,19 @@ msgstr "시작 시각(_S):"
 msgid "None"
 msgstr "없음"
 
-#: calendar/gui/dialogs/meeting-page.c:415
+#: calendar/gui/dialogs/meeting-page.c:416
 msgid "The organizer selected no longer has an account."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:421
+#: calendar/gui/dialogs/meeting-page.c:422
 msgid "An organizer is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:436
+#: calendar/gui/dialogs/meeting-page.c:437
 msgid "At least one attendee is required."
 msgstr ""
 
-#: calendar/gui/dialogs/meeting-page.c:629
+#: calendar/gui/dialogs/meeting-page.c:645
 msgid "_Delegate To..."
 msgstr ""
 
@@ -4431,7 +4431,7 @@ msgid "Member"
 msgstr ""
 
 #: calendar/gui/dialogs/meeting-page.etspec.h:8
-#: calendar/gui/e-itip-control.c:1059 calendar/gui/e-meeting-list-view.c:263
+#: calendar/gui/e-itip-control.c:1060 calendar/gui/e-meeting-list-view.c:263
 #: calendar/gui/e-meeting-time-sel.etspec.h:8
 msgid "RSVP"
 msgstr "초대장"
@@ -4444,16 +4444,21 @@ msgstr "초대장"
 msgid "Status"
 msgstr "상태"
 
-#: calendar/gui/dialogs/meeting-page.glade.h:3
+#: calendar/gui/dialogs/meeting-page.glade.h:2
+#, fuzzy
+msgid "Add A_ttendee"
+msgstr "참석자"
+
+#: calendar/gui/dialogs/meeting-page.glade.h:4
 #: calendar/gui/e-itip-control.glade.h:9
 msgid "Organizer:"
 msgstr "주최자:"
 
-#: calendar/gui/dialogs/meeting-page.glade.h:4
+#: calendar/gui/dialogs/meeting-page.glade.h:5
 msgid "_Change Organizer"
 msgstr "주최자 바꾸기(_C):"
 
-#: calendar/gui/dialogs/meeting-page.glade.h:5
+#: calendar/gui/dialogs/meeting-page.glade.h:6
 #: calendar/gui/e-meeting-time-sel.c:417
 msgid "_Invite Others..."
 msgstr "다른 이들을 초대(_I)..."
@@ -4810,15 +4815,15 @@ msgstr "기본"
 msgid "Assignment"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.c:484
+#: calendar/gui/dialogs/task-page.c:485
 msgid "Due date is wrong"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.c:544
+#: calendar/gui/dialogs/task-page.c:545
 msgid "Due date is before start date!"
 msgstr ""
 
-#: calendar/gui/dialogs/task-page.c:809
+#: calendar/gui/dialogs/task-page.c:810
 #, fuzzy, c-format
 msgid "Unable to open tasks in '%s'."
 msgstr "주소록을 열 수 없습니다"
@@ -5025,7 +5030,7 @@ msgstr "아니오"
 
 #. This is the default filename used for temporary file creation
 #: calendar/gui/e-cal-model.c:296 calendar/gui/e-cal-model.c:299
-#: calendar/gui/e-itip-control.c:972 calendar/gui/e-itip-control.c:1174
+#: calendar/gui/e-itip-control.c:973 calendar/gui/e-itip-control.c:1175
 #: calendar/gui/e-meeting-list-view.c:144
 #: calendar/gui/e-meeting-list-view.c:158 calendar/gui/e-meeting-model.c:217
 #: calendar/gui/e-meeting-model.c:252 calendar/gui/e-meeting-model.c:317
@@ -5034,7 +5039,7 @@ msgstr "아니오"
 #: calendar/gui/e-meeting-store.c:215 camel/camel-gpg-context.c:1664
 #: camel/camel-gpg-context.c:1715 camel/camel-tcp-stream-openssl.c:631
 #: camel/providers/smtp/camel-smtp-transport.c:172
-#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:1952
+#: camel/providers/smtp/camel-smtp-transport.c:227 mail/em-utils.c:2003
 #: shell/e-component-registry.c:164 widgets/misc/e-charset-picker.c:60
 msgid "Unknown"
 msgstr "알 수 없음"
@@ -5047,107 +5052,107 @@ msgstr "반복됨"
 msgid "Assigned"
 msgstr "예약됨"
 
-#: calendar/gui/e-cal-view.c:600 calendar/gui/e-calendar-table.c:686
+#: calendar/gui/e-cal-view.c:626 calendar/gui/e-calendar-table.c:686
 msgid "Deleting selected objects"
 msgstr ""
 
-#: calendar/gui/e-cal-view.c:704 calendar/gui/e-calendar-table.c:847
+#: calendar/gui/e-cal-view.c:730 calendar/gui/e-calendar-table.c:847
 msgid "Updating objects"
 msgstr ""
 
-#: calendar/gui/e-cal-view.c:1164 calendar/gui/e-cal-view.c:1249
+#: calendar/gui/e-cal-view.c:1190 calendar/gui/e-cal-view.c:1275
 msgid "New _Appointment..."
 msgstr "새 약속(_A)..."
 
-#: calendar/gui/e-cal-view.c:1165 calendar/gui/e-cal-view.c:1251
+#: calendar/gui/e-cal-view.c:1191 calendar/gui/e-cal-view.c:1277
 msgid "New All Day _Event"
 msgstr ""
 
-#: calendar/gui/e-cal-view.c:1166 calendar/gui/e-cal-view.c:1253
+#: calendar/gui/e-cal-view.c:1192 calendar/gui/e-cal-view.c:1279
 msgid "New Meeting"
 msgstr "새 모임"
 
-#: calendar/gui/e-cal-view.c:1167 calendar/gui/e-cal-view.c:1255
+#: calendar/gui/e-cal-view.c:1193 calendar/gui/e-cal-view.c:1281
 msgid "New Task"
 msgstr "새 작업"
 
-#: calendar/gui/e-cal-view.c:1171 calendar/gui/e-cal-view.c:1194
-#: calendar/gui/e-cal-view.c:1261 calendar/gui/e-calendar-table.c:1026
+#: calendar/gui/e-cal-view.c:1197 calendar/gui/e-cal-view.c:1220
+#: calendar/gui/e-cal-view.c:1287 calendar/gui/e-calendar-table.c:1026
 #: calendar/gui/e-calendar-table.c:1068 ui/evolution-addressbook.xml.h:40
-#: ui/evolution-calendar.xml.h:37 ui/evolution-comp-editor.xml.h:19
+#: ui/evolution-calendar.xml.h:39 ui/evolution-comp-editor.xml.h:19
 #: ui/evolution-contact-editor.xml.h:17 ui/evolution-mail-message.xml.h:122
 #: ui/evolution-tasks.xml.h:21 ui/my-evolution.xml.h:6
 msgid "_Print..."
 msgstr "인쇄(_P)..."
 
-#: calendar/gui/e-cal-view.c:1175 calendar/gui/e-cal-view.c:1201
-#: calendar/gui/e-cal-view.c:1259 calendar/gui/e-calendar-table.c:1032
+#: calendar/gui/e-cal-view.c:1201 calendar/gui/e-cal-view.c:1227
+#: calendar/gui/e-cal-view.c:1285 calendar/gui/e-calendar-table.c:1032
 #: calendar/gui/e-calendar-table.c:1066 ui/evolution-addressbook.xml.h:38
-#: ui/evolution-calendar.xml.h:36 ui/evolution-composer-entries.xml.h:9
+#: ui/evolution-calendar.xml.h:38 ui/evolution-composer-entries.xml.h:9
 #: ui/evolution-mail-message.xml.h:120 ui/evolution-tasks.xml.h:20
 msgid "_Paste"
 msgstr "붙여 넣기(_P)"
 
-#: calendar/gui/e-cal-view.c:1181 calendar/gui/e-cal-view.c:1245
+#: calendar/gui/e-cal-view.c:1207 calendar/gui/e-cal-view.c:1271
 #: ui/evolution-calendar.xml.h:13
 msgid "Go to _Today"
 msgstr "오늘로 이동(_T)"
 
-#: calendar/gui/e-cal-view.c:1182 calendar/gui/e-cal-view.c:1247
+#: calendar/gui/e-cal-view.c:1208 calendar/gui/e-cal-view.c:1273
 msgid "_Go to Date..."
 msgstr "날짜로 이동(_G)..."
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-cal-view.c:1186 ui/evolution-calendar.xml.h:38
+#: calendar/gui/e-cal-view.c:1212 ui/evolution-calendar.xml.h:40
 msgid "_Publish Free/Busy Information"
 msgstr "약속 있음/없음 정보 게시(_P)"
 
-#: calendar/gui/e-cal-view.c:1192 calendar/gui/e-cal-view.c:1257
+#: calendar/gui/e-cal-view.c:1218 calendar/gui/e-cal-view.c:1283
 #: calendar/gui/e-calendar-table.c:1023 calendar/gui/e-calendar-table.c:1064
 #: mail/em-folder-view.c:681 shell/e-shortcuts-view.c:422
 #: ui/evolution-addressbook.xml.h:37
 msgid "_Open"
 msgstr "열기(_O)"
 
-#: calendar/gui/e-cal-view.c:1193 calendar/gui/e-cal-view.c:1263
+#: calendar/gui/e-cal-view.c:1219 calendar/gui/e-cal-view.c:1289
 #: calendar/gui/e-calendar-table.c:1025 calendar/gui/e-calendar-table.c:1070
-#: mail/em-folder-view.c:683 mail/em-popup.c:590 mail/em-popup.c:646
+#: mail/em-folder-view.c:683 mail/em-popup.c:597 mail/em-popup.c:712
 #: ui/evolution-mail-message.xml.h:126
 msgid "_Save As..."
 msgstr "다른 이름으로 저장(_S)..."
 
-#: calendar/gui/e-cal-view.c:1199 calendar/gui/e-cal-view.c:1239
+#: calendar/gui/e-cal-view.c:1225 calendar/gui/e-cal-view.c:1265
 #: calendar/gui/e-calendar-table.c:1030 calendar/gui/e-calendar-table.c:1059
 #: ui/evolution-addressbook.xml.h:1 ui/evolution-calendar.xml.h:1
 #: ui/evolution-tasks.xml.h:1
 msgid "C_ut"
 msgstr "잘라내기(_U)"
 
-#: calendar/gui/e-cal-view.c:1200 calendar/gui/e-cal-view.c:1237
+#: calendar/gui/e-cal-view.c:1226 calendar/gui/e-cal-view.c:1263
 #: calendar/gui/e-calendar-table.c:1031 calendar/gui/e-calendar-table.c:1057
 #: mail/em-folder-tree.c:1497 ui/evolution-addressbook.xml.h:31
-#: ui/evolution-calendar.xml.h:33 ui/evolution-composer-entries.xml.h:7
+#: ui/evolution-calendar.xml.h:34 ui/evolution-composer-entries.xml.h:7
 #: ui/evolution-mail-message.xml.h:107 ui/evolution-tasks.xml.h:17
 msgid "_Copy"
 msgstr "복사(_C)"
 
-#: calendar/gui/e-cal-view.c:1205
+#: calendar/gui/e-cal-view.c:1231
 msgid "_Schedule Meeting..."
 msgstr "모임 일정(_S)..."
 
-#: calendar/gui/e-cal-view.c:1206
+#: calendar/gui/e-cal-view.c:1232
 msgid "_Forward as iCalendar..."
 msgstr "iCalendar로 전달(_F)..."
 
-#: calendar/gui/e-cal-view.c:1211 calendar/gui/e-cal-view.c:1242
+#: calendar/gui/e-cal-view.c:1237 calendar/gui/e-cal-view.c:1268
 msgid "Delete this _Occurrence"
 msgstr ""
 
-#: calendar/gui/e-cal-view.c:1212 calendar/gui/e-cal-view.c:1243
+#: calendar/gui/e-cal-view.c:1238 calendar/gui/e-cal-view.c:1269
 msgid "Delete _All Occurrences"
 msgstr ""
 
-#: calendar/gui/e-cal-view.c:1265 ui/evolution.xml.h:30
+#: calendar/gui/e-cal-view.c:1291 ui/evolution.xml.h:30
 msgid "_Settings..."
 msgstr "설정(_S)..."
 
@@ -5219,7 +5224,7 @@ msgstr ""
 msgid "_Delete Selected Tasks"
 msgstr "선택한 작업 지우기(_D)"
 
-#: calendar/gui/e-calendar-table.c:1351
+#: calendar/gui/e-calendar-table.c:1355
 #: calendar/gui/e-calendar-table.etspec.h:6
 msgid "Click to add a task"
 msgstr "작업을 더하려면 누르십시오"
@@ -5313,147 +5318,147 @@ msgstr "오전"
 msgid "pm"
 msgstr "오후"
 
-#: calendar/gui/e-itip-control.c:585
+#: calendar/gui/e-itip-control.c:586
 msgid "Yes. (Complex Recurrence)"
 msgstr "예. (복잡한 반복)"
 
-#: calendar/gui/e-itip-control.c:597
+#: calendar/gui/e-itip-control.c:598
 msgid "Every day"
 msgstr "매일"
 
-#: calendar/gui/e-itip-control.c:599
+#: calendar/gui/e-itip-control.c:600
 #, c-format
 msgid "Every %d days"
 msgstr "%d일마다"
 
-#: calendar/gui/e-itip-control.c:605
+#: calendar/gui/e-itip-control.c:606
 msgid "Every week"
 msgstr "매주"
 
-#: calendar/gui/e-itip-control.c:607
+#: calendar/gui/e-itip-control.c:608
 #, c-format
 msgid "Every %d weeks"
 msgstr "%d주마다"
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/e-itip-control.c:610
+#: calendar/gui/e-itip-control.c:611
 msgid "Every week on "
 msgstr "매주 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/e-itip-control.c:612
+#: calendar/gui/e-itip-control.c:613
 #, c-format
 msgid "Every %d weeks on "
 msgstr "%d주마다 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/e-itip-control.c:620
+#: calendar/gui/e-itip-control.c:621
 msgid " and "
 msgstr " 그리고 "
 
 # FIXME - hard to translate UI + string based on English grammar
-#: calendar/gui/e-itip-control.c:627
+#: calendar/gui/e-itip-control.c:628
 #, c-format
 msgid "The %s day of "
 msgstr ""
 
 # FIXME - hard to translate UI + string based on English grammar
 # "The <dayofmonth> <dayofweek> of" (like The 13th Friday)
-#: calendar/gui/e-itip-control.c:640
+#: calendar/gui/e-itip-control.c:641
 #, c-format
 msgid "The %s %s of "
 msgstr "%s %s, "
 
-#: calendar/gui/e-itip-control.c:645
+#: calendar/gui/e-itip-control.c:646
 msgid "every month"
 msgstr "매달"
 
-#: calendar/gui/e-itip-control.c:650
+#: calendar/gui/e-itip-control.c:651
 #, c-format
 msgid "every %d months"
 msgstr "%d달마다"
 
-#: calendar/gui/e-itip-control.c:656
+#: calendar/gui/e-itip-control.c:657
 msgid "Every year"
 msgstr "매년"
 
-#: calendar/gui/e-itip-control.c:658
+#: calendar/gui/e-itip-control.c:659
 #, c-format
 msgid "Every %d years"
 msgstr "%d년마다"
 
-#: calendar/gui/e-itip-control.c:670
+#: calendar/gui/e-itip-control.c:671
 #, c-format
 msgid " a total of %d times"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:679
+#: calendar/gui/e-itip-control.c:680
 #, fuzzy
 msgid ", ending on "
 msgstr ", 끝 "
 
-#: calendar/gui/e-itip-control.c:703
+#: calendar/gui/e-itip-control.c:704
 msgid "<b>Starts:</b> "
 msgstr "<b>시작:</b> "
 
-#: calendar/gui/e-itip-control.c:713
+#: calendar/gui/e-itip-control.c:714
 msgid "<b>Ends:</b> "
 msgstr "<b>끝:</b> "
 
-#: calendar/gui/e-itip-control.c:733
+#: calendar/gui/e-itip-control.c:734
 msgid "<b>Completed:</b> "
 msgstr "<b>완료됨:</b> "
 
-#: calendar/gui/e-itip-control.c:743
+#: calendar/gui/e-itip-control.c:744
 msgid "<b>Due:</b> "
 msgstr "<b>기한:</b> "
 
-#: calendar/gui/e-itip-control.c:780 calendar/gui/e-itip-control.c:833
+#: calendar/gui/e-itip-control.c:781 calendar/gui/e-itip-control.c:834
 msgid "iCalendar Information"
 msgstr "iCalendar 정보"
 
 #. Title
-#: calendar/gui/e-itip-control.c:795
+#: calendar/gui/e-itip-control.c:796
 msgid "iCalendar Error"
 msgstr "iCalendar 오류"
 
-#: calendar/gui/e-itip-control.c:864 calendar/gui/e-itip-control.c:880
-#: calendar/gui/e-itip-control.c:891 calendar/gui/e-itip-control.c:908
+#: calendar/gui/e-itip-control.c:865 calendar/gui/e-itip-control.c:881
+#: calendar/gui/e-itip-control.c:892 calendar/gui/e-itip-control.c:909
 msgid "An unknown person"
 msgstr ""
 
 #. Describe what the user can do
-#: calendar/gui/e-itip-control.c:915
+#: calendar/gui/e-itip-control.c:916
 msgid ""
 "<br> Please review the following information, and then select an action from "
 "the menu below."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:930
+#: calendar/gui/e-itip-control.c:931
 msgid "<i>None</i>"
 msgstr "<i>없음</i>"
 
-#: calendar/gui/e-itip-control.c:941
+#: calendar/gui/e-itip-control.c:942
 msgid "Location:"
 msgstr "위치:"
 
 #. write status
-#: calendar/gui/e-itip-control.c:955 calendar/gui/e-tasks.c:203
+#: calendar/gui/e-itip-control.c:956 calendar/gui/e-tasks.c:203
 msgid "Status:"
 msgstr "상태:"
 
-#: calendar/gui/e-itip-control.c:960 calendar/gui/e-meeting-list-view.c:180
+#: calendar/gui/e-itip-control.c:961 calendar/gui/e-meeting-list-view.c:180
 #: calendar/gui/e-meeting-model.c:281 calendar/gui/e-meeting-model.c:304
 #: calendar/gui/e-meeting-model.c:796 calendar/gui/e-meeting-store.c:179
 #: calendar/gui/e-meeting-store.c:202 calendar/gui/itip-utils.c:418
 msgid "Accepted"
 msgstr "수락"
 
-#: calendar/gui/e-itip-control.c:964 calendar/gui/itip-utils.c:421
+#: calendar/gui/e-itip-control.c:965 calendar/gui/itip-utils.c:421
 msgid "Tentatively Accepted"
 msgstr "잠정적으로 수락"
 
-#: calendar/gui/e-itip-control.c:968 calendar/gui/e-meeting-list-view.c:181
+#: calendar/gui/e-itip-control.c:969 calendar/gui/e-meeting-list-view.c:181
 #: calendar/gui/e-meeting-model.c:283 calendar/gui/e-meeting-model.c:306
 #: calendar/gui/e-meeting-model.c:797 calendar/gui/e-meeting-store.c:181
 #: calendar/gui/e-meeting-store.c:204 calendar/gui/itip-utils.c:424
@@ -5461,299 +5466,299 @@ msgstr "잠정적으로 수락"
 msgid "Declined"
 msgstr "거부"
 
-#: calendar/gui/e-itip-control.c:987 calendar/gui/e-itip-control.glade.h:6
+#: calendar/gui/e-itip-control.c:988 calendar/gui/e-itip-control.glade.h:6
 #: calendar/gui/e-tasks.c:247 composer/e-msg-composer-attachment.glade.h:3
 #: mail/mail-config.glade.h:45
 msgid "Description:"
 msgstr "설명:"
 
-#: calendar/gui/e-itip-control.c:1027 calendar/gui/e-itip-control.c:1055
-#: calendar/gui/e-itip-control.c:1081 calendar/gui/e-itip-control.c:1094
-#: calendar/gui/e-itip-control.c:1107 calendar/gui/e-itip-control.c:1120
+#: calendar/gui/e-itip-control.c:1028 calendar/gui/e-itip-control.c:1056
+#: calendar/gui/e-itip-control.c:1082 calendar/gui/e-itip-control.c:1095
+#: calendar/gui/e-itip-control.c:1108 calendar/gui/e-itip-control.c:1121
 msgid "Choose an action:"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1028
+#: calendar/gui/e-itip-control.c:1029
 msgid "Update"
 msgstr "업데이트"
 
-#: calendar/gui/e-itip-control.c:1029 calendar/gui/e-itip-control.c:1060
-#: calendar/gui/e-itip-control.c:1083 calendar/gui/e-itip-control.c:1096
-#: calendar/gui/e-itip-control.c:1109 calendar/gui/e-itip-control.c:1122
-#: shell/e-shell.c:1001 widgets/misc/e-cell-date-edit.c:265
+#: calendar/gui/e-itip-control.c:1030 calendar/gui/e-itip-control.c:1061
+#: calendar/gui/e-itip-control.c:1084 calendar/gui/e-itip-control.c:1097
+#: calendar/gui/e-itip-control.c:1110 calendar/gui/e-itip-control.c:1123
+#: shell/e-shell.c:1002 widgets/misc/e-cell-date-edit.c:265
 msgid "OK"
 msgstr "확인"
 
-#: calendar/gui/e-itip-control.c:1056
+#: calendar/gui/e-itip-control.c:1057
 msgid "Accept"
 msgstr "수락"
 
-#: calendar/gui/e-itip-control.c:1057
+#: calendar/gui/e-itip-control.c:1058
 msgid "Tentatively accept"
 msgstr "잠정적으로 수락"
 
-#: calendar/gui/e-itip-control.c:1058
+#: calendar/gui/e-itip-control.c:1059
 msgid "Decline"
 msgstr "거부"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1082
+#: calendar/gui/e-itip-control.c:1083
 msgid "Send Free/Busy Information"
 msgstr "약속 있음/없음 정보 보내기"
 
-#: calendar/gui/e-itip-control.c:1095
+#: calendar/gui/e-itip-control.c:1096
 msgid "Update respondent status"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1108
+#: calendar/gui/e-itip-control.c:1109
 msgid "Send Latest Information"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1121 calendar/gui/itip-utils.c:438
+#: calendar/gui/e-itip-control.c:1122 calendar/gui/itip-utils.c:438
 #: mail/mail-send-recv.c:386 mail/mail-send-recv.c:438
 #: shell/e-shell-startup-wizard.c:788 ui/evolution-mail-global.xml.h:1
 msgid "Cancel"
 msgstr "취소"
 
-#: calendar/gui/e-itip-control.c:1197
+#: calendar/gui/e-itip-control.c:1198
 #, c-format
 msgid "<b>%s</b> has published meeting information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1198
+#: calendar/gui/e-itip-control.c:1199
 msgid "Meeting Information"
 msgstr "모임 정보"
 
-#: calendar/gui/e-itip-control.c:1203
+#: calendar/gui/e-itip-control.c:1204
 #, c-format
 msgid "<b>%s</b> requests the presence of %s at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1205
+#: calendar/gui/e-itip-control.c:1206
 #, c-format
 msgid "<b>%s</b> requests your presence at a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1206
+#: calendar/gui/e-itip-control.c:1207
 msgid "Meeting Proposal"
 msgstr "모임 제안"
 
-#: calendar/gui/e-itip-control.c:1210
+#: calendar/gui/e-itip-control.c:1211
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1211
+#: calendar/gui/e-itip-control.c:1212
 msgid "Meeting Update"
 msgstr "모임 업데이트"
 
-#: calendar/gui/e-itip-control.c:1215
+#: calendar/gui/e-itip-control.c:1216
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest meeting information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1216
+#: calendar/gui/e-itip-control.c:1217
 msgid "Meeting Update Request"
 msgstr "모임 업데이트 요청"
 
-#: calendar/gui/e-itip-control.c:1223
+#: calendar/gui/e-itip-control.c:1224
 #, c-format
 msgid "<b>%s</b> has replied to a meeting request."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1224
+#: calendar/gui/e-itip-control.c:1225
 msgid "Meeting Reply"
 msgstr "모임 응답"
 
-#: calendar/gui/e-itip-control.c:1231
+#: calendar/gui/e-itip-control.c:1232
 #, c-format
 msgid "<b>%s</b> has cancelled a meeting."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1232
+#: calendar/gui/e-itip-control.c:1233
 msgid "Meeting Cancellation"
 msgstr "모임 취소"
 
-#: calendar/gui/e-itip-control.c:1239 calendar/gui/e-itip-control.c:1307
-#: calendar/gui/e-itip-control.c:1342
+#: calendar/gui/e-itip-control.c:1240 calendar/gui/e-itip-control.c:1308
+#: calendar/gui/e-itip-control.c:1343
 #, c-format
 msgid "<b>%s</b> has sent an unintelligible message."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1240
+#: calendar/gui/e-itip-control.c:1241
 msgid "Bad Meeting Message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1265
+#: calendar/gui/e-itip-control.c:1266
 #, c-format
 msgid "<b>%s</b> has published task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1266
+#: calendar/gui/e-itip-control.c:1267
 msgid "Task Information"
 msgstr "작업 정보"
 
-#: calendar/gui/e-itip-control.c:1271
+#: calendar/gui/e-itip-control.c:1272
 #, c-format
 msgid "<b>%s</b> requests %s to perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1273
+#: calendar/gui/e-itip-control.c:1274
 #, c-format
 msgid "<b>%s</b> requests you perform a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1274
+#: calendar/gui/e-itip-control.c:1275
 msgid "Task Proposal"
 msgstr "작업 제안"
 
-#: calendar/gui/e-itip-control.c:1278
+#: calendar/gui/e-itip-control.c:1279
 #, c-format
 msgid "<b>%s</b> wishes to add to an existing task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1279
+#: calendar/gui/e-itip-control.c:1280
 msgid "Task Update"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1283
+#: calendar/gui/e-itip-control.c:1284
 #, c-format
 msgid "<b>%s</b> wishes to receive the latest task information."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1284
+#: calendar/gui/e-itip-control.c:1285
 msgid "Task Update Request"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1291
+#: calendar/gui/e-itip-control.c:1292
 #, c-format
 msgid "<b>%s</b> has replied to a task assignment."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1292
+#: calendar/gui/e-itip-control.c:1293
 msgid "Task Reply"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1299
+#: calendar/gui/e-itip-control.c:1300
 #, c-format
 msgid "<b>%s</b> has cancelled a task."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1300
+#: calendar/gui/e-itip-control.c:1301
 msgid "Task Cancellation"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1308
+#: calendar/gui/e-itip-control.c:1309
 msgid "Bad Task Message"
 msgstr ""
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1327
+#: calendar/gui/e-itip-control.c:1328
 #, c-format
 msgid "<b>%s</b> has published free/busy information."
 msgstr "<b>%s</b>이(가) 약속 있음/없음 정보를 게시했습니다."
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1328
+#: calendar/gui/e-itip-control.c:1329
 msgid "Free/Busy Information"
 msgstr "약속 있음/없음 정보"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1332
+#: calendar/gui/e-itip-control.c:1333
 #, c-format
 msgid "<b>%s</b> requests your free/busy information."
 msgstr "<b>%s</b>이(가) 약속 있음/없음 정보를 요청했습니다."
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1333
+#: calendar/gui/e-itip-control.c:1334
 msgid "Free/Busy Request"
 msgstr "약속 있음/없음 요청"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1337
+#: calendar/gui/e-itip-control.c:1338
 #, c-format
 msgid "<b>%s</b> has replied to a free/busy request."
 msgstr "<b>%s</b>이(가) 약속 있음/없음 요청에 응답했습니다."
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1338
+#: calendar/gui/e-itip-control.c:1339
 msgid "Free/Busy Reply"
 msgstr "약속 있음/없음 응답"
 
 # free/busy -> 약속 있음/없음, Microsoft Office XP 참고
-#: calendar/gui/e-itip-control.c:1343
+#: calendar/gui/e-itip-control.c:1344
 msgid "Bad Free/Busy Message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1416
+#: calendar/gui/e-itip-control.c:1417
 msgid "The message does not appear to be properly formed"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1475
+#: calendar/gui/e-itip-control.c:1476
 msgid "The message contains only unsupported requests."
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1506 calendar/gui/e-itip-control.c:1512
+#: calendar/gui/e-itip-control.c:1507 calendar/gui/e-itip-control.c:1513
 msgid "The attachment does not contain a valid calendar message"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1537
+#: calendar/gui/e-itip-control.c:1538
 msgid "The attachment has no viewable calendar items"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1768
+#: calendar/gui/e-itip-control.c:1769
 msgid "Calendar file could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1770
+#: calendar/gui/e-itip-control.c:1771
 msgid "Update complete\n"
 msgstr "업데이트 마침\n"
 
-#: calendar/gui/e-itip-control.c:1800 calendar/gui/e-itip-control.c:1872
+#: calendar/gui/e-itip-control.c:1801 calendar/gui/e-itip-control.c:1873
 msgid "Attendee status can not be updated because the item no longer exists"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1816 calendar/gui/e-itip-control.c:1854
+#: calendar/gui/e-itip-control.c:1817 calendar/gui/e-itip-control.c:1855
 msgid "Object is invalid and cannot be updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1826
+#: calendar/gui/e-itip-control.c:1827
 msgid "This response is not from a current attendee.  Add as an attendee?"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1838
+#: calendar/gui/e-itip-control.c:1839
 msgid "Attendee status could not be updated because of an invalid status!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1857
+#: calendar/gui/e-itip-control.c:1858
 msgid "There was an error on the CORBA system\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1860
+#: calendar/gui/e-itip-control.c:1861
 msgid "Object could not be found\n"
 msgstr "오브젝트를 찾을 수 없습니다\n"
 
-#: calendar/gui/e-itip-control.c:1863
+#: calendar/gui/e-itip-control.c:1864
 msgid "You don't have the right permissions to update the calendar\n"
 msgstr "달력을 업데이트할 올바른 권한이 없습니다\n"
 
-#: calendar/gui/e-itip-control.c:1866
+#: calendar/gui/e-itip-control.c:1867
 msgid "Attendee status updated\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1869
+#: calendar/gui/e-itip-control.c:1870
 msgid "Attendee status could not be updated!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1900
+#: calendar/gui/e-itip-control.c:1901
 msgid "Removal Complete"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1923 calendar/gui/e-itip-control.c:1971
+#: calendar/gui/e-itip-control.c:1924 calendar/gui/e-itip-control.c:1972
 msgid "Item sent!\n"
 msgstr ""
 
-#: calendar/gui/e-itip-control.c:1925 calendar/gui/e-itip-control.c:1975
+#: calendar/gui/e-itip-control.c:1926 calendar/gui/e-itip-control.c:1976
 msgid "The item could not be sent!\n"
 msgstr ""
 
@@ -5799,7 +5804,7 @@ msgid "Chair Persons"
 msgstr "의장"
 
 #: calendar/gui/e-meeting-list-view.c:63
-#: calendar/gui/e-meeting-list-view.c:456 calendar/gui/e-meeting-model.c:78
+#: calendar/gui/e-meeting-list-view.c:479 calendar/gui/e-meeting-model.c:78
 #: calendar/gui/e-meeting-model.c:1635
 msgid "Required Participants"
 msgstr "필수 참석자"
@@ -5998,12 +6003,12 @@ msgstr ""
 msgid "The method required to load `%s' is not supported"
 msgstr ""
 
-#: calendar/gui/e-tasks.c:739 calendar/gui/gnome-cal.c:1764
+#: calendar/gui/e-tasks.c:739 calendar/gui/gnome-cal.c:1765
 #, c-format
 msgid "You don't have permission to open the folder in `%s'"
 msgstr "`%s'에 있는 폴더를 열 올바른 권한이 없습니다"
 
-#: calendar/gui/e-tasks.c:800 calendar/gui/gnome-cal.c:1977
+#: calendar/gui/e-tasks.c:800 calendar/gui/gnome-cal.c:1978
 #, c-format
 msgid ""
 "Error on %s:\n"
@@ -6024,27 +6029,27 @@ msgstr "선택한 오브젝트를 지웁니다..."
 msgid "Expunging"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1603 mail/importers/netscape-importer.c:1843
+#: calendar/gui/gnome-cal.c:1604 mail/importers/netscape-importer.c:1843
 #: shell/e-shortcuts.c:1086
 msgid "Calendar"
 msgstr "달력"
 
-#: calendar/gui/gnome-cal.c:1736
+#: calendar/gui/gnome-cal.c:1737
 #, c-format
 msgid "Could not open the folder in `%s'"
 msgstr "`%s'에 있는 폴더를 열 수가 없습니다"
 
-#: calendar/gui/gnome-cal.c:1750
+#: calendar/gui/gnome-cal.c:1751
 #, c-format
 msgid "The method required to open `%s' is not supported"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:1807
+#: calendar/gui/gnome-cal.c:1808
 #, fuzzy, c-format
 msgid "Adding %s"
 msgstr "\"%s\" 보내는 중"
 
-#: calendar/gui/gnome-cal.c:1998
+#: calendar/gui/gnome-cal.c:1999
 #, c-format
 msgid ""
 "The task backend for\n"
@@ -6052,7 +6057,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:2006
+#: calendar/gui/gnome-cal.c:2007
 #, c-format
 msgid ""
 "The calendar backend for\n"
@@ -6060,7 +6065,7 @@ msgid ""
 " has crashed. You will have to restart Evolution in order to use it again"
 msgstr ""
 
-#: calendar/gui/gnome-cal.c:2851
+#: calendar/gui/gnome-cal.c:2867
 #, fuzzy
 msgid "Purging"
 msgstr "나가는 것"
@@ -6408,50 +6413,50 @@ msgstr "항목 인쇄"
 msgid "Print Setup"
 msgstr "인쇄 설정"
 
-#: calendar/gui/tasks-component.c:349
+#: calendar/gui/tasks-component.c:350
 #, c-format
 msgid "Task List '%s' will be removed. Are you sure you want to continue?"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:390
+#: calendar/gui/tasks-component.c:391
 #, fuzzy
 msgid "Rename this task list to"
 msgstr "이 바로가기 이름 바꾸기"
 
-#: calendar/gui/tasks-component.c:411
+#: calendar/gui/tasks-component.c:412
 msgid "New Task List"
 msgstr "새 작업 목록"
 
-#: calendar/gui/tasks-component.c:586
+#: calendar/gui/tasks-component.c:587
 msgid "New task"
 msgstr "새 작업"
 
-#: calendar/gui/tasks-component.c:587
+#: calendar/gui/tasks-component.c:588
 msgid "_Task"
 msgstr "작업(_T)"
 
-#: calendar/gui/tasks-component.c:588
+#: calendar/gui/tasks-component.c:589
 msgid "Create a new task"
 msgstr "새 작업을 만듭니다"
 
-#: calendar/gui/tasks-component.c:593
+#: calendar/gui/tasks-component.c:594
 msgid "New task list"
 msgstr "새 작업 목록"
 
-#: calendar/gui/tasks-component.c:594
+#: calendar/gui/tasks-component.c:595
 msgid "_Task List"
 msgstr "작업 목록(_T)"
 
-#: calendar/gui/tasks-component.c:595
+#: calendar/gui/tasks-component.c:596
 msgid "Create a new task list"
 msgstr "새 작업 목록을 만듭니다"
 
-#: calendar/gui/tasks-component.c:662
+#: calendar/gui/tasks-component.c:663
 #, c-format
 msgid "Unable to open the task list '%s' for creating events and meetings"
 msgstr ""
 
-#: calendar/gui/tasks-component.c:675
+#: calendar/gui/tasks-component.c:676
 msgid "There is no calendar available for creating tasks"
 msgstr ""
 
@@ -6499,21 +6504,21 @@ msgstr "iCalendar 파일 (.ics)"
 msgid "vCalendar files (.vcf)"
 msgstr "vCalendar 파일 (.vcf)"
 
-#: calendar/importers/icalendar-importer.c:469
+#: calendar/importers/icalendar-importer.c:470
 msgid "Reminder!!"
 msgstr ""
 
-#: calendar/importers/icalendar-importer.c:709
+#: calendar/importers/icalendar-importer.c:710
 msgid "Calendar Events"
 msgstr "달력 이벤트"
 
-#: calendar/importers/icalendar-importer.c:734
+#: calendar/importers/icalendar-importer.c:735
 msgid ""
 "Evolution has found Gnome Calendar files.\n"
 "Would you like to import them into Evolution?"
 msgstr ""
 
-#: calendar/importers/icalendar-importer.c:741
+#: calendar/importers/icalendar-importer.c:742
 msgid "Gnome Calendar"
 msgstr "그놈 달력"
 
@@ -10516,7 +10521,7 @@ msgstr ""
 msgid "%.0fG"
 msgstr ""
 
-#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1380
+#: composer/e-msg-composer-attachment-bar.c:300 mail/em-utils.c:1382
 msgid "attachment"
 msgstr "첨부"
 
@@ -11801,7 +11806,7 @@ msgstr "폴더 만들 곳을 지정하세요:"
 msgid "Folder _name:"
 msgstr "폴더 이름(_N):"
 
-#: mail/em-folder-tree-model.c:559 mail/em-utils.c:1943
+#: mail/em-folder-tree-model.c:559 mail/em-utils.c:1994
 #, c-format
 msgid "Could not create temporary directory: %s"
 msgstr "임시 디렉토리를 만들 수가 없습니다: %s"
@@ -11909,7 +11914,7 @@ msgid "_Properties..."
 msgstr "등록 정보(_P)..."
 
 #. { EM_POPUP_ITEM, "00.select.00", N_("_Open"), G_CALLBACK(emp_popup_open), NULL, NULL, 0 },
-#: mail/em-folder-view.c:682 mail/em-popup.c:589
+#: mail/em-folder-view.c:682 mail/em-popup.c:596
 msgid "_Edit as New Message..."
 msgstr "새 메세지로 고침(_E)..."
 
@@ -11921,17 +11926,17 @@ msgstr "인쇄(_P)"
 msgid "_Reply to Sender"
 msgstr "보낸 이에게 답장(_R)"
 
-#: mail/em-folder-view.c:688 mail/em-popup.c:650
+#: mail/em-folder-view.c:688 mail/em-popup.c:716
 #: ui/evolution-mail-message.xml.h:86
 msgid "Reply to _List"
 msgstr "목록에 답장(_L)"
 
-#: mail/em-folder-view.c:689 mail/em-popup.c:651
+#: mail/em-folder-view.c:689 mail/em-popup.c:717
 #: ui/evolution-mail-message.xml.h:85
 msgid "Reply to _All"
 msgstr "전체에 답장(_A)"
 
-#: mail/em-folder-view.c:690 mail/em-popup.c:653
+#: mail/em-folder-view.c:690 mail/em-popup.c:719
 #: ui/evolution-mail-message.xml.h:111
 msgid "_Forward"
 msgstr "전달(_F)"
@@ -12108,7 +12113,9 @@ msgstr "암호화 안 됨"
 msgid ""
 "This message is not encrypted.  It's content may be viewed in transit across "
 "The Internet."
-msgstr "메세지가 암호화되어 있지 않습니다.  이 메세지가 인터넷을 통해 전달되는 동안, 다른 사람이 메세지 내용을 볼 수도 있습니다."
+msgstr ""
+"메세지가 암호화되어 있지 않습니다.  이 메세지가 인터넷을 통해 전달되는 동안, "
+"다른 사람이 메세지 내용을 볼 수도 있습니다."
 
 #: mail/em-format-html-display.c:613 mail/em-format-html.c:574
 msgid "Encrypted, weak"
@@ -12119,7 +12126,10 @@ msgid ""
 "This message is encrypted, but with a weak encryption algorithm.  It would "
 "be difficult, but not impossible for an outsider to view the content of this "
 "message in a practical amount of time."
-msgstr "메세지가 암호화되어 있지만, 약한 암호화 알고리즘으로 암호화되었습니다.  다른 사람이 이 메세지의 내용을 알아 내는 게 어렵긴 하지만, 현실적인 시간 내에 불가능하지는 않습니다."
+msgstr ""
+"메세지가 암호화되어 있지만, 약한 암호화 알고리즘으로 암호화되었습니다.  다른 "
+"사람이 이 메세지의 내용을 알아 내는 게 어렵긴 하지만, 현실적인 시간 내에 불가"
+"능하지는 않습니다."
 
 #: mail/em-format-html-display.c:614 mail/em-format-html.c:575
 msgid "Encrypted"
@@ -12129,7 +12139,9 @@ msgstr "암호화됨"
 msgid ""
 "This message is encrypted.  It would be difficult for an outsider to view "
 "the content of this message."
-msgstr "메세지가 암호화되어 있습니다.  다른 사람이 이 메세지의 내용을 알아 내기는 어렵습니다."
+msgstr ""
+"메세지가 암호화되어 있습니다.  다른 사람이 이 메세지의 내용을 알아 내기는 어"
+"렵습니다."
 
 #: mail/em-format-html-display.c:615 mail/em-format-html.c:576
 msgid "Encrypted, strong"
@@ -12140,7 +12152,9 @@ msgid ""
 "This message is encrypted, with a strong encryption algorithm.  It would be "
 "very difficult for an outsider to view the content of this message in a "
 "practical amount of time."
-msgstr "메세지가 암호화되어 있지만, 약한 암호화 알고리즘으로 암호화되었습니다.  현실적인 시간 내에 다른 사람이 이 메세지의 내용을 알아 내는 건 매우 어렵습니다."
+msgstr ""
+"메세지가 암호화되어 있지만, 약한 암호화 알고리즘으로 암호화되었습니다.  현실"
+"적인 시간 내에 다른 사람이 이 메세지의 내용을 알아 내는 건 매우 어렵습니다."
 
 #: mail/em-format-html-display.c:699
 msgid "_View Certificate"
@@ -12320,31 +12334,36 @@ msgstr "`%s' 디렉토리를 만들 수 없습니다: %s"
 msgid "Failed to open store for `%s': %s"
 msgstr "메세지에 파일을 첨부합니다"
 
-#: mail/em-popup.c:599
+#: mail/em-popup.c:606
 msgid "Save As..."
 msgstr "다른 이름으로 저장..."
 
-#: mail/em-popup.c:647
+#: mail/em-popup.c:624
+#, c-format
+msgid "untitled_image.%s"
+msgstr ""
+
+#: mail/em-popup.c:713
 msgid "Set as _Background"
 msgstr ""
 
-#: mail/em-popup.c:649
+#: mail/em-popup.c:715
 msgid "_Reply to sender"
 msgstr "보낸 이에게 답장(_R)"
 
-#: mail/em-popup.c:697
+#: mail/em-popup.c:763
 msgid "_Open Link in Browser"
 msgstr "브라우저에서 링크 열기(_O)"
 
-#: mail/em-popup.c:698
+#: mail/em-popup.c:764
 msgid "Se_nd message to..."
 msgstr "메세지 보내기(_N)..."
 
-#: mail/em-popup.c:699
+#: mail/em-popup.c:765
 msgid "_Add to Addressbook"
 msgstr "주소록에 더하기(_A)"
 
-#: mail/em-popup.c:805
+#: mail/em-popup.c:871
 #, c-format
 msgid "Open in %s..."
 msgstr "%s에서 열기..."
@@ -12372,36 +12391,36 @@ msgstr "서버를 선택하십시오."
 msgid "No server has been selected"
 msgstr "서버를 선택하지 않았습니다"
 
-#: mail/em-utils.c:93
+#: mail/em-utils.c:95
 msgid "Don't show this message again."
 msgstr "이 메세지를 다시 보지 않습니다."
 
-#: mail/em-utils.c:275
+#: mail/em-utils.c:277
 #, c-format
 msgid ""
 "Error loading filter information:\n"
 "%s"
 msgstr ""
 
-#: mail/em-utils.c:284
+#: mail/em-utils.c:286
 msgid "Filters"
 msgstr "거르개"
 
-#: mail/em-utils.c:491
+#: mail/em-utils.c:493
 msgid "-------- Forwarded Message --------"
 msgstr "-------- 전달된 메시지 --------"
 
-#: mail/em-utils.c:1044
+#: mail/em-utils.c:1046
 msgid "an unknown sender"
 msgstr ""
 
 #. translators: attribution string used when quoting messages,
 #. it must contain a single single %%+05d followed by a single '%%s'
-#: mail/em-utils.c:1054
+#: mail/em-utils.c:1056
 msgid "On %a, %Y-%m-%d at %H:%M %%+05d, %%s wrote:"
 msgstr "%Y-%m-%d %a %H:%M %%+05d에 %%s 쓰기를:"
 
-#: mail/em-utils.c:1330
+#: mail/em-utils.c:1332 mail/em-utils.c:1416 mail/em-utils.c:1425
 #, c-format
 msgid ""
 "Cannot save to `%s'\n"
@@ -12410,7 +12429,7 @@ msgstr ""
 "`%s'에 저장할 수 없습니다\n"
 " %s"
 
-#: mail/em-utils.c:1335
+#: mail/em-utils.c:1337
 #, c-format
 msgid ""
 "`%s' already exists.\n"
@@ -12419,19 +12438,24 @@ msgstr ""
 "`%s'이(가) 이미 있습니다.\n"
 "덮어쓸까요?"
 
-#: mail/em-utils.c:1378
+#: mail/em-utils.c:1380
 msgid "message"
 msgstr "메세지"
 
-#: mail/em-utils.c:1435
+#: mail/em-utils.c:1432
+#, fuzzy, c-format
+msgid "Error: '%s' exists and is not a regular file"
+msgstr "파일 `%s'이(가) 없거나 일반 파일이 아닙니다."
+
+#: mail/em-utils.c:1486
 msgid "Save Message..."
 msgstr "메세지 저장..."
 
-#: mail/em-utils.c:1473
+#: mail/em-utils.c:1524
 msgid "Add address"
 msgstr "주소 더하기"
 
-#: mail/em-utils.c:2262
+#: mail/em-utils.c:2314
 #, c-format
 msgid ""
 "This operation will permanently remove all deleted messages in the folder `%"
@@ -12440,7 +12464,7 @@ msgid ""
 "Really erase these messages?"
 msgstr ""
 
-#: mail/em-utils.c:2288
+#: mail/em-utils.c:2340
 msgid ""
 "This operation will permanently remove all deleted messages in all folders. "
 "If you continue, you will not be able to recover these messages.\n"
@@ -14875,19 +14899,19 @@ msgstr ""
 "Ximian Evolution은 오프라인 상태입니다.  온라인 상태로 작업하려면 이 단추를 "
 "누르십시오."
 
-#: shell/e-shell.c:1003
+#: shell/e-shell.c:1004
 msgid "Invalid arguments"
 msgstr ""
 
-#: shell/e-shell.c:1005
+#: shell/e-shell.c:1006
 msgid "Cannot register on OAF"
 msgstr "OAF에 등록할 수 없습니다"
 
-#: shell/e-shell.c:1007
+#: shell/e-shell.c:1008
 msgid "Configuration Database not found"
 msgstr ""
 
-#: shell/e-shell.c:1009
+#: shell/e-shell.c:1010
 msgid "Generic error"
 msgstr "일반 오류"
 
@@ -15871,7 +15895,7 @@ msgstr "읽어들이기를 중지합니다"
 msgid "View the current contact"
 msgstr "현재 연락처를 봅니다"
 
-#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:32
+#: ui/evolution-addressbook.xml.h:30 ui/evolution-calendar.xml.h:33
 #: ui/evolution-comp-editor.xml.h:16 ui/evolution-contact-editor.xml.h:13
 #: ui/evolution-contact-list-editor.xml.h:11
 #: ui/evolution-event-editor.xml.h:11 ui/evolution-mail-global.xml.h:17
@@ -16006,12 +16030,22 @@ msgid "Show the working week"
 msgstr "한 주의 근무일을 봅니다"
 
 #: ui/evolution-calendar.xml.h:30
+#, fuzzy
+msgid "View the current appointment"
+msgstr "현재 연락처를 봅니다"
+
+#: ui/evolution-calendar.xml.h:31
 msgid "Week"
 msgstr "한주씩"
 
-#: ui/evolution-calendar.xml.h:31
+#: ui/evolution-calendar.xml.h:32
 msgid "Work Week"
 msgstr "근무 주"
+
+#: ui/evolution-calendar.xml.h:37
+#, fuzzy
+msgid "_Open Appointment"
+msgstr "약속(_A)"
 
 #: ui/evolution-comp-editor.xml.h:2 ui/evolution-contact-editor.xml.h:2
 #: ui/evolution-contact-list-editor.xml.h:2
