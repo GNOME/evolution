@@ -1,12 +1,39 @@
-2004-09-13  Tomasz Kłoczko <kloczek@pld.org.pl>
+2004-09-14  Danilo Šegan  <dsegan@gmx.net>
 
-	* data/evolution.desktop.in: added missing Encoding=UTF-8 field 
-	  (validate desktop file).
+	* configure.in: Added "bs" to ALL_LINGUAS.
 
-2004-09-11  Akagic Amila  <bono@linux.org.ba>
+2004-09-13  JP Rosevear  <jpr@novell.com>
 
-	* configure.in: Added 'bs' to ALL_LINGUAS.
+	* configure.in: bump version, requires
+
+2004-09-13  JP Rosevear  <jpr@novell.com>
 	
+	Fixes #63369
+	
+	* README: Update
+
+2004-09-12  Abel Cheung  <maddog@linuxhall.org>
+
+	* configure.in: Added "hi" "mk" "ml" "ta" to ALL_LINGUAS.
+
+2004-09-10  Mohammad DAMT  <mdamt@bisnisweb.com>
+
+	* configure.in: Added Indonesian "id" to ALL_LINGUAS
+	* po/id.po: Added Indonesian translation
+
+2004-09-09  Runa Bhattacharjee	<runab@redhat.com>
+	* configure.in: Added Bengali "bn" to ALL_LINGUAS.
+
+2004-09-04  Telsa Gwynne  <hobbit@aloss.ukuu.org.uk>
+
+	* configure.in: Added "cy" (Welsh) to ALL_LINGUAS.
+
+2004-08-30  JP Rosevear  <jpr@novell.com>
+
+	* configure.in: hard code BASE_VERSION to 2.0; reset
+	UPGRADE_VERSION to 0 because BASE_VERSION changed; base
+	GETTEXT_PACKAGE on BASE_VERSION
+
 2004-08-27  JP Rosevear  <jpr@novell.com>
 
 	* configure.in: bump version, requirements

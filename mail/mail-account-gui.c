@@ -30,7 +30,6 @@
 
 #include <string.h>
 #include <stdarg.h>
-#include <sys/stat.h>
 
 #include <gconf/gconf-client.h>
 
@@ -45,11 +44,6 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtkdialog.h>
-#ifdef USE_GTKFILECHOOSER
-#include <gtk/gtkfilechooser.h>
-#include <gtk/gtkradiobutton.h>
-#include <libgnomeui/gnome-file-entry.h>
-#endif
 
 #include <e-util/e-account-list.h>
 #include <e-util/e-signature-list.h>
@@ -1759,49 +1753,10 @@ smime_encrypt_key_clear(GtkWidget *w, MailAccountGui *gui)
 }
 #endif
 
-#ifdef USE_GTKFILECHOOSER
-static void
-select_file_toggled (GtkToggleButton *toggle, GtkFileChooser *chooser)
-{
-	GtkFileChooserAction action = GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER;
-	
-	if (gtk_toggle_button_get_active (toggle))
-		action = GTK_FILE_CHOOSER_ACTION_OPEN;
-	
-	gtk_file_chooser_set_action (chooser, action);
-}
-
-static void
-browse_clicked (GnomeFileEntry *fentry, MailAccountGui *gui)
-{
-	GtkWidget *check;
-	struct stat st;
-	char *path;
-	
-	if (GTK_IS_FILE_CHOOSER (fentry->fsw)) {
-		check = gtk_check_button_new_with_label (_("Select individual file"));
-		g_signal_connect (check, "toggled", G_CALLBACK (select_file_toggled), fentry->fsw);
-		gtk_widget_show (check);
-		gtk_file_chooser_set_extra_widget (GTK_FILE_CHOOSER (fentry->fsw), check);
-		
-		path = gnome_file_entry_get_full_path (fentry, TRUE);
-		if (path && stat (path, &st) == 0 && S_ISREG (st.st_mode))
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), TRUE);
-		else
-			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (check), FALSE);
-		gtk_toggle_button_toggled (GTK_TOGGLE_BUTTON (check));
-		g_free (path);
-	}
-	
-	g_signal_handlers_disconnect_by_func (fentry, G_CALLBACK (fentry), gui);
-}
-#endif /* USE_GTKFILECHOOSER */
-
 MailAccountGui *
 mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 {
 	MailAccountGui *gui;
-	GtkWidget *fileentry;
 	
 	g_object_ref (account);
 	
@@ -1809,15 +1764,6 @@ mail_account_gui_new (EAccount *account, EMAccountPrefs *dialog)
 	gui->account = account;
 	gui->dialog = dialog;
 	gui->xml = glade_xml_new (EVOLUTION_GLADEDIR "/mail-config.glade", NULL, NULL);
-	
-#ifdef USE_GTKFILECHOOSER
-	/* KLUDGE: If this Evolution was built with GtkFileChooser support, the user
-	 * won't be able to create some types of local accounts because GtkFileChooser
-	 * must be set to allow selection of one or the other of file vs folder.
-	 * However, some providers allow the selection of files *or* folders. */
-	fileentry = glade_xml_get_widget (gui->xml, "source_path_entry");
-	g_signal_connect_after (fileentry, "browse-clicked", G_CALLBACK (browse_clicked), gui);
-#endif
 	
 	/* Management */
 	gui->account_name = GTK_ENTRY (glade_xml_get_widget (gui->xml, "management_name"));

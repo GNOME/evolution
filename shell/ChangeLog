@@ -1,10 +1,15 @@
-2004-09-13  Sivaiah Nallagatla <snallagatla@novell.com>
+2004-09-13  JP Rosevear  <jpr@novell.com>
 
-	* e-shell.c (offline_procedure_finished_cb)
-	(e_shell_go_online) : set online status 
-	for e_passwords 
-	see #62856 (work around)
-		
+	* main.c: turn off development mode
+
+2004-09-07  JP Rosevear  <jpr@novell.com>
+
+	Fixes #17338
+	
+	* e-shell-window-commands.c (about_box_new): use per language
+	translator credits, update authors lists (not strictly authors,
+	but we have a lot of helpful people)
+
 2004-09-03  Not Zed  <NotZed@Ximian.com>
 
 	** See bug #61285.
@@ -12,13 +17,6 @@
 	* e-shell-settings-dialog.c (load_pages): use a better query to
 	get the configuration pages, the old one didn't include version
 	information properly.
-
-2004-08-27  Not Zed  <NotZed@Ximian.com>
-
-	** See bug #62856 (workaround only)
-
-	* e-shell.c (impl_Shell_setLineStatus, e_shell_construct): set the
-	online state on e_passwords.
 
 2004-08-26  Rodney Dawes  <dobey@novell.com>
 

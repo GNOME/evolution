@@ -1,7 +1,7 @@
 # Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.52)
 
-AC_INIT(evolution, 1.5.94, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
+AC_INIT(evolution, 2.0.0, http://bugzilla.ximian.com/enter_bug.cgi?product=Evolution)
 AC_CONFIG_SRCDIR(README)
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
@@ -46,10 +46,20 @@ AC_SUBST(HAVE_JW)
 dnl I18N stuff
 AC_PROG_INTLTOOL([0.30])
 
-ALL_LINGUAS="am ar az be bg bs ca cs da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hr hu is it ja ko lt lv mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv tr uk vi wa zh_CN zh_TW"
+ALL_LINGUAS="am ar az be bg bn bs ca cs cy da de el en_AU en_CA en_GB es et eu fa fi fr ga gl gu he hi hr hu id is it ja ko lt lv mk ml mn ms nb nl nn no pa pl pt pt_BR ro ru sk sl sq sr sr@Latn sv ta tr uk vi wa zh_CN zh_TW"
 AM_GLIB_GNU_GETTEXT
 
-GETTEXT_PACKAGE=evolution-1.5
+dnl The base version for OAFIIDs, install dirs, binary names
+BASE_VERSION=2.0
+AC_SUBST(BASE_VERSION)
+AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
+
+dnl Update/migration version
+UPGRADE_REVISION=0
+AC_SUBST(UPGRADE_REVISION)
+AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
+
+GETTEXT_PACKAGE=evolution-$BASE_VERSION
 AC_SUBST(GETTEXT_PACKAGE)
 AC_DEFINE_UNQUOTED(GETTEXT_PACKAGE, "$GETTEXT_PACKAGE", [Package name for gettext])
 
@@ -1045,7 +1055,7 @@ dnl --- Required version numbers
 
 GAL_REQUIRED=2.2.0
 GTKHTML_REQUIRED=3.2.0
-EDS_REQUIRED=0.0.99
+EDS_REQUIRED=1.0.0
 BONOBOUI_REQUIRED=2.4.2
 
 AC_SUBST(GAL_REQUIRED)
@@ -1186,14 +1196,6 @@ dnl --- evolution-test flags
 EVO_SET_COMPILE_FLAGS(EVOLUTION_TEST, libgnome-2.0 libgnomeui-2.0 libbonobo-2.0 libbonoboui-2.0 >= $BONOBOUI_REQUIRED)
 AC_SUBST(EVOLUTION_TEST_CFLAGS)
 AC_SUBST(EVOLUTION_TEST_LIBS)
-
-BASE_VERSION=`echo $VERSION | awk -F. '{print $1 "." $2;}'`
-AC_SUBST(BASE_VERSION)
-AC_DEFINE_UNQUOTED(BASE_VERSION, "$BASE_VERSION", [Base version (Major.Minor)])
-
-UPGRADE_REVISION=12
-AC_SUBST(UPGRADE_REVISION)
-AC_DEFINE_UNQUOTED(UPGRADE_REVISION, "$UPGRADE_REVISION", [The number of times we've upgraded since the BASE_VERSION release])
 
 dnl *******************
 dnl Special directories
