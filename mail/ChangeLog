@@ -1,3 +1,8 @@
+2001-08-04  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* mail-format.c (mail_part_is_inline): Add yet another
+	special-case hack for application/pgp.
+
 2001-08-04  Jason Leach  <jleach@ximian.com>
 
 	* message-list.c (message_list_select): Add a @wraparound
@@ -187,12 +192,13 @@
 
 2001-07-26  Peter Williams  <peterw@ximian.com>
 
-	* mail-mt.c (do_get_pass): Figure out whether we're getting the password
-	for the source or the transport, and get the toggle button accordingly.
+	* mail-mt.c (do_get_pass): Figure out whether we're getting the
+	password for the source or the transport, and get the toggle
+	button accordingly.
 	(pass_got): Same.
 
-	* mail-config.c (mail_config_get_account_by_transport_url): New function.
-	Cut + paste + search + replace of _by_source_url.
+	* mail-config.c (mail_config_get_account_by_transport_url): New
+	function.  Cut + paste + search + replace of _by_source_url.
 
 	* mail-config.h: Prototype here.
 

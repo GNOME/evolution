@@ -96,9 +96,11 @@ static gboolean handle_message_external_body (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
 
+#ifdef APPLICATION_PGP_IS_NO_LONGER_SUPPORTED
 static gboolean handle_application_pgp       (CamelMimePart *part,
 					      const char *mime_type,
 					      MailDisplay *md);
+#ifdef /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
 
 static gboolean handle_via_bonobo            (CamelMimePart *part,
 					      const char *mime_type,
@@ -346,12 +348,14 @@ setup_mime_tables (void)
 	g_hash_table_insert (mime_function_table, "multipart/signed",
 			     handle_multipart_signed);
 	
+#ifdef APPLICATION_PGP_IS_NO_LONGER_SUPPORTED
 	/* Some broken mailers, such as The Bat! send pgp
 	 * signed/encrypted messages with a content-type of
 	 * application/pgp which basically means it's a text/plain but
 	 * either signed or encrypted. */
 	g_hash_table_insert (mime_function_table, "application/pgp",
 			     handle_application_pgp);
+#endif /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
 	
 	/* RFC 2046 says unrecognized text subtypes can be treated
 	 * as text/plain (as long as you recognize the character set),
@@ -483,11 +487,11 @@ is_anonymous (CamelMimePart *part, const char *mime_type)
 	if (!g_strncasecmp (mime_type, "multipart/", 10) ||
 	    !g_strncasecmp (mime_type, "message/", 8))
 		return TRUE;
-
+	
 	if (!g_strncasecmp (mime_type, "text/", 5) &&
 	    !camel_mime_part_get_filename (part))
 		return TRUE;
-
+	
 	return FALSE;
 }
 
@@ -504,25 +508,35 @@ mail_part_is_inline (CamelMimePart *part)
 	CamelContentType *content_type;
 	char *type;
 	gboolean anon;
-
+	
 	/* If it has an explicit disposition, return that. */
 	disposition = camel_mime_part_get_disposition (part);
 	if (disposition)
 		return g_strcasecmp (disposition, "inline") == 0;
-
+	
 	/* Certain types should default to inline. FIXME: this should
 	 * be customizable.
 	 */
 	content_type = camel_mime_part_get_content_type (part);
 	if (!header_content_type_is (content_type, "message", "*"))
 		return TRUE;
-
+	
+#ifdef APPLICATION_PGP_IS_NO_LONGER_SUPPORTED
+	/* The Bat! and possibly a few other broken mailers send application/pgp
+	 * parts instead of following rfc2015 because they SUCK!!! Since this part
+	 * is really a text/plain part, we should show it inline.
+	 */
+	if (!header_content_type_is (content_type, "application", "pgp"))
+		return TRUE;
+#endif /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
+	
 	/* Otherwise, display it inline if it's "anonymous", and
 	 * as an attachment otherwise.
 	 */
 	type = header_content_type_simple (content_type);
 	anon = is_anonymous (part, type);
 	g_free (type);
+	
 	return anon;
 }
 
@@ -1106,6 +1120,7 @@ handle_text_plain (CamelMimePart *part, const char *mime_type,
 	return TRUE;
 }
 
+#ifdef APPLICATION_PGP_IS_NO_LONGER_SUPPORTED
 /* This is a special-case hack from broken mailers such as The Bat! */
 static gboolean
 handle_application_pgp (CamelMimePart *part, const char *mime_type,
@@ -1160,6 +1175,7 @@ handle_application_pgp (CamelMimePart *part, const char *mime_type,
 	
 	return handle_text_plain (part, "text/plain", md);
 }
+#endif /* APPLICATION_PGP_IS_NO_LONGER_SUPPORTED */
 
 static gboolean
 handle_text_plain_flowed (char *buf, MailDisplay *md)
