@@ -1286,7 +1286,8 @@ icaltimezone_get_builtin_timezone	(const char *location)
     int lower, upper, middle, cmp;
     char *zone_location;
 
-    fprintf (stderr, "Getting builtin timezone: %s\n", location);
+    fprintf (stderr, "Getting builtin timezone: %s\n",
+	     location ? location : "(null)");
 
     if (!location || !location[0])
 	return NULL;

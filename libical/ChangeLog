@@ -1,5 +1,11 @@
 2001-07-30  Damon Chaplin  <damon@ximian.com>
 
+	* src/libical/icaltimezone.c (icaltimezone_get_builtin_timezone): 
+	changed the debugging message to avoid a crash on non-glibc boxes.
+	(Using %s with a NULL argument will crash them.)
+
+2001-07-30  Damon Chaplin  <damon@ximian.com>
+
 	* src/libical/icalcomponent.c (icalcomponent_merge_vtimezone): copy
 	the TZID just in case the property we got it from gets modified.
 	(icalcomponent_rename_tzids_callback): break out of the loop if we
