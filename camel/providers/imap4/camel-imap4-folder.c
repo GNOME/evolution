@@ -66,7 +66,7 @@ static CamelMimeMessage *imap4_get_message (CamelFolder *folder, const char *uid
 static void imap4_append_message (CamelFolder *folder, CamelMimeMessage *message,
 				  const CamelMessageInfo *info, char **appended_uid, CamelException *ex);
 static void imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
-					GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex);
+					GPtrArray **transferred_uids, gboolean move, CamelException *ex);
 static GPtrArray *imap4_search_by_expression (CamelFolder *folder, const char *expr, CamelException *ex);
 static GPtrArray *imap4_search_by_uids (CamelFolder *folder, const char *expr, GPtrArray *uids, CamelException *ex);
 static void imap4_search_free (CamelFolder *folder, GPtrArray *uids);
@@ -884,7 +884,7 @@ info_uid_sort (const CamelMessageInfo **info0, const CamelMessageInfo **info1)
 
 static void
 imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest,
-			   GPtrArray **transferred_uids, gboolean delete_originals, CamelException *ex)
+			   GPtrArray **transferred_uids, gboolean move, CamelException *ex)
 {
 	CamelIMAP4Engine *engine = ((CamelIMAP4Store *) src->parent_store)->engine;
 	int i, j, n, id, dest_namelen;
@@ -931,7 +931,7 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 		switch (ic->result) {
 		case CAMEL_IMAP4_RESULT_NO:
 			/* FIXME: would be good to save the NO reason into the err message */
-			if (delete_originals) {
+			if (move) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("Cannot move messages from folder `%s' to folder `%s': Unknown"),
 						      src->full_name, dest->full_name);
@@ -943,7 +943,7 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 			
 			goto done;
 		case CAMEL_IMAP4_RESULT_BAD:
-			if (delete_originals) {
+			if (move) {
 				camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
 						      _("Cannot move messages from folder `%s' to folder `%s': Bad command"),
 						      src->full_name, dest->full_name);
@@ -958,7 +958,7 @@ imap4_transfer_messages_to (CamelFolder *src, GPtrArray *uids, CamelFolder *dest
 		
 		camel_imap4_command_unref (ic);
 		
-		if (delete_originals) {
+		if (move) {
 			for (j = i; j < n; j++) {
 				info = infos->pdata[j];
 				camel_folder_set_message_flags (src, camel_message_info_uid (info),
