@@ -38,7 +38,7 @@ html:
 clean-local:
 	rm -f *~ *.bak *.signals *-unused.txt
 
-maintainer-clean-local: clean
+maintainer-clean-local:
 	cd $(srcdir) && rm -rf html
 
 install-data-local:
