@@ -4,7 +4,9 @@
 	data, leave that up to the provider to do if it needs to. Also
 	save on some memory allocations and stuff.
 
-	* camel-sasl-cram-md5.c (cram_md5_challenge): Same here.
+	* camel-sasl-cram-md5.c (cram_md5_challenge): Same here. Also get
+	rid of the need for the temp buf as we can just write it to the
+	GByteArray.
 
 2001-03-02  Not Zed  <NotZed@Ximian.com>
 
