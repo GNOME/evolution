@@ -1,3 +1,7 @@
+2004-04-15  JP Rosevear <jpr@ximian.com>
+
+	* evolution-comp-editor.xml: remove "Save" only option
+
 2004-04-09  Dan Winship  <danw@ximian.com>
 
 	* evolution.xml: Update for "New" changes. Move "New Window" into
