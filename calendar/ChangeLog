@@ -1,3 +1,11 @@
+2000-12-13  JP Rosevear  <jpr@helixcode.com>
+
+	* conduits/todo/Makefile.am: Revert federico's change for now
+	because of libtool limitations with ldadding shared libtool
+	libs
+
+	* conduits/calendar/Makefile.am: ditto
+
 2000-12-12  JP Rosevear  <jpr@helixcode.com>
 
 	* gui/dialogs/task-editor.c (task_editor_set_todo_object): Use
