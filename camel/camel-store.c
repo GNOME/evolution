@@ -1204,3 +1204,58 @@ camel_store_folder_uri_equal (CamelStore *store, const char *uri0, const char *u
 	
 	return equal;
 }
+
+/* subscriptions interface */
+
+static void
+cis_interface_init (CamelISubscribe *cis)
+{
+	camel_object_class_add_event((CamelType)cis, "subscribed", NULL);
+	camel_object_class_add_event((CamelType)cis, "unsubscribed", NULL);
+}
+
+CamelType camel_isubscribe_get_type (void)
+{
+	static CamelType camel_isubscribe_type = CAMEL_INVALID_TYPE;
+
+	if (camel_isubscribe_type == CAMEL_INVALID_TYPE) {
+		camel_isubscribe_type = camel_interface_register (CAMEL_INTERFACE_TYPE, "CamelISubscribe",
+								  sizeof (CamelISubscribe),
+								  (CamelObjectClassInitFunc) cis_interface_init,
+								  NULL);
+	}
+
+	return camel_isubscribe_type;
+}
+
+gboolean camel_isubscribe_subscribed(CamelStore *store, const char *name)
+{
+	CamelISubscribe *iface = camel_object_get_interface(store, camel_isubscribe_get_type());
+
+	if (iface && iface->subscribed)
+		return iface->subscribed(store, name);
+
+	g_warning("Trying to invoke unimplemented subscribed method on a store");
+	return FALSE;
+}
+
+void camel_isubscribe_subscribe(CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	CamelISubscribe *iface = camel_object_get_interface(store, camel_isubscribe_get_type());
+
+	if (iface && iface->subscribe)
+		return iface->subscribe(store, folder_name, ex);
+
+	g_warning("Trying to invoke unimplemented subscribe method on a store");
+}
+
+void camel_isubscribe_unsubscribe(CamelStore *store, const char *folder_name, CamelException *ex)
+{
+	CamelISubscribe *iface = camel_object_get_interface(store, camel_isubscribe_get_type());
+
+	if (iface && iface->unsubscribe)
+		return iface->unsubscribe(store, folder_name, ex);
+
+	g_warning("Trying to invoke unimplemented unsubscribe method on a store");
+}
+

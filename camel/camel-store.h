@@ -164,7 +164,6 @@ typedef struct {
 						     CamelException *ex);
 } CamelStoreClass;
 
-
 /* Standard Camel function */
 CamelType camel_store_get_type (void);
 
@@ -230,6 +229,20 @@ void             camel_store_noop                     (CamelStore *store,
 int              camel_store_folder_uri_equal         (CamelStore *store,
 						       const char *uri0,
 						       const char *uri1);
+
+typedef struct _CamelISubscribe CamelISubscribe;
+struct _CamelISubscribe {
+	CamelInterface iface;
+
+	gboolean (*subscribed)(CamelStore *store, const char *folder_name);
+	void (*subscribe)(CamelStore *store, const char *folder_name, CamelException *ex);
+	void (*unsubscribe)(CamelStore *store, const char *folder_name, CamelException *ex);
+};
+
+CamelType camel_isubscribe_get_type (void);
+gboolean camel_isubscribe_subscribed(CamelStore *store, const char *name);
+void camel_isubscribe_subscribe(CamelStore *store, const char *folder_name, CamelException *ex);
+void camel_isubscribe_unsubscribe(CamelStore *store, const char *folder_name, CamelException *ex);
 
 #ifdef __cplusplus
 }

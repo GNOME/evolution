@@ -1,3 +1,14 @@
+2004-11-02  Not Zed  <NotZed@Ximian.com>
+
+	* camel-object.c (camel_object_hook_event): check interfaces for
+	events too.
+	(camel_object_trigger_event): check interfaces for events too.
+	(camel_object_class_add_event): more checks for interfaces vs
+	normal object classes.
+	(camel_object_class_add_interface): add an interface to a class.
+	(camel_object_get_interface): query for interfaces on an object.
+	(camel_object_get_type): register the interface type.
+
 2004-11-02  Jeffrey Stedfast  <fejj@novell.com>
 
 	* providers/imap4/camel-imap4-store.c (imap4_folder_utf7_name):

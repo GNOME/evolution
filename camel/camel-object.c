@@ -43,8 +43,10 @@
 /* I just mashed the keyboard for these... */
 #define CAMEL_OBJECT_MAGIC           	 0x77A344ED
 #define CAMEL_OBJECT_CLASS_MAGIC     	 0xEE26A997
+#define CAMEL_INTERFACE_MAGIC     	 0xBCE137A7
 #define CAMEL_OBJECT_FINALISED_MAGIC       0x84AC365F
 #define CAMEL_OBJECT_CLASS_FINALISED_MAGIC 0x7621ABCD
+#define CAMEL_INTERFACE_FINALISED_MAGIC    0x7CB2FE71
 
 /* ** Quickie type system ************************************************* */
 
@@ -113,6 +115,9 @@ static CamelHookPair *co_metadata_pair(CamelObject *obj, int create);
 static const char *meta_name = "object:meta";
 #define CAMEL_OBJECT_STATE_FILE_MAGIC "CLMD"
 
+/* interface stuff */
+static const char *interface_name = "object:interface";
+
 /* ********************************************************************** */
 
 static CamelHookList *camel_object_get_hooks(CamelObject *o);
@@ -135,7 +140,9 @@ static EMutex *type_lock;
 static GHashTable *type_table;
 static EMemChunk *type_chunks;
 
+/* fundamental types are accessed via global */
 CamelType camel_object_type;
+CamelType camel_interface_type;
 
 #define P_LOCK(l) (pthread_mutex_lock(&l))
 #define P_UNLOCK(l) (pthread_mutex_unlock(&l))
@@ -143,7 +150,6 @@ CamelType camel_object_type;
 #define E_UNLOCK(l) (e_mutex_unlock(l))
 #define CLASS_LOCK(k) (g_mutex_lock((((CamelObjectClass *)k)->lock)))
 #define CLASS_UNLOCK(k) (g_mutex_unlock((((CamelObjectClass *)k)->lock)))
-
 
 static struct _CamelHookPair *
 pair_alloc(void)
@@ -210,6 +216,8 @@ camel_type_init(void)
 }
 
 /* ************************************************************************ */
+
+/* CamelObject base methods */
 
 /* Should this return the object to the caller? */
 static void
@@ -610,6 +618,59 @@ cobject_class_finalise(CamelObjectClass * klass)
 	g_free(klass);
 }
 
+
+/* CamelInterface base methods */
+
+static void
+cinterface_init(CamelObject *o, CamelObjectClass *klass)
+{
+	g_error("Cannot instantiate interfaces, trying to instantiate '%s'", klass->name);
+	abort();
+}
+
+static int
+cinterface_getv(CamelObject *o, CamelException *ex, CamelArgGetV *args)
+{
+	return 0;
+}
+
+static int
+cinterface_setv(CamelObject *o, CamelException *ex, CamelArgV *args)
+{
+	return 0;
+}
+
+static void
+cinterface_free(CamelObject *o, guint32 tag, void *value)
+{
+	/* NOOP */
+}
+
+static void
+cinterface_class_init(CamelObjectClass *klass)
+{
+	klass->magic = CAMEL_INTERFACE_MAGIC;
+
+	/* just setup dummy callbacks, properties could be part of the interface but we support none */
+	klass->getv = cinterface_getv;
+	klass->setv = cinterface_setv;
+	klass->free = cinterface_free;
+
+	/* TODO: ok, these are cruft hanging around an interface, but it saves having to define two different class bases */
+	klass->meta_get = NULL;
+	klass->meta_set = NULL;
+	klass->state_read = NULL;
+	klass->state_write = NULL;
+}
+
+static void
+cinterface_class_finalise(CamelObjectClass * klass)
+{
+	klass->magic = CAMEL_INTERFACE_FINALISED_MAGIC;
+	g_free(klass);
+}
+
+/* this function must be called for any other in the object system */
 CamelType
 camel_object_get_type(void)
 {
@@ -620,6 +681,12 @@ camel_object_get_type(void)
 							sizeof(CamelObject), sizeof(CamelObjectClass),
 							cobject_class_init, cobject_class_finalise,
 							cobject_init, cobject_finalise);
+
+		camel_interface_type = camel_type_register(NULL, "CamelInterface",
+							   0, sizeof(CamelInterface),
+							   cinterface_class_init, cinterface_class_finalise,
+							   cinterface_init, NULL);
+							   
 	}
 
 	return camel_object_type;
@@ -635,23 +702,18 @@ camel_type_class_init(CamelObjectClass *klass, CamelObjectClass *type)
 		type->klass_init(klass);
 }
 
-CamelType
-camel_type_register(CamelType parent, const char * name,
-		    /*unsigned int ver, unsigned int rev,*/
-		    size_t object_size, size_t klass_size,
-		    CamelObjectClassInitFunc class_init,
-		    CamelObjectClassFinalizeFunc class_finalise,
-		    CamelObjectInitFunc object_init,
-		    CamelObjectFinalizeFunc object_finalise)
+static CamelType
+co_type_register(CamelType parent, const char * name,
+		 /*unsigned int ver, unsigned int rev,*/
+		 size_t object_size, size_t klass_size,
+		 CamelObjectClassInitFunc class_init,
+		 CamelObjectClassFinalizeFunc class_finalise,
+		 CamelObjectInitFunc object_init,
+		 CamelObjectFinalizeFunc object_finalise)
 {
 	CamelObjectClass *klass;
 	/*int offset;
 	  size_t size;*/
-
-	if (parent != NULL && parent->magic != CAMEL_OBJECT_CLASS_MAGIC) {
-		g_warning("camel_type_register: invalid junk parent class for '%s'", name);
-		return NULL;
-	}
 
 	E_LOCK(type_lock);
 
@@ -722,6 +784,37 @@ camel_type_register(CamelType parent, const char * name,
 	E_UNLOCK(type_lock);
 
 	return klass;
+}
+
+CamelType
+camel_type_register(CamelType parent, const char * name,
+		    /*unsigned int ver, unsigned int rev,*/
+		    size_t object_size, size_t klass_size,
+		    CamelObjectClassInitFunc class_init,
+		    CamelObjectClassFinalizeFunc class_finalise,
+		    CamelObjectInitFunc object_init,
+		    CamelObjectFinalizeFunc object_finalise)
+{
+	if (parent != NULL && parent->magic != CAMEL_OBJECT_CLASS_MAGIC) {
+		g_warning("camel_type_register: invalid junk parent class for '%s'", name);
+		return NULL;
+	}
+
+	return co_type_register(parent, name, object_size, klass_size, class_init, class_finalise, object_init, object_finalise);
+}
+
+CamelType
+camel_interface_register(CamelType parent, const char *name,
+			 size_t class_size,
+			 CamelObjectClassInitFunc class_init,
+			 CamelObjectClassFinalizeFunc class_finalise)
+{
+	if (parent != NULL && parent->magic != CAMEL_INTERFACE_MAGIC) {
+		g_warning("camel_interface_register: invalid junk parent class for '%s'", name);
+		return NULL;
+	}
+
+	return camel_type_register(parent, name, 0, class_size, class_init, class_finalise, NULL, NULL);
 }
 
 static void
@@ -852,6 +945,9 @@ camel_type_to_name(CamelType type)
 	if (type->magic == CAMEL_OBJECT_CLASS_MAGIC)
 		return type->name;
 
+	if (type->magic == CAMEL_INTERFACE_MAGIC)
+		return type->name;
+
 	return "(Junk class)";
 }
 
@@ -875,10 +971,14 @@ desc_data(CamelObject *o, guint32 ok)
 		what = g_strdup_printf("CLASS '%s'", ((CamelObjectClass *)o)->name);
 	else if (o->magic == CAMEL_OBJECT_CLASS_MAGIC)
 		what = g_strdup_printf("CLASS '%s'", ((CamelObjectClass *)o)->name);
+	else if (o->magic == CAMEL_INTERFACE_MAGIC)
+		what = g_strdup_printf("INTERFACE '%s'", ((CamelObjectClass *)o)->name);
 	else if (o->magic == CAMEL_OBJECT_FINALISED_MAGIC)
 		what = g_strdup_printf("finalised OBJECT");
 	else if (o->magic == CAMEL_OBJECT_CLASS_FINALISED_MAGIC)
 		what = g_strdup_printf("finalised CLASS");
+	else if (o->magic == CAMEL_INTERFACE_FINALISED_MAGIC)
+		what = g_strdup_printf("finalised INTERFACE");
 	else 
 		what = g_strdup_printf("junk data");
 
@@ -948,6 +1048,20 @@ camel_object_class_is(CamelObjectClass *k, CamelType ctype)
 	return FALSE;
 }
 
+gboolean
+camel_interface_is(CamelObjectClass *k, CamelType ctype)
+{
+	g_return_val_if_fail(check_magic(k, ctype, CAMEL_INTERFACE_MAGIC), FALSE);
+
+	while (k) {
+		if (k == ctype)
+			return TRUE;
+		k = k->parent;
+	}
+
+	return FALSE;
+}
+
 CamelObject *
 camel_object_cast(CamelObject *o, CamelType ctype)
 {
@@ -985,6 +1099,55 @@ camel_object_class_cast(CamelObjectClass *k, CamelType ctype)
 	return NULL;
 }
 
+CamelObjectClass *
+camel_interface_cast(CamelObjectClass *k, CamelType ctype)
+{
+	CamelObjectClass *r = k;
+
+	g_return_val_if_fail(check_magic(k, ctype, CAMEL_INTERFACE_MAGIC), NULL);
+
+	while (k) {
+		if (k == ctype)
+			return r;
+		k = k->parent;
+	}
+
+	g_warning("Interface '%s' doesn't have '%s' in its hierarchy", r->name, ctype->name);
+
+	return NULL;
+}
+
+static CamelHookPair *
+co_find_pair(CamelObjectClass *klass, const char *name)
+{
+	CamelHookPair *hook;
+
+	hook = klass->hooks;
+	while (hook) {
+		if (strcmp(hook->name, name) == 0)
+			return hook;
+		hook = hook->next;
+	}
+
+	return NULL;
+}
+
+static CamelHookPair *
+co_find_pair_ptr(CamelObjectClass *klass, const char *name)
+{
+	CamelHookPair *hook;
+
+	hook = klass->hooks;
+	while (hook) {
+		if (hook->name == name)
+			return hook;
+		hook = hook->next;
+	}
+
+	return NULL;
+}
+
+/* class functions */
 void
 camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObjectEventPrepFunc prep)
 {
@@ -992,14 +1155,17 @@ camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObj
 
 	g_return_if_fail (name);
 
-	pair = klass->hooks;
-	while (pair) {
-		if (strcmp(pair->name, name) == 0) {
-			g_warning("camel_object_class_add_event: `%s' is already declared for '%s'\n",
-				  name, klass->name);
-			return;
-		}
-		pair = pair->next;
+	pair = co_find_pair(klass, name);
+	if (pair) {
+		g_warning("camel_object_class_add_event: `%s' is already declared for '%s'",
+			  name, klass->name);
+		return;
+	}
+
+	if (klass->magic == CAMEL_INTERFACE_MAGIC && prep != NULL) {
+		g_warning("camel_object_class_add_event: `%s', CamelInterface '%s' may not have an event prep function - ignored",
+			  name, klass->name);
+		prep = NULL;
 	}
 
 	pair = pair_alloc();
@@ -1009,6 +1175,50 @@ camel_object_class_add_event(CamelObjectClass *klass, const char *name, CamelObj
 
 	pair->next = klass->hooks;
 	klass->hooks = pair;
+}
+
+void
+camel_object_class_add_interface(CamelObjectClass *klass, CamelType itype)
+{
+	CamelHookPair *pair;
+	CamelType iscan;
+	GPtrArray *interfaces;
+	int i;
+
+	if (!camel_interface_is(itype, camel_interface_type)) {
+		g_warning("Cannot add an interface not derived from CamelInterface on class '%s'", klass->name);
+		return;
+	}
+
+	if (camel_object_class_is(klass, camel_interface_type)) {
+		g_warning("Cannot add an interface onto a class derived from CamelInterface");
+		return;
+	}
+
+	/* we store it on the class hooks so we don't have to add any extra space to the class */
+	pair = co_find_pair_ptr(klass, interface_name);
+	if (pair == NULL) {
+		pair = pair_alloc();
+		pair->data = g_ptr_array_new();
+		pair->next = klass->hooks;
+		klass->hooks = pair;
+	}
+
+	/* We just check that this type isn't added/derived anywhere else */
+	interfaces = pair->data;
+	iscan = itype;
+	while (iscan && iscan != camel_interface_type) {
+		for (i=0;i<interfaces->len;i++) {
+			if (camel_interface_is((CamelType)interfaces->pdata[i], iscan)) {
+				g_warning("Cannot add an interface twice '%s' on class '%s'\n", itype->name, klass->name);
+				return;
+			}
+		}
+		iscan = iscan->parent;
+	}
+
+	if (iscan == camel_interface_type)
+		g_ptr_array_add(interfaces, itype);
 }
 
 /* free hook data */
@@ -1079,18 +1289,27 @@ camel_object_hook_event(void *vo, const char * name, CamelObjectEventHookFunc fu
 	g_return_val_if_fail(name != NULL, 0);
 	g_return_val_if_fail(func != NULL, 0);
 
-	hook = obj->klass->hooks;
-	while (hook) {
-		if (strcmp(hook->name, name) == 0)
-			goto setup;
-		hook = hook->next;
+	hook = co_find_pair(obj->klass, name);
+
+	/* Check all interfaces on this object for events defined on them */
+	if (hook == NULL) {
+		pair = co_find_pair_ptr(obj->klass, interface_name);
+		if (pair) {
+			GPtrArray *interfaces = pair->data;
+			int i;
+
+			for (i=0;i<interfaces->len;i++) {
+				hook = co_find_pair(interfaces->pdata[i], name);
+				if (hook)
+					goto setup;
+			}
+		}
+
+		g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
+			  name, obj->klass->name);
+
+		return 0;
 	}
-
-	g_warning("camel_object_hook_event: trying to hook event `%s' in class `%s' with no defined events.",
-		  name, obj->klass->name);
-
-	return 0;
-
 setup:
 	/* setup hook pair */
 	pair = pair_alloc();
@@ -1217,11 +1436,24 @@ camel_object_trigger_event(void *vo, const char * name, void *event_data)
 	g_return_if_fail (CAMEL_IS_OBJECT (obj));
 	g_return_if_fail (name);
 
-	hook = obj->klass->hooks;
-	while (hook) {
-		if (strcmp(hook->name, name) == 0)
-			goto trigger;
-		hook = hook->next;
+	hook = co_find_pair(obj->klass, name);
+	if (hook)
+		goto trigger;
+
+	if (obj->hooks == NULL)
+		return;
+
+	/* interface events can't have prep functions */
+	pair = co_find_pair_ptr(obj->klass, interface_name);
+	if (pair) {
+		GPtrArray *interfaces = pair->data;
+		int i;
+
+		for (i=0;i<interfaces->len;i++) {
+			hook = co_find_pair(interfaces->pdata[i], name);
+			if (hook)
+				goto trigger_interface;
+		}
 	}
 
 	g_warning("camel_object_trigger_event: trying to trigger unknown event `%s' in class `%s'",
@@ -1237,7 +1469,7 @@ trigger:
 	/* also, no hooks, dont bother going further */
 	if (obj->hooks == NULL)
 		return;
-
+trigger_interface:
 	/* lock the object for hook emission */
 	camel_object_ref(obj);
 	hooks = camel_object_get_hooks(obj);
@@ -1283,6 +1515,31 @@ trigger:
 
 	camel_object_unget_hooks(obj);
 	camel_object_unref(obj);
+}
+
+void *
+camel_object_get_interface(void *vo, CamelType itype)
+{
+	CamelObject *obj = vo;
+	CamelHookPair *pair;
+
+	g_return_val_if_fail(CAMEL_IS_OBJECT (obj), NULL);
+	g_return_val_if_fail(camel_interface_is(itype, camel_interface_type), NULL);
+
+	pair = co_find_pair_ptr(obj->klass, interface_name);
+	if (pair) {
+		GPtrArray *interfaces = pair->data;
+		int i;
+
+		for (i=0;i<interfaces->len;i++) {
+			if (camel_interface_is((CamelType)interfaces->pdata[i], itype))
+				return (CamelType)interfaces->pdata[i];
+		}
+	}
+
+	g_warning("Object %p class %s doesn't contain interface %s\n", vo, obj->klass->name, itype->name);
+
+	return NULL;
 }
 
 /* get/set arg methods */

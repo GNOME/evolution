@@ -72,6 +72,10 @@ typedef struct _CamelObject CamelObject;
 typedef unsigned int CamelObjectHookID;
 typedef struct _CamelObjectMeta CamelObjectMeta;
 
+extern CamelType camel_interface_type;
+#define CAMEL_INTERFACE_TYPE (camel_interface_type)
+typedef struct _CamelInterface CamelInterface;
+
 typedef void (*CamelObjectClassInitFunc) (CamelObjectClass *);
 typedef void (*CamelObjectClassFinalizeFunc) (CamelObjectClass *);
 typedef void (*CamelObjectInitFunc) (CamelObject *, CamelObjectClass *);
@@ -165,6 +169,8 @@ struct _CamelObjectClass
 	void (*init)(struct _CamelObject *, struct _CamelObjectClass *);
 	void (*finalise)(struct _CamelObject *);
 
+	/* root-class fields follow, type system above */
+
 	/* get/set interface */
 	int (*setv)(struct _CamelObject *, struct _CamelException *ex, CamelArgV *args);
 	int (*getv)(struct _CamelObject *, struct _CamelException *ex, CamelArgGetV *args);
@@ -180,6 +186,11 @@ struct _CamelObjectClass
 	int (*state_write)(struct _CamelObject *, FILE *fp);
 };
 
+/* an interface is just a class with no instance data */
+struct _CamelInterface {
+	struct _CamelObjectClass type;
+};
+
 /* The type system .... it's pretty simple..... */
 void camel_type_init (void);
 CamelType camel_type_register(CamelType parent, const char * name, /*unsigned int ver, unsigned int rev,*/
@@ -190,6 +201,11 @@ CamelType camel_type_register(CamelType parent, const char * name, /*unsigned in
 			      CamelObjectInitFunc instance_init,
 			      CamelObjectFinalizeFunc instance_finalize);
 
+CamelType camel_interface_register(CamelType parent, const char *name,
+				   size_t classfuncs_size,
+				   CamelObjectClassInitFunc class_init,
+				   CamelObjectClassFinalizeFunc class_finalize);
+
 /* deprecated interface */
 #define camel_type_get_global_classfuncs(x) ((CamelObjectClass *)(x))
 
@@ -197,6 +213,7 @@ CamelType camel_type_register(CamelType parent, const char * name, /*unsigned in
 const char *camel_type_to_name (CamelType type);
 CamelType camel_name_to_type (const char *name);
 void camel_object_class_add_event (CamelObjectClass *klass, const char *name, CamelObjectEventPrepFunc prep);
+void camel_object_class_add_interface(CamelObjectClass *klass, CamelType itype);
 
 void camel_object_class_dump_tree (CamelType root);
 
@@ -206,6 +223,9 @@ gboolean camel_object_is(CamelObject *obj, CamelType ctype);
 
 CamelObjectClass *camel_object_class_cast (CamelObjectClass *klass, CamelType ctype);
 gboolean camel_object_class_is (CamelObjectClass *klass, CamelType ctype);
+
+CamelObjectClass *camel_interface_cast(CamelObjectClass *klass, CamelType ctype);
+gboolean camel_interface_is(CamelObjectClass *k, CamelType ctype);
 
 CamelType camel_object_get_type (void);
 
@@ -225,6 +245,9 @@ CamelObjectHookID camel_object_hook_event(void *obj, const char *name, CamelObje
 void camel_object_remove_event(void *obj, CamelObjectHookID id);
 void camel_object_unhook_event(void *obj, const char *name, CamelObjectEventHookFunc hook, void *data);
 void camel_object_trigger_event(void *obj, const char *name, void *event_data);
+
+/* interfaces */
+void *camel_object_get_interface(void *vo, CamelType itype);
 
 /* get/set methods */
 int camel_object_set(void *obj, struct _CamelException *ex, ...);
