@@ -1,0 +1,36 @@
+ <appendix id="bugs">
+   
+    <title>已知问题和限制</title>
+    <abstract>
+    <para>
+    Ximian Evolution 使用 <ulink url="http://bugzilla.ximian.com">
+    Ximian 错误跟踪系统</ulink> 来跟踪错误。如果您发现了错误或者想
+    要求增加一个新的特性，您可以使用错误跟踪系统或者 GNOME
+    <application>错误报告工具</application>(也就是命令行工具<command>
+    bug-buddy</command>)来完成。
+    </para>
+    <para>
+      如果您需要获得 Ximian Evolution 的额外帮助，请访问 Ximian 支持
+      站点 <ulink url="http://support.ximian.com">ximian.com/support</ulink>。
+    </para>
+    </abstract>
+
+    <para>
+      许多被多次要求的特性将不会在 Ximian Evolution 1.0 中，但是我们
+      计划在版本 1.1 中加入它们。这其中包括：
+    <simplelist>
+    <member>直接支持 Microsoft Outlook 联系人卡片</member>
+    <member>和手持设备同步电子邮件</member>
+    <member>S/MIME 支持</member>
+    <member>不导入而直接读取其它格式的邮件文件夹</member>
+    <member>导入 WINMAIL.DAT 附件</member>
+    <member>当新邮件到达时播放声音</member>
+</simplelist>
+    </para>
+    <para>
+    Evolution 的更完整的特性要求和其它问题可以在 Ximian 错误跟踪系统中
+    在线获得。
+    </para>
+
+  </appendix>
+
