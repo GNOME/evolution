@@ -1,3 +1,8 @@
+2001-04-03  Gediminas Paulauskas <menesis@delfi.lt>
+
+	* importer/evolution-importer-client.c (evolution_importer_client_load_file):
+	fix Iain's fix which did nothing. closes #1914.
+
 2001-03-31  Christopher James Lahey  <clahey@ximian.com>
 
 	* evolution-storage-set-view.c: Include <gal/util/e-util.h> here.
