@@ -72,7 +72,7 @@ main (int argc, char**argv)
 	gchar *store_url = "mbox:///tmp/evmail";
 	CamelFolder *folder;
 	CamelMimeMessage *message;
-
+	GList *uid_list;
 	camel_debug_level = 10;
 
 	gtk_init (&argc, &argv);
@@ -88,11 +88,30 @@ main (int argc, char**argv)
 	if (camel_exception_get_id (ex)) {
 		printf ("Exception caught in camel_store_get_folder"
 			"Full description : %s\n", camel_exception_get_description (ex));
+		return -1;
 	}
+
 	camel_folder_open (folder, FOLDER_OPEN_RW, ex);
-	
+	if (camel_exception_get_id (ex)) {
+		printf ("Exception caught when trying to open the folder"
+			"Full description : %s\n", camel_exception_get_description (ex));
+		return -1;
+	}
+
 	message = create_sample_mime_message ();
 	camel_folder_append_message (folder, message, ex);
+	if (camel_exception_get_id (ex)) {
+		printf ("Exception caught when trying to append a message to the folder"
+			"Full description : %s\n", camel_exception_get_description (ex));
+		return -1;
+	}
+
+	uid_list = camel_folder_get_uid_list (folder, ex);
+	while (uid_list) {
+		printf ("UID : %s\n", (gchar *)uid_list->data);
+		uid_list = uid_list->next;
+	}
+       
 	camel_folder_close (folder, FALSE, ex);
 
 	return 1;

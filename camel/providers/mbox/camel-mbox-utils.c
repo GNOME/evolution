@@ -250,7 +250,7 @@ camel_mbox_write_xev (gchar *mbox_file_name,
 		
 		cur_msg_info = (CamelMboxParserMessageInfo *)(summary_information->data) + cur_msg;
 		end_of_last_message = cur_msg_info->message_position + cur_msg_info->size;
-		printf ("End of last message : %ld\n", end_of_last_message);
+
 		if (cur_msg_info->uid == 0) {
 			
 			bytes_to_copy = cur_msg_info->message_position 
@@ -370,6 +370,9 @@ parsed_information_to_mbox_summary (GArray *parsed_information)
 	
 		cur_sum_info->to =  cur_msg_info->to;
 		cur_msg_info->to = NULL;		
+
+		cur_sum_info->date =  cur_msg_info->date;
+		cur_msg_info->date = NULL;		
 		
 	}
 	

@@ -47,6 +47,7 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 	guint cur_msg;
 	guint field_lgth;
 	gint fd;
+	gint write_result;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
@@ -67,8 +68,8 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 
 	/* write the number of messages  + the md5 signatures 
 	 + next UID + mbox file size */
-	write (fd, summary, sizeof (guint) +  sizeof (guchar) * 16 + 2 * sizeof (guint32));
-	       
+	write_result = write (fd, summary, G_STRUCT_OFFSET (CamelMboxSummary, message_info));
+
 	
 	for (cur_msg=0; cur_msg < summary->nb_message; cur_msg++) {
 
@@ -85,7 +86,6 @@ camel_mbox_save_summary (CamelMboxSummary *summary, const gchar *filename, Camel
 		write (fd, &field_lgth, sizeof (guint));
 		if (field_lgth)
 			write (fd, msg_info->subject, field_lgth);
-
 		/* write sender */
 		field_lgth = msg_info->sender ? strlen (msg_info->sender) : 0;
 		write (fd, &field_lgth, sizeof (gint));
@@ -124,7 +124,7 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 	guint field_lgth;
 	gint fd;
 	CamelMboxSummary *summary;
-
+	gint read_result;
 
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::save_summary entering \n");
 
@@ -143,7 +143,8 @@ camel_mbox_load_summary (const gchar *filename, CamelException *ex)
 
 	/* read the message number, the md5 signature 
 	 and the next available UID + mbox file size */
-	read (fd, summary, sizeof (guint) + sizeof (guchar) * 16 +  2 * sizeof (guint32));
+	read_result = read (fd, summary, G_STRUCT_OFFSET (CamelMboxSummary, message_info));
+
 
 	summary->message_info = g_array_new (FALSE, FALSE, sizeof (CamelMboxSummaryInformation));
 	summary->message_info =  g_array_set_size (summary->message_info, summary->nb_message);
@@ -249,3 +250,14 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 	return (strncmp (real_md5, summary_md5, 16) == 0);
 }
 
+
+
+
+
+void
+camel_summary_append_entries (CamelMboxSummary *summary, GArray *entries)
+{
+		
+	summary->message_info = g_array_append_vals (summary->message_info, entries->data, entries->len);
+	
+}

@@ -66,6 +66,8 @@ camel_mbox_check_summary_sync (gchar *summary_filename,
 			       gchar *mbox_filename,
 			       CamelException *ex);
 
+void
+camel_summary_append_entries (CamelMboxSummary *summary, GArray *entries);
 
 
 #endif /* MH_SUMMARY_H */

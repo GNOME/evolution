@@ -1,8 +1,15 @@
 2000-01-22  bertrand  <bertrand@helixcode.com>
 
+	* camel/providers/mbox/camel-mbox-folder.c (_check_get_or_maybe_generate_summary_file): 
+	use the real summary file path instead of a 
+	stupid hardcoded one. Fixes yet another bug.
+
+	* camel/providers/mbox/camel-mbox-utils.c (parsed_information_to_mbox_summary): 
+	don't forget to copy the date too. Fix a very annoying bug.
+
 	* camel/providers/mbox/camel-mbox-folder.c (_append_message): 
 	implemented. A lot of fixes too. Works now. 
-	
+	(_get_uid_list): implemented.
 
 2000-01-21  bertrand  <bertrand@helixcode.com>
 

@@ -228,7 +228,6 @@ initialize_buffer (CamelMboxPreParser *parser,
 		/* fill the end of the buffer with 0\ */
 		memset (parser->buffer + buf_nb_read + parser->left_chunk_size, '\0', 
 			MIN (parser->left_chunk_size, MBOX_PARSER_BUF_SIZE - buf_nb_read - parser->left_chunk_size));
-		printf ("I am memsetting with 0\n");
 	};
 
 	parser->last_position = MIN (buf_nb_read + parser->left_chunk_size + 1, 
@@ -802,7 +801,6 @@ camel_mbox_parse_file (int fd,
 	if (parser->is_pending_message) {
 		parser->current_message_info.size = 
 			parser->real_position - parser->current_message_info.message_position;
-		printf ("the postion of the last message : %ld\nthe size of the last message is : %ld\n", parser->current_message_info.message_position, parser->current_message_info.size);
 		g_array_append_vals (parser->preparsed_messages, (gchar *)parser + 
 				     G_STRUCT_OFFSET (CamelMboxPreParser, current_message_info), 1);	
 	}

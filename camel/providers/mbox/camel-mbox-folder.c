@@ -102,12 +102,12 @@ camel_mbox_folder_class_init (CamelMboxFolderClass *camel_mbox_folder_class)
 	/* camel_folder_class->get_message_by_number = _get_message_by_number; */
 	camel_folder_class->get_message_count = _get_message_count;
 	camel_folder_class->append_message = _append_message;
+	camel_folder_class->get_uid_list = _get_uid_list;
 #if 0
 	camel_folder_class->expunge = _expunge;
 	camel_folder_class->copy_message_to = _copy_message_to;
 	camel_folder_class->get_message_uid = _get_message_uid;
 	camel_folder_class->get_message_by_uid = _get_message_by_uid;
-	camel_folder_class->get_uid_list = _get_uid_list;
 #endif
 	gtk_object_class->finalize = _finalize;
 	
@@ -175,7 +175,6 @@ _init_with_store (CamelFolder *folder, CamelStore *parent_store, CamelException 
 	parent_class->init_with_store (folder, parent_store, ex);
 	if (camel_exception_get_id (ex)) return;
 
-	printf ("%d\n", folder->open_mode);
 	/* we assume that the parent init_with_store 
 	   method checks for the existance of @folder */
 	   
@@ -211,7 +210,6 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 	gint mbox_file_fd;
 	guint32 next_uid;
 	guint32 file_size;
-
 
 	/* test for the existence of the summary file */
 	summary_file_exists = (access (mbox_folder->summary_file_path, F_OK) == 0);
@@ -276,14 +274,13 @@ _check_get_or_maybe_generate_summary_file (CamelMboxFolder *mbox_folder, CamelEx
 
 		/* store the number of messages as well as the summary array */
 		mbox_folder->summary->nb_message = mbox_summary_info->len;		
-		printf ("Next UID : %ld\n", next_uid);
 		mbox_folder->summary->next_uid = next_uid;		
 		mbox_folder->summary->mbox_file_size = file_size;		
 		mbox_folder->summary->message_info = mbox_summary_info;
 		
 	} else {
 		/* every thing seems ok, just read the summary file from disk */
-		mbox_folder->summary = camel_mbox_load_summary ("ev-summary.mbox", ex);
+		mbox_folder->summary = camel_mbox_load_summary (mbox_folder->summary_file_path, ex);
 	}
 }
 
@@ -356,7 +353,7 @@ _set_name (CamelFolder *folder, const gchar *name, CamelException *ex)
 	CAMEL_LOG_FULL_DEBUG ("CamelMboxFolder::separator is %c\n", separator);
 
 	mbox_folder->folder_file_path = g_strdup_printf ("%s%c%s", root_dir_path, separator, folder->full_name);
-	mbox_folder->summary_file_path = g_strdup_printf ("%s%c.%s-ev-summary", root_dir_path, separator, folder->full_name);
+	mbox_folder->summary_file_path = g_strdup_printf ("%s%c%s-ev-summary", root_dir_path, separator, folder->full_name);
 	mbox_folder->folder_dir_path = g_strdup_printf ("%s%c%s.sdb", root_dir_path, separator, folder->full_name);
 	
 	
@@ -954,21 +951,18 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 		parsed_information_to_mbox_summary (message_info_array);
 
 
-	/* generate the folder md5 signature */
-	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
 
 
 	/* store the number of messages as well as the summary array */
 	mbox_folder->summary->nb_message += 1;		
 	mbox_folder->summary->next_uid = next_uid;	
-	printf ("Next UID = %ld\n", next_uid);
+
 	((CamelMboxSummaryInformation *)(mbox_summary_info->data))->position += mbox_folder->summary->mbox_file_size;
 	mbox_folder->summary->mbox_file_size += tmp_file_size;		
 	
-	mbox_folder->summary->message_info = 
-		g_array_append_val (mbox_folder->summary->message_info, mbox_summary_info->data);
+	camel_summary_append_entries (mbox_folder->summary, mbox_summary_info);
 	
-	g_array_free (mbox_summary_info, TRUE);
+	g_array_free (mbox_summary_info, TRUE); 
 	
 
 	/* append the temporary file message to the mbox file */
@@ -992,6 +986,9 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 	close (fd1);
 	close (fd2);
 
+	/* remove the temporary file */
+	unlink (tmp_message_filename);
+
 	/* generate the folder md5 signature */
 	md5_get_digest_from_file (mbox_folder->folder_file_path, mbox_folder->summary->md5_digest);
 
@@ -1008,7 +1005,25 @@ _append_message (CamelFolder *folder, CamelMimeMessage *message, CamelException 
 static GList *
 _get_uid_list (CamelFolder *folder, CamelException *ex) 
 {
+	CamelMboxFolder *mbox_folder = CAMEL_MBOX_FOLDER(folder);
+	GArray *message_info_array;
+	CamelMboxSummaryInformation *message_info;
+	GList *uid_list = NULL;
+	int i;
+
+	CAMEL_LOG_FULL_DEBUG ("Entering CamelMboxFolder::get_uid_list\n");
 	
+	message_info_array = mbox_folder->summary->message_info;
+	
+	for (i=0; i<message_info_array->len; i++) {
+		
+		message_info = (CamelMboxSummaryInformation *)(message_info_array->data) + i;
+		uid_list = g_list_prepend (uid_list, g_strdup_printf ("%u", message_info->uid));
+	}
+	
+	CAMEL_LOG_FULL_DEBUG ("Leaving CamelMboxFolder::get_uid_list\n");
+	
+	return uid_list;
 }
 
 
