@@ -191,14 +191,16 @@ gpg_hash_to_id (CamelCipherContext *context, CamelCipherHash hash)
 static CamelCipherHash
 gpg_id_to_hash (CamelCipherContext *context, const char *id)
 {
-	if (!strcmp (id, "pgp-md2"))
-		return CAMEL_CIPHER_HASH_MD2;
-	else if (!strcmp (id, "pgp-md5"))
-		return CAMEL_CIPHER_HASH_MD5;
-	else if (!strcmp (id, "pgp-sha1"))
-		return CAMEL_CIPHER_HASH_SHA1;
-	else if (!strcmp (id, "pgp-ripemd160"))
-		return CAMEL_CIPHER_HASH_RIPEMD160;
+	if (id) {
+		if (!strcmp (id, "pgp-md2"))
+			return CAMEL_CIPHER_HASH_MD2;
+		else if (!strcmp (id, "pgp-md5"))
+			return CAMEL_CIPHER_HASH_MD5;
+		else if (!strcmp (id, "pgp-sha1"))
+			return CAMEL_CIPHER_HASH_SHA1;
+		else if (!strcmp (id, "pgp-ripemd160"))
+			return CAMEL_CIPHER_HASH_RIPEMD160;
+	}
 	
 	return CAMEL_CIPHER_HASH_DEFAULT;
 }

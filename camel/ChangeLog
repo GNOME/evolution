@@ -1,3 +1,8 @@
+2002-10-15  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* camel-gpg-context.c (gpg_id_to_hash): If the hash id is NULL,
+	return CAMEL_CIPHER_HASH_DEFAULT. Fixes bug #32229.
+
 2002-10-08  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* providers/imap/camel-imap-command.c (imap_read_response): If the
