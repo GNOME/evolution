@@ -332,9 +332,7 @@ close_callback (GnomeVFSAsyncHandle *handle,
 	doc = xmlParseMemory (xml, strlen (xml));
 #if 0
 	if (doc == NULL) {
-		if (r->html != NULL) {
-			g_free (r->html);
-		}
+		g_free (r->html);
 		r->html = g_strdup ("<b>Error parsing XML</b>");
 
 		e_summary_draw (r->summary);
@@ -359,13 +357,12 @@ read_callback (GnomeVFSAsyncHandle *handle,
 {
 	if (result != GNOME_VFS_OK && result != GNOME_VFS_ERROR_EOF) {
 		char *str;
-		if (r->html) {
-			g_free (r->html);
-		}
 
+		g_free (r->html);
 		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
 				       r->uri);
 		r->html = e_utf8_from_locale_string (str);
+
 		g_free (str);
 
 		e_summary_draw (r->summary);
@@ -394,6 +391,7 @@ open_callback (GnomeVFSAsyncHandle *handle,
 	if (result != GNOME_VFS_OK) {
 		char *str;
 
+		g_free (r->html);
 		str = g_strdup_printf ("<b>%s:</b><br>%s", _("Error downloading RDF"),
 				       r->uri);
 		r->html = e_utf8_from_locale_string (str);
@@ -520,21 +518,19 @@ rdf_free (RDF *r)
 	if (r->handle) {
 		gnome_vfs_async_cancel (r->handle);
 	}
-	if (r->uri) {
-		g_free (r->uri);
-	}
-	if (r->html) {
-		g_free (r->html);
-	}
+
+	g_free (r->uri);
+	g_free (r->html);
+	g_free (r->buffer);
+
 	if (r->string) {
 		g_string_free (r->string, TRUE);
 	}
-	if (r->buffer) {
-		g_free (r->buffer);
-	}
+
 	if (r->cache) {
 		xmlFreeDoc (r->cache);
 	}
+
 	g_free (r);
 }
 
