@@ -1,5 +1,11 @@
 2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
 
+	* gui/component/addressbook-component.c (create_component): Pass a
+	NULL @icon to
+	`evolution_shell_component_add_user_creatable_item()'.
+
+2002-01-23  Ettore Perazzoli  <ettore@ximian.com>
+
 	* gui/contact-editor/e-contact-editor-address.c: #include
 	<locale.h>.
 
