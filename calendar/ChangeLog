@@ -1,3 +1,10 @@
+2002-06-03  Anna Marie Dirks  <anna@ximian.com>
+
+	* gui/dialogs/cal-prefs-dialog.glade: In an attempt to clean up the 
+	config dialog (and to reduce its overall girth), I have re-laid-out the
+	calendar preferences dialog. It now conforms to standard Evolution 
+	spacing and padding guidelines, and exhibits proper alignment, etc.
+
 2002-06-03  Rodrigo Moya <rodrigo@ximian.com>
 
 	* pcs/query.c: keep a reference to the Query object, to avoid
