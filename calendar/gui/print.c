@@ -6,6 +6,7 @@
  *
  * Authors: Michael Zucchi <notzed@ximian.com>
  *          Federico Mena-Quintero <federico@ximian.com>
+ *	    Damon Chaplin <damon@ximian.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -95,6 +96,8 @@
 /* The space on the right of each event. */
 #define DAY_VIEW_EVENT_X_PAD		8
 
+/* Allowance for small errors in floating point comparisons. */
+#define EPSILON			0.01
 
 /* The weird month of September 1752, where 3 Sep through 13 Sep were
    eliminated due to the Gregorian reformation. */
@@ -272,7 +275,7 @@ print_border_with_triangles (GnomePrintContext *pc,
 	gnome_print_gsave (pc);
 
 	/* Fill in the interior of the rectangle, if desired. */
-	if (fillcolor >= 0.0) {
+	if (fillcolor >= -EPSILON) {
 		gnome_print_moveto (pc, l, t);
 		if (left_triangle_width > 0.0)
 			gnome_print_lineto (pc, l - left_triangle_width,
@@ -290,7 +293,7 @@ print_border_with_triangles (GnomePrintContext *pc,
 	}
 
 	/* Draw the outline, if desired. */
-	if (width >= 0.0) {
+	if (width >= -EPSILON) {
 		gnome_print_moveto (pc, l, t);
 		if (left_triangle_width > 0.0)
 			gnome_print_lineto (pc, l - left_triangle_width,
@@ -937,7 +940,7 @@ print_day_long_event (GnomePrintContext *pc, GnomeFont *font,
 	x2 = right - 10;
 	y1 = top - event->start_row_or_col * row_height - 4;
 	y2 = y1 - row_height + 4;
-	print_border_with_triangles (pc, x1, x2, y1, y2, 0.0, 0.95,
+	print_border_with_triangles (pc, x1, x2, y1, y2, 0.5, 0.95,
 				     left_triangle_width,
 				     right_triangle_width);
 
@@ -1449,7 +1452,7 @@ print_week_view_background (GnomePrintContext *pc, GnomeFont *font,
 			gnome_print_lineto (pc, x2,
 					    y1 - psi->header_row_height + 3);
 			gnome_print_setrgbcolor (pc, 0, 0, 0);
-			gnome_print_setlinewidth (pc, 0.0);
+			gnome_print_setlinewidth (pc, 0.5);
 			gnome_print_stroke (pc);
 
 			/* strftime format %A = full weekday name, %d = day of
@@ -1764,7 +1767,7 @@ print_todo_details (GnomePrintContext *pc, GnomeCalendar *gcal,
 			break;
 
 		/* Print the box to put the tick in. */
-		print_border (pc, x + 2, x + 8, y - 3, y - 11, 0.0, -1.0);
+		print_border (pc, x + 2, x + 8, y - 3, y - 11, 0.1, -1.0);
 
 		/* If the task is complete, print a tick in the box. */
 		cal_component_get_completed (comp, &tt);
@@ -2163,13 +2166,15 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 	case CAL_COMPONENT_EVENT:
 	case CAL_COMPONENT_TODO:
 		/* Summary */
+		font = gnome_font_new_closest ("Times", GNOME_FONT_BOLD, FALSE,
+					       18);
 		cal_component_get_summary (comp, &text);
-		print_text_size (pc, 18, text.value, ALIGN_LEFT,
-				 left+3, right, top-3, top - 21);
-		top -= 21;
+		top = bound_text (pc, font, text.value, left, right,
+				  top - 3, bottom, 0);
+		gtk_object_unref (GTK_OBJECT (font));
 
 		/* Date information */
-		print_date_label (pc, comp, left+3, right, top-3, top - 15);
+		print_date_label (pc, comp, left, right, top-3, top - 15);
 		top -= 30;
 
 		/* Description */
@@ -2179,9 +2184,10 @@ print_comp_item (GnomePrintContext *pc, CalComponent *comp,
 			CalComponentText *text = l->data;
 
 			if (text->value != NULL)
-				top = bound_text (pc, font, text->value, left, right, top-3, bottom, 3);
+				top = bound_text (pc, font, text->value, left, right, top-3, bottom, 0);
 		}
 		cal_component_free_text_list (desc);
+		gtk_object_unref (GTK_OBJECT (font));
 
 		break;
 	default:
@@ -2298,9 +2304,12 @@ print_calendar (GnomeCalendar *gcal, gboolean preview, time_t date,
 
 	if (preview) {
 		GnomePrintMasterPreview *gpmp;
+		gboolean landscape = FALSE;
 
-		gpmp = gnome_print_master_preview_new (gpm,
-						       _("Print Preview"));
+		if (default_view == PRINT_VIEW_MONTH)
+			landscape = TRUE;
+
+		gpmp = gnome_print_master_preview_new_with_orientation (gpm, _("Print Preview"), landscape);
 		gtk_widget_show (GTK_WIDGET (gpmp));
 	} else {
 		gnome_print_master_print (gpm);

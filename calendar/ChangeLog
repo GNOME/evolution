@@ -1,3 +1,24 @@
+2001-09-28  Damon Chaplin  <damon@ximian.com>
+
+	* gui/print.c (print_comp_item): use bound_text to print the summary,
+	so it wraps instead of being clipped to 1 line. Fixes part 3 of bug
+	#10285, I think.
+
+	* gui/dialogs/alarm-page.glade: left-aligned the Date/Time label.
+	Also set the width of the Summary & Date/Time labels to 10, and set
+	expand to TRUE, to make sure that the dialog doesn't keep getting
+	wider as the summary text on the main page gets longer. Could possibly
+	use an EClippedLabel here instead, so we get a '...' at the end if it
+	is clipped.
+
+	* gui/dialogs/recurrence-page.glade: changed Summary & Date/Time
+	widths as above.
+
+	* gui/print.c (print_calendar): use landscape mode for the month
+	preview.
+	(print_border_with_triangles): use EPSILON to account for floating
+	point errors. Hopefully fixes part 2b of bug #10285.
+
 2001-09-28  JP Rosevear  <jpr@ximian.com>
 
 	* conduits/calendar/calendar-conduit.c (local_record_from_comp):

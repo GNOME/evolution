@@ -111,6 +111,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>summary</name>
+	  <width>10</width>
 	  <label></label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
@@ -125,7 +126,7 @@
 	    <bottom_attach>1</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
+	    <xexpand>True</xexpand>
 	    <yexpand>False</yexpand>
 	    <xshrink>False</xshrink>
 	    <yshrink>False</yshrink>
@@ -137,6 +138,7 @@
 	<widget>
 	  <class>GtkLabel</class>
 	  <name>date-time</name>
+	  <width>10</width>
 	  <label></label>
 	  <justify>GTK_JUSTIFY_CENTER</justify>
 	  <wrap>False</wrap>
@@ -151,7 +153,7 @@
 	    <bottom_attach>2</bottom_attach>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
-	    <xexpand>False</xexpand>
+	    <xexpand>True</xexpand>
 	    <yexpand>False</yexpand>
 	    <xshrink>False</xshrink>
 	    <yshrink>False</yshrink>
