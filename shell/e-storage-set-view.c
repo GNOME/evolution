@@ -190,6 +190,7 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 		EFolderTypeRegistry *folder_type_registry;
 		EStorageSet *storage_set;
 		GdkPixbuf *icon_pixbuf;
+		int icon_pixbuf_width, icon_pixbuf_height;
 
 		storage_set = priv->storage_set;
 		folder_type_registry = e_storage_set_get_folder_type_registry (storage_set);
@@ -197,21 +198,27 @@ get_pixbuf_for_folder (EStorageSetView *storage_set_view,
 		icon_pixbuf = e_folder_type_registry_get_icon_for_type (folder_type_registry,
 									type_name, TRUE);
 
-		if (icon_pixbuf == NULL) {
+		if (icon_pixbuf == NULL)
 			return NULL;
+
+		icon_pixbuf_width = gdk_pixbuf_get_width (icon_pixbuf);
+		icon_pixbuf_height = gdk_pixbuf_get_height (icon_pixbuf);
+
+		if (icon_pixbuf_width == E_SHELL_MINI_ICON_SIZE && icon_pixbuf_height == E_SHELL_MINI_ICON_SIZE) {
+			scaled_pixbuf = gdk_pixbuf_ref (icon_pixbuf);
+		} else {
+			scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
+							gdk_pixbuf_get_has_alpha (icon_pixbuf),
+							gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
+							E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
+
+			gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
+					  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
+					  0.0, 0.0,
+					  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
+					  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
+					  GDK_INTERP_HYPER);
 		}
-
-		scaled_pixbuf = gdk_pixbuf_new (gdk_pixbuf_get_colorspace (icon_pixbuf),
-						gdk_pixbuf_get_has_alpha (icon_pixbuf),
-						gdk_pixbuf_get_bits_per_sample (icon_pixbuf),
-						E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE);
-
-		gdk_pixbuf_scale (icon_pixbuf, scaled_pixbuf,
-				  0, 0, E_SHELL_MINI_ICON_SIZE, E_SHELL_MINI_ICON_SIZE,
-				  0.0, 0.0,
-				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_width (icon_pixbuf),
-				  (double) E_SHELL_MINI_ICON_SIZE / gdk_pixbuf_get_height (icon_pixbuf),
-				  GDK_INTERP_HYPER);
 
 		g_hash_table_insert (priv->type_name_to_pixbuf, g_strdup(type_name), scaled_pixbuf);
 	}

@@ -1,3 +1,9 @@
+2001-01-27  Ettore Perazzoli  <ettore@ximian.com>
+
+	* e-storage-set-view.c (get_pixbuf_for_folder): Don't scale if the
+	size is the same.  `gdk_pixbuf_scale()' seems to be blurring the
+	image even if the scaling factor is 1.0.
+
 2001-01-26  Ettore Perazzoli  <ettore@ximian.com>
 
 	* e-corba-storage.c: Remove all instances of `__FUNCTION__'.
