@@ -1,3 +1,10 @@
+2004-08-17  Michael Meeks  <michael@ximian.com>
+
+	* e-msg-composer.c (handle_mailto): handle 'attachment' as
+	well, as per Mozilla's mangling, and the new desktop-launch spec.
+	[ this was approved months ago, but somehow never got committed ]
+	** See bug #65592
+
 2004-09-08  Not Zed  <NotZed@Ximian.com>
 
         ** See bug #64454.
