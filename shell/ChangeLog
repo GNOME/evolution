@@ -1,3 +1,13 @@
+2000-08-31  Chris Toshok  <toshok@helixcode.com>
+
+	* e-shell-view.c: add delayed_selection to _EShellViewPrivate.
+	(new_folder_cb): new function.  check if the path is our
+	delayed_selection and if so, select it.
+	(folder_selected_cb): if the user selects something using a UI
+	gesture, clear out a pending delayed selection.
+	(e_shell_view_display_uri): if the uri isn't available, save it in
+	the delayed_selection field, and set up the new_folder signal.
+
 2000-08-29  Ettore Perazzoli  <ettore@helixcode.com>
 
 	* e-shell-view.c (shell_view_interface_set_message_cb): If the

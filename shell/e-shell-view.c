@@ -65,6 +65,11 @@ struct _EShellViewPrivate {
 	/* Currently displayed URI.  */
 	char *uri;
 
+	/* delayed selection, used when a path doesn't exist in an
+           EStorage.  cleared when we're signaled with
+           "folder_selected" */
+	char *delayed_selection;
+
 	/* The widgetry.  */
 	GtkWidget *appbar;
 	GtkWidget *hpaned;
@@ -264,6 +269,35 @@ pop_up_folder_bar (EShellView *shell_view)
 
 /* Callbacks.  */
 
+/* Callback when a new folder is added.  removed when we clear the
+   delayed_selection */
+static void
+new_folder_cb (EStorageSet *storage_set,
+	       const char *path,
+	       void *data)
+{
+	EShellView *shell_view;
+	EShellViewPrivate *priv;
+	char *delayed_path;
+
+	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
+
+	delayed_path = strchr (priv->delayed_selection, ':');
+	if (delayed_path) {
+		delayed_path ++;
+		if (!strcmp(path, delayed_path)) {
+			gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
+						       GTK_SIGNAL_FUNC (new_folder_cb),
+						       shell_view);
+			g_free (priv->uri);
+			priv->uri = priv->delayed_selection;
+			priv->delayed_selection = NULL;
+			e_shell_view_display_uri (shell_view, priv->uri);
+		}
+	}
+}
+
 /* Callback called when an icon on the shortcut bar gets clicked.  */
 static void
 activate_shortcut_cb (EShortcutsView *shortcut_view,
@@ -285,13 +319,24 @@ folder_selected_cb (EStorageSetView *storage_set_view,
 		    void *data)
 {
 	EShellView *shell_view;
+	EShellViewPrivate *priv;
+
 	char *uri;
 
 	shell_view = E_SHELL_VIEW (data);
+	priv = shell_view->priv;
 
 	uri = g_strconcat (E_SHELL_URI_PREFIX, path, NULL);
 	e_shell_view_display_uri (shell_view, uri);
 	g_free (uri);
+
+	if (priv->delayed_selection) {
+		g_free (priv->delayed_selection);
+		priv->delayed_selection = NULL;
+		gtk_signal_disconnect_by_func (GTK_OBJECT (e_shell_get_storage_set(priv->shell)),
+					       GTK_SIGNAL_FUNC (new_folder_cb),
+					       shell_view);
+	}
 }
 
 /* Callback called when the close button on the tree's title bar is clicked.  */
@@ -1149,6 +1194,10 @@ e_shell_view_display_uri (EShellView *shell_view,
 		g_assert (GTK_IS_WIDGET (control));
 		show_existing_view (shell_view, uri, control);
 	} else if (! create_new_view_for_uri (shell_view, uri)) {
+		priv->delayed_selection = g_strdup (uri);
+		gtk_signal_connect_after (GTK_OBJECT (e_shell_get_storage_set(priv->shell)), "new_folder",
+					  GTK_SIGNAL_FUNC (new_folder_cb), shell_view);
+
 		retval = FALSE;
 		goto end;
 	}
