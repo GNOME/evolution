@@ -110,21 +110,16 @@
       
       	<menuitem name="Threaded" verb="ViewThreaded" accel="*Control*t"/>
       
+        <menuitem name="MessageDisplayFullHeaders"
+         _label="Full _Headers"
+	 _tip="Display all of the message headers"/>
+	<menuitem name="Source" verb="ViewSource" accel=""/>
       	<separator/>
       
-      	<submenu name="MessageHideMenu" _label="_Message Hiding">
-      	    <menuitem name="MessageHideClear" verb="" _label="Show _All"/>
-      	    <menuitem name="MessageHideSelected" verb="" _label="Hide S_elected Messages"/>
-      	    <menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
-      	    <menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted Messages"/>
-      	</submenu>
-
-        <submenu name="MessageDisplayMenu" _label="Message _Display">
-            <menuitem name="MessageDisplayFullHeaders"
-	     _label="Full _Headers"
-	     _tip="Display all of the message headers"/>
-	    <menuitem name="Source" verb="ViewSource" accel=""/>
-        </submenu>
+      	<menuitem name="MessageHideClear" verb="" _label="Show _All"/>
+      	<menuitem name="MessageHideSelected" verb="" _label="Hide S_elected Messages"/>
+      	<menuitem name="MessageHideRead" verb="" _label="Hide _Read messages"/>
+      	<menuitem name="MessageHideDeleted" verb="" _label="Hide _Deleted Messages"/>
     </submenu>
 
     <submenu name="Actions">
