@@ -746,20 +746,24 @@ smtp_auth (CamelSmtpTransport *transport, const char *mech, CamelException *ex)
 	}
 	g_free (cmdbuf);
 	
-	/* get the base64 encoded server challenge which should follow a 334 code */
 	respbuf = camel_stream_buffer_read_line (CAMEL_STREAM_BUFFER (transport->istream));
 	d(fprintf (stderr, "received: %s\n", respbuf ? respbuf : "(null)"));
-	if (!respbuf || strncmp (respbuf, "334", 3)) {
-		g_free (respbuf);
-		camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
-				      _("AUTH request timed out: %s"),
-				      g_strerror (errno));
-		goto lose;
-	}
 	
 	while (!camel_sasl_authenticated (sasl)) {
-		if (!respbuf)
+		if (!respbuf) {
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("AUTH request timed out: %s"),
+					      g_strerror (errno));
 			goto lose;
+		}
+		
+		/* the server challenge/response should follow a 334 code */
+		if (strcmp (respbuf, "334")) {
+			g_free (respbuf);
+			camel_exception_setv (ex, CAMEL_EXCEPTION_SYSTEM,
+					      _("AUTH request failed."));
+			goto lose;
+		}
 		
 		/* eat whtspc */
 		for (challenge = respbuf + 4; isspace (*challenge); challenge++);

@@ -1,3 +1,10 @@
+2001-05-11  Jeffrey Stedfast  <fejj@ximian.com>
+
+	* providers/smtp/camel-smtp-transport.c (smtp_auth): Don't check
+	the initial auth response until we get into the while-loop
+	otherwise we have problems if the SASL mechanism supported a
+	client initiated challenge (like PLAIN and LOGIN do).
+
 2001-05-11  Dan Winship  <danw@ximian.com>
 
 	* camel-stream-null.c (camel_stream_null_new): Make this return
