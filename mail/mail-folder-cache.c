@@ -55,7 +55,6 @@ struct _folder_info {
 	struct _store_info *store_info;	/* 'parent' link */
 
 	char *path;		/* shell path */
-	char *name;		/* shell display name? */
 	char *full_name;	/* full name of folder/folderinfo */
 	char *uri;		/* uri of folder */
 
@@ -129,11 +128,11 @@ update_1folder(struct _folder_info *mfi, CamelFolderInfo *info)
 	if (si->storage == NULL) {
 		d(printf("Updating existing (local) folder: %s (%d unread) folder=%p\n", mfi->path, unread, folder));
 		CORBA_exception_init(&ev);
-		GNOME_Evolution_Storage_updateFolder(si->corba_storage, mfi->path, mfi->name, unread, &ev);
+		GNOME_Evolution_Storage_updateFolder(si->corba_storage, mfi->path, unread, &ev);
 		CORBA_exception_free(&ev);
 	} else {
 		d(printf("Updating existing folder: %s (%d unread)\n", mfi->path, unread));
-		evolution_storage_update_folder(si->storage, mfi->path, mfi->name, unread);
+		evolution_storage_update_folder(si->storage, mfi->path, unread);
 	}
 }
 
@@ -154,7 +153,6 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 		d(printf("Adding new folder: %s (%s) %d unread\n", fi->path, fi->url, fi->unread_message_count));
 		mfi = g_malloc0(sizeof(*mfi));
 		mfi->path = g_strdup(fi->path);
-		mfi->name = g_strdup(fi->name);
 		mfi->full_name = g_strdup(fi->full_name);
 		mfi->uri = g_strdup(fi->url);
 		mfi->store_info = si;
@@ -168,8 +166,8 @@ setup_folder(CamelFolderInfo *fi, struct _store_info *si)
 			int unread = (fi->unread_message_count==-1)?0:fi->unread_message_count;
 
 			type = (strncmp(fi->url, "vtrash:", 7)==0)?"vtrash":"mail";
-			evolution_storage_new_folder(si->storage, mfi->path, mfi->name, type,
-						     fi->url, mfi->name, unread);
+			evolution_storage_new_folder(si->storage, mfi->path, fi->name, type,
+						     fi->url, fi->name, unread);
 		}
 
 		if (strstr(fi->url, ";noselect") == NULL)
@@ -321,7 +319,6 @@ static void
 free_folder_info(char *path, struct _folder_info *info, void *data)
 {
 	g_free(info->path);
-	g_free(info->name);
 	g_free(info->full_name);
 	g_free(info->uri);
 }

@@ -1,3 +1,13 @@
+2001-10-11  Dan Winship  <danw@ximian.com>
+
+	* mail-folder-cache.c (update_1folder): No longer need to pass
+	folder display name to storage update_folder methods.
+	(setup_folder, free_folder_info): Meaning we no longer need to
+	keep track of it.
+
+	* evolution-outlook-importer.[ch], evolution-mbox-importer.[ch]:
+	These copies are cruft. The real ones are in importers/.
+
 2001-10-11  Jeffrey Stedfast  <fejj@ximian.com>
 
 	* component-factory.c (free_storage): Make sure the
