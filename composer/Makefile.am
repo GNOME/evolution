@@ -2,14 +2,15 @@
 
 IDLS =				\
 	Evolution-Composer.idl	\
-	Composer.idl		\
-	HTMLEditor.idl
+	Composer.idl
 
 IDL_GENERATED =			\
 	Composer.h		\
 	Composer-common.c	\
 	Composer-skels.c	\
-	Composer-stubs.c	\
+	Composer-stubs.c
+
+HTML_EDITOR_GENERATED =		\
 	HTMLEditor.h		\
 	HTMLEditor-common.c	\
 	HTMLEditor-skels.c	\
@@ -20,8 +21,9 @@ selectnamesdir = $(top_srcdir)/addressbook/gui/component/select-names
 $(IDL_GENERATED): $(IDLS) $(selectnamesdir)/Evolution-Addressbook-SelectNames.idl
 	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
 		-I $(selectnamesdir) -I . $(srcdir)/Composer.idl
-	$(ORBIT_IDL) -I $(datadir)/idl `$(GNOME_CONFIG) --cflags idl`	\
-		-I $(selectnamesdir) -I . $(srcdir)/HTMLEditor.idl
+
+$(HTML_EDITOR_GENERATED): $(GTK_HTML_EDITOR_IDL)
+	$(ORBIT_IDL) `$(GNOME_CONFIG) --cflags idl` $(GTK_HTML_EDITOR_IDL)
 
 ##
 
@@ -58,6 +60,7 @@ INCLUDES =								\
 
 libcomposer_la_SOURCES = 			\
 	$(IDL_GENERATED)			\
+	$(HTML_EDITOR_GENERATED)		\
 	e-msg-composer-attachment-bar.c		\
 	e-msg-composer-attachment-bar.h		\
 	e-msg-composer-attachment.c		\

@@ -1,3 +1,29 @@
+2000-11-04  Radek Doulik  <rodo@helixcode.com>
+
+	* listener.c (resolve_image_url): use inline images hash table
+
+	* e-msg-composer.c (init): create inlined images hash table
+	(destroy): destroy it
+	(clear_inline_images): helper function, used from
+	g_hash_table_foreach_remove to destroy one inline image record
+
+	* e-msg-composer.h: added hash table with inlined images url ->
+	cid info
+
+2000-11-03  Radek Doulik  <rodo@helixcode.com>
+
+	* listener.c (impl_event): updated for API changed
+	implemented image_url event
+	(resolve_image_url): new helper function, attaches image to mail
+	and returns new (resolved) url pointing to mime component
+
+	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):
+	added conponent_id parameter
+
+	* e-msg-composer-attachment-bar.c
+	(e_msg_composer_attachment_bar_attach): added parameter content_id
+	(add_from_file): likewise
+
 2000-11-03  Jeffrey Stedfast  <fejj@helixcode.com>
 
 	* e-msg-composer-attachment.c (e_msg_composer_attachment_new):

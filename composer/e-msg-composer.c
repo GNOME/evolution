@@ -707,7 +707,7 @@ menu_file_add_attachment_cb (BonoboUIComponent *uic,
 	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 NULL);
+		 NULL, NULL);
 }
 
 static void
@@ -987,6 +987,15 @@ attachment_bar_changed_cb (EMsgComposerAttachmentBar *bar,
 
 /* GtkObject methods.  */
 
+static gboolean
+clear_inline_images (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (key);
+	g_free (value);
+
+	return TRUE;
+}
+
 static void
 destroy (GtkObject *object)
 {
@@ -1034,6 +1043,7 @@ destroy (GtkObject *object)
 		Bonobo_Unknown_unref (composer->editor_engine, &ev);
 		CORBA_Object_release (composer->editor_engine, &ev);
 	}
+	g_hash_table_foreach_remove (composer->inline_images, clear_inline_images, NULL);
 
 	CORBA_exception_free (&ev);
 
@@ -1084,7 +1094,7 @@ drag_data_received (EMsgComposer *composer,
 	
 	e_msg_composer_attachment_bar_attach
 		(E_MSG_COMPOSER_ATTACHMENT_BAR (composer->attachment_bar),
-		 filename);
+		 filename, NULL);
 	
 	g_free (filename);
 }
@@ -1142,7 +1152,9 @@ init (EMsgComposer *composer)
 	
 	composer->persist_file_interface   = CORBA_OBJECT_NIL;
 	composer->persist_stream_interface = CORBA_OBJECT_NIL;
+
 	composer->editor_engine            = CORBA_OBJECT_NIL;
+	composer->inline_images            = g_hash_table_new (g_str_hash, g_str_equal);
 	
 	composer->attachment_bar_visible   = FALSE;
 	composer->send_html                = FALSE;

@@ -157,9 +157,9 @@ add_from_mime_part (EMsgComposerAttachmentBar *bar,
 
 static void
 add_from_file (EMsgComposerAttachmentBar *bar,
-	       const gchar *file_name)
+	       const gchar *file_name, const gchar *content_id)
 {
-	add_common (bar, e_msg_composer_attachment_new (file_name));
+	add_common (bar, e_msg_composer_attachment_new (file_name, content_id));
 }
 
 static void
@@ -395,7 +395,7 @@ add_from_user (EMsgComposerAttachmentBar *bar)
 	
 	file_name = e_msg_composer_select_file (composer, _("Attach a file"));
 	
-	add_from_file (bar, file_name);
+	add_from_file (bar, file_name, NULL);
 	
 	g_free (file_name);
 }
@@ -758,14 +758,14 @@ e_msg_composer_attachment_bar_get_num_attachments (EMsgComposerAttachmentBar *ba
 
 void
 e_msg_composer_attachment_bar_attach (EMsgComposerAttachmentBar *bar,
-				      const gchar *file_name)
+				      const gchar *file_name, const gchar *content_id)
 {
 	g_return_if_fail (E_IS_MSG_COMPOSER_ATTACHMENT_BAR (bar));
 
 	if (file_name == NULL)
 		add_from_user (bar);
 	else
-		add_from_file (bar, file_name);
+		add_from_file (bar, file_name, content_id);
 }
 
 void

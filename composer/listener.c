@@ -34,26 +34,73 @@ html_editor_listener_from_servant (PortableServer_Servant servant)
 	return HTML_EDITOR_LISTENER (bonobo_object_from_servant (servant));
 }
 
-static void
-impl_event (PortableServer_Servant _servant, const CORBA_char * name,
-	    const HTMLEditor_ListenerArgs * args,
-	    CORBA_Environment * ev)
+static CORBA_any *
+get_any_null ()
+{
+	CORBA_any *rv;
+
+	rv = CORBA_any__alloc ();
+	rv->_type = TC_null;
+
+	return rv;
+}
+
+static gchar *
+resolve_image_url (HTMLEditorListener *l, gchar *url)
+{
+	gchar *cid = NULL;
+
+	if (!strncmp (url, "file:", 5)) {
+		gchar *id;
+
+		id = (gchar *) g_hash_table_lookup (l->composer->inline_images, url + 5);
+		if (!id) {
+			id = header_msgid_generate ();
+			e_msg_composer_attachment_bar_attach (E_MSG_COMPOSER_ATTACHMENT_BAR (l->composer->attachment_bar),
+							      url + 5, id);
+			g_hash_table_insert (l->composer->inline_images, g_strdup (url + 5), id);
+		}
+		cid = g_strconcat ("cid:", id, NULL);
+	}
+
+	return cid;
+}
+
+static CORBA_any *
+impl_event (PortableServer_Servant _servant,
+       const CORBA_char * name, const CORBA_any * arg,
+       CORBA_Environment * ev)
 {
 	HTMLEditorListener *l = html_editor_listener_from_servant (_servant);
-	BonoboArg *arg;
+	BonoboArg *data;
+	CORBA_any *rv = NULL;
 
 	/* printf ("impl_event\n"); */
 
-	arg = HTMLEditor_Engine_get_paragraph_data (l->composer->editor_engine, "orig", ev);
-	if (ev->_major == CORBA_NO_EXCEPTION && arg) {
-		if (CORBA_TypeCode_equal (arg->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (arg)) {
-			HTMLEditor_Engine_command (l->composer->editor_engine, "style-normal", ev);
-			HTMLEditor_Engine_command (l->composer->editor_engine, "indent-zero", ev);
-			HTMLEditor_Engine_command (l->composer->editor_engine, "italic-off", ev);
+	if (!strcmp (name, "command")) {
+		/* FIXME check for insert-paragraph command */
+		data = HTMLEditor_Engine_get_paragraph_data (l->composer->editor_engine, "orig", ev);
+		if (ev->_major == CORBA_NO_EXCEPTION && data) {
+			if (CORBA_TypeCode_equal (data->_type, TC_boolean, ev) && BONOBO_ARG_GET_BOOLEAN (data)) {
+				HTMLEditor_Engine_command (l->composer->editor_engine, "style-normal", ev);
+				HTMLEditor_Engine_command (l->composer->editor_engine, "indent-zero", ev);
+				HTMLEditor_Engine_command (l->composer->editor_engine, "italic-off", ev);
+			}
+			BONOBO_ARG_SET_BOOLEAN (data, CORBA_FALSE);
+			HTMLEditor_Engine_set_paragraph_data (l->composer->editor_engine, "orig", data, ev);
 		}
-		BONOBO_ARG_SET_BOOLEAN (arg, CORBA_FALSE);
-		HTMLEditor_Engine_set_paragraph_data (l->composer->editor_engine, "orig", arg, ev);
+	} else if (!strcmp (name, "image_url")) {
+		gchar *url;
+
+		if ((url = resolve_image_url (l, BONOBO_ARG_GET_STRING (arg)))) {
+			rv = bonobo_arg_new (TC_string);
+			BONOBO_ARG_SET_STRING (rv, url);
+			printf ("new url: %s\n", url);
+			g_free (url);
+		}
 	}
+
+	return rv ? rv : get_any_null ();
 }
 
 POA_HTMLEditor_Listener__epv *

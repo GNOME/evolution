@@ -67,6 +67,7 @@ struct _EMsgComposer {
 	Bonobo_PersistStream persist_stream_interface;
 	HTMLEditor_Engine    editor_engine;
 	BonoboObject        *editor_listener;
+	GHashTable          *inline_images;
 
 	char *sig_file;
 	

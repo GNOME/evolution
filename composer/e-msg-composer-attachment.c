@@ -165,7 +165,7 @@ e_msg_composer_attachment_get_type (void)
  * Return value: 
  **/
 EMsgComposerAttachment *
-e_msg_composer_attachment_new (const gchar *file_name)
+e_msg_composer_attachment_new (const gchar *file_name, const gchar *content_id)
 {
 	EMsgComposerAttachment *new;
 	CamelMimePart *part;
@@ -199,7 +199,15 @@ e_msg_composer_attachment_new (const gchar *file_name)
 	part = camel_mime_part_new ();
 	camel_medium_set_content_object (CAMEL_MEDIUM (part), wrapper);
 	camel_object_unref (CAMEL_OBJECT (wrapper));
-	
+
+	if (content_id) {
+		gchar *id;
+
+		id = g_strconcat ("<", content_id, ">", NULL);
+		camel_mime_part_set_content_id (part, id);
+		g_free (id);
+	}
+
 	camel_mime_part_set_disposition (part, "attachment");
 	if (strchr (file_name, '/'))
 		camel_mime_part_set_filename (part, strrchr (file_name, '/') + 1);
