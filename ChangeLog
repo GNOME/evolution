@@ -1,5 +1,9 @@
 2000-03-20  Matt Loper  <matt@helixcode.com>
 
+	* tests/ui-tests/.cvsignore: added filter.
+
+	* addressbook/demo/.cvsignore: added test-addressbook.
+
 	* shell/e-shell-view.h: New private field in EShellView added,
 	which contains the notebook and a hashtable of folders to views.
 

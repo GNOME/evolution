@@ -5,3 +5,4 @@ Makefile
 store_listing
 msg-composer-test
 message-browser
+filter
