@@ -43,9 +43,11 @@
 #include <bonobo/bonobo-listener.h>
 #include <bonobo/bonobo-exception.h>
 
+#include <bonobo/Bonobo.h>
+
 #include <gal/util/e-util.h>
 
-
+
 #define PARENT_TYPE gtk_object_get_type ()
 static GtkObjectClass *parent_class = NULL;
 
@@ -82,7 +84,7 @@ struct _EvolutionActivityClientPrivate {
 	double new_progress;
 };
 
-
+
 /* Utility functions.  */
 
 static gboolean
@@ -136,7 +138,20 @@ update_timeout_callback (void *data)
 	}
 }
 
-
+static CORBA_Object
+get_shell_activity_iface (GNOME_Evolution_Shell shell_iface)
+{
+	CORBA_Object iface_object;
+	const char *iface_name = "IDL:GNOME/Evolution/Activity:1.0";
+
+ 	iface_object = bonobo_object_query_remote (shell_iface, iface_name, NULL);
+	if (iface_object == CORBA_OBJECT_NIL)
+		g_warning ("EvolutionActivityClient: No iface %s on Shell", iface_name);
+
+	return iface_object;
+}
+
+
 /* BonoboListener callback.  */
 
 static void
@@ -158,7 +173,7 @@ listener_callback (BonoboListener *listener,
 		g_warning ("EvolutionActivityClient: Unknown event from listener -- %s", event_name);
 }
 
-
+
 /* GObject methods.  */
 
 static void
@@ -216,7 +231,7 @@ impl_finalize (GObject *object)
 	(* G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
-
+
 static void
 class_init (EvolutionActivityClientClass *klass)
 {
@@ -265,10 +280,10 @@ init (EvolutionActivityClient *activity_client)
 	activity_client->priv = priv;
 }
 
-
+
 gboolean
 evolution_activity_client_construct (EvolutionActivityClient *activity_client,
-				     EvolutionShellClient *shell_client,
+				     GNOME_Evolution_Shell shell_iface,
 				     const char *component_id,
 				     GdkPixbuf **animated_icon,
 				     const char *information,
@@ -283,8 +298,6 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 
 	g_return_val_if_fail (activity_client != NULL, FALSE);
 	g_return_val_if_fail (EVOLUTION_IS_ACTIVITY_CLIENT (activity_client), FALSE);
-	g_return_val_if_fail (shell_client != NULL, FALSE);
-	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), FALSE);
 	g_return_val_if_fail (animated_icon != NULL, FALSE);
 	g_return_val_if_fail (*animated_icon != NULL, FALSE);
 	g_return_val_if_fail (information != NULL, FALSE);
@@ -297,7 +310,7 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 
 	CORBA_exception_init (&ev);
 
-	activity_interface = evolution_shell_client_get_activity_interface (shell_client);
+	activity_interface = get_shell_activity_iface (shell_iface);
 	priv->activity_interface = CORBA_Object_duplicate (activity_interface, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
 		priv->activity_interface = CORBA_OBJECT_NIL;
@@ -331,7 +344,7 @@ evolution_activity_client_construct (EvolutionActivityClient *activity_client,
 }
 
 EvolutionActivityClient *
-evolution_activity_client_new (EvolutionShellClient *shell_client,
+evolution_activity_client_new (GNOME_Evolution_Shell shell_iface,
 			       const char *component_id,
 			       GdkPixbuf **animated_icon,
 			       const char *information,
@@ -340,8 +353,7 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 {
 	EvolutionActivityClient *activity_client;
 
-	g_return_val_if_fail (shell_client != NULL, NULL);
-	g_return_val_if_fail (EVOLUTION_IS_SHELL_CLIENT (shell_client), NULL);
+	g_return_val_if_fail (shell_iface != CORBA_OBJECT_NIL, NULL);
 	g_return_val_if_fail (animated_icon != NULL, NULL);
 	g_return_val_if_fail (*animated_icon != NULL, NULL);
 	g_return_val_if_fail (information != NULL, NULL);
@@ -350,7 +362,7 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 	activity_client = g_object_new (evolution_activity_client_get_type (), NULL);
 
 	if (! evolution_activity_client_construct (activity_client,
-						   shell_client,
+						   shell_iface,
 						   component_id,
 						   animated_icon,
 						   information,
@@ -363,7 +375,7 @@ evolution_activity_client_new (EvolutionShellClient *shell_client,
 	return activity_client;
 }
 
-
+
 gboolean
 evolution_activity_client_update (EvolutionActivityClient *activity_client,
 				  const char *information,
@@ -444,6 +456,6 @@ evolution_activity_client_request_dialog (EvolutionActivityClient *activity_clie
 	return retval;
 }
 
-
+
 E_MAKE_TYPE (evolution_activity_client, "EvolutionActivityClient", EvolutionActivityClient,
 	     class_init, init, PARENT_TYPE)

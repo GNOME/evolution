@@ -63,13 +63,13 @@ struct _EvolutionActivityClientClass {
 
 GtkType                  evolution_activity_client_get_type   (void);
 gboolean                 evolution_activity_client_construct  (EvolutionActivityClient  *activity_client,
-							       EvolutionShellClient     *shell_client,
+							       GNOME_Evolution_Shell     shell,
 							       const char               *component_id,
 							       GdkPixbuf               **animated_icon,
 							       const char               *information,
 							       gboolean                  cancellable,
 							       gboolean                 *suggest_display_return);
-EvolutionActivityClient *evolution_activity_client_new        (EvolutionShellClient     *shell_client,
+EvolutionActivityClient *evolution_activity_client_new        (GNOME_Evolution_Shell     shell,
 							       const char               *component_id,
 							       GdkPixbuf               **animated_icon,
 							       const char               *information,
