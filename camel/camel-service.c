@@ -301,7 +301,8 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 			  CamelException *ex)
 {
 	gboolean res = TRUE;
-	
+	int unreg = FALSE;
+
 	CAMEL_SERVICE_LOCK (service, connect_lock);
 	
 	if (service->status == CAMEL_SERVICE_CONNECTED) {
@@ -310,6 +311,7 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 		if (!service->connect_op) {
 			service->connect_op = camel_operation_new (NULL, NULL);
 			camel_operation_register (service->connect_op);
+			unreg = TRUE;
 		}
 		CAMEL_SERVICE_UNLOCK (service, connect_op_lock);
 
@@ -318,6 +320,9 @@ camel_service_disconnect (CamelService *service, gboolean clean,
 		service->status = CAMEL_SERVICE_DISCONNECTED;
 
 		CAMEL_SERVICE_LOCK (service, connect_op_lock);
+		if (unreg)
+			camel_operation_unregister (service->connect_op);
+
 		camel_operation_unref (service->connect_op);
 		service->connect_op = NULL;
 		CAMEL_SERVICE_UNLOCK (service, connect_op_lock);

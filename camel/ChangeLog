@@ -1,4 +1,12 @@
+2001-10-10    <NotZed@Ximian.com>
+
+	* providers/local/camel-maildir-store.c (scan_dir): oops, we want
+	get_unread_message_count, not get_message_count!
+
 2001-10-09    <NotZed@Ximian.com>
+
+	* camel-service.c (camel_service_disconnect): Duplicate connect
+	code that unregisters a cancel op if we created one.
 
 	* camel-operation.c (camel_operation_progress): Another go at
 	getting the logic right again.  Make transients only update after

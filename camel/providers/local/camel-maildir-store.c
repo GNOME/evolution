@@ -275,7 +275,7 @@ static int scan_dir(CamelStore *store, GHashTable *visited, char *root, const ch
 	CAMEL_STORE_LOCK(store, cache_lock);
 	folder = g_hash_table_lookup(store->folders, path);
 	if (folder)
-		unread = camel_folder_get_message_count(folder);
+		unread = camel_folder_get_unread_message_count(folder);
 	else
 		unread = 0;
 	CAMEL_STORE_UNLOCK(store, cache_lock);
