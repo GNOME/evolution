@@ -617,6 +617,7 @@ mail_config_druid_new (void)
 	mcw = config_wizard_new ();
 	mcw->druid = (GnomeDruid *)glade_xml_get_widget (mcw->gui->xml, "druid");
 	g_object_set_data (G_OBJECT (mcw->druid), "MailConfigWizard", mcw);
+	gtk_widget_show_all (GTK_WIDGET (mcw->druid));
 	
 	mcw->interior_pages = g_ptr_array_new ();
 	for (i = 0; i < num_wizard_pages; i++) {
@@ -647,7 +648,7 @@ mail_config_druid_new (void)
 	g_signal_connect (mcw->last_page, "finish", G_CALLBACK (druid_finish), mcw);
 
 	gnome_druid_set_buttons_sensitive (mcw->druid, FALSE, TRUE, TRUE, FALSE);
-	gtk_widget_show_all (GTK_WIDGET (mcw->druid));
+	/*gtk_widget_show_all (GTK_WIDGET (mcw->druid));*/
 	mail_account_gui_setup (mcw->gui, NULL);
 	
 	new = glade_xml_get_widget (mcw->gui->xml, "account_druid");

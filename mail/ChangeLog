@@ -1,5 +1,9 @@
 2003-12-02  Not Zed  <NotZed@Ximian.com>
 
+	* mail-config-druid.c (mail_config_druid_new): moved the
+	gtk_widget_show_all to before we add the pages, otherwise it can
+	override per-page logic.  Bug #50790.
+
 	* message-list.c (message_list_create_extras): setup another image
 	(followup completed) to flag status list.
 	(states_pixmaps[]): added flag_for_followup_done.
