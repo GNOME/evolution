@@ -79,7 +79,7 @@ view_utils_draw_events (GtkWidget *widget, GdkWindow *window, GdkGC *gc, GdkRect
 		str = ico->summary;
 
 		if (flags & VIEW_UTILS_DRAW_END) {
-			strftime (buf, 512, "%R%p - ", &tm_start);
+			strftime (buf, 512, "%R%p-", &tm_start);
 			len = strlen (buf);
 			strftime (buf + len, 512 - len, "%R%p    ", &tm_end);
 		} else

@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include "calendar.h"
 #include "gnome-cal.h"
+#include "main.h"
 
 /* The username, used to set the `owner' field of the event */
 char *user_name;
@@ -119,6 +120,15 @@ about_calendar_cmd (GtkWidget *widget, void *data)
 }
 
 void
+display_objedit (GtkWidget *widget, GnomeCalendar *gcal)
+{
+	if (!gcal->event_editor){
+		gcal->event_editor = event_editor_new ();
+		gtk_widget_show (gcal->event_editor);
+	}
+}
+
+void
 quit_cmd (GtkWidget *widget, GnomeCalendar *gcal)
 {
 	/* FIXME: check all of the calendars for their state (modified) */
@@ -167,8 +177,14 @@ GnomeUIInfo gnome_cal_about_menu [] = {
 	GNOMEUIINFO_END
 };
 
+GnomeUIInfo gnome_cal_edit_menu [] = {
+	{ GNOME_APP_UI_ITEM, N_("Appointment"), NULL, display_objedit },
+	GNOMEUIINFO_END
+};
+
 GnomeUIInfo gnome_cal_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"),     NULL, &gnome_cal_file_menu },
+	{ GNOME_APP_UI_SUBTREE, N_("Edit"),     NULL, &gnome_cal_edit_menu },
 	{ GNOME_APP_UI_SUBTREE, N_("Help"),     NULL, &gnome_cal_about_menu },
 	GNOMEUIINFO_END
 };

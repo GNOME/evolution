@@ -87,6 +87,17 @@ calendar_destroy (Calendar *cal)
 	g_free (cal);
 }
 
+char *
+ice (time_t t)
+{
+	static char buffer [100];
+	struct tm *tm;
+
+	tm = localtime (&t);
+	sprintf (buffer, "%d/%d/%d", tm->tm_mday, tm->tm_mon, tm->tm_year);
+	return buffer;
+}
+
 static GList *
 calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompareFunc sort_func)
 {
@@ -94,12 +105,13 @@ calendar_get_objects_in_range (GList *objects, time_t start, time_t end, GCompar
 
 	for (; objects; objects = objects->next){
 		iCalObject *object = objects->data;
-		
-		if ((start <= object->dtstart) && (end >= object->dtend))
+
+		if ((start <= object->dtstart) && (object->dtend <= end)){
 			if (sort_func)
 				new_events = g_list_insert_sorted (new_events, object, sort_func);
 			else
 				new_events = g_list_prepend (new_events, object);
+		}
 	}
 
 	return new_events;

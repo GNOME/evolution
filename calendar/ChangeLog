@@ -1,3 +1,12 @@
+1998-04-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* eventedit.c: Object editor widget.  We dropped ObjEdit.
+
+	* timeutil.c (time_from_isodate): Fix.
+
+	* view-utils.c (view_utils_draw_events): Changed the display
+	formats. 
+
 1998-04-02  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* view-utils.c (view_utils_draw_events): Use better format

@@ -18,9 +18,10 @@ BEGIN_GNOME_DECLS
 #define GNOME_IS_CALENDAR(obj)      GTK_CHECK_TYPE(obj, gnome_calendar_get_type())
 
 typedef struct {
-	GnomeApp gnome_app;
-	Calendar *cal;
-	GtkWidget *week_view;
+	GnomeApp    gnome_app;
+	Calendar    *cal;
+	GtkWidget   *week_view;
+	void        *event_editor;
 } GnomeCalendar;
 
 typedef struct {

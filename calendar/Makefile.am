@@ -25,7 +25,9 @@ gnomecal_SOURCES = \
 	view-utils.h		\
 	view-utils.c		\
 	views.h			\
-	views.c
+	views.c			\
+	eventedit.c		\
+	eventedit.h
 	
 
 #gncal_SOURCES = \
