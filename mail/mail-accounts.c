@@ -112,7 +112,7 @@ mail_accounts_tab_destroy (GtkObject *obj)
 	
 	prefs->destroyed = TRUE;
 	
-	parent_class->destroy (obj);
+	GTK_OBJECT_CLASS (parent_class)->destroy (obj);
 }
 
 static void
@@ -271,7 +271,6 @@ account_default_clicked (GtkButton *button, gpointer user_data)
 	EAccount *account = NULL;
 	GtkTreeModel *model;
 	GtkTreeIter iter;
-	int row;
 	
 	selection = gtk_tree_view_get_selection (prefs->table);
 	if (gtk_tree_selection_get_selected (selection, &model, &iter))
@@ -418,7 +417,6 @@ mail_accounts_treeview_new (char *widget_name, char *string1, char *string2, int
 	GtkTreeSelection *selection;
 	GtkCellRenderer *renderer;
 	GtkListStore *model;
-	char *titles[3];
 	
 	scrolled = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled),

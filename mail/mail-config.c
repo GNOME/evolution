@@ -243,7 +243,7 @@ signature_new_from_xml (char *in, int id)
 		cur = cur->next;
 	}
 	
-	xmlDocFree (doc);
+	xmlFreeDoc (doc);
 	
 	return sig;
 }
@@ -251,7 +251,6 @@ signature_new_from_xml (char *in, int id)
 static void
 config_read_signatures (void)
 {
-	MailConfigSignature *sig;
 	GSList *list, *l, *tail, *n;
 	int i = 0;
 	
@@ -383,8 +382,8 @@ static void
 config_cache_labels (void)
 {
 	GSList *labels, *list, *tail, *n;
-	char *buf, *name, *colour;
 	MailConfigLabel *label;
+	char *buf, *colour;
 	int num = 0;
 	
 	tail = labels = NULL;
@@ -515,8 +514,6 @@ mail_config_write_on_exit (void)
 {
 	EAccount *account;
 	EIterator *iter;
-	char *path, *p;
-	int i;
 	
 	if (config_write_timeout) {
 		g_source_remove (config_write_timeout);
@@ -971,7 +968,6 @@ mail_config_uri_renamed (GCompareFunc uri_cmp, const char *old, const char *new)
 	EAccount *account;
 	EIterator *iter;
 	int i, work = 0;
-	gpointer val;
 	char *oldname, *newname;
 	char *cachenames[] = { "config/hidestate-", 
 			       "config/et-expanded-", 
@@ -1488,22 +1484,16 @@ mail_config_signature_delete (MailConfigSignature *sig)
 }
 
 void
-mail_config_signature_write (MailConfigSignature *sig)
-{
-	config_write_signature (sig, sig->id);
-}
-
-void
 mail_config_signature_set_filename (MailConfigSignature *sig, const char *filename)
 {
-	gchar *old_filename = sig->filename;
-
+	char *old_filename = sig->filename;
+	
 	sig->filename = g_strdup (filename);
 	if (old_filename) {
 		delete_unused_signature_file (old_filename);
 		g_free (old_filename);
 	}
-	mail_config_signature_write (sig);
+	config_write_signatures ();
 }
 
 void
@@ -1511,8 +1501,9 @@ mail_config_signature_set_name (MailConfigSignature *sig, const char *name)
 {
 	g_free (sig->name);
 	sig->name = g_strdup (name);
-
-	mail_config_signature_write (sig);
+	
+	config_write_signatures ();
+	
 	mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_NAME_CHANGED, sig);
 }
 
@@ -1664,7 +1655,7 @@ mail_config_signature_set_html (MailConfigSignature *sig, gboolean html)
 {
 	if (sig->html != html) {
 		sig->html = html;
-		mail_config_signature_write (sig);
+		config_write_signatures ();
 		mail_config_signature_emit_event (MAIL_CONFIG_SIG_EVENT_HTML_CHANGED, sig);
 	}
 }

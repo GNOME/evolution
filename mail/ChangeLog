@@ -1,5 +1,13 @@
 2003-02-11  Jeffrey Stedfast  <fejj@ximian.com>
 
+	* mail-account-editor.c (construct): Use
+	gtk_window_set_resizable() instead of gtk_window_set_policy().
+
+	* mail-config.c: Fix a bunch of warnings.
+	(mail_config_signature_write): Removed.
+
+	* mail-callbacks.c: Removed unused variables.
+
 	* mail-accounts.c (mail_accounts_tab_class_init): Register a
 	destroy virtual method.
 	(mail_accounts_tab_destroy): Set mail_display->destroyed = TRUE.

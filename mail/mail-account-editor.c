@@ -144,7 +144,7 @@ construct (MailAccountEditor *editor, EAccount *account, MailAccountsTab *dialog
 	
 	/* give our dialog an OK button and title */
 	gtk_window_set_title (GTK_WINDOW (editor), _("Evolution Account Editor"));
-	gtk_window_set_policy (GTK_WINDOW (editor), FALSE, TRUE, TRUE);
+	gtk_window_set_resizable (GTK_WINDOW (editor), TRUE);
 	gtk_window_set_modal (GTK_WINDOW (editor), FALSE);
 	gtk_dialog_add_buttons (GTK_DIALOG (editor),
 				GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,

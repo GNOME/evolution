@@ -128,7 +128,6 @@ void mail_config_save_accounts (void);
 GSList *mail_config_get_signature_list (void);
 MailConfigSignature *mail_config_signature_add (gboolean html, const char *script);
 void mail_config_signature_delete       (MailConfigSignature *sig);
-void mail_config_signature_write        (MailConfigSignature *sig);
 void mail_config_signature_set_name     (MailConfigSignature *sig, const char *name);
 void mail_config_signature_set_html     (MailConfigSignature *sig, gboolean html);
 void mail_config_signature_set_filename (MailConfigSignature *sig, const char *filename);

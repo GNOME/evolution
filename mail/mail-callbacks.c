@@ -206,7 +206,6 @@ static gboolean
 check_send_configuration (FolderBrowser *fb)
 {
 	EAccount *account;
-	GtkWidget *dialog;
 	
 	if (!mail_config_is_configured ()) {
 		if (fb == NULL) {
@@ -279,7 +278,6 @@ static gboolean
 ask_confirm_for_empty_subject (EMsgComposer *composer)
 {
 	gboolean show_again, res;
-	GtkWidget *mbox, *check;
 	GConfClient *gconf;
 	
 	gconf = gconf_client_get_default ();
@@ -711,10 +709,9 @@ composer_save_draft_cb (EMsgComposer *composer, int quit, gpointer user_data)
 		mail_msg_wait (id);
 		
 		if (!folder) {
-			gboolean res;
-			if (!e_question((GtkWindow *)composer, GTK_RESPONSE_YES, NULL,
-					_("Unable to open the drafts folder for this account.\n"
-					  "Would you like to use the default drafts folder?")))
+			if (!e_question ((GtkWindow *) composer, GTK_RESPONSE_YES, NULL,
+					 _("Unable to open the drafts folder for this account.\n"
+					   "Would you like to use the default drafts folder?")))
 				return;
 			
 			folder = drafts_folder;
@@ -2306,7 +2303,6 @@ static gboolean
 are_you_sure (const char *msg, GPtrArray *uids, FolderBrowser *fb)
 {
 	GtkWidget *dialog;
-	char *buf;
 	int button, i;
 
 	dialog = gtk_message_dialog_new (FB_WINDOW (fb), GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
@@ -2373,7 +2369,6 @@ do_resend_messages (CamelFolder *folder, GPtrArray *uids, GPtrArray *messages, v
 }
 
 
-
 void
 resend_msg (GtkWidget *widget, gpointer user_data)
 {
@@ -2384,10 +2379,8 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 		return;
 	
 	if (!folder_browser_is_sent (fb)) {
-		GtkWidget *dialog;
-
-		e_notice(FB_WINDOW(fb), GTK_MESSAGE_ERROR,
-			 _("You may only resend messages\nin the Sent folder."));
+		e_notice (FB_WINDOW (fb), GTK_MESSAGE_ERROR,
+			  _("You may only resend messages\nin the Sent folder."));
 		return;
 	}
 	
@@ -2402,6 +2395,7 @@ resend_msg (GtkWidget *widget, gpointer user_data)
 	
 	mail_get_messages (fb->folder, uids, do_resend_messages, fb);
 }
+
 
 void
 search_msg (GtkWidget *widget, gpointer user_data)
