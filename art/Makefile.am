@@ -27,6 +27,7 @@ images_DATA = \
 	evolution-calendar-mini.png 	\
 	evolution-calendar.png 		\
 	evolution-contacts-mini.png 	\
+	evolution-contacts-plain.png 	\
 	evolution-contacts.png 		\
 	evolution-inbox-mini.png 	\
 	evolution-inbox.png 		\
