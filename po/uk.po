@@ -309,13 +309,13 @@ msgstr ""
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:79
 #: calendar/conduits/todo/todo-conduit-control-applet.c:79
 msgid "Copy From Pilot"
-msgstr ""
+msgstr "Скоп╕ювати з п╕лота"
 
 #: addressbook/conduit/address-conduit-control-applet.c:80
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:80
 #: calendar/conduits/todo/todo-conduit-control-applet.c:80
 msgid "Copy To Pilot"
-msgstr ""
+msgstr "Скоп╕ювати в п╕лот"
 
 #: addressbook/conduit/address-conduit-control-applet.c:81
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:81
@@ -339,17 +339,17 @@ msgstr "JP Rosevear <jpr@helixcode.com>"
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:122
 #: calendar/conduits/todo/todo-conduit-control-applet.c:122
 msgid "Original Author:"
-msgstr ""
+msgstr "Початковий автор:"
 
 #: addressbook/conduit/address-conduit-control-applet.c:123
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:123
 #: calendar/conduits/todo/todo-conduit-control-applet.c:123
 msgid "Eskil Heyn Olsen <deity@eskil.dk>"
-msgstr ""
+msgstr "Eskil Heyn Olsen <deity@eskil.dk>"
 
 #: addressbook/conduit/address-conduit-control-applet.c:127
 msgid "Evolution Addressbook Conduit"
-msgstr ""
+msgstr "Канал адресно╖ книги Evolution"
 
 #: addressbook/conduit/address-conduit-control-applet.c:128
 #: calendar/conduits/calendar/calendar-conduit-control-applet.c:128
@@ -2161,9 +2161,8 @@ msgid "Go to today"
 msgstr ""
 
 #: calendar/gui/main.c:48
-#, fuzzy
 msgid "Could not initialize GNOME"
-msgstr "Не вдалось ╕н╕ц╕ал╕зувати Bonobo"
+msgstr "Не вдалось ╕н╕ц╕ал╕зувати GNOME"
 
 #: calendar/gui/print.c:288
 msgid "1st"
