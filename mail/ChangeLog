@@ -3,6 +3,11 @@
 	* mail-local.c: Debout out extra printfs.
 
 	* message-list.c: Debug out all printfs.
+	(find_next_undeleted_rec): rename from find_next_undeleted,
+	changed to search current node then children then next,
+	recursively.
+	(find_next_undeleted): Changed to allocate the return, and to call
+	_rec as required.
 
 	* folder-browser.c (got_folder): Safeify %s parameters.
 	(folder_browser_search_query_changed): 

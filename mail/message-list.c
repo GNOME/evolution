@@ -1364,23 +1364,44 @@ free_tree_state(GHashTable *expanded_nodes)
 /* we try and find something that isn't deleted in our tree
    there is actually no assurance that we'll find somethign that will
    still be there next time, but its probably going to work most of the time */
-static const char *find_next_undeleted(MessageList *ml, ETreePath *node)
+static const char *find_next_undeleted_rec(MessageList *ml, ETreePath *node)
 {
 	ETreePath *child;
 	
-	child = e_tree_model_node_get_first_child(ml->model, node);
-	if (child) {
-		const char *ret = find_next_undeleted(ml, child);
-		if (ret)
-			return ret;
-	}
 	while (node) {
 		CamelMessageInfo *info = e_tree_memory_node_get_data(E_TREE_MEMORY(ml->model), node);
 		if ((info->flags & CAMEL_MESSAGE_DELETED) == 0) {
 			return camel_message_info_uid(info);
 		}
+
+		child = e_tree_model_node_get_first_child(ml->model, node);
+		if (child) {
+			const char *ret = find_next_undeleted_rec(ml, child);
+			if (ret)
+				return ret;
+		}
+
 		node = e_tree_model_node_get_next(ml->model, node);
 	}
+
+	return NULL;
+}
+
+static char *find_next_undeleted(MessageList *ml)
+{
+	ETreePath *child;
+	ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
+	const char *ret = NULL;
+
+	child = e_tree_model_node_get_first_child(ml->model, node);
+	if (child == NULL)
+		child = e_tree_model_node_get_next(ml->model, node);
+
+	if (child)
+		ret = find_next_undeleted_rec(ml, child);
+
+	if (ret)
+		return g_strdup(ret);
 
 	return NULL;
 }
@@ -1422,8 +1443,7 @@ build_tree (MessageList *ml, CamelFolderThread *thread, CamelFolderChangeInfo *c
 
 	if (ml->cursor_uid) {
 		if (ml->hidedeleted) {
-			ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
-			saveuid = g_strdup(find_next_undeleted(ml, node));
+			saveuid = find_next_undeleted(ml);
 		} else {
 			saveuid = g_strdup(ml->cursor_uid);
 		}
@@ -1745,8 +1765,7 @@ build_flat (MessageList *ml, GPtrArray *summary, CamelFolderChangeInfo *changes)
 
 	if (ml->cursor_uid) {
 		if (ml->hidedeleted) {
-			ETreePath *node = g_hash_table_lookup(ml->uid_nodemap, ml->cursor_uid);
-			saveuid = g_strdup(find_next_undeleted(ml, node));
+			saveuid = find_next_undeleted(ml);
 		} else {
 			saveuid = g_strdup(ml->cursor_uid);
 		}
